@@ -844,7 +844,7 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 	}
 
 	/// <see cref="Matrix.Get{T}(UnityEngine.Vector3Int,bool)"/>
-	public static List<T> GetAt<T>(Vector3Int worldPos, bool isServer) where T : MonoBehaviour
+	public static List<T> GetAt<T>(Vector3Int worldPos, bool isServer)
 	{
 		List<T> t = new List<T>();
 		foreach (var matrixInfo in Instance.ActiveMatricesList)
