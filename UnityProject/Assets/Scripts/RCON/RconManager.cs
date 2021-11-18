@@ -158,7 +158,7 @@ public class RconManager : SingletonManager<RconManager>
 
 	public static void AddChatLog(string msg)
 	{
-		msg = DateTime.UtcNow + ":    " + msg + "<br>";
+		msg = $"{DateTime.UtcNow}:    {msg}<br>";
 		AmendChatLog(msg);
 		Instance.chatHost.Sessions.Broadcast(msg);
 		BroadcastToSessions(msg, Instance.chatHost.Sessions.Sessions);
@@ -166,7 +166,7 @@ public class RconManager : SingletonManager<RconManager>
 
 	public static void AddLog(string msg)
 	{
-		msg = DateTime.UtcNow + ":    " + msg + "<br>";
+		msg = $"{DateTime.UtcNow}:    {msg}<br>";
 		AmendLog(msg);
 		if (Instance.consoleHost != null)
 		{
