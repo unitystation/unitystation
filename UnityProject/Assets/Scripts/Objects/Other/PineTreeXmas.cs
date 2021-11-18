@@ -19,6 +19,8 @@ namespace Objects.Other
 		[SerializeField] private GameObject giftObject;
 		[SerializeField] private AddressableAudioSource ambientReminder;
 
+		private bool hasClicked = false;
+
 		private List<string> giftedPlayers = new List<string>();
 		private bool canPickUpGifts;
 
@@ -46,27 +48,23 @@ namespace Objects.Other
 			}
 		}
 
-		[Command]
-		private bool CmdIsGifted(string userID)
-		{
-			return giftedPlayers.Contains(userID);
-		}
-
 		public bool WillInteract(HandApply interaction, NetworkSide side)
 		{
 			if (canPickUpGifts == false) return false;
 			if (DefaultWillInteract.Default(interaction, side) == false) return false;
 			if (interaction.HandSlot.IsOccupied) return false;
-			if (CmdIsGifted(interaction.PerformerPlayerScript.connectedPlayer.UserId))
+			if (hasClicked)
 			{
 				Chat.AddExamineMsg(interaction.Performer, "You already received a gift!", side);
 				return false;
 			}
+			hasClicked = true;
 			return true;
 		}
 
 		public void ServerPerformInteraction(HandApply interaction)
 		{
+			if(giftedPlayers.Contains(interaction.PerformerPlayerScript.connectedPlayer.UserId)) return;
 			Inventory.ServerSpawnPrefab(giftObject, interaction.HandSlot, ReplacementStrategy.DropOther);
 			Chat.AddActionMsgToChat(interaction.Performer,
 				$"You pick up a gift with your name on it.",
