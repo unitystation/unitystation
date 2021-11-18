@@ -11,7 +11,6 @@ using Systems.Atmospherics;
 using Managers;
 using Messages.Client.NewPlayer;
 using Messages.Client.SpriteMessages;
-using Objects.Construction;
 using Player.Movement;
 using Mirror;
 
@@ -298,17 +297,15 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 
 	private static bool IsInMatrix(Vector3Int worldPos, bool isServer, MatrixInfo matrixInfo)
 	{
-		var LocalPos = WorldToLocalInt(worldPos, matrixInfo);
-
-		if (matrixInfo.Bounds.Contains(LocalPos) == false)
+		if (BoundsExtensions.Contains(matrixInfo.WorldBounds, worldPos) == false)
 			return false;
+
 		if (matrixInfo.Matrix == Instance.spaceMatrix)
 			return false;
 
-		if (matrixInfo.Matrix.IsEmptyAt(LocalPos, isServer) == false)
-		{
+		var localPos = WorldToLocalInt(worldPos, matrixInfo);
+		if (matrixInfo.Matrix.IsEmptyAt(localPos, isServer) == false)
 			return true;
-		}
 
 		return false;
 	}
@@ -353,7 +350,7 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 				var Localorigin = Worldorigin.ToLocal(matrixInfo.Matrix);
 				var LocalTo = WorldTo.Value.ToLocal(matrixInfo.Matrix);
 
-				if (LineIntersectsRect(Localorigin, LocalTo, matrixInfo.Bounds))
+				if (LineIntersectsRect(Localorigin, LocalTo, matrixInfo.LocalBounds))
 				{
 					Checkhit = matrixInfo.MetaTileMap.Raycast(Localorigin, Vector2.zero,
 						distance,
