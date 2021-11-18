@@ -35,6 +35,7 @@ namespace UI.Items
 			}
 			airlockElectronics = Provider.GetComponentInChildren<AirlockElectronics>();
 			UpdateCurrentAcceessText();
+			OpenGeneralCategory();
 		}
 
 		private void OpenCategory(AccessList category)
