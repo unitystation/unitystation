@@ -23,11 +23,9 @@ namespace UI.Items
 
 		private AirlockElectronics airlockElectronics;
 
-		public override void OnEnable()
+		protected override void InitServer()
 		{
-			base.OnEnable();
 			StartCoroutine(WaitForProvider());
-			OpenGeneralCategory();
 		}
 		IEnumerator WaitForProvider()
 		{

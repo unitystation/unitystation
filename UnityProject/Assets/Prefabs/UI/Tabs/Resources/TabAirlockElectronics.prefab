@@ -441,6 +441,7 @@ GameObject:
   - component: {fileID: 2106946473391500355}
   - component: {fileID: 1114239054057295847}
   - component: {fileID: 6142253922578769078}
+  - component: {fileID: 3973662756089964016}
   m_Layer: 5
   m_Name: Command
   m_TagString: Untagged
@@ -550,9 +551,35 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
+      - m_Target: {fileID: 3973662756089964016}
+        m_TargetAssemblyTypeName: NetUIElement`1[[System.String, mscorlib
+        m_MethodName: ExecuteClient
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &3973662756089964016
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1654753120642107364}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d944563c429d450484b555ba9b1304fa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ServerMethod:
+    m_PersistentCalls:
+      m_Calls:
       - m_Target: {fileID: 2818272669013691392}
-        m_TargetAssemblyTypeName: UI.Items.AirlockElectronics.GUI_AirlockElectronics,
-          Assets
+        m_TargetAssemblyTypeName: UI.Items.GUI_AirlockElectronics, Assets
         m_MethodName: OpenCommandCategory
         m_Mode: 1
         m_Arguments:
@@ -665,6 +692,7 @@ GameObject:
   - component: {fileID: 4894960359574403820}
   - component: {fileID: 8136846654445020723}
   - component: {fileID: 7962305919284250549}
+  - component: {fileID: 3676677618141711778}
   m_Layer: 5
   m_Name: Security
   m_TagString: Untagged
@@ -774,9 +802,35 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
+      - m_Target: {fileID: 3676677618141711778}
+        m_TargetAssemblyTypeName: NetUIElement`1[[System.String, mscorlib
+        m_MethodName: ExecuteClient
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &3676677618141711778
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2610291130193105307}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d944563c429d450484b555ba9b1304fa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ServerMethod:
+    m_PersistentCalls:
+      m_Calls:
       - m_Target: {fileID: 2818272669013691392}
-        m_TargetAssemblyTypeName: UI.Items.AirlockElectronics.GUI_AirlockElectronics,
-          Assets
+        m_TargetAssemblyTypeName: UI.Items.GUI_AirlockElectronics, Assets
         m_MethodName: OpenSecurityCategory
         m_Mode: 1
         m_Arguments:
@@ -914,6 +968,7 @@ GameObject:
   - component: {fileID: 8322665986807748503}
   - component: {fileID: 378586658927735850}
   - component: {fileID: 649049453960021970}
+  - component: {fileID: 5471638106968352789}
   m_Layer: 5
   m_Name: General
   m_TagString: Untagged
@@ -1023,9 +1078,35 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
+      - m_Target: {fileID: 5471638106968352789}
+        m_TargetAssemblyTypeName: NetUIElement`1[[System.String, mscorlib
+        m_MethodName: ExecuteClient
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &5471638106968352789
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3349010532319854518}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d944563c429d450484b555ba9b1304fa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ServerMethod:
+    m_PersistentCalls:
+      m_Calls:
       - m_Target: {fileID: 2818272669013691392}
-        m_TargetAssemblyTypeName: UI.Items.AirlockElectronics.GUI_AirlockElectronics,
-          Assets
+        m_TargetAssemblyTypeName: UI.Items.GUI_AirlockElectronics, Assets
         m_MethodName: OpenGeneralCategory
         m_Mode: 1
         m_Arguments:
@@ -1467,6 +1548,7 @@ GameObject:
   - component: {fileID: 5793687466324374143}
   - component: {fileID: 3877972936670918070}
   - component: {fileID: 59945205442726903}
+  - component: {fileID: 1801062226493733997}
   m_Layer: 5
   m_Name: Research
   m_TagString: Untagged
@@ -1576,9 +1658,35 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
+      - m_Target: {fileID: 1801062226493733997}
+        m_TargetAssemblyTypeName: NetUIElement`1[[System.String, mscorlib
+        m_MethodName: ExecuteClient
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &1801062226493733997
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5372902997403806525}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d944563c429d450484b555ba9b1304fa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ServerMethod:
+    m_PersistentCalls:
+      m_Calls:
       - m_Target: {fileID: 2818272669013691392}
-        m_TargetAssemblyTypeName: UI.Items.AirlockElectronics.GUI_AirlockElectronics,
-          Assets
+        m_TargetAssemblyTypeName: UI.Items.GUI_AirlockElectronics, Assets
         m_MethodName: OpenResearchCategory
         m_Mode: 1
         m_Arguments:
@@ -1939,6 +2047,7 @@ GameObject:
   - component: {fileID: 2864790660589455267}
   - component: {fileID: 24395469670975712}
   - component: {fileID: 5659130657114858676}
+  - component: {fileID: 7270005496433374642}
   m_Layer: 5
   m_Name: Medbay
   m_TagString: Untagged
@@ -2048,9 +2157,35 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
+      - m_Target: {fileID: 7270005496433374642}
+        m_TargetAssemblyTypeName: NetUIElement`1[[System.String, mscorlib
+        m_MethodName: ExecuteClient
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &7270005496433374642
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7335855973646071998}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d944563c429d450484b555ba9b1304fa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ServerMethod:
+    m_PersistentCalls:
+      m_Calls:
       - m_Target: {fileID: 2818272669013691392}
-        m_TargetAssemblyTypeName: UI.Items.AirlockElectronics.GUI_AirlockElectronics,
-          Assets
+        m_TargetAssemblyTypeName: UI.Items.GUI_AirlockElectronics, Assets
         m_MethodName: OpenMedbayCategory
         m_Mode: 1
         m_Arguments:
@@ -2073,6 +2208,7 @@ GameObject:
   - component: {fileID: 320150676778093166}
   - component: {fileID: 7700250719862164112}
   - component: {fileID: 7570668300946451203}
+  - component: {fileID: 3554055204234778653}
   m_Layer: 5
   m_Name: Engineering
   m_TagString: Untagged
@@ -2182,9 +2318,35 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
+      - m_Target: {fileID: 3554055204234778653}
+        m_TargetAssemblyTypeName: NetUIElement`1[[System.String, mscorlib
+        m_MethodName: ExecuteClient
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &3554055204234778653
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7460319441815142134}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d944563c429d450484b555ba9b1304fa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ServerMethod:
+    m_PersistentCalls:
+      m_Calls:
       - m_Target: {fileID: 2818272669013691392}
-        m_TargetAssemblyTypeName: UI.Items.AirlockElectronics.GUI_AirlockElectronics,
-          Assets
+        m_TargetAssemblyTypeName: UI.Items.GUI_AirlockElectronics, Assets
         m_MethodName: OpenEngineeringCategory
         m_Mode: 1
         m_Arguments:
@@ -2579,6 +2741,7 @@ GameObject:
   - component: {fileID: 5692598240840883745}
   - component: {fileID: 859344213259862246}
   - component: {fileID: 375414887205539784}
+  - component: {fileID: 2692514042534285459}
   m_Layer: 5
   m_Name: Supply
   m_TagString: Untagged
@@ -2688,9 +2851,35 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
+      - m_Target: {fileID: 2692514042534285459}
+        m_TargetAssemblyTypeName: NetUIElement`1[[System.String, mscorlib
+        m_MethodName: ExecuteClient
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &2692514042534285459
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8667643087541482733}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d944563c429d450484b555ba9b1304fa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ServerMethod:
+    m_PersistentCalls:
+      m_Calls:
       - m_Target: {fileID: 2818272669013691392}
-        m_TargetAssemblyTypeName: UI.Items.AirlockElectronics.GUI_AirlockElectronics,
-          Assets
+        m_TargetAssemblyTypeName: UI.Items.GUI_AirlockElectronics, Assets
         m_MethodName: OpenSupplyCategory
         m_Mode: 1
         m_Arguments:
