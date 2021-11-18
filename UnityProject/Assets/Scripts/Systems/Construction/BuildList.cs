@@ -78,14 +78,6 @@ namespace Construction
 			/// </summary>
 			public bool OnePerTile => onePerTile;
 
-			[Tooltip("This list will be shown instead of the prefab spawn.")]
-			[SerializeField]
-			private BuildList insertedBuildList = null;
-			/// <summary>
-			/// This list will be shown instead of the prefab spawn.
-			/// </summary>
-			public BuildList InsertedBuildList => insertedBuildList; //example: airlocks
-
 			/// <summary>
 			/// build this at the indicated location.
 			/// </summary>
