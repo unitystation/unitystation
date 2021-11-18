@@ -963,7 +963,9 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		//Probably want to put a validations check here to make sure backpack is in range
 		//though this is only gonna hurt this player so isnt really hackable lol
 		if(storage == null) return;
-		if(storage.TryGetComponent<InteractableStorage>(out var slots) == false) return;
+		if(storage.TryGetComponent<InteractableStorage>(out var interactableStorage) == false) return;
+		
+		var slots = interactableStorage.ItemStorage;
 
 		foreach (var slot in slots.GetItemSlots())
 		{
