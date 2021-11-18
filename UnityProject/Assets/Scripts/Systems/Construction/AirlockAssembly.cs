@@ -25,6 +25,10 @@ namespace Objects.Construction
 		[SerializeField]
 		private GameObject airlockWindowedToSpawn = null;
 
+		[Tooltip("Material of which the airlock is made")]
+		[SerializeField]
+		private GameObject airlockMaterial = null;
+
 		[SerializeField] private StatefulState initialState = null;
 		[SerializeField] private StatefulState wrenchedState = null;
 		[SerializeField] private StatefulState cablesAddedState = null;
@@ -149,7 +153,7 @@ namespace Objects.Construction
 			}
 			else if (Validations.HasUsedActiveWelder(interaction))
 			{
-				//deconsruct, spawn 5 metals
+				//deconsruct, spawn 4 metals
 				ToolUtils.ServerUseToolWithActionMessages(interaction, 2f,
 					"You start to disassemble the airlock assembly...",
 					$"{interaction.Performer.ExpensiveName()} starts to disassemble the airlock assembly...",
@@ -157,7 +161,7 @@ namespace Objects.Construction
 					$"{interaction.Performer.ExpensiveName()} disassembles the airlock assembly.",
 					() =>
 					{
-						Spawn.ServerPrefab(CommonPrefabs.Instance.Metal, SpawnDestination.At(gameObject), 5);
+						Spawn.ServerPrefab(airlockMaterial, SpawnDestination.At(gameObject), 4);
 						_ = Despawn.ServerSingle(gameObject);
 					});
 			}
@@ -362,7 +366,7 @@ namespace Objects.Construction
 			}
 
 			//1-3
-			Spawn.ServerPrefab(CommonPrefabs.Instance.Metal, SpawnDestination.At(gameObject), UnityEngine.Random.Range(1, 4));
+			Spawn.ServerPrefab(airlockMaterial, SpawnDestination.At(gameObject), UnityEngine.Random.Range(1, 4));
 
 			integrity.OnWillDestroyServer.RemoveListener(WhenDestroyed);
 		}
