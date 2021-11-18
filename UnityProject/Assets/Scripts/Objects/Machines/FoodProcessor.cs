@@ -231,6 +231,7 @@ namespace Objects.Kitchen
 				if (CustomNetworkManager.IsServer)
 				{
 					RpcShake(duration, distance, delayBetweenShakes);
+					_ = SoundManager.PlayNetworkedAtPosAsync(RunningAudio, gameObject.WorldPosServer());
 				}
 			}
 			else
