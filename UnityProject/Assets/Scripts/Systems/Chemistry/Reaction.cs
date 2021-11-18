@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System;
-using System.Linq;
 
 namespace Chemistry
 {
@@ -29,28 +28,14 @@ namespace Chemistry
 
 		public virtual bool Apply(MonoBehaviour sender, ReagentMix reagentMix)
 		{
-            tempMin = hasMinTemp ? (float?)serializableTempMin : null;
-			tempMax = hasMaxTemp ? (float?)serializableTempMax : null;
-
-			if (tempMin != null && reagentMix.Temperature <= tempMin ||
-			    tempMax != null && reagentMix.Temperature >= tempMax)
+			if (HasIngredients(reagentMix) == false)
 			{
 				return false;
 			}
 
-			if (!ingredients.m_dict.All(reagent => reagentMix[reagent.Key] > 0))
-			{
-				return false;
-			}
+			var reactionAmount = GetReactionAmount(reagentMix);
 
-			if (!ingredients.m_dict.Any())
-			{
-				return false;
-			}
-
-			var reactionAmount = ingredients.m_dict.Min(i => reagentMix[i.Key] / i.Value);
-
-			if (useExactAmounts == true)
+			if (useExactAmounts)
 			{
 				reactionAmount = (float) Math.Floor(reactionAmount);
 				if (reactionAmount == 0)
@@ -59,20 +44,10 @@ namespace Chemistry
 				}
 			}
 
-			if (!catalysts.m_dict.All(catalyst =>
-				reagentMix[catalyst.Key] >= catalyst.Value * reactionAmount))
+			if (CanReactionHappen(reagentMix, reactionAmount) == false)
 			{
 				return false;
 			}
-
-			if (inhibitors.m_dict.Count > 0)
-			{
-				if (inhibitors.m_dict.All(inhibitor => reagentMix[inhibitor.Key] > inhibitor.Value * reactionAmount))
-				{
-					return false;
-				}
-			}
-
 
 			foreach (var ingredient in ingredients.m_dict)
 			{
@@ -93,5 +68,74 @@ namespace Chemistry
 
 			return true;
 		}
+
+		public float GetReactionAmount(ReagentMix reagentMix)
+		{
+			var reactionAmount = 0f;
+			foreach (var ingredient in ingredients.m_dict)
+			{
+				var asd = reagentMix.reagents.m_dict[ingredient.Key] / ingredient.Value;
+				if (asd < reactionAmount)
+				{
+					reactionAmount = asd;
+				}
+			}
+			return reactionAmount;
+		}
+
+		public bool HasIngredients(ReagentMix reagentMix)
+		{
+
+			//has all ingredients?
+			if (ingredients.m_dict.Count == 0)
+			{
+				return false;
+			}
+
+			foreach (var ingredient in ingredients.m_dict)
+			{
+				if (reagentMix.reagents.m_dict.ContainsKey(ingredient.Key) == false)
+				{
+					return false;
+				}
+				if (ingredient.Value <= 0)
+				{
+					return false;
+				}
+			}
+			return true;
+		}
+
+		public bool CanReactionHappen(ReagentMix reagentMix, float reactionAmount = 1)
+		{
+			//correct temperature?
+			tempMin = hasMinTemp ? (float?)serializableTempMin : null;
+			tempMax = hasMaxTemp ? (float?)serializableTempMax : null;
+			if (tempMin != null && reagentMix.Temperature <= tempMin ||
+			    tempMax != null && reagentMix.Temperature >= tempMax)
+			{
+				return false;
+			}
+
+			//are all catalysts present?
+			foreach (var catalyst in catalysts.m_dict)
+			{
+				if (reagentMix[catalyst.Key] < catalyst.Value * reactionAmount)
+				{
+					return false;
+				}
+			}
+
+			//is a single inhibitor present?
+			foreach (var inhibitor in inhibitors.m_dict)
+			{
+				if (reagentMix[inhibitor.Key] > inhibitor.Value * reactionAmount)
+				{
+					return false;
+				}
+			}
+			return true;
+		}
+
 	}
 }
