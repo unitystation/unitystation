@@ -49,6 +49,11 @@ namespace Objects.Other
 			}
 		}
 
+		private void OnDisable()
+		{
+			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, PlayEasterEgg);
+		}
+
 		public bool WillInteract(HandApply interaction, NetworkSide side)
 		{
 			if (canPickUpGifts == false) return false;
