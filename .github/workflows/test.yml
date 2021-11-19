@@ -97,7 +97,9 @@ jobs:
           projectPath: ${{ matrix.projectPath }}
           unityVersion: ${{ matrix.unityVersion }}
           artifactsPath: ./testReports/${{ matrix.targetPlatform }}
-          testMode: editmode
+          testMode:
+          - playmode
+          - editmode
 
       # Install dotnet
       - name: Installing dotnet
