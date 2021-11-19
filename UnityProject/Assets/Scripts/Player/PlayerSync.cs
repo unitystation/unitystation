@@ -477,11 +477,6 @@ public partial class PlayerSync : NetworkBehaviour, IPushable, IPlayerControllab
 
 	private void Synchronize()
 	{
-		if (isLocalPlayer && GameData.IsHeadlessServer)
-		{
-			return;
-		}
-
 		var server = CustomNetworkManager.IsServer;
 
 		if (Matrix != null)
@@ -490,9 +485,9 @@ public partial class PlayerSync : NetworkBehaviour, IPushable, IPlayerControllab
 			{
 				CheckMovementServer();
 			}
-			else if (CustomNetworkManager.IsHeadless == false)
+			if (CustomNetworkManager.IsHeadless == false)
 			{
-				CheckMovementClient(); //needed for space floating movement to update for the Server if it is not headless
+				CheckMovementClient(); //needed for the visualization of space floating movement
 			}
 
 			if (!ClientPositionReady)
