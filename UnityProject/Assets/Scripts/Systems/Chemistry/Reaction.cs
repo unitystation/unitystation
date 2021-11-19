@@ -87,7 +87,8 @@ namespace Chemistry
 
 			foreach (var effect in effects)
 			{
-				effect.Apply(sender, reactionAmount);
+				if (effect != null)
+					effect.Apply(sender, reactionAmount);
 			}
 
 			return true;

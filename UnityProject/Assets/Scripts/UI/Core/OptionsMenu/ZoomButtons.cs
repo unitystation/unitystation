@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Messages.Server;
 using UnityEngine;
+using UnityEngine.PlayerLoop;
 using UnityEngine.SceneManagement;
 
 namespace Unitystation.Options
@@ -78,6 +80,7 @@ namespace Unitystation.Options
 	        if (!UIManager.Instance.lobbyUIPlayerListController.gameObject.activeSelf)
 	        {
 		        UIManager.Instance.lobbyUIPlayerListController.GenerateList();
+		        StartCoroutine(UIManager.Instance.lobbyUIPlayerListController.RefreshPing(gameObject));
 		        UIManager.Instance.lobbyUIPlayerListController.gameObject.SetActive(true);
 	        }
 	        else

@@ -60,8 +60,8 @@ public class JoinedViewer : NetworkBehaviour
 		});
 
 		// this validates Userid and Token
-		var isValidPlayer = await PlayerList.Instance.ValidatePlayer(unverifiedClientId, unverifiedUsername,
-			unverifiedUserid, unverifiedClientVersion, unverifiedConnPlayer, unverifiedToken);
+		var isValidPlayer =
+			await PlayerList.Instance.ValidatePlayer(unverifiedClientVersion, unverifiedConnPlayer, unverifiedToken);
 
 		if (isValidPlayer == false)
 		{

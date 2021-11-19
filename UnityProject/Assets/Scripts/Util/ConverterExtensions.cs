@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Text;
 using UnityEngine;
+using Random = System.Random;
 
 
 public static class ConverterExtensions
@@ -23,7 +24,7 @@ public static class ConverterExtensions
 	/// <summary>Round to int while cutting z-axis</summary>
 	public static Vector3Int CutToInt(this Vector3 other)
 	{
-		return Vector3Int.RoundToInt((Vector2)other);
+		return Vector3Int.RoundToInt((Vector2) other);
 	}
 
 	/// <summary>Round to int</summary>
@@ -41,13 +42,13 @@ public static class ConverterExtensions
 	/// <summary>Convert V3Int to V2Int</summary>
 	public static Vector2Int To2Int(this Vector3Int other)
 	{
-		return Vector2Int.RoundToInt((Vector3)other);
+		return Vector2Int.RoundToInt((Vector3) other);
 	}
 
 	/// <summary>Convert V2Int to V3Int</summary>
 	public static Vector3Int To3Int(this Vector2Int other)
 	{
-		return Vector3Int.RoundToInt((Vector2)other);
+		return Vector3Int.RoundToInt((Vector2) other);
 	}
 
 	/// <summary>
@@ -199,10 +200,10 @@ public static class ConverterExtensions
 	public static Color UncompresseToColour(this string SerialiseData)
 	{
 		Color TheColour = Color.white;
-		TheColour.r = ((int)SerialiseData[0] / 255f);
-		TheColour.g = ((int)SerialiseData[1] / 255f);
-		TheColour.b = ((int)SerialiseData[2] / 255f);
-		TheColour.a = ((int)SerialiseData[3] / 255f);
+		TheColour.r = ((int) SerialiseData[0] / 255f);
+		TheColour.g = ((int) SerialiseData[1] / 255f);
+		TheColour.b = ((int) SerialiseData[2] / 255f);
+		TheColour.a = ((int) SerialiseData[3] / 255f);
 		return TheColour;
 	}
 
@@ -216,4 +217,16 @@ public static class ConverterExtensions
 		return ToReturn.ToString();
 	}
 
+	public static Random random = new Random();
+
+	public static float GetRandomNumber(float minimum, float maximum)
+	{
+		return (float) random.NextDouble() * (maximum - minimum) + minimum;
+	}
+
+	public static Vector2 GetRandomRotatedVector2(float minimum, float maximum)
+	{
+		return Vector2.one.Rotate(GetRandomNumber(-90, 90)) *
+		       GetRandomNumber(minimum, maximum); //the * Minus number will do the other side Making it full 360
+	}
 }
