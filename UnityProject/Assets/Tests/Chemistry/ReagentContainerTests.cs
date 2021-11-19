@@ -4,9 +4,7 @@ using System.Linq;
 using Chemistry;
 using NUnit.Framework;
 using UnityEngine;
-using UnityEngine.TestTools;
 using Chemistry.Components;
-/*
 namespace Tests.Chemistry
 {
 	public class ReagentContainerTests
@@ -238,4 +236,3 @@ namespace Tests.Chemistry
 		}
 	}
 }
-*/
