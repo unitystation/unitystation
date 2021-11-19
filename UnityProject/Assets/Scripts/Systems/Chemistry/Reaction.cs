@@ -71,13 +71,13 @@ namespace Chemistry
 
 		public float GetReactionAmount(ReagentMix reagentMix)
 		{
-			var reactionAmount = 0f;
+			var reactionAmount = Mathf.Infinity;
 			foreach (var ingredient in ingredients.m_dict)
 			{
-				var asd = reagentMix.reagents.m_dict[ingredient.Key] / ingredient.Value;
-				if (asd < reactionAmount)
+				var value = reagentMix.reagents.m_dict[ingredient.Key] / ingredient.Value;
+				if (value < reactionAmount)
 				{
-					reactionAmount = asd;
+					reactionAmount = value;
 				}
 			}
 			return reactionAmount;
