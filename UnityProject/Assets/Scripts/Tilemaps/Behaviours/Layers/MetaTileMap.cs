@@ -204,7 +204,12 @@ namespace TileManagement
 
 		private void ApplyTileChange(TileLocation tileLocation)
 		{
-			if (mainThread.Equals(Thread.CurrentThread))
+			if (QueuedChanges.Contains(tileLocation))
+			{
+				return;
+			}
+			stopwatch.Start();
+			if (mainThread.Equals(Thread.CurrentThread) && stopwatch.ElapsedMilliseconds < TargetMSpreFrame)
 			{
 				MainThreadTileChange(tileLocation);
 			}
@@ -213,6 +218,7 @@ namespace TileManagement
 				//cant modify the unity tilemap in a non main thread
 				QueuedChanges.Enqueue(tileLocation);
 			}
+			stopwatch.Stop();
 		}
 
 		public void MainThreadTileChange(TileLocation tileLocation)
