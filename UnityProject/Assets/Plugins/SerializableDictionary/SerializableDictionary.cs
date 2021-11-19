@@ -274,29 +274,3 @@ public class SerializableDictionary<TKey, TValue, TValueStorage> : SerializableD
 		storage[i].data = value;
 	}
 }
-
-
-[Serializable]
-public class GridDictionary<TValue> : SerializableDictionary<long, TValue>
-{
-	public TValue this[int x, int y]
-	{
-		get { return this[CalculateKey(x, y)]; }
-		set { this[CalculateKey(x, y)] = value; }
-	}
-
-	public bool ContainsKey(int x, int y)
-	{
-		return ContainsKey(CalculateKey(x, y));
-	}
-
-	public void Remove(int x, int y)
-	{
-		Remove(CalculateKey(x, y));
-	}
-
-	private static long CalculateKey(int x, int y)
-	{
-		return ((long) x << 32) + y;
-	}
-}
