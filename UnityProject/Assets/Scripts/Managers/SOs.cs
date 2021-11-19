@@ -99,7 +99,7 @@ namespace ScriptableObjects
 				return value as T;
 			}
 
-			Logger.LogError($"{nameof(SOs)} is missing entry for {typeof(T).FullName}.");
+			Logger.LogWarning($"{nameof(SOs)} is missing entry for {typeof(T).FullName}.");
 			return default;
 		}
 	}

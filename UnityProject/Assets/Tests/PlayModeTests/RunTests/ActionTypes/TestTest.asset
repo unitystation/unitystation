@@ -13,7 +13,12 @@ MonoBehaviour:
   m_Name: TestTest
   m_EditorClassIdentifier: 
   TestActions:
-  - DataKeyInput:
+  - HasTileData:
+      WorldPosition: {x: 0, y: 0, z: 0}
+      LayerTile: {fileID: 0}
+      NoTileAt: 0
+      LayerType: 0
+    DataKeyInput:
       UnPress: 0
       Key: 0
     DataShowPrefab:
@@ -26,6 +31,9 @@ MonoBehaviour:
       PositionToSpawn: {x: 0, y: 0, z: 0}
       Occupation: {fileID: 0}
       SerialisedCharacterSettings: 
+    SetTileData:
+      WorldPosition: {x: 0, y: 0, z: 0}
+      LayerTile: {fileID: 0}
     SpawnXData:
       Prefab: {fileID: 8390320911816615196, guid: 28076fd63342e8b48879932cf48f8961,
         type: 3}
@@ -36,7 +44,12 @@ MonoBehaviour:
       WaitForFrame: 0
       WaitForSeconds: 0
     SpecifiedAction: 1
-  - DataKeyInput:
+  - HasTileData:
+      WorldPosition: {x: 0, y: 0, z: 0}
+      LayerTile: {fileID: 0}
+      NoTileAt: 0
+      LayerType: 0
+    DataKeyInput:
       UnPress: 0
       Key: 0
     DataShowPrefab:
@@ -49,6 +62,9 @@ MonoBehaviour:
       PositionToSpawn: {x: 0, y: 0, z: 0}
       Occupation: {fileID: 11400000, guid: 91271c894925b4e89a46031cb7a50fe6, type: 2}
       SerialisedCharacterSettings: 
+    SetTileData:
+      WorldPosition: {x: 0, y: 0, z: 0}
+      LayerTile: {fileID: 0}
     SpawnXData:
       Prefab: {fileID: 8390320911816615196, guid: 28076fd63342e8b48879932cf48f8961,
         type: 3}
@@ -59,30 +75,12 @@ MonoBehaviour:
       WaitForFrame: 0
       WaitForSeconds: 0
     SpecifiedAction: 4
-  - DataKeyInput:
-      UnPress: 1
-      Key: 119
-    DataShowPrefab:
-      Prefab: {fileID: 0}
-      InverseMustNotPresent: 0
-      PositionToCheck: {x: 0, y: 0, z: 0}
-      NumberPresent: 1
-      TheStackAmount: 0
-    RespawnPlayerData:
-      PositionToSpawn: {x: 0, y: 0, z: 0}
-      Occupation: {fileID: 11400000, guid: 91271c894925b4e89a46031cb7a50fe6, type: 2}
-      SerialisedCharacterSettings: 
-    SpawnXData:
-      Prefab: {fileID: 8390320911816615196, guid: 28076fd63342e8b48879932cf48f8961,
-        type: 3}
-      PositionToSpawn: {x: 0, y: 0, z: 0}
-      NumberToSpawn: 1
-      StackableAmount: 0
-    DataActionWaite:
-      WaitForFrame: 0
-      WaitForSeconds: 5
-    SpecifiedAction: 5
-  - DataKeyInput:
+  - HasTileData:
+      WorldPosition: {x: 0, y: 0, z: 0}
+      LayerTile: {fileID: 0}
+      NoTileAt: 0
+      LayerType: 0
+    DataKeyInput:
       UnPress: 0
       Key: 119
     DataShowPrefab:
@@ -95,6 +93,9 @@ MonoBehaviour:
       PositionToSpawn: {x: 0, y: 0, z: 0}
       Occupation: {fileID: 11400000, guid: 91271c894925b4e89a46031cb7a50fe6, type: 2}
       SerialisedCharacterSettings: 
+    SetTileData:
+      WorldPosition: {x: 0, y: 0, z: 0}
+      LayerTile: {fileID: 0}
     SpawnXData:
       Prefab: {fileID: 8390320911816615196, guid: 28076fd63342e8b48879932cf48f8961,
         type: 3}
@@ -105,7 +106,12 @@ MonoBehaviour:
       WaitForFrame: 0
       WaitForSeconds: 0
     SpecifiedAction: 2
-  - DataKeyInput:
+  - HasTileData:
+      WorldPosition: {x: 0, y: 0, z: 0}
+      LayerTile: {fileID: 0}
+      NoTileAt: 0
+      LayerType: 0
+    DataKeyInput:
       UnPress: 1
       Key: 119
     DataShowPrefab:
@@ -118,6 +124,9 @@ MonoBehaviour:
       PositionToSpawn: {x: 0, y: 0, z: 0}
       Occupation: {fileID: 11400000, guid: 91271c894925b4e89a46031cb7a50fe6, type: 2}
       SerialisedCharacterSettings: 
+    SetTileData:
+      WorldPosition: {x: 0, y: 0, z: 0}
+      LayerTile: {fileID: 0}
     SpawnXData:
       Prefab: {fileID: 8390320911816615196, guid: 28076fd63342e8b48879932cf48f8961,
         type: 3}
@@ -128,4 +137,66 @@ MonoBehaviour:
       WaitForFrame: 0
       WaitForSeconds: 0
     SpecifiedAction: 2
+  - HasTileData:
+      WorldPosition: {x: 0, y: 0, z: 0}
+      LayerTile: {fileID: 0}
+      NoTileAt: 0
+      LayerType: 0
+    DataKeyInput:
+      UnPress: 1
+      Key: 119
+    DataShowPrefab:
+      Prefab: {fileID: 0}
+      InverseMustNotPresent: 0
+      PositionToCheck: {x: 0, y: 0, z: 0}
+      NumberPresent: 1
+      TheStackAmount: 0
+    RespawnPlayerData:
+      PositionToSpawn: {x: 0, y: 0, z: 0}
+      Occupation: {fileID: 11400000, guid: 91271c894925b4e89a46031cb7a50fe6, type: 2}
+      SerialisedCharacterSettings: 
+    SetTileData:
+      WorldPosition: {x: 0, y: 0, z: 0}
+      LayerTile: {fileID: 11400000, guid: 2c5573a92f4b03d4c809a9a90ac4ddac, type: 2}
+    SpawnXData:
+      Prefab: {fileID: 8390320911816615196, guid: 28076fd63342e8b48879932cf48f8961,
+        type: 3}
+      PositionToSpawn: {x: 0, y: 0, z: 0}
+      NumberToSpawn: 1
+      StackableAmount: 0
+    DataActionWaite:
+      WaitForFrame: 0
+      WaitForSeconds: 0
+    SpecifiedAction: 6
+  - HasTileData:
+      WorldPosition: {x: 0, y: 0, z: 0}
+      LayerTile: {fileID: 11400000, guid: 2c5573a92f4b03d4c809a9a90ac4ddac, type: 2}
+      NoTileAt: 0
+      LayerType: 0
+    DataKeyInput:
+      UnPress: 1
+      Key: 119
+    DataShowPrefab:
+      Prefab: {fileID: 0}
+      InverseMustNotPresent: 0
+      PositionToCheck: {x: 0, y: 0, z: 0}
+      NumberPresent: 1
+      TheStackAmount: 0
+    RespawnPlayerData:
+      PositionToSpawn: {x: 0, y: 0, z: 0}
+      Occupation: {fileID: 11400000, guid: 91271c894925b4e89a46031cb7a50fe6, type: 2}
+      SerialisedCharacterSettings: 
+    SetTileData:
+      WorldPosition: {x: 0, y: 0, z: 0}
+      LayerTile: {fileID: 11400000, guid: 2c5573a92f4b03d4c809a9a90ac4ddac, type: 2}
+    SpawnXData:
+      Prefab: {fileID: 8390320911816615196, guid: 28076fd63342e8b48879932cf48f8961,
+        type: 3}
+      PositionToSpawn: {x: 0, y: 0, z: 0}
+      NumberToSpawn: 1
+      StackableAmount: 0
+    DataActionWaite:
+      WaitForFrame: 0
+      WaitForSeconds: 0
+    SpecifiedAction: 7
   BoolYieldInstruction: 0

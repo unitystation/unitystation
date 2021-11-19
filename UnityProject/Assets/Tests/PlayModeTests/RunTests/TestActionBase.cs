@@ -15,7 +15,9 @@ public partial class TestAction
 		KeyInput,
 		PrefabAt,
 		RespawnPlayer,
-		ActionWaite
+		ActionWaite,
+		SetTile,
+		HasTile
 	}
 
 
@@ -33,6 +35,13 @@ public partial class TestAction
 				return InitiateRespawnPlayer(TestRunSO);
 			case ActionType.ActionWaite:
 				return InitiateActionWaite(TestRunSO);
+			case ActionType.SetTile:
+				return InitiateSetTile(TestRunSO);
+			case ActionType.HasTile:
+				return InitiateHasTile(TestRunSO);
+			default:
+				Logger.LogError($"Unset {SpecifiedAction}");
+				return false;
 		}
 
 		return true;
