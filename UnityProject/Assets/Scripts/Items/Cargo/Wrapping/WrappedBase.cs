@@ -66,7 +66,7 @@ namespace Items.Cargo.Wrapping
 				.ServerStartProgress(ActionTarget.Object(performer.RegisterTile()), timeToUnwrap, performer);
 		}
 
-		protected abstract void UnWrap();
+		public abstract void UnWrap();
 
 		/// <summary>
 		/// Used to get the content of the current package. If no content was set, then it will try to generate
@@ -76,13 +76,14 @@ namespace Items.Cargo.Wrapping
 		public GameObject GetOrGenerateContent()
 		{
 			GameObject content = null;
+			if (randomContentList.Count > 0)
+			{
+				content  = Spawn.ServerPrefab(randomContentList.PickRandom(), gameObject.AssumedWorldPosServer()).GameObject;
+				return content;
+			}
 			if (GetStoredObjects() != null)
 			{
 				content = GetStoredObjects().FirstOrDefault();
-			}
-			else if (randomContentList.Count > 0)
-			{
-				content  = Spawn.ServerPrefab(randomContentList.PickRandom(), gameObject.AssumedWorldPosServer()).GameObject;
 			}
 			return content;
 		}
