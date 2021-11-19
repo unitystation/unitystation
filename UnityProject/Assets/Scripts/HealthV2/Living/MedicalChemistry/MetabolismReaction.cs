@@ -45,9 +45,7 @@ public class MetabolismReaction : Reaction
 
 		if (reactionAmount / reagentMix.Total < MinimumPercentageThreshold)
 		{
-			{
-				return;
-			}
+			return;
 		}
 
 		if (CanReactionHappen(reagentMix, reactionAmount) == false)
