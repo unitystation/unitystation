@@ -56,6 +56,7 @@ namespace Systems.Radiation
 		public void StartSim()
 		{
 			if (!CustomNetworkManager.Instance._isServer) return;
+			StopSim();
 			if (Running == false)
 			{
 				SetSpeed((int) MSSpeed);

@@ -149,7 +149,7 @@ namespace Systems.Botany
 				{
 					if (_Reagent != Reagent)
 					{
-						if (_Reagent.Name == Reagent.Name)
+						if (_Reagent.ChemistryReagent == Reagent.ChemistryReagent)
 						{
 							if (_Reagent.Amount > Reagent.Amount)
 							{
@@ -304,7 +304,7 @@ namespace Systems.Botany
 	[System.Serializable]
 	public class Reagent
 	{
-		public string Name;
+		public Chemistry.Reagent ChemistryReagent;
 		public int Amount;
 	}
 

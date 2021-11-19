@@ -7,20 +7,23 @@ using UnityEngine;
 
 public class MetabolismReaction : Reaction
 {
+	public float MinimumPercentageThreshold = 0;
 
-	public float MinimumThreshold = 0;
 	//Should it metabolise faster or slower
 	public float ReagentMetabolismMultiplier = 1;
+
 	public override bool Apply(MonoBehaviour sender, ReagentMix reagentMix)
 	{
 		if (HasIngredients(reagentMix) == false)
 		{
 			return false;
 		}
+
 		if (CanReactionHappen(reagentMix) == false)
 		{
 			return false;
 		}
+
 		var bodyPart = sender.GetComponent<BodyPart>();
 		if (bodyPart == null)
 		{
@@ -37,12 +40,19 @@ public class MetabolismReaction : Reaction
 		{
 			return;
 		}
+
 		var reactionAmount = GetReactionAmount(reagentMix);
-		reactionAmount = Mathf.Min(reactionAmount, inReactionAmount * ReagentMetabolismMultiplier);
+
+		if (reactionAmount / reagentMix.Total < MinimumPercentageThreshold)
+		{
+			return;
+		}
+
 		if (CanReactionHappen(reagentMix, reactionAmount) == false)
 		{
 			return;
 		}
+
 		PossibleReaction(sender, reagentMix, reactionAmount);
 	}
 
@@ -64,5 +74,4 @@ public class MetabolismReaction : Reaction
 			effect.Apply(sender, limitedreactionAmount);
 		}
 	}
-
 }
