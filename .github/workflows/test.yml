@@ -97,9 +97,16 @@ jobs:
       projectPath: ${{ matrix.projectPath }}
       unityVersion: ${{ matrix.unityVersion }}
       artifactsPath: ./testReports/${{ matrix.targetPlatform }}
-      testMode:
-       - playmode
-       - editmode
+      testMode: editmode
+
+   - name: Run Play tests
+     uses: game-ci/unity-test-runner@v2
+     with:
+      customParameters: "-nographics"
+      projectPath: ${{ matrix.projectPath }}
+      unityVersion: ${{ matrix.unityVersion }}
+      artifactsPath: ./testReports/${{ matrix.targetPlatform }}
+      testMode: playmode
 
    # Install dotnet
    - name: Installing dotnet
