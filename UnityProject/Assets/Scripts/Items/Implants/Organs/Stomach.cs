@@ -18,7 +18,6 @@ namespace HealthV2
 		public BodyFat BodyFatToInstantiate;
 
 		public bool InitialFatSpawned = false;
-		public Reagent Salt;
 
 		public override void ImplantPeriodicUpdate()
 		{
@@ -35,15 +34,6 @@ namespace HealthV2
 				var Digesting = StomachContents.TakeReagents(ToDigest);
 
 				RelatedPart.BloodContainer.Add(Digesting);
-			}
-
-			if (StomachContents.CurrentReagentMix.MajorMixReagent == Salt && StomachContents.CurrentReagentMix.Total > 15)
-			{
-				Chat.AddActionMsgToChat(RelatedPart.HealthMaster.gameObject,
-					"<color=red>You hold your chest as you feel your heart giving up!</color>",
-					$"<color=red>{RelatedPart.HealthMaster.playerScript.visibleName} holds " +
-					$"{RelatedPart.HealthMaster.playerScript.characterSettings.TheirPronoun(RelatedPart.HealthMaster.playerScript)} chest in shock before falling to the ground!</color>");
-				RelatedPart.HealthMaster.Death();
 			}
 
 			if (StomachContents.SpareCapacity < 15f) //Magic number

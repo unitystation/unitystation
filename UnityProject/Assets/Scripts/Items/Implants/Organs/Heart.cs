@@ -44,6 +44,12 @@ public class Heart : BodyPartFunctionality
 
 	private bool alarmedForInternalBleeding = false;
 
+	[SerializeField]
+	private Reagent salt;
+
+	[SerializeField]
+	private float danagerSalt = 0.0020f; //in units?
+
 	public override void ImplantPeriodicUpdate()
 	{
 		base.ImplantPeriodicUpdate();
@@ -141,7 +147,6 @@ public class Heart : BodyPartFunctionality
 		CirculatorySystemBase circulatorySystem = RelatedPart.HealthMaster.CirculatorySystem;
 		if (circulatorySystem)
 		{
-
 			float totalWantedBlood = 0;
 			foreach (BodyPart implant in RelatedPart.HealthMaster.BodyPartList)
 			{
@@ -155,6 +160,15 @@ public class Heart : BodyPartFunctionality
 				if (implant.IsBloodCirculated == false) continue;
 				var BloodToGive = circulatorySystem.ReadyBloodPool.Take((implant.BloodThroughput / totalWantedBlood) * pumpedReagent);
 				implant.BloodPumpedEvent(BloodToGive);
+			}
+			if (RelatedPart.HealthMaster.IsDead) return; //For some reason the heart will randomly still continue to try and beat after death.
+			if (RelatedPart.BloodContainer.CurrentReagentMix.MajorMixReagent == salt || RelatedPart.BloodContainer.AmountOfReagent(salt) > danagerSalt)
+			{
+				Chat.AddActionMsgToChat(RelatedPart.HealthMaster.gameObject,
+					"<color=red>You hold your chest as you feel your heart giving up!</color>",
+					$"<color=red>{RelatedPart.HealthMaster.playerScript.visibleName} holds " +
+					$"{RelatedPart.HealthMaster.playerScript.characterSettings.TheirPronoun(RelatedPart.HealthMaster.playerScript)} chest in shock before falling to the ground!</color>");
+				RelatedPart.HealthMaster.Death();
 			}
 		}
 	}
