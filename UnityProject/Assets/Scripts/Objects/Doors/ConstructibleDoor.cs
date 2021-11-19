@@ -52,7 +52,7 @@ namespace Doors
 			if (Validations.HasItemTrait(interaction.UsedObject, CommonTraits.Instance.Screwdriver))
 				return true;
 
-			if (!weldModule.CanDoorStateChange() && boltsModule.CanDoorStateChange() && !doorMasterController.HasPower)
+			if (weldModule.CanDoorStateChange() == false && boltsModule.CanDoorStateChange() && doorMasterController.HasPower == false)
 			{
 				return Validations.HasItemTrait(interaction.UsedObject, CommonTraits.Instance.Crowbar);
 			}
@@ -69,7 +69,7 @@ namespace Doors
 				{
 					DoorAnimatorV2.AddPanelOverlay();
 					Chat.AddActionMsgToChat(interaction.Performer,
-						$"You unscrews the {gameObject.ExpensiveName()}'s cable panel.",
+						$"You unscrew the {gameObject.ExpensiveName()}'s cable panel.",
 						$"{interaction.Performer.ExpensiveName()} unscrews {gameObject.ExpensiveName()}'s cable panel.");
 				}
 				else
