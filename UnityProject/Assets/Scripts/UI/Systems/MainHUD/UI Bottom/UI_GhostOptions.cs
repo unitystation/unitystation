@@ -9,6 +9,7 @@ using UI.Windows;
 using Systems.Teleport;
 using AdminCommands;
 using Effects;
+using Strings;
 
 
 namespace UI.Systems.Ghost
@@ -102,7 +103,7 @@ namespace UI.Systems.Ghost
 		{
 			roleBtnAnimating = true;
 
-			Chat.AddExamineMsgToClient($"<size=48>Ghost role <b>{role.Name}</b> is available!</size>");
+			Chat.AddExamineMsgToClient($"<size={ChatTemplates.LargeText}>Ghost role <b>{role.Name}</b> is available!</size>");
 			_ = SoundManager.Play(CommonSounds.Instance.Notice2);
 			ghostRoleAnimator.TriggerAnimation();
 

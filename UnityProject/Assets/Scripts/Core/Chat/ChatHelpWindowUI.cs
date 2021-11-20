@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Text;
 using UnityEngine;
 using UnityEngine.UI;
+using UI.Chat_UI;
 
 /// <summary>
 /// Window showing all available channels and their prefixes
