@@ -8,10 +8,10 @@ namespace Chemistry
 	[CreateAssetMenu(fileName = "reaction", menuName = "ScriptableObjects/Chemistry/Reaction")]
 	public class Reaction : ScriptableObject
 	{
-		public DictionaryReagentInt ingredients;
+		public SerializableDictionary<Reagent, int> ingredients;
 		public bool useExactAmounts = false;
-		public DictionaryReagentInt catalysts;
-		public DictionaryReagentInt inhibitors;
+		public SerializableDictionary<Reagent, int> catalysts;
+		public SerializableDictionary<Reagent, int> inhibitors;
 		[HideInInspector]
 		public bool hasMinTemp;
 		[HideInInspector]
@@ -20,7 +20,7 @@ namespace Chemistry
 		public bool hasMaxTemp;
 		[HideInInspector]
 		public float serializableTempMax;
-		public DictionaryReagentInt results;
+		public SerializableDictionary<Reagent, int> results;
 		public Effect[] effects;
 
 		public float? tempMin;

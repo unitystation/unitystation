@@ -74,7 +74,7 @@ namespace Objects.Machines
 		/// <summary>
 		/// Attempt to remove an amount of materials from a Dictionary of materials
 		/// </summary>
-		public bool TryConsumeList(DictionaryMaterialToIntAmount consume)
+		public bool TryConsumeList(SerializableDictionary<MaterialSheet, int> consume)
 		{
 			foreach (var materialSheet in consume.Keys)
 			{

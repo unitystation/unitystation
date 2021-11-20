@@ -13,12 +13,12 @@ namespace Chemistry
 		[SerializeField] private float temperature = TemperatureUtils.ToKelvin(20f, TemeratureUnits.C);
 
 		[SerializeField]
-		public DictionaryReagentFloat reagents;
+		public  SerializableDictionary<Reagent, float> reagents;
 
 		//should only be accessed when locked so should be okay
 		private Dictionary<Reagent, float> TEMPReagents = new Dictionary<Reagent, float>();
 
-		public ReagentMix(DictionaryReagentFloat reagents, float temperature = TemperatureUtils.ZERO_CELSIUS_IN_KELVIN)
+		public ReagentMix( SerializableDictionary<Reagent, float> reagents, float temperature = TemperatureUtils.ZERO_CELSIUS_IN_KELVIN)
 		{
 			Temperature = temperature;
 			this.reagents = reagents;
@@ -27,13 +27,13 @@ namespace Chemistry
 		public ReagentMix(Reagent reagent, float amount, float temperature = TemperatureUtils.ZERO_CELSIUS_IN_KELVIN)
 		{
 			Temperature = temperature;
-			reagents = new DictionaryReagentFloat { [reagent] = amount };
+			reagents = new  SerializableDictionary<Reagent, float> { [reagent] = amount };
 		}
 
 		public ReagentMix(float temperature = TemperatureUtils.ZERO_CELSIUS_IN_KELVIN)
 		{
 			Temperature = temperature;
-			reagents = new DictionaryReagentFloat();
+			reagents = new  SerializableDictionary<Reagent, float>();
 		}
 
 		public float this[Reagent reagent] => reagents.m_dict.TryGetValue(reagent, out var amount) ? amount : 0;
@@ -578,7 +578,7 @@ namespace Chemistry
 
 		public ReagentMix Clone()
 		{
-			return new ReagentMix(new DictionaryReagentFloat(reagents.m_dict), Temperature);
+			return new ReagentMix(new  SerializableDictionary<Reagent, float>(reagents.m_dict), Temperature);
 		}
 
 		public bool ContentEquals (ReagentMix b)
@@ -610,24 +610,6 @@ namespace Chemistry
 		public override string ToString()
 		{
 			return "Temperature > " + Temperature + " reagents > " + "{" + string.Join(",", reagents.m_dict.Select(kv => kv.Key + "=" + kv.Value).ToArray()) + "}";
-		}
-	}
-
-
-	[Serializable]
-	public class DictionaryReagentInt : SerializableDictionary<Reagent, int>
-	{
-	}
-
-	[Serializable]
-	public class DictionaryReagentFloat : SerializableDictionary<Reagent, float>
-	{
-		public DictionaryReagentFloat()
-		{
-		}
-
-		public DictionaryReagentFloat(IDictionary<Reagent, float> dict) : base(dict)
-		{
 		}
 	}
 }

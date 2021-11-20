@@ -139,8 +139,8 @@ public class Occupation : ScriptableObject
 	public string DescriptionLong => descriptionLong;
 
 	[Header("Custom properties that will be applied\nto new bodies with this occupation")]
-	[SerializeField] private PropertyDictionary customProperties = default;
-	public PropertyDictionary CustomProperties => customProperties;
+	[SerializeField] private SerializableDictionary<string, bool> customProperties = default;
+	public SerializableDictionary<string, bool> CustomProperties => customProperties;
 
 	[Header("If enabled, players with this job can be targeted by antags")]
 	[SerializeField] private bool isTargeteable=true;
