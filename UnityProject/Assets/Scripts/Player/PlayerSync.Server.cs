@@ -458,9 +458,8 @@ public partial class PlayerSync
 		if (consideredFloatingServer || !serverState.Active || CanNotSpaceMoveServer || (pushPull && pushPull.IsBeingPulled))
 		{
 			Logger.LogWarning("Server ignored queued move while player isn't supposed to move", Category.Movement);
-			serverPendingActions.Dequeue();
-
-			TryUpdateServerTarget();
+			ClearQueueServer();
+			RollbackPosition();
 			return;
 		}
 
