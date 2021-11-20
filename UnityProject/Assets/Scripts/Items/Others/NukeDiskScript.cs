@@ -41,7 +41,7 @@ namespace Items.Command
 
 		public void OnSpawnServer(SpawnInfo info)
 		{
-			bound = MatrixManager.MainStationMatrix.Bounds;
+			bound = MatrixManager.MainStationMatrix.LocalBounds;
 			escapeShuttle = FindObjectOfType<EscapeShuttle>();
 			boundsConfigured = true;
 		}
@@ -81,7 +81,7 @@ namespace Items.Command
 			if (escapeShuttle != null && escapeShuttle.Status != EscapeShuttleStatus.DockedCentcom)
 			{
 				var matrixInfo = escapeShuttle.MatrixInfo;
-				if (matrixInfo == null || matrixInfo.Bounds.Contains(registerTile.WorldPositionServer))
+				if (matrixInfo == null || BoundsExtensions.Contains(matrixInfo.LocalBounds, registerTile.WorldPositionServer))
 				{
 					return false;
 				}

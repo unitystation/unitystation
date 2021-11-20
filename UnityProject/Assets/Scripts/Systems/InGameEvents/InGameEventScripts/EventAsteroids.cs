@@ -72,7 +72,7 @@ namespace InGameEvents
 
 			for (var i = 1; i <= asteroidAmount; i++)
 			{
-				Vector3 position = new Vector3(UnityEngine.Random.Range(stationMatrix.WorldBounds.xMin, stationMatrix.WorldBounds.xMax), UnityEngine.Random.Range(stationMatrix.WorldBounds.yMin, stationMatrix.WorldBounds.yMax), 0);
+				Vector3 position = new Vector3(UnityEngine.Random.Range(stationMatrix.WorldBounds.min.x, stationMatrix.WorldBounds.max.x), UnityEngine.Random.Range(stationMatrix.WorldBounds.min.y, stationMatrix.WorldBounds.max.y), 0);
 				impactCoords.Enqueue(position);
 			}
 

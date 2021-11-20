@@ -2,12 +2,9 @@
 using Mirror;
 using System.Collections.Generic;
 using System.Linq;
-using Messages.Client.NewPlayer;
 using Messages.Server;
-using Newtonsoft.Json;
 using UnityEngine;
 using UnityEngine.Events;
-using Objects;
 using TileManagement;
 using Tilemaps.Behaviours.Layers;
 
@@ -86,28 +83,6 @@ public class TileChangeManager : MonoBehaviour
 	}
 
 	/// <summary>
-	/// Used for the underfloor layer to reduce complexity on the main UpdateTile Function
-	/// </summary>
-	/// <param name="cellPosition"></param>
-	/// <param name="layerTile"></param>
-	[Server]
-	public void UnderfloorUpdateTile(Vector3Int cellPosition, LayerTile layerTile, Matrix4x4? transformMatrix = null,
-		Color? color = null)
-	{
-		AlertClients(cellPosition, layerTile.TileType, layerTile.name, transformMatrix, color);
-		AddToChangeList(cellPosition, layerTile, transformMatrix: transformMatrix, color : color);
-	}
-
-	[Server]
-	public void RemoveTile(Vector3Int cellPosition)
-	{
-		foreach (var layerType in metaTileMap.LayersKeys)
-		{
-			RemoveTile(cellPosition, layerType);
-		}
-	}
-
-	/// <summary>
 	/// Removes the tile at the indicated cell position. By default all tiles in that layer
 	/// at all z levels will be removed. If removeAll is true, then only the tile at cellPosition.z will
 	/// be removed.
@@ -116,28 +91,12 @@ public class TileChangeManager : MonoBehaviour
 	/// <param name="layerType"></param>
 	/// <returns></returns>
 	[Server]
-	public LayerTile RemoveTile(Vector3Int cellPosition, LayerType layerType)
+	public void RemoveTile(Vector3Int position, LayerType layerType)
 	{
-		var layerTile = metaTileMap.GetTile(cellPosition, layerType);
-		if (metaTileMap.HasTile(cellPosition, layerType))
+		if (metaTileMap.Layers.TryGetValue(layerType, out var layer))
 		{
-			InternalRemoveTile(cellPosition, layerType);
-
-			SpawnSafeThread.RemoveTileMessageSend(networkMatrix.MatrixSync.netId, cellPosition, layerType);
-
-			AddToChangeList(cellPosition, layerType);
-
-			if (layerType == LayerType.Floors || layerType == LayerType.Base)
-			{
-				OnFloorOrPlatingRemoved.Invoke(cellPosition);
-			}
-
-			RemoveOverlaysOfType(cellPosition, LayerType.Effects, OverlayType.Damage);
-
-			return layerTile;
+			metaTileMap.RemoveTileWithlayer(position, layerType);
 		}
-
-		return layerTile;
 	}
 
 	#region Overlays
@@ -200,9 +159,7 @@ public class TileChangeManager : MonoBehaviour
 				if (tile == null || !tile.IsCleanable) continue;
 			}
 
-			InternalRemoveTile(cellPosition, layerType);
-
-			SpawnSafeThread.RemoveTileMessageSend(networkMatrix.MatrixSync.netId, cellPosition, layerType);
+			RemoveTile(cellPosition, layerType);
 
 			AddToChangeList(cellPosition, layerType);
 		}
@@ -228,9 +185,7 @@ public class TileChangeManager : MonoBehaviour
 				if (tile == null || !tile.IsCleanable) continue;
 			}
 
-			InternalRemoveTile(cellPosition, layerType);
-
-			SpawnSafeThread.RemoveTileMessageSend(networkMatrix.MatrixSync.netId, cellPosition, layerType);
+			RemoveTile(cellPosition, layerType);
 
 			AddToChangeList(cellPosition, layerType);
 		}
@@ -291,13 +246,6 @@ public class TileChangeManager : MonoBehaviour
 		return metaTileMap.GetTile(cellPosition, layerType);
 	}
 
-	public void InternalRemoveTile(Vector3 position, LayerType layerType)
-	{
-		Vector3Int p = position.RoundToInt();
-
-		metaTileMap.RemoveTileWithlayer(p, layerType);
-	}
-
 	private void AlertClients(Vector3Int position, TileType tileType, string tileName,
 		Matrix4x4? transformMatrix = null, Color? color = null)
 	{
@@ -329,7 +277,7 @@ public class TileChangeManager : MonoBehaviour
 		return metaTileMap.SetTile(p, layerTile, transformMatrix, color);
 	}
 
-	private void AddToChangeList(Vector3Int position, LayerType layerType = LayerType.None,
+	public void AddToChangeList(Vector3Int position, LayerType layerType = LayerType.None,
 		TileType tileType = TileType.None, string tileName = null, Matrix4x4? transformMatrix = null,
 		Color? color = null)
 	{

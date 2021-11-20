@@ -9,6 +9,12 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 90086938426635484, guid: b52e9566ba635f944a7a656928335414,
         type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 6614b53c91a3dc64999e81ff3f98d688,
+        type: 2}
+    - target: {fileID: 90086938426635484, guid: b52e9566ba635f944a7a656928335414,
+        type: 3}
       propertyPath: SubCatalogue.Array.data[1]
       value: 
       objectReference: {fileID: 11400000, guid: 6614b53c91a3dc64999e81ff3f98d688,
@@ -71,6 +77,18 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 575ab6be9f47cd645a6e984944cc2905,
         type: 2}
+    - target: {fileID: 3120403218613559149, guid: b52e9566ba635f944a7a656928335414,
+        type: 3}
+      propertyPath: airlockToSpawn
+      value: 
+      objectReference: {fileID: 6511504087678501369, guid: be65d2803c03b3947a800c3392e78053,
+        type: 3}
+    - target: {fileID: 3120403218613559149, guid: b52e9566ba635f944a7a656928335414,
+        type: 3}
+      propertyPath: airlockMaterial
+      value: 
+      objectReference: {fileID: 5815921181451875517, guid: 316574d62b8768442811b65b7411190b,
+        type: 3}
     - target: {fileID: 6125502474817307791, guid: b52e9566ba635f944a7a656928335414,
         type: 3}
       propertyPath: foreverID

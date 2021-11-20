@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using Systems.CraftingV2.GUI;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
@@ -10,13 +9,14 @@ using AdminTools;
 using AdminTools.VariableViewer;
 using Audio.Managers;
 using Initialisation;
+using UI;
 using UI.Core;
+using UI.Core.Windows;
+using UI.Chat_UI;
 using UI.Jobs;
 using UI.UI_Bottom;
-using UI.Core.Windows;
 using UI.Windows;
-using UI;
-
+using Systems.CraftingV2.GUI;
 
 public class UIManager : MonoBehaviour, IInitialise
 {
