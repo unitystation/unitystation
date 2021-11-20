@@ -1545,13 +1545,21 @@ namespace TileManagement
 			var maxPosition = bottomLeft;
 			foreach (var point in globalPoints)
 			{
-				if (point.x < minPosition.x || point.y < minPosition.y)
+				if (point.x < minPosition.x)
 				{
-					minPosition = point;
+					minPosition.x = point.x;
 				}
-				if (point.x > maxPosition.x || point.y > maxPosition.y)
+				if (point.y < minPosition.y)
 				{
-					maxPosition = point;
+					minPosition.y = point.y;
+				}
+				if (point.x > maxPosition.x )
+				{
+					maxPosition.x = point.x;
+				}
+				if (point.y > maxPosition.y)
+				{
+					maxPosition.y = point.y;
 				}
 			}
 			var middlePoint = minPosition + (maxPosition - minPosition) / 2;
