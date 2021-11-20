@@ -20,6 +20,7 @@ public partial class TestAction
 		[Range(1, 100)] public int NumberPresent = 1;
 		[Range(0, 100)] public int TheStackAmount = 0;
 
+		public string CustomFailedText;
 
 		public bool Initiate(TestRunSO TestRunSO)
 		{
@@ -47,6 +48,7 @@ public partial class TestAction
 						Present++;
 						if (InverseMustNotPresent)
 						{
+							TestRunSO.Report.AppendLine(CustomFailedText);
 							TestRunSO.Report.AppendLine("Prefab is present, it should not be " + PrefabTracker.gameObject);
 							return false;
 						}
@@ -56,6 +58,7 @@ public partial class TestAction
 							var Stackable = PrefabTracker.GetComponent<Stackable>();
 							if (Stackable == null)
 							{
+								TestRunSO.Report.AppendLine(CustomFailedText);
 								TestRunSO.Report.AppendLine("Stackable Was not present on " + PrefabTracker.gameObject);
 								return false;
 							}
@@ -72,7 +75,6 @@ public partial class TestAction
 			}
 
 
-
 			if (InverseMustNotPresent)
 			{
 				return true;
@@ -84,6 +86,7 @@ public partial class TestAction
 			}
 			else
 			{
+				TestRunSO.Report.AppendLine(CustomFailedText);
 				TestRunSO.Report.AppendLine("There was not the expected number of gameobjects Expected " +
 				                            NumberPresent + " Actually " + Present);
 				return false;

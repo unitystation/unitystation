@@ -25,6 +25,7 @@ public partial class TestAction
 
 		// public Color Colour; // Defaults to bad option
 
+		public string CustomFailedText;
 
 		//LayerTile, Matrix4x4.identity,
 		//Color.white
@@ -37,6 +38,7 @@ public partial class TestAction
 
 				if (TileAt != LayerTile)
 				{
+					TestRunSO.Report.AppendLine(CustomFailedText);
 					TestRunSO.Report.AppendLine($"Tile does not match specified one at {WorldPosition} is {TileAt.OrNull()?.name} When it should be {LayerTile.name} ");
 					return false;
 				}
@@ -51,6 +53,7 @@ public partial class TestAction
 
 				if (TileAt != null)
 				{
+					TestRunSO.Report.AppendLine(CustomFailedText);
 					TestRunSO.Report.AppendLine($"A tile is present at {WorldPosition} it should not be, it is {TileAt.name} ");
 					return false;
 				}

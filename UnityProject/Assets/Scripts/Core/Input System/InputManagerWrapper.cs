@@ -9,7 +9,25 @@ public class InputManagerWrapper : MonoBehaviour
 	private static HashSet<KeyCode> DownKeys = new HashSet<KeyCode>();
 	private static HashSet<KeyCode> UpKeys = new HashSet<KeyCode>();
 
+	public static Vector3? MousePosition = null;
+
+
 	public static bool CustomKey = false;
+
+
+	public static Vector3 GetMousePosition()
+	{
+
+		if (MousePosition != null)
+		{
+			return MousePosition.Value;
+		}
+		else
+		{
+			return Input.mousePosition;
+		}
+
+	}
 
 	public static void PressKey(KeyCode Key)
 	{
@@ -23,6 +41,24 @@ public class InputManagerWrapper : MonoBehaviour
 	}
 
 
+	public void OnEnable()
+	{
+		HeldKeys.Clear();
+		DownKeys.Clear();
+		UpKeys.Clear();
+		CustomKey = false;
+		MousePosition = null;
+	}
+
+	public void OnDisable()
+	{
+		HeldKeys.Clear();
+		DownKeys.Clear();
+		UpKeys.Clear();
+		CustomKey = false;
+		MousePosition = null;
+	}
+
 	public void LateUpdate()
 	{
 		if (UpKeys.Count > 0)
@@ -33,7 +69,6 @@ public class InputManagerWrapper : MonoBehaviour
 			}
 		}
 
-		DownKeys.Clear();
 		UpKeys.Clear();
 
 		if (HeldKeys.Count > 0)
@@ -84,4 +119,76 @@ public class InputManagerWrapper : MonoBehaviour
 		}
 		return Input.GetKeyDown(key);
 	}
+
+
+	public static KeyCode MouseIntToKeyCode(int buttonNumber)
+	{
+		switch (buttonNumber)
+		{
+			case 0: //Left click
+				return KeyCode.Mouse0;
+			case 1: //Right click
+				return KeyCode.Mouse1;
+			case 2: //Middle click, //idk After this
+				return KeyCode.Mouse2;
+			case 3:
+				return KeyCode.Mouse3;
+			case 4:
+				return KeyCode.Mouse4;
+			case 5:
+				return KeyCode.Mouse5;
+			case 6:
+				return KeyCode.Mouse6;
+			default:
+				Logger.LogWarning("oh look here someone with a fancy mouse, I couldn't possibly support this (Runs out of enum Values)");
+				return KeyCode.None;
+		}
+	}
+
+
+	public static bool GetMouseButtonUp(int buttonNumber)
+	{
+		if (CustomKey)
+		{
+			var key = MouseIntToKeyCode(buttonNumber);
+
+			if (key != KeyCode.None)
+			{
+				return GetKeyUp(key);
+			}
+		}
+
+		return Input.GetMouseButtonUp(buttonNumber);
+	}
+
+	public static bool GetMouseButtonDown(int buttonNumber)
+	{
+		if (CustomKey)
+		{
+			var key = MouseIntToKeyCode(buttonNumber);
+
+			if (key != KeyCode.None)
+			{
+				return GetKeyDown(key);
+			}
+		}
+
+		return Input.GetMouseButtonDown(buttonNumber);
+	}
+
+	public static bool GetMouseButton(int buttonNumber)
+	{
+		if (CustomKey)
+		{
+			var key = MouseIntToKeyCode(buttonNumber);
+
+			if (key != KeyCode.None)
+			{
+				return GetKey(key);
+			}
+		}
+
+		return Input.GetMouseButton(buttonNumber);
+	}
+
 }

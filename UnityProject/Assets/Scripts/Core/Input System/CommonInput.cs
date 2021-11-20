@@ -32,7 +32,7 @@ public class CommonInput
 				return GetNonGamePadTouch()?.position ?? -Vector2.one;
 			}
 #endif
-			return Input.mousePosition;
+			return InputManagerWrapper.GetMousePosition();
 		}
 	}
 
@@ -85,7 +85,7 @@ public class CommonInput
 			return mouseButtonDown;
 		}
 #endif
-		return Input.GetMouseButtonDown( buttonNumber );
+		return InputManagerWrapper.GetMouseButtonDown( buttonNumber );
 	}
 
 	public static bool GetMouseButtonUp( int buttonNumber )
@@ -101,7 +101,7 @@ public class CommonInput
 			return mouseButtonUp;
 		}
 #endif
-		return Input.GetMouseButtonUp( buttonNumber );
+		return InputManagerWrapper.GetMouseButtonUp( buttonNumber );
 	}
 
 	public static bool GetMouseButton( int buttonNumber )
@@ -113,6 +113,6 @@ public class CommonInput
 			return GetNonGamePadTouch()?.phase < (TouchPhase?) 3; //(Began/Moved/Stationary)
 		}
 #endif
-		return Input.GetMouseButton( buttonNumber );
+		return InputManagerWrapper.GetMouseButton( buttonNumber );
 	}
 }

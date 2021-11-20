@@ -17,7 +17,9 @@ public partial class TestAction
 		RespawnPlayer,
 		ActionWaite,
 		SetTile,
-		HasTile
+		HasTile,
+		SetMousePosition,
+		IsInPlayerInventory,
 	}
 
 
@@ -39,6 +41,10 @@ public partial class TestAction
 				return InitiateSetTile(TestRunSO);
 			case ActionType.HasTile:
 				return InitiateHasTile(TestRunSO);
+			case ActionType.SetMousePosition:
+				return InitiateSetMousePosition(TestRunSO);
+			case ActionType.IsInPlayerInventory:
+				return InitiateIsInPlayerInventory(TestRunSO);
 			default:
 				Logger.LogError($"Unset {SpecifiedAction}");
 				return false;
