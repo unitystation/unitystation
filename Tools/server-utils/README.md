@@ -6,6 +6,7 @@ File names should be self explanitory, however:
 `editconfig.sh` > Edit configuration paramters  
 `config.example.json` > Example & template configuration file (Used by installserver.sh, please don't change the template values!)  
 `unitystation.service` > Systemd unit file for the server.  
+`manageuss/` > ManageUSS server management program for starting/stopping the server
  All these files can be found hosted on the cdn, https://unitystationfile.b-cdn.net/ but are not updated automatically.  
   
 ## Server Setup Instructions.  
