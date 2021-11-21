@@ -120,7 +120,7 @@ public class InteractableStorage : MonoBehaviour, IClientInteractable<HandActiva
 		if(itemStorage.GetNextFreeIndexedSlot() == null && usedObject != null)
 		{
 			Chat.AddExamineMsg(player,
-				$"<color=red>The {usedObject.ExpensiveName()} won't fit in the {itemStorage.gameObject.ExpensiveName()}, Make some space!</color>");
+				$"<color=red>The {usedObject.ExpensiveName()} won't fit in the {itemStorage.gameObject.ExpensiveName()}. Make some space!</color>");
 			return true;
 		}
 		return false;
