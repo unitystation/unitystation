@@ -10,7 +10,7 @@ namespace Systems.Explosions
 {
 	public class ExplosionNode
 	{
-		public Vector2Int Location;
+		public Vector3Int Location;
 		public Matrix matrix;
 
 		public HashSet<ExplosionPropagationLine> PresentLines = new HashSet<ExplosionPropagationLine>();
@@ -18,7 +18,7 @@ namespace Systems.Explosions
 
 		public List<PipeNode> SavedPipes = new List<PipeNode>();
 
-		public void Initialise(Vector2Int Loc, Matrix Inmatrix)
+		public void Initialise(Vector3Int Loc, Matrix Inmatrix)
 		{
 			Location = Loc;
 			matrix = Inmatrix;

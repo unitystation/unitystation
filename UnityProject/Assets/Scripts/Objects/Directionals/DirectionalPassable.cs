@@ -51,7 +51,11 @@ namespace Core.Directionals
 
 		public override bool IsPassable(bool isServer, GameObject context = null)
 		{
-			if (context == gameObject) return true;
+			if (context != null)
+			{
+				if (context == gameObject) return true;
+			}
+
 
 			return Passable;
 		}
