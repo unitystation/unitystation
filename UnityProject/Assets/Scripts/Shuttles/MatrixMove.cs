@@ -104,7 +104,7 @@ public class MatrixMove : ManagedBehaviour
 	private bool ServerPositionsMatch => serverTargetState.Position == serverState.Position;
 	public bool IsRotatingServer => NeedsRotationClient; //todo: calculate rotation time on server instead
 	private bool IsAutopilotEngaged => Target != TransformState.HiddenPos;
-	private bool IsMovingClient => clientState.IsMoving && clientState.Speed > 0f;
+	public bool IsMovingClient => clientState.IsMoving && clientState.Speed > 0f;
 
 	/// <summary>
 	/// Dictionary containing lists of RCS thrusters.
