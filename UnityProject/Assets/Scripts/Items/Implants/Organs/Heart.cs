@@ -48,7 +48,7 @@ public class Heart : BodyPartFunctionality
 	private Reagent salt;
 
 	[SerializeField]
-	private float danagerSaltLevel = 2f; //in %
+	private float dangerSaltLevel = 2f; //in %
 
 	public override void ImplantPeriodicUpdate()
 	{
@@ -162,7 +162,7 @@ public class Heart : BodyPartFunctionality
 				implant.BloodPumpedEvent(BloodToGive);
 			}
 			if (RelatedPart.HealthMaster.IsDead) return; //For some reason the heart will randomly still continue to try and beat after death.
-			if (RelatedPart.BloodContainer.CurrentReagentMix.MajorMixReagent == salt || RelatedPart.BloodContainer.AmountOfReagent(salt) * 100 > danagerSaltLevel)
+			if (RelatedPart.BloodContainer.CurrentReagentMix.MajorMixReagent == salt || RelatedPart.BloodContainer.AmountOfReagent(salt) * 100 > dangerSaltLevel)
 			{
 				Chat.AddActionMsgToChat(RelatedPart.HealthMaster.gameObject,
 					"<color=red>Your body spasms as a jolt of pain surges all over your body then into your heart!</color>",
