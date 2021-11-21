@@ -279,7 +279,7 @@ namespace HealthV2
 			}
 			else
 			{
-				var organBodyPart = containBodyParts.PickRandom().GetComponent<BodyPart>(); //It's not like you can aim for Someone's liver can you
+				var organBodyPart = containBodyParts.PickRandom(); //It's not like you can aim for Someone's liver can you
 				organBodyPart.AffectDamage(subDamage, (int) damageType);
 			}
 		}
