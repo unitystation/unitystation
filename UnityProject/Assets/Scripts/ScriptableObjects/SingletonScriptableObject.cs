@@ -18,7 +18,7 @@ namespace ScriptableObjects
 		{
 			get
 			{
-				if (_instance == null && (SOs.Instance == null) == false)
+				if (_instance == null && SOs.Instance != null)
 				{
 					_instance = SOs.Instance.GetEntry<T>();
 				}
