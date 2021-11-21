@@ -27,7 +27,7 @@ public class BodyHealthEffect : MetabolismReaction
 	[ShowIf("MultiEffect")] public List<TypeAndStrength> Effects = new List<TypeAndStrength>();
 
 
-	public const int MagicNumber = 10; // This balance is about right with 1 u ingested 1 * effect it about does one damage
+	public const int MagicNumber = 15; // This balance is about right with 1 u ingested 1 * effect it about does one damage
 
 	[System.Serializable]
 	public struct TypeAndStrength
