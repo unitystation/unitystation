@@ -35,3 +35,7 @@ The installation helper will guide you through the process of installing the ser
   
 After installation, You will need to open the game's port **7777** and your selected RCON port to the internet in your [Firewall (if using a VPS)](https://www.digitalocean.com/community/tutorials/how-to-set-up-a-firewall-with-ufw-on-ubuntu-20-04) or [Router (if hosting at home!)](https://www.noip.com/support/knowledgebase/general-port-forwarding-guide/)  
 Once finished, Your server is ready for action! Launch the latest Unitystation version through the **Installations** tab in Station Hub, Uncheck 'Host Server' and Connect with your Server's IP address (and port 7777) and Enjoy!
+You can start, stop, and restart your server with:
+```
+~/manageuss
+```
