@@ -165,8 +165,8 @@ public class Heart : BodyPartFunctionality
 			if (RelatedPart.BloodContainer.CurrentReagentMix.MajorMixReagent == salt || RelatedPart.BloodContainer.AmountOfReagent(salt) * 100 > danagerSaltLevel)
 			{
 				Chat.AddActionMsgToChat(RelatedPart.HealthMaster.gameObject,
-					"<color=red>You hold your chest as you feel your heart giving up!</color>",
-					$"<color=red>{RelatedPart.HealthMaster.playerScript.visibleName} holds " +
+					"<color=red>Your body spasms as a jolt of pain surges all over your body then into your heart!</color>",
+					$"<color=red>{RelatedPart.HealthMaster.playerScript.visibleName} spasms before holding " +
 					$"{RelatedPart.HealthMaster.playerScript.characterSettings.TheirPronoun(RelatedPart.HealthMaster.playerScript)} chest in shock before falling to the ground!</color>");
 				RelatedPart.HealthMaster.Death();
 			}
