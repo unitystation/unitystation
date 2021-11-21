@@ -345,9 +345,9 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IActi
 	/// <summary>
 	/// True if this player is a ghost, meaning they exist in the ghost layer
 	/// </summary>
-	public bool IsGhost => PlayerState == PlayerStates.Ghost;
+	public bool IsGhost => (PlayerState == PlayerStates.Normal) == false;
 
-	/// <summary>
+ 	/// <summary>
 	/// Same as is ghost, but also true when player inside his dead body
 	/// </summary>
 	public bool IsDeadOrGhost
