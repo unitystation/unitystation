@@ -18,21 +18,21 @@ namespace ScriptableObjects
 		{
 			get
 			{
-				if (!_instance && SOs.Instance != null)
+				if (_instance == null && (SOs.Instance == null) == false)
 				{
 					_instance = SOs.Instance.GetEntry<T>();
 				}
 				// SO might not be added to SOs manager or might be requested before the manager has awoken.
 				var watch = Stopwatch.StartNew();
-				if (!_instance)
+				if (_instance == null)
 				{
 					_instance = Resources.FindObjectsOfTypeAll<T>().FirstOrDefault();
 				}
-				if (!_instance)
+				if (_instance == null)
 				{
 					_instance = Resources.LoadAll<T>("ScriptableObjectsSingletons").FirstOrDefault();
 				}
-				if (!_instance)
+				if (_instance == null)
 				{
 					Logger.LogErrorFormat("SingletonScriptableObject instance for {0} not found!", Category.Unknown, typeof(T));
 				}
