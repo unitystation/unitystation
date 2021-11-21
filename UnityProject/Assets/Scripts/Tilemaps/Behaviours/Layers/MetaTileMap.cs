@@ -1564,8 +1564,12 @@ namespace TileManagement
 			}
 			var middlePoint = minPosition + (maxPosition - minPosition) / 2;
 			var newGlobalBounds = new Bounds(middlePoint, maxPosition - minPosition);
-			if (matrix.MatrixMove == null || (matrix.MatrixMove.IsMovingServer == false && matrix.MatrixMove.IsRotatingServer == false))
+
+			if (matrix.MatrixMove == null ||
+			    (CustomNetworkManager.IsServer && matrix.MatrixMove.IsMovingServer == false && matrix.MatrixMove.IsRotatingServer == false) ||
+				(CustomNetworkManager.IsServer == false && matrix.MatrixMove.IsMovingClient == false && matrix.MatrixMove.IsRotatingServer == false))
 			{
+				//Only save the cache if the shuttle is static!
 				GlobalCachedBounds = newGlobalBounds;
 			}
 
