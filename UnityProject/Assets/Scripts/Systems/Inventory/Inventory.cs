@@ -223,7 +223,19 @@ public static class Inventory
 				Category.Inventory, toPerform.InventoryMoveType);
 		}
 
+		PlayInventorySound(toPerform.FromSlot, toPerform.MovedObject.gameObject.Item());
+
 		return true;
+	}
+
+	private static void PlayInventorySound(ItemSlot slot, Items.ItemAttributesV2 item)
+	{
+		if (slot == null || item == null) return;
+
+		if (item.InventoryRemoveSound != null)
+		{
+			_ = SoundManager.PlayNetworkedAtPosAsync(item.InventoryRemoveSound, slot.ItemStorage.gameObject.AssumedWorldPosServer());
+		}
 	}
 
 	private static bool ServerPerformTransfer(InventoryMove toPerform, Pickupable pickupable)
