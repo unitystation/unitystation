@@ -190,8 +190,8 @@ namespace TileManagement
 					if (QueuedChanges.Count == 0)
 						break;
 					tileLocation = QueuedChanges.Dequeue();
+					MainThreadTileChange(tileLocation);
 				}
-				MainThreadTileChange(tileLocation);
 			}
 
 			stopwatch.Stop();
@@ -204,21 +204,24 @@ namespace TileManagement
 
 		private void ApplyTileChange(TileLocation tileLocation)
 		{
-			if (QueuedChanges.Contains(tileLocation))
+			lock (QueuedChanges)
 			{
-				return;
+				if (QueuedChanges.Contains(tileLocation))
+				{
+					return;
+				}
+				stopwatch.Start();
+				if (mainThread.Equals(Thread.CurrentThread) && stopwatch.ElapsedMilliseconds < TargetMSpreFrame)
+				{
+					MainThreadTileChange(tileLocation);
+				}
+				else
+				{
+					//cant modify the unity tilemap in a non main thread
+					QueuedChanges.Enqueue(tileLocation);
+				}
+				stopwatch.Stop();
 			}
-			stopwatch.Start();
-			if (mainThread.Equals(Thread.CurrentThread) && stopwatch.ElapsedMilliseconds < TargetMSpreFrame)
-			{
-				MainThreadTileChange(tileLocation);
-			}
-			else
-			{
-				//cant modify the unity tilemap in a non main thread
-				QueuedChanges.Enqueue(tileLocation);
-			}
-			stopwatch.Stop();
 		}
 
 		public void MainThreadTileChange(TileLocation tileLocation)
