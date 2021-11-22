@@ -20,6 +20,8 @@ public partial class TestAction
 		HasTile,
 		SetMousePosition,
 		IsInPlayerInventory,
+		CheckValueGameObjectAt,
+		SetValueGameObjectAt
 	}
 
 
@@ -45,7 +47,12 @@ public partial class TestAction
 				return InitiateSetMousePosition(TestRunSO);
 			case ActionType.IsInPlayerInventory:
 				return InitiateIsInPlayerInventory(TestRunSO);
+			case ActionType.CheckValueGameObjectAt:
+				return InitiateCheckValueGameObjectAt(TestRunSO);
+			case ActionType.SetValueGameObjectAt:
+				return InitiateSetValueGameObjectAt(TestRunSO);
 			default:
+
 				Logger.LogError($"Unset {SpecifiedAction}");
 				return false;
 		}
