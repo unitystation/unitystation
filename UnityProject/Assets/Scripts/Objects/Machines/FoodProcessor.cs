@@ -39,8 +39,6 @@ namespace Objects.Kitchen
 		private Task<AddressableAudioSource> fullSource;
 		private Task<AddressableAudioSource> turnOnSource;
 
-		private string runLoopGUID = "";
-
 		/// <summary>
 		/// How much time remains on the processor's timer.
 		/// </summary>
@@ -271,6 +269,7 @@ namespace Objects.Kitchen
 				return;
 			}
 
+			//TODO : Figure out how to make duration in sync with Task.Delay rather than Timer.Deltatime in Shake.cs
 			_ = SoundManager.PlayNetworkedAtPosAsync(turnOnAudio, WorldPosition);
 			await Task.Delay((int)turnOnAudio.AudioSource.clip.length);
 			string guid = SoundManager.PlayNetworked(runningAudio);
