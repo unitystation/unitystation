@@ -147,6 +147,7 @@ public partial class CustomNetTransform : NetworkBehaviour, IPushable
 		registerTile = GetComponent<RegisterTile>();
 		itemAttributes = GetComponent<ItemAttributesV2>();
 		occupiableDirectionalSprite = GetComponent<OccupiableDirectionalSprite>();
+		pushPull = GetComponent<PushPull>();
 		syncInterval = 0f;
 	}
 
