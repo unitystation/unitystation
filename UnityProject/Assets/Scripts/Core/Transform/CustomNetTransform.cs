@@ -46,7 +46,8 @@ public partial class CustomNetTransform : NetworkBehaviour, IPushable
 
 	public bool IsFixedMatrix = false;
 
-	private OccupiableDirectionalSprite occupiableDirectionalSprite = null;
+	private BuckleInteract buckleInteract = null;
+	private bool hasBuckleInteract;
 
 	/// <summary>
 	/// If it has ItemAttributes, get size from it (default to tiny).
@@ -146,7 +147,12 @@ public partial class CustomNetTransform : NetworkBehaviour, IPushable
 	{
 		registerTile = GetComponent<RegisterTile>();
 		itemAttributes = GetComponent<ItemAttributesV2>();
-		occupiableDirectionalSprite = GetComponent<OccupiableDirectionalSprite>();
+		buckleInteract = GetComponent<BuckleInteract>();
+		if (buckleInteract)
+		{
+			hasBuckleInteract = true;
+		}
+
 		pushPull = GetComponent<PushPull>();
 		syncInterval = 0f;
 	}
@@ -803,14 +809,11 @@ public partial class CustomNetTransform : NetworkBehaviour, IPushable
 	[Server]
 	private void UpdateOccupant()
 	{
-		if (occupiableDirectionalSprite != null && occupiableDirectionalSprite.HasOccupant)
+		if (hasBuckleInteract && buckleInteract.OccupantPlayerScript != null)
 		{
-			if (occupiableDirectionalSprite.OccupantPlayerScript != null)
-			{
-				//sync position to ensure they buckle to the correct spot
-				occupiableDirectionalSprite.OccupantPlayerScript.PlayerSync.SetPosition(registerTile.WorldPosition);
-				Logger.LogTraceFormat("UpdatedOccupant {0}", Category.Movement, registerTile.WorldPosition);
-			}
+			//sync position to ensure they buckle to the correct spot
+			buckleInteract.OccupantPlayerScript.PlayerSync.SetPosition(registerTile.WorldPosition);
+			Logger.LogTraceFormat("UpdatedOccupant {0}", Category.Movement, registerTile.WorldPosition);
 		}
 	}
 }

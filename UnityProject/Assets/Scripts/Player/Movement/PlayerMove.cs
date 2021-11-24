@@ -289,17 +289,15 @@ namespace Player.Movement
 		/// <param name="toObject">object to which they should be buckled, must have network instance id.</param>
 		/// <param name="unbuckledAction">callback to invoke when we become unbuckled</param>
 		[Server]
-		public void ServerBuckle(GameObject toObject, Action unbuckledAction = null)
+		public void ServerBuckle(BuckleInteract buckleInteract, Action unbuckledAction = null)
 		{
-			var netid = toObject.NetId();
+			var netid = buckleInteract.gameObject.NetId();
 			if (netid == NetId.Invalid)
 			{
-				Logger.LogError("attempted to buckle to object " + toObject + " which has no NetworkIdentity. Buckle" +
+				Logger.LogError("attempted to buckle to object " + buckleInteract.gameObject + " which has no NetworkIdentity. Buckle" +
 				                " can only be used on objects with a Net ID. Ensure this object has one.", Category.Movement);
 				return;
 			}
-
-			var buckleInteract = toObject.GetComponent<BuckleInteract>();
 
 			if (buckleInteract.forceLayingDown)
 			{
@@ -324,10 +322,10 @@ namespace Player.Movement
 			onUnbuckled = unbuckledAction;
 
 			// sync position to ensure they buckle to the correct spot
-			PlayerScript.PlayerSync.SetPosition(toObject.TileWorldPosition().To3Int());
+			PlayerScript.PlayerSync.SetPosition(buckleInteract.gameObject.TileWorldPosition().To3Int());
 
 			// set direction if toObject has a direction
-			var directionalObject = toObject.GetComponent<Directional>();
+			var directionalObject = buckleInteract.GetComponent<Directional>();
 			if (directionalObject != null)
 			{
 				playerDirectional.FaceDirection(directionalObject.CurrentDirection);
@@ -416,6 +414,8 @@ namespace Player.Movement
 			// unsub if we are subbed
 			if (IsBuckled)
 			{
+				var buckleInteract = BuckledObject.GetComponent<BuckleInteract>();
+				buckleInteract.OccupantPlayerScript = null;
 				var directionalObject = BuckledObject.GetComponent<Directional>();
 				if (directionalObject != null)
 				{
@@ -434,6 +434,8 @@ namespace Player.Movement
 			// sub
 			if (BuckledObject != null)
 			{
+				var buckleInteract = BuckledObject.GetComponent<BuckleInteract>();
+				buckleInteract.OccupantPlayerScript = PlayerScript;
 				var directionalObject = BuckledObject.GetComponent<Directional>();
 				if (directionalObject != null)
 				{
