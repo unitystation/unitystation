@@ -171,7 +171,7 @@ namespace Systems.Spells
 						return false;
 					}
 
-					matrixInfo.TileChangeManager.UpdateTile(localPos, tileToSummon);
+					matrixInfo.TileChangeManager.MetaTileMap.SetTile(localPos, tileToSummon);
 					if (SpellData.ShouldDespawn)
 					{
 						//but also destroy when lifespan ends
@@ -180,7 +180,7 @@ namespace Systems.Spells
 						IEnumerator DespawnAfterDelay()
 						{
 							yield return WaitFor.Seconds(SpellData.SummonLifespan);
-							matrixInfo.TileChangeManager.RemoveTile(localPos, tileToSummon.LayerType);
+							matrixInfo.TileChangeManager.MetaTileMap.RemoveTileWithlayer(localPos, tileToSummon.LayerType);
 						}
 					}
 				}

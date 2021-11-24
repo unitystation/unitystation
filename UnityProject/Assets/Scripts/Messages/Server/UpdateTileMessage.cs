@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
+using TileManagement;
 using Tilemaps.Behaviours.Layers;
 
 namespace Messages.Server
@@ -39,12 +40,23 @@ namespace Messages.Server
 
 			public DelayedData(TileChangeEntry TileChangeEntry)
 			{
-				Position = TileChangeEntry.Position;
-				TileType = TileChangeEntry.TileType;
-				TileName = TileChangeEntry.TileName;
-				TransformMatrix = TileChangeEntry.transformMatrix.GetValueOrDefault(Matrix4x4.identity);
-				Colour = TileChangeEntry.color.GetValueOrDefault(Vector4.one);
+				Position = TileChangeEntry.position;
 				layerType = TileChangeEntry.LayerType;
+				if (TileChangeEntry.RelatedTileLocation == null)
+				{
+					TileType = TileType.None;
+					Colour = Color.white;
+					TransformMatrix = Matrix4x4.identity;
+					TileName = "";
+				}
+				else
+				{
+					TileName = TileChangeEntry.RelatedTileLocation.layerTile.name;
+					TileType = TileChangeEntry.RelatedTileLocation.layerTile.TileType;
+					TransformMatrix = TileChangeEntry.RelatedTileLocation.transformMatrix;
+					Colour = TileChangeEntry.RelatedTileLocation.Colour;
+				}
+
 			}
 		}
 
@@ -58,16 +70,16 @@ namespace Messages.Server
 			if (NetworkObject == null)
 				return;
 
-			var tileChangerManager = NetworkObject.transform.parent.GetComponent<TileChangeManager>();
+			var tileChangerManager = NetworkObject.transform.parent.GetComponentInChildren<MetaTileMap>();
 			foreach (var Change in msg.Changes)
 			{
 				if (Change.TileType == TileType.None)
 				{
-					tileChangerManager.RemoveTile(Change.Position, Change.layerType);
+					tileChangerManager.RemoveTileWithlayer(Change.Position, Change.layerType);
 				}
 				else
 				{
-					tileChangerManager.InternalUpdateTile(Change.Position, Change.TileType, Change.TileName, Change.TransformMatrix,
+					tileChangerManager.SetTile(Change.Position, Change.TileType, Change.TileName, Change.TransformMatrix,
 						Change.Colour);
 				}
 			}

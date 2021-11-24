@@ -582,8 +582,8 @@ public class InteractableTiles : MonoBehaviour, IClientInteractable<PositionalHa
 		SoundManager.PlayNetworkedAtPos(CommonSounds.Instance.BreakStone, worldPosition);
 		Spawn.ServerPrefab(getTile.SpawnOnDeconstruct, worldPosition,
 			count: getTile.SpawnAmountOnDeconstruct);
-		tileChangeManager.RemoveTile(cellPos, LayerType.Walls);
-		tileChangeManager.RemoveOverlaysOfType(cellPos, LayerType.Effects, OverlayType.Mining);
+		tileChangeManager.MetaTileMap.RemoveTileWithlayer(cellPos, LayerType.Walls);
+		tileChangeManager.MetaTileMap.RemoveOverlaysOfType(cellPos, LayerType.Effects, OverlayType.Mining);
 
 		return true;
 	}
@@ -606,11 +606,11 @@ public class InteractableTiles : MonoBehaviour, IClientInteractable<PositionalHa
 		AnimatedOverlayTile animatedTile,
 		float animationTime)
 	{
-		tileChangeManager.AddOverlay(cellPos, animatedTile);
+		tileChangeManager.MetaTileMap.AddOverlay(cellPos, animatedTile);
 
 		yield return WaitFor.Seconds(animationTime);
 
-		tileChangeManager.RemoveOverlaysOfType(cellPos, LayerType.Effects, animatedTile.OverlayType);
+		tileChangeManager.MetaTileMap.RemoveOverlaysOfType(cellPos, LayerType.Effects, animatedTile.OverlayType);
 	}
 
 }
