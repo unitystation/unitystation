@@ -70,6 +70,8 @@ public class UIManager : MonoBehaviour, IInitialise
 
 	public CraftingMenu CraftingMenu;
 
+	public SplittingMenu SplittingMenu;
+
 	public static bool PreventChatInput
 	{
 		get { return uiManager.preventChatInput; }
