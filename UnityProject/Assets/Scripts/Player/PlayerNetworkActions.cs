@@ -16,6 +16,7 @@ using HealthV2;
 using Items;
 using Items.Tool;
 using Messages.Server;
+using Objects.Other;
 using Player.Movement;
 using Shuttles;
 using UI.Core;
@@ -979,6 +980,26 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		foreach (var dynamicInput in forGameObject.GetComponents<IDynamicInput>())
 		{
 			dynamicInput.OnInputFilled(input, playerScript);
+		}
+	}
+
+	[Command]
+	public void CmdTriggerStorageTrap(GameObject storage)
+	{
+		//Probably want to put a validations check here to make sure backpack is in range
+		//though this is only gonna hurt this player so isnt really hackable lol
+		if(storage == null) return;
+		if(storage.TryGetComponent<InteractableStorage>(out var interactableStorage) == false) return;
+		
+		var slots = interactableStorage.ItemStorage;
+
+		foreach (var slot in slots.GetItemSlots())
+		{
+			if(slot.IsEmpty) continue;
+			if (slot.ItemObject.TryGetComponent<MouseTrap>(out var trap))
+			{
+				if(trap.IsArmed) trap.TriggerTrapFromContainer(playerScript.playerHealth);
+			}
 		}
 	}
 }

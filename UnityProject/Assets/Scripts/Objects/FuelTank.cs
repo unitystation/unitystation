@@ -82,13 +82,11 @@ namespace Objects.Engineering
 
 			if (registerObject == null)
 			{
-				Explosion.StartExplosion(objectBehaviour.registerTile.LocalPosition, strength,
-					objectBehaviour.registerTile.Matrix);
+				Explosion.StartExplosion(objectBehaviour.registerTile.WorldPositionServer, strength);
 			}
 			else
 			{
-				Explosion.StartExplosion(registerObject.LocalPosition, strength,
-					registerObject.Matrix);
+				Explosion.StartExplosion(registerObject.WorldPositionServer, strength);
 			}
 
 			reagentContainerObjectInteractionScript.OnHandApply.RemoveListener(TryServerPerformInteraction);

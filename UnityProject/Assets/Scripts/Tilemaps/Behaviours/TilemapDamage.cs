@@ -24,22 +24,22 @@ public class TilemapDamage : MonoBehaviour, IFireExposable
 
 		Layer = GetComponent<Layer>();
 		matrix = GetComponentInParent<Matrix>();
+	}
 
-		tileChangeManager.OnFloorOrPlatingRemoved.RemoveAllListeners();
-		tileChangeManager.OnFloorOrPlatingRemoved.AddListener(cellPos =>
-		{ //Poke items when both floor and plating are gone
-			//As they might want to change matrix
-			if (!metaTileMap.HasTile(cellPos, LayerType.Floors)
-			    && !metaTileMap.HasTile(cellPos, LayerType.Base)
-			    && metaTileMap.HasObject(cellPos, CustomNetworkManager.Instance._isServer)
-			)
+	//Poke items when both floor and plating are gone
+	//As they might want to change matrix
+	public void SwitchObjectsMatrixAt(Vector3Int cellPos)
+	{
+		if (!metaTileMap.HasTile(cellPos, LayerType.Floors)
+		    && !metaTileMap.HasTile(cellPos, LayerType.Base)
+		    && metaTileMap.HasObject(cellPos, CustomNetworkManager.Instance._isServer)
+		)
+		{
+			foreach (var customNetTransform in matrix.Get<CustomNetTransform>(cellPos, true))
 			{
-				foreach (var customNetTransform in matrix.Get<CustomNetTransform>(cellPos, true))
-				{
-					customNetTransform.CheckMatrixSwitch();
-				}
+				customNetTransform.CheckMatrixSwitch();
 			}
-		});
+		}
 	}
 
 	public float ApplyDamage(float dmgAmt, AttackType attackType, Vector3 worldPos)

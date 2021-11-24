@@ -13,7 +13,7 @@ namespace Items.Cargo.Wrapping
 		         "Useful for mapping!")]
 		private ContainerTypeSprite typeSprite;
 
-		protected override void UnWrap()
+		public override void UnWrap()
 		{
 			PlayUnwrappingSound();
 

@@ -230,7 +230,7 @@ public class Matrix : MonoBehaviour
 	{
 		return MetaTileMap.IsAtmosPassableAt(position, isServer);
 	}
-	
+
 	public bool IsSpaceAt(Vector3Int position, bool isServer)
 	{
 		return MetaTileMap.IsSpaceAt(position, isServer);
@@ -541,7 +541,7 @@ public class Matrix : MonoBehaviour
 			metaTileMap = GetComponent<MetaTileMap>();
 		}
 
-		BoundsInt bounds = MetaTileMap.GetWorldBounds();
+		var bounds = MetaTileMap.GetWorldBounds();
 		DebugGizmoUtils.DrawText(gameObject.name, bounds.max, 11, 5);
 		DebugGizmoUtils.DrawRect(bounds);
 	}

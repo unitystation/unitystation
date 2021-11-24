@@ -315,7 +315,7 @@ public class Integrity : NetworkBehaviour, IHealth, IFireExposable, IRightClicka
 
 			if (explodeOnDestroy)
 			{
-				Explosion.StartExplosion(registerTile.LocalPositionServer, ExplosionsDamage, registerTile.Matrix);
+				Explosion.StartExplosion(registerTile.WorldPositionServer, ExplosionsDamage);
 			}
 
 			if (destructInfo.DamageType == DamageType.Burn)

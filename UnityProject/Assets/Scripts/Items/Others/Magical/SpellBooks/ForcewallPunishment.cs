@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using UnityEngine;
 using AddressableReferences;
+using Strings;
 
 
 namespace Items.Magical
@@ -33,7 +34,7 @@ namespace Items.Magical
 
 			SoundManager.PlayNetworkedAtPos(punishSfx, player.Script.WorldPos, sourceObj: player.GameObject);
 			Chat.AddCombatMsgToChat(player.GameObject,
-					"<size=60><b>Your body freezes up! Can't... move... can't... think...</b></size>",
+					$"<size={ChatTemplates.VeryLargeText}><b>Your body freezes up! Can't... move... can't... think...</b></size>",
 					$"{player.GameObject.ExpensiveName()}'s skin rapidly turns to marble!");
 			
 		}

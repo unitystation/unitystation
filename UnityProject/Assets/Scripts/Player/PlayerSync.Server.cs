@@ -458,9 +458,8 @@ public partial class PlayerSync
 		if (consideredFloatingServer || !serverState.Active || CanNotSpaceMoveServer || (pushPull && pushPull.IsBeingPulled))
 		{
 			Logger.LogWarning("Server ignored queued move while player isn't supposed to move", Category.Movement);
-			serverPendingActions.Dequeue();
-
-			TryUpdateServerTarget();
+			ClearQueueServer();
+			RollbackPosition();
 			return;
 		}
 
@@ -793,10 +792,10 @@ public partial class PlayerSync
 	/// <param name="targetPos">The entered position</param>
 	private void InteractEnterable(Vector3Int targetPos)
 	{
-		List<Enterable> enterables = MatrixManager.GetAt<Enterable>(targetPos, isServer);
-		foreach (Enterable enterable in enterables)
+		List<IEnterable> enterables = MatrixManager.GetAt<IEnterable>(targetPos, isServer);
+		foreach (IEnterable enterable in enterables)
 		{
-			enterable.TriggerEnterEvent(gameObject);
+			if(enterable.WillStep(gameObject)) enterable.OnStep(gameObject);
 		}
 	}
 

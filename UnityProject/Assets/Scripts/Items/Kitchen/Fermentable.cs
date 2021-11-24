@@ -19,11 +19,11 @@ namespace Items.Food
 
 		[SerializeField]
 		[Tooltip("What reagent(s) this GameObject becomes when fermented.")]
-		private DictionaryReagentInt fermentedReagents;
+		private SerializableDictionary<Reagent, int> fermentedReagents;
 		/// <summary>
 		/// Get the processed product of this object.
 		/// </summary>
-		public DictionaryReagentInt FermentedReagents => fermentedReagents;
+		public SerializableDictionary<Reagent, int> FermentedReagents => fermentedReagents;
 
 		/// <summary>
 		/// Raised when enough fermenting time has been added (via <see cref="AddFermentingTime(float)"/>)

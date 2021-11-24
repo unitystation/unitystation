@@ -30,27 +30,25 @@ namespace Systems.Explosions
 			AudioSourceParameters audioSourceParameters = new AudioSourceParameters(0f, 100f);
 			ShakeParameters shakeParameters = new ShakeParameters(true, shakeIntensity, shakeDistance);
 
+			//Closet sound
 			_ = SoundManager.PlayNetworkedAtPosAsync(explosionSound, worldPosition, audioSourceParameters, true, false, shakeParameters);
 
-			if (distantSound?.AudioSource.OrNull()?.maxDistance == null)
+			//Next sound
+			if (distantSound != null)
 			{
-				Logger.LogError($"distantSound?.AudioSource.OrNull()?.maxDistance == null From {distantSound}" );
-				return;
-			}
+				AudioSourceParameters distantSoundAudioSourceParameters =
+					new AudioSourceParameters(0f, 100f, minDistance: 29, maxDistance: 63);
 
-			if (groanSound?.AudioSource.OrNull()?.maxDistance == null)
-			{
-				Logger.LogError($"groanSound?.AudioSource.OrNull()?.maxDistance == null From {groanSound}" );
-				return;
+				_ = SoundManager.PlayNetworkedAtPosAsync(distantSound, worldPosition, distantSoundAudioSourceParameters);
 			}
+			
+			//Furthest away sound
+			if (groanSound != null)
+			{
+				AudioSourceParameters groanSoundAudioSourceParameters =
+					new AudioSourceParameters(0f, 100f, minDistance: 63, maxDistance: 200);
 
-			if (shakeDistance > distantSound.AudioSource.maxDistance)
-			{
-				_ = SoundManager.PlayNetworkedAtPosAsync(distantSound, worldPosition, global: true);
-			}
-			if (shakeIntensity > groanSound.AudioSource.maxDistance)
-			{
-				_ = SoundManager.PlayNetworkedAtPosAsync(groanSound, worldPosition, global: true);
+				_ = SoundManager.PlayNetworkedAtPosAsync(groanSound, worldPosition, groanSoundAudioSourceParameters);
 			}
 		}
 	}

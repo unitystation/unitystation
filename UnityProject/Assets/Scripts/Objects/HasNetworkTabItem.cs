@@ -36,6 +36,12 @@ namespace Items
 			TabUpdateMessage.Send(interaction.Performer, gameObject, NetTabType, TabAction.Open);
 		}
 
+		public void ServerPerformInteraction(PositionalHandApply interaction)
+		{
+			playerInteracted = interaction.Performer;
+			TabUpdateMessage.Send(interaction.Performer, gameObject, NetTabType, TabAction.Open);
+		}
+
 		public void OnDespawnServer(DespawnInfo info)
 		{
 			NetworkTabManager.Instance.RemoveTab(gameObject, NetTabType);

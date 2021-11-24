@@ -1,10 +1,11 @@
 ﻿using HealthV2;
+using Objects;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
 namespace Health.Sickness
 {
-	public class Contagion: MonoBehaviour
+	public class Contagion: MonoBehaviour, IEnterable
 	{
 		public Sickness Sickness;
 
@@ -52,22 +53,25 @@ namespace Health.Sickness
 		}
 
 		/// <summary>
-		/// Called from the Enterable component.  Handles what happens when a player enters the location of the contagion.
-		/// </summary>
-		public void OnEnterableEnter(BaseEventData eventData)
-		{
-			if (eventData.selectedObject.TryGetComponent(out PlayerHealthV2 playerHealth))
-			{
-				playerHealth.AddSickness(Sickness);
-			}
-		}
-
-		/// <summary>
 		/// If we want to see where the contagion is
 		/// </summary>
 		void OnDrawGizmos()
 		{
 			DebugGizmoUtils.DrawText(Sickness.SicknessName, registerTile.WorldPositionServer);
+		}
+
+		public void OnStep(GameObject eventData)
+		{
+			if (eventData.TryGetComponent(out PlayerHealthV2 playerHealth))
+			{
+				playerHealth.AddSickness(Sickness);
+			}
+		}
+
+		public bool WillStep(GameObject eventData)
+		{
+			if (eventData.TryGetComponent<PlayerHealthV2>(out var _)) return true;
+			return false;
 		}
 	}
 }

@@ -574,22 +574,22 @@ namespace IngameDebugConsole
 
 		private static IEnumerator SpamChatCoroutine()
 		{
-			if (!isSpamming)
-			{
-				yield break;
-			}
+			if (isSpamming == false) yield break;
+
+			var fakePlayer = ConnectedPlayer.Invalid;
+			fakePlayer.Username = "Huehuehuehue";
 
 			yield return WaitFor.Seconds(Random.Range(0.00001f, 0.01f));
 			switch (Random.Range(1,4))
 			{
 				case 1:
-					Chat.AddExamineMsgToClient(DateTime.Now.ToFileTimeUtc().ToString());
+					Chat.AddExamineMsgToClient($"Examination: {DateTime.Now.ToFileTimeUtc()}");
 					break;
 				case 2:
-					Chat.AddChatMsgToChat(ConnectedPlayer.Invalid, DateTime.Now.ToFileTimeUtc().ToString(), ChatChannel.OOC, Loudness.NORMAL);
+					Chat.AddChatMsgToChat(fakePlayer, DateTime.Now.ToFileTimeUtc().ToString(), ChatChannel.OOC, Loudness.NORMAL);
 					break;
 				default:
-					Chat.AddLocalMsgToChat(DateTime.Now.ToFileTimeUtc().ToString(), new Vector2(Random.value*100,Random.value*100), null);
+					Chat.AddLocalMsgToChat($"Local Message: {DateTime.Now.ToFileTimeUtc()}", new Vector2(Random.value*100,Random.value*100), null);
 					break;
 			}
 

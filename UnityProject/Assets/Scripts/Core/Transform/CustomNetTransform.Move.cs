@@ -366,7 +366,7 @@ public partial class CustomNetTransform
 		//add player momentum
 		float playerMomentum = 0f;
 		//If throwing nearby, do so at 1/2 speed (looks clunky otherwise)
-		float speedMultiplier = Mathf.Clamp(correctedInfo.WorldTrajectory.magnitude / (throwRange <= 0 ? 1 : throwRange), 0.6f, 1f);
+		float speedMultiplier = Mathf.Clamp(correctedInfo.WorldTrajectory.magnitude / (throwRange <= 0 ? 1 : throwRange), 0.2f, 1f);
 		serverState.Speed = (Random.Range(-0.2f, 0.2f) + throwSpeed + playerMomentum) * speedMultiplier;
 		correctedInfo.InitialSpeed = serverState.Speed;
 

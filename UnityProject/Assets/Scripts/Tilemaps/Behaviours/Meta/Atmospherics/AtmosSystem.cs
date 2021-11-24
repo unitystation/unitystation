@@ -25,7 +25,7 @@ namespace Systems.Atmospherics
 				gasSetter.SetUp();
 			}
 
-			BoundsInt bounds = metaTileMap.GetBounds();
+			BoundsInt bounds = metaTileMap.GetLocalBounds();
 
 			foreach (Vector3Int position in bounds.allPositionsWithin)
 			{
@@ -96,7 +96,7 @@ namespace Systems.Atmospherics
 		/// <param name="gasMixToUse">GasMix to fill room with</param>
 		public void SetRoomGas(int roomNumber, GasMix gasMixToUse)
 		{
-			BoundsInt bounds = metaTileMap.GetBounds();
+			BoundsInt bounds = metaTileMap.GetLocalBounds();
 
 			foreach (Vector3Int position in bounds.allPositionsWithin)
 			{
