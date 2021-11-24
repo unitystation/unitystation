@@ -118,7 +118,7 @@ namespace Objects
 
 			// Create a small explosion to apply damage to objects underneath.
 			var matrixInfo = MatrixManager.AtPoint(WorldPosition, IsServer);
-			Explosion.StartExplosion(registerObject.LocalPosition, EXPLOSION_STRENGTH, matrixInfo.Matrix);
+			Explosion.StartExplosion(registerObject.WorldPositionServer, EXPLOSION_STRENGTH);
 
 			isLanding = false;
 		}

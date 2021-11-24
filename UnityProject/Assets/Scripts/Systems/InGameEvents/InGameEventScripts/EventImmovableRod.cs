@@ -138,8 +138,7 @@ namespace InGameEvents
 
 				StartCoroutine(MoveRodToPosition(rod.transform, nextCoord, timeBetweenExplosions));
 
-				Explosion.StartExplosion(nextCoord.ToLocalInt(stationMatrix), strength,
-					stationMatrix.Matrix);
+				Explosion.StartExplosion(nextCoord.RoundToInt(), strength);
 
 				yield return new WaitForSeconds(timeBetweenExplosions);
 			}

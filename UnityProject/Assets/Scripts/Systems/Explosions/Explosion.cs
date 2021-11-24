@@ -37,7 +37,6 @@ namespace Systems.Explosions
 		int y1 = 0;
 		private float Angle = 0;
 
-		Matrix Matrix = null;
 		int dx = 0;
 		int sx = 0;
 		int dy = 0;
@@ -47,7 +46,7 @@ namespace Systems.Explosions
 		public float ExplosionStrength = 0;
 		private bool InitialStep = true;
 
-		public void SetUp(int X0, int Y0, int X1, int Y1, float InExplosionStrength, Matrix matrix)
+		public void SetUp(int X0, int Y0, int X1, int Y1, float InExplosionStrength)
 		{
 			x0 = X0;
 			y0 = Y0;
@@ -66,7 +65,6 @@ namespace Systems.Explosions
 
 			err = (dx > dy ? dx : -dy) / 2;
 			ExplosionStrength = InExplosionStrength;
-			Matrix = matrix;
 		}
 
 		public void Step()
@@ -83,14 +81,16 @@ namespace Systems.Explosions
 				return;
 			}
 
-			var V2int = new Vector2Int(x0, y0);
-			var NodePoint = Matrix.GetMetaDataNode(V2int); //Explosion node
+			var WorldPSos = new Vector3Int(x0, y0, 0);
+			var Matrix = MatrixManager.AtPoint(WorldPSos, CustomNetworkManager.IsServer);
+			var Local = WorldPSos.ToLocal(Matrix.Matrix).RoundToInt();
+			var NodePoint = Matrix.MetaDataLayer.Get(Local); //Explosion node
 			if (NodePoint != null)
 			{
 				if (NodePoint.ExplosionNode == null)
 				{
 					NodePoint.ExplosionNode = new ExplosionNode();
-					NodePoint.ExplosionNode.Initialise(V2int, Matrix);
+					NodePoint.ExplosionNode.Initialise(Local, Matrix.Matrix);
 				}
 
 				NodePoint.ExplosionNode.AngleAndIntensity += GetXYDirection(Angle, ExplosionStrength);
@@ -135,7 +135,7 @@ namespace Systems.Explosions
 			public HashSet<Vector2Int> CircleCircumference = new HashSet<Vector2Int>();
 		}
 
-		public static void StartExplosion(Vector3Int MatrixPOS, float strength, Matrix matrix)
+		public static void StartExplosion(Vector3Int WorldPOS, float strength)
 		{
 			int Radius = (int) Math.Round(strength / (Math.PI * 75));
 
@@ -158,17 +158,17 @@ namespace Systems.Explosions
 				ShakingStrength = 255;
 			}
 
-			ExplosionUtils.PlaySoundAndShake(MatrixManager.LocalToWorld(MatrixPOS, matrix).RoundToInt(), ShakingStrength, Radius / 20);
+			ExplosionUtils.PlaySoundAndShake(WorldPOS, ShakingStrength, Radius / 20);
 
 			//Generates the conference
 			var explosionData = new ExplosionData();
-			circleBres(explosionData, MatrixPOS.x, MatrixPOS.y, Radius);
+			circleBres(explosionData, WorldPOS.x, WorldPOS.y, Radius);
 			float InitialStrength = strength / explosionData.CircleCircumference.Count;
 
 			foreach (var ToPoint in explosionData.CircleCircumference)
 			{
 				var Line = ExplosionPropagationLine.Getline();
-				Line.SetUp(MatrixPOS.x, MatrixPOS.y, ToPoint.x, ToPoint.y, InitialStrength, matrix);
+				Line.SetUp(WorldPOS.x, WorldPOS.y, ToPoint.x, ToPoint.y, InitialStrength);
 				Line.Step();
 			}
 		}

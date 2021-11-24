@@ -213,7 +213,7 @@ namespace Objects.Engineering
 			{
 				try
 				{
-					Explosion.StartExplosion(registerObject.LocalPosition, 120000, registerObject.Matrix);
+					Explosion.StartExplosion(registerObject.WorldPositionServer, 120000);
 					PresentNeutrons = 0;
 					OnDespawnServer(null);
 					_ = Despawn.ServerSingle(gameObject);

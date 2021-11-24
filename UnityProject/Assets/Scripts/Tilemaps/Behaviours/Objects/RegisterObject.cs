@@ -96,7 +96,11 @@ public class RegisterObject : RegisterTile
 
 	public override bool IsPassable(bool isServer, GameObject context = null)
 	{
-		if (context == gameObject) return true; // Object can pass through its own RegisterTile.
+		if (context != null)
+		{
+			if (context == gameObject) return true; // Object can pass through its own RegisterTile.
+		}
+
 		if (CheckPassableExclusions(context)) return true;
 
 		if (Passable != CrawlPassable)
