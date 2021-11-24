@@ -47,6 +47,7 @@ public partial class CustomNetTransform : NetworkBehaviour, IPushable
 	public bool IsFixedMatrix = false;
 
 	private BuckleInteract buckleInteract = null;
+	private bool hasBuckleInteract;
 
 	/// <summary>
 	/// If it has ItemAttributes, get size from it (default to tiny).
@@ -147,6 +148,11 @@ public partial class CustomNetTransform : NetworkBehaviour, IPushable
 		registerTile = GetComponent<RegisterTile>();
 		itemAttributes = GetComponent<ItemAttributesV2>();
 		buckleInteract = GetComponent<BuckleInteract>();
+		if (buckleInteract)
+		{
+			hasBuckleInteract = true;
+		}
+
 		pushPull = GetComponent<PushPull>();
 		syncInterval = 0f;
 	}
@@ -803,7 +809,7 @@ public partial class CustomNetTransform : NetworkBehaviour, IPushable
 	[Server]
 	private void UpdateOccupant()
 	{
-		if (buckleInteract != null && buckleInteract.OccupantPlayerScript != null)
+		if (hasBuckleInteract && buckleInteract.OccupantPlayerScript != null)
 		{
 			//sync position to ensure they buckle to the correct spot
 			buckleInteract.OccupantPlayerScript.PlayerSync.SetPosition(registerTile.WorldPosition);
