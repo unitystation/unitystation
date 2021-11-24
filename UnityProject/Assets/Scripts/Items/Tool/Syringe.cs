@@ -26,8 +26,8 @@ public class Syringe : MonoBehaviour, ICheckedInteractable<HandApply>
 		if (LHB != null)
 		{
 			LHB.CirculatorySystem.ReadyBloodPool.Add(LocalContainer.TakeReagents(10f));
-			Chat.AddActionMsgToChat(interaction.Performer, "You Inject The syringe in to " + LHB.playerScript.name,
-				interaction.Performer.name + " injects a syringe in to " + LHB.playerScript.name);
+			Chat.AddActionMsgToChat(interaction.Performer, $"You Inject The syringe into {LHB.gameObject.ExpensiveName()}",
+				$"{interaction.Performer.ExpensiveName()} injects a syringe into {LHB.gameObject.ExpensiveName()}");
 
 		}
 	}
