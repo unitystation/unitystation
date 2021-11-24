@@ -35,6 +35,7 @@ public class MetaDataView : BasicView
 		localChecks.Add(new ThermalConductivity());
 		localChecks.Add(new HeatCapacity());
 		localChecks.Add(new RadiationLevel());
+		localChecks.Add(new ElectricityVision());
 	}
 
 	public override void DrawContent()
@@ -468,6 +469,39 @@ public class MetaDataView : BasicView
 			}
 		}
 	}
+
+	private class ElectricityVision : Check<MetaDataLayer>
+	{
+		public override string Label { get; } = "Electricity Vision";
+
+		public override void DrawGizmo(MetaDataLayer source, Vector3Int position)
+		{
+			MetaDataNode node = source.Get(position, false);
+
+			if (node.Exists)
+			{
+				if (node.ElectricalData.Count > 0)
+				{
+					var IntrinsicData = node.ElectricalData[0];
+					switch (IntrinsicData.InData.Categorytype)
+					{
+						case PowerTypeCategory.StandardCable:
+							GizmoUtils.DrawCube(position, Color.red);
+							break;
+						case PowerTypeCategory.LowVoltageCable:
+							GizmoUtils.DrawCube(position, Color.blue);
+							break;
+						case PowerTypeCategory.HighVoltageCable:
+							GizmoUtils.DrawCube(position, Color.yellow);
+							break;
+					}
+
+				}
+			}
+		}
+
+	}
+
 
 	private static Vector3 LocalToWorld(Component source, Vector3 position)
 	{
