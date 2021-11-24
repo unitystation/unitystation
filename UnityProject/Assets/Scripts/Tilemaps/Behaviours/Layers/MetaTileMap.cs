@@ -73,6 +73,8 @@ namespace TileManagement
 		private BoundsInt? LocalCachedBounds;
 		public Bounds? GlobalCachedBounds;
 
+		[NonSerialized] public Matrix4x4 localToWorldMatrix = Matrix4x4.identity;
+
 		public float Resistance(Vector3Int cellPos, bool includeObjects = true)
 		{
 			float resistance = 0;
@@ -175,8 +177,11 @@ namespace TileManagement
 			mainThread = Thread.CurrentThread;
 		}
 
+
+
 		public void Update()
 		{
+			localToWorldMatrix = transform.localToWorldMatrix;
 			if (QueuedChanges.Count == 0)
 				return;
 
@@ -1538,10 +1543,10 @@ namespace TileManagement
 		{
 			var localBound = GetLocalBounds();
 
-			var bottomLeft = transform.TransformPoint(localBound.min);
-			var bottomRight = transform.TransformPoint(new Vector3(localBound.xMax, localBound.min.y, 0));
-			var topLeft = transform.TransformPoint(new Vector3(localBound.min.x, localBound.yMax, 0));
-			var topRight = transform.TransformPoint(localBound.max);
+			var bottomLeft = localToWorldMatrix.MultiplyPoint(localBound.min);
+			var bottomRight = localToWorldMatrix.MultiplyPoint(new Vector3(localBound.xMax, localBound.min.y, 0));
+			var topLeft = localToWorldMatrix.MultiplyPoint(new Vector3(localBound.min.x, localBound.yMax, 0));
+			var topRight = localToWorldMatrix.MultiplyPoint(localBound.max);
 
 			var globalPoints = new Vector3[4]{bottomLeft, bottomRight, topLeft, topRight};
 			var minPosition = bottomLeft;
