@@ -299,13 +299,13 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		if (stackSlot.ServerIsObservedBy(gameObject) == false || emptySlot.ServerIsObservedBy(gameObject) == false) return; //Checking if we can observe our hands
 
 		if (stackSlot.ItemObject == null || emptySlot.ItemObject != null) return;
-		if (stackSlot.ItemObject.GetComponent<Stackable>() == null) return;
-		if (stackSlot.ItemObject.GetComponent<Stackable>().Amount < amountToTransfer || amountToTransfer <= 0) return;
+		if (stackSlot.ItemObject.TryGetComponent<Stackable>(out var stackSlotStackable) == false) return;
+		if (stackSlotStackable.Amount < amountToTransfer || amountToTransfer <= 0) return;
 
 		var multiple = Spawn.ServerPrefab(Spawn.DeterminePrefab(stackSlot.ItemObject)).GameObject;
 		multiple.GetComponent<Stackable>().ServerSetAmount(amountToTransfer);
 		Inventory.ServerAdd(multiple, emptySlot);
-		stackSlot.ItemObject.GetComponent<Stackable>().ServerConsume(amountToTransfer);
+		stackSlotStackable.ServerConsume(amountToTransfer);
 	}
 
 	/// <summary>
