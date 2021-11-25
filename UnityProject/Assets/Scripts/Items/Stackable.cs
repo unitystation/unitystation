@@ -296,7 +296,7 @@ public class Stackable : NetworkBehaviour, IServerLifecycle, ICheckedInteractabl
 		if (interaction.TargetObject != gameObject) return false;
 
 		//Alt clicking with empty hand calls splitting menu UI
-		if (interaction.IsFromHandSlot && interaction.IsToHandSlot && interaction.FromSlot.IsEmpty && interaction.IsAltClick && side == NetworkSide.Client)
+		if (side == NetworkSide.Client && interaction.IsFromHandSlot && interaction.IsToHandSlot && interaction.FromSlot.IsEmpty && interaction.IsAltClick)
 		{
 			UIManager.Instance.SplittingMenu.Enable();
 			return true;
