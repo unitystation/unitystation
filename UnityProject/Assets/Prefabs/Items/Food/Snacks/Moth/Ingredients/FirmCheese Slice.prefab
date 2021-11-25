@@ -193,6 +193,27 @@ PrefabInstance:
       value: A slice of firm cheese. Perfect for grilling or making into delicious
         pesto.
       objectReference: {fileID: 0}
+    - target: {fileID: 3967450044638082442, guid: 22393c79daa24284fa0c95a3af36f4a3,
+        type: 3}
+      propertyPath: initialTraits.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 3967450044638082442, guid: 22393c79daa24284fa0c95a3af36f4a3,
+        type: 3}
+      propertyPath: initialTraits.Array.data[2]
+      value: 
+      objectReference: {fileID: 11400000, guid: a9ac8cfeac7f9cc409369a06ea01aa79,
+        type: 2}
+    - target: {fileID: 3967450044638082442, guid: 22393c79daa24284fa0c95a3af36f4a3,
+        type: 3}
+      propertyPath: inventoryMoveSound.AssetAddress
+      value: null
+      objectReference: {fileID: 0}
+    - target: {fileID: 3967450044638082442, guid: 22393c79daa24284fa0c95a3af36f4a3,
+        type: 3}
+      propertyPath: inventoryRemoveSound.AssetAddress
+      value: null
+      objectReference: {fileID: 0}
     - target: {fileID: 7252118422562922863, guid: 22393c79daa24284fa0c95a3af36f4a3,
         type: 3}
       propertyPath: PresentSpriteSet

@@ -1,4 +1,6 @@
 ﻿using System;
+using Systems.Mob;
+using Systems.MobAIs;
 using UnityEngine.EventSystems;
 using UnityEngine;
 using HealthV2;
@@ -27,9 +29,11 @@ namespace Objects.Other
 			}
 		}
 
-		private bool ArmTrap()
+		private bool ArmTrap(GameObject Performer)
 		{
 			isArmed = !isArmed;
+			Chat.AddExamineMsgFromServer(Performer,
+				isArmed ? "You arm the " + gameObject.ExpensiveName() : "You disarm the " + gameObject.ExpensiveName());
 			return isArmed;
 		}
 
@@ -99,13 +103,19 @@ namespace Objects.Other
 		{
 			if (IsArmed == false) return;
 			base.OnStep(eventData);
+			if (eventData.TryGetComponent<MouseAI>(out var mouse))
+			{
+				mouse.health.Death();
+				return;
+			}
 			if(trapInSnare) TriggerTrap();
 			isArmed = false;
 		}
 
 		public override bool WillStep(GameObject eventData)
 		{
-			if (eventData.gameObject.TryGetComponent<LivingHealthMasterBase>(out var _) == true) return true;
+			if (eventData.gameObject.TryGetComponent<LivingHealthMasterBase>(out var _)) return true;
+			if (eventData.gameObject.TryGetComponent<MouseAI>(out var _mouse)) return true;
 			return false;
 		}
 
@@ -118,9 +128,10 @@ namespace Objects.Other
 
 		public void ServerPerformInteraction(HandActivate interaction)
 		{
-			ArmTrap();
-			Chat.AddExamineMsgFromServer(interaction.Performer,
-				isArmed ? "You arm the " + gameObject.ExpensiveName() : "You disarm the " + gameObject.ExpensiveName());
+			if (ArmTrap(interaction.Performer) == false)
+			{
+				if(trapContent.GetNextFreeIndexedSlot() == null) trapContent.ServerDropAll();
+			}
 		}
 
 		public void ServerPerformInteraction(HandApply interaction)
@@ -131,6 +142,11 @@ namespace Objects.Other
 				{
 					trapInSnare = true;
 					UpdateTrapVisual();
+				}
+
+				if (isArmed == false)
+				{
+					ArmTrap(interaction.Performer);
 				}
 			}
 		}
