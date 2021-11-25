@@ -285,17 +285,21 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	/// Transfers x amount of items from one hand to another. For stackable items only
 	/// </summary>
 	[Command]
-	public void CmdSplitStack(uint fromSlotID, uint toSlotID, NamedSlot fromSlot, NamedSlot toSlot, int amountToTransfer)
+	public void CmdSplitStack(uint fromSlotID, NamedSlot fromSlot, int amountToTransfer)
 	{
-		if (fromSlot != NamedSlot.leftHand && fromSlot != NamedSlot.rightHand || toSlot != NamedSlot.leftHand && toSlot != NamedSlot.rightHand) return; //Only allowed to transfer from one hand to another
+		if (fromSlot != NamedSlot.leftHand && fromSlot != NamedSlot.rightHand) return; //Only allowed to transfer from one hand to another
 		if (!Validations.CanInteract(playerScript, NetworkSide.Server, allowCuffed: false)) return; //Not allowed to transfer while cuffed
 		if (!Cooldowns.TryStartServer(playerScript, CommonCooldowns.Instance.Interaction)) return;
-		if (NetworkIdentity.spawned.ContainsKey(fromSlotID) == false) return;
+
+		NamedSlot toSlot = PlayerManager.LocalPlayerScript.DynamicItemStorage.GetActiveHandSlot().NamedSlot.GetValueOrDefault(NamedSlot.none); //Were assuming that slot to which player wants to transfer stuff is always active hand
+		uint toSlotID = PlayerManager.LocalPlayerScript.DynamicItemStorage.GetActiveHandSlot().ItemStorage.gameObject.NetId();
 
 		var ObjFS = NetworkIdentity.spawned[fromSlotID].gameObject;
 		var ObjTS = NetworkIdentity.spawned[toSlotID].gameObject;
 		var stackSlot = itemStorage.GetNamedItemSlot(ObjFS, fromSlot);
 		var emptySlot = itemStorage.GetNamedItemSlot(ObjTS, toSlot);
+
+		if (stackSlot.ServerIsObservedBy(gameObject) == false || emptySlot.ServerIsObservedBy(gameObject) == false) return; //Checking if we can observe our hands
 
 		if (stackSlot.ItemObject == null || emptySlot.ItemObject != null) return;
 		if (stackSlot.ItemObject.GetComponent<Stackable>() == null) return;

@@ -295,6 +295,13 @@ public class Stackable : NetworkBehaviour, IServerLifecycle, ICheckedInteractabl
 		//only has logic if this is the target object
 		if (interaction.TargetObject != gameObject) return false;
 
+		//Alt clicking with empty hand calls splitting menu UI
+		if (interaction.IsFromHandSlot && interaction.IsToHandSlot && interaction.FromSlot.IsEmpty && interaction.IsAltClick && side == NetworkSide.Client)
+		{
+			UIManager.Instance.SplittingMenu.Enable();
+			return true;
+		}
+
 		//clicking on it with an empty hand when stack is in another hand to take one from it,
 		//(if there is only one in this stack we will defer to normal inventory transfer logic)
 		if (interaction.IsFromHandSlot && interaction.IsToHandSlot && interaction.FromSlot.IsEmpty && amount > 1) return true;
@@ -316,11 +323,6 @@ public class Stackable : NetworkBehaviour, IServerLifecycle, ICheckedInteractabl
 			single.GetComponent<Stackable>().SyncAmount(amount, 1);
 			Inventory.ServerAdd(single, interaction.FromSlot);
 			ServerConsume(1);
-		}
-		//Alt+clicking with empty hand calls splitting menu UI.
-		else if(interaction.IsFromHandSlot && interaction.IsToHandSlot && interaction.FromSlot.IsEmpty && interaction.IsAltClick)
-		{
-			UIManager.Instance.SplittingMenu.Enable();
 		}
 		else if (CanAccommodate(interaction.UsedObject))
 		{

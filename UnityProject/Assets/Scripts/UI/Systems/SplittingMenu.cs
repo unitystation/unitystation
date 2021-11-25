@@ -37,9 +37,8 @@ namespace UI
 
 		public void BtnConfirmation()
 		{
-			if (amountInput.text.All(c => (c >= 48 && c <= 57))) //Checking if string is numerical
+			if (int.TryParse(amountInput.text, out AmountToTransfer))
 			{
-				AmountToTransfer = Convert.ToInt32(amountInput.text);
 				currentSlot = PlayerManager.LocalPlayerScript.DynamicItemStorage.GetActiveHandSlot();
 
 				var leftHands = PlayerManager.LocalPlayerScript.DynamicItemStorage.GetNamedItemSlots(NamedSlot.leftHand);
@@ -63,9 +62,7 @@ namespace UI
 				PlayerManager.LocalPlayerScript.playerNetworkActions.CmdSplitStack
 					(
 					stackSlot.ItemStorage.gameObject.NetId(),
-					currentSlot.ItemStorage.gameObject.NetId(),
 					stackSlot.NamedSlot.GetValueOrDefault(NamedSlot.none),
-					currentSlot.NamedSlot.GetValueOrDefault(NamedSlot.none),
 					AmountToTransfer
 					);
 
