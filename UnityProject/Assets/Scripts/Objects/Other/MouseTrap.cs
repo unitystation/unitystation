@@ -99,6 +99,7 @@ namespace Objects.Other
 		{
 			if (IsArmed == false) return;
 			base.OnStep(eventData);
+			if(trapInSnare) TriggerTrap();
 			isArmed = false;
 		}
 
