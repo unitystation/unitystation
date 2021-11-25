@@ -185,7 +185,7 @@ namespace Objects
 			if (singularityPoints <= 0 && zeroPointDeath)
 			{
 				Chat.AddLocalMsgToChat("The singularity implodes", gameObject);
-				RadiationManager.Instance.RequestPulse(registerTile.Matrix, registerTile.LocalPositionServer, maxRadiation, objectId);
+				RadiationManager.Instance.RequestPulse( registerTile.WorldPositionServer, maxRadiation, objectId);
 				_ = Despawn.ServerSingle(gameObject);
 				return;
 			}
@@ -212,7 +212,7 @@ namespace Objects
 			//Radiation Pulse
 			var strength = Mathf.Max(((float) CurrentStage + 1) / 6 * maxRadiation, 0);
 
-			RadiationManager.Instance.RequestPulse(registerTile.Matrix, registerTile.LocalPositionServer, strength, objectId);
+			RadiationManager.Instance.RequestPulse(registerTile.WorldPositionServer, strength, objectId);
 		}
 
 		#region Throw/Push

@@ -45,12 +45,13 @@ namespace UI
 			explosiveDevice = Provider.GetComponent<Explosive>();
 			if (explosiveDevice.DetonateImmediatelyOnSignal == false)
 			{
-				timer.Value = explosiveDevice.TimeToDetonate.ToString();
+				timerCount = explosiveDevice.TimeToDetonate;
+				DisplayTime();
 			}
 			else
 			{
 				timer.Value = "Waiting signal..";
-				status.Value = dangerColor.ToString();
+				status.ElementTMP.color = dangerColor;
 			}
 
 			switch (explosiveDevice.ExplosiveType)

@@ -29,7 +29,7 @@ namespace Items.Tool
 
 		public void ServerPerformInteraction(HandActivate interaction)
 		{
-			SparkUtil.TrySpark(objectBehaviour, expose: false);
+			SparkUtil.TrySpark(gameObject, expose: false);
 
 			var worldPos = objectBehaviour.AssumedWorldPositionServer();
 

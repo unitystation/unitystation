@@ -34,6 +34,8 @@ public class MetaDataView : BasicView
 		localChecks.Add(new AtmosUpdateCheck());
 		localChecks.Add(new ThermalConductivity());
 		localChecks.Add(new HeatCapacity());
+		localChecks.Add(new RadiationLevel());
+		localChecks.Add(new ElectricityVision());
 	}
 
 	public override void DrawContent()
@@ -317,6 +319,34 @@ public class MetaDataView : BasicView
 		}
 	}
 
+
+		private class RadiationLevel : Check<MetaDataLayer>
+	{
+		public override string Label { get; } = "Radiation level";
+
+		public override void DrawGizmo(MetaDataLayer source, Vector3Int position)
+		{
+			MetaDataNode node = source.Get(position, false);
+
+			if (node.Exists)
+			{
+				GizmoUtils.DrawCube(position, Color.green, alpha:node.RadiationNode.RadiationLevel / 1000);
+			}
+		}
+
+		public override void DrawLabel(MetaDataLayer source, Vector3Int position)
+		{
+			MetaDataNode node = source.Get(position, false);
+
+			if (node.Exists)
+			{
+				Vector3 p = LocalToWorld(source, position);
+				GizmoUtils.DrawText($"{node.RadiationNode.RadiationLevel}", p, false);
+			}
+		}
+	}
+
+
 	private class AirlockCheck : Check<MetaDataLayer>
 	{
 		public override string Label { get; } = "Closed Airlock";
@@ -439,6 +469,39 @@ public class MetaDataView : BasicView
 			}
 		}
 	}
+
+	private class ElectricityVision : Check<MetaDataLayer>
+	{
+		public override string Label { get; } = "Electricity Vision";
+
+		public override void DrawGizmo(MetaDataLayer source, Vector3Int position)
+		{
+			MetaDataNode node = source.Get(position, false);
+
+			if (node.Exists)
+			{
+				if (node.ElectricalData.Count > 0)
+				{
+					var IntrinsicData = node.ElectricalData[0];
+					switch (IntrinsicData.InData.Categorytype)
+					{
+						case PowerTypeCategory.StandardCable:
+							GizmoUtils.DrawCube(position, Color.red);
+							break;
+						case PowerTypeCategory.LowVoltageCable:
+							GizmoUtils.DrawCube(position, Color.blue);
+							break;
+						case PowerTypeCategory.HighVoltageCable:
+							GizmoUtils.DrawCube(position, Color.yellow);
+							break;
+					}
+
+				}
+			}
+		}
+
+	}
+
 
 	private static Vector3 LocalToWorld(Component source, Vector3 position)
 	{

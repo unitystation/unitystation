@@ -190,7 +190,8 @@ public class ItemStorage : MonoBehaviour, IServerLifecycle, IServerInventoryMove
 		return Inventory.ServerTransfer(inSlot, slot, ReplacementStrategy.Cancel);
 	}
 
-	public bool ServerTryRemove(GameObject InGameObject, bool Destroy = false, Vector3? DroppedAtWorldPosition = null )
+	public bool ServerTryRemove(GameObject InGameObject, bool Destroy = false, Vector3? DroppedAtWorldPositionOrThrowVector = null,
+		bool Throw = false)
 	{
 		ItemAttributesV2 item = InGameObject.GetComponent<ItemAttributesV2>();
 		if (item == null) return false;
@@ -215,13 +216,27 @@ public class ItemStorage : MonoBehaviour, IServerLifecycle, IServerInventoryMove
 				}
 				else
 				{
-					if (DroppedAtWorldPosition != null)
+					if (Throw)
 					{
-						return Inventory.ServerDrop(slot, DroppedAtWorldPosition.GetValueOrDefault());
+						if (DroppedAtWorldPositionOrThrowVector != null)
+						{
+							return Inventory.ServerThrow(slot, DroppedAtWorldPositionOrThrowVector.GetValueOrDefault());
+						}
+						else
+						{
+							return Inventory.ServerThrow(slot, Vector2.zero);
+						}
 					}
 					else
 					{
-						return Inventory.ServerDrop(slot);
+						if (DroppedAtWorldPositionOrThrowVector != null)
+						{
+							return Inventory.ServerDrop(slot, DroppedAtWorldPositionOrThrowVector.GetValueOrDefault());
+						}
+						else
+						{
+							return Inventory.ServerDrop(slot);
+						}
 					}
 				}
 			}

@@ -24,22 +24,22 @@ public class TilemapDamage : MonoBehaviour, IFireExposable
 
 		Layer = GetComponent<Layer>();
 		matrix = GetComponentInParent<Matrix>();
+	}
 
-		tileChangeManager.OnFloorOrPlatingRemoved.RemoveAllListeners();
-		tileChangeManager.OnFloorOrPlatingRemoved.AddListener(cellPos =>
-		{ //Poke items when both floor and plating are gone
-			//As they might want to change matrix
-			if (!metaTileMap.HasTile(cellPos, LayerType.Floors)
-			    && !metaTileMap.HasTile(cellPos, LayerType.Base)
-			    && metaTileMap.HasObject(cellPos, CustomNetworkManager.Instance._isServer)
-			)
+	//Poke items when both floor and plating are gone
+	//As they might want to change matrix
+	public void SwitchObjectsMatrixAt(Vector3Int cellPos)
+	{
+		if (!metaTileMap.HasTile(cellPos, LayerType.Floors)
+		    && !metaTileMap.HasTile(cellPos, LayerType.Base)
+		    && metaTileMap.HasObject(cellPos, CustomNetworkManager.Instance._isServer)
+		)
+		{
+			foreach (var customNetTransform in matrix.Get<CustomNetTransform>(cellPos, true))
 			{
-				foreach (var customNetTransform in matrix.Get<CustomNetTransform>(cellPos, true))
-				{
-					customNetTransform.CheckMatrixSwitch();
-				}
+				customNetTransform.CheckMatrixSwitch();
 			}
-		});
+		}
 	}
 
 	public float ApplyDamage(float dmgAmt, AttackType attackType, Vector3 worldPos)
@@ -117,18 +117,18 @@ public class TilemapDamage : MonoBehaviour, IFireExposable
 				SoundManager.PlayNetworkedAtPos(basicTile.SoundOnDestroy.RandomElement(), worldPosition);
 			}
 			data.RemoveTileDamage(Layer.LayerType);
-			tileChangeManager.RemoveTile(data.Position, Layer.LayerType);
-			tileChangeManager.RemoveOverlaysOfType(data.Position, LayerType.Effects, OverlayType.Damage);
+			tileChangeManager.MetaTileMap.RemoveTileWithlayer(data.Position, Layer.LayerType);
+			tileChangeManager.MetaTileMap.RemoveOverlaysOfType(data.Position, LayerType.Effects, OverlayType.Damage);
 
 			if (Layer.LayerType == LayerType.Floors || Layer.LayerType == LayerType.Base)
 			{
-				tileChangeManager.RemoveOverlaysOfType(data.Position, LayerType.Floors, OverlayType.Cleanable);
+				tileChangeManager.MetaTileMap.RemoveOverlaysOfType(data.Position, LayerType.Floors, OverlayType.Cleanable);
 			}
 
 			if (Layer.LayerType == LayerType.Walls)
 			{
-				tileChangeManager.RemoveOverlaysOfType(data.Position, LayerType.Walls, OverlayType.Cleanable);
-				tileChangeManager.RemoveOverlaysOfType(data.Position, LayerType.Effects, OverlayType.Mining);
+				tileChangeManager.MetaTileMap.RemoveOverlaysOfType(data.Position, LayerType.Walls, OverlayType.Cleanable);
+				tileChangeManager.MetaTileMap.RemoveOverlaysOfType(data.Position, LayerType.Effects, OverlayType.Mining);
 			}
 
 			//Add new tile if needed
@@ -154,7 +154,7 @@ public class TilemapDamage : MonoBehaviour, IFireExposable
 					{
 						//Atm we just set remaining damage to 0, instead of absorbing it for the new tile
 						excessEnergy = 0;
-						tileChangeManager.UpdateTile(data.Position, tile);
+						tileChangeManager.MetaTileMap.SetTile(data.Position, tile);
 						break;
 					}
 
@@ -183,7 +183,7 @@ public class TilemapDamage : MonoBehaviour, IFireExposable
 				{
 					if (overlayData.damagePercentage <= totalDamageTaken / basicTile.MaxHealth)
 					{
-						tileChangeManager.AddOverlay(data.Position, overlayData.overlayTile);
+						tileChangeManager.MetaTileMap.AddOverlay(data.Position, overlayData.overlayTile);
 						break;
 					}
 				}
@@ -230,7 +230,7 @@ public class TilemapDamage : MonoBehaviour, IFireExposable
 	{
 		var data = metaDataLayer.Get(cellPos);
 
-		tileChangeManager.RemoveOverlaysOfType(cellPos, LayerType.Effects, OverlayType.Damage);
+		tileChangeManager.MetaTileMap.RemoveOverlaysOfType(cellPos, LayerType.Effects, OverlayType.Damage);
 		data.ResetDamage(Layer.LayerType);
 	}
 }

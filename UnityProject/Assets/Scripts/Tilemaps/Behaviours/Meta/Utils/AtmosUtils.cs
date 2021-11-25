@@ -83,18 +83,21 @@ namespace Systems.Atmospherics
 				//Only need to check if false
 				if (result == false)
 				{
-					for (int j = node.GasMix.GasesArray.Count - 1; j >= 0; j--)
+					lock (neighbor.GasMix.GasesArray)
 					{
-						var gas = node.GasMix.GasesArray[j];
-						float moles = node.GasMix.GasData.GetGasMoles(gas.GasSO);
-						float molesNeighbor = neighbor.GasMix.GasData.GetGasMoles(gas.GasSO);
-
-						if (Mathf.Abs(moles - molesNeighbor) > AtmosConstants.MinPressureDifference)
+						for (int j = node.GasMix.GasesArray.Count - 1; j >= 0; j--)
 						{
-							result = true;
+							var gas = node.GasMix.GasesArray[j];
+							float moles = node.GasMix.GasData.GetGasMoles(gas.GasSO);
+							float molesNeighbor = neighbor.GasMix.GasData.GetGasMoles(gas.GasSO);
 
-							//We break not return here so we can still work out wind direction
-							break;
+							if (Mathf.Abs(moles - molesNeighbor) > AtmosConstants.MinPressureDifference)
+							{
+								result = true;
+
+								//We break not return here so we can still work out wind direction
+								break;
+							}
 						}
 					}
 				}
@@ -103,17 +106,20 @@ namespace Systems.Atmospherics
 				//Only need to check if false
 				if (result == false)
 				{
-					foreach (var gas in neighbor.GasMix.GasesArray) //doesn't appear to modify list while iterating
+					lock ( neighbor.GasMix.GasesArray)
 					{
-						float moles = node.GasMix.GasData.GetGasMoles(gas.GasSO);
-						float molesNeighbor = neighbor.GasMix.GasData.GetGasMoles(gas.GasSO);
-
-						if (Mathf.Abs(moles - molesNeighbor) > AtmosConstants.MinPressureDifference)
+						foreach (var gas in neighbor.GasMix.GasesArray) //doesn't appear to modify list while iterating
 						{
-							result = true;
+							float moles = node.GasMix.GasData.GetGasMoles(gas.GasSO);
+							float molesNeighbor = neighbor.GasMix.GasData.GetGasMoles(gas.GasSO);
 
-							//We break not return here so we can still work out wind direction
-							break;
+							if (Mathf.Abs(moles - molesNeighbor) > AtmosConstants.MinPressureDifference)
+							{
+								result = true;
+
+								//We break not return here so we can still work out wind direction
+								break;
+							}
 						}
 					}
 				}
@@ -175,10 +181,14 @@ namespace Systems.Atmospherics
 		{
 			var total = 0f;
 
-			foreach (var gas in data.GasesArray)
+			lock (data.GasesArray)
 			{
-				total += gas.Moles;
+				foreach (var gas in data.GasesArray)
+				{
+					total += gas.Moles;
+				}
 			}
+
 
 			return total;
 		}
@@ -337,10 +347,14 @@ namespace Systems.Atmospherics
 		{
 			var newGasData = new GasData();
 
-			foreach (var value in oldData.GasesArray)
+			lock (oldData.GasesArray)
 			{
-				newGasData.SetMoles(value.GasSO, value.Moles);
+				foreach (var value in oldData.GasesArray)
+				{
+					newGasData.SetMoles(value.GasSO, value.Moles);
+				}
 			}
+
 
 			newGasData.RegenerateDict();
 
@@ -356,10 +370,14 @@ namespace Systems.Atmospherics
 		{
 			CopyTo.Clear();
 
-			foreach (var value in oldData.GasesArray)
+			lock (oldData.GasesArray)
 			{
-				CopyTo.SetMoles(value.GasSO, value.Moles);
+				foreach (var value in oldData.GasesArray)
+				{
+					CopyTo.SetMoles(value.GasSO, value.Moles);
+				}
 			}
+
 
 			CopyTo.RegenerateDict();
 

@@ -323,7 +323,7 @@ namespace Objects.Engineering
 					{
 						var matrix = MatrixManager.AtPoint(coord, true);
 
-						matrix.TileChangeManager.UpdateTile(MatrixManager.WorldToLocalInt(coord, matrix), GetTileFromDirection(generator.Key));
+						matrix.TileChangeManager.MetaTileMap.SetTile(MatrixManager.WorldToLocalInt(coord, matrix), GetTileFromDirection(generator.Key));
 					}
 
 					connectedGenerator[generator.Key] = new Tuple<GameObject, bool>(generator.Value.Item1, true);
@@ -413,7 +413,7 @@ namespace Objects.Engineering
 
 				if (layerTile.name == horizontal.name || layerTile.name == vertical.name)
 				{
-					matrix.TileChangeManager.RemoveTile(MatrixManager.WorldToLocalInt(pos, matrix), LayerType.Walls);
+					matrix.TileChangeManager.MetaTileMap.RemoveTileWithlayer(MatrixManager.WorldToLocalInt(pos, matrix), LayerType.Walls);
 				}
 			}
 		}

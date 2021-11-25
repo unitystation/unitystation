@@ -18,7 +18,7 @@ namespace UI.Objects.Shuttles
 
 		[Header("Settings")]
 		[SerializeField]
-		private UISwapDictionary textSetupDict = default;
+		private SerializableDictionary<UIType, string> textSetupDict = default;
 
 		private void Start()
 		{

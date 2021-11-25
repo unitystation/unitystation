@@ -118,7 +118,7 @@ namespace Objects.Construction
 		{
 			var interactableTiles = InteractableTiles.GetAt(interaction.TargetObject.TileWorldPosition(), true);
 			Vector3Int cellPos = interactableTiles.WorldToCell(interaction.TargetObject.TileWorldPosition());
-			interactableTiles.TileChangeManager.UpdateTile(cellPos, layerTile);
+			interactableTiles.TileChangeManager.MetaTileMap.SetTile(cellPos, layerTile);
 			interactableTiles.TileChangeManager.SubsystemManager.UpdateAt(cellPos);
 			_ = Despawn.ServerSingle(gameObject);
 		}

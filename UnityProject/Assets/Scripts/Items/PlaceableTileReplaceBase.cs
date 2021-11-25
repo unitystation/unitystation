@@ -110,9 +110,9 @@ public class PlaceableTileReplaceBase : MonoBehaviour, ICheckedInteractable<Posi
 			void ProgressFinishAction()
 			{
 				if(placeableTileEntry.layerTileToReplaceBase)
-					interactableTiles.TileChangeManager.UpdateTile(cellPos, placeableTileEntry.layerTileToReplaceBase);
+					interactableTiles.TileChangeManager.MetaTileMap.SetTile(cellPos, placeableTileEntry.layerTileToReplaceBase);
 
-				interactableTiles.TileChangeManager.UpdateTile(cellPos, placeableTileEntry.layerTile);
+				interactableTiles.TileChangeManager.MetaTileMap.SetTile(cellPos, placeableTileEntry.layerTile);
 				interactableTiles.TileChangeManager.SubsystemManager.UpdateAt(cellPos);
 				Inventory.ServerConsume(interaction.HandSlot, placeableTileEntry.itemCost);
 				SoundManager.PlayNetworkedAtPos(placeSound, targetPosition);

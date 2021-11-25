@@ -8,6 +8,7 @@ using DiscordWebhook;
 using DatabaseAPI;
 using Messages.Server.LocalGuiMessages;
 using Objects.Command;
+using Strings;
 using UnityEngine.SceneManagement;
 
 namespace Antagonists
@@ -208,7 +209,7 @@ namespace Antagonists
 				// Group all the antags by type and list them together
 				foreach (var antagType in activeAntags.GroupBy(t => t.GetType()))
 				{
-					statusSB.AppendLine($"<size=48>The <b>{antagType.First().Antagonist.AntagName}s</b> were:\n</size>");
+					statusSB.AppendLine($"<size={ChatTemplates.LargeText}>The <b>{antagType.First().Antagonist.AntagName}s</b> were:\n</size>");
 					message += $"The {antagType.First().Antagonist.AntagName}s were:\n";
 					foreach (var antag in antagType)
 					{
@@ -220,7 +221,7 @@ namespace Antagonists
 			else
 			{
 				message += $"\nThere were no antagonists!\n";
-				statusSB.AppendLine("<size=48>There were no antagonists!</size>");
+				statusSB.AppendLine($"<size={ChatTemplates.LargeText}>There were no antagonists!</size>");
 			}
 
 			if (PlayerList.Instance.ConnectionCount == 1)

@@ -69,7 +69,7 @@ public abstract class BasicTile : LayerTile
 	[Tooltip("What things are allowed to pass through this even if it is not passable?")]
 	[FormerlySerializedAs("PassableException")]
 	[SerializeField]
-	private PassableDictionary passableException = null;
+	private SerializableDictionary<CollisionType, bool> passableException = null;
 
 	[Tooltip("What is this tile's max health?")] [FormerlySerializedAs("MaxHealth")] [SerializeField]
 	private float maxHealth = 0f;

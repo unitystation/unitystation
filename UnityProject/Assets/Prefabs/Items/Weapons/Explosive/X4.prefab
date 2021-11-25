@@ -282,12 +282,9 @@ MonoBehaviour:
   minimumTimeToDetonate: 1
   explosionPrefab: {fileID: 2540564744460004555, guid: 8fb8560e73de12548838a05b8ffcfcb1,
     type: 3}
-  spriteHandler: {fileID: 5258580723283386321}
   activeSpriteSO: {fileID: 11400000, guid: 6eedd99a9dc83864f808d929d4e9bd36, type: 2}
-  registerItem: {fileID: 4084437145900613279}
-  objectBehaviour: {fileID: 5809642687452026922}
-  pickupable: {fileID: 6536533875639940645}
-  explosiveGUI: {fileID: 5745720402341052027}
+  progressTime: 3
+  spriteHandler: {fileID: 5258580723283386321}
   GUI: {fileID: 0}
 --- !u!210 &-7063633880587810702
 SortingGroup:

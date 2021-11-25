@@ -110,12 +110,12 @@ namespace Player
 
 					// if item is PDA and IDCard is not null
 					if (itemSlot.ItemObject.TryGetComponent<PDALogic>(out var pdaLogic) == false ||
-					    pdaLogic.IDCard == null)
+					    pdaLogic.GetIDCard() == null)
 					{
 						continue;
 					}
 
-					idCard = pdaLogic.IDCard;
+					idCard = pdaLogic.GetIDCard();
 					return true;
 				}
 			}

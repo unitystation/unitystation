@@ -45,7 +45,8 @@ namespace Systems.Atmospherics
 			{
 				if (rnd.Next(0,10) == 0 && burnedFuel > AtmosDefines.TRITIUM_MINIMUM_RADIATION_ENERGY)
 				{
-					RadiationManager.Instance.RequestPulse(node.PositionMatrix, node.Position,
+
+					RadiationManager.Instance.RequestPulse(node.Position.ToWorld(node.PositionMatrix ).RoundToInt(),
 						energyReleased / AtmosDefines.TRITIUM_BURN_RADIOACTIVITY_FACTOR,
 						rnd.Next(Int32.MinValue, Int32.MaxValue));
 				}

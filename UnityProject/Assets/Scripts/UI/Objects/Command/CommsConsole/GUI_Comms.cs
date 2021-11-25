@@ -144,8 +144,7 @@ namespace UI.Objects.Command
 					ok = shuttle.CallShuttle(out callResult);
 					if (ok)
 					{
-						var minutes = TimeSpan.FromSeconds(shuttle.InitialTimerSeconds).ToString();
-						CentComm.MakeShuttleCallAnnouncement(minutes, text);
+						CentComm.MakeShuttleCallAnnouncement(shuttle.InitialTimerSeconds, text);
 						RefreshCallButtonText();
 					}
 				}

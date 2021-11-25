@@ -254,7 +254,7 @@ namespace Blob
 
 			var playerScript = gameObject.GetComponent<PlayerScript>();
 
-			var bound = MatrixManager.MainStationMatrix.Bounds;
+			var bound = MatrixManager.MainStationMatrix.LocalBounds;
 
 			//To ensure that it has to be station matrix
 			var matrixInfo = GetComponent<RegisterTile>().Matrix.MatrixInfo;

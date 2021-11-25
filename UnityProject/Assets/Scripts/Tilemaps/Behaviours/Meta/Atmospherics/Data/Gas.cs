@@ -44,24 +44,28 @@ namespace Systems.Atmospherics
 
 		public void RegenerateDict()
 		{
-			GasesDict.Clear();
-
-			for (int i = 0; i < GasesArray.Count; i++)
+			lock (GasesArray)
 			{
-				var value = GasesArray[i];
-				GasesDict.Add(value.GasSO, value);
+				GasesDict.Clear();
+				for (int i = 0; i < GasesArray.Count; i++)
+				{
+					var value = GasesArray[i];
+					GasesDict.Add(value.GasSO, value);
+				}
 			}
 		}
 
 		public void Clear()
 		{
-			for (int i = 0; i < GasesArray.Count; i++)
+			lock (GasesArray)
 			{
-				GasesArray[i].Pool();
+				for (int i = 0; i < GasesArray.Count; i++)
+				{
+					GasesArray[i].Pool();
+				}
+				GasesArray.Clear();
+				GasesDict.Clear();
 			}
-
-			GasesArray.Clear();
-			GasesDict.Clear();
 		}
 	}
 
@@ -81,7 +85,6 @@ namespace Systems.Atmospherics
 			{
 				AtmosUtils.PooledGasValues.Add(this);
 			}
-
 		}
 	}
 }

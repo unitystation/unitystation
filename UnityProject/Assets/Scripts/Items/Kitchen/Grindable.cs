@@ -11,9 +11,9 @@ public class Grindable : MonoBehaviour
 {
 	[SerializeField]
 	[Tooltip("What reagent(s) this GameObject becomes when ground.")]
-	private DictionaryReagentInt groundReagents;
+	private SerializableDictionary<Reagent, int> groundReagents;
 	/// <summary>
 	/// Get the processed product of this object.
 	/// </summary>
-	public DictionaryReagentInt GroundReagents => groundReagents;
+	public SerializableDictionary<Reagent, int> GroundReagents => groundReagents;
 }

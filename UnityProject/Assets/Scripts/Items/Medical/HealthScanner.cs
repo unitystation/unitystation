@@ -74,7 +74,7 @@ namespace Items.Medical
 				fullDamage[(int) DamageType.Oxy] = health.brain.RelatedPart.Oxy;
 			}
 
-			if ((int)totalPercent != 100)
+			if ((int)totalPercent != 100 || AdvancedHealthScanner)
 			{
 				scanMessage.Append("<mspace=0.6em>");
 				scanMessage.AppendLine(

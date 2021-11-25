@@ -61,7 +61,7 @@ public class AccessRestrictions : MonoBehaviour
 
 		if (idCardObj.TryGetComponent<PDALogic>(out var pda))
 		{
-			return pda.IDCard;
+			return pda.GetIDCard();
 		}
 
 		return null;

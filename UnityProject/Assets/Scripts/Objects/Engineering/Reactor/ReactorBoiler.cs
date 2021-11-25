@@ -59,9 +59,12 @@ namespace Objects.Engineering
 		{
 			//Maybe change equation later to something cool
 			CurrentPressureInput = 0;
-			CurrentPressureInput = (decimal)Mathf.Clamp(((ReactorPipe.pipeData.mixAndVolume.InternalEnergy -
-			                                              (ReactorPipe.pipeData.mixAndVolume.WholeHeatCapacity *  Reactions.KOffsetC + 20 ))),
-				(float)decimal.MinValue, (float)decimal.MaxValue);
+			var ExpectedInternalEnergy = (ReactorPipe.pipeData.mixAndVolume.WholeHeatCapacity * Reactions.KOffsetC + 20f);
+
+			var InternalEnergy = ReactorPipe.pipeData.mixAndVolume.InternalEnergy;
+
+			CurrentPressureInput = (decimal) (InternalEnergy - ExpectedInternalEnergy);
+
 			if (CurrentPressureInput > 0)
 			{
 				//Logger.Log("CurrentPressureInput " + CurrentPressureInput);
@@ -73,8 +76,8 @@ namespace Objects.Engineering
 				}
 
 
-				ReactorPipe.pipeData.mixAndVolume.InternalEnergy -= (float)(CurrentPressureInput);
-
+				ReactorPipe.pipeData.mixAndVolume.InternalEnergy = ExpectedInternalEnergy;
+				
 
 				OutputEnergy = CurrentPressureInput * Efficiency; //Only half of the energy is converted into useful energy
 			}

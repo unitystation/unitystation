@@ -74,11 +74,11 @@ public partial class GameManager
 
 		if (orientation == Orientation.Up || orientation == Orientation.Down)
 		{
-			width = PrimaryEscapeShuttle.MatrixInfo.Bounds.size.x;
+			width = PrimaryEscapeShuttle.MatrixInfo.LocalBounds.size.x;
 		}
 		else
 		{
-			width = PrimaryEscapeShuttle.MatrixInfo.Bounds.size.y;
+			width = PrimaryEscapeShuttle.MatrixInfo.LocalBounds.size.y;
 		}
 
 		Vector3 newPos;

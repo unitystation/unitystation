@@ -279,7 +279,7 @@ namespace HealthV2
 			}
 			else
 			{
-				var organBodyPart = containBodyParts.PickRandom().GetComponent<BodyPart>(); //It's not like you can aim for Someone's liver can you
+				var organBodyPart = containBodyParts.PickRandom(); //It's not like you can aim for Someone's liver can you
 				organBodyPart.AffectDamage(subDamage, (int) damageType);
 			}
 		}
@@ -333,14 +333,14 @@ namespace HealthV2
 		public void CalculateRadiationDamage()
 		{
 			if (RadiationStacks == 0) return;
-			var ProcessingRadiation = RadiationStacks * 0.001f;
-			if (ProcessingRadiation < 20 && ProcessingRadiation > 0.5f)
+			var ProcessingRadiation = RadiationStacks * 0.01f;
+			if (ProcessingRadiation > 2 && ProcessingRadiation < 0.05f)
 			{
-				ProcessingRadiation = 20;
+				ProcessingRadiation = 2;
 			}
 
 			AffectDamage(-ProcessingRadiation, (int) DamageType.Radiation);
-			AffectDamage(ProcessingRadiation * 0.05f, (int) DamageType.Tox);
+			AffectDamage(ProcessingRadiation * 0.1f, (int) DamageType.Tox);
 		}
 
 		/// <summary>

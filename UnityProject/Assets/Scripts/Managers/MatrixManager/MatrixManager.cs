@@ -11,7 +11,6 @@ using Systems.Atmospherics;
 using Managers;
 using Messages.Client.NewPlayer;
 using Messages.Client.SpriteMessages;
-using Objects.Construction;
 using Player.Movement;
 using Mirror;
 
@@ -35,7 +34,7 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 {
 	public Dictionary<int, MatrixInfo> ActiveMatrices { get; private set; } = new Dictionary<int, MatrixInfo>();
 
-	public List<MatrixInfo> ActiveMatricesList  { get; private set; } = new List<MatrixInfo>();
+	public List<MatrixInfo> ActiveMatricesList { get; private set; } = new List<MatrixInfo>();
 
 	public Dictionary<Scene, List<Matrix>> InitializingMatrixes = new Dictionary<Scene, List<Matrix>>();
 
@@ -147,6 +146,7 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 				}
 			}
 		}
+
 		InitializingMatrixes.Clear();
 		return true;
 	}
@@ -194,6 +194,7 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 			ActiveMatricesList[i].Matrix.MetaTileMap.InitialiseUnderFloorUtilities(CustomNetworkManager.IsServer);
 			TileChangeNewPlayer.Send(ActiveMatricesList[i].NetID);
 		}
+
 		SpriteRequestCurrentStateMessage.Send(SpriteHandlerManager.Instance.GetComponent<NetworkIdentity>().netId);
 	}
 
@@ -298,17 +299,15 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 
 	private static bool IsInMatrix(Vector3Int worldPos, bool isServer, MatrixInfo matrixInfo)
 	{
-		var LocalPos = WorldToLocalInt(worldPos, matrixInfo);
-
-		if (matrixInfo.Bounds.Contains(LocalPos) == false)
+		if (BoundsExtensions.Contains(matrixInfo.WorldBounds, worldPos) == false)
 			return false;
+
 		if (matrixInfo.Matrix == Instance.spaceMatrix)
 			return false;
 
-		if (matrixInfo.Matrix.IsEmptyAt(LocalPos, isServer) == false)
-		{
+		var localPos = WorldToLocalInt(worldPos, matrixInfo);
+		if (matrixInfo.Matrix.IsEmptyAt(localPos, isServer) == false)
 			return true;
-		}
 
 		return false;
 	}
@@ -353,7 +352,7 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 				var Localorigin = Worldorigin.ToLocal(matrixInfo.Matrix);
 				var LocalTo = WorldTo.Value.ToLocal(matrixInfo.Matrix);
 
-				if (LineIntersectsRect(Localorigin, LocalTo, matrixInfo.Bounds))
+				if (LineIntersectsRect(Localorigin, LocalTo, matrixInfo.LocalBounds))
 				{
 					Checkhit = matrixInfo.MetaTileMap.Raycast(Localorigin, Vector2.zero,
 						distance,
@@ -401,7 +400,6 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 
 		return ClosestHit.Value;
 	}
-
 
 
 	public struct CustomPhysicsHit
@@ -519,6 +517,7 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 		{
 			return true;
 		}
+
 		return false;
 	}
 
@@ -691,17 +690,13 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 	/// <returns>MetaDataNode at the position. If no Node that isn't space is found, MetaDataNode.Node will be returned.</returns>
 	public static MetaDataNode GetMetaDataAt(Vector3Int worldPosition)
 	{
-		foreach (var mat in Instance.ActiveMatricesList)
+		var mat = AtPoint(worldPosition, CustomNetworkManager.Instance._isServer, MainStationMatrix);
+		Vector3Int position = WorldToLocalInt(worldPosition, mat);
+		MetaDataNode node = mat.MetaDataLayer.Get(position, false);
+
+		if (node.Exists && node.IsSpace == false)
 		{
-			if (mat == null) continue;
-
-			Vector3Int position = WorldToLocalInt(worldPosition, mat);
-			MetaDataNode node = mat.MetaDataLayer.Get(position, false);
-
-			if (node.Exists && node.IsSpace == false)
-			{
-				return node;
-			}
+			return node;
 		}
 
 		return MetaDataNode.None;
@@ -847,7 +842,7 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 	}
 
 	/// <see cref="Matrix.Get{T}(UnityEngine.Vector3Int,bool)"/>
-	public static List<T> GetAt<T>(Vector3Int worldPos, bool isServer) where T : MonoBehaviour
+	public static List<T> GetAt<T>(Vector3Int worldPos, bool isServer)
 	{
 		List<T> t = new List<T>();
 		foreach (var matrixInfo in Instance.ActiveMatricesList)
@@ -969,6 +964,7 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 			{
 				matrixOrigin = Instance.spaceMatrix.MatrixInfo;
 			}
+
 			if (excludeMatrix == matrixTarget)
 			{
 				matrixTarget = Instance.spaceMatrix.MatrixInfo;
@@ -1067,6 +1063,7 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 				return false;
 			}
 		}
+
 		return true;
 	}
 
@@ -1106,6 +1103,7 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 				return false;
 			}
 		}
+
 		return true;
 	}
 
