@@ -7,8 +7,8 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using UnityEditor;
 using UnityEngine;
-using YamlDotNet.Serialization;
 using Unity.EditorCoroutines.Editor;
+using YamlDotNet.Serialization;
 
 namespace Chemistry.Editor
 {
@@ -157,7 +157,7 @@ namespace Chemistry.Editor
 
 			var reactionGroups = reactionFiles
 				.Select(file => (file,
-					data: deserializer.Deserialize<Dictionary<string, Dictionary<string, object>>>(
+					data:  deserializer.Deserialize<Dictionary<string, Dictionary<string, object>>>(
 						File.ReadAllText(file))))
 				.Select(reactions => new Grouping<string, KeyValuePair<string, Reaction>>(
 					reactions.file,

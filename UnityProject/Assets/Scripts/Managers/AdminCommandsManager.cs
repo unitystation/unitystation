@@ -340,7 +340,7 @@ namespace AdminCommands
 
 		#region Sound
 
-		[Command(requiresAuthority = false)]
+		// [Command(requiresAuthority = false)]
 		public void CmdPlaySound(AddressableAudioSource addressableAudioSource, NetworkConnectionToClient sender = null)
 		{
 			if (IsAdmin(sender, out var admin) == false) return;
@@ -352,7 +352,7 @@ namespace AdminCommands
 
 		#region Music
 
-		[Command(requiresAuthority = false)]
+		//[Command(requiresAuthority = false)]
 		public void CmdPlayMusic(AddressableAudioSource addressableAudioSource, NetworkConnectionToClient sender = null)
 		{
 			if (IsAdmin(sender, out var admin) == false) return;

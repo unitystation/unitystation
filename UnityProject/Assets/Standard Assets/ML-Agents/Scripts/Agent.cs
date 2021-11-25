@@ -1147,7 +1147,7 @@ namespace MLAgents
 
             if (width != texture2D.width || height != texture2D.height)
             {
-                texture2D.Resize(width, height);
+                texture2D.Reinitialize(width, height);
             }
 
             if (width != obsTexture.width || height != obsTexture.height)

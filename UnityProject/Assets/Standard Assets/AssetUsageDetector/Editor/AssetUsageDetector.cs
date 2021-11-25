@@ -161,7 +161,7 @@ namespace AssetUsageDetectorNamespace
 		private bool isInPlayMode;
 
 #if UNITY_2018_3_OR_NEWER
-		private UnityEditor.Experimental.SceneManagement.PrefabStage openPrefabStage;
+		private UnityEditor.SceneManagement.PrefabStage openPrefabStage;
 		private GameObject openPrefabStagePrefabAsset;
 #endif
 
@@ -204,7 +204,7 @@ namespace AssetUsageDetectorNamespace
 #if UNITY_2018_3_OR_NEWER
 			openPrefabStagePrefabAsset = null;
 			string openPrefabStageAssetPath = null;
-			openPrefabStage = UnityEditor.Experimental.SceneManagement.PrefabStageUtility.GetCurrentPrefabStage();
+			openPrefabStage = UnityEditor.SceneManagement.PrefabStageUtility.GetCurrentPrefabStage();
 			if( openPrefabStage != null )
 			{
 				if( !openPrefabStage.stageHandle.IsValid() )
