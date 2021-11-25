@@ -34,17 +34,24 @@ namespace Objects.Research
 		{
 			//TODO more uncalibrated accidents, e.g turn into fly people, mutate animals? (See IQuantumReaction)
 
-			if (calibrated == false && objectToTeleport.TryGetComponent(out IQuantumReaction reaction))
+			var hasQuantum = objectToTeleport.TryGetComponent(out IQuantumReaction reaction);
+
+			if (calibrated == false && hasQuantum)
 			{
 				reaction.OnTeleportStart();
-				TransportUtility.TransportObjectAndPulled(objectToTeleport, linkedBeacon.CurrentBeaconPosition());
-				reaction.OnTeleportEnd();
-
-				SparkUtil.TrySpark(objectToTeleport, expose: false);
-				return;
 			}
 
+			//Transport object
 			TransportUtility.TransportObjectAndPulled(objectToTeleport, linkedBeacon.CurrentBeaconPosition());
+
+			if (calibrated == false && hasQuantum)
+			{
+				reaction.OnTeleportEnd();
+			}
+
+			//Dont spark for ghosts :(
+			if (objectToTeleport.TryGetComponent(out PlayerScript playerScript) && playerScript.IsGhost) return;
+
 			SparkUtil.TrySpark(objectToTeleport, expose: false);
 		}
 
