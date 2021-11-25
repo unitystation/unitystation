@@ -85,9 +85,6 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IActi
 	private static bool verified;
 	private static ulong SteamID;
 
-	private Vector3IntEvent onTileReached = new Vector3IntEvent();
-	public Vector3IntEvent OnTileReached() => onTileReached;
-
 	public float RTT;
 
 	[HideInInspector]

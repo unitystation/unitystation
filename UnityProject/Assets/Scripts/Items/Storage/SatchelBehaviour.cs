@@ -29,7 +29,7 @@ public class SatchelBehaviour : MonoBehaviour, IServerInventoryMove
 		//was it transferred from a player's visible inventory?
 		if (info.FromPlayer != null && holderPlayer != null)
 		{
-			holderPlayer.OnTileReached().RemoveListener(TileReachedServer);
+			holderPlayer.PlayerSync.OnTileReached().RemoveListener(TileReachedServer);
 			holderPlayer = null;
 		}
 
@@ -37,8 +37,7 @@ public class SatchelBehaviour : MonoBehaviour, IServerInventoryMove
 		{
 			if (compatibleSlots.Contains(info.ToSlot.NamedSlot.GetValueOrDefault(NamedSlot.none)))
 			{
-				holderPlayer = info.ToPlayer.GetComponent<PlayerScript>();
-				holderPlayer.OnTileReached().AddListener(TileReachedServer);
+				info.ToPlayer.PlayerScript.PlayerSync.OnTileReached().AddListener(TileReachedServer);
 			}
 		}
 	}
