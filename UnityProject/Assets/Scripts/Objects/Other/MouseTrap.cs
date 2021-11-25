@@ -86,7 +86,7 @@ namespace Objects.Other
 			}
 			//We assume that there will be only one item on each mouse trap (for now)
 			var slot = trapContent.GetTopOccupiedIndexedSlot();
-			if (slot.Item.gameObject.TryGetComponent<SpriteHandler>(out var sprite) == false) return;
+			var sprite = slot.Item.gameObject.GetComponentInChildren<SpriteHandler>();
 			if (sprite.GetCurrentSpriteSO() == null)
 			{
 				trapPreview.SetSprite(sprite.CurrentSprite);
