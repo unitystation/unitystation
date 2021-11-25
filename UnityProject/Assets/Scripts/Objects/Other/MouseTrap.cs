@@ -102,20 +102,14 @@ namespace Objects.Other
 		public override void OnStep(GameObject eventData)
 		{
 			if (IsArmed == false) return;
-			base.OnStep(eventData);
-			if (eventData.TryGetComponent<MouseAI>(out var mouse))
-			{
-				mouse.health.Death();
-				return;
-			}
 			if(trapInSnare) TriggerTrap();
+			base.OnStep(eventData);
 			isArmed = false;
 		}
 
 		public override bool WillStep(GameObject eventData)
 		{
 			if (eventData.gameObject.TryGetComponent<LivingHealthMasterBase>(out var _)) return true;
-			if (eventData.gameObject.TryGetComponent<MouseAI>(out var _mouse)) return true;
 			return false;
 		}
 
@@ -148,6 +142,18 @@ namespace Objects.Other
 				{
 					ArmTrap(interaction.Performer);
 				}
+			}
+		}
+
+		//IEnterable is only designed for players unfortunately
+		private void OnCollisionEnter2D(Collision2D other)
+		{
+			if(isArmed == false) return;
+			//a mouse trap must kill mice, duh
+			if (other.gameObject.TryGetComponent<MouseAI>(out var mouse))
+			{
+				mouse.health.Death();
+				if(trapInSnare) TriggerTrap();
 			}
 		}
 	}
