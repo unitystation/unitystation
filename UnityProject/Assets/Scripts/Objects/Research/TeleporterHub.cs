@@ -9,7 +9,7 @@ namespace Objects.Research
 	/// <summary>
 	/// Teleporter gateway
 	/// </summary>
-	public class TeleporterHub : TeleporterBase, IEnterable
+	public class TeleporterHub : TeleporterBase, IEnterable, IServerSpawn
 	{
 		private bool calibrated;
 
@@ -49,6 +49,11 @@ namespace Objects.Research
 			calibrated = false;
 
 			base.SetBeacon(newBeacon);
+		}
+
+		public void OnSpawnServer(SpawnInfo info)
+		{
+			SetHub(this);
 		}
 	}
 }

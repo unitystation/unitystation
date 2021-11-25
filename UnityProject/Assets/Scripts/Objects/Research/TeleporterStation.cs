@@ -9,7 +9,7 @@ namespace Objects.Research
 	/// <summary>
 	/// One in the middle, looks like a server rack
 	/// </summary>
-	public class TeleporterStation : TeleporterBase, IServerSpawn
+	public class TeleporterStation : TeleporterBase, IServerSpawn, ICheckedInteractable<HandApply>
 	{
 		private static readonly Vector3Int[] CardinalDirections = new[]
 		{
@@ -23,8 +23,29 @@ namespace Objects.Research
 			new Vector3Int(-1, 0, 0)
 		};
 
+		public bool WillInteract(HandApply interaction, NetworkSide side)
+		{
+			if (DefaultWillInteract.Default(interaction, side) == false) return false;
+
+			if (interaction.HandObject != null) return false;
+
+			return true;
+		}
+
+		public void ServerPerformInteraction(HandApply interaction)
+		{
+			Reconnect();
+		}
+
 		public void OnSpawnServer(SpawnInfo info)
 		{
+			Reconnect();
+		}
+
+		private void Reconnect()
+		{
+			SetStation(this);
+
 			TeleporterHub hub = null;
 
 			for (int i = 0; i < CardinalDirections.Length; i++)
@@ -53,29 +74,43 @@ namespace Objects.Research
 				}
 			}
 
+			var test = false;
+
 			if (hub != null)
 			{
-				hub.connectedStation = this;
+				hub.SetStation(this);
 
-				connectedHub = hub;
+				SetHub(hub);
 
 				if (control != null)
 				{
-					hub.connectedControl = control;
+					hub.SetControl(control);
 				}
+
+				hub.SetActive(true);
+
+				test = true;
 			}
 
 			if (control != null)
 			{
-				control.connectedStation = this;
+				control.SetStation(this);
 
-				connectedControl = control;
+				SetControl(control);
 
 				if (hub != null)
 				{
-					control.connectedHub = hub;
+					control.SetHub(hub);
 				}
+
+				control.SetActive(true);
 			}
+			else
+			{
+				test = false;
+			}
+
+			SetActive(test);
 		}
 	}
 }

@@ -97,7 +97,7 @@ namespace Items
 		}
 
 		[Server]
-		public List<TrackingBeacon> GetAllBeaconOfType(TrackingBeaconTypes type)
+		public static List<TrackingBeacon> GetAllBeaconOfType(TrackingBeaconTypes type)
 		{
 			switch (type)
 			{
@@ -134,7 +134,7 @@ namespace Items
 			}
 		}
 
-		private List<TrackingBeacon> GetType(TrackingBeaconTypes type)
+		private static List<TrackingBeacon> GetType(TrackingBeaconTypes type)
 		{
 			if (activeBeacons.TryGetValue(type, out var beacons))
 			{

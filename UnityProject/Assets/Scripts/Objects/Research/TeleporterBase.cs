@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text;
 using Systems.Electricity;
 using Systems.ObjectConnection;
 using Items;
@@ -6,27 +7,33 @@ using UnityEngine;
 
 namespace Objects.Research
 {
-	public class TeleporterBase : MonoBehaviour, IAPCPowerable
+	public class TeleporterBase : MonoBehaviour, IAPCPowerable, IExaminable
 	{
 		protected bool active;
 		protected bool powered;
 
 		protected TrackingBeacon linkedBeacon;
 
+		[SerializeField]
 		private SpriteHandler spriteHandler;
 		protected RegisterTile registerTile;
 
 		[NonSerialized]
-		public TeleporterHub connectedHub;
-		[NonSerialized]
-		public TeleporterStation connectedStation;
-		[NonSerialized]
-		public TeleporterControl connectedControl;
+		public Integrity Integrity;
+
+		protected TeleporterHub connectedHub;
+		protected TeleporterStation connectedStation;
+		protected TeleporterControl connectedControl;
 
 		private void Awake()
 		{
-			spriteHandler = GetComponentInChildren<SpriteHandler>();
+			if (spriteHandler == null)
+			{
+				spriteHandler = GetComponentInChildren<SpriteHandler>();
+			}
+
 			registerTile = GetComponent<RegisterTile>();
+			Integrity = GetComponent<Integrity>();
 		}
 
 		public virtual void SetBeacon(TrackingBeacon newBeacon)
@@ -70,11 +77,53 @@ namespace Objects.Research
 
 		private void UpdateSprite()
 		{
-			// 0 is off, 1 is on
+			// 0 is unpowered, 1 is off, 2 is on
 			spriteHandler.ChangeSprite(
 				powered ?
-					active ? 1 : 0
+					active ? 2 : 1
 					: 0);
+		}
+
+		public void SetHub(TeleporterHub hub)
+		{
+			if (connectedHub != null)
+			{
+				connectedHub.Integrity.OnWillDestroyServer.RemoveListener(OnPartDestroy);
+			}
+
+			connectedHub = hub;
+
+			connectedHub.Integrity.OnWillDestroyServer.AddListener(OnPartDestroy);
+		}
+
+		public void SetControl(TeleporterControl control)
+		{
+			if (connectedControl != null)
+			{
+				connectedControl.Integrity.OnWillDestroyServer.RemoveListener(OnPartDestroy);
+			}
+
+			connectedControl = control;
+
+			connectedControl.Integrity.OnWillDestroyServer.AddListener(OnPartDestroy);
+		}
+
+		public void SetStation(TeleporterStation station)
+		{
+			if (connectedStation != null)
+			{
+				connectedStation.Integrity.OnWillDestroyServer.RemoveListener(OnPartDestroy);
+			}
+
+			connectedStation = station;
+
+			connectedStation.Integrity.OnWillDestroyServer.AddListener(OnPartDestroy);
+		}
+
+		private void OnPartDestroy(DestructionInfo info)
+		{
+			//Any part destroyed set inactive
+			SetActive(false);
 		}
 
 		public void PowerNetworkUpdate(float voltage) {}
@@ -84,6 +133,17 @@ namespace Objects.Research
 			powered = state != PowerState.Off;
 
 			UpdateSprite();
+		}
+
+		public string Examine(Vector3 worldPos = default(Vector3))
+		{
+			var stringBuilder = new StringBuilder();
+
+			stringBuilder.Append($"Control console{(connectedControl != null ? " " :  " not ")}connected");
+			stringBuilder.AppendLine($"Hub{(connectedHub != null ? " " :  " not ")}connected");
+			stringBuilder.AppendLine($"Station{(connectedStation != null ? " " :  " not ")}connected");
+
+			return stringBuilder.ToString();
 		}
 	}
 }
