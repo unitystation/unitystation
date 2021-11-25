@@ -177,17 +177,13 @@ namespace Items.Weapons
 			}
 
 		}
-
-#if UNITY_EDITOR
-		/// <summary>
-		/// Used only for debug in editor
-		/// </summary>
+		
 		[ContextMenu("Pull a pin")]
 		private void PullPin()
 		{
 			StartCoroutine(TimeExplode(gameObject));
 		}
-#endif
+
 		public void TriggerTrap()
 		{
 			PullPin();
