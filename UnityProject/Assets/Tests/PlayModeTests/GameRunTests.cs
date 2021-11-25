@@ -29,10 +29,7 @@ namespace GameRunTests
 		public IEnumerator NewTestScriptWithEnumeratorPasses()
 		{
 			yield return SceneManager.LoadSceneAsync("OnlineScene");
-			var gameManagerPrefabGUID = AssetDatabase.FindAssets("GameManager t:prefab", new string[] {"Assets/Prefabs/SceneConstruction/NestedManagers"});
-			var gameManagerPrefabPaths = gameManagerPrefabGUID.Select(AssetDatabase.GUIDToAssetPath).ToList();
-			var gameManagerPrefab = AssetDatabase.LoadAssetAtPath<GameObject>(gameManagerPrefabPaths.First());
-			gameManagerPrefab.TryGetComponent<GameManager>(out var gameManager);
+			yield return null;
 
 			GameManager.Instance.QuickLoad = true;
 
