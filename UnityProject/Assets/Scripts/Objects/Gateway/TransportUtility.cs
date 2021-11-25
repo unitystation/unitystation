@@ -11,12 +11,26 @@ namespace Gateway
 	public class TransportUtility : NetworkBehaviour //Would be a regular static class, but Weaver complains if it doesn't inherit NetworkBehaviour
 	{
 		/// <summary>
+		/// <para>Transports a <paramref name="objectToTeleport"/> to <paramref name="transportTo"/> without lerping.</para>
+		/// <para>Objects pulled by <paramref name="objectToTeleport"/> are not transported. To transport pulled objects as well, use <seealso cref="TransportObjectAndPulled(PushPull, Vector3)"/>.</para>
+		/// <para>Supports PlayerSync and CustomNetTransform.</para>
+		/// </summary>
+		/// <param name="objectToTeleport">Object to transport to (GameObject), will get PushPull from it<paramref name="transportTo"/>.</param>
+		/// <param name="transportTo">Destination to transport (WorldPos)<paramref name="pushPullObject"/> to.</param>
+		public static void TransportObject(GameObject objectToTeleport, Vector3 transportTo)
+		{
+			if(objectToTeleport.TryGetComponent<PushPull>(out var pushPull) == false) return;
+
+			TransportObject(pushPull, transportTo);
+		}
+
+		/// <summary>
 		/// <para>Transports a <paramref name="pushPullObject"/> to <paramref name="transportTo"/> without lerping.</para>
 		/// <para>Objects pulled by <paramref name="pushPullObject"/> are not transported. To transport pulled objects as well, use <seealso cref="TransportObjectAndPulled(PushPull, Vector3)"/>.</para>
 		/// <para>Supports PlayerSync and CustomNetTransform.</para>
 		/// </summary>
-		/// <param name="pushPullObject">Object to transport to <paramref name="transportTo"/>.</param>
-		/// <param name="transportTo">Destination to transport <paramref name="pushPullObject"/> to.</param>
+		/// <param name="pushPullObject">Object to transport to (PushPull)<paramref name="transportTo"/>.</param>
+		/// <param name="transportTo">Destination to transport (WorldPos)<paramref name="pushPullObject"/> to.</param>
 		[Server]
 		public static void TransportObject(PushPull pushPullObject, Vector3 transportTo)
 		{
@@ -48,8 +62,23 @@ namespace Gateway
 		/// <para>Objects pulled by <paramref name="pushPullObject"/> are transported. To not transport  pulled objects as well, use <seealso cref="TransportObject(PushPull, Vector3)"/>.</para>
 		/// <para>Supports PlayerSync and CustomNetTransform.</para>
 		/// </summary>
-		/// <param name="pushPullObject">Object to transport to <paramref name="transportTo"/>.</param>
-		/// <param name="transportTo">Destination to transport <paramref name="pushPullObject"/> to.</param>
+		/// <param name="pushPullObject">Object to transport to (GameObject), will get PushPull from it<paramref name="transportTo"/>.</param>
+		/// <param name="transportTo">Destination to transport (WorldPos)<paramref name="pushPullObject"/> to.</param>
+		[Server]
+		public static void TransportObjectAndPulled(GameObject objectToTeleport, Vector3 transportTo)
+		{
+			if(objectToTeleport.TryGetComponent<PushPull>(out var pushPull) == false) return;
+
+			TransportObjectAndPulled(pushPull, transportTo);
+		}
+
+		/// <summary>
+		/// <para>Transports a <paramref name="pushPullObject"/> to <paramref name="transportTo"/> alongside anything it might be pulling without lerping.</para>
+		/// <para>Objects pulled by <paramref name="pushPullObject"/> are transported. To not transport  pulled objects as well, use <seealso cref="TransportObject(PushPull, Vector3)"/>.</para>
+		/// <para>Supports PlayerSync and CustomNetTransform.</para>
+		/// </summary>
+		/// <param name="pushPullObject">Object to transport to (PushPull)<paramref name="transportTo"/>.</param>
+		/// <param name="transportTo">Destination to transport (WorldPos)<paramref name="pushPullObject"/> to.</param>
 		[Server]
 		public static void TransportObjectAndPulled(PushPull pushPullObject, Vector3 transportTo)
 		{
