@@ -167,8 +167,9 @@ namespace Systems.Spells
 					var matrixInfo = MatrixManager.AtPoint(castPosition, true);
 					var localPos = MatrixManager.WorldToLocalInt(castPosition, matrixInfo);
 
-					if (matrixInfo.Matrix.Get<DoorMasterController>(localPos, true).Any())
+					if (matrixInfo.Matrix.Get<DoorMasterController>(localPos, true).Any(door => door.IsClosed))
 					{
+						Chat.AddExamineMsg(caster.GameObject, "You cannot cast this spell while a door is in the way.");
 						return false;
 					}
 					if (matrixInfo.MetaTileMap.HasTile(localPos, tileToSummon.LayerType)
