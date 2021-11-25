@@ -79,7 +79,7 @@ namespace Objects.Other
 
 		private void UpdateTrapVisual()
 		{
-			if (trapContent.GetNextFreeIndexedSlot() != null)
+			if (trapContent.GetNextFreeIndexedSlot() == null)
 			{
 				trapPreview.Empty();
 				return;

@@ -177,7 +177,7 @@ namespace Items.Weapons
 			}
 
 		}
-		
+
 		[ContextMenu("Pull a pin")]
 		private void PullPin()
 		{
