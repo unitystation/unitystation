@@ -293,8 +293,8 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 
 		ItemSlot emptySlot = PlayerManager.LocalPlayerScript.DynamicItemStorage.GetActiveHandSlot(); //Were assuming that slot to which player wants to transfer stuff is always active hand
 
-                if(NetworkIdentity.spawned.TryGetValue(fromSlotID, out var objFS) == false) return;
-		var stackSlot = itemStorage.GetNamedItemSlot(ObjFS, fromSlot);
+		if(NetworkIdentity.spawned.TryGetValue(fromSlotID, out var objFS) == false) return;
+		var stackSlot = itemStorage.GetNamedItemSlot(objFS.gameObject, fromSlot);
 
 		if (stackSlot.ServerIsObservedBy(gameObject) == false || emptySlot.ServerIsObservedBy(gameObject) == false) return; //Checking if we can observe our hands
 
