@@ -24,9 +24,9 @@ namespace Objects.Research
 
 		public void ServerPerformInteraction(HandApply interaction)
 		{
-			if(connectedStation == null) return;
+			if(connectedHub == null) return;
 
-			connectedStation.SetBeacon(TrackingBeacon.GetAllBeaconOfType(TrackingBeacon.TrackingBeaconTypes.All).PickRandom());
+			connectedHub.SetBeacon(TrackingBeacon.GetAllBeaconOfType(TrackingBeacon.TrackingBeaconTypes.All).PickRandom());
 		}
 	}
 }

@@ -45,7 +45,7 @@ namespace Items
 
 			if(active == false) return;
 
-			ActivateBeacon();
+			ActivateBeacon(true);
 		}
 
 		private void OnDisable()
@@ -60,9 +60,9 @@ namespace Items
 		#endregion
 
 		[Server]
-		public void ActivateBeacon()
+		public void ActivateBeacon(bool firstTime = false)
 		{
-			if(active) return;
+			if(active && firstTime == false) return;
 
 			active = true;
 			spriteHandler.ChangeSprite(0);

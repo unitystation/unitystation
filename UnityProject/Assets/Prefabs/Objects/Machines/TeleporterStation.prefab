@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ca0edf3534137aa4caf8769e138a306c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  spriteHandler: {fileID: 0}
 --- !u!1001 &8948161016754564637
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -83,6 +84,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: TeleporterStation
+      objectReference: {fileID: 0}
+    - target: {fileID: 2444135299207855093, guid: b69bfc56f39849d4ba9139d2d51bedb6,
+        type: 3}
+      propertyPath: foreverID
+      value: 4fbb0a94f3803214db1cd426ef5a3dac
       objectReference: {fileID: 0}
     - target: {fileID: 6109775972905365350, guid: b69bfc56f39849d4ba9139d2d51bedb6,
         type: 3}

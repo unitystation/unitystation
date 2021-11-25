@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Systems.Electricity;
+using Systems.Explosions;
 using Gateway;
 using Items;
 using UnityEngine;
@@ -38,10 +39,13 @@ namespace Objects.Research
 				reaction.OnTeleportStart();
 				TransportUtility.TransportObjectAndPulled(objectToTeleport, linkedBeacon.CurrentBeaconPosition());
 				reaction.OnTeleportEnd();
+
+				SparkUtil.TrySpark(objectToTeleport, expose: false);
 				return;
 			}
 
 			TransportUtility.TransportObjectAndPulled(objectToTeleport, linkedBeacon.CurrentBeaconPosition());
+			SparkUtil.TrySpark(objectToTeleport, expose: false);
 		}
 
 		public override void SetBeacon(TrackingBeacon newBeacon)
