@@ -141,8 +141,10 @@ public class MatrixMove : ManagedBehaviour
 	/// be rotated to match the target?
 	/// </summary>
 	private bool NeedsRotationClient =>
-		Quaternion.Angle(transform.rotation, InitialFacing.OffsetTo(clientState.FacingDirection).Quaternion) != 0;
+		Quaternion.Angle(TransformRotation, InitialFacing.OffsetTo(clientState.FacingDirection).Quaternion) != 0;
 
+
+	private Quaternion TransformRotation = Quaternion.identity;
 
 	private MatrixPositionFilter matrixPositionFilter = new MatrixPositionFilter();
 
@@ -367,6 +369,7 @@ public class MatrixMove : ManagedBehaviour
 	public override void UpdateMe()
 	{
 		AnimateMovement();
+		TransformRotation = transform.rotation;
 	}
 
 	///managed by UpdateManager

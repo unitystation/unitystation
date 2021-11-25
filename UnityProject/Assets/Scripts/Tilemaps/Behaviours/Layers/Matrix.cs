@@ -453,7 +453,7 @@ public class Matrix : MonoBehaviour
 		{
 			if (electricalCableTile != null)
 			{
-				position = TileChangeManager.UpdateTile(position, electricalCableTile);
+				position = TileChangeManager.MetaTileMap.SetTile(position, electricalCableTile);
 			}
 		}
 
@@ -480,7 +480,7 @@ public class Matrix : MonoBehaviour
 
 		if (Tile != null)
 		{
-			TileChangeManager.UpdateTile(position, Tile, Matrix4x4.identity, Color.white);
+			TileChangeManager.MetaTileMap.SetTile(position, Tile, Matrix4x4.identity, Color.white);
 		}
 	}
 

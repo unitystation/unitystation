@@ -48,7 +48,7 @@ public class Heart : BodyPartFunctionality
 	private Reagent salt;
 
 	[SerializeField]
-	private float dangerSaltLevel = 2f; //in %
+	private float dangerSaltLevel = 5f; //in %
 
 	public override void ImplantPeriodicUpdate()
 	{

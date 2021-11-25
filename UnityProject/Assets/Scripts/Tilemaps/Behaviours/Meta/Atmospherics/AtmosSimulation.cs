@@ -370,7 +370,7 @@ namespace Systems.Atmospherics
 
 					node.AddGasOverlay(gas);
 
-					node.ReactionManager.TileChangeManager.AddOverlay(node.Position, TileManager.GetTile(TileType.Effects, gas.TileName) as OverlayTile);
+					node.PositionMatrix.MetaTileMap.AddOverlay(node.Position, TileManager.GetTile(TileType.Effects, gas.TileName) as OverlayTile);
 				}
 				else
 				{
@@ -378,7 +378,7 @@ namespace Systems.Atmospherics
 
 					node.RemoveGasOverlay(gas);
 
-					node.ReactionManager.TileChangeManager.RemoveOverlaysOfType(node.Position, LayerType.Effects, gas.OverlayType);
+					node.PositionMatrix.MetaTileMap.RemoveOverlaysOfType(node.Position, LayerType.Effects, gas.OverlayType);
 				}
 			}
 		}
@@ -389,7 +389,7 @@ namespace Systems.Atmospherics
 
 			foreach (var gas in node.GasOverlayData)
 			{
-				node.ReactionManager.TileChangeManager.RemoveOverlaysOfType(node.Position, LayerType.Effects, gas.OverlayType);
+				node.PositionMatrix.MetaTileMap.RemoveOverlaysOfType(node.Position, LayerType.Effects, gas.OverlayType);
 			}
 
 			node.GasOverlayData.Clear();

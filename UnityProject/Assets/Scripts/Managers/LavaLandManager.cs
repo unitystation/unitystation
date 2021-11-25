@@ -213,7 +213,7 @@ namespace Systems.Scenes
 					{
 						var posTarget = gameObjectPos + pos - script.gameObject.transform.parent.parent.parent.position.RoundToInt();
 
-						tileChangeManager.UpdateTile(posTarget, layerTile);
+						tileChangeManager.MetaTileMap.SetTile(posTarget, layerTile);
 					}
 				}
 

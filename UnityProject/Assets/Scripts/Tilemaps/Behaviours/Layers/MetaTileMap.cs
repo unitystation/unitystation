@@ -73,6 +73,8 @@ namespace TileManagement
 		private BoundsInt? LocalCachedBounds;
 		public Bounds? GlobalCachedBounds;
 
+		[NonSerialized] public Matrix4x4 localToWorldMatrix = Matrix4x4.identity;
+
 		public float Resistance(Vector3Int cellPos, bool includeObjects = true)
 		{
 			float resistance = 0;
@@ -170,13 +172,16 @@ namespace TileManagement
 			SolidLayersValues = solidLayersValues.ToArray();
 			damageableLayersValues.Sort((layerOne, layerTwo) =>
 				layerOne.LayerType.GetOrder().CompareTo(layerTwo.LayerType.GetOrder()));
+
 			DamageableLayers = damageableLayersValues.ToArray();
 			matrix = GetComponent<Matrix>();
 			mainThread = Thread.CurrentThread;
 		}
 
+
 		public void Update()
 		{
+			localToWorldMatrix = transform.localToWorldMatrix;
 			if (QueuedChanges.Count == 0)
 				return;
 
@@ -210,17 +215,9 @@ namespace TileManagement
 				{
 					return;
 				}
-				stopwatch.Start();
-				if (mainThread.Equals(Thread.CurrentThread) && stopwatch.ElapsedMilliseconds < TargetMSpreFrame)
-				{
-					MainThreadTileChange(tileLocation);
-				}
-				else
-				{
-					//cant modify the unity tilemap in a non main thread
-					QueuedChanges.Enqueue(tileLocation);
-				}
-				stopwatch.Stop();
+
+				//cant modify the unity tilemap in a non main thread
+				QueuedChanges.Enqueue(tileLocation);
 			}
 		}
 
@@ -267,10 +264,8 @@ namespace TileManagement
 			}
 
 			tileLocation.layer.RemoveTile(tileLocation.position);
-			matrix.TileChangeManager.RemoveOverlaysOfType(tileLocation.position, LayerType.Effects, OverlayType.Damage);
 
 			//TODO note Boundaries only recap later when tiles are added outside of it, so therefore it can only increase in size
-
 			// remember update transforms and position and colour when removing On tile map I'm assuming It doesn't clear it?
 			// Maybe it sets it to the correct ones when you set a tile idk
 
@@ -279,12 +274,22 @@ namespace TileManagement
 				PooledTileLocation.Push(tileLocation);
 			}
 
-			tileLocation.layer.subsystemManager.UpdateAt(tileLocation.position);
 			if (CustomNetworkManager.IsServer)
 			{
-				matrix.TileChangeManager.AddToChangeList(tileLocation.position, tileLocation.layer.LayerType);
-				RemoveTileMessage.Send(matrix.NetworkedMatrix.MatrixSync.netId, tileLocation.position, tileLocation.layer.LayerType);
+
+				if (tileLocation.layer.LayerType == LayerType.Underfloor) //TODO Tilemap upgrade
+				{
+					matrix.TileChangeManager.AddToChangeList(tileLocation.position, tileLocation.layer.LayerType, tileLocation.layer, null, true, true );
+				}
+				else
+				{
+					matrix.TileChangeManager.AddToChangeList(tileLocation.position, tileLocation.layer.LayerType, tileLocation.layer, null, false, true );
+				}
+
+				RemoveTileMessage.Send(matrix.NetworkedMatrix.MatrixSync.netId, tileLocation.position,
+					tileLocation.layer.LayerType);
 			}
+
 			tileLocation.Clean();
 		}
 
@@ -292,7 +297,6 @@ namespace TileManagement
 		{
 			tileLocation.layer.SetTile(tileLocation.position, tileLocation.layerTile,
 				tileLocation.transformMatrix, tileLocation.Colour);
-			tileLocation.layer.subsystemManager.UpdateAt(tileLocation.position);
 
 			if (LocalCachedBounds != null)
 			{
@@ -301,6 +305,25 @@ namespace TileManagement
 					LocalCachedBounds = null;
 					GlobalCachedBounds = null;
 				}
+			}
+
+			if (CustomNetworkManager.IsServer)
+			{
+				if (tileLocation.layerTile.LayerType == LayerType.Underfloor) //TODO Tilemap upgrade
+				{
+					matrix.TileChangeManager.AddToChangeList(tileLocation.position,
+						tileLocation.layerTile.LayerType, tileLocation.layer, tileLocation, true, false);
+				}
+				else
+				{
+					matrix.TileChangeManager.AddToChangeList(tileLocation.position,
+						tileLocation.layerTile.LayerType, tileLocation.layer, tileLocation, false, false);
+				}
+
+
+				UpdateTileMessage.Send(matrix.NetworkedMatrix.MatrixSync.netId, tileLocation.position,
+					tileLocation.layerTile.TileType, tileLocation.layerTile.name,
+					tileLocation.transformMatrix, tileLocation.Colour, tileLocation.layerTile.LayerType);
 			}
 		}
 
@@ -542,6 +565,7 @@ namespace TileManagement
 					PresentTiles[layer].TryGetValue(position, out tileLocation);
 				}
 			}
+
 			return tileLocation;
 		}
 
@@ -561,7 +585,14 @@ namespace TileManagement
 			return false;
 		}
 
-		//Use TileChangeManager Instead if you want to be networked
+		public Vector3Int SetTile(Vector3Int position, TileType TileType, string tileName,
+			Matrix4x4? matrixTransform = null,
+			Color? color = null,
+			bool isPlaying = true)
+		{
+			return SetTile(position, TileManager.GetTile(TileType, tileName), matrixTransform, color, isPlaying);
+		}
+
 		public Vector3Int SetTile(Vector3Int position, LayerTile tile, Matrix4x4? matrixTransform = null,
 			Color? color = null,
 			bool isPlaying = true)
@@ -647,6 +678,7 @@ namespace TileManagement
 				tileLocation.transformMatrix = matrixTransform.GetValueOrDefault(Matrix4x4.identity);
 				tileLocation.Colour = color.GetValueOrDefault(Color.white);
 				ApplyTileChange(tileLocation);
+				tileLocation.layer.subsystemManager.UpdateAt(tileLocation.position);
 				return position;
 			}
 			else
@@ -706,6 +738,7 @@ namespace TileManagement
 
 				return tileLocation?.layerTile;
 			}
+
 			LogMissingLayer(cellPosition, layerType);
 			return null;
 		}
@@ -728,6 +761,7 @@ namespace TileManagement
 					}
 				}
 			}
+
 			return null;
 		}
 
@@ -748,6 +782,7 @@ namespace TileManagement
 					return LayerData[ZZeroposition];
 				}
 			}
+
 			return null;
 		}
 
@@ -772,6 +807,7 @@ namespace TileManagement
 					}
 				}
 			}
+
 			return null;
 		}
 
@@ -791,6 +827,7 @@ namespace TileManagement
 				tileLocation = GetCorrectTileLocationForLayer(cellPosition, layer, UseExactForMultilayer);
 				return tileLocation?.Colour;
 			}
+
 			LogMissingLayer(cellPosition, layerType);
 			return null;
 		}
@@ -829,6 +866,7 @@ namespace TileManagement
 				return false;
 				//return layer.IsDifferent(cellPosition, layerTile, transformMatrix, color);
 			}
+
 			LogMissingLayer(cellPosition, layerType);
 			return true;
 		}
@@ -1417,6 +1455,7 @@ namespace TileManagement
 							return;
 						}
 					}
+
 					continue;
 				}
 
@@ -1434,8 +1473,14 @@ namespace TileManagement
 
 				if (tileLocation != null)
 				{
+					var refLayer = tileLocation.layerTile.LayerType;
 					tileLocation.layerTile = null;
 					ApplyTileChange(tileLocation);
+					if (refLayer != LayerType.Effects)
+					{
+						RemoveOverlaysOfType(tileLocation.position, LayerType.Effects, OverlayType.Damage);
+					}
+					tileLocation.layer.subsystemManager.UpdateAt(tileLocation.position);
 					return;
 				}
 			}
@@ -1465,6 +1510,11 @@ namespace TileManagement
 				{
 					tileLocation.layerTile = null;
 					ApplyTileChange(tileLocation);
+					if (refLayer != LayerType.Effects)
+					{
+						RemoveOverlaysOfType(tileLocation.position, LayerType.Effects, OverlayType.Damage);
+					}
+					tileLocation.layer.subsystemManager.UpdateAt(tileLocation.position);
 				}
 			}
 			else
@@ -1504,6 +1554,7 @@ namespace TileManagement
 			{
 				CacheLocalBound();
 			}
+
 			return LocalCachedBounds.Value;
 		}
 
@@ -1513,6 +1564,7 @@ namespace TileManagement
 			{
 				return CacheGlobalBound();
 			}
+
 			return GlobalCachedBounds.Value;
 		}
 
@@ -1528,9 +1580,11 @@ namespace TileManagement
 				{
 					continue; // Has no tiles
 				}
+
 				minPosition = Vector3Int.Min(layerBounds.min, minPosition);
 				maxPosition = Vector3Int.Max(layerBounds.max, maxPosition);
 			}
+
 			LocalCachedBounds = new BoundsInt(minPosition, maxPosition - minPosition);
 		}
 
@@ -1538,12 +1592,12 @@ namespace TileManagement
 		{
 			var localBound = GetLocalBounds();
 
-			var bottomLeft = transform.TransformPoint(localBound.min);
-			var bottomRight = transform.TransformPoint(new Vector3(localBound.xMax, localBound.min.y, 0));
-			var topLeft = transform.TransformPoint(new Vector3(localBound.min.x, localBound.yMax, 0));
-			var topRight = transform.TransformPoint(localBound.max);
+			var bottomLeft = localToWorldMatrix.MultiplyPoint(localBound.min);
+			var bottomRight = localToWorldMatrix.MultiplyPoint(new Vector3(localBound.xMax, localBound.min.y, 0));
+			var topLeft = localToWorldMatrix.MultiplyPoint(new Vector3(localBound.min.x, localBound.yMax, 0));
+			var topRight = localToWorldMatrix.MultiplyPoint(localBound.max);
 
-			var globalPoints = new Vector3[4]{bottomLeft, bottomRight, topLeft, topRight};
+			var globalPoints = new Vector3[4] {bottomLeft, bottomRight, topLeft, topRight};
 			var minPosition = bottomLeft;
 			var maxPosition = bottomLeft;
 			foreach (var point in globalPoints)
@@ -1552,25 +1606,31 @@ namespace TileManagement
 				{
 					minPosition.x = point.x;
 				}
+
 				if (point.y < minPosition.y)
 				{
 					minPosition.y = point.y;
 				}
-				if (point.x > maxPosition.x )
+
+				if (point.x > maxPosition.x)
 				{
 					maxPosition.x = point.x;
 				}
+
 				if (point.y > maxPosition.y)
 				{
 					maxPosition.y = point.y;
 				}
 			}
+
 			var middlePoint = minPosition + (maxPosition - minPosition) / 2;
 			var newGlobalBounds = new Bounds(middlePoint, maxPosition - minPosition);
 
 			if (matrix.MatrixMove == null ||
-			    (CustomNetworkManager.IsServer && matrix.MatrixMove.IsMovingServer == false && matrix.MatrixMove.IsRotatingServer == false) ||
-				(CustomNetworkManager.IsServer == false && matrix.MatrixMove.IsMovingClient == false && matrix.MatrixMove.IsRotatingServer == false))
+			    (CustomNetworkManager.IsServer && matrix.MatrixMove.IsMovingServer == false &&
+			     matrix.MatrixMove.IsRotatingServer == false) ||
+			    (CustomNetworkManager.IsServer == false && matrix.MatrixMove.IsMovingClient == false &&
+			     matrix.MatrixMove.IsRotatingServer == false))
 			{
 				//Only save the cache if the shuttle is static!
 				GlobalCachedBounds = newGlobalBounds;
@@ -1750,6 +1810,7 @@ namespace TileManagement
 							{
 								normal = Vector2.down * stepY;
 							}
+
 							Vector3 AdjustedNormal = ((Vector3) normal).ToWorld(matrix);
 							AdjustedNormal = AdjustedNormal - (Vector3.zero.ToWorld(matrix));
 
@@ -1963,6 +2024,105 @@ namespace TileManagement
 
 			return null;
 		}
+
+		public void RemoveOverlaysOfType(Vector3Int cellPosition, LayerType layerType, OverlayType overlayType, bool onlyIfCleanable = false)
+		{
+			cellPosition.z = 0;
+
+			var overlayPos = GetOverlayPosByType(cellPosition, layerType, overlayType);
+			if(overlayPos == null || overlayPos.Count == 0) return;
+
+			foreach (var overlay in overlayPos)
+			{
+				cellPosition = overlay;
+
+				if (onlyIfCleanable)
+				{
+					//only remove it if it's a cleanable tile
+					var tile = GetTile(cellPosition, layerType) as OverlayTile;
+					//it's not an overlay tile or it's not cleanable so don't remove it
+					if (tile == null || !tile.IsCleanable) continue;
+				}
+
+				RemoveTileWithlayer(cellPosition, layerType);
+			}
+		}
+
+
+		/// <summary>
+		/// Dynamically adds overlays to tile position
+		/// </summary>
+		public void AddOverlay(Vector3Int cellPosition, OverlayTile overlayTile, Matrix4x4? transformMatrix = null,
+			Color? color = null)
+		{
+			//use remove methods to remove overlay instead
+			if(overlayTile == null) return;
+
+			cellPosition.z = 0;
+
+			//Dont add the same overlay twice
+			if(HasOverlay(cellPosition, overlayTile.LayerType, overlayTile)) return;
+
+			var overlayPos = GetFreeOverlayPos(cellPosition, overlayTile.LayerType);
+			if (overlayPos == null) return;
+
+			cellPosition = overlayPos.Value;
+
+			SetTile(cellPosition, overlayTile, transformMatrix, color);
+		}
+
+		public void AddOverlay(Vector3Int cellPosition, TileType tileType, string tileName,
+			Matrix4x4? transformMatrix = null, Color? color = null)
+		{
+			var overlayTile = TileManager.GetTile(tileType, tileName) as OverlayTile;
+			AddOverlay(cellPosition, overlayTile, transformMatrix, color);
+		}
+
+		public Color? GetColourOfFirstTile(Vector3Int cellPosition, OverlayType overlayType, LayerType layerType)
+		{
+			var overlays = GetOverlayPosByType(cellPosition, layerType, overlayType);
+			if (overlays.Count == 0) return null;
+
+			return GetColour(overlays.First(), layerType);
+		}
+
+		public void RemoveFloorWallOverlaysOfType(Vector3Int cellPosition, OverlayType overlayType, bool onlyIfCleanable = false)
+		{
+			RemoveOverlaysOfType(cellPosition, LayerType.Floors, overlayType, onlyIfCleanable);
+			RemoveOverlaysOfType(cellPosition, LayerType.Walls, overlayType, onlyIfCleanable);
+		}
+		public void RemoveAllOverlays(Vector3Int cellPosition, LayerType layerType, bool onlyIfCleanable = false)
+		{
+			cellPosition.z = 0;
+
+			var overlayPos = GetAllOverlayPos(cellPosition, layerType);
+			if(overlayPos == null || overlayPos.Count == 0) return;
+
+			foreach (var overlay in overlayPos)
+			{
+				cellPosition = overlay;
+
+				if (onlyIfCleanable)
+				{
+					//only remove it if it's a cleanable tile
+					var tile = GetTile(cellPosition, layerType) as OverlayTile;
+					//it's not an overlay tile or it's not cleanable so don't remove it
+					if (tile == null || !tile.IsCleanable) continue;
+				}
+
+				RemoveTileWithlayer(cellPosition, layerType);
+			}
+		}
+
+		public bool HasOverlay(Vector3Int cellPosition, TileType tileType, string overlayName)
+		{
+			var overlayTile = TileManager.GetTile(tileType, overlayName) as OverlayTile;
+			if (overlayTile == null) return false;
+
+			return HasOverlay(cellPosition, overlayTile.LayerType, overlayTile);
+		}
+
+
 	}
 
 

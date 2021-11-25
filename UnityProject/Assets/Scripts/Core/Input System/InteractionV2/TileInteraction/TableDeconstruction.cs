@@ -61,8 +61,8 @@ namespace Objects.Tables
 				() =>
 				{
 
-					interaction.TileChangeManager.RemoveTile(interaction.TargetCellPos, interaction.BasicTile.LayerType);
-					interaction.TileChangeManager.RemoveFloorWallOverlaysOfType(interaction.TargetCellPos, OverlayType.Cleanable);
+					interaction.TileChangeManager.MetaTileMap.RemoveTileWithlayer(interaction.TargetCellPos, interaction.BasicTile.LayerType);
+					interaction.TileChangeManager.MetaTileMap.RemoveFloorWallOverlaysOfType(interaction.TargetCellPos, OverlayType.Cleanable);
 
 					//spawn things that need to be spawned
 					if (interaction.BasicTile.SpawnOnDeconstruct != null &&
