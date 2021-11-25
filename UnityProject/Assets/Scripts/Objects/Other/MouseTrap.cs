@@ -61,7 +61,7 @@ namespace Objects.Other
 			if(slot == null) return;
 			if (slot.ItemObject.TryGetComponent<ITrapComponent>(out var component))
 			{
-				if(Inventory.ServerDrop(slot, gameObject.AssumedWorldPosServer())) trapInSnare = false;
+				if(Inventory.ServerDrop(slot)) trapInSnare = false;
 				component.TriggerTrap();
 			}
 			UpdateTrapVisual();
@@ -79,7 +79,7 @@ namespace Objects.Other
 
 		private void UpdateTrapVisual()
 		{
-			if (trapContent.GetNextFreeIndexedSlot() == null)
+			if (trapContent.GetNextFreeIndexedSlot() != null)
 			{
 				trapPreview.Empty();
 				return;
