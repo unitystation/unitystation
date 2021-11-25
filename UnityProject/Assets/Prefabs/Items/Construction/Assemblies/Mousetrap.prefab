@@ -1,5 +1,30 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &4550351997505574115
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4124724335112973799}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fdce8a163088453ca593c0e98f2c5f07, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemStorageStructure: {fileID: 11400000, guid: 263bf834f99424f12bda19d67c3ab5fc,
+    type: 2}
+  itemStorageCapacity: {fileID: 11400000, guid: 411b6b7a74c524a91b9a38a0c692761b,
+    type: 2}
+  itemStoragePopulator: {fileID: 0}
+  forceSpawnContents: 0
+  dropItemsOnDespawn: 0
+  UesAddlistPopulater: 0
+  Populater:
+    SlotContents: []
+    DeprecatedContents: []
+  ashPrefab: {fileID: 2957035178188790827, guid: 9ac6968a3f3ed54428662c9aae5a4b32,
+    type: 3}
 --- !u!114 &6469889204253213008
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -36,31 +61,6 @@ MonoBehaviour:
   trapTrait: {fileID: 11400000, guid: a9ac8cfeac7f9cc409369a06ea01aa79, type: 2}
   trapPreview: {fileID: 6578456994640832629}
   trapContent: {fileID: 4550351997505574115}
---- !u!114 &4550351997505574115
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4124724335112973799}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fdce8a163088453ca593c0e98f2c5f07, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  itemStorageStructure: {fileID: 11400000, guid: 263bf834f99424f12bda19d67c3ab5fc,
-    type: 2}
-  itemStorageCapacity: {fileID: 11400000, guid: 51557be05ba9141e7849ea1c1c3ed19d,
-    type: 2}
-  itemStoragePopulator: {fileID: 0}
-  forceSpawnContents: 0
-  dropItemsOnDespawn: 0
-  UesAddlistPopulater: 0
-  Populater:
-    SlotContents: []
-    DeprecatedContents: []
-  ashPrefab: {fileID: 2957035178188790827, guid: 9ac6968a3f3ed54428662c9aae5a4b32,
-    type: 3}
 --- !u!1 &2530153511992339363
 GameObject:
   m_ObjectHideFlags: 0

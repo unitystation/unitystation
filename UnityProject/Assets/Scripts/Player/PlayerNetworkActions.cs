@@ -964,7 +964,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		//though this is only gonna hurt this player so isnt really hackable lol
 		if(storage == null) return;
 		if(storage.TryGetComponent<InteractableStorage>(out var interactableStorage) == false) return;
-		
+
 		var slots = interactableStorage.ItemStorage;
 
 		foreach (var slot in slots.GetItemSlots())
@@ -972,7 +972,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 			if(slot.IsEmpty) continue;
 			if (slot.ItemObject.TryGetComponent<MouseTrap>(out var trap))
 			{
-				if(trap.IsArmed) trap.TriggerTrapFromContainer(playerScript.playerHealth);
+				if(trap.IsArmed) trap.TriggerTrap(playerScript.playerHealth);
 			}
 		}
 	}

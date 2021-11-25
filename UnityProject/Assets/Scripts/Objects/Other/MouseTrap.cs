@@ -6,7 +6,7 @@ using HealthV2;
 
 namespace Objects.Other
 {
-	public class MouseTrap : FloorHazard, ICheckedInteractable<HandActivate>
+	public class MouseTrap : FloorHazard, IInteractable<HandActivate>, ICheckedInteractable<HandApply>
 	{
 
 		[SerializeField] private bool isArmed;
@@ -54,35 +54,45 @@ namespace Objects.Other
 		/// Things to trigger for attached items if found + hurting peoples hands.
 		/// </summary>
 		/// <param name="health"></param>
-		public void TriggerTrapFromContainer(LivingHealthMasterBase health = null)
+		public void TriggerTrap(LivingHealthMasterBase health = null)
 		{
 			if(health != null) HurtHand(health);
-			//TODO : Add the ability to attach items to mousetraps and trigger them.
+			var slot = trapContent.GetTopOccupiedIndexedSlot();
+			if(slot == null) return;
+			if (slot.ItemObject.TryGetComponent<ITrapComponent>(out var component))
+			{
+				if(Inventory.ServerDrop(slot, gameObject.AssumedWorldPosServer())) trapInSnare = false;
+				component.TriggerTrap();
+			}
+			UpdateTrapVisual();
+			isArmed = false;
 		}
 
-		private bool HasTrapTrait(ItemSlot handSlot)
+		private bool HasTrapTrait(GameObject item)
 		{
-			if (handSlot.Item != null)
+			if (item.Item() != null)
 			{
-				if (handSlot.Item.gameObject.Item().HasTrait(trapTrait)) return true;
+				if (item.Item().HasTrait(trapTrait)) return true;
 			}
-
 			return false;
 		}
 
 		private void UpdateTrapVisual()
 		{
-			if (trapContent.GetNextFreeIndexedSlot() == null)
+			if (trapContent.GetNextFreeIndexedSlot() != null)
 			{
 				trapPreview.Empty();
 				return;
 			}
-			//We assume that there will be only one item on each mouse trap as intended
+			//We assume that there will be only one item on each mouse trap (for now)
 			var slot = trapContent.GetTopOccupiedIndexedSlot();
-			if (slot.Item.gameObject.TryGetComponent<SpriteHandler>(out var sprite))
+			if (slot.Item.gameObject.TryGetComponent<SpriteHandler>(out var sprite) == false) return;
+			if (sprite.GetCurrentSpriteSO() == null)
 			{
-				trapPreview.SetSpriteSO(sprite.GetCurrentSpriteSO());
+				trapPreview.SetSprite(sprite.CurrentSprite);
+				return;
 			}
+			trapPreview.SetSpriteSO(sprite.GetCurrentSpriteSO());
 		}
 
 		public override void OnStep(GameObject eventData)
@@ -98,26 +108,30 @@ namespace Objects.Other
 			return false;
 		}
 
-		public bool WillInteract(HandActivate interaction, NetworkSide side)
+		public bool WillInteract(HandApply interaction, NetworkSide side)
 		{
 			if (!DefaultWillInteract.Default(interaction, side)) return false;
-			if (HasTrapTrait(interaction.HandSlot)) return true;
+			if (interaction.UsedObject == null) return false;
 			return true;
 		}
 
 		public void ServerPerformInteraction(HandActivate interaction)
 		{
-			if (HasTrapTrait(interaction.HandSlot))
-			{
-				trapContent.ServerTryAdd(interaction.HandSlot.ItemObject);
-				trapInSnare = true;
-				UpdateTrapVisual();
-				return;
-			}
-
 			ArmTrap();
 			Chat.AddExamineMsgFromServer(interaction.Performer,
 				isArmed ? "You arm the " + gameObject.ExpensiveName() : "You disarm the " + gameObject.ExpensiveName());
+		}
+
+		public void ServerPerformInteraction(HandApply interaction)
+		{
+			if (HasTrapTrait(interaction.UsedObject))
+			{
+				if (trapContent.ServerTryTransferFrom(interaction.UsedObject))
+				{
+					trapInSnare = true;
+					UpdateTrapVisual();
+				}
+			}
 		}
 	}
 }
