@@ -10,7 +10,7 @@ using UnityEngine.EventSystems;
 
 namespace Objects
 {
-	public class FloorHazard : MonoBehaviour, IEnterable
+	public class FloorHazard : MonoBehaviour, IPlayerEntersTile
 	{
 		[SerializeField] private AttackType attackType = AttackType.Melee;
 		[SerializeField] private DamageType damageType = DamageType.Brute;

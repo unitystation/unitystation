@@ -5,7 +5,7 @@ using UnityEngine.EventSystems;
 
 namespace Health.Sickness
 {
-	public class Contagion: MonoBehaviour, IEnterable
+	public class Contagion: MonoBehaviour, IPlayerEntersTile
 	{
 		public Sickness Sickness;
 

@@ -9,7 +9,7 @@ namespace Items
 	/// <summary>
 	/// Indicates an object that emits sound upon activation (bike horn/air horn...)
 	/// </summary>
-	public class Horn : MonoBehaviour, ICheckedInteractable<HandActivate>, ICheckedInteractable<PositionalHandApply>, IEnterable
+	public class Horn : MonoBehaviour, ICheckedInteractable<HandActivate>, ICheckedInteractable<PositionalHandApply>, IPlayerEntersTile
 	{
 		[SerializeField]
 		private float Cooldown = 0.2f;

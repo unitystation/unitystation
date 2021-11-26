@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using Items;
 using UnityEngine;
 using UnityEngine.Events;
@@ -691,6 +692,12 @@ public partial class CustomNetTransform : NetworkBehaviour, IPushable
 	{
 		OnTileReached().Invoke(reachedWorldPosition);
 		UpdateOccupant();
+
+		List<IObjectEntersTile> enterables = MatrixManager.GetAt<IObjectEntersTile>(reachedWorldPosition, isServer);
+		foreach (IObjectEntersTile enterable in enterables)
+		{
+			if(enterable.CanEnter(gameObject)) enterable.OnEnter(gameObject);
+		}
 	}
 
 	/// <summary>
