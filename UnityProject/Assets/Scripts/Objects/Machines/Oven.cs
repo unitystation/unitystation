@@ -284,10 +284,12 @@ namespace Objects.Kitchen
 			if (newState)
 			{
 				StartCoroutine(DelayOvenRunningSfx());
+				particles.Play();
 			}
 			else
 			{
 				SoundManager.Stop(runLoopGUID);
+				particles.Stop();
 			}
 		}
 
@@ -458,7 +460,6 @@ namespace Objects.Kitchen
 				oven.spriteHandlerOven.ChangeSprite((int) SpriteStateOven.Running);
 				oven.spriteHandlerDoor.ChangeSprite((int) SpriteStateDoor.Closed);
 				oven.SetWattage(oven.circuitWattage + oven.ovenBulbWattage + oven.magnetronWattage);
-				oven.particles.Play();
 			}
 
 			public override void ToggleActive()
@@ -494,7 +495,6 @@ namespace Objects.Kitchen
 				oven.OnSyncOvenGlow(oven.ovenGlowEnabled, false);
 				oven.HaltOven(true);
 				oven.SetWattage(oven.circuitWattage);
-				oven.particles.Stop();
 			}
 
 			public override void ToggleActive() { }
@@ -526,7 +526,6 @@ namespace Objects.Kitchen
 				oven.OnSyncOvenGlow(oven.ovenGlowEnabled, false);
 				oven.HaltOven(true);
 				oven.SetWattage(oven.circuitWattage + oven.ovenBulbWattage);
-				oven.particles.Stop();
 			}
 
 			public override void ToggleActive() { }
