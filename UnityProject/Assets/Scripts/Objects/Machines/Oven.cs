@@ -392,7 +392,6 @@ namespace Objects.Kitchen
 				oven.OnSyncOvenGlow(oven.ovenGlowEnabled, false);
 				oven.HaltOven(true);
 				oven.SetWattage(oven.circuitWattage);
-				oven.particles.Stop();
 			}
 
 			public override void ToggleActive()
