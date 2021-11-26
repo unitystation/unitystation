@@ -91,6 +91,8 @@ namespace Objects.Kitchen
 		[SyncVar(hook = nameof(OnSyncOvenGlow))]
 		private bool ovenGlowEnabled = false;
 
+		[SerializeField] private ParticleSystem particles;
+
 		public bool IsOperating => CurrentState is OvenRunning;
 
 		public IEnumerable<ItemSlot> Slots => storage.GetItemSlots();
@@ -388,6 +390,7 @@ namespace Objects.Kitchen
 				oven.OnSyncOvenGlow(oven.ovenGlowEnabled, false);
 				oven.HaltOven(true);
 				oven.SetWattage(oven.circuitWattage);
+				oven.particles.Stop();
 			}
 
 			public override void ToggleActive()
@@ -455,6 +458,7 @@ namespace Objects.Kitchen
 				oven.spriteHandlerOven.ChangeSprite((int) SpriteStateOven.Running);
 				oven.spriteHandlerDoor.ChangeSprite((int) SpriteStateDoor.Closed);
 				oven.SetWattage(oven.circuitWattage + oven.ovenBulbWattage + oven.magnetronWattage);
+				oven.particles.Play();
 			}
 
 			public override void ToggleActive()
@@ -490,6 +494,7 @@ namespace Objects.Kitchen
 				oven.OnSyncOvenGlow(oven.ovenGlowEnabled, false);
 				oven.HaltOven(true);
 				oven.SetWattage(oven.circuitWattage);
+				oven.particles.Stop();
 			}
 
 			public override void ToggleActive() { }
@@ -521,6 +526,7 @@ namespace Objects.Kitchen
 				oven.OnSyncOvenGlow(oven.ovenGlowEnabled, false);
 				oven.HaltOven(true);
 				oven.SetWattage(oven.circuitWattage + oven.ovenBulbWattage);
+				oven.particles.Stop();
 			}
 
 			public override void ToggleActive() { }
