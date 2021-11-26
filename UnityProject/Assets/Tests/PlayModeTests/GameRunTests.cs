@@ -28,25 +28,31 @@ namespace GameRunTests
 		[UnityTest]
 		public IEnumerator NewTestScriptWithEnumeratorPasses()
 		{
-			// var gameManagerPrefabGUID = AssetDatabase.FindAssets("GameManager t:prefab", new string[] {"Assets/Prefabs/SceneConstruction/NestedManagers"});
-			// var gameManagerPrefabPaths = gameManagerPrefabGUID.Select(AssetDatabase.GUIDToAssetPath).ToList();
-			// var gameManagerPrefab = AssetDatabase.LoadAssetAtPath<GameObject>(gameManagerPrefabPaths.First());
-			// if (gameManagerPrefab.TryGetComponent<GameManager>(out var gameManager))
-			// {
-			// 	gameManager.QuickLoad = true;
-			//
-			// }
-			//
-			// EditorUtility.SetDirty(gameManagerPrefab);
-			// AssetDatabase.SaveAssets();
-
-
 			yield return SceneManager.LoadSceneAsync("OnlineScene");
 
 			for( int i = 0; i < SceneManager.sceneCount; i++ )
 			{
 				Logger.Log(	SceneManager.GetSceneAt(i).name);
 			}
+
+			int countLoaded = SceneManager.sceneCount;
+			Scene[] loadedScenes = new Scene[countLoaded];
+
+			for (int i = 0; i < countLoaded; i++)
+			{
+				loadedScenes[i] = SceneManager.GetSceneAt(i);
+			}
+
+			foreach (var Scene in loadedScenes)
+			{
+				var roots = Scene.GetRootGameObjects();
+				foreach (var root in roots)
+				{
+					Logger.Log("game ob > " + root.name);
+				}
+			}
+
+
 
 			var _GameManager = UnityEngine.Object.FindObjectOfType<GameManager>();
 
