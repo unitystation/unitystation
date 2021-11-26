@@ -144,8 +144,9 @@ public partial class GameManager : MonoBehaviour, IInitialise
 
 	private void Awake()
 	{
-		if (Instance == null)
+		if (Instance != this)
 		{
+			Destroy(Instance);
 			Instance = this;
 			//if loading directly to outpost station, need to call pre round start once CustomNetworkManager
 			//starts because no scene change occurs to trigger it
@@ -154,9 +155,20 @@ public partial class GameManager : MonoBehaviour, IInitialise
 				loadedDirectlyToStation = true;
 			}
 		}
-		else
+	}
+
+	private void Start()
+	{
+		if (Instance != this)
 		{
-			Destroy(this);
+			Destroy(Instance);
+			Instance = this;
+			//if loading directly to outpost station, need to call pre round start once CustomNetworkManager
+			//starts because no scene change occurs to trigger it
+			if (SceneManager.GetActiveScene().name != "Lobby")
+			{
+				loadedDirectlyToStation = true;
+			}
 		}
 	}
 

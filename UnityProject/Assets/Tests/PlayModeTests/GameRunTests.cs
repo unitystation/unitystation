@@ -30,6 +30,8 @@ namespace GameRunTests
 		{
 			yield return SceneManager.LoadSceneAsync("OnlineScene");
 			yield return null;
+			yield return null;
+			yield return null;
 
 			GameManager.Instance.QuickLoad = true;
 
