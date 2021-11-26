@@ -29,11 +29,9 @@ namespace GameRunTests
 		public IEnumerator NewTestScriptWithEnumeratorPasses()
 		{
 			yield return SceneManager.LoadSceneAsync("OnlineScene");
-			yield return null;
-			yield return null;
-			yield return null;
+			var _GameManager = UnityEngine.Object.FindObjectOfType<GameManager>();
 
-			GameManager.Instance.QuickLoad = true;
+			_GameManager.QuickLoad = true;
 
 			yield return TestSingleton.Instance.RunTests();
 
@@ -43,7 +41,7 @@ namespace GameRunTests
 			// RunRestartRound();
 			// yield return WaitFor.Seconds(10);
 
-			GameManager.Instance.QuickLoad = false;
+			_GameManager.QuickLoad = false;
 		}
 
 
