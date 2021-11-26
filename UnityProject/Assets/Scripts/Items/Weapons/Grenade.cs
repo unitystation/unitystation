@@ -13,7 +13,7 @@ namespace Items.Weapons
 	/// Generic grenade base.
 	/// </summary>
 	[RequireComponent(typeof(Pickupable))]
-	public class Grenade : NetworkBehaviour, IPredictedInteractable<HandActivate>, IServerDespawn
+	public class Grenade : NetworkBehaviour, IPredictedInteractable<HandActivate>, IServerDespawn, ITrapComponent
 	{
 		[Tooltip("Explosion effect prefab, which creates when timer ends")]
 		public ExplosionComponent explosionPrefab;
@@ -178,15 +178,15 @@ namespace Items.Weapons
 
 		}
 
-#if UNITY_EDITOR
-		/// <summary>
-		/// Used only for debug in editor
-		/// </summary>
 		[ContextMenu("Pull a pin")]
 		private void PullPin()
 		{
 			StartCoroutine(TimeExplode(gameObject));
 		}
-#endif
+
+		public void TriggerTrap()
+		{
+			PullPin();
+		}
 	}
 }
