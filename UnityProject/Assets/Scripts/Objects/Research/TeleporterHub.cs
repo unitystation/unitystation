@@ -13,7 +13,7 @@ namespace Objects.Research
 	/// <summary>
 	/// Teleporter gateway
 	/// </summary>
-	public class TeleporterHub : TeleporterBase, IPlayerEntersTile, IObjectEntersTile, IServerSpawn, IOnHitDetect
+	public class TeleporterHub : TeleporterBase, IPlayerEntersTile, IObjectEntersTile, IServerSpawn, IOnPreHitDetect
 	{
 		private bool calibrated;
 
@@ -95,9 +95,9 @@ namespace Objects.Research
 			SetHub(this);
 		}
 
-		public void OnHitDetect(OnHitDetectData data)
+		public bool OnPreHitDetect(OnHitDetectData data)
 		{
-			if(AllowTeleport() == false) return;
+			if(AllowTeleport() == false) return true;
 
 			var range = -1f;
 
@@ -109,7 +109,9 @@ namespace Objects.Research
 			CastProjectileMessage.SendToAll(linkedBeacon.gameObject, data.BulletObject.GetComponent<Bullet>().PrefabName,
 				data.BulletShootDirection, default, range);
 
-			//TODO this still damages the object, increase resistances? or make it heal up the damage and only get destroyed if its 100% dead?
+			Chat.AddLocalMsgToChat($"The {data.BulletName} enters the portal!", gameObject);
+
+			return false;
 		}
 	}
 }
