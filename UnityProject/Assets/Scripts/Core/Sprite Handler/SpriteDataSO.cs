@@ -72,6 +72,8 @@ public class SpriteDataSO : ScriptableObject
 			EditorUtility.SetDirty(this);
 			EditorUtility.SetDirty( SpriteCatalogue.Instance);
 		}
+
+		UpdateIDLocation();
 	}
 
 	IEnumerator EditorSave()
