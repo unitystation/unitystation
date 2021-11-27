@@ -260,7 +260,6 @@ namespace Objects.Kitchen
 
 		private async void HandleAudio(float duration)
 		{
-			if(CustomNetworkManager.IsServer == false) return;
 			if (duration <= (int) fullSource.Result.AudioSource.clip.length)
 			{
 				_ = SoundManager.PlayNetworkedAtPosAsync(fullAudio, WorldPosition);
