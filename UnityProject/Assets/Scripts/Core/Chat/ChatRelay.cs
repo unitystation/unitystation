@@ -5,6 +5,7 @@ using Mirror;
 using UnityEngine;
 using Systems.MobAIs;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 using Systems.Ai;
 using Messages.Server;
 using Objects.Telecomms;
@@ -22,6 +23,8 @@ public class ChatRelay : NetworkBehaviour
 	private LayerMask layerMask;
 	private LayerMask npcMask;
 	private LayerMask itemsMask;
+
+	private bool radioCheckIsOnCooldown = false;
 
 	private RconManager rconManager;
 
@@ -159,17 +162,9 @@ public class ChatRelay : NetworkBehaviour
 					}
 				}
 			}
-			foreach (Collider2D coll in Physics2D.OverlapCircleAll(chatEvent.originator.AssumedWorldPosServer(), 8f, itemsMask))
-			{
-				var radioPos = coll.gameObject.AssumedWorldPosServer();
-				if (coll.gameObject.TryGetComponent<LocalRadioListener>(out var listener) == false) continue;
-				if (MatrixManager.Linecast(chatEvent.position,LayerTypeSelection.Walls,
-					layerMask,radioPos).ItHit ==false)
-				{
-					Debug.Log("send data");
-					listener.SendData(chatEvent);
-				}
-			}
+
+			if(radioCheckIsOnCooldown == false) CheckForRadios(chatEvent);
+
 		}
 
 		for (var i = 0; i < players.Count; i++)
@@ -217,6 +212,30 @@ public class ChatRelay : NetworkBehaviour
 
 			RconManager.AddChatLog(message);
 		}
+	}
+
+	private void CheckForRadios(ChatEvent chatEvent)
+	{
+		HandleRadioCheckCooldown();
+		foreach (Collider2D coll in Physics2D.OverlapCircleAll(chatEvent.originator.AssumedWorldPosServer(), 8f, itemsMask))
+		{
+			var radioPos = coll.gameObject.AssumedWorldPosServer();
+			if(chatEvent.originator == coll.gameObject) continue;
+			if (coll.gameObject.TryGetComponent<LocalRadioListener>(out var listener) == false) continue;
+			if (MatrixManager.Linecast(chatEvent.position,LayerTypeSelection.Walls,
+				layerMask,radioPos).ItHit ==false)
+			{
+				Debug.Log("send data");
+				listener.SendData(chatEvent);
+			}
+		}
+	}
+
+	private async void HandleRadioCheckCooldown()
+	{
+		radioCheckIsOnCooldown = true;
+		await Task.Delay(500);
+		radioCheckIsOnCooldown = false;
 	}
 
 

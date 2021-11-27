@@ -22,9 +22,8 @@ namespace Objects.Telecomms
 
 		public override void ReceiveSignal(SignalStrength strength, SignalMessage message = null)
 		{
-			if (message is RadioMessage)
+			if (message is RadioMessage msg)
 			{
-				RadioMessage msg = (RadioMessage)message;
 				ShowChatterToNearbyPeople(msg);
 			}
 		}
