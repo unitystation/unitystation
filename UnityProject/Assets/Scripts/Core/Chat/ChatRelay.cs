@@ -21,6 +21,7 @@ public class ChatRelay : NetworkBehaviour
 	private ChatChannel namelessChannels;
 	private LayerMask layerMask;
 	private LayerMask npcMask;
+	private LayerMask itemsMask;
 
 	private RconManager rconManager;
 
@@ -49,6 +50,7 @@ public class ChatRelay : NetworkBehaviour
 						   ChatChannel.Combat;
 		layerMask = LayerMask.GetMask( "Door Closed");
 		npcMask = LayerMask.GetMask("NPC");
+		itemsMask = LayerMask.GetMask("Items");
 
 		rconManager = RconManager.Instance;
 	}
@@ -142,15 +144,14 @@ public class ChatRelay : NetworkBehaviour
 			}
 
 			//Get NPCs in vicinity
-			var npcs = Physics2D.OverlapCircleAll(chatEvent.position, 14f, npcMask);
-			var radios = Physics2D.OverlapCircleAll(chatEvent.position, 4f, LayerType.Objects.GetOrder());
+			var npcs = Physics2D.OverlapCircleAll(chatEvent.originator.AssumedWorldPosServer(), 14f, npcMask);
 			foreach (Collider2D coll in npcs)
 			{
 				var npcPosition = coll.gameObject.AssumedWorldPosServer();
 				if (MatrixManager.Linecast(chatEvent.position,LayerTypeSelection.Walls,
 					 layerMask,npcPosition).ItHit ==false)
 				{
-					//NPC is in hearing range, pass the message on:
+					//NPC is in hearing range, pass the message on: Physics2D.OverlapCircleAll(chatEvent.originator.AssumedWorldPosServer(), 8f, itemsMask);
 					var mobAi = coll.GetComponent<MobAI>();
 					if (mobAi != null)
 					{
@@ -158,13 +159,14 @@ public class ChatRelay : NetworkBehaviour
 					}
 				}
 			}
-			foreach (Collider2D coll in radios)
+			foreach (Collider2D coll in Physics2D.OverlapCircleAll(chatEvent.originator.AssumedWorldPosServer(), 8f, itemsMask))
 			{
-				if (coll.gameObject.TryGetComponent<LocalRadioListener>(out var listener) == false) continue;
 				var radioPos = coll.gameObject.AssumedWorldPosServer();
+				if (coll.gameObject.TryGetComponent<LocalRadioListener>(out var listener) == false) continue;
 				if (MatrixManager.Linecast(chatEvent.position,LayerTypeSelection.Walls,
 					layerMask,radioPos).ItHit ==false)
 				{
+					Debug.Log("send data");
 					listener.SendData(chatEvent);
 				}
 			}
