@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Net.Configuration;
 using Communications;
 using UnityEngine;
 using Mirror;
@@ -18,7 +19,7 @@ namespace Managers
 		/// Loops through all receivers and sends the signal if they match the signal type and/or frequancy
 		/// </summary>
 		[Server]
-		public void SendSignal(SignalEmitter emitter, SignalType type, SignalDataSO signalDataSo)
+		public void SendSignal(SignalEmitter emitter, SignalType type, SignalDataSO signalDataSo, SignalMessage signalMessage = null)
 		{
 			foreach (SignalReceiver receiver in Receivers)
 			{
@@ -34,20 +35,20 @@ namespace Managers
 				if (receiver.SignalTypeToReceive == SignalType.PING && receiver.Emitter == emitter)
 				{
 					if (signalDataSo.UsesRange) { SignalStrengthHandler(receiver, emitter, signalDataSo); break; }
-					receiver.ReceiveSignal(SignalStrength.HEALTHY);
+					receiver.ReceiveSignal(SignalStrength.HEALTHY, signalMessage);
 					break;
 				}
 				//TODO (Max) : Radio signals should be sent to relays and servers.
 				if (receiver.SignalTypeToReceive == SignalType.RADIO && AreOnTheSameFrequancy(receiver, emitter))
 				{
 					if (signalDataSo.UsesRange) { SignalStrengthHandler(receiver, emitter, signalDataSo); continue; }
-					receiver.ReceiveSignal(SignalStrength.HEALTHY);
+					receiver.ReceiveSignal(SignalStrength.HEALTHY, signalMessage);
 					continue;
 				}
 				//Bounced radios always have a limited range.
 				if (receiver.SignalTypeToReceive == SignalType.BOUNCED && AreOnTheSameFrequancy(receiver, emitter))
 				{
-					SignalStrengthHandler(receiver, emitter, signalDataSo);
+					SignalStrengthHandler(receiver, emitter, signalDataSo, signalMessage);
 				}
 			}
 		}
@@ -57,7 +58,7 @@ namespace Managers
 			return Mathf.Approximately(receiver.Frequency, emitter.Frequency);
 		}
 
-		private void SignalStrengthHandler(SignalReceiver receiver, SignalEmitter emitter, SignalDataSO signalDataSo)
+		private void SignalStrengthHandler(SignalReceiver receiver, SignalEmitter emitter, SignalDataSO signalDataSo, SignalMessage signalMessage = null)
 		{
 			SignalStrength strength = GetStrength(receiver, emitter, signalDataSo.SignalRange);
 			if (strength == SignalStrength.HEALTHY) receiver.ReceiveSignal(strength);
@@ -80,7 +81,7 @@ namespace Managers
 			}
 		}
 
-		private IEnumerator DelayedSignalRecevie(float waitTime, SignalReceiver receiver, SignalStrength strength)
+		private IEnumerator DelayedSignalRecevie(float waitTime, SignalReceiver receiver, SignalStrength strength, SignalMessage signalMessage = null)
 		{
 			yield return WaitFor.Seconds(waitTime);
 			if (receiver.gameObject == null)
@@ -88,7 +89,7 @@ namespace Managers
 				//In case the object despawns before the signal reaches it
 				yield break;
 			}
-			receiver.ReceiveSignal(strength);
+			receiver.ReceiveSignal(strength, signalMessage);
 		}
 
 		/// <summary>
@@ -131,6 +132,14 @@ namespace Managers
 		DELAYED, //The signal is a bit far from the receiver and will be slightly delayed
 		WEAK, //The signal is too far from the receiver and has a chance to not go through
 		TOOFAR //The signal is out of range and will not be sent.
+	}
+
+	public interface SignalMessage{}
+
+	public struct RadioMessage : SignalMessage
+	{
+		public string Sender;
+		public string Message;
 	}
 }
 

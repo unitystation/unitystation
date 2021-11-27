@@ -5,7 +5,7 @@ using Random = System.Random;
 
 namespace ScriptableObjects.Communications
 {
-	[CreateAssetMenu(fileName = "EncryptionData", menuName = "ScriptableObjects/SignalData")]
+	[CreateAssetMenu(fileName = "EncryptionData", menuName = "ScriptableObjects/SignalData/EncryptionData")]
 	public class EncryptionDataSO : ScriptableObject
 	{
 		/// <summary>

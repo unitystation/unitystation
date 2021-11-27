@@ -7,6 +7,7 @@ using Systems.MobAIs;
 using System.Text.RegularExpressions;
 using Systems.Ai;
 using Messages.Server;
+using Objects.Telecomms;
 using UI.Chat_UI;
 
 /// <summary>
@@ -142,6 +143,7 @@ public class ChatRelay : NetworkBehaviour
 
 			//Get NPCs in vicinity
 			var npcs = Physics2D.OverlapCircleAll(chatEvent.position, 14f, npcMask);
+			var radios = Physics2D.OverlapCircleAll(chatEvent.position, 4f, LayerType.Objects.GetOrder());
 			foreach (Collider2D coll in npcs)
 			{
 				var npcPosition = coll.gameObject.AssumedWorldPosServer();
@@ -154,6 +156,16 @@ public class ChatRelay : NetworkBehaviour
 					{
 						mobAi.LocalChatReceived(chatEvent);
 					}
+				}
+			}
+			foreach (Collider2D coll in radios)
+			{
+				if (coll.gameObject.TryGetComponent<LocalRadioListener>(out var listener) == false) continue;
+				var radioPos = coll.gameObject.AssumedWorldPosServer();
+				if (MatrixManager.Linecast(chatEvent.position,LayerTypeSelection.Walls,
+					layerMask,radioPos).ItHit ==false)
+				{
+					listener.SendData(chatEvent);
 				}
 			}
 		}

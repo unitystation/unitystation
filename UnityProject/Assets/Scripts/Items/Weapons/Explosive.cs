@@ -107,7 +107,7 @@ namespace Items.Weapons
 			detonateImmediatelyOnSignal = mode;
 		}
 
-		public override void ReceiveSignal(SignalStrength strength)
+		public override void ReceiveSignal(SignalStrength strength, SignalMessage message = null)
 		{
 			if(countDownActive == true || isArmed == false) return;
 			if (detonateImmediatelyOnSignal)

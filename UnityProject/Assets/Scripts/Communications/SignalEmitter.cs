@@ -21,11 +21,11 @@ namespace Communications
 		/// <summary>
 		/// Tells the SignalManager to send a signal to a receiver
 		/// </summary>
-		public void TrySendSignal()
+		public void TrySendSignal(SignalMessage message = null)
 		{
 			if (SendSignalLogic())
 			{
-				SignalsManager.Instance.SendSignal(this, signalData.EmittedSignalType, signalData);
+				SignalsManager.Instance.SendSignal(this, signalData.EmittedSignalType, signalData, message);
 				return;
 			}
 			SignalFailed();

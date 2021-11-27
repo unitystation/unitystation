@@ -10,7 +10,7 @@ using UnityEditor;
 
 namespace ScriptableObjects.Communications
 {
-	[CreateAssetMenu(fileName = "SignalData", menuName = "ScriptableObjects/SignalData")]
+	[CreateAssetMenu(fileName = "SignalData", menuName = "ScriptableObjects/SignalData/SignalData")]
 	public class SignalDataSO : ScriptableObject
 	{
 		[Tooltip("Is this signal global or do we want to check how far it is from a receiver?")]
@@ -26,7 +26,7 @@ namespace ScriptableObjects.Communications
 
 
 #if UNITY_EDITOR
-		[Button("Generate Encryption Key", EButtonEnableMode.Editor), HideIf("HasEncryption")]
+		[Button("Generate Encryption Key", EButtonEnableMode.Editor)]
 		private void CreateEncryptionData()
 		{
 			EncryptionDataSO data = new EncryptionDataSO();
