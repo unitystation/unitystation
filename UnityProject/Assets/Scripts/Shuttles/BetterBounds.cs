@@ -82,8 +82,8 @@ public struct BetterBounds
 		if (Contains(bottomLeft) || Contains(bottomRight) || Contains(topLeft) || Contains(topRight)
 		|| OppositeMatrix.Contains(ThisbottomLeft) || OppositeMatrix.Contains(ThisbottomRight)  || OppositeMatrix.Contains(ThistopLeft) || OppositeMatrix.Contains(ThistopRight) )
 		{
-			Overlap.Minimum = Vector3.Max(Minimum, OppositeMatrix.Minimum) - (Vector3.one * 1);
-			Overlap.Maximum = Vector3.Min(Maximum, OppositeMatrix.Maximum) + Vector3.one;
+			Overlap.Minimum = Vector3.Max(Minimum, OppositeMatrix.Minimum);
+			Overlap.Maximum = Vector3.Min(Maximum, OppositeMatrix.Maximum);
 			return true;
 		}
 
