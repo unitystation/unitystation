@@ -134,7 +134,7 @@ namespace UI.Objects.Shuttles
 			EntryList.AddItems(MapIconType.Asteroids, GetObjectsOf<Asteroid>());
 			var stationBounds = MatrixManager.MainStationMatrix.MetaTileMap.GetLocalBounds();
 			int stationRadius = (int) Mathf.Abs(stationBounds.center.x - stationBounds.xMin);
-			EntryList.AddStaticItem(MapIconType.Station, stationBounds.center, stationRadius);
+			EntryList.AddStaticItem(MapIconType.Station, stationBounds.center.To2Int(), stationRadius);
 
 			EntryList.AddItems(MapIconType.Waypoint, new List<GameObject>(new[] {Waypoint}));
 

@@ -122,11 +122,11 @@ public class MetaDataSystem : SubsystemBehaviour
 
 	private void LocateRooms()
 	{
-		BoundsInt bounds = metaTileMap.GetLocalBounds();
+		var bounds = metaTileMap.GetLocalBounds();
 
 		var watch = new Stopwatch();
 		watch.Start();
-		foreach (Vector3Int position in bounds.allPositionsWithin)
+		foreach (Vector3Int position in bounds.allPositionsWithin())
 		{
 			FindRoomAt(position);
 		}

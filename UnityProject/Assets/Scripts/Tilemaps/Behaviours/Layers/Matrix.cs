@@ -543,7 +543,7 @@ public class Matrix : MonoBehaviour
 
 		var bounds = MetaTileMap.GetWorldBounds();
 		DebugGizmoUtils.DrawText(gameObject.name, bounds.max, 11, 5);
-		DebugGizmoUtils.DrawRect(bounds);
+		DebugGizmoUtils.DrawRect(bounds.Minimum, bounds.Maximum);
 	}
 #endif
 }
