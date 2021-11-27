@@ -14,7 +14,7 @@ namespace Managers
 		public List<SignalReceiver> Receivers = new List<SignalReceiver>();
 
 		/// <summary>
-		/// Called from the server as the Recivers list is only avaliable for the host and to avoid clients from cheating.
+		/// Called from the server as the Receivers list is only available for the host and to avoid clients from cheating.
 		/// Loops through all receivers and sends the signal if they match the signal type and/or frequancy
 		/// </summary>
 		[Server]
@@ -25,6 +25,11 @@ namespace Managers
 				if (receiver.SignalTypeToReceive != type) return;
 
 				if (receiver.Frequency.IsBetween(signalDataSo.MinMaxFrequancy.x, signalDataSo.MinMaxFrequancy.y) == false) return;
+				if (receiver.EncryptionData != null)
+				{
+					if(signalDataSo.EncryptionData == null) continue;
+					if(signalDataSo.EncryptionData.EncryptionSecret != receiver.EncryptionData.EncryptionSecret) continue;
+				}
 
 				if (receiver.SignalTypeToReceive == SignalType.PING && receiver.Emitter == emitter)
 				{
@@ -116,7 +121,7 @@ namespace Managers
 	public enum SignalType
 	{
 		PING, //Signal is meant for a target object
-		RADIO, //Signal is meant to be connected via a reciever to relay to other devices
+		RADIO, //Signal is meant to be connected via a receiver to relay to other devices
 		BOUNCED //Signal is meant to be sent to all nearby devices without a middle man
 	}
 

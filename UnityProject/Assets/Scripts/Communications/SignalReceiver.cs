@@ -14,6 +14,7 @@ namespace Communications
 		public float Frequency = 122F;
 		public SignalEmitter Emitter;
 		public float DelayTime = 3f; //How many seconds of delay before the SignalReceive logic happens for weak signals
+		public EncryptionDataSO EncryptionData;
 
 
 		private void OnEnable()
