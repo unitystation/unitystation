@@ -11,21 +11,20 @@ namespace Objects.Telecomms
 	{
 		private ChatEvent chatEvent;
 
-		public void SendData(ChatEvent @event)
+		public void SendData(ChatEvent chat)
 		{
-			chatEvent = @event;
-			SendSignalLogic();
-		}
-
-		protected override bool SendSignalLogic()
-		{
-			if (chatEvent == null) return false;
+			chatEvent = chat;
 			RadioMessage msg = new RadioMessage
 			{
 				Sender = chatEvent.speaker,
 				Message = chatEvent.message,
 			};
 			TrySendSignal(msg);
+		}
+
+		protected override bool SendSignalLogic()
+		{
+			if (chatEvent == null) return false;
 			return true;
 		}
 
