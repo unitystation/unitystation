@@ -28,8 +28,9 @@ namespace Managers
 				if (receiver.Frequency.IsBetween(signalDataSo.MinMaxFrequancy.x, signalDataSo.MinMaxFrequancy.y) == false) return;
 				if (receiver.EncryptionData != null)
 				{
+					Debug.Log(signalDataSo.EncryptionData);
 					if(signalDataSo.EncryptionData == null) continue;
-					if(signalDataSo.EncryptionData.EncryptionSecret != receiver.EncryptionData.EncryptionSecret) continue;
+					if(signalDataSo.EncryptionData.EncryptionSecret != receiver.EncryptionData.EncryptionSecret) Debug.Log("FUCK"); continue;
 				}
 
 				if (receiver.SignalTypeToReceive == SignalType.PING && receiver.Emitter == emitter)
@@ -46,8 +47,10 @@ namespace Managers
 					continue;
 				}
 				//Bounced radios always have a limited range.
+				Debug.Log(AreOnTheSameFrequancy(receiver, emitter));
 				if (receiver.SignalTypeToReceive == SignalType.BOUNCED && AreOnTheSameFrequancy(receiver, emitter))
 				{
+					Debug.Log("ur mom");
 					SignalStrengthHandler(receiver, emitter, signalDataSo, signalMessage);
 				}
 			}

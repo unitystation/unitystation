@@ -30,11 +30,12 @@ namespace Objects.Telecomms
 
 		private void ShowChatterToNearbyPeople(RadioMessage message)
 		{
-			ContactPoint2D[] list = new ContactPoint2D[]{};
-			var scan = Physics2D.OverlapCircle(gameObject.AssumedWorldPosServer(), hearableRange, layerToCheck).GetContacts(list);
-			foreach (var player in list)
+			Debug.Log(message.Message);
+			var scan = Physics2D.OverlapCircleAll(gameObject.AssumedWorldPosServer(), hearableRange, layerToCheck);
+			Debug.Log(scan);
+			foreach (var player in scan)
 			{
-				if (player.collider.gameObject.TryGetComponent<ConnectedPlayer>(out var connectedPlayer))
+				if (player.gameObject.TryGetComponent<ConnectedPlayer>(out var connectedPlayer))
 				{
 					//We're doing this this way for now until we discuss how we are going to handle Chat.cs
 					//for proper telecomms

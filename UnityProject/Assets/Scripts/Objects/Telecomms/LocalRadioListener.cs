@@ -9,22 +9,20 @@ namespace Objects.Telecomms
 {
 	public class LocalRadioListener : SignalEmitter
 	{
-		private ChatEvent chatEvent;
 
 		public void SendData(ChatEvent chat)
 		{
-			chatEvent = chat;
 			RadioMessage msg = new RadioMessage
 			{
-				Sender = chatEvent.speaker,
-				Message = chatEvent.message,
+				Sender = chat.speaker,
+				Message = chat.message,
 			};
 			TrySendSignal(msg);
 		}
 
 		protected override bool SendSignalLogic()
 		{
-			if (chatEvent == null) return false;
+			Debug.Log("should be a success");
 			return true;
 		}
 
