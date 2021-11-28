@@ -225,7 +225,6 @@ public class ChatRelay : NetworkBehaviour
 			if (MatrixManager.Linecast(chatEvent.position,LayerTypeSelection.Walls,
 				layerMask,radioPos).ItHit ==false)
 			{
-				Debug.Log("send data");
 				listener.SendData(chatEvent);
 			}
 		}

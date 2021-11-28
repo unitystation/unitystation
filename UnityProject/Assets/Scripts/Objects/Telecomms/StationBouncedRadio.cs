@@ -35,18 +35,18 @@ namespace Objects.Telecomms
 			Debug.Log(scan);
 			foreach (var player in scan)
 			{
-				if (player.gameObject.TryGetComponent<ConnectedPlayer>(out var connectedPlayer))
+				if (player.gameObject.TryGetComponent<PlayerScript>(out var connectedPlayer))
 				{
 					//We're doing this this way for now until we discuss how we are going to handle Chat.cs
 					//for proper telecomms
-					Chat.AddExamineMsg(connectedPlayer.GameObject, HandleText(message));
+					Chat.AddExamineMsg(connectedPlayer.gameObject, HandleText(message));
 				}
 			}
 		}
 
 		private string HandleText(RadioMessage message)
 		{
-			return $"<color={Chat.Instance.commonColor}>[{Frequency}] - {message.Sender} says \"{message.Message}\"";
+			return $"<color={Chat.Instance.commonColor}>[{Frequency}] - {message.Sender} says \"{message.Message}\"</color>";
 		}
 
 	}

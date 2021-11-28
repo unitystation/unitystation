@@ -27,7 +27,6 @@ namespace Managers
 
 				if (receiver.Frequency.IsBetween(signalDataSo.MinMaxFrequancy.x, signalDataSo.MinMaxFrequancy.y) == false) continue;
 				if(MatchingEncryption(receiver, signalDataSo) == false) continue;
-				Debug.Log("cock");
 
 				if (receiver.SignalTypeToReceive == SignalType.PING && receiver.Emitter == emitter)
 				{
@@ -46,7 +45,6 @@ namespace Managers
 				Debug.Log(AreOnTheSameFrequancy(receiver, emitter));
 				if (receiver.SignalTypeToReceive == SignalType.BOUNCED && AreOnTheSameFrequancy(receiver, emitter))
 				{
-					Debug.Log("ur mom");
 					SignalStrengthHandler(receiver, emitter, signalDataSo, signalMessage);
 				}
 			}
@@ -59,13 +57,11 @@ namespace Managers
 			if (receiver.EncryptionData == null) return true;
 			if (signalDataSo.EncryptionData == null)
 			{
-				Debug.Log("ass");
 				return false;
 			}
 
 			if (signalDataSo.EncryptionData.EncryptionSecret != receiver.EncryptionData.EncryptionSecret)
 			{
-				Debug.Log("FUCK");
 				return false;
 			}
 
@@ -80,13 +76,13 @@ namespace Managers
 		private void SignalStrengthHandler(SignalReceiver receiver, SignalEmitter emitter, SignalDataSO signalDataSo, SignalMessage signalMessage = null)
 		{
 			SignalStrength strength = GetStrength(receiver, emitter, signalDataSo.SignalRange);
-			if (strength == SignalStrength.HEALTHY) receiver.ReceiveSignal(strength);
+			if (strength == SignalStrength.HEALTHY) receiver.ReceiveSignal(strength, signalMessage);
 			if (strength == SignalStrength.TOOFAR) emitter.SignalFailed();
 
 
 			if (strength == SignalStrength.DELAYED)
 			{
-				StartCoroutine(DelayedSignalRecevie(receiver.DelayTime, receiver, strength));
+				StartCoroutine(DelayedSignalRecevie(receiver.DelayTime, receiver, strength, signalMessage));
 				return;
 			}
 			if (strength == SignalStrength.WEAK)
@@ -94,7 +90,7 @@ namespace Managers
 				Random chance = new Random();
 				if (DMMath.Prob(chance.Next(0, 100)))
 				{
-					StartCoroutine(DelayedSignalRecevie(receiver.DelayTime, receiver, strength));
+					StartCoroutine(DelayedSignalRecevie(receiver.DelayTime, receiver, strength, signalMessage));
 				}
 				emitter.SignalFailed();
 			}
