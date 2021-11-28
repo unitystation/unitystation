@@ -29,8 +29,10 @@ static class SceneAutoLoader
 	{
 		if (!EditorApplication.isPlaying && EditorApplication.isPlayingOrWillChangePlaymode)
 		{
+			Logger.Log("Editor not playing changing to play");
 			if (EditorSceneManager.GetActiveScene().name.Contains("InitTestScene"))
 			{
+				Logger.Log("Detected Test changing to test ");
 				EditorPrefs.SetString("prevEditorScene", "RRT CleanStation"); //Sets it to the Test statistician to load
 				return; //tests are running do not interfere
 			}
