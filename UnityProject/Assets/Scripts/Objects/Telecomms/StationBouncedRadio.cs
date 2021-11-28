@@ -30,9 +30,7 @@ namespace Objects.Telecomms
 
 		private void ShowChatterToNearbyPeople(RadioMessage message)
 		{
-			Debug.Log(message.Message);
 			var scan = Physics2D.OverlapCircleAll(gameObject.AssumedWorldPosServer(), hearableRange, layerToCheck);
-			Debug.Log(scan);
 			foreach (var player in scan)
 			{
 				if (player.gameObject.TryGetComponent<PlayerScript>(out var connectedPlayer))
@@ -46,7 +44,7 @@ namespace Objects.Telecomms
 
 		private string HandleText(RadioMessage message)
 		{
-			return $"<b><color={ColorUtility.ToHtmlStringRGBA(Chat.Instance.commonColor)}>[{Frequency}] - {message.Sender} says \"{message.Message}\"</color></b>";
+			return $"<b><color=#{ColorUtility.ToHtmlStringRGBA(Chat.Instance.commonColor)}>[{Frequency}] - {message.Sender} says \"{message.Message}\"</color></b>";
 		}
 
 	}
