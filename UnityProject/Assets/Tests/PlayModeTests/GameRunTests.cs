@@ -28,12 +28,13 @@ namespace GameRunTests
 		[UnityTest]
 		public IEnumerator NewTestScriptWithEnumeratorPasses()
 		{
-			yield return SceneManager.LoadSceneAsync("OnlineScene");
+			//SceneManager.LoadSceneAsync(sceneName);
+			yield return SceneManager.LoadSceneAsync("OnlineScene", LoadSceneMode.Additive);
 
 			// yield return SceneManager.LoadSceneAsync("OnlineScene");
 			//
 			// yield return SceneManager.LoadSceneAsync("RRT CleanStation");
-			
+
 			for( int i = 0; i < SceneManager.sceneCount; i++ )
 			{
 				Logger.Log(	SceneManager.GetSceneAt(i).name);
