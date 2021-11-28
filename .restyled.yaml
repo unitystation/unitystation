@@ -13,9 +13,11 @@ remote_files: []
 commit_template: |
   Restyled by ${restyler.name}
 pull_requests: true
-statuses: false
+statuses:
+  differences: false     # Red when style differences are found
+  no_differences: true  # Green when no differences are found
+  error: false           # Red if we encounter errors restyling
 labels: []
 restylers_version: stable
 restylers:
   - dotnet-format
-  
