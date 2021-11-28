@@ -28,7 +28,7 @@ namespace TileManagement
 		public Dictionary<Layer, Dictionary<Vector3Int, List<TileLocation>>> MultilayerPresentTilesNeedsLock =>
 			MultilayerPresentTiles;
 
-		public Dictionary<Layer, BetterBoundsInt> BoundLocations = new Dictionary<Layer, BetterBoundsInt>();
+		private Dictionary<Layer, BetterBoundsInt> BoundLocations = new Dictionary<Layer, BetterBoundsInt>();
 
 		/// <summary>
 		/// Use this dictionary only if performance isn't critical, otherwise try using arrays below
@@ -73,7 +73,7 @@ namespace TileManagement
 		private Thread mainThread;
 
 		private BetterBoundsInt? LocalCachedBounds;
-		public BetterBounds? GlobalCachedBounds;
+		private BetterBounds? GlobalCachedBounds;
 
 		[NonSerialized] public Matrix4x4 localToWorldMatrix = Matrix4x4.identity;
 
