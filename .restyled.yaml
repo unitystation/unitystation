@@ -1,0 +1,21 @@
+enabled: true
+exclude:
+  - "**/*.patch"
+  - ".github/workflows/**/*"
+  - "**/*.prefab"
+  - "**/*.meta"
+  - "**/*.unity"
+  - "**/*.asset"
+changed_paths:
+  maximum: 1000
+  outcome: error
+remote_files: []
+commit_template: |
+  Restyled by ${restyler.name}
+pull_requests: true
+statuses: false
+labels: []
+restylers_version: stable
+restylers:
+  - dotnet-format
+  
