@@ -13,7 +13,7 @@ namespace GameRunTests
 	public class TestRunSO : ScriptableObject
 	{
 
-		[SerializeField] private bool Debug = false; // TODO Test for this , since it would slow stuff down
+		[SerializeField] public bool Debug = false; // TODO Test for this , since it would slow stuff down
 
 		[SerializeField] private float DebugSecondsPerAction;
 
