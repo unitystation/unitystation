@@ -23,15 +23,11 @@ namespace Managers
 		{
 			foreach (SignalReceiver receiver in Receivers)
 			{
-				if (receiver.SignalTypeToReceive != type) return;
+				if (receiver.SignalTypeToReceive != type) continue;
 
-				if (receiver.Frequency.IsBetween(signalDataSo.MinMaxFrequancy.x, signalDataSo.MinMaxFrequancy.y) == false) return;
-				if (receiver.EncryptionData != null)
-				{
-					Debug.Log(signalDataSo.EncryptionData);
-					if(signalDataSo.EncryptionData == null) continue;
-					if(signalDataSo.EncryptionData.EncryptionSecret != receiver.EncryptionData.EncryptionSecret) Debug.Log("FUCK"); continue;
-				}
+				if (receiver.Frequency.IsBetween(signalDataSo.MinMaxFrequancy.x, signalDataSo.MinMaxFrequancy.y) == false) continue;
+				if(MatchingEncryption(receiver, signalDataSo) == false) continue;
+				Debug.Log("cock");
 
 				if (receiver.SignalTypeToReceive == SignalType.PING && receiver.Emitter == emitter)
 				{
@@ -54,6 +50,26 @@ namespace Managers
 					SignalStrengthHandler(receiver, emitter, signalDataSo, signalMessage);
 				}
 			}
+		}
+
+		private bool MatchingEncryption(SignalReceiver receiver, SignalDataSO signalDataSo)
+		{
+			Debug.Log(signalDataSo.EncryptionData);
+			Debug.Log(receiver.EncryptionData);
+			if (receiver.EncryptionData == null) return true;
+			if (signalDataSo.EncryptionData == null)
+			{
+				Debug.Log("ass");
+				return false;
+			}
+
+			if (signalDataSo.EncryptionData.EncryptionSecret != receiver.EncryptionData.EncryptionSecret)
+			{
+				Debug.Log("FUCK");
+				return false;
+			}
+
+			return true;
 		}
 
 		private bool AreOnTheSameFrequancy(SignalReceiver receiver , SignalEmitter emitter)
