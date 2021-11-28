@@ -30,14 +30,10 @@ namespace GameRunTests
 		{
 			yield return SceneManager.LoadSceneAsync("OnlineScene");
 
-			yield return SceneManager.LoadSceneAsync("OnlineScene");
-
-			yield return SceneManager.LoadSceneAsync("RRT CleanStation");
-
-			yield return WaitFor.Seconds(5);
-
-			yield return null;
-
+			// yield return SceneManager.LoadSceneAsync("OnlineScene");
+			//
+			// yield return SceneManager.LoadSceneAsync("RRT CleanStation");
+			
 			for( int i = 0; i < SceneManager.sceneCount; i++ )
 			{
 				Logger.Log(	SceneManager.GetSceneAt(i).name);
