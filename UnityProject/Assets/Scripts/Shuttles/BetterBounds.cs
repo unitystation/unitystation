@@ -1,9 +1,10 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public struct BetterBounds
+public struct BetterBounds : IEquatable<BetterBounds>
 {
 	public Vector3 Minimum;
 	public Vector3 Maximum;
@@ -89,6 +90,11 @@ public struct BetterBounds
 
 
 		return false;
+	}
+
+	public bool Equals(BetterBounds other)
+	{
+		return Maximum == other.Maximum && Minimum == other.Minimum;
 	}
 
 

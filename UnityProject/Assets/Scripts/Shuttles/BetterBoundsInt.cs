@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public struct BetterBoundsInt
+public struct BetterBoundsInt : IEquatable<BetterBoundsInt>
 {
 	public Vector3Int Minimum;
 	public Vector3Int Maximum;
@@ -42,7 +42,6 @@ public struct BetterBoundsInt
 	{
 		Minimum = Vector3Int.Min(Minimum, Point);
 		Maximum = Vector3Int.Max(Maximum, Point);
-;
 	}
 
 	public List<Vector3Int> allPositionsWithin()
@@ -63,4 +62,8 @@ public struct BetterBoundsInt
 		return Returning;
 	}
 
+	public bool Equals(BetterBoundsInt other)
+	{
+		return Maximum == other.Maximum && Minimum == other.Minimum;
+	}
 }
