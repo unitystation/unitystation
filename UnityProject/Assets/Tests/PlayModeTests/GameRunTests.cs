@@ -52,7 +52,12 @@ namespace GameRunTests
 				var roots = Scene.GetRootGameObjects();
 				foreach (var root in roots)
 				{
-					Logger.Log("game ob > " + root.name);
+					Logger.Log("game ob root > " + root.name);
+					for (int i = 0; i <  root.transform.childCount; i++)
+					{
+						var  gameob = root.transform.GetChild(i);
+						Logger.Log("game ob > " + gameob.name);
+					}
 				}
 			}
 
