@@ -30,6 +30,10 @@ namespace GameRunTests
 		{
 			yield return SceneManager.LoadSceneAsync("OnlineScene");
 
+			yield return WaitFor.Seconds(5);
+
+			yield return null;
+
 			for( int i = 0; i < SceneManager.sceneCount; i++ )
 			{
 				Logger.Log(	SceneManager.GetSceneAt(i).name);
