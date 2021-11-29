@@ -66,6 +66,7 @@ namespace GameRunTests
 			}
 			foreach (var Scene in loadedScenes)
 			{
+				Logger.Log("Scene" + Scene.name);
 				var roots = Scene.GetRootGameObjects();
 				foreach (var root in roots)
 				{
