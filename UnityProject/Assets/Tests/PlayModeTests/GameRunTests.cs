@@ -35,6 +35,8 @@ namespace GameRunTests
 			//
 			// yield return SceneManager.LoadSceneAsync("RRT CleanStation");
 
+			UnityEngine.Object.Instantiate(TestSingleton.Instance.Object);
+
 			for( int i = 0; i < SceneManager.sceneCount; i++ )
 			{
 				Logger.Log(	SceneManager.GetSceneAt(i).name);
@@ -54,19 +56,16 @@ namespace GameRunTests
 				foreach (var root in roots)
 				{
 					Logger.Log("game ob root > " + root.name);
-					for (int i = 0; i <  root.transform.childCount; i++)
-					{
-						var  gameob = root.transform.GetChild(i);
-						Logger.Log("game ob > " + gameob.name);
-					}
+					//for (int i = 0; i <  root.transform.childCount; i++)
+					//{
+					//	var  gameob = root.transform.GetChild(i);
+					//	Logger.Log("game ob > " + gameob.name);
+					//}
 				}
 			}
 
 
-
-			var _GameManager = UnityEngine.Object.FindObjectOfType<GameManager>();
-
-			_GameManager.QuickLoad = true;
+			GameManager.Instance.QuickLoad = true;
 
 			yield return TestSingleton.Instance.RunTests();
 
@@ -76,7 +75,7 @@ namespace GameRunTests
 			// RunRestartRound();
 			// yield return WaitFor.Seconds(10);
 
-			_GameManager.QuickLoad = false;
+			GameManager.Instance.QuickLoad = false;
 		}
 
 
