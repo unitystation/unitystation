@@ -1,7 +1,6 @@
 ﻿using System;
 using Mirror;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using Random = UnityEngine.Random;
 using Items;
@@ -102,15 +101,14 @@ namespace items
 			}
 		}
 
-		private bool TryLightByObject()
+		private void TryLightByObject()
 		{
 			if (!isLit)
 			{
 				ServerChangeLit(true);
-				return true;
 			}
 
-			return false;
+			return;
 		}
 
 		private void Burn()
