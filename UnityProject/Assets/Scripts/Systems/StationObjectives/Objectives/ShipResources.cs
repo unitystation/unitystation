@@ -16,7 +16,7 @@ namespace StationObjectives
 		/// The pool of possible resources to ship
 		/// </summary>
 		[SerializeField]
-		private DemandDictionary itemPool;
+		private SerializableDictionary<ItemTrait, int> itemPool;
 
 		private int requiredAmount;
 		private ItemTrait itemTrait;

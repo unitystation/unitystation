@@ -49,7 +49,7 @@ using Systems.Interaction;
 			base.OnDespawnServer(info);
 			//when we're going to be destroyed, need to tell all subsystems that our space is now passable
 			isClosed = false;
-			tileChangeManager.RemoveTile(LocalPositionServer, LayerType.Walls); //for false-wall meta-walls
+			tileChangeManager.MetaTileMap.RemoveTileWithlayer(LocalPositionServer, LayerType.Walls); //for false-wall meta-walls
 			if (SubsystemManager != null)
 			{
 				SubsystemManager.UpdateAt(LocalPositionServer);

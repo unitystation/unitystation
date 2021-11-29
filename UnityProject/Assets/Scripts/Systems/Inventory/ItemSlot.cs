@@ -320,7 +320,8 @@ public class ItemSlot
 					Logger.LogTrace($"Cannot fit {toStore} in slot {ToString()}, item was blacklisted.", Category.Inventory);
 					if (examineRecipient)
 					{
-						Chat.AddExamineMsg(examineRecipient, $"{toStore.gameObject.ExpensiveName()} can't be placed there!");
+						Chat.AddExamineMsg(examineRecipient,
+							$"<color=red>The {storageToCheck.gameObject.ExpensiveName()} cannot hold the {toStore.gameObject.ExpensiveName()}!</color>");
 					}
 
 					return false;
@@ -398,7 +399,7 @@ public class ItemSlot
 			if (targetPlayerScript != null)
 			{
 				//going into a top-level inventory slot of a player
-				Chat.AddExamineMsg(examineRecipient, $"{toStore.gameObject.ExpensiveName()} can't go in that slot.");
+				Chat.AddExamineMsg(examineRecipient, $"<color=red>{toStore.gameObject.ExpensiveName()} is too big for the {ItemStorage.gameObject.ExpensiveName()}!</color>");
 			}
 			else
 			{

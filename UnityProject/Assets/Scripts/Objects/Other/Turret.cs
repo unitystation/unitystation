@@ -630,8 +630,13 @@ namespace Objects.Other
 					return;
 				}
 
+				//If unlocked then quick to lock, if locked then if unconnected to switch quick to unlock
+				//Else locked and connected so take long to stop rush unlocking to switch turrets off
+				var time = unlocked ? 1f :
+					connectedSwitch != null ? 10f : 1f;
+
 				var bar = StandardProgressAction.Create(new StandardProgressActionConfig(StandardProgressActionType.Construction, false, false, true), Perform);
-				bar.ServerStartProgress(interaction.Performer.RegisterTile(), unlocked ? 5f : 15f, interaction.Performer);
+				bar.ServerStartProgress(interaction.Performer.RegisterTile(), time, interaction.Performer);
 
 				void Perform()
 				{

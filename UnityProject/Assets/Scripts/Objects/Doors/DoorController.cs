@@ -399,7 +399,7 @@ namespace Doors
 
 		public void ServerDisassemble(HandApply interaction)
 		{
-			tileChangeManager.RemoveTile(registerTile.LocalPositionServer, LayerType.Walls);
+			tileChangeManager.MetaTileMap.RemoveTileWithlayer(registerTile.LocalPositionServer, LayerType.Walls);
 			Spawn.ServerPrefab(CommonPrefabs.Instance.Metal, registerTile.WorldPositionServer, count: 4);
 			_ = Despawn.ServerSingle(gameObject);
 		}

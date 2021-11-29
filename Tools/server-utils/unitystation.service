@@ -1,0 +1,16 @@
+[Unit]
+Description=Unitystation server
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+Restart=always
+RestartSec=5s
+KillSignal=SIGKILL
+Environment="LD_LIBRARY_PATH=/home/unitystation/us13/Unitystation_Data/Plugins/x86_64"
+User=unitystation
+WorkingDirectory=/home/unitystation/us13
+ExecStart=/home/unitystation/us13/Unitystation -batchmode -nographics -logfile serverlog.txt
+
+[Install]
+WantedBy=network-online.target

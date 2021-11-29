@@ -15,7 +15,7 @@ namespace Messages.Client
 		public static NetMessage Send()
 		{
 			NetMessage msg = new NetMessage();
-			Send();
+			Send(msg);
 			return msg;
 		}
 	}

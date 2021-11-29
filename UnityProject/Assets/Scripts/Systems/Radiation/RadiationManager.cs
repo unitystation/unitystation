@@ -56,6 +56,7 @@ namespace Systems.Radiation
 		public void StartSim()
 		{
 			if (!CustomNetworkManager.Instance._isServer) return;
+			StopSim();
 			if (Running == false)
 			{
 				SetSpeed((int) MSSpeed);
@@ -224,15 +225,17 @@ namespace Systems.Radiation
 			float RadiationOnStep = RadiationStrength;
 			for (;;)
 			{
-				var NodePoint = Pulse.Matrix.GetMetaDataNode(new Vector2Int(x0, y0));
+				var WorldPSos = new Vector3Int(x0, y0, 0);
+				var Matrix = MatrixManager.AtPoint(WorldPSos, CustomNetworkManager.IsServer);
+				var Local = WorldPSos.ToLocal(Matrix.Matrix).RoundToInt();
+				var NodePoint = Matrix.MetaDataLayer.Get(Local);
 				var RadiationNode = NodePoint?.RadiationNode;
 				if (RadiationNode != null)
 				{
-					foreach (var Layer in Pulse.Matrix.MetaTileMap.Layers)
+					foreach (var Layer in Matrix.MetaTileMap.Layers)
 					{
 						if (Layer.Key == LayerType.Underfloor) continue;
-						var basicTile =
-							Pulse.Matrix.MetaTileMap.GetTile(new Vector2Int(x0, y0).To3Int(), Layer.Key) as BasicTile;
+						var basicTile = Matrix.MetaTileMap.GetTile(Local, Layer.Key) as BasicTile;
 						if (basicTile != null)
 						{
 							RadiationOnStep *= basicTile.RadiationPassability;
@@ -259,24 +262,22 @@ namespace Systems.Radiation
 			}
 		}
 
-		public void RequestPulse(Matrix Matrix, Vector3Int Location, float Strength, int InSourceID)
+		public void RequestPulse(Vector3Int Location, float Strength, int InSourceID)
 		{
 			lock (PulseQueue)
 			{
-				PulseQueue.Add(new RadiationPulse(Matrix, Location, Strength, InSourceID));
+				PulseQueue.Add(new RadiationPulse(Location, Strength, InSourceID));
 			}
 		}
 
 		public struct RadiationPulse
 		{
-			public Matrix Matrix;
 			public Vector3Int Location;
 			public float Strength;
 			public int SourceID;
 
-			public RadiationPulse(Matrix InMatrix, Vector3Int InLocation, float InStrength, int InSourceID)
+			public RadiationPulse( Vector3Int InLocation, float InStrength, int InSourceID)
 			{
-				Matrix = InMatrix;
 				Location = InLocation;
 				Strength = InStrength;
 				SourceID = InSourceID;

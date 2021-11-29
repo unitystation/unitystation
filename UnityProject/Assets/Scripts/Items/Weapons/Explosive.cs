@@ -23,8 +23,9 @@ namespace Items.Weapons
 		[SerializeField] private int minimumTimeToDetonate = 10;
 		[SerializeField] private ExplosionComponent explosionPrefab;
 		[SerializeField] private SpriteDataSO activeSpriteSO;
+		[SerializeField] private float progressTime = 3f;
 		[Header("Explosive Components")]
-		private SpriteHandler spriteHandler;
+		[SerializeField] private SpriteHandler spriteHandler;
 		private RegisterItem registerItem;
 		private ObjectBehaviour objectBehaviour;
 		private Pickupable pickupable;
@@ -55,7 +56,7 @@ namespace Items.Weapons
 
 		private void Awake()
 		{
-			spriteHandler = GetComponent<SpriteHandler>();
+			if(spriteHandler == null) spriteHandler = GetComponent<SpriteHandler>();
 			registerItem = GetComponent<RegisterItem>();
 			objectBehaviour = GetComponent<ObjectBehaviour>();
 			pickupable = GetComponent<Pickupable>();
@@ -164,7 +165,7 @@ namespace Items.Weapons
 					foreach (var registerTile in tiles)
 					{
 						if (CanAttatchToTarget(registerTile.Matrix, registerTile) == false) continue;
-						Chat.AddExamineMsg(interaction.Performer, $"The {interaction.TargetObject.ExpensiveName()} isn't a good spot to arm the C4 on..");
+						Chat.AddExamineMsg(interaction.Performer, $"The {interaction.TargetObject.ExpensiveName()} isn't a good spot to arm the explosive on..");
 						return;
 					}
 				}
@@ -172,13 +173,16 @@ namespace Items.Weapons
 				Inventory.ServerDrop(pickupable.ItemSlot, interaction.TargetVector);
 				isOnObject = true;
 				pickupable.ServerSetCanPickup(false);
-				spriteHandler.transform.localScale = new Vector3(0.6f, 0.6f, 0.6f); //Visual feedback to indicate that it's been attached and not just dropped.
+				objectBehaviour.ServerSetPushable(false);
+				//Visual feedback to indicate that it's been attached and not just dropped.
+				//We put it under a null check because headless servers for some reason don't get them on Awake()
+				if (spriteHandler != null) spriteHandler.transform.localScale = new Vector3(0.6f, 0.6f, 0.6f);
 				Chat.AddActionMsgToChat(interaction.Performer, $"You attach the {gameObject.ExpensiveName()} to a nearby object..",
 					$"{interaction.PerformerPlayerScript.visibleName} attaches a {gameObject.ExpensiveName()} to nearby object!");
 			}
 
 			//For interacting with the explosive while it's on a wall.
-			if (pickupable.CanPickup == false && isOnObject == true || interaction.IsAltClick)
+			if (isOnObject == true || interaction.IsAltClick)
 			{
 				explosiveGUI.ServerPerformInteraction(interaction);
 				return;
@@ -190,11 +194,12 @@ namespace Items.Weapons
 			{
 				Emitter = emitter;
 				Chat.AddExamineMsg(interaction.Performer, "You successfully pair the remote signal to the device.");
+				return;
 			}
 			//The progress bar that triggers Preform()
 			//Must not be interrupted for it to work.
 			var bar = StandardProgressAction.Create(new StandardProgressActionConfig(StandardProgressActionType.CPR, false, false), Perform);
-			bar.ServerStartProgress(interaction.Performer.RegisterTile(), 3f, interaction.Performer);
+			bar.ServerStartProgress(interaction.Performer.RegisterTile(), progressTime, interaction.Performer);
 		}
 		#endregion
 	}

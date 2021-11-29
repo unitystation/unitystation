@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Strings;
 
 namespace Objects
 {
@@ -73,10 +74,10 @@ namespace Objects
 
 			if (GameManager.Instance.ShuttleSent) return;
 
-			Chat.AddSystemMsgToChat("\n\n<color=#FF151F><size=40><b>Escape Shuttle Emergency Launch Triggered!</b></size></color>\n\n",
+			Chat.AddSystemMsgToChat($"\n\n<color=#FF151F><size={ChatTemplates.LargeText}><b>Escape Shuttle Emergency Launch Triggered!</b></size></color>\n\n",
 				MatrixManager.MainStationMatrix);
 
-			Chat.AddSystemMsgToChat("\n\n<color=#FF151F><size=40><b>Escape Shuttle Emergency Launch Triggered!</b></size></color>\n\n",
+			Chat.AddSystemMsgToChat($"\n\n<color=#FF151F><size={ChatTemplates.LargeText}><b>Escape Shuttle Emergency Launch Triggered!</b></size></color>\n\n",
 				GameManager.Instance.PrimaryEscapeShuttle.MatrixInfo);
 
 			_ = SoundManager.PlayNetworked(CommonSounds.Instance.Notice1);

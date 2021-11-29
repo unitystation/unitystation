@@ -107,10 +107,11 @@ MonoBehaviour:
     buildTime: 2.5
     spawnAmount: 1
     onePerTile: 1
-  - name: Airlock
-    prefab: {fileID: 1000011462531918, guid: e1a9ff52d12442f3bf8a03873bcab8ee, type: 3}
+  - name: Metal Airlock Assembly
+    prefab: {fileID: 1098236831370060136, guid: b94283d564a6208458af271a84369985,
+      type: 3}
     cost: 4
-    buildTime: 2.5
+    buildTime: 5
     spawnAmount: 1
     onePerTile: 1
   - name: Low-voltage Machine Connector

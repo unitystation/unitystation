@@ -9,6 +9,12 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 90086938426635484, guid: b52e9566ba635f944a7a656928335414,
         type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 73ade33c941933d45befa8ff50996d8e,
+        type: 2}
+    - target: {fileID: 90086938426635484, guid: b52e9566ba635f944a7a656928335414,
+        type: 3}
       propertyPath: SubCatalogue.Array.data[1]
       value: 
       objectReference: {fileID: 11400000, guid: 73ade33c941933d45befa8ff50996d8e,
@@ -25,11 +31,23 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: e2edd8c7460e6a047b6115dd55b57b18,
         type: 2}
+    - target: {fileID: 459137905406169173, guid: b52e9566ba635f944a7a656928335414,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: dcd4fe935e99cb74f92222fae6f00e2b,
+        type: 3}
     - target: {fileID: 492649207374439926, guid: b52e9566ba635f944a7a656928335414,
         type: 3}
       propertyPath: initialName
       value: pod airlock assembly
       objectReference: {fileID: 0}
+    - target: {fileID: 700425905060650895, guid: b52e9566ba635f944a7a656928335414,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: ca89864acbd1aa946aa60b7dcb1843a2,
+        type: 2}
     - target: {fileID: 700425905060650895, guid: b52e9566ba635f944a7a656928335414,
         type: 3}
       propertyPath: SubCatalogue.Array.data[1]
@@ -53,6 +71,18 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: a903a2581972be0439cf86b1c4e8a79c,
         type: 2}
+    - target: {fileID: 3120403218613559149, guid: b52e9566ba635f944a7a656928335414,
+        type: 3}
+      propertyPath: airlockToSpawn
+      value: 
+      objectReference: {fileID: 3680791138947239821, guid: f3b61ee98c796e9478df247f037326ca,
+        type: 3}
+    - target: {fileID: 3120403218613559149, guid: b52e9566ba635f944a7a656928335414,
+        type: 3}
+      propertyPath: airlockWindowedToSpawn
+      value: 
+      objectReference: {fileID: 8048812447697098147, guid: 06b24b667bd2106458b6e3bc8be4aceb,
+        type: 3}
     - target: {fileID: 6125502474817307791, guid: b52e9566ba635f944a7a656928335414,
         type: 3}
       propertyPath: foreverID

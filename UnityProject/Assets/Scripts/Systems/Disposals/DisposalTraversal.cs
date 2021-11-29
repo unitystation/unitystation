@@ -199,7 +199,7 @@ namespace Systems.Disposals
 		private void TryDamageTileFromEjection(Vector3Int localPosition)
 		{
 			if (matrix.TileChangeManager.MetaTileMap.HasTile(localPosition, LayerType.Floors) == false) return;
-			matrix.TileChangeManager.UpdateTile(localPosition, TileType.Floor, "damaged3");
+			matrix.TileChangeManager.MetaTileMap.SetTile(localPosition, TileType.Floor, "damaged3");
 		}
 
 		/// <summary>

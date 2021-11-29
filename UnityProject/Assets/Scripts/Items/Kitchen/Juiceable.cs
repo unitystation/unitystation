@@ -11,9 +11,9 @@ public class Juiceable : MonoBehaviour
 {
 	[SerializeField]
 	[Tooltip("What reagent(s) this GameObject becomes when juiced.")]
-	private DictionaryReagentInt juicedReagents;
+	private SerializableDictionary<Reagent, int> juicedReagents;
 	/// <summary>
 	/// Get the processed product of this object.
 	/// </summary>
-	public DictionaryReagentInt JuicedReagents => juicedReagents;
+	public SerializableDictionary<Reagent, int> JuicedReagents => juicedReagents;
 }

@@ -16,17 +16,11 @@ namespace Chemistry.Components
 		public SpriteDataSO MainSpriteSO;
 	}
 
-	[Serializable]
-	public class DictionaryReagentCustomSprite : SerializableDictionary<Reagent, ContainerCustomSprite>
-	{
-
-	}
-
 	[CreateAssetMenu(fileName = "morphable container", menuName = "ScriptableObjects/Chemistry/MorphableContainerData")]
 	public class MorphableReagentContainerData : ScriptableObject
 	{
 		[SerializeField]
-		private DictionaryReagentCustomSprite spritesData = new DictionaryReagentCustomSprite();
+		private SerializableDictionary<Reagent, ContainerCustomSprite> spritesData = new SerializableDictionary<Reagent, ContainerCustomSprite>();
 
 		public ContainerCustomSprite Get(Reagent reagent)
 		{

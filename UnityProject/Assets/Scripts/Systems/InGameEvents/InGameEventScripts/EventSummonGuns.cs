@@ -3,6 +3,7 @@ using UnityEngine;
 using NaughtyAttributes;
 using Antagonists;
 using AddressableReferences;
+using Strings;
 
 namespace InGameEvents
 {
@@ -45,7 +46,7 @@ namespace InGameEvents
 
 		private void SetAsAntagSurvivor(ConnectedPlayer player)
 		{
-			Chat.AddExamineMsgFromServer(player, "<color=red><size=60>You are the survivalist!</size></color>");
+			Chat.AddExamineMsgFromServer(player, $"<color=red><size={ChatTemplates.VeryLargeText}>You are the survivalist!</size></color>");
 			AntagManager.Instance.ServerFinishAntag(survivorAntag, player);
 		}
 	}

@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using System.Linq;
 using Mirror;
 using UnityEngine;
+using Messages.Server;
+using UI;
 
 /// <summary>
 /// Allows an item to be stacked, occupying a single inventory slot.
@@ -293,6 +295,13 @@ public class Stackable : NetworkBehaviour, IServerLifecycle, ICheckedInteractabl
 		//only has logic if this is the target object
 		if (interaction.TargetObject != gameObject) return false;
 
+		//Alt clicking with empty hand calls splitting menu UI
+		if (side == NetworkSide.Client && interaction.IsFromHandSlot && interaction.IsToHandSlot && interaction.FromSlot.IsEmpty && interaction.IsAltClick)
+		{
+			UIManager.Instance.SplittingMenu.Enable();
+			return true;
+		}
+
 		//clicking on it with an empty hand when stack is in another hand to take one from it,
 		//(if there is only one in this stack we will defer to normal inventory transfer logic)
 		if (interaction.IsFromHandSlot && interaction.IsToHandSlot && interaction.FromSlot.IsEmpty && amount > 1) return true;
@@ -306,7 +315,7 @@ public class Stackable : NetworkBehaviour, IServerLifecycle, ICheckedInteractabl
 	public void ServerPerformInteraction(InventoryApply interaction)
 	{
 		//clicking on it with an empty hand when stack is in another hand to take one from it
-		if (interaction.IsFromHandSlot && interaction.IsToHandSlot && interaction.FromSlot.IsEmpty)
+		if (interaction.IsFromHandSlot && interaction.IsToHandSlot && interaction.FromSlot.IsEmpty && !interaction.IsAltClick)
 		{
 			//spawn a new one and put it into the from slot with a stack size of 1
 			var single = Spawn.ServerPrefab(prefab).GameObject;

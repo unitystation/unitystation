@@ -191,9 +191,7 @@ namespace AdminCommands
 			if (shuttle.Status == EscapeShuttleStatus.DockedCentcom)
 			{
 				shuttle.CallShuttle(out _);
-
-				var minutes = TimeSpan.FromSeconds(shuttle.InitialTimerSeconds).ToString();
-				CentComm.MakeShuttleCallAnnouncement(minutes, text, true);
+				CentComm.MakeShuttleCallAnnouncement(shuttle.InitialTimerSeconds, text, true);
 
 				LogAdminAction($"{player.Username}: CALLED the emergency shuttle. \n {text}");
 			}
