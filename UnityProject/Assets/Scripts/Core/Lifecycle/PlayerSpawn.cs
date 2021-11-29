@@ -7,6 +7,7 @@ using Systems.Spawns;
 using Managers;
 using Messages.Server;
 using Messages.Server.LocalGuiMessages;
+using Newtonsoft.Json;
 using UI.CharacterCreator;
 
 /// <summary>
@@ -29,17 +30,22 @@ public static class PlayerSpawn
 	/// <param name="occupation">occupation to spawn as</param>
 	/// <param name="characterSettings">settings to use for the character</param>
 	/// <returns>the game object of the spawned player</returns>
-	public static GameObject ServerSpawnPlayer(PlayerSpawnRequest request, JoinedViewer joinedViewer, Occupation occupation, CharacterSettings characterSettings, bool showBanner = true)
+	public static GameObject ServerSpawnPlayer(PlayerSpawnRequest request, JoinedViewer joinedViewer, Occupation occupation, CharacterSettings characterSettings, bool showBanner = true, Vector3Int?
+		spawnPos = null, Mind existingMind = null, NetworkConnection conn = null)
 	{
 		if(ValidateCharacter(request) == false)
 		{
 			return null;
 		}
 
-		NetworkConnection conn = joinedViewer.connectionToClient;
+		if (conn == null)
+		{
+			conn = joinedViewer.connectionToClient;
+		}
+
 
 		// TODO: add a nice cutscene/animation for the respawn transition
-		var newPlayer = ServerSpawnInternal(conn, occupation, characterSettings, null, showBanner: showBanner);
+		var newPlayer = ServerSpawnInternal(conn, occupation, characterSettings, existingMind, showBanner: showBanner, spawnPos: spawnPos);
 		if (newPlayer != null && occupation.IsCrewmember)
 		{
 			CrewManifestManager.Instance.AddMember(newPlayer.GetComponent<PlayerScript>(), occupation.JobType);
@@ -116,7 +122,7 @@ public static class PlayerSpawn
 	/// Respawns the mind's character and transfers their control to it.
 	/// </summary>
 	/// <param name="forMind"></param>
-	public static void ServerRespawnPlayer(Mind forMind)
+	public static void ServerRespawnPlayer(Mind forMind, Vector3Int? Position = null)
 	{
 		//get the settings from the mind
 		var occupation = forMind.occupation;
@@ -126,7 +132,7 @@ public static class PlayerSpawn
 
 		var player = oldBody.Player();
 		var oldGhost = forMind.ghost;
-		ServerSpawnInternal(connection, occupation, settings, forMind, willDestroyOldBody: oldGhost != null);
+		ServerSpawnInternal(connection, occupation, settings, forMind, willDestroyOldBody: oldGhost != null, spawnPos: Position);
 
 		if (oldGhost)
 		{

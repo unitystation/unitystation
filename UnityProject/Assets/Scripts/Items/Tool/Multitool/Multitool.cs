@@ -66,7 +66,7 @@ namespace Items.Engineering
 								interaction.Performer,
 								$"You connect the <b>{interaction.TargetObject.ExpensiveName()}</b> " +
 								$"to the master device <b>{slaveComponent.gameObject.ExpensiveName()}</b>.");
-							}							
+							}
 							return;
 						case IMultitoolMultiMasterSlaveable slaveMultiMaster:
 							slaveMultiMaster.SetMasters(buffers);
@@ -91,7 +91,7 @@ namespace Items.Engineering
 			Vector3Int worldPosInt = interaction.WorldPositionTarget.To2Int().To3Int();
 			MatrixInfo matrixinfo = MatrixManager.AtPoint(worldPosInt, true);
 			var localPosInt = MatrixManager.WorldToLocalInt(worldPosInt, matrixinfo);
-			var matrix = interaction.Performer.GetComponentInParent<Matrix>();
+			var matrix = interaction.Performer.RegisterTile().Matrix;
 			var electricalNodes = matrix.GetElectricalConnections(localPosInt);
 
 			APCPoweredDevice device = default;
@@ -102,7 +102,7 @@ namespace Items.Engineering
 			{
 				sb.Clear();
 				sb.AppendLine("The multitool's display lights up.</i>");
-				
+
 				if (deviceFound)
 				{
 					sb.AppendLine(device.RelatedAPC == null
