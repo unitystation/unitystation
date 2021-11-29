@@ -25,19 +25,18 @@ namespace items
 		[Tooltip("Time after torch will destroy and spawn burnt remains")]
 		private float burnTimeSeconds = 30;
 
-		public SpriteHandler spriteHandler;
-		private FireSource fireSource;
-		private Pickupable pickupable;
-		private ItemLightControl lightControl;
-
 		[SyncVar]
 		private bool isLit = false;
 
+		private SpriteHandler spriteHandler;
+		private FireSource fireSource;
+		private Pickupable pickupable;
+
 		private void Awake()
 		{
+			spriteHandler = GetComponentInChildren<SpriteHandler>();
 			fireSource = GetComponent<FireSource>();
 			pickupable = GetComponent<Pickupable>();
-			lightControl = GetComponent<ItemLightControl>();
 		}
 
 		public void OnDespawnServer(DespawnInfo info)
