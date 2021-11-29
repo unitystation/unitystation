@@ -30,10 +30,17 @@ namespace GameRunTests
 			yield return SceneManager.LoadSceneAsync("OnlineScene");
 
 
-			int LoadedPrefabs = 1;
-
 			int countLoaded = SceneManager.sceneCount;
 			Scene[] loadedScenes = new Scene[countLoaded];
+			for (int i = 0; i < countLoaded; i++)
+			{
+				yield return SceneManager.UnloadSceneAsync (SceneManager.GetSceneAt(i));
+				break;
+			}
+
+
+			countLoaded = SceneManager.sceneCount;
+			loadedScenes = new Scene[countLoaded];
 			for (int i = 0; i < countLoaded; i++)
 			{
 				loadedScenes[i] = SceneManager.GetSceneAt(i);
@@ -45,16 +52,8 @@ namespace GameRunTests
 				foreach (var root in roots)
 				{
 					{
-						LoadedPrefabs++;
+						Logger.Log("root >" + root.name);
 					}
-				}
-			}
-
-			if (LoadedPrefabs == 1)
-			{
-				foreach (var Prefab in TestSingleton.Instance.OnlineSceneObjects)
-				{
-				    UnityEngine.Object.Instantiate(Prefab);
 				}
 			}
 
