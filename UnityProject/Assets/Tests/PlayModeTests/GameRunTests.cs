@@ -29,10 +29,9 @@ namespace GameRunTests
 		{
 			yield return SceneManager.LoadSceneAsync("OnlineScene");
 
-			for( int i = 0; i < SceneManager.sceneCount; i++ )
-			{
-				Logger.Log(	SceneManager.GetSceneAt(i).name);
-			}
+
+			int LoadedPrefabs = 1;
+
 			int countLoaded = SceneManager.sceneCount;
 			Scene[] loadedScenes = new Scene[countLoaded];
 			for (int i = 0; i < countLoaded; i++)
@@ -45,8 +44,16 @@ namespace GameRunTests
 				foreach (var root in roots)
 				{
 					{
-						Logger.Log("game ob root > " + root.name);
+						LoadedPrefabs++;
 					}
+				}
+			}
+
+			if (LoadedPrefabs == 1)
+			{
+				foreach (var Prefab in TestSingleton.Instance.OnlineSceneObjects)
+				{
+					Spawn.ServerPrefab(Prefab);
 				}
 			}
 

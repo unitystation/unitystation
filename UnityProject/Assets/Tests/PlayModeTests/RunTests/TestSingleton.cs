@@ -16,6 +16,8 @@ namespace GameRunTests
 	public class TestSingleton : SingletonScriptableObject<TestSingleton>
 	{
 
+		public List<GameObject> OnlineSceneObjects = new List<GameObject>();
+
 		public List<TestRunSO> Tests = new List<TestRunSO>();
 
 
