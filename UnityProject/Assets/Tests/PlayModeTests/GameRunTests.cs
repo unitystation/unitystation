@@ -58,6 +58,8 @@ namespace GameRunTests
 				}
 			}
 
+			yield return WaitFor.Seconds(2);
+
 			countLoaded = SceneManager.sceneCount;
 			loadedScenes = new Scene[countLoaded];
 			for (int i = 0; i < countLoaded; i++)
