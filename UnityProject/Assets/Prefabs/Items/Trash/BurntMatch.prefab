@@ -10,8 +10,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8688576ed720a4f40b3583f62adeeb23, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  m_Name:
+  m_EditorClassIdentifier:
   groundReagents:
     m_keys:
     - {fileID: 11400000, guid: 82692ea8680693d459ad97993dbda0f3, type: 2}
@@ -79,12 +79,12 @@ PrefabInstance:
     - target: {fileID: 114776788309089574, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
       propertyPath: customNetTransform
-      value: 
+      value:
       objectReference: {fileID: 8946753275530743706}
     - target: {fileID: 212340400423555046, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
       propertyPath: m_Sprite
-      value: 
+      value:
       objectReference: {fileID: 21300000, guid: 1b38a5b92bc7bf8479d6d3e233c3feb3,
         type: 3}
     - target: {fileID: 212340400423555046, guid: a7abba22164ce49f0bf9b9b219f39298,
@@ -120,19 +120,19 @@ PrefabInstance:
     - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
       propertyPath: itemSprites.SpriteLeftHand
-      value: 
+      value:
       objectReference: {fileID: 11400000, guid: 7200b79852101844aa394b1465cba17b,
         type: 2}
     - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
       propertyPath: initialTraits.Array.data[0]
-      value: 
+      value:
       objectReference: {fileID: 11400000, guid: 77ecf8292d96402488afcc99b057daab,
         type: 2}
     - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
       propertyPath: itemSprites.SpriteRightHand
-      value: 
+      value:
       objectReference: {fileID: 11400000, guid: c1d8e86307fb8db4da9da99a6cff3325,
         type: 2}
     - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
@@ -148,7 +148,7 @@ PrefabInstance:
     - target: {fileID: 6144467708197095229, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
       propertyPath: PresentSpriteSet
-      value: 
+      value:
       objectReference: {fileID: 11400000, guid: 34391d1c9a33496489517905e0493544,
         type: 2}
     - target: {fileID: 6393191727481188567, guid: a7abba22164ce49f0bf9b9b219f39298,
@@ -174,5 +174,5 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 579884b05ae74e8499329b64997147d3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  m_Name:
+  m_EditorClassIdentifier:
