@@ -57,6 +57,24 @@ namespace GameRunTests
 				}
 			}
 
+			countLoaded = SceneManager.sceneCount;
+			loadedScenes = new Scene[countLoaded];
+			for (int i = 0; i < countLoaded; i++)
+			{
+				loadedScenes[i] = SceneManager.GetSceneAt(i);
+			}
+			foreach (var Scene in loadedScenes)
+			{
+				var roots = Scene.GetRootGameObjects();
+				foreach (var root in roots)
+				{
+					{
+						Logger.Log("root >" + root.name);
+					}
+				}
+			}
+
+
 			GameManager.Instance.QuickLoad = true;
 
 			yield return TestSingleton.Instance.RunTests();
