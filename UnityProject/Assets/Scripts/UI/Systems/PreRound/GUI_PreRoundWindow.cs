@@ -8,332 +8,296 @@ using DatabaseAPI;
 using ServerInfo;
 using AdminCommands;
 
+namespace UI {
+public class GUI_PreRoundWindow : MonoBehaviour {
+  // Text objects
+  [SerializeField]
+  private TMP_Text currentGameMode = null;
+  [SerializeField]
+  private TMP_Text timer = null;
+  [SerializeField]
+  private TMP_Text playerCount = null;
+  [SerializeField]
+  private TMP_Text readyText = null;
 
-namespace UI
-{
-public class GUI_PreRoundWindow : MonoBehaviour
-{
-    // Text objects
-    [SerializeField]
-    private TMP_Text currentGameMode = null;
-    [SerializeField]
-    private TMP_Text timer = null;
-    [SerializeField]
-    private TMP_Text playerCount = null;
-    [SerializeField]
-    private TMP_Text readyText = null;
+  [SerializeField]
+  private TMP_Text loadingText = null;
 
+  [SerializeField]
+  private Scrollbar loadingBar = null;
 
-    [SerializeField] private TMP_Text loadingText = null;
+  [SerializeField]
+  private GameObject normalWindows = null;
 
-    [SerializeField] private Scrollbar loadingBar = null;
+  [SerializeField]
+  private GameObject warnText = null;
 
-    [SerializeField] private GameObject normalWindows = null;
+  // UI panels
+  [SerializeField]
+  private GameObject adminPanel = null;
+  [SerializeField]
+  private GameObject playerWaitPanel = null;
+  [SerializeField]
+  private GameObject mainPanel = null;
+  [SerializeField]
+  private GameObject timerPanel = null;
+  [SerializeField]
+  private GameObject joinPanel = null;
 
-    [SerializeField] private GameObject warnText = null;
+  [SerializeField]
+  private GameObject mapLoadingPanel = null;
 
-    // UI panels
-    [SerializeField]
-    private GameObject adminPanel = null;
-    [SerializeField]
-    private GameObject playerWaitPanel = null;
-    [SerializeField]
-    private GameObject mainPanel = null;
-    [SerializeField]
-    private GameObject timerPanel = null;
-    [SerializeField]
-    private GameObject joinPanel = null;
+  [SerializeField]
+  private GameObject rejoiningRoundPanel = null;
 
-    [SerializeField]
-    private GameObject mapLoadingPanel = null;
+  // Character objects
+  [SerializeField]
+  private GameObject characterCustomization = null;
 
-    [SerializeField] private GameObject rejoiningRoundPanel = null;
+  [SerializeField]
+  private GUI_JobPreferences localJobPref = null;
 
-    // Character objects
-    [SerializeField]
-    private GameObject characterCustomization = null;
+  [SerializeField]
+  private Button characterButton = null;
 
-    [SerializeField]
-    private GUI_JobPreferences localJobPref = null;
+  public GameObject serverInfo;
 
-    [SerializeField]
-    private Button characterButton = null;
+  // Internal variables
+  private bool doCountdown;
+  private double countdownEndTime;
+  private bool isReady;
 
-    public GameObject serverInfo;
+  public static GUI_PreRoundWindow Instance;
 
-    // Internal variables
-    private bool doCountdown;
-    private double countdownEndTime;
-    private bool isReady;
+  private bool startedAlready = false;
 
-    public static GUI_PreRoundWindow Instance;
+  private void Awake() {
+    // localJobPref = null;
+    if (Instance == null) {
+      Instance = this;
+    } else {
+      Destroy(gameObject);
+    }
+  }
 
-    private bool startedAlready = false;
+  private void OnDisable() {
+    startedAlready = false;
+    doCountdown = false;
+    isReady = false;
+    adminPanel.SetActive(false);
+  }
 
-    private void Awake()
-    {
-        //localJobPref = null;
-        if (Instance == null)
-        {
-            Instance = this;
-        }
-        else
-        {
-            Destroy(gameObject);
-        }
+  private void Update() {
+    if (Input.GetKeyDown(KeyCode.F7)) {
+      TryShowAdminPanel();
     }
 
-    private void OnDisable()
-    {
-        startedAlready = false;
-        doCountdown = false;
-        isReady = false;
-        adminPanel.SetActive(false);
+    if (doCountdown) {
+      UpdateCountdownUI();
     }
+  }
 
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.F7))
-        {
-            TryShowAdminPanel();
-        }
-
-        if (doCountdown)
-        {
-            UpdateCountdownUI();
-        }
+  private void TryShowAdminPanel() {
+    if (PlayerList.Instance.AdminToken != null) {
+      adminPanel.SetActive(true);
     }
+  }
 
-    private void TryShowAdminPanel()
-    {
-        if (PlayerList.Instance.AdminToken != null)
-        {
-            adminPanel.SetActive(true);
-        }
+  private void OnCountdownEnd() {
+    doCountdown = false;
+    if (isReady) {
+      // Server should spawn the player so hide this window
+      gameObject.SetActive(false);
+    } else {
+      SetUIForJoining();
     }
+  }
 
-    private void OnCountdownEnd()
-    {
-        doCountdown = false;
-        if (isReady)
-        {
-            // Server should spawn the player so hide this window
-            gameObject.SetActive(false);
-        }
-        else
-        {
-            SetUIForJoining();
-        }
+  /// <summary>
+  /// Update the UI based on the current countdown time
+  /// </summary>
+  private void UpdateCountdownUI() {
+    if (NetworkTime.time >= countdownEndTime) {
+      OnCountdownEnd();
     }
+    timer.text = TimeSpan.FromSeconds(countdownEndTime - NetworkTime.time)
+                     .ToString(@"mm\:ss");
 
-    /// <summary>
-    /// Update the UI based on the current countdown time
-    /// </summary>
-    private void UpdateCountdownUI()
-    {
-        if (NetworkTime.time >= countdownEndTime)
-        {
-            OnCountdownEnd();
-        }
-        timer.text = TimeSpan.FromSeconds(countdownEndTime - NetworkTime.time).ToString(@"mm\:ss");
-
-        if (GameManager.Instance.QuickLoad && mapLoadingPanel.activeSelf == false)
-        {
-            if (startedAlready == true || this.isActiveAndEnabled == false) return;
-            startedAlready = true;
-            StartCoroutine(WaitForInitialisation());
-        }
+    if (GameManager.Instance.QuickLoad && mapLoadingPanel.activeSelf == false) {
+      if (startedAlready == true || this.isActiveAndEnabled == false)
+        return;
+      startedAlready = true;
+      StartCoroutine(WaitForInitialisation());
     }
+  }
 
-    private IEnumerator WaitForInitialisation()
-    {
-        yield return null;
-        SetReady(true);
-        StartNowButton();
+  private IEnumerator WaitForInitialisation() {
+    yield return null;
+    SetReady(true);
+    StartNowButton();
+  }
+
+  public void UpdatePlayerCount(int count) {
+    playerCount.text = count.ToString();
+    currentGameMode.text = GameManager.Instance.GetGameModeName();
+  }
+
+  public void StartNowButton() {
+    AdminCommandsManager.Instance.CmdStartRound();
+  }
+
+  public void SyncCountdown(bool started, double endTime) {
+    Logger.LogFormat(
+        "SyncCountdown called with: started={0}, endTime={1}, current NetworkTime={2}",
+        Category.Round, started, endTime, NetworkTime.time);
+    countdownEndTime = endTime;
+    doCountdown = started;
+    if (started) {
+      SetUIForCountdown();
+      // Update the timer now so it doesn't flash 0:00
+      UpdateCountdownUI();
+    } else {
+      SetUIForWaiting();
     }
+  }
 
-    public void UpdatePlayerCount(int count)
-    {
-        playerCount.text = count.ToString();
-        currentGameMode.text = GameManager.Instance.GetGameModeName();
+  public void OnCharacterButton() {
+    _ = SoundManager.Play(CommonSounds.Instance.Click01);
+    characterCustomization.SetActive(true);
+  }
+
+  /// <summary>
+  /// Toggle isReady and update the UI
+  /// </summary>
+  public void OnReadyButton() {
+    _ = SoundManager.Play(CommonSounds.Instance.Click01);
+    CharacterCreator.CharacterCustomization customizerScript =
+        characterCustomization
+            .GetComponentInChildren<CharacterCreator.CharacterCustomization>();
+    customizerScript.GetSavedCharacters();
+    if (customizerScript.PlayerCharacters.Count == 0) {
+      warnText.SetActive(true);
+      return;
+    } else {
+      customizerScript.ValidateCurrentCharacter();
     }
+    SetReady(!isReady);
+    TryShowAdminPanel();
+  }
 
-    public void StartNowButton()
-    {
-        AdminCommandsManager.Instance.CmdStartRound();
+  /// <summary>
+  /// Show the job select screen
+  /// </summary>
+  public void OnJoinButton() {
+    _ = SoundManager.Play(CommonSounds.Instance.Click01);
+    UIManager.Display.SetScreenForJobSelect();
+  }
+
+  /// <summary>
+  /// Sets the new ready status. Will tell the server about the new ready state
+  /// if it has changed.
+  /// </summary>
+  /// <param name="ready"></param>
+  private void SetReady(bool ready) {
+    NoJobWarn(localJobPref.JobPreferences.Count == 0);
+    if (isReady != ready) {
+      // Ready status changed so tell the server
+      PlayerManager.LocalViewerScript.SetReady(ready);
     }
+    isReady = ready;
+    characterButton.interactable = !ready;
+    readyText.text = (!ready) ? "Ready" : "Unready";
+  }
 
-    public void SyncCountdown(bool started, double endTime)
-    {
-        Logger.LogFormat("SyncCountdown called with: started={0}, endTime={1}, current NetworkTime={2}", Category.Round,
-                         started, endTime, NetworkTime.time);
-        countdownEndTime = endTime;
-        doCountdown = started;
-        if (started)
-        {
-            SetUIForCountdown();
-            // Update the timer now so it doesn't flash 0:00
-            UpdateCountdownUI();
-        }
-        else
-        {
-            SetUIForWaiting();
-        }
+  /// <summary>
+  /// Warns the player when they have no job selected and default their job
+  /// preference
+  /// </summary>
+  /// <param name="noJob"></param>
+  private void NoJobWarn(bool noJob) {
+    if (noJob) {
+      warnText.SetActive(true);
+      localJobPref.SetAssistantDefault();
+    } else {
+      warnText.SetActive(false);
     }
+  }
 
-    public void OnCharacterButton()
-    {
-        _ = SoundManager.Play(CommonSounds.Instance.Click01);
-        characterCustomization.SetActive(true);
-    }
+  private void SetInfoScreenOn() {
+    ServerInfoLobbyMessageClient.Send();
+    serverInfo.SetActive(false);
+    if (string.IsNullOrEmpty(ServerInfoUI.serverDesc))
+      return;
+    serverInfo.SetActive(true);
+  }
 
-    /// <summary>
-    /// Toggle isReady and update the UI
-    /// </summary>
-    public void OnReadyButton()
-    {
-        _ = SoundManager.Play(CommonSounds.Instance.Click01);
-        CharacterCreator.CharacterCustomization customizerScript = characterCustomization.GetComponentInChildren<CharacterCreator.CharacterCustomization>();
-        customizerScript.GetSavedCharacters();
-        if (customizerScript.PlayerCharacters.Count == 0)
-        {
-            warnText.SetActive(true);
-            return;
-        }
-        else
-        {
-            customizerScript.ValidateCurrentCharacter();
-        }
-        SetReady(!isReady);
-        TryShowAdminPanel();
-    }
+  /// <summary>
+  /// Show waiting for players text
+  /// </summary>
+  public void SetUIForWaiting() {
+    timerPanel.SetActive(false);
+    joinPanel.SetActive(false);
+    playerWaitPanel.SetActive(true);
+    mainPanel.SetActive(false);
+    rejoiningRoundPanel.SetActive(false);
 
-    /// <summary>
-    /// Show the job select screen
-    /// </summary>
-    public void OnJoinButton()
-    {
-        _ = SoundManager.Play(CommonSounds.Instance.Click01);
-        UIManager.Display.SetScreenForJobSelect();
-    }
+    SetInfoScreenOn();
+  }
 
-    /// <summary>
-    /// Sets the new ready status. Will tell the server about the new ready state if it has changed.
-    /// </summary>
-    /// <param name="ready"></param>
-    private void SetReady(bool ready)
-    {
-        NoJobWarn(localJobPref.JobPreferences.Count == 0);
-        if (isReady != ready)
-        {
-            // Ready status changed so tell the server
-            PlayerManager.LocalViewerScript.SetReady(ready);
-        }
-        isReady = ready;
-        characterButton.interactable = !ready;
-        readyText.text = (!ready) ? "Ready" : "Unready";
-    }
+  /// <summary>
+  /// Show timer and ready button
+  /// </summary>
+  public void SetUIForCountdown() {
+    SetReady(isReady);
+    timerPanel.SetActive(true);
+    joinPanel.SetActive(false);
+    playerWaitPanel.SetActive(false);
+    mainPanel.SetActive(true);
+    rejoiningRoundPanel.SetActive(false);
 
-    /// <summary>
-    /// Warns the player when they have no job selected and default their job preference
-    /// </summary>
-    /// <param name="noJob"></param>
-    private void NoJobWarn(bool noJob)
-    {
-        if (noJob)
-        {
-            warnText.SetActive(true);
-            localJobPref.SetAssistantDefault();
-        }
-        else
-        {
-            warnText.SetActive(false);
-        }
-    }
+    SetInfoScreenOn();
+  }
 
-    private void SetInfoScreenOn()
-    {
-        ServerInfoLobbyMessageClient.Send();
-        serverInfo.SetActive(false);
-        if (string.IsNullOrEmpty(ServerInfoUI.serverDesc)) return;
-        serverInfo.SetActive(true);
-    }
+  /// <summary>
+  /// Show round started and join button
+  /// </summary>
+  public void SetUIForJoining() {
+    warnText.SetActive(false);
+    joinPanel.SetActive(true);
+    timerPanel.SetActive(false);
+    playerWaitPanel.SetActive(false);
+    mainPanel.SetActive(true);
+    rejoiningRoundPanel.SetActive(false);
+    SetInfoScreenOn();
+  }
 
-    /// <summary>
-    /// Show waiting for players text
-    /// </summary>
-    public void SetUIForWaiting()
-    {
-        timerPanel.SetActive(false);
-        joinPanel.SetActive(false);
-        playerWaitPanel.SetActive(true);
-        mainPanel.SetActive(false);
-        rejoiningRoundPanel.SetActive(false);
+  public void ShowRejoiningPanel() {
+    normalWindows.SetActive(false);
+    mapLoadingPanel.SetActive(false);
+    rejoiningRoundPanel.SetActive(true);
+  }
 
-        SetInfoScreenOn();
-    }
+  public void CloseRejoiningPanel() {
+    normalWindows.SetActive(false);
+    mapLoadingPanel.SetActive(false);
+    rejoiningRoundPanel.SetActive(false);
+  }
 
-    /// <summary>
-    /// Show timer and ready button
-    /// </summary>
-    public void SetUIForCountdown()
-    {
-        SetReady(isReady);
-        timerPanel.SetActive(true);
-        joinPanel.SetActive(false);
-        playerWaitPanel.SetActive(false);
-        mainPanel.SetActive(true);
-        rejoiningRoundPanel.SetActive(false);
+  public void SetUIForMapLoading() {
+    rejoiningRoundPanel.SetActive(false);
+    normalWindows.SetActive(false);
+    mapLoadingPanel.SetActive(true);
+  }
 
-        SetInfoScreenOn();
-    }
+  public void UpdateLoadingBar(string text, float loadedAmt) {
+    loadingText.text = text;
+    loadingBar.size = loadedAmt;
+  }
 
-    /// <summary>
-    /// Show round started and join button
-    /// </summary>
-    public void SetUIForJoining()
-    {
-        warnText.SetActive(false);
-        joinPanel.SetActive(true);
-        timerPanel.SetActive(false);
-        playerWaitPanel.SetActive(false);
-        mainPanel.SetActive(true);
-        rejoiningRoundPanel.SetActive(false);
-        SetInfoScreenOn();
-    }
-
-    public void ShowRejoiningPanel()
-    {
-        normalWindows.SetActive(false);
-        mapLoadingPanel.SetActive(false);
-        rejoiningRoundPanel.SetActive(true);
-    }
-
-    public void CloseRejoiningPanel()
-    {
-        normalWindows.SetActive(false);
-        mapLoadingPanel.SetActive(false);
-        rejoiningRoundPanel.SetActive(false);
-    }
-
-    public void SetUIForMapLoading()
-    {
-        rejoiningRoundPanel.SetActive(false);
-        normalWindows.SetActive(false);
-        mapLoadingPanel.SetActive(true);
-    }
-
-    public void UpdateLoadingBar(string text, float loadedAmt)
-    {
-        loadingText.text = text;
-        loadingBar.size = loadedAmt;
-    }
-
-    public void CloseMapLoadingPanel()
-    {
-        normalWindows.SetActive(true);
-        mapLoadingPanel.SetActive(false);
-        UpdateLoadingBar("Preparing..", 0.1f);
-    }
+  public void CloseMapLoadingPanel() {
+    normalWindows.SetActive(true);
+    mapLoadingPanel.SetActive(false);
+    UpdateLoadingBar("Preparing..", 0.1f);
+  }
 }
 }

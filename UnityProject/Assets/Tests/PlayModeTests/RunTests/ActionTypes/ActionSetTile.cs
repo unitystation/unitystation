@@ -4,36 +4,35 @@ using GameRunTests;
 using NaughtyAttributes;
 using UnityEngine;
 
-public partial class TestAction
-{
-    public bool ShowSetTile => SpecifiedAction == ActionType.SetTile;
+public partial class TestAction {
+  public bool ShowSetTile => SpecifiedAction == ActionType.SetTile;
 
-    [AllowNesting] [ShowIf("ShowSetTile")] public SetTile SetTileData;
+  [AllowNesting]
+  [ShowIf("ShowSetTile")]
+  public SetTile SetTileData;
 
-    [System.Serializable]
-    public class SetTile
-    {
-        public Vector3 WorldPosition;
+  [System.Serializable]
+  public class SetTile {
+    public Vector3 WorldPosition;
 
-        public LayerTile LayerTile;
+    public LayerTile LayerTile;
 
-        // public Matrix4x4 matrix; //has terrible inspector and Defaults to invalid Option
+    // public Matrix4x4 matrix; //has terrible inspector and Defaults to invalid
+    // Option
 
-        // public Color Colour; // Defaults to bad option
+    // public Color Colour; // Defaults to bad option
 
+    public bool Initiate(TestRunSO TestRunSO) {
+      var Magix = MatrixManager.AtPoint(WorldPosition.RoundToInt(), true);
+      Magix.Matrix.MetaTileMap.SetTile(
+          WorldPosition.ToLocal(Magix).RoundToInt(), LayerTile,
+          Matrix4x4.identity, Color.white);
 
-        public bool Initiate(TestRunSO TestRunSO)
-        {
-            var Magix = MatrixManager.AtPoint(WorldPosition.RoundToInt(), true);
-            Magix.Matrix.MetaTileMap.SetTile(WorldPosition.ToLocal(Magix).RoundToInt(), LayerTile, Matrix4x4.identity,
-                                             Color.white);
-
-            return true;
-        }
+      return true;
     }
+  }
 
-    public bool InitiateSetTile(TestRunSO TestRunSO)
-    {
-        return SetTileData.Initiate(TestRunSO);
-    }
+  public bool InitiateSetTile(TestRunSO TestRunSO) {
+    return SetTileData.Initiate(TestRunSO);
+  }
 }
