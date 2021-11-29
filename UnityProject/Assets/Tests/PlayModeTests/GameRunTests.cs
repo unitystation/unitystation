@@ -29,11 +29,11 @@ namespace GameRunTests
 		{
 			int countLoaded = SceneManager.sceneCount;
 			Scene[] loadedScenes = new Scene[countLoaded];
-			for (int i = 0; i < countLoaded; i++)
-			{
-				yield return SceneManager.UnloadSceneAsync (SceneManager.GetSceneAt(i));
-				break;
-			}
+			// for (int i = 0; i < countLoaded; i++)
+			// {
+			// 	yield return SceneManager.UnloadSceneAsync (SceneManager.GetSceneAt(i));
+			// 	break;
+			// }
 
 			yield return SceneManager.LoadSceneAsync("OnlineScene");
 
@@ -56,7 +56,7 @@ namespace GameRunTests
 				}
 			}
 
-			yield return WaitFor.Seconds(2);
+			//yield return WaitFor.Seconds(2);
 
 			countLoaded = SceneManager.sceneCount;
 			loadedScenes = new Scene[countLoaded];
