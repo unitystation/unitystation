@@ -31,13 +31,7 @@ namespace GameRunTests
 			GameManager.Instance.QuickLoad = true;
 
 			yield return TestSingleton.Instance.RunTests();
-
-			// yield return WaitFor.Seconds(10);
-			// RunRestartRound();
-			// yield return WaitFor.Seconds(10);
-			// RunRestartRound();
-			// yield return WaitFor.Seconds(10);
-
+			
 			GameManager.Instance.QuickLoad = false;
 		}
 
