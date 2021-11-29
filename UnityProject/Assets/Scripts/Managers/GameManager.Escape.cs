@@ -9,182 +9,182 @@ using Strings;
 /// </summary>
 public partial class GameManager
 {
-	public EscapeShuttle PrimaryEscapeShuttle => primaryEscapeShuttle;
-	[SerializeField]
-	private EscapeShuttle primaryEscapeShuttle;
+    public EscapeShuttle PrimaryEscapeShuttle => primaryEscapeShuttle;
+    [SerializeField]
+    private EscapeShuttle primaryEscapeShuttle;
 
-	private Coroutine departCoroutine;
-	private bool shuttleSent;
+    private Coroutine departCoroutine;
+    private bool shuttleSent;
 
-	public bool ShuttleSent => shuttleSent;
+    public bool ShuttleSent => shuttleSent;
 
-	private bool beenToStation;
+    private bool beenToStation;
 
-	private void InitEscapeShuttle()
-	{
-		//Primary escape shuttle lookup
-		if (PrimaryEscapeShuttle == false)
-		{
-			var shuttles = FindObjectsOfType<EscapeShuttle>();
-			if (shuttles.Length != 1)
-			{
-				Logger.LogError("Primary escape shuttle is missing from GameManager!", Category.Round);
-				return;
-			}
-			Logger.LogWarning("Primary escape shuttle is missing from GameManager, but one was found on scene", Category.Round);
-			primaryEscapeShuttle = shuttles[0];
-		}
-	}
+    private void InitEscapeShuttle()
+    {
+        //Primary escape shuttle lookup
+        if (PrimaryEscapeShuttle == false)
+        {
+            var shuttles = FindObjectsOfType<EscapeShuttle>();
+            if (shuttles.Length != 1)
+            {
+                Logger.LogError("Primary escape shuttle is missing from GameManager!", Category.Round);
+                return;
+            }
+            Logger.LogWarning("Primary escape shuttle is missing from GameManager, but one was found on scene", Category.Round);
+            primaryEscapeShuttle = shuttles[0];
+        }
+    }
 
-	/// <summary>
-	/// Called after MatrixManager is initialized
-	/// </summary>
-	private void InitEscapeStuff()
-	{
-		// Primary escape shuttle lookup
-		if (PrimaryEscapeShuttle == null)
-		{
-			var shuttles = FindObjectsOfType<EscapeShuttle>();
-			if (shuttles.Length < 1)
-			{
-				Logger.LogWarning("Primary escape shuttle is missing from GameManager!", Category.Round);
-				return;
-			}
-			Logger.LogWarning("Primary escape shuttle is missing from GameManager, but one was found on scene", Category.Round);
-			primaryEscapeShuttle = shuttles[0];
-		}
+    /// <summary>
+    /// Called after MatrixManager is initialized
+    /// </summary>
+    private void InitEscapeStuff()
+    {
+        // Primary escape shuttle lookup
+        if (PrimaryEscapeShuttle == null)
+        {
+            var shuttles = FindObjectsOfType<EscapeShuttle>();
+            if (shuttles.Length < 1)
+            {
+                Logger.LogWarning("Primary escape shuttle is missing from GameManager!", Category.Round);
+                return;
+            }
+            Logger.LogWarning("Primary escape shuttle is missing from GameManager, but one was found on scene", Category.Round);
+            primaryEscapeShuttle = shuttles[0];
+        }
 
-		// later, maybe: keep a list of all computers and call the shuttle automatically with a 25 min timer if they are deleted
+        // later, maybe: keep a list of all computers and call the shuttle automatically with a 25 min timer if they are deleted
 
-		if (primaryEscapeShuttle.MatrixInfo == null)
-		{
-			Logger.LogError("Primary escape shuttle has no associated matrix!", Category.Round);
-			return;
-		}
+        if (primaryEscapeShuttle.MatrixInfo == null)
+        {
+            Logger.LogError("Primary escape shuttle has no associated matrix!", Category.Round);
+            return;
+        }
 
-		// Starting up at Centcom coordinates
-		if (Instance.QuickLoad)
-		{
-			if (primaryEscapeShuttle.MatrixInfo == null) return;
-			if (primaryEscapeShuttle.MatrixInfo.MatrixMove == null) return;
-		}
+        // Starting up at Centcom coordinates
+        if (Instance.QuickLoad)
+        {
+            if (primaryEscapeShuttle.MatrixInfo == null) return;
+            if (primaryEscapeShuttle.MatrixInfo.MatrixMove == null) return;
+        }
 
-		var orientation = primaryEscapeShuttle.MatrixInfo.MatrixMove.InitialFacing;
-		float width;
+        var orientation = primaryEscapeShuttle.MatrixInfo.MatrixMove.InitialFacing;
+        float width;
 
-		if (orientation == Orientation.Up || orientation == Orientation.Down)
-		{
-			width = PrimaryEscapeShuttle.MatrixInfo.Bounds.size.x;
-		}
-		else
-		{
-			width = PrimaryEscapeShuttle.MatrixInfo.Bounds.size.y;
-		}
+        if (orientation == Orientation.Up || orientation == Orientation.Down)
+        {
+            width = PrimaryEscapeShuttle.MatrixInfo.Bounds.size.x;
+        }
+        else
+        {
+            width = PrimaryEscapeShuttle.MatrixInfo.Bounds.size.y;
+        }
 
-		Vector3 newPos;
+        Vector3 newPos;
 
-		switch (LandingZoneManager.Instance.centcomDocking.orientation)
-		{
-			case OrientationEnum.Right:
-				newPos = new Vector3(LandingZoneManager.Instance.centcomDockingPos.x + Mathf.Ceil(width/2f),LandingZoneManager.Instance.centcomDockingPos.y, 0);
-				break;
-			case OrientationEnum.Up:
-				newPos = new Vector3(LandingZoneManager.Instance.centcomDockingPos.x ,LandingZoneManager.Instance.centcomDockingPos.y + Mathf.Ceil(width/2f), 0);
-				break;
-			case OrientationEnum.Left:
-				newPos = new Vector3(LandingZoneManager.Instance.centcomDockingPos.x - Mathf.Ceil(width/2f),LandingZoneManager.Instance.centcomDockingPos.y, 0);
-				break;
-			default:
-				newPos = new Vector3(LandingZoneManager.Instance.centcomDockingPos.x ,LandingZoneManager.Instance.centcomDockingPos.y - Mathf.Ceil(width/2f), 0);
-				break;
-		}
+        switch (LandingZoneManager.Instance.centcomDocking.orientation)
+        {
+        case OrientationEnum.Right:
+            newPos = new Vector3(LandingZoneManager.Instance.centcomDockingPos.x + Mathf.Ceil(width/2f),LandingZoneManager.Instance.centcomDockingPos.y, 0);
+            break;
+        case OrientationEnum.Up:
+            newPos = new Vector3(LandingZoneManager.Instance.centcomDockingPos.x,LandingZoneManager.Instance.centcomDockingPos.y + Mathf.Ceil(width/2f), 0);
+            break;
+        case OrientationEnum.Left:
+            newPos = new Vector3(LandingZoneManager.Instance.centcomDockingPos.x - Mathf.Ceil(width/2f),LandingZoneManager.Instance.centcomDockingPos.y, 0);
+            break;
+        default:
+            newPos = new Vector3(LandingZoneManager.Instance.centcomDockingPos.x,LandingZoneManager.Instance.centcomDockingPos.y - Mathf.Ceil(width/2f), 0);
+            break;
+        }
 
-		PrimaryEscapeShuttle.MatrixInfo.MatrixMove.ChangeFacingDirection(Orientation.FromEnum(PrimaryEscapeShuttle.orientationForDockingAtCentcom));
-		PrimaryEscapeShuttle.MatrixInfo.MatrixMove.SetPosition(newPos);
-		primaryEscapeShuttle.InitDestination(newPos);
+        PrimaryEscapeShuttle.MatrixInfo.MatrixMove.ChangeFacingDirection(Orientation.FromEnum(PrimaryEscapeShuttle.orientationForDockingAtCentcom));
+        PrimaryEscapeShuttle.MatrixInfo.MatrixMove.SetPosition(newPos);
+        primaryEscapeShuttle.InitDestination(newPos);
 
-		beenToStation = false;
-	}
+        beenToStation = false;
+    }
 
-	public void OnShuttleUpdate(EscapeShuttleStatus status)
-	{
-		if (status == EscapeShuttleStatus.DockedCentcom && beenToStation)
-		{
-			Logger.Log("Shuttle arrived at Centcom", Category.Round);
-			Chat.AddSystemMsgToChat(string.Format(ChatTemplates.PriorityAnnouncement, $"<color=white>Escape shuttle has docked at Centcomm! Round will restart in {TimeSpan.FromSeconds(RoundEndTime).Minutes} minute.</color>"), MatrixManager.MainStationMatrix);
-			StartCoroutine(WaitForRoundEnd());
-		}
+    public void OnShuttleUpdate(EscapeShuttleStatus status)
+    {
+        if (status == EscapeShuttleStatus.DockedCentcom && beenToStation)
+        {
+            Logger.Log("Shuttle arrived at Centcom", Category.Round);
+            Chat.AddSystemMsgToChat(string.Format(ChatTemplates.PriorityAnnouncement, $"<color=white>Escape shuttle has docked at Centcomm! Round will restart in {TimeSpan.FromSeconds(RoundEndTime).Minutes} minute.</color>"), MatrixManager.MainStationMatrix);
+            StartCoroutine(WaitForRoundEnd());
+        }
 
-		if (status == EscapeShuttleStatus.DockedStation && !primaryEscapeShuttle.hostileEnvironment)
-		{
-			beenToStation = true;
-			_ = SoundManager.PlayNetworked(CommonSounds.Instance.ShuttleDocked);
-			Chat.AddSystemMsgToChat(string.Format(ChatTemplates.PriorityAnnouncement, $"<color=white>Escape shuttle has arrived! Crew has {TimeSpan.FromSeconds(ShuttleDepartTime).Minutes} minutes to get on it.</color>"), MatrixManager.MainStationMatrix);
-			// should be changed to manual send later
-			departCoroutine = StartCoroutine( SendEscapeShuttle( ShuttleDepartTime ) );
-		}
-		else if (status == EscapeShuttleStatus.DockedStation && primaryEscapeShuttle.hostileEnvironment)
-		{
-			beenToStation = true;
-			_ = SoundManager.PlayNetworked(CommonSounds.Instance.ShuttleDocked);
-			Chat.AddSystemMsgToChat(string.Format(ChatTemplates.PriorityAnnouncement, $"<color=white>Escape shuttle has arrived! The shuttle <color=#FF151F>cannot</color> leave the station due to the hostile environment!</color>"), MatrixManager.MainStationMatrix);
-		}
-	}
+        if (status == EscapeShuttleStatus.DockedStation && !primaryEscapeShuttle.hostileEnvironment)
+        {
+            beenToStation = true;
+            _ = SoundManager.PlayNetworked(CommonSounds.Instance.ShuttleDocked);
+            Chat.AddSystemMsgToChat(string.Format(ChatTemplates.PriorityAnnouncement, $"<color=white>Escape shuttle has arrived! Crew has {TimeSpan.FromSeconds(ShuttleDepartTime).Minutes} minutes to get on it.</color>"), MatrixManager.MainStationMatrix);
+            // should be changed to manual send later
+            departCoroutine = StartCoroutine( SendEscapeShuttle( ShuttleDepartTime ) );
+        }
+        else if (status == EscapeShuttleStatus.DockedStation && primaryEscapeShuttle.hostileEnvironment)
+        {
+            beenToStation = true;
+            _ = SoundManager.PlayNetworked(CommonSounds.Instance.ShuttleDocked);
+            Chat.AddSystemMsgToChat(string.Format(ChatTemplates.PriorityAnnouncement, $"<color=white>Escape shuttle has arrived! The shuttle <color=#FF151F>cannot</color> leave the station due to the hostile environment!</color>"), MatrixManager.MainStationMatrix);
+        }
+    }
 
-	private IEnumerator WaitForRoundEnd()
-	{
-		Logger.Log($"Shuttle docked to Centcom, Round will end in {TimeSpan.FromSeconds(RoundEndTime).Minutes} minute", Category.Round);
-		yield return WaitFor.Seconds(1f);
-		EndRound();
-	}
+    private IEnumerator WaitForRoundEnd()
+    {
+        Logger.Log($"Shuttle docked to Centcom, Round will end in {TimeSpan.FromSeconds(RoundEndTime).Minutes} minute", Category.Round);
+        yield return WaitFor.Seconds(1f);
+        EndRound();
+    }
 
-	public void ForceSendEscapeShuttleFromStation(int departTime)
-	{
-		if (shuttleSent || PrimaryEscapeShuttle.Status != EscapeShuttleStatus.DockedStation) return;
+    public void ForceSendEscapeShuttleFromStation(int departTime)
+    {
+        if (shuttleSent || PrimaryEscapeShuttle.Status != EscapeShuttleStatus.DockedStation) return;
 
-		if (departCoroutine != null)
-		{
-			StopCoroutine(departCoroutine);
-		}
+        if (departCoroutine != null)
+        {
+            StopCoroutine(departCoroutine);
+        }
 
-		departCoroutine = StartCoroutine( SendEscapeShuttle(departTime));
-	}
+        departCoroutine = StartCoroutine( SendEscapeShuttle(departTime));
+    }
 
-	private void TrackETA(int eta)
-	{
+    private void TrackETA(int eta)
+    {
 
-	}
+    }
 
-	private IEnumerator SendEscapeShuttle(int seconds)
-	{
-		// departure countdown
-		for (int i = seconds; i >= 0; i--)
-		{
-			CentComm.UpdateStatusDisplay( StatusDisplayChannel.EscapeShuttle, StatusDisplay.FormatTime(i, "Depart\nETA: ") );
-			yield return WaitFor.Seconds(1);
-		}
+    private IEnumerator SendEscapeShuttle(int seconds)
+    {
+        // departure countdown
+        for (int i = seconds; i >= 0; i--)
+        {
+            CentComm.UpdateStatusDisplay( StatusDisplayChannel.EscapeShuttle, StatusDisplay.FormatTime(i, "Depart\nETA: ") );
+            yield return WaitFor.Seconds(1);
+        }
 
-		shuttleSent = true;
-		PrimaryEscapeShuttle.SendShuttle();
+        shuttleSent = true;
+        PrimaryEscapeShuttle.SendShuttle();
 
-		// centcom round end countdown
-		int timeToCentcom = ShuttleDepartTime * 2 - 2;
-		for (int i = timeToCentcom - 1; i >= 0; i--)
-		{
-			CentComm.UpdateStatusDisplay( StatusDisplayChannel.EscapeShuttle, StatusDisplay.FormatTime(i, "CENTCOM\nETA: ") );
-			yield return WaitFor.Seconds(1);
-		}
+        // centcom round end countdown
+        int timeToCentcom = ShuttleDepartTime * 2 - 2;
+        for (int i = timeToCentcom - 1; i >= 0; i--)
+        {
+            CentComm.UpdateStatusDisplay( StatusDisplayChannel.EscapeShuttle, StatusDisplay.FormatTime(i, "CENTCOM\nETA: ") );
+            yield return WaitFor.Seconds(1);
+        }
 
-		CentComm.UpdateStatusDisplay( StatusDisplayChannel.EscapeShuttle, string.Empty);
-	}
+        CentComm.UpdateStatusDisplay( StatusDisplayChannel.EscapeShuttle, string.Empty);
+    }
 
-	private IEnumerator WaitToInitEscape()
-	{
-		while (MatrixManager.IsInitialized == false)
-		{
-			yield return WaitFor.EndOfFrame;
-		}
+    private IEnumerator WaitToInitEscape()
+    {
+        while (MatrixManager.IsInitialized == false)
+        {
+            yield return WaitFor.EndOfFrame;
+        }
 
-		InitEscapeStuff();
-	}
+        InitEscapeStuff();
+    }
 }

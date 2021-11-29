@@ -9,24 +9,24 @@ using UnityEngine;
 // {
 public partial class TestAction
 {
-	public bool ShowSetMousePosition => SpecifiedAction == ActionType.SetMousePosition;
+    public bool ShowSetMousePosition => SpecifiedAction == ActionType.SetMousePosition;
 
-	[AllowNesting] [ShowIf("ShowSetMousePosition")] public SetMousePosition DataSetMousePosition;
+    [AllowNesting] [ShowIf("ShowSetMousePosition")] public SetMousePosition DataSetMousePosition;
 
-	[System.Serializable]
-	public class SetMousePosition
-	{
-		public Vector3 WorldPosition;
+    [System.Serializable]
+    public class SetMousePosition
+    {
+        public Vector3 WorldPosition;
 
-		public bool Initiate(TestRunSO TestRunSO)
-		{
-			InputManagerWrapper.MousePosition = Camera.main.WorldToScreenPoint(WorldPosition);
-			return true;
-		}
-	}
+        public bool Initiate(TestRunSO TestRunSO)
+        {
+            InputManagerWrapper.MousePosition = Camera.main.WorldToScreenPoint(WorldPosition);
+            return true;
+        }
+    }
 
-	public bool InitiateSetMousePosition(TestRunSO TestRunSO)
-	{
-		return DataSetMousePosition.Initiate(TestRunSO);
-	}
+    public bool InitiateSetMousePosition(TestRunSO TestRunSO)
+    {
+        return DataSetMousePosition.Initiate(TestRunSO);
+    }
 }
