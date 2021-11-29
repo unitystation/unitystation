@@ -27,9 +27,6 @@ namespace GameRunTests
 		[UnityTest]
 		public IEnumerator NewTestScriptWithEnumeratorPasses()
 		{
-			yield return SceneManager.LoadSceneAsync("OnlineScene");
-
-
 			int countLoaded = SceneManager.sceneCount;
 			Scene[] loadedScenes = new Scene[countLoaded];
 			for (int i = 0; i < countLoaded; i++)
@@ -37,6 +34,8 @@ namespace GameRunTests
 				yield return SceneManager.UnloadSceneAsync (SceneManager.GetSceneAt(i));
 				break;
 			}
+
+			yield return SceneManager.LoadSceneAsync("OnlineScene");
 
 
 			countLoaded = SceneManager.sceneCount;
