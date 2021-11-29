@@ -87,8 +87,7 @@ namespace Systems.MobAIs
 
 			// Remove the cable and spawn the item.
 			cable.DestroyThisPlease();
-			var electricalTile = registerObject.TileChangeManager
-				.GetLayerTile(registerObject.WorldPosition, LayerType.Underfloor) as ElectricalCableTile;
+			var electricalTile = registerObject.TileChangeManager.MetaTileMap.GetTile(registerObject.WorldPosition, LayerType.Underfloor) as ElectricalCableTile;
 			// Electrical tile is not null iff this is the first mousechew. Why?
 			if (electricalTile != null)
 			{

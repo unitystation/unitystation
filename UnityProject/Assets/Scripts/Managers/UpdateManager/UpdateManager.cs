@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using UnityEngine.Profiling;
 using System.Linq;
 using System.Text;
-using UnityEngine.Serialization;
 
 /// <summary>
 ///     Handles the update methods for in game objects
@@ -38,27 +37,11 @@ public class UpdateManager : MonoBehaviour
 
 	public List<TimedUpdate> pooledTimedUpdates = new List<TimedUpdate>();
 
-	public TimedUpdate GetTimedUpdates()
-	{
-		if (pooledTimedUpdates.Count > 0)
-		{
-			var TimedUpdates = pooledTimedUpdates[0];
-			pooledTimedUpdates.RemoveAt(0);
-			return (TimedUpdates);
-		}
-		else
-		{
-			return (new TimedUpdate());
-		}
-	}
-
 	[Tooltip("For the editor to show more detailed logging in the profiler")]
 	public bool Profile = false;
 
-	public static bool IsInitialized
-	{
-		get { return instance != null; }
-	}
+	public bool MidInvokeCalls {get; private set;}
+	public Action LastInvokedAction {get; private set;}
 
 	private class NamedAction
 	{
@@ -75,6 +58,19 @@ public class UpdateManager : MonoBehaviour
 		public readonly Dictionary<Action, NamedAction> ActionDictionary = new Dictionary<Action, NamedAction>(128);
 	}
 
+	public TimedUpdate GetTimedUpdates()
+	{
+		if (pooledTimedUpdates.Count > 0)
+		{
+			var TimedUpdates = pooledTimedUpdates[0];
+			pooledTimedUpdates.RemoveAt(0);
+			return (TimedUpdates);
+		}
+		else
+		{
+			return (new TimedUpdate());
+		}
+	}
 
 	private void Awake()
 	{
@@ -292,6 +288,7 @@ public class UpdateManager : MonoBehaviour
 		}
 
 		CashedDeltaTime = Time.deltaTime;
+		MidInvokeCalls = true;
 		for (int i = updateActions.Count; i >= 0; i--)
 		{
 			if (i < updateActions.Count)
@@ -301,6 +298,7 @@ public class UpdateManager : MonoBehaviour
 					Profiler.BeginSample(updateActions[i]?.Method?.ReflectedType?.FullName);
 				}
 
+				LastInvokedAction = updateActions[i];
 				try
 				{
 					updateActions[i].Invoke();
@@ -316,6 +314,7 @@ public class UpdateManager : MonoBehaviour
 				}
 			}
 		}
+		MidInvokeCalls = false;
 
 		if (Profile)
 		{
@@ -341,6 +340,7 @@ public class UpdateManager : MonoBehaviour
 			periodicUpdateActions[i].TimeTitleNext -= CashedDeltaTime;
 			if (periodicUpdateActions[i].TimeTitleNext <= 0)
 			{
+				LastInvokedAction = periodicUpdateActions[i].Action;
 				periodicUpdateActions[i].TimeTitleNext = periodicUpdateActions[i].TimeDelayPreUpdate;
 				periodicUpdateActions[i].Action();
 			}
@@ -350,10 +350,12 @@ public class UpdateManager : MonoBehaviour
 
 	private void FixedUpdate()
 	{
+		MidInvokeCalls = true;
 		for (int i = fixedUpdateActions.Count; i >= 0; i--)
 		{
 			if (i < fixedUpdateActions.Count)
 			{
+				LastInvokedAction = fixedUpdateActions[i];
 				try
 				{
 					fixedUpdateActions[i].Invoke();
@@ -364,14 +366,17 @@ public class UpdateManager : MonoBehaviour
 				}
 			}
 		}
+		MidInvokeCalls = false;
 	}
 
 	private void LateUpdate()
 	{
+		MidInvokeCalls = true;
 		for (int i = lateUpdateActions.Count; i >= 0; i--)
 		{
 			if (i < lateUpdateActions.Count)
 			{
+				LastInvokedAction = lateUpdateActions[i];
 				try
 				{
 					lateUpdateActions[i].Invoke();
@@ -380,9 +385,9 @@ public class UpdateManager : MonoBehaviour
 				{
 					Logger.LogError(e.ToString());
 				}
-
 			}
 		}
+		MidInvokeCalls = false;
 	}
 
 	private void OnDestroy()

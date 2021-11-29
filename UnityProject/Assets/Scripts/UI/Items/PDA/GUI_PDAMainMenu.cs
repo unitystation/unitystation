@@ -9,7 +9,7 @@ namespace UI.Items.PDA
 		[SerializeField] private NetLabel idLabel = null;
 		[SerializeField] private NetLabel lightLabel = null;
 
-		private IDCard IDCard => controller.PDA.IDCard;
+		private IDCard IDCard => controller.PDA.GetIDCard();
 
 		private void Start()
 		{

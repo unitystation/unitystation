@@ -77,9 +77,9 @@ public class ChangeTileWhenItemUsed : TileInteraction
 			() =>
 			{
 				//change tile
-				interaction.TileChangeManager.UpdateTile(interaction.TargetCellPos, toTile);
+				interaction.TileChangeManager.MetaTileMap.SetTile(interaction.TargetCellPos, toTile);
 				//remove overlays
-				interaction.TileChangeManager.RemoveFloorWallOverlaysOfType(interaction.TargetCellPos, OverlayType.Cleanable);
+				interaction.TileChangeManager.MetaTileMap.RemoveFloorWallOverlaysOfType(interaction.TargetCellPos, OverlayType.Cleanable);
 				if (objectsToSpawn != null)
 				{
 					objectsToSpawn.SpawnAt(SpawnDestination.At(interaction.WorldPositionTarget));

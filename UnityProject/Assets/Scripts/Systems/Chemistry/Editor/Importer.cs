@@ -275,7 +275,7 @@ namespace Chemistry.Editor
 
 			if (value.TryGetValue("results", out var resultsData))
 			{
-				reaction.results = new DictionaryReagentInt();
+				reaction.results = new SerializableDictionary<Reagent, int>();
 				var results = ((Dictionary<object, object>) resultsData).ToDictionary(
 					r => {
 						return reagents[(string)r.Key]; },
@@ -289,7 +289,7 @@ namespace Chemistry.Editor
 
 			if (value.TryGetValue("required_reagents", out var ingredientsData))
 			{
-				reaction.ingredients = new DictionaryReagentInt();
+				reaction.ingredients = new SerializableDictionary<Reagent, int>();
 				var ingredients = ((Dictionary<object, object>) ingredientsData).ToDictionary(
 					r => reagents[(string) r.Key],
 					r => int.Parse((string) r.Value));
@@ -302,7 +302,7 @@ namespace Chemistry.Editor
 
 			if (value.TryGetValue("required_catalysts", out var catalystsData))
 			{
-				reaction.catalysts = new DictionaryReagentInt();
+				reaction.catalysts = new SerializableDictionary<Reagent, int>();
 				var catalysts = ((Dictionary<object, object>) catalystsData).ToDictionary(
 					r => reagents[(string) r.Key],
 					r => int.Parse((string) r.Value));

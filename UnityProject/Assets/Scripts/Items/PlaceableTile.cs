@@ -105,7 +105,7 @@ public class PlaceableTile : MonoBehaviour, ICheckedInteractable<PositionalHandA
 
 			void ProgressFinishAction()
 			{
-				interactableTiles.TileChangeManager.UpdateTile(cellPos, placeableTileEntry.layerTile);
+				interactableTiles.TileChangeManager.MetaTileMap.SetTile(cellPos, placeableTileEntry.layerTile);
 				interactableTiles.TileChangeManager.SubsystemManager.UpdateAt(cellPos);
 				Inventory.ServerConsume(interaction.HandSlot, placeableTileEntry.itemCost);
 				SoundManager.PlayNetworkedAtPos(placeSound, targetPosition);

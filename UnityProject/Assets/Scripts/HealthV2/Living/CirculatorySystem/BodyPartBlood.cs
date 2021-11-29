@@ -82,6 +82,14 @@ namespace HealthV2
 		/// </summary>
 		public float BloodThroughput => bloodThroughput;
 
+		public enum RequiredBlood
+		{
+			Large = 100,
+			Medium = 20,
+			Low = 10,
+			Minuscule = 1
+		}
+
 		/// <summary>
 		/// The nutriment reagent that this part consumes in order to perform tasks
 		/// </summary>

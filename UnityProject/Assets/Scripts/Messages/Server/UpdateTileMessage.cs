@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 using Mirror;
+using TileManagement;
 using Tilemaps.Behaviours.Layers;
 
 namespace Messages.Server
@@ -14,12 +14,8 @@ namespace Messages.Server
 			public uint MatrixSyncNetID;
 		}
 
-
-
 		//just a best guess, try increasing it until the message exceeds mirror's limit
 		private static readonly int MAX_CHANGES_PER_MESSAGE = 350;
-
-		public static List<DelayedData> DelayedStuff = new List<DelayedData>();
 
 		public struct DelayedData
 		{
@@ -27,33 +23,40 @@ namespace Messages.Server
 			public TileType TileType;
 			public LayerType layerType;
 			public string TileName;
-			public uint MatrixSyncNetID;
 
 			public Matrix4x4 TransformMatrix;
 			public Color Colour;
 
 			public DelayedData(Vector3Int inPosition, TileType inTileType, string inTileName,
-				Matrix4x4 inTransformMatrix,
-				Color inColour, uint inMatrixSyncNetID, LayerType inlayerType)
+				Matrix4x4 inTransformMatrix, Color inColour, LayerType inlayerType)
 			{
 				Position = inPosition;
 				TileType = inTileType;
 				TileName = inTileName;
 				TransformMatrix = inTransformMatrix;
 				Colour = inColour;
-				MatrixSyncNetID = inMatrixSyncNetID;
 				layerType = inlayerType;
 			}
 
-			public DelayedData(TileChangeEntry TileChangeEntry, uint inMatrixSyncNetID )
+			public DelayedData(TileChangeEntry TileChangeEntry)
 			{
-				Position = TileChangeEntry.Position;
-				TileType = TileChangeEntry.TileType;
-				TileName = TileChangeEntry.TileName;
-				TransformMatrix = TileChangeEntry.transformMatrix.GetValueOrDefault(Matrix4x4.identity);
-				Colour = TileChangeEntry.color.GetValueOrDefault(Vector4.one);
-				MatrixSyncNetID = inMatrixSyncNetID;
+				Position = TileChangeEntry.position;
 				layerType = TileChangeEntry.LayerType;
+				if (TileChangeEntry.RelatedTileLocation == null)
+				{
+					TileType = TileType.None;
+					Colour = Color.white;
+					TransformMatrix = Matrix4x4.identity;
+					TileName = "";
+				}
+				else
+				{
+					TileName = TileChangeEntry.RelatedTileLocation.layerTile.name;
+					TileType = TileChangeEntry.RelatedTileLocation.layerTile.TileType;
+					TransformMatrix = TileChangeEntry.RelatedTileLocation.transformMatrix;
+					Colour = TileChangeEntry.RelatedTileLocation.Colour;
+				}
+
 			}
 		}
 
@@ -63,47 +66,24 @@ namespace Messages.Server
 			if (CustomNetworkManager.IsServer) return;
 			LoadNetworkObject(msg.MatrixSyncNetID);
 
+			//client hasnt finished loading the scene, it'll ask for the bundle of changes aftewards
 			if (NetworkObject == null)
+				return;
+
+			var tileChangerManager = NetworkObject.transform.parent.GetComponentInChildren<MetaTileMap>();
+			foreach (var Change in msg.Changes)
 			{
-				DelayedStuff.AddRange(msg.Changes);
-			}
-			else
-			{
-				var tileChangerManager = NetworkObject.transform.parent.GetComponent<TileChangeManager>();
-				foreach (var Change in msg.Changes)
+				if (Change.TileType == TileType.None)
 				{
-					if (Change.TileType == TileType.None)
-					{
-						tileChangerManager.InternalRemoveTile(Change.Position, Change.layerType);
-					}
-					else
-					{
-						tileChangerManager.InternalUpdateTile(Change.Position, Change.TileType, Change.TileName, Change.TransformMatrix,
-							Change.Colour);
-					}
+					tileChangerManager.RemoveTileWithlayer(Change.Position, Change.layerType);
 				}
-
-				TryDoNotDoneTiles();
-			}
-		}
-
-		public void TryDoNotDoneTiles()
-		{
-			for (int i = 0; i < DelayedStuff.Count; i++)
-			{
-				NetworkObject = null;
-				LoadNetworkObject(DelayedStuff[i].MatrixSyncNetID);
-				if (NetworkObject != null)
+				else
 				{
-					var tileChangerManager = NetworkObject.transform.parent.GetComponent<TileChangeManager>();
-					tileChangerManager.InternalUpdateTile(DelayedStuff[i].Position, DelayedStuff[i].TileType,
-						DelayedStuff[i].TileName, DelayedStuff[i].TransformMatrix, DelayedStuff[i].Colour);
-					DelayedStuff.RemoveAt(i);
-					i--;
+					tileChangerManager.SetTile(Change.Position, Change.TileType, Change.TileName, Change.TransformMatrix,
+						Change.Colour);
 				}
 			}
 		}
-
 
 		public static void SendTo(GameObject managerSubject, NetworkConnection recipient, TileChangeList changeList)
 		{
@@ -111,17 +91,11 @@ namespace Messages.Server
 			var netID = managerSubject.GetComponent<NetworkedMatrix>().MatrixSync.netId;
 			foreach (var changeChunk in changeList.List.ToArray().Chunk(MAX_CHANGES_PER_MESSAGE))
 			{
-				// foreach (var entry in changeChunk.List)
-				// {
-				// 	Logger.LogTraceFormat("Sending update for {0} layer {1}", Category.TileMaps, entry.Position,
-				// 		entry.LayerType);
-				// }
-				//  I imagine that doesn't help performance /\
 				List<DelayedData> Changes = new List<DelayedData>();
 
 				foreach (var tileChangeEntry in changeChunk)
 				{
-					Changes.Add(new DelayedData(tileChangeEntry, netID));
+					Changes.Add(new DelayedData(tileChangeEntry));
 				}
 
 				NetMessage msg = new NetMessage
@@ -134,15 +108,14 @@ namespace Messages.Server
 			}
 		}
 
-		public static NetMessage Send(uint matrixSyncNetID, Vector3Int position, TileType tileType,
-			string tileName,
+		public static NetMessage Send(uint matrixSyncNetID, Vector3Int position, TileType tileType, string tileName,
 			Matrix4x4 transformMatrix, Color colour, LayerType LayerType)
 		{
 			NetMessage msg = new NetMessage
 			{
 				Changes = new List<DelayedData>()
 				{
-					new DelayedData(position,tileType,tileName,transformMatrix, colour, matrixSyncNetID, LayerType)
+					new DelayedData(position, tileType, tileName, transformMatrix, colour, LayerType)
 				},
 				MatrixSyncNetID = matrixSyncNetID,
 			};
@@ -181,12 +154,9 @@ namespace Messages.Server
 					TileType = (TileType) reader.ReadInt(),
 					layerType = (LayerType) reader.ReadInt(),
 					TileName = reader.ReadString(),
-					MatrixSyncNetID = message.MatrixSyncNetID,
 					TransformMatrix = Matrix4x4.identity,
 					Colour = Color.white
 				};
-
-
 
 				while (true)
 				{

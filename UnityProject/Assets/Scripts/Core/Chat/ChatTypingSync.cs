@@ -1,8 +1,8 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using Messages.Client;
 using UnityEngine;
+using UI.Chat_UI;
 
 /// <summary>
 /// Sends server when client is actively typing to the chat

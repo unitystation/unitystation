@@ -15,7 +15,7 @@ namespace Antagonists
 		/// The pool of possible items to steal
 		/// </summary>
 		[SerializeField]
-		private ItemDictionary ItemPool = null;
+		private SerializableDictionary<GameObject, int> ItemPool = null;
 
 		/// <summary>
 		/// The item to steal

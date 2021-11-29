@@ -214,7 +214,7 @@ namespace Objects.Disposals
 			{
 				var matrixTransform = Matrix4x4.TRS(Vector3.zero, Quaternion.identity, Vector3.one);
 				Color pipeColor = GetComponentInChildren<SpriteRenderer>().color;
-				Vector3Int searchVec = registerTile.Matrix.TileChangeManager.UpdateTile(registerTile.LocalPositionServer, pipeTileToSpawn, matrixTransform, pipeColor);
+				Vector3Int searchVec = registerTile.Matrix.TileChangeManager.MetaTileMap.SetTile(registerTile.LocalPositionServer, pipeTileToSpawn, matrixTransform, pipeColor);
 				pipeTileToSpawn.InitialiseNode(searchVec, registerTile.Matrix);
 				_ = Despawn.ServerSingle(gameObject);
 			}

@@ -158,6 +158,8 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 
 	protected virtual void Awake()
 	{
+		LocalPositionServer = TransformState.HiddenPos;
+		LocalPositionClient = TransformState.HiddenPos;
 		if (transform.parent) //clients dont have this set yet
 		{
 			objectLayer = transform.parent.GetComponent<ObjectLayer>() ?? transform.parent.GetComponentInParent<ObjectLayer>();
@@ -380,12 +382,7 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 		//this will fire parent change hooks so we do it last
 		SetMatrix(networkedMatrix.GetComponentInChildren<Matrix>());
 
-
-		//if we are hidden, remain hidden, otherwise update because we have a new parent
-		if (LocalPositionClient != TransformState.HiddenPos)
-		{
-			UpdatePositionClient();
-		}
+		UpdatePositionClient();
 
 		if (isServer)
 		{

@@ -56,9 +56,9 @@ namespace InGameEvents
 		{
 			if (IsMatrixInvalid()) return;
 
-			var MaxCoord = new Vector2() { x = stationMatrix.WorldBounds.xMax , y = stationMatrix.WorldBounds.yMax };
+			var MaxCoord = new Vector2() { x = stationMatrix.WorldBounds.max.x , y = stationMatrix.WorldBounds.max.y };
 
-			var MinCoord = new Vector2() { x = stationMatrix.WorldBounds.xMin, y = stationMatrix.WorldBounds.yMin };
+			var MinCoord = new Vector2() { x = stationMatrix.WorldBounds.min.x, y = stationMatrix.WorldBounds.min.y };
 
 			var biggestDistancePosible = (int)Vector2.Distance(MaxCoord, MinCoord);
 
@@ -138,8 +138,7 @@ namespace InGameEvents
 
 				StartCoroutine(MoveRodToPosition(rod.transform, nextCoord, timeBetweenExplosions));
 
-				Explosion.StartExplosion(nextCoord.ToLocalInt(stationMatrix), strength,
-					stationMatrix.Matrix);
+				Explosion.StartExplosion(nextCoord.RoundToInt(), strength);
 
 				yield return new WaitForSeconds(timeBetweenExplosions);
 			}

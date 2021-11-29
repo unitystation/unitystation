@@ -1,17 +1,13 @@
 ﻿using System;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Systems.Cargo
 {
 	public class CargoBounty : ScriptableObject
 	{
-		public DemandDictionary Demands = new DemandDictionary();
+		public SerializableDictionary<ItemTrait, int> Demands = new SerializableDictionary<ItemTrait, int>();
 		public int Reward;
 		public string Description;
-	}
-
-	[Serializable]
-	public class DemandDictionary : SerializableDictionary<ItemTrait, int>
-	{
 	}
 }

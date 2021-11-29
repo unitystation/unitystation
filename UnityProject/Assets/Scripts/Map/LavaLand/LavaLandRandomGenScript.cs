@@ -66,7 +66,7 @@ namespace Systems.Scenes
 					if (terrainMap[x, y] != 1)
 					{
 						var pos = new Vector3Int(-x + width / 2, -y + height / 2, 0) + gameObjectPos;
-						tileChangeManager.UpdateTile(pos, wallTile);
+						tileChangeManager.MetaTileMap.SetTile(pos, wallTile);
 						//botMap.SetTile(new Vector3Int(-x + width / 2, -y + height / 2, 0), botTile);
 					}
 				}
@@ -134,17 +134,6 @@ namespace Systems.Scenes
 			}
 
 			return newMap;
-		}
-
-		public void ClearMap(bool complete)
-		{
-
-			topMap.ClearAllTiles();
-			//botMap.ClearAllTiles();
-			if (complete)
-			{
-				terrainMap = null;
-			}
 		}
 	}
 }

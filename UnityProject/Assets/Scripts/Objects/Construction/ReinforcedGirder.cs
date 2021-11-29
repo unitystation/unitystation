@@ -119,7 +119,7 @@ namespace Objects.Construction
 		[Server]
 		private void ConstructReinforcedWall(HandApply interaction)
 		{
-			tileChangeManager.UpdateTile(Vector3Int.RoundToInt(transform.localPosition), reinforcedWallTile);
+			tileChangeManager.MetaTileMap.SetTile(Vector3Int.RoundToInt(transform.localPosition), reinforcedWallTile);
 			interaction.HandObject.GetComponent<Stackable>().ServerConsume(1);
 			_ = Despawn.ServerSingle(gameObject);
 		}

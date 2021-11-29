@@ -74,21 +74,6 @@ public class TileManager : SingletonManager<TileManager>, IInitialise
 		if (!initialized) StartCoroutine(LoadAllTiles());
 	}
 
-	private void OnEnable()
-	{
-		SceneManager.activeSceneChanged += OnSceneChange;
-	}
-
-	private void OnDisable()
-	{
-		SceneManager.activeSceneChanged -= OnSceneChange;
-	}
-
-	private void OnSceneChange(Scene oldScene, Scene newScene)
-	{
-		UpdateTileMessage.DelayedStuff.Clear();
-	}
-
 	[ContextMenu("Cache All Assets")]
 	public bool CacheAllAssets()
 	{

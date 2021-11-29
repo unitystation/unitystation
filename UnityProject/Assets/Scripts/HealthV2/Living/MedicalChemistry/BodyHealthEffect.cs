@@ -27,6 +27,8 @@ public class BodyHealthEffect : MetabolismReaction
 	[ShowIf("MultiEffect")] public List<TypeAndStrength> Effects = new List<TypeAndStrength>();
 
 
+	public const int MagicNumber = 15; // This balance is about right with 1 u ingested 1 * effect it about does one damage
+
 	[System.Serializable]
 	public struct TypeAndStrength
 	{
@@ -36,6 +38,7 @@ public class BodyHealthEffect : MetabolismReaction
 		[Tooltip("How much damage or heals If negative per 1u")]
 		public float EffectPerOne;
 	}
+
 
 
 	public override void PossibleReaction(BodyPart sender, ReagentMix reagentMix, float LimitedreactionAmount)
@@ -56,14 +59,14 @@ public class BodyHealthEffect : MetabolismReaction
 				{
 					foreach (var Effect in Effects)
 					{
-						sender.TakeDamage(null, Effect.EffectPerOne * 3 * LimitedreactionAmount * -OverdoseDamageMultiplier, Effect.AttackType,
+						sender.TakeDamage(null, Effect.EffectPerOne * MagicNumber * LimitedreactionAmount * -OverdoseDamageMultiplier, Effect.AttackType,
 							Effect.DamageEffect, DamageSubOrgans: false);
 					}
 
 				}
 				else
 				{
-					sender.TakeDamage(null, EffectPerOne * 3 * LimitedreactionAmount * -OverdoseDamageMultiplier, AttackType,
+					sender.TakeDamage(null, EffectPerOne * MagicNumber* LimitedreactionAmount * -OverdoseDamageMultiplier, AttackType,
 						DamageEffect, DamageSubOrgans: false);
 				}
 
@@ -76,14 +79,14 @@ public class BodyHealthEffect : MetabolismReaction
 		{
 			foreach (var Effect in Effects)
 			{
-				sender.TakeDamage(null, Effect.EffectPerOne * 3 * LimitedreactionAmount , Effect.AttackType,
+				sender.TakeDamage(null, Effect.EffectPerOne * MagicNumber * LimitedreactionAmount , Effect.AttackType,
 					Effect.DamageEffect, DamageSubOrgans: false);
 			}
 
 		}
 		else
 		{
-			sender.TakeDamage(null, EffectPerOne * 3 * LimitedreactionAmount, AttackType,
+			sender.TakeDamage(null, EffectPerOne * MagicNumber * LimitedreactionAmount, AttackType,
 				DamageEffect, DamageSubOrgans: false);
 		}
 
