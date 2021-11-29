@@ -28,6 +28,28 @@ namespace GameRunTests
 		public IEnumerator NewTestScriptWithEnumeratorPasses()
 		{
 			yield return SceneManager.LoadSceneAsync("OnlineScene");
+
+			for( int i = 0; i < SceneManager.sceneCount; i++ )
+			{
+				Logger.Log(	SceneManager.GetSceneAt(i).name);
+			}
+			int countLoaded = SceneManager.sceneCount;
+			Scene[] loadedScenes = new Scene[countLoaded];
+			for (int i = 0; i < countLoaded; i++)
+			{
+				loadedScenes[i] = SceneManager.GetSceneAt(i);
+			}
+			foreach (var Scene in loadedScenes)
+			{
+				var roots = Scene.GetRootGameObjects();
+				foreach (var root in roots)
+				{
+					{
+						Logger.Log("game ob root > " + root.name);
+					}
+				}
+			}
+
 			GameManager.Instance.QuickLoad = true;
 
 			yield return TestSingleton.Instance.RunTests();
