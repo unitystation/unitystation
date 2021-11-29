@@ -11,31 +11,31 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 89bcd835b81fe71408841f69af610e37, type: 3}
   m_Name: TestTest
-  m_EditorClassIdentifier: 
+  m_EditorClassIdentifier:
   Debug: 0
   DebugSecondsPerAction: 1
   TestActions:
   - CheckValueGameObjectAtData:
       Prefab: {fileID: 0}
       PositionToCheck: {x: 0, y: 0, z: 0}
-      ComponentName: 
+      ComponentName:
       Parameters:
-        VariablePath: 
+        VariablePath:
         VariableType: 0
         TargetBoolValue: 0
-        TargetStringValue: 
+        TargetStringValue:
         TargetValue: 0
         HasMin: 0
         Min: 0
         HasMax: 0
         Max: 0
-      CustomFailedText: 
+      CustomFailedText:
     HasTileData:
       WorldPosition: {x: 0, y: 0, z: 0}
       LayerTile: {fileID: 0}
       NoTileAt: 0
       LayerType: 0
-      CustomFailedText: 
+      CustomFailedText:
     DataIsInPlayerInventory:
       Inverse: 0
       NotLocalPlayer: 0
@@ -44,7 +44,7 @@ MonoBehaviour:
       TargetSpecifiedSlot: 0
       TargetSlots: 2048
       IncludeSubInventories: 0
-      CustomFailedText: 
+      CustomFailedText:
     DataKeyInput:
       UnPress: 0
       Key: 0
@@ -54,11 +54,11 @@ MonoBehaviour:
       PositionToCheck: {x: 0, y: 0, z: 0}
       NumberPresent: 0
       TheStackAmount: 0
-      CustomFailedText: 
+      CustomFailedText:
     RespawnPlayerData:
       PositionToSpawn: {x: 0, y: 0, z: 0}
       Occupation: {fileID: 0}
-      SerialisedCharacterSettings: 
+      SerialisedCharacterSettings:
     DataSetMousePosition:
       WorldPosition: {x: 0, y: 0, z: 0}
     SetTileData:
@@ -67,14 +67,14 @@ MonoBehaviour:
     SetValueGameObjectAtData:
       Prefab: {fileID: 0}
       PositionToCheck: {x: 0, y: 0, z: 0}
-      ComponentName: 
+      ComponentName:
       ClassVariableWriter:
-        VariablePath: 
+        VariablePath:
         VariableType: 0
         TargetBoolValue: 0
-        TargetStringValue: 
+        TargetStringValue:
         TargetValue: 0
-      CustomFailedText: 
+      CustomFailedText:
     SpawnXData:
       Prefab: {fileID: 6071750789763624616, guid: 72e9a61271099da41b6bbb328707815f,
         type: 3}
@@ -100,13 +100,13 @@ MonoBehaviour:
         Min: 1
         HasMax: 1
         Max: 3
-      CustomFailedText: 
+      CustomFailedText:
     HasTileData:
       WorldPosition: {x: 0, y: 0, z: 0}
       LayerTile: {fileID: 0}
       NoTileAt: 0
       LayerType: 0
-      CustomFailedText: 
+      CustomFailedText:
     DataIsInPlayerInventory:
       Inverse: 0
       NotLocalPlayer: 0
@@ -115,7 +115,7 @@ MonoBehaviour:
       TargetSpecifiedSlot: 0
       TargetSlots: 2048
       IncludeSubInventories: 0
-      CustomFailedText: 
+      CustomFailedText:
     DataKeyInput:
       UnPress: 0
       Key: 0
@@ -125,11 +125,11 @@ MonoBehaviour:
       PositionToCheck: {x: 0, y: 0, z: 0}
       NumberPresent: 0
       TheStackAmount: 0
-      CustomFailedText: 
+      CustomFailedText:
     RespawnPlayerData:
       PositionToSpawn: {x: 0, y: 0, z: 0}
       Occupation: {fileID: 0}
-      SerialisedCharacterSettings: 
+      SerialisedCharacterSettings:
     DataSetMousePosition:
       WorldPosition: {x: 0, y: 0, z: 0}
     SetTileData:
@@ -146,7 +146,7 @@ MonoBehaviour:
         TargetBoolValue: 1
         TargetStringValue: heheheheh lol
         TargetValue: 4
-      CustomFailedText: 
+      CustomFailedText:
     SpawnXData:
       Prefab: {fileID: 6071750789763624616, guid: 72e9a61271099da41b6bbb328707815f,
         type: 3}
@@ -172,13 +172,13 @@ MonoBehaviour:
         Min: 1
         HasMax: 0
         Max: 3
-      CustomFailedText: 
+      CustomFailedText:
     HasTileData:
       WorldPosition: {x: 0, y: 0, z: 0}
       LayerTile: {fileID: 0}
       NoTileAt: 0
       LayerType: 0
-      CustomFailedText: 
+      CustomFailedText:
     DataIsInPlayerInventory:
       Inverse: 0
       NotLocalPlayer: 0
@@ -187,7 +187,7 @@ MonoBehaviour:
       TargetSpecifiedSlot: 0
       TargetSlots: 2048
       IncludeSubInventories: 0
-      CustomFailedText: 
+      CustomFailedText:
     DataKeyInput:
       UnPress: 0
       Key: 0
@@ -197,11 +197,11 @@ MonoBehaviour:
       PositionToCheck: {x: 0, y: 0, z: 0}
       NumberPresent: 0
       TheStackAmount: 0
-      CustomFailedText: 
+      CustomFailedText:
     RespawnPlayerData:
       PositionToSpawn: {x: 0, y: 0, z: 0}
       Occupation: {fileID: 0}
-      SerialisedCharacterSettings: 
+      SerialisedCharacterSettings:
     DataSetMousePosition:
       WorldPosition: {x: 0, y: 0, z: 0}
     SetTileData:
@@ -210,14 +210,14 @@ MonoBehaviour:
     SetValueGameObjectAtData:
       Prefab: {fileID: 0}
       PositionToCheck: {x: 0, y: 0, z: 0}
-      ComponentName: 
+      ComponentName:
       ClassVariableWriter:
-        VariablePath: 
+        VariablePath:
         VariableType: 0
         TargetBoolValue: 0
-        TargetStringValue: 
+        TargetStringValue:
         TargetValue: 0
-      CustomFailedText: 
+      CustomFailedText:
     SpawnXData:
       Prefab: {fileID: 6071750789763624616, guid: 72e9a61271099da41b6bbb328707815f,
         type: 3}
