@@ -166,7 +166,7 @@ MonoBehaviour:
   burntOutPrefab: {fileID: 9060380378923672138, guid: 079d2b7c1bf7fca48af7deb2c5d98539,
     type: 3}
   burnTimeSeconds: 30
-  spriteHandler: {fileID: 2343674388653201526}
+  LightableSurface: {fileID: 11400000, guid: 7410b4f6e26235e4f93aa1ebcbab0cec, type: 2}
 --- !u!1001 &8485889606324625227
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -336,17 +336,5 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 579884b05ae74e8499329b64997147d3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &2343674388653201526 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 6144467708197095229, guid: a7abba22164ce49f0bf9b9b219f39298,
-    type: 3}
-  m_PrefabInstance: {fileID: 8485889606324625227}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 

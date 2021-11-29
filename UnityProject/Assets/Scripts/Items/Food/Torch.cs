@@ -24,6 +24,9 @@ namespace items
 		[Tooltip("Time after torch will destroy and spawn burnt remains")]
 		private float burnTimeSeconds = 30;
 
+		[SerializeField]
+		private ItemTrait LightableSurface = null;
+
 		[SyncVar]
 		private bool isLit = false;
 
@@ -54,7 +57,7 @@ namespace items
 			}
 
 			ItemAttributesV2 attr = interaction.TargetObject.GetComponent<ItemAttributesV2>();
-			return attr.HasTrait(CommonTraits.Instance.LightableSurface) && interaction.Intent == Intent.Harm;
+			return attr.HasTrait(LightableSurface) && interaction.Intent == Intent.Harm;
 		}
 
 		public bool WillInteract(InventoryApply interaction, NetworkSide side)
@@ -66,17 +69,17 @@ namespace items
 			}
 
 			ItemAttributesV2 attr = interaction.TargetObject.GetComponent<ItemAttributesV2>();
-			return attr.HasTrait(CommonTraits.Instance.LightableSurface) && interaction.Intent == Intent.Harm;
+			return attr.HasTrait(LightableSurface) && interaction.Intent == Intent.Harm;
 		}
 
 		public void ServerPerformInteraction(InventoryApply interaction)
 		{
-			TryLightByObject();
+			LightByObject();
 		}
 
 		public void ServerPerformInteraction(HandApply interaction)
 		{
-			TryLightByObject();
+			LightByObject();
 		}
 
 		#endregion
@@ -101,14 +104,12 @@ namespace items
 			}
 		}
 
-		private void TryLightByObject()
+		private void LightByObject()
 		{
 			if (!isLit)
 			{
 				ServerChangeLit(true);
 			}
-
-			return;
 		}
 
 		private void Burn()
