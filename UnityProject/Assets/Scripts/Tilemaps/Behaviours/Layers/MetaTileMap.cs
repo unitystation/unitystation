@@ -73,7 +73,7 @@ namespace TileManagement
 		private Thread mainThread;
 
 		private BetterBoundsInt? LocalCachedBounds;
-		private BetterBounds? GlobalCachedBounds;
+		public BetterBounds? GlobalCachedBounds;
 
 		[NonSerialized] public Matrix4x4 localToWorldMatrix = Matrix4x4.identity;
 
