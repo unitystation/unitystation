@@ -7,137 +7,137 @@ using Items;
 
 namespace items
 {
-    /// <summary>
-    /// Lightable objects that can be used as lighters
-    /// </summary>
-    public class Torch : NetworkBehaviour, ICheckedInteractable<HandApply>,
-        ICheckedInteractable<InventoryApply>, IServerDespawn
+/// <summary>
+/// Lightable objects that can be used as lighters
+/// </summary>
+public class Torch : NetworkBehaviour, ICheckedInteractable<HandApply>,
+    ICheckedInteractable<InventoryApply>, IServerDespawn
+{
+    private const int DEFAULT_SPRITE = 0;
+    private const int LIT_SPRITE = 1;
+
+    [SerializeField]
+    [Tooltip("Object to spawn after torch burnt")]
+    private GameObject burntOutPrefab = null;
+
+    [SerializeField]
+    [Tooltip("Time after torch will destroy and spawn burnt remains")]
+    private float burnTimeSeconds = 30;
+
+    [SyncVar]
+    private bool isLit = false;
+
+    private SpriteHandler spriteHandler;
+    private FireSource fireSource;
+    private Pickupable pickupable;
+
+    private void Awake()
     {
-		private const int DEFAULT_SPRITE = 0;
-		private const int LIT_SPRITE = 1;
+        spriteHandler = GetComponentInChildren<SpriteHandler>();
+        fireSource = GetComponent<FireSource>();
+        pickupable = GetComponent<Pickupable>();
+    }
 
-		[SerializeField]
-		[Tooltip("Object to spawn after torch burnt")]
-		private GameObject burntOutPrefab = null;
+    public void OnDespawnServer(DespawnInfo info)
+    {
+        ServerChangeLit(false);
+    }
 
-		[SerializeField]
-		[Tooltip("Time after torch will destroy and spawn burnt remains")]
-		private float burnTimeSeconds = 30;
+    #region Interactions
 
-		[SyncVar]
-		private bool isLit = false;
+    public bool WillInteract(HandApply interaction, NetworkSide side)
+    {
+        // standard validation for interaction and harm intent
+        if (!DefaultWillInteract.Default(interaction, side))
+        {
+            return false;
+        }
 
-		private SpriteHandler spriteHandler;
-		private FireSource fireSource;
-		private Pickupable pickupable;
+        ItemAttributesV2 attr = interaction.TargetObject.GetComponent<ItemAttributesV2>();
+        return attr.HasTrait(CommonTraits.Instance.LightableSurface) && interaction.Intent == Intent.Harm;
+    }
 
-		private void Awake()
-		{
-			spriteHandler = GetComponentInChildren<SpriteHandler>();
-			fireSource = GetComponent<FireSource>();
-			pickupable = GetComponent<Pickupable>();
-		}
+    public bool WillInteract(InventoryApply interaction, NetworkSide side)
+    {
+        // standard validation for interaction
+        if (DefaultWillInteract.Default(interaction, side) == false || !interaction.TargetObject)
+        {
+            return false;
+        }
 
-		public void OnDespawnServer(DespawnInfo info)
-		{
-			ServerChangeLit(false);
-		}
+        ItemAttributesV2 attr = interaction.TargetObject.GetComponent<ItemAttributesV2>();
+        return attr.HasTrait(CommonTraits.Instance.LightableSurface) && interaction.Intent == Intent.Harm;
+    }
 
-		#region Interactions
+    public void ServerPerformInteraction(InventoryApply interaction)
+    {
+        TryLightByObject();
+    }
 
-		public bool WillInteract(HandApply interaction, NetworkSide side)
-		{
-			// standard validation for interaction and harm intent
-			if (!DefaultWillInteract.Default(interaction, side))
-			{
-				return false;
-			}
+    public void ServerPerformInteraction(HandApply interaction)
+    {
+        TryLightByObject();
+    }
 
-			ItemAttributesV2 attr = interaction.TargetObject.GetComponent<ItemAttributesV2>();
-			return attr.HasTrait(CommonTraits.Instance.LightableSurface) && interaction.Intent == Intent.Harm;
-		}
+    #endregion
 
-		public bool WillInteract(InventoryApply interaction, NetworkSide side)
-		{
-			// standard validation for interaction
-			if (DefaultWillInteract.Default(interaction, side) == false || !interaction.TargetObject)
-			{
-				return false;
-			}
+    private void ServerChangeLit(bool isLitNow)
+    {
+        if (spriteHandler)
+        {
+            var newSpriteID = isLitNow ? LIT_SPRITE : DEFAULT_SPRITE;
+            spriteHandler.ChangeSprite(newSpriteID);
+        }
 
-			ItemAttributesV2 attr = interaction.TargetObject.GetComponent<ItemAttributesV2>();
-			return attr.HasTrait(CommonTraits.Instance.LightableSurface) && interaction.Intent == Intent.Harm;
-		}
+        // toggle flame from match
+        if (fireSource)
+        {
+            fireSource.IsBurning = isLitNow;
+        }
 
-		public void ServerPerformInteraction(InventoryApply interaction)
-		{
-			TryLightByObject();
-		}
+        if (isLitNow)
+        {
+            StartCoroutine(FireRoutine());
+        }
+    }
 
-		public void ServerPerformInteraction(HandApply interaction)
-		{
-			TryLightByObject();
-		}
+    private void TryLightByObject()
+    {
+        if (!isLit)
+        {
+            ServerChangeLit(true);
+        }
 
-		#endregion
+        return;
+    }
 
-		private void ServerChangeLit(bool isLitNow)
-		{
-			if (spriteHandler)
-			{
-				var newSpriteID = isLitNow ? LIT_SPRITE : DEFAULT_SPRITE;
-				spriteHandler.ChangeSprite(newSpriteID);
-			}
+    private void Burn()
+    {
+        var worldPos = gameObject.AssumedWorldPosServer();
+        var tr = gameObject.transform.parent;
+        var rotation = RandomUtils.RandomRotation2D();
 
-			// toggle flame from match
-			if (fireSource)
-			{
-				fireSource.IsBurning = isLitNow;
-			}
+        // Print burn out message if in players inventory
+        if (pickupable && pickupable.ItemSlot != null)
+        {
+            var player = pickupable.ItemSlot.Player;
+            if (player)
+            {
+                Chat.AddExamineMsgFromServer(player.gameObject,
+                                             $"Your {gameObject.ExpensiveName()} goes out.");
+            }
+        }
 
-			if (isLitNow)
-			{
-				StartCoroutine(FireRoutine());
-			}
-		}
+        _ = Despawn.ServerSingle(gameObject);
+        Spawn.ServerPrefab(burntOutPrefab, worldPos, tr, rotation);
+    }
 
-		private void TryLightByObject()
-		{
-			if (!isLit)
-			{
-				ServerChangeLit(true);
-			}
-
-			return;
-		}
-
-		private void Burn()
-		{
-			var worldPos = gameObject.AssumedWorldPosServer();
-			var tr = gameObject.transform.parent;
-			var rotation = RandomUtils.RandomRotation2D();
-
-			// Print burn out message if in players inventory
-			if (pickupable && pickupable.ItemSlot != null)
-			{
-				var player = pickupable.ItemSlot.Player;
-				if (player)
-				{
-					Chat.AddExamineMsgFromServer(player.gameObject,
-						$"Your {gameObject.ExpensiveName()} goes out.");
-				}
-			}
-
-			_ = Despawn.ServerSingle(gameObject);
-			Spawn.ServerPrefab(burntOutPrefab, worldPos, tr, rotation);
-		}
-
-		private IEnumerator FireRoutine()
-		{
-			// wait until match will burn
-			yield return new WaitForSeconds(burnTimeSeconds);
-			// despawn match and spawn burn
-			Burn();
-		}
-	}
+    private IEnumerator FireRoutine()
+    {
+        // wait until match will burn
+        yield return new WaitForSeconds(burnTimeSeconds);
+        // despawn match and spawn burn
+        Burn();
+    }
+}
 }
