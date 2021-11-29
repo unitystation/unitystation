@@ -53,7 +53,7 @@ namespace GameRunTests
 			{
 				foreach (var Prefab in TestSingleton.Instance.OnlineSceneObjects)
 				{
-					Spawn.ServerPrefab(Prefab);
+				    UnityEngine.Object.Instantiate(Prefab);
 				}
 			}
 
