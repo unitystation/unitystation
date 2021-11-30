@@ -21,6 +21,7 @@ namespace Managers
         {
 	        thread = new Thread (OverwatchMainThread);
 	        thread.Start();
+	        Directory.CreateDirectory("Logs");
 	        streamWriter = File.AppendText("Logs/InfiniteLoopTracker.txt");
         }
 
