@@ -17,6 +17,7 @@ namespace Doors
 		[SerializeField, BoxGroup("Sprite Layers"), PrefabModeOnly]
 		[Tooltip("Game object which represents the base of this door")]
 		private GameObject doorBase = null;
+		public GameObject DoorBase => doorBase;
 
 		[SerializeField, BoxGroup("Sprite Layers"), PrefabModeOnly]
 		[Tooltip("Game object which represents the light layer of this door")]
@@ -67,6 +68,7 @@ namespace Doors
 		public event Action AnimationFinished;
 
 		private SpriteHandler doorBaseHandler;
+		public SpriteHandler DoorBaseHandler => doorBaseHandler;
 		private SpriteHandler overlaySparksHandler;
 		private SpriteHandler overlayLightsHandler;
 		private SpriteHandler overlayFillHandler;
