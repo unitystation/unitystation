@@ -340,6 +340,13 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 			WorldTo = Worldorigin + (Vector3) (direction.normalized * distance);
 		}
 
+		if ((WorldTo - Worldorigin).Value.magnitude > 35)
+		{
+			Logger.LogError(" Limit exceeded on raycast, Look at stack trace for What caused it ");
+			return new CustomPhysicsHit();
+		}
+
+
 		if (direction.x == 0 && direction.y == 0)
 		{
 			direction = (WorldTo.Value - Worldorigin).normalized;
