@@ -21,6 +21,8 @@ public partial class TestAction
 
 		public LayerType LayerType;
 
+		public string MatrixName;
+
 		// public Matrix4x4 matrix; //has terrible inspector and Defaults to invalid Option
 
 		// public Color Colour; // Defaults to bad option
@@ -31,7 +33,7 @@ public partial class TestAction
 		//Color.white
 		public bool Initiate(TestRunSO TestRunSO)
 		{
-			var Magix = MatrixManager.AtPoint(WorldPosition.RoundToInt(), true);
+			var Magix = UsefulFunctions.GetCorrectMatrix(MatrixName, WorldPosition);
 			if (NoTileAt == false)
 			{
 				var TileAt = Magix.Matrix.MetaTileMap.GetTile(WorldPosition.ToLocal(Magix).RoundToInt(), LayerTile.LayerType);

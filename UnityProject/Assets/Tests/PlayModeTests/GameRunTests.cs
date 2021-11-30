@@ -31,7 +31,7 @@ namespace GameRunTests
 			GameManager.Instance.QuickLoad = true;
 
 			yield return TestSingleton.Instance.RunTests();
-			
+
 			GameManager.Instance.QuickLoad = false;
 		}
 
@@ -40,6 +40,7 @@ namespace GameRunTests
 		{
 			GameManager.Instance.RoundEndTime = 0f;
 			GameManager.Instance.EndRound();
+			PlayerManager.LocalPlayer = null;
 		}
 
 		// public void RunRestartRound()

@@ -17,6 +17,10 @@ public partial class TestAction
 
 		public LayerTile LayerTile;
 
+		public string MatrixName;
+
+		public LayerType tileLayerRemove;
+
 		// public Matrix4x4 matrix; //has terrible inspector and Defaults to invalid Option
 
 		// public Color Colour; // Defaults to bad option
@@ -24,9 +28,19 @@ public partial class TestAction
 
 		public bool Initiate(TestRunSO TestRunSO)
 		{
-			var Magix = MatrixManager.AtPoint(WorldPosition.RoundToInt(), true);
-			Magix.Matrix.MetaTileMap.SetTile(WorldPosition.ToLocal(Magix).RoundToInt(), LayerTile, Matrix4x4.identity,
-				Color.white);
+			MatrixInfo _Magix = UsefulFunctions.GetCorrectMatrix(MatrixName, WorldPosition);
+
+			if (LayerTile == null)
+			{
+				_Magix.Matrix.MetaTileMap.RemoveTileWithlayer(WorldPosition.ToLocal(_Magix).RoundToInt(), tileLayerRemove);
+			}
+			else
+			{
+				_Magix.Matrix.MetaTileMap.SetTile(WorldPosition.ToLocal(_Magix).RoundToInt(), LayerTile, Matrix4x4.identity,
+					Color.white);
+			}
+
+
 
 			return true;
 		}

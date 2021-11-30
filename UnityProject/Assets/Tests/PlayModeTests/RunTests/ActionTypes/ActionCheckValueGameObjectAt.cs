@@ -17,8 +17,10 @@ public partial class TestAction
 	{
 
 		public GameObject Prefab;
-		public Vector3 PositionToCheck;
+		public Vector3 WorldPosition;
 		public string ComponentName;
+
+		public string MatrixName;
 
 		public ClassVariableRead Parameters = new ClassVariableRead();
 
@@ -27,8 +29,8 @@ public partial class TestAction
 
 		public bool Initiate(TestRunSO TestRunSO)
 		{
-			var Magix = MatrixManager.AtPoint(PositionToCheck.RoundToInt(), true);
-			var List = Magix.Matrix.ServerObjects.Get(PositionToCheck.ToLocal(Magix).RoundToInt());
+			var Magix =  UsefulFunctions.GetCorrectMatrix(MatrixName, WorldPosition);
+			var List = Magix.Matrix.ServerObjects.Get(WorldPosition.ToLocal(Magix).RoundToInt());
 
 			var OriginalID = Prefab.GetComponent<PrefabTracker>().ForeverID;
 

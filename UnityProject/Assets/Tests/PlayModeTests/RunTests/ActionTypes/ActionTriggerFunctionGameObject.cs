@@ -4,16 +4,16 @@ using GameRunTests;
 using NaughtyAttributes;
 using UnityEngine;
 
-// public class ActionSetValueGameObjectAt : MonoBehaviour
+// public class ActionTriggerFunctionGameObject : MonoBehaviour
 // {
 public partial class TestAction
 {
-	public bool ShowSetValueGameObjectAt => SpecifiedAction == ActionType.SetValueGameObjectAt;
+	public bool ShowFunctionGameObject => SpecifiedAction == ActionType.TriggerFunctionGameObject;
 
-	[AllowNesting] [ShowIf("ShowSetValueGameObjectAt")] public SetValueGameObjectAt SetValueGameObjectAtData;
+	[AllowNesting] [ShowIf("ShowFunctionGameObject")] public FunctionGameObject FunctionGameObjectData;
 
 	[System.Serializable]
-	public class SetValueGameObjectAt
+	public class FunctionGameObject
 	{
 		public GameObject Prefab;
 		public Vector3 PositionToCheck;
@@ -21,9 +21,7 @@ public partial class TestAction
 
 		public string MatrixName;
 
-		public ClassVariableWriter ClassVariableWriter;
-
-		public string CustomFailedText;
+		public ClassFunctionInvoke ClassFunctionInvoke;
 
 		public bool Initiate(TestRunSO TestRunSO)
 		{
@@ -40,20 +38,18 @@ public partial class TestAction
 					if (PrefabTracker.ForeverID == OriginalID)
 					{
 						var mono = Object.GetComponent(ComponentName);
-						ClassVariableWriter.SetValue(mono.GetType(), mono);
+						ClassFunctionInvoke.Invoke(mono.GetType(), mono);
 						return true;
 					}
 				}
 			}
-			TestRunSO.Report.AppendLine(CustomFailedText);
 			TestRunSO.Report.AppendLine($"Could not find prefab {Prefab}");
 			return false;
 		}
-
 	}
 
-	public bool InitiateSetValueGameObjectAt(TestRunSO TestRunSO)
+	public bool InitiateTriggerFunctionGameObject(TestRunSO TestRunSO)
 	{
-		return SetValueGameObjectAtData.Initiate(TestRunSO);
+		return FunctionGameObjectData.Initiate(TestRunSO);
 	}
 }

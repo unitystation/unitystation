@@ -10,7 +10,7 @@ public class PlayerManager : MonoBehaviour
 	private static PlayerManager playerManager;
 
 	public static IPlayerControllable MovementControllable { get; private set; }
-	public static GameObject LocalPlayer { get; private set; }
+	public static GameObject LocalPlayer { get; set; }
 
 	public static Equipment Equipment { get; private set; }
 

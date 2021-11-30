@@ -21,7 +21,10 @@ public partial class TestAction
 		SetMousePosition,
 		IsInPlayerInventory,
 		CheckValueGameObjectAt,
-		SetValueGameObjectAt
+		SetValueGameObjectAt,
+		AssessMetaDataNode,
+		TriggerFunctionGameObject,
+		DEBUG_Editor_Pause
 	}
 
 
@@ -51,6 +54,12 @@ public partial class TestAction
 				return InitiateCheckValueGameObjectAt(TestRunSO);
 			case ActionType.SetValueGameObjectAt:
 				return InitiateSetValueGameObjectAt(TestRunSO);
+			case ActionType.AssessMetaDataNode:
+				return InitiateAssessMetaDataNode(TestRunSO);
+			case ActionType.TriggerFunctionGameObject:
+				return InitiateTriggerFunctionGameObject(TestRunSO);
+			case ActionType.DEBUG_Editor_Pause:
+				return InitiateDEBUG_Editor_Pause(TestRunSO);
 			default:
 
 				Logger.LogError($"Unset {SpecifiedAction}");
@@ -58,5 +67,21 @@ public partial class TestAction
 		}
 
 		return true;
+	}
+
+	public class UsefulFunctions
+	{
+		public static MatrixInfo GetCorrectMatrix(string Name, Vector3 WorldPosition)
+		{
+			if (string.IsNullOrEmpty(Name))
+			{
+				return  MatrixManager.AtPoint(WorldPosition.RoundToInt(), true);
+			}
+			else
+			{
+				return  MatrixManager.GetByName_DEBUG_ONLY(Name);
+			}
+
+		}
 	}
 }

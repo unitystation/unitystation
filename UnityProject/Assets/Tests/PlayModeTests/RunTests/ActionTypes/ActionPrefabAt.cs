@@ -20,6 +20,8 @@ public partial class TestAction
 		[Range(1, 100)] public int NumberPresent = 1;
 		[Range(0, 100)] public int TheStackAmount = 0;
 
+		public string MatrixName;
+
 		public string CustomFailedText;
 
 		public bool Initiate(TestRunSO TestRunSO)
@@ -30,7 +32,7 @@ public partial class TestAction
 			}
 
 
-			var Magix = MatrixManager.AtPoint(PositionToCheck.RoundToInt(), true);
+			var Magix = UsefulFunctions.GetCorrectMatrix(MatrixName, PositionToCheck);
 			var List = Magix.Matrix.ServerObjects.Get(PositionToCheck.ToLocal(Magix).RoundToInt());
 
 			var OriginalID = Prefab.GetComponent<PrefabTracker>().ForeverID;

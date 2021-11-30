@@ -15,6 +15,8 @@ public partial class TestAction
 	[System.Serializable]
 	public class IsInPlayerInventory
 	{
+		public string MatrixName;
+
 		public bool Inverse;
 
 		public bool NotLocalPlayer;
@@ -36,7 +38,7 @@ public partial class TestAction
 
 			if (NotLocalPlayer)
 			{
-				var Magix = MatrixManager.AtPoint(WorldPositionOfPlayer.RoundToInt(), true);
+				var Magix = UsefulFunctions.GetCorrectMatrix(MatrixName, WorldPositionOfPlayer);
 				var List = Magix.Matrix.ServerObjects.Get(WorldPositionOfPlayer.ToLocal(Magix).RoundToInt());
 				foreach (var registerTile in List)
 				{
