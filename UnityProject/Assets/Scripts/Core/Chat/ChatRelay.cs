@@ -217,7 +217,8 @@ public class ChatRelay : NetworkBehaviour
 	private void CheckForRadios(ChatEvent chatEvent)
 	{
 		HandleRadioCheckCooldown();
-		foreach (Collider2D coll in Physics2D.OverlapCircleAll(chatEvent.originator.AssumedWorldPosServer(), 8f, itemsMask))
+		//Check for chat three tiles around the player
+		foreach (Collider2D coll in Physics2D.OverlapCircleAll(chatEvent.originator.AssumedWorldPosServer(), 4f, itemsMask))
 		{
 			var radioPos = coll.gameObject.AssumedWorldPosServer();
 			if(chatEvent.originator == coll.gameObject) continue;
@@ -226,6 +227,19 @@ public class ChatRelay : NetworkBehaviour
 				layerMask,radioPos).ItHit ==false)
 			{
 				listener.SendData(chatEvent);
+			}
+		}
+		//Check for chat when the item is inside the player's inventory
+		if (chatEvent.originator.TryGetComponent<PlayerScript>(out var playerScript))
+		{
+			foreach (var slots in playerScript.DynamicItemStorage.ServerContents.Values)
+			{
+				foreach (var slot in slots)
+				{
+					if(slot.IsEmpty) continue;
+					if(slot.Item.TryGetComponent<LocalRadioListener>(out var listener)
+					   && listener != chatEvent.originator) {listener.SendData(chatEvent);}
+				}
 			}
 		}
 	}

@@ -11,20 +11,32 @@ namespace Objects.Telecomms
 	{
 		[SerializeField] private int hearableRange = 2;
 		[SerializeField] private LayerMask layerToCheck;
-
-
+		private LocalRadioListener radioListener;
+		private bool broadcastToNearbyTiles = true;
 		private Pickupable pickupable;
 
 		private void Awake()
 		{
 			pickupable = GetComponent<Pickupable>();
+			radioListener = GetComponent<LocalRadioListener>();
+			UpdateManager.Add(SyncFrequencyWithListner, 0.5f);
+		}
+
+		private void SyncFrequencyWithListner()
+		{
+			Frequency = radioListener.Frequency;
 		}
 
 		public override void ReceiveSignal(SignalStrength strength, SignalMessage message = null)
 		{
 			if (message is RadioMessage msg)
 			{
-				ShowChatterToNearbyPeople(msg);
+				if(broadcastToNearbyTiles) {ShowChatterToNearbyPeople(msg); return;}
+
+				if (pickupable.ItemSlot?.Player.OrNull() == true)
+				{
+					Chat.AddExamineMsg(pickupable.ItemSlot.ItemStorage.Player.gameObject, HandleText(msg));
+				}
 			}
 		}
 

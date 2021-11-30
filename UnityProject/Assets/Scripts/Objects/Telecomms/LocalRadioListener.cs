@@ -9,7 +9,6 @@ namespace Objects.Telecomms
 {
 	public class LocalRadioListener : SignalEmitter
 	{
-
 		public void SendData(ChatEvent chat)
 		{
 			RadioMessage msg = new RadioMessage
@@ -22,7 +21,6 @@ namespace Objects.Telecomms
 
 		protected override bool SendSignalLogic()
 		{
-			Debug.Log("should be a success");
 			return true;
 		}
 
