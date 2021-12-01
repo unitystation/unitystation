@@ -30,8 +30,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4979bd036aff8f14aa5d4e9aa4ab865c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  supermatterUnvaporizible: {fileID: 11400000, guid: 568b4eb9d84a4b349957c1c1d4289ebb,
-    type: 2}
   supermatterScalpel: {fileID: 11400000, guid: 635f2dad6ee0ce749a89253fd4a13f8f, type: 2}
   supermatterTongs: {fileID: 11400000, guid: 2c4443ad77d74b54a9a305c240a8a850, type: 2}
   vaporizeWhenPickedUp: 1
@@ -145,7 +143,7 @@ PrefabInstance:
         type: 3}
       propertyPath: initialTraits.Array.data[0]
       value: 
-      objectReference: {fileID: 11400000, guid: 568b4eb9d84a4b349957c1c1d4289ebb,
+      objectReference: {fileID: 11400000, guid: 033fe3055c943534ca5d7b6585c693d8,
         type: 2}
     - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
