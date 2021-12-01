@@ -56,7 +56,7 @@ public class SupermatterSliver : MonoBehaviour, IServerInventoryMove, ICheckedIn
 			{
 				Chat.AddActionMsgToChat(player.PlayerChatLocation,
 					$"You reach for the {gameObject.ExpensiveName()} with your hands. That was dumb.",
-					$"{player.playerName} touches {gameObject.ExpensiveName()} with bare hands. His body bursts into flames and flashes to dust after few moments.");
+					$"{player.visibleName} touches {gameObject.ExpensiveName()} with bare hands. His body bursts into flames and flashes to dust after few moments.");
 
 				player.playerHealth.Gib();
 				return;
