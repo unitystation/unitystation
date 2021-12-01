@@ -65,7 +65,15 @@ namespace Objects.Telecomms
 			bool encrypted = message.IsEncrypted;
 			if (encrypted && EncryptionData != null)
 			{
-				messageSender = "???";
+				if (EncryptionUtils.Decrypt(messageSender, EncryptionData.EncryptionSecret) !=
+				    message.OriginalSenderName)
+				{
+					messageSender = "???";
+				}
+				else
+				{
+					messageSender = message.OriginalSenderName;
+				}
 				messageContent = EncryptionUtils.Decrypt(messageContent, EncryptionData.EncryptionSecret);
 			}
 			return $"<b><color=#{ColorUtility.ToHtmlStringRGBA(Chat.Instance.commonColor)}><sprite=\"RadioIcon\" name=\"radio_walkietalkie\">" +
@@ -74,11 +82,9 @@ namespace Objects.Telecomms
 
 		public void AddEncryptionKey(EncryptionKey key)
 		{
-			if (keyStorage.ServerTryAdd(key.gameObject))
-			{
-				EncryptionData = key.EncryptionDataSo;
-				radioListener.SignalData.EncryptionData = key.EncryptionDataSo;
-			}
+			keyStorage.ServerTryAdd(key.gameObject);
+			EncryptionData = key.EncryptionDataSo;
+			radioListener.SignalData.EncryptionData = key.EncryptionDataSo;
 		}
 
 		public void RemoveEncryptionKey()
@@ -92,18 +98,22 @@ namespace Objects.Telecomms
 		{
 			if(canChangeEncryption == false) return false;
 			if (DefaultWillInteract.Default(interaction, side) == false) return false;
-			if(interaction.UsedObject == null) return false;
-			if (interaction.UsedObject.TryGetComponent<Screwdriver>(out var _)) return true;
-			return false;
+			if (interaction.HandObject == null) return false;
+			return true;
+		}
+
+		public void ScrewInteraction(GameObject Performer)
+		{
+			isScrewed = !isScrewed;
+			string status = isScrewed ? "screw" : "unscrew";
+			Chat.AddExamineMsg(Performer, $"You {status} the {gameObject.ExpensiveName()}.");
 		}
 
 		public void ServerPerformInteraction(HandApply interaction)
 		{
 			if (interaction.UsedObject.TryGetComponent<Screwdriver>(out var _))
 			{
-				isScrewed = !isScrewed;
-				string status = isScrewed ? "screw" : "unscrew";
-				Chat.AddExamineMsg(interaction.Performer, $"You {status} the {gameObject.ExpensiveName()}.");
+				ScrewInteraction(interaction.Performer);
 				return;
 			}
 			if(interaction.IsAltClick && isScrewed == false) RemoveEncryptionKey();

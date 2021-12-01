@@ -29,7 +29,8 @@ namespace Objects.Telecomms
 			{
 				Sender = chatSpeaker,
 				Message = chatMessage,
-				IsEncrypted = isEncrypted
+				IsEncrypted = isEncrypted,
+				OriginalSenderName = chat.speaker
 			};
 			TrySendSignal(msg);
 		}

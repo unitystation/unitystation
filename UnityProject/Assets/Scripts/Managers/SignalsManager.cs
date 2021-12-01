@@ -153,6 +153,7 @@ namespace Managers
 		public string Sender;
 		public string Message;
 		public bool IsEncrypted;
+		public string OriginalSenderName;
 	}
 }
 
