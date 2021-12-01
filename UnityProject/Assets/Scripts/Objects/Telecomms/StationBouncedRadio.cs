@@ -8,7 +8,7 @@ using Util;
 
 namespace Objects.Telecomms
 {
-	public class StationBouncedRadio : SignalReceiver, ICheckedInteractable<HandApply>
+	public class StationBouncedRadio : SignalReceiver, ICheckedInteractable<HandApply>, IRightClickable
 	{
 		[SerializeField] private int hearableRange = 3;
 		[SerializeField] private LayerMask layerToCheck;
@@ -82,9 +82,11 @@ namespace Objects.Telecomms
 
 		public void AddEncryptionKey(EncryptionKey key)
 		{
-			keyStorage.ServerTryAdd(key.gameObject);
-			EncryptionData = key.EncryptionDataSo;
-			radioListener.SignalData.EncryptionData = key.EncryptionDataSo;
+			if (keyStorage.ServerTryTransferFrom(key.gameObject))
+			{
+				EncryptionData = key.EncryptionDataSo;
+				radioListener.SignalData.EncryptionData = key.EncryptionDataSo;
+			}
 		}
 
 		public void RemoveEncryptionKey()
@@ -117,6 +119,14 @@ namespace Objects.Telecomms
 				return;
 			}
 			if(interaction.IsAltClick && isScrewed == false) RemoveEncryptionKey();
+		}
+
+		public RightClickableResult GenerateRightClickOptions()
+		{
+			var result = RightClickableResult.Create();
+			if (isScrewed) return result;
+			
+			return result.AddElement("Remove Encryption", RemoveEncryptionKey);
 		}
 	}
 
