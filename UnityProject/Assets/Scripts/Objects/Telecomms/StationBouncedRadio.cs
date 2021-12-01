@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Communications;
 using Managers;
 using UnityEngine;
+using Util;
 
 namespace Objects.Telecomms
 {
@@ -52,8 +53,16 @@ namespace Objects.Telecomms
 
 		private string HandleText(RadioMessage message)
 		{
+			string messageSender = message.Sender;
+			string messageContent = message.Message;
+			bool encrypted = message.IsEncrypted;
+			if (encrypted && EncryptionData != null)
+			{
+				messageSender = EncryptionUtils.Decrypt(messageSender, EncryptionData.EncryptionSecret);
+				messageContent = EncryptionUtils.Decrypt(messageContent, EncryptionData.EncryptionSecret);
+			}
 			return $"<b><color=#{ColorUtility.ToHtmlStringRGBA(Chat.Instance.commonColor)}><sprite=\"RadioIcon\" name=\"radio_walkietalkie\">" +
-			       $" -{message.Sender} says \"{message.Message}\"</color></b>";
+			       $" -{messageSender} says \"{messageContent}\"</color></b>";
 		}
 
 	}

@@ -4,6 +4,7 @@ using System.Security.AccessControl;
 using Communications;
 using Managers;
 using UnityEngine;
+using Util;
 
 namespace Objects.Telecomms
 {
@@ -11,10 +12,24 @@ namespace Objects.Telecomms
 	{
 		public void SendData(ChatEvent chat)
 		{
+			string chatMessage = chat.message;
+			string chatSpeaker = chat.speaker;
+			bool isEncrypted;
+			if (signalData.EncryptionData != null)
+			{
+				chatMessage = EncryptionUtils.Encrypt(chatMessage, signalData.EncryptionData.EncryptionSecret);
+				chatSpeaker = EncryptionUtils.Encrypt(chatSpeaker, signalData.EncryptionData.EncryptionSecret);
+				isEncrypted = true;
+			}
+			else
+			{
+				isEncrypted = false;
+			}
 			RadioMessage msg = new RadioMessage
 			{
-				Sender = chat.speaker,
-				Message = chat.message,
+				Sender = chatSpeaker,
+				Message = chatMessage,
+				IsEncrypted = isEncrypted
 			};
 			TrySendSignal(msg);
 		}

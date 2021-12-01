@@ -14,6 +14,7 @@ namespace UI.Objects.Telecomms
 		[SerializeField] private Slider frequencySlider;
 		[SerializeField] private Toggle radioPowerToggle;
 		[SerializeField] private Toggle broadcastModeToggle;
+		[SerializeField, Tooltip("1 = 100 channels")] private int numberOfChannels = 1;
 
 		private SignalEmitter emittingDevice;
 		private StationBouncedRadio stationBoundRadio;
@@ -49,7 +50,7 @@ namespace UI.Objects.Telecomms
 		public void ChangeSliderFrequency()
 		{
 			if(emittingDevice == null) return;
-			emittingDevice.Frequency = (float)Decimal.Round((decimal)frequencySlider.value, 1);
+			emittingDevice.Frequency = (float)Decimal.Round((decimal)frequencySlider.value, numberOfChannels);
 			UpdateFrequencyFromProvider();
 		}
 

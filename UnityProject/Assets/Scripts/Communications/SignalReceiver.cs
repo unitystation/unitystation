@@ -15,6 +15,7 @@ namespace Communications
 		public SignalEmitter Emitter;
 		public float DelayTime = 3f; //How many seconds of delay before the SignalReceive logic happens for weak signals
 		public EncryptionDataSO EncryptionData;
+		public bool ListenToEncryptedData = false; //For devices that are designed for spying and hacking
 
 
 		private void OnEnable()

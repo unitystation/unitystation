@@ -26,7 +26,7 @@ namespace Managers
 				if (receiver.SignalTypeToReceive != type) continue;
 
 				if (receiver.Frequency.IsBetween(signalDataSo.MinMaxFrequancy.x, signalDataSo.MinMaxFrequancy.y) == false) continue;
-				if(MatchingEncryption(receiver, signalDataSo) == false) continue;
+				if(receiver.ListenToEncryptedData == false && MatchingEncryption(receiver, signalDataSo) == false) continue;
 
 				if (receiver.SignalTypeToReceive == SignalType.PING && receiver.Emitter == emitter)
 				{
@@ -37,12 +37,11 @@ namespace Managers
 				//TODO (Max) : Radio signals should be sent to relays and servers.
 				if (receiver.SignalTypeToReceive == SignalType.RADIO && AreOnTheSameFrequancy(receiver, emitter))
 				{
-					if (signalDataSo.UsesRange) { SignalStrengthHandler(receiver, emitter, signalDataSo); continue; }
+					if (signalDataSo.UsesRange) { SignalStrengthHandler(receiver, emitter, signalDataSo, signalMessage); continue; }
 					receiver.ReceiveSignal(SignalStrength.HEALTHY, signalMessage);
 					continue;
 				}
 				//Bounced radios always have a limited range.
-				Debug.Log(AreOnTheSameFrequancy(receiver, emitter));
 				if (receiver.SignalTypeToReceive == SignalType.BOUNCED && AreOnTheSameFrequancy(receiver, emitter))
 				{
 					SignalStrengthHandler(receiver, emitter, signalDataSo, signalMessage);
@@ -52,8 +51,6 @@ namespace Managers
 
 		private bool MatchingEncryption(SignalReceiver receiver, SignalDataSO signalDataSo)
 		{
-			Debug.Log(signalDataSo.EncryptionData);
-			Debug.Log(receiver.EncryptionData);
 			if (receiver.EncryptionData == null) return true;
 			if (signalDataSo.EncryptionData == null)
 			{
@@ -155,6 +152,7 @@ namespace Managers
 	{
 		public string Sender;
 		public string Message;
+		public bool IsEncrypted;
 	}
 }
 
