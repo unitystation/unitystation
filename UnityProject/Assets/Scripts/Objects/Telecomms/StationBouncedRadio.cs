@@ -82,7 +82,7 @@ namespace Objects.Telecomms
 
 		public void AddEncryptionKey(EncryptionKey key)
 		{
-			if (keyStorage.ServerTryTransferFrom(key.gameObject))
+			if (keyStorage.ServerTryTransferFrom(key.gameObject) && isScrewed == false)
 			{
 				EncryptionData = key.EncryptionDataSo;
 				radioListener.SignalData.EncryptionData = key.EncryptionDataSo;
@@ -125,7 +125,7 @@ namespace Objects.Telecomms
 		{
 			var result = RightClickableResult.Create();
 			if (isScrewed) return result;
-			
+
 			return result.AddElement("Remove Encryption", RemoveEncryptionKey);
 		}
 	}
