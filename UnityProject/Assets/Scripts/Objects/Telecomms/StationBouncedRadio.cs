@@ -58,7 +58,7 @@ namespace Objects.Telecomms
 			bool encrypted = message.IsEncrypted;
 			if (encrypted && EncryptionData != null)
 			{
-				messageSender = EncryptionUtils.Decrypt(messageSender, EncryptionData.EncryptionSecret);
+				messageSender = "???";
 				messageContent = EncryptionUtils.Decrypt(messageContent, EncryptionData.EncryptionSecret);
 			}
 			return $"<b><color=#{ColorUtility.ToHtmlStringRGBA(Chat.Instance.commonColor)}><sprite=\"RadioIcon\" name=\"radio_walkietalkie\">" +
