@@ -92,6 +92,7 @@ namespace Objects.Telecomms
 		{
 			if(canChangeEncryption == false) return false;
 			if (DefaultWillInteract.Default(interaction, side) == false) return false;
+			if(interaction.UsedObject == null) return false;
 			if (interaction.UsedObject.TryGetComponent<Screwdriver>(out var _)) return true;
 			return false;
 		}
