@@ -7,7 +7,7 @@ namespace Mirror.RemoteCalls
     // command function delegate
     public delegate void CmdDelegate(NetworkBehaviour obj, NetworkReader reader, NetworkConnectionToClient senderConnection);
 
-    class Invoker
+    public class Invoker
     {
         public Type invokeClass;
         public MirrorInvokeType invokeType;
@@ -115,12 +115,21 @@ namespace Mirror.RemoteCalls
             return false;
         }
 
+		//CUSTOM UNITYSTATION CODE//
+		//used as checkpoints for the infinite loop tracker
+        public static bool mirrorProcessingCMD;
+        public static Invoker mirrorLastInvoker;
+        //CUSTOM UNITYSTATION CODE//
+
         // InvokeCmd/Rpc Delegate can all use the same function here
         internal static bool InvokeHandlerDelegate(int cmdHash, MirrorInvokeType invokeType, NetworkReader reader, NetworkBehaviour invokingType, NetworkConnectionToClient senderConnection = null)
         {
             if (GetInvokerForHash(cmdHash, invokeType, out Invoker invoker) && invoker.invokeClass.IsInstanceOfType(invokingType))
             {
-                invoker.invokeFunction(invokingType, reader, senderConnection);
+	            mirrorProcessingCMD = true;
+	            mirrorLastInvoker = invoker;
+	            invoker.invokeFunction(invokingType, reader, senderConnection);
+                mirrorProcessingCMD = false;
                 return true;
             }
             return false;
