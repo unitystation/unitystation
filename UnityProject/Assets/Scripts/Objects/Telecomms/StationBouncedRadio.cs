@@ -52,7 +52,8 @@ namespace Objects.Telecomms
 
 		private string HandleText(RadioMessage message)
 		{
-			return $"<b><color=#{ColorUtility.ToHtmlStringRGBA(Chat.Instance.commonColor)}>[{Frequency}] - {message.Sender} says \"{message.Message}\"</color></b>";
+			return $"<b><color=#{ColorUtility.ToHtmlStringRGBA(Chat.Instance.commonColor)}><sprite=\"RadioIcon\" name=\"radio_walkietalkie\">" +
+			       $" -{message.Sender} says \"{message.Message}\"</color></b>";
 		}
 
 	}
