@@ -44,18 +44,25 @@ namespace Objects.Telecomms
 		{
 			if (message is RadioMessage msg)
 			{
-				if(broadcastToNearbyTiles) {ShowChatterToNearbyPeople(msg); return;}
-
-				if (pickupable.ItemSlot?.Player.OrNull() == true)
-				{
-					Chat.AddExamineMsg(pickupable.ItemSlot.ItemStorage.Player.gameObject, HandleText(msg));
-				}
+				if(broadcastToNearbyTiles) {ShowChatterToNearbyPeople(msg);}
+				if (pickupable.ItemSlot == null) return;
+				if(pickupable.ItemSlot.Player == null) return;
+				Chat.AddExamineMsg(pickupable.ItemSlot.ItemStorage.Player.gameObject, HandleText(msg));
 			}
 		}
 
 		private void ShowChatterToNearbyPeople(RadioMessage message)
 		{
-			Chat.AddActionMsgToChat(gameObject, HandleText(message), HandleText(message));
+			var scan = Physics2D.OverlapCircleAll(gameObject.AssumedWorldPosServer(), hearableRange, layerToCheck);
+			foreach (var player in scan)
+			{
+				if (player.gameObject.TryGetComponent<ConnectedPlayer>(out var connectedPlayer) &&
+				    MatrixManager.Linecast(gameObject.AssumedWorldPosServer(),LayerTypeSelection.Walls,
+					    layerToCheck, player.gameObject.AssumedWorldPosServer()).ItHit == false)
+				{
+					Chat.AddExamineMsg(connectedPlayer.GameObject, HandleText(message));
+				}
+			}
 		}
 
 		private string HandleText(RadioMessage message)

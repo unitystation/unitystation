@@ -40,6 +40,7 @@ namespace UI.Objects.Telecomms
 			radioPowerToggle.isOn = emittingDevice.IsPowered;
 			if (Provider.TryGetComponent<StationBouncedRadio>(out var radio))
 			{
+				stationBoundRadio = radio;
 				broadcastModeToggle.isOn = radio.BroadcastToNearbyTiles;
 				broadcastModeToggle.SetActive(true);
 				yield break;
