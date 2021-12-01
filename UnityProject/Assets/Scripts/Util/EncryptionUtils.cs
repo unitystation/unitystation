@@ -56,6 +56,12 @@ namespace Util
 			return cipherText;
 		}
 
+		/// <summary>
+		/// A fast but ugly encryption/decryption function.
+		/// </summary>
+		/// <param name="inputData">string to decrypt/encrypt</param>
+		/// <param name="key">EncryptionSecret</param>
+		/// <returns></returns>
 		public static string XOREncryptDecrypt(string inputData, int key)
 		{
 			StringBuilder outSB = new StringBuilder(inputData.Length);
