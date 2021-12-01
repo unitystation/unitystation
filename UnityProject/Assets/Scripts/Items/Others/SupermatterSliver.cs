@@ -11,7 +11,6 @@ namespace Items
 		private ItemTrait supermatterTongs = null;
 
 		public bool vaporizeWhenPickedUp = true;
-		private PlayerScript player;
 
 		public bool WillInteract(HandApply interaction, NetworkSide side)
 		{
