@@ -24,7 +24,8 @@ public partial class TestAction
 		SetValueGameObjectAt,
 		AssessMetaDataNode,
 		TriggerFunctionGameObject,
-		DEBUG_Editor_Pause
+		DEBUG_Editor_Pause,
+		ManipulatePlayersInventory,
 	}
 
 
@@ -33,35 +34,36 @@ public partial class TestAction
 		switch (SpecifiedAction)
 		{
 			case ActionType.SpawnX:
-				return InitiateSpawnX(TestRunSO);
+				return SpawnXData.InitiateSpawnX(TestRunSO);
 			case ActionType.KeyInput:
-				return InitiateKeyInput(TestRunSO);
+				return DataKeyInput.InitiateKeyInput(TestRunSO);
 			case ActionType.PrefabAt:
-				return InitiatePrefabAt(TestRunSO);
+				return DataShowPrefab.Initiate(TestRunSO);
 			case ActionType.RespawnPlayer:
-				return InitiateRespawnPlayer(TestRunSO);
+				return RespawnPlayerData.Initiate(TestRunSO);
 			case ActionType.ActionWaite:
-				return InitiateActionWaite(TestRunSO);
+				return DataActionWaite.Initiate(TestRunSO);
 			case ActionType.SetTile:
-				return InitiateSetTile(TestRunSO);
+				return SetTileData.Initiate(TestRunSO);
 			case ActionType.HasTile:
-				return InitiateHasTile(TestRunSO);
+				return HasTileData.Initiate(TestRunSO);
 			case ActionType.SetMousePosition:
-				return InitiateSetMousePosition(TestRunSO);
+				return DataSetMousePosition.Initiate(TestRunSO);
 			case ActionType.IsInPlayerInventory:
-				return InitiateIsInPlayerInventory(TestRunSO);
+				return DataIsInPlayerInventory.Initiate(TestRunSO);
 			case ActionType.CheckValueGameObjectAt:
-				return InitiateCheckValueGameObjectAt(TestRunSO);
+				return CheckValueGameObjectAtData.Initiate(TestRunSO);
 			case ActionType.SetValueGameObjectAt:
-				return InitiateSetValueGameObjectAt(TestRunSO);
+				return SetValueGameObjectAtData.Initiate(TestRunSO);
 			case ActionType.AssessMetaDataNode:
-				return InitiateAssessMetaDataNode(TestRunSO);
+				return DataAssessMetaDataNode.Initiate(TestRunSO);
 			case ActionType.TriggerFunctionGameObject:
-				return InitiateTriggerFunctionGameObject(TestRunSO);
+				return FunctionGameObjectData.Initiate(TestRunSO);
 			case ActionType.DEBUG_Editor_Pause:
 				return InitiateDEBUG_Editor_Pause(TestRunSO);
+			case ActionType.ManipulatePlayersInventory:
+				return InManipulatePlayersInventory.Initiate(TestRunSO);
 			default:
-
 				Logger.LogError($"Unset {SpecifiedAction}");
 				return false;
 		}
