@@ -1,65 +1,65 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class SupermatterSliver : MonoBehaviour, IServerInventoryMove, ICheckedInteractable<HandApply>
+namespace Items
 {
-	[SerializeField]
-	private ItemTrait supermatterScalpel = null;
-
-	[SerializeField]
-	private ItemTrait supermatterTongs = null;
-
-	public bool vaporizeWhenPickedUp = true;
-	private PlayerScript player;
-
-	public bool WillInteract(HandApply interaction, NetworkSide side)
+	public class SupermatterSliver : MonoBehaviour, IServerInventoryMove, ICheckedInteractable<HandApply>
 	{
-		if (!DefaultWillInteract.Default(interaction, side)) return false;
+		[SerializeField]
+		private ItemTrait supermatterScalpel = null;
 
-		if (interaction.HandObject == null) return false;
+		[SerializeField]
+		private ItemTrait supermatterTongs = null;
 
-		//Dont vaporize unvaporizible
-		if (Validations.HasItemTrait(interaction.HandObject, supermatterScalpel)) return false;
+		public bool vaporizeWhenPickedUp = true;
+		private PlayerScript player;
 
-		return true;
-	}
-
-	public void ServerPerformInteraction(HandApply interaction)
-	{
-		if (Validations.HasItemTrait(interaction.HandObject, supermatterTongs))
+		public bool WillInteract(HandApply interaction, NetworkSide side)
 		{
-			if (interaction.HandObject.TryGetComponent<SupermatterTongs>(out var smTongs))
+			if (!DefaultWillInteract.Default(interaction, side)) return false;
+
+			if (interaction.HandObject == null) return false;
+
+			//Dont vaporize unvaporizible
+			if (Validations.HasItemTrait(interaction.HandObject, supermatterScalpel)) return false;
+
+			return true;
+		}
+
+		public void ServerPerformInteraction(HandApply interaction)
+		{
+			if (Validations.HasItemTrait(interaction.HandObject, supermatterTongs))
 			{
-				smTongs.LoadSliver(gameObject.GetComponent<Pickupable>());
+				if (interaction.HandObject.TryGetComponent<SupermatterTongs>(out var smTongs))
+				{
+					smTongs.LoadSliver(gameObject.GetComponent<Pickupable>());
+				}
+			}
+			else
+			{
+				Chat.AddActionMsgToChat(interaction.Performer,
+					$"You touch the {gameObject.ExpensiveName()} with the {interaction.HandObject.ExpensiveName()}, and everything suddenly goes silent.\n The {interaction.HandObject.ExpensiveName()} flashes into dust.",
+					$"As {interaction.Performer.ExpensiveName()} touches the {gameObject.ExpensiveName()} with {interaction.HandObject.ExpensiveName()}, silence fills the room...");
+				_ = Despawn.ServerSingle(interaction.UsedObject);
 			}
 		}
-		else
+
+		//Turn player into ash if he picked it up
+		public void OnInventoryMoveServer(InventoryMove info)
 		{
-			Chat.AddActionMsgToChat(interaction.Performer,
-				$"You touch the {gameObject.ExpensiveName()} with the {interaction.HandObject.ExpensiveName()}, and everything suddenly goes silent.\n The {interaction.HandObject.ExpensiveName()} flashes into dust.",
-				$"As {interaction.Performer.ExpensiveName()} touches the {gameObject.ExpensiveName()} with {interaction.HandObject.ExpensiveName()}, silence fills the room...");
-			_ = Despawn.ServerSingle(interaction.UsedObject);
-		}
-	}
+			if (info.InventoryMoveType != InventoryMoveType.Add) return;
 
-	//Turn player into ash if he picked it up
-	public void OnInventoryMoveServer(InventoryMove info)
-	{
-		if (info.InventoryMoveType != InventoryMoveType.Add) return;
-
-		if (info.ToSlot != null && info.ToSlot?.NamedSlot != null)
-		{
-			player = info.ToRootPlayer?.PlayerScript;
-
-			if (player != null && vaporizeWhenPickedUp)
+			if (info.ToSlot != null && info.ToSlot?.NamedSlot != null)
 			{
-				Chat.AddActionMsgToChat(player.PlayerChatLocation,
-					$"You reach for the {gameObject.ExpensiveName()} with your hands. That was dumb.",
-					$"{player.visibleName} touches {gameObject.ExpensiveName()} with bare hands. His body bursts into flames and flashes to dust after few moments.");
+				player = info.ToRootPlayer?.PlayerScript;
 
-				player.playerHealth.Gib();
-				return;
+				if (player != null && vaporizeWhenPickedUp)
+				{
+					Chat.AddActionMsgToChat(player.PlayerChatLocation,
+						$"You reach for the {gameObject.ExpensiveName()} with your hands. That was dumb.",
+						$"{player.visibleName} touches {gameObject.ExpensiveName()} with bare hands. His body bursts into flames and flashes to dust after few moments.");
+
+					player.playerHealth.Gib();
+				}
 			}
 		}
 	}
