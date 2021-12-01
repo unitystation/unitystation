@@ -26,16 +26,16 @@ public class SupermatterSliver : MonoBehaviour, IServerInventoryMove, ICheckedIn
 	}
 
 	public void ServerPerformInteraction(HandApply interaction)
-    {
+	{
 		if (Validations.HasItemTrait(interaction.HandObject, supermatterTongs))
-        {
+		{
 			if (interaction.HandObject.TryGetComponent<SupermatterTongs>(out var smTongs))
-            {
+			{
 				smTongs.LoadSliver(gameObject.GetComponent<Pickupable>());
 			}
 		}
-        else
-        {
+		else
+		{
 			Chat.AddActionMsgToChat(interaction.Performer,
 				$"You touch the {gameObject.ExpensiveName()} with the {interaction.HandObject.ExpensiveName()}, and everything suddenly goes silent.\n The {interaction.HandObject.ExpensiveName()} flashes into dust.",
 				$"As {interaction.Performer.ExpensiveName()} touches the {gameObject.ExpensiveName()} with {interaction.HandObject.ExpensiveName()}, silence fills the room...");

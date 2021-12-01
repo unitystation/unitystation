@@ -75,8 +75,8 @@ public class SupermatterTongs : MonoBehaviour, ICheckedInteractable<InventoryApp
 						$"{interaction.Performer.ExpensiveName()} unloads supermatter sliver from the container.");
 				}
 			}
-            else
-            {
+			else
+			{
 				Chat.AddExamineMsgFromServer(interaction.Performer, $"Container is sealed, you can't load/unload sliver.");
 			}
 
@@ -114,8 +114,8 @@ public class SupermatterTongs : MonoBehaviour, ICheckedInteractable<InventoryApp
 						$"{interaction.Performer.ExpensiveName()} unloads supermatter sliver from the container.");
 				}
 			}
-            else
-            {
+			else
+			{
 				Chat.AddExamineMsgFromServer(interaction.Performer, $"Container is sealed, you can't load/unload sliver.");
 			}
 		}

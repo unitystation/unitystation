@@ -34,10 +34,10 @@ public class SupermatterSliverContainer : MonoBehaviour, ICheckedInteractable<Ha
 	}
 
 	public bool UnloadSliver()
-    {
+	{
 		bool result = Inventory.ServerDrop(sliverSlot);
 		return result;
-    }
+	}
 
 	private void updateSprites()
 	{
@@ -47,17 +47,17 @@ public class SupermatterSliverContainer : MonoBehaviour, ICheckedInteractable<Ha
 			{
 				int newSpriteID;
 				if(!isLoaded)
-                {
+				{
 					newSpriteID = NOT_LOADED_SPRITE;
-                }
+				}
 				else if(isLoaded && !isSealed)
-                {
+				{
 					newSpriteID = LOADED_SPRITE;
-                }
-                else
-                {
+				}
+				else
+				{
 					newSpriteID = SEALED_SPRITE;
-                }
+				}
 				handler.ChangeSprite(newSpriteID);
 			}
 		}
