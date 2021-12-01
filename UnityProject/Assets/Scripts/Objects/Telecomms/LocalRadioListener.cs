@@ -15,10 +15,10 @@ namespace Objects.Telecomms
 			string chatMessage = chat.message;
 			string chatSpeaker = chat.speaker;
 			bool isEncrypted;
-			if (signalData.EncryptionData != null)
+			if (EncryptionData != null)
 			{
-				chatMessage = EncryptionUtils.Encrypt(chatMessage, signalData.EncryptionData.EncryptionSecret);
-				chatSpeaker = EncryptionUtils.Encrypt(chatSpeaker, signalData.EncryptionData.EncryptionSecret);
+				chatMessage = EncryptionUtils.Encrypt(chatMessage, EncryptionData.EncryptionSecret);
+				chatSpeaker = EncryptionUtils.Encrypt(chatSpeaker, EncryptionData.EncryptionSecret);
 				isEncrypted = true;
 			}
 			else

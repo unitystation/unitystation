@@ -26,7 +26,7 @@ namespace Managers
 				if (receiver.SignalTypeToReceive != type) continue;
 
 				if (receiver.Frequency.IsBetween(signalDataSo.MinMaxFrequancy.x, signalDataSo.MinMaxFrequancy.y) == false) continue;
-				if(receiver.ListenToEncryptedData == false && MatchingEncryption(receiver, signalDataSo) == false) continue;
+				if (receiver.ListenToEncryptedData == false && MatchingEncryption(receiver, emitter) == false) continue;
 
 				if (receiver.SignalTypeToReceive == SignalType.PING && receiver.Emitter == emitter)
 				{
@@ -49,15 +49,15 @@ namespace Managers
 			}
 		}
 
-		private bool MatchingEncryption(SignalReceiver receiver, SignalDataSO signalDataSo)
+		private bool MatchingEncryption(SignalReceiver receiver, SignalEmitter emitter)
 		{
 			if (receiver.EncryptionData == null) return true;
-			if (signalDataSo.EncryptionData == null)
+			if (emitter.EncryptionData == null)
 			{
 				return false;
 			}
 
-			if (signalDataSo.EncryptionData.EncryptionSecret != receiver.EncryptionData.EncryptionSecret)
+			if (emitter.EncryptionData.EncryptionSecret != receiver.EncryptionData.EncryptionSecret)
 			{
 				return false;
 			}

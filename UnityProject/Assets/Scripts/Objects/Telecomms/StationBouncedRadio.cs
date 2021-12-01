@@ -56,11 +56,11 @@ namespace Objects.Telecomms
 			var scan = Physics2D.OverlapCircleAll(gameObject.AssumedWorldPosServer(), hearableRange, layerToCheck);
 			foreach (var player in scan)
 			{
-				if (player.gameObject.TryGetComponent<ConnectedPlayer>(out var connectedPlayer) &&
+				if (player.gameObject.TryGetComponent<PlayerScript>(out var connectedPlayer) &&
 				    MatrixManager.Linecast(gameObject.AssumedWorldPosServer(),LayerTypeSelection.Walls,
 					    layerToCheck, player.gameObject.AssumedWorldPosServer()).ItHit == false)
 				{
-					Chat.AddExamineMsg(connectedPlayer.GameObject, HandleText(message));
+					Chat.AddExamineMsg(connectedPlayer.gameObject, HandleText(message));
 				}
 			}
 		}
@@ -92,7 +92,7 @@ namespace Objects.Telecomms
 			if (keyStorage.ServerTryTransferFrom(key.gameObject) && isScrewed == false)
 			{
 				EncryptionData = key.EncryptionDataSo;
-				radioListener.SignalData.EncryptionData = key.EncryptionDataSo;
+				radioListener.EncryptionData = key.EncryptionDataSo;
 			}
 		}
 
@@ -100,7 +100,7 @@ namespace Objects.Telecomms
 		{
 			keyStorage.ServerDropAll();
 			EncryptionData = null;
-			radioListener.SignalData.EncryptionData = null;
+			radioListener.EncryptionData = null;
 		}
 
 		public bool WillInteract(HandApply interaction, NetworkSide side)

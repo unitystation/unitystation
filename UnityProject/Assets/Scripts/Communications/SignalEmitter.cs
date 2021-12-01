@@ -13,6 +13,7 @@ namespace Communications
 		[SerializeField]
 		[Required("A signalSO is required for this to work.")]
 		protected SignalDataSO signalData;
+		public EncryptionDataSO EncryptionData;
 		[SerializeField]
 		protected float frequency = 122f;
 		[SerializeField]
