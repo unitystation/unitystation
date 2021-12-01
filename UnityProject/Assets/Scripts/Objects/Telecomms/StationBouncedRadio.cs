@@ -8,13 +8,19 @@ using Util;
 
 namespace Objects.Telecomms
 {
-	public class StationBouncedRadio : SignalReceiver
+	public class StationBouncedRadio : SignalReceiver, ICheckedInteractable<HandApply>
 	{
-		[SerializeField] private int hearableRange = 2;
+		[SerializeField] private int hearableRange = 3;
 		[SerializeField] private LayerMask layerToCheck;
+		[SerializeField] private bool canChangeEncryption = true;
 		private LocalRadioListener radioListener;
 		private bool broadcastToNearbyTiles = true;
 		private Pickupable pickupable;
+		private ItemStorage keyStorage;
+		private bool isScrewed = true;
+
+
+
 		public bool BroadcastToNearbyTiles
 		{
 			get => broadcastToNearbyTiles;
@@ -23,6 +29,7 @@ namespace Objects.Telecomms
 
 		private void Awake()
 		{
+			keyStorage = GetComponent<ItemStorage>();
 			pickupable = GetComponent<Pickupable>();
 			radioListener = GetComponent<LocalRadioListener>();
 			UpdateManager.Add(SyncFrequencyWithListner, 0.5f);
@@ -65,6 +72,41 @@ namespace Objects.Telecomms
 			       $" -{messageSender} says \"{messageContent}\"</color></b>";
 		}
 
+		public void AddEncryptionKey(EncryptionKey key)
+		{
+			if (keyStorage.ServerTryAdd(key.gameObject))
+			{
+				EncryptionData = key.EncryptionDataSo;
+				radioListener.SignalData.EncryptionData = key.EncryptionDataSo;
+			}
+		}
+
+		public void RemoveEncryptionKey()
+		{
+			keyStorage.ServerDropAll();
+			EncryptionData = null;
+			radioListener.SignalData.EncryptionData = null;
+		}
+
+		public bool WillInteract(HandApply interaction, NetworkSide side)
+		{
+			if(canChangeEncryption == false) return false;
+			if (DefaultWillInteract.Default(interaction, side) == false) return false;
+			if (interaction.UsedObject.TryGetComponent<Screwdriver>(out var _)) return true;
+			return false;
+		}
+
+		public void ServerPerformInteraction(HandApply interaction)
+		{
+			if (interaction.UsedObject.TryGetComponent<Screwdriver>(out var _))
+			{
+				isScrewed = !isScrewed;
+				string status = isScrewed ? "screw" : "unscrew";
+				Chat.AddExamineMsg(interaction.Performer, $"You {status} the {gameObject.ExpensiveName()}.");
+				return;
+			}
+			if(interaction.IsAltClick && isScrewed == false) RemoveEncryptionKey();
+		}
 	}
 
 }

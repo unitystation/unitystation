@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using Mirror;
+using Objects.Telecomms;
+using ScriptableObjects.Communications;
 
 public enum EncryptionKeyType
 {
@@ -34,8 +36,11 @@ public enum EncryptionKeyType
 /// <summary>
 ///     Encryption Key properties
 /// </summary>
-public class EncryptionKey : NetworkBehaviour
+public class EncryptionKey : NetworkBehaviour, ICheckedInteractable<HandApply>, ICheckedInteractable<MouseDrop>
 {
+	//TODO (Max): Turn this into a list and support multiple encryption data in one key
+	public EncryptionDataSO EncryptionDataSo;
+
 	public static readonly Dictionary<EncryptionKeyType, ChatChannel> Permissions = new Dictionary<EncryptionKeyType, ChatChannel>
 	{
 		{EncryptionKeyType.None, ChatChannel.None},
@@ -297,5 +302,35 @@ public class EncryptionKey : NetworkBehaviour
 	public void onExamine(Vector3 worldPos)
 	{
 		Chat.AddExamineMsgToClient(ExamineTexts[Type]);
+	}
+
+	public bool WillInteract(HandApply interaction, NetworkSide side)
+	{
+		if (DefaultWillInteract.Default(interaction, side) == false) return false;
+		if (interaction.TargetObject.TryGetComponent<StationBouncedRadio>(out var _)) return true;
+		return false;
+	}
+
+	public void ServerPerformInteraction(HandApply interaction)
+	{
+		if (interaction.TargetObject.TryGetComponent<StationBouncedRadio>(out var radio))
+		{
+			radio.AddEncryptionKey(this);
+		}
+	}
+
+	public bool WillInteract(MouseDrop interaction, NetworkSide side)
+	{
+		if (DefaultWillInteract.Default(interaction, side) == false) return false;
+		if (interaction.TargetObject.TryGetComponent<StationBouncedRadio>(out var _)) return true;
+		return false;
+	}
+
+	public void ServerPerformInteraction(MouseDrop interaction)
+	{
+		if (interaction.TargetObject.TryGetComponent<StationBouncedRadio>(out var radio))
+		{
+			radio.AddEncryptionKey(this);
+		}
 	}
 }
