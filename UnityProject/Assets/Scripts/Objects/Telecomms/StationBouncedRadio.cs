@@ -14,6 +14,11 @@ namespace Objects.Telecomms
 		private LocalRadioListener radioListener;
 		private bool broadcastToNearbyTiles = true;
 		private Pickupable pickupable;
+		public bool BroadcastToNearbyTiles
+		{
+			get => broadcastToNearbyTiles;
+			set => broadcastToNearbyTiles = value;
+		}
 
 		private void Awake()
 		{
@@ -42,16 +47,7 @@ namespace Objects.Telecomms
 
 		private void ShowChatterToNearbyPeople(RadioMessage message)
 		{
-			var scan = Physics2D.OverlapCircleAll(gameObject.AssumedWorldPosServer(), hearableRange, layerToCheck);
-			foreach (var player in scan)
-			{
-				if (player.gameObject.TryGetComponent<PlayerScript>(out var connectedPlayer))
-				{
-					//We're doing this this way for now until we discuss how we are going to handle Chat.cs
-					//for proper telecomms
-					Chat.AddExamineMsg(connectedPlayer.gameObject, HandleText(message));
-				}
-			}
+			Chat.AddActionMsgToChat(gameObject, HandleText(message), HandleText(message));
 		}
 
 		private string HandleText(RadioMessage message)

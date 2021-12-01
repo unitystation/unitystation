@@ -13,8 +13,10 @@ namespace UI.Objects.Telecomms
 		[SerializeField] private TMP_Text freuquencyLabel;
 		[SerializeField] private Slider frequencySlider;
 		[SerializeField] private Toggle radioPowerToggle;
+		[SerializeField] private Toggle broadcastModeToggle;
 
 		private SignalEmitter emittingDevice;
+		private StationBouncedRadio stationBoundRadio;
 
 
 		private void Start()
@@ -35,13 +37,13 @@ namespace UI.Objects.Telecomms
 			UpdateFrequencyFromProvider();
 			if(emittingDevice.RequiresPower == false) radioPowerToggle.SetActive(false);
 			radioPowerToggle.isOn = emittingDevice.IsPowered;
-
-		}
-
-		public void ChangeFrequency(float freq)
-		{
-			emittingDevice.Frequency = freq;
-			UpdateFrequencyFromProvider();
+			if (Provider.TryGetComponent<StationBouncedRadio>(out var radio))
+			{
+				broadcastModeToggle.isOn = radio.BroadcastToNearbyTiles;
+				broadcastModeToggle.SetActive(true);
+				yield break;
+			}
+			broadcastModeToggle.SetActive(false);
 		}
 
 		public void ChangeSliderFrequency()
@@ -64,6 +66,16 @@ namespace UI.Objects.Telecomms
 				if(pick.ItemSlot?.ItemStorage?.OrNull().Player == null) return;
 				string status = emittingDevice.IsPowered ? "on" : "off";
 				Chat.AddExamineMsg(pick.ItemSlot.ItemStorage.Player.gameObject, $"this device is now turned {status}");
+			}
+		}
+		public void ToggleBroadcastMode()
+		{
+			stationBoundRadio.BroadcastToNearbyTiles = broadcastModeToggle.isOn;
+			if (emittingDevice.gameObject.TryGetComponent<Pickupable>(out var pick))
+			{
+				if(pick.ItemSlot?.ItemStorage?.OrNull().Player == null) return;
+				string status = emittingDevice.IsPowered ? "broadcast messages to everyone nearby" : "broadcast messages for you only";
+				Chat.AddExamineMsg(pick.ItemSlot.ItemStorage.Player.gameObject, $"this device will now {status}");
 			}
 		}
 	}
