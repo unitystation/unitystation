@@ -13,9 +13,10 @@ namespace Util
 		public static string Encrypt(string clearText, string encryptionKey)
 		{
 			byte[] clearBytes = Encoding.Unicode.GetBytes(clearText);
+			byte[] salt = Encoding.ASCII.GetBytes("Cuben Pete");
 			using (Aes encryptor = Aes.Create())
 			{
-				Rfc2898DeriveBytes pdb = new Rfc2898DeriveBytes(encryptionKey, new byte[] { 0x49, 0x76, 0x61, 0x6e, 0x20, 0x4d, 0x65, 0x64, 0x76, 0x65, 0x64, 0x65, 0x76 });
+				Rfc2898DeriveBytes pdb = new Rfc2898DeriveBytes(encryptionKey,  salt);
 				encryptor.Key = pdb.GetBytes(32);
 				encryptor.IV = pdb.GetBytes(16);
 				using (MemoryStream ms = new MemoryStream())
@@ -36,9 +37,10 @@ namespace Util
 		{
 			cipherText = cipherText.Replace(" ", "+");
 			byte[] cipherBytes = Convert.FromBase64String(cipherText);
+			byte[] salt = Encoding.ASCII.GetBytes("Cuben Pete");
 			using (Aes encryptor = Aes.Create())
 			{
-				Rfc2898DeriveBytes pdb = new Rfc2898DeriveBytes(encryptionKey, new byte[] { 0x49, 0x76, 0x61, 0x6e, 0x20, 0x4d, 0x65, 0x64, 0x76, 0x65, 0x64, 0x65, 0x76 });
+				Rfc2898DeriveBytes pdb = new Rfc2898DeriveBytes(encryptionKey, salt);
 				encryptor.Key = pdb.GetBytes(32);
 				encryptor.IV = pdb.GetBytes(16);
 				using (MemoryStream ms = new MemoryStream())
@@ -52,6 +54,18 @@ namespace Util
 				}
 			}
 			return cipherText;
+		}
+
+		public static string XOREncryptDecrypt(string inputData, int key)
+		{
+			StringBuilder outSB = new StringBuilder(inputData.Length);
+			for (int i = 0; i < inputData.Length; i++)
+			{
+				//Here 1234 is key for Encrypt/Decrypt, You can use any int number
+				char ch = (char)(inputData[i] ^ key);
+				outSB.Append(ch);
+			}
+			return outSB.ToString();
 		}
 	}
 }
