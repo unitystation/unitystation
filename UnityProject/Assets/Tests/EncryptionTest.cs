@@ -1,3 +1,4 @@
+using System;
 using System.Text;
 using NUnit.Framework;
 using Util;
@@ -33,8 +34,16 @@ namespace Tests
 			var message = "Testing message. Test. 1234.... , / TeSt";
 
 			var encrypted = EncryptionUtils.Encrypt(message, "test");
+			var decrypted = "";
 
-			var decrypted = EncryptionUtils.Decrypt(encrypted, "bazinga");
+			try
+			{
+				decrypted = EncryptionUtils.Decrypt(encrypted, "bazinga");
+			}
+			catch (Exception e)
+			{
+				Logger.Log("Failed Successfully", Category.Tests);
+			}
 
 			if(decrypted == message)
 			{
