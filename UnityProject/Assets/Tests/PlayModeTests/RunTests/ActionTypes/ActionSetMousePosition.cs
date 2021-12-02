@@ -20,6 +20,14 @@ public partial class TestAction
 
 		public bool Initiate(TestRunSO TestRunSO)
 		{
+			if (TestRunSO.DebugThis)
+			{
+				ColorUtility.TryParseHtmlString("#ea9335", out var Orange);
+				Debug.DrawLine(WorldPosition + (Vector3.right * 0.09f), WorldPosition + (Vector3.left * 0.09f), Orange, 30);
+				Debug.DrawLine(WorldPosition + (Vector3.up * 0.09f), WorldPosition + (Vector3.down * 0.09f), Orange, 30);
+			}
+
+
 			InputManagerWrapper.MousePosition = Camera.main.WorldToScreenPoint(WorldPosition);
 			return true;
 		}

@@ -31,10 +31,12 @@ namespace GameRunTests
 					yield return null;
 				}
 				yield return Test.RunTest(this);
-				if (Test.Debug)
+				if (Test.DebugThis)
 				{
 					yield return WaitFor.Seconds(30);
 				}
+
+				yield return null;
 				GameRunTests.RunRestartRound();
 			}
 

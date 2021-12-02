@@ -12,8 +12,9 @@ namespace GameRunTests
 	[CreateAssetMenu(fileName = "TestRunSO", menuName = "ScriptableObjects/TestRunSO")]
 	public class TestRunSO : ScriptableObject
 	{
+		public bool DebugThis = false; // TODO Test for this , since it would slow stuff down
 
-		public bool Debug = false; // TODO Test for this , since it would slow stuff down
+		public bool DebugBreak = false;
 
 		public float DebugSecondsPerAction;
 
@@ -30,7 +31,9 @@ namespace GameRunTests
 			foreach (var Action in TestActions)
 			{
 				yield return null;
-				var Status = Action.InitiateAction(this);
+				bool Status = true;
+
+				Status = Action.InitiateAction(this);
 				if (Status == false)
 				{
 					fail = true;
@@ -44,11 +47,17 @@ namespace GameRunTests
 					BoolYieldInstruction = false;
 				}
 
-				if (Debug)
+				if (DebugThis)
 				{
 					yield return WaitFor.Seconds(DebugSecondsPerAction);
 				}
+
+				if (DebugBreak)
+				{
+					Debug.Break();
+				}
 			}
+
 			TestSingleton.Results[this] = new Tuple<bool, StringBuilder>(fail, Report);
 			//Assert.Fail(report.ToString());
 		}

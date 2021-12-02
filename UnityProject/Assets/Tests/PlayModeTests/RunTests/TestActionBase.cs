@@ -28,7 +28,6 @@ public partial class TestAction
 		ManipulatePlayersInventory,
 	}
 
-
 	public bool InitiateAction(TestRunSO TestRunSO)
 	{
 		switch (SpecifiedAction)

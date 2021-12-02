@@ -9,6 +9,10 @@ public class InputManagerWrapper : MonoBehaviour
 	private static HashSet<KeyCode> DownKeys = new HashSet<KeyCode>();
 	private static HashSet<KeyCode> UpKeys = new HashSet<KeyCode>();
 
+	private static HashSet<KeyCode> ToRemoveUpKeys = new HashSet<KeyCode>();
+
+	private static HashSet<KeyCode> ToRemoveDownKeys = new HashSet<KeyCode>();
+
 	public static Vector3? MousePosition = null;
 
 
@@ -66,12 +70,27 @@ public class InputManagerWrapper : MonoBehaviour
 			foreach (var key in UpKeys)
 			{
 				HeldKeys.Remove(key);
+				DownKeys.Remove(key);
 			}
 		}
 
-		UpKeys.Clear();
+		foreach (var key in ToRemoveDownKeys)
+		{
+			DownKeys.Remove(key);
+		}
+		ToRemoveDownKeys.Clear();
 
-		if (HeldKeys.Count > 0)
+		ToRemoveDownKeys.UnionWith(DownKeys);
+
+		foreach (var key in ToRemoveUpKeys)
+		{
+			UpKeys.Remove(key);
+		}
+		ToRemoveUpKeys.Clear();
+
+		ToRemoveUpKeys.UnionWith(UpKeys);
+
+		if (HeldKeys.Count > 0 || UpKeys.Count > 0 || DownKeys.Count > 0)
 		{
 			CustomKey = true;
 		}

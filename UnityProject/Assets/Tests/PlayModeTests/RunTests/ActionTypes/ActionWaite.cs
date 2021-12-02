@@ -16,7 +16,16 @@ public partial class TestAction
 	public class ActionWaite
 	{
 		public bool WaitForFrame = false;
-		public int WaitForSeconds = 0;
+		public float WaitForSeconds = 0;
+
+		public Preset SetPreset;
+
+		public enum Preset
+		{
+			None,
+			RunPressAndUnpress,
+			InteractionCooldown
+		}
 
 		public bool Initiate(TestRunSO TestRunSO)
 		{
@@ -27,9 +36,22 @@ public partial class TestAction
 				TestRunSO.YieldInstruction = null;
 			}
 
-			if (WaitForSeconds != 0)
+			if (WaitForSeconds != 0 || SetPreset != Preset.None)
 			{
-				TestRunSO.YieldInstruction = WaitFor.Seconds(WaitForSeconds);
+				switch (SetPreset)
+				{
+					case Preset.None:
+						TestRunSO.YieldInstruction = WaitFor.Seconds(WaitForSeconds);
+						break;
+					case Preset.RunPressAndUnpress:
+						TestRunSO.YieldInstruction = WaitFor.Seconds(0.12f);
+						break;
+					case Preset.InteractionCooldown:
+						TestRunSO.YieldInstruction = WaitFor.Seconds(0.12f);
+						break;
+				}
+
+
 			}
 
 			return true;
