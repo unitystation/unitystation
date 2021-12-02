@@ -65,7 +65,7 @@ namespace UI.Objects.Telecomms
 			emittingDevice.IsPowered = radioPowerToggle.isOn;
 			if (emittingDevice.gameObject.TryGetComponent<Pickupable>(out var pick))
 			{
-				if(pick.ItemSlot?.ItemStorage?.OrNull().Player == null) return;
+				if(pick.ItemSlot?.ItemStorage.OrNull()?.Player == null) return;
 				string status = emittingDevice.IsPowered ? "on" : "off";
 				Chat.AddExamineMsg(pick.ItemSlot.ItemStorage.Player.gameObject, $"this device is now turned {status}");
 			}
