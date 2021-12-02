@@ -7,7 +7,7 @@ namespace Tests
 	public class EncryptionTest
 	{
 		[Test]
-		public void EncryptionTestFunction()
+		public void EncryptDecryptResultInReturningOriginalText()
 		{
 			var report = new StringBuilder();
 			var message = "Testing message. Test. 1234.... , / TeSt";
