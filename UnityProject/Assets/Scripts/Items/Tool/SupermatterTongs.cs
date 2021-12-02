@@ -22,6 +22,16 @@ namespace Items
 			sliverSlot.OnSlotContentsChangeServer.AddListener(OnServerSlotContentsChange);
 		}
 
+		private void OnEnable()
+        {
+			sliverSlot.OnSlotContentsChangeServer.AddListener(OnServerSlotContentsChange);
+		}
+
+		private void OnDisable()
+		{
+			sliverSlot.OnSlotContentsChangeServer.RemoveListener(OnServerSlotContentsChange);
+		}
+
 		private void OnServerSlotContentsChange()
 		{
 			UpdateSprites();

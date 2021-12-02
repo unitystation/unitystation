@@ -18,7 +18,16 @@ namespace Items
 		{
 			itemStorage = GetComponent<ItemStorage>();
 			sliverSlot = itemStorage.GetIndexedItemSlot(0);
+		}
+
+		private void OnEnable()
+        {
 			sliverSlot.OnSlotContentsChangeServer.AddListener(OnServerSlotContentsChange);
+		}
+
+		private void OnDisable()
+        {
+			sliverSlot.OnSlotContentsChangeServer.RemoveListener(OnServerSlotContentsChange);
 		}
 
 		private void OnServerSlotContentsChange()
