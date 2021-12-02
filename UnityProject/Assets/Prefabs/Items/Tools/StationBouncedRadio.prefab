@@ -47,7 +47,7 @@ MonoBehaviour:
   EncryptionData: {fileID: -2842204651015810191, guid: 656a30670ebaf0e4a8b953d06ec3b66b,
     type: 2}
   ListenToEncryptedData: 0
-  hearableRange: 2
+  hearableRange: 3
   layerToCheck:
     serializedVersion: 2
     m_Bits: 256
@@ -110,6 +110,27 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   NetTabType: 48
+--- !u!114 &1403183851549088339
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8361325896675593486}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 458fbf1d878e7c94bb6b81631a76bbd0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  SignalTypeToReceive: 0
+  Frequency: 122
+  Emitter: {fileID: 0}
+  DelayTime: 3
+  EncryptionData: {fileID: 0}
+  ListenToEncryptedData: 0
+  radio: {fileID: 166801742205184598}
 --- !u!1001 &8361762283722863028
 PrefabInstance:
   m_ObjectHideFlags: 0
