@@ -93,14 +93,16 @@ namespace DatabaseAPI
 		void OnEnable()
 		{
 			EventManager.AddHandler(Event.LoggedOut, OnLogOut);
+			UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
 		}
 
 		void OnDisable()
 		{
 			EventManager.RemoveHandler(Event.LoggedOut, OnLogOut);
+			UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
 		}
 
-		void Update()
+		void UpdateMe()
 		{
 			if (config != null)
 			{

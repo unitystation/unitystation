@@ -22,6 +22,7 @@ namespace Managers
 	        thread = new Thread (OverwatchMainThread);
 	        thread.Start();
 	        streamWriter = File.AppendText("Logs/InfiniteLoopTracker.txt");
+	        UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
         }
 
         private void OnDisable()
@@ -31,9 +32,10 @@ namespace Managers
 		        streamWriter.Close();
 		        thread.Abort();
 	        }
+	        UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
         }
 
-        private void Update()
+        private void UpdateMe()
         {
             frameNumber++;
         }

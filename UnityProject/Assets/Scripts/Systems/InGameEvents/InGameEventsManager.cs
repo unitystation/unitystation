@@ -47,9 +47,15 @@ namespace InGameEvents
 		public void Start()
 		{
 			RandomEventsAllowed = GameConfigManager.GameConfig.RandomEventsAllowed;
+			UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
 		}
 
-		private void Update()
+		private void OnDisable()
+		{
+			UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
+		}
+
+		private void UpdateMe()
 		{
 			if (!CustomNetworkManager.IsServer) return;
 

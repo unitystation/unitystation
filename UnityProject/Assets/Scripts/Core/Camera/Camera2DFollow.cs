@@ -1,5 +1,7 @@
+using System;
 using System.Collections;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class Camera2DFollow : MonoBehaviour
 {
@@ -65,6 +67,7 @@ public class Camera2DFollow : MonoBehaviour
 			followControl = this;
 			cam = GetComponent<Camera>();
 			lightingSystem = GetComponent<LightingSystem>();
+			UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
 		}
 		else
 		{
@@ -84,6 +87,11 @@ public class Camera2DFollow : MonoBehaviour
 		starsBackground.parent = null;
 	}
 
+	private void OnDisable()
+	{
+		UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
+	}
+
 	//idk I don't know probably should look into the sometime TODO look into this
 	public void SetCameraXOffset()
 	{
@@ -93,7 +101,7 @@ public class Camera2DFollow : MonoBehaviour
 		followControl.SetXOffset(xOffSet);
 	}
 
-	private void Update()
+	private void UpdateMe()
 	{
 		if(!PlayerManager.LocalPlayerScript){
 			return;

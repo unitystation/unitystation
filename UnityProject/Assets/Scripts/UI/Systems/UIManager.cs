@@ -295,11 +295,13 @@ public class UIManager : MonoBehaviour, IInitialise
 	private void OnEnable()
 	{
 		SceneManager.activeSceneChanged += OnSceneChange;
+		UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
 	}
 
 	private void OnDisable()
 	{
 		SceneManager.activeSceneChanged -= OnSceneChange;
+		UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
 	}
 
 	void OnSceneChange(Scene oldScene, Scene newScene)
@@ -326,7 +328,7 @@ public class UIManager : MonoBehaviour, IInitialise
 		Application.targetFrameRate = targetFrameRate;
 	}
 
-	private void Update()
+	private void UpdateMe()
 	{
 		//Read out of ping in toolTip
 		pingUpdate += Time.deltaTime;

@@ -43,6 +43,7 @@ namespace Systems.Atmospherics
 			if (Instance == null)
 			{
 				Instance = this;
+				UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
 			}
 			else
 			{
@@ -50,7 +51,7 @@ namespace Systems.Atmospherics
 			}
 		}
 
-		private void Update()
+		private void UpdateMe()
 		{
 			if (Mode == AtmosMode.GameLoop && Running)
 			{
@@ -104,6 +105,7 @@ namespace Systems.Atmospherics
 			EventManager.RemoveHandler(Event.PostRoundStarted, OnPostRoundStart);
 			EventManager.RemoveHandler(Event.RoundEnded, OnRoundEnd);
 			SceneManager.activeSceneChanged -= OnSceneChange;
+			UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
 		}
 
 		private void OnPostRoundStart()

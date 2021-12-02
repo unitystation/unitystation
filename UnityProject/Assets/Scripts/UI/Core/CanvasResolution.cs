@@ -9,9 +9,15 @@ public class CanvasResolution : MonoBehaviour
     {
         aspectCache = Camera.main.aspect;
         AdjustReferenceResolution();
+        UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
     }
 
-    private void Update()
+    private void OnDisable()
+    {
+	    UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
+    }
+
+    private void UpdateMe()
     {
         if (aspectCache != Camera.main.aspect)
         {

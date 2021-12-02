@@ -23,9 +23,15 @@ using UnityEngine.UI;
 			{
 				initialTextColor = inputFieldText.color;
 			}
+			UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
 		}
 
-		void Update()
+		private void OnDisable()
+		{
+			UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
+		}
+
+		void UpdateMe()
 		{
 			// Update child text color
 			if (inputFieldText != null && initialTextColor != null)

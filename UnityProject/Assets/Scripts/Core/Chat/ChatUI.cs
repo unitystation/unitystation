@@ -139,6 +139,12 @@ namespace UI.Chat_UI
 			//channelPanel.gameObject.SetActive(false);
 			EventManager.AddHandler(Event.UpdateChatChannels, OnUpdateChatChannels);
 			chatFilter = Chat.Instance.GetComponent<ChatFilter>();
+			UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
+		}
+
+		private void OnDisable()
+		{
+			UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
 		}
 
 		private void OnDestroy()
@@ -146,7 +152,7 @@ namespace UI.Chat_UI
 			EventManager.RemoveHandler(Event.UpdateChatChannels, OnUpdateChatChannels);
 		}
 
-		private void Update()
+		private void UpdateMe()
 		{
 			// TODO add events to inventory slot changes to trigger channel refresh
 			if (chatInputWindow.activeInHierarchy && !isChannelListUpToDate())

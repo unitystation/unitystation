@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -15,8 +16,17 @@ public class GUI_NukeOps : MonoBehaviour
 
 	public Button nukeOpsbtn;
 
+	private void OnEnable()
+	{
+		UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
+	}
 
-	void Update()
+	private void OnDisable()
+	{
+		UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
+	}
+
+	void UpdateMe()
 	{
 		//THIS WONT WORK AS SYNDICATE ISNT SYNC'D
 		syndiActive = GameManager.Instance.ClientGetOccupationsCount(JobType.SYNDICATE);

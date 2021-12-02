@@ -42,7 +42,19 @@ namespace AdminTools
 			inputField.ActivateInputField();
 		}
 
-		private void Update()
+		private void OnEnable()
+		{
+			UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
+		}
+
+		private void OnDisable()
+		{
+			UIManager.IsInputFocus = false;
+			UIManager.PreventChatInput = false;
+			UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
+		}
+
+		private void UpdateMe()
 		{
 			if (refreshClock)
 			{
@@ -118,12 +130,6 @@ namespace AdminTools
 			UIManager.IsInputFocus = false;
 			UIManager.PreventChatInput = false;
 			adminTools.ShowMainPage();
-		}
-
-		private void OnDisable()
-		{
-			UIManager.IsInputFocus = false;
-			UIManager.PreventChatInput = false;
 		}
 	}
 }

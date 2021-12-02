@@ -46,12 +46,14 @@ public class ChatScroll : MonoBehaviour
 	{
 		InitPool();
 		contentWidth = chatContentParent.GetComponent<RectTransform>().rect.width;
+		UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
 	}
 
 	private void OnDisable()
 	{
 		UIManager.IsInputFocus = false;
 		UIManager.PreventChatInput = false;
+		UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
 	}
 
 	void InitPool()
@@ -285,7 +287,7 @@ public class ChatScroll : MonoBehaviour
 		}
 	}
 
-	void Update()
+	void UpdateMe()
 	{
 		if(isUsingScrollBar) DetermineScrollRate();
 		if (inputField.IsFocused && KeyboardInputManager.IsEnterPressed())

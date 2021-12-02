@@ -410,9 +410,15 @@ namespace Managers.SettingsManager
 			base.Awake();
 			IsFullScreen = Screen.fullScreen;
 			SetupPrefs();
+			UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
 		}
 
-		private void Update()
+		private void OnDisable()
+		{
+			UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
+		}
+
+		private void UpdateMe()
 		{
 			if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter))
 			{

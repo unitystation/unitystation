@@ -176,10 +176,15 @@ namespace TileManagement
 			DamageableLayers = damageableLayersValues.ToArray();
 			matrix = GetComponent<Matrix>();
 			mainThread = Thread.CurrentThread;
+			UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
 		}
 
+		private void OnDisable()
+		{
+			UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
+		}
 
-		public void Update()
+		public void UpdateMe()
 		{
 			localToWorldMatrix = transform.localToWorldMatrix;
 			if (QueuedChanges.Count == 0)

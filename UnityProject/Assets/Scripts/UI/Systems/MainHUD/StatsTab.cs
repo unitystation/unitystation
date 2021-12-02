@@ -23,9 +23,15 @@ public class StatsTab : MonoBehaviour
 		EventManager.AddHandler(Event.MatrixManagerInit, OnMapInit);
 		EventManager.AddHandler(Event.RoundStarted, OnRoundStarted);
 		EventManager.AddHandler(Event.RoundEnded, OnRoundEnded);
+		UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
 	}
 
-	public void Update()
+	private void OnDisable()
+	{
+		UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
+	}
+
+	public void UpdateMe()
 	{
 		serverFPS.text = $"{GameManager.Instance.ServerCurrentFPS} - avg: {GameManager.Instance.ServerAverageFPS}";
 	}

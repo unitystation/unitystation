@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 namespace Weapons.Projectiles.Behaviours
 {
@@ -75,6 +76,12 @@ namespace Weapons.Projectiles.Behaviours
 				objToFollow = transform.GetComponentInChildren<MovingProjectile>().transform;
 			}
 			Reset();
+			UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
+		}
+
+		private void OnDisable()
+		{
+			UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
 		}
 
 		private void Reset() {
@@ -85,7 +92,7 @@ namespace Weapons.Projectiles.Behaviours
 			AddPoint(objToFollow.localPosition);
 		}
 
-		private void Update () {
+		private void UpdateMe() {
 			if (isShooting)
 			{
 				//check if enough time has elapsed to draw the next segment
