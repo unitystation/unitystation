@@ -25,7 +25,7 @@ public class ChatRelay : NetworkBehaviour
 	private LayerMask itemsMask;
 
 	private bool radioCheckIsOnCooldown = false;
-	private float radioCheckRadius = 4f;
+	[SerializeField] private float radioCheckRadius = 4f;
 
 	private RconManager rconManager;
 
