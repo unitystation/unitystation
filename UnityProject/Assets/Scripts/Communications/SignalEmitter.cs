@@ -5,6 +5,7 @@ using ScriptableObjects.Communications;
 using UnityEngine;
 using Mirror;
 using NaughtyAttributes;
+using UnityEngine.Serialization;
 
 namespace Communications
 {
@@ -13,7 +14,8 @@ namespace Communications
 		[SerializeField]
 		[Required("A signalSO is required for this to work.")]
 		protected SignalDataSO signalData;
-		public EncryptionDataSO EncryptionData;
+		[FormerlySerializedAs("EncryptionData"), SerializeField]
+		private EncryptionDataSO encryptionData;
 		[SerializeField]
 		protected float frequency = 122f;
 		[SerializeField]
@@ -33,6 +35,12 @@ namespace Communications
 		{
 			get => isPowered;
 			set => isPowered = value;
+		}
+
+		public EncryptionDataSO EncryptionData
+		{
+			get => encryptionData;
+			set => encryptionData = value;
 		}
 
 		public SignalDataSO SignalData => signalData;
