@@ -1,58 +1,69 @@
 using System;
-using System.Text;
 using NUnit.Framework;
 using Util;
+using System.Security.Cryptography;
 
 namespace Tests
 {
 	public class EncryptionTest
 	{
-		[Test]
-		public void DecryptingWithCorrectKeyResultsInOriginalMessage()
+		private const string RIGHT_KEY = "rightKey";
+		private const string WRONG_KEY = "wrongKey";
+
+		private static readonly string[] TestStrings =
 		{
-			var report = new StringBuilder();
-			var message = "Testing message. Test. 1234.... , / TeSt";
+			"honk",
+			"hello world",
+			"123abc",
+			"/\\|^$@",
+			"\"a string\"",
+			"\n\t\r",
+			" "
+		};
 
-			var encrypted = EncryptionUtils.Encrypt(message, "test");
-
-			var decrypted = EncryptionUtils.Decrypt(encrypted, "test");
-
-			if(decrypted != message)
-			{
-				report.AppendLine("Failed encryption/decryption");
-			}
-
-			Logger.Log(report.ToString(), Category.Tests);
-			Assert.IsEmpty(report.ToString());
+		[TestCaseSource(nameof(TestStrings))]
+		public void EncryptedMessageShouldNotBeSameAsOriginal(string testString)
+		{
+			var encryptedMessage = EncryptionUtils.Encrypt(testString, RIGHT_KEY);
+			Assert.AreNotEqual(testString, encryptedMessage);
 		}
 
-
-		[Test]
-		public void DecryptingWithWrongKeyResultsInNothingLikeTheOriginalMessage()
+		[TestCaseSource(nameof(TestStrings))]
+		public void DecryptingWithRightKeyResultsInOriginalMessage(string testString)
 		{
-			var report = new StringBuilder();
-			var message = "Testing message. Test. 1234.... , / TeSt";
+			var encrypted = EncryptionUtils.Encrypt(testString, RIGHT_KEY);
+			var decrypted = EncryptionUtils.Decrypt(encrypted, RIGHT_KEY);
+			Assert.AreEqual(testString, decrypted);
+		}
 
-			var encrypted = EncryptionUtils.Encrypt(message, "test");
-			var decrypted = "";
+		[TestCaseSource(nameof(TestStrings))]
+		public void DecryptingWithWrongKeyResultsInCryptographicException(string testString)
+		{
+			var encrypted = EncryptionUtils.Encrypt(testString, RIGHT_KEY);
+			Assert.Throws<CryptographicException>(() => EncryptionUtils.Decrypt(encrypted, WRONG_KEY));
+		}
 
-			try
-			{
-				decrypted = EncryptionUtils.Decrypt(encrypted, "bazinga");
-			}
-			catch (Exception e)
-			{
-				Logger.Log("Failed Successfully", Category.Tests);
-			}
+		[TestCaseSource(nameof(TestStrings))]
+		public void UsingSameKeyTwiceResultsInSameEncryptedMessage(string testString)
+		{
+			var encrypted = EncryptionUtils.Encrypt(testString, RIGHT_KEY);
+			var encryptedAgain = EncryptionUtils.Encrypt(testString, RIGHT_KEY);
+			Assert.AreEqual(encrypted, encryptedAgain);
+		}
 
-			if(decrypted == message)
-			{
-				report.AppendLine("Failed failing encryption/decryption");
-			}
+		[TestCaseSource(nameof(TestStrings))]
+		public void UsingDifferentKeyResultsInDifferentEncryptedMessage(string testString)
+		{
+			var encrypted = EncryptionUtils.Encrypt(testString, RIGHT_KEY);
+			var encryptedAgain = EncryptionUtils.Encrypt(testString, WRONG_KEY);
+			Assert.AreNotEqual(encrypted, encryptedAgain);
+		}
 
-			Logger.Log(report.ToString(), Category.Tests);
-			Assert.IsEmpty(report.ToString());
+		[TestCaseSource(nameof(TestStrings))]
+		public void DecryptingSafelyWithWrongKeyShouldNotThrowCryptographicException(string testString)
+		{
+			var encrypted = EncryptionUtils.Encrypt(testString, RIGHT_KEY);
+			Assert.DoesNotThrow(() => EncryptionUtils.DecryptSafely(encrypted, WRONG_KEY));
 		}
 	}
-
 }
