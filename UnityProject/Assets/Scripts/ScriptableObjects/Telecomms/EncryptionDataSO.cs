@@ -1,5 +1,4 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 using file = System.IO.File;
 using Random = System.Random;
 
