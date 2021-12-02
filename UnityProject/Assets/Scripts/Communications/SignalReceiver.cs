@@ -33,7 +33,7 @@ namespace Communications
 		/// <summary>
 		/// Logic to do when
 		/// </summary>
-		public abstract void ReceiveSignal(SignalStrength strength, SignalMessage message = null);
+		public abstract void ReceiveSignal(SignalStrength strength, ISignalMessage message = null);
 
 
 		/// <summary>

@@ -10,7 +10,7 @@ namespace Objects.Telecomms
 	public class SBRSignaller : SignalReceiver, ICheckedInteractable<HandApply>
 	{
 		[SerializeField] private StationBouncedRadio radio;
-		public override void ReceiveSignal(SignalStrength strength, SignalMessage message = null)
+		public override void ReceiveSignal(SignalStrength strength, ISignalMessage message = null)
 		{
 			radio.BroadcastToNearbyTiles = !radio.BroadcastToNearbyTiles;
 		}

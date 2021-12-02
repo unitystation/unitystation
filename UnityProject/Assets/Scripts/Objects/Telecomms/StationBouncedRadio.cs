@@ -40,7 +40,7 @@ namespace Objects.Telecomms
 			Frequency = radioListener.Frequency;
 		}
 
-		public override void ReceiveSignal(SignalStrength strength, SignalMessage message = null)
+		public override void ReceiveSignal(SignalStrength strength, ISignalMessage message = null)
 		{
 			if (message is RadioMessage msg)
 			{

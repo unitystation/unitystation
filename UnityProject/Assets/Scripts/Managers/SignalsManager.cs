@@ -19,7 +19,7 @@ namespace Managers
 		/// Loops through all receivers and sends the signal if they match the signal type and/or frequancy
 		/// </summary>
 		[Server]
-		public void SendSignal(SignalEmitter emitter, SignalType type, SignalDataSO signalDataSo, SignalMessage signalMessage = null)
+		public void SendSignal(SignalEmitter emitter, SignalType type, SignalDataSO signalDataSo, ISignalMessage signalMessage = null)
 		{
 			foreach (SignalReceiver receiver in Receivers)
 			{
@@ -70,7 +70,7 @@ namespace Managers
 			return Mathf.Approximately(receiver.Frequency, emitter.Frequency);
 		}
 
-		private void SignalStrengthHandler(SignalReceiver receiver, SignalEmitter emitter, SignalDataSO signalDataSo, SignalMessage signalMessage = null)
+		private void SignalStrengthHandler(SignalReceiver receiver, SignalEmitter emitter, SignalDataSO signalDataSo, ISignalMessage signalMessage = null)
 		{
 			SignalStrength strength = GetStrength(receiver, emitter, signalDataSo.SignalRange);
 			if (strength == SignalStrength.HEALTHY) receiver.ReceiveSignal(strength, signalMessage);
@@ -93,7 +93,7 @@ namespace Managers
 			}
 		}
 
-		private IEnumerator DelayedSignalRecevie(float waitTime, SignalReceiver receiver, SignalStrength strength, SignalMessage signalMessage = null)
+		private IEnumerator DelayedSignalRecevie(float waitTime, SignalReceiver receiver, SignalStrength strength, ISignalMessage signalMessage = null)
 		{
 			yield return WaitFor.Seconds(waitTime);
 			if (receiver.gameObject == null)
@@ -146,9 +146,9 @@ namespace Managers
 		TOOFAR //The signal is out of range and will not be sent.
 	}
 
-	public interface SignalMessage{}
+	public interface ISignalMessage{}
 
-	public struct RadioMessage : SignalMessage
+	public struct RadioMessage : ISignalMessage
 	{
 		public string Sender;
 		public string Message;

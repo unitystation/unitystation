@@ -49,7 +49,7 @@ namespace Communications
 		/// <summary>
 		/// Tells the SignalManager to send a signal to a receiver
 		/// </summary>
-		public void TrySendSignal(SignalMessage message = null)
+		public void TrySendSignal(ISignalMessage message = null)
 		{
 			if (requiresPower == true && isPowered == false)
 			{
