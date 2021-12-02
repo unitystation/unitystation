@@ -221,9 +221,10 @@ public class ChatRelay : NetworkBehaviour
 		//Check for chat three tiles around the player
 		foreach (Collider2D coll in Physics2D.OverlapCircleAll(chatEvent.originator.AssumedWorldPosServer(), radioCheckRadius, itemsMask))
 		{
-			var radioPos = coll.gameObject.AssumedWorldPosServer();
 			if(chatEvent.originator == coll.gameObject) continue;
 			if (coll.gameObject.TryGetComponent<LocalRadioListener>(out var listener) == false) continue;
+
+			var radioPos = coll.gameObject.AssumedWorldPosServer();
 			if (MatrixManager.Linecast(chatEvent.position,LayerTypeSelection.Walls,
 				layerMask,radioPos).ItHit == false)
 			{
