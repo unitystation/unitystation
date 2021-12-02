@@ -25,6 +25,7 @@ public class ChatRelay : NetworkBehaviour
 	private LayerMask itemsMask;
 
 	private bool radioCheckIsOnCooldown = false;
+	private float radioCheckRadius = 4f;
 
 	private RconManager rconManager;
 
@@ -218,13 +219,13 @@ public class ChatRelay : NetworkBehaviour
 	{
 		HandleRadioCheckCooldown();
 		//Check for chat three tiles around the player
-		foreach (Collider2D coll in Physics2D.OverlapCircleAll(chatEvent.originator.AssumedWorldPosServer(), 4f, itemsMask))
+		foreach (Collider2D coll in Physics2D.OverlapCircleAll(chatEvent.originator.AssumedWorldPosServer(), radioCheckRadius, itemsMask))
 		{
 			var radioPos = coll.gameObject.AssumedWorldPosServer();
 			if(chatEvent.originator == coll.gameObject) continue;
 			if (coll.gameObject.TryGetComponent<LocalRadioListener>(out var listener) == false) continue;
 			if (MatrixManager.Linecast(chatEvent.position,LayerTypeSelection.Walls,
-				layerMask,radioPos).ItHit ==false)
+				layerMask,radioPos).ItHit == false)
 			{
 				listener.SendData(chatEvent);
 			}
@@ -247,7 +248,7 @@ public class ChatRelay : NetworkBehaviour
 	private async void HandleRadioCheckCooldown()
 	{
 		radioCheckIsOnCooldown = true;
-		await Task.Delay(500);
+		await Task.Delay(500).ConfigureAwait(false);
 		radioCheckIsOnCooldown = false;
 	}
 
