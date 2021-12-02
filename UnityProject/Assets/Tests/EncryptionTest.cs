@@ -36,9 +36,9 @@ namespace Tests
 
 			var decrypted = EncryptionUtils.Decrypt(encrypted, "bazinga");
 
-			if(decrypted != message)
+			if(decrypted == message)
 			{
-				report.AppendLine("Failed encryption/decryption");
+				report.AppendLine("Failed failing encryption/decryption");
 			}
 
 			Logger.Log(report.ToString(), Category.Tests);
