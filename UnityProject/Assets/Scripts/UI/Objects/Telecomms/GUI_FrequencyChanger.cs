@@ -75,7 +75,7 @@ namespace UI.Objects.Telecomms
 			stationBoundRadio.BroadcastToNearbyTiles = broadcastModeToggle.isOn;
 			if (emittingDevice.gameObject.TryGetComponent<Pickupable>(out var pick))
 			{
-				if(pick.ItemSlot?.ItemStorage?.OrNull().Player == null) return;
+				if(pick.ItemSlot?.ItemStorage.OrNull()?.Player == null) return;
 				string status = emittingDevice.IsPowered ? "broadcast messages to everyone nearby" : "broadcast messages for you only";
 				Chat.AddExamineMsg(pick.ItemSlot.ItemStorage.Player.gameObject, $"this device will now {status}");
 			}
