@@ -83,6 +83,12 @@ namespace Util
 				char ch = (char)(character ^ key);
 				outSB.Append(ch);
 			}
+
+			if (Encoding.GetEncoding(outSB.ToString()) == Encoding.UTF8)
+			{
+				byte[] array = Encoding.ASCII.GetBytes(outSB.ToString());
+				return Encoding.Convert(Encoding.UTF8, Encoding.Unicode, array).ToString();
+			}
 			return outSB.ToString();
 		}
 	}
