@@ -6,32 +6,8 @@ using Mirror;
 using Objects.Telecomms;
 using ScriptableObjects.Communications;
 
-public enum EncryptionKeyType
+namespace Items
 {
-	None, //For when headsets don't have any key inside. Key itself cannot be this type.
-	Common,
-	Medical,
-	Science,
-	Service,
-	Security,
-	Supply,
-	QuarterMaster,
-	Engineering,
-	HeadOfPersonnel,
-	Captain,
-	ResearchDirector,
-	HeadOfSecurity,
-	ChiefEngineer,
-	ChiefMedicalOfficer,
-	Binary,
-	Syndicate,
-	CentComm,
-	Mining,
-	Genetics,
-	SrvSec,
-	CentCommPlus,
-	SrvMed,
-}
 
 /// <summary>
 ///     Encryption Key properties
@@ -333,4 +309,31 @@ public class EncryptionKey : NetworkBehaviour, ICheckedInteractable<HandApply>, 
 			radio.AddEncryptionKey(this);
 		}
 	}
+}
+}
+public enum EncryptionKeyType
+{
+	None, //For when headsets don't have any key inside. Key itself cannot be this type.
+	Common,
+	Medical,
+	Science,
+	Service,
+	Security,
+	Supply,
+	QuarterMaster,
+	Engineering,
+	HeadOfPersonnel,
+	Captain,
+	ResearchDirector,
+	HeadOfSecurity,
+	ChiefEngineer,
+	ChiefMedicalOfficer,
+	Binary,
+	Syndicate,
+	CentComm,
+	Mining,
+	Genetics,
+	SrvSec,
+	CentCommPlus,
+	SrvMed,
 }

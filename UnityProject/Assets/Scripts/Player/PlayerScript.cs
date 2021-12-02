@@ -9,6 +9,7 @@ using UI;
 using Player;
 using Player.Movement;
 using UI.Action;
+using Items;
 
 public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IActionGUI
 {

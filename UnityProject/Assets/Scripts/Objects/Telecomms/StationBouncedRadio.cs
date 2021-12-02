@@ -5,6 +5,7 @@ using Communications;
 using Managers;
 using UnityEngine;
 using Util;
+using Items;
 
 namespace Objects.Telecomms
 {
