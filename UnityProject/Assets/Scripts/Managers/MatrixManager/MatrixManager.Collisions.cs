@@ -189,7 +189,7 @@ public partial class MatrixManager
 
 	private void UpdateMe()
 	{
-		if (!Application.isPlaying || !CustomNetworkManager.Instance._isServer)
+		if (!CustomNetworkManager.Instance._isServer)
 		{
 			return;
 		}
