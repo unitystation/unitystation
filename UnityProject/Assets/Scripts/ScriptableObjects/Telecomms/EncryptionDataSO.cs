@@ -18,18 +18,10 @@ namespace ScriptableObjects.Communications
 		/// </summary>
 		public string EncryptionFlaw;
 
-		[SerializeField] private TextAsset randomWords;
-
 		private void Awake()
 		{
 			//TODO (Max): This will be expanded upon in the future to allow for shared random keys When we start working on the telecomms update
 			//Encryption flaws are meant for the telecomms updates so this right now doesn't really have much use at the moment
-			if (randomWords != null)
-			{
-				string[] lines = file.ReadAllLines(randomWords.text);
-				EncryptionFlaw = lines[new Random().Next(lines.Length)];
-				return;
-			}
 			EncryptionFlaw = new Random().Next(10, 99).ToString();
 		}
 	}
