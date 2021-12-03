@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
@@ -9,6 +11,9 @@ using Effects;
 using Items;
 using Machines;
 using Objects.Machines;
+using UnityEngine.AddressableAssets;
+using Messages.Server.SoundMessages;
+using Audio.Containers;
 
 namespace Objects.Kitchen
 {
@@ -24,11 +29,14 @@ namespace Objects.Kitchen
 	{
 		private const int TIME_PER_ITEM = 4;
 
-		[SerializeField]
-		[Tooltip("The looped audio source to play while the processor is running.")]
-		private AddressableAudioSource RunningAudio = null;
+		[Tooltip("The audio source to play while the processor is running and doesn't require looped sound.")]
+		[SerializeField] private AddressableAudioSource fullAudio;
+		[SerializeField] private AddressableAudioSource runningAudio;
+		[SerializeField] private AddressableAudioSource turnOnAudio;
+		[SerializeField] private AddressableAudioSource finishAudio;
 
-		private string runLoopGUID = "";
+		private Task<AddressableAudioSource> fullSource;
+		private Task<AddressableAudioSource> turnOnSource;
 
 		/// <summary>
 		/// How much time remains on the processor's timer.
@@ -39,9 +47,6 @@ namespace Objects.Kitchen
 		private RegisterTile registerTile;
 		private SpriteHandler spriteHandler;
 		private ItemStorage storage;
-
-		[SyncVar(hook = nameof(OnSyncPlayAudioLoop))]
-		private bool playAudioLoop;
 
 		public bool IsOperating => currentState is ProcessorRunning;
 		public Vector3Int WorldPosition => registerTile.WorldPosition;
@@ -69,6 +74,8 @@ namespace Objects.Kitchen
 			registerTile = GetComponent<RegisterTile>();
 			spriteHandler = GetComponentInChildren<SpriteHandler>();
 			storage = GetComponent<ItemStorage>();
+			_ = fullSource = AudioManager.GetAddressableAudioSourceFromCache(fullAudio);
+			_ = turnOnSource = AudioManager.GetAddressableAudioSourceFromCache(turnOnAudio);
 		}
 
 		public void OnSpawnServer(SpawnInfo spawn)
@@ -191,8 +198,6 @@ namespace Objects.Kitchen
 			processTimer = (float)(TIME_PER_ITEM * slotsOccupied / manipTier);
 			AnimateProcessor(1, processTimer / 8, shakeValue, 0.1f);
 			UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
-			playAudioLoop = true;
-
 		}
 
 		private void HaltProcessor()
@@ -201,7 +206,6 @@ namespace Objects.Kitchen
 
 			UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
 			AnimateProcessor(0, 0.0f, 0.0f, 0.0f);
-			playAudioLoop = false;
 		}
 
 		[ClientRpc]
@@ -231,6 +235,7 @@ namespace Objects.Kitchen
 				if (CustomNetworkManager.IsServer)
 				{
 					RpcShake(duration, distance, delayBetweenShakes);
+					HandleAudio(duration);
 				}
 			}
 			else
@@ -253,17 +258,21 @@ namespace Objects.Kitchen
 			shaker.StartShake(duration, distance, delayBetweenShakes);
 		}
 
-		private void OnSyncPlayAudioLoop(bool oldState, bool newState)
+		private async void HandleAudio(float duration)
 		{
-			if (newState)
+			if (duration <= (int) fullSource.Result.AudioSource.clip.length)
 			{
-				runLoopGUID = Guid.NewGuid().ToString();
-				SoundManager.PlayAtPositionAttached(RunningAudio, registerTile.WorldPosition, gameObject, runLoopGUID);
+				_ = SoundManager.PlayNetworkedAtPosAsync(fullAudio, WorldPosition);
+				return;
 			}
-			else
-			{
-				SoundManager.Stop(runLoopGUID);
-			}
+
+			//TODO : Figure out how to make duration in sync with Task.Delay rather than Timer.Deltatime in Shake.cs
+			_ = SoundManager.PlayNetworkedAtPosAsync(turnOnAudio, WorldPosition);
+			await Task.Delay((int)turnOnAudio.AudioSource.clip.length);
+			string guid = SoundManager.PlayNetworked(runningAudio);
+			await Task.Delay((int)(duration - turnOnSource.Result.AudioSource.clip.length));
+			SoundManager.StopNetworked(guid);
+			_ = SoundManager.PlayNetworkedAtPosAsync(finishAudio, WorldPosition);
 		}
 
 		/// <summary>

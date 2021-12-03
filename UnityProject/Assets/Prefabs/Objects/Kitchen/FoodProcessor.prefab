@@ -356,9 +356,30 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  RunningAudio:
+  fullAudio:
     SetLoadSetting: 0
     AssetAddress: Assets/Prefabs/Machines/Juicer.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+  runningAudio:
+    SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/Machines/JuicerRunningLoop.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+  turnOnAudio:
+    SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/Machines/JuicerTurnOn.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+  finishAudio:
+    SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/Machines/JuicerFinish.prefab
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
@@ -442,6 +463,7 @@ MonoBehaviour:
   initialDescription: Processes stuff, mostly food.
   willHighlight: 1
   exportCost: 0
+  exportType: 0
   exportName: 
   exportMessage: 
 --- !u!114 &8428099613412960887

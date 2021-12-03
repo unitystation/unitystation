@@ -1,6 +1,8 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using Doors;
 using UnityEngine;
 using Mirror;
 using ScriptableObjects.Systems.Spells;
@@ -165,6 +167,12 @@ namespace Systems.Spells
 					var matrixInfo = MatrixManager.AtPoint(castPosition, true);
 					var localPos = MatrixManager.WorldToLocalInt(castPosition, matrixInfo);
 
+					if (matrixInfo.Matrix.Get<DoorMasterController>(localPos, true).Any(door => door.IsClosed))
+					{
+						//This stops tile based spells from being cast ontop of closed doors
+						Chat.AddExamineMsg(caster.GameObject, "You cannot cast this spell while a door is in the way.");
+						return false;
+					}
 					if (matrixInfo.MetaTileMap.HasTile(localPos, tileToSummon.LayerType)
 					&& !SpellData.ReplaceExisting)
 					{
