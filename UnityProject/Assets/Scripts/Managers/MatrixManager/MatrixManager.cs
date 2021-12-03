@@ -340,9 +340,11 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 			WorldTo = Worldorigin + (Vector3) (direction.normalized * distance);
 		}
 
-		if ((WorldTo - Worldorigin).Value.magnitude > 25)
+		var Distance = (WorldTo - Worldorigin).Value.magnitude;
+
+		if (Distance > 25)
 		{
-			Logger.LogError(" Limit exceeded on raycast, Look at stack trace for What caused it "); //Meant to catch up stuff that's been naughty and doing stuff like 900 tile Ray casts
+			Logger.LogError($" Limit exceeded on raycast, Look at stack trace for What caused it at {Distance}"); //Meant to catch up stuff that's been naughty and doing stuff like 900 tile Ray casts
 			return new CustomPhysicsHit();
 		}
 
