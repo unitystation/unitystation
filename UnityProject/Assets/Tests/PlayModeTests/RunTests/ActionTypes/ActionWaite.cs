@@ -7,10 +7,10 @@ using UnityEngine;
 
 public partial class TestAction
 {
-
 	public bool ShowActionWaite => SpecifiedAction == ActionType.ActionWaite;
 
-	[AllowNesting] [ShowIf("ShowActionWaite")] public ActionWaite DataActionWaite;
+	[AllowNesting] [ShowIf("ShowActionWaite")]
+	public ActionWaite DataActionWaite;
 
 	[System.Serializable]
 	public class ActionWaite
@@ -24,7 +24,8 @@ public partial class TestAction
 		{
 			None,
 			RunPressAndUnpress,
-			InteractionCooldown
+			InteractionCooldown,
+			PickUpDelay
 		}
 
 		public bool Initiate(TestRunSO TestRunSO)
@@ -44,14 +45,16 @@ public partial class TestAction
 						TestRunSO.YieldInstruction = WaitFor.Seconds(WaitForSeconds);
 						break;
 					case Preset.RunPressAndUnpress:
-						TestRunSO.YieldInstruction = WaitFor.Seconds(0.12f);
+						TestRunSO.YieldInstruction = WaitFor.Seconds(0.3f);
 						break;
 					case Preset.InteractionCooldown:
-						TestRunSO.YieldInstruction = WaitFor.Seconds(0.12f);
+						TestRunSO.YieldInstruction = WaitFor.Seconds(0.25f);
 						break;
+					case Preset.PickUpDelay:
+						TestRunSO.YieldInstruction = WaitFor.Seconds(0.25f);
+						break;
+
 				}
-
-
 			}
 
 			return true;
