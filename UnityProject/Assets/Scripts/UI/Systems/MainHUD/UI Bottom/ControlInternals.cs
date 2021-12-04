@@ -83,12 +83,14 @@ public class ControlInternals : TooltipMonoBehaviour
 	{
 		EventManager.AddHandler(Event.EnableInternals, OnEnableInternals);
 		EventManager.AddHandler(Event.DisableInternals, OnDisableInternals);
+		UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
 	}
 
 	void OnDisable()
 	{
 		EventManager.RemoveHandler(Event.EnableInternals, OnEnableInternals);
 		EventManager.RemoveHandler(Event.DisableInternals, OnDisableInternals);
+		UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
 	}
 
 	/// <summary>
@@ -191,7 +193,7 @@ public class ControlInternals : TooltipMonoBehaviour
 	}
 
 
-	private void Update()
+	private void UpdateMe()
 	{
 		if (gasContainer != null && airTankFillImage != null)
 		{

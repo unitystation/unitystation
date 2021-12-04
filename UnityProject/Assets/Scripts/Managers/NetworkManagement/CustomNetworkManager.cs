@@ -68,7 +68,7 @@ public class CustomNetworkManager : NetworkManager, IInitialise
 
 	private int CurrentLocation = 0;
 
-	public void Update()
+	public void UpdateMe()
 	{
 		if (allSpawnablePrefabs.Count > CurrentLocation)
 		{
@@ -269,11 +269,13 @@ public class CustomNetworkManager : NetworkManager, IInitialise
 	private void OnEnable()
 	{
 		SceneManager.activeSceneChanged += OnLevelFinishedLoading;
+		UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
 	}
 
 	private void OnDisable()
 	{
 		SceneManager.activeSceneChanged -= OnLevelFinishedLoading;
+		UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
 	}
 
 	public override void OnStartServer()

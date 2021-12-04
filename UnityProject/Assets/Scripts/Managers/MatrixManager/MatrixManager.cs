@@ -53,6 +53,14 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 
 	public static MatrixInfo MainStationMatrix => Get(Instance.mainStationMatrix);
 
+	private void Start()
+	{
+		if (Application.isPlaying)
+		{
+			UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
+		}
+	}
+
 	private void OnEnable()
 	{
 		SceneManager.activeSceneChanged += OnSceneChange;
@@ -63,6 +71,10 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 	{
 		SceneManager.activeSceneChanged -= OnSceneChange;
 		EventManager.RemoveHandler(Event.ScenesLoadedServer, OnScenesLoaded);
+		if (Application.isPlaying)
+		{
+			UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
+		}
 	}
 
 	void OnSceneChange(Scene oldScene, Scene newScene)

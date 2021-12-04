@@ -14,9 +14,15 @@ namespace UI.Core.Windows
 		private void Start()
 		{
 			Searchtext = GetComponent<InputField>();
+			UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
 		}
 
-		void Update()
+		private void OnDisable()
+		{
+			UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
+		}
+
+		void UpdateMe()
 		{
 			if (Searchtext.isFocused)
 			{

@@ -12,9 +12,15 @@
 		{
 			ourTransform = transform;
 			time = Random.Range(50, 100);
+			UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
 		}
 
-		void Update()
+		private void OnDisable()
+		{
+			UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
+		}
+
+		private void UpdateMe()
 		{
 			ourTransform.RotateAround(transformToRotateAround.position, transformToRotateAround.forward, time*Time.deltaTime);
 		}

@@ -19,9 +19,15 @@ public class ChatTypingSync : MonoBehaviour
 	{
 		ChatUI.Instance.OnChatInputChanged += OnChatInputChanged;
 		ChatUI.Instance.OnChatWindowClosed += OnChatWindowClosed;
+		UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
 	}
 
-	private void Update()
+	private void OnDisable()
+	{
+		UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
+	}
+
+	private void UpdateMe()
 	{
 		if (isPlayerTyping)
 		{

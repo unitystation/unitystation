@@ -62,9 +62,17 @@ public class ActionText : MonoBehaviour
 		StartMoving();
 	}
 
+	private void OnEnable()
+	{
+		UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
+	}
 
+	private void OnDisable()
+	{
+		UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
+	}
 
-	public void Update()
+	public void UpdateMe()
 	{
 		if (DoFade)
 		{

@@ -187,9 +187,9 @@ public partial class MatrixManager
 		return noIntersections;
 	}
 
-	private void Update()
+	private void UpdateMe()
 	{
-		if (!Application.isPlaying || !CustomNetworkManager.Instance._isServer)
+		if (!CustomNetworkManager.Instance._isServer)
 		{
 			return;
 		}
