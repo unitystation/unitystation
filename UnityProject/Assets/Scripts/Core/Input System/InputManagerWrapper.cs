@@ -16,7 +16,7 @@ public class InputManagerWrapper : MonoBehaviour
 	public static Vector3? MousePosition = null;
 
 
-	public static bool CustomKey = false;
+	private static bool CustomKey = false;
 
 
 	public static Vector3 GetMousePosition()
