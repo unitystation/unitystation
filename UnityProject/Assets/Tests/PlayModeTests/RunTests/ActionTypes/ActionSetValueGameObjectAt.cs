@@ -40,6 +40,12 @@ public partial class TestAction
 					if (PrefabTracker.ForeverID == OriginalID)
 					{
 						var mono = Object.GetComponent(ComponentName);
+						if (string.IsNullOrEmpty(ComponentName))
+						{
+							TestRunSO.Report.AppendLine(CustomFailedText);
+							TestRunSO.Report.AppendLine($" ComponentName was not Set ");
+							return false;
+						}
 						ClassVariableWriter.SetValue(mono.GetType(), mono);
 						return true;
 					}

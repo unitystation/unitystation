@@ -89,7 +89,7 @@ public partial class TestAction
 			else
 			{
 				TestRunSO.Report.AppendLine(CustomFailedText);
-				TestRunSO.Report.AppendLine("There was not the expected number of gameobjects Expected " +
+				TestRunSO.Report.AppendLine($"There was not the expected number of gameobjects {Prefab.name} Expected " +
 				                            NumberPresent + " Actually " + Present);
 				return false;
 			}
