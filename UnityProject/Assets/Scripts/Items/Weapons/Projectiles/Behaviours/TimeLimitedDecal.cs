@@ -15,6 +15,12 @@ namespace Weapons.Projectiles.Behaviours
 		{
 			spriteHandler = GetComponentInChildren<SpriteHandler>();
 			lightSprite = GetComponentInChildren<LightSprite>();
+			UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
+		}
+
+		private void OnDisable()
+		{
+			UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
 		}
 
 		public void SetUpDecal(float timeToLive)
@@ -27,7 +33,7 @@ namespace Weapons.Projectiles.Behaviours
 			}
 		}
 
-		private void Update()
+		private void UpdateMe()
 		{
 			currentTime += Time.deltaTime;
 			if (currentTime >= lifeTime)

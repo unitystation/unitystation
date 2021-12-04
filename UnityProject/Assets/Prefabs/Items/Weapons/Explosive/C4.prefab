@@ -240,6 +240,20 @@ MonoBehaviour:
       m_SubObjectName: 
       m_SubObjectType: 
   hitSoundSettings: 0
+  inventoryMoveSound:
+    SetLoadSetting: 0
+    AssetAddress: null
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+  inventoryRemoveSound:
+    SetLoadSetting: 0
+    AssetAddress: null
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
   canConnectToTank: 0
   isEVACapable: 0
   attackVerbs: []
@@ -277,6 +291,7 @@ MonoBehaviour:
   Frequency: 122
   Emitter: {fileID: 0}
   DelayTime: 3
+  EncryptionData: {fileID: 0}
   explosiveType: 0
   detonateImmediatelyOnSignal: 0
   timeToDetonate: 10
@@ -284,6 +299,7 @@ MonoBehaviour:
   explosionPrefab: {fileID: 2540564744460004555, guid: 311ad0ee31c0a654487179079dd48cdd,
     type: 3}
   activeSpriteSO: {fileID: 11400000, guid: 60942022f971e0440a63456ee27fc478, type: 2}
+  progressTime: 3
   spriteHandler: {fileID: 5258580723283386321}
   GUI: {fileID: 0}
 --- !u!210 &-7063633880587810702

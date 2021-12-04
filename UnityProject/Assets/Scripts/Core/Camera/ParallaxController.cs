@@ -16,6 +16,12 @@ public class ParallaxController : MonoBehaviour
 		centerColumn = backgroundTiles.Count / 2;
 		centerRow = backgroundTiles[0].rows.Count / 2;
 		RealignTiles();
+		UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
+	}
+
+	private void OnDisable()
+	{
+		UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
 	}
 
 	void RealignTiles()
@@ -34,7 +40,7 @@ public class ParallaxController : MonoBehaviour
 		CheckSpaceBackgroundObjects();
 	}
 
-	void Update()
+	void UpdateMe()
 	{
 		MonitorTiles();
 	}

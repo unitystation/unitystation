@@ -6,6 +6,10 @@ using System.Threading;
 using Messages.Server;
 using Objects.Atmospherics;
 using UnityEngine;
+#if UNITY_EDITOR
+using Debug = UnityEngine.Debug;
+
+#endif
 
 namespace TileManagement
 {
@@ -190,10 +194,21 @@ namespace TileManagement
 			DamageableLayers = damageableLayersValues.ToArray();
 			matrix = GetComponent<Matrix>();
 			mainThread = Thread.CurrentThread;
+			if (Application.isPlaying)
+			{
+				UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
+			}
 		}
 
+		private void OnDisable()
+		{
+			if (Application.isPlaying)
+			{
+				UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
+			}
+		}
 
-		public void Update()
+		public void UpdateMe()
 		{
 			localToWorldMatrix = transform.localToWorldMatrix;
 			if (QueuedChanges.Count == 0)
@@ -1498,8 +1513,6 @@ namespace TileManagement
 					{
 						RemoveOverlaysOfType(tileLocation.position, LayerType.Effects, OverlayType.Damage);
 					}
-
-
 					return;
 				}
 			}
@@ -1668,7 +1681,7 @@ namespace TileManagement
 			Vector2 direction,
 			float distance,
 			LayerTypeSelection layerMask, Vector2? To = null,
-			LayerTile[] tileNamesToIgnore = null)
+			LayerTile[] tileNamesToIgnore = null, bool DEBUG = false)
 		{
 			if (To == null)
 			{
@@ -1680,7 +1693,21 @@ namespace TileManagement
 				direction = (To.Value - origin).normalized;
 				distance = (To.Value - origin).magnitude;
 			}
+#if UNITY_EDITOR
+			if (DEBUG)
+			{
+				var Beginning = (new Vector3((float) origin.x, (float) origin.y, 0).ToWorld(matrix));
+				Debug.DrawLine(Beginning + (Vector3.right * 0.09f), Beginning + (Vector3.left * 0.09f), Color.yellow,
+					30);
+				Debug.DrawLine(Beginning + (Vector3.up * 0.09f), Beginning + (Vector3.down * 0.09f), Color.yellow, 30);
 
+				var end = (new Vector3((float) To.Value.x, (float) To.Value.y, 0).ToWorld(matrix));
+				Debug.DrawLine(end + (Vector3.right * 0.09f), end + (Vector3.left * 0.09f), Color.red, 30);
+				Debug.DrawLine(end + (Vector3.up * 0.09f), end + (Vector3.down * 0.09f), Color.red, 30);
+
+				Debug.DrawLine(Beginning, end, Color.magenta, 30);
+			}
+#endif
 			double RelativeX = 0;
 			double RelativeY = 0;
 
@@ -1728,6 +1755,7 @@ namespace TileManagement
 
 			var vexinvX = (1d / (direction.x)); //Editions need to be done here for Working offset
 			var vexinvY = (1d / (direction.y)); //Needs to be conditional
+
 
 			double calculationFloat = 0;
 
@@ -1778,6 +1806,29 @@ namespace TileManagement
 							PresentTiles[LayersValues[i]].TryGetValue(vec, out tileLocation);
 						}
 
+#if UNITY_EDITOR
+						if (DEBUG)
+						{
+							var wold = (vecHit.ToWorld(matrix));
+							Debug.DrawLine(wold + (Vector3.right * 0.09f), wold + (Vector3.left * 0.09f), Color.green,
+								30);
+							Debug.DrawLine(wold + (Vector3.up * 0.09f), wold + (Vector3.down * 0.09f), Color.green, 30);
+
+							if (LeftFaceHit)
+							{
+								Debug.DrawLine(wold + (Vector3.up * 4f), wold + (Vector3.down * 4), Color.blue, 30);
+							}
+							else
+							{
+								Debug.DrawLine(wold + (Vector3.right * 4), wold + (Vector3.left * 4), Color.blue, 30);
+							}
+
+							ColorUtility.TryParseHtmlString("#ea9335", out var Orange);
+							var map = ((Vector3) vec).ToWorld(matrix);
+							Debug.DrawLine(map + (Vector3.right * 0.09f), map + (Vector3.left * 0.09f), Orange, 30);
+							Debug.DrawLine(map + (Vector3.up * 0.09f), map + (Vector3.down * 0.09f), Orange, 30);
+						}
+#endif
 						if (tileLocation != null)
 						{
 							if (tileNamesToIgnore != null &&

@@ -195,7 +195,21 @@ namespace UI.Core.RightClick
 			this.SetActive(actionMenu.keepMenuOpen);
 		}
 
-		public void Update()
+		private void OnEnable()
+		{
+			UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
+		}
+
+		private void OnDisable()
+		{
+			// These need to be disabled for the next time the controller is reactivated
+			ItemRadial.SetActive(false);
+			ActionRadial.SetActive(false);
+			radialBranch.SetActive(false);
+			UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
+		}
+
+		public void UpdateMe()
 		{
 			radialBranch.UpdateLines(ActionRadial, ItemRadial.OuterRadius);
 			ItemRadial.UpdateArrows();
@@ -224,14 +238,6 @@ namespace UI.Core.RightClick
 			}
 
 			return false;
-		}
-
-		private void OnDisable()
-		{
-			// These need to be disabled for the next time the controller is reactivated
-			ItemRadial.SetActive(false);
-			ActionRadial.SetActive(false);
-			radialBranch.SetActive(false);
 		}
 	}
 }

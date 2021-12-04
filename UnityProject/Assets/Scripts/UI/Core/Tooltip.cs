@@ -21,9 +21,15 @@ public class Tooltip : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
         // While the tooltip exists, we place it under the canvas so it'll be in the top layer
         tooltipObject.transform.SetParent(this.GetComponentInParent<Canvas>().transform);
         tooltipObject.SetActive(false);
+        UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
     }
 
-    void Update()
+    private void OnDisable()
+    {
+	    UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
+    }
+
+    void UpdateMe()
     {
         if (tooltipObject.activeSelf) {
             // Move tooltip to mouse

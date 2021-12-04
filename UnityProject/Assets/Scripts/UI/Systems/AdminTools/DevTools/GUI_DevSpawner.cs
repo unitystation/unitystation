@@ -29,12 +29,18 @@ public class GUI_DevSpawner : MonoBehaviour
 	void Start()
     {
 	    spawnerSearch = SpawnerSearch.ForPrefabs(Spawn.SpawnablePrefabs());
-    }
+	    UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
+	}
+
+	private void OnDisable()
+	{
+		UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
+	}
 
     /// <summary>
     /// There is no event for focusing input, so we must check for it manually in Update
     /// </summary>
-    void Update()
+    void UpdateMe()
     {
 	    if (searchBox.isFocused && isFocused == false)
 	    {

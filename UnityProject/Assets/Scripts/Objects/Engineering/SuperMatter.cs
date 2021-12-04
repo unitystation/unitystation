@@ -157,6 +157,12 @@ namespace Objects.Engineering
 		private ItemTrait superMatterScalpel = null;
 
 		[SerializeField]
+		private ItemTrait superMatterTongs = null;
+
+		[SerializeField]
+		private ItemTrait superMatterSliver = null;
+
+		[SerializeField]
 		private GameObject nuclearParticlePrefab = null;
 
 		private string emitterBulletName;
@@ -526,7 +532,7 @@ namespace Objects.Engineering
 				{
 					//If there are more then 20 mols, or more then 20% co2
 					powerlossDynamicScaling = Mathf.Clamp(powerlossDynamicScaling +
-					                                        Mathf.Clamp(co2Compositon - powerlossDynamicScaling, -0.02f, 0.02f), 0, 1);
+															Mathf.Clamp(co2Compositon - powerlossDynamicScaling, -0.02f, 0.02f), 0, 1);
 				}
 				else
 				{
@@ -538,7 +544,7 @@ namespace Objects.Engineering
 				powerlossInhibitor =
 					Mathf.Clamp(
 						1 - (powerlossDynamicScaling *
-						     Mathf.Clamp(combinedGas / PowerlossInhibitionMoleBoostThreshold, 1, 1.5f)), 0, 1);
+							 Mathf.Clamp(combinedGas / PowerlossInhibitionMoleBoostThreshold, 1, 1.5f)), 0, 1);
 
 				//Releases stored power into the general pool
 				//We get this by consuming shit or being scalpeled
@@ -629,8 +635,8 @@ namespace Objects.Engineering
 			//Heat and moles account for each other, a lot of hot moles are more damaging then a few
 			//Moles start to have a positive effect on damage after 350
 			superMatterIntegrity -= (Mathf.Max(Mathf.Clamp(removeMix.Moles / 200f, 0.5f, 1f) * removeMix.Temperature -
-			                                   ((273.15f + HeatPenaltyThreshold) * dynamicHeatResistance), 0f)
-				                        * moleHeatPenalty / 150f) * DamageIncreaseMultiplier;
+											   ((273.15f + HeatPenaltyThreshold) * dynamicHeatResistance), 0f)
+										* moleHeatPenalty / 150f) * DamageIncreaseMultiplier;
 
 			//Power only starts affecting damage when it is above 5000
 			superMatterIntegrity -= (Mathf.Max(power - PowerPenaltyThreshold, 0) / 500) * DamageIncreaseMultiplier;
@@ -948,7 +954,7 @@ namespace Objects.Engineering
 			if (teslaCoils.Any())
 			{
 				var groundingRods = teslaCoils.Where(o => o.TryGetComponent<TeslaCoil>(out var teslaCoil) && teslaCoil != null &&
-				                                          teslaCoil.CurrentState == TeslaCoil.TeslaCoilState.Grounding).ToList();
+														  teslaCoil.CurrentState == TeslaCoil.TeslaCoilState.Grounding).ToList();
 
 				if (doTeslaFirst == false)
 				{
@@ -1163,6 +1169,9 @@ namespace Objects.Engineering
 			//Dont destroy wrench, it is used to unwrench crystal
 			if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Wrench)) return false;
 
+			//We dont want to vaporize unvaporizible things
+			if (Validations.HasItemTrait(interaction.HandObject, superMatterSliver) || Validations.HasItemTrait(interaction.HandObject, superMatterTongs)) return false;
+
 			return true;
 		}
 
@@ -1192,7 +1201,7 @@ namespace Objects.Engineering
 			//Try removing piece if using supermatter scalpel
 			if (Validations.HasItemTrait(interaction.HandObject, superMatterScalpel))
 			{
-				ToolUtils.ServerUseToolWithActionMessages(interaction, 20,
+				ToolUtils.ServerUseToolWithActionMessages(interaction, 30,
 					$"You carefully begin to scrape the {gameObject.ExpensiveName()} with the {interaction.HandObject.ExpensiveName()}...",
 					$"{interaction.Performer.ExpensiveName()} starts scraping off a part of the {gameObject.ExpensiveName()}...",
 					$"You extract a sliver from the {gameObject.ExpensiveName()}. <color=red>The {gameObject.ExpensiveName()} begins to react violently!</color>",

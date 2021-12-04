@@ -25,6 +25,7 @@ public class RconManager : SingletonManager<RconManager>
 	void Start()
 	{
 		Instance.Init();
+		UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
 	}
 
 	private void OnDisable()
@@ -33,6 +34,7 @@ public class RconManager : SingletonManager<RconManager>
 		{
 			httpServer.Stop();
 		}
+		UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
 	}
 
 	private void Init()
@@ -131,7 +133,7 @@ public class RconManager : SingletonManager<RconManager>
 		}
 	}
 
-	private void Update()
+	private void UpdateMe()
 	{
 		if (rconChatQueue.Count > 0)
 		{

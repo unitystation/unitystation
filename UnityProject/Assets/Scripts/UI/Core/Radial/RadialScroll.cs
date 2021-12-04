@@ -56,6 +56,12 @@ namespace UI.Core.Radial
 		public void Awake()
 		{
 			RadialUI = GetComponent<IRadial>();
+			UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
+		}
+
+		private void OnDestroy()
+		{
+			UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
 		}
 
 		public void OnScroll(PointerEventData eventData)
@@ -85,7 +91,7 @@ namespace UI.Core.Radial
 			return forward ? -delta : delta;
 		}
 
-		private void Update()
+		private void UpdateMe()
 		{
 			var mousePos = CommonInput.mousePosition;
 
