@@ -8,6 +8,7 @@ using NaughtyAttributes;
 using TMPro;
 using AdminTools;
 using Managers;
+using Items;
 
 namespace UI.Chat_UI
 {
