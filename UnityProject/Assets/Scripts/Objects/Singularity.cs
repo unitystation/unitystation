@@ -58,7 +58,13 @@ namespace Objects
 		private float maxRadiation = 5000f;
 
 		[SerializeField]
-		private LightSprite light = null;
+		private GameObject WarpEffectFront;
+
+		[SerializeField]
+		private GameObject WarpEffectBack;
+
+		[SerializeField]
+		private new LightSprite light = null;
 
 		[SerializeField]
 		[Tooltip("Allows singularity to be stage 6")]
@@ -82,6 +88,9 @@ namespace Objects
 		private SpriteHandler spriteHandler;
 		private CustomNetTransform customNetTransform;
 		private int objectId;
+
+		private Material WarpEffectFrontMat;
+		private Material WarpEffectBackMat;
 
 		private int lockTimer;
 		private bool pointLock;
@@ -118,6 +127,11 @@ namespace Objects
 			spriteHandler = GetComponentInChildren<SpriteHandler>();
 			lightTransform = light.transform;
 			objectId = GetInstanceID();
+
+
+			WarpEffectFrontMat = WarpEffectFront.GetComponent<MeshRenderer>().materials[0];
+			WarpEffectBackMat = WarpEffectBack.GetComponent<MeshRenderer>().materials[0];
+
 		}
 
 		private void Start()
@@ -125,6 +139,7 @@ namespace Objects
 			if (CustomNetworkManager.IsServer == false) return;
 
 			CurrentStage = startingStage;
+		
 		}
 
 		private void OnEnable()
@@ -593,7 +608,11 @@ namespace Objects
 
 			int radius = GetRadius(newStage);
 
-			bool noObstructions = true;
+			bool noObstructions = true; 
+			Debug.Log("current stage =");
+			Debug.Log(newStage);
+
+			UpdateWarpFX(newStage);
 
 			//See whether we can move to that place, as we need to take into account our size
 			if (newStage != SingularityStages.Stage5 && newStage != SingularityStages.Stage4)
@@ -613,6 +632,54 @@ namespace Objects
 				CurrentStage = newStage;
 				UpdateVectors();
 				dynamicScale = Vector3.zero; // keyed value: don't tween; set it to 1x scale immediately
+			}
+		}
+		/// <summary>
+		/// Sets the warp effects in accordance with the correct sprite
+		/// </summary>
+		private void UpdateWarpFX(SingularityStages stage)
+		{
+			switch (stage)
+			{
+				case SingularityStages.Stage0:
+					WarpEffectFrontMat.SetFloat("_EffectRadius", 0.11f);
+					WarpEffectBackMat.SetFloat("_EffectRadius", 0.11f);
+					WarpEffectFrontMat.SetFloat("_EffectAngle", 5.5f);
+					WarpEffectBackMat.SetFloat("_EffectAngle", 5.5f);
+					break;
+				case SingularityStages.Stage1:
+					WarpEffectFrontMat.SetFloat("_EffectRadius", 0.2f);
+					WarpEffectBackMat.SetFloat("_EffectRadius", 0.2f);
+					WarpEffectFrontMat.SetFloat("_EffectAngle", 5.5f);
+					WarpEffectBackMat.SetFloat("_EffectAngle", 5.5f);
+					break;
+				case SingularityStages.Stage2:
+					WarpEffectFrontMat.SetFloat("_EffectRadius", 0.35f);
+					WarpEffectBackMat.SetFloat("_EffectRadius", 0.35f);
+					WarpEffectFrontMat.SetFloat("_EffectAngle", 6f);
+					WarpEffectBackMat.SetFloat("_EffectAngle", 6f);
+					break;
+				case SingularityStages.Stage3:
+					WarpEffectFrontMat.SetFloat("_EffectRadius", 0.55f);
+					WarpEffectBackMat.SetFloat("_EffectRadius", 0.55f);
+					WarpEffectFrontMat.SetFloat("_EffectAngle", 6.5f);
+					WarpEffectBackMat.SetFloat("_EffectAngle", 6.5f);
+					break;
+				case SingularityStages.Stage4:
+					WarpEffectFrontMat.SetFloat("_EffectRadius", 0.7f);
+					WarpEffectBackMat.SetFloat("_EffectRadius", 0.7f);
+					WarpEffectFrontMat.SetFloat("_EffectAngle", 7.0f);
+					WarpEffectBackMat.SetFloat("_EffectAngle", 7.0f);
+					break;
+				case SingularityStages.Stage5:
+					WarpEffectFrontMat.SetFloat("_EffectRadius", 0.78f);
+					WarpEffectBackMat.SetFloat("_EffectRadius", 0.78f);
+					WarpEffectFrontMat.SetFloat("_EffectAngle", 15.0f);
+					WarpEffectBackMat.SetFloat("_EffectAngle", 15.0f);
+					break;
+				default:
+					break;
+			
 			}
 		}
 

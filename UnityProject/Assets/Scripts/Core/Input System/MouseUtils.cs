@@ -264,7 +264,10 @@ public static class MouseUtils
 		if (texPosY < 0 || texPosY < textureRect.y || texPosY >= Mathf.FloorToInt(textureRect.yMax)) return false;
 
 		// Get pixel color
-		color = texture.GetPixel(texPosX, texPosY);
+
+		if(texture.isReadable)
+			color = texture.GetPixel(texPosX, texPosY);
+
 		return true;
 	}
 }
