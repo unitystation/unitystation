@@ -1,45 +1,28 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Text;
-using System.Linq;
 using DiscordWebhook;
 using DatabaseAPI;
-using Messages.Server.LocalGuiMessages;
 using Strings;
 using Managers;
-using Random = UnityEngine.Random;
 
 namespace StationObjectives
 {
-	public class StationObjectiveManager : MonoBehaviour
+	public class StationObjectiveManager : SingletonManager<StationObjectiveManager>
 	{
-
 		[SerializeField]
 		[Tooltip("Stores all station objective data.")]
 		private StationObjectiveData stationObjectiveData = null;
 
-		public static StationObjectiveManager Instance;
-
 		private StationObjective activeObjective;
 
-		private void Awake()
-		{
-			if (Instance == null)
-			{
-				Instance = this;
-			}
-			else
-			{
-				Destroy(gameObject);
-			}
-		}
-		void OnEnable()
+		private void OnEnable()
 		{
 			EventManager.AddHandler(Event.RoundEnded, ResetObjectives);
 		}
-		void OnDisable()
+
+		private void OnDisable()
 		{
 			EventManager.RemoveHandler(Event.RoundEnded, ResetObjectives);
 		}
@@ -53,7 +36,8 @@ namespace StationObjectives
 
 		public void ShowStationStatusReport()
 		{
-			StringBuilder statusSB = new StringBuilder($"<color=white><size=60><b>End of Round Report</b></size></color>\n\n", 200);
+			StringBuilder statusSB = new StringBuilder(
+					$"<color=white><size={ChatTemplates.ExtremelyLargeText}><b>End of Round Report</b></size></color>\n\n", 200);
 
 			var message = $"End of Round Report on {ServerData.ServerConfig.ServerName}\n";
 
@@ -68,7 +52,10 @@ namespace StationObjectives
 
 		private string GetObjectiveStatus()
 		{
-			var stringBuilder = new StringBuilder($"<color=blue>Objective of <b>{MatrixManager.MainStationMatrix.GameObject.scene.name}</b>:</color>\n", 200);
+			var stringBuilder = new StringBuilder(
+					$"<color={ChatTemplates.Blue}><size={ChatTemplates.LargeText}>" +
+					$"Objective of <b>{MatrixManager.MainStationMatrix.GameObject.scene.name}</b>:</size></color>\n",
+					200);
 			if (activeObjective == null)
 			{
 				return "Error: Status not found :S";
@@ -81,11 +68,18 @@ namespace StationObjectives
 
 		private string GetObjectiveStatusNonRich()
 		{
-			var message = $"Objective of {MatrixManager.MainStationMatrix.GameObject.scene.name}:\n";
-			var complete = activeObjective.CheckCompletion();
-			message += $"{activeObjective.GetRoundEndReport()}";
-			message += complete ? "Completed\n" : "Failed\n";
-			return message;
+			var message = $"Status of {MatrixManager.MainStationMatrix.GameObject.scene.name}:\n";
+			if (activeObjective != null)
+			{
+
+				bool complete = false;
+
+				complete = activeObjective.CheckCompletion();
+				message += $"{activeObjective.GetRoundEndReport()}";
+				message += complete ? "Completed\n" : "Failed\n";
+				return message;
+			}
+			return message + " Did not have any active objectives ";
 		}
 
 		private void ResetObjectives()

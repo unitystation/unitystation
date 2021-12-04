@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Diagnostics;
@@ -143,7 +144,16 @@ namespace Systems.Electricity
 			{
 				sampler.Begin();
 				StopWatch.Restart();
-				RunStep();
+
+				try
+				{
+					RunStep();
+				}
+				catch (Exception e)
+				{
+					Logger.LogError($"Electrical Thread Error! {e.GetStack()}", Category.Electrical);
+				}
+
 				StopWatch.Stop();
 				sampler.End();
 				if (StopWatch.ElapsedMilliseconds < MillieSecondDelay)

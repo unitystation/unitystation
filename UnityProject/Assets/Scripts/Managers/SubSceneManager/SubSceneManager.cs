@@ -32,6 +32,7 @@ public partial class SubSceneManager : NetworkBehaviour
 		if (Instance == null)
 		{
 			Instance = this;
+			UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
 		}
 		else
 		{
@@ -39,7 +40,12 @@ public partial class SubSceneManager : NetworkBehaviour
 		}
 	}
 
-	void Update()
+	private void OnDisable()
+	{
+		UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
+	}
+
+	void UpdateMe()
 	{
 		MonitorServerSceneListOnClient();
 	}

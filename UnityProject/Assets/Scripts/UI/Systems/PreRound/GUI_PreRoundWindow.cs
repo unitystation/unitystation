@@ -76,6 +76,7 @@ namespace UI
 			if (Instance == null)
 			{
 				Instance = this;
+				UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
 			}
 			else
 			{
@@ -88,9 +89,10 @@ namespace UI
 			doCountdown = false;
 			isReady = false;
 			adminPanel.SetActive(false);
+			UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
 		}
 
-		private void Update()
+		private void UpdateMe()
 		{
 			if (Input.GetKeyDown(KeyCode.F7))
 			{

@@ -61,6 +61,8 @@ namespace DatabaseAPI
 			}
 		}
 
+		public static Action serverDataLoaded;
+
 		private bool fetchingToken = false;
 		public string idToken;
 		public static string IdToken => Instance.idToken;
@@ -75,6 +77,8 @@ namespace DatabaseAPI
 			//Handles config for RCON and Server Status API for dedicated servers
 			AttemptConfigLoad();
 			InitializeFirebase();
+
+			serverDataLoaded?.Invoke();
 		}
 
 		// Handle initialization of the necessary firebase modules:
@@ -89,14 +93,16 @@ namespace DatabaseAPI
 		void OnEnable()
 		{
 			EventManager.AddHandler(Event.LoggedOut, OnLogOut);
+			UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
 		}
 
 		void OnDisable()
 		{
 			EventManager.RemoveHandler(Event.LoggedOut, OnLogOut);
+			UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
 		}
 
-		void Update()
+		void UpdateMe()
 		{
 			if (config != null)
 			{

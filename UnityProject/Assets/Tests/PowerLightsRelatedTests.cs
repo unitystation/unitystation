@@ -56,7 +56,7 @@ namespace Tests
 	    public void CheckAllScenes_ForAPCPoweredDevices_WhichMissRelatedAPCs()
 	    {
 		    var buildScenes = EditorBuildSettings.scenes.Where(s => s.enabled);
-		    var missingAPCinDeviceReport = new List<(string, string)>();
+		    var missingAPCinDeviceReport = new List<(string, string, string)>();
 		    int countMissingAPC = 0;
 		    int countSelfPowered = 0;
 		    int countAll = 0;
@@ -78,8 +78,9 @@ namespace Tests
 				    }
 				    if (device.RelatedAPC == null && device.IsSelfPowered == false)
 				    {
+						var objectCoords = $"({objectDevice.transform.localPosition.x}, {objectDevice.transform.localPosition.y})";
 					    countMissingAPC++;
-					    missingAPCinDeviceReport.Add((currentSceneName,objectDevice.name));
+					    missingAPCinDeviceReport.Add((currentSceneName,objectDevice.name, objectCoords));
 				    }
 			    }
 		    }
@@ -88,7 +89,7 @@ namespace Tests
 		    var report = new StringBuilder();
 		    foreach (var s in missingAPCinDeviceReport)
 		    {
-			    var missingComponentMsg = $"{s.Item1}: \"{s.Item2}\" miss APC reference.";
+			    var missingComponentMsg = $"{s.Item1}: \"{s.Item2}\" {s.Item3} miss APC reference.";
 			    report.AppendLine(missingComponentMsg);
 		    }
 
@@ -146,7 +147,7 @@ namespace Tests
 	    public void CheckAllScenes_ForLightSources_WhichMissRelatedSwitches()
 	    {
 		    var buildScenes = EditorBuildSettings.scenes.Where(s => s.enabled);
-		    var missingAPCinDeviceReport = new List<(string, string)>();
+		    var missingAPCinDeviceReport = new List<(string, string, string)>();
 		    int countMissingSwitch = 0;
 		    int countWithoutSwitches = 0;
 		    int countAll = 0;
@@ -168,8 +169,9 @@ namespace Tests
 				    }
 				    if (device.relatedLightSwitch == null)
 				    {
+						var objectCoords = $"({objectDevice.transform.localPosition.x}, {objectDevice.transform.localPosition.y})";
 					    countMissingSwitch++;
-					    missingAPCinDeviceReport.Add((currentSceneName,objectDevice.name));
+					    missingAPCinDeviceReport.Add((currentSceneName,objectDevice.name, objectCoords));
 				    }
 			    }
 		    }
@@ -178,7 +180,7 @@ namespace Tests
 		    var report = new StringBuilder();
 		    foreach (var s in missingAPCinDeviceReport)
 		    {
-			    var missingComponentMsg = $"{s.Item1}: \"{s.Item2}\" miss switch reference.";
+			    var missingComponentMsg = $"{s.Item1}: \"{s.Item2}\" {s.Item3} miss switch reference.";
 			    report.AppendLine(missingComponentMsg);
 		    }
 
@@ -236,7 +238,7 @@ namespace Tests
 	    public void CheckAllScenes_ForLightSwitchesLists_WhichMissLightSources()
 	    {
 		    var buildScenes = EditorBuildSettings.scenes.Where(s => s.enabled);
-		    var missingAPCinDeviceReport = new List<(string, string)>();
+		    var missingAPCinDeviceReport = new List<(string, string, string)>();
 		    int countSwitchesWithoutLights = 0;
 		    int countAll = 0;
 
@@ -252,8 +254,9 @@ namespace Tests
 				    var device = objectDevice;
 				    if (device.listOfLights.Count == 0)
 				    {
+						var objectCoords = $"({objectDevice.transform.localPosition.x}, {objectDevice.transform.localPosition.y})";
 					    countSwitchesWithoutLights++;
-					    missingAPCinDeviceReport.Add((currentSceneName,objectDevice.name));
+					    missingAPCinDeviceReport.Add((currentSceneName,objectDevice.name, objectCoords));
 				    }
 			    }
 		    }
@@ -262,7 +265,7 @@ namespace Tests
 		    var report = new StringBuilder();
 		    foreach (var s in missingAPCinDeviceReport)
 		    {
-			    var missingComponentMsg = $"{s.Item1}: \"{s.Item2}\" miss switch reference.";
+			    var missingComponentMsg = $"{s.Item1}: \"{s.Item2}\" {s.Item3} miss switch reference.";
 			    report.AppendLine(missingComponentMsg);
 		    }
 
@@ -320,7 +323,7 @@ namespace Tests
 	    public void CheckAllScenes_ForAPCs_ConnectedDevicesInTheList()
 	    {
 		    var buildScenes = EditorBuildSettings.scenes.Where(s => s.enabled);
-		    var listAPCsWrongDevices = new List<(string, string,string)>();
+		    var listAPCsWrongDevices = new List<(string, string, string)>();
 		    var listAPCsWithNulls = new List<(string, string)>();
 		    var listAPCWithEmptyList = new List<(string, string)>();
 
@@ -354,7 +357,7 @@ namespace Tests
 					    else
 					    if (connectedDevice.RelatedAPC != device)
 					    {
-						    listAPCsWrongDevices.Add((currentSceneName,device.name, connectedDevice.name));
+						    listAPCsWrongDevices.Add((currentSceneName,device.name,connectedDevice.name));
 						    countAPCsWithBadlyAssignedDevices++;
 					    }
 				    }
@@ -426,10 +429,10 @@ namespace Tests
 				    if (connectedDevice == null)
 				    {
 					    devicesAPC.Add(device.name);
-					    Logger.Log($"ConnectedDevice is null in \"{device.name}\"", Category.Tests);
+					    Logger.Log($"ConnectedDevice is null in \"{device.name}\"" , Category.Tests);
 					    report.AppendLine(device.name);
 					    count++;
-				    }
+					}
 				    else
 				    if (connectedDevice.RelatedAPC != device)
 				    {

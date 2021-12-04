@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class ColorPickerTester : MonoBehaviour 
+public class ColorPickerTester : MonoBehaviour
 {
 
     public new Renderer renderer;
@@ -9,7 +9,7 @@ public class ColorPickerTester : MonoBehaviour
     public Color Color = Color.red;
 
 	// Use this for initialization
-	void Start () 
+	void Start ()
     {
         picker.onValueChanged.AddListener(color =>
         {
@@ -21,9 +21,5 @@ public class ColorPickerTester : MonoBehaviour
 
         picker.CurrentColor = Color;
     }
-	
-	// Update is called once per frame
-	void Update () {
-	
-	}
+
 }

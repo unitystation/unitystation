@@ -336,11 +336,13 @@ namespace Systems.Atmospherics
 			meanGasMix.Volume /= targetCount; //Note: this assumes the volume of all tiles are the same
 
 
-
-			for (int i = meanGasMix.GasesArray.Count - 1; i >= 0; i--)
+			lock (meanGasMix.GasesArray)
 			{
-				var gasData = meanGasMix.GasesArray[i];
-				meanGasMix.GasData.SetMoles(gasData.GasSO, meanGasMix.GasData.GetGasMoles(gasData.GasSO) / targetCount);
+				for (int i = meanGasMix.GasesArray.Count - 1; i >= 0; i--)
+				{
+					var gasData = meanGasMix.GasesArray[i];
+					meanGasMix.GasData.SetMoles(gasData.GasSO, meanGasMix.GasData.GetGasMoles(gasData.GasSO) / targetCount);
+				}
 			}
 		}
 
@@ -368,7 +370,7 @@ namespace Systems.Atmospherics
 
 					node.AddGasOverlay(gas);
 
-					node.ReactionManager.TileChangeManager.AddOverlay(node.Position, TileManager.GetTile(TileType.Effects, gas.TileName) as OverlayTile);
+					node.PositionMatrix.MetaTileMap.AddOverlay(node.Position, TileManager.GetTile(TileType.Effects, gas.TileName) as OverlayTile);
 				}
 				else
 				{
@@ -376,7 +378,7 @@ namespace Systems.Atmospherics
 
 					node.RemoveGasOverlay(gas);
 
-					node.ReactionManager.TileChangeManager.RemoveOverlaysOfType(node.Position, LayerType.Effects, gas.OverlayType);
+					node.PositionMatrix.MetaTileMap.RemoveOverlaysOfType(node.Position, LayerType.Effects, gas.OverlayType);
 				}
 			}
 		}
@@ -387,7 +389,7 @@ namespace Systems.Atmospherics
 
 			foreach (var gas in node.GasOverlayData)
 			{
-				node.ReactionManager.TileChangeManager.RemoveOverlaysOfType(node.Position, LayerType.Effects, gas.OverlayType);
+				node.PositionMatrix.MetaTileMap.RemoveOverlaysOfType(node.Position, LayerType.Effects, gas.OverlayType);
 			}
 
 			node.GasOverlayData.Clear();
@@ -415,8 +417,6 @@ namespace Systems.Atmospherics
 				if (gasMix.Pressure < gasReaction.MinimumPressure || gasMix.Pressure > gasReaction.MaximumPressure) continue;
 
 				if (gasMix.Moles < gasReaction.MinimumMoles || gasMix.Moles > gasReaction.MaximumMoles) continue;
-
-				if (node.ReactionManager.reactions.TryGetValue(node.Position, out var gasHashSet) && gasHashSet.Contains(gasReaction)) continue;
 
 				//If too much Hyper-Noblium theres no reactions!!!
 				if(gasMix.GetMoles(Gas.HyperNoblium) >= AtmosDefines.REACTION_OPPRESSION_THRESHOLD) break;

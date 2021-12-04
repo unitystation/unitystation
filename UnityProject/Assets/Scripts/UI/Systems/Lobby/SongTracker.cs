@@ -52,13 +52,19 @@ namespace Audio.Containers
 		private void Start()
 		{
 			DetermineMuteState();
+			UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
 		}
 
-		private void Update()
+		private void OnDisable()
+		{
+			UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
+		}
+
+		private void UpdateMe()
 		{
 			if (PlayingRandomPlayList == false || CustomNetworkManager.IsHeadless) return;
 
-			if (MusicManager.isLobbyMusicPlaying()) return;
+			if (MusicManager.isMusicPlaying()) return;
 
 			currentWaitTime += Time.deltaTime;
 			if (currentWaitTime >= timeBetweenSongs)

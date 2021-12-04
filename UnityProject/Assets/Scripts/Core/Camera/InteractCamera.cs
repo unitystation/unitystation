@@ -17,9 +17,15 @@ public class InteractCamera : MonoBehaviour
 	private void Start()
 	{
 		interactCam.orthographicSize = mainCam.orthographicSize;
+		UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
 	}
 
-	private void Update()
+	private void OnDisable()
+	{
+		UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
+	}
+
+	private void UpdateMe()
 	{
 		if (interactCam.orthographicSize != mainCam.orthographicSize)
 		{

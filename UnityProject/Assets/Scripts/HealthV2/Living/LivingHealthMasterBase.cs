@@ -348,14 +348,14 @@ namespace HealthV2
 		[Server]
 		public void CalculateRadiationDamage()
 		{
-			var radLevel = (RegisterTile.Matrix.GetRadiationLevel(RegisterTile.LocalPosition) * (tickRate / 5f) / 6);
+			var radLevel = (RegisterTile.Matrix.GetRadiationLevel(RegisterTile.LocalPosition) * (tickRate / 5f));
 
 			if (radLevel == 0) return;
 
-			ApplyDamageAll(null, radLevel * 0.001f, AttackType.Rad, DamageType.Radiation);
+			ApplyDamageAll(null, radLevel * 0.02f, AttackType.Rad, DamageType.Radiation);
 		}
 
-		/// <summary>
+		/// <summary>Our
 		/// Applys damage from fire stacks and handles their effects and decay
 		/// </summary>
 		public void FireStacksDamage()

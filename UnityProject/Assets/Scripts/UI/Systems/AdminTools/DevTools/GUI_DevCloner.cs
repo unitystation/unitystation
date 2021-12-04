@@ -49,6 +49,7 @@ public class GUI_DevCloner : MonoBehaviour
 		escapeKeyTarget = GetComponent<EscapeKeyTarget>();
 		lightingSystem = Camera.main.GetComponent<LightingSystem>();
 		ToState(State.SELECTING);
+		UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
 	}
 
 	private void CheckAndApplyPalette(ref SpriteRenderer renderer)
@@ -139,6 +140,7 @@ public class GUI_DevCloner : MonoBehaviour
 	private void OnDisable()
 	{
 		ToState(State.INACTIVE);
+		UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
 	}
 
 	public void Open()
@@ -146,7 +148,7 @@ public class GUI_DevCloner : MonoBehaviour
 		ToState(State.SELECTING);
 	}
 
-	private void Update()
+	private void UpdateMe()
 	{
 		if (state == State.SELECTING)
 		{

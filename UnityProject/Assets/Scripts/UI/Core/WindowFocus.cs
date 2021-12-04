@@ -22,8 +22,14 @@ public class WindowFocus : MonoBehaviour
 			Logger.LogError($"{nameof(TMP_InputField)} not found / assigned to {this}.");
 			enabled = false;
 		}
+		UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
 	}
-	void Update()
+
+	private void OnDisable()
+	{
+		UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
+	}
+	void UpdateMe()
 	{
 		if (Searchtext.isFocused)
 		{

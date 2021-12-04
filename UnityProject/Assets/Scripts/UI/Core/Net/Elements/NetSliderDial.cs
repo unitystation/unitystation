@@ -30,7 +30,17 @@ public class NetSliderDial : NetSlider
 		}
 	}
 
-	public void Update()
+	private void OnEnable()
+	{
+		UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
+	}
+
+	private void OnDisable()
+	{
+		UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
+	}
+
+	public void UpdateMe()
 	{
 		if (CurrentTime < 5)
 		{

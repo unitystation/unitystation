@@ -187,9 +187,9 @@ public partial class MatrixManager
 		return noIntersections;
 	}
 
-	private void Update()
+	private void UpdateMe()
 	{
-		if (!Application.isPlaying || !CustomNetworkManager.Instance._isServer)
+		if (!CustomNetworkManager.Instance._isServer)
 		{
 			return;
 		}
@@ -311,13 +311,13 @@ public partial class MatrixManager
 			//Other
 			foreach ( var layer in layersToRemove )
 			{
-				i.Matrix1.TileChangeManager.RemoveTile( cellPos1, layer );
-				i.Matrix2.TileChangeManager.RemoveTile( cellPos2, layer );
+				i.Matrix1.TileChangeManager.MetaTileMap.RemoveTileWithlayer( cellPos1, layer );
+				i.Matrix2.TileChangeManager.MetaTileMap.RemoveTileWithlayer( cellPos2, layer );
 			}
 			foreach ( var layer in effectsToRemove )
 			{
-				i.Matrix1.TileChangeManager.RemoveAllOverlays( cellPos1, layer );
-				i.Matrix2.TileChangeManager.RemoveAllOverlays( cellPos2, layer );
+				i.Matrix1.TileChangeManager.MetaTileMap.RemoveAllOverlays( cellPos1, layer );
+				i.Matrix2.TileChangeManager.MetaTileMap.RemoveAllOverlays( cellPos2, layer );
 			}
 		}
 
@@ -393,7 +393,7 @@ public partial class MatrixManager
 				foreach ( var damageableLayer in matrix.MetaTileMap.LayersValues )
 				{
 					if (damageableLayer.LayerType == LayerType.Objects) continue;
-					matrix.TileChangeManager.RemoveTile( cellPos, damageableLayer.LayerType);
+					matrix.TileChangeManager.MetaTileMap.RemoveTileWithlayer( cellPos, damageableLayer.LayerType);
 				}
 			}
 		}

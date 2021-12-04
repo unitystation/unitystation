@@ -29,11 +29,6 @@ namespace Items.Food
 		private static readonly StandardProgressActionConfig ProgressConfig
 			= new StandardProgressActionConfig(StandardProgressActionType.Restrain);
 
-		// [FormerlySerializedAs("NutrientsHealAmount")] [FormerlySerializedAs("NutritionLevel")]
-		// public int StartingNutrients = 10;
-		//
-		// public Reagent Nutriment;
-
 		protected ItemAttributesV2 itemAttributes;
 		private Stackable stackable;
 		private RegisterItem item;
@@ -47,7 +42,6 @@ namespace Items.Food
 			item = GetComponent<RegisterItem>();
 			itemAttributes = GetComponent<ItemAttributesV2>();
 			stackable = GetComponent<Stackable>();
-
 
 			if (itemAttributes != null)
 			{

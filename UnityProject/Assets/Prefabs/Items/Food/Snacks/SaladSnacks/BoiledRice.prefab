@@ -111,7 +111,7 @@ PrefabInstance:
     - target: {fileID: 4008759651155897962, guid: 1817d25e88b0b2b4aadd7b5e6b7e1a98,
         type: 3}
       propertyPath: relatedRecipes.Array.size
-      value: 4
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 4008759651155897962, guid: 1817d25e88b0b2b4aadd7b5e6b7e1a98,
         type: 3}
@@ -137,6 +137,23 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: defeb638e43c45b41a07443243cd84e4,
         type: 2}
+    - target: {fileID: 4008759651155897962, guid: 1817d25e88b0b2b4aadd7b5e6b7e1a98,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[4].recipe
+      value: 
+      objectReference: {fileID: 11400000, guid: 8c860d980a956f0439ab2bb8c596a9cb,
+        type: 2}
+    - target: {fileID: 4008759651155897962, guid: 1817d25e88b0b2b4aadd7b5e6b7e1a98,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[5].recipe
+      value: 
+      objectReference: {fileID: 11400000, guid: ec2cac231bfe4914fbed3ea2e8fb2a80,
+        type: 2}
+    - target: {fileID: 4008759651155897962, guid: 1817d25e88b0b2b4aadd7b5e6b7e1a98,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[4].ingredientIndex
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 4755138025394611660, guid: 1817d25e88b0b2b4aadd7b5e6b7e1a98,
         type: 3}
       propertyPath: NutritionLevel

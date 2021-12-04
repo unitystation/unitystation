@@ -16,7 +16,7 @@ namespace HealthV2
 	/// </summary>
 	public partial class BodyPart : MonoBehaviour, IBodyPartDropDownOrgans
 	{
-		public LivingHealthMasterBase HealthMaster {get; private set;}
+		public LivingHealthMasterBase HealthMaster { get; private set; }
 
 
 		[HideInInspector] private readonly List<BodyPart> containBodyParts = new List<BodyPart>();
@@ -25,13 +25,11 @@ namespace HealthV2
 		/// <summary>
 		/// Storage container for things (usually other body parts) held within this body part
 		/// </summary>
-		[HorizontalLine]
-		[Tooltip("Things (eg other organs) held within this")]
+		[HorizontalLine] [Tooltip("Things (eg other organs) held within this")]
 		public ItemStorage OrganStorage = null;
 
 		//Organs on the same body part
-		[NonSerialized]
-		public List<BodyPartFunctionality> OrganList = new List<BodyPartFunctionality>();
+		[NonSerialized] public List<BodyPartFunctionality> OrganList = new List<BodyPartFunctionality>();
 
 		/// <summary>
 		/// Player sprites for rendering equipment and clothing on the body part container
@@ -50,25 +48,25 @@ namespace HealthV2
 		/// <summary>
 		/// The category that this body part falls under for targeting purposes
 		/// </summary>
-		[Tooltip("The category that this body part falls under for targeting purposes")]
-		[SerializeField] public BodyPartType BodyPartType;
+		[Tooltip("The category that this body part falls under for targeting purposes")] [SerializeField]
+		public BodyPartType BodyPartType;
 
 		/// <summary>
 		/// Flag for if the sprite for this body type changes with gender, true means it does
 		/// </summary>
-		[Tooltip("Does the sprite change depending on Gender?")]
-		[SerializeField] private bool isDimorphic = false;
+		[Tooltip("Does the sprite change depending on Gender?")] [SerializeField]
+		private bool isDimorphic = false;
 
 		/// <summary>
 		/// The body part in which this body part is contained, if any
 		/// </summary>
-		[Tooltip("The body part in which this body part is contained, if any")]
-		[HideInInspector] public BodyPart ContainedIn;
+		[Tooltip("The body part in which this body part is contained, if any")] [HideInInspector]
+		public BodyPart ContainedIn;
 
 		[SerializeField]
 		[Tooltip("The visuals of this implant. This will be used for the limb the implant represents. " +
-				 "It is intended for things like arms/legs/heads. " +
-				 "Leave empty if it shouldn't change this.")]
+		         "It is intended for things like arms/legs/heads. " +
+		         "Leave empty if it shouldn't change this.")]
 		private BodyTypesWithOrder BodyTypesSprites = new BodyTypesWithOrder();
 
 		/// <summary>
@@ -91,7 +89,8 @@ namespace HealthV2
 		[Tooltip("The body part's pickable item's sprites.")]
 		public SpriteHandler BodyPartItemSprite;
 
-		[Tooltip("Does this body part share the same color as the player's skintone when it deattatches from his body?")]
+		[Tooltip(
+			"Does this body part share the same color as the player's skintone when it deattatches from his body?")]
 		public bool BodyPartItemInheritsSkinColor = false;
 
 		/// <summary>
@@ -105,8 +104,9 @@ namespace HealthV2
 		[Tooltip("Custom options from the Character Customizer that modifys this")]
 		public BodyPartCustomisationBase LobbyCustomisation;
 
-		[Tooltip("List of optional body added to this, eg what wings a Moth has")]
-		[SerializeField] private List<BodyPart> optionalOrgans = new List<BodyPart>();
+		[Tooltip("List of optional body added to this, eg what wings a Moth has")] [SerializeField]
+		private List<BodyPart> optionalOrgans = new List<BodyPart>();
+
 		/// <summary>
 		/// The list of optional body that are attached/stored in this body part, eg what wings a Moth has
 		/// </summary>
@@ -176,15 +176,14 @@ namespace HealthV2
 					organ.InternalDamageLogic();
 				}
 			}
+
 			BloodUpdate();
 			CalculateRadiationDamage();
 
-			if(IsBleeding)
+			if (IsBleeding)
 			{
 				InternalBleedingLogic();
-				HealthMaster.CirculatorySystem.Bleed(limbLossBleedingValue);
 			}
-
 		}
 
 		public void SetHealthMaster(LivingHealthMasterBase livingHealth)
@@ -194,6 +193,7 @@ namespace HealthV2
 			{
 				playerSprites = livingHealth.GetComponent<PlayerSprites>();
 			}
+
 			if (BodySpriteSet == false)
 			{
 				//If gendered part then set the sprite limb data to it
@@ -201,7 +201,7 @@ namespace HealthV2
 				{
 					LimbSpriteData = new ListSpriteDataSOWithOrder();
 					LimbSpriteData.SpriteOrder = BodyTypesSprites.SpriteOrder;
-					LimbSpriteData.Sprites = BodyTypesSprites.BodyTypes[(int)HealthMaster.BodyType].Sprites;
+					LimbSpriteData.Sprites = BodyTypesSprites.BodyTypes[(int) HealthMaster.BodyType].Sprites;
 				}
 				else
 				{
@@ -209,7 +209,7 @@ namespace HealthV2
 					LimbSpriteData.SpriteOrder = BodyTypesSprites.SpriteOrder;
 					if (BodyTypesSprites.BodyTypes.Count > 0)
 					{
-						LimbSpriteData.Sprites = BodyTypesSprites.BodyTypes[(int)BodyType.NonBinary].Sprites;
+						LimbSpriteData.Sprites = BodyTypesSprites.BodyTypes[(int) BodyType.NonBinary].Sprites;
 					}
 				}
 
@@ -242,11 +242,10 @@ namespace HealthV2
 		/// <returns>List of SpriteDataSO's</returns>
 		public Tuple<SpriteOrder, List<SpriteDataSO>> GetBodyTypeSprites(BodyType BodyType)
 		{
-			if (BodyTypesSprites.BodyTypes.Count > (int)BodyType)
+			if (BodyTypesSprites.BodyTypes.Count > (int) BodyType)
 			{
-
 				return new Tuple<SpriteOrder, List<SpriteDataSO>>(BodyTypesSprites.SpriteOrder,
-					BodyTypesSprites.BodyTypes[(int)BodyType].Sprites);
+					BodyTypesSprites.BodyTypes[(int) BodyType].Sprites);
 			}
 			else
 			{
@@ -275,7 +274,7 @@ namespace HealthV2
 					addedOrgan.BodyPartAddHealthMaster(HealthMaster);
 				}
 			}
-			else if(prevImplant && prevImplant.TryGetComponent<BodyPart>(out var removedOrgan))
+			else if (prevImplant && prevImplant.TryGetComponent<BodyPart>(out var removedOrgan))
 			{
 				containBodyParts.Remove(removedOrgan);
 
@@ -289,7 +288,7 @@ namespace HealthV2
 		/// </summary>
 		public void BodyPartAddHealthMaster(LivingHealthMasterBase livingHealth)
 		{
-			if (livingHealth.BodyPartList.Contains(this ) == false)
+			if (livingHealth.BodyPartList.Contains(this) == false)
 			{
 				livingHealth.BodyPartList.Add(this);
 			}
@@ -317,17 +316,16 @@ namespace HealthV2
 			{
 				organ.RemovedFromBody(HealthMaster);
 			}
+
 			foreach (var organ in containBodyParts)
 			{
 				organ.BodyPartRemoveHealthMaster();
 			}
 
-
 			RemoveSprites(playerSprites, HealthMaster);
 			HealthMaster.rootBodyPartController.UpdateClients();
 			HealthMaster.BodyPartList.Remove(this);
 			HealthMaster = null;
-
 		}
 
 		/// <summary>
@@ -335,12 +333,14 @@ namespace HealthV2
 		/// </summary>
 		public void TryRemoveFromBody(bool beingGibbed = false)
 		{
+			bool alreadyBleeding = false;
 			SetRemovedColor();
 			foreach (var bodyPart in HealthMaster.BodyPartList)
 			{
-				if (bodyPart.BodyPartType == BodyPartType.Chest)
+				if (bodyPart.BodyPartType == BodyPartType.Chest && alreadyBleeding == false)
 				{
 					bodyPart.IsBleeding = true;
+					alreadyBleeding = true;
 					HealthMaster.ChangeBleedStacks(limbLossBleedingValue);
 				}
 			}
@@ -352,28 +352,47 @@ namespace HealthV2
 			var dynamicItemStorage = HealthMaster.GetComponent<DynamicItemStorage>();
 			dynamicItemStorage.Remove(bodyPartUISlot);
 			//Fixes an error where externally bleeding body parts would continue to try bleeding even after their removal.
-			if(IsBleedingExternally)
+			if (IsBleedingExternally)
 			{
 				StopExternalBleeding();
 			}
+
 			//this kills the crab
-			if(DeathOnRemoval)
+			if (DeathOnRemoval)
 			{
 				HealthMaster.Death();
 			}
+
 			if (gibsEntireBodyOnRemoval && beingGibbed == false)
 			{
 				HealthMaster.Gib();
 			}
+
 			if (ContainedIn != null)
 			{
-				ContainedIn.OrganStorage.ServerTryRemove(gameObject);
+				if (beingGibbed)
+				{
+					ContainedIn.OrganStorage.ServerTryRemove(gameObject,
+						DroppedAtWorldPositionOrThrowVector: ConverterExtensions.GetRandomRotatedVector2(-0.5f, 0.5f), Throw: true);
+				}
+				else
+				{
+					ContainedIn.OrganStorage.ServerTryRemove(gameObject);
+				}
+
 			}
 			else
 			{
-				HealthMaster.OrNull()?.BodyPartStorage.OrNull()?.ServerTryRemove(gameObject);
+				if (beingGibbed)
+				{
+					HealthMaster.OrNull()?.BodyPartStorage.OrNull()?.ServerTryRemove(gameObject,
+						DroppedAtWorldPositionOrThrowVector: ConverterExtensions.GetRandomRotatedVector2(-0.5f,0.5f), Throw: true);
+				}
+				else
+				{
+					HealthMaster.OrNull()?.BodyPartStorage.OrNull()?.ServerTryRemove(gameObject);
+				}
 			}
-
 		}
 
 		/// <summary>
@@ -400,8 +419,9 @@ namespace HealthV2
 				RemoveItemsFromSlot(NamedSlot.leftHand);
 				RemoveItemsFromSlot(NamedSlot.rightHand);
 			}
-			if(bodyPart.BodyPartType == BodyPartType.RightLeg || bodyPart.BodyPartType == BodyPartType.LeftLeg ||
-			   bodyPart.BodyPartType == BodyPartType.LeftFoot || bodyPart.BodyPartType == BodyPartType.RightFoot)
+
+			if (bodyPart.BodyPartType == BodyPartType.RightLeg || bodyPart.BodyPartType == BodyPartType.LeftLeg ||
+			    bodyPart.BodyPartType == BodyPartType.LeftFoot || bodyPart.BodyPartType == BodyPartType.RightFoot)
 			{
 				RemoveItemsFromSlot(NamedSlot.feet);
 			}
@@ -420,13 +440,14 @@ namespace HealthV2
 		/// </summary>
 		private void SetRemovedColor()
 		{
-			if(IsSurface && BodyPartItemInheritsSkinColor && currentBurnDamageLevel != TraumaDamageLevel.CRITICAL)
+			if (IsSurface && BodyPartItemInheritsSkinColor && currentBurnDamageLevel != TraumaDamageLevel.CRITICAL)
 			{
 				CharacterSettings settings = HealthMaster.gameObject.Player().Script.characterSettings;
 				ColorUtility.TryParseHtmlString(settings.SkinTone, out Tone);
 				BodyPartItemSprite.OrNull()?.SetColor(Tone);
 			}
-			if(currentBurnDamageLevel == TraumaDamageLevel.CRITICAL)
+
+			if (currentBurnDamageLevel == TraumaDamageLevel.CRITICAL)
 			{
 				BodyPartItemSprite.OrNull()?.SetColor(bodyPartColorWhenCharred);
 			}
@@ -442,10 +463,12 @@ namespace HealthV2
 				{
 					sprites.SurfaceSprite.Remove(bodyPartSprite);
 				}
+
 				RelatedPresentSprites.Remove(bodyPartSprite);
 				sprites.Addedbodypart.Remove(bodyPartSprite);
 				Destroy(bodyPartSprite.gameObject);
 			}
+
 			livingHealth.InternalNetIDs.Remove(intName);
 		}
 
@@ -459,8 +482,6 @@ namespace HealthV2
 			{
 				Organ.SetUpSystems();
 			}
-
-
 		}
 	}
 

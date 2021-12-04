@@ -42,7 +42,7 @@ public partial class Chat : MonoBehaviour
 
 	private static Regex htmlRegex = new Regex(@"^(http|https)://.*$");
 
-	public static void InvokeChatEvent(ChatEvent chatEvent)
+	public static void  InvokeChatEvent(ChatEvent chatEvent)
 	{
 		var channels = chatEvent.channels;
 		StringBuilder discordMessageBuilder = new StringBuilder();
@@ -87,6 +87,14 @@ public partial class Chat : MonoBehaviour
 	{
 		message = AutoMod.ProcessChatServer(sentByPlayer, message);
 		if (string.IsNullOrWhiteSpace(message)) return;
+
+		//Sanity check for null username
+		if (string.IsNullOrWhiteSpace(sentByPlayer.Username))
+		{
+			Logger.Log($"Null/empty Username, Details: Username: {sentByPlayer.Username}, ClientID: {sentByPlayer.ClientId}, IP: {sentByPlayer.Connection.address}",
+				Category.Admin);
+			return;
+		}
 
 		var player = sentByPlayer.Script;
 

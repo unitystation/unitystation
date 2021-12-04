@@ -195,7 +195,7 @@ namespace Objects.Construction
 		[Server]
 		private void ConstructWall(HandApply interaction)
 		{
-			tileChangeManager.UpdateTile(Vector3Int.RoundToInt(transform.localPosition), wallTile);
+			tileChangeManager.MetaTileMap.SetTile(Vector3Int.RoundToInt(transform.localPosition), wallTile);
 			interaction.HandObject.GetComponent<Stackable>().ServerConsume(2);
 			_ = Despawn.ServerSingle(gameObject);
 		}
@@ -213,7 +213,7 @@ namespace Objects.Construction
 		{
 			GameObject theWall = Spawn.ServerPrefab(FalseWall, SpawnDestination.At(gameObject)).GameObject;
 			DoorController doorController = theWall.GetComponent<DoorController>();
-			tileChangeManager.UpdateTile(registerObject.LocalPositionServer, falseTile);
+			tileChangeManager.MetaTileMap.SetTile(registerObject.LocalPositionServer, falseTile);
 			interaction.HandObject.GetComponent<Stackable>().ServerConsume(2);
 			_ = Despawn.ServerSingle(gameObject);
 			doorController.TryClose();
@@ -224,7 +224,7 @@ namespace Objects.Construction
 		{
 			GameObject theWall = Spawn.ServerPrefab(FalseReinforcedWall, SpawnDestination.At(gameObject)).GameObject;
 			DoorController doorController = theWall.GetComponent<DoorController>();
-			tileChangeManager.UpdateTile(registerObject.LocalPositionServer, falseTile);
+			tileChangeManager.MetaTileMap.SetTile(registerObject.LocalPositionServer, falseTile);
 			interaction.HandObject.GetComponent<Stackable>().ServerConsume(2);
 			_ = Despawn.ServerSingle(gameObject);
 			doorController.TryClose();

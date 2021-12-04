@@ -58,8 +58,6 @@ namespace Objects.Lighting
 		private ItemTrait traitRequired;
 		private GameObject itemInMount;
 
-		private GameObject currentSparkEffect;
-
 		public float integrityThreshBar { get; private set; }
 
 		#region Lifecycle
@@ -338,7 +336,7 @@ namespace Objects.Lighting
 			}
 			catch (NullReferenceException exception)
 			{
-				Logger.LogError("A NRE was caught in LightSource.TryRemoveBulb(): " + exception.Message, Category.Lighting);
+				Logger.LogError($"A NRE was caught in LightSource.TryRemoveBulb(): {exception.Message} \n {exception.StackTrace}", Category.Lighting);
 			}
 		}
 
@@ -435,10 +433,7 @@ namespace Objects.Lighting
 			//Has to be broken and have power to spark
 			if (mState != LightMountState.Broken || powerState == PowerState.Off) return;
 
-			//Not already doing an effect
-			if (currentSparkEffect != null) return;
-
-			currentSparkEffect = SparkUtil.TrySpark(objectBehaviour);
+			SparkUtil.TrySpark(gameObject, 50f);
 		}
 
 		#endregion

@@ -77,12 +77,13 @@ namespace Items.PDA
 
 		// GameObject attached components
 		private Pickupable pickupable;
-		private ItemStorage storage;
+		public ItemStorage storage {get; private set;}
 		private ItemLightControl flashlight;
 		private ItemActionButton actionButton;
 
 		/// <summary> The IDCard that is currently inserted into the PDA </summary>
-		public IDCard IDCard { get; private set; }
+		private IDCard IDCard;
+
 		/// <summary> The name of the currently registered player (since the last PDA reset) </summary>
 		public string RegisteredPlayerName { get; private set; }
 		public AddressableAudioSource Ringtone { get; private set; }
@@ -185,7 +186,7 @@ namespace Items.PDA
 		public void ResetPDA()
 		{
 			if (RegisteredPlayerName == default ||
-					IDSlot.IsOccupied && IDCard.RegisteredName == RegisteredPlayerName)
+					IDSlot.IsOccupied && GetIDCard().RegisteredName == RegisteredPlayerName)
 			{
 				if (willResetName)
 				{
@@ -277,10 +278,13 @@ namespace Items.PDA
 			if (interaction.IsAltClick && IDSlot.IsOccupied)
 			{
 				EjectIDCard();
+				Chat.AddActionMsgToChat(gameObject, "You eject the ID from the PDA.",
+					$"{interaction.Performer.ExpensiveName()} ejects an ID from the {gameObject.ExpensiveName()}");
 				return;
 			}
 
 			ServerInsertItem(interaction.UsedObject, interaction.HandSlot, interaction.Performer);
+			Chat.AddActionMsgToChat(gameObject, "You insert the ID inside the PDA.", $"{interaction.Performer.ExpensiveName()} inserts an ID into the {gameObject.ExpensiveName()}");
 		}
 
 		public bool WillInteract(InventoryApply interaction, NetworkSide side)
@@ -395,7 +399,7 @@ namespace Items.PDA
 		private string GenerateUplinkUnlockCode()
 		{
 			var codeList = UplinkPasswordList.Instance.WordList;
-			
+
 			string code = codeList[Random.Range(0, codeList.Count)];
 
 			string nums = Random.Range(111, 999).ToString();
@@ -471,7 +475,7 @@ namespace Items.PDA
 
 				if (RegisteredPlayerName == default)
 				{
-					RegisterTo(IDCard.RegisteredName);
+					RegisterTo(GetIDCard().RegisteredName);
 				}
 			}
 
@@ -514,6 +518,26 @@ namespace Items.PDA
 		#region IDAccess
 		// All these methods handle ID card access, should only be ran server side because we cant trust client
 
+		/// <summary>
+		/// Returns null if empty. Clientside only works if the player holds the PDA in their inventory.
+		/// </summary>
+		public IDCard GetIDCard()
+		{
+			if (isServer)
+			{
+				return IDCard;
+			}
+			else
+			{
+				if (IDSlot.Item && IDSlot.Item.TryGetComponent<IDCard>(out var insertedID))
+				{
+					return insertedID;
+				}
+			}
+			return null;
+		}
+
+
 		[Server]
 		public bool HasAccess(Access access)
 		{
@@ -545,7 +569,7 @@ namespace Items.PDA
 		// All the methods above will be obsolete as soon as we migrate
 		public IEnumerable<Clearance> GetClearance()
 		{
-			var idClearance = IDCard.OrNull()?.GetComponent<IClearanceProvider>();
+			var idClearance = GetIDCard().OrNull()?.GetComponent<IClearanceProvider>();
 
 			return idClearance?.GetClearance();
 		}

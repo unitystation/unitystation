@@ -30,6 +30,8 @@ namespace Weapons.Projectiles
 			projectile = GetComponentInParent<Bullet>();
 			maskData = projectile.MaskData;
 			ProjectileTransform = this.transform;
+			thisTransform = transform;
+			UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
 		}
 
 		/// <summary>
@@ -45,7 +47,7 @@ namespace Weapons.Projectiles
 				Vector3.forward));
 		}
 
-		private void Update()
+		private void UpdateMe()
 		{
 			if(CustomNetworkManager.IsServer == false) return;
 			if(projectile.Destroyed) return;
@@ -105,6 +107,7 @@ namespace Weapons.Projectiles
 			ProjectileTransform.localPosition = Vector3.zero;
 			previousPosition = Vector3.zero;
 			velocity = 0;
+			UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
 		}
 	}
 }

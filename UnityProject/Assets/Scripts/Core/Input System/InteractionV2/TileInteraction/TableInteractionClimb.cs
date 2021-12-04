@@ -1,11 +1,18 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using AddressableReferences;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "TableInteractionClimb", menuName = "Interaction/TileInteraction/TableInteractionClimb")]
 public class TableInteractionClimb : TileInteraction
 {
 	static private List<TileType> excludeTiles = new List<TileType>() { TileType.Table };
+
+	[SerializeField] private bool canBreakOnClimb = false;
+	[SerializeField, Range(0, 100f)] private float breakChance = 90f;
+	[SerializeField, Range(1,25)] private float stunTimeOnBreak = 5f;
+	[SerializeField, Range(1,225)] private float damageOnBreak = 5f;
+	[SerializeField] private AddressableAudioSource soundOnBreak;
 
 	public override bool WillInteract(TileApply interaction, NetworkSide side)
 	{
@@ -72,6 +79,18 @@ public class TableInteractionClimb : TileInteraction
 				{
 					transformComp.AppearAtPositionServer(interaction.WorldPositionTarget);
 				}
+			}
+			if(canBreakOnClimb == false) return;
+			if (DMMath.Prob(breakChance) && interaction.UsedObject.TryGetComponent<RegisterPlayer>(out var victim))
+			{
+				interaction.BasicTile.SpawnOnDestroy.SpawnAt(SpawnDestination.At(interaction.WorldPositionTarget));
+				victim.ServerStun(stunTimeOnBreak);
+				_ = SoundManager.PlayNetworkedAtPosAsync(soundOnBreak, interaction.WorldPositionTarget);
+				Chat.AddActionMsgToChat(interaction.UsedObject,
+					$"Your weight pushes onto the {interaction.BasicTile.DisplayName} and you break it and fall through it",
+					$"{interaction.UsedObject.ExpensiveName()} falls through the {interaction.BasicTile.DisplayName} as it breaks from their weight.");
+				victim.PlayerScript.playerHealth.ApplyDamageAll(interaction.Performer, damageOnBreak, AttackType.Melee, DamageType.Brute);
+				interaction.TileChangeManager.MetaTileMap.RemoveTileWithlayer(interaction.TargetCellPos, interaction.BasicTile.LayerType);
 			}
 		}).ServerStartProgress(interaction.UsedObject.RegisterTile(), 3.0f, interaction.Performer);
 

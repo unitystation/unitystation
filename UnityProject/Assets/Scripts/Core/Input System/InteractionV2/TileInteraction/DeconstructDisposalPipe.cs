@@ -93,7 +93,7 @@ namespace Objects.Disposals
 					Category.Pipes);
 				return;
 			}
-			matrix.TileChangeManager.RemoveTile(disPipeNode.NodeLocation, LayerType.Underfloor);
+			matrix.TileChangeManager.MetaTileMap.RemoveTileWithlayer(disPipeNode.NodeLocation, LayerType.Underfloor);
 
 			// Spawn pipe GameObject
 			if (interaction.BasicTile.SpawnOnDeconstruct == null) return;

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using HealthV2;
 using Items;
 using Items.Others;
@@ -199,13 +198,16 @@ namespace Chemistry.Components
 			{
 				lock (addition.reagents)
 				{
-					if (!addition.reagents.m_dict.All(r => reagentWhitelist.Contains(r.Key)))
+					foreach (var reagent in addition.reagents.m_dict.Keys)
 					{
-						return new TransferResult
+						if (reagentWhitelist.Contains(reagent) == false)
 						{
-							Success = false,
-							Message = "You can't transfer this into " + FancyContainerName
-						};
+							return new TransferResult
+							{
+								Success = false,
+								Message = "You can't transfer this into " + FancyContainerName
+							};
+						}
 					}
 				}
 			}
@@ -220,7 +222,7 @@ namespace Chemistry.Components
 				};
 			}
 
-			// save total ammount before mixing
+			// save total amount before mixing
 			var transferAmount = addition.Total;
 			var beforeMixTotal = CurrentReagentMix.Total;
 			var afterMixTotal = beforeMixTotal + transferAmount;
@@ -368,7 +370,7 @@ namespace Chemistry.Components
 			}
 			catch (NullReferenceException exception)
 			{
-				Logger.LogError("Caught NRE in ReagentContainer SpillAll method: " + exception.Message, Category.Chemistry);
+				Logger.LogError($"Caught NRE in ReagentContainer SpillAll method: {exception.Message} \n {exception.StackTrace}", Category.Chemistry);
 			}
 		}
 

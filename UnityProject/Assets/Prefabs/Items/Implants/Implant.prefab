@@ -15,7 +15,7 @@ MonoBehaviour:
   OrganStorage: {fileID: 2719098251223779414}
   playerSprites: {fileID: 0}
   IsBleeding: 0
-  limbLossBleedingValue: 35
+  limbLossBleedingValue: 3.5
   BodyPartType: 0
   isDimorphic: 0
   ContainedIn: {fileID: 0}
@@ -48,7 +48,7 @@ MonoBehaviour:
   requiredReagent: {fileID: 11400000, guid: 72991f100b5704f5fb63c9629fcdeb6c, type: 2}
   wasteReagent: {fileID: 11400000, guid: 2a39c514112f198858f2c7407b75d8c4, type: 2}
   BloodContainer: {fileID: 8113072997116454967}
-  bloodReagentConsumed: 0.005
+  bloodReagentConsumedPercentage: 0.2
   bloodThroughput: 1.7857143
   Nutriment: {fileID: 11400000, guid: 068bcb587110477558045ad0cfd78237, type: 2}
   HealingNutrimentMultiplier: 2
@@ -81,7 +81,7 @@ MonoBehaviour:
     Magic: 100
     Bio: 0
     DismembermentProtectionChance: 0
-  SubOrganDamageIncreasePoint: 50
+  SubOrganDamageIncreasePoint: 80
   DamageContributesToOverallHealth: 1
   DamageEfficiencyMultiplier: 1
   maxHealth: 100

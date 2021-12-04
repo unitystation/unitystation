@@ -84,9 +84,15 @@ namespace UI.Core
 			init = false;
 			// check if we are the server version (will not play sounds if that's the case)
 			muteSounds = GetComponentInParent<NetTab>().IsServer;
+			UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
 		}
 
-		private void Update()
+		private void OnDisable()
+		{
+			UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
+		}
+
+		private void UpdateMe()
 		{
 			if (tickCooldown > 0)
 			{

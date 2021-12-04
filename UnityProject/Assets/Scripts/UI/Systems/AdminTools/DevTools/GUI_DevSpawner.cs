@@ -19,7 +19,7 @@ public class GUI_DevSpawner : MonoBehaviour
 	public bool searchWhileTyping = false;
 	[Tooltip("If searchWhileTyping is turned on, don't start searching until at least this many" +
 	         " characters are entered.")]
-	public int minCharactersForSearch = 3;
+	public int minCharactersForSearch = 2;
 
 	// search index
 	private SpawnerSearch spawnerSearch;
@@ -29,12 +29,18 @@ public class GUI_DevSpawner : MonoBehaviour
 	void Start()
     {
 	    spawnerSearch = SpawnerSearch.ForPrefabs(Spawn.SpawnablePrefabs());
-    }
+	    UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
+	}
+
+	private void OnDisable()
+	{
+		UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
+	}
 
     /// <summary>
     /// There is no event for focusing input, so we must check for it manually in Update
     /// </summary>
-    void Update()
+    void UpdateMe()
     {
 	    if (searchBox.isFocused && isFocused == false)
 	    {
@@ -71,7 +77,7 @@ public class GUI_DevSpawner : MonoBehaviour
     public void Search()
     {
 	    if (searchBox.text.Length < minCharactersForSearch) return;
-	    
+
 		// delete previous results
 	    foreach (Transform child in contentPanel.transform)
 	    {

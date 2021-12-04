@@ -1,6 +1,8 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UI.Chat_UI;
 using static KeybindManager;
 
 public class KeyboardInputManager : MonoBehaviour
@@ -26,12 +28,18 @@ public class KeyboardInputManager : MonoBehaviour
 		}
 	}
 
-	void Update()
+
+	private void OnEnable()
 	{
-		CheckKeyboardInput();
+		UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
 	}
 
-	void CheckKeyboardInput()
+	private void OnDisable()
+	{
+		UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
+	}
+
+	private void UpdateMe()
 	{
 		if (!UIManager.IsInputFocus)
 		{

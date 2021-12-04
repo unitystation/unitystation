@@ -13,8 +13,15 @@ public class GUI_TabNext : GUI_Component
 	void Start()
 	{
 		thisField = GetComponent<InputField>();
+		UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
 	}
-	void Update()
+
+	private void OnDisable()
+	{
+		UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
+	}
+
+	void UpdateMe()
 	{
 		if (CommonInput.GetKeyDown(KeyCode.Tab))
 		{

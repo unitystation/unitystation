@@ -1,8 +1,12 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using HealthV2;
 using Items;
 using Messages.Server;
+using Objects;
+using Objects.Other;
 using UnityEngine;
 
 /// <summary>
@@ -111,6 +115,17 @@ public class InteractableStorage : MonoBehaviour, IClientInteractable<HandActiva
 		allowedToInteract = true;
 	}
 
+	private bool IsFull(GameObject usedObject, GameObject player)
+	{
+		if(itemStorage.GetNextFreeIndexedSlot() == null && usedObject != null)
+		{
+			Chat.AddExamineMsg(player,
+				$"<color=red>The {usedObject.ExpensiveName()} won't fit in the {itemStorage.gameObject.ExpensiveName()}. Make some space!</color>");
+			return true;
+		}
+		return false;
+	}
+
 	public bool Interact(InventoryApply interaction)
 	{
 		// client-side inventory apply interaction is just for opening / closing the backpack
@@ -139,6 +154,7 @@ public class InteractableStorage : MonoBehaviour, IClientInteractable<HandActiva
 		// we need to be the target - something is put inside us
 		if (interaction.TargetObject != gameObject) return false;
 		if (DefaultWillInteract.Default(interaction, side) == false) return false;
+		if (IsFull(interaction.UsedObject, interaction.Performer)) return false;
 		// item must be able to fit
 		// note: since this is in local player's inventory, we are safe to check this stuff on client side
 		if (!Validations.CanPutItemToStorage(interaction.Performer.GetComponent<PlayerScript>(),
@@ -152,6 +168,11 @@ public class InteractableStorage : MonoBehaviour, IClientInteractable<HandActiva
 		if (allowedToInteract == false) return;
 		Inventory.ServerTransfer(interaction.FromSlot,
 			itemStorage.GetBestSlotFor((interaction).UsedObject));
+		if (interaction.UsedObject.Item().InventoryMoveSound != null)
+		{
+			_ = SoundManager.PlayNetworkedAtPosAsync(interaction.UsedObject.Item().InventoryMoveSound,
+				interaction.Performer.AssumedWorldPosServer());
+		}
 	}
 
 	/// <summary>
@@ -163,7 +184,7 @@ public class InteractableStorage : MonoBehaviour, IClientInteractable<HandActiva
 		if (allowedToInteract == false) return false;
 		// Use default interaction checks
 		if (DefaultWillInteract.Default(interaction, side) == false) return false;
-
+		if (IsFull(interaction.UsedObject, interaction.Performer)) return false;
 		// See which item needs to be stored
 		if (Validations.IsTarget(gameObject, interaction))
 		{
@@ -273,6 +294,11 @@ public class InteractableStorage : MonoBehaviour, IClientInteractable<HandActiva
 		{
 			// Add hand item to this storage
 			Inventory.ServerTransfer(interaction.HandSlot, itemStorage.GetBestSlotFor(interaction.HandObject));
+			if (interaction.UsedObject.Item().InventoryMoveSound != null)
+			{
+				_ = SoundManager.PlayNetworkedAtPosAsync(interaction.UsedObject.Item().InventoryMoveSound,
+					interaction.Performer.AssumedWorldPosServer());
+			}
 		}
 		// See if this item can click pickup
 		else if (canClickPickup)
@@ -421,10 +447,10 @@ public class InteractableStorage : MonoBehaviour, IClientInteractable<HandActiva
 	// This is all client only interaction:
 	public bool Interact(HandActivate interaction)
 	{
+		var slots = itemStorage.GetItemSlots();
 		if (canQuickEmpty)
 		{
 			// Drop all items that are inside this storage
-			var slots = itemStorage.GetItemSlots();
 
 			if (slots == null)
 			{
@@ -448,6 +474,8 @@ public class InteractableStorage : MonoBehaviour, IClientInteractable<HandActiva
 
 			return true;
 		}
+
+		interaction.PerformerPlayerScript.playerNetworkActions.CmdTriggerStorageTrap(gameObject);
 
 		// open / close the backpack on activate
 		if (UIManager.StorageHandler.CurrentOpenStorage != itemStorage)

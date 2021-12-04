@@ -132,7 +132,10 @@ public class Lungs : BodyPartFunctionality
 		{
 			efficiency = 1;
 		}
-		ReagentMix AvailableBlood = RelatedPart.HealthMaster.CirculatorySystem.UsedBloodPool.Take((RelatedPart.HealthMaster.CirculatorySystem.UsedBloodPool.Total * efficiency) / 2f);
+
+		ReagentMix AvailableBlood =
+			RelatedPart.HealthMaster.CirculatorySystem.UsedBloodPool.Take(
+				(RelatedPart.HealthMaster.CirculatorySystem.UsedBloodPool.Total * efficiency) / 2f);
 		bool tryExhale = BreatheOut(gasMixSink, AvailableBlood);
 		bool tryInhale = BreatheIn(container.GasMix, AvailableBlood, efficiency);
 		RelatedPart.HealthMaster.CirculatorySystem.ReadyBloodPool.Add(AvailableBlood);
@@ -177,11 +180,11 @@ public class Lungs : BodyPartFunctionality
 				{
 					if (SpecialCarrier.Contains(Reagent.Key))
 					{
-						toExhale.Add(Reagent.Key, (Reagent.Value / OptimalBloodGasCapacity) * LungSize );
+						toExhale.Add(Reagent.Key, (Reagent.Value / OptimalBloodGasCapacity) * LungSize);
 					}
 					else
 					{
-						toExhale.Add(Reagent.Key, (Reagent.Value / BloodGasCapacity) * LungSize );
+						toExhale.Add(Reagent.Key, (Reagent.Value / BloodGasCapacity) * LungSize);
 					}
 				}
 			}
@@ -200,7 +203,6 @@ public class Lungs : BodyPartFunctionality
 	/// <returns> True if breathGasMix was changed </returns>
 	private bool BreatheIn(GasMix breathGasMix, ReagentMix blood, float efficiency)
 	{
-
 		if (RelatedPart.HealthMaster.RespiratorySystem.CanBreatheAnywhere)
 		{
 			blood.Add(RelatedPart.requiredReagent, RelatedPart.bloodType.GetSpareGasCapacity(blood));
@@ -217,6 +219,7 @@ public class Lungs : BodyPartFunctionality
 		{
 			PercentageCanTake = LungSize / breathGasMix.Moles;
 		}
+
 		if (PercentageCanTake > 1)
 		{
 			PercentageCanTake = 1;
@@ -231,46 +234,47 @@ public class Lungs : BodyPartFunctionality
 		var TotalMoles = breathGasMix.Moles * PercentageCanTake;
 
 
-		foreach (var gasValues in breathGasMix.GasData.GasesArray)
+		lock (breathGasMix.GasData.GasesArray)
 		{
-			var gas = gasValues.GasSO;
-			if (GAS2ReagentSingleton.Instance.DictionaryGasToReagent.ContainsKey(gas) == false) continue;
-
-
-
-			// n = PV/RT
-			float gasMoles = breathGasMix.GetMoles(gas) * PercentageCanTake;
-
-
-
-			// Get as much as we need, or as much as in the lungs, whichever is lower
-			Reagent gasReagent = GAS2ReagentSingleton.Instance.GetGasToReagent(gas);
-			float molesRecieved = 0;
-			if (gasReagent == RelatedPart.bloodType.CirculatedReagent)
+			foreach (var gasValues in breathGasMix.GasData.GasesArray)
 			{
-				var PercentageMultiplier =  (gasMoles / (TotalMoles));
-				molesRecieved = RelatedPart.bloodType.GetSpecialGasCapacity(blood) * PercentageMultiplier * PressureMultiplier;
-			}
-			else
-			{
-				if (gasMoles == 0)
+				var gas = gasValues.GasSO;
+				if (GAS2ReagentSingleton.Instance.DictionaryGasToReagent.ContainsKey(gas) == false) continue;
+
+
+				// n = PV/RT
+				float gasMoles = breathGasMix.GetMoles(gas) * PercentageCanTake;
+
+
+				// Get as much as we need, or as much as in the lungs, whichever is lower
+				Reagent gasReagent = GAS2ReagentSingleton.Instance.GetGasToReagent(gas);
+				float molesRecieved = 0;
+				if (gasReagent == RelatedPart.bloodType.CirculatedReagent)
 				{
-					molesRecieved = 0;
+					var PercentageMultiplier = (gasMoles / (TotalMoles));
+					molesRecieved = RelatedPart.bloodType.GetSpecialGasCapacity(blood) * PercentageMultiplier *
+					                PressureMultiplier;
 				}
 				else
 				{
-					molesRecieved =  (Available * (gasMoles / TotalMoles)) * PressureMultiplier;
+					if (gasMoles == 0)
+					{
+						molesRecieved = 0;
+					}
+					else
+					{
+						molesRecieved = (Available * (gasMoles / TotalMoles)) * PressureMultiplier;
+					}
 				}
-			}
 
-			if (molesRecieved > 0)
-			{
-				toInhale.Add(gasReagent, molesRecieved);
+				if (molesRecieved > 0)
+				{
+					toInhale.Add(gasReagent, molesRecieved);
+				}
 			}
 		}
 
-		RelatedPart.HealthMaster.RespiratorySystem.GasExchangeToBlood(breathGasMix, blood, toInhale,LungSize );
-
+		RelatedPart.HealthMaster.RespiratorySystem.GasExchangeToBlood(breathGasMix, blood, toInhale, LungSize);
 
 
 		// Counterintuitively, in humans respiration is stimulated by pressence of CO2 in the blood, not lack of oxygen
@@ -291,7 +295,8 @@ public class Lungs : BodyPartFunctionality
 		{
 			RelatedPart.HealthMaster.HealthStateController.SetSuffocating(true);
 			if (efficiency < 0.5f)
-			{	if (Random.value < 0.2)
+			{
+				if (Random.value < 0.2)
 				{
 					Chat.AddActionMsgToChat(RelatedPart.HealthMaster.gameObject, "You gasp for breath",
 						$"{RelatedPart.HealthMaster.playerScript.visibleName} gasps");

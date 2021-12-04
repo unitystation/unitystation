@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using Systems.CraftingV2.GUI;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
@@ -10,13 +9,14 @@ using AdminTools;
 using AdminTools.VariableViewer;
 using Audio.Managers;
 using Initialisation;
+using UI;
 using UI.Core;
+using UI.Core.Windows;
+using UI.Chat_UI;
 using UI.Jobs;
 using UI.UI_Bottom;
-using UI.Core.Windows;
 using UI.Windows;
-using UI;
-
+using Systems.CraftingV2.GUI;
 
 public class UIManager : MonoBehaviour, IInitialise
 {
@@ -69,6 +69,8 @@ public class UIManager : MonoBehaviour, IInitialise
 	public GeneralInputField GeneralInputField;
 
 	public CraftingMenu CraftingMenu;
+
+	public SplittingMenu SplittingMenu;
 
 	public static bool PreventChatInput
 	{
@@ -293,11 +295,13 @@ public class UIManager : MonoBehaviour, IInitialise
 	private void OnEnable()
 	{
 		SceneManager.activeSceneChanged += OnSceneChange;
+		UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
 	}
 
 	private void OnDisable()
 	{
 		SceneManager.activeSceneChanged -= OnSceneChange;
+		UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
 	}
 
 	void OnSceneChange(Scene oldScene, Scene newScene)
@@ -324,7 +328,7 @@ public class UIManager : MonoBehaviour, IInitialise
 		Application.targetFrameRate = targetFrameRate;
 	}
 
-	private void Update()
+	private void UpdateMe()
 	{
 		//Read out of ping in toolTip
 		pingUpdate += Time.deltaTime;

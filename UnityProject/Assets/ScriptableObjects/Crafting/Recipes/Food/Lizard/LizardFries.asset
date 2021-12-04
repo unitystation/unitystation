@@ -1,0 +1,35 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0a638c97a2384c54bee47631bd326e8b, type: 3}
+  m_Name: LizardFries
+  m_EditorClassIdentifier: 
+  category: 22
+  craftingTime: 1
+  recipeName: Loaded poms-franzisks
+  recipeIconOverride: {fileID: 0}
+  recipeDescription: 
+  requiredIngredients:
+  - requiredAmount: 1
+    requiredItem: {fileID: 1115219266762048610, guid: 69e02e3e9f243c64b8571fd4d263f432,
+      type: 3}
+  - requiredAmount: 2
+    requiredItem: {fileID: 7583157834381544897, guid: 22153594ca62ee0418bb92cef2a1a384,
+      type: 3}
+  requiredReagents:
+  - requiredAmount: 5
+    requiredReagent: {fileID: 11400000, guid: ad830833fe67f0a48ac1ea6ab6f42d75, type: 2}
+  requiredToolTraits: []
+  result:
+  - {fileID: 8192723771560842583, guid: 040369ef5121d2c45834b521629ed106, type: 3}
+  resultHandlers: []
+  isSimple: 1
+  indexInSingleton: 397

@@ -1,8 +1,8 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using Messages.Client;
 using UnityEngine;
+using UI.Chat_UI;
 
 /// <summary>
 /// Sends server when client is actively typing to the chat
@@ -19,9 +19,15 @@ public class ChatTypingSync : MonoBehaviour
 	{
 		ChatUI.Instance.OnChatInputChanged += OnChatInputChanged;
 		ChatUI.Instance.OnChatWindowClosed += OnChatWindowClosed;
+		UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
 	}
 
-	private void Update()
+	private void OnDisable()
+	{
+		UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
+	}
+
+	private void UpdateMe()
 	{
 		if (isPlayerTyping)
 		{

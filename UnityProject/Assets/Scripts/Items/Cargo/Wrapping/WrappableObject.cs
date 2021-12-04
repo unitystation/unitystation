@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using System.Linq;
+using UnityEngine;
 using Objects;
 
 namespace Items.Cargo.Wrapping
@@ -61,11 +63,14 @@ namespace Items.Cargo.Wrapping
 					break;
 			}
 
-			result = Spawn.ServerPrefab(result, gameObject.AssumedWorldPosServer()).GameObject;
-			var wrap = result.GetComponent<WrappedObject>();
+			GameObject toSpawn;
+			toSpawn = Spawn.ServerPrefab(result, gameObject.AssumedWorldPosServer()).GameObject;
+			var wrap = toSpawn.GetComponent<WrappedObject>();
 			wrap.SetContent(gameObject);
-
+			GetComponent<ObjectContainer>().TransferObjectsTo(wrap);
+			GetComponent<PushPull>().parentContainer = wrap.GetComponent<PushPull>();
 			wrap.SetContainerTypeSprite(spriteType);
+
 			Inventory.ServerConsume(paper.ItemSlot, neededPaperAmount);
 		}
 	}

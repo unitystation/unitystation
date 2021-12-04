@@ -10,6 +10,7 @@ using Core.Chat;
 using DatabaseAPI;
 using Mirror;
 using ScriptableObjects;
+using Strings;
 using Tilemaps.Behaviours.Meta;
 using Unitystation.Options;
 using WebSocketSharp;
@@ -195,8 +196,6 @@ public partial class Chat
 		//Dont play sound here as it could be examine or action, we only play sound for someone speaking
 		message = HighlightInGameName(message, false);
 
-		string voiceTag;
-
 		//Skip everything if system message
 		if (channels.HasFlag(ChatChannel.System))
 		{
@@ -320,30 +319,19 @@ public partial class Chat
 			chan = "";
 		}
 
-		switch (loudness)
+		var textSize = loudness switch
 		{
-			case Loudness.QUIET:
-				voiceTag = "<size=32>";
-				break;
-			case Loudness.LOUD:
-				voiceTag = "<size=64>";
-				break;
-			case Loudness.SCREAMING:
-				voiceTag = "<size=82>";
-				break;
-			case Loudness.EARRAPE:
-				voiceTag = "<size=128>";
-				break;
-			default:
-				if (message.Contains("!!")){ voiceTag = "<size=64>";}
-				else { voiceTag = "<size=48>"; }
-				break;
-		}
+			Loudness.QUIET => ChatTemplates.SmallText,
+			Loudness.LOUD => ChatTemplates.LargeText,
+			Loudness.SCREAMING => ChatTemplates.VeryLargeText,
+			Loudness.EARRAPE => ChatTemplates.ExtremelyLargeText,
+			_ => message.Contains("!!") ? ChatTemplates.LargeText : ChatTemplates.NormalText,
+		};
 
 		return AddMsgColor(channels,
 			$"{chan}<b>{speaker}</b> {verb}" // [cmd]  Username says,
 			+ "  " // Two hair spaces. This triggers Text-to-Speech.
-			+ $"{voiceTag}" + "\"" +  message + "\"" + "</size>"); // "This text will be spoken by TTS!"
+			+ $"<size={textSize}>" + "\"" +  message + "\"" + "</size>"); // "This text will be spoken by TTS!"
 	}
 
 	private static string StripAll(string input)

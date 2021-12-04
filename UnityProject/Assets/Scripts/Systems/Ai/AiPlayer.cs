@@ -1141,7 +1141,7 @@ namespace Systems.Ai
 
 			if (GameManager.Instance.PrimaryEscapeShuttle.CallShuttle(out var result))
 			{
-				CentComm.MakeShuttleCallAnnouncement(TimeSpan.FromSeconds(GameManager.Instance.PrimaryEscapeShuttle.InitialTimerSeconds).ToString(), reason);
+				CentComm.MakeShuttleCallAnnouncement(GameManager.Instance.PrimaryEscapeShuttle.InitialTimerSeconds, reason);
 			}
 
 			Chat.AddExamineMsgFromServer(gameObject, result);

@@ -38,6 +38,12 @@ namespace UI.Core
 			base.Start();
 			windowDrag = GetComponentInParent<WindowDrag>();
 			shadow = GetComponent<Shadow>();
+			UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
+		}
+
+		private void OnDisable()
+		{
+			UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
 		}
 
 		public void RotateToValue(float kPA)
@@ -72,7 +78,7 @@ namespace UI.Core
 			windowDrag.disableDrag = true;
 		}
 
-		private void Update()
+		private void UpdateMe()
 		{
 			if (previousDrag != null)
 			{

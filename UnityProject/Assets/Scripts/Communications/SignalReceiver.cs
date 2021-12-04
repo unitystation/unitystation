@@ -1,9 +1,5 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using Managers;
 using Mirror;
-using UnityEngine;
 using ScriptableObjects.Communications;
 
 namespace Communications
@@ -14,6 +10,8 @@ namespace Communications
 		public float Frequency = 122F;
 		public SignalEmitter Emitter;
 		public float DelayTime = 3f; //How many seconds of delay before the SignalReceive logic happens for weak signals
+		public EncryptionDataSO EncryptionData;
+		public bool ListenToEncryptedData = false; //For devices that are designed for spying and hacking
 
 
 		private void OnEnable()
@@ -31,7 +29,7 @@ namespace Communications
 		/// <summary>
 		/// Logic to do when
 		/// </summary>
-		public abstract void ReceiveSignal(SignalStrength strength);
+		public abstract void ReceiveSignal(SignalStrength strength, ISignalMessage message = null);
 
 
 		/// <summary>

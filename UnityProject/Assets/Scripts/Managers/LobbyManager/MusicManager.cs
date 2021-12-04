@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections;
 using System.Threading.Tasks;
 using AddressableReferences;
 using UnityEngine;
 using Random = UnityEngine.Random;
 using Messages.Server.SoundMessages;
+using UnityEngine.Audio;
 
 namespace Audio.Containers
 {
@@ -35,7 +37,7 @@ namespace Audio.Containers
 		private bool isMusicMute;
 		[Range(0f, 1f)] public float MusicVolume = 0.5f;
 
-		[SerializeField] private AudioSource currentLobbyAudioSource = null;
+		[SerializeField] private AudioSource musicAudioSource = null;
 
 		[SerializeField] private AudioClipsArray audioClips = null;
 
@@ -46,9 +48,9 @@ namespace Audio.Containers
 
 		private void Init()
 		{
-			if (currentLobbyAudioSource == null)
+			if (musicAudioSource == null)
 			{
-				currentLobbyAudioSource = GetComponent<AudioSource>();
+				musicAudioSource = GetComponent<AudioSource>();
 			}
 
 			//Mute Music Preference
@@ -60,12 +62,12 @@ namespace Audio.Containers
 
 		private void Start()
 		{
-			currentLobbyAudioSource.outputAudioMixerGroup = AudioManager.Instance.MusicMixer;
+			musicAudioSource.outputAudioMixerGroup = AudioManager.Instance.MusicMixer;
 		}
 
 		public static void StopMusic()
 		{
-			Instance.currentLobbyAudioSource.Stop();
+			Instance.musicAudioSource.Stop();
 			Synth.Instance.StopMusic();
 		}
 
@@ -76,46 +78,62 @@ namespace Audio.Containers
 		public async Task<String[]> PlayRandomTrack()
 		{
 			StopMusic();
-			if (currentLobbyAudioSource == null) Init();
+			if (musicAudioSource == null) Init();
 			var audioSource = await AudioManager.GetAddressableAudioSourceFromCache(new List<AddressableAudioSource>{audioClips.GetRandomClip()});
 			if(audioSource == null)
 			{
 				Logger.LogError("MusicManager failed to load a song, is Addressables loaded?", Category.Audio);
 				return null;
 			}
-			currentLobbyAudioSource.clip = audioSource.AudioSource.clip;
-			currentLobbyAudioSource.mute = isMusicMute;
-			currentLobbyAudioSource.volume = Instance.MusicVolume;
-			currentLobbyAudioSource.Play();
-			if (currentLobbyAudioSource.clip == null) return new string[]{ "ERROR",  "ERROR" , "ERROR",  "ERROR"};;
-			return currentLobbyAudioSource.clip.name.Split('_');
+			musicAudioSource.clip = audioSource.AudioSource.clip;
+			musicAudioSource.mute = isMusicMute;
+			musicAudioSource.volume = Instance.MusicVolume;
+			musicAudioSource.Play();
+			if (musicAudioSource.clip == null) return new string[]{ "ERROR",  "ERROR" , "ERROR",  "ERROR"};;
+			return musicAudioSource.clip.name.Split('_');
 		}
 
 		/// <summary>
 		/// Plays specific music track.
 		/// <returns>String[] that represents the picked song's name.</returns>
 		/// </summary>
-		public async Task<String[]> PlayTrack(AddressableAudioSource audioSource)
+		public async Task<string[]> PlayTrack(AddressableAudioSource addressableAudioSource)
 		{
-			StopMusic();
-			if (currentLobbyAudioSource == null) Init();
-			if(audioSource == null)
+			if(addressableAudioSource == null)
 			{
 				Logger.LogError("MusicManager failed to load a song, is Addressables loaded?", Category.Audio);
 				return null;
 			}
-			currentLobbyAudioSource.clip = audioSource.AudioSource.clip;
-			currentLobbyAudioSource.mute = isMusicMute;
-			currentLobbyAudioSource.volume = Instance.MusicVolume;
-			currentLobbyAudioSource.Play();
-			if (currentLobbyAudioSource.clip == null) return new string[]{ "ERROR",  "ERROR" , "ERROR",  "ERROR"};;
-			return currentLobbyAudioSource.clip.name.Split('_');
+
+			if(GameData.IsHeadlessServer)
+				return null;
+
+			addressableAudioSource = await AudioManager.GetAddressableAudioSourceFromCache(addressableAudioSource);
+		
+			if (isMusicPlaying())
+			{
+				await AudioManager.Instance.FadeMixerGroup("Music_Volume", 1000f, 0f);
+				StopMusic();
+			}
+			AudioManager.MusicVolume(0f, false);
+			musicAudioSource.clip = addressableAudioSource.AudioSource.clip;
+			musicAudioSource.mute = isMusicMute;
+			musicAudioSource.volume = Instance.MusicVolume;
+			musicAudioSource.Play();
+
+			float targetVolume = PlayerPrefs.HasKey(PlayerPrefKeys.MusicVolumeKey)
+				? PlayerPrefs.GetFloat(PlayerPrefKeys.MusicVolumeKey)
+				: 0.8f
+			;
+			await AudioManager.Instance.FadeMixerGroup("Music_Volume", 1000f, targetVolume);
+
+			return musicAudioSource.clip.name.Split('_');
 		}
 
 		public void ToggleMusicMute(bool mute)
 		{
 			isMusicMute = mute;
-			currentLobbyAudioSource.mute = mute;
+			musicAudioSource.mute = mute;
 			if (mute)
 			{
 				Synth.Instance.SetMusicVolume(Byte.MinValue);
@@ -128,13 +146,13 @@ namespace Audio.Containers
 		}
 
 		/// <summary>
-		/// Checks if music in lobby is being played or not.
+		/// Checks if music is being played or not.
 		/// <returns> true if music is being played.</returns>
 		/// </summary>
-		public static bool isLobbyMusicPlaying()
+		public static bool isMusicPlaying()
 		{
-			if (Instance.currentLobbyAudioSource != null
-			    && Instance.currentLobbyAudioSource.isPlaying
+			if (Instance.musicAudioSource != null
+			    && Instance.musicAudioSource.isPlaying
 			    || (SunVox.sv_end_of_song((int) Slot.Music) != 0))
 			{
 				return true;
@@ -164,18 +182,11 @@ namespace Audio.Containers
 		/// </summary>
 		/// <param name="addressableAudioSource">The sound to be played.</param>
 		/// <param name="audioSourceParameters">Extra parameters of the audio source</param>
-		/// <param name="polyphonic">Is the sound to be played polyphonic</param>
-		/// <param name="shakeParameters">Extra parameters that define the sound's associated shake</param>
 		public static void PlayNetworked(AddressableAudioSource addressableAudioSource,
-			AudioSourceParameters audioSourceParameters = new AudioSourceParameters(), bool polyphonic = false,
-			ShakeParameters shakeParameters = new ShakeParameters())
+			AudioSourceParameters audioSourceParameters = new AudioSourceParameters())
 		{
-			if (Instance.currentNetworkedSong != "")
-			{
-				StopNetworked(Instance.currentNetworkedSong);
-			}
 			audioSourceParameters.MixerType = MixerType.Music;
-			Instance.currentNetworkedSong = PlaySoundMessage.SendToAll(addressableAudioSource, TransformState.HiddenPos, polyphonic, null, shakeParameters, audioSourceParameters);
+			PlayMusicMessage.SendToAll(addressableAudioSource, audioSourceParameters);
 		}
 
 		/// <summary>
@@ -184,7 +195,7 @@ namespace Audio.Containers
 		/// <param name="soundSpawnToken">The SoundSpawn Token that identifies the sound to be stopped</returns>
 		public static void StopNetworked(string songToken)
 		{
-			StopSoundMessage.SendToAll(songToken);
+			StopMusicMessage.SendToAll(songToken);
 		}
 	}
 }

@@ -195,9 +195,6 @@ namespace Objects.Engineering
 			}
 
 
-
-
-
 			int SpontaneousNeutronProbability = RNG.Next(0, 10001);
 			if ((decimal)LikelihoodOfSpontaneousNeutron > (SpontaneousNeutronProbability / 1000M))
 			{
@@ -216,14 +213,14 @@ namespace Objects.Engineering
 			{
 				try
 				{
-					Explosion.StartExplosion(registerObject.LocalPosition, 120000, registerObject.Matrix);
+					Explosion.StartExplosion(registerObject.WorldPositionServer, 120000);
 					PresentNeutrons = 0;
 					OnDespawnServer(null);
 					_ = Despawn.ServerSingle(gameObject);
 				}
 				catch (NullReferenceException exception)
 				{
-					Logger.LogError("Caught NRE for Start Explosion code on ReactorGraphiteChamber.cs " + exception.Message, Category.Electrical);
+					Logger.LogError($"Caught NRE for Start Explosion code on ReactorGraphiteChamber.cs {exception.Message} \n {exception.StackTrace}", Category.Electrical);
 				}
 			}
 
@@ -232,10 +229,13 @@ namespace Objects.Engineering
 
 			if (PoppedPipes) //Its blown up so not connected so vent to steam
 			{
-				if (ReactorPipe.pipeData.mixAndVolume.Total.x > 0 &&
-				    ReactorPipe.pipeData.mixAndVolume.Temperature > BoilingPoint)
+				var WholeHeatCapacity = ReactorPipe.pipeData.mixAndVolume.GetReagentMix().WholeHeatCapacity;
+				var Temperature = ReactorPipe.pipeData.mixAndVolume.Temperature;
+
+				if (WholeHeatCapacity > 0 &&
+				    Temperature > BoilingPoint)
 				{
-					var ExcessEnergy = (ReactorPipe.pipeData.mixAndVolume.Temperature - BoilingPoint) * ReactorPipe.pipeData.mixAndVolume.GetReagentMix().WholeHeatCapacity;
+					var ExcessEnergy = (Temperature- BoilingPoint) * WholeHeatCapacity;
 					var AmountBoiledOff = ExcessEnergy/(EnergyToEvaporateWaterPer1);
 					_ = ReactorPipe.pipeData.mixAndVolume.GetReagentMix().Take(AmountBoiledOff);
 				}

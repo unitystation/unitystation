@@ -38,7 +38,14 @@ namespace UI
 			dragDummy.enabled = false;
 			scaleCache = dragDummy.transform.localScale;
 			interactableScale = scaleCache * 1.1f;
+			UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
 		}
+
+		private void OnDisable()
+		{
+			UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
+		}
+
 		public void UI_ItemDrag(UI_ItemSlot fromSlot)
 		{
 			if (fromSlot.Item != null && !isDragging)
@@ -106,7 +113,7 @@ namespace UI
 			shadow.enabled = false;
 		}
 
-		public void Update()
+		public void UpdateMe()
 		{
 			if (isDragging)
 			{

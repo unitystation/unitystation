@@ -61,7 +61,7 @@ namespace Objects.Construction
 			}
 			catch (NullReferenceException exception)
 			{
-				Logger.LogError("Catched a NRE in APCFrame OnEnable() " + exception.Message, Category.Electrical);
+				Logger.LogError($"Catched a NRE in APCFrame OnEnable() {exception.Message} \n {exception.StackTrace}", Category.Electrical);
 			}
 		}
 		private void OnDisable()

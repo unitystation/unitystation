@@ -1,14 +1,12 @@
-using System;
 using System.Text;
 using Systems.Ai;
 using UnityEngine;
 using Mirror;
-using Blob;
 using HealthV2;
-using UI;
 using Player;
 using Player.Movement;
 using UI.Action;
+using Items;
 
 public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IActionGUI
 {
@@ -345,9 +343,9 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IActi
 	/// <summary>
 	/// True if this player is a ghost, meaning they exist in the ghost layer
 	/// </summary>
-	public bool IsGhost => PlayerUtils.IsGhost(gameObject);
+	public bool IsGhost => (PlayerState == PlayerStates.Normal) == false;
 
-	/// <summary>
+ 	/// <summary>
 	/// Same as is ghost, but also true when player inside his dead body
 	/// </summary>
 	public bool IsDeadOrGhost

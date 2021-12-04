@@ -17,14 +17,13 @@ public class AddressableReferencePropertyDrawer : PropertyDrawer
 	private string[] temarry;
 	int _choiceIndex = 0;
 	private string searchString = "";
-	private const int Height = 24;
+	private const int Height = 17;
 	private const int x = 40;
 
 	public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
 	{
 		EditorGUI.BeginProperty(position, label, property);
 		float width = position.width - x;
-		//EditorGUI.LabelField(new Rect(x, position.y * (Height * 0), width, Height), label); TODO: fix this screwing up GUI layout
 		string labelText = label.text;
 		position = EditorGUI.PrefixLabel(position, GUIUtility.GetControlID(FocusType.Passive), label);
 
@@ -39,11 +38,6 @@ public class AddressableReferencePropertyDrawer : PropertyDrawer
 			AddressableType = "SoundAndMusic";
 		}
 
-		bool Refresh = GUILayout.Button("Refresh catalogue");
-		if (Refresh)
-		{
-			AddressablePicker.Refresh();
-		}
 		//EditorGUI.indentLevel++;
 		EditorGUI.BeginChangeCheck();
 		var Path = property.FindPropertyRelative("AssetAddress");
@@ -58,7 +52,21 @@ public class AddressableReferencePropertyDrawer : PropertyDrawer
 		//EditorGUI.EndDisabledGroup();
 
 		//UnityEngine.Object oldAssetReference = AssetReference.objectReferenceValue;
-		EditorGUI.indentLevel++;
+
+
+		// EditorGUI.indentLevel++;
+
+		GUILayout.BeginHorizontal();
+
+		GUILayout.Box("", GUIStyle.none, GUILayout.Width(100));
+
+		if (GUILayout.Button("", GUI.skin.FindStyle("ToolbarSeachCancelButton")))
+		{
+			// Remove focus if cleared
+			searchString = "";
+			GUI.FocusControl(null);
+		}
+
 		var newsearchString = GUILayout.TextField(searchString, GUI.skin.FindStyle("ToolbarSeachTextField"));
 
 		if (newsearchString != searchString)
@@ -68,13 +76,7 @@ public class AddressableReferencePropertyDrawer : PropertyDrawer
 		}
 
 
-		if (GUILayout.Button("", GUI.skin.FindStyle("ToolbarSeachCancelButton")))
-		{
-			// Remove focus if cleared
-			searchString = "";
-			GUI.FocusControl(null);
-		}
-
+		GUILayout.EndHorizontal();
 		var inint = 0;
 		if (searchString != "")
 		{
@@ -92,6 +94,8 @@ public class AddressableReferencePropertyDrawer : PropertyDrawer
 			inint = 0;
 		}
 
+		GUILayout.BeginHorizontal();
+		GUILayout.Box("", GUIStyle.none, GUILayout.Width(100));
 		if (searchString != "")
 		{
 			_choiceIndex = EditorGUILayout.Popup(inint, temarry);
@@ -100,10 +104,10 @@ public class AddressableReferencePropertyDrawer : PropertyDrawer
 		{
 			_choiceIndex = EditorGUILayout.Popup(inint, AddressablePicker.options[AddressableType]);
 		}
+		GUILayout.EndHorizontal();
 
 
-
-		EditorGUI.indentLevel--;
+		// EditorGUI.indentLevel--;
 		if (searchString != "")
 		{
 			if (temarry.Length <= _choiceIndex)
@@ -127,8 +131,8 @@ public class AddressableReferencePropertyDrawer : PropertyDrawer
 			Path.stringValue = AddressablePicker.options[AddressableType][_choiceIndex];
 		}
 
-		EditorGUI.PropertyField(new Rect(x, position.y + (Height * 3), width, Height), AssetReference,
-			new GUIContent("AssetReference"));
+		// EditorGUI.PropertyField(new Rect(x, position.y + (Height * 3), width, Height), AssetReference,
+		// 	new GUIContent("AssetReference"));
 
 		// Drag & Drop of AssetReference doesn't seem to trigger EndChangeCheck.  So, we verify it manually.
 		if (EditorGUI.EndChangeCheck())
@@ -153,7 +157,7 @@ public class AddressableReferencePropertyDrawer : PropertyDrawer
 
 	public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
 	{
-		return Height * 4;
+		return Height * 3;
 	}
 
 	/// <summary>

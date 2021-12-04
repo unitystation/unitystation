@@ -10,12 +10,6 @@ public static class SpawnSafeThread
 {
 	private static ConcurrentQueue<SpawnSafeThreadData> prefabsToSpawn = new ConcurrentQueue<SpawnSafeThreadData>();
 
-	private static ConcurrentQueue<Tuple<uint, Vector3Int, TileType, string, Matrix4x4, Color, LayerType>> tilesToUpdate
-		= new ConcurrentQueue<Tuple<uint, Vector3Int, TileType, string, Matrix4x4, Color, LayerType>>();
-
-	private static ConcurrentQueue<Tuple<uint, Vector3Int, LayerType>> tilesToRemove
-		= new ConcurrentQueue<Tuple<uint, Vector3Int, LayerType>>();
-
 	public static void Process()
 	{
 		if (!prefabsToSpawn.IsEmpty)
@@ -38,25 +32,6 @@ public static class SpawnSafeThread
 				}
 			}
 		}
-
-		if (!tilesToUpdate.IsEmpty)
-		{
-			Tuple<uint, Vector3Int, TileType, string, Matrix4x4, Color, LayerType> tuple;
-			while (tilesToUpdate.TryDequeue(out tuple))
-			{
-				UpdateTileMessage.Send(tuple.Item1, tuple.Item2, tuple.Item3, tuple.Item4, tuple.Item5, tuple.Item6,
-					tuple.Item7);
-			}
-		}
-
-		if (!tilesToRemove.IsEmpty)
-		{
-			Tuple<uint, Vector3Int, LayerType> tuple;
-			while (tilesToRemove.TryDequeue(out tuple))
-			{
-				RemoveTileMessage.Send(tuple.Item1, tuple.Item2, tuple.Item3);
-			}
-		}
 	}
 
 	public static void SpawnPrefab(Vector3 tilePos, GameObject prefabObject, Transform parentTransform = null,
@@ -64,19 +39,6 @@ public static class SpawnSafeThread
 	{
 		prefabsToSpawn.Enqueue(new SpawnSafeThreadData(tilePos, prefabObject, parentTransform, amount,
 			amountIfStackable));
-	}
-
-	public static void UpdateTileMessageSend(uint matrixSyncNetID, Vector3Int position, TileType tileType,
-		string tileName, Matrix4x4 transformMatrix, Color colour)
-	{
-		tilesToUpdate.Enqueue(
-			new Tuple<uint, Vector3Int, TileType, string, Matrix4x4, Color, LayerType>
-				(matrixSyncNetID, position, tileType, tileName, transformMatrix, colour, LayerType.None));
-	}
-
-	public static void RemoveTileMessageSend(uint matrixSyncNetID, Vector3Int cellPosition, LayerType layerType)
-	{
-		tilesToRemove.Enqueue(new Tuple<uint, Vector3Int, LayerType>(matrixSyncNetID, cellPosition, layerType));
 	}
 }
 
