@@ -22,17 +22,5 @@ namespace Managers
 				Destroy(gameObject);
 			}
 		}
-
-		public virtual void Start()
-		{
-			if (Instance == null || Instance == this)
-			{
-				Instance = this as T;
-			}
-			else
-			{
-				Destroy(gameObject);
-			}
-		}
 	}
 }

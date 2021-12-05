@@ -8,15 +8,13 @@ namespace Systems.Scenes
 {
 	public class LavaLandAreaSpawnerScript : MonoBehaviour
 	{
-		public LavaLandGenerator LavaLandGenerator;
-
 		public AreaSizes Size;
 
 		public bool allowSpecialSites;
 
 		private void Start()
 		{
-			LavaLandGenerator.SpawnScripts.Add(this, Size);
+			LavaLandManager.Instance.SpawnScripts.Add(this, Size);
 		}
 	}
 }

@@ -2,7 +2,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using UnityEngine;
 using Mirror;
 
@@ -18,8 +17,6 @@ public class SubsystemManager : MonoBehaviour
 		foreach (var system in systems)
 		{
 			system.Initialize();
-			//system.TaskInitialise();
-			new Task(system.TaskInitialise).Start();
 		}
 		initialized = true;
 	}

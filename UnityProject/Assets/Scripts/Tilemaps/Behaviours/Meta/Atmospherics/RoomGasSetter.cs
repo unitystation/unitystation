@@ -14,7 +14,6 @@ namespace Systems.Atmospherics
 
 		private void Awake()
 		{
-			transform.parent.parent.GetComponent<AtmosSystem>().RoomGasSetters.Add(this);
 			registerTile = GetComponent<RegisterTile>();
 		}
 
@@ -38,7 +37,7 @@ namespace Systems.Atmospherics
 			registerTile.Matrix.OrNull()?.GetComponentInParent<AtmosSystem>().OrNull()?.SetRoomGas(metaDataNode.RoomNumber, GasMixToSpawn);
 		}
 
-		public void SetUp(AtmosSystem AtmosSystem)
+		public void SetUp()
 		{
 			if (gasMixToSpawn == null)
 			{
@@ -51,7 +50,7 @@ namespace Systems.Atmospherics
 			if (metaDataNode == null || metaDataNode.RoomNumber == -1) return;
 
 			//Set room before round start, do it during the atmos init
-			AtmosSystem.AddToList(metaDataNode.RoomNumber, this);
+			registerTile.Matrix.OrNull()?.GetComponentInParent<AtmosSystem>().OrNull()?.AddToList(metaDataNode.RoomNumber, this);
 		}
 	}
 }

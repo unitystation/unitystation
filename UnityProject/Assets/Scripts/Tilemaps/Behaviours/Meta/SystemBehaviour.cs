@@ -23,8 +23,5 @@ public abstract class SubsystemBehaviour : MonoBehaviour
 
 		public abstract void Initialize();
 
-
-		public abstract void TaskInitialise();
-
 		public abstract void UpdateAt(Vector3Int localPosition);
 	}

@@ -122,8 +122,6 @@ public class Directional : NetworkBehaviour, IMatrixRotation, IServerSpawn
 		}
 	}
 
-	public Orientation ThreadSafeCurrentDirection => (isServer || (!IsLocalPlayer && !IgnoreServerUpdates) ? serverDirection : clientDirection);
-
 	private void OnDrawGizmosSelected()
 	{
 		Gizmos.color = Color.green;

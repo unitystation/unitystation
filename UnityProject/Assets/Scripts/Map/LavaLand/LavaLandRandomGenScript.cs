@@ -21,6 +21,10 @@ namespace Systems.Scenes
 
 		private int[,] terrainMap;
 		public Vector3Int tmpSize;
+		public Tilemap topMap;
+		//public Tilemap botMap;
+		public TileBase topTile;
+		//public AnimatedTile botTile;
 
 		public LayerTile wallTile;
 
@@ -29,12 +33,11 @@ namespace Systems.Scenes
 
 		private TileChangeManager tileChangeManager;
 
-		public LavaLandGenerator LavaLandGenerator;
-
 		private void Start()
 		{
-			LavaLandGenerator.randomGenScripts.Add(this);
-			
+			LavaLandManager.Instance.randomGenScripts.Add(this);
+
+
 			tileChangeManager = transform.parent.parent.parent.GetComponent<TileChangeManager>();
 		}
 
