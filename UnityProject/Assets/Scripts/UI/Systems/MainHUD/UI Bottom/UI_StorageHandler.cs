@@ -11,18 +11,11 @@ namespace UI
 	public class UI_StorageHandler : MonoBehaviour
 	{
 		[Tooltip("Button which should close the storage UI. Will be positioned / made visible when" +
-				 " the UI is opened and made invisible when it is closed.")]
+		         " the UI is opened and made invisible when it is closed.")]
 		[SerializeField]
 		private GameObject closeStorageUIButton = null;
 
-		[SerializeField]
-		private GameObject inventorySlotPrefab = null;
-
-		[Tooltip("GameObject under which all the other player UI slots live (for showing another player's inventory)")]
-		[SerializeField]
-		private GameObject otherPlayerStorage = null;
-
-		private UI_ItemSlot[] otherPlayerSlots;
+		[SerializeField] private GameObject inventorySlotPrefab = null;
 
 		[SerializeField] private Text indexedStorageCapacity = default;
 
@@ -33,11 +26,6 @@ namespace UI
 
 		// holds the currently rendered ui slots linked to the open storage.
 		private readonly List<UI_ItemSlot> currentOpenStorageUISlots = new List<UI_ItemSlot>();
-
-		private void Awake()
-		{
-			otherPlayerSlots = otherPlayerStorage.GetComponentsInChildren<UI_ItemSlot>();
-		}
 
 		/// <summary>
 		/// Pop up the UI for viewing this storage
@@ -56,48 +44,34 @@ namespace UI
 
 		private void PopulateInventorySlots()
 		{
-			//are we dealing with another player's storage or a simple indexed storage?
-			if (CurrentOpenStorage.GetComponent<PlayerScript>() != null)
+			// indexed storage
+			// create a slot element for each indexed slot in the storage
+			int indexedSlotsCount = CurrentOpenStorage.ItemStorageStructure.IndexedSlots;
+			int occupiedSlots = 0;
+			for (int i = 0; i < indexedSlotsCount; i++)
 			{
-				// player storage
-				// turn it on and link all the slots
-				foreach (var otherPlayerSlot in otherPlayerSlots)
-				{
-					otherPlayerSlot.LinkSlot(CurrentOpenStorage.GetNamedItemSlot(otherPlayerSlot.NamedSlot));
-				}
+				GameObject newSlot = Instantiate(inventorySlotPrefab, Vector3.zero, Quaternion.identity);
+				newSlot.transform.SetParent(transform);
+				newSlot.transform.localScale = Vector3.one;
+				var uiItemSlot = newSlot.GetComponentInChildren<UI_ItemSlot>();
+				var itemSlot = CurrentOpenStorage.GetIndexedItemSlot(i);
 
-				otherPlayerStorage.SetActive(true);
+				if (itemSlot.IsOccupied)
+					occupiedSlots++;
+
+				uiItemSlot.LinkSlot(itemSlot);
+				currentOpenStorageUISlots.Add(uiItemSlot);
+				// listen for updates to update capacity
+				uiItemSlot.ItemSlot.OnSlotContentsChangeClient.AddListener(OnSlotContentsChangeClient);
 			}
-			else
-			{
-				// indexed storage
-				// create a slot element for each indexed slot in the storage
-				int indexedSlotsCount = CurrentOpenStorage.ItemStorageStructure.IndexedSlots;
-				int occupiedSlots = 0;
-				for (int i = 0; i < indexedSlotsCount; i++)
-				{
-					GameObject newSlot = Instantiate(inventorySlotPrefab, Vector3.zero, Quaternion.identity);
-					newSlot.transform.SetParent(transform);
-					newSlot.transform.localScale = Vector3.one;
-					var uiItemSlot = newSlot.GetComponentInChildren<UI_ItemSlot>();
-					var itemSlot = CurrentOpenStorage.GetIndexedItemSlot(i);
 
-					if (itemSlot.IsOccupied)
-						occupiedSlots++;
+			indexedStorageCapacity.gameObject.SetActive(true);
+			indexedStorageCapacity.text = $"{occupiedSlots}/{indexedSlotsCount}";
 
-					uiItemSlot.LinkSlot(itemSlot);
-					currentOpenStorageUISlots.Add(uiItemSlot);
-					// listen for updates to update capacity
-					uiItemSlot.ItemSlot.OnSlotContentsChangeClient.AddListener(OnSlotContentsChangeClient);
-				}
-
-				indexedStorageCapacity.gameObject.SetActive(true);
-				indexedStorageCapacity.text = $"{occupiedSlots}/{indexedSlotsCount}";
-
-				closeStorageUIButton.transform.SetAsLastSibling();
-				closeStorageUIButton.SetActive(true);
-			}
+			closeStorageUIButton.transform.SetAsLastSibling();
+			closeStorageUIButton.SetActive(true);
 		}
+
 
 		/// <summary>
 		/// Called on slot update in any opened slot
@@ -129,12 +103,12 @@ namespace UI
 		{
 			if (PlayerManager.LocalPlayer != null)
 			{
-				_ = SoundManager.PlayAtPosition(CommonSounds.Instance.Rustle, PlayerManager.LocalPlayer.transform.position,
+				_ = SoundManager.PlayAtPosition(CommonSounds.Instance.Rustle,
+					PlayerManager.LocalPlayer.transform.position,
 					PlayerManager.LocalPlayer);
 			}
 
 			CurrentOpenStorage = null;
-			otherPlayerStorage.SetActive(false);
 			foreach (var uiItemSlot in currentOpenStorageUISlots)
 			{
 				// remove listeners

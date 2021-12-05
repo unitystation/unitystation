@@ -78,6 +78,7 @@ public class DoubleHandController : MonoBehaviour
 	public bool RemoveHand(
 		BodyPartUISlots.StorageCharacteristics StorageCharacteristics)
 	{
+		if (this == null) return false;
 		switch (StorageCharacteristics.namedSlot)
 		{
 			case NamedSlot.leftHand:
@@ -137,6 +138,7 @@ public class DoubleHandController : MonoBehaviour
 
 	public void ActivateRightHand()
 	{
+		if (this == null) return;
 		if (RightHandOverlay.activeSelf == false)
 		{
 			RightHandOverlay.SetActive(true);

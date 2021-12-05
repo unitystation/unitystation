@@ -341,6 +341,8 @@ public class UIManager : MonoBehaviour, IInitialise
 
 	public static void UpdateKeybindText(KeyAction keyAction, KeybindManager.KeyCombo keyCombo)
 	{
+		return;
+
 		switch (keyAction)
 		{
 			case KeyAction.OpenBackpack:
