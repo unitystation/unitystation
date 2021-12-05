@@ -13,6 +13,8 @@ using Systems.Interaction;
 
 		private TileChangeManager tileChangeManager;
 
+		private Directional directional;
+
 		[PrefabModeOnly]
 		public bool OneDirectionRestricted;
 
@@ -42,6 +44,10 @@ using Systems.Interaction;
 			//Doors/airlocks aren't supposed to switch matrices
 			GetComponent<CustomNetTransform>().IsFixedMatrix = true;
 			tileChangeManager = GetComponentInParent<TileChangeManager>();
+			if (OneDirectionRestricted)
+			{
+				directional = GetComponent<Directional>();
+			}
 		}
 
 		public override void OnDespawnServer(DespawnInfo info)
@@ -69,7 +75,7 @@ using Systems.Interaction;
 			if (OneDirectionRestricted)
 			{
 				// OneDirectionRestricted is hardcoded to only be from the negative y position
-				Vector3Int v = Vector3Int.RoundToInt(transform.localRotation * Vector3.down);
+				Vector3Int v = directional.ThreadSafeCurrentDirection.AsVector();
 
 				// Returns false if player is bumping door from the restricted direction
 				var position = isServer? LocalPositionServer : LocalPositionClient;
@@ -94,7 +100,7 @@ using Systems.Interaction;
 			{
 
 				// OneDirectionRestricted is hardcoded to only be from the negative y position
-				Vector3Int v = Vector3Int.RoundToInt(transform.localRotation * Vector3.down);
+				Vector3Int v = directional.ThreadSafeCurrentDirection.AsVector();
 
 				// Returns false if player is bumping door from the restricted direction
 				var position = isServer? LocalPositionServer : LocalPositionClient;
@@ -151,7 +157,7 @@ using Systems.Interaction;
 			if (isClosed && OneDirectionRestricted)
 			{
 				// OneDirectionRestricted is hardcoded to only be from the negative y position
-				Vector3Int v = Vector3Int.RoundToInt(transform.localRotation * Vector3.down);
+				Vector3Int v = directional.ThreadSafeCurrentDirection.AsVector();
 
 				// Returns false if player is bumping door from the restricted direction
 				var position = isServer? LocalPositionServer : LocalPositionClient;

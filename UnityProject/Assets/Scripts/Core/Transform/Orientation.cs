@@ -63,6 +63,26 @@ public struct Orientation : IEquatable<Orientation>
 		}
 	}
 
+	public Vector3Int AsVector()
+	{
+		if (this == Up)
+		{
+			return Vector3Int.one;
+		}
+		else if (this == Right)
+		{
+			return Vector3Int.right;
+		}
+		else if (this == Left)
+		{
+			return Vector3Int.left;
+		}
+		else
+		{
+			return Vector3Int.down;
+		}
+	}
+
 	/// <summary>
 	/// Index of this rotation in the clockwiseOrientation array
 	/// </summary>

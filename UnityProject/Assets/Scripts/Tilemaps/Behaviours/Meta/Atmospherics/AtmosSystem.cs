@@ -14,15 +14,20 @@ namespace Systems.Atmospherics
 
 		private Dictionary<int, RoomGasSetter> toSet = new Dictionary<int, RoomGasSetter>();
 
+		public List<RoomGasSetter> RoomGasSetters = new List<RoomGasSetter>();
+
 		[Server]
-		public override void Initialize()
+		public override void Initialize() {}
+
+		[Server]
+		public override void TaskInitialise()
 		{
 			//We have bool to stop null checks on every pos
 			var hasCustomMix = defaultRoomGasMixOverride != null;
 
-			foreach (var gasSetter in GetComponentsInChildren<RoomGasSetter>())
+			foreach (var gasSetter in RoomGasSetters)
 			{
-				gasSetter.SetUp();
+				gasSetter.SetUp(this);
 			}
 
 			BoundsInt bounds = metaTileMap.GetLocalBounds();

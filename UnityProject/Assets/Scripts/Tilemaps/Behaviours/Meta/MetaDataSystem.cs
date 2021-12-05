@@ -1,6 +1,8 @@
-﻿using System.Collections.Concurrent;
+﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using Systems.Atmospherics;
 using Tilemaps.Behaviours.Meta;
 using UnityEngine;
@@ -62,7 +64,6 @@ public class MetaDataSystem : SubsystemBehaviour
 
 		if (MatrixManager.IsInitialized)
 		{
-			LocateRooms();
 			Stopwatch Dsw = new Stopwatch();
 			Dsw.Start();
 			matrix.MetaTileMap.InitialiseUnderFloorUtilities(CustomNetworkManager.IsServer);
@@ -72,7 +73,25 @@ public class MetaDataSystem : SubsystemBehaviour
 
 		sw.Stop();
 
-		Logger.Log($"{gameObject.name} MetaData init: " + sw.ElapsedMilliseconds + " ms", Category.Matrix);
+		Logger.Log($"{gameObject.name} MetaData init: " + sw.ElapsedMilliseconds + " ms");
+	}
+
+	[Server]
+	public override void TaskInitialise()
+	{
+		try
+		{
+			if (MatrixManager.IsInitialized)
+			{
+				LocateRooms();
+			}
+		}
+		catch (Exception e)
+		{
+			Logger.LogError(e.ToString());
+			throw;
+		}
+
 	}
 
 	public override void UpdateAt(Vector3Int localPosition)
@@ -140,7 +159,7 @@ public class MetaDataSystem : SubsystemBehaviour
 			MetaDataNode node = metaDataLayer.Get(position);
 			node.Type = NodeType.Occupied;
 
-			if (matrix.GetFirst<RegisterDoor>(position, true))
+			if (matrix.GetAs<RegisterDoor>(position, true).Any())
 			{
 				node.IsIsolatedNode = true;
 				node.ThermalConductivity = 0.0001f;

@@ -188,7 +188,7 @@ namespace Core.Directionals
 			if (sideToCross == Vector2Int.zero) return true;
 
 			// TODO: figure out a better way or at least use some data structure.
-			switch (Directional.CurrentDirection.AsEnum())
+			switch (Directional.ThreadSafeCurrentDirection.AsEnum())
 			{
 				case OrientationEnum.Up:
 					if (sideToCross == Vector2Int.up) return sides.Down;
