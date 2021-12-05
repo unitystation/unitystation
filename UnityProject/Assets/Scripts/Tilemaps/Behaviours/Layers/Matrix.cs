@@ -381,7 +381,7 @@ public class Matrix : MonoBehaviour
 		return metaTileMap.GetAllTilesByType<Objects.Disposals.DisposalPipe>(position, LayerType.Underfloor);
 	}
 
-	public List<IntrinsicElectronicData> GetElectricalConnections(Vector3Int position)
+	public ElectricalPool.IntrinsicElectronicDataList GetElectricalConnections(Vector3Int position)
 	{
 		var list = ElectricalPool.GetFPCList();
 		if (ServerObjects != null)
@@ -393,7 +393,7 @@ public class Matrix : MonoBehaviour
 				                         && collection[i].ElectricalData != null &&
 				                         collection[i].ElectricalData.InData != null)
 				{
-					list.Add(collection[i].ElectricalData.InData);
+					list.List.Add(collection[i].ElectricalData.InData);
 				}
 			}
 		}
@@ -402,7 +402,7 @@ public class Matrix : MonoBehaviour
 		{
 			foreach (var electricalMetaData in metaDataLayer.Get(position).ElectricalData)
 			{
-				list.Add(electricalMetaData.InData);
+				list.List.Add(electricalMetaData.InData);
 			}
 		}
 

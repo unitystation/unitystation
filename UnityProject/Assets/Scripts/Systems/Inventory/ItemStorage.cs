@@ -562,6 +562,8 @@ public class ItemStorage : MonoBehaviour, IServerLifecycle, IServerInventoryMove
 	public void ServerRemoveObserverPlayer(GameObject observerPlayer)
 	{
 		if (!CustomNetworkManager.IsServer) return;
+		if (observerPlayer == null) return;
+		if (this == null) return;
 		serverObserverPlayers.Remove(observerPlayer);
 		foreach (var slot in GetItemSlotTree())
 		{

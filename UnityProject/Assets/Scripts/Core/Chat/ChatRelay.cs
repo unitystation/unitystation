@@ -151,6 +151,7 @@ public class ChatRelay : NetworkBehaviour
 			var npcs = Physics2D.OverlapCircleAll(chatEvent.originator.AssumedWorldPosServer(), 14f, npcMask);
 			foreach (Collider2D coll in npcs)
 			{
+				if (coll.gameObject == null) continue;
 				var npcPosition = coll.gameObject.AssumedWorldPosServer();
 				if (MatrixManager.Linecast(chatEvent.position,LayerTypeSelection.Walls,
 					 layerMask,npcPosition).ItHit ==false)

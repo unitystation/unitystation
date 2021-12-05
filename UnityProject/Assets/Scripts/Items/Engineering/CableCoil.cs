@@ -95,34 +95,34 @@ namespace Objects.Electrical
 				{
 					// Grab a list of electrical connections from the matrix at
 					// the given location.
-					List<IntrinsicElectronicData> eConnList =
+					var eConnList =
 						interaction.Performer.GetComponentInParent<Matrix>().GetElectricalConnections(localPosInt);
 
 					// Find any cables on the matrix that conflicts with our
 					// proposed connections.
 					// TODO: What's the point of the nested for loop?
-					foreach (IntrinsicElectronicData eConnI in eConnList)
+					foreach (IntrinsicElectronicData eConnI in eConnList.List)
 					{
 						if (eConnI.WireEndA == Connection.Overlap || eConnI.WireEndB == Connection.Overlap)
 						{
 							if (eConnI.WireEndA == wireEndB || eConnI.WireEndB == wireEndB)
 							{
-								MsgAndAddToPool(ref eConnList, MSG_BUILD_CONFLICT);
+								MsgAndAddToPool( eConnList, MSG_BUILD_CONFLICT);
 								return;
 							}
 
-							foreach (IntrinsicElectronicData eConnJ in eConnList)
+							foreach (IntrinsicElectronicData eConnJ in eConnList.List)
 							{
 								if (eConnJ.WireEndA == wireEndB || eConnJ.WireEndB == wireEndB)
 								{
 									if (eConnI.WireEndA == eConnJ.WireEndA || eConnI.WireEndB == eConnJ.WireEndA)
 									{
-										MsgAndAddToPool(ref eConnList, MSG_BUILD_CONFLICT);
+										MsgAndAddToPool( eConnList, MSG_BUILD_CONFLICT);
 										return;
 									}
 									else if (eConnI.WireEndA == eConnJ.WireEndB || eConnI.WireEndB == eConnJ.WireEndB)
 									{
-										MsgAndAddToPool(ref eConnList, MSG_BUILD_CONFLICT);
+										MsgAndAddToPool( eConnList, MSG_BUILD_CONFLICT);
 										return;
 									}
 								}
@@ -130,7 +130,7 @@ namespace Objects.Electrical
 						}
 					}
 
-					MsgAndAddToPool(ref eConnList, null);
+					MsgAndAddToPool( eConnList, null);
 					BuildCable(localPosInt, wireEndA, wireEndB, interaction);
 				}
 			}
@@ -142,18 +142,14 @@ namespace Objects.Electrical
 		/// </summary>
 		/// <param name="eConnList">List of electrical connections. Will not add to electrical pool if null.</param>
 		/// <param name="addMsg">Message to show as an examine message. Will not show anything if null.</param>
-		private void MsgAndAddToPool(ref List<IntrinsicElectronicData> eConnList, string msg)
+		private void MsgAndAddToPool( ElectricalPool.IntrinsicElectronicDataList eConnList, string msg)
 		{
 			if (msg != null)
 			{
 				Chat.AddExamineMsgToClient(msg);
 			}
 
-			if (eConnList != null)
-			{
-				eConnList.Clear();
-				ElectricalPool.PooledFPCList.Add(eConnList);
-			}
+			eConnList?.Pool();
 		}
 
 		/// <summary>
@@ -219,15 +215,14 @@ namespace Objects.Electrical
 				// Stores boolean representing whether or not wireEndA is an
 				// overlap.
 				bool isWireEndAOverlap = wireEndA == Connection.Overlap;
-				List<IntrinsicElectronicData> IEnumerableEconns = interaction.Performer.GetComponentInParent<Matrix>()
+				var IEnumerableEconns = interaction.Performer.GetComponentInParent<Matrix>()
 					.GetElectricalConnections(position.RoundToInt());
-				List<IntrinsicElectronicData> eConns = new List<IntrinsicElectronicData>(IEnumerableEconns);
+				List<IntrinsicElectronicData> eConns = new List<IntrinsicElectronicData>(IEnumerableEconns.List);
 
 				// TODO: What does this do? By this, we're removing all
 				//       elements from the list, but then adding this empty,
 				//       but with-capacity list to this. Document this.
-				IEnumerableEconns.Clear();
-				ElectricalPool.PooledFPCList.Add(IEnumerableEconns);
+				IEnumerableEconns.Pool();
 
 				// First, make sure we actually found electrical connections.
 				if (eConns != null)
