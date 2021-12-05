@@ -218,6 +218,11 @@ public class ChatRelay : NetworkBehaviour
 	private void CheckForRadios(ChatEvent chatEvent)
 	{
 		HandleRadioCheckCooldown();
+		// Only spoken messages should be forwarded
+		if (chatEvent.channels.HasFlag(ChatChannel.Local) == false)
+		{
+			return;
+		}
 		//Check for chat three tiles around the player
 		foreach (Collider2D coll in Physics2D.OverlapCircleAll(chatEvent.originator.AssumedWorldPosServer(), radioCheckRadius, itemsMask))
 		{
