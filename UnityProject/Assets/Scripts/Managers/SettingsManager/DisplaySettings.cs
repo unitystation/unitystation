@@ -410,6 +410,10 @@ namespace Managers.SettingsManager
 			base.Awake();
 			IsFullScreen = Screen.fullScreen;
 			SetupPrefs();
+		}
+
+		private void OnEnable()
+		{
 			UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
 		}
 

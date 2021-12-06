@@ -16,6 +16,10 @@ public class ParallaxController : MonoBehaviour
 		centerColumn = backgroundTiles.Count / 2;
 		centerRow = backgroundTiles[0].rows.Count / 2;
 		RealignTiles();
+	}
+
+	private void OnEnable()
+	{
 		UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
 	}
 

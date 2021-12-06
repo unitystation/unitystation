@@ -1,4 +1,5 @@
-﻿using ScriptableObjects.Gun;
+﻿using System;
+using ScriptableObjects.Gun;
 using UnityEngine;
 
 namespace Weapons.Projectiles
@@ -20,10 +21,13 @@ namespace Weapons.Projectiles
 
 		private void Awake()
 		{
-
 			projectile = GetComponentInParent<Bullet>();
 			maskData = projectile.MaskData;
 			thisTransform = transform;
+		}
+
+		private void OnEnable()
+		{
 			UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
 		}
 

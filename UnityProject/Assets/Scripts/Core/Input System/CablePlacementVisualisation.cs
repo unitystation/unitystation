@@ -76,6 +76,10 @@ public class CablePlacementVisualisation : MonoBehaviour
 		defaultPointColor = connectionPointRenderers[Connection.Overlap].color;
 		// get line renderer
 		lineRenderer = cablePlacementVisualisation.GetComponent<LineRenderer>();
+	}
+
+	private void OnEnable()
+	{
 		UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
 	}
 

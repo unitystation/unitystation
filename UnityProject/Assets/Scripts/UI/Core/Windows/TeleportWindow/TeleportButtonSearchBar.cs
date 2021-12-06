@@ -14,6 +14,10 @@ namespace UI.Core.Windows
 		private void Start()
 		{
 			Searchtext = GetComponent<InputField>();
+		}
+
+		private void OnEnable()
+		{
 			UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
 		}
 

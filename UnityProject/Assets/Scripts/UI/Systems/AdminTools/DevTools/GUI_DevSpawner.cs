@@ -29,7 +29,11 @@ public class GUI_DevSpawner : MonoBehaviour
 	void Start()
     {
 	    spawnerSearch = SpawnerSearch.ForPrefabs(Spawn.SpawnablePrefabs());
-	    UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
+    }
+
+	private void OnEnable()
+	{
+		UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
 	}
 
 	private void OnDisable()

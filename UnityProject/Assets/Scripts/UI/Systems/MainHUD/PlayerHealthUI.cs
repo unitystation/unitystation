@@ -31,6 +31,10 @@ public class PlayerHealthUI : MonoBehaviour
 	void Awake()
 	{
 		DisableAll();
+	}
+
+	private void OnEnable()
+	{
 		UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
 	}
 

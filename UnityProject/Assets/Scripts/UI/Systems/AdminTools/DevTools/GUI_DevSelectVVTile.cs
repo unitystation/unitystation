@@ -48,6 +48,10 @@ public class GUI_DevSelectVVTile : MonoBehaviour
 		escapeKeyTarget = GetComponent<EscapeKeyTarget>();
 		lightingSystem = Camera.main.GetComponent<LightingSystem>();
 		ToState(State.SELECTING);
+	}
+
+	private void OnEnable()
+	{
 		UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
 	}
 
