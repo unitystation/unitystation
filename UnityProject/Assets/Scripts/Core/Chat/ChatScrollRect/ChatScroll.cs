@@ -46,6 +46,10 @@ public class ChatScroll : MonoBehaviour
 	{
 		InitPool();
 		contentWidth = chatContentParent.GetComponent<RectTransform>().rect.width;
+	}
+
+	private void OnEnable()
+	{
 		UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
 	}
 

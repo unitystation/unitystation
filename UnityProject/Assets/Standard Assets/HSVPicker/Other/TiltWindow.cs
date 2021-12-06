@@ -13,6 +13,10 @@ public class TiltWindow : MonoBehaviour
 	{
 		mTrans = transform;
 		mStart = mTrans.localRotation;
+	}
+
+	private void OnEnable()
+	{
 		UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
 	}
 

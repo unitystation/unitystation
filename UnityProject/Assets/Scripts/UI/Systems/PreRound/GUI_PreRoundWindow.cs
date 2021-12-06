@@ -76,12 +76,16 @@ namespace UI
 			if (Instance == null)
 			{
 				Instance = this;
-				UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
 			}
 			else
 			{
 				Destroy(gameObject);
 			}
+		}
+
+		private void OnEnable()
+		{
+			UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
 		}
 
 		private void OnDisable()

@@ -56,6 +56,10 @@ namespace UI.Core.Radial
 		public void Awake()
 		{
 			RadialUI = GetComponent<IRadial>();
+		}
+
+		private void OnEnable()
+		{
 			UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
 		}
 

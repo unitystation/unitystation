@@ -12,6 +12,10 @@ public class SpriteStretch : MonoBehaviour
 	void Start()
 	{
 		image = gameObject.GetComponent<Image>();
+	}
+
+	private void OnEnable()
+	{
 		UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
 	}
 

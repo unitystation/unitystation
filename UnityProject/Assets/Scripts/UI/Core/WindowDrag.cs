@@ -29,9 +29,12 @@ public class WindowDrag : MonoBehaviour
 									rectTransform.position.y / worldPointResolution.y);;
 
 		isReady = true;
-		UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
 	}
 
+	private void OnEnable()
+	{
+		UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
+	}
 
 	public void UpdateMe()
 	{
