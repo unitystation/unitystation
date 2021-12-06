@@ -637,48 +637,44 @@ namespace Objects
 		/// </summary>
 		private void UpdateWarpFX(SingularityStages stage)
 		{
+			float scaledRadius = 0f;
+			float scaledEffect = 0f;
+
 			switch (stage)
 			{
 				case SingularityStages.Stage0:
-					WarpEffectFrontMat.SetFloat("_EffectRadius", 0.06f);
-					WarpEffectBackMat.SetFloat("_EffectRadius", 0.06f);
-					WarpEffectFrontMat.SetFloat("_EffectAngle", 6f);
-					WarpEffectBackMat.SetFloat("_EffectAngle", 6f);
+					scaledRadius = 0.06f * gameObject.transform.localScale.x;
+					scaledEffect = 6f;
 					break;
 				case SingularityStages.Stage1:
-					WarpEffectFrontMat.SetFloat("_EffectRadius", 0.2f);
-					WarpEffectBackMat.SetFloat("_EffectRadius", 0.2f);
-					WarpEffectFrontMat.SetFloat("_EffectAngle", 7f);
-					WarpEffectBackMat.SetFloat("_EffectAngle", 7f);
+					scaledRadius = 0.08f * gameObject.transform.localScale.x;
+					scaledEffect = 8f;
 					break;
 				case SingularityStages.Stage2:
-					WarpEffectFrontMat.SetFloat("_EffectRadius", 0.25f);
-					WarpEffectBackMat.SetFloat("_EffectRadius", 0.25f);
-					WarpEffectFrontMat.SetFloat("_EffectAngle", 8f);
-					WarpEffectBackMat.SetFloat("_EffectAngle", 8f);
+					scaledRadius = 0.13f * gameObject.transform.localScale.x;
+					scaledEffect = 9f;
 					break;
 				case SingularityStages.Stage3:
-					WarpEffectFrontMat.SetFloat("_EffectRadius", 0.35f);
-					WarpEffectBackMat.SetFloat("_EffectRadius", 0.35f);
-					WarpEffectFrontMat.SetFloat("_EffectAngle", 8f);
-					WarpEffectBackMat.SetFloat("_EffectAngle", 8f);
+					scaledRadius = 0.25f * gameObject.transform.localScale.x;
+					scaledEffect = 10f;
 					break;
 				case SingularityStages.Stage4:
-					WarpEffectFrontMat.SetFloat("_EffectRadius", 0.7f);
-					WarpEffectBackMat.SetFloat("_EffectRadius", 0.7f);
-					WarpEffectFrontMat.SetFloat("_EffectAngle", 10f);
-					WarpEffectBackMat.SetFloat("_EffectAngle", 10f);
+					scaledRadius = 0.5f * gameObject.transform.localScale.x;
+					scaledEffect = 15f;
 					break;
 				case SingularityStages.Stage5:
-					WarpEffectFrontMat.SetFloat("_EffectRadius", 0.78f);
-					WarpEffectBackMat.SetFloat("_EffectRadius", 0.78f);
-					WarpEffectFrontMat.SetFloat("_EffectAngle", 15.0f);
-					WarpEffectBackMat.SetFloat("_EffectAngle", 15.0f);
+					scaledRadius = 0.6f * gameObject.transform.localScale.x;
+					scaledEffect = 20f;
 					break;
 				default:
 					break;
 			
 			}
+
+			WarpEffectFrontMat.SetFloat("_EffectRadius", scaledRadius);
+			WarpEffectBackMat.SetFloat("_EffectRadius", scaledRadius);
+			WarpEffectFrontMat.SetFloat("_EffectAngle", scaledEffect);
+			WarpEffectBackMat.SetFloat("_EffectAngle", scaledEffect);
 		}
 
 		private void UpdateVectors()
