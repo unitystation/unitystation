@@ -46,8 +46,7 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IActi
 
 	public Directional playerDirectional { get; set; }
 
-	private PlayerSync _playerSync; //Example of good on-demand reference init
-	public PlayerSync PlayerSync => _playerSync ? _playerSync : (_playerSync = GetComponent<PlayerSync>());
+	public PlayerSync PlayerSync;
 
 	public Equipment Equipment { get; private set; }
 
@@ -91,9 +90,9 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IActi
 	public float RTT;
 
 	[HideInInspector]
-	[SyncVar]
 	public bool RcsMode;
-	public MatrixMove RcsMatrixMove { get; set; }
+	[HideInInspector]
+	public MatrixMove RcsMatrixMove;
 
 	private bool isUpdateRTT;
 	private float waitTimeForRTTUpdate = 0f;
@@ -145,6 +144,7 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IActi
 		Cooldowns = GetComponent<HasCooldowns>();
 		PlayerOnlySyncValues = GetComponent<PlayerOnlySyncValues>();
 		playerCrafting = GetComponent<PlayerCrafting>();
+		PlayerSync = GetComponent<PlayerSync>();
 	}
 
 	public override void OnStartClient()

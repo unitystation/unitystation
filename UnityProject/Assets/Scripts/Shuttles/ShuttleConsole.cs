@@ -2,7 +2,9 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using AddressableReferences;
-using Messages.Server.SoundMessages;
+using Messages.Server;
+using Mirror;
+using UI.Objects.Shuttles;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -11,34 +13,20 @@ namespace Objects.Shuttles
 	/// <summary>
 	/// Main component for shuttle console
 	/// </summary>
-	public class ShuttleConsole : MonoBehaviour, ICheckedInteractable<HandApply>, IServerSpawn
+	public class ShuttleConsole : NetworkBehaviour, ICheckedInteractable<HandApply>, IServerSpawn
 	{
 		public MatrixMove ShuttleMatrixMove;
 		private RegisterTile registerTile;
 		private HasNetworkTab hasNetworkTab;
 
-		public TabStateEvent OnStateChange;
-		private TabState state = TabState.Normal;
 		[SerializeField] private AddressableAudioSource radarDetectionSound;
+		public GUI_ShuttleControl GUItab;
 
-		public TabState State {
-			get { return state; }
-			set {
-				if (state != value)
-				{
-					state = value;
-					OnStateChange.Invoke(value);
-				}
-			}
-		}
+		public ShuttleConsoleState shuttleConsoleState;
 
 		private void Awake()
 		{
-			if (!registerTile)
-			{
-				registerTile = GetComponent<RegisterTile>();
-			}
-
+			registerTile = GetComponent<RegisterTile>();
 			hasNetworkTab = GetComponent<HasNetworkTab>();
 		}
 
@@ -72,7 +60,7 @@ namespace Objects.Shuttles
 
 		public void PlayRadarDetectionSound()
 		{
-			_ = SoundManager.PlayNetworkedAtPosAsync(radarDetectionSound, gameObject.WorldPosServer(), 
+			_ = SoundManager.PlayNetworkedAtPosAsync(radarDetectionSound, gameObject.WorldPosServer(),
 				default, default, default, default, gameObject);
 		}
 
@@ -87,22 +75,68 @@ namespace Objects.Shuttles
 		public void ServerPerformInteraction(HandApply interaction)
 		{
 			//apply emag
-			switch (State)
+			switch (shuttleConsoleState)
 			{
-				case TabState.Normal:
-					State = TabState.Emagged;
+				case ShuttleConsoleState.Normal:
+					shuttleConsoleState = ShuttleConsoleState.Emagged;
 					break;
-				case TabState.Emagged:
-					State = TabState.Off;
+				case ShuttleConsoleState.Emagged:
+					shuttleConsoleState = ShuttleConsoleState.Off;
 					break;
-				case TabState.Off:
-					State = TabState.Normal;
+				case ShuttleConsoleState.Off:
+					shuttleConsoleState = ShuttleConsoleState.Normal;
 					break;
+			}
+			if (GUItab)
+			{
+				GUItab.OnStateChange(shuttleConsoleState);
+			}
+		}
+
+		/// <summary>
+		/// Connects or disconnects a player from a shuttle rcs
+		/// </summary>
+		public void ChangeRcsPlayer(bool newState, PlayerScript playerScript)
+		{
+			var matrixMove = registerTile.Matrix.MatrixMove;
+
+			if (newState)
+			{
+				playerScript.RcsMode = true;
+				playerScript.RcsMatrixMove = matrixMove;
+				matrixMove.playerControllingRcs = playerScript;
+				matrixMove.rcsModeActive = true;
+			}
+			else
+			{
+				if (playerScript)
+				{
+					playerScript.RcsMode = false;
+					playerScript.RcsMatrixMove = null;
+				}
+				matrixMove.playerControllingRcs = null;
+				matrixMove.rcsModeActive = false;
+			}
+
+			matrixMove.CacheRcs();
+
+			if (isServer)
+			{
+				if (GUItab)
+				{
+					GUItab.SetRcsLight(newState);
+				}
+
+				if(playerScript && playerScript != PlayerManager.LocalPlayerScript)
+				{
+					ShuttleRcsMessage.SendTo(this, newState, playerScript.connectedPlayer);
+					playerScript.PlayerSync.RollbackPosition();
+				}
 			}
 		}
 	}
 
-	public enum TabState
+	public enum ShuttleConsoleState
 	{
 		Normal,
 		Emagged,
@@ -112,7 +146,7 @@ namespace Objects.Shuttles
 	/// <inheritdoc />
 	/// "If you wish to use a generic UnityEvent type you must override the class type."
 	[Serializable]
-	public class TabStateEvent : UnityEvent<TabState>
+	public class TabStateEvent : UnityEvent<ShuttleConsoleState>
 	{
 	}
 }
