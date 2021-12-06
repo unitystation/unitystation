@@ -646,8 +646,8 @@ namespace Objects
 					WarpEffectBackMat.SetFloat("_EffectAngle", 6f);
 					break;
 				case SingularityStages.Stage1:
-					WarpEffectFrontMat.SetFloat("_EffectRadius", 0.08f);
-					WarpEffectBackMat.SetFloat("_EffectRadius", 0.08f);
+					WarpEffectFrontMat.SetFloat("_EffectRadius", 0.2f);
+					WarpEffectBackMat.SetFloat("_EffectRadius", 0.2f);
 					WarpEffectFrontMat.SetFloat("_EffectAngle", 7f);
 					WarpEffectBackMat.SetFloat("_EffectAngle", 7f);
 					break;
