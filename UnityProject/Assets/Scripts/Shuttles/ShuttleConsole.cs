@@ -75,17 +75,17 @@ namespace Objects.Shuttles
 		public void ServerPerformInteraction(HandApply interaction)
 		{
 			//apply emag
-			switch (shuttleConsoleState)
+			if (shuttleConsoleState == ShuttleConsoleState.Normal)
 			{
-				case ShuttleConsoleState.Normal:
-					shuttleConsoleState = ShuttleConsoleState.Emagged;
-					break;
-				case ShuttleConsoleState.Emagged:
-					shuttleConsoleState = ShuttleConsoleState.Off;
-					break;
-				case ShuttleConsoleState.Off:
-					shuttleConsoleState = ShuttleConsoleState.Normal;
-					break;
+				shuttleConsoleState = ShuttleConsoleState.Emagged;
+			}
+			else if (shuttleConsoleState == ShuttleConsoleState.Emagged)
+			{
+				shuttleConsoleState = ShuttleConsoleState.Off;
+			}
+			else if (shuttleConsoleState == ShuttleConsoleState.Off)
+			{
+				shuttleConsoleState = ShuttleConsoleState.Normal;
 			}
 			if (GUItab)
 			{
