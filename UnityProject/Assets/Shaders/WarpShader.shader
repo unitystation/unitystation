@@ -1,14 +1,13 @@
-﻿// Upgrade NOTE: replaced 'mul(UNITY_MATRIX_MVP,*)' with 'UnityObjectToClipPos(*)'
-
+﻿
 
 Shader "Custom/WarpShader"
 {
-	Properties{
-		_MainTex("MainTex",2D) = "white"{}
+	Properties
+	{
 		_EffectRadius("EffectRadius", Range(0, 2)) = 0.11
 		_EffectAngle("EffectAngle", Range(0 , 32.)) = 5.5
 	}
-		SubShader
+	SubShader
 		{
 		Tags
 		{
@@ -55,8 +54,6 @@ Shader "Custom/WarpShader"
 				float2 uv:TEXCOORD0;
 				float4 projPos : TEXCOORD2;
 			};
-			sampler2D _MainTex;
-
 			uniform float _EffectRadius;
 			uniform float _EffectAngle;
 
@@ -76,8 +73,8 @@ Shader "Custom/WarpShader"
 			{
 				float effectRadius = _EffectRadius;
 				float effectAngle = _EffectAngle * PI;
-
 				float2 center = vec2(0.5,0.5);
+
 				center = center == vec2(0., 0.) ? vec2(.5, .5) : center;
 
 				float2 uv = i.uv.xy - center;
@@ -85,14 +82,13 @@ Shader "Custom/WarpShader"
 				float len = length(uv * vec2(_ScreenParams.xy.x / _ScreenParams.xy.y, _ScreenParams.xy.x / _ScreenParams.xy.y));
 				float angle = atan2(uv.y,uv.x) + (effectAngle / unity_OrthoParams.xy) * smoothstep(effectRadius, 0., len) ;
 				float radius = length(uv);
-				float2 spiralboy = vec2(radius * cos(angle), radius * sin(angle));
+				float2 spiral = vec2(radius * cos(angle), radius * sin(angle));
 				i.projPos.xy = i.projPos.xy - uv.xy;
-				i.projPos.xy += spiralboy;
+				i.projPos.xy += spiral;
 
 				fixed4 output = tex2Dproj(_BackgroundTexture, UNITY_PROJ_COORD(i.projPos) );
 		
 				return output;
-				  
 			}
 			ENDCG
 			}

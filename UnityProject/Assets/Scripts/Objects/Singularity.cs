@@ -608,9 +608,7 @@ namespace Objects
 
 			int radius = GetRadius(newStage);
 
-			bool noObstructions = true; 
-			Debug.Log("current stage =");
-			Debug.Log(newStage);
+			bool noObstructions = true;
 
 			UpdateWarpFX(newStage);
 
@@ -642,34 +640,34 @@ namespace Objects
 			switch (stage)
 			{
 				case SingularityStages.Stage0:
-					WarpEffectFrontMat.SetFloat("_EffectRadius", 0.11f);
-					WarpEffectBackMat.SetFloat("_EffectRadius", 0.11f);
-					WarpEffectFrontMat.SetFloat("_EffectAngle", 5.5f);
-					WarpEffectBackMat.SetFloat("_EffectAngle", 5.5f);
-					break;
-				case SingularityStages.Stage1:
-					WarpEffectFrontMat.SetFloat("_EffectRadius", 0.2f);
-					WarpEffectBackMat.SetFloat("_EffectRadius", 0.2f);
-					WarpEffectFrontMat.SetFloat("_EffectAngle", 5.5f);
-					WarpEffectBackMat.SetFloat("_EffectAngle", 5.5f);
-					break;
-				case SingularityStages.Stage2:
-					WarpEffectFrontMat.SetFloat("_EffectRadius", 0.35f);
-					WarpEffectBackMat.SetFloat("_EffectRadius", 0.35f);
+					WarpEffectFrontMat.SetFloat("_EffectRadius", 0.06f);
+					WarpEffectBackMat.SetFloat("_EffectRadius", 0.06f);
 					WarpEffectFrontMat.SetFloat("_EffectAngle", 6f);
 					WarpEffectBackMat.SetFloat("_EffectAngle", 6f);
 					break;
+				case SingularityStages.Stage1:
+					WarpEffectFrontMat.SetFloat("_EffectRadius", 0.08f);
+					WarpEffectBackMat.SetFloat("_EffectRadius", 0.08f);
+					WarpEffectFrontMat.SetFloat("_EffectAngle", 7f);
+					WarpEffectBackMat.SetFloat("_EffectAngle", 7f);
+					break;
+				case SingularityStages.Stage2:
+					WarpEffectFrontMat.SetFloat("_EffectRadius", 0.25f);
+					WarpEffectBackMat.SetFloat("_EffectRadius", 0.25f);
+					WarpEffectFrontMat.SetFloat("_EffectAngle", 8f);
+					WarpEffectBackMat.SetFloat("_EffectAngle", 8f);
+					break;
 				case SingularityStages.Stage3:
-					WarpEffectFrontMat.SetFloat("_EffectRadius", 0.55f);
-					WarpEffectBackMat.SetFloat("_EffectRadius", 0.55f);
-					WarpEffectFrontMat.SetFloat("_EffectAngle", 6.5f);
-					WarpEffectBackMat.SetFloat("_EffectAngle", 6.5f);
+					WarpEffectFrontMat.SetFloat("_EffectRadius", 0.35f);
+					WarpEffectBackMat.SetFloat("_EffectRadius", 0.35f);
+					WarpEffectFrontMat.SetFloat("_EffectAngle", 8f);
+					WarpEffectBackMat.SetFloat("_EffectAngle", 8f);
 					break;
 				case SingularityStages.Stage4:
 					WarpEffectFrontMat.SetFloat("_EffectRadius", 0.7f);
 					WarpEffectBackMat.SetFloat("_EffectRadius", 0.7f);
-					WarpEffectFrontMat.SetFloat("_EffectAngle", 7.0f);
-					WarpEffectBackMat.SetFloat("_EffectAngle", 7.0f);
+					WarpEffectFrontMat.SetFloat("_EffectAngle", 10f);
+					WarpEffectBackMat.SetFloat("_EffectAngle", 10f);
 					break;
 				case SingularityStages.Stage5:
 					WarpEffectFrontMat.SetFloat("_EffectRadius", 0.78f);
