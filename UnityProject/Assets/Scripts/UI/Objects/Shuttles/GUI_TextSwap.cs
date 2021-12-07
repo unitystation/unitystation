@@ -29,7 +29,7 @@ namespace UI.Objects.Shuttles
 				return;
 			}
 
-			UIType keyToCheck = shuttleControlScript.MatrixMove.uiType;
+			UIType keyToCheck = shuttleControlScript.matrixMove.uiType;
 			if (textSetupDict.ContainsKey(keyToCheck))
 			{
 				textToSet.text = textSetupDict[keyToCheck].Replace("\\n", "\n");

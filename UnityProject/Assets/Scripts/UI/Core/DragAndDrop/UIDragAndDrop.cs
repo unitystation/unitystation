@@ -38,6 +38,10 @@ namespace UI
 			dragDummy.enabled = false;
 			scaleCache = dragDummy.transform.localScale;
 			interactableScale = scaleCache * 1.1f;
+		}
+
+		private void OnEnable()
+		{
 			UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
 		}
 

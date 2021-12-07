@@ -75,6 +75,10 @@ namespace Weapons.Projectiles.Behaviours
 				objToFollow = transform.GetComponentInChildren<MovingProjectile>().transform;
 			}
 			Reset();
+		}
+
+		private void OnEnable()
+		{
 			UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
 		}
 

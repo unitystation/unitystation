@@ -23,6 +23,10 @@ using UnityEngine.UI;
 			{
 				initialTextColor = inputFieldText.color;
 			}
+		}
+
+		private void OnEnable()
+		{
 			UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
 		}
 

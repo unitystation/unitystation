@@ -15,6 +15,10 @@ namespace Weapons.Projectiles.Behaviours
 		{
 			spriteHandler = GetComponentInChildren<SpriteHandler>();
 			lightSprite = GetComponentInChildren<LightSprite>();
+		}
+
+		private void OnEnable()
+		{
 			UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
 		}
 

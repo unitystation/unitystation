@@ -47,6 +47,10 @@ namespace InGameEvents
 		public void Start()
 		{
 			RandomEventsAllowed = GameConfigManager.GameConfig.RandomEventsAllowed;
+		}
+
+		private void OnEnable()
+		{
 			UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
 		}
 

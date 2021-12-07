@@ -52,6 +52,10 @@ namespace Lobby
 			OnHostToggle();
 			// Init Lobby UI
 			InitPlayerName();
+		}
+
+		private void OnEnable()
+		{
 			UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
 		}
 

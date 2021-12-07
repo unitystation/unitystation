@@ -140,6 +140,10 @@ namespace UI.Chat_UI
 			//channelPanel.gameObject.SetActive(false);
 			EventManager.AddHandler(Event.UpdateChatChannels, OnUpdateChatChannels);
 			chatFilter = Chat.Instance.GetComponent<ChatFilter>();
+		}
+
+		private void OnEnable()
+		{
 			UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
 		}
 
