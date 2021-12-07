@@ -17,8 +17,14 @@ namespace Objects.Atmospherics
 		/// If the container is not <see cref="IsSealed"/>, then the container is assumed to be mixed with the tile,
 		/// so the tile's gas mix is returned instead.
 		/// </summary>
-		public GasMix GasMix { get => IsSealed ? internalGasMix : TileMix; set => internalGasMix = value; }
+		public GasMix GasMix
+		{
+			get => IsSealed ? internalGasMix : TileMix;
+			set => internalGasMix = value;
+		}
+
 		private GasMix internalGasMix;
+
 		[InfoBox("Remember to right-click component header to validiate values.")]
 		public GasMix StoredGasMix = new GasMix();
 
@@ -53,6 +59,7 @@ namespace Objects.Atmospherics
 		//Only updated and valid for canisters inside the players inventory!!!
 		//How full the tank is
 		private float fullPercentageClient = 0;
+
 		public float FullPercentageClient => fullPercentageClient;
 
 		//Valid serverside only
@@ -132,14 +139,14 @@ namespace Objects.Atmospherics
 		[Server]
 		private void ExplodeContainer()
 		{
-			var shakeIntensity = (byte)Mathf.Lerp(
-					byte.MinValue, byte.MaxValue / 2, GasMix.Pressure / MAX_EXPLOSION_EFFECT_PRESSURE);
+			var shakeIntensity = (byte) Mathf.Lerp(
+				byte.MinValue, byte.MaxValue / 2, GasMix.Pressure / MAX_EXPLOSION_EFFECT_PRESSURE);
 			var shakeDistance = Mathf.Lerp(1, 64, GasMix.Pressure / MAX_EXPLOSION_EFFECT_PRESSURE);
 
 			//release all of our gases at once when destroyed
 			ReleaseContentsInstantly();
 
-			ExplosionUtils.PlaySoundAndShake(registerObject.WorldPositionServer, shakeIntensity, (int)shakeDistance);
+			ExplosionUtils.PlaySoundAndShake(registerObject.WorldPositionServer, shakeIntensity, (int) shakeDistance);
 			Chat.AddLocalDestroyMsgToChat(gameObject.ExpensiveName(), " exploded!", gameObject);
 
 			ServerContainerExplode?.Invoke();
@@ -177,14 +184,17 @@ namespace Objects.Atmospherics
 				Volume = GasMix.Volume;
 				Temperature = GasMix.Temperature;
 
-				lock ( GasMix.GasesArray)
+				var List = AtmosUtils.CopyGasArray(GasMix.GasData);
+
+				for (int i = List.Count - 1; i >= 0; i--)
 				{
-					for (int i = GasMix.GasesArray.Count - 1; i >= 0; i--)
-					{
-						var gas = GasMix.GasesArray[i];
-						StoredGasMix.GasData.SetMoles(gas.GasSO, gas.Moles);
-					}
+					var gas = GasMix.GasesArray[i];
+					StoredGasMix.GasData.SetMoles(gas.GasSO, gas.Moles);
 				}
+
+				List.Clear();
+				AtmosUtils.PooledGasValuesLists.Add(List);
+
 			}
 		}
 #if UNITY_EDITOR
