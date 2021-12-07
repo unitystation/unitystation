@@ -25,6 +25,10 @@ public class RconManager : SingletonManager<RconManager>
 	void Start()
 	{
 		Instance.Init();
+	}
+
+	private void OnEnable()
+	{
 		UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
 	}
 

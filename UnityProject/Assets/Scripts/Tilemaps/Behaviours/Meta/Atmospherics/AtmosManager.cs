@@ -43,7 +43,6 @@ namespace Systems.Atmospherics
 			if (Instance == null)
 			{
 				Instance = this;
-				UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
 			}
 			else
 			{
@@ -98,6 +97,7 @@ namespace Systems.Atmospherics
 			EventManager.AddHandler(Event.PostRoundStarted, OnPostRoundStart);
 			EventManager.AddHandler(Event.RoundEnded, OnRoundEnd);
 			SceneManager.activeSceneChanged += OnSceneChange;
+			UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
 		}
 
 		private void OnDisable()

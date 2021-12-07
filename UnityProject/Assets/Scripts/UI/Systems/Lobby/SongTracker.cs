@@ -52,6 +52,10 @@ namespace Audio.Containers
 		private void Start()
 		{
 			DetermineMuteState();
+		}
+
+		private void OnEnable()
+		{
 			UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
 		}
 

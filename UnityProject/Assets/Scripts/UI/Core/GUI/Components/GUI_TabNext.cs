@@ -13,6 +13,10 @@ public class GUI_TabNext : GUI_Component
 	void Start()
 	{
 		thisField = GetComponent<InputField>();
+	}
+
+	private void OnEnable()
+	{
 		UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
 	}
 

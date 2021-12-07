@@ -12,6 +12,10 @@
 		{
 			ourTransform = transform;
 			time = Random.Range(50, 100);
+		}
+
+		private void OnEnable()
+		{
 			UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
 		}
 

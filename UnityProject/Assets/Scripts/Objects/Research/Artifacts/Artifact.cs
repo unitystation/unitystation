@@ -47,6 +47,10 @@ public class Artifact : MonoBehaviour, IServerSpawn, IServerDespawn,
 	private void Awake()
 	{
 		currentEffect = GetComponent<ArtifactEffect>();
+	}
+
+	private void OnEnable()
+	{
 		UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
 	}
 

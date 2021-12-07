@@ -38,6 +38,10 @@ namespace UI.Core
 			base.Start();
 			windowDrag = GetComponentInParent<WindowDrag>();
 			shadow = GetComponent<Shadow>();
+		}
+
+		private void OnEnable()
+		{
 			UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
 		}
 

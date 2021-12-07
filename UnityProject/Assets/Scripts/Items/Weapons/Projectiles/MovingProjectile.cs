@@ -1,4 +1,5 @@
-﻿using Mirror;
+using Mirror;
+﻿using System;
 using ScriptableObjects.Gun;
 using UnityEngine;
 
@@ -31,6 +32,10 @@ namespace Weapons.Projectiles
 			maskData = projectile.MaskData;
 			ProjectileTransform = this.transform;
 			thisTransform = transform;
+		}
+
+		private void OnEnable()
+		{
 			UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
 		}
 

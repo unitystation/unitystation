@@ -10,6 +10,10 @@ public class UseMainCameraSize : MonoBehaviour
 	{
 		Camera = GetComponent<Camera>();
 		MainCamera = Camera.main;
+	}
+
+	private void OnEnable()
+	{
 		UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
 	}
 

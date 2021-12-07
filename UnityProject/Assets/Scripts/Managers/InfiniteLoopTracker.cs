@@ -28,6 +28,10 @@ namespace Managers
 	        thread.Start();
 	        Directory.CreateDirectory("Logs");
 	        streamWriter = File.AppendText("Logs/InfiniteLoopTracker.txt");
+        }
+
+        private void OnEnable()
+        {
 	        UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
         }
 
