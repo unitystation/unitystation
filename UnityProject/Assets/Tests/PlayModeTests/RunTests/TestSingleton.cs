@@ -24,12 +24,30 @@ namespace GameRunTests
 		public IEnumerator RunTests()
 		{
 			Results.Clear();
+
+			TestRunSO OverrideTestRunSO = null;
+
+			foreach (var Test in Tests)
+			{
+				if (Test.RunThisone)
+				{
+					OverrideTestRunSO = Test;
+				}
+			}
+
 			foreach (var Test in Tests)
 			{
 				while (PlayerManager.LocalPlayer == null)
 				{
 					yield return null;
 				}
+
+				if (OverrideTestRunSO != null)
+				{
+					yield return OverrideTestRunSO.RunTest(this);
+					break;
+				}
+
 				yield return Test.RunTest(this);
 				if (Test.DebugThis)
 				{
@@ -56,9 +74,6 @@ namespace GameRunTests
 			{
 				Assert.Fail(Stringbuilder.ToString());
 			}
-
-			yield break;
 		}
-
 	}
 }

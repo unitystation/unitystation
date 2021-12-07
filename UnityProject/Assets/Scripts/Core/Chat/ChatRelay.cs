@@ -147,8 +147,9 @@ public class ChatRelay : NetworkBehaviour
 				}
 			}
 
+
 			//Get NPCs in vicinity
-			var npcs = Physics2D.OverlapCircleAll(chatEvent.originator.AssumedWorldPosServer(), 14f, npcMask);
+			var npcs = Physics2D.OverlapCircleAll(chatEvent.position, 14f, npcMask);
 			foreach (Collider2D coll in npcs)
 			{
 				var npcPosition = coll.gameObject.AssumedWorldPosServer();
@@ -224,7 +225,7 @@ public class ChatRelay : NetworkBehaviour
 			return;
 		}
 		//Check for chat three tiles around the player
-		foreach (Collider2D coll in Physics2D.OverlapCircleAll(chatEvent.originator.AssumedWorldPosServer(), radioCheckRadius, itemsMask))
+		foreach (Collider2D coll in Physics2D.OverlapCircleAll(chatEvent.position, radioCheckRadius, itemsMask))
 		{
 			if(chatEvent.originator == coll.gameObject) continue;
 			if (coll.gameObject.TryGetComponent<LocalRadioListener>(out var listener) == false) continue;
@@ -237,7 +238,7 @@ public class ChatRelay : NetworkBehaviour
 			}
 		}
 		//Check for chat when the item is inside the player's inventory
-		if (chatEvent.originator.TryGetComponent<PlayerScript>(out var playerScript))
+		if (chatEvent.originator != null && chatEvent.originator.TryGetComponent<PlayerScript>(out var playerScript))
 		{
 			foreach (var slots in playerScript.DynamicItemStorage.ServerContents.Values)
 			{

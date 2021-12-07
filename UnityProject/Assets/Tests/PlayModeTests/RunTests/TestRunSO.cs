@@ -18,6 +18,9 @@ namespace GameRunTests
 
 		public float DebugSecondsPerAction;
 
+		public bool RunThisone = false;
+
+
 		public List<TestAction> TestActions = new List<TestAction>();
 
 		[NonSerialized] public StringBuilder Report = new StringBuilder("\n");
