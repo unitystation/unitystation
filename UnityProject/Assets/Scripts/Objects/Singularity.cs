@@ -168,6 +168,7 @@ namespace Objects
 			}
 
 			gameObject.transform.LeanScale(newScale, updateFrequency);
+			UpdateWarpFX(CurrentStage);
 		}
 
 		#endregion
@@ -610,7 +611,7 @@ namespace Objects
 
 			bool noObstructions = true;
 
-			UpdateWarpFX(newStage);
+		
 
 			//See whether we can move to that place, as we need to take into account our size
 			if (newStage != SingularityStages.Stage5 && newStage != SingularityStages.Stage4)
@@ -642,20 +643,20 @@ namespace Objects
 
 			switch (stage)
 			{
-				case SingularityStages.Stage0:
-					scaledRadius = 0.06f * gameObject.transform.localScale.x;
+				case SingularityStages.Stage0: 
+					scaledRadius = Mathf.Clamp(0.06f * gameObject.transform.localScale.x,0f,1f);
 					scaledEffect = 6f;
 					break;
 				case SingularityStages.Stage1:
-					scaledRadius = 0.08f * gameObject.transform.localScale.x;
+					scaledRadius = Mathf.Clamp(0.12f * gameObject.transform.localScale.x,0.15f,2f);
 					scaledEffect = 8f;
 					break;
 				case SingularityStages.Stage2:
-					scaledRadius = 0.13f * gameObject.transform.localScale.x;
+					scaledRadius = 0.22f * gameObject.transform.localScale.x;
 					scaledEffect = 9f;
 					break;
 				case SingularityStages.Stage3:
-					scaledRadius = 0.25f * gameObject.transform.localScale.x;
+					scaledRadius = 0.3f * gameObject.transform.localScale.x;
 					scaledEffect = 10f;
 					break;
 				case SingularityStages.Stage4:
@@ -663,7 +664,7 @@ namespace Objects
 					scaledEffect = 15f;
 					break;
 				case SingularityStages.Stage5:
-					scaledRadius = 0.6f * gameObject.transform.localScale.x;
+					scaledRadius = 0.7f * gameObject.transform.localScale.x;
 					scaledEffect = 20f;
 					break;
 				default:

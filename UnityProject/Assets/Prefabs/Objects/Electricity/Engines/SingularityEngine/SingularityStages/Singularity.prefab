@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 3925721611769371617}
   - component: {fileID: 4738779574423242095}
   - component: {fileID: 1404268602364526087}
-  m_Layer: 2
+  m_Layer: 21
   m_Name: Light
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -86,7 +86,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 61930e16e81db5c43a4ecc22422a0953, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Color: {r: 0.57254905, g: 0.058823533, b: 0.24313727, a: 0.39215687}
+  Color: {r: 0.57254905, g: 0.058823533, b: 0.24313727, a: 0.5882353}
   Sprite: {fileID: 21300000, guid: 9e9f6c63bf3334c8791e01efff5c16fb, type: 3}
   SortingOrder: 0
   Material: {fileID: 2100000, guid: b7e7f24fa2e49cb48818dace424b5868, type: 2}
