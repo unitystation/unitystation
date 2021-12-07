@@ -10,7 +10,7 @@ public partial class TestAction
 {
 	public bool ShowFunctionGameObject => SpecifiedAction == ActionType.TriggerFunctionGameObject;
 
-	[AllowNesting] [ShowIf("ShowFunctionGameObject")] public FunctionGameObject FunctionGameObjectData;
+	[AllowNesting] [ShowIf(nameof(ShowFunctionGameObject))] public FunctionGameObject FunctionGameObjectData;
 
 	[System.Serializable]
 	public class FunctionGameObject

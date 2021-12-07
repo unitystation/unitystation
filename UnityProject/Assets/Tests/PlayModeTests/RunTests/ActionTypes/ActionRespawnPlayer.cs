@@ -8,7 +8,7 @@ public partial class TestAction
 {
 	public bool ShowRespawnPlayer => SpecifiedAction == ActionType.RespawnPlayer;
 
-	[AllowNesting] [ShowIf("ShowRespawnPlayer")] public RespawnPlayer RespawnPlayerData;
+	[AllowNesting] [ShowIf(nameof(ShowRespawnPlayer))] public RespawnPlayer RespawnPlayerData;
 
 
 	[System.Serializable]

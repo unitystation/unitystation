@@ -24,19 +24,19 @@ public class ClassVariableRead
 	}
 
 	public bool ShowBool => VariableType == VariableCheckType.Bool;
-	[AllowNesting] [ShowIf("ShowBool")] public bool TargetBoolValue;
+	[AllowNesting] [ShowIf(nameof(ShowBool))] public bool TargetBoolValue;
 
 	public bool ShowString => VariableType == VariableCheckType.String;
-	[AllowNesting] [ShowIf("ShowString")] public string TargetStringValue;
+	[AllowNesting] [ShowIf(nameof(ShowString))] public string TargetStringValue;
 
 	public bool ShowNumber => VariableType == VariableCheckType.Number;
-	[AllowNesting] [ShowIf("ShowNumber")] public float TargetValue;
+	[AllowNesting] [ShowIf(nameof(ShowNumber))] public float TargetValue;
 
-	[AllowNesting] [ShowIf("ShowNumber")] public bool HasMin = false;
-	[AllowNesting] [EnableIf("HasMin")] [ShowIf("ShowNumber")] public float Min;
+	[AllowNesting] [ShowIf(nameof(ShowNumber))] public bool HasMin = false;
+	[AllowNesting] [EnableIf("HasMin")] [ShowIf(nameof(ShowNumber))] public float Min;
 
-	[AllowNesting] [ShowIf("ShowNumber")] public bool HasMax = false;
-	[AllowNesting] [EnableIf("HasMax")] [ShowIf("ShowNumber")] public float Max;
+	[AllowNesting] [ShowIf(nameof(ShowNumber))] public bool HasMax = false;
+	[AllowNesting] [EnableIf("HasMax")] [ShowIf(nameof(ShowNumber))] public float Max;
 
 
 	private BindingFlags SetBindingFlags = BindingFlags.Public | BindingFlags.Instance | BindingFlags.NonPublic |

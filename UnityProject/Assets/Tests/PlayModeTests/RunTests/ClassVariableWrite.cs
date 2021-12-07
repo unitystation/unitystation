@@ -20,13 +20,13 @@ public class ClassVariableWriter
 	}
 
 	public bool ShowBool => VariableType == VariableCheckType.Bool;
-	[AllowNesting] [ShowIf("ShowBool")] public bool TargetBoolValue;
+	[AllowNesting] [ShowIf(nameof(ShowBool))] public bool TargetBoolValue;
 
 	public bool ShowString => VariableType == VariableCheckType.String;
-	[AllowNesting] [ShowIf("ShowString")] public string TargetStringValue;
+	[AllowNesting] [ShowIf(nameof(ShowString))] public string TargetStringValue;
 
 	public bool ShowNumber => VariableType == VariableCheckType.Number;
-	[AllowNesting] [ShowIf("ShowNumber")] public float TargetValue;
+	[AllowNesting] [ShowIf(nameof(ShowNumber))] public float TargetValue;
 
 
 

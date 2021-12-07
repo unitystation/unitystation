@@ -8,7 +8,7 @@ public partial class TestAction
 {
 	public bool ShowSetTile => SpecifiedAction == ActionType.SetTile;
 
-	[AllowNesting] [ShowIf("ShowSetTile")] public SetTile SetTileData;
+	[AllowNesting] [ShowIf(nameof(ShowSetTile))] public SetTile SetTileData;
 
 	[System.Serializable]
 	public class SetTile

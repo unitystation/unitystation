@@ -8,7 +8,7 @@ public partial class TestAction
 {
 	public bool ShowKeyInput => SpecifiedAction == ActionType.KeyInput;
 
-	[AllowNesting] [ShowIf("ShowKeyInput")] public KeyInput DataKeyInput;
+	[AllowNesting] [ShowIf(nameof(ShowKeyInput))] public KeyInput DataKeyInput;
 
 
 

@@ -10,7 +10,7 @@ public partial class TestAction
 {
 	public bool ShowIsInPlayerInventory => SpecifiedAction == ActionType.IsInPlayerInventory;
 
-	[AllowNesting] [ShowIf("ShowIsInPlayerInventory")] public IsInPlayerInventory DataIsInPlayerInventory;
+	[AllowNesting] [ShowIf(nameof(ShowIsInPlayerInventory))] public IsInPlayerInventory DataIsInPlayerInventory;
 
 	[System.Serializable]
 	public class IsInPlayerInventory
@@ -21,12 +21,12 @@ public partial class TestAction
 
 		public bool NotLocalPlayer;
 
-		[AllowNesting] [ShowIf("NotLocalPlayer")] public Vector3 WorldPositionOfPlayer;
+		[AllowNesting] [ShowIf(nameof(NotLocalPlayer))] public Vector3 WorldPositionOfPlayer;
 
 		public GameObject ObjectToSearchFor;
 
 		public bool TargetSpecifiedSlot;
-		[AllowNesting] [ShowIf("TargetSpecifiedSlot")] public NamedSlot TargetSlots = NamedSlot.none;
+		[AllowNesting] [ShowIf(nameof(TargetSpecifiedSlot))] public NamedSlot TargetSlots = NamedSlot.none;
 
 		public bool IncludeSubInventories;
 

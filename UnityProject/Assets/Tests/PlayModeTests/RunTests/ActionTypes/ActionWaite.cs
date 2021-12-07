@@ -9,7 +9,7 @@ public partial class TestAction
 {
 	public bool ShowActionWaite => SpecifiedAction == ActionType.ActionWaite;
 
-	[AllowNesting] [ShowIf("ShowActionWaite")]
+	[AllowNesting] [ShowIf(nameof(ShowActionWaite))]
 	public ActionWaite DataActionWaite;
 
 	[System.Serializable]

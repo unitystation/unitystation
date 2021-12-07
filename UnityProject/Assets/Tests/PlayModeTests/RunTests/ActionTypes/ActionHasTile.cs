@@ -8,7 +8,7 @@ public partial class TestAction
 {
 	public bool ShowHasTile => SpecifiedAction == ActionType.HasTile;
 
-	[AllowNesting] [ShowIf("ShowHasTile")] public HasTile HasTileData;
+	[AllowNesting] [ShowIf(nameof(ShowHasTile))] public HasTile HasTileData;
 
 	[System.Serializable]
 	public class HasTile

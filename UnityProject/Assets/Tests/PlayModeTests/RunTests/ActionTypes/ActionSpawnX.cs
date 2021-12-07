@@ -8,7 +8,7 @@ public partial class TestAction
 {
 	public bool ShowSpawnX => SpecifiedAction == ActionType.SpawnX;
 
-	[AllowNesting] [ShowIf("ShowSpawnX")] public SpawnX SpawnXData;
+	[AllowNesting] [ShowIf(nameof(ShowSpawnX))] public SpawnX SpawnXData;
 
 	[System.Serializable]
 	public class SpawnX

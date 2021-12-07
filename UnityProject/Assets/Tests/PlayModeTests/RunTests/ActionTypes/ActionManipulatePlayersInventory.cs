@@ -11,7 +11,7 @@ public partial class TestAction
 {
 	public bool ShowManipulatePlayersInventory => SpecifiedAction == ActionType.ManipulatePlayersInventory;
 
-	[AllowNesting] [ShowIf("ShowManipulatePlayersInventory")] public ManipulatePlayersInventory InManipulatePlayersInventory;
+	[AllowNesting] [ShowIf(nameof(ShowManipulatePlayersInventory))] public ManipulatePlayersInventory InManipulatePlayersInventory;
 
 	[System.Serializable]
 	public class ManipulatePlayersInventory
@@ -20,7 +20,7 @@ public partial class TestAction
 
 		public bool NotLocalPlayer;
 
-		[AllowNesting] [ShowIf("NotLocalPlayer")] public Vector3 WorldPositionOfPlayer;
+		[AllowNesting] [ShowIf(nameof(NotLocalPlayer))] public Vector3 WorldPositionOfPlayer;
 
 		public InteractionType Interaction;
 
@@ -37,7 +37,7 @@ public partial class TestAction
 
 
 		public bool ShowTransferTo => Interaction == InteractionType.TransferTo;
-		[AllowNesting] [ShowIf("ShowTransferTo")] public NamedSlot TargetSlotsTo;
+		[AllowNesting] [ShowIf(nameof(ShowTransferTo))] public NamedSlot TargetSlotsTo;
 
 		public bool Initiate(TestRunSO TestRunSO)
 		{

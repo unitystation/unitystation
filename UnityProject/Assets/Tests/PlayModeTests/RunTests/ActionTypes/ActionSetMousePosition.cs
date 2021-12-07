@@ -11,7 +11,7 @@ public partial class TestAction
 {
 	public bool ShowSetMousePosition => SpecifiedAction == ActionType.SetMousePosition;
 
-	[AllowNesting] [ShowIf("ShowSetMousePosition")] public SetMousePosition DataSetMousePosition;
+	[AllowNesting] [ShowIf(nameof(ShowSetMousePosition))] public SetMousePosition DataSetMousePosition;
 
 	[System.Serializable]
 	public class SetMousePosition

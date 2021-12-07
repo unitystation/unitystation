@@ -8,7 +8,7 @@ public partial class TestAction
 {
 	public bool ShowPrefabAt => SpecifiedAction == ActionType.PrefabAt;
 
-	[AllowNesting] [ShowIf("ShowPrefabAt")]
+	[AllowNesting] [ShowIf(nameof(ShowPrefabAt))]
 	public ShowPrefab DataShowPrefab;
 
 	[System.Serializable]

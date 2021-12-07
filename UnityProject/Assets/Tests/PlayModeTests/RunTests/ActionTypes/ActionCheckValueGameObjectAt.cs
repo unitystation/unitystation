@@ -10,7 +10,7 @@ public partial class TestAction
 {
 	public bool ShowCheckValueGameObjectAt => SpecifiedAction == ActionType.CheckValueGameObjectAt;
 
-	[AllowNesting] [ShowIf("ShowCheckValueGameObjectAt")] public CheckValueGameObjectAt CheckValueGameObjectAtData;
+	[AllowNesting] [ShowIf(nameof(ShowCheckValueGameObjectAt))] public CheckValueGameObjectAt CheckValueGameObjectAtData;
 
 	[System.Serializable]
 	public class CheckValueGameObjectAt

@@ -8,7 +8,7 @@ public partial class TestAction
 {
 	public bool ShowAssessMetaDataNode => SpecifiedAction == ActionType.AssessMetaDataNode;
 
-	[AllowNesting] [ShowIf("ShowAssessMetaDataNode")] public AssessMetaDataNode DataAssessMetaDataNode;
+	[AllowNesting] [ShowIf(nameof(ShowAssessMetaDataNode))] public AssessMetaDataNode DataAssessMetaDataNode;
 
 
 
