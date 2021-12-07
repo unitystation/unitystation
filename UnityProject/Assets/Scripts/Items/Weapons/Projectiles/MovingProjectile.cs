@@ -1,4 +1,5 @@
-﻿using ScriptableObjects.Gun;
+﻿using System;
+using ScriptableObjects.Gun;
 using UnityEngine;
 
 namespace Weapons.Projectiles
@@ -20,10 +21,14 @@ namespace Weapons.Projectiles
 
 		private void Awake()
 		{
-
 			projectile = GetComponentInParent<Bullet>();
 			maskData = projectile.MaskData;
 			thisTransform = transform;
+		}
+
+		private void OnEnable()
+		{
+			UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
 		}
 
 		/// <summary>
@@ -41,7 +46,7 @@ namespace Weapons.Projectiles
 					Vector3.forward);
 		}
 
-		private void Update()
+		private void UpdateMe()
 		{
 			if(projectile.Destroyed) return;
 
@@ -83,6 +88,7 @@ namespace Weapons.Projectiles
 			thisTransform.localPosition = Vector3.zero;
 			previousPosition = Vector3.zero;
 			velocity = 0;
+			UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
 		}
 	}
 }

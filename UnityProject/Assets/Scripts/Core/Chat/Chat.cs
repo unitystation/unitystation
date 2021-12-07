@@ -42,7 +42,7 @@ public partial class Chat : MonoBehaviour
 
 	private static Regex htmlRegex = new Regex(@"^(http|https)://.*$");
 
-	public static void InvokeChatEvent(ChatEvent chatEvent)
+	public static void  InvokeChatEvent(ChatEvent chatEvent)
 	{
 		var channels = chatEvent.channels;
 		StringBuilder discordMessageBuilder = new StringBuilder();

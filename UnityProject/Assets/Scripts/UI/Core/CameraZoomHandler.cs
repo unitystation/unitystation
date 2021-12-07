@@ -19,12 +19,14 @@ public class CameraZoomHandler : MonoBehaviour
 		displaySettings.SettingsChanged += DisplaySettings_SettingsChanged;
 		SceneManager.activeSceneChanged += SceneManager_activeSceneChanged;
 		UpdatePixelPerfectCamera();
+		UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
 	}
 
 	private void OnDisable()
 	{
 		displaySettings.SettingsChanged -= DisplaySettings_SettingsChanged;
 		SceneManager.activeSceneChanged -= SceneManager_activeSceneChanged;
+		UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
 	}
 
 	private void SceneManager_activeSceneChanged(Scene arg0, Scene arg1)
@@ -64,7 +66,7 @@ public class CameraZoomHandler : MonoBehaviour
 	/// </summary>
 	private readonly int zoomIncrement = 8;
 
-	void Update()
+	void UpdateMe()
 	{
 		//Process any scroll wheel zooming:
 		if (displaySettings.ScrollWheelZoom && !EventSystem.current.IsPointerOverGameObject())

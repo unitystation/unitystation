@@ -3,6 +3,7 @@ using System.Text;
 using System.Threading;
 using Debug = UnityEngine.Debug;
 using System.IO;
+using Mirror.RemoteCalls;
 
 namespace Managers
 {
@@ -17,11 +18,21 @@ namespace Managers
         private int sleepDuration = 1000;
         private int reportTimeFrame = 60000;
 
+        //checkpoints for game messages
+        public static bool gameMessageProcessing;
+        public static string lastGameMessage;
+
         private void Start()
         {
 	        thread = new Thread (OverwatchMainThread);
 	        thread.Start();
+	        Directory.CreateDirectory("Logs");
 	        streamWriter = File.AppendText("Logs/InfiniteLoopTracker.txt");
+        }
+
+        private void OnEnable()
+        {
+	        UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
         }
 
         private void OnDisable()
@@ -31,9 +42,10 @@ namespace Managers
 		        streamWriter.Close();
 		        thread.Abort();
 	        }
+	        UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
         }
 
-        private void Update()
+        private void UpdateMe()
         {
             frameNumber++;
         }
@@ -68,12 +80,30 @@ namespace Managers
         {
 	        var stringBuilder = new StringBuilder();
 	        stringBuilder.Append($"{DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss")} possible infinite loop detected on frame: {frameNumber}");
+
+	        //update manager checkpoints
 	        if (UpdateManager.Instance.MidInvokeCalls)
 	        {
-		        var lastInvoked = UpdateManager.Instance.LastInvokedAction.Method.ReflectedType.ToString();
+		        var className = UpdateManager.Instance.LastInvokedAction.Method.ReflectedType.ToString();
 		        var methodName = UpdateManager.Instance.LastInvokedAction.Method.Name;
-		        stringBuilder.AppendLine($" - UpdateManager invoke - type: {lastInvoked} - method: {methodName}");
+		        stringBuilder.AppendLine($" - UpdateManager invoke - class: {className} - method: {methodName}");
 	        }
+
+	        //cmd and rcp checkpoints
+	        if (RemoteCallHelper.mirrorProcessingCMD)
+	        {
+		        var className = RemoteCallHelper.mirrorLastInvoker.invokeClass.FullName;
+		        var methodName = RemoteCallHelper.mirrorLastInvoker.invokeFunction.Method.Name;
+		        var invokeType = RemoteCallHelper.mirrorLastInvoker.invokeType;
+		        stringBuilder.AppendLine($" - Mirror {invokeType} - class: {className} - method: {methodName}");
+	        }
+
+	        //game message checkpoints
+	        if (gameMessageProcessing)
+	        {
+		        stringBuilder.AppendLine($" - GameMessage - class: {lastGameMessage}");
+	        }
+
 	        Log(stringBuilder.ToString());
         }
 

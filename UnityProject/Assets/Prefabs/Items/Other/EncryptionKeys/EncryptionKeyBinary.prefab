@@ -12,6 +12,16 @@ PrefabInstance:
       propertyPath: initialName
       value: binary encryption key
       objectReference: {fileID: 0}
+    - target: {fileID: 3685518439402342249, guid: 4fc25c61215094048b41943837cf2e3f,
+        type: 3}
+      propertyPath: inventoryMoveSound.AssetAddress
+      value: null
+      objectReference: {fileID: 0}
+    - target: {fileID: 3685518439402342249, guid: 4fc25c61215094048b41943837cf2e3f,
+        type: 3}
+      propertyPath: inventoryRemoveSound.AssetAddress
+      value: null
+      objectReference: {fileID: 0}
     - target: {fileID: 3772952514296108479, guid: 4fc25c61215094048b41943837cf2e3f,
         type: 3}
       propertyPath: m_AssetId

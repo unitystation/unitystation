@@ -6,6 +6,10 @@ using System.Threading;
 using Messages.Server;
 using Objects.Atmospherics;
 using UnityEngine;
+#if UNITY_EDITOR
+using Debug = UnityEngine.Debug;
+
+#endif
 
 namespace TileManagement
 {
@@ -176,10 +180,21 @@ namespace TileManagement
 			DamageableLayers = damageableLayersValues.ToArray();
 			matrix = GetComponent<Matrix>();
 			mainThread = Thread.CurrentThread;
+			if (Application.isPlaying)
+			{
+				UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
+			}
 		}
 
+		private void OnDisable()
+		{
+			if (Application.isPlaying)
+			{
+				UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
+			}
+		}
 
-		public void Update()
+		public void UpdateMe()
 		{
 			localToWorldMatrix = transform.localToWorldMatrix;
 			if (QueuedChanges.Count == 0)
@@ -276,14 +291,15 @@ namespace TileManagement
 
 			if (CustomNetworkManager.IsServer)
 			{
-
 				if (tileLocation.layer.LayerType == LayerType.Underfloor) //TODO Tilemap upgrade
 				{
-					matrix.TileChangeManager.AddToChangeList(tileLocation.position, tileLocation.layer.LayerType, tileLocation.layer, null, true, true );
+					matrix.TileChangeManager.AddToChangeList(tileLocation.position, tileLocation.layer.LayerType,
+						tileLocation.layer, null, true, true);
 				}
 				else
 				{
-					matrix.TileChangeManager.AddToChangeList(tileLocation.position, tileLocation.layer.LayerType, tileLocation.layer, null, false, true );
+					matrix.TileChangeManager.AddToChangeList(tileLocation.position, tileLocation.layer.LayerType,
+						tileLocation.layer, null, false, true);
 				}
 
 				RemoveTileMessage.Send(matrix.NetworkedMatrix.MatrixSync.netId, tileLocation.position,
@@ -1480,6 +1496,7 @@ namespace TileManagement
 					{
 						RemoveOverlaysOfType(tileLocation.position, LayerType.Effects, OverlayType.Damage);
 					}
+
 					tileLocation.layer.subsystemManager.UpdateAt(tileLocation.position);
 					return;
 				}
@@ -1514,6 +1531,7 @@ namespace TileManagement
 					{
 						RemoveOverlaysOfType(tileLocation.position, LayerType.Effects, OverlayType.Damage);
 					}
+
 					tileLocation.layer.subsystemManager.UpdateAt(tileLocation.position);
 				}
 			}
@@ -1685,7 +1703,7 @@ namespace TileManagement
 			Vector2 direction,
 			float distance,
 			LayerTypeSelection layerMask, Vector2? To = null,
-			LayerTile[] tileNamesToIgnore = null)
+			LayerTile[] tileNamesToIgnore = null, bool DEBUG = false)
 		{
 			if (To == null)
 			{
@@ -1697,7 +1715,21 @@ namespace TileManagement
 				direction = (To.Value - origin).normalized;
 				distance = (To.Value - origin).magnitude;
 			}
+#if UNITY_EDITOR
+			if (DEBUG)
+			{
+				var Beginning = (new Vector3((float) origin.x, (float) origin.y, 0).ToWorld(matrix));
+				Debug.DrawLine(Beginning + (Vector3.right * 0.09f), Beginning + (Vector3.left * 0.09f), Color.yellow,
+					30);
+				Debug.DrawLine(Beginning + (Vector3.up * 0.09f), Beginning + (Vector3.down * 0.09f), Color.yellow, 30);
 
+				var end = (new Vector3((float) To.Value.x, (float) To.Value.y, 0).ToWorld(matrix));
+				Debug.DrawLine(end + (Vector3.right * 0.09f), end + (Vector3.left * 0.09f), Color.red, 30);
+				Debug.DrawLine(end + (Vector3.up * 0.09f), end + (Vector3.down * 0.09f), Color.red, 30);
+
+				Debug.DrawLine(Beginning, end, Color.magenta, 30);
+			}
+#endif
 			double RelativeX = 0;
 			double RelativeY = 0;
 
@@ -1745,6 +1777,7 @@ namespace TileManagement
 
 			var vexinvX = (1d / (direction.x)); //Editions need to be done here for Working offset
 			var vexinvY = (1d / (direction.y)); //Needs to be conditional
+
 
 			double calculationFloat = 0;
 
@@ -1795,6 +1828,29 @@ namespace TileManagement
 							PresentTiles[LayersValues[i]].TryGetValue(vec, out tileLocation);
 						}
 
+#if UNITY_EDITOR
+						if (DEBUG)
+						{
+							var wold = (vecHit.ToWorld(matrix));
+							Debug.DrawLine(wold + (Vector3.right * 0.09f), wold + (Vector3.left * 0.09f), Color.green,
+								30);
+							Debug.DrawLine(wold + (Vector3.up * 0.09f), wold + (Vector3.down * 0.09f), Color.green, 30);
+
+							if (LeftFaceHit)
+							{
+								Debug.DrawLine(wold + (Vector3.up * 4f), wold + (Vector3.down * 4), Color.blue, 30);
+							}
+							else
+							{
+								Debug.DrawLine(wold + (Vector3.right * 4), wold + (Vector3.left * 4), Color.blue, 30);
+							}
+
+							ColorUtility.TryParseHtmlString("#ea9335", out var Orange);
+							var map = ((Vector3) vec).ToWorld(matrix);
+							Debug.DrawLine(map + (Vector3.right * 0.09f), map + (Vector3.left * 0.09f), Orange, 30);
+							Debug.DrawLine(map + (Vector3.up * 0.09f), map + (Vector3.down * 0.09f), Orange, 30);
+						}
+#endif
 						if (tileLocation != null)
 						{
 							if (tileNamesToIgnore != null &&
@@ -2025,12 +2081,13 @@ namespace TileManagement
 			return null;
 		}
 
-		public void RemoveOverlaysOfType(Vector3Int cellPosition, LayerType layerType, OverlayType overlayType, bool onlyIfCleanable = false)
+		public void RemoveOverlaysOfType(Vector3Int cellPosition, LayerType layerType, OverlayType overlayType,
+			bool onlyIfCleanable = false)
 		{
 			cellPosition.z = 0;
 
 			var overlayPos = GetOverlayPosByType(cellPosition, layerType, overlayType);
-			if(overlayPos == null || overlayPos.Count == 0) return;
+			if (overlayPos == null || overlayPos.Count == 0) return;
 
 			foreach (var overlay in overlayPos)
 			{
@@ -2056,12 +2113,12 @@ namespace TileManagement
 			Color? color = null)
 		{
 			//use remove methods to remove overlay instead
-			if(overlayTile == null) return;
+			if (overlayTile == null) return;
 
 			cellPosition.z = 0;
 
 			//Dont add the same overlay twice
-			if(HasOverlay(cellPosition, overlayTile.LayerType, overlayTile)) return;
+			if (HasOverlay(cellPosition, overlayTile.LayerType, overlayTile)) return;
 
 			var overlayPos = GetFreeOverlayPos(cellPosition, overlayTile.LayerType);
 			if (overlayPos == null) return;
@@ -2086,17 +2143,19 @@ namespace TileManagement
 			return GetColour(overlays.First(), layerType);
 		}
 
-		public void RemoveFloorWallOverlaysOfType(Vector3Int cellPosition, OverlayType overlayType, bool onlyIfCleanable = false)
+		public void RemoveFloorWallOverlaysOfType(Vector3Int cellPosition, OverlayType overlayType,
+			bool onlyIfCleanable = false)
 		{
 			RemoveOverlaysOfType(cellPosition, LayerType.Floors, overlayType, onlyIfCleanable);
 			RemoveOverlaysOfType(cellPosition, LayerType.Walls, overlayType, onlyIfCleanable);
 		}
+
 		public void RemoveAllOverlays(Vector3Int cellPosition, LayerType layerType, bool onlyIfCleanable = false)
 		{
 			cellPosition.z = 0;
 
 			var overlayPos = GetAllOverlayPos(cellPosition, layerType);
-			if(overlayPos == null || overlayPos.Count == 0) return;
+			if (overlayPos == null || overlayPos.Count == 0) return;
 
 			foreach (var overlay in overlayPos)
 			{
@@ -2121,8 +2180,6 @@ namespace TileManagement
 
 			return HasOverlay(cellPosition, overlayTile.LayerType, overlayTile);
 		}
-
-
 	}
 
 

@@ -13,18 +13,20 @@ public class SimpleImageRotate : MonoBehaviour
 	{
 		if (randomise) Speed = Random.Range(-180f, 180f);
 		rotating = true;
-	}
-
-	private void Update()
-	{
-		if (rotating)
-		{
-			transform.Rotate(0, 0, Speed * Time.deltaTime);
-		}
+		UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
 	}
 
 	private void OnDisable()
 	{
 		rotating = false;
+		UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
+	}
+
+	private void UpdateMe()
+	{
+		if (rotating)
+		{
+			transform.Rotate(0, 0, Speed * Time.deltaTime);
+		}
 	}
 }

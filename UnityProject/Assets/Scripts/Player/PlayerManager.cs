@@ -58,6 +58,7 @@ public class PlayerManager : MonoBehaviour
 		SceneManager.activeSceneChanged += OnLevelFinishedLoading;
 		EventManager.AddHandler(Event.PlayerDied, OnPlayerDeath);
 		EventManager.AddHandler(Event.PlayerRejoined, OnRejoinPlayer);
+		UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
 	}
 
 	private void OnDisable()
@@ -66,6 +67,7 @@ public class PlayerManager : MonoBehaviour
 		EventManager.RemoveHandler(Event.PlayerDied, OnPlayerDeath);
 		EventManager.RemoveHandler(Event.PlayerRejoined, OnRejoinPlayer);
 		PlayerPrefs.Save();
+		UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
 	}
 
 	private void OnRejoinPlayer()
@@ -85,7 +87,7 @@ public class PlayerManager : MonoBehaviour
 		UIManager.Display.RejoinedEvent();
 	}
 
-	private void Update()
+	private void UpdateMe()
 	{
 		if (MovementControllable != null)
 		{

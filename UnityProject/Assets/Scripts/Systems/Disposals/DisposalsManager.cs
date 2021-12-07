@@ -27,7 +27,17 @@ namespace Systems.Disposals
 
 		private readonly List<DisposalTraversal> disposalInstances = new List<DisposalTraversal>();
 
-		private void Update()
+		private void OnEnable()
+		{
+			UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
+		}
+
+		private void OnDisable()
+		{
+			UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
+		}
+
+		private void UpdateMe()
 		{
 			// TODO: this is terrible.
 

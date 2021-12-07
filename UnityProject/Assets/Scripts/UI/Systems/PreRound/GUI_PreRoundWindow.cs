@@ -83,15 +83,21 @@ namespace UI
 			}
 		}
 
+		private void OnEnable()
+		{
+			UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
+		}
+
 		private void OnDisable()
 		{
 			startedAlready = false;
 			doCountdown = false;
 			isReady = false;
 			adminPanel.SetActive(false);
+			UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
 		}
 
-		private void Update()
+		private void UpdateMe()
 		{
 			if (Input.GetKeyDown(KeyCode.F7))
 			{

@@ -5,8 +5,10 @@ using Mirror;
 using UnityEngine;
 using Systems.MobAIs;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 using Systems.Ai;
 using Messages.Server;
+using Objects.Telecomms;
 using UI.Chat_UI;
 
 /// <summary>
@@ -20,6 +22,10 @@ public class ChatRelay : NetworkBehaviour
 	private ChatChannel namelessChannels;
 	private LayerMask layerMask;
 	private LayerMask npcMask;
+	private LayerMask itemsMask;
+
+	private bool radioCheckIsOnCooldown = false;
+	[SerializeField] private float radioCheckRadius = 4f;
 
 	private RconManager rconManager;
 
@@ -48,6 +54,7 @@ public class ChatRelay : NetworkBehaviour
 						   ChatChannel.Combat;
 		layerMask = LayerMask.GetMask( "Door Closed");
 		npcMask = LayerMask.GetMask("NPC");
+		itemsMask = LayerMask.GetMask("Items");
 
 		rconManager = RconManager.Instance;
 	}
@@ -141,14 +148,14 @@ public class ChatRelay : NetworkBehaviour
 			}
 
 			//Get NPCs in vicinity
-			var npcs = Physics2D.OverlapCircleAll(chatEvent.position, 14f, npcMask);
+			var npcs = Physics2D.OverlapCircleAll(chatEvent.originator.AssumedWorldPosServer(), 14f, npcMask);
 			foreach (Collider2D coll in npcs)
 			{
 				var npcPosition = coll.gameObject.AssumedWorldPosServer();
 				if (MatrixManager.Linecast(chatEvent.position,LayerTypeSelection.Walls,
 					 layerMask,npcPosition).ItHit ==false)
 				{
-					//NPC is in hearing range, pass the message on:
+					//NPC is in hearing range, pass the message on: Physics2D.OverlapCircleAll(chatEvent.originator.AssumedWorldPosServer(), 8f, itemsMask);
 					var mobAi = coll.GetComponent<MobAI>();
 					if (mobAi != null)
 					{
@@ -156,6 +163,9 @@ public class ChatRelay : NetworkBehaviour
 					}
 				}
 			}
+
+			if(radioCheckIsOnCooldown == false) CheckForRadios(chatEvent);
+
 		}
 
 		for (var i = 0; i < players.Count; i++)
@@ -203,6 +213,49 @@ public class ChatRelay : NetworkBehaviour
 
 			RconManager.AddChatLog(message);
 		}
+	}
+
+	private void CheckForRadios(ChatEvent chatEvent)
+	{
+		HandleRadioCheckCooldown();
+		// Only spoken messages should be forwarded
+		if (chatEvent.channels.HasFlag(ChatChannel.Local) == false)
+		{
+			return;
+		}
+		//Check for chat three tiles around the player
+		foreach (Collider2D coll in Physics2D.OverlapCircleAll(chatEvent.originator.AssumedWorldPosServer(), radioCheckRadius, itemsMask))
+		{
+			if(chatEvent.originator == coll.gameObject) continue;
+			if (coll.gameObject.TryGetComponent<LocalRadioListener>(out var listener) == false) continue;
+
+			var radioPos = coll.gameObject.AssumedWorldPosServer();
+			if (MatrixManager.Linecast(chatEvent.position,LayerTypeSelection.Walls,
+				layerMask,radioPos).ItHit == false)
+			{
+				listener.SendData(chatEvent);
+			}
+		}
+		//Check for chat when the item is inside the player's inventory
+		if (chatEvent.originator.TryGetComponent<PlayerScript>(out var playerScript))
+		{
+			foreach (var slots in playerScript.DynamicItemStorage.ServerContents.Values)
+			{
+				foreach (var slot in slots)
+				{
+					if(slot.IsEmpty) continue;
+					if(slot.Item.TryGetComponent<LocalRadioListener>(out var listener)
+					   && listener != chatEvent.originator) {listener.SendData(chatEvent);}
+				}
+			}
+		}
+	}
+
+	private async void HandleRadioCheckCooldown()
+	{
+		radioCheckIsOnCooldown = true;
+		await Task.Delay(500).ConfigureAwait(false);
+		radioCheckIsOnCooldown = false;
 	}
 
 

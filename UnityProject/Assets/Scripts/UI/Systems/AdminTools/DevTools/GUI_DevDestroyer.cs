@@ -29,15 +29,17 @@ namespace UI.AdminTools
 			cachedLightingState = lightingSystem.enabled;
 			lightingSystem.enabled = false;
 			UIManager.IsMouseInteractionDisabled = true;
+			UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
 		}
 
 		private void OnDisable()
 		{
 			lightingSystem.enabled = cachedLightingState;
 			UIManager.IsMouseInteractionDisabled = false;
+			UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
 		}
 
-		private void Update()
+		private void UpdateMe()
 		{
 			// check which objects we are over, pick the top one to delete
 			if (CommonInput.GetMouseButtonDown(0))
