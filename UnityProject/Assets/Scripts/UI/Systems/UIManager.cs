@@ -17,6 +17,7 @@ using UI.Jobs;
 using UI.UI_Bottom;
 using UI.Windows;
 using Systems.CraftingV2.GUI;
+using UI.Core.RightClick;
 
 public class UIManager : MonoBehaviour, IInitialise
 {
@@ -69,6 +70,8 @@ public class UIManager : MonoBehaviour, IInitialise
 	public GeneralInputField GeneralInputField;
 
 	public CraftingMenu CraftingMenu;
+
+	public RadialMenu radialMenu;
 
 	public static bool PreventChatInput
 	{
@@ -188,6 +191,7 @@ public class UIManager : MonoBehaviour, IInitialise
 	}
 
 	public static BuildMenu BuildMenu => Instance.buildMenu;
+	public static RadialMenu RadialMenu => Instance.radialMenu;
 	public static ZoneSelector ZoneSelector => Instance.zoneSelector;
 
 	public static GUI_Info InfoWindow => Instance.infoWindow;

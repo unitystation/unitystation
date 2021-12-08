@@ -110,16 +110,8 @@ namespace Doors
 				AirlockPainter painter = interaction.HandObject.GetComponent<AirlockPainter>();
 				if (painter)
 				{
-					Chat.AddActionMsgToChat(interaction.Performer,
-						$"You paint the {gameObject.ExpensiveName()}.",
-						$"{interaction.Performer.ExpensiveName()} paint the {gameObject.ExpensiveName()}.");
+					painter.ChoosePainJob(gameObject);
 				}
-				GameObject airlock = painter.AvailablePaintJobs[0];
-				DoorAnimatorV2 airlockAnim = airlock.GetComponent<DoorAnimatorV2>();
-				SpriteHandler paintSprite = airlockAnim.DoorBase.GetComponent<SpriteHandler>();
-				var spriteCatalog = paintSprite.GetSubCatalogue();
-				SpriteHandler thisSpriteH = DoorAnimatorV2.DoorBaseHandler;
-				thisSpriteH.SetCatalogue(spriteCatalog, 0);
 			}
 		}
 		public void WhenDestroyed(DestructionInfo info)
