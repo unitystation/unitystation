@@ -51,7 +51,6 @@ namespace Objects.Lighting
 		[SerializeField] private SpritesDirectional spritesStateOnEffect = null;
 		[SerializeField] private SOLightMountStatesMachine mountStatesMachine = null;
 		[SerializeField, Range(0,100f)] private float maximumDamageOnTouch = 3f;
-		[SerializeField] private ItemTrait gloveTrait;
 		private SOLightMountState currentState;
 		private ObjectBehaviour objectBehaviour;
 		private LightFixtureConstruction construction;
@@ -314,7 +313,7 @@ namespace Objects.Lighting
 					foreach (var slot in handSlots)
 					{
 						if(slot.IsEmpty) continue;
-						if (Validations.HasItemTrait(slot.ItemObject, gloveTrait)) return true;
+						if (Validations.HasItemTrait(slot.ItemObject, CommonTraits.Instance.BlackGloves)) return true;
 					}
 
 					return false;
