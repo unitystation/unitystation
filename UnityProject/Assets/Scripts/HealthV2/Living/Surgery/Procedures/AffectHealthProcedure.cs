@@ -15,7 +15,7 @@ namespace HealthV2
 
 		public AttackType FailAttackType = AttackType.Melee;
 
-		public override void FinnishSurgeryProcedure(BodyPart OnBodyPart, PositionalHandApply interaction,
+		public override void FinnishSurgeryProcedure(BodyPart OnBodyPart, HandApply interaction,
 			Dissectible.PresentProcedure PresentProcedure)
 		{
 			if (interaction.HandSlot.Item != null && interaction.HandSlot.Item.GetComponent<ItemAttributesV2>().HasTrait(RequiredTrait))
@@ -33,7 +33,7 @@ namespace HealthV2
 			}
 		}
 
-		public override void UnsuccessfulStep(BodyPart OnBodyPart, PositionalHandApply interaction,
+		public override void UnsuccessfulStep(BodyPart OnBodyPart, HandApply interaction,
 			Dissectible.PresentProcedure PresentProcedure)
 		{
 			OnBodyPart.TakeDamage(interaction.UsedObject,HeelStrength*0.1f,FailAttackType,Affects);
