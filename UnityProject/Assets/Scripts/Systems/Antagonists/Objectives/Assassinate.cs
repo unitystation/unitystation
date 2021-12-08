@@ -69,6 +69,7 @@ namespace Antagonists
 		protected override bool CheckCompletion()
 		{
 			if (Target == null || Target.Script == null) return false;
+			if (ConnectedPlayer.IsGhostRole(Target.Job)) return false;
 			return (Target.Script.playerHealth == null || Target.Script.IsDeadOrGhost);
 		}
 	}
