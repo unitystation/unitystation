@@ -39,40 +39,58 @@ public class EventsManagerPage : AdminPage
 		eventsParametersPages = GetComponent<EventParameterPages>();
 	}
 
+
+	private DateTime stationTimeHolder;
+	private DateTime stationTimeSnapshot;
+
 	public void TriggerEvent()
 	{
-		if (!InGameEventType.TryParse(eventTypeDropDown.options[eventTypeDropDown.value].text,
-			out InGameEventType eventType)) return;
+		// Pull time from game manager and put it into a private holder variable which gets cleared on timeout and allows the button to be pressed again. Current WAIT time set to 5 secs
+		
+		stationTimeHolder = GameManager.Instance.stationTime;
 
-		var index = nextDropDown.value;
-
-		if (eventType == InGameEventType.Random)
+		if (stationTimeHolder >= (stationTimeSnapshot))
 		{
-			index = 0;
-		}
+			stationTimeSnapshot = stationTimeHolder.AddSeconds(5);
 
-		if (index != 0) // Index 0 (Random Event) will never have a parameter page
-		{
-			// Instead of triggering the event right away, if we have an extra parameter page, we show it
-			List<EventScriptBase> listEvents = InGameEventsManager.Instance.GetListFromEnum(eventType);
-			if (listEvents[index - 1].parametersPageType != ParametersPageType.None)
+			if (!InGameEventType.TryParse(eventTypeDropDown.options[eventTypeDropDown.value].text,
+				out InGameEventType eventType)) return;
+
+			var index = nextDropDown.value;
+
+			if (eventType == InGameEventType.Random)
 			{
-				GameObject parameterPage = eventsParametersPages.eventParameterPages
-					.FirstOrDefault(p => p.ParametersPageType == listEvents[index - 1].parametersPageType)
-					.ParameterPage;
+				index = 0;
+			}
 
-				if (parameterPage)
+			if (index != 0) // Index 0 (Random Event) will never have a parameter page
+			{
+				// Instead of triggering the event right away, if we have an extra parameter page, we show it
+				List<EventScriptBase> listEvents = InGameEventsManager.Instance.GetListFromEnum(eventType);
+				if (listEvents[index - 1].parametersPageType != ParametersPageType.None)
 				{
-					parameterPage.SetActive(true);
-					parameterPage.GetComponent<SicknessParametersPage>().SetBasicEventParameters(index,
-						isFakeToggle.isOn, announceToggle.isOn, InGameEventType.Fun);
-					return;
+					GameObject parameterPage = eventsParametersPages.eventParameterPages
+						.FirstOrDefault(p => p.ParametersPageType == listEvents[index - 1].parametersPageType)
+						.ParameterPage;
+
+					if (parameterPage)
+					{
+						parameterPage.SetActive(true);
+						parameterPage.GetComponent<SicknessParametersPage>().SetBasicEventParameters(index,
+							isFakeToggle.isOn, announceToggle.isOn, InGameEventType.Fun);
+						return;
+					}
 				}
 			}
+
+			AdminCommandsManager.Instance.CmdTriggerGameEvent(index, isFakeToggle.isOn, announceToggle.isOn, eventType, null);
+			
 		}
-
-		AdminCommandsManager.Instance.CmdTriggerGameEvent(index, isFakeToggle.isOn, announceToggle.isOn, eventType, null);
-
+		else 
+		{
+			// Tells all admins to wait X seconds, this is based on round time so if the server stutters loading an event it will take it into account effectivly stopping any sort of spam.
+			Chat.AddExamineMsgToClient($"Please wait {Mathf.Round((float)stationTimeSnapshot.Subtract(stationTimeHolder).TotalSeconds)} seconds before trying to generate another event.");
+		}
 	}
 
 	public void ToggleRandomEvents()
