@@ -31,7 +31,6 @@ namespace Weapons.Projectiles
 			projectile = GetComponentInParent<Bullet>();
 			maskData = projectile.MaskData;
 			ProjectileTransform = this.transform;
-			thisTransform = transform;
 		}
 
 		private void OnEnable()
