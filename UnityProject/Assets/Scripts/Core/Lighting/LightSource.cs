@@ -51,6 +51,7 @@ namespace Objects.Lighting
 		[SerializeField] private SpritesDirectional spritesStateOnEffect = null;
 		[SerializeField] private SOLightMountStatesMachine mountStatesMachine = null;
 		[SerializeField, Range(0,100f)] private float maximumDamageOnTouch = 3f;
+		[SerializeField] private ItemTrait gloveTrait;
 		private SOLightMountState currentState;
 		private ObjectBehaviour objectBehaviour;
 		private LightFixtureConstruction construction;
@@ -306,11 +307,20 @@ namespace Objects.Lighting
 		{
 			try
 			{
-				var handSlot = interaction.PerformerPlayerScript.DynamicItemStorage.GetActiveHandSlot();
+				var handSlots = interaction.PerformerPlayerScript.DynamicItemStorage.GetNamedItemSlots(NamedSlot.hands);
 
-				if (mState == LightMountState.On && (handSlot.IsOccupied == false ||
-				                                     !Validations.HasItemTrait(handSlot.ItemObject,
-					                                     CommonTraits.Instance.BlackGloves)))
+				bool HasGlove()
+				{
+					foreach (var slot in handSlots)
+					{
+						if(slot.IsEmpty) continue;
+						if (Validations.HasItemTrait(slot.ItemObject, gloveTrait)) return true;
+					}
+
+					return false;
+				}
+
+				if (mState == LightMountState.On && HasGlove() == false)
 				{
 					float damage = Random.Range(0, maximumDamageOnTouch);
 					var playerHealth = interaction.PerformerPlayerScript.playerHealth;
