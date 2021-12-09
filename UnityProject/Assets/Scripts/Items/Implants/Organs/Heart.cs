@@ -169,6 +169,7 @@ public class Heart : BodyPartFunctionality
 					$"{RelatedPart.HealthMaster.playerScript.characterSettings.TheirPronoun(RelatedPart.HealthMaster.playerScript)} chest in shock before falling to the ground!</color>");
 				RelatedPart.HealthMaster.Death();
 			}
+
 		}
 	}
 

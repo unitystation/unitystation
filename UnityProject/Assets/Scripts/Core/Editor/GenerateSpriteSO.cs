@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using Doors;
@@ -9,6 +10,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Items;
 using Items.Botany;
+using Debug = UnityEngine.Debug;
 
 /// <summary>
 /// Used for random ass editor scripts, Has all the functions you need in a pinch
@@ -56,7 +58,6 @@ public class GenerateSpriteSO : EditorWindow
 		{
 			Logger.Log(ListID, Category.Editor);
 		}
-
 	}
 
 	[MenuItem("Tools/StopAssetEditing")]
@@ -123,6 +124,12 @@ public class GenerateSpriteSO : EditorWindow
 		AssetDatabase.SaveAssets();
 	}
 
+
+	public static double GetRandomNumberInRange(double minNumber, double maxNumber)
+	{
+		return new System.Random().NextDouble() * (maxNumber - minNumber) + minNumber;
+	}
+
 	[MenuItem("Tools/GenerateSpriteSO")]
 	public static void Generate()
 	{
@@ -133,6 +140,109 @@ public class GenerateSpriteSO : EditorWindow
 		//	DirSearch_ex3Prefab(Application.dataPath + "/Resources/Prefabs/Items"); //
 		//
 
+		System.Random r = new System.Random();
+		Dictionary<int, float> Container = new Dictionary<int, float>();
+
+		Dictionary<int, float> Required = new Dictionary<int, float>();
+
+
+		foreach (var InInt in Enumerable.Range(1, 10000000))
+		{
+			Container[InInt] = (float) GetRandomNumberInRange(0, 100);
+		}
+
+		for (int i = 0; i < 5000000; i++)
+		{
+			int rInt = r.Next(0, 20000000); //for ints
+			Required[rInt] = (float) GetRandomNumberInRange(0, 100);
+		}
+
+		HashSet<int> HasContainer = new HashSet<int>(Container.Keys);
+
+		HashSet<int> HasRequired = new HashSet<int>(Required.Keys);
+
+		List<int> ListContainer = new List<int>(Container.Keys);
+
+		List<int> ListRequired = new List<int>(Required.Keys);
+
+
+		Stopwatch ST = new Stopwatch();
+
+		ST.Start();
+
+		foreach (var ingredient in Required)
+		{
+			if (Container.ContainsKey(ingredient.Key) == false)
+			{
+				break;
+			}
+		}
+
+		ST.Stop();
+
+		Logger.Log("Original > " + ST.ElapsedTicks);
+
+		ST.Reset();
+		ST.Start();
+
+		var List = Required.Intersect(Container);
+
+		if (List.Count() == Required.Count)
+		{
+		}
+		else
+		{
+		}
+
+		ST.Stop();
+
+		Logger.Log("LQCN > " + ST.ElapsedTicks);
+
+		ST.Reset();
+		ST.Start();
+
+		var CopyHasContainer = new HashSet<int>(HasContainer);
+		CopyHasContainer.IntersectWith(HasRequired);
+
+		if (CopyHasContainer.Count == HasRequired.Count)
+		{
+		}
+		else
+		{
+		}
+
+		ST.Stop();
+		Logger.Log("managed HashSet > " + ST.ElapsedTicks);
+
+		ST.Reset();
+		ST.Start();
+
+
+		bool Satisfies = true;
+		for (int i = 0; i < ListRequired.Count; i++)
+		{
+			bool Contains = false;
+			for (int j = 0; j < ListContainer.Count; j++)
+			{
+				if (ListContainer[j] == ListRequired[i])
+				{
+					Contains = true;
+					break;
+				}
+			}
+
+			if (Contains == false)
+			{
+				Satisfies = false;
+				break;
+			}
+
+		}
+
+		ST.Stop();
+		Logger.Log("List HashSet > " + ST.ElapsedTicks);
+
+		//return;
 
 		AssetDatabase.StartAssetEditing();
 		AssetDatabase.ForceReserializeAssets();
@@ -142,7 +252,7 @@ public class GenerateSpriteSO : EditorWindow
 		foreach (var door in doors)
 		{
 			FindInGo(door.gameObject);
-			EditorUtility.SetDirty( door.gameObject);
+			EditorUtility.SetDirty(door.gameObject);
 		}
 		// var stuff = FindAssetsByType<PlayerSlotStoragePopulator>();
 		//
@@ -186,7 +296,7 @@ public class GenerateSpriteSO : EditorWindow
 		// DirSearch_ex3(Application.dataPath + "/Textures");
 		AssetDatabase.StopAssetEditing();
 		AssetDatabase.SaveAssets();
-		return;
+		//return;
 
 		// TODO The following code is unreachable! Remove it or make it usable. 😣
 		var pathe = Application.dataPath + "/Resources/Prefabs";
@@ -222,7 +332,7 @@ public class GenerateSpriteSO : EditorWindow
 		}
 
 
-		return;
+		//return;
 		AssetDatabase.StartAssetEditing();
 		var AAA = FindAssetsByType<SpriteCatalogue>();
 		foreach (var a in AAA)
@@ -385,17 +495,17 @@ public class GenerateSpriteSO : EditorWindow
 			var t = g.transform;
 			while (t.parent != null)
 			{
-				s = t.parent.name +"/"+s;
+				s = t.parent.name + "/" + s;
 				t = t.parent;
 			}
 
-			Debug.Log ($"{s} has a missing script at {i}", g);
+			Debug.Log($"{s} has a missing script at {i}", g);
 
 			var serializedObject = new SerializedObject(g);
 
 			var prop = serializedObject.FindProperty("m_Component");
 
-			prop.DeleteArrayElementAtIndex(i-r);
+			prop.DeleteArrayElementAtIndex(i - r);
 			r++;
 
 			serializedObject.ApplyModifiedProperties();

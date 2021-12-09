@@ -163,11 +163,13 @@ namespace HealthV2
 				ConsumeNutriments();
 			}
 
-			MetaboliseReactions();
+
 			NaturalToxicity();
 			//Assuming it's changed in this update since none of them use the Inbuilt functions
 			BloodContainer.OnReagentMixChanged?.Invoke();
 			BloodContainer.ReagentsChanged();
+
+			MetaboliseReactions();
 		}
 
 		protected virtual void NaturalToxicity()
@@ -326,12 +328,11 @@ namespace HealthV2
 		/// <returns>Whatever is left over from bloodIn</returns>
 		public void BloodPumpedEvent(float ToTransferIn)
 		{
-			//Maybe have damage from high/low blood levels and high blood pressure
 			BloodContainer.CurrentReagentMix.TransferTo(HealthMaster.CirculatorySystem.BloodPool, 	(BloodContainer.CurrentReagentMix.Total + ToTransferIn ) - BloodThroughput);
 			HealthMaster.CirculatorySystem.BloodPool.TransferTo(BloodContainer.CurrentReagentMix, ToTransferIn);
 
-			BloodContainer.OnReagentMixChanged?.Invoke();
-			BloodContainer.ReagentsChanged();
+			// BloodContainer.OnReagentMixChanged?.Invoke();
+			// BloodContainer.ReagentsChanged();
 			BloodWasPumped();
 		}
 
