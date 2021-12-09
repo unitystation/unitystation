@@ -84,13 +84,15 @@ public class EventsManagerPage : AdminPage
 			}
 
 			AdminCommandsManager.Instance.CmdTriggerGameEvent(index, isFakeToggle.isOn, announceToggle.isOn, eventType, null);
-			
 		}
-		else 
-		{
-			// Tells all admins to wait X seconds, this is based on round time so if the server stutters loading an event it will take it into account effectivly stopping any sort of spam.
-			Chat.AddExamineMsgToClient($"Please wait {Mathf.Round((float)stationTimeSnapshot.Subtract(stationTimeHolder).TotalSeconds)} seconds before trying to generate another event.");
-		}
+
+		if (stationTimeHolder < (stationTimeSnapshot))
+   		{
+            // Tells all admins to wait X seconds, this is based on round time so if the server stutters loading an event it 
+            // will take it into account effectivly stopping any sort of spam.
+			Chat.AddExamineMsgToClient($"Please wait{Mathf.Round((float)stationTimeSnapshot.Subtract(stationTimeHolder).TotalSeconds)} seconds before trying to generate another event.");
+            return;
+    	}
 	}
 
 	public void ToggleRandomEvents()
