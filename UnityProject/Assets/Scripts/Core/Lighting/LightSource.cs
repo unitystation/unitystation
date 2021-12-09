@@ -306,6 +306,8 @@ namespace Objects.Lighting
 		{
 			try
 			{
+				//(Gilles)  : the hand that we use to interact and hold items isn't the same entity as the slot where you wear gloves
+				//(MaxIsJoe): GetActiveHand() retrieves the slot you hold and use items with not the slot that you use to wear gloves.
 				var handSlots = interaction.PerformerPlayerScript.DynamicItemStorage.GetNamedItemSlots(NamedSlot.hands);
 
 				bool HasGlove()
