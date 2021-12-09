@@ -342,43 +342,44 @@ public class UIManager : MonoBehaviour, IInitialise
 	public static void UpdateKeybindText(KeyAction keyAction, KeybindManager.KeyCombo keyCombo)
 	{
 		return;
+		//TODO needs to be re-implemented with dynamic UI issue #7948
 
-		switch (keyAction)
-		{
-			case KeyAction.OpenBackpack:
-				Instance.panelHudBottomController.SetBackPackKeybindText(
-					FormatKeybind(keyCombo.MainKey)
-				);
-				break;
-			case KeyAction.OpenPDA:
-				Instance.panelHudBottomController.SetPDAKeybindText(
-					FormatKeybind(keyCombo.MainKey)
-				);
-				break;
-			case KeyAction.OpenBelt:
-				Instance.panelHudBottomController.SetBeltKeybindText(
-					FormatKeybind(keyCombo.MainKey)
-				);
-				break;
-			case KeyAction.PocketOne:
-				Instance.panelHudBottomController.SetPocketOneKeybindText(
-					FormatKeybind(keyCombo.MainKey)
-				);
-				break;
-			case KeyAction.PocketTwo:
-				Instance.panelHudBottomController.SetPocketTwoKeybindText(
-					FormatKeybind(keyCombo.MainKey)
-				);
-				break;
-			case KeyAction.PocketThree:
-				Instance.panelHudBottomController.SetPocketThreeKeybindText(
-					FormatKeybind(keyCombo.MainKey)
-				);
-				break;
-			default:
-				Logger.LogWarning($"There is no keybind text for KeyAction {keyAction}", Category.Keybindings);
-				break;
-		}
+		// switch (keyAction)
+		// {
+		// 	case KeyAction.OpenBackpack:
+		// 		Instance.panelHudBottomController.SetBackPackKeybindText(
+		// 			FormatKeybind(keyCombo.MainKey)
+		// 		);
+		// 		break;
+		// 	case KeyAction.OpenPDA:
+		// 		Instance.panelHudBottomController.SetPDAKeybindText(
+		// 			FormatKeybind(keyCombo.MainKey)
+		// 		);
+		// 		break;
+		// 	case KeyAction.OpenBelt:
+		// 		Instance.panelHudBottomController.SetBeltKeybindText(
+		// 			FormatKeybind(keyCombo.MainKey)
+		// 		);
+		// 		break;
+		// 	case KeyAction.PocketOne:
+		// 		Instance.panelHudBottomController.SetPocketOneKeybindText(
+		// 			FormatKeybind(keyCombo.MainKey)
+		// 		);
+		// 		break;
+		// 	case KeyAction.PocketTwo:
+		// 		Instance.panelHudBottomController.SetPocketTwoKeybindText(
+		// 			FormatKeybind(keyCombo.MainKey)
+		// 		);
+		// 		break;
+		// 	case KeyAction.PocketThree:
+		// 		Instance.panelHudBottomController.SetPocketThreeKeybindText(
+		// 			FormatKeybind(keyCombo.MainKey)
+		// 		);
+		// 		break;
+		// 	default:
+		// 		Logger.LogWarning($"There is no keybind text for KeyAction {keyAction}", Category.Keybindings);
+		// 		break;
+		// }
 	}
 
 	private static string FormatKeybind(KeyCode key)
