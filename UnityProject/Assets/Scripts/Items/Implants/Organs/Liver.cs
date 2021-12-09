@@ -192,7 +192,7 @@ namespace HealthV2
 			{
 				//debug.AppendLine($"{reagent.Item2}cc of {reagent.Item1}\n");
 				processingContainer.CurrentReagentMix.Remove(reagent.Item1, reagent.Item2);
-				circ.UsedBloodPool.Add(reagent.Item1,
+				circ.BloodPool.Add(reagent.Item1,
 					processingContainer.CurrentReagentMix.Remove(reagent.Item1, reagent.Item2));
 			}
 

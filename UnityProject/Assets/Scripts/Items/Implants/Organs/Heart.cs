@@ -153,13 +153,12 @@ public class Heart : BodyPartFunctionality
 				if (implant.IsBloodCirculated == false) continue;
 				totalWantedBlood += implant.BloodThroughput;
 			}
-			float pumpedReagent = Math.Min(totalWantedBlood * efficiency, circulatorySystem.ReadyBloodPool.Total);
+			float pumpedReagent = Math.Min(totalWantedBlood * efficiency, circulatorySystem.BloodPool.Total);
 
 			foreach (BodyPart implant in RelatedPart.HealthMaster.BodyPartList)
 			{
 				if (implant.IsBloodCirculated == false) continue;
-				var BloodToGive = circulatorySystem.ReadyBloodPool.Take((implant.BloodThroughput / totalWantedBlood) * pumpedReagent);
-				implant.BloodPumpedEvent(BloodToGive);
+				implant.BloodPumpedEvent((implant.BloodThroughput / totalWantedBlood) * pumpedReagent);
 			}
 			if (RelatedPart.HealthMaster.IsDead) return; //For some reason the heart will randomly still continue to try and beat after death.
 			if (RelatedPart.BloodContainer.CurrentReagentMix.MajorMixReagent == salt || RelatedPart.BloodContainer.AmountOfReagent(salt) * 100 > dangerSaltLevel)
