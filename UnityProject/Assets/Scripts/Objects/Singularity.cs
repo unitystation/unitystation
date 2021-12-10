@@ -174,6 +174,7 @@ namespace Objects
 		private void SyncCurrentStage(SingularityStages oldStage, SingularityStages newStage)
 		{
 			currentStage = newStage;
+			UpdateWarpFX(currentStage);
 		}
 
 		#endregion
@@ -229,8 +230,6 @@ namespace Objects
 
 			// will sync to clients
 			dynamicScale = GetDynamicScale();
-
-			UpdateWarpFX(CurrentStage);
 
 			//Radiation Pulse
 			var strength = Mathf.Max(((float) CurrentStage + 1) / 6 * maxRadiation, 0);
