@@ -87,16 +87,6 @@ namespace UI.Objects.Shuttles
 
 		private void UpdateMe()
 		{
-			EntryList.AddItems(MapIconType.Ship, GetObjectsOf<MatrixMove>(
-				mm => mm != MatrixMove //ignore current ship
-					  && (mm.HasWorkingThrusters || mm.gameObject.name.Equals("Escape Pod")) //until pod gets engines
-			));
-
-			EntryList.AddItems(MapIconType.Asteroids, GetObjectsOf<Asteroid>());
-			var stationBounds = MatrixManager.MainStationMatrix.MetaTileMap.GetLocalBounds();
-			int stationRadius = (int) Mathf.Abs(stationBounds.center.x - stationBounds.xMin);
-			EntryList.AddStaticItem(MapIconType.Station, stationBounds.center.To2Int(), stationRadius);
-
 			radarList.RefreshTrackedPos();
 
 
@@ -173,7 +163,7 @@ namespace UI.Objects.Shuttles
 			radarList.AddItems(MapIconType.Asteroids, GetObjectsOf<Asteroid>());
 			var stationBounds = MatrixManager.MainStationMatrix.MetaTileMap.GetLocalBounds();
 			var stationRadius = (int) Mathf.Abs(stationBounds.center.x - stationBounds.xMin);
-			radarList.AddStaticItem(MapIconType.Station, stationBounds.center, stationRadius);
+			radarList.AddStaticItem(MapIconType.Station, stationBounds.center.To2Int(), stationRadius);
 			radarList.AddItems(MapIconType.Waypoint, new List<GameObject>(new[] {Waypoint}));
 
 			if (emagged)
