@@ -85,16 +85,16 @@ namespace HealthV2
 			//figure out how much we are going to process or remove
 			lock (blood.CurrentReagentMix.reagents)
 			{
-				foreach (Reagent reagent in blood.CurrentReagentMix.reagents.Keys)
+				foreach (var reagent in blood.CurrentReagentMix.reagents.m_dict)
 				{
-					bool alcohol = Alcohols.AlcoholicReagents.Contains(reagent);
-					bool toxic = Toxins.Contains(reagent);
+					bool alcohol = Alcohols.HashAlcoholicReagents.Contains(reagent.Key);
+					bool toxic = Toxins.Contains(reagent.Key);
 					if (alcohol || toxic)
 					{
-						float amount = Mathf.Min(tickPullProcessingAmnt, RelatedPart.BloodContainer.CurrentReagentMix[reagent]);
+						float amount = Mathf.Min(tickPullProcessingAmnt, reagent.Value);
 						amount = Mathf.Min(amount,
 							(processingContainer.MaxCapacity - processingContainer.ReagentMixTotal) - drawnAmount);
-						tempArray.Add(new Tuple<Reagent, float>(reagent, amount));
+						tempArray.Add(new Tuple<Reagent, float>(reagent.Key, amount));
 
 						if (processingContainer.IsFull)
 						{
@@ -117,7 +117,6 @@ namespace HealthV2
 				//debug.AppendLine($"{reagent.Item2.ToString(CultureInfo.DefaultThreadCurrentCulture)} of {reagent.Item1}\n");
 				processingContainer.CurrentReagentMix.Add(reagent.Item1, reagent.Item2);
 				blood.CurrentReagentMix.Remove(reagent.Item1, reagent.Item2);
-				processingContainer.ReagentsChanged();
 			}
 
 			tempArray.Clear();

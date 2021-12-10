@@ -104,9 +104,9 @@ public class UpdateManager : MonoBehaviour
 		if (Instance.periodicUpdateActions.Any(x => x.Action == action)) return;
 		TimedUpdate timedUpdate = Instance.GetTimedUpdates();
 		timedUpdate.SetUp(action, timeInterval);
-		timedUpdate.TimeTitleNext += NumberOfUpdatesAdded * 0.15f;
+		timedUpdate.TimeTitleNext += NumberOfUpdatesAdded * 0.01f;
 		NumberOfUpdatesAdded++;
-		if (NumberOfUpdatesAdded > 66)
+		if (NumberOfUpdatesAdded > 500)
 		{
 			NumberOfUpdatesAdded = 0; //So the delay can't be too big
 		}
@@ -345,7 +345,7 @@ public class UpdateManager : MonoBehaviour
 			if (periodicUpdateActions[i].TimeTitleNext <= 0)
 			{
 				LastInvokedAction = periodicUpdateActions[i].Action;
-				periodicUpdateActions[i].TimeTitleNext = periodicUpdateActions[i].TimeDelayPreUpdate;
+				periodicUpdateActions[i].TimeTitleNext = periodicUpdateActions[i].TimeDelayPreUpdate + periodicUpdateActions[i].TimeTitleNext;
 				periodicUpdateActions[i].Action();
 			}
 		}
