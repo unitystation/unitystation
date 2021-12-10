@@ -641,7 +641,8 @@ namespace Player.Movement
 		[TargetRpc]
 		private void TargetPlayerUIHandCuffToggle(NetworkConnection target, bool HideState)
 		{
-			HandsController.Instance.HideHands(HideState);
+			//0 since we want to hide both hands
+			HandsController.Instance.HideHands(HideState, 0);
 		}
 
 		/// <summary>
