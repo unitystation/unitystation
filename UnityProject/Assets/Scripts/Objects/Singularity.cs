@@ -15,6 +15,8 @@ namespace Objects
 {
 	public class Singularity : NetworkBehaviour, IOnHitDetect, IExaminable
 	{
+
+		[SyncVar(hook = nameof(SyncCurrentStage))]
 		private SingularityStages currentStage = SingularityStages.Stage0;
 
 		private readonly float updateFrequency = 0.5f;
@@ -128,7 +130,6 @@ namespace Objects
 			lightTransform = light.transform;
 			objectId = GetInstanceID();
 
-
 			WarpEffectFrontMat = WarpEffectFront.GetComponent<MeshRenderer>().materials[0];
 			WarpEffectBackMat = WarpEffectBack.GetComponent<MeshRenderer>().materials[0];
 
@@ -139,7 +140,6 @@ namespace Objects
 			if (CustomNetworkManager.IsServer == false) return;
 
 			CurrentStage = startingStage;
-		
 		}
 
 		private void OnEnable()
@@ -168,7 +168,12 @@ namespace Objects
 			}
 
 			gameObject.transform.LeanScale(newScale, updateFrequency);
-			UpdateWarpFX(CurrentStage);
+			
+		}
+
+		private void SyncCurrentStage(SingularityStages oldStage, SingularityStages newStage)
+		{
+			currentStage = newStage;
 		}
 
 		#endregion
@@ -224,6 +229,8 @@ namespace Objects
 
 			// will sync to clients
 			dynamicScale = GetDynamicScale();
+
+			UpdateWarpFX(CurrentStage);
 
 			//Radiation Pulse
 			var strength = Mathf.Max(((float) CurrentStage + 1) / 6 * maxRadiation, 0);
@@ -611,8 +618,6 @@ namespace Objects
 
 			bool noObstructions = true;
 
-		
-
 			//See whether we can move to that place, as we need to take into account our size
 			if (newStage != SingularityStages.Stage5 && newStage != SingularityStages.Stage4)
 			{
@@ -632,6 +637,7 @@ namespace Objects
 				UpdateVectors();
 				dynamicScale = Vector3.zero; // keyed value: don't tween; set it to 1x scale immediately
 			}
+
 		}
 		/// <summary>
 		/// Sets the warp effects in accordance with the correct sprite
@@ -644,32 +650,31 @@ namespace Objects
 			switch (stage)
 			{
 				case SingularityStages.Stage0: 
-					scaledRadius = Mathf.Clamp(0.06f * gameObject.transform.localScale.x,0f,1f);
-					scaledEffect = 6f;
+					scaledRadius = Mathf.Clamp(0.08f * gameObject.transform.localScale.x, 0.08f,0.15f);
+					scaledEffect = 7f;
 					break;
 				case SingularityStages.Stage1:
-					scaledRadius = Mathf.Clamp(0.12f * gameObject.transform.localScale.x,0.15f,2f);
-					scaledEffect = 8f;
-					break;
-				case SingularityStages.Stage2:
-					scaledRadius = 0.22f * gameObject.transform.localScale.x;
+					scaledRadius = Mathf.Clamp(0.26f * gameObject.transform.localScale.x, 0.26f,0.35f);
 					scaledEffect = 9f;
 					break;
-				case SingularityStages.Stage3:
-					scaledRadius = 0.3f * gameObject.transform.localScale.x;
+				case SingularityStages.Stage2:
+					scaledRadius = Mathf.Clamp(0.35f * gameObject.transform.localScale.x, 0.35f, 0.6f);
 					scaledEffect = 10f;
 					break;
+				case SingularityStages.Stage3:
+					scaledRadius = Mathf.Clamp(0.55f * gameObject.transform.localScale.x, 0.55f, 0.75f);
+					scaledEffect = 12f;
+					break;
 				case SingularityStages.Stage4:
-					scaledRadius = 0.5f * gameObject.transform.localScale.x;
+					scaledRadius = Mathf.Clamp(0.75f * gameObject.transform.localScale.x, 0.75f, 0.8f);
 					scaledEffect = 15f;
 					break;
 				case SingularityStages.Stage5:
-					scaledRadius = 0.7f * gameObject.transform.localScale.x;
+					scaledRadius = Mathf.Clamp(0.8f * gameObject.transform.localScale.x, 0.8f, 1f);
 					scaledEffect = 20f;
 					break;
 				default:
 					break;
-			
 			}
 
 			WarpEffectFrontMat.SetFloat("_EffectRadius", scaledRadius);
