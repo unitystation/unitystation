@@ -28,10 +28,10 @@ public class MatrixInfo : IEquatable<MatrixInfo>
 	private Vector3Int initialOffset;
 	private uint netId;
 
-	public BoundsInt LocalBounds => MetaTileMap.GetLocalBounds();
+	public BetterBoundsInt LocalBounds => MetaTileMap.GetLocalBounds();
 
 	//Warning slow
-	public Bounds WorldBounds => MetaTileMap.GetWorldBounds();
+	public BetterBounds WorldBounds => MetaTileMap.GetWorldBounds();
 
 	public Transform ObjectParent => MetaTileMap.ObjectLayer.transform;
 

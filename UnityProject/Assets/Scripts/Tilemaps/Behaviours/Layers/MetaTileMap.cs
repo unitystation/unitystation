@@ -32,6 +32,8 @@ namespace TileManagement
 		public Dictionary<Layer, Dictionary<Vector3Int, List<TileLocation>>> MultilayerPresentTilesNeedsLock =>
 			MultilayerPresentTiles;
 
+		private Dictionary<Layer, BetterBoundsInt> BoundLocations = new Dictionary<Layer, BetterBoundsInt>();
+
 		/// <summary>
 		/// Use this dictionary only if performance isn't critical, otherwise try using arrays below
 		/// </summary>This
@@ -74,8 +76,8 @@ namespace TileManagement
 
 		private Thread mainThread;
 
-		private BoundsInt? LocalCachedBounds;
-		public Bounds? GlobalCachedBounds;
+		private BetterBoundsInt? LocalCachedBounds;
+		public BetterBounds? GlobalCachedBounds;
 
 		[NonSerialized] public Matrix4x4 localToWorldMatrix = Matrix4x4.identity;
 
@@ -127,6 +129,12 @@ namespace TileManagement
 					continue;
 				}
 
+				var InBoundLocations = new BetterBoundsInt( )
+				{
+					Maximum = Vector3Int.one,
+					Minimum = Vector3Int.zero
+				};
+
 				if (layer.LayerType != LayerType.Underfloor)
 				{
 					var ToInsertDictionary = new Dictionary<Vector3Int, TileLocation>();
@@ -148,6 +156,7 @@ namespace TileManagement
 								Tile.Colour = layer.Tilemap.GetColor(localPlace);
 								Tile.transformMatrix = layer.Tilemap.GetTransformMatrix(localPlace);
 								ToInsertDictionary[localPlace] = Tile;
+								InBoundLocations.ExpandToPoint2D(localPlace);
 							}
 						}
 					}
@@ -157,12 +166,17 @@ namespace TileManagement
 						PresentTiles[layer] = ToInsertDictionary;
 					}
 				}
+
+				BoundLocations[layer] = InBoundLocations;
 			}
 
 			lock (PresentTiles)
 			{
 				PresentTiles[ObjectLayer] = new Dictionary<Vector3Int, TileLocation>();
 			}
+
+
+
 
 			layersKeys.Sort((layerOne, layerTwo) =>
 				layerOne.GetOrder().CompareTo(layerTwo.GetOrder()));
@@ -283,7 +297,7 @@ namespace TileManagement
 			//TODO note Boundaries only recap later when tiles are added outside of it, so therefore it can only increase in size
 			// remember update transforms and position and colour when removing On tile map I'm assuming It doesn't clear it?
 			// Maybe it sets it to the correct ones when you set a tile idk
-
+			tileLocation.layer.subsystemManager.UpdateAt(tileLocation.position);
 			lock (PooledTileLocation)
 			{
 				PooledTileLocation.Push(tileLocation);
@@ -313,12 +327,16 @@ namespace TileManagement
 		{
 			tileLocation.layer.SetTile(tileLocation.position, tileLocation.layerTile,
 				tileLocation.transformMatrix, tileLocation.Colour);
-
+			tileLocation.layer.subsystemManager.UpdateAt(tileLocation.position);
 			if (LocalCachedBounds != null)
 			{
 				if (LocalCachedBounds.Value.Contains(tileLocation.position) == false)
 				{
-					LocalCachedBounds = null;
+					var Bounds = LocalCachedBounds.Value; // struct funnies With references
+					Bounds.ExpandToPoint2D(tileLocation.position);
+					LocalCachedBounds = Bounds;
+
+
 					GlobalCachedBounds = null;
 				}
 			}
@@ -694,7 +712,6 @@ namespace TileManagement
 				tileLocation.transformMatrix = matrixTransform.GetValueOrDefault(Matrix4x4.identity);
 				tileLocation.Colour = color.GetValueOrDefault(Color.white);
 				ApplyTileChange(tileLocation);
-				tileLocation.layer.subsystemManager.UpdateAt(tileLocation.position);
 				return position;
 			}
 			else
@@ -1496,8 +1513,6 @@ namespace TileManagement
 					{
 						RemoveOverlaysOfType(tileLocation.position, LayerType.Effects, OverlayType.Damage);
 					}
-
-					tileLocation.layer.subsystemManager.UpdateAt(tileLocation.position);
 					return;
 				}
 			}
@@ -1531,8 +1546,6 @@ namespace TileManagement
 					{
 						RemoveOverlaysOfType(tileLocation.position, LayerType.Effects, OverlayType.Damage);
 					}
-
-					tileLocation.layer.subsystemManager.UpdateAt(tileLocation.position);
 				}
 			}
 			else
@@ -1545,28 +1558,7 @@ namespace TileManagement
 		public Vector3 CellToWorld(Vector3Int cellPos) => LayersValues[0].CellToWorld(cellPos);
 		public Vector3 WorldToLocal(Vector3 worldPos) => LayersValues[0].WorldToLocal(worldPos);
 
-		public void MaxMinCheck(ref Vector3 min, ref Vector3 max, Vector3 ToCompare)
-		{
-			if (ToCompare.x > max.x)
-			{
-				max.x = ToCompare.x;
-			}
-			else if (min.x > ToCompare.x)
-			{
-				min.x = ToCompare.x;
-			}
-
-			if (ToCompare.y > max.y)
-			{
-				max.y = ToCompare.y;
-			}
-			else if (min.y > ToCompare.y)
-			{
-				min.y = ToCompare.y;
-			}
-		}
-
-		public BoundsInt GetLocalBounds()
+		public BetterBoundsInt GetLocalBounds()
 		{
 			if (LocalCachedBounds == null)
 			{
@@ -1576,7 +1568,7 @@ namespace TileManagement
 			return LocalCachedBounds.Value;
 		}
 
-		public Bounds GetWorldBounds()
+		public BetterBounds GetWorldBounds()
 		{
 			if (GlobalCachedBounds == null)
 			{
@@ -1591,58 +1583,44 @@ namespace TileManagement
 			Vector3Int minPosition = Vector3Int.one * int.MaxValue;
 			Vector3Int maxPosition = Vector3Int.one * int.MinValue;
 
-			for (var i = 0; i < LayersValues.Length; i++)
-			{
-				BoundsInt layerBounds = LayersValues[i].Bounds;
-				if (layerBounds.x == 0 && layerBounds.y == 0)
-				{
-					continue; // Has no tiles
-				}
 
+			foreach (var layerBounds in BoundLocations.Values)
+			{
 				minPosition = Vector3Int.Min(layerBounds.min, minPosition);
 				maxPosition = Vector3Int.Max(layerBounds.max, maxPosition);
 			}
 
-			LocalCachedBounds = new BoundsInt(minPosition, maxPosition - minPosition);
+			LocalCachedBounds = new BetterBoundsInt()
+			{
+				Maximum = maxPosition,
+				Minimum = minPosition
+			};
 		}
 
-		public Bounds CacheGlobalBound()
+		public BetterBounds CacheGlobalBound()
 		{
 			var localBound = GetLocalBounds();
 
-			var bottomLeft = localToWorldMatrix.MultiplyPoint(localBound.min);
-			var bottomRight = localToWorldMatrix.MultiplyPoint(new Vector3(localBound.xMax, localBound.min.y, 0));
-			var topLeft = localToWorldMatrix.MultiplyPoint(new Vector3(localBound.min.x, localBound.yMax, 0));
-			var topRight = localToWorldMatrix.MultiplyPoint(localBound.max);
+			var offset = new Vector3(0.5f, 0.5f, 0);
+
+			var bottomLeft = localToWorldMatrix.MultiplyPoint(localBound.min + offset);
+			var bottomRight = localToWorldMatrix.MultiplyPoint(new Vector3(localBound.xMax, localBound.yMin, 0)  + offset);
+			var topLeft = localToWorldMatrix.MultiplyPoint(new Vector3(localBound.xMin, localBound.yMax, 0)  + offset);
+			var topRight = localToWorldMatrix.MultiplyPoint(localBound.max  + offset);
 
 			var globalPoints = new Vector3[4] {bottomLeft, bottomRight, topLeft, topRight};
 			var minPosition = bottomLeft;
 			var maxPosition = bottomLeft;
 			foreach (var point in globalPoints)
 			{
-				if (point.x < minPosition.x)
-				{
-					minPosition.x = point.x;
-				}
-
-				if (point.y < minPosition.y)
-				{
-					minPosition.y = point.y;
-				}
-
-				if (point.x > maxPosition.x)
-				{
-					maxPosition.x = point.x;
-				}
-
-				if (point.y > maxPosition.y)
-				{
-					maxPosition.y = point.y;
-				}
+				minPosition = Vector3.Min(minPosition, point);
+				maxPosition = Vector3.Max(maxPosition, point);
 			}
 
-			var middlePoint = minPosition + (maxPosition - minPosition) / 2;
-			var newGlobalBounds = new Bounds(middlePoint, maxPosition - minPosition);
+			var newGlobalBounds = new BetterBounds()
+			{
+				Maximum = maxPosition, Minimum = minPosition
+			};
 
 			if (matrix.MatrixMove == null ||
 			    (CustomNetworkManager.IsServer && matrix.MatrixMove.IsMovingServer == false &&
