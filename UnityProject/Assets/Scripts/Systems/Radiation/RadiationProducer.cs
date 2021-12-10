@@ -79,7 +79,11 @@ namespace Systems.Radiation
 
 		private void UpdateValues(float Invalue)
 		{
-			if (this == null ) return;
+			if (this == null)
+			{
+				Logger.LogError(" The radioactive object has been destroyed but you're still trying to Produce radiation ");
+				return;
+			}
 			OutPuttingRadiation = Invalue;
 			float LightPower = OutPuttingRadiation / 24000;
 			if (LightPower > 1)
