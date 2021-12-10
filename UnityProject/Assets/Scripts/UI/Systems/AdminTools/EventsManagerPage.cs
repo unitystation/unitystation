@@ -39,8 +39,26 @@ public class EventsManagerPage : AdminPage
 		eventsParametersPages = GetComponent<EventParameterPages>();
 	}
 
+
+	private DateTime stationTimeHolder;
+	private DateTime stationTimeSnapshot;
+
 	public void TriggerEvent()
 	{
+		// Pull time from game manager and put it into a private holder variable which gets cleared on timeout and allows the button to be pressed again. Current WAIT time set to 5 secs
+		
+		stationTimeHolder = GameManager.Instance.stationTime;
+
+		if (stationTimeHolder < (stationTimeSnapshot))
+   		{
+            // Tells all admins to wait X seconds, this is based on round time so if the server stutters loading an event it 
+            // will take it into account effectivly stopping any sort of spam.
+			Chat.AddExamineMsgToClient($"Please wait {Mathf.Round((float)stationTimeSnapshot.Subtract(stationTimeHolder).TotalSeconds)} seconds before trying to generate another event.");
+            return;
+    	}
+
+		stationTimeSnapshot = stationTimeHolder.AddSeconds(5);
+
 		if (!InGameEventType.TryParse(eventTypeDropDown.options[eventTypeDropDown.value].text,
 			out InGameEventType eventType)) return;
 
@@ -53,14 +71,13 @@ public class EventsManagerPage : AdminPage
 
 		if (index != 0) // Index 0 (Random Event) will never have a parameter page
 		{
-			// Instead of triggering the event right away, if we have an extra parameter page, we show it
+				// Instead of triggering the event right away, if we have an extra parameter page, we show it
 			List<EventScriptBase> listEvents = InGameEventsManager.Instance.GetListFromEnum(eventType);
 			if (listEvents[index - 1].parametersPageType != ParametersPageType.None)
 			{
 				GameObject parameterPage = eventsParametersPages.eventParameterPages
 					.FirstOrDefault(p => p.ParametersPageType == listEvents[index - 1].parametersPageType)
 					.ParameterPage;
-
 				if (parameterPage)
 				{
 					parameterPage.SetActive(true);
@@ -72,7 +89,6 @@ public class EventsManagerPage : AdminPage
 		}
 
 		AdminCommandsManager.Instance.CmdTriggerGameEvent(index, isFakeToggle.isOn, announceToggle.isOn, eventType, null);
-
 	}
 
 	public void ToggleRandomEvents()
