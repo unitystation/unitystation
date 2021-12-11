@@ -198,6 +198,8 @@ MonoBehaviour:
   spritesStateOnEffect: {fileID: 11400000, guid: eb6855ff2551ddc4abe1b264ca4bbb52,
     type: 2}
   mountStatesMachine: {fileID: 11400000, guid: 2049efbecd5fb44478e9830e1b970f84, type: 2}
+  maximumDamageOnTouch: 3
+  gloveTrait: {fileID: 11400000, guid: 10a21ec3d5e7d1d489334ee8c7382ba7, type: 2}
 --- !u!1001 &8768609531924612570
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -269,17 +271,17 @@ PrefabInstance:
     - target: {fileID: 1625533340043428710, guid: b69bfc56f39849d4ba9139d2d51bedb6,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1625533340043428710, guid: b69bfc56f39849d4ba9139d2d51bedb6,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1625533340043428710, guid: b69bfc56f39849d4ba9139d2d51bedb6,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1625533340043428710, guid: b69bfc56f39849d4ba9139d2d51bedb6,
         type: 3}
@@ -431,6 +433,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7946340047006197236, guid: b69bfc56f39849d4ba9139d2d51bedb6,
         type: 3}
+      propertyPath: customNetTransform
+      value: 
+      objectReference: {fileID: 5156143888625489764}
+    - target: {fileID: 7946340047006197236, guid: b69bfc56f39849d4ba9139d2d51bedb6,
+        type: 3}
       propertyPath: CurrentsortingGroup
       value: 
       objectReference: {fileID: 4748725737697293526}
@@ -471,6 +478,18 @@ BoxCollider2D:
     type: 3}
   m_PrefabInstance: {fileID: 8768609531924612570}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &5156143888625489764 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4485046902360527550, guid: b69bfc56f39849d4ba9139d2d51bedb6,
+    type: 3}
+  m_PrefabInstance: {fileID: 8768609531924612570}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8010465399013802086}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 579884b05ae74e8499329b64997147d3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &1496935572177014779 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 7887620515462466081, guid: b69bfc56f39849d4ba9139d2d51bedb6,

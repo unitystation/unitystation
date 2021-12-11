@@ -234,7 +234,7 @@ public class Lungs : BodyPartFunctionality
 		var TotalMoles = breathGasMix.Moles * PercentageCanTake;
 
 
-		lock (breathGasMix.GasData.GasesArray)
+		lock (breathGasMix.GasData.GasesArray) //no Double lock
 		{
 			foreach (var gasValues in breathGasMix.GasData.GasesArray)
 			{
