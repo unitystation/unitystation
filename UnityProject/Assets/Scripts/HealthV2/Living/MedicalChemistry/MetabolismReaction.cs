@@ -36,19 +36,9 @@ public class MetabolismReaction : Reaction
 
 	public void React(BodyPart sender, ReagentMix reagentMix, float inReactionAmount)
 	{
-		if (HasIngredients(reagentMix) == false)
-		{
-			return;
-		}
-
 		var reactionAmount = GetReactionAmount(reagentMix);
 
-		if (reactionAmount / reagentMix.Total < MinimumPercentageThreshold)
-		{
-			return;
-		}
-
-		if (CanReactionHappen(reagentMix, reactionAmount) == false)
+		if ((reactionAmount / reagentMix.Total) < MinimumPercentageThreshold)
 		{
 			return;
 		}

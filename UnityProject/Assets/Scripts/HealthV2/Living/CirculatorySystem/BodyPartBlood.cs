@@ -22,6 +22,8 @@ namespace HealthV2
 
 		public bool CanGetHungry = true;
 
+		public bool HasNaturalToxicity = true;
+
 		/// <summary>
 		/// Flag that is true if the body part is connected to the blood stream. If this is false
 		/// it will be ignored by circulatory organs (the heart).
@@ -163,18 +165,21 @@ namespace HealthV2
 				ConsumeNutriments();
 			}
 
+			if (HasNaturalToxicity)
+			{
+				NaturalToxicity();
+			}
 
-			NaturalToxicity();
 			//Assuming it's changed in this update since none of them use the Inbuilt functions
 			BloodContainer.OnReagentMixChanged?.Invoke();
 			BloodContainer.ReagentsChanged();
-
+			//plz No modify BloodContainer before MetaboliseReactions
 			MetaboliseReactions();
 		}
 
 		protected virtual void NaturalToxicity()
 		{
-			BloodContainer.CurrentReagentMix.Add(NaturalToxinReagent, ToxinGeneration * BloodThroughput);
+			HealthMaster.CirculatorySystem.BloodPool.Add(NaturalToxinReagent, ToxinGeneration * BloodThroughput);
 		}
 
 		protected virtual void MetaboliseReactions()
@@ -331,8 +336,6 @@ namespace HealthV2
 			BloodContainer.CurrentReagentMix.TransferTo(HealthMaster.CirculatorySystem.BloodPool, 	(BloodContainer.CurrentReagentMix.Total + ToTransferIn ) - BloodThroughput);
 			HealthMaster.CirculatorySystem.BloodPool.TransferTo(BloodContainer.CurrentReagentMix, ToTransferIn);
 
-			// BloodContainer.OnReagentMixChanged?.Invoke();
-			// BloodContainer.ReagentsChanged();
 			BloodWasPumped();
 		}
 
