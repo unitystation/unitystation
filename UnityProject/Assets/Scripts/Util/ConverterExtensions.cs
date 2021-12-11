@@ -153,24 +153,11 @@ public static class ConverterExtensions
 			MatrixManager.AtPoint(Vector3Int.RoundToInt(worldPos), CustomNetworkManager.Instance._isServer));
 	}
 
-	public static Vector3 ToWorld(this Vector3 localPos)
-	{
-		return MatrixManager.LocalToWorld(localPos,
-			MatrixManager.AtPoint(Vector3Int.RoundToInt(localPos), CustomNetworkManager.Instance._isServer));
-	}
-
 
 	public static Vector3 ToWorld(this Vector3 localPos, Matrix matrix)
 	{
 		return MatrixManager.LocalToWorld(localPos, MatrixManager.Get(matrix));
 	}
-
-	public static Vector3 ToWorld(this Vector3Int localPos)
-	{
-		return MatrixManager.LocalToWorld(localPos,
-			MatrixManager.AtPoint(Vector3Int.RoundToInt(localPos), CustomNetworkManager.Instance._isServer));
-	}
-
 
 	public static Vector3 ToWorld(this Vector3Int localPos, Matrix matrix)
 	{

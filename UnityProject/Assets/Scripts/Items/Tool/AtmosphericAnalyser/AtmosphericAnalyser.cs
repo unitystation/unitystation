@@ -106,7 +106,7 @@ namespace Items.Atmospherics
 				$"Temperature: {gasMix.Temperature:0.##} K ({gasMix.Temperature - Reactions.KOffsetC:0.##} °C)\n");
 			// You want Fahrenheit? HAHAHAHA
 
-			lock (gasMix.GasesArray)
+			lock (gasMix.GasesArray) //no Double lock
 			{
 				foreach (var gas in gasMix.GasesArray) //doesn't appear to modify list while iterating
 				{

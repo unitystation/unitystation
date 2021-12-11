@@ -44,6 +44,7 @@ public class HandsController : MonoBehaviour
 
 	public void AddHand(IDynamicItemSlotS bodyPartUISlots, BodyPartUISlots.StorageCharacteristics StorageCharacteristics)
 	{
+		if (this == null) return;
 		DoubleHandController HandController;
 		switch (StorageCharacteristics.namedSlot)
 		{
