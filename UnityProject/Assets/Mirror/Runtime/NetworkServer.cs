@@ -1455,34 +1455,45 @@ namespace Mirror
 
         // broadcasting ////////////////////////////////////////////////////////
         // helper function to get the right serialization for a connection
-        static NetworkWriter GetEntitySerializationForConnection(NetworkIdentity identity, NetworkConnectionToClient connection)
-        {
-            // get serialization for this entity (cached)
-            // IMPORTANT: int tick avoids floating point inaccuracy over days/weeks
-            NetworkIdentitySerialization serialization = identity.GetSerializationAtTick(Time.frameCount);
+	static NetworkWriter GetEntitySerializationForConnection(NetworkIdentity identity,
+			NetworkConnectionToClient connection, out bool IsNull )
+		{
+			//CUSTOM UNITYSTATION CODE// IsNull is custom
+			// get serialization for this entity (cached)
+			// IMPORTANT: int tick avoids floating point inaccuracy over days/weeks
+			NetworkIdentitySerialization serialization = identity.GetSerializationAtTick(Time.frameCount);
 
-            // is this entity owned by this connection?
-            bool owned = identity.connectionToClient == connection;
+			// is this entity owned by this connection?
+			bool owned = identity.connectionToClient == connection;
 
-            // send serialized data
-            // owner writer if owned
-            if (owned)
-            {
-                // was it dirty / did we actually serialize anything?
-                if (serialization.ownerWritten > 0)
-                    return serialization.ownerWriter;
-            }
-            // observers writer if not owned
-            else
-            {
-                // was it dirty / did we actually serialize anything?
-                if (serialization.observersWritten > 0)
-                    return serialization.observersWriter;
-            }
+			// send serialized data
+			// owner writer if owned
+			if (owned)
+			{
+				// was it dirty / did we actually serialize anything?
+				if (serialization.ownerWritten > 0)
+				{
+					IsNull = false;
+					return serialization.ownerWriter;
+				}
 
-            // nothing was serialized
-            return null;
-        }
+			}
+			// observers writer if not owned
+			else
+			{
+				// was it dirty / did we actually serialize anything?
+				if (serialization.observersWritten > 0)
+				{
+					IsNull = false;
+					return serialization.observersWriter;
+				}
+
+			}
+
+			// nothing was serialized
+			IsNull = true;
+			return null;
+		}
 
         // helper function to clear dirty bits of all spawned entities
         static void ClearSpawnedDirtyBits()
@@ -1522,42 +1533,43 @@ namespace Mirror
                 // (which can happen if someone uses
                 //  GameObject.Destroy instead of
                 //  NetworkServer.Destroy)
-                if (identity != null)
-                {
-	                //CUSTOM UNITYSTATION CODE//
-	                if (identity.isDirty == false)
-	                {
-		                continue;
-	                }
-	                ////////////////////////////
-                    // get serialization for this entity viewed by this connection
-                    // (if anything was serialized this time)
-                    NetworkWriter serialization = GetEntitySerializationForConnection(identity, connection);
-                    if (serialization != null)
-                    {
-                        EntityStateMessage message = new EntityStateMessage
-                        {
-                            netId = identity.netId,
-                            payload = serialization.ToArraySegment()
-                        };
-                        connection.Send(message);
-                    }
+                //CUSTOM UNITYSTATION CODE// == null = lag
+                // if (identity != null)
+                // {
+                //CUSTOM UNITYSTATION CODE//
+	            if (identity.isDirty == false)
+	            {
+		            continue;
+	            }
+	            ////////////////////////////
+	            // get serialization for this entity viewed by this connection
+	            // (if anything was serialized this time)
+	            NetworkWriter serialization = GetEntitySerializationForConnection(identity, connection, out bool isNull);
+	            if (isNull == false)
+	            {
+		            EntityStateMessage message = new EntityStateMessage
+		            {
+			            netId = identity.netId,
+			            payload = serialization.ToArraySegment()
+		            };
+		            connection.Send(message);
+	            }
 
-                    // clear dirty bits only for the components that we serialized
-                    // DO NOT clean ALL component's dirty bits, because
-                    // components can have different syncIntervals and we don't
-                    // want to reset dirty bits for the ones that were not
-                    // synced yet.
-                    // (we serialized only the IsDirty() components, or all of
-                    //  them if initialState. clearing the dirty ones is enough.)
-                    //
-                    // NOTE: this is what we did before push->pull
-                    //       broadcasting. let's keep doing this for
-                    //       feature parity to not break anyone's project.
-                    //       TODO make this more simple / unnecessary later.#
-                    //CUSTOM UNITYSTATION CODE// commented this out \/
-                    //identity.ClearDirtyComponentsDirtyBits();
-                }
+	            // clear dirty bits only for the components that we serialized
+	            // DO NOT clean ALL component's dirty bits, because
+	            // components can have different syncIntervals and we don't
+	            // want to reset dirty bits for the ones that were not
+	            // synced yet.
+	            // (we serialized only the IsDirty() components, or all of
+	            //  them if initialState. clearing the dirty ones is enough.)
+	            //
+	            // NOTE: this is what we did before push->pull
+	            //       broadcasting. let's keep doing this for
+	            //       feature parity to not break anyone's project.
+	            //       TODO make this more simple / unnecessary later.#
+	            //CUSTOM UNITYSTATION CODE// commented this out \/
+	            //identity.ClearDirtyComponentsDirtyBits();
+                //}
                 // spawned list should have no null entries because we
                 // always call Remove in OnObjectDestroy everywhere.
                 // if it does have null then someone used
