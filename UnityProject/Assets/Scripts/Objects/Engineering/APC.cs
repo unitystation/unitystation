@@ -12,6 +12,7 @@ using Systems.ObjectConnection;
 using Objects.Lighting;
 using Objects.Construction;
 using Core.Editor.Attributes;
+using CustomInspectors;
 using ScriptableObjects;
 using HealthV2;
 
@@ -19,7 +20,7 @@ namespace Objects.Engineering
 {
 	[RequireComponent(typeof(ElectricalNodeControl))]
 	[RequireComponent(typeof(ResistanceSourceModule))]
-	public class APC : SubscriptionController, INodeControl, ICheckedInteractable<HandApply>, IServerDespawn, IMultitoolMasterable
+	public class APC : InterfaceGUI, SubscriptionController, INodeControl, ICheckedInteractable<HandApply>, IServerDespawn, IMultitoolMasterable
 	{
 		// -----------------------------------------------------
 		//					ELECTRICAL THINGS
@@ -489,7 +490,7 @@ namespace Objects.Engineering
 			}
 		}
 
-		public override IEnumerable<GameObject> SubscribeToController(IEnumerable<GameObject> potentialObjects)
+		public IEnumerable<GameObject> SubscribeToController(IEnumerable<GameObject> potentialObjects)
 		{
 			var approvedObjects = new List<GameObject>();
 
@@ -530,7 +531,7 @@ namespace Objects.Engineering
 		public bool WillInteract(HandApply interaction, NetworkSide side)
 		{
 			if (DefaultWillInteract.Default(interaction, side) == false) return false;
-			
+
 			return Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Screwdriver);
 		}
 
@@ -545,7 +546,7 @@ namespace Objects.Engineering
 			float voltage = Voltage*10;
 			Vector3 shockpos = gameObject.WorldPosServer();
 			Electrocution electrocution = new Electrocution(voltage, shockpos, "APC");
-			
+
 			interaction.Performer.GetComponent<PlayerHealthV2>().Electrocute(electrocution);
 
 			ToolUtils.ServerUseToolWithActionMessages(interaction, secondsToScrewdrive,

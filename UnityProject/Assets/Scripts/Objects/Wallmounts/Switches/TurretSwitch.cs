@@ -6,6 +6,7 @@ using Messages.Server;
 using Systems.Electricity;
 using Systems.Interaction;
 using Systems.ObjectConnection;
+using CustomInspectors;
 using UI.Core.Net;
 using Objects.Other;
 
@@ -14,7 +15,7 @@ namespace Objects.Wallmounts.Switches
 {
 	[RequireComponent(typeof(AccessRestrictions))]
 	[RequireComponent(typeof(APCPoweredDevice))]
-	public class TurretSwitch : SubscriptionController, ICheckedInteractable<AiActivate>, IMultitoolMasterable, ICanOpenNetTab
+	public class TurretSwitch : InterfaceGUI, SubscriptionController, ICheckedInteractable<AiActivate>, IMultitoolMasterable, ICanOpenNetTab
 	{
 		[Header("Access Restrictions for ID")]
 		[Tooltip("Is this door restricted?")]
@@ -258,7 +259,7 @@ namespace Objects.Wallmounts.Switches
 			}
 		}
 
-		public override IEnumerable<GameObject> SubscribeToController(IEnumerable<GameObject> potentialObjects)
+		public IEnumerable<GameObject> SubscribeToController(IEnumerable<GameObject> potentialObjects)
 		{
 			var approvedObjects = new List<GameObject>();
 

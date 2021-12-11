@@ -7,12 +7,13 @@ using AddressableReferences;
 using ScriptableObjects;
 using Systems.Interaction;
 using Systems.ObjectConnection;
+using CustomInspectors;
 using Doors;
 
 
 namespace Objects.Wallmounts
 {
-	public class FireAlarm : SubscriptionController, IServerLifecycle, ICheckedInteractable<HandApply>, IMultitoolMasterable, ICheckedInteractable<AiActivate>
+	public class FireAlarm : InterfaceGUI, SubscriptionController, IServerLifecycle, ICheckedInteractable<HandApply>, IMultitoolMasterable, ICheckedInteractable<AiActivate>
 	{
 		public List<FireLock> FireLockList = new List<FireLock>();
 		private MetaDataNode metaNode;
@@ -233,7 +234,7 @@ namespace Objects.Wallmounts
 
 		#region Editor
 
-		public override IEnumerable<GameObject> SubscribeToController(IEnumerable<GameObject> potentialObjects)
+		public IEnumerable<GameObject> SubscribeToController(IEnumerable<GameObject> potentialObjects)
 		{
 			var approvedObjects = new List<GameObject>();
 
