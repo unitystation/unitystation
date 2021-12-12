@@ -97,7 +97,7 @@ namespace Items.Weapons
 
 		}
 
-		[Command]
+		[Server]
 		private void CmdAttachExplosive(GameObject target, Vector2 targetPostion)
 		{
 			if (target.TryGetComponent<PushPull>(out var handler))
@@ -112,6 +112,7 @@ namespace Items.Weapons
 				*/
 				return;
 			}
+
 			Inventory.ServerDrop(pickupable.ItemSlot, targetPostion);
 			//Visual feedback to indicate that it's been attached and not just dropped.
 			if (spriteHandler != null) spriteHandler.transform.localScale = new Vector3(0.6f, 0.6f, 0.6f);
@@ -197,7 +198,7 @@ namespace Items.Weapons
 					}
 				}
 
-				CmdAttachExplosive(interaction.TargetObject, interaction.TargetObject.AssumedWorldPosServer());
+				CmdAttachExplosive(interaction.TargetObject, interaction.TargetVector);
 				isOnObject = true;
 				pickupable.ServerSetCanPickup(false);
 				objectBehaviour.ServerSetPushable(false);
