@@ -300,8 +300,7 @@ namespace Objects.Construction
 					}
 				}
 
-				econs.Clear();
-				ElectricalPool.PooledFPCList.Add(econs);
+				econs.Pool();
 
 				GameObject WallMount = Spawn.ServerPrefab(APCObject, gameObject.GetComponent<CustomNetTransform>().ServerPosition, interaction.Performer.transform.parent, spawnItems: false).GameObject;
 
