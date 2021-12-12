@@ -277,7 +277,7 @@ namespace HealthV2
 			var chance = UnityEngine.Random.Range(0, 100);
 			if(chance < armorChanceModifer)
 			{
-				if (this.BodyPartType == BodyPartType.Chest || this.BodyPartType == BodyPartType.Head) return;
+				if (this.BodyPartType == BodyPartType.Chest || this.BodyPartType == BodyPartType.Head) return; //TODO is temporary weighting on Trauma discussion
 				HealthMaster.DismemberBodyPart(this);
 			}
 		}
@@ -299,7 +299,7 @@ namespace HealthV2
 		{
 			if(currentBurnDamageLevel >= TraumaDamageLevel.CRITICAL)
 			{
-				if (this.BodyPartType == BodyPartType.Chest || this.BodyPartType == BodyPartType.Head) return;
+				if (this.BodyPartType == BodyPartType.Chest || this.BodyPartType == BodyPartType.Head) return; //TODO is temporary weighting on Trauma discussion
 				IEnumerable<ItemSlot> internalItemList = OrganStorage.GetItemSlots();
 				foreach(ItemSlot item in internalItemList)
 				{
