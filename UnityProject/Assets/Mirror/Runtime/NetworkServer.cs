@@ -1456,9 +1456,8 @@ namespace Mirror
         // broadcasting ////////////////////////////////////////////////////////
         // helper function to get the right serialization for a connection
 	static NetworkWriter GetEntitySerializationForConnection(NetworkIdentity identity,
-			NetworkConnectionToClient connection, out bool IsNull )
+			NetworkConnectionToClient connection)
 		{
-			//CUSTOM UNITYSTATION CODE// IsNull is custom
 			// get serialization for this entity (cached)
 			// IMPORTANT: int tick avoids floating point inaccuracy over days/weeks
 			NetworkIdentitySerialization serialization = identity.GetSerializationAtTick(Time.frameCount);
@@ -1473,7 +1472,6 @@ namespace Mirror
 				// was it dirty / did we actually serialize anything?
 				if (serialization.ownerWritten > 0)
 				{
-					IsNull = false;
 					return serialization.ownerWriter;
 				}
 
@@ -1484,14 +1482,12 @@ namespace Mirror
 				// was it dirty / did we actually serialize anything?
 				if (serialization.observersWritten > 0)
 				{
-					IsNull = false;
 					return serialization.observersWriter;
 				}
 
 			}
 
 			// nothing was serialized
-			IsNull = true;
 			return null;
 		}
 
@@ -1544,8 +1540,8 @@ namespace Mirror
 	            ////////////////////////////
 	            // get serialization for this entity viewed by this connection
 	            // (if anything was serialized this time)
-	            NetworkWriter serialization = GetEntitySerializationForConnection(identity, connection, out bool isNull);
-	            if (isNull == false)
+	            NetworkWriter serialization = GetEntitySerializationForConnection(identity, connection);
+	            if (serialization != null)
 	            {
 		            EntityStateMessage message = new EntityStateMessage
 		            {
