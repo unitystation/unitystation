@@ -23,7 +23,7 @@ namespace Items.Weapons
 		[SerializeField] private bool detonateImmediatelyOnSignal;
 		[SerializeField] private int timeToDetonate = 10;
 		[SerializeField] private int minimumTimeToDetonate = 10;
-		[SerializeField] private ExplosionComponent explosionPrefab;
+		[SerializeField] private float explosiveStrength = 150f;
 		[SerializeField] private SpriteDataSO activeSpriteSO;
 		[SerializeField] private float progressTime = 3f;
 		[Header("Explosive Components")]
@@ -88,20 +88,16 @@ namespace Items.Weapons
 			if (isServer)
 			{
 				// Get data before despawning
-				var explosionMatrix = registerItem.Matrix;
 				var worldPos = objectBehaviour.AssumedWorldPositionServer();
 
 				// Despawn the explosive
 				_ = Despawn.ServerSingle(gameObject);
-
-				// Explosion here
-				var explosionGO = Instantiate(explosionPrefab, explosionMatrix.transform);
-				explosionGO.transform.position = worldPos;
-				explosionGO.Explode(explosionMatrix);
+				Explosion.StartExplosion(worldPos, explosiveStrength);
 			}
+
 		}
 
-		[Command(requiresAuthority = false)]
+		[Command]
 		private void CmdAttachExplosive(GameObject target, Vector2 targetPostion)
 		{
 			if (target.TryGetComponent<PushPull>(out var handler))
