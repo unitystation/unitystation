@@ -7,6 +7,7 @@ using Systems.Explosions;
 using ScriptableObjects.Communications;
 using Communications;
 using Managers;
+using Mirror;
 using Objects;
 using UI;
 using UnityEngine;
@@ -30,6 +31,7 @@ namespace Items.Weapons
 		private ObjectBehaviour objectBehaviour;
 		private Pickupable pickupable;
 		private HasNetworkTabItem explosiveGUI;
+		private CustomNetTransform netTransform;
 		[HideInInspector] public GUI_Explosive GUI;
 
 		private bool hasExploded;
@@ -96,6 +98,26 @@ namespace Items.Weapons
 				explosionGO.transform.position = worldPos;
 				explosionGO.Explode(explosionMatrix);
 			}
+		}
+
+		[Command(requiresAuthority = false)]
+		private void CmdAttachExplosive(GameObject target, Vector2 targetPostion)
+		{
+			if (target.TryGetComponent<PushPull>(out var handler))
+			{
+				Inventory.ServerDrop(pickupable.ItemSlot);
+
+				transform.SetParent(handler.transform);
+				//TODO : Figure out why the position keeps getting offset to it's last position inside the parent's hierarchy (it doesn't want to 0,0)
+				/*
+				transform.localPosition = new Vector3(0, 0, 0);
+				transform.position = new Vector3(0, 0, 0);
+				*/
+				return;
+			}
+			Inventory.ServerDrop(pickupable.ItemSlot, targetPostion);
+			//Visual feedback to indicate that it's been attached and not just dropped.
+			if (spriteHandler != null) spriteHandler.transform.localScale = new Vector3(0.6f, 0.6f, 0.6f);
 		}
 
 		/// <summary>
@@ -170,13 +192,10 @@ namespace Items.Weapons
 					}
 				}
 
-				Inventory.ServerDrop(pickupable.ItemSlot, interaction.TargetVector);
+				CmdAttachExplosive(interaction.TargetObject, interaction.TargetObject.AssumedWorldPosServer());
 				isOnObject = true;
 				pickupable.ServerSetCanPickup(false);
 				objectBehaviour.ServerSetPushable(false);
-				//Visual feedback to indicate that it's been attached and not just dropped.
-				//We put it under a null check because headless servers for some reason don't get them on Awake()
-				if (spriteHandler != null) spriteHandler.transform.localScale = new Vector3(0.6f, 0.6f, 0.6f);
 				Chat.AddActionMsgToChat(interaction.Performer, $"You attach the {gameObject.ExpensiveName()} to a nearby object..",
 					$"{interaction.PerformerPlayerScript.visibleName} attaches a {gameObject.ExpensiveName()} to nearby object!");
 			}
