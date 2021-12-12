@@ -483,11 +483,14 @@ public class InteractableStorage : MonoBehaviour, IClientInteractable<HandActiva
 			return true;
 		}
 
-		interaction.PerformerPlayerScript.playerNetworkActions.CmdTriggerStorageTrap(gameObject);
-		if (PreventUIShowingAfterTrapTrigger)
+		if (interaction.Intent != Intent.Disarm)
 		{
-			preventUIShowingAfterTrapTrigger = false;
-			return false;
+			interaction.PerformerPlayerScript.playerNetworkActions.CmdTriggerStorageTrap(gameObject);
+			if (PreventUIShowingAfterTrapTrigger)
+			{
+				preventUIShowingAfterTrapTrigger = false;
+				return false;
+			}
 		}
 
 		// open / close the backpack on activate
