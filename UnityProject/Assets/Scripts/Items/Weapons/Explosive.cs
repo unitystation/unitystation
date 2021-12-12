@@ -221,6 +221,7 @@ namespace Items.Weapons
 			    interaction.HandObject.TryGetComponent<SignalEmitter>(out var emitter))
 			{
 				Emitter = emitter;
+				Frequency = emitter.Frequency;
 				Chat.AddExamineMsg(interaction.Performer, "You successfully pair the remote signal to the device.");
 				return;
 			}
