@@ -306,11 +306,23 @@ namespace Objects.Lighting
 		{
 			try
 			{
-				var handSlot = interaction.PerformerPlayerScript.DynamicItemStorage.GetActiveHandSlot();
+				//(Gilles)  : the hand that we use to interact and hold items isn't the same entity as the slot where you wear gloves.
+				//(MaxIsJoe): GetActiveHand() retrieves the slot you hold and use items with not the slot that you use to wear gloves.
+				//TODO : According to Gilles this is conceptually wrong and should be dealt with sometime in the future.
+				var handSlots = interaction.PerformerPlayerScript.DynamicItemStorage.GetNamedItemSlots(NamedSlot.hands);
 
-				if (mState == LightMountState.On && (handSlot.IsOccupied == false ||
-				                                     !Validations.HasItemTrait(handSlot.ItemObject,
-					                                     CommonTraits.Instance.BlackGloves)))
+				bool HasGlove()
+				{
+					foreach (var slot in handSlots)
+					{
+						if(slot.IsEmpty) continue;
+						if (Validations.HasItemTrait(slot.ItemObject, CommonTraits.Instance.BlackGloves)) return true;
+					}
+
+					return false;
+				}
+
+				if (mState == LightMountState.On && HasGlove() == false)
 				{
 					float damage = Random.Range(0, maximumDamageOnTouch);
 					var playerHealth = interaction.PerformerPlayerScript.playerHealth;

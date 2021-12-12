@@ -7,7 +7,7 @@ namespace HealthV2
 	[CreateAssetMenu(fileName = "CloseProcedure", menuName = "ScriptableObjects/Surgery/CloseProcedure")]
 	public class CloseProcedure : SurgeryProcedureBase
 	{
-		public override void FinnishSurgeryProcedure(BodyPart OnBodyPart, PositionalHandApply interaction,
+		public override void FinnishSurgeryProcedure(BodyPart OnBodyPart, HandApply interaction,
 			Dissectible.PresentProcedure PresentProcedure)
 		{
 			base.FinnishSurgeryProcedure(OnBodyPart, interaction, PresentProcedure);
@@ -24,7 +24,7 @@ namespace HealthV2
 			}
 		}
 
-		public override void UnsuccessfulStep(BodyPart OnBodyPart, PositionalHandApply interaction,
+		public override void UnsuccessfulStep(BodyPart OnBodyPart, HandApply interaction,
 			Dissectible.PresentProcedure PresentProcedure)
 		{
 			base.UnsuccessfulStep(OnBodyPart, interaction,PresentProcedure );

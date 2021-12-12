@@ -254,17 +254,14 @@ namespace UI.Chat_UI
 
 		private void SetStackPos()
 		{
-			if (messageText.textInfo.characterCount - 1 < messageText.textInfo.characterInfo.Length)
+			var characterInfo = messageText.textInfo.characterInfo;
+			if ((messageText.textInfo.characterCount - 1) < characterInfo.Length)
 			{
-				var lastCharacter = messageText.textInfo.characterInfo[messageText.textInfo.characterCount - 1];
+				var lastCharacter = characterInfo[messageText.textInfo.characterCount - 1];
 				var charWorld = messageText.transform.TransformPoint(lastCharacter.bottomRight);
 				var newWorldPos = stackObject.transform.position;
 				newWorldPos.x = charWorld.x + 3;
 				stackObject.transform.position = newWorldPos;
-			}
-			else
-			{
-				Logger.LogError("Caught an IndexOutOfRange in ChatEntry.SetStackPos() ln 273", Category.Chat);
 			}
 		}
 

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using HealthV2;
 using UnityEngine;
 using Mirror;
+using TileManagement;
 using Random = UnityEngine.Random;
 
 namespace Items.Command
@@ -15,7 +16,7 @@ namespace Items.Command
 		private Pickupable pick;
 		private CustomNetTransform customNetTrans;
 		private RegisterTile registerTile;
-		private BoundsInt bound;
+		private BetterBoundsInt bound;
 		private EscapeShuttle escapeShuttle;
 
 		private float timeCheckDiskLocation = 5.0f;
@@ -81,7 +82,7 @@ namespace Items.Command
 			if (escapeShuttle != null && escapeShuttle.Status != EscapeShuttleStatus.DockedCentcom)
 			{
 				var matrixInfo = escapeShuttle.MatrixInfo;
-				if (matrixInfo == null || BoundsExtensions.Contains(matrixInfo.LocalBounds, registerTile.WorldPositionServer))
+				if (matrixInfo == null || matrixInfo.LocalBounds.Contains(registerTile.LocalPosition))
 				{
 					return false;
 				}

@@ -98,7 +98,7 @@ namespace Items.Engineering
 			bool deviceFound = interaction.TargetObject != null && interaction.TargetObject.TryGetComponent(out device);
 
 			StringBuilder sb = new StringBuilder("The multitool couldn't find anything electrical here.");
-			if (deviceFound || electricalNodes.Count > 0)
+			if (deviceFound || electricalNodes.List.Count > 0)
 			{
 				sb.Clear();
 				sb.AppendLine("The multitool's display lights up.</i>");
@@ -110,7 +110,7 @@ namespace Items.Engineering
 							: $"<b>{device.gameObject.ExpensiveName()}</b>: {device.Wattusage.ToEngineering("W")} " +
 									$"({device.RelatedAPC.Voltage.ToEngineering("V")})");
 				}
-				foreach (var node in electricalNodes)
+				foreach (var node in electricalNodes.List)
 				{
 					sb.AppendLine(node.ShowInGameDetails());
 				}
@@ -118,8 +118,7 @@ namespace Items.Engineering
 				sb.Append("<i>");
 			}
 
-			electricalNodes.Clear();
-			ElectricalPool.PooledFPCList.Add(electricalNodes);
+			electricalNodes.Pool();
 			Chat.AddExamineMsgFromServer(interaction.Performer, sb.ToString());
 		}
 

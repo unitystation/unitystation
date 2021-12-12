@@ -141,6 +141,11 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 8201529936502057137, guid: b027dfa588d69d848a886ae80d5b25c2,
         type: 3}
+      propertyPath: hasSimpleRelatedRecipe
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8201529936502057137, guid: b027dfa588d69d848a886ae80d5b25c2,
+        type: 3}
       propertyPath: relatedRecipes.Array.size
       value: 1
       objectReference: {fileID: 0}

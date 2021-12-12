@@ -368,7 +368,7 @@ public partial class GameManager : MonoBehaviour, IInitialise
 		else if (counting)
 		{
 			stationTime = stationTime.AddSeconds(Time.deltaTime);
-			roundTimer.text = stationTime.ToString("HH:mm");
+			roundTimer.text = stationTime.ToString("HH:mm:ss");
 		}
 
 		if(CustomNetworkManager.Instance._isServer == false) return;

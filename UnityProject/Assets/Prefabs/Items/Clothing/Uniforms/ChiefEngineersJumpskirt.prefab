@@ -184,6 +184,16 @@ PrefabInstance:
       value: It's a high visibility jumpskirt given to those engineers insane enough
         to achieve the rank of \"Chief Engineer\". It has minor radiation shielding.
       objectReference: {fileID: 0}
+    - target: {fileID: 3397443007502491847, guid: 10db9e28e42d145e9bbb1b151ee172de,
+        type: 3}
+      propertyPath: inventoryMoveSound.AssetAddress
+      value: null
+      objectReference: {fileID: 0}
+    - target: {fileID: 3397443007502491847, guid: 10db9e28e42d145e9bbb1b151ee172de,
+        type: 3}
+      propertyPath: inventoryRemoveSound.AssetAddress
+      value: null
+      objectReference: {fileID: 0}
     - target: {fileID: 8174322744686822344, guid: 10db9e28e42d145e9bbb1b151ee172de,
         type: 3}
       propertyPath: foreverID

@@ -324,7 +324,7 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 
 	private static bool IsInMatrix(Vector3Int worldPos, bool isServer, MatrixInfo matrixInfo)
 	{
-		if (BoundsExtensions.Contains(matrixInfo.WorldBounds, worldPos) == false)
+		if (matrixInfo.WorldBounds.Contains(worldPos) == false)
 			return false;
 
 		if (matrixInfo.Matrix == Instance.spaceMatrix)
@@ -489,7 +489,7 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 		public TileLocation TileLocation;
 	}
 
-	public static bool LineIntersectsRect(Vector2 p1, Vector2 p2, BoundsInt r)
+	public static bool LineIntersectsRect(Vector2 p1, Vector2 p2, BetterBoundsInt r)
 	{
 		var xMin = r.xMin;
 		var yMin = r.yMin;
