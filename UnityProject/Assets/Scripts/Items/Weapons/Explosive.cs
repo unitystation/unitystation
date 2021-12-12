@@ -15,7 +15,8 @@ using UnityEngine;
 
 namespace Items.Weapons
 {
-	public class Explosive : SignalReceiver, ICheckedInteractable<PositionalHandApply>, ICheckedInteractable<MouseDrop>
+	public class Explosive : SignalReceiver, ICheckedInteractable<PositionalHandApply>,
+		ICheckedInteractable<MouseDrop>, IRightClickable
 	{
 		[Header("Explosive settings")]
 		[SerializeField] private ExplosiveType explosiveType;
@@ -129,6 +130,14 @@ namespace Items.Weapons
 			detonateImmediatelyOnSignal = mode;
 		}
 
+		private void DeAttachExplosive()
+		{
+			isOnObject = false;
+			pickupable.ServerSetCanPickup(true);
+			objectBehaviour.ServerSetPushable(true);
+			if (spriteHandler != null) spriteHandler.transform.localScale = new Vector3(1f, 1f, 1f);
+		}
+
 		public override void ReceiveSignal(SignalStrength strength, ISignalMessage message = null)
 		{
 			if(countDownActive == true || isArmed == false) return;
@@ -221,6 +230,13 @@ namespace Items.Weapons
 			bar.ServerStartProgress(interaction.Performer.RegisterTile(), progressTime, interaction.Performer);
 		}
 		#endregion
+
+		public RightClickableResult GenerateRightClickOptions()
+		{
+			RightClickableResult result = new RightClickableResult();
+			if (isOnObject == false) return result;
+			return result.AddElement("Deattach", DeAttachExplosive);
+		}
 	}
 
 	public enum ExplosiveType
