@@ -105,11 +105,9 @@ namespace Items.Weapons
 				Inventory.ServerDrop(pickupable.ItemSlot);
 
 				transform.SetParent(handler.transform);
-				//TODO : Figure out why the position keeps getting offset to it's last position inside the parent's hierarchy (it doesn't want to 0,0)
-				/*
+				//TODO : Figure out why the position keeps getting offset to it's last position inside the parent's hierarchy (it doesn't want to 0,0)s
 				transform.localPosition = new Vector3(0, 0, 0);
 				transform.position = new Vector3(0, 0, 0);
-				*/
 				return;
 			}
 
