@@ -71,6 +71,14 @@ public class InteractableStorage : MonoBehaviour, IClientInteractable<HandActiva
 	[SerializeField] private ActionData actionData = null;
 	public ActionData ActionData => actionData;
 
+	private bool preventUIShowingAfterTrapTrigger = false;
+
+	public bool PreventUIShowingAfterTrapTrigger
+	{
+		get => preventUIShowingAfterTrapTrigger;
+		set => preventUIShowingAfterTrapTrigger = value;
+	}
+
 	/// <summary>
 	/// Used on the server to switch the pickup mode of this InteractableStorage
 	/// </summary>
@@ -476,6 +484,11 @@ public class InteractableStorage : MonoBehaviour, IClientInteractable<HandActiva
 		}
 
 		interaction.PerformerPlayerScript.playerNetworkActions.CmdTriggerStorageTrap(gameObject);
+		if (PreventUIShowingAfterTrapTrigger)
+		{
+			preventUIShowingAfterTrapTrigger = false;
+			return false;
+		}
 
 		// open / close the backpack on activate
 		if (UIManager.StorageHandler.CurrentOpenStorage != itemStorage)

@@ -999,7 +999,12 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 			if(slot.IsEmpty) continue;
 			if (slot.ItemObject.TryGetComponent<MouseTrap>(out var trap))
 			{
-				if(trap.IsArmed) trap.TriggerTrap(playerScript.playerHealth);
+				if (trap.IsArmed)
+				{
+					trap.TriggerTrap(playerScript.playerHealth);
+					interactableStorage.PreventUIShowingAfterTrapTrigger = true;
+					return;
+				}
 			}
 		}
 	}
