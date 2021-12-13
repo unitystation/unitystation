@@ -41,9 +41,7 @@ public class TileApply : Interaction
 	private readonly Vector2 targetPosition;
 
 
-	/// <summary>
-	/// Targeted world position deduced from target vector and performer position.
-	/// </summary>
+	/// <summary>Target world position calculated from matrix local position.</summary>
 	public Vector2 WorldPositionTarget => TargetPosition.To3().ToWorld(Performer.RegisterTile().Matrix);
 
 	/// <summary>
