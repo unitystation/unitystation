@@ -153,7 +153,7 @@ public class CablePlacementVisualisation : MonoBehaviour
 		if (startPoint == endPoint || target == null) return;
 		var Position = cablePlacementVisualisation.transform.position + new Vector3(0.5f, 0.5f, 0);
 
-		Vector2 targetVector = Position.ToLocal(PlayerManager.LocalPlayer.RegisterTile().Matrix);; // transform.position ( - transform.position); //TODO? what? is this
+		Vector2 targetVector = Position.ToLocal(PlayerManager.LocalPlayer.RegisterTile().Matrix); // transform.position ( - transform.position); //TODO? what? is this
 		ConnectionApply cableApply = ConnectionApply.ByLocalPlayer(target, startPoint, endPoint, targetVector);
 
 		//if HandObject is null, then its an empty hand apply so we only need to check the receiving object
