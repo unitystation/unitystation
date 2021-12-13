@@ -156,11 +156,19 @@ namespace Objects.Atmospherics
 
 		public void ReleaseContentsInstantly()
 		{
-			MetaDataLayer metaDataLayer = registerObject.Matrix.MetaDataLayer;
-			MetaDataNode node = metaDataLayer.Get(registerObject.LocalPositionServer, false);
+			try
+			{
+				MetaDataLayer metaDataLayer = registerObject.Matrix.MetaDataLayer;
+				MetaDataNode node = metaDataLayer.Get(registerObject.LocalPositionServer, false);
 
-			GasMix.TransferGas(node.GasMix, GasMix, GasMix.Moles);
-			metaDataLayer.UpdateSystemsAt(registerObject.LocalPositionServer, SystemType.AtmosSystem);
+				GasMix.TransferGas(node.GasMix, GasMix, GasMix.Moles);
+				metaDataLayer.UpdateSystemsAt(registerObject.LocalPositionServer, SystemType.AtmosSystem);
+			}
+			catch 
+			{
+				Logger.LogError($"metaDataLayer has been detected to be null on {gameObject} -> {gameObject.AssumedWorldPosServer()}." +
+				$"This is possibly due to an explosion removing required data on a tile.");
+			}
 		}
 
 		[Server]
