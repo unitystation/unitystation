@@ -21,9 +21,7 @@ public class ConnectionApply : TargetedInteraction
 
 	private readonly Vector2 targetPosition;
 
-	/// <summary>
-	/// Targeted world position deduced from target vector and performer position.
-	/// </summary>
+	/// <summary>Target world position calculated from matrix local position.</summary>
 	public Vector2 WorldPositionTarget => (Vector2)targetPosition.To3().ToWorld(Performer.RegisterTile().Matrix);
 
 	/// <summary>Requested local position target.</summary>
