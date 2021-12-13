@@ -79,7 +79,7 @@ public class AimApply : BodyPartTargetedInteraction
 			PLAYER_LAYER_MASK = LayerMask.GetMask("Players");
 		}
 
-		var targetPosition = MouseUtils.MouseToWorldPos().ToLocal(PlayerManager.LocalPlayer.RegisterTile().Matrix).To2();
+		var InternaltargetPosition = MouseUtils.MouseToWorldPos().ToLocal(PlayerManager.LocalPlayer.RegisterTile().Matrix).To2();
 
 		//check for self aim if target vector is sufficiently small so we can avoid raycast
 		var selfAim = false;
@@ -95,7 +95,7 @@ public class AimApply : BodyPartTargetedInteraction
 		return new AimApply(PlayerManager.LocalPlayer, PlayerManager.LocalPlayerScript.DynamicItemStorage.GetActiveHandSlot().ItemObject,
 			PlayerManager.LocalPlayerScript.DynamicItemStorage.GetActiveHandSlot(),
 			buttonState,
-			selfAim ? PlayerManager.LocalPlayer.transform.localPosition.To2() : targetPosition, UIManager.DamageZone, UIManager.CurrentIntent, PlayerManager.LocalPlayer.transform.localPosition.To2());
+			selfAim ? PlayerManager.LocalPlayer.transform.localPosition.To2() : InternaltargetPosition, UIManager.DamageZone, UIManager.CurrentIntent, PlayerManager.LocalPlayer.transform.localPosition.To2());
 	}
 
 	/// <summary>
