@@ -14,7 +14,7 @@ public class PositionalHandApply : HandApply
 	/// <summary>Target position, the Local position that the performer is pointing at</summary>
 	public Vector2 TargetPosition { get; protected set; }
 
-	/// <summary>Vector pointing from the performer to the targeted position. Set to Vector2.zero if aiming at self.</summary>
+	/// <summary>Vector pointing from the performer's position to the target position.</summary>
 	public Vector2 TargetVector => TargetPosition - Performer.transform.localPosition.To2();
 
 	/// <summary>Targeted world position deduced from target vector and performer position.</summary>
