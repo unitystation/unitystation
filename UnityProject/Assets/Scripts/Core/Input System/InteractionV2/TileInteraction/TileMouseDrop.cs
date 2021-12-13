@@ -29,9 +29,7 @@ public class TileMouseDrop : Interaction
 	/// <summary>Target world position calculated from matrix local position.</summary>
 	public Vector2 WorldPositionTarget => (Vector2)targetPosition.To3().ToWorld(Performer.RegisterTile().Matrix);
 
-	/// <summary>
-	/// Vector pointing from the performer to the targeted position. Set to Vector2.zero if aiming at self.
-	/// </summary>
+	/// <summary>Requested local position target.</summary>
 	public Vector2 TargetPosition => targetPosition;
 
 	public TileMouseDrop(GameObject performer, GameObject usedObject, Intent intent, Vector2Int targetCellPos,
