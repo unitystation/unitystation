@@ -47,7 +47,8 @@ public class TileApply : Interaction
 	/// <summary>Requested local position target.</summary>
 	public Vector2 TargetPosition => targetPosition;
 
-	public Vector2 TargetVector => Performer.transform.localPosition.To2() - targetPosition;
+	/// <summary>Vector pointing from the performer's position to the target position.</summary>
+	public Vector2 TargetVector => targetPosition - Performer.transform.localPosition.To2();
 
 	public enum ApplyType
 	{
