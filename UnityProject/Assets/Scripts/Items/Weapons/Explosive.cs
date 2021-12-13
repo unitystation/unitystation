@@ -39,6 +39,7 @@ namespace Items.Weapons
 		private bool isArmed;
 		private bool countDownActive = false;
 		private bool isOnObject = false;
+		private RegisterTile attachedObjectTile;
 
 		public int TimeToDetonate
 		{
@@ -64,6 +65,7 @@ namespace Items.Weapons
 			objectBehaviour = GetComponent<ObjectBehaviour>();
 			pickupable = GetComponent<Pickupable>();
 			explosiveGUI = GetComponent<HasNetworkTabItem>();
+			netTransform = GetComponent<CustomNetTransform>();
 		}
 
 		public async void Countdown()
@@ -98,16 +100,21 @@ namespace Items.Weapons
 		}
 
 		[Server]
-		private void CmdAttachExplosive(GameObject target, Vector2 targetPostion)
+		private void AttachExplosive(GameObject target, Vector2 targetPostion)
 		{
 			if (target.TryGetComponent<PushPull>(out var handler))
 			{
 				Inventory.ServerDrop(pickupable.ItemSlot);
 
-				transform.SetParent(handler.transform);
 				//TODO : Figure out why the position keeps getting offset to it's last position inside the parent's hierarchy (it doesn't want to 0,0)s
-				transform.localPosition = new Vector3(0, 0, 0);
-				transform.position = new Vector3(0, 0, 0);
+				attachedObjectTile = target.RegisterTile();
+				netTransform.OnTileReached().AddListener(pos => {
+					if(attachedObjectTile != null)
+					{
+						registerItem.ServerSetLocalPosition(attachedObjectTile.customNetTransform.ServerLocalPosition);
+					}
+				});
+				if (spriteHandler != null) spriteHandler.transform.localScale = new Vector3(0.6f, 0.6f, 0.6f);
 				return;
 			}
 
@@ -131,6 +138,7 @@ namespace Items.Weapons
 			pickupable.ServerSetCanPickup(true);
 			objectBehaviour.ServerSetPushable(true);
 			if (spriteHandler != null) spriteHandler.transform.localScale = new Vector3(1f, 1f, 1f);
+			attachedObjectTile = null;
 		}
 
 		public override void ReceiveSignal(SignalStrength strength, ISignalMessage message = null)
@@ -196,7 +204,7 @@ namespace Items.Weapons
 					}
 				}
 
-				CmdAttachExplosive(interaction.TargetObject, interaction.TargetVector);
+				AttachExplosive(interaction.TargetObject, interaction.TargetVector);
 				isOnObject = true;
 				pickupable.ServerSetCanPickup(false);
 				objectBehaviour.ServerSetPushable(false);
