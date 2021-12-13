@@ -164,10 +164,10 @@ namespace Objects.Atmospherics
 				GasMix.TransferGas(node.GasMix, GasMix, GasMix.Moles);
 				metaDataLayer.UpdateSystemsAt(registerObject.LocalPositionServer, SystemType.AtmosSystem);
 			}
-			catch 
+			catch (Exception e)
 			{
 				Logger.LogError($"metaDataLayer has been detected to be null on {gameObject} -> {gameObject.AssumedWorldPosServer()}." +
-				$"This is possibly due to an explosion removing required data on a tile.");
+				$"This is possibly due to an explosion removing required data on a tile. {e.StackTrace}");
 			}
 		}
 
