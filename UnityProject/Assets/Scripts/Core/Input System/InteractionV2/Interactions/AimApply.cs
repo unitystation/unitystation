@@ -20,9 +20,7 @@ public class AimApply : BodyPartTargetedInteraction
 	private readonly ItemSlot handSlot;
 
 
-	/// <summary>
-	/// Vector pointing from the performer to the targeted position. Set to Vector2.zero if aiming at self.
-	/// </summary>
+/// <summary>Requested local position target.</summary>
 	public Vector2 TargetPosition => targetPosition;
 
 
