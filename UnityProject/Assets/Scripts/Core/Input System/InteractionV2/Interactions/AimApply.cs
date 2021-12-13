@@ -36,9 +36,7 @@ public class AimApply : BodyPartTargetedInteraction
 	/// </summary>
 	public MouseButtonState MouseButtonState => mouseButtonState;
 
-	/// <summary>
-	/// Targeted world position deduced from target vector and performer position.
-	/// </summary>
+	/// <summary>Target world position calculated from matrix local position.</summary>
 	public Vector2 WorldPositionTarget => (Vector2)targetPosition.To3().ToWorld(Performer.RegisterTile().Matrix);
 
 	public Vector2 TargetVector => targetPosition - Performer.transform.localPosition.To2() ;
