@@ -17,7 +17,7 @@ public class PositionalHandApply : HandApply
 	/// <summary>Vector pointing from the performer's position to the target position.</summary>
 	public Vector2 TargetVector => TargetPosition - Performer.transform.localPosition.To2();
 
-	/// <summary>Targeted world position deduced from target vector and performer position.</summary>
+	/// <summary>Target world position calculated from matrix local position.</summary>
 	public Vector2 WorldPositionTarget => (Vector2) TargetPosition.To3().ToWorld(Performer.RegisterTile().Matrix);
 
 	/// <param name="performer">The gameobject of the player performing the drop interaction</param>
