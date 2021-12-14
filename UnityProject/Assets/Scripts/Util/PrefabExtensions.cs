@@ -47,6 +47,15 @@ namespace Util.PrefabUtils
 			return null;
 		}
 
+		/// <summary>
+		/// 	Gets a base prefab as a GameObject.
+		/// 	Quite expensive method, don't use it too often.
+		/// </summary>
+		/// <param name="variantGameObject">Prefab-variant as a game object</param>
+		/// <returns>
+		/// 	A base GameObject of a variant GameObject.
+		/// 	Null if couldn't find a .prefab file or if this prefab has no base prefab.
+		/// </returns>
 		public static GameObject GetVariantBaseGameObject(this GameObject variantGameObject)
 		{
 			return AssetDatabase.LoadAssetAtPath<GameObject>(

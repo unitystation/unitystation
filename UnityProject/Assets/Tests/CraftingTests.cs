@@ -90,38 +90,54 @@ namespace Tests
 			Assert.IsEmpty(report.ToString());
 		}
 
+		/// <summary>
+		/// 	Recipes have links to their ingredients, and the ingredients INCLUDING their heirs should have a link
+		/// 	to the recipe. This test is supposed to find all ingredients that miss their link to the recipe
+		/// 	or have a wrong recipe index.
+		/// </summary>
 		[Test]
 		public void CheckIngredientCrossLinks()
 		{
 			StringBuilder report = new StringBuilder();
+			// thank unity we have no better way to see a base (parent) or variants (heirs) of game objects, so
+			// we have to search it using .prefab files. This dictionary contains pairs of values:
+			// <Parent, List<parent's heirs>> or something like that. Heirs can also have its heirs, so they also
+			// can be parents and should be presented in this dictionary with the matching key.
 			Dictionary<GameObject, HashSet<GameObject>> parentsAndChilds =
 				new Dictionary<GameObject, HashSet<GameObject>>();
-			string[] prefabGuids = AssetDatabase.FindAssets("t:prefab", new string[] {"Assets/Prefabs"});
+			string[] possibleIngredientPrefabGuids =
+				AssetDatabase.FindAssets("t:prefab", new string[] {"Assets/Prefabs"});
 
-			foreach (string prefabGuid in prefabGuids)
+			foreach (string possibleIngredientPrefabGuid in possibleIngredientPrefabGuids)
 			{
-				GameObject child = AssetDatabase.LoadAssetAtPath<GameObject>(
-					AssetDatabase.GUIDToAssetPath(prefabGuid)
+				GameObject possibleChildIngredient = AssetDatabase.LoadAssetAtPath<GameObject>(
+					AssetDatabase.GUIDToAssetPath(possibleIngredientPrefabGuid)
 				);
-				if (child.GetComponent<CraftingIngredient>() == null)
+				// i don't know how but maybe someone sometime will just remove this component from a game object...
+				if (possibleChildIngredient.GetComponent<CraftingIngredient>() == null)
 				{
 					continue;
 				}
-				GameObject parent = PrefabExtensions.GetVariantBaseGameObject(child);
+				// assuming that game object as a prefab variant and trying to find its base
+				GameObject parent = PrefabExtensions.GetVariantBaseGameObject(possibleChildIngredient);
+				// is it not a variant?
 				if (parent == null)
 				{
+					// yes so no need to add it somewhere
 					continue;
 				}
 
+				// have we met this ingredient first time?
 				if (parentsAndChilds.ContainsKey(parent) == false)
 				{
 					parentsAndChilds[parent] = new HashSet<GameObject>();
 					continue;
 				}
 
-				parentsAndChilds[parent].Add(child);
+				parentsAndChilds[parent].Add(possibleChildIngredient);
 			}
 
+			// yes we can search without this recipesPath but i don't wanna make this test run for 5 minutes
 			string[] recipeGuids = AssetDatabase.FindAssets("t:ScriptableObject", new string[] {recipesPath});
 
 			if (recipeGuids.Length == 0)
@@ -132,9 +148,8 @@ namespace Tests
 
 			foreach (string recipeGuid in recipeGuids)
 			{
-				var p = AssetDatabase.GUIDToAssetPath(recipeGuid);
 				CraftingRecipe recipe = AssetDatabase.LoadAssetAtPath<CraftingRecipe>(
-					p
+					AssetDatabase.GUIDToAssetPath(recipeGuid)
 				);
 				for (int i = 0; i < recipe.RequiredIngredients.Count; i++)
 				{
@@ -152,6 +167,14 @@ namespace Tests
 			Assert.IsEmpty(report.ToString());
 		}
 
+		/// <summary>
+		/// 	Check cross links of the ingredient-object and all its heirs recursively
+		/// </summary>
+		/// <param name="checkingRecipe">What recipe we need to check?</param>
+		/// <param name="indexInRecipe">What index should be present in the ingredient?</param>
+		/// <param name="requiredIngredient">What ingredient and its heirs we need to check?</param>
+		/// <param name="parentsAndChilds">Dictionary of game objects and its heirs(variants)</param>
+		/// <param name="report">StringBuilder that contains report of the unit test.</param>
 		private void CheckIngredientsCrossLinks(
 			CraftingRecipe checkingRecipe,
 			int indexInRecipe,
@@ -160,6 +183,7 @@ namespace Tests
 			StringBuilder report
 		)
 		{
+			// has the ingredient a link to the recipe?
 			bool foundRecipe = false;
 			foreach (
 				RelatedRecipe relatedRecipe
@@ -177,6 +201,7 @@ namespace Tests
 					report.AppendLine($"A crafting ingredient ({requiredIngredient}) has a wrong related recipe" +
 					                  $"index. Expected: {indexInRecipe}, but found: {relatedRecipe.IngredientIndex}.");
 				}
+				break;
 			}
 
 			if (foundRecipe == false)
@@ -190,6 +215,7 @@ namespace Tests
 			{
 				return;
 			}
+			
 			foreach (GameObject child in parentsAndChilds[requiredIngredient])
 			{
 				CheckIngredientsCrossLinks(checkingRecipe, indexInRecipe, child, parentsAndChilds, report);
