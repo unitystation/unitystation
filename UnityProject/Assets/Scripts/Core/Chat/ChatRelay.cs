@@ -222,13 +222,14 @@ public class ChatRelay : NetworkBehaviour
 		{
 			return;
 		}
+		var radios = Physics2D.OverlapCircleAll(chatEvent.originator.AssumedWorldPosServer(), 14f, npcMask);
 		//Check for chat three tiles around the player
-		foreach (Collider2D coll in Physics2D.OverlapCircleAll(chatEvent.originator.AssumedWorldPosServer(), radioCheckRadius, itemsMask))
+		for (int i = 0; i < radios.Length; i++)
 		{
-			if(chatEvent.originator == coll.gameObject) continue;
-			if (coll.gameObject.TryGetComponent<LocalRadioListener>(out var listener) == false) continue;
+			if(chatEvent.originator == radios[i].gameObject) continue;
+			if (radios[i].gameObject.TryGetComponent<LocalRadioListener>(out var listener) == false) continue;
 
-			var radioPos = coll.gameObject.AssumedWorldPosServer();
+			var radioPos = radios[i].gameObject.AssumedWorldPosServer();
 			if (MatrixManager.Linecast(chatEvent.position,LayerTypeSelection.Walls,
 				layerMask,radioPos).ItHit == false)
 			{
