@@ -49,6 +49,20 @@ public class ChatRelay : NetworkBehaviour
 		}
 	}
 
+	private void Update()
+	{
+		List<ConnectedPlayer> players = PlayerList.Instance.AllPlayers;
+		if (players.Count != 0)
+		{
+			ChatEvent e = new ChatEvent();
+			e.channels = ChatChannel.Common;
+			e.message = "FUCK";
+			e.originator = players[0].GameObject;
+			e.speaker = players[0].GameObject.ExpensiveName();
+			PropagateChatToClients(e);
+		}
+	}
+
 	public void Start()
 	{
 		namelessChannels = ChatChannel.Examine | ChatChannel.Local | ChatChannel.None | ChatChannel.System |
@@ -148,8 +162,7 @@ public class ChatRelay : NetworkBehaviour
 				}
 			}
 
-			//Get NPCs in vicinity
-			Profiler.BeginSample("dumfuk");
+			//Get NPCs in vicin
 			var npcs = Physics2D.OverlapCircleAll(chatEvent.originator.AssumedWorldPosServer(), 14f, npcMask);
 			for (int i = 0; i < npcs.Length; i++)
 			{
@@ -165,10 +178,9 @@ public class ChatRelay : NetworkBehaviour
 					}
 				}
 			}
-			Profiler.EndSample();
+
 
 			if(radioCheckIsOnCooldown == false) CheckForRadios(chatEvent);
-
 		}
 
 		for (var i = 0; i < players.Count; i++)
