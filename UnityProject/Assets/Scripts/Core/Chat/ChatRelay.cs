@@ -49,20 +49,6 @@ public class ChatRelay : NetworkBehaviour
 		}
 	}
 
-	private void Update()
-	{
-		List<ConnectedPlayer> players = PlayerList.Instance.AllPlayers;
-		if (players.Count != 0)
-		{
-			ChatEvent e = new ChatEvent();
-			e.channels = ChatChannel.Common;
-			e.message = "FUCK";
-			e.originator = players[0].GameObject;
-			e.speaker = players[0].GameObject.ExpensiveName();
-			PropagateChatToClients(e);
-		}
-	}
-
 	public void Start()
 	{
 		namelessChannels = ChatChannel.Examine | ChatChannel.Local | ChatChannel.None | ChatChannel.System |
