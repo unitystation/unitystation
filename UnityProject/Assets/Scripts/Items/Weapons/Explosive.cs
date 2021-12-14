@@ -118,13 +118,12 @@ namespace Items.Weapons
 			if (spriteHandler != null) spriteHandler.transform.localScale = new Vector3(0.6f, 0.6f, 0.6f);
 		}
 
-		public Vector3Int UpdateBombPosition(Vector3Int pos)
+		public void UpdateBombPosition(Vector3Int pos)
 		{
-			if(attachedObjectTile != null)
+			if (attachedObjectTile != null)
 			{
 				registerItem.ServerSetLocalPosition(attachedObjectTile.customNetTransform.ServerLocalPosition);
 			}
-			return registerItem.WorldPosition;
 		}
 
 		/// <summary>
