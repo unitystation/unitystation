@@ -68,7 +68,7 @@ public class ConnectionApply : TargetedInteraction
 	public static ConnectionApply ByLocalPlayer(GameObject targetObject, Connection wireEndA, Connection wireEndB, Vector3? IntargetVector)
 	{
 		if (PlayerManager.LocalPlayerScript.IsGhost) return Invalid;
-		Vector3 targetVec = Vector3.zero;
+		Vector3 targetVec;
 		if (IntargetVector != null)
 		{
 			targetVec = IntargetVector.Value;
