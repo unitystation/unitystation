@@ -147,7 +147,7 @@ public class ChatRelay : NetworkBehaviour
 				}
 			}
 
-			//Get NPCs in vicin
+			//Get NPCs in vicinity
 			var npcs = Physics2D.OverlapCircleAll(chatEvent.originator.AssumedWorldPosServer(), 14f, npcMask);
 			for (int i = 0; i < npcs.Length; i++)
 			{
@@ -163,7 +163,6 @@ public class ChatRelay : NetworkBehaviour
 					}
 				}
 			}
-
 
 			if(radioCheckIsOnCooldown == false) CheckForRadios(chatEvent);
 		}
