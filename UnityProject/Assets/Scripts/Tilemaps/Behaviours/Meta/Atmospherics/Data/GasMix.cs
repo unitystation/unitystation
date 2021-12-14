@@ -187,17 +187,15 @@ namespace Systems.Atmospherics
 
 			var Listsource = AtmosUtils.GetGasValuesList();
 
-			Listsource.Clear();
-
 			lock (source.GasesArray) //no Double lock
 			{
-				Listsource.AddRange(source.GasesArray);
+				Listsource.List.AddRange(source.GasesArray);
 			}
 
 
-			for (int i = Listsource.Count - 1; i >= 0; i--)
+			for (int i = Listsource.List.Count - 1; i >= 0; i--)
 			{
-				var gas = Listsource[i];
+				var gas = Listsource.List[i];
 				if (gas.GasSO == null) continue;
 
 				var sourceMoles = source.GetMoles(gas.GasSO);
@@ -216,8 +214,7 @@ namespace Systems.Atmospherics
 			}
 
 
-			Listsource.Clear();
-			AtmosUtils.PooledGasValuesLists.Add(Listsource);
+			Listsource.Pool();
 
 			if (CodeUtilities.IsEqual(target.Temperature, source.Temperature))
 			{
@@ -257,9 +254,9 @@ namespace Systems.Atmospherics
 
 			var GasesArrayCopy = AtmosUtils.CopyGasArray(this.GasData);
 
-			for (int i = GasesArrayCopy.Count - 1; i >= 0; i--)
+			for (int i = GasesArrayCopy.List.Count - 1; i >= 0; i--)
 			{
-				var gas = GasesArrayCopy[i];
+				var gas = GasesArrayCopy.List[i];
 				var gasMoles = GasData.GetGasMoles(gas.GasSO);
 				gasMoles += otherGas.GasData.GetGasMoles(gas.GasSO);
 				gasMoles /= totalVolume;
@@ -270,16 +267,15 @@ namespace Systems.Atmospherics
 				otherGas.GasData.SetMoles(gas.GasSO, gasMoles * otherGas.Volume);
 			}
 
-			GasesArrayCopy.Clear();
-			AtmosUtils.PooledGasValuesLists.Add(GasesArrayCopy);
+			GasesArrayCopy.Pool();
 
 
 			var otherGasGasesArrayCopy = AtmosUtils.CopyGasArray(otherGas.GasData);
 
 
-			for (int i = otherGasGasesArrayCopy.Count - 1; i >= 0; i--)
+			for (int i = otherGasGasesArrayCopy.List.Count - 1; i >= 0; i--)
 			{
-				var gas = otherGasGasesArrayCopy[i];
+				var gas = otherGasGasesArrayCopy.List[i];
 				//Check if already merged
 				if (cache.Contains(gas.GasSO)) continue;
 
@@ -292,8 +288,7 @@ namespace Systems.Atmospherics
 			}
 
 
-			otherGasGasesArrayCopy.Clear();
-			AtmosUtils.PooledGasValuesLists.Add(otherGasGasesArrayCopy);
+			otherGasGasesArrayCopy.Pool();
 
 			//Clear for next use
 			cache.Clear();

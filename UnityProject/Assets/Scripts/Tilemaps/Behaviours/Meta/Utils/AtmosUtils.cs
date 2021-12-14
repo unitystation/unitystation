@@ -25,9 +25,9 @@ namespace Systems.Atmospherics
 		}
 
 
-		public static List<List<GasValues>> PooledGasValuesLists = new List<List<GasValues>>();
+		public static List<GasValuesList> PooledGasValuesLists = new List<GasValuesList>();
 
-		public static List<GasValues> GetGasValuesList()
+		public static GasValuesList GetGasValuesList()
 		{
 			lock (PooledGasValuesLists)
 			{
@@ -35,20 +35,46 @@ namespace Systems.Atmospherics
 				{
 					var QEntry = PooledGasValuesLists[0];
 					PooledGasValuesLists.RemoveAt(0);
+					if (QEntry == null)
+					{
+						return new GasValuesList();
+					}
+
 					return QEntry;
 				}
 			}
 
-			return new List<GasValues>();
+			return new GasValuesList();
+		}
+
+		public class GasValuesList
+		{
+
+			public List<GasValues> List =new List<GasValues>();
+			public void Pool()
+			{
+				List.Clear();
+				lock (PooledGasValuesLists)
+				{
+					PooledGasValuesLists.Add(this);
+				}
+			}
 		}
 
 
-		public static List<GasValues> CopyGasArray(GasData GasData)
+		public static GasValuesList CopyGasArray(GasData GasData)
 		{
 			var List = GetGasValuesList();
-			lock (GasData.GasesArray) //no Double lock
+			if (GasData?.GasesArray != null)
 			{
-				List.AddRange(GasData.GasesArray);
+				lock (GasData.GasesArray) //no Double lock
+				{
+					List.List.AddRange(GasData.GasesArray);
+				}
+			}
+			else
+			{
+				Logger.LogError("o3o");
 			}
 
 			return List;
@@ -380,13 +406,12 @@ namespace Systems.Atmospherics
 
 			var List = CopyGasArray(oldData);
 
-			foreach (var value in List)
+			foreach (var value in List.List)
 			{
 				newGasData.SetMoles(value.GasSO, value.Moles);
 			}
 
-			List.Clear();
-			PooledGasValuesLists.Add(List);
+			List.Pool();
 
 			newGasData.RegenerateDict();
 
@@ -404,13 +429,12 @@ namespace Systems.Atmospherics
 
 			var List = CopyGasArray(oldData);
 
-			foreach (var value in List)
+			foreach (var value in List.List)
 			{
 				CopyTo.SetMoles(value.GasSO, value.Moles);
 			}
 
-			List.Clear();
-			PooledGasValuesLists.Add(List);
+			List.Pool();
 
 			CopyTo.RegenerateDict();
 
