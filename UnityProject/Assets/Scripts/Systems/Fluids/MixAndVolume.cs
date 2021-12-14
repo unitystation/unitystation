@@ -103,7 +103,7 @@ namespace Systems.Pipes
 			mix.Add(mixAndVolume.mix);
 
 			var newOne = new GasData();
-			lock (gasMix.GasesArray)
+			lock (gasMix.GasesArray) //is ok is new GasData
 			{
 				for (int i = gasMix.GasesArray.Count - 1; i >= 0; i--)
 				{
@@ -138,7 +138,7 @@ namespace Systems.Pipes
 			var newOne = new GasData();
 			var removeNewOne = new GasData();
 
-			lock (gasMix.GasesArray)
+			lock (gasMix.GasesArray) //is ok is new GasData
 			{
 				for (int i =  gasMix.GasesArray.Count - 1; i >= 0; i--)
 				{
@@ -172,7 +172,7 @@ namespace Systems.Pipes
 			mix.Divide(divideAmount);
 
 			var newOne = new GasData();
-			lock (gasMix.GasesArray)
+			lock (gasMix.GasesArray) //is ok is new GasData
 			{
 				for (int i = gasMix.GasesArray.Count - 1; i >= 0; i--)
 				{
@@ -196,7 +196,7 @@ namespace Systems.Pipes
 			mix.Multiply(multiplyAmount);
 
 			var newOne = new GasData();
-			lock (gasMix.GasesArray)
+			lock (gasMix.GasesArray)  //is ok is new GasData
 			{
 				for (int i = gasMix.GasesArray.Count - 1; i >= 0; i--)
 				{

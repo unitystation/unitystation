@@ -18,6 +18,16 @@ public class ParallaxController : MonoBehaviour
 		RealignTiles();
 	}
 
+	private void OnEnable()
+	{
+		UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
+	}
+
+	private void OnDisable()
+	{
+		UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
+	}
+
 	void RealignTiles()
 	{
 		for (int i = 0; i < backgroundTiles.Count; i++)
@@ -34,7 +44,7 @@ public class ParallaxController : MonoBehaviour
 		CheckSpaceBackgroundObjects();
 	}
 
-	void Update()
+	void UpdateMe()
 	{
 		MonitorTiles();
 	}

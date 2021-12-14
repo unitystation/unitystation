@@ -336,7 +336,7 @@ namespace Systems.Atmospherics
 			meanGasMix.Volume /= targetCount; //Note: this assumes the volume of all tiles are the same
 
 
-			lock (meanGasMix.GasesArray)
+			lock (meanGasMix.GasesArray) //no Double lock
 			{
 				for (int i = meanGasMix.GasesArray.Count - 1; i >= 0; i--)
 				{

@@ -22,15 +22,14 @@ namespace Items.Engineering
 			var matrix = interaction.Performer.GetComponentInParent<Matrix>();
 			var MetaDataNode = matrix.GetElectricalConnections(localPosInt);
 			StringBuilder SB = new StringBuilder();
-			SB.Append("MetaDataNodeCount " + MetaDataNode.Count);
+			SB.Append("MetaDataNodeCount " + MetaDataNode.List.Count);
 			SB.Append("\n");
 
-			foreach (var D in MetaDataNode)
+			foreach (var D in MetaDataNode.List)
 			{
 				SB.Append(D.ShowDetails());
 			}
-			MetaDataNode.Clear();
-			ElectricalPool.PooledFPCList.Add(MetaDataNode);
+			MetaDataNode.Pool();
 			Chat.AddExamineMsgFromServer(interaction.Performer, SB.ToString());
 			Logger.Log(SB.ToString());
 		}

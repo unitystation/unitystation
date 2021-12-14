@@ -1,3 +1,4 @@
+using Systems.GhostRoles;
 using Messages.Server;
 using UnityEngine;
 using Mirror;
@@ -19,7 +20,7 @@ public class ConnectedPlayer
 		name = "Invalid Player",
 		job = JobType.NULL,
 		ClientId = "",
-		UserId = ""
+		UserId = "",
 	};
 
 	public string Username { get; set; }
@@ -147,6 +148,16 @@ public class ConnectedPlayer
 		}
 	}
 
+	public static bool IsGhostRole(JobType playerJob)
+	{
+		foreach (var roleData in GhostRoleManager.Instance.GhostRoles)
+		{
+			if (playerJob == roleData.TargetOccupation.JobType) return true;
+		}
+
+		return false;
+	}
+
 	private static void TrySendUpdate()
 	{
 		if ( CustomNetworkManager.Instance != null
@@ -163,6 +174,7 @@ public class ConnectedPlayer
 		{
 			return "Invalid player";
 		}
-		return $"ConnectedPlayer {nameof(Username)}: {Username}, {nameof(ClientId)}: {ClientId}, {nameof(UserId)}: {UserId}, {nameof(Connection)}: {Connection}, {nameof(Name)}: {Name}, {nameof(Job)}: {Job}";
+		return $"ConnectedPlayer {nameof(Username)}: {Username}, {nameof(ClientId)}: {ClientId}, " +
+		       $"{nameof(UserId)}: {UserId}, {nameof(Connection)}: {Connection}, {nameof(Name)}: {Name}, {nameof(Job)}: {Job}";
 	}
 }

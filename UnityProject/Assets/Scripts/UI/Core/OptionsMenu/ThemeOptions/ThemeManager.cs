@@ -141,7 +141,17 @@ namespace Unitystation.Options
             }
         }
 
-        void Update()
+        private void OnEnable()
+        {
+	        UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
+        }
+
+        private void OnDisable()
+        {
+	        UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
+        }
+
+        void UpdateMe()
         {
             if (themesLoaded)
             {

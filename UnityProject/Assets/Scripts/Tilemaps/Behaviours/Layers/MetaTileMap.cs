@@ -6,6 +6,10 @@ using System.Threading;
 using Messages.Server;
 using Objects.Atmospherics;
 using UnityEngine;
+#if UNITY_EDITOR
+using Debug = UnityEngine.Debug;
+
+#endif
 
 namespace TileManagement
 {
@@ -27,6 +31,8 @@ namespace TileManagement
 
 		public Dictionary<Layer, Dictionary<Vector3Int, List<TileLocation>>> MultilayerPresentTilesNeedsLock =>
 			MultilayerPresentTiles;
+
+		private Dictionary<Layer, BetterBoundsInt> BoundLocations = new Dictionary<Layer, BetterBoundsInt>();
 
 		/// <summary>
 		/// Use this dictionary only if performance isn't critical, otherwise try using arrays below
@@ -70,8 +76,8 @@ namespace TileManagement
 
 		private Thread mainThread;
 
-		private BoundsInt? LocalCachedBounds;
-		public Bounds? GlobalCachedBounds;
+		private BetterBoundsInt? LocalCachedBounds;
+		public BetterBounds? GlobalCachedBounds;
 
 		[NonSerialized] public Matrix4x4 localToWorldMatrix = Matrix4x4.identity;
 
@@ -123,6 +129,12 @@ namespace TileManagement
 					continue;
 				}
 
+				var InBoundLocations = new BetterBoundsInt( )
+				{
+					Maximum = Vector3Int.one,
+					Minimum = Vector3Int.zero
+				};
+
 				if (layer.LayerType != LayerType.Underfloor)
 				{
 					var ToInsertDictionary = new Dictionary<Vector3Int, TileLocation>();
@@ -144,6 +156,7 @@ namespace TileManagement
 								Tile.Colour = layer.Tilemap.GetColor(localPlace);
 								Tile.transformMatrix = layer.Tilemap.GetTransformMatrix(localPlace);
 								ToInsertDictionary[localPlace] = Tile;
+								InBoundLocations.ExpandToPoint2D(localPlace);
 							}
 						}
 					}
@@ -153,12 +166,17 @@ namespace TileManagement
 						PresentTiles[layer] = ToInsertDictionary;
 					}
 				}
+
+				BoundLocations[layer] = InBoundLocations;
 			}
 
 			lock (PresentTiles)
 			{
 				PresentTiles[ObjectLayer] = new Dictionary<Vector3Int, TileLocation>();
 			}
+
+
+
 
 			layersKeys.Sort((layerOne, layerTwo) =>
 				layerOne.GetOrder().CompareTo(layerTwo.GetOrder()));
@@ -176,10 +194,21 @@ namespace TileManagement
 			DamageableLayers = damageableLayersValues.ToArray();
 			matrix = GetComponent<Matrix>();
 			mainThread = Thread.CurrentThread;
+			if (Application.isPlaying)
+			{
+				UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
+			}
 		}
 
+		private void OnDisable()
+		{
+			if (Application.isPlaying)
+			{
+				UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
+			}
+		}
 
-		public void Update()
+		public void UpdateMe()
 		{
 			localToWorldMatrix = transform.localToWorldMatrix;
 			if (QueuedChanges.Count == 0)
@@ -268,7 +297,7 @@ namespace TileManagement
 			//TODO note Boundaries only recap later when tiles are added outside of it, so therefore it can only increase in size
 			// remember update transforms and position and colour when removing On tile map I'm assuming It doesn't clear it?
 			// Maybe it sets it to the correct ones when you set a tile idk
-
+			tileLocation.layer.subsystemManager.UpdateAt(tileLocation.position);
 			lock (PooledTileLocation)
 			{
 				PooledTileLocation.Push(tileLocation);
@@ -276,14 +305,15 @@ namespace TileManagement
 
 			if (CustomNetworkManager.IsServer)
 			{
-
 				if (tileLocation.layer.LayerType == LayerType.Underfloor) //TODO Tilemap upgrade
 				{
-					matrix.TileChangeManager.AddToChangeList(tileLocation.position, tileLocation.layer.LayerType, tileLocation.layer, null, true, true );
+					matrix.TileChangeManager.AddToChangeList(tileLocation.position, tileLocation.layer.LayerType,
+						tileLocation.layer, null, true, true);
 				}
 				else
 				{
-					matrix.TileChangeManager.AddToChangeList(tileLocation.position, tileLocation.layer.LayerType, tileLocation.layer, null, false, true );
+					matrix.TileChangeManager.AddToChangeList(tileLocation.position, tileLocation.layer.LayerType,
+						tileLocation.layer, null, false, true);
 				}
 
 				RemoveTileMessage.Send(matrix.NetworkedMatrix.MatrixSync.netId, tileLocation.position,
@@ -297,12 +327,16 @@ namespace TileManagement
 		{
 			tileLocation.layer.SetTile(tileLocation.position, tileLocation.layerTile,
 				tileLocation.transformMatrix, tileLocation.Colour);
-
+			tileLocation.layer.subsystemManager.UpdateAt(tileLocation.position);
 			if (LocalCachedBounds != null)
 			{
 				if (LocalCachedBounds.Value.Contains(tileLocation.position) == false)
 				{
-					LocalCachedBounds = null;
+					var Bounds = LocalCachedBounds.Value; // struct funnies With references
+					Bounds.ExpandToPoint2D(tileLocation.position);
+					LocalCachedBounds = Bounds;
+
+
 					GlobalCachedBounds = null;
 				}
 			}
@@ -678,7 +712,6 @@ namespace TileManagement
 				tileLocation.transformMatrix = matrixTransform.GetValueOrDefault(Matrix4x4.identity);
 				tileLocation.Colour = color.GetValueOrDefault(Color.white);
 				ApplyTileChange(tileLocation);
-				tileLocation.layer.subsystemManager.UpdateAt(tileLocation.position);
 				return position;
 			}
 			else
@@ -1480,7 +1513,6 @@ namespace TileManagement
 					{
 						RemoveOverlaysOfType(tileLocation.position, LayerType.Effects, OverlayType.Damage);
 					}
-					tileLocation.layer.subsystemManager.UpdateAt(tileLocation.position);
 					return;
 				}
 			}
@@ -1514,7 +1546,6 @@ namespace TileManagement
 					{
 						RemoveOverlaysOfType(tileLocation.position, LayerType.Effects, OverlayType.Damage);
 					}
-					tileLocation.layer.subsystemManager.UpdateAt(tileLocation.position);
 				}
 			}
 			else
@@ -1527,28 +1558,7 @@ namespace TileManagement
 		public Vector3 CellToWorld(Vector3Int cellPos) => LayersValues[0].CellToWorld(cellPos);
 		public Vector3 WorldToLocal(Vector3 worldPos) => LayersValues[0].WorldToLocal(worldPos);
 
-		public void MaxMinCheck(ref Vector3 min, ref Vector3 max, Vector3 ToCompare)
-		{
-			if (ToCompare.x > max.x)
-			{
-				max.x = ToCompare.x;
-			}
-			else if (min.x > ToCompare.x)
-			{
-				min.x = ToCompare.x;
-			}
-
-			if (ToCompare.y > max.y)
-			{
-				max.y = ToCompare.y;
-			}
-			else if (min.y > ToCompare.y)
-			{
-				min.y = ToCompare.y;
-			}
-		}
-
-		public BoundsInt GetLocalBounds()
+		public BetterBoundsInt GetLocalBounds()
 		{
 			if (LocalCachedBounds == null)
 			{
@@ -1558,7 +1568,7 @@ namespace TileManagement
 			return LocalCachedBounds.Value;
 		}
 
-		public Bounds GetWorldBounds()
+		public BetterBounds GetWorldBounds()
 		{
 			if (GlobalCachedBounds == null)
 			{
@@ -1573,58 +1583,44 @@ namespace TileManagement
 			Vector3Int minPosition = Vector3Int.one * int.MaxValue;
 			Vector3Int maxPosition = Vector3Int.one * int.MinValue;
 
-			for (var i = 0; i < LayersValues.Length; i++)
-			{
-				BoundsInt layerBounds = LayersValues[i].Bounds;
-				if (layerBounds.x == 0 && layerBounds.y == 0)
-				{
-					continue; // Has no tiles
-				}
 
+			foreach (var layerBounds in BoundLocations.Values)
+			{
 				minPosition = Vector3Int.Min(layerBounds.min, minPosition);
 				maxPosition = Vector3Int.Max(layerBounds.max, maxPosition);
 			}
 
-			LocalCachedBounds = new BoundsInt(minPosition, maxPosition - minPosition);
+			LocalCachedBounds = new BetterBoundsInt()
+			{
+				Maximum = maxPosition,
+				Minimum = minPosition
+			};
 		}
 
-		public Bounds CacheGlobalBound()
+		public BetterBounds CacheGlobalBound()
 		{
 			var localBound = GetLocalBounds();
 
-			var bottomLeft = localToWorldMatrix.MultiplyPoint(localBound.min);
-			var bottomRight = localToWorldMatrix.MultiplyPoint(new Vector3(localBound.xMax, localBound.min.y, 0));
-			var topLeft = localToWorldMatrix.MultiplyPoint(new Vector3(localBound.min.x, localBound.yMax, 0));
-			var topRight = localToWorldMatrix.MultiplyPoint(localBound.max);
+			var offset = new Vector3(0.5f, 0.5f, 0);
+
+			var bottomLeft = localToWorldMatrix.MultiplyPoint(localBound.min + offset);
+			var bottomRight = localToWorldMatrix.MultiplyPoint(new Vector3(localBound.xMax, localBound.yMin, 0)  + offset);
+			var topLeft = localToWorldMatrix.MultiplyPoint(new Vector3(localBound.xMin, localBound.yMax, 0)  + offset);
+			var topRight = localToWorldMatrix.MultiplyPoint(localBound.max  + offset);
 
 			var globalPoints = new Vector3[4] {bottomLeft, bottomRight, topLeft, topRight};
 			var minPosition = bottomLeft;
 			var maxPosition = bottomLeft;
 			foreach (var point in globalPoints)
 			{
-				if (point.x < minPosition.x)
-				{
-					minPosition.x = point.x;
-				}
-
-				if (point.y < minPosition.y)
-				{
-					minPosition.y = point.y;
-				}
-
-				if (point.x > maxPosition.x)
-				{
-					maxPosition.x = point.x;
-				}
-
-				if (point.y > maxPosition.y)
-				{
-					maxPosition.y = point.y;
-				}
+				minPosition = Vector3.Min(minPosition, point);
+				maxPosition = Vector3.Max(maxPosition, point);
 			}
 
-			var middlePoint = minPosition + (maxPosition - minPosition) / 2;
-			var newGlobalBounds = new Bounds(middlePoint, maxPosition - minPosition);
+			var newGlobalBounds = new BetterBounds()
+			{
+				Maximum = maxPosition, Minimum = minPosition
+			};
 
 			if (matrix.MatrixMove == null ||
 			    (CustomNetworkManager.IsServer && matrix.MatrixMove.IsMovingServer == false &&
@@ -1685,7 +1681,7 @@ namespace TileManagement
 			Vector2 direction,
 			float distance,
 			LayerTypeSelection layerMask, Vector2? To = null,
-			LayerTile[] tileNamesToIgnore = null)
+			LayerTile[] tileNamesToIgnore = null, bool DEBUG = false)
 		{
 			if (To == null)
 			{
@@ -1697,7 +1693,21 @@ namespace TileManagement
 				direction = (To.Value - origin).normalized;
 				distance = (To.Value - origin).magnitude;
 			}
+#if UNITY_EDITOR
+			if (DEBUG)
+			{
+				var Beginning = (new Vector3((float) origin.x, (float) origin.y, 0).ToWorld(matrix));
+				Debug.DrawLine(Beginning + (Vector3.right * 0.09f), Beginning + (Vector3.left * 0.09f), Color.yellow,
+					30);
+				Debug.DrawLine(Beginning + (Vector3.up * 0.09f), Beginning + (Vector3.down * 0.09f), Color.yellow, 30);
 
+				var end = (new Vector3((float) To.Value.x, (float) To.Value.y, 0).ToWorld(matrix));
+				Debug.DrawLine(end + (Vector3.right * 0.09f), end + (Vector3.left * 0.09f), Color.red, 30);
+				Debug.DrawLine(end + (Vector3.up * 0.09f), end + (Vector3.down * 0.09f), Color.red, 30);
+
+				Debug.DrawLine(Beginning, end, Color.magenta, 30);
+			}
+#endif
 			double RelativeX = 0;
 			double RelativeY = 0;
 
@@ -1745,6 +1755,7 @@ namespace TileManagement
 
 			var vexinvX = (1d / (direction.x)); //Editions need to be done here for Working offset
 			var vexinvY = (1d / (direction.y)); //Needs to be conditional
+
 
 			double calculationFloat = 0;
 
@@ -1795,6 +1806,29 @@ namespace TileManagement
 							PresentTiles[LayersValues[i]].TryGetValue(vec, out tileLocation);
 						}
 
+#if UNITY_EDITOR
+						if (DEBUG)
+						{
+							var wold = (vecHit.ToWorld(matrix));
+							Debug.DrawLine(wold + (Vector3.right * 0.09f), wold + (Vector3.left * 0.09f), Color.green,
+								30);
+							Debug.DrawLine(wold + (Vector3.up * 0.09f), wold + (Vector3.down * 0.09f), Color.green, 30);
+
+							if (LeftFaceHit)
+							{
+								Debug.DrawLine(wold + (Vector3.up * 4f), wold + (Vector3.down * 4), Color.blue, 30);
+							}
+							else
+							{
+								Debug.DrawLine(wold + (Vector3.right * 4), wold + (Vector3.left * 4), Color.blue, 30);
+							}
+
+							ColorUtility.TryParseHtmlString("#ea9335", out var Orange);
+							var map = ((Vector3) vec).ToWorld(matrix);
+							Debug.DrawLine(map + (Vector3.right * 0.09f), map + (Vector3.left * 0.09f), Orange, 30);
+							Debug.DrawLine(map + (Vector3.up * 0.09f), map + (Vector3.down * 0.09f), Orange, 30);
+						}
+#endif
 						if (tileLocation != null)
 						{
 							if (tileNamesToIgnore != null &&
@@ -2025,12 +2059,13 @@ namespace TileManagement
 			return null;
 		}
 
-		public void RemoveOverlaysOfType(Vector3Int cellPosition, LayerType layerType, OverlayType overlayType, bool onlyIfCleanable = false)
+		public void RemoveOverlaysOfType(Vector3Int cellPosition, LayerType layerType, OverlayType overlayType,
+			bool onlyIfCleanable = false)
 		{
 			cellPosition.z = 0;
 
 			var overlayPos = GetOverlayPosByType(cellPosition, layerType, overlayType);
-			if(overlayPos == null || overlayPos.Count == 0) return;
+			if (overlayPos == null || overlayPos.Count == 0) return;
 
 			foreach (var overlay in overlayPos)
 			{
@@ -2056,12 +2091,12 @@ namespace TileManagement
 			Color? color = null)
 		{
 			//use remove methods to remove overlay instead
-			if(overlayTile == null) return;
+			if (overlayTile == null) return;
 
 			cellPosition.z = 0;
 
 			//Dont add the same overlay twice
-			if(HasOverlay(cellPosition, overlayTile.LayerType, overlayTile)) return;
+			if (HasOverlay(cellPosition, overlayTile.LayerType, overlayTile)) return;
 
 			var overlayPos = GetFreeOverlayPos(cellPosition, overlayTile.LayerType);
 			if (overlayPos == null) return;
@@ -2086,17 +2121,19 @@ namespace TileManagement
 			return GetColour(overlays.First(), layerType);
 		}
 
-		public void RemoveFloorWallOverlaysOfType(Vector3Int cellPosition, OverlayType overlayType, bool onlyIfCleanable = false)
+		public void RemoveFloorWallOverlaysOfType(Vector3Int cellPosition, OverlayType overlayType,
+			bool onlyIfCleanable = false)
 		{
 			RemoveOverlaysOfType(cellPosition, LayerType.Floors, overlayType, onlyIfCleanable);
 			RemoveOverlaysOfType(cellPosition, LayerType.Walls, overlayType, onlyIfCleanable);
 		}
+
 		public void RemoveAllOverlays(Vector3Int cellPosition, LayerType layerType, bool onlyIfCleanable = false)
 		{
 			cellPosition.z = 0;
 
 			var overlayPos = GetAllOverlayPos(cellPosition, layerType);
-			if(overlayPos == null || overlayPos.Count == 0) return;
+			if (overlayPos == null || overlayPos.Count == 0) return;
 
 			foreach (var overlay in overlayPos)
 			{
@@ -2121,8 +2158,6 @@ namespace TileManagement
 
 			return HasOverlay(cellPosition, overlayTile.LayerType, overlayTile);
 		}
-
-
 	}
 
 

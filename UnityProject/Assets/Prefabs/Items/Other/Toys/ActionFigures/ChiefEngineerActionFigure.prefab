@@ -12,6 +12,16 @@ PrefabInstance:
       propertyPath: initialName
       value: Chief Engineer action figure
       objectReference: {fileID: 0}
+    - target: {fileID: 2390153208978679543, guid: 3e74be7d70acafe40b722428aaed652a,
+        type: 3}
+      propertyPath: inventoryMoveSound.AssetAddress
+      value: null
+      objectReference: {fileID: 0}
+    - target: {fileID: 2390153208978679543, guid: 3e74be7d70acafe40b722428aaed652a,
+        type: 3}
+      propertyPath: inventoryRemoveSound.AssetAddress
+      value: null
+      objectReference: {fileID: 0}
     - target: {fileID: 2681867768609372873, guid: 3e74be7d70acafe40b722428aaed652a,
         type: 3}
       propertyPath: m_Sprite

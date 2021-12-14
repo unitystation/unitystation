@@ -185,29 +185,39 @@ namespace Systems.Atmospherics
 			var ratio = molesToTransfer / sourceStartMoles;
 			var targetStartMoles = target.Moles;
 
-			lock (source.GasesArray)
+			var Listsource = AtmosUtils.GetGasValuesList();
+
+			Listsource.Clear();
+
+			lock (source.GasesArray) //no Double lock
 			{
-				for (int i = source.GasesArray.Count - 1; i >= 0; i--)
+				Listsource.AddRange(source.GasesArray);
+			}
+
+
+			for (int i = Listsource.Count - 1; i >= 0; i--)
+			{
+				var gas = Listsource[i];
+				if (gas.GasSO == null) continue;
+
+				var sourceMoles = source.GetMoles(gas.GasSO);
+				if (CodeUtilities.IsEqual(sourceMoles, 0)) continue;
+
+				var transfer = sourceMoles * ratio;
+
+				//Add to target
+				target.GasData.ChangeMoles(gas.GasSO, transfer);
+
+				if (doNotTouchOriginalMix == false)
 				{
-					var gas = source.GasesArray[i];
-					if (gas.GasSO == null) continue;
-
-					var sourceMoles = source.GetMoles(gas.GasSO);
-					if (CodeUtilities.IsEqual(sourceMoles, 0)) continue;
-
-					var transfer = sourceMoles * ratio;
-
-					//Add to target
-					target.GasData.ChangeMoles(gas.GasSO, transfer);
-
-					if (doNotTouchOriginalMix == false)
-					{
-						//Remove from source
-						source.GasData.ChangeMoles(gas.GasSO, -transfer);
-					}
+					//Remove from source
+					source.GasData.ChangeMoles(gas.GasSO, -transfer);
 				}
 			}
 
+
+			Listsource.Clear();
+			AtmosUtils.PooledGasValuesLists.Add(Listsource);
 
 			if (CodeUtilities.IsEqual(target.Temperature, source.Temperature))
 			{
@@ -245,38 +255,45 @@ namespace Systems.Atmospherics
 			var newTemperature = totalWholeHeatCapacity > 0 ? totalInternalEnergy / totalWholeHeatCapacity : 0;
 			var totalVolume = Volume + otherGas.Volume;
 
-			lock (GasesArray)
+			var GasesArrayCopy = AtmosUtils.CopyGasArray(this.GasData);
+
+			for (int i = GasesArrayCopy.Count - 1; i >= 0; i--)
 			{
-				for (int i = GasesArray.Count - 1; i >= 0; i--)
-				{
-					var gas = GasesArray[i];
-					var gasMoles = GasData.GetGasMoles(gas.GasSO);
-					gasMoles += otherGas.GasData.GetGasMoles(gas.GasSO);
-					gasMoles /= totalVolume;
+				var gas = GasesArrayCopy[i];
+				var gasMoles = GasData.GetGasMoles(gas.GasSO);
+				gasMoles += otherGas.GasData.GetGasMoles(gas.GasSO);
+				gasMoles /= totalVolume;
 
-					cache.Add(gas.GasSO);
+				cache.Add(gas.GasSO);
 
-					GasData.SetMoles(gas.GasSO, gasMoles * Volume);
-					otherGas.GasData.SetMoles(gas.GasSO, gasMoles * otherGas.Volume);
-				}
+				GasData.SetMoles(gas.GasSO, gasMoles * Volume);
+				otherGas.GasData.SetMoles(gas.GasSO, gasMoles * otherGas.Volume);
 			}
 
-			lock (otherGas.GasesArray)
+			GasesArrayCopy.Clear();
+			AtmosUtils.PooledGasValuesLists.Add(GasesArrayCopy);
+
+
+			var otherGasGasesArrayCopy = AtmosUtils.CopyGasArray(otherGas.GasData);
+
+
+			for (int i = otherGasGasesArrayCopy.Count - 1; i >= 0; i--)
 			{
-				for (int i = otherGas.GasesArray.Count - 1; i >= 0; i--)
-				{
-					var gas = otherGas.GasesArray[i];
-					//Check if already merged
-					if (cache.Contains(gas.GasSO)) continue;
+				var gas = otherGasGasesArrayCopy[i];
+				//Check if already merged
+				if (cache.Contains(gas.GasSO)) continue;
 
-					var gasMoles = GasData.GetGasMoles(gas.GasSO);
-					gasMoles += otherGas.GasData.GetGasMoles(gas.GasSO);
-					gasMoles /= totalVolume;
+				var gasMoles = GasData.GetGasMoles(gas.GasSO);
+				gasMoles += otherGas.GasData.GetGasMoles(gas.GasSO);
+				gasMoles /= totalVolume;
 
-					GasData.SetMoles(gas.GasSO, gasMoles * Volume);
-					otherGas.GasData.SetMoles(gas.GasSO, gasMoles * otherGas.Volume);
-				}
+				GasData.SetMoles(gas.GasSO, gasMoles * Volume);
+				otherGas.GasData.SetMoles(gas.GasSO, gasMoles * otherGas.Volume);
 			}
+
+
+			otherGasGasesArrayCopy.Clear();
+			AtmosUtils.PooledGasValuesLists.Add(otherGasGasesArrayCopy);
 
 			//Clear for next use
 			cache.Clear();

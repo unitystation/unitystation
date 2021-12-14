@@ -27,25 +27,25 @@ PrefabInstance:
         type: 3}
       propertyPath: relatedRecipes.Array.data[0].recipe
       value: 
-      objectReference: {fileID: 11400000, guid: 2051c3915cf9dc742a062d8c7a0ee837,
+      objectReference: {fileID: 11400000, guid: be41053cac128e7478f92e3aa0b292c0,
         type: 2}
     - target: {fileID: 7647633790861723258, guid: 46bb2fe95f4f66341aadfb4600751333,
         type: 3}
       propertyPath: relatedRecipes.Array.data[1].recipe
       value: 
-      objectReference: {fileID: 11400000, guid: 4b17e3204b9668a4f84b31fd6ebbd69c,
+      objectReference: {fileID: 11400000, guid: 8ba8441061aec0348a1ec21dd35fc1eb,
         type: 2}
     - target: {fileID: 7647633790861723258, guid: 46bb2fe95f4f66341aadfb4600751333,
         type: 3}
       propertyPath: relatedRecipes.Array.data[2].recipe
       value: 
-      objectReference: {fileID: 11400000, guid: be41053cac128e7478f92e3aa0b292c0,
+      objectReference: {fileID: 11400000, guid: 4b17e3204b9668a4f84b31fd6ebbd69c,
         type: 2}
     - target: {fileID: 7647633790861723258, guid: 46bb2fe95f4f66341aadfb4600751333,
         type: 3}
       propertyPath: relatedRecipes.Array.data[3].recipe
       value: 
-      objectReference: {fileID: 11400000, guid: e4b708350ddca0c469fb8446c24b94b1,
+      objectReference: {fileID: 11400000, guid: 2051c3915cf9dc742a062d8c7a0ee837,
         type: 2}
     - target: {fileID: 7647633790861723258, guid: 46bb2fe95f4f66341aadfb4600751333,
         type: 3}
@@ -57,7 +57,7 @@ PrefabInstance:
         type: 3}
       propertyPath: relatedRecipes.Array.data[5].recipe
       value: 
-      objectReference: {fileID: 11400000, guid: 8ba8441061aec0348a1ec21dd35fc1eb,
+      objectReference: {fileID: 11400000, guid: 4d50c3d5e80f8604bbf61ac8205c33cd,
         type: 2}
     - target: {fileID: 7647633790861723258, guid: 46bb2fe95f4f66341aadfb4600751333,
         type: 3}
@@ -69,7 +69,7 @@ PrefabInstance:
         type: 3}
       propertyPath: relatedRecipes.Array.data[7].recipe
       value: 
-      objectReference: {fileID: 11400000, guid: 4d50c3d5e80f8604bbf61ac8205c33cd,
+      objectReference: {fileID: 11400000, guid: e4b708350ddca0c469fb8446c24b94b1,
         type: 2}
     - target: {fileID: 7730239227723964622, guid: 46bb2fe95f4f66341aadfb4600751333,
         type: 3}
@@ -85,7 +85,7 @@ PrefabInstance:
     - target: {fileID: 7730239227723964622, guid: 46bb2fe95f4f66341aadfb4600751333,
         type: 3}
       propertyPath: initialTraits.Array.size
-      value: 4
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 7730239227723964622, guid: 46bb2fe95f4f66341aadfb4600751333,
         type: 3}
@@ -98,6 +98,12 @@ PrefabInstance:
       propertyPath: initialTraits.Array.data[3]
       value: 
       objectReference: {fileID: 11400000, guid: 80279049e516c294ca6bd71aaa2a31f2,
+        type: 2}
+    - target: {fileID: 7730239227723964622, guid: 46bb2fe95f4f66341aadfb4600751333,
+        type: 3}
+      propertyPath: initialTraits.Array.data[4]
+      value: 
+      objectReference: {fileID: 11400000, guid: 55917bb83c64bdc41acf0a60f284366c,
         type: 2}
     - target: {fileID: 7730239227723964622, guid: 46bb2fe95f4f66341aadfb4600751333,
         type: 3}
@@ -115,6 +121,16 @@ PrefabInstance:
       propertyPath: itemSprites.RightHand.Texture
       value: 
       objectReference: {fileID: 2800000, guid: 2de6c283d82f76148b3c3cb77cc62e2d, type: 3}
+    - target: {fileID: 7730239227723964622, guid: 46bb2fe95f4f66341aadfb4600751333,
+        type: 3}
+      propertyPath: inventoryMoveSound.AssetAddress
+      value: null
+      objectReference: {fileID: 0}
+    - target: {fileID: 7730239227723964622, guid: 46bb2fe95f4f66341aadfb4600751333,
+        type: 3}
+      propertyPath: inventoryRemoveSound.AssetAddress
+      value: null
+      objectReference: {fileID: 0}
     - target: {fileID: 7730239227723964622, guid: 46bb2fe95f4f66341aadfb4600751333,
         type: 3}
       propertyPath: itemSprites.LeftHand.EquippedData

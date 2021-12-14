@@ -15,6 +15,8 @@ namespace Objects
 {
 	public class Singularity : NetworkBehaviour, IOnHitDetect, IExaminable
 	{
+
+		[SyncVar(hook = nameof(SyncCurrentStage))]
 		private SingularityStages currentStage = SingularityStages.Stage0;
 
 		private readonly float updateFrequency = 0.5f;
@@ -58,7 +60,13 @@ namespace Objects
 		private float maxRadiation = 5000f;
 
 		[SerializeField]
-		private LightSprite light = null;
+		private GameObject WarpEffectFront;
+
+		[SerializeField]
+		private GameObject WarpEffectBack;
+
+		[SerializeField]
+		private new LightSprite light = null;
 
 		[SerializeField]
 		[Tooltip("Allows singularity to be stage 6")]
@@ -82,6 +90,9 @@ namespace Objects
 		private SpriteHandler spriteHandler;
 		private CustomNetTransform customNetTransform;
 		private int objectId;
+
+		private Material WarpEffectFrontMat;
+		private Material WarpEffectBackMat;
 
 		private int lockTimer;
 		private bool pointLock;
@@ -118,6 +129,10 @@ namespace Objects
 			spriteHandler = GetComponentInChildren<SpriteHandler>();
 			lightTransform = light.transform;
 			objectId = GetInstanceID();
+
+			WarpEffectFrontMat = WarpEffectFront.GetComponent<MeshRenderer>().materials[0];
+			WarpEffectBackMat = WarpEffectBack.GetComponent<MeshRenderer>().materials[0];
+
 		}
 
 		private void Start()
@@ -153,6 +168,13 @@ namespace Objects
 			}
 
 			gameObject.transform.LeanScale(newScale, updateFrequency);
+			
+		}
+
+		private void SyncCurrentStage(SingularityStages oldStage, SingularityStages newStage)
+		{
+			currentStage = newStage;
+			UpdateWarpFX(currentStage);
 		}
 
 		#endregion
@@ -614,6 +636,50 @@ namespace Objects
 				UpdateVectors();
 				dynamicScale = Vector3.zero; // keyed value: don't tween; set it to 1x scale immediately
 			}
+
+		}
+		/// <summary>
+		/// Sets the warp effects in accordance with the correct sprite
+		/// </summary>
+		private void UpdateWarpFX(SingularityStages stage)
+		{
+			float scaledRadius = 0f;
+			float scaledEffect = 0f;
+
+			switch (stage)
+			{
+				case SingularityStages.Stage0: 
+					scaledRadius = Mathf.Clamp(0.08f * gameObject.transform.localScale.x, 0.08f,0.15f);
+					scaledEffect = 7f;
+					break;
+				case SingularityStages.Stage1:
+					scaledRadius = Mathf.Clamp(0.26f * gameObject.transform.localScale.x, 0.26f,0.35f);
+					scaledEffect = 9f;
+					break;
+				case SingularityStages.Stage2:
+					scaledRadius = Mathf.Clamp(0.35f * gameObject.transform.localScale.x, 0.35f, 0.6f);
+					scaledEffect = 10f;
+					break;
+				case SingularityStages.Stage3:
+					scaledRadius = Mathf.Clamp(0.55f * gameObject.transform.localScale.x, 0.55f, 0.75f);
+					scaledEffect = 12f;
+					break;
+				case SingularityStages.Stage4:
+					scaledRadius = Mathf.Clamp(0.75f * gameObject.transform.localScale.x, 0.75f, 0.8f);
+					scaledEffect = 15f;
+					break;
+				case SingularityStages.Stage5:
+					scaledRadius = Mathf.Clamp(0.8f * gameObject.transform.localScale.x, 0.8f, 1f);
+					scaledEffect = 20f;
+					break;
+				default:
+					break;
+			}
+
+			WarpEffectFrontMat.SetFloat("_EffectRadius", scaledRadius);
+			WarpEffectBackMat.SetFloat("_EffectRadius", scaledRadius);
+			WarpEffectFrontMat.SetFloat("_EffectAngle", scaledEffect);
+			WarpEffectBackMat.SetFloat("_EffectAngle", scaledEffect);
 		}
 
 		private void UpdateVectors()

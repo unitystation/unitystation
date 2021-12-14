@@ -93,12 +93,12 @@ public class InteractableTiles : MonoBehaviour, IClientInteractable<PositionalHa
 	/// Gets the interactable tiles for the matrix at the indicated world position. Unless there's only space!
 	/// in that case tries to fetch an adjacent matrix, in the case of none, it returns the space matrix
 	/// </summary>
-	public static InteractableTiles TryGetNonSpaceMatrix(Vector3Int worldPos, bool isServer)
+	public static Matrix TryGetNonSpaceMatrix(Vector3Int worldPos, bool isServer)
 	{
 		var matrixInfo = MatrixManager.AtPoint(worldPos, isServer);
 		if (matrixInfo.Matrix.IsSpaceMatrix == false)
 		{
-			return matrixInfo.TileChangeManager.InteractableTiles;
+			return matrixInfo.Matrix;
 		}
 
 		//This is just space! Lets try getting an adjacent matrix
@@ -107,12 +107,12 @@ public class InteractableTiles : MonoBehaviour, IClientInteractable<PositionalHa
 			matrixInfo = MatrixManager.AtPoint(pos, isServer);
 			if (matrixInfo.Matrix.IsSpaceMatrix == false)
 			{
-				return matrixInfo.TileChangeManager.InteractableTiles;
+				return matrixInfo.Matrix;
 			}
 		}
 
 		//we're in space and theres nothing but space all around us, we tried.
-		return MatrixManager.Instance.spaceMatrix.TileChangeManager.InteractableTiles;
+		return MatrixManager.Instance.spaceMatrix;
 	}
 
 	/// <summary>

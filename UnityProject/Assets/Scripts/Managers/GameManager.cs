@@ -188,11 +188,13 @@ public partial class GameManager : MonoBehaviour, IInitialise
 	private void OnEnable()
 	{
 		SceneManager.activeSceneChanged += OnSceneChange;
+		UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
 	}
 
 	private void OnDisable()
 	{
 		SceneManager.activeSceneChanged -= OnSceneChange;
+		UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
 	}
 
 	///<summary>
@@ -346,7 +348,7 @@ public partial class GameManager : MonoBehaviour, IInitialise
 		UpdateRoundTimeMessage.Send(stationTime.ToString("O"));
 	}
 
-	private void Update()
+	private void UpdateMe()
 	{
 		if (CustomNetworkManager.IsServer == false) return;
 		if (!isProcessingSpaceBody && PendingSpaceBodies.Count > 0)
@@ -366,7 +368,7 @@ public partial class GameManager : MonoBehaviour, IInitialise
 		else if (counting)
 		{
 			stationTime = stationTime.AddSeconds(Time.deltaTime);
-			roundTimer.text = stationTime.ToString("HH:mm");
+			roundTimer.text = stationTime.ToString("HH:mm:ss");
 		}
 
 		if(CustomNetworkManager.Instance._isServer == false) return;

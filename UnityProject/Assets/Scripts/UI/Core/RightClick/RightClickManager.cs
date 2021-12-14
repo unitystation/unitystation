@@ -89,6 +89,12 @@ public class RightClickManager : MonoBehaviourSingleton<RightClickManager>
 	private void OnEnable()
 	{
 		lightingSystem = Camera.main.GetComponent<LightingSystem>();
+		UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
+	}
+
+	private void OnDisable()
+	{
+		UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
 	}
 
 	private void GetRightClickAttributedMethods()
@@ -117,7 +123,7 @@ public class RightClickManager : MonoBehaviourSingleton<RightClickManager>
 		attributedTypes = result;
 	}
 
-	void Update()
+	void UpdateMe()
 	{
 		// Get right mouse click
 		if (CommonInput.GetMouseButtonDown(1))

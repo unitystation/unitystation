@@ -53,6 +53,14 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 
 	public static MatrixInfo MainStationMatrix => Get(Instance.mainStationMatrix);
 
+	private void Start()
+	{
+		if (Application.isPlaying)
+		{
+			UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
+		}
+	}
+
 	private void OnEnable()
 	{
 		SceneManager.activeSceneChanged += OnSceneChange;
@@ -63,6 +71,10 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 	{
 		SceneManager.activeSceneChanged -= OnSceneChange;
 		EventManager.RemoveHandler(Event.ScenesLoadedServer, OnScenesLoaded);
+		if (Application.isPlaying)
+		{
+			UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
+		}
 	}
 
 	void OnSceneChange(Scene oldScene, Scene newScene)
@@ -299,7 +311,7 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 
 	private static bool IsInMatrix(Vector3Int worldPos, bool isServer, MatrixInfo matrixInfo)
 	{
-		if (BoundsExtensions.Contains(matrixInfo.WorldBounds, worldPos) == false)
+		if (matrixInfo.WorldBounds.Contains(worldPos) == false)
 			return false;
 
 		if (matrixInfo.Matrix == Instance.spaceMatrix)
@@ -339,6 +351,15 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 		{
 			WorldTo = Worldorigin + (Vector3) (direction.normalized * distance);
 		}
+
+		var Distance = (WorldTo - Worldorigin).Value.magnitude;
+
+		if (Distance > 25)
+		{
+			Logger.LogError($" Limit exceeded on raycast, Look at stack trace for What caused it at {Distance}"); //Meant to catch up stuff that's been naughty and doing stuff like 900 tile Ray casts
+			return new CustomPhysicsHit();
+		}
+
 
 		if (direction.x == 0 && direction.y == 0)
 		{
@@ -455,7 +476,7 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 		public TileLocation TileLocation;
 	}
 
-	public static bool LineIntersectsRect(Vector2 p1, Vector2 p2, BoundsInt r)
+	public static bool LineIntersectsRect(Vector2 p1, Vector2 p2, BetterBoundsInt r)
 	{
 		var xMin = r.xMin;
 		var yMin = r.yMin;

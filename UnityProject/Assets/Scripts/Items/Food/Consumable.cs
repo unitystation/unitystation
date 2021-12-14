@@ -36,7 +36,7 @@ public abstract class Consumable : MonoBehaviour, ICheckedInteractable<HandApply
 		var Dissectible = interaction?.TargetObject.OrNull()?.GetComponent<Dissectible>();
 		if (Dissectible != null)
 		{
-			if (Dissectible.GetBodyPartIsopen)
+			if (Dissectible.GetBodyPartIsopen && Dissectible.WillInteract(interaction, side))
 			{
 				return false;
 			}
