@@ -108,12 +108,7 @@ namespace Items.Weapons
 
 				//TODO : Figure out why the position keeps getting offset to it's last position inside the parent's hierarchy (it doesn't want to 0,0)s
 				attachedObjectTile = target.RegisterTile();
-				netTransform.OnTileReached().AddListener(pos => {
-					if(attachedObjectTile != null)
-					{
-						registerItem.ServerSetLocalPosition(attachedObjectTile.customNetTransform.ServerLocalPosition);
-					}
-				});
+				netTransform.OnTileReached().AddListener(UpdateBombPosition);
 				if (spriteHandler != null) spriteHandler.transform.localScale = new Vector3(0.6f, 0.6f, 0.6f);
 				return;
 			}
@@ -121,6 +116,15 @@ namespace Items.Weapons
 			Inventory.ServerDrop(pickupable.ItemSlot, targetPostion);
 			//Visual feedback to indicate that it's been attached and not just dropped.
 			if (spriteHandler != null) spriteHandler.transform.localScale = new Vector3(0.6f, 0.6f, 0.6f);
+		}
+
+		public Vector3Int UpdateBombPosition(Vector3Int pos)
+		{
+			if(attachedObjectTile != null)
+			{
+				registerItem.ServerSetLocalPosition(attachedObjectTile.customNetTransform.ServerLocalPosition);
+			}
+			return registerItem.WorldPosition;
 		}
 
 		/// <summary>
