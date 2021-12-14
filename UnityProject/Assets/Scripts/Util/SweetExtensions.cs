@@ -7,7 +7,10 @@ using Mirror;
 using UnityEngine;
 using Random = UnityEngine.Random;
 using System.Text;
+using System.Text.RegularExpressions;
 using Items;
+using UnityEditor;
+using Util;
 
 public static class SweetExtensions
 {
@@ -504,7 +507,7 @@ public static class SweetExtensions
 	{
 		if (string.IsNullOrEmpty(value)) return value;
 		return value.Length <= maxLength ? value : value.Substring(0, maxLength);
-  }
+	}
 
 	/// <summary>
 	/// <para>Get specific type from a list.</para>

@@ -3,7 +3,7 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-namespace Core.Editor
+namespace Util
 {
 	/// <summary>
 	/// Utils related to finding stuff
