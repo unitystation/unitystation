@@ -10,6 +10,7 @@ using Systems.Ai;
 using Messages.Server;
 using Objects.Telecomms;
 using UI.Chat_UI;
+using UnityEngine.Profiling;
 
 /// <summary>
 /// ChatRelay is only to be used internally via Chat.cs
@@ -148,21 +149,23 @@ public class ChatRelay : NetworkBehaviour
 			}
 
 			//Get NPCs in vicinity
+			Profiler.BeginSample("dumfuk");
 			var npcs = Physics2D.OverlapCircleAll(chatEvent.originator.AssumedWorldPosServer(), 14f, npcMask);
-			foreach (Collider2D coll in npcs)
+			for (int i = 0; i < npcs.Length; i++)
 			{
-				var npcPosition = coll.gameObject.AssumedWorldPosServer();
+				var npcPosition = npcs[i].gameObject.AssumedWorldPosServer();
 				if (MatrixManager.Linecast(chatEvent.position,LayerTypeSelection.Walls,
-					 layerMask,npcPosition).ItHit ==false)
+					layerMask,npcPosition).ItHit ==false)
 				{
 					//NPC is in hearing range, pass the message on: Physics2D.OverlapCircleAll(chatEvent.originator.AssumedWorldPosServer(), 8f, itemsMask);
-					var mobAi = coll.GetComponent<MobAI>();
+					var mobAi = npcs[i].GetComponent<MobAI>();
 					if (mobAi != null)
 					{
 						mobAi.LocalChatReceived(chatEvent);
 					}
 				}
 			}
+			Profiler.EndSample();
 
 			if(radioCheckIsOnCooldown == false) CheckForRadios(chatEvent);
 
