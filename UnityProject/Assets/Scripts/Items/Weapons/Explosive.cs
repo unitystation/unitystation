@@ -39,7 +39,7 @@ namespace Items.Weapons
 		private bool isArmed;
 		private bool countDownActive = false;
 		private bool isOnObject = false;
-		private RegisterTile attachedObjectTile;
+		private GameObject attachedToObject;
 
 		public int TimeToDetonate
 		{
@@ -104,11 +104,9 @@ namespace Items.Weapons
 		{
 			if (target.TryGetComponent<PushPull>(out var handler))
 			{
-				Inventory.ServerDrop(pickupable.ItemSlot);
-
-				//TODO : Figure out why the position keeps getting offset to it's last position inside the parent's hierarchy (it doesn't want to 0,0)s
-				attachedObjectTile = target.RegisterTile();
-				netTransform.OnTileReached().AddListener(UpdateBombPosition);
+				Inventory.ServerDrop(pickupable.ItemSlot, targetPostion);
+				attachedToObject = target;
+				UpdateManager.Add(CallbackType.UPDATE,UpdateBombPosition);
 				if (spriteHandler != null) spriteHandler.transform.localScale = new Vector3(0.6f, 0.6f, 0.6f);
 				return;
 			}
@@ -118,12 +116,9 @@ namespace Items.Weapons
 			if (spriteHandler != null) spriteHandler.transform.localScale = new Vector3(0.6f, 0.6f, 0.6f);
 		}
 
-		public void UpdateBombPosition(Vector3Int pos)
+		public void UpdateBombPosition()
 		{
-			if (attachedObjectTile != null)
-			{
-				registerItem.ServerSetLocalPosition(attachedObjectTile.customNetTransform.ServerLocalPosition);
-			}
+			registerItem.customNetTransform.SetPosition(attachedToObject.WorldPosServer());
 		}
 
 		/// <summary>
@@ -141,7 +136,8 @@ namespace Items.Weapons
 			pickupable.ServerSetCanPickup(true);
 			objectBehaviour.ServerSetPushable(true);
 			if (spriteHandler != null) spriteHandler.transform.localScale = new Vector3(1f, 1f, 1f);
-			attachedObjectTile = null;
+			UpdateManager.Remove(CallbackType.UPDATE,UpdateBombPosition);
+			attachedToObject = null;
 		}
 
 		public override void ReceiveSignal(SignalStrength strength, ISignalMessage message = null)
@@ -211,8 +207,8 @@ namespace Items.Weapons
 				isOnObject = true;
 				pickupable.ServerSetCanPickup(false);
 				objectBehaviour.ServerSetPushable(false);
-				Chat.AddActionMsgToChat(interaction.Performer, $"You attach the {gameObject.ExpensiveName()} to a nearby object..",
-					$"{interaction.PerformerPlayerScript.visibleName} attaches a {gameObject.ExpensiveName()} to nearby object!");
+				Chat.AddActionMsgToChat(interaction.Performer, $"You attach the {gameObject.ExpensiveName()} to {interaction.TargetObject.ExpensiveName()}",
+					$"{interaction.PerformerPlayerScript.visibleName} attaches a {gameObject.ExpensiveName()} to {interaction.TargetObject.ExpensiveName()}!");
 			}
 
 			//For interacting with the explosive while it's on a wall.
