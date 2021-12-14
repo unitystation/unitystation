@@ -10,7 +10,6 @@ using Systems.Ai;
 using Messages.Server;
 using Objects.Telecomms;
 using UI.Chat_UI;
-using UnityEngine.Profiling;
 
 /// <summary>
 /// ChatRelay is only to be used internally via Chat.cs
