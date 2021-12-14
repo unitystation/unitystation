@@ -32,7 +32,6 @@ namespace Items.Weapons
 		private ObjectBehaviour objectBehaviour;
 		private Pickupable pickupable;
 		private HasNetworkTabItem explosiveGUI;
-		private CustomNetTransform netTransform;
 		[HideInInspector] public GUI_Explosive GUI;
 
 		private bool hasExploded;
@@ -65,7 +64,6 @@ namespace Items.Weapons
 			objectBehaviour = GetComponent<ObjectBehaviour>();
 			pickupable = GetComponent<Pickupable>();
 			explosiveGUI = GetComponent<HasNetworkTabItem>();
-			netTransform = GetComponent<CustomNetTransform>();
 		}
 
 		public async void Countdown()
