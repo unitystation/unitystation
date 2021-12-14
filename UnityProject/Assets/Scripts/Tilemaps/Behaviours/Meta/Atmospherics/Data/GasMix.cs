@@ -427,6 +427,7 @@ namespace Systems.Atmospherics
 
 					//Now we continue checking for gases in the other pipes which still need to be merged
 				}
+				InGasesArray.Pool();
 			}
 
 			//Clear for next use
