@@ -87,11 +87,9 @@ namespace Health.Sickness
 									{
 										CheckSicknessProgression(sicknessAffliction);
 										CheckSymptomOccurence(sicknessAffliction, playerSickness.MobHealth);
-										Thread.Sleep(100);
 									}
 								}
 							}
-							Thread.Sleep(100);
 						}
 					}
 				}
@@ -328,7 +326,7 @@ namespace Health.Sickness
 		// Add this player as a sick player
 		public void RegisterSickPlayer(MobSickness mobSickness)
 		{
-			lock(sickPlayers)
+			lock (sickPlayers)
 			{
 				if (!sickPlayers.Contains(mobSickness))
 					sickPlayers.Add(mobSickness);
