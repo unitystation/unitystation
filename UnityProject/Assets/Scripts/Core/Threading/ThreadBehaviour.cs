@@ -1,82 +1,68 @@
-﻿using System.Threading;
-using UnityEngine;
+﻿using System.Collections.Generic;
+using System.Threading;
+using UnityEngine.Profiling;
 
-public enum ThreadedBehaviourType
+public class ThreadedBehaviour
 {
-	Atmospheric = 0,
-	Electricity = 1,
-	Room = 2,
-	FOV = 3
-}
+	public bool IsRunning { get; private set; }
+	public uint Ticker { get; private set; }
+	public int TickSpeed = 100;
+	private Thread WorkingThread;
+	public static List<ThreadedBehaviour> currentThreads = new List<ThreadedBehaviour>();
 
-public class ThreadedBehaviour : MonoBehaviour
-{
-	[Header("Threaded Manager")] public bool IsRunning;
-
-	public int Ticker;
-	public int TickSpeed = 1;
-	public Thread WorkingThread;
-
-	public float TickSpeedMs => TickSpeed / 1000f;
+	public ThreadMode threadMode = ThreadMode.Threaded;
 
 	/// <summary>
-	///     Runs when the manager is started causing the thread to commence
+	/// Runs when the manager is started causing the thread to commence
 	/// </summary>
-	public virtual void StartManager()
+	public void StartThread()
 	{
-		IsRunning = true;
-
-		if (WorkingThread != null)
-		{
-			WorkingThread.Abort();
-			WorkingThread = null;
-		}
-
-		WorkingThread = new Thread(ThreadedLoop);
+		WorkingThread = new Thread (ThreadedLoop);
 		WorkingThread.Start();
+		currentThreads.Add(this);
 		Logger.LogFormat("<b>{0}</b> Started", Category.Threading, GetType().Name);
-		//        ConsoleDebug.AddText("<color=#00FFFF>" + str + "</color>");
 	}
 
 	/// <summary>
-	///     Runs when the manager is stopped causing the thread to be aborted
+	/// Runs when the manager is stopped causing the thread to be aborted
 	/// </summary>
-	public virtual void StopManager()
+	public void StopThread()
 	{
-		if (!this)
-		{
-			return;
-		}
 		if (WorkingThread != null)
 		{
 			WorkingThread.Abort();
 			WorkingThread = null;
 		}
+		currentThreads.Remove(this);
+		Logger.LogFormat("<b>{0}</b> Stopped", Category.Threading, GetType().Name); ;
+		IsRunning = false;
+	}
 
-		Logger.LogFormat("<b>{0}</b> Stopped", Category.Threading, GetType().Name);
-		//        ConsoleDebug.AddText("<color=#00FFFF>" + str + "</color>");
+	private void ThreadedLoop()
+	{
+		IsRunning = true;
+		Profiler.BeginThreadProfiling("Unitystation", "RENAME ME");
+		while (IsRunning)
+		{
+			ThreadedWork();
+			Thread.Sleep(TickSpeed);
+			Ticker++;
+		}
+		Profiler.EndThreadProfiling();
 		IsRunning = false;
 	}
 
 	/// <summary>
-	///     Runs for each 'tick' of the thread
+	/// Runs for each 'tick' of the thread, override this!
 	/// </summary>
 	public virtual void ThreadedWork()
 	{
 	}
 
-	public void ThreadedLoop()
+	public enum ThreadMode
 	{
-		// This pattern lets us interrupt the work at a safe point if neeeded.
-		while (IsRunning && this)
-		{
-			ThreadedWork();
-			Thread.Sleep(TickSpeed);
-			if (Ticker < int.MaxValue)
-			{
-				Ticker++;
-			}
-		}
-		IsRunning = false;
+		Threaded,
+		GameLoop,
+		Manual
 	}
 }

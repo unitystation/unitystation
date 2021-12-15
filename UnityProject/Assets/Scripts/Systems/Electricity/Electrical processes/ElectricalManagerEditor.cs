@@ -7,6 +7,7 @@ namespace Systems.Electricity
 	[CustomEditor(typeof(ElectricalManager))]
 	public class ElectricalManagerEditor : Editor
 	{
+		/* //TODO: readd this
 		public override void OnInspectorGUI()
 		{
 			ElectricalManager electricalManager = (ElectricalManager)target;
@@ -54,6 +55,7 @@ namespace Systems.Electricity
 
 			EditorGUILayout.EndHorizontal();
 		}
+		*/
 	}
 }
 #endif

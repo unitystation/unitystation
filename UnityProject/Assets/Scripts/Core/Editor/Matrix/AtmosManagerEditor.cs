@@ -7,7 +7,7 @@ namespace Systems.Atmospherics
 	[CustomEditor(typeof(AtmosManager))]
 	public class AtmosManagerEditor : Editor
 	{
-
+		/*  //TODO: readd this
 		public override void OnInspectorGUI()
 		{
 			AtmosManager atmosManager = (AtmosManager)target;
@@ -23,13 +23,11 @@ namespace Systems.Atmospherics
 
 			GUI.enabled = atmosManager.Mode == AtmosMode.Threaded;
 
-			atmosManager.NumberThreads = EditorGUILayout.IntSlider(numThreadsContent, atmosManager.NumberThreads, 1, 1);
-
 			GUI.enabled = true;
 
 			AddButtonGroup(atmosManager);
 
-			EditorGUILayout.LabelField("Update List Count", AtmosThread.GetUpdateListCount().ToString());
+			EditorGUILayout.LabelField("Update List Count", AtmosManager.Instance.simulation.UpdateListCount.ToString());
 			DrawDefaultInspector();
 		}
 
@@ -41,7 +39,7 @@ namespace Systems.Atmospherics
 
 			if (GUILayout.Button("SetSpeed"))
 			{
-				AtmosManager.SetInternalSpeed();
+				AtmosManager.Instance.SetInternalSpeed();
 			}
 
 			if (!atmosManager.Running)
@@ -67,5 +65,6 @@ namespace Systems.Atmospherics
 
 			EditorGUILayout.EndHorizontal();
 		}
+		*/
 	}
 }

@@ -241,7 +241,7 @@ namespace Systems.Atmospherics
 				solidNode.StartingSuperConduct = true;
 			}
 
-			AtmosManager.Update(solidNode);
+			AtmosManager.Instance.UpdateNode(solidNode);
 		}
 
 		#endregion
@@ -286,7 +286,7 @@ namespace Systems.Atmospherics
 			//Do atmos update for the next solid node if temperature is allowed so it can do conduction
 			if(solidNode.ConductivityTemperature < AtmosDefines.MINIMUM_TEMPERATURE_FOR_SUPERCONDUCTION) return;
 			solidNode.AllowedToSuperConduct = true;
-			AtmosManager.Update(solidNode);
+			AtmosManager.Instance.UpdateNode(solidNode);
 		}
 
 		#endregion
