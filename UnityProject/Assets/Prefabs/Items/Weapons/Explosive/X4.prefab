@@ -305,6 +305,7 @@ MonoBehaviour:
   activeSpriteSO: {fileID: 11400000, guid: 6eedd99a9dc83864f808d929d4e9bd36, type: 2}
   progressTime: 3
   spriteHandler: {fileID: 5258580723283386321}
+  scaleSync: {fileID: 229608321056612877}
   GUI: {fileID: 0}
 --- !u!210 &-7063633880587810702
 SortingGroup:
@@ -341,6 +342,8 @@ GameObject:
   - component: {fileID: 3977958541996598942}
   - component: {fileID: 5258580723283386321}
   - component: {fileID: 1244029867708952306}
+  - component: {fileID: 3542653989710191825}
+  - component: {fileID: 229608321056612877}
   m_Layer: 0
   m_Name: SpriteHandler
   m_TagString: Untagged
@@ -438,3 +441,34 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &3542653989710191825
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3204498178074362964}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sceneId: 0
+  serverOnly: 0
+  visible: 0
+  m_AssetId: 9ca978c567f2e5c4bb8a6be3190717f7
+  hasSpawned: 0
+--- !u!114 &229608321056612877
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3204498178074362964}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 14a67aad38c961f45ad1cb44ac3b1f07, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1

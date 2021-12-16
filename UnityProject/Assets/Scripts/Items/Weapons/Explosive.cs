@@ -9,6 +9,7 @@ using Communications;
 using Managers;
 using Mirror;
 using Objects;
+using Scripts.Core.Transform;
 using UI;
 using UnityEngine;
 
@@ -28,6 +29,7 @@ namespace Items.Weapons
 		[SerializeField] private float progressTime = 3f;
 		[Header("Explosive Components")]
 		[SerializeField] private SpriteHandler spriteHandler;
+		[SerializeField] private ScaleSync scaleSync;
 		private RegisterItem registerItem;
 		private ObjectBehaviour objectBehaviour;
 		private Pickupable pickupable;
@@ -59,7 +61,8 @@ namespace Items.Weapons
 
 		private void Awake()
 		{
-			if(spriteHandler == null) spriteHandler = GetComponent<SpriteHandler>();
+			if(spriteHandler == null) spriteHandler = GetComponentInChildren<SpriteHandler>();
+			if(scaleSync == null) scaleSync = GetComponentInChildren<ScaleSync>();
 			registerItem = GetComponent<RegisterItem>();
 			objectBehaviour = GetComponent<ObjectBehaviour>();
 			pickupable = GetComponent<Pickupable>();
@@ -110,13 +113,13 @@ namespace Items.Weapons
 				Inventory.ServerDrop(pickupable.ItemSlot, targetPostion);
 				attachedToObject = target;
 				UpdateManager.Add(UpdateBombPosition, 0.1f);
-				if (spriteHandler != null) spriteHandler.transform.localScale = new Vector3(0.6f, 0.6f, 0.6f);
+				scaleSync.SetScale(new Vector3(0.6f, 0.6f, 0.6f));
 				return;
 			}
 
 			Inventory.ServerDrop(pickupable.ItemSlot, targetPostion);
 			//Visual feedback to indicate that it's been attached and not just dropped.
-			if (spriteHandler != null) spriteHandler.transform.localScale = new Vector3(0.6f, 0.6f, 0.6f);
+			scaleSync.SetScale(new Vector3(0.6f, 0.6f, 0.6f));
 		}
 
 		public void UpdateBombPosition()
@@ -140,7 +143,7 @@ namespace Items.Weapons
 			isOnObject = false;
 			pickupable.ServerSetCanPickup(true);
 			objectBehaviour.ServerSetPushable(true);
-			if (spriteHandler != null) spriteHandler.transform.localScale = new Vector3(1f, 1f, 1f);
+			scaleSync.SetScale(new Vector3(1f, 1f, 1f));
 			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, UpdateBombPosition);
 			attachedToObject = null;
 		}
