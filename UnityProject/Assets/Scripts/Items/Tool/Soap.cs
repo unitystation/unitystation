@@ -38,15 +38,15 @@ namespace Items
             Vector3Int positionInt = Vector3Int.RoundToInt(position);
 
             // Check if there is an object in the way of scrubbing the tile
-			var atPosition = MatrixManager.GetAt<RegisterTile>(positionInt, true);
+			var atPosition = MatrixManager.GetAt<RegisterObject>(positionInt, true);
             if(atPosition.Count != 0) return false;
 
 
             // Check that the layer scrubbed is a floor, e.g. not a table
-            var metaTileMap = MatrixManager.AtPoint(positionInt, false).MetaTileMap;
+            var metaTileMap = MatrixManager.AtPoint(positionInt, side == NetworkSide.Server).MetaTileMap;
             var tile = metaTileMap.GetTile(metaTileMap.WorldToCell(positionInt), true);
 
-            if (tile != null && tile.LayerType != LayerType.Floors)
+            if (tile != null && tile.LayerType == LayerType.Tables)
             {
                 return false;
             }
