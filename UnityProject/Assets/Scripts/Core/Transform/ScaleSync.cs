@@ -11,7 +11,7 @@ namespace Scripts.Core.Transform
     public class ScaleSync : NetworkBehaviour
     {
 	    [SyncVar(hook = nameof(SyncScale))]
-	    private Vector3 scaleTransform;
+	    private Vector3 scaleTransform = new Vector3(1f, 1f, 1f);
 
 	    public override void OnStartClient()
 	    {
