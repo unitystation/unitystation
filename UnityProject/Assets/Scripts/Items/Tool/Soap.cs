@@ -33,6 +33,24 @@ namespace Items
 			//can only scrub tiles, for now
 			if (!Validations.HasComponent<InteractableTiles>(interaction.TargetObject)) return false;
 
+            // Get position of interaction as Vector3Int
+            Vector3 position = interaction.WorldPositionTarget;
+            Vector3Int positionInt = Vector3Int.RoundToInt(position);
+
+            // Check if there is an object in the way of scrubbing the tile
+			var atPosition = MatrixManager.GetAt<RegisterTile>(positionInt, true);
+            if(atPosition.Count != 0) return false;
+
+
+            // Check that the layer scrubbed is a floor, e.g. not a table
+            var metaTileMap = MatrixManager.AtPoint(positionInt, false).MetaTileMap;
+            var tile = metaTileMap.GetTile(metaTileMap.WorldToCell(positionInt), true);
+
+            if (tile != null && tile.LayerType != LayerType.Floors)
+            {
+                return false;
+            }
+
 			return true;
 		}
 
