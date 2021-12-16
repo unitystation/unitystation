@@ -62,7 +62,7 @@ namespace Items.Weapons
 		private void Awake()
 		{
 			if(spriteHandler == null) spriteHandler = GetComponentInChildren<SpriteHandler>();
-			if(scaleSync == null) scaleSync = GetComponentInChildren<ScaleSync>();
+			if(scaleSync == null) scaleSync = GetComponent<ScaleSync>();
 			registerItem = GetComponent<RegisterItem>();
 			objectBehaviour = GetComponent<ObjectBehaviour>();
 			pickupable = GetComponent<Pickupable>();
@@ -85,8 +85,6 @@ namespace Items.Weapons
 
 		private void Detonate()
 		{
-			//We don't use Explosion.StartExplosion() because it doesn't look or work as
-			//Explosion prefabs do
 			if (hasExploded)
 			{
 				return;
