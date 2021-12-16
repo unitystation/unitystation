@@ -66,6 +66,11 @@ namespace Items.Weapons
 			explosiveGUI = GetComponent<HasNetworkTabItem>();
 		}
 
+		private void OnDisable()
+		{
+			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, UpdateBombPosition);
+		}
+
 		public async void Countdown()
 		{
 			countDownActive = true;
@@ -104,7 +109,7 @@ namespace Items.Weapons
 			{
 				Inventory.ServerDrop(pickupable.ItemSlot, targetPostion);
 				attachedToObject = target;
-				UpdateManager.Add(CallbackType.UPDATE,UpdateBombPosition);
+				UpdateManager.Add(UpdateBombPosition, 0.1f);
 				if (spriteHandler != null) spriteHandler.transform.localScale = new Vector3(0.6f, 0.6f, 0.6f);
 				return;
 			}
@@ -116,6 +121,8 @@ namespace Items.Weapons
 
 		public void UpdateBombPosition()
 		{
+			if(attachedToObject == null) return;
+			if(attachedToObject.WorldPosServer() == gameObject.WorldPosServer()) return;
 			registerItem.customNetTransform.SetPosition(attachedToObject.WorldPosServer());
 		}
 
@@ -134,7 +141,7 @@ namespace Items.Weapons
 			pickupable.ServerSetCanPickup(true);
 			objectBehaviour.ServerSetPushable(true);
 			if (spriteHandler != null) spriteHandler.transform.localScale = new Vector3(1f, 1f, 1f);
-			UpdateManager.Remove(CallbackType.UPDATE,UpdateBombPosition);
+			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, UpdateBombPosition);
 			attachedToObject = null;
 		}
 
