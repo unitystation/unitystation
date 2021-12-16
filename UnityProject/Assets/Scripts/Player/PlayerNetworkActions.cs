@@ -743,6 +743,8 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 			return;
 		if (playerScript.IsGhost || playerScript.playerHealth.ConsciousState != ConsciousState.CONSCIOUS)
 			return;
+		
+		if(pointTarget == null) return;
 
 		//If we are trying to find matrix get matrix instead
 		if (pointTarget.TryGetComponent<MatrixSync>(out var matrixSync))
