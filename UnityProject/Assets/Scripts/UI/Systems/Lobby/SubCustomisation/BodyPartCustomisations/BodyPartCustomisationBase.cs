@@ -14,10 +14,6 @@ namespace UI.CharacterCreator
 		{
 			get
 			{
-				if (characterCustomization.OpenBodySprites.ContainsKey(RelatedBodyPart) == false)
-				{
-					Logger.Log("o3o");
-				}
 				return characterCustomization.OpenBodySprites[RelatedBodyPart];
 			}
 		}
