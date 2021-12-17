@@ -61,6 +61,7 @@ public class GUI_DevSpawner : MonoBehaviour
 	    // disable keyboard commands while input is focused
 	    isFocused = true;
 	    UIManager.IsInputFocus = true;
+	    UIManager.PreventChatInput = true;
     }
 
     private void InputUnfocus()
@@ -68,6 +69,7 @@ public class GUI_DevSpawner : MonoBehaviour
 	    // disable keyboard commands while input is focused
 	    isFocused = false;
 	    UIManager.IsInputFocus = false;
+	    UIManager.PreventChatInput = false;
     }
 
     public void OnSearchBoxChanged()
