@@ -94,6 +94,12 @@ PrefabInstance:
       propertyPath: initialDescription
       value: A versatile belt, woven from sinew.
       objectReference: {fileID: 0}
+    - target: {fileID: 5691568116976668390, guid: 6050fe71b1f8f6a4cb17dc69b4e9223b,
+        type: 3}
+      propertyPath: allClothingData.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 4c735b38908ae5246826920a1edb4038,
+        type: 2}
     - target: {fileID: 7005938975693865852, guid: 6050fe71b1f8f6a4cb17dc69b4e9223b,
         type: 3}
       propertyPath: foreverID
