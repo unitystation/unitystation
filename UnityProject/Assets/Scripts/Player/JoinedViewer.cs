@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Net.NetworkInformation;
 using Systems;
 using Mirror;
@@ -21,12 +22,19 @@ public class JoinedViewer : NetworkBehaviour
 	public override void OnStartLocalPlayer()
 	{
 		base.OnStartLocalPlayer();
-		RequestObserverRefresh.Send(SceneManager.GetActiveScene().name);
-		PlayerManager.SetViewerForControl(this);
 
-		CmdServerSetupPlayer(GetNetworkInfo(),
-			PlayerManager.CurrentCharacterSettings.Username, DatabaseAPI.ServerData.UserID, GameData.BuildNumber,
-			DatabaseAPI.ServerData.IdToken);
+		PlayerManager.SetViewerForControl(this);
+		if (isServer)
+		{
+			RequestObserverRefresh.Send(SceneManager.GetActiveScene().name);
+			CmdServerSetupPlayer(GetNetworkInfo(),
+				PlayerManager.CurrentCharacterSettings.Username, DatabaseAPI.ServerData.UserID, GameData.BuildNumber,
+				DatabaseAPI.ServerData.IdToken);
+		}
+		else
+		{
+			CmdServerRequestLoadedScenes(SceneManager.GetActiveScene().name);
+		}
 	}
 
 	[Command]
@@ -35,6 +43,40 @@ public class JoinedViewer : NetworkBehaviour
 	{
 		ServerSetUpPlayer(unverifiedClientId, unverifiedUsername, unverifiedUserid, unverifiedClientVersion, unverifiedToken);
 	}
+
+
+	[Command]
+	private void CmdServerRequestLoadedScenes(string AlreadyLoaded)
+	{
+		List<SceneInfo> SceneS  = new List<SceneInfo>();
+
+		foreach (var  Scene in SubSceneManager.Instance.loadedScenesList)
+		{
+			if (AlreadyLoaded == Scene.SceneName) continue;
+			SceneS.Add(Scene);
+		}
+
+		RpcLoadScenes(JsonConvert.SerializeObject(SceneS), AlreadyLoaded);
+	}
+
+
+	[ClientRpc]
+	void RpcLoadScenes(string Data, string OriginalScene )
+	{
+		if (isServer)
+		{
+			return;
+		}
+
+
+		SubSceneManager.Instance.LoadScenesFromServer(JsonConvert.DeserializeObject<List<SceneInfo>>(Data), OriginalScene, () =>
+			CmdServerSetupPlayer(GetNetworkInfo(),
+				PlayerManager.CurrentCharacterSettings.Username, DatabaseAPI.ServerData.UserID, GameData.BuildNumber,
+				DatabaseAPI.ServerData.IdToken));
+
+	}
+
+
 
 	[Server]
 	private async void ServerSetUpPlayer(

@@ -1,5 +1,8 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using Messages.Client;
+using Mirror;
 using UnityEngine;
 
 // Client
@@ -29,7 +32,7 @@ public partial class SubSceneManager
 		}
 	}
 
-	IEnumerator LoadClientSubScene(SceneInfo sceneInfo)
+	IEnumerator LoadClientSubScene(SceneInfo sceneInfo, bool SynchronisingHandled = true)
 	{
 		if (sceneInfo.SceneType == SceneType.MainStation)
 		{
@@ -39,8 +42,7 @@ public partial class SubSceneManager
 			clientLoadTimer.IncrementLoadBar($"Loading {sceneInfo.SceneName}");
 			yield return StartCoroutine(LoadSubScene(sceneInfo.SceneName, clientLoadTimer));
 			MainStationLoaded = true;
-			yield return WaitFor.Seconds(0.1f);
-			UIManager.Display.preRoundWindow.CloseMapLoadingPanel();
+
 		}
 		else
 		{
@@ -48,5 +50,37 @@ public partial class SubSceneManager
 		}
 
 		clientIsLoadingSubscene = false;
+	}
+
+	public void LoadScenesFromServer(List<SceneInfo> Scenes, string OriginalScene, Action OnFinish)
+	{
+		StartCoroutine(LoadClientScenesFromServer(Scenes,OriginalScene, OnFinish));
+	}
+
+	IEnumerator LoadClientScenesFromServer(List<SceneInfo> Scenes, string OriginalScene, Action OnFinish)
+	{
+		clientIsLoadingSubscene = true;
+		foreach (var Scene in Scenes)
+		{
+			clientIsLoadingSubscene = true;
+			yield return LoadClientSubScene(Scene, false);
+			clientIsLoadingSubscene = true;
+			clientLoadedSubScenes.Add(Scene);
+		}
+
+		NetworkClient.PrepareToSpawnSceneObjects();
+		yield return WaitFor.Seconds(0.2f);
+		RequestObserverRefresh.Send(OriginalScene);
+
+		foreach (var Scene in Scenes)
+		{
+			yield return WaitFor.Seconds(0.1f);
+			RequestObserverRefresh.Send(Scene.SceneName);
+		}
+
+		clientIsLoadingSubscene = false;
+		yield return WaitFor.Seconds(0.1f);
+		UIManager.Display.preRoundWindow.CloseMapLoadingPanel();
+		OnFinish.Invoke();
 	}
 }
