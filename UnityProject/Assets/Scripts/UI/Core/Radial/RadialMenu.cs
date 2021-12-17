@@ -1,4 +1,4 @@
-using System.Collections;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Doors;
@@ -53,16 +53,14 @@ namespace UI.Core.RightClick
 			ItemRadial.SetActive(true);
 			selectedObject = default;   //reset previous selection
 			Items = GenerateItemMenu(objects);
-			var tile = radialCenter.RegisterTile();
-			IBranchPosition branchPosition = BranchWorldPosition.SetTile(tile);
+			IBranchPosition branchPosition = SetCenter(radialCenter);
 			radialBranch.SetupAndEnable((RectTransform)ItemRadial.transform, ItemRadial.OuterRadius, ItemRadial.Scale, branchPosition);
 			ItemRadial.SetupWithItems(Items);
 			ItemRadial.CenterItemsTowardsAngle(Items.Count, radialBranch.GetBranchToTargetAngle());
 			while (selectedObject == null && isActiveAndEnabled == true)
 			{
-				await Task.Yield();
+				await Task.Yield(); //wait until the selectedObject is chosen
 			}
-			Debug.Log($"Finished async {Time.frameCount}");
 			return selectedObject;
 		}
 
@@ -112,6 +110,12 @@ namespace UI.Core.RightClick
 			}
 
 			return RightClickMenuItem.CreateObjectMenuItem(forObject, ButtonColor, sprite, null, label, spriteRenderer.color, palette);
+		}
+
+		private IBranchPosition SetCenter(GameObject radialCenter)
+		{
+			var tile = radialCenter.RegisterTile();
+			return BranchWorldPosition.SetTile(tile);
 		}
 
 		private void OnHoverItem(PointerEventData eventData, RightClickRadialButton button)
@@ -169,8 +173,12 @@ namespace UI.Core.RightClick
 
 		public void Update()
 		{
-			radialBranch.UpdateLines(ItemRadial, ItemRadial.OuterRadius);
 			ItemRadial.UpdateArrows();
+			if (radialBranch.PositionChanged())
+			{
+				this.SetActive(false);
+				return;
+			}
 
 			if (IsAnyPointerDown() == false)
 			{

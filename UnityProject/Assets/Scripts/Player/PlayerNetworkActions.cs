@@ -22,7 +22,6 @@ using Shuttles;
 using UI.Core;
 using UI.Items;
 
-
 public partial class PlayerNetworkActions : NetworkBehaviour
 {
 	private static readonly StandardProgressActionConfig DisrobeProgressConfig =
@@ -975,5 +974,12 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 				if(trap.IsArmed) trap.TriggerTrapFromContainer(playerScript.playerHealth);
 			}
 		}
+	}
+
+	[Command]
+	public void CmdSetPaintJob(int paintJobIndex)
+	{
+		AirlockPainter painter = GetActiveHandItem().GetComponent<AirlockPainter>();
+		painter.CurrentPaintJobIndex = paintJobIndex;
 	}
 }

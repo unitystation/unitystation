@@ -1,25 +1,41 @@
 using Doors;
-using System.Collections;
+using Objects.Construction;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AirlockPainter : MonoBehaviour
+public class AirlockPainter : MonoBehaviour, IClientInteractable<HandActivate>
 {
 	[Tooltip("Airlock painting jobs.")]
 	public List<GameObject> AvailablePaintJobs;
 
-	public async void ChoosePainJob(GameObject paintableAirlock)
+	private int currentPaintJobIndex = -1;
+
+	public int CurrentPaintJobIndex
 	{
-		GameObject chosenPaintJob = await UIManager.RadialMenu.ShowRadialMenu(AvailablePaintJobs, paintableAirlock);
-		if(chosenPaintJob != null)
+		get => currentPaintJobIndex;
+		set => currentPaintJobIndex = value;
+	}
+
+	public async void ChoosePainJob(GameObject performer)
+	{
+		if (AvailablePaintJobs == null) return;
+
+		GameObject chosenPaintJob = await UIManager.RadialMenu.ShowRadialMenu(AvailablePaintJobs, performer);
+		if (chosenPaintJob)
 		{
-			paintTheAirlock(paintableAirlock, chosenPaintJob);
+			int chosenPaintJobIndex = AvailablePaintJobs.IndexOf(chosenPaintJob);
+			PlayerManager.LocalPlayerScript.playerNetworkActions.CmdSetPaintJob(chosenPaintJobIndex);
 		}
 	}
 
-	private void paintTheAirlock(GameObject paintableAirlock, GameObject chosenPaintJob)
+	public void ServerPaintTheAirlock(GameObject paintableAirlock)
 	{
-		DoorAnimatorV2 paintJobAnim = chosenPaintJob.GetComponent<DoorAnimatorV2>();
+		if(currentPaintJobIndex == -1)
+		{
+			return;
+		}
+		GameObject airlockWindowed = AvailablePaintJobs[currentPaintJobIndex];
+		DoorAnimatorV2 paintJobAnim = airlockWindowed.GetComponent<DoorAnimatorV2>();
 		SpriteHandler paintSprite = paintJobAnim.DoorBase.GetComponent<SpriteHandler>();
 		var spriteCatalog = paintSprite.GetSubCatalogue();
 
@@ -28,4 +44,12 @@ public class AirlockPainter : MonoBehaviour
 		airlockSprite.SetCatalogue(spriteCatalog, 0);
 		airlockSprite.SetSpriteSO(spriteCatalog[0]);    //For update the sprite when re-painting
 	}
+
+	public bool Interact(HandActivate interaction)
+	{
+		ChoosePainJob(interaction.Performer);
+		return true;
+	}
+
 }
+

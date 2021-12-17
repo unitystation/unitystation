@@ -14,6 +14,8 @@ namespace Doors
 		[SerializeField]
 		private GameObject airlockAssemblyPrefab = null;
 
+		public GameObject AirlockAssemblyPrefab => airlockAssemblyPrefab;
+
 		[Tooltip("Prefab of the airlock electronics that lives inside this airlock.")]
 		[SerializeField]
 		private GameObject airlockElectronicsPrefab = null;
@@ -110,7 +112,7 @@ namespace Doors
 				AirlockPainter painter = interaction.HandObject.GetComponent<AirlockPainter>();
 				if (painter)
 				{
-					painter.ChoosePainJob(gameObject);
+					painter.ServerPaintTheAirlock(gameObject);
 				}
 			}
 		}
