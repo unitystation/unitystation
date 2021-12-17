@@ -98,6 +98,7 @@ MonoBehaviour:
       m_AssetGUID: 
       m_SubObjectName: 
       m_SubObjectType: 
+      m_EditorAssetChanged: 0
   soundDelayTime: 0
   soundMinimumPitchVariance: 1
   soundMaximumPitchVariance: 1
@@ -174,6 +175,7 @@ MonoBehaviour:
       m_AssetGUID: 
       m_SubObjectName: 
       m_SubObjectType: 
+      m_EditorAssetChanged: 0
   damageDeflection: 0
   Armor:
     Melee: 0
@@ -239,6 +241,7 @@ MonoBehaviour:
       m_AssetGUID: 
       m_SubObjectName: 
       m_SubObjectType: 
+      m_EditorAssetChanged: 0
   hitSoundSettings: 0
   inventoryMoveSound:
     SetLoadSetting: 0
@@ -247,6 +250,7 @@ MonoBehaviour:
       m_AssetGUID: 
       m_SubObjectName: 
       m_SubObjectType: 
+      m_EditorAssetChanged: 0
   inventoryRemoveSound:
     SetLoadSetting: 0
     AssetAddress: null
@@ -254,6 +258,7 @@ MonoBehaviour:
       m_AssetGUID: 
       m_SubObjectName: 
       m_SubObjectType: 
+      m_EditorAssetChanged: 0
   canConnectToTank: 0
   isEVACapable: 0
   attackVerbs: []
@@ -292,12 +297,12 @@ MonoBehaviour:
   Emitter: {fileID: 0}
   DelayTime: 3
   EncryptionData: {fileID: 0}
+  ListenToEncryptedData: 0
   explosiveType: 0
   detonateImmediatelyOnSignal: 0
   timeToDetonate: 10
   minimumTimeToDetonate: 10
-  explosionPrefab: {fileID: 2540564744460004555, guid: 311ad0ee31c0a654487179079dd48cdd,
-    type: 3}
+  explosiveStrength: 1000
   activeSpriteSO: {fileID: 11400000, guid: 60942022f971e0440a63456ee27fc478, type: 2}
   progressTime: 3
   spriteHandler: {fileID: 5258580723283386321}

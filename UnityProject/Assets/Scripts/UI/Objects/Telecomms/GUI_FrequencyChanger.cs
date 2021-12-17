@@ -5,12 +5,13 @@ using System.Collections;
 using Communications;
 using Objects.Telecomms;
 using System;
+using System.Linq;
 
 namespace UI.Objects.Telecomms
 {
 	public class GUI_FrequencyChanger : NetTab
 	{
-		[SerializeField] private TMP_Text freuquencyLabel;
+		[SerializeField] private TMP_InputField freuquencyLabel;
 		[SerializeField] private Slider frequencySlider;
 		[SerializeField] private Toggle radioPowerToggle;
 		[SerializeField] private Toggle broadcastModeToggle;
@@ -57,6 +58,23 @@ namespace UI.Objects.Telecomms
 
 		private void UpdateFrequencyFromProvider()
 		{
+			freuquencyLabel.text = $"{emittingDevice.Frequency.ToString()}KHz";
+		}
+
+		public void UpdateFrequencyFromInput()
+		{
+			if (float.TryParse(freuquencyLabel.text, out var result) == false)
+			{
+				freuquencyLabel.text = $"{emittingDevice.Frequency.ToString()}KHz";
+				return;
+			}
+			if (result.IsBetween(emittingDevice.SignalData.MinMaxFrequancy.x,
+				emittingDevice.SignalData.MinMaxFrequancy.y))
+			{
+				emittingDevice.Frequency = result;
+				freuquencyLabel.text = $"{emittingDevice.Frequency.ToString()}KHz";
+				return;
+			}
 			freuquencyLabel.text = $"{emittingDevice.Frequency.ToString()}KHz";
 		}
 
