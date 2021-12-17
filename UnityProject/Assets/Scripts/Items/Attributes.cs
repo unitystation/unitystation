@@ -181,12 +181,9 @@ public class Attributes : NetworkBehaviour, IRightClickable, IExaminable
 
 	public RightClickableResult GenerateRightClickOptions()
 	{
-		var newRightClick = RightClickableResult.Create()
-			.AddElement("Examine", OnExamine);
-
-		newRightClick.AddElement("PointTo", OnPointTo);
-
-		return newRightClick;
+		return RightClickableResult.Create()
+			.AddElement("Examine", OnExamine)
+			.AddElement("PointTo", OnPointTo);
 	}
 
 	public void ServerSetArticleName(string newName)
