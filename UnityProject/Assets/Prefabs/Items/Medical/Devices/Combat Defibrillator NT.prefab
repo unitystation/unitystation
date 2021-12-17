@@ -17,6 +17,11 @@ PrefabInstance:
       propertyPath: m_AssetId
       value: f78efbee293e465419a1e02f706c2359
       objectReference: {fileID: 0}
+    - target: {fileID: 331286778988833690, guid: eff2d697846b24640887f98c04808460,
+        type: 3}
+      propertyPath: customNetTransform
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 363846626695367174, guid: eff2d697846b24640887f98c04808460,
         type: 3}
       propertyPath: m_Name
@@ -98,6 +103,12 @@ PrefabInstance:
       propertyPath: m_WasSpriteAssigned
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2875602828899599032, guid: eff2d697846b24640887f98c04808460,
+        type: 3}
+      propertyPath: Populater.DeprecatedContents.Array.data[0]
+      value: 
+      objectReference: {fileID: 2190103733779182413, guid: 4634078d1e96deb4fa978803fcb8efe9,
+        type: 3}
     - target: {fileID: 5785642984007823745, guid: eff2d697846b24640887f98c04808460,
         type: 3}
       propertyPath: PresentSpriteSet
