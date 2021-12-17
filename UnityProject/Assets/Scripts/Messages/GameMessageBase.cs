@@ -1,4 +1,5 @@
 ﻿using System;
+using Managers;
 using Mirror;
 using UnityEngine;
 
@@ -14,7 +15,10 @@ namespace Messages
 		/// </summary>
 		public virtual void PreProcess(NetworkConnection sentBy, T b)
 		{
+			InfiniteLoopTracker.gameMessageProcessing = true;
+			InfiniteLoopTracker.lastGameMessage = ToString();
 			Process(sentBy, b);
+			InfiniteLoopTracker.gameMessageProcessing = false;
 		}
 
 		public abstract void Process(T msg);

@@ -432,7 +432,7 @@ public partial class PlayerSync
 	/// Clear all queues and
 	/// inform players of true serverState
 	[Server]
-	private void RollbackPosition()
+	public void RollbackPosition()
 	{
 		foreach (var questionablePushable in questionablePushables)
 		{

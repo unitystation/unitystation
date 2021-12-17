@@ -11,6 +11,12 @@ public static class ConverterExtensions
 		return new Vector2(other.x, other.y);
 	}
 
+	public static Vector3 To3(this Vector2 other)
+	{
+		return new Vector3(other.x, other.y, 0);
+	}
+
+
 	public static Vector3Int RoundToInt(this Vector3 other)
 	{
 		return Vector3Int.RoundToInt(other);
@@ -153,14 +159,13 @@ public static class ConverterExtensions
 			MatrixManager.AtPoint(Vector3Int.RoundToInt(worldPos), CustomNetworkManager.Instance._isServer));
 	}
 
-	public static Vector3 ToWorld(this Vector3 localPos)
-	{
-		return MatrixManager.LocalToWorld(localPos,
-			MatrixManager.AtPoint(Vector3Int.RoundToInt(localPos), CustomNetworkManager.Instance._isServer));
-	}
-
 
 	public static Vector3 ToWorld(this Vector3 localPos, Matrix matrix)
+	{
+		return MatrixManager.LocalToWorld(localPos, MatrixManager.Get(matrix));
+	}
+
+	public static Vector3 ToWorld(this Vector3Int localPos, Matrix matrix)
 	{
 		return MatrixManager.LocalToWorld(localPos, MatrixManager.Get(matrix));
 	}
@@ -193,6 +198,17 @@ public static class ConverterExtensions
 	public static Vector3Int ToWorldInt(this Vector3 localPos, MatrixInfo matrix)
 	{
 		return MatrixManager.LocalToWorldInt(localPos, matrix);
+	}
+
+	public static Vector3 ToLocal(this Vector3Int worldPos, Matrix matrix)
+	{
+		return MatrixManager.WorldToLocal(worldPos, MatrixManager.Get(matrix));
+	}
+
+	public static Vector3 ToLocal(this Vector3Int worldPos)
+	{
+		return MatrixManager.WorldToLocal(worldPos,
+			MatrixManager.AtPoint(Vector3Int.RoundToInt(worldPos), CustomNetworkManager.Instance._isServer));
 	}
 
 	//======== | Cool serialisation stuff | =========

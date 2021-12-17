@@ -17,7 +17,6 @@ public class Screwdriver : MonoBehaviour, IClientInteractable<InventoryApply>
 			UpdateHeadsetKeyMessage.Send(interaction.TargetObject);
 			return true;
 		}
-
 		return false;
 	}
 }

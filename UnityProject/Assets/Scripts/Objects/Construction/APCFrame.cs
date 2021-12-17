@@ -290,12 +290,11 @@ namespace Objects.Construction
 
 				var localPosInt = MatrixManager.WorldToLocalInt(gameObject.GetComponent<CustomNetTransform>().ServerPosition, matrix);
 				var econs = interaction.Performer.GetComponentInParent<Matrix>().GetElectricalConnections(localPosInt);
-				foreach (var Connection in econs)
+				foreach (var Connection in econs.List)
 				{
 					if (Connection.Categorytype == PowerTypeCategory.APC)
 					{
-						econs.Clear();
-						ElectricalPool.PooledFPCList.Add(econs);
+						econs.Pool();
 						return;
 					}
 				}

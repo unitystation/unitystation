@@ -9,12 +9,11 @@ namespace Systems.Radiation
 	public class RadiationProducer : NetworkBehaviour
 	{
 		public float OutPuttingRadiation = 0;
-		public Color color = new Color(93f/255f, 202/255f, 49/255f, 0);
+		public Color color = new Color(93f / 255f, 202 / 255f, 49 / 255f, 0);
 		private GameObject mLightRendererObject;
 		private ObjectBehaviour objectBehaviour;
 		private RegisterObject registerObject;
-		[NonSerialized]
-		public int ObjectID = 0;
+		[NonSerialized] public int ObjectID = 0;
 		private LightSprite lightSprite;
 		public Sprite DotSprite;
 
@@ -29,14 +28,13 @@ namespace Systems.Radiation
 				SynchroniseStrength = newv;
 				UpdateValues(SynchroniseStrength);
 			}
-
 		}
 
 
 		private void Awake()
 		{
 			//yeah dam Unity initial Conditions  is not updating
-			color = new Color(93f/255f, 202/255f, 49/255f, 0);
+			color = new Color(93f / 255f, 202 / 255f, 49 / 255f, 0);
 
 			objectBehaviour = this.GetComponent<ObjectBehaviour>();
 			ObjectID = this.GetInstanceID();
@@ -52,14 +50,14 @@ namespace Systems.Radiation
 
 		private void OnEnable()
 		{
-			if(CustomNetworkManager.IsServer == false) return;
+			if (CustomNetworkManager.IsServer == false) return;
 
 			UpdateManager.Add(RequestPulse, 5);
 		}
 
 		private void OnDisable()
 		{
-			if(CustomNetworkManager.IsServer == false) return;
+			if (CustomNetworkManager.IsServer == false) return;
 
 			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, RequestPulse);
 		}
@@ -81,23 +79,20 @@ namespace Systems.Radiation
 
 		private void UpdateValues(float Invalue)
 		{
-			try
+			if (this == null)
 			{
-				OutPuttingRadiation = Invalue;
-				float LightPower = OutPuttingRadiation / 24000;
-				if (LightPower > 1)
-				{
-					mLightRendererObject.transform.localScale = Vector3.one * 7 * LightPower;
-					LightPower = 1;
-				}
+				Logger.LogError(" The radioactive object has been destroyed but you're still trying to Produce radiation ", Category.Radiation);
+				return;
+			}
+			OutPuttingRadiation = Invalue;
+			float LightPower = OutPuttingRadiation / 24000;
+			if (LightPower > 1)
+			{
+				mLightRendererObject.transform.localScale = Vector3.one * (7 * LightPower);
+				LightPower = 1;
+			}
 
-				lightSprite.Color.a = LightPower;
-			}
-			catch (NullReferenceException exception)
-			{
-				Logger.LogError($"Caught NRE with RadiationProducer UpdateValues {exception.Message} \n {exception.StackTrace}",
-					Category.Electrical);
-			}
+			lightSprite.Color.a = LightPower;
 		}
 
 		private void RequestPulse()
@@ -106,15 +101,14 @@ namespace Systems.Radiation
 			{
 				if (registerObject == null)
 				{
-					RadiationManager.Instance.RequestPulse(objectBehaviour.registerTile.Matrix,
-						objectBehaviour.registerTile.LocalPosition, OutPuttingRadiation, ObjectID);
+					RadiationManager.Instance.RequestPulse(objectBehaviour.registerTile.WorldPositionServer,
+						OutPuttingRadiation, ObjectID);
 				}
 				else
 				{
-					RadiationManager.Instance.RequestPulse(registerObject.Matrix,
-						registerObject.LocalPosition, OutPuttingRadiation, ObjectID);
+					RadiationManager.Instance.RequestPulse(registerObject.WorldPositionServer, OutPuttingRadiation,
+						ObjectID);
 				}
-
 			}
 
 			UpdateValues(OutPuttingRadiation);

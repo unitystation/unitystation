@@ -8,6 +8,7 @@ using NaughtyAttributes;
 using TMPro;
 using AdminTools;
 using Managers;
+using Items;
 
 namespace UI.Chat_UI
 {
@@ -141,12 +142,22 @@ namespace UI.Chat_UI
 			chatFilter = Chat.Instance.GetComponent<ChatFilter>();
 		}
 
+		private void OnEnable()
+		{
+			UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
+		}
+
+		private void OnDisable()
+		{
+			UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
+		}
+
 		private void OnDestroy()
 		{
 			EventManager.RemoveHandler(Event.UpdateChatChannels, OnUpdateChatChannels);
 		}
 
-		private void Update()
+		private void UpdateMe()
 		{
 			// TODO add events to inventory slot changes to trigger channel refresh
 			if (chatInputWindow.activeInHierarchy && !isChannelListUpToDate())

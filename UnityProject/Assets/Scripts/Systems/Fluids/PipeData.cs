@@ -336,7 +336,7 @@ namespace Systems.Pipes
 				var itempipe = pipe.GetComponent<PipeItemTile>();
 				itempipe.Colour = Matrix.MetaTileMap.GetColour(pipeNode.NodeLocation, LayerType.Underfloor, true).GetValueOrDefault(Color.white);
 				itempipe.Setsprite();
-				pipeNode.LocatedOn.TileChangeManager.RemoveTile(pipeNode.NodeLocation, LayerType.Underfloor);
+				pipeNode.LocatedOn.TileChangeManager.MetaTileMap.RemoveTileWithlayer(pipeNode.NodeLocation, LayerType.Underfloor);
 
 				pipeNode.IsOn.PipeData.Remove(pipeNode);
 				OnDisable();

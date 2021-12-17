@@ -18,8 +18,18 @@ public class AddressableBar : MonoBehaviour
 		loadCounter = _loadCounter;
 		SetHandle = Handle;
 	}
-	// Update is called once per frame
-    void Update()
+
+	private void OnEnable()
+	{
+		UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
+	}
+
+	private void OnDisable()
+	{
+		UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
+	}
+
+    private void UpdateMe()
     {
 	    slider.value = SetHandle.PercentComplete;
 	    if (SetHandle.PercentComplete == 1)

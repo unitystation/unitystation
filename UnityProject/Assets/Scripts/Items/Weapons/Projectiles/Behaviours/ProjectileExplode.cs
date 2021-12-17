@@ -47,8 +47,7 @@ namespace Weapons.Projectiles.Behaviours
 				return;
 			}
 
-			Matrix matrix = MatrixManager.AtPoint(worldTilePosition, true).Matrix;
-			Explosion.StartExplosion(worldTilePosition, explosionStrength, matrix);
+			Explosion.StartExplosion(worldTilePosition, explosionStrength);
 		}
 	}
 }

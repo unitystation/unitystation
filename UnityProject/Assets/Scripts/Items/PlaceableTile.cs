@@ -63,7 +63,18 @@ public class PlaceableTile : MonoBehaviour, ICheckedInteractable<PositionalHandA
 	public void ServerPerformInteraction(PositionalHandApply interaction)
 	{
 		//which matrix are we clicking on
-		var interactableTiles = InteractableTiles.TryGetNonSpaceMatrix(interaction.WorldPositionTarget.RoundToInt(), true);
+
+
+		var matrix = InteractableTiles.TryGetNonSpaceMatrix(interaction.WorldPositionTarget.RoundToInt(), true);
+
+		if (matrix.IsSpaceMatrix)
+		{
+			matrix = interaction.Performer.RegisterTile().Matrix;
+		}
+
+
+		var interactableTiles = matrix.TileChangeManager.InteractableTiles;
+
 		Vector3Int cellPos = interactableTiles.WorldToCell(interaction.WorldPositionTarget);
 		var tileAtPosition = interactableTiles.LayerTileAt(interaction.WorldPositionTarget,layerTypeSelection);
 
@@ -105,7 +116,7 @@ public class PlaceableTile : MonoBehaviour, ICheckedInteractable<PositionalHandA
 
 			void ProgressFinishAction()
 			{
-				interactableTiles.TileChangeManager.UpdateTile(cellPos, placeableTileEntry.layerTile);
+				interactableTiles.TileChangeManager.MetaTileMap.SetTile(cellPos, placeableTileEntry.layerTile);
 				interactableTiles.TileChangeManager.SubsystemManager.UpdateAt(cellPos);
 				Inventory.ServerConsume(interaction.HandSlot, placeableTileEntry.itemCost);
 				SoundManager.PlayNetworkedAtPos(placeSound, targetPosition);

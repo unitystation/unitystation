@@ -31,10 +31,20 @@ public class GUI_DevSpawner : MonoBehaviour
 	    spawnerSearch = SpawnerSearch.ForPrefabs(Spawn.SpawnablePrefabs());
     }
 
+	private void OnEnable()
+	{
+		UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
+	}
+
+	private void OnDisable()
+	{
+		UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
+	}
+
     /// <summary>
     /// There is no event for focusing input, so we must check for it manually in Update
     /// </summary>
-    void Update()
+    void UpdateMe()
     {
 	    if (searchBox.isFocused && isFocused == false)
 	    {
@@ -51,6 +61,7 @@ public class GUI_DevSpawner : MonoBehaviour
 	    // disable keyboard commands while input is focused
 	    isFocused = true;
 	    UIManager.IsInputFocus = true;
+	    UIManager.PreventChatInput = true;
     }
 
     private void InputUnfocus()
@@ -58,6 +69,7 @@ public class GUI_DevSpawner : MonoBehaviour
 	    // disable keyboard commands while input is focused
 	    isFocused = false;
 	    UIManager.IsInputFocus = false;
+	    UIManager.PreventChatInput = false;
     }
 
     public void OnSearchBoxChanged()

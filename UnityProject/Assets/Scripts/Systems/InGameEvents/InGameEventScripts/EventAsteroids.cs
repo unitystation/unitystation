@@ -112,8 +112,7 @@ namespace InGameEvents
 
 				var strength = UnityEngine.Random.Range(minStrength * multiplier, maxStrength * multiplier);
 
-				Explosion.StartExplosion(impactCoords.Dequeue().ToLocalInt(stationMatrix), strength,
-					stationMatrix.Matrix);
+				Explosion.StartExplosion(impactCoords.Dequeue().RoundToInt(), strength);
 
 				yield return new WaitForSeconds(UnityEngine.Random.Range(minTimeBetweenMeteors, maxTimeBetweenMeteors));
 			}

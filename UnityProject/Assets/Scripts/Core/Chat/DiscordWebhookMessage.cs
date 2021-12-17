@@ -37,7 +37,7 @@ namespace DiscordWebhook
 
 		private bool loggedWebKookError = false;
 
-		private void Update()
+		private void UpdateMe()
 		{
 			if (!CustomNetworkManager.IsServer) return;
 
@@ -74,12 +74,14 @@ namespace DiscordWebhook
 		{
 			Application.logMessageReceived += HandleLog;
 			EventManager.AddHandler(Event.PreRoundStarted, ResetHashSet);
+			UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
 		}
 
 		void OnDisable()
 		{
 			Application.logMessageReceived -= HandleLog;
 			EventManager.RemoveHandler(Event.PreRoundStarted, ResetHashSet);
+			UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
 		}
 
 		void ResetHashSet()

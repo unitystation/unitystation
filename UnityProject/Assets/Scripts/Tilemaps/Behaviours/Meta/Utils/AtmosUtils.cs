@@ -24,6 +24,63 @@ namespace Systems.Atmospherics
 			return new GasValues();
 		}
 
+
+		public static List<GasValuesList> PooledGasValuesLists = new List<GasValuesList>();
+
+		public static GasValuesList GetGasValuesList()
+		{
+			lock (PooledGasValuesLists)
+			{
+				if (PooledGasValuesLists.Count > 0)
+				{
+					var QEntry = PooledGasValuesLists[0];
+					PooledGasValuesLists.RemoveAt(0);
+					if (QEntry == null)
+					{
+						return new GasValuesList();
+					}
+
+					return QEntry;
+				}
+			}
+
+			return new GasValuesList();
+		}
+
+		public class GasValuesList
+		{
+
+			public List<GasValues> List =new List<GasValues>();
+			public void Pool()
+			{
+				List.Clear();
+				lock (PooledGasValuesLists)
+				{
+					PooledGasValuesLists.Add(this);
+				}
+			}
+		}
+
+
+		public static GasValuesList CopyGasArray(GasData GasData)
+		{
+			var List = GetGasValuesList();
+			if (GasData?.GasesArray != null)
+			{
+				lock (GasData.GasesArray) //no Double lock
+				{
+					List.List.AddRange(GasData.GasesArray);
+				}
+			}
+			else
+			{
+				Logger.LogError("o3o");
+			}
+
+			return List;
+		}
+
+
 		public static readonly Vector2Int MINUS_ONE = new Vector2Int(-1, -1);
 
 		public static bool IsPressureChanged(MetaDataNode node, out Vector2Int windDirection, out float windForce)
@@ -83,18 +140,21 @@ namespace Systems.Atmospherics
 				//Only need to check if false
 				if (result == false)
 				{
-					for (int j = node.GasMix.GasesArray.Count - 1; j >= 0; j--)
+					lock (neighbor.GasMix.GasesArray)  //no Double lock
 					{
-						var gas = node.GasMix.GasesArray[j];
-						float moles = node.GasMix.GasData.GetGasMoles(gas.GasSO);
-						float molesNeighbor = neighbor.GasMix.GasData.GetGasMoles(gas.GasSO);
-
-						if (Mathf.Abs(moles - molesNeighbor) > AtmosConstants.MinPressureDifference)
+						for (int j = node.GasMix.GasesArray.Count - 1; j >= 0; j--)
 						{
-							result = true;
+							var gas = node.GasMix.GasesArray[j];
+							float moles = node.GasMix.GasData.GetGasMoles(gas.GasSO);
+							float molesNeighbor = neighbor.GasMix.GasData.GetGasMoles(gas.GasSO);
 
-							//We break not return here so we can still work out wind direction
-							break;
+							if (Mathf.Abs(moles - molesNeighbor) > AtmosConstants.MinPressureDifference)
+							{
+								result = true;
+
+								//We break not return here so we can still work out wind direction
+								break;
+							}
 						}
 					}
 				}
@@ -103,17 +163,20 @@ namespace Systems.Atmospherics
 				//Only need to check if false
 				if (result == false)
 				{
-					foreach (var gas in neighbor.GasMix.GasesArray) //doesn't appear to modify list while iterating
+					lock (neighbor.GasMix.GasesArray) //no Double lock
 					{
-						float moles = node.GasMix.GasData.GetGasMoles(gas.GasSO);
-						float molesNeighbor = neighbor.GasMix.GasData.GetGasMoles(gas.GasSO);
-
-						if (Mathf.Abs(moles - molesNeighbor) > AtmosConstants.MinPressureDifference)
+						foreach (var gas in neighbor.GasMix.GasesArray) //doesn't appear to modify list while iterating
 						{
-							result = true;
+							float moles = node.GasMix.GasData.GetGasMoles(gas.GasSO);
+							float molesNeighbor = neighbor.GasMix.GasData.GetGasMoles(gas.GasSO);
 
-							//We break not return here so we can still work out wind direction
-							break;
+							if (Mathf.Abs(moles - molesNeighbor) > AtmosConstants.MinPressureDifference)
+							{
+								result = true;
+
+								//We break not return here so we can still work out wind direction
+								break;
+							}
 						}
 					}
 				}
@@ -175,10 +238,14 @@ namespace Systems.Atmospherics
 		{
 			var total = 0f;
 
-			foreach (var gas in data.GasesArray)
+			lock (data.GasesArray) //no Double lock
 			{
-				total += gas.Moles;
+				foreach (var gas in data.GasesArray)
+				{
+					total += gas.Moles;
+				}
 			}
+
 
 			return total;
 		}
@@ -314,7 +381,7 @@ namespace Systems.Atmospherics
 		/// </summary>
 		public static void RemoveGasType(this GasData data, GasSO gasType)
 		{
-			lock (data.GasesArray)
+			lock (data.GasesArray) //no Double lock
 			{
 				for (int i = data.GasesArray.Count - 1; i >= 0; i--)
 				{
@@ -337,10 +404,14 @@ namespace Systems.Atmospherics
 		{
 			var newGasData = new GasData();
 
-			foreach (var value in oldData.GasesArray)
+			var List = CopyGasArray(oldData);
+
+			foreach (var value in List.List)
 			{
 				newGasData.SetMoles(value.GasSO, value.Moles);
 			}
+
+			List.Pool();
 
 			newGasData.RegenerateDict();
 
@@ -356,10 +427,14 @@ namespace Systems.Atmospherics
 		{
 			CopyTo.Clear();
 
-			foreach (var value in oldData.GasesArray)
+			var List = CopyGasArray(oldData);
+
+			foreach (var value in List.List)
 			{
 				CopyTo.SetMoles(value.GasSO, value.Moles);
 			}
+
+			List.Pool();
 
 			CopyTo.RegenerateDict();
 

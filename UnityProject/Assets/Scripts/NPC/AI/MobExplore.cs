@@ -231,8 +231,8 @@ namespace Systems.MobAIs
 					else matrixInfo.MetaDataLayer.Clean(worldPos, checkPos, false);
 					break;
 				case Target.missingFloor:
-					if (IsEmagged == false) interactableTiles.TileChangeManager.UpdateTile(checkPos, TileType.Floor, "Floor");
-					else interactableTiles.TileChangeManager.RemoveTile(checkPos, LayerType.Floors);
+					if (IsEmagged == false) interactableTiles.TileChangeManager.MetaTileMap.SetTile(checkPos, TileType.Floor, "Floor");
+					else interactableTiles.TileChangeManager.MetaTileMap.RemoveTileWithlayer(checkPos, LayerType.Floors);
 
 					break;
 				case Target.injuredPeople:

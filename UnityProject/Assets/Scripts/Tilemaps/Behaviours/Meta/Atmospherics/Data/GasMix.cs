@@ -15,12 +15,15 @@ namespace Systems.Atmospherics
 	{
 		[InfoBox("Gas data container", EInfoBoxType.Normal)]
 		public GasData GasData;
+
 		public List<GasValues> GasesArray => GasData.GasesArray;
 
 		/// <summary>In kPa.</summary>
 		public float Pressure;
+
 		/// <summary>In cubic metres.</summary>
 		public float Volume;
+
 		/// <summary>In Kelvin.</summary>
 		public float Temperature;
 
@@ -32,9 +35,12 @@ namespace Systems.Atmospherics
 			get
 			{
 				float value = 0;
-				foreach (var a in GasesArray)  //doesn't appear to modify list while iterating
+				lock (GasesArray)
 				{
-					value += a.Moles;
+					foreach (var a in GasesArray) //doesn't appear to modify list while iterating
+					{
+						value += a.Moles;
+					}
 				}
 
 				if (float.IsNaN(value))
@@ -46,16 +52,21 @@ namespace Systems.Atmospherics
 			}
 		}
 
-		public float WholeHeatCapacity //this is the heat capacity for the entire gas mixture, in Joules/Kelvin. gets very big with lots of gas.
+		public float
+			WholeHeatCapacity //this is the heat capacity for the entire gas mixture, in Joules/Kelvin. gets very big with lots of gas.
 		{
 			get
 			{
 				float capacity = 0f;
 
-				foreach (var gas in GasesArray) //doesn't appear to modify list while iterating
+				lock (GasesArray)
 				{
-					capacity += gas.GasSO.MolarHeatCapacity * gas.Moles;
+					foreach (var gas in GasesArray) //doesn't appear to modify list while iterating
+					{
+						capacity += gas.GasSO.MolarHeatCapacity * gas.Moles;
+					}
 				}
+
 
 				return capacity;
 			}
@@ -174,9 +185,17 @@ namespace Systems.Atmospherics
 			var ratio = molesToTransfer / sourceStartMoles;
 			var targetStartMoles = target.Moles;
 
-			for (int i = source.GasesArray.Count - 1; i >= 0; i--)
+			var Listsource = AtmosUtils.GetGasValuesList();
+
+			lock (source.GasesArray) //no Double lock
 			{
-				var gas = source.GasesArray[i];
+				Listsource.List.AddRange(source.GasesArray);
+			}
+
+
+			for (int i = Listsource.List.Count - 1; i >= 0; i--)
+			{
+				var gas = Listsource.List[i];
 				if (gas.GasSO == null) continue;
 
 				var sourceMoles = source.GetMoles(gas.GasSO);
@@ -192,8 +211,10 @@ namespace Systems.Atmospherics
 					//Remove from source
 					source.GasData.ChangeMoles(gas.GasSO, -transfer);
 				}
-
 			}
+
+
+			Listsource.Pool();
 
 			if (CodeUtilities.IsEqual(target.Temperature, source.Temperature))
 			{
@@ -231,9 +252,11 @@ namespace Systems.Atmospherics
 			var newTemperature = totalWholeHeatCapacity > 0 ? totalInternalEnergy / totalWholeHeatCapacity : 0;
 			var totalVolume = Volume + otherGas.Volume;
 
-			for (int i = GasesArray.Count - 1; i >= 0; i--)
+			var GasesArrayCopy = AtmosUtils.CopyGasArray(this.GasData);
+
+			for (int i = GasesArrayCopy.List.Count - 1; i >= 0; i--)
 			{
-				var gas = GasesArray[i];
+				var gas = GasesArrayCopy.List[i];
 				var gasMoles = GasData.GetGasMoles(gas.GasSO);
 				gasMoles += otherGas.GasData.GetGasMoles(gas.GasSO);
 				gasMoles /= totalVolume;
@@ -244,12 +267,17 @@ namespace Systems.Atmospherics
 				otherGas.GasData.SetMoles(gas.GasSO, gasMoles * otherGas.Volume);
 			}
 
+			GasesArrayCopy.Pool();
 
-			for (int i = otherGas.GasesArray.Count - 1; i >= 0; i--)
+
+			var otherGasGasesArrayCopy = AtmosUtils.CopyGasArray(otherGas.GasData);
+
+
+			for (int i = otherGasGasesArrayCopy.List.Count - 1; i >= 0; i--)
 			{
-				var gas = otherGas.GasesArray[i];
+				var gas = otherGasGasesArrayCopy.List[i];
 				//Check if already merged
-				if(cache.Contains(gas.GasSO)) continue;
+				if (cache.Contains(gas.GasSO)) continue;
 
 				var gasMoles = GasData.GetGasMoles(gas.GasSO);
 				gasMoles += otherGas.GasData.GetGasMoles(gas.GasSO);
@@ -258,6 +286,9 @@ namespace Systems.Atmospherics
 				GasData.SetMoles(gas.GasSO, gasMoles * Volume);
 				otherGas.GasData.SetMoles(gas.GasSO, gasMoles * otherGas.Volume);
 			}
+
+
+			otherGasGasesArrayCopy.Pool();
 
 			//Clear for next use
 			cache.Clear();
@@ -269,9 +300,12 @@ namespace Systems.Atmospherics
 
 		public void MultiplyGas(float factor)
 		{
-			for (int i = 0; i < GasesArray.Count; i++)
+			lock (GasesArray)
 			{
-				GasesArray[i].Moles *= factor;
+				for (int i = 0; i < GasesArray.Count; i++)
+				{
+					GasesArray[i].Moles *= factor;
+				}
 			}
 
 			SetPressure(Pressure * factor);
@@ -322,10 +356,13 @@ namespace Systems.Atmospherics
 
 			var newTemperature = totalInternalEnergy / totalWholeHeatCapacity;
 
+			var List = AtmosUtils.CopyGasArray(this.GasData);
+
+
 			//First do the gases in THIS gas mix and merge them with all pipes
-			for (int i = GasesArray.Count - 1; i >= 0; i--)
+			for (int i = List.List.Count - 1; i >= 0; i--)
 			{
-				var gas = GasesArray[i];
+				var gas = List.List[i];
 				var gasMoles = GasData.GetGasMoles(gas.GasSO);
 
 				foreach (var gasMix in otherGas)
@@ -348,14 +385,20 @@ namespace Systems.Atmospherics
 				pipeCache.Add(gas.GasSO);
 			}
 
+			List.Pool();
+
+
 			//Next loop through all pipes
 			foreach (var gasMix in otherGas)
 			{
 				//Loop through their contained gases
-				foreach (var gas in PipeFunctions.PipeOrNet(gasMix).GetGasMix().GasData.GasesArray)
+				var InGasesArray = AtmosUtils.CopyGasArray(PipeFunctions.PipeOrNet(gasMix).GetGasMix().GasData);
+
+
+				foreach (var gas in InGasesArray.List)
 				{
 					//Only do gases we haven't done yet
-					if(pipeCache.Contains(gas.GasSO)) continue;
+					if (pipeCache.Contains(gas.GasSO)) continue;
 
 					//We DONT add THIS Gas Mix moles value as it will be 0 as all gases (0 >) in THIS as they were already
 					//merged in the first merge loop
@@ -384,6 +427,7 @@ namespace Systems.Atmospherics
 
 					//Now we continue checking for gases in the other pipes which still need to be merged
 				}
+				InGasesArray.Pool();
 			}
 
 			//Clear for next use

@@ -78,7 +78,17 @@ public class CablePlacementVisualisation : MonoBehaviour
 		lineRenderer = cablePlacementVisualisation.GetComponent<LineRenderer>();
 	}
 
-	private void Update()
+	private void OnEnable()
+	{
+		UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
+	}
+
+	private void OnDisable()
+	{
+		UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
+	}
+
+	private void UpdateMe()
 	{
 		// return if visualisation is disabled or distance is greater than interaction distance
 		if (!cablePlacementVisualisation.activeSelf) return;
@@ -141,8 +151,9 @@ public class CablePlacementVisualisation : MonoBehaviour
 	private void Build()
 	{
 		if (startPoint == endPoint || target == null) return;
+		var Position = cablePlacementVisualisation.transform.position + new Vector3(0.5f, 0.5f, 0);
 
-		Vector2 targetVector = (connectionPointRenderers[endPoint].transform.position - transform.position);
+		Vector2 targetVector = Position.ToLocal(PlayerManager.LocalPlayer.RegisterTile().Matrix); // transform.position ( - transform.position); //TODO? what? is this
 		ConnectionApply cableApply = ConnectionApply.ByLocalPlayer(target, startPoint, endPoint, targetVector);
 
 		//if HandObject is null, then its an empty hand apply so we only need to check the receiving object
@@ -287,7 +298,7 @@ public class CablePlacementVisualisation : MonoBehaviour
 				if (topTile && (topTile.LayerType == LayerType.Base || topTile.LayerType == LayerType.Underfloor))
 				{
 					// move cable placement visualisation to rounded mouse position and enable it
-					cablePlacementVisualisation.transform.position = mousePosition - new Vector3(0.5f, 0.5f, 0); ;
+					cablePlacementVisualisation.transform.position = mousePosition - new Vector3(0.5f, 0.5f, 0);
 					cablePlacementVisualisation.SetActive(true);
 				}
 				// disable visualisation if active

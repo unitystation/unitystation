@@ -7,25 +7,29 @@ using Systems.Explosions;
 using ScriptableObjects.Communications;
 using Communications;
 using Managers;
+using Mirror;
 using Objects;
+using Scripts.Core.Transform;
 using UI;
 using UnityEngine;
 
 
 namespace Items.Weapons
 {
-	public class Explosive : SignalReceiver, ICheckedInteractable<PositionalHandApply>, ICheckedInteractable<MouseDrop>
+	public class Explosive : SignalReceiver, ICheckedInteractable<PositionalHandApply>,
+		ICheckedInteractable<MouseDrop>, IRightClickable
 	{
 		[Header("Explosive settings")]
 		[SerializeField] private ExplosiveType explosiveType;
 		[SerializeField] private bool detonateImmediatelyOnSignal;
 		[SerializeField] private int timeToDetonate = 10;
 		[SerializeField] private int minimumTimeToDetonate = 10;
-		[SerializeField] private ExplosionComponent explosionPrefab;
+		[SerializeField] private float explosiveStrength = 150f;
 		[SerializeField] private SpriteDataSO activeSpriteSO;
 		[SerializeField] private float progressTime = 3f;
 		[Header("Explosive Components")]
 		[SerializeField] private SpriteHandler spriteHandler;
+		[SerializeField] private ScaleSync scaleSync;
 		private RegisterItem registerItem;
 		private ObjectBehaviour objectBehaviour;
 		private Pickupable pickupable;
@@ -36,6 +40,7 @@ namespace Items.Weapons
 		private bool isArmed;
 		private bool countDownActive = false;
 		private bool isOnObject = false;
+		private GameObject attachedToObject;
 
 		public int TimeToDetonate
 		{
@@ -56,11 +61,17 @@ namespace Items.Weapons
 
 		private void Awake()
 		{
-			if(spriteHandler == null) spriteHandler = GetComponent<SpriteHandler>();
+			if(spriteHandler == null) spriteHandler = GetComponentInChildren<SpriteHandler>();
+			if(scaleSync == null) scaleSync = GetComponent<ScaleSync>();
 			registerItem = GetComponent<RegisterItem>();
 			objectBehaviour = GetComponent<ObjectBehaviour>();
 			pickupable = GetComponent<Pickupable>();
 			explosiveGUI = GetComponent<HasNetworkTabItem>();
+		}
+
+		private void OnDisable()
+		{
+			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, UpdateBombPosition);
 		}
 
 		public async void Countdown()
@@ -74,8 +85,6 @@ namespace Items.Weapons
 
 		private void Detonate()
 		{
-			//We don't use Explosion.StartExplosion() because it doesn't look or work as
-			//Explosion prefabs do
 			if (hasExploded)
 			{
 				return;
@@ -85,17 +94,37 @@ namespace Items.Weapons
 			if (isServer)
 			{
 				// Get data before despawning
-				var explosionMatrix = registerItem.Matrix;
 				var worldPos = objectBehaviour.AssumedWorldPositionServer();
 
 				// Despawn the explosive
 				_ = Despawn.ServerSingle(gameObject);
-
-				// Explosion here
-				var explosionGO = Instantiate(explosionPrefab, explosionMatrix.transform);
-				explosionGO.transform.position = worldPos;
-				explosionGO.Explode(explosionMatrix);
+				Explosion.StartExplosion(worldPos, explosiveStrength);
 			}
+
+		}
+
+		[Server]
+		private void AttachExplosive(GameObject target, Vector2 targetPostion)
+		{
+			if (target.TryGetComponent<PushPull>(out var handler))
+			{
+				Inventory.ServerDrop(pickupable.ItemSlot, targetPostion);
+				attachedToObject = target;
+				UpdateManager.Add(UpdateBombPosition, 0.1f);
+				scaleSync.SetScale(new Vector3(0.6f, 0.6f, 0.6f));
+				return;
+			}
+
+			Inventory.ServerDrop(pickupable.ItemSlot, targetPostion);
+			//Visual feedback to indicate that it's been attached and not just dropped.
+			scaleSync.SetScale(new Vector3(0.6f, 0.6f, 0.6f));
+		}
+
+		public void UpdateBombPosition()
+		{
+			if(attachedToObject == null) return;
+			if(attachedToObject.WorldPosServer() == gameObject.WorldPosServer()) return;
+			registerItem.customNetTransform.SetPosition(attachedToObject.WorldPosServer());
 		}
 
 		/// <summary>
@@ -107,7 +136,17 @@ namespace Items.Weapons
 			detonateImmediatelyOnSignal = mode;
 		}
 
-		public override void ReceiveSignal(SignalStrength strength)
+		private void DeAttachExplosive()
+		{
+			isOnObject = false;
+			pickupable.ServerSetCanPickup(true);
+			objectBehaviour.ServerSetPushable(true);
+			scaleSync.SetScale(new Vector3(1f, 1f, 1f));
+			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, UpdateBombPosition);
+			attachedToObject = null;
+		}
+
+		public override void ReceiveSignal(SignalStrength strength, ISignalMessage message = null)
 		{
 			if(countDownActive == true || isArmed == false) return;
 			if (detonateImmediatelyOnSignal)
@@ -170,15 +209,12 @@ namespace Items.Weapons
 					}
 				}
 
-				Inventory.ServerDrop(pickupable.ItemSlot, interaction.TargetVector);
+				AttachExplosive(interaction.TargetObject, interaction.TargetVector);
 				isOnObject = true;
 				pickupable.ServerSetCanPickup(false);
 				objectBehaviour.ServerSetPushable(false);
-				//Visual feedback to indicate that it's been attached and not just dropped.
-				//We put it under a null check because headless servers for some reason don't get them on Awake()
-				if (spriteHandler != null) spriteHandler.transform.localScale = new Vector3(0.6f, 0.6f, 0.6f);
-				Chat.AddActionMsgToChat(interaction.Performer, $"You attach the {gameObject.ExpensiveName()} to a nearby object..",
-					$"{interaction.PerformerPlayerScript.visibleName} attaches a {gameObject.ExpensiveName()} to nearby object!");
+				Chat.AddActionMsgToChat(interaction.Performer, $"You attach the {gameObject.ExpensiveName()} to {interaction.TargetObject.ExpensiveName()}",
+					$"{interaction.PerformerPlayerScript.visibleName} attaches a {gameObject.ExpensiveName()} to {interaction.TargetObject.ExpensiveName()}!");
 			}
 
 			//For interacting with the explosive while it's on a wall.
@@ -193,6 +229,7 @@ namespace Items.Weapons
 			    interaction.HandObject.TryGetComponent<SignalEmitter>(out var emitter))
 			{
 				Emitter = emitter;
+				Frequency = emitter.Frequency;
 				Chat.AddExamineMsg(interaction.Performer, "You successfully pair the remote signal to the device.");
 				return;
 			}
@@ -202,6 +239,13 @@ namespace Items.Weapons
 			bar.ServerStartProgress(interaction.Performer.RegisterTile(), progressTime, interaction.Performer);
 		}
 		#endregion
+
+		public RightClickableResult GenerateRightClickOptions()
+		{
+			RightClickableResult result = new RightClickableResult();
+			if (isOnObject == false) return result;
+			return result.AddElement("Deattach", DeAttachExplosive);
+		}
 	}
 
 	public enum ExplosiveType

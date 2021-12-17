@@ -770,6 +770,11 @@ public class SpriteHandler : MonoBehaviour
 	public void UpdateMe()
 	{
 		timeElapsed += UpdateManager.CashedDeltaTime;
+		if (PresentFrame == null)
+		{
+			TryToggleAnimationState(false);
+		}
+
 		if (timeElapsed >= PresentFrame.secondDelay)
 		{
 			if (variantIndex < PresentSpriteSet.Variance.Count)
@@ -781,6 +786,8 @@ public class SpriteHandler : MonoBehaviour
 					if (animateOnce)
 					{
 						InternalChangeSprite(CataloguePage + 1 < SubCatalogue.Count ? CataloguePage + 1 : 0, false);
+						isAnimation = false;
+						UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
 						return;
 					}
 				}

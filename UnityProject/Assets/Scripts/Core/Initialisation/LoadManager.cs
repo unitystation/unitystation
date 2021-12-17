@@ -57,7 +57,17 @@ namespace Initialisation
 			DelayedActions.Add(ToADD);
 		}
 
-		public void Update()
+		private void OnEnable()
+		{
+			UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
+		}
+
+		private void OnDisable()
+		{
+			UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
+		}
+
+		public void UpdateMe()
 		{
 			if (GamesStartInitialiseSystems.Count > 0)
 			{

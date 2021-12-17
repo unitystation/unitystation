@@ -54,7 +54,17 @@ namespace Lobby
 			InitPlayerName();
 		}
 
-		private void Update()
+		private void OnEnable()
+		{
+			UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
+		}
+
+		private void OnDisable()
+		{
+			UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
+		}
+
+		private void UpdateMe()
 		{
 			//login skip only allowed (and only works properly) in offline mode
 			if (Input.GetKeyDown(KeyCode.F6) && GameData.Instance.OfflineMode)

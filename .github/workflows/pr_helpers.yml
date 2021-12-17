@@ -6,9 +6,12 @@ on:
     branches: [develop]
   pull_request_target:
     branches: [develop]
+  pull_request:
+    types: [opened, synchronize]
+    branches: [develop]
 
 jobs:
-  helpers:
+  labels:
     runs-on: ubuntu-latest
     steps:
       - name: conflicts check
@@ -22,3 +25,21 @@ jobs:
         uses: actions/labeler@v3-preview
         with:
           repo-token: "${{ secrets.GITHUB_TOKEN }}"
+
+  docsReminder:
+    runs-on: ubuntu-latest
+    if: ${{ github.event_name == 'pull_request' }}
+    steps:
+            - name: Checkout
+              uses: actions/checkout@v2
+              
+            - name: DocsReminder
+              uses: corp-0/update-docs-pls@master
+              id: DocsReminder
+              
+            - name: Comment PR
+              if: ${{ steps.DocsReminder.outputs.found_doc_related_changes == 1}}
+              uses: thollander/actions-comment-pull-request@v1
+              with:
+                message: ${{ steps.DocsReminder.outputs.comment_content }}
+                GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

@@ -88,7 +88,7 @@ public class MatrixMove : ManagedBehaviour
 	/// <summary>
 	/// If it is currently fuelled
 	/// </summary>
-	[NonSerialized]
+
 	public bool IsFueled;
 
 	public bool IsForceStopped;
@@ -96,10 +96,10 @@ public class MatrixMove : ManagedBehaviour
 	[Tooltip("Does it require fuel in order to fly?")]
 	public bool RequiresFuel;
 
-	//[SyncVar(hook = nameof(OnRcsActivated))]
-	//This is sync'd by the MatrixSync component
-	[HideInInspector]
+	[NonSerialized]
 	public bool rcsModeActive;
+	[NonSerialized]
+	public PlayerScript playerControllingRcs;
 
 	private bool ServerPositionsMatch => serverTargetState.Position == serverState.Position;
 	public bool IsRotatingServer => NeedsRotationClient; //todo: calculate rotation time on server instead
@@ -124,7 +124,6 @@ public class MatrixMove : ManagedBehaviour
 	private Vector2Int rcsMovementStartPosition;
 
 	/// <summary>
-	/// position on which player should be after the start of RCS
 	/// position on which shuttle should be located at the end of RCS movement
 	/// </summary>
 	private Vector2Int rcsMovementTargetPosition;
@@ -141,8 +140,10 @@ public class MatrixMove : ManagedBehaviour
 	/// be rotated to match the target?
 	/// </summary>
 	private bool NeedsRotationClient =>
-		Quaternion.Angle(transform.rotation, InitialFacing.OffsetTo(clientState.FacingDirection).Quaternion) != 0;
+		Quaternion.Angle(TransformRotation, InitialFacing.OffsetTo(clientState.FacingDirection).Quaternion) != 0;
 
+
+	private Quaternion TransformRotation = Quaternion.identity;
 
 	private MatrixPositionFilter matrixPositionFilter = new MatrixPositionFilter();
 
@@ -367,6 +368,7 @@ public class MatrixMove : ManagedBehaviour
 	public override void UpdateMe()
 	{
 		AnimateMovement();
+		TransformRotation = transform.rotation;
 	}
 
 	///managed by UpdateManager
@@ -389,19 +391,6 @@ public class MatrixMove : ManagedBehaviour
 				pendingInitialRotation = false;
 			}
 		}
-
-		if (CustomNetworkManager.IsHeadless == false)
-		{
-			if (coordReadoutScript != null) coordReadoutScript.SetCoords(clientState.Position);
-			if (shuttleControlGUI != null && rcsModeActive != shuttleControlGUI.RcsMode)
-			{
-				shuttleControlGUI.ClientToggleRcs(rcsModeActive);
-
-				// int.MaxValue instead of zero to avoid bugs when shuttle is on position (0, 0)
-				rcsMovementStartPosition = new Vector2Int(int.MaxValue, int.MaxValue);
-				rcsMovementTargetPosition = new Vector2Int(int.MaxValue, int.MaxValue);
-			}
-		}
 	}
 
 	[Server]
@@ -415,15 +404,6 @@ public class MatrixMove : ManagedBehaviour
 		{
 			StartMovement();
 		}
-	}
-
-	[Server]
-	public void ToggleRcs(bool on)
-	{
-		networkedMatrix.MatrixSync.OnRcsActivated(rcsModeActive, on);
-		rcsModeActive = on;
-
-
 	}
 
 	/// Start moving. If speed was zero, it'll be set to 1
@@ -479,19 +459,6 @@ public class MatrixMove : ManagedBehaviour
 		clientState.IsMoving = true;
 
 		MatrixMoveEvents.OnStartMovementClient.Invoke();
-	}
-
-	public void OnRcsActivated(bool oldValue, bool newValue)
-	{
-		if (newValue)
-		{
-			CacheRcs();
-			rcsModeActive = true;
-		}
-		else
-		{
-			rcsModeActive = false;
-		}
 	}
 
 	/// Stop movement

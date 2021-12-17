@@ -65,9 +65,7 @@ namespace Systems.Spells.Wizard
 		private void OnRockLanded(GameObject rock, float damage)
 		{
 			var landingPosition = rock.RegisterTile().WorldPositionServer;
-			var matrixInfo = MatrixManager.AtPoint(landingPosition, true);
-
-			Explosion.StartExplosion(landingPosition, damage, matrixInfo.Matrix);
+			Explosion.StartExplosion(landingPosition, damage);
 			ExplosionUtils.PlaySoundAndShake(landingPosition, 16, 4);
 		}
 

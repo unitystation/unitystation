@@ -38,6 +38,11 @@ namespace Audio.Containers
 				PlayerPrefs.SetInt(PlayerPrefKeys.MuteMusic, 1);
 				PlayerPrefs.Save();
 			}
+		}
+
+		private void Start()
+		{
+			DetermineMuteState();
 
 			if (PlayerPrefs.HasKey(PlayerPrefKeys.MusicVolumeKey))
 			{
@@ -49,12 +54,17 @@ namespace Audio.Containers
 			}
 		}
 
-		private void Start()
+		private void OnEnable()
 		{
-			DetermineMuteState();
+			UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
 		}
 
-		private void Update()
+		private void OnDisable()
+		{
+			UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
+		}
+
+		private void UpdateMe()
 		{
 			if (PlayingRandomPlayList == false || CustomNetworkManager.IsHeadless) return;
 

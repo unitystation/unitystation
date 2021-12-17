@@ -24,6 +24,27 @@ public class SpriteColorSync : NetworkBehaviour
 	//goes from 0 to 1
 	private float lerpProgress = 0;
 
+
+	private void OnEnable()
+	{
+		UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
+	}
+
+	private void OnDisable()
+	{
+		UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
+	}
+
+	private void UpdateMe()
+	{
+		if (Time > 0 && spriteToColor && spriteToColor.color != Color)
+		{
+			spriteToColor.color = Color.Lerp(spriteToColor.color, Color, lerpProgress);
+			lerpProgress += UnityEngine.Time.deltaTime/Time;
+			OnColorChange.Invoke(spriteToColor.color);
+		}
+	}
+
 	[Server]
 	public void SetColorServer(Color newColor)
 	{
@@ -60,15 +81,5 @@ public class SpriteColorSync : NetworkBehaviour
 		}
 
 		lerpProgress = 0;
-	}
-
-	private void Update()
-	{
-		if (Time > 0 && spriteToColor && spriteToColor.color != Color)
-		{
-			spriteToColor.color = Color.Lerp(spriteToColor.color, Color, lerpProgress);
-			lerpProgress += UnityEngine.Time.deltaTime/Time;
-			OnColorChange.Invoke(spriteToColor.color);
-		}
 	}
 }

@@ -346,6 +346,11 @@ PrefabInstance:
       propertyPath: initialDescription
       value: Controls the control rods in a nuclear reactor chamber.
       objectReference: {fileID: 0}
+    - target: {fileID: 1401220419065593905, guid: b46887a995abc224aab70e21b9e53697,
+        type: 3}
+      propertyPath: customNetTransform
+      value: 
+      objectReference: {fileID: 2433712328467874898}
     - target: {fileID: 2193914177532499227, guid: b46887a995abc224aab70e21b9e53697,
         type: 3}
       propertyPath: m_AssetId
@@ -795,13 +800,29 @@ PrefabInstance:
       propertyPath: m_Name
       value: NuclearReactorConsole
       objectReference: {fileID: 0}
+    - target: {fileID: 7762584330458228387, guid: b46887a995abc224aab70e21b9e53697,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7762584330458228387, guid: b46887a995abc224aab70e21b9e53697,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7762584330458228387, guid: b46887a995abc224aab70e21b9e53697,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8201155816690774842, guid: b46887a995abc224aab70e21b9e53697,
         type: 3}
       propertyPath: PresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: 5854eb35cfc2c1b47ae108a5080b33d6,
         type: 2}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 6556397441920388693, guid: b46887a995abc224aab70e21b9e53697, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: b46887a995abc224aab70e21b9e53697, type: 3}
 --- !u!1 &676355976789840720 stripped
 GameObject:
@@ -809,3 +830,15 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 7119468310614602537}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &2433712328467874898 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4830997643641780091, guid: b46887a995abc224aab70e21b9e53697,
+    type: 3}
+  m_PrefabInstance: {fileID: 7119468310614602537}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 676355976789840720}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 579884b05ae74e8499329b64997147d3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

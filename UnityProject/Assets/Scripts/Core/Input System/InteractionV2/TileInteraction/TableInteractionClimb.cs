@@ -90,7 +90,7 @@ public class TableInteractionClimb : TileInteraction
 					$"Your weight pushes onto the {interaction.BasicTile.DisplayName} and you break it and fall through it",
 					$"{interaction.UsedObject.ExpensiveName()} falls through the {interaction.BasicTile.DisplayName} as it breaks from their weight.");
 				victim.PlayerScript.playerHealth.ApplyDamageAll(interaction.Performer, damageOnBreak, AttackType.Melee, DamageType.Brute);
-				interaction.TileChangeManager.RemoveTile(interaction.TargetCellPos, interaction.BasicTile.LayerType);
+				interaction.TileChangeManager.MetaTileMap.RemoveTileWithlayer(interaction.TargetCellPos, interaction.BasicTile.LayerType);
 			}
 		}).ServerStartProgress(interaction.UsedObject.RegisterTile(), 3.0f, interaction.Performer);
 

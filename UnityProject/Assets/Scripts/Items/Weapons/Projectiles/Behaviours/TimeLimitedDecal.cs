@@ -17,6 +17,16 @@ namespace Weapons.Projectiles.Behaviours
 			lightSprite = GetComponentInChildren<LightSprite>();
 		}
 
+		private void OnEnable()
+		{
+			UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
+		}
+
+		private void OnDisable()
+		{
+			UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
+		}
+
 		public void SetUpDecal(float timeToLive)
 		{
 			lifeTime = timeToLive;
@@ -27,7 +37,7 @@ namespace Weapons.Projectiles.Behaviours
 			}
 		}
 
-		private void Update()
+		private void UpdateMe()
 		{
 			currentTime += Time.deltaTime;
 			if (currentTime >= lifeTime)

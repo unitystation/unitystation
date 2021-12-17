@@ -101,10 +101,10 @@ public class OreGenerator : MonoBehaviour
 		{
 			var oreTile = miningTiles[RANDOM.Next(miningTiles.Count)];
 			var oreCategory = weightedList[RANDOM.Next(weightedList.Count)];
-			tileChangeManager.UpdateTile(oreTile, oreCategory.WallTile);
+			tileChangeManager.MetaTileMap.SetTile(oreTile, oreCategory.WallTile);
 			var intLocation = oreTile + Vector3Int.zero;
 			intLocation.z = -1;
-			tileChangeManager.AddOverlay(intLocation, oreCategory.OverlayTile as OverlayTile);
+			tileChangeManager.MetaTileMap.AddOverlay(intLocation, oreCategory.OverlayTile as OverlayTile);
 
 			NodeScatter(oreTile, oreCategory);
 		}
@@ -123,10 +123,10 @@ public class OreGenerator : MonoBehaviour
 			var tile = metaTileMap.GetTile(ranLocation);
 			if (tile != null && tile.name.Contains("rock_wall"))
 			{
-				tileChangeManager.UpdateTile(ranLocation, materialSpecified.WallTile);
+				tileChangeManager.MetaTileMap.SetTile(ranLocation, materialSpecified.WallTile);
 				locations.Add(ranLocation);
 				ranLocation.z = -1;
-				tileChangeManager.AddOverlay(ranLocation, materialSpecified.OverlayTile as OverlayTile);
+				tileChangeManager.MetaTileMap.AddOverlay(ranLocation, materialSpecified.OverlayTile as OverlayTile);
 			}
 			strength--;
 		}

@@ -34,7 +34,7 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 {
 	public Dictionary<int, MatrixInfo> ActiveMatrices { get; private set; } = new Dictionary<int, MatrixInfo>();
 
-	public List<MatrixInfo> ActiveMatricesList  { get; private set; } = new List<MatrixInfo>();
+	public List<MatrixInfo> ActiveMatricesList { get; private set; } = new List<MatrixInfo>();
 
 	public Dictionary<Scene, List<Matrix>> InitializingMatrixes = new Dictionary<Scene, List<Matrix>>();
 
@@ -53,6 +53,14 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 
 	public static MatrixInfo MainStationMatrix => Get(Instance.mainStationMatrix);
 
+	private void Start()
+	{
+		if (Application.isPlaying)
+		{
+			UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
+		}
+	}
+
 	private void OnEnable()
 	{
 		SceneManager.activeSceneChanged += OnSceneChange;
@@ -63,6 +71,10 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 	{
 		SceneManager.activeSceneChanged -= OnSceneChange;
 		EventManager.RemoveHandler(Event.ScenesLoadedServer, OnScenesLoaded);
+		if (Application.isPlaying)
+		{
+			UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
+		}
 	}
 
 	void OnSceneChange(Scene oldScene, Scene newScene)
@@ -146,6 +158,7 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 				}
 			}
 		}
+
 		InitializingMatrixes.Clear();
 		return true;
 	}
@@ -193,6 +206,7 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 			ActiveMatricesList[i].Matrix.MetaTileMap.InitialiseUnderFloorUtilities(CustomNetworkManager.IsServer);
 			TileChangeNewPlayer.Send(ActiveMatricesList[i].NetID);
 		}
+
 		SpriteRequestCurrentStateMessage.Send(SpriteHandlerManager.Instance.GetComponent<NetworkIdentity>().netId);
 	}
 
@@ -297,7 +311,7 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 
 	private static bool IsInMatrix(Vector3Int worldPos, bool isServer, MatrixInfo matrixInfo)
 	{
-		if (BoundsExtensions.Contains(matrixInfo.WorldBounds, worldPos) == false)
+		if (matrixInfo.WorldBounds.Contains(worldPos) == false)
 			return false;
 
 		if (matrixInfo.Matrix == Instance.spaceMatrix)
@@ -337,6 +351,15 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 		{
 			WorldTo = Worldorigin + (Vector3) (direction.normalized * distance);
 		}
+
+		var Distance = (WorldTo - Worldorigin).Value.magnitude;
+
+		if (Distance > 25)
+		{
+			Logger.LogError($" Limit exceeded on raycast, Look at stack trace for What caused it at {Distance}"); //Meant to catch up stuff that's been naughty and doing stuff like 900 tile Ray casts
+			return new CustomPhysicsHit();
+		}
+
 
 		if (direction.x == 0 && direction.y == 0)
 		{
@@ -400,7 +423,6 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 	}
 
 
-
 	public struct CustomPhysicsHit
 	{
 		public Vector3 TileHitWorld;
@@ -454,7 +476,7 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 		public TileLocation TileLocation;
 	}
 
-	public static bool LineIntersectsRect(Vector2 p1, Vector2 p2, BoundsInt r)
+	public static bool LineIntersectsRect(Vector2 p1, Vector2 p2, BetterBoundsInt r)
 	{
 		var xMin = r.xMin;
 		var yMin = r.yMin;
@@ -516,6 +538,7 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 		{
 			return true;
 		}
+
 		return false;
 	}
 
@@ -688,17 +711,13 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 	/// <returns>MetaDataNode at the position. If no Node that isn't space is found, MetaDataNode.Node will be returned.</returns>
 	public static MetaDataNode GetMetaDataAt(Vector3Int worldPosition)
 	{
-		foreach (var mat in Instance.ActiveMatricesList)
+		var mat = AtPoint(worldPosition, CustomNetworkManager.Instance._isServer, MainStationMatrix);
+		Vector3Int position = WorldToLocalInt(worldPosition, mat);
+		MetaDataNode node = mat.MetaDataLayer.Get(position, false);
+
+		if (node.Exists && node.IsSpace == false)
 		{
-			if (mat == null) continue;
-
-			Vector3Int position = WorldToLocalInt(worldPosition, mat);
-			MetaDataNode node = mat.MetaDataLayer.Get(position, false);
-
-			if (node.Exists && node.IsSpace == false)
-			{
-				return node;
-			}
+			return node;
 		}
 
 		return MetaDataNode.None;
@@ -966,6 +985,7 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 			{
 				matrixOrigin = Instance.spaceMatrix.MatrixInfo;
 			}
+
 			if (excludeMatrix == matrixTarget)
 			{
 				matrixTarget = Instance.spaceMatrix.MatrixInfo;
@@ -1064,6 +1084,7 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 				return false;
 			}
 		}
+
 		return true;
 	}
 
@@ -1103,6 +1124,7 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 				return false;
 			}
 		}
+
 		return true;
 	}
 

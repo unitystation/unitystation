@@ -42,11 +42,13 @@ public class ResponsiveUI : MonoBehaviour, IInitialise
 	private void OnEnable()
 	{
 		SceneManager.activeSceneChanged += OnSceneChange;
+		UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
 	}
 
 	private void OnDisable()
 	{
 		SceneManager.activeSceneChanged -= OnSceneChange;
+		UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
 	}
 
 	private void OnSceneChange(Scene last, Scene newScene)
@@ -74,7 +76,7 @@ public class ResponsiveUI : MonoBehaviour, IInitialise
 #endif
 	}
 
-	private void Update()
+	private void UpdateMe()
 	{
 		//Check if window has changed and adjust the bottom hud
 		if (monitorWindow)

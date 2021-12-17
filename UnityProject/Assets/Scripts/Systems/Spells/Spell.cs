@@ -1,6 +1,8 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using Doors;
 using UnityEngine;
 using Mirror;
 using ScriptableObjects.Systems.Spells;
@@ -165,13 +167,19 @@ namespace Systems.Spells
 					var matrixInfo = MatrixManager.AtPoint(castPosition, true);
 					var localPos = MatrixManager.WorldToLocalInt(castPosition, matrixInfo);
 
+					if (matrixInfo.Matrix.Get<DoorMasterController>(localPos, true).Any(door => door.IsClosed))
+					{
+						//This stops tile based spells from being cast ontop of closed doors
+						Chat.AddExamineMsg(caster.GameObject, "You cannot cast this spell while a door is in the way.");
+						return false;
+					}
 					if (matrixInfo.MetaTileMap.HasTile(localPos, tileToSummon.LayerType)
 					&& !SpellData.ReplaceExisting)
 					{
 						return false;
 					}
 
-					matrixInfo.TileChangeManager.UpdateTile(localPos, tileToSummon);
+					matrixInfo.TileChangeManager.MetaTileMap.SetTile(localPos, tileToSummon);
 					if (SpellData.ShouldDespawn)
 					{
 						//but also destroy when lifespan ends
@@ -180,7 +188,7 @@ namespace Systems.Spells
 						IEnumerator DespawnAfterDelay()
 						{
 							yield return WaitFor.Seconds(SpellData.SummonLifespan);
-							matrixInfo.TileChangeManager.RemoveTile(localPos, tileToSummon.LayerType);
+							matrixInfo.TileChangeManager.MetaTileMap.RemoveTileWithlayer(localPos, tileToSummon.LayerType);
 						}
 					}
 				}

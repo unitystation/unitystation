@@ -89,20 +89,17 @@ namespace Chemistry.Effects
 					//If not, we need to check if the item is a bodypart inside of a player
 					if (insideBody)
 					{
-						Explosion.StartExplosion(bodyPart.HealthMaster.RegisterTile.WorldPosition, strength,
-							bodyPart.HealthMaster.RegisterTile.Matrix);
+						Explosion.StartExplosion(bodyPart.HealthMaster.RegisterTile.WorldPosition, strength);
 					}
 					else
 					{
 						//Otherwise, if it's not inside of a player, we consider it just an item
-						Explosion.StartExplosion(objectBehaviour.registerTile.LocalPosition, strength,
-							objectBehaviour.registerTile.Matrix);
+						Explosion.StartExplosion(objectBehaviour.registerTile.WorldPosition, strength);
 					}
 				}
 				else
 				{
-					Explosion.StartExplosion(registerObject.LocalPosition, strength,
-						registerObject.Matrix);
+					Explosion.StartExplosion(registerObject.WorldPosition, strength);
 				}
 			}
 

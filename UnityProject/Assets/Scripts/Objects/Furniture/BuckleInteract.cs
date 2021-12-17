@@ -15,6 +15,8 @@ namespace Objects
 		private OccupiableDirectionalSprite occupiableDirectionalSprite;
 		private Integrity integrity;
 
+		public PlayerScript OccupantPlayerScript;
+
 		/// <summary>
 		/// The time that a mob will spend trying to unbuckle himself from a chair when he is handcuffed.
 		/// </summary>
@@ -116,7 +118,7 @@ namespace Objects
 		{
 			SoundManager.PlayNetworkedAtPos(CommonSounds.Instance.Click01, gameObject.WorldPosServer(), sourceObj: gameObject);
 
-			playerScript.playerMove.ServerBuckle(gameObject, OnUnbuckle);
+			playerScript.playerMove.ServerBuckle(this, OnUnbuckle);
 
 			//if this is a directional sprite, we render it in front of the player
 			//when they are buckled
