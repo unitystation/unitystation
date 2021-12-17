@@ -1,9 +1,10 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 namespace Chemistry
 {
 	[CreateAssetMenu(fileName = "reagent", menuName = "ScriptableObjects/Chemistry/Reagent")]
-	public class Reagent : ScriptableObject
+	public class Reagent : ScriptableObject , IEquatable<Reagent>
 	{
 		[SerializeField]
 		[Tooltip("This is optional")]
@@ -41,5 +42,35 @@ namespace Chemistry
 		{
 			return Name;
 		}
+
+		public bool Equals(Reagent other)
+		{
+			if (other.indexInSingleton == indexInSingleton)
+			{
+				return true;
+			}
+			else
+			{
+				return false;
+			}
+		}
+
+		public static bool operator ==(Reagent obj1, Reagent obj2)
+		{
+			if (obj1 is null || obj2 is null)
+			{
+				return obj1 is null && obj2 is null;
+			}
+			else
+			{
+				return obj1.Equals(obj2);
+			}
+		}
+
+		public static bool operator !=(Reagent obj1, Reagent obj2)
+		{
+			return !(obj1 == obj2);
+		}
+
 	}
 }

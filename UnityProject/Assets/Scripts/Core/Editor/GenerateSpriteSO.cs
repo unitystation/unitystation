@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using Doors;
@@ -9,6 +10,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Items;
 using Items.Botany;
+using Debug = UnityEngine.Debug;
 
 /// <summary>
 /// Used for random ass editor scripts, Has all the functions you need in a pinch
@@ -56,7 +58,6 @@ public class GenerateSpriteSO : EditorWindow
 		{
 			Logger.Log(ListID, Category.Editor);
 		}
-
 	}
 
 	[MenuItem("Tools/StopAssetEditing")]
@@ -126,14 +127,7 @@ public class GenerateSpriteSO : EditorWindow
 	[MenuItem("Tools/GenerateSpriteSO")]
 	public static void Generate()
 	{
-		//AssetDatabase.StopAssetEditing();
-		//spriteCatalogue = AssetDatabase.LoadAssetAtPath<SpriteCatalogue>(
-		//	"Assets/Resources/ScriptableObjectsSingletons/SpriteCatalogueSingleton.asset");
-		//
-		//	DirSearch_ex3Prefab(Application.dataPath + "/Resources/Prefabs/Items"); //
-		//
-
-
+		return;
 		AssetDatabase.StartAssetEditing();
 		AssetDatabase.ForceReserializeAssets();
 		//FindInGo
@@ -142,7 +136,7 @@ public class GenerateSpriteSO : EditorWindow
 		foreach (var door in doors)
 		{
 			FindInGo(door.gameObject);
-			EditorUtility.SetDirty( door.gameObject);
+			EditorUtility.SetDirty(door.gameObject);
 		}
 		// var stuff = FindAssetsByType<PlayerSlotStoragePopulator>();
 		//
@@ -186,7 +180,7 @@ public class GenerateSpriteSO : EditorWindow
 		// DirSearch_ex3(Application.dataPath + "/Textures");
 		AssetDatabase.StopAssetEditing();
 		AssetDatabase.SaveAssets();
-		return;
+		//return;
 
 		// TODO The following code is unreachable! Remove it or make it usable. 😣
 		var pathe = Application.dataPath + "/Resources/Prefabs";
@@ -222,7 +216,7 @@ public class GenerateSpriteSO : EditorWindow
 		}
 
 
-		return;
+		//return;
 		AssetDatabase.StartAssetEditing();
 		var AAA = FindAssetsByType<SpriteCatalogue>();
 		foreach (var a in AAA)
@@ -385,17 +379,17 @@ public class GenerateSpriteSO : EditorWindow
 			var t = g.transform;
 			while (t.parent != null)
 			{
-				s = t.parent.name +"/"+s;
+				s = t.parent.name + "/" + s;
 				t = t.parent;
 			}
 
-			Debug.Log ($"{s} has a missing script at {i}", g);
+			Debug.Log($"{s} has a missing script at {i}", g);
 
 			var serializedObject = new SerializedObject(g);
 
 			var prop = serializedObject.FindProperty("m_Component");
 
-			prop.DeleteArrayElementAtIndex(i-r);
+			prop.DeleteArrayElementAtIndex(i - r);
 			r++;
 
 			serializedObject.ApplyModifiedProperties();

@@ -1,6 +1,7 @@
 ﻿#if UNITY_EDITOR
 using UnityEditor;
 #endif
+using System.Collections.Generic;
 using UnityEngine;
 using Chemistry;
 
@@ -10,13 +11,13 @@ namespace ScriptableObjects
 	public class ChemistryReagentsSO : SingletonScriptableObject<ChemistryReagentsSO>
 	{
 		[SerializeField]
-		private Reagent[]  allChemistryReagents = new Reagent[0];
+		private List<Reagent> allChemistryReagents = new List<Reagent>();
 
-		public Reagent[] AllChemistryReagents => allChemistryReagents;
+		public List<Reagent> AllChemistryReagents => allChemistryReagents;
 
 		public void Awake()
 		{
-			for (int i = 0; i < allChemistryReagents.Length; i++)
+			for (int i = 0; i < allChemistryReagents.Count; i++)
 			{
 				if (allChemistryReagents[i] == null)
 				{
@@ -37,6 +38,23 @@ namespace ScriptableObjects
 	[CustomEditor(typeof(ChemistryReagentsSO))]
 	public class ChemistryReagentsSOEditor : Editor
 	{
+		public static List<T> FindAssetsByType<T>() where T : UnityEngine.Object
+		{
+			List<T> assets = new List<T>();
+			string[] guids = AssetDatabase.FindAssets(string.Format("t:{0}", typeof(T)));
+			for (int i = 0; i < guids.Length; i++)
+			{
+				string assetPath = AssetDatabase.GUIDToAssetPath(guids[i]);
+				T asset = AssetDatabase.LoadAssetAtPath<T>(assetPath);
+				if (asset != null)
+				{
+					assets.Add(asset);
+				}
+			}
+
+			return assets;
+		}
+
 		public override void OnInspectorGUI()
 		{
 			base.OnInspectorGUI();
@@ -44,7 +62,9 @@ namespace ScriptableObjects
 			if (GUILayout.Button("Fix reagents' indexes."))
 			{
 				ChemistryReagentsSO singleton = (ChemistryReagentsSO) target;
-				for (int i = 0; i < ChemistryReagentsSO.Instance.AllChemistryReagents.Length; i++)
+				singleton.AllChemistryReagents.Clear();
+				singleton.AllChemistryReagents.AddRange(FindAssetsByType<Reagent>());
+				for (int i = 0; i < ChemistryReagentsSO.Instance.AllChemistryReagents.Count; i++)
 				{
 					if (singleton.AllChemistryReagents[i].IndexInSingleton != i)
 					{

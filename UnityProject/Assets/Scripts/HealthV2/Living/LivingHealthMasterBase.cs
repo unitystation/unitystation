@@ -311,7 +311,7 @@ namespace HealthV2
 		[RightClickMethod]
 		public void InjectChemical()
 		{
-			CirculatorySystem.ReadyBloodPool.Add(CHem, 5);
+			CirculatorySystem.BloodPool.Add(CHem, 5);
 		}
 
 		[RightClickMethod]
@@ -453,8 +453,7 @@ namespace HealthV2
 		/// </summary>
 		public float GetSpareBlood()
 		{
-			return CirculatorySystem.UsedBloodPool[CirculatorySystem.BloodType]
-			       + CirculatorySystem.ReadyBloodPool[CirculatorySystem.BloodType];
+			return CirculatorySystem.BloodPool[CirculatorySystem.BloodType];
 		}
 
 
