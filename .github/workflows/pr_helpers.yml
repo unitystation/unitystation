@@ -4,8 +4,7 @@ name: PR helpers
 on:
   push:
     branches: [develop]
-  pull_request_target:
-    branches: [develop]
+
   pull_request:
     types: [opened, synchronize]
     branches: [develop]
@@ -21,7 +20,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: auto labeler
-        if: ${{ github.event_name == 'pull_request_target' }}
+        if: ${{ github.event_name == 'pull_request' }}
         uses: actions/labeler@v3-preview
         with:
           repo-token: "${{ secrets.GITHUB_TOKEN }}"
