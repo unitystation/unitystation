@@ -102,7 +102,7 @@ public partial class SubSceneManager
 
 		foreach (var Scene in Scenes)
 		{
-			yield return WaitFor.Seconds(0.1f);
+			yield return WaitFor.Seconds(0.1f); //For smooth FPS not necessary technically, but causes freeze For a little bit
 			if (KillClientLoadingCoroutine)
 			{
 				KillClientLoadingCoroutine = false;
@@ -113,7 +113,7 @@ public partial class SubSceneManager
 		}
 
 		clientIsLoadingSubscene = false;
-		yield return WaitFor.Seconds(0.1f);
+		yield return WaitFor.Seconds(0.1f); //For smooth FPS not necessary technically, but causes freeze For a little bit
 		if (KillClientLoadingCoroutine)
 		{
 			KillClientLoadingCoroutine = false;
