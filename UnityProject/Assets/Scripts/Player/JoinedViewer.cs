@@ -80,7 +80,7 @@ public class JoinedViewer : NetworkBehaviour
 	}
 
 
-	[ClientRpc]
+	[TargetRpc]
 	void RpcLoadScenes(string Data, string OriginalScene )
 	{
 		if (isServer)
