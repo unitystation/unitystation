@@ -1,9 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
+using Systems.GameLogs;
 using Communications;
 using UnityEngine;
 using Mirror;
 using ScriptableObjects.Communications;
+using LogType = Systems.GameLogs.LogType;
 using Random = System.Random;
 
 namespace Managers
@@ -31,6 +33,12 @@ namespace Managers
 				{
 					if (signalDataSo.UsesRange) { SignalStrengthHandler(receiver, emitter, signalDataSo); break; }
 					receiver.ReceiveSignal(SignalStrength.HEALTHY, signalMessage);
+					if (emitter.gameObject.TryGetComponent<Pickupable>(out var item))
+					{
+						if (item.ItemSlot == null) break;
+						if(item.ItemSlot.RootPlayer() != null) GameLogs.Instance.Log($"A signal has sent from {emitter} to {receiver} " +
+							$"by {item.ItemSlot.RootPlayer().PlayerScript.characterSettings.Name}({item.ItemSlot.RootPlayer().PlayerScript.connectedPlayer.Username})", LogType.Interactions);
+					}
 					break;
 				}
 				//TODO (Max) : Radio signals should be sent to relays and servers.

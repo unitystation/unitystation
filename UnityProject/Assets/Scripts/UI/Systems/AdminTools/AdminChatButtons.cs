@@ -1,5 +1,6 @@
 ﻿using Messages.Server.AdminTools;
 using Mirror;
+using UI.Systems.AdminTools;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -12,6 +13,7 @@ namespace AdminTools
 		public GUI_Notification playerNotification = null;
 		public GUI_Notification prayerNotification = null;
 		[SerializeField] private AdminChatWindows adminChatWindows = null;
+		[SerializeField] private GUI_AdminLogs logWindow;
 		[SerializeField] private Button adminChatButton = null;
 		[SerializeField] private Button mentorChatButton = null;
 		[SerializeField] private Button playerChatButton = null;
@@ -37,6 +39,11 @@ namespace AdminTools
 		void OnAdminChatWindowChange(AdminChatWindow selectedWindow)
 		{
 			ToggleButtons(selectedWindow);
+		}
+
+		public void OnShowLogWindowPressed()
+		{
+			logWindow.gameObject.SetActive(true);
 		}
 
 		void ToggleButtons(AdminChatWindow selectedWindow)

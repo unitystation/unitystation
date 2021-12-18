@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Systems.Atmospherics;
+using Systems.GameLogs;
 using Chemistry;
 using Health.Sickness;
 using JetBrains.Annotations;
@@ -11,6 +12,7 @@ using Mirror;
 using UnityEngine;
 using UnityEngine.Events;
 using Newtonsoft.Json;
+using LogType = Systems.GameLogs.LogType;
 using Random = System.Random;
 
 namespace HealthV2
@@ -843,6 +845,8 @@ namespace HealthV2
 
 			SetConsciousState(ConsciousState.DEAD);
 			OnDeathActions();
+			GameLogs.Instance.Log($"{playerScript.characterSettings.Name}({playerScript.connectedPlayer.Username}) " +
+			                      $"died at pos({playerScript.gameObject.AssumedWorldPosServer()})", LogType.Combat);
 		}
 
 		protected abstract void OnDeathActions();

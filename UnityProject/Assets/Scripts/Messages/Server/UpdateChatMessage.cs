@@ -1,5 +1,7 @@
-﻿using Mirror;
+﻿using Systems.GameLogs;
+using Mirror;
 using UnityEngine;
+using LogType = Systems.GameLogs.LogType;
 
 namespace Messages.Server
 {
@@ -32,6 +34,7 @@ namespace Messages.Server
 			var recipientObject = NetworkObject;
 			Chat.ProcessUpdateChatMessage(msg.Recipient, msg.Originator,
 				msg.Message, msg.OthersMessage, msg.Channels, msg.ChatModifiers, msg.Speaker, recipientObject, msg.Loudness, msg.StripTags);
+			GameLogs.Instance.Log($"{msg.Speaker} said : '{msg.Message}' ({msg.Channels})({msg.Loudness})", LogType.Chat);
 		}
 
 		/// <summary>

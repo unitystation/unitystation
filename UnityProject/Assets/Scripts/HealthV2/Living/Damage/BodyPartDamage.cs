@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using NaughtyAttributes;
 using UnityEngine;
 using System.Linq;
+using Systems.GameLogs;
+using LogType = Systems.GameLogs.LogType;
 using Random = System.Random;
 
 namespace HealthV2
@@ -256,6 +258,12 @@ namespace HealthV2
 				ApplyTraumaDamage(TraumaticDamageTypes.BURN);
 			}
 
+			if (damagedBy != null)
+			{
+				GameLogs.Instance.Log($"{damagedBy.ExpensiveName()} attacked {HealthMaster.playerScript.characterSettings.Name}" +
+				                      $"({HealthMaster.playerScript.connectedPlayer.Username}) and did {damage} " +
+				                      $"amount of damage of type {damageType} to {damageToLimb} ({tramuticDamageType}) at pos({HealthMaster.gameObject.AssumedWorldPosServer()})", LogType.Combat);
+			}
 		}
 
 		private void DamageOrgans(float damage, AttackType attackType, DamageType damageType, bool organDamageSplit, float armorPenetration)
