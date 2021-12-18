@@ -250,9 +250,10 @@ public class CharacterSettings
 
 	#region StaticCustomizationFunctions
 
-	public static CharacterSettings RandomizeCharacterSettings()
+	public static CharacterSettings RandomizeCharacterSettings(string SpeciesName)
 	{
 		CharacterSettings random = new CharacterSettings();
+		random.Species = SpeciesName;
 		// Randomise gender
 		Type gender = typeof(BodyType);
 		Array genders = gender.GetEnumValues();
