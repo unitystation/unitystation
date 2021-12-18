@@ -1,5 +1,6 @@
 using System;
 using System.IO;
+using Systems.GameLogs;
 using UnityEngine;
 using Mirror;
 using DiscordWebhook;
@@ -12,6 +13,7 @@ using HealthV2;
 using AddressableReferences;
 using Messages.Server.SoundMessages;
 using Audio.Containers;
+using LogType = Systems.GameLogs.LogType;
 
 namespace AdminCommands
 {
@@ -435,6 +437,7 @@ namespace AdminCommands
 			UIManager.Instance.adminChatWindows.adminToAdminChat.ServerAddChatRecord(msg, null);
 			DiscordWebhookMessage.Instance.AddWebHookMessageToQueue(DiscordWebhookURLs.DiscordWebhookAdminLogURL, msg,
 				userName);
+			GameLogs.Instance.Log(msg, LogType.Admin);
 		}
 
 		#endregion
