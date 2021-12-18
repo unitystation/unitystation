@@ -72,7 +72,20 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IActi
 	/// Serverside world position.
 	/// Returns InvalidPos if you're hidden (e.g. in a locker)
 	/// </summary>
-	public Vector3Int WorldPos => registerTile.WorldPositionServer;
+	public Vector3Int WorldPos
+	{
+		get
+		{
+			if (isServer)
+			{
+				return registerTile.WorldPositionServer;
+			}
+			else
+			{
+				return registerTile.WorldPositionClient;
+			}
+		}
+	}
 
 	/// <summary>
 	/// This player's item storage.
