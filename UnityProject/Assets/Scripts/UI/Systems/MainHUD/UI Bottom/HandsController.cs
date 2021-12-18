@@ -22,7 +22,7 @@ public class HandsController : MonoBehaviour
 	public Dictionary<BodyPartUISlots.StorageCharacteristics, DoubleHandController> StorageToHands =
 		new Dictionary<BodyPartUISlots.StorageCharacteristics, DoubleHandController>();
 
-	public static UnityEvent OnSwapHand = new UnityEvent();
+	public static readonly UnityEvent OnSwapHand = new UnityEvent();
 
 	public DoubleHandController activeDoubleHandController;
 	public NamedSlot ActiveHand;
