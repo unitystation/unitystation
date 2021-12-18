@@ -67,7 +67,7 @@ public partial class SubSceneManager : NetworkBehaviour
 	/// </summary>
 	/// <param name="sceneName"></param>
 	/// <returns></returns>
-	IEnumerator LoadSubScene(string sceneName, SubsceneLoadTimer loadTimer = null, bool SynchronisingHandled = true)
+	IEnumerator LoadSubScene(string sceneName, SubsceneLoadTimer loadTimer = null, bool HandlSynchronising = true)
 	{
 		AsyncOperation AO = SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Additive);
 		while (!AO.isDone)
@@ -83,7 +83,7 @@ public partial class SubSceneManager : NetworkBehaviour
 		}
 		else
 		{
-			if (SynchronisingHandled)
+			if (HandlSynchronising)
 			{
 				ClientScene.PrepareToSpawnSceneObjects();
 				yield return WaitFor.Seconds(0.2f);

@@ -35,7 +35,8 @@ public partial class SubSceneManager
 		}
 	}
 
-	IEnumerator LoadClientSubScene(SceneInfo sceneInfo, bool SynchronisingHandled = true, SubsceneLoadTimer SubsceneLoadTimer = null)
+	IEnumerator LoadClientSubScene(SceneInfo sceneInfo, bool HandlSynchronising = true,
+		SubsceneLoadTimer SubsceneLoadTimer = null, bool OverrideclientIsLoadingSubscene = false)
 	{
 		if (sceneInfo.SceneType == SceneType.MainStation)
 		{
@@ -47,7 +48,7 @@ public partial class SubSceneManager
 			}
 
 			SubsceneLoadTimer.IncrementLoadBar($"Loading {sceneInfo.SceneName}");
-			yield return StartCoroutine(LoadSubScene(sceneInfo.SceneName, SubsceneLoadTimer));
+			yield return StartCoroutine(LoadSubScene(sceneInfo.SceneName, SubsceneLoadTimer, HandlSynchronising));
 			MainStationLoaded = true;
 
 		}
@@ -58,10 +59,13 @@ public partial class SubSceneManager
 				SubsceneLoadTimer.IncrementLoadBar($"Loading {sceneInfo.SceneName}");
 			}
 
-			yield return StartCoroutine(LoadSubScene(sceneInfo.SceneName));
+			yield return StartCoroutine(LoadSubScene(sceneInfo.SceneName, HandlSynchronising  :HandlSynchronising ));
 		}
 
-		clientIsLoadingSubscene = false;
+		if (OverrideclientIsLoadingSubscene == false)
+		{
+			clientIsLoadingSubscene = false;
+		}
 	}
 
 	public void LoadScenesFromServer(List<SceneInfo> Scenes, string OriginalScene, Action OnFinish)
@@ -82,8 +86,7 @@ public partial class SubSceneManager
 		clientIsLoadingSubscene = true;
 		foreach (var Scene in Scenes)
 		{
-			clientIsLoadingSubscene = true;
-			yield return LoadClientSubScene(Scene, false, SubsceneLoadTimer);
+			yield return LoadClientSubScene(Scene, false, SubsceneLoadTimer, true );
 			if (KillClientLoadingCoroutine)
 			{
 				yield return SceneManager.UnloadSceneAsync(Scene.SceneName);
@@ -91,13 +94,12 @@ public partial class SubSceneManager
 				clientIsLoadingSubscene = false;
 				yield break;
 			}
-			clientIsLoadingSubscene = true;
 			clientLoadedSubScenes.Add(Scene);
 		}
 
 		NetworkClient.PrepareToSpawnSceneObjects();
 		RequestObserverRefresh.Send(OriginalScene);
-		
+
 		foreach (var Scene in Scenes)
 		{
 			yield return WaitFor.Seconds(0.1f);
