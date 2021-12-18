@@ -20,12 +20,34 @@ public class Wieldable : NetworkBehaviour, IServerInventoryMove, ICheckedInterac
 
 	private SpriteHandler spriteHandler;
 	private ItemAttributesV2 itemAttributes;
+	private HandsController HandsController;
 
 	private void Awake()
 	{
 		itemAttributes = GetComponent<ItemAttributesV2>();
 		spriteHandler = GetComponentInChildren<SpriteHandler>();
 	}
+
+	private void OnEnable()
+	{
+		HandsController.OnSwapHand.AddListener(OnSwapHands);
+	}
+
+	private void OnDisable()
+	{
+		HandsController.OnSwapHand.RemoveListener(OnSwapHands);
+	}
+
+	private void OnSwapHands()
+    {
+		if (isWielded)
+        {
+			Chat.AddExamineMsgFromServer(PlayerManager.LocalPlayerScript.gameObject, $"Your other hand is too busy holding {gameObject.ExpensiveName()}!");
+			HandsController.OnSwapHand.RemoveListener(OnSwapHands);
+			HandsController.SwapHand();
+			HandsController.OnSwapHand.AddListener(OnSwapHands);
+		}
+    }
 
 	private void SyncState(bool oldState, bool newState)
 	{
@@ -50,26 +72,26 @@ public class Wieldable : NetworkBehaviour, IServerInventoryMove, ICheckedInterac
 
 			if (hiddenHand != null)
             {
-				HideHand(PlayerManager.LocalPlayerScript.connectionToClient, false, hiddenHand);
+				int hiddenHandSelection = 0;
+
+				if (hiddenHand.NamedSlot.GetValueOrDefault(NamedSlot.none) == NamedSlot.leftHand)
+				{
+					hiddenHandSelection = 1;
+				}
+				else if (hiddenHand.NamedSlot.GetValueOrDefault(NamedSlot.none) == NamedSlot.rightHand)
+				{
+					hiddenHandSelection = 2;
+				}
+
+				HideHand(PlayerManager.LocalPlayerScript.connectionToClient, false, hiddenHandSelection);
 			}
 		}
 	}
 
 	[TargetRpc]
-	private void HideHand(NetworkConnection target, bool HideState, ItemSlot HiddenHand)
+	private void HideHand(NetworkConnection target, bool HideState, int HiddenHandSelection)
 	{
-		int hiddenHandSelection = 0;
-
-		if (HiddenHand.NamedSlot.GetValueOrDefault(NamedSlot.none) == NamedSlot.leftHand)
-		{
-			hiddenHandSelection = 1;
-		}
-		else if (HiddenHand.NamedSlot.GetValueOrDefault(NamedSlot.none) == NamedSlot.rightHand)
-		{
-			hiddenHandSelection = 2;
-		}
-
-		HandsController.Instance.HideHands(HideState, hiddenHandSelection);
+		HandsController.Instance.HideHands(HideState, HiddenHandSelection);
 	}
 
 	private ItemSlot DetermineHiddenHand()
@@ -112,6 +134,17 @@ public class Wieldable : NetworkBehaviour, IServerInventoryMove, ICheckedInterac
 
 		if (hiddenHand != null)
         {
+			int hiddenHandSelection = 0;
+
+			if (hiddenHand.NamedSlot.GetValueOrDefault(NamedSlot.none) == NamedSlot.leftHand)
+			{
+				hiddenHandSelection = 1;
+			}
+			else if (hiddenHand.NamedSlot.GetValueOrDefault(NamedSlot.none) == NamedSlot.rightHand)
+			{
+				hiddenHandSelection = 2;
+			}
+
 			Inventory.ServerDrop(hiddenHand);
 
 			isWielded = !isWielded;
@@ -121,14 +154,14 @@ public class Wieldable : NetworkBehaviour, IServerInventoryMove, ICheckedInterac
 				itemAttributes.ServerHitDamage = damageWielded;
 				itemAttributes.SetSprites(Wielded);
 				Chat.AddExamineMsgFromServer(interaction.Performer, $"You wield {gameObject.ExpensiveName()} grabbing it with both of your hands.");
-				HideHand(PlayerManager.LocalPlayerScript.connectionToClient, true, hiddenHand);
+				HideHand(PlayerManager.LocalPlayerScript.connectionToClient, true, hiddenHandSelection);
 			}
 			else
 			{
 				itemAttributes.ServerHitDamage = damageUnwielded;
 				itemAttributes.SetSprites(Unwielded);
 				Chat.AddExamineMsgFromServer(interaction.Performer, $"You unwield {gameObject.ExpensiveName()}.");
-				HideHand(PlayerManager.LocalPlayerScript.connectionToClient, false, hiddenHand);
+				HideHand(PlayerManager.LocalPlayerScript.connectionToClient, false, hiddenHandSelection);
 			}
 
 			PlayerAppearanceMessage.SendToAll(interaction.Performer, (int)interaction.HandSlot.NamedSlot.GetValueOrDefault(NamedSlot.none), gameObject);

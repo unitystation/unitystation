@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using HealthV2;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class HandsController : MonoBehaviour
 {
@@ -20,6 +21,8 @@ public class HandsController : MonoBehaviour
 
 	public Dictionary<BodyPartUISlots.StorageCharacteristics, DoubleHandController> StorageToHands =
 		new Dictionary<BodyPartUISlots.StorageCharacteristics, DoubleHandController>();
+
+	public static UnityEvent OnSwapHand = new UnityEvent();
 
 	public DoubleHandController activeDoubleHandController;
 	public NamedSlot ActiveHand;
@@ -172,6 +175,7 @@ public class HandsController : MonoBehaviour
 
 	public static void SwapHand()
 	{
+		OnSwapHand.Invoke();
 		if (Instance.activeDoubleHandController == null) return;
 		Instance.activeDoubleHandController?.Deactivate(Instance.ActiveHand);
 		if (Instance.ActiveHand == NamedSlot.leftHand &&
