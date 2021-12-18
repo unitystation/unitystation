@@ -254,7 +254,7 @@ public class InteractableTiles : MonoBehaviour, IClientInteractable<PositionalHa
 					else
 					{
 						var underFloorApply = new TileApply(interaction.Performer, interaction.UsedObject, interaction.Intent,
-							(Vector2Int) localPosition, this, underFloorTile, interaction.HandSlot, interaction.TargetVector);
+							(Vector2Int) localPosition, this, underFloorTile, interaction.HandSlot, interaction.TargetPosition);
 
 						if (TryInteractWithTile(underFloorApply)) return true;
 					}
@@ -263,7 +263,7 @@ public class InteractableTiles : MonoBehaviour, IClientInteractable<PositionalHa
 			else
 			{
 				var tileApply = new TileApply(interaction.Performer, interaction.UsedObject, interaction.Intent,
-				(Vector2Int) localPosition, this, basicTile, interaction.HandSlot, interaction.TargetVector);
+				(Vector2Int) localPosition, this, basicTile, interaction.HandSlot, interaction.TargetPosition);
 
 				return TryInteractWithTile(tileApply);
 			}

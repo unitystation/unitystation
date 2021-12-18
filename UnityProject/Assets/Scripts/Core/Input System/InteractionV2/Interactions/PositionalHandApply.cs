@@ -39,18 +39,18 @@ public class PositionalHandApply : HandApply
 	/// <param name="targetVector">Target position, the Local position that the performer is pointing at , Defaults
 	/// to where the mouse currently is.</param>
 	/// <returns></returns>
-	public static PositionalHandApply ByLocalPlayer(GameObject targetObject, Vector2? targetVector = null)
+	public static PositionalHandApply ByLocalPlayer(GameObject targetObject, Vector2? IntargePosition = null)
 	{
 		if (PlayerManager.LocalPlayerScript.IsGhost)
 		{
 			return Invalid;
 		}
-		var targetVec = targetVector ?? MouseUtils.MouseToWorldPos().ToLocal(PlayerManager.LocalPlayer.RegisterTile().Matrix);
+		var targePosition = IntargePosition ?? MouseUtils.MouseToWorldPos().ToLocal(PlayerManager.LocalPlayer.RegisterTile().Matrix);
 		return new PositionalHandApply(
 				PlayerManager.LocalPlayer,
 				PlayerManager.LocalPlayerScript.DynamicItemStorage.GetActiveHandSlot()?.ItemObject,
 				targetObject,
-				targetVec,
+				targePosition,
 				PlayerManager.LocalPlayerScript.DynamicItemStorage.GetActiveHandSlot(),
 				UIManager.CurrentIntent,
 				UIManager.DamageZone,
