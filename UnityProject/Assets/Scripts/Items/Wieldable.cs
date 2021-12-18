@@ -24,6 +24,13 @@ namespace Items
 		private ItemAttributesV2 itemAttributes;
 		private HandsController HandsController;
 
+		public enum hiddenHandValues
+		{
+			bothHands = 0,
+			leftHand = 1,
+			rightHand = 2
+		}
+
 		private void Awake()
 		{
 			itemAttributes = GetComponent<ItemAttributesV2>();
@@ -74,15 +81,15 @@ namespace Items
 
 				if (hiddenHand != null)
 				{
-					int hiddenHandSelection = 0;
+					int hiddenHandSelection = (int) hiddenHandValues.bothHands;
 
 					if (hiddenHand.NamedSlot.GetValueOrDefault(NamedSlot.none) == NamedSlot.leftHand)
 					{
-						hiddenHandSelection = 1;
+						hiddenHandSelection = (int) hiddenHandValues.leftHand;
 					}
 					else if (hiddenHand.NamedSlot.GetValueOrDefault(NamedSlot.none) == NamedSlot.rightHand)
 					{
-						hiddenHandSelection = 2;
+						hiddenHandSelection = (int) hiddenHandValues.rightHand;
 					}
 
 					HideHand(PlayerManager.LocalPlayerScript.connectionToClient, false, hiddenHandSelection);
@@ -136,15 +143,15 @@ namespace Items
 
 			if (hiddenHand != null)
 			{
-				int hiddenHandSelection = 0;
+				int hiddenHandSelection = (int) hiddenHandValues.bothHands;
 
 				if (hiddenHand.NamedSlot.GetValueOrDefault(NamedSlot.none) == NamedSlot.leftHand)
 				{
-					hiddenHandSelection = 1;
+					hiddenHandSelection = (int) hiddenHandValues.leftHand;
 				}
 				else if (hiddenHand.NamedSlot.GetValueOrDefault(NamedSlot.none) == NamedSlot.rightHand)
 				{
-					hiddenHandSelection = 2;
+					hiddenHandSelection = (int) hiddenHandValues.rightHand;
 				}
 
 				Inventory.ServerDrop(hiddenHand);
