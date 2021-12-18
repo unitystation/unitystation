@@ -276,21 +276,19 @@ public class ChatRelay : NetworkBehaviour
 	}
 
 	[Client]
-	public void UpdateClientChat(string message, ChatChannel channels, bool isOriginator, GameObject recipient, Loudness loudness)
+	public void UpdateClientChat(string message, ChatChannel channels, bool isOriginator, GameObject recipient, Loudness loudness, ChatModifier modifier)
 	{
 		if (string.IsNullOrEmpty(message)) return;
-
 		trySendingTTS(message);
 
 		if (PlayerManager.LocalPlayerScript == null)
 		{
 			channels = ChatChannel.OOC;
 		}
-
 		if (channels != ChatChannel.None)
 		{
 			// replace action messages with chat bubble
-			if(channels.HasFlag(ChatChannel.Combat) || channels.HasFlag(ChatChannel.Action) || channels.HasFlag(ChatChannel.Examine))
+			if(channels.HasFlag(ChatChannel.Combat) || channels.HasFlag(ChatChannel.Action) || channels.HasFlag(ChatChannel.Examine) || modifier.HasFlag(ChatModifier.Emote))
 			{
 				if(isOriginator)
 				{
