@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Systems.Explosions;
+using Systems.GameLogs;
 using ScriptableObjects.Communications;
 using Communications;
 using Managers;
@@ -12,6 +13,7 @@ using Objects;
 using Scripts.Core.Transform;
 using UI;
 using UnityEngine;
+using LogType = UnityEngine.LogType;
 
 
 namespace Items.Weapons
@@ -215,6 +217,8 @@ namespace Items.Weapons
 				objectBehaviour.ServerSetPushable(false);
 				Chat.AddActionMsgToChat(interaction.Performer, $"You attach the {gameObject.ExpensiveName()} to {interaction.TargetObject.ExpensiveName()}",
 					$"{interaction.PerformerPlayerScript.visibleName} attaches a {gameObject.ExpensiveName()} to {interaction.TargetObject.ExpensiveName()}!");
+				GameLogs.Instance.Log($"{interaction.PerformerPlayerScript.characterSettings.Name}" +
+				                      $"({interaction.PerformerPlayerScript.connectedPlayer.Username}) has placed a {gameObject.ExpensiveName()} at pos({gameObject.AssumedWorldPosServer()})", LogType.Explosion);
 			}
 
 			//For interacting with the explosive while it's on a wall.
