@@ -56,20 +56,5 @@ namespace Core
 				newVerText.text = get_curVersion.downloadHandler.text;
 			}
 		}
-
-		public void DownloadButton()
-		{
-			_ = SoundManager.Play(CommonSounds.Instance.Click01);
-
-			Application.OpenURL("http://doobly.izz.moe/unitystation/");
-			Application.Quit();
-		}
-
-		public void CheckAgain()
-		{
-			_ = SoundManager.Play(CommonSounds.Instance.Click01);
-			errorWindow.SetActive(false);
-			StartCoroutine(CheckVersion());
-		}
 	}
 }
