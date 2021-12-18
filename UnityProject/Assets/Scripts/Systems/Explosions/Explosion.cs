@@ -171,6 +171,7 @@ namespace Systems.Explosions
 				Line.SetUp(WorldPOS.x, WorldPOS.y, ToPoint.x, ToPoint.y, InitialStrength);
 				Line.Step();
 			}
+			GameLogs.GameLogs.Instance.Log($"An explosion has happened at pos({WorldPOS}). (s->{strength})");
 		}
 
 
