@@ -1,9 +1,11 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Systems.GameLogs;
 using Chemistry.Components;
 using HealthV2;
 using Mirror;
 using UnityEngine;
+using LogType = Systems.GameLogs.LogType;
 
 public class Syringe : MonoBehaviour, ICheckedInteractable<HandApply>
 {
@@ -28,6 +30,8 @@ public class Syringe : MonoBehaviour, ICheckedInteractable<HandApply>
 			LHB.CirculatorySystem.BloodPool.Add(LocalContainer.TakeReagents(10f));
 			Chat.AddActionMsgToChat(interaction.Performer, $"You Inject The syringe into {LHB.gameObject.ExpensiveName()}",
 				$"{interaction.Performer.ExpensiveName()} injects a syringe into {LHB.gameObject.ExpensiveName()}");
+			GameLogs.Instance.Log($"{interaction.Performer.ExpensiveName()} injected a {gameObject.ExpensiveName()} " +
+			                      $"into {LHB.gameObject.ExpensiveName()}", LogType.Chemistry);
 
 		}
 	}

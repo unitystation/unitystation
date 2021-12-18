@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Text;
 using System.Linq;
+using Systems.GameLogs;
 using DiscordWebhook;
 using DatabaseAPI;
 using Messages.Server.LocalGuiMessages;
@@ -96,6 +97,7 @@ namespace Antagonists
 			ConnectedPlayer spawnedPlayer = chosenAntag.ServerSpawn(spawnRequest).Player();
 
 			ServerFinishAntag(chosenAntag, spawnedPlayer);
+			GameLogs.Instance.Log($"{spawnedPlayer.Username} has spawned as antag ({chosenAntag})");
 		}
 
 		public IEnumerator ServerRespawnAsAntag(ConnectedPlayer connectedPlayer, Antagonist antagonist)

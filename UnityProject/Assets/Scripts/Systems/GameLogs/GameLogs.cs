@@ -5,9 +5,11 @@ using System.IO;
 using System.Linq;
 using UnityEngine;
 
-
 namespace Systems.GameLogs
 {
+	/// <summary>
+	/// Persistent Server logs which are saved aT %APPDATA%/LocalRoaming/UnityStation/Server/Logs
+	/// </summary>
 	public class GameLogs : Managers.SingletonManager<GameLogs>
 	{
 		private string logPath = "/Server/Logs/"; //Where are logs stored?
@@ -23,6 +25,12 @@ namespace Systems.GameLogs
 			}
 		}
 
+		/// <summary>
+		/// Logs a string of text in a .txt file that can be viewable using admin tools. Use on server only!
+		/// (Recommended : Try to avoid calling this function inside Update() on a main thread)
+		/// </summary>
+		/// <param name="ThingToLog">The string of text to log. Timestamps will be automatically added by default.</param>
+		/// <param name="logType">What category of log is this?</param>
 		public void Log(string ThingToLog, LogType logType = LogType.General)
 		{
 			if(ThingToLog == null || path == null) return;

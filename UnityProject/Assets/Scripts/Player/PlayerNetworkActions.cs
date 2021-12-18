@@ -12,6 +12,7 @@ using ScriptableObjects;
 using AdminCommands;
 using Antagonists;
 using Systems.Atmospherics;
+using Systems.GameLogs;
 using HealthV2;
 using Items;
 using Items.Tool;
@@ -625,6 +626,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 			}
 
 			StartCoroutine(AntagManager.Instance.ServerRespawnAsAntag(playerToRespawn, antag));
+			GameLogs.Instance.Log($"{playerToRespawn.Username} has respawned as antag ({antagonist})");
 			return;
 		}
 
