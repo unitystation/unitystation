@@ -96,16 +96,8 @@ public partial class SubSceneManager
 		}
 
 		NetworkClient.PrepareToSpawnSceneObjects();
-		yield return WaitFor.Seconds(0.2f);
-		if (KillClientLoadingCoroutine)
-		{
-			KillClientLoadingCoroutine = false;
-			clientIsLoadingSubscene = false;
-			yield break;
-		}
-
 		RequestObserverRefresh.Send(OriginalScene);
-
+		
 		foreach (var Scene in Scenes)
 		{
 			yield return WaitFor.Seconds(0.1f);
