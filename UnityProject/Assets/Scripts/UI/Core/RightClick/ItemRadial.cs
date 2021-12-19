@@ -5,6 +5,7 @@ using UnityEngine;
 using UI.Core.Radial;
 using UI.Core.Animations;
 using UnityEngine.EventSystems;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 namespace UI.Core.RightClick
@@ -17,11 +18,38 @@ namespace UI.Core.RightClick
 		[SerializeField]
 		private ReversibleObjectScale nextArrow = default;
 
-		[SerializeField]
-		private RectTransform background = default;
+		[SerializeField, FormerlySerializedAs("background")]
+		private RectTransform _background;
+
+
+		private RectTransform background
+		{
+			get
+			{
+				if (_background == null)
+				{
+					_background = GameObject.Find("RadialItemInnerRing").GetComponent<RectTransform>();
+				}
+
+				return _background;
+			}
+		}
+
+		[SerializeField, FormerlySerializedAs("itemRing")]
+		private Graphic _itemRing;
 
 		[SerializeField]
-		private Graphic itemRing = default;
+		private Graphic itemRing
+		{
+			get {
+				if (_itemRing == null)
+				{
+					_itemRing = GameObject.Find("RadialItemRing").GetComponent<Graphic>();
+				}
+
+				return _itemRing;
+			}
+		}
 
 		[SerializeField]
 		private TMP_Text itemLabel = default;
