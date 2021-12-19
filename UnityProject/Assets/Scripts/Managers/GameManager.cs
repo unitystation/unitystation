@@ -784,7 +784,7 @@ public partial class GameManager : MonoBehaviour, IInitialise
 			StopAllCoroutines();
 			yield break;
 		}
-		Logger.Log("Server is rebooting now. If you don't have a way to automatically restart the " +
+		Logger.LogError("Server is rebooting now. If you don't have a way to automatically restart the " +
 		           "Unitystation process such as systemctl the server won't be able to restart!", Category.Round);
 		Chat.AddGameWideSystemMsgToChat("<size=72><b>The server is now restarting!</b></size>");
 		yield return WaitFor.Seconds(2f);
