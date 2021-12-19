@@ -770,7 +770,7 @@ public partial class GameManager : MonoBehaviour, IInitialise
 	{
 		string[] args = Environment.GetCommandLineArgs();
 		if ((ServerShutsDownOnRoundEnd == false || args.Contains("-NoReboot"))
-		    && (ServerAverageFPS >= 45 || GetMemeoryUsagePrecentage() <= 75f))
+		    && (ServerAverageFPS >= 45 || GetMemeoryUsagePrecentage() <= 75f) || args.Contains("-AlwaysReboot"))
 		{
 			Logger.Log("Server restarting round now.", Category.Round);
 			Chat.AddGameWideSystemMsgToChat("<b>The round is now restarting...</b>");
