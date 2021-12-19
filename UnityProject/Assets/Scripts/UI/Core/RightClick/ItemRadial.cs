@@ -22,12 +22,13 @@ namespace UI.Core.RightClick
 		private RectTransform _background;
 
 
-		private RectTransform background
+		private RectTransform Background
 		{
 			get
 			{
 				if (_background == null)
 				{
+					Logger.LogError($"RadialItemInnerRing Had to use  GameObject.Find ", Category.UI);
 					_background = GameObject.Find("RadialItemInnerRing").GetComponent<RectTransform>();
 				}
 
@@ -39,11 +40,12 @@ namespace UI.Core.RightClick
 		private Graphic _itemRing;
 
 		[SerializeField]
-		private Graphic itemRing
+		private Graphic ItemRing
 		{
 			get {
 				if (_itemRing == null)
 				{
+					Logger.LogError($"RadialItemRing Had to use  GameObject.Find ", Category.UI);
 					_itemRing = GameObject.Find("RadialItemRing").GetComponent<Graphic>();
 				}
 
@@ -129,7 +131,7 @@ namespace UI.Core.RightClick
 			{
 				Drag.enabled = value;
 				Scroll.enabled = value;
-				itemRing.raycastTarget = value;
+				ItemRing.raycastTarget = value;
 				itemLabel.raycastTarget = value;
 			}
 			catch (NullReferenceException exception)
@@ -149,7 +151,7 @@ namespace UI.Core.RightClick
 		{
 			try
 			{
-				background.rotation = Quaternion.identity;
+				Background.rotation = Quaternion.identity;
 				itemLabel.transform.rotation = Quaternion.identity;
 			}
 			catch (NullReferenceException exception)
