@@ -223,7 +223,7 @@ namespace Items.Tool
 
 					UseAndCheckCharges(interaction);
 
-					GameLogs.Instance.Log($"{interaction.Performer.ExpensiveName()}({interaction.PerformerPlayerScript.connectedPlayer.Username})" +
+					GameLogs.Instance.Log($"{interaction.PerformerPlayerScript.characterSettings.Name}({interaction.PerformerPlayerScript.connectedPlayer.Username})" +
 					                      $" drew an overlay ({tileToUse.OverlayName}) using {gameObject} at pos({gameObject.AssumedWorldPosServer()})");
 					//Should only ever be one of the overlay
 					return;
