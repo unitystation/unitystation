@@ -763,7 +763,7 @@ public partial class GameManager : MonoBehaviour, IInitialise
 
 	private float GetMemeoryUsagePrecentage()
 	{
-		return (Profiler.GetTotalAllocatedMemory() / 1048576) / SystemInfo.systemMemorySize * 100;
+		return (Profiler.GetTotalAllocatedMemoryLong() / 1048576) / SystemInfo.systemMemorySize * 100;
 	}
 
 	IEnumerator ServerRoundRestart()
