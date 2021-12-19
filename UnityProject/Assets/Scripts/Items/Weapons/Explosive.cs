@@ -13,7 +13,7 @@ using Objects;
 using Scripts.Core.Transform;
 using UI;
 using UnityEngine;
-using LogType = UnityEngine.LogType;
+using LogType = Systems.GameLogs.LogType;
 
 
 namespace Items.Weapons

@@ -260,7 +260,12 @@ namespace HealthV2
 
 			if (damagedBy != null)
 			{
-				GameLogs.Instance.Log($"{damagedBy.ExpensiveName()} attacked {HealthMaster.playerScript.characterSettings.Name}" +
+				string dmgedBy = damagedBy.ExpensiveName();
+				if (damagedBy.TryGetComponent<PlayerScript>(out var script))
+				{
+					dmgedBy = $"{script.characterSettings.Name}({script.connectedPlayer.Username})";
+				}
+				GameLogs.Instance.Log($"{dmgedBy} attacked {HealthMaster.playerScript.characterSettings.Name}" +
 				                      $"({HealthMaster.playerScript.connectedPlayer.Username}) and did {damage} " +
 				                      $"amount of damage of type {damageType} to {damageToLimb} ({tramuticDamageType}) at pos({HealthMaster.gameObject.AssumedWorldPosServer()})", LogType.Combat);
 			}
