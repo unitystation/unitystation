@@ -69,7 +69,7 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IActi
 	public Vector3Int AssumedWorldPos => pushPull.AssumedWorldPositionServer();
 
 	/// <summary>
-	/// Serverside world position.
+	/// World position of the player.
 	/// Returns InvalidPos if you're hidden (e.g. in a locker)
 	/// </summary>
 	public Vector3Int WorldPos
