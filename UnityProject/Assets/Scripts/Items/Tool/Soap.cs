@@ -38,7 +38,7 @@ namespace Items
             Vector3Int positionInt = Vector3Int.RoundToInt(position);
 
             // Check if there is an object in the way of scrubbing the tile
-			var atPosition = MatrixManager.GetAt<RegisterObject>(positionInt, true);
+			var atPosition = MatrixManager.GetAt<RegisterObject>(positionInt, side == NetworkSide.Server);
             if(atPosition.Count != 0) return false;
 
 
