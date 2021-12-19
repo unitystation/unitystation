@@ -30,7 +30,8 @@ public class Syringe : MonoBehaviour, ICheckedInteractable<HandApply>
 			LHB.CirculatorySystem.BloodPool.Add(LocalContainer.TakeReagents(10f));
 			Chat.AddActionMsgToChat(interaction.Performer, $"You Inject The syringe into {LHB.gameObject.ExpensiveName()}",
 				$"{interaction.Performer.ExpensiveName()} injects a syringe into {LHB.gameObject.ExpensiveName()}");
-			GameLogs.Instance.Log($"{interaction.Performer.ExpensiveName()} injected a {gameObject.ExpensiveName()} " +
+			GameLogs.Instance.Log($"{interaction.PerformerPlayerScript.characterSettings.Username}" +
+			                      $"({interaction.PerformerPlayerScript.connectedPlayer.Username}) injected a {gameObject} " +
 			                      $"into {LHB.gameObject.ExpensiveName()}", LogType.Chemistry);
 
 		}
