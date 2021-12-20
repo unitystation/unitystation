@@ -14,8 +14,8 @@ namespace Items
 		private int damageWielded;
 
 		[SerializeField]
-		public ItemsSprites Wielded = new ItemsSprites();
-		public ItemsSprites Unwielded = new ItemsSprites();
+		private ItemsSprites Wielded = new ItemsSprites();
+		private ItemsSprites Unwielded = new ItemsSprites();
 
 		[SyncVar(hook = nameof(SyncState))]
 		private bool isWielded;

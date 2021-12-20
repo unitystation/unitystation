@@ -86,6 +86,13 @@ namespace Player.Movement
 		private ActionData actionData = null;
 		public ActionData ActionData => actionData;
 
+		public enum hiddenHandValues
+		{
+			bothHands = 0,
+			leftHand = 1,
+			rightHand = 2
+		}
+
 		/// <summary>
 		/// Whether this player meets all the conditions for being swapped with (being the swapee).
 		/// </summary>
@@ -641,8 +648,7 @@ namespace Player.Movement
 		[TargetRpc]
 		private void TargetPlayerUIHandCuffToggle(NetworkConnection target, bool HideState)
 		{
-			//0 since we want to hide both hands
-			HandsController.Instance.HideHands(HideState, 0);
+			HandsController.Instance.HideHands(HideState, (int) hiddenHandValues.bothHands);
 		}
 
 		/// <summary>
