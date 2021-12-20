@@ -112,7 +112,7 @@ namespace Systems.Electricity
 			{
 				AliveSupplies[category] = new HashSet<ElectricalNodeControl>();
 			}
-			electricalThread = new ElectricalThread();
+			electricalThread = gameObject.AddComponent<ElectricalThread>();
 			electricalThread.StartThread();
 		}
 

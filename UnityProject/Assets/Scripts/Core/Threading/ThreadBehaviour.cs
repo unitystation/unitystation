@@ -1,55 +1,127 @@
 ﻿using System.Collections.Generic;
+using System.Diagnostics;
 using System.Threading;
+using NaughtyAttributes;
+using UnityEngine;
 using UnityEngine.Profiling;
 
-public class ThreadedBehaviour
+public class ThreadedBehaviour : MonoBehaviour
 {
-	public bool IsRunning { get; private set; }
-	public uint Ticker { get; private set; }
-	public int TickSpeed = 100;
-	private Thread WorkingThread;
+	public bool running { get; private set; }
+	public uint ticker;
+
+	[Range(1, 5000)]
+	public int tickSpeed = 100;
+
+	private Thread workingThread;
 	public static List<ThreadedBehaviour> currentThreads = new List<ThreadedBehaviour>();
 
+	[OnValueChanged(nameof(OnThreadModeChange))]
 	public ThreadMode threadMode = ThreadMode.Threaded;
+	private bool manual => threadMode == ThreadMode.Manual;
+	private bool notManual => threadMode != ThreadMode.Manual;
 
-	/// <summary>
-	/// Runs when the manager is started causing the thread to commence
-	/// </summary>
-	public void StartThread()
+	private Stopwatch mainThreadTimer;
+
+	public bool midTick;
+
+	public string threadName;
+
+	private void Awake()
 	{
-		WorkingThread = new Thread (ThreadedLoop);
-		WorkingThread.Start();
-		currentThreads.Add(this);
-		Logger.LogFormat("<b>{0}</b> Started", Category.Threading, GetType().Name);
+		threadName = GetType().Name;
+		mainThreadTimer = new Stopwatch();
+	}
+
+	private void OnEnable()
+	{
+		UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
+	}
+
+	private void OnDisable()
+	{
+		UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
+		StopThread();
 	}
 
 	/// <summary>
-	/// Runs when the manager is stopped causing the thread to be aborted
+	/// Main thread loop, if set to it
 	/// </summary>
+	private void UpdateMe()
+	{
+		if(running && threadMode == ThreadMode.MainThread && midTick == false)
+		{
+			if (mainThreadTimer.Elapsed.Milliseconds < tickSpeed)
+			{
+				return;
+			}
+			mainThreadTimer.Restart();
+			RunTick();
+			ticker++;
+		}
+	}
+
+	/// <summary>
+	/// The thread loop, it will constantly sleep and call the main tick
+	/// </summary>
+	private void ThreadLoop()
+	{
+		running = true;
+		Profiler.BeginThreadProfiling("Unitystation", threadName);
+		while (running && threadMode == ThreadMode.Threaded && midTick == false)
+		{
+			RunTick();
+			Thread.Sleep(tickSpeed);
+			ticker++;
+		}
+		Profiler.EndThreadProfiling();
+		running = false;
+	}
+
+	/// <summary>
+	/// Starts the thread
+	/// </summary>
+	[DisableIf(EConditionOperator.Or, nameof(running), nameof(manual))]
+	[Button("Start")]
+	public void StartThread()
+	{
+		if (threadMode == ThreadMode.Threaded)
+		{
+			workingThread = new Thread (ThreadLoop);
+			workingThread.Start();
+			currentThreads.Add(this);
+			Logger.LogFormat("<b>{0}</b> Started", Category.Threading, GetType().Name);
+		}
+		else if (threadMode == ThreadMode.MainThread)
+		{
+			mainThreadTimer.Start();
+			running = true;
+		}
+
+	}
+
+	/// <summary>
+	/// Signal the thread to stop, it wont be instant
+	/// </summary>
+	[EnableIf(EConditionOperator.And, nameof(running), nameof(notManual))]
+	[Button("Stop")]
 	public void StopThread()
 	{
-		if (WorkingThread != null)
+		if (workingThread != null)
 		{
-			WorkingThread.Abort();
-			WorkingThread = null;
+			workingThread.Abort();
+			workingThread = null;
 		}
 		currentThreads.Remove(this);
 		Logger.LogFormat("<b>{0}</b> Stopped", Category.Threading, GetType().Name); ;
-		IsRunning = false;
+		running = false;
 	}
 
-	private void ThreadedLoop()
+	private void RunTick()
 	{
-		IsRunning = true;
-		Profiler.BeginThreadProfiling("Unitystation", "RENAME ME");
-		while (IsRunning)
-		{
-			ThreadedWork();
-			Thread.Sleep(TickSpeed);
-			Ticker++;
-		}
-		Profiler.EndThreadProfiling();
-		IsRunning = false;
+		midTick = true;
+		ThreadedWork();
+		midTick = false;
 	}
 
 	/// <summary>
@@ -59,10 +131,32 @@ public class ThreadedBehaviour
 	{
 	}
 
-	public enum ThreadMode
+	/// <summary>
+	/// An user runs this to do 1 step, it'll be in the main thread
+	/// </summary>
+	[EnableIf(nameof(manual))]
+	[Button("Manual Step")]
+	public void ManualStep()
 	{
-		Threaded,
-		GameLoop,
-		Manual
+		if (running == false)
+		{
+			running = true;
+			ThreadedWork();
+			ticker++;
+			running = false;
+		}
 	}
+
+	public void OnThreadModeChange()
+	{
+		StopThread();
+	}
+
+}
+
+public enum ThreadMode
+{
+	Threaded,
+	MainThread,
+	Manual
 }

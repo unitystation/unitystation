@@ -24,7 +24,7 @@ namespace Health.Sickness
 		private void Awake()
 		{
 			base.Awake();
-			sicknessThread = new SicknessThread();
+			sicknessThread = gameObject.AddComponent<SicknessThread>();
 			// We can't use UnityEngine.Random because it can be called only in the main thread.
 			sicknessThread.random = new System.Random();
 		}

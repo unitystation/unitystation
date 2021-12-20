@@ -31,8 +31,8 @@ namespace Systems.Atmospherics
 		{
 			base.Awake();
 			processPipeDelegator = ProcessPipe;
-			atmosThread = new AtmosThread();
-			atmosThread.TickSpeed = 40;
+			atmosThread = gameObject.AddComponent<AtmosThread>();
+			atmosThread.tickSpeed = 40;
 			simulation = new AtmosSimulation();
 			sampler = CustomSampler.Create("AtmosphericsStep");
 		}

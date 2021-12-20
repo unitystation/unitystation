@@ -16,7 +16,7 @@ namespace Systems.Radiation
 		public override void Awake()
 		{
 			base.Awake();
-			radiationThread = new RadiationThread();
+			radiationThread = gameObject.AddComponent<RadiationThread>();
 			sampler = CustomSampler.Create("RadiationUpdate");
 		}
 
