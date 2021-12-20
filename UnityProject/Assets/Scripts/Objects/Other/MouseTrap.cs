@@ -60,6 +60,7 @@ namespace Objects.Other
 		/// <param name="health"></param>
 		public void TriggerTrap(LivingHealthMasterBase health = null)
 		{
+			isArmed = false;
 			if(health != null) HurtHand(health);
 			var slot = trapContent.GetTopOccupiedIndexedSlot();
 			if(slot == null) return;
@@ -69,7 +70,6 @@ namespace Objects.Other
 				component.TriggerTrap();
 			}
 			UpdateTrapVisual();
-			isArmed = false;
 		}
 
 		private bool HasTrapTrait(GameObject item)

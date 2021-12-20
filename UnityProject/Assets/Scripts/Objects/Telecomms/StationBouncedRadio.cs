@@ -84,8 +84,8 @@ namespace Objects.Telecomms
 				}
 				messageContent = EncryptionUtils.Decrypt(messageContent, EncryptionData.EncryptionSecret);
 			}
-			return $"<b><color=#{ColorUtility.ToHtmlStringRGBA(Chat.Instance.commonColor)}><sprite=\"RadioIcon\" name=\"radio_walkietalkie\">" +
-			       $" -{messageSender} says \"{messageContent}\"</color></b>";
+			return $"<b><color=#{ColorUtility.ToHtmlStringRGBA(Chat.Instance.commonColor)}>[{Frequency}]" +
+			       $" - {messageSender} says \"{messageContent}\"</color></b>.";
 		}
 
 		public void AddEncryptionKey(EncryptionKey key)

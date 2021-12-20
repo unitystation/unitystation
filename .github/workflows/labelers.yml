@@ -1,17 +1,18 @@
 # Runs on every push and pr. Meant to help us to keep the thing cool because we're cool like that.
 
-name: PR helpers
+name: Labelers
 on:
   push:
     branches: [develop]
+
   pull_request_target:
     branches: [develop]
 
 jobs:
-  helpers:
+  labels:
     runs-on: ubuntu-latest
     steps:
-      - name: conflicts check
+      - name: conflicts labeler
         uses: mschilde/auto-label-merge-conflicts@v2.0
         with:
           CONFLICT_LABEL_NAME: "Status: Merge Conflicts"
@@ -22,3 +23,4 @@ jobs:
         uses: actions/labeler@v3-preview
         with:
           repo-token: "${{ secrets.GITHUB_TOKEN }}"
+

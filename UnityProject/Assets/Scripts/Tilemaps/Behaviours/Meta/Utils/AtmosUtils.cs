@@ -25,9 +25,9 @@ namespace Systems.Atmospherics
 		}
 
 
-		public static List<List<GasValues>> PooledGasValuesLists = new List<List<GasValues>>();
+		public static List<GasValuesList> PooledGasValuesLists = new List<GasValuesList>();
 
-		public static List<GasValues> GetGasValuesList()
+		public static GasValuesList GetGasValuesList()
 		{
 			lock (PooledGasValuesLists)
 			{
@@ -35,21 +35,54 @@ namespace Systems.Atmospherics
 				{
 					var QEntry = PooledGasValuesLists[0];
 					PooledGasValuesLists.RemoveAt(0);
+					if (QEntry == null)
+					{
+						return new GasValuesList();
+					}
+
+					QEntry.List.Clear();
+
 					return QEntry;
 				}
 			}
 
-			return new List<GasValues>();
+			return new GasValuesList();
+		}
+
+		public class GasValuesList
+		{
+			public List<GasValues> List = new List<GasValues>();
+
+			public void Pool()
+			{
+				for (int i = 0; i < List.Count; i++)
+				{
+					List[i].Pool();
+				}
+				List.Clear();
+				lock (PooledGasValuesLists)
+				{
+					PooledGasValuesLists.Add(this);
+				}
+			}
 		}
 
 
-		public static List<GasValues> CopyGasArray(GasData GasData)
+		public static GasValuesList CopyGasArray(GasData GasData)
 		{
 			var List = GetGasValuesList();
+
 			lock (GasData.GasesArray) //no Double lock
 			{
-				List.AddRange(GasData.GasesArray);
+				foreach (var gv in GasData.GasesArray)
+				{
+					var Newgas = AtmosUtils.GetGasValues();
+					Newgas.Moles = gv.Moles;
+					Newgas.GasSO = gv.GasSO;
+					List.List.Add(Newgas);
+				}
 			}
+
 
 			return List;
 		}
@@ -114,7 +147,7 @@ namespace Systems.Atmospherics
 				//Only need to check if false
 				if (result == false)
 				{
-					lock (neighbor.GasMix.GasesArray)  //no Double lock
+					lock (neighbor.GasMix.GasesArray) //no Double lock
 					{
 						for (int j = node.GasMix.GasesArray.Count - 1; j >= 0; j--)
 						{
@@ -380,13 +413,12 @@ namespace Systems.Atmospherics
 
 			var List = CopyGasArray(oldData);
 
-			foreach (var value in List)
+			foreach (var value in List.List)
 			{
 				newGasData.SetMoles(value.GasSO, value.Moles);
 			}
 
-			List.Clear();
-			PooledGasValuesLists.Add(List);
+			List.Pool();
 
 			newGasData.RegenerateDict();
 
@@ -404,13 +436,12 @@ namespace Systems.Atmospherics
 
 			var List = CopyGasArray(oldData);
 
-			foreach (var value in List)
+			foreach (var value in List.List)
 			{
 				CopyTo.SetMoles(value.GasSO, value.Moles);
 			}
 
-			List.Clear();
-			PooledGasValuesLists.Add(List);
+			List.Pool();
 
 			CopyTo.RegenerateDict();
 

@@ -43,7 +43,7 @@ namespace Objects.Atmospherics
 		public float Volume;
 		public float Temperature;
 
-		private RegisterObject registerObject;
+		private RegisterTile registerTile;
 		private Integrity integrity;
 		private Pickupable pickupable;
 
@@ -51,7 +51,7 @@ namespace Objects.Atmospherics
 
 		public float ServerInternalPressure => GasMix.Pressure;
 
-		private GasMix TileMix => registerObject.Matrix.MetaDataLayer.Get(registerObject.LocalPositionServer).GasMix;
+		private GasMix TileMix => registerTile.Matrix.MetaDataLayer.Get(registerTile.LocalPositionServer).GasMix;
 
 		private bool gasIsInitialised = false;
 
@@ -69,7 +69,7 @@ namespace Objects.Atmospherics
 
 		private void Awake()
 		{
-			registerObject = GetComponent<RegisterObject>();
+			registerTile = GetComponent<RegisterTile>();
 			pickupable = GetComponent<Pickupable>();
 			integrity = GetComponent<Integrity>();
 		}
@@ -112,7 +112,7 @@ namespace Objects.Atmospherics
 		public void EqualiseWithTile()
 		{
 			GasMix.MergeGasMix(TileMix);
-			registerObject.Matrix.MetaDataLayer.UpdateSystemsAt(registerObject.LocalPosition, SystemType.AtmosSystem);
+			registerTile.Matrix.MetaDataLayer.UpdateSystemsAt(registerTile.LocalPosition, SystemType.AtmosSystem);
 		}
 
 		// Needed for the internals tank on the player UI, to know oxygen gas percentage
@@ -146,7 +146,7 @@ namespace Objects.Atmospherics
 			//release all of our gases at once when destroyed
 			ReleaseContentsInstantly();
 
-			ExplosionUtils.PlaySoundAndShake(registerObject.WorldPositionServer, shakeIntensity, (int) shakeDistance);
+			ExplosionUtils.PlaySoundAndShake(registerTile.WorldPositionServer, shakeIntensity, (int) shakeDistance);
 			Chat.AddLocalDestroyMsgToChat(gameObject.ExpensiveName(), " exploded!", gameObject);
 
 			ServerContainerExplode?.Invoke();
@@ -156,11 +156,11 @@ namespace Objects.Atmospherics
 
 		public void ReleaseContentsInstantly()
 		{
-			MetaDataLayer metaDataLayer = registerObject.Matrix.MetaDataLayer;
-			MetaDataNode node = metaDataLayer.Get(registerObject.LocalPositionServer, false);
+			MetaDataLayer metaDataLayer = registerTile.Matrix.MetaDataLayer;
+			MetaDataNode node = metaDataLayer.Get(registerTile.LocalPositionServer, false);
 
 			GasMix.TransferGas(node.GasMix, GasMix, GasMix.Moles);
-			metaDataLayer.UpdateSystemsAt(registerObject.LocalPositionServer, SystemType.AtmosSystem);
+			metaDataLayer.UpdateSystemsAt(registerTile.LocalPositionServer, SystemType.AtmosSystem);
 		}
 
 		[Server]
@@ -186,14 +186,15 @@ namespace Objects.Atmospherics
 
 				var List = AtmosUtils.CopyGasArray(GasMix.GasData);
 
-				for (int i = List.Count - 1; i >= 0; i--)
+				for (int i = List.List.Count - 1; i >= 0; i--)
 				{
 					var gas = GasMix.GasesArray[i];
 					StoredGasMix.GasData.SetMoles(gas.GasSO, gas.Moles);
 				}
 
-				List.Clear();
-				AtmosUtils.PooledGasValuesLists.Add(List);
+				List.Pool();
+
+
 
 			}
 		}

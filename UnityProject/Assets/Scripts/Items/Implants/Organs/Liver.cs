@@ -43,12 +43,6 @@ namespace HealthV2
 		/// </summary>
 		[SerializeField] private float processAmount = 2f;
 
-		/// <summary>
-		/// Multiplier to determine how many times as many reagents are flushed from the liver as were pulled from the blood stream.
-		/// This should be greater than one so the liver doesn't
-		/// </summary>
-		[SerializeField] private float flushMultiplier = 1.1f;
-
 		[SerializeField] private float drunkMultiplier = 4;
 
 		private CirculatorySystemBase circ;
@@ -69,32 +63,32 @@ namespace HealthV2
 			if (RelatedPart.TotalModified == 0) return;
 			debug = new StringBuilder();
 
-			BloodToLiver(blood);
+			BloodToLiver(circ.BloodPool);
 			Processing();
 			ReturnReagentsToBlood();
 
 			//Logger.Log(debug.ToString(), Category.Health);
 		}
 
-		private void BloodToLiver(ReagentContainerBody blood)
+		private void BloodToLiver(ReagentMix blood)
 		{
 			float tickPullProcessingAmnt =  RelatedPart.TotalModified *  processAmount;
 			float drawnAmount = 0;
 			//debug.AppendLine("==== STAGE 1 || BLOOD TO PROCESSING ====");
 
 			//figure out how much we are going to process or remove
-			lock (blood.CurrentReagentMix.reagents)
+			lock (blood.reagents)
 			{
-				foreach (Reagent reagent in blood.CurrentReagentMix.reagents.Keys)
+				foreach (var reagent in blood.reagents.m_dict)
 				{
-					bool alcohol = Alcohols.AlcoholicReagents.Contains(reagent);
-					bool toxic = Toxins.Contains(reagent);
+					bool alcohol = Alcohols.HashAlcoholicReagents.Contains(reagent.Key);
+					bool toxic = Toxins.Contains(reagent.Key);
 					if (alcohol || toxic)
 					{
-						float amount = Mathf.Min(tickPullProcessingAmnt, RelatedPart.BloodContainer.CurrentReagentMix[reagent]);
+						float amount = Mathf.Min(tickPullProcessingAmnt, reagent.Value);
 						amount = Mathf.Min(amount,
 							(processingContainer.MaxCapacity - processingContainer.ReagentMixTotal) - drawnAmount);
-						tempArray.Add(new Tuple<Reagent, float>(reagent, amount));
+						tempArray.Add(new Tuple<Reagent, float>(reagent.Key, amount));
 
 						if (processingContainer.IsFull)
 						{
@@ -116,8 +110,7 @@ namespace HealthV2
 			{
 				//debug.AppendLine($"{reagent.Item2.ToString(CultureInfo.DefaultThreadCurrentCulture)} of {reagent.Item1}\n");
 				processingContainer.CurrentReagentMix.Add(reagent.Item1, reagent.Item2);
-				blood.CurrentReagentMix.Remove(reagent.Item1, reagent.Item2);
-				processingContainer.ReagentsChanged();
+				blood.Remove(reagent.Item1, reagent.Item2);
 			}
 
 			tempArray.Clear();
@@ -127,7 +120,7 @@ namespace HealthV2
 		{
 			//debug.AppendLine("==== STAGE 2 || REMOVAL FROM LIVER ====");
 
-			float tickClearAmount = RelatedPart.TotalModified *  processAmount * flushMultiplier;
+			float tickClearAmount = RelatedPart.TotalModified *  processAmount;
 
 			//calculate what's going to be removed, seeing as most processing will happen in the reactionset
 			lock (processingContainer.CurrentReagentMix.reagents)
@@ -192,7 +185,7 @@ namespace HealthV2
 			{
 				//debug.AppendLine($"{reagent.Item2}cc of {reagent.Item1}\n");
 				processingContainer.CurrentReagentMix.Remove(reagent.Item1, reagent.Item2);
-				circ.UsedBloodPool.Add(reagent.Item1,
+				circ.BloodPool.Add(reagent.Item1,
 					processingContainer.CurrentReagentMix.Remove(reagent.Item1, reagent.Item2));
 			}
 

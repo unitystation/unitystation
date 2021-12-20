@@ -79,6 +79,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6462627854477596711, guid: d4a3f41d96f2c4143b8556508db41c57,
         type: 3}
+      propertyPath: armor.Bomb
+      value: -20
+      objectReference: {fileID: 0}
+    - target: {fileID: 6462627854477596711, guid: d4a3f41d96f2c4143b8556508db41c57,
+        type: 3}
       propertyPath: armor.Fire
       value: 80
       objectReference: {fileID: 0}
@@ -101,6 +106,11 @@ PrefabInstance:
         type: 3}
       propertyPath: armor.Energy
       value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 6686420084488877669, guid: d4a3f41d96f2c4143b8556508db41c57,
+        type: 3}
+      propertyPath: armor.Bomb
+      value: -20
       objectReference: {fileID: 0}
     - target: {fileID: 6686420084488877669, guid: d4a3f41d96f2c4143b8556508db41c57,
         type: 3}

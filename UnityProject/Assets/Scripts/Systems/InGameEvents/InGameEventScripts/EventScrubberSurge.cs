@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using NaughtyAttributes;
 using Chemistry;
@@ -25,11 +26,11 @@ namespace InGameEvents
 		[SerializeField, MinMaxSlider(0f, 100f)]
 		private Vector2 spawnDelayRange = new Vector2(3f, 10f);
 
-		private static Reagent[] allReagents;
+		private static List<Reagent> allReagents;
 
 		public void OnSpawnServer(SpawnInfo info)
 		{
-			if (allReagents != null && allReagents.Length > 0) return;
+			if (allReagents != null && allReagents.Count > 0) return;
 
 			allReagents = ChemistryReagentsSO.Instance.AllChemistryReagents;
 		}
@@ -73,7 +74,7 @@ namespace InGameEvents
 				reagentMix.reagents.m_dict.Add(allReagents.PickRandom(), 75f);
 				reagentMix.reagents.m_dict.Add(dispersionAgents.PickRandom(), 25f);
 			}
-			
+
 
 			container.Add(reagentMix);
 			container.Spill(scrubber.registerTile.WorldPositionServer, 50f);

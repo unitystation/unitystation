@@ -31,7 +31,16 @@ MonoBehaviour:
     LegLeft:
       Elements:
       - {fileID: 7598470278081952332, guid: a41526c40e9f8fe46b90658a04c7fcc1, type: 3}
-    CustomisationSettings: []
+    CustomisationSettings:
+    - CustomisationGroup: {fileID: 11400000, guid: 8e20bf66bde1f0e40a127928313e7bef,
+        type: 2}
+      Blacklist: []
+    - CustomisationGroup: {fileID: 11400000, guid: 71b2c774e69e1f94f807766cbd2d3825,
+        type: 2}
+      Blacklist: []
+    - CustomisationGroup: {fileID: 11400000, guid: da3723be05832d14e986b1cf86a74f5b,
+        type: 2}
+      Blacklist: []
     bodyTypeSettings:
       AvailableBodyTypes:
       - bodyType: 1
@@ -46,3 +55,4 @@ MonoBehaviour:
       type: 2}
     BodyPartsThatShareTheSkinTone:
     - {fileID: 1644536323247627075, guid: df82693e0cd2bfc4b97bdedcf98469fb, type: 3}
+    NumberOfMinutesBeforeStarving: 30

@@ -413,7 +413,7 @@ public static class PlayerSpawn
 		{
 			var dummy = ServerCreatePlayer(spawnTransform.position.RoundToInt());
 
-			CharacterSettings randomSettings = CharacterSettings.RandomizeCharacterSettings();
+			CharacterSettings randomSettings = CharacterSettings.RandomizeCharacterSettings(RaceSOSingleton.Instance.Races.PickRandom().name);
 
 			ServerTransferPlayer(null, dummy, null, Event.PlayerSpawned, randomSettings);
 
