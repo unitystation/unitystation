@@ -1,4 +1,3 @@
-using Items;
 using Messages.Server;
 using Mirror;
 using UnityEngine;
@@ -13,9 +12,8 @@ namespace Items
 		[SerializeField]
 		private int damageWielded;
 
-		[SerializeField]
-		private ItemsSprites Wielded = new ItemsSprites();
-		private ItemsSprites Unwielded = new ItemsSprites();
+		public ItemsSprites Wielded = new ItemsSprites();
+		public ItemsSprites Unwielded = new ItemsSprites();
 
 		[SyncVar(hook = nameof(SyncState))]
 		private bool isWielded;
@@ -78,6 +76,8 @@ namespace Items
 			{
 				isWielded = false;
 				ItemSlot hiddenHand = DetermineHiddenHand();
+				itemAttributes.ServerHitDamage = damageUnwielded;
+				itemAttributes.SetSprites(Unwielded);
 
 				if (hiddenHand != null)
 				{
@@ -95,6 +95,8 @@ namespace Items
 					HideHand(PlayerManager.LocalPlayerScript.connectionToClient, false, hiddenHandSelection);
 				}
 			}
+
+
 		}
 
 		[TargetRpc]
