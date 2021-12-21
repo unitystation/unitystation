@@ -44,9 +44,11 @@ namespace Items.Storage
 			}
 		}
 
-		private void UpdatePizzaSprites(GameObject pizza)
+		private void UpdatePizzaSprites()
 		{
-			var sprite = pizza.GetComponentInChildren<SpriteHandler>();
+			var pizza = pizzaBoxStorage.GetTopOccupiedIndexedSlot();
+			if(pizza == null) return;
+			var sprite = pizza.ItemObject.GetComponentInChildren<SpriteHandler>();
 			if (sprite != null)
 			{
 				pizzaSprites.SetSprite(sprite.CurrentSprite);
@@ -58,6 +60,7 @@ namespace Items.Storage
 			isOpen = true;
 			pizzaSprites.SetActive(true);
 			if(writtenNote != "") writingSprites.SetActive(true);
+			UpdatePizzaSprites();
 			if (isBomb)
 			{
 				if (bombIsCountingDown)
@@ -66,6 +69,7 @@ namespace Items.Storage
 					return;
 				}
 				boxSprites.SetSpriteSO(spritePizzaBoxBombInactive);
+				return;
 			}
 			if (hadPizza)
 			{
@@ -110,7 +114,7 @@ namespace Items.Storage
 				{
 					if (pizzaBoxStorage.ServerTryTransferFrom(interaction.UsedObject))
 					{
-						UpdatePizzaSprites(interaction.UsedObject);
+						UpdatePizzaSprites();
 						return;
 					}
 					Chat.AddExamineMsg(interaction.Performer, $"<color=red>You can't add {interaction.UsedObject} " +
