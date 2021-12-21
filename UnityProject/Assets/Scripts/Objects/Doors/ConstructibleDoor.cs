@@ -112,7 +112,7 @@ namespace Doors
 				AirlockPainter painter = interaction.HandObject.GetComponent<AirlockPainter>();
 				if (painter)
 				{
-					painter.ServerPaintTheAirlock(gameObject);
+					painter.ServerPaintTheAirlock(gameObject, interaction.Performer);
 				}
 			}
 		}
