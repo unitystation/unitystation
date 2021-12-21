@@ -45,6 +45,11 @@ namespace UI.Objects.Shuttles
 			StartCoroutine(WaitForProvider());
 		}
 
+		public void OnDestroy()
+		{
+			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, UpdateMe);
+		}
+
 		private IEnumerator WaitForProvider()
 		{
 			while (Provider == null)
