@@ -62,7 +62,7 @@ namespace UI.Core.RightClick
 			get {
 				if (_itemLabel == null)
 				{
-					Logger.LogError($"RadialItemRing Had to use  GameObject.Find ", Category.UI);
+					Logger.LogError($"itemLabel Had to use  GameObject.Find ", Category.UI);
 					_itemLabel = GameObject.Find("ItemLabel").GetComponent<TMP_Text>();
 				}
 
