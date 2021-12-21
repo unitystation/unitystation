@@ -54,7 +54,24 @@ namespace UI.Core.RightClick
 		}
 
 		[SerializeField]
-		private TMP_Text itemLabel = default;
+		private TMP_Text _itemLabel = default;
+
+		[SerializeField]
+		private TMP_Text itemLabel
+		{
+			get {
+				if (_itemLabel == null)
+				{
+					Logger.LogError($"RadialItemRing Had to use  GameObject.Find ", Category.UI);
+					_itemLabel = GameObject.Find("ItemLabel").GetComponent<TMP_Text>();
+				}
+
+				return _itemLabel;
+			}
+		}
+
+
+
 
 		private float raycastableArcMeasure;
 
