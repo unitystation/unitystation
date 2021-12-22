@@ -35,12 +35,12 @@ public class HandsController : MonoBehaviour
 		}
 	}
 
-	//0 - Hide both hands, 1 - hide left hand, 2 - hide right hand
-	public void HideHands(bool HideState, int Selection)
+	//0 - Hide both hands, 1 - hide left hand, 2 - hide right hand, something else - hide none
+	public void HideHands(int Selection)
 	{
 		foreach (var doubleHand in DoubleHandControllers)
 		{
-			doubleHand.HideHands(HideState, Selection);
+			doubleHand.HideHands(Selection);
 		}
 	}
 

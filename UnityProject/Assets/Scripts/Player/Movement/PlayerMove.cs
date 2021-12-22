@@ -90,7 +90,8 @@ namespace Player.Movement
 		{
 			bothHands = 0,
 			leftHand = 1,
-			rightHand = 2
+			rightHand = 2,
+			none = 3
 		}
 
 		/// <summary>
@@ -648,7 +649,14 @@ namespace Player.Movement
 		[TargetRpc]
 		private void TargetPlayerUIHandCuffToggle(NetworkConnection target, bool HideState)
 		{
-			HandsController.Instance.HideHands(HideState, (int) hiddenHandValues.bothHands);
+			if (HideState)
+            {
+				HandsController.Instance.HideHands((int)hiddenHandValues.bothHands);
+			}
+            else
+            {
+				HandsController.Instance.HideHands((int)hiddenHandValues.none);
+			}
 		}
 
 		/// <summary>

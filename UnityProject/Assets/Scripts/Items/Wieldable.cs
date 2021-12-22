@@ -18,7 +18,6 @@ namespace Items
 		[SyncVar(hook = nameof(SyncState))]
 		private bool isWielded;
 
-		private SpriteHandler spriteHandler;
 		private ItemAttributesV2 itemAttributes;
 		private HandsController HandsController;
 
@@ -26,13 +25,13 @@ namespace Items
 		{
 			bothHands = 0,
 			leftHand = 1,
-			rightHand = 2
+			rightHand = 2,
+			none = 3
 		}
 
 		private void Awake()
 		{
 			itemAttributes = GetComponent<ItemAttributesV2>();
-			spriteHandler = GetComponentInChildren<SpriteHandler>();
 		}
 
 		private void OnEnable()
@@ -75,34 +74,16 @@ namespace Items
 			if (info.InventoryMoveType == InventoryMoveType.Remove)
 			{
 				isWielded = false;
-				ItemSlot hiddenHand = DetermineHiddenHand();
 				itemAttributes.ServerHitDamage = damageUnwielded;
 				itemAttributes.SetSprites(Unwielded);
-
-				if (hiddenHand != null)
-				{
-					int hiddenHandSelection = (int) hiddenHandValues.bothHands;
-
-					if (hiddenHand.NamedSlot.GetValueOrDefault(NamedSlot.none) == NamedSlot.leftHand)
-					{
-						hiddenHandSelection = (int) hiddenHandValues.leftHand;
-					}
-					else if (hiddenHand.NamedSlot.GetValueOrDefault(NamedSlot.none) == NamedSlot.rightHand)
-					{
-						hiddenHandSelection = (int) hiddenHandValues.rightHand;
-					}
-
-					HideHand(PlayerManager.LocalPlayerScript.connectionToClient, false, hiddenHandSelection);
-				}
+				HideHand((int) hiddenHandValues.none);
 			}
-
-
 		}
 
-		[TargetRpc]
-		private void HideHand(NetworkConnection target, bool HideState, int HiddenHandSelection)
+		[Server]
+		private void HideHand(int HiddenHandSelection)
 		{
-			HandsController.Instance.HideHands(HideState, HiddenHandSelection);
+			PlayerManager.LocalPlayerScript.PlayerOnlySyncValues.ServerSetHiddenHands(HiddenHandSelection);
 		}
 
 		private ItemSlot DetermineHiddenHand()
@@ -165,14 +146,14 @@ namespace Items
 					itemAttributes.ServerHitDamage = damageWielded;
 					itemAttributes.SetSprites(Wielded);
 					Chat.AddExamineMsgFromServer(interaction.Performer, $"You wield {gameObject.ExpensiveName()} grabbing it with both of your hands.");
-					HideHand(PlayerManager.LocalPlayerScript.connectionToClient, true, hiddenHandSelection);
+					HideHand(hiddenHandSelection);
 				}
 				else
 				{
 					itemAttributes.ServerHitDamage = damageUnwielded;
 					itemAttributes.SetSprites(Unwielded);
 					Chat.AddExamineMsgFromServer(interaction.Performer, $"You unwield {gameObject.ExpensiveName()}.");
-					HideHand(PlayerManager.LocalPlayerScript.connectionToClient, false, hiddenHandSelection);
+					HideHand((int) hiddenHandValues.none);
 				}
 
 				PlayerAppearanceMessage.SendToAll(interaction.Performer, (int)interaction.HandSlot.NamedSlot.GetValueOrDefault(NamedSlot.none), gameObject);
