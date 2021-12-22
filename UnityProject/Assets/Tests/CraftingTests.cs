@@ -1,12 +1,9 @@
-using System;
 using System.Collections.Generic;
 using System.Text;
-using Systems.Cargo;
 using Systems.CraftingV2;
 using NUnit.Framework;
 using UnityEditor;
 using UnityEngine;
-using Util.PrefabUtils;
 
 namespace Tests
 {
@@ -99,14 +96,14 @@ namespace Tests
 		public void CheckIngredientCrossLinks()
 		{
 			StringBuilder report = new StringBuilder();
-			// thank unity we have no better way to see a base (parent) or variants (heirs) of game objects, so
-			// we have to search it using .prefab files. This dictionary contains pairs of values:
+			// thank unity we have no better way to see variants (heirs) of game objects.
+			// This dictionary contains pairs of values:
 			// <Parent, List<parent's heirs>> or something like that. Heirs can also have its heirs, so they also
 			// can be parents and should be presented in this dictionary with the matching key.
 			Dictionary<GameObject, HashSet<GameObject>> parentsAndChilds =
 				new Dictionary<GameObject, HashSet<GameObject>>();
 			string[] possibleIngredientPrefabGuids =
-				AssetDatabase.FindAssets("t:prefab", new string[] {"Assets/Prefabs"});
+				AssetDatabase.FindAssets("t:prefab", new[] {"Assets/Prefabs"});
 
 			foreach (string possibleIngredientPrefabGuid in possibleIngredientPrefabGuids)
 			{
@@ -119,7 +116,7 @@ namespace Tests
 					continue;
 				}
 				// assuming that game object as a prefab variant and trying to find its base
-				GameObject parent = PrefabExtensions.GetVariantBaseGameObject(possibleChildIngredient);
+				GameObject parent = PrefabUtility.GetCorrespondingObjectFromSource(possibleChildIngredient);
 				// is it not a variant?
 				if (parent == null)
 				{
@@ -138,12 +135,14 @@ namespace Tests
 			}
 
 			// yes we can search without this recipesPath but i don't wanna make this test run for 5 minutes
-			string[] recipeGuids = AssetDatabase.FindAssets("t:ScriptableObject", new string[] {recipesPath});
+			string[] recipeGuids = AssetDatabase.FindAssets("t:CraftingRecipe", new[] {recipesPath});
 
 			if (recipeGuids.Length == 0)
 			{
-				report.AppendLine("Recipe directory path was probably changed - can't find any recipe at path: " +
-				                  $"{recipesPath}.");
+				report
+					.AppendLine()
+					.Append("Recipe directory path was probably changed - can't find any recipe at path: ")
+					.Append($"{recipesPath}.");
 			}
 
 			foreach (string recipeGuid in recipeGuids)
@@ -198,24 +197,28 @@ namespace Tests
 				foundRecipe = true;
 				if (relatedRecipe.IngredientIndex != indexInRecipe)
 				{
-					report.AppendLine($"A crafting ingredient ({requiredIngredient}) has a wrong related recipe" +
-					                  $"index. Expected: {indexInRecipe}, but found: {relatedRecipe.IngredientIndex}.");
+					report
+						.AppendLine()
+						.Append($"A crafting ingredient ({requiredIngredient}) has a wrong related recipe")
+						.Append($"index. Expected: {indexInRecipe}, but found: {relatedRecipe.IngredientIndex}.");
 				}
 				break;
 			}
 
 			if (foundRecipe == false)
 			{
-				report.AppendLine($"A crafting ingredient ({requiredIngredient}) should have a link to a recipe " +
-				                  $"({checkingRecipe}) in its RelatedRecipes list, since the recipe requires this " +
-				                  "ingredient (prefab) or any of it's heirs (prefab variants).");
+				report
+					.AppendLine()
+					.Append($"A crafting ingredient ({requiredIngredient}) should have a link to a recipe ")
+					.Append($"({checkingRecipe}) in its RelatedRecipes list, since the recipe requires this ")
+					.Append("ingredient (prefab) or any of it's heirs (prefab variants).");
 			}
 
 			if (!parentsAndChilds.ContainsKey(requiredIngredient))
 			{
 				return;
 			}
-			
+
 			foreach (GameObject child in parentsAndChilds[requiredIngredient])
 			{
 				CheckIngredientsCrossLinks(checkingRecipe, indexInRecipe, child, parentsAndChilds, report);
