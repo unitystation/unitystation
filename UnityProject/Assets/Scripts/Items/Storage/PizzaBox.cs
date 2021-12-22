@@ -39,7 +39,7 @@ namespace Items.Storage
 		[SerializeField] private SpriteHandler pizzaSprites;
 		[SerializeField] private ItemStorage pizzaBoxStorage;
 		[SerializeField] private ObjectBehaviour objectBehaviour;
-		[SerializeField] private HasNetworkTabItem netTab;
+		[SerializeField, ShowIf("isBomb")] private HasNetworkTabItem netTab;
 		[HideInInspector] public GUI_PizzaBomb GUI;
 
 		public bool BombIsCountingDown
