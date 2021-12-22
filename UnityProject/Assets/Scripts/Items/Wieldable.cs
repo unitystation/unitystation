@@ -49,7 +49,7 @@ namespace Items
 			{
 				Chat.AddExamineMsgFromServer(PlayerManager.LocalPlayerScript.gameObject, $"Your other hand is too busy holding {gameObject.ExpensiveName()}!");
 				HandsController.OnSwapHand.RemoveListener(OnSwapHands);
-				HandsController.SwapHand();
+				HandsController.Instance.SwapHand();
 				HandsController.OnSwapHand.AddListener(OnSwapHands);
 			}
 		}
