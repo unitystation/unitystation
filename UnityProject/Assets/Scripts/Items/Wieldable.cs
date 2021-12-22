@@ -19,7 +19,6 @@ namespace Items
 		private bool isWielded;
 
 		private ItemAttributesV2 itemAttributes;
-		private HandsController HandsController;
 
 		public enum hiddenHandValues
 		{
