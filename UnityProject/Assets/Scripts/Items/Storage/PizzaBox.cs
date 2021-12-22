@@ -7,13 +7,15 @@ using Systems.Explosions;
 using UnityEngine;
 using System.Threading.Tasks;
 using System.Xml.Schema;
+using Communications;
+using Managers;
 using Objects;
 using UI.Objects;
 
 
 namespace Items.Storage
 {
-	public class PizzaBox : NetworkBehaviour, ICheckedInteractable<HandApply>, IInteractable<InventoryApply>
+	public class PizzaBox : SignalReceiver, ICheckedInteractable<HandApply>, IInteractable<InventoryApply>
 	{
 		[Header("Settings")]
 		[SerializeField] private ItemTrait pizzaTrait;
@@ -85,6 +87,7 @@ namespace Items.Storage
 
 		public async void Countdown()
 		{
+			if (bombIsCountingDown) return;
 			bombIsCountingDown = true;
 			if(isOpen) pizzaSprites.SetSpriteSO(spritePizzaBoxBombActive);
 			if (writtenNote != "")
@@ -206,6 +209,17 @@ namespace Items.Storage
 				return;
 			}
 			CloseBox();
+		}
+
+		public override void ReceiveSignal(SignalStrength strength, ISignalMessage message = null)
+		{
+			if(isArmed == false) return;
+			if (detenationOnTimer)
+			{
+				Countdown();
+				return;
+			}
+			Detonate();
 		}
 	}
 
