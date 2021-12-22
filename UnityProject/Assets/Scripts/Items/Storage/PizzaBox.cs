@@ -1,9 +1,14 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Mirror;
 using NaughtyAttributes;
 using Systems.Explosions;
 using UnityEngine;
+using System.Threading.Tasks;
+using System.Xml.Schema;
+using Objects;
+using UI.Objects;
 
 
 namespace Items.Storage
@@ -20,6 +25,9 @@ namespace Items.Storage
 		private bool isOpen = false;
 		private bool hadPizza = false;
 		private bool bombIsCountingDown;
+		private int timeToDetonate;
+		private bool detenationOnTimer = false;
+		private bool isArmed;
 		[SerializeField] private bool isBomb = false;
 		[SerializeField, ShowIf("isBomb")] private float bombStrength = 3700;
 		[SerializeField] private string writtenNote = "";
@@ -29,7 +37,38 @@ namespace Items.Storage
 		[SerializeField] private SpriteHandler pizzaSprites;
 		[SerializeField] private ItemStorage pizzaBoxStorage;
 		[SerializeField] private ObjectBehaviour objectBehaviour;
+		[SerializeField] private HasNetworkTabItem netTab;
+		[HideInInspector] public GUI_PizzaBomb GUI;
 
+		public bool BombIsCountingDown
+		{
+			set => bombIsCountingDown = value;
+			get => bombIsCountingDown;
+		}
+		public bool DetenationOnTimer
+		{
+			set => detenationOnTimer = value;
+			get => detenationOnTimer;
+		}
+		public float TimeToDetonate
+		{
+			set => timeToDetonate = (int)value;
+			get => timeToDetonate;
+		}
+
+		public bool IsArmed
+		{
+			set => isArmed = value;
+			get => isArmed;
+		}
+
+		private void Start()
+		{
+			if (isBomb && netTab == null)
+			{
+				netTab = GetComponent<HasNetworkTabItem>();
+			}
+		}
 
 		private void Detonate()
 		{
@@ -42,6 +81,20 @@ namespace Items.Storage
 				_ = Despawn.ServerSingle(gameObject);
 				Explosion.StartExplosion(worldPos, bombStrength);
 			}
+		}
+
+		public async void Countdown()
+		{
+			bombIsCountingDown = true;
+			if(isOpen) pizzaSprites.SetSpriteSO(spritePizzaBoxBombActive);
+			if (writtenNote != "")
+			{
+				Chat.AddLocalMsgToChat($"<color=red>An explsovive can be seen from the {gameObject.ExpensiveName()} " +
+				                       $"and below it is a note that reads '{writtenNote}'!</color>", gameObject);
+			}
+			if (GUI != null) GUI.StartCoroutine(GUI.UpdateTimer());
+			await Task.Delay(timeToDetonate * 1000); //Delay is in milliseconds
+			Detonate();
 		}
 
 		private void UpdatePizzaSprites()
@@ -61,6 +114,11 @@ namespace Items.Storage
 			pizzaSprites.SetActive(true);
 			if(writtenNote != "") writingSprites.SetActive(true);
 			UpdatePizzaSprites();
+			if (isArmed && detenationOnTimer == false)
+			{
+				Countdown();
+				return;
+			}
 			if (isBomb)
 			{
 				if (bombIsCountingDown)
@@ -97,7 +155,7 @@ namespace Items.Storage
 		public bool WillInteract(HandApply interaction, NetworkSide side)
 		{
 			if (DefaultWillInteract.Default(interaction, side) == false) return false;
-			if (isOpen == false || interaction.IsAltClick == false) return false;
+			if (isOpen == false && interaction.IsAltClick == false) return false;
 			return true;
 		}
 
@@ -140,6 +198,11 @@ namespace Items.Storage
 			if (isOpen == false)
 			{
 				OpenBox();
+				return;
+			}
+			if (isBomb && interaction.IsAltClick == false)
+			{
+				netTab.ServerPerformInteraction(interaction);
 				return;
 			}
 			CloseBox();
