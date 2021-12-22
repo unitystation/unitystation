@@ -15,7 +15,7 @@ public class PositionalHandApply : HandApply
 	public Vector2 TargetPosition { get; protected set; }
 
 	/// <summary>Vector pointing from the performer's position to the target position.</summary>
-	public Vector2 TargetVector => TargetPosition - Performer.transform.localPosition.To2();
+	public Vector2 TargetVector => WorldPositionTarget.To3() - Performer.RegisterTile().WorldPosition;
 
 	/// <summary>Target world position calculated from matrix local position.</summary>
 	public Vector2 WorldPositionTarget => (Vector2) TargetPosition.To3().ToWorld(Performer.RegisterTile().Matrix);

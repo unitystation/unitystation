@@ -38,7 +38,7 @@ public class AimApply : BodyPartTargetedInteraction
 	public Vector2 WorldPositionTarget => (Vector2)targetPosition.To3().ToWorld(Performer.RegisterTile().Matrix);
 
 	/// <summary>Vector pointing from the performer's position to the target position.</summary>
-	public Vector2 TargetVector => targetPosition - Performer.transform.localPosition.To2();
+	public Vector2 TargetVector => WorldPositionTarget.To3() - Performer.RegisterTile().WorldPosition;
 
 	/// <summary>
 	/// Whether player is aiming at themselves.
