@@ -10,12 +10,12 @@ namespace Systems.Radiation
 {
 	public class RadiationThread : ThreadedBehaviour
 	{
-		private HashSet<Vector2Int> CircleCircumference = new HashSet<Vector2Int>();
-		private HashSet<RadiationNode> CircleArea = new HashSet<RadiationNode>();
+		private readonly HashSet<Vector2Int> CircleCircumference = new HashSet<Vector2Int>();
+		private readonly HashSet<RadiationNode> CircleArea = new HashSet<RadiationNode>();
 
-		private List<RadiationPulse> WorkingPulseQueue = new List<RadiationPulse>();
+		private readonly List<RadiationPulse> WorkingPulseQueue = new List<RadiationPulse>();
 
-		private Stopwatch StopWatchlog = new Stopwatch();
+		private readonly Stopwatch StopWatchlog = new Stopwatch();
 		public override void ThreadedWork()
 		{
 			RadiationManager.Instance.sampler.Begin();
@@ -101,7 +101,6 @@ namespace Systems.Radiation
 					d = d + 4 * x + 6;
 
 				drawCircle(xc, yc, x, y);
-				//delay(50);
 			}
 		}
 

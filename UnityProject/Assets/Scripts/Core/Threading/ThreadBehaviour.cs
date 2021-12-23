@@ -113,7 +113,7 @@ public class ThreadedBehaviour : MonoBehaviour
 			workingThread = null;
 		}
 		currentThreads.Remove(this);
-		Logger.LogFormat("<b>{0}</b> Stopped", Category.Threading, GetType().Name); ;
+		Logger.LogFormat("<b>{0}</b> Stopped", Category.Threading, GetType().Name);
 		running = false;
 	}
 
