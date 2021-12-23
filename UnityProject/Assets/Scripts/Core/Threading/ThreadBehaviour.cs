@@ -14,7 +14,7 @@ public class ThreadedBehaviour : MonoBehaviour
 	public int tickSpeed = 100;
 
 	private Thread workingThread;
-	public static List<ThreadedBehaviour> currentThreads = new List<ThreadedBehaviour>();
+	public static readonly List<ThreadedBehaviour> currentThreads = new List<ThreadedBehaviour>();
 
 	[OnValueChanged(nameof(OnThreadModeChange))]
 	public ThreadMode threadMode = ThreadMode.Threaded;
