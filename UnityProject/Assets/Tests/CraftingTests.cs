@@ -1,15 +1,17 @@
+using System;
 using System.Collections.Generic;
 using System.Text;
 using Systems.CraftingV2;
 using NUnit.Framework;
 using UnityEditor;
 using UnityEngine;
+using Util;
 
 namespace Tests
 {
 	public class CraftingTests
 	{
-		private string recipesPath = "Assets/ScriptableObjects/Crafting/Recipes";
+		private readonly string recipesPath = "Assets/ScriptableObjects/Crafting/Recipes";
 
 		[Test]
 		public void CheckCraftingIndex()
@@ -101,38 +103,7 @@ namespace Tests
 			// <Parent, List<parent's heirs>> or something like that. Heirs can also have its heirs, so they also
 			// can be parents and should be presented in this dictionary with the matching key.
 			Dictionary<GameObject, HashSet<GameObject>> parentsAndChilds =
-				new Dictionary<GameObject, HashSet<GameObject>>();
-			string[] possibleIngredientPrefabGuids =
-				AssetDatabase.FindAssets("t:prefab", new[] {"Assets/Prefabs"});
-
-			foreach (string possibleIngredientPrefabGuid in possibleIngredientPrefabGuids)
-			{
-				GameObject possibleChildIngredient = AssetDatabase.LoadAssetAtPath<GameObject>(
-					AssetDatabase.GUIDToAssetPath(possibleIngredientPrefabGuid)
-				);
-				// i don't know how but maybe someone sometime will just remove this component from a game object...
-				if (possibleChildIngredient.GetComponent<CraftingIngredient>() == null)
-				{
-					continue;
-				}
-				// assuming that game object as a prefab variant and trying to find its base
-				GameObject parent = PrefabUtility.GetCorrespondingObjectFromSource(possibleChildIngredient);
-				// is it not a variant?
-				if (parent == null)
-				{
-					// yes so no need to add it somewhere
-					continue;
-				}
-
-				// have we met this ingredient first time?
-				if (parentsAndChilds.ContainsKey(parent) == false)
-				{
-					parentsAndChilds[parent] = new HashSet<GameObject>();
-					continue;
-				}
-
-				parentsAndChilds[parent].Add(possibleChildIngredient);
-			}
+				FindUtils.BuildAndGetInheritanceDictionaryOfPrefabs(new List<Type> {typeof(CraftingIngredient)});
 
 			// yes we can search without this recipesPath but i don't wanna make this test run for 5 minutes
 			string[] recipeGuids = AssetDatabase.FindAssets("t:CraftingRecipe", new[] {recipesPath});
@@ -199,7 +170,7 @@ namespace Tests
 				{
 					report
 						.AppendLine()
-						.Append($"A crafting ingredient ({requiredIngredient}) has a wrong related recipe")
+						.Append($"A crafting ingredient ({requiredIngredient}) has a wrong related recipe ")
 						.Append($"index. Expected: {indexInRecipe}, but found: {relatedRecipe.IngredientIndex}.");
 				}
 				break;
@@ -214,7 +185,7 @@ namespace Tests
 					.Append("ingredient (prefab) or any of it's heirs (prefab variants).");
 			}
 
-			if (!parentsAndChilds.ContainsKey(requiredIngredient))
+			if (parentsAndChilds.ContainsKey(requiredIngredient) == false)
 			{
 				return;
 			}
