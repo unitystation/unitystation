@@ -1,4 +1,7 @@
-﻿using UnityEngine;
+﻿using System;
+using System.Collections.Generic;
+using Doors;
+using UnityEngine;
 
 namespace Systems.MobAIs
 {
@@ -6,31 +9,28 @@ namespace Systems.MobAIs
 	/// AI brain specifically trained to perform
 	/// following behaviours
 	/// </summary>
-	public class MobFollow : MobAgent
+	public class MobFollow : MobObjective
 	{
-		public GameObject FollowTarget;
-		protected RegisterTile TargetTile;
 
-		private float distanceCache = 0;
+		public RegisterTile MobTile;
+		public RegisterTile FollowTarget;
 
-		public override void OnEnable()
-		{
-			base.OnEnable();
-			OriginTile = GetComponent<RegisterTile>();
-		}
-		public override void AgentReset()
-		{
-			distanceCache = 0;
-			base.AgentReset();
-		}
+		public float PriorityBalance = 25;
 
-		protected override void AgentServerStart()
+		public Directional directional;
+
+		private List<Vector3Int> Directions = new List<Vector3Int>()
 		{
-			//begin following:
-			if (FollowTarget != null)
-			{
-				activated = true;
-			}
+			new Vector3Int(1, 0, 0),
+			new Vector3Int(-1, 0, 0),
+			new Vector3Int(0, 1, 0),
+			new Vector3Int(0, -1, 0),
+		};
+
+		public void Awake()
+		{
+			MobTile = GetComponent<RegisterTile>();
+			directional = GetComponent<Directional>();
 		}
 
 		/// <summary>
@@ -38,9 +38,7 @@ namespace Systems.MobAIs
 		/// </summary>
 		public void StartFollowing(GameObject target)
 		{
-			FollowTarget = target;
-			TargetTile = FollowTarget.GetComponent<RegisterTile>();
-			Activate();
+			FollowTarget = target.GetComponent<RegisterTile>();
 		}
 
 		/// <summary>
@@ -48,85 +46,106 @@ namespace Systems.MobAIs
 		/// </summary>
 		public float TargetDistance()
 		{
-			return Vector3.Distance(TargetTile.WorldPositionServer, OriginTile.WorldPositionServer);
+			return Vector3.Distance(FollowTarget.WorldPositionServer, MobTile.WorldPositionServer);
 		}
 
-		public override void CollectObservations()
+		public override void ContemplatePriority()
 		{
-			//You need to feed ML agents null obs
-			//if the follow target is null
-			//otherwise ML agents will break
 			if (FollowTarget == null)
 			{
-				AddVectorObs(0f);
-				AddVectorObs(0f);
-				AddVectorObs(Vector2.zero);
-				ObserveAdjacentTiles(true);
-				return;
-			}
-
-			var curDist = TargetDistance();
-			if (distanceCache == 0)
-			{
-				distanceCache = curDist;
-			}
-
-			AddVectorObs(curDist / 100f);
-			AddVectorObs(distanceCache / 100f);
-			//Observe the direction to target
-			AddVectorObs((TargetTile.WorldPositionServer - OriginTile.WorldPositionServer).NormalizeTo2Int());
-
-			ObserveAdjacentTiles(true, TargetTile);
-		}
-
-		public override void AgentAction(float[] vectorAction, string textAction)
-		{
-			if (FollowTarget == null) return;
-
-			PerformMoveAction(Mathf.FloorToInt(vectorAction[0]));
-		}
-
-		protected override void OnPushSolid(Vector3Int destination)
-		{
-			if (destination == Vector3Int.RoundToInt(TargetTile.WorldPositionServer))
-			{
-				SetReward(1f);
-			}
-		}
-
-		protected override void OnTileReached(Vector3Int tilePos)
-		{
-			if (!activated || FollowTarget == null) return;
-
-			var compareDist = TargetDistance();
-
-			if (compareDist < distanceCache)
-			{
-				SetReward(calculateReward(compareDist));
-				distanceCache = compareDist;
-			}
-
-			if (compareDist < 0.5f)
-			{
-				Done();
-				SetReward(2f);
-			}
-			base.OnTileReached(tilePos);
-		}
-
-		float calculateReward(float dist)
-		{
-			float reward = 0f;
-			if (dist > 50f)
-			{
-				return reward;
+				Priority = 0;
 			}
 			else
 			{
-				reward = Mathf.Lerp(1f, 0f, dist / 50f);
+				var Distance = TargetDistance();
+				if (Distance > 15)
+				{
+					FollowTarget = null;
+					Priority = 0;
+					return;
+				}
+				else
+				{
+
+					var MoveToRelative = (MobTile.WorldPositionServer - FollowTarget.WorldPositionServer).ToNonInt3();
+					MoveToRelative.Normalize();
+					var StepDirectionWorld = ChooseDominantDirection(MoveToRelative);
+					var MoveTo = MobTile.WorldPositionServer + StepDirectionWorld;
+					var LocalMoveTo = MoveTo.ToLocal(MobTile.Matrix).RoundToInt();
+
+					if (MobTile.Matrix.MetaTileMap.IsPassableAtOneTileMap(MobTile.LocalPositionServer, LocalMoveTo, true))
+					{
+						Move(StepDirectionWorld);
+					}
+					else
+					{
+						Move(Directions.PickRandom());
+					}
+				}
+			}
+		}
+
+		public void Move(Vector3Int dirToMove)
+		{
+			var dest = MobTile.LocalPositionServer + (Vector3Int)dirToMove;
+
+			if (!MobTile.customNetTransform.Push(dirToMove.To2Int(), context: gameObject))
+			{
+
+				DoorController tryGetDoor =
+					MobTile.Matrix.GetFirst<DoorController>(
+						dest, true);
+				if (tryGetDoor)
+				{
+					tryGetDoor.MobTryOpen(gameObject);
+				}
+
+				//New doors
+				DoorMasterController tryGetDoorMaster =
+					MobTile.Matrix.GetFirst<DoorMasterController>(
+						dest, true);
+				if (tryGetDoorMaster)
+				{
+					tryGetDoorMaster.Bump(gameObject);
+				}
 			}
 
-			return reward;
+			if (directional != null)
+			{
+				directional.FaceDirection(Orientation.From(dirToMove.To2Int()));
+			}
+		}
+
+
+		public Vector3Int ChooseDominantDirection(Vector3 InD)
+		{
+			if (Mathf.Abs(InD.x) > Mathf.Abs(InD.y))
+			{
+				if (InD.x > 0)
+				{
+					return new Vector3Int(1, 0, 0);
+				}
+				else
+				{
+					return new Vector3Int(-1, 0, 0);
+				}
+			}
+			else
+			{
+				if (InD.y > 0)
+				{
+					return new Vector3Int(0, 1, 0);
+				}
+				else
+				{
+					return new Vector3Int(0, -1, 0);
+				}
+			}
+		}
+
+		public override void DoAction()
+		{
+
 		}
 	}
 }

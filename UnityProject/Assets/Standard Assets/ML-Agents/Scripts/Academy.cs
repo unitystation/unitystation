@@ -598,7 +598,7 @@ namespace MLAgents
         /// </summary>
         void FixedUpdate()
         {
-            EnvironmentStep();
+            // EnvironmentStep();
         }
 
         /// <summary>
