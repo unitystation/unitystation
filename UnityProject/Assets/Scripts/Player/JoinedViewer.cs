@@ -56,7 +56,8 @@ public class JoinedViewer : NetworkBehaviour
 			Username = unverifiedUsername,
 			Job = JobType.NULL,
 			ClientId = unverifiedClientId,
-			UserId = unverifiedUserid
+			UserId = unverifiedUserid,
+			ConnectionIP = connectionToClient.address
 		});
 
 		// this validates Userid and Token

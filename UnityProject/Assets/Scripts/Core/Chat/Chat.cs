@@ -91,7 +91,7 @@ public partial class Chat : MonoBehaviour
 		//Sanity check for null username
 		if (string.IsNullOrWhiteSpace(sentByPlayer.Username))
 		{
-			Logger.Log($"Null/empty Username, Details: Username: {sentByPlayer.Username}, ClientID: {sentByPlayer.ClientId}, IP: {sentByPlayer.Connection.address}",
+			Logger.Log($"Null/empty Username, Details: Username: {sentByPlayer.Username}, ClientID: {sentByPlayer.ClientId}, IP: {sentByPlayer.ConnectionIP}",
 				Category.Admin);
 			return;
 		}
