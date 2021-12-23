@@ -82,10 +82,9 @@ namespace Messages.Server.AdminTools
 				entry.uid = player.UserId;
 				entry.currentJob = player.Job.ToString();
 				entry.accountName = player.Username;
-				if (player.Connection != null)
-				{
-					entry.ipAddress = player.Connection.address;
-				}
+
+				entry.ipAddress = player.ConnectionIP;
+
 
 				if (player.Script != null && player.Script.playerHealth != null)
 				{

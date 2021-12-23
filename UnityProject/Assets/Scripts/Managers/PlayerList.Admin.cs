@@ -325,7 +325,7 @@ public partial class PlayerList
 		{
 			StartCoroutine(KickPlayer(unverifiedConnPlayer, $"Server Error: Account has invalid cookie."));
 			Logger.Log($"A user tried to connect with null userid or token value" +
-					   $"Details: Username: {unverifiedConnPlayer.Username}, ClientID: {unverifiedConnPlayer.ClientId}, IP: {unverifiedConnPlayer.Connection.address}",
+					   $"Details: Username: {unverifiedConnPlayer.Username}, ClientID: {unverifiedConnPlayer.ClientId}, IP: {unverifiedConnPlayer.ConnectionIP}",
 				Category.Admin);
 			return false;
 		}
@@ -343,7 +343,7 @@ public partial class PlayerList
 						StartCoroutine(
 							KickPlayer(unverifiedConnPlayer, $"Server Error: You are already logged into this server!"));
 						Logger.Log($"A user tried to connect with another client while already logged in \r\n" +
-								   $"Details: Username: {unverifiedConnPlayer.Username}, ClientID: {unverifiedConnPlayer.ClientId}, IP: {unverifiedConnPlayer.Connection.address}",
+								   $"Details: Username: {unverifiedConnPlayer.Username}, ClientID: {unverifiedConnPlayer.ClientId}, IP: {unverifiedConnPlayer.ConnectionIP}",
 							Category.Admin);
 						return false;
 					}
@@ -356,7 +356,7 @@ public partial class PlayerList
 				StartCoroutine(
 					KickPlayer(unverifiedConnPlayer, $"Server Error: You already have an existing connection with the server!"));
 				Logger.LogWarning($"Warning 2 simultaneous connections from same IP detected\r\n" +
-						   $"Details: Unverified Username: {unverifiedConnPlayer.Username}, Unverified ClientID: {unverifiedConnPlayer.ClientId}, IP: {unverifiedConnPlayer.Connection.address}",
+						   $"Details: Unverified Username: {unverifiedConnPlayer.Username}, Unverified ClientID: {unverifiedConnPlayer.ClientId}, IP: {unverifiedConnPlayer.ConnectionIP}",
 					Category.Admin);
 			}
 		}
@@ -371,7 +371,7 @@ public partial class PlayerList
 			{
 				StartCoroutine(KickPlayer(unverifiedConnPlayer, $"Server Error: Server request error"));
 				Logger.Log($"Server request error for " +
-						   $"Details: Username: {unverifiedConnPlayer.Username}, ClientID: {unverifiedConnPlayer.ClientId}, IP: {unverifiedConnPlayer.Connection.address}",
+						   $"Details: Username: {unverifiedConnPlayer.Username}, ClientID: {unverifiedConnPlayer.ClientId}, IP: {unverifiedConnPlayer.ConnectionIP}",
 					Category.Admin);
 				return false;
 			}
@@ -386,7 +386,7 @@ public partial class PlayerList
 		{
 			StartCoroutine(KickPlayer(unverifiedConnPlayer, $"Server Error: Account has invalid username (Null/Empty)."));
 			Logger.Log($"A user tried to connect with null/empty username" +
-			           $"Details: Username: {unverifiedConnPlayer.Username}, ClientID: {unverifiedConnPlayer.ClientId}, IP: {unverifiedConnPlayer.Connection.address}",
+			           $"Details: Username: {unverifiedConnPlayer.Username}, ClientID: {unverifiedConnPlayer.ClientId}, IP: {unverifiedConnPlayer.ConnectionIP}",
 				Category.Admin);
 			return false;
 		}
@@ -396,7 +396,7 @@ public partial class PlayerList
 		{
 			StartCoroutine(KickPlayer(unverifiedConnPlayer, $"Server Error: Account has invalid cookie."));
 			Logger.Log($"A spoof attempt was recorded. " +
-					   $"Details: Username: {unverifiedConnPlayer.Username}, ClientID: {unverifiedConnPlayer.ClientId}, IP: {unverifiedConnPlayer.Connection.address}",
+					   $"Details: Username: {unverifiedConnPlayer.Username}, ClientID: {unverifiedConnPlayer.ClientId}, IP: {unverifiedConnPlayer.ConnectionIP}",
 				Category.Admin);
 			return false;
 		}
@@ -433,12 +433,12 @@ public partial class PlayerList
 			StartCoroutine(KickPlayer(unverifiedConnPlayer, $"Server Error: This account is not whitelisted."));
 
 			Logger.Log($"{unverifiedConnPlayer.Username} tried to log in but the account is not whitelisted. " +
-						   $"IP: {unverifiedConnPlayer.Connection.address}", Category.Admin);
+						   $"IP: {unverifiedConnPlayer.ConnectionIP}", Category.Admin);
 			return false;
 		}
 
 		//Banlist checking:
-		var banEntry = banList?.CheckForEntry(userId, unverifiedConnPlayer.Connection.address, unverifiedConnPlayer.ClientId);
+		var banEntry = banList?.CheckForEntry(userId, unverifiedConnPlayer.ConnectionIP, unverifiedConnPlayer.ClientId);
 		if (banEntry != null)
 		{
 			var entryTime = DateTime.ParseExact(banEntry.dateTimeOfBan, "O", CultureInfo.InvariantCulture);
@@ -456,7 +456,7 @@ public partial class PlayerList
 				StartCoroutine(KickPlayer(unverifiedConnPlayer, $"Server Error: This account is banned. " +
 													  $"You were banned for {banEntry.reason}. This ban has {banEntry.minutes - totalMins} minutes remaining."));
 				Logger.Log($"{unverifiedConnPlayer.Username} tried to log back in but the account is banned. " +
-						   $"IP: {unverifiedConnPlayer.Connection.address}", Category.Admin);
+						   $"IP: {unverifiedConnPlayer.ConnectionIP}", Category.Admin);
 				return false;
 			}
 		}
@@ -520,7 +520,7 @@ public partial class PlayerList
 	public JobBanEntry FindPlayerJobBanEntry(ConnectedPlayer connPlayer, JobType jobType, bool serverSideCheck)
 	{
 		//jobbanlist checking:
-		var jobBanPlayerEntry = jobBanList?.CheckForEntry(connPlayer.UserId, connPlayer.Connection.address, connPlayer.ClientId);
+		var jobBanPlayerEntry = jobBanList?.CheckForEntry(connPlayer.UserId, connPlayer.ConnectionIP, connPlayer.ClientId);
 
 		if (jobBanPlayerEntry.Value.Item1 == null)
 		{
@@ -553,7 +553,7 @@ public partial class PlayerList
 			if (!serverSideCheck) return jobBanEntry;
 
 			//User is still banned and has bypassed join data client check!!!!:
-			Logger.Log($"{connPlayer.Username} has bypassed the client side check for ban entry, possible hack attempt. " + $"IP: {connPlayer.Connection.address}", Category.Admin);
+			Logger.Log($"{connPlayer.Username} has bypassed the client side check for ban entry, possible hack attempt. " + $"IP: {connPlayer.ConnectionIP}", Category.Admin);
 			return jobBanEntry;
 		}
 
@@ -575,7 +575,7 @@ public partial class PlayerList
 		}
 
 		string playerUserID = connPlayer.UserId;
-		string playerAddress = connPlayer.Connection.address;
+		string playerAddress = connPlayer.ConnectionIP;
 		string playerClientID = connPlayer.ClientId;
 
 		//jobbanlist checking:
@@ -605,11 +605,11 @@ public partial class PlayerList
 				JobBanExpireCheck(jobBan, jobBanPlayerEntry.Value.Item2, connPlayer);
 			}
 
-			if (jobBanList?.CheckForEntry(connPlayer.UserId, connPlayer.Connection.address, connPlayer.ClientId).Item1.jobBanEntry.Count == 0) break;
+			if (jobBanList?.CheckForEntry(connPlayer.UserId, connPlayer.ConnectionIP, connPlayer.ClientId).Item1.jobBanEntry.Count == 0) break;
 		}
 
 		var newJobBanPlayerEntry = jobBanList
-			?.CheckForEntry(connPlayer.UserId, connPlayer.Connection.address, connPlayer.ClientId).Item1.jobBanEntry;
+			?.CheckForEntry(connPlayer.UserId, connPlayer.ConnectionIP, connPlayer.ClientId).Item1.jobBanEntry;
 
 		if (newJobBanPlayerEntry == null)
 		{
@@ -820,7 +820,7 @@ public partial class PlayerList
 		if (adminUsers.Contains(userid) || (GameData.Instance.OfflineMode && playerConn.GameObject == PlayerManager.LocalViewerScript.gameObject))
 		{
 			//This is an admin, send admin notify to the users client
-			Logger.Log($"{playerConn.Username} logged in as Admin. IP: {playerConn.Connection.address}", Category.Admin);
+			Logger.Log($"{playerConn.Username} logged in as Admin. IP: {playerConn.ConnectionIP}", Category.Admin);
 			var newToken = System.Guid.NewGuid().ToString();
 			if (!loggedInAdmins.ContainsKey(userid))
 			{
@@ -834,7 +834,7 @@ public partial class PlayerList
 	{
 		if (mentorUsers.Contains(userid) && !adminUsers.Contains(userid))
 		{
-			Logger.Log($"{playerConn.Username} logged in as Mentor. IP: {playerConn.Connection.address}", Category.Admin);
+			Logger.Log($"{playerConn.Username} logged in as Mentor. IP: {playerConn.ConnectionIP}", Category.Admin);
 			var newToken = System.Guid.NewGuid().ToString();
 			if (!loggedInMentors.ContainsKey(userid))
 			{
@@ -1117,7 +1117,7 @@ public partial class PlayerList
 		);
 
 		//jobbanlist checking:
-		var jobBanPlayerEntry = jobBanList?.CheckForEntry(connPlayer.UserId, connPlayer.Connection.address, connPlayer.ClientId);
+		var jobBanPlayerEntry = jobBanList?.CheckForEntry(connPlayer.UserId, connPlayer.ConnectionIP, connPlayer.ClientId);
 
 		if (jobBanPlayerEntry.Value.Item1 == null)
 		{
@@ -1127,14 +1127,14 @@ public partial class PlayerList
 			{
 				userId = connPlayer?.UserId,
 				userName = connPlayer?.Username,
-				ipAddress = connPlayer?.Connection?.address,
+				ipAddress = connPlayer?.ConnectionIP,
 				clientId = connPlayer?.ClientId,
 				jobBanEntry = new List<JobBanEntry>(),
 				adminId = admin?.UserId,
 				adminName = admin?.Username
 			});
 
-			jobBanPlayerEntry = jobBanList?.CheckForEntry(connPlayer.UserId, connPlayer.Connection.address, connPlayer.ClientId);
+			jobBanPlayerEntry = jobBanList?.CheckForEntry(connPlayer.UserId, connPlayer.ConnectionIP, connPlayer.ClientId);
 		}
 
 		if (jobBanPlayerEntry.Value.Item1 == null)
