@@ -421,7 +421,8 @@ namespace Core.Editor.Tools
 				Logger.Log(
 					$"A crafting ingredient ({requiredIngredient}) didn't have a link to a recipe " +
 					$"({checkingRecipe}) in its RelatedRecipes list, since the recipe requires this " +
-					"ingredient (prefab) or any of it's heirs (prefab variants). The problem was fixed automatically."
+					"ingredient (prefab), any of it's heirs (prefab variants) " +
+					"or even some parents (prefab sources aka bases)."
 				);
 				craftingIngredient.RelatedRecipes.Add(new RelatedRecipe(checkingRecipe, indexInRecipe));
 				PrefabUtility.SavePrefabAsset(requiredIngredient);

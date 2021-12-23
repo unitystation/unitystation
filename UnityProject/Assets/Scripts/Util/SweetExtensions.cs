@@ -7,10 +7,7 @@ using Mirror;
 using UnityEngine;
 using Random = UnityEngine.Random;
 using System.Text;
-using System.Text.RegularExpressions;
 using Items;
-using UnityEditor;
-using Util;
 
 public static class SweetExtensions
 {

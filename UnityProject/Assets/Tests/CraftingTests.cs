@@ -182,7 +182,8 @@ namespace Tests
 					.AppendLine()
 					.Append($"A crafting ingredient ({requiredIngredient}) should have a link to a recipe ")
 					.Append($"({checkingRecipe}) in its RelatedRecipes list, since the recipe requires this ")
-					.Append("ingredient (prefab) or any of it's heirs (prefab variants).");
+					.Append("ingredient (prefab), any of it's heirs (prefab variants) ")
+					.Append("or even some parents (prefab sources aka bases).");
 			}
 
 			if (parentsAndChilds.ContainsKey(requiredIngredient) == false)
