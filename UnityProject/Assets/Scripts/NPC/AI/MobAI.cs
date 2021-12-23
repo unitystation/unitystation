@@ -46,15 +46,6 @@ namespace Systems.MobAIs
 		protected UnityEvent exploringStopped = new UnityEvent();
 		protected UnityEvent fleeingStopped = new UnityEvent();
 
-		/// <summary>
-		/// Is MobAI currently performing an AI task like following or exploring
-		/// </summary>
-		public bool IsPerformingTask {
-			get {
-				return (mobExplore.activated || mobFollow.activated || mobFlee.activated);
-			}
-		}
-
 		public bool IsDead => health.IsDead;
 
 		public bool IsUnconscious => health.IsCrit;
@@ -197,7 +188,7 @@ namespace Systems.MobAIs
 
 		private void MonitorFollowingTime()
 		{
-			if (mobFollow.activated && followTimeMax > 0)
+			if (mobFollow.Priority < 25 && followTimeMax > 0)
 			{
 				followingTime += Time.deltaTime;
 				if (followingTime > followTimeMax)
@@ -209,7 +200,7 @@ namespace Systems.MobAIs
 
 		private void MonitorExploreTime()
 		{
-			if (mobExplore.activated && exploreTimeMax > 0)
+			if (mobExplore.Priority  < 25 && exploreTimeMax > 0)
 			{
 				exploringTime += Time.deltaTime;
 				if (exploringTime > exploreTimeMax)
@@ -273,7 +264,7 @@ namespace Systems.MobAIs
 		/// </summary>
 		protected void StopFollowing()
 		{
-			mobFollow.Deactivate();
+			mobFollow.FollowTarget = null;
 			followTimeMax = -1f;
 			followingTime = 0f;
 			followingStopped.Invoke();
@@ -295,7 +286,6 @@ namespace Systems.MobAIs
 		/// </summary>
 		protected void StopExploring()
 		{
-			mobExplore.Deactivate();
 			exploreTimeMax = -1f;
 			exploringTime = 0f;
 			exploringStopped.Invoke();
@@ -431,16 +421,6 @@ namespace Systems.MobAIs
 			if (mobFlee.activated)
 			{
 				mobFlee.Deactivate();
-			}
-
-			if (mobFollow.activated)
-			{
-				mobFollow.Deactivate();
-			}
-
-			if (mobExplore.activated)
-			{
-				mobExplore.Deactivate();
 			}
 
 			fleeTimeMax = -1f;

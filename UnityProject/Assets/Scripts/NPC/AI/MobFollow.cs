@@ -12,26 +12,14 @@ namespace Systems.MobAIs
 	public class MobFollow : MobObjective
 	{
 
-		public RegisterTile MobTile;
 		public RegisterTile FollowTarget;
 
 		public float PriorityBalance = 25;
 
-		public Directional directional;
 
-		private List<Vector3Int> Directions = new List<Vector3Int>()
-		{
-			new Vector3Int(1, 0, 0),
-			new Vector3Int(-1, 0, 0),
-			new Vector3Int(0, 1, 0),
-			new Vector3Int(0, -1, 0),
-		};
 
-		public void Awake()
-		{
-			MobTile = GetComponent<RegisterTile>();
-			directional = GetComponent<Directional>();
-		}
+
+
 
 		/// <summary>
 		/// Make the mob start following a target
@@ -66,86 +54,36 @@ namespace Systems.MobAIs
 				}
 				else
 				{
-
-					var MoveToRelative = (MobTile.WorldPositionServer - FollowTarget.WorldPositionServer).ToNonInt3();
-					MoveToRelative.Normalize();
-					var StepDirectionWorld = ChooseDominantDirection(MoveToRelative);
-					var MoveTo = MobTile.WorldPositionServer + StepDirectionWorld;
-					var LocalMoveTo = MoveTo.ToLocal(MobTile.Matrix).RoundToInt();
-
-					if (MobTile.Matrix.MetaTileMap.IsPassableAtOneTileMap(MobTile.LocalPositionServer, LocalMoveTo, true))
+					if (Distance > 1.5f)
 					{
-						Move(StepDirectionWorld);
+						Priority += PriorityBalance;
 					}
 					else
 					{
-						Move(Directions.PickRandom());
+						Priority += PriorityBalance / 10;
 					}
 				}
 			}
 		}
 
-		public void Move(Vector3Int dirToMove)
-		{
-			var dest = MobTile.LocalPositionServer + (Vector3Int)dirToMove;
 
-			if (!MobTile.customNetTransform.Push(dirToMove.To2Int(), context: gameObject))
-			{
-
-				DoorController tryGetDoor =
-					MobTile.Matrix.GetFirst<DoorController>(
-						dest, true);
-				if (tryGetDoor)
-				{
-					tryGetDoor.MobTryOpen(gameObject);
-				}
-
-				//New doors
-				DoorMasterController tryGetDoorMaster =
-					MobTile.Matrix.GetFirst<DoorMasterController>(
-						dest, true);
-				if (tryGetDoorMaster)
-				{
-					tryGetDoorMaster.Bump(gameObject);
-				}
-			}
-
-			if (directional != null)
-			{
-				directional.FaceDirection(Orientation.From(dirToMove.To2Int()));
-			}
-		}
-
-
-		public Vector3Int ChooseDominantDirection(Vector3 InD)
-		{
-			if (Mathf.Abs(InD.x) > Mathf.Abs(InD.y))
-			{
-				if (InD.x > 0)
-				{
-					return new Vector3Int(1, 0, 0);
-				}
-				else
-				{
-					return new Vector3Int(-1, 0, 0);
-				}
-			}
-			else
-			{
-				if (InD.y > 0)
-				{
-					return new Vector3Int(0, 1, 0);
-				}
-				else
-				{
-					return new Vector3Int(0, -1, 0);
-				}
-			}
-		}
 
 		public override void DoAction()
 		{
+			var moveToRelative = (MobTile.WorldPositionServer - FollowTarget.WorldPositionServer).ToNonInt3();
+			moveToRelative.Normalize();
+			var stepDirectionWorld = ChooseDominantDirection(moveToRelative);
+			var moveTo = MobTile.WorldPositionServer + stepDirectionWorld;
+			var localMoveTo = moveTo.ToLocal(MobTile.Matrix).RoundToInt();
 
+			if (MobTile.Matrix.MetaTileMap.IsPassableAtOneTileMap(MobTile.LocalPositionServer, localMoveTo, true))
+			{
+				Move(stepDirectionWorld);
+			}
+			else
+			{
+				Move(Directions.PickRandom());
+			}
 		}
 	}
 }

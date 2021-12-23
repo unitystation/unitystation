@@ -51,31 +51,15 @@ namespace Systems.MobAIs
 		/// </summary>
 		protected float TetherRange = 30f;
 
-		public override void OnEnable()
+		public  void OnEnable()
 		{
-			base.OnEnable();
 			playersLayer = LayerMask.NameToLayer("Players");
 			npcLayer = LayerMask.NameToLayer("NPC");
 			checkMask = LayerMask.GetMask("Players", "NPC", "Objects");
 			mobAI = GetComponent<MobAI>();
 		}
 
-		protected override void OnPushSolid(Vector3Int destination)
-		{
-			CheckForTargetAction();
-		}
 
-		protected override void OnTileReached(Vector3Int tilePos)
-		{
-			base.OnTileReached(tilePos);
-			CheckForTargetAction();
-		}
-
-		public void ForceTargetAction()
-		{
-			if(Pause || isActing || lerping) return;
-			CheckForTargetAction();
-		}
 
 		/// <summary>
 		/// Determines if the target of the action can be acted upon and what kind of target it is.
@@ -88,9 +72,9 @@ namespace Systems.MobAIs
 			{
 				return false;
 			}
-			var dir = (hitInfo.TileHitWorld - OriginTile.WorldPositionServer).normalized;
+			var dir = (hitInfo.TileHitWorld - MobTile.WorldPositionServer).normalized;
 
-			if (hitInfo.CollisionHit.GameObject != null && (hitInfo.TileHitWorld - OriginTile.WorldPositionServer).sqrMagnitude <= 4)
+			if (hitInfo.CollisionHit.GameObject != null && (hitInfo.TileHitWorld - MobTile.WorldPositionServer).sqrMagnitude <= 4)
 			{
 				if (onlyActOnTarget)
 				{
@@ -133,9 +117,9 @@ namespace Systems.MobAIs
 					//Continue if it still exists and is in range
 					if (FollowTarget != null && TargetDistance() < TetherRange)
 					{
-						Vector3 dir = (Vector3)(TargetTile.WorldPositionServer - OriginTile.WorldPositionServer).Normalize() / 1.5f;
-						var hitInfo = MatrixManager.Linecast(OriginTile.WorldPositionServer + dir,
-							LayerTypeSelection.Windows | LayerTypeSelection.Grills, checkMask, TargetTile.WorldPositionServer);
+						Vector3 dir = (Vector3)(FollowTarget.WorldPositionServer - MobTile.WorldPositionServer).Normalize() / 1.5f;
+						var hitInfo = MatrixManager.Linecast(MobTile.WorldPositionServer + dir,
+							LayerTypeSelection.Windows | LayerTypeSelection.Grills, checkMask, FollowTarget.WorldPositionServer);
 
 						if (hitInfo.ItHit)
 						{
@@ -146,7 +130,6 @@ namespace Systems.MobAIs
 			}
 
 			FollowTarget = null;
-			Deactivate();
 			return new MatrixManager.CustomPhysicsHit();
 		}
 
@@ -206,7 +189,7 @@ namespace Systems.MobAIs
 
 				if (targetOtherPlayersWhoGetInWay)
 				{
-					FollowTarget = hitInfo.CollisionHit.GameObject;
+					FollowTarget = hitInfo.CollisionHit.GameObject.GetComponent<RegisterTile>();
 					return true;
 				}
 			}
@@ -300,7 +283,6 @@ namespace Systems.MobAIs
 		{
 			directional.FaceDirection(Orientation.From(dir));
 
-			Pause = true;
 			isActing = true;
 			MobMeleeLerpMessage.Send(gameObject, dir);
 			StartCoroutine(WaitForLerp());
@@ -325,7 +307,6 @@ namespace Systems.MobAIs
 
 		protected virtual void DeterminePostAction()
 		{
-			Pause = false;
 			if (Random.value > 0.2f) //80% chance of hitting the target again
 			{
 				CheckForTargetAction();
@@ -349,10 +330,10 @@ namespace Systems.MobAIs
 			isForLerpBack = false;
 		}
 
-		protected override void ServerUpdateMe()
+		protected void ServerUpdateMe()
 		{
 			CheckLerping();
-			base.ServerUpdateMe();
+
 		}
 
 		private void CheckLerping()
@@ -375,10 +356,8 @@ namespace Systems.MobAIs
 				ResetLerp();
 				spriteHolder.transform.localPosition = Vector3.zero;
 
-				if (isServer)
-				{
-					isActing = false;
-				}
+				isActing = false;
+
 			}
 			else
 			{

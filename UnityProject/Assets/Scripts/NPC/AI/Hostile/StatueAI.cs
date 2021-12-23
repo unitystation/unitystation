@@ -84,7 +84,7 @@ namespace Systems.MobAIs
 		protected override void MonitorIdleness()
 		{
 
-			if (!mobMeleeAction.performingDecision && mobMeleeAction.FollowTarget == null && !IsSomeoneLookingAtMe())
+			if ( mobMeleeAction.FollowTarget == null && !IsSomeoneLookingAtMe())
 			{
 				BeginSearch();
 			}
