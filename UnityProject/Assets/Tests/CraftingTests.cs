@@ -171,7 +171,8 @@ namespace Tests
 					report
 						.AppendLine()
 						.Append($"A crafting ingredient ({requiredIngredient}) has a wrong related recipe ")
-						.Append($"index. Expected: {indexInRecipe}, but found: {relatedRecipe.IngredientIndex}.");
+						.Append($"index. Expected: {indexInRecipe}, but found: {relatedRecipe.IngredientIndex}.")
+						.Append("You could use Tools -> Crafting -> FixCraftingCrossLinks.");
 				}
 				break;
 			}
@@ -183,7 +184,8 @@ namespace Tests
 					.Append($"A crafting ingredient ({requiredIngredient}) should have a link to a recipe ")
 					.Append($"({checkingRecipe}) in its RelatedRecipes list, since the recipe requires this ")
 					.Append("ingredient (prefab), any of it's heirs (prefab variants) ")
-					.Append("or even some parents (prefab sources aka bases).");
+					.Append("or even some parents (prefab sources aka bases).")
+					.Append("You could use Tools -> Crafting -> FixCraftingCrossLinks.");
 			}
 
 			if (parentsAndChilds.ContainsKey(requiredIngredient) == false)
