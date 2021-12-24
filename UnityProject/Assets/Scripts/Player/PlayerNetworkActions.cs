@@ -21,6 +21,7 @@ using Player.Movement;
 using Shuttles;
 using UI.Core;
 using UI.Items;
+using Doors;
 
 public partial class PlayerNetworkActions : NetworkBehaviour
 {
@@ -1011,7 +1012,10 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	[Command]
 	public void CmdSetPaintJob(int paintJobIndex)
 	{
-		AirlockPainter painter = GetActiveHandItem().GetComponent<AirlockPainter>();
+		var handObject = GetActiveHandItem();
+
+		if (handObject == null || handObject.TryGetComponent<AirlockPainter>(out var painter) == false) return;
+
 		painter.CurrentPaintJobIndex = paintJobIndex;
 	}
 }
