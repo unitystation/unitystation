@@ -190,9 +190,9 @@ public class MetaDataLayer : MonoBehaviour
 	}
 
 	/// <summary>
-	/// Release reagents at provided coordinates, making them react with world
+	/// Release reagents at provided coordinates, making them react with world + decide what it should look like 
 	/// </summary>
-	public void ReagentReact(ReagentMix reagents, Vector3Int worldPosInt, Vector3Int localPosInt)
+	public void ReagentReact(ReagentMix reagents, Vector3Int worldPosInt, Vector3Int localPosInt, bool? isFootPrint = false)
 	{
 		var mobs = MatrixManager.GetAt<LivingHealthMasterBase>(worldPosInt, true);
 		reagents.Divide(mobs.Count() + 1);
@@ -221,7 +221,7 @@ public class MetaDataLayer : MonoBehaviour
 		//Loop though all reagent containers and add the passed in reagents
 		foreach (ReagentContainer chem in reagentContainer)
 		{
-			//If the reagent tile is a pool/puddle/splat
+			//If the reagent tile already has a pool/puddle/splat
 			if (chem.ExamineAmount == ReagentContainer.ExamineAmountMode.UNKNOWN_AMOUNT)
 			{
 				reagents.Add(chem.CurrentReagentMix);
@@ -231,8 +231,12 @@ public class MetaDataLayer : MonoBehaviour
 
 		if(reagents.Total > 0)
 		{
-			//Force clean the tile
-			Clean(worldPosInt, localPosInt, false);
+			//Foot prints should use overlays
+			if(isFootPrint == false)
+			{
+				//Force clean the tile
+				Clean(worldPosInt, localPosInt, false);
+			}
 
 			lock (reagents.reagents)
 			{
