@@ -54,14 +54,8 @@ namespace Systems.MobAIs
 				}
 				else
 				{
-					if (Distance > 1.5f)
-					{
-						Priority += PriorityBalance;
-					}
-					else
-					{
-						Priority += PriorityBalance / 10;
-					}
+
+					Priority += PriorityBalance;
 				}
 			}
 		}
@@ -70,20 +64,32 @@ namespace Systems.MobAIs
 
 		public override void DoAction()
 		{
-			var moveToRelative = (MobTile.WorldPositionServer - FollowTarget.WorldPositionServer).ToNonInt3();
+			if (FollowTarget== null) return;
+			var moveToRelative = (FollowTarget.WorldPositionServer - MobTile.WorldPositionServer ).ToNonInt3();
 			moveToRelative.Normalize();
 			var stepDirectionWorld = ChooseDominantDirection(moveToRelative);
 			var moveTo = MobTile.WorldPositionServer + stepDirectionWorld;
 			var localMoveTo = moveTo.ToLocal(MobTile.Matrix).RoundToInt();
 
-			if (MobTile.Matrix.MetaTileMap.IsPassableAtOneTileMap(MobTile.LocalPositionServer, localMoveTo, true))
+			var distance = TargetDistance();
+			if (distance > 2)
 			{
-				Move(stepDirectionWorld);
+				if (MobTile.Matrix.MetaTileMap.IsPassableAtOneTileMap(MobTile.LocalPositionServer, localMoveTo, true))
+				{
+					Move(stepDirectionWorld);
+				}
+				else
+				{
+					Move(Directions.PickRandom());
+				}
 			}
 			else
 			{
-				Move(Directions.PickRandom());
+				Move(stepDirectionWorld);
 			}
+
+
+
 		}
 	}
 }
