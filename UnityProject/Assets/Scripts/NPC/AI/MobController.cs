@@ -15,7 +15,7 @@ public class MobController : MonoBehaviour
 
 	private void OnEnable()
 	{
-		UpdateManager.Add(UpdateMe, 1);
+		UpdateManager.Add(UpdateMe, 0.85f);
 	}
 
 	private void OnDisable()

@@ -29,7 +29,7 @@ namespace Systems.MobAIs
 			players
 		}
 
-		public float PriorityBalance = 5;
+		public float PriorityBalance = 1;
 
 		[Tooltip("The reagent used by emagged cleanbots")]
 		[SerializeField] private Reagent CB_REAGENT;

@@ -15,23 +15,19 @@ namespace Systems.MobAIs
 	public class MobMeleeAction : MobFollow
 	{
 		[Tooltip("If a player gets close to this mob and blocks the mobs path to the target," +
-				 "should the mob then focus on the human blocking it?. Only works if mob is targeting" +
-				 "a player originally.")]
+		         "should the mob then focus on the human blocking it?. Only works if mob is targeting" +
+		         "a player originally.")]
 		[SerializeField]
 		protected bool targetOtherPlayersWhoGetInWay = true;
 
-		[Tooltip("Act on nothing but the target. No players in the way, no tiles, nada.")]
-		[SerializeField]
+		[Tooltip("Act on nothing but the target. No players in the way, no tiles, nada.")] [SerializeField]
 		public bool onlyActOnTarget = false;
 
-		[SerializeField]
-		private bool doLerpOnAction;
+		[SerializeField] private bool doLerpOnAction;
 
-		[SerializeField]
-		private GameObject spriteHolder = null;
+		[SerializeField] private GameObject spriteHolder = null;
 
-		[SerializeField]
-		private float actionCooldown = 1f;
+		[SerializeField] private float actionCooldown = 1f;
 
 		protected LayerMask checkMask;
 		protected int playersLayer;
@@ -51,7 +47,7 @@ namespace Systems.MobAIs
 		/// </summary>
 		protected float TetherRange = 30f;
 
-		public  void OnEnable()
+		public void OnEnable()
 		{
 			playersLayer = LayerMask.NameToLayer("Players");
 			npcLayer = LayerMask.NameToLayer("NPC");
@@ -60,39 +56,44 @@ namespace Systems.MobAIs
 		}
 
 
-
 		/// <summary>
 		/// Determines if the target of the action can be acted upon and what kind of target it is.
 		/// Then performs the appropriate action. Action methods are individually overridable for flexibility.
 		/// </summary>
-		protected virtual bool CheckForTargetAction()
+		public override void DoAction()
 		{
+			base.DoAction();
 			var hitInfo = ValidateTarget();
 			if (hitInfo.ItHit == false)
 			{
-				return false;
+				return;
 			}
+
 			var dir = (hitInfo.TileHitWorld - MobTile.WorldPositionServer).normalized;
 
-			if (hitInfo.CollisionHit.GameObject != null && (hitInfo.TileHitWorld - MobTile.WorldPositionServer).sqrMagnitude <= 4)
+			if (hitInfo.CollisionHit.GameObject != null &&
+			    (hitInfo.TileHitWorld - MobTile.WorldPositionServer).sqrMagnitude <= 4)
 			{
 				if (onlyActOnTarget)
 				{
-					return PerformActionOnlyOnTarget(hitInfo, dir);
+					PerformActionOnlyOnTarget(hitInfo, dir);
+					return;
 				}
 
 				if (hitInfo.CollisionHit.GameObject.layer == playersLayer)
 				{
-					return PerformActionPlayer(hitInfo, dir);
+					PerformActionPlayer(hitInfo, dir);
+					return;
 				}
 
 				if (hitInfo.CollisionHit.GameObject.layer == npcLayer)
 				{
-					return PerformActionNpc(hitInfo, dir);
+					PerformActionNpc(hitInfo, dir);
+					return;
 				}
 			}
 
-			return PerformActionTile(hitInfo, dir);
+			PerformActionTile(hitInfo, dir);
 		}
 
 		/// <summary>
@@ -117,9 +118,12 @@ namespace Systems.MobAIs
 					//Continue if it still exists and is in range
 					if (FollowTarget != null && TargetDistance() < TetherRange)
 					{
-						Vector3 dir = (Vector3)(FollowTarget.WorldPositionServer - MobTile.WorldPositionServer).Normalize() / 1.5f;
+						Vector3 dir =
+							(Vector3)(FollowTarget.WorldPositionServer - MobTile.WorldPositionServer).Normalize() /
+							1.5f;
 						var hitInfo = MatrixManager.Linecast(MobTile.WorldPositionServer + dir,
-							LayerTypeSelection.Windows | LayerTypeSelection.Grills, checkMask, FollowTarget.WorldPositionServer);
+							LayerTypeSelection.Windows | LayerTypeSelection.Grills, checkMask,
+							FollowTarget.WorldPositionServer);
 
 						if (hitInfo.ItHit)
 						{
@@ -146,7 +150,6 @@ namespace Systems.MobAIs
 					ActOnLivingV2(dir, healthBehaviourV2);
 					return true;
 				}
-
 			}
 			else
 			{
@@ -160,6 +163,7 @@ namespace Systems.MobAIs
 					}
 				}
 			}
+
 			return false;
 		}
 
@@ -175,6 +179,7 @@ namespace Systems.MobAIs
 				{
 					return false;
 				}
+
 				ActOnLivingV2(dir, healthBehaviour);
 
 				if (FollowTarget != null && FollowTarget.gameObject.layer != playersLayer)
@@ -249,34 +254,39 @@ namespace Systems.MobAIs
 		/// <summary>
 		/// What to do if the Mob is trying to act on a Tile
 		/// </summary>
-		protected virtual bool PerformActionTile(MatrixManager.CustomPhysicsHit hitInfo, Vector3 dir)
+		protected virtual void PerformActionTile(MatrixManager.CustomPhysicsHit hitInfo, Vector3 dir)
 		{
 			if (TargetDistance() > 4.5f)
 			{
 				//Don't bother, the target is too far away to warrant a decision to break a tile
-				return false;
+				return;
 			}
 
 			ActOnTile(hitInfo.TileHitWorld.RoundToInt(), dir);
-			return true;
+			return;
 		}
 
 		/// <summary>
 		/// Virtual method to override on extensions of this class for acting on living targets using the old health system
 		/// </summary>
-		protected virtual void ActOnLiving(Vector3 dir, LivingHealthBehaviour healthBehaviour) { }
+		protected virtual void ActOnLiving(Vector3 dir, LivingHealthBehaviour healthBehaviour)
+		{
+		}
 
 		/// <summary>
 		/// Virtual method to override on extensions of this class for acting on living targets using the new health system
 		/// </summary>
-		protected virtual void ActOnLivingV2(Vector3 dir, LivingHealthMasterBase livingHealth) { }
+		protected virtual void ActOnLivingV2(Vector3 dir, LivingHealthMasterBase livingHealth)
+		{
+		}
 
 
 		/// <summary>
 		/// Virtual method to override on extensions of this class for acting on tiles
 		/// </summary>
-		protected virtual void ActOnTile(Vector3Int roundToInt, Vector3 dir) { }
-
+		protected virtual void ActOnTile(Vector3Int roundToInt, Vector3 dir)
+		{
+		}
 
 
 		public virtual void ServerDoLerpAnimation(Vector2 dir)
@@ -299,8 +309,10 @@ namespace Systems.MobAIs
 				{
 					isActing = false;
 				}
+
 				yield return WaitFor.EndOfFrame;
 			}
+
 			yield return WaitFor.Seconds(actionCooldown);
 			DeterminePostAction();
 		}
@@ -309,7 +321,7 @@ namespace Systems.MobAIs
 		{
 			if (Random.value > 0.2f) //80% chance of hitting the target again
 			{
-				CheckForTargetAction();
+				DoAction();
 			}
 		}
 
@@ -333,7 +345,6 @@ namespace Systems.MobAIs
 		protected void ServerUpdateMe()
 		{
 			CheckLerping();
-
 		}
 
 		private void CheckLerping()
@@ -357,7 +368,6 @@ namespace Systems.MobAIs
 				spriteHolder.transform.localPosition = Vector3.zero;
 
 				isActing = false;
-
 			}
 			else
 			{
