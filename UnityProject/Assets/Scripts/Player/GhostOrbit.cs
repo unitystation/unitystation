@@ -32,7 +32,7 @@ namespace Player
 		private void OnDisable()
 		{
 			StopOrbiting();
-			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, UpdateMe);
+			UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
 		}
 
 		public void Orbit(GameObject thingToOrbit)
