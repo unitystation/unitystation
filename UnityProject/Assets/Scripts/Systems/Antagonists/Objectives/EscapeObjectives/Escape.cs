@@ -27,7 +27,7 @@ namespace Antagonists
 		private bool CheckOnShip(RegisterTile antagTile, RegisterTile shuttleTile)
 		{
 			if (antagTile.Matrix.Id == shuttleTile.Matrix.MatrixInfo.Id) return true;
-			return shuttleTile.Matrix.HasTile(antagTile.WorldPositionServer, true);
+			return shuttleTile.Matrix.HasTile(antagTile.gameObject.AssumedWorldPosServer().RoundToInt(), true);
 		}
 
 		/// <summary>
