@@ -24,6 +24,7 @@ GameObject:
   - component: {fileID: 6663514336625432320}
   - component: {fileID: 3816408273032552164}
   - component: {fileID: 1852173234745760124}
+  - component: {fileID: 7209871986209367618}
   m_Layer: 31
   m_Name: Ghost
   m_TagString: Untagged
@@ -319,7 +320,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cb66dca4b3d0d3e4fb6c386f50cd0375, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  netTransform: {fileID: 0}
+  netTransform: {fileID: 2038932850302980570}
+  rotateTransform: {fileID: 7209871986209367618}
+--- !u!114 &7209871986209367618
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4390267312333422610}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62ef7c2887a58cf46984f3bd506f9cfe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  transformToRotateAround: {fileID: 0}
 --- !u!1 &7320126117105815585
 GameObject:
   m_ObjectHideFlags: 0

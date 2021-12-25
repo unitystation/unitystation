@@ -8,6 +8,12 @@
 		private Transform ourTransform;
 		private int time = 100;
 
+		public Transform TransformToRotateAround
+		{
+			get => transformToRotateAround;
+			set => transformToRotateAround = value;
+		}
+
 		private void Awake()
 		{
 			ourTransform = transform;
@@ -26,6 +32,7 @@
 
 		private void UpdateMe()
 		{
+			if(transformToRotateAround == null) return;
 			ourTransform.RotateAround(transformToRotateAround.position, transformToRotateAround.forward, time*Time.deltaTime);
 		}
 	}

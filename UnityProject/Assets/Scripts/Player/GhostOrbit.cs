@@ -10,15 +10,18 @@ namespace Player
 	{
 		private GameObject target;
 		[SerializeField] private PlayerSync netTransform;
+		[SerializeField] private RotateAroundTransform rotateTransform;
 
 		private void Start()
 		{
 			if (netTransform == null) netTransform = GetComponent<PlayerSync>();
+			if (rotateTransform == null) rotateTransform = GetComponent<RotateAroundTransform>();
 		}
 
 		public void Orbit(GameObject thingToOrbit)
 		{
 			target = thingToOrbit;
+			rotateTransform.TransformToRotateAround = thingToOrbit.transform;
 			UpdateManager.Add(FollowTarget, 0.1f);
 		}
 
