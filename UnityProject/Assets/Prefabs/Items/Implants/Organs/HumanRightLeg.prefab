@@ -191,6 +191,17 @@ PrefabInstance:
       propertyPath: hitSound.AssetAddress
       value: Assets/Prefabs/Effects/Tap.prefab
       objectReference: {fileID: 0}
+    - target: {fileID: 5932985456522563345, guid: 6a1a4888888e8994187da2ccb8d6f1c2,
+        type: 3}
+      propertyPath: initialTraits.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5932985456522563345, guid: 6a1a4888888e8994187da2ccb8d6f1c2,
+        type: 3}
+      propertyPath: initialTraits.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: f4bf367b42a325c4dbf26b76591e0ef1,
+        type: 2}
     - target: {fileID: 6100172161442356487, guid: 6a1a4888888e8994187da2ccb8d6f1c2,
         type: 3}
       propertyPath: m_RootOrder
