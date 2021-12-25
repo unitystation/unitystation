@@ -18,6 +18,11 @@ namespace Player
 			if (rotateTransform == null) rotateTransform = GetComponent<RotateAroundTransform>();
 		}
 
+		private void OnDisable()
+		{
+			StopOrbiting();
+		}
+
 		public void Orbit(GameObject thingToOrbit)
 		{
 			target = thingToOrbit;
@@ -34,7 +39,7 @@ namespace Player
 		private void FollowTarget()
 		{
 			if (target == null) return;
-			netTransform.SetPosition(target.WorldPosServer(), false);
+			netTransform.SetPosition(target.AssumedWorldPosServer(), false);
 		}
 
 	}
