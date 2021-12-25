@@ -33,6 +33,6 @@
 		private void UpdateMe()
 		{
 			if(transformToRotateAround == null) return;
-			ourTransform.RotateAround(transformToRotateAround.position, transformToRotateAround.forward, time*Time.deltaTime);
+			ourTransform.RotateAround(transformToRotateAround.gameObject.AssumedWorldPosServer(), transformToRotateAround.forward, time*Time.deltaTime);
 		}
 	}
