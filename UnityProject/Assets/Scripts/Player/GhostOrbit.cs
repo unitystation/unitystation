@@ -18,7 +18,7 @@ namespace Player
 		{
 			if (netTransform == null) netTransform = GetComponent<PlayerSync>();
 			if (rotateTransform == null) rotateTransform = GetComponent<RotateAroundTransform>();
-			UpdateManager.Add(CallbackType.PERIODIC_UPDATE, UpdateMe);
+			UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
 		}
 
 		private void UpdateMe()
