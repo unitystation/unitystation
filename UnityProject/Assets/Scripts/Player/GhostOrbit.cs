@@ -47,7 +47,9 @@ namespace Player
 			target = null;
 			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, FollowTarget);
 			rotateTransform.TransformToRotateAround = null;
+			//why wont this shit fucking work
 			spriteTransform.localEulerAngles = Vector3.zero;
+			spriteTransform.eulerAngles = Vector3.zero;
 		}
 
 		private void FollowTarget()
