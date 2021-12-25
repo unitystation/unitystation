@@ -12,7 +12,6 @@ namespace Player
 		[SerializeField] private PlayerSync netTransform;
 		[SerializeField] private RotateAroundTransform rotateTransform;
 		[SerializeField] private Transform spriteTransform;
-		private int mouseClickCount = 0;
 
 		private void Start()
 		{
@@ -23,24 +22,6 @@ namespace Player
 
 		private void UpdateMe()
 		{
-			if (Input.GetMouseButtonDown(0))
-			{
-				mouseClickCount += 2;
-			}
-			if (mouseClickCount >= 4)
-			{
-				var objectsList = MouseUtils.GetOrderedObjectsUnderMouse();
-				foreach (var obj in objectsList)
-				{
-					if (obj.TryGetComponent<PushPull>(out var pushPull))
-					{
-						target = obj;
-						break;
-					}
-				}
-				mouseClickCount = 0;
-			}
-			if(mouseClickCount > 0) mouseClickCount--;
 			if(target == null) return;
 			if (KeyboardInputManager.IsMovementPressed())
 			{
