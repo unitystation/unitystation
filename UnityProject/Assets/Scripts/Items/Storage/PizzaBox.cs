@@ -96,7 +96,7 @@ namespace Items.Storage
 				                       $"and below it is a note that reads '{writtenNote}'!</color>", gameObject);
 			}
 			if (GUI != null) GUI.StartCoroutine(GUI.UpdateTimer());
-			await Task.Delay(timeToDetonate * 1000); //Delay is in milliseconds
+			await Task.Delay(timeToDetonate * 1000).ConfigureAwait(false); //Delay is in milliseconds
 			Detonate();
 		}
 
