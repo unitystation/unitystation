@@ -24,7 +24,6 @@ GameObject:
   - component: {fileID: 6663514336625432320}
   - component: {fileID: 3816408273032552164}
   - component: {fileID: 1852173234745760124}
-  - component: {fileID: 7209871986209367618}
   m_Layer: 31
   m_Name: Ghost
   m_TagString: Untagged
@@ -321,20 +320,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   netTransform: {fileID: 2038932850302980570}
-  rotateTransform: {fileID: 7209871986209367618}
---- !u!114 &7209871986209367618
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4390267312333422610}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 62ef7c2887a58cf46984f3bd506f9cfe, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  transformToRotateAround: {fileID: 0}
+  rotateTransform: {fileID: 3704879063443130025}
+  spriteTransform: {fileID: 4102254142472032470}
 --- !u!1 &7320126117105815585
 GameObject:
   m_ObjectHideFlags: 0
@@ -346,6 +333,7 @@ GameObject:
   - component: {fileID: 3862673439606775660}
   - component: {fileID: 8982399715002782878}
   - component: {fileID: 1790310942916481698}
+  - component: {fileID: 3704879063443130025}
   m_Layer: 31
   m_Name: Ghosts Sprite
   m_TagString: Untagged
@@ -438,3 +426,17 @@ MonoBehaviour:
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
   palette: []
+--- !u!114 &3704879063443130025
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7320126117105815585}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62ef7c2887a58cf46984f3bd506f9cfe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  transformToRotateAround: {fileID: 0}
+  offset: {x: 0.5, y: 0, z: 0}
