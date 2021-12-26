@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -46,15 +47,14 @@ namespace UI
 		{
 			// indexed storage
 			// create a slot element for each indexed slot in the storage
-			int indexedSlotsCount = CurrentOpenStorage.ItemStorageStructure.IndexedSlots;
+			var  indexedSlots = CurrentOpenStorage.GetItemSlots();
 			int occupiedSlots = 0;
-			for (int i = 0; i < indexedSlotsCount; i++)
+			foreach (var itemSlot in indexedSlots)
 			{
 				GameObject newSlot = Instantiate(inventorySlotPrefab, Vector3.zero, Quaternion.identity);
 				newSlot.transform.SetParent(transform);
 				newSlot.transform.localScale = Vector3.one;
 				var uiItemSlot = newSlot.GetComponentInChildren<UI_ItemSlot>();
-				var itemSlot = CurrentOpenStorage.GetIndexedItemSlot(i);
 
 				if (itemSlot.IsOccupied)
 					occupiedSlots++;
@@ -66,7 +66,7 @@ namespace UI
 			}
 
 			indexedStorageCapacity.gameObject.SetActive(true);
-			indexedStorageCapacity.text = $"{occupiedSlots}/{indexedSlotsCount}";
+			indexedStorageCapacity.text = $"{occupiedSlots}/{indexedSlots.Count()}";
 
 			closeStorageUIButton.transform.SetAsLastSibling();
 			closeStorageUIButton.SetActive(true);
