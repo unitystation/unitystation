@@ -93,8 +93,17 @@ public class CablePlacementVisualisation : MonoBehaviour
 		// return if visualisation is disabled or distance is greater than interaction distance
 		if (!cablePlacementVisualisation.activeSelf) return;
 
-		cablePlacementVisualisation.transform.localRotation = PlayerManager.LocalPlayer.RegisterTile().Matrix.MatrixMove
-			.FacingOffsetFromInitial.Quaternion;
+
+		if (PlayerManager.LocalPlayer.RegisterTile().Matrix.MatrixMove != null)
+		{
+			cablePlacementVisualisation.transform.localRotation = PlayerManager.LocalPlayer.RegisterTile().Matrix.MatrixMove
+				.FacingOffsetFromInitial.Quaternion;
+		}
+		else
+		{
+			cablePlacementVisualisation.transform.localRotation = Quaternion.identity;
+		}
+
 
 		// get releative mouse position
 		Vector2 releativeMousePosition = MouseUtils.MouseToWorldPos().ToLocal(PlayerManager.LocalPlayer.RegisterTile().Matrix) - cablePlacementVisualisation.transform.position.ToLocal(PlayerManager.LocalPlayer.RegisterTile().Matrix);
@@ -154,10 +163,20 @@ public class CablePlacementVisualisation : MonoBehaviour
 	private void Build()
 	{
 		if (startPoint == endPoint || target == null) return;
-		var InQuaternion = PlayerManager.LocalPlayer.RegisterTile().Matrix.MatrixMove
-			.FacingOffsetFromInitial.Quaternion;
+		var Register = PlayerManager.LocalPlayer.RegisterTile();
 
-		var Position = cablePlacementVisualisation.transform.position + (InQuaternion * new Vector3(0.5f, 0.5f, 0));
+		Vector3 Position = Vector3.zero;
+
+		if (Register.Matrix.MatrixMove == null)
+		{
+			Position = cablePlacementVisualisation.transform.position + (new Vector3(0.5f, 0.5f, 0));
+		}
+		else
+		{
+			var InQuaternion = Register.Matrix.MatrixMove.FacingOffsetFromInitial.Quaternion;
+			Position = cablePlacementVisualisation.transform.position + (InQuaternion * new Vector3(0.5f, 0.5f, 0));
+		}
+
 
 		Vector2 targetVector = Position.ToLocal(PlayerManager.LocalPlayer.RegisterTile().Matrix); // transform.position ( - transform.position); //TODO? what? is this
 
@@ -305,11 +324,23 @@ public class CablePlacementVisualisation : MonoBehaviour
 				if (topTile && (topTile.LayerType == LayerType.Base || topTile.LayerType == LayerType.Underfloor))
 				{
 					// move cable placement visualisation to rounded mouse position and enable it
-					var InQuaternion = PlayerManager.LocalPlayer.RegisterTile().Matrix.MatrixMove
-						.FacingOffsetFromInitial.Quaternion;
+					var RegisterTile = PlayerManager.LocalPlayer.RegisterTile();
 
-					cablePlacementVisualisation.transform.position = mousePosition - (InQuaternion * (new Vector3(0.5f, 0.5f, 0))) ;
-					cablePlacementVisualisation.SetActive(true);
+					if (RegisterTile.Matrix.MatrixMove == null)
+					{
+						cablePlacementVisualisation.transform.position = mousePosition - (new Vector3(0.5f, 0.5f, 0)) ;
+						cablePlacementVisualisation.SetActive(true);
+					}
+					else
+					{
+						var InQuaternion = RegisterTile.Matrix.MatrixMove
+							.FacingOffsetFromInitial.Quaternion;
+
+						cablePlacementVisualisation.transform.position = mousePosition - (InQuaternion * (new Vector3(0.5f, 0.5f, 0))) ;
+						cablePlacementVisualisation.SetActive(true);
+					}
+
+
 				}
 				// disable visualisation if active
 				else
