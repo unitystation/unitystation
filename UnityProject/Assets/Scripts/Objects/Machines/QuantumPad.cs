@@ -184,7 +184,7 @@ namespace Objects.Science
 									.Concat(Matrix.Get<ObjectBehaviour>(registerTileLocation, ObjectType.Item, true)))
 			{
 				//Don't teleport self lol
-				if(item == gameObject) continue;
+				if(item.gameObject == gameObject) continue;
 
 				if (item.gameObject.TryGetComponent(out IQuantumReaction reaction))
 				{
