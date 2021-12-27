@@ -154,7 +154,7 @@ namespace Objects
 		{
 			if (initialContentsSpawned == false)
 			{
-				TrySpawnInitialContents();
+				TrySpawnInitialContents(true);
 			}
 
 			foreach (var obj in storedObjects.Keys)
