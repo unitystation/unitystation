@@ -20,7 +20,7 @@ public class MobController : MonoBehaviour
 
 	private void OnDisable()
 	{
-		UpdateManager.Remove( CallbackType.PERIODIC_UPDATE, UpdateMe );
+		UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, UpdateMe);
 	}
 
 	public void UpdateMe()

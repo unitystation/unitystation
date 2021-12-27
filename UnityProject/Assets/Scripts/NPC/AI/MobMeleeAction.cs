@@ -263,7 +263,6 @@ namespace Systems.MobAIs
 			}
 
 			ActOnTile(hitInfo.TileHitWorld.RoundToInt(), dir);
-			return;
 		}
 
 		/// <summary>

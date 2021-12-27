@@ -200,7 +200,7 @@ namespace Systems.MobAIs
 
 		private void MonitorExploreTime()
 		{
-			if (mobExplore.Priority  < 25 && exploreTimeMax > 0)
+			if (mobExplore.Priority < 25 && exploreTimeMax > 0)
 			{
 				exploringTime += Time.deltaTime;
 				if (exploringTime > exploreTimeMax)

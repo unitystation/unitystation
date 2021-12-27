@@ -38,7 +38,7 @@ public class MobObjective : MonoBehaviour
 
 	public void Move(Vector3Int dirToMove)
 	{
-		var dest = MobTile.LocalPositionServer + (Vector3Int)dirToMove;
+		var dest = MobTile.LocalPositionServer + dirToMove;
 
 		if (!MobTile.customNetTransform.Push(dirToMove.To2Int(), context: gameObject))
 		{

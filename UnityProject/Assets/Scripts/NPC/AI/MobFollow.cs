@@ -54,7 +54,6 @@ namespace Systems.MobAIs
 				}
 				else
 				{
-
 					Priority += PriorityBalance;
 				}
 			}
@@ -64,8 +63,8 @@ namespace Systems.MobAIs
 
 		public override void DoAction()
 		{
-			if (FollowTarget== null) return;
-			var moveToRelative = (FollowTarget.WorldPositionServer - MobTile.WorldPositionServer ).ToNonInt3();
+			if (FollowTarget == null) return;
+			var moveToRelative = (FollowTarget.WorldPositionServer - MobTile.WorldPositionServer).ToNonInt3();
 			moveToRelative.Normalize();
 			var stepDirectionWorld = ChooseDominantDirection(moveToRelative);
 			var moveTo = MobTile.WorldPositionServer + stepDirectionWorld;

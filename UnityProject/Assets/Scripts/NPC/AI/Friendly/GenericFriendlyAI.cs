@@ -43,7 +43,7 @@ namespace Systems.MobAIs
 
 		protected virtual void MonitorExtras()
 		{
-			if ( !doRandomActionWhenInTask)
+			if (!doRandomActionWhenInTask)
 			{
 				return;
 			}
