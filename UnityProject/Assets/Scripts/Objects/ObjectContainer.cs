@@ -150,9 +150,9 @@ namespace Objects
 			}
 		}
 
-		public IEnumerable<GameObject> GetStoredObjects()
+		public IEnumerable<GameObject> GetStoredObjects(bool OnlyInstantiated = false)
 		{
-			if (initialContentsSpawned == false)
+			if (initialContentsSpawned == false && OnlyInstantiated == false)
 			{
 				TrySpawnInitialContents(true);
 			}
@@ -259,7 +259,7 @@ namespace Objects
 		/// <param name="parentNetId">new parent net ID</param>
 		private void ReparentStoredObjects(uint parentNetId)
 		{
-			foreach (GameObject obj in GetStoredObjects())
+			foreach (GameObject obj in GetStoredObjects(true))
 			{
 				obj.RegisterTile().ServerSetNetworkedMatrixNetID(parentNetId);
 			}
