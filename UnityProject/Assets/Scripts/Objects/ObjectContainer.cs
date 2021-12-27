@@ -150,9 +150,9 @@ namespace Objects
 			}
 		}
 
-		public IEnumerable<GameObject> GetStoredObjects(bool OnlyInstantiated = false)
+		public IEnumerable<GameObject> GetStoredObjects(bool onlyInstantiated = false)
 		{
-			if (initialContentsSpawned == false && OnlyInstantiated == false)
+			if (initialContentsSpawned == false && onlyInstantiated == false)
 			{
 				TrySpawnInitialContents(true);
 			}
