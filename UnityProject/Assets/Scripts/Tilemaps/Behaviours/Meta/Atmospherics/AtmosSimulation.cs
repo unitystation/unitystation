@@ -412,11 +412,11 @@ namespace Systems.Atmospherics
 			{
 				if(ReactionMoleCheck(gasReaction, gasMix)) continue;
 
-				if (gasMix.Temperature < gasReaction.MinimumTemperature || gasMix.Temperature > gasReaction.MaximumTemperature) continue;
+				if (gasMix.Temperature < gasReaction.MinimumTileTemperature || gasMix.Temperature > gasReaction.MaximumTileTemperature) continue;
 
-				if (gasMix.Pressure < gasReaction.MinimumPressure || gasMix.Pressure > gasReaction.MaximumPressure) continue;
+				if (gasMix.Pressure < gasReaction.MinimumTilePressure || gasMix.Pressure > gasReaction.MaximumTilePressure) continue;
 
-				if (gasMix.Moles < gasReaction.MinimumMoles || gasMix.Moles > gasReaction.MaximumMoles) continue;
+				if (gasMix.Moles < gasReaction.MinimumTileMoles || gasMix.Moles > gasReaction.MaximumTileMoles) continue;
 
 				//If too much Hyper-Noblium theres no reactions!!!
 				if(gasMix.GetMoles(Gas.HyperNoblium) >= AtmosDefines.REACTION_OPPRESSION_THRESHOLD) break;

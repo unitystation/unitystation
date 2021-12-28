@@ -41,12 +41,12 @@ namespace InGameEvents
 					}
 				},
 
-				minimumTemperature: 0f,
-				maximumTemperature:10000000000f,
-				minimumPressure:0f,
-				maximumPressure: 10000000000f,
-				minimumMoles: 0.01f,
-				maximumMoles:10000000000f,
+				minimumTileTemperature: 0f,
+				maximumTileTemperature:10000000000f,
+				minimumTilePressure:0f,
+				maximumTilePressure: 10000000000f,
+				minimumTileMoles: 0.01f,
+				maximumTileMoles:10000000000f,
 				energyChange: 0f
 				);
 
