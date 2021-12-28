@@ -188,7 +188,7 @@ namespace Systems.Atmospherics
 
 				minimumTileTemperature: AtmosDefines.FUSION_TEMPERATURE_THRESHOLD,
 				maximumTileTemperature: 10000000000,
-				minimumTilePressure: 0f,
+				minimumTilePressure: 0,
 				maximumTilePressure: 10000000000,
 				minimumTileMoles: AtmosDefines.FUSION_TRITIUM_MOLES_USED + (2 * AtmosDefines.FUSION_MOLE_THRESHOLD),
 				maximumTileMoles: 10000000000,
@@ -300,9 +300,9 @@ namespace Systems.Atmospherics
 					}
 				},
 
-				minimumTileTemperature: 600f,
+				minimumTileTemperature: 600,
 				maximumTileTemperature: 10000000000,
-				minimumTilePressure: 0f,
+				minimumTilePressure: 0,
 				maximumTilePressure: 10000000000,
 
 				//Oxygen + Nitrogen + BZ
@@ -468,7 +468,7 @@ namespace Systems.Atmospherics
 
 				minimumTileTemperature: AtmosDefines.STIMULUM_HEAT_SCALE / 2,
 				maximumTileTemperature: 10000000000,
-				minimumTilePressure: 0f,
+				minimumTilePressure: 0,
 				maximumTilePressure: 10000000000,
 
 				//Tritium + Plasma + BZ + Nitryl
@@ -556,7 +556,7 @@ namespace Systems.Atmospherics
 
 				minimumTileTemperature: AtmosDefines.SPACE_TEMPERATURE,
 				maximumTileTemperature: 15,
-				minimumTilePressure: 0f,
+				minimumTilePressure: 0,
 				maximumTilePressure: 10000000000,
 
 				//Nitrogen + Tritium
