@@ -53,7 +53,7 @@ public partial class SubSceneManager : NetworkBehaviour
 
 	void KillClientCoroutine() //So the client isn't loading scenes while server is Loading a new round
 	{
-		ClientSideFinishAction.Invoke();
+		ClientSideFinishAction?.Invoke();
 		KillClientLoadingCoroutine = true;
 	}
 
