@@ -4,53 +4,56 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public class MobController : MonoBehaviour
+namespace Systems.MobAIs
 {
-	public List<MobObjective> MobObjectives = new List<MobObjective>();
-
-	public void Awake()
+	public class MobController : MonoBehaviour
 	{
-		MobObjectives = this.GetComponents<MobObjective>().ToList();
-	}
+		public List<MobObjective> MobObjectives = new List<MobObjective>();
 
-	private void OnEnable()
-	{
-		UpdateManager.Add(UpdateMe, 0.85f);
-	}
-
-	private void OnDisable()
-	{
-		UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, UpdateMe);
-	}
-
-	public void UpdateMe()
-	{
-		foreach (var _MobObjective in MobObjectives)
+		public void Awake()
 		{
-			_MobObjective.ContemplatePriority();
+			MobObjectives = this.GetComponents<MobObjective>().ToList();
 		}
 
-		MobObjective ChosenObjective = null;
-
-		foreach (var _MobObjective in MobObjectives)
+		private void OnEnable()
 		{
-			if (ChosenObjective == null)
+			UpdateManager.Add(UpdateMe, 0.85f);
+		}
+
+		private void OnDisable()
+		{
+			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, UpdateMe);
+		}
+
+		public void UpdateMe()
+		{
+			foreach (var _MobObjective in MobObjectives)
 			{
-				ChosenObjective = _MobObjective;
+				_MobObjective.ContemplatePriority();
 			}
-			else
+
+			MobObjective ChosenObjective = null;
+
+			foreach (var _MobObjective in MobObjectives)
 			{
-				if (_MobObjective.Priority > ChosenObjective.Priority)
+				if (ChosenObjective == null)
 				{
 					ChosenObjective = _MobObjective;
 				}
+				else
+				{
+					if (_MobObjective.Priority > ChosenObjective.Priority)
+					{
+						ChosenObjective = _MobObjective;
+					}
+				}
 			}
-		}
 
-		if (ChosenObjective != null)
-		{
-			ChosenObjective.DoAction();
-			ChosenObjective.Priority = 0;
+			if (ChosenObjective != null)
+			{
+				ChosenObjective.DoAction();
+				ChosenObjective.Priority = 0;
+			}
 		}
 	}
 }
