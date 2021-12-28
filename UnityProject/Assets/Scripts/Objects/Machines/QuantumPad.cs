@@ -183,6 +183,8 @@ namespace Objects.Science
 			foreach (var item in Matrix.Get<ObjectBehaviour>(registerTileLocation, ObjectType.Object, true)
 									.Concat(Matrix.Get<ObjectBehaviour>(registerTileLocation, ObjectType.Item, true)))
 			{
+				//Don't teleport self lol
+				if(item.gameObject == gameObject) continue;
 
 				if (item.gameObject.TryGetComponent(out IQuantumReaction reaction))
 				{

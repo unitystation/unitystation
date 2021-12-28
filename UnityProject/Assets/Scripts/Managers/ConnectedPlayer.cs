@@ -21,6 +21,7 @@ public class ConnectedPlayer
 		job = JobType.NULL,
 		ClientId = "",
 		UserId = "",
+		ConnectionIP = ""
 	};
 
 	public string Username { get; set; }
@@ -32,6 +33,8 @@ public class ConnectedPlayer
 	public string ClientId { get; set; }
 	public string UserId { get; set; }
 	public NetworkConnection Connection { get; set; }
+
+	public string ConnectionIP { get; set; }
 	public CharacterSettings CharacterSettings { get; set; }
 
 	public GameObject GameObject

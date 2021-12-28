@@ -42,13 +42,13 @@ public class TileApply : Interaction
 
 
 	/// <summary>Target world position calculated from matrix local position.</summary>
-	public Vector2 WorldPositionTarget => TargetPosition.To3().ToWorld(Performer.RegisterTile().Matrix);
+	public Vector2 WorldPositionTarget =>  TargetPosition.To3().ToWorld(Performer.RegisterTile().Matrix);
 
 	/// <summary>Requested local position target.</summary>
 	public Vector2 TargetPosition => targetPosition;
 
 	/// <summary>Vector pointing from the performer's position to the target position.</summary>
-	public Vector2 TargetVector => targetPosition - Performer.transform.localPosition.To2();
+	public Vector2 TargetVector =>WorldPositionTarget.To3() - Performer.RegisterTile().WorldPosition;
 
 	public enum ApplyType
 	{

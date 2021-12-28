@@ -42,11 +42,19 @@ public partial class SubSceneManager : NetworkBehaviour
 	private void OnEnable()
 	{
 		UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
+		EventManager.AddHandler(Event.RoundEnded, KillClientCoroutine);
 	}
 
 	private void OnDisable()
 	{
 		UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
+		EventManager.RemoveHandler(Event.RoundEnded, KillClientCoroutine);
+	}
+
+	void KillClientCoroutine() //So the client isn't loading scenes while server is Loading a new round
+	{
+		ClientSideFinishAction.Invoke();
+		KillClientLoadingCoroutine = true;
 	}
 
 	void UpdateMe()
@@ -59,7 +67,7 @@ public partial class SubSceneManager : NetworkBehaviour
 	/// </summary>
 	/// <param name="sceneName"></param>
 	/// <returns></returns>
-	IEnumerator LoadSubScene(string sceneName, SubsceneLoadTimer loadTimer = null)
+	IEnumerator LoadSubScene(string sceneName, SubsceneLoadTimer loadTimer = null, bool HandlSynchronising = true)
 	{
 		AsyncOperation AO = SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Additive);
 		while (!AO.isDone)
@@ -75,9 +83,12 @@ public partial class SubSceneManager : NetworkBehaviour
 		}
 		else
 		{
-			ClientScene.PrepareToSpawnSceneObjects();
-			yield return WaitFor.Seconds(0.2f);
-			RequestObserverRefresh.Send(sceneName);
+			if (HandlSynchronising)
+			{
+				ClientScene.PrepareToSpawnSceneObjects();
+				yield return WaitFor.Seconds(0.2f);
+				RequestObserverRefresh.Send(sceneName);
+			}
 		}
 	}
 
