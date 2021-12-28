@@ -1,26 +1,48 @@
+using AddressableReferences;
+using Items.Bureaucracy;
+using Messages.Server.SoundMessages;
+using Mirror;
 using Objects.Construction;
 using System.Collections.Generic;
 using UnityEngine;
 
 namespace Doors
 {
-	public class AirlockPainter : MonoBehaviour, IClientInteractable<HandActivate>
+	[RequireComponent(typeof(ItemStorage))]
+	public class AirlockPainter : MonoBehaviour, IClientInteractable<HandActivate>, ICheckedInteractable<ContextMenuApply>, ICheckedInteractable<HandApply>,
+		ICheckedInteractable<InventoryApply>, IExaminable, IServerSpawn, IRightClickable
 	{
 		[Tooltip("Airlock painting jobs.")]
 		public List<GameObject> AvailablePaintJobs;
 
 		private int currentPaintJobIndex = -1;
-
 		public int CurrentPaintJobIndex
 		{
 			get => currentPaintJobIndex;
 			set => currentPaintJobIndex = value;
 		}
 
-		public bool Interact(HandActivate interaction)
+		[SerializeField, Tooltip("The toner prefab to be spawned within the airlock painter on roundstart.")]
+		private GameObject tonerPrefab;
+
+		private ItemSlot tonerSlot;
+
+		private Toner tonerCartridge =>
+			tonerSlot.Item != null ? tonerSlot.Item.GetComponent<Toner>() : null;
+
+		private void Awake()
 		{
-			ChoosePainJob(interaction.Performer);
-			return true;
+			tonerSlot = GetComponent<ItemStorage>().GetIndexedItemSlot(0);
+		}
+
+		public void OnSpawnServer(SpawnInfo info)
+		{
+			if (tonerPrefab == null)
+			{
+				Logger.LogError($"{gameObject.name} toner prefab was null, cannot auto-populate.", Category.ItemSpawn);
+				return;
+			}
+			Inventory.ServerSpawnPrefab(tonerPrefab, tonerSlot);
 		}
 
 		public async void ChoosePainJob(GameObject performer)
@@ -35,6 +57,7 @@ namespace Doors
 			}
 		}
 
+		[Server]
 		public void ServerPaintTheAirlock(GameObject paintableAirlock, GameObject performer)
 		{
 			if(currentPaintJobIndex == -1)
@@ -42,6 +65,9 @@ namespace Doors
 				Chat.AddExamineMsgFromServer(performer, "First you need to choose a paint job.");
 				return;
 			}
+
+			if (CheckToner(performer) == false) return;
+
 			DoorMasterController airlockToPaint = paintableAirlock.GetComponent<DoorMasterController>();
 			GameObject airlockAssemblyPrefab = AvailablePaintJobs[currentPaintJobIndex].GetComponent<ConstructibleDoor>().AirlockAssemblyPrefab;
 			AirlockAssembly assemblyPaintJob = airlockAssemblyPrefab.GetComponent<AirlockAssembly>();
@@ -65,8 +91,124 @@ namespace Doors
 			ServerChangeOverlayFill(airlockAnim, paintJob);
 			ServerChangeOverlayWeld(airlockAnim, paintJob);
 			ServerChangeOverlayHacking(airlockAnim, paintJob);
+
+			tonerCartridge.SpendInk();
 		}
 
+		private bool CheckToner(GameObject performer)
+		{
+			if(tonerCartridge == null)
+			{
+				Chat.AddExamineMsgFromServer(performer, $"There is no toner cartridge installed in {gameObject.ExpensiveName()}!");
+				return false;
+			}
+			if (tonerCartridge.CheckInkLevel() == false)
+			{
+				Chat.AddExamineMsgFromServer(performer, "The toner cartridge is out of ink!");
+				return false;
+			}
+			return true;
+		}
+
+		private void EjectToner(Interaction interaction)
+		{
+			if (tonerSlot.Item == null) return;
+
+			ItemSlot activeHand = interaction.PerformerPlayerScript.DynamicItemStorage.GetActiveHandSlot();
+			if (activeHand.IsEmpty)
+			{
+				Inventory.ServerTransfer(tonerSlot, activeHand);
+				return;
+			}
+			else
+			{
+				Inventory.ServerDrop(tonerSlot);
+			}
+		}
+
+		private void InsertToner(GameObject performer, ItemSlot tonerSlot)
+		{
+			if (this.tonerSlot.IsEmpty == false)
+			{
+				Chat.AddExamineMsgFromServer(performer, "Toner cartridge already installed.");
+				return;
+			}
+			if (tonerSlot.IsEmpty) return;
+			Inventory.ServerTransfer(tonerSlot, this.tonerSlot);
+		}
+
+		public RightClickableResult GenerateRightClickOptions()
+		{
+			var result = RightClickableResult.Create();
+
+			var ejectInteraction = ContextMenuApply.ByLocalPlayer(gameObject, null);
+			result.AddElement("Eject Toner", () => ContextMenuOptionClicked(ejectInteraction));
+
+			return result;
+		}
+
+		private void ContextMenuOptionClicked(ContextMenuApply interaction)
+		{
+			InteractionUtils.RequestInteract(interaction, this);
+		}
+
+		public bool Interact(HandActivate interaction)
+		{
+			ChoosePainJob(interaction.Performer);
+			return true;
+		}
+
+		public bool WillInteract(ContextMenuApply interaction, NetworkSide side)
+		{
+			return DefaultWillInteract.Default(interaction, side);
+		}
+
+		public void ServerPerformInteraction(ContextMenuApply interaction)
+		{
+			EjectToner(interaction);
+		}
+
+		public bool WillInteract(HandApply interaction, NetworkSide side)
+		{
+			if (!DefaultWillInteract.Default(interaction, side)) return false;
+			if (!Validations.IsTarget(gameObject, interaction)) return false;
+
+			if (Validations.HasUsedComponent<Toner>(interaction))
+				return true;
+
+			return false;
+		}
+
+		public void ServerPerformInteraction(HandApply interaction)
+		{
+			if (Validations.HasUsedComponent<Toner>(interaction))
+			{
+				InsertToner(interaction.Performer, interaction.HandSlot);
+			}
+		}
+
+		public bool WillInteract(InventoryApply interaction, NetworkSide side)
+		{
+			if (!DefaultWillInteract.Default(interaction, side)) return false;
+			//only works in hands
+			return interaction.IsFromHandSlot && interaction.IsToHandSlot;
+		}
+
+		public void ServerPerformInteraction(InventoryApply interaction)
+		{
+			if(interaction.UsedObject == null)
+			{
+				EjectToner(interaction);
+				return;
+			}
+			if (Validations.HasUsedComponent<Toner>(interaction))
+			{
+				ItemSlot activeHand = interaction.PerformerPlayerScript.DynamicItemStorage.GetActiveHandSlot();
+				InsertToner(interaction.Performer, activeHand);
+			}
+		}
+
+		#region Airlock sprites changes
 		private void ServerChangeDoorBase(DoorAnimatorV2 paintableAirlock, DoorAnimatorV2 paintJob)
 		{
 			SpriteHandler airlockSprite = paintableAirlock.DoorBase.GetComponent<SpriteHandler>();
@@ -113,6 +255,31 @@ namespace Doors
 		{
 			airlockSprite.SetCatalogue(spriteCatalog, 0);
 			airlockSprite.SetSpriteSO(spriteCatalog[0]);    //For update the sprite when re-painting
+		}
+		#endregion
+
+		public string Examine(Vector3 worldPos)
+		{
+			string msg = "";
+
+			if (currentPaintJobIndex == -1)
+			{
+				msg += "Paint job is not selected.\n"; 
+			}
+			else
+			{
+				msg += $"Current paint job is the {AvailablePaintJobs[currentPaintJobIndex].ExpensiveName()}.\n";
+			}
+
+			if (tonerCartridge == null)
+			{
+				msg += "Toner cartridge not installed.\n";
+			}
+			else
+			{
+				msg += tonerCartridge.InkLevel();
+			}
+			return msg;
 		}
 	}
 }
