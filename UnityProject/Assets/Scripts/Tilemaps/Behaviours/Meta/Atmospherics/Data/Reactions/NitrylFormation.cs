@@ -15,7 +15,7 @@ namespace Systems.Atmospherics
 		{
 			var oldHeatCap = gasMix.WholeHeatCapacity;
 
-			var reactionEfficiency = Mathf.Min(gasMix.Temperature / 37315, gasMix.GetMoles(Gas.Oxygen), gasMix.GetMoles(Gas.Nitrogen));
+			var reactionEfficiency = Mathf.Min(gasMix.Temperature / (AtmosDefines.FIRE_MINIMUM_TEMPERATURE_TO_EXIST * 100), gasMix.GetMoles(Gas.Oxygen), gasMix.GetMoles(Gas.Nitrogen));
 
 			var energyUsed = reactionEfficiency * AtmosDefines.NITRYL_FORMATION_ENERGY;
 
