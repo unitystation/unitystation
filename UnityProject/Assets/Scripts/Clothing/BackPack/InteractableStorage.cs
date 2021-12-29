@@ -197,8 +197,16 @@ public class InteractableStorage : MonoBehaviour, IClientInteractable<HandActiva
 		if (Validations.IsTarget(gameObject, interaction))
 		{
 			// We're the target
-			// If player's hands are empty and alt-click let them open the bag
-			if (interaction.HandObject == null && interaction.IsAltClick) return true;
+			if (interaction.HandObject == null)
+			{
+				// If player's hands are empty and alt-click let them open the bag
+				if (interaction.IsAltClick) return true;
+			}
+			else
+			{
+				//We have something in our hand, try to put it in
+				return true;
+			}
 		}
 
 		return false;
@@ -210,8 +218,23 @@ public class InteractableStorage : MonoBehaviour, IClientInteractable<HandActiva
 	/// </summary>
 	public void ServerPerformInteraction(HandApply interaction)
 	{
+		if (interaction.HandObject == null)
+		{
+			// Reusing mouse drop logic for efficiency
+			ServerPerformInteraction(
+				MouseDrop.ByClient(interaction.Performer,
+					interaction.TargetObject,
+					interaction.Performer,
+					interaction.Intent));
+			return;
+		}
+
 		// Reusing mouse drop logic for efficiency
-		ServerPerformInteraction(MouseDrop.ByClient(interaction.Performer, interaction.TargetObject, interaction.Performer, interaction.Intent));
+		ServerPerformInteraction(
+			MouseDrop.ByClient(interaction.Performer,
+				interaction.UsedObject,
+				interaction.TargetObject,
+				interaction.Intent));
 	}
 
 	/// <summary>
@@ -510,30 +533,30 @@ public class InteractableStorage : MonoBehaviour, IClientInteractable<HandActiva
 	{
 		if (allowedToInteract == false) return false;
 		if (DefaultWillInteract.Default(interaction, side) == false) return false;
-		// can't drag / view ourselves
+
+		//Can't drag / view ourselves
 		if (interaction.Performer == interaction.DroppedObject) return false;
-		// can only drag and drop the object to ourselves,
-		// or from our inventory to this object
+
+		//Can only drag and drop the object to ourselves, or from our inventory to this object
 		if (interaction.IsFromInventory && interaction.TargetObject == gameObject)
 		{
-			// trying to add an item from inventory slot to this storage sitting in the world
+			//Trying to add an item from inventory slot to this storage sitting in the world
 			return Validations.CanPutItemToStorage(interaction.Performer.GetComponent<PlayerScript>(),
 				itemStorage, interaction.DroppedObject.GetComponent<Pickupable>(), side,
 				examineRecipient: interaction.Performer);
 		}
-		else
-		{
-			// trying to view this storage, can only drop on ourselves to view it
-			if (interaction.Performer != interaction.TargetObject) return false;
-			// if we're dragging another player to us, it's only allowed if the other player is downed
-			if (Validations.HasComponent<PlayerScript>(interaction.DroppedObject))
-			{
-				// dragging a player, can only do this if they are down / dead
-				return Validations.IsStrippable(interaction.DroppedObject, side);
-			}
 
-			return true;
+		//Trying to view this storage, can only drop on ourselves to view it
+		if (interaction.Performer != interaction.TargetObject) return false;
+
+		//If we're dragging another player to us, it's only allowed if the other player is downed
+		if (Validations.HasComponent<PlayerScript>(interaction.DroppedObject))
+		{
+			//Dragging a player, can only do this if they are down / dead
+			return Validations.IsStrippable(interaction.DroppedObject, side);
 		}
+
+		return true;
 	}
 
 	public void ServerPerformInteraction(MouseDrop interaction)
