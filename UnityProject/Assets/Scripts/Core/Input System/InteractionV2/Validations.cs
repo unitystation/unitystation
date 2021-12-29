@@ -429,6 +429,12 @@ public static class Validations
 		return ps.IsPositionReachable(state.WorldPosition, true) || ps.IsPositionReachable(state.WorldPosition - (Vector3)state.WorldImpulse, true, 1.75f, context: context);
 	}
 
+
+	public static bool CanApply(GhostApply toValidate, NetworkSide side, bool lineCast = false)
+	{
+		if (toValidate.PerformerPlayerScript.IsGhost == false) return false;
+		return true;
+	}
 	//AiActivate Validation
 	public static bool CanApply(AiActivate toValidate, NetworkSide side, bool lineCast = true)
 	{

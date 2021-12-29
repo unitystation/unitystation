@@ -8,6 +8,7 @@ using UnityEngine.EventSystems;
 using Weapons;
 using Objects.Wallmounts;
 using Player.Movement;
+using Systems.Interaction;
 using Tilemaps.Behaviours.Layers;
 using UI;
 using UI.Action;
@@ -334,11 +335,8 @@ public class MouseInputController : MonoBehaviour
 	private bool CheckClick()
 	{
 		ChangeDirection();
-		// currently there is nothing for ghosts to interact with, they only can change facing
-		if (PlayerManager.LocalPlayerScript.IsGhost)
-		{
-			return false;
-		}
+		var handApplyTargets =
+			MouseUtils.GetOrderedObjectsUnderMouse();
 
 		if (PlayerManager.PlayerScript.IsGhost)
 		{
@@ -358,9 +356,6 @@ public class MouseInputController : MonoBehaviour
 				UIActionManager.Instance.AimClicked(MouseWorldPosition);
 				return true;
 			}
-
-			var handApplyTargets =
-				MouseUtils.GetOrderedObjectsUnderMouse();
 
 			// go through the stack of objects and call any interaction components we find
 			foreach (GameObject applyTarget in handApplyTargets)
@@ -443,14 +438,11 @@ public class MouseInputController : MonoBehaviour
 		return false;
 	}
 
-<<<<<<< HEAD
 	private static bool CheckForGhostApply(GameObject obj)
 	{
 		return obj.TryGetComponent<PushPull>(out var pushPull);
 	}
 
-=======
->>>>>>> parent of a525694a10 (why no work)
 	/// <summary>
 	/// Used if you want to Force an interaction, Between Local character and certain Script ( Skips handApply.HandObject  )
 	/// </summary>

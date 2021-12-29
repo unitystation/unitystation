@@ -34,19 +34,21 @@
       "dependencies": {}
     },
     "com.unity.addressables": {
-      "version": "1.16.19",
+      "version": "1.18.19",
       "depth": 0,
       "source": "registry",
       "dependencies": {
-        "com.unity.scriptablebuildpipeline": "1.15.2",
+        "com.unity.scriptablebuildpipeline": "1.19.2",
         "com.unity.modules.assetbundle": "1.0.0",
+        "com.unity.modules.imageconversion": "1.0.0",
+        "com.unity.modules.jsonserialize": "1.0.0",
         "com.unity.modules.unitywebrequest": "1.0.0",
         "com.unity.modules.unitywebrequestassetbundle": "1.0.0"
       },
       "url": "https://packages.unity.com"
     },
     "com.unity.analytics": {
-      "version": "3.5.3",
+      "version": "3.6.11",
       "depth": 0,
       "source": "registry",
       "dependencies": {
@@ -119,7 +121,7 @@
       "url": "https://packages.unity.com"
     },
     "com.unity.scriptablebuildpipeline": {
-      "version": "1.15.2",
+      "version": "1.19.2",
       "depth": 1,
       "source": "registry",
       "dependencies": {},
@@ -162,7 +164,7 @@
       "url": "https://packages.unity.com"
     },
     "com.unity.timeline": {
-      "version": "1.5.6",
+      "version": "1.5.7",
       "depth": 0,
       "source": "registry",
       "dependencies": {
