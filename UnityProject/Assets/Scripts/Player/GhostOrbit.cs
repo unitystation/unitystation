@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Objects;
 using UnityEngine;
 
 
@@ -49,7 +50,7 @@ namespace Player
 			var stuff = MouseUtils.GetOrderedObjectsUnderMouse();
 			foreach (var possibleTarget in stuff)
 			{
-				if (possibleTarget.TryGetComponent<PushPull>(out var pull))
+				if (possibleTarget.TryGetComponent<PushPull>(out var pull) || possibleTarget.TryGetComponent<Singularity>(out var loose))
 				{
 					Orbit(possibleTarget);
 					return;
