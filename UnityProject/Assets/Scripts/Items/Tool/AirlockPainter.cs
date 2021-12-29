@@ -27,7 +27,7 @@ namespace Doors
 
 		private ItemSlot tonerSlot;
 
-		private Toner tonerCartridge =>
+		private Toner TonerCartridge =>
 			tonerSlot.Item != null ? tonerSlot.Item.GetComponent<Toner>() : null;
 
 		private void Awake()
@@ -92,17 +92,18 @@ namespace Doors
 			ServerChangeOverlayWeld(airlockAnim, paintJob);
 			ServerChangeOverlayHacking(airlockAnim, paintJob);
 
-			tonerCartridge.SpendInk();
+			TonerCartridge.SpendInk();
 		}
 
+		#region Toner
 		private bool CheckToner(GameObject performer)
 		{
-			if(tonerCartridge == null)
+			if(TonerCartridge == null)
 			{
 				Chat.AddExamineMsgFromServer(performer, $"There is no toner cartridge installed in {gameObject.ExpensiveName()}!");
 				return false;
 			}
-			if (tonerCartridge.CheckInkLevel() == false)
+			if (TonerCartridge.CheckInkLevel() == false)
 			{
 				Chat.AddExamineMsgFromServer(performer, "The toner cartridge is out of ink!");
 				return false;
@@ -118,7 +119,6 @@ namespace Doors
 			if (activeHand.IsEmpty)
 			{
 				Inventory.ServerTransfer(tonerSlot, activeHand);
-				return;
 			}
 			else
 			{
@@ -136,7 +136,9 @@ namespace Doors
 			if (tonerSlot.IsEmpty) return;
 			Inventory.ServerTransfer(tonerSlot, this.tonerSlot);
 		}
+		#endregion
 
+		#region Right Click Menu
 		public RightClickableResult GenerateRightClickOptions()
 		{
 			var result = RightClickableResult.Create();
@@ -151,7 +153,9 @@ namespace Doors
 		{
 			InteractionUtils.RequestInteract(interaction, this);
 		}
+		#endregion
 
+		#region Interactions
 		public bool Interact(HandActivate interaction)
 		{
 			ChoosePainJob(interaction.Performer);
@@ -207,6 +211,7 @@ namespace Doors
 				InsertToner(interaction.Performer, activeHand);
 			}
 		}
+		#endregion
 
 		#region Airlock sprites changes
 		private void ServerChangeDoorBase(DoorAnimatorV2 paintableAirlock, DoorAnimatorV2 paintJob)
@@ -271,13 +276,13 @@ namespace Doors
 				msg += $"Current paint job is the {AvailablePaintJobs[currentPaintJobIndex].ExpensiveName()}.\n";
 			}
 
-			if (tonerCartridge == null)
+			if (TonerCartridge == null)
 			{
 				msg += "Toner cartridge not installed.\n";
 			}
 			else
 			{
-				msg += tonerCartridge.InkLevel();
+				msg += TonerCartridge.InkLevel();
 			}
 			return msg;
 		}
