@@ -353,15 +353,10 @@ namespace Systems.Atmospherics
 		//If needed, sends them to a queue in ReactionManager so that main thread will apply them
 		public static void GasVisualEffects(MetaDataNode node)
 		{
-			if (node == null || node.ReactionManager == null)
-			{
-				return;
-			}
-
 			foreach (var gasData in node.GasMix.GasesArray) //doesn't appear to modify list while iterating
 			{
 				var gas = gasData.GasSO;
-				if(!gas.HasOverlay) continue;
+				if(gas.HasOverlay == false) continue;
 
 				var gasAmount = node.GasMix.GetMoles(gas);
 
@@ -403,8 +398,6 @@ namespace Systems.Atmospherics
 
 		public static void RemovalAllGasOverlays(MetaDataNode node)
 		{
-			if (node == null || node.ReactionManager == null) return;
-
 			foreach (var gas in node.GasOverlayData)
 			{
 				node.PositionMatrix.MetaTileMap.RemoveOverlaysOfType(node.Position, LayerType.Effects, gas.OverlayTile.OverlayType);
