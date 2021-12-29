@@ -143,18 +143,18 @@ namespace Systems.MobAIs
 
 		protected virtual void MonitorIdleness()
 		{
-			if (!mobMeleeAction.performingDecision && mobMeleeAction.FollowTarget == null)
+			if (mobMeleeAction.FollowTarget == null)
 			{
 				BeginSearch();
 			}
 			//We have target but not acting, so force do something
-			else if (mobMeleeAction.performingDecision == false && mobMeleeAction.performingAction == false)
+			else
 			{
 				forceActionWaitTime += Time.deltaTime;
 				if (forceActionWaitTime >= forceActionTickRate)
 				{
 					forceActionWaitTime = 0f;
-					mobMeleeAction.ForceTargetAction();
+					mobMeleeAction.DoAction();
 				}
 			}
 		}

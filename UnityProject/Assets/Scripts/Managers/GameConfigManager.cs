@@ -59,5 +59,6 @@ namespace GameConfig
 		public bool AdminOnlyHtml;
 		public int MalfAIRecieveTheirIntendedObjectiveChance;
 		public int CharacterNameLimit;
+		public bool ServerShutsDownOnRoundEnd;
 	}
 }

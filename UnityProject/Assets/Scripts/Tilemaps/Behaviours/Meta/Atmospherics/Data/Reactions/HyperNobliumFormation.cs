@@ -15,7 +15,10 @@ namespace Systems.Atmospherics
 		{
 			var oldHeatCap = gasMix.WholeHeatCapacity;
 
-			var reactionEfficiency = Mathf.Min(gasMix.GetMoles(Gas.Nitrogen) + gasMix.GetMoles(Gas.Tritium) / 100, gasMix.GetMoles(Gas.Tritium) / 10, gasMix.GetMoles(Gas.Nitrogen) / 20);
+			var reactionEfficiency = Mathf.Min(
+				gasMix.GetMoles(Gas.Nitrogen) + gasMix.GetMoles(Gas.Tritium) / 100,
+				gasMix.GetMoles(Gas.Tritium) / 10,
+				gasMix.GetMoles(Gas.Nitrogen) / 20);
 
 			var energyUsed = reactionEfficiency * (AtmosDefines.NOBLIUM_FORMATION_ENERGY / Mathf.Max(gasMix.GetMoles(Gas.BZ), 1f));
 

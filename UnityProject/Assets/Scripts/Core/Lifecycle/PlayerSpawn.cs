@@ -292,8 +292,6 @@ public static class PlayerSpawn
 	public static void ServerRejoinPlayer(JoinedViewer viewer, GameObject body)
 	{
 		var ps = body.GetComponent<PlayerScript>();
-		var mind = ps.mind;
-		var occupation = mind.occupation;
 		var settings = ps.characterSettings;
 		ServerTransferPlayer(viewer.connectionToClient, body, viewer.gameObject, Event.PlayerRejoined, settings);
 		ps = body.GetComponent<PlayerScript>();
@@ -413,7 +411,7 @@ public static class PlayerSpawn
 		{
 			var dummy = ServerCreatePlayer(spawnTransform.position.RoundToInt());
 
-			CharacterSettings randomSettings = CharacterSettings.RandomizeCharacterSettings();
+			CharacterSettings randomSettings = CharacterSettings.RandomizeCharacterSettings(RaceSOSingleton.Instance.Races.PickRandom().name);
 
 			ServerTransferPlayer(null, dummy, null, Event.PlayerSpawned, randomSettings);
 

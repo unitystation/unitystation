@@ -185,13 +185,7 @@ namespace Systems.Atmospherics
 			var ratio = molesToTransfer / sourceStartMoles;
 			var targetStartMoles = target.Moles;
 
-			var Listsource = AtmosUtils.GetGasValuesList();
-
-			lock (source.GasesArray) //no Double lock
-			{
-				Listsource.List.AddRange(source.GasesArray);
-			}
-
+			var Listsource = AtmosUtils.CopyGasArray(source.GasData);
 
 			for (int i = Listsource.List.Count - 1; i >= 0; i--)
 			{

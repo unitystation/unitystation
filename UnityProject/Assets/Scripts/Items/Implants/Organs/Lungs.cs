@@ -105,7 +105,7 @@ public class Lungs : BodyPartFunctionality
 			return false;
 		}
 
-		if (RelatedPart.HealthMaster.CirculatorySystem.UsedBloodPool[RelatedPart.bloodType] == 0)
+		if (RelatedPart.HealthMaster.CirculatorySystem.BloodPool[RelatedPart.bloodType] == 0)
 		{
 			return false; //No point breathing if we dont have blood.
 		}
@@ -134,11 +134,11 @@ public class Lungs : BodyPartFunctionality
 		}
 
 		ReagentMix AvailableBlood =
-			RelatedPart.HealthMaster.CirculatorySystem.UsedBloodPool.Take(
-				(RelatedPart.HealthMaster.CirculatorySystem.UsedBloodPool.Total * efficiency) / 2f);
+			RelatedPart.HealthMaster.CirculatorySystem.BloodPool.Take(
+				(RelatedPart.HealthMaster.CirculatorySystem.BloodPool.Total * efficiency) / 2f);
 		bool tryExhale = BreatheOut(gasMixSink, AvailableBlood);
 		bool tryInhale = BreatheIn(container.GasMix, AvailableBlood, efficiency);
-		RelatedPart.HealthMaster.CirculatorySystem.ReadyBloodPool.Add(AvailableBlood);
+		RelatedPart.HealthMaster.CirculatorySystem.BloodPool.Add(AvailableBlood);
 		return tryExhale || tryInhale;
 	}
 
@@ -351,7 +351,7 @@ public class Lungs : BodyPartFunctionality
 
 				//TODO: TAKE BLOOD
 				var bloodLoss = new ReagentMix();
-				RelatedPart.HealthMaster.CirculatorySystem.ReadyBloodPool.TransferTo(bloodLoss,
+				RelatedPart.HealthMaster.CirculatorySystem.BloodPool.TransferTo(bloodLoss,
 					RelatedPart.CurrentInternalBleedingDamage);
 				MatrixManager.ReagentReact(bloodLoss,
 					RelatedPart.HealthMaster.gameObject.RegisterTile().WorldPositionServer);

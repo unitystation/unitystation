@@ -504,7 +504,7 @@ public static class SweetExtensions
 	{
 		if (string.IsNullOrEmpty(value)) return value;
 		return value.Length <= maxLength ? value : value.Substring(0, maxLength);
-  }
+	}
 
 	/// <summary>
 	/// <para>Get specific type from a list.</para>

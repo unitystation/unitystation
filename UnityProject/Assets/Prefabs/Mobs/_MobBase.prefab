@@ -21,6 +21,7 @@ GameObject:
   - component: {fileID: 5109876281741361594}
   - component: {fileID: 4816238574199996034}
   - component: {fileID: -1660133359393167650}
+  - component: {fileID: 4995315385982660190}
   m_Layer: 12
   m_Name: _MobBase
   m_TagString: Untagged
@@ -116,7 +117,7 @@ MonoBehaviour:
   syncInterval: 0.232
   matrixDebugLogging: 0
   objectType: 1
-  customNetTransform: {fileID: 0}
+  customNetTransform: {fileID: 114386898746361270}
   prefabTracker: {fileID: 0}
   CurrentsortingGroup: {fileID: 0}
   AtmosPassable: 1
@@ -277,6 +278,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+--- !u!114 &4995315385982660190
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1722833055556988}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5a02af87cf44eaf4b81945b406d2757f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MobObjectives: []
 --- !u!1 &3951175065346152907
 GameObject:
   m_ObjectHideFlags: 0

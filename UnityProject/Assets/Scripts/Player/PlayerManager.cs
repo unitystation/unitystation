@@ -18,6 +18,7 @@ public class PlayerManager : MonoBehaviour
 	public static JoinedViewer LocalViewerScript { get; private set; }
 
 	//For access via other parts of the game
+	//TODO why do we have PlayerScript & LocalPlayerScript when they are the same thing????
 	public static PlayerScript PlayerScript { get; private set; }
 
 	public static bool HasSpawned { get; private set; }

@@ -22,6 +22,8 @@ namespace HealthV2
 
 		public bool CanGetHungry = true;
 
+		public bool HasNaturalToxicity = true;
+
 		/// <summary>
 		/// Flag that is true if the body part is connected to the blood stream. If this is false
 		/// it will be ignored by circulatory organs (the heart).
@@ -71,7 +73,7 @@ namespace HealthV2
 		/// </summary>
 		[Tooltip("What percentage per update of oxygen*(Required reagent) is consumed")]
 		[SerializeField]
-		private float bloodReagentConsumedPercentage = 0.2f;
+		private float bloodReagentConsumedPercentageb = 0.5f;
 
 		[Tooltip("How much blood reagent does this request per blood pump event?")] [SerializeField]
 		private float bloodThroughput = 5f; //This will need to be reworked when heartrate gets finished
@@ -135,7 +137,7 @@ namespace HealthV2
 			{
 				if (isBloodCirculated)
 				{
-					HealthMaster.CirculatorySystem.ReadyBloodPool.TransferTo(BloodContainer.CurrentReagentMix,
+					HealthMaster.CirculatorySystem.BloodPool.TransferTo(BloodContainer.CurrentReagentMix,
 						BloodStoredMax);
 					//BloodContainer.CurrentReagentMix.Add(Nutriment, 0.01f);
 				}
@@ -163,22 +165,27 @@ namespace HealthV2
 				ConsumeNutriments();
 			}
 
-			MetaboliseReactions();
-			NaturalToxicity();
+			if (HasNaturalToxicity)
+			{
+				NaturalToxicity();
+			}
+
 			//Assuming it's changed in this update since none of them use the Inbuilt functions
 			BloodContainer.OnReagentMixChanged?.Invoke();
 			BloodContainer.ReagentsChanged();
+			//plz No modify BloodContainer before MetaboliseReactions
+			MetaboliseReactions();
 		}
 
 		protected virtual void NaturalToxicity()
 		{
-			BloodContainer.CurrentReagentMix.Add(NaturalToxinReagent, ToxinGeneration * BloodThroughput);
+			HealthMaster.CirculatorySystem.BloodPool.Add(NaturalToxinReagent, ToxinGeneration * BloodThroughput);
 		}
 
 		protected virtual void MetaboliseReactions()
 		{
 			if (MetabolismReactions.Count == 0) return;
-			float ReagentsProcessed = (ReagentMetabolism * bloodThroughput * TotalModified) / MetabolismReactions.Count;
+			float ReagentsProcessed = (ReagentMetabolism * bloodThroughput * TotalModified);
 			foreach (var Reaction in MetabolismReactions)
 			{
 				Reaction.React(this, BloodContainer.CurrentReagentMix, ReagentsProcessed);
@@ -204,7 +211,7 @@ namespace HealthV2
 			if (!isBloodReagentConsumed) return;
 
 			float consumed =
-				BloodContainer.CurrentReagentMix.Subtract(requiredReagent, bloodReagentConsumedPercentage * BloodContainer[requiredReagent]);
+				BloodContainer.CurrentReagentMix.Subtract(requiredReagent, bloodReagentConsumedPercentageb * BloodContainer[requiredReagent]);
 
 			// Adds waste product (eg CO2) if any, currently always 1:2, could add code to change the ratio
 			if (wasteReagent)
@@ -254,8 +261,8 @@ namespace HealthV2
 		public void OxyHeal(ReagentMix reagentMix, float amount)
 		{
 			if (Oxy <= 0) return;
-			var toConsume = Mathf.Min(amount, Oxy * bloodReagentConsumedPercentage * bloodThroughput);
-			AffectDamage(-reagentMix.Subtract(requiredReagent, toConsume) / bloodReagentConsumedPercentage * bloodThroughput,
+			var toConsume = Mathf.Min(amount, Oxy * bloodReagentConsumedPercentageb * bloodThroughput);
+			AffectDamage(-reagentMix.Subtract(requiredReagent, toConsume) / bloodReagentConsumedPercentageb * bloodThroughput,
 				(int) DamageType.Oxy);
 		}
 
@@ -324,15 +331,11 @@ namespace HealthV2
 		/// </summary>
 		/// <param name="bloodIn">Incoming blood</param>
 		/// <returns>Whatever is left over from bloodIn</returns>
-		public void BloodPumpedEvent(ReagentMix bloodIn)
+		public void BloodPumpedEvent(float ToTransferIn)
 		{
-			//Maybe have damage from high/low blood levels and high blood pressure
-			BloodContainer.CurrentReagentMix.TransferTo(HealthMaster.CirculatorySystem.UsedBloodPool, 	(BloodContainer.CurrentReagentMix.Total + bloodIn.Total ) - BloodThroughput);
+			BloodContainer.CurrentReagentMix.TransferTo(HealthMaster.CirculatorySystem.BloodPool, 	(BloodContainer.CurrentReagentMix.Total + ToTransferIn ) - BloodThroughput);
+			HealthMaster.CirculatorySystem.BloodPool.TransferTo(BloodContainer.CurrentReagentMix, ToTransferIn);
 
-			bloodIn.TransferTo(BloodContainer.CurrentReagentMix, bloodIn.Total);
-
-			BloodContainer.OnReagentMixChanged?.Invoke();
-			BloodContainer.ReagentsChanged();
 			BloodWasPumped();
 		}
 

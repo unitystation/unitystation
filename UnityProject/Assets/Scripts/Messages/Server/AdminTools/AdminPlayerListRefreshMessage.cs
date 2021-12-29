@@ -57,9 +57,9 @@ namespace Messages.Server.AdminTools
 				entry.uid = player.UserId;
 				entry.currentJob = player.Job.ToString();
 				entry.accountName = player.Username;
+				entry.ipAddress = player.ConnectionIP;
 				if (player.Connection != null)
 				{
-					entry.ipAddress = player.Connection.address;
 					if (player.Script != null && player.Script.playerHealth != null)
 					{
 						entry.isAlive = player.Script.playerHealth.ConsciousState != ConsciousState.DEAD;
