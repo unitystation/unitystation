@@ -103,7 +103,7 @@ namespace Systems.Atmospherics
 				MetaDataNode node = metaDataLayer.Get(position, false);
 				if (node.IsRoom && node.RoomNumber == roomNumber)
 				{
-					node.GasMix = GasMix.NewGasMix(gasMixToUse);
+					node.ChangeGasMix(GasMix.NewGasMix(gasMixToUse));
 				}
 			}
 		}

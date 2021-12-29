@@ -401,7 +401,7 @@ namespace Systems.Atmospherics
 			}
 		}
 
-		private void RemovalAllGasOverlays(MetaDataNode node)
+		public static void RemovalAllGasOverlays(MetaDataNode node)
 		{
 			if (node == null || node.ReactionManager == null) return;
 
