@@ -361,8 +361,7 @@ namespace UI.Chat_UI
 		{
 			//Prevent input spam
 			if (windowCoolDown || UIManager.PreventChatInput) return;
-			windowCoolDown = true;
-			StartCoroutine(WindowCoolDown());
+			StartWindowCooldown();
 
 			// Can't open chat window while main menu open
 			if (GUI_IngameMenu.Instance.menuWindow.activeInHierarchy)
@@ -395,8 +394,7 @@ namespace UI.Chat_UI
 
 		public void CloseChatWindow()
 		{
-			windowCoolDown = true;
-			StartCoroutine(WindowCoolDown());
+			StartWindowCooldown();
 			UIManager.IsInputFocus = false;
 			chatInputWindow.SetActive(false);
 			EventManager.Broadcast(Event.ChatUnfocused);
@@ -409,6 +407,14 @@ namespace UI.Chat_UI
 			InputFieldChat.text = "";
 
 			OnChatWindowClosed?.Invoke();
+		}
+
+		public void StartWindowCooldown()
+		{
+			if(windowCoolDown) return;
+
+			windowCoolDown = true;
+			StartCoroutine(WindowCoolDown());
 		}
 
 		private IEnumerator WindowCoolDown()
