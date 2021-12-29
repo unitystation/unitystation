@@ -57,10 +57,6 @@ public static class DefaultWillInteract
 		{
 			return Validations.CanApply(interaction as AiActivate, side);
 		}
-		if (typeof(T) == typeof(GhostApply))
-		{
-			return Validations.CanApply(interaction as GhostApply, side);
-		}
 
 		Logger.LogError("Unable to recognize interaction type.", Category.Interaction);
 		return false;

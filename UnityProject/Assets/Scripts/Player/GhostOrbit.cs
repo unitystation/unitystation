@@ -1,22 +1,17 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Threading.Tasks;
-using Systems.Interaction;
 using UnityEngine;
 
 
 namespace Player
 {
-	public class GhostOrbit : MonoBehaviour, ICheckedInteractable<GhostApply>
+	public class GhostOrbit : MonoBehaviour
 	{
 		private GameObject target;
 		[SerializeField] private PlayerSync netTransform;
 		[SerializeField] private RotateAroundTransform rotateTransform;
 		[SerializeField] private Transform spriteTransform;
-
-		private int doubleClickTime = 500;
-		private GameObject clickedPossibleTarget;
 
 		private void Start()
 		{
@@ -63,33 +58,6 @@ namespace Player
 			netTransform.SetPosition(target.AssumedWorldPosServer(), false);
 		}
 
-		private async void DoubleClickCheck(GameObject targetClicked)
-		{
-			clickedPossibleTarget = targetClicked;
-			await Task.Delay(doubleClickTime).ConfigureAwait(false);
-			clickedPossibleTarget = null;
-		}
-
-
-		public bool WillInteract(GhostApply interaction, NetworkSide side)
-		{
-			Debug.Log("test test");
-			if (interaction.TargetObject.TryGetComponent<PushPull>(out var pushPull)) return true;
-			return false;
-		}
-
-		public void ServerPerformInteraction(GhostApply interaction)
-		{
-			if (clickedPossibleTarget == interaction.TargetObject)
-			{
-				Orbit(interaction.TargetObject);
-				return;
-			}
-			if (interaction.TargetObject.TryGetComponent<PushPull>(out var pushPull))
-			{
-				DoubleClickCheck(pushPull.gameObject);
-			}
-		}
 	}
 
 }
