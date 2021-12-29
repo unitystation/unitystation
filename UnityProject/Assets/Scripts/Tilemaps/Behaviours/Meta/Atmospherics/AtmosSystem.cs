@@ -44,22 +44,22 @@ namespace Systems.Atmospherics
 					//Check to see if theres a special room mix
 					if (toSet.Count > 0 && toSet.TryGetValue(node.RoomNumber, out var gasSetter))
 					{
-						node.GasMix = GasMix.NewGasMix(gasSetter.GasMixToSpawn);
+						node.ChangeGasMix(GasMix.NewGasMix(gasSetter.GasMixToSpawn));
 					}
 					//See if the whole matrix has a custom mix
-					else if(hasCustomMix)
+					else if (hasCustomMix)
 					{
-						node.GasMix = GasMix.NewGasMix(defaultRoomGasMixOverride.BaseGasMix);
+						node.ChangeGasMix(GasMix.NewGasMix(defaultRoomGasMixOverride.BaseGasMix));
 					}
 					//Default to air mix otherwise
 					else
 					{
-						node.GasMix = GasMix.NewGasMix(GasMixes.BaseAirMix);
+						node.ChangeGasMix(GasMix.NewGasMix(GasMixes.BaseAirMix));
 					}
 				}
 				else
 				{
-					node.GasMix = GasMix.NewGasMix(GasMixes.BaseSpaceMix);
+					node.ChangeGasMix(GasMix.NewGasMix(GasMixes.BaseSpaceMix));
 				}
 			}
 

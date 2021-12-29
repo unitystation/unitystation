@@ -351,7 +351,7 @@ namespace Systems.Atmospherics
 
 		//Handles checking for vfx changes
 		//If needed, sends them to a queue in ReactionManager so that main thread will apply them
-		private void GasVisualEffects(MetaDataNode node)
+		public static void GasVisualEffects(MetaDataNode node)
 		{
 			if (node == null || node.ReactionManager == null)
 			{

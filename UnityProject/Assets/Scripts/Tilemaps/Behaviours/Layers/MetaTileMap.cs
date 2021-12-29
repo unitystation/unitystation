@@ -2186,6 +2186,7 @@ namespace TileManagement
 		FireSparkles,
 		FireOverCharged,
 		FireFusion,
-		FireRainbow
+		FireRainbow,
+		Ash
 	}
 }

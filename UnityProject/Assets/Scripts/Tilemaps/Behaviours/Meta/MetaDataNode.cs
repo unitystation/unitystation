@@ -296,6 +296,8 @@ public class MetaDataNode : IGasMixContainer
 		AtmosSimulation.RemovalAllGasOverlays(this);
 
 		GasMix = newGasMix;
+
+		AtmosSimulation.GasVisualEffects(this);
 	}
 
 	public override string ToString()
