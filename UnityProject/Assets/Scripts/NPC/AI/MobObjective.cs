@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Doors;
@@ -8,18 +9,25 @@ namespace Systems.MobAIs
 {
 	public class MobObjective : MonoBehaviour
 	{
-		public RegisterTile MobTile;
+		protected RegisterTile mobTile;
+		protected Directional directional;
+		protected MobAI mobAI;
 
-		public Directional directional;
+		[Tooltip("Allow the objective to happen when dead")]
+		public bool AllowDead = false;
+
+		[Tooltip("Allow the objective to happen when unconscious")]
+		public bool AllowUnconscious = false;
 
 		public void Awake()
 		{
-			MobTile = GetComponent<RegisterTile>();
+			mobTile = GetComponent<RegisterTile>();
 			directional = GetComponent<Directional>();
+			mobAI = GetComponent<MobAI>();
 		}
 
-
-		public float Priority; //The priority that this action should be done next
+		//The priority that this action should be done next
+		public float Priority;
 
 		protected List<Vector3Int> Directions = new List<Vector3Int>()
 		{
@@ -28,6 +36,15 @@ namespace Systems.MobAIs
 			new Vector3Int(0, 1, 0),
 			new Vector3Int(0, -1, 0),
 		};
+
+		public void TryAction()
+		{
+			if(mobAI.IsUnconscious && AllowUnconscious == false) return;
+
+			if(mobAI.IsDead && AllowDead == false) return;
+
+			DoAction();
+		}
 
 		public virtual void DoAction()
 		{
@@ -39,27 +56,24 @@ namespace Systems.MobAIs
 		}
 
 
-		public void Move(Vector3Int dirToMove)
+		protected void Move(Vector3Int dirToMove)
 		{
-			var dest = MobTile.LocalPositionServer + dirToMove;
+			var dest = mobTile.LocalPositionServer + dirToMove;
 
-			if (!MobTile.customNetTransform.Push(dirToMove.To2Int(), context: gameObject))
+			if (mobTile.customNetTransform.Push(dirToMove.To2Int(), context: gameObject) == false)
 			{
-				DoorController tryGetDoor =
-					MobTile.Matrix.GetFirst<DoorController>(
-						dest, true);
-				if (tryGetDoor)
-				{
-					tryGetDoor.MobTryOpen(gameObject);
-				}
-
 				//New doors
-				DoorMasterController tryGetDoorMaster =
-					MobTile.Matrix.GetFirst<DoorMasterController>(
-						dest, true);
+				DoorMasterController tryGetDoorMaster = mobTile.Matrix.GetFirst<DoorMasterController>(dest, true);
 				if (tryGetDoorMaster)
 				{
 					tryGetDoorMaster.Bump(gameObject);
+				}
+
+				//Old doors
+				DoorController tryGetDoor = mobTile.Matrix.GetFirst<DoorController>(dest, true);
+				if (tryGetDoor)
+				{
+					tryGetDoor.MobTryOpen(gameObject);
 				}
 			}
 
@@ -70,30 +84,24 @@ namespace Systems.MobAIs
 		}
 
 
-		public Vector3Int ChooseDominantDirection(Vector3 InD)
+		protected Vector3Int ChooseDominantDirection(Vector3 inD)
 		{
-			if (Mathf.Abs(InD.x) > Mathf.Abs(InD.y))
+			if (Mathf.Abs(inD.x) > Mathf.Abs(inD.y))
 			{
-				if (InD.x > 0)
+				if (inD.x > 0)
 				{
 					return new Vector3Int(1, 0, 0);
 				}
-				else
-				{
-					return new Vector3Int(-1, 0, 0);
-				}
+
+				return new Vector3Int(-1, 0, 0);
 			}
-			else
+
+			if (inD.y > 0)
 			{
-				if (InD.y > 0)
-				{
-					return new Vector3Int(0, 1, 0);
-				}
-				else
-				{
-					return new Vector3Int(0, -1, 0);
-				}
+				return new Vector3Int(0, 1, 0);
 			}
+
+			return new Vector3Int(0, -1, 0);
 		}
 	}
 }

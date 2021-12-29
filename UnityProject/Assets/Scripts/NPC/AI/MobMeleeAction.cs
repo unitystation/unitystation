@@ -44,8 +44,9 @@ namespace Systems.MobAIs
 
 		/// <summary>
 		/// Maximum range that the mob will continue to try to act on the target
+		/// NOTE: Max raycast range is 25 see MatrixManager line 357
 		/// </summary>
-		protected float TetherRange = 30f;
+		protected float TetherRange = 25f;
 
 		public void OnEnable()
 		{
@@ -69,10 +70,10 @@ namespace Systems.MobAIs
 				return;
 			}
 
-			var dir = (hitInfo.TileHitWorld - MobTile.WorldPositionServer).normalized;
+			var dir = (hitInfo.TileHitWorld - mobTile.WorldPositionServer).normalized;
 
 			if (hitInfo.CollisionHit.GameObject != null &&
-			    (hitInfo.TileHitWorld - MobTile.WorldPositionServer).sqrMagnitude <= 4)
+			    (hitInfo.TileHitWorld - mobTile.WorldPositionServer).sqrMagnitude <= 4)
 			{
 				if (onlyActOnTarget)
 				{
@@ -119,9 +120,9 @@ namespace Systems.MobAIs
 					if (FollowTarget != null && TargetDistance() < TetherRange)
 					{
 						Vector3 dir =
-							(Vector3)(FollowTarget.WorldPositionServer - MobTile.WorldPositionServer).Normalize() /
+							(Vector3)(FollowTarget.WorldPositionServer - mobTile.WorldPositionServer).Normalize() /
 							1.5f;
-						var hitInfo = MatrixManager.Linecast(MobTile.WorldPositionServer + dir,
+						var hitInfo = MatrixManager.Linecast(mobTile.WorldPositionServer + dir,
 							LayerTypeSelection.Windows | LayerTypeSelection.Grills, checkMask,
 							FollowTarget.WorldPositionServer);
 

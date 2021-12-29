@@ -63,7 +63,7 @@ namespace Systems.MobAIs
 			get {
 				if (_interactableTiles == null)
 				{
-					_interactableTiles = InteractableTiles.GetAt((Vector2Int) MobTile.LocalPositionServer, true);
+					_interactableTiles = InteractableTiles.GetAt((Vector2Int) mobTile.LocalPositionServer, true);
 				}
 
 				return _interactableTiles;
@@ -92,12 +92,12 @@ namespace Systems.MobAIs
 			{
 				case Target.food:
 					if (hasFoodPrefereces)
-						return MobTile.Matrix.Get<ItemAttributesV2>(checkPos, true).Any(IsInFoodPreferences);
-					return MobTile.Matrix.GetFirst<Edible>(checkPos, true) != null;
+						return mobTile.Matrix.Get<ItemAttributesV2>(checkPos, true).Any(IsInFoodPreferences);
+					return mobTile.Matrix.GetFirst<Edible>(checkPos, true) != null;
 
 				case Target.dirtyFloor:
-					if (IsEmagged == false) return (MobTile.Matrix.Get<FloorDecal>(checkPos, true).Any(p => p.Cleanable));
-					else return (MobTile.Matrix.Get<FloorDecal>(checkPos, true).Any(p => p.Cleanable) || (!MobTile.Matrix.Get<FloorDecal>(checkPos, true).Any() && interactableTiles.MetaTileMap.GetTile(checkPos)?.LayerType == LayerType.Floors));
+					if (IsEmagged == false) return (mobTile.Matrix.Get<FloorDecal>(checkPos, true).Any(p => p.Cleanable));
+					else return (mobTile.Matrix.Get<FloorDecal>(checkPos, true).Any(p => p.Cleanable) || (!mobTile.Matrix.Get<FloorDecal>(checkPos, true).Any() && interactableTiles.MetaTileMap.GetTile(checkPos)?.LayerType == LayerType.Floors));
 
 				case Target.missingFloor:
 					if (IsEmagged == false) return (interactableTiles.MetaTileMap.GetTile(checkPos)?.LayerType == LayerType.Base || interactableTiles.MetaTileMap.GetTile(checkPos)?.LayerType == LayerType.Underfloor); // Checks the topmost tile if its the base or underfloor layer (below the floor)
@@ -108,7 +108,7 @@ namespace Systems.MobAIs
 
 				// this includes ghosts!
 				case Target.players:
-					return MobTile.Matrix.GetFirst<PlayerScript>(checkPos, true) != null;
+					return mobTile.Matrix.GetFirst<PlayerScript>(checkPos, true) != null;
 
 				default:
 					return false;
@@ -149,7 +149,7 @@ namespace Systems.MobAIs
 		{
 			if (hasFoodPrefereces)
 			{
-				var food = MobTile.Matrix.Get<ItemAttributesV2>(checkPos, true).FirstOrDefault(IsInFoodPreferences);
+				var food = mobTile.Matrix.Get<ItemAttributesV2>(checkPos, true).FirstOrDefault(IsInFoodPreferences);
 
 				if (food is null)
 				{
@@ -164,7 +164,7 @@ namespace Systems.MobAIs
 			}
 			else
 			{
-				var food = MobTile.Matrix.GetFirst<Edible>(checkPos, true);
+				var food = mobTile.Matrix.GetFirst<Edible>(checkPos, true);
 
 				if (food != null)
 				{
@@ -178,7 +178,7 @@ namespace Systems.MobAIs
 		/// </summary>
 		protected virtual void PerformTargetAction(Vector3Int checkPos)
 		{
-			if (MobTile == null || MobTile.Matrix == null)
+			if (mobTile == null || mobTile.Matrix == null)
 			{
 				return;
 			}
@@ -202,7 +202,7 @@ namespace Systems.MobAIs
 				case Target.injuredPeople:
 					break;
 				case Target.players:
-					var people = MobTile.Matrix.GetFirst<PlayerScript>(checkPos, true);
+					var people = mobTile.Matrix.GetFirst<PlayerScript>(checkPos, true);
 					if (people != null) gameObject.GetComponent<MobAI>().ExplorePeople(people);
 					break;
 			}
@@ -231,7 +231,7 @@ namespace Systems.MobAIs
 
 		public override void ContemplatePriority()
 		{
-			if (IsTargetFound(MobTile.LocalPositionServer))
+			if (IsTargetFound(mobTile.LocalPositionServer))
 			{
 				Priority += PriorityBalance * 10;
 			}
@@ -245,9 +245,9 @@ namespace Systems.MobAIs
 
 		public override void DoAction()
 		{
-			if (IsTargetFound(MobTile.LocalPositionServer))
+			if (IsTargetFound(mobTile.LocalPositionServer))
 			{
-				StartPerformAction(MobTile.LocalPositionServer);
+				StartPerformAction(mobTile.LocalPositionServer);
 			}
 			else
 			{
