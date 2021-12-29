@@ -1,12 +1,8 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using AdminCommands;
-using DatabaseAPI;
-using Audio.Containers;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using UnityEngine;
+using Audio.Containers;
 using AddressableReferences;
-
 
 namespace AdminTools
 {
@@ -44,7 +40,7 @@ namespace AdminTools
 				LoadButtons();
 			}
 			
-			LoadAudio();
+			_ = LoadAudio();
 		}
 
 		/// <summary>

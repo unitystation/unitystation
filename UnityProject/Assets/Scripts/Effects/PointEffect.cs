@@ -7,12 +7,12 @@ public class PointEffect : CustomEffectBehaviour
 	private Coroutine slowDown;
 	public override void RunEffect(Vector2 target)
 	{
-		particleSystem.Clear();
+		ParticleSystem.Clear();
 		this.TryStopCoroutine(ref slowDown);
 
 		Vector2 pos = transform.position;
 
-		var particleMain = particleSystem.main;
+		var particleMain = ParticleSystem.main;
 		particleMain.startRotation = Mathf.Atan2(pos.x - target.x, pos.y - target.y)
 			;
 		Vector2 difference = new Vector2(target.x - pos.x, target.y - pos.y);
@@ -21,7 +21,7 @@ public class PointEffect : CustomEffectBehaviour
 		SetSpeed(difference);
 
 		this.StartCoroutine(SlowDown(difference), ref slowDown);
-		particleSystem.Play();
+		ParticleSystem.Play();
 	}
 
 	private IEnumerator SlowDown(Vector2 speed)
@@ -33,7 +33,7 @@ public class PointEffect : CustomEffectBehaviour
 
 	void SetSpeed(Vector2 newSpeed)
 	{
-		var velocityOverLifetime = particleSystem.velocityOverLifetime;
+		var velocityOverLifetime = ParticleSystem.velocityOverLifetime;
 
 		var curveX = velocityOverLifetime.x;
 		curveX.curveMultiplier = newSpeed.x;

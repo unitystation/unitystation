@@ -1167,7 +1167,8 @@ namespace Systems.Ai
 
 			while (a > 0.1)
 			{
-				lineRenderer.SetColors(colour, colour);
+				lineRenderer.startColor = colour;
+				lineRenderer.endColor = colour;
 				yield return WaitFor.Seconds(0.1f);
 				a -= 0.1f;
 				a = Mathf.Clamp(a, 0f, 1f);

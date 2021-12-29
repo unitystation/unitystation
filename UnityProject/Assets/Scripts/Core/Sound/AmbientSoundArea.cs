@@ -16,7 +16,6 @@ public class AmbientSoundArea : MonoBehaviour
 {
 	[SerializeField] private AudioClipsArray enteringSoundTrack = null;
 	[SerializeField] private AudioClipsArray leavingSoundTrack = null;
-	private string guid = "";
 
 	private AddressableAudioSource playing;
 

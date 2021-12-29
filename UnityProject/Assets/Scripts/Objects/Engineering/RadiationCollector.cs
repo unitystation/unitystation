@@ -13,7 +13,6 @@ namespace Objects.Engineering
 		private RegisterTile registerTile;
 
 		private bool isOn;
-		private GameObject slotObject;
 
 		[SerializeField]
 		private SpriteHandler mainSpriteHandler = null;
@@ -53,7 +52,7 @@ namespace Objects.Engineering
 
 		private void Start()
 		{
-			if(CustomNetworkManager.IsServer == false) return;
+			if (CustomNetworkManager.IsServer == false) return;
 
 			if (startSetUp)
 			{
@@ -144,7 +143,7 @@ namespace Objects.Engineering
 			}
 		}
 
-		public string Examine(Vector3 worldPos = default(Vector3))
+		public string Examine(Vector3 worldPos = default)
 		{
 			if (isOn == false)
 			{

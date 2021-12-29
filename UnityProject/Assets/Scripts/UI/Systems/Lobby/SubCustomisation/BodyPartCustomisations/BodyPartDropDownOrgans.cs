@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using HealthV2;
 using Newtonsoft.Json;
@@ -29,7 +28,7 @@ namespace UI.CharacterCreator
 			return JsonConvert.SerializeObject(Dropdown.value);
 		}
 
-		public static void OnPlayerBodyDeserialise(BodyPart Body_Part, string InData, LivingHealthMasterBase LivingHealthMasterBase)
+		public static void PlayerBodyDeserialise(BodyPart Body_Part, string InData, LivingHealthMasterBase LivingHealthMasterBase)
 		{
 			var PreviousOptions = JsonConvert.DeserializeObject<List<bool>>(InData);
 			for (int i = 0; i < PreviousOptions.Count; i++)
@@ -40,7 +39,11 @@ namespace UI.CharacterCreator
 					LivingHealthMasterBase.BodyPartStorage.ServerTryAdd(spawned.GameObject);
 				}
 			}
+		}
 
+		public override void OnPlayerBodyDeserialise(BodyPart Body_Part, string InData, LivingHealthMasterBase LivingHealthMasterBase)
+		{
+			PlayerBodyDeserialise(Body_Part, InData, LivingHealthMasterBase);
 		}
 
 		public void SetUp(CharacterCustomization incharacterCustomization, IBodyPartDropDownOrgans Body_Part, string path)

@@ -7,7 +7,7 @@ using Systems.Spawns;
 using Managers;
 using Messages.Server;
 using Messages.Server.LocalGuiMessages;
-using UI.CharacterCreator;
+using Player;
 
 /// <summary>
 /// Main API for dealing with spawning players and related things.

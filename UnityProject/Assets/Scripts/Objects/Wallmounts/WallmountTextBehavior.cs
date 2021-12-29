@@ -10,7 +10,7 @@ namespace Objects.Wallmounts
 	{
 		private Text text;
 
-		private void Awake()
+		protected override void Awake()
 		{
 			text = GetComponent<Text>();
 			base.Awake();
