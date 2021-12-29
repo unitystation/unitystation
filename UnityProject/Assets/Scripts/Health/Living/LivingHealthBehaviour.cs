@@ -539,6 +539,8 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour, IHealth, IFireEx
 			return;
 		}
 
+		timeOfDeath = GameManager.Instance.stationTime;
+
 		OnDeathNotifyEvent?.Invoke();
 		afterDeathDamage = 0;
 		ConsciousState = ConsciousState.DEAD;
