@@ -334,6 +334,17 @@ namespace Messages.Client.Interaction
 				var interaction = ContextMenuApply.ByClient(performer, usedObj, targetObj, RequestedOption, Intent);
 				ProcessInteraction(interaction, processorObj, ComponentType);
 			}
+			else if (InteractionType == typeof(GhostApply))
+			{
+				var clientStorage = SentByPlayer.Script.DynamicItemStorage;
+				var usedObject = clientStorage.GetActiveHandSlot().ItemObject;
+				LoadNetworkObject(ProcessorObject);
+				var processorObj = NetworkObject;
+				CheckMatrixSync(ref processorObj);
+
+				var interaction = GhostApply.ByClient(performer, usedObject, processorObj, Intent);
+				ProcessInteraction(interaction, processorObj, ComponentType);
+			}
 		}
 
 		private void CheckMatrixSync(ref GameObject toCheck)
@@ -577,6 +588,11 @@ namespace Messages.Client.Interaction
 				msg.TargetObject = GetNetId(casted.TargetObject);
 				msg.ClickTypes = casted.ClickType;
 			}
+			else if (typeof(T) == typeof(GhostApply))
+			{
+				var casted = interaction as GhostApply;
+				msg.TargetObject = GetNetId(casted.TargetObject);
+			}
 
 			Send(msg);
 		}
@@ -755,6 +771,10 @@ namespace Messages.Client.Interaction
 				message.TargetObject = reader.ReadUInt();
 				message.ClickTypes = (AiActivate.ClickTypes)reader.ReadByte();
 			}
+			else if (message.InteractionType == typeof(GhostApply))
+			{
+				message.TargetObject = reader.ReadUInt();
+			}
 
 			return message;
 		}
@@ -837,6 +857,10 @@ namespace Messages.Client.Interaction
 			{
 				writer.WriteUInt(message.TargetObject);
 				writer.WriteByte((byte)message.ClickTypes);
+			}
+			else if (message.InteractionType == typeof(GhostApply))
+			{
+				writer.WriteUInt(message.TargetObject);
 			}
 		}
 	}
