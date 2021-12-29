@@ -44,22 +44,25 @@ namespace Systems.Atmospherics
 					//Check to see if theres a special room mix
 					if (toSet.Count > 0 && toSet.TryGetValue(node.RoomNumber, out var gasSetter))
 					{
+						//We use ChangeGasMix here incase we need to add overlays, while the BaseAirMix and BaseSpaceMix can set directly since none of the gases in them do
+						//Does come with a performance penalty
 						node.ChangeGasMix(GasMix.NewGasMix(gasSetter.GasMixToSpawn));
 					}
 					//See if the whole matrix has a custom mix
 					else if (hasCustomMix)
 					{
+						//ChangeGasMix here too for the same reason as above
 						node.ChangeGasMix(GasMix.NewGasMix(defaultRoomGasMixOverride.BaseGasMix));
 					}
 					//Default to air mix otherwise
 					else
 					{
-						node.ChangeGasMix(GasMix.NewGasMix(GasMixes.BaseAirMix));
+						node.GasMix = GasMix.NewGasMix(GasMixes.BaseAirMix);
 					}
 				}
 				else
 				{
-					node.ChangeGasMix(GasMix.NewGasMix(GasMixes.BaseSpaceMix));
+					node.GasMix = GasMix.NewGasMix(GasMixes.BaseSpaceMix);
 				}
 			}
 
@@ -103,6 +106,7 @@ namespace Systems.Atmospherics
 				MetaDataNode node = metaDataLayer.Get(position, false);
 				if (node.IsRoom && node.RoomNumber == roomNumber)
 				{
+					//Use ChangeGasMix to remove old gas overlays and add new overlays
 					node.ChangeGasMix(GasMix.NewGasMix(gasMixToUse));
 				}
 			}
