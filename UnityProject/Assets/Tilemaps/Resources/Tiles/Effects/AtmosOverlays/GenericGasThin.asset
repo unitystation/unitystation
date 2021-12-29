@@ -10,21 +10,24 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 27dfd04b4e8c4f0448e7c85b2dc1ba3b, type: 3}
-  m_Name: Plasma
+  m_Name: GenericGasThin
   m_EditorClassIdentifier: 
   displayName: 
   LayerType: 6
   TileType: 9
   RequiredTiles: []
-  overlayName: Plasma
+  overlayName: GenericGasThin
   sprite: {fileID: 0}
   isCleanable: 0
   isGraffiti: 0
-  overlayType: 7
+  overlayType: 1
   Sprites:
-  - {fileID: 21300000, guid: 835b8b57fad81c8488c8450d87805733, type: 3}
-  - {fileID: 21300002, guid: 835b8b57fad81c8488c8450d87805733, type: 3}
-  - {fileID: 21300004, guid: 835b8b57fad81c8488c8450d87805733, type: 3}
+  - {fileID: 21300000, guid: 3c429a36d177bae43bbd155bcb393522, type: 3}
+  - {fileID: 21300002, guid: 3c429a36d177bae43bbd155bcb393522, type: 3}
+  - {fileID: 21300004, guid: 3c429a36d177bae43bbd155bcb393522, type: 3}
+  - {fileID: 21300006, guid: 3c429a36d177bae43bbd155bcb393522, type: 3}
+  - {fileID: 21300008, guid: 3c429a36d177bae43bbd155bcb393522, type: 3}
+  - {fileID: 21300010, guid: 3c429a36d177bae43bbd155bcb393522, type: 3}
   AnimationSpeed: 0.6
   AnimationStartTime: 0
   randomizeStartTime: 1

@@ -2,6 +2,7 @@
 using Tilemaps.Behaviours.Meta;
 using UnityEngine;
 using System;
+using TileManagement;
 
 namespace Systems.Atmospherics
 {
@@ -370,7 +371,15 @@ namespace Systems.Atmospherics
 
 					node.AddGasOverlay(gas);
 
-					node.PositionMatrix.MetaTileMap.AddOverlay(node.Position, TileManager.GetTile(TileType.Effects, gas.TileName) as OverlayTile);
+					if (gas.CustomColour)
+					{
+						node.PositionMatrix.MetaTileMap.AddOverlay(node.Position, gas.OverlayTile,
+							color: gas.Colour, allowMultiple: gas.OverlayTile.OverlayType == OverlayType.Gas);
+
+						continue;
+					}
+
+					node.PositionMatrix.MetaTileMap.AddOverlay(node.Position, gas.OverlayTile);
 				}
 				else
 				{
@@ -378,7 +387,16 @@ namespace Systems.Atmospherics
 
 					node.RemoveGasOverlay(gas);
 
-					node.PositionMatrix.MetaTileMap.RemoveOverlaysOfType(node.Position, LayerType.Effects, gas.OverlayType);
+					if (gas.CustomColour)
+					{
+						node.PositionMatrix.MetaTileMap.RemoveOverlaysOfType(node.Position, LayerType.Effects,
+							gas.OverlayTile.OverlayType,
+							matchColour: gas.Colour);
+
+						continue;
+					}
+
+					node.PositionMatrix.MetaTileMap.RemoveOverlaysOfType(node.Position, LayerType.Effects, gas.OverlayTile.OverlayType);
 				}
 			}
 		}
@@ -389,7 +407,7 @@ namespace Systems.Atmospherics
 
 			foreach (var gas in node.GasOverlayData)
 			{
-				node.PositionMatrix.MetaTileMap.RemoveOverlaysOfType(node.Position, LayerType.Effects, gas.OverlayType);
+				node.PositionMatrix.MetaTileMap.RemoveOverlaysOfType(node.Position, LayerType.Effects, gas.OverlayTile.OverlayType);
 			}
 
 			node.GasOverlayData.Clear();

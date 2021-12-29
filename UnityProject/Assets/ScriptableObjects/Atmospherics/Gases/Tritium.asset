@@ -15,10 +15,10 @@ MonoBehaviour:
   MolarHeatCapacity: 10
   MolarMass: 44.01
   Name: Tritium
-  HasOverlay: 1
   MinMolesToSee: 0.4
-  TileName: Tritium
-  OverlayType: 12
+  OverlayTile: {fileID: 11400000, guid: 31c29738b55f42d4fbed11a7af24e702, type: 2}
+  CustomColour: 0
+  Colour: {r: 0, g: 0, b: 0, a: 0}
   FusionPower: 1
   AssociatedReagent: {fileID: 11400000, guid: 3a34bde89c6eb2649b3168782b193a2a, type: 2}
   ExportPrice: 5

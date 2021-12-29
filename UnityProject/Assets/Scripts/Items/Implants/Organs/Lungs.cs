@@ -172,21 +172,19 @@ public class Lungs : BodyPartFunctionality
 
 		// This isn't exactly realistic, should also factor concentration of gases in the gasMix
 		ReagentMix toExhale = new ReagentMix();
-		foreach (var Reagent in blood.reagents.m_dict)
+		foreach (var reagent in blood.reagents.m_dict)
 		{
-			if (GAS2ReagentSingleton.Instance.DictionaryReagentToGas.ContainsKey(Reagent.Key))
+			if (Gas.ReagentToGas.ContainsKey(reagent.Key) == false) continue;
+
+			if (reagent.Value <= 0) continue;
+
+			if (SpecialCarrier.Contains(reagent.Key))
 			{
-				if (Reagent.Value > 0)
-				{
-					if (SpecialCarrier.Contains(Reagent.Key))
-					{
-						toExhale.Add(Reagent.Key, (Reagent.Value / OptimalBloodGasCapacity) * LungSize);
-					}
-					else
-					{
-						toExhale.Add(Reagent.Key, (Reagent.Value / BloodGasCapacity) * LungSize);
-					}
-				}
+				toExhale.Add(reagent.Key, (reagent.Value / OptimalBloodGasCapacity) * LungSize);
+			}
+			else
+			{
+				toExhale.Add(reagent.Key, (reagent.Value / BloodGasCapacity) * LungSize);
 			}
 		}
 
@@ -239,16 +237,14 @@ public class Lungs : BodyPartFunctionality
 			foreach (var gasValues in breathGasMix.GasData.GasesArray)
 			{
 				var gas = gasValues.GasSO;
-				if (GAS2ReagentSingleton.Instance.DictionaryGasToReagent.ContainsKey(gas) == false) continue;
-
+				if (Gas.GasToReagent.TryGetValue(gas, out var gasReagent) == false) continue;
 
 				// n = PV/RT
 				float gasMoles = breathGasMix.GetMoles(gas) * PercentageCanTake;
 
-
 				// Get as much as we need, or as much as in the lungs, whichever is lower
-				Reagent gasReagent = GAS2ReagentSingleton.Instance.GetGasToReagent(gas);
 				float molesRecieved = 0;
+
 				if (gasReagent == RelatedPart.bloodType.CirculatedReagent)
 				{
 					var PercentageMultiplier = (gasMoles / (TotalMoles));

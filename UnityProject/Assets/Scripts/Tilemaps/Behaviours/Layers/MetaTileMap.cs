@@ -2025,7 +2025,6 @@ namespace TileManagement
 			return tiles;
 		}
 
-
 		private int FindFirstEmpty(List<TileLocation> LookThroughList)
 		{
 			int NewIndex = LookThroughList.Count;
@@ -2060,7 +2059,7 @@ namespace TileManagement
 		}
 
 		public void RemoveOverlaysOfType(Vector3Int cellPosition, LayerType layerType, OverlayType overlayType,
-			bool onlyIfCleanable = false)
+			bool onlyIfCleanable = false, Color? matchColour = null)
 		{
 			cellPosition.z = 0;
 
@@ -2079,6 +2078,12 @@ namespace TileManagement
 					if (tile == null || !tile.IsCleanable) continue;
 				}
 
+				if (matchColour != null)
+				{
+					var tileColour = GetColour(cellPosition, layerType);
+					if(matchColour != tileColour) continue;
+				}
+
 				RemoveTileWithlayer(cellPosition, layerType);
 			}
 		}
@@ -2088,7 +2093,7 @@ namespace TileManagement
 		/// Dynamically adds overlays to tile position
 		/// </summary>
 		public void AddOverlay(Vector3Int cellPosition, OverlayTile overlayTile, Matrix4x4? transformMatrix = null,
-			Color? color = null)
+			Color? color = null, bool allowMultiple = false)
 		{
 			//use remove methods to remove overlay instead
 			if (overlayTile == null) return;
@@ -2096,7 +2101,7 @@ namespace TileManagement
 			cellPosition.z = 0;
 
 			//Dont add the same overlay twice
-			if (HasOverlay(cellPosition, overlayTile.LayerType, overlayTile)) return;
+			if (HasOverlay(cellPosition, overlayTile.LayerType, overlayTile) && allowMultiple == false) return;
 
 			var overlayPos = GetFreeOverlayPos(cellPosition, overlayTile.LayerType);
 			if (overlayPos == null) return;
