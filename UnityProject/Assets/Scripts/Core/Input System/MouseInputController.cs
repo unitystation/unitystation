@@ -338,16 +338,6 @@ public class MouseInputController : MonoBehaviour
 		var handApplyTargets =
 			MouseUtils.GetOrderedObjectsUnderMouse();
 
-		if (PlayerManager.PlayerScript.IsGhost)
-		{
-			foreach (GameObject applyTarget in handApplyTargets)
-			{
-				if (CheckForGhostApply(applyTarget)) return true;
-			}
-
-			return false;
-		}
-
 		bool ctrlClick = KeyboardInputManager.IsControlPressed();
 		if (!ctrlClick)
 		{
@@ -440,7 +430,7 @@ public class MouseInputController : MonoBehaviour
 
 	private static bool CheckForGhostApply(GameObject obj)
 	{
-		return obj.TryGetComponent<PushPull>(out var pushPull);
+		return obj.TryGetComponent<GhostApply>(out var _);
 	}
 
 	/// <summary>
