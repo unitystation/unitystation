@@ -45,8 +45,6 @@ namespace ScriptableObjects.Atmospherics
 		private void OnEnable()
 		{
 			HasOverlay = OverlayTile != null;
-
-			GasesSingleton.Instance.AddNewGasSo(this);
 		}
 
 		public static implicit operator int(GasSO gas)

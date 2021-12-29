@@ -45,14 +45,27 @@ namespace ScriptableObjects.Atmospherics
 
 		private void SetUpGases()
 		{
-			if (gases.Count > 0)
-			{
-				Logger.LogError($"{gases.Count} gases already in list!");
-			}
-
 			gases.Clear();
 			reagentToGas.Clear();
 			gasToReagent.Clear();
+
+			//Could maybe change this to use reflection?
+			AddNewGasSo(Plasma);
+			AddNewGasSo(Oxygen);
+			AddNewGasSo(Nitrogen);
+			AddNewGasSo(CarbonDioxide);
+			AddNewGasSo(NitrousOxide);
+			AddNewGasSo(Hydrogen);
+			AddNewGasSo(WaterVapor);
+			AddNewGasSo(BZ);
+			AddNewGasSo(Miasma);
+			AddNewGasSo(Nitryl);
+			AddNewGasSo(Tritium);
+			AddNewGasSo(HyperNoblium);
+			AddNewGasSo(Stimulum);
+			AddNewGasSo(Pluoxium);
+			AddNewGasSo(Freon);
+			AddNewGasSo(Smoke);
 		}
 
 		public void AddNewGasSo(GasSO so)
@@ -61,7 +74,11 @@ namespace ScriptableObjects.Atmospherics
 			so.SetIndex(gases.Count);
 			gases.Add(gases.Count, so);
 
-			if (so.AssociatedReagent == null) return;
+			if (so.AssociatedReagent == null)
+			{
+				Debug.LogError($"{so.Name} has null associated reagent");
+				return;
+			}
 
 			reagentToGas.Add(so.AssociatedReagent, so);
 			gasToReagent.Add(so, so.AssociatedReagent);
