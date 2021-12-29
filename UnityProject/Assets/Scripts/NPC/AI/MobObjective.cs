@@ -13,10 +13,10 @@ namespace Systems.MobAIs
 		protected Directional directional;
 		protected MobAI mobAI;
 
-		[Tooltip("Allow the objective to happen when dead")]
+		[Tooltip("Allow the objective to happen when mob is dead")]
 		public bool AllowDead = false;
 
-		[Tooltip("Allow the objective to happen when unconscious")]
+		[Tooltip("Allow the objective to happen when mob is unconscious")]
 		public bool AllowUnconscious = false;
 
 		public void Awake()
@@ -46,15 +46,9 @@ namespace Systems.MobAIs
 			DoAction();
 		}
 
-		public virtual void DoAction()
-		{
-		}
+		public virtual void DoAction() { }
 
-
-		public virtual void ContemplatePriority()
-		{
-		}
-
+		public virtual void ContemplatePriority() { }
 
 		protected void Move(Vector3Int dirToMove)
 		{
@@ -82,7 +76,6 @@ namespace Systems.MobAIs
 				directional.FaceDirection(Orientation.From(dirToMove.To2Int()));
 			}
 		}
-
 
 		protected Vector3Int ChooseDominantDirection(Vector3 inD)
 		{
