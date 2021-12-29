@@ -17,11 +17,15 @@ namespace Systems.MobAIs
 
 		private void OnEnable()
 		{
+			if (CustomNetworkManager.IsServer == false) return;
+		
 			UpdateManager.Add(UpdateMe, 0.85f);
 		}
 
 		private void OnDisable()
 		{
+			if (CustomNetworkManager.IsServer == false) return;
+			
 			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, UpdateMe);
 		}
 
