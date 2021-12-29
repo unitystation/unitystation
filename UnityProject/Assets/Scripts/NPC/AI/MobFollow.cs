@@ -11,15 +11,10 @@ namespace Systems.MobAIs
 	/// </summary>
 	public class MobFollow : MobObjective
 	{
-
+		[NonSerialized]
 		public RegisterTile FollowTarget;
 
 		public float PriorityBalance = 25;
-
-
-
-
-
 
 		/// <summary>
 		/// Make the mob start following a target
@@ -32,9 +27,9 @@ namespace Systems.MobAIs
 		/// <summary>
 		/// Returns the distance between the mob and the target
 		/// </summary>
-		public float TargetDistance()
+		protected float TargetDistance()
 		{
-			return Vector3.Distance(FollowTarget.WorldPositionServer, MobTile.WorldPositionServer);
+			return Vector3.Distance(FollowTarget.WorldPositionServer, mobTile.WorldPositionServer);
 		}
 
 		public override void ContemplatePriority()
@@ -42,38 +37,35 @@ namespace Systems.MobAIs
 			if (FollowTarget == null)
 			{
 				Priority = 0;
+				return;
 			}
-			else
+
+			var distance = TargetDistance();
+
+			//We lose target if they are 15 tiles away
+			if (distance > 15)
 			{
-				var Distance = TargetDistance();
-				if (Distance > 15)
-				{
-					FollowTarget = null;
-					Priority = 0;
-					return;
-				}
-				else
-				{
-					Priority += PriorityBalance;
-				}
+				FollowTarget = null;
+				Priority = 0;
+				return;
 			}
+
+			Priority += PriorityBalance;
 		}
-
-
 
 		public override void DoAction()
 		{
 			if (FollowTarget == null) return;
-			var moveToRelative = (FollowTarget.WorldPositionServer - MobTile.WorldPositionServer).ToNonInt3();
+			var moveToRelative = (FollowTarget.WorldPositionServer - mobTile.WorldPositionServer).ToNonInt3();
 			moveToRelative.Normalize();
 			var stepDirectionWorld = ChooseDominantDirection(moveToRelative);
-			var moveTo = MobTile.WorldPositionServer + stepDirectionWorld;
-			var localMoveTo = moveTo.ToLocal(MobTile.Matrix).RoundToInt();
+			var moveTo = mobTile.WorldPositionServer + stepDirectionWorld;
+			var localMoveTo = moveTo.ToLocal(mobTile.Matrix).RoundToInt();
 
 			var distance = TargetDistance();
 			if (distance > 2)
 			{
-				if (MobTile.Matrix.MetaTileMap.IsPassableAtOneTileMap(MobTile.LocalPositionServer, localMoveTo, true))
+				if (mobTile.Matrix.MetaTileMap.IsPassableAtOneTileMap(mobTile.LocalPositionServer, localMoveTo, true))
 				{
 					Move(stepDirectionWorld);
 				}
@@ -86,9 +78,6 @@ namespace Systems.MobAIs
 			{
 				Move(stepDirectionWorld);
 			}
-
-
-
 		}
 	}
 }

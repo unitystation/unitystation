@@ -51,7 +51,7 @@ namespace Systems.MobAIs
 
 			if (ChosenObjective != null)
 			{
-				ChosenObjective.DoAction();
+				ChosenObjective.TryAction();
 				ChosenObjective.Priority = 0;
 			}
 		}
