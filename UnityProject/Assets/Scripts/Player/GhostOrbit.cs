@@ -12,7 +12,6 @@ namespace Player
 		private GameObject target;
 		[SerializeField] private PlayerSync netTransform;
 		[SerializeField] private RotateAroundTransform rotateTransform;
-		[SerializeField] private Transform spriteTransform;
 
 		/// <summary>
 		/// Time in milliseconds! The time between mouse clicks where we can orbit an object
@@ -77,7 +76,7 @@ namespace Player
 			rotateTransform.TransformToRotateAround = thingToOrbit.transform;
 			netTransform.SetPosition(target.AssumedWorldPosServer(), false);
 			UpdateManager.Add(FollowTarget, 0.1f);
-			Chat.AddExamineMsg(PlayerManager.LocalPlayer, $"You start orbiting {thingToOrbit}");
+			Chat.AddExamineMsg(PlayerManager.LocalPlayer, $"You start orbiting {thingToOrbit.ExpensiveName()}");
 		}
 
 		private void StopOrbiting()
@@ -85,9 +84,8 @@ namespace Player
 			target = null;
 			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, FollowTarget);
 			rotateTransform.TransformToRotateAround = null;
-			//why wont this shit fucking work
-			spriteTransform.localEulerAngles = Vector3.zero;
-			spriteTransform.eulerAngles = Vector3.zero;
+			rotateTransform.transform.up = Vector3.zero;
+			rotateTransform.transform.localPosition = Vector3.zero;
 		}
 
 		private void FollowTarget()
