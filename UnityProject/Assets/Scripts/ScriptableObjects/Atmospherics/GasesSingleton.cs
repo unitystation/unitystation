@@ -11,13 +11,13 @@ namespace ScriptableObjects.Atmospherics
 	[CreateAssetMenu(fileName = "GasesSingleton", menuName = "Singleton/Atmos/GasesSingleton")]
 	public class GasesSingleton : SingletonScriptableObject<GasesSingleton>
 	{
-		private Dictionary<int, GasSO> gases = new  Dictionary<int, GasSO>();
+		private readonly Dictionary<int, GasSO> gases = new  Dictionary<int, GasSO>();
 		public Dictionary<int, GasSO> Gases => gases;
 
-		private Dictionary<Reagent, GasSO> reagentToGas = new  Dictionary<Reagent, GasSO>();
+		private readonly Dictionary<Reagent, GasSO> reagentToGas = new  Dictionary<Reagent, GasSO>();
 		public Dictionary<Reagent, GasSO> ReagentToGas => reagentToGas;
 
-		private Dictionary<GasSO, Reagent> gasToReagent = new  Dictionary<GasSO, Reagent>();
+		private readonly Dictionary<GasSO, Reagent> gasToReagent = new  Dictionary<GasSO, Reagent>();
 		public Dictionary<GasSO, Reagent> GasToReagent => gasToReagent;
 
 		public GasSO Plasma = null;
