@@ -89,7 +89,7 @@ namespace Items
 		[Server]
 		private void HideHand(HiddenHandValue HiddenHandSelection, PlayerScript playerScript)
 		{
-			playerScript.PlayerOnlySyncValues.ServerSetHiddenHands(HiddenHandSelection);
+			playerScript.PlayerOnlySyncValues.ServerSetHiddenHands(hiddenHandSelection);
 		}
 
 		private ItemSlot DetermineHiddenHand(HandActivate interaction)
