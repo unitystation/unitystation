@@ -105,14 +105,14 @@ namespace Doors.Modules
 		{
 			List<ItemSlot> slots = mob.GetComponent<PlayerScript>().OrNull()?.DynamicItemStorage.OrNull()
 				?.GetNamedItemSlots(NamedSlot.hands);
-			if (slots != null)
+			if (slots == null) return false;
+			foreach (ItemSlot slot in slots)
 			{
-				foreach (ItemSlot slot in slots)
+				if(slot.IsEmpty) continue;
+				if (Validations.HasItemTrait(slot.ItemObject, CommonTraits.Instance.Insulated))
 				{
-					if (Validations.HasItemTrait(slot.ItemObject, CommonTraits.Instance.Insulated))
-					{
-						return true;
-					}
+					Chat.AddExamineMsg(mob, "You feel a tingle go through your hand.");
+					return true;
 				}
 			}
 
@@ -122,13 +122,12 @@ namespace Doors.Modules
 		private void ServerElectrocute(GameObject obj)
 		{
 			LivingHealthMasterBase healthScript = obj.GetComponent<LivingHealthMasterBase>();
-			if (healthScript != null)
-			{
-				var electrocution =
-					new Electrocution(voltageDamage, master.RegisterTile.WorldPositionServer,
-						"wire"); //More magic numbers.
-				healthScript.Electrocute(electrocution);
-			}
+			if (healthScript == null) return;
+			if(PlayerHasInsulatedGloves(obj)) return;
+			var electrocution =
+				new Electrocution(voltageDamage, master.RegisterTile.WorldPositionServer,
+					"wire"); //More magic numbers.
+			healthScript.Electrocute(electrocution);
 		}
 
 		public override bool CanDoorStateChange()
