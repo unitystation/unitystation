@@ -26,18 +26,18 @@ public class DoubleHandController : MonoBehaviour
 
 
 	//0 - Hide both hands, 1 - hide left hand, 2 - hide right hand, something else - hide none
-	public void HideHands(Wieldable.hiddenHandValues Selection)
+	public void HideHands(HiddenHandValue Selection)
 	{
 		switch (Selection)
 		{
-			case Wieldable.hiddenHandValues.bothHands:
+			case HiddenHandValue.bothHands:
 				LeftHand.SetActive(false);
 				RightHand.SetActive(false);
 				break;
-			case Wieldable.hiddenHandValues.leftHand:
+			case HiddenHandValue.leftHand:
 				LeftHand.SetActive(false);
 				break;
-			case Wieldable.hiddenHandValues.rightHand:
+			case HiddenHandValue.rightHand:
 				RightHand.SetActive(false);
 				break;
 			default:

@@ -15,7 +15,7 @@ namespace Player
 
 		//HiddenHands
 		[SyncVar(hook = nameof(SyncHiddenHands))]
-		private Wieldable.hiddenHandValues hiddenHandSelection;
+		private HiddenHandValue hiddenHandSelection;
 
 		//NightVision
 		[SyncVar(hook = nameof(SyncNightVision))]
@@ -51,7 +51,7 @@ namespace Player
 		#region Server
 
 		[Server]
-		public void ServerSetHiddenHands(Wieldable.hiddenHandValues newState)
+		public void ServerSetHiddenHands(HiddenHandValue newState)
         {
 			hiddenHandSelection = newState;
         }
@@ -75,7 +75,7 @@ namespace Player
 		#region Client
 
 		[Client]
-		private void SyncHiddenHands(Wieldable.hiddenHandValues oldState, Wieldable.hiddenHandValues newState)
+		private void SyncHiddenHands(HiddenHandValue oldState, HiddenHandValue newState)
         {
 			hiddenHandSelection = newState;
 			HandsController.Instance.HideHands(hiddenHandSelection);

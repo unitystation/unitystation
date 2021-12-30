@@ -4,6 +4,14 @@ using UnityEngine;
 
 namespace Items
 {
+	public enum HiddenHandValue
+	{
+		bothHands = 0,
+		leftHand = 1,
+		rightHand = 2,
+		none = 3
+	}
+
 	public class Wieldable : NetworkBehaviour, IServerInventoryMove, ICheckedInteractable<HandActivate>
 	{
 		[SerializeField]
@@ -19,14 +27,6 @@ namespace Items
 		private bool isWielded;
 
 		private ItemAttributesV2 itemAttributes;
-
-		public enum hiddenHandValues
-		{
-			bothHands = 0,
-			leftHand = 1,
-			rightHand = 2,
-			none = 3
-		}
 
 		private void Awake()
 		{
@@ -75,19 +75,19 @@ namespace Items
 				isWielded = false;
 				itemAttributes.ServerHitDamage = damageUnwielded;
 				itemAttributes.SetSprites(Unwielded);
-				HideHand( hiddenHandValues.none, info.FromPlayer.PlayerScript);
+				HideHand( HiddenHandValue.none, info.FromPlayer.PlayerScript);
 			}
 			else if (info.InventoryMoveType == InventoryMoveType.Transfer)
 			{
 				isWielded = false;
 				itemAttributes.ServerHitDamage = damageUnwielded;
 				itemAttributes.SetSprites(Unwielded);
-				HideHand( hiddenHandValues.none, info.FromPlayer.PlayerScript);
+				HideHand( HiddenHandValue.none, info.FromPlayer.PlayerScript);
 			}
 		}
 
 		[Server]
-		private void HideHand(hiddenHandValues HiddenHandSelection, PlayerScript playerScript)
+		private void HideHand(HiddenHandValue HiddenHandSelection, PlayerScript playerScript)
 		{
 			playerScript.PlayerOnlySyncValues.ServerSetHiddenHands(HiddenHandSelection);
 		}
@@ -132,15 +132,15 @@ namespace Items
 
 			if (hiddenHand != null)
 			{
-				hiddenHandValues hiddenHandSelection = hiddenHandValues.bothHands;
+				HiddenHandValue hiddenHandSelection = HiddenHandValue.bothHands;
 
 				if (hiddenHand.NamedSlot.GetValueOrDefault(NamedSlot.none) == NamedSlot.leftHand)
 				{
-					hiddenHandSelection =  hiddenHandValues.leftHand;
+					hiddenHandSelection =  HiddenHandValue.leftHand;
 				}
 				else if (hiddenHand.NamedSlot.GetValueOrDefault(NamedSlot.none) == NamedSlot.rightHand)
 				{
-					hiddenHandSelection = hiddenHandValues.rightHand;
+					hiddenHandSelection = HiddenHandValue.rightHand;
 				}
 
 				Inventory.ServerDrop(hiddenHand);
@@ -160,7 +160,7 @@ namespace Items
 					itemAttributes.ServerHitDamage = damageUnwielded;
 					itemAttributes.SetSprites(Unwielded);
 					Chat.AddExamineMsgFromServer(interaction.Performer, $"You unwield {gameObject.ExpensiveName()}.");
-					HideHand(hiddenHandValues.none, interaction.PerformerPlayerScript);
+					HideHand(HiddenHandValue.none, interaction.PerformerPlayerScript);
 				}
 
 				PlayerAppearanceMessage.SendToAll(interaction.Performer, (int)interaction.HandSlot.NamedSlot.GetValueOrDefault(NamedSlot.none), gameObject);

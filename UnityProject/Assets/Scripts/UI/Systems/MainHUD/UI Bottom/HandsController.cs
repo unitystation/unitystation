@@ -37,7 +37,7 @@ public class HandsController : MonoBehaviour
 	}
 
 	//0 - Hide both hands, 1 - hide left hand, 2 - hide right hand, something else - hide none
-	public void HideHands(Wieldable.hiddenHandValues Selection)
+	public void HideHands(HiddenHandValue Selection)
 	{
 		foreach (var doubleHand in DoubleHandControllers)
 		{
