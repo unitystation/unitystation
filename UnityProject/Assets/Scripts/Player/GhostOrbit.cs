@@ -4,11 +4,12 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Objects;
 using UnityEngine;
+using Mirror;
 
 
 namespace Player
 {
-	public class GhostOrbit : MonoBehaviour
+	public class GhostOrbit : NetworkBehaviour
 	{
 		private GameObject target;
 		[SerializeField] private PlayerSync netTransform;
@@ -36,7 +37,9 @@ namespace Player
 					DoubleClickTimer();
 					return;
 				}
-				FindObjectToOrbitUnderMouse();
+				//We get the object list from the client then pass it to the server in the CmdFindObjectToOrbitUnderMouse()
+				var possibleTargets = MouseUtils.GetOrderedObjectsUnderMouse();
+				CmdFindObjectToOrbitUnderMouse(possibleTargets);
 			}
 			if(target == null) return;
 			if (KeyboardInputManager.IsMovementPressed())
@@ -45,10 +48,10 @@ namespace Player
 			}
 		}
 
-		private void FindObjectToOrbitUnderMouse()
+		[Command(requiresAuthority = false)]
+		private void CmdFindObjectToOrbitUnderMouse(IEnumerable<GameObject> objects)
 		{
-			var stuff = MouseUtils.GetOrderedObjectsUnderMouse();
-			foreach (var possibleTarget in stuff)
+			foreach (var possibleTarget in objects)
 			{
 				if (possibleTarget.TryGetComponent<PushPull>(out var pull) || possibleTarget.TryGetComponent<Singularity>(out var loose))
 				{
@@ -71,17 +74,20 @@ namespace Player
 			UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
 		}
 
+		[Server]
 		public void Orbit(GameObject thingToOrbit)
 		{
 			target = thingToOrbit;
 			rotateTransform.TransformToRotateAround = thingToOrbit.transform;
 			netTransform.SetPosition(target.AssumedWorldPosServer(), false);
 			UpdateManager.Add(FollowTarget, 0.1f);
-			Chat.AddExamineMsg(PlayerManager.LocalPlayer, $"You start orbiting {thingToOrbit.ExpensiveName()}");
+			Chat.AddExamineMsg(gameObject, $"You start orbiting {thingToOrbit.ExpensiveName()}");
 		}
 
+		[Server]
 		private void StopOrbiting()
 		{
+			Chat.AddExamineMsg(gameObject, $"You stop orbiting {target.ExpensiveName()}");
 			target = null;
 			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, FollowTarget);
 			rotateTransform.TransformToRotateAround = null;
