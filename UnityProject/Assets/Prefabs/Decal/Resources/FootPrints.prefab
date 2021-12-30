@@ -10,13 +10,13 @@ GameObject:
   m_Component:
   - component: {fileID: 4726396450817676}
   - component: {fileID: 413876586089625349}
-  - component: {fileID: 5908745450454926434}
   - component: {fileID: 114595774069620348}
   - component: {fileID: 114262681174990446}
   - component: {fileID: 114758807010794188}
   - component: {fileID: 114116087744016572}
   - component: {fileID: -5758749406593069758}
   - component: {fileID: -6765196734712830949}
+  - component: {fileID: 2616710669765538430}
   m_Layer: 0
   m_Name: FootPrints
   m_TagString: Untagged
@@ -55,30 +55,6 @@ MonoBehaviour:
   syncInterval: 0.1
   snapToGridOnStart: 1
   IsFixedMatrix: 0
---- !u!114 &5908745450454926434
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1069497300762596}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c77080d7d322e0d46b715644eb4b0ab9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  Cleanable: 1
-  CanDryUp: 1
-  isBlood: 1
-  color: {r: 0, g: 0, b: 0, a: 0}
-  PossibleSprites:
-  - {fileID: 21300012, guid: b0fde02687d742f409b692b37a771d7e, type: 3}
-  - {fileID: 21300000, guid: 366ed9f2fa47be148a0c301021dd7ec6, type: 3}
-  - {fileID: 21300000, guid: 4257724d5bf99e344bc5b13191c35a52, type: 3}
-  - {fileID: 21300000, guid: 3a0124af49e26ae4ba71e0253dfe2ae7, type: 3}
-  - {fileID: 21300000, guid: 2726b19616aa3714b8123a3aee2f9b43, type: 3}
 --- !u!114 &114595774069620348
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -95,7 +71,7 @@ MonoBehaviour:
   syncInterval: 0.1
   matrixDebugLogging: 0
   objectType: 1
-  customNetTransform: {fileID: 0}
+  customNetTransform: {fileID: 413876586089625349}
   prefabTracker: {fileID: 0}
   CurrentsortingGroup: {fileID: 0}
 --- !u!114 &114262681174990446
@@ -206,6 +182,27 @@ MonoBehaviour:
   transferMode: 0
   possibleTransferAmounts: []
   transferAmount: 20
+--- !u!114 &2616710669765538430
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1069497300762596}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c77080d7d322e0d46b715644eb4b0ab9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  Cleanable: 1
+  CanDryUp: 0
+  isBlood: 0
+  isFootprint: 1
+  color: {r: 0, g: 0, b: 0, a: 0}
+  PossibleSprites:
+  - {fileID: -2821041230122053228, guid: 66bb9a70ba1fcf54a8077994a6b8f3d3, type: 3}
 --- !u!1 &1230737790073880
 GameObject:
   m_ObjectHideFlags: 0
@@ -279,7 +276,7 @@ SpriteRenderer:
   m_SortingLayerID: 322132419
   m_SortingLayer: 2
   m_SortingOrder: 30
-  m_Sprite: {fileID: 21300000, guid: 7c6fec4440518ae4680181d6f93269d9, type: 3}
+  m_Sprite: {fileID: 226445242679361263, guid: cf62bdf05e7e691408f89e7870adf813, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -304,13 +301,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   NetworkThis: 1
   SubCatalogue:
-  - {fileID: 11400000, guid: 2e40f54b22cc0e14d9b4de3a0ed7e1a4, type: 2}
-  - {fileID: 11400000, guid: 2bb136b9b9930fe4a93a5bf287d50f2e, type: 2}
-  - {fileID: 11400000, guid: 5079b2d50806c01429b500c3505887ed, type: 2}
-  - {fileID: 11400000, guid: 34255e0ae68afb04ba21fe082d96825c, type: 2}
-  - {fileID: 11400000, guid: a20de0ea1ff19a044baee85b1b47971f, type: 2}
-  PresentSpriteSet: {fileID: 11400000, guid: 2e40f54b22cc0e14d9b4de3a0ed7e1a4, type: 2}
-  randomInitialSprite: 1
+  - {fileID: 11400000, guid: b30362eb1e81411499d4f3ed87c1400a, type: 2}
+  PresentSpriteSet: {fileID: 11400000, guid: b30362eb1e81411499d4f3ed87c1400a, type: 2}
+  randomInitialSprite: 0
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
   palette: []

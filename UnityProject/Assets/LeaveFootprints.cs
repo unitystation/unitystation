@@ -5,6 +5,8 @@ using AddressableReferences;
 using Chemistry;
 using Chemistry.Components;
 using HealthV2;
+using Systems.Clothing;
+
 
 using UnityEngine;
 
@@ -12,6 +14,7 @@ namespace Objects.Other
 {
 	/// <summary>
 	/// Allows shows to leave footprints when worn.
+	/// TODO: Do not make this inherit off FloorHarzard, make a base "FloorTrigger" prefab for this and hazards
 	/// </summary>
 	/// 
 	public class LeaveFootprints : FloorHazard
@@ -23,7 +26,7 @@ namespace Objects.Other
 		void Update()
 		{
 		}
-		public void GiveFootprints(MakesFootPrints print = null)
+		public void GiveFootprints(MakesFootPrints print = null, int index = 0)
 		{
 			if(reagentContainer.ReagentMixTotal > 1f)
 			{
@@ -39,18 +42,17 @@ namespace Objects.Other
 
 		public override void OnStep(GameObject eventData)
 		{
-			Debug.Log(eventData);
-
 			var playerStorage = eventData.gameObject.GetComponent<DynamicItemStorage>();
+
 			if (playerStorage != null)
 			{
 				foreach (var feetSlot in playerStorage.GetNamedItemSlots(NamedSlot.feet))
 				{
-					GiveFootprints(feetSlot.ItemObject.gameObject.GetComponent<MakesFootPrints>());
+					GiveFootprints(feetSlot.ItemObject.gameObject.GetComponent<MakesFootPrints>(), eventData.gameObject.GetComponent<Directional>().CurrentDirection.Degrees);
+					//eventData.GetComponent<PlayerSync>()
 				}
 			}
 
-					
 			//base.OnStep(eventData);
 		}
 
@@ -62,15 +64,20 @@ namespace Objects.Other
 			{
 				foreach (var feetSlot in playerStorage.GetNamedItemSlots(NamedSlot.feet))
 				{
-					Debug.Log(feetSlot.ItemObject.gameObject);
-					Debug.Log(feetSlot.ItemObject.gameObject.GetComponent<MakesFootPrints>().spillContents);
+					//Debug.Log(feetSlot.ItemObject.gameObject);
+					//Debug.Log(feetSlot.ItemObject.gameObject.GetComponent<MakesFootPrints>().spillContents);
 
-					if (feetSlot.ItemObject.gameObject.TryGetComponent<MakesFootPrints>(out var _)) return true;
-
+					if (feetSlot.ItemObject.gameObject.TryGetComponent<MakesFootPrints>(out var _))
+					{
+						return true;
+					}
+					else
+					{
+						return false;
+					}
 				}
 			}
 			return false;
-			
 		}
 
 
