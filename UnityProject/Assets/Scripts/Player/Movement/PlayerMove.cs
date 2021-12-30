@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using HealthV2;
+using Items;
 using Messages.Client.Interaction;
 using Mirror;
 using Objects;
@@ -651,11 +652,11 @@ namespace Player.Movement
 		{
 			if (HideState)
             {
-				HandsController.Instance.HideHands((int)hiddenHandValues.bothHands);
+				HandsController.Instance.HideHands(HiddenHandValue.bothHands);
 			}
             else
             {
-				HandsController.Instance.HideHands((int)hiddenHandValues.none);
+				HandsController.Instance.HideHands(HiddenHandValue.none);
 			}
 		}
 
