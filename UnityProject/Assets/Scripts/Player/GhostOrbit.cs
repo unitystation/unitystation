@@ -37,9 +37,7 @@ namespace Player
 					DoubleClickTimer();
 					return;
 				}
-				//We get the object list from the client then pass it to the server in the CmdFindObjectToOrbitUnderMouse()
-				List<GameObject> possibleTargets = (List<GameObject>)MouseUtils.GetOrderedObjectsUnderMouse();
-				CmdFindObjectToOrbitUnderMouse(possibleTargets);
+				FindObjectToOrbitUnderMouse();
 			}
 			if(target == null) return;
 			if (KeyboardInputManager.IsMovementPressed())
@@ -48,17 +46,26 @@ namespace Player
 			}
 		}
 
-		[Command(requiresAuthority = false)]
-		private void CmdFindObjectToOrbitUnderMouse(List<GameObject> objects)
+		private void FindObjectToOrbitUnderMouse()
 		{
-			foreach (var possibleTarget in objects)
+			var possibleTargets = MouseUtils.GetOrderedObjectsUnderMouse();
+			foreach (var possibleTarget in possibleTargets)
 			{
 				if (possibleTarget.TryGetComponent<PushPull>(out var pull) || possibleTarget.TryGetComponent<Singularity>(out var loose))
 				{
-					Orbit(possibleTarget);
+					CmdServerOrbit(possibleTarget);
 					return;
 				}
 			}
+		}
+
+		/// <summary>
+		/// Mirror does not support IEnumerable so we cannot turn the FindObjectToOrbit function into a command.
+		/// </summary>
+		[Command]
+		private void CmdServerOrbit(GameObject thingToOrbit)
+		{
+			Orbit(thingToOrbit);
 		}
 
 		private async void DoubleClickTimer()
