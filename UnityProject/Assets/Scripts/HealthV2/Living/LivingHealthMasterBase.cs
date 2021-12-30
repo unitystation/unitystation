@@ -164,6 +164,9 @@ namespace HealthV2
 
 		protected GameObject LastDamagedBy;
 
+		private DateTime timeOfDeath;
+		private DateTime TimeOfDeath => timeOfDeath;
+
 		/// <summary>
 		/// The list of the internal net ids of the body parts contained within this container
 		/// </summary>
@@ -171,7 +174,6 @@ namespace HealthV2
 		public List<IntName> InternalNetIDs = new List<IntName>();
 
 		public RootBodyPartController rootBodyPartController;
-
 
 		/// <summary>
 		/// The current hunger state of the creature, currently always returns normal
@@ -281,15 +283,15 @@ namespace HealthV2
 
 		void OnEnable()
 		{
-			if (CustomNetworkManager.IsServer == false)
-				return;
+			if (CustomNetworkManager.IsServer == false) return;
+
 			UpdateManager.Add(PeriodicUpdate, 1f);
 		}
 
 		void OnDisable()
 		{
-			if (CustomNetworkManager.IsServer == false)
-				return;
+			if (CustomNetworkManager.IsServer == false) return;
+
 			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, PeriodicUpdate);
 		}
 
@@ -337,7 +339,11 @@ namespace HealthV2
 			CalculateRadiationDamage();
 			BleedStacksDamage();
 
-			if (IsDead) return;
+			if (IsDead)
+			{
+				DeathPeriodicUpdate();
+				return;
+			}
 
 			CalculateOverallHealth();
 		}
@@ -832,6 +838,8 @@ namespace HealthV2
 		///</Summary>
 		public void Death()
 		{
+			timeOfDeath = GameManager.Instance.stationTime;
+
 			var HV2 = (this as PlayerHealthV2);
 			if (HV2 != null)
 			{
@@ -890,6 +898,32 @@ namespace HealthV2
 		public void Extinguish()
 		{
 			healthStateController.SetFireStacks(0);
+		}
+
+		private void DeathPeriodicUpdate()
+		{
+			MiasmaCreation();
+		}
+
+		private void MiasmaCreation()
+		{
+			//TODO:Check for non-organic/zombie/husk
+
+			//Don't produce miasma until 2 minutes after death
+			if (GameManager.Instance.stationTime.Subtract(timeOfDeath).TotalMinutes < 2) return;
+
+			MetaDataNode node = RegisterTile.Matrix.MetaDataLayer.Get(RegisterTile.LocalPositionClient);
+
+			//Space or below -10 degrees celsius is safe from miasma creation
+			if (node.IsSpace || node.GasMix.Temperature <= Reactions.KOffsetC - 10) return;
+
+			//If we are in a container then don't produce miasma
+			//TODO: make this only happen with coffins, body bags and other body containers (morgue, etc)
+			if (objectBehaviour.parentContainer != null) return;
+
+			//TODO: check for formaldehyde in body, prevent if more than 15u
+
+			node.GasMix.AddGas(Gas.Miasma, AtmosDefines.MIASMA_CORPSE_MOLES);
 		}
 
 		#region Examine
