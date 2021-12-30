@@ -27,7 +27,6 @@ namespace Objects.Wallmounts.Switches
 		private List<Turret> turrets = new List<Turret>();
 
 		private SpriteHandler spriteHandler;
-		private bool buttonCoolDown = false;
 		private APCPoweredDevice apcPoweredDevice;
 
 		private bool hasPower;
@@ -52,14 +51,14 @@ namespace Objects.Wallmounts.Switches
 
 		private void Start()
 		{
-			if(CustomNetworkManager.IsServer == false) return;
+			if (CustomNetworkManager.IsServer == false) return;
 
 			ChangeTurretStates();
 		}
 
 		private void OnEnable()
 		{
-			if(CustomNetworkManager.IsServer == false) return;
+			if (CustomNetworkManager.IsServer == false) return;
 
 			apcPoweredDevice.OnStateChangeEvent.AddListener(OnPowerStatusChange);
 		}

@@ -85,7 +85,7 @@ public partial class SubSceneManager : NetworkBehaviour
 		{
 			if (HandlSynchronising)
 			{
-				ClientScene.PrepareToSpawnSceneObjects();
+				NetworkClient.PrepareToSpawnSceneObjects();
 				yield return WaitFor.Seconds(0.2f);
 				RequestObserverRefresh.Send(sceneName);
 			}

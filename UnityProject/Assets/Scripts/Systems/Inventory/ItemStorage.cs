@@ -1,11 +1,11 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using Items;
-using NaughtyAttributes;
 using UnityEngine;
 using UnityEngine.Serialization;
+using NaughtyAttributes;
+using Systems.Storage;
+using Items;
 
 /// <summary>
 /// Allows an object to store items.

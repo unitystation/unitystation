@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -10,6 +9,7 @@ namespace HealthV2
 		protected BodyPart bodyPart;
 		[NonSerialized]
 		public BodyPart RelatedPart;
+
 		public virtual void ImplantPeriodicUpdate(){}
 		public virtual void RemovedFromBody(LivingHealthMasterBase livingHealth){}
 		public virtual void HealthMasterSet(LivingHealthMasterBase livingHealth){}
@@ -22,5 +22,4 @@ namespace HealthV2
 			bodyPart = GetComponent<BodyPart>();
 		}
 	}
-
 }

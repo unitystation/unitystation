@@ -1,6 +1,7 @@
-﻿using Systems.Clothing;
+﻿using UnityEngine;
 using Mirror;
-using UnityEngine;
+using Player;
+using Systems.Clothing;
 
 namespace Messages.Server
 {

@@ -9,7 +9,6 @@ using Core.Editor.Attributes;
 using Tilemaps.Behaviours.Layers;
 using Systems.Electricity;
 using Systems.Pipes;
-using System.Collections;
 
 public enum ObjectType
 {

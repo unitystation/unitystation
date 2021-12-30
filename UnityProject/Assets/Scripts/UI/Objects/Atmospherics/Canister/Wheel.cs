@@ -40,12 +40,12 @@ namespace UI.Core
 			shadow = GetComponent<Shadow>();
 		}
 
-		private void OnEnable()
+		protected override void OnEnable()
 		{
 			UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
 		}
 
-		private void OnDisable()
+		protected override void OnDisable()
 		{
 			UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
 		}
