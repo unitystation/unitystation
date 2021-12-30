@@ -15,10 +15,10 @@ MonoBehaviour:
   MolarHeatCapacity: 20
   MolarMass: 44.01
   Name: Miasma
-  HasOverlay: 1
   MinMolesToSee: 0.4
-  TileName: Miasma
-  OverlayType: 10
+  OverlayTile: {fileID: 11400000, guid: ea80f728adeeddb4591179e99ef28743, type: 2}
+  CustomColour: 0
+  Colour: {r: 0, g: 0, b: 0, a: 0}
   FusionPower: 0
   AssociatedReagent: {fileID: 11400000, guid: 2e4bebf9352ccbb4d82baffb97e20dc2, type: 2}
   ExportPrice: 2

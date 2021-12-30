@@ -28,7 +28,6 @@ namespace ScriptableObjects
 		public CommonTraits CommonTraits;
 		public CraftingRecipeSingleton CraftingRecipeSingleton;
 		public DepartmentList DepartmentList;
-		public GAS2ReagentSingleton GAS2ReagentSingleton;
 		public GasesSingleton GasesSingleton;
 		public GasMixesSingleton GasMixesSingleton;
 		public ItemTypeToTraitMapping ItemTypeToTraitMapping;
@@ -63,7 +62,6 @@ namespace ScriptableObjects
 				{ typeof(CommonTraits), CommonTraits },
 				{ typeof(CraftingRecipeSingleton), CraftingRecipeSingleton },
 				{ typeof(DepartmentList), DepartmentList },
-				{ typeof(GAS2ReagentSingleton), GAS2ReagentSingleton },
 				{ typeof(GasesSingleton), GasesSingleton },
 				{ typeof(GasMixesSingleton), GasMixesSingleton },
 				{ typeof(ItemTypeToTraitMapping), ItemTypeToTraitMapping },

@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Systems.Atmospherics
 {
-	public class RoomGasSetter : MonoBehaviour
+	public class RoomGasSetter : MonoBehaviour, IServerSpawn
 	{
 		[SerializeField]
 		private GasMixesSO gasMixToSpawn = null;
@@ -17,7 +17,7 @@ namespace Systems.Atmospherics
 			registerTile = GetComponent<RegisterTile>();
 		}
 
-		private void Start()
+		public void OnSpawnServer(SpawnInfo info)
 		{
 			if(CustomNetworkManager.IsServer == false) return;
 
@@ -35,6 +35,8 @@ namespace Systems.Atmospherics
 
 			//This only happens after round has started, for spawned in room gas setters during the round
 			registerTile.Matrix.OrNull()?.GetComponentInParent<AtmosSystem>().OrNull()?.SetRoomGas(metaDataNode.RoomNumber, GasMixToSpawn);
+
+			_ = Despawn.ServerSingle(gameObject);
 		}
 
 		public void SetUp()

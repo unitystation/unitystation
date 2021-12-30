@@ -15,10 +15,10 @@ MonoBehaviour:
   MolarHeatCapacity: 300
   MolarMass: 44.01
   Name: Freon
-  HasOverlay: 1
   MinMolesToSee: 0.4
-  TileName: Freon
-  OverlayType: 13
+  OverlayTile: {fileID: 11400000, guid: 2bc0cb5f3b1af3f4ca75221d7ee32202, type: 2}
+  CustomColour: 0
+  Colour: {r: 0, g: 0, b: 0, a: 0}
   FusionPower: -5
   AssociatedReagent: {fileID: 11400000, guid: 7d08aa803e71c5b48adc15ec90d475fe, type: 2}
   ExportPrice: 15
