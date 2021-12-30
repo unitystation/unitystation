@@ -38,7 +38,7 @@ namespace Player
 					return;
 				}
 				//We get the object list from the client then pass it to the server in the CmdFindObjectToOrbitUnderMouse()
-				var possibleTargets = MouseUtils.GetOrderedObjectsUnderMouse();
+				List<GameObject> possibleTargets = (List<GameObject>)MouseUtils.GetOrderedObjectsUnderMouse();
 				CmdFindObjectToOrbitUnderMouse(possibleTargets);
 			}
 			if(target == null) return;
@@ -49,7 +49,7 @@ namespace Player
 		}
 
 		[Command(requiresAuthority = false)]
-		private void CmdFindObjectToOrbitUnderMouse(IEnumerable<GameObject> objects)
+		private void CmdFindObjectToOrbitUnderMouse(List<GameObject> objects)
 		{
 			foreach (var possibleTarget in objects)
 			{
