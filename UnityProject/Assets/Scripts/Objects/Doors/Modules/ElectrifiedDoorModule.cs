@@ -123,7 +123,6 @@ namespace Doors.Modules
 		{
 			LivingHealthMasterBase healthScript = obj.GetComponent<LivingHealthMasterBase>();
 			if (healthScript == null) return;
-			if(PlayerHasInsulatedGloves(obj)) return;
 			var electrocution =
 				new Electrocution(voltageDamage, master.RegisterTile.WorldPositionServer,
 					"wire"); //More magic numbers.
