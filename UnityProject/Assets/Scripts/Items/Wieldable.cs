@@ -87,7 +87,7 @@ namespace Items
 		}
 
 		[Server]
-		private void HideHand(int HiddenHandSelection, PlayerScript PlayerScript)
+		private void HideHand(int HiddenHandSelection, PlayerScript playerScript)
 		{
 			PlayerScript.PlayerOnlySyncValues.ServerSetHiddenHands(HiddenHandSelection);
 		}
