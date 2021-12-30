@@ -166,6 +166,7 @@ namespace Objects
 			}
 		}
 
+		//Only use for items that are being destroyed TODO Probably should cleanup values for nice pooling
 		public void RemoveObject(GameObject obj)
 		{
 			storedObjects.Remove(obj);
