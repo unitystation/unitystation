@@ -1,5 +1,6 @@
 ﻿using System;
 using CameraEffects;
+using Items;
 using Mirror;
 using UnityEngine;
 
@@ -14,7 +15,7 @@ namespace Player
 
 		//HiddenHands
 		[SyncVar(hook = nameof(SyncHiddenHands))]
-		private int hiddenHandSelection;
+		private Wieldable.hiddenHandValues hiddenHandSelection;
 
 		//NightVision
 		[SyncVar(hook = nameof(SyncNightVision))]
@@ -50,7 +51,7 @@ namespace Player
 		#region Server
 
 		[Server]
-		public void ServerSetHiddenHands(int newState)
+		public void ServerSetHiddenHands(Wieldable.hiddenHandValues newState)
         {
 			hiddenHandSelection = newState;
         }
@@ -74,7 +75,7 @@ namespace Player
 		#region Client
 
 		[Client]
-		private void SyncHiddenHands(int oldState, int newState)
+		private void SyncHiddenHands(Wieldable.hiddenHandValues oldState, Wieldable.hiddenHandValues newState)
         {
 			hiddenHandSelection = newState;
 			HandsController.Instance.HideHands(hiddenHandSelection);

@@ -75,21 +75,21 @@ namespace Items
 				isWielded = false;
 				itemAttributes.ServerHitDamage = damageUnwielded;
 				itemAttributes.SetSprites(Unwielded);
-				HideHand((int) hiddenHandValues.none, info.FromPlayer.PlayerScript);
+				HideHand( hiddenHandValues.none, info.FromPlayer.PlayerScript);
 			}
 			else if (info.InventoryMoveType == InventoryMoveType.Transfer)
 			{
 				isWielded = false;
 				itemAttributes.ServerHitDamage = damageUnwielded;
 				itemAttributes.SetSprites(Unwielded);
-				HideHand((int) hiddenHandValues.none, info.FromPlayer.PlayerScript);
+				HideHand( hiddenHandValues.none, info.FromPlayer.PlayerScript);
 			}
 		}
 
 		[Server]
-		private void HideHand(int HiddenHandSelection, PlayerScript playerScript)
+		private void HideHand(hiddenHandValues HiddenHandSelection, PlayerScript playerScript)
 		{
-			PlayerScript.PlayerOnlySyncValues.ServerSetHiddenHands(HiddenHandSelection);
+			playerScript.PlayerOnlySyncValues.ServerSetHiddenHands(HiddenHandSelection);
 		}
 
 		private ItemSlot DetermineHiddenHand(HandActivate interaction)
@@ -132,15 +132,15 @@ namespace Items
 
 			if (hiddenHand != null)
 			{
-				int hiddenHandSelection = (int) hiddenHandValues.bothHands;
+				hiddenHandValues hiddenHandSelection = hiddenHandValues.bothHands;
 
 				if (hiddenHand.NamedSlot.GetValueOrDefault(NamedSlot.none) == NamedSlot.leftHand)
 				{
-					hiddenHandSelection = (int) hiddenHandValues.leftHand;
+					hiddenHandSelection =  hiddenHandValues.leftHand;
 				}
 				else if (hiddenHand.NamedSlot.GetValueOrDefault(NamedSlot.none) == NamedSlot.rightHand)
 				{
-					hiddenHandSelection = (int) hiddenHandValues.rightHand;
+					hiddenHandSelection = hiddenHandValues.rightHand;
 				}
 
 				Inventory.ServerDrop(hiddenHand);
@@ -160,7 +160,7 @@ namespace Items
 					itemAttributes.ServerHitDamage = damageUnwielded;
 					itemAttributes.SetSprites(Unwielded);
 					Chat.AddExamineMsgFromServer(interaction.Performer, $"You unwield {gameObject.ExpensiveName()}.");
-					HideHand((int) hiddenHandValues.none, interaction.PerformerPlayerScript);
+					HideHand(hiddenHandValues.none, interaction.PerformerPlayerScript);
 				}
 
 				PlayerAppearanceMessage.SendToAll(interaction.Performer, (int)interaction.HandSlot.NamedSlot.GetValueOrDefault(NamedSlot.none), gameObject);

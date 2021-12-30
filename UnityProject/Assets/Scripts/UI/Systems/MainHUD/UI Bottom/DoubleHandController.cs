@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using HealthV2;
+using Items;
 using UnityEngine;
 
 public class DoubleHandController : MonoBehaviour
@@ -25,18 +26,18 @@ public class DoubleHandController : MonoBehaviour
 
 
 	//0 - Hide both hands, 1 - hide left hand, 2 - hide right hand, something else - hide none
-	public void HideHands(int Selection)
+	public void HideHands(Wieldable.hiddenHandValues Selection)
 	{
 		switch (Selection)
 		{
-			case 0:
+			case Wieldable.hiddenHandValues.bothHands:
 				LeftHand.SetActive(false);
 				RightHand.SetActive(false);
 				break;
-			case 1:
+			case Wieldable.hiddenHandValues.leftHand:
 				LeftHand.SetActive(false);
 				break;
-			case 2:
+			case Wieldable.hiddenHandValues.rightHand:
 				RightHand.SetActive(false);
 				break;
 			default:
