@@ -18,7 +18,7 @@ namespace Player
 		/// <summary>
 		/// Time in milliseconds! The time between mouse clicks where we can orbit an object
 		/// </summary>
-		private int doubeClickTime = 500;
+		private readonly int doubeClickTime = 500;
 		private bool hasClicked = false;
 
 		private void Start()
