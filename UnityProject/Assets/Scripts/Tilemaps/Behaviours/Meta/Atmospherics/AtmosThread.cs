@@ -21,6 +21,9 @@ public static class AtmosThread
 
 	public static List<ReactionManager> reactionManagerList {get; private set;} = new List<ReactionManager>();
 
+	//Can't be in LavaTileInteraction SO as it gets saved and not reset over rounds
+	public static bool runLavaFireTick;
+
 	static AtmosThread()
 	{
 		simulation = new AtmosSimulation();

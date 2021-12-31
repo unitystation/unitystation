@@ -5,7 +5,7 @@ using UnityEngine.EventSystems;
 
 namespace Health.Sickness
 {
-	public class Contagion: MonoBehaviour, IEnterable
+	public class Contagion: MonoBehaviour, IPlayerEntersTile
 	{
 		public Sickness Sickness;
 
@@ -60,18 +60,14 @@ namespace Health.Sickness
 			DebugGizmoUtils.DrawText(Sickness.SicknessName, registerTile.WorldPositionServer);
 		}
 
-		public void OnStep(GameObject eventData)
+		public virtual bool WillAffectPlayer(PlayerScript playerScript)
 		{
-			if (eventData.TryGetComponent(out PlayerHealthV2 playerHealth))
-			{
-				playerHealth.AddSickness(Sickness);
-			}
+			return playerScript.IsGhost == false;
 		}
 
-		public bool WillStep(GameObject eventData)
+		public void OnPlayerStep(PlayerScript playerScript)
 		{
-			if (eventData.TryGetComponent<PlayerHealthV2>(out var _)) return true;
-			return false;
+			playerScript.playerHealth.AddSickness(Sickness);
 		}
 	}
 }
