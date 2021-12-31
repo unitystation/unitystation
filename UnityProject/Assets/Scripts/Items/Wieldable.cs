@@ -4,6 +4,14 @@ using UnityEngine;
 
 namespace Items
 {
+	public enum HiddenHandValue
+	{
+		bothHands = 0,
+		leftHand = 1,
+		rightHand = 2,
+		none = 3
+	}
+
 	public class Wieldable : NetworkBehaviour, IServerInventoryMove, ICheckedInteractable<HandActivate>
 	{
 		[SerializeField]
@@ -19,14 +27,6 @@ namespace Items
 		private bool isWielded;
 
 		private ItemAttributesV2 itemAttributes;
-
-		public enum hiddenHandValues
-		{
-			bothHands = 0,
-			leftHand = 1,
-			rightHand = 2,
-			none = 3
-		}
 
 		private void Awake()
 		{
@@ -75,20 +75,27 @@ namespace Items
 				isWielded = false;
 				itemAttributes.ServerHitDamage = damageUnwielded;
 				itemAttributes.SetSprites(Unwielded);
-				HideHand((int) hiddenHandValues.none);
+				HideHand( HiddenHandValue.none, info.FromPlayer.PlayerScript);
+			}
+			else if (info.InventoryMoveType == InventoryMoveType.Transfer)
+			{
+				isWielded = false;
+				itemAttributes.ServerHitDamage = damageUnwielded;
+				itemAttributes.SetSprites(Unwielded);
+				HideHand( HiddenHandValue.none, info.FromPlayer.PlayerScript);
 			}
 		}
 
 		[Server]
-		private void HideHand(int HiddenHandSelection)
+		private void HideHand(HiddenHandValue hiddenHandSelection, PlayerScript playerScript)
 		{
-			PlayerManager.LocalPlayerScript.PlayerOnlySyncValues.ServerSetHiddenHands(HiddenHandSelection);
+			playerScript.PlayerOnlySyncValues.ServerSetHiddenHands(hiddenHandSelection);
 		}
 
-		private ItemSlot DetermineHiddenHand()
+		private ItemSlot DetermineHiddenHand(HandActivate interaction)
 		{
 			ItemSlot hiddenHand = null;
-			var playerStorage = PlayerManager.LocalPlayerScript.DynamicItemStorage;
+			var playerStorage = interaction.PerformerPlayerScript.DynamicItemStorage;
 			var currentSlot = playerStorage.GetActiveHandSlot();
 
 			var leftHands = playerStorage.GetNamedItemSlots(NamedSlot.leftHand);
@@ -121,38 +128,39 @@ namespace Items
 
 		public void ServerPerformInteraction(HandActivate interaction)
 		{
-			ItemSlot hiddenHand = DetermineHiddenHand();
+			ItemSlot hiddenHand = DetermineHiddenHand(interaction);
 
 			if (hiddenHand != null)
 			{
-				int hiddenHandSelection = (int) hiddenHandValues.bothHands;
+				HiddenHandValue hiddenHandSelection = HiddenHandValue.bothHands;
 
 				if (hiddenHand.NamedSlot.GetValueOrDefault(NamedSlot.none) == NamedSlot.leftHand)
 				{
-					hiddenHandSelection = (int) hiddenHandValues.leftHand;
+					hiddenHandSelection =  HiddenHandValue.leftHand;
 				}
 				else if (hiddenHand.NamedSlot.GetValueOrDefault(NamedSlot.none) == NamedSlot.rightHand)
 				{
-					hiddenHandSelection = (int) hiddenHandValues.rightHand;
+					hiddenHandSelection = HiddenHandValue.rightHand;
 				}
 
 				Inventory.ServerDrop(hiddenHand);
 
-				isWielded = !isWielded;
+				SyncState(isWielded, !isWielded);
+
 
 				if (isWielded)
 				{
 					itemAttributes.ServerHitDamage = damageWielded;
 					itemAttributes.SetSprites(Wielded);
 					Chat.AddExamineMsgFromServer(interaction.Performer, $"You wield {gameObject.ExpensiveName()} grabbing it with both of your hands.");
-					HideHand(hiddenHandSelection);
+					HideHand(hiddenHandSelection, interaction.PerformerPlayerScript);
 				}
 				else
 				{
 					itemAttributes.ServerHitDamage = damageUnwielded;
 					itemAttributes.SetSprites(Unwielded);
 					Chat.AddExamineMsgFromServer(interaction.Performer, $"You unwield {gameObject.ExpensiveName()}.");
-					HideHand((int) hiddenHandValues.none);
+					HideHand(HiddenHandValue.none, interaction.PerformerPlayerScript);
 				}
 
 				PlayerAppearanceMessage.SendToAll(interaction.Performer, (int)interaction.HandSlot.NamedSlot.GetValueOrDefault(NamedSlot.none), gameObject);
