@@ -1,5 +1,5 @@
 ﻿using UnityEngine;
-using UnityEngine.UI;
+using UI.Core.NetUI;
 using Objects;
 
 namespace UI.Objects
@@ -21,44 +21,37 @@ namespace UI.Objects
 		[SerializeField]
 		private NetSlider sliderVolume = null;
 
-		private Jukebox _JukeboxController;
-		private Jukebox jukeboxController {
-			get {
-				if (_JukeboxController == null)
-					_JukeboxController = Provider.GetComponent<Jukebox>();
-
-				return _JukeboxController;
-			}
-		}
+		private Jukebox jukebox;
+		private Jukebox Jukebox => jukebox ??= Provider.GetComponent<Jukebox>();
 
 		public void OnTabOpenedHandler(ConnectedPlayer connectedPlayer)
 		{
-			labelTrack.Value = jukeboxController.TrackPosition;
-			labelSong.Value = jukeboxController.SongName;
-			labelArtist.Value = jukeboxController.Artist;
-			prefabImagePlayStop.Value = jukeboxController.PlayStopButtonPrefabImage;
+			labelTrack.Value = Jukebox.TrackPosition;
+			labelSong.Value = Jukebox.SongName;
+			labelArtist.Value = Jukebox.Artist;
+			prefabImagePlayStop.Value = Jukebox.PlayStopButtonPrefabImage;
 		}
 
 		public void PlayOrStop()
 		{
-			if (jukeboxController.IsPlaying)
+			if (Jukebox.IsPlaying)
 			{
-				jukeboxController.Stop();
+				Jukebox.Stop();
 			}
 			else
 			{
-				_ = jukeboxController.Play();
+				_ = Jukebox.Play();
 			}
 		}
 
 		public void PreviousSong()
 		{
-			jukeboxController.PreviousSong();
+			Jukebox.PreviousSong();
 		}
 
 		public void NextSong()
 		{
-			jukeboxController.NextSong();
+			Jukebox.NextSong();
 		}
 
 		public void ClosePanel()
@@ -68,7 +61,7 @@ namespace UI.Objects
 
 		public void VolumeChange()
 		{
-			jukeboxController.VolumeChange(float.Parse(sliderVolume.Value) / 100);
+			Jukebox.VolumeChange(float.Parse(sliderVolume.Value) / 100);
 		}
 	}
 }

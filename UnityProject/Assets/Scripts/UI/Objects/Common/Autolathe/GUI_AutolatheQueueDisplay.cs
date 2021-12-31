@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UI.Core.NetUI;
 using Objects.Machines;
 using UI.Objects.Robotics;
 
@@ -9,18 +10,18 @@ namespace UI.Objects
 	public class GUI_AutolatheQueueDisplay : NetUIStringElement
 	{
 		private List<MachineProduct> currentProducts = new List<MachineProduct>();
-		public List<MachineProduct> CurrentProducts { get => currentProducts; }
+		public List<MachineProduct> CurrentProducts => currentProducts;
 
 		//Temporary until the queue has been optimized.
 		public int maxProductsInQueue = 20;
 
-		public int MaxProductsInQueue { get => maxProductsInQueue; }
+		public int MaxProductsInQueue => maxProductsInQueue;
 
 		[SerializeField]
-		private GUI_ExoFabButton processQueueButton = null;
+		private NetInteractiveButton processQueueButton = null;
 
 		[SerializeField]
-		private GUI_ExoFabButton clearQueueButton = null;
+		private NetInteractiveButton clearQueueButton = null;
 
 		[SerializeField]
 		private EmptyItemList itemsInQueue = null;

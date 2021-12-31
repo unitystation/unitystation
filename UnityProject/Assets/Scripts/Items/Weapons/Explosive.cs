@@ -1,18 +1,14 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Systems.Explosions;
-using ScriptableObjects.Communications;
+using UnityEngine;
+using Mirror;
 using Communications;
 using Managers;
-using Mirror;
-using Objects;
+using Systems.Explosions;
 using Scripts.Core.Transform;
-using UI;
-using UnityEngine;
-
+using UI.Items;
 
 namespace Items.Weapons
 {
