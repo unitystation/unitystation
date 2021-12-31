@@ -1,44 +1,47 @@
 using UnityEditor;
 using Weapons;
 
-[CustomEditor(typeof(MeleeEffect))]
-public class MeleeEffectEditor : Editor
+namespace CustomInspectors 
 {
-	public override void OnInspectorGUI()
+	[CustomEditor(typeof(MeleeEffect))]
+	public class MeleeEffectEditor : Editor
 	{
-		base.OnInspectorGUI();
-
-		MeleeEffect meleeEffect = (MeleeEffect)target;
-
-		EditorGUILayout.Space(10);
-		EditorGUILayout.LabelField("Stun");
-
-		meleeEffect.canStun = EditorGUILayout.Toggle("Can Stun?", meleeEffect.canStun);
-
-		if (meleeEffect.canStun == true)
+		public override void OnInspectorGUI()
 		{
-			EditorGUI.indentLevel++;
+			base.OnInspectorGUI();
 
-			meleeEffect.stunTime = EditorGUILayout.FloatField("Stun Duration", meleeEffect.stunTime);
+			MeleeEffect meleeEffect = (MeleeEffect)target;
 
-			EditorGUI.indentLevel--;
-		}
+			EditorGUILayout.Space(10);
+			EditorGUILayout.LabelField("Stun");
 
-		EditorGUILayout.Space(10);
-		EditorGUILayout.LabelField("Teleport");
+			meleeEffect.canStun = EditorGUILayout.Toggle("Can Stun?", meleeEffect.canStun);
 
-		meleeEffect.canTeleport = EditorGUILayout.Toggle("Can Teleport?", meleeEffect.canTeleport);
+			if (meleeEffect.canStun == true)
+			{
+				EditorGUI.indentLevel++;
 
-		if (meleeEffect.canTeleport == true)
-		{
-			EditorGUI.indentLevel++;
+				meleeEffect.stunTime = EditorGUILayout.FloatField("Stun Duration", meleeEffect.stunTime);
 
-			meleeEffect.avoidSpace = EditorGUILayout.Toggle("Avoid Space?", meleeEffect.avoidSpace);
-			meleeEffect.avoidImpassable = EditorGUILayout.Toggle("Avoid Impassables?", meleeEffect.avoidImpassable);
-			meleeEffect.minTeleportDistance = EditorGUILayout.IntSlider("Min Teleport distance", meleeEffect.minTeleportDistance, 0, 15);
-			meleeEffect.maxTeleportDistance = EditorGUILayout.IntSlider("Max Teleport distance", meleeEffect.maxTeleportDistance, 0, 15);
+				EditorGUI.indentLevel--;
+			}
 
-			EditorGUI.indentLevel--;
+			EditorGUILayout.Space(10);
+			EditorGUILayout.LabelField("Teleport");
+
+			meleeEffect.canTeleport = EditorGUILayout.Toggle("Can Teleport?", meleeEffect.canTeleport);
+
+			if (meleeEffect.canTeleport == true)
+			{
+				EditorGUI.indentLevel++;
+
+				meleeEffect.avoidSpace = EditorGUILayout.Toggle("Avoid Space?", meleeEffect.avoidSpace);
+				meleeEffect.avoidImpassable = EditorGUILayout.Toggle("Avoid Impassables?", meleeEffect.avoidImpassable);
+				meleeEffect.minTeleportDistance = EditorGUILayout.IntSlider("Min Teleport distance", meleeEffect.minTeleportDistance, 0, 15);
+				meleeEffect.maxTeleportDistance = EditorGUILayout.IntSlider("Max Teleport distance", meleeEffect.maxTeleportDistance, 0, 15);
+
+				EditorGUI.indentLevel--;
+			}
 		}
 	}
 }
