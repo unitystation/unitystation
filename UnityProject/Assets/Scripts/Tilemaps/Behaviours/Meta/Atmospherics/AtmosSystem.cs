@@ -46,13 +46,19 @@ namespace Systems.Atmospherics
 					{
 						//We use ChangeGasMix here incase we need to add overlays, while the BaseAirMix and BaseSpaceMix can set directly since none of the gases in them do
 						//Does come with a performance penalty
-						node.ChangeGasMix(GasMix.NewGasMix(gasSetter.GasMixToSpawn));
+						//node.ChangeGasMix(GasMix.NewGasMix(gasSetter.GasMixToSpawn));
+						
+						//TODO: above commented out due to performance on load for lavaland, remove line below if solution is found
+						node.GasMix = GasMix.NewGasMix(gasSetter.GasMixToSpawn);
 					}
 					//See if the whole matrix has a custom mix
 					else if (hasCustomMix)
 					{
 						//ChangeGasMix here too for the same reason as above
-						node.ChangeGasMix(GasMix.NewGasMix(defaultRoomGasMixOverride.BaseGasMix));
+						//node.ChangeGasMix(GasMix.NewGasMix(defaultRoomGasMixOverride.BaseGasMix));
+						
+						//TODO: above commented out due to performance on load for lavaland, remove line below if solution is found
+						node.GasMix = GasMix.NewGasMix(defaultRoomGasMixOverride.BaseGasMix);
 					}
 					//Default to air mix otherwise
 					else
