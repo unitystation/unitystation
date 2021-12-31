@@ -89,11 +89,15 @@ public class Huggable : MonoBehaviour, ICheckedInteractable<HandApply>
 	{
 		var targetLHB = interaction.TargetObject.GetComponent<LivingHealthMasterBase>();
 		if (targetLHB == null) return false;
-		if (targetLHB.BodyPartStorage.Populater.DeprecatedContents.Intersect(tails).Any() == false) return false;
-		Chat.AddActionMsgToChat(interaction.Performer, $"<color=#be2596>You pull on {targetName}'s tail.</color>",
-			$"<color=#be2596>{performerName} pulls on {targetName}'s tail!</color>");
-		Chat.AddExamineMsgFromServer(interaction.TargetObject, $"<color=#be2596>{performerName} hugs you.</color>");
-		return true;
+		foreach (var possibleTail in targetLHB.BodyPartStorage.Populater.DeprecatedContents)
+		{
+			if (tails.Contains(possibleTail) == false) continue;
+			Chat.AddActionMsgToChat(interaction.Performer, $"<color=#be2596>You pull on {targetName}'s tail.</color>",
+				$"<color=#be2596>{performerName} pulls on {targetName}'s tail!</color>");
+			Chat.AddExamineMsgFromServer(interaction.TargetObject, $"<color=#be2596>{performerName} hugs you.</color>");
+			return true;
+		}
+		return false;
 	}
 
 	private void Hug()
