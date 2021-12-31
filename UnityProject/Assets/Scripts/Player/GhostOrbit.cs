@@ -49,7 +49,7 @@ namespace Player
 			if(target == null) return;
 			if (KeyboardInputManager.IsMovementPressed())
 			{
-				StopOrbiting();
+				CmdStopOrbiting();
 			}
 		}
 
