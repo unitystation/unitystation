@@ -17,7 +17,7 @@ namespace Objects
 		/// </summary>
 		/// <param name="playerScript">Playerscript of the player stepping</param>
 		/// <returns>False to block OnPlayerStep, true to run OnPlayerStep</returns>
-		public abstract bool CanPlayerStep(PlayerScript playerScript);
+		public abstract bool WillAffectPlayer(PlayerScript playerScript);
 
 		/// <summary>
 		/// Action when player steps on tile
@@ -36,7 +36,7 @@ namespace Objects
 		/// Check whether this mobs, object or item should be allowed to trigger the OnObjectEnter logic
 		/// </summary>
 		/// <returns>False to block OnObjectEnter, true to run OnObjectEnter</returns>
-		public abstract bool CanObjectEnter(GameObject eventData);
+		public abstract bool WillAffectObject(GameObject eventData);
 
 		/// <summary>
 		/// Action when a mob, object or item moves to this tile

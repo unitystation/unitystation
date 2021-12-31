@@ -9,14 +9,14 @@ using UnityEngine;
 public abstract class TileStepInteraction : ScriptableObject, IPlayerEntersTile, IObjectEntersTile
 {
 	//Player enter tile interaction//
-	public virtual bool CanPlayerStep(PlayerScript playerScript)
+	public virtual bool WillAffectPlayer(PlayerScript playerScript)
 	{
 		return false;
 	}
 	public virtual void OnPlayerStep(PlayerScript playerScript) { }
 
 	//Object, mob, item enter tile interaction//
-	public virtual bool CanObjectEnter(GameObject eventData)
+	public virtual bool WillAffectObject(GameObject eventData)
 	{
 		return false;
 	}

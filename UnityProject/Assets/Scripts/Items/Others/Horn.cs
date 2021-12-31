@@ -121,7 +121,7 @@ namespace Items
 			return itemslot != null ? itemslot.ItemStorage.GetRootStorageOrPlayer() : gameObject;
 		}
 
-		public bool CanPlayerStep(PlayerScript playerScript)
+		public bool WillAffectPlayer(PlayerScript playerScript)
 		{
 			//Don't allow ghosts? :(
 			return playerScript.IsGhost == false;

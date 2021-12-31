@@ -60,7 +60,7 @@ namespace Health.Sickness
 			DebugGizmoUtils.DrawText(Sickness.SicknessName, registerTile.WorldPositionServer);
 		}
 
-		public virtual bool CanPlayerStep(PlayerScript playerScript)
+		public virtual bool WillAffectPlayer(PlayerScript playerScript)
 		{
 			return playerScript.IsGhost == false;
 		}

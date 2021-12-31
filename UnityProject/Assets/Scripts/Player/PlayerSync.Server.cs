@@ -790,18 +790,18 @@ public partial class PlayerSync
 		List<IPlayerEntersTile> enterables = MatrixManager.GetAt<IPlayerEntersTile>(targetPos, isServer);
 		foreach (IPlayerEntersTile enterable in enterables)
 		{
-			if (enterable.CanPlayerStep(playerScript) == false) continue;
+			if (enterable.WillAffectPlayer(playerScript) == false) continue;
 			enterable.OnPlayerStep(playerScript);
 		}
 
 		//Tile IPlayerEntersTile
-		LayerTile tile = Matrix.MetaTileMap.GetTile(ServerLocalPosition, true);
+		LayerTile tile = registerPlayer.Matrix.MetaTileMap.GetTile(ServerLocalPosition, true);
 
 		if (tile is BasicTile basicTile)
 		{
 			foreach (var tileStepInteraction in basicTile.TileStepInteractions)
 			{
-				if (tileStepInteraction.CanPlayerStep(playerScript) == false) continue;
+				if (tileStepInteraction.WillAffectPlayer(playerScript) == false) continue;
 				tileStepInteraction.OnPlayerStep(playerScript);
 			}
 		}

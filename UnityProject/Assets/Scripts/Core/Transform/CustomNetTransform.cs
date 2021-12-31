@@ -698,7 +698,7 @@ public partial class CustomNetTransform : NetworkBehaviour, IPushable
 
 		foreach (IObjectEntersTile objectEntersTile in objectEntersTiles)
 		{
-			if (objectEntersTile.CanObjectEnter(gameObject) == false) continue;
+			if (objectEntersTile.WillAffectObject(gameObject) == false) continue;
 			objectEntersTile.OnObjectEnter(gameObject);
 		}
 
@@ -709,7 +709,7 @@ public partial class CustomNetTransform : NetworkBehaviour, IPushable
 		{
 			foreach (var tileStepInteraction in basicTile.TileStepInteractions)
 			{
-				if (tileStepInteraction.CanObjectEnter(gameObject) == false) continue;
+				if (tileStepInteraction.WillAffectObject(gameObject) == false) continue;
 				tileStepInteraction.OnObjectEnter(gameObject);
 			}
 		}

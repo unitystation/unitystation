@@ -26,7 +26,7 @@ namespace Objects
 		[SerializeField, HideIf("ignoresFootwear")] private List<ItemTrait> protectiveItemTraits;
 		[SerializeField] private List<BodyPartType> limbsToHurt;
 
-		public virtual bool CanPlayerStep(PlayerScript playerScript)
+		public virtual bool WillAffectPlayer(PlayerScript playerScript)
 		{
 			return playerScript.IsGhost == false;
 		}
@@ -41,7 +41,7 @@ namespace Objects
 			PlayStepAudio();
 		}
 
-		public virtual bool CanObjectEnter(GameObject eventData)
+		public virtual bool WillAffectObject(GameObject eventData)
 		{
 			//Old health
 			return eventData.HasComponent<LivingHealthBehaviour>();

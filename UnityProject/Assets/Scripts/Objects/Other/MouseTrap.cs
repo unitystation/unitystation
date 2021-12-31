@@ -99,7 +99,7 @@ namespace Objects.Other
 			trapPreview.SetSpriteSO(sprite.GetCurrentSpriteSO());
 		}
 
-		public override bool CanPlayerStep(PlayerScript playerScript)
+		public override bool WillAffectPlayer(PlayerScript playerScript)
 		{
 			return playerScript.IsGhost == false;
 		}
@@ -113,7 +113,7 @@ namespace Objects.Other
 			isArmed = false;
 		}
 
-		public override bool CanObjectEnter(GameObject eventData)
+		public override bool WillAffectObject(GameObject eventData)
 		{
 			//Damage mice
 			return eventData.HasComponent<MouseAI>();

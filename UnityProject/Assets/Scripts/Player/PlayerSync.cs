@@ -54,7 +54,7 @@ public partial class PlayerSync : NetworkBehaviour, IPushable, IPlayerControllab
 
 	public bool Step = false;
 
-	private Matrix Matrix => registerPlayer.Matrix;
+	private Matrix Matrix => registerPlayer != null ? registerPlayer.Matrix : null;
 
 	private RaycastHit2D[] rayHit;
 
