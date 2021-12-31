@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using HealthV2;
 using Messages.Server.SoundMessages;
 using UnityEngine;
@@ -13,6 +14,19 @@ public class Huggable : MonoBehaviour, ICheckedInteractable<HandApply>
 	private HandApply interaction;
 	private string performerName;
 	private string targetName;
+
+	/// <summary>
+	/// Time in-between gib checks for tail pulling In milliseconds
+	/// </summary>
+	private int tailPullJudgementCooldown = 15000;
+	/// <summary>
+	/// The chance of being gibbed after pulling a tail multiple times.
+	/// </summary>
+	private float tailPullJudgementChance = 25;
+	/// <summary>
+	/// Who was the last one to pull a tail?
+	/// </summary>
+	private LivingHealthMasterBase lastPuller;
 
 	public bool WillInteract(HandApply interaction, NetworkSide side)
 	{
@@ -84,6 +98,26 @@ public class Huggable : MonoBehaviour, ICheckedInteractable<HandApply>
 		return false;
 	}
 
+	private void Judgement(LivingHealthMasterBase puller)
+	{
+		if (lastPuller == null || lastPuller != puller)
+		{
+			JudgementCooldown(puller);
+			return;
+		}
+		if (DMMath.Prob(tailPullJudgementChance))
+		{
+			puller.Gib();
+		}
+	}
+
+	private async void JudgementCooldown(LivingHealthMasterBase puller)
+	{
+		lastPuller = puller;
+		await Task.Delay(tailPullJudgementCooldown).ConfigureAwait(false);
+		lastPuller = null;
+	}
+
 	private bool PullTail()
 	{
 		var performerLHB = interaction.Performer.GetComponent<LivingHealthMasterBase>();
@@ -95,10 +129,7 @@ public class Huggable : MonoBehaviour, ICheckedInteractable<HandApply>
 			Chat.AddActionMsgToChat(interaction.Performer, $"<color=#be2596>You pull on {targetName}'s tail.</color>",
 				$"<color=#be2596>{performerName} pulls on {targetName}'s tail!</color>");
 			Chat.AddExamineMsgFromServer(interaction.TargetObject, $"<color=#be2596>{performerName} hugs you.</color>");
-			if (DMMath.Prob(0.4f))
-			{
-				performerLHB.Gib();
-			}
+			Judgement(performerLHB);
 			return true;
 		}
 		return false;
