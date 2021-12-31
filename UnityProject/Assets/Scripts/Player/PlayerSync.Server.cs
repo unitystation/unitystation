@@ -576,9 +576,6 @@ public partial class PlayerSync
 			return state;
 		}
 
-		// Check if the player stepped on a enterable object.
-		EnterInteract(state.WorldPosition, (Vector2)action.Direction());
-
 		if (action.isNonPredictive)
 		{
 			Logger.Log("Ignored action marked as Non-predictive while being indoors", Category.Movement);
@@ -590,7 +587,6 @@ public partial class PlayerSync
 		nextState.Speed = SpeedServer;
 		if (playerScript.IsGhost) return nextState;
 
-		playerScript.OnTileReached().Invoke(nextState.WorldPosition.RoundToInt());
 		FootstepSounds.PlayerFootstepAtPosition(nextState.WorldPosition, this);
 
 		return nextState;
@@ -629,7 +625,7 @@ public partial class PlayerSync
 	/// <param name="direction">direction of movement</param>
 	private void EnterInteract(Vector3 currentPosition, Vector3 direction)
 	{
-		StartCoroutine(TryEnterInteract(currentPosition, direction));
+		TryEnterInteract(currentPosition, direction);
 	}
 
 
@@ -670,12 +666,10 @@ public partial class PlayerSync
 	/// <param name="currentPosition">current world position</param>
 	/// <param name="direction">direction of movement</param>
 	/// <returns></returns>
-	private IEnumerator TryEnterInteract(Vector3 currentPosition, Vector3 direction)
+	private void TryEnterInteract(Vector3 currentPosition, Vector3 direction)
 	{
 		var worldTarget = Vector3Int.RoundToInt(currentPosition + direction);
 		InteractEnterable(worldTarget);
-
-		yield return WaitFor.Seconds(.1f);
 	}
 
 
@@ -792,10 +786,24 @@ public partial class PlayerSync
 	/// <param name="targetPos">The entered position</param>
 	private void InteractEnterable(Vector3Int targetPos)
 	{
-		List<IEnterable> enterables = MatrixManager.GetAt<IEnterable>(targetPos, isServer);
-		foreach (IEnterable enterable in enterables)
+		//Player IPlayerEntersTile
+		List<IPlayerEntersTile> enterables = MatrixManager.GetAt<IPlayerEntersTile>(targetPos, isServer);
+		foreach (IPlayerEntersTile enterable in enterables)
 		{
-			if(enterable.WillStep(gameObject)) enterable.OnStep(gameObject);
+			if (enterable.CanPlayerStep(playerScript) == false) continue;
+			enterable.OnPlayerStep(playerScript);
+		}
+
+		//Tile IPlayerEntersTile
+		LayerTile tile = Matrix.MetaTileMap.GetTile(ServerLocalPosition, true);
+
+		if (tile is BasicTile basicTile)
+		{
+			foreach (var tileStepInteraction in basicTile.TileStepInteractions)
+			{
+				if (tileStepInteraction.CanPlayerStep(playerScript) == false) continue;
+				tileStepInteraction.OnPlayerStep(playerScript);
+			}
 		}
 	}
 
@@ -960,6 +968,10 @@ public partial class PlayerSync
 		if (serverLerpState.WorldPosition == targetPos)
 		{
 			OnTileReached().Invoke(targetPos.RoundToInt());
+
+			// Check if the player stepped on a enterable object.
+			EnterInteract(serverLerpState.WorldPosition, (Vector2)serverLerpState.WorldImpulse);
+
 			// Check for swap once movement is done, to prevent us and another player moving into the same tile
 			if (!playerScript.IsGhost)
 			{

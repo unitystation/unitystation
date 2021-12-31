@@ -206,7 +206,14 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour, IHealth, IFireEx
 		DNABloodType = JsonUtility.FromJson<DNAandBloodType>(updatedDNA);
 	}
 
-
+	/// <summary>
+	/// Adjusts the amount of fire stacks, to a min of 0 (not on fire) and a max of maxFireStacks
+	/// </summary>
+	/// <param name="deltaValue">The amount to adjust the stacks by, negative if reducing positive if increasing</param>
+	public void ChangeFireStacks(float deltaValue)
+	{
+		SyncFireStacks(fireStacks, Mathf.Clamp((fireStacks + deltaValue), 0, maxFireStacks));
+	}
 
 	private void SyncFireStacks(float oldValue, float newValue)
 	{
@@ -545,9 +552,6 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour, IHealth, IFireEx
 		afterDeathDamage = 0;
 		ConsciousState = ConsciousState.DEAD;
 		OnDeathActions();
-		//stop burning
-		//TODO: When clothes/limb burning is implemented, probably should keep burning until clothes are burned up
-		SyncFireStacks(fireStacks, 0);
 	}
 
 	private void Crit(bool allowCrawl = false)
