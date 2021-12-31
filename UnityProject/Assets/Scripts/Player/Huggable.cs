@@ -22,7 +22,7 @@ public class Huggable : MonoBehaviour, ICheckedInteractable<HandApply>
 	/// <summary>
 	/// The chance of being gibbed after pulling a tail multiple times.
 	/// </summary>
-	private float tailPullJudgementChance = 25;
+	private float tailPullJudgementChance = 0.4f;
 	/// <summary>
 	/// Who was the last one to pull a tail?
 	/// </summary>
