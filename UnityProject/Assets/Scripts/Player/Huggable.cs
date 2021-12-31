@@ -86,7 +86,8 @@ public class Huggable : MonoBehaviour, ICheckedInteractable<HandApply>
 
 	private bool PullTail()
 	{
-		var targetLHB = interaction.TargetObject.GetComponent<PlayerHealthV2>();
+		var performerLHB = interaction.Performer.GetComponent<LivingHealthMasterBase>();
+		var targetLHB = interaction.TargetObject.GetComponent<LivingHealthMasterBase>();
 		if (targetLHB == null) return false;
 		foreach (var possibleTail in targetLHB.BodyPartList)
 		{
@@ -94,6 +95,10 @@ public class Huggable : MonoBehaviour, ICheckedInteractable<HandApply>
 			Chat.AddActionMsgToChat(interaction.Performer, $"<color=#be2596>You pull on {targetName}'s tail.</color>",
 				$"<color=#be2596>{performerName} pulls on {targetName}'s tail!</color>");
 			Chat.AddExamineMsgFromServer(interaction.TargetObject, $"<color=#be2596>{performerName} hugs you.</color>");
+			if (DMMath.Prob(0.4f))
+			{
+				performerLHB.Gib();
+			}
 			return true;
 		}
 		return false;
