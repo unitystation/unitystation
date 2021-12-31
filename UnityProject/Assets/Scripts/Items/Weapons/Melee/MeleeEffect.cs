@@ -5,30 +5,51 @@ using AddressableReferences;
 namespace Weapons
 {
 	/// <summary>
-	/// Adding this to a weapon randomly teleports the target on hit. Note: This script works almost identically to MeleeStun.cs with just a seperate OnHit effect.
+	/// Adding this to a weapon allows it to stun and/or randomly teleport targets on hit. 
 	/// </summary>
-	public class MeleeTeleport : MonoBehaviour, ICheckedInteractable<HandApply>
+	public class MeleeEffect : MonoBehaviour, ICheckedInteractable<HandApply>
 	{
+
+		[HideInInspector]
+		[Tooltip("Does this weapon stun players on hit?")]
+		public bool canStun = false;
+
+		/// <summary>
+		/// How long to stun for (in seconds)
+		/// </summary>
+		[HideInInspector]
+		public float stunTime = 0;
+
+		[HideInInspector]
+		[Tooltip("Does this weapon teleport players on hit?")]
+		public bool canTeleport = false;
+
+		[HideInInspector]
 		public bool avoidSpace;
+		[HideInInspector]
 		public bool avoidImpassable = true;
 
+		[HideInInspector]
 		[Tooltip("Min distance players could be teleported")]
 		public int minTeleportDistance = 1;
+		[HideInInspector]
 		[Tooltip("Max distance players could be teleported")]
 		public int maxTeleportDistance = 5;
 
-		[Tooltip("How long you have to wait before teleporting another target. i.e Teleport Cooldown")]
-		[SerializeField]
-		private int delay = 5;
 		/// <summary>
 		/// if you can teleport a target
 		/// </summary>
-		private bool canTeleport = true;
+		private bool canEffect = true;
 
 		/// <summary>
 		/// Sounds to play when teleporting someone
 		/// </summary>
-		[SerializeField] private AddressableAudioSource teleportSound = null;
+		[SerializeField] private AddressableAudioSource useSound = null;
+
+		[Tooltip("How long you have to wait before triggering this weapons effect again.")]
+		[SerializeField]
+		[Space(10)]
+		private int cooldown = 5;
 
 		private int timer = 0;
 
@@ -64,18 +85,26 @@ namespace Weapons
 			RegisterPlayer registerPlayerVictim = target.GetComponent<RegisterPlayer>();
 
 			// Teleport the victim. We check if there is a cooldown preventing the attacker from teleporting the victim.
-			if (registerPlayerVictim && canTeleport)
+			if (registerPlayerVictim && canEffect)
 			{
 				// deactivates the teleport and makes you wait.
-				if (delay != 0)
+				if (cooldown != 0)
 				{
-					canTeleport = false;
-					timer = delay;
+					canEffect = false;
+					timer = cooldown;
 				}
 
-				TeleportUtils.ServerTeleportRandom(target, minTeleportDistance, maxTeleportDistance, avoidSpace, avoidImpassable);
+				if (canStun)
+				{
+					registerPlayerVictim.ServerStun(stunTime);
+				}
 
-				SoundManager.PlayNetworkedAtPos(teleportSound, target.transform.position, sourceObj: target.gameObject);
+				if (canTeleport)
+				{
+					TeleportUtils.ServerTeleportRandom(target, minTeleportDistance, maxTeleportDistance, avoidSpace, avoidImpassable);
+				}
+
+				SoundManager.PlayNetworkedAtPos(useSound, target.transform.position, sourceObj: target.gameObject);
 
 				// Special case: If we're off harm intent (only teleporting), we should still show the lerp (unless we're hitting ourselves).
 				if (interaction.Intent != Intent.Harm && performer != target)
@@ -83,7 +112,7 @@ namespace Weapons
 					wna.RpcMeleeAttackLerp(dir, gameObject);
 				}
 			}
-			else if (!canTeleport)
+			else if (!canEffect)
 			{
 				if (coolDownMessage) return;
 				coolDownMessage = true;
@@ -111,7 +140,7 @@ namespace Weapons
 
 			if (timer == 0)
 			{
-				canTeleport = true;
+				canEffect = true;
 			}
 		}
 	}

@@ -33,18 +33,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 22e23dbc3e28c944c988b15aeccb6f40, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  canStun: 0
+  stunTime: 0
+  canTeleport: 1
   avoidSpace: 0
   avoidImpassable: 1
   minTeleportDistance: 1
   maxTeleportDistance: 5
-  delay: 12
-  teleportSound:
+  useSound:
     SetLoadSetting: 0
     AssetAddress: Assets/Prefabs/Magic/TeleportAppear.prefab
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
       m_SubObjectType: 
+  cooldown: 12
 --- !u!1001 &8127288814593014342
 PrefabInstance:
   m_ObjectHideFlags: 0
