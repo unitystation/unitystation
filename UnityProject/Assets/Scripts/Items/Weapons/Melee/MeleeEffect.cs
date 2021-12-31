@@ -37,12 +37,12 @@ namespace Weapons
 		public int maxTeleportDistance = 5;
 
 		/// <summary>
-		/// if you can teleport a target
+		/// if you can teleport and/or stun a target
 		/// </summary>
 		private bool canEffect = true;
 
 		/// <summary>
-		/// Sounds to play when teleporting someone
+		/// Sounds to play when striking someone
 		/// </summary>
 		[SerializeField] private AddressableAudioSource useSound = null;
 
@@ -84,10 +84,10 @@ namespace Weapons
 
 			RegisterPlayer registerPlayerVictim = target.GetComponent<RegisterPlayer>();
 
-			// Teleport the victim. We check if there is a cooldown preventing the attacker from teleporting the victim.
+			// Teleport and stun the victim (if needed). We check if there is a cooldown preventing the attacker from effecting the victim.
 			if (registerPlayerVictim && canEffect)
 			{
-				// deactivates the teleport and makes you wait.
+				// deactivates the weapon and makes you wait.
 				if (cooldown != 0)
 				{
 					canEffect = false;
@@ -106,7 +106,7 @@ namespace Weapons
 
 				SoundManager.PlayNetworkedAtPos(useSound, target.transform.position, sourceObj: target.gameObject);
 
-				// Special case: If we're off harm intent (only teleporting), we should still show the lerp (unless we're hitting ourselves).
+				// Special case: If we're off harm intent (only teleporting and/or stunning), we should still show the lerp (unless we're hitting ourselves).
 				if (interaction.Intent != Intent.Harm && performer != target)
 				{
 					wna.RpcMeleeAttackLerp(dir, gameObject);
