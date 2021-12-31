@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using System.Linq;
 using HealthV2;
 using Messages.Server.SoundMessages;
 using UnityEngine;
@@ -11,6 +13,7 @@ public class Huggable : MonoBehaviour, ICheckedInteractable<HandApply>
 	private HandApply interaction;
 	private string performerName;
 	private string targetName;
+	[SerializeField] private List<GameObject> tails;
 
 	public bool WillInteract(HandApply interaction, NetworkSide side)
 	{
@@ -82,8 +85,20 @@ public class Huggable : MonoBehaviour, ICheckedInteractable<HandApply>
 		return false;
 	}
 
+	private bool PullTail()
+	{
+		var targetLHB = interaction.TargetObject.GetComponent<LivingHealthMasterBase>();
+		if (targetLHB == null) return false;
+		if (targetLHB.BodyPartStorage.Populater.DeprecatedContents.Intersect(tails).Any() == false) return false;
+		Chat.AddActionMsgToChat(interaction.Performer, $"<color=#be2596>You pull on {targetName}'s tail.</color>",
+			$"<color=#be2596>{performerName} pulls on {targetName}'s tail!</color>");
+		Chat.AddExamineMsgFromServer(interaction.TargetObject, $"<color=#be2596>{performerName} hugs you.</color>");
+		return true;
+	}
+
 	private void Hug()
 	{
+		if(interaction.TargetBodyPart == BodyPartType.Groin && PullTail()) return;
 		Chat.AddActionMsgToChat(interaction.Performer, $"You hug {targetName}.", $"{performerName} hugs {targetName}.");
 		Chat.AddExamineMsgFromServer(interaction.TargetObject, $"{performerName} hugs you.");
 	}
