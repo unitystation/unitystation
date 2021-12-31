@@ -12,5 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a2240c660855416eb3acf074ecc8dad5, type: 3}
   m_Name: LavaStepInteraction
   m_EditorClassIdentifier: 
-  fireStacks: 10
+  playerMobFireStacks: 3
   objectFireDamage: 5
+  fireTimer: 1

@@ -56,22 +56,27 @@ public class LavaStepInteraction : TileStepInteraction
 
 		foreach (var objectToLight in stuffToLightOnFire.Keys)
 		{
-			if (objectToLight.TryGetComponent<PlayerHealthV2>(out var playerHealth))
-			{
-				playerHealth.ChangeFireStacks(playerMobFireStacks);
-				continue;
-			}
+			DamageObject(objectToLight);
+		}
+	}
 
-			if (objectToLight.TryGetComponent<LivingHealthBehaviour>(out var livingHealthBehaviour))
-			{
-				livingHealthBehaviour.ChangeFireStacks(playerMobFireStacks);
-				continue;
-			}
+	private void DamageObject(GameObject objectToBurn)
+	{
+		if (objectToBurn.TryGetComponent<PlayerHealthV2>(out var playerHealth))
+		{
+			playerHealth.ChangeFireStacks(playerMobFireStacks);
+			return;
+		}
 
-			if (objectToLight.TryGetComponent<Integrity>(out var integrity))
-			{
-				integrity.ApplyDamage(objectFireDamage, AttackType.Fire, DamageType.Burn);
-			}
+		if (objectToBurn.TryGetComponent<LivingHealthBehaviour>(out var livingHealthBehaviour))
+		{
+			livingHealthBehaviour.ChangeFireStacks(playerMobFireStacks);
+			return;
+		}
+
+		if (objectToBurn.TryGetComponent<Integrity>(out var integrity))
+		{
+			integrity.ApplyDamage(objectFireDamage, AttackType.Fire, DamageType.Burn);
 		}
 	}
 
@@ -91,22 +96,22 @@ public class LavaStepInteraction : TileStepInteraction
 					stuffToLightOnFire[objectToAdd] = basicTile;
 				}
 
-				ActivateFireUpdate();
+				ActivateFireUpdate(objectToAdd);
 				return;
 			}
 
 			stuffToLightOnFire.Add(objectToAdd, basicTile);
 		}
 
-		ActivateFireUpdate();
+		ActivateFireUpdate(objectToAdd);
 	}
 
-	private void ActivateFireUpdate()
+	private void ActivateFireUpdate(GameObject objectToBurn)
 	{
 		if(active) return;
 
 		//Trigger one fire tick and then every fireTimer
-		TryLightOnFire();
+		DamageObject(objectToBurn);
 		UpdateManager.Add(TryLightOnFire, fireTimer);
 
 		active = true;

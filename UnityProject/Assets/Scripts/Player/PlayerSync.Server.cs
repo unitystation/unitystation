@@ -786,7 +786,7 @@ public partial class PlayerSync
 	/// <param name="targetPos">The entered position</param>
 	private void InteractEnterable(Vector3Int targetPos)
 	{
-		//Player IPlayerEntersTile
+		//Object IPlayerEntersTile
 		List<IPlayerEntersTile> enterables = MatrixManager.GetAt<IPlayerEntersTile>(targetPos, isServer);
 		foreach (IPlayerEntersTile enterable in enterables)
 		{
