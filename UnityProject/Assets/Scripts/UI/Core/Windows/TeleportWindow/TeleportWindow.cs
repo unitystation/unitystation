@@ -47,11 +47,10 @@ namespace UI.Core.Windows
 		public void ButtonClicked(TeleportInfo info)
 		{
 			onTeleportRequested?.Invoke(info);
+			if (PlayerManager.LocalPlayer.TryGetComponent<GhostOrbit>(out var orbit) == false) return;
+			orbit.CmdStopOrbiting();
 			if (OrbitOnTeleport == false) return;
-			if (PlayerManager.LocalPlayer.TryGetComponent<GhostOrbit>(out var orbit))
-			{
-				orbit.CmdServerOrbit(info.gameObject);
-			}
+			orbit.CmdServerOrbit(info.gameObject);
 		}
 
 		public void TeleportToVector(Vector3 vector)

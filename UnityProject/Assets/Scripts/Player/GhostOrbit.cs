@@ -86,6 +86,7 @@ namespace Player
 		[Server]
 		private void StopOrbiting()
 		{
+			if(target == null) return;
 			Chat.AddExamineMsg(gameObject, $"You stop orbiting {target.ExpensiveName()}");
 			target = null;
 			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, FollowTarget);
