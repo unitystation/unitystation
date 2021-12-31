@@ -28,6 +28,13 @@ namespace Player
 			UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
 		}
 
+		private void OnDisable()
+		{
+			StopOrbiting();
+			UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
+		}
+
+
 		private void UpdateMe()
 		{
 			if (Input.GetMouseButtonDown(0))
@@ -59,15 +66,6 @@ namespace Player
 			}
 		}
 
-		/// <summary>
-		/// Mirror does not support IEnumerable so we cannot turn the FindObjectToOrbit function into a command.
-		/// </summary>
-		[Command]
-		private void CmdServerOrbit(GameObject thingToOrbit)
-		{
-			Orbit(thingToOrbit);
-		}
-
 		private async void DoubleClickTimer()
 		{
 			hasClicked = true;
@@ -75,14 +73,8 @@ namespace Player
 			hasClicked = false;
 		}
 
-		private void OnDisable()
-		{
-			StopOrbiting();
-			UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
-		}
-
 		[Server]
-		public void Orbit(GameObject thingToOrbit)
+		private void Orbit(GameObject thingToOrbit)
 		{
 			target = thingToOrbit;
 			rotateTransform.TransformToRotateAround = thingToOrbit.transform;
@@ -100,6 +92,21 @@ namespace Player
 			rotateTransform.TransformToRotateAround = null;
 			rotateTransform.transform.up = Vector3.zero;
 			rotateTransform.transform.localPosition = Vector3.zero;
+		}
+
+		[Command]
+		public void CmdStopOrbiting()
+		{
+			StopOrbiting();
+		}
+
+		/// <summary>
+		/// Mirror does not support IEnumerable so we cannot turn the FindObjectToOrbit function into a command.
+		/// </summary>
+		[Command]
+		public void CmdServerOrbit(GameObject thingToOrbit)
+		{
+			Orbit(thingToOrbit);
 		}
 
 		private void FollowTarget()

@@ -50,7 +50,7 @@ namespace UI.Core.Windows
 			if (OrbitOnTeleport == false) return;
 			if (PlayerManager.LocalPlayer.TryGetComponent<GhostOrbit>(out var orbit))
 			{
-				orbit.Orbit(info.gameObject);
+				orbit.CmdServerOrbit(info.gameObject);
 			}
 		}
 
