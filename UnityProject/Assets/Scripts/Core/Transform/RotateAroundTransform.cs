@@ -8,6 +8,14 @@
 		private Transform ourTransform;
 		private int time = 100;
 
+		[SerializeField] private Vector3 offset = new Vector3(0, 0, 0);
+
+		public Transform TransformToRotateAround
+		{
+			get => transformToRotateAround;
+			set => transformToRotateAround = value;
+		}
+
 		private void Awake()
 		{
 			ourTransform = transform;
@@ -26,6 +34,7 @@
 
 		private void UpdateMe()
 		{
-			ourTransform.RotateAround(transformToRotateAround.position, transformToRotateAround.forward, time*Time.deltaTime);
+			if(transformToRotateAround == null) return;
+			ourTransform.RotateAround(transformToRotateAround.gameObject.AssumedWorldPosServer() + offset, transformToRotateAround.forward, time*Time.deltaTime);
 		}
 	}
