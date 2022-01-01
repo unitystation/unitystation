@@ -10,6 +10,7 @@ using Systems.Interaction;
 using UI;
 using Objects.Wallmounts;
 
+using UI.Core.NetUI;
 
 public enum NetTabType
 {

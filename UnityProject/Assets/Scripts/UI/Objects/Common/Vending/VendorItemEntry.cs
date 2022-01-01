@@ -1,7 +1,6 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using Items;
+﻿using System.Collections.Generic;
 using UnityEngine;
+using UI.Core.NetUI;
 using Objects;
 
 namespace UI.Objects
@@ -32,33 +31,13 @@ namespace UI.Objects
 			vendorWindow = correspondingWindow;
 
 			var itemGO = vendorItem.Item;
-
-			if (itemGO != null)
-			{
-				// TODO This is unused. What was it for? Is this why soda machine entries are just called Drinking glass? (Issue #4942)
-				// I've just moved the line around to stop the NRE.
-				var itemAttr = itemGO.GetComponent<ItemAttributesV2>();
-			}
-			else
-			{
-				Logger.LogError($"{this} variable {nameof(itemGO)} was null!", Category.Machines);
-			}
-
 			// try get human-readable item name
 			var itemNameStr = TextUtils.UppercaseFirst(itemGO.ExpensiveName());
+
 			itemName.SetValueServer(itemNameStr);
-
 			itemIcon.SetValueServer(itemGO.name);
-
-			itemCount.SetValueServer($"({vendorItem.Stock.ToString()})");
-			if (vendorItem.Stock <= 0)
-			{
-				itemBackground.SetValueServer(emptyStockColor);
-			}
-			else
-			{
-				itemBackground.SetValueServer(regularColor);
-			}
+			itemCount.SetValueServer($"({vendorItem.Stock})");
+			itemBackground.SetValueServer(vendorItem.Stock > 0 ? regularColor : emptyStockColor);
 
 			if (vendorItem.Price == 0)
 			{
@@ -66,24 +45,15 @@ namespace UI.Objects
 			}
 			else
 			{
-				if (vendorItem.Currency == CurrencyType.Credits)
-				{
-					priceTag.SetValueServer($"{vendorItem.Price} cr");
-				}
-				else
-				{
-					priceTag.SetValueServer($"{vendorItem.Price} Points");
-				}
-
+				priceTag.SetValueServer(vendorItem.Currency == CurrencyType.Credits
+						? $"{vendorItem.Price} cr"
+						: $"{vendorItem.Price} Points");
 			}
 		}
 
 		public void OnVendItemButtonPressed(ConnectedPlayer player)
 		{
-			if (vendorItem == null || vendorWindow == null)
-			{
-				return;
-			}
+			if (vendorItem == null || vendorWindow == null) return;
 
 			vendorWindow.OnVendItemButtonPressed(vendorItem, player);
 		}
