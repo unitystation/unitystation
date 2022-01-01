@@ -919,10 +919,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 08f3b5496393d9448a8d96d99ddf028f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tails:
-  - {fileID: 8002264998709622030, guid: ecb05f5372736a748bb900d1a7dddce3, type: 3}
-  - {fileID: 2803962419735060703, guid: f145adb7bc76bfc4a86a8612714230d1, type: 3}
-  - {fileID: 2803962419735060703, guid: df82693e0cd2bfc4b97bdedcf98469fb, type: 3}
+  tailTrait: {fileID: 11400000, guid: e46937b2c7f954643803a936b99c5bb5, type: 2}
 --- !u!114 &8566362239651287352
 MonoBehaviour:
   m_ObjectHideFlags: 0

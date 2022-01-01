@@ -2,6 +2,7 @@ using System.Threading.Tasks;
 using HealthV2;
 using Messages.Server.SoundMessages;
 using UnityEngine;
+using System.Collections.Generic;
 
 
 /// <summary>
@@ -25,6 +26,8 @@ public class Huggable : MonoBehaviour, ICheckedInteractable<HandApply>
 	/// Who was the last one to pull a tail?
 	/// </summary>
 	private LivingHealthMasterBase lastPuller;
+
+	[SerializeField] private ItemTrait tailTrait;
 
 	public bool WillInteract(HandApply interaction, NetworkSide side)
 	{
@@ -123,7 +126,7 @@ public class Huggable : MonoBehaviour, ICheckedInteractable<HandApply>
 		if (targetLHB == null) return false;
 		foreach (var possibleTail in targetLHB.BodyPartList)
 		{
-			if (possibleTail.name.Contains("Tail") == false) continue;
+			if (possibleTail.gameObject.Item().HasTrait(tailTrait) == false) continue;
 			Chat.AddActionMsgToChat(interaction.Performer, $"<color=#be2596>You pull on {targetName}'s tail.</color>",
 				$"<color=#be2596>{performerName} pulls on {targetName}'s tail!</color>");
 			Chat.AddExamineMsgFromServer(interaction.TargetObject, $"<color=#be2596>{performerName} hugs you.</color>");
