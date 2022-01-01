@@ -14,12 +14,7 @@ public class Huggable : MonoBehaviour, ICheckedInteractable<HandApply>, ICooldow
 	private string performerName;
 	private string targetName;
 
-	/// <summary>
-	/// Time in-between gib checks for tail pulling In milliseconds
-	/// </summary>
-	private readonly float tailPullJudgementCooldown = 15;
-
-	public float DefaultTime { get; set; }
+	public float DefaultTime { get; } = 15f;
 
 	/// <summary>
 	/// The chance of being gibbed after pulling a tail multiple times.
@@ -107,7 +102,6 @@ public class Huggable : MonoBehaviour, ICheckedInteractable<HandApply>, ICooldow
 		if(Cooldowns.TryStart(interaction.PerformerPlayerScript, this, NetworkSide.Server) == false) lastPuller = null;
 		if (lastPuller == null || lastPuller != puller)
 		{
-			DefaultTime = tailPullJudgementCooldown + Random.Range(-5f,5f);
 			lastPuller = puller;
 			return;
 		}
