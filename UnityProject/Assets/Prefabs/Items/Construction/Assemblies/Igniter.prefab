@@ -56,6 +56,22 @@ PrefabInstance:
       propertyPath: inventoryRemoveSound.AssetAddress
       value: null
       objectReference: {fileID: 0}
+    - target: {fileID: 4149248815674038313, guid: 201d4b5714989d64d86b11da761ecb15,
+        type: 3}
+      propertyPath: relatedRecipes.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4149248815674038313, guid: 201d4b5714989d64d86b11da761ecb15,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[0].recipe
+      value: 
+      objectReference: {fileID: 11400000, guid: b3305fe2a6133d84d855578b5ac409b7,
+        type: 2}
+    - target: {fileID: 4149248815674038313, guid: 201d4b5714989d64d86b11da761ecb15,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[0].ingredientIndex
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 4390993211494916771, guid: 201d4b5714989d64d86b11da761ecb15,
         type: 3}
       propertyPath: m_Sprite
