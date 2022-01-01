@@ -8,7 +8,7 @@ using System.Collections.Generic;
 /// <summary>
 /// Allows an object to be hugged by a player.
 /// </summary>
-public class Huggable : MonoBehaviour, ICheckedInteractable<HandApply>
+public class Huggable : MonoBehaviour, ICheckedInteractable<HandApply>, ICooldown
 {
 	private HandApply interaction;
 	private string performerName;
@@ -17,7 +17,10 @@ public class Huggable : MonoBehaviour, ICheckedInteractable<HandApply>
 	/// <summary>
 	/// Time in-between gib checks for tail pulling In milliseconds
 	/// </summary>
-	private readonly int tailPullJudgementCooldown = 15000;
+	private readonly float tailPullJudgementCooldown = 15;
+
+	public float DefaultTime { get; set; }
+
 	/// <summary>
 	/// The chance of being gibbed after pulling a tail multiple times.
 	/// </summary>
@@ -101,9 +104,11 @@ public class Huggable : MonoBehaviour, ICheckedInteractable<HandApply>
 
 	private void Judgement(LivingHealthMasterBase puller)
 	{
+		JudgementCooldown();
 		if (lastPuller == null || lastPuller != puller)
 		{
-			JudgementCooldown(puller);
+			DefaultTime = tailPullJudgementCooldown + Random.Range(-5f,5f);
+			lastPuller = puller;
 			return;
 		}
 		if (DMMath.Prob(tailPullJudgementChance))
@@ -113,11 +118,9 @@ public class Huggable : MonoBehaviour, ICheckedInteractable<HandApply>
 		}
 	}
 
-	private async void JudgementCooldown(LivingHealthMasterBase puller)
+	private void JudgementCooldown()
 	{
-		lastPuller = puller;
-		await Task.Delay(tailPullJudgementCooldown).ConfigureAwait(false);
-		lastPuller = null;
+		if(!Cooldowns.TryStart(interaction.PerformerPlayerScript, this, NetworkSide.Server)) lastPuller = null;
 	}
 
 	private bool PullTail()
