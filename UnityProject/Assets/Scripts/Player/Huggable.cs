@@ -17,11 +17,11 @@ public class Huggable : MonoBehaviour, ICheckedInteractable<HandApply>
 	/// <summary>
 	/// Time in-between gib checks for tail pulling In milliseconds
 	/// </summary>
-	private int tailPullJudgementCooldown = 15000;
+	private readonly int tailPullJudgementCooldown = 15000;
 	/// <summary>
 	/// The chance of being gibbed after pulling a tail multiple times.
 	/// </summary>
-	private float tailPullJudgementChance = 0.4f;
+	private readonly float tailPullJudgementChance = 0.4f;
 	/// <summary>
 	/// Who was the last one to pull a tail?
 	/// </summary>
