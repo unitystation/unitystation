@@ -104,7 +104,7 @@ public class Huggable : MonoBehaviour, ICheckedInteractable<HandApply>, ICooldow
 
 	private void Judgement(LivingHealthMasterBase puller)
 	{
-		JudgementCooldown();
+		if(!Cooldowns.TryStart(interaction.PerformerPlayerScript, this, NetworkSide.Server)) lastPuller = null;
 		if (lastPuller == null || lastPuller != puller)
 		{
 			DefaultTime = tailPullJudgementCooldown + Random.Range(-5f,5f);
@@ -117,12 +117,7 @@ public class Huggable : MonoBehaviour, ICheckedInteractable<HandApply>, ICooldow
 			puller.Gib();
 		}
 	}
-
-	private void JudgementCooldown()
-	{
-		if(!Cooldowns.TryStart(interaction.PerformerPlayerScript, this, NetworkSide.Server)) lastPuller = null;
-	}
-
+	
 	private bool PullTail()
 	{
 		var performerLHB = interaction.Performer.GetComponent<LivingHealthMasterBase>();
