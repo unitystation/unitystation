@@ -20,15 +20,21 @@ namespace Objects
 		[SerializeField]
 		private CraftingRecipeList ashwalkerCraftingRecipesList = null;
 
-		//Nest eats bodies to allow for more ashwalkers
-		private int ashwalkerRoles = 3;
+		//Amount of meat in nest
+		private int meat = 0;
+
+		//Meat cost of new eggs
+		private int meatCost = 2;
+
+		//Nest eats bodies to allow for more ashwalkers eggs
+		private int ashwalkerEggs = 3;
 
 		//30 Seconds between eating next body
-		private int timeBetweenEgg = 30;
+		private int timeBetweenEating = 30;
+
+		private int eatingTimer = 0;
 
 		private uint createdRoleKey;
-
-		private int timer = 0;
 
 		private Integrity integrity;
 		private RegisterTile registerTile;
@@ -71,11 +77,19 @@ namespace Objects
 
 		private void PeriodicUpdate()
 		{
-			if (timer > 0)
+			if (eatingTimer > 0)
 			{
-				timer--;
+				eatingTimer--;
+
+				if (eatingTimer == 5)
+				{
+					Chat.AddLocalMsgToChat("The nest reaches out and searches for food", gameObject);
+				}
+
 				return;
 			}
+
+			eatingTimer = timeBetweenEating;
 
 			foreach (var direction in directions)
 			{
@@ -101,44 +115,74 @@ namespace Objects
 					var health = newHealth[0];
 					if(health.IsDead == false) continue;
 
+					if (health.playerScript.OrNull()?.mind?.occupation.OrNull()?.JobType == JobType.ASHWALKER
+					&& health.playerScript.OrNull()?.mind?.IsGhosting == false)
+					{
+						Chat.AddActionMsgToChat(health.gameObject,
+							$"Your body has been returned to the nest. You are being remade anew, and will awaken shortly. Your memories will remain intact in your new body, as your soul is being salvaged",
+							$"Serrated tendrils carefully pull {health.gameObject.ExpensiveName()} to the {gameObject.ExpensiveName()}, absorbing the body and creating it anew.");
+
+						//If dead ashwalker in body respawn without cost
+						OnSpawnPlayer(health.playerScript.connectedPlayer);
+						health.Gib();
+						return;
+					}
+
 					EatBody(health);
 					return;
 				}
 			}
+
+			Chat.AddLocalMsgToChat("The nest gurgles in displeasure, there was no food to eat", gameObject);
 		}
 
 		private void EatMobBody(LivingHealthBehaviour mobHealth)
 		{
 			mobHealth.Harvest();
-			IncreaseEgg();
+			IncreaseMeat();
+
+			Chat.AddLocalMsgToChat($"Serrated tendrils eagerly pull {mobHealth.gameObject.ExpensiveName()} to the {gameObject.ExpensiveName()}, tearing the body apart as its blood seeps over the eggs.", gameObject);
 		}
 
 		private void EatBody(LivingHealthMasterBase playerHealth)
 		{
 			playerHealth.Gib();
-			IncreaseEgg();
+			IncreaseMeat();
+
+			Chat.AddLocalMsgToChat($"Serrated tendrils eagerly pull {playerHealth.gameObject.ExpensiveName()} to the {gameObject.ExpensiveName()}, tearing the body apart as its blood seeps over the eggs.", gameObject);
 		}
 
-		private void IncreaseEgg()
+		private void IncreaseMeat(int meatIncrease = 1)
 		{
-			timer = timeBetweenEgg;
-			ashwalkerRoles++;
-			SetSprite();
+			meat += meatIncrease;
 
-			Chat.AddLocalMsgToChat("An egg matures in the nest", gameObject);
+			//Restore 5% integrity
+			integrity.RestoreIntegrity(integrity.initialIntegrity * 0.05f);
+
+			if(meat < meatCost) return;
+			meat -= meatCost;
+
+			//Increase eggs
+			ashwalkerEggs++;
+			SetSprite();
+			GhostRoleManager.Instance.ServerUpdateRole(createdRoleKey, 1, ashwalkerEggs, -1);
+
+			Chat.AddLocalMsgToChat("One of the eggs swells to an unnatural size and tumbles free. It's ready to hatch!", gameObject);
 		}
 
 		private void DecreaseEgg()
 		{
-			ashwalkerRoles--;
+			ashwalkerEggs--;
 			SetSprite();
 
-			Chat.AddLocalMsgToChat("An egg hatches in the nest", gameObject);
+			Chat.AddLocalMsgToChat("An egg hatches in the nest!", gameObject);
+
+			GhostRoleManager.Instance.ServerUpdateRole(createdRoleKey, 1, ashwalkerEggs, -1);
 		}
 
 		private void SetSprite()
 		{
-			spriteHandler.ChangeSprite(ashwalkerRoles > 0 ? 1 : 0);
+			spriteHandler.ChangeSprite(ashwalkerEggs > 0 ? 1 : 0);
 		}
 
 		public void OnSpawnServer(SpawnInfo info)
@@ -146,9 +190,9 @@ namespace Objects
 			SetSprite();
 
 			createdRoleKey = GhostRoleManager.Instance.ServerCreateRole(ghostRole);
-			GhostRoleServer role = GhostRoleManager.Instance.serverAvailableRoles[createdRoleKey];
+			var role = GhostRoleManager.Instance.serverAvailableRoles[createdRoleKey];
 
-			GhostRoleManager.Instance.ServerUpdateRole(createdRoleKey, 1, ashwalkerRoles, -1);
+			GhostRoleManager.Instance.ServerUpdateRole(createdRoleKey, 1, ashwalkerEggs, -1);
 
 			role.OnPlayerAdded += OnSpawnPlayer;
 		}
@@ -173,17 +217,19 @@ namespace Objects
 			}
 
 			DecreaseEgg();
-			GhostRoleManager.Instance.ServerUpdateRole(createdRoleKey, 1, ashwalkerRoles, -1);
+
+			Chat.AddExamineMsg(player.GameObject, "You have been pulled back from beyond the grave, with a new body and renewed purpose. Glory to the Necropolis!");
 		}
 
 		private void OnDestruction(DestructionInfo info)
 		{
+			Chat.AddLocalMsgToChat("As the nest dies, all the eggs explode. There will be no more ashwalkers today", gameObject);
 			GhostRoleManager.Instance.ServerRemoveRole(createdRoleKey);
 		}
 
 		public string Examine(Vector3 worldPos = default(Vector3))
 		{
-			return $"There {(ashwalkerRoles == 1 ? "is" : "are")} {ashwalkerRoles} egg{(ashwalkerRoles == 1 ? "" : "s")} in the nest";
+			return $"There {(ashwalkerEggs == 1 ? "is" : "are")} {ashwalkerEggs} egg{(ashwalkerEggs == 1 ? "" : "s")} in the nest.";
 		}
 	}
 }

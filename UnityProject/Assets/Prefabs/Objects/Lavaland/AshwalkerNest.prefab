@@ -127,12 +127,18 @@ PrefabInstance:
     - target: {fileID: 5663293249459889938, guid: bdc0bbe82126ea747b3fc1d25464d588,
         type: 3}
       propertyPath: initialIntegrity
-      value: 1000
+      value: 200
       objectReference: {fileID: 0}
     - target: {fileID: 5895563674239530943, guid: bdc0bbe82126ea747b3fc1d25464d588,
         type: 3}
       propertyPath: initialName
-      value: Nest
+      value: necropolis tendril nest
+      objectReference: {fileID: 0}
+    - target: {fileID: 5895563674239530943, guid: bdc0bbe82126ea747b3fc1d25464d588,
+        type: 3}
+      propertyPath: initialDescription
+      value: A vile tendril of corruption. It's surrounded by a nest of rapidly growing
+        eggs...
       objectReference: {fileID: 0}
     - target: {fileID: 8585042614081307221, guid: bdc0bbe82126ea747b3fc1d25464d588,
         type: 3}
