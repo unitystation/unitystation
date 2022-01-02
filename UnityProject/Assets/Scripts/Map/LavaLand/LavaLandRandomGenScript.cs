@@ -67,22 +67,26 @@ namespace Systems.Scenes
 			{
 				for (int y = 0; y < height; y++)
 				{
+					var pos = new Vector3Int(-x + width / 2, -y + height / 2, 0) + gameObjectPos;
+
 					if (terrainMap[x, y] != 1)
 					{
-						var pos = new Vector3Int(-x + width / 2, -y + height / 2, 0) + gameObjectPos;
 						tileChangeManager.MetaTileMap.SetTile(pos, wallTile);
 
 						//Commented out below sets bottom tile, but we don't need to for lavaland
 						//botMap.SetTile(new Vector3Int(-x + width / 2, -y + height / 2, 0), botTile);
-
-						//About 1 in 10 tiles have a mob?
-						if (DMMath.Prob(10))
-						{
-							Spawn.ServerPrefab(mobPools.gameObject, tileChangeManager.MetaTileMap.LocalToWorld(pos));
-						}
+					}
+					//About 1 in 20 tiles have a mob spawner pool?
+					else if (DMMath.Prob(5) && mobPools != null)
+					{
+						var localPos = tileChangeManager.MetaTileMap.LocalToWorld(pos);
+						if(tileChangeManager.MetaTileMap.matrix.IsPassableAtOneMatrixOneTile(localPos.RoundToInt(), true)) continue;
+						Spawn.ServerPrefab(mobPools.gameObject, localPos);
 					}
 				}
 			}
+
+
 		}
 
 		private void InitPos()
