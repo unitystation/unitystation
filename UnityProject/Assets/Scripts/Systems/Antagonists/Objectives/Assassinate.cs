@@ -1,7 +1,7 @@
-using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 using System.Linq;
+using UnityEngine;
+using Systems.GhostRoles;
 
 namespace Antagonists
 {
@@ -11,7 +11,6 @@ namespace Antagonists
 	[CreateAssetMenu(menuName="ScriptableObjects/AntagObjectives/Assassinate")]
 	public class Assassinate : Objective
 	{
-
 		/// <summary>
 		/// The person to assassinate
 		/// </summary>
@@ -69,8 +68,18 @@ namespace Antagonists
 		protected override bool CheckCompletion()
 		{
 			if (Target == null || Target.Script == null) return false;
-			if (ConnectedPlayer.IsGhostRole(Target.Job)) return false;
-			return (Target.Script.playerHealth == null || Target.Script.IsDeadOrGhost);
+			if (IsGhostRole(Target.Job)) return false;
+			return Target.Script.playerHealth == null || Target.Script.IsDeadOrGhost;
+		}
+
+		private static bool IsGhostRole(JobType playerJob)
+		{
+			foreach (var roleData in GhostRoleManager.Instance.GhostRoles)
+			{
+				if (playerJob == roleData.TargetOccupation.JobType) return true;
+			}
+
+			return false;
 		}
 	}
 }

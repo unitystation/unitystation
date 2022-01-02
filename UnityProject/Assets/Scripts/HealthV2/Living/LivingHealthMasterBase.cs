@@ -33,8 +33,6 @@ namespace HealthV2
 		/// </summary>
 		private float tickRate = 1f;
 
-		private float tick = 0;
-
 		/// <summary>
 		/// The Register Tile of the living creature
 		/// </summary>
@@ -137,7 +135,6 @@ namespace HealthV2
 		public float FireStacks => fireStacks;
 
 		private float maxFireStacks = 5f;
-		private bool maxFireStacksReached = false;
 
 		/// <summary>
 		/// Client side event which fires when this object's fire status changes
@@ -153,7 +150,6 @@ namespace HealthV2
 		public float BleedStacks => healthStateController.BleedStacks;
 
 		private float maxBleedStacks = 10f;
-		private bool maxBleedStacksReached = false;
 
 		private ObjectBehaviour objectBehaviour;
 		public ObjectBehaviour ObjectBehaviour => objectBehaviour;
@@ -280,14 +276,14 @@ namespace HealthV2
 			}
 		}
 
-		void OnEnable()
+		private void OnEnable()
 		{
 			if (CustomNetworkManager.IsServer == false) return;
 
 			UpdateManager.Add(PeriodicUpdate, 1f);
 		}
 
-		void OnDisable()
+		private void OnDisable()
 		{
 			if (CustomNetworkManager.IsServer == false) return;
 
@@ -305,7 +301,6 @@ namespace HealthV2
 			//Generate BloodType and DNA
 			healthStateController.SetDNA(new DNAandBloodType());
 		}
-
 
 		public Reagent CHem;
 
@@ -460,7 +455,6 @@ namespace HealthV2
 		{
 			return CirculatorySystem.BloodPool[CirculatorySystem.BloodType];
 		}
-
 
 		/// <summary>
 		/// Returns true if the creature has the given body part of a type targetable by the UI
@@ -725,7 +719,6 @@ namespace HealthV2
 			}
 		}
 
-
 		/// <summary>
 		/// Does the body part we're targeting suffer from traumatic damage?
 		/// </summary>
@@ -853,7 +846,6 @@ namespace HealthV2
 		}
 
 		protected abstract void OnDeathActions();
-
 
 		/// <summary>
 		/// Updates the blood health stats from the server via NetMsg
@@ -1155,7 +1147,6 @@ namespace HealthV2
 
 		#endregion
 
-
 		/// <summary>
 		/// Sets up the sprite of a specified body part and adds its Net ID to InternalNetIDs
 		/// </summary>
@@ -1209,7 +1200,6 @@ namespace HealthV2
 				implant.LobbyCustomisation.OnPlayerBodyDeserialise(implant, implant.SetCustomisationData, this);
 			}
 		}
-
 
 		public List<BodyPartSprites> ClientSprites = new List<BodyPartSprites>();
 
@@ -1314,14 +1304,10 @@ namespace HealthV2
 	/// <summary>
 	/// Event which fires when fire stack value changes.
 	/// </summary>
-	public class FireStackEvent : UnityEvent<float>
-	{
-	}
+	public class FireStackEvent : UnityEvent<float> { }
 
 	/// <summary>
 	/// Event which fires when conscious state changes, provides the old state and the new state
 	/// </summary>
-	public class ConsciousStateEvent : UnityEvent<ConsciousState, ConsciousState>
-	{
-	}
+	public class ConsciousStateEvent : UnityEvent<ConsciousState, ConsciousState> { }
 }

@@ -43,8 +43,6 @@ namespace Objects.Engineering
 		private RegisterObject registerObject;
 		public ReactorPipe ReactorPipe;
 
-		private float WaterEnergyDensityPer1 = 10f;
-
 		public ReactorChamberRod[] ReactorRods = new ReactorChamberRod[16];
 		public List<FuelRod> ReactorFuelRods = new List<FuelRod>();
 		public List<EngineStarter> ReactorEngineStarters = new List<EngineStarter>();

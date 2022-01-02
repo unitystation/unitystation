@@ -2,7 +2,6 @@
 using System.Collections;
 using HealthV2;
 using Messages.Server;
-using Mirror;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -33,8 +32,6 @@ namespace Systems.MobAIs
 		protected int playersLayer;
 		protected int npcLayer;
 
-		public MobAI mobAI;
-
 		private bool isForLerpBack;
 		private Vector3 lerpFrom;
 		private Vector3 lerpTo;
@@ -53,9 +50,7 @@ namespace Systems.MobAIs
 			playersLayer = LayerMask.NameToLayer("Players");
 			npcLayer = LayerMask.NameToLayer("NPC");
 			checkMask = LayerMask.GetMask("Players", "NPC", "Objects");
-			mobAI = GetComponent<MobAI>();
 		}
-
 
 		/// <summary>
 		/// Determines if the target of the action can be acted upon and what kind of target it is.
@@ -203,7 +198,6 @@ namespace Systems.MobAIs
 			return false;
 		}
 
-
 		/// <summary>
 		/// What to do if the Mob is trying to act on an NPC
 		/// </summary>
@@ -280,14 +274,12 @@ namespace Systems.MobAIs
 		{
 		}
 
-
 		/// <summary>
 		/// Virtual method to override on extensions of this class for acting on tiles
 		/// </summary>
 		protected virtual void ActOnTile(Vector3Int roundToInt, Vector3 dir)
 		{
 		}
-
 
 		public virtual void ServerDoLerpAnimation(Vector2 dir)
 		{

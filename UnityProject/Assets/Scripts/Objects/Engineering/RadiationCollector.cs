@@ -16,8 +16,6 @@ namespace Objects.Engineering
 
 		[SerializeField]
 		private SpriteHandler mainSpriteHandler = null;
-		[SerializeField]
-		private SpriteHandler slotHandler = null;
 
 		[SerializeField]
 		[Tooltip("Whether this radiation collector should start wrenched")]
