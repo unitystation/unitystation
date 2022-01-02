@@ -17,17 +17,21 @@ public class HandApply : BodyPartTargetedInteraction
 	/// <summary>True if the alt button is pressed by the user. Performed clientside</summary>
 	public bool IsAltClick { get; protected set; }
 
+	/// <summary>True if the highlight system is calling it, doesnt get sent to server, clientside only</summary>
+	public bool IsHighlight;
+
 	/// <param name="performer">The gameobject of the player performing the drop interaction</param>
 	/// <param name="handObject">Object in the player's active hand. Null if player's hand is empty.</param>
 	/// <param name="targetObject">Object that the player clicked on</param>
 	/// <param name="handSlot">active hand slot that is being used.</param>
 	/// <param name="targetBodyPart">targeted body part</param>
 	protected HandApply(GameObject performer, GameObject handObject, GameObject targetObject, BodyPartType targetBodyPart,
-		ItemSlot handSlot, Intent intent, bool isAltClick) :
+		ItemSlot handSlot, Intent intent, bool isAltClick, bool isHighlight = false) :
 		base(performer, handObject, targetObject, targetBodyPart, intent)
 	{
 		HandSlot = handSlot;
 		IsAltClick = isAltClick;
+		IsHighlight = isHighlight;
 	}
 
 	/// <summary>
