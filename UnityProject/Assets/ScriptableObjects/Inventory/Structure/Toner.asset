@@ -9,13 +9,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9d1de2691495b304e9843ac3335b626d, type: 3}
-  m_Name: defibunitcharge100
+  m_Script: {fileID: 11500000, guid: 7c909446621c41cd975e26eab73860a6, type: 3}
+  m_Name: Toner
   m_EditorClassIdentifier: 
-  Variance:
-  - Frames:
-    - sprite: {fileID: 21300000, guid: a737a3942de165547b6e9d9f7856f6a0, type: 3}
-      secondDelay: 0
-  IsPalette: 0
-  setID: 23821
-  DisplayName: 
+  MaxItemSize: 1
+  Whitelist: []
+  Required:
+  - {fileID: 11400000, guid: a8fc278c0b5261540bc28aa751377e89, type: 2}
+  Blacklist: []

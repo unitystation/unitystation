@@ -9,13 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9d1de2691495b304e9843ac3335b626d, type: 3}
-  m_Name: defibunitcharge100
+  m_Script: {fileID: 11500000, guid: 4ccfe138752d4b66bcb7c56a0c9769c7, type: 3}
+  m_Name: AirlockPainter
   m_EditorClassIdentifier: 
-  Variance:
-  - Frames:
-    - sprite: {fileID: 21300000, guid: a737a3942de165547b6e9d9f7856f6a0, type: 3}
-      secondDelay: 0
-  IsPalette: 0
-  setID: 23821
-  DisplayName: 
+  traitDescription: Used for painting airlocks
