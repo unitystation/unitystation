@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Systems.CraftingV2;
 using Systems.GhostRoles;
+using AddressableReferences;
 using HealthV2;
 using ScriptableObjects;
 using UnityEngine;
@@ -19,6 +20,9 @@ namespace Objects
 
 		[SerializeField]
 		private CraftingRecipeList ashwalkerCraftingRecipesList = null;
+
+		[SerializeField]
+		private AddressableAudioSource consumeSound = null;
 
 		//Amount of meat in nest
 		private int meat = 0;
@@ -115,19 +119,6 @@ namespace Objects
 					var health = newHealth[0];
 					if(health.IsDead == false) continue;
 
-					if (health.playerScript.OrNull()?.mind?.occupation.OrNull()?.JobType == JobType.ASHWALKER
-					&& health.playerScript.OrNull()?.mind?.IsGhosting == false)
-					{
-						Chat.AddActionMsgToChat(health.gameObject,
-							$"Your body has been returned to the nest. You are being remade anew, and will awaken shortly. Your memories will remain intact in your new body, as your soul is being salvaged",
-							$"Serrated tendrils carefully pull {health.gameObject.ExpensiveName()} to the {gameObject.ExpensiveName()}, absorbing the body and creating it anew.");
-
-						//If dead ashwalker in body respawn without cost
-						OnSpawnPlayer(health.playerScript.connectedPlayer);
-						health.Gib();
-						return;
-					}
-
 					EatBody(health);
 					return;
 				}
@@ -146,10 +137,26 @@ namespace Objects
 
 		private void EatBody(LivingHealthMasterBase playerHealth)
 		{
+			SoundManager.PlayNetworkedAtPos(consumeSound, registerTile.WorldPositionServer, sourceObj: gameObject);
+
+			if (playerHealth.playerScript.OrNull()?.mind?.occupation.OrNull()?.JobType == JobType.ASHWALKER
+			    && playerHealth.playerScript.OrNull()?.mind?.IsGhosting == false)
+			{
+				Chat.AddActionMsgToChat(playerHealth.gameObject,
+					$"Your body has been returned to the nest. You are being remade anew, and will awaken shortly. Your memories will remain intact in your new body, as your soul is being salvaged",
+					$"Serrated tendrils carefully pull {playerHealth.gameObject.ExpensiveName()} to the {gameObject.ExpensiveName()}, absorbing the body and creating it anew.");
+
+				//If dead ashwalker in body respawn without cost
+				OnSpawnPlayer(playerHealth.playerScript.connectedPlayer);
+				playerHealth.Gib();
+				return;
+			}
+
 			playerHealth.Gib();
-			IncreaseMeat();
 
 			Chat.AddLocalMsgToChat($"Serrated tendrils eagerly pull {playerHealth.gameObject.ExpensiveName()} to the {gameObject.ExpensiveName()}, tearing the body apart as its blood seeps over the eggs.", gameObject);
+
+			IncreaseMeat();
 		}
 
 		private void IncreaseMeat(int meatIncrease = 1)

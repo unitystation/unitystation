@@ -16,6 +16,14 @@ MonoBehaviour:
   ashwalkerRaceData: {fileID: 11400000, guid: 31250f329a28a20458b0f76c1f157a7f, type: 2}
   ashwalkerCraftingRecipesList: {fileID: 11400000, guid: 9750de4dded8127498a76227f03309d6,
     type: 2}
+  consumeSound:
+    SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/Magic/DemonConsume.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
 --- !u!1001 &3317971365740102036
 PrefabInstance:
   m_ObjectHideFlags: 0
