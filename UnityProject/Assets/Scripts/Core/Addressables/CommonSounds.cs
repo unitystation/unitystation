@@ -45,9 +45,10 @@ public class CommonSounds : SingletonScriptableObject<CommonSounds>
    public AddressableAudioSource Rustle = null;
    public AddressableAudioSource BreakStone = null;
    public AddressableAudioSource GlassBreak01 = null;
+   public AddressableAudioSource AirlockPainter = null;
 
-   //Ai announcements
-   public AddressableAudioSource AnnouncementNotice = null;
+	//Ai announcements
+	public AddressableAudioSource AnnouncementNotice = null;
    public AddressableAudioSource AnnouncementAnnounce = null;
    public AddressableAudioSource AnnouncementCentCom = null;
    public AddressableAudioSource AnnouncementAlert = null;
