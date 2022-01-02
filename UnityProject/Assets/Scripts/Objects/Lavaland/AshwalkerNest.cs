@@ -69,12 +69,14 @@ namespace Objects
 		{
 			UpdateManager.Add(PeriodicUpdate, 1f);
 			integrity.OnWillDestroyServer.AddListener(OnDestruction);
+			EventManager.AddHandler(Event.RoundStarted, OnRoundRestart);
 		}
 
 		private void OnDisable()
 		{
 			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, PeriodicUpdate);
 			integrity.OnWillDestroyServer.RemoveListener(OnDestruction);
+			EventManager.RemoveHandler(Event.RoundStarted, OnRoundRestart);
 		}
 
 		#endregion
@@ -192,7 +194,16 @@ namespace Objects
 			spriteHandler.ChangeSprite(ashwalkerEggs > 0 ? 1 : 0);
 		}
 
+		//Used for when admin or in round spawned
 		public void OnSpawnServer(SpawnInfo info)
+		{
+			if(GameManager.Instance.CurrentRoundState != RoundState.Started) return;
+
+			OnRoundRestart();
+		}
+
+		//Would use only IServerSpawn, but that is called before the ghost role manager which wipes the list at RoundStart...
+		private void OnRoundRestart()
 		{
 			SetSprite();
 
@@ -206,7 +217,13 @@ namespace Objects
 
 		private void OnSpawnPlayer(ConnectedPlayer player)
 		{
-			var newCharacterSettings = player.CharacterSettings;
+			var newCharacterSettings = player.Script.characterSettings;
+
+			if (newCharacterSettings == null)
+			{
+				newCharacterSettings = new CharacterSettings();
+				newCharacterSettings.Name = "Slither";
+			}
 
 			//TODO this replaces their old race, charactersettings needs a refactor to have them per body
 			newCharacterSettings.Species = ashwalkerRaceData.name;
