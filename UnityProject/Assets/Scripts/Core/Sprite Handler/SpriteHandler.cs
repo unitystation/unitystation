@@ -831,6 +831,19 @@ public class SpriteHandler : MonoBehaviour
 		return default;
 	}
 
+	/// <summary>
+	/// Gets the SubCatalogue list.
+	/// </summary>
+	public List<SpriteDataSO> GetSubCatalogue()
+	{
+		if (CatalogueCount != 0)
+		{
+			return SubCatalogue;
+		}
+
+		return default;
+	}
+
 #if UNITY_EDITOR
 	IEnumerator EditorAnimations()
 	{

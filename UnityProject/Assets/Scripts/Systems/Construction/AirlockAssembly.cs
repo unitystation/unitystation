@@ -20,10 +20,12 @@ namespace Objects.Construction
 		[Tooltip("Airlock to spawn.")]
 		[SerializeField]
 		private GameObject airlockToSpawn = null;
+		public GameObject AirlockToSpawn => airlockToSpawn;
 
 		[Tooltip("Airlock windowed to spawn.")]
 		[SerializeField]
 		private GameObject airlockWindowedToSpawn = null;
+		public GameObject AirlockWindowedToSpawn => airlockWindowedToSpawn;
 
 		[Tooltip("Material of which the airlock is made")]
 		[SerializeField]
