@@ -35,6 +35,7 @@ namespace Systems.Atmospherics
 		public static GasSO Pluoxium => GasesSingleton.Instance.Pluoxium;
 		public static GasSO Freon => GasesSingleton.Instance.Freon;
 		public static GasSO Smoke => GasesSingleton.Instance.Smoke;
+		public static GasSO Ash => GasesSingleton.Instance.Ash;
 	}
 
 	[Serializable]
