@@ -18,7 +18,9 @@ namespace Items.Medical
 
 	[SerializeField] private AddressableAudioSource soundCharged;
 	[SerializeField] private AddressableAudioSource soundReady;
-	[SerializeField] private AddressableAudioSource soundUsing;
+	[SerializeField] private AddressableAudioSource soundSuccsuess;
+	[SerializeField] private AddressableAudioSource soundFailed;
+	[SerializeField] private AddressableAudioSource soundZap;
 
 	private bool isReady;
 	private bool onCooldown;
@@ -70,14 +72,21 @@ namespace Items.Medical
 			var livingHealthMaster = interaction.TargetObject.GetComponent<LivingHealthMasterBase>();
 			if (CanDefibrillate(livingHealthMaster, interaction.Performer) == false)
 			{
+				_ = SoundManager.PlayNetworkedAtPosAsync(soundFailed, gameObject.AssumedWorldPosServer());
+				Cooldown();
 				return;
 			}
 			livingHealthMaster.RestartHeart();
+			_ = SoundManager.PlayNetworkedAtPosAsync(soundZap, gameObject.AssumedWorldPosServer());
 			if (livingHealthMaster.IsDead == false)
 			{
 				livingHealthMaster.playerScript.ReturnGhostToBody();
+				_ = SoundManager.PlayNetworkedAtPosAsync(soundSuccsuess, gameObject.AssumedWorldPosServer());
+				Cooldown();
+				return;
 			}
-			_ = SoundManager.PlayNetworkedAtPosAsync(soundUsing, gameObject.AssumedWorldPosServer());
+			_ = SoundManager.PlayNetworkedAtPosAsync(soundFailed, gameObject.AssumedWorldPosServer());
+			Cooldown();
 		}
 
 		if (isReady == false || onCooldown == true)
