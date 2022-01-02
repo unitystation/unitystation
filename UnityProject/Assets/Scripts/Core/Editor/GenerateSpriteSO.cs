@@ -1,8 +1,10 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using Chemistry;
 using Doors;
 using UnityEditor;
 using UnityEngine;
@@ -10,7 +12,33 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Items;
 using Items.Botany;
+using ScriptableObjects;
 using Debug = UnityEngine.Debug;
+using Random = System.Random;
+
+
+public static class Useful
+{
+	public static bool EqualsArrayCopyInt(this BitArray first, BitArray second)
+	{
+		// Short-circuit if the arrays are not equal in size
+		if (first.Length != second.Length)
+			return false;
+
+		// Convert the arrays to int[]s
+		int[] firstInts = new int[(int)Math.Ceiling((decimal)first.Count / 32)];
+		first.CopyTo(firstInts, 0);
+		int[] secondInts = new int[(int)Math.Ceiling((decimal)second.Count / 32)];
+		second.CopyTo(secondInts, 0);
+
+		// Look for differences
+		bool areDifferent = false;
+		for (int i = 0; i < firstInts.Length && !areDifferent; i++)
+			areDifferent = firstInts[i] != secondInts[i];
+
+		return !areDifferent;
+	}
+}
 
 /// <summary>
 /// Used for random ass editor scripts, Has all the functions you need in a pinch
@@ -124,9 +152,244 @@ public class GenerateSpriteSO : EditorWindow
 		AssetDatabase.SaveAssets();
 	}
 
+
 	[MenuItem("Tools/GenerateSpriteSO")]
 	public static void Generate()
 	{
+		// Random r = new Random();
+		// var BasicReagentMix = new ReagentMix();
+		//
+		// BasicReagentMix.contentsBitArray.Set(0, true);
+		// BasicReagentMix.contentsBitArray.Set(1, true);
+		//
+		// var BasicRequiredbitArray = new CustomBitArray(600);
+		//
+		//
+		// BasicRequiredbitArray.Set(0, true);
+		// BasicRequiredbitArray.Set(1, true);
+		//
+		//
+		// if (BasicRequiredbitArray.SatisfiesThis(BasicReagentMix.contentsBitArray))
+		// {
+		// 	Logger.LogError("yes");
+		// }
+		// else
+		// {
+		// 	Logger.LogError("no");
+		// }
+		//
+		//
+		// int YESs = 0;
+		// int NOs = 0;
+		//
+		// var ReagentMix = new ReagentMix();
+		// for (int i = 0; i < 200; i++)
+		// {
+		// 	ReagentMix.Add(ChemistryReagentsSO.Instance.AllChemistryReagents.PickRandom(), 10);
+		// }
+
+		// var ComboReactionStandIns = new List<Reagent.ComboReactionStandIn>() ;
+		// for (int i = 0; i < 340; i++)
+		// {
+		// 	var ComboReactionStandIn = new Reagent.ComboReactionStandIn()
+		// 		{
+		// 			InCustomBitArray = new CustomBitArray(600),
+		// 			Required = Array.Empty<Reagent>()
+		// 		};
+		//
+		// 	int Randomgoto = r.Next(2, 3);
+		// 	for (int J = 0; J < Randomgoto; J++)
+		// 	{
+		// 		var _Reagent = ChemistryReagentsSO.Instance.AllChemistryReagents.PickRandom();
+		// 		ComboReactionStandIn.InCustomBitArray.Set(_Reagent.IndexInSingleton, true);
+		// 		ComboReactionStandIn.Required = ComboReactionStandIn.Required.Append(_Reagent).ToArray();
+		// 		_Reagent.ComboReactionStandIns = _Reagent.ComboReactionStandIns.Append(ComboReactionStandIn).ToArray();
+		// 	}
+		// 	ComboReactionStandIns.Add(ComboReactionStandIn);
+		// }
+
+		// var SW = new Stopwatch();
+		// SW.Start();
+		// int inComboReactionStandInsCount = ComboReactionStandIns.Count;
+		// for (int i = 0; i < inComboReactionStandInsCount; i++)
+		// {
+		// 	if (ComboReactionStandIns[i].InCustomBitArray.SatisfiesThis(ReagentMix.contentsBitArray))
+		// 	{
+		// 		YESs++;
+		// 	}
+		// 	else
+		// 	{
+		// 		NOs++;
+		// 	}
+		// }
+		//
+		// SW.Stop();
+		//
+		//
+		//
+		// Logger.LogError($" bitArray Elapsed tick > {SW.ElapsedTicks} YESs > {YESs} NOs > {NOs} ");
+		//
+		//
+		// YESs = 0;
+		// NOs = 0;
+		// SW.Reset();
+		// SW.Start();
+		//
+		//
+		// var RequiredReactionsCount = ComboReactionStandIns.Count;
+		// for (int i = 0; i < RequiredReactionsCount; i++)
+		// {
+		// 	bool addyes = true;
+		// 	var ingredients = ComboReactionStandIns[i];
+		// 	//has all ingredients?
+		// 	if (ingredients.Required.Length == 0)
+		// 	{
+		// 		NOs++;
+		// 		continue;
+		// 	}
+		//
+		// 	if (ingredients.Required.Length > ReagentMix.reagents.m_dict.Count)
+		// 	{
+		// 		NOs++;
+		// 		continue;
+		// 	}
+		//
+		// 	foreach (var ingredient in ingredients.Required)
+		// 	{
+		// 		if (ReagentMix.reagents.m_dict.ContainsKey(ingredient) == false)
+		// 		{
+		// 			NOs++;
+		// 			addyes = false;
+		// 			break;
+		// 		}
+		// 	}
+		//
+		// 	if (addyes)
+		// 	{
+		// 		YESs++;
+		// 	}
+		//
+		// }
+		//
+		// SW.Stop();
+		//
+		// Logger.LogError($" Normal Elapsed tick > {SW.ElapsedTicks} YESs > {YESs} NOs > {NOs} ");
+		//
+		// YESs = 0;
+		// NOs = 0;
+		// SW.Reset();
+		//
+		// var WSAAAAAAA = new Stopwatch();
+		// var DynamicComboReactionStandIns = new HashSet<Reagent.ComboReactionStandIn>();
+		// var CanHaveThisReaction = new HashSet<Reagent.ComboReactionStandIn>();
+		// foreach (var Keyvp in ReagentMix.reagents.m_dict)
+		// {
+		// 	var InKeyvp = Keyvp.Key.ComboReactionStandIns;
+		// 	int toKeyvp = InKeyvp.Length;
+		// 	for (int i = 0; i < toKeyvp; i++)
+		// 	{
+		// 		CanHaveThisReaction.Add(InKeyvp[i]);
+		// 	}
+		// }
+		//
+		// WSAAAAAAA.Start();
+		//
+		//
+		//
+		// foreach (var Keyvp in ReagentMix.reagents.m_dict)
+		// {
+		// 	var InKeyvp = Keyvp.Key.ComboReactionStandIns;
+		// 	int toKeyvp = InKeyvp.Length;
+		// 	for (int i = 0; i < toKeyvp; i++)
+		// 	{
+		// 		var iAAn = InKeyvp[i];
+		// 		if (CanHaveThisReaction.Contains(iAAn))
+		// 		{
+		// 			DynamicComboReactionStandIns.Add(iAAn);
+		// 		}
+		// 	}
+		// }
+		// WSAAAAAAA.Stop();
+		//
+		// SW.Stop();
+		// SW.Reset();
+		// SW.Start();
+		//
+		// // int INinComboReactionStandInsCount = DynamicComboReactionStandIns.Count;
+		// // for (int i = 0; i < INinComboReactionStandInsCount; i++)
+		// // {
+		// foreach (var ingredients in DynamicComboReactionStandIns)
+		// {
+		// 	if (ingredients.InCustomBitArray.SatisfiesThis(ReagentMix.contentsBitArray))
+		// 	{
+		// 		YESs++;
+		// 	}
+		// 	else
+		// 	{
+		// 		NOs++;
+		// 	}
+		// }
+		//
+		// SW.Stop();
+		//
+		// Logger.LogError($" Optimisation bitArray Elapsed tick > {SW.ElapsedTicks+WSAAAAAAA.ElapsedTicks} YESs > {YESs} NOs > {NOs} ");
+		//
+		// YESs = 0;
+		// NOs = 0;
+		// SW.Reset();
+		// SW.Start();
+		//
+		//
+		//
+		// // var InRequiredReactionsCount = DynamicComboReactionStandIns.Count;
+		// // for (int i = 0; i < InRequiredReactionsCount; i++)
+		// // {
+		// foreach (var ingredients in DynamicComboReactionStandIns)
+		// {
+		// 	bool addyes = true;
+		// 	//var ingredients = DynamicComboReactionStandIns[i];
+		// 	//has all ingredients?
+		// 	if (ingredients.Required.Length == 0)
+		// 	{
+		// 		NOs++;
+		// 		continue;
+		// 	}
+		//
+		// 	if (ingredients.Required.Length > ReagentMix.reagents.m_dict.Count)
+		// 	{
+		// 		NOs++;
+		// 		continue;
+		// 	}
+		//
+		// 	foreach (var ingredient in ingredients.Required)
+		// 	{
+		// 		if (ReagentMix.reagents.m_dict.ContainsKey(ingredient) == false)
+		// 		{
+		// 			NOs++;
+		// 			addyes = false;
+		// 			break;
+		// 		}
+		// 	}
+		//
+		// 	if (addyes)
+		// 	{
+		// 		YESs++;
+		// 	}
+		//
+		// }
+		//
+		// SW.Stop();
+		//
+		// Logger.LogError($" Optimised Normal Elapsed tick > {SW.ElapsedTicks+WSAAAAAAA.ElapsedTicks} YESs > {YESs} NOs > {NOs} ");
+		//
+		//
+		// Logger.LogError($"Taken for preprocessing {WSAAAAAAA.ElapsedTicks}");
+		//
+		// foreach (var VARIABLE in  ChemistryReagentsSO.Instance.AllChemistryReagents)
+		// {
+		// 	VARIABLE.ComboReactionStandIns = Array.Empty<Reagent.ComboReactionStandIn>();
+		// }
+
 		return;
 		AssetDatabase.StartAssetEditing();
 		AssetDatabase.ForceReserializeAssets();
@@ -570,7 +833,7 @@ public class GenerateSpriteSO : EditorWindow
 				}
 
 				//yeah If you named your sub sprites rip, have to find another way of ordering them correctly since the editor doesnt want to do that		E
-				var EquippedData = (TextAsset) AssetDatabase.LoadAssetAtPath(
+				var EquippedData = (TextAsset)AssetDatabase.LoadAssetAtPath(
 					path.Replace(".png", ".json").Replace(Application.dataPath, "Assets"), typeof(TextAsset));
 				var SpriteData = ScriptableObject.CreateInstance<SpriteDataSO>();
 
