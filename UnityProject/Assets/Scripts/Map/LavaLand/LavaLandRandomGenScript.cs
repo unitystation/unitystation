@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Items;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
@@ -32,6 +33,9 @@ namespace Systems.Scenes
 		int height;
 
 		private TileChangeManager tileChangeManager;
+
+		[SerializeField]
+		private RandomItemSpot mobPools = null;
 
 		private void Start()
 		{
@@ -67,13 +71,21 @@ namespace Systems.Scenes
 					{
 						var pos = new Vector3Int(-x + width / 2, -y + height / 2, 0) + gameObjectPos;
 						tileChangeManager.MetaTileMap.SetTile(pos, wallTile);
+
+						//Commented out below sets bottom tile, but we don't need to for lavaland
 						//botMap.SetTile(new Vector3Int(-x + width / 2, -y + height / 2, 0), botTile);
+
+						//About 1 in 10 tiles have a mob?
+						if (DMMath.Prob(10))
+						{
+							Spawn.ServerPrefab(mobPools.gameObject, tileChangeManager.MetaTileMap.LocalToWorld(pos));
+						}
 					}
 				}
 			}
 		}
 
-		public void InitPos()
+		private void InitPos()
 		{
 			for (int x = 0; x < width; x++)
 			{
@@ -85,7 +97,7 @@ namespace Systems.Scenes
 		}
 
 
-		public int[,] GenTilePos(int[,] oldMap)
+		private int[,] GenTilePos(int[,] oldMap)
 		{
 			int[,] newMap = new int[width, height];
 			int neighb;

@@ -213,7 +213,7 @@ namespace Objects
 
 			//TODO change player name
 
-			player.Script.playerNetworkActions.ServerRespawnPlayerSpecial("Ashwalker");
+			player.Script.playerNetworkActions.ServerRespawnPlayerSpecial("Ashwalker", registerTile.WorldPositionServer);
 
 			//Wipe crafting recipes and add ashwalker ones
 			var crafting = player.Script.PlayerCrafting;

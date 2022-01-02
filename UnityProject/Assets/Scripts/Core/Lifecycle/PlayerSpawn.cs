@@ -116,7 +116,8 @@ public static class PlayerSpawn
 	/// Respawns the mind's character and transfers their control to it.
 	/// </summary>
 	/// <param name="forMind"></param>
-	public static void ServerRespawnPlayer(Mind forMind)
+	/// <param name="spawnPos">Override for spawn pos, null to spawn at normal spawnpoint</param>
+	public static void ServerRespawnPlayer(Mind forMind, Vector3Int? spawnPos = null)
 	{
 		//get the settings from the mind
 		var occupation = forMind.occupation;
@@ -126,7 +127,7 @@ public static class PlayerSpawn
 
 		var player = oldBody.Player();
 		var oldGhost = forMind.ghost;
-		ServerSpawnInternal(connection, occupation, settings, forMind, willDestroyOldBody: oldGhost != null);
+		ServerSpawnInternal(connection, occupation, settings, forMind, spawnPos, willDestroyOldBody: oldGhost != null);
 
 		if (oldGhost)
 		{
