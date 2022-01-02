@@ -1,68 +1,71 @@
 ﻿using UnityEditor;
 using UnityEditor.Build;
+using UnityEditor.Build.Reporting;
 using UnityEditor.SceneManagement;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-//[InitializeOnLoad]
-public class PreBuildActions : IPreprocessBuild
+namespace Util
 {
-	private Scene scene;
-	public int callbackOrder { get { return 0; } }
-	public void OnPreprocessBuild(BuildTarget target, string path) {
-		// Do the preprocessing here
-		PreChecks();
-	}
-//	static PreBuildActions()
-//	{
-//		Debug.Log("Init pre build checker");
-//		BuildPlayerWindow.RegisterBuildPlayerHandler(PreChecks);
-//	}
-
-	public void PreChecks()
+	//[InitializeOnLoad]
+	public class PreBuildActions : IPreprocessBuildWithReport
 	{
-		scene = EditorSceneManager.OpenScene("Assets/Scenes/ActiveScenes/Lobby.unity");
+		private Scene scene;
+		public int callbackOrder => 0;
 
-		if (!SpawnListBuild())
+		public void OnPreprocessBuild(BuildReport report)
 		{
-			Logger.LogError("Could not cache prefabs for SpawnList. Unknown Error", Category.Editor);
-			return;
+			// Do the preprocessing here
+			PreChecks();
 		}
 
-		if (!CacheTiles())
+		//	static PreBuildActions()
+		//	{
+		//		Debug.Log("Init pre build checker");
+		//		BuildPlayerWindow.RegisterBuildPlayerHandler(PreChecks);
+		//	}
+
+		public void PreChecks()
 		{
-			Logger.LogError("Could not cache tiles for TileManager. Unknown Error", Category.Editor);
-			return;
+			scene = EditorSceneManager.OpenScene("Assets/Scenes/ActiveScenes/Lobby.unity");
+
+			if (SpawnListBuild() == false)
+			{
+				Logger.LogError("Could not cache prefabs for SpawnList. Unknown Error", Category.Editor);
+				return;
+			}
+
+			if (CacheTiles() == false)
+			{
+				Logger.LogError("Could not cache tiles for TileManager. Unknown Error", Category.Editor);
+				return;
+			}
+
+			//	BuildPipeline.BuildPlayer(obj);
 		}
 
-	//	BuildPipeline.BuildPlayer(obj);
-	}
+		private bool CacheTiles()
+		{
+			var tileManager = GameObject.FindObjectOfType<TileManager>();
+			if (tileManager.CacheAllAssets())
+			{
+				PrefabUtility.ApplyPrefabInstance(tileManager.gameObject, InteractionMode.AutomatedAction);
+				EditorSceneManager.MarkSceneDirty(scene);
+				return EditorSceneManager.SaveScene(scene);
+			}
 
-	private bool CacheTiles()
-	{
-		var tileManager = GameObject.FindObjectOfType<TileManager>();
-		if (tileManager.CacheAllAssets())
-		{
-			PrefabUtility.ApplyPrefabInstance(tileManager.gameObject, InteractionMode.AutomatedAction);
-			EditorSceneManager.MarkSceneDirty(scene);
-			return EditorSceneManager.SaveScene(scene);
-		}
-		else
-		{
 			return false;
 		}
-	}
 
-	private bool SpawnListBuild()
-	{
-		var spawnListMonitor = GameObject.FindObjectOfType<SpawnListMonitor>();
-		if (spawnListMonitor.GenerateSpawnList())
+		private bool SpawnListBuild()
 		{
-			PrefabUtility.ApplyPrefabInstance(spawnListMonitor.gameObject, InteractionMode.AutomatedAction);
-			return true;
-		}
-		else
-		{
+			var spawnListMonitor = GameObject.FindObjectOfType<SpawnListMonitor>();
+			if (spawnListMonitor.GenerateSpawnList())
+			{
+				PrefabUtility.ApplyPrefabInstance(spawnListMonitor.gameObject, InteractionMode.AutomatedAction);
+				return true;
+			}
+
 			return false;
 		}
 	}

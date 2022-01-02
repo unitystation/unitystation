@@ -1,81 +1,73 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
 using UnityEngine;
 
-public class PrefabTracker : MonoBehaviour
+namespace Util
 {
-	public string ForeverID
+	public class PrefabTracker : MonoBehaviour
 	{
-		get
+		public string ForeverID {
+			get {
+#if UNITY_EDITOR
+				if (string.IsNullOrEmpty(foreverID))
+				{
+					ReassignID();
+					try
+					{
+						PrefabUtility.SavePrefabAsset(this.gameObject);
+					}
+					catch (Exception) { }
+				}
+#endif
+				return foreverID;
+			}
+			set => foreverID = value;
+		}
+
+		[SerializeField] private string foreverID;
+
+		public void ReassignID() //Assuming it's a prefab Variant
 		{
 #if UNITY_EDITOR
+			foreverID =
+				AssetDatabase.AssetPathToGUID(
+					AssetDatabase.GetAssetPath(gameObject)); //Can possibly change over time so need some prevention
 			if (string.IsNullOrEmpty(foreverID))
 			{
-				ReassignID();
-				try
-				{
-					PrefabUtility.SavePrefabAsset(this.gameObject);
-				}
-				catch (Exception e)
-				{
-				}
+				foreverID = CreateString(20);
+			}
+#endif
+		}
+
+		[NaughtyAttributes.Button("Assign random ID")]
+		public void ForceSetID() //Assuming it's a prefab Variant
+		{
+#if UNITY_EDITOR
+			// Can possibly change over time so need some prevention
+			foreverID = AssetDatabase.AssetPathToGUID(AssetDatabase.GetAssetPath(gameObject));
+			if (string.IsNullOrEmpty(foreverID))
+			{
+				foreverID = CreateString(20);
 			}
 
+			EditorUtility.SetDirty(gameObject);
 #endif
-			return foreverID;
 		}
-		set { foreverID = value; }
-	}
 
-	[SerializeField] private string foreverID;
-
-
-	public void ReassignID() //Assuming it's a prefab Variant
-	{
-#if UNITY_EDITOR
-		foreverID =
-			AssetDatabase.AssetPathToGUID(
-				AssetDatabase.GetAssetPath(gameObject)); //Can possibly change over time so need some prevention
-		if (string.IsNullOrEmpty(foreverID))
+		internal static string CreateString(int stringLength)
 		{
-			foreverID = CreateString(20);
+			const string allowedChars = "ABCDEFGHJKLMNOPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz0123456789!@$?_-";
+			char[] chars = new char[stringLength];
+
+			for (int i = 0; i < stringLength; i++)
+			{
+				chars[i] = allowedChars.PickRandom();
+			}
+
+			return new string(chars);
 		}
-#endif
-	}
-
-	[NaughtyAttributes.Button("Assign random ID")]
-	public void ForceSetID() //Assuming it's a prefab Variant
-	{
-#if UNITY_EDITOR
-
-		foreverID =
-			AssetDatabase.AssetPathToGUID(
-				AssetDatabase.GetAssetPath(gameObject)); //Can possibly change over time so need some prevention
-		if (string.IsNullOrEmpty(foreverID))
-		{
-			foreverID = CreateString(20);
-		}
-
-		EditorUtility.SetDirty(gameObject);
-#endif
-	}
-
-	static System.Random rd = new System.Random();
-
-	internal static string CreateString(int stringLength)
-	{
-		const string allowedChars = "ABCDEFGHJKLMNOPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz0123456789!@$?_-";
-		char[] chars = new char[stringLength];
-
-		for (int i = 0; i < stringLength; i++)
-		{
-			chars[i] = allowedChars[rd.Next(0, allowedChars.Length)];
-		}
-
-		return new string(chars);
 	}
 }

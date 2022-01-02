@@ -1,9 +1,6 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
-using Systems.Electricity;
 using HealthV2;
-using Initialisation;
 
 namespace Doors.Modules
 {
@@ -18,8 +15,6 @@ namespace Doors.Modules
 			set => isElectrecuted = value;
 		}
 
-		private bool OneTimeElectrecuted = false;
-
 		public void OnSpawnServer(SpawnInfo info)
 		{
 			master.HackingProcessBase.RegisterPort(ToggleElectrocution, master.GetType());
@@ -30,7 +25,6 @@ namespace Doors.Modules
 		{
 			master.HackingProcessBase.ImpulsePort(ToggleElectrocution);
 		}
-
 
 		public void ToggleElectrocution()
 		{
@@ -77,7 +71,6 @@ namespace Doors.Modules
 				{
 					if (PulsePreventElectrocution())
 					{
-						OneTimeElectrecuted = false;
 						if (PlayerHasInsulatedGloves(mob) == false)
 						{
 							ServerElectrocute(mob);
