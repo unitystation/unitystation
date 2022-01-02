@@ -28,6 +28,22 @@ PrefabInstance:
       propertyPath: initialDescription
       value: A pair of restraints fashioned from long strands of flesh.
       objectReference: {fileID: 0}
+    - target: {fileID: 6578980767649362228, guid: 84d17485093438f4990e06fcb52fb851,
+        type: 3}
+      propertyPath: relatedRecipes.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6578980767649362228, guid: 84d17485093438f4990e06fcb52fb851,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[0].recipe
+      value: 
+      objectReference: {fileID: 11400000, guid: 6d4fc2a13396cd848a11ffe3d371aa86,
+        type: 2}
+    - target: {fileID: 6578980767649362228, guid: 84d17485093438f4990e06fcb52fb851,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[0].ingredientIndex
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6685082810916583650, guid: 84d17485093438f4990e06fcb52fb851,
         type: 3}
       propertyPath: m_Name

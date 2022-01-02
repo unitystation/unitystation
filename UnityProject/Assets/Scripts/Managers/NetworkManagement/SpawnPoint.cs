@@ -151,6 +151,7 @@ namespace Systems.Spawns
 			{ JobType.SYNDICATE, SpawnPointCategory.NuclearOperative },
 			{ JobType.WIZARD, SpawnPointCategory.WizardFederation },
 			{JobType.ANCIENT_ENGINEER, SpawnPointCategory.AncientEngineering},
+			{JobType.ASHWALKER, SpawnPointCategory.Ashwalker},
 		};
 
 		private static readonly Dictionary<SpawnPointCategory, string> iconNames = new Dictionary<SpawnPointCategory, string>()
@@ -244,6 +245,7 @@ namespace Systems.Spawns
 		WizardFederation,
 		SpaceExterior,
 		AncientEngineering,
+		Ashwalker
 	}
 
 	public enum SpawnPointType

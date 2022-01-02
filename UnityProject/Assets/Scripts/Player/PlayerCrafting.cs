@@ -179,6 +179,29 @@ namespace Player
 			SendForgottenCraftingRecipe.SendTo(playerScript.connectedPlayer, recipe);
 		}
 
+		[Server]
+		public void ForgetAllRecipes()
+		{
+			ClearKnownRecipes();
+
+			if(connectionToClient == null) return;
+			TargetRpcForgetAllRecipes();
+		}
+
+		[TargetRpc]
+		private void TargetRpcForgetAllRecipes()
+		{
+			ClearKnownRecipes();
+		}
+
+		private void ClearKnownRecipes()
+		{
+			foreach (var recipeCategory in knownRecipesByCategory)
+			{
+				recipeCategory.Clear();
+			}
+		}
+
 		#endregion
 
 		#region CraftingChecks

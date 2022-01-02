@@ -1,0 +1,33 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0a638c97a2384c54bee47631bd326e8b, type: 3}
+  m_Name: BoneAxeRecipe
+  m_EditorClassIdentifier: 
+  category: 0
+  craftingTime: 4
+  recipeName: Bone Axe
+  recipeIconOverride: {fileID: 0}
+  recipeDescription: 
+  requiredIngredients:
+  - requiredAmount: 6
+    requiredItem: {fileID: 3177982829949495349, guid: 760dc1119d22a8c4ab6fbbf78f8705b0,
+      type: 3}
+  - requiredAmount: 3
+    requiredItem: {fileID: 7487192232078760462, guid: a05bf03e8886dab459295887ed091fe0,
+      type: 3}
+  requiredReagents: []
+  requiredToolTraits: []
+  result:
+  - {fileID: 4367275061769977576, guid: 278f5499b8fe2b64897b475b46875d22, type: 3}
+  resultHandlers: []
+  isSimple: 1
+  indexInSingleton: 436
