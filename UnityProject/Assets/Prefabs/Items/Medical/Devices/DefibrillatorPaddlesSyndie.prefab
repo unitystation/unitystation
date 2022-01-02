@@ -95,6 +95,16 @@ PrefabInstance:
         used to deliver powerful electric shocks. These ones charge faster than standard
         ones.
       objectReference: {fileID: 0}
+    - target: {fileID: 1622710587953547752, guid: 89c3f4c525ddf014d8dbe780d74999b1,
+        type: 3}
+      propertyPath: inventoryMoveSound.AssetAddress
+      value: null
+      objectReference: {fileID: 0}
+    - target: {fileID: 1622710587953547752, guid: 89c3f4c525ddf014d8dbe780d74999b1,
+        type: 3}
+      propertyPath: inventoryRemoveSound.AssetAddress
+      value: null
+      objectReference: {fileID: 0}
     - target: {fileID: 4985066067028335885, guid: 89c3f4c525ddf014d8dbe780d74999b1,
         type: 3}
       propertyPath: PresentSpriteSet
@@ -122,6 +132,21 @@ PrefabInstance:
         type: 3}
       propertyPath: Time
       value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 9019548994788298775, guid: 89c3f4c525ddf014d8dbe780d74999b1,
+        type: 3}
+      propertyPath: soundReady.AssetAddress
+      value: null
+      objectReference: {fileID: 0}
+    - target: {fileID: 9019548994788298775, guid: 89c3f4c525ddf014d8dbe780d74999b1,
+        type: 3}
+      propertyPath: soundUsing.AssetAddress
+      value: null
+      objectReference: {fileID: 0}
+    - target: {fileID: 9019548994788298775, guid: 89c3f4c525ddf014d8dbe780d74999b1,
+        type: 3}
+      propertyPath: soundCharged.AssetAddress
+      value: null
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 89c3f4c525ddf014d8dbe780d74999b1, type: 3}
