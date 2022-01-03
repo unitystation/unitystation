@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using Systems.Ai;
 using UnityEngine;
+using Player;
 
 namespace Antagonists
 {

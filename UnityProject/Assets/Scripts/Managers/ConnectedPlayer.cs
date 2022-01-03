@@ -1,7 +1,7 @@
-using Systems.GhostRoles;
-using Messages.Server;
 using UnityEngine;
 using Mirror;
+using Player;
+using Messages.Server;
 
 /// <summary>
 /// Server-only full player information class
@@ -149,18 +149,6 @@ public class ConnectedPlayer
 			Logger.LogTrace($"NAME ALREADY EXISTS: {proposedName}", Category.Connections);
 			sameNames++;
 		}
-	}
-
-	public static bool IsGhostRole(JobType playerJob)
-	{
-		foreach (var roleData in GhostRoleManager.Instance.GhostRoles)
-		{
-			if(roleData.TargetOccupation == null) continue;
-
-			if (playerJob == roleData.TargetOccupation.JobType) return true;
-		}
-
-		return false;
 	}
 
 	private static void TrySendUpdate()
