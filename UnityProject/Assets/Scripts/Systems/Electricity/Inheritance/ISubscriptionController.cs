@@ -7,7 +7,7 @@ namespace Systems.ObjectConnection
 	/// <summary>
 	/// Used for editor scripts.
 	/// </summary>
-	public interface SubscriptionController
+	public interface ISubscriptionController
 	{
 		/// <summary>
 		/// Used in <see cref="SubscriptionControllerEditor"/>.

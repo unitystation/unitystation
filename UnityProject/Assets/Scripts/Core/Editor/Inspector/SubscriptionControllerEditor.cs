@@ -10,7 +10,7 @@ namespace CustomInspectors
 	public class SubscriptionControllerEditor : InterfaceEditor
 	{
 		private GameObject gameObject;
-		private SubscriptionController controller;
+		private ISubscriptionController controller;
 		private bool isSelecting;
 
 		public override void OnEnableInEditor(object target)
@@ -31,7 +31,7 @@ namespace CustomInspectors
 				{
 					isSelecting = true;
 					gameObject = (GameObject) target;
-					controller = (SubscriptionController)target;
+					controller = (ISubscriptionController)target;
 				}
 			}
 			else

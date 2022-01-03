@@ -15,7 +15,7 @@ namespace Objects.Wallmounts.Switches
 {
 	[RequireComponent(typeof(AccessRestrictions))]
 	[RequireComponent(typeof(APCPoweredDevice))]
-	public class TurretSwitch : InterfaceGUI, SubscriptionController, ICheckedInteractable<AiActivate>, IMultitoolMasterable, ICanOpenNetTab
+	public class TurretSwitch : InterfaceGUI, ISubscriptionController, ICheckedInteractable<AiActivate>, IMultitoolMasterable, ICanOpenNetTab
 	{
 		[Header("Access Restrictions for ID")]
 		[Tooltip("Is this door restricted?")]
