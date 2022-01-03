@@ -2,54 +2,61 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-/// <summary>
-/// For containing objects that are spawned ingame
-/// </summary>
-public class SpawnedObjectList : NetUIDynamicList
+namespace UI.Core.NetUI
 {
-	public ObjectChangeEvent OnObjectChange { get; } = new ObjectChangeEvent();
-
-	public bool AddObjects( List<GameObject> objects )
+	/// <summary>
+	/// For containing objects that are spawned ingame
+	/// </summary>
+	public class SpawnedObjectList : NetUIDynamicList
 	{
-		//fixme: duplicate of RadarList code:
-		var objectSet = new HashSet<GameObject>(objects);
-		var duplicates = new HashSet<GameObject>();
-		for ( var i = 0; i < Entries.Length; i++ ) {
-			var item = Entries[i] as SpawnedObjectEntry;
-			if ( !item ) {
-				continue;
+		public ObjectChangeEvent OnObjectChange { get; } = new ObjectChangeEvent();
+
+		public bool AddObjects(List<GameObject> objects)
+		{
+			//fixme: duplicate of RadarList code:
+			var objectSet = new HashSet<GameObject>(objects);
+			var duplicates = new HashSet<GameObject>();
+			for (var i = 0; i < Entries.Length; i++)
+			{
+				var item = Entries[i] as SpawnedObjectEntry;
+				if (!item)
+				{
+					continue;
+				}
+
+				if (objectSet.Contains(item.TrackedObject))
+				{
+					duplicates.Add(item.TrackedObject);
+				}
 			}
 
-			if ( objectSet.Contains( item.TrackedObject ) ) {
-				duplicates.Add( item.TrackedObject );
+			for (var i = 0; i < objects.Count; i++)
+			{
+				var obj = objects[i];
+				//skipping already found objects
+				if (duplicates.Contains(obj))
+				{
+					continue;
+				}
+
+				//add new entry
+				SpawnedObjectEntry newEntry = Add() as SpawnedObjectEntry;
+				if (!newEntry)
+				{
+					Logger.LogWarning($"SpawnedObjectList: Added {newEntry} is not an SpawnedObjectEntry!", Category.NetUI);
+					return false;
+				}
+
+				//set its elements
+				newEntry.OnObjectChange = this.OnObjectChange;
+				newEntry.TrackedObject = obj;
 			}
+
+			//rescan elements and notify
+			NetworkTabManager.Instance.Rescan(MasterTab.NetTabDescriptor);
+			//		RefreshTrackedPos();
+
+			return true;
 		}
-
-		for ( var i = 0; i < objects.Count; i++ ) {
-			var obj = objects[i];
-			//skipping already found objects
-			if ( duplicates.Contains( obj ) ) {
-				continue;
-			}
-
-			//add new entry
-			SpawnedObjectEntry newEntry = Add() as SpawnedObjectEntry;
-			if ( !newEntry ) {
-				Logger.LogWarning( $"SpawnedObjectList: Added {newEntry} is not an SpawnedObjectEntry!", Category.NetUI );
-				return false;
-			}
-
-			//set its elements
-			newEntry.OnObjectChange = this.OnObjectChange;
-			newEntry.TrackedObject = obj;
-		}
-
-		//rescan elements and notify
-		NetworkTabManager.Instance.Rescan( MasterTab.NetTabDescriptor );
-//		RefreshTrackedPos();
-
-		return true;
 	}
-
-
 }

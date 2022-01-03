@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using UnityEngine;
+﻿using UnityEngine;
 using Objects.Atmospherics;
 
 namespace UI.Objects.Atmospherics.Acu

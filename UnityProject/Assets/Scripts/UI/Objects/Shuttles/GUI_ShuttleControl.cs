@@ -2,13 +2,12 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
+using UI.Core.NetUI;
 using Objects.Shuttles;
 using Objects.Command;
 using Systems.MobAIs;
 using Systems.Shuttles;
 using Map;
-using Messages.Server;
 
 namespace UI.Objects.Shuttles
 {
@@ -17,14 +16,15 @@ namespace UI.Objects.Shuttles
 		private RadarList radarList;
 		public MatrixMove matrixMove { get; private set; }
 
-		[SerializeField] private NetSpriteImage rcsLight = null;
+		[SerializeField]
+		private NetSpriteImage rcsLight = null;
 
 		public GUI_CoordReadout CoordReadout;
 
 		private GameObject Waypoint;
-		Color rulersColor;
-		Color rayColor;
-		Color crosshairColor;
+		private Color rulersColor;
+		private Color rayColor;
+		private Color crosshairColor;
 
 		private NetUIElement<string> SafetyText => (NetUIElement<string>)this[nameof(SafetyText)];
 		private NetUIElement<string> StartButton => (NetUIElement<string>)this[nameof(StartButton)];
@@ -244,33 +244,19 @@ namespace UI.Objects.Shuttles
 
 		public void SetRcsLight(bool state)
 		{
-			if (state)
-			{
-				rcsLight.SetSprite(1);
-			}
-			else
-			{
-				rcsLight.SetSprite(0);
-			}
+			rcsLight.SetSprite(state ? 1 : 0);
 		}
 
 		public void SetWaypoint(string position)
 		{
-			if (!Autopilot)
-			{
-				return;
-			}
+			if (!Autopilot) return;
+
 			Vector3 proposedPos = position.Vectorized();
-			if (proposedPos == TransformState.HiddenPos)
-			{
-				return;
-			}
+			if (proposedPos == TransformState.HiddenPos) return;
 
 			//Ignoring requests to set waypoint outside intended radar window
-			if (RadarList.ProjectionMagnitude(proposedPos) > radarList.Range)
-			{
-				return;
-			}
+			if (RadarList.ProjectionMagnitude(proposedPos) > radarList.Range) return;
+
 			//Mind the ship's actual position
 			Waypoint.transform.position = (Vector2)proposedPos + Vector2Int.RoundToInt(matrixMove.ServerState.Position);
 
@@ -309,10 +295,8 @@ namespace UI.Objects.Shuttles
 		/// </summary>
 		public void TurnRight()
 		{
-			if (shuttleConsole.shuttleConsoleState == ShuttleConsoleState.Off)
-			{
-				return;
-			}
+			if (shuttleConsole.shuttleConsoleState == ShuttleConsoleState.Off) return;
+
 			matrixMove.TryRotate(true);
 		}
 
@@ -321,10 +305,8 @@ namespace UI.Objects.Shuttles
 		/// </summary>
 		public void TurnLeft()
 		{
-			if (shuttleConsole.shuttleConsoleState == ShuttleConsoleState.Off)
-			{
-				return;
-			}
+			if (shuttleConsole.shuttleConsoleState == ShuttleConsoleState.Off) return;
+
 			matrixMove.TryRotate(false);
 		}
 

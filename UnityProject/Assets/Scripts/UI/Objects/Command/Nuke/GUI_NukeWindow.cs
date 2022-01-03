@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
+using UI.Core.NetUI;
 using Objects.Command;
 
 namespace UI.Objects.Command
@@ -14,7 +14,6 @@ namespace UI.Objects.Command
 	{
 		private Coroutine corHandler;
 
-
 		private string InitialInfoText;
 
 		private static readonly Color
@@ -24,90 +23,31 @@ namespace UI.Objects.Command
 
 		//get various ui elements (not the method i would choose, but it works)
 		private NetUIElement<string> infoTimerDisplay;
-		private NetUIElement<string> InfoTimerDisplay {
-			get {
-				if (!infoTimerDisplay)
-				{
-					infoTimerDisplay = (NetUIElement<string>)this["NukeTimerLabel"];
-				}
-				return infoTimerDisplay;
-			}
-		}
+		private NetUIElement<string> InfoTimerDisplay => infoTimerDisplay ??= (NetUIElement<string>)this["NukeTimerLabel"];
 
 		private NetColorChanger infoTimerColor;
 
-		private NetColorChanger InfoTimerColor {
-			get {
-				if (!infoTimerColor)
-				{
-					infoTimerColor = (NetColorChanger)this["TimerNukeToggleColor"];
-				}
-				return infoTimerColor;
-			}
-		}
+		private NetColorChanger InfoTimerColor => infoTimerColor ??= (NetColorChanger)this["TimerNukeToggleColor"];
 
 		private NetColorChanger infoAnchorColor;
-		private NetColorChanger InfoAnchorColor {
-			get {
-				if (!infoAnchorColor)
-				{
-					infoAnchorColor = (NetColorChanger)this["AnchorNukeToggleColor"];
-				}
-				return infoAnchorColor;
-			}
-		}
-
+		private NetColorChanger InfoAnchorColor => infoAnchorColor ??= (NetColorChanger)this["AnchorNukeToggleColor"];
 
 		private NetColorChanger infoSafetyColor;
-		private NetColorChanger InfoSafetyColor {
-			get {
-				if (!infoSafetyColor)
-				{
-					infoSafetyColor = (NetColorChanger)this["SafetyNukeToggleColor"];
-				}
-				return infoSafetyColor;
-			}
-		}
+		private NetColorChanger InfoSafetyColor => infoSafetyColor ??= (NetColorChanger)this["SafetyNukeToggleColor"];
 
 		private NetUIElement<string> infoNukeDisplay;
-		private NetUIElement<string> InfoNukeDisplay {
-			get {
-				if (!infoNukeDisplay)
-				{
-					infoNukeDisplay = (NetUIElement<string>)this["NukeInfoDisplay"];
-				}
-				return infoNukeDisplay;
-			}
-		}
+		private NetUIElement<string> InfoNukeDisplay => infoNukeDisplay ??= (NetUIElement<string>)this["NukeInfoDisplay"];
 		private NetUIElement<string> codeDisplay;
 
-		private NetUIElement<string> CodeDisplay {
-			get {
-				if (!codeDisplay)
-				{
-					codeDisplay = (NetUIElement<string>)this["NukeCodeDisplay"];
-				}
-				return codeDisplay;
-			}
-
-		}
+		private NetUIElement<string> CodeDisplay => codeDisplay ??= (NetUIElement<string>)this["NukeCodeDisplay"];
 
 		private Nuke nuke;
-		private Nuke Nuke {
-			get {
-				if (!nuke)
-				{
-					nuke = Provider.GetComponent<Nuke>();
-				}
-
-				return nuke;
-			}
-		}
+		private Nuke Nuke => nuke ??= Provider.GetComponent<Nuke>();
 
 		public override void OnEnable()
 		{
 			base.OnEnable();
-			if (CustomNetworkManager.Instance._isServer)
+			if (CustomNetworkManager.IsServer)
 			{
 				infoNukeDisplay = (NetUIElement<string>)this["NukeInfoDisplay"];
 				codeDisplay = (NetUIElement<string>)this["NukeCodeDisplay"];
@@ -116,13 +56,13 @@ namespace UI.Objects.Command
 
 		protected override void InitServer()
 		{
-			if (CustomNetworkManager.Instance._isServer)
+			if (CustomNetworkManager.IsServer)
 			{
 				StartCoroutine(WaitForProvider());
 			}
 		}
 
-		IEnumerator WaitForProvider()
+		private IEnumerator WaitForProvider()
 		{
 			while (Provider == null)
 			{
@@ -137,10 +77,8 @@ namespace UI.Objects.Command
 
 		private void Start()
 		{
-			//only executed on server
 			if (IsServer)
 			{
-				//	Logger.Log( $"{name} Kinda init. Nuke code is {NukeInteract.NukeCode}" );
 				InitialInfoText = $"Enter {Nuke.NukeCode.ToString().Length}-digit code:";
 				InfoNukeDisplay.SetValueServer("Insert the disk!");
 				if (!Nuke.IsAncharable)

@@ -1,8 +1,7 @@
 using System;
 using UnityEngine;
 
-
-namespace UI.Core
+namespace UI.Core.NetUI
 {
 	/// <summary>
 	/// NetUI component for Wheel, handles syncing the value.

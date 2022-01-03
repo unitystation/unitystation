@@ -1,7 +1,8 @@
 using System;
 using System.Collections;
-using Managers;
 using UnityEngine;
+using UI.Core.NetUI;
+using Managers;
 using Objects.Wallmounts;
 using Objects.Command;
 using Strings;
@@ -55,7 +56,7 @@ namespace UI.Objects.Command
 			}
 		}
 
-		IEnumerator WaitForProvider()
+		private IEnumerator WaitForProvider()
 		{
 			string FormatTime(int timerSeconds)
 			{
@@ -177,6 +178,7 @@ namespace UI.Objects.Command
 			GameManager.Instance.CentComm.UpdateStatusDisplay(StatusDisplayChannel.Command, text.Substring(0, Mathf.Min(text.Length, 50)));
 			OpenMenu();
 		}
+
 		public void MakeAnAnnouncement(string text)
 		{
 			Logger.Log(nameof(MakeAnAnnouncement), Category.Shuttles);
@@ -196,6 +198,7 @@ namespace UI.Objects.Command
 			CurrentAlertLevelLabel.SetValueServer(GameManager.Instance.CentComm.CurrentAlertLevel.ToString().ToUpper());
 			NewAlertLevelLabel.SetValueServer(LocalAlertLevel.ToString().ToUpper());
 		}
+
 		public void ChangeAlertLevel()
 		{
 			if (GameManager.Instance.stationTime < GameManager.Instance.CentComm.lastAlertChange.AddMinutes(
@@ -212,7 +215,7 @@ namespace UI.Objects.Command
 			OpenMenu();
 		}
 
-		IEnumerator DisplayAlertErrorMessage(string text)
+		private IEnumerator DisplayAlertErrorMessage(string text)
 		{
 			AlertErrorLabel.SetValueServer(text);
 			for (int _i = 0; _i < 5; _i++)
