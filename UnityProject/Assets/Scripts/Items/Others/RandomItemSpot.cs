@@ -20,8 +20,12 @@ namespace Items
 
 		private const int MaxAmountRolls = 5;
 
+		[SerializeField]
+		private bool doOnSpawnServer = true;
+
 		public void OnSpawnServer(SpawnInfo info)
 		{
+			if(doOnSpawnServer) return;
 			RollRandomPool(true);
 		}
 

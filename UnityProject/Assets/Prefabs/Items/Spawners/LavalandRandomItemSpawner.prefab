@@ -9,28 +9,33 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1158969463323420989, guid: abff3ae0227731244b0814b2055fa6f0,
         type: 3}
+      propertyPath: doOnSpawnServer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1158969463323420989, guid: abff3ae0227731244b0814b2055fa6f0,
+        type: 3}
       propertyPath: poolList.Array.size
       value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 1158969463323420989, guid: abff3ae0227731244b0814b2055fa6f0,
         type: 3}
       propertyPath: poolList.Array.data[0].probability
-      value: 25
+      value: 33
       objectReference: {fileID: 0}
     - target: {fileID: 1158969463323420989, guid: abff3ae0227731244b0814b2055fa6f0,
         type: 3}
       propertyPath: poolList.Array.data[1].probability
-      value: 25
+      value: 33
       objectReference: {fileID: 0}
     - target: {fileID: 1158969463323420989, guid: abff3ae0227731244b0814b2055fa6f0,
         type: 3}
       propertyPath: poolList.Array.data[2].probability
-      value: 25
+      value: 33
       objectReference: {fileID: 0}
     - target: {fileID: 1158969463323420989, guid: abff3ae0227731244b0814b2055fa6f0,
         type: 3}
       propertyPath: poolList.Array.data[3].probability
-      value: 25
+      value: 35
       objectReference: {fileID: 0}
     - target: {fileID: 1158969463323420989, guid: abff3ae0227731244b0814b2055fa6f0,
         type: 3}
