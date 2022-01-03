@@ -655,22 +655,22 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 	{
 		// Check door on the local tile first
 		Vector3Int localTarget = WorldToLocalInt(targetPos, AtPoint(targetPos, isServer).Matrix);
-		var originDoorList = GetAt<InteractableDoor>(worldOrigin, isServer);
-		foreach (InteractableDoor originDoor in originDoorList)
+		var originDoorList = GetAs<RegisterDoor>(worldOrigin, isServer);
+		foreach (var originDoor in originDoorList)
 		{
-			if (originDoor && originDoor.GetComponent<RegisterDoor>().IsPassableFromInside(localTarget, isServer) ==
+			if (originDoor && originDoor.IsPassableFromInside(localTarget, isServer) ==
 				false)
-				return originDoor;
+				return originDoor.InteractableDoor;
 		}
 
 		// No closed door on local tile, check target tile
 		Vector3Int localOrigin = WorldToLocalInt(worldOrigin, AtPoint(worldOrigin, isServer).Matrix);
-		var targetDoorList = GetAt<InteractableDoor>(targetPos, isServer);
-		foreach (InteractableDoor targetDoor in targetDoorList)
+		var targetDoorList = GetAs<RegisterDoor>(targetPos, isServer);
+		foreach (var targetDoor in targetDoorList)
 		{
-			if (targetDoor && targetDoor.GetComponent<RegisterDoor>().IsPassableFromOutside(localOrigin, isServer) ==
+			if (targetDoor && targetDoor.IsPassableFromOutside(localOrigin, isServer) ==
 				false)
-				return targetDoor;
+				return targetDoor.InteractableDoor;
 		}
 
 		// No closed doors on either tile
@@ -844,12 +844,12 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 	/// <returns>the player move that is swappable, otherwise null</returns>
 	public static PlayerMove GetSwappableAt(Vector3Int targetWorldPos, GameObject mover, bool isServer)
 	{
-		var playerMoves = GetAt<PlayerMove>(targetWorldPos, isServer);
-		foreach (PlayerMove playerMove in playerMoves)
+		var playerMoves = GetAs<RegisterPlayer>(targetWorldPos, isServer);
+		foreach (var playerMove in playerMoves)
 		{
-			if (playerMove && playerMove.IsSwappable && playerMove.gameObject != mover)
+			if (playerMove && playerMove.PlayerScript.playerMove.IsSwappable && playerMove.gameObject != mover)
 			{
-				return playerMove;
+				return playerMove.PlayerScript.playerMove;
 			}
 		}
 
