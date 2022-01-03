@@ -32,7 +32,7 @@ namespace Systems.Atmospherics
 			base.Awake();
 			processPipeDelegator = ProcessPipe;
 			atmosThread = gameObject.AddComponent<AtmosThread>();
-			atmosThread.tickSpeed = 40;
+			atmosThread.tickDelay = 40;
 			simulation = new AtmosSimulation();
 			sampler = CustomSampler.Create("AtmosphericsStep");
 		}

@@ -1,10 +1,8 @@
-﻿using UnityEngine.Profiling;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using UnityEngine;
-using UnityEngine.Profiling;
-using Managers;
+using Core.Threading;
 
 namespace Systems.Radiation
 {
