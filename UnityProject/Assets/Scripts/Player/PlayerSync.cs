@@ -1,9 +1,8 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using Messages.Client.NewPlayer;
 using UnityEngine;
 using Mirror;
+using Messages.Client.NewPlayer;
 using Objects;
 using Player.Movement;
 
@@ -444,7 +443,7 @@ public partial class PlayerSync : NetworkBehaviour, IPushable, IPlayerControllab
 	{
 		if (isLocalPlayer && playerMove != null)
 		{
-			if (PlayerManager.MovementControllable == this)
+			if (PlayerManager.MovementControllable == this as IPlayerControllable)
 			{
 				didWiggle = false;
 				if (KeyboardInputManager.IsMovementPressed() && Validations.CanInteract(playerScript,

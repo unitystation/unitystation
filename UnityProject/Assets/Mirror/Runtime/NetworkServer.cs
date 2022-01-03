@@ -1523,8 +1523,13 @@ namespace Mirror
         static void BroadcastToConnection(NetworkConnectionToClient connection)
         {
             // for each entity that this connection is seeing
-            foreach (NetworkIdentity identity in connection.observing)
+            //CUSTOM UNITYSTATION CODE// for i Faster
+            var ListCount = connection.observingList.Count;
+            for (int i = 0; i < ListCount; i++)
             {
+	            var identity = connection.observingList[i];
+            // foreach (NetworkIdentity identity in connection.observing)
+            // {
                 // make sure it's not null or destroyed.
                 // (which can happen if someone uses
                 //  GameObject.Destroy instead of
@@ -1536,6 +1541,7 @@ namespace Mirror
 	            if (identity.isDirty == false)
 	            {
 		            continue;
+
 	            }
 	            ////////////////////////////
 	            // get serialization for this entity viewed by this connection
@@ -1611,8 +1617,13 @@ namespace Mirror
             connections.Values.CopyTo(connectionsCopy);
 
             // go through all connections
-            foreach (NetworkConnectionToClient connection in connectionsCopy)
+            //CUSTOM UNITYSTATION CODE// for i More performance
+            var ConnectionsCount = connectionsCopy.Count;
+            for (int i = 0; i < ConnectionsCount; i++)
             {
+	            var connection = connectionsCopy[i];
+	            // foreach (NetworkConnectionToClient connection in connectionsCopy)
+            // {
                 // check for inactivity. disconnects if necessary.
                 if (DisconnectIfInactive(connection))
                     continue;

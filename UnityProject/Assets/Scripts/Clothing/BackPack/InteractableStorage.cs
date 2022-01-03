@@ -123,12 +123,16 @@ public class InteractableStorage : MonoBehaviour, IClientInteractable<HandActiva
 		allowedToInteract = true;
 	}
 
-	private bool IsFull(GameObject usedObject, GameObject player)
+	private bool IsFull(GameObject usedObject, GameObject player, bool noMessage = false)
 	{
 		if(itemStorage.GetNextFreeIndexedSlot() == null && usedObject != null)
 		{
-			Chat.AddExamineMsg(player,
-				$"<color=red>The {usedObject.ExpensiveName()} won't fit in the {itemStorage.gameObject.ExpensiveName()}. Make some space!</color>");
+			if (noMessage == false)
+			{
+				Chat.AddExamineMsg(player,
+					$"<color=red>The {usedObject.ExpensiveName()} won't fit in the {itemStorage.gameObject.ExpensiveName()}. Make some space!</color>");
+			}
+
 			return true;
 		}
 		return false;
@@ -192,7 +196,7 @@ public class InteractableStorage : MonoBehaviour, IClientInteractable<HandActiva
 		if (allowedToInteract == false) return false;
 		// Use default interaction checks
 		if (DefaultWillInteract.Default(interaction, side) == false) return false;
-		if (IsFull(interaction.UsedObject, interaction.Performer)) return false;
+		if (IsFull(interaction.UsedObject, interaction.Performer, interaction.IsHighlight)) return false;
 		// See which item needs to be stored
 		if (Validations.IsTarget(gameObject, interaction))
 		{

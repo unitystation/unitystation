@@ -9,6 +9,7 @@ using UnityEngine.Serialization;
 using NaughtyAttributes;
 using Managers;
 using StationObjectives;
+using Player;
 
 namespace GameModes
 {
