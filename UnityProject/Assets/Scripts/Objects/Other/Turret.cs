@@ -77,8 +77,10 @@ namespace Objects.Other
 		//always fire
 		private TurretType turretType = TurretType.Normal;
 
+#pragma warning disable CS0414 // disable unused compiler warning
 		[SyncVar(hook = nameof(SyncOpen))]
 		private bool open;
+#pragma warning restore CS0414
 
 		private enum TurretType
 		{

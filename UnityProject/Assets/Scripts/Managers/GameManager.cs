@@ -18,6 +18,7 @@ using Managers;
 using Messages.Server;
 using Tilemaps.Behaviours.Layers;
 using UnityEngine.Profiling;
+using Player;
 
 public partial class GameManager : MonoBehaviour, IInitialise
 {

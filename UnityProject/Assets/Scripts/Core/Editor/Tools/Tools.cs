@@ -297,7 +297,7 @@ namespace Core.Editor.Tools
 		}
 
 		/// <summary>Snap all allowed objects to the middle of the nearest tile.</summary>
-		[MenuItem("Tools/Mapping/Snap to Grid All Applicable Objects")]
+		[MenuItem("Mapping/Snap to Grid All Applicable Objects")]
 		private static void CenterObjects()
 		{
 			int count = 0;
