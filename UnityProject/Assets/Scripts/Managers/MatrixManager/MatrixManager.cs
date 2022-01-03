@@ -876,7 +876,7 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 	}
 
 
-	public static List<T> GetAs<T>(Vector3Int worldPos, bool isServer) where T : MonoBehaviour
+	public static List<T> GetAs<T>(Vector3Int worldPos, bool isServer) where T : RegisterTile
 	{
 		List<T> t = new List<T>();
 		foreach (var matrixInfo in Instance.ActiveMatricesList)
