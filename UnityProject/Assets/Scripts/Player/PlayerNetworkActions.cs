@@ -21,7 +21,7 @@ using Player.Movement;
 using Shuttles;
 using UI.Core;
 using UI.Items;
-
+using Doors;
 
 public partial class PlayerNetworkActions : NetworkBehaviour
 {
@@ -743,6 +743,8 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 			return;
 		if (playerScript.IsGhost || playerScript.playerHealth.ConsciousState != ConsciousState.CONSCIOUS)
 			return;
+		
+		if(pointTarget == null) return;
 
 		//If we are trying to find matrix get matrix instead
 		if (pointTarget.TryGetComponent<MatrixSync>(out var matrixSync))
@@ -999,8 +1001,23 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 			if(slot.IsEmpty) continue;
 			if (slot.ItemObject.TryGetComponent<MouseTrap>(out var trap))
 			{
-				if(trap.IsArmed) trap.TriggerTrap(playerScript.playerHealth);
+				if (trap.IsArmed)
+				{
+					trap.TriggerTrap(playerScript.playerHealth);
+					interactableStorage.PreventUIShowingAfterTrapTrigger = true;
+					return;
+				}
 			}
 		}
+	}
+
+	[Command]
+	public void CmdSetPaintJob(int paintJobIndex)
+	{
+		var handObject = GetActiveHandItem();
+
+		if (handObject == null || handObject.TryGetComponent<AirlockPainter>(out var painter) == false) return;
+
+		painter.CurrentPaintJobIndex = paintJobIndex;
 	}
 }

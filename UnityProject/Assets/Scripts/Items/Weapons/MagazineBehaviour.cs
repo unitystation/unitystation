@@ -314,6 +314,7 @@ namespace Weapons
 		_84mm,
 		FoamForceDart,
 		_75,
-		_40mm
+		_40mm,
+		Arrow
 	}
 }

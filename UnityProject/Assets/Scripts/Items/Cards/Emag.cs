@@ -118,7 +118,7 @@ namespace Items
 				}
 				else
 				{
-					_ = SoundManager.PlayNetworkedForPlayer(recipient: Performer, OutOfChargesSFXA, sourceObj: gameObject);
+					SoundManager.PlayNetworkedForPlayer(recipient: Performer, OutOfChargesSFXA, sourceObj: gameObject);
 					spriteHandler.Empty();
 				}
 				return true;

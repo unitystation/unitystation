@@ -832,7 +832,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4adbb1cdeaa4e8eaf04bfb634d4735b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  voltageDamage: 9080
+  voltageDamage: 5080
   isElectrecuted: 0
 --- !u!114 &1041634214839098044
 MonoBehaviour:
@@ -846,113 +846,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3ef2e1fdce213d948989eb4b5d19a5d0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &-2169664583946153626
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8248341723222571775}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6d7277dcc993463cb6c7f79b663f36fc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  NetTabType: 42
-  aiInteractable: 1
---- !u!114 &2243806384905767094
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8248341723222571775}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ac608c3ebbf07f1429f73d9149f89752, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  doorBase: {fileID: 215518841633704133}
-  overlaySparks: {fileID: 512806237205393311}
-  overlayLights: {fileID: 46041202269146236}
-  overlayFill: {fileID: 459303976283707353}
-  overlayWeld: {fileID: 773641709186510069}
-  overlayHacking: {fileID: 404576362407937357}
-  openingAnimationTime: 0.6
-  closingAnimationTime: 0.6
-  deniedAnimationTime: 0.6
-  warningAnimationTime: 0.6
-  openingSFX:
-    SetLoadSetting: 0
-    AssetAddress: Assets/Prefabs/Doors/AirlockOpen.prefab
-    AssetReference:
-      m_AssetGUID: 
-      m_SubObjectName: 
-      m_SubObjectType: 
-  closingSFX:
-    SetLoadSetting: 0
-    AssetAddress: Assets/Prefabs/Doors/AirlockClose.prefab
-    AssetReference:
-      m_AssetGUID: 
-      m_SubObjectName: 
-      m_SubObjectType: 
-  deniedSFX:
-    SetLoadSetting: 0
-    AssetAddress: Assets/Prefabs/Effects/AccessDenied.prefab
-    AssetReference:
-      m_AssetGUID: 
-      m_SubObjectName: 
-      m_SubObjectType: 
-  warningSFX:
-    SetLoadSetting: 0
-    AssetAddress: Assets/Prefabs/Doors/TripleBeep.prefab
-    AssetReference:
-      m_AssetGUID: 
-      m_SubObjectName: 
-      m_SubObjectType: 
---- !u!114 &2268823939221595730
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8248341723222571775}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8f1c80a23946ca84489209f24da99cfd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  damageOnClose: 0
-  damageClosed: 15
-  isAutomatic: 1
-  ignorePassableChecks: 0
-  maxTimeOpen: 5
-  blockAutoClose: 0
-  isWindowedDoor: 0
-  HackingProcessBase: {fileID: 2590545318543294087}
-  ConstructibleDoor: {fileID: 2423441889713074305}
-  conType: 7
-  requireLink: 0
---- !u!114 &2423441889713074305
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8248341723222571775}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 46ea4fe8b9752b94faca0d3c08c397f7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  DoorAnimatorV2: {fileID: 2243806384905767094}
-  airlockAssemblyPrefab: {fileID: 7094225144452479686, guid: b52e9566ba635f944a7a656928335414,
-    type: 3}
-  airlockElectronicsPrefab: {fileID: 2915179160587070810, guid: 78421020f3046494d83a50667724ef36,
-    type: 3}
-  Reinforced: 0
 --- !u!1001 &3511082394880060143
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -965,6 +858,11 @@ PrefabInstance:
       propertyPath: doorController
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: -1004363680957688268, guid: 1291a5cb15d008c41bf0a373403f56b2,
+        type: 3}
+      propertyPath: customNetTransform
+      value: 
+      objectReference: {fileID: 6544664031488290301}
     - target: {fileID: -1004363680957688268, guid: 1291a5cb15d008c41bf0a373403f56b2,
         type: 3}
       propertyPath: CurrentsortingGroup
@@ -1143,12 +1041,6 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 3511082394880060143}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &8248341723222571775 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 4813822218561835024, guid: 1291a5cb15d008c41bf0a373403f56b2,
-    type: 3}
-  m_PrefabInstance: {fileID: 3511082394880060143}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &215518841633704133 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3622147455447933482, guid: 1291a5cb15d008c41bf0a373403f56b2,
@@ -1173,3 +1065,128 @@ SortingGroup:
     type: 3}
   m_PrefabInstance: {fileID: 3511082394880060143}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &6544664031488290301 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7668099194671236882, guid: 1291a5cb15d008c41bf0a373403f56b2,
+    type: 3}
+  m_PrefabInstance: {fileID: 3511082394880060143}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8248341723222571775}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 579884b05ae74e8499329b64997147d3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!1 &8248341723222571775 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4813822218561835024, guid: 1291a5cb15d008c41bf0a373403f56b2,
+    type: 3}
+  m_PrefabInstance: {fileID: 3511082394880060143}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &-2169664583946153626
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8248341723222571775}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d7277dcc993463cb6c7f79b663f36fc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  NetTabType: 42
+  aiInteractable: 1
+--- !u!114 &2243806384905767094
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8248341723222571775}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ac608c3ebbf07f1429f73d9149f89752, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  doorBase: {fileID: 215518841633704133}
+  overlaySparks: {fileID: 512806237205393311}
+  overlayLights: {fileID: 46041202269146236}
+  overlayFill: {fileID: 459303976283707353}
+  overlayWeld: {fileID: 773641709186510069}
+  overlayHacking: {fileID: 404576362407937357}
+  openingAnimationTime: 0.6
+  closingAnimationTime: 0.6
+  deniedAnimationTime: 0.6
+  warningAnimationTime: 0.6
+  openingSFX:
+    SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/Doors/AirlockOpen.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+  closingSFX:
+    SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/Doors/AirlockClose.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+  deniedSFX:
+    SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/Effects/AccessDenied.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+  warningSFX:
+    SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/Doors/TripleBeep.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+--- !u!114 &2268823939221595730
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8248341723222571775}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8f1c80a23946ca84489209f24da99cfd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  damageOnClose: 0
+  damageClosed: 15
+  isAutomatic: 1
+  ignorePassableChecks: 0
+  maxTimeOpen: 5
+  blockAutoClose: 0
+  isWindowedDoor: 0
+  HackingProcessBase: {fileID: 2590545318543294087}
+  ConstructibleDoor: {fileID: 2423441889713074305}
+  conType: 7
+  requireLink: 0
+--- !u!114 &2423441889713074305
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8248341723222571775}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 46ea4fe8b9752b94faca0d3c08c397f7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  DoorAnimatorV2: {fileID: 2243806384905767094}
+  airlockAssemblyPrefab: {fileID: 7094225144452479686, guid: b52e9566ba635f944a7a656928335414,
+    type: 3}
+  airlockElectronicsPrefab: {fileID: 2915179160587070810, guid: 78421020f3046494d83a50667724ef36,
+    type: 3}
+  Reinforced: 0

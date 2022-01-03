@@ -260,7 +260,7 @@ public class Integrity : NetworkBehaviour, IHealth, IFireExposable, IRightClicka
 	private void PeriodicUpdateBurn()
 	{
 		//Instantly stop burning if there's no oxygen at this location
-		MetaDataNode node = RegisterTile.Matrix.MetaDataLayer.Get(RegisterTile.LocalPositionClient);
+		MetaDataNode node = RegisterTile.Matrix.MetaDataLayer.Get(RegisterTile.LocalPositionServer);
 		if (node?.GasMix.GetMoles(Gas.Oxygen) < 1)
 		{
 			SyncOnFire(true, false);
@@ -268,6 +268,8 @@ public class Integrity : NetworkBehaviour, IHealth, IFireExposable, IRightClicka
 		}
 
 		ApplyDamage(BURNING_DAMAGE, AttackType.Fire, DamageType.Burn);
+
+		node?.GasMix.AddGas(Gas.Smoke, BURNING_DAMAGE * 100);
 	}
 
 	private void SyncOnFire(bool wasOnFire, bool onFire)

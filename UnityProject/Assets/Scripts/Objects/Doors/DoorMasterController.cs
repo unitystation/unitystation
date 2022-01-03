@@ -2,20 +2,19 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using UI.Core.Net;
 using UnityEngine;
 using Mirror;
 using Core.Editor.Attributes;
+using UI.Core.Net;
 using Messages.Client.NewPlayer;
 using Messages.Server;
 using Systems.Electricity;
+using Systems.Hacking;
 using Systems.Interaction;
 using Systems.ObjectConnection;
 using Doors.Modules;
-using Hacking;
 using HealthV2;
 using Objects.Wallmounts;
-
 
 namespace Doors
 {
@@ -354,19 +353,20 @@ namespace Doors
 		/// Purely check to see if there is something physically restraining the door from being opened such as a weld or door bolts.
 		///	This would be in situations like as prying the door with a crowbar.
 		/// </summary>
-		public void TryForceOpen()
+		public bool TryForceOpen()
 		{
-			if (!IsClosed) return; //Can't open if we are open. Figures.
+			if (!IsClosed) return false; //Can't open if we are open. Figures.
 
 			foreach (DoorModuleBase module in modulesList)
 			{
 				if (!module.CanDoorStateChange())
 				{
-					return;
+					return false;
 				}
 			}
 
 			Open();
+			return true;
 		}
 
 		public void PulseTryForceClose()

@@ -9,6 +9,7 @@ using Mirror;
 using Newtonsoft.Json;
 using UnityEngine;
 using UnityEngine.Events;
+using Systems.Storage;
 
 public class DynamicItemStorage : NetworkBehaviour
 {
@@ -1111,7 +1112,7 @@ public class DynamicItemStorage : NetworkBehaviour
 			Observers.Remove(newBody);
 		}
 
-		foreach (var objt in ServerObjectToSlots.Keys)
+		foreach (var objt in ServerContainedInventorys)
 		{
 			if (objt == null)
 			{
@@ -1119,14 +1120,7 @@ public class DynamicItemStorage : NetworkBehaviour
 				continue;
 			}
 
-			if (objt.TryGetComponent<ItemStorage>(out var itemStorage) == false)
-			{
-				Logger.LogError(
-					$"ServerObjectToSlots on {gameObject.ExpensiveName()} had a game object key: {objt.ExpensiveName()} without an ItemStorage ");
-				continue;
-			}
-
-			itemStorage.ServerRemoveObserverPlayer(newBody);
+			objt.RelatedStorage.ServerRemoveObserverPlayer(newBody);
 		}
 	}
 

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Chemistry;
 using ScriptableObjects.Atmospherics;
 using TileManagement;
 using UnityEngine;
@@ -9,8 +10,10 @@ namespace Systems.Atmospherics
 {
 	public static class Gas
 	{
-		//This is here as its easier to put Gas.Gases than GasesSingleton.Instance.Gases
+		//These are here as its easier to put Gas.Gases than GasesSingleton.Instance.Gases
 		public static Dictionary<int, GasSO> Gases => GasesSingleton.Instance.Gases;
+		public static Dictionary<Reagent, GasSO> ReagentToGas => GasesSingleton.Instance.ReagentToGas;
+		public static Dictionary<GasSO, Reagent> GasToReagent => GasesSingleton.Instance.GasToReagent;
 
 		// Gas constant
 		public const float R = 8.3144598f;
@@ -31,6 +34,8 @@ namespace Systems.Atmospherics
 		public static GasSO Stimulum => GasesSingleton.Instance.Stimulum;
 		public static GasSO Pluoxium => GasesSingleton.Instance.Pluoxium;
 		public static GasSO Freon => GasesSingleton.Instance.Freon;
+		public static GasSO Smoke => GasesSingleton.Instance.Smoke;
+		public static GasSO Ash => GasesSingleton.Instance.Ash;
 	}
 
 	[Serializable]

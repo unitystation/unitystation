@@ -16,8 +16,7 @@ namespace HealthV2
 		[Required("Must have a blood type in a circulatory system.")]
 		private BloodType bloodType = null;
 		public BloodType BloodType => bloodType;
-		public ReagentMix UsedBloodPool;
-		public ReagentMix ReadyBloodPool;
+		public ReagentMix BloodPool;
 		public Chemistry.Reagent CirculatedReagent => bloodType.CirculatedReagent;
 
 		[SerializeField]
@@ -39,7 +38,7 @@ namespace HealthV2
 		private void Awake()
 		{
 			healthMaster = GetComponent<LivingHealthMasterBase>();
-			AddFreshBlood(ReadyBloodPool, StartingBlood);
+			AddFreshBlood(BloodPool, StartingBlood);
 		}
 
 		///<summary>
@@ -56,7 +55,7 @@ namespace HealthV2
 		public void Bleed(float amount)
 		{
 			var bloodLoss = new ReagentMix();
-			ReadyBloodPool.TransferTo(bloodLoss, amount);
+			BloodPool.TransferTo(bloodLoss, amount);
 			MatrixManager.ReagentReact(bloodLoss, healthMaster.gameObject.RegisterTile().WorldPositionServer);
 		}
 	}

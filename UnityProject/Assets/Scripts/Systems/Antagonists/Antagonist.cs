@@ -1,8 +1,8 @@
 using System.Collections.Generic;
 using UnityEngine;
-using System.Text;
-using AddressableReferences;
 using NaughtyAttributes;
+using AddressableReferences;
+using Player;
 
 namespace Antagonists
 {

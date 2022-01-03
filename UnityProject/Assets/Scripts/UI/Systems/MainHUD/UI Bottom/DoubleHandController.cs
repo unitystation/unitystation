@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using HealthV2;
+using Items;
 using UnityEngine;
 
 public class DoubleHandController : MonoBehaviour
@@ -24,24 +25,31 @@ public class DoubleHandController : MonoBehaviour
 	public HandsController RelatedHandsController;
 
 
-	public void HideHands(bool HideState)
+	//0 - Hide both hands, 1 - hide left hand, 2 - hide right hand, something else - hide none
+	public void HideHands(HiddenHandValue Selection)
 	{
-		if (HideState)
+		switch (Selection)
 		{
-			LeftHand.SetActive(false);
-			RightHand.SetActive(false);
-		}
-		else
-		{
-			if (RightHandActive)
-			{
-				RightHand.SetActive(true);
-			}
-
-			if (LeftHandActive)
-			{
-				LeftHand.SetActive(true);
-			}
+			case HiddenHandValue.bothHands:
+				LeftHand.SetActive(false);
+				RightHand.SetActive(false);
+				break;
+			case HiddenHandValue.leftHand:
+				LeftHand.SetActive(false);
+				break;
+			case HiddenHandValue.rightHand:
+				RightHand.SetActive(false);
+				break;
+			default:
+				if (RightHandActive)
+				{
+					RightHand.SetActive(true);
+				}
+				if (LeftHandActive)
+				{
+					LeftHand.SetActive(true);
+				}
+				break;
 		}
 	}
 
@@ -78,6 +86,7 @@ public class DoubleHandController : MonoBehaviour
 	public bool RemoveHand(
 		BodyPartUISlots.StorageCharacteristics StorageCharacteristics)
 	{
+		if (this == null) return false;
 		switch (StorageCharacteristics.namedSlot)
 		{
 			case NamedSlot.leftHand:
@@ -137,6 +146,7 @@ public class DoubleHandController : MonoBehaviour
 
 	public void ActivateRightHand()
 	{
+		if (this == null) return;
 		if (RightHandOverlay.activeSelf == false)
 		{
 			RightHandOverlay.SetActive(true);

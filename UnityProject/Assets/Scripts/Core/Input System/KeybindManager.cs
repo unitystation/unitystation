@@ -613,7 +613,7 @@ public class KeybindManager : MonoBehaviour {
 			}
 			catch (Exception e)
 			{
-				Logger.LogWarning("Couldn't deserialize userKeybind JSON: " + e, Category.Keybindings);
+				Logger.LogError("Couldn't deserialize userKeybind JSON: " + e, Category.Keybindings);
 				ResetKeybinds();
 				ModalPanelManager.Instance.Inform("Unable to read saved keybinds.\nThey were either corrupt or outdated, so they have been reset.");
 			}
@@ -628,7 +628,7 @@ public class KeybindManager : MonoBehaviour {
 			}
 			catch (Exception e)
 			{
-				Logger.LogWarning("Unable to add new keybind entries" + e, Category.Keybindings);
+				Logger.LogError("Unable to add new keybind entries" + e, Category.Keybindings);
 				ResetKeybinds();
 				ModalPanelManager.Instance.Inform("Unable to read saved keybinds.\nThey were either corrupt or outdated, so they have been reset.");
 			}
@@ -638,7 +638,7 @@ public class KeybindManager : MonoBehaviour {
 			}
 			catch (Exception e)
 			{
-				Logger.LogWarning("Unable to remove old keybind entries" + e, Category.Keybindings);
+				Logger.LogError("Unable to remove old keybind entries" + e, Category.Keybindings);
 				ResetKeybinds();
 				ModalPanelManager.Instance.Inform("Unable to read saved keybinds.\nThey were either corrupt or outdated, so they have been reset.");
 			}

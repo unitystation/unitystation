@@ -99,8 +99,8 @@ MonoBehaviour:
   NetworkThis: 1
   SubCatalogue:
   - {fileID: 11400000, guid: b76152e634978fa468aa2f1870fdfccf, type: 2}
-  - {fileID: 11400000, guid: 28f81cfb5e6696c49ae986e31646c495, type: 2}
   - {fileID: 11400000, guid: e13c71d185e78764cba01b9bdc37027e, type: 2}
+  - {fileID: 11400000, guid: 28f81cfb5e6696c49ae986e31646c495, type: 2}
   - {fileID: 11400000, guid: 0c47d65ee8ed0a640820cb0e813bcc59, type: 2}
   - {fileID: 11400000, guid: bba5a1a4e6330304ea49014d4a382e8c, type: 2}
   PresentSpriteSet: {fileID: 11400000, guid: b76152e634978fa468aa2f1870fdfccf, type: 2}
@@ -206,7 +206,7 @@ MonoBehaviour:
   syncInterval: 0.1
   matrixDebugLogging: 0
   objectType: 1
-  customNetTransform: {fileID: 0}
+  customNetTransform: {fileID: 799095722577257379}
   prefabTracker: {fileID: 0}
   CurrentsortingGroup: {fileID: 0}
   AtmosPassable: 1
@@ -274,7 +274,6 @@ MonoBehaviour:
   HeatResistance: 100
   ExplosionsDamage: 100
   doDamageMessage: 1
-  CannotBeAshed: 0
 --- !u!114 &3348285834374005981
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -310,6 +309,7 @@ MonoBehaviour:
   initialDescription: Moves items along itself.
   willHighlight: 1
   exportCost: 0
+  exportType: 0
   exportName: 
   exportMessage: 
 --- !u!114 &7393164251923224906
@@ -324,8 +324,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1103378e85c7b314eb3d801a596fe183, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
   CurrentDirection: 0
   CurrentStatus: 0
   spriteHandler: {fileID: 3569393190955387615}

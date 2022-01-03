@@ -1,6 +1,6 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
+using UI.Core.NetUI;
 using Objects.Machines;
 
 namespace UI.Objects.Robotics
@@ -17,8 +17,14 @@ namespace UI.Objects.Robotics
 
 		public void OpenCategory()
 		{
-			if (ExoFabMasterTab == null) { MasterTab.GetComponent<GUI_ExosuitFabricator>().OnCategoryClicked.Invoke(ExoFabProducts); }
-			else { ExoFabMasterTab?.OnCategoryClicked.Invoke(ExoFabProducts); }
+			if (ExoFabMasterTab == null)
+			{
+				MasterTab.GetComponent<GUI_ExosuitFabricator>().OnCategoryClicked.Invoke(ExoFabProducts);
+			}
+			else
+			{
+				ExoFabMasterTab?.OnCategoryClicked.Invoke(ExoFabProducts);
+			}
 		}
 
 		public void AddAllProducts()

@@ -60,6 +60,7 @@ namespace Objects.Other
 		/// <param name="health"></param>
 		public void TriggerTrap(LivingHealthMasterBase health = null)
 		{
+			isArmed = false;
 			if(health != null) HurtHand(health);
 			var slot = trapContent.GetTopOccupiedIndexedSlot();
 			if(slot == null) return;
@@ -69,7 +70,6 @@ namespace Objects.Other
 				component.TriggerTrap();
 			}
 			UpdateTrapVisual();
-			isArmed = false;
 		}
 
 		private bool HasTrapTrait(GameObject item)
@@ -99,26 +99,34 @@ namespace Objects.Other
 			trapPreview.SetSpriteSO(sprite.GetCurrentSpriteSO());
 		}
 
-		public override void OnStep(GameObject eventData)
+		public override bool WillAffectPlayer(PlayerScript playerScript)
+		{
+			return playerScript.IsGhost == false;
+		}
+
+		public override void OnPlayerStep(PlayerScript playerScript)
 		{
 			if (IsArmed == false) return;
 			if(trapInSnare) TriggerTrap();
-			//a mouse trap must kill mice, duh
-			//TODO : IEnterable is designed for players only so mice can't trigger this :(
-			if (eventData.TryGetComponent<MouseAI>(out var mouse))
-			{
-				mouse.health.Death();
-				return;
-			}
-			base.OnStep(eventData);
+
+			base.OnPlayerStep(playerScript);
 			isArmed = false;
 		}
 
-		public override bool WillStep(GameObject eventData)
+		public override bool WillAffectObject(GameObject eventData)
 		{
-			if (eventData.gameObject.TryGetComponent<LivingHealthMasterBase>(out var _)) return true;
-			if (eventData.gameObject.TryGetComponent<MouseAI>(out var _mouse)) return true;
-			return false;
+			//Damage mice
+			return eventData.HasComponent<MouseAI>();
+		}
+
+		public override void OnObjectEnter(GameObject eventData)
+		{
+			if (IsArmed == false) return;
+			if(trapInSnare) TriggerTrap();
+
+			//A mouse trap must kill mice, duh
+			eventData.GetComponent<MouseAI>().health.Death();
+			isArmed = false;
 		}
 
 		public bool WillInteract(HandApply interaction, NetworkSide side)

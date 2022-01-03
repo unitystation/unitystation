@@ -11,6 +11,18 @@ public static class ConverterExtensions
 		return new Vector2(other.x, other.y);
 	}
 
+	public static Vector3 To3(this Vector2 other)
+	{
+		return new Vector3(other.x, other.y, 0);
+	}
+
+
+	public static Vector3 ToNonInt3(this Vector3Int other)
+	{
+		return new Vector3(other.x, other.y, 0);
+	}
+
+
 	public static Vector3Int RoundToInt(this Vector3 other)
 	{
 		return Vector3Int.RoundToInt(other);
@@ -105,6 +117,7 @@ public static class ConverterExtensions
 		return new Vector3Int(Mathf.Clamp(other.x, -1, 1), Mathf.Clamp(other.y, -1, 1), 0);
 	}
 
+
 	/// <summary>
 	/// Clamp vector so it's either -1, 0, or 1 on X and Y axes.
 	/// Z is always 0!
@@ -153,24 +166,11 @@ public static class ConverterExtensions
 			MatrixManager.AtPoint(Vector3Int.RoundToInt(worldPos), CustomNetworkManager.Instance._isServer));
 	}
 
-	public static Vector3 ToWorld(this Vector3 localPos)
-	{
-		return MatrixManager.LocalToWorld(localPos,
-			MatrixManager.AtPoint(Vector3Int.RoundToInt(localPos), CustomNetworkManager.Instance._isServer));
-	}
-
 
 	public static Vector3 ToWorld(this Vector3 localPos, Matrix matrix)
 	{
 		return MatrixManager.LocalToWorld(localPos, MatrixManager.Get(matrix));
 	}
-
-	public static Vector3 ToWorld(this Vector3Int localPos)
-	{
-		return MatrixManager.LocalToWorld(localPos,
-			MatrixManager.AtPoint(Vector3Int.RoundToInt(localPos), CustomNetworkManager.Instance._isServer));
-	}
-
 
 	public static Vector3 ToWorld(this Vector3Int localPos, Matrix matrix)
 	{

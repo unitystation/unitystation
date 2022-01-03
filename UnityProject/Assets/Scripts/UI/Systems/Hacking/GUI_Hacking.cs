@@ -1,17 +1,14 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
-using UnityEngine.UI;
 using AddressableReferences;
-using Messages.Client;
-using Mirror;
+using Systems.Hacking;
 
-namespace Hacking
+namespace UI.Hacking
 {
 	public class GUI_Hacking : NetTab
 	{
+		[SerializeField]
 		private AddressableAudioSource Wirecut = null; //TODO
 
 		private HackingProcessBase hackProcess;
@@ -21,11 +18,9 @@ namespace Hacking
 
 		public GUI_HackingOutputAndInput Outputs;
 
-
 		public GUI_CablePanel GUI_CablePanel;
 
-
-		void Start()
+		private void Start()
 		{
 			if (Provider != null)
 			{

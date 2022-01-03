@@ -393,7 +393,7 @@ namespace Tests
 
 				}
 
-				EditorApplication.SaveScene();
+				EditorSceneManager.SaveOpenScenes();
 			}
 
 			if (isok == false)

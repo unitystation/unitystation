@@ -695,8 +695,6 @@ public static class Librarian
 					}
 				}
 
-
-				bool hasNull = false;
 				foreach (var Child in libraryBookShelf.InternalContain)
 				{
 					if (Child.Shelf == null)

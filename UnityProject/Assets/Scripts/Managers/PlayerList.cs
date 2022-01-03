@@ -376,6 +376,28 @@ public partial class PlayerList : NetworkBehaviour
 	}
 
 	[Server]
+	public void Remove(ConnectedPlayer ConnectedPlayer)
+	{
+
+		if (loggedOff.Contains(ConnectedPlayer))
+		{
+			loggedOff.Remove(ConnectedPlayer);
+		}
+
+		if (loggedIn.Contains(ConnectedPlayer))
+		{
+			loggedIn.Remove(ConnectedPlayer);
+		}
+
+		ConnectedPlayer.Connection.Disconnect();
+
+
+	}
+
+
+
+
+	[Server]
 	public void RemoveByConnection(NetworkConnection connection)
 	{
 		if (connection?.address == null || connection.identity == null)

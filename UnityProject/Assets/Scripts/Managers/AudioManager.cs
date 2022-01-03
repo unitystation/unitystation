@@ -1,14 +1,10 @@
 using System;
-using System.Collections;
-using System.Threading;
 using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.Audio;
-using Messages.Server.SoundMessages;
 using AddressableReferences;
-using Audio.Managers;
-using System.Threading.Tasks;
-using System.Linq;
 using Managers;
 
 namespace Audio.Containers
@@ -57,7 +53,6 @@ namespace Audio.Containers
                     : 0.8f
                 );
         }
-
 
         /// <summary>
         /// Sets all Sounds volume
@@ -153,7 +148,7 @@ namespace Audio.Containers
                 Logger.LogWarning("AudioManager received an addressable with an address set to the string 'null', look at log trace for responsible component", Category.Audio);
                 return null;
             }
-            if(await addressableAudioSource.HasValidAddress() == false) return null;
+            if (await addressableAudioSource.HasValidAddress() == false) return null;
 
             //Try to get the Audio Source from cache, if its not there load it into cache
             AddressableAudioSource addressableAudioSourceFromCache = null;
@@ -205,11 +200,11 @@ namespace Audio.Containers
             addressableAudioSource = await GetAddressableAudioSourceFromCache(addressableAudioSource);
             return addressableAudioSource;
         }
+
         public async Task FadeMixerGroup(string exposedParam, float duration, float targetVolume)
 		{
 			float currentTimeMs = 0;
-			float currentVol;
-			audioMixer.GetFloat(exposedParam, out currentVol);
+			audioMixer.GetFloat(exposedParam, out float currentVol);
 			currentVol = Mathf.Pow(10, currentVol / 20);
 			float targetValue = Mathf.Clamp(targetVolume, 0.0001f, 1);
 			while (currentTimeMs < duration)

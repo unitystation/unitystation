@@ -13,6 +13,9 @@ namespace Mirror
         // TODO move to server's NetworkConnectionToClient?
         internal readonly HashSet<NetworkIdentity> observing = new HashSet<NetworkIdentity>();
 
+        //CUSTOM UNITYSTATION CODE// so, for i Performance improvement
+        internal readonly List<NetworkIdentity> observingList = new List<NetworkIdentity>();
+
         /// <summary>Unique identifier for this connection that is assigned by the transport layer.</summary>
         // assigned by transport, this id is unique for every connection on server.
         // clients don't know their own id and they don't know other client's ids.
@@ -226,18 +229,27 @@ namespace Mirror
         // TODO move to server's NetworkConnectionToClient?
         internal void AddToObserving(NetworkIdentity netIdentity)
         {
-            observing.Add(netIdentity);
+	        //CUSTOM UNITYSTATION CODE// so, No duplicate entries in observingList + log
+	        if (observing.Contains(netIdentity) == false)
+	        {
+		        observing.Add(netIdentity);
+		        observingList.Add(netIdentity);
+	        }
 
-            // spawn identity for this conn
+	        // spawn identity for this conn
             NetworkServer.ShowForConnection(netIdentity, this);
         }
 
         // TODO move to server's NetworkConnectionToClient?
         internal void RemoveFromObserving(NetworkIdentity netIdentity, bool isDestroyed)
         {
-            observing.Remove(netIdentity);
+	        if (observing.Contains(netIdentity))
+	        {
+		        observing.Remove(netIdentity);
+		        observingList.Remove(netIdentity);
+	        }
 
-            if (!isDestroyed)
+	        if (!isDestroyed)
             {
                 // hide identity for this conn
                 NetworkServer.HideForConnection(netIdentity, this);
@@ -247,11 +259,13 @@ namespace Mirror
         // TODO move to server's NetworkConnectionToClient?
         internal void RemoveFromObservingsObservers()
         {
-            foreach (NetworkIdentity netIdentity in observing)
-            {
-                netIdentity.RemoveObserverInternal(this);
-            }
+
+	        for (int i = 0; i < observingList.Count; i++)
+	        {
+		        observingList[i].RemoveObserverInternal(this);
+	        }
             observing.Clear();
+            observingList.Clear();
         }
 
         /// <summary>Check if we received a message within the last 'timeout' seconds.</summary>

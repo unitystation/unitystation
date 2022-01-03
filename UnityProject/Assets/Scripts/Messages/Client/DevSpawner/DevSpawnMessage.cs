@@ -33,7 +33,7 @@ namespace Messages.Client.DevSpawner
 			if (IsFromAdmin() == false) return;
 
 			//no longer checks impassability, spawn anywhere, go hog wild.
-			if (ClientScene.prefabs.TryGetValue(msg.PrefabAssetID, out var prefab))
+			if (NetworkClient.prefabs.TryGetValue(msg.PrefabAssetID, out var prefab))
 			{
 				Spawn.ServerPrefab(prefab, msg.WorldPosition);
 				UIManager.Instance.adminChatWindows.adminToAdminChat.ServerAddChatRecord(

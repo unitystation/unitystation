@@ -1,22 +1,22 @@
 ﻿using System;
 using System.Collections;
-using Light2D;
 using UnityEngine;
+using UnityEngine.Serialization;
+using Light2D;
 
 namespace Effects
 {
 	public class SparkEffect : MonoBehaviour
 	{
-		[SerializeField]
-		[Min(0)]
+		[SerializeField, Min(0)]
 		private float time = 1f;
 
-		[SerializeField]
-		private LightSprite light = null;
+		[SerializeField, FormerlySerializedAs("light")]
+		private LightSprite lightSprite = null;
 
 		private void OnEnable()
 		{
-			light.Color.a = 1f;
+			lightSprite.Color.a = 1f;
 
 			StartCoroutine(EffectTimer());
 		}
@@ -29,11 +29,11 @@ namespace Effects
 			{
 				totalTime += Time.deltaTime;
 
-				light.Color.a = 1 - (totalTime / time);
+				lightSprite.Color.a = 1 - (totalTime / time);
 				yield return WaitFor.EndOfFrame;
 			}
 
-			if(CustomNetworkManager.IsServer == false) yield break;
+			if (CustomNetworkManager.IsServer == false) yield break;
 
 			_ = Despawn.ServerSingle(gameObject);
 		}

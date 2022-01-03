@@ -393,8 +393,8 @@ public class CableCuttingWindow : MonoBehaviour
 	{
 		if (data.electricalCable == null) return;
 
-		Vector3 targetVec = targetWorldPosition - PlayerManager.LocalPlayer.transform.position;
-		var apply = PositionalHandApply.ByLocalPlayer(matrix.gameObject, targetVec);
+		Vector3 targetPosition = targetWorldPosition.ToLocal(matrix);
+		var apply = PositionalHandApply.ByLocalPlayer(matrix.gameObject, targetPosition);
 
 		// if can interact and there are no cooldown - send message to server and destroy UI cell
 		if (WillInteract(apply) && Cooldowns.TryStartClient(apply, CommonCooldowns.Instance.Interaction))

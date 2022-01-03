@@ -79,26 +79,61 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7978085630793286679, guid: 22153594ca62ee0418bb92cef2a1a384,
         type: 3}
+      propertyPath: hasSimpleRelatedRecipe
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7978085630793286679, guid: 22153594ca62ee0418bb92cef2a1a384,
+        type: 3}
       propertyPath: relatedRecipes.Array.size
-      value: 12
+      value: 18
       objectReference: {fileID: 0}
     - target: {fileID: 7978085630793286679, guid: 22153594ca62ee0418bb92cef2a1a384,
         type: 3}
       propertyPath: relatedRecipes.Array.data[10].recipe
       value: 
-      objectReference: {fileID: 11400000, guid: 51eb56e4ffa6ea84781e8d746e74bd0d,
+      objectReference: {fileID: 11400000, guid: 3f37c8f383669554cacb48caa16f5407,
         type: 2}
     - target: {fileID: 7978085630793286679, guid: 22153594ca62ee0418bb92cef2a1a384,
         type: 3}
       propertyPath: relatedRecipes.Array.data[11].recipe
       value: 
-      objectReference: {fileID: 11400000, guid: 3f37c8f383669554cacb48caa16f5407,
+      objectReference: {fileID: 11400000, guid: 51eb56e4ffa6ea84781e8d746e74bd0d,
         type: 2}
     - target: {fileID: 7978085630793286679, guid: 22153594ca62ee0418bb92cef2a1a384,
         type: 3}
       propertyPath: relatedRecipes.Array.data[12].recipe
       value: 
-      objectReference: {fileID: 11400000, guid: 2a8b7c7e69298cc49b3557a382e447ba,
+      objectReference: {fileID: 11400000, guid: 0972c976a292eb14eaa0186db9c5449f,
+        type: 2}
+    - target: {fileID: 7978085630793286679, guid: 22153594ca62ee0418bb92cef2a1a384,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[13].recipe
+      value: 
+      objectReference: {fileID: 11400000, guid: 79add9d5494bd6a44901b4ddd866043a,
+        type: 2}
+    - target: {fileID: 7978085630793286679, guid: 22153594ca62ee0418bb92cef2a1a384,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[14].recipe
+      value: 
+      objectReference: {fileID: 11400000, guid: c9c367b02211be74eaf2ab9d52afa558,
+        type: 2}
+    - target: {fileID: 7978085630793286679, guid: 22153594ca62ee0418bb92cef2a1a384,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[15].recipe
+      value: 
+      objectReference: {fileID: 11400000, guid: ecc59d4011820d34d93530cf329647f0,
+        type: 2}
+    - target: {fileID: 7978085630793286679, guid: 22153594ca62ee0418bb92cef2a1a384,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[16].recipe
+      value: 
+      objectReference: {fileID: 11400000, guid: f614df5457266c44887e4e8a030e9e24,
+        type: 2}
+    - target: {fileID: 7978085630793286679, guid: 22153594ca62ee0418bb92cef2a1a384,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[17].recipe
+      value: 
+      objectReference: {fileID: 11400000, guid: 57680b35a134f0d47865895e251d51f5,
         type: 2}
     - target: {fileID: 7978085630793286679, guid: 22153594ca62ee0418bb92cef2a1a384,
         type: 3}
@@ -113,6 +148,26 @@ PrefabInstance:
     - target: {fileID: 7978085630793286679, guid: 22153594ca62ee0418bb92cef2a1a384,
         type: 3}
       propertyPath: relatedRecipes.Array.data[12].ingredientIndex
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7978085630793286679, guid: 22153594ca62ee0418bb92cef2a1a384,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[13].ingredientIndex
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7978085630793286679, guid: 22153594ca62ee0418bb92cef2a1a384,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[15].ingredientIndex
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7978085630793286679, guid: 22153594ca62ee0418bb92cef2a1a384,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[16].ingredientIndex
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7978085630793286679, guid: 22153594ca62ee0418bb92cef2a1a384,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[17].ingredientIndex
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8057312929563124387, guid: 22153594ca62ee0418bb92cef2a1a384,

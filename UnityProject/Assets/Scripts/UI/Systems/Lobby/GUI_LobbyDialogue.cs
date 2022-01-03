@@ -91,7 +91,7 @@ namespace Lobby
 			StartCoroutine(FlashConnectionFailedText());
 		}
 
-		IEnumerator FlashConnectionFailedText()
+		private IEnumerator FlashConnectionFailedText()
 		{
 			serverConnectionFailedText.gameObject.SetActive(true);
 			yield return WaitFor.Seconds(5);
@@ -142,7 +142,7 @@ namespace Lobby
 		}
 
 		//Make sure we have the latest DisplayName from Auth
-		IEnumerator WaitForReloadProfile()
+		private IEnumerator WaitForReloadProfile()
 		{
 			ServerData.ReloadProfile();
 
@@ -361,7 +361,7 @@ namespace Lobby
 			LoadingScreenManager.LoadFromLobby(DoServerConnect);
 		}
 
-		void DoServerConnect()
+		private void DoServerConnect()
 		{
 			// Set network address
 			string serverAddress = serverAddressInput.text;
@@ -403,7 +403,7 @@ namespace Lobby
 			CustomNetworkManager.Instance.StartClient();
 		}
 
-		void InitPlayerName()
+		private void InitPlayerName()
 		{
 			string steamName = "";
 			string prefsName;
@@ -424,19 +424,19 @@ namespace Lobby
 			}
 		}
 
-		void ShowInformationPanel()
+		private void ShowInformationPanel()
 		{
 			HideAllPanels();
 			informationPanel.SetActive(true);
 		}
 
-		void ShowControlInformationPanel()
+		private void ShowControlInformationPanel()
 		{
 			HideAllPanels();
 			controlInformationPanel.SetActive(true);
 		}
 
-		void ShowWrongVersionPanel()
+		private void ShowWrongVersionPanel()
 		{
 			HideAllPanels();
 			wrongVersionPanel.SetActive(true);

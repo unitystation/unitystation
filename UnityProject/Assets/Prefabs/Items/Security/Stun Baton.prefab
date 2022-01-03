@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &1299614092489003431
+--- !u!114 &-3594940326678282933
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -9,7 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 8127442588295923452}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aa907c138d911104886acf35c9807dd3, type: 3}
+  m_Script: {fileID: 11500000, guid: 44299057457244141b47ddc650ae68be, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   syncMode: 0
@@ -21,6 +21,33 @@ MonoBehaviour:
       m_AssetGUID: 
       m_SubObjectName: 
       m_SubObjectType: 
+--- !u!114 &-1359029577750577036
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8127442588295923452}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 22e23dbc3e28c944c988b15aeccb6f40, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  canStun: 1
+  stunTime: 10
+  canTeleport: 0
+  avoidSpace: 0
+  avoidImpassable: 1
+  minTeleportDistance: 1
+  maxTeleportDistance: 5
+  useSound:
+    SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/Effects/EGloves.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+  cooldown: 3
 --- !u!114 &6669159906137905766
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -42,27 +69,6 @@ MonoBehaviour:
   hidesIdentity: 0
   hidesSlots: 0
   hideClothingFlags: 0
---- !u!114 &7515531381510586654
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8127442588295923452}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9bc379e328bc3bd44a6541cd4f3e5a57, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  stunTime: 10
-  delay: 3
-  stunSound:
-    SetLoadSetting: 0
-    AssetAddress: Assets/Prefabs/Effects/EGloves.prefab
-    AssetReference:
-      m_AssetGUID: 
-      m_SubObjectName: 
-      m_SubObjectType: 
 --- !u!1001 &8127288814593014342
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -198,6 +204,16 @@ PrefabInstance:
       propertyPath: itemSprites.RightHand.Texture
       value: 
       objectReference: {fileID: 2800000, guid: 9a10a6f0ab9603047a07c214c9bc8339, type: 3}
+    - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      propertyPath: inventoryMoveSound.AssetAddress
+      value: null
+      objectReference: {fileID: 0}
+    - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      propertyPath: inventoryRemoveSound.AssetAddress
+      value: null
+      objectReference: {fileID: 0}
     - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
       propertyPath: itemSprites.LeftHand.EquippedData

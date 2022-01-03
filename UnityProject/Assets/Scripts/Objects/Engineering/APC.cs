@@ -52,10 +52,6 @@ namespace Objects.Engineering
 		private ElectricalNodeControl electricalNodeControl;
 		private ResistanceSourceModule resistanceSourceModule;
 
-
-		[SerializeField, PrefabModeOnly, FormerlySerializedAs("NetTabType")]
-		private NetTabType netTabType = NetTabType.APC;
-
 		[Tooltip("Sound used when the APC loses all power.")]
 		[SerializeField, PrefabModeOnly]
 		private AddressableAudioSource NoPowerSound = null;
