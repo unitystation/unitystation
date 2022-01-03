@@ -1,5 +1,5 @@
-﻿using UnityEngine;
-using UI.Core.NetUI;
+﻿using System.Collections;
+using UnityEngine;
 using Objects.Atmospherics;
 
 namespace UI.Objects.Atmospherics.Acu

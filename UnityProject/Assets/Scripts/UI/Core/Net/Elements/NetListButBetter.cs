@@ -1,8 +1,10 @@
+using System.Collections;
 using System.Collections.Generic;
+using System.Reflection.Emit;
 using Newtonsoft.Json;
 using UnityEngine;
 
-namespace UI.Core.NetUI
+namespace NetElements
 {
 	public class NetListButBetter<T> : NetUIStringElement
 	{
@@ -10,11 +12,11 @@ namespace UI.Core.NetUI
 
 		public List<T> ListElements = new List<T>();
 
-		private readonly List<T> PreviousListElements = new List<T>();
+		private List<T> PreviousListElements = new List<T>();
 
 		public override string Value
 		{
-			get => JsonConvert.SerializeObject(ListElements);
+			get { return JsonConvert.SerializeObject(ListElements); }
 			set
 			{
 				if (CustomNetworkManager.IsServer) return;
@@ -30,7 +32,14 @@ namespace UI.Core.NetUI
 			PreviousListElements.AddRange(ListElements);
 		}
 
-		public virtual void ElementsChanged(List<T> NewList, List<T> OldList) { }
+		public virtual void ElementsChanged(List<T> NewList, List<T> OldList)
+		{
+		}
+
+		public override void ExecuteServer(ConnectedPlayer subject)
+		{
+		}
+
 
 		public void AddElement(T addElement)
 		{
@@ -38,6 +47,7 @@ namespace UI.Core.NetUI
 			RegisterListChange();
 			UpdatePeepers();
 		}
+
 
 		public void RemoveElement(T addElement)
 		{
@@ -65,6 +75,11 @@ namespace UI.Core.NetUI
 			ListElements.Clear();
 			RegisterListChange();
 			UpdatePeepers();
+		}
+
+
+		public override void SetValueServer(string value)
+		{
 		}
 	}
 }

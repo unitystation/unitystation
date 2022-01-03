@@ -1,6 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
-using UI.Core.NetUI;
+using UnityEngine.UI;
 using Objects.Medical;
 
 namespace UI.Objects.Medical

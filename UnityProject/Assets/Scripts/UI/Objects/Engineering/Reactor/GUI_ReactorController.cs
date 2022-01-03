@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Mirror;
 using UnityEngine;
-using UI.Core.NetUI;
+using UnityEngine.UI;
 using Objects.Engineering;
 
 namespace UI.Objects.Engineering
@@ -25,7 +27,7 @@ namespace UI.Objects.Engineering
 		private decimal PreviousRADlevel = 0;
 		public decimal PercentageChange = 0;
 
-		private void Start()
+		void Start()
 		{
 			if (Provider != null)
 			{
@@ -92,8 +94,10 @@ namespace UI.Objects.Engineering
 
 		public float SetLogScale(float INNum)
 		{
-			if (INNum == 0) return 0;
-
+			if (INNum == 0)
+			{
+				return 0;
+			}
 			int Power = (int)Math.Floor(Math.Log10(INNum));
 			return (100f / 12f) * Mathf.Clamp(Power, 0, 100) + ((100f / 12f) * (INNum / (Mathf.Pow(10, Power + 1))));
 		}
@@ -122,7 +126,7 @@ namespace UI.Objects.Engineering
 			ReactorControlConsole.SuchControllRodDepth(MainSetControl + (SecondarySetControl / 100));
 		}
 
-		[Serializable]
+		[System.Serializable]
 		public class GUI_ReactorLayout
 		{
 			public GUI_ReactorController GUI_ReactorControler;
@@ -157,7 +161,7 @@ namespace UI.Objects.Engineering
 			}
 		}
 
-		[Serializable]
+		[System.Serializable]
 		public class GUI_ReactorAnnunciator
 		{
 			public GUI_ReactorController GUIReactorControler = null;
@@ -221,6 +225,7 @@ namespace UI.Objects.Engineering
 				Last_Temperature = Chamber.ReactorPipe.pipeData.mixAndVolume.Temperature;
 			}
 
+
 			public decimal Last_HighNeutronFluxDelta = 0;
 			public decimal HighNeutronFluxDelta_Delta = 0;
 
@@ -240,6 +245,7 @@ namespace UI.Objects.Engineering
 				PositiveKValue.SetState(GUIReactorControler.PercentageChange > 2);
 				LowKValue.SetState(GUIReactorControler.PercentageChange < -2);
 			}
+
 
 			public void WaterLevel()
 			{

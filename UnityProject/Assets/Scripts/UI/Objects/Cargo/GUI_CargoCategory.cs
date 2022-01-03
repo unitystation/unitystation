@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
-using UI.Core.NetUI;
 using Systems.Cargo;
 
 namespace UI.Objects.Cargo
@@ -9,8 +9,7 @@ namespace UI.Objects.Cargo
 	{
 		private CargoCategory category;
 
-		[SerializeField] private NetLabel CategoryName;
-
+		public NetLabel CategoryName;
 		public GUI_Cargo cargoGUI;
 
 		public void OpenCategory()

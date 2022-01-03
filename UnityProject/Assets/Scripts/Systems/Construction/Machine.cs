@@ -1,11 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
+using Hacking;
 using UnityEngine;
-using ScriptableObjects;
-using Systems.Hacking;
 using Objects.Construction;
 using Machines;
 using Messages.Server;
 using Messages.Server.SoundMessages;
+using ScriptableObjects;
 
 namespace Objects.Machines
 {

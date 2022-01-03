@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-namespace UI.Core.NetUI
+namespace UI.Core
 {
 	/// <summary>
 	/// Controls an entire number spinner - a display made up of DigitSpinners.

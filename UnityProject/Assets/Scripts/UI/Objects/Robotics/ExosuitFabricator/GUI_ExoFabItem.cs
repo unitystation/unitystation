@@ -1,8 +1,8 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
-using System.Text;
 using UnityEngine;
-using UI.Core.NetUI;
+using System.Text;
 using Objects.Machines;
 
 namespace UI.Objects.Robotics
@@ -13,7 +13,9 @@ namespace UI.Objects.Robotics
 		private MachineProduct product = null;
 
 		public MachineProduct Product {
-			get => product;
+			get {
+				return product;
+			}
 			set {
 				product = value;
 				ReInit();
@@ -22,14 +24,8 @@ namespace UI.Objects.Robotics
 
 		public void AddToQueue()
 		{
-			if (ExoFabMasterTab == null)
-			{
-				MasterTab.GetComponent<GUI_ExosuitFabricator>().OnProductAddClicked.Invoke(Product);
-			}
-			else
-			{
-				ExoFabMasterTab?.OnProductAddClicked.Invoke(Product);
-			}
+			if (ExoFabMasterTab == null) { MasterTab.GetComponent<GUI_ExosuitFabricator>().OnProductAddClicked.Invoke(Product); }
+			else { ExoFabMasterTab?.OnProductAddClicked.Invoke(Product); }
 		}
 
 		public void ReInit()

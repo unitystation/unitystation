@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using UI.Core.NetUI;
 
 namespace UI.Items.PDA
 {

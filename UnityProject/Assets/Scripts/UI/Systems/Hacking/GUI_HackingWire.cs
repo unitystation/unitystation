@@ -1,9 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using Initialisation;
 using Messages.Client;
 using UnityEngine;
 
-namespace UI.Hacking
+namespace Hacking
 {
 	public class GUI_HackingWire : MonoBehaviour
 	{
@@ -40,6 +41,7 @@ namespace UI.Hacking
 				SetEndUINode(GUI_CablePanel.GUI_Hacking.Inputs.IDtoPort[ThisCableData.IDConnectedTo]);
 			}
 		}
+
 
 		public void SetStartUINode(GUI_HackingPort startNode)
 		{

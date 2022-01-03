@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
-using UI.Core.NetUI;
 using Systems.Cargo;
 
 namespace UI.Objects.Cargo
@@ -9,8 +9,7 @@ namespace UI.Objects.Cargo
 	{
 		private CargoOrderSO Order;
 
-		[SerializeField]
-		private NetLabel cartNameLabel;
+		public NetLabel cartNameLabel;
 
 		public void RemoveFromCart()
 		{
@@ -22,5 +21,6 @@ namespace UI.Objects.Cargo
 			Order = newOrder;
 			cartNameLabel.SetValueServer($"{Order.OrderName}\n{Order.CreditCost} credits");
 		}
+
 	}
 }

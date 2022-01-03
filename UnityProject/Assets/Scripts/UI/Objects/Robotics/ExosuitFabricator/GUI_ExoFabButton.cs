@@ -1,19 +1,17 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace UI.Core.NetUI
+namespace UI.Objects.Robotics
 {
-	/// <summary>
-	/// Allows toggling a button's interactivity.
-	/// </summary>
 	[Serializable]
-	public class NetInteractiveButton : NetButton
+	public class GUI_ExoFabButton : NetButton
 	{
 		//SetValue will set this and change the value for the client.
 		public override string Value {
-			get => Element.interactable.ToString();
+			get { return Element.interactable.ToString(); }
 			set {
 				if (value.ToLower().Equals("false"))
 				{
@@ -34,8 +32,17 @@ namespace UI.Core.NetUI
 			}
 		}
 
-		public Selectable Element => element ??= GetComponent<Selectable>();
 		private Selectable element;
+
+		public Selectable Element {
+			get {
+				if (!element)
+				{
+					element = GetComponent<Selectable>();
+				}
+				return element;
+			}
+		}
 
 		public override void ExecuteServer(ConnectedPlayer subject)
 		{

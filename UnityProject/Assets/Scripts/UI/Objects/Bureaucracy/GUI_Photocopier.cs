@@ -2,7 +2,6 @@
 using System.Collections;
 using UnityEngine;
 using AddressableReferences;
-using UI.Core.NetUI;
 using Items.Bureaucracy;
 
 namespace UI.Bureaucracy

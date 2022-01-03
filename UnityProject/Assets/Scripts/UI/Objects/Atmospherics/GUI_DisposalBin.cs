@@ -2,7 +2,6 @@
 using UnityEngine;
 using Objects.Disposals;
 using UI.Core;
-using UI.Core.NetUI;
 using UI.Objects.Robotics;
 
 namespace UI.Objects.Disposals
@@ -10,9 +9,9 @@ namespace UI.Objects.Disposals
 	public class GUI_DisposalBin : NetTab
 	{
 		[SerializeField] private NetLabel LabelBinStatus = default;
-		[SerializeField] private NetInteractiveButton ButtonBinPower = default;
-		[SerializeField] private NetInteractiveButton ButtonFlushContents = default;
-		[SerializeField] private NetInteractiveButton ButtonEjectContents = default;
+		[SerializeField] private GUI_ExoFabButton ButtonBinPower = default;
+		[SerializeField] private GUI_ExoFabButton ButtonFlushContents = default;
+		[SerializeField] private GUI_ExoFabButton ButtonEjectContents = default;
 		[SerializeField] private NumberSpinner StoredPressureSpinner = default;
 		[SerializeField] private NetColorChanger LEDRed = default;
 		[SerializeField] private NetColorChanger LEDYellow = default;
@@ -101,12 +100,12 @@ namespace UI.Objects.Disposals
 			}
 		}
 
-		private void ServerEnableButtonInteraction(NetInteractiveButton button)
+		private void ServerEnableButtonInteraction(GUI_ExoFabButton button)
 		{
 			button.SetValueServer("true");
 		}
 
-		private void ServerDisableButtonInteraction(NetInteractiveButton button)
+		private void ServerDisableButtonInteraction(GUI_ExoFabButton button)
 		{
 			button.SetValueServer("false");
 		}

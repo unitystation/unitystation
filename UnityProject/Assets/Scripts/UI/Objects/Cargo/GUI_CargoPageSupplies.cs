@@ -1,16 +1,14 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
-using UI.Core.NetUI;
 using Systems.Cargo;
 
 namespace UI.Objects.Cargo
 {
 	public class GUI_CargoPageSupplies : GUI_CargoPage
 	{
-		[SerializeField]
-		private EmptyItemList orderList;
-		[SerializeField]
-		private NetLabel categoryText;
+		public EmptyItemList orderList;
+		public NetLabel categoryText;
 
 		public CargoCategory cargoCategory;
 

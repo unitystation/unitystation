@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
-using UI.Core.NetUI;
 using Objects.Medical;
 
 namespace UI.Objects.Medical

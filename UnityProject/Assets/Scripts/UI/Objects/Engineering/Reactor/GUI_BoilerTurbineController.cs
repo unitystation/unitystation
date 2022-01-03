@@ -1,7 +1,7 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UI.Core.NetUI;
 using Objects.Engineering;
 
 namespace UI.Objects.Engineering
@@ -19,8 +19,9 @@ namespace UI.Objects.Engineering
 		[SerializeField] private NetLabel TurbineVoltage = null;
 		[SerializeField] private NetLabel TurbineCurrent = null;
 
-		private void Start()
+		void Start()
 		{
+
 			if (Provider != null)
 			{
 				//Makes sure it connects with the dispenser properly
@@ -72,6 +73,8 @@ namespace UI.Objects.Engineering
 					.ProducingWatts + "W");
 				GUITurbineAnnunciators.Refresh();
 			}
+
+
 		}
 
 		[Serializable]
@@ -85,6 +88,9 @@ namespace UI.Objects.Engineering
 			public NetFlasher HighPressure = null;
 			public NetFlasher LowPressure = null;
 			public NetFlasher HighPressureDelta = null;
+
+
+
 
 			public void Refresh()
 			{

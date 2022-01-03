@@ -1,6 +1,5 @@
-﻿using UnityEngine;
-using UI.Core.NetUI;
-using Objects.Research;
+﻿using Objects.Research;
+using UnityEngine;
 
 namespace UI.Items
 {
@@ -22,7 +21,14 @@ namespace UI.Items
 		private NetSlider integritySlider = null;
 
 		private AiVessel aiVessel;
-		private AiVessel AiVessel => aiVessel ??= Provider.GetComponent<AiVessel>();
+		private AiVessel AiVessel {
+			get {
+				if (aiVessel == null)
+					aiVessel = Provider.GetComponent<AiVessel>();
+
+				return aiVessel;
+			}
+		}
 
 		public void OnTabOpenedHandler(ConnectedPlayer connectedPlayer)
 		{

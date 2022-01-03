@@ -1,6 +1,5 @@
 ﻿using System.Collections;
 using UnityEngine;
-using UI.Core.NetUI;
 using Systems.Cargo;
 using Objects.Cargo;
 

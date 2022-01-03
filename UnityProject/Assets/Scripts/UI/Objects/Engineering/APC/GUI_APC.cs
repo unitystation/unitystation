@@ -1,7 +1,6 @@
 ﻿using System.Collections;
-using UnityEngine;
-using UI.Core.NetUI;
 using Objects.Engineering;
+using UnityEngine;
 
 namespace UI.Objects.Engineering
 {
@@ -25,59 +24,165 @@ namespace UI.Objects.Engineering
 			chargingForeground = DebugTools.HexToColor("6070F8"),
 			criticalForeground = DebugTools.HexToColor("F0F8A8");
 
-		#region UI Elements
-
+		// Elements that we want to visually update:
+		private NetColorChanger _backgroundColor;
 		/// <summary>
 		/// The text which is displaying the current state
 		/// </summary>
-		private NetColorChanger BackgroundColor => _backgroundColor ??= this["DisplayBG"] as NetColorChanger;
-		private NetColorChanger _backgroundColor;
+		private NetColorChanger BackgroundColor {
+			get {
+				if (!_backgroundColor)
+				{
+					_backgroundColor = this["DisplayBG"] as NetColorChanger;
+				}
+				return _backgroundColor;
+			}
+		}
 
 		private NetColorChanger _foregroundColors;
 
-		/// <summary>
-		/// The text which is displaying the current state
-		/// </summary>
-		private NetColorChanger OffOverlayColor => _offOverlayColor ??= this["OffOverlay"] as NetColorChanger;
 		private NetColorChanger _offOverlayColor;
-		
 		/// <summary>
 		/// The text which is displaying the current state
 		/// </summary>
-		private NetColorChanger ChargeFillColor => _chargeFillColor ??= this["Fill"] as NetColorChanger;
+		private NetColorChanger OffOverlayColor {
+			get {
+				if (!_offOverlayColor)
+				{
+					_offOverlayColor = this["OffOverlay"] as NetColorChanger;
+				}
+				return _offOverlayColor;
+			}
+		}
 		private NetColorChanger _chargeFillColor;
-
 		/// <summary>
 		/// The text which is displaying the current state
 		/// </summary>
-		private NetLabel StatusText => _statusText ??= this["StatusText"] as NetLabel;
+		private NetColorChanger ChargeFillColor {
+			get {
+				if (!_chargeFillColor)
+				{
+					_chargeFillColor = this["Fill"] as NetColorChanger;
+				}
+				return _chargeFillColor;
+			}
+		}
 		private NetLabel _statusText;
+		/// <summary>
+		/// The text which is displaying the current state
+		/// </summary>
+		private NetLabel StatusText {
+			get {
+				if (!_statusText)
+				{
+					_statusText = this["StatusText"] as NetLabel;
+				}
+				return _statusText;
+			}
+		}
+		// private NetColorChanger _statusTextColor;
+		// /// <summary>
+		// /// Color of the status text
+		// /// </summary>
+		// private NetColorChanger StatusTextColor
+		// {
+		// 	get
+		// 	{
+		// 		if ( !_statusTextColor )
+		// 		{
+		// 			_statusTextColor = this["StatusText"] as NetColorChanger;
+		// 		}
+		// 		return _statusTextColor;
+		// 	}
+		// }
 
+		private NetLabel _chargePercentage;
 		/// <summary>
 		/// The charge left in the APC
 		/// </summary>
-		private NetLabel ChargePercentage => _chargePercentage ??= this["ChargePercentage"] as NetLabel;
-		private NetLabel _chargePercentage;
+		private NetLabel ChargePercentage {
+			get {
+				if (!_chargePercentage)
+				{
+					_chargePercentage = this["ChargePercentage"] as NetLabel;
+				}
+				return _chargePercentage;
+			}
+		}
 
+		// private NetColorChanger _chargePercentageColor;
+		// /// <summary>
+		// /// The color of the charge percentage
+		// /// </summary>
+		// private NetColorChanger ChargePercentageColor
+		// {
+		// 	get
+		// 	{
+		// 		if ( !_chargePercentageColor )
+		// 		{
+		// 			_chargePercentageColor = this["ChargePercentage"] as NetColorChanger;
+		// 		}
+		// 		return _chargePercentageColor;
+		// 	}
+		// }
+
+		private NetLabel _electricalValues;
 		/// <summary>
 		/// The voltage, current and resistance measured by the APC
 		/// </summary>
-		private NetLabel ElectricalValues => _electricalValues ??= this["ElectricalValues"] as NetLabel;
-		private NetLabel _electricalValues;
-		
+		private NetLabel ElectricalValues {
+			get {
+				if (!_electricalValues)
+				{
+					_electricalValues = this["ElectricalValues"] as NetLabel;
+				}
+				return _electricalValues;
+			}
+		}
+
+		// private NetColorChanger _electricalValuesColor;
+		// /// <summary>
+		// /// The color of the values
+		// /// </summary>
+		// private NetColorChanger ElectricalValuesColor
+		// {
+		// 	get
+		// 	{
+		// 		if ( !_electricalValuesColor )
+		// 		{
+		// 			_electricalValuesColor = this["ElectricalValues"] as NetColorChanger;
+		// 		}
+		// 		return _electricalValuesColor;
+		// 	}
+		// }
+
+		private NetColorChanger _electricalLabelsColor;
 		/// <summary>
 		/// The color of the voltage, current and resistance labels
 		/// </summary>
-		private NetColorChanger ElectricalLabelsColor => _electricalLabelsColor ??= this["ElectricalLabels"] as NetColorChanger;
-		private NetColorChanger _electricalLabelsColor;
+		private NetColorChanger ElectricalLabelsColor {
+			get {
+				if (!_electricalLabelsColor)
+				{
+					_electricalLabelsColor = this["ElectricalLabels"] as NetColorChanger;
+				}
+				return _electricalLabelsColor;
+			}
+		}
 
+		private NetSlider _chargeBar;
 		/// <summary>
 		/// APC charge bar
 		/// </summary>
-		private NetSlider ChargeBar => _chargeBar ??= this["ChargeBar"] as NetSlider;
-		private NetSlider _chargeBar;
-
-		#endregion
+		private NetSlider ChargeBar {
+			get {
+				if (!_chargeBar)
+				{
+					_chargeBar = this["ChargeBar"] as NetSlider;
+				}
+				return _chargeBar;
+			}
+		}
 
 		private void Start()
 		{

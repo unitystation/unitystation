@@ -1,9 +1,8 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using NaughtyAttributes;
-using Systems.Hacking;
 
-namespace Tests.Hacking
+namespace Hacking
 {
 	/// <summary>
 	/// Good example script if you need to use HackingProcessBase, note It's up to you to call the open UI stuff
@@ -12,14 +11,16 @@ namespace Tests.Hacking
 	{
 		public HackingProcessBase HackingProcessBase;
 
-		private void Start()
+		// Start is called before the first frame update
+		void Start()
 		{
 			HackingProcessBase.RegisterPort(Bob2, this.GetType());
 			HackingProcessBase.RegisterPort(Jane2, this.GetType());
 			HackingProcessBase.RegisterPort(Cat2, this.GetType());
 		}
 
-		[Button]
+
+		[NaughtyAttributes.Button()]
 		public void Bob()
 		{
 			HackingProcessBase.ImpulsePort(Bob2);
@@ -30,7 +31,7 @@ namespace Tests.Hacking
 			Logger.Log("BOB");
 		}
 
-		[Button]
+		[NaughtyAttributes.Button()]
 		public void Jane()
 		{
 			HackingProcessBase.ImpulsePort(Jane2);
@@ -42,7 +43,7 @@ namespace Tests.Hacking
 		}
 
 
-		[Button]
+		[NaughtyAttributes.Button()]
 		public void Cat()
 		{
 			HackingProcessBase.ImpulsePort(Cat2);

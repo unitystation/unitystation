@@ -1,14 +1,13 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UI.Core.NetUI;
 
 namespace UI.Objects.Robotics
 {
 	public class GUI_ExoFabPageBuildingProcess : NetPage
 	{
 		private bool isAnimating = false;
-		public bool IsAnimating => isAnimating;
+		public bool IsAnimating { get => isAnimating; }
 
 		[SerializeField]
 		private NetLabel buildingLabel = null;

@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
-using UI.Core.NetUI;
 using Systems.Cargo;
 
 namespace UI.Objects.Cargo
@@ -44,7 +44,14 @@ namespace UI.Objects.Cargo
 			}
 			else
 			{
-				SetShuttleStatus(cm.ShuttleStatus == ShuttleStatus.DockedStation ? statusCargoImage : statusCentcomImage);
+				if (cm.ShuttleStatus == ShuttleStatus.DockedStation)
+				{
+					SetShuttleStatus(statusCargoImage);
+				}
+				else
+				{
+					SetShuttleStatus(statusCentcomImage);
+				}
 				shuttleButtonText.SetValueServer("SEND");
 			}
 
