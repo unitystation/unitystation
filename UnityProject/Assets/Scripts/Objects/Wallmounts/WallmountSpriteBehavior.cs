@@ -34,7 +34,7 @@ namespace Objects.Wallmounts
 			}
 		}
 
-		public void Awake()
+		protected virtual void Awake()
 		{
 			spriteRenderer = GetComponent<SpriteRenderer>();
 			wallmountBehavior = GetComponentInParent<WallmountBehavior>();

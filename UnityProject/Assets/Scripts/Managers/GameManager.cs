@@ -17,6 +17,8 @@ using Audio.Containers;
 using Managers;
 using Messages.Server;
 using Tilemaps.Behaviours.Layers;
+using UnityEngine.Profiling;
+using Player;
 
 public partial class GameManager : MonoBehaviour, IInitialise
 {
@@ -75,6 +77,11 @@ public partial class GameManager : MonoBehaviour, IInitialise
 	/// How long are character names are allowed to be?
 	/// </summary>
 	public int CharacterNameLimit { get; set; }
+
+	/// <summary>
+	/// ENABLE ON SERVERS THAT SUPPORT AUTO-RESTARTING ONLY VIA A MANAGER!
+	/// </summary>
+	public bool ServerShutsDownOnRoundEnd { get; set; }
 
 	/// <summary>
 	/// If true, only admins who put http/https links in OOC will be allowed
@@ -181,6 +188,7 @@ public partial class GameManager : MonoBehaviour, IInitialise
 		CharacterNameLimit = GameConfigManager.GameConfig.CharacterNameLimit;
 		AdminOnlyHtml = GameConfigManager.GameConfig.AdminOnlyHtml;
 		MalfAIRecieveTheirIntendedObjectiveChance = GameConfigManager.GameConfig.MalfAIRecieveTheirIntendedObjectiveChance;
+		ServerShutsDownOnRoundEnd = GameConfigManager.GameConfig.ServerShutsDownOnRoundEnd;
 		Physics.autoSimulation = false;
 		Physics2D.simulationMode = SimulationMode2D.Update;
 	}
@@ -754,18 +762,33 @@ public partial class GameManager : MonoBehaviour, IInitialise
 		StartCoroutine(ServerRoundRestart());
 	}
 
+	private float GetMemeoryUsagePrecentage()
+	{
+		return (Profiler.GetTotalAllocatedMemoryLong() / 1048576) / SystemInfo.systemMemorySize * 100;
+	}
+
 	IEnumerator ServerRoundRestart()
 	{
-		Logger.Log("Server restarting round now.", Category.Round);
-		Chat.AddGameWideSystemMsgToChat("<b>The round is now restarting...</b>");
+		string[] args = Environment.GetCommandLineArgs();
+		if ((ServerShutsDownOnRoundEnd == false || args.Contains("-NoReboot"))
+		    && (ServerAverageFPS >= 45 || GetMemeoryUsagePrecentage() <= 75f) || args.Contains("-AlwaysReboot") == false)
+		{
+			Logger.Log("Server restarting round now.", Category.Round);
+			Chat.AddGameWideSystemMsgToChat("<b>The round is now restarting...</b>");
+			// Notify all clients that the round has ended
+			EventManager.Broadcast(Event.RoundEnded, true);
 
-		// Notify all clients that the round has ended
-		EventManager.Broadcast(Event.RoundEnded, true);
+			yield return WaitFor.Seconds(0.2f);
 
-		yield return WaitFor.Seconds(0.2f);
+			CustomNetworkManager.Instance.ServerChangeScene("OnlineScene");
 
-		CustomNetworkManager.Instance.ServerChangeScene("OnlineScene");
-
-		StopAllCoroutines();
+			StopAllCoroutines();
+			yield break;
+		}
+		Logger.LogError("Server is rebooting now. If you don't have a way to automatically restart the " +
+		           "Unitystation process such as systemctl the server won't be able to restart!", Category.Round);
+		Chat.AddGameWideSystemMsgToChat("<size=72><b>The server is now restarting!</b></size>");
+		yield return WaitFor.Seconds(2f);
+		Application.Quit();
 	}
 }

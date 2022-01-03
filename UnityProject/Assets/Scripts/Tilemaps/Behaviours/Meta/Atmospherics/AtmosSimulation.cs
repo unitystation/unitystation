@@ -2,6 +2,7 @@
 using Tilemaps.Behaviours.Meta;
 using UnityEngine;
 using System;
+using TileManagement;
 
 namespace Systems.Atmospherics
 {
@@ -350,17 +351,12 @@ namespace Systems.Atmospherics
 
 		//Handles checking for vfx changes
 		//If needed, sends them to a queue in ReactionManager so that main thread will apply them
-		private void GasVisualEffects(MetaDataNode node)
+		public static void GasVisualEffects(MetaDataNode node)
 		{
-			if (node == null || node.ReactionManager == null)
-			{
-				return;
-			}
-
 			foreach (var gasData in node.GasMix.GasesArray) //doesn't appear to modify list while iterating
 			{
 				var gas = gasData.GasSO;
-				if(!gas.HasOverlay) continue;
+				if(gas.HasOverlay == false) continue;
 
 				var gasAmount = node.GasMix.GetMoles(gas);
 
@@ -370,7 +366,15 @@ namespace Systems.Atmospherics
 
 					node.AddGasOverlay(gas);
 
-					node.PositionMatrix.MetaTileMap.AddOverlay(node.Position, TileManager.GetTile(TileType.Effects, gas.TileName) as OverlayTile);
+					if (gas.CustomColour)
+					{
+						node.PositionMatrix.MetaTileMap.AddOverlay(node.Position, gas.OverlayTile,
+							color: gas.Colour, allowMultiple: gas.OverlayTile.OverlayType == OverlayType.Gas);
+
+						continue;
+					}
+
+					node.PositionMatrix.MetaTileMap.AddOverlay(node.Position, gas.OverlayTile);
 				}
 				else
 				{
@@ -378,18 +382,25 @@ namespace Systems.Atmospherics
 
 					node.RemoveGasOverlay(gas);
 
-					node.PositionMatrix.MetaTileMap.RemoveOverlaysOfType(node.Position, LayerType.Effects, gas.OverlayType);
+					if (gas.CustomColour)
+					{
+						node.PositionMatrix.MetaTileMap.RemoveOverlaysOfType(node.Position, LayerType.Effects,
+							gas.OverlayTile.OverlayType,
+							matchColour: gas.Colour);
+
+						continue;
+					}
+
+					node.PositionMatrix.MetaTileMap.RemoveOverlaysOfType(node.Position, LayerType.Effects, gas.OverlayTile.OverlayType);
 				}
 			}
 		}
 
-		private void RemovalAllGasOverlays(MetaDataNode node)
+		public static void RemovalAllGasOverlays(MetaDataNode node)
 		{
-			if (node == null || node.ReactionManager == null) return;
-
 			foreach (var gas in node.GasOverlayData)
 			{
-				node.PositionMatrix.MetaTileMap.RemoveOverlaysOfType(node.Position, LayerType.Effects, gas.OverlayType);
+				node.PositionMatrix.MetaTileMap.RemoveOverlaysOfType(node.Position, LayerType.Effects, gas.OverlayTile.OverlayType);
 			}
 
 			node.GasOverlayData.Clear();
@@ -412,11 +423,11 @@ namespace Systems.Atmospherics
 			{
 				if(ReactionMoleCheck(gasReaction, gasMix)) continue;
 
-				if (gasMix.Temperature < gasReaction.MinimumTemperature || gasMix.Temperature > gasReaction.MaximumTemperature) continue;
+				if (gasMix.Temperature < gasReaction.MinimumTileTemperature || gasMix.Temperature > gasReaction.MaximumTileTemperature) continue;
 
-				if (gasMix.Pressure < gasReaction.MinimumPressure || gasMix.Pressure > gasReaction.MaximumPressure) continue;
+				if (gasMix.Pressure < gasReaction.MinimumTilePressure || gasMix.Pressure > gasReaction.MaximumTilePressure) continue;
 
-				if (gasMix.Moles < gasReaction.MinimumMoles || gasMix.Moles > gasReaction.MaximumMoles) continue;
+				if (gasMix.Moles < gasReaction.MinimumTileMoles || gasMix.Moles > gasReaction.MaximumTileMoles) continue;
 
 				//If too much Hyper-Noblium theres no reactions!!!
 				if(gasMix.GetMoles(Gas.HyperNoblium) >= AtmosDefines.REACTION_OPPRESSION_THRESHOLD) break;

@@ -46,11 +46,18 @@ namespace UI.Systems.Ghost
 		public void JumpToMob()
 		{
 			TeleportWindow.SetWindowTitle("Jump To Mob");
+			TeleportWindow.OrbitOnTeleport = false;
 			TeleportWindow.gameObject.SetActive(true);
 			TeleportWindow.GenerateButtons(TeleportUtils.GetMobDestinations());
 		}
 
-		public void Orbit() { }
+		public void Orbit()
+		{
+			TeleportWindow.SetWindowTitle("Orbit a Mob");
+			TeleportWindow.OrbitOnTeleport = true;
+			TeleportWindow.gameObject.SetActive(true);
+			TeleportWindow.GenerateButtons(TeleportUtils.GetMobDestinations());
+		}
 
 		public void ReenterCorpse()
 		{

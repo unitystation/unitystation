@@ -9,7 +9,7 @@ using Core.Editor.Attributes;
 using Tilemaps.Behaviours.Layers;
 using Systems.Electricity;
 using Systems.Pipes;
-using System.Collections;
+using Util;
 
 public enum ObjectType
 {
@@ -138,7 +138,6 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 
 	//cached for fast fire exposure without gc
 	private IFireExposable[] fireExposables;
-	private bool hasCachedComponents = false;
 
 	[SerializeField] private PrefabTracker prefabTracker;
 	public PrefabTracker PrefabTracker => prefabTracker;
@@ -756,7 +755,6 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 		//Logger.Log("seting " + this.name);
 		pipeData = InPipeData;
 	}
-
 
 	/// <summary>
 	/// Logs a message to Matrix logging category only if

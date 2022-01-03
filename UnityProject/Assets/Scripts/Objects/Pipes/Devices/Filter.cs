@@ -37,6 +37,8 @@ namespace Objects.Atmospherics
 			STIM,
 			PLX,
 			FRE,
+			ASH,
+			SMKE
 		}
 
 		[SerializeField]
@@ -75,6 +77,8 @@ namespace Objects.Atmospherics
 				{"STIM",Gas.Stimulum},
 				{"PLX",Gas.Pluoxium},
 				{"FRE",Gas.Freon},
+				{"ASH",Gas.Ash},
+				{"SMKE",Gas.Smoke}
 			};
 		}
 

@@ -3,6 +3,9 @@ using Systems.Atmospherics;
 
 public class AtmosThread : ThreadedBehaviour
 {
+	//Can't be in LavaTileInteraction SO as it gets saved and not reset over rounds
+	public static bool runLavaFireTick;
+
 	public override void ThreadedWork()
 	{
 		var atmosManager = AtmosManager.Instance;

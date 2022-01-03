@@ -42,8 +42,9 @@ namespace AdminTools
 			inputField.ActivateInputField();
 		}
 
-		private void OnEnable()
+		public override void OnEnable()
 		{
+			base.OnEnable();
 			UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
 		}
 

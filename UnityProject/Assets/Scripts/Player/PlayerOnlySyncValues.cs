@@ -1,5 +1,6 @@
 ﻿using System;
 using CameraEffects;
+using Items;
 using Mirror;
 using UnityEngine;
 
@@ -11,6 +12,10 @@ namespace Player
 	public class PlayerOnlySyncValues : NetworkBehaviour
 	{
 		#region SyncVars
+
+		//HiddenHands
+		[SyncVar(hook = nameof(SyncHiddenHands))]
+		private HiddenHandValue hiddenHandSelection;
 
 		//NightVision
 		[SyncVar(hook = nameof(SyncNightVision))]
@@ -46,6 +51,12 @@ namespace Player
 		#region Server
 
 		[Server]
+		public void ServerSetHiddenHands(HiddenHandValue newState)
+        {
+			hiddenHandSelection = newState;
+        }
+
+		[Server]
 		public void ServerSetNightVision(bool newState, Vector3 visibility, float speed)
 		{
 			nightVisionVisibility = visibility;
@@ -62,6 +73,13 @@ namespace Player
 		#endregion
 
 		#region Client
+
+		[Client]
+		private void SyncHiddenHands(HiddenHandValue oldState, HiddenHandValue newState)
+        {
+			hiddenHandSelection = newState;
+			HandsController.Instance.HideHands(hiddenHandSelection);
+        }
 
 		[Client]
 		private void SyncNightVision(bool oldState, bool newState)

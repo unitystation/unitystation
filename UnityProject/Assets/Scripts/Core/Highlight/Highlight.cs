@@ -163,6 +163,9 @@ public class Highlight : MonoBehaviour, IInitialise
 		var handApply = HandApply.ByLocalPlayer(target);
 		var posHandApply = PositionalHandApply.ByLocalPlayer(target);
 
+		handApply.IsHighlight = true;
+		posHandApply.IsHighlight = true;
+
 		//if handobj is null, then its an empty hand apply so we only need to check the receiving object
 		if (handApply.HandObject != null)
 		{

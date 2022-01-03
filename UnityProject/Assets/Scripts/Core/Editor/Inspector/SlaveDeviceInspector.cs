@@ -71,7 +71,7 @@ namespace CustomInspectors
 			// Render default inspector for the component.
 			base.OnInspectorGUI();
 
-			EditorGUILayout.HelpBox("You can connect all slave devices at once via\n`Tools/Mapping/Device Linker`.", MessageType.Info);
+			EditorGUILayout.HelpBox("You can connect all slave devices at once via\n`Mapping/Device Linker`.", MessageType.Info);
 
 			// Don't show connection elements; not relevant to runtime or prefab edit mode.
 			if (Application.isPlaying || PrefabStageUtility.GetCurrentPrefabStage() != null) return;

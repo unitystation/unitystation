@@ -106,6 +106,7 @@ namespace InGameEvents
 
 		public void TriggerEvent(string serializedEventParameters = null)
 		{
+			Logger.LogError($"Event triggered {this.name}" );
 			OnEventStart(serializedEventParameters);
 		}
 	}

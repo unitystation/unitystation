@@ -15,10 +15,10 @@ MonoBehaviour:
   MolarHeatCapacity: 75
   MolarMass: 18
   Name: Water Vapor
-  HasOverlay: 1
   MinMolesToSee: 0.4
-  TileName: WaterVapour
-  OverlayType: 9
+  OverlayTile: {fileID: 11400000, guid: 1ebfbec3188a5644a9f081c65ee0ca58, type: 2}
+  CustomColour: 0
+  Colour: {r: 0, g: 0, b: 0, a: 0}
   FusionPower: 8
   AssociatedReagent: {fileID: 11400000, guid: 522665e55a63647f6a9959f4b0a52c31, type: 2}
   ExportPrice: 0

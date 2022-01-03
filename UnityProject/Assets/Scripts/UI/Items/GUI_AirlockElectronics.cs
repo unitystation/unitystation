@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UI.Core.NetUI;
 using Items.Construction;
 
 namespace UI.Items
@@ -27,7 +28,8 @@ namespace UI.Items
 		{
 			StartCoroutine(WaitForProvider());
 		}
-		IEnumerator WaitForProvider()
+
+		private IEnumerator WaitForProvider()
 		{
 			while (Provider == null)
 			{

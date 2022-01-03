@@ -77,7 +77,7 @@ namespace Objects.Disposals
 			DisposalPipe pipeTile = interaction.BasicTile as DisposalPipe;
 
 			// Despawn pipe tile
-			var matrix = MatrixManager.AtPoint(interaction.WorldPositionTarget.NormalizeTo3Int(), true).Matrix;
+			var matrix = MatrixManager.AtPoint(interaction.WorldPositionTarget.RoundToInt(), true).Matrix;
 			MetaDataNode metaDataNode = matrix.GetMetaDataNode(interaction.TargetCellPos, false);
 			DisposalPipeNode disPipeNode = null;
 			for (var i = 0; i < metaDataNode.DisposalPipeData.Count; i++)

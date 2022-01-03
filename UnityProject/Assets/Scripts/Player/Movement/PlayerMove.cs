@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using HealthV2;
+using Items;
 using Messages.Client.Interaction;
 using Mirror;
 using Objects;
@@ -85,6 +86,14 @@ namespace Player.Movement
 		[SerializeField]
 		private ActionData actionData = null;
 		public ActionData ActionData => actionData;
+
+		public enum hiddenHandValues
+		{
+			bothHands = 0,
+			leftHand = 1,
+			rightHand = 2,
+			none = 3
+		}
 
 		/// <summary>
 		/// Whether this player meets all the conditions for being swapped with (being the swapee).
@@ -641,7 +650,14 @@ namespace Player.Movement
 		[TargetRpc]
 		private void TargetPlayerUIHandCuffToggle(NetworkConnection target, bool HideState)
 		{
-			HandsController.Instance.HideHands(HideState);
+			if (HideState)
+            {
+				HandsController.Instance.HideHands(HiddenHandValue.bothHands);
+			}
+            else
+            {
+				HandsController.Instance.HideHands(HiddenHandValue.none);
+			}
 		}
 
 		/// <summary>

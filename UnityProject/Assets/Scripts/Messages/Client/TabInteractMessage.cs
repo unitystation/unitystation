@@ -2,9 +2,9 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
+using UI.Core.NetUI;
 using Messages.Server;
 using Systems.Interaction;
-
 
 namespace Messages.Client
 {

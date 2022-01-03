@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 using UnityEditor;
 using UnityEditor.SceneManagement;
 using Systems.ObjectConnection;
+using Util;
 
 
 namespace Core.Editor.Tools.Mapping
@@ -22,7 +23,7 @@ namespace Core.Editor.Tools.Mapping
 
 		private WindowTab Tab => tabs[activeWindowTab];
 
-		[MenuItem("Tools/Mapping/Device Linker", priority = 1)]
+		[MenuItem("Mapping/Device Linker", priority = 1)]
 		public static void ShowWindow()
 		{
 			GetWindow<DeviceLinkerWindow>().Show();
@@ -135,7 +136,7 @@ namespace Core.Editor.Tools.Mapping
 				SceneView.FrameLastActiveSceneView();
 			}
 
-			if (Tab.ReviewDistantSlaveIndex > -1) 
+			if (Tab.ReviewDistantSlaveIndex > -1)
 			{
 				var slaveUnderReview = Tab.DistantSlaves[Tab.ReviewDistantSlaveIndex];
 

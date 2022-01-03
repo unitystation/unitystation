@@ -1,9 +1,8 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Hacking
+namespace UI.Hacking
 {
 	public class GUI_HackingPort : MonoBehaviour
 	{
@@ -12,7 +11,6 @@ namespace Hacking
 		public Image Highlight;
 
 		public GUI_HackingOutputAndInput.PortData PortData;
-
 
 		public GUI_HackingOutputAndInput GUI_HackingOutputAndInput;
 

@@ -2,8 +2,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-
-namespace UI.Core
+namespace UI.Core.NetUI
 {
 	/// <summary>
 	/// Main component for the release pressure adjustment wheel
@@ -40,12 +39,12 @@ namespace UI.Core
 			shadow = GetComponent<Shadow>();
 		}
 
-		private void OnEnable()
+		protected override void OnEnable()
 		{
 			UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
 		}
 
-		private void OnDisable()
+		protected override void OnDisable()
 		{
 			UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
 		}
