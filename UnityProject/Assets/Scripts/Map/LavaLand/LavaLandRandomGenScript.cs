@@ -80,7 +80,7 @@ namespace Systems.Scenes
 						//botMap.SetTile(new Vector3Int(-x + width / 2, -y + height / 2, 0), botTile);
 					}
 
-					else if (DMMath.Prob(5) && mobPools != null)
+					else if (DMMath.Prob(2) && mobPools != null)
 					{
 						if (tileChangeManager.MetaTileMap.matrix.IsPassableAtOneMatrixOneTile(pos, true) == false) continue;
 						itemSpots.Add(Spawn.ServerPrefab(mobPools.gameObject, tileChangeManager.MetaTileMap.LocalToWorld(pos), tileChangeManager.MetaTileMap.ObjectLayer.transform).GameObject);
@@ -88,13 +88,28 @@ namespace Systems.Scenes
 				}
 			}
 
+			StartCoroutine(SpawnMobs(itemSpots));
+		}
+
+		private IEnumerator SpawnMobs(List<GameObject> itemSpots)
+		{
+			yield return WaitFor.Seconds(30);
+
 			Debug.LogError(itemSpots.Count);
 
 			foreach (var itemSpot in itemSpots)
 			{
 				if(itemSpot.TryGetComponent<RandomItemSpot>(out var spot) == false) continue;
 
-				spot.RollRandomPool(true);
+				var tile = spot.GetComponent<RegisterTile>();
+
+				if (tile.Matrix.IsPassableAtOneMatrixOneTile(tile.LocalPositionServer, true) == false)
+				{
+					_ = Despawn.ServerSingle(itemSpot);
+					continue;
+				}
+
+				spot.RollRandomPool(true, true);
 			}
 		}
 

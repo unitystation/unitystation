@@ -28,9 +28,9 @@ namespace Items
 			RollRandomPool(true);
 		}
 
-		public void RollRandomPool(bool UnrestrictedAndspawn)
+		public void RollRandomPool(bool UnrestrictedAndspawn, bool overrideTrigger = false)
 		{
-			if(triggerManually) return;
+			if(overrideTrigger == false && triggerManually) return;
 
 			var RegisterTile = this.GetComponent<RegisterTile>();
 			for (int i = 0; i < lootCount; i++)

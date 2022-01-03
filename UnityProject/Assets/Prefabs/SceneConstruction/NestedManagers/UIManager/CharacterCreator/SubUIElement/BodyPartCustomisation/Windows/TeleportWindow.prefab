@@ -1091,6 +1091,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3e8b10773a030c1488fe240bd79e17c6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  searchText: {fileID: 1214005383157214260}
 --- !u!1 &2704113473075031161
 GameObject:
   m_ObjectHideFlags: 0
@@ -2601,6 +2602,7 @@ MonoBehaviour:
   titleText: {fileID: 6016423887735975507}
   coordinateTeleportRegion: {fileID: 5544735113564315913}
   showCoordTeleportRegion: 1
+  OrbitOnTeleport: 0
 --- !u!1 &8732722886232164179
 GameObject:
   m_ObjectHideFlags: 0
