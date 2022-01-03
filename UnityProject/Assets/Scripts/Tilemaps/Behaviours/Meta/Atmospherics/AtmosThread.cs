@@ -1,33 +1,37 @@
 ﻿using System;
-using Systems.Atmospherics;
 using Core.Threading;
 
-public class AtmosThread : ThreadedBehaviour
+namespace Systems.Atmospherics
 {
-	//Can't be in LavaTileInteraction SO as it gets saved and not reset over rounds
-	public static bool runLavaFireTick;
-
-	public override void ThreadedWork()
+	public class AtmosThread : ThreadedBehaviour
 	{
-		var atmosManager = AtmosManager.Instance;
-		atmosManager.sampler.Begin();
-		try
-		{
-			atmosManager.simulation.Run();
+		//Can't be in LavaTileInteraction SO as it gets saved and not reset over rounds
+		public static bool runLavaFireTick;
 
-			if (atmosManager.StopPipes == false)
-			{
-				atmosManager.pipeList.Iterate(atmosManager.processPipeDelegator);
-			}
-			foreach (var reactionManger in atmosManager.reactionManagerList)
-			{
-				reactionManger.DoTick();
-			}
-		}
-		catch (Exception e)
+		public override void ThreadedWork()
 		{
-			Logger.LogError($"Atmos Thread Error! {e.GetStack()}", Category.Atmos);
+			var atmosManager = AtmosManager.Instance;
+			atmosManager.sampler.Begin();
+			try
+			{
+				atmosManager.simulation.Run();
+
+				if (atmosManager.StopPipes == false)
+				{
+					atmosManager.pipeList.Iterate(atmosManager.processPipeDelegator);
+				}
+
+				foreach (var reactionManger in atmosManager.reactionManagerList)
+				{
+					reactionManger.DoTick();
+				}
+			}
+			catch (Exception e)
+			{
+				Logger.LogError($"Atmos Thread Error! {e.GetStack()}", Category.Atmos);
+			}
+
+			atmosManager.sampler.End();
 		}
-		atmosManager.sampler.End();
 	}
 }
