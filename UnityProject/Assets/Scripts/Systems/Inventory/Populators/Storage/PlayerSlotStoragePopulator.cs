@@ -25,9 +25,13 @@ namespace Systems.Storage
 			Logger.LogError("This shouldn't be used but  is required for inheritance", Category.EntitySpawn);
 		}
 
-		public virtual void PopulateDynamicItemStorage(DynamicItemStorage toPopulate, PlayerScript PlayerScript)
+		public virtual void PopulateDynamicItemStorage(DynamicItemStorage toPopulate, PlayerScript PlayerScript, bool useStandardPopulator = true)
 		{
-			if (toPopulate.StandardPopulator != this) toPopulate.StandardPopulator.PopulateDynamicItemStorage(toPopulate, PlayerScript);
+			if (useStandardPopulator && toPopulate.StandardPopulator != this)
+			{
+				toPopulate.StandardPopulator.PopulateDynamicItemStorage(toPopulate, PlayerScript);
+			}
+
 			Entries = Entries.OrderBy(entry => entry.NamedSlot).ToList();
 
 			Logger.LogTraceFormat("Populating item storage {0}", Category.EntitySpawn, toPopulate.name);

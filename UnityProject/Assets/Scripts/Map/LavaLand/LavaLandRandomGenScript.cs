@@ -63,6 +63,8 @@ namespace Systems.Scenes
 				terrainMap = GenTilePos(terrainMap);
 			}
 
+			var itemSpots = new List<GameObject>();
+
 			for (int x = 0; x < width; x++)
 			{
 				for (int y = 0; y < height; y++)
@@ -81,9 +83,18 @@ namespace Systems.Scenes
 					else if (DMMath.Prob(5) && mobPools != null)
 					{
 						if (tileChangeManager.MetaTileMap.matrix.IsPassableAtOneMatrixOneTile(pos, true) == false) continue;
-						Spawn.ServerPrefab(mobPools.gameObject, tileChangeManager.MetaTileMap.LocalToWorld(pos), tileChangeManager.MetaTileMap.ObjectLayer.transform);
+						itemSpots.Add(Spawn.ServerPrefab(mobPools.gameObject, tileChangeManager.MetaTileMap.LocalToWorld(pos), tileChangeManager.MetaTileMap.ObjectLayer.transform).GameObject);
 					}
 				}
+			}
+
+			Debug.LogError(itemSpots.Count);
+
+			foreach (var itemSpot in itemSpots)
+			{
+				if(itemSpot.TryGetComponent<RandomItemSpot>(out var spot) == false) continue;
+
+				spot.RollRandomPool(true);
 			}
 		}
 

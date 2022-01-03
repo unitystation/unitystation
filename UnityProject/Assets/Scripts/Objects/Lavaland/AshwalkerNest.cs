@@ -5,6 +5,7 @@ using Systems.CraftingV2;
 using Systems.GhostRoles;
 using AddressableReferences;
 using HealthV2;
+using Messages.Server.GhostRoles;
 using ScriptableObjects;
 using UnityEngine;
 
@@ -241,6 +242,8 @@ namespace Objects
 			}
 
 			DecreaseEgg();
+
+			GhostRoleManager.Instance.ServerRemoveWaitingPlayer(createdRoleKey, player);
 
 			Chat.AddExamineMsg(player.GameObject, "You have been pulled back from beyond the grave, with a new body and renewed purpose. Glory to the Necropolis!");
 		}

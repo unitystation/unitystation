@@ -916,7 +916,7 @@ public class DynamicItemStorage : NetworkBehaviour
 		var NSP = occupation.InventoryPopulator as PlayerSlotStoragePopulator;
 		if (NSP != null)
 		{
-			NSP.PopulateDynamicItemStorage(this, registerPlayer.PlayerScript);
+			NSP.PopulateDynamicItemStorage(this, registerPlayer.PlayerScript, occupation.UseStandardPopulator);
 		}
 	}
 
