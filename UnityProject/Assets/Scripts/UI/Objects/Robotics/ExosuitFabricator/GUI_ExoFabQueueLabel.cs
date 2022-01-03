@@ -1,8 +1,8 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using UI.Core.NetUI;
 
 namespace UI.Objects.Robotics
 {
@@ -10,7 +10,7 @@ namespace UI.Objects.Robotics
 	public class GUI_ExoFabQueueLabel : NetUIStringElement
 	{
 		public override string Value {
-			get => TextComponent.text;
+			get { return TextComponent.text; }
 			set {
 				externalChange = true;
 				TextComponent.text = value;
@@ -18,7 +18,20 @@ namespace UI.Objects.Robotics
 			}
 		}
 
-		public Text TextComponent => textComponent ??= GetComponent<Text>();
 		private Text textComponent;
+
+		public Text TextComponent {
+			get {
+				if (!textComponent)
+				{
+					textComponent = GetComponent<Text>();
+				}
+				return textComponent;
+			}
+		}
+
+		public override void ExecuteServer(ConnectedPlayer subject)
+		{
+		}
 	}
 }

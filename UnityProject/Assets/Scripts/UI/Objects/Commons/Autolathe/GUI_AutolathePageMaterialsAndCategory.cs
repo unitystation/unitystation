@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
-using UI.Core.NetUI;
 using Objects.Machines;
 
 namespace UI.Objects
@@ -48,7 +48,6 @@ namespace UI.Objects
 			}
 			productCategoryList.AddItems(numberOfCategoriesInFirstColumn);
 			productCategoryListSecondRow.AddItems(numberOfCategoriesInSecondColumn);
-
 			for (int i = 0; i < numberOfCategoriesInFirstColumn; i++)
 			{
 				GUI_AutolatheCategoryEntry item = productCategoryList.Entries[i] as GUI_AutolatheCategoryEntry;

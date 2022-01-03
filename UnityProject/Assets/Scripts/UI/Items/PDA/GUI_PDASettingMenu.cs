@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections;
 using UnityEngine;
-using UI.Core.NetUI;
 
 namespace UI.Items.PDA
 {
@@ -20,7 +19,7 @@ namespace UI.Items.PDA
 
 		public void SetRingtone(string ringtone)
 		{
-			if (string.IsNullOrEmpty(ringtone)) return;
+			if (String.IsNullOrEmpty(ringtone)) return;
 
 			if (controller.PDA.IsUplinkCapable)
 			{

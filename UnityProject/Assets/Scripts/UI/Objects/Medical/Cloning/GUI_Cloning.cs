@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using UI.Core.NetUI;
+using UnityEngine.UI;
 using Objects.Medical;
 
 namespace UI.Objects.Medical

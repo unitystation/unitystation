@@ -2,7 +2,8 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-namespace UI.Core.NetUI
+
+namespace UI.Core
 {
 	/// <summary>
 	/// Main component for the release pressure adjustment wheel

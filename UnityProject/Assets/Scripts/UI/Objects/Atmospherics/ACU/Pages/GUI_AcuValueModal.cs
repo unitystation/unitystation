@@ -1,6 +1,7 @@
 ﻿using System;
 using UnityEngine;
-using UI.Core.NetUI;
+using UI.Core.Net.Elements;
+
 
 namespace UI.Objects.Atmospherics.Acu
 {

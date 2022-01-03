@@ -1,9 +1,10 @@
 using System;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UI;
 using TMPro;
 
-namespace UI.Core.NetUI
+namespace UI.Core.Net.Elements
 {
 	/// <summary>
 	/// Submit button for client TextMeshPro input field.
@@ -17,7 +18,7 @@ namespace UI.Core.NetUI
 
 		public override string Value
 		{
-			get => SourceInputField?.text ?? "-1";
+			get { return SourceInputField?.text ?? "-1"; }
 			set
 			{
 				externalChange = true;

@@ -1,9 +1,10 @@
-﻿using System.Collections;
-using UnityEngine;
-using UI.Core.NetUI;
+﻿using UnityEngine;
+using System.Collections;
+using System.Data;
 using Items.Storage;
+using UnityEngine.UI;
 
-namespace UI.Items
+namespace UI.Objects
 {
 	public class GUI_PizzaBomb : NetTab
 	{
@@ -22,7 +23,7 @@ namespace UI.Items
 			StartCoroutine(WaitForProvider());
 		}
 
-		private IEnumerator WaitForProvider()
+		IEnumerator WaitForProvider()
 		{
 			while (Provider == null)
 			{
@@ -37,6 +38,7 @@ namespace UI.Items
 			}
 			UpdateSignalStatusStatus();
 		}
+
 
 		public void HideUI()
 		{
@@ -56,7 +58,6 @@ namespace UI.Items
 				UpdateSignalStatusStatus();
 			}
 		}
-
 		public void ChangeMode()
 		{
 			if (modeToggleButton.Element.isOn)
@@ -102,27 +103,28 @@ namespace UI.Items
 
 		public void IncreaseTimeByOne()
 		{
-			if (armToggleButton.Element.isOn) return;
+			if(armToggleButton.Element.isOn) return;
 			pizza.TimeToDetonate += 1;
 			StartCoroutine(UpdateTimer());
 		}
 		public void IncreaseTimeByTen()
 		{
-			if (armToggleButton.Element.isOn) return;
+			if(armToggleButton.Element.isOn) return;
 			pizza.TimeToDetonate += 10;
 			StartCoroutine(UpdateTimer());
 		}
 		public void DecreaseTimeByOne()
 		{
-			if ((pizza.TimeToDetonate - 1) <= 0 || armToggleButton.Element.isOn) return;
+			if((pizza.TimeToDetonate - 1) <= 0 || armToggleButton.Element.isOn) return;
 			pizza.TimeToDetonate -= 1;
 			StartCoroutine(UpdateTimer());
 		}
 		public void DecreaseTimeByTen()
 		{
-			if ((pizza.TimeToDetonate - 10) <= 0 || armToggleButton.Element.isOn) return;
+			if((pizza.TimeToDetonate - 10) <= 0 || armToggleButton.Element.isOn) return;
 			pizza.TimeToDetonate -= 10;
 			StartCoroutine(UpdateTimer());
 		}
+
 	}
 }

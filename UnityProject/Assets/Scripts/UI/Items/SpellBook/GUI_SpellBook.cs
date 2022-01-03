@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UI.Core.NetUI;
 using Items.Magical;
 using ScriptableObjects.Systems.Spells;
 using ScriptableObjects.Items.SpellBook;

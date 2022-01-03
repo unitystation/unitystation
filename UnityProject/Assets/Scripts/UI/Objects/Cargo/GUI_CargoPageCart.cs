@@ -1,18 +1,15 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
-using UI.Core.NetUI;
 using Systems.Cargo;
 
 namespace UI.Objects.Cargo
 {
 	public class GUI_CargoPageCart : GUI_CargoPage
 	{
-		[SerializeField]
-		private NetLabel confirmButtonText;
-		[SerializeField]
-		private NetLabel totalPriceText;
-		[SerializeField]
-		private EmptyItemList orderList;
+		public NetLabel confirmButtonText;
+		public NetLabel totalPriceText;
+		public EmptyItemList orderList;
 
 		public override void OpenTab()
 		{
@@ -24,8 +21,14 @@ namespace UI.Objects.Cargo
 			DisplayCurrentCart();
 			if (cargoGUI.cargoConsole.CorrectID)
 			{
-				confirmButtonText.SetValueServer(CanAffordCart() ? "CONFIRM CART" : "NOT ENOUGH CREDITS");
-
+				if (CanAffordCart())
+				{
+					confirmButtonText.SetValueServer("CONFIRM CART");
+				}
+				else
+				{
+					confirmButtonText.SetValueServer("NOT ENOUGH CREDITS");
+				}
 				CheckTotalPrice();
 				if (CargoManager.Instance.CurrentCart.Count == 0)
 				{
@@ -47,8 +50,10 @@ namespace UI.Objects.Cargo
 
 		public void ConfirmCart()
 		{
-			if (CanAffordCart() == false || cargoGUI.cargoConsole.CorrectID == false) return;
-
+			if (!CanAffordCart() || !cargoGUI.cargoConsole.CorrectID)
+			{
+				return;
+			}
 			CargoManager.Instance.ConfirmCart();
 			cargoGUI.ResetId();
 		}
@@ -71,12 +76,10 @@ namespace UI.Objects.Cargo
 				item.SetValues(currentCart[i]);
 				item.gameObject.SetActive(true);
 			}
-
 			if (cargoGUI.cargoConsole.CorrectID)
 			{
 				confirmButtonText.SetValueServer("InvalidID");
 			}
-
 			CheckTotalPrice();
 		}
 	}

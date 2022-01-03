@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using UI.Core.NetUI;
 using ScriptableObjects.Items.SpellBook;
 using Systems.Spells;
 using UI.Objects.Robotics;
@@ -21,7 +20,7 @@ namespace UI.SpellBook
 		[SerializeField]
 		private NetLabel buttonLabel = default;
 		[SerializeField]
-		private NetInteractiveButton button = default;
+		private GUI_ExoFabButton button = default;
 
 		private GUI_SpellBook bookGUI;
 		private SpellBookEntry entry;

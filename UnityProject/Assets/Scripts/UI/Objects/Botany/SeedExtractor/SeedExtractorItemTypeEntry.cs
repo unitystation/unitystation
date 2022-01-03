@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using UI.Core.NetUI;
 using Items.Botany;
 
 namespace UI.Objects.Botany
@@ -10,6 +10,9 @@ namespace UI.Objects.Botany
 	{
 		[SerializeField]
 		private Color regularColor = Color.gray;
+		//[SerializeField]
+		//private Color emptyStockColor = Color.red;
+		private List<SeedPacket> seedPackets;
 		[SerializeField]
 		private GUI_SeedExtractor seedExtractorWindow;
 		[SerializeField]
@@ -21,15 +24,13 @@ namespace UI.Objects.Botany
 		[SerializeField]
 		private NetColorChanger itemBackground = null;
 
-		private List<SeedPacket> seedPackets;
-
 		public void SetItem(List<SeedPacket> item, GUI_SeedExtractor correspondingWindow)
 		{
 			seedPackets = item;
 			seedExtractorWindow = correspondingWindow;
 			itemName.SetValueServer(seedPackets.First().name);
 			itemIcon.SetValueServer(seedPackets.First().name);
-			itemCount.SetValueServer($"({seedPackets.Count})");
+			itemCount.SetValueServer($"({seedPackets.Count.ToString()})");
 			itemBackground.SetValueServer(regularColor);
 		}
 

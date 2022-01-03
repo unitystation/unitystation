@@ -1,13 +1,12 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using System.Text;
 using UnityEngine;
-using UnityEngine.UI;
-using TMPro;
-using UI.Core.NetUI;
 using Chemistry;
 using Chemistry.Components;
+using UnityEngine.UI;
+using System.Text;
 using Items;
+using TMPro;
 
 namespace UI.Objects.Chemistry
 {

@@ -2,13 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Objects.Machines;
+using UI.Objects.Robotics;
 
-namespace UI.Objects.Robotics
+namespace UI.Objects
 {
-	public class GUI_ExoFabQueueItem : DynamicEntry
+	public class GUI_AutolatheQueueItem : DynamicEntry
 	{
-		private GUI_ExosuitFabricator ExoFabMasterTab {
-			get => MasterTab as GUI_ExosuitFabricator;
+		private GUI_Autolathe ExoFabMasterTab {
+			get => MasterTab as GUI_Autolathe;
 		}
 
 		private MachineProduct product;
@@ -33,24 +34,24 @@ namespace UI.Objects.Robotics
 		public GUI_ExoFabButton UpButton { get => upButton; }
 		private GUI_ExoFabButton downButton;
 		public GUI_ExoFabButton DownButton { get => downButton; }
-		private GUI_ExoFabQueueLabel queueNumberElement;
+		private GUI_ExoFabQueueLabel numberInQueueColorElement;
 		private GUI_ExoFabQueueLabel productTextColorElement;
 
 		public void ForwardInQueue()
 		{
-			if (ExoFabMasterTab == null) { MasterTab.GetComponent<GUI_ExosuitFabricator>().OnUpQueueClicked.Invoke(numberInQueue); }
+			if (ExoFabMasterTab == null) { MasterTab.GetComponent<GUI_Autolathe>().OnUpQueueClicked.Invoke(numberInQueue); }
 			else { ExoFabMasterTab?.OnUpQueueClicked.Invoke(numberInQueue); }
 		}
 
 		public void BackwardsInQueue()
 		{
-			if (ExoFabMasterTab == null) { MasterTab.GetComponent<GUI_ExosuitFabricator>().OnDownQueueClicked.Invoke(numberInQueue); }
+			if (ExoFabMasterTab == null) { MasterTab.GetComponent<GUI_Autolathe>().OnDownQueueClicked.Invoke(numberInQueue); }
 			else { ExoFabMasterTab?.OnDownQueueClicked.Invoke(numberInQueue); }
 		}
 
 		public void RemoveFromQueue()
 		{
-			if (ExoFabMasterTab == null) { MasterTab.GetComponent<GUI_ExosuitFabricator>().OnRemoveProductClicked.Invoke(numberInQueue); }
+			if (ExoFabMasterTab == null) { MasterTab.GetComponent<GUI_Autolathe>().OnRemoveProductClicked.Invoke(numberInQueue); }
 			else { ExoFabMasterTab?.OnRemoveProductClicked.Invoke(NumberInQueue); }
 		}
 
@@ -62,7 +63,6 @@ namespace UI.Objects.Robotics
 		{
 			if (product == null)
 			{
-				Logger.Log("ExoFab Product not found", Category.Machines);
 				return;
 			}
 			foreach (var element in Elements)
@@ -71,22 +71,22 @@ namespace UI.Objects.Robotics
 				switch (nameBeforeIndex)
 				{
 					case "QueueNumber":
-						queueNumberElement = (GUI_ExoFabQueueLabel)element;
-						queueNumberElement.SetValueServer(NumberInQueue.ToString());
+						numberInQueueColorElement = element as GUI_ExoFabQueueLabel;
+						((NetUIElement<string>)element).SetValueServer(NumberInQueue.ToString());
 						break;
 
 					case "ProductName":
-						productTextColorElement = (GUI_ExoFabQueueLabel)element;
-						productTextColorElement.SetValueServer(Product.Name);
+						productTextColorElement = element as GUI_ExoFabQueueLabel;
+						((NetUIElement<string>)element).SetValueServer(Product.Name);
 						break;
 
 					case "UpButton":
-						upButton = (GUI_ExoFabButton)element;
+						upButton = element as GUI_ExoFabButton;
 						upButton.SetValueServer("true");
 						break;
 
 					case "DownButton":
-						downButton = (GUI_ExoFabButton)element;
+						downButton = element as GUI_ExoFabButton;
 						downButton.SetValueServer("true");
 						break;
 				}

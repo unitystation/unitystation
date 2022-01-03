@@ -1,6 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
-using UI.Core.NetUI;
+using WebSocketSharp;
 using Systems;
 using Objects.Security;
 
@@ -46,7 +47,7 @@ namespace UI.Objects.Security
 			List<SecurityRecord> newList = new List<SecurityRecord>();
 			ResetList();
 
-			if (string.IsNullOrEmpty(searchText))
+			if (!searchText.IsNullOrEmpty())
 			{
 				searchText = searchText.ToLower();
 				foreach (var record in currentRecords)

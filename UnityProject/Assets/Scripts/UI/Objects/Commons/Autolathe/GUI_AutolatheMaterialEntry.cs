@@ -1,33 +1,30 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
-using UI.Core.NetUI;
+using Objects.Machines;
 using UI.Objects.Robotics;
 
 namespace UI.Objects
 {
 	public class GUI_AutolatheMaterialEntry : DynamicEntry
 	{
-		private GUI_Autolathe ExoFabMasterTab => MasterTab as GUI_Autolathe;
+		private GUI_Autolathe ExoFabMasterTab {
+			get => MasterTab as GUI_Autolathe;
+		}
 
 		private ItemTrait materialType;
 		private int currentAmount;
 
 		private NetLabel amountLabel;
 
-		private NetInteractiveButton buttonOne;
-		private NetInteractiveButton buttonTen;
-		private NetInteractiveButton buttonFifty;
+		private GUI_ExoFabButton buttonOne;
+		private GUI_ExoFabButton buttonTen;
+		private GUI_ExoFabButton buttonFifty;
 
 		public void DispenseMaterial(int amount)
 		{
-			if (ExoFabMasterTab == null)
-			{
-				ExoFabMasterTab.GetComponent<GUI_Autolathe>().OnDispenseSheetClicked.Invoke(amount, materialType);
-			}
-			else
-			{
-				ExoFabMasterTab?.OnDispenseSheetClicked.Invoke(amount, materialType);
-			}
+			if (ExoFabMasterTab == null) ExoFabMasterTab.GetComponent<GUI_Autolathe>().OnDispenseSheetClicked.Invoke(amount, materialType);
+			else { ExoFabMasterTab?.OnDispenseSheetClicked.Invoke(amount, materialType); }
 		}
 
 		public void ReInit(ItemTrait material, int amount)
@@ -50,15 +47,15 @@ namespace UI.Objects
 						break;
 
 					case "OneSheetButton":
-						buttonOne = element as NetInteractiveButton;
+						buttonOne = element as GUI_ExoFabButton;
 						break;
 
 					case "TenSheetButton":
-						buttonTen = element as NetInteractiveButton;
+						buttonTen = element as GUI_ExoFabButton;
 						break;
 
 					case "FiftySheetButton":
-						buttonFifty = element as NetInteractiveButton;
+						buttonFifty = element as GUI_ExoFabButton;
 						break;
 				}
 			}

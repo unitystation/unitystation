@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
-using UI.Core.NetUI;
 using Systems.Cargo;
 
 namespace UI.Objects.Cargo
@@ -9,8 +9,8 @@ namespace UI.Objects.Cargo
 	{
 		private CargoOrderSO Order;
 
-		[SerializeField] private NetLabel supplyNameLabel;
-		[SerializeField] private NetLabel priceLabel;
+		public NetLabel supplyNameLabel;
+		public NetLabel priceLabel;
 
 		public void AddToCart()
 		{

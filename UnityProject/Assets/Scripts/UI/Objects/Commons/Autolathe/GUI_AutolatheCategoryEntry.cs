@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
-using UI.Core.NetUI;
 using Objects.Machines;
 
 namespace UI.Objects
@@ -8,19 +8,17 @@ namespace UI.Objects
 	public class GUI_AutolatheCategoryEntry : DynamicEntry
 	{
 		private GUI_Autolathe autolatheMasterTab = null;
+		private MachineProductList exoFabProducts = null;
 
-		public MachineProductList ExoFabProducts { get; set; } = null;
+		public MachineProductList ExoFabProducts {
+			get => exoFabProducts;
+			set => exoFabProducts = value;
+		}
 
 		public void OpenCategory()
 		{
-			if (autolatheMasterTab == null)
-			{
-				MasterTab.GetComponent<GUI_Autolathe>().OnCategoryClicked.Invoke(ExoFabProducts);
-			}
-			else
-			{
-				autolatheMasterTab?.OnCategoryClicked.Invoke(ExoFabProducts);
-			}
+			if (autolatheMasterTab == null) { MasterTab.GetComponent<GUI_Autolathe>().OnCategoryClicked.Invoke(ExoFabProducts); }
+			else { autolatheMasterTab?.OnCategoryClicked.Invoke(ExoFabProducts); }
 		}
 
 		public void AddAllProducts()

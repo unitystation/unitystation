@@ -1,12 +1,17 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
-using System.Threading.Tasks;
-using UnityEngine;
+using Mirror;
 using NaughtyAttributes;
+using Systems.Explosions;
+using UnityEngine;
+using System.Threading.Tasks;
+using System.Xml.Schema;
 using Communications;
 using Managers;
-using Systems.Explosions;
-using UI.Items;
+using Objects;
+using UI.Objects;
+
 
 namespace Items.Storage
 {
@@ -149,6 +154,7 @@ namespace Items.Storage
 			}
 		}
 
+
 		public bool WillInteract(HandApply interaction, NetworkSide side)
 		{
 			if (DefaultWillInteract.Default(interaction, side) == false) return false;
@@ -216,4 +222,5 @@ namespace Items.Storage
 			Detonate();
 		}
 	}
+
 }
