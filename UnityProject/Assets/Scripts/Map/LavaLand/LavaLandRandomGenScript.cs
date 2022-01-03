@@ -95,8 +95,6 @@ namespace Systems.Scenes
 		{
 			yield return WaitFor.Seconds(30);
 
-			Debug.LogError(itemSpots.Count);
-
 			foreach (var itemSpot in itemSpots)
 			{
 				if(itemSpot.TryGetComponent<RandomItemSpot>(out var spot) == false) continue;
