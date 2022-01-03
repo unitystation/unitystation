@@ -13,17 +13,17 @@ namespace CustomInspectors
 		private SubscriptionController controller;
 		private bool isSelecting;
 
-		public override void OnEnableCALL(object target)
+		public override void OnEnableInEditor(object target)
 		{
 			SceneView.duringSceneGui += OnScene;
 		}
 
-		public override void OnDisableCALL(object target)
+		public override void OnDisableInEditor(object target)
 		{
 			SceneView.duringSceneGui -= OnScene;
 		}
 
-		public override void OnInspectorGUICALL(object target)
+		public override void OnInspectorGUIInEditor(object target)
 		{
 			if (!isSelecting)
 			{

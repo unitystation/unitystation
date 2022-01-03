@@ -7,11 +7,14 @@ using System.Collections.Generic;
 
 namespace CustomInspectors
 {
+	/// <summary>
+	/// Finds C# interfaces in its inheritor and manually assigns a unity editor GUI for the inspector if appropriate
+	/// </summary>
 	[ExecuteInEditMode]
 	public class InterfaceGUI : NetworkBehaviour
 	{
 		public List<InterfaceEditor> runningInterfaces = new List<InterfaceEditor>();
-		public virtual void Update()
+		public virtual void OnEnable()
 		{
 #if UNITY_EDITOR
 			runningInterfaces.Clear();
@@ -21,11 +24,11 @@ namespace CustomInspectors
 			{
 				if (interfaceType == typeof(IMultitoolMasterable))
 				{
-					runningInterfaces.Add(new MasterDeviceInspector());
+					runningInterfaces.Add(ScriptableObject.CreateInstance<MasterDeviceInspector>());
 				}
 				else if (interfaceType == typeof(SubscriptionController))
 				{
-					runningInterfaces.Add(new SubscriptionControllerEditor());
+					runningInterfaces.Add(ScriptableObject.CreateInstance<SubscriptionControllerEditor>());
 				}
 			}
 #endif
@@ -43,7 +46,7 @@ namespace CustomInspectors
 			base.OnInspectorGUI();
 			foreach (var interfaceEntry in interfaceGUI.runningInterfaces)
 			{
-				interfaceEntry.OnInspectorGUICALL(target);
+				interfaceEntry.OnInspectorGUIInEditor(target);
 			}
 		}
 
@@ -53,7 +56,7 @@ namespace CustomInspectors
 
 			foreach (var interfaceEntry in interfaceGUI.runningInterfaces)
 			{
-				interfaceEntry.OnEnableCALL(target);
+				interfaceEntry.OnEnableInEditor(target);
 			}
 		}
 
@@ -61,7 +64,7 @@ namespace CustomInspectors
 		{
 			foreach (var interfaceEntry in interfaceGUI.runningInterfaces)
 			{
-				interfaceEntry.OnDisableCALL(target);
+				interfaceEntry.OnDisableInEditor(target);
 			}
 		}
 
@@ -70,17 +73,17 @@ namespace CustomInspectors
 		{
 			foreach (var interfaceEntry in interfaceGUI.runningInterfaces)
 			{
-				interfaceEntry.DrawGizmoConnectionCALL(device, type);
+				interfaceEntry.DrawGizmoConnectionInEditor(device, type);
 			}
 		}
 	}
 
 	public class InterfaceEditor : Editor
 	{
-		public virtual void OnEnableCALL(object target) { }
-		public virtual void OnDisableCALL(object target) { }
-		public virtual void OnInspectorGUICALL(object target) { }
-		public void DrawGizmoConnectionCALL(object target, GizmoType type) { }
+		public virtual void OnEnableInEditor(object target) { }
+		public virtual void OnDisableInEditor(object target) { }
+		public virtual void OnInspectorGUIInEditor(object target) { }
+		public void DrawGizmoConnectionInEditor(object target, GizmoType type) { }
 	}
 
 }

@@ -19,7 +19,7 @@ namespace CustomInspectors
 			{ MultitoolConnectionType.LightSwitch, Color.yellow },
 		};
 
-		public override void OnEnableCALL(object target)
+		public override void OnEnableInEditor(object target)
 		{
 			var asd = (IMultitoolMasterable)target;
 			DeviceLinker.InitDeviceLists(asd.ConType, true);
