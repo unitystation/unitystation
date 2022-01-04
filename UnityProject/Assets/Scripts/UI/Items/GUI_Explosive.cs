@@ -1,14 +1,12 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 using Items.Weapons;
-using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using UI.Core.NetUI;
 
-
-namespace UI
+namespace UI.Items
 {
 	/// <summary>
 	/// This script is designed to
@@ -36,7 +34,7 @@ namespace UI
 			StartCoroutine(WaitForProvider());
 		}
 
-		IEnumerator WaitForProvider()
+		private IEnumerator WaitForProvider()
 		{
 			while (Provider == null)
 			{
@@ -51,7 +49,7 @@ namespace UI
 			else
 			{
 				timer.Value = "Waiting signal..";
-				status.ElementTMP.color = dangerColor;
+				status.ElementTmp.color = dangerColor;
 			}
 
 			switch (explosiveDevice.ExplosiveType)
@@ -97,19 +95,19 @@ namespace UI
 		}
 		public void IncreaseTimeByTen()
 		{
-			if(armToggleButton.Element.isOn) return;
+			if (armToggleButton.Element.isOn) return;
 			explosiveDevice.TimeToDetonate += 10;
 			StartCoroutine(UpdateTimer());
 		}
 		public void DecreaseTimeByOne()
 		{
-			if(explosiveDevice.TimeToDetonate  - 1  < explosiveDevice.MinimumTimeToDetonate || armToggleButton.Element.isOn) return;
+			if (explosiveDevice.TimeToDetonate  - 1  < explosiveDevice.MinimumTimeToDetonate || armToggleButton.Element.isOn) return;
 			explosiveDevice.TimeToDetonate -= 1;
 			StartCoroutine(UpdateTimer());
 		}
 		public void DecreaseTimeByTen()
 		{
-			if(explosiveDevice.TimeToDetonate  - 10 < explosiveDevice.MinimumTimeToDetonate|| armToggleButton.Element.isOn) return;
+			if (explosiveDevice.TimeToDetonate  - 10 < explosiveDevice.MinimumTimeToDetonate|| armToggleButton.Element.isOn) return;
 			explosiveDevice.TimeToDetonate -= 10;
 			StartCoroutine(UpdateTimer());
 		}
@@ -118,7 +116,7 @@ namespace UI
 		{
 			status.Value = explosiveDevice.IsArmed ? "C4 is armed" : "C4 is unarmed";
 			timer.Value = explosiveDevice.DetonateImmediatelyOnSignal ? "Awaiting Signal" : DisplayTime();
-			status.ElementTMP.color = explosiveDevice.IsArmed ? dangerColor : safeColor;
+			status.ElementTmp.color = explosiveDevice.IsArmed ? dangerColor : safeColor;
 		}
 
 		public IEnumerator UpdateTimer()

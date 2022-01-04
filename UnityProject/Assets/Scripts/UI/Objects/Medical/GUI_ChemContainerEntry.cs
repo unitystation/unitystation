@@ -1,6 +1,6 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
+using UI.Core.NetUI;
 using Chemistry;
 
 namespace UI.Objects.Chemistry
@@ -11,14 +11,9 @@ namespace UI.Objects.Chemistry
 	public class GUI_ChemContainerEntry : DynamicEntry
 	{
 		private GUI_ChemMaster chemMasterTab;
-		private Reagent reagent = null;
 		private float reagentAmount;
 
-		public Reagent Reagent
-		{
-			get => reagent;
-			set => reagent = value;
-		}
+		public Reagent Reagent { get; set; } = null;
 
 		[SerializeField]
 		private NetLabel reagentName = default;
@@ -27,28 +22,32 @@ namespace UI.Objects.Chemistry
 
 		public void ReInit(Reagent newReagent, float amount, GUI_ChemMaster tab)
 		{
-			reagent = newReagent;
+			Reagent = newReagent;
 			reagentAmount = amount;
 			chemMasterTab = tab;
-			reagentName.SetValueServer(reagent.Name);
+			reagentName.SetValueServer(Reagent.Name);
 			reagentAmountDisplay.SetValueServer($"{reagentAmount:F2}u");
 		}
+
 		public void OpenCustomPrompt()
 		{
-			chemMasterTab.OpenCustomPrompt(reagent,true);
+			chemMasterTab.OpenCustomPrompt(Reagent,true);
 		}
+
 		public void Transfer(float amount)
 		{
-			if (amount <= reagentAmount) chemMasterTab.TransferContainerToBuffer(reagent, amount);
-			else chemMasterTab.TransferContainerToBuffer(reagent, reagentAmount);
+			if (amount <= reagentAmount) chemMasterTab.TransferContainerToBuffer(Reagent, amount);
+			else chemMasterTab.TransferContainerToBuffer(Reagent, reagentAmount);
 		}
+
 		public void TransferAll()
 		{
 			Transfer(reagentAmount);
 		}
+
 		public void Analyze(ConnectedPlayer player)
 		{
-			chemMasterTab.Analyze(reagent, player);
+			chemMasterTab.Analyze(Reagent, player);
 		}
 	}
 }

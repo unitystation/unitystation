@@ -1,7 +1,7 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using System.Collections.Generic;
 using System.Text;
+using UnityEngine;
+using UI.Core.NetUI;
 using Objects.Machines;
 
 namespace UI.Objects
@@ -12,9 +12,7 @@ namespace UI.Objects
 		private MachineProduct product = null;
 
 		public MachineProduct Product {
-			get {
-				return product;
-			}
+			get => product;
 			set {
 				product = value;
 				ReInit();
@@ -23,8 +21,14 @@ namespace UI.Objects
 
 		public void AddToQueue()
 		{
-			if (AutolatheMasterTab == null) { MasterTab.GetComponent<GUI_Autolathe>().OnProductAddClicked.Invoke(Product); }
-			else { AutolatheMasterTab?.OnProductAddClicked.Invoke(Product); }
+			if (AutolatheMasterTab == null)
+			{
+				MasterTab.GetComponent<GUI_Autolathe>().OnProductAddClicked.Invoke(Product);
+			}
+			else
+			{
+				AutolatheMasterTab?.OnProductAddClicked.Invoke(Product);
+			}
 		}
 
 		public void ReInit()

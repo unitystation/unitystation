@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UI.Core.NetUI;
 using Objects.Botany;
 using Items.Botany;
 
@@ -36,7 +37,7 @@ namespace UI.Objects.Botany
 			StartCoroutine(WaitForProvider());
 		}
 
-		IEnumerator WaitForProvider()
+		private IEnumerator WaitForProvider()
 		{
 			while (Provider == null)
 			{
@@ -55,10 +56,7 @@ namespace UI.Objects.Botany
 		/// </summary>
 		private void GenerateContentList()
 		{
-			if (!CustomNetworkManager.Instance._isServer)
-			{
-				return;
-			}
+			if (CustomNetworkManager.IsServer == false) return;
 
 			seedExtractorContent = new Dictionary<string, List<SeedPacket>>();
 			foreach (var seedPacket in seedExtractor.seedPackets)
@@ -77,10 +75,8 @@ namespace UI.Objects.Botany
 		public override void OnEnable()
 		{
 			base.OnEnable();
-			if (!CustomNetworkManager.Instance._isServer || !inited)
-			{
-				return;
-			}
+			if (CustomNetworkManager.IsServer == false || inited == false) return;
+
 			UpdateList();
 			allowSell = true;
 		}
