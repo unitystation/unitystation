@@ -1244,7 +1244,7 @@ namespace HealthV2
 			CurrentSurfaceColour.a = 1;
 			newSprite.baseSpriteHandler.SetColor(CurrentSurfaceColour);
 			implant.Tone = CurrentSurfaceColour;
-
+			implant.BodyPartItemSprite.SetColor(CurrentSurfaceColour);
 		}
 
 		public List<BodyPartSprites> ClientSprites = new List<BodyPartSprites>();
