@@ -15,7 +15,7 @@ namespace Objects.Wallmounts.Switches
 {
 	[RequireComponent(typeof(AccessRestrictions))]
 	[RequireComponent(typeof(APCPoweredDevice))]
-	public class TurretSwitch : InterfaceGUI, ISubscriptionController, ICheckedInteractable<AiActivate>, IMultitoolMasterable, ICanOpenNetTab
+	public class TurretSwitch : InterfaceGUI, ISubscriptionController, ICheckedInteractable<AiActivate>, IMultitoolMasterable, ICanOpenNetTab, IServerSpawn
 	{
 		[Header("Access Restrictions for ID")]
 		[Tooltip("Is this door restricted?")]
@@ -50,18 +50,10 @@ namespace Objects.Wallmounts.Switches
 			accessRestrictions = GetComponent<AccessRestrictions>();
 		}
 
-		private void Start()
+		public void OnSpawnServer(SpawnInfo info)
 		{
-			if (CustomNetworkManager.IsServer == false) return;
-
-			ChangeTurretStates();
-		}
-
-		private void OnEnable()
-		{
-			if (CustomNetworkManager.IsServer == false) return;
-
 			apcPoweredDevice.OnStateChangeEvent.AddListener(OnPowerStatusChange);
+			ChangeTurretStates();
 		}
 
 		private void OnDisable()
