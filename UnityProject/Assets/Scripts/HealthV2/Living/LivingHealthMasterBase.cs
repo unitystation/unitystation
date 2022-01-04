@@ -1154,7 +1154,7 @@ namespace HealthV2
 		public void ServerCreateSprite(BodyPart implant)
 		{
 			int i = 0;
-			bool isSurfaceSprite = implant.IsSurface;
+			bool isSurfaceSprite = implant.IsSurface || implant.BodyPartItemInheritsSkinColor;
 			var sprites = implant.GetBodyTypeSprites(playerSprites.ThisCharacter.BodyType);
 			foreach (var Sprite in sprites.Item2)
 			{
@@ -1164,10 +1164,6 @@ namespace HealthV2
 				newSprite.transform.localPosition = Vector3.zero;
 				playerSprites.Addedbodypart.Add(newSprite);
 
-				if (isSurfaceSprite)
-				{
-					playerSprites.SurfaceSprite.Add(newSprite);
-				}
 
 				implant.RelatedPresentSprites.Add(newSprite);
 
@@ -1190,7 +1186,14 @@ namespace HealthV2
 				SpriteHandlerManager.RegisterHandler(playerSprites.GetComponent<NetworkIdentity>(),
 					newSprite.baseSpriteHandler);
 
-				i += 3; // ????????????????????????
+				if (isSurfaceSprite)
+				{
+					playerSprites.SurfaceSprite.Add(newSprite);
+					HandleSurface(newSprite, implant);
+				}
+
+
+				i += 3; // ???????????????????????? for Sprite order clashes, for example hands not rendering over jumpsuit
 			}
 
 			rootBodyPartController.UpdateClients();
@@ -1199,6 +1202,49 @@ namespace HealthV2
 			{
 				implant.LobbyCustomisation.OnPlayerBodyDeserialise(implant, implant.SetCustomisationData, this);
 			}
+		}
+
+
+		public void HandleSurface(BodyPartSprites newSprite, BodyPart implant)
+		{
+			Color CurrentSurfaceColour = Color.white;
+			if (implant.Tone == null) //Has no tone set
+			{
+				if (playerSprites.RaceBodyparts.Base.SkinColours.Count > 0)
+				{
+					ColorUtility.TryParseHtmlString(playerSprites.ThisCharacter.SkinTone, out CurrentSurfaceColour);
+
+					var hasColour = false;
+
+					foreach (var color in playerSprites.RaceBodyparts.Base.SkinColours)
+					{
+						if (color.ColorApprox(CurrentSurfaceColour))
+						{
+							hasColour = true;
+							break;
+						}
+					}
+
+					if (hasColour == false)
+					{
+						CurrentSurfaceColour = playerSprites.RaceBodyparts.Base.SkinColours[0];
+					}
+				}
+				else
+				{
+					ColorUtility.TryParseHtmlString(playerSprites.ThisCharacter.SkinTone, out CurrentSurfaceColour);
+				}
+			}
+			else //Already has tone set
+			{
+				CurrentSurfaceColour = implant.Tone.Value;
+			}
+
+
+			CurrentSurfaceColour.a = 1;
+			newSprite.baseSpriteHandler.SetColor(CurrentSurfaceColour);
+			implant.Tone = CurrentSurfaceColour;
+
 		}
 
 		public List<BodyPartSprites> ClientSprites = new List<BodyPartSprites>();
