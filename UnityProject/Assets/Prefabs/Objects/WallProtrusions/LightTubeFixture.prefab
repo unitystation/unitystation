@@ -483,10 +483,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fdce8a163088453ca593c0e98f2c5f07, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  itemStorageStructure: {fileID: 0}
-  itemStorageCapacity: {fileID: 0}
+  itemStorageStructure: {fileID: 11400000, guid: 74bf3e872403e488695c17ecdde194ab,
+    type: 2}
+  itemStorageCapacity: {fileID: 11400000, guid: d826281b4a2314b558681d69d7e7f5d2,
+    type: 2}
   itemStoragePopulator: {fileID: 0}
-  forceSpawnContents: 1
+  forceSpawnContents: 0
   dropItemsOnDespawn: 1
   UesAddlistPopulater: 1
   Populater:
