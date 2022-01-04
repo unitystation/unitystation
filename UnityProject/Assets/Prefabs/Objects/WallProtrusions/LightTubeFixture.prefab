@@ -487,10 +487,11 @@ MonoBehaviour:
     type: 2}
   itemStorageCapacity: {fileID: 11400000, guid: d826281b4a2314b558681d69d7e7f5d2,
     type: 2}
-  itemStoragePopulator: {fileID: 0}
-  forceSpawnContents: 0
+  itemStoragePopulator: {fileID: 11400000, guid: af85059b9a6cbce4f9ed59fd1e3fd992,
+    type: 2}
+  forceSpawnContents: 1
   dropItemsOnDespawn: 1
-  UesAddlistPopulater: 1
+  UesAddlistPopulater: 0
   Populater:
     SlotContents: []
     DeprecatedContents:
