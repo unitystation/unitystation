@@ -1,10 +1,12 @@
 ﻿using System.Linq;
 using UnityEngine;
+using System.Collections;
+
 using Objects.Construction;
 using Chemistry;
 using Chemistry.Components;
 
-public static class EffectsFactory
+public class EffectsFactory : MonoBehaviour
 {
 	private static GameObject smallBloodTile;
 	private static GameObject mediumBloodTile;
@@ -172,44 +174,42 @@ public static class EffectsFactory
 		EnsureInit();
 		//do you have a footprint already?
 
-		
-
 		if (MatrixManager.GetAt<FloorDecal>(worldPos, isServer: true).Any(decal => decal.isFootprint))
 		{
 			var decal = MatrixManager.GetAt<FloorDecal>(worldPos, true);
 			//Update color
 			decal.First<FloorDecal>().color = color;
+			
+			var newOverlay = Instantiate(footprintGraphic, worldPos, Quaternion.identity);
 
-			var newOverlay = Spawn.ServerPrefab(footprintGraphic, worldPos, MatrixManager.AtPoint(worldPos, true).Objects, Quaternion.identity);
-
-			newOverlay.GameObject.GetComponent<SpriteHandler>().ChangeSprite(1);
-			newOverlay.GameObject.GetComponent<SpriteHandler>().SetColor(color);
+			newOverlay.GetComponent<SpriteHandler>().ChangeSprite(1);
+			newOverlay.GetComponent<SpriteHandler>().SetColor(color);
 
 			if (direction == Orientation.Down)
 			{
-				newOverlay.GameObject.GetComponentInChildren<SpriteHandler>().ChangeSpriteVariant(0);
+				newOverlay.GetComponentInChildren<SpriteHandler>().ChangeSpriteVariant(0);
 
 			}
 			if (direction == Orientation.Up)
 			{
-				newOverlay.GameObject.GetComponentInChildren<SpriteHandler>().ChangeSpriteVariant(1);
+				newOverlay.GetComponentInChildren<SpriteHandler>().ChangeSpriteVariant(1);
 			}
 			if (direction == Orientation.Right)
 			{
-				newOverlay.GameObject.GetComponentInChildren<SpriteHandler>().ChangeSpriteVariant(2);
+				newOverlay.GetComponentInChildren<SpriteHandler>().ChangeSpriteVariant(2);
 
 			}
 			if (direction == Orientation.Left)
 			{
-				newOverlay.GameObject.GetComponentInChildren<SpriteHandler>().ChangeSpriteVariant(3);
-
+				newOverlay.GetComponentInChildren<SpriteHandler>().ChangeSpriteVariant(3);
 			}
 
-			newOverlay.GameObject.transform.parent = decal.First<FloorDecal>().gameObject.transform;
+			newOverlay.transform.parent = decal.First<FloorDecal>().gameObject.transform;
 			//registerItem.TileChangeManager.MetaTileMap.AddOverlay(cellPos, tileToUse, chosenDirection,chosenColour);
 		}
 		else
 		{
+			//No existing decal tile, lets make one 
 			var footTileInst = Spawn.ServerPrefab(footprintTile, worldPos, MatrixManager.AtPoint(worldPos, true).Objects, Quaternion.identity);
 
 			if (footTileInst.Successful)
