@@ -1,5 +1,7 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using Core.Editor.Attributes;
+using Doors;
 using Systems.Interaction;
 
 
@@ -12,6 +14,9 @@ using Systems.Interaction;
 		private SubsystemManager SubsystemManager => subsystemManager ? subsystemManager : subsystemManager = GetComponentInParent<SubsystemManager>();
 
 		private TileChangeManager tileChangeManager;
+
+		[NonSerialized]
+		public InteractableDoor InteractableDoor;
 
 		[PrefabModeOnly]
 		public bool OneDirectionRestricted;
@@ -42,6 +47,7 @@ using Systems.Interaction;
 			//Doors/airlocks aren't supposed to switch matrices
 			GetComponent<CustomNetTransform>().IsFixedMatrix = true;
 			tileChangeManager = GetComponentInParent<TileChangeManager>();
+			InteractableDoor = this.GetComponent<InteractableDoor>();
 		}
 
 		public override void OnDespawnServer(DespawnInfo info)

@@ -60,6 +60,9 @@ public class InteractableStorage : MonoBehaviour, IClientInteractable<HandActiva
 	[SerializeField] [Tooltip("Can you empty out all items by activating this item?")]
 	private bool canQuickEmpty = false;
 
+	[SerializeField][Tooltip("Does it require alt click When in top-level inventory")]
+	private bool TopLevelAlt = false;
+
 	/// <summary>
 	/// The current pickup mode used when clicking
 	/// </summary>
@@ -148,7 +151,7 @@ public class InteractableStorage : MonoBehaviour, IClientInteractable<HandActiva
 		}
 
 		// can only be opened if it's in the player's top level inventory or player is alt-clicking
-		if (PlayerManager.PlayerScript.DynamicItemStorage.ClientTotal.Contains(interaction.TargetSlot) || interaction.IsAltClick)
+		if ((PlayerManager.PlayerScript.DynamicItemStorage.ClientTotal.Contains(interaction.TargetSlot) && TopLevelAlt == false) || interaction.IsAltClick)
 		{
 			if (interaction.UsedObject == null)
 			{
