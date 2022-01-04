@@ -1,6 +1,3 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using Objects;
 using UnityEngine;
@@ -46,7 +43,6 @@ namespace Player
 				}
 				FindObjectToOrbitUnderMouse();
 			}
-			if(target == null) return;
 			if (KeyboardInputManager.IsMovementPressed())
 			{
 				CmdStopOrbiting();
@@ -98,6 +94,7 @@ namespace Player
 		[Command]
 		public void CmdStopOrbiting()
 		{
+			if(target == null) return;
 			StopOrbiting();
 		}
 
