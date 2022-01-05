@@ -31,7 +31,7 @@ namespace ScriptableObjects.Audio
 
 				if (playerSync.Step)
 				{
-					FootstepAtPosition(worldPos, stepType, playerSync.playerScript.mind.StepSound, playerSync.playerScript.gameObject);
+					FootstepAtPosition(worldPos, stepType, playerSync.playerScript.mind.StepSound, playerSync.gameObject);
 				}
 			}
 			else
