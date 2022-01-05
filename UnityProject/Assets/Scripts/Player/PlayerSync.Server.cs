@@ -465,13 +465,6 @@ public partial class PlayerSync
 
 		var curState = serverState;
 		PlayerState nextState = NextStateServer(curState, serverPendingActions.Dequeue());
-
-		if (Equals(curState, nextState))
-		{
-			TryUpdateServerTarget();
-			return;
-		}
-		
 		var newPos = nextState.WorldPosition;
 		var oldPos = serverState.WorldPosition;
 		lastDirectionServer = Vector2Int.RoundToInt(newPos - oldPos);
