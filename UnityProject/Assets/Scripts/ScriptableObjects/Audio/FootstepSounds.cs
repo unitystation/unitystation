@@ -31,7 +31,7 @@ namespace ScriptableObjects.Audio
 
 				if (playerSync.Step)
 				{
-					FootstepAtPosition(worldPos, stepType, playerSync.playerScript.mind.StepSound);
+					FootstepAtPosition(worldPos, stepType, playerSync.playerScript.mind.StepSound, playerSync.playerScript.gameObject);
 				}
 			}
 			else
@@ -71,7 +71,7 @@ namespace ScriptableObjects.Audio
 		/// <param name="worldPos">Where in the world is this sound coming from. Also used to get the type of tile</param>
 		/// <param name="stepType">What kind of step does the creature walking have</param>
 		/// <param name="override">if assigned, it will override the default footstep sound.</param>
-		private static void FootstepAtPosition(Vector3 worldPos, StepType stepType, FloorSounds @override = null )
+		private static void FootstepAtPosition(Vector3 worldPos, StepType stepType, FloorSounds @override = null, GameObject footstepSource = null)
 		{
 			var matrix = MatrixManager.AtPoint(worldPos.RoundToInt(), false);
 
@@ -117,7 +117,8 @@ namespace ScriptableObjects.Audio
 			}
 
 			var audioSourceParameters = new AudioSourceParameters(pitch: Random.Range(0.7f, 1.2f));
-			SoundManager.PlayNetworkedAtPos(addressableAudioSource.PickRandom(), worldPos, audioSourceParameters, polyphonic: true);
+			SoundManager.PlayNetworkedAtPos(addressableAudioSource.PickRandom(), worldPos, audioSourceParameters,
+				true, false, default, footstepSource);
 		}
 	}
 }
