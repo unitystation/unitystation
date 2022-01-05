@@ -226,3 +226,17 @@ to just leave it as a public field without a property. As always, make sure to d
 6. Most string or numeric literals should be constants.
 7. Don't define constants that have the same value in multiple places. There should only ever be one place you need to change if you ever need to change a constant's value.
         
+## Ensuring that the editor doesn't clean stuff it doesn't need to
+Unity cleans a lot of objects when changing scenes or destroying/disabling GameObjects, this can be slow in the editor and can cause performance issues and/or crashes on less powerful machines running the editor.
+Whenever a GameObject needs to be inaccesiable to the player the UnityEditor calls two methods; `OnDestroy()` and `OnDisable()`, To ensure that Unity does not call these we simply use a [Preprocessor Directive](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/preprocessor-directives) to tell Unity not to run these functions in Editor and they can achieved like this :
+
+```
+#if !UNITY_EDITOR
+        private void OnDisable()
+	{
+	        Debug.log("We're not in editor!")
+	}
+#endif
+```
+
+
