@@ -11,6 +11,8 @@ namespace UI.CharacterCreator
 		public Color BodyPartColour = Color.white;
 		public Image SelectionColourImage;
 
+		public bool AppliesToItemsSprite = false;
+
 		public override void Deserialise(string InData)
 		{
 			ColorUtility.TryParseHtmlString(InData, out BodyPartColour);
@@ -35,6 +37,11 @@ namespace UI.CharacterCreator
 			ColorUtility.TryParseHtmlString(InData, out BodyPartColour);
 			BodyPartColour.a = 1; //Force body part color to never be transparent.
 			Body_Part.RelatedPresentSprites[0].baseSpriteHandler.SetColor(BodyPartColour);
+			if (AppliesToItemsSprite)
+			{
+				Body_Part.BodyPartItemSprite.SetColor(BodyPartColour);
+			}
+
 		}
 
 		public override void RandomizeValues()
