@@ -267,17 +267,17 @@ public class Matrix : MonoBehaviour
 		return MetaTileMap.IsNoGravityAt(position, isServer);
 	}
 
-	public IEnumerable<RegisterTile> GetRegisterTile(Vector3Int localPosition, bool isServer)
+	public List<RegisterTile> GetRegisterTile(Vector3Int localPosition, bool isServer)
 	{
 		return (isServer ? ServerObjects : ClientObjects).Get(localPosition);
 	}
 
 	//Has to inherit from register tile
-	public IEnumerable<T> GetAs<T>(Vector3Int localPosition, bool isServer) where T : RegisterTile
+	public List<T> GetAs<T>(Vector3Int localPosition, bool isServer) where T : RegisterTile
 	{
 		if (!(isServer ? ServerObjects : ClientObjects).HasObjects(localPosition))
 		{
-			return Enumerable.Empty<T>(); //?
+			return new List<T>(); //?
 		}
 
 		var filtered = new List<T>();
@@ -294,11 +294,24 @@ public class Matrix : MonoBehaviour
 	}
 
 
-	public IEnumerable<T> Get<T>(Vector3Int localPosition, bool isServer)
+	public List<RegisterTile> Get(Vector3Int localPosition, bool isServer)
 	{
 		if (!(isServer ? ServerObjects : ClientObjects).HasObjects(localPosition))
 		{
-			return Enumerable.Empty<T>(); //?
+			return new List<RegisterTile>(); //?
+		}
+
+		var filtered = new List<RegisterTile>();
+		filtered.AddRange((isServer ? ServerObjects : ClientObjects).Get(localPosition));
+		return filtered;
+	}
+
+
+	public List<T> Get<T>(Vector3Int localPosition, bool isServer)
+	{
+		if (!(isServer ? ServerObjects : ClientObjects).HasObjects(localPosition))
+		{
+			return new List<T>(); //?
 		}
 
 		var filtered = new List<T>();
@@ -328,11 +341,11 @@ public class Matrix : MonoBehaviour
 
 		return null;
 	}
-	public IEnumerable<T> Get<T>(Vector3Int localPosition, ObjectType type, bool isServer) where T : MonoBehaviour
+	public List<T> Get<T>(Vector3Int localPosition, ObjectType type, bool isServer) where T : MonoBehaviour
 	{
 		if (!(isServer ? ServerObjects : ClientObjects).HasObjects(localPosition))
 		{
-			return Enumerable.Empty<T>();
+			return new List<T>();
 		}
 
 		var filtered = new List<T>();
