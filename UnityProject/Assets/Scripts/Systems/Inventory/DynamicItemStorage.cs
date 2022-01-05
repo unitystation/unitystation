@@ -868,11 +868,16 @@ public class DynamicItemStorage : NetworkBehaviour
 		}
 		else
 		{
-			int i = 0;
+
 			foreach (var dynamicItemSlot in ClientContainedInventorys.ToArray())
 			{
-				RemoveClient(dynamicItemSlot, i);
-				i++;
+				int i = 0;
+				foreach (var SC in dynamicItemSlot.Storage)
+				{
+					RemoveClient(dynamicItemSlot, i);
+					i++;
+				}
+
 			}
 		}
 	}
