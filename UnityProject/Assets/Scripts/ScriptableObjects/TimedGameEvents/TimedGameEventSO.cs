@@ -15,6 +15,9 @@ namespace ScriptableObjects.TimedGameEvents
 		public string EventName;
 		[NaughtyAttributes.ResizableTextArea] public string EventDesc;
 		public Sprite EventIcon;
+
+		//Delete the object when the timed event is not happening
+		public bool deleteWhenNotTime = false;
 	}
 
 	public enum Month
