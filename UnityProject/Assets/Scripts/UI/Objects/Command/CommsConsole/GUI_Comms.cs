@@ -115,6 +115,8 @@ namespace UI.Objects.Command
 
 		public void CallOrRecallShuttle(string text)
 		{
+			text = Chat.StripTags(text);
+		
 			Logger.Log(nameof(CallOrRecallShuttle), Category.Shuttles);
 
 			bool isRecall = shuttle.Status == EscapeShuttleStatus.OnRouteStation;
@@ -174,6 +176,8 @@ namespace UI.Objects.Command
 
 		public void SetStatusDisplay(string text)
 		{
+			text = Chat.StripTags(text);
+			
 			Logger.Log(nameof(SetStatusDisplay), Category.Shuttles);
 			GameManager.Instance.CentComm.UpdateStatusDisplay(StatusDisplayChannel.Command, text.Substring(0, Mathf.Min(text.Length, 50)));
 			OpenMenu();
@@ -181,6 +185,8 @@ namespace UI.Objects.Command
 
 		public void MakeAnAnnouncement(string text)
 		{
+			text = Chat.StripTags(text);
+		
 			Logger.Log(nameof(MakeAnAnnouncement), Category.Shuttles);
 			if (text.Length > 200)
 			{
