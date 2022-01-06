@@ -266,17 +266,19 @@ namespace Objects.Engineering
 					var objects = MatrixManager.GetAt<FieldGenerator>(pos, true);
 
 					//If there isn't a field generator but it is impassable dont check further
-					if (objects.Count == 0 && !MatrixManager.IsPassableAtAllMatricesOneTile(pos, true, false))
+					if (objects is List<FieldGenerator> == false && !MatrixManager.IsPassableAtAllMatricesOneTile(pos, true, false))
 					{
 						break;
 					}
 
-					if (objects.Count > 0 && objects[0].isWelded)
+					var objectsList = objects as List<FieldGenerator>;
+
+					if (objectsList != null && objectsList.Count > 0 && objectsList[0].isWelded)
 					{
 						//Shouldn't be more than one, but just in case pick first
 						//Add to connected gen dictionary
-						connectedGenerator.Add((Direction)value, new Tuple<GameObject, bool>(objects[0].gameObject, false));
-						objects[0].integrity.OnWillDestroyServer.AddListener(OnConnectedDestroy);
+						connectedGenerator.Add((Direction)value, new Tuple<GameObject, bool>(objectsList[0].gameObject, false));
+						objectsList[0].integrity.OnWillDestroyServer.AddListener(OnConnectedDestroy);
 						break;
 					}
 				}

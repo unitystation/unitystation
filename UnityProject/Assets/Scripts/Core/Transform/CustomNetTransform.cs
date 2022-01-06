@@ -694,7 +694,7 @@ public partial class CustomNetTransform : NetworkBehaviour, IPushable
 		UpdateOccupant();
 
 		//Object IObjectEntersTile
-		List<IObjectEntersTile> objectEntersTiles = MatrixManager.GetAt<IObjectEntersTile>(reachedWorldPosition, isServer);
+		var objectEntersTiles = MatrixManager.GetAt<IObjectEntersTile>(reachedWorldPosition, isServer);
 
 		foreach (IObjectEntersTile objectEntersTile in objectEntersTiles)
 		{

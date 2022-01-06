@@ -525,7 +525,7 @@ public partial class PlayerSync
 			if (serverBump == BumpType.Push || serverBump == BumpType.Blocked)
 			{
 				var worldTarget = state.WorldPosition.RoundToInt() + (Vector3Int)action.Direction();
-				var swapee = MatrixManager.GetAs<RegisterPlayer>(worldTarget, true);
+				var swapee = MatrixManager.GetAs<RegisterPlayer>(worldTarget, true) as List<RegisterPlayer>;
 				if (swapee != null && swapee.Count > 0)
 				{
 					swapee[0].PlayerScript.PlayerSync.RollbackPosition();

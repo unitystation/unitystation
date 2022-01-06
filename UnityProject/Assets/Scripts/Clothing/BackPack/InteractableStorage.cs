@@ -379,7 +379,7 @@ public class InteractableStorage : MonoBehaviour, IClientInteractable<HandActiva
 					var itemsOnTileSame =
 						MatrixManager.GetAt<ItemAttributesV2>(interaction.WorldPositionTarget.To2Int().To3Int(), true);
 
-					if (itemsOnTileSame.Count == 0)
+					if (itemsOnTileSame is List<ItemAttributesV2> == false)
 					{
 						Chat.AddExamineMsgFromServer(interaction.Performer, "There's nothing to pickup!");
 						return;
@@ -416,7 +416,7 @@ public class InteractableStorage : MonoBehaviour, IClientInteractable<HandActiva
 					var itemsOnTileAll =
 						MatrixManager.GetAt<ItemAttributesV2>(interaction.WorldPositionTarget.To2Int().To3Int(), true);
 
-					if (itemsOnTileAll.Count == 0)
+					if (itemsOnTileAll is List<ItemAttributesV2> == false)
 					{
 						Chat.AddExamineMsgFromServer(interaction.Performer, "There's nothing to pickup!");
 						return;
