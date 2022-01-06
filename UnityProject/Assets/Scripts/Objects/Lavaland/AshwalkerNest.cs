@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using Systems.CraftingV2;
 using Systems.GhostRoles;
 using AddressableReferences;
 using HealthV2;
-using Messages.Server.GhostRoles;
 using ScriptableObjects;
 using UnityEngine;
 
@@ -25,17 +22,19 @@ namespace Objects
 		[SerializeField]
 		private AddressableAudioSource consumeSound = null;
 
+		//Meat cost of new eggs
+		[SerializeField]
+		private int meatCost = 2;
+
+		//30 Seconds between eating next body
+		[SerializeField]
+		private int timeBetweenEating = 30;
+
 		//Amount of meat in nest
 		private int meat = 0;
 
-		//Meat cost of new eggs
-		private int meatCost = 2;
-
 		//Nest eats bodies to allow for more ashwalkers eggs
 		private int ashwalkerEggs = 3;
-
-		//30 Seconds between eating next body
-		private int timeBetweenEating = 30;
 
 		private int eatingTimer = 0;
 
