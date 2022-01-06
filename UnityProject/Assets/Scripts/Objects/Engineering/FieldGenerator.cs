@@ -263,24 +263,21 @@ namespace Objects.Engineering
 				{
 					var pos = registerTile.WorldPositionServer + GetCoordFromDirection((Direction)value) * i;
 
-					var objects = MatrixManager.GetAt<FieldGenerator>(pos, true);
+					var objects = MatrixManager.GetAt<FieldGenerator>(pos, true) as List<FieldGenerator>;
 
-					//If there isn't a field generator but it is impassable dont check further
-					if (objects is List<FieldGenerator> == false && !MatrixManager.IsPassableAtAllMatricesOneTile(pos, true, false))
+					//If there isn't a field generator or it is impassable dont check further
+					if (objects == null || !MatrixManager.IsPassableAtAllMatricesOneTile(pos, true, false))
 					{
 						break;
 					}
 
-					var objectsList = objects as List<FieldGenerator>;
+					if (objects.Count <= 0 || objects[0].isWelded == false) continue;
 
-					if (objectsList != null && objectsList.Count > 0 && objectsList[0].isWelded)
-					{
-						//Shouldn't be more than one, but just in case pick first
-						//Add to connected gen dictionary
-						connectedGenerator.Add((Direction)value, new Tuple<GameObject, bool>(objectsList[0].gameObject, false));
-						objectsList[0].integrity.OnWillDestroyServer.AddListener(OnConnectedDestroy);
-						break;
-					}
+					//Shouldn't be more than one, but just in case pick first
+					//Add to connected gen dictionary
+					connectedGenerator.Add((Direction)value, new Tuple<GameObject, bool>(objects[0].gameObject, false));
+					objects[0].integrity.OnWillDestroyServer.AddListener(OnConnectedDestroy);
+					break;
 				}
 			}
 		}
