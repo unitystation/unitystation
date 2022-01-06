@@ -254,9 +254,10 @@ namespace UI.Chat_UI
 
 		private void SetStackPos()
 		{
-			if ((messageText.textInfo.characterCount - 1) < messageText.textInfo.characterInfo.Length)
+			var count = messageText.textInfo.characterCount - 1;
+			if (count < messageText.textInfo.characterInfo.Length)
 			{
-				var lastCharacter = messageText.textInfo.characterInfo[messageText.textInfo.characterCount - 1];
+				var lastCharacter = messageText.textInfo.characterInfo[count];
 				var charWorld = messageText.transform.TransformPoint(lastCharacter.bottomRight);
 				var newWorldPos = stackObject.transform.position;
 				newWorldPos.x = charWorld.x + 3;

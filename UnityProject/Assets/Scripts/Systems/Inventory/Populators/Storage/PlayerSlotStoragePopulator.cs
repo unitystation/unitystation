@@ -63,8 +63,8 @@ namespace Systems.Storage
 							&& skirtVariant != null)
 						{
 							var spawnskirt = Spawn.ServerPrefab(skirtVariant, PrePickRandom: true);
-							Inventory.ServerAdd(spawnskirt.GameObject, slot, entry.ReplacementStrategy, true);
 							spawnskirt.GameObject.GetComponent<ItemStorage>()?.SetRegisterPlayer(PlayerScript.registerTile);
+							Inventory.ServerAdd(spawnskirt.GameObject, slot, entry.ReplacementStrategy, true);
 							PopulateSubInventory(spawnskirt.GameObject, entry.namedSlotPopulatorEntrys);
 							break;
 						}
@@ -91,14 +91,14 @@ namespace Systems.Storage
 							}
 
 							var spawnbackpack = Spawn.ServerPrefab(spawnThing, PrePickRandom: true);
-							Inventory.ServerAdd(spawnbackpack.GameObject, slot, entry.ReplacementStrategy, true);
 							spawnbackpack.GameObject.GetComponent<ItemStorage>()?.SetRegisterPlayer(PlayerScript.registerTile);
+							Inventory.ServerAdd(spawnbackpack.GameObject, slot, entry.ReplacementStrategy, true);
 							PopulateSubInventory(spawnbackpack.GameObject, entry.namedSlotPopulatorEntrys);
 							break;
 						}
 						var spawn = Spawn.ServerPrefab(entry.Prefab, PrePickRandom: true);
-						Inventory.ServerAdd(spawn.GameObject, slot, entry.ReplacementStrategy, true);
 						spawn.GameObject.GetComponent<ItemStorage>()?.SetRegisterPlayer(PlayerScript.registerTile);
+						Inventory.ServerAdd(spawn.GameObject, slot, entry.ReplacementStrategy, true);
 						PopulateSubInventory(spawn.GameObject, entry.namedSlotPopulatorEntrys);
 						break;
 					}
