@@ -217,18 +217,19 @@ namespace Objects
 
 		private void OnSpawnPlayer(ConnectedPlayer player)
 		{
-			var newCharacterSettings = player.Script.characterSettings;
+			var characterSettings = player.Script.characterSettings;
 
-			if (newCharacterSettings == null)
+			if (characterSettings == null)
 			{
-				newCharacterSettings = new CharacterSettings();
-				newCharacterSettings.Name = "Slither";
+				characterSettings = new CharacterSettings();
 			}
 
-			//TODO this replaces their old race, charactersettings needs a refactor to have them per body
-			newCharacterSettings.Species = ashwalkerRaceData.name;
+			//TODO this replaces their old race, character settings needs a refactor to have them per body
+			characterSettings.Species = ashwalkerRaceData.name;
+			characterSettings.SerialisedExternalCustom.Clear();
 
-			//TODO change player name
+			//Give random lizard name
+			characterSettings.Name = StringManager.GetRandomLizardName(characterSettings.GetGender());
 
 			player.Script.playerNetworkActions.ServerRespawnPlayerSpecial("Ashwalker", registerTile.WorldPositionServer);
 
