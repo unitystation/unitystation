@@ -88,13 +88,25 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300002, guid: 2217fe06c75376d41af4a23f9383b678,
+      objectReference: {fileID: 21300000, guid: 2217fe06c75376d41af4a23f9383b678,
         type: 3}
     - target: {fileID: 3534284792730017904, guid: d243343741d540446b159becf769231a,
         type: 3}
       propertyPath: foreverID
       value: a2807265d4ddfb346993a6e08f769100
       objectReference: {fileID: 0}
+    - target: {fileID: 6422120630321073190, guid: d243343741d540446b159becf769231a,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: c59c5e3dd182a7649a161ea1d0bbc672,
+        type: 2}
+    - target: {fileID: 7503433032394499574, guid: d243343741d540446b159becf769231a,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: dc27c82ed88a09d43ac8a5fc2a86bd49,
+        type: 2}
     - target: {fileID: 8331787558733261659, guid: d243343741d540446b159becf769231a,
         type: 3}
       propertyPath: m_AssetId
