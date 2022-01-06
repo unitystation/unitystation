@@ -8,6 +8,7 @@ public class Headset : NetworkBehaviour, IInteractable<HandActivate>
 {
 	[SyncVar] public EncryptionKeyType EncryptionKey;
 	[SyncVar] public bool LoudSpeakOn = false;
+	public bool isEMPed = false;
 	public bool HasLoudSpeak = false;
 	public Loudness LoudspeakLevel = Loudness.SCREAMING;
 
@@ -23,6 +24,15 @@ public class Headset : NetworkBehaviour, IInteractable<HandActivate>
 			LoudSpeakOn = !LoudSpeakOn;
 			string result = LoudSpeakOn ? "turn on" : "turn off";
 			Chat.AddExamineMsg(interaction.Performer, $"You {result} the {gameObject.ExpensiveName()}");
+		}
+	}
+
+	public void TriggerEMP()
+    {
+        if (!isEMPed)
+        {
+			isEMPed = true;
+			Chat.AddExamineMsg(PlayerManager.LocalPlayerScript.gameObject, $"Your {gameObject.ExpensiveName()} suddenly becomes very quiet...");
 		}
 	}
 

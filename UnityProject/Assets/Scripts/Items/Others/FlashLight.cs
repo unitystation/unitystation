@@ -86,5 +86,14 @@ namespace Items.Others
 				clothing.ChangeSprite(lightControl.IsOn ? 1 : 0);
 			}
 		}
+
+		public void TriggerEMP()
+        {
+            if (lightControl.IsOn)
+			{
+				lightControl.Toggle(false);
+				spriteHandler.ChangeSprite(SpriteIndex);
+			}
+        }
 	}
 }

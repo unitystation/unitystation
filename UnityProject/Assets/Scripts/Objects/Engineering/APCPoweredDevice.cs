@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Linq;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.Serialization;
 using Mirror;
 using Core.Editor.Attributes;
 using Systems.ObjectConnection;
+using ScriptableObjects;
 using Objects.Engineering;
 #if UNITY_EDITOR
 using UnityEditor;
@@ -95,6 +97,8 @@ namespace Systems.Electricity
 		private RegisterTile registerTile;
 
 		private bool blockApcChange;
+
+		private bool isEMPed = false;
 
 		#region Lifecycle
 
@@ -280,29 +284,57 @@ namespace Systems.Electricity
 		private void UpdateSynchronisedState(PowerState oldState, PowerState newState)
 		{
 			EnsureInit();
-			if (newState != state)
-			{
-				Logger.LogTraceFormat("{0}({1}) state changing {2} to {3}", Category.Electrical, name, transform.position.To2Int(), this.state, newState);
-			}
+            if (!isEMPed)
+            {
+				if (newState != state)
+				{
+					Logger.LogTraceFormat("{0}({1}) state changing {2} to {3}", Category.Electrical, name, transform.position.To2Int(), this.state, newState);
+				}
 
-			state = newState;
+				state = newState;
 
-			if (isSelfPowered)
-			{
-				state = PowerState.On;
-			}
-
-			if (Powered != null && StateUpdateOnClient)
-			{
 				if (isSelfPowered)
 				{
-					Powered?.StateUpdate(PowerState.On);
+					state = PowerState.On;
 				}
-				else
+
+				if (Powered != null && StateUpdateOnClient)
 				{
-					Powered?.StateUpdate(state);
+					if (isSelfPowered)
+					{
+						Powered?.StateUpdate(PowerState.On);
+					}
+					else
+					{
+						Powered?.StateUpdate(state);
+					}
 				}
 			}
+            else
+            {
+				state = PowerState.Off;
+            }
+		}
+
+		public void TriggerEMP(int EMPStrength)
+        {
+			StartCoroutine(EMP(EMPStrength));
+		}
+
+		public IEnumerator EMP(int EMPStrength)
+		{
+			int effectTime = (int)Math.Round(EMPStrength * 0.5f);
+
+			if (UnityEngine.Random.Range(0, 1) == 0)
+			{
+				_ = Spawn.ServerPrefab(CommonPrefabs.Instance.SparkEffect, registerTile.WorldPositionServer).GameObject;
+			}
+
+			isEMPed = true;
+			UpdateSynchronisedState(State, PowerState.Off);
+			yield return WaitFor.Seconds(effectTime);
+			isEMPed = false;
+			UpdateSynchronisedState(State, PowerState.On);
 		}
 
 		public void LockApcLinking(bool newState)

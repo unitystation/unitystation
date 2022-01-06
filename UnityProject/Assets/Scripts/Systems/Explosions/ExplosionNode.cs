@@ -4,12 +4,17 @@ using Light2D;
 using HealthV2;
 using Systems.Pipes;
 using Items;
+using Items.Others;
+using Doors;
+using Systems.Electricity;
 
 
 namespace Systems.Explosions
 {
 	public class ExplosionNode
 	{
+		public bool isEMP;
+
 		public Vector3Int Location;
 		public Matrix matrix;
 
@@ -42,65 +47,123 @@ namespace Systems.Explosions
 				return;
 			}
 
-			EnergyExpended = metaTileMap.ApplyDamage(v3int, Damagedealt,
+            if (isEMP)
+            {
+				foreach(var thing in matrix.Get<ObjectBehaviour>(v3int, true))
+                {
+					if (thing.TryGetComponent<ItemStorage>(out var storage))
+					{
+						foreach (var slot in storage.GetItemSlotTree())
+						{
+							EMPItem(slot.ItemObject,(int)Damagedealt);
+						}
+					}
+
+					if (thing.TryGetComponent<ItemAttributesV2>(out var item))
+					{
+						EMPItem(thing.gameObject, (int)Damagedealt);
+					}
+
+					if (thing.TryGetComponent<DoorMasterController>(out var door))
+					{
+						door.TriggerEMP();
+					}
+
+					if (thing.TryGetComponent<APCPoweredDevice>(out var powered))
+					{
+						powered.TriggerEMP((int)Damagedealt);
+					}
+				}
+            }
+            else
+            {
+				EnergyExpended = metaTileMap.ApplyDamage(v3int, Damagedealt,
 			MatrixManager.LocalToWorldInt(v3int, matrix.MatrixInfo), AttackType.Bomb);
 
-			if (Damagedealt > 100)
-			{
-				var Node = matrix.GetMetaDataNode(v3int);
-				if (Node != null)
+				if (Damagedealt > 100)
 				{
-					foreach (var electricalData in Node.ElectricalData)
+					var Node = matrix.GetMetaDataNode(v3int);
+					if (Node != null)
 					{
-						electricalData.InData.DestroyThisPlease();
+						foreach (var electricalData in Node.ElectricalData)
+						{
+							electricalData.InData.DestroyThisPlease();
+						}
+
+						SavedPipes.Clear();
+						SavedPipes.AddRange(Node.PipeData);
+						foreach (var Pipe in SavedPipes)
+						{
+							Pipe.pipeData.DestroyThis();
+						}
+					}
+				}
+
+
+				foreach (var integrity in matrix.Get<Integrity>(v3int, true))
+				{
+					//Throw items
+					if (integrity.GetComponent<ItemAttributesV2>() != null)
+					{
+						ThrowInfo throwInfo = new ThrowInfo
+						{
+							//the thrown object is itself for now, in case ThrownBy breaks if null
+							ThrownBy = integrity.gameObject,
+							Aim = BodyPartType.Chest,
+							OriginWorldPos = integrity.RegisterTile.WorldPosition,
+							WorldTrajectory = AngleAndIntensity.Rotate90(),
+							SpinMode = RandomUtils.RandomSpin()
+						};
+
+						integrity.GetComponent<CustomNetTransform>().Throw(throwInfo);
 					}
 
-					SavedPipes.Clear();
-					SavedPipes.AddRange(Node.PipeData);
-					foreach (var Pipe in SavedPipes)
-					{
-						Pipe.pipeData.DestroyThis();
-					}
+					//And do damage to objects
+					integrity.ApplyDamage(Damagedealt, AttackType.Bomb, DamageType.Brute);
+				}
+
+				foreach (var player in matrix.Get<ObjectBehaviour>(v3int, ObjectType.Player, true))
+				{
+
+					// do damage
+					player.GetComponent<PlayerHealthV2>().ApplyDamageAll(null, Damagedealt, AttackType.Bomb, DamageType.Brute);
+
+				}
+
+				foreach (var line in PresentLines)
+				{
+					line.ExplosionStrength -= EnergyExpended * (line.ExplosionStrength / Damagedealt);
+				}
+				AngleAndIntensity = Vector2.zero;
+			}
+
+		}
+
+		private void EMPItem(GameObject item, int EMPStrength)
+		{
+			if (item == null)
+			{
+				return;
+			}
+
+			if (item.TryGetComponent<Battery>(out var battery) && !Validations.HasItemTrait(item, CommonTraits.Instance.EMPResistant))
+			{
+				battery.Watts -= EMPStrength * 100;
+				if (battery.Watts < 0)
+				{
+					battery.Watts = 0;
 				}
 			}
 
-
-			foreach (var integrity in matrix.Get<Integrity>(v3int, true))
+			if (item.TryGetComponent<FlashLight>(out var flashlight) && !Validations.HasItemTrait(item, CommonTraits.Instance.EMPResistant))
 			{
-				//Throw items
-				if(integrity.GetComponent<ItemAttributesV2>() != null)
-				{
-					ThrowInfo throwInfo = new ThrowInfo
-					{
-						//the thrown object is itself for now, in case ThrownBy breaks if null
-						ThrownBy = integrity.gameObject,
-						Aim = BodyPartType.Chest,
-						OriginWorldPos = integrity.RegisterTile.WorldPosition,
-						WorldTrajectory = AngleAndIntensity.Rotate90(),
-						SpinMode = RandomUtils.RandomSpin()
-					};
-
-					integrity.GetComponent<CustomNetTransform>().Throw(throwInfo);
-				}
-
-				//And do damage to objects
-				integrity.ApplyDamage(Damagedealt, AttackType.Bomb, DamageType.Brute);
+				flashlight.TriggerEMP();
 			}
 
-			foreach (var player in matrix.Get<ObjectBehaviour>(v3int, ObjectType.Player, true))
+			if (item.TryGetComponent<Headset>(out var headset) && !Validations.HasItemTrait(item, CommonTraits.Instance.EMPResistant))
 			{
-
-				// do damage
-				player.GetComponent<PlayerHealthV2>().ApplyDamageAll(null, Damagedealt, AttackType.Bomb, DamageType.Brute);
-
+				headset.TriggerEMP();
 			}
-
-			foreach (var line in PresentLines)
-			{
-				line.ExplosionStrength -= EnergyExpended * (line.ExplosionStrength / Damagedealt);
-			}
-			AngleAndIntensity = Vector2.zero;
-
 		}
 	}
 }

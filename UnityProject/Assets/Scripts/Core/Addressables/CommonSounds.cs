@@ -21,6 +21,7 @@ public class CommonSounds : SingletonScriptableObject<CommonSounds>
    public AddressableAudioSource ExplosionCreak1 = null;
    public AddressableAudioSource ExplosionCreak2 = null;
    public AddressableAudioSource ExplosionCreak3 = null;
+   public AddressableAudioSource Empulse = null;
    public AddressableAudioSource Notice1 = null;
    public AddressableAudioSource Notice2 = null;
 

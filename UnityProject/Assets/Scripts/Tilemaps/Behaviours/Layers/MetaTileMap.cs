@@ -2187,6 +2187,8 @@ namespace TileManagement
 		FireOverCharged,
 		FireFusion,
 		FireRainbow,
-		Ash
+		Ash,
+		EMP,
+		EMPCenter
 	}
 }

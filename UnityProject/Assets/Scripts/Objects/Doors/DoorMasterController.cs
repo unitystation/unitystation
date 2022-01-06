@@ -157,6 +157,41 @@ namespace Doors
 				ConstructibleDoor != null && ConstructibleDoor.Panelopen);
 		}
 
+		public void TriggerEMP()
+        {
+			if (UnityEngine.Random.Range(0, 2) == 0)
+			{
+				TryClose();
+			}
+
+			if (UnityEngine.Random.Range(0, 2) == 0)
+			{
+				TryOpen(gameObject);
+			}
+
+			if (UnityEngine.Random.Range(0, 2) == 0)
+			{
+				foreach (var module in modulesList)
+				{
+					if (module is BoltsModule bolts)
+					{
+						bolts.PulseToggleBolts();
+					}
+				}
+			}
+
+            if (UnityEngine.Random.Range(0, 2) == 0)
+            {
+				foreach (var module in modulesList)
+				{
+					if (module is ElectrifiedDoorModule electrification)
+					{
+						electrification.ToggleElectrocutionInput();
+					}
+				}
+			}
+		}
+
 		private void TryBump()
 		{
 			if (!isAutomatic || !allowInput)
