@@ -1,4 +1,3 @@
-using System;
 using Light2D;
 using UnityEngine;
 
