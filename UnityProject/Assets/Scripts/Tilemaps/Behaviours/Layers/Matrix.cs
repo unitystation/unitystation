@@ -267,17 +267,17 @@ public class Matrix : MonoBehaviour
 		return MetaTileMap.IsNoGravityAt(position, isServer);
 	}
 
-	public List<RegisterTile> GetRegisterTile(Vector3Int localPosition, bool isServer)
+	public IEnumerable<RegisterTile> GetRegisterTile(Vector3Int localPosition, bool isServer)
 	{
 		return (isServer ? ServerObjects : ClientObjects).Get(localPosition);
 	}
 
 	//Has to inherit from register tile
-	public List<T> GetAs<T>(Vector3Int localPosition, bool isServer) where T : RegisterTile
+	public IEnumerable<T> GetAs<T>(Vector3Int localPosition, bool isServer) where T : RegisterTile
 	{
 		if (!(isServer ? ServerObjects : ClientObjects).HasObjects(localPosition))
 		{
-			return new List<T>(); //?
+			return Enumerable.Empty<T>();; //?
 		}
 
 		var filtered = new List<T>();
@@ -294,11 +294,11 @@ public class Matrix : MonoBehaviour
 	}
 
 
-	public List<RegisterTile> Get(Vector3Int localPosition, bool isServer)
+	public IEnumerable<RegisterTile> Get(Vector3Int localPosition, bool isServer)
 	{
 		if (!(isServer ? ServerObjects : ClientObjects).HasObjects(localPosition))
 		{
-			return new List<RegisterTile>(); //?
+			return Enumerable.Empty<RegisterTile>();; //?
 		}
 
 		var filtered = new List<RegisterTile>();
@@ -307,11 +307,11 @@ public class Matrix : MonoBehaviour
 	}
 
 
-	public List<T> Get<T>(Vector3Int localPosition, bool isServer)
+	public IEnumerable<T> Get<T>(Vector3Int localPosition, bool isServer)
 	{
 		if (!(isServer ? ServerObjects : ClientObjects).HasObjects(localPosition))
 		{
-			return new List<T>(); //?
+			return Enumerable.Empty<T>(); //?
 		}
 
 		var filtered = new List<T>();
@@ -341,11 +341,11 @@ public class Matrix : MonoBehaviour
 
 		return null;
 	}
-	public List<T> Get<T>(Vector3Int localPosition, ObjectType type, bool isServer) where T : MonoBehaviour
+	public IEnumerable<T> Get<T>(Vector3Int localPosition, ObjectType type, bool isServer) where T : MonoBehaviour
 	{
 		if (!(isServer ? ServerObjects : ClientObjects).HasObjects(localPosition))
 		{
-			return new List<T>();
+			return  Enumerable.Empty<T>(); //?
 		}
 
 		var filtered = new List<T>();

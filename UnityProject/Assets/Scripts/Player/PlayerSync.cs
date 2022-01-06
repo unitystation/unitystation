@@ -310,14 +310,8 @@ public partial class PlayerSync : NetworkBehaviour, IPushable, IPlayerControllab
 	{
 		firstPushable = null;
 		var pushables = MatrixManager.GetAt<PushPull>(stateWorldPosition.CutToInt(), isServer);
-		if (pushables.Count == 0)
+		foreach (var pushable in pushables)
 		{
-			return false;
-		}
-
-		for (var i = 0; i < pushables.Count; i++)
-		{
-			var pushable = pushables[i];
 			if (pushable.gameObject == this.gameObject || except != null && pushable.gameObject == except)
 			{
 				continue;

@@ -886,7 +886,7 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 	}
 
 	/// <see cref="Matrix.Get{T}(UnityEngine.Vector3Int,bool)"/>
-	public static List<T> GetAt<T>(Vector3Int worldPos, bool isServer, MatrixInfo MatrixAt = null )
+	public static IEnumerable<T> GetAt<T>(Vector3Int worldPos, bool isServer, MatrixInfo MatrixAt = null )
 	{
 		if (MatrixAt == null)
 		{
@@ -897,7 +897,7 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 	}
 
 
-	public static List<T> GetAs<T>(Vector3Int worldPos, bool isServer, MatrixInfo matrixAt = null) where T : RegisterTile
+	public static IEnumerable<T> GetAs<T>(Vector3Int worldPos, bool isServer, MatrixInfo matrixAt = null) where T : RegisterTile
 	{
 		if (matrixAt == null)
 		{
@@ -908,21 +908,21 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 		return matrixAt.Matrix.GetAs<T>(position, isServer);
 	}
 
-	public static List<RegisterTile> GetRegisterTiles(Vector3Int worldPos, bool isServer)
+	public static IEnumerable<RegisterTile> GetRegisterTiles(Vector3Int worldPos, bool isServer)
 	{
 		var matrixInfo = AtPoint(worldPos, isServer);
 		var position = WorldToLocalInt(worldPos, matrixInfo);
 		return matrixInfo.Matrix.Get(position, isServer);
 	}
 
-	public static List<T> GetReachableAt<T>(Vector3Int fromPos, Vector3Int toPos, bool isServer) where T : MonoBehaviour
+	public static IEnumerable<T> GetReachableAt<T>(Vector3Int fromPos, Vector3Int toPos, bool isServer) where T : MonoBehaviour
 	{
 		if (Validations.IsReachableByPositions(fromPos, toPos, isServer))
 		{
 			return GetAt<T>(toPos, isServer);
 		}
 
-		return new List<T>();
+		return Enumerable.Empty<T>();
 	}
 
 	/// <summary>
@@ -974,7 +974,7 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 	}
 
 	//shorthand for calling GetAt at the targeted object's position
-	public static List<T> GetAt<T>(GameObject targetObject, NetworkSide side, MatrixInfo MatrixAt = null) where T : MonoBehaviour
+	public static IEnumerable<T> GetAt<T>(GameObject targetObject, NetworkSide side, MatrixInfo MatrixAt = null) where T : MonoBehaviour
 	{
 		return GetAt<T>((Vector3Int) targetObject.TileWorldPosition(), side == NetworkSide.Server, MatrixAt);
 	}
