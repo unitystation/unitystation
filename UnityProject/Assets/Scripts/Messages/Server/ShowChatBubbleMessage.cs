@@ -42,7 +42,7 @@ namespace Messages.Server
 		}
 
 		public static NetMessage SendToNearby(GameObject followTransform, string message, bool isPlayerChatBubble = false,
-			ChatModifier chatModifier = ChatModifier.None, bool allowTags = false;)
+			ChatModifier chatModifier = ChatModifier.None, bool allowTags = false)
 		{
 			NetMessage msg = new NetMessage
 			{
