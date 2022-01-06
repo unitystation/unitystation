@@ -42,7 +42,7 @@ public class StringManager : SingletonManager<StringManager>, IInitialise
 
 		//Random.Range is max exclusive and as such .Count can be used directly
 		var randomLizard =
-			Instance.textObjects[$"lizard_{genderKey}"][Random.Range(0, Instance.textObjects[$"first_{genderKey}"].Count)];
+			Instance.textObjects[$"lizard_{genderKey}"][Random.Range(0, Instance.textObjects[$"lizard_{genderKey}"].Count)];
 
 		return randomLizard;
 	}

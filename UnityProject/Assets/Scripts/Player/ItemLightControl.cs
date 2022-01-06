@@ -66,6 +66,14 @@ public class ItemLightControl : NetworkBehaviour, IServerInventoryMove
 
 	private void Awake()
 	{
+		PlayerLightData = new PlayerLightData()
+		{
+			Intensity = Intensity,
+			Colour = Colour,
+			EnumSprite = EnumSprite,
+			Size = Size,
+		};
+
 		if (objectLightEmission == null)
 		{
 			Logger.LogError($"{this} field objectLightEmission is null, please check {gameObject} prefab.", Category.Lighting);
@@ -74,18 +82,6 @@ public class ItemLightControl : NetworkBehaviour, IServerInventoryMove
 
 		objectLightSprite = objectLightEmission.GetComponent<Light2D.LightSprite>();
 	}
-
-	private void Start()
-	{
-		PlayerLightData = new PlayerLightData()
-		{
-			Intensity = Intensity,
-			Colour = Colour,
-			EnumSprite = EnumSprite,
-			Size = Size,
-		};
-	}
-
 
 	public void OnInventoryMoveServer(InventoryMove info)
 	{

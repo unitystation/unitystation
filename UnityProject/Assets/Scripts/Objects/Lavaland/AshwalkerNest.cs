@@ -149,7 +149,7 @@ namespace Objects
 					$"Serrated tendrils carefully pull {playerHealth.gameObject.ExpensiveName()} to the {gameObject.ExpensiveName()}, absorbing the body and creating it anew.");
 
 				//If dead ashwalker in body respawn without cost
-				OnSpawnPlayer(playerHealth.playerScript.connectedPlayer);
+				SpawnAshwalker(playerHealth.playerScript.connectedPlayer, false);
 				playerHealth.Gib();
 				return;
 			}
@@ -177,16 +177,6 @@ namespace Objects
 			GhostRoleManager.Instance.ServerUpdateRole(createdRoleKey, 1, ashwalkerEggs, -1);
 
 			Chat.AddLocalMsgToChat("One of the eggs swells to an unnatural size and tumbles free. It's ready to hatch!", gameObject);
-		}
-
-		private void DecreaseEgg()
-		{
-			ashwalkerEggs--;
-			SetSprite();
-
-			Chat.AddLocalMsgToChat("An egg hatches in the nest!", gameObject);
-
-			GhostRoleManager.Instance.ServerUpdateRole(createdRoleKey, 1, ashwalkerEggs, -1);
 		}
 
 		private void SetSprite()
@@ -217,6 +207,11 @@ namespace Objects
 
 		private void OnSpawnPlayer(ConnectedPlayer player)
 		{
+			SpawnAshwalker(player);
+		}
+
+		private void SpawnAshwalker(ConnectedPlayer player, bool costEgg = true)
+		{
 			var characterSettings = player.Script.characterSettings;
 
 			if (characterSettings == null)
@@ -231,9 +226,10 @@ namespace Objects
 			//Give random lizard name
 			characterSettings.Name = StringManager.GetRandomLizardName(characterSettings.GetGender());
 
+			//Respawn the player
 			player.Script.playerNetworkActions.ServerRespawnPlayerSpecial("Ashwalker", registerTile.WorldPositionServer);
 
-			//Wipe crafting recipes and add ashwalker ones
+			//Wipe crafting recipes and add Ashwalker ones
 			var crafting = player.Script.PlayerCrafting;
 			crafting.ForgetAllRecipes();
 			foreach (var recipe in ashwalkerCraftingRecipesList.CraftingRecipes)
@@ -241,8 +237,21 @@ namespace Objects
 				crafting.LearnRecipe(recipe);
 			}
 
-			DecreaseEgg();
+			if (costEgg)
+			{
+				ashwalkerEggs--;
+				SetSprite();
+				Chat.AddLocalMsgToChat("An egg hatches in the nest!", gameObject);
+			}
+			else
+			{
+				Chat.AddLocalMsgToChat("An creature emerges from the nest. Glory to the Necropolis!", gameObject);
+			}
 
+			//Decrease the remaining roles
+			GhostRoleManager.Instance.ServerUpdateRole(createdRoleKey, 1, ashwalkerEggs, -1);
+
+			//Remove the player so they can join again once they die
 			GhostRoleManager.Instance.ServerRemoveWaitingPlayer(createdRoleKey, player);
 
 			Chat.AddExamineMsg(player.GameObject, "You have been pulled back from beyond the grave, with a new body and renewed purpose. Glory to the Necropolis!");
