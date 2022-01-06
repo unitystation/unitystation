@@ -20,7 +20,7 @@ namespace ScriptableObjects.TimedGameEvents
 		public Sprite EventIcon;
 
 		//Delete the object when the timed event is not happening
-		public bool deleteWhenNotTime = false;
+		public bool deleteWhenNotTime = true;
 	}
 
 	public enum Month
