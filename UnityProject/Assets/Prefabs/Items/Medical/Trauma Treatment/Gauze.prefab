@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  initialAmount: 1
-  maxAmount: 50
+  initialAmount: 6
+  maxAmount: 6
   stacksWith: []
 --- !u!114 &5444546479528737663
 MonoBehaviour:
@@ -151,6 +151,16 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 10196b348bc94184cbb087529ac01c0c,
         type: 2}
+    - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      propertyPath: inventoryMoveSound.AssetAddress
+      value: null
+      objectReference: {fileID: 0}
+    - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      propertyPath: inventoryRemoveSound.AssetAddress
+      value: null
+      objectReference: {fileID: 0}
     - target: {fileID: 6144467708197095229, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
       propertyPath: PresentSpriteSet
