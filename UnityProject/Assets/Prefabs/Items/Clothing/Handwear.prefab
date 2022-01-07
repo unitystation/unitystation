@@ -155,6 +155,16 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 10a21ec3d5e7d1d489334ee8c7382ba7,
         type: 2}
+    - target: {fileID: 3387296074795883840, guid: 6b5f74a79e023479cb5b30a2879621da,
+        type: 3}
+      propertyPath: inventoryMoveSound.AssetAddress
+      value: null
+      objectReference: {fileID: 0}
+    - target: {fileID: 3387296074795883840, guid: 6b5f74a79e023479cb5b30a2879621da,
+        type: 3}
+      propertyPath: inventoryRemoveSound.AssetAddress
+      value: null
+      objectReference: {fileID: 0}
     - target: {fileID: 8166491247120154191, guid: 6b5f74a79e023479cb5b30a2879621da,
         type: 3}
       propertyPath: foreverID

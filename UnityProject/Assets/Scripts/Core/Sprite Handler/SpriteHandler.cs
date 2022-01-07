@@ -21,6 +21,8 @@ public class SpriteHandler : MonoBehaviour
 	[SerializeField] private List<SpriteDataSO> SubCatalogue = new List<SpriteDataSO>();
 
 	[SerializeField] private SpriteDataSO PresentSpriteSet;
+	public SpriteDataSO PresentSpritesSet => PresentSpriteSet;
+
 	private SpriteDataSO.Frame PresentFrame = null;
 
 	[Tooltip("If checked, a random sprite SO will be selected during initialization from the catalogue of sprite SOs.")]

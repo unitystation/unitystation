@@ -24,7 +24,6 @@ namespace Tests.Asset
 				Resources.LoadAll<SpriteCatalogue>("ScriptableObjects/SOs singletons");
 			}
 
-
 			foreach (var Assete in Assets)
 			{
 				if (SpriteCatalogue.Instance.Catalogue.Contains(Assete) == false)

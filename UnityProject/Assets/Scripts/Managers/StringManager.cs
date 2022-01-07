@@ -32,6 +32,21 @@ public class StringManager : SingletonManager<StringManager>, IInitialise
 		}
 	}
 
+	public static string GetRandomLizardName(Gender gender)
+	{
+		//Uses random gendered name if NonBinary
+		if (gender == Gender.NonBinary) gender = Random.value > 0.5f ? Gender.Male : Gender.Female;
+
+		//ToLowerInvariant because ToLower has different behaviour based on culture
+		var genderKey = gender.ToString().ToLowerInvariant();
+
+		//Random.Range is max exclusive and as such .Count can be used directly
+		var randomLizard =
+			Instance.textObjects[$"lizard_{genderKey}"][Random.Range(0, Instance.textObjects[$"lizard_{genderKey}"].Count)];
+
+		return randomLizard;
+	}
+
 	public static string GetRandomMaleName()
 	{
 		return GetRandomName(Gender.Male);

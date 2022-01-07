@@ -1,0 +1,53 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4e3145566f967d4e9706a88c0917052, type: 3}
+  m_Name: Ashwalker
+  m_EditorClassIdentifier: 
+  Base:
+    Head:
+      Elements:
+      - {fileID: 2786272515407694308, guid: 71f3f3e055831e94d960c1ec6d52b509, type: 3}
+    Torso:
+      Elements:
+      - {fileID: 5981652827617143068, guid: 8e6db359b37c14c4d8160cf2f18f8340, type: 3}
+    ArmRight:
+      Elements:
+      - {fileID: 5040048018192131826, guid: 34d96bf1322a7954f815ae607edb9bf1, type: 3}
+    ArmLeft:
+      Elements:
+      - {fileID: 6237006825172328352, guid: 3ffc8cd700311db4cae0c7e9e56e1dc6, type: 3}
+    LegRight:
+      Elements:
+      - {fileID: 3015072755168004777, guid: c23a5c2584601ba4093f5620594d2c85, type: 3}
+    LegLeft:
+      Elements:
+      - {fileID: 7598470278081952332, guid: 5cfb33daa98005f40ab7166bbbb9994e, type: 3}
+    CustomisationSettings: []
+    bodyTypeSettings:
+      AvailableBodyTypes:
+      - bodyType: 1
+        Name: Male
+      - bodyType: 2
+        Name: Female
+      - bodyType: 0
+        Name: NonBinary
+    SkinColours:
+    - {r: 0, g: 0, b: 0, a: 0}
+    BloodType: {fileID: 11400000, guid: efcde740e9b85074485bcd68a7a21816, type: 2}
+    RootImplantProcedure: {fileID: 11400000, guid: 3de247ed9ca572941975e45430051197,
+      type: 2}
+    BodyPartsThatShareTheSkinTone:
+    - {fileID: 3445963405511484685, guid: 43e80b782d31dac4384d245df9f34dcd, type: 3}
+    - {fileID: 1644536323247627075, guid: f145adb7bc76bfc4a86a8612714230d1, type: 3}
+    - {fileID: 3601734041678046290, guid: 2e6e8409def4d76428e3e72233ab61c6, type: 3}
+    - {fileID: 1723238164438836345, guid: 6c6b9b73c0bb8d14c9329b24820e0a9a, type: 3}
+    NumberOfMinutesBeforeStarving: 30

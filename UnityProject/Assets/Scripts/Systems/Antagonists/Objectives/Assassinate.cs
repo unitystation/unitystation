@@ -76,6 +76,7 @@ namespace Antagonists
 		{
 			foreach (var roleData in GhostRoleManager.Instance.GhostRoles)
 			{
+				if (roleData.TargetOccupation == null) continue;
 				if (playerJob == roleData.TargetOccupation.JobType) return true;
 			}
 

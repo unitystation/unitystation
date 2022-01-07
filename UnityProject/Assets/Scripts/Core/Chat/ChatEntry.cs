@@ -254,15 +254,16 @@ namespace UI.Chat_UI
 
 		private void SetStackPos()
 		{
-			var characterInfo = messageText.textInfo.characterInfo;
-			if ((messageText.textInfo.characterCount - 1) < characterInfo.Length)
-			{
-				var lastCharacter = characterInfo[messageText.textInfo.characterCount - 1];
-				var charWorld = messageText.transform.TransformPoint(lastCharacter.bottomRight);
-				var newWorldPos = stackObject.transform.position;
-				newWorldPos.x = charWorld.x + 3;
-				stackObject.transform.position = newWorldPos;
-			}
+			var count = messageText.textInfo.characterCount - 1;
+
+			if(count < 0) return;
+			if (count >= messageText.textInfo.characterInfo.Length) return;
+
+			var lastCharacter = messageText.textInfo.characterInfo[count];
+			var charWorld = messageText.transform.TransformPoint(lastCharacter.bottomRight);
+			var newWorldPos = stackObject.transform.position;
+			newWorldPos.x = charWorld.x + 3;
+			stackObject.transform.position = newWorldPos;
 		}
 
 		private void AnimateFade(float toAlpha, float time)

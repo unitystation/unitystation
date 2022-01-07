@@ -595,7 +595,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	}
 
 	[Server]
-	public void ServerRespawnPlayerSpecial(string occupation = null)
+	public void ServerRespawnPlayerSpecial(string occupation = null, Vector3Int? spawnPos = null)
 	{
 		if (occupation != null)
 		{
@@ -611,7 +611,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 			}
 		}
 
-		PlayerSpawn.ServerRespawnPlayer(playerScript.mind);
+		PlayerSpawn.ServerRespawnPlayer(playerScript.mind, spawnPos);
 	}
 
 	[Server]
@@ -743,7 +743,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 			return;
 		if (playerScript.IsGhost || playerScript.playerHealth.ConsciousState != ConsciousState.CONSCIOUS)
 			return;
-		
+
 		if(pointTarget == null) return;
 
 		//If we are trying to find matrix get matrix instead

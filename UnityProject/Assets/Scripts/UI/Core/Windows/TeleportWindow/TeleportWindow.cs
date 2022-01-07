@@ -95,7 +95,7 @@ namespace UI.Core.Windows
 		{
 			if (SearchBar != null)
 			{
-				SearchBar.Resettext();
+				SearchBar.ResetText();
 			}
 
 			foreach (GameObject x in TeleportButtons)//resets buttons everytime it opens

@@ -97,6 +97,11 @@ PrefabInstance:
       propertyPath: m_AssetId
       value: 59bffb44a6861484ca22d6edb4fbf5e5
       objectReference: {fileID: 0}
+    - target: {fileID: 114776788309089574, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      propertyPath: customNetTransform
+      value: 
+      objectReference: {fileID: 4187878341071943176}
     - target: {fileID: 212340400423555046, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
       propertyPath: m_Sprite
@@ -123,11 +128,27 @@ PrefabInstance:
       propertyPath: hitSound.AssetAddress
       value: Assets/Prefabs/Effects/Tap.prefab
       objectReference: {fileID: 0}
+    - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      propertyPath: inventoryMoveSound.AssetAddress
+      value: null
+      objectReference: {fileID: 0}
+    - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      propertyPath: inventoryRemoveSound.AssetAddress
+      value: null
+      objectReference: {fileID: 0}
     - target: {fileID: 6144467708197095229, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
       propertyPath: spriteIndex
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 6144467708197095229, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: fb9b0f659fcbf2949bea820a94136a69,
+        type: 2}
     - target: {fileID: 6144467708197095229, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
       propertyPath: Sprites.Array.size
@@ -427,3 +448,15 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 4289799101313017698}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &4187878341071943176 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 114341119007412586, guid: a7abba22164ce49f0bf9b9b219f39298,
+    type: 3}
+  m_PrefabInstance: {fileID: 4289799101313017698}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4290798399627566040}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 579884b05ae74e8499329b64997147d3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

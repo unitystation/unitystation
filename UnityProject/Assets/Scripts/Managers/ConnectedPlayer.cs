@@ -35,6 +35,8 @@ public class ConnectedPlayer
 	public NetworkConnection Connection { get; set; }
 
 	public string ConnectionIP { get; set; }
+
+	//This is only set when the player presses the ready button? But not if late joining, wtf?????
 	public CharacterSettings CharacterSettings { get; set; }
 
 	public GameObject GameObject

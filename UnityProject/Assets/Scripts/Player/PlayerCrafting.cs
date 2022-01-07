@@ -176,7 +176,36 @@ namespace Player
 		public void ForgetRecipe(CraftingRecipe recipe)
 		{
 			GetKnownRecipesInCategory(recipe.Category).Remove(recipe);
+
+			//Prevent message being sent twice when local host
+			if(playerScript == PlayerManager.LocalPlayerScript) return;
+
 			SendForgottenCraftingRecipe.SendTo(playerScript.connectedPlayer, recipe);
+		}
+
+		[Server]
+		public void ForgetAllRecipes()
+		{
+			ClearKnownRecipes();
+
+			//Prevent message being sent twice when local host
+			if(connectionToClient == null || playerScript == PlayerManager.LocalPlayerScript) return;
+
+			TargetRpcForgetAllRecipes();
+		}
+
+		[TargetRpc]
+		private void TargetRpcForgetAllRecipes()
+		{
+			ClearKnownRecipes();
+		}
+
+		private void ClearKnownRecipes()
+		{
+			foreach (var recipeCategory in knownRecipesByCategory)
+			{
+				recipeCategory.Clear();
+			}
 		}
 
 		#endregion
