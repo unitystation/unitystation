@@ -8,7 +8,7 @@ using UnityEngine;
 
 namespace Objects
 {
-	public class AshwalkerNest : MonoBehaviour, IServerSpawn, IExaminable
+	public class AshwalkerNest : MonoBehaviour, IServerLifecycle, IExaminable
 	{
 		[SerializeField]
 		private GhostRoleData ghostRole = null;
@@ -77,6 +77,9 @@ namespace Objects
 			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, PeriodicUpdate);
 			integrity.OnWillDestroyServer.RemoveListener(OnDestruction);
 			EventManager.RemoveHandler(Event.RoundStarted, OnRoundRestart);
+
+			//Just in case remove the role here too
+			GhostRoleManager.Instance.ServerRemoveRole(createdRoleKey);
 		}
 
 		#endregion
@@ -192,6 +195,11 @@ namespace Objects
 			OnRoundRestart();
 		}
 
+		public void OnDespawnServer(DespawnInfo info)
+		{
+			GhostRoleManager.Instance.ServerRemoveRole(createdRoleKey);
+		}
+
 		//Would use only IServerSpawn, but that is called before the ghost role manager which wipes the list at RoundStart...
 		private void OnRoundRestart()
 		{
@@ -212,6 +220,15 @@ namespace Objects
 
 		private void SpawnAshwalker(ConnectedPlayer player, bool costEgg = true)
 		{
+			//Since this is being called from an Action<> this could be null.
+			if (this == null || gameObject == null)
+			{
+				//Remove the player from all roles (as createdRoleKey will Error)
+				GhostRoleManager.Instance.ServerRemoveWaitingPlayer(player);
+				Logger.LogError("Ghost role spawn called on null ashwalker, was the role not removed on destruction?");
+				return;
+			}
+
 			var characterSettings = player.Script.characterSettings;
 
 			if (characterSettings == null)
