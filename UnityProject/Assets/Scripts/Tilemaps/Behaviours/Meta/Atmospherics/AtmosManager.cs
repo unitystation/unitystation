@@ -39,23 +39,19 @@ namespace Systems.Atmospherics
 
 		private void OnEnable()
 		{
-			if (CustomNetworkManager.IsServer)
-			{
-				EventManager.AddHandler(Event.PostRoundStarted, OnPostRoundStart);
-			}
+			EventManager.AddHandler(Event.PostRoundStarted, OnPostRoundStart);
 		}
 
 		private void OnDisable()
 		{
-			if (CustomNetworkManager.IsServer)
-			{
-				EventManager.RemoveHandler(Event.PostRoundStarted, OnPostRoundStart);
-				Stop();
-			}
+			EventManager.RemoveHandler(Event.PostRoundStarted, OnPostRoundStart);
+			Stop();
 		}
 
 		private void OnPostRoundStart()
 		{
+			if (CustomNetworkManager.IsServer == false) return;
+
 			atmosThread.StartThread();
 		}
 

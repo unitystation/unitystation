@@ -31,26 +31,22 @@ namespace Health.Sickness
 
 		private void OnEnable()
 		{
-			if (CustomNetworkManager.IsServer)
-			{
-				UpdateManager.Add(SicknessUpdate, 1);
-				EventManager.AddHandler(Event.PostRoundStarted, OnPostRoundStart);
-			}
+			UpdateManager.Add(SicknessUpdate, 1);
+			EventManager.AddHandler(Event.PostRoundStarted, OnPostRoundStart);
 		}
 
 		private void OnDisable()
 		{
-			if (CustomNetworkManager.IsServer)
-			{
-				UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, SicknessUpdate);
-				EventManager.RemoveHandler(Event.PostRoundStarted, OnPostRoundStart);
-				sicknessThread.StopThread();
-				blockingCollectionSymptoms?.Dispose();
-			}
+			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, SicknessUpdate);
+			EventManager.RemoveHandler(Event.PostRoundStarted, OnPostRoundStart);
+			sicknessThread.StopThread();
+			blockingCollectionSymptoms?.Dispose();
 		}
 
 		private void OnPostRoundStart()
 		{
+			if (CustomNetworkManager.IsServer == false) return;
+
 			sickPlayers = new List<MobSickness>();
 			blockingCollectionSymptoms = new BlockingCollection<SymptomManifestation>();
 			sicknessThread.StartThread();
@@ -59,6 +55,8 @@ namespace Health.Sickness
 		//Server side only
 		private void SicknessUpdate()
 		{
+			if (CustomNetworkManager.IsServer == false) return;
+
 			// Since unity can provide Time.time only in the main thread, we update for our running thread at the begining of frame.
 			sicknessThread.startedTime = Time.time;
 
