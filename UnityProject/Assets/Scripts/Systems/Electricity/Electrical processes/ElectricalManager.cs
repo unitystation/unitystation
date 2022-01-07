@@ -14,25 +14,21 @@ namespace Systems.Electricity
 
 		private void OnEnable()
 		{
-			if (CustomNetworkManager.IsServer)
-			{
-				UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
-				EventManager.AddHandler(Event.PostRoundStarted, OnPostRoundStart);
-			}
+			UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
+			EventManager.AddHandler(Event.PostRoundStarted, OnPostRoundStart);
 		}
 
 		private void OnDisable()
 		{
-			if (CustomNetworkManager.IsServer)
-			{
-				UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
-				EventManager.RemoveHandler(Event.PostRoundStarted, OnPostRoundStart);
-				Stop();
-			}
+			UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
+			EventManager.RemoveHandler(Event.PostRoundStarted, OnPostRoundStart);
+			Stop();
 		}
 
 		private void UpdateMe()
 		{
+			if (CustomNetworkManager.IsServer == false) return;
+
 			if (electricalSync.MainThreadStep)
 			{
 				try
@@ -48,6 +44,8 @@ namespace Systems.Electricity
 
 		private void OnPostRoundStart()
 		{
+			if (CustomNetworkManager.IsServer == false) return;
+
 			electricalSync.StartSim();
 			Logger.Log("Round Started", Category.Electrical);
 		}

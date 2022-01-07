@@ -22,23 +22,19 @@ namespace Systems.Radiation
 
 		private void OnEnable()
 		{
-			if (CustomNetworkManager.IsServer)
-			{
-				EventManager.AddHandler(Event.PostRoundStarted, OnPostRoundStart);
-			}
+			EventManager.AddHandler(Event.PostRoundStarted, OnPostRoundStart);
 		}
 
 		private void OnDisable()
 		{
-			if (CustomNetworkManager.IsServer)
-			{
-				EventManager.RemoveHandler(Event.PostRoundStarted, OnPostRoundStart);
-				radiationThread.StopThread();
-			}
+			EventManager.RemoveHandler(Event.PostRoundStarted, OnPostRoundStart);
+			radiationThread.StopThread();
 		}
 
 		private void OnPostRoundStart()
 		{
+			if (CustomNetworkManager.IsServer == false) return;
+
 			radiationThread.StartThread();
 		}
 
