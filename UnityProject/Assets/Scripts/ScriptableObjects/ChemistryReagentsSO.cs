@@ -2,6 +2,8 @@
 using UnityEditor;
 #endif
 using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using UnityEngine;
 using Chemistry;
 
@@ -10,6 +12,15 @@ namespace ScriptableObjects
 	[CreateAssetMenu(fileName = "ChemistryReagentsSO", menuName = "Singleton/ChemistryReagentsSO")]
 	public class ChemistryReagentsSO : SingletonScriptableObject<ChemistryReagentsSO>
 	{
+
+
+
+		[SerializeField]
+		private List<Reaction> allChemistryReactions = new List<Reaction>();
+
+		public List<Reaction> AllChemistryReactions => allChemistryReactions;
+
+
 		[SerializeField]
 		private List<Reagent> allChemistryReagents = new List<Reagent>();
 
@@ -31,6 +42,19 @@ namespace ScriptableObjects
 					                $"Expected: {i}. Found: {allChemistryReagents[i].IndexInSingleton}.");
 				}
 			}
+		}
+
+		public void GenerateReagentReactionReferences()
+		{
+
+			foreach (var Reaction in allChemistryReactions)
+			{
+				foreach (var Required in Reaction.ingredients)
+				{
+					Required.Key.RelatedReactions = Required.Key.RelatedReactions.Append(Reaction).ToArray();
+				}
+			}
+
 		}
 	}
 
@@ -73,9 +97,21 @@ namespace ScriptableObjects
 					}
 				}
 
+				EditorUtility.SetDirty(singleton);
 				AssetDatabase.SaveAssets();
 				AssetDatabase.Refresh();
 			}
+
+			if (GUILayout.Button("Collect all reactions"))
+			{
+				ChemistryReagentsSO singleton = (ChemistryReagentsSO) target;
+				singleton.AllChemistryReactions.Clear();
+				singleton.AllChemistryReactions.AddRange(FindAssetsByType<Reaction>());
+				EditorUtility.SetDirty(singleton);
+				AssetDatabase.SaveAssets();
+				AssetDatabase.Refresh();
+			}
+
 		}
 	}
 #endif

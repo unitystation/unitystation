@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Chemistry
@@ -17,6 +18,9 @@ namespace Chemistry
 
 		[SerializeField, HideInInspector]
 		private int indexInSingleton = -1;
+
+		//Every single reaction this chemical is used in
+		[NonSerialized] public Reaction[] RelatedReactions = Array.Empty<Reaction>();
 
 		/// <summary>
 		/// 	Index in the chemistry reagents' singleton. Used in a client-server communication
