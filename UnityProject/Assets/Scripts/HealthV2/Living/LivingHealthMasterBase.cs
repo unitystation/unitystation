@@ -830,6 +830,9 @@ namespace HealthV2
 		///</Summary>
 		public void Death()
 		{
+			//Don't trigger if already dead
+			if(ConsciousState == ConsciousState.DEAD) return;
+
 			timeOfDeath = GameManager.Instance.stationTime;
 
 			var HV2 = (this as PlayerHealthV2);
@@ -913,6 +916,9 @@ namespace HealthV2
 			if (objectBehaviour.parentContainer != null) return;
 
 			//TODO: check for formaldehyde in body, prevent if more than 15u
+
+			//Don't continuously produce miasma, only produce max 4 moles on the tile
+			if(node.GasMix.GetMoles(Gas.Miasma) > 4) return;
 
 			node.GasMix.AddGas(Gas.Miasma, AtmosDefines.MIASMA_CORPSE_MOLES);
 		}
