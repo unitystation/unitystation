@@ -342,7 +342,7 @@ public partial class Chat
 		return output;
 	}
 
-	private static string StripTags(string input)
+	public static string StripTags(string input)
 	{
 		//Regex - find "<" followed by any number of not ">" and ending in ">". Matches any HTML tags.
 		Regex rx = new Regex("[<][^>]+[>]");
