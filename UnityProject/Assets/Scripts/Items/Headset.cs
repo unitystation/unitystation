@@ -1,14 +1,15 @@
 ﻿using Items;
 using Mirror;
+using Systems.Explosions;
 
 /// <summary>
 ///     Headset properties
 /// </summary>
-public class Headset : NetworkBehaviour, IInteractable<HandActivate>
+public class Headset : NetworkBehaviour, IInteractable<HandActivate>, IEMPAble
 {
 	[SyncVar] public EncryptionKeyType EncryptionKey;
 	[SyncVar] public bool LoudSpeakOn = false;
-	public bool isEMPed = false;
+	[SyncVar] public bool isEMPed = false;
 	public bool HasLoudSpeak = false;
 	public Loudness LoudspeakLevel = Loudness.SCREAMING;
 
@@ -27,7 +28,7 @@ public class Headset : NetworkBehaviour, IInteractable<HandActivate>
 		}
 	}
 
-	public void TriggerEMP()
+	public void OnEMP(int EMPStrength = 0)
     {
         if (!isEMPed)
         {

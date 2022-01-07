@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using UnityEngine;
 using Mirror;
 using Systems.Electricity.NodeModules;
@@ -11,7 +12,7 @@ namespace Objects.Engineering
 {
 	[RequireComponent(typeof(ElectricalNodeControl))]
 	[RequireComponent(typeof(BatterySupplyingModule))]
-	public class SMES : NetworkBehaviour, ICheckedInteractable<HandApply>, ICheckedInteractable<AiActivate>, INodeControl, IExaminable
+	public class SMES : NetworkBehaviour, ICheckedInteractable<HandApply>, ICheckedInteractable<AiActivate>, INodeControl, IExaminable, IEMPAble
 	{
 		[Tooltip("How often (in seconds) the SMES's charging status should be updated.")]
 		[SerializeField]
@@ -251,5 +252,22 @@ namespace Objects.Engineering
 		{
 			SparkUtil.TrySpark(gameObject);
 		}
+
+		public void OnEMP(int EMPStrength)
+        {
+			if (CurrentCharge > 10000000 && UnityEngine.Random.Range(0, 2) == 0)
+            {
+				TrySpark();
+				Chat.AddLocalMsgToChat($"<color=red>{gameObject.ExpensiveName()} starts to spit out sparks and smoke! No way this can end good...", gameObject);
+				StartCoroutine(EMP());
+            }
+			batterySupplyingModule.CurrentCapacity -= EMPStrength * 100;
+        }
+
+		private IEnumerator EMP()
+        {
+			yield return WaitFor.Seconds(3);
+			Explosion.StartExplosion(gameObject.GetComponent<RegisterObject>().WorldPosition,UnityEngine.Random.Range(100,300));
+        }
 	}
 }

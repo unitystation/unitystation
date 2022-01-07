@@ -12,6 +12,7 @@ using Systems.Electricity;
 using Systems.Hacking;
 using Systems.Interaction;
 using Systems.ObjectConnection;
+using Systems.Explosions;
 using Doors.Modules;
 using HealthV2;
 using Objects.Wallmounts;
@@ -21,7 +22,7 @@ namespace Doors
 	/// <summary>
 	/// This is the master 'controller' for the door. It handles interactions by players and passes any interactions it need to to its components.
 	/// </summary>
-	public class DoorMasterController : NetworkBehaviour, ICheckedInteractable<HandApply>, ICheckedInteractable<AiActivate>, ICanOpenNetTab, IMultitoolSlaveable, IServerSpawn
+	public class DoorMasterController : NetworkBehaviour, ICheckedInteractable<HandApply>, ICheckedInteractable<AiActivate>, ICanOpenNetTab, IMultitoolSlaveable, IEMPAble, IServerSpawn
 	{
 		#region inspector
 		[SerializeField, PrefabModeOnly]
@@ -157,7 +158,7 @@ namespace Doors
 				ConstructibleDoor != null && ConstructibleDoor.Panelopen);
 		}
 
-		public void TriggerEMP()
+		public void OnEMP(int EMPStrength = 0)
         {
 			if (UnityEngine.Random.Range(0, 2) == 0)
 			{

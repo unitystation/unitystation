@@ -86,7 +86,7 @@ namespace Systems.Explosions
                 {
 					if (damage > 0)
                     {
-						EMPStuff(tilePos, damage);
+						EMPThings(tilePos, damage);
 					}
 
 					if (float.IsNaN(effectTime))
@@ -164,36 +164,22 @@ namespace Systems.Explosions
 			tileChangeManager.MetaTileMap.RemoveOverlaysOfType(position, LayerType.Effects, effectOverlayType);
 		}
 
-		private void EMPItem(GameObject item, int EMPStrength)
+		private void EMPThing(GameObject thing, int EMPStrength)
         {
-			if(item == null)
+			if(thing != null)
             {
-				return;
-            }
+				var interfaces = thing.GetComponents<IEMPAble>();
 
-			if (item.TryGetComponent<Battery>(out var battery) && !Validations.HasItemTrait(item, CommonTraits.Instance.EMPResistant))
-			{
-				battery.Watts -= EMPStrength * 100;
-				if (battery.Watts < 0)
+				foreach (var EMPAble in interfaces)
 				{
-					battery.Watts = 0;
+					EMPAble.OnEMP(EMPStrength);
 				}
-			}
-
-			if (item.TryGetComponent<FlashLight>(out var flashlight) && !Validations.HasItemTrait(item, CommonTraits.Instance.EMPResistant))
-			{
-				flashlight.TriggerEMP();
-			}
-
-			if (item.TryGetComponent<Headset>(out var headset) && !Validations.HasItemTrait(item, CommonTraits.Instance.EMPResistant))
-			{
-				headset.TriggerEMP();
 			}
 		}
 
-		private void EMPStuff(Vector3Int worldPosition, int damage)
+		private void EMPThings(Vector3Int worldPosition, int damage)
         {
-			var damagedThings = (MatrixManager.GetAt<ObjectBehaviour>(worldPosition, true)
+			var damagedThings = (MatrixManager.GetAt<CustomNetTransform>(worldPosition, true)
 				//only damage each thing once
 				.Distinct());
 			foreach (var damagedThing in damagedThings)
@@ -202,24 +188,10 @@ namespace Systems.Explosions
                 {
 					foreach(var slot in storage.GetItemSlotTree())
                     {
-						EMPItem(slot.ItemObject, damage);
+						EMPThing(slot.ItemObject, damage);
                     }
                 }
-
-				if(damagedThing.TryGetComponent<ItemAttributesV2>(out var item))
-                {
-					EMPItem(damagedThing.gameObject, damage);
-                }
-
-				if (damagedThing.TryGetComponent<DoorMasterController>(out var door))
-				{
-					door.TriggerEMP();
-				}
-
-				if (damagedThing.TryGetComponent<APCPoweredDevice>(out var powered))
-                {
-					powered.TriggerEMP(damage);
-				}
+				EMPThing(damagedThing.gameObject, damage);
 			}
 		}
 

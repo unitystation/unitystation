@@ -7,6 +7,7 @@ using UnityEngine.Serialization;
 using Mirror;
 using Core.Editor.Attributes;
 using Systems.ObjectConnection;
+using Systems.Explosions;
 using ScriptableObjects;
 using Objects.Engineering;
 #if UNITY_EDITOR
@@ -17,7 +18,7 @@ using UnityEditor;
 namespace Systems.Electricity
 {
 	[ExecuteInEditMode]
-	public class APCPoweredDevice : NetworkBehaviour, IServerDespawn, IMultitoolSlaveable
+	public class APCPoweredDevice : NetworkBehaviour, IServerDespawn, IEMPAble, IMultitoolSlaveable
 	{
 		[SerializeField, PrefabModeOnly]
 		[FormerlySerializedAs("MinimumWorkingVoltage")]
@@ -316,16 +317,16 @@ namespace Systems.Electricity
             }
 		}
 
-		public void TriggerEMP(int EMPStrength)
+		public void OnEMP(int EMPStrength)
         {
 			StartCoroutine(EMP(EMPStrength));
 		}
 
-		public IEnumerator EMP(int EMPStrength)
+		private IEnumerator EMP(int EMPStrength)
 		{
 			int effectTime = (int)Math.Round(EMPStrength * 0.5f);
 
-			if (UnityEngine.Random.Range(0, 1) == 0)
+			if (UnityEngine.Random.Range(0, 2) == 0)
 			{
 				_ = Spawn.ServerPrefab(CommonPrefabs.Instance.SparkEffect, registerTile.WorldPositionServer).GameObject;
 			}

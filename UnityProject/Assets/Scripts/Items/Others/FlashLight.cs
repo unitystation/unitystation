@@ -4,12 +4,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
 using Systems.Clothing;
+using Systems.Explosions;
 using UI.Action;
 
 namespace Items.Others
 {
 	[RequireComponent(typeof(ItemLightControl))]
-	public class FlashLight : NetworkBehaviour, ICheckedInteractable<HandActivate>
+	public class FlashLight : NetworkBehaviour, ICheckedInteractable<HandActivate>, IEMPAble
 	{
 		[Tooltip("The SpriteHandler this flashlight type should use when setting the on/off sprite.")]
 		[SerializeField]
@@ -87,12 +88,11 @@ namespace Items.Others
 			}
 		}
 
-		public void TriggerEMP()
+		public void OnEMP(int EMPStrength = 0)
         {
             if (lightControl.IsOn)
 			{
-				lightControl.Toggle(false);
-				spriteHandler.ChangeSprite(SpriteIndex);
+				ToggleLight();
 			}
         }
 	}

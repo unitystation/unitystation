@@ -55,24 +55,11 @@ namespace Systems.Explosions
 					{
 						foreach (var slot in storage.GetItemSlotTree())
 						{
-							EMPItem(slot.ItemObject,(int)Damagedealt);
+							EMPThing(slot.ItemObject,(int)Damagedealt);
 						}
 					}
 
-					if (thing.TryGetComponent<ItemAttributesV2>(out var item))
-					{
-						EMPItem(thing.gameObject, (int)Damagedealt);
-					}
-
-					if (thing.TryGetComponent<DoorMasterController>(out var door))
-					{
-						door.TriggerEMP();
-					}
-
-					if (thing.TryGetComponent<APCPoweredDevice>(out var powered))
-					{
-						powered.TriggerEMP((int)Damagedealt);
-					}
+					EMPThing(thing.gameObject, (int)Damagedealt);
 				}
             }
             else
@@ -139,30 +126,16 @@ namespace Systems.Explosions
 
 		}
 
-		private void EMPItem(GameObject item, int EMPStrength)
+		private void EMPThing(GameObject thing, int EMPStrength)
 		{
-			if (item == null)
+			if (thing != null)
 			{
-				return;
-			}
+				var interfaces = thing.GetComponents<IEMPAble>();
 
-			if (item.TryGetComponent<Battery>(out var battery) && !Validations.HasItemTrait(item, CommonTraits.Instance.EMPResistant))
-			{
-				battery.Watts -= EMPStrength * 100;
-				if (battery.Watts < 0)
+				foreach (var EMPAble in interfaces)
 				{
-					battery.Watts = 0;
+					EMPAble.OnEMP(EMPStrength);
 				}
-			}
-
-			if (item.TryGetComponent<FlashLight>(out var flashlight) && !Validations.HasItemTrait(item, CommonTraits.Instance.EMPResistant))
-			{
-				flashlight.TriggerEMP();
-			}
-
-			if (item.TryGetComponent<Headset>(out var headset) && !Validations.HasItemTrait(item, CommonTraits.Instance.EMPResistant))
-			{
-				headset.TriggerEMP();
 			}
 		}
 	}
