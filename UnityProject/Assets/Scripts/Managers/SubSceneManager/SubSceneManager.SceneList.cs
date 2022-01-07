@@ -256,7 +256,7 @@ public partial class SubSceneManager
 		loadedScenesList.Add(new SceneInfo
 		{
 			SceneName = pickedMap,
-			SceneType = SceneType.AdditionalScenes
+			SceneType = SceneType.HiddenScene
 		});
 		netIdentity.isDirty = true;
 
@@ -275,7 +275,7 @@ public partial class SubSceneManager
 		loadedScenesList.Add(new SceneInfo
 		{
 			SceneName = pickedScene,
-			SceneType = SceneType.AdditionalScenes
+			SceneType = SceneType.HiddenScene
 		});
 		netIdentity.isDirty = true;
 
