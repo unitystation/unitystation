@@ -182,9 +182,9 @@ namespace Objects.Engineering
 						coord = RotateVector90(coord).To2Int();
 					}
 
-					var objects = MatrixManager.GetAt<ParticleAcceleratorPart>(registerTile.WorldPositionServer + coord.To3Int() , true);
+					var objects = MatrixManager.GetAt<ParticleAcceleratorPart>(registerTile.WorldPositionServer + coord.To3Int() , true) as List<ParticleAcceleratorPart>;
 
-					if (objects.Count > 0 && section.Value == objects[0].ParticleAcceleratorType)
+					if (objects != null && objects.Count > 0 && section.Value == objects[0].ParticleAcceleratorType)
 					{
 						//Correct Part there woo but now check status
 						if (objects[0].CurrentState == ParticleAcceleratorState.Frame || objects[0].CurrentState == ParticleAcceleratorState.Wired

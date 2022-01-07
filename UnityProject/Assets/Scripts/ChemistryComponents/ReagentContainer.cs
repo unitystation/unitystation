@@ -397,7 +397,7 @@ namespace Chemistry.Components
 		private void NotifyPlayersOfSpill(Vector3Int worldPos)
 		{
 			var mobs = MatrixManager.GetAt<LivingHealthMasterBase>(worldPos, true);
-			if (mobs.Count > 0)
+			if (mobs is List<LivingHealthMasterBase>)
 			{
 				foreach (var mob in mobs)
 				{

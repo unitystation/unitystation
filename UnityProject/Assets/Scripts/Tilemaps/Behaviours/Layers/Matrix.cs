@@ -277,7 +277,7 @@ public class Matrix : MonoBehaviour
 	{
 		if (!(isServer ? ServerObjects : ClientObjects).HasObjects(localPosition))
 		{
-			return Enumerable.Empty<T>(); //?
+			return Enumerable.Empty<T>(); //Enumerable.Empty<T>() Does not GC while new List<T> does
 		}
 
 		var filtered = new List<T>();
@@ -294,11 +294,24 @@ public class Matrix : MonoBehaviour
 	}
 
 
+	public IEnumerable<RegisterTile> Get(Vector3Int localPosition, bool isServer)
+	{
+		if (!(isServer ? ServerObjects : ClientObjects).HasObjects(localPosition))
+		{
+			return Enumerable.Empty<RegisterTile>(); //Enumerable.Empty<T>() Does not GC while new List<T> does
+		}
+
+		var filtered = new List<RegisterTile>();
+		filtered.AddRange((isServer ? ServerObjects : ClientObjects).Get(localPosition));
+		return filtered;
+	}
+
+
 	public IEnumerable<T> Get<T>(Vector3Int localPosition, bool isServer)
 	{
 		if (!(isServer ? ServerObjects : ClientObjects).HasObjects(localPosition))
 		{
-			return Enumerable.Empty<T>(); //?
+			return Enumerable.Empty<T>(); //Enumerable.Empty<T>() Does not GC while new List<T> does
 		}
 
 		var filtered = new List<T>();
@@ -332,7 +345,7 @@ public class Matrix : MonoBehaviour
 	{
 		if (!(isServer ? ServerObjects : ClientObjects).HasObjects(localPosition))
 		{
-			return Enumerable.Empty<T>();
+			return  Enumerable.Empty<T>(); //Enumerable.Empty<T>() Does not GC while new List<T> does
 		}
 
 		var filtered = new List<T>();

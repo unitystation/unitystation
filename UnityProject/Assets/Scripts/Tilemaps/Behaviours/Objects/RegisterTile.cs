@@ -6,6 +6,7 @@ using UnityEngine.Rendering;
 using UnityEngine.Serialization;
 using Mirror;
 using Core.Editor.Attributes;
+using Objects;
 using Tilemaps.Behaviours.Layers;
 using Systems.Electricity;
 using Systems.Pipes;
@@ -139,6 +140,10 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 	//cached for fast fire exposure without gc
 	private IFireExposable[] fireExposables;
 
+	public IPlayerEntersTile[] IPlayerEntersTiles;
+
+	public IObjectEntersTile[] IObjectEntersTiles;
+
 	[SerializeField] private PrefabTracker prefabTracker;
 	public PrefabTracker PrefabTracker => prefabTracker;
 
@@ -166,6 +171,8 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 		customNetTransform = GetComponent<CustomNetTransform>();
 		matrixRotationHooks = GetComponents<IMatrixRotation>();
 		fireExposables = GetComponents<IFireExposable>();
+		IPlayerEntersTiles = GetComponents<IPlayerEntersTile>();
+		IObjectEntersTiles = GetComponents<IObjectEntersTile>();
 		CurrentsortingGroup = GetComponent<SortingGroup>();
 		iPushable = GetComponent<IPushable>();
 	}

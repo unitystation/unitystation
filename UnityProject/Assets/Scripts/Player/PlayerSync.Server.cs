@@ -465,7 +465,6 @@ public partial class PlayerSync
 
 		var curState = serverState;
 		PlayerState nextState = NextStateServer(curState, serverPendingActions.Dequeue());
-		
 		var newPos = nextState.WorldPosition;
 		var oldPos = serverState.WorldPosition;
 		lastDirectionServer = Vector2Int.RoundToInt(newPos - oldPos);
@@ -526,7 +525,7 @@ public partial class PlayerSync
 			if (serverBump == BumpType.Push || serverBump == BumpType.Blocked)
 			{
 				var worldTarget = state.WorldPosition.RoundToInt() + (Vector3Int)action.Direction();
-				var swapee = MatrixManager.GetAs<RegisterPlayer>(worldTarget, true);
+				var swapee = MatrixManager.GetAs<RegisterPlayer>(worldTarget, true) as List<RegisterPlayer>;
 				if (swapee != null && swapee.Count > 0)
 				{
 					swapee[0].PlayerScript.PlayerSync.RollbackPosition();
@@ -781,11 +780,14 @@ public partial class PlayerSync
 	private void InteractEnterable(Vector3Int targetPos)
 	{
 		//Object IPlayerEntersTile
-		List<IPlayerEntersTile> enterables = MatrixManager.GetAt<IPlayerEntersTile>(targetPos, isServer);
-		foreach (IPlayerEntersTile enterable in enterables)
+		var registerTiles = MatrixManager.GetRegisterTiles(targetPos, isServer);
+		foreach (var registerTile in registerTiles)
 		{
-			if (enterable.WillAffectPlayer(playerScript) == false) continue;
-			enterable.OnPlayerStep(playerScript);
+			foreach (var enterable in registerTile.IPlayerEntersTiles)
+			{
+				if (enterable.WillAffectPlayer(playerScript) == false) continue;
+				enterable.OnPlayerStep(playerScript);
+			}
 		}
 
 		//Tile IPlayerEntersTile

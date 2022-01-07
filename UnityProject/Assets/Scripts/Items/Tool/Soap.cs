@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 namespace Items
 {
@@ -38,8 +39,8 @@ namespace Items
             Vector3Int positionInt = Vector3Int.RoundToInt(position);
 
             // Check if there is an object in the way of scrubbing the tile
-			var atPosition = MatrixManager.GetAt<RegisterObject>(positionInt, side == NetworkSide.Server);
-            if(atPosition.Count != 0) return false;
+			var atPosition = MatrixManager.GetAt<RegisterObject>(positionInt, side == NetworkSide.Server) as List<RegisterObject>;
+            if(atPosition != null) return false;
 
 
             // Check that the layer scrubbed is a floor, e.g. not a table
