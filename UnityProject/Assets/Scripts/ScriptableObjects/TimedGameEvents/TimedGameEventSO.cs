@@ -12,9 +12,15 @@ namespace ScriptableObjects.TimedGameEvents
 		public Month Month;
 		[Range(1,31)] public int DayOfMonthStart;
 		[Range(1,31)] public int DayOfMonthEnd;
+
 		public string EventName;
-		[NaughtyAttributes.ResizableTextArea] public string EventDesc;
+		[TextArea(10, 20)]
+		public string EventDesc;
+		
 		public Sprite EventIcon;
+
+		//Delete the object when the timed event is not happening
+		public bool deleteWhenNotTime = true;
 	}
 
 	public enum Month
