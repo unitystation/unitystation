@@ -80,7 +80,7 @@ namespace HealthV2
 
 			if (TryBreathing(node, TotalModified))
 			{
-				AtmosManager.Update(node);
+				AtmosManager.Instance.UpdateNode(node);
 			}
 
 			if (RelatedPart.IsBleedingInternally)

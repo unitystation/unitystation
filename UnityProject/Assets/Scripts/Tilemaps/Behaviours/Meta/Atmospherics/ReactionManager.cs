@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Profiling;
 using Random = UnityEngine.Random;
-using TileManagement;
 
 namespace Systems.Atmospherics
 {
@@ -59,7 +58,7 @@ namespace Systems.Atmospherics
 		private void Start()
 		{
 			fireLight = AtmosManager.Instance.fireLight;
-			AtmosThread.reactionManagerList.Add(this);
+			AtmosManager.Instance.reactionManagerList.Add(this);
 		}
 
 		private void OnEnable()
