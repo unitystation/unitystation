@@ -137,7 +137,7 @@ namespace Systems.Explosions
 
 		public static void StartExplosion(Vector3Int WorldPOS, float strength)
 		{
-			Logger.LogError("Explosion started, look at Trace log");
+			Logger.LogError($"Explosion started, look at Trace log, Strength {strength} at World {WorldPOS} ");
 			int Radius = (int) Math.Round(strength / (Math.PI * 75));
 
 			if (Radius > 150)
