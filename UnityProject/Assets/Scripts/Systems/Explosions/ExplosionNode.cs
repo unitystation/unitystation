@@ -138,6 +138,14 @@ namespace Systems.Explosions
 						}
 					}
 
+					if (thing.TryGetComponent<DynamicItemStorage>(out var dStorage))
+					{
+						foreach (var slot in dStorage.GetItemSlots())
+						{
+							EMPThing(slot.ItemObject, EMPStrength);
+						}
+					}
+
 					var interfaces = thing.GetComponents<IEMPAble>();
 
 					foreach (var EMPAble in interfaces)

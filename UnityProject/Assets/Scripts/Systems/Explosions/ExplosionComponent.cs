@@ -178,6 +178,14 @@ namespace Systems.Explosions
 						}
 					}
 
+                    if (thing.TryGetComponent<DynamicItemStorage>(out var dStorage))
+                    {
+						foreach (var slot in dStorage.GetItemSlots())
+						{
+							EMPThing(slot.ItemObject, EMPStrength);
+						}
+					}
+
 					var interfaces = thing.GetComponents<IEMPAble>();
 
 					foreach (var EMPAble in interfaces)
@@ -190,12 +198,12 @@ namespace Systems.Explosions
 
 		private void EMPThings(Vector3Int worldPosition, int damage)
         {
-			foreach (var thing in MatrixManager.GetAt<Integrity>(worldPosition, true))
+			foreach (var thing in MatrixManager.GetAt<Integrity>(worldPosition, true).Distinct())
 			{
 				EMPThing(thing.gameObject, damage);
 			}
 
-			foreach (var thing in MatrixManager.GetAt<LivingHealthMasterBase>(worldPosition, true))
+			foreach (var thing in MatrixManager.GetAt<LivingHealthMasterBase>(worldPosition, true).Distinct())
 			{
 				EMPThing(thing.gameObject, damage);
 			}
