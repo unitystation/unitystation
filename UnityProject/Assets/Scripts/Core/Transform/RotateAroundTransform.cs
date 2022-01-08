@@ -24,6 +24,7 @@
 
 		private void OnEnable()
 		{
+			if(CustomNetworkManager.IsHeadless) return;
 			UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
 		}
 
@@ -35,6 +36,14 @@
 		private void UpdateMe()
 		{
 			if(transformToRotateAround == null) return;
-			ourTransform.RotateAround(transformToRotateAround.gameObject.AssumedWorldPosServer() + offset, transformToRotateAround.forward, time*Time.deltaTime);
+
+			var pos = CustomNetworkManager.IsServer
+				? transformToRotateAround.gameObject.AssumedWorldPosServer()
+				: transformToRotateAround.gameObject.WorldPosClient();
+
+			//Means object has moved to hidden pos, server should stop orbit automatically
+			if (pos == TransformState.HiddenPos) return;
+
+			ourTransform.RotateAround(pos + offset, transformToRotateAround.forward, time * Time.deltaTime);
 		}
 	}
