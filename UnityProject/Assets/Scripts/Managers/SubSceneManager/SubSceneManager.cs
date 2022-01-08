@@ -108,7 +108,8 @@ public enum SceneType
 	AwaySite,
 	Asteroid,
 	AdditionalScenes,
-	Space
+	Space,
+	HiddenScene
 }
 
 [System.Serializable]
