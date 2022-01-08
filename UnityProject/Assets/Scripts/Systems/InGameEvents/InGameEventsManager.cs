@@ -73,7 +73,7 @@ namespace InGameEvents
 			if (timer > triggerEventInterval)
 			{
 				var isFake = Random.Range(0,100) < chanceItIsFake;
-				Logger.LogError($" Random Event triggered in Update me loop" );
+
 				StartRandomEvent(GetRandomEventList(), isFake: isFake, serverTriggered: true);
 
 				timer -= triggerEventInterval;
@@ -131,7 +131,6 @@ namespace InGameEvents
 
 			if (eventIndex == 0)
 			{
-				Logger.LogError($" TriggerSpecificEvent Random Event triggered" );
 				StartRandomEvent(list, true, isFake, false, adminName, announceEvent);
 			}
 			else
@@ -139,7 +138,6 @@ namespace InGameEvents
 				var eventChosen = list[eventIndex - 1];
 				eventChosen.FakeEvent = isFake;
 				eventChosen.AnnounceEvent = announceEvent;
-				Logger.LogError($" Specified Event triggered {eventChosen}" );
 				eventChosen.TriggerEvent(serializedEventParameters);
 
 				AdminCommandsManager.LogAdminAction($"{adminName}: triggered the event: {eventChosen.EventName}. Is fake: {isFake}. Announce: {announceEvent}");
@@ -161,7 +159,6 @@ namespace InGameEvents
 				{
 					eventInList.FakeEvent = isFake;
 					eventInList.AnnounceEvent = announceEvent;
-					Logger.LogError($" Random Event triggered {eventInList} with eventList Count of {eventList.Count}" );
 					eventInList.TriggerEvent();
 
 					if (serverTriggered)
@@ -186,7 +183,6 @@ namespace InGameEvents
 
 			if (anEventMustHappen)
 			{
-				Logger.LogError($" Random Event triggered in Round start");
 				StartRandomEvent(eventList, true, isFake, serverTriggered, adminName, announceEvent, stackOverFlowProtection);
 			}
 		}
