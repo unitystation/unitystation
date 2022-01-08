@@ -22,7 +22,7 @@ namespace Doors
 	/// <summary>
 	/// This is the master 'controller' for the door. It handles interactions by players and passes any interactions it need to to its components.
 	/// </summary>
-	public class DoorMasterController : NetworkBehaviour, ICheckedInteractable<HandApply>, ICheckedInteractable<AiActivate>, ICanOpenNetTab, IMultitoolSlaveable, IEMPAble, IServerSpawn
+	public class DoorMasterController : NetworkBehaviour, ICheckedInteractable<HandApply>, ICheckedInteractable<AiActivate>, ICanOpenNetTab, IMultitoolSlaveable, IServerSpawn
 	{
 		#region inspector
 		[SerializeField, PrefabModeOnly]
@@ -156,41 +156,6 @@ namespace Doors
 				IsClosed ? DoorUpdateType.Close : DoorUpdateType.Open,
 				true,
 				ConstructibleDoor != null && ConstructibleDoor.Panelopen);
-		}
-
-		public void OnEMP(int EMPStrength = 0)
-        {
-			if (UnityEngine.Random.Range(0, 2) == 0)
-			{
-				TryClose();
-			}
-
-			if (UnityEngine.Random.Range(0, 2) == 0)
-			{
-				TryOpen(gameObject);
-			}
-
-			if (UnityEngine.Random.Range(0, 2) == 0)
-			{
-				foreach (var module in modulesList)
-				{
-					if (module is BoltsModule bolts)
-					{
-						bolts.PulseToggleBolts();
-					}
-				}
-			}
-
-            if (UnityEngine.Random.Range(0, 2) == 0)
-            {
-				foreach (var module in modulesList)
-				{
-					if (module is ElectrifiedDoorModule electrification)
-					{
-						electrification.ToggleElectrocutionInput();
-					}
-				}
-			}
 		}
 
 		private void TryBump()

@@ -22,7 +22,7 @@ public class Battery : MonoBehaviour, IEMPAble, IExaminable
 			Watts = 0;
         }
 
-		if(EMPStrength > 50 && UnityEngine.Random.Range(0,2) == 0)
+		if(EMPStrength > 50 && UnityEngine.Random.Range(0,5) == 0)
         {
 			isBroken = true;
         }

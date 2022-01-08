@@ -9,6 +9,7 @@ using NaughtyAttributes;
 using Initialisation;
 using Messages.Client;
 using Objects.Electrical;
+using Systems.Explosions;
 
 namespace Systems.Hacking
 {
@@ -18,7 +19,7 @@ namespace Systems.Hacking
 	/// e.g. check if interacted with a screw driver, then check if
 	/// </summary>
 	[RequireComponent(typeof(ItemStorage))]
-	public class HackingProcessBase : NetworkBehaviour, IServerDespawn
+	public class HackingProcessBase : NetworkBehaviour, IServerDespawn, IEMPAble
 	{
 		private static Dictionary<Type, Dictionary<MethodInfo, Color>> ColourDictionary = new Dictionary<Type, Dictionary<MethodInfo, Color>>();
 
@@ -367,6 +368,17 @@ namespace Systems.Hacking
 				}
 			}
 		}
+
+		public void OnEMP(int EMPStrength = 0)
+        {
+			foreach(Cable cable in Cables)
+            {
+				if(UnityEngine.Random.Range(0,2) == 0)
+                {
+					cable.Impulse();
+                }
+            }
+        }
 
 		public class Cable
 		{
