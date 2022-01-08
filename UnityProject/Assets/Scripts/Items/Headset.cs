@@ -1,15 +1,16 @@
 ﻿using Items;
 using Mirror;
 using Systems.Explosions;
+using UnityEngine;
 
 /// <summary>
 ///     Headset properties
 /// </summary>
-public class Headset : NetworkBehaviour, IInteractable<HandActivate>, IEMPAble
+public class Headset : NetworkBehaviour, IInteractable<HandActivate>, IExaminable, IEMPAble
 {
 	[SyncVar] public EncryptionKeyType EncryptionKey;
 	[SyncVar] public bool LoudSpeakOn = false;
-	[SyncVar] public bool isEMPed = false;
+	[SyncVar] public bool isBroken = false;
 	public bool HasLoudSpeak = false;
 	public Loudness LoudspeakLevel = Loudness.SCREAMING;
 
@@ -28,11 +29,22 @@ public class Headset : NetworkBehaviour, IInteractable<HandActivate>, IEMPAble
 		}
 	}
 
+	public string Examine(Vector3 worldPos = default)
+	{
+		string status = "";
+		if (isBroken)
+		{
+			status = $"<color=red>It appears to be broken.";
+		}
+		return $"{gameObject.GetComponent<ItemAttributesV2>().InitialDescription}" +
+			status;
+	}
+
 	public void OnEMP(int EMPStrength = 0)
     {
-        if (!isEMPed)
+        if (!isBroken)
         {
-			isEMPed = true;
+			isBroken = true;
 			Chat.AddExamineMsg(PlayerManager.LocalPlayerScript.gameObject, $"Your {gameObject.ExpensiveName()} suddenly becomes very quiet...");
 		}
 	}

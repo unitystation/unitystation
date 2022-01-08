@@ -5,7 +5,7 @@ using HealthV2;
 using Systems.Electricity;
 using Items;
 using Items.Others;
-using Objects;
+using Objects.Machines;
 using Doors;
 using UnityEngine;
 using TileManagement;
@@ -168,31 +168,52 @@ namespace Systems.Explosions
         {
 			if(thing != null)
             {
-				var interfaces = thing.GetComponents<IEMPAble>();
+                if (isEMPAble(thing))
+                {
+					if (thing.TryGetComponent<ItemStorage>(out var storage))
+					{
+						foreach (var slot in storage.GetItemSlots())
+						{
+							EMPThing(slot.ItemObject, EMPStrength);
+						}
+					}
 
-				foreach (var EMPAble in interfaces)
-				{
-					EMPAble.OnEMP(EMPStrength);
+					var interfaces = thing.GetComponents<IEMPAble>();
+
+					foreach (var EMPAble in interfaces)
+					{
+						EMPAble.OnEMP(EMPStrength);
+					}
 				}
 			}
 		}
 
 		private void EMPThings(Vector3Int worldPosition, int damage)
         {
-			var damagedThings = (MatrixManager.GetAt<CustomNetTransform>(worldPosition, true)
-				//only damage each thing once
-				.Distinct());
-			foreach (var damagedThing in damagedThings)
+			foreach (var thing in MatrixManager.GetAt<Integrity>(worldPosition, true))
 			{
-				if(damagedThing.TryGetComponent<ItemStorage>(out var storage))
-                {
-					foreach(var slot in storage.GetItemSlotTree())
-                    {
-						EMPThing(slot.ItemObject, damage);
-                    }
-                }
-				EMPThing(damagedThing.gameObject, damage);
+				EMPThing(thing.gameObject, damage);
 			}
+
+			foreach (var thing in MatrixManager.GetAt<LivingHealthMasterBase>(worldPosition, true))
+			{
+				EMPThing(thing.gameObject, damage);
+			}
+		}
+
+		private bool isEMPAble(GameObject thing)
+		{
+			if (thing.TryGetComponent<Machine>(out var machine))
+			{
+				if (machine.isEMPResistant) return false;
+			}
+
+			if (thing.TryGetComponent<ItemAttributesV2>(out var attributes))
+			{
+				if (Validations.HasItemTrait(thing, CommonTraits.Instance.EMPResistant)) return false;
+			}
+
+			return true;
 		}
 
 		private void DamageLivingThings(Vector3Int worldPosition, int damage)

@@ -7,6 +7,7 @@ using Light2D;
 using HealthV2;
 using Systems.Pipes;
 using Systems.Radiation;
+using Systems.Explosions;
 using Objects.Engineering;
 using Weapons.Projectiles.Behaviours;
 
@@ -232,9 +233,18 @@ namespace Objects
 			dynamicScale = GetDynamicScale();
 
 			//Radiation Pulse
-			var strength = Mathf.Max(((float) CurrentStage + 1) / 6 * maxRadiation, 0);
+			var radStrength = Mathf.Max(((float) CurrentStage + 1) / 6 * maxRadiation, 0);
 
-			RadiationManager.Instance.RequestPulse(registerTile.WorldPositionServer, strength, objectId);
+			RadiationManager.Instance.RequestPulse(registerTile.WorldPositionServer, radStrength, objectId);
+
+			if(UnityEngine.Random.Range(0,15) == 0)
+            {
+				int EMPStrength = UnityEngine.Random.Range((int)CurrentStage * 100, (int)CurrentStage * 100 + 200);
+				Vector3Int EMPPosition = registerTile.WorldPositionServer;
+				EMPPosition.x += UnityEngine.Random.Range(-3 - (int)CurrentStage, 3 + (int)CurrentStage);
+				EMPPosition.y += UnityEngine.Random.Range(-3 - (int)CurrentStage, 3 + (int)CurrentStage);
+				Explosion.StartExplosion(EMPPosition, EMPStrength, true);
+			}
 		}
 
 		#region Throw/Push

@@ -5,6 +5,7 @@ using HealthV2;
 using Systems.Pipes;
 using Items;
 using Items.Others;
+using Objects.Machines;
 using Doors;
 using Systems.Electricity;
 
@@ -49,16 +50,13 @@ namespace Systems.Explosions
 
             if (isEMP)
             {
-				foreach(var thing in matrix.Get<ObjectBehaviour>(v3int, true))
-                {
-					if (thing.TryGetComponent<ItemStorage>(out var storage))
-					{
-						foreach (var slot in storage.GetItemSlotTree())
-						{
-							EMPThing(slot.ItemObject,(int)Damagedealt);
-						}
-					}
+				foreach (var thing in matrix.Get<Integrity>(v3int, true))
+				{
+					EMPThing(thing.gameObject, (int)Damagedealt);
+				}
 
+				foreach (var thing in matrix.Get<LivingHealthMasterBase>(v3int, true))
+                {
 					EMPThing(thing.gameObject, (int)Damagedealt);
 				}
             }
@@ -127,16 +125,42 @@ namespace Systems.Explosions
 		}
 
 		private void EMPThing(GameObject thing, int EMPStrength)
-		{
+        {
 			if (thing != null)
 			{
-				var interfaces = thing.GetComponents<IEMPAble>();
-
-				foreach (var EMPAble in interfaces)
+				if (isEMPAble(thing))
 				{
-					EMPAble.OnEMP(EMPStrength);
+					if (thing.TryGetComponent<ItemStorage>(out var storage))
+					{
+						foreach (var slot in storage.GetItemSlots())
+						{
+							EMPThing(slot.ItemObject, EMPStrength);
+						}
+					}
+
+					var interfaces = thing.GetComponents<IEMPAble>();
+
+					foreach (var EMPAble in interfaces)
+					{
+						EMPAble.OnEMP(EMPStrength);
+					}
 				}
 			}
+		}
+
+		private bool isEMPAble(GameObject thing)
+        {
+			if (thing.TryGetComponent<Machine>(out var machine))
+			{
+				if (machine.isEMPResistant) return false;
+			}
+
+			if (thing.TryGetComponent<ItemAttributesV2>(out var attributes))
+			{
+				if (Validations.HasItemTrait(thing.gameObject, CommonTraits.Instance.EMPResistant)) return false;
+			}
+
+			return true;
 		}
 	}
 }
