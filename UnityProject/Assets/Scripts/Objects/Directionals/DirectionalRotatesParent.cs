@@ -35,11 +35,21 @@ public class DirectionalRotatesParent : MonoBehaviour
 		//the prefab sprite orientation
 		var offset = Orientation.FromEnum(prefabChildrenOrientation).OffsetTo(newDir);
 
+		transform.rotation = Quaternion.identity;
+		transform.Rotate(offset.Quaternion.eulerAngles);
+
 		if (forceChildrenOpposite)
 		{
 			foreach (Transform child in transform)
 			{
 				child.localRotation = offset.Quaternion;
+			}
+		}
+		else
+		{
+			foreach (Transform child in transform)
+			{
+				child.rotation = Quaternion.identity;
 			}
 		}
 	}
@@ -63,6 +73,13 @@ public class DirectionalRotatesParent : MonoBehaviour
 				{
 					child.rotation = Quaternion.identity;
 					child.Rotate(offset.Quaternion.eulerAngles);
+				}
+			}
+			else
+			{
+				foreach (Transform child in transform)
+				{
+					child.rotation = Quaternion.identity;
 				}
 			}
 		}
