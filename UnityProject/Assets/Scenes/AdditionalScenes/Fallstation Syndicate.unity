@@ -360,9 +360,9 @@ MonoBehaviour:
   initialPosition: {x: 0, y: 0, z: 0}
   pivot: {x: 0, y: 0, z: 0}
   matrix: {fileID: 636193986}
+  IsFueled: 0
   IsForceStopped: 0
   RequiresFuel: 0
-  rcsModeActive: 0
   IsNotPilotable: 0
 --- !u!4 &27445730
 Transform:
@@ -3455,6 +3455,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 594d5aea377441d42a292019e6edbe58, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  subsystemManager: {fileID: 27445728}
   LayerType: 5
   matrix: {fileID: 636193986}
   metaTileMap: {fileID: 636193989}
@@ -4855,6 +4856,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 594d5aea377441d42a292019e6edbe58, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  subsystemManager: {fileID: 132686647}
   LayerType: 3
   matrix: {fileID: 714200164}
   metaTileMap: {fileID: 714200163}
@@ -6950,6 +6952,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6975cdddc19a5e14b8b76849d95d0f38, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  subsystemManager: {fileID: 27445728}
   LayerType: 8
   matrix: {fileID: 636193986}
   metaTileMap: {fileID: 636193989}
@@ -7269,6 +7272,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 594d5aea377441d42a292019e6edbe58, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  subsystemManager: {fileID: 132686647}
   LayerType: 0
   matrix: {fileID: 714200164}
   metaTileMap: {fileID: 714200163}
@@ -8680,19 +8684,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4725794095997998, guid: 5c03485ab6f79ea4e80e408f622c0347, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.7071068
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4725794095997998, guid: 5c03485ab6f79ea4e80e408f622c0347, type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4725794095997998, guid: 5c03485ab6f79ea4e80e408f622c0347, type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4725794095997998, guid: 5c03485ab6f79ea4e80e408f622c0347, type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0.7071068
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4725794095997998, guid: 5c03485ab6f79ea4e80e408f622c0347, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -9581,6 +9585,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   TargetMSpreFrame: 5
   ffLayersValues: []
+  matrix: {fileID: 636193986}
 --- !u!156049354 &636193990
 Grid:
   m_ObjectHideFlags: 0
@@ -10477,6 +10482,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   TargetMSpreFrame: 5
   ffLayersValues: []
+  matrix: {fileID: 714200164}
 --- !u!114 &714200164
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10998,6 +11004,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f2845199befc4cf8ad5a9702b3bc76ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  subsystemManager: {fileID: 27445728}
   LayerType: 2
   matrix: {fileID: 636193986}
   metaTileMap: {fileID: 636193989}
@@ -11362,6 +11369,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 594d5aea377441d42a292019e6edbe58, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  subsystemManager: {fileID: 27445728}
   LayerType: 3
   matrix: {fileID: 636193986}
   metaTileMap: {fileID: 636193989}
@@ -13532,19 +13540,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4725794095997998, guid: 5c03485ab6f79ea4e80e408f622c0347, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.7071068
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4725794095997998, guid: 5c03485ab6f79ea4e80e408f622c0347, type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4725794095997998, guid: 5c03485ab6f79ea4e80e408f622c0347, type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4725794095997998, guid: 5c03485ab6f79ea4e80e408f622c0347, type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0.7071068
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4725794095997998, guid: 5c03485ab6f79ea4e80e408f622c0347, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -14020,6 +14028,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 594d5aea377441d42a292019e6edbe58, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  subsystemManager: {fileID: 27445728}
   LayerType: 0
   matrix: {fileID: 636193986}
   metaTileMap: {fileID: 636193989}
@@ -16151,6 +16160,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 594d5aea377441d42a292019e6edbe58, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  subsystemManager: {fileID: 132686647}
   LayerType: 9
   matrix: {fileID: 714200164}
   metaTileMap: {fileID: 714200163}
@@ -17297,19 +17307,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4725794095997998, guid: 5c03485ab6f79ea4e80e408f622c0347, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.7071068
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4725794095997998, guid: 5c03485ab6f79ea4e80e408f622c0347, type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4725794095997998, guid: 5c03485ab6f79ea4e80e408f622c0347, type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4725794095997998, guid: 5c03485ab6f79ea4e80e408f622c0347, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0.7071068
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4725794095997998, guid: 5c03485ab6f79ea4e80e408f622c0347, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -17798,6 +17808,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 594d5aea377441d42a292019e6edbe58, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  subsystemManager: {fileID: 132686647}
   LayerType: 4
   matrix: {fileID: 714200164}
   metaTileMap: {fileID: 714200163}
@@ -21070,6 +21081,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f2845199befc4cf8ad5a9702b3bc76ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  subsystemManager: {fileID: 132686647}
   LayerType: 2
   matrix: {fileID: 714200164}
   metaTileMap: {fileID: 714200163}
@@ -21131,6 +21143,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 594d5aea377441d42a292019e6edbe58, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  subsystemManager: {fileID: 27445728}
   LayerType: 4
   matrix: {fileID: 636193986}
   metaTileMap: {fileID: 636193989}
@@ -22978,19 +22991,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4725794095997998, guid: 5c03485ab6f79ea4e80e408f622c0347, type: 3}
       propertyPath: m_LocalRotation.w
-      value: -0.00000004371139
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4725794095997998, guid: 5c03485ab6f79ea4e80e408f622c0347, type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4725794095997998, guid: 5c03485ab6f79ea4e80e408f622c0347, type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4725794095997998, guid: 5c03485ab6f79ea4e80e408f622c0347, type: 3}
       propertyPath: m_LocalRotation.z
-      value: -1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4725794095997998, guid: 5c03485ab6f79ea4e80e408f622c0347, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -23386,6 +23399,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 594d5aea377441d42a292019e6edbe58, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  subsystemManager: {fileID: 132686647}
   LayerType: 5
   matrix: {fileID: 714200164}
   metaTileMap: {fileID: 714200163}
@@ -24203,6 +24217,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 594d5aea377441d42a292019e6edbe58, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  subsystemManager: {fileID: 27445728}
   LayerType: 9
   matrix: {fileID: 636193986}
   metaTileMap: {fileID: 636193989}
@@ -24528,19 +24543,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4725794095997998, guid: 5c03485ab6f79ea4e80e408f622c0347, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.7071068
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4725794095997998, guid: 5c03485ab6f79ea4e80e408f622c0347, type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4725794095997998, guid: 5c03485ab6f79ea4e80e408f622c0347, type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4725794095997998, guid: 5c03485ab6f79ea4e80e408f622c0347, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0.7071068
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4725794095997998, guid: 5c03485ab6f79ea4e80e408f622c0347, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -24854,6 +24869,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 594d5aea377441d42a292019e6edbe58, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  subsystemManager: {fileID: 132686647}
   LayerType: 1
   matrix: {fileID: 714200164}
   metaTileMap: {fileID: 714200163}
@@ -27926,19 +27942,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4725794095997998, guid: 5c03485ab6f79ea4e80e408f622c0347, type: 3}
       propertyPath: m_LocalRotation.w
-      value: -0.00000004371139
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4725794095997998, guid: 5c03485ab6f79ea4e80e408f622c0347, type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4725794095997998, guid: 5c03485ab6f79ea4e80e408f622c0347, type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4725794095997998, guid: 5c03485ab6f79ea4e80e408f622c0347, type: 3}
       propertyPath: m_LocalRotation.z
-      value: -1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4725794095997998, guid: 5c03485ab6f79ea4e80e408f622c0347, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -29044,6 +29060,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6975cdddc19a5e14b8b76849d95d0f38, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  subsystemManager: {fileID: 132686647}
   LayerType: 8
   matrix: {fileID: 714200164}
   metaTileMap: {fileID: 714200163}
@@ -29192,6 +29209,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 594d5aea377441d42a292019e6edbe58, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  subsystemManager: {fileID: 27445728}
   LayerType: 1
   matrix: {fileID: 636193986}
   metaTileMap: {fileID: 636193989}
@@ -29526,6 +29544,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 594d5aea377441d42a292019e6edbe58, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  subsystemManager: {fileID: 132686647}
   LayerType: 6
   matrix: {fileID: 714200164}
   metaTileMap: {fileID: 714200163}
@@ -30035,6 +30054,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 594d5aea377441d42a292019e6edbe58, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  subsystemManager: {fileID: 27445728}
   LayerType: 6
   matrix: {fileID: 636193986}
   metaTileMap: {fileID: 636193989}
