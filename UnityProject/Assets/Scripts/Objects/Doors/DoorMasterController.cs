@@ -196,7 +196,7 @@ namespace Doors
 			{
 				TryOpen(byPlayer);
 			}
-			else if(HasPower == false)
+			else if(HasPower == false && byPlayer != null)
 			{
 				Chat.AddExamineMsgFromServer(byPlayer, $"{gameObject.ExpensiveName()} is unpowered");
 			}

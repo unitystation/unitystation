@@ -59,6 +59,8 @@ namespace Systems.Explosions
                 {
 					EmpThing(thing.gameObject, EmpStrength);
 				}
+
+				EmpStrength = 0;
             }
 
 			if(Damagedealt > 0)
