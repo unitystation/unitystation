@@ -85,17 +85,11 @@ namespace Items.Weapons
 				return;
 			}
 			hasExploded = true;
-
-			if (isServer)
-			{
-				// Get data before despawning
-				var worldPos = objectBehaviour.AssumedWorldPositionServer();
-
-				// Despawn the explosive
-				_ = Despawn.ServerSingle(gameObject);
-				Explosion.StartExplosion(worldPos, explosiveStrength);
-			}
-
+			// Get data before despawning
+			var worldPos = objectBehaviour.AssumedWorldPositionServer();
+			// Despawn the explosive
+			_ = Despawn.ServerSingle(gameObject);
+			Explosion.StartExplosion(worldPos, explosiveStrength);
 		}
 
 		[Server]
