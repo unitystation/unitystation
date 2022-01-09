@@ -7,7 +7,7 @@ namespace Systems.Explosions
 {
 	public class ExplosionPropagationLine
 	{
-		public bool isEMP;
+		public bool isEmp;
 
 		public static List<ExplosionPropagationLine> PooledThis = new List<ExplosionPropagationLine>();
 
@@ -68,7 +68,7 @@ namespace Systems.Explosions
 			err = (dx > dy ? dx : -dy) / 2;
 			ExplosionStrength = InExplosionStrength;
 
-			isEMP = isEmPulse;
+			isEmp = isEmPulse;
 		}
 
 		public void Step()
@@ -97,7 +97,7 @@ namespace Systems.Explosions
 					NodePoint.ExplosionNode.Initialise(Local, Matrix.Matrix);
 				}
 
-				NodePoint.ExplosionNode.isEMP = isEMP;
+				NodePoint.ExplosionNode.isEmp = isEmp;
 				NodePoint.ExplosionNode.AngleAndIntensity += GetXYDirection(Angle, ExplosionStrength);
 				NodePoint.ExplosionNode.PresentLines.Add(this);
 				ExplosionManager.CheckLocations.Add(NodePoint.ExplosionNode);
@@ -140,7 +140,7 @@ namespace Systems.Explosions
 			public HashSet<Vector2Int> CircleCircumference = new HashSet<Vector2Int>();
 		}
 
-		public static void StartExplosion(Vector3Int WorldPOS, float strength, bool isEMP = false)
+		public static void StartExplosion(Vector3Int WorldPOS, float strength, bool isEmp = false)
 		{
 			int Radius = (int) Math.Round(strength / (Math.PI * 75));
 
@@ -163,7 +163,7 @@ namespace Systems.Explosions
 				ShakingStrength = 255;
 			}
 
-			ExplosionUtils.PlaySoundAndShake(WorldPOS, ShakingStrength, Radius / 20, isEMP);
+			ExplosionUtils.PlaySoundAndShake(WorldPOS, ShakingStrength, Radius / 20, isEmp);
 
 			//Generates the conference
 			var explosionData = new ExplosionData();
@@ -173,7 +173,7 @@ namespace Systems.Explosions
 			foreach (var ToPoint in explosionData.CircleCircumference)
 			{
 				var Line = ExplosionPropagationLine.Getline();
-				Line.SetUp(WorldPOS.x, WorldPOS.y, ToPoint.x, ToPoint.y, InitialStrength, isEMP);
+				Line.SetUp(WorldPOS.x, WorldPOS.y, ToPoint.x, ToPoint.y, InitialStrength, isEmp);
 				Line.Step();
 			}
 		}

@@ -14,7 +14,7 @@ namespace Systems.Explosions
 {
 	public class ExplosionNode
 	{
-		public bool isEMP;
+		public bool isEmp;
 
 		public Vector3Int Location;
 		public Matrix matrix;
@@ -48,16 +48,16 @@ namespace Systems.Explosions
 				return;
 			}
 
-            if (isEMP)
+            if (isEmp)
             {
 				foreach (var thing in matrix.Get<Integrity>(v3int, true))
 				{
-					EMPThing(thing.gameObject, (int)Damagedealt);
+					EmpThing(thing.gameObject, (int)Damagedealt);
 				}
 
 				foreach (var thing in matrix.Get<LivingHealthMasterBase>(v3int, true))
                 {
-					EMPThing(thing.gameObject, (int)Damagedealt);
+					EmpThing(thing.gameObject, (int)Damagedealt);
 				}
             }
             else
@@ -124,17 +124,17 @@ namespace Systems.Explosions
 
 		}
 
-		private void EMPThing(GameObject thing, int EMPStrength)
+		private void EmpThing(GameObject thing, int EmpStrength)
         {
 			if (thing != null)
 			{
-				if (isEMPAble(thing))
+				if (isEmpAble(thing))
 				{
 					if (thing.TryGetComponent<ItemStorage>(out var storage))
 					{
 						foreach (var slot in storage.GetItemSlots())
 						{
-							EMPThing(slot.ItemObject, EMPStrength);
+							EmpThing(slot.ItemObject, EmpStrength);
 						}
 					}
 
@@ -142,21 +142,21 @@ namespace Systems.Explosions
 					{
 						foreach (var slot in dStorage.GetItemSlots())
 						{
-							EMPThing(slot.ItemObject, EMPStrength);
+							EmpThing(slot.ItemObject, EmpStrength);
 						}
 					}
 
-					var interfaces = thing.GetComponents<IEMPAble>();
+					var interfaces = thing.GetComponents<IEmpAble>();
 
 					foreach (var EMPAble in interfaces)
 					{
-						EMPAble.OnEMP(EMPStrength);
+						EMPAble.OnEmp(EmpStrength);
 					}
 				}
 			}
 		}
 
-		private bool isEMPAble(GameObject thing)
+		private bool isEmpAble(GameObject thing)
         {
 			if (thing.TryGetComponent<Machine>(out var machine))
 			{

@@ -2,8 +2,8 @@
 
 namespace Systems.Explosions
 {
-	public interface IEMPAble
+	public interface IEmpAble
 	{
-		void OnEMP(int EMPStrength);
+		void OnEmp(int EmpStrength);
 	}
 }

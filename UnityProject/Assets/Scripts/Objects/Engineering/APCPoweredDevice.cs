@@ -18,7 +18,7 @@ using UnityEditor;
 namespace Systems.Electricity
 {
 	[ExecuteInEditMode]
-	public class APCPoweredDevice : NetworkBehaviour, IServerDespawn, IEMPAble, IMultitoolSlaveable
+	public class APCPoweredDevice : NetworkBehaviour, IServerDespawn, IEmpAble, IMultitoolSlaveable
 	{
 		[SerializeField, PrefabModeOnly]
 		[FormerlySerializedAs("MinimumWorkingVoltage")]
@@ -317,14 +317,14 @@ namespace Systems.Electricity
             }
 		}
 
-		public void OnEMP(int EMPStrength)
+		public void OnEmp(int EmpStrength)
         {
-			StartCoroutine(EMP(EMPStrength));
+			StartCoroutine(Emp(EmpStrength));
 		}
 
-		private IEnumerator EMP(int EMPStrength)
+		private IEnumerator Emp(int EmpStrength)
 		{
-			int effectTime = (int)Math.Round(EMPStrength * 0.5f);
+			int effectTime = (int)(EmpStrength * 0.5f);
 
 			if (UnityEngine.Random.Range(0, 2) == 0)
 			{

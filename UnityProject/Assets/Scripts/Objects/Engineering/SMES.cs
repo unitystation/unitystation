@@ -12,7 +12,7 @@ namespace Objects.Engineering
 {
 	[RequireComponent(typeof(ElectricalNodeControl))]
 	[RequireComponent(typeof(BatterySupplyingModule))]
-	public class SMES : NetworkBehaviour, ICheckedInteractable<HandApply>, ICheckedInteractable<AiActivate>, INodeControl, IExaminable, IEMPAble
+	public class SMES : NetworkBehaviour, ICheckedInteractable<HandApply>, ICheckedInteractable<AiActivate>, INodeControl, IExaminable, IEmpAble
 	{
 		[Tooltip("How often (in seconds) the SMES's charging status should be updated.")]
 		[SerializeField]
@@ -36,6 +36,8 @@ namespace Objects.Engineering
 		private float MaxCharge => batterySupplyingModule.CapacityMax;
 		private float CurrentCharge => batterySupplyingModule.CurrentCapacity;
 		private int ChargePercent => Convert.ToInt32(Math.Round(CurrentCharge * 100 / MaxCharge));
+
+		private bool isExploding = false;
 
 
 		private bool outputEnabled = false;
@@ -253,18 +255,19 @@ namespace Objects.Engineering
 			SparkUtil.TrySpark(gameObject);
 		}
 
-		public void OnEMP(int EMPStrength)
+		public void OnEmp(int EmpStrength)
         {
-			if (CurrentCharge > 10000000 && UnityEngine.Random.Range(0, 2) == 0)
+			if (CurrentCharge > 10000000 && UnityEngine.Random.Range(0, 2) == 0 && !isExploding)
             {
+				isExploding = true;
 				TrySpark();
 				Chat.AddLocalMsgToChat($"<color=red>{gameObject.ExpensiveName()} starts to spit out sparks and smoke! No way this can end good...", gameObject);
-				StartCoroutine(EMP());
+				StartCoroutine(Emp());
             }
-			batterySupplyingModule.CurrentCapacity -= EMPStrength * 100;
+			batterySupplyingModule.CurrentCapacity -= EmpStrength * 1000;
         }
 
-		private IEnumerator EMP()
+		private IEnumerator Emp()
         {
 			yield return WaitFor.Seconds(3);
 			Explosion.StartExplosion(gameObject.GetComponent<RegisterObject>().WorldPosition,UnityEngine.Random.Range(100,300));

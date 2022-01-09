@@ -10,7 +10,7 @@ using UI.Action;
 namespace Items.Others
 {
 	[RequireComponent(typeof(ItemLightControl))]
-	public class FlashLight : NetworkBehaviour, ICheckedInteractable<HandActivate>, IEMPAble
+	public class FlashLight : NetworkBehaviour, ICheckedInteractable<HandActivate>, IEmpAble
 	{
 		[Tooltip("The SpriteHandler this flashlight type should use when setting the on/off sprite.")]
 		[SerializeField]
@@ -88,10 +88,10 @@ namespace Items.Others
 			}
 		}
 
-		public void OnEMP(int EMPStrength = 0)
+		public void OnEmp(int EmpStrength = 0)
         {
             if (lightControl.IsOn)
-			{
+            {
 				ToggleLight();
 			}
         }

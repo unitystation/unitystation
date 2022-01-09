@@ -4,7 +4,7 @@ using UnityEngine;
 using Items;
 using Systems.Explosions;
 
-public class Battery : MonoBehaviour, IEMPAble, IExaminable
+public class Battery : MonoBehaviour, IEmpAble, IExaminable
 {
 	public int Watts = 9000;
 	public int MaxWatts = 9000;
@@ -13,16 +13,16 @@ public class Battery : MonoBehaviour, IEMPAble, IExaminable
 
 	public bool isBroken = false;
 
-	public void OnEMP(int EMPStrength)
+	public void OnEmp(int EmpStrength)
     {
-		Watts -= EMPStrength * 100;
+		Watts -= EmpStrength * 100;
 
 		if (Watts < 0)
         {
 			Watts = 0;
         }
 
-		if(EMPStrength > 50 && UnityEngine.Random.Range(0,5) == 0)
+		if(EmpStrength > 50 && UnityEngine.Random.Range(0,5) == 0)
         {
 			isBroken = true;
         }

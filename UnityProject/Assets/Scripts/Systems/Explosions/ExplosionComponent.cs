@@ -31,7 +31,7 @@ namespace Systems.Explosions
 		[TooltipAttribute("Minimum duration grenade effects are visible depending on distance from center")]
 		public float minEffectDuration = .05f;
 		[TooltipAttribute("If explosion is actually EMP")]
-		public bool isEMP = false;
+		public bool isEmp = false;
 
 		private LayerMask obstacleMask;
 
@@ -45,11 +45,11 @@ namespace Systems.Explosions
 			StartCoroutine(ExplosionRoutine(matrix));
 		}
 
-		public void SetExplosionData(int damage = 150, float radius = 4f, bool isEMP = false, bool unstableRadius = false, EffectShapeType explosionType = EffectShapeType.Circle, float shakeDistance = 8, int minDamage = 2, float maxEffectDuration = .25f, float minEffectDuration = .05f)
+		public void SetExplosionData(int damage = 150, float radius = 4f, bool isEmp = false, bool unstableRadius = false, EffectShapeType explosionType = EffectShapeType.Circle, float shakeDistance = 8, int minDamage = 2, float maxEffectDuration = .25f, float minEffectDuration = .05f)
 		{
 			this.damage = damage;
 			this.radius = radius;
-			this.isEMP = isEMP;
+			this.isEmp = isEmp;
 			this.unstableRadius = unstableRadius;
 			this.explosionType = explosionType;
 			this.shakeDistance = shakeDistance;
@@ -63,7 +63,7 @@ namespace Systems.Explosions
 			var explosionCenter = transform.position.RoundToInt();
 
 			// First - play boom sound and shake ground
-			PlaySoundAndShake(explosionCenter, isEMP);
+			PlaySoundAndShake(explosionCenter, isEmp);
 
 			// Now let's create explosion shape
 			int radiusInteger = (int)radius;
@@ -82,11 +82,11 @@ namespace Systems.Explosions
 				// Calculate fire effect time
 				var effectTime = DistanceFromCenter(explosionCenter2d, tilePos2d, minEffectDuration, maxEffectDuration);
 
-				if (isEMP)
+				if (isEmp)
                 {
 					if (damage > 0)
                     {
-						EMPThings(tilePos, damage);
+						EmpThings(tilePos, damage);
 					}
 
 					if (float.IsNaN(effectTime))
@@ -95,7 +95,7 @@ namespace Systems.Explosions
 					}
 
 					var localTilePos = MatrixManager.WorldToLocalInt(tilePos, matrix.Id);
-					StartCoroutine(TimedEffect(localTilePos, effectTime, isEMP, tileManager));
+					StartCoroutine(TimedEffect(localTilePos, effectTime, isEmp, tileManager));
 
 					// Save longest effect time
 					if (effectTime > longestTime)
@@ -127,7 +127,7 @@ namespace Systems.Explosions
 						}
 
 						var localTilePos = MatrixManager.WorldToLocalInt(tilePos, matrix.Id);
-						StartCoroutine(TimedEffect(localTilePos, effectTime, isEMP, tileManager));
+						StartCoroutine(TimedEffect(localTilePos, effectTime, isEmp, tileManager));
 
 						// Save longest effect time
 						if (effectTime > longestTime)
@@ -142,11 +142,11 @@ namespace Systems.Explosions
 			Destroy(gameObject);
 		}
 
-		public IEnumerator TimedEffect(Vector3Int position, float time, bool isEMP, TileChangeManager tileChangeManager)
+		public IEnumerator TimedEffect(Vector3Int position, float time, bool isEmp, TileChangeManager tileChangeManager)
 		{
 			string effectName;
 			OverlayType effectOverlayType;
-            if (isEMP)
+            if (isEmp)
             {
 				effectName = "EMPEffect";
 				effectOverlayType = OverlayType.EMP;
@@ -164,17 +164,17 @@ namespace Systems.Explosions
 			tileChangeManager.MetaTileMap.RemoveOverlaysOfType(position, LayerType.Effects, effectOverlayType);
 		}
 
-		private void EMPThing(GameObject thing, int EMPStrength)
+		private void EmpThing(GameObject thing, int EmpStrength)
         {
 			if(thing != null)
             {
-                if (isEMPAble(thing))
+                if (isEmpAble(thing))
                 {
 					if (thing.TryGetComponent<ItemStorage>(out var storage))
 					{
 						foreach (var slot in storage.GetItemSlots())
 						{
-							EMPThing(slot.ItemObject, EMPStrength);
+							EmpThing(slot.ItemObject, EmpStrength);
 						}
 					}
 
@@ -182,34 +182,34 @@ namespace Systems.Explosions
                     {
 						foreach (var slot in dStorage.GetItemSlots())
 						{
-							EMPThing(slot.ItemObject, EMPStrength);
+							EmpThing(slot.ItemObject, EmpStrength);
 						}
 					}
 
-					var interfaces = thing.GetComponents<IEMPAble>();
+					var interfaces = thing.GetComponents<IEmpAble>();
 
-					foreach (var EMPAble in interfaces)
+					foreach (var EmpAble in interfaces)
 					{
-						EMPAble.OnEMP(EMPStrength);
+						EmpAble.OnEmp(EmpStrength);
 					}
 				}
 			}
 		}
 
-		private void EMPThings(Vector3Int worldPosition, int damage)
+		private void EmpThings(Vector3Int worldPosition, int damage)
         {
 			foreach (var thing in MatrixManager.GetAt<Integrity>(worldPosition, true).Distinct())
 			{
-				EMPThing(thing.gameObject, damage);
+				EmpThing(thing.gameObject, damage);
 			}
 
 			foreach (var thing in MatrixManager.GetAt<LivingHealthMasterBase>(worldPosition, true).Distinct())
 			{
-				EMPThing(thing.gameObject, damage);
+				EmpThing(thing.gameObject, damage);
 			}
 		}
 
-		private bool isEMPAble(GameObject thing)
+		private bool isEmpAble(GameObject thing)
 		{
 			if (thing.TryGetComponent<Machine>(out var machine))
 			{

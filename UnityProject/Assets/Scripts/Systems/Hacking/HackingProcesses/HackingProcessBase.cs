@@ -19,7 +19,7 @@ namespace Systems.Hacking
 	/// e.g. check if interacted with a screw driver, then check if
 	/// </summary>
 	[RequireComponent(typeof(ItemStorage))]
-	public class HackingProcessBase : NetworkBehaviour, IServerDespawn, IEMPAble
+	public class HackingProcessBase : NetworkBehaviour, IServerDespawn, IEmpAble
 	{
 		private static Dictionary<Type, Dictionary<MethodInfo, Color>> ColourDictionary = new Dictionary<Type, Dictionary<MethodInfo, Color>>();
 
@@ -369,7 +369,7 @@ namespace Systems.Hacking
 			}
 		}
 
-		public void OnEMP(int EMPStrength = 0)
+		public void OnEmp(int EmpStrength = 0)
         {
 			foreach(Cable cable in Cables)
             {

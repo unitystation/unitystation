@@ -479,7 +479,7 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IActi
 			{
 				if(earSlot.IsEmpty) continue;
 				if(earSlot.Item.TryGetComponent<Headset>(out var headset) == false) continue;
-				if(headset.isBroken) continue;
+				if(headset.isEMPed) continue;
 
 				EncryptionKeyType key = headset.EncryptionKey;
 				transmitChannels = transmitChannels | EncryptionKey.Permissions[key];
