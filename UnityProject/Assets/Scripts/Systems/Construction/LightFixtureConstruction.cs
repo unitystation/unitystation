@@ -15,7 +15,7 @@ namespace Objects.Construction
 	public class LightFixtureConstruction : NetworkBehaviour, ICheckedInteractable<HandApply>, IExaminable
 	{
 		public enum State { initial, wiresAdded, ready }
-				
+
 		[SerializeField]
 		private SpriteHandler spriteHandler;
 		[SerializeField]
@@ -103,7 +103,7 @@ namespace Objects.Construction
 					ReadyStateInteract(interaction);
 					break;
 			}
-		}		
+		}
 
 		public bool WillInteract(HandApply interaction, NetworkSide side)
 		{
@@ -140,11 +140,10 @@ namespace Objects.Construction
 						ServerSetState(State.wiresAdded);
 					});
 			}
-			else if (Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Wrench))
-			{
-				Spawn.ServerPrefab(FixtureFrameItemPrefab, transform.position, interaction.Performer.transform.parent, spawnItems: false);
-				_ = Despawn.ServerSingle(gameObject);
-			}
+
+			if (Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Wrench) == false) return;
+			Spawn.ServerPrefab(FixtureFrameItemPrefab, gameObject.AssumedWorldPosServer(), interaction.Performer.transform.parent, spawnItems: false);
+			_ = Despawn.ServerSingle(gameObject);
 		}
 
 		private void WiresAddedStateInteract(HandApply interaction)
@@ -162,7 +161,7 @@ namespace Objects.Construction
 		private void ReadyStateInteract(HandApply interaction)
 		{
 			if (Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Screwdriver) && !lightSource.HasBulb())
-			{								
+			{
 				ServerSetState(State.wiresAdded);
 			}
 		}
