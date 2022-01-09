@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Systems.CraftingV2;
+using Systems.Electricity;
 using Mirror;
 using Objects.Wallmounts;
 using UnityEditor;
@@ -119,6 +120,34 @@ namespace Core.Editor.Tools
 				EditorSceneManager.SaveScene(openScene);
 				EditorSceneManager.CloseScene(openScene, true);
 			}
+		}
+
+		/// <summary>
+		/// Fixes APC references where the ApcPoweredDevice has a related APC, but the APC doesnt have the device in the list
+		/// </summary>
+		[MenuItem("Mapping/Fix APC ApcPoweredDevice references (scene)")]
+		private static void FixAPC()
+		{
+			var allNets = FindObjectsOfType<APCPoweredDevice>();
+
+			var count = 0;
+
+			for (int i = allNets.Length - 1; i > 0; i--)
+			{
+				var apcPowered = allNets[i];
+
+				if(apcPowered.IsSelfPowered) continue;
+
+				if(apcPowered.RelatedAPC == null) continue;
+
+				if(apcPowered.RelatedAPC.ConnectedDevices.Contains(apcPowered)) continue;
+
+				apcPowered.RelatedAPC.ConnectedDevices.Add(apcPowered);
+
+				count++;
+			}
+
+			Debug.Log($"{allNets.Length} apcPoweredDevice found in scene, {count} were not in APC list.");
 		}
 
 		/// <summary>
