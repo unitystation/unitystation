@@ -15,6 +15,14 @@ namespace Tests
 {
     public class PowerLightsRelatedTests
     {
+	    private static HashSet<string> excludedScenes = new HashSet<string>
+	    {
+		    "Lobby",
+		    "StartUp",
+		    "Online"
+	    };
+
+
 	    [Test]
 	    [Ignore("For one current scene only")]
 	    public void CheckAll_SwitchesFor_LightSourcesInTheList()
@@ -83,6 +91,8 @@ namespace Tests
 
 			var currentScene = EditorSceneManager.OpenScene(scene.path, OpenSceneMode.Single);
 		    var currentSceneName = currentScene.name;
+
+		    if (excludedScenes.Contains(currentSceneName)) return report;
 
 		    var gameObjects = currentScene.GetRootGameObjects();
 		    foreach (var child in gameObjects)
@@ -172,6 +182,8 @@ namespace Tests
 		    {
 			    var currentScene = EditorSceneManager.OpenScene(scene.path, OpenSceneMode.Single);
 			    var currentSceneName = currentScene.name;
+
+			    if (excludedScenes.Contains(currentSceneName)) continue;
 
 			    var listOfDevices = GetAllLightSourcesInTheScene();
 			    foreach (var objectDevice in listOfDevices)
@@ -263,6 +275,8 @@ namespace Tests
 			    var currentScene = EditorSceneManager.OpenScene(scene.path, OpenSceneMode.Single);
 			    var currentSceneName = currentScene.name;
 
+			    if (excludedScenes.Contains(currentSceneName)) continue;
+
 			    var listOfDevices = GetAllLightSwitchesInTheScene();
 			    foreach (var objectDevice in listOfDevices)
 			    {
@@ -352,6 +366,8 @@ namespace Tests
 		    {
 			    var currentScene = EditorSceneManager.OpenScene(scene.path, OpenSceneMode.Single);
 			    var currentSceneName = currentScene.name;
+
+			    if (excludedScenes.Contains(currentSceneName)) continue;
 
 			    var listOfDevices = GetAllAPCsInTheScene();
 			    foreach (var device in listOfDevices)

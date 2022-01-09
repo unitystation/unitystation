@@ -31,6 +31,7 @@ namespace Core.Editor.Tools
 			var allDirs = FindObjectsOfType<Directional>();
 			foreach (var directional in allDirs)
 			{
+				EditorUtility.SetDirty(directional.gameObject);
 				directional.ChangeDirectionInEditor();
 			}
 			Logger.Log($"Refreshed {allDirs.Length} directionals", Category.Editor);
@@ -141,6 +142,8 @@ namespace Core.Editor.Tools
 				if(apcPowered.RelatedAPC == null) continue;
 
 				if(apcPowered.RelatedAPC.ConnectedDevices.Contains(apcPowered)) continue;
+
+				EditorUtility.SetDirty(apcPowered.RelatedAPC);
 
 				apcPowered.RelatedAPC.ConnectedDevices.Add(apcPowered);
 
