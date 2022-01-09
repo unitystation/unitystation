@@ -225,17 +225,22 @@ public class Mind
 	{
 		if (IsAntag == false) return;
 		var playerMob = GetCurrentMob();
+		
+		//Send Objectives
 		Chat.AddExamineMsgFromServer(playerMob, antag.GetObjectivesForPlayer());
-		if(playerMob.TryGetComponent<PlayerScript>(out var body) == false) return;
+		
+		if (playerMob.TryGetComponent<PlayerScript>(out var body) == false) return;
 		if (antag.Antagonist.AntagJobType == JobType.TRAITOR || antag.Antagonist.AntagJobType == JobType.SYNDICATE)
         {
         	var playerInventory = body.DynamicItemStorage.GetItemSlots();
         	foreach (var item in playerInventory)
         	{
-        		if(item.IsEmpty) continue;
+        		if (item.IsEmpty) continue;
         		if (item.ItemObject.TryGetComponent<PDALogic>(out var PDA) == false) continue;
         		if(PDA.IsUplinkCapable == false) continue;
-                Chat.AddExamineMsgFromServer(playerMob, antag.GetObjectivesForPlayer());
+        		
+        		//Send Uplink code
+                Chat.AddExamineMsgFromServer(playerMob, $"PDA uplink code retrieved: {PDA.UplinkUnlockCode}");
 	        }
         }
 	}
