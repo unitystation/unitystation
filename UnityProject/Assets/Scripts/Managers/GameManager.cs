@@ -181,6 +181,7 @@ public partial class GameManager : MonoBehaviour, IInitialise
 	private void LoadConfig()
 	{
 		MinPlayersForCountdown = GameConfigManager.GameConfig.MinPlayersForCountdown;
+		MinReadyPlayersForCountdown = GameConfigManager.GameConfig.MinReadyPlayersForCountdown;
 		PreRoundTime = GameConfigManager.GameConfig.PreRoundTime;
 		RoundEndTime = GameConfigManager.GameConfig.RoundEndTime;
 		RoundsPerMap = GameConfigManager.GameConfig.RoundsPerMap;
