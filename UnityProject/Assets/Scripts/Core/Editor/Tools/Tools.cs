@@ -114,7 +114,7 @@ namespace Core.Editor.Tools
 			{
 				if (scene.Contains("DevScenes") || scene.StartsWith("Packages")) continue;
 
-				var openScene = EditorSceneManager.OpenScene(scene);
+				var openScene = EditorSceneManager.OpenScene(scene, OpenSceneMode.Single);
 
 				EditorSceneManager.MarkSceneDirty(openScene);
 				EditorSceneManager.SaveScene(openScene);
