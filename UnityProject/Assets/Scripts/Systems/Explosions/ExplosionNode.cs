@@ -14,7 +14,7 @@ namespace Systems.Explosions
 {
 	public class ExplosionNode
 	{
-		public bool isEmp;
+		public int EmpStrength = 0;
 
 		public Vector3Int Location;
 		public Matrix matrix;
@@ -38,7 +38,7 @@ namespace Systems.Explosions
 
 			var metaTileMap = matrix.MetaTileMap;
 
-			if (Damagedealt <= 0)
+			if (Damagedealt <= 0 && EmpStrength <= 0)
 			{
 				return;
 			}
@@ -48,19 +48,20 @@ namespace Systems.Explosions
 				return;
 			}
 
-            if (isEmp)
+            if (EmpStrength > 0)
             {
 				foreach (var thing in matrix.Get<Integrity>(v3int, true))
 				{
-					EmpThing(thing.gameObject, (int)Damagedealt);
+					EmpThing(thing.gameObject, EmpStrength);
 				}
 
 				foreach (var thing in matrix.Get<LivingHealthMasterBase>(v3int, true))
                 {
-					EmpThing(thing.gameObject, (int)Damagedealt);
+					EmpThing(thing.gameObject, EmpStrength);
 				}
             }
-            else
+
+			if(Damagedealt > 0)
             {
 				EnergyExpended = metaTileMap.ApplyDamage(v3int, Damagedealt,
 			MatrixManager.LocalToWorldInt(v3int, matrix.MatrixInfo), AttackType.Bomb);
@@ -121,7 +122,6 @@ namespace Systems.Explosions
 				}
 				AngleAndIntensity = Vector2.zero;
 			}
-
 		}
 
 		private void EmpThing(GameObject thing, int EmpStrength)
