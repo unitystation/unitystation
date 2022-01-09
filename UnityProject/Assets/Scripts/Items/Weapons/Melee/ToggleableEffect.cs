@@ -9,7 +9,7 @@ namespace Weapons
 	/// </summary>
 	[RequireComponent(typeof(Pickupable))]
 	[RequireComponent(typeof(MeleeEffect))]
-	public class ToggleableEffect : NetworkBehaviour, ICheckedInteractable<HandActivate>, IServerSpawn
+	public class ToggleableEffect : NetworkBehaviour, ICheckedInteractable<HandActivate>, IServerSpawn, ICheckedInteractable<InventoryApply>
 	{
 		private SpriteHandler spriteHandler;
 
@@ -40,14 +40,14 @@ namespace Weapons
 			TurnOff();
 		}
 
-		private void TurnOn()
+		public void TurnOn()
 		{
 			meleeEffect.enabled = true;
 			weaponState = WeaponState.On;
 			spriteHandler.ChangeSprite((int)WeaponState.On);
 		}
 
-		private void TurnOff()
+		public void TurnOff()
 		{
 			//logic to turn the teleprod off.
 			meleeEffect.enabled = false;
@@ -61,13 +61,66 @@ namespace Weapons
 			return DefaultWillInteract.Default(interaction, side);
 		}
 
+		#region inventoryinteraction
+
+		public bool WillInteract(InventoryApply interaction, NetworkSide side)
+		{
+			if (DefaultWillInteract.Default(interaction, side) == false) return false;
+
+			if (interaction.TargetObject == gameObject && interaction.IsFromHandSlot)
+			{
+				if (Validations.HasItemTrait(interaction.UsedObject, CommonTraits.Instance.Screwdriver) && meleeEffect.allowScrewdriver)
+				{
+					return true;
+				}
+				else if (interaction.UsedObject != null)
+				{
+					if (meleeEffect.Battery == null && Validations.HasItemTrait(interaction.UsedObject, CommonTraits.Instance.WeaponCell))
+					{
+						return true;
+					}
+				}
+			}
+			return false;
+		}
+
+		public void ServerPerformInteraction(InventoryApply interaction)
+		{
+			if (Validations.HasItemTrait(interaction.UsedObject, CommonTraits.Instance.Screwdriver) && meleeEffect.Battery != null && meleeEffect.allowScrewdriver)
+			{
+				Inventory.ServerDrop(meleeEffect.batterySlot);
+			}
+
+			if (meleeEffect.Battery == null && Validations.HasItemTrait(interaction.UsedObject, CommonTraits.Instance.WeaponCell))
+			{
+				Inventory.ClientRequestTransfer(interaction.FromSlot, meleeEffect.batterySlot);
+			}
+		}
+
+		#endregion
+
 		//Activating the teleprod in-hand turns it off or off depending on its state.
 		public void ServerPerformInteraction(HandActivate interaction)
 		{
 			SoundManager.PlayNetworkedAtPos(ToggleSound, interaction.Performer.AssumedWorldPosServer(), sourceObj: interaction.Performer);
+
 			if (weaponState == WeaponState.Off)
 			{
-				TurnOn();
+				if (meleeEffect.hasBattery)
+				{
+					if(meleeEffect.Battery != null && (meleeEffect.Battery.Watts >= meleeEffect.chargeUsage))
+					{
+						TurnOn();
+					}
+					else
+					{
+						Chat.AddExamineMsg(interaction.Performer, $"{gameObject.ExpensiveName()} is out of power.");
+					}
+				}
+				else
+				{
+					TurnOn();
+				}			
 			}
 			else
 			{

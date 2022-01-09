@@ -7,7 +7,7 @@ namespace Weapons
 	/// <summary>
 	/// Adding this to a weapon allows it to stun and/or randomly teleport targets on hit. 
 	/// </summary>
-	public class MeleeEffect : MonoBehaviour, ICheckedInteractable<HandApply>
+	public class MeleeEffect : MonoBehaviour, ICheckedInteractable<HandApply>, IServerSpawn
 	{
 
 		[HideInInspector]
@@ -56,9 +56,58 @@ namespace Weapons
 		//Send only one message per second.
 		private bool coolDownMessage;
 
+		/// <summary>
+		/// Does this weapon rely on battery power to function
+		/// </summary>
+		[HideInInspector]
+		public bool hasBattery = false;
+
+		[HideInInspector]
+		public Battery Battery => batterySlot.Item != null ? batterySlot.Item.GetComponent<Battery>() : null;
+
+		/// <summary>
+		/// How much power (in watts) is used per strike? High capacity powercells have a 15000 Watt capacity
+		/// </summary>
+		[HideInInspector]
+		public int chargeUsage = 0;
+
+		/// <summary>
+		/// What power cell should this weapon start with?
+		/// </summary>
+		[HideInInspector]
+		public GameObject cellPrefab = null;
+
+		/// <summary>
+		/// Can the power cell be removed via screwdriver?
+		/// </summary>
+		[HideInInspector]
+		public bool allowScrewdriver = true;
+
+		[HideInInspector]
+		public ItemSlot batterySlot = null;
+
+		public void Awake()
+		{
+			ItemStorage itemStorage = GetComponent<ItemStorage>();
+
+			if (itemStorage != null && hasBattery)
+			{
+				batterySlot = itemStorage.GetIndexedItemSlot(0);
+			}
+		}
+
+		public void OnSpawnServer(SpawnInfo info)
+		{
+			GameObject cell = Spawn.ServerPrefab(cellPrefab).GameObject;
+			Inventory.ServerAdd(cell, batterySlot, ReplacementStrategy.DespawnOther);
+		}
+
+		#region handinteraction
+
 		public bool WillInteract(HandApply interaction, NetworkSide side)
 		{
 			if (!DefaultWillInteract.Default(interaction, side)) return false;
+
 
 			return interaction.UsedObject == gameObject
 				&& interaction.TargetObject.GetComponent<RegisterPlayer>();
@@ -80,6 +129,25 @@ namespace Weapons
 			{
 				// Direction of attack towards the attack target.
 				wna.ServerPerformMeleeAttack(target, dir, interaction.TargetBodyPart, LayerType.None);
+			}
+
+			if (canEffect && hasBattery)
+			{
+				if (Battery.Watts >= chargeUsage)
+				{
+					Battery.Watts -= chargeUsage;
+				}
+				else
+				{
+					ToggleableEffect toggleableEffect = gameObject.GetComponent<ToggleableEffect>();
+					if(toggleableEffect != null)
+					{
+						toggleableEffect.TurnOff();
+					}
+
+					timer = cooldown;
+					canEffect = false;
+				}
 			}
 
 			RegisterPlayer registerPlayerVictim = target.GetComponent<RegisterPlayer>();
@@ -116,9 +184,25 @@ namespace Weapons
 			{
 				if (coolDownMessage) return;
 				coolDownMessage = true;
-				Chat.AddExamineMsg(performer, $"{gameObject.ExpensiveName()} is on cooldown.");
+				if(hasBattery)
+				{
+					if(Battery.Watts >= chargeUsage)
+					{
+						Chat.AddExamineMsg(performer, $"{gameObject.ExpensiveName()} is on cooldown.");
+					}
+					else
+					{
+						Chat.AddExamineMsg(performer, $"{gameObject.ExpensiveName()} is out of power.");
+					}
+				}
+				else
+				{
+					Chat.AddExamineMsg(performer, $"{gameObject.ExpensiveName()} is on cooldown.");
+				}
 			}
 		}
+
+		#endregion
 
 		private void OnEnable()
 		{

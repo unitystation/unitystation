@@ -1,5 +1,6 @@
 using UnityEditor;
 using Weapons;
+using UnityEngine;
 
 namespace CustomInspectors 
 {
@@ -39,6 +40,22 @@ namespace CustomInspectors
 				meleeEffect.avoidImpassable = EditorGUILayout.Toggle("Avoid Impassables?", meleeEffect.avoidImpassable);
 				meleeEffect.minTeleportDistance = EditorGUILayout.IntSlider("Min Teleport distance", meleeEffect.minTeleportDistance, 0, 15);
 				meleeEffect.maxTeleportDistance = EditorGUILayout.IntSlider("Max Teleport distance", meleeEffect.maxTeleportDistance, 0, 15);
+
+				EditorGUI.indentLevel--;
+			}
+
+			EditorGUILayout.Space(10);
+			EditorGUILayout.LabelField("Battery");
+
+			meleeEffect.hasBattery = EditorGUILayout.Toggle("Has Battery?", meleeEffect.hasBattery);
+
+			if (meleeEffect.hasBattery == true)
+			{
+				EditorGUI.indentLevel++;
+
+				meleeEffect.allowScrewdriver = EditorGUILayout.Toggle("Allow Screwdriver?", meleeEffect.allowScrewdriver);
+				meleeEffect.chargeUsage = EditorGUILayout.IntField("Power usage per hit", meleeEffect.chargeUsage);
+				meleeEffect.cellPrefab = (GameObject)EditorGUILayout.ObjectField("Cell Prefab", meleeEffect.cellPrefab, typeof(GameObject), false);
 
 				EditorGUI.indentLevel--;
 			}
