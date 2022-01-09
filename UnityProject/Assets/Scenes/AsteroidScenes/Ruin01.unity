@@ -4282,6 +4282,18 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 872091790}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &872091793 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6807309527984598602, guid: fde32c02abddc814f9366ff1fb21f234,
+    type: 3}
+  m_PrefabInstance: {fileID: 872091790}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 053e2d398d507cc449f05be2499aa497, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &903604351
 GameObject:
   m_ObjectHideFlags: 0
@@ -5985,7 +5997,7 @@ PrefabInstance:
     - target: {fileID: 8342472905829387893, guid: cd57203a8d3f54f478446e9b0ced6cf9,
         type: 3}
       propertyPath: connectedDevices.Array.size
-      value: 17
+      value: 18
       objectReference: {fileID: 0}
     - target: {fileID: 8342472905829387893, guid: cd57203a8d3f54f478446e9b0ced6cf9,
         type: 3}
@@ -6072,6 +6084,11 @@ PrefabInstance:
       propertyPath: connectedDevices.Array.data[16]
       value: 
       objectReference: {fileID: 1740983519}
+    - target: {fileID: 8342472905829387893, guid: cd57203a8d3f54f478446e9b0ced6cf9,
+        type: 3}
+      propertyPath: connectedDevices.Array.data[17]
+      value: 
+      objectReference: {fileID: 872091793}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: cd57203a8d3f54f478446e9b0ced6cf9, type: 3}
 --- !u!4 &1566132477 stripped
