@@ -53,13 +53,16 @@ public class DirectionalRotatesParent : MonoBehaviour
 			var dir = GetComponent<Directional>().InitialOrientation;
 			var offset = Orientation.FromEnum(prefabChildrenOrientation).OffsetTo(dir);
 
-			transform.rotation = offset.Quaternion;
+			transform.rotation = Quaternion.identity;
+
+			transform.Rotate(offset.Quaternion.eulerAngles);
 
 			if (forceChildrenOpposite)
 			{
 				foreach (Transform child in transform)
 				{
-					child.rotation = Quaternion.Euler(dir.Vector);
+					child.rotation = Quaternion.identity;
+					child.Rotate(offset.Quaternion.eulerAngles);
 				}
 			}
 		}
