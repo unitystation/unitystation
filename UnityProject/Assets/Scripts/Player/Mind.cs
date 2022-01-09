@@ -6,6 +6,7 @@ using Mirror;
 using Antagonists;
 using Systems.Spells;
 using HealthV2;
+using Items.PDA;
 using Player;
 using ScriptableObjects.Audio;
 using UI.Action;
@@ -223,8 +224,20 @@ public class Mind
 	public void ShowObjectives()
 	{
 		if (IsAntag == false) return;
-
-		Chat.AddExamineMsgFromServer(GetCurrentMob(), antag.GetObjectivesForPlayer());
+		var playerMob = GetCurrentMob();
+		Chat.AddExamineMsgFromServer(playerMob, antag.GetObjectivesForPlayer());
+		if(playerMob.TryGetComponent<PlayerScript>(out var body) == false) return;
+		if (antag.Antagonist.AntagJobType == JobType.TRAITOR || antag.Antagonist.AntagJobType == JobType.SYNDICATE)
+        {
+        	var playerInventory = body.DynamicItemStorage.GetItemSlots();
+        	foreach (var item in playerInventory)
+        	{
+        		if(item.IsEmpty) continue;
+        		if (item.ItemObject.TryGetComponent<PDALogic>(out var PDA) == false) continue;
+        		if(PDA.IsUplinkCapable == false) continue;
+                Chat.AddExamineMsgFromServer(playerMob, antag.GetObjectivesForPlayer());
+	        }
+        }
 	}
 
 	/// <summary>

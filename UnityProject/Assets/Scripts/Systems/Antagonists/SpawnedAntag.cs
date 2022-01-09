@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Items.PDA;
 using Strings;
 
 namespace Antagonists
@@ -77,17 +76,6 @@ namespace Antagonists
 			}
 			// Adding back italic tag so rich text doesn't break
 			objSB.AppendLine("<i>");
-			if (Antagonist.AntagJobType == JobType.TRAITOR || Antagonist.AntagJobType == JobType.SYNDICATE)
-			{
-				var playerInventory = Owner.body.DynamicItemStorage.GetItemSlots();
-				foreach (var item in playerInventory)
-				{
-					if(item.IsEmpty) continue;
-					if (item.ItemObject.TryGetComponent<PDALogic>(out var PDA) == false) continue;
-					if(PDA.IsUplinkCapable == false) continue;
-					objSB.AppendLine($"Your uplink code is {PDA.UplinkUnlockCode}");
-				}
-			}
 			return objSB.ToString();
 		}
 
