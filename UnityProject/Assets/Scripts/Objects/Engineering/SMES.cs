@@ -121,10 +121,10 @@ namespace Objects.Engineering
 		{
 			UpdateMe();
 			return $"The charge indicator shows a {ChargePercent} percent charge. " +
-			       $"The input level is: {batterySupplyingModule.InputLevel} % The output level is: {batterySupplyingModule.OutputLevel} %. " +
-			       $"The power input/output is " +
-			       $"{(outputEnabled ? $"enabled, and it seems to {(IsCharging ? "be" : "not be")} charging" : "disabled")}. " +
-			       "Use a crowbar to adjust the output level and a wrench to adjust the input level.";
+				   $"The input level is: {batterySupplyingModule.InputLevel} % The output level is: {batterySupplyingModule.OutputLevel} %. " +
+				   $"The power input/output is " +
+				   $"{(outputEnabled ? $"enabled, and it seems to {(IsCharging ? "be" : "not be")} charging" : "disabled")}. " +
+				   "Use a crowbar to adjust the output level and a wrench to adjust the input level.";
 		}
 
 		public bool WillInteract(HandApply interaction, NetworkSide side)
@@ -256,21 +256,21 @@ namespace Objects.Engineering
 		}
 
 		public void OnEmp(int EmpStrength)
-        {
-			if (CurrentCharge > 10000000 && UnityEngine.Random.Range(0, 2) == 0 && !isExploding)
-            {
+		{
+			if (CurrentCharge > 10000000 && DMMath.Prob(25) && !isExploding)
+			{
 				isExploding = true;
 				TrySpark();
 				Chat.AddLocalMsgToChat($"<color=red>{gameObject.ExpensiveName()} starts to spit out sparks and smoke! No way this can end good...", gameObject);
 				StartCoroutine(Emp());
-            }
+			}
 			batterySupplyingModule.CurrentCapacity -= EmpStrength * 1000;
-        }
+		}
 
 		private IEnumerator Emp()
-        {
+		{
 			yield return WaitFor.Seconds(3);
 			Explosion.StartExplosion(gameObject.GetComponent<RegisterObject>().WorldPosition,UnityEngine.Random.Range(100,300));
-        }
+		}
 	}
 }

@@ -14,27 +14,23 @@ public class Battery : MonoBehaviour, IEmpAble, IExaminable
 	public bool isBroken = false;
 
 	public void OnEmp(int EmpStrength)
-    {
+	{
 		Watts -= EmpStrength * 100;
+		Mathf.Clamp(Watts, 0, MaxWatts);
 
-		if (Watts < 0)
-        {
-			Watts = 0;
-        }
-
-		if(EmpStrength > 50 && UnityEngine.Random.Range(0,5) == 0)
-        {
+		if(EmpStrength > 50 && DMMath.Prob(25))
+		{
 			isBroken = true;
-        }
-    }
+		}
+	}
 
 	public string Examine(Vector3 worldPos = default)
 	{
 		string status = "";
-        if (isBroken)
-        {
+		if (isBroken)
+		{
 			status = $"<color=red>It appears to be broken.";
-        }
+		}
 		return $"{gameObject.GetComponent<ItemAttributesV2>().InitialDescription}. Charge indicator shows a {Watts/MaxWatts*100} percent charge." +
 			status;
 	}

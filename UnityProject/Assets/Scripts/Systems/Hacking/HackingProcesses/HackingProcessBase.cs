@@ -316,7 +316,7 @@ namespace Systems.Hacking
 					foreach (var cable in Cables)
 					{
 						if (LocalPortInput.LocalAction == cable.PanelInput &&
-						    LocalPortOutput.LocalAction == cable.PanelOutput)
+							LocalPortOutput.LocalAction == cable.PanelOutput)
 						{
 							return; //Cable Already at position
 						}
@@ -370,15 +370,15 @@ namespace Systems.Hacking
 		}
 
 		public void OnEmp(int EmpStrength = 0)
-        {
+		{
 			foreach(Cable cable in Cables)
-            {
-				if(UnityEngine.Random.Range(0,2) == 0)
-                {
+			{
+				if(DMMath.Prob(50))
+				{
 					cable.Impulse();
-                }
-            }
-        }
+				}
+			}
+		}
 
 		public class Cable
 		{

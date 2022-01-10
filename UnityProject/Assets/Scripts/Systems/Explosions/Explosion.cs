@@ -97,12 +97,12 @@ namespace Systems.Explosions
 					NodePoint.ExplosionNode.Initialise(Local, Matrix.Matrix);
 				}
 
-                if (isEmp)
-                {
+				if (isEmp)
+				{
 					NodePoint.ExplosionNode.EmpStrength += (int)(GetXYDirection(Angle, ExplosionStrength).magnitude);
 				}
-                else
-                {
+				else
+				{
 					NodePoint.ExplosionNode.AngleAndIntensity += GetXYDirection(Angle, ExplosionStrength);
 				}
 				NodePoint.ExplosionNode.PresentLines.Add(this);

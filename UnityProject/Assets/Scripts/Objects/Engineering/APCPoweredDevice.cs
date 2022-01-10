@@ -285,8 +285,8 @@ namespace Systems.Electricity
 		private void UpdateSynchronisedState(PowerState oldState, PowerState newState)
 		{
 			EnsureInit();
-            if (!isEMPed)
-            {
+			if (!isEMPed)
+			{
 				if (newState != state)
 				{
 					Logger.LogTraceFormat("{0}({1}) state changing {2} to {3}", Category.Electrical, name, transform.position.To2Int(), this.state, newState);
@@ -311,14 +311,14 @@ namespace Systems.Electricity
 					}
 				}
 			}
-            else
-            {
+			else
+			{
 				state = PowerState.Off;
-            }
+			}
 		}
 
 		public void OnEmp(int EmpStrength)
-        {
+		{
 			StartCoroutine(Emp(EmpStrength));
 		}
 

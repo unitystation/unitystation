@@ -42,7 +42,7 @@ namespace Chemistry.Effects
 			var strength = (float)(-463+205*Mathf.Log(amount)+75*Math.PI)*potency;
 
 
-			if (insideBody && strength > 0 && !isEMP)
+			if (insideBody && strength > 0 && isEMP == false)
 			{
 				if (strength >= bodyPart.Health)
 				{

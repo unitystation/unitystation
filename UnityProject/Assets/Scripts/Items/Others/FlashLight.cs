@@ -89,11 +89,11 @@ namespace Items.Others
 		}
 
 		public void OnEmp(int EmpStrength = 0)
-        {
-            if (lightControl.IsOn)
-            {
+		{
+			if (lightControl.IsOn)
+			{
 				ToggleLight();
 			}
-        }
+		}
 	}
 }

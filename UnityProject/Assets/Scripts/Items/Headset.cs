@@ -41,15 +41,15 @@ public class Headset : NetworkBehaviour, IInteractable<HandActivate>, IExaminabl
 	}
 
 	public void OnEmp(int EmpStrength)
-    {
-        if (!isEMPed)
-        {
+	{
+		if (!isEMPed)
+		{
 			StartCoroutine(Emp(EmpStrength));
 		}
 	}
 
 	public IEnumerator Emp(int EmpStrength)
-    {
+	{
 		int effectTime = (int)(EmpStrength * 0.75f);
 		isEMPed = true;
 		Chat.AddExamineMsg(PlayerManager.LocalPlayerScript.gameObject, $"Your {gameObject.ExpensiveName()} suddenly becomes very quiet...");

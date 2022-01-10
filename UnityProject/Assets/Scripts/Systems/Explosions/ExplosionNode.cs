@@ -48,23 +48,23 @@ namespace Systems.Explosions
 				return;
 			}
 
-            if (EmpStrength > 0)
-            {
+			if (EmpStrength > 0)
+			{
 				foreach (var thing in matrix.Get<Integrity>(v3int, true))
 				{
 					EmpThing(thing.gameObject, EmpStrength);
 				}
 
 				foreach (var thing in matrix.Get<LivingHealthMasterBase>(v3int, true))
-                {
+				{
 					EmpThing(thing.gameObject, EmpStrength);
 				}
 
 				EmpStrength = 0;
-            }
+			}
 
 			if(Damagedealt > 0)
-            {
+			{
 				EnergyExpended = metaTileMap.ApplyDamage(v3int, Damagedealt,
 			MatrixManager.LocalToWorldInt(v3int, matrix.MatrixInfo), AttackType.Bomb);
 
@@ -127,7 +127,7 @@ namespace Systems.Explosions
 		}
 
 		private void EmpThing(GameObject thing, int EmpStrength)
-        {
+		{
 			if (thing != null)
 			{
 				if (isEmpAble(thing))
@@ -159,7 +159,7 @@ namespace Systems.Explosions
 		}
 
 		private bool isEmpAble(GameObject thing)
-        {
+		{
 			if (thing.TryGetComponent<Machine>(out var machine))
 			{
 				if (machine.isEMPResistant) return false;
