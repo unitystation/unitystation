@@ -17,7 +17,7 @@ namespace Player
 		/// <summary>
 		/// Time in milliseconds! The time between mouse clicks where we can orbit an object
 		/// </summary>
-		private readonly int doubeClickTime = 500;
+		private readonly int doubleClickTime = 500;
 		private bool hasClicked = false;
 
 		private void Start()
@@ -29,8 +29,10 @@ namespace Player
 
 		private void OnDisable()
 		{
-			StopOrbiting();
 			UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
+
+			if(CustomNetworkManager.IsServer == false) return;
+			StopOrbiting();
 		}
 
 		private void SyncOrbitObject(GameObject oldObject, GameObject newObject)
@@ -79,7 +81,7 @@ namespace Player
 		private async void DoubleClickTimer()
 		{
 			hasClicked = true;
-			await Task.Delay(doubeClickTime).ConfigureAwait(false);
+			await Task.Delay(doubleClickTime).ConfigureAwait(false);
 			hasClicked = false;
 		}
 
