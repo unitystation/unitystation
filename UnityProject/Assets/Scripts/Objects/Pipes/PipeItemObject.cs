@@ -26,6 +26,7 @@ namespace Items.Atmospherics
 			{
 				var orientation = Orientation.GetOrientation(transform.localEulerAngles.z);
 
+//TODO: find the cause for up and down being swaped and remove this hacky fix!
 				if (orientation == Orientation.Up)
 				{
 					orientation = Orientation.Down;
