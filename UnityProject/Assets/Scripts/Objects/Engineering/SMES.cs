@@ -257,7 +257,7 @@ namespace Objects.Engineering
 
 		public void OnEmp(int EmpStrength)
 		{
-			if (CurrentCharge > 10000000 && DMMath.Prob(25) && !isExploding)
+			if (CurrentCharge > 10000000 && DMMath.Prob(25) && isExploding == false)
 			{
 				isExploding = true;
 				TrySpark();
