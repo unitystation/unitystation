@@ -24,10 +24,10 @@ namespace Antagonists
 			ValidShuttles.Add(GameManager.Instance.PrimaryEscapeShuttle);
 		}
 
-		private bool CheckOnShip(RegisterTile antagTile, RegisterTile shuttleTile)
+		private bool CheckOnShip(RegisterTile antagTile, Matrix shuttleMatrix)
 		{
-			if (antagTile.Matrix.Id == shuttleTile.Matrix.MatrixInfo.Id) return true;
-			return shuttleTile.Matrix.HasTile(antagTile.gameObject.AssumedWorldPosServer().RoundToInt(), true);
+			if (antagTile.Matrix.Id == shuttleMatrix.MatrixInfo.Id) return true;
+			return shuttleMatrix.HasTile(antagTile.gameObject.AssumedWorldPosServer().RoundToInt(), true);
 		}
 
 		/// <summary>
@@ -38,7 +38,7 @@ namespace Antagonists
 		{
 			return !Owner.body.playerHealth.IsDead &&
 				ValidShuttles.Any( shuttle => shuttle.MatrixInfo != null
-					&& (CheckOnShip(Owner.body.registerTile, shuttle.gameObject.RegisterTile())) && shuttle.HasWorkingThrusters);
+					&& (CheckOnShip(Owner.body.registerTile, shuttle.MatrixInfo.Matrix)) && shuttle.HasWorkingThrusters);
 		}
 	}
 }

@@ -221,6 +221,9 @@ namespace Objects.Drawers
 			var items = Matrix.Get<ObjectBehaviour>(TrayLocalPosition, true);
 			foreach (ObjectBehaviour item in items)
 			{
+				//Prevents stuff like cameras ending up inside (check for health in case player wearing mag boots)
+				if(item.IsPushable == false && item.TryGetComponent<HealthV2.LivingHealthMasterBase>(out _) == false) continue;
+
 				if (storePlayers == false && item.TryGetComponent<PlayerScript>(out _)) continue;
 
 				// Other position fields such as registerObject.WorldPosition seem to give tile integers.

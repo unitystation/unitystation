@@ -194,7 +194,8 @@ namespace Systems.Spawns
 			{SpawnPointCategory.MaintSpawns, "Mapping/mapping_mouse.png"},
 			{SpawnPointCategory.WizardFederation, "Mapping/mapping_wiznerd_spawn.png"},
 			{SpawnPointCategory.SpaceExterior, "Mapping/mapping_carp_spawn.png"},
-			{SpawnPointCategory.AncientEngineering, "Mapping/mapping_station_engineer.png"}
+			{SpawnPointCategory.AncientEngineering, "Mapping/mapping_station_engineer.png"},
+			{SpawnPointCategory.Ashwalker, "Mapping/mapping_ashwalker.png"}
 		};
 
 	}
