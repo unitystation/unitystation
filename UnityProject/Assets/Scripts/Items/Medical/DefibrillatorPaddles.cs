@@ -102,8 +102,8 @@ namespace Items.Medical
 	{
 		onCooldown = true;
 		await Task.Delay(cooldownMs).ConfigureAwait(false);
-		_ = SoundManager.PlayNetworkedAtPosAsync(soundCharged, gameObject.AssumedWorldPosServer());
 		onCooldown = false;
+		SoundManager.PlayNetworkedAtPos(soundCharged, gameObject.AssumedWorldPosServer());
 	}
 
 	public void ServerPerformInteraction(HandActivate interaction)
