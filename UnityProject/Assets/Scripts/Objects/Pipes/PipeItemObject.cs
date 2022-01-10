@@ -24,7 +24,18 @@ namespace Items.Atmospherics
 
 			if (spawn.GameObject.TryGetComponent<Directional>(out var directional))
 			{
-				directional.FaceDirection(Orientation.GetOrientation(transform.localEulerAngles.z));
+				var orientation = Orientation.GetOrientation(transform.localEulerAngles.z);
+
+				if (orientation == Orientation.Up)
+				{
+					orientation = Orientation.Down;
+				}
+				else if (orientation == Orientation.Down)
+				{
+					orientation = Orientation.Up;
+				}
+
+				directional.FaceDirection(orientation);
 			}
 
 			monoPipe.SetUpPipes();
