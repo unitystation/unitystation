@@ -157,6 +157,11 @@ public class Directional : NetworkBehaviour, IMatrixRotation, IServerSpawn
 		}
 		transform.localEulerAngles = Vector3.zero;
 		EditorUtility.SetDirty(gameObject);
+
+		foreach (var onDirectionalChange in GetComponents<IOnDirectionalChangeEditor>())
+		{
+			onDirectionalChange.OnDirectionalChangeEditor(InitialOrientation);
+		}
 	}
 
 	#endif
@@ -279,3 +284,8 @@ public class Directional : NetworkBehaviour, IMatrixRotation, IServerSpawn
 /// Event which indicates a direction change has occurred.
 /// </summary>
 public class DirectionChangeEvent : UnityEvent<Orientation>{}
+
+public interface IOnDirectionalChangeEditor
+{
+	public void OnDirectionalChangeEditor(Orientation newDir);
+}

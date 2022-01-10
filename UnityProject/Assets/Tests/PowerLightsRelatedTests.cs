@@ -9,11 +9,20 @@ using UnityEngine;
 using Objects.Engineering;
 using Objects.Lighting;
 using Objects.Wallmounts;
+using UnityEngine.SceneManagement;
 
 namespace Tests
 {
     public class PowerLightsRelatedTests
     {
+	    private static HashSet<string> excludedScenes = new HashSet<string>
+	    {
+		    "Lobby",
+		    "StartUp",
+		    "Online"
+	    };
+
+
 	    [Test]
 	    [Ignore("For one current scene only")]
 	    public void CheckAll_SwitchesFor_LightSourcesInTheList()
@@ -56,85 +65,102 @@ namespace Tests
 	    public void CheckAllScenes_ForAPCPoweredDevices_WhichMissRelatedAPCs()
 	    {
 		    var buildScenes = EditorBuildSettings.scenes.Where(s => s.enabled);
-		    var missingAPCinDeviceReport = new List<(string, string, string)>();
-		    int countMissingAPC = 0;
-		    int countSelfPowered = 0;
-		    int countAll = 0;
+
+		    // Form report about missing components
+		    var report = new StringBuilder();
 
 		    foreach (var scene in buildScenes)
 		    {
-			    var currentScene = EditorSceneManager.OpenScene(scene.path, OpenSceneMode.Single);
-			    var currentSceneName = currentScene.name;
+			    report.AppendLine(InternalTestApc(scene).ToString());
+		    }
 
-			    var listOfDevices =  GetAllPoweredDevicesInTheScene();
-			    foreach (var objectDevice in listOfDevices)
+		    var reportString = report.ToString();
+
+		    if(string.IsNullOrWhiteSpace(reportString)) return;
+
+		    Assert.Fail(reportString);
+	    }
+
+	    private StringBuilder InternalTestApc(EditorBuildSettingsScene scene)
+	    {
+		    int countMissingApc = 0;
+		    int countSelfPowered = 0;
+		    int countAll = 0;
+
+		    var report = new StringBuilder();
+
+			var currentScene = EditorSceneManager.OpenScene(scene.path, OpenSceneMode.Single);
+		    var currentSceneName = currentScene.name;
+
+		    if (excludedScenes.Contains(currentSceneName)) return report;
+
+		    var gameObjects = currentScene.GetRootGameObjects();
+		    foreach (var child in gameObjects)
+		    {
+			    foreach (var objectDevice in child.GetComponentsInChildren<APCPoweredDevice>())
 			    {
 				    countAll++;
+
 				    var device = objectDevice;
 				    if (device.IsSelfPowered)
 				    {
 					    countSelfPowered++;
 					    continue;
 				    }
-				    if (device.RelatedAPC == null && device.IsSelfPowered == false)
+
+				    if (device.RelatedAPC == null)
 				    {
-						var objectCoords = $"({objectDevice.transform.localPosition.x}, {objectDevice.transform.localPosition.y})";
-					    countMissingAPC++;
-					    missingAPCinDeviceReport.Add((currentSceneName,objectDevice.name, objectCoords));
+					    //Not connected to APC
+					    countMissingApc++;
+					    var objLocalPos = objectDevice.transform.localPosition;
+					    var objectCoords = $"({objLocalPos.x}, {objLocalPos.y})";
+					    report.AppendLine($"{currentSceneName}: \"{objectDevice.name}\" {objectCoords} miss APC reference.");
+					    continue;
+				    }
+
+				    if (device.RelatedAPC.ConnectedDevices.Contains(objectDevice) == false)
+				    {
+					    //Connected to APC, but not in that APC's list
+					    countMissingApc++;
+					    var objLocalPos = objectDevice.transform.localPosition;
+					    var objectCoords = $"({objLocalPos.x}, {objLocalPos.y})";
+					    report.AppendLine($"{currentSceneName}: \"{objectDevice.name}\" {objectCoords} has a connected APC reference, but the APC doesnt have this device.");
 				    }
 			    }
 		    }
 
-		    // Form report about missing components
-		    var report = new StringBuilder();
-		    foreach (var s in missingAPCinDeviceReport)
-		    {
-			    var missingComponentMsg = $"{s.Item1}: \"{s.Item2}\" {s.Item3} miss APC reference.";
-			    report.AppendLine(missingComponentMsg);
-		    }
-
+		    Logger.Log($"Scene : {currentSceneName}", Category.Tests);
 		    Logger.Log($"All devices count: {countAll}", Category.Tests);
 		    Logger.Log($"Self powered Devices count: {countSelfPowered}", Category.Tests);
-		    Logger.Log($"Devices count which miss APCs: {countMissingAPC}", Category.Tests);
-		    Assert.IsEmpty(missingAPCinDeviceReport, report.ToString());
-	    }
+		    Logger.Log($"Devices count which miss APCs: {countMissingApc}", Category.Tests);
 
-	    List<APCPoweredDevice> GetAllPoweredDevicesInTheScene()
-	    {
-		    List<APCPoweredDevice> objectsInScene = new List<APCPoweredDevice>();
-
-		    foreach (APCPoweredDevice go in Resources.FindObjectsOfTypeAll(typeof(APCPoweredDevice)))
-		    {
-			    if (!EditorUtility.IsPersistent(go.transform.root.gameObject) && !(go.hideFlags == HideFlags.NotEditable || go.hideFlags == HideFlags.HideAndDontSave))
-				    objectsInScene.Add(go);
-		    }
-
-		    return objectsInScene;
+		    return report;
 	    }
 
 	    [Test]
 	    [Ignore("For one current scene only")]
-	    public void FindAll_PoweredDevices_WithoutRelatedAPC()
+	    public void CurrentScene_PoweredDevices_WithoutRelatedAPC()
 	    {
-		    int count = 0;
-		    List<string> devicesWithoutAPC = new List<string>();
-		    var listOfDevices =  GetAllPoweredDevicesInTheScene();
-		    var report = new StringBuilder();
-		    Logger.Log("Powered Devices without APC", Category.Tests);
-		    foreach (var objectDevice in listOfDevices)
+		    var buildScenes =
+			    EditorBuildSettings.scenes.Where(s => s.path == SceneManager.GetActiveScene().path).ToArray();
+
+		    if (buildScenes.Length <= 0)
 		    {
-			    var device = objectDevice;
-			    if(device.IsSelfPowered) continue;
-			    if (device.RelatedAPC == null)
-			    {
-				    count++;
-				    var obStr = objectDevice.name;
-				    devicesWithoutAPC.Add(obStr);
-				    Logger.Log(obStr, Category.Tests);
-				    report.AppendLine(obStr);
-			    }
+			    Logger.Log($"No scene open", Category.Tests);
+			    return;
 		    }
-		    Assert.That(count, Is.EqualTo(0),$"APCPoweredDevice count in the scene: {listOfDevices.Count}");
+
+		    if (buildScenes.Length > 1)
+		    {
+			    Logger.Log($"Too many scenes open", Category.Tests);
+			    return;
+		    }
+
+		    var report = InternalTestApc(buildScenes[0]).ToString();
+
+		    if(string.IsNullOrWhiteSpace(report)) return;
+
+		    Assert.Fail(report);
 	    }
 
 	    /// <summary>
@@ -156,6 +182,8 @@ namespace Tests
 		    {
 			    var currentScene = EditorSceneManager.OpenScene(scene.path, OpenSceneMode.Single);
 			    var currentSceneName = currentScene.name;
+
+			    if (excludedScenes.Contains(currentSceneName)) continue;
 
 			    var listOfDevices = GetAllLightSourcesInTheScene();
 			    foreach (var objectDevice in listOfDevices)
@@ -247,6 +275,8 @@ namespace Tests
 			    var currentScene = EditorSceneManager.OpenScene(scene.path, OpenSceneMode.Single);
 			    var currentSceneName = currentScene.name;
 
+			    if (excludedScenes.Contains(currentSceneName)) continue;
+
 			    var listOfDevices = GetAllLightSwitchesInTheScene();
 			    foreach (var objectDevice in listOfDevices)
 			    {
@@ -336,6 +366,8 @@ namespace Tests
 		    {
 			    var currentScene = EditorSceneManager.OpenScene(scene.path, OpenSceneMode.Single);
 			    var currentSceneName = currentScene.name;
+
+			    if (excludedScenes.Contains(currentSceneName)) continue;
 
 			    var listOfDevices = GetAllAPCsInTheScene();
 			    foreach (var device in listOfDevices)

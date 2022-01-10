@@ -684,6 +684,17 @@ public class SpriteHandler : MonoBehaviour
 
 	private void SetImageSprite(Sprite value)
 	{
+
+#if  UNITY_EDITOR
+		if (Application.isPlaying == false)
+		{
+			if (spriteRenderer == null)
+			{
+				spriteRenderer = GetComponent<SpriteRenderer>();
+			}
+		}
+#endif
+
 		if (spriteRenderer != null)
 		{
 			spriteRenderer.enabled = true;

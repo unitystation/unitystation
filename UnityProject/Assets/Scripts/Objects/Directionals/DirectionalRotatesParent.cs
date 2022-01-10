@@ -1,6 +1,10 @@
-﻿using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using Core.Editor.Attributes;
+
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
+
 
 
 /// <summary>
@@ -9,7 +13,7 @@ using Core.Editor.Attributes;
 /// </summary>
 [ExecuteInEditMode]
 [RequireComponent(typeof(Directional))]
-public class DirectionalRotatesParent : MonoBehaviour
+public class DirectionalRotatesParent : MonoBehaviour, IOnDirectionalChangeEditor
 {
 	[Tooltip("Direction that the children of the root of this prefab are facing in.")]
 	[SerializeField, PrefabModeOnly]
@@ -29,17 +33,40 @@ public class DirectionalRotatesParent : MonoBehaviour
 		directional.OnDirectionChange.AddListener(OnDirectionChanged);
 	}
 
+	public void OnDirectionalChangeEditor(Orientation newDir)
+	{
+		OnDirectionChanged(newDir);
+	}
+
 	private void OnDirectionChanged(Orientation newDir)
 	{
+#if UNITY_EDITOR
+		if (Application.isPlaying == false && Application.isEditor)
+		{
+			EditorUtility.SetDirty(gameObject);
+			EditorUtility.SetDirty(transform);
+		}
+#endif
+
 		//rotate our sprite renderers based on the deviation from
 		//the prefab sprite orientation
 		var offset = Orientation.FromEnum(prefabChildrenOrientation).OffsetTo(newDir);
+
+		transform.rotation = Quaternion.identity;
+		transform.Rotate(offset.Quaternion.eulerAngles);
 
 		if (forceChildrenOpposite)
 		{
 			foreach (Transform child in transform)
 			{
 				child.localRotation = offset.Quaternion;
+			}
+		}
+		else
+		{
+			foreach (Transform child in transform)
+			{
+				child.rotation = Quaternion.identity;
 			}
 		}
 	}
@@ -53,13 +80,23 @@ public class DirectionalRotatesParent : MonoBehaviour
 			var dir = GetComponent<Directional>().InitialOrientation;
 			var offset = Orientation.FromEnum(prefabChildrenOrientation).OffsetTo(dir);
 
-			transform.rotation = offset.Quaternion;
+			transform.rotation = Quaternion.identity;
+
+			transform.Rotate(offset.Quaternion.eulerAngles);
 
 			if (forceChildrenOpposite)
 			{
 				foreach (Transform child in transform)
 				{
-					child.rotation = Quaternion.Euler(dir.Vector);
+					child.rotation = Quaternion.identity;
+					child.Rotate(offset.Quaternion.eulerAngles);
+				}
+			}
+			else
+			{
+				foreach (Transform child in transform)
+				{
+					child.rotation = Quaternion.identity;
 				}
 			}
 		}
