@@ -98,8 +98,11 @@ namespace Weapons
 
 		public void OnSpawnServer(SpawnInfo info)
 		{
-			GameObject cell = Spawn.ServerPrefab(cellPrefab).GameObject;
-			Inventory.ServerAdd(cell, batterySlot, ReplacementStrategy.DespawnOther);
+			if (cellPrefab != null)
+			{
+				GameObject cell = Spawn.ServerPrefab(cellPrefab).GameObject;
+				Inventory.ServerAdd(cell, batterySlot, ReplacementStrategy.DespawnOther);
+			}
 		}
 
 		#region handinteraction

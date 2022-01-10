@@ -29,9 +29,20 @@ MonoBehaviour:
   cooldown: 5
   hasBattery: 1
   chargeUsage: 2000
-  cellPrefab: {fileID: 2583424188908862090, guid: e95a1fa76d625d348b07406df101d4c0,
-    type: 3}
+  cellPrefab: {fileID: 0}
   allowScrewdriver: 1
+--- !u!114 &1703646045356427902
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8127442588295923452}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 088b05d8e3804e948a69579df536c570, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &2778503101191743056
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -53,6 +64,7 @@ MonoBehaviour:
       m_AssetGUID: 
       m_SubObjectName: 
       m_SubObjectType: 
+  intialState: 2
 --- !u!114 &4591772837897782933
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -99,18 +111,6 @@ MonoBehaviour:
   hidesIdentity: 0
   hidesSlots: 0
   hideClothingFlags: 0
---- !u!114 &1703646045356427902
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8127442588295923452}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 088b05d8e3804e948a69579df536c570, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &8127288814593014342
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -180,7 +180,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 1130d31dbbdf99a459245670891a226a,
+      objectReference: {fileID: 21300000, guid: 9d915cff6da61a944bf1c72903f682fc,
         type: 3}
     - target: {fileID: 212340400423555046, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
