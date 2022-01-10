@@ -380,9 +380,6 @@ public partial class GameManager : MonoBehaviour, IInitialise
 				{
 					StartRound();
 				}
-				else {
-					Logger.Log("More ready players needed for countdown!")
-				}
 			}
 		}
 		else if (counting)
