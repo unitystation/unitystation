@@ -42,7 +42,7 @@ public class Headset : NetworkBehaviour, IInteractable<HandActivate>, IExaminabl
 
 	public void OnEmp(int EmpStrength)
 	{
-		if (!isEMPed)
+		if (isEMPed == false)
 		{
 			StartCoroutine(Emp(EmpStrength));
 		}
