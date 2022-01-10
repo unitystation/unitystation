@@ -83,9 +83,9 @@ namespace Systems.Explosions
 				var effectTime = DistanceFromCenter(explosionCenter2d, tilePos2d, minEffectDuration, maxEffectDuration);
 
 				if (isEmp)
-                {
+				{
 					if (damage > 0)
-                    {
+					{
 						EmpThings(tilePos, damage);
 					}
 
@@ -101,8 +101,8 @@ namespace Systems.Explosions
 					if (effectTime > longestTime)
 						longestTime = effectTime;
 				}
-                else
-                {
+				else
+				{
 					// Is explosion goes behind walls?
 					if (IsPastWall(explosionCenter2d, tilePos2d, distance))
 					{
@@ -146,13 +146,13 @@ namespace Systems.Explosions
 		{
 			string effectName;
 			OverlayType effectOverlayType;
-            if (isEmp)
-            {
+			if (isEmp)
+			{
 				effectName = "EMPEffect";
 				effectOverlayType = OverlayType.EMP;
-            }
-            else
-            {
+			}
+			else
+			{
 				effectName = "Fire";
 				effectOverlayType = OverlayType.Fire;
 			}
@@ -165,11 +165,11 @@ namespace Systems.Explosions
 		}
 
 		private void EmpThing(GameObject thing, int EmpStrength)
-        {
+		{
 			if(thing != null)
-            {
-                if (isEmpAble(thing))
-                {
+			{
+				if (isEmpAble(thing))
+				{
 					if (thing.TryGetComponent<ItemStorage>(out var storage))
 					{
 						foreach (var slot in storage.GetItemSlots())
@@ -178,8 +178,8 @@ namespace Systems.Explosions
 						}
 					}
 
-                    if (thing.TryGetComponent<DynamicItemStorage>(out var dStorage))
-                    {
+					if (thing.TryGetComponent<DynamicItemStorage>(out var dStorage))
+					{
 						foreach (var slot in dStorage.GetItemSlots())
 						{
 							EmpThing(slot.ItemObject, EmpStrength);
@@ -197,7 +197,7 @@ namespace Systems.Explosions
 		}
 
 		private void EmpThings(Vector3Int worldPosition, int damage)
-        {
+		{
 			foreach (var thing in MatrixManager.GetAt<Integrity>(worldPosition, true).Distinct())
 			{
 				EmpThing(thing.gameObject, damage);
