@@ -26,12 +26,12 @@ namespace Systems.Explosions
 		{
 			AudioSourceParameters audioSourceParameters = new AudioSourceParameters(0f, 100f);
 			if (isEMP)
-            {
+			{
 				AddressableAudioSource EMPSound = EMP_SOUND;
 				_ = SoundManager.PlayNetworkedAtPosAsync(EMPSound, worldPosition, audioSourceParameters, true, false);
 			}
-            else
-            {
+			else
+			{
 				AddressableAudioSource explosionSound = EXPLOSION_SOUNDS.PickRandom();
 				AddressableAudioSource groanSound = STATION_GROAN_SOUNDS.PickRandom();
 				AddressableAudioSource distantSound = DISTANT_EXPLOSION_SOUNDS.PickRandom();

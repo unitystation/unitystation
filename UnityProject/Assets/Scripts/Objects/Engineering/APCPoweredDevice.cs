@@ -326,7 +326,7 @@ namespace Systems.Electricity
 		{
 			int effectTime = (int)(EmpStrength * 0.5f);
 
-			if (UnityEngine.Random.Range(0, 2) == 0)
+			if (DMMath.Prob(75))
 			{
 				_ = Spawn.ServerPrefab(CommonPrefabs.Instance.SparkEffect, registerTile.WorldPositionServer).GameObject;
 			}
