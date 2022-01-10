@@ -24,7 +24,7 @@ namespace Weapons
 		[Tooltip("Does this weapon stun players on hit?")]
 		public bool canStun = false;
 
-		[ShowIf("canStun")]
+		[ShowIf(nameof(canStun))]
 		[Tooltip("How long to stun for (in seconds)")]
 		public float stunTime = 0;
 
@@ -32,17 +32,17 @@ namespace Weapons
 		[Tooltip("Does this weapon teleport players on hit?")]
 		public bool canTeleport = false;
 
-		[ShowIf("canTeleport")]
+		[ShowIf(nameof(canTeleport))]
 		public bool avoidSpace;
-		[ShowIf("canTeleport")]
+		[ShowIf(nameof(canTeleport))]
 		public bool avoidImpassable = true;
 
-		[ShowIf("canTeleport")]
+		[ShowIf(nameof(canTeleport))]
 		[Range(0,15)]
 		[Tooltip("Min distance players could be teleported")]
 		public int minTeleportDistance = 1;
 
-		[ShowIf("canTeleport")]
+		[ShowIf(nameof(canTeleport))]
 		[Range(0, 15)]
 		[Tooltip("Max distance players could be teleported")]
 		public int maxTeleportDistance = 5;
@@ -64,15 +64,15 @@ namespace Weapons
 		[HideInInspector]
 		public Battery Battery => batterySlot.Item != null ? batterySlot.Item.GetComponent<Battery>() : null;
 
-		[ShowIf("hasBattery")]
+		[ShowIf(nameof(hasBattery))]
 		[Tooltip("How much power (in watts) is used per strike? High capacity powercells have a 10000 Watt capacity")]
 		public int chargeUsage = 0;
 
-		[ShowIf("hasBattery")]
+		[ShowIf(nameof(hasBattery))]
 		[Tooltip("What power cell should this weapon start with?")]
 		public GameObject cellPrefab = null;
 
-		[ShowIf("hasBattery")]
+		[ShowIf(nameof(hasBattery))]
 		[Tooltip("Can the power cell be removed via screwdriver?")]
 		public bool allowScrewdriver = true;
 
