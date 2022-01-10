@@ -47,7 +47,7 @@ namespace Core.Directionals
 
 		private void Start()
 		{
-			if (Application.isEditor)
+			if (Application.isEditor && Application.isPlaying == false)
 			{
 				SetSpriteOrientation(directional.InitialOrientation);
 			}
@@ -87,14 +87,14 @@ namespace Core.Directionals
 			{
 				foreach (var handler in spriteHandlers)
 				{
-					handler.ChangeSprite(index);
+					handler.ChangeSprite(index, false);
 				}
 			}
 			else
 			{
 				foreach (var handler in spriteHandlers)
 				{
-					handler.ChangeSpriteVariant(index);
+					handler.ChangeSpriteVariant(index, false);
 				}
 			}
 		}

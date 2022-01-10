@@ -122,6 +122,12 @@ public class Directional : NetworkBehaviour, IMatrixRotation, IServerSpawn
 		}
 	}
 
+	[ContextMenu("Current Direction")]
+	private void PrintCurrentDirection()
+	{
+		Logger.LogError($"Current direction: {CurrentDirection.AsEnum().ToString()}");
+	}
+
 	private void OnDrawGizmosSelected()
 	{
 		Gizmos.color = Color.green;
@@ -168,7 +174,7 @@ public class Directional : NetworkBehaviour, IMatrixRotation, IServerSpawn
 
 	public void OnSpawnServer(SpawnInfo info)
 	{
-		serverDirection = new Orientation(InitialOrientation.Degrees);
+		FaceDirection(new Orientation(InitialOrientation.Degrees));
 	}
 
     public override void OnStartClient()
@@ -269,6 +275,8 @@ public class Directional : NetworkBehaviour, IMatrixRotation, IServerSpawn
     //syncvar hook invoked when server sends a client the new direction for this object
     private void SyncServerDirection(Orientation oldDir, Orientation dir)
     {
+	    if(CustomNetworkManager.IsServer) return;
+
 	    serverDirection = new Orientation(dir.Degrees);
 	    //we only change our direction if we're not local player (local player is always predictive)
 	    //and not explicitly ignoring server updates.

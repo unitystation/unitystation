@@ -22,6 +22,9 @@ namespace Objects.Atmospherics
 
 		public Color Colour = Color.white;
 
+		[SerializeField]
+		private bool spawnedFromItem = true;
+
 		protected Directional directional;
 
 		public static float MaxInternalPressure { get; } = AtmosConstants.ONE_ATMOSPHERE * 50;
@@ -36,10 +39,13 @@ namespace Objects.Atmospherics
 
 		public virtual void OnSpawnServer(SpawnInfo info)
 		{
+			//Only run SetUpPipes for mapped, otherwise the item being used to place it will
+			if(spawnedFromItem && info.SpawnType != SpawnType.Mapped) return;
+
 			SetUpPipes();
 		}
 
-		protected void SetUpPipes()
+		public void SetUpPipes()
 		{
 			if (pipeData.PipeAction == null)
 			{
@@ -130,6 +136,12 @@ namespace Objects.Atmospherics
 
 			var spawn = Spawn.ServerPrefab(SpawnOnDeconstruct, registerTile.WorldPositionServer, localRotation: transform.localRotation);
 			spawn.GameObject.GetComponent<PipeItem>().SetColour(Colour);
+
+			if (directional != null && spawn.GameObject.TryGetComponent<PlayerRotatable>(out var newDirectional))
+			{
+				newDirectional.SyncRotation(0,transform.eulerAngles.z);
+			}
+
 			OnDisassembly(interaction);
 			pipeData.OnDisable();
 			_ = Despawn.ServerSingle(gameObject);
