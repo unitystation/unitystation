@@ -30,6 +30,11 @@ public partial class GameManager : MonoBehaviour, IInitialise
 	public int MinPlayersForCountdown { get; set; } = 1;
 
 	/// <summary>
+	/// The minimum number of ready players needed to start the pre-round countdown
+	/// </summary>
+	public int MinReadyPlayersForCountdown { get; set; } = 1;
+
+	/// <summary>
 	/// How long the pre-round stage should last
 	/// </summary>
 	public float PreRoundTime { get; set; } = 120f;
@@ -176,6 +181,7 @@ public partial class GameManager : MonoBehaviour, IInitialise
 	private void LoadConfig()
 	{
 		MinPlayersForCountdown = GameConfigManager.GameConfig.MinPlayersForCountdown;
+		MinReadyPlayersForCountdown = GameConfigManager.GameConfig.MinReadyPlayersForCountdown;
 		PreRoundTime = GameConfigManager.GameConfig.PreRoundTime;
 		RoundEndTime = GameConfigManager.GameConfig.RoundEndTime;
 		RoundsPerMap = GameConfigManager.GameConfig.RoundsPerMap;
@@ -370,7 +376,10 @@ public partial class GameManager : MonoBehaviour, IInitialise
 		{
 			if (NetworkTime.time >= CountdownEndTime)
 			{
-				StartRound();
+				if (PlayerList.Instance.ReadyPlayers.Count >= MinReadyPlayersForCountdown)
+				{
+					StartRound();
+				}
 			}
 		}
 		else if (counting)
