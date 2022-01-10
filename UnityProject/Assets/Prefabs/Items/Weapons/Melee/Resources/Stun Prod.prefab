@@ -12,13 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 22e23dbc3e28c944c988b15aeccb6f40, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  canStun: 1
-  stunTime: 7
-  canTeleport: 0
-  avoidSpace: 0
-  avoidImpassable: 1
-  minTeleportDistance: 1
-  maxTeleportDistance: 5
   useSound:
     SetLoadSetting: 0
     AssetAddress: Assets/Prefabs/Effects/EGloves.prefab
@@ -27,6 +20,29 @@ MonoBehaviour:
       m_SubObjectName: 
       m_SubObjectType: 
   cooldown: 5
+  canStun: 1
+  stunTime: 7
+  canTeleport: 0
+  avoidSpace: 0
+  avoidImpassable: 1
+  minTeleportDistance: 1
+  maxTeleportDistance: 5
+  hasBattery: 1
+  chargeUsage: 2000
+  cellPrefab: {fileID: 0}
+  allowScrewdriver: 1
+--- !u!114 &1703646045356427902
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8127442588295923452}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 088b05d8e3804e948a69579df536c570, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &2778503101191743056
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -48,6 +64,32 @@ MonoBehaviour:
       m_AssetGUID: 
       m_SubObjectName: 
       m_SubObjectType: 
+  intialState: 2
+--- !u!114 &4591772837897782933
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8127442588295923452}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fdce8a163088453ca593c0e98f2c5f07, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemStorageStructure: {fileID: 11400000, guid: 263bf834f99424f12bda19d67c3ab5fc,
+    type: 2}
+  itemStorageCapacity: {fileID: 11400000, guid: 6b5f254be9fd647e6a3dc1399aa47aeb,
+    type: 2}
+  itemStoragePopulator: {fileID: 0}
+  forceSpawnContents: 0
+  dropItemsOnDespawn: 0
+  UesAddlistPopulater: 0
+  Populater:
+    SlotContents: []
+    DeprecatedContents: []
+  ashPrefab: {fileID: 2957035178188790827, guid: 9ac6968a3f3ed54428662c9aae5a4b32,
+    type: 3}
 --- !u!114 &6669159906137905766
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -138,7 +180,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 1130d31dbbdf99a459245670891a226a,
+      objectReference: {fileID: 21300000, guid: 9d915cff6da61a944bf1c72903f682fc,
         type: 3}
     - target: {fileID: 212340400423555046, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
@@ -178,7 +220,7 @@ PrefabInstance:
     - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
       propertyPath: initialTraits.Array.size
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
@@ -197,6 +239,12 @@ PrefabInstance:
       propertyPath: initialTraits.Array.data[1]
       value: 
       objectReference: {fileID: 11400000, guid: b05bab692e98c487eb4996a0614d143d,
+        type: 2}
+    - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      propertyPath: initialTraits.Array.data[2]
+      value: 
+      objectReference: {fileID: 11400000, guid: 7a8a160ea6ef075498f62f1898e1964d,
         type: 2}
     - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}

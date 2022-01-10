@@ -1,46 +1,15 @@
 using Systems.Teleport;
 using UnityEngine;
 using AddressableReferences;
+using NaughtyAttributes;
 
 namespace Weapons
 {
 	/// <summary>
 	/// Adding this to a weapon allows it to stun and/or randomly teleport targets on hit. 
 	/// </summary>
-	public class MeleeEffect : MonoBehaviour, ICheckedInteractable<HandApply>
+	public class MeleeEffect : MonoBehaviour, ICheckedInteractable<HandApply>, IServerSpawn
 	{
-
-		[HideInInspector]
-		[Tooltip("Does this weapon stun players on hit?")]
-		public bool canStun = false;
-
-		/// <summary>
-		/// How long to stun for (in seconds)
-		/// </summary>
-		[HideInInspector]
-		public float stunTime = 0;
-
-		[HideInInspector]
-		[Tooltip("Does this weapon teleport players on hit?")]
-		public bool canTeleport = false;
-
-		[HideInInspector]
-		public bool avoidSpace;
-		[HideInInspector]
-		public bool avoidImpassable = true;
-
-		[HideInInspector]
-		[Tooltip("Min distance players could be teleported")]
-		public int minTeleportDistance = 1;
-		[HideInInspector]
-		[Tooltip("Max distance players could be teleported")]
-		public int maxTeleportDistance = 5;
-
-		/// <summary>
-		/// if you can teleport and/or stun a target
-		/// </summary>
-		private bool canEffect = true;
-
 		/// <summary>
 		/// Sounds to play when striking someone
 		/// </summary>
@@ -51,14 +20,90 @@ namespace Weapons
 		[Space(10)]
 		private int cooldown = 5;
 
+		[Space(10)]
+		[Tooltip("Does this weapon stun players on hit?")]
+		public bool canStun = false;
+
+		[ShowIf(nameof(canStun))]
+		[Tooltip("How long to stun for (in seconds)")]
+		public float stunTime = 0;
+
+		[Space(10)]
+		[Tooltip("Does this weapon teleport players on hit?")]
+		public bool canTeleport = false;
+
+		[ShowIf(nameof(canTeleport))]
+		public bool avoidSpace;
+		[ShowIf(nameof(canTeleport))]
+		public bool avoidImpassable = true;
+
+		[ShowIf(nameof(canTeleport))]
+		[Range(0,15)]
+		[Tooltip("Min distance players could be teleported")]
+		public int minTeleportDistance = 1;
+
+		[ShowIf(nameof(canTeleport))]
+		[Range(0, 15)]
+		[Tooltip("Max distance players could be teleported")]
+		public int maxTeleportDistance = 5;
+
+		/// <summary>
+		/// if you can teleport and/or stun a target
+		/// </summary>
+		private bool canEffect = true;
+
 		private int timer = 0;
 
 		//Send only one message per second.
 		private bool coolDownMessage;
 
+		[Space(10)]
+		[Tooltip(" Does this weapon rely on battery power to function?")]
+		public bool hasBattery = false;
+
+		[HideInInspector]
+		public Battery Battery => batterySlot.Item != null ? batterySlot.Item.GetComponent<Battery>() : null;
+
+		[ShowIf(nameof(hasBattery))]
+		[Tooltip("How much power (in watts) is used per strike? High capacity powercells have a 10000 Watt capacity")]
+		public int chargeUsage = 0;
+
+		[ShowIf(nameof(hasBattery))]
+		[Tooltip("What power cell should this weapon start with?")]
+		public GameObject cellPrefab = null;
+
+		[ShowIf(nameof(hasBattery))]
+		[Tooltip("Can the power cell be removed via screwdriver?")]
+		public bool allowScrewdriver = true;
+
+		[HideInInspector]
+		public ItemSlot batterySlot = null;
+
+		public void Awake()
+		{
+			ItemStorage itemStorage = GetComponent<ItemStorage>();
+
+			if (itemStorage != null && hasBattery)
+			{
+				batterySlot = itemStorage.GetIndexedItemSlot(0);
+			}
+		}
+
+		public void OnSpawnServer(SpawnInfo info)
+		{
+			if (cellPrefab != null)
+			{
+				GameObject cell = Spawn.ServerPrefab(cellPrefab).GameObject;
+				Inventory.ServerAdd(cell, batterySlot, ReplacementStrategy.DespawnOther);
+			}
+		}
+
+		#region handinteraction
+
 		public bool WillInteract(HandApply interaction, NetworkSide side)
 		{
 			if (!DefaultWillInteract.Default(interaction, side)) return false;
+
 
 			return interaction.UsedObject == gameObject
 				&& interaction.TargetObject.GetComponent<RegisterPlayer>();
@@ -80,6 +125,25 @@ namespace Weapons
 			{
 				// Direction of attack towards the attack target.
 				wna.ServerPerformMeleeAttack(target, dir, interaction.TargetBodyPart, LayerType.None);
+			}
+
+			if (canEffect && hasBattery)
+			{
+				if (Battery.Watts >= chargeUsage)
+				{
+					Battery.Watts -= chargeUsage;
+				}
+				else
+				{
+					ToggleableEffect toggleableEffect = gameObject.GetComponent<ToggleableEffect>();
+					if(toggleableEffect != null)
+					{
+						toggleableEffect.TurnOff();
+					}
+
+					timer = cooldown;
+					canEffect = false;
+				}
 			}
 
 			RegisterPlayer registerPlayerVictim = target.GetComponent<RegisterPlayer>();
@@ -116,9 +180,25 @@ namespace Weapons
 			{
 				if (coolDownMessage) return;
 				coolDownMessage = true;
-				Chat.AddExamineMsg(performer, $"{gameObject.ExpensiveName()} is on cooldown.");
+				if(hasBattery)
+				{
+					if(Battery.Watts >= chargeUsage)
+					{
+						Chat.AddExamineMsg(performer, $"{gameObject.ExpensiveName()} is on cooldown.");
+					}
+					else
+					{
+						Chat.AddExamineMsg(performer, $"{gameObject.ExpensiveName()} is out of power.");
+					}
+				}
+				else
+				{
+					Chat.AddExamineMsg(performer, $"{gameObject.ExpensiveName()} is on cooldown.");
+				}
 			}
 		}
+
+		#endregion
 
 		private void OnEnable()
 		{
