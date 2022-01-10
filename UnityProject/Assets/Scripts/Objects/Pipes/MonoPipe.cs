@@ -39,7 +39,8 @@ namespace Objects.Atmospherics
 
 		public virtual void OnSpawnServer(SpawnInfo info)
 		{
-			//Only run SetUpPipes for mapped, otherwise the item being used to place it will
+			//Only run SetUpPipes for mapped, otherwise the item being used to place it will have the wrong pipe data
+			//As the pipe will not be rotated correctly before setup
 			if(spawnedFromItem && info.SpawnType != SpawnType.Mapped) return;
 
 			SetUpPipes();
