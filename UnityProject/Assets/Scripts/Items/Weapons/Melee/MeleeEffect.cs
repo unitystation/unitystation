@@ -1,6 +1,7 @@
 using Systems.Teleport;
 using UnityEngine;
 using AddressableReferences;
+using NaughtyAttributes;
 
 namespace Weapons
 {
@@ -9,38 +10,6 @@ namespace Weapons
 	/// </summary>
 	public class MeleeEffect : MonoBehaviour, ICheckedInteractable<HandApply>, IServerSpawn
 	{
-
-		[HideInInspector]
-		[Tooltip("Does this weapon stun players on hit?")]
-		public bool canStun = false;
-
-		/// <summary>
-		/// How long to stun for (in seconds)
-		/// </summary>
-		[HideInInspector]
-		public float stunTime = 0;
-
-		[HideInInspector]
-		[Tooltip("Does this weapon teleport players on hit?")]
-		public bool canTeleport = false;
-
-		[HideInInspector]
-		public bool avoidSpace;
-		[HideInInspector]
-		public bool avoidImpassable = true;
-
-		[HideInInspector]
-		[Tooltip("Min distance players could be teleported")]
-		public int minTeleportDistance = 1;
-		[HideInInspector]
-		[Tooltip("Max distance players could be teleported")]
-		public int maxTeleportDistance = 5;
-
-		/// <summary>
-		/// if you can teleport and/or stun a target
-		/// </summary>
-		private bool canEffect = true;
-
 		/// <summary>
 		/// Sounds to play when striking someone
 		/// </summary>
@@ -51,36 +20,60 @@ namespace Weapons
 		[Space(10)]
 		private int cooldown = 5;
 
+		[Space(10)]
+		[Tooltip("Does this weapon stun players on hit?")]
+		public bool canStun = false;
+
+		[ShowIf("canStun")]
+		[Tooltip("How long to stun for (in seconds)")]
+		public float stunTime = 0;
+
+		[Space(10)]
+		[Tooltip("Does this weapon teleport players on hit?")]
+		public bool canTeleport = false;
+
+		[ShowIf("canTeleport")]
+		public bool avoidSpace;
+		[ShowIf("canTeleport")]
+		public bool avoidImpassable = true;
+
+		[ShowIf("canTeleport")]
+		[Range(0,15)]
+		[Tooltip("Min distance players could be teleported")]
+		public int minTeleportDistance = 1;
+
+		[ShowIf("canTeleport")]
+		[Range(0, 15)]
+		[Tooltip("Max distance players could be teleported")]
+		public int maxTeleportDistance = 5;
+
+		/// <summary>
+		/// if you can teleport and/or stun a target
+		/// </summary>
+		private bool canEffect = true;
+
 		private int timer = 0;
 
 		//Send only one message per second.
 		private bool coolDownMessage;
 
-		/// <summary>
-		/// Does this weapon rely on battery power to function
-		/// </summary>
-		[HideInInspector]
+		[Space(10)]
+		[Tooltip(" Does this weapon rely on battery power to function?")]
 		public bool hasBattery = false;
 
 		[HideInInspector]
 		public Battery Battery => batterySlot.Item != null ? batterySlot.Item.GetComponent<Battery>() : null;
 
-		/// <summary>
-		/// How much power (in watts) is used per strike? High capacity powercells have a 15000 Watt capacity
-		/// </summary>
-		[HideInInspector]
+		[ShowIf("hasBattery")]
+		[Tooltip("How much power (in watts) is used per strike? High capacity powercells have a 10000 Watt capacity")]
 		public int chargeUsage = 0;
 
-		/// <summary>
-		/// What power cell should this weapon start with?
-		/// </summary>
-		[HideInInspector]
+		[ShowIf("hasBattery")]
+		[Tooltip("What power cell should this weapon start with?")]
 		public GameObject cellPrefab = null;
 
-		/// <summary>
-		/// Can the power cell be removed via screwdriver?
-		/// </summary>
-		[HideInInspector]
+		[ShowIf("hasBattery")]
+		[Tooltip("Can the power cell be removed via screwdriver?")]
 		public bool allowScrewdriver = true;
 
 		[HideInInspector]

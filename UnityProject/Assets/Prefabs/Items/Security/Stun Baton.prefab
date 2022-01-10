@@ -21,6 +21,7 @@ MonoBehaviour:
       m_AssetGUID: 
       m_SubObjectName: 
       m_SubObjectType: 
+  intialState: 0
 --- !u!114 &-1359029577750577036
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -33,13 +34,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 22e23dbc3e28c944c988b15aeccb6f40, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  canStun: 1
-  stunTime: 10
-  canTeleport: 0
-  avoidSpace: 0
-  avoidImpassable: 1
-  minTeleportDistance: 1
-  maxTeleportDistance: 5
   useSound:
     SetLoadSetting: 0
     AssetAddress: Assets/Prefabs/Effects/EGloves.prefab
@@ -48,11 +42,30 @@ MonoBehaviour:
       m_SubObjectName: 
       m_SubObjectType: 
   cooldown: 3
+  canStun: 1
+  stunTime: 10
+  canTeleport: 0
+  avoidSpace: 0
+  avoidImpassable: 1
+  minTeleportDistance: 1
+  maxTeleportDistance: 5
   hasBattery: 1
   chargeUsage: 1000
-  cellPrefab: {fileID: 2583424188908862090, guid: e95a1fa76d625d348b07406df101d4c0,
+  cellPrefab: {fileID: 5999901686547831408, guid: bd07fb3945875634685790190ea8decc,
     type: 3}
   allowScrewdriver: 1
+--- !u!114 &-1184153331321124508
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8127442588295923452}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 088b05d8e3804e948a69579df536c570, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &1068818633637654657
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -99,18 +112,6 @@ MonoBehaviour:
   hidesIdentity: 0
   hidesSlots: 0
   hideClothingFlags: 0
---- !u!114 &-1184153331321124508
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8127442588295923452}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 088b05d8e3804e948a69579df536c570, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &8127288814593014342
 PrefabInstance:
   m_ObjectHideFlags: 0
