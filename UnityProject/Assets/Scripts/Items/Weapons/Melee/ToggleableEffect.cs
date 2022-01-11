@@ -120,7 +120,7 @@ namespace Weapons
 			{
 				if (interaction.UsedObject.GetComponent<Battery>().MaxWatts >= meleeEffect.chargeUsage)
 				{
-					Inventory.ClientRequestTransfer(interaction.FromSlot, meleeEffect.batterySlot);
+					Inventory.ServerTransfer(interaction.FromSlot, meleeEffect.batterySlot);
 					TurnOff();
 				}
 				else
