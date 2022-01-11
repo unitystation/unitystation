@@ -37,10 +37,31 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1809451594324700780, guid: 1a6abc720c22574468cb49e878c0119a,
         type: 3}
+      propertyPath: initialTraits.Array.size
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1809451594324700780, guid: 1a6abc720c22574468cb49e878c0119a,
+        type: 3}
       propertyPath: initialTraits.Array.data[2]
       value: 
       objectReference: {fileID: 11400000, guid: 5eafba0d7388d428c8e08ed1b5d5d260,
         type: 2}
+    - target: {fileID: 1809451594324700780, guid: 1a6abc720c22574468cb49e878c0119a,
+        type: 3}
+      propertyPath: initialTraits.Array.data[4]
+      value: 
+      objectReference: {fileID: 11400000, guid: 0d6975d5c3876ee4cbb276a81b059cfb,
+        type: 2}
+    - target: {fileID: 1809451594324700780, guid: 1a6abc720c22574468cb49e878c0119a,
+        type: 3}
+      propertyPath: inventoryMoveSound.AssetAddress
+      value: null
+      objectReference: {fileID: 0}
+    - target: {fileID: 1809451594324700780, guid: 1a6abc720c22574468cb49e878c0119a,
+        type: 3}
+      propertyPath: inventoryRemoveSound.AssetAddress
+      value: null
+      objectReference: {fileID: 0}
     - target: {fileID: 1859582955508101294, guid: 1a6abc720c22574468cb49e878c0119a,
         type: 3}
       propertyPath: m_LocalPosition.x

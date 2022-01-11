@@ -12,6 +12,7 @@ using Systems.Electricity;
 using Systems.Hacking;
 using Systems.Interaction;
 using Systems.ObjectConnection;
+using Systems.Explosions;
 using Doors.Modules;
 using HealthV2;
 using Objects.Wallmounts;
@@ -195,7 +196,7 @@ namespace Doors
 			{
 				TryOpen(byPlayer);
 			}
-			else if(HasPower == false)
+			else if(HasPower == false && byPlayer != null)
 			{
 				Chat.AddExamineMsgFromServer(byPlayer, $"{gameObject.ExpensiveName()} is unpowered");
 			}

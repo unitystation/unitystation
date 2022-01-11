@@ -345,7 +345,7 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IActi
 	/// </summary>
 	public bool IsGhost => (PlayerState == PlayerStates.Normal) == false;
 
- 	/// <summary>
+	/// <summary>
 	/// Same as is ghost, but also true when player inside his dead body
 	/// </summary>
 	public bool IsDeadOrGhost
@@ -435,13 +435,13 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IActi
 		if (playerState == PlayerStates.Ai)
 		{
 			ChatChannel aiTransmitChannels = ChatChannel.OOC | ChatChannel.Local | ChatChannel.Binary | ChatChannel.Command
-			                                 | ChatChannel.Common | ChatChannel.Engineering |
-			                                 ChatChannel.Medical | ChatChannel.Science | ChatChannel.Security | ChatChannel.Service
-			                                 | ChatChannel.Supply;
+											 | ChatChannel.Common | ChatChannel.Engineering |
+											 ChatChannel.Medical | ChatChannel.Science | ChatChannel.Security | ChatChannel.Service
+											 | ChatChannel.Supply;
 			ChatChannel aiReceiveChannels = ChatChannel.Examine | ChatChannel.System | ChatChannel.Combat |
-			                                   ChatChannel.Binary | ChatChannel.Command | ChatChannel.Common | ChatChannel.Engineering |
-			                                   ChatChannel.Medical | ChatChannel.Science | ChatChannel.Security | ChatChannel.Service
-			                                   | ChatChannel.Supply;
+											   ChatChannel.Binary | ChatChannel.Command | ChatChannel.Common | ChatChannel.Engineering |
+											   ChatChannel.Medical | ChatChannel.Science | ChatChannel.Security | ChatChannel.Service
+											   | ChatChannel.Supply;
 
 			if (GetComponent<AiPlayer>().AllowRadio == false)
 			{
@@ -479,6 +479,7 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IActi
 			{
 				if(earSlot.IsEmpty) continue;
 				if(earSlot.Item.TryGetComponent<Headset>(out var headset) == false) continue;
+				if(headset.isEMPed) continue;
 
 				EncryptionKeyType key = headset.EncryptionKey;
 				transmitChannels = transmitChannels | EncryptionKey.Permissions[key];

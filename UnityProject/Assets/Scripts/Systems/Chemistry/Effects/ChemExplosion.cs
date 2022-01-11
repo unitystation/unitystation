@@ -17,6 +17,9 @@ namespace Chemistry.Effects
 		[Tooltip("Multiplier applied to final strength calculation")]
 		[SerializeField] private float potency = 1;
 
+		[Tooltip("Is explosion is actually EMP")]
+		[SerializeField] private bool isEMP = false;
+
 		public override void Apply(MonoBehaviour sender, float amount)
 		{
 			// Following function uses the code from the Explosions file.
@@ -39,7 +42,7 @@ namespace Chemistry.Effects
 			var strength = (float)(-463+205*Mathf.Log(amount)+75*Math.PI)*potency;
 
 
-			if (insideBody && strength > 0)
+			if (insideBody && strength > 0 && isEMP == false)
 			{
 				if (strength >= bodyPart.Health)
 				{
@@ -89,17 +92,17 @@ namespace Chemistry.Effects
 					//If not, we need to check if the item is a bodypart inside of a player
 					if (insideBody)
 					{
-						Explosion.StartExplosion(bodyPart.HealthMaster.RegisterTile.WorldPosition, strength);
+						Explosion.StartExplosion(bodyPart.HealthMaster.RegisterTile.WorldPosition, strength, isEMP);
 					}
 					else
 					{
 						//Otherwise, if it's not inside of a player, we consider it just an item
-						Explosion.StartExplosion(objectBehaviour.registerTile.WorldPosition, strength);
+						Explosion.StartExplosion(objectBehaviour.registerTile.WorldPosition, strength, isEMP);
 					}
 				}
 				else
 				{
-					Explosion.StartExplosion(registerObject.WorldPosition, strength);
+					Explosion.StartExplosion(registerObject.WorldPosition, strength, isEMP);
 				}
 			}
 
