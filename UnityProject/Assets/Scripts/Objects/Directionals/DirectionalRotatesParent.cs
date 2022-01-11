@@ -52,7 +52,7 @@ public class DirectionalRotatesParent : MonoBehaviour, IOnDirectionalChangeEdito
 		//the prefab sprite orientation
 		var offset = Orientation.FromEnum(prefabChildrenOrientation).OffsetTo(newDir);
 
-		transform.rotation = Quaternion.identity;
+		transform.localRotation = Quaternion.identity;
 		transform.Rotate(offset.Quaternion.eulerAngles);
 
 		if (forceChildrenOpposite)
