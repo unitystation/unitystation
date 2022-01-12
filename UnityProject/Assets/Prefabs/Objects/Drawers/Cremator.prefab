@@ -244,18 +244,6 @@ SortingGroup:
     type: 3}
   m_PrefabInstance: {fileID: 2326953878361258396}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &6366370698346894607 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 8652228875761003667, guid: ebb08cf966efc084aa918bd8d9429604,
-    type: 3}
-  m_PrefabInstance: {fileID: 2326953878361258396}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &-6615711806714216801
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -400,9 +388,6 @@ MonoBehaviour:
       m_SubObjectName: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0
-  crematorActiveSO: {fileID: 11400000, guid: b25d6302278ad144a844caff05ff46e2, type: 2}
-  crematorInactiveSO: {fileID: 11400000, guid: 09b63097663eb2f41b62690b448cf86b, type: 2}
-  crematorSprites: {fileID: 6366370698346894607}
   burningDamage: 23
 --- !u!114 &6751178667305699581
 MonoBehaviour:
