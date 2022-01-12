@@ -137,17 +137,11 @@ namespace Objects.Drawers
 			SetDrawerState((DrawerState)CrematorState.ShutAndActive);
 			UpdateCloseState();
 			OnStartPlayerCremation();
-			StartCoroutine(BurnContent());
+			StartCoroutine(nameof(BurnContent));
 		}
 
 		private IEnumerator BurnContent()
 		{
-			var timer = 0f;
-			var timeBetweenBurns = 10f;
-			while (timer <= timeBetweenBurns)
-			{
-				timer++;
-			}
 
 			if (drawerState == (DrawerState)CrematorState.ShutAndActive)
 			{
@@ -158,10 +152,10 @@ namespace Objects.Drawers
 					if(obj.TryGetComponent<LivingHealthBehaviour>(out var healthBehaviour))
 						healthBehaviour.ApplyDamage(gameObject, burningDamage, AttackType.Fire, DamageType.Burn);
 				}
-				StartCoroutine(BurnContent());
+				StartCoroutine(nameof(BurnContent));
 			}
 
-			return null;
+			yield return WaitFor.Seconds(5f);
 		}
 
 		private void OnStartPlayerCremation()
