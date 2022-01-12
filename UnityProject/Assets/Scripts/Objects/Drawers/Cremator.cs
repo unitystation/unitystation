@@ -18,9 +18,6 @@ namespace Objects.Drawers
 	{
 		[Tooltip("Sound used for cremation.")]
 		[SerializeField] private AddressableAudioSource CremationSound = null;
-		[SerializeField] private SpriteDataSO crematorActiveSO;
-		[SerializeField] private SpriteDataSO crematorInactiveSO;
-		[SerializeField] private SpriteHandler crematorSprites;
 
 		// Extra states over the base DrawerState enum.
 		private enum CrematorState
@@ -43,7 +40,6 @@ namespace Objects.Drawers
 			base.Awake();
 			accessRestrictions = GetComponent<AccessRestrictions>();
 			clearanceCheckable = GetComponent<ClearanceCheckable>();
-			if(crematorSprites == null) crematorSprites = GetComponentInChildren<SpriteHandler>();
 		}
 
 		// This region (Interaction-RightClick) shouldn't exist once TODO in class summary is done.
@@ -129,12 +125,10 @@ namespace Objects.Drawers
 		{
 			base.OpenDrawer();
 			if(drawerState == (DrawerState)CrematorState.ShutAndActive) StopCoroutine(BurnContent());
-			crematorSprites.SetSpriteSO(crematorInactiveSO);
 		}
 
 		private void UpdateCloseState()
 		{
-			crematorSprites.SetSpriteSO(crematorInactiveSO);
 			if (container.IsEmpty == false)
 			{
 				SetDrawerState((DrawerState)CrematorState.ShutWithContents);
@@ -150,7 +144,6 @@ namespace Objects.Drawers
 			UpdateCloseState();
 			OnStartPlayerCremation();
 			StartCoroutine(nameof(BurnContent));
-			crematorSprites.SetSpriteSO(crematorActiveSO);
 		}
 
 		private IEnumerator BurnContent()
