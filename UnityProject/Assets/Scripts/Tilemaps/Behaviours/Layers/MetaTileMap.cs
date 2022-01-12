@@ -80,6 +80,8 @@ namespace TileManagement
 		public BetterBounds? GlobalCachedBounds;
 
 		[NonSerialized] public Matrix4x4 localToWorldMatrix = Matrix4x4.identity;
+		[NonSerialized] public Matrix4x4 worldToLocalMatrix = Matrix4x4.identity;
+
 
 		public float Resistance(Vector3Int cellPos, bool includeObjects = true)
 		{
@@ -210,7 +212,9 @@ namespace TileManagement
 
 		public void UpdateMe()
 		{
-			localToWorldMatrix = transform.localToWorldMatrix;
+			var transform1 = transform;
+			localToWorldMatrix = transform1.localToWorldMatrix;
+			worldToLocalMatrix = transform1.worldToLocalMatrix;
 			if (QueuedChanges.Count == 0)
 				return;
 

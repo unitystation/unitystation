@@ -175,21 +175,43 @@ public partial class CustomNetTransform : NetworkBehaviour, IPushable
 			transform.position = new Vector2(transform.position.x, transform.position.y);
 		}
 
-		var pos = transform.position;
-		if (snapToGridOnStart)
+		Vector3 pos = TransformState.HiddenPos;
+		if (transform.parent == null)
 		{
-			pos = pos.RoundToInt();
-		}
-		var matrixInfo = matrix.MatrixInfo;
+			pos = transform.position; //Local and position are the same because no parent
+			if (snapToGridOnStart)
+			{
+				pos = pos.RoundToInt();
+			}
+			var matrixInfo = matrix.MatrixInfo;
 
-		predictedState.MatrixId = matrixInfo.Id;
-		predictedState.WorldPosition = pos;
-		serverState.MatrixId = matrixInfo.Id;
-		serverState.WorldPosition = pos;
-		clientState.MatrixId = matrixInfo.Id;
-		clientState.WorldPosition = pos;
-		serverLerpState.MatrixId = matrixInfo.Id;
-		serverLerpState.WorldPosition = pos;
+			predictedState.MatrixId = matrixInfo.Id;
+			predictedState.LocalPosition = pos;
+			serverState.MatrixId = matrixInfo.Id;
+			serverState.LocalPosition = pos;
+			clientState.MatrixId = matrixInfo.Id;
+			clientState.LocalPosition = pos;
+			serverLerpState.MatrixId = matrixInfo.Id;
+			serverLerpState.LocalPosition = pos;
+		}
+		else
+		{
+			pos = transform.position;
+			if (snapToGridOnStart)
+			{
+				pos = pos.RoundToInt();
+			}
+			var matrixInfo = matrix.MatrixInfo;
+
+			predictedState.MatrixId = matrixInfo.Id;
+			predictedState.WorldPosition = pos;
+			serverState.MatrixId = matrixInfo.Id;
+			serverState.WorldPosition = pos;
+			clientState.MatrixId = matrixInfo.Id;
+			clientState.WorldPosition = pos;
+			serverLerpState.MatrixId = matrixInfo.Id;
+			serverLerpState.WorldPosition = pos;
+		}
 
 		if (CustomNetworkManager.IsServer)
 		{
@@ -675,7 +697,7 @@ public partial class CustomNetTransform : NetworkBehaviour, IPushable
 		//Don't lerp (instantly change pos) if active state was changed
 		if (predictedState.Active != newState.Active || newState.Active == false /*|| newState.Speed == 0*/)
 		{
-			transform.position = newState.WorldPosition;
+			transform.localPosition = newState.LocalPosition;
 		}
 		predictedState = newState;
 		UpdateActiveStatusClient();

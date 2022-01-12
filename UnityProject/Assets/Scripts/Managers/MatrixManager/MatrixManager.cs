@@ -1244,7 +1244,7 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 	/// </summary>
 	public static Vector3Int LocalToWorldInt(Vector3 localPos, Matrix matrix)
 	{
-		return LocalToWorldInt(localPos, Get(matrix));
+		return LocalToWorldInt(localPos, matrix?.MatrixInfo);
 	}
 
 	/// <inheritdoc cref="LocalToWorldInt(Vector3, Matrix)"/>
@@ -1259,7 +1259,7 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 	/// </summary>
 	public static Vector3 LocalToWorld(Vector3 localPos, Matrix matrix)
 	{
-		return LocalToWorld(localPos, Get(matrix));
+		return LocalToWorld(localPos, matrix?.MatrixInfo);
 	}
 
 	/// <inheritdoc cref="LocalToWorld(Vector3, Matrix)"/>
