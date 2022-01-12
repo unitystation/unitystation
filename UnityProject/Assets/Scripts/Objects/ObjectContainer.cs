@@ -197,7 +197,14 @@ namespace Objects
 				}
 				else if (obj.TryGetComponent<PlayerScript>(out var playerScript))
 				{
-					playerScript.PlayerSync.AppearAtPositionServer(registerTile.WorldPositionServer);
+					if (worldPosition != null)
+					{
+						playerScript.PlayerSync.AppearAtPositionServer(worldPosition.Value);
+					}
+					else
+					{
+						playerScript.PlayerSync.AppearAtPositionServer(registerTile.WorldPositionServer);
+					}
 					playerScript.playerMove.IsTrapped = false;
 					if (pushPullObject.Pushable.IsMovingServer)
 					{
