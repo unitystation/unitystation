@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using AddressableReferences;
+using HealthV2;
 using Items;
 using Systems.Clearance;
 
@@ -17,6 +18,9 @@ namespace Objects.Drawers
 	{
 		[Tooltip("Sound used for cremation.")]
 		[SerializeField] private AddressableAudioSource CremationSound = null;
+		[SerializeField] private SpriteDataSO crematorActiveSO;
+		[SerializeField] private SpriteDataSO crematorInactiveSO;
+		[SerializeField] private SpriteHandler crematorSprites;
 
 		// Extra states over the base DrawerState enum.
 		private enum CrematorState
@@ -30,7 +34,7 @@ namespace Objects.Drawers
 		private AccessRestrictions accessRestrictions;
 		private ClearanceCheckable clearanceCheckable;
 
-		private const float BURNING_DURATION = 1.5f; // In seconds - timed to the Ding SFX.
+		private const float BURNING_DURATION = 5f;
 
 		[SerializeField] private float burningDamage = 25f;
 
@@ -39,6 +43,7 @@ namespace Objects.Drawers
 			base.Awake();
 			accessRestrictions = GetComponent<AccessRestrictions>();
 			clearanceCheckable = GetComponent<ClearanceCheckable>();
+			crematorSprites = GetComponentInChildren<SpriteHandler>();
 		}
 
 		// This region (Interaction-RightClick) shouldn't exist once TODO in class summary is done.
@@ -100,6 +105,10 @@ namespace Objects.Drawers
 				EntityTryEscape(interaction.Performer, null);
 				return;
 			}
+			if (interaction.IsAltClick && drawerState != DrawerState.Open)
+			{
+				Cremate();
+			}
 			base.ServerPerformInteraction(interaction);
 		}
 
@@ -120,21 +129,25 @@ namespace Objects.Drawers
 		{
 			base.OpenDrawer();
 			if(drawerState == (DrawerState)CrematorState.ShutAndActive) StopCoroutine(BurnContent());
+			crematorSprites.SetSpriteSO(crematorInactiveSO);
 		}
 
 		private void UpdateCloseState()
 		{
+			crematorSprites.SetSpriteSO(crematorInactiveSO);
 			if (container.IsEmpty == false)
 			{
 				SetDrawerState((DrawerState)CrematorState.ShutWithContents);
+				return;
 			}
-			else SetDrawerState(DrawerState.Shut);
+			SetDrawerState(DrawerState.Shut);
 		}
 
 		private void Cremate()
 		{
 			SoundManager.PlayNetworkedAtPos(CremationSound, DrawerWorldPosition, sourceObj: gameObject);
 			SetDrawerState((DrawerState)CrematorState.ShutAndActive);
+			crematorSprites.SetSpriteSO(crematorActiveSO);
 			UpdateCloseState();
 			OnStartPlayerCremation();
 			StartCoroutine(nameof(BurnContent));
@@ -142,20 +155,18 @@ namespace Objects.Drawers
 
 		private IEnumerator BurnContent()
 		{
-
-			if (drawerState == (DrawerState)CrematorState.ShutAndActive)
+			foreach (var obj in container.GetStoredObjects())
 			{
-				foreach (var obj in container.GetStoredObjects())
-				{
-					if(obj.TryGetComponent<Integrity>(out var integrity))
-						integrity.ApplyDamage(burningDamage, AttackType.Fire, DamageType.Burn, true);
-					if(obj.TryGetComponent<LivingHealthBehaviour>(out var healthBehaviour))
-						healthBehaviour.ApplyDamage(gameObject, burningDamage, AttackType.Fire, DamageType.Burn);
-				}
-				StartCoroutine(nameof(BurnContent));
+				if(obj.TryGetComponent<Integrity>(out var integrity)) //For items
+					integrity.ApplyDamage(burningDamage, AttackType.Fire, DamageType.Burn, true);
+				if (obj.TryGetComponent<LivingHealthBehaviour>(out var healthBehaviour)) //For NPCs
+					healthBehaviour.ApplyDamage(gameObject, burningDamage, AttackType.Fire, DamageType.Burn);
+				if (obj.TryGetComponent<PlayerHealthV2>(out var playerHealthV2)) //For Players
+					playerHealthV2.ApplyDamageAll(gameObject, burningDamage, AttackType.Fire, DamageType.Burn);
 			}
 
-			yield return WaitFor.Seconds(5f);
+			yield return WaitFor.Seconds(BURNING_DURATION);
+			StartCoroutine(nameof(BurnContent));
 		}
 
 		private void OnStartPlayerCremation()
