@@ -43,7 +43,7 @@ namespace Objects.Drawers
 			base.Awake();
 			accessRestrictions = GetComponent<AccessRestrictions>();
 			clearanceCheckable = GetComponent<ClearanceCheckable>();
-			crematorSprites = GetComponentInChildren<SpriteHandler>();
+			if(crematorSprites == null) crematorSprites = GetComponentInChildren<SpriteHandler>();
 		}
 
 		// This region (Interaction-RightClick) shouldn't exist once TODO in class summary is done.
@@ -147,10 +147,10 @@ namespace Objects.Drawers
 		{
 			SoundManager.PlayNetworkedAtPos(CremationSound, DrawerWorldPosition, sourceObj: gameObject);
 			SetDrawerState((DrawerState)CrematorState.ShutAndActive);
-			crematorSprites.SetSpriteSO(crematorActiveSO);
 			UpdateCloseState();
 			OnStartPlayerCremation();
 			StartCoroutine(nameof(BurnContent));
+			crematorSprites.SetSpriteSO(crematorActiveSO);
 		}
 
 		private IEnumerator BurnContent()
@@ -175,7 +175,7 @@ namespace Objects.Drawers
 			var objectsInContainer = container.GetStoredObjects();
 			foreach (var player in objectsInContainer)
 			{
-				if (player.TryGetComponent<LivingHealthBehaviour>(out var healthBehaviour))
+				if (player.TryGetComponent<PlayerHealthV2>(out var healthBehaviour))
 				{
 					if(healthBehaviour.ConsciousState == ConsciousState.CONSCIOUS ||
 					   healthBehaviour.ConsciousState == ConsciousState.BARELY_CONSCIOUS)
