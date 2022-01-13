@@ -591,7 +591,7 @@ public partial class GameManager : MonoBehaviour, IInitialise
 
 		string msg = GameManager.Instance.SecretGameMode ? "Secret" : $"{GameManager.Instance.GameMode}";
 
-		string message = $"A new round is starting on {ServerData.ServerConfig.ServerName}.\nThe current gamemode is: {msg}\nThe current map is: {SubSceneManager.ServerChosenMainStation}\n";
+		string message = $"A new round is starting on {ServerData.ServerPublicInfo.ServerName}.\nThe current gamemode is: {msg}\nThe current map is: {SubSceneManager.ServerChosenMainStation}\n";
 
 		var playerNumber = PlayerList.Instance.ConnectionCount > PlayerList.LastRoundPlayerCount
 			? PlayerList.Instance.ConnectionCount

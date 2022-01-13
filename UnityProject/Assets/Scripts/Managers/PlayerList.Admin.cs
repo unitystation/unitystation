@@ -916,15 +916,15 @@ public partial class PlayerList
 
 				UIManager.Instance.adminChatWindows.adminToAdminChat.ServerAddChatRecord(message, null);
 
-				if (!announceBan || !ServerData.ServerConfig.DiscordWebhookEnableBanKickAnnouncement) return;
+				if (!announceBan || !ServerData.ServerSecrets.DiscordWebhookEnableBanKickAnnouncement) return;
 
 				if (isBan)
 				{
-					message = $"{ServerData.ServerConfig.ServerName}\nPlayer: {p.Username}, has been banned for {banMinutes} minutes.";
+					message = $"{ServerData.ServerPublicInfo.ServerName}\nPlayer: {p.Username}, has been banned for {banMinutes} minutes.";
 				}
 				else
 				{
-					message = $"{ServerData.ServerConfig.ServerName}\nPlayer: {p.Username}, has been kicked.";
+					message = $"{ServerData.ServerPublicInfo.ServerName}\nPlayer: {p.Username}, has been kicked.";
 				}
 
 				DiscordWebhookMessage.Instance.AddWebHookMessageToQueue(DiscordWebhookURLs.DiscordWebhookAnnouncementURL, message, "");
@@ -953,15 +953,15 @@ public partial class PlayerList
 
 				UIManager.Instance.adminChatWindows.adminToAdminChat.ServerAddChatRecord(message, null);
 
-				if (!announceBan || !ServerData.ServerConfig.DiscordWebhookEnableBanKickAnnouncement) return;
+				if (!announceBan || !ServerData.ServerSecrets.DiscordWebhookEnableBanKickAnnouncement) return;
 
 				if (isBan)
 				{
-					message = $"{ServerData.ServerConfig.ServerName}\nPlayer: {p.Username}, has been banned for {banMinutes} minutes.";
+					message = $"{ServerData.ServerPublicInfo.ServerName}\nPlayer: {p.Username}, has been banned for {banMinutes} minutes.";
 				}
 				else
 				{
-					message = $"{ServerData.ServerConfig.ServerName}\nPlayer: {p.Username}, has been kicked.";
+					message = $"{ServerData.ServerPublicInfo.ServerName}\nPlayer: {p.Username}, has been kicked.";
 				}
 
 				DiscordWebhookMessage.Instance.AddWebHookMessageToQueue(DiscordWebhookURLs.DiscordWebhookAnnouncementURL, message, "");

@@ -191,9 +191,9 @@ public partial class Chat : MonoBehaviour
 			var strippedSpeaker = StripTags(chatEvent.speaker);
 
 			//Sends OOC message to a discord webhook
-			DiscordWebhookMessage.Instance.AddWebHookMessageToQueue(DiscordWebhookURLs.DiscordWebhookOOCURL, message, strippedSpeaker, ServerData.ServerConfig.DiscordWebhookOOCMentionsID);
+			DiscordWebhookMessage.Instance.AddWebHookMessageToQueue(DiscordWebhookURLs.DiscordWebhookOOCURL, message, strippedSpeaker, ServerData.ServerSecrets.DiscordWebhookOOCMentionsID);
 
-			if (!ServerData.ServerConfig.DiscordWebhookSendOOCToAllChat) return;
+			if (!ServerData.ServerSecrets.DiscordWebhookSendOOCToAllChat) return;
 
 			//Send it to All chat
 			DiscordWebhookMessage.Instance.AddWebHookMessageToQueue(DiscordWebhookURLs.DiscordWebhookAllChatURL, $"[{ChatChannel.OOC}]  {message}\n", strippedSpeaker);

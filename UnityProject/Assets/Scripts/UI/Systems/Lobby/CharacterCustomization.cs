@@ -1,6 +1,5 @@
 using System;
 using System.IO;
-using System.Threading.Tasks;
 using System.Collections.Generic;
 using System.Linq;
 using DatabaseAPI;
@@ -8,7 +7,6 @@ using HealthV2;
 using Newtonsoft.Json;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.Networking;
 using NaughtyAttributes;
 using System.Globalization;
 

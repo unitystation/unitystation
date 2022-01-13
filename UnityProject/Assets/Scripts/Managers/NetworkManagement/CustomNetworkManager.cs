@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Core.Database.Models;
 using UnityEngine;
 using Mirror;
 using UnityEngine.SceneManagement;
@@ -25,7 +26,7 @@ public class CustomNetworkManager : NetworkManager, IInitialise
 	public static CustomNetworkManager Instance;
 
 	[HideInInspector] public bool _isServer;
-	[HideInInspector] private ServerConfig config;
+	[HideInInspector] private ServerPublicInfo publicInfo;
 	public GameObject humanPlayerPrefab;
 	public GameObject ghostPrefab;
 	public GameObject disconnectedViewerPrefab;
@@ -145,10 +146,10 @@ public class CustomNetworkManager : NetworkManager, IInitialise
 
 	void ApplyConfig()
 	{
-		config = ServerData.ServerConfig;
-		if (config.ServerPort != 0 && config.ServerPort <= 65535)
+		publicInfo = ServerData.ServerPublicInfo;
+		if (publicInfo.ServerPort != 0 && publicInfo.ServerPort <= 65535)
 		{
-			Logger.LogFormat("ServerPort defined in config: {0}", Category.Server, config.ServerPort);
+			Logger.LogFormat("ServerPort defined in config: {0}", Category.Server, publicInfo.ServerPort);
 			// var booster = GetComponent<BoosterTransport>();
 			// if (booster != null)
 			// {
@@ -162,13 +163,13 @@ public class CustomNetworkManager : NetworkManager, IInitialise
 			var telepathy = GetComponent<TelepathyTransport>();
 			if (telepathy != null)
 			{
-				telepathy.port = (ushort) config.ServerPort;
+				telepathy.port = (ushort) publicInfo.ServerPort;
 			}
 
 			var ignorance = GetComponent<Ignorance>();
 			if (ignorance != null)
 			{
-				ignorance.port = (ushort) config.ServerPort;
+				ignorance.port = (ushort) publicInfo.ServerPort;
 			}
 		}
 	}

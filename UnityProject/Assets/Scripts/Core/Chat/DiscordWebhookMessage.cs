@@ -117,12 +117,12 @@ namespace DiscordWebhook
 		{
 			discordWebhookURLQueueDict = new Dictionary<Queue<string>, string>
 			{
-				{OOCMessageQueue, ServerData.ServerConfig.DiscordWebhookOOCURL},
-				{AdminAhelpMessageQueue, ServerData.ServerConfig.DiscordWebhookAdminURL},
-				{AnnouncementMessageQueue, ServerData.ServerConfig.DiscordWebhookAnnouncementURL},
-				{AllChatMessageQueue, ServerData.ServerConfig.DiscordWebhookAllChatURL},
-				{AdminLogMessageQueue, ServerData.ServerConfig.DiscordWebhookAdminLogURL},
-				{ErrorLogMessageQueue, ServerData.ServerConfig.DiscordWebhookErrorLogURL}
+				{OOCMessageQueue, ServerData.ServerSecrets.DiscordWebhookOOCURL},
+				{AdminAhelpMessageQueue, ServerData.ServerSecrets.DiscordWebhookAdminURL},
+				{AnnouncementMessageQueue, ServerData.ServerSecrets.DiscordWebhookAnnouncementURL},
+				{AllChatMessageQueue, ServerData.ServerSecrets.DiscordWebhookAllChatURL},
+				{AdminLogMessageQueue, ServerData.ServerSecrets.DiscordWebhookAdminLogURL},
+				{ErrorLogMessageQueue, ServerData.ServerSecrets.DiscordWebhookErrorLogURL}
 			};
 		}
 
@@ -234,17 +234,17 @@ namespace DiscordWebhook
 			switch (url)
 			{
 				case DiscordWebhookURLs.DiscordWebhookOOCURL:
-					return (ServerData.ServerConfig?.DiscordWebhookOOCURL, OOCMessageQueue);
+					return (ServerData.ServerSecrets?.DiscordWebhookOOCURL, OOCMessageQueue);
 				case DiscordWebhookURLs.DiscordWebhookAdminURL:
-					return (ServerData.ServerConfig?.DiscordWebhookAdminURL, AdminAhelpMessageQueue);
+					return (ServerData.ServerSecrets?.DiscordWebhookAdminURL, AdminAhelpMessageQueue);
 				case DiscordWebhookURLs.DiscordWebhookAnnouncementURL:
-					return (ServerData.ServerConfig?.DiscordWebhookAnnouncementURL, AnnouncementMessageQueue);
+					return (ServerData.ServerSecrets?.DiscordWebhookAnnouncementURL, AnnouncementMessageQueue);
 				case DiscordWebhookURLs.DiscordWebhookAllChatURL:
-					return (ServerData.ServerConfig?.DiscordWebhookAllChatURL, AllChatMessageQueue);
+					return (ServerData.ServerSecrets?.DiscordWebhookAllChatURL, AllChatMessageQueue);
 				case DiscordWebhookURLs.DiscordWebhookAdminLogURL:
-					return (ServerData.ServerConfig?.DiscordWebhookAdminLogURL, AdminLogMessageQueue);
+					return (ServerData.ServerSecrets?.DiscordWebhookAdminLogURL, AdminLogMessageQueue);
 				case DiscordWebhookURLs.DiscordWebhookErrorLogURL:
-					return (ServerData.ServerConfig?.DiscordWebhookErrorLogURL, ErrorLogMessageQueue);
+					return (ServerData.ServerSecrets?.DiscordWebhookErrorLogURL, ErrorLogMessageQueue);
 				default:
 					return (null, null);
 			}

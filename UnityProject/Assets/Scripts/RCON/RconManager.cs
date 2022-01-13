@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Core.Database.Models;
 using DatabaseAPI;
 using UnityEngine;
 using WebSocketSharp;
@@ -18,7 +19,8 @@ public class RconManager : SingletonManager<RconManager>
 	private Queue<string> rconChatQueue = new Queue<string>();
 	private Queue<string> commandQueue = new Queue<string>();
 
-	private ServerConfig config;
+	private ServerPublicInfo serverPublicInfo;
+	private ServerSecrets serverSecrets;
 
 	float monitorUpdate = 0f;
 
@@ -46,7 +48,7 @@ public class RconManager : SingletonManager<RconManager>
 		Logger.Log("Init RconManager", Category.Rcon);
 		DontDestroyOnLoad(gameObject);
 
-		if (ServerData.ServerConfig == null)
+		if (ServerData.ServerPublicInfo == null)
 		{
 			ServerData.serverDataLoaded += OnServerDataLoaded;
 		}
@@ -59,17 +61,18 @@ public class RconManager : SingletonManager<RconManager>
 	private void OnServerDataLoaded()
 	{
 		ServerData.serverDataLoaded -= OnServerDataLoaded;
-		if (ServerData.ServerConfig == null)
+		if (ServerData.ServerSecrets == null || ServerData.ServerPublicInfo == null)
 		{
 			Logger.Log("No server config found: rcon", Category.Rcon);
 			Destroy(gameObject);
 		}
 		else
 		{
-			config = ServerData.ServerConfig;
-			if (string.IsNullOrEmpty(config.RconPass) || config.RconPort == 0)
+			serverSecrets = ServerData.ServerSecrets;
+			serverPublicInfo = ServerData.ServerPublicInfo;
+			if (string.IsNullOrEmpty(serverSecrets.RconPass) || serverPublicInfo.RconPort == 0)
 			{
-				Logger.Log("Invalid Rcon config, please check your RconPass and RconPort values", Category.Rcon);
+				Logger.Log("Invalid Rcon config, please check your RconPass and RconPort values in serverSecrets.json and serverInfo.json respectively", Category.Rcon);
 				Destroy(gameObject);
 			}
 			else
@@ -96,7 +99,7 @@ public class RconManager : SingletonManager<RconManager>
 			return;
 		}
 
-		httpServer = new HttpServer(config.RconPort, false);
+		httpServer = new HttpServer(serverPublicInfo.RconPort, false);
 		//string certPath = Application.streamingAssetsPath + "/config/certificate.pfx";
 		//httpServer.SslConfiguration.ServerCertificate =
 		//	new X509Certificate2( certPath, config.certKey );
@@ -109,7 +112,7 @@ public class RconManager : SingletonManager<RconManager>
 		httpServer.UserCredentialsFinder = id =>
 		{
 			var name = id.Name;
-			return name == config.RconPass ?
+			return name == serverSecrets.RconPass ?
 				new NetworkCredential("admin", null, "admin") :
 				null;
 		};

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Net.Http;
 using DatabaseAPI;
@@ -9,14 +8,11 @@ using Initialisation;
 using Messages.Client.Addressable;
 using Messages.Server.Addressable;
 using Mirror;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.AddressableAssets.ResourceLocators;
 using UnityEngine.ResourceManagement.AsyncOperations;
 using UnityEngine.ResourceManagement.ResourceLocations;
-using UnityEngine.ResourceManagement.Util;
 
 public class AddressableCatalogueManager : MonoBehaviour, IInitialise
 {
@@ -47,7 +43,7 @@ public class AddressableCatalogueManager : MonoBehaviour, IInitialise
 		}
 		else
 		{
-			cool.AddRange(ServerData.ServerConfig.LobbyAddressableCatalogues);
+			cool.AddRange(ServerData.ServerPublicInfo.LobbyAddressableCatalogues);
 			LoadCatalogue(cool, false);
 			return;
 		}
@@ -166,7 +162,7 @@ public class AddressableCatalogueManager : MonoBehaviour, IInitialise
 		}
 		else
 		{
-			LoadCatalogue(ServerData.ServerConfig.AddressableCatalogues);
+			LoadCatalogue(ServerData.ServerPublicInfo.AddressableCatalogues);
 		}
 	}
 
@@ -174,7 +170,7 @@ public class AddressableCatalogueManager : MonoBehaviour, IInitialise
 	public static void ClientRequestCatalogue(GameObject PlayerGameObject)
 	{
 //TODO Need spam Protection
-		SendCataloguesToClient.Send(ServerData.ServerConfig.AddressableCatalogues, PlayerGameObject);
+		SendCataloguesToClient.Send(ServerData.ServerPublicInfo.AddressableCatalogues, PlayerGameObject);
 	}
 
 	public IEnumerator WaitForLoad()

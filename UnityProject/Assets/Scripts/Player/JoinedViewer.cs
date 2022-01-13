@@ -3,6 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Net.NetworkInformation;
 using System.Threading.Tasks;
+using Core.Database;
+using DatabaseAPI;
 using Systems;
 using Mirror;
 using Newtonsoft.Json;
@@ -42,8 +44,8 @@ namespace Player
 			else
 			{
 				CmdServerSetupPlayer(GetNetworkInfo(),
-					PlayerManager.CurrentCharacterSettings.Username, DatabaseAPI.ServerData.UserID, GameData.BuildNumber,
-					DatabaseAPI.ServerData.IdToken);
+					PlayerManager.CurrentCharacterSettings.Username, ServerData.UserID, GameData.BuildNumber,
+					ServerData.IdToken);
 				CmdServerRequestLoadedScenes(SceneManager.GetActiveScene().name);
 			}
 		}
@@ -51,8 +53,8 @@ namespace Player
 		private async void HandleServerConnection()
 		{
 			await ServerSetUpPlayer(GetNetworkInfo(),
-				PlayerManager.CurrentCharacterSettings.Username, DatabaseAPI.ServerData.UserID, GameData.BuildNumber,
-				DatabaseAPI.ServerData.IdToken);
+				PlayerManager.CurrentCharacterSettings.Username, ServerData.UserID, GameData.BuildNumber,
+				ServerData.IdToken);
 			ClientFinishLoading();
 		}
 
@@ -282,7 +284,7 @@ namespace Player
 				return;
 			}
 
-			ClientRequestJobMessage.Send(job, jsonCharSettings, DatabaseAPI.ServerData.UserID);
+			ClientRequestJobMessage.Send(job, jsonCharSettings, ServerData.UserID);
 		}
 
 		public void Spectate()

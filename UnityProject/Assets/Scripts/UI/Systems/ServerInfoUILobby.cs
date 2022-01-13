@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using DatabaseAPI;
+﻿using DatabaseAPI;
 using UnityEngine;
 using TMPro;
 using Mirror;
@@ -46,7 +44,7 @@ namespace ServerInfo
 		        descText = File.ReadAllText(path);
 	        }
 
-	        var nameText = ServerData.ServerConfig.ServerName;
+	        var nameText = ServerData.ServerPublicInfo.ServerName;
 
 	        ServerName.text = nameText;
 	        ServerDesc.text = descText;
@@ -55,9 +53,9 @@ namespace ServerInfo
 
         private void LoadLinks()
         {
-	        if (string.IsNullOrEmpty(ServerData.ServerConfig.DiscordLinkID)) return;
+	        if (string.IsNullOrEmpty(ServerData.ServerPublicInfo.DiscordLinkID)) return;
 
-	        serverDiscordID = ServerData.ServerConfig.DiscordLinkID;
+	        serverDiscordID = ServerData.ServerPublicInfo.DiscordLinkID;
         }
 
         public void ClientSetValues(string newName, string newDesc, string newDiscordID)
@@ -116,7 +114,7 @@ namespace ServerInfo
 		public override void Process(NetMessage msg)
 		{
 			ServerInfoLobbyMessageServer.Send(
-					SentByPlayer.Connection, ServerData.ServerConfig.ServerName,
+					SentByPlayer.Connection, ServerData.ServerPublicInfo.ServerName,
 					ServerInfoUILobby.serverDesc, ServerInfoUILobby.serverDiscordID);
 		}
 

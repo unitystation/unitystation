@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using System.Text;
 using DiscordWebhook;
 using DatabaseAPI;
@@ -39,7 +37,7 @@ namespace StationObjectives
 			StringBuilder statusSB = new StringBuilder(
 					$"<color=white><size={ChatTemplates.ExtremelyLargeText}><b>End of Round Report</b></size></color>\n\n", 200);
 
-			var message = $"End of Round Report on {ServerData.ServerConfig.ServerName}\n";
+			var message = $"End of Round Report on {ServerData.ServerPublicInfo.ServerName}\n";
 
 			statusSB.AppendLine(GetObjectiveStatus());
 			message += $"\n{GetObjectiveStatusNonRich()}";

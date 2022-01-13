@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.IO;
+﻿using System.IO;
 using UnityEngine;
 using Mirror;
 using TMPro;
@@ -35,7 +34,7 @@ namespace ServerInfo
 		        descText = File.ReadAllText(path);
 	        }
 
-	        var nameText = ServerData.ServerConfig.ServerName;
+	        var nameText = ServerData.ServerPublicInfo.ServerName;
 
 	        ServerName.text = nameText;
 	        ServerDesc.text = descText;
@@ -84,7 +83,7 @@ namespace ServerInfo
 
 		public override void Process(NetMessage msg)
 		{
-			ServerInfoMessageServer.Send(SentByPlayer.Connection, ServerData.ServerConfig.ServerName, ServerInfoUI.serverDesc);
+			ServerInfoMessageServer.Send(SentByPlayer.Connection, ServerData.ServerPublicInfo.ServerName, ServerInfoUI.serverDesc);
 		}
 
 		public static NetMessage Send()

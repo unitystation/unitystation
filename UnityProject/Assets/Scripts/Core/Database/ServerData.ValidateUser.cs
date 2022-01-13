@@ -3,6 +3,7 @@ using System.Net.Http;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
+using Core.Database.Models;
 using Firebase.Auth;
 using Newtonsoft.Json;
 using UnityEngine;
@@ -25,15 +26,15 @@ namespace DatabaseAPI
 				return false;
 			}
 
-			HttpRequestMessage req = new HttpRequestMessage(HttpMethod.Get, ServerData.UserFirestoreURL);
-			req.Headers.Add("Authorization", $"Bearer {ServerData.IdToken}");
+			HttpRequestMessage req = new HttpRequestMessage(HttpMethod.Get, UserFirestoreURL);
+			req.Headers.Add("Authorization", $"Bearer {IdToken}");
 
 			CancellationToken cancellationToken = new CancellationTokenSource(120000).Token;
 
 			HttpResponseMessage response;
 			try
 			{
-				response = await ServerData.HttpClient.SendAsync(req, cancellationToken);
+				response = await HttpClient.SendAsync(req, cancellationToken);
 			}
 			catch (Exception e)
 			{
