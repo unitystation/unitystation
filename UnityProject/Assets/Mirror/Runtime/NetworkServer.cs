@@ -937,7 +937,7 @@ namespace Mirror
 
                 ///CUSTOM UNITYSTATION CODE///
                 //Mirror specifically says that they dont support NetworkIdentities nested in normal gameobjects.
-                //But, we do it, so we have to override this and make sure we read and send world pos
+                //But, we do it, so we have to override this and make sure we read and send local pos
                 message.position = identity.transform.localPosition;
                 ///CUSTOM UNITYSTATION CODE///
 
