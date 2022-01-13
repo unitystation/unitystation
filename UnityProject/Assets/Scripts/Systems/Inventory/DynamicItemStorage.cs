@@ -42,7 +42,7 @@ public class DynamicItemStorage : NetworkBehaviour
 	public List<ItemSlot> ServerTotal = new List<ItemSlot>();
 
 
-	private Dictionary<IDynamicItemSlotS, List<InternalData>> InternalSynchronisingContainedInventorys =
+	private readonly Dictionary<IDynamicItemSlotS, List<InternalData>> InternalSynchronisingContainedInventorys =
 		new Dictionary<IDynamicItemSlotS, List<InternalData>>();
 
 
@@ -65,8 +65,8 @@ public class DynamicItemStorage : NetworkBehaviour
 
 	[SyncVar(hook = nameof(UpdateSlots))] private string SerialisedNetIDs = "";
 
-	private List<InternalData> added = new List<InternalData>();
-	private List<InternalData> removed = new List<InternalData>();
+	private readonly List<InternalData> added = new List<InternalData>();
+	private readonly List<InternalData> removed = new List<InternalData>();
 
 
 	public class InternalData
@@ -619,7 +619,7 @@ public class DynamicItemStorage : NetworkBehaviour
 			ServerObjectToSlots[bodyPartUISlots.GameObject].Add(Slot);
 
 			ServerTotal.Add(Slot);
-			var InternalData = new InternalData()
+			var InternalData = new InternalData
 			{
 				ID = id,
 				IndexEnabled = i,
@@ -756,7 +756,7 @@ public class DynamicItemStorage : NetworkBehaviour
 		ProcessChangeClient(NewST);
 	}
 
-	private Dictionary<uint, IDynamicItemSlotS> ClientCash = new Dictionary<uint, IDynamicItemSlotS>();
+	private readonly Dictionary<uint, IDynamicItemSlotS> ClientCash = new Dictionary<uint, IDynamicItemSlotS>();
 
 	public void ProcessChangeClient(string NewST)
 	{
@@ -1001,7 +1001,7 @@ public class DynamicItemStorage : NetworkBehaviour
 		{
 			Conditional AddSlot = new Conditional();
 
-			var Conditionals = GetConditionals(false);
+			var Conditionals = GetConditionals();
 			if (storageCharacteristicse.Condition.ConditionalParameter ==
 			    BodyPartUISlots.ConditionalParameter.RequireX)
 			{
@@ -1071,7 +1071,7 @@ public class DynamicItemStorage : NetworkBehaviour
 
 				if (Conditionals[storageCharacteristicse.Condition.CategoryID].Count > 0)
 				{
-					if (GetCorrectTotalSlots(false).Contains(Slot))
+					if (GetCorrectTotalSlots().Contains(Slot))
 					{
 						//Assuming the slots are compatible, They should be since they should be the same thing
 						Inventory.ServerTransfer(Slot,
@@ -1097,7 +1097,7 @@ public class DynamicItemStorage : NetworkBehaviour
 				}
 				else
 				{
-					var Active = GetActiveConditionals(false);
+					var Active = GetActiveConditionals();
 					if (Active.ContainsKey(storageCharacteristicse.Condition.CategoryID))
 					{
 						var tuple = new Tuple<bool, IDynamicItemSlotS, BodyPartUISlots.StorageCharacteristics?>(true,
