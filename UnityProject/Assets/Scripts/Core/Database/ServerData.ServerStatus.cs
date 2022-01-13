@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections;
-using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 using UnityWebRequest = UnityEngine.Networking.UnityWebRequest;
 using Mirror;
 using System.Text.RegularExpressions;
+using Core.Database.Models;
 using IgnoranceTransport;
 using Managers;
 
@@ -19,19 +19,16 @@ namespace DatabaseAPI
 	/// </summary>
 	public partial class ServerData
 	{
-		private ServerConfig config;
+		private ServerPublicInfo publicInfo;
 		/// <summary>
-		/// The server config that holds the values
-		/// for your RCON and Unitystation HUB API connections
+		/// Config model with the server's public info, like download links, server name, etc.
 		/// </summary>
-		public static ServerConfig ServerConfig
-		{
-			get
-			{
-				return Instance.config;
-			}
-		}
+		public static ServerPublicInfo ServerPublicInfo => Instance.publicInfo;
+
 		private BuildInfo buildInfo;
+
+		private ServerSecrets secrets;
+		public static ServerSecrets ServerSecrets => Instance.secrets;
 
 		private string hubCookie;
 		private const string hubRoot = "https://api.unitystation.org";
@@ -43,17 +40,33 @@ namespace DatabaseAPI
 		private Ignorance ignoranceTransport;
 		//private BoosterTransport boosterTransport = null;
 
-		void AttemptConfigLoad()
+		private void AttemptServerInfoLoad()
 		{
-			var path = Path.Combine(Application.streamingAssetsPath, "config", "config.json");
+			var path = Path.Combine(Application.streamingAssetsPath, "config", "serverInfo.json");
 			buildInfo = JsonUtility.FromJson<BuildInfo>(File.ReadAllText(Path.Combine(Application.streamingAssetsPath, "buildinfo.json")));
 
 			if (File.Exists(path))
 			{
 				telepathyTransport = FindObjectOfType<TelepathyTransport>();
 				ignoranceTransport = FindObjectOfType<Ignorance>();
-				config = JsonUtility.FromJson<ServerConfig>(File.ReadAllText(path));
+				publicInfo = JsonUtility.FromJson<ServerPublicInfo>(File.ReadAllText(path));
 				Instance.StartCoroutine(Instance.SendServerStatus());
+			}
+			else
+			{
+				Logger.Log("No config found for server information", Category.DatabaseAPI);
+			}
+		}
+
+		//TODO: try to also get and parse current environmental variables to build the secrets object so the plain
+		// file isn't needed by server admins
+		private void AttemptServerSecretsLoad()
+		{
+			var path = Path.Combine(Application.streamingAssetsPath, "config", "serverSecrets.json");
+
+			if (File.Exists(path))
+			{
+				secrets = JsonUtility.FromJson<ServerSecrets>(File.ReadAllText(path));
 			}
 			else
 			{
@@ -61,7 +74,7 @@ namespace DatabaseAPI
 			}
 		}
 
-		void MonitorServerStatus()
+		private void MonitorServerStatus()
 		{
 			updateWait += Time.deltaTime;
 			//Update the hub every 10 seconds
@@ -74,7 +87,7 @@ namespace DatabaseAPI
 
 		IEnumerator SendServerStatus()
 		{
-			if (string.IsNullOrEmpty(config.HubUser) || string.IsNullOrEmpty(config.HubPass))
+			if (string.IsNullOrEmpty(secrets.HubUser) || string.IsNullOrEmpty(secrets.HubPass))
 			{
 				Logger.Log("Invalid Hub creds found, aborting HUB connection", Category.DatabaseAPI);
 				yield break;
@@ -82,8 +95,8 @@ namespace DatabaseAPI
 
 			var loginRequest = new HubLoginReq
 			{
-				username = config.HubUser,
-				password = config.HubPass
+				username = secrets.HubUser,
+				password = secrets.HubPass
 			};
 
 			var requestData = JsonUtility.ToJson(loginRequest);
@@ -118,7 +131,7 @@ namespace DatabaseAPI
 			}
 
 			var status = new ServerStatus();
-			status.ServerName = config.ServerName;
+			status.ServerName = publicInfo.ServerName;
 			status.ForkName = buildInfo.ForkName;
 			status.BuildVersion = buildInfo.BuildNumber;
 
@@ -139,13 +152,13 @@ namespace DatabaseAPI
 			}
 			status.ServerIP = publicIP;
 			status.ServerPort = GetPort();
-			status.WinDownload = config.WinDownload;
-			status.OSXDownload = config.OSXDownload;
-			status.LinuxDownload = config.LinuxDownload;
+			status.WinDownload = publicInfo.WinDownload;
+			status.OSXDownload = publicInfo.OSXDownload;
+			status.LinuxDownload = publicInfo.LinuxDownload;
 
 			status.fps = (int)FPSMonitor.Instance.Current;
 
-			UnityWebRequest r = UnityWebRequest.Get(hubUpdate + UnityWebRequest.EscapeURL(JsonUtility.ToJson(status)) + "&user=" + config.HubUser);
+			UnityWebRequest r = UnityWebRequest.Get(hubUpdate + UnityWebRequest.EscapeURL(JsonUtility.ToJson(status)) + "&user=" + secrets.HubUser);
 			r.SetRequestHeader("Cookie", hubCookie);
 			yield return r.SendWebRequest();
 			if (r.error != null)
@@ -156,7 +169,7 @@ namespace DatabaseAPI
 
 		private int GetPort()
 		{
-			int port = (config.ServerPort != 0) ? config.ServerPort : 7777;
+			int port = (publicInfo.ServerPort != 0) ? publicInfo.ServerPort : 7777;
 
 			if (telepathyTransport != null)
 			{
@@ -190,78 +203,6 @@ namespace DatabaseAPI
 		public int errorCode = 0; //0 = all good, read the message variable now, otherwise read errorMsg
 		public string errorMsg;
 		public string message;
-	}
-
-	[Serializable]
-	public class ServerStatus
-	{
-		public string ServerName;
-		public string ForkName;
-		public int BuildVersion;
-		public string CurrentMap;
-		public string GameMode;
-		public string IngameTime;
-		public int PlayerCount;
-		public string ServerIP;
-		public int ServerPort;
-		public string WinDownload;
-		public string OSXDownload;
-		public string LinuxDownload;
-		public int fps;
-	}
-
-	//Read from Streaming Assets/config/config.json on the server
-	[Serializable]
-	public class ServerConfig
-	{
-		public string RconPass;
-		public int RconPort;
-		public int ServerPort;
-		//CertKey needed in the future for SSL Rcon
-		public string certKey;
-		public string HubUser;
-		public string HubPass;
-		public string ServerName;
-		//Location on the internet where clients can be downloaded from:
-		public string WinDownload;
-		public string OSXDownload;
-		public string LinuxDownload;
-
-		//End of a discord invite used for serverinfo page
-		public string DiscordLinkID;
-
-		//Discord Webhook URL//
-
-		//OOC chat
-		public string DiscordWebhookOOCURL;
-
-		//ID that can be pinged in OOC chat
-		public string DiscordWebhookOOCMentionsID;
-
-		//Webhook where Ahelps are sent
-		public string DiscordWebhookAdminURL;
-
-		//Announcements for round start/end, also public Ban/Kick if enabled
-		public string DiscordWebhookAnnouncementURL;
-		public bool DiscordWebhookEnableBanKickAnnouncement;
-
-		//Sends all chat messages from each channel, also OOC if enabled
-		public string DiscordWebhookAllChatURL;
-		public bool DiscordWebhookSendOOCToAllChat;
-
-		//Sends Admin actions to a webhook
-		public string DiscordWebhookAdminLogURL;
-
-		//Sends Admin actions to a webhook
-		public string DiscordWebhookErrorLogURL;
-
-		//The Catalogue that the client should load when connecting and the catalogues the server loads on its end
-		//Catalogues as in addressable catalogues with content
-		public List<string> AddressableCatalogues;
-
-		//Built in catalogue content
-		//Such as Lobby music
-		public List<string> LobbyAddressableCatalogues;
 	}
 
 	//Used to identify the build and fork of this client/server

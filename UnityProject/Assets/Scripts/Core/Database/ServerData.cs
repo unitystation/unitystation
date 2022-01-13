@@ -31,14 +31,9 @@ namespace DatabaseAPI
 			}
 		}
 
-		public static string UserFirestoreURL
-		{
-			get
-			{
-				return "https://firestore.googleapis.com/v1/projects/" +
-				       $"unitystation-c6a53/databases/(default)/documents/users/{Auth.CurrentUser.UserId}";
-			}
-		}
+		public static string UserFirestoreURL =>
+			"https://firestore.googleapis.com/v1/projects/" +
+			$"unitystation-c6a53/databases/(default)/documents/users/{Auth.CurrentUser.UserId}";
 
 		private Firebase.Auth.FirebaseAuth auth;
 		public static Firebase.Auth.FirebaseAuth Auth => Instance.auth;
@@ -48,18 +43,7 @@ namespace DatabaseAPI
 
 		private Firebase.Auth.FirebaseUser user = null;
 
-		public static string UserID
-		{
-			get
-			{
-				if (Instance.user == null)
-				{
-					return "";
-				}
-
-				return Instance.user.UserId;
-			}
-		}
+		public static string UserID => Instance.user == null ? "" : Instance.user.UserId;
 
 		public static Action serverDataLoaded;
 
@@ -74,8 +58,9 @@ namespace DatabaseAPI
 
 		void IInitialise.Initialise()
 		{
+			AttemptServerSecretsLoad();
 			//Handles config for RCON and Server Status API for dedicated servers
-			AttemptConfigLoad();
+			AttemptServerInfoLoad();
 			InitializeFirebase();
 
 			serverDataLoaded?.Invoke();
@@ -104,9 +89,9 @@ namespace DatabaseAPI
 
 		private void UpdateMe()
 		{
-			if (config != null)
+			if (publicInfo != null)
 			{
-				if (!string.IsNullOrEmpty(config.HubUser) && !string.IsNullOrEmpty(config.HubPass))
+				if (!string.IsNullOrEmpty(secrets.HubUser) && !string.IsNullOrEmpty(secrets.HubPass))
 				{
 					MonitorServerStatus();
 				}
@@ -118,12 +103,11 @@ namespace DatabaseAPI
 		/// </summary>
 		public static void ReloadProfile()
 		{
-			ServerData.Auth.CurrentUser.ReloadAsync().ContinueWith(task =>
+			Auth.CurrentUser.ReloadAsync().ContinueWith(task =>
 			{
 				if (task.IsFaulted)
 				{
 					Logger.LogError("Error with profile reload", Category.DatabaseAPI);
-					return;
 				}
 			});
 		}
