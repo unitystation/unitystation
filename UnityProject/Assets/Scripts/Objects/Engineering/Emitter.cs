@@ -4,6 +4,7 @@ using NaughtyAttributes;
 using AddressableReferences;
 using Messages.Server;
 using Systems.Clearance;
+using Systems.Electricity;
 using Systems.Electricity.NodeModules;
 using Systems.Interaction;
 
@@ -272,6 +273,7 @@ namespace Objects.Engineering
 					$"{interaction.Performer.ExpensiveName()} unwelds the emitter from the floor.",
 					() =>
 					{
+						ElectricalManager.Instance.electricalSync.StructureChange = true;
 						isWelded = false;
 						TogglePower(false);
 					});
@@ -283,7 +285,11 @@ namespace Objects.Engineering
 					$"{interaction.Performer.ExpensiveName()} starts to weld the emitter...",
 					"You weld the emitter to the floor.",
 					$"{interaction.Performer.ExpensiveName()} welds the emitter to the floor.",
-					() => { isWelded = true; });
+					() =>
+					{
+						ElectricalManager.Instance.electricalSync.StructureChange = true;
+						isWelded = true;
+					});
 			}
 		}
 
