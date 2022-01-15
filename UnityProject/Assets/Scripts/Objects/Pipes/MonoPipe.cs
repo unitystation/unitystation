@@ -186,7 +186,8 @@ namespace Objects.Atmospherics
 		private void OnDrawGizmos()
 		{
 			var density = pipeData.mixAndVolume.Density();
-
+			if(density.x.Approx(0) && density.y.Approx(0)) return;
+			
 			Gizmos.color = Color.white;
 			DebugGizmoUtils.DrawText(density.ToString(), transform.position, 10);
 			Gizmos.color = Color.magenta;
