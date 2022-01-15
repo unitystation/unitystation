@@ -86,6 +86,7 @@ namespace Systems.Atmospherics
 				{
 					Temperature = (value / WholeHeatCapacity);
 				}
+				SetTemperature(Temperature);
 			}
 		}
 
