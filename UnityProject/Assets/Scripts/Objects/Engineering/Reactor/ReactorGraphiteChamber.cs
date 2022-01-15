@@ -77,11 +77,13 @@ namespace Objects.Engineering
 
 		public void OnEnable()
 		{
+			if (CustomNetworkManager.IsServer == false) return;
 			UpdateManager.Add(CycleUpdate, 1);
 		}
 
 		public void OnDisable()
 		{
+			if (CustomNetworkManager.IsServer == false) return;
 			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, CycleUpdate);
 		}
 
