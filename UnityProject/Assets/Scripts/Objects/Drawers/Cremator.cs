@@ -159,6 +159,8 @@ namespace Objects.Drawers
 			}
 
 			yield return WaitFor.Seconds(BURNING_DURATION);
+			//if it's just closed but not active don't start this again.
+			if (drawerState == DrawerState.Shut || drawerState == DrawerState.Open) yield break;
 			StartCoroutine(nameof(BurnContent));
 		}
 
