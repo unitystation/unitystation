@@ -130,8 +130,8 @@ namespace Weapons
 			else
 			{
 				Chat.AddActionMsgToChat(interaction.Performer,
-					$"You attempt to prod {interaction.TargetObject.ExpensiveName()} but the {gameObject} was off!",
-					$"{interaction.Performer.ExpensiveName()} prods {interaction.TargetObject.ExpensiveName()}, luckily the {gameObject} was off!");
+					$"You attempt to prod {interaction.TargetObject.ExpensiveName()} but the {gameObject.ExpensiveName()} was off!",
+					$"{interaction.Performer.ExpensiveName()} prods {interaction.TargetObject.ExpensiveName()}, luckily the {gameObject.ExpensiveName()} was off!");
 				return;
 			}
 
