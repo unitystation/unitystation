@@ -23,7 +23,7 @@ namespace Weapons
 		private WeaponState intialState = WeaponState.Off;
 
 		///Both used as states for the item and for the sub-catalogue in the sprite handler.
-		private enum WeaponState
+		public enum WeaponState
 		{
 			Off,
 			On,
@@ -31,6 +31,12 @@ namespace Weapons
 		}
 
 		private WeaponState weaponState;
+
+		public WeaponState CurrentWeaponState
+		{
+			get { return weaponState; }
+			set { weaponState = value; }
+		}
 
 		private void Awake()
 		{
