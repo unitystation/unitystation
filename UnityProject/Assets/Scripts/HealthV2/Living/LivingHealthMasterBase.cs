@@ -647,6 +647,13 @@ namespace HealthV2
 				bodyPartAim = BodyPartType.Head;
 			}
 
+			//Currently there is no phyiscal "hand" or "foot" game object to be targeted.
+			//We reasign these aims to the arms and legs instead.
+			if (bodyPartAim == BodyPartType.LeftHand) bodyPartAim = BodyPartType.LeftArm;
+			if (bodyPartAim == BodyPartType.RightHand) bodyPartAim = BodyPartType.RightArm;
+			if (bodyPartAim == BodyPartType.LeftFoot) bodyPartAim = BodyPartType.LeftLeg;
+			if (bodyPartAim == BodyPartType.RightFoot) bodyPartAim = BodyPartType.RightLeg;
+
 			foreach (var bodyPart in SurfaceBodyParts)
 			{
 				if (bodyPart.BodyPartType == bodyPartAim)
