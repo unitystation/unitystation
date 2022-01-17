@@ -143,7 +143,6 @@ namespace Weapons
 				}
 				else
 				{
-					
 					if(toggleableEffect != null)
 					{
 						toggleableEffect.TurnOff();
