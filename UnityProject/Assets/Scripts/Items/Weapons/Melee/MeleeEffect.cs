@@ -127,11 +127,20 @@ namespace Weapons
 				// Direction of attack towards the attack target.
 				wna.ServerPerformMeleeAttack(target, dir, interaction.TargetBodyPart, LayerType.None);
 			}
-			else
+			else if(toggleableEffect.CurrentWeaponState == ToggleableEffect.WeaponState.Off
+				|| toggleableEffect.CurrentWeaponState == ToggleableEffect.WeaponState.NoCell)
 			{
 				Chat.AddActionMsgToChat(interaction.Performer,
 					$"You attempt to prod {interaction.TargetObject.ExpensiveName()} but the {gameObject.ExpensiveName()} was off!",
 					$"{interaction.Performer.ExpensiveName()} prods {interaction.TargetObject.ExpensiveName()}, luckily the {gameObject.ExpensiveName()} was off!");
+				return;
+			}
+			else
+			{
+				Chat.AddActionMsgToChat(interaction.Performer,
+					$"You prod {interaction.TargetObject.ExpensiveName()} lightly.",
+					$"{interaction.Performer.ExpensiveName()} prods {interaction.TargetObject.ExpensiveName()} lightly.");
+				SoundManager.PlayNetworkedAtPos(CommonSounds.Instance.Tap, gameObject.RegisterTile().WorldPosition);
 				return;
 			}
 
