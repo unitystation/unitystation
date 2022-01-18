@@ -118,13 +118,30 @@ namespace Weapons
 			Vector2 dir = (target.transform.position - performer.transform.position).normalized;
 
 			WeaponNetworkActions wna = performer.GetComponent<WeaponNetworkActions>();
+			ToggleableEffect toggleableEffect = gameObject.GetComponent<ToggleableEffect>();
 
 			// If we're on harm intent we deal damage!
 			// Note: this has to be done before the teleport, otherwise the target may be moved out of range.
-			if (interaction.Intent == Intent.Harm)
+			if (interaction.Intent == Intent.Harm && toggleableEffect.CurrentWeaponState == ToggleableEffect.WeaponState.On)
 			{
 				// Direction of attack towards the attack target.
 				wna.ServerPerformMeleeAttack(target, dir, interaction.TargetBodyPart, LayerType.None);
+			}
+			else if(toggleableEffect.CurrentWeaponState == ToggleableEffect.WeaponState.Off
+				|| toggleableEffect.CurrentWeaponState == ToggleableEffect.WeaponState.NoCell)
+			{
+				Chat.AddActionMsgToChat(interaction.Performer,
+					$"You attempt to prod {interaction.TargetObject.ExpensiveName()} but the {gameObject.ExpensiveName()} was off!",
+					$"{interaction.Performer.ExpensiveName()} prods {interaction.TargetObject.ExpensiveName()}, luckily the {gameObject.ExpensiveName()} was off!");
+				return;
+			}
+			else
+			{
+				Chat.AddActionMsgToChat(interaction.Performer,
+					$"You prod {interaction.TargetObject.ExpensiveName()} lightly.",
+					$"{interaction.Performer.ExpensiveName()} prods {interaction.TargetObject.ExpensiveName()} lightly.");
+				SoundManager.PlayNetworkedAtPos(CommonSounds.Instance.Tap, gameObject.RegisterTile().WorldPosition);
+				return;
 			}
 
 			if (canEffect && hasBattery)
@@ -135,7 +152,6 @@ namespace Weapons
 				}
 				else
 				{
-					ToggleableEffect toggleableEffect = gameObject.GetComponent<ToggleableEffect>();
 					if(toggleableEffect != null)
 					{
 						toggleableEffect.TurnOff();
