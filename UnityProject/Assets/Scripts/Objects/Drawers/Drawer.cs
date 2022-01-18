@@ -18,6 +18,10 @@ namespace Objects.Drawers
 	{
 	[SerializeField] private AddressableAudioSource BinOpenSFX = null;
 	[SerializeField] private AddressableAudioSource BinCloseSFX = null;
+	/// <summary>
+	/// How long does it take before players can escape from this drawer? (Put it to 0 to disable it)
+	/// </summary>
+	[SerializeField] protected float escapeTime = 8f;
 
 		protected enum DrawerState
 		{
@@ -195,6 +199,7 @@ namespace Objects.Drawers
 
 		public virtual void OpenDrawer()
 		{
+			if(drawerState == DrawerState.Open) return;
 			trayBehaviour.parentContainer = null;
 			trayTransform.SetPosition(TrayWorldPosition);
 
@@ -234,10 +239,18 @@ namespace Objects.Drawers
 
 		public void EntityTryEscape(GameObject entity,Action ifCompleted)
 		{
-			if (entity.Player() != null)
+			if(entity.Player() == null) return;
+			if (escapeTime <= 0.1f)
 			{
 				OpenDrawer();
+				return;
 			}
+			var bar = StandardProgressAction.Create(new StandardProgressActionConfig(StandardProgressActionType.Escape,
+				true, false, true, true), OpenDrawer);
+			bar.ServerStartProgress(gameObject.RegisterTile(), escapeTime, entity);
+			Chat.AddActionMsgToChat(entity,
+				$"You begin breaking out of the {gameObject.ExpensiveName()}...",
+				$"You hear noises coming from the {gameObject.ExpensiveName()}... Something must be trying to break out!");
 		}
 
 		#endregion Server Only

@@ -166,6 +166,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8652228875761003667, guid: ebb08cf966efc084aa918bd8d9429604,
         type: 3}
+      propertyPath: initialVariantIndex
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8652228875761003667, guid: ebb08cf966efc084aa918bd8d9429604,
+        type: 3}
       propertyPath: SubCatalogue.Array.size
       value: 4
       objectReference: {fileID: 0}
@@ -371,6 +376,7 @@ MonoBehaviour:
       m_SubObjectName: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0
+  escapeTime: 24
   trayPrefab: {fileID: 6276591062313578460, guid: cb335e9d7c8dce444a0ea88946edbfd8,
     type: 3}
   storePlayers: 1
@@ -382,6 +388,7 @@ MonoBehaviour:
       m_SubObjectName: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0
+  burningDamage: 23
 --- !u!114 &6751178667305699581
 MonoBehaviour:
   m_ObjectHideFlags: 0

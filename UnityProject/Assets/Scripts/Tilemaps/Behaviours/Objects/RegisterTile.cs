@@ -372,7 +372,7 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 			objectLayer = newObjectLayer;
 		}
 
-		transform.SetParent(objectLayer.transform, true);
+		transform.SetParent(objectLayer.transform, transform.parent); //If it has no parent presumed it was spawned in my mirror that Used the local position
 
 		//preserve absolute rotation if there was spin rotation
 		if (hadSpinRotation)

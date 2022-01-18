@@ -41,12 +41,10 @@ namespace Objects.Atmospherics
 		{
 			//Only run SetUpPipes for mapped, otherwise the item being used to place it will have the wrong pipe data
 			//As the pipe will not be rotated correctly before setup
-			if(spawnedFromItem && info.SpawnType != SpawnType.Mapped) return;
-
-			SetUpPipes();
+			SetUpPipes(spawnedFromItem && info.SpawnType != SpawnType.Mapped);
 		}
 
-		public void SetUpPipes()
+		public void SetUpPipes(bool DoNotSetRotation = false)
 		{
 			if (pipeData.PipeAction == null)
 			{
@@ -54,8 +52,13 @@ namespace Objects.Atmospherics
 			}
 			registerTile.SetPipeData(pipeData);
 			pipeData.MonoPipe = this;
-			int Offset = PipeFunctions.GetOffsetAngle(transform.localRotation.eulerAngles.z);
-			pipeData.Connections.Rotate(Offset);
+			if (DoNotSetRotation == false)
+			{
+				int Offset = PipeFunctions.GetOffsetAngle(transform.localRotation.eulerAngles.z);
+				pipeData.Connections.Rotate(Offset);
+			}
+
+
 			pipeData.OnEnable();
 			spritehandler.OrNull()?.gameObject.OrNull()?.SetActive( true);
 			spritehandler.OrNull()?.SetColor(Colour);
@@ -184,7 +187,7 @@ namespace Objects.Atmospherics
 		{
 			var density = pipeData.mixAndVolume.Density();
 			if(density.x.Approx(0) && density.y.Approx(0)) return;
-
+			
 			Gizmos.color = Color.white;
 			DebugGizmoUtils.DrawText(density.ToString(), transform.position, 10);
 			Gizmos.color = Color.magenta;
