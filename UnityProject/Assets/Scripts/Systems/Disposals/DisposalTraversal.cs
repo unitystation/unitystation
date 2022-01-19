@@ -109,10 +109,10 @@ namespace Systems.Disposals
 		{
 			switch (side.AsEnum())
 			{
-				case OrientationEnum.Up: return Orientation.Down;
-				case OrientationEnum.Down: return Orientation.Up;
-				case OrientationEnum.Left: return Orientation.Right;
-				case OrientationEnum.Right: return Orientation.Left;
+				case OrientationEnum.Up_By0: return Orientation.Down;
+				case OrientationEnum.Down_By180: return Orientation.Up;
+				case OrientationEnum.Left_By270: return Orientation.Right;
+				case OrientationEnum.Right_By90: return Orientation.Left;
 			}
 
 			return Orientation.Left;

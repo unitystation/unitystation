@@ -31,9 +31,9 @@ namespace Objects.Disposals
 		{
 			base.Awake();
 
-			if (TryGetComponent<Directional>(out var directional))
+			if (TryGetComponent<Rotatable>(out var directional))
 			{
-				directional.OnDirectionChange.AddListener(OnDirectionChanged);
+				directional.OnRotationChange.AddListener(OnDirectionChanged);
 			}
 			directionalPassable = GetComponent<DirectionalPassable>();
 			DenyEntry();
@@ -55,7 +55,7 @@ namespace Objects.Disposals
 			GatherEntities();
 		}
 
-		private void OnDirectionChanged(Orientation newDir)
+		private void OnDirectionChanged(OrientationEnum newDir)
 		{
 			UpdateSpriteOrientation();
 		}
@@ -82,18 +82,18 @@ namespace Objects.Disposals
 
 		private void UpdateSpriteOrientation()
 		{
-			switch (directionalPassable.Directional.CurrentDirection.AsEnum())
+			switch (directionalPassable.Rotatable.CurrentDirection)
 			{
-				case OrientationEnum.Up:
+				case OrientationEnum.Up_By0:
 					baseSpriteHandler.ChangeSpriteVariant(1);
 					break;
-				case OrientationEnum.Down:
+				case OrientationEnum.Down_By180:
 					baseSpriteHandler.ChangeSpriteVariant(0);
 					break;
-				case OrientationEnum.Left:
+				case OrientationEnum.Left_By270:
 					baseSpriteHandler.ChangeSpriteVariant(3);
 					break;
-				case OrientationEnum.Right:
+				case OrientationEnum.Right_By90:
 					baseSpriteHandler.ChangeSpriteVariant(2);
 					break;
 			}

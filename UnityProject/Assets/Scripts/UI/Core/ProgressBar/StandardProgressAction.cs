@@ -21,7 +21,7 @@ public class StandardProgressAction : IProgressAction
 	//conscious state when beginning progress
 	private ConsciousState initialConsciousState;
 	//initial facing direction
-	private Orientation initialDirection;
+	private OrientationEnum initialDirection;
 	private PlayerScript playerScript;
 	private StartProgressInfo startProgressInfo;
 	//is this a cross matrix action
@@ -186,7 +186,7 @@ public class StandardProgressAction : IProgressAction
 		//interrupt if player moves at all
 		eventRegistry.Register(playerScript.registerTile.OnLocalPositionChangedServer, OnLocalPositionChanged);
 		//interrupt if player turns away and turning is not allowed
-		eventRegistry.Register(playerScript.playerDirectional.OnDirectionChange, OnDirectionChanged);
+		eventRegistry.Register(playerScript.playerDirectional.OnRotationChange, OnDirectionChanged);
 		initialDirection = playerScript.playerDirectional.CurrentDirection;
 		//interrupt if tile is on different matrix and either matrix moves / rotates
 		if (crossMatrix)
@@ -315,7 +315,7 @@ public class StandardProgressAction : IProgressAction
 	}
 
 
-	private void OnDirectionChanged(Orientation arg0)
+	private void OnDirectionChanged(OrientationEnum arg0)
 	{
 		if (!CanPlayerStillProgress()) InterruptProgress("performer direction changed");
 	}

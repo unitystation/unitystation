@@ -65,7 +65,7 @@ public static class PlayerUtils
 			{
 				if (ps.PlayerSync.IsMovingServer)
 				{
-					var plantPos = ps.WorldPos + ps.CurrentDirection.Vector;
+					var plantPos = ps.WorldPos + ps.CurrentDirection.ToLocalVector3();
 					Spawn.ServerPrefab("Banana peel", plantPos, cancelIfImpassable: true);
 
 				}

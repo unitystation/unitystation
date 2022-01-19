@@ -14,7 +14,7 @@ namespace Objects.Disposals
 		[SerializeField]
 		private AddressableAudioSource ejectionAlarmSound;
 
-		private Directional directional;
+		private Rotatable rotatable;
 		private readonly List<DisposalVirtualContainer> receivedContainers = new List<DisposalVirtualContainer>();
 
 		public bool IsOperating { get; private set; }
@@ -32,12 +32,12 @@ namespace Objects.Disposals
 		{
 			base.Awake();
 
-			directional = GetComponent<Directional>();
+			rotatable = GetComponent<Rotatable>();
 		}
 
 		private void Start()
 		{
-			directional.OnDirectionChange.AddListener(OnDirectionChanged);
+			rotatable.OnRotationChange.AddListener(OnDirectionChanged);
 			UpdateSpriteState();
 			UpdateSpriteOrientation();
 		}
@@ -54,7 +54,7 @@ namespace Objects.Disposals
 
 		#endregion Lifecycle
 
-		private void OnDirectionChanged(Orientation newDir)
+		private void OnDirectionChanged(OrientationEnum newDir)
 		{
 			UpdateSpriteOrientation();
 		}
@@ -74,18 +74,18 @@ namespace Objects.Disposals
 
 		private void UpdateSpriteOrientation()
 		{
-			switch (directional.CurrentDirection.AsEnum())
+			switch (rotatable.CurrentDirection)
 			{
-				case OrientationEnum.Up:
+				case OrientationEnum.Up_By0:
 					baseSpriteHandler.ChangeSpriteVariant(1);
 					break;
-				case OrientationEnum.Down:
+				case OrientationEnum.Down_By180:
 					baseSpriteHandler.ChangeSpriteVariant(0);
 					break;
-				case OrientationEnum.Left:
+				case OrientationEnum.Left_By270:
 					baseSpriteHandler.ChangeSpriteVariant(3);
 					break;
-				case OrientationEnum.Right:
+				case OrientationEnum.Right_By90:
 					baseSpriteHandler.ChangeSpriteVariant(2);
 					break;
 			}
@@ -152,7 +152,7 @@ namespace Objects.Disposals
 				// Outlet orifice open. Release the charge.
 				foreach (DisposalVirtualContainer container in receivedContainers)
 				{
-					container.EjectContentsWithVector(directional.CurrentDirection.Vector);
+					container.EjectContentsWithVector(rotatable.CurrentDirection.ToLocalVector3()); //TODO To world
 					_ = Despawn.ServerSingle(container.gameObject);
 				}
 				receivedContainers.Clear();

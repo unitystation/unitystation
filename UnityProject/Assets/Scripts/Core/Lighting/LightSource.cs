@@ -41,7 +41,7 @@ namespace Objects.Lighting
 		private LightSprite lightSprite;
 		[SerializeField] private EmergencyLightAnimator emergencyLightAnimator = default;
 		[SerializeField] private Integrity integrity = default;
-		[SerializeField] private Directional directional;
+		[SerializeField] private Rotatable directional;
 
 		[SerializeField] private BoxCollider2D boxColl = null;
 		[SerializeField] private Vector4 collDownSetting = Vector4.zero;
@@ -82,13 +82,13 @@ namespace Objects.Lighting
 
 		private void OnEnable()
 		{
-			directional.OnDirectionChange.AddListener(OnDirectionChange);
+			directional.OnRotationChange.AddListener(OnDirectionChange);
 			integrity.OnApplyDamage.AddListener(OnDamageReceived);
 		}
 
 		private void OnDisable()
 		{
-			directional.OnDirectionChange.RemoveListener(OnDirectionChange);
+			directional.OnRotationChange.RemoveListener(OnDirectionChange);
 			if (integrity != null) integrity.OnApplyDamage.RemoveListener(OnDamageReceived);
 
 			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, TrySpark);
@@ -139,7 +139,7 @@ namespace Objects.Lighting
 
 		#endregion
 
-		private void OnDirectionChange(Orientation newDir)
+		private void OnDirectionChange(OrientationEnum newDir)
 		{
 			SetSprites();
 		}
@@ -182,37 +182,37 @@ namespace Objects.Lighting
 
 		public void EditorDirectionChange()
 		{
-			directional = GetComponent<Directional>();
+			directional = GetComponent<Rotatable>();
 			spriteRendererLightOn = GetComponentsInChildren<SpriteRenderer>().Length > 1
 				? GetComponentsInChildren<SpriteRenderer>()[1] : GetComponentsInChildren<SpriteRenderer>()[0];
 			var state = mountStatesMachine.LightMountStates[LightMountState.On];
 
-			spriteHandler.SetSpriteSO(state.SpriteData, null, SpritesDirectional.OrientationIndex(directional.CurrentDirection.AsEnum()));
-			spriteRendererLightOn.sprite = spritesStateOnEffect.GetSpriteInDirection(directional.CurrentDirection.AsEnum());
+			spriteHandler.SetSpriteSO(state.SpriteData, null);
+			spriteRendererLightOn.sprite = spritesStateOnEffect.sprites[0];
 			RefreshBoxCollider();
 		}
 
 		public void RefreshBoxCollider()
 		{
-			directional = GetComponent<Directional>();
+			directional = GetComponent<Rotatable>();
 			Vector2 offset = Vector2.zero;
 			Vector2 size = Vector2.zero;
 
-			switch (directional.CurrentDirection.AsEnum())
+			switch (directional.CurrentDirection)
 			{
-				case OrientationEnum.Down:
+				case OrientationEnum.Down_By180:
 					offset = new Vector2(collDownSetting.x, collDownSetting.y);
 					size = new Vector2(collDownSetting.z, collDownSetting.w);
 					break;
-				case OrientationEnum.Right:
+				case OrientationEnum.Right_By90:
 					offset = new Vector2(collRightSetting.x, collRightSetting.y);
 					size = new Vector2(collRightSetting.z, collRightSetting.w);
 					break;
-				case OrientationEnum.Up:
+				case OrientationEnum.Up_By0:
 					offset = new Vector2(collUpSetting.x, collUpSetting.y);
 					size = new Vector2(collUpSetting.z, collUpSetting.w);
 					break;
-				case OrientationEnum.Left:
+				case OrientationEnum.Left_By270:
 					offset = new Vector2(collLeftSetting.x, collLeftSetting.y);
 					size = new Vector2(collLeftSetting.z, collLeftSetting.w);
 					break;
@@ -224,9 +224,9 @@ namespace Objects.Lighting
 
 		private void SetSprites()
 		{
-			spriteHandler.SetSpriteSO(currentState.SpriteData, null, SpritesDirectional.OrientationIndex(directional.CurrentDirection.AsEnum()));
+			spriteHandler.SetSpriteSO(currentState.SpriteData, null);
 			spriteRendererLightOn.sprite = mState == LightMountState.On
-					? spritesStateOnEffect.GetSpriteInDirection(directional.CurrentDirection.AsEnum())
+					? spritesStateOnEffect.sprites[0]
 					: null;
 
 			itemInMount = currentState.Tube;

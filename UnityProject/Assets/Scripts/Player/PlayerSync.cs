@@ -49,7 +49,7 @@ public partial class PlayerSync : NetworkBehaviour, IPushable, IPlayerControllab
 
 	public PlayerMove playerMove;
 	public PlayerScript playerScript;
-	private Directional playerDirectional;
+	private Rotatable playerDirectional;
 
 	public bool Step = false;
 
@@ -75,7 +75,7 @@ public partial class PlayerSync : NetworkBehaviour, IPushable, IPlayerControllab
 	{
 		playerScript = GetComponent<PlayerScript>();
 		pushPull = GetComponent<PushPull>();
-		playerDirectional = GetComponent<Directional>();
+		playerDirectional = GetComponent<Rotatable>();
 		registerPlayer = GetComponent<RegisterPlayer>();
 	}
 
@@ -164,8 +164,8 @@ public partial class PlayerSync : NetworkBehaviour, IPushable, IPlayerControllab
 			MatrixAtOrigin = MatrixManager.AtPoint(state.WorldPosition.RoundToInt(), isServer);
 		}
 
-		var facingUpDown = playerDirectional.CurrentDirection == Orientation.Up ||
-		                   playerDirectional.CurrentDirection == Orientation.Down;
+		var facingUpDown = playerDirectional.CurrentDirection == OrientationEnum.Up_By0 ||
+		                   playerDirectional.CurrentDirection == OrientationEnum.Down_By180;
 
 		//depending on facing, check x / y direction first (this is for
 		//better diagonal movement logic without cutting corners)

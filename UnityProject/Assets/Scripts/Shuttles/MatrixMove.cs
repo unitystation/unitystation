@@ -32,7 +32,7 @@ public class MatrixMove : ManagedBehaviour
 
 	[Tooltip("Initial facing of the ship. Very important to set this correctly!")]
 	[SerializeField]
-	private OrientationEnum initialFacing = OrientationEnum.Down;
+	private OrientationEnum initialFacing = OrientationEnum.Down_By180;
 	/// <summary>
 	/// Initial facing of the ship as mapped in the editor.
 	/// </summary>
@@ -112,10 +112,10 @@ public class MatrixMove : ManagedBehaviour
 	/// </summary>
 	private Dictionary<OrientationEnum, List<RcsThruster>> rcsThrusters = new Dictionary<OrientationEnum, List<RcsThruster>>
 	{
-		{OrientationEnum.Up,    new List<RcsThruster>()},
-		{OrientationEnum.Down,  new List<RcsThruster>()},
-		{OrientationEnum.Left,  new List<RcsThruster>()},
-		{OrientationEnum.Right, new List<RcsThruster>()}
+		{OrientationEnum.Up_By0,    new List<RcsThruster>()},
+		{OrientationEnum.Down_By180,  new List<RcsThruster>()},
+		{OrientationEnum.Left_By270,  new List<RcsThruster>()},
+		{OrientationEnum.Right_By90, new List<RcsThruster>()}
 	};
 
 	/// <summary>
@@ -1111,52 +1111,52 @@ public class MatrixMove : ManagedBehaviour
 	{
 		switch (facingDirection)
 		{
-			case OrientationEnum.Up:
+			case OrientationEnum.Up_By0:
 				switch (worldOrientation)
 				{
-					case OrientationEnum.Down:
-						return OrientationEnum.Up;
-					case OrientationEnum.Up:
-						return OrientationEnum.Down;
+					case OrientationEnum.Down_By180:
+						return OrientationEnum.Up_By0;
+					case OrientationEnum.Up_By0:
+						return OrientationEnum.Down_By180;
 				}
 				break;
-			case OrientationEnum.Right:
+			case OrientationEnum.Right_By90:
 				switch (worldOrientation)
 				{
-					case OrientationEnum.Up:
-						return OrientationEnum.Left;
-					case OrientationEnum.Right:
-						return OrientationEnum.Down;
-					case OrientationEnum.Down:
-						return OrientationEnum.Right;
-					case OrientationEnum.Left:
-						return OrientationEnum.Up;
+					case OrientationEnum.Up_By0:
+						return OrientationEnum.Left_By270;
+					case OrientationEnum.Right_By90:
+						return OrientationEnum.Down_By180;
+					case OrientationEnum.Down_By180:
+						return OrientationEnum.Right_By90;
+					case OrientationEnum.Left_By270:
+						return OrientationEnum.Up_By0;
 				}
 				break;
-			case OrientationEnum.Down:
+			case OrientationEnum.Down_By180:
 				switch (worldOrientation)
 				{
-					case OrientationEnum.Up:
-						return OrientationEnum.Up;
-					case OrientationEnum.Right:
-						return OrientationEnum.Left;
-					case OrientationEnum.Down:
-						return OrientationEnum.Down;
-					case OrientationEnum.Left:
-						return OrientationEnum.Right;
+					case OrientationEnum.Up_By0:
+						return OrientationEnum.Up_By0;
+					case OrientationEnum.Right_By90:
+						return OrientationEnum.Left_By270;
+					case OrientationEnum.Down_By180:
+						return OrientationEnum.Down_By180;
+					case OrientationEnum.Left_By270:
+						return OrientationEnum.Right_By90;
 				}
 				break;
-			case OrientationEnum.Left:
+			case OrientationEnum.Left_By270:
 				switch (worldOrientation)
 				{
-					case OrientationEnum.Up:
-						return OrientationEnum.Right;
-					case OrientationEnum.Right:
-						return OrientationEnum.Up;
-					case OrientationEnum.Down:
-						return OrientationEnum.Left;
-					case OrientationEnum.Left:
-						return OrientationEnum.Down;
+					case OrientationEnum.Up_By0:
+						return OrientationEnum.Right_By90;
+					case OrientationEnum.Right_By90:
+						return OrientationEnum.Up_By0;
+					case OrientationEnum.Down_By180:
+						return OrientationEnum.Left_By270;
+					case OrientationEnum.Left_By270:
+						return OrientationEnum.Down_By180;
 				}
 				break;
 		}
@@ -1244,9 +1244,9 @@ public class MatrixMove : ManagedBehaviour
 					}
 
 				// add listener to remove thruster from list when destroyed
-				thruster.OnThrusterDestroyedEvent += () => rcsThrusters[thruster.directional.MappedOrientation].Remove(thruster);
+				thruster.OnThrusterDestroyedEvent += () => rcsThrusters[thruster.rotatable.CurrentDirection].Remove(thruster);
 				// add thruster to list
-				rcsThrusters[thruster.directional.MappedOrientation].Add(thruster);
+				rcsThrusters[thruster.rotatable.CurrentDirection].Add(thruster);
 			}
 		}
 	}
@@ -1256,10 +1256,10 @@ public class MatrixMove : ManagedBehaviour
 	/// </summary>
 	void ClearRcsCache()
 	{
-		rcsThrusters[OrientationEnum.Up].Clear();
-		rcsThrusters[OrientationEnum.Right].Clear();
-		rcsThrusters[OrientationEnum.Down].Clear();
-		rcsThrusters[OrientationEnum.Left].Clear();
+		rcsThrusters[OrientationEnum.Up_By0].Clear();
+		rcsThrusters[OrientationEnum.Right_By90].Clear();
+		rcsThrusters[OrientationEnum.Down_By180].Clear();
+		rcsThrusters[OrientationEnum.Left_By270].Clear();
 	}
 
 #if UNITY_EDITOR

@@ -376,10 +376,10 @@ public partial class GameManager : MonoBehaviour, IInitialise
 		{
 			if (NetworkTime.time >= CountdownEndTime)
 			{
-				if (PlayerList.Instance.ReadyPlayers.Count >= MinReadyPlayersForCountdown)
-				{
+				// if (PlayerList.Instance.ReadyPlayers.Count >= MinReadyPlayersForCountdown)
+				// {
 					StartRound();
-				}
+				// }
 			}
 		}
 		else if (counting)

@@ -9,7 +9,7 @@ namespace Systems.MobAIs
 	public class MobObjective : MonoBehaviour
 	{
 		protected RegisterTile mobTile;
-		protected Directional directional;
+		protected Rotatable rotatable;
 		protected MobAI mobAI;
 
 		[Tooltip("Allow the objective to happen when mob is dead")]
@@ -21,7 +21,7 @@ namespace Systems.MobAIs
 		public void Awake()
 		{
 			mobTile = GetComponent<RegisterTile>();
-			directional = GetComponent<Directional>();
+			rotatable = GetComponent<Rotatable>();
 			mobAI = GetComponent<MobAI>();
 		}
 
@@ -70,9 +70,9 @@ namespace Systems.MobAIs
 				}
 			}
 
-			if (directional != null)
+			if (rotatable != null)
 			{
-				directional.FaceDirection(Orientation.From(dirToMove.To2Int()));
+				rotatable.SetFaceDirectionLocalVictor(dirToMove.To2Int());
 			}
 		}
 

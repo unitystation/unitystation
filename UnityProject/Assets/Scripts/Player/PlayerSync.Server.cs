@@ -275,14 +275,8 @@ public partial class PlayerSync
 
 		if (followMode)
 		{
-			playerDirectional.FaceDirection(Orientation.From(direction));
+			playerDirectional.SetFaceDirectionLocalVictor(direction);
 			//force directional update of client, since it can't predict where it's being pulled
-			var conn = playerScript.connectionToClient;
-			if (conn != null)
-			{
-				playerDirectional.TargetForceSyncDirection(conn);
-			}
-
 		}
 		else if (uncorrectedSpeed >= playerMove.PushFallSpeed)
 		{
@@ -545,7 +539,7 @@ public partial class PlayerSync
 			var dir = action.Direction();
 			if (!(dir.x != 0 && dir.y != 0 && serverBump == BumpType.ClosedDoor))
 			{
-				playerDirectional.FaceDirection(Orientation.From(action.Direction()));
+				playerDirectional.SetFaceDirectionLocalVictor(action.Direction());
 			}
 
 			return state;
