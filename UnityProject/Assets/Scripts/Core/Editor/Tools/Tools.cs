@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Systems.CraftingV2;
 using Systems.Electricity;
+using Objects.Lighting;
 using Mirror;
 using Objects.Wallmounts;
 using UnityEditor;
@@ -151,6 +152,36 @@ namespace Core.Editor.Tools
 			}
 
 			Debug.Log($"{allNets.Length} apcPoweredDevice found in scene, {count} were not in APC list.");
+		}
+
+		/// <summary>
+		/// Fixes Light Switch references where the light source has a related switch, but the switch doesnt have the light source in the list
+		/// </summary>
+		[MenuItem("Mapping/Fix Light switch references (scene)")]
+		private static void FixLights()
+		{
+			var allNets = FindObjectsOfType<LightSource>();
+
+			var count = 0;
+
+			for (int i = allNets.Length - 1; i > 0; i--)
+			{
+				var lightSource = allNets[i];
+
+				if (lightSource.IsWithoutSwitch) continue;
+
+				if (lightSource.relatedLightSwitch == null) continue;
+
+				if (lightSource.relatedLightSwitch.listOfLights.Contains(lightSource)) continue;
+
+				EditorUtility.SetDirty(lightSource.relatedLightSwitch);
+
+				lightSource.relatedLightSwitch.listOfLights.Add(lightSource);
+
+				count++;
+			}
+
+			Debug.Log($"{allNets.Length} light sources found in scene, {count} were not in light switch list.");
 		}
 
 		/// <summary>

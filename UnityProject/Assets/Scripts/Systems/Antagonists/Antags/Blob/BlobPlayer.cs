@@ -1911,7 +1911,7 @@ namespace Blob
 
 		private void CheckConnections()
 		{
-			if (pathSearch == false || blobTiles.Count <= 0) return;
+			if (pathSearch || blobTiles.Count <= 0) return;
 			pathSearch = true;
 
 			StartCoroutine(CheckPaths());
