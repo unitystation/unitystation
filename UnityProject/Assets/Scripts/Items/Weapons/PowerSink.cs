@@ -141,11 +141,6 @@ namespace Items.Weapons
 
 		private void CheckForOverCharge()
 		{
-			if (Application.isEditor)
-			{
-				Logger.Log($"Powersink current charge is {currentCharge} out of {overchargeCap}." +
-					$" Explosion damage at this rate is {currentCharge * explosionAmplifer}");
-			}
 			if(currentCharge > overchargeCap / 2)
 			{
 				SparkUtil.TrySpark(gameObject, 25f);
