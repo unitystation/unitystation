@@ -4,8 +4,6 @@ using System.Collections.Generic;
 using System.Threading;
 using Mirror;
 using NaughtyAttributes;
-using UnityEditor;
-using UnityEditor.SceneManagement;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.Serialization;
@@ -266,10 +264,10 @@ public class Rotatable : NetworkBehaviour, IMatrixRotation
 					spriteHandler.ChangeSpriteVariant(0, false);
 				}
 
-				PrefabUtility.RecordPrefabInstancePropertyModifications(spriteHandler);
+				// PrefabUtility.RecordPrefabInstancePropertyModifications(spriteHandler);
 			}
 		}
-		PrefabUtility.RecordPrefabInstancePropertyModifications(gameObject);
+		// PrefabUtility.RecordPrefabInstancePropertyModifications(gameObject);
 	}
 
 	public void OnMatrixRotate(MatrixRotationInfo rotationInfo)
