@@ -472,7 +472,6 @@ public class MatrixMove : ManagedBehaviour
 		//To stop autopilot
 		DisableAutopilotTarget();
 		TryNotifyPlayers();
-
 	}
 
 	/// Move for n tiles, regardless of direction, and stop
@@ -630,7 +629,9 @@ public class MatrixMove : ManagedBehaviour
 				return;
 			}
 
+
 			transform.position = clientState.Position;
+
 
 			//If stopped then lerp to target (snap to grid)
 			if (!clientState.IsMoving)
@@ -649,6 +650,7 @@ public class MatrixMove : ManagedBehaviour
 
 			matrixPositionFilter.FilterPosition(transform, transform.position, clientState.FlyingDirection);
 		}
+		matrix.MetaTileMap.GlobalCachedBounds = null;
 	}
 
 	/// Serverside movement routine
@@ -874,12 +876,12 @@ public class MatrixMove : ManagedBehaviour
 	[Server]
 	private void TryNotifyPlayers()
 	{
+		matrix.MetaTileMap.GlobalCachedBounds = null;
 		if (ServerPositionsMatch)
 		{
 			//				When serverState reaches its planned destination,
 			//				embrace all other updates like changed speed and rotation
 			serverState = serverTargetState;
-			matrix.MetaTileMap.GlobalCachedBounds = null;
 			Logger.LogTraceFormat("{0} setting server state from target state {1}", Category.Shuttles, this, serverState);
 			NotifyPlayers();
 		}
