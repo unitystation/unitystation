@@ -122,6 +122,10 @@ namespace Items.Weapons
 				{
 					if(data.InData.Data.ActualVoltage > 0)
 					{
+						//(Max) - Currenty the charge doesn't consume the power going through the tile
+						//And it goes through as if the powersink is not charging off it
+						//I don't know how to fix that and all my attempts have broken the time charge balance and Detonate() function
+						//So I'm leaving it at that until another day or if anyone wants to fix this issue themselves.
 						currentCharge += data.InData.Data.ActualVoltage * chargeAmplifer;
 					}
 				}
