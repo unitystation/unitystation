@@ -438,6 +438,19 @@ namespace Systems.Atmospherics
 			}
 		}
 
+		public GasSO GetBiggestGasSOInMix()
+		{
+			GasSO bigGas = new GasSO();
+			foreach(var gas in GasData.GasesArray)
+			{
+				if(gas.Moles > bigGas)
+				{
+					bigGas = gas.GasSO;
+				}
+			}
+			return bigGas;
+		}
+
 		/// <summary>
 		/// Set the moles value of a gas inside of a GasMix.
 		/// </summary>
