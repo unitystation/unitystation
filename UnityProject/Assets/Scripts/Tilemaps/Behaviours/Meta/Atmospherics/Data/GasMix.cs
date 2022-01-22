@@ -443,7 +443,7 @@ namespace Systems.Atmospherics
 			GasSO bigGas = null;
 			foreach(var gas in GasData.GasesArray)
 			{
-				if (bigGas == null || gas.Moles < bigGas) continue;
+				if (bigGas != null && gas.Moles < bigGas.Moles) continue;
 				bigGas = gas.GasSO;
 			}
 			return bigGas;
