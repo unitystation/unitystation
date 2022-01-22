@@ -440,13 +440,11 @@ namespace Systems.Atmospherics
 
 		public GasSO GetBiggestGasSOInMix()
 		{
-			GasSO bigGas = new GasSO();
+			GasSO bigGas = null;
 			foreach(var gas in GasData.GasesArray)
 			{
-				if(gas.Moles > bigGas)
-				{
-					bigGas = gas.GasSO;
-				}
+				if (bigGas == null || gas.Moles < bigGas) continue;
+				bigGas = gas.GasSO;
 			}
 			return bigGas;
 		}
