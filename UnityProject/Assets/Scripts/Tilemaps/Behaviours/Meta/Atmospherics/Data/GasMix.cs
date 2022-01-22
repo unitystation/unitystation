@@ -442,11 +442,17 @@ namespace Systems.Atmospherics
 		{
 			GasSO bigGas = null;
 			float lastBigNumber = 0f;
+
+			if(GasData.GasesArray.Count == 0)
+			{
+				return null;
+			}
+			
+			GasSO bigGas = GasData.GasesArray[0];
 			foreach(var gas in GasData.GasesArray)
 			{
-				if (bigGas != null && gas.Moles < lastBigNumber) continue;
+				if (gas.Moles < bigGas.Moles) continue;
 				bigGas = gas.GasSO;
-				lastBigNumber = gas.Moles;
 			}
 			return bigGas;
 		}
