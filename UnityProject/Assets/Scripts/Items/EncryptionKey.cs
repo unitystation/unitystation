@@ -149,7 +149,6 @@ public class EncryptionKey : NetworkBehaviour, ICheckedInteractable<HandApply>, 
 				Logger.LogError("Encryption keys cannot be None type!", Category.Chat);
 				type = EncryptionKeyType.Common;
 			}
-			//UpdateSprite();
 		}
 	}
 
