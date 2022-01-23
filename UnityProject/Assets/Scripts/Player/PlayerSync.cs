@@ -456,7 +456,11 @@ public partial class PlayerSync : NetworkBehaviour, IPushable, IPlayerControllab
 			{
 				didWiggle = false;
 				bool inputDetected = KeyboardInputManager.IsMovementPressed();
-				if(inputDetected == true) CmdSetMovementInputState(inputDetected);
+				if (inputDetected == true && inputMovementDetected != true)
+				{
+					inputMovementDetected = inputDetected;
+					CmdSetMovementInputState(inputDetected);
+				}
 				if (inputDetected && Validations.CanInteract(playerScript,
 					    isServer ? NetworkSide.Server : NetworkSide.Client))
 				{
