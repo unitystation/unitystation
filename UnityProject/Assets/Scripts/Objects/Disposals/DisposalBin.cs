@@ -14,6 +14,7 @@ namespace Objects.Disposals
 {
 	public enum BinState
 	{
+		Unattached,
 		Disconnected,
 		Off,
 		Ready,
@@ -152,8 +153,12 @@ namespace Objects.Disposals
 		{
 			switch (binState)
 			{
+				case BinState.Unattached:
+					baseSpriteHandler.ChangeSprite((int)BinSprite.Sideways);
+					overlaysSpriteHandler.PushClear();
+					break;
 				case BinState.Disconnected:
-					baseSpriteHandler.ChangeSprite((int) BinSprite.Sideways);
+					baseSpriteHandler.ChangeSprite((int) BinSprite.Upright);
 					overlaysSpriteHandler.PushClear();
 					break;
 				case BinState.Off:
@@ -188,6 +193,9 @@ namespace Objects.Disposals
 			if (interaction.HandObject == null) return false;
 
 			if (base.WillInteract(interaction, side)) return true;
+
+			if (MachineUnattached) binState = BinState.Disconnected;
+
 			// Bin accepts all items for disposal.
 			return MachineSecured;
 		}
