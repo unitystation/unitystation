@@ -64,7 +64,7 @@ namespace Items.Others
 			if (isOn)
 			{
 				player = interaction.PerformerPlayerScript;
-				UpdateManager.Add(PushUpdate, 0.25f);
+				UpdateManager.Add(PushUpdate, 0.1f);
 				return;
 			}
 			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, PushUpdate);
