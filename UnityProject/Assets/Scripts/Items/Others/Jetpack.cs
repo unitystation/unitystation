@@ -25,6 +25,11 @@ namespace Items.Others
 			gasContainer = GetComponent<GasContainer>();
 		}
 
+		private void OnDisable()
+		{
+			if(isOn) UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, PushUpdate);
+		}
+
 		/// <summary>
 		/// The jetpack is only usable inside the player's inventory slots so we check if it's
 		/// in his hand or equipment slot.
@@ -59,10 +64,10 @@ namespace Items.Others
 			if (isOn)
 			{
 				player = interaction.PerformerPlayerScript;
-				UpdateManager.Add(CallbackType.UPDATE, PushUpdate);
+				UpdateManager.Add(PushUpdate, 0.25f);
 				return;
 			}
-			UpdateManager.Remove(CallbackType.UPDATE, PushUpdate);
+			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, PushUpdate);
 		}
 	}
 }
