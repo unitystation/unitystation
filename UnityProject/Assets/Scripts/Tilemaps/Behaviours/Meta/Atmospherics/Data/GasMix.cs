@@ -438,22 +438,27 @@ namespace Systems.Atmospherics
 			}
 		}
 
+		/// <summary>
+		/// Gets the biggest gas's type in the GasMix Currently
+		/// </summary>
+		/// <returns>Biggest gas's GasSO</returns>
 		public GasSO GetBiggestGasSOInMix()
 		{
+			//If there are no gasses, return null
 			if(GasData.GasesArray.Count == 0)
 			{
 				return null;
 			}
 
-			GasSO bigGas = GasData.GasesArray[0].GasSO;
-			float lastBigNumber = 0f;
+			GasSO bigGas = GasData.GasesArray[0].GasSO; //Get the first GasSO in the array
+			float lastBigNumber = 0f; //The last big number of moles detected in the array
 			foreach (var gas in GasData.GasesArray)
 			{
-				if (gas.Moles < lastBigNumber) continue;
+				if (gas.Moles < lastBigNumber) continue; //if the moles is less than the last big mole number, skip
 				bigGas = gas.GasSO;
-				lastBigNumber = gas.Moles;
+				lastBigNumber = gas.Moles; //Rememeber the last big number checked to skip smaller numbers in the next entry
 			}
-			return bigGas;
+			return bigGas; //The returned GasSO will be the gas with the biggest mole count in GasData.GasesArray
 		}
 
 		/// <summary>
