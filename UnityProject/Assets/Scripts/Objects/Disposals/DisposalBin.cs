@@ -105,6 +105,8 @@ namespace Objects.Disposals
 			netTab.enabled = false;
 			UpdateSpriteBinState();
 
+			SetBinState(BinState.Unattached);
+
 			base.OnSpawnServer(info);
 		}
 
