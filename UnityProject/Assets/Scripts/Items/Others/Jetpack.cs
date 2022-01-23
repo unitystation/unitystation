@@ -42,7 +42,7 @@ namespace Items.Others
 		{
 			if (isOn == false || CheckForInventory() == false) return;
 			if (gasContainer.GasMix.Moles <= 0) return;
-			if (KeyboardInputManager.IsMovementPressed() || player.PlayerSync.IsMoving)//Is movement pressed?
+			if (player.PlayerSync.InputMovementDetected)//Is movement pressed?
 			{
 				if (player.pushPull.TryPush(player.CurrentDirection.VectorInt, player.playerMove.RunSpeed, true))
 				{
