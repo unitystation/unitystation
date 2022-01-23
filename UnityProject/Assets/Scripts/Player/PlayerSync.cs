@@ -449,13 +449,18 @@ public partial class PlayerSync : NetworkBehaviour, IPushable, IPlayerControllab
 
 	private void UpdateMe()
 	{
+		inputMovementDetected = false;
 		if (isLocalPlayer && playerMove != null)
 		{
 			if (PlayerManager.MovementControllable == this as IPlayerControllable)
 			{
 				didWiggle = false;
 				bool inputDetected = KeyboardInputManager.IsMovementPressed();
-				CmdSetMovementInputState(inputDetected);
+				if (inputMovementDetected != inputDetected)
+				{
+					inputMovementDetected = inputDetected;
+					CmdSetMovementInputState(inputDetected);
+				}
 				if (inputDetected && Validations.CanInteract(playerScript,
 					    isServer ? NetworkSide.Server : NetworkSide.Client))
 				{
