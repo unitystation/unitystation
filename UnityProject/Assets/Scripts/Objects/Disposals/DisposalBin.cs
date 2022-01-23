@@ -110,9 +110,8 @@ namespace Objects.Disposals
 		protected override void SpawnMachineAsInstalled()
 		{
 			base.SpawnMachineAsInstalled();
-
-			chargePressure = CHARGED_PRESSURE;
 			SetBinState(BinState.Ready);
+			FlushContents();
 		}
 
 		#endregion Lifecycle
@@ -151,17 +150,10 @@ namespace Objects.Disposals
 
 		private void UpdateSpriteBinState()
 		{
-			if (MachineUnattached)
-			{
-				baseSpriteHandler.ChangeSprite((int) BinSprite.Sideways);
-				overlaysSpriteHandler.PushClear();
-				return;
-			}
-
 			switch (binState)
 			{
 				case BinState.Disconnected:
-					baseSpriteHandler.ChangeSprite((int) BinSprite.Upright);
+					baseSpriteHandler.ChangeSprite((int) BinSprite.Sideways);
 					overlaysSpriteHandler.PushClear();
 					break;
 				case BinState.Off:
