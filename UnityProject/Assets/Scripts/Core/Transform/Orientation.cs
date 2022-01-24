@@ -87,12 +87,12 @@ public struct Orientation : IEquatable<Orientation>
 	/// <summary>
 	/// Vector3 pointing in the same direction as the orientation.
 	/// </summary>
-	public Vector3 Vector => (Vector2)VectorInt;
+	public Vector3 LocalVector => (Vector2)LocalVectorInt;
 
 	/// <summary>
 	/// Vector2Int pointing in the same direction as the orientation.
 	/// </summary>
-	public Vector2Int VectorInt => (Quaternion.Euler(0,0, Degrees) * Vector3Int.right).To2Int();
+	public Vector2Int LocalVectorInt => (Quaternion.Euler(0,0, Degrees) * Vector3Int.right).To2Int();
 
 	/// <summary>
 	/// Return the orientation that would be reached by rotating clockwise 90 degrees the given number of turns

@@ -136,7 +136,7 @@ namespace Objects.Engineering
 			{
 				if (connectedPart.ShootsBullet)
 				{
-					CastProjectileMessage.SendToAll(connectedPart.gameObject, particleAcceleratorBulletPrefab, orientation.Vector, default);
+					CastProjectileMessage.SendToAll(connectedPart.gameObject, particleAcceleratorBulletPrefab, orientation.LocalVector, default);
 				}
 			}
 		}

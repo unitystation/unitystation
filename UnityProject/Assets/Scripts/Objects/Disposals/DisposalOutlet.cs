@@ -152,7 +152,8 @@ namespace Objects.Disposals
 				// Outlet orifice open. Release the charge.
 				foreach (DisposalVirtualContainer container in receivedContainers)
 				{
-					container.EjectContentsWithVector(rotatable.CurrentDirection.ToLocalVector3()); //TODO To world
+
+					container.EjectContentsWithVector(this.transform.TransformDirection(rotatable.CurrentDirection.ToLocalVector3()));
 					_ = Despawn.ServerSingle(container.gameObject);
 				}
 				receivedContainers.Clear();

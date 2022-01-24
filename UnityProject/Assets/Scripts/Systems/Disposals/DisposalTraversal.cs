@@ -25,7 +25,7 @@ namespace Systems.Disposals
 		private Vector3Int currentPipeLocalPos;
 		private Orientation currentPipeOutputSide;
 
-		private Vector3Int NextPipeVector => currentPipeOutputSide.VectorInt.To3Int();
+		private Vector3Int NextPipeVector => currentPipeOutputSide.LocalVectorInt.To3Int();
 		private Vector3Int NextPipeLocalPosition => currentPipeLocalPos + NextPipeVector;
 
 		/// <summary>
@@ -156,7 +156,7 @@ namespace Systems.Disposals
 			var worldPos = MatrixManager.LocalToWorld(NextPipeLocalPosition, matrix);
 			SoundManager.PlayNetworkedAtPos(DisposalsManager.Instance.DisposalEjectionHiss, worldPos);
 			TransferContainerToVector(NextPipeVector);
-			virtualContainer.EjectContentsWithVector(currentPipeOutputSide.Vector);
+			virtualContainer.EjectContentsWithVector(currentPipeOutputSide.LocalVector);
 			DespawnContainerAndFinish();
 		}
 

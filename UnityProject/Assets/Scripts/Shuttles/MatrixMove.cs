@@ -452,7 +452,7 @@ public class MatrixMove : ManagedBehaviour
 	public void RcsStartMovementClient(Orientation flyingDirection)
 	{
 		rcsMovementStartPosition = Vector2Int.RoundToInt(transform.position);
-		rcsMovementTargetPosition = rcsMovementStartPosition + flyingDirection.VectorInt;
+		rcsMovementTargetPosition = rcsMovementStartPosition + flyingDirection.LocalVectorInt;
 
 		clientState.Speed = 1;
 		clientState.FlyingDirection = flyingDirection;
@@ -596,7 +596,7 @@ public class MatrixMove : ManagedBehaviour
 		{
 			//Only move target if rotation is finished
 			//predict client state because we don't get constant updates when flying in one direction.
-			clientState.Position += (clientState.Speed * Time.deltaTime) * clientState.FlyingDirection.Vector;
+			clientState.Position += (clientState.Speed * Time.deltaTime) * clientState.FlyingDirection.LocalVector;
 			if (rcsModeActive && clientState.IsMoving)
 			{
 				// if shuttle is close to reach target position,
@@ -675,7 +675,7 @@ public class MatrixMove : ManagedBehaviour
 
 			//actual position we should reach this update, regardless of if we passed through the target position
 			actualNewPosition = serverState.Position +
-								serverState.FlyingDirection.Vector * (serverState.Speed * Time.deltaTime);
+								serverState.FlyingDirection.LocalVector * (serverState.Speed * Time.deltaTime);
 			//update position without passing the target position
 			serverState.Position =
 				Vector3.MoveTowards(serverState.Position,
@@ -697,7 +697,7 @@ public class MatrixMove : ManagedBehaviour
 
 		if (CanMoveFor() && (!SafetyProtocolsOn || CanMoveTo(serverTargetState.FlyingDirection)))
 		{
-			var goal = Vector3Int.RoundToInt(serverState.Position + serverTargetState.FlyingDirection.Vector);
+			var goal = Vector3Int.RoundToInt(serverState.Position + serverTargetState.FlyingDirection.LocalVector);
 			//keep moving
 			serverTargetState.Position = goal;
 			if (IsAutopilotEngaged && ((int)serverState.Position.x == (int)Target.x
@@ -722,7 +722,7 @@ public class MatrixMove : ManagedBehaviour
 
 	private bool CanMoveTo(Orientation direction)
 	{
-		Vector3 dir = direction.Vector;
+		Vector3 dir = direction.LocalVector;
 
 		//		check if next tile is passable
 		for (var i = 0; i < SensorPositions.Length; i++)
@@ -1280,7 +1280,7 @@ public class MatrixMove : ManagedBehaviour
 			Gizmos.color = color1;
 			Gizmos.DrawWireCube(transform.position, Vector3.one);
 
-			DebugGizmoUtils.DrawArrow(transform.position, clientState.FlyingDirection.Vector * 2);
+			DebugGizmoUtils.DrawArrow(transform.position, clientState.FlyingDirection.LocalVector * 2);
 			return;
 		}
 
@@ -1290,7 +1290,7 @@ public class MatrixMove : ManagedBehaviour
 		Gizmos.DrawWireCube(serverPos, size1);
 		if (serverState.IsMoving)
 		{
-			DebugGizmoUtils.DrawArrow(serverPos + Vector3.right / 3, serverState.FlyingDirection.Vector * serverState.Speed);
+			DebugGizmoUtils.DrawArrow(serverPos + Vector3.right / 3, serverState.FlyingDirection.LocalVector * serverState.Speed);
 			DebugGizmoUtils.DrawText(serverState.Speed.ToString(), serverPos + Vector3.right, 15);
 		}
 
@@ -1300,7 +1300,7 @@ public class MatrixMove : ManagedBehaviour
 		Gizmos.DrawWireCube(serverTargetPos, size2);
 		if (serverTargetState.IsMoving)
 		{
-			DebugGizmoUtils.DrawArrow(serverTargetPos, serverTargetState.FlyingDirection.Vector * serverTargetState.Speed);
+			DebugGizmoUtils.DrawArrow(serverTargetPos, serverTargetState.FlyingDirection.LocalVector * serverTargetState.Speed);
 			DebugGizmoUtils.DrawText(serverTargetState.Speed.ToString(), serverTargetPos + Vector3.down, 15);
 		}
 
@@ -1310,7 +1310,7 @@ public class MatrixMove : ManagedBehaviour
 		Gizmos.DrawWireCube(pos, size3);
 		if (clientState.IsMoving)
 		{
-			DebugGizmoUtils.DrawArrow(pos + Vector3.left / 3, clientState.FlyingDirection.Vector * clientState.Speed);
+			DebugGizmoUtils.DrawArrow(pos + Vector3.left / 3, clientState.FlyingDirection.LocalVector * clientState.Speed);
 			DebugGizmoUtils.DrawText(clientState.Speed.ToString(), pos + Vector3.left, 15);
 		}
 	}
