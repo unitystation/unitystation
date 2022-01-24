@@ -49,6 +49,7 @@ MonoBehaviour:
       m_AssetGUID: 
       m_SubObjectName: 
       m_SubObjectType: 
+      m_EditorAssetChanged: 0
   shardsOnDestroy: {fileID: 3508732299770147791, guid: f610372b0de613b499d0e53b49c4e605,
     type: 3}
   minCountOfShardsOnDestroy: 1
@@ -63,6 +64,7 @@ MonoBehaviour:
       m_AssetGUID: 
       m_SubObjectName: 
       m_SubObjectType: 
+      m_EditorAssetChanged: 0
 --- !u!1001 &5159078157064168478
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -95,6 +97,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_AssetId
       value: eea3e5cc25d1bf5428b92bc4ca7d661e
+      objectReference: {fileID: 0}
+    - target: {fileID: 2840630592383234289, guid: 7020b235ecf8ece4ca00af70a60258f8,
+        type: 3}
+      propertyPath: isInitiallyNotPushable
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2894158442832274846, guid: 7020b235ecf8ece4ca00af70a60258f8,
         type: 3}

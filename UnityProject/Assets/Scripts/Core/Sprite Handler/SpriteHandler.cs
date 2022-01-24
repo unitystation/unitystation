@@ -259,8 +259,7 @@ public class SpriteHandler : MonoBehaviour
 	{
 		if (PresentSpriteSet != null)
 		{
-			if (spriteVariant < PresentSpriteSet.Variance.Count &&
-			    variantIndex != spriteVariant)
+			if (spriteVariant < PresentSpriteSet.Variance.Count)
 			{
 				if (PresentSpriteSet.Variance[spriteVariant].Frames.Count <= animationIndex)
 				{
@@ -909,6 +908,7 @@ public class SpriteHandler : MonoBehaviour
 		if (this.gameObject.scene.path != null && this.gameObject.scene.path.Contains("Scenes") == false &&
 		    editorAnimating == null)
 		{
+			variantIndex = initialVariantIndex;
 			PushTexture();
 		}
 	}

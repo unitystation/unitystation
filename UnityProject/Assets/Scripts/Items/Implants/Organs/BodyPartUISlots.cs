@@ -45,8 +45,7 @@ namespace HealthV2
 			public bool Conditional;
 			[ShowIf(nameof(Conditional))] public Conditional Condition;
 			[NonSerialized] public IDynamicItemSlotS RelatedIDynamicItemSlotS;
-
-
+			[NonSerialized] public int IndexInList = 0;
 		}
 
 
