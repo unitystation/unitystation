@@ -86,6 +86,7 @@ namespace UI
 		private void OnEnable()
 		{
 			UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
+			EventManager.AddHandler(Event.PostRoundStarted, OnCountdownEnd);
 		}
 
 		private void OnDisable()
@@ -94,6 +95,7 @@ namespace UI
 			isReady = false;
 			adminPanel.SetActive(false);
 			UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
+			EventManager.RemoveHandler(Event.PostRoundStarted, OnCountdownEnd);
 		}
 
 		private void UpdateMe()
@@ -138,7 +140,8 @@ namespace UI
 		{
 			if (NetworkTime.time >= countdownEndTime)
 			{
-				OnCountdownEnd();
+				timer.text = " Not enough people ready for game to start ";
+				return;
 			}
 			timer.text = TimeSpan.FromSeconds(countdownEndTime - NetworkTime.time).ToString(@"mm\:ss");
 

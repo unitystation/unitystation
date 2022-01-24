@@ -470,7 +470,7 @@ public partial class GameManager : MonoBehaviour, IInitialise
 
 		// Tell all clients that the countdown has finished
 		UpdateCountdownMessage.Send(true, 0);
-		EventManager.Broadcast(Event.PostRoundStarted);
+		EventManager.Broadcast(Event.PostRoundStarted, true);
 	}
 
 	/// <summary>
