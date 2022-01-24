@@ -152,11 +152,6 @@ public class EncryptionKey : NetworkBehaviour, ICheckedInteractable<HandApply>, 
 		}
 	}
 
-	private void Start()
-	{
-
-	}
-
 /// Look ma, no syncvars!
 /// This allows clients to initialize attributes
 /// without having to resort to SyncVars and ItemFactory (see IDCard example)
