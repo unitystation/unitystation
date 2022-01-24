@@ -32,6 +32,8 @@ namespace UI
 
 		[SerializeField] private GameObject warnText = null;
 
+		[SerializeField] private GameObject notEnoughReady = null;
+
 		// UI panels
 		[SerializeField]
 		private GameObject adminPanel = null;
@@ -140,7 +142,7 @@ namespace UI
 		{
 			if (NetworkTime.time >= countdownEndTime)
 			{
-				timer.text = " Not enough people ready for game to start ";
+				notEnoughReady.SetActive(true);
 				return;
 			}
 			timer.text = TimeSpan.FromSeconds(countdownEndTime - NetworkTime.time).ToString(@"mm\:ss");
@@ -301,6 +303,7 @@ namespace UI
 		/// </summary>
 		public void SetUIForJoining()
 		{
+			notEnoughReady.SetActive(false);
 			warnText.SetActive(false);
 			joinPanel.SetActive(true);
 			timerPanel.SetActive(false);
