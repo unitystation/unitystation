@@ -24,7 +24,7 @@ namespace Items.Medical
 
 	private bool isReady;
 	private bool onCooldown;
-	private readonly int cooldownMs = 5000;
+	private readonly float cooldown = 5;
 
 	public bool WillInteract(HandApply interaction, NetworkSide side)
 	{
@@ -99,10 +99,10 @@ namespace Items.Medical
 		bar.ServerStartProgress(interaction.Performer.RegisterTile(), Time, interaction.Performer);
 	}
 
-	private async void Cooldown(GameObject objectPos)
+	private IEnumerator Cooldown(GameObject objectPos)
 	{
 		onCooldown = true;
-		await Task.Delay(cooldownMs).ConfigureAwait(false);
+		yield return WaitFor.Seconds(cooldown);
 		onCooldown = false;
 		SoundManager.PlayNetworkedAtPos(soundCharged, objectPos.AssumedWorldPosServer());
 	}
