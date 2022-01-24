@@ -25,7 +25,7 @@ namespace Objects.Atmospherics
 		[SerializeField]
 		private bool spawnedFromItem = true;
 
-		protected Directional directional;
+		protected Rotatable directional;
 
 		public static float MaxInternalPressure { get; } = AtmosConstants.ONE_ATMOSPHERE * 50;
 
@@ -34,7 +34,7 @@ namespace Objects.Atmospherics
 		public virtual void Awake()
 		{
 			registerTile = GetComponent<RegisterTile>();
-			directional = GetComponent<Directional>();
+			directional = GetComponent<Rotatable>();
 		}
 
 		public virtual void OnSpawnServer(SpawnInfo info)
@@ -186,8 +186,7 @@ namespace Objects.Atmospherics
 		private void OnDrawGizmos()
 		{
 			var density = pipeData.mixAndVolume.Density();
-			if(density.x.Approx(0) && density.y.Approx(0)) return;
-			
+
 			Gizmos.color = Color.white;
 			DebugGizmoUtils.DrawText(density.ToString(), transform.position, 10);
 			Gizmos.color = Color.magenta;

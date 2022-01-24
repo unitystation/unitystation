@@ -24,23 +24,7 @@ namespace Systems.Pipes
 			{
 				return (90);
 			}
-			else if (z > -45)
-			{
-				return (0);
-			}
-			else if (z > -135)
-			{
-				return (90);
-			}
-			else if (z > -255)
-			{
-				return (180);
-			}
-			else if (z > -345)
-			{
-				return (270);
-			}
-			else if (z < -345)
+			else //(z > -45)
 			{
 				return (0);
 			}
@@ -200,10 +184,9 @@ namespace Systems.Pipes
 			}
 		}
 
-		private void PipeOffset(int OffSet)
+		public void PipeOffset(int OffSet)
 		{
 			var NewConnectionss = new ConnectAndType[4];
-
 
 			for (int i = 0; i < Directions.Length; i++)
 			{

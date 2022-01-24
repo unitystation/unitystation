@@ -281,7 +281,7 @@ namespace Objects.Atmospherics
 					{
 						pipeData.OnDisable();
 
-						directional.FaceDirection(directional.CurrentDirection.Rotate(1));
+						directional.RotateBy(1);
 
 						SetUpPipes();
 					});

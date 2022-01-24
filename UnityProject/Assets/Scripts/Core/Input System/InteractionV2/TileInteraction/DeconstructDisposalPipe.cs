@@ -101,9 +101,9 @@ namespace Objects.Disposals
 			var spawn = Spawn.ServerPrefab(interaction.BasicTile.SpawnOnDeconstruct, interaction.WorldPositionTarget);
 			if (spawn.Successful == false) return;
 
-			if (spawn.GameObject.TryGetComponent<Directional>(out var directional))
+			if (spawn.GameObject.TryGetComponent<Rotatable>(out var Rotatable))
 			{
-				directional.FaceDirection(Orientation.FromEnum(pipeTile.DisposalPipeObjectOrientation));
+				Rotatable.FaceDirection(pipeTile.DisposalPipeObjectOrientation);
 			}
 
 			if (spawn.GameObject.TryGetComponent<ObjectBehaviour>(out var behaviour))

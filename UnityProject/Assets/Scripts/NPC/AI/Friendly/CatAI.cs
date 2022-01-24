@@ -76,7 +76,7 @@ namespace Systems.MobAIs
 		private MouseAI AnyMiceNearby()
 		{
 			var hits = coneOfSight.GetObjectsInSight(mobMask, LayerTypeSelection.Walls,
-				directional.CurrentDirection.Vector,
+				rotatable.CurrentDirection.ToLocalVector3(),
 				10f);
 
 			foreach (var coll in hits)

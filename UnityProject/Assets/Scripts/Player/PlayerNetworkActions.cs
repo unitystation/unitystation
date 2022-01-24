@@ -179,9 +179,9 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 			playerScript.playerHealth.ChangeFireStacks(-0.5f);
 
 			// Find the next in the roll sequence. Also unlock the facing direction temporarily since laying down locks it.
-			playerScript.playerDirectional.LockDirection = false;
-			playerScript.playerDirectional.FaceDirection(playerScript.playerDirectional.CurrentDirection.Rotate(RotationOffset.Right));
-			playerScript.playerDirectional.LockDirection = true;
+			playerScript.playerDirectional.LockDirectionTo(false, playerScript.playerDirectional.CurrentDirection);
+			playerScript.playerDirectional.RotateBy(2);
+			playerScript.playerDirectional.LockDirectionTo(true, playerScript.playerDirectional.CurrentDirection);
 
 			yield return WaitFor.Seconds(0.2f);
 		}
