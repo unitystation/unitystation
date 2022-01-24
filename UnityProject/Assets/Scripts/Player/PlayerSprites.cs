@@ -253,10 +253,15 @@ namespace Player
 
 				if (externalCustomisation == null) continue;
 
-				var SpriteHandlerNorder = Spawn.ServerPrefab(ToInstantiateSpriteCustomisation.gameObject, null, CustomisationSprites.transform)
-										.GameObject.GetComponent<SpriteHandlerNorder>();
+
+				var Net = SpriteHandlerManager.GetRecursivelyANetworkBehaviour(this.gameObject);
+				var SpriteHandlerNorder = Instantiate(ToInstantiateSpriteCustomisation.gameObject, CustomisationSprites.transform)
+										.GetComponent<SpriteHandlerNorder>();
+				SpriteHandlerManager.UnRegisterHandler(Net, SpriteHandlerNorder.SpriteHandler);
+
 				SpriteHandlerNorder.transform.localPosition = Vector3.zero;
 				SpriteHandlerNorder.name = Customisation.CustomisationGroup.ThisType.ToString();
+				SpriteHandlerManager.RegisterHandler(Net, SpriteHandlerNorder.SpriteHandler);
 
 				var newone = new IntName();
 				newone.Int =
