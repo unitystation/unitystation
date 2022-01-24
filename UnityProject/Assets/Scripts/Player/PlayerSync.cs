@@ -72,10 +72,12 @@ public partial class PlayerSync : NetworkBehaviour, IPushable, IPlayerControllab
 	private bool didWiggle = false;
 
 	/// <summary>
-	/// true when the player presses one of the movement keys.
+	/// True when the player presses one of the movement keys. SERVERSIDE 
 	/// </summary>
 	private bool inputMovementDetected = false;
 	public bool InputMovementDetected => inputMovementDetected;
+
+	private bool lastInputState = false;
 
 	private void Awake()
 	{
@@ -449,16 +451,15 @@ public partial class PlayerSync : NetworkBehaviour, IPushable, IPlayerControllab
 
 	private void UpdateMe()
 	{
-		inputMovementDetected = false;
 		if (isLocalPlayer && playerMove != null)
 		{
 			if (PlayerManager.MovementControllable == this as IPlayerControllable)
 			{
 				didWiggle = false;
 				bool inputDetected = KeyboardInputManager.IsMovementPressed();
-				if (inputDetected == true && inputMovementDetected != true)
+				if (inputDetected != lastInputState)
 				{
-					inputMovementDetected = inputDetected;
+					lastInputState = inputDetected;
 					CmdSetMovementInputState(inputDetected);
 				}
 				if (inputDetected && Validations.CanInteract(playerScript,
