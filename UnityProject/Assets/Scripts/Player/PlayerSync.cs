@@ -71,6 +71,14 @@ public partial class PlayerSync : NetworkBehaviour, IPushable, IPlayerControllab
 	/// </summary>
 	private bool didWiggle = false;
 
+	/// <summary>
+	/// True when the player presses one of the movement keys. SERVERSIDE 
+	/// </summary>
+	private bool inputMovementDetected = false;
+	public bool InputMovementDetected => inputMovementDetected;
+
+	private bool lastInputState = false;
+
 	private void Awake()
 	{
 		playerScript = GetComponent<PlayerScript>();
@@ -448,7 +456,13 @@ public partial class PlayerSync : NetworkBehaviour, IPushable, IPlayerControllab
 			if (PlayerManager.MovementControllable == this as IPlayerControllable)
 			{
 				didWiggle = false;
-				if (KeyboardInputManager.IsMovementPressed() && Validations.CanInteract(playerScript,
+				bool inputDetected = KeyboardInputManager.IsMovementPressed();
+				if (inputDetected != lastInputState)
+				{
+					lastInputState = inputDetected;
+					CmdSetMovementInputState(inputDetected);
+				}
+				if (inputDetected && Validations.CanInteract(playerScript,
 					    isServer ? NetworkSide.Server : NetworkSide.Client))
 				{
 					//	If being pulled by another player and you try to break free
@@ -474,6 +488,16 @@ public partial class PlayerSync : NetworkBehaviour, IPushable, IPlayerControllab
 		{
 			transform.position = playerMove.BuckledObject.transform.position;
 		}
+	}
+
+
+	/// <summary>
+	/// Lets us tell the server if the player has pressed any movement keys
+	/// </summary>
+	[Command]
+	private void CmdSetMovementInputState(bool state)
+	{
+		inputMovementDetected = state;
 	}
 
 	private void Synchronize()
