@@ -20,7 +20,7 @@ namespace Systems.MobAIs
 		protected MobExplore mobExplore;
 		protected MobFlee mobFlee;
 		[NonSerialized] public LivingHealthBehaviour health;
-		protected Directional directional;
+		protected Rotatable rotatable;
 		protected MobSprite mobSprite;
 		protected CustomNetTransform cnt;
 		public CustomNetTransform Cnt => cnt;
@@ -61,7 +61,7 @@ namespace Systems.MobAIs
 			mobExplore = GetComponent<MobExplore>();
 			mobFlee = GetComponent<MobFlee>();
 			health = GetComponent<LivingHealthBehaviour>();
-			directional = GetComponent<Directional>();
+			rotatable = GetComponent<Rotatable>();
 			mobSprite = GetComponent<MobSprite>();
 			cnt = GetComponent<CustomNetTransform>();
 			registerObject = GetComponent<RegisterObject>();
@@ -386,7 +386,7 @@ namespace Systems.MobAIs
 			if (dir != Vector2Int.zero)
 			{
 				cnt.Push(dir, context: gameObject);
-				directional.FaceDirection(Orientation.From(dir));
+				rotatable.SetFaceDirectionLocalVictor(dir);
 			}
 		}
 
@@ -439,7 +439,7 @@ namespace Systems.MobAIs
 		{
 			// face performer
 			var dir = (performer.transform.position - transform.position).normalized;
-			directional.FaceDirection(Orientation.From(dir));
+			rotatable.SetFaceDirectionLocalVictor(dir.To2Int());
 			PettedEvent?.Invoke();
 		}
 

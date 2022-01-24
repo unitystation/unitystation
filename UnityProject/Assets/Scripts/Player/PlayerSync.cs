@@ -49,7 +49,7 @@ public partial class PlayerSync : NetworkBehaviour, IPushable, IPlayerControllab
 
 	public PlayerMove playerMove;
 	public PlayerScript playerScript;
-	private Directional playerDirectional;
+	private Rotatable playerDirectional;
 
 	public bool Step = false;
 
@@ -71,11 +71,19 @@ public partial class PlayerSync : NetworkBehaviour, IPushable, IPlayerControllab
 	/// </summary>
 	private bool didWiggle = false;
 
+	/// <summary>
+	/// True when the player presses one of the movement keys. SERVERSIDE 
+	/// </summary>
+	private bool inputMovementDetected = false;
+	public bool InputMovementDetected => inputMovementDetected;
+
+	private bool lastInputState = false;
+
 	private void Awake()
 	{
 		playerScript = GetComponent<PlayerScript>();
 		pushPull = GetComponent<PushPull>();
-		playerDirectional = GetComponent<Directional>();
+		playerDirectional = GetComponent<Rotatable>();
 		registerPlayer = GetComponent<RegisterPlayer>();
 	}
 
@@ -164,8 +172,8 @@ public partial class PlayerSync : NetworkBehaviour, IPushable, IPlayerControllab
 			MatrixAtOrigin = MatrixManager.AtPoint(state.WorldPosition.RoundToInt(), isServer);
 		}
 
-		var facingUpDown = playerDirectional.CurrentDirection == Orientation.Up ||
-		                   playerDirectional.CurrentDirection == Orientation.Down;
+		var facingUpDown = playerDirectional.CurrentDirection == OrientationEnum.Up_By0 ||
+		                   playerDirectional.CurrentDirection == OrientationEnum.Down_By180;
 
 		//depending on facing, check x / y direction first (this is for
 		//better diagonal movement logic without cutting corners)
@@ -448,7 +456,13 @@ public partial class PlayerSync : NetworkBehaviour, IPushable, IPlayerControllab
 			if (PlayerManager.MovementControllable == this as IPlayerControllable)
 			{
 				didWiggle = false;
-				if (KeyboardInputManager.IsMovementPressed() && Validations.CanInteract(playerScript,
+				bool inputDetected = KeyboardInputManager.IsMovementPressed();
+				if (inputDetected != lastInputState)
+				{
+					lastInputState = inputDetected;
+					CmdSetMovementInputState(inputDetected);
+				}
+				if (inputDetected && Validations.CanInteract(playerScript,
 					    isServer ? NetworkSide.Server : NetworkSide.Client))
 				{
 					//	If being pulled by another player and you try to break free
@@ -474,6 +488,16 @@ public partial class PlayerSync : NetworkBehaviour, IPushable, IPlayerControllab
 		{
 			transform.position = playerMove.BuckledObject.transform.position;
 		}
+	}
+
+
+	/// <summary>
+	/// Lets us tell the server if the player has pressed any movement keys
+	/// </summary>
+	[Command]
+	private void CmdSetMovementInputState(bool state)
+	{
+		inputMovementDetected = state;
 	}
 
 	private void Synchronize()

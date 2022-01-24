@@ -8,7 +8,7 @@ using Random = UnityEngine.Random;
 using Systems.Teleport;
 using Messages.Server.SoundMessages;
 
-[RequireComponent(typeof(Directional))]
+[RequireComponent(typeof(Rotatable))]
 [RequireComponent(typeof(UprightSprites))]
 [ExecuteInEditMode]
 public class RegisterPlayer : RegisterTile, IServerSpawn, RegisterPlayer.IControlPlayerState
@@ -45,7 +45,7 @@ public class RegisterPlayer : RegisterTile, IServerSpawn, RegisterPlayer.IContro
 
 	private PlayerScript playerScript;
 	public PlayerScript PlayerScript => playerScript;
-	private Directional playerDirectional;
+	private Rotatable playerDirectional;
 	private UprightSprites uprightSprites;
 	[SerializeField] private Util.NetworkedLeanTween networkedLean;
 
@@ -65,8 +65,8 @@ public class RegisterPlayer : RegisterTile, IServerSpawn, RegisterPlayer.IContro
 		AddStatus(this);
 		playerScript = GetComponent<PlayerScript>();
 		uprightSprites = GetComponent<UprightSprites>();
-		playerDirectional = GetComponent<Directional>();
-		playerDirectional.ChangeDirectionWithMatrix = false;
+		playerDirectional = GetComponent<Rotatable>();
+		//playerDirectional.ChangeDirectionWithMatrix = false;
 		uprightSprites.spriteMatrixRotationBehavior = SpriteMatrixRotationBehavior.RemainUpright;
 	}
 
@@ -181,7 +181,7 @@ public class RegisterPlayer : RegisterTile, IServerSpawn, RegisterPlayer.IContro
 			}
 			playerScript.PlayerSync.SpeedServer = playerScript.playerMove.CrawlSpeed;
 			//lock current direction
-			playerDirectional.LockDirection = true;
+			playerDirectional.LockDirectionTo(true, playerDirectional.CurrentDirection );
 		}
 		else
 		{
@@ -191,7 +191,7 @@ public class RegisterPlayer : RegisterTile, IServerSpawn, RegisterPlayer.IContro
 			{
 				spriteRenderer.sortingLayerName = "Players";
 			}
-			playerDirectional.LockDirection = false;
+			playerDirectional.LockDirectionTo(false, playerDirectional.CurrentDirection );
 			playerScript.PlayerSync.SpeedServer = playerScript.playerMove.RunSpeed;
 		}
 	}

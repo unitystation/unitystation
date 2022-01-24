@@ -153,13 +153,13 @@ namespace Player.Movement
 
 		private RegisterPlayer registerPlayer;
 		private Matrix Matrix => registerPlayer.Matrix;
-		private Directional playerDirectional;
+		private Rotatable playerDirectional;
 
 		private void Awake()
 		{
 			PlayerScript = GetComponent<PlayerScript>();
 
-			playerDirectional = gameObject.GetComponent<Directional>();
+			playerDirectional = gameObject.GetComponent<Rotatable>();
 
 			registerPlayer = GetComponent<RegisterPlayer>();
 			pna = gameObject.GetComponent<PlayerNetworkActions>();
@@ -334,7 +334,7 @@ namespace Player.Movement
 			PlayerScript.PlayerSync.SetPosition(buckleInteract.gameObject.TileWorldPosition().To3Int());
 
 			// set direction if toObject has a direction
-			var directionalObject = buckleInteract.GetComponent<Directional>();
+			var directionalObject = buckleInteract.GetComponent<Rotatable>();
 			if (directionalObject != null)
 			{
 				playerDirectional.FaceDirection(directionalObject.CurrentDirection);
@@ -343,10 +343,6 @@ namespace Player.Movement
 			{
 				playerDirectional.FaceDirection(playerDirectional.CurrentDirection);
 			}
-
-			// force sync direction to current direction (If it is a real player and not a NPC)
-			if (PlayerScript.connectionToClient != null)
-				playerDirectional.TargetForceSyncDirection(PlayerScript.connectionToClient);
 		}
 
 		/// <summary>
@@ -408,11 +404,11 @@ namespace Player.Movement
 		}
 
 		// invoked when buckledTo changes direction, so we can update our direction
-		private void OnBuckledObjectDirectionChange(Orientation newDir)
+		private void OnBuckledObjectDirectionChange(OrientationEnum newDir)
 		{
 			if (playerDirectional == null)
 			{
-				playerDirectional = gameObject.GetComponent<Directional>();
+				playerDirectional = gameObject.GetComponent<Rotatable>();
 			}
 			playerDirectional.FaceDirection(newDir);
 		}
@@ -425,10 +421,10 @@ namespace Player.Movement
 			{
 				var buckleInteract = BuckledObject.GetComponent<BuckleInteract>();
 				buckleInteract.OccupantPlayerScript = null;
-				var directionalObject = BuckledObject.GetComponent<Directional>();
+				var directionalObject = BuckledObject.GetComponent<Rotatable>();
 				if (directionalObject != null)
 				{
-					directionalObject.OnDirectionChange.RemoveListener(OnBuckledObjectDirectionChange);
+					directionalObject.OnRotationChange.RemoveListener(OnBuckledObjectDirectionChange);
 				}
 			}
 
@@ -445,10 +441,10 @@ namespace Player.Movement
 			{
 				var buckleInteract = BuckledObject.GetComponent<BuckleInteract>();
 				buckleInteract.OccupantPlayerScript = PlayerScript;
-				var directionalObject = BuckledObject.GetComponent<Directional>();
+				var directionalObject = BuckledObject.GetComponent<Rotatable>();
 				if (directionalObject != null)
 				{
-					directionalObject.OnDirectionChange.AddListener(OnBuckledObjectDirectionChange);
+					directionalObject.OnRotationChange.AddListener(OnBuckledObjectDirectionChange);
 				}
 			}
 
