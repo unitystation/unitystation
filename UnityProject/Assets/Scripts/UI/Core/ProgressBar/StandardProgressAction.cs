@@ -21,7 +21,7 @@ public class StandardProgressAction : IProgressAction
 	//conscious state when beginning progress
 	private ConsciousState initialConsciousState;
 	//initial facing direction
-	private Orientation initialDirection;
+	private OrientationEnum initialDirection;
 	private PlayerScript playerScript;
 	private StartProgressInfo startProgressInfo;
 	//is this a cross matrix action
@@ -136,17 +136,22 @@ public class StandardProgressAction : IProgressAction
 			return false;
 		}
 
-		//is this cross matrix? if so, don't start progress if either matrix is moving
-		var performerMatrix = playerScript.registerTile.Matrix;
-		crossMatrix = performerMatrix != info.Target.TargetMatrixInfo.Matrix;
-		if (crossMatrix && (performerMatrix.IsMovingServer || info.Target.TargetMatrixInfo.Matrix.IsMovingServer))
+		//Can this progress bar be interrupted by movement?
+		if (progressActionConfig.AllowMovement == false)
 		{
-			//progress already started by this player at this position
-			Logger.LogTraceFormat("Server cancelling progress bar {0} start because it is cross matrix and one of" +
-			                      " the matrices is moving.",
-				Category.ProgressAction, info.ProgressBar.ID);
-			return false;
+			//is this cross matrix? if so, don't start progress if either matrix is moving
+			var performerMatrix = playerScript.registerTile.Matrix;
+			crossMatrix = performerMatrix != info.Target.TargetMatrixInfo.Matrix;
+			if (crossMatrix && (performerMatrix.IsMovingServer || info.Target.TargetMatrixInfo.Matrix.IsMovingServer))
+			{
+				//progress already started by this player at this position
+				Logger.LogTraceFormat("Server cancelling progress bar {0} start because it is cross matrix and one of" +
+				                      " the matrices is moving.",
+					Category.ProgressAction, info.ProgressBar.ID);
+				return false;
+			}
 		}
+
 
 		//we are going to start progress, so set up the hooks
 		RegisterHooks();
@@ -184,9 +189,12 @@ public class StandardProgressAction : IProgressAction
 		eventRegistry.Register(playerScript.playerHealth.OnConsciousStateChangeServer, OnConsciousStateChange);
 		initialConsciousState = playerScript.playerHealth.ConsciousState;
 		//interrupt if player moves at all
-		eventRegistry.Register(playerScript.registerTile.OnLocalPositionChangedServer, OnLocalPositionChanged);
+		if (progressActionConfig.AllowMovement == false)
+		{
+			eventRegistry.Register(playerScript.registerTile.OnLocalPositionChangedServer, OnLocalPositionChanged);
+		}
 		//interrupt if player turns away and turning is not allowed
-		eventRegistry.Register(playerScript.playerDirectional.OnDirectionChange, OnDirectionChanged);
+		eventRegistry.Register(playerScript.playerDirectional.OnRotationChange, OnDirectionChanged);
 		initialDirection = playerScript.playerDirectional.CurrentDirection;
 		//interrupt if tile is on different matrix and either matrix moves / rotates
 		if (crossMatrix)
@@ -248,6 +256,7 @@ public class StandardProgressAction : IProgressAction
 
 	private void InterruptProgress(string reason)
 	{
+		if(progressActionConfig.AllowMovement == true) return;
 		Logger.LogTraceFormat("Server progress bar {0} interrupted: {1}.", Category.ProgressAction,
 			ProgressBar.ID, reason);
 		ProgressBar.ServerInterruptProgress();
@@ -255,6 +264,7 @@ public class StandardProgressAction : IProgressAction
 
 	private void OnMatrixRotate(MatrixRotationInfo arg0)
 	{
+		if(progressActionConfig.AllowMovement == true) return;
 		InterruptProgress("cross-matrix and target or performer matrix rotated");
 	}
 
@@ -315,7 +325,7 @@ public class StandardProgressAction : IProgressAction
 	}
 
 
-	private void OnDirectionChanged(Orientation arg0)
+	private void OnDirectionChanged(OrientationEnum arg0)
 	{
 		if (!CanPlayerStillProgress()) InterruptProgress("performer direction changed");
 	}

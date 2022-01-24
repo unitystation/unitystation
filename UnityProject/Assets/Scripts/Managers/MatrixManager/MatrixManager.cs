@@ -355,7 +355,7 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 
 		var Distance = (WorldTo - Worldorigin).Value.magnitude;
 
-		if (Distance > 25)
+		if (Distance > 30)
 		{
 			Logger.LogError($" Limit exceeded on raycast, Look at stack trace for What caused it at {Distance}"); //Meant to catch up stuff that's been naughty and doing stuff like 900 tile Ray casts
 			return new CustomPhysicsHit();
@@ -1244,7 +1244,7 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 	/// </summary>
 	public static Vector3Int LocalToWorldInt(Vector3 localPos, Matrix matrix)
 	{
-		return LocalToWorldInt(localPos, Get(matrix));
+		return LocalToWorldInt(localPos, matrix?.MatrixInfo);
 	}
 
 	/// <inheritdoc cref="LocalToWorldInt(Vector3, Matrix)"/>
@@ -1259,7 +1259,7 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 	/// </summary>
 	public static Vector3 LocalToWorld(Vector3 localPos, Matrix matrix)
 	{
-		return LocalToWorld(localPos, Get(matrix));
+		return LocalToWorld(localPos, matrix?.MatrixInfo);
 	}
 
 	/// <inheritdoc cref="LocalToWorld(Vector3, Matrix)"/>

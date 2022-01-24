@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Systems.CraftingV2;
 using Systems.Electricity;
+using Objects.Lighting;
 using Mirror;
 using Objects.Wallmounts;
 using UnityEditor;
@@ -28,11 +29,11 @@ namespace Core.Editor.Tools
 		[MenuItem("Mapping/Refresh Directionals")]
 		private static void RefreshDirectionals()
 		{
-			var allDirs = FindObjectsOfType<Directional>();
+			var allDirs = FindObjectsOfType<Rotatable>();
 			foreach (var directional in allDirs)
 			{
 				EditorUtility.SetDirty(directional.gameObject);
-				directional.ChangeDirectionInEditor();
+				//directional.ChangeDirectionInEditor();
 			}
 			Logger.Log($"Refreshed {allDirs.Length} directionals", Category.Editor);
 		}
@@ -154,6 +155,36 @@ namespace Core.Editor.Tools
 		}
 
 		/// <summary>
+		/// Fixes Light Switch references where the light source has a related switch, but the switch doesnt have the light source in the list
+		/// </summary>
+		[MenuItem("Mapping/Fix Light switch references (scene)")]
+		private static void FixLights()
+		{
+			var allNets = FindObjectsOfType<LightSource>();
+
+			var count = 0;
+
+			for (int i = allNets.Length - 1; i > 0; i--)
+			{
+				var lightSource = allNets[i];
+
+				if (lightSource.IsWithoutSwitch) continue;
+
+				if (lightSource.relatedLightSwitch == null) continue;
+
+				if (lightSource.relatedLightSwitch.listOfLights.Contains(lightSource)) continue;
+
+				EditorUtility.SetDirty(lightSource.relatedLightSwitch);
+
+				lightSource.relatedLightSwitch.listOfLights.Add(lightSource);
+
+				count++;
+			}
+
+			Debug.Log($"{allNets.Length} light sources found in scene, {count} were not in light switch list.");
+		}
+
+		/// <summary>
 		/// Find all prefabs containing a specific component (T)
 		/// </summary>
 		/// <typeparam name="T">The type of component</typeparam>
@@ -202,7 +233,7 @@ namespace Core.Editor.Tools
 			{
 				foreach (var wallmount in gameObject.GetComponentsInChildren<WallmountBehavior>())
 				{
-					var directional = wallmount.GetComponent<Directional>();
+					var directional = wallmount.GetComponent<Rotatable>();
 					var directionalSO = new SerializedObject(directional);
 					var initialD = directionalSO.FindProperty("InitialDirection");
 
@@ -222,7 +253,7 @@ namespace Core.Editor.Tools
 			{
 				foreach (var wallProtrusion in gameObject.GetComponentsInChildren<WallProtrusion>())
 				{
-					var directional = wallProtrusion.GetComponent<Directional>();
+					var directional = wallProtrusion.GetComponent<Rotatable>();
 					var directionalSO = new SerializedObject(directional);
 					var initialD = directionalSO.FindProperty("InitialDirection");
 
@@ -264,7 +295,8 @@ namespace Core.Editor.Tools
 			{
 				foreach (var wallmount in gameObject.GetComponentsInChildren<WallmountBehavior>())
 				{
-					if (wallmount.GetComponent<DirectionalRotationSprites>() != null) continue;
+					var IN = wallmount.GetComponent<Rotatable>();
+					if (IN != null && IN.ChangeSprites) continue;
 					foreach (var spriteRenderer in wallmount.GetComponentsInChildren<SpriteRenderer>())
 					{
 						var transform = new SerializedObject(spriteRenderer.transform);

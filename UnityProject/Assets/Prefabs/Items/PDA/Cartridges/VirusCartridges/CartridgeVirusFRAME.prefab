@@ -82,5 +82,15 @@ PrefabInstance:
       propertyPath: initialName
       value: F.R.A.M.E. cartridge
       objectReference: {fileID: 0}
+    - target: {fileID: 7225207134604889726, guid: a6ac0281d1a8192478248d8f86c2d784,
+        type: 3}
+      propertyPath: inventoryMoveSound.AssetAddress
+      value: null
+      objectReference: {fileID: 0}
+    - target: {fileID: 7225207134604889726, guid: a6ac0281d1a8192478248d8f86c2d784,
+        type: 3}
+      propertyPath: inventoryRemoveSound.AssetAddress
+      value: null
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a6ac0281d1a8192478248d8f86c2d784, type: 3}

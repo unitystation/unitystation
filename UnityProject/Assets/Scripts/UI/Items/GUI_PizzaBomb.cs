@@ -45,7 +45,7 @@ namespace UI.Items
 
 		public void ToggleArmMode()
 		{
-			if (armToggleButton.Element.isOn)
+			if (armToggleButton.Value == "1")
 			{
 				pizza.IsArmed = true;
 				if (pizza.DetenationOnTimer)
@@ -59,7 +59,7 @@ namespace UI.Items
 
 		public void ChangeMode()
 		{
-			if (modeToggleButton.Element.isOn)
+			if (modeToggleButton.Value == "1")
 			{
 				UpdateSignalStatusStatus();
 				return;
@@ -102,25 +102,25 @@ namespace UI.Items
 
 		public void IncreaseTimeByOne()
 		{
-			if (armToggleButton.Element.isOn) return;
+			if (armToggleButton.Value == "1") return;
 			pizza.TimeToDetonate += 1;
 			StartCoroutine(UpdateTimer());
 		}
 		public void IncreaseTimeByTen()
 		{
-			if (armToggleButton.Element.isOn) return;
+			if (armToggleButton.Value == "1") return;
 			pizza.TimeToDetonate += 10;
 			StartCoroutine(UpdateTimer());
 		}
 		public void DecreaseTimeByOne()
 		{
-			if ((pizza.TimeToDetonate - 1) <= 0 || armToggleButton.Element.isOn) return;
+			if ((pizza.TimeToDetonate - 1) <= 0 || armToggleButton.Value == "1") return;
 			pizza.TimeToDetonate -= 1;
 			StartCoroutine(UpdateTimer());
 		}
 		public void DecreaseTimeByTen()
 		{
-			if ((pizza.TimeToDetonate - 10) <= 0 || armToggleButton.Element.isOn) return;
+			if ((pizza.TimeToDetonate - 10) <= 0 || armToggleButton.Value == "1") return;
 			pizza.TimeToDetonate -= 10;
 			StartCoroutine(UpdateTimer());
 		}

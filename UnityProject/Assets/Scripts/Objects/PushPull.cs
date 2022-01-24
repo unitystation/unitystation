@@ -778,10 +778,10 @@ public class PushPull : NetworkBehaviour, IRightClickable/*, IServerSpawn*/
 				}
 			}
 			// Pulling a directional component should change it's orientation to match the one that pulls it
-			Directional directionalComponent;
+			Rotatable directionalComponent;
 			if (TryGetComponent(out directionalComponent))
 			{
-				directionalComponent.FaceDirection(PulledBy.GetComponent<Directional>().CurrentDirection);
+				directionalComponent.FaceDirection(PulledBy.GetComponent<Rotatable>().CurrentDirection);
 			}
 
 			// If there is a sound to be played
