@@ -74,7 +74,7 @@ namespace Items.Medical
 			if (CanDefibrillate(livingHealthMaster, interaction.Performer) == false)
 			{
 				_ = SoundManager.PlayNetworkedAtPosAsync(soundFailed, objectPos);
-				Cooldown(gameObject);
+				StartCoroutine(Cooldown(gameObject));
 				return;
 			}
 			livingHealthMaster.RestartHeart();
@@ -83,11 +83,11 @@ namespace Items.Medical
 			{
 				livingHealthMaster.playerScript.ReturnGhostToBody();
 				_ = SoundManager.PlayNetworkedAtPosAsync(soundSuccsuess, objectPos);
-				Cooldown(gameObject);
+				StartCoroutine(Cooldown(gameObject));
 				return;
 			}
 			_ = SoundManager.PlayNetworkedAtPosAsync(soundFailed, objectPos);
-			Cooldown(gameObject);
+			StartCoroutine(Cooldown(gameObject));
 		}
 
 		if (isReady == false || onCooldown == true)
