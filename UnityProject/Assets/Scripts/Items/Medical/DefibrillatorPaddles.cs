@@ -74,7 +74,7 @@ namespace Items.Medical
 			if (CanDefibrillate(livingHealthMaster, interaction.Performer) == false)
 			{
 				_ = SoundManager.PlayNetworkedAtPosAsync(soundFailed, objectPos);
-				StartCoroutine(Cooldown(gameObject));
+				StartCoroutine(Cooldown());
 				return;
 			}
 			livingHealthMaster.RestartHeart();
@@ -83,11 +83,11 @@ namespace Items.Medical
 			{
 				livingHealthMaster.playerScript.ReturnGhostToBody();
 				_ = SoundManager.PlayNetworkedAtPosAsync(soundSuccsuess, objectPos);
-				StartCoroutine(Cooldown(gameObject));
+				StartCoroutine(Cooldown());
 				return;
 			}
 			_ = SoundManager.PlayNetworkedAtPosAsync(soundFailed, objectPos);
-			StartCoroutine(Cooldown(gameObject));
+			StartCoroutine(Cooldown());
 		}
 
 		if (isReady == false || onCooldown == true)
@@ -99,12 +99,12 @@ namespace Items.Medical
 		bar.ServerStartProgress(interaction.Performer.RegisterTile(), Time, interaction.Performer);
 	}
 
-	private IEnumerator Cooldown(GameObject objectPos)
+	private IEnumerator Cooldown()
 	{
 		onCooldown = true;
 		yield return WaitFor.Seconds(cooldown);
 		onCooldown = false;
-		SoundManager.PlayNetworkedAtPos(soundCharged, objectPos.AssumedWorldPosServer());
+		SoundManager.PlayNetworkedAtPos(soundCharged, gameObject.AssumedWorldPosServer());
 	}
 
 	public void ServerPerformInteraction(HandActivate interaction)
