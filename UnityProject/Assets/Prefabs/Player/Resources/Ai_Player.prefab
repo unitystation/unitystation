@@ -270,7 +270,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7971638957329120905}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -312,8 +312,10 @@ MonoBehaviour:
   syncInterval: 0.1
   playerName: ' '
   visibleName: ' '
+  PlayerSync: {fileID: 0}
   RTT: 0
   RcsMode: 0
+  RcsMatrixMove: {fileID: 0}
   playerState: 3
   actionData: {fileID: 11400000, guid: 288088e3bb7768d41a2fe1b2c170fbce, type: 2}
   playerChatLocation: {fileID: 7971638957329120905}
@@ -383,12 +385,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  InitialDirection: 3
-  onEditorDirectionChange:
-    m_PersistentCalls:
-      m_Calls: []
-  ChangeDirectionWithMatrix: 0
-  DisableSyncing: 0
+  MethodRotation: 0
+  ChangeSprites: 0
+  isChangingSO: 0
+  CurrentDirection: 3
 --- !u!114 &7775768926088388867
 MonoBehaviour:
   m_ObjectHideFlags: 0

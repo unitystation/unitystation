@@ -322,7 +322,7 @@ namespace Objects
 
 						if (result.Successful)
 						{
-							result.GameObject.GetComponent<Directional>().FaceDirection(GetComponent<Directional>().CurrentDirection);
+							result.GameObject.GetComponent<Rotatable>().FaceDirection(GetComponent<Rotatable>().CurrentDirection);
 							result.GameObject.GetComponent<CameraAssembly>().SetState(CameraAssembly.CameraAssemblyState.Unwelded);
 						}
 

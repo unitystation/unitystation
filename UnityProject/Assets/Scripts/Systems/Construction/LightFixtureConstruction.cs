@@ -28,12 +28,12 @@ namespace Objects.Construction
 		[SyncVar]
 		private State constructionState = State.ready;
 
-		private Directional directional;
+		private Rotatable rotatable;
 		private LightSource lightSource;
 
 		private void Awake()
 		{
-			directional = GetComponent<Directional>();
+			rotatable = GetComponent<Rotatable>();
 			lightSource = GetComponent<LightSource>();
 		}
 
@@ -49,11 +49,11 @@ namespace Objects.Construction
 			switch (constructionState)
 			{
 				case State.initial:
-					spriteHandler.SetSpriteSO(initialStateSprites, newVariantIndex: SpritesDirectional.OrientationIndex(directional.CurrentDirection.AsEnum()));
+					spriteHandler.SetSpriteSO(initialStateSprites);
 					break;
 				case State.wiresAdded:
 					lightSource.ServerChangeLightState(LightMountState.None);
-					spriteHandler.SetSpriteSO(wiresAddedStateSprites, newVariantIndex: SpritesDirectional.OrientationIndex(directional.CurrentDirection.AsEnum()));
+					spriteHandler.SetSpriteSO(wiresAddedStateSprites);
 					break;
 				case State.ready:
 				default:

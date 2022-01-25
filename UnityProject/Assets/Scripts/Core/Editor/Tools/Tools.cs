@@ -29,11 +29,11 @@ namespace Core.Editor.Tools
 		[MenuItem("Mapping/Refresh Directionals")]
 		private static void RefreshDirectionals()
 		{
-			var allDirs = FindObjectsOfType<Directional>();
+			var allDirs = FindObjectsOfType<Rotatable>();
 			foreach (var directional in allDirs)
 			{
 				EditorUtility.SetDirty(directional.gameObject);
-				directional.ChangeDirectionInEditor();
+				//directional.ChangeDirectionInEditor();
 			}
 			Logger.Log($"Refreshed {allDirs.Length} directionals", Category.Editor);
 		}
@@ -233,7 +233,7 @@ namespace Core.Editor.Tools
 			{
 				foreach (var wallmount in gameObject.GetComponentsInChildren<WallmountBehavior>())
 				{
-					var directional = wallmount.GetComponent<Directional>();
+					var directional = wallmount.GetComponent<Rotatable>();
 					var directionalSO = new SerializedObject(directional);
 					var initialD = directionalSO.FindProperty("InitialDirection");
 
@@ -253,7 +253,7 @@ namespace Core.Editor.Tools
 			{
 				foreach (var wallProtrusion in gameObject.GetComponentsInChildren<WallProtrusion>())
 				{
-					var directional = wallProtrusion.GetComponent<Directional>();
+					var directional = wallProtrusion.GetComponent<Rotatable>();
 					var directionalSO = new SerializedObject(directional);
 					var initialD = directionalSO.FindProperty("InitialDirection");
 
@@ -295,7 +295,8 @@ namespace Core.Editor.Tools
 			{
 				foreach (var wallmount in gameObject.GetComponentsInChildren<WallmountBehavior>())
 				{
-					if (wallmount.GetComponent<DirectionalRotationSprites>() != null) continue;
+					var IN = wallmount.GetComponent<Rotatable>();
+					if (IN != null && IN.ChangeSprites) continue;
 					foreach (var spriteRenderer in wallmount.GetComponentsInChildren<SpriteRenderer>())
 					{
 						var transform = new SerializedObject(spriteRenderer.transform);

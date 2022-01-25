@@ -6,7 +6,7 @@ using Mirror;
 /// <summary>
 /// Handles displaying the ghost sprites.
 /// </summary>
-[RequireComponent(typeof(Directional))]
+[RequireComponent(typeof(Rotatable))]
 public class GhostSprites : MonoBehaviour, IServerSpawn
 {
 	//sprite renderer showing the ghost
@@ -16,14 +16,14 @@ public class GhostSprites : MonoBehaviour, IServerSpawn
 
 	public List<SpriteDataSO> AdminGhostSpriteSOs = new List<SpriteDataSO>();
 
-	private Directional directional;
+	private Rotatable rotatable;
 
 	private bool AdminGhost;
 
 	protected void Awake()
 	{
-		directional = GetComponent<Directional>();
-		directional.OnDirectionChange.AddListener(OnDirectionChange);
+		rotatable = GetComponent<Rotatable>();
+		rotatable.OnRotationChange.AddListener(OnDirectionChange);
 		SpriteHandler = GetComponentInChildren<SpriteHandler>();
 	}
 
@@ -44,17 +44,17 @@ public class GhostSprites : MonoBehaviour, IServerSpawn
 		AdminGhost = true;
 	}
 
-	private void OnDirectionChange(Orientation direction)
+	private void OnDirectionChange(OrientationEnum direction)
 	{
-		if (Orientation.Down == direction)
+		if (OrientationEnum.Down_By180 == direction)
 		{
 			SpriteHandler.ChangeSpriteVariant(0, networked:false);
 		}
-		else if (Orientation.Up == direction)
+		else if (OrientationEnum.Up_By0 == direction)
 		{
 			SpriteHandler.ChangeSpriteVariant(1, networked:false);
 		}
-		else if (Orientation.Right == direction)
+		else if (OrientationEnum.Right_By90 == direction)
 		{
 			SpriteHandler.ChangeSpriteVariant(2, networked:false);
 		}

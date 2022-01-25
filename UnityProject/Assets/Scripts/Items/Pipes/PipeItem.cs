@@ -51,10 +51,10 @@ namespace Items.Atmospherics
 			if (Validations.HasItemTrait(interaction.UsedObject, CommonTraits.Instance.Wrench))
 			{
 				var metaDataNode = registerItem.Matrix.MetaDataLayer.Get(registerItem.LocalPositionServer);
-				var connections = GetConnections();
+				var connectionsCopy = GetConnections();
 				int offset = PipeFunctions.GetOffsetAngle(transform.localEulerAngles.z);
-				connections.Rotate(offset);
-				if (PipeTile.CanAddPipe(metaDataNode, connections) == false)
+				connectionsCopy.Rotate(offset);
+				if (PipeTile.CanAddPipe(metaDataNode, connectionsCopy) == false)
 				{
 					return;
 				}

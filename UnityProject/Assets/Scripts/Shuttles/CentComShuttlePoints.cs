@@ -8,7 +8,7 @@ public class CentComShuttlePoints : MonoBehaviour
 	/// <summary>
 	/// The SIDE of centcom the shuttle is docking at, NOT DIRECTION.
 	/// </summary>
-	public OrientationEnum orientation = OrientationEnum.Down;
+	public OrientationEnum orientation = OrientationEnum.Down_By180;
 
 	private void Start()
 	{
