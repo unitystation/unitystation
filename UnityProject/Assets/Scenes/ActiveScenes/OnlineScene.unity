@@ -910,6 +910,18 @@ Material:
     m_Colors:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
+--- !u!114 &780268074 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 114006731871561424, guid: 829f4ca992b848d6bb4d007fb9c112e1,
+    type: 3}
+  m_PrefabInstance: {fileID: 1138797072}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 95a6c74c619a22b46b60181770d4e8c9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &841975928
 GameObject:
   m_ObjectHideFlags: 0
@@ -1000,6 +1012,18 @@ MonoBehaviour:
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 780268074}
+        m_TargetAssemblyTypeName: UI.GUI_IngameMenu, Assets
+        m_MethodName: CloseMenuPanel
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 1361293561}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -1244,7 +1268,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1849231291847346, guid: 829f4ca992b848d6bb4d007fb9c112e1, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1856013830592554, guid: 829f4ca992b848d6bb4d007fb9c112e1, type: 3}
       propertyPath: m_Name
@@ -1264,7 +1288,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1928090117516068, guid: 829f4ca992b848d6bb4d007fb9c112e1, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4244501537706558, guid: 829f4ca992b848d6bb4d007fb9c112e1, type: 3}
       propertyPath: m_RootOrder
@@ -12116,7 +12140,7 @@ PrefabInstance:
     - target: {fileID: 1017114667693712138, guid: 829f4ca992b848d6bb4d007fb9c112e1,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -2.8999329
+      value: -2.8999023
       objectReference: {fileID: 0}
     - target: {fileID: 1021124550058913051, guid: 829f4ca992b848d6bb4d007fb9c112e1,
         type: 3}
@@ -12481,7 +12505,7 @@ PrefabInstance:
     - target: {fileID: 2967335146640221780, guid: 829f4ca992b848d6bb4d007fb9c112e1,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -25
+      value: -24.99997
       objectReference: {fileID: 0}
     - target: {fileID: 2967373415580766804, guid: 829f4ca992b848d6bb4d007fb9c112e1,
         type: 3}
@@ -13091,7 +13115,7 @@ PrefabInstance:
     - target: {fileID: 6555723394669093311, guid: 829f4ca992b848d6bb4d007fb9c112e1,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -2.8999329
+      value: -2.8999023
       objectReference: {fileID: 0}
     - target: {fileID: 6666842061318877798, guid: 829f4ca992b848d6bb4d007fb9c112e1,
         type: 3}
@@ -13893,6 +13917,12 @@ Material:
     m_Colors:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
+--- !u!1 &1361293561 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1928090117516068, guid: 829f4ca992b848d6bb4d007fb9c112e1,
+    type: 3}
+  m_PrefabInstance: {fileID: 1138797072}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1500091029
 PrefabInstance:
   m_ObjectHideFlags: 0
