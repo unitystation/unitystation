@@ -74,6 +74,20 @@ namespace AdminCommands
 			return true;
 		}
 
+		#region Server Settings
+
+		[Command(requiresAuthority = false)]
+		public void CmdChangePlayerLimit(int newLimit, NetworkConnectionToClient sender = null)
+		{
+			if (IsAdmin(sender, out var player) == false) return;
+
+			LogAdminAction($"{player.Username}: Set PlayerLimit to {newLimit} from {GameManager.Instance.PlayerLimit}");
+
+			GameManager.Instance.PlayerLimit = newLimit;
+		}
+
+		#endregion
+
 		#region GamemodePage
 
 		[Command(requiresAuthority = false)]
