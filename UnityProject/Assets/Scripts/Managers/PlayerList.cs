@@ -15,6 +15,11 @@ public partial class PlayerList : NetworkBehaviour
 	private List<ConnectedPlayer> loggedIn = new List<ConnectedPlayer>();
 	public List<ConnectedPlayer> loggedOff = new List<ConnectedPlayer>();
 
+	/// <summary>
+	/// The ConnectedPlayers who have been in this current round, clears at round end
+	/// </summary>
+	private List<ConnectedPlayer> roundPlayers = new List<ConnectedPlayer>();
+
 	//For client needs: updated via UpdateConnectedPlayersMessage, useless for server
 	public List<ClientConnectedPlayer> ClientConnectedPlayers = new List<ClientConnectedPlayer>();
 
@@ -64,12 +69,18 @@ public partial class PlayerList : NetworkBehaviour
 
 	void OnEnable()
 	{
-		EventManager.AddHandler(Event.RoundEnded, SetEndOfRoundPlayerCount);
+		EventManager.AddHandler(Event.RoundEnded, OnEndOfRound);
 	}
 
 	void OnDisable()
 	{
-		EventManager.RemoveHandler(Event.RoundEnded, SetEndOfRoundPlayerCount);
+		EventManager.RemoveHandler(Event.RoundEnded, OnEndOfRound);
+	}
+
+	private void OnEndOfRound()
+	{
+		SetEndOfRoundPlayerCount();
+		ClearRoundPlayers();
 	}
 
 	private void SetEndOfRoundPlayerCount()
@@ -569,6 +580,23 @@ public partial class PlayerList : NetworkBehaviour
 	public void ClearReadyPlayers()
 	{
 		ReadyPlayers.Clear();
+	}
+
+	/// <summary>
+	/// Clears the list of round players
+	/// </summary>
+	[Server]
+	public void ClearRoundPlayers()
+	{
+		roundPlayers.Clear();
+	}
+
+	[Server]
+	public void AddToRoundPlayers(ConnectedPlayer newPlayer)
+	{
+		if(roundPlayers.Contains(newPlayer)) return;
+
+		roundPlayers.Add(newPlayer);
 	}
 
 	public static bool HasAntagEnabled(AntagPrefsDict antagPrefs, Antagonist antag)
