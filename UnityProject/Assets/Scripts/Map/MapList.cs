@@ -34,8 +34,26 @@ public class MapList
 		{
 			mapsToChooseFrom = highPopMaps;
 		}
+		
+		if (mapsToChooseFrom.Count == 0)
+		{
+			Logger.LogError($"No maps with playerCount: {playerCount} were found, trying to pick any map now.");
+			var allMaps = new List<string>();
+			allMaps.AddRange(lowPopMaps);
+			allMaps.AddRange(medPopMaps);
+			allMaps.AddRange(highPopMaps);
+
+			mapsToChooseFrom = allMaps;
+		}
 
 		// Check that we can actually load the scene.
-		return mapsToChooseFrom.Where(map => SceneUtility.GetBuildIndexByScenePath(map) > -1).PickRandom();
+		var validMaps = mapsToChooseFrom.Where(map => SceneUtility.GetBuildIndexByScenePath(map) > -1).ToList();
+
+		if (validMaps.Count == 0)
+		{
+			Logger.LogError("No valid maps found! Make sure theres a map inside the Maps.json that is also in the build settings");
+		}
+		
+		return validMaps.PickRandom();
 	}
 }
