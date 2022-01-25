@@ -49,7 +49,7 @@ namespace Items.Others
 			if (gasContainer.GasMix.Moles <= 0) return;
 			if (player.PlayerSync.InputMovementDetected)//Is movement pressed?
 			{
-				if (player.pushPull.TryPush(player.CurrentDirection.VectorInt, player.playerMove.RunSpeed, true))
+				if (player.pushPull.TryPush(player.CurrentDirection.ToLocalVector2Int(), player.playerMove.RunSpeed, true))
 				{
 					var domGas = gasContainer.GasMix.GetBiggestGasSOInMix();
 					if (domGas != null) gasContainer.GasMix.RemoveGas(domGas, gasReleaseOnUse);
