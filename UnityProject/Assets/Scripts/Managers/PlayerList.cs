@@ -18,7 +18,7 @@ public partial class PlayerList : NetworkBehaviour
 	/// <summary>
 	/// The ConnectedPlayers who have been in this current round, clears at round end
 	/// </summary>
-	private List<ConnectedPlayer> roundPlayers = new List<ConnectedPlayer>();
+	private HashSet<ConnectedPlayer> roundPlayers = new HashSet<ConnectedPlayer>();
 
 	//For client needs: updated via UpdateConnectedPlayersMessage, useless for server
 	public List<ClientConnectedPlayer> ClientConnectedPlayers = new List<ClientConnectedPlayer>();
