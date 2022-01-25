@@ -253,6 +253,11 @@ public static class ConverterExtensions
 		       GetRandomNumber(minimum, maximum); //the * Minus number will do the other side Making it full 360
 	}
 
+	public static Vector2Int ToLocalVector2Int(this OrientationEnum In)
+	{
+		return ToLocalVector3(In).To2Int();
+	}
+
 	public static Vector3 ToLocalVector3(this OrientationEnum In)
 	{
 		switch (In)
