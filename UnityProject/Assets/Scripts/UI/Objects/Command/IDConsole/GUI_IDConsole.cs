@@ -151,6 +151,12 @@ namespace UI.Objects.Command
 			ServerRefreshCardNames();
 		}
 
+		public void ServerChangeJobTitle(string newJobTitle)
+		{
+			console.TargetCard.ServerSetJobTitle(newJobTitle);
+			ServerRefreshCardNames();
+		}
+
 		/// <summary>
 		/// Grants the target card the given access
 		/// </summary>
