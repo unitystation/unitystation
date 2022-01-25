@@ -69,12 +69,19 @@ public partial class PlayerList : NetworkBehaviour
 
 	void OnEnable()
 	{
+		EventManager.AddHandler(Event.RoundStarted, OnRoundStart);
 		EventManager.AddHandler(Event.RoundEnded, OnEndOfRound);
 	}
 
 	void OnDisable()
 	{
+		EventManager.RemoveHandler(Event.RoundStarted, OnRoundStart);
 		EventManager.RemoveHandler(Event.RoundEnded, OnEndOfRound);
+	}
+
+	private void OnRoundStart()
+	{
+		PopulateRoundPlayers();
 	}
 
 	private void OnEndOfRound()
@@ -597,6 +604,15 @@ public partial class PlayerList : NetworkBehaviour
 		if(roundPlayers.Contains(newPlayer)) return;
 
 		roundPlayers.Add(newPlayer);
+	}
+
+	[Server]
+	public void PopulateRoundPlayers()
+	{
+		foreach (var player in loggedIn)
+		{
+			AddToRoundPlayers(player);
+		}
 	}
 
 	public static bool HasAntagEnabled(AntagPrefsDict antagPrefs, Antagonist antag)
