@@ -35,38 +35,38 @@ namespace Systems.Electricity
 			}
 		}
 
-		public static void ElectricityInput(VIRCurrent Current,
-			ElectricalOIinheritance SourceInstance,
-			IntrinsicElectronicData ComingFrom,
-			IntrinsicElectronicData Thiswire)
+		public static void ElectricityInput(VIRCurrent current,
+			ElectricalOIinheritance sourceInstance,
+			IntrinsicElectronicData comingFrom,
+			IntrinsicElectronicData thiswire)
 		{
-			if (Thiswire.Data.SupplyDependent.TryGetValue(SourceInstance, out ElectronicSupplyData supplyDep))
+			if (thiswire.Data.SupplyDependent.TryGetValue(sourceInstance, out ElectronicSupplyData supplyDep))
 			{
-				if (supplyDep.CurrentComingFrom.TryGetValue(ComingFrom, out VIRCurrent currentComFrom))
+				if (supplyDep.CurrentComingFrom.TryGetValue(comingFrom, out VIRCurrent currentComFrom))
 				{
-					currentComFrom.addCurrent(Current);
+					currentComFrom.addCurrent(current);
 				}
 				else
 				{
-					supplyDep.CurrentComingFrom[ComingFrom] = Current;
+					supplyDep.CurrentComingFrom[comingFrom] = current;
 				}
 
 				if (!(supplyDep.ResistanceComingFrom.Count > 0))
 				{
 					var sync = ElectricalManager.Instance.electricalSync;
 					sync.StructureChange = true;
-					sync.NUStructureChangeReact.Add(Thiswire.ControllingDevice);
-					sync.NUResistanceChange.Add(Thiswire.ControllingDevice);
-					sync.NUCurrentChange.Add(Thiswire.ControllingDevice);
+					sync.NUStructureChangeReact.Add(thiswire.ControllingDevice);
+					sync.NUResistanceChange.Add(thiswire.ControllingDevice);
+					sync.NUCurrentChange.Add(thiswire.ControllingDevice);
 					Logger.LogErrorFormat("Resistance isn't initialised on", Category.Electrical);
 					return;
 				}
 
-				supplyDep.SourceVoltage = (float)Current.Current() * ElectricityFunctions.WorkOutResistance(supplyDep.ResistanceComingFrom);
+				supplyDep.SourceVoltage = (float)current.Current() * ElectricityFunctions.WorkOutResistance(supplyDep.ResistanceComingFrom);
 			}
 
 			//ELCurrent.CurrentWorkOnNextListADD(Thiswire);
-			Thiswire.ElectricityOutput(Current, SourceInstance);
+			thiswire.ElectricityOutput(current, sourceInstance);
 		}
 
 		public static void ResistancyOutput(ResistanceWrap Resistance,

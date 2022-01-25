@@ -46,7 +46,7 @@ public class MatrixInfo : IEquatable<MatrixInfo>
 
 	public bool IsMovable => MatrixMove != null;
 
-	public Vector2Int MovementVector => ( IsMovable && MatrixMove.IsMovingServer ) ? MatrixMove.ServerState.FlyingDirection.VectorInt : Vector2Int.zero;
+	public Vector2Int MovementVector => ( IsMovable && MatrixMove.IsMovingServer ) ? MatrixMove.ServerState.FlyingDirection.LocalVectorInt : Vector2Int.zero;
 
 	public Vector3Int InitialOffset
 	{

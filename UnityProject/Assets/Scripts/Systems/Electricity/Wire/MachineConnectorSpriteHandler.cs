@@ -37,10 +37,10 @@ namespace Objects.Electrical
 
 			spriteHandlers = new Dictionary<OrientationEnum, SpriteHandler>()
 			{
-				{ OrientationEnum.Up, spriteHandlerNorth },
-				{ OrientationEnum.Down, spriteHandlerSouth },
-				{ OrientationEnum.Left, spriteHandlerWest },
-				{ OrientationEnum.Right, spriteHandlerEast },
+				{ OrientationEnum.Up_By0, spriteHandlerNorth },
+				{ OrientationEnum.Down_By180, spriteHandlerSouth },
+				{ OrientationEnum.Left_By270, spriteHandlerWest },
+				{ OrientationEnum.Right_By90, spriteHandlerEast },
 			};
 		}
 
