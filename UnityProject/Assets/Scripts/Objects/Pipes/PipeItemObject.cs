@@ -18,6 +18,13 @@ namespace Items.Atmospherics
 			var quart = Quaternion.Euler(0.0f, 0.0f, transform.localEulerAngles.z);
 			var spawn = Spawn.ServerPrefab(pipe.gameObject,registerItem.WorldPositionServer, localRotation: quart);
 
+			if (spawn.GameObject.TryGetComponent<Rotatable>(out var rotatable))
+			{
+				var orientation = Orientation.GetOrientation(transform.localEulerAngles.z);
+
+				rotatable.FaceDirection(orientation.AsEnum());
+			}
+
 			var monoPipe = spawn.GameObject.GetComponent<MonoPipe>();
 
 			monoPipe.SetColour(Colour);

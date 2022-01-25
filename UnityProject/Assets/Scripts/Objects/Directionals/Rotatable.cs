@@ -130,10 +130,15 @@ public class Rotatable : NetworkBehaviour, IMatrixRotation
 	}
 
 	[NaughtyAttributes.Button()]
-	public void Start()
+	public void Refresh()
 	{
 		SetDirection(CurrentDirection);
 		ResitOthers();
+	}
+
+	public void Start()
+	{
+		Refresh();
 	}
 
 	private void Awake()
@@ -186,37 +191,34 @@ public class Rotatable : NetworkBehaviour, IMatrixRotation
 			}
 		}
 
-		if (ChangeSprites)
+		if (ChangeSprites == false) return;
+
+		int spriteVariant = 0;
+		switch (dir)
 		{
-			int SpriteVariant = 0;
-			switch (dir)
+			case OrientationEnum.Up_By0:
+				spriteVariant = 1;
+				break;
+			case OrientationEnum.Right_By90:
+				spriteVariant = 2;
+				break;
+			case OrientationEnum.Down_By180:
+				spriteVariant = 0;
+				break;
+			case OrientationEnum.Left_By270:
+				spriteVariant = 3;
+				break;
+		}
+
+		foreach (var spriteHandler in spriteHandlers)
+		{
+			if (isChangingSO)
 			{
-				case OrientationEnum.Up_By0:
-					SpriteVariant = 1;
-					break;
-				case OrientationEnum.Right_By90:
-					SpriteVariant = 2;
-					break;
-				case OrientationEnum.Down_By180:
-					SpriteVariant = 0;
-					break;
-				case OrientationEnum.Left_By270:
-					SpriteVariant = 3;
-					break;
+				spriteHandler.ChangeSprite(spriteVariant, false);
 			}
-
-			foreach (var spriteHandler in spriteHandlers)
+			else
 			{
-				if (isChangingSO)
-				{
-					spriteHandler.ChangeSprite(SpriteVariant, false);
-				}
-				else
-				{
-					spriteHandler.ChangeSpriteVariant(SpriteVariant, false);
-				}
-
-
+				spriteHandler.ChangeSpriteVariant(spriteVariant, false);
 			}
 		}
 	}
@@ -226,10 +228,10 @@ public class Rotatable : NetworkBehaviour, IMatrixRotation
 		public bool Locked;
 		public OrientationEnum LockedTo;
 	}
+
 	public void OnValidate()
 	{
 		Awake();
-		CurrentDirection = CurrentDirection;
 		RotateObject(CurrentDirection);
 	}
 

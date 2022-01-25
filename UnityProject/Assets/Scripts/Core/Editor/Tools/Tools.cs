@@ -26,16 +26,16 @@ namespace Core.Editor.Tools
 			public PowerTypeCategory wireType = PowerTypeCategory.Transformer;
 		}
 
-		[MenuItem("Mapping/Refresh Directionals")]
+		[MenuItem("Mapping/Refresh Rotationals")]
 		private static void RefreshDirectionals()
 		{
-			var allDirs = FindObjectsOfType<Rotatable>();
-			foreach (var directional in allDirs)
+			var allRota = FindObjectsOfType<Rotatable>();
+			foreach (var rotatable in allRota)
 			{
-				EditorUtility.SetDirty(directional.gameObject);
-				//directional.ChangeDirectionInEditor();
+				EditorUtility.SetDirty(rotatable.gameObject);
+				rotatable.Refresh();
 			}
-			Logger.Log($"Refreshed {allDirs.Length} directionals", Category.Editor);
+			Logger.Log($"Refreshed {allRota.Length} rotationals", Category.Editor);
 		}
 
 		[MenuItem("Mapping/Set all sceneids to 0")]

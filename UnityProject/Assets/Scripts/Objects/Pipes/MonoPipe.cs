@@ -50,14 +50,15 @@ namespace Objects.Atmospherics
 			{
 				pipeData.PipeAction = new MonoActions();
 			}
+
 			registerTile.SetPipeData(pipeData);
 			pipeData.MonoPipe = this;
+
 			if (DoNotSetRotation == false)
 			{
 				int Offset = PipeFunctions.GetOffsetAngle(transform.localRotation.eulerAngles.z);
 				pipeData.Connections.Rotate(Offset);
 			}
-
 
 			pipeData.OnEnable();
 			spritehandler.OrNull()?.gameObject.OrNull()?.SetActive( true);
