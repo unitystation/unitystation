@@ -81,7 +81,10 @@ namespace AdminCommands
 		{
 			if (IsAdmin(sender, out var player) == false) return;
 
-			LogAdminAction($"{player.Username}: Set PlayerLimit to {newLimit} from {GameManager.Instance.PlayerLimit}");
+			var currentLimit = GameManager.Instance.PlayerLimit;
+			if(currentLimit == newLimit) return;
+
+			LogAdminAction($"{player.Username}: Set PlayerLimit to {newLimit} from {currentLimit}");
 
 			GameManager.Instance.PlayerLimit = newLimit;
 		}
