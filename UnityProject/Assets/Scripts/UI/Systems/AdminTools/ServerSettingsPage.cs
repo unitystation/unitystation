@@ -19,6 +19,11 @@ namespace AdminTools
 		{
 			if (int.TryParse(inputField.text, out var value))
 			{
+				if (value < 0) 
+				{
+					value = 0;
+				}
+				
 				AdminCommandsManager.Instance.CmdChangePlayerLimit(value);
 			}
 		}
