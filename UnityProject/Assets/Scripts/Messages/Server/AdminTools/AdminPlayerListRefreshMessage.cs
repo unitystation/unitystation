@@ -64,13 +64,11 @@ namespace Messages.Server.AdminTools
 					{
 						entry.isAlive = player.Script.playerHealth.ConsciousState != ConsciousState.DEAD;
 					}
-					else
-					{
-						entry.isAdmin = false;
-					}
+
 					entry.isOnline = true;
 					entry.isAntag = PlayerList.Instance.AntagPlayers.Contains(player);
 					entry.isAdmin = PlayerList.Instance.IsAdmin(player.UserId);
+					entry.isMentor = PlayerList.Instance.IsMentor(player.UserId);
 				}
 				else
 				{
