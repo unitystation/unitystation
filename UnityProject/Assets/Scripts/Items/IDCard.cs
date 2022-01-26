@@ -176,7 +176,7 @@ public class IDCard : NetworkBehaviour, IServerInventoryMove, IServerSpawn, IInt
 		}
 		newName += "ID Card";
 
-		if (!jobTitle.IsNullOrEmpty())
+		if (jobTitle.IsNullOrEmpty() == false)
 		{
 			newName += $" ({jobTitle})";
 		}
