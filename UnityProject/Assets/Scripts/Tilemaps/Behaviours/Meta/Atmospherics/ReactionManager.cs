@@ -157,7 +157,7 @@ namespace Systems.Atmospherics
 						for (byte j = 0; j < pushes; j++)
 						{
 							//converting push to world coords because winddirection is in local coords
-							pushable.QueuePush((transform.rotation * windyNode.WindDirection.To3Int()).To2Int(),
+							pushable.QueuePush((transform.rotation * (Vector2)windyNode.WindDirection).To2Int(),
 								Random.Range((float)(correctedForce * 0.8), correctedForce));
 						}
 					}
