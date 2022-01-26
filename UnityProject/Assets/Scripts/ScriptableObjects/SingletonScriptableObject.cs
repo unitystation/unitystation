@@ -23,7 +23,7 @@ namespace ScriptableObjects
 			{
 				if (_instance == null)
 				{
-					if (_instance == null && SOs.Instance != null)
+					if (SOs.Instance != null)
 					{
 						_instance = SOs.Instance.GetEntry<T>();
 						
