@@ -216,6 +216,11 @@ public class IDCard : NetworkBehaviour, IServerInventoryMove, IServerSpawn, IInt
 		return accessSyncList.Contains((int) access);
 	}
 
+	public string GetJobTitle()
+	{
+		return jobTitle.IsNullOrEmpty() ? jobType.ToString() : jobTitle;
+	}
+
 	/// <summary>
 	/// Removes the indicated access from this IDCard
 	/// </summary>
