@@ -22,8 +22,9 @@ GameObject:
   - component: {fileID: 6104600676241079028}
   - component: {fileID: 542829611148227948}
   - component: {fileID: 6393191727481188567}
+  - component: {fileID: 1218468594345269204}
   m_Layer: 10
-  m_Name: Item
+  m_Name: AdminHandTeleporter
   m_TagString: Abstract
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -74,15 +75,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  initialName: Unnamed
-  initialDescription: Oops, someone spawned something they shouldn't!
+  initialName: Hand teleporter
+  initialDescription: 'Now you never have to walk again. '
   willHighlight: 1
   exportCost: 0
   exportType: 0
   exportName: 
   exportMessage: 
   initialTraits: []
-  initialSize: 3
+  initialSize: 1
   hitDamage: 0
   damageType: 0
   throwDamage: 0
@@ -100,14 +101,14 @@ MonoBehaviour:
   hitSoundSettings: 0
   inventoryMoveSound:
     SetLoadSetting: 0
-    AssetAddress: 
+    AssetAddress: null
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
       m_SubObjectType: 
   inventoryRemoveSound:
     SetLoadSetting: 0
-    AssetAddress: 
+    AssetAddress: null
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
@@ -118,8 +119,8 @@ MonoBehaviour:
   CanBeUsedOnSelfOnHelpIntent: 0
   itemSprites:
     SpriteInventoryIcon: {fileID: 0}
-    SpriteLeftHand: {fileID: 11400000, guid: 0b395bda1e929674e9fec2099782a493, type: 2}
-    SpriteRightHand: {fileID: 11400000, guid: 4111f042fe2174641bfba131ce87df1a, type: 2}
+    SpriteLeftHand: {fileID: 11400000, guid: 6f3217659ca184e4c82fab27821e9d84, type: 2}
+    SpriteRightHand: {fileID: 11400000, guid: e038f236bd6f9c04bb0d762c780451b2, type: 2}
     Palette:
     - {r: 0, g: 0, b: 0, a: 0}
     - {r: 0, g: 0, b: 0, a: 0}
@@ -191,7 +192,7 @@ MonoBehaviour:
   syncInterval: 0.1
   matrixDebugLogging: 0
   objectType: 0
-  customNetTransform: {fileID: 0}
+  customNetTransform: {fileID: 114341119007412586}
   prefabTracker: {fileID: 6393191727481188567}
   CurrentsortingGroup: {fileID: 6104600676241079028}
 --- !u!114 &114577415631634126
@@ -271,7 +272,7 @@ MonoBehaviour:
   sceneId: 0
   serverOnly: 0
   visible: 0
-  m_AssetId: a7abba22164ce49f0bf9b9b219f39298
+  m_AssetId: 49bd0db8f5ee1e49a89c428c1ebf6be6
   hasSpawned: 0
 --- !u!114 &-6201661749900855812
 MonoBehaviour:
@@ -347,7 +348,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3f4629d03e356d64eb509d18a7450082, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  foreverID: a7abba22164ce49f0bf9b9b219f39298
+  foreverID: 49bd0db8f5ee1e49a89c428c1ebf6be6
+--- !u!114 &1218468594345269204
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1011433845357754}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3da51df1a4691d9a881fcd6582b0f73e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1344926539164060
 GameObject:
   m_ObjectHideFlags: 0
@@ -421,7 +434,7 @@ SpriteRenderer:
   m_SortingLayerID: -1463207863
   m_SortingLayer: 13
   m_SortingOrder: 40
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300000, guid: fd09254e352c9ce47b9e82d27016d95f, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -429,7 +442,7 @@ SpriteRenderer:
   m_Size: {x: 1, y: 1}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 0
+  m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!114 &6144467708197095229
@@ -446,7 +459,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   NetworkThis: 1
   SubCatalogue: []
-  PresentSpriteSet: {fileID: 0}
+  PresentSpriteSet: {fileID: 11400000, guid: 0d2a2d2a579474743905fe999a579e5a, type: 2}
   randomInitialSprite: 0
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
