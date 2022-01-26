@@ -57,6 +57,9 @@ namespace Messages.Server.AdminTools
 			//Player list info:
 			pageData.players = GetAllPlayerStates(adminID);
 
+			//Server Setting
+			pageData.playerLimit = GameManager.Instance.PlayerLimit;
+
 			var data = JsonUtility.ToJson(pageData);
 
 			NetMessage  msg =
