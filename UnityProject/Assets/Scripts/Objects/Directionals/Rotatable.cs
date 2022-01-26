@@ -43,9 +43,6 @@ public class Rotatable : NetworkBehaviour, IMatrixRotation
 	/// </summary>
 	public RotationChangeEvent OnRotationChange = new RotationChangeEvent();
 
-
-
-
 	private void SetDirection(OrientationEnum dir)
 	{
 		if (SynchroniseCurrentLockAndDirection.Locked)
@@ -130,10 +127,15 @@ public class Rotatable : NetworkBehaviour, IMatrixRotation
 	}
 
 	[NaughtyAttributes.Button()]
-	public void Start()
+	public void Refresh()
 	{
 		SetDirection(CurrentDirection);
 		ResitOthers();
+	}
+
+	private void Start()
+	{
+		Refresh();
 	}
 
 	private void Awake()
@@ -186,38 +188,37 @@ public class Rotatable : NetworkBehaviour, IMatrixRotation
 			}
 		}
 
-		if (ChangeSprites)
+		if (ChangeSprites == false) return;
+
+		int spriteVariant = 0;
+		switch (dir)
 		{
-			int SpriteVariant = 0;
-			switch (dir)
+			case OrientationEnum.Up_By0:
+				spriteVariant = 1;
+				break;
+			case OrientationEnum.Right_By90:
+				spriteVariant = 2;
+				break;
+			case OrientationEnum.Down_By180:
+				spriteVariant = 0;
+				break;
+			case OrientationEnum.Left_By270:
+				spriteVariant = 3;
+				break;
+		}
+
+		foreach (var spriteHandler in spriteHandlers)
+		{
+			if (isChangingSO)
 			{
-				case OrientationEnum.Up_By0:
-					SpriteVariant = 1;
-					break;
-				case OrientationEnum.Right_By90:
-					SpriteVariant = 2;
-					break;
-				case OrientationEnum.Down_By180:
-					SpriteVariant = 0;
-					break;
-				case OrientationEnum.Left_By270:
-					SpriteVariant = 3;
-					break;
+				spriteHandler.ChangeSprite(spriteVariant, false);
+			}
+			else
+			{
+				spriteHandler.ChangeSpriteVariant(spriteVariant, false);
 			}
 
-			foreach (var spriteHandler in spriteHandlers)
-			{
-				if (isChangingSO)
-				{
-					spriteHandler.ChangeSprite(SpriteVariant, false);
-				}
-				else
-				{
-					spriteHandler.ChangeSpriteVariant(SpriteVariant, false);
-				}
 
-
-			}
 		}
 	}
 
@@ -252,7 +253,6 @@ public class Rotatable : NetworkBehaviour, IMatrixRotation
 
 		if (ChangeSprites == false)
 		{
-			int SpriteVariant = 0;
 			foreach (var spriteHandler in spriteHandlers)
 			{
 				if (isChangingSO)
@@ -261,7 +261,7 @@ public class Rotatable : NetworkBehaviour, IMatrixRotation
 				}
 				else
 				{
-					spriteHandler.ChangeSpriteVariant(0, false);
+					spriteHandler.ChangeSpriteVariant(spriteHandler.InitialVariantIndex, false);
 				}
 
 				// PrefabUtility.RecordPrefabInstancePropertyModifications(spriteHandler);

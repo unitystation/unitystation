@@ -40,6 +40,7 @@ public class SpriteHandler : MonoBehaviour
 
 	[FormerlySerializedAs("variantIndex"), SerializeField, Range(0, 3)]
 	private int initialVariantIndex = 0;
+	public int InitialVariantIndex => initialVariantIndex;
 
 	private int variantIndex = 0;
 

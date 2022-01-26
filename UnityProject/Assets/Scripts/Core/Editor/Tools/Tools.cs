@@ -33,7 +33,7 @@ namespace Core.Editor.Tools
 			foreach (var directional in allDirs)
 			{
 				EditorUtility.SetDirty(directional.gameObject);
-				//directional.ChangeDirectionInEditor();
+				directional.Refresh();
 			}
 			Logger.Log($"Refreshed {allDirs.Length} directionals", Category.Editor);
 		}
