@@ -78,6 +78,7 @@ MonoBehaviour:
   initialDescription: Oops, someone spawned something they shouldn't!
   willHighlight: 1
   exportCost: 0
+  exportType: 0
   exportName: 
   exportMessage: 
   initialTraits: []
@@ -97,6 +98,20 @@ MonoBehaviour:
       m_SubObjectName: 
       m_SubObjectType: 
   hitSoundSettings: 0
+  inventoryMoveSound:
+    SetLoadSetting: 0
+    AssetAddress: 
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+  inventoryRemoveSound:
+    SetLoadSetting: 0
+    AssetAddress: 
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
   canConnectToTank: 0
   isEVACapable: 0
   attackVerbs: []
@@ -241,7 +256,6 @@ MonoBehaviour:
   HeatResistance: 100
   ExplosionsDamage: 100
   doDamageMessage: 1
-  CannotBeAshed: 0
 --- !u!114 &114738972662350094
 MonoBehaviour:
   m_ObjectHideFlags: 0
