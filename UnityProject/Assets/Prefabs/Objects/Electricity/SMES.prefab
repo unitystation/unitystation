@@ -245,6 +245,7 @@ MonoBehaviour:
   machineBoardPrefab: {fileID: 8026946951644424067, guid: 7f7934b263cb23040ade0147d14b39aa,
     type: 3}
   canNotBeDeconstructed: 0
+  isEMPResistant: 0
   mustBeUnanchored: 0
   secondsToScrewdrive: 2
 --- !u!114 &114897658894920132
@@ -679,7 +680,7 @@ SpriteRenderer:
   m_SortingLayerID: -24161425
   m_SortingLayer: 8
   m_SortingOrder: 13
-  m_Sprite: {fileID: 21300002, guid: 4135247828c256c4dbd1fdb1a39a2d1b, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 03e8bd3eeae9aeb4a8f984ce5db604a7, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0

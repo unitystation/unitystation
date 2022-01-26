@@ -29,6 +29,21 @@ PrefabInstance:
       propertyPath: foreverID
       value: c4c22bdc7cdd546479ac1de5588b5617
       objectReference: {fileID: 0}
+    - target: {fileID: 2104024142935531824, guid: aa11b93feb043fe4e84e2f313cc41f6b,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2104024142935531824, guid: aa11b93feb043fe4e84e2f313cc41f6b,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2104024142935531824, guid: aa11b93feb043fe4e84e2f313cc41f6b,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2681812757184269972, guid: aa11b93feb043fe4e84e2f313cc41f6b,
         type: 3}
       propertyPath: m_Sprite
@@ -54,11 +69,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalPosition.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2756835590118157401, guid: aa11b93feb043fe4e84e2f313cc41f6b,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2756835590118157401, guid: aa11b93feb043fe4e84e2f313cc41f6b,
         type: 3}
@@ -244,6 +254,7 @@ MonoBehaviour:
   ChangeSprites: 0
   isChangingSO: 0
   CurrentDirection: 3
+  IsAtmosphericDevice: 0
 --- !u!114 &3505336218067827611
 MonoBehaviour:
   m_ObjectHideFlags: 0

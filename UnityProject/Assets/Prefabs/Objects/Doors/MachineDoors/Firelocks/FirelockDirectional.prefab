@@ -131,6 +131,21 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 1e5d8e3dbbf9adb41a305415a301d4ef,
         type: 2}
+    - target: {fileID: 4277970878241282764, guid: a075086024d70074e8747c26b57dfa7f,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4277970878241282764, guid: a075086024d70074e8747c26b57dfa7f,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4277970878241282764, guid: a075086024d70074e8747c26b57dfa7f,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5957457218843214004, guid: a075086024d70074e8747c26b57dfa7f,
         type: 3}
       propertyPath: customNetTransform
@@ -145,6 +160,21 @@ PrefabInstance:
         type: 3}
       propertyPath: foreverID
       value: 844c95371c26bb741abb855f5676b2a6
+      objectReference: {fileID: 0}
+    - target: {fileID: 6415869010126048547, guid: a075086024d70074e8747c26b57dfa7f,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6415869010126048547, guid: a075086024d70074e8747c26b57dfa7f,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6415869010126048547, guid: a075086024d70074e8747c26b57dfa7f,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6586391571050684303, guid: a075086024d70074e8747c26b57dfa7f,
         type: 3}
@@ -276,3 +306,4 @@ MonoBehaviour:
   ChangeSprites: 0
   isChangingSO: 0
   CurrentDirection: 3
+  IsAtmosphericDevice: 0

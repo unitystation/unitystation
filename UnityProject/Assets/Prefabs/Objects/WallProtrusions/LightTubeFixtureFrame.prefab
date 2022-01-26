@@ -78,11 +78,6 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: e0c5e92beb9d0e94d91dd3f8f85ce47d,
         type: 2}
-    - target: {fileID: 3920465809857098496, guid: a7af28adb717b4c44b8b2002b27670bd,
-        type: 3}
-      propertyPath: initialVariantIndex
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 4848496751115757459, guid: a7af28adb717b4c44b8b2002b27670bd,
         type: 3}
       propertyPath: foreverID
@@ -90,13 +85,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5718954047647765097, guid: a7af28adb717b4c44b8b2002b27670bd,
         type: 3}
-      propertyPath: m_LocalRotation.w
-      value: -0.00000004371139
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5718954047647765097, guid: a7af28adb717b4c44b8b2002b27670bd,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5718954047647765097, guid: a7af28adb717b4c44b8b2002b27670bd,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6554009657133641066, guid: a7af28adb717b4c44b8b2002b27670bd,
         type: 3}
@@ -175,9 +175,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8599771746108915149, guid: a7af28adb717b4c44b8b2002b27670bd,
         type: 3}
+      propertyPath: m_Size.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8599771746108915149, guid: a7af28adb717b4c44b8b2002b27670bd,
+        type: 3}
+      propertyPath: m_Size.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8599771746108915149, guid: a7af28adb717b4c44b8b2002b27670bd,
+        type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300002, guid: 56e24bbad1f84d142af834396c0bc501,
+      objectReference: {fileID: 21300000, guid: 56e24bbad1f84d142af834396c0bc501,
         type: 3}
     - target: {fileID: 8599771746108915149, guid: a7af28adb717b4c44b8b2002b27670bd,
         type: 3}
@@ -238,3 +248,4 @@ MonoBehaviour:
   ChangeSprites: 0
   isChangingSO: 0
   CurrentDirection: 3
+  IsAtmosphericDevice: 0

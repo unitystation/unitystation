@@ -75,11 +75,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8366254045131436154, guid: 23a0b694284152342b2ec0817fade0d6,
         type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8366254045131436154, guid: 23a0b694284152342b2ec0817fade0d6,
-        type: 3}
       propertyPath: m_LocalRotation.x
       value: 0
       objectReference: {fileID: 0}
@@ -106,6 +101,21 @@ PrefabInstance:
     - target: {fileID: 8366254045131436154, guid: 23a0b694284152342b2ec0817fade0d6,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8366422023361732338, guid: 23a0b694284152342b2ec0817fade0d6,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8366422023361732338, guid: 23a0b694284152342b2ec0817fade0d6,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8366422023361732338, guid: 23a0b694284152342b2ec0817fade0d6,
+        type: 3}
+      propertyPath: m_LocalRotation.z
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8475018044423385274, guid: 23a0b694284152342b2ec0817fade0d6,
@@ -178,3 +188,4 @@ MonoBehaviour:
   ChangeSprites: 0
   isChangingSO: 0
   CurrentDirection: 3
+  IsAtmosphericDevice: 0

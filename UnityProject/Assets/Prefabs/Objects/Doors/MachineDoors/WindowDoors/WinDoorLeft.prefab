@@ -185,26 +185,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4817606987798484682, guid: 1291a5cb15d008c41bf0a373403f56b2,
         type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4817606987798484682, guid: 1291a5cb15d008c41bf0a373403f56b2,
-        type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4817606987798484682, guid: 1291a5cb15d008c41bf0a373403f56b2,
-        type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4817606987798484682, guid: 1291a5cb15d008c41bf0a373403f56b2,
-        type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4817606987798484682, guid: 1291a5cb15d008c41bf0a373403f56b2,
-        type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
       value: 0
       objectReference: {fileID: 0}
@@ -222,21 +202,6 @@ PrefabInstance:
         type: 3}
       propertyPath: foreverID
       value: ddcfc3ab784dec1419565255774956c5
-      objectReference: {fileID: 0}
-    - target: {fileID: 8767195194900224931, guid: 1291a5cb15d008c41bf0a373403f56b2,
-        type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8767195194900224931, guid: 1291a5cb15d008c41bf0a373403f56b2,
-        type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8767195194900224931, guid: 1291a5cb15d008c41bf0a373403f56b2,
-        type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: -4969049584947791526, guid: 1291a5cb15d008c41bf0a373403f56b2, type: 3}
@@ -291,6 +256,7 @@ MonoBehaviour:
   ChangeSprites: 0
   isChangingSO: 0
   CurrentDirection: 3
+  IsAtmosphericDevice: 0
 --- !u!114 &-1666584191086447953
 MonoBehaviour:
   m_ObjectHideFlags: 0

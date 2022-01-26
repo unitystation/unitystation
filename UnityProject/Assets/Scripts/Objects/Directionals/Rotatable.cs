@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Threading;
 using Mirror;
 using NaughtyAttributes;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.Serialization;
@@ -36,14 +37,15 @@ public class Rotatable : NetworkBehaviour, IMatrixRotation
 	private SpriteRenderer[] spriteRenderers;
 	private SpriteHandler[] spriteHandlers;
 
+
+	public bool IsAtmosphericDevice = false;
+
 	/// <summary>
 	/// Invoked when this object's sprites should be updated to indicate it is facing the
 	/// specified direction. Components listening for this event don't need to worry about
 	/// client prediction or server sync, just update sprites and assume this is the correct direction.
 	/// </summary>
 	public RotationChangeEvent OnRotationChange = new RotationChangeEvent();
-
-
 
 
 	private void SetDirection(OrientationEnum dir)
@@ -119,14 +121,13 @@ public class Rotatable : NetworkBehaviour, IMatrixRotation
 
 	public void RotateBy(byte inInt)
 	{
-		var SetInt = inInt + (int)CurrentDirection;
+		var SetInt = inInt + (int) CurrentDirection;
 		while (SetInt > 3)
 		{
 			SetInt = SetInt - 4;
 		}
 
-		FaceDirection((OrientationEnum)SetInt);
-
+		FaceDirection((OrientationEnum) SetInt);
 	}
 
 	[NaughtyAttributes.Button()]
@@ -158,15 +159,16 @@ public class Rotatable : NetworkBehaviour, IMatrixRotation
 				OutQuaternion.eulerAngles = new Vector3(0, 0, 0f);
 				break;
 			case OrientationEnum.Right_By90:
-				OutQuaternion.eulerAngles = new  Vector3(0, 0, -90f);
+				OutQuaternion.eulerAngles = new Vector3(0, 0, -90f);
 				break;
 			case OrientationEnum.Down_By180:
-				OutQuaternion.eulerAngles = new  Vector3(0, 0, -180f);
+				OutQuaternion.eulerAngles = new Vector3(0, 0, -180f);
 				break;
 			case OrientationEnum.Left_By270:
-				OutQuaternion.eulerAngles = new  Vector3(0, 0, -270f);
+				OutQuaternion.eulerAngles = new Vector3(0, 0, -270f);
 				break;
 		}
+
 		return OutQuaternion;
 	}
 
@@ -215,8 +217,6 @@ public class Rotatable : NetworkBehaviour, IMatrixRotation
 				{
 					spriteHandler.ChangeSpriteVariant(SpriteVariant, false);
 				}
-
-
 			}
 		}
 	}
@@ -226,23 +226,32 @@ public class Rotatable : NetworkBehaviour, IMatrixRotation
 		public bool Locked;
 		public OrientationEnum LockedTo;
 	}
+
 	public void OnValidate()
 	{
 		Awake();
 		CurrentDirection = CurrentDirection;
 		RotateObject(CurrentDirection);
+		ResitOthers();
 	}
 
 	public void ResitOthers()
 	{
+		var DIR = OrientationEnum.Up_By0;
+		if (IsAtmosphericDevice)
+		{
+			DIR = OrientationEnum.Down_By180;
+		}
+
+
 		if (MethodRotation != RotationMethod.Parent)
 		{
-			transform.localRotation = ByDegreesToQuaternion(OrientationEnum.Up_By0);
+			transform.localRotation = ByDegreesToQuaternion(DIR);
 		}
 
 		if (MethodRotation != RotationMethod.Sprites)
 		{
-			var Quaternion = ByDegreesToQuaternion(OrientationEnum.Up_By0);
+			var Quaternion = ByDegreesToQuaternion(DIR);
 
 			foreach (var spriteRenderer in spriteRenderers)
 			{
@@ -250,7 +259,7 @@ public class Rotatable : NetworkBehaviour, IMatrixRotation
 			}
 		}
 
-		if (ChangeSprites == false)
+		if (ChangeSprites == false && IsAtmosphericDevice == false)
 		{
 			int SpriteVariant = 0;
 			foreach (var spriteHandler in spriteHandlers)
@@ -263,16 +272,54 @@ public class Rotatable : NetworkBehaviour, IMatrixRotation
 				{
 					spriteHandler.ChangeSpriteVariant(0, false);
 				}
-
-				// PrefabUtility.RecordPrefabInstancePropertyModifications(spriteHandler);
 			}
 		}
-		// PrefabUtility.RecordPrefabInstancePropertyModifications(gameObject);
+
+#if UNITY_EDITOR
+		if (Application.isPlaying == false)
+		{
+			if (MethodRotation != RotationMethod.Parent)
+			{
+				SerializedObject serializedObject = new UnityEditor.SerializedObject(transform);
+
+
+				var localRotation = serializedObject.FindProperty("m_LocalRotation");
+				PrefabUtility.RevertPropertyOverride(localRotation, InteractionMode.AutomatedAction);
+			}
+
+			if (MethodRotation != RotationMethod.Sprites)
+			{
+				foreach (var spriteRenderer in spriteRenderers)
+				{
+					SerializedObject serializedObject = new UnityEditor.SerializedObject(spriteRenderer.transform);
+					var localRotation = serializedObject.FindProperty("m_LocalRotation");
+					PrefabUtility.RevertPropertyOverride(localRotation, InteractionMode.AutomatedAction);
+				}
+			}
+
+			if (ChangeSprites == false)
+			{
+				foreach (var spriteHandler in spriteHandlers)
+				{
+					SerializedObject serializedspriteHandler = new UnityEditor.SerializedObject(spriteHandler);
+					var initialVariantIndex = serializedspriteHandler.FindProperty("initialVariantIndex");
+					PrefabUtility.RevertPropertyOverride(initialVariantIndex, InteractionMode.AutomatedAction);
+
+					var SpriteRenderer = spriteHandler.GetComponent<SpriteRenderer>();
+
+					if (SpriteRenderer == null) continue;
+
+					SerializedObject serializedSpriteRenderer = new UnityEditor.SerializedObject(SpriteRenderer);
+					var sprite = serializedSpriteRenderer.FindProperty("m_Sprite");
+					PrefabUtility.RevertPropertyOverride(sprite, InteractionMode.AutomatedAction);
+				}
+			}
+		}
+#endif
 	}
 
 	public void OnMatrixRotate(MatrixRotationInfo rotationInfo)
 	{
-
 	}
 
 	private void OnDrawGizmosSelected()
@@ -288,10 +335,13 @@ public class Rotatable : NetworkBehaviour, IMatrixRotation
 			DebugGizmoUtils.DrawArrow(transform.position, CurrentDirection.ToLocalVector3());
 		}
 	}
+
 	/// <summary>
 	/// Event which indicates a direction change has occurred.
 	/// </summary>
-	public class RotationChangeEvent : UnityEvent<OrientationEnum>{}
+	public class RotationChangeEvent : UnityEvent<OrientationEnum>
+	{
+	}
 
 	public interface IOnRotationChangeEditor
 	{
