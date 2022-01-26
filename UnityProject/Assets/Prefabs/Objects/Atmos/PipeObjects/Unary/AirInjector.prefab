@@ -20,17 +20,17 @@ MonoBehaviour:
     PipeLayer: 1
     Connections:
       Directions:
-      - Bool: 0
-        pipeType: 1
-        PortType: 0
-        flagLogic: 0
-      - Bool: 0
-        pipeType: 1
-        PortType: 0
-        flagLogic: 0
       - Bool: 1
         pipeType: 1
         PortType: 3
+        flagLogic: 0
+      - Bool: 0
+        pipeType: 1
+        PortType: 0
+        flagLogic: 0
+      - Bool: 0
+        pipeType: 1
+        PortType: 0
         flagLogic: 0
       - Bool: 0
         pipeType: 1
@@ -53,6 +53,7 @@ MonoBehaviour:
         Temperature: 0
     MonoPipe: {fileID: 0}
   Colour: {r: 1, g: 1, b: 1, a: 1}
+  spawnedFromItem: 1
   isTurnedOn: 1
   operatingMode: 0
 --- !u!1001 &1848070622877717058
@@ -90,7 +91,7 @@ PrefabInstance:
     - target: {fileID: 1583787549853510187, guid: 3937c48f98f9cd043babc5471ee77682,
         type: 3}
       propertyPath: m_LocalRotation.w
-      value: 1
+      value: -0.00000004371139
       objectReference: {fileID: 0}
     - target: {fileID: 1583787549853510187, guid: 3937c48f98f9cd043babc5471ee77682,
         type: 3}
@@ -105,7 +106,7 @@ PrefabInstance:
     - target: {fileID: 1583787549853510187, guid: 3937c48f98f9cd043babc5471ee77682,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0
+      value: -1
       objectReference: {fileID: 0}
     - target: {fileID: 1583787549853510187, guid: 3937c48f98f9cd043babc5471ee77682,
         type: 3}

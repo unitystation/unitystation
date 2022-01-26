@@ -20,17 +20,17 @@ MonoBehaviour:
     PipeLayer: 1
     Connections:
       Directions:
-      - Bool: 0
-        pipeType: 1
-        PortType: 0
-        flagLogic: 0
-      - Bool: 0
-        pipeType: 1
-        PortType: 0
-        flagLogic: 0
       - Bool: 1
         pipeType: 1
         PortType: 3
+        flagLogic: 0
+      - Bool: 0
+        pipeType: 1
+        PortType: 0
+        flagLogic: 0
+      - Bool: 0
+        pipeType: 1
+        PortType: 0
         flagLogic: 0
       - Bool: 0
         pipeType: 1
@@ -53,6 +53,7 @@ MonoBehaviour:
         Temperature: 293.15
     MonoPipe: {fileID: 0}
   Colour: {r: 1, g: 1, b: 1, a: 1}
+  spawnedFromItem: 1
 --- !u!1001 &741659522100858765
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -88,7 +89,7 @@ PrefabInstance:
     - target: {fileID: 1583787549853510187, guid: 3937c48f98f9cd043babc5471ee77682,
         type: 3}
       propertyPath: m_LocalRotation.w
-      value: 1
+      value: -0.00000004371139
       objectReference: {fileID: 0}
     - target: {fileID: 1583787549853510187, guid: 3937c48f98f9cd043babc5471ee77682,
         type: 3}
@@ -103,7 +104,7 @@ PrefabInstance:
     - target: {fileID: 1583787549853510187, guid: 3937c48f98f9cd043babc5471ee77682,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0
+      value: -1
       objectReference: {fileID: 0}
     - target: {fileID: 1583787549853510187, guid: 3937c48f98f9cd043babc5471ee77682,
         type: 3}
@@ -119,6 +120,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1625578739251644646, guid: 3937c48f98f9cd043babc5471ee77682,
+        type: 3}
+      propertyPath: m_Size.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1625578739251644646, guid: 3937c48f98f9cd043babc5471ee77682,
+        type: 3}
+      propertyPath: m_Size.y
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1625578739251644646, guid: 3937c48f98f9cd043babc5471ee77682,
         type: 3}
@@ -150,7 +161,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: d20309d55574e2946b6b4be12c6f3763,
+      objectReference: {fileID: 21300002, guid: d20309d55574e2946b6b4be12c6f3763,
         type: 3}
     - target: {fileID: 5372049338755677934, guid: 3937c48f98f9cd043babc5471ee77682,
         type: 3}
@@ -164,6 +175,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 99a16fc7279c32c479a325ccb73bab93,
         type: 2}
+    - target: {fileID: 6323048891065173547, guid: 3937c48f98f9cd043babc5471ee77682,
+        type: 3}
+      propertyPath: initialVariantIndex
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6931842893682907539, guid: 3937c48f98f9cd043babc5471ee77682,
         type: 3}
       propertyPath: m_AssetId
@@ -173,7 +189,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 2217fe06c75376d41af4a23f9383b678,
+      objectReference: {fileID: 21300002, guid: 2217fe06c75376d41af4a23f9383b678,
         type: 3}
     - target: {fileID: 8163608160046166977, guid: 3937c48f98f9cd043babc5471ee77682,
         type: 3}

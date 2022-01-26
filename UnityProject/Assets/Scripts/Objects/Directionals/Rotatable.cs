@@ -4,6 +4,11 @@ using System.Collections.Generic;
 using System.Threading;
 using Mirror;
 using NaughtyAttributes;
+
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
+
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.Serialization;
@@ -128,6 +133,16 @@ public class Rotatable : NetworkBehaviour, IMatrixRotation
 		FaceDirection((OrientationEnum)SetInt);
 
 	}
+
+#if UNITY_EDITOR
+
+	private void Update()
+	{
+		if (Application.isEditor == false || Application.isPlaying) return;
+		Undo.RecordObject(this, "Refresh Rotational");
+	}
+
+#endif
 
 	[NaughtyAttributes.Button()]
 	public void Refresh()
@@ -254,7 +269,6 @@ public class Rotatable : NetworkBehaviour, IMatrixRotation
 
 		if (ChangeSprites == false)
 		{
-			int SpriteVariant = 0;
 			foreach (var spriteHandler in spriteHandlers)
 			{
 				if (isChangingSO)
@@ -263,7 +277,7 @@ public class Rotatable : NetworkBehaviour, IMatrixRotation
 				}
 				else
 				{
-					spriteHandler.ChangeSpriteVariant(0, false);
+					spriteHandler.ChangeSpriteVariant(spriteHandler.InitialVariantIndex, false);
 				}
 
 				// PrefabUtility.RecordPrefabInstancePropertyModifications(spriteHandler);
