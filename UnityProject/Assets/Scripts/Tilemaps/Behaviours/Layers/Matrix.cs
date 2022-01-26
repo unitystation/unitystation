@@ -283,8 +283,7 @@ public class Matrix : MonoBehaviour
 		var filtered = new List<T>();
 		foreach (RegisterTile t in (isServer ? ServerObjects : ClientObjects).Get(localPosition))
 		{
-			T x = t as T;
-			if (x != null)
+			if (t is T x)
 			{
 				filtered.Add(x);
 			}
@@ -332,6 +331,7 @@ public class Matrix : MonoBehaviour
 		//This has been checked in the profiler. 0% CPU and 0kb garbage, so should be fine
 		foreach (RegisterTile t in (isServer ? ServerObjects : ClientObjects).Get(position))
 		{
+			//Note GetComponent GC's in editor but not in build
 			T c = t.GetComponent<T>();
 			if (c != null)
 			{

@@ -690,7 +690,7 @@ namespace Systems.Ai
 			}
 
 			var chosenCameras = new List<SecurityCamera>();
-			var aiPlayerCameraLocation = cameraLocation.position;
+			var aiPlayerCameraLocation = cameraLocation == null ? vesselObject.AssumedWorldPosServer() : cameraLocation.position;
 
 			foreach (var securityCamera in GetValidCameras())
 			{
