@@ -218,7 +218,7 @@ public class IDCard : NetworkBehaviour, IServerInventoryMove, IServerSpawn, IInt
 
 	public string GetJobTitle()
 	{
-		return jobTitle.IsNullOrEmpty() ? jobType.ToString() : jobTitle;
+		return jobTitle.IsNullOrEmpty() ? Occupation.DisplayName : jobTitle;
 	}
 
 	/// <summary>
@@ -282,6 +282,7 @@ public class IDCard : NetworkBehaviour, IServerInventoryMove, IServerSpawn, IInt
 	[Server]
 	public void ServerChangeOccupation(Occupation occupation, bool grantDefaultAccess = true, bool clear = true)
 	{
+		ServerSetJobTitle("");
 		if (clear)
 		{
 			accessSyncList.Clear();
