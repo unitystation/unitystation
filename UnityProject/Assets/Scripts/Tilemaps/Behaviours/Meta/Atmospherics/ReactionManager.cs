@@ -142,9 +142,13 @@ namespace Systems.Atmospherics
 
 		private void ProcessWindNodes(MetaDataNode windyNode)
 		{
-			foreach (var pushable in matrix.Get<PushPull>(windyNode.Position, true))
+			foreach (var registerTile in matrix.GetRegisterTile(windyNode.Position, true))
 			{
-				float correctedForce = (windyNode.WindForce * PushMultiplier) / (int)pushable.Pushable.Size;
+				//All objects have push pull now, and it is quicker to get all RegisterTiles
+				var pushable = registerTile.PushPull;
+
+				float correctedForce = (windyNode.WindForce * PushMultiplier) / (int) pushable.Pushable.Size;
+
 				if (correctedForce >= AtmosConstants.MinPushForce)
 				{
 					if (pushable.Pushable.IsTileSnap)
