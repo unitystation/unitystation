@@ -261,7 +261,7 @@ public class Rotatable : NetworkBehaviour, IMatrixRotation
 				}
 				else
 				{
-					spriteHandler.ChangeSpriteVariant(spriteHandler.InitialVariantIndex, false);
+					spriteHandler.ChangeSpriteVariant(0, false);
 				}
 
 				// PrefabUtility.RecordPrefabInstancePropertyModifications(spriteHandler);
