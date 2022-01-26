@@ -180,9 +180,9 @@ public class IDCard : NetworkBehaviour, IServerInventoryMove, IServerSpawn, IInt
 		{
 			newName += $" ({jobTitle})";
 		}
-		else if (jobType != JobType.NULL)
+		else if (Occupation != null)
 		{
-			newName += $" ({jobType})";
+			newName += $" ({Occupation.DisplayName})";
 		}
 
 		itemAttributes.ServerSetArticleName(newName);
@@ -282,7 +282,8 @@ public class IDCard : NetworkBehaviour, IServerInventoryMove, IServerSpawn, IInt
 	[Server]
 	public void ServerChangeOccupation(Occupation occupation, bool grantDefaultAccess = true, bool clear = true)
 	{
-		ServerSetJobTitle("");
+		jobTitle = "";
+
 		if (clear)
 		{
 			accessSyncList.Clear();
