@@ -58,6 +58,9 @@ namespace AdminTools
 
 		//Player Management:
 		public List<AdminPlayerEntryData> players = new List<AdminPlayerEntryData>();
+
+		//Server Settings
+		public int playerLimit;
 	}
 
 	[Serializable]
