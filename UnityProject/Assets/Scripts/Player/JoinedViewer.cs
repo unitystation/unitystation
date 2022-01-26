@@ -125,6 +125,9 @@ namespace Player
 				return;
 			}
 
+			//Add player to the list of current round players
+			PlayerList.Instance.AddToRoundPlayers(unverifiedConnPlayer);
+
 			//Send to client their job ban entries
 			var jobBanEntries = PlayerList.Instance.ClientAskingAboutJobBans(unverifiedConnPlayer);
 			PlayerList.ServerSendsJobBanDataMessage.Send(unverifiedConnPlayer.Connection, jobBanEntries);

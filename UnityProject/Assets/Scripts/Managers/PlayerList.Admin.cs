@@ -400,10 +400,12 @@ public partial class PlayerList
 				Category.Admin);
 			return false;
 		}
+
 		var userId = unverifiedConnPlayer.UserId;
+		var isAdmin = adminUsers.Contains(userId);
 
 		//Adds server to admin list if not already in it.
-		if (userId == ServerData.UserID && !adminUsers.Contains(userId))
+		if (userId == ServerData.UserID && isAdmin == false)
 		{
 			File.AppendAllLines(adminsPath, new string[]
 			{
@@ -423,18 +425,34 @@ public partial class PlayerList
 			}
 		}
 
-		//Whitelist checking:
-		var lines = File.ReadAllLines(whiteListPath);
-
-		//Checks whether the userid is in either the Admins or whitelist AND that the whitelist file has something in it.
-		//Whitelist only activates if whitelist is populated.
-		if (lines.Length > 0 && !adminUsers.Contains(userId) && !whiteListUsers.Contains(userId))
+		if (isAdmin == false)
 		{
-			StartCoroutine(KickPlayer(unverifiedConnPlayer, $"Server Error: This account is not whitelisted."));
+			var playerLimit = GameManager.Instance.PlayerLimit;
 
-			Logger.Log($"{unverifiedConnPlayer.Username} tried to log in but the account is not whitelisted. " +
-						   $"IP: {unverifiedConnPlayer.ConnectionIP}", Category.Admin);
-			return false;
+			//PlayerLimit Checking:
+			//Deny player joining if limit reached and this player wasn't already in the round (in case of disconnect)
+			if (ConnectionCount > GameManager.Instance.PlayerLimit && roundPlayers.Contains(unverifiedConnPlayer) == false)
+			{
+				StartCoroutine(KickPlayer(unverifiedConnPlayer, $"Server Error: The server is full, player limit: {playerLimit}."));
+
+				Logger.Log($"{unverifiedConnPlayer.Username} tried to log in but PlayerLimit ({playerLimit}) was reached. " +
+				           $"IP: {unverifiedConnPlayer.ConnectionIP}", Category.Admin);
+				return false;
+			}
+
+			//Whitelist checking:
+			var lines = File.ReadAllLines(whiteListPath);
+
+			//Checks whether the userid is in either the Admins or whitelist AND that the whitelist file has something in it.
+			//Whitelist only activates if whitelist is populated.
+			if (lines.Length > 0 && !whiteListUsers.Contains(userId))
+			{
+				StartCoroutine(KickPlayer(unverifiedConnPlayer, $"Server Error: This account is not whitelisted."));
+
+				Logger.Log($"{unverifiedConnPlayer.Username} tried to log in but the account is not whitelisted. " +
+				           $"IP: {unverifiedConnPlayer.ConnectionIP}", Category.Admin);
+				return false;
+			}
 		}
 
 		//Banlist checking:

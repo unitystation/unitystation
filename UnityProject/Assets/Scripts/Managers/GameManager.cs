@@ -26,6 +26,11 @@ public partial class GameManager : MonoBehaviour, IInitialise
 	public bool counting;
 
 	/// <summary>
+	/// The maximum amount of players which can join the server (Excludes admins and players who were already in the current round)
+	/// </summary>
+	public int PlayerLimit { get; set; } = 100;
+
+	/// <summary>
 	/// The minimum number of players needed to start the pre-round countdown
 	/// </summary>
 	public int MinPlayersForCountdown { get; set; } = 1;
@@ -190,9 +195,10 @@ public partial class GameManager : MonoBehaviour, IInitialise
 		ShuttleGibbingAllowed = GameConfigManager.GameConfig.ShuttleGibbingAllowed;
 		CharacterNameLimit = GameConfigManager.GameConfig.CharacterNameLimit;
 		AdminOnlyHtml = GameConfigManager.GameConfig.AdminOnlyHtml;
-		MalfAIRecieveTheirIntendedObjectiveChance =
-			GameConfigManager.GameConfig.MalfAIRecieveTheirIntendedObjectiveChance;
+		MalfAIRecieveTheirIntendedObjectiveChance = GameConfigManager.GameConfig.MalfAIRecieveTheirIntendedObjectiveChance;
 		ServerShutsDownOnRoundEnd = GameConfigManager.GameConfig.ServerShutsDownOnRoundEnd;
+		PlayerLimit = GameConfigManager.GameConfig.PlayerLimit;
+
 		Physics.autoSimulation = false;
 		Physics2D.simulationMode = SimulationMode2D.Update;
 	}
@@ -474,7 +480,7 @@ public partial class GameManager : MonoBehaviour, IInitialise
 
 		// Tell all clients that the countdown has finished
 		UpdateCountdownMessage.Send(true, 0);
-		EventManager.Broadcast(Event.PostRoundStarted);
+		EventManager.Broadcast(Event.PostRoundStarted, true);
 	}
 
 	/// <summary>
