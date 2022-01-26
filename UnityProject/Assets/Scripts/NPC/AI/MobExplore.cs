@@ -8,6 +8,7 @@ using NaughtyAttributes;
 using Objects.Construction;
 using AddressableReferences;
 using Chemistry;
+using Random = System.Random;
 
 namespace Systems.MobAIs
 {
@@ -59,6 +60,9 @@ namespace Systems.MobAIs
 		protected Vector3Int actionPosition;
 
 		public bool IsEmagged = false;
+
+		private readonly Random random = new Random();
+
 		private InteractableTiles interactableTiles {
 			get {
 				if (_interactableTiles == null)
@@ -251,7 +255,7 @@ namespace Systems.MobAIs
 			}
 			else
 			{
-				Move(Directions.PickRandom());
+				Move(Directions[random.Next(0, Directions.Count)]);
 			}
 		}
 	}
