@@ -80,6 +80,8 @@ namespace AdminCommands
 		public void CmdChangePlayerLimit(int newLimit, NetworkConnectionToClient sender = null)
 		{
 			if (IsAdmin(sender, out var player) == false) return;
+			
+			if (newLimit < 0) return;
 
 			var currentLimit = GameManager.Instance.PlayerLimit;
 			if(currentLimit == newLimit) return;
