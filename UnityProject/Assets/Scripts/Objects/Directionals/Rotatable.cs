@@ -4,11 +4,6 @@ using System.Collections.Generic;
 using System.Threading;
 using Mirror;
 using NaughtyAttributes;
-
-#if UNITY_EDITOR
-using UnityEditor;
-#endif
-
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.Serialization;
@@ -133,16 +128,6 @@ public class Rotatable : NetworkBehaviour, IMatrixRotation
 		FaceDirection((OrientationEnum)SetInt);
 
 	}
-
-#if UNITY_EDITOR
-
-	private void Update()
-	{
-		if (Application.isEditor == false || Application.isPlaying) return;
-		Undo.RecordObject(this, "Refresh Rotational");
-	}
-
-#endif
 
 	[NaughtyAttributes.Button()]
 	public void Refresh()
