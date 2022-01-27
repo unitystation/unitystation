@@ -158,7 +158,10 @@ public class Stackable : NetworkBehaviour, IServerLifecycle, ICheckedInteractabl
 		Logger.LogTraceFormat("Amount {0}->{1} for {2}", Category.Objects, amount, newAmount, GetInstanceID());
 		this.amount = newAmount;
 		pickupable.RefreshUISlotImage();
-		UpdateStackName(gameObject.Item());
+		if (CustomNetworkManager.Instance._isServer)
+		{
+			UpdateStackName(gameObject.Item());
+		}
 	}
 
 	public void UpdateStackName(Attributes attributes)
