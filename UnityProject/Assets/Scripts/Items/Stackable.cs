@@ -10,7 +10,8 @@ using UI;
 /// <summary>
 /// Allows an item to be stacked, occupying a single inventory slot.
 /// </summary>
-public class Stackable : NetworkBehaviour, IServerLifecycle, ICheckedInteractable<InventoryApply>, ICheckedInteractable<HandApply>, IExaminable
+public class Stackable : NetworkBehaviour, IServerLifecycle, ICheckedInteractable<InventoryApply>,
+	ICheckedInteractable<HandApply>, IExaminable
 {
 	[Tooltip("Amount initially in the stack when this is spawned.")]
 	[SerializeField]
@@ -64,13 +65,6 @@ public class Stackable : NetworkBehaviour, IServerLifecycle, ICheckedInteractabl
 			}
 		});
 	}
-
-	private void Start()
-	{
-		//When the item is enabled, try and stack with anything under it.
-		ServerStackOnGround(gameObject.RegisterTile().LocalPosition);
-	}
-
 	private void EnsureInit()
 	{
 		if (pickupable != null) return;
@@ -122,7 +116,7 @@ public class Stackable : NetworkBehaviour, IServerLifecycle, ICheckedInteractabl
 		InitStacksWith();
 		SyncAmount(amount, initialAmount);
 		amountInit = true;
-		ServerStackOnGround(registerTile.LocalPositionServer);
+		ServerStackOnGround(gameObject.RegisterTile().LocalPosition);
 	}
 
 	public void OnDespawnServer(DespawnInfo info)
