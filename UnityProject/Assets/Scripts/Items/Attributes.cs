@@ -190,7 +190,7 @@ public class Attributes : NetworkBehaviour, IRightClickable, IExaminable
 	{
 		if (gameObject.TryGetComponent<Stackable>(out var stack))
 		{
-			newName = newName + $" ({stack.Amount})";
+			newName = $"{newName} ({stack.Amount})";
 		}
 		newName = newName.Replace("[item]", $"{initialName}");
 		SyncArticleName(articleName, newName);
