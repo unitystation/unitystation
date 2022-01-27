@@ -116,7 +116,7 @@ public class Stackable : NetworkBehaviour, IServerLifecycle, ICheckedInteractabl
 		InitStacksWith();
 		SyncAmount(amount, initialAmount);
 		amountInit = true;
-		ServerStackOnGround(gameObject.RegisterTile().LocalPosition);
+		ServerStackOnGround(registerTile.LocalPositionServer);
 	}
 
 	public void OnDespawnServer(DespawnInfo info)
