@@ -196,7 +196,6 @@ public class Stackable : NetworkBehaviour, IServerLifecycle, ICheckedInteractabl
 		{
 			_ = Despawn.ServerSingle(gameObject);
 		}
-		UpdateStackName(gameObject.Item());
 		return true;
 	}
 
