@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using Systems.CraftingV2;
 using Systems.Electricity;
 using Objects.Lighting;
 using Mirror;
+using Objects.Atmospherics;
 using Objects.Wallmounts;
 using UnityEditor;
 using UnityEditor.SceneManagement;
@@ -50,6 +52,50 @@ namespace Core.Editor.Tools
 			}
 
 			Logger.Log($"Set {allNets.Length} scene ids", Category.Editor);
+		}
+
+		[MenuItem("Mapping/Monopipe Link Checker")]
+		private static void MonopipeTest()
+		{
+			if (Application.isPlaying == false)
+			{
+				Logger.LogError($"This can only be run in playmode", Category.Editor);
+				return;
+			}
+
+			var monoPipes = FindObjectsOfType<MonoPipe>();
+
+			var stringBuilder = new StringBuilder();
+
+			for (int i = monoPipes.Length - 1; i > 0; i--)
+			{
+				var pipe = monoPipes[i];
+
+				if ((pipe is AirVent {SelfSufficient: true}) || (pipe is Scrubber {SelfSufficient: true}))
+				{
+					continue;
+				}
+
+				var count = 0;
+
+				for (int j = 0; j < pipe.pipeData.Connections.Directions.Length; j++)
+				{
+					if (pipe.pipeData.Connections.Directions[j].Bool)
+					{
+						count++;
+					}
+				}
+
+				var found = pipe.pipeData.ConnectedPipes.Count;
+
+				if (found != count)
+				{
+					stringBuilder.AppendLine(
+						$"MonoPipe ({pipe.gameObject.ExpensiveName()}) at World: {pipe.registerTile.WorldPositionServer} Local: {pipe.registerTile.LocalPositionServer}, Has incorrect pipe connections, Expected {count}, was {found}");
+				}
+			}
+
+			Logger.LogError(stringBuilder.ToString(), Category.Editor);
 		}
 
 		[MenuItem("Networking/Find all network identities without visibility component (Scene Check)")]
