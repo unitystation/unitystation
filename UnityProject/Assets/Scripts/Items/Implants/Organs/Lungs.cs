@@ -107,10 +107,9 @@ namespace HealthV2
 			{
 				return false;
 			}
-
-			if (RelatedPart.HealthMaster.CirculatorySystem.BloodPool[RelatedPart.bloodType] == 0)
+			if (RelatedPart.HealthMaster.CirculatorySystem.BloodPool[RelatedPart.bloodType] == 0 || RelatedPart.HealthMaster.IsDead)
 			{
-				return false; //No point breathing if we dont have blood.
+				return false; //No point breathing if we are dead or dont have blood.
 			}
 
 			// Try to get internal breathing if possible, otherwise get from the surroundings
@@ -284,13 +283,10 @@ namespace HealthV2
 			else if (bloodSaturation <= RelatedPart.HealthMaster.CirculatorySystem.BloodInfo.BLOOD_REAGENT_SATURATION_BAD)
 			{
 				RelatedPart.HealthMaster.HealthStateController.SetSuffocating(true);
-				if (efficiency < 0.5f)
+				if (DMMath.Prob(20))
 				{
-					if (DMMath.Prob(20))
-					{
-						Chat.AddActionMsgToChat(RelatedPart.HealthMaster.gameObject, "You gasp for breath!",
-							$"{RelatedPart.HealthMaster.playerScript.visibleName} gasps!");
-					}
+					Chat.AddActionMsgToChat(RelatedPart.HealthMaster.gameObject, "You gasp for breath!",
+						$"{RelatedPart.HealthMaster.playerScript.visibleName} gasps!");
 				}
 			}
 
