@@ -54,6 +54,9 @@ namespace HealthV2
 		public override void ImplantPeriodicUpdate()
 		{
 			base.ImplantPeriodicUpdate();
+			if(RelatedPart.HealthMaster.IsDead)
+				return;
+
 			Vector3Int position = RelatedPart.HealthMaster.ObjectBehaviour.AssumedWorldPositionServer();
 			MetaDataNode node = MatrixManager.GetMetaDataAt(position);
 			var TotalModified = 1f;
@@ -107,9 +110,9 @@ namespace HealthV2
 			{
 				return false;
 			}
-			if (RelatedPart.HealthMaster.CirculatorySystem.BloodPool[RelatedPart.bloodType] == 0 || RelatedPart.HealthMaster.IsDead)
+			if (RelatedPart.HealthMaster.CirculatorySystem.BloodPool[RelatedPart.bloodType] == 0)
 			{
-				return false; //No point breathing if we are dead or dont have blood.
+				return false; //No point breathing if we dont have blood.
 			}
 
 			// Try to get internal breathing if possible, otherwise get from the surroundings
