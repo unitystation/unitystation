@@ -212,7 +212,7 @@ namespace Player
 			// search for ID identity
 			if (TryFindIDCard(out var idCard))
 			{
-				return idCard.JobType.ToString();
+				return idCard.GetJobTitle();
 			}
 
 			// search for face identity

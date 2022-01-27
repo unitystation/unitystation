@@ -58,7 +58,7 @@ namespace UI.Items.PDA
 
 		private void UpdateIDStatus()
 		{
-			SetIDStatus(IDCard != null ? $"{IDCard.RegisteredName}, {IDCard.JobType}" : "<No ID Inserted>");
+			SetIDStatus(IDCard != null ? $"{IDCard.RegisteredName}, {IDCard.GetJobTitle()}" : "<No ID Inserted>");
 
 			if (controller.mainSwitcher.CurrentPage == this)
 			{
