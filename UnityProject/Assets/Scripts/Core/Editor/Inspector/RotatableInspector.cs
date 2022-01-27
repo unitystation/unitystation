@@ -58,7 +58,7 @@ namespace CustomInspectors
 
 			if (GUILayout.Button("Refresh"))
 			{
-				thisDevice.Start();
+				thisDevice.Refresh();
 				Save();
 			}
 		}
