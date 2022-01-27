@@ -83,6 +83,12 @@ public partial class GameManager
 
 		Vector3 newPos;
 
+		if (LandingZoneManager.Instance.centcomDocking == null)
+		{
+			Logger.LogError("Centcom docking point is null, this should only happen if theres no centcom scene");
+			return;
+		}
+
 		switch (LandingZoneManager.Instance.centcomDocking.orientation)
 		{
 			case OrientationEnum.Right_By90:
