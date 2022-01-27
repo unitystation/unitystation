@@ -173,12 +173,9 @@ public class Stackable : NetworkBehaviour, IServerLifecycle, ICheckedInteractabl
 			}
 			attributes.ServerSetArticleName(correctName.Name);
 		}
-		else
+		else if(amount == 1 && stackNames.Any(item => item.Name == gameObject.ExpensiveName()))
 		{
-			if (amount == 1 && stackNames.Any(item => item.Name == gameObject.ExpensiveName()))
-			{
-				attributes.ServerSetArticleName(attributes.InitialName);
-			}
+			attributes.ServerSetArticleName(attributes.InitialName);
 		}
 	}
 
