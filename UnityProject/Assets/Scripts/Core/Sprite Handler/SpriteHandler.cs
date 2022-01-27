@@ -901,12 +901,11 @@ public class SpriteHandler : MonoBehaviour
 		if (Application.isPlaying) return;
 
 
-		if (PresentSpriteSet == null || isAnimation || this == null || this.gameObject == null)
+		if (PresentSpriteSet == null || this == null || this.gameObject == null)
 		{
 			return;
 		}
-		if (this.gameObject.scene.path != null && this.gameObject.scene.path.Contains("Scenes") == false &&
-		    editorAnimating == null)
+		if (this.gameObject.scene.path == null || this.gameObject.scene.path.Contains("Scenes") == false)
 		{
 			variantIndex = initialVariantIndex;
 			PushTexture();

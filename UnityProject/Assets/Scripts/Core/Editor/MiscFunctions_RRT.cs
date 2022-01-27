@@ -15,12 +15,22 @@ namespace Util
 	/// <summary>
 	/// Used for random ass editor scripts, Has all the functions you need in a pinch
 	/// </summary>
-	public class MiscFunctions : EditorWindow
+	public class MiscFunctions_RRT : EditorWindow
 	{
 		private static readonly List<string> ToDel = new List<string>();
 		private static readonly Dictionary<string, SpriteDataSO> ToSeve = new Dictionary<string, SpriteDataSO>();
 
 		public static SpriteCatalogue spriteCatalogue;
+
+
+		// SerializedObject serializedObject = new UnityEditor.SerializedObject(transform);
+
+		// foreach (var ob in serializedObject.GetIterator())
+		// {
+		// 	Logger.LogError(ob.ToString()); // You can use this to reset every property on a scene object/Prefab object
+		// }
+		// var localRotation = serializedObject.FindProperty("m_LocalRotation");
+		// PrefabUtility.RevertPropertyOverride(localRotation, InteractionMode.AutomatedAction);
 
 		[MenuItem("Tools/Refresh Sound Catalogue")]
 		public static void RefreshSoundCatalogue()

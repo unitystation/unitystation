@@ -40,26 +40,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1082192405498165259, guid: ba5045d716084034ab5a9b712f8ce559,
         type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1082192405498165259, guid: ba5045d716084034ab5a9b712f8ce559,
-        type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1082192405498165259, guid: ba5045d716084034ab5a9b712f8ce559,
-        type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1082192405498165259, guid: ba5045d716084034ab5a9b712f8ce559,
-        type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1082192405498165259, guid: ba5045d716084034ab5a9b712f8ce559,
-        type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
       value: 0
       objectReference: {fileID: 0}
@@ -77,21 +57,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: StatuePetrified
-      objectReference: {fileID: 0}
-    - target: {fileID: 3779779929180665186, guid: ba5045d716084034ab5a9b712f8ce559,
-        type: 3}
-      propertyPath: m_LocalRotation.x
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3779779929180665186, guid: ba5045d716084034ab5a9b712f8ce559,
-        type: 3}
-      propertyPath: m_LocalRotation.y
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3779779929180665186, guid: ba5045d716084034ab5a9b712f8ce559,
-        type: 3}
-      propertyPath: m_LocalRotation.z
-      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 4062499396821368984, guid: ba5045d716084034ab5a9b712f8ce559,
         type: 3}
@@ -155,3 +120,4 @@ MonoBehaviour:
   ChangeSprites: 1
   isChangingSO: 0
   CurrentDirection: 3
+  IsAtmosphericDevice: 0

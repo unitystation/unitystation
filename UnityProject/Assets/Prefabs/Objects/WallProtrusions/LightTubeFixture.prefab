@@ -169,7 +169,7 @@ PrefabInstance:
     - target: {fileID: 1625533340043428710, guid: b69bfc56f39849d4ba9139d2d51bedb6,
         type: 3}
       propertyPath: m_LocalRotation.w
-      value: -0.00000004371139
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1625533340043428710, guid: b69bfc56f39849d4ba9139d2d51bedb6,
         type: 3}
@@ -184,7 +184,7 @@ PrefabInstance:
     - target: {fileID: 1625533340043428710, guid: b69bfc56f39849d4ba9139d2d51bedb6,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1625533340043428710, guid: b69bfc56f39849d4ba9139d2d51bedb6,
         type: 3}
@@ -476,7 +476,8 @@ MonoBehaviour:
   MethodRotation: 1
   ChangeSprites: 0
   isChangingSO: 0
-  CurrentDirection: 3
+  CurrentDirection: 1
+  IsAtmosphericDevice: 0
 --- !u!114 &4982059446412124837
 MonoBehaviour:
   m_ObjectHideFlags: 0
