@@ -45,12 +45,12 @@ namespace Objects.Science
 		/// Temp until shuttle landings possible
 		/// </summary>
 		public bool IsLavaLandBase1;
-		private bool firstEnteredTriggered;
 
 		/// <summary>
 		/// Temp until shuttle landings possible
 		/// </summary>
 		public bool IsLavaLandBase1Connector;
+		private bool firstEnteredTriggered;
 
 		/// <summary>
 		/// Temp until shuttle landings possible
@@ -179,7 +179,7 @@ namespace Objects.Science
 				TransportUtility.TransportObjectAndPulled(player, travelCoord);
 				somethingTeleported = true;
 
-				if (IsLavaLandBase1 && firstEnteredTriggered == false)
+				if (IsLavaLandBase1Connector && firstEnteredTriggered == false)
 				{
 					//Trigger lavaland first entered event
 					EventManager.Broadcast(Event.LavalandFirstEntered);
