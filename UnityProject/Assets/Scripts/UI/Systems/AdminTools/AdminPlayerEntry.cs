@@ -30,10 +30,17 @@ namespace AdminTools
 			parentNotification = masterNotification;
 			OnClickEvent = onClickEvent;
 			PlayerData = playerEntryData;
-			if(!hideSensitiveFields)
-				displayName.text = $"{playerEntryData.name} - {playerEntryData.currentJob}. ACC: {playerEntryData.accountName} {playerEntryData.ipAddress} UUID { playerEntryData.uid}";
-			else 
-				displayName.text = $"{playerEntryData.accountName}";
+
+			if (!hideSensitiveFields)
+			{
+				displayName.text =
+					$"{playerEntryData.name} - {playerEntryData.currentJob}. ACC: {(playerEntryData.isAdmin ? "<color=red>[A]</color>" : "")}{(playerEntryData.isMentor ? "<color=#6400ff>[M]</color>" : "")} {playerEntryData.accountName} {playerEntryData.ipAddress} UUID {playerEntryData.uid}";
+			}
+			else
+			{
+				displayName.text = $"{(playerEntryData.isAdmin ? "<color=red>[A]</color>" : "")}{(playerEntryData.isMentor ? "<color=#6400ff>[M]</color>" : "")} {playerEntryData.accountName}";
+			}
+
 			if (PlayerData.isAntag && !hideSensitiveFields)
 			{
 				displayName.color = antagTextColor;
@@ -41,15 +48,6 @@ namespace AdminTools
 			else
 			{
 				displayName.color = Color.white;
-			}
-
-			if (PlayerData.isAdmin)
-			{
-				displayName.fontStyle = FontStyle.Bold;
-			}
-			else
-			{
-				displayName.fontStyle = FontStyle.Normal;
 			}
 
 			if (PlayerData.ipAddress == "")
