@@ -188,6 +188,11 @@ public class Attributes : NetworkBehaviour, IRightClickable, IExaminable
 
 	public void ServerSetArticleName(string newName)
 	{
+		if (gameObject.TryGetComponent<Stackable>(out var stack))
+		{
+			newName = $"{newName} ({stack.Amount})";
+		}
+		newName = newName.Replace("[item]", $"{initialName}");
 		SyncArticleName(articleName, newName);
 	}
 
