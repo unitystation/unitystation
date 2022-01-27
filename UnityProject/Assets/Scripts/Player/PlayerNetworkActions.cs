@@ -291,7 +291,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		if (!Validations.CanInteract(playerScript, NetworkSide.Server, allowCuffed: false)) return; //Not allowed to transfer while cuffed
 		if (!Cooldowns.TryStartServer(playerScript, CommonCooldowns.Instance.Interaction)) return;
 
-		ItemSlot emptySlot = PlayerManager.LocalPlayerScript.DynamicItemStorage.GetActiveHandSlot(); //Were assuming that slot to which player wants to transfer stuff is always active hand
+		ItemSlot emptySlot = playerScript.DynamicItemStorage.GetActiveHandSlot(); //Were assuming that slot to which player wants to transfer stuff is always active hand
 
 		if(NetworkIdentity.spawned.TryGetValue(fromSlotID, out var objFS) == false) return;
 		var stackSlot = itemStorage.GetNamedItemSlot(objFS.gameObject, fromSlot);
