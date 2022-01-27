@@ -54,7 +54,13 @@ namespace HealthV2
 		public override void ImplantPeriodicUpdate()
 		{
 			base.ImplantPeriodicUpdate();
-			if(RelatedPart.HealthMaster.IsDead)
+
+			// Disable breathing for dead and brain damaged players
+			if (RelatedPart.HealthMaster.IsDead)
+				return;
+
+			Brain brain = RelatedPart.HealthMaster.brain;
+			if (brain && brain.RelatedPart.TotalModified <= 0.2f)
 				return;
 
 			Vector3Int position = RelatedPart.HealthMaster.ObjectBehaviour.AssumedWorldPositionServer();
