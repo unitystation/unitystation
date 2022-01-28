@@ -12,6 +12,7 @@ namespace Doors.Modules
 	{
 		private AccessRestrictions accessRestrictions;
 		private ClearanceCheckable clearanceCheckable;
+		private bool isAuthorizationBypassEnabled = false;
 
 		[SerializeField]
 		[Tooltip("When the door is at low voltage, this is the chance that the access check gives a false positive.")]
@@ -61,9 +62,17 @@ namespace Doors.Modules
 			return ModuleSignal.Continue;
 		}
 
+		public void ToggleAuthorizationBypassState()
+		{
+			isAuthorizationBypassEnabled = !isAuthorizationBypassEnabled;
+		}
+
 
 		private bool CheckAccess(GameObject player)
 		{
+			if (isAuthorizationBypassEnabled)
+				return true;
+
 			return ProcessCheckAccess(player);
 		}
 
