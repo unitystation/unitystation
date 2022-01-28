@@ -164,7 +164,7 @@ namespace Doors
 
 		private void TryBump()
 		{
-			if (!isAutomatic || !allowInput || !allowInteraction)
+			if (!isAutomatic || !allowInput)
 			{
 				return;
 			}
@@ -230,8 +230,6 @@ namespace Doors
 				}
 			}
 
-			if(allowInteraction == false) return;
-
 			//When a player interacts with the door, we must first check with each module on what to do.
 			//For instance, if one of the modules has locked the door, that module will want to prevent us from
 			//opening the door.
@@ -278,7 +276,7 @@ namespace Doors
 				}
 			}
 
-			if (!isPerformingAction && canClose && CheckStatusAllow(states))
+			if (!isPerformingAction && canClose && CheckStatusAllow(states) && allowInteraction)
 			{
 				PulseTryClose(interaction.Performer, inOverrideLogic: true);
 			}
@@ -316,7 +314,7 @@ namespace Doors
 				}
 			}
 
-			if (!isPerformingAction && (canOpen) && CheckStatusAllow(states))
+			if (!isPerformingAction && (canOpen) && CheckStatusAllow(states) && allowInteraction)
 			{
 				TryOpen(interaction.Performer);
 			}
