@@ -38,6 +38,10 @@ namespace Doors
 		private bool isAutomatic = true;
 
 		[SerializeField, PrefabModeOnly]
+		[Tooltip("Can you interact with the door by HandApply or Bump?")]
+		private bool allowInteraction = true;
+
+		[SerializeField, PrefabModeOnly]
 		[Tooltip("Is this door designed no matter what is under neath it?")]
 		private bool ignorePassableChecks = false;
 
@@ -160,7 +164,7 @@ namespace Doors
 
 		private void TryBump()
 		{
-			if (!isAutomatic || !allowInput)
+			if (!isAutomatic || !allowInput || !allowInteraction)
 			{
 				return;
 			}
@@ -226,6 +230,7 @@ namespace Doors
 				}
 			}
 
+			if(allowInteraction == false) return;
 
 			//When a player interacts with the door, we must first check with each module on what to do.
 			//For instance, if one of the modules has locked the door, that module will want to prevent us from
