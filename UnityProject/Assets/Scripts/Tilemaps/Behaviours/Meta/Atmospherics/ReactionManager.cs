@@ -145,7 +145,7 @@ namespace Systems.Atmospherics
 			foreach (var registerTile in matrix.GetRegisterTile(windyNode.Position, true))
 			{
 				//Quicker to get all RegisterTiles and grab the cached PushPull component from it than to get it manually using Get<>
-				if(registerTile.PushPull.HasComponent == false) continue;
+				if (registerTile.PushPull.HasComponent == false) continue;
 
 				var pushable = registerTile.PushPull.Component;
 
