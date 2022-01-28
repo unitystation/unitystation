@@ -102,7 +102,6 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 7d2de9c440cedfa4a855277fac47f8d0, type: 2}
   PresentSpriteSet: {fileID: 11400000, guid: 7d2de9c440cedfa4a855277fac47f8d0, type: 2}
   randomInitialSprite: 0
-  doReverseAnimation: 0
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
   palette: []
@@ -211,7 +210,6 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 7d2de9c440cedfa4a855277fac47f8d0, type: 2}
   PresentSpriteSet: {fileID: 11400000, guid: 7d2de9c440cedfa4a855277fac47f8d0, type: 2}
   randomInitialSprite: 0
-  doReverseAnimation: 0
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
   palette: []
@@ -397,7 +395,6 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 7d2de9c440cedfa4a855277fac47f8d0, type: 2}
   PresentSpriteSet: {fileID: 11400000, guid: 7d2de9c440cedfa4a855277fac47f8d0, type: 2}
   randomInitialSprite: 0
-  doReverseAnimation: 0
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
   palette: []
@@ -523,7 +520,6 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 7d2de9c440cedfa4a855277fac47f8d0, type: 2}
   PresentSpriteSet: {fileID: 11400000, guid: 7d2de9c440cedfa4a855277fac47f8d0, type: 2}
   randomInitialSprite: 0
-  doReverseAnimation: 0
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
   palette: []
@@ -643,7 +639,6 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 7d2de9c440cedfa4a855277fac47f8d0, type: 2}
   PresentSpriteSet: {fileID: 11400000, guid: 7d2de9c440cedfa4a855277fac47f8d0, type: 2}
   randomInitialSprite: 0
-  doReverseAnimation: 0
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
   palette: []
@@ -754,7 +749,6 @@ MonoBehaviour:
   - {fileID: 11400000, guid: e8c1d1a28c5943344b7a3aaf661d8abb, type: 2}
   PresentSpriteSet: {fileID: 11400000, guid: 7d2de9c440cedfa4a855277fac47f8d0, type: 2}
   randomInitialSprite: 0
-  doReverseAnimation: 0
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
   palette: []
@@ -813,10 +807,10 @@ MonoBehaviour:
   overlayFill: {fileID: 4757309158421767570}
   overlayWeld: {fileID: 525461992326822030}
   overlayHacking: {fileID: 4532754454576057609}
-  openingAnimationTime: 0.6
-  closingAnimationTime: 0.6
-  deniedAnimationTime: 0.6
-  warningAnimationTime: 0.6
+  openingAnimationTime: 0.9
+  closingAnimationTime: 0.9
+  deniedAnimationTime: 0.4
+  warningAnimationTime: 0.4
   openingSFX:
     SetLoadSetting: 0
     AssetAddress: Assets/Prefabs/Doors/WinDoor.prefab
@@ -866,6 +860,7 @@ MonoBehaviour:
   damageOnClose: 0
   damageClosed: 90
   isAutomatic: 1
+  allowInteraction: 1
   ignorePassableChecks: 1
   maxTimeOpen: 5
   blockAutoClose: 0
