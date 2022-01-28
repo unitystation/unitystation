@@ -1,60 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-1323719490864838106
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 885698226935283379}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 481d24c2187c0df4b80652ebb7e481e2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  spritehandler: {fileID: 5627899777227691113}
-  SpawnOnDeconstruct: {fileID: 5905333807210643416, guid: 7bf928fbb0e621a49b8437e1e441b028,
-    type: 3}
-  registerTile: {fileID: 8401196600706621179}
-  pipeData:
-    PipeLayer: 1
-    Connections:
-      Directions:
-      - Bool: 0
-        pipeType: 1
-        PortType: 0
-        flagLogic: 0
-      - Bool: 0
-        pipeType: 1
-        PortType: 0
-        flagLogic: 0
-      - Bool: 1
-        pipeType: 1
-        PortType: 3
-        flagLogic: 0
-      - Bool: 0
-        pipeType: 1
-        PortType: 0
-        flagLogic: 0
-    CustomLogic: 0
-    NetCompatible: 0
-    mixAndVolume:
-      mix:
-        temperature: 273.15
-        reagents:
-          m_keys: []
-          m_values: []
-        reagentKeys: []
-      gasMix:
-        GasData:
-          GasesArray: []
-        Pressure: 0
-        Volume: 2.5
-        Temperature: 0
-    MonoPipe: {fileID: 0}
-  Colour: {r: 1, g: 1, b: 1, a: 1}
-  isTurnedOn: 1
-  operatingMode: 0
 --- !u!1001 &1848070622877717058
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -124,6 +69,16 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1625578739251644646, guid: 3937c48f98f9cd043babc5471ee77682,
         type: 3}
+      propertyPath: m_Size.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1625578739251644646, guid: 3937c48f98f9cd043babc5471ee77682,
+        type: 3}
+      propertyPath: m_Size.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1625578739251644646, guid: 3937c48f98f9cd043babc5471ee77682,
+        type: 3}
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: 21300000, guid: 7d6be7647708e1e448d4cab65112b2d8,
@@ -164,6 +119,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: ac2a193c4ee1ca14f814e17478f6701a,
         type: 2}
+    - target: {fileID: 5075775655067238256, guid: 3937c48f98f9cd043babc5471ee77682,
+        type: 3}
+      propertyPath: CurrentDirection
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6323048891065173547, guid: 3937c48f98f9cd043babc5471ee77682,
         type: 3}
       propertyPath: PresentSpriteSet
@@ -247,3 +207,59 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &-1323719490864838106
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 885698226935283379}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 481d24c2187c0df4b80652ebb7e481e2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spritehandler: {fileID: 5627899777227691113}
+  SpawnOnDeconstruct: {fileID: 5905333807210643416, guid: 7bf928fbb0e621a49b8437e1e441b028,
+    type: 3}
+  registerTile: {fileID: 8401196600706621179}
+  pipeData:
+    PipeLayer: 1
+    Connections:
+      Directions:
+      - Bool: 1
+        pipeType: 1
+        PortType: 3
+        flagLogic: 0
+      - Bool: 0
+        pipeType: 1
+        PortType: 0
+        flagLogic: 0
+      - Bool: 0
+        pipeType: 1
+        PortType: 0
+        flagLogic: 0
+      - Bool: 0
+        pipeType: 1
+        PortType: 0
+        flagLogic: 0
+    CustomLogic: 0
+    NetCompatible: 0
+    mixAndVolume:
+      mix:
+        temperature: 273.15
+        reagents:
+          m_keys: []
+          m_values: []
+        reagentKeys: []
+      gasMix:
+        GasData:
+          GasesArray: []
+        Pressure: 0
+        Volume: 2.5
+        Temperature: 0
+    MonoPipe: {fileID: 0}
+  Colour: {r: 1, g: 1, b: 1, a: 1}
+  spawnedFromItem: 1
+  isTurnedOn: 1
+  operatingMode: 0

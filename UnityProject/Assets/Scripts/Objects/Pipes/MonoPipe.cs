@@ -190,28 +190,38 @@ namespace Objects.Atmospherics
 			Gizmos.color = Color.white;
 			DebugGizmoUtils.DrawText(density.ToString(), transform.position, 10);
 			Gizmos.color = Color.magenta;
-			if (pipeData.Connections.Directions[0].Bool)
+
+			Connections InCopy = pipeData.Connections;
+
+			if (Application.isPlaying == false)
+			{
+				InCopy = pipeData.Connections.Copy();
+				int offset = PipeFunctions.GetOffsetAngle(transform.localEulerAngles.z);
+				InCopy.Rotate(offset);
+			}
+
+			if (InCopy.Directions[0].Bool)
 			{
 				var Toues = transform.position;
 				Toues.y += 0.25f;
 				Gizmos.DrawCube(Toues, Vector3.one*0.08f );
 			}
 
-			if (pipeData.Connections.Directions[1].Bool)
+			if (InCopy.Directions[1].Bool)
 			{
 				var Toues = transform.position;
 				Toues.x += 0.25f;
 				Gizmos.DrawCube(Toues, Vector3.one*0.08f );
 			}
 
-			if (pipeData.Connections.Directions[2].Bool)
+			if (InCopy.Directions[2].Bool)
 			{
 				var Toues = transform.position;
 				Toues.y += -0.25f;
 				Gizmos.DrawCube(Toues, Vector3.one*0.08f );
 			}
 
-			if (pipeData.Connections.Directions[3].Bool)
+			if (InCopy.Directions[3].Bool)
 			{
 
 				var Toues = transform.position;

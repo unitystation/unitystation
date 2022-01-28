@@ -15,23 +15,23 @@ namespace Objects.Lighting
 	/// <summary>
 	/// Component responsible for the behaviour of light tubes / bulbs in particular.
 	/// </summary>
-	public class LightSource : ObjectTrigger, ICheckedInteractable<HandApply>, IAPCPowerable, IServerLifecycle, IMultitoolSlaveable
+	public class LightSource : ObjectTrigger, ICheckedInteractable<HandApply>, IAPCPowerable, IServerLifecycle,
+		IMultitoolSlaveable
 	{
 		public Color ONColour;
 		public Color EmergencyColour;
 
 		public LightSwitchV2 relatedLightSwitch;
 
-		[SerializeField]
-		private LightMountState InitialState = LightMountState.On;
+		[SerializeField] private LightMountState InitialState = LightMountState.On;
 
 		[SyncVar(hook = nameof(SyncLightState))]
 		private LightMountState mState;
 
 		[Header("Generates itself if this is null:")]
 		public GameObject mLightRendererObject;
-		[SerializeField]
-		private bool isWithoutSwitch = true;
+
+		[SerializeField] private bool isWithoutSwitch = true;
 		public bool IsWithoutSwitch => isWithoutSwitch;
 		private bool switchState = true;
 		private PowerState powerState;
@@ -50,7 +50,7 @@ namespace Objects.Lighting
 		[SerializeField] private Vector4 collLeftSetting = Vector4.zero;
 		[SerializeField] private SpritesDirectional spritesStateOnEffect = null;
 		[SerializeField] private SOLightMountStatesMachine mountStatesMachine = null;
-		[SerializeField, Range(0,100f)] private float maximumDamageOnTouch = 3f;
+		[SerializeField, Range(0, 100f)] private float maximumDamageOnTouch = 3f;
 		private SOLightMountState currentState;
 		private ObjectBehaviour objectBehaviour;
 		private LightFixtureConstruction construction;
@@ -70,6 +70,7 @@ namespace Objects.Lighting
 			{
 				mLightRendererObject = LightSpriteBuilder.BuildDefault(gameObject, new Color(0, 0, 0, 0), 12);
 			}
+
 			lightSprite = mLightRendererObject.GetComponent<LightSprite>();
 			if (isWithoutSwitch == false)
 			{
@@ -78,6 +79,7 @@ namespace Objects.Lighting
 
 			ChangeCurrentState(InitialState);
 			traitRequired = currentState.TraitRequired;
+			RefreshBoxCollider();
 		}
 
 		private void OnEnable()
@@ -115,11 +117,13 @@ namespace Objects.Lighting
 		MultitoolConnectionType IMultitoolLinkable.ConType => MultitoolConnectionType.LightSwitch;
 		IMultitoolMasterable IMultitoolSlaveable.Master => relatedLightSwitch;
 		bool IMultitoolSlaveable.RequireLink => false;
+
 		bool IMultitoolSlaveable.TrySetMaster(PositionalHandApply interaction, IMultitoolMasterable master)
 		{
 			SetMaster(master);
 			return true;
 		}
+
 		void IMultitoolSlaveable.SetMasterEditor(IMultitoolMasterable master)
 		{
 			SetMaster(master);
@@ -184,7 +188,8 @@ namespace Objects.Lighting
 		{
 			directional = GetComponent<Rotatable>();
 			spriteRendererLightOn = GetComponentsInChildren<SpriteRenderer>().Length > 1
-				? GetComponentsInChildren<SpriteRenderer>()[1] : GetComponentsInChildren<SpriteRenderer>()[0];
+				? GetComponentsInChildren<SpriteRenderer>()[1]
+				: GetComponentsInChildren<SpriteRenderer>()[0];
 			var state = mountStatesMachine.LightMountStates[LightMountState.On];
 
 			spriteHandler.SetSpriteSO(state.SpriteData, null);
@@ -198,25 +203,9 @@ namespace Objects.Lighting
 			Vector2 offset = Vector2.zero;
 			Vector2 size = Vector2.zero;
 
-			switch (directional.CurrentDirection)
-			{
-				case OrientationEnum.Down_By180:
-					offset = new Vector2(collDownSetting.x, collDownSetting.y);
-					size = new Vector2(collDownSetting.z, collDownSetting.w);
-					break;
-				case OrientationEnum.Right_By90:
-					offset = new Vector2(collRightSetting.x, collRightSetting.y);
-					size = new Vector2(collRightSetting.z, collRightSetting.w);
-					break;
-				case OrientationEnum.Up_By0:
-					offset = new Vector2(collUpSetting.x, collUpSetting.y);
-					size = new Vector2(collUpSetting.z, collUpSetting.w);
-					break;
-				case OrientationEnum.Left_By270:
-					offset = new Vector2(collLeftSetting.x, collLeftSetting.y);
-					size = new Vector2(collLeftSetting.z, collLeftSetting.w);
-					break;
-			}
+
+			offset = new Vector2(collUpSetting.x, collUpSetting.y);
+			size = new Vector2(collUpSetting.z, collUpSetting.w);
 
 			boxColl.offset = offset;
 			boxColl.size = size;
@@ -226,8 +215,8 @@ namespace Objects.Lighting
 		{
 			spriteHandler.SetSpriteSO(currentState.SpriteData, null);
 			spriteRendererLightOn.sprite = mState == LightMountState.On
-					? spritesStateOnEffect.sprites[0]
-					: null;
+				? spritesStateOnEffect.sprites[0]
+				: null;
 
 			itemInMount = currentState.Tube;
 
@@ -253,12 +242,14 @@ namespace Objects.Lighting
 					{
 						emergencyLightAnimator.StartAnimation();
 					}
+
 					break;
 				case LightMountState.On:
 					if (emergencyLightAnimator != null)
 					{
 						emergencyLightAnimator.StopAnimation();
 					}
+
 					lightSprite.Color = ONColour;
 					mLightRendererObject.transform.localScale = Vector3.one * 12.0f;
 					mLightRendererObject.SetActive(true);
@@ -268,6 +259,7 @@ namespace Objects.Lighting
 					{
 						emergencyLightAnimator.StopAnimation();
 					}
+
 					mLightRendererObject.transform.localScale = Vector3.one * 12.0f;
 					mLightRendererObject.SetActive(false);
 					break;
@@ -281,7 +273,9 @@ namespace Objects.Lighting
 			if (!DefaultWillInteract.Default(interaction, side)) return false;
 			if (!construction.IsFullyBuilt()) return false;
 			if (interaction.HandObject != null && interaction.Intent == Intent.Harm) return false;
-			if (interaction.HandObject != null && !Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.LightReplacer) && !Validations.HasItemTrait(interaction.HandObject, traitRequired)) return false;
+			if (interaction.HandObject != null &&
+			    !Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.LightReplacer) &&
+			    !Validations.HasItemTrait(interaction.HandObject, traitRequired)) return false;
 
 			return true;
 		}
@@ -315,7 +309,7 @@ namespace Objects.Lighting
 				{
 					foreach (var slot in handSlots)
 					{
-						if(slot.IsEmpty) continue;
+						if (slot.IsEmpty) continue;
 						if (Validations.HasItemTrait(slot.ItemObject, CommonTraits.Instance.BlackGloves)) return true;
 					}
 
@@ -348,7 +342,9 @@ namespace Objects.Lighting
 			}
 			catch (NullReferenceException exception)
 			{
-				Logger.LogError($"A NRE was caught in LightSource.TryRemoveBulb(): {exception.Message} \n {exception.StackTrace}", Category.Lighting);
+				Logger.LogError(
+					$"A NRE was caught in LightSource.TryRemoveBulb(): {exception.Message} \n {exception.StackTrace}",
+					Category.Lighting);
 			}
 		}
 
@@ -364,8 +360,10 @@ namespace Objects.Lighting
 			{
 				ServerChangeLightState(
 					(switchState && (powerState == PowerState.On))
-					? LightMountState.On : (powerState != PowerState.OverVoltage)
-					? LightMountState.Emergency : LightMountState.Off);
+						? LightMountState.On
+						: (powerState != PowerState.OverVoltage)
+							? LightMountState.Emergency
+							: LightMountState.Off);
 			}
 
 			_ = Despawn.ServerSingle(interaction.HandObject);
@@ -384,14 +382,16 @@ namespace Objects.Lighting
 
 		#region IAPCPowerable
 
-		public void PowerNetworkUpdate(float voltage) { }
+		public void PowerNetworkUpdate(float voltage)
+		{
+		}
 
 		public void StateUpdate(PowerState newPowerState)
 		{
 			if (isServer == false) return;
 			powerState = newPowerState;
 			if (mState == LightMountState.Broken
-			   || mState == LightMountState.MissingBulb) return;
+			    || mState == LightMountState.MissingBulb) return;
 
 			switch (newPowerState)
 			{

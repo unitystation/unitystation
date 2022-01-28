@@ -12,17 +12,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 15547858c4462dc4fb5dcad7eb78f118, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
   ShuttleMatrixMove: {fileID: 0}
-  OnStateChange:
-    m_PersistentCalls:
-      m_Calls: []
   radarDetectionSound:
     SetLoadSetting: 0
-    AssetAddress: Assets/Prefabs/Effects/RadarDetection.prefab
+    AssetAddress: null
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
       m_SubObjectType: 
+  GUItab: {fileID: 0}
+  shuttleConsoleState: 0
 --- !u!1001 &6414903393843979902
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -616,21 +617,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: ShuttlePilotingConsole
       objectReference: {fileID: 0}
-    - target: {fileID: 7762584330458228387, guid: b46887a995abc224aab70e21b9e53697,
-        type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7762584330458228387, guid: b46887a995abc224aab70e21b9e53697,
-        type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7762584330458228387, guid: b46887a995abc224aab70e21b9e53697,
-        type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 8201155816690774842, guid: b46887a995abc224aab70e21b9e53697,
         type: 3}
       propertyPath: variantIndex
@@ -642,8 +628,7 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: dccfff9f4fb95f14481d23fd37d7556f,
         type: 2}
-    m_RemovedComponents:
-    - {fileID: 6556397441920388693, guid: b46887a995abc224aab70e21b9e53697, type: 3}
+    m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b46887a995abc224aab70e21b9e53697, type: 3}
 --- !u!1 &3650686735825012231 stripped
 GameObject:

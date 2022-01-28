@@ -540,14 +540,17 @@ public class ItemStorage : MonoBehaviour, IServerLifecycle, IServerInventoryMove
 	/// of this method.
 	/// </summary>
 	/// <param name="observerPlayer"></param>
-	public void ServerAddObserverPlayer(GameObject observerPlayer)
+	public void ServerAddObserverPlayer(GameObject observerPlayer, bool topLevelOnly = false)
 	{
 		if (!CustomNetworkManager.IsServer) return;
 
 		TrySpawnContents();
 
 		serverObserverPlayers.Add(observerPlayer);
-		foreach (var slot in GetItemSlotTree())
+
+		var slots = topLevelOnly ? GetItemSlots(): GetItemSlotTree();
+
+		foreach (var slot in slots)
 		{
 			slot.ServerAddObserverPlayer(observerPlayer);
 		}

@@ -40,26 +40,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2166926528086522093, guid: feb9d6fcdf52ff040a33966fc9819a74,
         type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2166926528086522093, guid: feb9d6fcdf52ff040a33966fc9819a74,
-        type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2166926528086522093, guid: feb9d6fcdf52ff040a33966fc9819a74,
-        type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2166926528086522093, guid: feb9d6fcdf52ff040a33966fc9819a74,
-        type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2166926528086522093, guid: feb9d6fcdf52ff040a33966fc9819a74,
-        type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
       value: 0
       objectReference: {fileID: 0}
@@ -120,3 +100,4 @@ MonoBehaviour:
   ChangeSprites: 1
   isChangingSO: 0
   CurrentDirection: 3
+  IsAtmosphericDevice: 0

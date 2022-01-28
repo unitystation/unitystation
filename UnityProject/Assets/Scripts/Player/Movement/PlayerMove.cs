@@ -5,6 +5,7 @@ using HealthV2;
 using Items;
 using Messages.Client.Interaction;
 using Mirror;
+using NaughtyAttributes;
 using Objects;
 using UI;
 using UI.Action;
@@ -584,7 +585,12 @@ namespace Player.Movement
 		/// </summary>
 		public void ServerPerformInteraction(ContextMenuApply interaction)
 		{
-			var handcuffSlots = interaction.TargetObject.GetComponent<DynamicItemStorage>().OrNull()?.GetNamedItemSlots(NamedSlot.handcuffs)
+			TryUnCuff(interaction.TargetObject, interaction.Performer);
+		}
+
+		public void TryUnCuff(GameObject targetObject, GameObject performer)
+		{
+			var handcuffSlots = targetObject.GetComponent<DynamicItemStorage>().OrNull()?.GetNamedItemSlots(NamedSlot.handcuffs)
 				.Where(x => x.IsEmpty == false).ToList();
 
 			if (handcuffSlots == null) return;
@@ -603,8 +609,8 @@ namespace Player.Movement
 
 				var progressConfig = new StandardProgressActionConfig(StandardProgressActionType.Uncuff);
 				StandardProgressAction.Create(progressConfig, Uncuff)
-					.ServerStartProgress(interaction.TargetObject.RegisterTile(),
-						restraint.RemoveTime * (handcuffSlots.Count / 2f), interaction.Performer);
+					.ServerStartProgress(targetObject.RegisterTile(),
+						restraint.RemoveTime * (handcuffSlots.Count / 2f), performer);
 
 				//Only need to do it once
 				break;

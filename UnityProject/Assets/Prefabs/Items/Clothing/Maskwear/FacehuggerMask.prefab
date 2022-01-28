@@ -1,25 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-5248330620639955473
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8320299039891337921}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 66e7a7ed3ad74a8d9ce6e019bc076e8e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  isToy: 0
-  coitusTime: 10
-  pregnancyTime: 300
-  facehugger: {fileID: 3580619421430961846, guid: 28f0f699598b8074389bd2fecadaaf7a,
-    type: 3}
-  larvae: {fileID: 7455546943915704510, guid: 2ba8c4b90a981a94fb6946f53f09667f, type: 3}
 --- !u!1001 &1877733125468623936
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -156,7 +136,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300008, guid: 4866054b12864074ca72678ebef13a7c,
+      objectReference: {fileID: 21300000, guid: 4866054b12864074ca72678ebef13a7c,
         type: 3}
     - target: {fileID: 8040391005062056419, guid: 05a135eab68164d34bb02b82fff3cde0,
         type: 3}
@@ -210,3 +190,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &-5248330620639955473
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8320299039891337921}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 66e7a7ed3ad74a8d9ce6e019bc076e8e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  isToy: 0
+  coitusTime: 10
+  pregnancyTime: 300
+  facehugger: {fileID: 3580619421430961846, guid: 28f0f699598b8074389bd2fecadaaf7a,
+    type: 3}
+  larvae: {fileID: 7455546943915704510, guid: 2ba8c4b90a981a94fb6946f53f09667f, type: 3}
