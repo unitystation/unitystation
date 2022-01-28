@@ -144,8 +144,10 @@ namespace Systems.Atmospherics
 		{
 			foreach (var registerTile in matrix.GetRegisterTile(windyNode.Position, true))
 			{
-				//All objects have push pull now, and it is quicker to get all RegisterTiles
-				var pushable = registerTile.PushPull;
+				//Quicker to get all RegisterTiles and grab the cached PushPull component from it than to get it manually using Get<>
+				if(registerTile.PushPull.HasComponent == false) continue;
+
+				var pushable = registerTile.PushPull.Component;
 
 				float correctedForce = (windyNode.WindForce * PushMultiplier) / (int) pushable.Pushable.Size;
 
