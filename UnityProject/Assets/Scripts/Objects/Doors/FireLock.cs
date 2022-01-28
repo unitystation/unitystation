@@ -17,7 +17,7 @@ namespace Doors
 
 		private void Awake()
 		{
-			doorMasterController.GetComponent<DoorMasterController>();
+			doorMasterController = GetComponent<DoorMasterController>();
 		}
 
 		public void ReceiveAlert()
