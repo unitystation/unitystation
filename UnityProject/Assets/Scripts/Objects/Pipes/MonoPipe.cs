@@ -25,7 +25,7 @@ namespace Objects.Atmospherics
 		[SerializeField]
 		private bool spawnedFromItem = true;
 
-		protected Rotatable directional;
+		public Rotatable directional;
 
 		public static float MaxInternalPressure { get; } = AtmosConstants.ONE_ATMOSPHERE * 50;
 
@@ -138,13 +138,10 @@ namespace Objects.Atmospherics
 				return;
 			}
 
-			var spawn = Spawn.ServerPrefab(SpawnOnDeconstruct, registerTile.WorldPositionServer, localRotation: transform.localRotation);
-			spawn.GameObject.GetComponent<PipeItem>().SetColour(Colour);
-
-			if (directional != null && spawn.GameObject.TryGetComponent<PlayerRotatable>(out var newDirectional))
-			{
-				newDirectional.SyncRotation(0,transform.eulerAngles.z);
-			}
+			var spawn = Spawn.ServerPrefab(SpawnOnDeconstruct, registerTile.WorldPositionServer, localRotation: directional.ByDegreesToQuaternion(directional.CurrentDirection));
+			var PipeItem = spawn.GameObject.GetComponent<PipeItem>();
+			PipeItem.rotatable.FaceDirection(directional.CurrentDirection);
+			PipeItem.SetColour(Colour);
 
 			OnDisassembly(interaction);
 			pipeData.OnDisable();
