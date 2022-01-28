@@ -1,5 +1,19 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-2114407587521241139
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 676355976789840720}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 41ff8f5207c4eb747b27837977ae373b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ReactorChambers: {fileID: 0}
+  ReactorChambers2: []
 --- !u!1001 &7119468310614602537
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -792,8 +806,7 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 5854eb35cfc2c1b47ae108a5080b33d6,
         type: 2}
-    m_RemovedComponents:
-    - {fileID: 6556397441920388693, guid: b46887a995abc224aab70e21b9e53697, type: 3}
+    m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b46887a995abc224aab70e21b9e53697, type: 3}
 --- !u!1 &676355976789840720 stripped
 GameObject:
@@ -813,17 +826,3 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 579884b05ae74e8499329b64997147d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &-2114407587521241139
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 676355976789840720}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 41ff8f5207c4eb747b27837977ae373b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ReactorChambers: {fileID: 0}
-  ReactorChambers2: []

@@ -42262,12 +42262,12 @@ PrefabInstance:
     - target: {fileID: 8116624324917585416, guid: cf93667e32e15bc43b0347cd102fef98,
         type: 3}
       propertyPath: m_LocalRotation.w
-      value: 1
+      value: 0.7071068
       objectReference: {fileID: 0}
     - target: {fileID: 8116624324917585416, guid: cf93667e32e15bc43b0347cd102fef98,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0
+      value: -0.7071068
       objectReference: {fileID: 0}
     - target: {fileID: 8832674513564517271, guid: cf93667e32e15bc43b0347cd102fef98,
         type: 3}
@@ -65268,6 +65268,11 @@ PrefabInstance:
       propertyPath: ShuttleMatrixMove
       value: 
       objectReference: {fileID: 1504217318}
+    - target: {fileID: 286911075368396843, guid: 0a56d7747596df141be0aa6803f20980,
+        type: 3}
+      propertyPath: isSelfPowered
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1784380510858707846, guid: 0a56d7747596df141be0aa6803f20980,
         type: 3}
       propertyPath: 
@@ -102556,8 +102561,8 @@ Transform:
   - {fileID: 170233432}
   - {fileID: 977220401}
   - {fileID: 1101273262}
-  - {fileID: 316186993}
   - {fileID: 1013388525}
+  - {fileID: 316186993}
   - {fileID: 969802292}
   - {fileID: 1248471265}
   - {fileID: 1809414011}
