@@ -82,8 +82,7 @@ public static class Inventory
 		var stackable = fromSlot.ItemObject.GetComponent<Stackable>();
 		if (stackable != null)
 		{
-			stackable.ServerConsume(amountToConsume);
-			return true;
+			return stackable.ServerConsume(amountToConsume);
 		}
 		else
 		{
@@ -431,6 +430,12 @@ public static class Inventory
 		foreach (var onMove in pickupable.GetComponents<IServerInventoryMove>())
 		{
 			onMove.OnInventoryMoveServer(toPerform);
+		}
+		
+		if (pickupable.gameObject.TryGetComponent<Stackable>(out var stack))
+		{
+			var cnt = pickupable.GetComponent<CustomNetTransform>();
+			stack.ServerStackOnGround(cnt.ServerLocalPosition);
 		}
 
 		if (pickupable.gameObject.TryGetComponent<Stackable>(out var stack))
