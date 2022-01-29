@@ -54,7 +54,6 @@ public class Rotatable : NetworkBehaviour, IMatrixRotation
 		if (isServer == false && isLocalPlayer)
 		{
 			CmdChangeDirection(dir);
-			return;
 		}
 
 		if (SynchroniseCurrentLockAndDirection.Locked)
