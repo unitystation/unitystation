@@ -87,10 +87,10 @@ namespace Objects
 				case OrientationEnum.Down_By180:
 					spriteHandler.ChangeSpriteVariant(0);
 					break;
-				case OrientationEnum.Left_By270:
+				case OrientationEnum.Left_By90:
 					spriteHandler.ChangeSpriteVariant(3);
 					break;
-				case OrientationEnum.Right_By90:
+				case OrientationEnum.Right_By270:
 					spriteHandler.ChangeSpriteVariant(2);
 					break;
 			}
@@ -190,17 +190,17 @@ namespace Objects
 			{
 				switch (orientation)
 				{
-					case OrientationEnum.Right_By90:
+					case OrientationEnum.Right_By270:
 						directional.FaceDirection(OrientationEnum.Up_By0);
 						break;
 					case OrientationEnum.Up_By0:
-						directional.FaceDirection(OrientationEnum.Left_By270);
+						directional.FaceDirection(OrientationEnum.Left_By90);
 						break;
-					case OrientationEnum.Left_By270:
+					case OrientationEnum.Left_By90:
 						directional.FaceDirection(OrientationEnum.Down_By180);
 						break;
 					case OrientationEnum.Down_By180:
-						directional.FaceDirection(OrientationEnum.Right_By90);
+						directional.FaceDirection(OrientationEnum.Right_By270);
 						break;
 				}
 			}

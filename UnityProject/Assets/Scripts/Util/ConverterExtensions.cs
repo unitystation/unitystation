@@ -264,11 +264,11 @@ public static class ConverterExtensions
 		{
 			case OrientationEnum.Up_By0:
 				return Vector3.up;
-			case OrientationEnum.Right_By90:
+			case OrientationEnum.Right_By270:
 				return Vector3.right;
 			case OrientationEnum.Down_By180:
 				return Vector3.down;
-			case OrientationEnum.Left_By270:
+			case OrientationEnum.Left_By90:
 				return Vector3.left;
 
 		}

@@ -32,9 +32,9 @@ public struct Orientation : IEquatable<Orientation>
 		{
 			case OrientationEnum.Up_By0:
 				return Orientation.Up;
-			case OrientationEnum.Right_By90:
+			case OrientationEnum.Right_By270:
 				return Orientation.Right;
-			case OrientationEnum.Left_By270:
+			case OrientationEnum.Left_By90:
 				return Orientation.Left;
 			default:
 				return Orientation.Down;
@@ -51,11 +51,11 @@ public struct Orientation : IEquatable<Orientation>
 		}
 		else if (this == Right)
 		{
-			return OrientationEnum.Right_By90;
+			return OrientationEnum.Right_By270;
 		}
 		else if (this == Left)
 		{
-			return OrientationEnum.Left_By270;
+			return OrientationEnum.Left_By90;
 		}
 		else
 		{
@@ -267,8 +267,8 @@ public struct Orientation : IEquatable<Orientation>
 public enum OrientationEnum
 {
 	Default = -1,
-	Right_By90 = 0,
+	Right_By270 = 0,
 	Up_By0 = 1,
-	Left_By270 = 2,
+	Left_By90 = 2,
 	Down_By180 = 3
 }

@@ -155,9 +155,9 @@ namespace Systems.MobAIs
 		private readonly Dictionary<int, OrientationEnum> orientations = new Dictionary<int, OrientationEnum>()
 		{
 			{1, OrientationEnum.Up_By0},
-			{2, OrientationEnum.Right_By90},
+			{2, OrientationEnum.Right_By270},
 			{3, OrientationEnum.Down_By180},
-			{4, OrientationEnum.Left_By270}
+			{4, OrientationEnum.Left_By90}
 		};
 	}
 }

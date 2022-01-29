@@ -114,8 +114,8 @@ public class MatrixMove : ManagedBehaviour
 	{
 		{OrientationEnum.Up_By0,    new List<RcsThruster>()},
 		{OrientationEnum.Down_By180,  new List<RcsThruster>()},
-		{OrientationEnum.Left_By270,  new List<RcsThruster>()},
-		{OrientationEnum.Right_By90, new List<RcsThruster>()}
+		{OrientationEnum.Left_By90,  new List<RcsThruster>()},
+		{OrientationEnum.Right_By270, new List<RcsThruster>()}
 	};
 
 	/// <summary>
@@ -1122,16 +1122,16 @@ public class MatrixMove : ManagedBehaviour
 						return OrientationEnum.Down_By180;
 				}
 				break;
-			case OrientationEnum.Right_By90:
+			case OrientationEnum.Right_By270:
 				switch (worldOrientation)
 				{
 					case OrientationEnum.Up_By0:
-						return OrientationEnum.Left_By270;
-					case OrientationEnum.Right_By90:
+						return OrientationEnum.Left_By90;
+					case OrientationEnum.Right_By270:
 						return OrientationEnum.Down_By180;
 					case OrientationEnum.Down_By180:
-						return OrientationEnum.Right_By90;
-					case OrientationEnum.Left_By270:
+						return OrientationEnum.Right_By270;
+					case OrientationEnum.Left_By90:
 						return OrientationEnum.Up_By0;
 				}
 				break;
@@ -1140,24 +1140,24 @@ public class MatrixMove : ManagedBehaviour
 				{
 					case OrientationEnum.Up_By0:
 						return OrientationEnum.Up_By0;
-					case OrientationEnum.Right_By90:
-						return OrientationEnum.Left_By270;
+					case OrientationEnum.Right_By270:
+						return OrientationEnum.Left_By90;
 					case OrientationEnum.Down_By180:
 						return OrientationEnum.Down_By180;
-					case OrientationEnum.Left_By270:
-						return OrientationEnum.Right_By90;
+					case OrientationEnum.Left_By90:
+						return OrientationEnum.Right_By270;
 				}
 				break;
-			case OrientationEnum.Left_By270:
+			case OrientationEnum.Left_By90:
 				switch (worldOrientation)
 				{
 					case OrientationEnum.Up_By0:
-						return OrientationEnum.Right_By90;
-					case OrientationEnum.Right_By90:
+						return OrientationEnum.Right_By270;
+					case OrientationEnum.Right_By270:
 						return OrientationEnum.Up_By0;
 					case OrientationEnum.Down_By180:
-						return OrientationEnum.Left_By270;
-					case OrientationEnum.Left_By270:
+						return OrientationEnum.Left_By90;
+					case OrientationEnum.Left_By90:
 						return OrientationEnum.Down_By180;
 				}
 				break;
@@ -1259,9 +1259,9 @@ public class MatrixMove : ManagedBehaviour
 	void ClearRcsCache()
 	{
 		rcsThrusters[OrientationEnum.Up_By0].Clear();
-		rcsThrusters[OrientationEnum.Right_By90].Clear();
+		rcsThrusters[OrientationEnum.Right_By270].Clear();
 		rcsThrusters[OrientationEnum.Down_By180].Clear();
-		rcsThrusters[OrientationEnum.Left_By270].Clear();
+		rcsThrusters[OrientationEnum.Left_By90].Clear();
 	}
 
 #if UNITY_EDITOR

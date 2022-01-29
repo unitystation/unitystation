@@ -51,6 +51,12 @@ public class Rotatable : NetworkBehaviour, IMatrixRotation
 
 	private void SetDirection(OrientationEnum dir)
 	{
+		if (isServer == false && isLocalPlayer)
+		{
+			CmdChangeDirection(dir);
+			return;
+		}
+
 		if (SynchroniseCurrentLockAndDirection.Locked)
 		{
 			SyncServerDirection(SynchroniseCurrentDirection, SynchroniseCurrentLockAndDirection.LockedTo);
@@ -84,6 +90,31 @@ public class Rotatable : NetworkBehaviour, IMatrixRotation
 		}
 	}
 
+	public void SetFaceDirectionRotationZ(float direction)
+	{
+		if (45f > direction)
+		{
+			SetDirection(OrientationEnum.Up_By0);
+		}
+		else if (135f > direction)
+		{
+			SetDirection(OrientationEnum.Left_By90);
+		}
+		else if (225f > direction)
+		{
+			SetDirection(OrientationEnum.Down_By180);
+		}
+		else if (315f > direction)
+		{
+			SetDirection(OrientationEnum.Right_By270);
+		}
+		else //Wrapped around
+		{
+			SetDirection(OrientationEnum.Up_By0);
+		}
+
+	}
+
 	public void SetFaceDirectionLocalVictor(Vector2Int direction)
 	{
 		var newDir = OrientationEnum.Down_By180;
@@ -93,7 +124,7 @@ public class Rotatable : NetworkBehaviour, IMatrixRotation
 		}
 		else if (direction == Vector2Int.left)
 		{
-			newDir = OrientationEnum.Left_By270;
+			newDir = OrientationEnum.Left_By90;
 		}
 		else if (direction == Vector2Int.up)
 		{
@@ -101,7 +132,7 @@ public class Rotatable : NetworkBehaviour, IMatrixRotation
 		}
 		else if (direction == Vector2Int.right)
 		{
-			newDir = OrientationEnum.Right_By90;
+			newDir = OrientationEnum.Right_By270;
 		}
 		else if (direction.y == -1)
 		{
@@ -139,6 +170,11 @@ public class Rotatable : NetworkBehaviour, IMatrixRotation
 		ResitOthers();
 	}
 
+	public override void OnStartClient()
+	{
+		SyncServerDirection(SynchroniseCurrentDirection, SynchroniseCurrentDirection);
+	}
+
 	private void Start()
 	{
 		Refresh();
@@ -165,13 +201,13 @@ public class Rotatable : NetworkBehaviour, IMatrixRotation
 			case OrientationEnum.Up_By0:
 				outQuaternion.eulerAngles = new Vector3(0, 0, 0f);
 				break;
-			case OrientationEnum.Right_By90:
+			case OrientationEnum.Right_By270:
 				outQuaternion.eulerAngles = new  Vector3(0, 0, -90f);
 				break;
 			case OrientationEnum.Down_By180:
 				outQuaternion.eulerAngles = new  Vector3(0, 0, -180f);
 				break;
-			case OrientationEnum.Left_By270:
+			case OrientationEnum.Left_By90:
 				outQuaternion.eulerAngles = new  Vector3(0, 0, -270f);
 				break;
 		}
@@ -202,13 +238,13 @@ public class Rotatable : NetworkBehaviour, IMatrixRotation
 			case OrientationEnum.Up_By0:
 				spriteVariant = 1;
 				break;
-			case OrientationEnum.Right_By90:
+			case OrientationEnum.Right_By270:
 				spriteVariant = 2;
 				break;
 			case OrientationEnum.Down_By180:
 				spriteVariant = 0;
 				break;
-			case OrientationEnum.Left_By270:
+			case OrientationEnum.Left_By90:
 				spriteVariant = 3;
 				break;
 		}
@@ -225,6 +261,14 @@ public class Rotatable : NetworkBehaviour, IMatrixRotation
 			}
 		}
 	}
+
+	//client requests the server to change serverDirection
+	[Command]
+	private void CmdChangeDirection(OrientationEnum direction)
+	{
+		SetDirection(direction);
+	}
+
 
 	public struct LockAndDirection
 	{

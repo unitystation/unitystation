@@ -159,8 +159,8 @@ namespace Objects.Drawers
 			{
 				case OrientationEnum.Up_By0: return SpriteOrientation.North;
 				case OrientationEnum.Down_By180: return SpriteOrientation.South;
-				case OrientationEnum.Left_By270: return SpriteOrientation.West;
-				case OrientationEnum.Right_By90: return SpriteOrientation.East;
+				case OrientationEnum.Left_By90: return SpriteOrientation.West;
+				case OrientationEnum.Right_By270: return SpriteOrientation.East;
 				default: return SpriteOrientation.South;
 			}
 		}

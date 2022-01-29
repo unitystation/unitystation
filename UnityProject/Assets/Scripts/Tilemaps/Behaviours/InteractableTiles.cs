@@ -476,11 +476,11 @@ public class InteractableTiles : MonoBehaviour, IClientInteractable<PositionalHa
 			{
 				if (PlaceDirection.x > 0)
 				{
-					orientation = OrientationEnum.Right_By90;
+					orientation = OrientationEnum.Right_By270;
 				}
 				else
 				{
-					orientation = OrientationEnum.Left_By270;
+					orientation = OrientationEnum.Left_By90;
 				}
 			}
 			else
@@ -521,12 +521,12 @@ public class InteractableTiles : MonoBehaviour, IClientInteractable<PositionalHa
 			Vector3 spritePos = tilePos;
 			if (wallMount.IsWallProtrusion) //for light bulbs, tubes, cameras, etc. move the sprite towards the floor
 			{
-				if(orientation == OrientationEnum.Right_By90)
+				if(orientation == OrientationEnum.Right_By270)
 				{
 					spritePos.x += 0.5f;
 					Highlight.instance.spriteRenderer.transform.rotation = Quaternion.Euler(0,0,270);
 				}
-				else if(orientation == OrientationEnum.Left_By270)
+				else if(orientation == OrientationEnum.Left_By90)
 				{
 						spritePos.x -= 0.5f;
 						Highlight.instance.spriteRenderer.transform.rotation = Quaternion.Euler(0,0,90);

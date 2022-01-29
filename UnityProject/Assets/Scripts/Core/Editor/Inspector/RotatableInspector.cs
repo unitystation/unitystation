@@ -38,7 +38,7 @@ namespace CustomInspectors
 
 			if (GUILayout.Button("Right"))
 			{
-				thisDevice.FaceDirection(OrientationEnum.Right_By90);
+				thisDevice.FaceDirection(OrientationEnum.Right_By270);
 				Save();
 			}
 
@@ -50,7 +50,7 @@ namespace CustomInspectors
 
 			if (GUILayout.Button("Left"))
 			{
-				thisDevice.FaceDirection(OrientationEnum.Left_By270);
+				thisDevice.FaceDirection(OrientationEnum.Left_By90);
 				Save();
 			}
 

@@ -54,7 +54,7 @@ public class GhostSprites : MonoBehaviour, IServerSpawn
 		{
 			SpriteHandler.ChangeSpriteVariant(1, networked:false);
 		}
-		else if (OrientationEnum.Right_By90 == direction)
+		else if (OrientationEnum.Right_By270 == direction)
 		{
 			SpriteHandler.ChangeSpriteVariant(2, networked:false);
 		}
