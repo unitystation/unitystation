@@ -38,6 +38,10 @@ namespace Doors
 		private bool isAutomatic = true;
 
 		[SerializeField, PrefabModeOnly]
+		[Tooltip("Can you interact with the door by HandApply or Bump?")]
+		private bool allowInteraction = true;
+
+		[SerializeField, PrefabModeOnly]
 		[Tooltip("Is this door designed no matter what is under neath it?")]
 		private bool ignorePassableChecks = false;
 
@@ -226,7 +230,6 @@ namespace Doors
 				}
 			}
 
-
 			//When a player interacts with the door, we must first check with each module on what to do.
 			//For instance, if one of the modules has locked the door, that module will want to prevent us from
 			//opening the door.
@@ -273,7 +276,7 @@ namespace Doors
 				}
 			}
 
-			if (!isPerformingAction && canClose && CheckStatusAllow(states))
+			if (!isPerformingAction && canClose && CheckStatusAllow(states) && allowInteraction)
 			{
 				PulseTryClose(interaction.Performer, inOverrideLogic: true);
 			}
@@ -311,7 +314,7 @@ namespace Doors
 				}
 			}
 
-			if (!isPerformingAction && (canOpen) && CheckStatusAllow(states))
+			if (!isPerformingAction && (canOpen) && CheckStatusAllow(states) && allowInteraction)
 			{
 				TryOpen(interaction.Performer);
 			}

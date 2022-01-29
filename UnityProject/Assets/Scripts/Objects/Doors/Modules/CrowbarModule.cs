@@ -13,6 +13,10 @@ namespace Doors.Modules
 		[SerializeField]
 		private AddressableAudioSource prySound = null;
 
+		[SerializeField]
+		[Tooltip("Can you crowbar pry the door when there no power")]
+		private bool crowbarRequiresNoPower = true;
+
 		private string soundGuid = "";
 
 		public override ModuleSignal OpenInteraction(HandApply interaction, HashSet<DoorProcessingStates> States)
@@ -41,12 +45,24 @@ namespace Doors.Modules
 		public override ModuleSignal ClosedInteraction(HandApply interaction, HashSet<DoorProcessingStates> States)
 		{
 			if (interaction == null) return ModuleSignal.Continue;
-			//If the door is powered, only allow things that are made to pry doors. If it isn't powered, we let crowbars work.
-			if ((!master.HasPower ||
-			     !Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.CanPryDoor)) &&
-			    (master.HasPower || !Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Crowbar)))
+
+			//If no power, need crowbar or pry to open doors
+			if (master.HasPower == false &&
+			    Validations.HasAnyTrait(interaction.HandObject,
+				    new []{CommonTraits.Instance.Crowbar, CommonTraits.Instance.CanPryDoor}) == false)
 			{
 				return ModuleSignal.Continue;
+			}
+
+			//If we have power then need pry
+			if (master.HasPower &&
+			    Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.CanPryDoor) == false)
+			{
+				//No pry so check to see if crowbar can act in power
+				if (crowbarRequiresNoPower || Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Crowbar) == false)
+				{
+					return ModuleSignal.Continue;
+				}
 			}
 
 			if (soundGuid != "")
