@@ -15,13 +15,13 @@ namespace Items.Atmospherics
 
 		public SpriteHandler SpriteHandler;
 		public RegisterItem registerItem;
-		private PlayerRotatable rotatable;
+		public Rotatable rotatable;
 
 		private void Awake()
 		{
 			SpriteHandler = this.GetComponentInChildren<SpriteHandler>();
 			registerItem = this.GetComponent<RegisterItem>();
-			rotatable = GetComponent<PlayerRotatable>();
+			rotatable = GetComponent<Rotatable>();
 		}
 
 		public void Start()
@@ -63,7 +63,7 @@ namespace Items.Atmospherics
 			}
 			else
 			{
-				rotatable.Rotate();
+				rotatable.RotateBy(1);
 			}
 		}
 
@@ -74,7 +74,7 @@ namespace Items.Atmospherics
 
 		public virtual void ServerPerformInteraction(HandActivate interaction)
 		{
-			rotatable.Rotate();
+			rotatable.RotateBy(1);
 		}
 
 		#endregion Interactions
