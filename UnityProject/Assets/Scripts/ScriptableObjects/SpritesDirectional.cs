@@ -29,7 +29,7 @@ namespace ScriptableObjects
 					return sprites[0];
 				case OrientationEnum.Down_By180:
 					return sprites[1];
-				case OrientationEnum.Left_By270:
+				case OrientationEnum.Left_By90:
 					return sprites[2];
 				default:
 					return sprites[3];
@@ -44,7 +44,7 @@ namespace ScriptableObjects
 					return 0;
 				case OrientationEnum.Down_By180:
 					return 1;
-				case OrientationEnum.Left_By270:
+				case OrientationEnum.Left_By90:
 					return 2;
 				default:
 					return 3;

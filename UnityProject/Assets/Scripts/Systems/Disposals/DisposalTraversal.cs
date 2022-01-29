@@ -111,8 +111,8 @@ namespace Systems.Disposals
 			{
 				case OrientationEnum.Up_By0: return Orientation.Down;
 				case OrientationEnum.Down_By180: return Orientation.Up;
-				case OrientationEnum.Left_By270: return Orientation.Right;
-				case OrientationEnum.Right_By90: return Orientation.Left;
+				case OrientationEnum.Left_By90: return Orientation.Right;
+				case OrientationEnum.Right_By270: return Orientation.Left;
 			}
 
 			return Orientation.Left;
