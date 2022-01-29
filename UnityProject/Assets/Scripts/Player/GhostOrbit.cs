@@ -50,6 +50,8 @@ namespace Player
 
 		private void UpdateMe()
 		{
+			if(isLocalPlayer == false) return;
+		
 			if (Input.GetMouseButtonDown(0))
 			{
 				if (hasClicked == false)
