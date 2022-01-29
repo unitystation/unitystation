@@ -11,6 +11,7 @@ namespace AdminTools
 		public MentorPlayerChat mentorPlayerChat = null;
 		public AdminToAdminChat adminToAdminChat = null;
 		public PlayerPrayerWindow playerPrayerWindow = null;
+		public AdminLogWindow adminLogWindow = null;
 		public List<AdminPlayersScrollView> playerListViews = new List<AdminPlayersScrollView>();
 
 		public AdminChatWindow SelectedWindow { get; private set; }
@@ -33,6 +34,7 @@ namespace AdminTools
 			mentorPlayerChat.gameObject.SetActive(false);
 			adminToAdminChat.gameObject.SetActive(false);
 			playerPrayerWindow.gameObject.SetActive(false);
+			adminLogWindow.gameObject.SetActive(false);
 
 			switch (window)
 			{
@@ -52,6 +54,10 @@ namespace AdminTools
 					playerPrayerWindow.gameObject.SetActive(true);
 					SelectedWindow = AdminChatWindow.PrayerWindow;
 					break;
+				case AdminChatWindow.AdminLogWindow:
+					adminLogWindow.gameObject.SetActive(true);
+					SelectedWindow = AdminChatWindow.AdminLogWindow;
+					break;
 				default:
 					SelectedWindow = AdminChatWindow.None;
 					break;
@@ -69,6 +75,7 @@ namespace AdminTools
 			mentorPlayerChat.ClearLogs();
 			adminToAdminChat.ClearLogs();
 			playerPrayerWindow.ClearLogs();
+			adminLogWindow.ClearLogs();
 		}
 	}
 
@@ -78,6 +85,7 @@ namespace AdminTools
 		AdminPlayerChat,
 		AdminToAdminChat,
 		MentorPlayerChat,
-		PrayerWindow
+		PrayerWindow,
+		AdminLogWindow
 	}
 }
