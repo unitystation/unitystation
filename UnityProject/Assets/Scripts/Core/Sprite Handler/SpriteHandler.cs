@@ -33,7 +33,11 @@ public class SpriteHandler : MonoBehaviour
 	public SpriteRenderer SpriteRenderer => spriteRenderer;
 	private Image image;
 
+	[SerializeField]
+	private bool doReverseAnimation = false;
+
 	private int animationIndex = 0;
+	private bool isReversing;
 
 	[SerializeField]
 	private bool pushTextureOnStartUp = true;
@@ -791,18 +795,38 @@ public class SpriteHandler : MonoBehaviour
 		{
 			if (variantIndex < PresentSpriteSet.Variance.Count)
 			{
-				animationIndex++;
-				if (animationIndex >= PresentSpriteSet.Variance[variantIndex].Frames.Count)
+				animationIndex = isReversing ? animationIndex - 1 : animationIndex + 1;
+				var frameCount = PresentSpriteSet.Variance[variantIndex].Frames.Count;
+
+				if (animationIndex < 0)
 				{
 					animationIndex = 0;
+					isReversing = false;
+
 					if (animateOnce)
 					{
-						InternalChangeSprite(CataloguePage + 1 < SubCatalogue.Count ? CataloguePage + 1 : 0, false);
-						isAnimation = false;
-						UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
+						//Stop animate once if we do a full cycle
+						InternalStopAnimation();
 						return;
 					}
 				}
+				else if (animationIndex >= frameCount)
+				{
+					if (doReverseAnimation)
+					{
+						isReversing = true;
+					}
+
+					//-2 so we don't repeat the last frame
+					animationIndex = isReversing ? frameCount - 2 : 0;
+
+					if (animateOnce && isReversing == false)
+					{
+						InternalStopAnimation();
+						return;
+					}
+				}
+
 				var frame = PresentSpriteSet.Variance[variantIndex].Frames[animationIndex];
 				SetSprite(frame);
 			}
@@ -813,6 +837,13 @@ public class SpriteHandler : MonoBehaviour
 		{
 			UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
 		}
+	}
+
+	private void InternalStopAnimation()
+	{
+		InternalChangeSprite(CataloguePage + 1 < SubCatalogue.Count ? CataloguePage + 1 : 0, false);
+		isAnimation = false;
+		UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
 	}
 
 	private void SetSprite(SpriteDataSO.Frame frame)

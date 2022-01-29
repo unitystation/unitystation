@@ -53,7 +53,7 @@ public class IDCard : NetworkBehaviour, IServerInventoryMove, IServerSpawn, IInt
 	private JobType jobType;
 
 	[SyncVar(hook = nameof(SyncJobTitle))]
-	private string jobTitle;
+	private string jobTitle = "";
 
 	[SyncVar(hook = nameof(SyncName))]
 	private string registeredName;
