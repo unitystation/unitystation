@@ -267,7 +267,7 @@ namespace Objects.Atmospherics
 
 		#region Interaction
 
-		public override void HandApplyInteraction(HandApply interaction)
+		public override void ServerPerformInteraction(HandApply interaction)
 		{
 			if (Validations.HasItemTrait(interaction.UsedObject, CommonTraits.Instance.Wrench))
 			{

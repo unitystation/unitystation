@@ -311,6 +311,11 @@ public class IDCard : NetworkBehaviour, IServerInventoryMove, IServerSpawn, IInt
 	[Server]
 	public void ServerSetJobTitle(string newJobTitle)
 	{
+		if (string.IsNullOrEmpty(newJobTitle))
+		{
+			newJobTitle = "";
+		}
+
 		SyncJobTitle(jobTitle, newJobTitle);
 	}
 
