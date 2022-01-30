@@ -72,6 +72,8 @@ public class MouseDraggable : MonoBehaviour
 
 	private void LateUpdate()
 	{
+		if(CustomNetworkManager.IsHeadless) return;
+		
 		if (shadowObject == null)
 		{
 			return;
