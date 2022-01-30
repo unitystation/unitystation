@@ -127,13 +127,7 @@ namespace Systems.Atmospherics
 			//hotspot spread to adjacent tiles and damage
 			foreach (MetaDataNode node in hotspots.Values)
 			{
-				foreach (var neighbor in node.Neighbors)
-				{
-					if (neighbor != null)
-					{
-						ExposeHotspot(neighbor.Position);
-					}
-				}
+				ExposeHotspot(node.Position);
 			}
 
 			reactionTick++;
@@ -338,8 +332,8 @@ namespace Systems.Atmospherics
 			Profiler.BeginSample("ExposureInit");
 			var isSideExposure = hotspotPosition != atLocalPosition;
 			//calculate world position
-			var hotspotWorldPosition = MatrixManager.LocalToWorldInt(hotspotPosition, MatrixManager.Get(matrix));
-			var atWorldPosition = MatrixManager.LocalToWorldInt(atLocalPosition, MatrixManager.Get(matrix));
+			var hotspotWorldPosition = MatrixManager.LocalToWorldInt(hotspotPosition, matrix.MatrixInfo);
+			var atWorldPosition = MatrixManager.LocalToWorldInt(atLocalPosition, matrix.MatrixInfo);
 
 			if (!hotspots.ContainsKey(hotspotPosition))
 			{
