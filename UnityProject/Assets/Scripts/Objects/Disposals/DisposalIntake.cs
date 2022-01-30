@@ -30,13 +30,16 @@ namespace Objects.Disposals
 		protected override void Awake()
 		{
 			base.Awake();
-
-			if (TryGetComponent<Rotatable>(out var directional))
-			{
-				directional.OnRotationChange.AddListener(OnDirectionChanged);
-			}
 			directionalPassable = GetComponent<DirectionalPassable>();
 			DenyEntry();
+		}
+
+		private void OnEnable()
+		{
+			if (TryGetComponent<Rotatable>(out var rotatable))
+			{
+				rotatable.OnRotationChange.AddListener(OnDirectionChanged);
+			}
 		}
 
 		private void Start()
@@ -162,6 +165,11 @@ namespace Objects.Disposals
 		private void OnDisable()
 		{
 			UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
+
+			if (TryGetComponent<Rotatable>(out var rotatable))
+			{
+				rotatable.OnRotationChange.AddListener(OnDirectionChanged);
+			}
 		}
 
 		protected override void SetMachineUninstalled()

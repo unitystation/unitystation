@@ -87,6 +87,11 @@ namespace Objects
 			GetComponent<Integrity>().OnWillDestroyServer.AddListener(OnWillDestroyServer);
 		}
 
+		private void OnDisable()
+		{
+			rotatable.OnRotationChange.RemoveListener(OnDirectionChanged);
+		}
+
 		private void OnWillDestroyServer(DestructionInfo info)
 		{
 			//release the player

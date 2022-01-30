@@ -102,14 +102,20 @@ namespace Player
 
 			AddOverlayGameObjects();
 
+
+		}
+
+		private void OnEnable()
+		{
 			directional.OnRotationChange.AddListener(OnDirectionChange);
+
 			//TODO: Need to reimplement fire stacks on players.
 			playerHealth.OnClientFireStacksChange.AddListener(OnClientFireStacksChange);
 			var healthStateController = GetComponent<HealthStateController>();
 			OnClientFireStacksChange(healthStateController.FireStacks);
 		}
 
-		private void OnDestroy()
+		private void OnDisable()
 		{
 			playerHealth.OnClientFireStacksChange.RemoveListener(OnClientFireStacksChange);
 			directional.OnRotationChange.RemoveListener(OnDirectionChange);

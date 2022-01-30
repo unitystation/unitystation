@@ -81,6 +81,11 @@ namespace Objects.Drawers
 			rotatable.OnRotationChange.AddListener(OnDirectionChanged);
 		}
 
+		private void OnDisable()
+		{
+			rotatable.OnRotationChange.RemoveListener(OnDirectionChanged);
+		}
+
 		private void ServerInit()
 		{
 			SpawnResult traySpawn = Spawn.ServerPrefab(trayPrefab, DrawerWorldPosition);

@@ -35,9 +35,18 @@ namespace Objects.Disposals
 			rotatable = GetComponent<Rotatable>();
 		}
 
-		private void Start()
+		private void OnEnable()
 		{
 			rotatable.OnRotationChange.AddListener(OnDirectionChanged);
+		}
+
+		private void OnDisable()
+		{
+			rotatable.OnRotationChange.RemoveListener(OnDirectionChanged);
+		}
+
+		private void Start()
+		{
 			UpdateSpriteState();
 			UpdateSpriteOrientation();
 		}

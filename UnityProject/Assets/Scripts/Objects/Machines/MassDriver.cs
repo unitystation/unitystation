@@ -35,6 +35,11 @@ namespace Objects
 			registerTile = GetComponent<RegisterTile>();
 			spriteHandler = GetComponentInChildren<SpriteHandler>();
 			switchController = GetComponent<GeneralSwitchController>();
+		}
+
+		private void OnEnable()
+		{
+			switchController.SwitchPressedDoAction.AddListener(DoAction);
 
 			if (directional != null)
 			{
@@ -42,14 +47,14 @@ namespace Objects
 			}
 		}
 
-		private void OnEnable()
-		{
-			switchController.SwitchPressedDoAction.AddListener(DoAction);
-		}
-
 		private void OnDisable()
 		{
 			switchController.SwitchPressedDoAction.RemoveListener(DoAction);
+
+			if (directional != null)
+			{
+				directional.OnRotationChange.RemoveListener(OnDirectionChanged);
+			}
 		}
 
 		#region Sync
