@@ -51,11 +51,17 @@ public class Rotatable : NetworkBehaviour, IMatrixRotation
 
 	private void SetDirection(OrientationEnum dir)
 	{
-		if (isServer == false && isLocalPlayer)
+#if UNITY_EDITOR
+		if (Application.isPlaying == false)
 		{
-			CmdChangeDirection(dir);
+#endif
+			if (isServer == false && isLocalPlayer)
+			{
+				CmdChangeDirection(dir);
+			}
+#if UNITY_EDITOR
 		}
-
+#endif
 		if (SynchroniseCurrentLockAndDirection.Locked)
 		{
 			SyncServerDirection(SynchroniseCurrentDirection, SynchroniseCurrentLockAndDirection.LockedTo);
