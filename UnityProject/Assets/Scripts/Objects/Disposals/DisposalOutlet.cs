@@ -174,7 +174,7 @@ namespace Objects.Disposals
 		{
 			base.StateUpdate(state);
 
-			if (powerState == PowerState.Off && Is0perating);
+			if (powerState == PowerState.Off);
 				SetOutletOperating(false);
 
 		}
