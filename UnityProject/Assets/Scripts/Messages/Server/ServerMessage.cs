@@ -128,7 +128,7 @@ namespace Messages.Server
 
 			for (int i = players.Count - 1; i > 0; i--)
 			{
-				if (Vector2.Distance(worldPosition, players[i].GameObject.transform.position) > 15f) return;
+				if (Vector2.Distance(worldPosition, players[i].GameObject.transform.position) > 15f) continue;
 
 				players[i].Connection.Send(msg, channel);
 			}
