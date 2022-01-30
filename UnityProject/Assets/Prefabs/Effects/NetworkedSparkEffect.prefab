@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 6741626384873609569}
   - component: {fileID: 6492030848038545599}
   m_Layer: 0
-  m_Name: SparkEffect
+  m_Name: NetworkedSparkEffect
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -50,7 +50,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   time: 0.7
-  light: {fileID: 6429518525679597239}
+  lightSprite: {fileID: 6429518525679597239}
+  networkDestroy: 1
 --- !u!114 &6269792346482723432
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -100,7 +101,7 @@ MonoBehaviour:
   syncInterval: 0.1
   matrixDebugLogging: 0
   objectType: 0
-  customNetTransform: {fileID: 0}
+  customNetTransform: {fileID: 5106849901860354244}
   prefabTracker: {fileID: 0}
   CurrentsortingGroup: {fileID: 0}
 --- !u!114 &6492030848038545599
@@ -217,6 +218,7 @@ MonoBehaviour:
   SubCatalogue: []
   PresentSpriteSet: {fileID: 11400000, guid: 2b78d5b79d4074f41af327b71f3cf2b3, type: 2}
   randomInitialSprite: 0
+  doReverseAnimation: 0
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
   palette: []

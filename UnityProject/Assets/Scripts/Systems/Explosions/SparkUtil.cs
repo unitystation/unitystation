@@ -7,6 +7,8 @@ namespace Systems.Explosions
 	{
 		/// <summary>
 		/// Try spark using an gameObject
+		/// (USE ONLY FOR SINGLE ONE OF USE, NOT LOOPING)
+		/// (See lightsource for alternative)
 		/// </summary>
 		public static void TrySpark(GameObject originator, float chanceToSpark = 100, bool expose = true)
 		{
