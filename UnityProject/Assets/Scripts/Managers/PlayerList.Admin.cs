@@ -988,7 +988,7 @@ public partial class PlayerList
 
 				DiscordWebhookMessage.Instance.AddWebHookMessageToQueue(DiscordWebhookURLs.DiscordWebhookAdminLogURL, message + $"\nReason: {reason}", "");
 
-				UIManager.Instance.adminChatWindows.adminToAdminChat.ServerAddChatRecord(message, null);
+				UIManager.Instance.adminChatWindows.adminLogWindow.ServerAddChatRecord(message, null);
 
 				if (!announceBan || !ServerData.ServerConfig.DiscordWebhookEnableBanKickAnnouncement) return;
 
@@ -1025,7 +1025,7 @@ public partial class PlayerList
 
 				DiscordWebhookMessage.Instance.AddWebHookMessageToQueue(DiscordWebhookURLs.DiscordWebhookAdminLogURL, message + $"\nReason: {reason}", "");
 
-				UIManager.Instance.adminChatWindows.adminToAdminChat.ServerAddChatRecord(message, null);
+				UIManager.Instance.adminChatWindows.adminLogWindow.ServerAddChatRecord(message, null);
 
 				if (!announceBan || !ServerData.ServerConfig.DiscordWebhookEnableBanKickAnnouncement) return;
 
@@ -1143,7 +1143,7 @@ public partial class PlayerList
 
 				StartCoroutine(JobBanPlayer(p, reason, isPerma, banMinutes, jobType, adminPlayer));
 
-				UIManager.Instance.adminChatWindows.adminToAdminChat.ServerAddChatRecord($"{adminPlayer.Username}: job banned {p.Username} from {jobType}, IsPerma: {isPerma}, BanMinutes: {banMinutes}", null);
+				UIManager.Instance.adminChatWindows.adminLogWindow.ServerAddChatRecord($"{adminPlayer.Username}: job banned {p.Username} from {jobType}, IsPerma: {isPerma}, BanMinutes: {banMinutes}", null);
 
 				DiscordWebhookMessage.Instance.AddWebHookMessageToQueue(DiscordWebhookURLs.DiscordWebhookAdminLogURL, message + $"\nReason: {reason}", "");
 
