@@ -23,6 +23,7 @@ GameObject:
   - component: {fileID: 1330345529673600466}
   - component: {fileID: 6707578277650812142}
   - component: {fileID: 5523562659901824724}
+  - component: {fileID: 5407490097212406014}
   m_Layer: 11
   m_Name: DisposalBin
   m_TagString: Untagged
@@ -164,7 +165,6 @@ MonoBehaviour:
       m_AssetGUID: 
       m_SubObjectName: 
       m_SubObjectType: 
-      m_EditorAssetChanged: 0
   damageDeflection: 0
   Armor:
     Melee: 0
@@ -249,7 +249,6 @@ MonoBehaviour:
       m_AssetGUID: 
       m_SubObjectName: 
       m_SubObjectType: 
-      m_EditorAssetChanged: 0
   soundDelayTime: 0
   soundMinimumPitchVariance: 1
   soundMaximumPitchVariance: 1
@@ -306,7 +305,6 @@ MonoBehaviour:
       m_AssetGUID: 
       m_SubObjectName: 
       m_SubObjectType: 
-      m_EditorAssetChanged: 0
   AirFlapSound:
     SetLoadSetting: 0
     AssetAddress: Assets/Prefabs/Machines/Click.prefab
@@ -314,7 +312,6 @@ MonoBehaviour:
       m_AssetGUID: 
       m_SubObjectName: 
       m_SubObjectType: 
-      m_EditorAssetChanged: 0
   FlushSound:
     SetLoadSetting: 0
     AssetAddress: Assets/Prefabs/Machines/DisposalMachines/DisposalMachineFlush.prefab
@@ -322,7 +319,6 @@ MonoBehaviour:
       m_AssetGUID: 
       m_SubObjectName: 
       m_SubObjectType: 
-      m_EditorAssetChanged: 0
   trashDunkSounds:
   - SetLoadSetting: 0
     AssetAddress: Assets/Prefabs/Effects/TrashDunk/TrashDunk1.prefab
@@ -330,21 +326,18 @@ MonoBehaviour:
       m_AssetGUID: 
       m_SubObjectName: 
       m_SubObjectType: 
-      m_EditorAssetChanged: 0
   - SetLoadSetting: 0
     AssetAddress: Assets/Prefabs/Effects/TrashDunk/TrashDunk2.prefab
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
       m_SubObjectType: 
-      m_EditorAssetChanged: 0
   - SetLoadSetting: 0
     AssetAddress: Assets/Prefabs/Effects/TrashDunk/TrashDunk3.prefab
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
       m_SubObjectType: 
-      m_EditorAssetChanged: 0
   trashDunkMissSound:
     SetLoadSetting: 0
     AssetAddress: Assets/Prefabs/Effects/TrashDunk/DunkMiss.prefab
@@ -352,7 +345,6 @@ MonoBehaviour:
       m_AssetGUID: 
       m_SubObjectName: 
       m_SubObjectType: 
-      m_EditorAssetChanged: 0
 --- !u!114 &6707578277650812142
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -395,6 +387,30 @@ MonoBehaviour:
   ReleasePressure: 101.325
   Volume: 0.5
   Temperature: 293.15
+--- !u!114 &5407490097212406014
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1000010167295674}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 053e2d398d507cc449f05be2499aa497, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  minimumWorkingVoltage: 190
+  expectedRunningVoltage: 240
+  maximumWorkingVoltage: 300
+  deviceType: 0
+  isSelfPowered: 0
+  wattusage: 0.01
+  InitialResistance: 100000000
+  RelatedAPC: {fileID: 0}
+  AdvancedControlToScript: 0
+  StateUpdateOnClient: 1
 --- !u!1 &1000010229813120
 GameObject:
   m_ObjectHideFlags: 0

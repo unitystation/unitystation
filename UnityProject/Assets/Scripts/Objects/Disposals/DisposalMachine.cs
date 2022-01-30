@@ -44,6 +44,8 @@ namespace Objects.Disposals
 		public virtual bool MachineWrenchable => MachineUnattached || MachineAnchored;
 		public virtual bool MachineWeldable => MachineAnchored || MachineSecured;
 
+		protected PowerState powerState;
+
 		#region Lifecycle
 
 		protected virtual void Awake()
@@ -53,12 +55,14 @@ namespace Objects.Disposals
 			objectBehaviour = GetComponent<ObjectBehaviour>();
 			objectContainer = GetComponent<ObjectContainer>();
 			gasContainer = GetComponent<GasContainer>();
+			apcPoweredDevice = GetComponent<APCPoweredDevice>();
 
 			baseSpriteHandler = transform.GetChild(0).GetComponent<SpriteHandler>();
 		}
 
 		public virtual void OnSpawnServer(SpawnInfo info)
 		{
+			powerState = apcPoweredDevice.State;
 			if (PipeTerminalExists())
 			{
 				SpawnMachineAsInstalled();
@@ -293,7 +297,10 @@ namespace Objects.Disposals
 		#region IAPCPowerable
 
 		public void PowerNetworkUpdate(float voltage) { }
-		public abstract void StateUpdate(PowerState state);
+		public virtual void StateUpdate(PowerState state)
+		{
+			powerState = state;
+		}
 
 		#endregion
 	}

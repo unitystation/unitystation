@@ -91,15 +91,12 @@ namespace Objects.Disposals
 
 		private float RandomDunkPitch => Random.Range(0.7f, 1.2f);
 
-		private PowerState powerState;
-
 		#region Lifecycle
 
 		protected override void Awake()
 		{
 			base.Awake();
 			netTab = GetComponent<HasNetworkTab>();
-			apcPoweredDevice = GetComponent<APCPoweredDevice>();
 			overlaysSpriteHandler = transform.GetChild(1).GetComponent<SpriteHandler>();
 		}
 
@@ -107,7 +104,6 @@ namespace Objects.Disposals
 		{
 			// Assume bin starts unanchored and therefore UI is inaccessable.
 			netTab.enabled = false;
-			powerState = apcPoweredDevice.State;
 
 			UpdateSpriteBinState();
 
@@ -553,7 +549,8 @@ namespace Objects.Disposals
 
 		public override void StateUpdate(PowerState state)
 		{
-			powerState = state;
+			base.StateUpdate(state);
+
 			if (powerState == PowerState.Off)
 				SetBinState(BinState.Off);
 		}

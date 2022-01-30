@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using AddressableReferences;
+using Systems.Electricity;
 
 namespace Objects.Disposals
 {
@@ -62,6 +63,9 @@ namespace Objects.Disposals
 		private void SetOutletOperating(bool isOperating)
 		{
 			IsOperating = isOperating;
+			if (powerState == PowerState.Off)
+				IsOperating = false;
+
 			UpdateSpriteState();
 		}
 
@@ -162,5 +166,17 @@ namespace Objects.Disposals
 				SetOutletOperating(false);
 			}
 		}
+
+		#region IAPCPowerable
+
+		public override void StateUpdate(PowerState state)
+		{
+			base.StateUpdate(state);
+
+			if (powerState == PowerState.Off)
+				SetBinState(BinState.Off);
+		}
+
+		#endregion
 	}
 }

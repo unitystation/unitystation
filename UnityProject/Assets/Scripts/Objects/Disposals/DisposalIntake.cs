@@ -4,6 +4,7 @@ using UnityEngine;
 using Core.Directionals;
 using Systems.Disposals;
 using AddressableReferences;
+using Systems.Electricity;
 
 namespace Objects.Disposals
 {
@@ -63,6 +64,9 @@ namespace Objects.Disposals
 		private void SetIntakeOperating(bool isOperating)
 		{
 			IsOperating = isOperating;
+			if (powerState == PowerState.Off)
+				IsOperating = false;
+
 			UpdateSpriteState();
 		}
 
@@ -182,5 +186,15 @@ namespace Objects.Disposals
 		{
 			directionalPassable.AllowPassableAtSetSides(PassType.Entering);
 		}
+
+		#region IAPCPowerable
+
+		public override void StateUpdate(PowerState state)
+		{
+			if(powerState == PowerState.Off)
+				SetIntakeOperating(false);
+		}
+
+		#endregion
 	}
 }
