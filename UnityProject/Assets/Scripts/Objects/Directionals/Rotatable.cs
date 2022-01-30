@@ -96,6 +96,8 @@ public class Rotatable : NetworkBehaviour, IMatrixRotation
 
 	private void SyncServerDirection(OrientationEnum oldDir, OrientationEnum dir)
 	{
+		//Seems like headless is running the hook when it shouldn't be
+		//(Mirror bug or our custom code broke something?)
 		if(CustomNetworkManager.IsHeadless) return;
 
 		SetDirectionInternal(oldDir, dir);

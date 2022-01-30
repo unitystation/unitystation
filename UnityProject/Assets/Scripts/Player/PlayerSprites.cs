@@ -112,6 +112,7 @@ namespace Player
 		private void OnDestroy()
 		{
 			playerHealth.OnClientFireStacksChange.RemoveListener(OnClientFireStacksChange);
+			directional.OnRotationChange.RemoveListener(OnDirectionChange);
 		}
 
 		/// <summary>
@@ -362,7 +363,6 @@ namespace Player
 			{
 				bodypart.OnDirectionChange(direction);
 			}
-
 
 			//TODO: Reimplement player fire sprites.
 			UpdateBurningOverlays(playerHealth.FireStacks, direction);
