@@ -51,18 +51,13 @@ public class Rotatable : NetworkBehaviour, IMatrixRotation
 
 	private void SetDirection(OrientationEnum dir)
 	{
-		if (isServer == false && isLocalPlayer)
-		{
-			CmdChangeDirection(dir);
-		}
-
 		if (SynchroniseCurrentLockAndDirection.Locked)
 		{
-			SyncServerDirection(SynchroniseCurrentDirection, SynchroniseCurrentLockAndDirection.LockedTo);
+			SetDirectionInternal(SynchroniseCurrentDirection, SynchroniseCurrentLockAndDirection.LockedTo);
 		}
 		else
 		{
-			SyncServerDirection(SynchroniseCurrentDirection, dir);
+			SetDirectionInternal(SynchroniseCurrentDirection, dir);
 		}
 	}
 
@@ -78,15 +73,34 @@ public class Rotatable : NetworkBehaviour, IMatrixRotation
 		SetDirection(SynchroniseCurrentLockAndDirection.LockedTo);
 	}
 
-	private void SyncServerDirection(OrientationEnum oldDir, OrientationEnum dir)
+	private void SetDirectionInternal(OrientationEnum oldDir, OrientationEnum dir)
 	{
 		CurrentDirection = dir;
 		SynchroniseCurrentDirection = dir;
 		RotateObject(dir);
+
 		if (oldDir != dir)
 		{
+			if (
+				#if UNITY_EDITOR
+				Application.isPlaying &&
+				#endif
+				isServer == false && isLocalPlayer)
+			{
+				CmdChangeDirection(dir);
+			}
+
 			OnRotationChange.Invoke(dir);
 		}
+	}
+
+	private void SyncServerDirection(OrientationEnum oldDir, OrientationEnum dir)
+	{
+		//Seems like headless is running the hook when it shouldn't be
+		//(Mirror bug or our custom code broke something?)
+		if(CustomNetworkManager.IsHeadless) return;
+
+		SetDirectionInternal(oldDir, dir);
 	}
 
 	public void SetFaceDirectionRotationZ(float direction)

@@ -101,6 +101,9 @@ public class BodyPartSprites : MonoBehaviour
 			}
 		}
 
+		//Not networked so don't run sprite change on headless
+		if (CustomNetworkManager.IsHeadless) return;
+
 		baseSpriteHandler.ChangeSpriteVariant(referenceOffset, false);
 	}
 
