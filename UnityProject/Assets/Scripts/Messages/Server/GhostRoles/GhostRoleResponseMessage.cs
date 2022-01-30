@@ -59,7 +59,7 @@ namespace Messages.Server.GhostRoles
 		}
 	}
 
-	public enum GhostRoleResponseCode
+	public enum GhostRoleResponseCode : byte
 	{
 		Success,
 		RoleNotFound,

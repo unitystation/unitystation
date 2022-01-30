@@ -264,9 +264,8 @@ public struct Orientation : IEquatable<Orientation>
 /// <summary>
 /// Only for allowing setting an orientation in editor
 /// </summary>
-public enum OrientationEnum
+public enum OrientationEnum : byte
 {
-	Default = -1,
 	Right_By270 = 0,
 	Up_By0 = 1,
 	Left_By90 = 2,

@@ -8,7 +8,7 @@ using System.Linq;
 /// <summary>
 /// Describes all possible actions which can be mapped to a key
 /// </summary>
-public enum KeyAction
+public enum KeyAction : byte
 {
 	// No action
 	None = 0,
@@ -75,7 +75,7 @@ public enum KeyAction
 	PocketOne,
 	PocketTwo,
 	PocketThree,
-	
+
 	//Interactions that only happen when this key is pressed
 	RadialScrollBackward,
 	RadialScrollForward,
@@ -84,7 +84,7 @@ public enum KeyAction
 /// <summary>
 /// A subset of KeyAction which only describes move actions
 /// </summary>
-public enum MoveAction
+public enum MoveAction : byte
 {
 	MoveUp = KeyAction.MoveUp,
 	MoveLeft = KeyAction.MoveLeft,

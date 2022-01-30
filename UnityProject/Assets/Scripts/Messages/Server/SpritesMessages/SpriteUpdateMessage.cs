@@ -166,7 +166,7 @@ namespace Messages.Server.SpritesMessages
 			public List<int> arg = new List<int>();
 		}
 
-		public enum SpriteOperation
+		public enum SpriteOperation : byte
 		{
 			PresentSpriteSet,
 			VariantIndex,
