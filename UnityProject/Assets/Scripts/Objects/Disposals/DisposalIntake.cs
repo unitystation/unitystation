@@ -168,7 +168,7 @@ namespace Objects.Disposals
 
 			if (TryGetComponent<Rotatable>(out var rotatable))
 			{
-				rotatable.OnRotationChange.AddListener(OnDirectionChanged);
+				rotatable.OnRotationChange.RemoveListener(OnDirectionChanged);
 			}
 		}
 
