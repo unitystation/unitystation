@@ -19,7 +19,7 @@ public static class ConverterExtensions
 
 	public static Vector3 ToNonInt3(this Vector3Int other)
 	{
-		return new Vector3(other.x, other.y, 0);
+		return new Vector3(other.x, other.y, other.z);
 	}
 
 
