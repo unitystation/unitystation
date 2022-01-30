@@ -1523,7 +1523,7 @@ namespace Mirror
         static void BroadcastToConnections()
         {
 	        //CUSTOM UNITYSTATION CODE//
-	        //Currently all player observe EVERYTHING so we can just loop through all identities and then all connections
+	        //Currently all players observe EVERYTHING so we can just loop through all identities and then all connections
 	        //Old mirror code was loop through all connections and then identities which was very bad for performance
             var connectionsCount = connectionsCopy.Count;
             foreach (var identityPair in NetworkIdentity.spawned)
@@ -1595,7 +1595,7 @@ namespace Mirror
             connections.Values.CopyTo(connectionsCopy);
 
             //CUSTOM UNITYSTATION CODE//
-            //Currently all player observe EVERYTHING so we can just loop through all identities and then all connections
+            //Currently all players observe EVERYTHING so we can just loop through all identities and then all connections
             //Old mirror code was loop through all connections and then identities which was very bad for performance
 
             var connectionsCount = connectionsCopy.Count;
