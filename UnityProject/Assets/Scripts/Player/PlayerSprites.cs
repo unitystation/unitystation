@@ -18,7 +18,7 @@ namespace Player
 	/// Note that the clothing you put on (UniCloths) are handled in Equipment
 	/// Ghosts are handled in GhostSprites.
 	/// </summary>
-	[RequireComponent(typeof(Directional))]
+	[RequireComponent(typeof(Rotatable))]
 	[RequireComponent(typeof(PlayerScript))]
 	public class PlayerSprites : MonoBehaviour
 	{
@@ -65,7 +65,7 @@ namespace Player
 
 		public readonly List<BodyPartSprites> SurfaceSprite = new List<BodyPartSprites>();
 
-		private Directional directional;
+		private Rotatable directional;
 		private PlayerDirectionalOverlay engulfedBurningOverlay;
 		private PlayerDirectionalOverlay partialBurningOverlay;
 		private PlayerDirectionalOverlay electrocutedOverlay;
@@ -92,7 +92,7 @@ namespace Player
 
 		protected void Awake()
 		{
-			directional = GetComponent<Directional>();
+			directional = GetComponent<Rotatable>();
 			playerHealth = GetComponent<PlayerHealthV2>();
 
 			foreach (var clothingItem in GetComponentsInChildren<ClothingItem>())
@@ -102,7 +102,7 @@ namespace Player
 
 			AddOverlayGameObjects();
 
-			directional.OnDirectionChange.AddListener(OnDirectionChange);
+			directional.OnRotationChange.AddListener(OnDirectionChange);
 			//TODO: Need to reimplement fire stacks on players.
 			playerHealth.OnClientFireStacksChange.AddListener(OnClientFireStacksChange);
 			var healthStateController = GetComponent<HealthStateController>();
@@ -253,10 +253,15 @@ namespace Player
 
 				if (externalCustomisation == null) continue;
 
-				var SpriteHandlerNorder = Spawn.ServerPrefab(ToInstantiateSpriteCustomisation.gameObject, null, CustomisationSprites.transform)
-										.GameObject.GetComponent<SpriteHandlerNorder>();
+
+				var Net = SpriteHandlerManager.GetRecursivelyANetworkBehaviour(this.gameObject);
+				var SpriteHandlerNorder = Instantiate(ToInstantiateSpriteCustomisation.gameObject, CustomisationSprites.transform)
+										.GetComponent<SpriteHandlerNorder>();
+				SpriteHandlerManager.UnRegisterHandler(Net, SpriteHandlerNorder.SpriteHandler);
+
 				SpriteHandlerNorder.transform.localPosition = Vector3.zero;
 				SpriteHandlerNorder.name = Customisation.CustomisationGroup.ThisType.ToString();
+				SpriteHandlerManager.RegisterHandler(Net, SpriteHandlerNorder.SpriteHandler);
 
 				var newone = new IntName();
 				newone.Int =
@@ -340,7 +345,7 @@ namespace Player
 			UpdateBurningOverlays(newStacks, directional.CurrentDirection);
 		}
 
-		private void OnDirectionChange(Orientation direction)
+		private void OnDirectionChange(OrientationEnum direction)
 		{
 			//update the clothing sprites
 			foreach (var clothingItem in clothes.Values)
@@ -387,7 +392,7 @@ namespace Player
 			electrocutedOverlay.StopOverlay();
 		}
 
-		private void UpdateElectrocutionOverlay(Orientation currentFacing)
+		private void UpdateElectrocutionOverlay(OrientationEnum currentFacing)
 		{
 			if (electrocutedOverlay.OverlayActive)
 			{
@@ -402,7 +407,7 @@ namespace Player
 		/// <summary>
 		/// Updates whether burning sprites are showing and sets their facing
 		/// </summary>
-		private void UpdateBurningOverlays(float fireStacks, Orientation currentFacing)
+		private void UpdateBurningOverlays(float fireStacks, OrientationEnum currentFacing)
 		{
 			if (fireStacks <= 0)
 			{

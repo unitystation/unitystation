@@ -23,7 +23,7 @@ namespace Messages.Client.Admin
 			var state = netMsg.RandomEventsAllowed ? "ON" : "OFF";
 			var msg = $"Admin: {SentByPlayer.Username}, turned random events {state}";
 
-			UIManager.Instance.adminChatWindows.adminToAdminChat.ServerAddChatRecord(msg, null);
+			UIManager.Instance.adminChatWindows.adminLogWindow.ServerAddChatRecord(msg, null);
 			DiscordWebhookMessage.Instance.AddWebHookMessageToQueue(DiscordWebhookURLs.DiscordWebhookAdminLogURL, msg, "");
 		}
 

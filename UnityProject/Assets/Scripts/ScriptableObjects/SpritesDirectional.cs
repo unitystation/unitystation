@@ -25,11 +25,11 @@ namespace ScriptableObjects
 			if (sprites.Length == 0) return null;
 			switch (direction)
 			{
-				case OrientationEnum.Up:
+				case OrientationEnum.Up_By0:
 					return sprites[0];
-				case OrientationEnum.Down:
+				case OrientationEnum.Down_By180:
 					return sprites[1];
-				case OrientationEnum.Left:
+				case OrientationEnum.Left_By90:
 					return sprites[2];
 				default:
 					return sprites[3];
@@ -40,11 +40,11 @@ namespace ScriptableObjects
 		{
 			switch (direction)
 			{
-				case OrientationEnum.Up:
+				case OrientationEnum.Up_By0:
 					return 0;
-				case OrientationEnum.Down:
+				case OrientationEnum.Down_By180:
 					return 1;
-				case OrientationEnum.Left:
+				case OrientationEnum.Left_By90:
 					return 2;
 				default:
 					return 3;

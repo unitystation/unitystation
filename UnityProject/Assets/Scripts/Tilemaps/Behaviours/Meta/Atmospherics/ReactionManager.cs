@@ -142,9 +142,15 @@ namespace Systems.Atmospherics
 
 		private void ProcessWindNodes(MetaDataNode windyNode)
 		{
-			foreach (var pushable in matrix.Get<PushPull>(windyNode.Position, true))
+			foreach (var registerTile in matrix.GetRegisterTile(windyNode.Position, true))
 			{
-				float correctedForce = (windyNode.WindForce * PushMultiplier) / (int)pushable.Pushable.Size;
+				//Quicker to get all RegisterTiles and grab the cached PushPull component from it than to get it manually using Get<>
+				if (registerTile.PushPull.HasComponent == false) continue;
+
+				var pushable = registerTile.PushPull.Component;
+
+				float correctedForce = (windyNode.WindForce * PushMultiplier) / (int) pushable.Pushable.Size;
+
 				if (correctedForce >= AtmosConstants.MinPushForce)
 				{
 					if (pushable.Pushable.IsTileSnap)
@@ -153,7 +159,7 @@ namespace Systems.Atmospherics
 						for (byte j = 0; j < pushes; j++)
 						{
 							//converting push to world coords because winddirection is in local coords
-							pushable.QueuePush((transform.rotation * windyNode.WindDirection.To3Int()).To2Int(),
+							pushable.QueuePush((transform.rotation * (Vector2)windyNode.WindDirection).To2Int(),
 								Random.Range((float)(correctedForce * 0.8), correctedForce));
 						}
 					}

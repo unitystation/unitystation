@@ -300,8 +300,8 @@ namespace Objects.Construction
 				}
 				GameObject WallMount = Spawn.ServerPrefab(APCObject, gameObject.GetComponent<CustomNetTransform>().ServerPosition, interaction.Performer.transform.parent, spawnItems: false).GameObject;
 
-				var Directional = WallMount.GetComponent<Directional>();
-				if (Directional != null) Directional.FaceDirection(gameObject.GetComponent<Directional>().CurrentDirection);
+				var Directional = WallMount.GetComponent<Rotatable>();
+				if (Directional != null) Directional.FaceDirection(gameObject.GetComponent<Rotatable>().CurrentDirection);
 
 				ItemSlot apcPowerControlSlot = WallMount.GetComponent<ItemStorage>().GetIndexedItemSlot(0);
 				ItemSlot apcPowerCellSlot = WallMount.GetComponent<ItemStorage>().GetIndexedItemSlot(1);

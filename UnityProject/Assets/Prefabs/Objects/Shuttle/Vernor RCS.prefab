@@ -16,7 +16,6 @@ GameObject:
   - component: {fileID: -8848886095367057909}
   - component: {fileID: -2051729626694222704}
   - component: {fileID: -3038391285617089312}
-  - component: {fileID: 8715427869010766872}
   - component: {fileID: 7977230789509237639}
   - component: {fileID: 2023411418653068415}
   m_Layer: 19
@@ -102,7 +101,7 @@ MonoBehaviour:
   syncInterval: 0.1
   matrixDebugLogging: 0
   objectType: 0
-  customNetTransform: {fileID: 0}
+  customNetTransform: {fileID: 493828552897054551}
   prefabTracker: {fileID: 0}
   CurrentsortingGroup: {fileID: 0}
   AtmosPassable: 1
@@ -124,12 +123,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  InitialDirection: 1
-  onEditorDirectionChange:
-    m_PersistentCalls:
-      m_Calls: []
-  ChangeDirectionWithMatrix: 1
-  DisableSyncing: 0
+  MethodRotation: 1
+  ChangeSprites: 0
+  isChangingSO: 0
+  CurrentDirection: 1
 --- !u!114 &-2051729626694222704
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -165,6 +162,7 @@ MonoBehaviour:
       m_AssetGUID: 
       m_SubObjectName: 
       m_SubObjectType: 
+      m_EditorAssetChanged: 0
   damageDeflection: 0
   Armor:
     Melee: 0
@@ -190,21 +188,6 @@ MonoBehaviour:
   HeatResistance: 100
   ExplosionsDamage: 100
   doDamageMessage: 1
-  CannotBeAshed: 0
---- !u!114 &8715427869010766872
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1395871990776010}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7a1123c5b215682469419ae00eb87e39, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  prefabChildrenOrientation: 1
-  forceChildrenOpposite: 0
 --- !u!114 &7977230789509237639
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -218,7 +201,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   thrusterParticles: {fileID: 4183094264157137370}
-  directional: {fileID: 8715427869010766872}
+  rotatable: {fileID: -8848886095367057909}
 --- !u!114 &2023411418653068415
 MonoBehaviour:
   m_ObjectHideFlags: 0

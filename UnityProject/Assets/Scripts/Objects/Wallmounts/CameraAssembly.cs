@@ -13,14 +13,14 @@ namespace Objects.Wallmounts
 		private GameObject securityCameraItemPrefab = null;
 
 		private RegisterTile registerTile;
-		private Directional directional;
+		private Rotatable rotatable;
 
 		private CameraAssemblyState state = CameraAssemblyState.Unwelded;
 
 		private void Awake()
 		{
 			registerTile = GetComponent<RegisterTile>();
-			directional = GetComponent<Directional>();
+			rotatable = GetComponent<Rotatable>();
 		}
 
 		public bool WillInteract(HandApply interaction, NetworkSide side)
@@ -141,7 +141,7 @@ namespace Objects.Wallmounts
 
 							if (result.Successful)
 							{
-								result.GameObject.GetComponent<Directional>().FaceDirection(directional.CurrentDirection);
+								result.GameObject.GetComponent<Rotatable>().FaceDirection(rotatable.CurrentDirection);
 								result.GameObject.GetComponent<SecurityCamera>().SetUp(interaction.PerformerPlayerScript);
 							}
 

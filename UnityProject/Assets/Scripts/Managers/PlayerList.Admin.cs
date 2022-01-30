@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 using DatabaseAPI;
 using Mirror;
@@ -23,8 +24,8 @@ public partial class PlayerList
 	private FileSystemWatcher adminListWatcher;
 	private FileSystemWatcher mentorListWatcher;
 	private FileSystemWatcher WhiteListWatcher;
-	private List<string> adminUsers = new List<string>();
-	private List<string> mentorUsers = new List<string>();
+	private HashSet<string> adminUsers = new HashSet<string>();
+	private HashSet<string> mentorUsers = new HashSet<string>();
 	private Dictionary<string, string> loggedInAdmins = new Dictionary<string, string>();
 	private Dictionary<string, string> loggedInMentors = new Dictionary<string, string>();
 	private BanList banList;
@@ -173,7 +174,7 @@ public partial class PlayerList
 		//ensure any writing has finished
 		yield return WaitFor.EndOfFrame;
 		adminUsers.Clear();
-		adminUsers = new List<string>(File.ReadAllLines(adminsPath));
+		adminUsers = new HashSet<string>(File.ReadAllLines(adminsPath));
 	}
 
 	IEnumerator LoadMentors()
@@ -181,7 +182,7 @@ public partial class PlayerList
 		//ensure any writing has finished
 		yield return WaitFor.EndOfFrame;
 		mentorUsers.Clear();
-		mentorUsers = new List<string>(File.ReadAllLines(mentorsPath));
+		mentorUsers = new HashSet<string>(File.ReadAllLines(mentorsPath));
 	}
 
 	[Server]
@@ -286,6 +287,54 @@ public partial class PlayerList
 	public bool IsMentor(string userID)
 	{
 		return mentorUsers.Contains(userID);
+	}
+
+	[Server]
+	public void TryAddMentor(string userID, bool addToFile = true)
+	{
+		if (IsMentor(userID) && addToFile == false) return;
+
+		mentorUsers.Add(userID);
+
+		var player = GetByUserID(userID);
+		if (player != null)
+		{
+			CheckMentorState(player, userID);
+		}
+
+		if (addToFile == false) return;
+
+		//Read file to see if already in file
+		var fileContents = File.ReadAllLines(mentorsPath);
+		if(fileContents.Contains(userID)) return;
+
+		//Write to file if not
+		var newContents = fileContents.Append(userID);
+		File.WriteAllLines(mentorsPath, newContents);
+	}
+
+	[Server]
+	public void TryRemoveMentor(string userID)
+	{
+		if (IsMentor(userID) == false) return;
+
+		mentorUsers.Remove(userID);
+
+		var player = GetByUserID(userID);
+		if (player != null)
+		{
+			MentorEnableMessage.Send(player.Connection, string.Empty, false);
+
+			CheckForLoggedOffMentor(userID, player.Username);
+		}
+
+		//Read file to see if already in file
+		var fileContents = File.ReadAllLines(mentorsPath);
+		if(fileContents.Contains(userID) == false) return;
+
+		//Remove from file if they are in there
+		var newContents = fileContents.Where(line => line != userID);
+		File.WriteAllLines(mentorsPath, newContents);
 	}
 
 	public async Task<bool> ValidatePlayer(int unverifiedClientVersion, ConnectedPlayer unverifiedConnPlayer,
@@ -400,10 +449,12 @@ public partial class PlayerList
 				Category.Admin);
 			return false;
 		}
+
 		var userId = unverifiedConnPlayer.UserId;
+		var isAdmin = adminUsers.Contains(userId);
 
 		//Adds server to admin list if not already in it.
-		if (userId == ServerData.UserID && !adminUsers.Contains(userId))
+		if (userId == ServerData.UserID && isAdmin == false)
 		{
 			File.AppendAllLines(adminsPath, new string[]
 			{
@@ -423,18 +474,34 @@ public partial class PlayerList
 			}
 		}
 
-		//Whitelist checking:
-		var lines = File.ReadAllLines(whiteListPath);
-
-		//Checks whether the userid is in either the Admins or whitelist AND that the whitelist file has something in it.
-		//Whitelist only activates if whitelist is populated.
-		if (lines.Length > 0 && !adminUsers.Contains(userId) && !whiteListUsers.Contains(userId))
+		if (isAdmin == false)
 		{
-			StartCoroutine(KickPlayer(unverifiedConnPlayer, $"Server Error: This account is not whitelisted."));
+			var playerLimit = GameManager.Instance.PlayerLimit;
 
-			Logger.Log($"{unverifiedConnPlayer.Username} tried to log in but the account is not whitelisted. " +
-						   $"IP: {unverifiedConnPlayer.ConnectionIP}", Category.Admin);
-			return false;
+			//PlayerLimit Checking:
+			//Deny player joining if limit reached and this player wasn't already in the round (in case of disconnect)
+			if (ConnectionCount > GameManager.Instance.PlayerLimit && roundPlayers.Contains(unverifiedConnPlayer) == false)
+			{
+				StartCoroutine(KickPlayer(unverifiedConnPlayer, $"Server Error: The server is full, player limit: {playerLimit}."));
+
+				Logger.Log($"{unverifiedConnPlayer.Username} tried to log in but PlayerLimit ({playerLimit}) was reached. " +
+				           $"IP: {unverifiedConnPlayer.ConnectionIP}", Category.Admin);
+				return false;
+			}
+
+			//Whitelist checking:
+			var lines = File.ReadAllLines(whiteListPath);
+
+			//Checks whether the userid is in either the Admins or whitelist AND that the whitelist file has something in it.
+			//Whitelist only activates if whitelist is populated.
+			if (lines.Length > 0 && !whiteListUsers.Contains(userId))
+			{
+				StartCoroutine(KickPlayer(unverifiedConnPlayer, $"Server Error: This account is not whitelisted."));
+
+				Logger.Log($"{unverifiedConnPlayer.Username} tried to log in but the account is not whitelisted. " +
+				           $"IP: {unverifiedConnPlayer.ConnectionIP}", Category.Admin);
+				return false;
+			}
 		}
 
 		//Banlist checking:
@@ -846,11 +913,18 @@ public partial class PlayerList
 
 	void CheckForLoggedOffAdmin(string userid, string userName)
 	{
-		if (loggedInAdmins.ContainsKey(userid))
-		{
-			Logger.Log($"Admin {userName} logged off.", Category.Admin);
-			loggedInAdmins.Remove(userid);
-		}
+		if (loggedInAdmins.ContainsKey(userid) == false) return;
+
+		Logger.Log($"Admin {userName} logged off.", Category.Admin);
+		loggedInAdmins.Remove(userid);
+	}
+
+	void CheckForLoggedOffMentor(string userid, string userName)
+	{
+		if (loggedInMentors.ContainsKey(userid) == false) return;
+
+		Logger.Log($"Mentor {userName} logged off.", Category.Admin);
+		loggedInMentors.Remove(userid);
 	}
 
 	public void SetClientAsAdmin(string _adminToken)
@@ -914,7 +988,7 @@ public partial class PlayerList
 
 				DiscordWebhookMessage.Instance.AddWebHookMessageToQueue(DiscordWebhookURLs.DiscordWebhookAdminLogURL, message + $"\nReason: {reason}", "");
 
-				UIManager.Instance.adminChatWindows.adminToAdminChat.ServerAddChatRecord(message, null);
+				UIManager.Instance.adminChatWindows.adminLogWindow.ServerAddChatRecord(message, null);
 
 				if (!announceBan || !ServerData.ServerConfig.DiscordWebhookEnableBanKickAnnouncement) return;
 
@@ -951,7 +1025,7 @@ public partial class PlayerList
 
 				DiscordWebhookMessage.Instance.AddWebHookMessageToQueue(DiscordWebhookURLs.DiscordWebhookAdminLogURL, message + $"\nReason: {reason}", "");
 
-				UIManager.Instance.adminChatWindows.adminToAdminChat.ServerAddChatRecord(message, null);
+				UIManager.Instance.adminChatWindows.adminLogWindow.ServerAddChatRecord(message, null);
 
 				if (!announceBan || !ServerData.ServerConfig.DiscordWebhookEnableBanKickAnnouncement) return;
 
@@ -1069,7 +1143,7 @@ public partial class PlayerList
 
 				StartCoroutine(JobBanPlayer(p, reason, isPerma, banMinutes, jobType, adminPlayer));
 
-				UIManager.Instance.adminChatWindows.adminToAdminChat.ServerAddChatRecord($"{adminPlayer.Username}: job banned {p.Username} from {jobType}, IsPerma: {isPerma}, BanMinutes: {banMinutes}", null);
+				UIManager.Instance.adminChatWindows.adminLogWindow.ServerAddChatRecord($"{adminPlayer.Username}: job banned {p.Username} from {jobType}, IsPerma: {isPerma}, BanMinutes: {banMinutes}", null);
 
 				DiscordWebhookMessage.Instance.AddWebHookMessageToQueue(DiscordWebhookURLs.DiscordWebhookAdminLogURL, message + $"\nReason: {reason}", "");
 

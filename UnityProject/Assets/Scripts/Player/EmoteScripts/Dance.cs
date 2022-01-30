@@ -24,25 +24,25 @@ namespace Player.EmoteScripts
 
 		private IEnumerator PerformDance(GameObject player)
 		{
-			var directional = player.transform.GetComponent<Directional>();
+			var directional = player.transform.GetComponent<Rotatable>();
 			var move = player.transform.GetComponent<PlayerMove>();
 
 			if (move.allowInput && !move.IsBuckled)
 			{
 				Chat.AddActionMsgToChat(player, $"{youText}", $"{player.ExpensiveName()} {viewText}.");
-				directional.FaceDirection(Orientation.Up);
+				directional.FaceDirection(OrientationEnum.Up_By0);
 				yield return WaitFor.Seconds(Random.Range(0.1f, 0.5f));
-				directional.FaceDirection(Orientation.Left);
+				directional.FaceDirection(OrientationEnum.Left_By90);
 				yield return WaitFor.Seconds(Random.Range(0.1f, 0.5f));
-				directional.FaceDirection(Orientation.Right);
+				directional.FaceDirection(OrientationEnum.Right_By270);
 				yield return WaitFor.Seconds(Random.Range(0.1f, 0.5f));
-				directional.FaceDirection(Orientation.Down);
+				directional.FaceDirection(OrientationEnum.Down_By180);
 				yield return WaitFor.Seconds(Random.Range(0.1f, 0.5f));
-				directional.FaceDirection(Orientation.Up);
+				directional.FaceDirection(OrientationEnum.Up_By0);
 				yield return WaitFor.Seconds(Random.Range(0.1f, 0.5f));
-				directional.FaceDirection(Orientation.Left);
+				directional.FaceDirection(OrientationEnum.Left_By90);
 				yield return WaitFor.Seconds(Random.Range(0.1f, 0.5f));
-				directional.FaceDirection(Orientation.Right);
+				directional.FaceDirection(OrientationEnum.Right_By270);
 				yield return WaitFor.Seconds(Random.Range(0.1f, 0.5f));
 			}
 			else

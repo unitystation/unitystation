@@ -153,6 +153,9 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 	private PipeData pipeData;
 	public PipeData PipeData => pipeData;
 
+	private CheckedComponent<PushPull> pushPull;
+	public CheckedComponent<PushPull> PushPull => pushPull;
+
 	[PrefabModeOnly]
 	public SortingGroup CurrentsortingGroup;
 
@@ -175,6 +178,7 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 		IObjectEntersTiles = GetComponents<IObjectEntersTile>();
 		CurrentsortingGroup = GetComponent<SortingGroup>();
 		iPushable = GetComponent<IPushable>();
+		pushPull = new CheckedComponent<PushPull>(this);
 	}
 
 	public override void OnStartServer()

@@ -103,6 +103,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 04aab938d3b952f4c836fb603ccaa46c, type: 2}
   PresentSpriteSet: {fileID: 11400000, guid: 978c2be3703d9bd4ca7a8a187ba5a327, type: 2}
   randomInitialSprite: 0
+  doReverseAnimation: 1
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
   palette: []
@@ -5032,7 +5033,7 @@ MonoBehaviour:
   syncInterval: 0.1
   matrixDebugLogging: 0
   objectType: 1
-  customNetTransform: {fileID: 0}
+  customNetTransform: {fileID: 114537316452419530}
   prefabTracker: {fileID: 0}
   CurrentsortingGroup: {fileID: 0}
   AtmosPassable: 1
@@ -5091,6 +5092,7 @@ MonoBehaviour:
       m_AssetGUID: 
       m_SubObjectName: 
       m_SubObjectType: 
+      m_EditorAssetChanged: 0
   damageDeflection: 0
   Armor:
     Melee: 0
@@ -5167,6 +5169,7 @@ MonoBehaviour:
   machineBoardPrefab: {fileID: 4184383661120845852, guid: 23ae18d4d92f03a4faba5c8e2e04ab49,
     type: 3}
   canNotBeDeconstructed: 0
+  isEMPResistant: 0
   mustBeUnanchored: 0
   secondsToScrewdrive: 2
 --- !u!114 &114102132577365772
@@ -5208,6 +5211,7 @@ MonoBehaviour:
       m_AssetGUID: 
       m_SubObjectName: 
       m_SubObjectType: 
+      m_EditorAssetChanged: 0
   soundDelayTime: 0
   soundMinimumPitchVariance: 1
   soundMaximumPitchVariance: 1
@@ -5362,6 +5366,7 @@ MonoBehaviour:
       m_AssetGUID: 
       m_SubObjectName: 
       m_SubObjectType: 
+      m_EditorAssetChanged: 0
   generatorEndSfx:
     SetLoadSetting: 0
     AssetAddress: Assets/Prefabs/Machines/GeneratorEnd.prefab
@@ -5369,4 +5374,5 @@ MonoBehaviour:
       m_AssetGUID: 
       m_SubObjectName: 
       m_SubObjectType: 
+      m_EditorAssetChanged: 0
   smokeParticles: {fileID: 198581407923697672}

@@ -185,6 +185,7 @@ MonoBehaviour:
       m_AssetGUID: 
       m_SubObjectName: 
       m_SubObjectType: 
+      m_EditorAssetChanged: 0
   damageDeflection: 0
   Armor:
     Melee: 0
@@ -210,7 +211,6 @@ MonoBehaviour:
   HeatResistance: 100
   ExplosionsDamage: 100
   doDamageMessage: 1
-  CannotBeAshed: 0
 --- !u!114 &114085600953189384
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -258,6 +258,7 @@ MonoBehaviour:
   machineBoardPrefab: {fileID: 2407683757881208479, guid: dd0556b2e76bfac48bfb3217e1177605,
     type: 3}
   canNotBeDeconstructed: 0
+  isEMPResistant: 0
   mustBeUnanchored: 0
   secondsToScrewdrive: 2
 --- !u!114 &3768506210123730191
@@ -316,6 +317,7 @@ MonoBehaviour:
   initialDescription: A bastion of goodwill, peace, and hope.
   willHighlight: 1
   exportCost: 250
+  exportType: 0
   exportName: Jukebox
   exportMessage: Jukebox succesfully received, we might throw a party here at CentCom!
 --- !u!1 &1000010906387252
@@ -391,7 +393,7 @@ SpriteRenderer:
   m_SortingLayerID: 142874271
   m_SortingLayer: 12
   m_SortingOrder: 1
-  m_Sprite: {fileID: 21300000, guid: caea9604c8c2d954b95ff42a3b71876a, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 3e87d6d35daeeda40bebbd74313588d8, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
