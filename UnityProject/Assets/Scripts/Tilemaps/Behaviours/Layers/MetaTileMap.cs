@@ -82,6 +82,8 @@ namespace TileManagement
 		[NonSerialized] public Matrix4x4 localToWorldMatrix = Matrix4x4.identity;
 		[NonSerialized] public Matrix4x4 worldToLocalMatrix = Matrix4x4.identity;
 
+		//Vector3[4] {bottomLeft, bottomRight, topLeft, topRight}
+		private Vector3[] globalPoints = new Vector3[4];
 
 		public float Resistance(Vector3Int cellPos, bool includeObjects = true)
 		{
@@ -1607,12 +1609,13 @@ namespace TileManagement
 
 			var offset = new Vector3(0.5f, 0.5f, 0);
 
+			//Vector3[4] {bottomLeft, bottomRight, topLeft, topRight};
 			var bottomLeft = localToWorldMatrix.MultiplyPoint(localBound.min + offset);
-			var bottomRight = localToWorldMatrix.MultiplyPoint(new Vector3(localBound.xMax, localBound.yMin, 0)  + offset);
-			var topLeft = localToWorldMatrix.MultiplyPoint(new Vector3(localBound.xMin, localBound.yMax, 0)  + offset);
-			var topRight = localToWorldMatrix.MultiplyPoint(localBound.max  + offset);
+			globalPoints[0] = bottomLeft;
+			globalPoints[1] = localToWorldMatrix.MultiplyPoint(new Vector3(localBound.xMax, localBound.yMin, 0)  + offset);
+			globalPoints[2] = localToWorldMatrix.MultiplyPoint(new Vector3(localBound.xMin, localBound.yMax, 0)  + offset);
+			globalPoints[3] = localToWorldMatrix.MultiplyPoint(localBound.max  + offset);
 
-			var globalPoints = new Vector3[4] {bottomLeft, bottomRight, topLeft, topRight};
 			var minPosition = bottomLeft;
 			var maxPosition = bottomLeft;
 			foreach (var point in globalPoints)
