@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using Mirror;
 using Objects.Atmospherics;
+using Systems.Electricity;
 
 namespace Objects.Disposals
 {
@@ -19,7 +20,7 @@ namespace Objects.Disposals
 		Secured = 2
 	}
 
-	public abstract class DisposalMachine : NetworkBehaviour, IServerSpawn, IExaminable, ICheckedInteractable<PositionalHandApply> // Must it be positional?
+	public abstract class DisposalMachine : NetworkBehaviour, IServerSpawn, IExaminable, ICheckedInteractable<PositionalHandApply>, IAPCPowerable
 	{
 		private const float WELD_TIME = 2f;
 		private const string PIPE_TERMINAL_NAME = "disposal pipe terminal";
@@ -30,6 +31,7 @@ namespace Objects.Disposals
 		protected ObjectContainer objectContainer;
 		protected GasContainer gasContainer;
 		protected SpriteHandler baseSpriteHandler;
+		protected APCPoweredDevice apcPoweredDevice;
 
 		protected PositionalHandApply currentInteraction;
 
@@ -287,5 +289,12 @@ namespace Objects.Disposals
 		}
 
 		#endregion Construction
+
+		#region IAPCPowerable
+
+		public void PowerNetworkUpdate(float voltage) { }
+		public abstract void StateUpdate(PowerState state);
+
+		#endregion
 	}
 }

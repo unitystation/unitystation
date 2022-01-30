@@ -9,6 +9,7 @@ using AddressableReferences;
 using Random = UnityEngine.Random;
 using Messages.Server.SoundMessages;
 using Systems.Atmospherics;
+using Systems.Electricity;
 
 namespace Objects.Disposals
 {
@@ -90,12 +91,15 @@ namespace Objects.Disposals
 
 		private float RandomDunkPitch => Random.Range(0.7f, 1.2f);
 
+		private PowerState powerState;
+
 		#region Lifecycle
 
 		protected override void Awake()
 		{
 			base.Awake();
 			netTab = GetComponent<HasNetworkTab>();
+			apcPoweredDevice = GetComponent<APCPoweredDevice>();
 			overlaysSpriteHandler = transform.GetChild(1).GetComponent<SpriteHandler>();
 		}
 
@@ -103,6 +107,8 @@ namespace Objects.Disposals
 		{
 			// Assume bin starts unanchored and therefore UI is inaccessable.
 			netTab.enabled = false;
+			powerState = apcPoweredDevice.State;
+
 			UpdateSpriteBinState();
 
 			SetBinState(BinState.Unattached);
@@ -114,7 +120,6 @@ namespace Objects.Disposals
 		{
 			base.SpawnMachineAsInstalled();
 			SetBinState(BinState.Ready);
-			FlushContents();
 		}
 
 		#endregion Lifecycle
@@ -141,6 +146,8 @@ namespace Objects.Disposals
 		private void SetBinState(BinState newState)
 		{
 			binState = newState;
+			if (powerState == PowerState.Off)
+				binState = BinState.Off;
 			UpdateSpriteBinState();
 		}
 
@@ -265,7 +272,7 @@ namespace Objects.Disposals
 				baseString = base.Examine().TrimEnd('.') + " and";
 			}
 
-			switch (BinState)
+			switch (binState)
 			{
 				case BinState.Disconnected:
 					return $"{baseString} is disconnected from the power.";
@@ -314,7 +321,7 @@ namespace Objects.Disposals
 			StoreItem(item);
 		}
 
-		private void StoreItem(GameObject item)
+		public void StoreItem(GameObject item)
 		{
 			objectContainer.StoreObject(item);
 
@@ -541,5 +548,16 @@ namespace Objects.Disposals
 		}
 
 		#endregion Construction
+
+		#region IAPCPowerable
+
+		public override void StateUpdate(PowerState state)
+		{
+			powerState = state;
+			if (powerState == PowerState.Off)
+				SetBinState(BinState.Off);
+		}
+
+		#endregion
 	}
 }
