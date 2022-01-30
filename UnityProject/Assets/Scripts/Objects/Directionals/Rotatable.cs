@@ -52,7 +52,7 @@ public class Rotatable : NetworkBehaviour, IMatrixRotation
 	private void SetDirection(OrientationEnum dir)
 	{
 #if UNITY_EDITOR
-		if (Application.isPlaying == false)
+		if (Application.isPlaying)
 		{
 #endif
 			if (isServer == false && isLocalPlayer)
