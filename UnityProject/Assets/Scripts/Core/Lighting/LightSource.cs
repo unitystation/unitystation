@@ -467,7 +467,11 @@ namespace Objects.Lighting
 				objectBehaviour.registerTile.WorldPositionServer,
 				sourceObj: gameObject);
 
-			//Don't need to set active for server as headless doesnt need it and local host will run the Rpc on itself
+			if (CustomNetworkManager.IsHeadless == false)
+			{
+				sparkObject.SetActive(true);
+			}
+
 			ClientRpcSpark();
 		}
 

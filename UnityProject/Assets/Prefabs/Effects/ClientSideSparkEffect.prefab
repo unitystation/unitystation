@@ -7,6 +7,16 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2311748436551385252, guid: f509953bc6beb934f920b927bb4ea694,
+        type: 3}
+      propertyPath: NetworkThis
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2311748436551385252, guid: f509953bc6beb934f920b927bb4ea694,
+        type: 3}
+      propertyPath: pushTextureOnStartUp
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5031554303261420095, guid: f509953bc6beb934f920b927bb4ea694,
         type: 3}
       propertyPath: networkDestroy
