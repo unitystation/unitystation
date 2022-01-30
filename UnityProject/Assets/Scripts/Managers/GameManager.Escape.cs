@@ -66,7 +66,7 @@ public partial class GameManager
 		if (Instance.QuickLoad)
 		{
 			if (primaryEscapeShuttle.MatrixInfo == null) return;
-			if (primaryEscapeShuttle.MatrixInfo.MatrixMove == null) return;
+			if (primaryEscapeShuttle.MatrixInfo.IsMovable == false) return;
 		}
 
 		var orientation = primaryEscapeShuttle.MatrixInfo.MatrixMove.InitialFacing;

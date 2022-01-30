@@ -224,7 +224,7 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 
 		ActiveMatrices.Add(matrixInfo.Id, matrixInfo);
 		ActiveMatricesList.Add(matrixInfo);
-		if (matrixInfo.MatrixMove != null)
+		if (matrixInfo.IsMovable)
 		{
 			MovableMatrices.Add(matrixInfo);
 		}
@@ -279,7 +279,6 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 			Matrix = matrix,
 			GameObject = gameObj,
 			Objects = gameObj.transform.GetComponentInChildren<ObjectLayer>().transform,
-			MatrixMove = gameObj.GetComponentInParent<MatrixMove>(),
 			MetaTileMap = gameObj.GetComponent<MetaTileMap>(),
 			MetaDataLayer = gameObj.GetComponent<MetaDataLayer>(),
 			SubsystemManager = gameObj.GetComponentInParent<SubsystemManager>(),
@@ -371,8 +370,8 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 		{
 			foreach (var matrixInfo in Instance.ActiveMatricesList)
 			{
-				var Localorigin = Worldorigin.ToLocal(matrixInfo.Matrix);
-				var LocalTo = WorldTo.Value.ToLocal(matrixInfo.Matrix);
+				var Localorigin = WorldToLocal(Worldorigin, matrixInfo);
+				var LocalTo = WorldToLocal(WorldTo.Value, matrixInfo);
 
 				if (LineIntersectsRect(Localorigin, LocalTo, matrixInfo.LocalBounds))
 				{
@@ -1273,7 +1272,7 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 
 //		return matrix.MetaTileMap.LocalToWorld( localPos );
 
-		if (matrix.MatrixMove == null)
+		if (matrix.IsMovable == false)
 		{
 			return localPos + matrix.Offset;
 		}
@@ -1302,7 +1301,7 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 			return TransformState.HiddenPos;
 		}
 
-		if (matrix.MatrixMove == null)
+		if (matrix.IsMovable)
 		{
 			return worldPos - matrix.Offset;
 		}

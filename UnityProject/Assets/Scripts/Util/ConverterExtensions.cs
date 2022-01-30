@@ -187,9 +187,9 @@ public static class ConverterExtensions
 		return MatrixManager.LocalToWorldInt(localPos, MatrixManager.Get(matrix));
 	}
 
-	public static Vector3 ToLocal(this Vector3 worldPos, MatrixInfo matrix)
+	public static Vector3 ToLocal(this Vector3 worldPos, MatrixInfo matrixInfo)
 	{
-		return MatrixManager.WorldToLocal(worldPos, matrix);
+		return MatrixManager.WorldToLocal(worldPos, matrixInfo);
 	}
 
 	public static Vector3 ToWorld(this Vector3 localPos, MatrixInfo matrix)
