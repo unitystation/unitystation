@@ -174,8 +174,9 @@ namespace Objects.Disposals
 		{
 			base.StateUpdate(state);
 
-			if (powerState == PowerState.Off)
-				SetBinState(BinState.Off);
+			if (powerState == PowerState.Off && Is0perating);
+				SetOutletOperating(false);
+
 		}
 
 		#endregion
