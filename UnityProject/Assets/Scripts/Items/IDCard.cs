@@ -218,7 +218,13 @@ public class IDCard : NetworkBehaviour, IServerInventoryMove, IServerSpawn, IInt
 
 	public string GetJobTitle()
 	{
-		return jobTitle.IsNullOrEmpty() ? Occupation.DisplayName : jobTitle;
+		if (jobTitle.IsNullOrEmpty())
+		{
+			var occupation = Occupation;
+			return occupation != null ? occupation.DisplayName : "";
+		}
+
+		return jobTitle;
 	}
 
 	/// <summary>
