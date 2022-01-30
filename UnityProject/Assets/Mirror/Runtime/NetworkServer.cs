@@ -1520,63 +1520,41 @@ namespace Mirror
         }
 
         // helper function to broadcast the world to a connection
-        static void BroadcastToConnection(NetworkConnectionToClient connection)
+        static void BroadcastToConnections()
         {
-            // for each entity that this connection is seeing
-            //CUSTOM UNITYSTATION CODE// for i Faster
-            var ListCount = connection.observingList.Count;
-            for (int i = 0; i < ListCount; i++)
+	        //CUSTOM UNITYSTATION CODE//
+	        //Currently all player observe EVERYTHING so we can just loop through all identities and then all connections
+	        //Old mirror code was loop through all connections and then identities which was very bad for performance
+            var connectionsCount = connectionsCopy.Count;
+            foreach (var identityPair in NetworkIdentity.spawned)
             {
-	            var identity = connection.observingList[i];
-            // foreach (NetworkIdentity identity in connection.observing)
-            // {
-                // make sure it's not null or destroyed.
-                // (which can happen if someone uses
-                //  GameObject.Destroy instead of
-                //  NetworkServer.Destroy)
-                //CUSTOM UNITYSTATION CODE// == null = lag
-                // if (identity != null)
-                // {
-                //CUSTOM UNITYSTATION CODE//
+	            var identity = identityPair.Value;
 	            if (identity.isDirty == false)
 	            {
 		            continue;
-
 	            }
-	            ////////////////////////////
-	            // get serialization for this entity viewed by this connection
-	            // (if anything was serialized this time)
-	            NetworkWriter serialization = GetEntitySerializationForConnection(identity, connection);
-	            if (serialization != null)
+
+	            for (int j = 0; j < connectionsCount; j++)
 	            {
-		            EntityStateMessage message = new EntityStateMessage
-		            {
-			            netId = identity.netId,
-			            payload = serialization.ToArraySegment()
-		            };
-		            connection.Send(message);
-	            }
+		            var connection = connectionsCopy[j];
 
-	            // clear dirty bits only for the components that we serialized
-	            // DO NOT clean ALL component's dirty bits, because
-	            // components can have different syncIntervals and we don't
-	            // want to reset dirty bits for the ones that were not
-	            // synced yet.
-	            // (we serialized only the IsDirty() components, or all of
-	            //  them if initialState. clearing the dirty ones is enough.)
-	            //
-	            // NOTE: this is what we did before push->pull
-	            //       broadcasting. let's keep doing this for
-	            //       feature parity to not break anyone's project.
-	            //       TODO make this more simple / unnecessary later.#
-	            //CUSTOM UNITYSTATION CODE// commented this out \/
-	            //identity.ClearDirtyComponentsDirtyBits();
-                //}
-                // spawned list should have no null entries because we
-                // always call Remove in OnObjectDestroy everywhere.
-                // if it does have null then someone used
-                // GameObject.Destroy instead of NetworkServer.Destroy.
-                //else Debug.LogWarning("Found 'null' entry in observing list for connectionId=" + connection.connectionId + ". Please call NetworkServer.Destroy to destroy networked objects. Don't use GameObject.Destroy.");
+		            //Connection disconnected
+		            if (connection.isReady == false) continue;
+
+		            ////////////////////////////
+		            // get serialization for this entity viewed by this connection
+		            // (if anything was serialized this time)
+		            NetworkWriter serialization = GetEntitySerializationForConnection(identity, connection);
+		            if (serialization != null)
+		            {
+			            EntityStateMessage message = new EntityStateMessage
+			            {
+				            netId = identity.netId,
+				            payload = serialization.ToArraySegment()
+			            };
+			            connection.Send(message);
+		            }
+	            }
             }
         }
 
@@ -1616,29 +1594,31 @@ namespace Mirror
             connectionsCopy.Clear();
             connections.Values.CopyTo(connectionsCopy);
 
+            //CUSTOM UNITYSTATION CODE//
+            //Currently all player observe EVERYTHING so we can just loop through all identities and then all connections
+            //Old mirror code was loop through all connections and then identities which was very bad for performance
+
+            var connectionsCount = connectionsCopy.Count;
             // go through all connections
-            //CUSTOM UNITYSTATION CODE// for i More performance
-            var ConnectionsCount = connectionsCopy.Count;
-            for (int i = 0; i < ConnectionsCount; i++)
+            for (int i = 0; i < connectionsCount; i++)
             {
 	            var connection = connectionsCopy[i];
-	            // foreach (NetworkConnectionToClient connection in connectionsCopy)
-            // {
-                // check for inactivity. disconnects if necessary.
-                if (DisconnectIfInactive(connection))
-                    continue;
+	            // check for inactivity. disconnects if necessary.
+	            DisconnectIfInactive(connection);
+            }
 
-                // has this connection joined the world yet?
-                // for each READY connection:
-                //   pull in UpdateVarsMessage for each entity it observes
-                if (connection.isReady)
-                {
-                    // broadcast world state to this connection
-                    BroadcastToConnection(connection);
-                }
+            BroadcastToConnections();
 
-                // update connection to flush out batched messages
-                connection.Update();
+            // go through all connections
+            for (int i = 0; i < connectionsCount; i++)
+            {
+	            var connection = connectionsCopy[i];
+
+	            //Catch disconnected
+	            if (connection.isReady == false) continue;
+
+	            // update connection to flush out batched messages
+	            connection.Update();
             }
 
             // TODO we already clear the serialized component's dirty bits above
