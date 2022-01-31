@@ -199,14 +199,14 @@ public class StandardProgressAction : IProgressAction
 		//interrupt if tile is on different matrix and either matrix moves / rotates
 		if (crossMatrix)
 		{
-			if (startProgressInfo.Target.TargetMatrixInfo.MatrixMove != null)
+			if (startProgressInfo.Target.TargetMatrixInfo.IsMovable)
 			{
 				eventRegistry.Register(startProgressInfo.Target.TargetMatrixInfo.MatrixMove.MatrixMoveEvents.OnStartMovementServer, OnMatrixStartMove);
 				eventRegistry.Register(startProgressInfo.Target.TargetMatrixInfo.MatrixMove.MatrixMoveEvents.OnRotate, OnMatrixRotate);
 			}
 
 			var performerMatrix = playerScript.registerTile.Matrix;
-			if (performerMatrix.MatrixMove != null)
+			if (performerMatrix.IsMovable)
 			{
 				eventRegistry.Register(performerMatrix.MatrixMove.MatrixMoveEvents.OnStartMovementServer, OnMatrixStartMove);
 				eventRegistry.Register(performerMatrix.MatrixMove.MatrixMoveEvents.OnRotate, OnMatrixRotate);

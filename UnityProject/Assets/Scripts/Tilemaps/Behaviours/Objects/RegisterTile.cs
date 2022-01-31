@@ -407,13 +407,13 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 		if (value)
 		{
 			//LogMatrixDebug($"Matrix set from {matrix} to {value}");
-			if (Matrix != null && Matrix.MatrixMove != null)
+			if (Matrix != null && Matrix.IsMovable)
 			{
 				Matrix.MatrixMove.MatrixMoveEvents.OnRotate.RemoveListener(OnRotate);
 			}
 
 			Matrix = value;
-			if (Matrix != null && Matrix.MatrixMove != null)
+			if (Matrix != null && Matrix.IsMovable)
 			{
 				//LogMatrixDebug($"Registered OnRotate to {matrix}");
 				Matrix.MatrixMove.MatrixMoveEvents.OnRotate.AddListener(OnRotate);

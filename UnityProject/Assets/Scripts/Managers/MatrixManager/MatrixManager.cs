@@ -224,7 +224,7 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 
 		ActiveMatrices.Add(matrixInfo.Id, matrixInfo);
 		ActiveMatricesList.Add(matrixInfo);
-		if (matrixInfo.MatrixMove != null)
+		if (matrixInfo.IsMovable)
 		{
 			MovableMatrices.Add(matrixInfo);
 		}
@@ -279,7 +279,6 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 			Matrix = matrix,
 			GameObject = gameObj,
 			Objects = gameObj.transform.GetComponentInChildren<ObjectLayer>().transform,
-			MatrixMove = gameObj.GetComponentInParent<MatrixMove>(),
 			MetaTileMap = gameObj.GetComponent<MetaTileMap>(),
 			MetaDataLayer = gameObj.GetComponent<MetaDataLayer>(),
 			SubsystemManager = gameObj.GetComponentInParent<SubsystemManager>(),
@@ -369,17 +368,18 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 
 		if (layerMask != LayerTypeSelection.None)
 		{
+			//TODO do we really need to go through all matrixes? Can we break out at some point?
 			foreach (var matrixInfo in Instance.ActiveMatricesList)
 			{
-				var Localorigin = Worldorigin.ToLocal(matrixInfo.Matrix);
-				var LocalTo = WorldTo.Value.ToLocal(matrixInfo.Matrix);
+				var localOrigin = WorldToLocal(Worldorigin, matrixInfo).To2();
+				var localTo = WorldToLocal(WorldTo.Value, matrixInfo).To2();
 
-				if (LineIntersectsRect(Localorigin, LocalTo, matrixInfo.LocalBounds))
+				if (LineIntersectsRect(localOrigin, localTo, matrixInfo.LocalBounds))
 				{
-					Checkhit = matrixInfo.MetaTileMap.Raycast(Localorigin, Vector2.zero,
+					Checkhit = matrixInfo.MetaTileMap.Raycast(localOrigin, Vector2.zero,
 						distance,
 						layerMask,
-						LocalTo, tileNamesToIgnore);
+						localTo, tileNamesToIgnore);
 
 					if (Checkhit != null)
 					{
@@ -1273,7 +1273,7 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 
 //		return matrix.MetaTileMap.LocalToWorld( localPos );
 
-		if (matrix.MatrixMove == null)
+		if (matrix.IsMovable == false)
 		{
 			return localPos + matrix.Offset;
 		}
@@ -1302,15 +1302,16 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 			return TransformState.HiddenPos;
 		}
 
-		if (matrix.MatrixMove == null)
+		if (matrix.IsMovable)
 		{
 			return worldPos - matrix.Offset;
 		}
 
 		var state = matrix.MatrixMove.ClientState;
+		var pivot = matrix.MatrixMove.Pivot.ToNonInt3();
 
 		return (state.FacingOffsetFromInitial(matrix.MatrixMove).QuaternionInverted *
-		        (worldPos - matrix.MatrixMove.Pivot - matrix.GetOffset(state))) + matrix.MatrixMove.Pivot;
+		        (worldPos - pivot - matrix.GetOffset(state))) + pivot;
 	}
 
 	/// <summary>

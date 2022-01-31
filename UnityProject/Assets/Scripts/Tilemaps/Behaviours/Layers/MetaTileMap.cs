@@ -1629,7 +1629,7 @@ namespace TileManagement
 				Maximum = maxPosition, Minimum = minPosition
 			};
 
-			if (matrix.MatrixMove == null ||
+			if (matrix.IsMovable == false ||
 			    (CustomNetworkManager.IsServer && matrix.MatrixMove.IsMovingServer == false &&
 			     matrix.MatrixMove.IsRotatingServer == false) ||
 			    (CustomNetworkManager.IsServer == false && matrix.MatrixMove.IsMovingClient == false &&
