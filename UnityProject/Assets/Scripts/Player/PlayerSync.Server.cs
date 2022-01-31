@@ -572,10 +572,6 @@ public partial class PlayerSync
 		var nextState = NextState(state, action, true);
 
 		nextState.Speed = SpeedServer;
-		if (playerScript.IsGhost) return nextState;
-
-		FootstepSounds.PlayerFootstepAtPosition(nextState.WorldPosition, this);
-
 		return nextState;
 	}
 
@@ -963,9 +959,11 @@ public partial class PlayerSync
 			EnterInteract(serverLerpState.WorldPosition, (Vector2)serverLerpState.WorldImpulse);
 
 			// Check for swap once movement is done, to prevent us and another player moving into the same tile
-			if (!playerScript.IsGhost)
+			if (playerScript.IsGhost == false)
 			{
 				CheckAndDoSwap(targetPos.RoundToInt(), lastDirectionServer * -1, isServer: true);
+
+				FootstepSounds.PlayerFootstepAtPosition(serverLerpState.WorldPosition, this);
 			}
 		}
 		if (TryNotifyPlayers())
