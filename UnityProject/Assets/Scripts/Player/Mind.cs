@@ -148,6 +148,14 @@ public class Mind
 		body.OrNull()?.GetComponent<PlayerOnlySyncValues>().OrNull()?.ServerSetAntag(true);
 	}
 
+	public void AddObjectiveToAntag(Objective objectiveToAdd)
+	{
+		var list = new List<Objective>();
+		antag.Objectives.CopyTo<Objective>(list);
+		list.Add(objectiveToAdd);
+		antag.Objectives = list;
+	}
+
 	/// <summary>
 	/// Remove the antag status from this mind
 	/// </summary>

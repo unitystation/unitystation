@@ -8,7 +8,11 @@ namespace Antagonists
 	[CreateAssetMenu(menuName="ScriptableObjects/AntagObjectives/NotCuffed")]
 	public class NotCuffed: Objective
 	{
-		protected override void Setup() {}
+		[SerializeField] private Objective escapeObject;
+		protected override void Setup()
+		{
+			Owner.AddObjectiveToAntag(escapeObject);
+		}
 
 		protected override bool CheckCompletion()
 		{
