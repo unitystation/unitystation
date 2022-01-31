@@ -120,30 +120,17 @@ namespace Messages.Server
 
 		/// <summary>
 		/// Sends the network message only to players who are within a 15 tile radius
-		/// of the worldPostion. This method disregards if the player is visible or not
+		/// of the worldPosition. This method disregards if the player is visible or not
 		/// </summary>
 		public static void SendToNearbyPlayers(Vector2 worldPosition, T msg, int channel = 0)
 		{
-			var players = PlayerList.Instance.AllPlayers;
+			var players = PlayerList.Instance.InGamePlayers;
 
 			for (int i = players.Count - 1; i > 0; i--)
 			{
-				if (Vector2.Distance(worldPosition,
-					players[i].GameObject.transform.position) > 15f)
-				{
-					//Player in the list is too far away for this message, remove them:
-					players.Remove(players[i]);
-				}
-			}
+				if (Vector2.Distance(worldPosition, players[i].GameObject.transform.position) > 15f) continue;
 
-			foreach (ConnectedPlayer player in players)
-			{
-				if (player.Script == null) continue;
-
-				if (PlayerList.Instance.ContainsConnection(player.Connection))
-				{
-					player.Connection.Send(msg, channel);
-				}
+				players[i].Connection.Send(msg, channel);
 			}
 		}
 
