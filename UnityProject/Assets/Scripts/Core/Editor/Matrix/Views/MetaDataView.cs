@@ -280,7 +280,7 @@ public class MetaDataView : BasicView
 		public override void DrawGizmo(MetaDataLayer source, Vector3Int position)
 		{
 			MetaDataNode node = source.Get(position, false);
-			if (AtmosThread.IsInUpdateList(node))
+			if (AtmosManager.Instance.simulation.IsInUpdateList(node))
 			{
 				GizmoUtils.DrawCube( position, Color.blue, true );
 			}

@@ -1,9 +1,8 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using Messages.Client.NewPlayer;
 using UnityEngine;
 using Mirror;
+using Messages.Client.NewPlayer;
 using Objects;
 using Player.Movement;
 
@@ -50,7 +49,7 @@ public partial class PlayerSync : NetworkBehaviour, IPushable, IPlayerControllab
 
 	public PlayerMove playerMove;
 	public PlayerScript playerScript;
-	private Directional playerDirectional;
+	private Rotatable playerDirectional;
 
 	public bool Step = false;
 
@@ -72,11 +71,19 @@ public partial class PlayerSync : NetworkBehaviour, IPushable, IPlayerControllab
 	/// </summary>
 	private bool didWiggle = false;
 
+	/// <summary>
+	/// True when the player presses one of the movement keys. SERVERSIDE 
+	/// </summary>
+	private bool inputMovementDetected = false;
+	public bool InputMovementDetected => inputMovementDetected;
+
+	private bool lastInputState = false;
+
 	private void Awake()
 	{
 		playerScript = GetComponent<PlayerScript>();
 		pushPull = GetComponent<PushPull>();
-		playerDirectional = GetComponent<Directional>();
+		playerDirectional = GetComponent<Rotatable>();
 		registerPlayer = GetComponent<RegisterPlayer>();
 	}
 
@@ -150,8 +157,9 @@ public partial class PlayerSync : NetworkBehaviour, IPushable, IPlayerControllab
 	/// <param name="state">current state to try to slide from</param>
 	/// <param name="action">current player action (which should have a diagonal movement). Will be modified if a slide is performed</param>
 	/// <returns>bumptype of the final direction of movement if action is modified. Null otherwise</returns>
-	private BumpType? TrySlide(PlayerState state, bool isServer, ref PlayerAction action)
+	private BumpType? TrySlide(PlayerState state, bool isServer, ref PlayerAction action, MatrixInfo MatrixAtOrigin = null)
 	{
+
 		Vector2Int direction = action.Direction();
 		if (Math.Abs(direction.x) + Math.Abs(direction.y) < 2)
 		{
@@ -159,15 +167,20 @@ public partial class PlayerSync : NetworkBehaviour, IPushable, IPlayerControllab
 			return null;
 		}
 
-		var facingUpDown = playerDirectional.CurrentDirection == Orientation.Up ||
-		                   playerDirectional.CurrentDirection == Orientation.Down;
+		if (MatrixAtOrigin == null)
+		{
+			MatrixAtOrigin = MatrixManager.AtPoint(state.WorldPosition.RoundToInt(), isServer);
+		}
+
+		var facingUpDown = playerDirectional.CurrentDirection == OrientationEnum.Up_By0 ||
+		                   playerDirectional.CurrentDirection == OrientationEnum.Down_By180;
 
 		//depending on facing, check x / y direction first (this is for
 		//better diagonal movement logic without cutting corners)
 		Vector2Int dir1 = new Vector2Int(facingUpDown ? direction.x : 0, facingUpDown ? 0 : direction.y);
 		Vector2Int dir2 = new Vector2Int(facingUpDown ? 0 : direction.x, facingUpDown ? direction.y : 0);
-		BumpType bump1 = MatrixManager.GetBumpTypeAt(state.WorldPosition.RoundToInt(), dir1, playerMove, isServer);
-		BumpType bump2 = MatrixManager.GetBumpTypeAt(state.WorldPosition.RoundToInt(), dir2, playerMove, isServer);
+		BumpType bump1 = MatrixManager.GetBumpTypeAt(state.WorldPosition.RoundToInt(), dir1, playerMove, isServer, MatrixAtOrigin);
+		BumpType bump2 = MatrixManager.GetBumpTypeAt(state.WorldPosition.RoundToInt(), dir2, playerMove, isServer, MatrixAtOrigin);
 
 		MoveAction? newAction = null;
 		BumpType? newBump = null;
@@ -230,7 +243,9 @@ public partial class PlayerSync : NetworkBehaviour, IPushable, IPlayerControllab
 			return BumpType.None;
 		}
 
-		BumpType bump = MatrixManager.GetBumpTypeAt(playerState, playerAction, playerMove, isServer);
+		var MatrixAtPointOrigin = MatrixManager.AtPoint(playerState.WorldPosition.RoundToInt(), isServer);
+
+		BumpType bump = MatrixManager.GetBumpTypeAt(playerState, playerAction, playerMove, isServer, MatrixAtPointOrigin);
 		//on diagonal movement, don't allow cutting corners or pushing (check x and y tile passability)
 		var dir = playerAction.Direction();
 		if (dir.x != 0 && dir.y != 0)
@@ -241,9 +256,9 @@ public partial class PlayerSync : NetworkBehaviour, IPushable, IPlayerControllab
 			}
 
 			var xBump = MatrixManager.GetBumpTypeAt(playerState.WorldPosition.RoundToInt(), new Vector2Int(dir.x, 0),
-				playerMove, isServer);
+				playerMove, isServer, MatrixAtPointOrigin);
 			var yBump = MatrixManager.GetBumpTypeAt(playerState.WorldPosition.RoundToInt(), new Vector2Int(0, dir.y),
-				playerMove, isServer);
+				playerMove, isServer, MatrixAtPointOrigin);
 
 			//opening doors diagonally is allowed only if x or y are blocked (assumes we are sliding along a
 			//wall and we hit a door).
@@ -262,7 +277,7 @@ public partial class PlayerSync : NetworkBehaviour, IPushable, IPlayerControllab
 		// if movement is blocked, try to slide
 		if (bump == BumpType.Blocked)
 		{
-			return TrySlide(playerState, isServer, ref playerAction) ?? bump;
+			return TrySlide(playerState, isServer, ref playerAction, MatrixAtPointOrigin) ?? bump;
 		}
 
 		return bump;
@@ -303,14 +318,8 @@ public partial class PlayerSync : NetworkBehaviour, IPushable, IPlayerControllab
 	{
 		firstPushable = null;
 		var pushables = MatrixManager.GetAt<PushPull>(stateWorldPosition.CutToInt(), isServer);
-		if (pushables.Count == 0)
+		foreach (var pushable in pushables)
 		{
-			return false;
-		}
-
-		for (var i = 0; i < pushables.Count; i++)
-		{
-			var pushable = pushables[i];
 			if (pushable.gameObject == this.gameObject || except != null && pushable.gameObject == except)
 			{
 				continue;
@@ -444,10 +453,16 @@ public partial class PlayerSync : NetworkBehaviour, IPushable, IPlayerControllab
 	{
 		if (isLocalPlayer && playerMove != null)
 		{
-			if (PlayerManager.MovementControllable == this)
+			if (PlayerManager.MovementControllable == this as IPlayerControllable)
 			{
 				didWiggle = false;
-				if (KeyboardInputManager.IsMovementPressed() && Validations.CanInteract(playerScript,
+				bool inputDetected = KeyboardInputManager.IsMovementPressed();
+				if (inputDetected != lastInputState)
+				{
+					lastInputState = inputDetected;
+					CmdSetMovementInputState(inputDetected);
+				}
+				if (inputDetected && Validations.CanInteract(playerScript,
 					    isServer ? NetworkSide.Server : NetworkSide.Client))
 				{
 					//	If being pulled by another player and you try to break free
@@ -473,6 +488,16 @@ public partial class PlayerSync : NetworkBehaviour, IPushable, IPlayerControllab
 		{
 			transform.position = playerMove.BuckledObject.transform.position;
 		}
+	}
+
+
+	/// <summary>
+	/// Lets us tell the server if the player has pressed any movement keys
+	/// </summary>
+	[Command]
+	private void CmdSetMovementInputState(bool state)
+	{
+		inputMovementDetected = state;
 	}
 
 	private void Synchronize()

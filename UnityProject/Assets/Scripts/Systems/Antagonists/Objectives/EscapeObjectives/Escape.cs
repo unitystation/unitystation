@@ -24,6 +24,12 @@ namespace Antagonists
 			ValidShuttles.Add(GameManager.Instance.PrimaryEscapeShuttle);
 		}
 
+		private bool CheckOnShip(RegisterTile antagTile, Matrix shuttleMatrix)
+		{
+			if (antagTile.Matrix.Id == shuttleMatrix.MatrixInfo.Id) return true;
+			return shuttleMatrix.HasTile(antagTile.gameObject.AssumedWorldPosServer().RoundToInt(), true);
+		}
+
 		/// <summary>
 		/// Complete if the player is alive and on one of the escape shuttles and shuttle has
 		/// at least one working engine
@@ -32,7 +38,7 @@ namespace Antagonists
 		{
 			return !Owner.body.playerHealth.IsDead &&
 				ValidShuttles.Any( shuttle => shuttle.MatrixInfo != null
-					&& Owner.body.registerTile.Matrix.Id == shuttle.MatrixInfo.Id && shuttle.HasWorkingThrusters);
+					&& (CheckOnShip(Owner.body.registerTile, shuttle.MatrixInfo.Matrix)) && shuttle.HasWorkingThrusters);
 		}
 	}
 }

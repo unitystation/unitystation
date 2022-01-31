@@ -274,5 +274,30 @@ namespace Systems.GhostRoles
 
 			GhostRoleResponseMessage.SendTo(player, key, responseCode);
 		}
+
+		/// <summary>
+		/// Remove player from waiting for a role
+		/// </summary>
+		public void ServerRemoveWaitingPlayer(uint key, ConnectedPlayer player)
+		{
+			var role = serverAvailableRoles[key];
+			role.WaitingPlayers.Remove(player);
+
+			GhostRoleResponseMessage.SendTo(player, key, GhostRoleResponseCode.ClearMessage);
+		}
+
+		/// <summary>
+		/// Remove player from all waiting roles
+		/// </summary>
+		public void ServerRemoveWaitingPlayer(ConnectedPlayer player)
+		{
+			foreach (var role in serverAvailableRoles)
+			{
+				if (role.Value.WaitingPlayers.Contains(player) == false) continue;
+
+				role.Value.WaitingPlayers.Remove(player);
+				GhostRoleResponseMessage.SendTo(player, role.Key, GhostRoleResponseCode.ClearMessage);
+			}
+		}
 	}
 }

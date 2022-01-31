@@ -1,131 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &5662431988191537536
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1238849902553559639}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 819809cff2481914d883a6e1fefb4edd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  InitialDirection: 3
-  onEditorDirectionChange:
-    m_PersistentCalls:
-      m_Calls: []
-  ChangeDirectionWithMatrix: 1
-  DisableSyncing: 0
---- !u!114 &6024105162665196456
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1238849902553559639}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f227cc6622a9ad44f981a39d11d3d343, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  directional: {fileID: 5662431988191537536}
---- !u!114 &6040952931907168087
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1238849902553559639}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fdce8a163088453ca593c0e98f2c5f07, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  itemStorageStructure: {fileID: 11400000, guid: 74bf3e872403e488695c17ecdde194ab,
-    type: 2}
-  itemStorageCapacity: {fileID: 11400000, guid: 51557be05ba9141e7849ea1c1c3ed19d,
-    type: 2}
-  itemStoragePopulator: {fileID: 0}
-  forceSpawnContents: 0
-  dropItemsOnDespawn: 0
-  UesAddlistPopulater: 0
-  Populater:
-    SlotContents: []
-    DeprecatedContents: []
-  ashPrefab: {fileID: 2957035178188790827, guid: 9ac6968a3f3ed54428662c9aae5a4b32,
-    type: 3}
---- !u!114 &6203834163477203450
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1238849902553559639}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6d7277dcc993463cb6c7f79b663f36fc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  NetTabType: 6
-  aiInteractable: 1
---- !u!114 &8342472905829387893
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1238849902553559639}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b795fd3e621e742b0aafdb501b9d36cf, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  powerMachinery: 1
-  powerLights: 1
-  powerEnvironment: 1
-  netTabType: 6
-  NoPowerSound:
-    SetLoadSetting: 0
-    AssetAddress: Assets/Prefabs/Machines/APCPowerOff.prefab
-    AssetReference:
-      m_AssetGUID: 
-      m_SubObjectName: 
-      m_SubObjectType: 
-  criticalSprites:
-  - {fileID: 21300000, guid: 3ac29bf6690a77446adae1c9870da9f4, type: 3}
-  - {fileID: 21300004, guid: 3ac29bf6690a77446adae1c9870da9f4, type: 3}
-  - {fileID: 21300004, guid: 3ac29bf6690a77446adae1c9870da9f4, type: 3}
-  - {fileID: 21300006, guid: 3ac29bf6690a77446adae1c9870da9f4, type: 3}
-  - {fileID: 21300008, guid: 3ac29bf6690a77446adae1c9870da9f4, type: 3}
-  chargingSprites:
-  - {fileID: 21300000, guid: 345a5fef5c1bd2142a93f2f916e5ae06, type: 3}
-  - {fileID: 21300002, guid: 345a5fef5c1bd2142a93f2f916e5ae06, type: 3}
-  - {fileID: 21300004, guid: 345a5fef5c1bd2142a93f2f916e5ae06, type: 3}
-  - {fileID: 21300006, guid: 345a5fef5c1bd2142a93f2f916e5ae06, type: 3}
-  - {fileID: 21300008, guid: 345a5fef5c1bd2142a93f2f916e5ae06, type: 3}
-  - {fileID: 21300010, guid: 345a5fef5c1bd2142a93f2f916e5ae06, type: 3}
-  - {fileID: 21300012, guid: 345a5fef5c1bd2142a93f2f916e5ae06, type: 3}
-  fullSprites:
-  - {fileID: 21300000, guid: 8644f93b57e95e7489842a0988657d2b, type: 3}
-  - {fileID: 21300002, guid: 8644f93b57e95e7489842a0988657d2b, type: 3}
-  screenDisplay: {fileID: 7181786134445355985}
-  connectedDevices: []
-  connectedDepartmentBatteries: []
-  canNotBeDeconstructed: 0
-  secondsToScrewdrive: 2
-  powerControlModule: {fileID: 3895213071994396855, guid: 740edf7a0d4b9f84d8230c4c3ca7c91c,
-    type: 3}
-  powerCell: {fileID: 1089748232968454180, guid: a910878bd30ff5d439b94cd12e623762,
-    type: 3}
-  APCFrameObj: {fileID: 260239628808517242, guid: 7cd3db9e6e27eb8448654d61b83c960a,
-    type: 3}
-  multiMaster: 1
 --- !u!1 &9053875397184046594
 GameObject:
   m_ObjectHideFlags: 0
@@ -152,7 +26,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 9053875397184046594}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
@@ -349,26 +223,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2456943875737660155, guid: f9025da3beb40304cb15babfc0a6cafa,
         type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2456943875737660155, guid: f9025da3beb40304cb15babfc0a6cafa,
-        type: 3}
-      propertyPath: m_LocalRotation.x
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2456943875737660155, guid: f9025da3beb40304cb15babfc0a6cafa,
-        type: 3}
-      propertyPath: m_LocalRotation.y
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2456943875737660155, guid: f9025da3beb40304cb15babfc0a6cafa,
-        type: 3}
-      propertyPath: m_LocalRotation.z
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2456943875737660155, guid: f9025da3beb40304cb15babfc0a6cafa,
-        type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
       value: 0
       objectReference: {fileID: 0}
@@ -513,3 +367,128 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8bcb4d76605debd40aa28d5b8fcfc99a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &5662431988191537536
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1238849902553559639}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 819809cff2481914d883a6e1fefb4edd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  MethodRotation: 0
+  ChangeSprites: 0
+  isChangingSO: 0
+  CurrentDirection: 3
+  IsAtmosphericDevice: 0
+--- !u!114 &6024105162665196456
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1238849902553559639}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f227cc6622a9ad44f981a39d11d3d343, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  directional: {fileID: 5662431988191537536}
+--- !u!114 &6040952931907168087
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1238849902553559639}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fdce8a163088453ca593c0e98f2c5f07, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemStorageStructure: {fileID: 11400000, guid: 74bf3e872403e488695c17ecdde194ab,
+    type: 2}
+  itemStorageCapacity: {fileID: 11400000, guid: 51557be05ba9141e7849ea1c1c3ed19d,
+    type: 2}
+  itemStoragePopulator: {fileID: 0}
+  forceSpawnContents: 0
+  dropItemsOnDespawn: 0
+  UesAddlistPopulater: 0
+  Populater:
+    SlotContents: []
+    DeprecatedContents: []
+  ashPrefab: {fileID: 2957035178188790827, guid: 9ac6968a3f3ed54428662c9aae5a4b32,
+    type: 3}
+--- !u!114 &6203834163477203450
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1238849902553559639}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d7277dcc993463cb6c7f79b663f36fc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  NetTabType: 6
+  aiInteractable: 1
+--- !u!114 &8342472905829387893
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1238849902553559639}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b795fd3e621e742b0aafdb501b9d36cf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  powerMachinery: 1
+  powerLights: 1
+  powerEnvironment: 1
+  NoPowerSound:
+    SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/Machines/APCPowerOff.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
+  criticalSprites:
+  - {fileID: 21300000, guid: 3ac29bf6690a77446adae1c9870da9f4, type: 3}
+  - {fileID: 21300004, guid: 3ac29bf6690a77446adae1c9870da9f4, type: 3}
+  - {fileID: 21300004, guid: 3ac29bf6690a77446adae1c9870da9f4, type: 3}
+  - {fileID: 21300006, guid: 3ac29bf6690a77446adae1c9870da9f4, type: 3}
+  - {fileID: 21300008, guid: 3ac29bf6690a77446adae1c9870da9f4, type: 3}
+  chargingSprites:
+  - {fileID: 21300000, guid: 345a5fef5c1bd2142a93f2f916e5ae06, type: 3}
+  - {fileID: 21300002, guid: 345a5fef5c1bd2142a93f2f916e5ae06, type: 3}
+  - {fileID: 21300004, guid: 345a5fef5c1bd2142a93f2f916e5ae06, type: 3}
+  - {fileID: 21300006, guid: 345a5fef5c1bd2142a93f2f916e5ae06, type: 3}
+  - {fileID: 21300008, guid: 345a5fef5c1bd2142a93f2f916e5ae06, type: 3}
+  - {fileID: 21300010, guid: 345a5fef5c1bd2142a93f2f916e5ae06, type: 3}
+  - {fileID: 21300012, guid: 345a5fef5c1bd2142a93f2f916e5ae06, type: 3}
+  fullSprites:
+  - {fileID: 21300000, guid: 8644f93b57e95e7489842a0988657d2b, type: 3}
+  - {fileID: 21300002, guid: 8644f93b57e95e7489842a0988657d2b, type: 3}
+  screenDisplay: {fileID: 7181786134445355985}
+  connectedDevices: []
+  connectedDepartmentBatteries: []
+  canNotBeDeconstructed: 0
+  secondsToScrewdrive: 2
+  powerControlModule: {fileID: 3895213071994396855, guid: 740edf7a0d4b9f84d8230c4c3ca7c91c,
+    type: 3}
+  powerCell: {fileID: 1089748232968454180, guid: a910878bd30ff5d439b94cd12e623762,
+    type: 3}
+  APCFrameObj: {fileID: 260239628808517242, guid: 7cd3db9e6e27eb8448654d61b83c960a,
+    type: 3}
+  multiMaster: 1

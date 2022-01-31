@@ -293,7 +293,7 @@ public class ChatRelay : NetworkBehaviour
 
 	[Client]
 	public void UpdateClientChat(string message, ChatChannel channels, bool isOriginator, GameObject recipient,
-		Loudness loudness)
+		Loudness loudness, ChatModifier modifiers)
 	{
 		if (string.IsNullOrEmpty(message)) return;
 
@@ -308,7 +308,7 @@ public class ChatRelay : NetworkBehaviour
 		{
 			// replace action messages with chat bubble
 			if (channels.HasFlag(ChatChannel.Combat) || channels.HasFlag(ChatChannel.Action) ||
-			    channels.HasFlag(ChatChannel.Examine))
+			    channels.HasFlag(ChatChannel.Examine) || modifiers.HasFlag(ChatModifier.Emote))
 			{
 				if (isOriginator)
 				{

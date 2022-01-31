@@ -20,6 +20,7 @@ GameObject:
   - component: {fileID: 90804091474310291}
   - component: {fileID: 1481169419180323577}
   - component: {fileID: 951381747229521920}
+  - component: {fileID: 5687824364782967995}
   m_Layer: 11
   m_Name: Object
   m_TagString: Untagged
@@ -101,7 +102,7 @@ MonoBehaviour:
   syncInterval: 0.1
   matrixDebugLogging: 0
   objectType: 1
-  customNetTransform: {fileID: 0}
+  customNetTransform: {fileID: 1361981371736346955}
   prefabTracker: {fileID: 951381747229521920}
   CurrentsortingGroup: {fileID: 1481169419180323577}
   AtmosPassable: 1
@@ -125,6 +126,7 @@ MonoBehaviour:
   syncInterval: 0.1
   snapToGridOnStart: 1
   IsFixedMatrix: 0
+  IsItem: 0
 --- !u!114 &5971563122362279857
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -160,6 +162,7 @@ MonoBehaviour:
       m_AssetGUID: 
       m_SubObjectName: 
       m_SubObjectType: 
+      m_EditorAssetChanged: 0
   damageDeflection: 0
   Armor:
     Melee: 0
@@ -185,7 +188,6 @@ MonoBehaviour:
   HeatResistance: 100
   ExplosionsDamage: 100
   doDamageMessage: 1
-  CannotBeAshed: 0
 --- !u!114 &6838691275677014393
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -204,6 +206,7 @@ MonoBehaviour:
   initialDescription: 
   willHighlight: 1
   exportCost: 0
+  exportType: 0
   exportName: 
   exportMessage: 
 --- !u!114 &1033521399077987722
@@ -259,6 +262,37 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   foreverID: ebb08cf966efc084aa918bd8d9429604
+--- !u!114 &5687824364782967995
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4197940402254186057}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c23c49138f42840a1bc22ade283c1694, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  registerTile: {fileID: 0}
+  floorDecal: {fileID: 0}
+  isInitiallyNotPushable: 1
+  pushPullSound:
+    SetLoadSetting: 0
+    AssetAddress: null
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
+  soundDelayTime: 0
+  soundMinimumPitchVariance: 1
+  soundMaximumPitchVariance: 1
+  OnPullingSomethingChangedServer:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &5388634654466307187
 GameObject:
   m_ObjectHideFlags: 0

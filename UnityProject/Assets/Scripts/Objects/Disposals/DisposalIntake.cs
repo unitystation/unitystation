@@ -30,13 +30,16 @@ namespace Objects.Disposals
 		protected override void Awake()
 		{
 			base.Awake();
-
-			if (TryGetComponent<Directional>(out var directional))
-			{
-				directional.OnDirectionChange.AddListener(OnDirectionChanged);
-			}
 			directionalPassable = GetComponent<DirectionalPassable>();
 			DenyEntry();
+		}
+
+		private void OnEnable()
+		{
+			if (TryGetComponent<Rotatable>(out var rotatable))
+			{
+				rotatable.OnRotationChange.AddListener(OnDirectionChanged);
+			}
 		}
 
 		private void Start()
@@ -55,7 +58,7 @@ namespace Objects.Disposals
 			GatherEntities();
 		}
 
-		private void OnDirectionChanged(Orientation newDir)
+		private void OnDirectionChanged(OrientationEnum newDir)
 		{
 			UpdateSpriteOrientation();
 		}
@@ -82,18 +85,18 @@ namespace Objects.Disposals
 
 		private void UpdateSpriteOrientation()
 		{
-			switch (directionalPassable.Directional.CurrentDirection.AsEnum())
+			switch (directionalPassable.Rotatable.CurrentDirection)
 			{
-				case OrientationEnum.Up:
+				case OrientationEnum.Up_By0:
 					baseSpriteHandler.ChangeSpriteVariant(1);
 					break;
-				case OrientationEnum.Down:
+				case OrientationEnum.Down_By180:
 					baseSpriteHandler.ChangeSpriteVariant(0);
 					break;
-				case OrientationEnum.Left:
+				case OrientationEnum.Left_By90:
 					baseSpriteHandler.ChangeSpriteVariant(3);
 					break;
-				case OrientationEnum.Right:
+				case OrientationEnum.Right_By270:
 					baseSpriteHandler.ChangeSpriteVariant(2);
 					break;
 			}
@@ -162,6 +165,11 @@ namespace Objects.Disposals
 		private void OnDisable()
 		{
 			UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
+
+			if (TryGetComponent<Rotatable>(out var rotatable))
+			{
+				rotatable.OnRotationChange.RemoveListener(OnDirectionChanged);
+			}
 		}
 
 		protected override void SetMachineUninstalled()

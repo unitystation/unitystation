@@ -67,6 +67,7 @@ namespace Messages.Server.GhostRoles
 		AlreadyQueued,
 		QueueFull,
 		Error,
-		JobBanned
+		JobBanned,
+		ClearMessage
 	}
 }

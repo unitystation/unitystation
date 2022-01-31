@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Systems.CraftingV2;
 using Systems.CraftingV2.ClientServerLogic;
+using Systems.CraftingV2.GUI;
 using Chemistry;
 using Chemistry.Components;
 using Items;
@@ -176,7 +177,52 @@ namespace Player
 		public void ForgetRecipe(CraftingRecipe recipe)
 		{
 			GetKnownRecipesInCategory(recipe.Category).Remove(recipe);
+
+			//Prevent message being sent twice when local host
+			if (playerScript == PlayerManager.LocalPlayerScript)
+			{
+				if (CraftingMenu.Instance == null) return;
+
+				//Remove button from crafting Ui for local host
+				CraftingMenu.Instance.OnPlayerForgotRecipe(recipe);
+				return;
+			}
+
 			SendForgottenCraftingRecipe.SendTo(playerScript.connectedPlayer, recipe);
+		}
+
+		[Server]
+		public void ForgetAllRecipes()
+		{
+			ClearKnownRecipes();
+
+			//Prevent message being sent twice when local host
+			if(connectionToClient == null || playerScript == PlayerManager.LocalPlayerScript) return;
+
+			TargetRpcForgetAllRecipes();
+		}
+
+		[TargetRpc]
+		private void TargetRpcForgetAllRecipes()
+		{
+			ClearKnownRecipes();
+		}
+
+		private void ClearKnownRecipes()
+		{
+			foreach (var recipeCategory in knownRecipesByCategory)
+			{
+				recipeCategory.Clear();
+			}
+
+			//Only run on client player, no need for headless to run
+			if (CustomNetworkManager.IsHeadless) return;
+
+			//Crafting menu might not be ready, will init correctly without recipes on first load instead
+			if (CraftingMenu.Instance == null) return;
+
+			//The crafting menu is already initiated, so it's safe to remove buttons from it
+			CraftingMenu.Instance.OnPlayerForgetAllRecipes();
 		}
 
 		#endregion

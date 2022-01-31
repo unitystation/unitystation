@@ -1,26 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &158244645571661570
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3367296414398437626}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 716b04978ca11484f9415d29517c600e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  baseSpriteHandler: {fileID: 1286611255038373546}
-  BodyPartType: 0
-  spriteRenderer: {fileID: 5622979681401935431}
-  SpriteOrder:
-    Orders: 14000000140000001400000014000000
-  ClothingHide: 0
-  Data: 
-  referenceOffset: 0
-  OverlySpriteHandler: {fileID: 8378186601239540787}
 --- !u!1 &7060390259241769481
 GameObject:
   m_ObjectHideFlags: 0
@@ -151,7 +130,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: bce563184c34e354b80a4633136797fb,
+      objectReference: {fileID: 21300000, guid: 0047bdc7dfbff154281cace91c6f4b7b,
         type: 3}
     - target: {fileID: 5026448041578801434, guid: 7f846789e62ac004499611e9c1417efa,
         type: 3}
@@ -252,3 +231,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &158244645571661570
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3367296414398437626}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 716b04978ca11484f9415d29517c600e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  baseSpriteHandler: {fileID: 1286611255038373546}
+  BodyPartType: 0
+  spriteRenderer: {fileID: 5622979681401935431}
+  SpriteOrder:
+    Orders: 14000000140000001400000014000000
+  ClothingHide: 0
+  Data: 
+  referenceOffset: 0
+  OverlySpriteHandler: {fileID: 8378186601239540787}

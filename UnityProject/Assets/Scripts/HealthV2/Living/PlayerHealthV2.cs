@@ -2,19 +2,19 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEngine;
+using Mirror;
 using AdminTools;
 using Health.Sickness;
 using Messages.Server;
 using Messages.Server.SoundMessages;
-using Mirror;
+using Player;
 using Player.Movement;
-using UnityEngine;
 
 namespace HealthV2
 {
 	public class PlayerHealthV2 : LivingHealthMasterBase, RegisterPlayer.IControlPlayerState
 	{
-
 		private PlayerMove playerMove;
 		/// <summary>
 		/// Controller for sprite direction and walking into objects

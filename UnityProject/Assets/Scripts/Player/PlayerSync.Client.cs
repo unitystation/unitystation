@@ -96,7 +96,7 @@ public partial class PlayerSync
 	//Extracted to slightly reduce code duplication.
 	private void UpdateFacingDirection(PlayerAction action)
 	{
-		playerDirectional.FaceDirection(Orientation.From(action.Direction()));
+		playerDirectional.SetFaceDirectionLocalVictor(action.Direction());
 	}
 	//main client prediction and validation logic lives here
 	private IEnumerator DoProcess(PlayerAction action)
@@ -303,7 +303,7 @@ public partial class PlayerSync
 		Vector2Int direction = target - currentPos.To2Int();
 		if (followMode)
 		{
-			playerDirectional.FaceDirection(Orientation.From(direction));
+			playerDirectional.SetFaceDirectionLocalVictor(direction);
 		}
 
 		Logger.LogTraceFormat("Client predictive push to {0}", Category.PushPull, target);
@@ -367,7 +367,7 @@ public partial class PlayerSync
 			if (LastDirectionClient != Vector2.zero)
 			{
 				OnClientStartMove().Invoke(oldPos.RoundToInt(), newPos.RoundToInt());
-				playerDirectional.FaceDirection(Orientation.From(LastDirectionClient));
+				playerDirectional.SetFaceDirectionLocalVictor(LastDirectionClient.To2Int());
 			}
 
 
@@ -549,7 +549,7 @@ public partial class PlayerSync
 		//direction updates from the server because we predict those directions entirely on the client
 		if (gameObject != PlayerManager.LocalPlayer)
 		{
-			playerDirectional.IgnoreServerUpdates = true;
+			//playerDirectional.IgnoreServerUpdates = true;
 		}
 	}
 
@@ -558,7 +558,7 @@ public partial class PlayerSync
 		//done being pulled, give server authority again
 		if (gameObject != PlayerManager.LocalPlayer)
 		{
-			playerDirectional.IgnoreServerUpdates = false;
+			//playerDirectional.IgnoreServerUpdates = false;
 		}
 	}
 

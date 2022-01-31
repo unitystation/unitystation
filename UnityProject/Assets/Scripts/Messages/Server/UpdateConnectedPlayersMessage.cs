@@ -34,8 +34,10 @@ namespace Messages.Server
 
 		public static NetMessage Send()
 		{
-			Logger.LogFormat("This server informing all clients of the new PlayerList state: {0}", Category.Connections,
-				string.Join(",", PlayerList.Instance.AllPlayers));
+			//Performance issue with string.Join doing this at high player count
+			//If this is necessary in the future cache it when players leave/join?
+			//Logger.LogFormat("This server informing all clients of the new PlayerList state: {0}", Category.Connections,
+			//	string.Join(",", PlayerList.Instance.AllPlayers));
 
 			var prepareConnectedPlayers = new List<ClientConnectedPlayer>();
 			var count = 0;

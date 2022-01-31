@@ -41,26 +41,26 @@ public class SpriteHandlerNorder : MonoBehaviour
 		SpriteHandler.ChangeSpriteVariant(number);
 	}
 
-	public virtual void OnDirectionChange(Orientation direction)
+	public virtual void OnDirectionChange(OrientationEnum direction)
 	{
 		int referenceOffset = 0;
 
-		if (direction == Orientation.Down)
+		if (direction == OrientationEnum.Down_By180)
 		{
 			referenceOffset = 0;
 		}
 
-		if (direction == Orientation.Up)
+		if (direction == OrientationEnum.Up_By0)
 		{
 			referenceOffset = 1;
 		}
 
-		if (direction == Orientation.Right)
+		if (direction == OrientationEnum.Right_By270)
 		{
 			referenceOffset = 2;
 		}
 
-		if (direction == Orientation.Left)
+		if (direction == OrientationEnum.Left_By90)
 		{
 			referenceOffset = 3;
 		}
@@ -72,6 +72,9 @@ public class SpriteHandlerNorder : MonoBehaviour
 				spriteRenderer.sortingOrder = spriteOrder.Orders[referenceOffset];
 			}
 		}
+
+		//Not networked so don't run sprite change on headless
+		if (CustomNetworkManager.IsHeadless) return;
 
 		SpriteHandler.ChangeSpriteVariant(referenceOffset, false);
 	}

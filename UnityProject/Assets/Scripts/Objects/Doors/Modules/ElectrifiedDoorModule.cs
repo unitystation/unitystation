@@ -1,9 +1,6 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
-using Systems.Electricity;
 using HealthV2;
-using Initialisation;
 
 namespace Doors.Modules
 {
@@ -18,8 +15,6 @@ namespace Doors.Modules
 			set => isElectrecuted = value;
 		}
 
-		private bool OneTimeElectrecuted = false;
-
 		public void OnSpawnServer(SpawnInfo info)
 		{
 			master.HackingProcessBase.RegisterPort(ToggleElectrocution, master.GetType());
@@ -30,7 +25,6 @@ namespace Doors.Modules
 		{
 			master.HackingProcessBase.ImpulsePort(ToggleElectrocution);
 		}
-
 
 		public void ToggleElectrocution()
 		{
@@ -77,7 +71,6 @@ namespace Doors.Modules
 				{
 					if (PulsePreventElectrocution())
 					{
-						OneTimeElectrecuted = false;
 						if (PlayerHasInsulatedGloves(mob) == false)
 						{
 							ServerElectrocute(mob);
@@ -105,14 +98,14 @@ namespace Doors.Modules
 		{
 			List<ItemSlot> slots = mob.GetComponent<PlayerScript>().OrNull()?.DynamicItemStorage.OrNull()
 				?.GetNamedItemSlots(NamedSlot.hands);
-			if (slots != null)
+			if (slots == null) return false;
+			foreach (ItemSlot slot in slots)
 			{
-				foreach (ItemSlot slot in slots)
+				if(slot.IsEmpty) continue;
+				if (Validations.HasItemTrait(slot.ItemObject, CommonTraits.Instance.Insulated))
 				{
-					if (Validations.HasItemTrait(slot.ItemObject, CommonTraits.Instance.Insulated))
-					{
-						return true;
-					}
+					Chat.AddExamineMsg(mob, "You feel a tingle go through your hand.");
+					return true;
 				}
 			}
 
@@ -122,13 +115,11 @@ namespace Doors.Modules
 		private void ServerElectrocute(GameObject obj)
 		{
 			LivingHealthMasterBase healthScript = obj.GetComponent<LivingHealthMasterBase>();
-			if (healthScript != null)
-			{
-				var electrocution =
-					new Electrocution(voltageDamage, master.RegisterTile.WorldPositionServer,
-						"wire"); //More magic numbers.
-				healthScript.Electrocute(electrocution);
-			}
+			if (healthScript == null) return;
+			var electrocution =
+				new Electrocution(voltageDamage, master.RegisterTile.WorldPositionServer,
+					"wire"); //More magic numbers.
+			healthScript.Electrocute(electrocution);
 		}
 
 		public override bool CanDoorStateChange()

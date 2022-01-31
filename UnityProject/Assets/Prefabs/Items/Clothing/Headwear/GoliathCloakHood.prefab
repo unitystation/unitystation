@@ -17,6 +17,17 @@ PrefabInstance:
       propertyPath: initialDescription
       value: A protective & concealing hood.
       objectReference: {fileID: 0}
+    - target: {fileID: 1858814666993550857, guid: a7a048f6c330048e9a2358fb6f71d385,
+        type: 3}
+      propertyPath: relatedRecipes.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1858814666993550857, guid: a7a048f6c330048e9a2358fb6f71d385,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[0].recipe
+      value: 
+      objectReference: {fileID: 11400000, guid: 44cfa2b14062d4443bf3407d7f2ce971,
+        type: 2}
     - target: {fileID: 2067487341669760131, guid: a7a048f6c330048e9a2358fb6f71d385,
         type: 3}
       propertyPath: m_Sprite

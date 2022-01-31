@@ -406,6 +406,12 @@ namespace Systems.CraftingV2.GUI
 		public void Open()
 		{
 			this.SetActive(true);
+
+			foreach (var categoryButtons in recipesInCategories)
+			{
+				categoryButtons.CategoryButtonScript.gameObject.SetActive(categoryButtons.RecipeButtonScripts.Count > 0);
+			}
+
 			RequestRefreshRecipes();
 		}
 
@@ -434,9 +440,10 @@ namespace Systems.CraftingV2.GUI
 				newRecipeButton.SetActive(false);
 			}
 
-			GetRecipesInCategory(craftingRecipe.Category)
-				.RecipeButtonScripts
-				.Add(newRecipeButton.GetComponent<RecipeButtonScript>());
+			var category = GetRecipesInCategory(craftingRecipe.Category);
+
+			category.RecipeButtonScripts.Add(newRecipeButton.GetComponent<RecipeButtonScript>());
+			category.CategoryButtonScript.gameObject.SetActive(true);
 		}
 
 		/// <summary>
@@ -445,16 +452,45 @@ namespace Systems.CraftingV2.GUI
 		/// <param name="craftingRecipe">The associated crafting recipe.</param>
 		public void OnPlayerForgotRecipe(CraftingRecipe craftingRecipe)
 		{
-			int recipeIndexToForgot = GetRecipesInCategory(craftingRecipe.Category).RecipeButtonScripts.FindIndex(
+			var category = GetRecipesInCategory(craftingRecipe.Category);
+
+			int recipeIndexToForgot = category.RecipeButtonScripts.FindIndex(
 				recipeButtonScript => recipeButtonScript.CraftingRecipe
 			);
+
 			if (chosenRecipe != null && craftingRecipe == chosenRecipe.CraftingRecipe)
 			{
 				DeselectRecipe(chosenRecipe);
 			}
 
-			Destroy(GetRecipesInCategory(craftingRecipe.Category).RecipeButtonScripts[recipeIndexToForgot]);
-			GetRecipesInCategory(craftingRecipe.Category).RecipeButtonScripts.RemoveAt(recipeIndexToForgot);
+			Destroy(category.RecipeButtonScripts[recipeIndexToForgot].gameObject);
+			category.RecipeButtonScripts.RemoveAt(recipeIndexToForgot);
+
+			category.CategoryButtonScript.gameObject.SetActive(category.RecipeButtonScripts.Count > 0);
+		}
+
+		/// <summary>
+		/// Removes all recipe buttons
+		/// </summary>
+		public void OnPlayerForgetAllRecipes()
+		{
+			foreach (var recipesInCategory in recipesInCategories)
+			{
+				foreach (var recipeButton in recipesInCategory.RecipeButtonScripts)
+				{
+					if (chosenRecipe != null && recipeButton.CraftingRecipe == chosenRecipe.CraftingRecipe)
+					{
+						DeselectRecipe(chosenRecipe);
+					}
+
+					Destroy(recipeButton.gameObject);
+				}
+			}
+
+			foreach (var recipesInCategory in recipesInCategories)
+			{
+				recipesInCategory.RecipeButtonScripts.Clear();
+			}
 		}
 
 		/// <summary>

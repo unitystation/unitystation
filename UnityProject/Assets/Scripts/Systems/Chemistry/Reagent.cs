@@ -1,9 +1,11 @@
-﻿using UnityEngine;
+﻿using System;
+using System.Collections.Generic;
+using UnityEngine;
 
 namespace Chemistry
 {
 	[CreateAssetMenu(fileName = "reagent", menuName = "ScriptableObjects/Chemistry/Reagent")]
-	public class Reagent : ScriptableObject
+	public class Reagent : ScriptableObject , IEquatable<Reagent>
 	{
 		[SerializeField]
 		[Tooltip("This is optional")]
@@ -16,6 +18,9 @@ namespace Chemistry
 
 		[SerializeField, HideInInspector]
 		private int indexInSingleton = -1;
+
+		//Every single reaction this chemical is used in
+		[NonSerialized] public Reaction[] RelatedReactions = Array.Empty<Reaction>();
 
 		/// <summary>
 		/// 	Index in the chemistry reagents' singleton. Used in a client-server communication
@@ -41,5 +46,35 @@ namespace Chemistry
 		{
 			return Name;
 		}
+
+		public bool Equals(Reagent other)
+		{
+			if (other.indexInSingleton == indexInSingleton)
+			{
+				return true;
+			}
+			else
+			{
+				return false;
+			}
+		}
+
+		public static bool operator ==(Reagent obj1, Reagent obj2)
+		{
+			if (obj1 is null || obj2 is null)
+			{
+				return obj1 is null && obj2 is null;
+			}
+			else
+			{
+				return obj1.Equals(obj2);
+			}
+		}
+
+		public static bool operator !=(Reagent obj1, Reagent obj2)
+		{
+			return !(obj1 == obj2);
+		}
+
 	}
 }

@@ -30,7 +30,7 @@ namespace Messages.Server
 			if (MatrixManager.IsInitialized == false) return;
 			if (PlayerManager.LocalPlayer == null) return;
 
-			if (ClientScene.prefabs.TryGetValue(msg.prefabAssetID, out var prefab) == false)
+			if (NetworkClient.prefabs.TryGetValue(msg.prefabAssetID, out var prefab) == false)
 			{
 				Logger.LogError(
 						$"Couldn't spawn {nameof(ElectricalArc)}; client doesn't know about this {nameof(msg.prefabAssetID)}: {msg.prefabAssetID}.",

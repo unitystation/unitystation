@@ -1,7 +1,7 @@
-using Systems.GhostRoles;
-using Messages.Server;
 using UnityEngine;
 using Mirror;
+using Player;
+using Messages.Server;
 
 /// <summary>
 /// Server-only full player information class
@@ -21,6 +21,7 @@ public class ConnectedPlayer
 		job = JobType.NULL,
 		ClientId = "",
 		UserId = "",
+		ConnectionIP = ""
 	};
 
 	public string Username { get; set; }
@@ -32,6 +33,10 @@ public class ConnectedPlayer
 	public string ClientId { get; set; }
 	public string UserId { get; set; }
 	public NetworkConnection Connection { get; set; }
+
+	public string ConnectionIP { get; set; }
+
+	//This is only set when the player presses the ready button? But not if late joining, wtf?????
 	public CharacterSettings CharacterSettings { get; set; }
 
 	public GameObject GameObject
@@ -146,16 +151,6 @@ public class ConnectedPlayer
 			Logger.LogTrace($"NAME ALREADY EXISTS: {proposedName}", Category.Connections);
 			sameNames++;
 		}
-	}
-
-	public static bool IsGhostRole(JobType playerJob)
-	{
-		foreach (var roleData in GhostRoleManager.Instance.GhostRoles)
-		{
-			if (playerJob == roleData.TargetOccupation.JobType) return true;
-		}
-
-		return false;
 	}
 
 	private static void TrySendUpdate()

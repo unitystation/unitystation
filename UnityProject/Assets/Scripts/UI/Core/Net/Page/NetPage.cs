@@ -1,6 +1,9 @@
 using UnityEngine;
 
-public class NetPage : MonoBehaviour
+namespace UI.Core.NetUI
 {
-	public NetUIElementBase[] Elements => GetComponentsInChildren<NetUIElementBase>(false);
+	public class NetPage : MonoBehaviour
+	{
+		public NetUIElementBase[] Elements => GetComponentsInChildren<NetUIElementBase>(false);
+	}
 }

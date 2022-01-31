@@ -127,7 +127,7 @@ namespace Systems.Spells
 					{
 						break;
 					}
-					castPosition = casterPosition + caster.Script.CurrentDirection.VectorInt.To3Int();
+					castPosition = casterPosition + caster.Script.CurrentDirection.ToLocalVector3().RoundToInt();
 					break;
 				case SpellSummonPosition.Custom:
 					castPosition = GetWorldSummonPosition(caster);

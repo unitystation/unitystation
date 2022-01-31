@@ -149,7 +149,12 @@ public class Attributes : NetworkBehaviour, IRightClickable, IExaminable
 
 	private void OnExamine()
 	{
-		RequestExamineMessage.Send(GetComponent<NetworkIdentity>().netId);
+		RequestExamineMessage.Send(netId);
+	}
+
+	private void OnPointTo()
+	{
+		PlayerManager.PlayerScript.playerNetworkActions.CmdPoint(gameObject, gameObject.WorldPosClient());
 	}
 
 	// Initial implementation of shift examine behaviour
@@ -177,11 +182,17 @@ public class Attributes : NetworkBehaviour, IRightClickable, IExaminable
 	public RightClickableResult GenerateRightClickOptions()
 	{
 		return RightClickableResult.Create()
-			.AddElement("Examine", OnExamine);
+			.AddElement("Examine", OnExamine)
+			.AddElement("PointTo", OnPointTo);
 	}
 
 	public void ServerSetArticleName(string newName)
 	{
+		if (gameObject.TryGetComponent<Stackable>(out var stack))
+		{
+			newName = $"{newName} ({stack.Amount})";
+		}
+		newName = newName.Replace("[item]", $"{initialName}");
 		SyncArticleName(articleName, newName);
 	}
 

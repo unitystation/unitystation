@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using Player;
 using UnityEngine;
 using TMPro;
 using Systems.Teleport;
@@ -29,7 +30,9 @@ namespace UI.Core.Windows
 
 		public List<GameObject> TeleportButtons { get; private set; } = new List<GameObject>();
 
-		private TeleportButtonSearchBar SearchBar;	
+		private TeleportButtonSearchBar SearchBar;
+
+		public bool OrbitOnTeleport = false;
 
 		private void Start()
 		{
@@ -44,6 +47,10 @@ namespace UI.Core.Windows
 		public void ButtonClicked(TeleportInfo info)
 		{
 			onTeleportRequested?.Invoke(info);
+			if (PlayerManager.LocalPlayer.TryGetComponent<GhostOrbit>(out var orbit) == false) return;
+			orbit.CmdStopOrbiting();
+			if (OrbitOnTeleport == false) return;
+			orbit.CmdServerOrbit(info.gameObject);
 		}
 
 		public void TeleportToVector(Vector3 vector)
@@ -71,13 +78,13 @@ namespace UI.Core.Windows
 				GenerateButton(teleportInfo);
 			}
 		}
-		
+
 		private void GenerateButton(TeleportInfo entry)
 		{
 			GameObject button = Instantiate(buttonTemplate);
 			var teleportButton = button.GetComponent<TeleportButton>();
 			teleportButton.SetValues(this, entry);
-		
+
 			button.transform.SetParent(buttonTemplate.transform.parent, false);
 			button.SetActive(true);
 
@@ -88,7 +95,7 @@ namespace UI.Core.Windows
 		{
 			if (SearchBar != null)
 			{
-				SearchBar.Resettext();
+				SearchBar.ResetText();
 			}
 
 			foreach (GameObject x in TeleportButtons)//resets buttons everytime it opens

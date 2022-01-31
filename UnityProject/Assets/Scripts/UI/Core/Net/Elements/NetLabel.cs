@@ -1,80 +1,76 @@
 using System;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
-///Text label, not modifiable by clients directly
-[RequireComponent(typeof(TMPro.TMP_Text))]
-[Serializable]
-public class NetLabel : NetUIStringElement
+namespace UI.Core.NetUI
 {
-	/// <summary>
-	/// Invoked when the value synced between client / server is updated.
-	/// </summary>
-	[NonSerialized]
-	public StringEvent OnSyncedValueChanged = new StringEvent();
-
-	public override ElementMode InteractionMode => ElementMode.ServerWrite;
-
-	public override string Value
+	///Text label, not modifiable by clients directly
+	[RequireComponent(typeof(TMP_Text))]
+	[Serializable]
+	public class NetLabel : NetUIStringElement
 	{
-		get
-		{
-			if (ElementTMP != null)
-			{
-				return (ElementTMP.text);
-			}
-			else
-			{
-				return (Element.text);
+		/// <summary>
+		/// Invoked when the value synced between client / server is updated.
+		/// </summary>
+		[NonSerialized]
+		public StringEvent OnSyncedValueChanged = new StringEvent();
+
+		public override ElementMode InteractionMode => ElementMode.ServerWrite;
+
+		public override string Value {
+			get => ElementTmp != null ? ElementTmp.text : Element.text;
+			set {
+				externalChange = true;
+				if (ElementTmp != null)
+				{
+					ElementTmp.text = value;
+				}
+				else if (Element != null)
+				{
+					Element.text = value;
+				}
+				else
+				{
+					Logger.LogError($"Both Text and TMPText were null on {gameObject.name}, check stacktrace to see exact location");
+				}
+
+				externalChange = false;
+				OnSyncedValueChanged?.Invoke(value);
 			}
 		}
-		set
+
+		public Text Element
 		{
-			externalChange = true;
-			if (ElementTMP != null)
+			get
 			{
-				ElementTMP.text = value;
-			}
-			else if (Element != null)
-			{
-				Element.text = value;
+				if (element == null)
+				{
+					element = GetComponent<Text>();
+				}
+
+				return element;
 			}
 
-			externalChange = false;
-			OnSyncedValueChanged?.Invoke(value);
+			set => element = value;
 		}
-	}
 
-	private Text element;
-
-	public Text Element
-	{
-		get
+		public TMP_Text ElementTmp
 		{
-			if (!element)
+			get
 			{
-				element = GetComponent<Text>();
+				if (elementTmp == null)
+				{
+					elementTmp = GetComponent<TMP_Text>();
+				}
+
+				return elementTmp;
 			}
-			return element;
+
+			set => elementTmp = value;
 		}
-	}
 
-	private TMPro.TMP_Text elementTMP;
-
-	public TMPro.TMP_Text ElementTMP
-	{
-		get
-		{
-			if (!elementTMP)
-			{
-				elementTMP = GetComponent<TMPro.TMP_Text>();
-			}
-			return elementTMP;
-		}
-	}
-
-
-	public override void ExecuteServer(ConnectedPlayer subject)
-	{
+		private Text element;
+		private TMP_Text elementTmp;
 	}
 }

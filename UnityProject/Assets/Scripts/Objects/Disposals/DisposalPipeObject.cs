@@ -206,7 +206,7 @@ namespace Objects.Disposals
 
 		private void ChangePipeObjectToTile()
 		{
-			Orientation orientation = GetComponent<Directional>().CurrentDirection;
+			var orientation = GetComponent<Rotatable>().CurrentDirection;
 
 			// Spawn the correct disposal pipe tile, based on current orientation.
 			DisposalPipe pipeTileToSpawn = GetPipeTileByOrientation(orientation);
@@ -225,17 +225,17 @@ namespace Objects.Disposals
 			}
 		}
 
-		private DisposalPipe GetPipeTileByOrientation(Orientation orientation)
+		private DisposalPipe GetPipeTileByOrientation(OrientationEnum orientation)
 		{
-			switch (orientation.AsEnum())
+			switch (orientation)
 			{
-				case OrientationEnum.Up:
+				case OrientationEnum.Up_By0:
 					return disposalPipeTileUp;
-				case OrientationEnum.Down:
+				case OrientationEnum.Down_By180:
 					return disposalPipeTileDown;
-				case OrientationEnum.Left:
+				case OrientationEnum.Left_By90:
 					return disposalPipeTileLeft;
-				case OrientationEnum.Right:
+				case OrientationEnum.Right_By270:
 					return disposalPipeTileRight;
 			}
 

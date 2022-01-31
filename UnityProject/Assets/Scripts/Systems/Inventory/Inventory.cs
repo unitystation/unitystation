@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using Messages.Client;
 using UnityEngine;
+using Systems.Storage;
 using Objects;
 
 /// <summary>
@@ -383,7 +384,6 @@ public static class Inventory
 				//vanish it and set its parent container
 				ServerVanish(fromSlot);
 				objectContainer.StoreObject(pickupable.gameObject);
-
 				return true;
 			}
 
@@ -431,6 +431,12 @@ public static class Inventory
 		foreach (var onMove in pickupable.GetComponents<IServerInventoryMove>())
 		{
 			onMove.OnInventoryMoveServer(toPerform);
+		}
+
+		if (pickupable.gameObject.TryGetComponent<Stackable>(out var stack))
+		{
+			var cnt = pickupable.GetComponent<CustomNetTransform>();
+			stack.ServerStackOnGround(cnt.ServerLocalPosition);
 		}
 
 		return true;
@@ -581,7 +587,7 @@ public static class Inventory
 	/// <param name="namedSlotPopulatorEntrys"></param>
 	public static void PopulateSubInventory(GameObject gameObject, List<SlotPopulatorEntry> namedSlotPopulatorEntrys)
 	{
-		if (namedSlotPopulatorEntrys.Count == 0)  return;
+		if (namedSlotPopulatorEntrys.Count == 0) return;
 
 		var ItemStorage = gameObject.GetComponent<ItemStorage>();
 		if (ItemStorage == null) return;

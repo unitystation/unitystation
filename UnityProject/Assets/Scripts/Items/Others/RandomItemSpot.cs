@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Mirror;
+using Objects;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -19,13 +20,18 @@ namespace Items
 
 		private const int MaxAmountRolls = 5;
 
+		[SerializeField]
+		private bool triggerManually = false;
+
 		public void OnSpawnServer(SpawnInfo info)
 		{
 			RollRandomPool(true);
 		}
 
-		public void RollRandomPool(bool UnrestrictedAndspawn)
+		public void RollRandomPool(bool UnrestrictedAndspawn, bool overrideTrigger = false)
 		{
+			if(overrideTrigger == false && triggerManually) return;
+
 			var RegisterTile = this.GetComponent<RegisterTile>();
 			for (int i = 0; i < lootCount; i++)
 			{
@@ -64,6 +70,18 @@ namespace Items
 
 			if (UnrestrictedAndspawn)
 			{
+				if (RegisterTile.TryGetComponent<ObjectBehaviour>(out var ObjectBehaviour))
+				{
+					if (ObjectBehaviour.parentContainer != null)
+					{
+						//TODO Do item storage
+						if (ObjectBehaviour.parentContainer.TryGetComponent<ObjectContainer>(out var ObjectContainer))
+						{
+							ObjectContainer.RetrieveObject(this.gameObject);
+						}
+					}
+				}
+
 				RegisterTile.Matrix.MetaDataLayer.InitialObjects[this.gameObject] = this.transform.localPosition;
 				this.GetComponent<CustomNetTransform>().DisappearFromWorldServer(true);
 				this.GetComponent<RegisterTile>().UpdatePositionServer();

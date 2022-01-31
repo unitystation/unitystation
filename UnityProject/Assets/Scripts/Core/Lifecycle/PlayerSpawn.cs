@@ -9,6 +9,7 @@ using Messages.Server;
 using Messages.Server.LocalGuiMessages;
 using Newtonsoft.Json;
 using UI.CharacterCreator;
+using Player;
 
 /// <summary>
 /// Main API for dealing with spawning players and related things.
@@ -122,7 +123,9 @@ public static class PlayerSpawn
 	/// Respawns the mind's character and transfers their control to it.
 	/// </summary>
 	/// <param name="forMind"></param>
-	public static void ServerRespawnPlayer(Mind forMind, Vector3Int? Position = null)
+	/// <param name="spawnPos">Override for spawn pos, null to spawn at normal spawnpoint</param>
+	public static void ServerRespawnPlayer(Mind forMind, Vector3Int? spawnPos = null)
+
 	{
 		//get the settings from the mind
 		var occupation = forMind.occupation;
@@ -132,7 +135,8 @@ public static class PlayerSpawn
 
 		var player = oldBody.Player();
 		var oldGhost = forMind.ghost;
-		ServerSpawnInternal(connection, occupation, settings, forMind, willDestroyOldBody: oldGhost != null, spawnPos: Position);
+
+		ServerSpawnInternal(connection, occupation, settings, forMind, spawnPos, willDestroyOldBody: oldGhost != null);
 
 		if (oldGhost)
 		{
@@ -298,8 +302,6 @@ public static class PlayerSpawn
 	public static void ServerRejoinPlayer(JoinedViewer viewer, GameObject body)
 	{
 		var ps = body.GetComponent<PlayerScript>();
-		var mind = ps.mind;
-		var occupation = mind.occupation;
 		var settings = ps.characterSettings;
 		ServerTransferPlayer(viewer.connectionToClient, body, viewer.gameObject, Event.PlayerRejoined, settings);
 		ps = body.GetComponent<PlayerScript>();
@@ -377,12 +379,15 @@ public static class PlayerSpawn
 			SpawnDestination.At(spawnPosition, parentTransform));
 		Spawn._ServerFireClientServerSpawnHooks(SpawnResult.Single(info, ghost));
 
-		if (PlayerList.Instance.IsAdmin(forMind.ghost.connectedPlayer))
+		var isAdmin = PlayerList.Instance.IsAdmin(forMind.ghost.connectedPlayer);
+		if (isAdmin)
 		{
 			var adminItemStorage = AdminManager.Instance.GetItemSlotStorage(forMind.ghost.connectedPlayer);
 			adminItemStorage.ServerAddObserverPlayer(ghost);
-			ghost.GetComponent<GhostSprites>().SetAdminGhost();
 		}
+
+		//Set ghost sprite
+		ghost.GetComponent<GhostSprites>().SetGhostSprite(isAdmin);
 	}
 
 	/// <summary>
@@ -402,10 +407,8 @@ public static class PlayerSpawn
 		Mind.Create(newPlayer);
 		ServerTransferPlayer(joinedViewer.connectionToClient, newPlayer, null, Event.GhostSpawned, characterSettings);
 
-		if (PlayerList.Instance.IsAdmin(PlayerList.Instance.Get(joinedViewer.connectionToClient)))
-		{
-			newPlayer.GetComponent<GhostSprites>().SetAdminGhost();
-		}
+		var isAdmin = PlayerList.Instance.IsAdmin(PlayerList.Instance.Get(joinedViewer.connectionToClient));
+		newPlayer.GetComponent<GhostSprites>().SetGhostSprite(isAdmin);
 	}
 
 	/// <summary>
@@ -419,7 +422,7 @@ public static class PlayerSpawn
 		{
 			var dummy = ServerCreatePlayer(spawnTransform.position.RoundToInt());
 
-			CharacterSettings randomSettings = CharacterSettings.RandomizeCharacterSettings();
+			CharacterSettings randomSettings = CharacterSettings.RandomizeCharacterSettings(RaceSOSingleton.Instance.Races.PickRandom().name);
 
 			ServerTransferPlayer(null, dummy, null, Event.PlayerSpawned, randomSettings);
 
@@ -541,7 +544,7 @@ public static class PlayerSpawn
 			var playerScript = newBody.GetComponent<PlayerScript>();
 			playerScript.characterSettings = characterSettings;
 			playerScript.playerName = playerScript.PlayerState != PlayerScript.PlayerStates.Ai ? characterSettings.Name : characterSettings.AiName;
-			newBody.name = characterSettings.Name;
+			newBody.name = playerScript.playerName;
 			var playerSprites = newBody.GetComponent<PlayerSprites>();
 			if (playerSprites)
 			{

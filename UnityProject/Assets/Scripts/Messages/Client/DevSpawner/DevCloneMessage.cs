@@ -40,7 +40,7 @@ namespace Messages.Client.DevSpawner
 				if (MatrixManager.IsPassableAtAllMatricesOneTile(msg.WorldPosition.RoundToInt(), true))
 				{
 					Spawn.ServerClone(NetworkObject, msg.WorldPosition);
-					UIManager.Instance.adminChatWindows.adminToAdminChat.ServerAddChatRecord(
+					UIManager.Instance.adminChatWindows.adminLogWindow.ServerAddChatRecord(
 						$"{SentByPlayer.Username} spawned a clone of {NetworkObject} at {msg.WorldPosition}", SentByPlayer.UserId);
 				}
 			}

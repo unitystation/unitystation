@@ -3,7 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using HealthV2;
+using Items;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class HandsController : MonoBehaviour
 {
@@ -21,9 +23,10 @@ public class HandsController : MonoBehaviour
 	public Dictionary<BodyPartUISlots.StorageCharacteristics, DoubleHandController> StorageToHands =
 		new Dictionary<BodyPartUISlots.StorageCharacteristics, DoubleHandController>();
 
+	public static readonly UnityEvent OnSwapHand = new UnityEvent();
+
 	public DoubleHandController activeDoubleHandController;
 	public NamedSlot ActiveHand;
-
 
 	public void Awake()
 	{
@@ -33,12 +36,12 @@ public class HandsController : MonoBehaviour
 		}
 	}
 
-
-	public void HideHands(bool HideState)
+	//0 - Hide both hands, 1 - hide left hand, 2 - hide right hand, something else - hide none
+	public void HideHands(HiddenHandValue Selection)
 	{
 		foreach (var doubleHand in DoubleHandControllers)
 		{
-			doubleHand.HideHands(HideState);
+			doubleHand.HideHands(Selection);
 		}
 	}
 
@@ -173,6 +176,7 @@ public class HandsController : MonoBehaviour
 
 	public static void SwapHand()
 	{
+		OnSwapHand.Invoke();
 		if (Instance.activeDoubleHandController == null) return;
 		Instance.activeDoubleHandController?.Deactivate(Instance.ActiveHand);
 		if (Instance.ActiveHand == NamedSlot.leftHand &&

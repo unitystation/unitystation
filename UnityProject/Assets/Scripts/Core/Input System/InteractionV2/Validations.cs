@@ -19,6 +19,8 @@ using Objects.Wallmounts;
 /// </summary>
 public static class Validations
 {
+	private static readonly List<LayerType> BlockedLayers = new List<LayerType>
+		{LayerType.Walls, LayerType.Windows, LayerType.Grills};
 
 	/// <summary>
 	/// Check if this game object is not null has the specified component
@@ -172,6 +174,7 @@ public static class Validations
 		NetworkSide side,
 		bool allowSoftCrit = false,
 		ReachRange reachRange = ReachRange.Standard,
+		Vector2? TargetPosition = null,
 		Vector2? targetVector = null,
 		RegisterTile targetRegisterTile = null
 	)
@@ -222,7 +225,7 @@ public static class Validations
 		}
 		else if (reachRange == ReachRange.Standard)
 		{
-			result = IsInReachInternal(playerScript, target, side, targetVector, targetRegisterTile);
+			result = IsInReachInternal(playerScript, target, side, TargetPosition, targetRegisterTile, targetVector: targetVector);
 		}
 		else if (reachRange == ReachRange.ExtendedServer)
 		{
@@ -237,7 +240,7 @@ public static class Validations
 
 				if (cnt == null)
 				{
-					result = IsInReachInternal(playerScript, target, side, targetVector, targetRegisterTile);
+					result = IsInReachInternal(playerScript, target, side, TargetPosition, targetRegisterTile, targetVector: targetVector);
 				}
 				else
 				{
@@ -292,11 +295,11 @@ public static class Validations
 	/// if you can do so without using GetComponent, this is an optimization so GetComponent call can be avoided to avoid
 	/// creating garbage.</param>
 	/// <returns></returns>
-	private static bool IsInReachInternal(PlayerScript playerScript, GameObject target, NetworkSide side, Vector2? targetVector,
-		RegisterTile targetRegisterTile)
+	private static bool IsInReachInternal(PlayerScript playerScript, GameObject target, NetworkSide side, Vector2? TargetPosition,
+		RegisterTile targetRegisterTile, Vector2? targetVector = null)
 	{
 		bool result;
-		if (targetVector == null)
+		if (TargetPosition == null && targetVector == null )
 		{
 			var regTarget = targetRegisterTile == null ? (target == null ? null : target.RegisterTile()) : targetRegisterTile;
 			//Use the smart range check which works better on moving matrices
@@ -319,7 +322,14 @@ public static class Validations
 		{
 			//use target vector based range check
 			Vector3 playerWorldPos = playerScript.WorldPos;
-			result = IsReachableByPositions(playerWorldPos, playerWorldPos + (Vector3)targetVector, side == NetworkSide.Server, context: target);
+			if (TargetPosition != null)
+			{
+				result = IsReachableByPositions(playerWorldPos, TargetPosition.Value.To3().ToWorld(playerScript.registerTile.Matrix), side == NetworkSide.Server, context: target);
+			}
+			else
+			{
+				result = IsReachableByPositions(playerWorldPos, playerWorldPos + (Vector3)targetVector, side == NetworkSide.Server, context: target);
+			}
 		}
 
 		return result;
@@ -388,7 +398,7 @@ public static class Validations
 
 		bool result = MatrixManager.IsPassableAtAllMatrices(worldPosAInt, worldPosBInt, isServer: isServer, collisionType: CollisionType.Click,
 			context: context, includingPlayers: false, isReach: true,
-			excludeLayers: new List<LayerType> { LayerType.Walls, LayerType.Windows, LayerType.Grills },
+			excludeLayers: BlockedLayers,
 			onlyExcludeLayerOnDestination: true);
 
 		return result;

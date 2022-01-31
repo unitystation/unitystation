@@ -208,10 +208,20 @@ PrefabInstance:
       objectReference: {fileID: 2800000, guid: 6990f56362bc9f343a1a4268bab1acf7, type: 3}
     - target: {fileID: 6330548640132405979, guid: 93af1c166793efb498012ddc7370f8ec,
         type: 3}
+      propertyPath: inventoryMoveSound.AssetAddress
+      value: null
+      objectReference: {fileID: 0}
+    - target: {fileID: 6330548640132405979, guid: 93af1c166793efb498012ddc7370f8ec,
+        type: 3}
       propertyPath: itemSprites.SpriteInventoryIcon
       value: 
       objectReference: {fileID: 11400000, guid: b99f20c4337900b4ebb4d4c228059aa3,
         type: 2}
+    - target: {fileID: 6330548640132405979, guid: 93af1c166793efb498012ddc7370f8ec,
+        type: 3}
+      propertyPath: inventoryRemoveSound.AssetAddress
+      value: null
+      objectReference: {fileID: 0}
     - target: {fileID: 6330548640132405979, guid: 93af1c166793efb498012ddc7370f8ec,
         type: 3}
       propertyPath: itemSprites.InventoryIcon.Texture

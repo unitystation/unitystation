@@ -522,8 +522,10 @@ MonoBehaviour:
   syncInterval: 0.1
   playerName: ' '
   visibleName: ' '
+  PlayerSync: {fileID: 0}
   RTT: 0
   RcsMode: 0
+  RcsMatrixMove: {fileID: 0}
   playerState: 0
   actionData: {fileID: 11400000, guid: 288088e3bb7768d41a2fe1b2c170fbce, type: 2}
   playerChatLocation: {fileID: 1133514949248654}
@@ -562,7 +564,6 @@ MonoBehaviour:
   electrocutedPrefab: {fileID: 1558421102126524431, guid: 0cea8096a0de31746a1b6ef11b019ab2,
     type: 3}
   muzzleFlash: {fileID: 114824170203619628}
-  BodyParts: {fileID: 0}
   livingHealthMasterBase: {fileID: 1354417930896543338}
   characterSprites:
   - {fileID: 5811805431220600328}
@@ -780,12 +781,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  InitialDirection: 3
-  onEditorDirectionChange:
-    m_PersistentCalls:
-      m_Calls: []
-  ChangeDirectionWithMatrix: 0
-  DisableSyncing: 0
+  MethodRotation: 0
+  ChangeSprites: 0
+  isChangingSO: 0
+  CurrentDirection: 3
 --- !u!50 &50851566022184656
 Rigidbody2D:
   serializedVersion: 4
@@ -924,6 +923,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 08f3b5496393d9448a8d96d99ddf028f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  tailTrait: {fileID: 11400000, guid: e46937b2c7f954643803a936b99c5bb5, type: 2}
 --- !u!114 &8566362239651287352
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1110,13 +1110,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bloodType: {fileID: 11400000, guid: efcde740e9b85074485bcd68a7a21816, type: 2}
-  UsedBloodPool:
-    temperature: 0
-    reagents:
-      m_keys: []
-      m_values: []
-    reagentKeys: []
-  ReadyBloodPool:
+  BloodPool:
     temperature: 0
     reagents:
       m_keys: []
@@ -1329,8 +1323,6 @@ MonoBehaviour:
   syncInterval: 0.1
   playerNetworkActions: {fileID: 0}
   registerPlayer: {fileID: 0}
-  UIBodyPartsToSerialise: 
-  ClientUIBodyPartsToSerialise: 
   StandardPopulator: {fileID: 11400000, guid: e9fa91afc36164817bc3c3c26eb54266, type: 2}
 --- !u!114 &3160124018402396833
 MonoBehaviour:
@@ -2932,7 +2924,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b3d777fc104f6344fa3a799dae72568a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  particleSystem: {fileID: 4047571796288308667}
+  ParticleSystem: {fileID: 4047571796288308667}
 --- !u!198 &4047571796288308667
 ParticleSystem:
   m_ObjectHideFlags: 0

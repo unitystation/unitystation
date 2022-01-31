@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Objects.Machines;
 
-namespace Objects.Mining
+namespace UI.Objects.Cargo
 {
 	public class GUI_MaterialSilo : NetTab
 	{

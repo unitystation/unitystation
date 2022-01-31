@@ -45,7 +45,7 @@ namespace Items.Tool
 
 		private int categoryIndex = -1;
 		private int index = -1;
-		private OrientationEnum orientation = OrientationEnum.Up;
+		private OrientationEnum orientation = OrientationEnum.Up_By0;
 
 		public static readonly Dictionary<CrayonColour, Color> PickableColours = new Dictionary<CrayonColour, Color>
 		{
@@ -281,13 +281,13 @@ namespace Items.Tool
 		{
 			switch (orientation)
 			{
-				case OrientationEnum.Up:
+				case OrientationEnum.Up_By0:
 					return Matrix4x4.identity;
-				case OrientationEnum.Right:
+				case OrientationEnum.Right_By270:
 					return Matrix4x4.TRS(Vector3.zero, Quaternion.Euler(0f, 0f, 270f), Vector3.one);
-				case OrientationEnum.Left:
+				case OrientationEnum.Left_By90:
 					return Matrix4x4.TRS(Vector3.zero, Quaternion.Euler(0f, 0f, 90f), Vector3.one);
-				case OrientationEnum.Down:
+				case OrientationEnum.Down_By180:
 					return Matrix4x4.TRS(Vector3.zero, Quaternion.Euler(0f, 0f, 180f), Vector3.one);
 				default:
 					return Matrix4x4.identity;

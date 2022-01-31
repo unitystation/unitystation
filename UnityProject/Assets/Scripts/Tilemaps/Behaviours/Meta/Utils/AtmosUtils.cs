@@ -40,6 +40,8 @@ namespace Systems.Atmospherics
 						return new GasValuesList();
 					}
 
+					QEntry.List.Clear();
+
 					return QEntry;
 				}
 			}
@@ -49,10 +51,14 @@ namespace Systems.Atmospherics
 
 		public class GasValuesList
 		{
+			public List<GasValues> List = new List<GasValues>();
 
-			public List<GasValues> List =new List<GasValues>();
 			public void Pool()
 			{
+				for (int i = 0; i < List.Count; i++)
+				{
+					List[i].Pool();
+				}
 				List.Clear();
 				lock (PooledGasValuesLists)
 				{
@@ -65,17 +71,18 @@ namespace Systems.Atmospherics
 		public static GasValuesList CopyGasArray(GasData GasData)
 		{
 			var List = GetGasValuesList();
-			if (GasData?.GasesArray != null)
+
+			lock (GasData.GasesArray) //no Double lock
 			{
-				lock (GasData.GasesArray) //no Double lock
+				foreach (var gv in GasData.GasesArray)
 				{
-					List.List.AddRange(GasData.GasesArray);
+					var Newgas = AtmosUtils.GetGasValues();
+					Newgas.Moles = gv.Moles;
+					Newgas.GasSO = gv.GasSO;
+					List.List.Add(Newgas);
 				}
 			}
-			else
-			{
-				Logger.LogError("o3o");
-			}
+
 
 			return List;
 		}
@@ -140,7 +147,7 @@ namespace Systems.Atmospherics
 				//Only need to check if false
 				if (result == false)
 				{
-					lock (neighbor.GasMix.GasesArray)  //no Double lock
+					lock (neighbor.GasMix.GasesArray) //no Double lock
 					{
 						for (int j = node.GasMix.GasesArray.Count - 1; j >= 0; j--)
 						{

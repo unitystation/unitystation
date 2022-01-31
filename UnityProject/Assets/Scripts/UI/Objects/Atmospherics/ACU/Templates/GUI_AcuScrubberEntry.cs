@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Text;
 using UnityEngine;
+using UI.Core.NetUI;
 using ScriptableObjects.Atmospherics;
 using Systems.Atmospherics;
 using Objects.Atmospherics;
-
 
 namespace UI.Objects.Atmospherics.Acu
 {
@@ -26,6 +26,7 @@ namespace UI.Objects.Atmospherics.Acu
 		private static GasSO[] line1;
 		private static GasSO[] line2;
 		private static GasSO[] line3;
+		private static GasSO[] line4;
 
 		private GUI_Acu acuUi;
 		private Scrubber scrubber;
@@ -48,6 +49,7 @@ namespace UI.Objects.Atmospherics.Acu
 			line1 = new GasSO[] { Gas.Oxygen, Gas.Nitrogen, Gas.CarbonDioxide, Gas.WaterVapor, Gas.NitrousOxide, Gas.Nitryl, Gas.Hydrogen };
 			line2 = new GasSO[] { Gas.Plasma, Gas.Tritium, Gas.Freon, Gas.Miasma, Gas.BZ };
 			line3 = new GasSO[] { Gas.Pluoxium, Gas.Stimulum, Gas.HyperNoblium };
+			line4 = new GasSO[] { Gas.Smoke, Gas.Ash };
 		}
 
 		public void SetValues(GUI_Acu acuUi, Scrubber scrubber)
@@ -69,8 +71,8 @@ namespace UI.Objects.Atmospherics.Acu
 					? $"   Normal     {m}[ Expanded  ]{um}"
 					: $"{m}[  Normal   ]{um}   Expanded   ";
 
-			List<StringBuilder> filteredGasLines = new List<StringBuilder>(3);
-			foreach (GasSO[] line in new GasSO[][] { line1, line2, line3 })
+			List<StringBuilder> filteredGasLines = new List<StringBuilder>(4);
+			foreach (GasSO[] line in new GasSO[][] { line1, line2, line3, line4 })
 			{
 				var filteredGasesStr = new StringBuilder();
 				foreach (GasSO gas in line)
@@ -99,6 +101,7 @@ namespace UI.Objects.Atmospherics.Acu
 					$"| {filteredGasLines[0]}<sub> </sub>     |\n" + 
 					$"| {filteredGasLines[1]}  |\n" +
 					$"| {filteredGasLines[2]}       |\n" +
+					$"| {filteredGasLines[3]}                                |\n" +
 					"---------------------------------------------------\n";
 
 			label.SetValueServer(str);

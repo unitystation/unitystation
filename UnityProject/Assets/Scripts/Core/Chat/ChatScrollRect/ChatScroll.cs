@@ -250,6 +250,7 @@ public class ChatScroll : MonoBehaviour
 
 	public void OnInputSubmit()
 	{
+		if(inputField == null) return;
 		if (string.IsNullOrEmpty(inputField.text)) return;
 
 		if (!doNotAddInputToChatLog)
@@ -294,6 +295,7 @@ public class ChatScroll : MonoBehaviour
 	void UpdateMe()
 	{
 		if(isUsingScrollBar) DetermineScrollRate();
+		if(inputField == null) return;
 		if (inputField.IsFocused && KeyboardInputManager.IsEnterPressed())
 		{
 			OnInputSubmit();

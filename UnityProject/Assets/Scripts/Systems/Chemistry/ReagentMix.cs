@@ -6,6 +6,86 @@ using UnityEngine;
 
 namespace Chemistry
 {
+	public class CustomBitArray
+	{
+		private const int BitsPerInt32 = 32;
+		private const int BytesPerInt32 = 4;
+		private const int BitsPerByte = 8;
+		private int[] m_array;
+		private int m_length;
+
+
+		[NonSerialized] private object _syncRoot;
+		private const int _ShrinkThreshold = 256;
+
+		private CustomBitArray()
+		{
+		}
+
+		public CustomBitArray(int length)
+			: this(length, false)
+		{
+		}
+
+		public CustomBitArray(int length, bool defaultValue)
+		{
+			this.m_array = new int[CustomBitArray.GetArrayLength(length, 32)];
+			this.m_length = length;
+			int num = defaultValue ? -1 : 0;
+			for (int index = 0; index < this.m_array.Length; ++index)
+				this.m_array[index] = num;
+		}
+
+		public bool this[int index]
+		{
+			get => this.Get(index);
+			set => this.Set(index, value);
+		}
+
+		public bool Get(int index)
+		{
+			return (uint)(this.m_array[index / 32] & 1 << index % 32) > 0U;
+		}
+
+		public void Set(int index, bool value)
+		{
+			if (value)
+				this.m_array[index / 32] |= 1 << index % 32;
+			else
+				this.m_array[index / 32] &= ~(1 << index % 32);
+		}
+
+		public void SetAll(bool value)
+		{
+			int num = value ? -1 : 0;
+			int arrayLength = CustomBitArray.GetArrayLength(this.m_length, 32);
+			for (int index = 0; index < arrayLength; ++index)
+				this.m_array[index] = num;
+		}
+
+
+		public bool SatisfiesThis( CustomBitArray InCustomBitArray)
+		{
+			//Doesn't check length Assumes will be Same
+			int arrayLength = CustomBitArray.GetArrayLength(this.m_length, 32);
+			for (int index = 0; index < arrayLength; ++index)
+			{
+				int inIndex = this.m_array[index];
+				if (inIndex == 0) continue;
+				int Andint = inIndex & InCustomBitArray.m_array[index];
+				if (inIndex != Andint)
+				{
+					return false;
+				}
+			}
+
+			return true;
+		}
+
+		private static int GetArrayLength(int n, int div) => n <= 0 ? 0 : (n - 1) / div + 1;
+	}
+
+
 	[Serializable]
 	public class ReagentMix
 	{
@@ -17,6 +97,7 @@ namespace Chemistry
 
 		//should only be accessed when locked so should be okay
 		private Dictionary<Reagent, float> TEMPReagents = new Dictionary<Reagent, float>();
+
 
 		public ReagentMix( SerializableDictionary<Reagent, float> reagents, float temperature = TemperatureUtils.ZERO_CELSIUS_IN_KELVIN)
 		{
@@ -264,7 +345,6 @@ namespace Chemistry
 				{
 					amount = Math.Min(reagents.m_dict[reagent], amount);
 					reagents.m_dict[reagent] -= amount;
-
 
 					if (reagents.m_dict[reagent] <= 0)
 					{

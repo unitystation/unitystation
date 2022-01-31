@@ -342,7 +342,7 @@ public partial class Chat
 		return output;
 	}
 
-	private static string StripTags(string input)
+	public static string StripTags(string input)
 	{
 		//Regex - find "<" followed by any number of not ">" and ending in ">". Matches any HTML tags.
 		Regex rx = new Regex("[<][^>]+[>]");
@@ -528,7 +528,7 @@ public partial class Chat
 		if (GhostValidationRejection(originatorUint, channels)) return;
 
 		var msg = ProcessMessageFurther(message, speaker, channels, modifiers, loudness, originatorUint, stripTags);
-		ChatRelay.Instance.UpdateClientChat(msg, channels, isOriginator, recipient, loudness);
+		ChatRelay.Instance.UpdateClientChat(msg, channels, isOriginator, recipient, loudness, modifiers);
 	}
 
 	private static bool GhostValidationRejection(uint originator, ChatChannel channels)

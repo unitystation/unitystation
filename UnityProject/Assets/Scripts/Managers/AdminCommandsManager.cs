@@ -74,6 +74,25 @@ namespace AdminCommands
 			return true;
 		}
 
+		#region Server Settings
+
+		[Command(requiresAuthority = false)]
+		public void CmdChangePlayerLimit(int newLimit, NetworkConnectionToClient sender = null)
+		{
+			if (IsAdmin(sender, out var player) == false) return;
+			
+			if (newLimit < 0) return;
+
+			var currentLimit = GameManager.Instance.PlayerLimit;
+			if(currentLimit == newLimit) return;
+
+			LogAdminAction($"{player.Username}: Set PlayerLimit to {newLimit} from {currentLimit}");
+
+			GameManager.Instance.PlayerLimit = newLimit;
+		}
+
+		#endregion
+
 		#region GamemodePage
 
 		[Command(requiresAuthority = false)]
@@ -271,7 +290,7 @@ namespace AdminCommands
 
 		#endregion
 
-		#region PlayerCommands
+		#region Player Commands
 
 		/// <summary>
 		/// Smites the selected user, gibbing him instantly.
@@ -428,11 +447,41 @@ namespace AdminCommands
 
 		#endregion
 
+		#region Mentor
+
+		[Command(requiresAuthority = false)]
+		public void CmdAddMentor(string userToUpgrade, bool isPermanent, NetworkConnectionToClient sender = null)
+		{
+			if (IsAdmin(sender, out var admin) == false) return;
+
+			if (PlayerList.Instance.IsMentor(userToUpgrade)) return;
+
+			PlayerList.Instance.TryAddMentor(userToUpgrade, isPermanent);
+
+			var player = PlayerList.Instance.GetByUserID(userToUpgrade);
+
+			LogAdminAction($"{admin.Username}: Gave {player.Username} {(isPermanent ? "permanent" : "temporary")} Mentor");
+		}
+
+		[Command(requiresAuthority = false)]
+		public void CmdRemoveMentor(string userToDowngrade, NetworkConnectionToClient sender = null)
+		{
+			if (IsAdmin(sender, out var admin) == false) return;
+
+			PlayerList.Instance.TryRemoveMentor(userToDowngrade);
+
+			var player = PlayerList.Instance.GetByUserID(userToDowngrade);
+
+			LogAdminAction($"{admin.Username}: Removed {player.Username} mentor");
+		}
+
+		#endregion
+
 		#region LogAdminAction
 
 		public static void LogAdminAction(string msg, string userName = "")
 		{
-			UIManager.Instance.adminChatWindows.adminToAdminChat.ServerAddChatRecord(msg, null);
+			UIManager.Instance.adminChatWindows.adminLogWindow.ServerAddChatRecord(msg, null);
 			DiscordWebhookMessage.Instance.AddWebHookMessageToQueue(DiscordWebhookURLs.DiscordWebhookAdminLogURL, msg,
 				userName);
 		}

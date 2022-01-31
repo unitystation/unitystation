@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Systems.Interaction;
 using NaughtyAttributes;
 using ScriptableObjects;
 using TileManagement;
@@ -107,6 +108,16 @@ public abstract class BasicTile : LayerTile
 	/// Interactions which can occur on this tile.
 	/// </summary>
 	public List<TileInteraction> TileInteractions => tileInteractions;
+
+	[Tooltip(
+		"Tile step interactions which can occur on this tile. They will be checked in the order they appear in this list (top to bottom).")]
+	[SerializeField]
+	private List<TileStepInteraction> tileStepInteractions = null;
+
+	/// <summary>
+	/// Tile step interactions which can occur on this tile.
+	/// </summary>
+	public List<TileStepInteraction> TileStepInteractions => tileStepInteractions;
 
 	[Tooltip("What object to spawn when it's deconstructed or destroyed.")] [SerializeField]
 	private GameObject spawnOnDeconstruct = null;

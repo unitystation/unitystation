@@ -11,43 +11,46 @@ public class PositionalHandApply : HandApply
 	private static readonly PositionalHandApply Invalid
 			= new PositionalHandApply(null, null, null, Vector2.zero, null, Intent.Help, BodyPartType.None, false);
 
-	/// <summary>Vector pointing from the performer to the targeted position. Set to Vector2.zero if aiming at self.</summary>
-	public Vector2 TargetVector { get; protected set; }
+	/// <summary>Target position, the Local position that the performer is pointing at</summary>
+	public Vector2 TargetPosition { get; protected set; }
 
-	/// <summary>Targeted world position deduced from target vector and performer position.</summary>
-	public Vector2 WorldPositionTarget => (Vector2)Performer.transform.position + TargetVector;
+	/// <summary>Vector pointing from the performer's position to the target position.</summary>
+	public Vector2 TargetVector => WorldPositionTarget.To3() - Performer.RegisterTile().WorldPosition;
+
+	/// <summary>Target world position calculated from matrix local position.</summary>
+	public Vector2 WorldPositionTarget => (Vector2) TargetPosition.To3().ToWorld(Performer.RegisterTile().Matrix);
 
 	/// <param name="performer">The gameobject of the player performing the drop interaction</param>
 	/// <param name="handObject">Object in the player's active hand. Null if player's hand is empty.</param>
 	/// <param name="targetVector">vector pointing from performer position to the spot they are targeting</param>
 	/// <param name="targetObject">Object that the player clicked on</param>
 	/// <param name="handSlot">active hand slot that is being used.</param>
-	private PositionalHandApply(GameObject performer, GameObject handObject, GameObject targetObject, Vector2 targetVector,
+	private PositionalHandApply(GameObject performer, GameObject handObject, GameObject targetObject, Vector2 targetPosition,
 		ItemSlot handSlot, Intent intent, BodyPartType targetBodyPart, bool isAltClick) :
 		base(performer, handObject, targetObject, targetBodyPart, handSlot, intent, isAltClick)
 	{
-		TargetVector = targetVector;
+		TargetPosition = targetPosition;
 	}
 
 	/// <summary>
 	/// Creates a PositionalHandApply interaction performed by the local player targeting the specified object.
 	/// </summary>
 	/// <param name="targetObject">object targeted by the interaction, null to target empty space</param>
-	/// <param name="targetVector">vector pointing from player to the position they are targeting, defaults
+	/// <param name="targetVector">Target position, the Local position that the performer is pointing at , Defaults
 	/// to where the mouse currently is.</param>
 	/// <returns></returns>
-	public static PositionalHandApply ByLocalPlayer(GameObject targetObject, Vector2? targetVector = null)
+	public static PositionalHandApply ByLocalPlayer(GameObject targetObject, Vector2? IntargePosition = null)
 	{
 		if (PlayerManager.LocalPlayerScript.IsGhost)
 		{
 			return Invalid;
 		}
-		var targetVec = targetVector ?? MouseUtils.MouseToWorldPos() - PlayerManager.LocalPlayer.transform.position;
+		var targePosition = IntargePosition ?? MouseUtils.MouseToWorldPos().ToLocal(PlayerManager.LocalPlayer.RegisterTile().Matrix);
 		return new PositionalHandApply(
 				PlayerManager.LocalPlayer,
 				PlayerManager.LocalPlayerScript.DynamicItemStorage.GetActiveHandSlot()?.ItemObject,
 				targetObject,
-				targetVec,
+				targePosition,
 				PlayerManager.LocalPlayerScript.DynamicItemStorage.GetActiveHandSlot(),
 				UIManager.CurrentIntent,
 				UIManager.DamageZone,
@@ -59,7 +62,7 @@ public class PositionalHandApply : HandApply
 	/// </summary>
 	/// <param name="clientPlayer">gameobject of the client's player</param>
 	/// <param name="targetObject">object client is targeting.</param>
-	/// <param name="targetVector">vector pointing from performer position to the position they are clicking</param>
+	/// <param name="Targetposition">Target position, the Local position that the performer is pointing at</param>
 	/// <param name="handObject">object in the player's active hand. This parameter is used so
 	/// it doesn't need to be looked up again, since it already should've been looked up in
 	/// the message processing logic. Should match SentByPlayer.Script.playerNetworkActions.GetActiveHandItem().</param>
@@ -68,8 +71,8 @@ public class PositionalHandApply : HandApply
 	/// the message processing logic. Should match SentByPlayer.Script.playerNetworkActions.activeHand.</param>
 	/// <returns>a hand apply by the client, targeting the specified object with the item in the active hand</returns>
 	public static PositionalHandApply ByClient(GameObject clientPlayer, GameObject handObject, GameObject targetObject,
-			Vector2 targetVector, ItemSlot handSlot, Intent intent, BodyPartType targetBodyPart, bool isAltClick)
+			Vector2 TargetPosition, ItemSlot handSlot, Intent intent, BodyPartType targetBodyPart, bool isAltClick)
 	{
-		return new PositionalHandApply(clientPlayer, handObject, targetObject, targetVector, handSlot, intent, targetBodyPart, isAltClick);
+		return new PositionalHandApply(clientPlayer, handObject, targetObject, TargetPosition, handSlot, intent, targetBodyPart, isAltClick);
 	}
 }

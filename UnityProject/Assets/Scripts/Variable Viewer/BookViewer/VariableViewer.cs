@@ -227,7 +227,7 @@ public static class VariableViewer
 	{
 		if (Librarian.IDToPage.ContainsKey(PageID))
 		{
-			UIManager.Instance.adminChatWindows.adminToAdminChat.ServerAddChatRecord(
+			UIManager.Instance.adminChatWindows.adminLogWindow.ServerAddChatRecord(
 				WhoBy.name + " Modified " + Librarian.IDToPage[PageID].VariableName + " on " +  Librarian.IDToPage[PageID].BindedTo.Title
 				+ " From " + VVUIElementHandler.Serialise(Librarian.IDToPage[PageID].Variable, Librarian.IDToPage[PageID].VariableType) + " to "+ ChangeTo
 				+ " with Send to clients? " + SendToClient, AdminId);
@@ -250,7 +250,7 @@ public static class VariableViewer
 	{
 		if (Librarian.IDToPage.ContainsKey(PageID))
 		{
-			UIManager.Instance.adminChatWindows.adminToAdminChat.ServerAddChatRecord(
+			UIManager.Instance.adminChatWindows.adminLogWindow.ServerAddChatRecord(
 				WhoBy.name + " Invoked " + Librarian.IDToPage[PageID].VariableName + " on " +  Librarian.IDToPage[PageID].BindedTo.Title
 				, AdminId);
 
@@ -695,8 +695,6 @@ public static class Librarian
 					}
 				}
 
-
-				bool hasNull = false;
 				foreach (var Child in libraryBookShelf.InternalContain)
 				{
 					if (Child.Shelf == null)

@@ -50,6 +50,7 @@ namespace Objects.Science
 		/// Temp until shuttle landings possible
 		/// </summary>
 		public bool IsLavaLandBase1Connector;
+		private bool firstEnteredTriggered;
 
 		/// <summary>
 		/// Temp until shuttle landings possible
@@ -102,8 +103,8 @@ namespace Objects.Science
 
 		public void OnSpawnServer(SpawnInfo info)
 		{
-			if (!passiveDetect)
-				return;
+			if (!passiveDetect) return;
+
 			UpdateManager.Add(ServerDetectObjectsOnTile, 1f);
 		}
 
@@ -174,15 +175,24 @@ namespace Objects.Science
 			foreach (ObjectBehaviour player in Matrix.Get<ObjectBehaviour>(registerTileLocation, ObjectType.Player, true))
 			{
 				Chat.AddExamineMsgFromServer(player.gameObject, message);
-				_ = SoundManager.PlayNetworkedForPlayer(player.gameObject, CommonSounds.Instance.StealthOff); //very weird, sometimes does the sound other times not.
+				SoundManager.PlayNetworkedForPlayer(player.gameObject, CommonSounds.Instance.StealthOff); //very weird, sometimes does the sound other times not.
 				TransportUtility.TransportObjectAndPulled(player, travelCoord);
 				somethingTeleported = true;
+
+				if (IsLavaLandBase1Connector && firstEnteredTriggered == false)
+				{
+					//Trigger lavaland first entered event
+					EventManager.Broadcast(Event.LavalandFirstEntered);
+					firstEnteredTriggered = true;
+				}
 			}
 
 			//detect objects and items
 			foreach (var item in Matrix.Get<ObjectBehaviour>(registerTileLocation, ObjectType.Object, true)
 									.Concat(Matrix.Get<ObjectBehaviour>(registerTileLocation, ObjectType.Item, true)))
 			{
+				//Don't teleport self lol
+				if(item.gameObject == gameObject) continue;
 
 				if (item.gameObject.TryGetComponent(out IQuantumReaction reaction))
 				{

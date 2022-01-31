@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UI.Core.NetUI;
 using Objects.Security;
 
 namespace UI.Objects.Security
@@ -68,7 +69,7 @@ namespace UI.Objects.Security
 			var IdCard = console.IdCard;
 			if (IdCard)
 			{
-				labelToSet.SetValueServer($"{IdCard.RegisteredName}, {IdCard.JobType.ToString()}");
+				labelToSet.SetValueServer($"{IdCard.RegisteredName}, {IdCard.GetJobTitle()}");
 			}
 			else
 			{

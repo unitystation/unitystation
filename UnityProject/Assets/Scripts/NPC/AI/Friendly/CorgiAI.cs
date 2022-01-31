@@ -191,7 +191,7 @@ namespace Systems.MobAIs
 
 		CatAI AnyCatsNearby()
 		{
-			var hits = coneOfSight.GetObjectsInSight(mobMask, LayerTypeSelection.Walls, directional.CurrentDirection.Vector, 10f);
+			var hits = coneOfSight.GetObjectsInSight(mobMask, LayerTypeSelection.Walls, rotatable.CurrentDirection.ToLocalVector3(), 10f);
 			foreach (var coll in hits)
 			{
 				if (coll == null) continue;

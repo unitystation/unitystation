@@ -1,7 +1,7 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using Mirror;
+﻿using System.Collections.Generic;
 using UnityEngine;
+using Mirror;
+using Player;
 
 namespace HealthV2
 {
@@ -16,7 +16,6 @@ namespace HealthV2
 		private bool ProcedureInProgress = false;
 
 		private GameObject InternalcurrentlyOn = null;
-
 
 		public GameObject currentlyOn
 		{
@@ -48,18 +47,15 @@ namespace HealthV2
 		[SyncVar(hook = nameof(SetBodyPartIsOpen))]
 		private bool BodyPartIsopen = false;
 
-
 		public bool GetBodyPartIsopen => BodyPartIsopen;
 
 		[SyncVar(hook = nameof(SetBodyPartID))]
 		private uint BodyPartID;
 
-
 		public PresentProcedure ThisPresentProcedure = new PresentProcedure();
 
 		public List<ItemTrait>
 			InitiateSurgeryItemTraits = new List<ItemTrait>(); //Make sure to include implantable stuff
-
 
 		public bool WillInteract(HandApply interaction, NetworkSide side)
 		{
@@ -72,7 +68,6 @@ namespace HealthV2
 			if (RegisterPlayer.IsLayingDown == false) return false;
 			return (true);
 		}
-
 
 		public void ServerPerformInteraction(HandApply interaction)
 		{
@@ -169,7 +164,6 @@ namespace HealthV2
 		{
 			BodyPartID = newState;
 		}
-
 
 		public void ServerCheck(SurgeryProcedureBase SurgeryProcedureBase, BodyPart ONBodyPart)
 		{
@@ -289,7 +283,6 @@ namespace HealthV2
 				}
 			}
 		}
-
 
 		public void ReceivedSurgery(List<BodyPart> Options)
 		{
@@ -458,7 +451,6 @@ namespace HealthV2
 				return toReplace;
 			}
 		}
-
 
 
 		public enum ProcedureType

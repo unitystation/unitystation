@@ -11,6 +11,18 @@ public static class ConverterExtensions
 		return new Vector2(other.x, other.y);
 	}
 
+	public static Vector3 To3(this Vector2 other)
+	{
+		return new Vector3(other.x, other.y, 0);
+	}
+
+
+	public static Vector3 ToNonInt3(this Vector3Int other)
+	{
+		return new Vector3(other.x, other.y, 0);
+	}
+
+
 	public static Vector3Int RoundToInt(this Vector3 other)
 	{
 		return Vector3Int.RoundToInt(other);
@@ -104,6 +116,7 @@ public static class ConverterExtensions
 	{
 		return new Vector3Int(Mathf.Clamp(other.x, -1, 1), Mathf.Clamp(other.y, -1, 1), 0);
 	}
+
 
 	/// <summary>
 	/// Clamp vector so it's either -1, 0, or 1 on X and Y axes.
@@ -239,4 +252,28 @@ public static class ConverterExtensions
 		return Vector2.one.Rotate(GetRandomNumber(-90, 90)) *
 		       GetRandomNumber(minimum, maximum); //the * Minus number will do the other side Making it full 360
 	}
+
+	public static Vector2Int ToLocalVector2Int(this OrientationEnum In)
+	{
+		return ToLocalVector3(In).To2Int();
+	}
+
+	public static Vector3 ToLocalVector3(this OrientationEnum In)
+	{
+		switch (In)
+		{
+			case OrientationEnum.Up_By0:
+				return Vector3.up;
+			case OrientationEnum.Right_By270:
+				return Vector3.right;
+			case OrientationEnum.Down_By180:
+				return Vector3.down;
+			case OrientationEnum.Left_By90:
+				return Vector3.left;
+
+		}
+		return Vector3.zero;
+	}
+
+
 }

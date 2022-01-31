@@ -1,5 +1,164 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &1347533324463388387
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 676721839806558615, guid: b06b702714bab49b9ad949eab1ca4534,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: f77ee08febe2f384297670906a532d45,
+        type: 3}
+    - target: {fileID: 676721839806558615, guid: b06b702714bab49b9ad949eab1ca4534,
+        type: 3}
+      propertyPath: m_SortingOrder
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 676721839806558615, guid: b06b702714bab49b9ad949eab1ca4534,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 721717256067945856, guid: b06b702714bab49b9ad949eab1ca4534,
+        type: 3}
+      propertyPath: m_Name
+      value: DisposalIntake
+      objectReference: {fileID: 0}
+    - target: {fileID: 725567512822600538, guid: b06b702714bab49b9ad949eab1ca4534,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 725567512822600538, guid: b06b702714bab49b9ad949eab1ca4534,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 725567512822600538, guid: b06b702714bab49b9ad949eab1ca4534,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 725567512822600538, guid: b06b702714bab49b9ad949eab1ca4534,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 725567512822600538, guid: b06b702714bab49b9ad949eab1ca4534,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 725567512822600538, guid: b06b702714bab49b9ad949eab1ca4534,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 725567512822600538, guid: b06b702714bab49b9ad949eab1ca4534,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4428698834604649417, guid: b06b702714bab49b9ad949eab1ca4534,
+        type: 3}
+      propertyPath: foreverID
+      value: 547b9c989a5a57d438797f8fffb2afa1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5212070883374448474, guid: b06b702714bab49b9ad949eab1ca4534,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: f07145802fad622419c4092f91dc468e,
+        type: 2}
+    - target: {fileID: 5212070883374448474, guid: b06b702714bab49b9ad949eab1ca4534,
+        type: 3}
+      propertyPath: Sprites.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5212070883374448474, guid: b06b702714bab49b9ad949eab1ca4534,
+        type: 3}
+      propertyPath: SubCatalogue.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5212070883374448474, guid: b06b702714bab49b9ad949eab1ca4534,
+        type: 3}
+      propertyPath: SubCatalogue.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: f07145802fad622419c4092f91dc468e,
+        type: 2}
+    - target: {fileID: 5212070883374448474, guid: b06b702714bab49b9ad949eab1ca4534,
+        type: 3}
+      propertyPath: SubCatalogue.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: 637db9ce2c1e25e42872b57353b4f61d,
+        type: 2}
+    - target: {fileID: 5212070883374448474, guid: b06b702714bab49b9ad949eab1ca4534,
+        type: 3}
+      propertyPath: Sprites.Array.data[0].Texture
+      value: 
+      objectReference: {fileID: 2800000, guid: f77ee08febe2f384297670906a532d45, type: 3}
+    - target: {fileID: 5212070883374448474, guid: b06b702714bab49b9ad949eab1ca4534,
+        type: 3}
+      propertyPath: Sprites.Array.data[1].Texture
+      value: 
+      objectReference: {fileID: 2800000, guid: ef71f988504843345a2d17ec0c9f4981, type: 3}
+    - target: {fileID: 7971921043980192432, guid: b06b702714bab49b9ad949eab1ca4534,
+        type: 3}
+      propertyPath: initialName
+      value: disposal intake
+      objectReference: {fileID: 0}
+    - target: {fileID: 7971921043980192432, guid: b06b702714bab49b9ad949eab1ca4534,
+        type: 3}
+      propertyPath: initialDescription
+      value: An intake for the pneumatic disposal system. Fits big and small packages
+        alike!
+      objectReference: {fileID: 0}
+    - target: {fileID: 8275826183322400200, guid: b06b702714bab49b9ad949eab1ca4534,
+        type: 3}
+      propertyPath: Passable
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9126875148826136434, guid: b06b702714bab49b9ad949eab1ca4534,
+        type: 3}
+      propertyPath: isInitiallyNotPushable
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9212640593017544930, guid: b06b702714bab49b9ad949eab1ca4534,
+        type: 3}
+      propertyPath: m_AssetId
+      value: 547b9c989a5a57d438797f8fffb2afa1
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 8275826183322400200, guid: b06b702714bab49b9ad949eab1ca4534, type: 3}
+  m_SourcePrefab: {fileID: 100100000, guid: b06b702714bab49b9ad949eab1ca4534, type: 3}
+--- !u!1 &1781006999364248419 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 721717256067945856, guid: b06b702714bab49b9ad949eab1ca4534,
+    type: 3}
+  m_PrefabInstance: {fileID: 1347533324463388387}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &3464330467401233505 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2495170526828774018, guid: b06b702714bab49b9ad949eab1ca4534,
+    type: 3}
+  m_PrefabInstance: {fileID: 1347533324463388387}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1781006999364248419}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 579884b05ae74e8499329b64997147d3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!210 &3925827565069146067 stripped
+SortingGroup:
+  m_CorrespondingSourceObject: {fileID: 2650422487074349360, guid: b06b702714bab49b9ad949eab1ca4534,
+    type: 3}
+  m_PrefabInstance: {fileID: 1347533324463388387}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &1611609056092413673
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -63,7 +222,8 @@ MonoBehaviour:
       m_AssetGUID: 
       m_SubObjectName: 
       m_SubObjectType: 
---- !u!114 &4765380784658319094
+      m_EditorAssetChanged: 0
+--- !u!114 &4324874224188435965
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -72,16 +232,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 1781006999364248419}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e74a412989a7a314db7c2d297a269da9, type: 3}
+  m_Script: {fileID: 11500000, guid: b69764f5a0c65e247b0ecdf6e2d40c8f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isChangingSO: 0
-  indexDown: 0
-  indexUp: 1
-  indexRight: 2
-  indexLeft: 3
-  spriteHandlers:
-  - {fileID: 6550372072434207161}
+  initialContents: {fileID: 0}
+  spawnContentsAtRoundstart: 1
 --- !u!114 &5007995467691140660
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -96,12 +251,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  InitialDirection: 3
-  onEditorDirectionChange:
-    m_PersistentCalls:
-      m_Calls: []
-  ChangeDirectionWithMatrix: 1
-  DisableSyncing: 0
+  MethodRotation: 0
+  ChangeSprites: 1
+  isChangingSO: 0
+  CurrentDirection: 3
+  IsAtmosphericDevice: 0
 --- !u!114 &8957056455312658134
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -117,218 +271,3 @@ MonoBehaviour:
   spriteMatrixRotationBehavior: 1
   ignoreExtraRotation: []
   RotateParent: {fileID: 0}
---- !u!114 &4324874224188435965
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1781006999364248419}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b69764f5a0c65e247b0ecdf6e2d40c8f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  initialContents: {fileID: 0}
-  spawnContentsAtRoundstart: 1
---- !u!1001 &1347533324463388387
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 676721839806558615, guid: b06b702714bab49b9ad949eab1ca4534,
-        type: 3}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: 21300000, guid: f77ee08febe2f384297670906a532d45,
-        type: 3}
-    - target: {fileID: 676721839806558615, guid: b06b702714bab49b9ad949eab1ca4534,
-        type: 3}
-      propertyPath: m_SortingOrder
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 676721839806558615, guid: b06b702714bab49b9ad949eab1ca4534,
-        type: 3}
-      propertyPath: m_WasSpriteAssigned
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 721717256067945856, guid: b06b702714bab49b9ad949eab1ca4534,
-        type: 3}
-      propertyPath: m_Name
-      value: DisposalIntake
-      objectReference: {fileID: 0}
-    - target: {fileID: 725567512822600538, guid: b06b702714bab49b9ad949eab1ca4534,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 725567512822600538, guid: b06b702714bab49b9ad949eab1ca4534,
-        type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 725567512822600538, guid: b06b702714bab49b9ad949eab1ca4534,
-        type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 725567512822600538, guid: b06b702714bab49b9ad949eab1ca4534,
-        type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 725567512822600538, guid: b06b702714bab49b9ad949eab1ca4534,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 725567512822600538, guid: b06b702714bab49b9ad949eab1ca4534,
-        type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 725567512822600538, guid: b06b702714bab49b9ad949eab1ca4534,
-        type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 725567512822600538, guid: b06b702714bab49b9ad949eab1ca4534,
-        type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 725567512822600538, guid: b06b702714bab49b9ad949eab1ca4534,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 725567512822600538, guid: b06b702714bab49b9ad949eab1ca4534,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 725567512822600538, guid: b06b702714bab49b9ad949eab1ca4534,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3558259718671294003, guid: b06b702714bab49b9ad949eab1ca4534,
-        type: 3}
-      propertyPath: m_LocalRotation.x
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3558259718671294003, guid: b06b702714bab49b9ad949eab1ca4534,
-        type: 3}
-      propertyPath: m_LocalRotation.y
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3558259718671294003, guid: b06b702714bab49b9ad949eab1ca4534,
-        type: 3}
-      propertyPath: m_LocalRotation.z
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4428698834604649417, guid: b06b702714bab49b9ad949eab1ca4534,
-        type: 3}
-      propertyPath: foreverID
-      value: 547b9c989a5a57d438797f8fffb2afa1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5212070883374448474, guid: b06b702714bab49b9ad949eab1ca4534,
-        type: 3}
-      propertyPath: PresentSpriteSet
-      value: 
-      objectReference: {fileID: 11400000, guid: f07145802fad622419c4092f91dc468e,
-        type: 2}
-    - target: {fileID: 5212070883374448474, guid: b06b702714bab49b9ad949eab1ca4534,
-        type: 3}
-      propertyPath: Sprites.Array.size
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 5212070883374448474, guid: b06b702714bab49b9ad949eab1ca4534,
-        type: 3}
-      propertyPath: SubCatalogue.Array.size
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 5212070883374448474, guid: b06b702714bab49b9ad949eab1ca4534,
-        type: 3}
-      propertyPath: SubCatalogue.Array.data[0]
-      value: 
-      objectReference: {fileID: 11400000, guid: f07145802fad622419c4092f91dc468e,
-        type: 2}
-    - target: {fileID: 5212070883374448474, guid: b06b702714bab49b9ad949eab1ca4534,
-        type: 3}
-      propertyPath: SubCatalogue.Array.data[1]
-      value: 
-      objectReference: {fileID: 11400000, guid: 637db9ce2c1e25e42872b57353b4f61d,
-        type: 2}
-    - target: {fileID: 5212070883374448474, guid: b06b702714bab49b9ad949eab1ca4534,
-        type: 3}
-      propertyPath: Sprites.Array.data[0].Texture
-      value: 
-      objectReference: {fileID: 2800000, guid: f77ee08febe2f384297670906a532d45, type: 3}
-    - target: {fileID: 5212070883374448474, guid: b06b702714bab49b9ad949eab1ca4534,
-        type: 3}
-      propertyPath: Sprites.Array.data[1].Texture
-      value: 
-      objectReference: {fileID: 2800000, guid: ef71f988504843345a2d17ec0c9f4981, type: 3}
-    - target: {fileID: 7971921043980192432, guid: b06b702714bab49b9ad949eab1ca4534,
-        type: 3}
-      propertyPath: initialName
-      value: disposal intake
-      objectReference: {fileID: 0}
-    - target: {fileID: 7971921043980192432, guid: b06b702714bab49b9ad949eab1ca4534,
-        type: 3}
-      propertyPath: initialDescription
-      value: An intake for the pneumatic disposal system. Fits big and small packages
-        alike!
-      objectReference: {fileID: 0}
-    - target: {fileID: 8275826183322400200, guid: b06b702714bab49b9ad949eab1ca4534,
-        type: 3}
-      propertyPath: Passable
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 9212640593017544930, guid: b06b702714bab49b9ad949eab1ca4534,
-        type: 3}
-      propertyPath: m_AssetId
-      value: 547b9c989a5a57d438797f8fffb2afa1
-      objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 8275826183322400200, guid: b06b702714bab49b9ad949eab1ca4534, type: 3}
-  m_SourcePrefab: {fileID: 100100000, guid: b06b702714bab49b9ad949eab1ca4534, type: 3}
---- !u!1 &1781006999364248419 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 721717256067945856, guid: b06b702714bab49b9ad949eab1ca4534,
-    type: 3}
-  m_PrefabInstance: {fileID: 1347533324463388387}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &3464330467401233505 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 2495170526828774018, guid: b06b702714bab49b9ad949eab1ca4534,
-    type: 3}
-  m_PrefabInstance: {fileID: 1347533324463388387}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1781006999364248419}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 579884b05ae74e8499329b64997147d3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!210 &3925827565069146067 stripped
-SortingGroup:
-  m_CorrespondingSourceObject: {fileID: 2650422487074349360, guid: b06b702714bab49b9ad949eab1ca4534,
-    type: 3}
-  m_PrefabInstance: {fileID: 1347533324463388387}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &6550372072434207161 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 5212070883374448474, guid: b06b702714bab49b9ad949eab1ca4534,
-    type: 3}
-  m_PrefabInstance: {fileID: 1347533324463388387}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 

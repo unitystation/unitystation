@@ -11,7 +11,7 @@ using UnityEngine.EventSystems;
 
 namespace Objects
 {
-	public class FloorHazard : MonoBehaviour, IEnterable
+	public class FloorHazard : MonoBehaviour, IPlayerEntersTile, IObjectEntersTile
 	{
 		[SerializeField] private AttackType attackType = AttackType.Melee;
 		[SerializeField] private DamageType damageType = DamageType.Brute;
@@ -26,14 +26,32 @@ namespace Objects
 		[SerializeField, HideIf("ignoresFootwear")] private List<ItemTrait> protectiveItemTraits;
 		[SerializeField] private List<BodyPartType> limbsToHurt;
 
-		public virtual void OnStep(GameObject eventData)
+		public virtual bool WillAffectPlayer(PlayerScript playerScript)
 		{
-			LivingHealthMasterBase health = eventData.GetComponent<LivingHealthMasterBase>();
+			return playerScript.IsGhost == false;
+		}
+
+		public virtual void OnPlayerStep(PlayerScript playerScript)
+		{
+			var health = playerScript.playerHealth;
 			HurtFeet(health); //Moving this to it's own function to keep things clean.
 			//Text and Audio feedback.
 			Chat.AddActionMsgToChat(gameObject, $"You step on the {gameObject.ExpensiveName()}!",
 				$"{health.playerScript.visibleName} steps on the {gameObject.ExpensiveName()}!");
 			PlayStepAudio();
+		}
+
+		public virtual bool WillAffectObject(GameObject eventData)
+		{
+			//Old health
+			return eventData.HasComponent<LivingHealthBehaviour>();
+		}
+
+		public virtual void OnObjectEnter(GameObject eventData)
+		{
+			//Old health
+			eventData.GetComponent<LivingHealthBehaviour>().ApplyDamageToBodyPart(
+				gameObject, damageToGive, attackType, damageType);
 		}
 
 		protected void HurtFeet(LivingHealthMasterBase health)
@@ -73,12 +91,6 @@ namespace Objects
 		protected void ApplyDamageToPartyType(LivingHealthMasterBase health, BodyPartType type)
 		{
 			health.ApplyDamageToBodyPart(gameObject, damageToGive, attackType, damageType, type, armorPentration, traumaChance, traumaType);
-		}
-
-		public virtual bool WillStep(GameObject eventData)
-		{
-			if (eventData.gameObject.GetComponent<LivingHealthMasterBase>() != null) return true;
-			return false;
 		}
 	}
 }

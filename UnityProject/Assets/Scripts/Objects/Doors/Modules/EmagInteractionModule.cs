@@ -24,6 +24,7 @@ namespace Doors.Modules
 
 		public override ModuleSignal BumpingInteraction(GameObject byPlayer, HashSet<DoorProcessingStates> States)
 		{
+			if (byPlayer == null) return ModuleSignal.Continue; //null may appear if door wires are pulsed by EMP
 			var ItemStorage = byPlayer.GetComponent<DynamicItemStorage>();
 			return EmagChecks(ItemStorage, null, States);
 		}

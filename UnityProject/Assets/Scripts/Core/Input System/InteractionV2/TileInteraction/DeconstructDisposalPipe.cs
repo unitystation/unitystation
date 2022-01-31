@@ -77,7 +77,7 @@ namespace Objects.Disposals
 			DisposalPipe pipeTile = interaction.BasicTile as DisposalPipe;
 
 			// Despawn pipe tile
-			var matrix = MatrixManager.AtPoint(interaction.WorldPositionTarget.NormalizeTo3Int(), true).Matrix;
+			var matrix = MatrixManager.AtPoint(interaction.WorldPositionTarget.RoundToInt(), true).Matrix;
 			MetaDataNode metaDataNode = matrix.GetMetaDataNode(interaction.TargetCellPos, false);
 			DisposalPipeNode disPipeNode = null;
 			for (var i = 0; i < metaDataNode.DisposalPipeData.Count; i++)
@@ -101,9 +101,9 @@ namespace Objects.Disposals
 			var spawn = Spawn.ServerPrefab(interaction.BasicTile.SpawnOnDeconstruct, interaction.WorldPositionTarget);
 			if (spawn.Successful == false) return;
 
-			if (spawn.GameObject.TryGetComponent<Directional>(out var directional))
+			if (spawn.GameObject.TryGetComponent<Rotatable>(out var Rotatable))
 			{
-				directional.FaceDirection(Orientation.FromEnum(pipeTile.DisposalPipeObjectOrientation));
+				Rotatable.FaceDirection(pipeTile.DisposalPipeObjectOrientation);
 			}
 
 			if (spawn.GameObject.TryGetComponent<ObjectBehaviour>(out var behaviour))

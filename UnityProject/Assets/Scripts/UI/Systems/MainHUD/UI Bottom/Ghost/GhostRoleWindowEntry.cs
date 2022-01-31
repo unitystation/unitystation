@@ -77,6 +77,12 @@ namespace UI.Windows
 			StopCoroutine(responseOverlayCoroutine);
 			waitingOnResponseOverlay.SetActive(false);
 
+			if (code == GhostRoleResponseCode.ClearMessage)
+			{
+				responseMessageLabel.text = default;
+				return;
+			}
+
 			// Ignore displaying this particular response message; the success message is more useful.
 			if (code == GhostRoleResponseCode.AlreadyWaiting) return;
 

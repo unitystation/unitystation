@@ -47,6 +47,7 @@ namespace Objects.Atmospherics
 		[SerializeField, SceneModeOnly]
 		[Tooltip("If enabled, allows the vent to operate without being connected to a pipenet (magic). Usage is discouraged.")]
 		private bool selfSufficient = false;
+		public bool SelfSufficient => selfSufficient;
 
 		// Pressure regulation
 		public bool InternalEnabled { get; set; } = false;
@@ -216,14 +217,14 @@ namespace Objects.Atmospherics
 						break;
 				}
 			}
-			
+
 			if (isWelded)
 			{
 				desiredFinalSprite = Sprite.Welded;
 			}
 
 			this.RestartCoroutine(AnimateSprite(desiredFinalSprite), ref animator);
-			
+
 		}
 
 		private IEnumerator AnimateSprite(Sprite desiredFinalSprite)
@@ -235,7 +236,7 @@ namespace Objects.Atmospherics
 			var offSprites = new Sprite[] { Sprite.Off, Sprite.InOff, Sprite.OutOff };
 			var transitionSprites = new Sprite[] { Sprite.OutStarting, Sprite.OutStopping, Sprite.InStarting, Sprite.InStopping };
 			var operatingSprites = new Sprite[] { Sprite.Out, Sprite.In };
-			
+
 			// Run the animatable transitions.
 			if (desiredFinalSprite == Sprite.Off && operatingSprites.Contains(currentSprite))
 			{

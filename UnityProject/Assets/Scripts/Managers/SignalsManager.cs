@@ -11,7 +11,7 @@ namespace Managers
 	public class SignalsManager : SingletonManager<SignalsManager>
 	{
 
-		public List<SignalReceiver> Receivers = new List<SignalReceiver>();
+		public HashSet<SignalReceiver> Receivers = new HashSet<SignalReceiver>();
 
 		/// <summary>
 		/// Called from the server as the Receivers list is only available for the host and to avoid clients from cheating.
@@ -20,6 +20,8 @@ namespace Managers
 		[Server]
 		public void SendSignal(SignalEmitter emitter, SignalType type, SignalDataSO signalDataSo, ISignalMessage signalMessage = null)
 		{
+			Receivers.Remove(null);
+			
 			foreach (SignalReceiver receiver in Receivers)
 			{
 				if (receiver.SignalTypeToReceive != type) continue;

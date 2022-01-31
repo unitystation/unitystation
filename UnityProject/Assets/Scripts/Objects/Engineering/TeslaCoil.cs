@@ -83,9 +83,19 @@ namespace Objects.Engineering
 			{
 				hitTimer = 0;
 				hitRecently = false;
+
+				if (generatedWatts != 0)
+				{
+					moduleSupplyingDevice.TurnOffSupply();
+				}
 			}
 			else
 			{
+				if(generatedWatts == 0)
+				{
+					moduleSupplyingDevice.TurnOnSupply();
+				}
+
 				hitRecently = true;
 			}
 

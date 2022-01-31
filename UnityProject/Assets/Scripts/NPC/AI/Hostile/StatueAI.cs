@@ -60,7 +60,7 @@ namespace Systems.MobAIs
 
 		private bool IsSomeoneLookingAtMe()
 		{
-			var hits = coneOfSight.GetObjectsInSight(hitMask, LayerTypeSelection.None , directional.CurrentDirection.Vector, 10f);
+			var hits = coneOfSight.GetObjectsInSight(hitMask, LayerTypeSelection.None , rotatable.CurrentDirection.ToLocalVector3(), 10f);
 			if (hits.Count == 0) return false;
 
 			foreach (var coll in hits)
@@ -71,7 +71,7 @@ namespace Systems.MobAIs
 
 				if (coll.layer == playersLayer
 				    && !coll.GetComponent<LivingHealthMasterBase>().IsDead
-				    && coll.GetComponent<Directional>()?.CurrentDirection == orientations[DirToInt(dir)])
+				    && coll.GetComponent<Rotatable>()?.CurrentDirection == orientations[DirToInt(dir)])
 				{
 					Freeze();
 					return true;
@@ -84,7 +84,7 @@ namespace Systems.MobAIs
 		protected override void MonitorIdleness()
 		{
 
-			if (!mobMeleeAction.performingDecision && mobMeleeAction.FollowTarget == null && !IsSomeoneLookingAtMe())
+			if (mobMeleeAction.FollowTarget == null && !IsSomeoneLookingAtMe())
 			{
 				BeginSearch();
 			}
@@ -152,12 +152,12 @@ namespace Systems.MobAIs
 			}
 		}
 
-		private readonly Dictionary<int, Orientation> orientations = new Dictionary<int, Orientation>()
+		private readonly Dictionary<int, OrientationEnum> orientations = new Dictionary<int, OrientationEnum>()
 		{
-			{1, Orientation.Up},
-			{2, Orientation.Right},
-			{3, Orientation.Down},
-			{4, Orientation.Left}
+			{1, OrientationEnum.Up_By0},
+			{2, OrientationEnum.Right_By270},
+			{3, OrientationEnum.Down_By180},
+			{4, OrientationEnum.Left_By90}
 		};
 	}
 }

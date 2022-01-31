@@ -200,7 +200,7 @@ public class GameData : MonoBehaviour
 		return false;
 	}
 
-	private async void AttemptAutoJoin(Action<String> OnLoginSuccess)
+	private async void AttemptAutoJoin(Action<string> OnLoginSuccess)
 	{
 		await Task.Delay(TimeSpan.FromSeconds(0.1));
 
@@ -210,8 +210,7 @@ public class GameData : MonoBehaviour
 			$"Loading user profile for {FirebaseAuth.DefaultInstance.CurrentUser.DisplayName}");
 
 		await FirebaseAuth.DefaultInstance.CurrentUser.TokenAsync(true).ContinueWithOnMainThread(
-			async task =>
-			{
+			task => {
 				if (task.IsCanceled || task.IsFaulted)
 				{
 					LobbyManager.Instance.lobbyDialogue.LoginError(task.Exception?.Message);
@@ -234,7 +233,7 @@ public class GameData : MonoBehaviour
 
 		GameScreenManager.Instance.serverIP = ip;
 
-		if (!String.IsNullOrEmpty(token))
+		if (string.IsNullOrEmpty(token) == false)
 		{
 			LobbyManager.Instance.lobbyDialogue.ShowLoggingInStatus("Verifying account details..");
 			var refreshToken = new RefreshToken();
@@ -250,7 +249,7 @@ public class GameData : MonoBehaviour
 				return;
 			}
 
-			if (!string.IsNullOrEmpty(response.errorMsg))
+			if (string.IsNullOrEmpty(response.errorMsg) == false)
 			{
 				Logger.LogError($"Something went wrong with hub token validation {response.errorMsg}", Category.DatabaseAPI);
 				LobbyManager.Instance.lobbyDialogue.LoginError($"Could not verify your details {response.errorMsg}");

@@ -64,6 +64,11 @@ namespace Systems.CraftingV2
 		{
 			if (storedCraftingRecipes.Contains(recipe))
 			{
+				if (recipe.IndexInSingleton == -1)
+				{
+					recipe.IndexInSingleton = storedCraftingRecipes.IndexOf(recipe);
+				}
+
 				return false;
 			}
 

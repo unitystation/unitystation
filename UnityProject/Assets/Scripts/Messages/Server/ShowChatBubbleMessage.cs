@@ -14,6 +14,7 @@ namespace Messages.Server
 			public string Message;
 			public uint FollowTransform;
 			public bool IsPlayerChatBubble;
+			public bool AllowTags;
 
 			//Special flag for finding the correct transform target on players
 			//You may have to do something like this if your target does not
@@ -29,19 +30,27 @@ namespace Messages.Server
 			{
 				target = target.GetComponent<PlayerNetworkActions>().chatBubbleTarget;
 			}
+			
+			var message = msg.Message;
+			
+			if(msg.AllowTags == false)
+			{
+				message = Chat.StripTags(message);
+			}
 
-			ChatBubbleManager.ShowAChatBubble(target, msg.Message, msg.ChatModifiers);
+			ChatBubbleManager.ShowAChatBubble(target, message, msg.ChatModifiers);
 		}
 
 		public static NetMessage SendToNearby(GameObject followTransform, string message, bool isPlayerChatBubble = false,
-			ChatModifier chatModifier = ChatModifier.None)
+			ChatModifier chatModifier = ChatModifier.None, bool allowTags = false)
 		{
 			NetMessage msg = new NetMessage
 			{
 				ChatModifiers = chatModifier,
 				Message = message,
 				FollowTransform = followTransform.GetComponent<NetworkIdentity>().netId,
-				IsPlayerChatBubble = isPlayerChatBubble
+				IsPlayerChatBubble = isPlayerChatBubble,
+				AllowTags = allowTags
 			};
 
 			SendToVisiblePlayers(followTransform.transform.position, msg);

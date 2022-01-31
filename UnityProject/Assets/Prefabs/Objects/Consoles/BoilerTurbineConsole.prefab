@@ -282,6 +282,12 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300006, guid: 426e52d188ad25c4e804773f8b661327,
         type: 3}
+    - target: {fileID: 7552453495883301998, guid: b46887a995abc224aab70e21b9e53697,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 7779458ea9d5364488e6f65566722ec2,
+        type: 3}
     - target: {fileID: 7644385245236715337, guid: b46887a995abc224aab70e21b9e53697,
         type: 3}
       propertyPath: circuitBoardPrefab
@@ -300,8 +306,7 @@ PrefabInstance:
       objectReference: {fileID: 11400000, guid: 2896c1e0775f3a94c8ef494bfe1a076e,
         type: 2}
     m_RemovedComponents:
-    - {fileID: 6556397441920388693, guid: b46887a995abc224aab70e21b9e53697, type: 3}
-    - {fileID: 7329940262870924101, guid: b46887a995abc224aab70e21b9e53697, type: 3}
+    - {fileID: 0}
   m_SourcePrefab: {fileID: 100100000, guid: b46887a995abc224aab70e21b9e53697, type: 3}
 --- !u!1 &5115779151868333260 stripped
 GameObject:

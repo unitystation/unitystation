@@ -19,6 +19,7 @@ namespace Objects.Kitchen
 		{
 			barrel = GetComponent<FermentingBarrel>();
 		}
+
 		public string Examine(Vector3 worldPos = default)
 		{
 			return $"It is currently {(barrel.Closed ? "closed, meaning the items inside are fermenting." : "open, meaning you can put things inside.")}"
@@ -47,7 +48,6 @@ namespace Objects.Kitchen
 				barrel.AddItem(interaction.HandSlot);
 			}
 		}
-
 
 		#region Interaction-ContextMenu
 
@@ -79,6 +79,7 @@ namespace Objects.Kitchen
 				case "Open/Close":
 					barrel.OpenClose();
 					break;
+				default:
 					Logger.LogError("Unexpected interaction request occurred in barrel context menu.", Category.Interaction);
 					break;
 			}

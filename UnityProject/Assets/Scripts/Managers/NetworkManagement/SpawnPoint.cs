@@ -151,6 +151,7 @@ namespace Systems.Spawns
 			{ JobType.SYNDICATE, SpawnPointCategory.NuclearOperative },
 			{ JobType.WIZARD, SpawnPointCategory.WizardFederation },
 			{JobType.ANCIENT_ENGINEER, SpawnPointCategory.AncientEngineering},
+			{JobType.ASHWALKER, SpawnPointCategory.Ashwalker},
 		};
 
 		private static readonly Dictionary<SpawnPointCategory, string> iconNames = new Dictionary<SpawnPointCategory, string>()
@@ -193,7 +194,8 @@ namespace Systems.Spawns
 			{SpawnPointCategory.MaintSpawns, "Mapping/mapping_mouse.png"},
 			{SpawnPointCategory.WizardFederation, "Mapping/mapping_wiznerd_spawn.png"},
 			{SpawnPointCategory.SpaceExterior, "Mapping/mapping_carp_spawn.png"},
-			{SpawnPointCategory.AncientEngineering, "Mapping/mapping_station_engineer.png"}
+			{SpawnPointCategory.AncientEngineering, "Mapping/mapping_station_engineer.png"},
+			{SpawnPointCategory.Ashwalker, "Mapping/mapping_ashwalker.png"}
 		};
 
 	}
@@ -244,6 +246,7 @@ namespace Systems.Spawns
 		WizardFederation,
 		SpaceExterior,
 		AncientEngineering,
+		Ashwalker
 	}
 
 	public enum SpawnPointType

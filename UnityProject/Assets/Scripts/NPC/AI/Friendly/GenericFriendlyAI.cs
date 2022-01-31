@@ -43,7 +43,7 @@ namespace Systems.MobAIs
 
 		protected virtual void MonitorExtras()
 		{
-			if (IsPerformingTask && !doRandomActionWhenInTask)
+			if (!doRandomActionWhenInTask)
 			{
 				return;
 			}
@@ -66,7 +66,7 @@ namespace Systems.MobAIs
 			{
 				for (int spriteDir = 1; spriteDir < 5; spriteDir++)
 				{
-					directional.FaceDirection(directional.CurrentDirection.Rotate(1));
+					rotatable.RotateBy(1);
 					yield return WaitFor.Seconds(0.3f);
 				}
 			}

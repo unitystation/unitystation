@@ -7,6 +7,7 @@ using Systems.ElectricalArcs;
 using Systems.Explosions;
 using Systems.Radiation;
 using AddressableReferences;
+using Core.Lighting;
 using HealthV2;
 using Light2D;
 using Messages.Server;
@@ -32,13 +33,7 @@ namespace Objects.Engineering
 		private LightSprite lightSprite;
 
 		[SerializeField]
-		private float pulseSpeed = 0.5f; //here, a value of 0.5f would take 2 seconds and a value of 2f would take half a second
-
-		private const float MAXIntensity = 0.9f; // Max alpha is 1f, but lower so not blinding
-		private const float MINIntensity = 0.1f; // Min alpha is 0f, 0.1f so light doesnt go away completely
-
-		private float targetIntensity = 1f;
-		private float currentIntensity;
+		private LightPulser lightPulser;
 
 		#endregion
 
@@ -323,13 +318,11 @@ namespace Objects.Engineering
 		private void OnEnable()
 		{
 			UpdateManager.Add(SuperMatterUpdate, updateTime);
-			UpdateManager.Add(CallbackType.UPDATE, SuperMatterLightUpdate);
 		}
 
 		private void OnDisable()
 		{
 			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, SuperMatterUpdate);
-			UpdateManager.Remove(CallbackType.UPDATE, SuperMatterLightUpdate);
 			SoundManager.Stop(loopingSoundGuid);
 		}
 
@@ -344,7 +337,7 @@ namespace Objects.Engineering
 				_ = SoundManager.PlayAtPosition(delamLoopSound, registerTile.WorldPositionServer, gameObject, loopingSoundGuid);
 
 				lightSprite.transform.localScale = new Vector3(9, 9, 9);
-				pulseSpeed = 1f;
+				lightPulser.SetPulseSpeed(1);
 			}
 			else
 			{
@@ -354,7 +347,7 @@ namespace Objects.Engineering
 				_ = SoundManager.PlayAtPosition(normalLoopSound, registerTile.WorldPositionServer, gameObject, loopingSoundGuid);
 
 				lightSprite.transform.localScale = new Vector3(3, 3, 3);
-				pulseSpeed = 0.5f;
+				lightPulser.SetPulseSpeed(0.5f);
 			}
 		}
 
@@ -373,25 +366,6 @@ namespace Objects.Engineering
 			CheckEffects();
 
 			CheckWarnings();
-		}
-
-		private void SuperMatterLightUpdate()
-		{
-			//Looping the light alpha to create a pulsing effect
-			currentIntensity = Mathf.MoveTowards(lightSprite.Color.a, targetIntensity, Time.deltaTime * pulseSpeed);
-
-			if(currentIntensity >= MAXIntensity)
-			{
-				currentIntensity = MAXIntensity;
-				targetIntensity = MINIntensity;
-			}
-			else if(currentIntensity <= MINIntensity)
-			{
-				currentIntensity = MINIntensity;
-				targetIntensity = MAXIntensity;
-			}
-
-			lightSprite.Color.a = currentIntensity;
 		}
 
 		#endregion

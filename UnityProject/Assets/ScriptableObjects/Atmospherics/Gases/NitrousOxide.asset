@@ -15,10 +15,10 @@ MonoBehaviour:
   MolarHeatCapacity: 40
   MolarMass: 44.01
   Name: Nitrous Oxide
-  HasOverlay: 1
   MinMolesToSee: 0.4
-  TileName: NO2
-  OverlayType: 8
+  OverlayTile: {fileID: 11400000, guid: 525d8734d735e7e429c95acc27bf2c69, type: 2}
+  CustomColour: 0
+  Colour: {r: 0, g: 0, b: 0, a: 0}
   FusionPower: 10
   AssociatedReagent: {fileID: 11400000, guid: 9c30135f554d1e2c3abafaf30946a6f9, type: 2}
   ExportPrice: 0
