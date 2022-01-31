@@ -4,6 +4,8 @@ using GameRunTests;
 using NaughtyAttributes;
 using UnityEngine;
 using Newtonsoft.Json;
+using Player;
+
 public partial class TestAction
 {
 	public bool ShowRespawnPlayer => SpecifiedAction == ActionType.RespawnPlayer;

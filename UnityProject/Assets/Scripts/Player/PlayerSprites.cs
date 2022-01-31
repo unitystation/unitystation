@@ -214,7 +214,7 @@ namespace Player
 			if (ThisCharacter.SerialisedBodyPartCustom == null)
 			{
 				//TODO : (Max) - Fix SerialisedBodyPartCustom being null on Dummy players
-				Logger.LogError($"{gameObject} has spawned with null bodyPart customizations. This error should only appear for Dummy players only.");
+				Logger.LogWarning($"{gameObject} has spawned with null bodyPart customizations. This error should only appear for Dummy players only.");
 				return;
 			}
 
