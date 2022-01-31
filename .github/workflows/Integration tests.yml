@@ -60,7 +60,6 @@ jobs:
    - name: Run Play tests
      uses: game-ci/unity-test-runner@v2
      with:
-      customParameters: "-nographics"
       projectPath: ${{ matrix.projectPath }}
       unityVersion: ${{ matrix.unityVersion }}
       artifactsPath: ./testReports/${{ matrix.targetPlatform }}
