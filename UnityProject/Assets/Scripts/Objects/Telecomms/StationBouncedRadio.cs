@@ -73,7 +73,7 @@ namespace Objects.Telecomms
 			bool encrypted = message.IsEncrypted;
 			if (encrypted && EncryptionData != null)
 			{
-				if (EncryptionUtils.XOREncryptDecrypt(messageSender, EncryptionData.EncryptionSecret) !=
+				if (EncryptionUtils.Decrypt(messageSender, EncryptionData.EncryptionSecret) !=
 				    message.OriginalSenderName)
 				{
 					messageSender = "???";
@@ -82,7 +82,7 @@ namespace Objects.Telecomms
 				{
 					messageSender = message.OriginalSenderName;
 				}
-				messageContent = EncryptionUtils.XOREncryptDecrypt(messageContent, EncryptionData.EncryptionSecret);
+				messageContent = EncryptionUtils.Decrypt(messageContent, EncryptionData.EncryptionSecret);
 			}
 			return $"<b><color=#{ColorUtility.ToHtmlStringRGBA(Chat.Instance.commonColor)}>[{Frequency}]" +
 			       $" - {messageSender} says \"{messageContent}\"</color></b>.";
