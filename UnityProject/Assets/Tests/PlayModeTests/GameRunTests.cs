@@ -10,6 +10,11 @@ namespace GameRunTests
 		public IEnumerator NewTestScriptWithEnumeratorPasses()
 		{
 			yield return SceneManager.LoadSceneAsync("OnlineScene");
+			if (GameManager.Instance == null)
+			{
+				Logger.LogError("Unable to load OnlineScene Properly returning");
+				yield break;
+			}
 			GameManager.Instance.QuickLoad = true;
 
 			yield return TestSingleton.Instance.RunTests();
