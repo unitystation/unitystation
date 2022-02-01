@@ -595,7 +595,7 @@ namespace Player
 				{
 					if (CustomNetworkManager.Instance.allSpawnablePrefabs.Count > ID.Int)
 					{
-						var OB = Instantiate(CustomNetworkManager.Instance.allSpawnablePrefabs[ID.Int], this.gameObject.transform).transform;
+						var OB = Instantiate(CustomNetworkManager.Instance.allSpawnablePrefabs[ID.Int], this.CustomisationSprites.transform).transform;
 						var Net = SpriteHandlerManager.GetRecursivelyANetworkBehaviour(OB.gameObject);
 						var Handlers = OB.GetComponentsInChildren<SpriteHandler>();
 
@@ -604,7 +604,7 @@ namespace Player
 							SpriteHandlerManager.UnRegisterHandler(Net, SH);
 						}
 
-						OB.SetParent(this.transform);
+						OB.SetParent(this.CustomisationSprites.transform);
 						OB.name = ID.Name;
 						OB.localScale = Vector3.one;
 						OB.localPosition = Vector3.zero;

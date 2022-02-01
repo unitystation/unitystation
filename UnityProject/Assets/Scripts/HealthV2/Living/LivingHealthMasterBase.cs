@@ -1339,6 +1339,16 @@ namespace HealthV2
 							}
 
 							ClientSprites.Remove(bodyPartSprites);
+
+							var Net = SpriteHandlerManager.GetRecursivelyANetworkBehaviour(bodyPartSprites.gameObject);
+							var Handlers = bodyPartSprites.GetComponentsInChildren<SpriteHandler>();
+
+							foreach (var Handler in Handlers)
+							{
+								SpriteHandlerManager.UnRegisterHandler(Net, Handler);
+							}
+
+
 							Destroy(bodyPartSprites.gameObject);
 						}
 					}
