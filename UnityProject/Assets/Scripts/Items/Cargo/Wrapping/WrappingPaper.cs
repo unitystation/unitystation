@@ -45,10 +45,8 @@ namespace Items.Cargo.Wrapping
 
 		public bool WillInteract(InventoryApply interaction, NetworkSide side)
 		{
-			//interaction only occurs if wrapping target is on a hand slot, prevents player from wrapping clothes they are wearing.
-			if (!interaction.IsToHandSlot) return false;
-
-			return DefaultWillInteract.Default(interaction, side) &&
+			return interaction.IsToHandSlot &&
+				   DefaultWillInteract.Default(interaction, side) &&
 			       CommonWillInteract(interaction, side);
 		}
 
