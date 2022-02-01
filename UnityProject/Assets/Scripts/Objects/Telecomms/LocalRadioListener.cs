@@ -13,8 +13,8 @@ namespace Objects.Telecomms
 			bool isEncrypted;
 			if (EncryptionData != null)
 			{
-				chatMessage = EncryptionUtils.Encrypt(chatMessage, EncryptionData.EncryptionSecret);
-				chatSpeaker = EncryptionUtils.Encrypt(chatSpeaker, EncryptionData.EncryptionSecret);
+				chatMessage = EncryptionUtils.XOREncryptDecrypt(chatMessage, EncryptionData.EncryptionSecret);
+				chatSpeaker = EncryptionUtils.XOREncryptDecrypt(chatSpeaker, EncryptionData.EncryptionSecret);
 				isEncrypted = true;
 			}
 			else
