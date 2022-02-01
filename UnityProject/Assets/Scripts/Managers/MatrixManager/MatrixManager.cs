@@ -1302,7 +1302,7 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 			return TransformState.HiddenPos;
 		}
 
-		if (matrix.IsMovable)
+		if (matrix.IsMovable == false)
 		{
 			return worldPos - matrix.Offset;
 		}
