@@ -224,6 +224,7 @@ public class ChatRelay : NetworkBehaviour
 	private void CheckForRadios(ChatEvent chatEvent)
 	{
 		HandleRadioCheckCooldown();
+		var SBRSpamCheck = false;
 		// Only spoken messages should be forwarded
 		if (chatEvent.channels.HasFlag(ChatChannel.Local) == false)
 		{
@@ -234,6 +235,7 @@ public class ChatRelay : NetworkBehaviour
 		foreach (Collider2D coll in Physics2D.OverlapCircleAll(chatEvent.position,
 			radioCheckRadius, itemsMask))
 		{
+			if (SBRSpamCheck == true) break;
 			if (chatEvent.originator == coll.gameObject) continue;
 			if (coll.gameObject.TryGetComponent<LocalRadioListener>(out var listener) == false) continue;
 
@@ -242,6 +244,7 @@ public class ChatRelay : NetworkBehaviour
 				layerMask, radioPos).ItHit == false)
 			{
 				listener.SendData(chatEvent);
+				SBRSpamCheck = true;
 			}
 		}
 
