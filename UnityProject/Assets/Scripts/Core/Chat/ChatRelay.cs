@@ -255,6 +255,7 @@ public class ChatRelay : NetworkBehaviour
 			{
 				foreach (var slots in playerScript.DynamicItemStorage.ServerContents.Values)
 				{
+					if (SBRSpamCheck == true) break;
 					foreach (var slot in slots)
 					{
 						if (slot.IsEmpty) continue;
