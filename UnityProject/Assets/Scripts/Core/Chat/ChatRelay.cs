@@ -263,6 +263,7 @@ public class ChatRelay : NetworkBehaviour
 						    && listener != chatEvent.originator)
 						{
 							listener.SendData(chatEvent);
+							SBRSpamCheck = true;
 						}
 					}
 				}
