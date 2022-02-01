@@ -25,7 +25,8 @@ namespace Antagonists
 				return false;
 			}
 
-			return true && base.CheckCompletion();
+			if (base.CheckCompletion() == false) return false;
+			return true;
 		}
 	}
 }
