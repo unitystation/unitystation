@@ -1529,10 +1529,7 @@ namespace Mirror
             foreach (var identityPair in NetworkIdentity.spawned)
             {
 	            var identity = identityPair.Value;
-	            if (identity.isDirty == false)
-	            {
-		            continue;
-	            }
+	            if (identity.isDirty == false || identity.observers == null) continue;
 
 	            for (int j = 0; j < connectionsCount; j++)
 	            {
@@ -1540,6 +1537,8 @@ namespace Mirror
 
 		            //Connection disconnected
 		            if (connection.isReady == false) continue;
+
+		            if (identity.observers.ContainsKey(connection.connectionId) == false) continue;
 
 		            ////////////////////////////
 		            // get serialization for this entity viewed by this connection
