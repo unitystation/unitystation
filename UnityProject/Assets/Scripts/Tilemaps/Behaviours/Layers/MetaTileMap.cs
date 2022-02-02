@@ -79,8 +79,8 @@ namespace TileManagement
 		private BetterBoundsInt? LocalCachedBounds;
 		public BetterBounds? GlobalCachedBounds;
 
-		[NonSerialized] public Matrix4x4 localToWorldMatrix = Matrix4x4.identity;
-		[NonSerialized] public Matrix4x4 worldToLocalMatrix = Matrix4x4.identity;
+		[NonSerialized] public Matrix4x4? localToWorldMatrix = null;
+		[NonSerialized] public Matrix4x4? worldToLocalMatrix = null;
 
 		//Vector3[4] {bottomLeft, bottomRight, topLeft, topRight}
 		private Vector3[] globalPoints = new Vector3[4];
@@ -1609,12 +1609,12 @@ namespace TileManagement
 
 			var offset = new Vector3(0.5f, 0.5f, 0);
 
-			//Vector3[4] {bottomLeft, bottomRight, topLeft, topRight};
-			var bottomLeft = localToWorldMatrix.MultiplyPoint(localBound.min + offset);
+			//Vector3[4] {bottomLeft, bottomRight, topLeft, topRight}; //Presuming It's been updated
+			var bottomLeft = localToWorldMatrix.Value.MultiplyPoint(localBound.min + offset);
 			globalPoints[0] = bottomLeft;
-			globalPoints[1] = localToWorldMatrix.MultiplyPoint(new Vector3(localBound.xMax, localBound.yMin, 0)  + offset);
-			globalPoints[2] = localToWorldMatrix.MultiplyPoint(new Vector3(localBound.xMin, localBound.yMax, 0)  + offset);
-			globalPoints[3] = localToWorldMatrix.MultiplyPoint(localBound.max  + offset);
+			globalPoints[1] = localToWorldMatrix.Value.MultiplyPoint(new Vector3(localBound.xMax, localBound.yMin, 0)  + offset);
+			globalPoints[2] = localToWorldMatrix.Value.MultiplyPoint(new Vector3(localBound.xMin, localBound.yMax, 0)  + offset);
+			globalPoints[3] = localToWorldMatrix.Value.MultiplyPoint(localBound.max  + offset);
 
 			var minPosition = bottomLeft;
 			var maxPosition = bottomLeft;
