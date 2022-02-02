@@ -1278,7 +1278,7 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 			return localPos + matrix.Offset;
 		}
 
-		if (matrix.MetaTileMap.localToWorldMatrix == null)
+		if (matrix.MetaTileMap.localToWorldMatrix != null)
 		{
 			return matrix.MetaTileMap.localToWorldMatrix.Value.MultiplyPoint(localPos);
 		}
@@ -1312,7 +1312,7 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 			return worldPos - matrix.Offset;
 		}
 
-		if (matrix.MetaTileMap.worldToLocalMatrix == null)
+		if (matrix.MetaTileMap.worldToLocalMatrix != null)
 		{
 			return matrix.MetaTileMap.worldToLocalMatrix.Value.MultiplyPoint(worldPos);
 		}
