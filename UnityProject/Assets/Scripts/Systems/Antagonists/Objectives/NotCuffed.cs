@@ -8,7 +8,7 @@ namespace Antagonists
 	[CreateAssetMenu(menuName="ScriptableObjects/AntagObjectives/NotCuffed")]
 	public class NotCuffed: Objective
 	{
-		protected override void Setup() {}
+		protected override void Setup() { }
 
 		protected override bool CheckCompletion()
 		{
