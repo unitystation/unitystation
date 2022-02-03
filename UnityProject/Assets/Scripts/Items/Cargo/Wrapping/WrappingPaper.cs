@@ -45,7 +45,8 @@ namespace Items.Cargo.Wrapping
 
 		public bool WillInteract(InventoryApply interaction, NetworkSide side)
 		{
-			return DefaultWillInteract.Default(interaction, side) &&
+			return interaction.IsToHandSlot &&
+				   DefaultWillInteract.Default(interaction, side) &&
 			       CommonWillInteract(interaction, side);
 		}
 

@@ -29,6 +29,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1f4ef768d0744d109305b5747e69ccd5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  initialContents: {fileID: 0}
+  spawnContentsAtRoundstart: 1
   randomContentList: []
   alternativeUnwrapSound:
     SetLoadSetting: 0
@@ -171,6 +173,11 @@ PrefabInstance:
         type: 3}
       propertyPath: initialDescription
       value: A large delivery parcel.
+      objectReference: {fileID: 0}
+    - target: {fileID: 9126875148826136434, guid: b06b702714bab49b9ad949eab1ca4534,
+        type: 3}
+      propertyPath: isInitiallyNotPushable
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9212640593017544930, guid: b06b702714bab49b9ad949eab1ca4534,
         type: 3}
