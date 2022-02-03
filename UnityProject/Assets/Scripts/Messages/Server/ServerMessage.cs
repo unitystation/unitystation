@@ -81,7 +81,7 @@ namespace Messages.Server
 		/// Sends the network message only to players who are visible from the
 		/// worldPosition
 		/// </summary>
-		public static void SendToVisiblePlayers(Vector2 worldPosition, T msg, int channel = 0)
+		public static void SendToVisiblePlayers(Vector2 worldPosition, T msg, int channel = 0, bool DoLinecast = true)
 		{
 			//Player script is not null for these players
 			var players = PlayerList.Instance.InGamePlayers;
@@ -97,13 +97,16 @@ namespace Messages.Server
 					continue;
 				}
 
+				if (DoLinecast == false) continue;
 				//within range, but check if they are in another room or hiding behind a wall
 				if (MatrixManager.Linecast(worldPosition, LayerTypeSelection.Walls, layerMask,
-					players[i].Script.PlayerChatLocation.AssumedWorldPosServer()).ItHit)
+					    players[i].Script.PlayerChatLocation.AssumedWorldPosServer()).ItHit)
 				{
 					//if it hit a wall remove that player
 					players.Remove(players[i]);
 				}
+
+
 			}
 
 			//Sends the message only to visible players:

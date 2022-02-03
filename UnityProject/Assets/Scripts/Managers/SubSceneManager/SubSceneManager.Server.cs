@@ -79,7 +79,7 @@ public partial class SubSceneManager
 		var netIds = NetworkIdentity.spawned.Values.ToList();
 		foreach (var n in netIds)
 		{
-			if (n == null || n.gameObject == null || n.gameObject.scene != sceneContext)
+			if (n.gameObject.scene != sceneContext)
 				continue;
 
 			if (connToAdd.identity == null) //connection dc midway, we're out

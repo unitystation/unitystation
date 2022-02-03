@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using Chemistry;
 using Doors;
@@ -371,11 +372,10 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 			//TODO do we really need to go through all matrixes? Can we break out at some point?
 			foreach (var matrixInfo in Instance.ActiveMatricesList)
 			{
-				var localOrigin = WorldToLocal(Worldorigin, matrixInfo).To2();
-				var localTo = WorldToLocal(WorldTo.Value, matrixInfo).To2();
-
-				if (LineIntersectsRect(localOrigin, localTo, matrixInfo.LocalBounds))
+				if (LineIntersectsRect(Worldorigin, WorldTo.Value, matrixInfo.WorldBounds))
 				{
+					var localOrigin = WorldToLocal(Worldorigin, matrixInfo).To2();
+					var localTo = WorldToLocal(WorldTo.Value, matrixInfo).To2();
 					Checkhit = matrixInfo.MetaTileMap.Raycast(localOrigin, Vector2.zero,
 						distance,
 						layerMask,
@@ -419,8 +419,8 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 		{
 			ClosestHit = new CustomPhysicsHit();
 		}
-
 		return ClosestHit.Value;
+
 	}
 
 
@@ -477,7 +477,7 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 		public TileLocation TileLocation;
 	}
 
-	public static bool LineIntersectsRect(Vector2 p1, Vector2 p2, BetterBoundsInt r)
+	public static bool LineIntersectsRect(Vector2 p1, Vector2 p2, BetterBounds r)
 	{
 		var xMin = r.xMin;
 		var yMin = r.yMin;
@@ -491,7 +491,7 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 		       (FindPoint(r.min, r.max, p1) && FindPoint(r.min, r.max, p2));
 	}
 
-	static bool FindPoint(Vector3Int min, Vector3Int max, Vector2 Point)
+	static bool FindPoint(Vector3 min, Vector3 max, Vector2 Point)
 	{
 		if (Point.x > min.x && Point.x < max.x &&
 		    Point.y > min.y && Point.y < max.y)
@@ -1278,6 +1278,11 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 			return localPos + matrix.Offset;
 		}
 
+		if (matrix.MetaTileMap.localToWorldMatrix != null)
+		{
+			return matrix.MetaTileMap.localToWorldMatrix.Value.MultiplyPoint(localPos);
+		}
+
 		if (state.Equals(default(MatrixState)))
 		{
 			state = matrix.MatrixMove.ClientState;
@@ -1306,6 +1311,12 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 		{
 			return worldPos - matrix.Offset;
 		}
+
+		if (matrix.MetaTileMap.worldToLocalMatrix != null)
+		{
+			return matrix.MetaTileMap.worldToLocalMatrix.Value.MultiplyPoint(worldPos);
+		}
+
 
 		var state = matrix.MatrixMove.ClientState;
 		var pivot = matrix.MatrixMove.Pivot.ToNonInt3();
