@@ -1609,6 +1609,12 @@ namespace TileManagement
 
 			var offset = new Vector3(0.5f, 0.5f, 0);
 
+			if (localToWorldMatrix == null)
+			{
+				Logger.LogError("humm, localToWorldMatrix  tried to be excess before being set humm, Setting to identity matrix, Please fix this ");
+				localToWorldMatrix = Matrix4x4.identity;
+			}
+
 			//Vector3[4] {bottomLeft, bottomRight, topLeft, topRight}; //Presuming It's been updated
 			var bottomLeft = localToWorldMatrix.Value.MultiplyPoint(localBound.min + offset);
 			globalPoints[0] = bottomLeft;
