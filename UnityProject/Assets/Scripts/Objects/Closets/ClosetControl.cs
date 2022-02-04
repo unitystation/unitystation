@@ -36,7 +36,7 @@ namespace Objects
 		}
 
 		private static readonly StandardProgressActionConfig ProgressConfig =
-				new StandardProgressActionConfig(StandardProgressActionType.Escape);
+				new StandardProgressActionConfig(StandardProgressActionType.Escape, true, true, true, true);
 
 		#region Inspector
 

@@ -25,7 +25,7 @@ public class ClothingItem : MonoBehaviour
 	/// <summary>
 	/// Absolute orientation
 	/// </summary>
-	private Orientation currentDirection = Orientation.Down;
+	private OrientationEnum currentDirection = OrientationEnum.Down_By180;
 
 	protected int referenceOffset;
 
@@ -41,7 +41,7 @@ public class ClothingItem : MonoBehaviour
 	/// <summary>
 	/// Direction clothing is facing (absolute)
 	/// </summary>
-	public Orientation Direction
+	public OrientationEnum Direction
 	{
 		set
 		{
@@ -137,22 +137,22 @@ public class ClothingItem : MonoBehaviour
 
 	private void UpdateReferenceOffset()
 	{
-		if (currentDirection == Orientation.Down)
+		if (currentDirection == OrientationEnum.Down_By180)
 		{
 			referenceOffset = 0;
 		}
 
-		if (currentDirection == Orientation.Up)
+		if (currentDirection == OrientationEnum.Up_By0)
 		{
 			referenceOffset = 1;
 		}
 
-		if (currentDirection == Orientation.Right)
+		if (currentDirection == OrientationEnum.Right_By270)
 		{
 			referenceOffset = 2;
 		}
 
-		if (currentDirection == Orientation.Left)
+		if (currentDirection == OrientationEnum.Left_By90)
 		{
 			referenceOffset = 3;
 		}

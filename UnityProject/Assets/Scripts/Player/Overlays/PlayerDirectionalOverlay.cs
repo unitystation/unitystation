@@ -32,7 +32,7 @@ namespace Effects.Overlays
 		/// Display the overlay animation in the specified direction
 		/// </summary>
 		/// <param name="direction"></param>
-		public void StartOverlay(Orientation direction)
+		public void StartOverlay(OrientationEnum direction)
 		{
 			spriteHandler.ChangeSprite(0); // Load sprite into SpriteRenderer
 			spriteHandler.ChangeSpriteVariant(GetOrientationVariant(direction));
@@ -48,17 +48,17 @@ namespace Effects.Overlays
 			OverlayActive = false;
 		}
 
-		private int GetOrientationVariant(Orientation orientation)
+		private int GetOrientationVariant(OrientationEnum orientation)
 		{
-			switch (orientation.AsEnum())
+			switch (orientation)
 			{
-				case OrientationEnum.Down:
+				case OrientationEnum.Down_By180:
 					return 0;
-				case OrientationEnum.Up:
+				case OrientationEnum.Up_By0:
 					return 1;
-				case OrientationEnum.Right:
+				case OrientationEnum.Right_By270:
 					return 2;
-				case OrientationEnum.Left:
+				case OrientationEnum.Left_By90:
 					return 3;
 			}
 

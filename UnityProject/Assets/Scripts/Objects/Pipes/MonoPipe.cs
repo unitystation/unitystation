@@ -25,7 +25,7 @@ namespace Objects.Atmospherics
 		[SerializeField]
 		private bool spawnedFromItem = true;
 
-		protected Directional directional;
+		public Rotatable directional;
 
 		public static float MaxInternalPressure { get; } = AtmosConstants.ONE_ATMOSPHERE * 50;
 
@@ -34,19 +34,17 @@ namespace Objects.Atmospherics
 		public virtual void Awake()
 		{
 			registerTile = GetComponent<RegisterTile>();
-			directional = GetComponent<Directional>();
+			directional = GetComponent<Rotatable>();
 		}
 
 		public virtual void OnSpawnServer(SpawnInfo info)
 		{
 			//Only run SetUpPipes for mapped, otherwise the item being used to place it will have the wrong pipe data
 			//As the pipe will not be rotated correctly before setup
-			if(spawnedFromItem && info.SpawnType != SpawnType.Mapped) return;
-
-			SetUpPipes();
+			SetUpPipes(spawnedFromItem && info.SpawnType != SpawnType.Mapped);
 		}
 
-		public void SetUpPipes()
+		public void SetUpPipes(bool DoNotSetRotation = false)
 		{
 			if (pipeData.PipeAction == null)
 			{
@@ -54,8 +52,13 @@ namespace Objects.Atmospherics
 			}
 			registerTile.SetPipeData(pipeData);
 			pipeData.MonoPipe = this;
-			int Offset = PipeFunctions.GetOffsetAngle(transform.localRotation.eulerAngles.z);
-			pipeData.Connections.Rotate(Offset);
+			if (DoNotSetRotation == false)
+			{
+				int Offset = PipeFunctions.GetOffsetAngle(transform.localRotation.eulerAngles.z);
+				pipeData.Connections.Rotate(Offset);
+			}
+
+
 			pipeData.OnEnable();
 			spritehandler.OrNull()?.gameObject.OrNull()?.SetActive( true);
 			spritehandler.OrNull()?.SetColor(Colour);
@@ -135,13 +138,10 @@ namespace Objects.Atmospherics
 				return;
 			}
 
-			var spawn = Spawn.ServerPrefab(SpawnOnDeconstruct, registerTile.WorldPositionServer, localRotation: transform.localRotation);
-			spawn.GameObject.GetComponent<PipeItem>().SetColour(Colour);
-
-			if (directional != null && spawn.GameObject.TryGetComponent<PlayerRotatable>(out var newDirectional))
-			{
-				newDirectional.SyncRotation(0,transform.eulerAngles.z);
-			}
+			var spawn = Spawn.ServerPrefab(SpawnOnDeconstruct, registerTile.WorldPositionServer, localRotation: directional.ByDegreesToQuaternion(directional.CurrentDirection));
+			var PipeItem = spawn.GameObject.GetComponent<PipeItem>();
+			PipeItem.rotatable.FaceDirection(directional.CurrentDirection);
+			PipeItem.SetColour(Colour);
 
 			OnDisassembly(interaction);
 			pipeData.OnDisable();
@@ -183,33 +183,42 @@ namespace Objects.Atmospherics
 		private void OnDrawGizmos()
 		{
 			var density = pipeData.mixAndVolume.Density();
-			if(density.x.Approx(0) && density.y.Approx(0)) return;
 
 			Gizmos.color = Color.white;
 			DebugGizmoUtils.DrawText(density.ToString(), transform.position, 10);
 			Gizmos.color = Color.magenta;
-			if (pipeData.Connections.Directions[0].Bool)
+
+			Connections InCopy = pipeData.Connections;
+
+			if (Application.isPlaying == false)
+			{
+				InCopy = pipeData.Connections.Copy();
+				int offset = PipeFunctions.GetOffsetAngle(transform.localEulerAngles.z);
+				InCopy.Rotate(offset);
+			}
+
+			if (InCopy.Directions[0].Bool)
 			{
 				var Toues = transform.position;
 				Toues.y += 0.25f;
 				Gizmos.DrawCube(Toues, Vector3.one*0.08f );
 			}
 
-			if (pipeData.Connections.Directions[1].Bool)
+			if (InCopy.Directions[1].Bool)
 			{
 				var Toues = transform.position;
 				Toues.x += 0.25f;
 				Gizmos.DrawCube(Toues, Vector3.one*0.08f );
 			}
 
-			if (pipeData.Connections.Directions[2].Bool)
+			if (InCopy.Directions[2].Bool)
 			{
 				var Toues = transform.position;
 				Toues.y += -0.25f;
 				Gizmos.DrawCube(Toues, Vector3.one*0.08f );
 			}
 
-			if (pipeData.Connections.Directions[3].Bool)
+			if (InCopy.Directions[3].Bool)
 			{
 
 				var Toues = transform.position;

@@ -8,7 +8,7 @@ namespace Core.Directionals
 	/// Allows only some sides of an objects's tile to be passable. Useful for things such as directional windows, disposal intakes.
 	/// Must be the sole RegisterTile-derived component on the object, else it is glitchy.
 	/// </summary>
-	[RequireComponent(typeof(Directional))]
+	[RequireComponent(typeof(Rotatable))]
 	public class DirectionalPassable : RegisterObject
 	{
 		[InfoBox("Set Passable or Atmos Passable checked if any side is passable by default, or any atmos passable side", EInfoBoxType.Normal)]
@@ -28,7 +28,7 @@ namespace Core.Directionals
 		[SerializeField]
 		private PassableSides atmosphericPassableSides = default;
 
-		public Directional Directional { get; private set; }
+		public Rotatable Rotatable { get; private set; }
 
 		public bool IsLeavableOnAll => isLeavableOnAll;
 		public bool IsEnterableOnAll => isEnterableOnAll;
@@ -44,9 +44,9 @@ namespace Core.Directionals
 
 		private void EnsureInit()
 		{
-			if (Directional != null) return;
+			if (Rotatable != null) return;
 
-			Directional = GetComponent<Directional>();
+			Rotatable = GetComponent<Rotatable>();
 		}
 
 		public override bool IsPassable(bool isServer, GameObject context = null)
@@ -179,36 +179,36 @@ namespace Core.Directionals
 		private bool IsPassableAtSide(Vector2Int sideToCross, PassableSides sides)
 		{
 			EnsureInit();
-			if (Directional == null)
+			if (Rotatable == null)
 			{
-				Logger.LogError($"No {nameof(Directional)} component found on {this}?", Category.Directionals);
+				Logger.LogError($"No {nameof(Rotatable)} component found on {this}?", Category.Directionals);
 				return false;
 			}
 
 			if (sideToCross == Vector2Int.zero) return true;
 
 			// TODO: figure out a better way or at least use some data structure.
-			switch (Directional.CurrentDirection.AsEnum())
+			switch (Rotatable.CurrentDirection)
 			{
-				case OrientationEnum.Up:
+				case OrientationEnum.Up_By0:
 					if (sideToCross == Vector2Int.up) return sides.Down;
 					else if (sideToCross == Vector2Int.down) return sides.Up;
 					else if (sideToCross == Vector2Int.left) return sides.Right;
 					else if (sideToCross == Vector2Int.right) return sides.Left;
 					break;
-				case OrientationEnum.Down:
+				case OrientationEnum.Down_By180:
 					if (sideToCross == Vector2Int.up) return sides.Up;
 					else if (sideToCross == Vector2Int.down) return sides.Down;
 					else if (sideToCross == Vector2Int.left) return sides.Left;
 					else if (sideToCross == Vector2Int.right) return sides.Right;
 					break;
-				case OrientationEnum.Left:
+				case OrientationEnum.Left_By90:
 					if (sideToCross == Vector2Int.up) return sides.Left;
 					else if (sideToCross == Vector2Int.down) return sides.Right;
 					else if (sideToCross == Vector2Int.left) return sides.Down;
 					else if (sideToCross == Vector2Int.right) return sides.Up;
 					break;
-				case OrientationEnum.Right:
+				case OrientationEnum.Right_By270:
 					if (sideToCross == Vector2Int.up) return sides.Right;
 					else if (sideToCross == Vector2Int.down) return sides.Left;
 					else if (sideToCross == Vector2Int.left) return sides.Up;

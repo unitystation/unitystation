@@ -163,6 +163,7 @@ MonoBehaviour:
       m_AssetGUID: 
       m_SubObjectName: 
       m_SubObjectType: 
+      m_EditorAssetChanged: 0
   damageDeflection: 0
   Armor:
     Melee: 0
@@ -188,7 +189,6 @@ MonoBehaviour:
   HeatResistance: 100
   ExplosionsDamage: 100
   doDamageMessage: 1
-  CannotBeAshed: 0
 --- !u!114 &8025540690505148928
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -208,6 +208,7 @@ MonoBehaviour:
     to medium voltage for station-wide transmission.
   willHighlight: 1
   exportCost: 50
+  exportType: 0
   exportName: 
   exportMessage: 
 --- !u!114 &1908906372044386879
@@ -240,6 +241,7 @@ MonoBehaviour:
   machineBoardPrefab: {fileID: 3565926771059640241, guid: db23d828345b6744485ee266629dfe9d,
     type: 3}
   canNotBeDeconstructed: 0
+  isEMPResistant: 0
   mustBeUnanchored: 0
   secondsToScrewdrive: 2
 --- !u!114 &3919982737323789382
@@ -373,7 +375,7 @@ SpriteRenderer:
   m_SortingLayerID: -24161425
   m_SortingLayer: 8
   m_SortingOrder: 11
-  m_Sprite: {fileID: -9144930213960443528, guid: c2088b604ffb10845a34477ca96f654f,
+  m_Sprite: {fileID: -1152738003139098640, guid: c2088b604ffb10845a34477ca96f654f,
     type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0

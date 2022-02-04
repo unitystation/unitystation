@@ -1,39 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &3073820079223461503
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5529198216873058129}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 10470e342fd41de468f149e991721d5a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  despawnBody: 1
-  lootDrop:
-  - {fileID: 773312911048126984, guid: 6e4200f349a2e834c93abd60c2264641, type: 3}
---- !u!114 &4204060412130754771
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5529198216873058129}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 526f944188797b340b690113f0b7db00, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  mobName: statue
-  deathSounds: []
-  randomSounds: []
-  playRandomSoundTimer: 3
-  randomSoundProbability: 20
-  searchTickRate: 0.5
-  currentStatus: 0
 --- !u!1001 &1885043157082471117
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -132,26 +98,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6240602369214284696, guid: 411e38af01d5a8249afcbd5beb9de197,
         type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6240602369214284696, guid: 411e38af01d5a8249afcbd5beb9de197,
-        type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6240602369214284696, guid: 411e38af01d5a8249afcbd5beb9de197,
-        type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6240602369214284696, guid: 411e38af01d5a8249afcbd5beb9de197,
-        type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6240602369214284696, guid: 411e38af01d5a8249afcbd5beb9de197,
-        type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
       value: 0
       objectReference: {fileID: 0}
@@ -179,3 +125,38 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 1885043157082471117}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &3073820079223461503
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5529198216873058129}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 10470e342fd41de468f149e991721d5a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  despawnBody: 1
+  lootDrop:
+  - {fileID: 773312911048126984, guid: 6e4200f349a2e834c93abd60c2264641, type: 3}
+--- !u!114 &4204060412130754771
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5529198216873058129}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 526f944188797b340b690113f0b7db00, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mobName: statue
+  registerObject: {fileID: 0}
+  deathSounds: []
+  randomSounds: []
+  playRandomSoundTimer: 3
+  randomSoundProbability: 20
+  searchTickRate: 0.5
+  currentStatus: 0

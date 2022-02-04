@@ -10,7 +10,8 @@ namespace AdminTools
 {
 	public class PlayerManagePage : AdminPage
 	{
-		[SerializeField] private Button deputiseBtn = null;
+		[SerializeField] private Toggle mentorToggle = null;
+		[SerializeField] private Text mentorButtonText = null;
 		[SerializeField] private AdminRespawnPage adminRespawnPage = default;
 
 		public AdminPlayerEntry PlayerEntry { get; private set; }
@@ -18,8 +19,9 @@ namespace AdminTools
 		public void SetData(AdminPlayerEntry entry)
 		{
 			PlayerEntry = entry;
-			deputiseBtn.interactable = !entry.PlayerData.isAdmin;
-			// respawnBtn.interactable = !playerEntry.PlayerData.isAlive;
+
+			mentorButtonText.text = entry.PlayerData.isMentor ? "REMOVE MENTOR" : "MAKE MENTOR";
+			mentorToggle.gameObject.SetActive(entry.PlayerData.isMentor == false);
 		}
 
 		public void OnKickBtn()
@@ -46,9 +48,18 @@ namespace AdminTools
 
 		public void OnDeputiseBtn()
 		{
+			if (PlayerEntry.PlayerData.isMentor == false)
+			{
+				adminTools.areYouSurePage.SetAreYouSurePage(
+					$"Are you sure you want to make {PlayerEntry.PlayerData.accountName} a {(mentorToggle.isOn ? "temporary" : "permanent")} mentor?",
+					SendMakePlayerMentorRequest);
+
+				return;
+			}
+
 			adminTools.areYouSurePage.SetAreYouSurePage(
-				$"Are you sure you want to make {PlayerEntry.PlayerData.name} an admin?",
-				SendMakePlayerAdminRequest);
+				$"Are you sure you want to remove {PlayerEntry.PlayerData.accountName} mentor?",
+				SendRemovePlayerMentorRequest);
 		}
 
 		public void OnRespawnButton()
@@ -72,9 +83,15 @@ namespace AdminTools
 			RefreshPage();
 		}
 
-		private void SendMakePlayerAdminRequest()
+		private void SendMakePlayerMentorRequest()
 		{
-			RequestAdminPromotion.Send(PlayerEntry.PlayerData.uid);
+			AdminCommandsManager.Instance.CmdAddMentor(PlayerEntry.PlayerData.uid, mentorToggle.isOn == false);
+			RefreshPage();
+		}
+
+		private void SendRemovePlayerMentorRequest()
+		{
+			AdminCommandsManager.Instance.CmdRemoveMentor(PlayerEntry.PlayerData.uid);
 			RefreshPage();
 		}
 

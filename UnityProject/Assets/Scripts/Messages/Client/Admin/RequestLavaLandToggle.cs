@@ -22,7 +22,7 @@ namespace Messages.Client.Admin
 			var state = netMsg.LavaLandAllowed ? "ON" : "OFF";
 			var msg = $"Admin: {SentByPlayer.Username}, turned Lava Land spawning {state}";
 
-			UIManager.Instance.adminChatWindows.adminToAdminChat.ServerAddChatRecord(msg, null);
+			UIManager.Instance.adminChatWindows.adminLogWindow.ServerAddChatRecord(msg, null);
 			DiscordWebhookMessage.Instance.AddWebHookMessageToQueue(DiscordWebhookURLs.DiscordWebhookAdminLogURL, msg, "");
 		}
 

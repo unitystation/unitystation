@@ -1,9 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using Systems.CraftingV2;
 using Systems.Electricity;
+using Objects.Lighting;
 using Mirror;
+using Objects.Atmospherics;
 using Objects.Wallmounts;
 using UnityEditor;
 using UnityEditor.SceneManagement;
@@ -25,16 +28,16 @@ namespace Core.Editor.Tools
 			public PowerTypeCategory wireType = PowerTypeCategory.Transformer;
 		}
 
-		[MenuItem("Mapping/Refresh Directionals")]
+		[MenuItem("Mapping/Refresh Rotatables")]
 		private static void RefreshDirectionals()
 		{
-			var allDirs = FindObjectsOfType<Directional>();
-			foreach (var directional in allDirs)
+			var rotatables = FindObjectsOfType<Rotatable>();
+			foreach (var directional in rotatables)
 			{
 				EditorUtility.SetDirty(directional.gameObject);
-				directional.ChangeDirectionInEditor();
+				directional.Refresh();
 			}
-			Logger.Log($"Refreshed {allDirs.Length} directionals", Category.Editor);
+			Logger.Log($"Refreshed {rotatables.Length} rotatables", Category.Editor);
 		}
 
 		[MenuItem("Mapping/Set all sceneids to 0")]
@@ -49,6 +52,50 @@ namespace Core.Editor.Tools
 			}
 
 			Logger.Log($"Set {allNets.Length} scene ids", Category.Editor);
+		}
+
+		[MenuItem("Mapping/Monopipe Link Checker")]
+		private static void MonopipeTest()
+		{
+			if (Application.isPlaying == false)
+			{
+				Logger.LogError($"This can only be run in playmode", Category.Editor);
+				return;
+			}
+
+			var monoPipes = FindObjectsOfType<MonoPipe>();
+
+			var stringBuilder = new StringBuilder();
+
+			for (int i = monoPipes.Length - 1; i > 0; i--)
+			{
+				var pipe = monoPipes[i];
+
+				if ((pipe is AirVent {SelfSufficient: true}) || (pipe is Scrubber {SelfSufficient: true}))
+				{
+					continue;
+				}
+
+				var count = 0;
+
+				for (int j = 0; j < pipe.pipeData.Connections.Directions.Length; j++)
+				{
+					if (pipe.pipeData.Connections.Directions[j].Bool)
+					{
+						count++;
+					}
+				}
+
+				var found = pipe.pipeData.ConnectedPipes.Count;
+
+				if (found != count)
+				{
+					stringBuilder.AppendLine(
+						$"MonoPipe ({pipe.gameObject.ExpensiveName()}) at World: {pipe.registerTile.WorldPositionServer} Local: {pipe.registerTile.LocalPositionServer}, Has incorrect pipe connections, Expected {count}, was {found}");
+				}
+			}
+
+			Logger.LogError(stringBuilder.ToString(), Category.Editor);
 		}
 
 		[MenuItem("Networking/Find all network identities without visibility component (Scene Check)")]
@@ -154,6 +201,36 @@ namespace Core.Editor.Tools
 		}
 
 		/// <summary>
+		/// Fixes Light Switch references where the light source has a related switch, but the switch doesnt have the light source in the list
+		/// </summary>
+		[MenuItem("Mapping/Fix Light switch references (scene)")]
+		private static void FixLights()
+		{
+			var allNets = FindObjectsOfType<LightSource>();
+
+			var count = 0;
+
+			for (int i = allNets.Length - 1; i > 0; i--)
+			{
+				var lightSource = allNets[i];
+
+				if (lightSource.IsWithoutSwitch) continue;
+
+				if (lightSource.relatedLightSwitch == null) continue;
+
+				if (lightSource.relatedLightSwitch.listOfLights.Contains(lightSource)) continue;
+
+				EditorUtility.SetDirty(lightSource.relatedLightSwitch);
+
+				lightSource.relatedLightSwitch.listOfLights.Add(lightSource);
+
+				count++;
+			}
+
+			Debug.Log($"{allNets.Length} light sources found in scene, {count} were not in light switch list.");
+		}
+
+		/// <summary>
 		/// Find all prefabs containing a specific component (T)
 		/// </summary>
 		/// <typeparam name="T">The type of component</typeparam>
@@ -202,7 +279,7 @@ namespace Core.Editor.Tools
 			{
 				foreach (var wallmount in gameObject.GetComponentsInChildren<WallmountBehavior>())
 				{
-					var directional = wallmount.GetComponent<Directional>();
+					var directional = wallmount.GetComponent<Rotatable>();
 					var directionalSO = new SerializedObject(directional);
 					var initialD = directionalSO.FindProperty("InitialDirection");
 
@@ -222,7 +299,7 @@ namespace Core.Editor.Tools
 			{
 				foreach (var wallProtrusion in gameObject.GetComponentsInChildren<WallProtrusion>())
 				{
-					var directional = wallProtrusion.GetComponent<Directional>();
+					var directional = wallProtrusion.GetComponent<Rotatable>();
 					var directionalSO = new SerializedObject(directional);
 					var initialD = directionalSO.FindProperty("InitialDirection");
 
@@ -264,7 +341,8 @@ namespace Core.Editor.Tools
 			{
 				foreach (var wallmount in gameObject.GetComponentsInChildren<WallmountBehavior>())
 				{
-					if (wallmount.GetComponent<DirectionalRotationSprites>() != null) continue;
+					var IN = wallmount.GetComponent<Rotatable>();
+					if (IN != null && IN.ChangeSprites) continue;
 					foreach (var spriteRenderer in wallmount.GetComponentsInChildren<SpriteRenderer>())
 					{
 						var transform = new SerializedObject(spriteRenderer.transform);

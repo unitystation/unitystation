@@ -15,13 +15,13 @@ namespace Items.Atmospherics
 
 		public SpriteHandler SpriteHandler;
 		public RegisterItem registerItem;
-		private PlayerRotatable rotatable;
+		public Rotatable rotatable;
 
 		private void Awake()
 		{
 			SpriteHandler = this.GetComponentInChildren<SpriteHandler>();
 			registerItem = this.GetComponent<RegisterItem>();
-			rotatable = GetComponent<PlayerRotatable>();
+			rotatable = GetComponent<Rotatable>();
 		}
 
 		public void Start()
@@ -51,10 +51,10 @@ namespace Items.Atmospherics
 			if (Validations.HasItemTrait(interaction.UsedObject, CommonTraits.Instance.Wrench))
 			{
 				var metaDataNode = registerItem.Matrix.MetaDataLayer.Get(registerItem.LocalPositionServer);
-				var connections = GetConnections();
+				var connectionsCopy = GetConnections();
 				int offset = PipeFunctions.GetOffsetAngle(transform.localEulerAngles.z);
-				connections.Rotate(offset);
-				if (PipeTile.CanAddPipe(metaDataNode, connections) == false)
+				connectionsCopy.Rotate(offset);
+				if (PipeTile.CanAddPipe(metaDataNode, connectionsCopy) == false)
 				{
 					return;
 				}
@@ -63,7 +63,7 @@ namespace Items.Atmospherics
 			}
 			else
 			{
-				rotatable.Rotate();
+				rotatable.RotateBy(1);
 			}
 		}
 
@@ -74,7 +74,7 @@ namespace Items.Atmospherics
 
 		public virtual void ServerPerformInteraction(HandActivate interaction)
 		{
-			rotatable.Rotate();
+			rotatable.RotateBy(1);
 		}
 
 		#endregion Interactions

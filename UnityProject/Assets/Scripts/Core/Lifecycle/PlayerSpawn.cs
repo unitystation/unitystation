@@ -370,12 +370,15 @@ public static class PlayerSpawn
 			SpawnDestination.At(spawnPosition, parentTransform));
 		Spawn._ServerFireClientServerSpawnHooks(SpawnResult.Single(info, ghost));
 
-		if (PlayerList.Instance.IsAdmin(forMind.ghost.connectedPlayer))
+		var isAdmin = PlayerList.Instance.IsAdmin(forMind.ghost.connectedPlayer);
+		if (isAdmin)
 		{
 			var adminItemStorage = AdminManager.Instance.GetItemSlotStorage(forMind.ghost.connectedPlayer);
 			adminItemStorage.ServerAddObserverPlayer(ghost);
-			ghost.GetComponent<GhostSprites>().SetAdminGhost();
 		}
+
+		//Set ghost sprite
+		ghost.GetComponent<GhostSprites>().SetGhostSprite(isAdmin);
 	}
 
 	/// <summary>
@@ -395,10 +398,8 @@ public static class PlayerSpawn
 		Mind.Create(newPlayer);
 		ServerTransferPlayer(joinedViewer.connectionToClient, newPlayer, null, Event.GhostSpawned, characterSettings);
 
-		if (PlayerList.Instance.IsAdmin(PlayerList.Instance.Get(joinedViewer.connectionToClient)))
-		{
-			newPlayer.GetComponent<GhostSprites>().SetAdminGhost();
-		}
+		var isAdmin = PlayerList.Instance.IsAdmin(PlayerList.Instance.Get(joinedViewer.connectionToClient));
+		newPlayer.GetComponent<GhostSprites>().SetGhostSprite(isAdmin);
 	}
 
 	/// <summary>

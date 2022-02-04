@@ -15,36 +15,24 @@ namespace Items.Atmospherics
 			var pipe = GetPipeObject();
 			if (pipe == null) return;
 
-			var quart = Quaternion.Euler(0.0f, 0.0f, transform.localEulerAngles.z);
-			var spawn = Spawn.ServerPrefab(pipe.gameObject,registerItem.WorldPositionServer, localRotation: quart);
+			var spawn = Spawn.ServerPrefab(pipe.gameObject, registerItem.WorldPositionServer, localRotation: this.rotatable.ByDegreesToQuaternion(this.rotatable.CurrentDirection));
 
 			var monoPipe = spawn.GameObject.GetComponent<MonoPipe>();
 
+
+			monoPipe.directional.FaceDirection(this.rotatable.CurrentDirection);
+
+
 			monoPipe.SetColour(Colour);
-
-			if (spawn.GameObject.TryGetComponent<Directional>(out var directional))
-			{
-				var orientation = Orientation.GetOrientation(transform.localEulerAngles.z);
-
-//TODO: find the cause for up and down being swaped and remove this hacky fix!
-				if (orientation == Orientation.Up)
-				{
-					orientation = Orientation.Down;
-				}
-				else if (orientation == Orientation.Down)
-				{
-					orientation = Orientation.Up;
-				}
-
-				directional.FaceDirection(orientation);
-			}
-
 			monoPipe.SetUpPipes();
+
 
 			_ = Despawn.ServerSingle(gameObject);
 		}
 
-		public virtual void Setsprite() { }
+		public virtual void Setsprite()
+		{
+		}
 
 		public virtual MonoPipe GetPipeObject()
 		{

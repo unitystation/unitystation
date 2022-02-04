@@ -987,8 +987,8 @@ namespace Mirror
 
             ///CUSTOM UNITYSTATION CODE///
             //Mirror specifically says that they dont support NetworkIdentities nested in normal gameobjects.
-            //But, we do it, so we have to override this and make sure we read and send world pos
-            identity.transform.position = message.position;
+            //But, we do it, so we have to override this and make sure we read and send local pos
+            identity.transform.localPosition = message.position;
             ///CUSTOM UNITYSTATION CODE///
 
             if (message.isLocalPlayer)
@@ -1061,6 +1061,10 @@ namespace Mirror
             if (spawnHandlers.TryGetValue(message.assetId, out SpawnHandlerDelegate handler))
             {
                 GameObject obj = handler(message);
+                ///UNITYSTATION CODE///
+                ///so, When the client logs in, The objects that are part of the map get the correct local position, If they've moved
+                obj.transform.localPosition = message.position;
+
                 if (obj == null)
                 {
                     Debug.LogError($"Spawn Handler returned null, Handler assetId '{message.assetId}'");

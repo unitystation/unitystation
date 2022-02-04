@@ -153,6 +153,9 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 	private PipeData pipeData;
 	public PipeData PipeData => pipeData;
 
+	private CheckedComponent<PushPull> pushPull;
+	public CheckedComponent<PushPull> PushPull => pushPull;
+
 	[PrefabModeOnly]
 	public SortingGroup CurrentsortingGroup;
 
@@ -175,6 +178,7 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 		IObjectEntersTiles = GetComponents<IObjectEntersTile>();
 		CurrentsortingGroup = GetComponent<SortingGroup>();
 		iPushable = GetComponent<IPushable>();
+		pushPull = new CheckedComponent<PushPull>(this);
 	}
 
 	public override void OnStartServer()
@@ -372,7 +376,7 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 			objectLayer = newObjectLayer;
 		}
 
-		transform.SetParent(objectLayer.transform, true);
+		transform.SetParent(objectLayer.transform, transform.parent); //If it has no parent presumed it was spawned in my mirror that Used the local position
 
 		//preserve absolute rotation if there was spin rotation
 		if (hadSpinRotation)
@@ -403,13 +407,13 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 		if (value)
 		{
 			//LogMatrixDebug($"Matrix set from {matrix} to {value}");
-			if (Matrix != null && Matrix.MatrixMove != null)
+			if (Matrix != null && Matrix.IsMovable)
 			{
 				Matrix.MatrixMove.MatrixMoveEvents.OnRotate.RemoveListener(OnRotate);
 			}
 
 			Matrix = value;
-			if (Matrix != null && Matrix.MatrixMove != null)
+			if (Matrix != null && Matrix.IsMovable)
 			{
 				//LogMatrixDebug($"Registered OnRotate to {matrix}");
 				Matrix.MatrixMove.MatrixMoveEvents.OnRotate.AddListener(OnRotate);

@@ -10,14 +10,12 @@ namespace Objects
 	/// </summary>
 	public class PlayerRotatable : NetworkBehaviour, IRightClickable, ICheckedInteractable<ContextMenuApply>, ICheckedInteractable<HandApply>
 	{
-		private Directional directional;
+		private Rotatable rotatable;
 
-		[SyncVar(hook = nameof(SyncRotation))]
-		private float zRotation = 0;
 
 		private void Awake()
 		{
-			directional = GetComponent<Directional>();
+			rotatable = GetComponent<Rotatable>();
 		}
 
 		public bool WillInteract(HandApply interaction, NetworkSide side)
@@ -63,23 +61,12 @@ namespace Objects
 
 		public void Rotate()
 		{
-			if (directional != null)
+			if (rotatable != null)
 			{
 				// Obtains the new 90-degrees clockwise orientation of the current orientation.
-				Orientation clockwise = directional.CurrentDirection.Rotate(1);
-				directional.FaceDirection(clockwise);
+				rotatable.RotateBy(1);
 			}
-			else
-			{
-				transform.Rotate(0, 0, -90);
-				SyncRotation(zRotation, transform.eulerAngles.z);
-			}
-		}
 
-		public void SyncRotation(float oldZ, float newZ)
-		{
-			zRotation = newZ;
-			transform.eulerAngles = new Vector3(transform.eulerAngles.x, transform.eulerAngles.y, newZ);
 		}
 	}
 }

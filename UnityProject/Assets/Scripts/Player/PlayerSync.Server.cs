@@ -275,14 +275,8 @@ public partial class PlayerSync
 
 		if (followMode)
 		{
-			playerDirectional.FaceDirection(Orientation.From(direction));
+			playerDirectional.SetFaceDirectionLocalVictor(direction);
 			//force directional update of client, since it can't predict where it's being pulled
-			var conn = playerScript.connectionToClient;
-			if (conn != null)
-			{
-				playerDirectional.TargetForceSyncDirection(conn);
-			}
-
 		}
 		else if (uncorrectedSpeed >= playerMove.PushFallSpeed)
 		{
@@ -545,7 +539,7 @@ public partial class PlayerSync
 			var dir = action.Direction();
 			if (!(dir.x != 0 && dir.y != 0 && serverBump == BumpType.ClosedDoor))
 			{
-				playerDirectional.FaceDirection(Orientation.From(action.Direction()));
+				playerDirectional.SetFaceDirectionLocalVictor(action.Direction());
 			}
 
 			return state;
@@ -578,10 +572,6 @@ public partial class PlayerSync
 		var nextState = NextState(state, action, true);
 
 		nextState.Speed = SpeedServer;
-		if (playerScript.IsGhost) return nextState;
-
-		FootstepSounds.PlayerFootstepAtPosition(nextState.WorldPosition, this);
-
 		return nextState;
 	}
 
@@ -969,9 +959,11 @@ public partial class PlayerSync
 			EnterInteract(serverLerpState.WorldPosition, (Vector2)serverLerpState.WorldImpulse);
 
 			// Check for swap once movement is done, to prevent us and another player moving into the same tile
-			if (!playerScript.IsGhost)
+			if (playerScript.IsGhost == false)
 			{
 				CheckAndDoSwap(targetPos.RoundToInt(), lastDirectionServer * -1, isServer: true);
+
+				FootstepSounds.PlayerFootstepAtPosition(serverLerpState.WorldPosition, this);
 			}
 		}
 		if (TryNotifyPlayers())

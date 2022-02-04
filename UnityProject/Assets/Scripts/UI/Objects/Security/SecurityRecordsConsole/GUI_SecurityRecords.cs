@@ -69,7 +69,7 @@ namespace UI.Objects.Security
 			var IdCard = console.IdCard;
 			if (IdCard)
 			{
-				labelToSet.SetValueServer($"{IdCard.RegisteredName}, {IdCard.JobType.ToString()}");
+				labelToSet.SetValueServer($"{IdCard.RegisteredName}, {IdCard.GetJobTitle()}");
 			}
 			else
 			{

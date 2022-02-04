@@ -10,7 +10,8 @@ using UI;
 /// <summary>
 /// Allows an item to be stacked, occupying a single inventory slot.
 /// </summary>
-public class Stackable : NetworkBehaviour, IServerLifecycle, ICheckedInteractable<InventoryApply>, ICheckedInteractable<HandApply>, IExaminable
+public class Stackable : NetworkBehaviour, IServerLifecycle, ICheckedInteractable<InventoryApply>,
+	ICheckedInteractable<HandApply>, IExaminable
 {
 	[Tooltip("Amount initially in the stack when this is spawned.")]
 	[SerializeField]
@@ -50,6 +51,8 @@ public class Stackable : NetworkBehaviour, IServerLifecycle, ICheckedInteractabl
 	private RegisterTile registerTile;
 	private GameObject prefab;
 
+	[SerializeField] private List<StackNames> stackNames = new List<StackNames>();
+
 
 	private void Awake()
 	{
@@ -62,7 +65,6 @@ public class Stackable : NetworkBehaviour, IServerLifecycle, ICheckedInteractabl
 			}
 		});
 	}
-
 	private void EnsureInit()
 	{
 		if (pickupable != null) return;
@@ -123,7 +125,7 @@ public class Stackable : NetworkBehaviour, IServerLifecycle, ICheckedInteractabl
 		amountInit = false;
 	}
 
-	private void ServerStackOnGround(Vector3Int localPosition)
+	public void ServerStackOnGround(Vector3Int localPosition)
 	{
 		if (registerTile?.Matrix == null) return;
 		//stacks with things on the same tile
@@ -150,7 +152,28 @@ public class Stackable : NetworkBehaviour, IServerLifecycle, ICheckedInteractabl
 		Logger.LogTraceFormat("Amount {0}->{1} for {2}", Category.Objects, amount, newAmount, GetInstanceID());
 		this.amount = newAmount;
 		pickupable.RefreshUISlotImage();
+		if (CustomNetworkManager.Instance._isServer)
+		{
+			UpdateStackName(gameObject.Item());
+		}
+	}
 
+	public void UpdateStackName(Attributes attributes)
+	{
+		if (amount > 1 && stackNames.Count > 0)
+		{
+			var correctName = stackNames[0];
+			foreach (var name in stackNames)
+			{
+				if (amount < name.OverAmount) continue;
+				correctName = name;
+			}
+			attributes.ServerSetArticleName(correctName.Name);
+		}
+		else if(amount == 1 && stackNames.Any(item => item.Name == gameObject.ExpensiveName()))
+		{
+			attributes.ServerSetArticleName(attributes.InitialName);
+		}
 	}
 
 	/// <summary>
@@ -162,6 +185,7 @@ public class Stackable : NetworkBehaviour, IServerLifecycle, ICheckedInteractabl
 	[Server]
 	public bool ServerConsume(int consumed)
 	{
+
 		if (consumed > amount)
 		{
 			Logger.LogErrorFormat($"Consumed amount {consumed} is greater than amount in this stack {amount}, will not consume.", Category.Objects);
@@ -354,5 +378,12 @@ public class Stackable : NetworkBehaviour, IServerLifecycle, ICheckedInteractabl
 	public string Examine(Vector3 worldPos)
 	{
 		return $"This {gameObject.ExpensiveName()} contains {Amount} stacks.";
+	}
+
+	[Serializable]
+	private struct StackNames
+	{
+		[SerializeField] public string Name;
+		[SerializeField] public int OverAmount;
 	}
 }

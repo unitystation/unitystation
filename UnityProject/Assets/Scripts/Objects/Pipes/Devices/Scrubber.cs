@@ -42,6 +42,7 @@ namespace Objects.Atmospherics
 		[SerializeField, SceneModeOnly]
 		[Tooltip("If enabled, allows the scrubber to operate without being connected to a pipenet (magic). Usage is discouraged.")]
 		private bool selfSufficient = false;
+		public bool SelfSufficient => selfSufficient;
 
 		private List<GasSO> defaultFilteredGases;
 		private List<GasSO> defaultContaminatedGases;

@@ -31,7 +31,6 @@ namespace Items.Weapons
 		private HasNetworkTabItem explosiveGUI;
 		[HideInInspector] public GUI_Explosive GUI;
 
-		private bool hasExploded;
 		private bool isArmed;
 		private bool countDownActive = false;
 		private bool isOnObject = false;
@@ -80,11 +79,6 @@ namespace Items.Weapons
 
 		private void Detonate()
 		{
-			if (hasExploded)
-			{
-				return;
-			}
-			hasExploded = true;
 			// Get data before despawning
 			var worldPos = objectBehaviour.AssumedWorldPositionServer();
 			// Despawn the explosive

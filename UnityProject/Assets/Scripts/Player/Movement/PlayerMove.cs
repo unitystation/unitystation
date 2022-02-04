@@ -5,6 +5,7 @@ using HealthV2;
 using Items;
 using Messages.Client.Interaction;
 using Mirror;
+using NaughtyAttributes;
 using Objects;
 using UI;
 using UI.Action;
@@ -153,13 +154,13 @@ namespace Player.Movement
 
 		private RegisterPlayer registerPlayer;
 		private Matrix Matrix => registerPlayer.Matrix;
-		private Directional playerDirectional;
+		private Rotatable playerDirectional;
 
 		private void Awake()
 		{
 			PlayerScript = GetComponent<PlayerScript>();
 
-			playerDirectional = gameObject.GetComponent<Directional>();
+			playerDirectional = gameObject.GetComponent<Rotatable>();
 
 			registerPlayer = GetComponent<RegisterPlayer>();
 			pna = gameObject.GetComponent<PlayerNetworkActions>();
@@ -254,7 +255,7 @@ namespace Player.Movement
 			direction.x = Mathf.Clamp(direction.x, -1, 1);
 			direction.y = Mathf.Clamp(direction.y, -1, 1);
 
-			if (matrixInfo?.MatrixMove)
+			if (matrixInfo != null && matrixInfo.IsMovable)
 			{
 				// Converting world direction to local direction
 				direction = Vector3Int.RoundToInt(matrixInfo.MatrixMove.FacingOffsetFromInitial.QuaternionInverted *
@@ -334,7 +335,7 @@ namespace Player.Movement
 			PlayerScript.PlayerSync.SetPosition(buckleInteract.gameObject.TileWorldPosition().To3Int());
 
 			// set direction if toObject has a direction
-			var directionalObject = buckleInteract.GetComponent<Directional>();
+			var directionalObject = buckleInteract.GetComponent<Rotatable>();
 			if (directionalObject != null)
 			{
 				playerDirectional.FaceDirection(directionalObject.CurrentDirection);
@@ -343,10 +344,6 @@ namespace Player.Movement
 			{
 				playerDirectional.FaceDirection(playerDirectional.CurrentDirection);
 			}
-
-			// force sync direction to current direction (If it is a real player and not a NPC)
-			if (PlayerScript.connectionToClient != null)
-				playerDirectional.TargetForceSyncDirection(PlayerScript.connectionToClient);
 		}
 
 		/// <summary>
@@ -408,11 +405,11 @@ namespace Player.Movement
 		}
 
 		// invoked when buckledTo changes direction, so we can update our direction
-		private void OnBuckledObjectDirectionChange(Orientation newDir)
+		private void OnBuckledObjectDirectionChange(OrientationEnum newDir)
 		{
 			if (playerDirectional == null)
 			{
-				playerDirectional = gameObject.GetComponent<Directional>();
+				playerDirectional = gameObject.GetComponent<Rotatable>();
 			}
 			playerDirectional.FaceDirection(newDir);
 		}
@@ -425,10 +422,10 @@ namespace Player.Movement
 			{
 				var buckleInteract = BuckledObject.GetComponent<BuckleInteract>();
 				buckleInteract.OccupantPlayerScript = null;
-				var directionalObject = BuckledObject.GetComponent<Directional>();
+				var directionalObject = BuckledObject.GetComponent<Rotatable>();
 				if (directionalObject != null)
 				{
-					directionalObject.OnDirectionChange.RemoveListener(OnBuckledObjectDirectionChange);
+					directionalObject.OnRotationChange.RemoveListener(OnBuckledObjectDirectionChange);
 				}
 			}
 
@@ -445,10 +442,10 @@ namespace Player.Movement
 			{
 				var buckleInteract = BuckledObject.GetComponent<BuckleInteract>();
 				buckleInteract.OccupantPlayerScript = PlayerScript;
-				var directionalObject = BuckledObject.GetComponent<Directional>();
+				var directionalObject = BuckledObject.GetComponent<Rotatable>();
 				if (directionalObject != null)
 				{
-					directionalObject.OnDirectionChange.AddListener(OnBuckledObjectDirectionChange);
+					directionalObject.OnRotationChange.AddListener(OnBuckledObjectDirectionChange);
 				}
 			}
 
@@ -588,7 +585,12 @@ namespace Player.Movement
 		/// </summary>
 		public void ServerPerformInteraction(ContextMenuApply interaction)
 		{
-			var handcuffSlots = interaction.TargetObject.GetComponent<DynamicItemStorage>().OrNull()?.GetNamedItemSlots(NamedSlot.handcuffs)
+			TryUnCuff(interaction.TargetObject, interaction.Performer);
+		}
+
+		public void TryUnCuff(GameObject targetObject, GameObject performer)
+		{
+			var handcuffSlots = targetObject.GetComponent<DynamicItemStorage>().OrNull()?.GetNamedItemSlots(NamedSlot.handcuffs)
 				.Where(x => x.IsEmpty == false).ToList();
 
 			if (handcuffSlots == null) return;
@@ -607,8 +609,8 @@ namespace Player.Movement
 
 				var progressConfig = new StandardProgressActionConfig(StandardProgressActionType.Uncuff);
 				StandardProgressAction.Create(progressConfig, Uncuff)
-					.ServerStartProgress(interaction.TargetObject.RegisterTile(),
-						restraint.RemoveTime * (handcuffSlots.Count / 2f), interaction.Performer);
+					.ServerStartProgress(targetObject.RegisterTile(),
+						restraint.RemoveTime * (handcuffSlots.Count / 2f), performer);
 
 				//Only need to do it once
 				break;
