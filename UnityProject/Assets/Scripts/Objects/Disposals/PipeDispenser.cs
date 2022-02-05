@@ -83,6 +83,11 @@ namespace Objects.Atmospherics
 			{
 				pipe.Colour = pipeColor;
 			}
+
+			if (spawnResult.GameObject.TryGetComponent<PipeRun>(out var pipeRun))
+			{
+				pipeRun.Setsprite();
+			}
 		}
 
 		private IEnumerator SetMachineOperating()
