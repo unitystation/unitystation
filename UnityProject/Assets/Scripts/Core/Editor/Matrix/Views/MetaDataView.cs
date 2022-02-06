@@ -72,10 +72,26 @@ public class MetaDataView : BasicView
 
 		public override void DrawGizmo(MetaDataLayer source, Vector3Int position)
 		{
-			if (source.ExistsAt(position) && source.IsSpaceAt(position))
+
+			if (Application.isPlaying == false)
 			{
-				GizmoUtils.DrawCube(position, Color.red);
+				if (source.ExistsAt(position) && source.IsSpaceAt(position))
+				{
+					GizmoUtils.DrawCube(position, Color.red);
+				}
+				return;
 			}
+
+			var INWorld = MatrixManager.LocalToWorld(position, source.Matrix.MatrixInfo);
+			if (MatrixManager.AtPoint(INWorld.RoundToInt(), true).Matrix == source.Matrix)
+			{
+				if (source.ExistsAt(position) && source.IsSpaceAt(position))
+				{
+					GizmoUtils.DrawCube(position, Color.red);
+				}
+			}
+
+
 		}
 	}
 
@@ -111,13 +127,32 @@ public class MetaDataView : BasicView
 
 		public override void DrawGizmo(MetaDataLayer source, Vector3Int position)
 		{
-			MetaDataNode node = source.Get(position, false);
 
-			if (node.Exists)
+			if (Application.isPlaying == false)
 			{
-				if (node.IsSpace || node.Neighbors.Any(n => n != null && n.IsSpace))
+				MetaDataNode node = source.Get(position, false);
+
+				if (node.Exists)
 				{
-					GizmoUtils.DrawCube(position,  Color.red);
+					if (node.IsSpace || node.Neighbors.Any(n => n != null && n.IsSpace))
+					{
+						GizmoUtils.DrawCube(position, Color.red);
+					}
+				}
+			}
+			else
+			{
+				var INWorld = MatrixManager.LocalToWorld(position, source.Matrix.MatrixInfo);
+				if (MatrixManager.AtPoint(INWorld.RoundToInt(), true).Matrix == source.Matrix)
+				{
+					MetaDataNode node = source.Get(position, false);
+					if (node.Exists)
+					{
+						if (node.IsSpace || node.Neighbors.Any(n => n != null && n.IsSpace))
+						{
+							GizmoUtils.DrawCube(position, Color.red);
+						}
+					}
 				}
 			}
 		}
