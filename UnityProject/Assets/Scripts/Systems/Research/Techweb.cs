@@ -154,8 +154,7 @@ namespace Systems.Research
 				{ TechnologyPass.StartingNode = false; }
 
 				TechnologyPass.PotentialUnlocks = JsonConvert.DeserializeObject<List<string>>(JsonTechnologies[i]["PotentialUnlocks"].ToString());
-
-				Data.Technologies.Add(TechnologyPass);
+				if(TechnologyPass.PotentialUnlocks.Count > 0) Data.Technologies.Add(TechnologyPass);
 			}
 			Logger.Log("JsonImportInitialization Techwebs done!", Category.Research);
 			return true;
