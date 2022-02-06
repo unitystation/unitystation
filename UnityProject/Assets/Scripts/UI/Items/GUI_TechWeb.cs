@@ -7,18 +7,27 @@ using Systems.Research;
 
 namespace UI.Items
 {
-	public class GUI_TechWeb : MonoBehaviour
+	public class GUI_TechWeb : NetTab
 	{
 		[SerializeField] private TechWebNodeItem nodePrefab;
 		[SerializeField] private GameObject nodes;
 		[SerializeField] private TMP_Text pointText;
 
 		private List<TechWebNodeItem> techwebNodes;
-		
+
+		private IEnumerator Start()
+		{
+			while (Provider == null)
+			{
+				yield return WaitFor.EndOfFrame;
+			}
+			GenerateTechWebNodes();
+		}
+
 
 		private void GenerateTechWebNodes()
 		{
-			var tech = Techweb.GlobalResearchData.Technologies;
+			var tech = Techweb.Instance.Data.Technologies;
 			Logger.Log(tech.Count.ToString());
 			foreach (Technology technology in tech)
 			{

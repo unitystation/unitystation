@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Newtonsoft.Json;
 using ScriptableObjects.Research;
+using System.IO;
 
 namespace Systems.Research
 {
@@ -76,15 +77,17 @@ namespace Systems.Research
 		private int researchPoints = 10000;
 		public int ResearchPoints => researchPoints;
 
-		public class GlobalResearchData
+		public struct ResearchData
 		{
-			public static bool IsInitialised = false;
-			public static List<String> ResearchedTechnology = new List<String>();
-			public static List<String> AvailableTechnology = new List<String>();
-			public static List<String> AvailableDesigns = new List<String>();
-			public static Dictionary<String, Technology> IDSearchDictionary = new Dictionary<String, Technology>();
-			public static List<Technology> Technologies = new List<Technology>();
+			public bool IsInitialised;
+			public List<String> ResearchedTechnology;
+			public List<String> AvailableTechnology;
+			public List<String> AvailableDesigns;
+			public Dictionary<String, Technology> IDSearchDictionary;
+			public List<Technology> Technologies;
 		}
+
+		public ResearchData Data;
 
 		private void Awake()
 		{
@@ -107,8 +110,8 @@ namespace Systems.Research
 		private bool JsonImportInitialization()
 		{
 			var path = $"{Application.persistentDataPath}{researchDataPath}{dataFileName}";
-			if(System.IO.File.Exists(path) == false) return false;
-			string json = (Resources.Load(path) as TextAsset).ToString();
+			if(File.Exists(path) == false) return false;
+			string json = File.ReadAllText(path);
 			if(json == null || json.Length < 1) return false;
 			var JsonTechnologies = JsonConvert.DeserializeObject<List<Dictionary<String, System.Object>>>(json);
 			for (var i = 0; i < JsonTechnologies.Count(); i++)
@@ -152,27 +155,27 @@ namespace Systems.Research
 
 				TechnologyPass.PotentialUnlocks = new List<string>();
 
-				GlobalResearchData.Technologies.Add(TechnologyPass);
+				Data.Technologies.Add(TechnologyPass);
 			}
 			Logger.Log("JsonImportInitialization Techwebs done!", Category.Research);
 			return true;
 		}
-		private static void Initialization()
+		private void Initialization()
 		{
 			//Logger.Log(Globals.Technologies.Count().ToString() + " yo", Category.Research);
-			foreach (Technology oneTechnology in GlobalResearchData.Technologies)
+			foreach (Technology oneTechnology in Data.Technologies)
 			{
 				if (oneTechnology.StartingNode)
 				{
 					//Logger.Log(oneTechnology.ID + " added", Category.Research);
-					GlobalResearchData.ResearchedTechnology.Add(oneTechnology.ID);
-					GlobalResearchData.AvailableDesigns.AddRange(oneTechnology.DesignIDs);
+					Data.ResearchedTechnology.Add(oneTechnology.ID);
+					Data.AvailableDesigns.AddRange(oneTechnology.DesignIDs);
 					//Logger.Log(Globals.ResearchedTechnology.Count().ToString() + " yo", Category.Research);
 				}
-				GlobalResearchData.IDSearchDictionary[oneTechnology.ID] = oneTechnology;
+				Data.IDSearchDictionary[oneTechnology.ID] = oneTechnology;
 				//Logger.Log(oneTechnology.ID + " boo", Category.Research);
 			}
-			foreach (Technology oneTechnology in GlobalResearchData.Technologies)
+			foreach (Technology oneTechnology in Data.Technologies)
 			{
 				//Logger.Log(oneTechnology.ID + " Yoo", Category.Research);
 				if (oneTechnology.RequiredTechnologies.Any())
@@ -181,8 +184,8 @@ namespace Systems.Research
 					foreach (string RequiredTechnology in oneTechnology.RequiredTechnologies)
 					{
 
-						GlobalResearchData.IDSearchDictionary[RequiredTechnology].PotentialUnlocks.Add(oneTechnology.ID);
-						if (!(GlobalResearchData.ResearchedTechnology.Contains(RequiredTechnology)))
+						Data.IDSearchDictionary[RequiredTechnology].PotentialUnlocks.Add(oneTechnology.ID);
+						if (!(Data.ResearchedTechnology.Contains(RequiredTechnology)))
 						{
 							AllPresent = false;
 						}
@@ -190,35 +193,35 @@ namespace Systems.Research
 					}
 					if (AllPresent)
 					{
-						GlobalResearchData.AvailableTechnology.Add(oneTechnology.ID);
+						Data.AvailableTechnology.Add(oneTechnology.ID);
 					}
 				}
 			}
 		}
-		public static void Research(String TechnologyID)
+		public void Research(String TechnologyID)
 		{
-			if (GlobalResearchData.AvailableTechnology.Contains(TechnologyID))
+			if (Data.AvailableTechnology.Contains(TechnologyID))
 			{
 				if (true) //Placeholder until I can work out how to calculate point gain
 				{
-					GlobalResearchData.AvailableTechnology.Remove(TechnologyID);
-					GlobalResearchData.ResearchedTechnology.Add(TechnologyID);
-					GlobalResearchData.AvailableDesigns.AddRange(GlobalResearchData.IDSearchDictionary[TechnologyID].DesignIDs);
-					if (GlobalResearchData.IDSearchDictionary[TechnologyID].PotentialUnlocks.Any())
+					Data.AvailableTechnology.Remove(TechnologyID);
+					Data.ResearchedTechnology.Add(TechnologyID);
+					Data.AvailableDesigns.AddRange(Data.IDSearchDictionary[TechnologyID].DesignIDs);
+					if (Data.IDSearchDictionary[TechnologyID].PotentialUnlocks.Any())
 					{
-						foreach (string PotentialUnlockID in GlobalResearchData.IDSearchDictionary[TechnologyID].PotentialUnlocks)
+						foreach (string PotentialUnlockID in Data.IDSearchDictionary[TechnologyID].PotentialUnlocks)
 						{
 							bool AllPresent = true;
-							foreach (string NeededResearchID in GlobalResearchData.IDSearchDictionary[PotentialUnlockID].RequiredTechnologies)
+							foreach (string NeededResearchID in Data.IDSearchDictionary[PotentialUnlockID].RequiredTechnologies)
 							{
-								if (!(GlobalResearchData.ResearchedTechnology.Contains(NeededResearchID)))
+								if (!(Data.ResearchedTechnology.Contains(NeededResearchID)))
 								{
 									AllPresent = false;
 								}
 							}
 							if (AllPresent)
 							{
-								GlobalResearchData.AvailableTechnology.Add(PotentialUnlockID);
+								Data.AvailableTechnology.Add(PotentialUnlockID);
 							}
 						}
 					}
