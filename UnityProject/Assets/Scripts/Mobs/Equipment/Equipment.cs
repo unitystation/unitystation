@@ -439,16 +439,13 @@ public class Equipment : NetworkBehaviour
 	/// </summary>
 	public bool CanConsume()
 	{
-		if (IsOccupied(headSlot))
+		if (IsOccupied(headSlot) && PreventsConsume(headSlot))
 		{
-			if (PreventsConsume(headSlot))
-			{
-				return false;
-			}
-			else
-			{
-				return true;
-			}
+			return false;
+		}
+		else if (IsOccupied(maskSlot) && PreventsConsume(maskSlot))
+		{
+			return false;
 		}
 		return true;
 	}
