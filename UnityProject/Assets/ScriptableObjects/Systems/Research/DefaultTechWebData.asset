@@ -25,6 +25,7 @@ MonoBehaviour:
     ExportPrice: 125
     PotentialUnlocks: []
     prefabID: fishLegs
+    techType: 0
   - ID: Fish
     DisplayName: Fish
     Description: Fish
@@ -36,6 +37,7 @@ MonoBehaviour:
     PotentialUnlocks:
     - FishLegs
     prefabID: Fish
+    techType: 0
   - ID: Legs
     DisplayName: Legs
     Description: I stole this from the clown :)
@@ -47,3 +49,4 @@ MonoBehaviour:
     PotentialUnlocks:
     - FishLegs
     prefabID: Fish
+    techType: 0
