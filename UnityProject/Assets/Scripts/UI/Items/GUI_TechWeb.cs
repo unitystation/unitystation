@@ -28,6 +28,7 @@ namespace UI.Items
 				techwebNodes.Add(nodeScript);
 			}
 			UpdateLines();
+			pointText.text = Techweb.Instance.ResearchPoints.ToString();
 		}
 		private void UpdateLines()
 		{

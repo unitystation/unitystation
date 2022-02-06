@@ -68,6 +68,7 @@ namespace Systems.Research
 
 	public class Techweb : MonoBehaviour
 	{
+		public static Techweb Instance;
 		[SerializeField] private String researchDataPath = "/GameData/Research/";
 		[SerializeField] private String dataFileName = "TechwebData.json";
 		[SerializeField] private DefaultTechwebData defaultTechweb;
@@ -87,7 +88,15 @@ namespace Systems.Research
 
 		private void Awake()
 		{
-			if(JsonImportInitialization() == false)
+			if (Instance == null)
+			{
+				Instance = this;
+			}
+			else
+			{
+				Destroy(this);
+			}
+			if (JsonImportInitialization() == false)
 			{
 				defaultTechweb.GenerateDefaultData();
 				if (JsonImportInitialization() == false) Logger.LogError("Unable to generate or find techweb data!");
