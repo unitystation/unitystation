@@ -118,38 +118,38 @@ namespace Systems.Research
 			{
 				Technology TechnologyPass = new Technology();
 				TechnologyPass.ID = JsonTechnologies[i]["ID"].ToString();
-				TechnologyPass.DisplayName = JsonTechnologies[i]["display_name"].ToString();
-				TechnologyPass.Description = JsonTechnologies[i]["description"].ToString();
+				TechnologyPass.DisplayName = JsonTechnologies[i]["DisplayName"].ToString();
+				TechnologyPass.Description = JsonTechnologies[i]["Description"].ToString();
 
-				if (JsonTechnologies[i].ContainsKey("design_ids"))
-				{ TechnologyPass.DesignIDs = JsonConvert.DeserializeObject<List<string>>(JsonTechnologies[i]["design_ids"].ToString()); }
+				if (JsonTechnologies[i].ContainsKey("DesignIDs"))
+				{ TechnologyPass.DesignIDs = JsonConvert.DeserializeObject<List<string>>(JsonTechnologies[i]["DesignIDs"].ToString()); }
 				else
 				{
 					List<string> EmptyDesignIDs = new List<string>();
 					TechnologyPass.DesignIDs = EmptyDesignIDs;
 				}
 
-				if (JsonTechnologies[i].ContainsKey("research_costs"))
-				{ TechnologyPass.ResearchCosts = int.Parse(JsonTechnologies[i]["research_costs"].ToString()); }
+				if (JsonTechnologies[i].ContainsKey("ResearchCosts"))
+				{ TechnologyPass.ResearchCosts = int.Parse(JsonTechnologies[i]["ResearchCosts"].ToString()); }
 				else
 				{ TechnologyPass.ResearchCosts = 0; }
 
-				if (JsonTechnologies[i].ContainsKey("research_costs"))
-				{ TechnologyPass.ExportPrice = int.Parse(JsonTechnologies[i]["export_price"].ToString()); }
+				if (JsonTechnologies[i].ContainsKey("ExportPrice"))
+				{ TechnologyPass.ExportPrice = int.Parse(JsonTechnologies[i]["ExportPrice"].ToString()); }
 				else
 				{ TechnologyPass.ExportPrice = 0; }
 
 
-				if (JsonTechnologies[i].ContainsKey("prereq_ids"))
-				{ TechnologyPass.RequiredTechnologies = JsonConvert.DeserializeObject<List<string>>(JsonTechnologies[i]["prereq_ids"].ToString()); }
+				if (JsonTechnologies[i].ContainsKey("RequiredTechnologies"))
+				{ TechnologyPass.RequiredTechnologies = JsonConvert.DeserializeObject<List<string>>(JsonTechnologies[i]["RequiredTechnologies"].ToString()); }
 				else
 				{
 					List<string> EmptyRequiredTechnologies = new List<string>();
 					TechnologyPass.RequiredTechnologies = EmptyRequiredTechnologies;
 				}
 
-				if (JsonTechnologies[i].ContainsKey("starting_node"))
-				{ TechnologyPass.StartingNode = bool.Parse(JsonTechnologies[i]["starting_node"].ToString()); }
+				if (JsonTechnologies[i].ContainsKey("StartingNode"))
+				{ TechnologyPass.StartingNode = bool.Parse(JsonTechnologies[i]["StartingNode"].ToString()); }
 				else
 				{ TechnologyPass.StartingNode = false; }
 
