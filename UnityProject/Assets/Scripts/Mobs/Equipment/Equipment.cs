@@ -431,4 +431,46 @@ public class Equipment : NetworkBehaviour
 	}
 
 	#endregion Examination
+
+	#region Consume Check
+	/// <summary>
+	/// Determine whether the player is wearing an item that prevents eating or drinking
+	/// with the DisallowConsume function in ClothingV2.
+	/// </summary>
+	public bool CanConsume()
+	{
+		if (IsOccupied(headSlot))
+		{
+			if (PreventsConsume(headSlot))
+			{
+				return false;
+			}
+			else
+			{
+				return true;
+			}
+		}
+		return true;
+	}
+
+	public bool PreventsConsume(IEnumerable<ItemSlot> ToCheck)
+	{
+		foreach (var itemSlot in ToCheck)
+		{
+			if (itemSlot.Item.TryGetComponent<ClothingV2>(out var headwear))
+			{
+				if (headwear.DisallowConsume == false)
+				{
+					return false;
+				}
+			}
+			else
+			{
+				return false;
+			}
+		}
+		return true;
+	}
+
+	#endregion Consume Check
 }
