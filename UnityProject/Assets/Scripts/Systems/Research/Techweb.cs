@@ -153,7 +153,7 @@ namespace Systems.Research
 				else
 				{ TechnologyPass.StartingNode = false; }
 
-				TechnologyPass.PotentialUnlocks = new List<string>();
+				TechnologyPass.PotentialUnlocks = JsonConvert.DeserializeObject<List<string>>(JsonTechnologies[i]["PotentialUnlocks"].ToString());
 
 				Data.Technologies.Add(TechnologyPass);
 			}
