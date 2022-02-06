@@ -27,8 +27,8 @@ namespace UI.Items
 				nodeScript.Setup(technology);
 				techwebNodes.Add(nodeScript);
 			}
-			UpdateLines();
 			pointText.text = Techweb.Instance.ResearchPoints.ToString();
+			UpdateLines();
 		}
 		private void UpdateLines()
 		{
@@ -41,6 +41,11 @@ namespace UI.Items
 					node.DrawConnectionLines(registeredTech.transform.position);
 				}
 			}
+		}
+
+		public void HideUI()
+		{
+			gameObject.SetActive(false);
 		}
 	}
 }

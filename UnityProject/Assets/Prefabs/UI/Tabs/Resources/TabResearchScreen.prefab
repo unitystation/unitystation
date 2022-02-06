@@ -876,6 +876,7 @@ GameObject:
   - component: {fileID: 4866144408973164285}
   - component: {fileID: 1224449309265399364}
   - component: {fileID: 1973955777348659750}
+  - component: {fileID: 7776601153552813661}
   m_Layer: 5
   m_Name: Panel
   m_TagString: Untagged
@@ -957,6 +958,20 @@ MonoBehaviour:
   nodePrefab: {fileID: 446317660922249930}
   nodes: {fileID: 368713424300734301}
   pointText: {fileID: 689753878064227239}
+--- !u!114 &7776601153552813661
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4331652578004265512}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a14ed3befbaf4893bc7f04d3a44e9639, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  disableDrag: 0
+  resetPositionOnDisable: 1
 --- !u!1 &4345861383668656136
 GameObject:
   m_ObjectHideFlags: 0
@@ -1019,6 +1034,7 @@ MonoBehaviour:
     PotentialUnlocks: []
     prefabID: 
     techType: 0
+  dataImage: {fileID: 7783515927123260535}
 --- !u!1 &6061423562533408056
 GameObject:
   m_ObjectHideFlags: 0
@@ -1331,7 +1347,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 6244689558384124946}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1973955777348659750}
+        m_TargetAssemblyTypeName: UI.Items.GUI_TechWeb, Assets
+        m_MethodName: HideUI
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &8035229844865006857
 GameObject:
   m_ObjectHideFlags: 0
