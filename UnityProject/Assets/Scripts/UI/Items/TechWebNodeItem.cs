@@ -8,19 +8,20 @@ using TMPro;
 
 namespace UI.Items
 {
-	public class TechwebNodeItem : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
+	public class TechWebNodeItem : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 	{
 		public Technology techData;
-		public TechType type;
-		public int cost;
 
 		private UnityEvent onMouseHover;
 		private UnityEvent onMouseLoseFocus;
 
 		private GameObject background;
+		[SerializeField] private GameObject dataImage;
 		private TMP_Text nodeTitle;
 		private TMP_Text description;
 		private TMP_Text costText;
+
+		private List<LineRenderer> lineRenderers = new List<LineRenderer>();
 
 		private void OnEnable()
 		{
@@ -40,15 +41,37 @@ namespace UI.Items
 			nodeTitle.text = technology.DisplayName;
 			description.text = technology.Description;
 			costText.text = technology.ResearchCosts.ToString();
+			
+		}
+
+		public void DrawConnectionLines(Vector3 pos)
+		{
+			LineRenderer line = new LineRenderer();
+			line.startColor = Color.white;
+			line.endColor = Color.green;
+			Vector3[] connectionPoints = new Vector3[1];
+			connectionPoints[0] = dataImage.transform.position;
+			connectionPoints[1] = pos;
+			line.SetPositions(connectionPoints);
+			lineRenderers.Add(line);
 		}
 
 		private void ShowInfo()
 		{
 			background.LeanAlpha(1, 0.2f);
+			foreach (var line in lineRenderers)
+			{
+				//I can't find a way to adjust the alpha so im just going to overide the entire material's color for now
+				line.material.color = Color.white;
+			}
 		}
 		private void HideInfo()
 		{
 			background.LeanAlpha(0, 0.2f);
+			foreach (var line in lineRenderers)
+			{
+				line.material.color = Color.black;
+			}
 		}
 
 		public void OnPointerEnter(PointerEventData eventData)
