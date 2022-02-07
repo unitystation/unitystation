@@ -153,8 +153,18 @@ namespace Systems.Research
 				else
 				{ TechnologyPass.StartingNode = false; }
 
-				TechnologyPass.PotentialUnlocks = JsonConvert.DeserializeObject<List<string>>(JsonTechnologies[i]["PotentialUnlocks"].ToString());
-				if(TechnologyPass.PotentialUnlocks.Count > 0) Data.Technologies.Add(TechnologyPass);
+				if (JsonTechnologies[i].ContainsKey("PotentialUnlocks"))
+				{
+					TechnologyPass.PotentialUnlocks = JsonConvert.DeserializeObject<List<string>>(JsonTechnologies[i]["PotentialUnlocks"].ToString());
+				}
+				else
+				{
+					var EmptyPotentialUnlocks = new List<string>();
+					EmptyPotentialUnlocks.Add("");
+					TechnologyPass.PotentialUnlocks = EmptyPotentialUnlocks;
+				}
+				
+				Data.Technologies.Add(TechnologyPass);
 			}
 			Logger.Log("JsonImportInitialization Techwebs done!", Category.Research);
 			return true;
