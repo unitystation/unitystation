@@ -100,7 +100,15 @@ public class GameData : MonoBehaviour
 		{
 			if (FirebaseAuth.DefaultInstance.CurrentUser != null)
 			{
-				AttemptAutoJoin(LobbyManager.Instance.lobbyDialogue.LoginSuccess);
+				if (LobbyManager.Instance.OrNull()?.lobbyDialogue != null)
+				{
+					AttemptAutoJoin(LobbyManager.Instance.lobbyDialogue.LoginSuccess);
+				}
+				else
+				{
+					Logger.LogWarning("LobbyManager.Instance == null");
+				}
+
 			}
 		}
 	}

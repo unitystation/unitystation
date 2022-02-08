@@ -453,6 +453,7 @@ GameObject:
   - component: {fileID: 91908198791635565}
   - component: {fileID: 3160124018402396833}
   - component: {fileID: 5123748548063984441}
+  - component: {fileID: 4951365732200208794}
   m_Layer: 8
   m_Name: Player_V4(uNet)
   m_TagString: Untagged
@@ -1364,6 +1365,19 @@ MonoBehaviour:
   syncInterval: 0.1
   defaultKnownRecipes: {fileID: 11400000, guid: 0b96641161704304fbde87724ab226b3,
     type: 2}
+--- !u!114 &4951365732200208794
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1133514949248654}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3f4629d03e356d64eb509d18a7450082, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  foreverID: oRKrJS26sGZ7QuMo1?Rh
 --- !u!1 &1147423205297840
 GameObject:
   m_ObjectHideFlags: 0

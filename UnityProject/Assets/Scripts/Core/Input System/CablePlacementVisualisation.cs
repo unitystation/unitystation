@@ -300,8 +300,29 @@ public class CablePlacementVisualisation : MonoBehaviour
 
 	public void OnHover()
 	{
-		if (!UIManager.IsMouseInteractionDisabled && PlayerManager.LocalPlayerScript?.DynamicItemStorage?.GetActiveHandSlot() != null)
+
+		if (!UIManager.IsMouseInteractionDisabled )
 		{
+			var hand = PlayerManager.LocalPlayerScript?.DynamicItemStorage?.GetActiveHandSlot();
+			if (hand == null)
+			{
+				DisableVisualisation();
+				return;
+			}
+			if (hand.Item == null)
+			{
+				DisableVisualisation();
+				return;
+			}
+
+			if (hand.Item.ItemAttributesV2.HasTrait(CommonTraits.Instance.Cable) == false)
+			{
+				DisableVisualisation();
+				return;
+			}
+
+
+
 			// get mouse position
 			var mousePosition = MouseUtils.MouseToWorldPos().RoundToInt();
 

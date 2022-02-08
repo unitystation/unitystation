@@ -130,6 +130,7 @@ namespace Objects.Electrical
 						}
 					}
 
+
 					MsgAndAddToPool( eConnList, null);
 					BuildCable(localPosInt, wireEndA, wireEndB, interaction);
 				}
@@ -142,6 +143,7 @@ namespace Objects.Electrical
 		/// </summary>
 		/// <param name="eConnList">List of electrical connections. Will not add to electrical pool if null.</param>
 		/// <param name="addMsg">Message to show as an examine message. Will not show anything if null.</param>
+
 		private void MsgAndAddToPool( ElectricalPool.IntrinsicElectronicDataList eConnList, string msg)
 		{
 			if (msg != null)
@@ -222,6 +224,7 @@ namespace Objects.Electrical
 				// TODO: What does this do? By this, we're removing all
 				//       elements from the list, but then adding this empty,
 				//       but with-capacity list to this. Document this.
+
 				IEnumerableEconns.Pool();
 
 				// First, make sure we actually found electrical connections.

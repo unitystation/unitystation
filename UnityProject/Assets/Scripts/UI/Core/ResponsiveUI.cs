@@ -92,6 +92,8 @@ public class ResponsiveUI : MonoBehaviour, IInitialise
 
 	private IEnumerator ForceGameWindowAspect()
 	{
+		if (Application.isEditor) yield break;
+
 		yield return WaitFor.Seconds(3f);
 		//The following conditions check if the screen width or height
 		//is an odd number. If it is, then it adjusted to be an even number
@@ -119,7 +121,7 @@ public class ResponsiveUI : MonoBehaviour, IInitialise
 			yield break;
 		}
 
-		main.rect = new Rect(0, 0, width / (float)Screen.width, height / (float)Screen.height);
+		main.rect = new Rect(0, 0, width / (float) Screen.width, height / (float) Screen.height);
 
 		if (requiresChange && !Screen.fullScreen)
 		{
