@@ -431,12 +431,6 @@ public static class Inventory
 		{
 			onMove.OnInventoryMoveServer(toPerform);
 		}
-		
-		if (pickupable.gameObject.TryGetComponent<Stackable>(out var stack))
-		{
-			var cnt = pickupable.GetComponent<CustomNetTransform>();
-			stack.ServerStackOnGround(cnt.ServerLocalPosition);
-		}
 
 		if (pickupable.gameObject.TryGetComponent<Stackable>(out var stack))
 		{
