@@ -133,7 +133,7 @@ namespace TileManagement
 					continue;
 				}
 
-				var InBoundLocations = new BetterBoundsInt( )
+				var InBoundLocations = new BetterBoundsInt()
 				{
 					Maximum = Vector3Int.one,
 					Minimum = Vector3Int.zero
@@ -178,8 +178,6 @@ namespace TileManagement
 			{
 				PresentTiles[ObjectLayer] = new Dictionary<Vector3Int, TileLocation>();
 			}
-
-
 
 
 			layersKeys.Sort((layerOne, layerTwo) =>
@@ -981,8 +979,8 @@ namespace TileManagement
 				if (layer.LayerType == LayerType.Objects)
 				{
 					foreach (RegisterTile o in isServer
-						? ((ObjectLayer) LayersValues[index]).ServerObjects.Get(position)
-						: ((ObjectLayer) LayersValues[index]).ClientObjects.Get(position))
+						         ? ((ObjectLayer) LayersValues[index]).ServerObjects.Get(position)
+						         : ((ObjectLayer) LayersValues[index]).ClientObjects.Get(position))
 					{
 						if (o.IsPassable(isServer) == false)
 						{
@@ -1008,8 +1006,8 @@ namespace TileManagement
 				if (layer == LayerType.Objects)
 				{
 					foreach (RegisterTile o in isServer
-						? ((ObjectLayer) LayersValues[i]).ServerObjects.Get(position)
-						: ((ObjectLayer) LayersValues[i]).ClientObjects.Get(position))
+						         ? ((ObjectLayer) LayersValues[i]).ServerObjects.Get(position)
+						         : ((ObjectLayer) LayersValues[i]).ClientObjects.Get(position))
 					{
 						if (o is RegisterObject)
 						{
@@ -1031,6 +1029,36 @@ namespace TileManagement
 			return true;
 		}
 
+		public bool IsEmptyTileMap(Vector3Int position, bool isServer)
+		{
+			for (var i1 = 0; i1 < LayersKeys.Length; i1++)
+			{
+				LayerType layer = LayersKeys[i1];
+				if (layer != LayerType.Objects && HasTile(position, layer))
+				{
+					return false;
+				}
+			}
+
+			return true;
+		}
+
+		public bool IsNotEmptyObjects(GameObject[] context, Vector3Int position, bool isServer, out RegisterTile Object)
+		{
+			foreach (RegisterTile o in isServer ? ObjectLayer.ServerObjects.Get(position) : ObjectLayer.ClientObjects.Get(position))
+			{
+				if (context.Contains(o.gameObject)) continue;
+				if (o.IsPassable(isServer) == false)
+				{
+					Object = o;
+					return false;
+				}
+			}
+
+			Object = null;
+			return true;
+		}
+
 		public bool IsEmptyAt(GameObject[] context, Vector3Int position, bool isServer)
 		{
 			for (var i1 = 0; i1 < LayersKeys.Length; i1++)
@@ -1044,8 +1072,8 @@ namespace TileManagement
 				if (layer == LayerType.Objects)
 				{
 					foreach (RegisterTile o in isServer
-						? ((ObjectLayer) LayersValues[i1]).ServerObjects.Get(position)
-						: ((ObjectLayer) LayersValues[i1]).ClientObjects.Get(position))
+						         ? ((ObjectLayer) LayersValues[i1]).ServerObjects.Get(position)
+						         : ((ObjectLayer) LayersValues[i1]).ClientObjects.Get(position))
 					{
 						if (o.IsPassable(isServer) == false)
 						{
@@ -1519,6 +1547,7 @@ namespace TileManagement
 					{
 						RemoveOverlaysOfType(tileLocation.position, LayerType.Effects, OverlayType.Damage);
 					}
+
 					return;
 				}
 			}
@@ -1611,16 +1640,19 @@ namespace TileManagement
 
 			if (localToWorldMatrix == null)
 			{
-				Logger.LogError("humm, localToWorldMatrix  tried to be excess before being set humm, Setting to identity matrix, Please fix this ");
+				Logger.LogError(
+					"humm, localToWorldMatrix  tried to be excess before being set humm, Setting to identity matrix, Please fix this ");
 				localToWorldMatrix = Matrix4x4.identity;
 			}
 
 			//Vector3[4] {bottomLeft, bottomRight, topLeft, topRight}; //Presuming It's been updated
 			var bottomLeft = localToWorldMatrix.Value.MultiplyPoint(localBound.min + offset);
 			globalPoints[0] = bottomLeft;
-			globalPoints[1] = localToWorldMatrix.Value.MultiplyPoint(new Vector3(localBound.xMax, localBound.yMin, 0)  + offset);
-			globalPoints[2] = localToWorldMatrix.Value.MultiplyPoint(new Vector3(localBound.xMin, localBound.yMax, 0)  + offset);
-			globalPoints[3] = localToWorldMatrix.Value.MultiplyPoint(localBound.max  + offset);
+			globalPoints[1] =
+				localToWorldMatrix.Value.MultiplyPoint(new Vector3(localBound.xMax, localBound.yMin, 0) + offset);
+			globalPoints[2] =
+				localToWorldMatrix.Value.MultiplyPoint(new Vector3(localBound.xMin, localBound.yMax, 0) + offset);
+			globalPoints[3] = localToWorldMatrix.Value.MultiplyPoint(localBound.max + offset);
 
 			var minPosition = bottomLeft;
 			var maxPosition = bottomLeft;
@@ -1779,7 +1811,7 @@ namespace TileManagement
 			       Math.Abs((ySteps + gridOffsety + stepY) * vexinvY) < distance)
 			{
 				if ((xSteps + gridOffsetx + stepX) * vexinvX < (ySteps + gridOffsety + stepY) * vexinvY
-				) // which one has a lesser multiplication factor since that will give a less Magnitude
+				   ) // which one has a lesser multiplication factor since that will give a less Magnitude
 				{
 					xSteps += stepX;
 
@@ -2094,7 +2126,7 @@ namespace TileManagement
 				if (matchColour != null)
 				{
 					var tileColour = GetColour(cellPosition, layerType);
-					if(matchColour != tileColour) continue;
+					if (matchColour != tileColour) continue;
 				}
 
 				RemoveTileWithlayer(cellPosition, layerType);

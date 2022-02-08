@@ -218,6 +218,32 @@ public static class ConverterExtensions
 			MatrixManager.AtPoint(Vector3Int.RoundToInt(worldPos), CustomNetworkManager.Instance._isServer));
 	}
 
+	public static Vector3Int TVectoro(this MovementSynchronisation.PlayerMoveDirection Direction)
+	{
+		switch (Direction)
+		{
+			case MovementSynchronisation.PlayerMoveDirection.Up_Left:
+				return new Vector3Int(-1, 1, 0);
+			case MovementSynchronisation.PlayerMoveDirection.Up:
+				return new Vector3Int(0, 1, 0);
+			case MovementSynchronisation.PlayerMoveDirection.Up_Right:
+				return new Vector3Int(1, 1, 0);
+
+			case MovementSynchronisation.PlayerMoveDirection.Left:
+				return new Vector3Int(-1, 0, 0);
+			case MovementSynchronisation.PlayerMoveDirection.Right:
+				return new Vector3Int(1, 0, 0);
+
+			case MovementSynchronisation.PlayerMoveDirection.Down_Left:
+				return new Vector3Int(-1, -1, 0);
+			case MovementSynchronisation.PlayerMoveDirection.Down:
+				return new Vector3Int(0, -1, 0);
+			case MovementSynchronisation.PlayerMoveDirection.Down_Right:
+				return new Vector3Int(1, -1, 0);
+		}
+		return Vector3Int.zero;
+	}
+
 	//======== | Cool serialisation stuff | =========
 
 	public static Color UncompresseToColour(this string SerialiseData)
