@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Text;
 using UnityEngine;
 using UnityEngine.Serialization;
 using UnityEngine.Tilemaps;
@@ -116,13 +117,53 @@ public class PlaceableTile : MonoBehaviour, ICheckedInteractable<PositionalHandA
 
 			void ProgressFinishAction()
 			{
+				if (Inventory.ServerConsume(interaction.HandSlot, placeableTileEntry.itemCost))
+				{
 				interactableTiles.TileChangeManager.MetaTileMap.SetTile(cellPos, placeableTileEntry.layerTile);
 				interactableTiles.TileChangeManager.SubsystemManager.UpdateAt(cellPos);
-				Inventory.ServerConsume(interaction.HandSlot, placeableTileEntry.itemCost);
 				SoundManager.PlayNetworkedAtPos(placeSound, targetPosition);
+				}
+				else
+				{
+					Chat.AddExamineMsgFromServer(interaction.PerformerPlayerScript.connectedPlayer,
+						$"You lack the materials to finish placing {placeableTileEntry.layerTile.DisplayName}");
+				}
 			}
 
-			var bar = StandardProgressAction.Create(ProgressConfig, ProgressFinishAction)
+			void ProgressInterruptedAction(ActionInterruptionType reason)
+			{
+				switch (reason)
+				{
+					case ActionInterruptionType.ChangeToPerformerActiveSlot:
+						Chat.AddExamineMsgFromServer(interaction.PerformerPlayerScript.connectedPlayer,
+							$"You lack the materials to finish placing {placeableTileEntry.layerTile.DisplayName}");
+						break;
+					case ActionInterruptionType.PerformerUnconscious:
+						Chat.AddExamineMsgFromServer(interaction.PerformerPlayerScript.connectedPlayer,
+							$"You dream of placing {placeableTileEntry.layerTile.DisplayName}");
+						break;
+					case ActionInterruptionType.WelderOff:
+						Chat.AddExamineMsgFromServer(interaction.PerformerPlayerScript.connectedPlayer,
+							$"You need the welder to be on to finish this");
+						break;
+					case ActionInterruptionType.PerformerOrTargetMoved:
+						Chat.AddExamineMsgFromServer(interaction.PerformerPlayerScript.connectedPlayer,
+							$"Cannot place {placeableTileEntry.layerTile.DisplayName}, you or your target moved too much");
+						break;
+					case ActionInterruptionType.TargetDespawn:
+						Chat.AddExamineMsgFromServer(interaction.PerformerPlayerScript.connectedPlayer,
+							$"Placing {placeableTileEntry.layerTile.DisplayName} has become a tall order, seeing as the conceptual physical placement space has ceased to exist");
+						break;
+					case ActionInterruptionType.PerformerDirection:
+						Chat.AddExamineMsgFromServer(interaction.PerformerPlayerScript.connectedPlayer,
+							$"You have looked away from placing {placeableTileEntry.layerTile.DisplayName}");
+						break;
+
+				}
+
+			}
+
+			var bar = StandardProgressAction.Create(ProgressConfig, ProgressFinishAction,ProgressInterruptedAction)
 				.ServerStartProgress(targetPosition, placeableTileEntry.timeToPlace, performer);
 		}
 	}
