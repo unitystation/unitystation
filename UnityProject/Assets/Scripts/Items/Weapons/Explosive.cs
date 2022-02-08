@@ -16,8 +16,8 @@ namespace Items.Weapons
 	{
 		[Header("Explosive settings")]
 		[SerializeField] private ExplosiveType explosiveType;
-		[SerializeField] private bool detonateImmediatelyOnSignal;
-		[SerializeField] private int timeToDetonate = 10;
+		[SerializeField, SyncVar] private bool detonateImmediatelyOnSignal;
+		[SerializeField, SyncVar] private int timeToDetonate = 10;
 		[SerializeField] private int minimumTimeToDetonate = 10;
 		[SerializeField] private float explosiveStrength = 150f;
 		[SerializeField] private SpriteDataSO activeSpriteSO;
@@ -31,9 +31,9 @@ namespace Items.Weapons
 		private HasNetworkTabItem explosiveGUI;
 		[HideInInspector] public GUI_Explosive GUI;
 
-		private bool isArmed;
-		private bool countDownActive = false;
-		private bool isOnObject = false;
+		[SyncVar] private bool isArmed;
+		[SyncVar] private bool countDownActive = false;
+		[SyncVar] private bool isOnObject = false;
 		private GameObject attachedToObject;
 
 		public int TimeToDetonate
