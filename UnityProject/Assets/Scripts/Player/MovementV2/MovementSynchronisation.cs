@@ -44,9 +44,7 @@ public class MovementSynchronisation : MonoBehaviour, IPlayerControllable //IPus
 		Up,
 		Up_Right,
 		Right,
-
-		/* you are */
-		Down_Right, //Dastardly
+		/* you are */ Down_Right, //Dastardly
 		Down,
 		Down_Left,
 		Left,
