@@ -392,6 +392,32 @@ namespace TileManagement
 			return (damage - RemainingDamage);
 		}
 
+		public bool IsPassableAtOneTileMapV2(Vector3Int origin, Vector3Int to, CollisionType colliderType)
+		{
+			// Simple case: orthogonal travel
+			if (origin.x == to.x || origin.y == to.y)
+			{
+				return IsPassableAtOrthogonalV2(origin, to, colliderType);
+			}
+			else // diagonal travel
+			{
+				Vector3Int toX = new Vector3Int(to.x, origin.y, origin.z);
+				Vector3Int toY = new Vector3Int(origin.x, to.y, origin.z);
+
+
+				bool isPassableIfHorizontalFirst = IsPassableAtOrthogonalV2(origin, toX, colliderType) &&
+				                                   IsPassableAtOrthogonalV2(toX, to, colliderType);
+
+				if (isPassableIfHorizontalFirst) return true;
+
+				bool isPassableIfVerticalFirst = IsPassableAtOrthogonalV2(origin, toY, colliderType) &&
+				                                 IsPassableAtOrthogonalV2(toY, to, colliderType);
+
+				return isPassableIfVerticalFirst;
+			}
+
+		}
+
 		public bool IsPassableAtOneTileMap(Vector3Int origin, Vector3Int to, bool isServer,
 			CollisionType collisionType = CollisionType.Player, bool inclPlayers = true, GameObject context = null,
 			List<LayerType> excludeLayers = null, List<TileType> excludeTiles = null, bool ignoreObjects = false,
@@ -429,6 +455,28 @@ namespace TileManagement
 				return isPassableIfVerticalFirst;
 			}
 		}
+
+		private bool IsPassableAtOrthogonalV2(Vector3Int origin, Vector3Int to, CollisionType colliderType)
+		{
+			TileLocation tileLocation = null;
+			for (var i = 0; i < SolidLayersValues.Length; i++)
+			{
+				var solidLayer = SolidLayersValues[i];
+
+				tileLocation = GetCorrectTileLocationForLayer(to, solidLayer);
+
+				if (tileLocation?.layerTile == null) continue;
+				var tile = tileLocation.layerTile as BasicTile;
+
+				if (tile.IsPassable(colliderType, origin, this) == false)
+				{
+					return false;
+				}
+			}
+
+			return true;
+		}
+
 
 		private bool IsPassableAtOrthogonal(Vector3Int origin, Vector3Int to, bool isServer,
 			CollisionType collisionType = CollisionType.Player, bool inclPlayers = true, GameObject context = null,

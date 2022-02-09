@@ -36,6 +36,7 @@ public class MatrixCash
 		return Positions[Location];
 	}
 
+
 	public MatrixInfo GetforDirection(Vector3Int DIR)
 	{
 		if (DIR.x > 0)

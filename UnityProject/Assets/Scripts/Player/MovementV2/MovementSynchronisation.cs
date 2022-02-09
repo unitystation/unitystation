@@ -44,7 +44,9 @@ public class MovementSynchronisation : MonoBehaviour, IPlayerControllable //IPus
 		Up,
 		Up_Right,
 		Right,
-		/* you are */ Down_Right, //Dastardly
+
+		/* you are */
+		Down_Right, //Dastardly
 		Down,
 		Down_Left,
 		Left,
@@ -100,7 +102,6 @@ public class MovementSynchronisation : MonoBehaviour, IPlayerControllable //IPus
 				}
 
 
-
 				IsNotFloating(null, out var NotFloating, out var CanPushOff);
 				if ((NotFloating == false) || CausesSlipClient) //check if floating
 				{
@@ -140,6 +141,32 @@ public class MovementSynchronisation : MonoBehaviour, IPlayerControllable //IPus
 			PushesOff = null;
 			return false;
 		}
+	}
+
+	public bool IsObstructed(MoveData moveAction)  //Would prefer to separate this out into tile and object obstruction but oh well todo
+	{
+		if (IsNotTileObstructed(moveAction))
+		{
+			if (IsNotTileObstructed())
+			return true;
+		}
+	}
+
+
+	public bool IsNotObstructed(MoveData moveAction) //Would prefer to separate this out into tile and object obstruction but oh well todo
+	{
+
+	}
+
+	public bool IsNotObjectObstructed(MoveData moveAction)
+	{
+		return true;
+	}
+
+	public bool IsNotTileObstructed(MoveData moveAction)
+	{
+		return MatrixManager.IsPassableAtAllMatricesTilesV2(registerTile.WorldPosition,
+			registerTile.WorldPosition + moveAction.GlobalMoveDirection.TVectoro(), SetMatrixCash); //can be redone at the later point
 	}
 
 

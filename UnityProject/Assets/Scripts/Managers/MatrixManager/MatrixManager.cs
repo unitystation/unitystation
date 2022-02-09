@@ -1064,6 +1064,20 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 		return true;
 	}
 
+	///Cross-matrix edition of <see cref="Matrix.IsPassableAt(UnityEngine.Vector3Int,UnityEngine.Vector3Int,bool,GameObject)"/>
+	///<inheritdoc cref="Matrix.IsPassableAt(UnityEngine.Vector3Int,UnityEngine.Vector3Int,bool,GameObject)"/>
+	public static bool IsPassableAtAllMatricesTilesV2(Vector3Int worldOrigin, Vector3Int worldTarget,
+		MatrixCash MatrixCash)
+	{
+		var matrixTarget = MatrixCash.GetforDirection(worldOrigin-worldTarget);
+
+		var localPosOrigin = WorldToLocalInt(worldOrigin, matrixTarget);
+		var localPosTarget = WorldToLocalInt(worldTarget,matrixTarget);
+
+		return matrixTarget.Matrix.MetaTileMap.IsPassableAtOneTileMapV2(localPosOrigin, localPosTarget,
+			CollisionType.Player);;
+	}
+
 	public static bool IsTableAt(Vector3Int worldPos, bool isServer)
 	{
 		var matrixInfo = AtPoint(worldPos, isServer);
@@ -1173,7 +1187,7 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 	}
 
 	public static bool IsFloatingAtV2Tile(Vector3Int worldPos, bool isServer,
-			MatrixCash MatrixCash) //Assuming MatrixCash is Initialised
+		MatrixCash MatrixCash) //Assuming MatrixCash is Initialised
 	{
 		for (int i = 0; i < MatrixCash.DIRs.Length; i++)
 		{
@@ -1190,11 +1204,12 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 		return true;
 	}
 
-	public static bool IsNotFloatingAtV2Objects(MovementSynchronisation.MoveData moveAction, GameObject[] context,  Vector3Int worldPos, bool isServer,
+	public static bool IsNotFloatingAtV2Objects(MovementSynchronisation.MoveData moveAction, GameObject[] context,
+		Vector3Int worldPos, bool isServer,
 		MatrixCash MatrixCash, out RegisterTile CanPushOff) //Assuming MatrixCash is Initialised
 	{
 		bool SomethingToHold = false;
- 		var Direction = moveAction.GlobalMoveDirection.TVectoro();
+		var Direction = moveAction.GlobalMoveDirection.TVectoro();
 		for (int i = 0; i < MatrixCash.DIRs.Length; i++)
 		{
 			var DIR = MatrixCash.DIRs[i];
@@ -1209,7 +1224,6 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 					CanPushOff = registerTile;
 					return true;
 				}
-
 			}
 		}
 
@@ -1218,8 +1232,7 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 	}
 
 
-
-	public static bool IsFloatingAtV2Objects(GameObject[] context,  Vector3Int worldPos, bool isServer,
+	public static bool IsFloatingAtV2Objects(GameObject[] context, Vector3Int worldPos, bool isServer,
 		MatrixCash MatrixCash) //Assuming MatrixCash is Initialised
 	{
 		for (int i = 0; i < MatrixCash.DIRs.Length; i++)
