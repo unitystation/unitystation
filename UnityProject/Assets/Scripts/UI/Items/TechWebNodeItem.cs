@@ -12,8 +12,8 @@ namespace UI.Items
 	{
 		public Technology techData;
 
-		private UnityEvent onMouseHover;
-		private UnityEvent onMouseLoseFocus;
+		private UnityEvent onMouseHover = new UnityEvent();
+		private UnityEvent onMouseLoseFocus = new UnityEvent();
 
 		[SerializeField] private GameObject background;
 		[SerializeField] private GameObject dataImage;
@@ -27,6 +27,7 @@ namespace UI.Items
 		{
 			onMouseHover.AddListener(ShowInfo);
 			onMouseLoseFocus.AddListener(HideInfo);
+			HideInfo();
 		}
 
 		private void OnDisable()
@@ -47,10 +48,7 @@ namespace UI.Items
 		public void DrawConnectionLines(Vector3 pos)
 		{
 			LineRenderer line = new LineRenderer();
-			line.startColor = Color.white;
-			line.endColor = Color.green;
-			Vector3[] connectionPoints = new Vector3[1];
-			connectionPoints[0] = dataImage.transform.position;
+			Vector3[] connectionPoints = new Vector3[] { dataImage.transform.position, new Vector3(0,0,0) };
 			connectionPoints[1] = pos;
 			line.SetPositions(connectionPoints);
 			lineRenderers.Add(line);
