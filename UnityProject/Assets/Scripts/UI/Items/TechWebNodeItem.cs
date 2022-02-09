@@ -8,22 +8,18 @@ using TMPro;
 
 namespace UI.Items
 {
-	public class TechWebNodeItem : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
+	public class TechWebNodeItem : MonoBehaviour
 	{
 		public Technology techData;
-
-		private UnityEvent onMouseHover = new UnityEvent();
-		private UnityEvent onMouseLoseFocus = new UnityEvent();
 
 		[SerializeField] private GameObject background;
 		[SerializeField] private GameObject dataImage;
 		[SerializeField] private TMP_Text nodeTitle;
-		[SerializeField] private TMP_Text description;
 		[SerializeField] private TMP_Text costText;
 
 		private List<LineRenderer> lineRenderers = new List<LineRenderer>();
-
-		private void OnEnable()
+		/*
+		private void Awake()
 		{
 			onMouseHover.AddListener(ShowInfo);
 			onMouseLoseFocus.AddListener(HideInfo);
@@ -32,15 +28,17 @@ namespace UI.Items
 
 		private void OnDisable()
 		{
+			
 			onMouseHover.RemoveListener(ShowInfo);
 			onMouseLoseFocus.RemoveListener(HideInfo);
-		}
+			
+	    }
+		*/
 
 		public void Setup(Technology technology)
 		{
 			techData = technology;
 			nodeTitle.text = technology.DisplayName;
-			//description.text = technology.Description;
 			costText.text = technology.ResearchCosts.ToString();
 			
 		}
@@ -55,6 +53,7 @@ namespace UI.Items
 			lineRenderers.Add(line);
 		}
 
+		/*
 		private void ShowInfo()
 		{
 			background.LeanAlpha(1, 0.2f);
@@ -64,6 +63,8 @@ namespace UI.Items
 				line.material.color = Color.white;
 			}
 		}
+
+		
 		private void HideInfo()
 		{
 			background.LeanAlpha(0, 0.2f);
@@ -75,12 +76,15 @@ namespace UI.Items
 
 		public void OnPointerEnter(PointerEventData eventData)
 		{
+			Debug.Log("enter");
 			onMouseHover.Invoke();
 		}
 
 		public void OnPointerExit(PointerEventData eventData)
 		{
+			Debug.Log("exit");
 			onMouseLoseFocus.Invoke();
 		}
+		*/
 	}
 }
