@@ -47,7 +47,8 @@ namespace UI.Items
 
 		public void DrawConnectionLines(Vector3 pos)
 		{
-			LineRenderer line = new LineRenderer();
+			gameObject.AddComponent<LineRenderer>();
+			var line = gameObject.GetComponent<LineRenderer>();
 			Vector3[] connectionPoints = new Vector3[] { dataImage.transform.position, new Vector3(0,0,0) };
 			connectionPoints[1] = pos;
 			line.SetPositions(connectionPoints);
