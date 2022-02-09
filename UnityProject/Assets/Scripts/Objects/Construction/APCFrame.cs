@@ -24,7 +24,6 @@ namespace Objects.Construction
 		private ObjectBehaviour objectBehaviour;
 		private Integrity integrity;
 		private SpriteHandler spriteHandler;
-		private Pickupable pickupable;
 
 		private ItemSlot powerCellSlot = null;
 		private ItemSlot powerControlSlot = null;
@@ -43,7 +42,6 @@ namespace Objects.Construction
 			powerCellSlot = GetComponent<ItemStorage>().GetIndexedItemSlot(1);
 			stateful = GetComponent<Stateful>();
 			objectBehaviour = GetComponent<ObjectBehaviour>();
-			pickupable = GetComponent<Pickupable>();
 
 			if (!CustomNetworkManager.IsServer) return;
 
@@ -59,7 +57,6 @@ namespace Objects.Construction
 		{
 			try
 			{
-				pickupable.ServerSetCanPickup(false);
 				integrity.OnWillDestroyServer.AddListener(WhenDestroyed);
 			}
 			catch (NullReferenceException exception)
