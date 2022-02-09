@@ -13,7 +13,7 @@ namespace UI.Items
 		[SerializeField] private GameObject nodes;
 		[SerializeField] private TMP_Text pointText;
 
-		private List<TechWebNodeItem> techwebNodes;
+		private List<TechWebNodeItem> techwebNodes = new List<TechWebNodeItem>();
 
 		private IEnumerator Start()
 		{
@@ -34,6 +34,7 @@ namespace UI.Items
 				var newNode = Instantiate(nodePrefab, nodes.transform);
 				var nodeScript = newNode.GetComponent<TechWebNodeItem>();
 				nodeScript.Setup(technology);
+				newNode.SetActive(true);
 				techwebNodes.Add(nodeScript);
 			}
 			pointText.text = Techweb.Instance.ResearchPoints.ToString();

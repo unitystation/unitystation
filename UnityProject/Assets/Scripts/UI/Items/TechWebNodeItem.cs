@@ -15,11 +15,11 @@ namespace UI.Items
 		private UnityEvent onMouseHover;
 		private UnityEvent onMouseLoseFocus;
 
-		private GameObject background;
+		[SerializeField] private GameObject background;
 		[SerializeField] private GameObject dataImage;
-		private TMP_Text nodeTitle;
-		private TMP_Text description;
-		private TMP_Text costText;
+		[SerializeField] private TMP_Text nodeTitle;
+		[SerializeField] private TMP_Text description;
+		[SerializeField] private TMP_Text costText;
 
 		private List<LineRenderer> lineRenderers = new List<LineRenderer>();
 
@@ -39,7 +39,7 @@ namespace UI.Items
 		{
 			techData = technology;
 			nodeTitle.text = technology.DisplayName;
-			description.text = technology.Description;
+			//description.text = technology.Description;
 			costText.text = technology.ResearchCosts.ToString();
 			
 		}

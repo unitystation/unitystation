@@ -77,17 +77,17 @@ namespace Systems.Research
 		private int researchPoints = 10000;
 		public int ResearchPoints => researchPoints;
 
-		public struct ResearchData
+		public class ResearchData
 		{
-			public bool IsInitialised;
-			public List<String> ResearchedTechnology;
-			public List<String> AvailableTechnology;
-			public List<String> AvailableDesigns;
-			public Dictionary<String, Technology> IDSearchDictionary;
-			public List<Technology> Technologies;
+			public bool IsInitialised = false;
+			public List<String> ResearchedTechnology = new List<string>();
+			public List<String> AvailableTechnology = new List<string>();
+			public List<String> AvailableDesigns = new List<string>();
+			public Dictionary<String, Technology> IDSearchDictionary = new Dictionary<string, Technology>();
+			public List<Technology> Technologies = new List<Technology>();
 		}
 
-		public ResearchData Data;
+		public ResearchData Data = new ResearchData();
 
 		private void Awake()
 		{
