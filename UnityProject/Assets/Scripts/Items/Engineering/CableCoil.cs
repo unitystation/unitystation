@@ -317,17 +317,24 @@ namespace Objects.Electrical
 			// Get the electrical cable tile with the wire connection direction.
 			ElectricalCableTile tile =
 				ElectricityFunctions.RetrieveElectricalTile(wireEndA, wireEndB, powerTypeCategory);
-			// Then, add an electrical node at the tile.
-			interaction.Performer.GetComponentInParent<Matrix>().AddElectricalNode(position.RoundToInt(), tile, true);
 
 			// We only want to consume the difference needed to build the new
 			// cable.
 			int newTileCost = tile.SpawnAmountOnDeconstruct;
 			int finalCost = newTileCost - oldTileCost;
 
-			// Finally, consume the cables in the hands using the final cost
+			// Attempt to consume the cables in the hands using the final cost
 			// we found.
-			Inventory.ServerConsume(interaction.HandSlot, finalCost);
+			if (Inventory.ServerConsume(interaction.HandSlot, finalCost))
+			{
+				// Then, add an electrical node at the tile.
+				interaction.Performer.GetComponentInParent<Matrix>().AddElectricalNode(position.RoundToInt(), tile, true);
+			}
+			else
+			{
+				Chat.AddExamineMsgFromServer(interaction.PerformerPlayerScript.connectedPlayer,
+					$"You don't have enough cable to place");
+			}
 		}
 	}
 }
