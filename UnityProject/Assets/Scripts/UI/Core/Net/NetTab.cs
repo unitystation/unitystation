@@ -286,6 +286,16 @@ public class NetTab : Tab
 		}
 	}
 
+	public bool IsAIInteracting()
+	{
+		foreach(var peep in Peepers)
+		{
+			if (peep.Job != JobType.AI) continue;
+			return true;
+		}
+		return false;
+	}
+
 	public void CloseTab()
 	{
 		ControlTabs.CloseTab(Type, Provider);

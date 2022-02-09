@@ -263,7 +263,8 @@ namespace Objects.Atmospherics
 
 		public void ServerPerformInteraction(HandApply interaction)
 		{
-			if (accessRestrictions.CheckAccessCard(interaction.HandObject))
+			if (accessRestrictions.CheckAccessCard(interaction.HandObject) ||
+				interaction.PerformerPlayerScript.mind.occupation.JobType == JobType.AI)
 			{
 				IsLocked = !IsLocked;
 
