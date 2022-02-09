@@ -22,8 +22,18 @@ namespace UI.Items
 				yield return WaitFor.EndOfFrame;
 			}
 			GenerateTechWebNodes();
+			UpdateManager.Add(UpdateMe, 60f);
 		}
 
+		private void OnDisable()
+		{
+			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, UpdateMe);
+		}
+
+		private void UpdateMe()
+		{
+			pointText.text = Techweb.Instance.ResearchPoints.ToString();
+		}
 
 		private void GenerateTechWebNodes()
 		{

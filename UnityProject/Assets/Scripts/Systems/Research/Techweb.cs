@@ -105,6 +105,18 @@ namespace Systems.Research
 				if (JsonImportInitialization() == false) Logger.LogError("Unable to generate or find techweb data!");
 			}
 			if (GameManager.Instance.TechwebServer == null) GameManager.Instance.TechwebServer = this;
+			UpdateManager.Add(UpdateMe, 60f);
+		}
+
+		private void OnDisable()
+		{
+			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, UpdateMe);
+		}
+
+		private void UpdateMe()
+		{
+			//trickle down research point every minute
+			researchPoints -= 25;
 		}
 
 		private bool JsonImportInitialization()
