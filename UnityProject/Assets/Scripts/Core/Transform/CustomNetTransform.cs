@@ -186,7 +186,7 @@ public partial class CustomNetTransform : NetworkBehaviour, IPushable
 		}
 
 		Vector3 pos = transform.position;
-		if (snapToGridOnStart)
+		if (snapToGridOnStart && isServer)
 		{
 			pos = pos.RoundToInt();
 		}
@@ -540,6 +540,7 @@ public partial class CustomNetTransform : NetworkBehaviour, IPushable
 		predictedState.MatrixId =
 			MatrixManager.AtPoint(Vector3Int.RoundToInt(worldPos), false, registerTile.Matrix.MatrixInfo).Id;
 		predictedState.WorldPosition = pos;
+
 		transform.position = pos;
 		UpdateActiveStatusClient();
 	}
