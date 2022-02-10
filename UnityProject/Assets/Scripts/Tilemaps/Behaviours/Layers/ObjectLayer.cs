@@ -26,7 +26,6 @@ public class ObjectLayer : Layer
 		{
 			return ClientObjects;
 		}
-
 	}
 
 	public override void SetTile(Vector3Int position, GenericTile tile, Matrix4x4 transformMatrix, Color color)
@@ -48,13 +47,13 @@ public class ObjectLayer : Layer
 		return GetTileList(isServer).HasObjects(position);
 	}
 
-	public float GetObjectResistanceAt( Vector3Int position, bool isServer )
+	public float GetObjectResistanceAt(Vector3Int position, bool isServer)
 	{
 		float resistance = 0; //todo: non-alloc method with ref?
-		foreach ( RegisterTile t in GetTileList(isServer).Get( position ))
+		foreach (RegisterTile t in GetTileList(isServer).Get(position))
 		{
 			var health = t.GetComponent<IHealth>();
-			if ( health != null )
+			if (health != null)
 			{
 				resistance += health.Resistance;
 			}
@@ -63,17 +62,60 @@ public class ObjectLayer : Layer
 		return resistance;
 	}
 
-	public bool IsPassableAtOnThisLayer(Vector3Int origin, Vector3Int to, bool isServer, CollisionType collisionType = CollisionType.Player,
-			bool inclPlayers = true, GameObject context = null, List<TileType> excludeTiles = null, bool isReach = false)
+
+	public bool IsPassableAtOnThisLayerV2(Vector3Int origin, Vector3Int to, bool isServer, GameObject Incontext,
+		out PushPull Pushing)
 	{
-		if (CanLeaveTile(origin, to, isServer, collisionType, inclPlayers, context, excludeTiles, isReach) == false)
+		if (CanLeaveTileV2(origin, to, isServer, out Pushing, context: Incontext) == false)
 		{
 			return false;
 		}
 
-		if (CanEnterTile(origin, to, isServer, collisionType, inclPlayers, context, excludeTiles, isReach) == false)
+		if (CanEnterTileV2(origin, to, isServer, context: Incontext) == false)
 		{
 			return false;
+		}
+
+		return true;
+	}
+
+	public bool IsPassableAtOnThisLayer(Vector3Int origin, Vector3Int to, bool isServer,
+		CollisionType collisionType = CollisionType.Player,
+		bool inclPlayers = true, GameObject Incontext = null, List<TileType> excludeTiles = null, bool isReach = false)
+	{
+		if (CanLeaveTile(origin, to, isServer, context: Incontext) == false)
+		{
+			return false;
+		}
+
+		if (CanEnterTile(origin, to, isServer, collisionType, inclPlayers, Incontext, isReach) == false)
+		{
+			return false;
+		}
+
+		return true;
+	}
+
+	public bool CanLeaveTileV2(Vector3Int origin, Vector3Int to, bool isServer, out PushPull Pushing,
+		GameObject context = null)
+	{
+		//Targeting windoors here
+		foreach (RegisterTile t in GetTileList(isServer).Get(origin))
+		{
+			if (t.IsPassableFromInside(to, isServer, context) == false
+			    && (context == null || t.gameObject != context))
+			{
+				if (t.PushPull.HasComponent)
+				{
+					//Can be pushed around and is Blocking But the question is can it be pushed out of the way
+
+
+				}
+
+
+				//Can't get outside the tile because windoor doesn't allow us
+				return false;
+			}
 		}
 
 		return true;
@@ -84,10 +126,10 @@ public class ObjectLayer : Layer
 		bool inclPlayers = true, GameObject context = null, List<TileType> excludeTiles = null, bool isReach = false)
 	{
 		//Targeting windoors here
-		foreach ( RegisterTile t in GetTileList(isServer).Get(origin))
+		foreach (RegisterTile t in GetTileList(isServer).Get(origin))
 		{
 			if (t.IsPassableFromInside(to, isServer, context) == false
-			    && (context == null|| t.gameObject != context))
+			    && (context == null || t.gameObject != context))
 			{
 				//Can't get outside the tile because windoor doesn't allow us
 				return false;
@@ -98,19 +140,35 @@ public class ObjectLayer : Layer
 	}
 
 
-	public bool CanEnterTile(Vector3Int origin, Vector3Int to, bool isServer,
-		CollisionType collisionType = CollisionType.Player,
-		bool inclPlayers = true, GameObject context = null, List<TileType> excludeTiles = null, bool isReach = false)
+	public bool CanEnterTileV2(Vector3Int origin, Vector3Int to, bool isServer, GameObject context = null)
 	{
 		//Targeting windoors here
-		foreach ( RegisterTile o in GetTileList(isServer).Get(to))
+		foreach (RegisterTile o in GetTileList(isServer).Get(to))
+		{
+			if (o.IsPassableFromOutside(origin, isServer, context) == false
+			    && (context == null || o.gameObject != context)
+			   )
+			{
+				return false;
+			}
+		}
+
+		return true;
+	}
+
+	public bool CanEnterTile(Vector3Int origin, Vector3Int to, bool isServer,
+		CollisionType collisionType = CollisionType.Player,
+		bool inclPlayers = true, GameObject context = null, bool isReach = false)
+	{
+		//Targeting windoors here
+		foreach (RegisterTile o in GetTileList(isServer).Get(to))
 		{
 			if ((inclPlayers || o.ObjectType != ObjectType.Player)
 			    && o.IsPassableFromOutside(origin, isServer, context) == false
-			    && (context == null|| o.gameObject != context)
+			    && (context == null || o.gameObject != context)
 			    && (isReach == false || o.IsReachableThrough(origin, isServer, context) == false)
 			    && (collisionType != CollisionType.Click || o.DoesNotBlockClick(origin, isServer) == false)
-			)
+			   )
 			{
 				return false;
 			}
@@ -129,10 +187,10 @@ public class ObjectLayer : Layer
 	/// <returns></returns>
 	public bool HasAnyDepartureBlockedByRegisterTile(Vector3Int to, bool isServer, RegisterTile context)
 	{
-		foreach (RegisterTile o in GetTileList(isServer).Get(context.LocalPositionClient) )
+		foreach (RegisterTile o in GetTileList(isServer).Get(context.LocalPositionClient))
 		{
-			if (o.IsPassable(isServer,context.gameObject) == false
-				&& context.IsPassableFromInside(to, isServer, o.gameObject) == false)
+			if (o.IsPassable(isServer, context.gameObject) == false
+			    && context.IsPassableFromInside(to, isServer, o.gameObject) == false)
 			{
 				return true;
 			}
@@ -143,7 +201,7 @@ public class ObjectLayer : Layer
 
 	public bool IsAtmosPassableAt(Vector3Int origin, Vector3Int to, bool isServer)
 	{
-		foreach ( RegisterTile t in GetTileList(isServer).Get(to) )
+		foreach (RegisterTile t in GetTileList(isServer).Get(to))
 		{
 			if (!t.IsAtmosPassable(origin, isServer))
 			{
@@ -151,7 +209,7 @@ public class ObjectLayer : Layer
 			}
 		}
 
-		foreach ( RegisterTile t in GetTileList(isServer).Get(origin) )
+		foreach (RegisterTile t in GetTileList(isServer).Get(origin))
 		{
 			if (!t.IsAtmosPassable(to, isServer))
 			{
@@ -164,6 +222,5 @@ public class ObjectLayer : Layer
 
 	public override void RecalculateBounds()
 	{
-
 	}
 }

@@ -145,28 +145,26 @@ public class MovementSynchronisation : MonoBehaviour, IPlayerControllable //IPus
 
 	public bool IsObstructed(MoveData moveAction)  //Would prefer to separate this out into tile and object obstruction but oh well todo
 	{
-		if (IsNotTileObstructed(moveAction))
+		if (IsNotObstructed(moveAction))
 		{
-			if (IsNotTileObstructed())
+			//if (IsNotObjectObstructed())
 			return true;
 		}
+
+		return false;
 	}
 
 
-	public bool IsNotObstructed(MoveData moveAction) //Would prefer to separate this out into tile and object obstruction but oh well todo
-	{
+	// public bool IsNotObstructed(MoveData moveAction) //Would prefer to separate this out into tile and object obstruction but oh well todo
+	// {
+	// 	return false;
+	// }
 
-	}
 
-	public bool IsNotObjectObstructed(MoveData moveAction)
+	public bool IsNotObstructed(MoveData moveAction)
 	{
-		return true;
-	}
-
-	public bool IsNotTileObstructed(MoveData moveAction)
-	{
-		return MatrixManager.IsPassableAtAllMatricesTilesV2(registerTile.WorldPosition,
-			registerTile.WorldPosition + moveAction.GlobalMoveDirection.TVectoro(), SetMatrixCash); //can be redone at the later point
+		return MatrixManager.IsPassableAtAllMatricesV2(registerTile.WorldPosition,
+			registerTile.WorldPosition + moveAction.GlobalMoveDirection.TVectoro(), SetMatrixCash, this.gameObject);
 	}
 
 
@@ -237,8 +235,8 @@ public class MovementSynchronisation : MonoBehaviour, IPlayerControllable //IPus
 		return false;
 	}
 
-	[Command]
-	public void CMDRequestMove()
-	{
-	}
+	// [Command]
+	// public void CMDRequestMove()
+	// {
+	// }
 }

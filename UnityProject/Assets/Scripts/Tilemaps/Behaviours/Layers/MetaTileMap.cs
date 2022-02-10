@@ -397,7 +397,7 @@ namespace TileManagement
 			// Simple case: orthogonal travel
 			if (origin.x == to.x || origin.y == to.y)
 			{
-				return IsPassableAtOrthogonalV2(origin, to, colliderType);
+				return IsPassableAtOrthogonalTileV2(origin, to, colliderType);
 			}
 			else // diagonal travel
 			{
@@ -405,13 +405,39 @@ namespace TileManagement
 				Vector3Int toY = new Vector3Int(origin.x, to.y, origin.z);
 
 
-				bool isPassableIfHorizontalFirst = IsPassableAtOrthogonalV2(origin, toX, colliderType) &&
-				                                   IsPassableAtOrthogonalV2(toX, to, colliderType);
+				bool isPassableIfHorizontalFirst = IsPassableAtOrthogonalTileV2(origin, toX, colliderType) &&
+				                                   IsPassableAtOrthogonalTileV2(toX, to, colliderType);
 
 				if (isPassableIfHorizontalFirst) return true;
 
-				bool isPassableIfVerticalFirst = IsPassableAtOrthogonalV2(origin, toY, colliderType) &&
-				                                 IsPassableAtOrthogonalV2(toY, to, colliderType);
+				bool isPassableIfVerticalFirst = IsPassableAtOrthogonalTileV2(origin, toY, colliderType) &&
+				                                 IsPassableAtOrthogonalTileV2(toY, to, colliderType);
+
+				return isPassableIfVerticalFirst;
+			}
+
+		}
+
+		public bool IsPassableAtOneObjectsV2(Vector3Int origin, Vector3Int to, GameObject context, out PushPull Pushing )
+		{
+			// Simple case: orthogonal travel
+			if (origin.x == to.x || origin.y == to.y)
+			{
+				return IsPassableAtOrthogonalObjectsV2(origin, to,context,out Pushing);
+			}
+			else // diagonal travel
+			{
+				Vector3Int toX = new Vector3Int(to.x, origin.y, origin.z);
+				Vector3Int toY = new Vector3Int(origin.x, to.y, origin.z);
+
+
+				bool isPassableIfHorizontalFirst = IsPassableAtOrthogonalObjectsV2(origin, toX,context,out Pushing) &&
+				                                   IsPassableAtOrthogonalObjectsV2(toX, to,context,out Pushing);
+
+				if (isPassableIfHorizontalFirst) return true;
+
+				bool isPassableIfVerticalFirst = IsPassableAtOrthogonalObjectsV2(origin, toY,context,out Pushing) &&
+				                                 IsPassableAtOrthogonalObjectsV2(toY, to,context,out Pushing);
 
 				return isPassableIfVerticalFirst;
 			}
@@ -456,7 +482,13 @@ namespace TileManagement
 			}
 		}
 
-		private bool IsPassableAtOrthogonalV2(Vector3Int origin, Vector3Int to, CollisionType colliderType)
+		private bool IsPassableAtOrthogonalObjectsV2(Vector3Int origin, Vector3Int to, GameObject context , out PushPull Pushing )
+		{
+			return ObjectLayer.IsPassableAtOnThisLayerV2(origin, to, CustomNetworkManager.IsServer, context, out Pushing);
+		}
+
+
+		private bool IsPassableAtOrthogonalTileV2(Vector3Int origin, Vector3Int to, CollisionType colliderType)
 		{
 			TileLocation tileLocation = null;
 			for (var i = 0; i < SolidLayersValues.Length; i++)
