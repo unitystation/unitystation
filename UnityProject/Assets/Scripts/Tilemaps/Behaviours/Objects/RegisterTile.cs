@@ -350,9 +350,6 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 	/// <param name="newNetworkedMatrixNetID">uint of the new parent</param>
 	private void SyncNetworkedMatrixNetId(uint oldNetworkMatrixId, uint newNetworkedMatrixNetID)
 	{
-		if (Initialized == false)
-			return;
-
 		networkedMatrixNetId = newNetworkedMatrixNetID;
 		NetworkedMatrix.InvokeWhenInitialized(networkedMatrixNetId, FinishNetworkedMatrixRegistration); //note: we dont actually wait for init here anymore
 	}
