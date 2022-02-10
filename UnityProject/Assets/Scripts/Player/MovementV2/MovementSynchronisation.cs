@@ -147,7 +147,7 @@ public class MovementSynchronisation : MonoBehaviour, IPlayerControllable //IPus
 	{
 		if (IsNotObstructed(moveAction))
 		{
-			//if (IsNotObjectObstructed())
+
 			return true;
 		}
 
@@ -164,7 +164,7 @@ public class MovementSynchronisation : MonoBehaviour, IPlayerControllable //IPus
 	public bool IsNotObstructed(MoveData moveAction)
 	{
 		return MatrixManager.IsPassableAtAllMatricesV2(registerTile.WorldPosition,
-			registerTile.WorldPosition + moveAction.GlobalMoveDirection.TVectoro(), SetMatrixCash, this.gameObject);
+			registerTile.WorldPosition + moveAction.GlobalMoveDirection.TVectoro(), SetMatrixCash, this.gameObject, out var Pushing);
 	}
 
 

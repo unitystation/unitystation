@@ -1067,23 +1067,34 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 	///Cross-matrix edition of <see cref="Matrix.IsPassableAt(UnityEngine.Vector3Int,UnityEngine.Vector3Int,bool,GameObject)"/>
 	///<inheritdoc cref="Matrix.IsPassableAt(UnityEngine.Vector3Int,UnityEngine.Vector3Int,bool,GameObject)"/>
 	public static bool IsPassableAtAllMatricesV2(Vector3Int worldOrigin, Vector3Int worldTarget,
-		MatrixCash MatrixCash, GameObject Context, out PushPull PushIng  )
+		MatrixCash MatrixCash, GameObject Context, List<PushPull> PushIng  )
 	{
 
 		var MatrixOrigin = MatrixCash.GetforDirection(Vector3Int.zero);
 		var localPosOrigin = WorldToLocalInt(worldOrigin, MatrixOrigin);
 		var localPosTarget = WorldToLocalInt(worldTarget,MatrixOrigin);
 
-		bool IsPassable = MatrixOrigin.Matrix.MetaTileMap.IsPassableAtOneObjectsV2(localPosOrigin, localPosTarget, Context, out PushIng);
+		bool IsPassable = MatrixOrigin.Matrix.MetaTileMap.IsPassableAtOneObjectsV2(localPosOrigin, localPosTarget, Context, PushIng);
+
+		if (IsPassable == false)
+		{
+			return false;
+		}
+		// PushIng.Clear();
+
+		if (PushIng == null)
+		{
+			var matrixTarget = MatrixCash.GetforDirection(worldOrigin-worldTarget);
+
+			localPosOrigin = WorldToLocalInt(worldOrigin, matrixTarget);
+			localPosTarget = WorldToLocalInt(worldTarget,matrixTarget);
+
+			return matrixTarget.Matrix.MetaTileMap.IsPassableAtOneTileMapV2(localPosOrigin, localPosTarget,
+				CollisionType.Player);;
+		}
 
 
-		var matrixTarget = MatrixCash.GetforDirection(worldOrigin-worldTarget);
 
-		localPosOrigin = WorldToLocalInt(worldOrigin, matrixTarget);
-		localPosTarget = WorldToLocalInt(worldTarget,matrixTarget);
-
-		return matrixTarget.Matrix.MetaTileMap.IsPassableAtOneTileMapV2(localPosOrigin, localPosTarget,
-			CollisionType.Player);;
 	}
 
 	public static bool IsTableAt(Vector3Int worldPos, bool isServer)

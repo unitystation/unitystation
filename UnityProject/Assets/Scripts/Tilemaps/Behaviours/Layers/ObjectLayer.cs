@@ -64,14 +64,14 @@ public class ObjectLayer : Layer
 
 
 	public bool IsPassableAtOnThisLayerV2(Vector3Int origin, Vector3Int to, bool isServer, GameObject Incontext,
-		out PushPull Pushing)
+		 List<PushPull> Pushings)
 	{
-		if (CanLeaveTileV2(origin, to, isServer, out Pushing, context: Incontext) == false)
+		if (CanLeaveTileV2(origin, to, isServer, Pushings, context: Incontext) == false)
 		{
 			return false;
 		}
 
-		if (CanEnterTileV2(origin, to, isServer, context: Incontext) == false)
+		if (CanEnterTileV2(origin, to, isServer, Pushings, context: Incontext) == false)
 		{
 			return false;
 		}
@@ -96,25 +96,43 @@ public class ObjectLayer : Layer
 		return true;
 	}
 
-	public bool CanLeaveTileV2(Vector3Int origin, Vector3Int to, bool isServer, out PushPull Pushing,
+	public bool CanLeaveTileV2(Vector3Int origin, Vector3Int to, bool isServer, List<PushPull> Pushings,
 		GameObject context = null)
 	{
+		bool PushObjectSet = false;
+		bool CanPushObjects = false;
+
 		//Targeting windoors here
 		foreach (RegisterTile t in GetTileList(isServer).Get(origin))
 		{
 			if (t.IsPassableFromInside(to, isServer, context) == false
 			    && (context == null || t.gameObject != context))
 			{
+
 				if (t.PushPull.HasComponent)
 				{
-					//Can be pushed around and is Blocking But the question is can it be pushed out of the way
+					if (PushObjectSet == false)
+					{
+						PushObjectSet = true;
+						CanPushObjects = t.PushPull.Component.CanPushServer(to, (origin - to).To2Int());
 
+					}
 
+					if (CanPushObjects)
+					{
+						Pushings.Add(t.PushPull.Component);
+					}
+					else
+					{
+						Pushings.Clear();
+						return false;
+					}
 				}
-
-
-				//Can't get outside the tile because windoor doesn't allow us
-				return false;
+				else
+				{
+					Pushings.Clear();
+					return false;
+				}
 			}
 		}
 
@@ -125,6 +143,7 @@ public class ObjectLayer : Layer
 		CollisionType collisionType = CollisionType.Player,
 		bool inclPlayers = true, GameObject context = null, List<TileType> excludeTiles = null, bool isReach = false)
 	{
+
 		//Targeting windoors here
 		foreach (RegisterTile t in GetTileList(isServer).Get(origin))
 		{
@@ -140,15 +159,41 @@ public class ObjectLayer : Layer
 	}
 
 
-	public bool CanEnterTileV2(Vector3Int origin, Vector3Int to, bool isServer, GameObject context = null)
+	public bool CanEnterTileV2(Vector3Int origin, Vector3Int to, bool isServer,List<PushPull> Pushings,  GameObject context = null)
 	{
+		bool PushObjectSet = false;
+		bool CanPushObjects = false;
+
 		//Targeting windoors here
 		foreach (RegisterTile o in GetTileList(isServer).Get(to))
 		{
 			if (o.IsPassableFromOutside(origin, isServer, context) == false
-			    && (context == null || o.gameObject != context)
-			   )
+			    && (context == null || o.gameObject != context))
 			{
+				if (o.PushPull.HasComponent)
+				{
+					if (PushObjectSet == false)
+					{
+						PushObjectSet = true;
+						CanPushObjects = o.PushPull.Component.CanPushServer(to, (origin - to).To2Int());
+
+					}
+
+					if (CanPushObjects)
+					{
+						Pushings.Add(o.PushPull.Component);
+					}
+					else
+					{
+						Pushings.Clear();
+						return false;
+					}
+				}
+				else
+				{
+					Pushings.Clear();
+					return false;
+				}
 				return false;
 			}
 		}

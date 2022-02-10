@@ -418,12 +418,12 @@ namespace TileManagement
 
 		}
 
-		public bool IsPassableAtOneObjectsV2(Vector3Int origin, Vector3Int to, GameObject context, out PushPull Pushing )
+		public bool IsPassableAtOneObjectsV2(Vector3Int origin, Vector3Int to, GameObject context, List<PushPull> Pushings)
 		{
 			// Simple case: orthogonal travel
 			if (origin.x == to.x || origin.y == to.y)
 			{
-				return IsPassableAtOrthogonalObjectsV2(origin, to,context,out Pushing);
+				return IsPassableAtOrthogonalObjectsV2(origin, to,context,Pushings);
 			}
 			else // diagonal travel
 			{
@@ -431,13 +431,13 @@ namespace TileManagement
 				Vector3Int toY = new Vector3Int(origin.x, to.y, origin.z);
 
 
-				bool isPassableIfHorizontalFirst = IsPassableAtOrthogonalObjectsV2(origin, toX,context,out Pushing) &&
-				                                   IsPassableAtOrthogonalObjectsV2(toX, to,context,out Pushing);
+				bool isPassableIfHorizontalFirst = IsPassableAtOrthogonalObjectsV2(origin, toX,context,Pushings) &&
+				                                   IsPassableAtOrthogonalObjectsV2(toX, to,context,Pushings);
 
 				if (isPassableIfHorizontalFirst) return true;
 
-				bool isPassableIfVerticalFirst = IsPassableAtOrthogonalObjectsV2(origin, toY,context,out Pushing) &&
-				                                 IsPassableAtOrthogonalObjectsV2(toY, to,context,out Pushing);
+				bool isPassableIfVerticalFirst = IsPassableAtOrthogonalObjectsV2(origin, toY,context,Pushings) &&
+				                                 IsPassableAtOrthogonalObjectsV2(toY, to,context,Pushings);
 
 				return isPassableIfVerticalFirst;
 			}
@@ -482,9 +482,9 @@ namespace TileManagement
 			}
 		}
 
-		private bool IsPassableAtOrthogonalObjectsV2(Vector3Int origin, Vector3Int to, GameObject context , out PushPull Pushing )
+		private bool IsPassableAtOrthogonalObjectsV2(Vector3Int origin, Vector3Int to, GameObject context , List<PushPull> Pushings )
 		{
-			return ObjectLayer.IsPassableAtOnThisLayerV2(origin, to, CustomNetworkManager.IsServer, context, out Pushing);
+			return ObjectLayer.IsPassableAtOnThisLayerV2(origin, to, CustomNetworkManager.IsServer, context, Pushings);
 		}
 
 
