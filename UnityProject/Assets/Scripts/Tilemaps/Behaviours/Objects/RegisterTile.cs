@@ -356,6 +356,7 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 
 	private void FinishNetworkedMatrixRegistration(NetworkedMatrix networkedMatrix)
 	{
+		if (networkedMatrix == null) return;
 		//if we had any spin rotation, preserve it,
 		//otherwise all objects should always have upright local rotation
 		var rotation = transform.rotation;
