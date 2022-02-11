@@ -6,13 +6,14 @@ using Objects.Disposals;
 using Objects;
 using Objects.Atmospherics;
 using Systems.Atmospherics;
+using Managers;
 
 namespace Systems.Disposals
 {
 	/// <summary>
 	/// Creates, updates, and removes all disposal instances.
 	/// </summary>
-	public class DisposalsManager : MonoBehaviourSingleton<DisposalsManager>
+	public class DisposalsManager : SingletonManager<DisposalsManager>
 	{
 		[SerializeField]
 		[Tooltip("Set the virtual container prefab to be used in disposal instances.")]
