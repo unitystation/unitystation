@@ -50,8 +50,10 @@ public class Stackable : NetworkBehaviour, IServerLifecycle, ICheckedInteractabl
 	private PushPull pushPull;
 	private RegisterTile registerTile;
 	private GameObject prefab;
+	private SpriteHandler spriteHandler;
 
 	[SerializeField] private List<StackNames> stackNames = new List<StackNames>();
+	[SerializeField] private List<StackSprites> stackSprites = new List<StackSprites>();
 
 
 	private void Awake()
@@ -72,6 +74,7 @@ public class Stackable : NetworkBehaviour, IServerLifecycle, ICheckedInteractabl
 		amount = initialAmount;
 		pushPull = GetComponent<PushPull>();
 		registerTile = GetComponent<RegisterTile>();
+		spriteHandler = GetComponentInChildren<SpriteHandler>();
 	}
 
 	private void OnLocalPositionChangedServer(Vector3Int newLocalPos)
@@ -155,6 +158,25 @@ public class Stackable : NetworkBehaviour, IServerLifecycle, ICheckedInteractabl
 		if (CustomNetworkManager.Instance._isServer)
 		{
 			UpdateStackName(gameObject.Item());
+			UpdateStackSprites();
+		}
+	}
+
+	private void UpdateStackSprites()
+	{
+		if (stackSprites.Count == 0 || spriteHandler == null) return;
+		if (amount > 1)
+		{
+			foreach (var sprite in stackSprites)
+			{
+				if (sprite.OverAmount <= amount) continue;
+				if (spriteHandler.GetCurrentSpriteSO() != sprite.SpriteSO) spriteHandler.SetSpriteSO(sprite.SpriteSO);
+				break;
+			}
+		}
+		else if(amount == 1)
+		{
+			spriteHandler.SetSpriteSO(stackSprites[0].SpriteSO);
 		}
 	}
 
@@ -384,6 +406,13 @@ public class Stackable : NetworkBehaviour, IServerLifecycle, ICheckedInteractabl
 	private struct StackNames
 	{
 		[SerializeField] public string Name;
+		[SerializeField] public int OverAmount;
+	}
+
+	[Serializable]
+	private struct StackSprites
+	{
+		[SerializeField] public SpriteDataSO SpriteSO;
 		[SerializeField] public int OverAmount;
 	}
 }
