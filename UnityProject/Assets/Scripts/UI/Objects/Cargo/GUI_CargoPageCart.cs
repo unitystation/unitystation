@@ -47,7 +47,7 @@ namespace UI.Objects.Cargo
 
 		public void ConfirmCart()
 		{
-			if (CanAffordCart() == false || (cargoGUI.cargoConsole.CorrectID == false && cargoGUI.IsAIInteracting() == false) == true) return;
+			if (CanAffordCart() == false || (cargoGUI.cargoConsole.CorrectID == false && cargoGUI.IsAIInteracting() == false)) return;
 
 			CargoManager.Instance.ConfirmCart();
 			cargoGUI.ResetId();
