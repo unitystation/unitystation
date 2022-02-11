@@ -97,13 +97,6 @@ namespace UI.Action
 
 		private bool ShouldShowButton(ClientInventoryMove info)
 		{
-			foreach (var actionButton in UIActionManager.Instance.DicIActionGUI)
-			{
-				//If there is a duplicate of this button, don't show it!
-				if (actionButton.Key.ActionData != actionData) continue;
-				UIActionManager.ToggleLocal(this, false);
-				return false;
-			}
 			// Check if we are in an inventory
 			if (info.ClientInventoryMoveType == ClientInventoryMoveType.Removed) return false;
 			// ... we are not on a player
