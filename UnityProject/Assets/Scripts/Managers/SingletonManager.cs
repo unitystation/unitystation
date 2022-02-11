@@ -6,7 +6,7 @@ namespace Managers
 	/// Singleton Manager using static instances without use of FindObject
 	/// If you are using Awake() override and remember to call base.Awake()!
 	/// </summary>
-	public abstract class SingletonManager<T> : MonoBehaviour where T : MonoBehaviour
+	public class SingletonManager<T> : MonoBehaviour where T : MonoBehaviour
 	{
 		public static T Instance;
 
@@ -16,7 +16,14 @@ namespace Managers
 		/// </summary>
 		public virtual void Awake()
 		{
-			Instance = this as T;
+			if (Instance == null)
+			{
+				Instance = this as T;
+			}
+			else
+			{
+				Destroy(gameObject);
+			}
 		}
 
 
