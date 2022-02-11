@@ -189,8 +189,7 @@ namespace UI.Action
 			foreach (var actionButton in Instance.DicIActionGUI)
 			{
 				//If there is a duplicate of this button, don't spawn it!
-				if (actionButton.Value.ActionData != iActionGUI.ActionData) continue;
-				return;
+				if (actionButton.Value.ActionData == iActionGUI.ActionData) return;
 			}
 			UIAction _UIAction;
 			if (Instance.PooledUIAction.Count > 0)
