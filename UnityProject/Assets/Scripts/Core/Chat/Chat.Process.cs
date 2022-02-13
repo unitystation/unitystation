@@ -565,7 +565,7 @@ public partial class Chat
 
 	private static string InTheZone(BodyPartType hitZone)
 	{
-		return hitZone == BodyPartType.None ? "" : $" in the {hitZone.ToString().ToLower().Replace("_", " ")}";
+		return hitZone == BodyPartType.None ? "" : $" in the {hitZone.GetDescription().ToLower().Replace("_", " ")}";
 	}
 
 	private static bool IsServer()

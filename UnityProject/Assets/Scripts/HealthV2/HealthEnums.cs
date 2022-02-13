@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 
 public enum BodyPartType
 {
@@ -9,19 +10,19 @@ public enum BodyPartType
 	Eyes = 7,
 	Mouth = 8,
 	Chest = 1,
-	LeftArm = 3,
-	LeftHand = 9,
-	RightArm = 2,
-	RightHand = 10,
+	[Description("Left Arm")] LeftArm = 3,
+	[Description("Left Hand")] LeftHand = 9,
+	[Description("Right Arm")] RightArm = 2,
+	[Description("Right Hand")] RightHand = 10,
 
 	//    LEFT_HAND,
 	//    RIGHT_HAND,
 	Groin = 6,
-	LeftLeg = 5,
-	LeftFoot = 11,
+	[Description("Left Leg")] LeftLeg = 5,
+	[Description("Left Foot")] LeftFoot = 11,
 
-	RightLeg = 4,
-	RightFoot = 12,
+	[Description("Right Leg")] RightLeg = 4,
+	[Description("Right Foot")] RightFoot = 12,
 
 	//    LEFT_FOOT,
 	//    RIGHT_FOOT
