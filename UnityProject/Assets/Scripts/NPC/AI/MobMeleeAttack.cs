@@ -59,17 +59,18 @@ namespace Systems.MobAIs
 
 			if (Vector3.Distance(mobTile.WorldPositionServer, worldPos) < 1.5f)
 			{
+				var bodyPartTarget = defaultTarget.Randomize();
 				if(targetHealth != null)
 				{
 					targetHealth.ApplyDamageToBodyPart(gameObject, hitDamage, AttackType.Melee, DamageType.Brute,
-						defaultTarget.Randomize());
-					Chat.AddAttackMsgToChat(gameObject, targetHealth.gameObject, defaultTarget, null, attackVerb);
+						bodyPartTarget);
+					Chat.AddAttackMsgToChat(gameObject, targetHealth.gameObject, bodyPartTarget, null, attackVerb);
 				}
 				else
 				{
 					livingHealth.ApplyDamageToBodyPart(gameObject, hitDamage, AttackType.Melee, DamageType.Brute,
-						defaultTarget.Randomize());
-					Chat.AddAttackMsgToChat(gameObject, livingHealth.gameObject, defaultTarget, null, attackVerb);
+						bodyPartTarget);
+					Chat.AddAttackMsgToChat(gameObject, livingHealth.gameObject, bodyPartTarget, null, attackVerb);
 				}
 				SoundManager.PlayNetworkedAtPos(attackSound, mobTile.WorldPositionServer, sourceObj: gameObject);
 			}
