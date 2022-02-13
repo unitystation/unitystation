@@ -338,9 +338,12 @@ public class MetaDataSystem : SubsystemBehaviour
 
 	private void ServerUpdateMe()
 	{
-		foreach (MetaDataNode node in externalNodes.Keys)
+		if (matrix.MatrixMove != null && matrix.MatrixMove.IsMovingServer)
 		{
-			subsystemManager.UpdateAt(node.Position);
+			foreach (MetaDataNode node in externalNodes.Keys)
+			{
+				subsystemManager.UpdateAt(node.Position);
+			}
 		}
 	}
 }
