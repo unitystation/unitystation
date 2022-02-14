@@ -1523,11 +1523,9 @@ namespace Mirror
         static void BroadcastToConnection(NetworkConnectionToClient connection)
         {
             // for each entity that this connection is seeing
-            //CUSTOM UNITYSTATION CODE// for i Faster
-            var ListCount = connection.observingList.Count;
-            for (int i = 0; i < ListCount; i++)
+            foreach (var identity in connection.observing)
             {
-	            var identity = connection.observingList[i];
+
             // foreach (NetworkIdentity identity in connection.observing)
             // {
                 // make sure it's not null or destroyed.
