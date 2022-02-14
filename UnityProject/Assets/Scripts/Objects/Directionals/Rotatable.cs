@@ -37,7 +37,7 @@ public class Rotatable : NetworkBehaviour, IMatrixRotation
 	private LockAndDirection SynchroniseCurrentLockAndDirection;
 
 	[SerializeField]
-	[Tooltip("If the direction is only handled by client")]
+	[Tooltip("If active will receive Direction updates from server")]
 	private bool updateFromServer = true;
 
 	private SpriteRenderer[] spriteRenderers;
