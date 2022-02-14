@@ -450,7 +450,7 @@ namespace Lobby
 			CustomNetworkManager.Instance.StartClient();
 		}
 
-		public void LogConnectionToHistory(string serverAddress, int serverPort)
+		private void LogConnectionToHistory(string serverAddress, int serverPort)
 		{
 			ConnectionHistory newHistoryEntry = new ConnectionHistory();
 			newHistoryEntry.IP = serverAddress;
@@ -560,7 +560,7 @@ namespace Lobby
 
 		public void OnShowLogButton()
 		{
-			historyEntries.SetActive(!historyEntries.activeSelf);
+			historyPanel.SetActive(!historyPanel.activeSelf);
 		}
 
 		public struct ConnectionHistory
