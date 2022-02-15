@@ -20,28 +20,12 @@ public class AddressableReferencePropertyDrawer : PropertyDrawer
 		EditorGUI.BeginProperty(position, label, property);
 		string addressableType = "SoundAndMusic";
 		GUILayout.BeginHorizontal();
-		string labelText = label.text;
-		//EditorGUI.indentLevel++;
-		// EditorGUI.BeginChangeCheck();
 		var Path = property.FindPropertyRelative("AssetAddress");
 		string stringpath = Path.stringValue;
-		var AssetReference = property.FindPropertyRelative("AssetReference");
-		// //
-		// // EditorGUI.PropertyField(new Rect(x, position.y + (Height * 1), width, Height),
-		// // 	property.FindPropertyRelative("SetLoadSetting"), new GUIContent("Dispose Mode"));
-		//
-		// //EditorGUI.BeginDisabledGroup(true);
-		// EditorGUI.PropertyField(new Rect(x, position.y + (Height * 2), width, Height), Path,
-		// 	new GUIContent("Addressable Path"));
-		//EditorGUI.EndDisabledGroup();
-
-		//UnityEngine.Object oldAssetReference = AssetReference.objectReferenceValue;
 		if (string.IsNullOrEmpty(stringpath))
 		{
 			stringpath = "Null";
 		}
-
-		// EditorGUI.indentLevel++;
 
 
 		EditorGUILayout.LabelField("AssetAddress", GUILayout.ExpandWidth(false), GUILayout.Width(250));
@@ -58,96 +42,6 @@ public class AddressableReferencePropertyDrawer : PropertyDrawer
 		}
 
 		GUILayout.EndHorizontal();
-		// if (GUILayout.Button("", GUI.skin.FindStyle("ToolbarSeachCancelButton")))
-		// {
-		// 	// Remove focus if cleared
-		// 	searchString = "";
-		// 	GUI.FocusControl(null);
-		// }
-
-		// var newsearchString = GUILayout.TextField(searchString, GUI.skin.FindStyle("ToolbarSeachTextField"));
-		//
-		// if (newsearchString != searchString)
-		// {
-		// 	//searchChange = true;
-		// 	searchString = newsearchString;
-		// }
-
-
-		// var inint = 0;
-		// if (searchString != "")
-		// {
-		// 	temarry = (AddressablePicker.options[AddressableType].Where(x =>
-		// 		x.IndexOf(searchString, StringComparison.CurrentCultureIgnoreCase) >= 0)).ToArray();
-		// 	inint = temarry.ToList().IndexOf(Path.stringValue);
-		// }
-		// else
-		// {
-		// 	inint = AddressablePicker.options[AddressableType].ToList().IndexOf(Path.stringValue);
-		// }
-
-		// if (inint == -1)
-		// {
-		// 	inint = 0;
-		// }
-
-		//
-		// GUILayout.Box("", GUIStyle.none, GUILayout.Width(100));
-		// if (searchString != "")
-		// {
-		// 	_choiceIndex = EditorGUILayout.Popup(inint, temarry);
-		// }
-		// else
-		// {
-		// 	_choiceIndex = EditorGUILayout.Popup(inint, AddressablePicker.options[AddressableType]);
-		// }
-		//
-
-
-		// EditorGUI.indentLevel--;
-		// if (searchString != "")
-		// {
-		// 	if (temarry.Length <= _choiceIndex)
-		// 	{
-		// 		if (temarry.Length > 0)
-		// 		{
-		// 			Path.stringValue = temarry[0];
-		// 		}
-		// 		else
-		// 		{
-		// 			Path.stringValue = "None";
-		// 		}
-		// 	}
-		// 	else
-		// 	{
-		// 		Path.stringValue = temarry[_choiceIndex];
-		// 	}
-		// }
-		// else
-		// {
-		// 	Path.stringValue = AddressablePicker.options[AddressableType][_choiceIndex];
-		// }
-
-		// EditorGUI.PropertyField(new Rect(x, position.y + (Height * 3), width, Height), AssetReference,
-		// 	new GUIContent("AssetReference"));
-
-		// Drag & Drop of AssetReference doesn't seem to trigger EndChangeCheck.  So, we verify it manually.
-		// if (EditorGUI.EndChangeCheck())
-		// {
-		// 	var m_AssetRefObject =
-		// 		SerializedPropertyExtensions.GetActualObjectForSerializedProperty<AssetReference>(AssetReference,
-		// 			fieldInfo, ref labelText);
-		// 	var Addressable = AddressableAssetSettingsDefaultObject.Settings.FindAssetEntry(m_AssetRefObject.AssetGUID);
-		// 	if (Addressable != null)
-		// 	{
-		// 		Path.stringValue = AddressableAssetSettingsDefaultObject.Settings
-		// 			.FindAssetEntry(m_AssetRefObject.AssetGUID).address;
-		// 	}
-		// }
-
-
-		//EditorGUI.indentLevel--;
-		//property.serializedObject.ApplyModifiedProperties();
 		EditorGUI.EndProperty();
 	}
 
