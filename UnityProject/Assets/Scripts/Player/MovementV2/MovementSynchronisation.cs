@@ -1,10 +1,11 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Items;
 using Mirror;
 using UnityEngine;
 
-public class MovementSynchronisation : MonoBehaviour, IPlayerControllable //IPushable,
+public class MovementSynchronisation : NetworkBehaviour, IPlayerControllable //IPushable,
 {
 	public RegisterTile registerTile;
 
@@ -13,13 +14,14 @@ public class MovementSynchronisation : MonoBehaviour, IPlayerControllable //IPus
 	public bool IsCurrentlyFloating;
 
 	public MatrixCash SetMatrixCash = new MatrixCash();
-
+	public PlayerScript playerScript;
 
 	public GameObject[] ContextGameObjects = new GameObject[2];
 
 	public void Awake()
 	{
 		ContextGameObjects[0] = gameObject;
+		playerScript = GetComponent<PlayerScript>();
 	}
 
 	public struct SpaceflightData
@@ -78,19 +80,19 @@ public class MovementSynchronisation : MonoBehaviour, IPlayerControllable //IPus
 				CausesSlip = false,
 			};
 			var PushPulls = new List<PushPull>();
-			if (CanMoveTo(NewMoveData, out var CausesSlipClient, PushPulls, out var PushesOff))
+			if (CanMoveTo(NewMoveData, out var CausesSlipClient, PushPulls, out var PushesOff, out var SlippingOn))
 			{
 				NewMoveData.CausesSlip = CausesSlipClient;
 
-				if (PushesOff)
+				if (PushesOff) //space walking
 				{
 					//Pushes off object for example pushing the object the other way
 				}
 
-				// if (PushPulls)
-				// {
-				// 	//Push Object
-				// }
+				if (PushPulls.Count > 0) //Has to push stuff
+				{
+					//Push Object
+				}
 
 				//move
 
@@ -102,8 +104,7 @@ public class MovementSynchronisation : MonoBehaviour, IPlayerControllable //IPus
 				}
 
 
-				IsNotFloating(null, out var NotFloating, out var CanPushOff);
-				if ((NotFloating == false) || CausesSlipClient) //check if floating
+				if (IsNotFloating(null, out _) == false || CausesSlipClient) //check if floating
 				{
 					//SpaceflightData Setup
 
@@ -122,43 +123,69 @@ public class MovementSynchronisation : MonoBehaviour, IPlayerControllable //IPus
 	// public bool CausesSlip
 
 	public bool CanMoveTo(MoveData moveAction, out bool CausesSlipClient, List<PushPull> WillPushObjects,
-			out RegisterTile PushesOff) //Stuff like shuttles and machines handled in their own IPlayerControllable,
+			out RegisterTile PushesOff, out ItemAttributesV2 slippedOn) //Stuff like shuttles and machines handled in their own IPlayerControllable,
 		//Space movement, normal movement ( Calling running and walking part of this )
 
 	{
-		IsNotFloating(moveAction, out bool NotFloating, out PushesOff);
-
-		if (NotFloating)
+		if (IsNotFloating(moveAction, out PushesOff))
 		{
 			//Need to check for Obstructions
 			if (IsNotObstructed(moveAction, WillPushObjects))
 			{
-				//Check for slipping
-
-
+				CausesSlipClient = DoesSlip(moveAction, out slippedOn);
+				return true;
 			}
+		}
+		slippedOn = null;
+		CausesSlipClient = false;
+		WillPushObjects.Clear();
+		PushesOff = null;
+		return false;
+	}
 
-			CausesSlipClient = false;
-			WillPushObjects.Clear();
+	public bool DoesSlip(MoveData moveAction, out ItemAttributesV2 slippedOn)
+	{
+		bool slipProtection = true;
+		foreach (var itemSlot in playerScript.DynamicItemStorage.GetNamedItemSlots(NamedSlot.feet))
+		{
+			if (itemSlot.ItemAttributes == null ||
+			    itemSlot.ItemAttributes.HasTrait(CommonTraits.Instance.NoSlip) == false)
+			{
+				slipProtection = false;
+			}
+		}
+
+		slippedOn = null;
+		if (slipProtection) return false;
+
+		var ToMatrix = SetMatrixCash.GetforDirection(moveAction.GlobalMoveDirection.TVectoro()).Matrix;
+		var LocalTo = (registerTile.WorldPosition + moveAction.GlobalMoveDirection.TVectoro()).ToLocal(ToMatrix).RoundToInt();
+		if (ToMatrix.MetaDataLayer.IsSlipperyAt(LocalTo))
+		{
 			return true;
 		}
-		else
+
+		var crossedItems = ToMatrix.Get<ItemAttributesV2>(LocalTo, isServer);
+		foreach (var crossedItem in crossedItems)
 		{
-			CausesSlipClient = false;
-			WillPushObjects.Clear();
-			PushesOff = null;
-			return false;
+			if (crossedItem.HasTrait(CommonTraits.Instance.Slippery))
+			{
+				slippedOn = crossedItem;
+				return true;
+			}
 		}
+		return false;
 	}
 
-	public bool IsNotObstructed(MoveData moveAction, List<PushPull>  Pushing)
+	public bool IsNotObstructed(MoveData moveAction, List<PushPull> Pushing)
 	{
 		return MatrixManager.IsPassableAtAllMatricesV2(registerTile.WorldPosition,
-			registerTile.WorldPosition + moveAction.GlobalMoveDirection.TVectoro(), SetMatrixCash, this.gameObject, Pushing);
+			registerTile.WorldPosition + moveAction.GlobalMoveDirection.TVectoro(), SetMatrixCash, this.gameObject,
+			Pushing);
 	}
 
 
-	public void IsNotFloating(MoveData? moveAction, out bool NotFloating,
+	public bool IsNotFloating(MoveData? moveAction,
 		out RegisterTile CanPushOff) //Sets bool For floating
 	{
 		if (IsNotFloatingTileMap())
@@ -166,18 +193,18 @@ public class MovementSynchronisation : MonoBehaviour, IPlayerControllable //IPus
 			if (IsNotFloatingObjects(moveAction, out CanPushOff))
 			{
 				IsCurrentlyFloating = false;
-				NotFloating = true;
+				return true;
 			}
 			else
 			{
 				IsCurrentlyFloating = true;
-				NotFloating = false;
+				return false;
 			}
 		}
 
 		CanPushOff = null;
 		IsCurrentlyFloating = true;
-		NotFloating = false;
+		return false;
 	}
 
 
