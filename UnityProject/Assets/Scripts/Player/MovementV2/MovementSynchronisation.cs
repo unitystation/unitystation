@@ -77,8 +77,8 @@ public class MovementSynchronisation : MonoBehaviour, IPlayerControllable //IPus
 				GlobalMoveDirection = moveActions.ToPlayerMoveDirection(),
 				CausesSlip = false,
 			};
-
-			if (CanMoveTo(NewMoveData, out var CausesSlipClient, out var WillPush, out var PushesOff))
+			var PushPulls = new List<PushPull>();
+			if (CanMoveTo(NewMoveData, out var CausesSlipClient, PushPulls, out var PushesOff))
 			{
 				NewMoveData.CausesSlip = CausesSlipClient;
 
@@ -87,10 +87,10 @@ public class MovementSynchronisation : MonoBehaviour, IPlayerControllable //IPus
 					//Pushes off object for example pushing the object the other way
 				}
 
-				if (WillPush)
-				{
-					//Push Object
-				}
+				// if (PushPulls)
+				// {
+				// 	//Push Object
+				// }
 
 				//move
 
@@ -113,14 +113,15 @@ public class MovementSynchronisation : MonoBehaviour, IPlayerControllable //IPus
 		}
 	}
 
-	public bool
-		CanInPutMoveClient(
-			PlayerAction moveActions) //False for in machine/Buckled, No gravity/Nothing to push off, Is slipping, Is being thrown, Is incapacitated
+	public bool CanInPutMoveClient(PlayerAction moveActions)
+		//False for in machine/Buckled, No gravity/Nothing to push off, Is slipping, Is being thrown, Is incapacitated
 	{
 		return true;
 	}
 
-	public bool CanMoveTo(MoveData moveAction, out bool CausesSlipClient, out RegisterTile WillPushObject,
+	// public bool CausesSlip
+
+	public bool CanMoveTo(MoveData moveAction, out bool CausesSlipClient, List<PushPull> WillPushObjects,
 			out RegisterTile PushesOff) //Stuff like shuttles and machines handled in their own IPlayerControllable,
 		//Space movement, normal movement ( Calling running and walking part of this )
 
@@ -130,41 +131,30 @@ public class MovementSynchronisation : MonoBehaviour, IPlayerControllable //IPus
 		if (NotFloating)
 		{
 			//Need to check for Obstructions
+			if (IsNotObstructed(moveAction, WillPushObjects))
+			{
+				//Check for slipping
+
+
+			}
+
 			CausesSlipClient = false;
-			WillPushObject = null;
+			WillPushObjects.Clear();
 			return true;
 		}
 		else
 		{
 			CausesSlipClient = false;
-			WillPushObject = null;
+			WillPushObjects.Clear();
 			PushesOff = null;
 			return false;
 		}
 	}
 
-	public bool IsObstructed(MoveData moveAction)  //Would prefer to separate this out into tile and object obstruction but oh well todo
-	{
-		if (IsNotObstructed(moveAction))
-		{
-
-			return true;
-		}
-
-		return false;
-	}
-
-
-	// public bool IsNotObstructed(MoveData moveAction) //Would prefer to separate this out into tile and object obstruction but oh well todo
-	// {
-	// 	return false;
-	// }
-
-
-	public bool IsNotObstructed(MoveData moveAction)
+	public bool IsNotObstructed(MoveData moveAction, List<PushPull>  Pushing)
 	{
 		return MatrixManager.IsPassableAtAllMatricesV2(registerTile.WorldPosition,
-			registerTile.WorldPosition + moveAction.GlobalMoveDirection.TVectoro(), SetMatrixCash, this.gameObject, out var Pushing);
+			registerTile.WorldPosition + moveAction.GlobalMoveDirection.TVectoro(), SetMatrixCash, this.gameObject, Pushing);
 	}
 
 
