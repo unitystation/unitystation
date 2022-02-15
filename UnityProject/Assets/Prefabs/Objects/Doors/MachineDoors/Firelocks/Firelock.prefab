@@ -1,116 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &3852277652561589864
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7092266194031920784}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 46ea4fe8b9752b94faca0d3c08c397f7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  DoorAnimatorV2: {fileID: 9220340957132827167}
-  airlockAssemblyPrefab: {fileID: 315051649836629422, guid: 286a19e5b6930904ab0b2f0e9ca00ab9,
-    type: 3}
-  airlockElectronicsPrefab: {fileID: 2915179160587070810, guid: 78421020f3046494d83a50667724ef36,
-    type: 3}
-  Reinforced: 0
---- !u!114 &4065597997001928858
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7092266194031920784}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8f1c80a23946ca84489209f24da99cfd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  damageOnClose: 0
-  damageClosed: 90
-  isAutomatic: 0
-  allowInteraction: 0
-  ignorePassableChecks: 1
-  maxTimeOpen: 5
-  blockAutoClose: 0
-  isWindowedDoor: 1
-  HackingProcessBase: {fileID: 3740312760444830440}
-  ConstructibleDoor: {fileID: 3852277652561589864}
-  conType: 7
-  requireLink: 0
---- !u!114 &6588440669612831901
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7092266194031920784}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e0ef83521ec7a394c963581b127a60ab, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  fireAlarm: {fileID: 0}
---- !u!114 &9220340957132827167
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7092266194031920784}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ac608c3ebbf07f1429f73d9149f89752, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  doorBase: {fileID: 1361943750431290538}
-  overlaySparks: {fileID: 6064065028137756816}
-  overlayLights: {fileID: 8097008815040610290}
-  overlayFill: {fileID: 4140254139737444511}
-  overlayWeld: {fileID: 5535747336687579010}
-  overlayHacking: {fileID: 5893083064311537363}
-  openingAnimationTime: 1.2
-  closingAnimationTime: 1.2
-  deniedAnimationTime: 0.6
-  warningAnimationTime: 0.6
-  openingSFX:
-    SetLoadSetting: 0
-    AssetAddress: Assets/Prefabs/Doors/AirlockOpen.prefab
-    AssetReference:
-      m_AssetGUID: 
-      m_SubObjectName: 
-      m_SubObjectType: 
-      m_EditorAssetChanged: 0
-  closingSFX:
-    SetLoadSetting: 0
-    AssetAddress: Assets/Prefabs/Doors/AirlockOpen.prefab
-    AssetReference:
-      m_AssetGUID: 
-      m_SubObjectName: 
-      m_SubObjectType: 
-      m_EditorAssetChanged: 0
-  deniedSFX:
-    SetLoadSetting: 0
-    AssetAddress: 
-    AssetReference:
-      m_AssetGUID: 
-      m_SubObjectName: 
-      m_SubObjectType: 
-      m_EditorAssetChanged: 0
-  warningSFX:
-    SetLoadSetting: 0
-    AssetAddress: 
-    AssetReference:
-      m_AssetGUID: 
-      m_SubObjectName: 
-      m_SubObjectType: 
-      m_EditorAssetChanged: 0
 --- !u!1 &3274467544361596049
 GameObject:
   m_ObjectHideFlags: 0
@@ -168,7 +57,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7877ad2101bd26f458133a11fdf7ab43, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pryTime: 4.5
+  pryTime: 0
   prySound:
     SetLoadSetting: 0
     AssetAddress: Assets/Prefabs/Doors/DoorPry.prefab
@@ -177,6 +66,7 @@ MonoBehaviour:
       m_SubObjectName: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0
+  crowbarRequiresNoPower: 0
 --- !u!114 &5246617355646949394
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -300,6 +190,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 7d2de9c440cedfa4a855277fac47f8d0, type: 2}
   PresentSpriteSet: {fileID: 11400000, guid: 7d2de9c440cedfa4a855277fac47f8d0, type: 2}
   randomInitialSprite: 0
+  doReverseAnimation: 0
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
   palette: []
@@ -419,6 +310,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 7d2de9c440cedfa4a855277fac47f8d0, type: 2}
   PresentSpriteSet: {fileID: 11400000, guid: 7d2de9c440cedfa4a855277fac47f8d0, type: 2}
   randomInitialSprite: 0
+  doReverseAnimation: 0
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
   palette: []
@@ -524,6 +416,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 683a41bb8451a7748841615f1a2e5272, type: 2}
   PresentSpriteSet: {fileID: 11400000, guid: 7d2de9c440cedfa4a855277fac47f8d0, type: 2}
   randomInitialSprite: 0
+  doReverseAnimation: 0
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
   palette: []
@@ -638,6 +531,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 7d2de9c440cedfa4a855277fac47f8d0, type: 2}
   PresentSpriteSet: {fileID: 11400000, guid: 7d2de9c440cedfa4a855277fac47f8d0, type: 2}
   randomInitialSprite: 0
+  doReverseAnimation: 0
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
   palette: []
@@ -758,6 +652,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 7d2de9c440cedfa4a855277fac47f8d0, type: 2}
   PresentSpriteSet: {fileID: 11400000, guid: 7d2de9c440cedfa4a855277fac47f8d0, type: 2}
   randomInitialSprite: 0
+  doReverseAnimation: 0
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
   palette: []
@@ -868,6 +763,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 7d2de9c440cedfa4a855277fac47f8d0, type: 2}
   PresentSpriteSet: {fileID: 11400000, guid: 7d2de9c440cedfa4a855277fac47f8d0, type: 2}
   randomInitialSprite: 0
+  doReverseAnimation: 0
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
   palette: []
@@ -1087,12 +983,6 @@ PrefabInstance:
     - {fileID: -304701645951842033, guid: 1291a5cb15d008c41bf0a373403f56b2, type: 3}
     - {fileID: 4986678559899695466, guid: 1291a5cb15d008c41bf0a373403f56b2, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 1291a5cb15d008c41bf0a373403f56b2, type: 3}
---- !u!1 &7092266194031920784 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 4813822218561835024, guid: 1291a5cb15d008c41bf0a373403f56b2,
-    type: 3}
-  m_PrefabInstance: {fileID: 2351700664918873728}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1361943750431290538 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3622147455447933482, guid: 1291a5cb15d008c41bf0a373403f56b2,
@@ -1135,3 +1025,120 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 2351700664918873728}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &7092266194031920784 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4813822218561835024, guid: 1291a5cb15d008c41bf0a373403f56b2,
+    type: 3}
+  m_PrefabInstance: {fileID: 2351700664918873728}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &3852277652561589864
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7092266194031920784}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 46ea4fe8b9752b94faca0d3c08c397f7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  DoorAnimatorV2: {fileID: 9220340957132827167}
+  airlockAssemblyPrefab: {fileID: 315051649836629422, guid: 286a19e5b6930904ab0b2f0e9ca00ab9,
+    type: 3}
+  airlockElectronicsPrefab: {fileID: 2915179160587070810, guid: 78421020f3046494d83a50667724ef36,
+    type: 3}
+  Reinforced: 0
+--- !u!114 &4065597997001928858
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7092266194031920784}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8f1c80a23946ca84489209f24da99cfd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  damageOnClose: 0
+  damageClosed: 90
+  isAutomatic: 0
+  allowInteraction: 0
+  ignorePassableChecks: 1
+  maxTimeOpen: 5
+  blockAutoClose: 0
+  isWindowedDoor: 1
+  HackingProcessBase: {fileID: 3740312760444830440}
+  ConstructibleDoor: {fileID: 3852277652561589864}
+  conType: 7
+  requireLink: 0
+--- !u!114 &6588440669612831901
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7092266194031920784}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e0ef83521ec7a394c963581b127a60ab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fireAlarm: {fileID: 0}
+--- !u!114 &9220340957132827167
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7092266194031920784}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ac608c3ebbf07f1429f73d9149f89752, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  doorBase: {fileID: 1361943750431290538}
+  overlaySparks: {fileID: 6064065028137756816}
+  overlayLights: {fileID: 8097008815040610290}
+  overlayFill: {fileID: 4140254139737444511}
+  overlayWeld: {fileID: 5535747336687579010}
+  overlayHacking: {fileID: 5893083064311537363}
+  openingAnimationTime: 1.2
+  closingAnimationTime: 1.2
+  deniedAnimationTime: 0.6
+  warningAnimationTime: 0.6
+  openingSFX:
+    SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/Doors/AirlockOpen.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
+  closingSFX:
+    SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/Doors/AirlockOpen.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
+  deniedSFX:
+    SetLoadSetting: 0
+    AssetAddress: 
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
+  warningSFX:
+    SetLoadSetting: 0
+    AssetAddress: 
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0

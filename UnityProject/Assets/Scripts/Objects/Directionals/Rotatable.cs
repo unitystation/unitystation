@@ -36,6 +36,10 @@ public class Rotatable : NetworkBehaviour, IMatrixRotation
 	[SyncVar(hook = nameof(SyncServerLockAndDirection))]
 	private LockAndDirection SynchroniseCurrentLockAndDirection;
 
+	[SerializeField]
+	[Tooltip("If active will receive Direction updates from server")]
+	private bool updateFromServer = true;
+
 	private SpriteRenderer[] spriteRenderers;
 	private SpriteHandler[] spriteHandlers;
 
@@ -97,9 +101,14 @@ public class Rotatable : NetworkBehaviour, IMatrixRotation
 
 	private void SyncServerDirection(OrientationEnum oldDir, OrientationEnum dir)
 	{
+		if (updateFromServer == false)
+		{
+			return;
+		}
 		//Seems like headless is running the hook when it shouldn't be
 		//(Mirror bug or our custom code broke something?)
 		if (CustomNetworkManager.IsHeadless) return;
+
 
 		SetDirectionInternal(oldDir, dir);
 	}
