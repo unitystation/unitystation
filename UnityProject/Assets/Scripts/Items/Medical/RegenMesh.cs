@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace Items.Medical
 {
-	public class RegenMesh : HealsTheLiving, IInteractable<InventoryApply>
+	public class RegenMesh : HealsTheLiving, IInteractable<HandActivate>
 	{
 		private bool isOpen = false;
 		private SpriteDataSO lastOpenSprite;
@@ -29,7 +29,7 @@ namespace Items.Medical
 			base.ServerPerformInteraction(interaction);
 		}
 
-		public void ServerPerformInteraction(InventoryApply interaction)
+		public void ServerPerformInteraction(HandActivate interaction)
 		{
 			if (isOpen) lastOpenSprite = spriteHandler.GetCurrentSpriteSO();
 			isOpen = !isOpen;
