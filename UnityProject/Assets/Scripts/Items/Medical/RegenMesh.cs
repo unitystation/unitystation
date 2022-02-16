@@ -8,10 +8,17 @@ namespace Items.Medical
 	public class RegenMesh : HealsTheLiving, IInteractable<InventoryApply>
 	{
 		private bool isOpen = false;
+		private SpriteDataSO lastOpenSprite;
 
 		[SerializeField] private SpriteHandler spriteHandler;
 		[SerializeField] private SpriteDataSO closedSprite;
-		[SerializeField] private SpriteDataSO openedSprite;
+
+		private void Awake()
+		{
+			if (spriteHandler == null) spriteHandler = GetComponentInChildren<SpriteHandler>();
+			lastOpenSprite = spriteHandler.GetCurrentSpriteSO();
+		}
+
 		public override void ServerPerformInteraction(HandApply interaction)
 		{
 			if (isOpen == false)
@@ -24,8 +31,9 @@ namespace Items.Medical
 
 		public void ServerPerformInteraction(InventoryApply interaction)
 		{
+			if (isOpen) lastOpenSprite = spriteHandler.GetCurrentSpriteSO();
 			isOpen = !isOpen;
-			spriteHandler.SetSpriteSO(isOpen ? openedSprite : closedSprite);
+			spriteHandler.SetSpriteSO(isOpen ? lastOpenSprite : closedSprite);
 		}
 	}
 
