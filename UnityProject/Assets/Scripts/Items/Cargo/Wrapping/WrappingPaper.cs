@@ -31,7 +31,7 @@ namespace Items.Cargo.Wrapping
 		public bool WillInteract(HandApply interaction, NetworkSide side)
 		{
 
-			return return interaction.IsAltClick == true && DefaultWillInteract.Default(interaction, side) &&
+			return interaction.IsAltClick && DefaultWillInteract.Default(interaction, side) &&
 			       CommonWillInteract(interaction, side);
 		}
 
@@ -46,7 +46,7 @@ namespace Items.Cargo.Wrapping
 
 		public bool WillInteract(InventoryApply interaction, NetworkSide side)
 		{
-			return interaction.IsAltClick == true && interaction.IsToHandSlot &&
+			return interaction.IsAltClick && interaction.IsToHandSlot &&
 				   DefaultWillInteract.Default(interaction, side) &&
 			       CommonWillInteract(interaction, side);
 		}
