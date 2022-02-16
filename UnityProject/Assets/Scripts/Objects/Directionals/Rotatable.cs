@@ -36,11 +36,16 @@ public class Rotatable : NetworkBehaviour, IMatrixRotation
 	[SyncVar(hook = nameof(SyncServerLockAndDirection))]
 	private LockAndDirection SynchroniseCurrentLockAndDirection;
 
+	[SerializeField]
+	[Tooltip("If active will receive Direction updates from server")]
+	private bool updateFromServer = true;
+
 	private SpriteRenderer[] spriteRenderers;
 	private SpriteHandler[] spriteHandlers;
 
 
 	public bool IsAtmosphericDevice = false;
+	public bool doNotResetOtherSpriteOptions = false;
 
 	/// <summary>
 	/// Invoked when this object's sprites should be updated to indicate it is facing the
@@ -53,11 +58,11 @@ public class Rotatable : NetworkBehaviour, IMatrixRotation
 	{
 		if (SynchroniseCurrentLockAndDirection.Locked)
 		{
-			SyncServerDirection(SynchroniseCurrentDirection, SynchroniseCurrentLockAndDirection.LockedTo);
+			SetDirectionInternal(SynchroniseCurrentDirection, SynchroniseCurrentLockAndDirection.LockedTo);
 		}
 		else
 		{
-			SyncServerDirection(SynchroniseCurrentDirection, dir);
+			SetDirectionInternal(SynchroniseCurrentDirection, dir);
 		}
 	}
 
@@ -73,14 +78,62 @@ public class Rotatable : NetworkBehaviour, IMatrixRotation
 		SetDirection(SynchroniseCurrentLockAndDirection.LockedTo);
 	}
 
-	private void SyncServerDirection(OrientationEnum oldDir, OrientationEnum dir)
+	private void SetDirectionInternal(OrientationEnum oldDir, OrientationEnum dir)
 	{
 		CurrentDirection = dir;
 		SynchroniseCurrentDirection = dir;
 		RotateObject(dir);
+
 		if (oldDir != dir)
 		{
+			if (
+#if UNITY_EDITOR
+				Application.isPlaying &&
+#endif
+				isServer == false && isLocalPlayer)
+			{
+				CmdChangeDirection(dir);
+			}
+
 			OnRotationChange.Invoke(dir);
+		}
+	}
+
+	private void SyncServerDirection(OrientationEnum oldDir, OrientationEnum dir)
+	{
+		if (updateFromServer == false)
+		{
+			return;
+		}
+		//Seems like headless is running the hook when it shouldn't be
+		//(Mirror bug or our custom code broke something?)
+		if (CustomNetworkManager.IsHeadless) return;
+
+
+		SetDirectionInternal(oldDir, dir);
+	}
+
+	public void SetFaceDirectionRotationZ(float direction)
+	{
+		if (45f > direction)
+		{
+			SetDirection(OrientationEnum.Up_By0);
+		}
+		else if (135f > direction)
+		{
+			SetDirection(OrientationEnum.Left_By90);
+		}
+		else if (225f > direction)
+		{
+			SetDirection(OrientationEnum.Down_By180);
+		}
+		else if (315f > direction)
+		{
+			SetDirection(OrientationEnum.Right_By270);
+		}
+		else //Wrapped around
+		{
+			SetDirection(OrientationEnum.Up_By0);
 		}
 	}
 
@@ -93,7 +146,7 @@ public class Rotatable : NetworkBehaviour, IMatrixRotation
 		}
 		else if (direction == Vector2Int.left)
 		{
-			newDir = OrientationEnum.Left_By270;
+			newDir = OrientationEnum.Left_By90;
 		}
 		else if (direction == Vector2Int.up)
 		{
@@ -101,7 +154,7 @@ public class Rotatable : NetworkBehaviour, IMatrixRotation
 		}
 		else if (direction == Vector2Int.right)
 		{
-			newDir = OrientationEnum.Right_By90;
+			newDir = OrientationEnum.Right_By270;
 		}
 		else if (direction.y == -1)
 		{
@@ -122,14 +175,13 @@ public class Rotatable : NetworkBehaviour, IMatrixRotation
 
 	public void RotateBy(byte inInt)
 	{
-		var SetInt = inInt + (int)CurrentDirection;
+		var SetInt = inInt + (int) CurrentDirection;
 		while (SetInt > 3)
 		{
 			SetInt = SetInt - 4;
 		}
 
-		FaceDirection((OrientationEnum)SetInt);
-
+		FaceDirection((OrientationEnum) SetInt);
 	}
 
 	[NaughtyAttributes.Button()]
@@ -137,6 +189,11 @@ public class Rotatable : NetworkBehaviour, IMatrixRotation
 	{
 		SetDirection(CurrentDirection);
 		ResitOthers();
+	}
+
+	public override void OnStartClient()
+	{
+		SyncServerDirection(SynchroniseCurrentDirection, SynchroniseCurrentDirection);
 	}
 
 	private void Start()
@@ -165,16 +222,17 @@ public class Rotatable : NetworkBehaviour, IMatrixRotation
 			case OrientationEnum.Up_By0:
 				outQuaternion.eulerAngles = new Vector3(0, 0, 0f);
 				break;
-			case OrientationEnum.Right_By90:
-				outQuaternion.eulerAngles = new  Vector3(0, 0, -90f);
+			case OrientationEnum.Right_By270:
+				outQuaternion.eulerAngles = new Vector3(0, 0, -90f);
 				break;
 			case OrientationEnum.Down_By180:
-				outQuaternion.eulerAngles = new  Vector3(0, 0, -180f);
+				outQuaternion.eulerAngles = new Vector3(0, 0, -180f);
 				break;
-			case OrientationEnum.Left_By270:
-				outQuaternion.eulerAngles = new  Vector3(0, 0, -270f);
+			case OrientationEnum.Left_By90:
+				outQuaternion.eulerAngles = new Vector3(0, 0, -270f);
 				break;
 		}
+
 		return outQuaternion;
 	}
 
@@ -202,13 +260,13 @@ public class Rotatable : NetworkBehaviour, IMatrixRotation
 			case OrientationEnum.Up_By0:
 				spriteVariant = 1;
 				break;
-			case OrientationEnum.Right_By90:
+			case OrientationEnum.Right_By270:
 				spriteVariant = 2;
 				break;
 			case OrientationEnum.Down_By180:
 				spriteVariant = 0;
 				break;
-			case OrientationEnum.Left_By270:
+			case OrientationEnum.Left_By90:
 				spriteVariant = 3;
 				break;
 		}
@@ -226,11 +284,20 @@ public class Rotatable : NetworkBehaviour, IMatrixRotation
 		}
 	}
 
+	//client requests the server to change serverDirection
+	[Command]
+	private void CmdChangeDirection(OrientationEnum direction)
+	{
+		SetDirection(direction);
+	}
+
+
 	public struct LockAndDirection
 	{
 		public bool Locked;
 		public OrientationEnum LockedTo;
 	}
+
 	public void OnValidate()
 	{
 		Awake();
@@ -241,47 +308,50 @@ public class Rotatable : NetworkBehaviour, IMatrixRotation
 
 	public void ResitOthers()
 	{
+		if (doNotResetOtherSpriteOptions) return;
 
-			var DIR = OrientationEnum.Up_By0;
-			if (IsAtmosphericDevice)
+		var DIR = OrientationEnum.Up_By0;
+		if (IsAtmosphericDevice)
+		{
+			DIR = OrientationEnum.Down_By180;
+		}
+
+
+		if (MethodRotation != RotationMethod.Parent)
+		{
+			transform.localRotation = ByDegreesToQuaternion(DIR);
+		}
+
+		if (MethodRotation != RotationMethod.Sprites)
+		{
+			var Quaternion = ByDegreesToQuaternion(DIR);
+
+			foreach (var spriteRenderer in spriteRenderers)
 			{
-				DIR = OrientationEnum.Down_By180;
+				spriteRenderer.transform.localRotation = Quaternion;
 			}
+		}
 
-
-			if (MethodRotation != RotationMethod.Parent)
+		if (ChangeSprites == false && IsAtmosphericDevice == false)
+		{
+			int SpriteVariant = 0;
+			foreach (var spriteHandler in spriteHandlers)
 			{
-				transform.localRotation = ByDegreesToQuaternion(DIR);
-			}
-
-			if (MethodRotation != RotationMethod.Sprites)
-			{
-				var Quaternion = ByDegreesToQuaternion(DIR);
-
-				foreach (var spriteRenderer in spriteRenderers)
+				if (isChangingSO)
 				{
-					spriteRenderer.transform.localRotation = Quaternion;
+					spriteHandler.ChangeSprite(0, false);
+				}
+				else
+				{
+					spriteHandler.ChangeSpriteVariant(0, false);
 				}
 			}
-
-			if (ChangeSprites == false && IsAtmosphericDevice == false)
-			{
-				int SpriteVariant = 0;
-				foreach (var spriteHandler in spriteHandlers)
-				{
-					if (isChangingSO)
-					{
-						spriteHandler.ChangeSprite(0, false);
-					}
-					else
-					{
-						spriteHandler.ChangeSpriteVariant(0, false);
-					}
-				}
-			}
+		}
 
 #if UNITY_EDITOR
-		else if (Application.isPlaying == false && (this.gameObject.scene.path == null || this.gameObject.scene.path.Contains("Scenes") == false) == false)
+		else if (Application.isPlaying == false &&
+		         (this.gameObject.scene.path == null || this.gameObject.scene.path.Contains("Scenes") == false) ==
+		         false)
 		{
 			if (MethodRotation != RotationMethod.Parent)
 			{
@@ -304,7 +374,6 @@ public class Rotatable : NetworkBehaviour, IMatrixRotation
 
 			if (ChangeSprites == false)
 			{
-
 				foreach (var spriteHandler in spriteHandlers)
 				{
 					SerializedObject serializedspriteHandler = new UnityEditor.SerializedObject(spriteHandler);
@@ -326,7 +395,6 @@ public class Rotatable : NetworkBehaviour, IMatrixRotation
 
 	public void OnMatrixRotate(MatrixRotationInfo rotationInfo)
 	{
-
 	}
 
 	private void OnDrawGizmosSelected()
@@ -342,10 +410,13 @@ public class Rotatable : NetworkBehaviour, IMatrixRotation
 			DebugGizmoUtils.DrawArrow(transform.position, CurrentDirection.ToLocalVector3());
 		}
 	}
+
 	/// <summary>
 	/// Event which indicates a direction change has occurred.
 	/// </summary>
-	public class RotationChangeEvent : UnityEvent<OrientationEnum>{}
+	public class RotationChangeEvent : UnityEvent<OrientationEnum>
+	{
+	}
 
 	public interface IOnRotationChangeEditor
 	{

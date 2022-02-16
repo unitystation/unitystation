@@ -127,13 +127,13 @@ using Systems.Interaction;
 				case OrientationEnum.Down_By180:
 					if (dir2Int == Vector2Int.down) return false;
 					return true;
-				case OrientationEnum.Left_By270:
+				case OrientationEnum.Left_By90:
 					if (dir2Int == Vector2Int.left) return false;
 					return true;
 				case OrientationEnum.Up_By0:
 					if (dir2Int == Vector2Int.up) return false;
 					return true;
-				case OrientationEnum.Right_By90:
+				case OrientationEnum.Right_By270:
 					if (dir2Int == Vector2Int.right) return false;
 					return true;
 			}

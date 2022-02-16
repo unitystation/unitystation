@@ -22,7 +22,7 @@ namespace UI.Objects.Cargo
 		public override void UpdateTab()
 		{
 			DisplayCurrentCart();
-			if (cargoGUI.cargoConsole.CorrectID)
+			if (cargoGUI.cargoConsole.CorrectID || cargoGUI.IsAIInteracting())
 			{
 				confirmButtonText.SetValueServer(CanAffordCart() ? "CONFIRM CART" : "NOT ENOUGH CREDITS");
 
@@ -47,7 +47,7 @@ namespace UI.Objects.Cargo
 
 		public void ConfirmCart()
 		{
-			if (CanAffordCart() == false || cargoGUI.cargoConsole.CorrectID == false) return;
+			if (CanAffordCart() == false || (cargoGUI.cargoConsole.CorrectID == false && cargoGUI.IsAIInteracting() == false)) return;
 
 			CargoManager.Instance.ConfirmCart();
 			cargoGUI.ResetId();
@@ -72,7 +72,7 @@ namespace UI.Objects.Cargo
 				item.gameObject.SetActive(true);
 			}
 
-			if (cargoGUI.cargoConsole.CorrectID)
+			if (cargoGUI.cargoConsole.CorrectID || cargoGUI.IsAIInteracting())
 			{
 				confirmButtonText.SetValueServer("InvalidID");
 			}

@@ -15,18 +15,24 @@ namespace Items.Atmospherics
 			var pipe = GetPipeObject();
 			if (pipe == null) return;
 
-			var quart = Quaternion.Euler(0.0f, 0.0f, transform.localEulerAngles.z);
-			var spawn = Spawn.ServerPrefab(pipe.gameObject,registerItem.WorldPositionServer, localRotation: quart);
+			var spawn = Spawn.ServerPrefab(pipe.gameObject, registerItem.WorldPositionServer, localRotation: this.rotatable.ByDegreesToQuaternion(this.rotatable.CurrentDirection));
 
 			var monoPipe = spawn.GameObject.GetComponent<MonoPipe>();
+
+
+			monoPipe.directional.FaceDirection(this.rotatable.CurrentDirection);
+
 
 			monoPipe.SetColour(Colour);
 			monoPipe.SetUpPipes();
 
+
 			_ = Despawn.ServerSingle(gameObject);
 		}
 
-		public virtual void Setsprite() { }
+		public virtual void Setsprite()
+		{
+		}
 
 		public virtual MonoPipe GetPipeObject()
 		{

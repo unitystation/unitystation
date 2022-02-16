@@ -53,7 +53,7 @@ public class IDCard : NetworkBehaviour, IServerInventoryMove, IServerSpawn, IInt
 	private JobType jobType;
 
 	[SyncVar(hook = nameof(SyncJobTitle))]
-	private string jobTitle;
+	private string jobTitle = "";
 
 	[SyncVar(hook = nameof(SyncName))]
 	private string registeredName;
@@ -218,7 +218,13 @@ public class IDCard : NetworkBehaviour, IServerInventoryMove, IServerSpawn, IInt
 
 	public string GetJobTitle()
 	{
-		return jobTitle.IsNullOrEmpty() ? Occupation.DisplayName : jobTitle;
+		if (jobTitle.IsNullOrEmpty())
+		{
+			var occupation = Occupation;
+			return occupation != null ? occupation.DisplayName : "";
+		}
+
+		return jobTitle;
 	}
 
 	/// <summary>
@@ -311,6 +317,11 @@ public class IDCard : NetworkBehaviour, IServerInventoryMove, IServerSpawn, IInt
 	[Server]
 	public void ServerSetJobTitle(string newJobTitle)
 	{
+		if (string.IsNullOrEmpty(newJobTitle))
+		{
+			newJobTitle = "";
+		}
+
 		SyncJobTitle(jobTitle, newJobTitle);
 	}
 

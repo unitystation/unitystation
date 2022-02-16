@@ -10,13 +10,6 @@ namespace Systems.Radiation
 	{
 		public float MidCalculationNumbers = 0;
 
-		//How much radiation  gets passed on This tile
-		//needs a good way of translating it from tiled data to meta data tiled data
-		//Since its on its own thread it cant access the tile
-		//and it seems unnecessary to have a thing that Checks all the tiles sets the values
-		//On startling update values when meta data system Does update thing
-		public float RadiationPassability = 1;
-
 		public float RadiationLevel => CalculateRadiationLevel();
 
 		public List<RadiationPulseRecord> RecordedPulses = new List<RadiationPulseRecord>();

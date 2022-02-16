@@ -87,6 +87,11 @@ namespace Objects
 			GetComponent<Integrity>().OnWillDestroyServer.AddListener(OnWillDestroyServer);
 		}
 
+		private void OnDisable()
+		{
+			rotatable.OnRotationChange.RemoveListener(OnDirectionChanged);
+		}
+
 		private void OnWillDestroyServer(DestructionInfo info)
 		{
 			//release the player
@@ -148,7 +153,7 @@ namespace Objects
 
 			if (orientation == OrientationEnum.Up_By0) spriteRenderer.sprite = Up;
 			else if (orientation == OrientationEnum.Down_By180) spriteRenderer.sprite = Down;
-			else if (orientation == OrientationEnum.Left_By270) spriteRenderer.sprite = Left;
+			else if (orientation == OrientationEnum.Left_By90) spriteRenderer.sprite = Left;
 			else spriteRenderer.sprite = Right;
 		}
 
@@ -167,7 +172,7 @@ namespace Objects
 					{
 						spriteRendererFront.sprite = OccupiedDown;
 					}
-					else if (rotatable.CurrentDirection == OrientationEnum.Left_By270)
+					else if (rotatable.CurrentDirection == OrientationEnum.Left_By90)
 					{
 						spriteRendererFront.sprite = OccupiedLeft;
 					}

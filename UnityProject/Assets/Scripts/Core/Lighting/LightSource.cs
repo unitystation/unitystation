@@ -51,6 +51,9 @@ namespace Objects.Lighting
 		[SerializeField] private SpritesDirectional spritesStateOnEffect = null;
 		[SerializeField] private SOLightMountStatesMachine mountStatesMachine = null;
 		[SerializeField, Range(0, 100f)] private float maximumDamageOnTouch = 3f;
+
+		[SerializeField] private GameObject sparkObject = null;
+
 		private SOLightMountState currentState;
 		private ObjectBehaviour objectBehaviour;
 		private LightFixtureConstruction construction;
@@ -445,7 +448,37 @@ namespace Objects.Lighting
 			//Has to be broken and have power to spark
 			if (mState != LightMountState.Broken || powerState == PowerState.Off) return;
 
-			SparkUtil.TrySpark(gameObject, 50f);
+			InternalSpark(30f);
+		}
+
+		private void InternalSpark(float chanceToSpark)
+		{
+			//Clamp just in case
+			chanceToSpark = Mathf.Clamp(chanceToSpark, 1, 100);
+
+			//E.g will have 25% chance to not spark when chanceToSpark = 75
+			if(DMMath.Prob(100 - chanceToSpark)) return;
+
+			//Try start fire if possible
+			var reactionManager = objectBehaviour.registerTile.Matrix.ReactionManager;
+			reactionManager.ExposeHotspot(objectBehaviour.registerTile.LocalPositionServer, 1000);
+
+			SoundManager.PlayNetworkedAtPos(CommonSounds.Instance.Sparks,
+				objectBehaviour.registerTile.WorldPositionServer,
+				sourceObj: gameObject);
+
+			if (CustomNetworkManager.IsHeadless == false)
+			{
+				sparkObject.SetActive(true);
+			}
+
+			ClientRpcSpark();
+		}
+
+		[ClientRpc]
+		private void ClientRpcSpark()
+		{
+			sparkObject.SetActive(true);
 		}
 
 		#endregion

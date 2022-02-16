@@ -103,6 +103,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: c4abc9a4762307f4480c59e931cf3d79, type: 2}
   PresentSpriteSet: {fileID: 11400000, guid: 9004424b7dd33614ebd4ad66abd029d8, type: 2}
   randomInitialSprite: 0
+  doReverseAnimation: 1
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
   palette: []
@@ -5091,6 +5092,7 @@ MonoBehaviour:
       m_AssetGUID: 
       m_SubObjectName: 
       m_SubObjectType: 
+      m_EditorAssetChanged: 0
   damageDeflection: 0
   Armor:
     Melee: 0
@@ -5168,6 +5170,7 @@ MonoBehaviour:
   machineBoardPrefab: {fileID: 4184383661120845852, guid: e577883c61a32a040b4038b22754e3b2,
     type: 3}
   canNotBeDeconstructed: 0
+  isEMPResistant: 0
   mustBeUnanchored: 0
   secondsToScrewdrive: 2
 --- !u!114 &114102132577365772
@@ -5209,6 +5212,7 @@ MonoBehaviour:
       m_AssetGUID: 
       m_SubObjectName: 
       m_SubObjectType: 
+      m_EditorAssetChanged: 0
   soundDelayTime: 0
   soundMinimumPitchVariance: 1
   soundMaximumPitchVariance: 1
@@ -5363,6 +5367,7 @@ MonoBehaviour:
       m_AssetGUID: 
       m_SubObjectName: 
       m_SubObjectType: 
+      m_EditorAssetChanged: 0
   generatorEndSfx:
     SetLoadSetting: 0
     AssetAddress: Assets/Prefabs/Machines/GeneratorEnd.prefab
@@ -5370,4 +5375,5 @@ MonoBehaviour:
       m_AssetGUID: 
       m_SubObjectName: 
       m_SubObjectType: 
+      m_EditorAssetChanged: 0
   smokeParticles: {fileID: 198581407923697672}

@@ -60,7 +60,7 @@ public class TileManager : SingletonManager<TileManager>, IInitialise
 #endif
 		if (!GameData.IsInGame)
 		{
-			StartCoroutine(LoadAllTiles(true));
+			if (!Instance.initialized) StartCoroutine(LoadAllTiles(true));
 		}
 	}
 
@@ -98,6 +98,7 @@ public class TileManager : SingletonManager<TileManager>, IInitialise
 
 	private IEnumerator LoadAllTiles(bool staggeredload = false)
 	{
+		initialized = true;
 		tilesToLoad = 0;
 		tilesLoaded = 0;
 		foreach (var type in layerTileCollections)
@@ -110,7 +111,7 @@ public class TileManager : SingletonManager<TileManager>, IInitialise
 		{
 			if (!tiles.ContainsKey(type.tileType))
 			{
-				Instance.tiles.Add(type.tileType, new Dictionary<string, LayerTile>());
+				tiles.Add(type.tileType, new Dictionary<string, LayerTile>());
 			}
 
 			foreach (var t in type.layerTiles)
@@ -146,7 +147,7 @@ public class TileManager : SingletonManager<TileManager>, IInitialise
 			}
 		}
 
-		initialized = true;
+
 	}
 
 	public static LayerTile GetTile(TileType tileType, string key)

@@ -136,16 +136,16 @@ namespace Objects.Atmospherics
 				return;
 			}
 
-			foreach (var Connection in pipeData.Connections.Directions)
+			foreach (var UnfilteredConnection in pipeData.Connections.Directions)
 			{
-				if (Connection.flagLogic == FlagLogic.UnfilteredOutput)
+				if (UnfilteredConnection.flagLogic == FlagLogic.UnfilteredOutput)
 				{
-					if (Connection.Connected == null)
+					if (UnfilteredConnection.Connected == null)
 					{
 						return;
 					}
 
-					var PressureDensity = Connection.Connected.GetMixAndVolume.Density();
+					var PressureDensity = UnfilteredConnection.Connected.GetMixAndVolume.Density();
 
 
 					var tomove = new Vector2(Mathf.Abs((PressureDensity.x / MaxPressure) - 1),
@@ -162,16 +162,16 @@ namespace Objects.Atmospherics
 					TotalRemove.x = tomove.x > 1 ? 0 : TotalRemove.x;
 					TotalRemove.y = tomove.y > 1 ? 0 : TotalRemove.y;
 					pipeData.mixAndVolume.TransferTo(IntermediateMixAndVolume, TotalRemove);
-					foreach (var GetConnection in pipeData.Connections.Directions)
+					foreach (var FilteredConnection in pipeData.Connections.Directions)
 					{
-						if (GetConnection.flagLogic == FlagLogic.FilteredOutput)
+						if (FilteredConnection.flagLogic == FlagLogic.FilteredOutput)
 						{
-							if (GetConnection.Connected == null)
+							if (FilteredConnection.Connected == null)
 							{
 								IntermediateMixAndVolume.TransferTo(pipeData.mixAndVolume, IntermediateMixAndVolume.Total);
 								return;
 							}
-							var FilteredPressureDensity = GetConnection.Connected.GetMixAndVolume.Density();
+							var FilteredPressureDensity = FilteredConnection.Connected.GetMixAndVolume.Density();
 
 							if (FilteredPressureDensity.x > MaxPressure ||  FilteredPressureDensity.y > MaxPressure)
 							{
@@ -183,7 +183,7 @@ namespace Objects.Atmospherics
 								}
 								else
 								{
-									IntermediateMixAndVolume.TransferTo(Connection.Connected.GetMixAndVolume, IntermediateMixAndVolume.Total);
+									IntermediateMixAndVolume.TransferTo(UnfilteredConnection.Connected.GetMixAndVolume, IntermediateMixAndVolume.Total);
 								}
 
 								return;
@@ -191,15 +191,15 @@ namespace Objects.Atmospherics
 
 							if (PressureDensity.x > MaxPressure && PressureDensity.y > MaxPressure)
 							{
-								IntermediateMixAndVolume.TransferSpecifiedTo(GetConnection.Connected.GetMixAndVolume,
+								IntermediateMixAndVolume.TransferSpecifiedTo(FilteredConnection.Connected.GetMixAndVolume,
 									GasIndex, FilterReagent);
 								IntermediateMixAndVolume.TransferTo(pipeData.mixAndVolume, IntermediateMixAndVolume.Total);
 								return;
 							}
-							IntermediateMixAndVolume.TransferSpecifiedTo(GetConnection.Connected.GetMixAndVolume,
+							IntermediateMixAndVolume.TransferSpecifiedTo(FilteredConnection.Connected.GetMixAndVolume,
 								GasIndex, FilterReagent);
 
-							IntermediateMixAndVolume.TransferTo(Connection.Connected.GetMixAndVolume, IntermediateMixAndVolume.Total);
+							IntermediateMixAndVolume.TransferTo(UnfilteredConnection.Connected.GetMixAndVolume, IntermediateMixAndVolume.Total);
 						}
 					}
 				}

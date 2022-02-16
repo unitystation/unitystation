@@ -56,9 +56,9 @@ namespace Effects.Overlays
 					return 0;
 				case OrientationEnum.Up_By0:
 					return 1;
-				case OrientationEnum.Right_By90:
+				case OrientationEnum.Right_By270:
 					return 2;
-				case OrientationEnum.Left_By270:
+				case OrientationEnum.Left_By90:
 					return 3;
 			}
 

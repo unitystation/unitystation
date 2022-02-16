@@ -13,6 +13,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: conflicts labeler
+        if: ${{ github.event_name == 'push' }}
         uses: mschilde/auto-label-merge-conflicts@v2.0
         with:
           CONFLICT_LABEL_NAME: "Status: Merge Conflicts"

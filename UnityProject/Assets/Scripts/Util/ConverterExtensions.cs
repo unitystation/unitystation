@@ -19,7 +19,7 @@ public static class ConverterExtensions
 
 	public static Vector3 ToNonInt3(this Vector3Int other)
 	{
-		return new Vector3(other.x, other.y, 0);
+		return new Vector3(other.x, other.y, other.z);
 	}
 
 
@@ -187,9 +187,9 @@ public static class ConverterExtensions
 		return MatrixManager.LocalToWorldInt(localPos, MatrixManager.Get(matrix));
 	}
 
-	public static Vector3 ToLocal(this Vector3 worldPos, MatrixInfo matrix)
+	public static Vector3 ToLocal(this Vector3 worldPos, MatrixInfo matrixInfo)
 	{
-		return MatrixManager.WorldToLocal(worldPos, matrix);
+		return MatrixManager.WorldToLocal(worldPos, matrixInfo);
 	}
 
 	public static Vector3 ToWorld(this Vector3 localPos, MatrixInfo matrix)
@@ -264,11 +264,11 @@ public static class ConverterExtensions
 		{
 			case OrientationEnum.Up_By0:
 				return Vector3.up;
-			case OrientationEnum.Right_By90:
+			case OrientationEnum.Right_By270:
 				return Vector3.right;
 			case OrientationEnum.Down_By180:
 				return Vector3.down;
-			case OrientationEnum.Left_By270:
+			case OrientationEnum.Left_By90:
 				return Vector3.left;
 
 		}

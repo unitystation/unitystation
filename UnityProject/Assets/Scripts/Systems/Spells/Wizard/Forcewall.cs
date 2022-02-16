@@ -33,7 +33,7 @@ namespace Systems.Spells.Wizard
 					obstructions[1] = Spawn.ServerPrefab(obstructionPrefab, caster.Script.WorldPos + Vector3.left).GameObject;
 					obstructions[2] = Spawn.ServerPrefab(obstructionPrefab, caster.Script.WorldPos + Vector3.right).GameObject;
 				}
-				else if (directional.CurrentDirection == OrientationEnum.Left_By270 || directional.CurrentDirection == OrientationEnum.Right_By90)
+				else if (directional.CurrentDirection == OrientationEnum.Left_By90 || directional.CurrentDirection == OrientationEnum.Right_By270)
 				{
 					obstructions[1] = Spawn.ServerPrefab(obstructionPrefab, caster.Script.WorldPos + Vector3.up).GameObject;
 					obstructions[2] = Spawn.ServerPrefab(obstructionPrefab, caster.Script.WorldPos + Vector3.down).GameObject;

@@ -91,7 +91,7 @@ namespace Items.Engineering
 			Vector3Int worldPosInt = interaction.WorldPositionTarget.To2Int().To3Int();
 			MatrixInfo matrixinfo = MatrixManager.AtPoint(worldPosInt, true);
 			var localPosInt = MatrixManager.WorldToLocalInt(worldPosInt, matrixinfo);
-			var matrix = interaction.Performer.GetComponentInParent<Matrix>();
+			var matrix = interaction.Performer.RegisterTile().Matrix;
 			var electricalNodes = matrix.GetElectricalConnections(localPosInt);
 
 			APCPoweredDevice device = default;

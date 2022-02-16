@@ -148,6 +148,7 @@ public class ChatRelay : NetworkBehaviour
 			}
 
 
+
 			if (chatEvent.originator != null)
 			{
 				//Get NPCs in vicinity
@@ -224,16 +225,44 @@ public class ChatRelay : NetworkBehaviour
 	private void CheckForRadios(ChatEvent chatEvent)
 	{
 		HandleRadioCheckCooldown();
+		var SBRSpamCheck = false;
 		// Only spoken messages should be forwarded
 		if (chatEvent.channels.HasFlag(ChatChannel.Local) == false)
 		{
 			return;
 		}
 
+		//Check for radios on the player first
+		if (chatEvent.originator != null)
+		{
+			//Check for chat when the item is inside the player's inventory
+			if (chatEvent.originator.TryGetComponent<PlayerScript>(out var playerScript))
+			{
+				foreach (var slots in playerScript.DynamicItemStorage.ServerContents.Values)
+				{
+					if (SBRSpamCheck == true) break;
+					foreach (var slot in slots)
+					{
+						if (slot.IsEmpty) continue;
+						if (slot.Item.TryGetComponent<LocalRadioListener>(out var listener)
+							&& listener != chatEvent.originator)
+						{
+							listener.SendData(chatEvent);
+							SBRSpamCheck = true;
+						}
+					}
+				}
+			}
+		}
+
+		//If we sent the message through the radio that's on a player's inventory, stop so we don't call a physics function.
+		if (SBRSpamCheck == true) return;
+
 		//Check for chat three tiles around the player
 		foreach (Collider2D coll in Physics2D.OverlapCircleAll(chatEvent.position,
 			radioCheckRadius, itemsMask))
 		{
+			if (SBRSpamCheck == true) break;
 			if (chatEvent.originator == coll.gameObject) continue;
 			if (coll.gameObject.TryGetComponent<LocalRadioListener>(out var listener) == false) continue;
 
@@ -242,26 +271,7 @@ public class ChatRelay : NetworkBehaviour
 				layerMask, radioPos).ItHit == false)
 			{
 				listener.SendData(chatEvent);
-			}
-		}
-
-		if (chatEvent.originator != null)
-		{
-			//Check for chat when the item is inside the player's inventory
-			if (chatEvent.originator.TryGetComponent<PlayerScript>(out var playerScript))
-			{
-				foreach (var slots in playerScript.DynamicItemStorage.ServerContents.Values)
-				{
-					foreach (var slot in slots)
-					{
-						if (slot.IsEmpty) continue;
-						if (slot.Item.TryGetComponent<LocalRadioListener>(out var listener)
-						    && listener != chatEvent.originator)
-						{
-							listener.SendData(chatEvent);
-						}
-					}
-				}
+				SBRSpamCheck = true;
 			}
 		}
 	}

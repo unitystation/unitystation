@@ -147,14 +147,30 @@ namespace UI.Objects.Command
 
 		public void ServerChangeName(string newName)
 		{
-			console.TargetCard.ServerSetRegisteredName(newName);
-			ServerRefreshCardNames();
+			if (newName.Length <= 32)
+			{
+				console.TargetCard.ServerSetRegisteredName(newName);
+				ServerRefreshCardNames();
+			}
+			else
+			{
+				Chat.AddExamineMsgToClient($"Name cannot exceed 32 characters!");
+				return;
+			}
 		}
 
 		public void ServerChangeJobTitle(string newJobTitle)
 		{
-			console.TargetCard.ServerSetJobTitle(newJobTitle);
-			ServerRefreshCardNames();
+			if (newJobTitle.Length <= 32)
+			{
+				console.TargetCard.ServerSetJobTitle(newJobTitle);
+				ServerRefreshCardNames();
+			}
+			else
+			{
+				Chat.AddExamineMsgToClient($"Job title cannot exceed 32 characters!");
+				return;
+			}
 		}
 
 		/// <summary>
@@ -197,7 +213,7 @@ namespace UI.Objects.Command
 
 		public void ServerRemoveAccessCard(ConnectedPlayer player)
 		{
-			if (console.AccessCard == null)
+			if (console.AccessCard == null || IsAIInteracting() == false)
 			{
 				return;
 			}
@@ -209,7 +225,7 @@ namespace UI.Objects.Command
 		public void ServerLogin()
 		{
 			if (console.AccessCard != null &&
-				console.AccessCard.HasAccess(Access.change_ids))
+				console.AccessCard.HasAccess(Access.change_ids) || IsAIInteracting() == true)
 			{
 				console.LoggedIn = true;
 				pageSwitcher.SetActivePage(usercardPage);

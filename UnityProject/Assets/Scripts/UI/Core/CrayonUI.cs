@@ -241,9 +241,9 @@ namespace UI.Core
 			{
 				case OrientationEnum.Up_By0:
 					return Quaternion.Euler(0f, 0f, 0);
-				case OrientationEnum.Right_By90:
+				case OrientationEnum.Right_By270:
 					return Quaternion.Euler(0f, 0f, 270f);
-				case OrientationEnum.Left_By270:
+				case OrientationEnum.Left_By90:
 					return Quaternion.Euler(0f, 0f, 90f);
 				case OrientationEnum.Down_By180:
 					return Quaternion.Euler(0f, 0f, 180f);

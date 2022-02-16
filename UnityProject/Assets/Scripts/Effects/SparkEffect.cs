@@ -14,6 +14,9 @@ namespace Effects
 		[SerializeField, FormerlySerializedAs("light")]
 		private LightSprite lightSprite = null;
 
+		[SerializeField]
+		private bool networkDestroy = true;
+
 		private void OnEnable()
 		{
 			lightSprite.Color.a = 1f;
@@ -31,6 +34,12 @@ namespace Effects
 
 				lightSprite.Color.a = 1 - (totalTime / time);
 				yield return WaitFor.EndOfFrame;
+			}
+
+			if (networkDestroy == false)
+			{
+				gameObject.SetActive(false);
+				yield break;
 			}
 
 			if (CustomNetworkManager.IsServer == false) yield break;

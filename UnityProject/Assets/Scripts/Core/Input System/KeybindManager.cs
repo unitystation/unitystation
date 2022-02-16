@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -407,7 +407,7 @@ public class KeybindManager : MonoBehaviour {
 		// Chat
 		{ KeyAction.ChatLocal, 		new DualKeyCombo(new KeyCombo(KeyCode.T), new KeyCombo(KeyCode.Return))},
 		{ KeyAction.ChatRadio,		new DualKeyCombo(new KeyCombo(KeyCode.Y), null)},
-		{ KeyAction.ChatOOC,   		new DualKeyCombo(new KeyCombo(KeyCode.U), null)},
+		{ KeyAction.ChatOOC,   		new DualKeyCombo(new KeyCombo(KeyCode.O), null)},
 		{ KeyAction.ToggleHelp,    new DualKeyCombo(new KeyCombo(KeyCode.F1), null)},
 		{ KeyAction.ToggleAHelp,    new DualKeyCombo(new KeyCombo(KeyCode.F2), null)},
 		{ KeyAction.ToggleMHelp,    new DualKeyCombo(new KeyCombo(KeyCode.F3), null)},

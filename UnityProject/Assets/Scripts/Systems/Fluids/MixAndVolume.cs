@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using ScriptableObjects.Atmospherics;
 using Chemistry;
@@ -415,7 +416,13 @@ namespace Systems.Pipes
 
 		public override string ToString()
 		{
-			return $"Volume > {Volume} Mix > {mix} gasMix > {gasMix.ToString()}";
+			string Returnstring = "";
+			foreach (var gv in gasMix.GasData.GasesArray)
+			{
+				Returnstring += $" Name : {gv.GasSO.Name} Amount : {gv.Moles}";
+			}
+
+			return $"Volume > {Volume} Mix > {mix} gasMix > {gasMix.ToString()} gases > " + Returnstring;
 		}
 	}
 }

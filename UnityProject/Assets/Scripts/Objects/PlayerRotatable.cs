@@ -12,8 +12,6 @@ namespace Objects
 	{
 		private Rotatable rotatable;
 
-		[SyncVar(hook = nameof(SyncRotation))]
-		private float zRotation = 0;
 
 		private void Awake()
 		{
@@ -68,17 +66,7 @@ namespace Objects
 				// Obtains the new 90-degrees clockwise orientation of the current orientation.
 				rotatable.RotateBy(1);
 			}
-			else
-			{
-				transform.Rotate(0, 0, -90);
-				SyncRotation(zRotation, transform.eulerAngles.z);
-			}
-		}
 
-		public void SyncRotation(float oldZ, float newZ)
-		{
-			zRotation = newZ;
-			transform.eulerAngles = new Vector3(transform.eulerAngles.x, transform.eulerAngles.y, newZ);
 		}
 	}
 }

@@ -52,19 +52,8 @@ namespace Core.Editor
 
 		private void OnGUI()
 		{
-			tab = GUILayout.Toolbar(tab, new string[] { "Quick Build", "Disable Scenes" });
-			switch (tab)
-			{
-				case 0:
-					ShowQuickBuildTab();
-					break;
-				case 1:
-					ShowDisableScenesTab();
-					break;
-			}
+			ShowQuickBuildTab();
 		}
-
-		#region Quick Build Tab
 
 		[SerializeField, Scene] private string mainStationScene = "TestStation";
 		[SerializeField] private BuildTarget target = BuildTarget.StandaloneWindows64;
@@ -75,8 +64,6 @@ namespace Core.Editor
 		private SerializedProperty mainStationProperty;
 		private string projectPath;
 		private string pathForDisplay;
-
-		private static readonly string[] requiredScenes = { "StartUp", "Lobby", "OnlineScene" };
 
 		private void ShowQuickBuildTab()
 		{
@@ -189,10 +176,7 @@ namespace Core.Editor
 
 		private void Build()
 		{
-			string[] sceneNames = new string[requiredScenes.Length + 1];
-			requiredScenes.CopyTo(sceneNames, 0);
-			sceneNames[sceneNames.Length - 1] = mainStationScene;
-
+			string[] sceneNames = { "StartUp", "Lobby", "OnlineScene", "SpaceScene", mainStationScene };
 			var scenePaths = EditorBuildSettings.scenes
 					.Where(s => sceneNames.Contains(Path.GetFileNameWithoutExtension(s.path)))
 					.Select(s => s.path);
@@ -227,206 +211,5 @@ namespace Core.Editor
 				Logger.LogError($"Build failed! ({timeStr})");
 			}
 		}
-
-		#endregion
-
-		#region Disable Scenes Tab
-
-		private static List<string> AdditionalScenesToRemove = new List<string>()
-		{
-			"Fallstation Centcom",
-			"Fallstation Syndicate"
-		};
-
-		private string mainStation = "TestStation";
-		private bool removeAwaySites = true;
-		private bool removeAsteroids = true;
-		private bool removeLavaLand = true;
-		private bool removeAdditionalScenes = true;
-
-		private void ShowDisableScenesTab()
-		{
-			GUILayout.Label("Main station:");
-			mainStation = GUILayout.TextField(mainStation);
-			removeAwaySites = GUILayout.Toggle(removeAwaySites, "Remove away sites");
-			removeAsteroids = GUILayout.Toggle(removeAsteroids, "Remove asteroids");
-			removeLavaLand = GUILayout.Toggle(removeLavaLand, "Remove LavaLand");
-			removeAdditionalScenes = GUILayout.Toggle(removeAdditionalScenes, "Remove Additional Scenes (unsafe for some scenes)");
-
-			if (GUILayout.Button("Disable scenes"))
-			{
-				StartDisablingScenes();
-			}
-		}
-
-		public void StartDisablingScenes()
-		{
-			// remove all stations except TestStation
-			RemoveAllStations(exceptStation: mainStation);
-
-			if (removeAsteroids)
-				LeaveOneAsteroid();
-
-			if (removeAwaySites)
-				LeaveOneAwaySite();
-
-			if (removeLavaLand)
-				DisableLavaland();
-
-			if (removeAdditionalScenes)
-				DisableAdditionalScenes();
-
-			// make sure that editor saved all changes above
-			AssetDatabase.SaveAssets();
-			AssetDatabase.Refresh();
-		}
-
-		/// <summary>
-		/// Disable additional scenes in build settings
-		/// May cause unexpected behaviour on certain stations/gamemodes
-		/// </summary>
-		private void DisableAdditionalScenes()
-		{
-			var currentScenes = EditorBuildSettings.scenes;
-			var additionalMaps = currentScenes.Where((scene) =>
-			{
-			// select all scene to removal
-			foreach (var sceneToRemove in AdditionalScenesToRemove)
-				{
-					if (scene.path.Contains(sceneToRemove))
-						return true;
-				}
-
-				return false;
-			});
-			DisableScenes(additionalMaps);
-		}
-
-		/// <summary>
-		/// Disable LavaLand in json config and build-settings
-		/// </summary>
-		private void DisableLavaland()
-		{
-			// Disable LavaLand in config file
-			var path = Path.Combine(Application.streamingAssetsPath, "config", "gameConfig.json");
-			var config = JsonUtility.FromJson<GameConfig.GameConfig>(File.ReadAllText(path));
-			config.SpawnLavaLand = false;
-
-			// save config json
-			var gameConfigJson = JsonUtility.ToJson(config);
-			File.WriteAllText(path, gameConfigJson);
-
-			// Disable LavaLand scene
-			var currentScenes = EditorBuildSettings.scenes;
-			var lavaLandMaps = currentScenes.Where((scene) => scene.path.Contains("LavaLand"));
-			DisableScenes(lavaLandMaps);
-		}
-
-		/// <summary>
-		/// Disable all away sites subscenes, except first one
-		/// </summary>
-		private void LeaveOneAwaySite()
-		{
-			// get scriptable object with list of all away sites
-			var awayWorldsSO = AssetDatabase.LoadAssetAtPath<AwayWorldListSO>("Assets/ScriptableObjects/SubScenes/AwayWorldList.asset");
-			if (!awayWorldsSO)
-			{
-				Logger.LogError("Can't find AwayWorldListSO!", Category.Editor);
-				return;
-			}
-
-			// remove all away worlds (except first one)
-			var firstAwayWorld = awayWorldsSO.AwayWorlds.First();
-			awayWorldsSO.AwayWorlds = new List<string> { firstAwayWorld };
-			EditorUtility.SetDirty(awayWorldsSO);
-
-			// remove all away worlds from scene list
-			var currentScenes = EditorBuildSettings.scenes;
-			var awayWorlds = currentScenes.Where((scene) =>
-				scene.path.Contains("AwaySites") && !scene.path.Contains(firstAwayWorld))
-				.ToList();
-			DisableScenes(awayWorlds);
-		}
-
-		/// <summary>
-		/// Disable all asteroids subscenes, except first one
-		/// </summary>
-		private static void LeaveOneAsteroid()
-		{
-			// get scriptable object with list of all asteroids
-			var asteroidListSO = AssetDatabase.LoadAssetAtPath<AsteroidListSO>("Assets/ScriptableObjects/SubScenes/AsteroidListSO.asset");
-			if (!asteroidListSO)
-			{
-				Logger.LogError("Can't find AsteroidListSO!", Category.Editor);
-				return;
-			}
-
-			// remove all except first asteroid
-			var firstAsteroid = asteroidListSO.Asteroids.First();
-			asteroidListSO.Asteroids = new List<string> { firstAsteroid };
-			EditorUtility.SetDirty(asteroidListSO);
-
-			// remove all asteroids from scene list
-			var currentScenes = EditorBuildSettings.scenes;
-			var asteroids = currentScenes.Where((scene) =>
-				scene.path.Contains("AsteroidScenes") && !scene.path.Contains(firstAsteroid));
-			DisableScenes(asteroids);
-		}
-
-		/// <summary>
-		/// Remove all stations from build settings, station scriptable object and json configuration
-		/// </summary>
-		/// <param name="exceptStation">One station to leave in rotation</param>
-		private void RemoveAllStations(string exceptStation)
-		{
-			var exceptStations = new List<string> { exceptStation };
-
-			// get scriptable object with list of all stations
-			var mainStationsSO = AssetDatabase.LoadAssetAtPath<MainStationListSO>("Assets/ScriptableObjects/SubScenes/MainStationList.asset");
-			if (!mainStationsSO)
-			{
-				Logger.LogError("Can't find MainStationListSO!", Category.Editor);
-				return;
-			}
-
-			// remove all stations from scriptable object 
-			mainStationsSO.MainStations = exceptStations;
-			EditorUtility.SetDirty(mainStationsSO);
-
-			// replace maps in json configuration in streaming assets
-			var mapConfigPath = Path.Combine(Application.streamingAssetsPath, "maps.json");
-			var mapConfig = JsonUtility.FromJson<MapList>(File.ReadAllText(mapConfigPath));
-			mapConfig.lowPopMaps = exceptStations;
-			mapConfig.medPopMaps = exceptStations;
-			mapConfig.highPopMaps = exceptStations;
-
-			// save new json
-			var mapConfigJson = JsonUtility.ToJson(mapConfig);
-			File.WriteAllText(mapConfigPath, mapConfigJson);
-
-			// find stations to delete in editor settings
-			var currentScenes = EditorBuildSettings.scenes;
-			var mainStations = currentScenes.Where((scene) =>
-				scene.path.Contains("MainStations") && !scene.path.Contains(exceptStation));
-			DisableScenes(mainStations);
-		}
-
-		private static void DisableScenes(IEnumerable<EditorBuildSettingsScene> scenesToDisable)
-		{
-			var currentScenes = EditorBuildSettings.scenes;
-			foreach (var sceneInList in currentScenes)
-			{
-				foreach (var sceneToDisable in scenesToDisable)
-				{
-					if (sceneToDisable.guid == sceneInList.guid)
-					{
-						sceneInList.enabled = false;
-					}
-				}
-			}
-			EditorBuildSettings.scenes = currentScenes;
-		}
-
-		#endregion
 	}
 }

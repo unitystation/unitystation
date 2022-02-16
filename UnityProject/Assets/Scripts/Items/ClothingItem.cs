@@ -147,12 +147,12 @@ public class ClothingItem : MonoBehaviour
 			referenceOffset = 1;
 		}
 
-		if (currentDirection == OrientationEnum.Right_By90)
+		if (currentDirection == OrientationEnum.Right_By270)
 		{
 			referenceOffset = 2;
 		}
 
-		if (currentDirection == OrientationEnum.Left_By270)
+		if (currentDirection == OrientationEnum.Left_By90)
 		{
 			referenceOffset = 3;
 		}

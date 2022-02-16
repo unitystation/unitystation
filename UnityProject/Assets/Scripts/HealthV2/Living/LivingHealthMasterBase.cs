@@ -230,7 +230,7 @@ namespace HealthV2
 		/// <summary>
 		/// Current sicknesses status of the creature and it's current stage
 		/// </summary>
-		private MobSickness mobSickness = null;
+		public MobSickness mobSickness { get; private set; }  = null;
 
 		/// <summary>
 		/// List of sicknesses that creature has gained immunity to
@@ -421,6 +421,21 @@ namespace HealthV2
 			{
 				if (implant.DamageContributesToOverallHealth == false) continue;
 				toReturn -= implant.Burn;
+			}
+
+			return toReturn;
+		}
+
+		/// <summary>
+		/// Returns the the sum of all toxin damage taken by body parts
+		/// </summary>
+		public float GetTotalToxDamage()
+		{
+			float toReturn = 0;
+			foreach (var implant in BodyPartList)
+			{
+				if (implant.DamageContributesToOverallHealth == false) continue;
+				toReturn -= implant.Toxin;
 			}
 
 			return toReturn;
@@ -1339,6 +1354,17 @@ namespace HealthV2
 							}
 
 							ClientSprites.Remove(bodyPartSprites);
+
+							var net = SpriteHandlerManager.GetRecursivelyANetworkBehaviour(bodyPartSprites.gameObject);
+							var handlers = bodyPartSprites.GetComponentsInChildren<SpriteHandler>();
+
+
+							foreach (var handler in handlers)
+							{
+								SpriteHandlerManager.UnRegisterHandler(net, handler);
+							}
+
+
 							Destroy(bodyPartSprites.gameObject);
 						}
 					}

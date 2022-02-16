@@ -47,7 +47,7 @@ public partial class GameManager
 			var shuttles = FindObjectsOfType<EscapeShuttle>();
 			if (shuttles.Length < 1)
 			{
-				Logger.LogError("Primary escape shuttle is missing from GameManager!", Category.Round);
+				Logger.LogWarning("Primary escape shuttle is missing from GameManager!", Category.Round);
 				return;
 			}
 			Logger.LogWarning("Primary escape shuttle is missing from GameManager, but one was found on scene", Category.Round);
@@ -66,7 +66,7 @@ public partial class GameManager
 		if (Instance.QuickLoad)
 		{
 			if (primaryEscapeShuttle.MatrixInfo == null) return;
-			if (primaryEscapeShuttle.MatrixInfo.MatrixMove == null) return;
+			if (primaryEscapeShuttle.MatrixInfo.IsMovable == false) return;
 		}
 
 		var orientation = primaryEscapeShuttle.MatrixInfo.MatrixMove.InitialFacing;
@@ -91,13 +91,13 @@ public partial class GameManager
 
 		switch (LandingZoneManager.Instance.centcomDocking.orientation)
 		{
-			case OrientationEnum.Right_By90:
+			case OrientationEnum.Right_By270:
 				newPos = new Vector3(LandingZoneManager.Instance.centcomDockingPos.x + Mathf.Ceil(width/2f),LandingZoneManager.Instance.centcomDockingPos.y, 0);
 				break;
 			case OrientationEnum.Up_By0:
 				newPos = new Vector3(LandingZoneManager.Instance.centcomDockingPos.x ,LandingZoneManager.Instance.centcomDockingPos.y + Mathf.Ceil(width/2f), 0);
 				break;
-			case OrientationEnum.Left_By270:
+			case OrientationEnum.Left_By90:
 				newPos = new Vector3(LandingZoneManager.Instance.centcomDockingPos.x - Mathf.Ceil(width/2f),LandingZoneManager.Instance.centcomDockingPos.y, 0);
 				break;
 			default:

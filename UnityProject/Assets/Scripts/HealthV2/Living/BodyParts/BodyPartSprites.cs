@@ -83,12 +83,12 @@ public class BodyPartSprites : MonoBehaviour
 			referenceOffset = 1;
 		}
 
-		if (direction == OrientationEnum.Right_By90)
+		if (direction == OrientationEnum.Right_By270)
 		{
 			referenceOffset = 2;
 		}
 
-		if (direction == OrientationEnum.Left_By270)
+		if (direction == OrientationEnum.Left_By90)
 		{
 			referenceOffset = 3;
 		}
@@ -100,6 +100,9 @@ public class BodyPartSprites : MonoBehaviour
 				spriteRenderer.sortingOrder = SpriteOrder.Orders[referenceOffset];
 			}
 		}
+
+		//Not networked so don't run sprite change on headless
+		if (CustomNetworkManager.IsHeadless) return;
 
 		baseSpriteHandler.ChangeSpriteVariant(referenceOffset, false);
 	}

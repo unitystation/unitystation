@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
@@ -7,7 +8,7 @@ using Mirror;
 /// Handles displaying the ghost sprites.
 /// </summary>
 [RequireComponent(typeof(Rotatable))]
-public class GhostSprites : MonoBehaviour, IServerSpawn
+public class GhostSprites : MonoBehaviour
 {
 	//sprite renderer showing the ghost
 	private SpriteHandler SpriteHandler;
@@ -18,18 +19,25 @@ public class GhostSprites : MonoBehaviour, IServerSpawn
 
 	private Rotatable rotatable;
 
-	private bool AdminGhost;
-
 	protected void Awake()
 	{
 		rotatable = GetComponent<Rotatable>();
-		rotatable.OnRotationChange.AddListener(OnDirectionChange);
 		SpriteHandler = GetComponentInChildren<SpriteHandler>();
 	}
 
-	public void OnSpawnServer(SpawnInfo info)
+	private void OnEnable()
 	{
-		if (AdminGhost)
+		rotatable.OnRotationChange.AddListener(OnDirectionChange);
+	}
+
+	private void OnDisable()
+	{
+		rotatable.OnRotationChange.RemoveListener(OnDirectionChange);
+	}
+
+	public void SetGhostSprite(bool isAdmin)
+	{
+		if (isAdmin)
 		{
 			SpriteHandler.SetSpriteSO(AdminGhostSpriteSOs.PickRandom());
 		}
@@ -37,11 +45,6 @@ public class GhostSprites : MonoBehaviour, IServerSpawn
 		{
 			SpriteHandler.SetSpriteSO(GhostSpritesSOs.PickRandom());
 		}
-	}
-
-	public void SetAdminGhost()
-	{
-		AdminGhost = true;
 	}
 
 	private void OnDirectionChange(OrientationEnum direction)
@@ -54,7 +57,7 @@ public class GhostSprites : MonoBehaviour, IServerSpawn
 		{
 			SpriteHandler.ChangeSpriteVariant(1, networked:false);
 		}
-		else if (OrientationEnum.Right_By90 == direction)
+		else if (OrientationEnum.Right_By270 == direction)
 		{
 			SpriteHandler.ChangeSpriteVariant(2, networked:false);
 		}

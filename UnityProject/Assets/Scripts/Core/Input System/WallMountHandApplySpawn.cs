@@ -39,11 +39,11 @@ public class WallMountHandApplySpawn : MonoBehaviour, ICheckedInteractable<Posit
 		{
 			if (PlaceDirection.x > 0)
 			{
-				FaceDirection = OrientationEnum.Right_By90;
+				FaceDirection = OrientationEnum.Right_By270;
 			}
 			else
 			{
-				FaceDirection = OrientationEnum.Left_By270;
+				FaceDirection = OrientationEnum.Left_By90;
 			}
 		}
 		else

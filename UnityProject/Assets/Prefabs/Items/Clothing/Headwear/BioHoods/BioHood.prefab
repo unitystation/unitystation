@@ -28,6 +28,16 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: ba923436cf6803a4f99a5ed73f885d61,
         type: 2}
+    - target: {fileID: 1778182844913246397, guid: a7a048f6c330048e9a2358fb6f71d385,
+        type: 3}
+      propertyPath: inventoryMoveSound.AssetAddress
+      value: null
+      objectReference: {fileID: 0}
+    - target: {fileID: 1778182844913246397, guid: a7a048f6c330048e9a2358fb6f71d385,
+        type: 3}
+      propertyPath: inventoryRemoveSound.AssetAddress
+      value: null
+      objectReference: {fileID: 0}
     - target: {fileID: 2067487341669760131, guid: a7a048f6c330048e9a2358fb6f71d385,
         type: 3}
       propertyPath: m_Sprite
@@ -237,6 +247,11 @@ PrefabInstance:
     - target: {fileID: 5061482891772091482, guid: a7a048f6c330048e9a2358fb6f71d385,
         type: 3}
       propertyPath: hidesIdentity
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5061482891772091482, guid: a7a048f6c330048e9a2358fb6f71d385,
+        type: 3}
+      propertyPath: disallowConsume
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5061482891772091482, guid: a7a048f6c330048e9a2358fb6f71d385,

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using ScriptableObjects.Atmospherics;
 using ScriptableObjects.Systems.Spells;
@@ -96,7 +97,7 @@ namespace ScriptableObjects
 				return value as T;
 			}
 
-			Logger.LogError($"{nameof(SOs)} is missing entry for {typeof(T).FullName}.");
+			Logger.LogWarning($"{nameof(SOs)} is missing entry for {typeof(T).FullName}.");
 			return default;
 		}
 	}

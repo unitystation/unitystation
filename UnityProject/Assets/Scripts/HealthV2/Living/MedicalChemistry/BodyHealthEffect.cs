@@ -21,12 +21,12 @@ public class BodyHealthEffect : MetabolismReaction
 
 	public bool CanOverdose = true;
 
-	[ShowIf("CanOverdose")] public float PercentageBloodOverdose = 0.25f;
-	[ShowIf("CanOverdose")] public float OverdoseDamageMultiplier = 1;
+	[ShowIf(nameof(CanOverdose))] public float PercentageBloodOverdose = 0.25f;
+	[ShowIf(nameof(CanOverdose))] public float OverdoseDamageMultiplier = 1;
 
 	public bool MultiEffect = false;
 
-	[ShowIf("MultiEffect")] public List<TypeAndStrength> Effects = new List<TypeAndStrength>();
+	[ShowIf(nameof(MultiEffect))] public List<TypeAndStrength> Effects = new List<TypeAndStrength>();
 
 
 	public const int MagicNumber = 15; // This balance is about right with 1 u ingested 1 * effect it about does one damage

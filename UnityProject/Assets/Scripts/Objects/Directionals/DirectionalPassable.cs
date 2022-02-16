@@ -202,13 +202,13 @@ namespace Core.Directionals
 					else if (sideToCross == Vector2Int.left) return sides.Left;
 					else if (sideToCross == Vector2Int.right) return sides.Right;
 					break;
-				case OrientationEnum.Left_By270:
+				case OrientationEnum.Left_By90:
 					if (sideToCross == Vector2Int.up) return sides.Left;
 					else if (sideToCross == Vector2Int.down) return sides.Right;
 					else if (sideToCross == Vector2Int.left) return sides.Down;
 					else if (sideToCross == Vector2Int.right) return sides.Up;
 					break;
-				case OrientationEnum.Right_By90:
+				case OrientationEnum.Right_By270:
 					if (sideToCross == Vector2Int.up) return sides.Right;
 					else if (sideToCross == Vector2Int.down) return sides.Left;
 					else if (sideToCross == Vector2Int.left) return sides.Up;

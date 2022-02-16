@@ -255,7 +255,7 @@ namespace Player.Movement
 			direction.x = Mathf.Clamp(direction.x, -1, 1);
 			direction.y = Mathf.Clamp(direction.y, -1, 1);
 
-			if (matrixInfo?.MatrixMove)
+			if (matrixInfo != null && matrixInfo.IsMovable)
 			{
 				// Converting world direction to local direction
 				direction = Vector3Int.RoundToInt(matrixInfo.MatrixMove.FacingOffsetFromInitial.QuaternionInverted *
