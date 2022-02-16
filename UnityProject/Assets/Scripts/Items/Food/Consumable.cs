@@ -141,7 +141,7 @@ public abstract class Consumable : MonoBehaviour, ICheckedInteractable<HandApply
 	public RightClickableResult GenerateRightClickOptions()
 	{
 		var rightClickResult = new RightClickableResult();
-		if (requiresOpeningBeforeConsumption == false) return rightClickResult;
+		if (requiresOpeningBeforeConsumption == false || isOpenForConsumption) return rightClickResult;
 		rightClickResult.AddElement("Open This", TryOpen);
 		return rightClickResult;
 	}
