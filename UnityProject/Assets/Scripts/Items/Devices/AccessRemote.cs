@@ -1,35 +1,40 @@
 using Doors;
 using Doors.Modules;
+using Mirror;
 using UnityEngine;
 
-public class AccessRemote : MonoBehaviour, IClientInteractable<HandActivate>, IClientInteractable<HandApply>
+public class AccessRemote : NetworkBehaviour, IInteractable<HandActivate>, ICheckedInteractable<HandApply>
 {
 
-	public bool Interact(HandActivate interaction)
+	public void ServerPerformInteraction(HandActivate interaction)
 	{
 		switch (currentState)
 		{
 			case AccessRemoteState.Open:
-				currentState = AccessRemoteState.Bolts;
+				SyncCurrentRemoteState(currentState, AccessRemoteState.Bolts);
 				break;
 			case AccessRemoteState.Bolts:
-				currentState = AccessRemoteState.Emergency;
+				SyncCurrentRemoteState(currentState, AccessRemoteState.Emergency);
 				break;
 			case AccessRemoteState.Emergency:
-				currentState = AccessRemoteState.Open;
+				SyncCurrentRemoteState(currentState, AccessRemoteState.Open);
 				break;
 		}
-		Chat.AddExamineMsgFromServer(interaction.Performer, $"Remote mode is set to: {currentState.ToString()}.");
+		Chat.AddExamineMsg(interaction.Performer, $"Remote mode is set to: {currentState.ToString()}.");
+	}
+
+	public bool WillInteract(HandApply interaction, NetworkSide side)
+	{
+		if (interaction.IsHighlight || interaction.IsAltClick)
+			return false;
+		if (Validations.HasComponent<DoorMasterController>(interaction.TargetObject) == false)
+			return false;
 
 		return true;
 	}
 
-	public bool Interact(HandApply interaction)
+	public void ServerPerformInteraction(HandApply interaction)
 	{
-		if (interaction.IsHighlight || interaction.IsAltClick) //Only work on left clicks
-			return false;
-
-		if (Validations.HasComponent<DoorMasterController>(interaction.TargetObject) == false) return false;
 		DoorMasterController doorController = interaction.TargetObject.GetComponent<DoorMasterController>();
 
 		switch (currentState)
@@ -45,8 +50,8 @@ public class AccessRemote : MonoBehaviour, IClientInteractable<HandActivate>, IC
 				AccessModule accessModule = interaction.TargetObject.GetComponentInChildren<AccessModule>();
 				if (accessModule == null)
 				{
-					Chat.AddExamineMsgFromServer(interaction.Performer, $"{doorController.gameObject.ExpensiveName()} has no access module!");
-					return false;
+					Chat.AddExamineMsg(interaction.Performer, $"{doorController.gameObject.ExpensiveName()} has no access module!");
+					return;
 				}
 				accessModule.ToggleAuthorizationBypassState();
 				break;
@@ -55,15 +60,14 @@ public class AccessRemote : MonoBehaviour, IClientInteractable<HandActivate>, IC
 				BoltsModule boltsModule = interaction.TargetObject.GetComponentInChildren<BoltsModule>();
 				if (boltsModule == null)
 				{
-					Chat.AddExamineMsgFromServer(interaction.Performer, $"{doorController.gameObject.ExpensiveName()} has no bolts module!");
-					return false;
+					Chat.AddExamineMsg(interaction.Performer, $"{doorController.gameObject.ExpensiveName()} has no bolts module!");
+					return;
 				}
 				boltsModule.ToggleBolts();
 				break;
 		}
 
-		Chat.AddExamineMsgFromServer(interaction.Performer, $"You use access remote on: {doorController.gameObject.ExpensiveName()}.");
-		return true;
+		Chat.AddExamineMsg(interaction.Performer, $"You use access remote on: {doorController.gameObject.ExpensiveName()}");
 	}
 
 	private enum AccessRemoteState
@@ -73,5 +77,11 @@ public class AccessRemote : MonoBehaviour, IClientInteractable<HandActivate>, IC
 		Emergency
 	}
 
-	private AccessRemoteState currentState = AccessRemoteState.Open;
+	[SyncVar(hook = nameof(SyncCurrentRemoteState))]
+	private AccessRemoteState currentState;
+
+	private void SyncCurrentRemoteState(AccessRemoteState oldState, AccessRemoteState newState)
+	{
+		currentState = newState;
+	}
 }
