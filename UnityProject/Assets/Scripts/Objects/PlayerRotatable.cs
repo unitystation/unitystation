@@ -45,7 +45,7 @@ namespace Objects
 		public bool WillInteract(ContextMenuApply interaction, NetworkSide side)
 		{
 			if (!DefaultWillInteract.Default(interaction, side)) return false;
-			if (TryGetComponent(out ObjectBehaviour behaviour) && (!behaviour.IsPushable && CanRotateIfNotMovable == false)) return false;
+			if (TryGetComponent(out ObjectBehaviour behaviour) && (behaviour.IsPushable == false && CanRotateIfNotMovable == false)) return false;
 
 			return true;
 		}
