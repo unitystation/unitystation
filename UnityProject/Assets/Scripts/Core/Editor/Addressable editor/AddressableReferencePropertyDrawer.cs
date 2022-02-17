@@ -28,7 +28,7 @@ public class AddressableReferencePropertyDrawer : PropertyDrawer
 		}
 
 
-		EditorGUILayout.LabelField("AssetAddress", GUILayout.ExpandWidth(false), GUILayout.Width(250));
+		EditorGUILayout.LabelField($"{property.displayName}", GUILayout.ExpandWidth(false), GUILayout.Width(250));
 		if (GUILayout.Button($"{stringpath}", EditorStyles.popup))
 		{
 			SearchWindow.Open(
