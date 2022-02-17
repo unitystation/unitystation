@@ -1,4 +1,5 @@
-﻿using Systems.GhostRoles;
+﻿using System.Net.Configuration;
+using Systems.GhostRoles;
 using Mirror;
 
 namespace Messages.Server.GhostRoles
@@ -39,6 +40,7 @@ namespace Messages.Server.GhostRoles
 
 				foreach (ConnectedPlayer player in PlayerList.Instance.InGamePlayers)
 				{
+					if(PlayerList.Instance.loggedOff.Contains(player)) continue;
 					if (player?.Script == null)
 					{
 						Logger.LogError("SendToDead, player?.Script == null", Category.Ghosts);
@@ -63,6 +65,7 @@ namespace Messages.Server.GhostRoles
 		public static NetMessage SendTo(ConnectedPlayer player, uint key, GhostRoleServer role)
 		{
 			NetMessage msg = GetMessage(key, role);
+			if (PlayerList.Instance.loggedOff.Contains(player)) return msg;
 
 			SendTo(player, msg);
 			return msg;

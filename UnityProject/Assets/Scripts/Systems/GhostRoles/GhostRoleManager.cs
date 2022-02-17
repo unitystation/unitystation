@@ -206,6 +206,8 @@ namespace Systems.GhostRoles
 
 		private GhostRoleResponseCode VerifyPlayerCanQueue(ConnectedPlayer player, uint key)
 		{
+			if (PlayerList.Instance.loggedOff.Contains(player)) return GhostRoleResponseCode.Error;
+
 			if (player.Script.IsDeadOrGhost == false)
 			{
 				return GhostRoleResponseCode.Error;
@@ -255,7 +257,6 @@ namespace Systems.GhostRoles
 		private void ServerTryAddPlayerToRole(ConnectedPlayer player, uint key)
 		{
 			GhostRoleResponseCode responseCode = VerifyPlayerCanQueue(player, key);
-
 			if (responseCode == GhostRoleResponseCode.Success)
 			{
 				var role = serverAvailableRoles[key];
@@ -294,7 +295,6 @@ namespace Systems.GhostRoles
 			foreach (var role in serverAvailableRoles)
 			{
 				if (role.Value.WaitingPlayers.Contains(player) == false) continue;
-
 				role.Value.WaitingPlayers.Remove(player);
 				GhostRoleResponseMessage.SendTo(player, role.Key, GhostRoleResponseCode.ClearMessage);
 			}
