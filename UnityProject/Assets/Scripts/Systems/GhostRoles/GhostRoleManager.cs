@@ -196,6 +196,7 @@ namespace Systems.GhostRoles
 
 		private bool ServerPlayerIsQueued(ConnectedPlayer player)
 		{
+			RemoveOfflineWaitingPlayers();
 			foreach (KeyValuePair<uint, GhostRoleServer> kvp in serverAvailableRoles)
 			{
 				if (kvp.Value.WaitingPlayers.Contains(player)) return true;
@@ -256,6 +257,7 @@ namespace Systems.GhostRoles
 
 		private void ServerTryAddPlayerToRole(ConnectedPlayer player, uint key)
 		{
+			RemoveOfflineWaitingPlayers();
 			GhostRoleResponseCode responseCode = VerifyPlayerCanQueue(player, key);
 			if (responseCode == GhostRoleResponseCode.Success)
 			{
@@ -283,15 +285,21 @@ namespace Systems.GhostRoles
 		{
 			var role = serverAvailableRoles[key];
 			role.WaitingPlayers.Remove(player);
-			
-			foreach (var playerQueued in role.WaitingPlayers)
-			{
-				//(Max) : this should remove all queued up players who are offline but I don't think this is the best place to put it
-				if(PlayerList.Instance.loggedOff.Contains(playerQueued) == false) continue;
-				role.WaitingPlayers.Remove(playerQueued);
-			}
+			RemoveOfflineWaitingPlayers();
 
 			GhostRoleResponseMessage.SendTo(player, key, GhostRoleResponseCode.ClearMessage);
+		}
+
+		public void RemoveOfflineWaitingPlayers()
+		{
+			foreach (var ghostRoleQueue in serverAvailableRoles.Values)
+			{
+				foreach (var playerQueued in ghostRoleQueue.WaitingPlayers)
+				{
+					if(PlayerList.Instance.loggedOff.Contains(playerQueued) == false) continue;
+					ghostRoleQueue.WaitingPlayers.Remove(playerQueued);
+				}
+			}
 		}
 
 		/// <summary>
@@ -305,6 +313,7 @@ namespace Systems.GhostRoles
 				role.Value.WaitingPlayers.Remove(player);
 				GhostRoleResponseMessage.SendTo(player, role.Key, GhostRoleResponseCode.ClearMessage);
 			}
+			RemoveOfflineWaitingPlayers();
 		}
 	}
 }
