@@ -15,6 +15,7 @@ using Messages.Client.NewPlayer;
 using Messages.Client.SpriteMessages;
 using Player.Movement;
 using Mirror;
+using Objects;
 
 /// <summary>
 /// Defines collision type we expect
@@ -1067,14 +1068,14 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 	///Cross-matrix edition of <see cref="Matrix.IsPassableAt(UnityEngine.Vector3Int,UnityEngine.Vector3Int,bool,GameObject)"/>
 	///<inheritdoc cref="Matrix.IsPassableAt(UnityEngine.Vector3Int,UnityEngine.Vector3Int,bool,GameObject)"/>
 	public static bool IsPassableAtAllMatricesV2(Vector3Int worldOrigin, Vector3Int worldTarget,
-		MatrixCash MatrixCash, GameObject Context, List<PushPull> PushIng)
+		MatrixCash MatrixCash, GameObject Context, List<PushPull> PushIng, List<IBumpableObject> Bumps)
 	{
 		var MatrixOrigin = MatrixCash.GetforDirection(Vector3Int.zero);
 		var localPosOrigin = WorldToLocalInt(worldOrigin, MatrixOrigin);
 		var localPosTarget = WorldToLocalInt(worldTarget, MatrixOrigin);
 
 		bool IsPassable =
-			MatrixOrigin.Matrix.MetaTileMap.IsPassableAtOneObjectsV2(localPosOrigin, localPosTarget, Context, PushIng);
+			MatrixOrigin.Matrix.MetaTileMap.IsPassableAtOneObjectsV2(localPosOrigin, localPosTarget, Context, PushIng, Bumps);
 
 		if (IsPassable == false)
 		{
@@ -1083,13 +1084,23 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 		// PushIng.Clear();
 
 
-		var matrixTarget = MatrixCash.GetforDirection(worldOrigin - worldTarget);
+		var matrixTarget = MatrixCash.GetforDirection(worldTarget - worldOrigin);
 
 		localPosOrigin = WorldToLocalInt(worldOrigin, matrixTarget);
 		localPosTarget = WorldToLocalInt(worldTarget, matrixTarget);
 
-		return matrixTarget.Matrix.MetaTileMap.IsPassableAtOneTileMapV2(localPosOrigin, localPosTarget,
-			CollisionType.Player);
+
+		if (matrixTarget.Matrix.MetaTileMap.IsPassableAtOneTileMapV2(localPosOrigin, localPosTarget,
+			    CollisionType.Player))
+		{
+			if (matrixTarget.Matrix.MetaTileMap.IsPassableAtOneObjectsV2(localPosOrigin, localPosTarget, Context,
+				    PushIng, Bumps))
+			{
+				return true;
+			}
+		}
+
+		return false;
 	}
 
 	public static bool IsTableAt(Vector3Int worldPos, bool isServer)

@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 using Messages.Server;
+using Objects;
 using Objects.Atmospherics;
 using UnityEngine;
 #if UNITY_EDITOR
@@ -418,12 +419,12 @@ namespace TileManagement
 
 		}
 
-		public bool IsPassableAtOneObjectsV2(Vector3Int origin, Vector3Int to, GameObject context, List<PushPull> Pushings)
+		public bool IsPassableAtOneObjectsV2(Vector3Int origin, Vector3Int to, GameObject context, List<PushPull> Pushings, List<IBumpableObject> Bumps)
 		{
 			// Simple case: orthogonal travel
 			if (origin.x == to.x || origin.y == to.y)
 			{
-				return IsPassableAtOrthogonalObjectsV2(origin, to,context,Pushings);
+				return IsPassableAtOrthogonalObjectsV2(origin, to,context,Pushings,Bumps);
 			}
 			else // diagonal travel
 			{
@@ -431,13 +432,13 @@ namespace TileManagement
 				Vector3Int toY = new Vector3Int(origin.x, to.y, origin.z);
 
 
-				bool isPassableIfHorizontalFirst = IsPassableAtOrthogonalObjectsV2(origin, toX,context,Pushings) &&
-				                                   IsPassableAtOrthogonalObjectsV2(toX, to,context,Pushings);
+				bool isPassableIfHorizontalFirst = IsPassableAtOrthogonalObjectsV2(origin, toX,context,Pushings,Bumps) &&
+				                                   IsPassableAtOrthogonalObjectsV2(toX, to,context,Pushings,Bumps);
 
 				if (isPassableIfHorizontalFirst) return true;
 
-				bool isPassableIfVerticalFirst = IsPassableAtOrthogonalObjectsV2(origin, toY,context,Pushings) &&
-				                                 IsPassableAtOrthogonalObjectsV2(toY, to,context,Pushings);
+				bool isPassableIfVerticalFirst = IsPassableAtOrthogonalObjectsV2(origin, toY,context,Pushings,Bumps) &&
+				                                 IsPassableAtOrthogonalObjectsV2(toY, to,context,Pushings,Bumps);
 
 				return isPassableIfVerticalFirst;
 			}
@@ -482,9 +483,9 @@ namespace TileManagement
 			}
 		}
 
-		private bool IsPassableAtOrthogonalObjectsV2(Vector3Int origin, Vector3Int to, GameObject context , List<PushPull> Pushings )
+		private bool IsPassableAtOrthogonalObjectsV2(Vector3Int origin, Vector3Int to, GameObject context , List<PushPull> Pushings, List<IBumpableObject> Bumps)
 		{
-			return ObjectLayer.IsPassableAtOnThisLayerV2(origin, to, CustomNetworkManager.IsServer, context, Pushings);
+			return ObjectLayer.IsPassableAtOnThisLayerV2(origin, to, CustomNetworkManager.IsServer, context, Pushings, Bumps);
 		}
 
 

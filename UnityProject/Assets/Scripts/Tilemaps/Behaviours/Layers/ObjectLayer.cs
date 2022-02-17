@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using Objects;
 using UnityEngine;
 
 
@@ -64,14 +65,14 @@ public class ObjectLayer : Layer
 
 
 	public bool IsPassableAtOnThisLayerV2(Vector3Int origin, Vector3Int to, bool isServer, GameObject Incontext,
-		 List<PushPull> Pushings)
+		 List<PushPull> Pushings,  List<IBumpableObject> Bumps)
 	{
 		if (CanLeaveTileV2(origin, to, isServer, Pushings, context: Incontext) == false)
 		{
 			return false;
 		}
 
-		if (CanEnterTileV2(origin, to, isServer, Pushings, context: Incontext) == false)
+		if (CanEnterTileV2(origin, to, isServer, Pushings,Bumps ,  context: Incontext) == false)
 		{
 			return false;
 		}
@@ -159,7 +160,7 @@ public class ObjectLayer : Layer
 	}
 
 
-	public bool CanEnterTileV2(Vector3Int origin, Vector3Int to, bool isServer,List<PushPull> Pushings,  GameObject context = null)
+	public bool CanEnterTileV2(Vector3Int origin, Vector3Int to, bool isServer, List<PushPull> Pushings, List<IBumpableObject> Bumps,  GameObject context = null)
 	{
 		bool PushObjectSet = false;
 		bool CanPushObjects = false;
@@ -185,12 +186,31 @@ public class ObjectLayer : Layer
 					}
 					else
 					{
+
+						foreach (var objectOnTile in matrix.Get<ObjectBehaviour>(to, true))
+						{
+							var bumpAbles = objectOnTile.GetComponents<IBumpableObject>();
+							foreach (var bump in bumpAbles)
+							{
+								Bumps.Add(bump);
+							}
+						}
+
 						Pushings.Clear();
 						return false;
 					}
 				}
 				else
 				{
+					foreach (var objectOnTile in matrix.Get<ObjectBehaviour>(to, true))
+					{
+						var bumpAbles = objectOnTile.GetComponents<IBumpableObject>();
+						foreach (var bump in bumpAbles)
+						{
+							Bumps.Add(bump);
+						}
+					}
+
 					Pushings.Clear();
 					return false;
 				}

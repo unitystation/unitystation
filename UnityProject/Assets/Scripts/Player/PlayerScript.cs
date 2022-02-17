@@ -338,7 +338,7 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IActi
 		RefreshVisibleName();
 	}
 
-	public bool IsHidden => !PlayerSync.ClientState.Active;
+	public bool IsHidden => false; //TODO
 
 	/// <summary>
 	/// True if this player is a ghost, meaning they exist in the ghost layer

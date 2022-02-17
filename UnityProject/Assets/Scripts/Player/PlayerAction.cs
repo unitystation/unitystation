@@ -7,9 +7,9 @@ using UnityEngine;
 public struct PlayerAction
 {
 	public static Vector2Int Up_Right => new Vector2Int(1, 1);
-	public static Vector2Int Down_Right => new Vector2Int(-1, -1);
+	public static Vector2Int Down_Right => new Vector2Int(1, -1);
 	public static Vector2Int Left_Down => new Vector2Int(-1, -1);
-	public static Vector2Int Up_Left => new Vector2Int(1, -1);
+	public static Vector2Int Up_Left => new Vector2Int(-1, 1);
 
 
 	/// int values of the moveactions (will have 2 moveActions if it's a diagonal movement)
@@ -74,7 +74,7 @@ public struct PlayerAction
 		}
 		else if (direction == Up_Left)
 		{
-			return MovementSynchronisation.PlayerMoveDirection.Up_Right;
+			return MovementSynchronisation.PlayerMoveDirection.Up_Left;
 		}
 
 		return MovementSynchronisation.PlayerMoveDirection.Up;

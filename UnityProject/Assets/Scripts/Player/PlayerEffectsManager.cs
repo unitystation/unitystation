@@ -38,7 +38,8 @@ public class PlayerEffectsManager : MonoBehaviour
 	//Client and Local host only
 	private void UpdateLoop()
 	{
-	    //Checks if the player is floating and animates them up in down if they are.
+		if (playerSync == null) return;
+		//Checks if the player is floating and animates them up in down if they are.
 	    if(playerSync.isFloatingClient && floatingEffect.WillAnimate == false)
 	    {
 		    AnimateFloating();
