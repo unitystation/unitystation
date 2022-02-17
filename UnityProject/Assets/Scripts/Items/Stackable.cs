@@ -54,6 +54,8 @@ public class Stackable : NetworkBehaviour, IServerLifecycle, ICheckedInteractabl
 
 	[SerializeField] private List<StackNames> stackNames = new List<StackNames>();
 	[SerializeField] private List<StackSprites> stackSprites = new List<StackSprites>();
+	[SerializeField] private bool autoStackOnSpawn = true;
+	[SerializeField] private bool autoStackOnDrop = true;
 
 
 	private void Awake()
@@ -119,7 +121,7 @@ public class Stackable : NetworkBehaviour, IServerLifecycle, ICheckedInteractabl
 		InitStacksWith();
 		SyncAmount(amount, initialAmount);
 		amountInit = true;
-		ServerStackOnGround(registerTile.LocalPositionServer);
+		if(autoStackOnSpawn) ServerStackOnGround(registerTile.LocalPositionServer);
 	}
 
 	public void OnDespawnServer(DespawnInfo info)
@@ -130,7 +132,7 @@ public class Stackable : NetworkBehaviour, IServerLifecycle, ICheckedInteractabl
 
 	public void ServerStackOnGround(Vector3Int localPosition)
 	{
-		if (registerTile?.Matrix == null) return;
+		if (autoStackOnDrop == false || registerTile?.Matrix == null) return;
 		//stacks with things on the same tile
 		foreach (var stackable in registerTile.Matrix.Get<Stackable>(localPosition, true))
 		{
