@@ -30,11 +30,7 @@ namespace Items
 			if (openedSprite != null) spriteHandler.SetSpriteSO(openedSprite);
 			Destroy(this);
 		}
-
-		/// <summary>
-		/// Generates a right click button for items like Space Cola where another script gets in the way of HandActivate
-		/// </summary>
-		/// <returns></returns>
+		
 		public RightClickableResult GenerateRightClickOptions()
 		{
 			var rightClickResult = new RightClickableResult();
