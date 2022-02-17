@@ -283,6 +283,13 @@ namespace Systems.GhostRoles
 		{
 			var role = serverAvailableRoles[key];
 			role.WaitingPlayers.Remove(player);
+			
+			foreach (var playerQueued in role.WaitingPlayers)
+			{
+				//(Max) : this should remove all queued up players who are offline but I don't think this is the best place to put it
+				if(PlayerList.Instance.loggedOff.Contains(playerQueued) == false) continue;
+				role.WaitingPlayers.Remove(playerQueued);
+			}
 
 			GhostRoleResponseMessage.SendTo(player, key, GhostRoleResponseCode.ClearMessage);
 		}
