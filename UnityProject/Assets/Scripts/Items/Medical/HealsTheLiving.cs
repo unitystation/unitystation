@@ -46,6 +46,14 @@ public class HealsTheLiving : MonoBehaviour, ICheckedInteractable<HandApply>
 
 	public virtual void ServerPerformInteraction(HandApply interaction)
 	{
+		if (TryGetComponent<HandPreparable>(out var preparable))
+		{
+			if (preparable.IsPrepared == false)
+			{
+				Chat.AddExamineMsg(interaction.Performer, preparable.openingRequirementText);
+				return;
+			}
+		}
 		var LHB = interaction.TargetObject.GetComponent<LivingHealthMasterBase>();
 		if (LHB.ZoneHasDamageOf(interaction.TargetBodyPart,healType))
 		{
