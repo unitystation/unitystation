@@ -37,8 +37,8 @@ public class Rotatable : NetworkBehaviour, IMatrixRotation
 	private LockAndDirection SynchroniseCurrentLockAndDirection;
 
 	[SerializeField]
-	[Tooltip("If active will receive Direction updates from server")]
-	private bool updateFromServer = true;
+	[Tooltip("If active will Make it so only If this gameobject is Local player It won't get updates")]
+	private bool IgnoreServerUpdatesIfLocalPlayer= false;
 
 	private SpriteRenderer[] spriteRenderers;
 	private SpriteHandler[] spriteHandlers;
@@ -101,7 +101,7 @@ public class Rotatable : NetworkBehaviour, IMatrixRotation
 
 	private void SyncServerDirection(OrientationEnum oldDir, OrientationEnum dir)
 	{
-		if (updateFromServer == false)
+		if (IgnoreServerUpdatesIfLocalPlayer && isLocalPlayer)
 		{
 			return;
 		}
