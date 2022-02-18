@@ -75,7 +75,7 @@ namespace Items.Botany.Fruit
 			{
 				handler.SetSpriteSO(chanceToSpawn[currentIndex].fruitSprite);
 				yield return WaitFor.Seconds(0.3f);
-				currentIndex += 1;
+				currentIndex = (currentIndex + 1) % chanceToSpawn.Count;
 				if (currentIndex > chanceToSpawn.Count) currentIndex = 0;
 			}
 		}
