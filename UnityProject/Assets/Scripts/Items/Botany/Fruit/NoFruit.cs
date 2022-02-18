@@ -28,6 +28,7 @@ namespace Items.Botany.Fruit
 
 		private void Awake()
 		{
+			chanceToSpawn.Shuffle();
 			handler = GetComponentInChildren<SpriteHandler>();
 		}
 
