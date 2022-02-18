@@ -1,15 +1,17 @@
 ﻿using AddressableReferences;
+using Mirror;
 using UnityEngine;
 
 namespace Items
 {
-	public class HandPreparable : MonoBehaviour, ICheckedInteractable<HandActivate>, IRightClickable
+	public class HandPreparable : NetworkBehaviour, ICheckedInteractable<HandActivate>, IRightClickable
 	{
-		private bool isPrepared = false;
+		[SyncVar] private bool isPrepared = false;
 		public bool IsPrepared => isPrepared;
 
 
 		[SerializeField] private SpriteHandler spriteHandler;
+		[SerializeField] private bool destroyThisComponentOnOpen = true;
 		[Header("Feedback")]
 		[SerializeField] private AddressableAudioSource openingNoise;
 		[SerializeField] private SpriteDataSO openedSprite;
@@ -28,9 +30,9 @@ namespace Items
 			isPrepared = true;
 			if (openingNoise != null) SoundManager.PlayNetworkedAtPos(openingNoise, gameObject.AssumedWorldPosServer());
 			if (openedSprite != null) spriteHandler.SetSpriteSO(openedSprite);
-			Destroy(this);
+			if (destroyThisComponentOnOpen) Destroy(this);
 		}
-		
+
 		public RightClickableResult GenerateRightClickOptions()
 		{
 			var rightClickResult = new RightClickableResult();
