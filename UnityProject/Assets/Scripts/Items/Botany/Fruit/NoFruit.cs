@@ -64,7 +64,7 @@ namespace Items.Botany.Fruit
 			}
 			else
 			{
-				Spawn.ServerPrefab(chanceToSpawn[Random.Range(0, spritesToShow.Count - 1)].fruit, gameObject.AssumedWorldPosServer());
+				Spawn.ServerPrefab(chanceToSpawn[currentIndex].fruit, gameObject.AssumedWorldPosServer());
 			}
 			_ = Despawn.ServerSingle(gameObject);
 		}
