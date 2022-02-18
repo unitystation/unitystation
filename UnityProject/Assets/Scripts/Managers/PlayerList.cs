@@ -28,6 +28,9 @@ public partial class PlayerList : NetworkBehaviour
 	public int OfflineConnCount => loggedOff.Count;
 	public int OnlineAndOfflineConnCount => loggedIn.Count + loggedOff.Count;
 
+	/// <summary>
+	/// All players inside this list are online players.
+	/// </summary>
 	public List<ConnectedPlayer> InGamePlayers => loggedIn.FindAll(player => player.Script != null);
 
 	public List<ConnectedPlayer> NonAntagPlayers =>
