@@ -294,13 +294,10 @@ namespace Systems.GhostRoles
 		{
 			foreach (var ghostRoleQueue in serverAvailableRoles.Values)
 			{
-				lock (ghostRoleQueue)
+				for (int i = ghostRoleQueue.WaitingPlayers.Count - 1; i >= 0; i--)
 				{
-					for (int i = ghostRoleQueue.WaitingPlayers.Count - 1; i >= 0; i--)
-					{
-						if(PlayerList.Instance.loggedOff.Contains(ghostRoleQueue.WaitingPlayers[i]) == false) continue;
-						ghostRoleQueue.WaitingPlayers.Remove(ghostRoleQueue.WaitingPlayers[i]);
-					}
+					if(PlayerList.Instance.loggedOff.Contains(ghostRoleQueue.WaitingPlayers[i]) == false) continue;
+					ghostRoleQueue.WaitingPlayers.Remove(ghostRoleQueue.WaitingPlayers[i]);
 				}
 			}
 		}
