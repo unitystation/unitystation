@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -8,6 +9,9 @@ namespace Objects.Machines
 {
 	public class MaterialStorage : MonoBehaviour
 	{
+		/// <summary>
+		/// A list of current matterials in this storage, ItemTrait is the material type and int is it's quantity.
+		/// </summary>
 		public Dictionary<ItemTrait, int> MaterialList = new Dictionary<ItemTrait, int>();
 		private int currentResources;
 
@@ -36,8 +40,9 @@ namespace Objects.Machines
 
 		private void ConsumeMaterial(ItemTrait material, int quantity)
 		{
-			MaterialList[material] -= quantity;
-			currentResources -= quantity;
+			var quantityToSubtract = (int) Mathf.Clamp(quantity, 0, Single.PositiveInfinity);
+			MaterialList[material] -= quantityToSubtract;
+			currentResources -= quantityToSubtract;
 		}
 
 		public bool TryAddSheet(ItemTrait material, int quantity)
@@ -56,11 +61,18 @@ namespace Objects.Machines
 
 		public int TryRemoveSheet(ItemTrait material, int quantity)
 		{
+			var Cm3Used = Cm3PerSheet * quantity;
+			foreach (var materialToTake in MaterialList)
+			{
+				if(materialToTake.Key != material) continue;
+				if(materialToTake.Value > Cm3Used || materialToTake.Value == 0) continue;
+				ConsumeMaterial(material, materialToTake.Value);
+				return quantity;
+			}
 			if (MaterialList[material] < Cm3PerSheet)
 			{
 				return 0;
 			}
-			var Cm3Used = Cm3PerSheet * quantity;
 			if (MaterialList[material] < Cm3Used)
 			{
 				quantity = MaterialList[material] / Cm3PerSheet;
