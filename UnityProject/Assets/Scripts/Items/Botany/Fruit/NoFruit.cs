@@ -31,6 +31,11 @@ namespace Items.Botany.Fruit
 			handler = GetComponentInChildren<SpriteHandler>();
 		}
 
+		private void OnDisable()
+		{
+			StopCoroutine(CycleSprites());
+		}
+
 		public bool WillInteract(HandApply interaction, NetworkSide side)
 		{
 			if (DefaultWillInteract.Default(interaction, side) == false) return false;
@@ -76,7 +81,6 @@ namespace Items.Botany.Fruit
 				handler.SetSpriteSO(chanceToSpawn[currentIndex].fruitSprite);
 				yield return WaitFor.Seconds(0.3f);
 				currentIndex = (currentIndex + 1) % chanceToSpawn.Count;
-				if (currentIndex > chanceToSpawn.Count) currentIndex = 0;
 			}
 		}
 
