@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using Mirror;
+using NaughtyAttributes;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -10,13 +11,19 @@ namespace Items.Botany.Fruit
 	public class NoFruit : NetworkBehaviour, ICheckedInteractable<HandApply>
 	{
 
+		[Serializable]
+		class ObjectToSpawn
+		{
+			public GameObject fruit;
+			public SpriteDataSO fruitSprite;
+		}
+
 		[SyncVar] private bool isReadyToBeHit = false;
 		private SpriteHandler handler;
+		private int currentIndex = 0;
 
-		[SerializeField] private List<GameObject> chanceToSpawn = new List<GameObject>();
+		[SerializeField] private List<ObjectToSpawn> chanceToSpawn = new List<ObjectToSpawn>();
 		[SerializeField] private GameObject facehugger;
-		//Since we can't get the sprites of prefabs before spawning them, we'll have to use a pre-made list that is made from the inspector
-		[SerializeField] private List<SpriteDataSO> spritesToShow = new List<SpriteDataSO>();
 
 
 		private void Awake()
@@ -57,7 +64,7 @@ namespace Items.Botany.Fruit
 			}
 			else
 			{
-				Spawn.ServerPrefab(chanceToSpawn[Random.Range(0, spritesToShow.Count - 1)], gameObject.AssumedWorldPosServer());
+				Spawn.ServerPrefab(chanceToSpawn[Random.Range(0, spritesToShow.Count - 1)].fruit, gameObject.AssumedWorldPosServer());
 			}
 			_ = Despawn.ServerSingle(gameObject);
 		}
@@ -66,8 +73,21 @@ namespace Items.Botany.Fruit
 		{
 			while (isReadyToBeHit || this != null)
 			{
-				handler.SetSpriteSO(spritesToShow[Random.Range(0, spritesToShow.Count - 1)]);
+				handler.SetSpriteSO(chanceToSpawn[currentIndex].fruitSprite);
 				yield return WaitFor.Seconds(0.3f);
+				currentIndex += 1;
+				if (currentIndex > chanceToSpawn.Count) currentIndex = 0;
+			}
+		}
+
+		[Button("Get Fruit Sprites")]
+		public void GetSpritesForNullFields()
+		{
+			foreach (var fruitInList in chanceToSpawn)
+			{
+				if(fruitInList.fruitSprite != null) continue;
+				fruitInList.fruitSprite =
+					fruitInList.fruit.GetComponentInChildren<SpriteHandler>().GetCurrentSpriteSO();
 			}
 		}
 	}
