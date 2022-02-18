@@ -176,17 +176,18 @@ public class ObjectLayer : Layer
 					if (PushObjectSet == false)
 					{
 						PushObjectSet = true;
-						CanPushObjects = o.PushPull.Component.CanPushServer(to, (origin - to).To2Int());
-
+						var Worldorigin = origin.ToWorld(matrix);
+						var WorldTo = to.ToWorld(matrix);
+						CanPushObjects = o.PushPull.Component.CanPushServer(WorldTo.RoundToInt(), (WorldTo - Worldorigin).To2Int());
 					}
 
 					if (CanPushObjects)
 					{
 						Pushings.Add(o.PushPull.Component);
+						continue;
 					}
 					else
 					{
-
 						foreach (var objectOnTile in matrix.Get<ObjectBehaviour>(to, true))
 						{
 							var bumpAbles = objectOnTile.GetComponents<IBumpableObject>();
@@ -214,7 +215,6 @@ public class ObjectLayer : Layer
 					Pushings.Clear();
 					return false;
 				}
-				return false;
 			}
 		}
 

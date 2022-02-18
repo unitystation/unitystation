@@ -15,6 +15,7 @@ using Systems.ObjectConnection;
 using Systems.Explosions;
 using Doors.Modules;
 using HealthV2;
+using Objects;
 using Objects.Wallmounts;
 
 namespace Doors
@@ -22,7 +23,7 @@ namespace Doors
 	/// <summary>
 	/// This is the master 'controller' for the door. It handles interactions by players and passes any interactions it need to to its components.
 	/// </summary>
-	public class DoorMasterController : NetworkBehaviour, ICheckedInteractable<HandApply>, ICheckedInteractable<AiActivate>, ICanOpenNetTab, IMultitoolSlaveable, IServerSpawn
+	public class DoorMasterController : NetworkBehaviour, ICheckedInteractable<HandApply>, ICheckedInteractable<AiActivate>, ICanOpenNetTab, IMultitoolSlaveable, IServerSpawn, IBumpableObject
 	{
 		#region inspector
 		[SerializeField, PrefabModeOnly]
@@ -207,6 +208,15 @@ namespace Doors
 
 			StartInputCoolDown();
 
+		}
+
+		/// <summary>
+		/// Invoke this on server when player bumps into door to try to open it.
+		/// </summary>
+		public void OnBump(GameObject inbyPlayer)
+		{
+			byPlayer = inbyPlayer;
+			HackingProcessBase.ImpulsePort(TryBump);
 		}
 
 		/// <summary>

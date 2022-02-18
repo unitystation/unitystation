@@ -872,12 +872,12 @@ public class PushPull : NetworkBehaviour, IRightClickable/*, IServerSpawn*/
 	/// <summary>
 	/// Try pushing an object
 	/// </summary>
-	/// <param name="dir"></param>
+	/// <param name="WorldDir"></param>
 	/// <param name="speed"></param>
 	/// <param name="forcePush">Sets object to pushable for one push only</param>
 	/// <returns></returns>
 	[Server]
-	public bool TryPush(Vector2Int dir, float speed = Single.NaN, bool forcePush = false)
+	public bool TryPush(Vector2Int WorldDir, float speed = Single.NaN, bool forcePush = false)
 	{
 		var originalPushableValue = IsPushable;
 		if (forcePush && originalPushableValue == false)
@@ -885,7 +885,7 @@ public class PushPull : NetworkBehaviour, IRightClickable/*, IServerSpawn*/
 			ServerSetPushable(true);
 		}
 
-		var result = TryPushInternal(dir, speed);
+		var result = TryPushInternal(WorldDir, speed);
 
 		//Reset state if needed
 		if (forcePush && originalPushableValue == false)

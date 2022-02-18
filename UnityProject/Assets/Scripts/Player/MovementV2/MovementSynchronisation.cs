@@ -115,6 +115,10 @@ public class MovementSynchronisation : NetworkBehaviour, IPlayerControllable //I
 				if (PushPulls.Count > 0) //Has to push stuff
 				{
 					//Push Object
+					foreach (var pushPull in PushPulls)
+					{
+						pushPull.TryPush(NewMoveData.GlobalMoveDirection.TVectoro().To2Int());
+					}
 				}
 
 				var NewWorldPosition = registerTile.WorldPosition + NewMoveData.GlobalMoveDirection.TVectoro();
@@ -145,8 +149,10 @@ public class MovementSynchronisation : NetworkBehaviour, IPlayerControllable //I
 			}
 			else
 			{
-				//Activate bumps
-				//Bumps
+				foreach (var Bump in Bumps)
+				{
+					Bump.OnBump(this.gameObject);
+				}
 			}
 		}
 	}
