@@ -40,7 +40,6 @@ namespace Messages.Server.GhostRoles
 
 				foreach (ConnectedPlayer player in PlayerList.Instance.InGamePlayers)
 				{
-					if(PlayerList.Instance.loggedOff.Contains(player)) continue;
 					if (player?.Script == null)
 					{
 						Logger.LogError("SendToDead, player?.Script == null", Category.Ghosts);
