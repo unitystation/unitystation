@@ -252,7 +252,7 @@ namespace Objects.Atmospherics
 
 		#region Interaction
 
-		public bool IsLocked { get; private set; } = true;
+		public bool IsLocked { get; set; } = true;
 
 		public bool WillInteract(HandApply interaction, NetworkSide side)
 		{
