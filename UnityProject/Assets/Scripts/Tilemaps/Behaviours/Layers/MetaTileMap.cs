@@ -1110,6 +1110,24 @@ namespace TileManagement
 			return true;
 		}
 
+		public bool HasGrabbleTileMap(Vector3Int position, bool isServer)
+		{
+			if (HasTile(position, LayerType.Walls))
+			{
+				return true;
+			}
+			if (HasTile(position, LayerType.Windows))
+			{
+				return true;
+			}
+			if (HasTile(position, LayerType.Grills))
+			{
+				return true;
+			}
+
+			return false;
+		}
+
 		public bool IsEmptyTileMap(Vector3Int position, bool isServer)
 		{
 			for (var i1 = 0; i1 < LayersKeys.Length; i1++)

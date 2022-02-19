@@ -1218,14 +1218,22 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 		{
 			var DIR = MatrixCash.DIRs[i];
 			var matrixInfo = MatrixCash.GetforDirection(DIR);
-
 			var localPos = WorldToLocalInt(worldPos + DIR, matrixInfo);
-			if (matrixInfo.MetaTileMap.IsEmptyTileMap(localPos, isServer) == false)
+			if (matrixInfo.Matrix.HasGravity)
 			{
-				return false;
+				if (matrixInfo.MetaTileMap.IsEmptyTileMap(localPos, isServer) == false)
+				{
+					return false;
+				}
+			}
+			else
+			{
+				if (matrixInfo.MetaTileMap.HasGrabbleTileMap(localPos, isServer))
+				{
+					return false;
+				}
 			}
 		}
-
 		return true;
 	}
 

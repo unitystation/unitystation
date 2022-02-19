@@ -6,7 +6,7 @@ using Mirror;
 using Objects;
 using UnityEngine;
 
-public class MovementSynchronisation : NetworkBehaviour, IPlayerControllable //IPushable,
+public class MovementSynchronisation : NetworkBehaviour, IPlayerControllable
 {
 	public RegisterTile registerTile;
 
@@ -18,6 +18,7 @@ public class MovementSynchronisation : NetworkBehaviour, IPlayerControllable //I
 	public PlayerScript playerScript;
 
 	public GameObject[] ContextGameObjects = new GameObject[2];
+
 
 	public void Awake()
 	{
@@ -51,8 +52,7 @@ public class MovementSynchronisation : NetworkBehaviour, IPlayerControllable //I
 		public Vector3Int LocalPosition; //The current location of the player (  just in case they are desynchronised )
 		public int MatrixID; //( The matrix the movement is on )
 
-		public PlayerMoveDirection
-			GlobalMoveDirection; //The move direction  Global (  this is for when you're on Rotated shuttles, Because you might be going down in terms of the local x,y , but on the global you're going up , So the globally is the one that is the reliable)
+		public PlayerMoveDirection GlobalMoveDirection; //The move direction  Global (  this is for when you're on Rotated shuttles, Because you might be going down in terms of the local x,y , but on the global you're going up , So the globally is the one that is the reliable)
 
 		public double Timestamp; // 	Timestamp with (800ms gap for being acceptable
 		public bool CausesSlip; //
@@ -64,8 +64,7 @@ public class MovementSynchronisation : NetworkBehaviour, IPlayerControllable //I
 		Up_Right,
 		Right,
 
-		/* you are */
-		Down_Right, //Dastardly
+		/* you are */Down_Right, //Dastardly
 		Down,
 		Down_Left,
 		Left,

@@ -16,7 +16,7 @@ public partial class PlayerSync : NetworkBehaviour, IPushable, IPlayerControllab
 	/// <summary>
 	/// Player is huge, okay?
 	/// </summary>
-	public ItemSize Size => ItemSize.Huge;
+	public Size Size => Size.Huge;
 
 	public bool IsTileSnap { get; } = true;
 
@@ -72,7 +72,7 @@ public partial class PlayerSync : NetworkBehaviour, IPushable, IPlayerControllab
 	private bool didWiggle = false;
 
 	/// <summary>
-	/// True when the player presses one of the movement keys. SERVERSIDE 
+	/// True when the player presses one of the movement keys. SERVERSIDE
 	/// </summary>
 	private bool inputMovementDetected = false;
 	public bool InputMovementDetected => inputMovementDetected;

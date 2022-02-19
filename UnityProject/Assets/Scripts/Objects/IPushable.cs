@@ -46,7 +46,7 @@ public interface IPushable
 	bool IsTileSnap { get; }
 
 	void Nudge(NudgeInfo info);
-	ItemSize Size { get; }
+	Size Size { get; }
 
 	/// Try stopping object if it's flying
 	void Stop();

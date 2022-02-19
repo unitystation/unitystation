@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Items;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 /// <summary>
 /// Defines which items can fit in a particular slot based on size and ItemTraits whitelist / blacklist.
@@ -11,9 +12,10 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "DefinedSlotCapacity", menuName = "Inventory/Structure/DefinedSlotCapacity", order = 4)]
 public class DefinedSlotCapacity : SlotCapacity
 {
+	[FormerlySerializedAs("MaxItemSize")]
 	[SerializeField]
 	[Tooltip("Largest item size allowed in this slot")]
-	private ItemSize MaxItemSize = ItemSize.Huge;
+	private Size maxSize = Size.Huge;
 
 	[SerializeField]
 	[Tooltip("Items with at least one of these traits will be allowed, provided they also have all" +
@@ -41,7 +43,7 @@ public class DefinedSlotCapacity : SlotCapacity
 	{
 		if (toCheck == null) return false;
 		Logger.LogTraceFormat("Checking if {0} can fit", Category.Inventory, toCheck.name);
-		ItemSize size = ItemSize.Huge;
+		Size size = Size.Huge;
 		var itemAttrs = toCheck.GetComponent<ItemAttributesV2>();
 		if (itemAttrs != null)
 		{
@@ -52,16 +54,16 @@ public class DefinedSlotCapacity : SlotCapacity
 			Logger.LogTraceFormat("{0} has no item attrs, defaulting to ItemSize.Huge", Category.Inventory, toCheck.name);
 		}
 
-		var sizeLimit = MaxItemSize;
-		if (sizeLimit == ItemSize.None)
+		var sizeLimit = maxSize;
+		if (sizeLimit == Size.None)
 		{
 			Logger.LogTraceFormat("No size restriction defined, defaulting to ItemSize.Huge", Category.Inventory);
-			sizeLimit = ItemSize.Huge;
+			sizeLimit = Size.Huge;
 		}
 
 		if (size > sizeLimit)
 		{
-			Logger.LogTraceFormat("{0} ({1}) exceeds max size of slot ({2})", Category.Inventory, toCheck.name, size, MaxItemSize);
+			Logger.LogTraceFormat("{0} ({1}) exceeds max size of slot ({2})", Category.Inventory, toCheck.name, size, maxSize);
 			return false;
 		}
 

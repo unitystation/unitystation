@@ -99,6 +99,9 @@ public class Matrix : MonoBehaviour
 
 	[NonSerialized] public bool Initialized;
 
+	//Pretty self-explanatory, TODO gravity generator
+	public bool HasGravity = true;
+
 	private void Awake()
 	{
 		metaTileMap = GetComponent<MetaTileMap>();

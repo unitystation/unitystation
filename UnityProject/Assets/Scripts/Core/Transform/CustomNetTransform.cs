@@ -61,18 +61,18 @@ public partial class CustomNetTransform : NetworkBehaviour, IPushable
 	/// If it has ItemAttributes, get size from it (default to tiny).
 	/// Otherwise it's probably something like a locker, so consider it huge.
 	/// </summary>
-	public ItemSize Size
+	public Size Size
 	{
 		get
 		{
 			if (itemAttributes.HasComponent == false)
 			{
-				return ItemSize.Huge;
+				return Size.Huge;
 			}
 
 			if (ItemAttributes.Size == 0)
 			{
-				return ItemSize.Tiny;
+				return Size.Tiny;
 			}
 
 			return ItemAttributes.Size;
