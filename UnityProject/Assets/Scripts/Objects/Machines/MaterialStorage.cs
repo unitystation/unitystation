@@ -40,9 +40,8 @@ namespace Objects.Machines
 
 		private void ConsumeMaterial(ItemTrait material, int quantity)
 		{
-			var quantityToSubtract = (int) Mathf.Clamp(quantity, 0, Single.PositiveInfinity);
-			MaterialList[material] -= quantityToSubtract;
-			currentResources -= quantityToSubtract;
+			MaterialList[material] -= quantity;
+			currentResources -= quantity;
 		}
 
 		public bool TryAddSheet(ItemTrait material, int quantity)
