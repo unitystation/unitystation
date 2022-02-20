@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Threading.Tasks;
+using System.Collections;
 using NaughtyAttributes;
 using Systems.Explosions;
 using UI.Action;
@@ -36,19 +36,24 @@ namespace Items.Others
 			actionButton.ServerActionClicked += Open;
 		}
 
+		private void OnDisable()
+		{
+			StopCoroutine(LightsOutAfterTime(lightControl, spriteHandler));
+		}
+
 		public override void Open()
 		{
 			lightControl.Toggle(true);
 			if(sparkOnOpen) SparkUtil.TrySpark(gameObject);
-			if(runsOutOverTime) LightsOutAfterTime(lightControl, spriteHandler);
+			if(runsOutOverTime) StartCoroutine(LightsOutAfterTime(lightControl, spriteHandler));
 			if(glowHandler != null) glowHandler.SetActive(true);
 			actionButton.ServerActionClicked -= Open;
 			base.Open();
 		}
 
-		private async void LightsOutAfterTime(ItemLightControl lightController, SpriteHandler handler)
+		private IEnumerator LightsOutAfterTime(ItemLightControl lightController, SpriteHandler handler)
 		{
-			await Task.Delay((int)runsOutOverSeconds * 1000);
+			yield return WaitFor.Seconds(runsOutOverSeconds);
 			lightController.Toggle(false);
 			handler.SetSpriteSO(offSprite);
 		}
