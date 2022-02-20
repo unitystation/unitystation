@@ -11,6 +11,8 @@ namespace Items.Others
 	{
 		private ItemLightControl lightControl;
 		private SpriteDataSO offSprite;
+		[SerializeField, Tooltip("GlowSprite's handlers cannot be automatically fetched from Awake()")]
+		private SpriteHandler glowHandler;
 		[SerializeField]
 		private bool runsOutOverTime = false;
 		[SerializeField, ShowIf(nameof(runsOutOverTime))]
@@ -26,6 +28,7 @@ namespace Items.Others
 				destroyThisComponentOnOpen = false;
 				offSprite = spriteHandler.GetCurrentSpriteSO();
 			}
+			if(glowHandler != null) glowHandler.SetActive(false);
 			if(actionButton == null) return;
 			actionButton.ServerActionClicked += Open;
 		}
@@ -34,6 +37,7 @@ namespace Items.Others
 		{
 			lightControl.Toggle(true);
 			if(runsOutOverTime) LightsOutAfterTime(lightControl, spriteHandler);
+			if(glowHandler != null) glowHandler.SetActive(true);
 			actionButton.ServerActionClicked -= Open;
 			base.Open();
 		}
