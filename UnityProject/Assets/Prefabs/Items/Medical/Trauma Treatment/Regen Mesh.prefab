@@ -169,6 +169,18 @@ SortingGroup:
     type: 3}
   m_PrefabInstance: {fileID: 1792047792650166761}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &5592108624515032788 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6144467708197095229, guid: a7abba22164ce49f0bf9b9b219f39298,
+    type: 3}
+  m_PrefabInstance: {fileID: 1792047792650166761}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &-6495101291114284292
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -187,7 +199,15 @@ MonoBehaviour:
   maxAmount: 15
   stacksWith: []
   stackNames: []
-  stackSprites: []
+  stackSprites:
+  - SpriteSO: {fileID: 11400000, guid: 3cb6f2ed76d09d648bda958c4ccebead, type: 2}
+    OverAmount: 2
+  - SpriteSO: {fileID: 11400000, guid: 98d622dd10330c2429a0259832426185, type: 2}
+    OverAmount: 6
+  - SpriteSO: {fileID: 11400000, guid: 7ab2f0c44122e1246a8aa1b3bd3f7d6a, type: 2}
+    OverAmount: 15
+  - SpriteSO: {fileID: 11400000, guid: ee25f4a4194b23247b9b9dd029f2caec, type: 2}
+    OverAmount: 16
   autoStackOnSpawn: 1
   autoStackOnDrop: 0
 --- !u!114 &2710468740513023014
@@ -207,3 +227,27 @@ MonoBehaviour:
   HealsTraumaDamage: 1
   TraumaDamageToHeal: 50
   TraumaTypeToHeal: 3
+--- !u!114 &4620297301374731262
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1791647728409730387}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 86536f54b4694d5a98b2f4962a473b7e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spriteHandler: {fileID: 5592108624515032788}
+  openingNoise:
+    SetLoadSetting: 0
+    AssetAddress: 
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
+  openedSprite: {fileID: 11400000, guid: 7ab2f0c44122e1246a8aa1b3bd3f7d6a, type: 2}
+  openingVerb: open
+  openingRequirementText: You need to open this first before using it!

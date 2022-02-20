@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using AddressableReferences;
 using HealthV2;
+using Items;
 using UnityEngine;
 using NaughtyAttributes;
 
@@ -11,27 +12,15 @@ using NaughtyAttributes;
 /// Item that can be drinked or eaten by player
 /// Also supports force feeding other player
 /// </summary>
-public abstract class Consumable : MonoBehaviour, ICheckedInteractable<HandApply>, IInteractable<HandActivate>, IRightClickable
+public abstract class Consumable : MonoBehaviour, ICheckedInteractable<HandApply>
 {
-	public bool requiresOpeningBeforeConsumption = false;
-	protected bool isOpenForConsumption = false;
-
-	[SerializeField, ShowIf(nameof(requiresOpeningBeforeConsumption))]
-	private AddressableAudioSource openingNoise;
-	[SerializeField, ShowIf(nameof(requiresOpeningBeforeConsumption))]
-	private SpriteDataSO openedSprite;
-	[SerializeField, ShowIf(nameof(requiresOpeningBeforeConsumption))]
-	private SpriteHandler spriteHandler;
-	[SerializeField, ShowIf(nameof(requiresOpeningBeforeConsumption))]
-	private string openingVerb = "open";
-
 	public void ServerPerformInteraction(HandApply interaction)
 	{
-		if (requiresOpeningBeforeConsumption)
+		if (gameObject.TryGetComponent<HandPreparable>(out var preparable))
 		{
-			if (isOpenForConsumption == false)
+			if (preparable.IsPrepared == false)
 			{
-				Chat.AddExamineMsg(interaction.Performer, $"You need to open {gameObject.ExpensiveName()} before consuming it!");
+				Chat.AddExamineMsg(interaction.Performer, preparable.openingRequirementText);
 				return;
 			}
 		}
@@ -103,46 +92,4 @@ public abstract class Consumable : MonoBehaviour, ICheckedInteractable<HandApply
 	/// <param name="feeder">Player that feed eater. Can be same as eater.</param>
 	/// <param name="eater">Player that is going to eat item</param>
 	public abstract void TryConsume(GameObject feeder, GameObject eater);
-
-	/// <summary>
-	/// For opening a consumable. Can be overriden by other scripts to extend this functionality even further.
-	/// </summary>
-	protected virtual void TryOpen()
-	{
-		if(requiresOpeningBeforeConsumption == false || isOpenForConsumption) return;
-		isOpenForConsumption = true;
-		if (openingNoise != null) SoundManager.PlayNetworkedAtPos(openingNoise, gameObject.AssumedWorldPosServer());
-		if (openedSprite != null) spriteHandler.SetSpriteSO(openedSprite);
-	}
-
-	/// <summary>
-	/// For opening the consumable and to trigger text feedback to the person holding it.
-	/// </summary>
-	/// <param name="activate"></param>
-	protected virtual void TryOpen(HandActivate activate)
-	{
-		if(requiresOpeningBeforeConsumption == false || isOpenForConsumption) return;
-		isOpenForConsumption = true;
-		if (openingNoise != null) SoundManager.PlayNetworkedAtPos(openingNoise, gameObject.AssumedWorldPosServer());
-		if (openedSprite != null) spriteHandler.SetSpriteSO(openedSprite);
-		if (activate != null) Chat.AddExamineMsg(activate.Performer, $"You {openingVerb} the {gameObject.ExpensiveName()}");
-	}
-
-	public void ServerPerformInteraction(HandActivate interaction)
-	{
-		TryOpen(interaction);
-	}
-
-
-	/// <summary>
-	/// Generates a right click button for items like Space Cola where another script gets in the way of HandActivate
-	/// </summary>
-	/// <returns></returns>
-	public RightClickableResult GenerateRightClickOptions()
-	{
-		var rightClickResult = new RightClickableResult();
-		if (requiresOpeningBeforeConsumption == false || isOpenForConsumption) return rightClickResult;
-		rightClickResult.AddElement("Open This", TryOpen);
-		return rightClickResult;
-	}
 }
