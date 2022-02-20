@@ -1,4 +1,4 @@
-name: Tests
+name: Integration testing
 
 on:
   push:
@@ -18,9 +18,9 @@ on:
       - ".github/workflows/**"
 
 jobs:
-  # Perform unit testing
-  performTest:
-    name: Unit testing on ${{ matrix.unityVersion }}
+  # Perform play testing
+  performPlayTest:
+    name: Integration testing on ${{ matrix.unityVersion }}
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
@@ -57,16 +57,13 @@ jobs:
           cat "$LICENSE_FILE_PATH" >> "$GITHUB_ENV"
           printf "\nLICENSE-EOF" >> "$GITHUB_ENV"
 
-      # Run tests - only edit mode supported
-      # Note: exits with non-zero on legitimate test fails, "if: always()" is needed for reporting
-      - name: Run tests
+      - name: Run Play tests
         uses: game-ci/unity-test-runner@v2
         with:
-          customParameters: "-nographics"
           projectPath: ${{ matrix.projectPath }}
           unityVersion: ${{ matrix.unityVersion }}
           artifactsPath: ./testReports/${{ matrix.targetPlatform }}
-          testMode: editmode
+          testMode: playmode
 
       # Install dotnet
       - name: Installing dotnet
@@ -78,7 +75,7 @@ jobs:
       # Do the report magic
       - name: Generate .html report
         if: always()
-        run: sudo dotnet ./Tools/ExtentReports/ExtentReportsDotNetCLI.dll -i=testReports/${{ matrix.targetPlatform }}/editmode-results.xml -o testReports/${{ matrix.targetPlatform }}/
+        run: sudo dotnet ./Tools/ExtentReports/ExtentReportsDotNetCLI.dll -i=testReports/${{ matrix.targetPlatform }}/playmode-results.xml -o testReports/${{ matrix.targetPlatform }}/
 
       # Upload test results
       - name: Upload Test Results
