@@ -1,11 +1,12 @@
 {
     "name": "Chemistry.Editor",
+    "rootNamespace": "",
     "references": [
         "GUID:090c3c4bde4c711989b0f5d96ca6faf8",
-        "GUID:661173d0c9ebaf80fa6acb35144af007",
         "GUID:478a2357cc57436488a56e564b08d223",
         "GUID:be3b74929d162e1df96c3aeeb2bf97f9",
-        "GUID:7c9a27d2b43f1ac479d159329c7eb9e6"
+        "GUID:7c9a27d2b43f1ac479d159329c7eb9e6",
+        "GUID:b3f49edfedc855a48aa1a9e5d3cba438"
     ],
     "includePlatforms": [
         "Editor"
@@ -16,5 +17,6 @@
     "precompiledReferences": [],
     "autoReferenced": true,
     "defineConstraints": [],
-    "versionDefines": []
+    "versionDefines": [],
+    "noEngineReferences": false
 }
