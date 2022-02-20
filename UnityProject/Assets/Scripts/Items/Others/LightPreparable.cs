@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using NaughtyAttributes;
+using Systems.Explosions;
 using UI.Action;
 using UnityEngine;
 
@@ -13,6 +14,8 @@ namespace Items.Others
 		private SpriteDataSO offSprite;
 		[SerializeField, Tooltip("GlowSprite's handlers cannot be automatically fetched from Awake()")]
 		private SpriteHandler glowHandler;
+		[SerializeField, Tooltip("Create a spark when activating this light source?")]
+		private bool sparkOnOpen = false;
 		[SerializeField]
 		private bool runsOutOverTime = false;
 		[SerializeField, ShowIf(nameof(runsOutOverTime))]
@@ -36,6 +39,7 @@ namespace Items.Others
 		public override void Open()
 		{
 			lightControl.Toggle(true);
+			if(sparkOnOpen) SparkUtil.TrySpark(gameObject);
 			if(runsOutOverTime) LightsOutAfterTime(lightControl, spriteHandler);
 			if(glowHandler != null) glowHandler.SetActive(true);
 			actionButton.ServerActionClicked -= Open;
