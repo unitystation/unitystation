@@ -733,10 +733,7 @@ public partial class CustomNetTransform
 	{
 		// If we're being thrown, collide like being airborne.
 
-		CollisionType colType =
-			(isServer ?
-			IsBeingThrownServer : IsBeingThrownClient) ?
-					CollisionType.Airborne : CollisionType.Player;
+		CollisionType colType = (isServer ? IsBeingThrownServer : IsBeingThrownClient) ? CollisionType.Airborne : CollisionType.Player;
 
 		return MatrixManager.IsPassableAtAllMatrices(originPos, targetPos, isServer, collisionType: colType, includingPlayers : false);
 	}

@@ -1221,7 +1221,7 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 			var localPos = WorldToLocalInt(worldPos + DIR, matrixInfo);
 			if (matrixInfo.Matrix.HasGravity)
 			{
-				if (matrixInfo.MetaTileMap.IsEmptyTileMap(localPos, isServer) == false)
+				if (matrixInfo.MetaTileMap.IsEmptyTileMap(localPos) == false)
 				{
 					return false;
 				}
@@ -1249,7 +1249,7 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 			var matrixInfo = MatrixCash.GetforDirection(DIR);
 
 			var localPos = WorldToLocalInt(worldPos + DIR, matrixInfo);
-			if (matrixInfo.MetaTileMap.IsNotEmptyObjects(context, localPos, isServer, out var registerTile) == false)
+			if (matrixInfo.MetaTileMap.IsObjectPresent(context, localPos, isServer, out var registerTile))
 			{
 				SomethingToHold = true;
 				if (Direction != DIR)
@@ -1274,7 +1274,7 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 			var matrixInfo = MatrixCash.GetforDirection(DIR);
 
 			var localPos = WorldToLocalInt(worldPos + DIR, matrixInfo);
-			if (matrixInfo.MetaTileMap.IsNotEmptyObjects(context, localPos, isServer, out var _))
+			if (matrixInfo.MetaTileMap.IsObjectPresent(context, localPos, isServer, out var _))
 			{
 				return false;
 			}

@@ -6,10 +6,8 @@ using Mirror;
 using Objects;
 using UnityEngine;
 
-public class MovementSynchronisation : NetworkBehaviour, IPlayerControllable
+public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllable
 {
-	public RegisterTile registerTile;
-
 	public SpaceflightData SetSpaceflightData;
 
 	public bool IsCurrentlyFloating;
@@ -17,14 +15,11 @@ public class MovementSynchronisation : NetworkBehaviour, IPlayerControllable
 	public MatrixCash SetMatrixCash = new MatrixCash();
 	public PlayerScript playerScript;
 
-	public GameObject[] ContextGameObjects = new GameObject[2];
 
-
-	public void Awake()
+	public override void Awake()
 	{
-		ContextGameObjects[0] = gameObject;
 		playerScript = GetComponent<PlayerScript>();
-		registerTile = GetComponent<RegisterTile>();
+		base.Awake();
 	}
 
 	public void Update()
@@ -90,6 +85,7 @@ public class MovementSynchronisation : NetworkBehaviour, IPlayerControllable
 		Last = Time.timeAsDouble;
 		if (moveActions.moveActions.Length == 0) return;
 		SetMatrixCash.ResetNewPosition(registerTile.WorldPosition);
+
 		if (CanInPutMoveClient(moveActions))
 		{
 			var NewMoveData = new MoveData()

@@ -1128,7 +1128,7 @@ namespace TileManagement
 			return false;
 		}
 
-		public bool IsEmptyTileMap(Vector3Int position, bool isServer)
+		public bool IsEmptyTileMap(Vector3Int position)
 		{
 			for (var i1 = 0; i1 < LayersKeys.Length; i1++)
 			{
@@ -1142,7 +1142,7 @@ namespace TileManagement
 			return true;
 		}
 
-		public bool IsNotEmptyObjects(GameObject[] context, Vector3Int position, bool isServer, out RegisterTile Object)
+		public bool IsObjectPresent(GameObject[] context, Vector3Int position, bool isServer, out RegisterTile Object)
 		{
 			foreach (RegisterTile o in isServer ? ObjectLayer.ServerObjects.Get(position) : ObjectLayer.ClientObjects.Get(position))
 			{
@@ -1150,12 +1150,12 @@ namespace TileManagement
 				if (o.IsPassable(isServer) == false)
 				{
 					Object = o;
-					return false;
+					return true;
 				}
 			}
 
 			Object = null;
-			return true;
+			return false;
 		}
 
 		public bool IsEmptyAt(GameObject[] context, Vector3Int position, bool isServer)

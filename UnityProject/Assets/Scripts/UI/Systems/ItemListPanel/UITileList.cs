@@ -47,7 +47,7 @@ public class UITileList : MonoBehaviour
 		position = matrix.transform.InverseTransformPoint(position);
 		Vector3Int tilePosition = Vector3Int.FloorToInt(position);
 
-		var registerTiles = matrix.Get<RegisterTile>(tilePosition, false);
+		var registerTiles = matrix.Get<RegisterTile>(tilePosition, true); //TODO!!!!!!!!! NOW WHEN I CAN WHY Are they separate it into separate things!!!
 
 		var result = registerTiles.Select(x => x.gameObject).ToList();
 
