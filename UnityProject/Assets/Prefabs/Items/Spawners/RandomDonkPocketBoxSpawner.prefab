@@ -23,6 +23,12 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: e37580bff1e137742b68e06d3c3828b8,
         type: 2}
+    - target: {fileID: 2708525666452541148, guid: abff3ae0227731244b0814b2055fa6f0,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: c52334281d882ae46aa2dace935e1788,
+        type: 3}
     - target: {fileID: 2806690048445349940, guid: abff3ae0227731244b0814b2055fa6f0,
         type: 3}
       propertyPath: m_AssetId
@@ -31,7 +37,7 @@ PrefabInstance:
     - target: {fileID: 2839352587806555520, guid: abff3ae0227731244b0814b2055fa6f0,
         type: 3}
       propertyPath: m_Name
-      value: RandomDonkPocketBox
+      value: RandomDonkPocketBoxSpawner
       objectReference: {fileID: 0}
     - target: {fileID: 2843154561411039476, guid: abff3ae0227731244b0814b2055fa6f0,
         type: 3}
@@ -88,6 +94,12 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8223985327567078919, guid: abff3ae0227731244b0814b2055fa6f0,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 660dba6d2516b624bae0f6907089ba62,
+        type: 2}
     - target: {fileID: 9213751064059195885, guid: abff3ae0227731244b0814b2055fa6f0,
         type: 3}
       propertyPath: foreverID
