@@ -1,40 +1,39 @@
-//  This file is part of YamlDotNet - A .NET library for YAML.
-//  Copyright (c) Antoine Aubry and contributors
-
-//  Permission is hereby granted, free of charge, to any person obtaining a copy of
-//  this software and associated documentation files (the "Software"), to deal in
-//  the Software without restriction, including without limitation the rights to
-//  use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies
-//  of the Software, and to permit persons to whom the Software is furnished to do
-//  so, subject to the following conditions:
-
-//  The above copyright notice and this permission notice shall be included in all
-//  copies or substantial portions of the Software.
-
-//  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-//  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-//  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-//  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-//  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-//  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-//  SOFTWARE.
+﻿// This file is part of YamlDotNet - A .NET library for YAML.
+// Copyright (c) Antoine Aubry and contributors
+//
+// Permission is hereby granted, free of charge, to any person obtaining a copy of
+// this software and associated documentation files (the "Software"), to deal in
+// the Software without restriction, including without limitation the rights to
+// use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies
+// of the Software, and to permit persons to whom the Software is furnished to do
+// so, subject to the following conditions:
+//
+// The above copyright notice and this permission notice shall be included in all
+// copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+// SOFTWARE.
 
 // Remarks: This file is imported from the SixPack library. This is ok because
 // the copyright holder has agreed to redistribute this file under the license
 // used in YamlDotNet.
 
 using System;
-using System.ComponentModel;
 using System.Globalization;
-using System.Linq;
 using System.Reflection;
+using System.ComponentModel;
 
 namespace YamlDotNet.Serialization.Utilities
 {
     /// <summary>
     /// Performs type conversions using every standard provided by the .NET library.
     /// </summary>
-    public static class TypeConverter
+    public static partial class TypeConverter
     {
         /// <summary>
         /// Converts the specified value.
@@ -42,9 +41,9 @@ namespace YamlDotNet.Serialization.Utilities
         /// <typeparam name="T">The type to which the value is to be converted.</typeparam>
         /// <param name="value">The value to convert.</param>
         /// <returns></returns>
-        public static T ChangeType<T>(object value)
+        public static T ChangeType<T>(object? value)
         {
-            return (T)ChangeType(value, typeof(T));
+            return (T)ChangeType(value, typeof(T))!; // This cast should always be valid
         }
 
         /// <summary>
@@ -54,9 +53,9 @@ namespace YamlDotNet.Serialization.Utilities
         /// <param name="value">The value to convert.</param>
         /// <param name="provider">The provider.</param>
         /// <returns></returns>
-        public static T ChangeType<T>(object value, IFormatProvider provider)
+        public static T ChangeType<T>(object? value, IFormatProvider provider)
         {
-            return (T)ChangeType(value, typeof(T), provider);
+            return (T)ChangeType(value, typeof(T), provider)!; // This cast should always be valid
         }
 
         /// <summary>
@@ -66,9 +65,9 @@ namespace YamlDotNet.Serialization.Utilities
         /// <param name="value">The value to convert.</param>
         /// <param name="culture">The culture.</param>
         /// <returns></returns>
-        public static T ChangeType<T>(object value, CultureInfo culture)
+        public static T ChangeType<T>(object? value, CultureInfo culture)
         {
-            return (T)ChangeType(value, typeof(T), culture);
+            return (T)ChangeType(value, typeof(T), culture)!; // This cast should always be valid
         }
 
         /// <summary>
@@ -77,7 +76,7 @@ namespace YamlDotNet.Serialization.Utilities
         /// <param name="value">The value to convert.</param>
         /// <param name="destinationType">The type to which the value is to be converted.</param>
         /// <returns></returns>
-        public static object ChangeType(object value, Type destinationType)
+        public static object? ChangeType(object? value, Type destinationType)
         {
             return ChangeType(value, destinationType, CultureInfo.InvariantCulture);
         }
@@ -89,7 +88,7 @@ namespace YamlDotNet.Serialization.Utilities
         /// <param name="destinationType">The type to which the value is to be converted.</param>
         /// <param name="provider">The format provider.</param>
         /// <returns></returns>
-        public static object ChangeType(object value, Type destinationType, IFormatProvider provider)
+        public static object? ChangeType(object? value, Type destinationType, IFormatProvider provider)
         {
             return ChangeType(value, destinationType, new CultureInfoAdapter(CultureInfo.CurrentCulture, provider));
         }
@@ -101,10 +100,10 @@ namespace YamlDotNet.Serialization.Utilities
         /// <param name="destinationType">The type to which the value is to be converted.</param>
         /// <param name="culture">The culture.</param>
         /// <returns></returns>
-        public static object ChangeType(object value, Type destinationType, CultureInfo culture)
+        public static object? ChangeType(object? value, Type destinationType, CultureInfo culture)
         {
             // Handle null and DBNull
-            if (value == null || value is DBNull)
+            if (value == null || value.IsDbNull())
             {
                 return destinationType.IsValueType() ? Activator.CreateInstance(destinationType) : null;
             }
@@ -112,7 +111,7 @@ namespace YamlDotNet.Serialization.Utilities
             var sourceType = value.GetType();
 
             // If the source type is compatible with the destination type, no conversion is needed
-            if (destinationType.IsAssignableFrom(sourceType))
+            if (destinationType == sourceType || destinationType.IsAssignableFrom(sourceType))
             {
                 return value;
             }
@@ -132,8 +131,9 @@ namespace YamlDotNet.Serialization.Utilities
             // Enums also require special handling
             if (destinationType.IsEnum())
             {
-                var valueText = value as string;
-                return valueText != null ? Enum.Parse(destinationType, valueText, true) : value;
+                return value is string valueText
+                    ? Enum.Parse(destinationType, valueText, true)
+                    : value;
             }
 
             // Special case for booleans to support parsing "1" and "0". This is
@@ -141,15 +141,18 @@ namespace YamlDotNet.Serialization.Utilities
             if (destinationType == typeof(bool))
             {
                 if ("0".Equals(value))
+                {
                     return false;
+                }
 
                 if ("1".Equals(value))
+                {
                     return true;
+                }
             }
 
-#if !PORTABLE
             // Try with the source type's converter
-            var sourceConverter = TypeDescriptor.GetConverter(value);
+            var sourceConverter = TypeDescriptor.GetConverter(sourceType);
             if (sourceConverter != null && sourceConverter.CanConvertTo(destinationType))
             {
                 return sourceConverter.ConvertTo(null, culture, value, destinationType);
@@ -161,7 +164,6 @@ namespace YamlDotNet.Serialization.Utilities
             {
                 return destinationConverter.ConvertFrom(null, culture, value);
             }
-#endif
 
             // Try to find a casting operator in the source or destination type
             foreach (var type in new[] { sourceType, destinationType })
@@ -224,7 +226,7 @@ namespace YamlDotNet.Serialization.Utilities
             // Handle TimeSpan
             if (destinationType == typeof(TimeSpan))
             {
-                return TimeSpan.Parse((string)ChangeType(value, typeof(string), CultureInfo.InvariantCulture));
+                return TimeSpan.Parse((string)ChangeType(value, typeof(string), CultureInfo.InvariantCulture)!);
             }
 
             // Default to the Convert class

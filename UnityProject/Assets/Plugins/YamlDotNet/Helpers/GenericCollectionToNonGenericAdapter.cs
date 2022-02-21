@@ -1,27 +1,27 @@
-// This file is part of YamlDotNet - A .NET library for YAML.
-// Copyright (c) Antoine Aubry
-// 
-// Permission is hereby granted, free of charge, to any person obtaining a copy
-// of this software and associated documentation files (the "Software"), to deal
-// in the Software without restriction, including without limitation the rights
-// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-// copies of the Software, and to permit persons to whom the Software is
-// furnished to do so, subject to the following conditions:
-// 
-// The above copyright notice and this permission notice shall be included in
-// all copies or substantial portions of the Software.
-// 
+﻿// This file is part of YamlDotNet - A .NET library for YAML.
+// Copyright (c) Antoine Aubry and contributors
+//
+// Permission is hereby granted, free of charge, to any person obtaining a copy of
+// this software and associated documentation files (the "Software"), to deal in
+// the Software without restriction, including without limitation the rights to
+// use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies
+// of the Software, and to permit persons to whom the Software is furnished to do
+// so, subject to the following conditions:
+//
+// The above copyright notice and this permission notice shall be included in all
+// copies or substantial portions of the Software.
+//
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 // IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
 // FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
 // AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-// THE SOFTWARE.
+// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+// SOFTWARE.
 
 using System;
 using System.Collections;
-using System.Reflection;
+using System.Collections.Generic;
 
 namespace YamlDotNet.Helpers
 {
@@ -29,49 +29,38 @@ namespace YamlDotNet.Helpers
     /// Adapts an <see cref="System.Collections.Generic.ICollection{T}" /> to <see cref="IList" />
     /// because not all generic collections implement <see cref="IList" />.
     /// </summary>
-    internal sealed class GenericCollectionToNonGenericAdapter : IList
+    internal sealed class GenericCollectionToNonGenericAdapter<T> : IList
     {
-        private readonly object genericCollection;
-        private readonly MethodInfo addMethod;
-        private readonly MethodInfo indexerSetter;
-        private readonly MethodInfo countGetter;
+        private readonly ICollection<T> genericCollection;
 
-        public GenericCollectionToNonGenericAdapter(object genericCollection, Type genericCollectionType, Type genericListType)
+        public GenericCollectionToNonGenericAdapter(ICollection<T> genericCollection)
         {
-            this.genericCollection = genericCollection;
-
-            addMethod = genericCollectionType.GetPublicInstanceMethod("Add");
-            countGetter = genericCollectionType.GetPublicProperty("Count").GetGetMethod();
-
-            if (genericListType != null)
-            {
-                indexerSetter = genericListType.GetPublicProperty("Item").GetSetMethod();
-            }
+            this.genericCollection = genericCollection ?? throw new ArgumentNullException(nameof(genericCollection));
         }
 
-        public int Add(object value)
+        public int Add(object? value)
         {
-            var index = (int)countGetter.Invoke(genericCollection, null);
-            addMethod.Invoke(genericCollection, new object[] { value });
+            var index = genericCollection.Count;
+            genericCollection.Add((T)value!);
             return index;
         }
 
         public void Clear()
         {
-            throw new NotSupportedException();
+            genericCollection.Clear();
         }
 
-        public bool Contains(object value)
+        public bool Contains(object? value)
         {
             throw new NotSupportedException();
         }
 
-        public int IndexOf(object value)
+        public int IndexOf(object? value)
         {
             throw new NotSupportedException();
         }
 
-        public void Insert(int index, object value)
+        public void Insert(int index, object? value)
         {
             throw new NotSupportedException();
         }
@@ -86,7 +75,7 @@ namespace YamlDotNet.Helpers
             get { throw new NotSupportedException(); }
         }
 
-        public void Remove(object value)
+        public void Remove(object? value)
         {
             throw new NotSupportedException();
         }
@@ -96,7 +85,7 @@ namespace YamlDotNet.Helpers
             throw new NotSupportedException();
         }
 
-        public object this[int index]
+        public object? this[int index]
         {
             get
             {
@@ -104,7 +93,7 @@ namespace YamlDotNet.Helpers
             }
             set
             {
-                indexerSetter.Invoke(genericCollection, new object[] { index, value });
+                ((IList<T>)genericCollection)[index] = (T)value!;
             }
         }
 
@@ -130,7 +119,7 @@ namespace YamlDotNet.Helpers
 
         public IEnumerator GetEnumerator()
         {
-            return ((IEnumerable)genericCollection).GetEnumerator();
+            return genericCollection.GetEnumerator();
         }
     }
 }

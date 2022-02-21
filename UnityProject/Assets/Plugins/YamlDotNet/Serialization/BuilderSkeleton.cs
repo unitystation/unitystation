@@ -1,28 +1,29 @@
-﻿//  This file is part of YamlDotNet - A .NET library for YAML.
-//  Copyright (c) Antoine Aubry and contributors
-
-//  Permission is hereby granted, free of charge, to any person obtaining a copy of
-//  this software and associated documentation files (the "Software"), to deal in
-//  the Software without restriction, including without limitation the rights to
-//  use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies
-//  of the Software, and to permit persons to whom the Software is furnished to do
-//  so, subject to the following conditions:
-
-//  The above copyright notice and this permission notice shall be included in all
-//  copies or substantial portions of the Software.
-
-//  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-//  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-//  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-//  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-//  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-//  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-//  SOFTWARE.
+﻿// This file is part of YamlDotNet - A .NET library for YAML.
+// Copyright (c) Antoine Aubry and contributors
+//
+// Permission is hereby granted, free of charge, to any person obtaining a copy of
+// this software and associated documentation files (the "Software"), to deal in
+// the Software without restriction, including without limitation the rights to
+// use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies
+// of the Software, and to permit persons to whom the Software is furnished to do
+// so, subject to the following conditions:
+//
+// The above copyright notice and this permission notice shall be included in all
+// copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+// SOFTWARE.
 
 using System;
 using System.Collections.Generic;
-using System.Linq.Expressions;
+using YamlDotNet.Core;
 using YamlDotNet.Serialization.Converters;
+using YamlDotNet.Serialization.NamingConventions;
 using YamlDotNet.Serialization.TypeInspectors;
 
 namespace YamlDotNet.Serialization
@@ -33,29 +34,61 @@ namespace YamlDotNet.Serialization
     public abstract class BuilderSkeleton<TBuilder>
         where TBuilder : BuilderSkeleton<TBuilder>
     {
-        internal INamingConvention namingConvention;
+        internal INamingConvention namingConvention = NullNamingConvention.Instance;
         internal ITypeResolver typeResolver;
         internal readonly YamlAttributeOverrides overrides;
         internal readonly LazyComponentRegistrationList<Nothing, IYamlTypeConverter> typeConverterFactories;
         internal readonly LazyComponentRegistrationList<ITypeInspector, ITypeInspector> typeInspectorFactories;
+        private bool ignoreFields;
+        private bool includeNonPublicProperties = false;
 
-        internal BuilderSkeleton()
+        internal BuilderSkeleton(ITypeResolver typeResolver)
         {
             overrides = new YamlAttributeOverrides();
 
-            typeConverterFactories = new LazyComponentRegistrationList<Nothing, IYamlTypeConverter>();
-            typeConverterFactories.Add(typeof(GuidConverter), _ => new GuidConverter(false));
+            typeConverterFactories = new LazyComponentRegistrationList<Nothing, IYamlTypeConverter>
+            {
+                { typeof(GuidConverter), _ => new GuidConverter(false) },
+                { typeof(SystemTypeConverter), _ => new SystemTypeConverter() }
+            };
 
             typeInspectorFactories = new LazyComponentRegistrationList<ITypeInspector, ITypeInspector>();
+            this.typeResolver = typeResolver ?? throw new ArgumentNullException(nameof(typeResolver));
         }
 
         protected abstract TBuilder Self { get; }
 
         internal ITypeInspector BuildTypeInspector()
         {
-            return typeInspectorFactories.BuildComponentChain(
-                new ReadablePropertiesTypeInspector(typeResolver)
-            );
+            ITypeInspector innerInspector = new ReadablePropertiesTypeInspector(typeResolver, includeNonPublicProperties);
+            if (!ignoreFields)
+            {
+                innerInspector = new CompositeTypeInspector(
+                    new ReadableFieldsTypeInspector(typeResolver),
+                    innerInspector
+                );
+            }
+
+            return typeInspectorFactories.BuildComponentChain(innerInspector);
+        }
+
+        /// <summary>
+        /// Prevents serialization and deserialization of fields.
+        /// </summary>
+        /// <returns></returns>
+        public TBuilder IgnoreFields()
+        {
+            ignoreFields = true;
+            return Self;
+        }
+
+        /// <summary>
+        /// Allows serialization and deserialization of non-public properties.
+        /// </summary>
+        public TBuilder IncludeNonPublicProperties()
+        {
+            includeNonPublicProperties = true;
+            return Self;
         }
 
         /// <summary>
@@ -63,12 +96,7 @@ namespace YamlDotNet.Serialization
         /// </summary>
         public TBuilder WithNamingConvention(INamingConvention namingConvention)
         {
-            if (namingConvention == null)
-            {
-                throw new ArgumentNullException("namingConvention");
-            }
-
-            this.namingConvention = namingConvention;
+            this.namingConvention = namingConvention ?? throw new ArgumentNullException(nameof(namingConvention));
             return Self;
         }
 
@@ -77,30 +105,29 @@ namespace YamlDotNet.Serialization
         /// </summary>
         public TBuilder WithTypeResolver(ITypeResolver typeResolver)
         {
-            if (typeResolver == null)
-            {
-                throw new ArgumentNullException("typeResolver");
-            }
-
-            this.typeResolver = typeResolver;
+            this.typeResolver = typeResolver ?? throw new ArgumentNullException(nameof(typeResolver));
             return Self;
         }
 
+        public abstract TBuilder WithTagMapping(TagName tag, Type type);
+
+#if !NET20
         /// <summary>
-        /// Register an <see cref="Attribute"/> for for a given property.
+        /// Register an <see cref="Attribute"/> for a given property.
         /// </summary>
         /// <typeparam name="TClass"></typeparam>
         /// <param name="propertyAccessor">An expression in the form: x => x.SomeProperty</param>
         /// <param name="attribute">The attribute to register.</param>
         /// <returns></returns>
-        public TBuilder WithAttributeOverride<TClass>(Expression<Func<TClass, object>> propertyAccessor, Attribute attribute)
+        public TBuilder WithAttributeOverride<TClass>(System.Linq.Expressions.Expression<Func<TClass, object>> propertyAccessor, Attribute attribute)
         {
             overrides.Add(propertyAccessor, attribute);
             return Self;
         }
+#endif
 
         /// <summary>
-        /// Register an <see cref="Attribute"/> for for a given property.
+        /// Register an <see cref="Attribute"/> for a given property.
         /// </summary>
         public TBuilder WithAttributeOverride(Type type, string member, Attribute attribute)
         {
@@ -128,12 +155,12 @@ namespace YamlDotNet.Serialization
         {
             if (typeConverter == null)
             {
-                throw new ArgumentNullException("typeConverter");
+                throw new ArgumentNullException(nameof(typeConverter));
             }
 
             if (where == null)
             {
-                throw new ArgumentNullException("where");
+                throw new ArgumentNullException(nameof(where));
             }
 
             where(typeConverterFactories.CreateRegistrationLocationSelector(typeConverter.GetType(), _ => typeConverter));
@@ -153,12 +180,12 @@ namespace YamlDotNet.Serialization
         {
             if (typeConverterFactory == null)
             {
-                throw new ArgumentNullException("typeConverterFactory");
+                throw new ArgumentNullException(nameof(typeConverterFactory));
             }
 
             if (where == null)
             {
-                throw new ArgumentNullException("where");
+                throw new ArgumentNullException(nameof(where));
             }
 
             where(typeConverterFactories.CreateTrackingRegistrationLocationSelector(typeof(TYamlTypeConverter), (wrapped, _) => typeConverterFactory(wrapped)));
@@ -181,7 +208,7 @@ namespace YamlDotNet.Serialization
         {
             if (converterType == null)
             {
-                throw new ArgumentNullException("converterType");
+                throw new ArgumentNullException(nameof(converterType));
             }
 
             typeConverterFactories.Remove(converterType);
@@ -211,12 +238,12 @@ namespace YamlDotNet.Serialization
         {
             if (typeInspectorFactory == null)
             {
-                throw new ArgumentNullException("typeInspectorFactory");
+                throw new ArgumentNullException(nameof(typeInspectorFactory));
             }
 
             if (where == null)
             {
-                throw new ArgumentNullException("where");
+                throw new ArgumentNullException(nameof(where));
             }
 
             where(typeInspectorFactories.CreateRegistrationLocationSelector(typeof(TTypeInspector), inner => typeInspectorFactory(inner)));
@@ -236,12 +263,12 @@ namespace YamlDotNet.Serialization
         {
             if (typeInspectorFactory == null)
             {
-                throw new ArgumentNullException("typeInspectorFactory");
+                throw new ArgumentNullException(nameof(typeInspectorFactory));
             }
 
             if (where == null)
             {
-                throw new ArgumentNullException("where");
+                throw new ArgumentNullException(nameof(where));
             }
 
             where(typeInspectorFactories.CreateTrackingRegistrationLocationSelector(typeof(TTypeInspector), (wrapped, inner) => typeInspectorFactory(wrapped, inner)));
@@ -254,7 +281,7 @@ namespace YamlDotNet.Serialization
         public TBuilder WithoutTypeInspector<TTypeInspector>()
             where TTypeInspector : ITypeInspector
         {
-            return WithoutTypeInspector(typeof(ITypeInspector));
+            return WithoutTypeInspector(typeof(TTypeInspector));
         }
 
         /// <summary>
@@ -264,7 +291,7 @@ namespace YamlDotNet.Serialization
         {
             if (inspectorType == null)
             {
-                throw new ArgumentNullException("inspectorType");
+                throw new ArgumentNullException(nameof(inspectorType));
             }
 
             typeInspectorFactories.Remove(inspectorType);
