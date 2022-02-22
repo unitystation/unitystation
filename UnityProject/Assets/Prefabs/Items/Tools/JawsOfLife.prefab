@@ -71,7 +71,7 @@ PrefabInstance:
         type: 3}
       propertyPath: PresentSpriteSet
       value: 
-      objectReference: {fileID: 11400000, guid: 7979ae2957a77ae418acaf46a9087fd7,
+      objectReference: {fileID: 11400000, guid: 94040f1917638e24aa58ee786b475671,
         type: 2}
     - target: {fileID: 2466764617220362192, guid: c9c58a9243d494537abcb4ee470efab0,
         type: 3}
@@ -82,13 +82,13 @@ PrefabInstance:
         type: 3}
       propertyPath: SubCatalogue.Array.data[0]
       value: 
-      objectReference: {fileID: 11400000, guid: 7979ae2957a77ae418acaf46a9087fd7,
+      objectReference: {fileID: 11400000, guid: 94040f1917638e24aa58ee786b475671,
         type: 2}
     - target: {fileID: 2466764617220362192, guid: c9c58a9243d494537abcb4ee470efab0,
         type: 3}
       propertyPath: SubCatalogue.Array.data[1]
       value: 
-      objectReference: {fileID: 11400000, guid: 551ec3235b9660c4aa0e1d37dce24efb,
+      objectReference: {fileID: 11400000, guid: 7aea4cf6c0415f44a8eae590a405fc23,
         type: 2}
     - target: {fileID: 3442741923849517114, guid: c9c58a9243d494537abcb4ee470efab0,
         type: 3}
@@ -108,7 +108,7 @@ PrefabInstance:
     - target: {fileID: 8183094236644858677, guid: c9c58a9243d494537abcb4ee470efab0,
         type: 3}
       propertyPath: exportName
-      value: jaws of life
+      value: Jaws of Life
       objectReference: {fileID: 0}
     - target: {fileID: 8183094236644858677, guid: c9c58a9243d494537abcb4ee470efab0,
         type: 3}
@@ -123,7 +123,7 @@ PrefabInstance:
     - target: {fileID: 8183094236644858677, guid: c9c58a9243d494537abcb4ee470efab0,
         type: 3}
       propertyPath: initialName
-      value: jaws of life
+      value: Jaws of Life
       objectReference: {fileID: 0}
     - target: {fileID: 8183094236644858677, guid: c9c58a9243d494537abcb4ee470efab0,
         type: 3}
@@ -179,7 +179,7 @@ PrefabInstance:
         type: 3}
       propertyPath: itemSprites.SpriteLeftHand
       value: 
-      objectReference: {fileID: 11400000, guid: 10106737c899c8040be796b7de2489e5,
+      objectReference: {fileID: 11400000, guid: 07edce82d2ed792498f6bfe945f9320b,
         type: 2}
     - target: {fileID: 8183094236644858677, guid: c9c58a9243d494537abcb4ee470efab0,
         type: 3}
@@ -209,7 +209,7 @@ PrefabInstance:
         type: 3}
       propertyPath: itemSprites.SpriteRightHand
       value: 
-      objectReference: {fileID: 11400000, guid: e6af9a12e5c3631458400c264bcee0c5,
+      objectReference: {fileID: 11400000, guid: 00381020d0364e7449b85ff384234ac1,
         type: 2}
     - target: {fileID: 8183094236644858677, guid: c9c58a9243d494537abcb4ee470efab0,
         type: 3}
@@ -283,7 +283,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 49686603369e0d147868c69bde166094,
+      objectReference: {fileID: 21300000, guid: 2e08b87d4cb1fc44dad0fbdb06b3c980,
         type: 3}
     - target: {fileID: 8470250495983453963, guid: c9c58a9243d494537abcb4ee470efab0,
         type: 3}
@@ -305,6 +305,11 @@ PrefabInstance:
       propertyPath: m_AssetId
       value: 5288f8108626e2ff1aab9bd925ff1346
       objectReference: {fileID: 0}
+    - target: {fileID: 8568654006262552011, guid: c9c58a9243d494537abcb4ee470efab0,
+        type: 3}
+      propertyPath: customNetTransform
+      value: 
+      objectReference: {fileID: 7030301270543393381}
     - target: {fileID: 8605860254165158179, guid: c9c58a9243d494537abcb4ee470efab0,
         type: 3}
       propertyPath: m_RootOrder
@@ -373,3 +378,15 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 1691278609676860386}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &7030301270543393381 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8568103989096618375, guid: c9c58a9243d494537abcb4ee470efab0,
+    type: 3}
+  m_PrefabInstance: {fileID: 1691278609676860386}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6918947953705996213}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 579884b05ae74e8499329b64997147d3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
