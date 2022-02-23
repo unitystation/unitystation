@@ -149,8 +149,6 @@ public partial class GameManager : MonoBehaviour, IInitialise
 	[NonSerialized] public int errorCounter;
 	[NonSerialized] public int uniqueErrorCounter;
 
-	[HideInInspector] public Techweb TechwebServer;
-
 	void IInitialise.Initialise()
 	{
 		// Set up server defaults, needs to be loaded here to ensure gameConfigManager is load.
