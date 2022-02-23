@@ -12,10 +12,11 @@ namespace Systems.Research
 		public List<Technology> researchedTech = new List<Technology>();
 
 
-		public void Merge(Techweb techwebtToMerge)
+		public void Merge(Techweb techwebtToMerge, bool mergeResearchPoints = false)
 		{
 			nodes.AddRange(techwebtToMerge.nodes);
 			researchedTech.AddRange(techwebtToMerge.researchedTech);
+			if (mergeResearchPoints) researchPoints += techwebtToMerge.researchPoints;
 		}
 
 		public void LoadTechweb(string filePath)

@@ -1,11 +1,7 @@
 ﻿namespace Systems.Research.Data
 {
-	public class TechwebImporter
+	public abstract class TechwebImporter
 	{
-		public virtual Techweb Import()
-		{
-			Techweb importedTechweb = new Techweb();
-			return importedTechweb;
-		}
+		public abstract Techweb Import(string filePath);
 	}
 }
