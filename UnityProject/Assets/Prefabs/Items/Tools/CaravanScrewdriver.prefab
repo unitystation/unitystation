@@ -120,5 +120,17 @@ PrefabInstance:
       value: A prototype of a new screwdriver design, allegedly the red color scheme
         makes it go faster.
       objectReference: {fileID: 0}
+    - target: {fileID: 9077323224761429490, guid: 366fb594c17e76346bbb29ad4ce021ad,
+        type: 3}
+      propertyPath: itemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 11400000, guid: f90940d5bdfc87d4f838bc812c7a19bd,
+        type: 2}
+    - target: {fileID: 9077323224761429490, guid: 366fb594c17e76346bbb29ad4ce021ad,
+        type: 3}
+      propertyPath: itemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 6d02603abeed4d34ca7a2aca88042ac4,
+        type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 366fb594c17e76346bbb29ad4ce021ad, type: 3}

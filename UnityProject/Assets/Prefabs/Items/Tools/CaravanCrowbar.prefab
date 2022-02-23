@@ -110,6 +110,18 @@ PrefabInstance:
       value: A prototype of a new crowbar design, allegedly the red color scheme
         makes it go faster.
       objectReference: {fileID: 0}
+    - target: {fileID: 7415335345799176407, guid: f709eab732189d6429ae3fa5beaf3fd3,
+        type: 3}
+      propertyPath: itemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 9faaed9c20b7d2c42bbde7ab139d8a47,
+        type: 2}
+    - target: {fileID: 7415335345799176407, guid: f709eab732189d6429ae3fa5beaf3fd3,
+        type: 3}
+      propertyPath: itemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 11400000, guid: ef8015f665229574ba027f27d1097c0d,
+        type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f709eab732189d6429ae3fa5beaf3fd3, type: 3}
 --- !u!114 &3731289606400471237 stripped
