@@ -47,15 +47,44 @@ public class UniversalObjectPhysics : NetworkBehaviour
 	}
 
 
+	public List<PushPull> Pushing;
+	public List<IBumpableObject> Bumps;
+
 	public void TryTilePush(Vector2Int WorldDirection, float speed = Single.NaN)
 	{
-		//Validate
-		ForceTilePush(WorldDirection, speed);
+		Pushing.Clear();
+		Bumps.Clear();
+		SetMatrixCash.ResetNewPosition(registerTile.WorldPosition);
+		if (MatrixManager.IsPassableAtAllMatricesV2(registerTile.WorldPosition,
+			    registerTile.WorldPosition + WorldDirection.To3Int(), SetMatrixCash, this.gameObject,
+			    Pushing, Bumps)) 	//Validate
+		{
+			ForceTilePush(WorldDirection,Pushing ,speed);
+		}
 	}
 
-	public void ForceTilePush(Vector2Int WorldDirection, float speed = Single.NaN)
+	public void ForceTilePush(Vector2Int WorldDirection,  List<PushPull> InPushing, float speed = Single.NaN)
 	{
-		//move
+		if (InPushing.Count > 0) //Has to push stuff
+		{
+			//Push Object
+			foreach (var pushPull in InPushing)
+			{
+				pushPull.TryPush(WorldDirection);
+			}
+		}
+
+		var NewWorldPosition = registerTile.WorldPosition + WorldDirection.To3Int();
+
+		var movetoMatrix = SetMatrixCash.GetforDirection(WorldDirection.To3Int()).Matrix;
+
+		transform.position = NewWorldPosition;
+		if (registerTile.Matrix != movetoMatrix)
+		{
+			registerTile.ServerSetNetworkedMatrixNetID(movetoMatrix.NetworkedMatrix.MatrixSync.netId);
+		}
+
+		registerTile.ServerSetLocalPosition((NewWorldPosition).ToLocal(movetoMatrix).RoundToInt());
 	}
 
 
@@ -132,6 +161,23 @@ public class UniversalObjectPhysics : NetworkBehaviour
 		}
 	}
 
+	public void AppliedFriction(float FrictionCoefficient)
+	{
+		var Weight = SizeToWeight(attributes ? attributes.Size : Size.Huge);
+		var SpeedLossDueToFriction = FrictionCoefficient * Weight;
+
+		var NewMagnitude = newtonianMovement.magnitude - SpeedLossDueToFriction;
+
+		if (NewMagnitude <= 0)
+		{
+			newtonianMovement *= 0;
+		}
+		else
+		{
+			newtonianMovement *= (NewMagnitude / newtonianMovement.magnitude);
+		}
+	}
+
 
 	public void UpdateMe()
 	{
@@ -139,36 +185,23 @@ public class UniversalObjectPhysics : NetworkBehaviour
 		{
 			airTime -= Time.deltaTime;  //Doesn't matter if it goes under zero
 		}
-		else if (slideTime > 0) //TODO Take account of Is floating
+		else if (slideTime > 0)
 		{
 			slideTime -= Time.deltaTime; //Doesn't matter if it goes under zero
 			var Floating = IsFloating();
 			if (Floating == false)
 			{
-				var Weight = SizeToWeight(attributes ? attributes.Size : Size.Huge);
-				var SpeedLossDueToFriction = DEFAULT_SLIDE_FRICTION * Weight;
-
-				var NewMagnitude = newtonianMovement.magnitude - SpeedLossDueToFriction;
-
-				if (NewMagnitude <= 0)
-				{
-					newtonianMovement *= 0;
-				}
-				else
-				{
-					newtonianMovement *= (NewMagnitude / newtonianMovement.magnitude);
-				}
+				AppliedFriction(DEFAULT_SLIDE_FRICTION);
 			}
 		}
 		else if (stickyMovement)
 		{
-			//TODO Check is able to grab onto something E.g Is not floating
 			var Floating = IsFloating();
 			if (Floating == false)
 			{
 				if (newtonianMovement.magnitude > maximumStickSpeed) //Too fast to grab onto anything
 				{
-					//Continue
+					AppliedFriction(DEFAULT_Friction);
 				}
 				else
 				{
@@ -182,22 +215,7 @@ public class UniversalObjectPhysics : NetworkBehaviour
 			var Floating = IsFloating();
 			if (Floating == false)
 			{
-
-				var Weight = SizeToWeight(attributes ?  attributes.Size : Size.Huge);
-
-
-				var SpeedLossDueToFriction = DEFAULT_Friction * Weight;
-
-				var NewMagnitude = newtonianMovement.magnitude - SpeedLossDueToFriction;
-
-				if (NewMagnitude <= 0)
-				{
-					newtonianMovement *= 0;
-				}
-				else
-				{
-					newtonianMovement *= (NewMagnitude / newtonianMovement.magnitude);
-				}
+				AppliedFriction(DEFAULT_Friction);
 			}
 		}
 
@@ -212,10 +230,11 @@ public class UniversalObjectPhysics : NetworkBehaviour
 		{
 			var hit = MatrixManager.Linecast(position,
 				LayerTypeSelection.Walls | LayerTypeSelection.Grills | LayerTypeSelection.Windows,
-				defaultInteractionLayerMask, Newposition);
+				defaultInteractionLayerMask, Newposition, true);
 			if (hit.ItHit)
 			{
-				Newposition = hit.HitWorld;
+				var Offset = (0.1f * hit.Normal);
+				Newposition = hit.HitWorld + Offset.To3();
 				newtonianMovement *= 0;
 			}
 		}
@@ -223,9 +242,15 @@ public class UniversalObjectPhysics : NetworkBehaviour
 
 		this.transform.position = Newposition;
 
-		registerTile.ServerSetLocalPosition(
-			(Newposition).ToLocal().RoundToInt()); //TODO Past matrix //TODO Update.damn client
+		var movetoMatrix = MatrixManager.AtPoint(Newposition.RoundToInt(), isServer).Matrix;
 
+		if (registerTile.Matrix != movetoMatrix)
+		{
+			registerTile.ServerSetNetworkedMatrixNetID(movetoMatrix.NetworkedMatrix.MatrixSync.netId);
+		}
+
+		registerTile.ServerSetLocalPosition(
+			(Newposition).ToLocal(movetoMatrix).RoundToInt()); //TODO Past matrix //TODO Update.damn client
 
 		if (newtonianMovement.magnitude < 0.01f) //Has slowed down enough
 		{
@@ -243,7 +268,7 @@ public class UniversalObjectPhysics : NetworkBehaviour
 	}
 
 
-	private MatrixCash SetMatrixCash = new MatrixCash();
+	protected MatrixCash SetMatrixCash = new MatrixCash();
 
 	public bool IsFloating()
 	{

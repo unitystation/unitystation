@@ -7797,7 +7797,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   matrixColliderType: 1
   uiType: 1
-  initialFacing: 2
+  initialFacing: 1
   MaxSpeed: 25
   SafetyProtocolsOn: 1
   initialPosition: {x: 0, y: 0, z: 0}
@@ -7835,15 +7835,15 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 712660529}
-  m_LocalRotation: {x: 0, y: 0, z: 0.7071068, w: 0.7071068}
-  m_LocalPosition: {x: 4.64, y: 48.44, z: -0.1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 3.66, y: 47.48, z: -0.1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 290552448}
   - {fileID: 1926137167}
   m_Father: {fileID: 0}
   m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 90}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &732713678
 PrefabInstance:
   m_ObjectHideFlags: 0

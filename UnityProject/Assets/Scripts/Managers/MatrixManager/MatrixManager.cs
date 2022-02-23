@@ -328,9 +328,9 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 
 
 	public static CustomPhysicsHit Linecast(Vector3 Worldorigin, LayerTypeSelection layerMask, LayerMask? Layermask2D,
-		Vector3 WorldTo)
+		Vector3 WorldTo, bool DEBUG = false)
 	{
-		return RayCast(Worldorigin, Vector2.zero, 0, layerMask, Layermask2D, WorldTo);
+		return RayCast(Worldorigin, Vector2.zero, 0, layerMask, Layermask2D, WorldTo, DEBUG :DEBUG);
 	}
 
 
@@ -338,7 +338,7 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 		Vector2 direction,
 		float distance,
 		LayerTypeSelection layerMask, LayerMask? Layermask2D = null, Vector3? WorldTo = null,
-		LayerTile[] tileNamesToIgnore = null)
+		LayerTile[] tileNamesToIgnore = null, bool DEBUG = false)
 	{
 		Worldorigin.z = 0;
 
@@ -381,7 +381,7 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 					Checkhit = matrixInfo.MetaTileMap.Raycast(localOrigin, Vector2.zero,
 						distance,
 						layerMask,
-						localTo, tileNamesToIgnore);
+						localTo, tileNamesToIgnore, DEBUG: DEBUG);
 
 					if (Checkhit != null)
 					{

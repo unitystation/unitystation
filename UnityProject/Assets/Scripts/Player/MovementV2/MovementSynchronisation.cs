@@ -11,8 +11,6 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 	public SpaceflightData SetSpaceflightData;
 
 	public bool IsCurrentlyFloating;
-
-	public MatrixCash SetMatrixCash = new MatrixCash();
 	public PlayerScript playerScript;
 
 
@@ -107,26 +105,8 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 					//Pushes off object for example pushing the object the other way
 				}
 
-				if (PushPulls.Count > 0) //Has to push stuff
-				{
-					//Push Object
-					foreach (var pushPull in PushPulls)
-					{
-						pushPull.TryPush(NewMoveData.GlobalMoveDirection.TVectoro().To2Int());
-					}
-				}
-
-				var NewWorldPosition = registerTile.WorldPosition + NewMoveData.GlobalMoveDirection.TVectoro();
-
-				var movetoMatrix = SetMatrixCash.GetforDirection(NewMoveData.GlobalMoveDirection.TVectoro()).Matrix;
-
-				transform.position = NewWorldPosition;
-				registerTile.ServerSetNetworkedMatrixNetID(movetoMatrix.NetworkedMatrix.MatrixSync.netId);
-
-				registerTile.ServerSetLocalPosition(
-					(NewWorldPosition).ToLocal().RoundToInt());
-
 				//move
+				ForceTilePush(NewMoveData.GlobalMoveDirection.TVectoro().To2Int(), PushPulls); //TODO Speed
 
 				SetMatrixCash.ResetNewPosition(registerTile.WorldPosition); //Resets the cash
 

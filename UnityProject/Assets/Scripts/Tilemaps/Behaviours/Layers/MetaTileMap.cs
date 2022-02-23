@@ -1747,10 +1747,8 @@ namespace TileManagement
 			//Vector3[4] {bottomLeft, bottomRight, topLeft, topRight}; //Presuming It's been updated
 			var bottomLeft = localToWorldMatrix.Value.MultiplyPoint(localBound.min + offset);
 			globalPoints[0] = bottomLeft;
-			globalPoints[1] =
-				localToWorldMatrix.Value.MultiplyPoint(new Vector3(localBound.xMax, localBound.yMin, 0) + offset);
-			globalPoints[2] =
-				localToWorldMatrix.Value.MultiplyPoint(new Vector3(localBound.xMin, localBound.yMax, 0) + offset);
+			globalPoints[1] = localToWorldMatrix.Value.MultiplyPoint(new Vector3(localBound.xMax, localBound.yMin, 0) + offset);
+			globalPoints[2] = localToWorldMatrix.Value.MultiplyPoint(new Vector3(localBound.xMin, localBound.yMax, 0) + offset);
 			globalPoints[3] = localToWorldMatrix.Value.MultiplyPoint(localBound.max + offset);
 
 			var minPosition = bottomLeft;
@@ -1763,7 +1761,7 @@ namespace TileManagement
 
 			var newGlobalBounds = new BetterBounds()
 			{
-				Maximum = maxPosition, Minimum = minPosition
+				Maximum = maxPosition + new Vector3(0.5f,0.5f,0), Minimum = minPosition + new Vector3(-0.5f,-0.5f,0)
 			};
 
 			if (matrix.IsMovable == false ||
@@ -1841,13 +1839,13 @@ namespace TileManagement
 			if (DEBUG)
 			{
 				var Beginning = (new Vector3((float) origin.x, (float) origin.y, 0).ToWorld(matrix));
-				Debug.DrawLine(Beginning + (Vector3.right * 0.09f), Beginning + (Vector3.left * 0.09f), Color.yellow,
-					30);
-				Debug.DrawLine(Beginning + (Vector3.up * 0.09f), Beginning + (Vector3.down * 0.09f), Color.yellow, 30);
+				// Debug.DrawLine(Beginning + (Vector3.right * 0.09f), Beginning + (Vector3.left * 0.09f), Color.yellow,
+					// 30);
+				// Debug.DrawLine(Beginning + (Vector3.up * 0.09f), Beginning + (Vector3.down * 0.09f), Color.yellow, 30);
 
 				var end = (new Vector3((float) To.Value.x, (float) To.Value.y, 0).ToWorld(matrix));
-				Debug.DrawLine(end + (Vector3.right * 0.09f), end + (Vector3.left * 0.09f), Color.red, 30);
-				Debug.DrawLine(end + (Vector3.up * 0.09f), end + (Vector3.down * 0.09f), Color.red, 30);
+				// Debug.DrawLine(end + (Vector3.right * 0.09f), end + (Vector3.left * 0.09f), Color.red, 30);
+				// Debug.DrawLine(end + (Vector3.up * 0.09f), end + (Vector3.down * 0.09f), Color.red, 30);
 
 				Debug.DrawLine(Beginning, end, Color.magenta, 30);
 			}
@@ -1958,14 +1956,14 @@ namespace TileManagement
 								30);
 							Debug.DrawLine(wold + (Vector3.up * 0.09f), wold + (Vector3.down * 0.09f), Color.green, 30);
 
-							if (LeftFaceHit)
-							{
-								Debug.DrawLine(wold + (Vector3.up * 4f), wold + (Vector3.down * 4), Color.blue, 30);
-							}
-							else
-							{
-								Debug.DrawLine(wold + (Vector3.right * 4), wold + (Vector3.left * 4), Color.blue, 30);
-							}
+							// if (LeftFaceHit)
+							// {
+							// 	Debug.DrawLine(wold + (Vector3.up * 4f), wold + (Vector3.down * 4), Color.blue, 30);
+							// }
+							// else
+							// {
+							// 	Debug.DrawLine(wold + (Vector3.right * 4), wold + (Vector3.left * 4), Color.blue, 30);
+							// }
 
 							ColorUtility.TryParseHtmlString("#ea9335", out var Orange);
 							var map = ((Vector3) vec).ToWorld(matrix);
