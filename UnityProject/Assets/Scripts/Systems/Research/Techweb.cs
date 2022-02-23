@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 using Systems.Research.Data;
+using Systems.Research.ImporterExporter;
 
 namespace Systems.Research
 {
@@ -21,7 +22,9 @@ namespace Systems.Research
 
 		public void LoadTechweb(string filePath)
 		{
-
+			var importer = new TechwebJSONImporter();
+			var techweb = importer.Import(filePath);
+			Merge(techweb);
 		}
 
 		public List<TechWebNode> GetNodes()
