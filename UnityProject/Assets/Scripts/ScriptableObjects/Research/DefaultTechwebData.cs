@@ -5,6 +5,7 @@ using Systems.Research;
 using NaughtyAttributes;
 using System.IO;
 using Newtonsoft.Json;
+using Systems.Research.Data;
 
 namespace ScriptableObjects.Research
 {
@@ -16,7 +17,7 @@ namespace ScriptableObjects.Research
 		[Button("Generate default data locally")]
 		public void GenerateDefaultData()
 		{
-			
+
 			string jsonData = JsonConvert.SerializeObject(technologies);
 			string path = $"{Application.persistentDataPath}/GameData/Research/";
 			string fileName = "TechwebData.json";

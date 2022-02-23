@@ -7,10 +7,16 @@ namespace Systems.Research
 
 	public class Techweb : MonoBehaviour
 	{
-		private List<TechWebNode> nodes = new List<TechWebNode>();
-		private int researchPoints = 10000;
-		private List<Technology> researchedTech = new List<Technology>();
+		public List<TechWebNode> nodes = new List<TechWebNode>();
+		public int researchPoints = 10000;
+		public List<Technology> researchedTech = new List<Technology>();
 
+
+		public void Merge(Techweb techwebtToMerge)
+		{
+			nodes.AddRange(techwebtToMerge.nodes);
+			researchedTech.AddRange(techwebtToMerge.researchedTech);
+		}
 
 		public void LoadTechweb(string filePath)
 		{
