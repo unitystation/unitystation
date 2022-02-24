@@ -1,0 +1,60 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ce108c02d022d1940bc023ceca025d81, type: 3}
+  m_Name: RandomCigs
+  m_EditorClassIdentifier: 
+  pool:
+  - prefab: {fileID: 7018581488350277588, guid: 087b329c5c57c4941953223ac7a8f586,
+      type: 3}
+    maxAmount: 1
+    probability: 100
+  - prefab: {fileID: 7227152362064457399, guid: 65ae978a9ee1c8e4f8e04ffc8688a382,
+      type: 3}
+    maxAmount: 1
+    probability: 100
+  - prefab: {fileID: 833854204170074864, guid: 09d7b5a48a6f62d4e8fc0ffb7e558eb4, type: 3}
+    maxAmount: 1
+    probability: 100
+  - prefab: {fileID: 4477219049166671043, guid: 8af9180f7d2ff8e4fb09974d2fce5ef9,
+      type: 3}
+    maxAmount: 1
+    probability: 100
+  - prefab: {fileID: 5788574576218799954, guid: d94457f7385d03049b1fe178e7f758a8,
+      type: 3}
+    maxAmount: 1
+    probability: 100
+  - prefab: {fileID: 707257357105675230, guid: a9fa99a5af6e9a147a033ca72de0e554, type: 3}
+    maxAmount: 1
+    probability: 100
+  - prefab: {fileID: 5911396978616383241, guid: 1fc6bd1cf076ba14089762709b7574f7,
+      type: 3}
+    maxAmount: 1
+    probability: 100
+  - prefab: {fileID: 7155419759927997733, guid: 975467bc4c51d794e9c556bd095e5e33,
+      type: 3}
+    maxAmount: 1
+    probability: 100
+  - prefab: {fileID: 386869145424247154, guid: 062d0147cd763a74e92a69bde7b76f0e, type: 3}
+    maxAmount: 1
+    probability: 100
+  - prefab: {fileID: 2043259655805960583, guid: c9c8ffe7c5a0a044bbe8343e681e1fe2,
+      type: 3}
+    maxAmount: 1
+    probability: 100
+  - prefab: {fileID: 8134601529933818555, guid: e622ebb581417324da647df6c34f3802,
+      type: 3}
+    maxAmount: 1
+    probability: 100
+  - prefab: {fileID: 5076202398305276353, guid: d15470f6fb099b145b57a8d4c5a86307,
+      type: 3}
+    maxAmount: 1
+    probability: 100

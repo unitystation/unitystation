@@ -19,6 +19,8 @@ MonoBehaviour:
   poolList:
   - probability: 100
     randomItemPool: {fileID: 11400000, guid: bce8b41caf9c836408c765eca7b50126, type: 2}
+  spawnedItem: {fileID: 0}
+  triggerManually: 0
 --- !u!1001 &2838674892618678586
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -28,7 +30,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1011433845357754, guid: a7abba22164ce49f0bf9b9b219f39298, type: 3}
       propertyPath: m_Name
-      value: RandomToyCrate
+      value: RandomToyCrateSpawner
       objectReference: {fileID: 0}
     - target: {fileID: 1011433845357754, guid: a7abba22164ce49f0bf9b9b219f39298, type: 3}
       propertyPath: m_IsActive
@@ -83,11 +85,16 @@ PrefabInstance:
       propertyPath: m_AssetId
       value: 3b07eb4c1c5e8f64eb2e3bb79c0db497
       objectReference: {fileID: 0}
+    - target: {fileID: 114776788309089574, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      propertyPath: customNetTransform
+      value: 
+      objectReference: {fileID: 2806524741709664336}
     - target: {fileID: 212340400423555046, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 762be26fb5a93894b9b33ba5a6d6501a,
+      objectReference: {fileID: 21300000, guid: cc587c24b407ae44c8c52e096f0f5ad4,
         type: 3}
     - target: {fileID: 212340400423555046, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
@@ -98,7 +105,7 @@ PrefabInstance:
         type: 3}
       propertyPath: PresentSpriteSet
       value: 
-      objectReference: {fileID: 11400000, guid: 3767d790c7352d640907b37e4211e696,
+      objectReference: {fileID: 11400000, guid: 5c2e82066b559204a987bddd37031f0c,
         type: 2}
     - target: {fileID: 6393191727481188567, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
@@ -113,3 +120,15 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 2838674892618678586}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &2806524741709664336 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 114341119007412586, guid: a7abba22164ce49f0bf9b9b219f39298,
+    type: 3}
+  m_PrefabInstance: {fileID: 2838674892618678586}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2839352587806555520}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 579884b05ae74e8499329b64997147d3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
