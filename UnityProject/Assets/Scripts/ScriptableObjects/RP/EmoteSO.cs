@@ -200,8 +200,9 @@ namespace ScriptableObjects.RP
 			//TODO : This sort of thing should be checked on the player script when reworking telecomms and adding a proper silencing system
 			player.TryGetComponent<PlayerScript>(out var script);
 			if (script.mind.occupation.JobType == JobType.MIME) return true; //FIXME : Find a way to check if vow of silence is broken
-			var playerInventory = script.DynamicItemStorage;
-			var masks = playerInventory.GetNamedItemSlots(NamedSlot.mask);
+			var playerInventory = script.Equipment;
+			var masks = playerInventory.ItemStorage.GetNamedItemSlots(NamedSlot.mask);
+			Debug.Log(masks);
 			foreach (var slot in masks)
 			{
 				if(slot.IsEmpty) continue;

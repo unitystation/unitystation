@@ -1400,7 +1400,7 @@ namespace HealthV2
 
 		public void IndicatePain(float dmgTaken = 0f)
 		{
-			if(EmoteActionManager.Instance == null || screamEmote == null || 
+			if(EmoteActionManager.Instance == null || screamEmote == null ||
 			   canScream == false || ConsciousState == ConsciousState.UNCONSCIOUS || IsDead) return;
 			if(dmgTaken <= 0f || dmgTaken >= painScreamDamage) EmoteActionManager.DoEmote(screamEmote, playerScript.gameObject);
 			StartCoroutine(ScreamCooldown());
