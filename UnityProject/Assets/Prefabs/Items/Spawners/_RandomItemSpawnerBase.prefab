@@ -18,6 +18,7 @@ MonoBehaviour:
   fanOut: 0
   poolList: []
   spawnedItem: {fileID: 0}
+  triggerManually: 0
 --- !u!1001 &2838674892618678586
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -78,6 +79,11 @@ PrefabInstance:
       propertyPath: m_AssetId
       value: abff3ae0227731244b0814b2055fa6f0
       objectReference: {fileID: 0}
+    - target: {fileID: 114776788309089574, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      propertyPath: customNetTransform
+      value: 
+      objectReference: {fileID: 2806524741709664336}
     - target: {fileID: 212340400423555046, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
       propertyPath: m_Sprite
@@ -118,3 +124,15 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 2838674892618678586}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &2806524741709664336 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 114341119007412586, guid: a7abba22164ce49f0bf9b9b219f39298,
+    type: 3}
+  m_PrefabInstance: {fileID: 2838674892618678586}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2839352587806555520}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 579884b05ae74e8499329b64997147d3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
