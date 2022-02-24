@@ -2,6 +2,7 @@
 using AddressableReferences;
 using HealthV2;
 using Messages.Server.SoundMessages;
+using NaughtyAttributes;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -23,6 +24,10 @@ namespace ScriptableObjects.RP
 		[SerializeField]
 		protected bool allowEmoteWhileInCrit = true;
 
+		[Tooltip("Does this emote require the user's mouth to be free?")]
+		[SerializeField]
+		protected bool isAudibleEmote = false;
+
 		[Tooltip("Disallow or change emote behavior if the player is crawling on the ground.")]
 		[SerializeField]
 		protected bool allowEmoteWhileCrawling = true;
@@ -38,6 +43,9 @@ namespace ScriptableObjects.RP
 		[Tooltip("If the emote has a special requirment and fails to meet it.")]
 		[SerializeField]
 		protected string failText = "You were unable to preform this action!";
+
+		[SerializeField, ShowIf(nameof(isAudibleEmote))]
+		protected string mouthBlockedText = "You are unable to make a sound!";
 
 		[SerializeField, Tooltip("Emote view text when the character is in critical condition.")]
 		protected string critViewText = "screams in pain!";
@@ -61,7 +69,8 @@ namespace ScriptableObjects.RP
 		protected enum FailType
 		{
 			Normal,
-			Critical
+			Critical,
+			MouthBlocked
 		}
 
 		public virtual void Do(GameObject player)
@@ -79,6 +88,11 @@ namespace ScriptableObjects.RP
 			else if (requiresHands && CheckHandState(player) == false)
 			{
 				FailText(player, FailType.Normal);
+				return;
+			}
+			else if (CheckIfPlayerIsGagged(player))
+			{
+				FailText(player, FailType.MouthBlocked);
 				return;
 			}
 
@@ -100,6 +114,9 @@ namespace ScriptableObjects.RP
 					break;
 				case FailType.Critical:
 					Chat.AddActionMsgToChat(player, $"{player.ExpensiveName()} {critViewText}.", $"{player.ExpensiveName()} {critViewText}.");
+					break;
+				case FailType.MouthBlocked:
+					Chat.AddExamineMsg(player, mouthBlockedText);
 					break;
 			}
 		}
@@ -138,8 +155,6 @@ namespace ScriptableObjects.RP
 					return maleSounds;
 				case (BodyType.Female):
 					return femaleSounds;
-				case (BodyType.NonBinary):
-					return defaultSounds;
 				default:
 					return defaultSounds;
 			}
@@ -174,6 +189,25 @@ namespace ScriptableObjects.RP
 		protected bool CheckIfPlayerIsCrawling(GameObject player)
 		{
 			return player.GetComponent<RegisterPlayer>().IsLayingDown;
+		}
+
+		/// <summary>
+		/// If an item is blocking this player from making audible emotes is a mime.
+		/// having no mask slot should also count as not having a mouth therefore you can't use an emote (like screaming) that requires a mouth
+		/// </summary>
+		protected bool CheckIfPlayerIsGagged(GameObject player)
+		{
+			//TODO : This sort of thing should be checked on the player script when reworking telecomms and adding a proper silencing system
+			player.TryGetComponent<PlayerScript>(out var script);
+			if (script.mind.occupation.JobType == JobType.MIME) return true;
+			var playerInventory = script.DynamicItemStorage;
+			var masks = playerInventory.GetNamedItemSlots(NamedSlot.mask);
+			foreach (var slot in masks)
+			{
+				if(slot.IsEmpty) continue;
+				if (slot.ItemAttributes.HasTrait(CommonTraits.Instance.Gag)) return true;
+			}
+			return false;
 		}
 	}
 }
