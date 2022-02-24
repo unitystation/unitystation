@@ -17,6 +17,9 @@ namespace GameRunTests
 			}
 			GameManager.Instance.QuickLoad = true;
 
+			yield return null;
+			yield return null;
+
 			yield return TestSingleton.Instance.RunTests();
 
 			GameManager.Instance.QuickLoad = false;
