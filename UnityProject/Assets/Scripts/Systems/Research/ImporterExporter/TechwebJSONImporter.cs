@@ -34,18 +34,28 @@ namespace Systems.Research.ImporterExporter
 				}
 
 				if (JsonTechweb[i].ContainsKey("ResearchCosts"))
-				{ TechnologyPass.ResearchCosts = int.Parse(JsonTechweb[i]["ResearchCosts"].ToString()); }
+				{
+					TechnologyPass.ResearchCosts = int.Parse(JsonTechweb[i]["ResearchCosts"].ToString());
+				}
 				else
-				{ TechnologyPass.ResearchCosts = 0; }
+				{
+					TechnologyPass.ResearchCosts = 0;
+				}
 
 				if (JsonTechweb[i].ContainsKey("ExportPrice"))
-				{ TechnologyPass.ExportPrice = int.Parse(JsonTechweb[i]["ExportPrice"].ToString()); }
+				{
+					TechnologyPass.ExportPrice = int.Parse(JsonTechweb[i]["ExportPrice"].ToString());
+				}
 				else
-				{ TechnologyPass.ExportPrice = 0; }
+				{
+					TechnologyPass.ExportPrice = 0;
+				}
 
 
 				if (JsonTechweb[i].ContainsKey("RequiredTechnologies"))
-				{ TechnologyPass.RequiredTechnologies = JsonConvert.DeserializeObject<List<string>>(JsonTechweb[i]["RequiredTechnologies"].ToString()); }
+				{
+					TechnologyPass.RequiredTechnologies = JsonConvert.DeserializeObject<List<string>>(JsonTechweb[i]["RequiredTechnologies"].ToString());
+				}
 				else
 				{
 					List<string> EmptyRequiredTechnologies = new List<string>();
@@ -53,9 +63,13 @@ namespace Systems.Research.ImporterExporter
 				}
 
 				if (JsonTechweb[i].ContainsKey("StartingNode"))
-				{ TechnologyPass.StartingNode = bool.Parse(JsonTechweb[i]["StartingNode"].ToString()); }
+				{
+					TechnologyPass.StartingNode = bool.Parse(JsonTechweb[i]["StartingNode"].ToString());
+				}
 				else
-				{ TechnologyPass.StartingNode = false; }
+				{
+					TechnologyPass.StartingNode = false;
+				}
 
 				if (JsonTechweb[i].ContainsKey("PotentialUnlocks"))
 				{
@@ -68,6 +82,7 @@ namespace Systems.Research.ImporterExporter
 					TechnologyPass.PotentialUnlocks = EmptyPotentialUnlocks;
 				}
 				newNode.technology = TechnologyPass;
+				TechnologyPass.Techweb = techweb;
 				Nodes.Add(newNode);
 			}
 
