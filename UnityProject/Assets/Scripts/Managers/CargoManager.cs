@@ -310,7 +310,7 @@ namespace Systems.Cargo
 			{
 				var stringBuilder = new StringBuilder(export.ExportMessage);
 
-				lock (gasContainer.GasMix.GasesArray)
+				lock (gasContainer.GasMix.GasesArray) //no Double lock
 				{
 					foreach (var gas in gasContainer.GasMix.GasesArray)  //doesn't appear to modify list while iterating
 					{

@@ -242,6 +242,31 @@ namespace IngameDebugConsole
 		}
 
 #if UNITY_EDITOR
+		[MenuItem("Networking/Spawn 20 dummy players")]
+#endif
+		[ConsoleMethod("spawn-dummy20", "Spawn 20 dummy players (Server)")]
+		private static void SpawnDummyPlayer20()
+		{
+			for (int i = 0; i < 20; i++)
+			{
+				PlayerSpawn.ServerSpawnDummy();
+			}
+		}
+		
+		
+#if UNITY_EDITOR
+		[MenuItem("Networking/Spawn 100 dummy players")]
+#endif
+		[ConsoleMethod("spawn-dummy100", "Spawn 100 dummy players (Server)")]
+		private static void SpawnDummyPlayer100()
+		{
+			for (int i = 0; i < 100; i++)
+			{
+				PlayerSpawn.ServerSpawnDummy();
+			}
+		}
+
+#if UNITY_EDITOR
 		[MenuItem("Networking/Transform Waltz (Server)")]
 		private static void MoveAll()
 		{

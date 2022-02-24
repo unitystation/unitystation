@@ -17,26 +17,32 @@ namespace Doors
 		[SerializeField, BoxGroup("Sprite Layers"), PrefabModeOnly]
 		[Tooltip("Game object which represents the base of this door")]
 		private GameObject doorBase = null;
+		public GameObject DoorBase => doorBase;
 
 		[SerializeField, BoxGroup("Sprite Layers"), PrefabModeOnly]
 		[Tooltip("Game object which represents the light layer of this door")]
 		private GameObject overlaySparks = null;
+		public GameObject OverlaySparks => overlaySparks;
 
 		[SerializeField, BoxGroup("Sprite Layers"), PrefabModeOnly]
 		[Tooltip("Game object which represents the light layer of this door")]
 		private GameObject overlayLights = null;
+		public GameObject OverlayLights => overlayLights;
 
 		[SerializeField, BoxGroup("Sprite Layers"), PrefabModeOnly]
 		[Tooltip("Game object which represents the fill layer of this door")]
 		private GameObject overlayFill = null;
+		public GameObject OverlayFill => overlayFill;
 
 		[SerializeField, BoxGroup("Sprite Layers"), PrefabModeOnly]
 		[Tooltip("Game object which represents the welded and effects layer for this door")]
 		private GameObject overlayWeld = null;
+		public GameObject OverlayWeld => overlayWeld;
 
 		[SerializeField, BoxGroup("Sprite Layers"), PrefabModeOnly]
 		[Tooltip("Game object which represents the hacking panel layer for this door")]
 		private GameObject overlayHacking = null;
+		public GameObject OverlayHacking => overlayHacking;
 
 		[SerializeField, PrefabModeOnly]
 		[Tooltip("Time this door's opening animation takes")]

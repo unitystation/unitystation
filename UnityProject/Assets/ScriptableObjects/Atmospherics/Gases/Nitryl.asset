@@ -15,10 +15,10 @@ MonoBehaviour:
   MolarHeatCapacity: 20
   MolarMass: 44.01
   Name: Nitryl
-  HasOverlay: 1
   MinMolesToSee: 0.4
-  TileName: Nitryl
-  OverlayType: 11
+  OverlayTile: {fileID: 11400000, guid: a8c8d2a1e6c85b54e9b35454b67fd2ad, type: 2}
+  CustomColour: 0
+  Colour: {r: 0, g: 0, b: 0, a: 0}
   FusionPower: 16
   AssociatedReagent: {fileID: 11400000, guid: 2d158c9434b5145be96026c8a3cea12a, type: 2}
   ExportPrice: 0

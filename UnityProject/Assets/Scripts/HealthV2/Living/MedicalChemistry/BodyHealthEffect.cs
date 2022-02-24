@@ -4,6 +4,7 @@ using Chemistry;
 using HealthV2;
 using NaughtyAttributes;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 [CreateAssetMenu(fileName = "BodyHealthEffect",
 	menuName = "ScriptableObjects/Chemistry/Reactions/BodyHealthEffect")]
@@ -12,19 +13,20 @@ public class BodyHealthEffect : MetabolismReaction
 	[HideIf("MultiEffect")] public DamageType DamageEffect;
 	[HideIf("MultiEffect")] public AttackType AttackType;
 
+	[FormerlySerializedAs("EffectPerOne")]
 	[Tooltip("How much damage or heals If negative per 1u")]
-	[HideIf("MultiEffect")] public float EffectPerOne = 1;
+	[HideIf("MultiEffect")] public float AttackBodyPartPerOneU = 1;
 
 
 
 	public bool CanOverdose = true;
 
-	[ShowIf("CanOverdose")] public float PercentageBloodOverdose = 0.25f;
-	[ShowIf("CanOverdose")] public float OverdoseDamageMultiplier = 1;
+	[ShowIf(nameof(CanOverdose))] public float PercentageBloodOverdose = 0.25f;
+	[ShowIf(nameof(CanOverdose))] public float OverdoseDamageMultiplier = 1;
 
 	public bool MultiEffect = false;
 
-	[ShowIf("MultiEffect")] public List<TypeAndStrength> Effects = new List<TypeAndStrength>();
+	[ShowIf(nameof(MultiEffect))] public List<TypeAndStrength> Effects = new List<TypeAndStrength>();
 
 
 	public const int MagicNumber = 15; // This balance is about right with 1 u ingested 1 * effect it about does one damage
@@ -66,7 +68,7 @@ public class BodyHealthEffect : MetabolismReaction
 				}
 				else
 				{
-					sender.TakeDamage(null, EffectPerOne * MagicNumber* LimitedreactionAmount * -OverdoseDamageMultiplier, AttackType,
+					sender.TakeDamage(null, AttackBodyPartPerOneU * MagicNumber* LimitedreactionAmount * -OverdoseDamageMultiplier, AttackType,
 						DamageEffect, DamageSubOrgans: false);
 				}
 
@@ -86,7 +88,7 @@ public class BodyHealthEffect : MetabolismReaction
 		}
 		else
 		{
-			sender.TakeDamage(null, EffectPerOne * MagicNumber * LimitedreactionAmount, AttackType,
+			sender.TakeDamage(null, AttackBodyPartPerOneU * MagicNumber * LimitedreactionAmount, AttackType,
 				DamageEffect, DamageSubOrgans: false);
 		}
 

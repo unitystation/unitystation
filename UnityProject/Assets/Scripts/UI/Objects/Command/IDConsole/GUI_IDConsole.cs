@@ -1,220 +1,245 @@
-
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UI.Core.NetUI;
 
-/// <summary>
-/// Optimized, new GUI_IDConsole
-/// </summary>
-public class GUI_IDConsole : NetTab
+namespace UI.Objects.Command
 {
-	private IdConsole console;
-	[SerializeField]
-	private NetPageSwitcher pageSwitcher = null;
-	[SerializeField]
-	private NetPage loginPage = null;
-	[SerializeField]
-	private NetPage usercardPage = null;
-	[SerializeField]
-	private NetPage mainPage = null;
-	[SerializeField]
-	private NetLabel targetCardName = null;
-	[SerializeField]
-	private NetLabel accessCardName = null;
-	[SerializeField]
-	private NetLabel loginCardName = null;
-
-	//cached mapping from access to its corresponding entry for fast lookup
-	private Dictionary<Access,GUI_IDConsoleEntry> accessToEntry = new Dictionary<Access, GUI_IDConsoleEntry>();
-	private Dictionary<Occupation,GUI_IDConsoleEntry> occupationToEntry = new Dictionary<Occupation, GUI_IDConsoleEntry>();
-
 	/// <summary>
-	/// Card currently targeted for security modifications. Null if none inserted
+	/// Optimized, new GUI_IDConsole
 	/// </summary>
-	public IDCard TargetCard => console.TargetCard;
-
-	private void Awake()
+	public class GUI_IDConsole : NetTab
 	{
-		mainPage.SetActive(true);
-		//cache the entries for quick lookup
-		foreach (var entry in GetComponentsInChildren<GUI_IDConsoleEntry>())
+		private IdConsole console;
+		[SerializeField]
+		private NetPageSwitcher pageSwitcher = null;
+		[SerializeField]
+		private NetPage loginPage = null;
+		[SerializeField]
+		private NetPage usercardPage = null;
+		[SerializeField]
+		private NetPage mainPage = null;
+		[SerializeField]
+		private NetLabel targetCardName = null;
+		[SerializeField]
+		private NetLabel accessCardName = null;
+		[SerializeField]
+		private NetLabel loginCardName = null;
+
+		//cached mapping from access to its corresponding entry for fast lookup
+		private Dictionary<Access, GUI_IDConsoleEntry> accessToEntry = new Dictionary<Access, GUI_IDConsoleEntry>();
+		private Dictionary<Occupation, GUI_IDConsoleEntry> occupationToEntry = new Dictionary<Occupation, GUI_IDConsoleEntry>();
+
+		/// <summary>
+		/// Card currently targeted for security modifications. Null if none inserted
+		/// </summary>
+		public IDCard TargetCard => console.TargetCard;
+
+		private void Awake()
 		{
-			if (entry.IsAccess)
+			mainPage.SetActive(true);
+			//cache the entries for quick lookup
+			foreach (var entry in GetComponentsInChildren<GUI_IDConsoleEntry>())
 			{
-				accessToEntry.Add(entry.Access, entry);
+				if (entry.IsAccess)
+				{
+					accessToEntry.Add(entry.Access, entry);
+				}
+				else
+				{
+					occupationToEntry.Add(entry.Occupation, entry);
+				}
+			}
+			mainPage.SetActive(false);
+		}
+
+		public override void OnEnable()
+		{
+			base.OnEnable();
+			if (CustomNetworkManager.Instance._isServer)
+			{
+				StartCoroutine(ServerWaitForProvider());
+			}
+		}
+
+		private IEnumerator ServerWaitForProvider()
+		{
+			while (Provider == null)
+			{
+				yield return WaitFor.EndOfFrame;
+			}
+
+			console = Provider.GetComponentInChildren<IdConsole>();
+			console.OnConsoleUpdate.AddListener(ServerUpdateScreen);
+			ServerUpdateScreen();
+		}
+
+		public void ServerUpdateScreen()
+		{
+			if (pageSwitcher.CurrentPage == loginPage)
+			{
+				ServerUpdateLoginCardName();
+				ServerLogin();
+			}
+			if (pageSwitcher.CurrentPage == usercardPage && console.TargetCard != null)
+			{
+				pageSwitcher.SetActivePage(mainPage);
+			}
+			if (pageSwitcher.CurrentPage == mainPage)
+			{
+
+				ServerRefreshEntries();
+			}
+			ServerRefreshCardNames();
+		}
+
+		/// <summary>
+		/// Goes through each entry and updates its status based on the inserted card
+		/// </summary>
+		private void ServerRefreshEntries()
+		{
+			foreach (var entry in accessToEntry.Values.Concat(occupationToEntry.Values))
+			{
+				entry.ServerRefreshFromTargetCard();
+			}
+		}
+
+		private void ServerUpdateLoginCardName()
+		{
+			loginCardName.SetValueServer(console.AccessCard != null ?
+				$"{console.AccessCard.RegisteredName}, {console.AccessCard.GetJobTitle()}" : "********");
+		}
+
+		private void ServerRefreshCardNames()
+		{
+			string valToSet = null;
+			if (console.AccessCard != null && accessCardName)
+			{
+				valToSet = $"{console.AccessCard.RegisteredName}, {console.AccessCard.GetJobTitle()}";
 			}
 			else
 			{
-				occupationToEntry.Add(entry.Occupation, entry);
+				valToSet = "-";
+			}
+
+			if (!valToSet.Equals(accessCardName.Value))
+			{
+				accessCardName.SetValueServer(valToSet);
+			}
+
+
+			if (console.TargetCard != null)
+			{
+				valToSet = $"{console.TargetCard.RegisteredName}, {console.TargetCard.GetJobTitle()}";
+			}
+			else
+			{
+				valToSet = "-";
+			}
+
+			if (!valToSet.Equals(targetCardName.Value))
+			{
+				targetCardName.SetValueServer(valToSet);
 			}
 		}
-		mainPage.SetActive(false);
-	}
 
-	public override void OnEnable()
-	{
-		base.OnEnable();
-		if (CustomNetworkManager.Instance._isServer)
+		public void ServerChangeName(string newName)
 		{
-			StartCoroutine(ServerWaitForProvider());
-		}
-	}
-
-	IEnumerator ServerWaitForProvider()
-	{
-		while (Provider == null)
-		{
-			yield return WaitFor.EndOfFrame;
+			if (newName.Length <= 32)
+			{
+				console.TargetCard.ServerSetRegisteredName(newName);
+				ServerRefreshCardNames();
+			}
+			else
+			{
+				Chat.AddExamineMsgToClient($"Name cannot exceed 32 characters!");
+				return;
+			}
 		}
 
-		console = Provider.GetComponentInChildren<IdConsole>();
-		console.OnConsoleUpdate.AddListener(ServerUpdateScreen);
-		ServerUpdateScreen();
-	}
-
-	public void ServerUpdateScreen()
-	{
-		if (pageSwitcher.CurrentPage == loginPage)
+		public void ServerChangeJobTitle(string newJobTitle)
 		{
-			ServerUpdateLoginCardName();
-			ServerLogin();
-		}
-		if (pageSwitcher.CurrentPage == usercardPage && console.TargetCard != null)
-		{
-			pageSwitcher.SetActivePage(mainPage);
-		}
-		if (pageSwitcher.CurrentPage == mainPage)
-		{
-
-			ServerRefreshEntries();
-		}
-		ServerRefreshCardNames();
-	}
-
-	/// <summary>
-	/// Goes through each entry and updates its status based on the inserted card
-	/// </summary>
-	private void ServerRefreshEntries()
-	{
-		foreach (var entry in accessToEntry.Values.Concat(occupationToEntry.Values))
-		{
-			entry.ServerRefreshFromTargetCard();
-		}
-	}
-
-	private void ServerUpdateLoginCardName()
-	{
-		loginCardName.SetValueServer(console.AccessCard != null ?
-			$"{console.AccessCard.RegisteredName}, {console.AccessCard.JobType.ToString()}" : "********");
-	}
-
-	private void ServerRefreshCardNames()
-	{
-		string valToSet = null;
-		if (console.AccessCard != null && accessCardName)
-		{
-			valToSet = $"{console.AccessCard.RegisteredName}, {console.AccessCard.JobType.ToString()}";
-		}
-		else
-		{
-			valToSet = "-";
+			if (newJobTitle.Length <= 32)
+			{
+				console.TargetCard.ServerSetJobTitle(newJobTitle);
+				ServerRefreshCardNames();
+			}
+			else
+			{
+				Chat.AddExamineMsgToClient($"Job title cannot exceed 32 characters!");
+				return;
+			}
 		}
 
-		if (!valToSet.Equals(accessCardName.Value))
+		/// <summary>
+		/// Grants the target card the given access
+		/// </summary>
+		/// <param name="accessToModify"></param>
+		/// <param name="grant">if true, grants access, otherwise removes it</param>
+		public void ServerModifyAccess(Access accessToModify, bool grant)
 		{
-			accessCardName.SetValueServer(valToSet);
+			var alreadyHasAccess = console.TargetCard.HasAccess(accessToModify);
+			if (!grant && alreadyHasAccess)
+			{
+				console.TargetCard.ServerRemoveAccess(accessToModify);
+			}
+			else if (grant && !alreadyHasAccess)
+			{
+				console.TargetCard.ServerAddAccess(accessToModify);
+			}
 		}
 
-
-		if (console.TargetCard != null)
+		public void ServerChangeAssignment(Occupation occupationToSet)
 		{
-			valToSet = $"{console.TargetCard.RegisteredName}, {console.TargetCard.JobType.ToString()}";
+			if (console.TargetCard.Occupation != occupationToSet)
+			{
+				console.TargetCard.ServerChangeOccupation(occupationToSet, true);
+				ServerRefreshEntries();
+				ServerRefreshCardNames();
+			}
 		}
-		else
-		{
-			valToSet = "-";
-		}
 
-		if (!valToSet.Equals(targetCardName.Value))
+		public void ServerRemoveTargetCard(ConnectedPlayer player)
 		{
-			targetCardName.SetValueServer(valToSet);
-		}
-	}
-
-	public void ServerChangeName(string newName)
-	{
-		console.TargetCard.ServerSetRegisteredName(newName);
-		ServerRefreshCardNames();
-	}
-
-	/// <summary>
-	/// Grants the target card the given access
-	/// </summary>
-	/// <param name="accessToModify"></param>
-	/// <param name="grant">if true, grants access, otherwise removes it</param>
-	public void ServerModifyAccess(Access accessToModify, bool grant)
-	{
-		var alreadyHasAccess = console.TargetCard.HasAccess(accessToModify);
-		if (!grant && alreadyHasAccess)
-		{
-			console.TargetCard.ServerRemoveAccess(accessToModify);
-		}
-		else if (grant && !alreadyHasAccess)
-		{
-			console.TargetCard.ServerAddAccess(accessToModify);
-		}
-	}
-
-	public void ServerChangeAssignment(Occupation occupationToSet)
-	{
-		if (console.TargetCard.Occupation != occupationToSet)
-		{
-			console.TargetCard.ServerChangeOccupation(occupationToSet, true);
-			ServerRefreshEntries();
-			ServerRefreshCardNames();
-		}
-	}
-
-	public void ServerRemoveTargetCard(ConnectedPlayer player)
-	{
-		if (console.TargetCard == null)
-		{
-			return;
-		}
-		console.EjectCard(console.TargetCard, player);
-		pageSwitcher.SetActivePage(usercardPage);
-	}
-
-	public void ServerRemoveAccessCard(ConnectedPlayer player)
-	{
-		if (console.AccessCard == null)
-		{
-			return;
-		}
-		console.EjectCard(console.AccessCard, player);
-		ServerRefreshCardNames();
-		ServerLogOut(player);
-	}
-
-	public void ServerLogin()
-	{
-		if (console.AccessCard != null &&
-			console.AccessCard.HasAccess(Access.change_ids))
-		{
-			console.LoggedIn = true;
+			if (console.TargetCard == null)
+			{
+				return;
+			}
+			console.EjectCard(console.TargetCard, player);
 			pageSwitcher.SetActivePage(usercardPage);
-			ServerUpdateScreen();
 		}
-	}
 
-	public void ServerLogOut(ConnectedPlayer player)
-	{
-		ServerRemoveTargetCard(player);
-		console.LoggedIn = false;
-		pageSwitcher.SetActivePage(loginPage);
-		ServerUpdateLoginCardName();
-		ServerRemoveAccessCard(player);
+		public void ServerRemoveAccessCard(ConnectedPlayer player)
+		{
+			if (console.AccessCard == null || IsAIInteracting() == false)
+			{
+				return;
+			}
+			console.EjectCard(console.AccessCard, player);
+			ServerRefreshCardNames();
+			ServerLogOut(player);
+		}
+
+		public void ServerLogin()
+		{
+			if (console.AccessCard != null &&
+				console.AccessCard.HasAccess(Access.change_ids) || IsAIInteracting() == true)
+			{
+				console.LoggedIn = true;
+				pageSwitcher.SetActivePage(usercardPage);
+				ServerUpdateScreen();
+			}
+		}
+
+		public void ServerLogOut(ConnectedPlayer player)
+		{
+			ServerRemoveTargetCard(player);
+			console.LoggedIn = false;
+			pageSwitcher.SetActivePage(loginPage);
+			ServerUpdateLoginCardName();
+			ServerRemoveAccessCard(player);
+		}
 	}
 }

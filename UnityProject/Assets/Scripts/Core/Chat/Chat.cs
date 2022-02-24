@@ -42,7 +42,7 @@ public partial class Chat : MonoBehaviour
 
 	private static Regex htmlRegex = new Regex(@"^(http|https)://.*$");
 
-	public static void InvokeChatEvent(ChatEvent chatEvent)
+	public static void  InvokeChatEvent(ChatEvent chatEvent)
 	{
 		var channels = chatEvent.channels;
 		StringBuilder discordMessageBuilder = new StringBuilder();
@@ -91,7 +91,7 @@ public partial class Chat : MonoBehaviour
 		//Sanity check for null username
 		if (string.IsNullOrWhiteSpace(sentByPlayer.Username))
 		{
-			Logger.Log($"Null/empty Username, Details: Username: {sentByPlayer.Username}, ClientID: {sentByPlayer.ClientId}, IP: {sentByPlayer.Connection.address}",
+			Logger.Log($"Null/empty Username, Details: Username: {sentByPlayer.Username}, ClientID: {sentByPlayer.ClientId}, IP: {sentByPlayer.ConnectionIP}",
 				Category.Admin);
 			return;
 		}
@@ -623,7 +623,7 @@ public partial class Chat : MonoBehaviour
 	/// <param name="message"> The message to add to the client chat stream</param>
 	public static void AddExamineMsgToClient(string message)
 	{
-		ChatRelay.Instance.UpdateClientChat(message, ChatChannel.Examine, true, PlayerManager.LocalPlayer, Loudness.NORMAL);
+		ChatRelay.Instance.UpdateClientChat(message, ChatChannel.Examine, true, PlayerManager.LocalPlayer, Loudness.NORMAL, ChatModifier.None);
 	}
 
 	/// <summary>
@@ -659,7 +659,7 @@ public partial class Chat : MonoBehaviour
 	public static void AddWarningMsgToClient(string message)
 	{
 		message = ProcessMessageFurther(message, "", ChatChannel.Warning, ChatModifier.None, Loudness.NORMAL); //TODO: Put processing in a unified place for server and client.
-		ChatRelay.Instance.UpdateClientChat(message, ChatChannel.Warning, true, PlayerManager.LocalPlayer, Loudness.NORMAL);
+		ChatRelay.Instance.UpdateClientChat(message, ChatChannel.Warning, true, PlayerManager.LocalPlayer, Loudness.NORMAL, ChatModifier.None);
 	}
 
 	public static void AddAdminPrivMsg(string message)

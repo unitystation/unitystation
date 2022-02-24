@@ -12,7 +12,7 @@ namespace ScriptableObjects
 	public class GhostRoleData : ScriptableObject
 	{
 		[SerializeField] private new string name = default;
-		[SerializeField] private string description = default;
+		[SerializeField] [TextArea(10, 20)] private string description = default;
 		[SerializeField] private SpriteDataSO sprite = default;
 
 		[Tooltip("If custom, then whatever creates the ghost role must decide the respawning logic.")]

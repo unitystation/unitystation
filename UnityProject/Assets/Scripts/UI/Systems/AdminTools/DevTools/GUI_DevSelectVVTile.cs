@@ -50,6 +50,17 @@ public class GUI_DevSelectVVTile : MonoBehaviour
 		ToState(State.SELECTING);
 	}
 
+	private void OnEnable()
+	{
+		UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
+	}
+
+	private void OnDisable()
+	{
+		ToState(State.INACTIVE);
+		UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
+	}
+
 	private void ToState(State newState)
 	{
 		if (newState == state)
@@ -82,17 +93,12 @@ public class GUI_DevSelectVVTile : MonoBehaviour
 		}
 	}
 
-	private void OnDisable()
-	{
-		ToState(State.INACTIVE);
-	}
-
 	public void Open()
 	{
 		ToState(State.SELECTING);
 	}
 
-	private void Update()
+	private void UpdateMe()
 	{
 		if (state == State.SELECTING)
 		{

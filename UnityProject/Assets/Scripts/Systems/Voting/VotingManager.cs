@@ -62,12 +62,14 @@ public class VotingManager : NetworkBehaviour
 	{
 		EventManager.AddHandler(Event.RoundStarted, OnRoundStarted);
 		EventManager.AddHandler(Event.RoundEnded, OnRoundEnded);
+		UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
 	}
 
 	void OnDisable()
 	{
 		EventManager.RemoveHandler(Event.RoundStarted, OnRoundStarted);
 		EventManager.RemoveHandler(Event.RoundEnded, OnRoundEnded);
+		UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
 	}
 
 	void OnRoundStarted()
@@ -134,11 +136,11 @@ public class VotingManager : NetworkBehaviour
 
 		var msg = $"Vote was vetoed by {PlayerList.Instance.GetByUserID(adminId).Username}";
 
-		UIManager.Instance.adminChatWindows.adminToAdminChat.ServerAddChatRecord(msg, adminId);
+		UIManager.Instance.adminChatWindows.adminLogWindow.ServerAddChatRecord(msg, adminId);
 		Logger.Log(msg, Category.Admin);
 	}
 
-	void Update()
+	void UpdateMe()
 	{
 		if (voteInProgress)
 		{

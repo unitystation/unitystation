@@ -10,6 +10,7 @@ using Systems.Interaction;
 using UI;
 using Objects.Wallmounts;
 
+using UI.Core.NetUI;
 
 public enum NetTabType
 {
@@ -61,7 +62,9 @@ public enum NetTabType
 	ThermoMachine = 44,
 	ACU = 45,
 	Explosive = 46,
-	AirlockElectronics = 47
+	AirlockElectronics = 47,
+	FrequencyChanger = 48,
+	PizzaBomb = 49,
 
 	// add new entres to the bottom
 	// the enum name must match that of the prefab except the prefab has the word tab infront of the enum name
@@ -281,6 +284,16 @@ public class NetTab : Tab
 				TabUpdateMessage.Send(peeper.GameObject, Provider, Type, TabAction.Close);
 			}
 		}
+	}
+
+	public bool IsAIInteracting()
+	{
+		foreach(var peep in Peepers)
+		{
+			if (peep.Job != JobType.AI) continue;
+			return true;
+		}
+		return false;
 	}
 
 	public void CloseTab()

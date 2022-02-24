@@ -1,14 +1,12 @@
-using System;
 using System.Text;
 using Systems.Ai;
 using UnityEngine;
 using Mirror;
-using Blob;
 using HealthV2;
-using UI;
 using Player;
 using Player.Movement;
 using UI.Action;
+using Items;
 
 public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IActionGUI
 {
@@ -30,7 +28,7 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IActi
 
 	public WeaponNetworkActions weaponNetworkActions { get; set; }
 
-	public Orientation CurrentDirection => playerDirectional.CurrentDirection;
+	public OrientationEnum CurrentDirection => playerDirectional.CurrentDirection;
 	/// <summary>
 	/// Will be null if player is a ghost.
 	/// </summary>
@@ -44,10 +42,9 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IActi
 	/// </summary>
 	public ObjectBehaviour pushPull { get; set; }
 
-	public Directional playerDirectional { get; set; }
+	public Rotatable playerDirectional { get; set; }
 
-	private PlayerSync _playerSync; //Example of good on-demand reference init
-	public PlayerSync PlayerSync => _playerSync ? _playerSync : (_playerSync = GetComponent<PlayerSync>());
+	public PlayerSync PlayerSync;
 
 	public Equipment Equipment { get; private set; }
 
@@ -72,10 +69,10 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IActi
 	public Vector3Int AssumedWorldPos => pushPull.AssumedWorldPositionServer();
 
 	/// <summary>
-	/// Serverside world position.
+	/// World position of the player.
 	/// Returns InvalidPos if you're hidden (e.g. in a locker)
 	/// </summary>
-	public Vector3Int WorldPos => registerTile.WorldPositionServer;
+	public Vector3Int WorldPos => registerTile.WorldPosition;
 
 	/// <summary>
 	/// This player's item storage.
@@ -91,9 +88,9 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IActi
 	public float RTT;
 
 	[HideInInspector]
-	[SyncVar]
 	public bool RcsMode;
-	public MatrixMove RcsMatrixMove { get; set; }
+	[HideInInspector]
+	public MatrixMove RcsMatrixMove;
 
 	private bool isUpdateRTT;
 	private float waitTimeForRTTUpdate = 0f;
@@ -139,12 +136,13 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IActi
 		mouseInputController = GetComponent<MouseInputController>();
 		chatIcon = GetComponentInChildren<ChatIcon>(true);
 		playerMove = GetComponent<PlayerMove>();
-		playerDirectional = GetComponent<Directional>();
+		playerDirectional = GetComponent<Rotatable>();
 		DynamicItemStorage = GetComponent<DynamicItemStorage>();
 		Equipment = GetComponent<Equipment>();
 		Cooldowns = GetComponent<HasCooldowns>();
 		PlayerOnlySyncValues = GetComponent<PlayerOnlySyncValues>();
 		playerCrafting = GetComponent<PlayerCrafting>();
+		PlayerSync = GetComponent<PlayerSync>();
 	}
 
 	public override void OnStartClient()
@@ -347,7 +345,7 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IActi
 	/// </summary>
 	public bool IsGhost => (PlayerState == PlayerStates.Normal) == false;
 
- 	/// <summary>
+	/// <summary>
 	/// Same as is ghost, but also true when player inside his dead body
 	/// </summary>
 	public bool IsDeadOrGhost
@@ -437,13 +435,13 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IActi
 		if (playerState == PlayerStates.Ai)
 		{
 			ChatChannel aiTransmitChannels = ChatChannel.OOC | ChatChannel.Local | ChatChannel.Binary | ChatChannel.Command
-			                                 | ChatChannel.Common | ChatChannel.Engineering |
-			                                 ChatChannel.Medical | ChatChannel.Science | ChatChannel.Security | ChatChannel.Service
-			                                 | ChatChannel.Supply;
+											 | ChatChannel.Common | ChatChannel.Engineering |
+											 ChatChannel.Medical | ChatChannel.Science | ChatChannel.Security | ChatChannel.Service
+											 | ChatChannel.Supply;
 			ChatChannel aiReceiveChannels = ChatChannel.Examine | ChatChannel.System | ChatChannel.Combat |
-			                                   ChatChannel.Binary | ChatChannel.Command | ChatChannel.Common | ChatChannel.Engineering |
-			                                   ChatChannel.Medical | ChatChannel.Science | ChatChannel.Security | ChatChannel.Service
-			                                   | ChatChannel.Supply;
+											   ChatChannel.Binary | ChatChannel.Command | ChatChannel.Common | ChatChannel.Engineering |
+											   ChatChannel.Medical | ChatChannel.Science | ChatChannel.Security | ChatChannel.Service
+											   | ChatChannel.Supply;
 
 			if (GetComponent<AiPlayer>().AllowRadio == false)
 			{
@@ -481,6 +479,7 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IActi
 			{
 				if(earSlot.IsEmpty) continue;
 				if(earSlot.Item.TryGetComponent<Headset>(out var headset) == false) continue;
+				if(headset.isEMPed) continue;
 
 				EncryptionKeyType key = headset.EncryptionKey;
 				transmitChannels = transmitChannels | EncryptionKey.Permissions[key];

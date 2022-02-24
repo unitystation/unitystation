@@ -226,18 +226,18 @@ namespace Mirror
         // TODO move to server's NetworkConnectionToClient?
         internal void AddToObserving(NetworkIdentity netIdentity)
         {
-            observing.Add(netIdentity);
+	        observing.Add(netIdentity);
 
-            // spawn identity for this conn
+	        // spawn identity for this conn
             NetworkServer.ShowForConnection(netIdentity, this);
         }
 
         // TODO move to server's NetworkConnectionToClient?
         internal void RemoveFromObserving(NetworkIdentity netIdentity, bool isDestroyed)
         {
-            observing.Remove(netIdentity);
+	        observing.Remove(netIdentity);
 
-            if (!isDestroyed)
+	        if (!isDestroyed)
             {
                 // hide identity for this conn
                 NetworkServer.HideForConnection(netIdentity, this);
@@ -247,10 +247,11 @@ namespace Mirror
         // TODO move to server's NetworkConnectionToClient?
         internal void RemoveFromObservingsObservers()
         {
-            foreach (NetworkIdentity netIdentity in observing)
-            {
-                netIdentity.RemoveObserverInternal(this);
-            }
+
+	        foreach (var observingList in observing)
+	        {
+		        observingList.RemoveObserverInternal(this);
+	        }
             observing.Clear();
         }
 

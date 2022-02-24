@@ -1,4 +1,5 @@
-﻿using Systems.Atmospherics;
+﻿using System;
+using Systems.Atmospherics;
 using Chemistry;
 using TileManagement;
 using UnityEngine;
@@ -16,11 +17,17 @@ namespace ScriptableObjects.Atmospherics
 
 		public string Name;
 
-		//Gas overlay stuff
+		///Gas overlay stuff///
+
+		[NonSerialized]
+		//Set in OnEnable, we use it as bool is better to check than OverlayTile != null for if we have overlay
 		public bool HasOverlay;
 		public float MinMolesToSee = 0.4f;
-		public string TileName = "NONE";
-		public OverlayType OverlayType = OverlayType.None;
+		public OverlayTile OverlayTile;
+
+		//Colour stuff
+		public bool CustomColour;
+		public Color Colour;
 
 		//Used for fusion reaction
 		public int FusionPower;
@@ -34,6 +41,11 @@ namespace ScriptableObjects.Atmospherics
 		//Generated when added to dictionary
 		//Doesnt need to be public as GasSO is turned into index automatically when needed, see below
 		private int Index;
+
+		private void OnEnable()
+		{
+			HasOverlay = OverlayTile != null;
+		}
 
 		public static implicit operator int(GasSO gas)
 		{

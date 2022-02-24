@@ -58,6 +58,16 @@ namespace UI.Core.Radial
 			RadialUI = GetComponent<IRadial>();
 		}
 
+		private void OnEnable()
+		{
+			UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
+		}
+
+		private void OnDestroy()
+		{
+			UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
+		}
+
 		public void OnScroll(PointerEventData eventData)
 		{
 			if (eventData.scrollDelta == Vector2.zero || IsPositionInArea(eventData.position, WheelEventArea) == false)
@@ -85,7 +95,7 @@ namespace UI.Core.Radial
 			return forward ? -delta : delta;
 		}
 
-		private void Update()
+		private void UpdateMe()
 		{
 			var mousePos = CommonInput.mousePosition;
 

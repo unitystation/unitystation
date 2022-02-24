@@ -115,6 +115,7 @@ GameObject:
   - component: {fileID: 7220229578062338530}
   - component: {fileID: 4169614025896085069}
   - component: {fileID: 1120710169395197036}
+  - component: {fileID: 1891069723332755222}
   m_Layer: 21
   m_Name: Light
   m_TagString: Untagged
@@ -196,6 +197,21 @@ MonoBehaviour:
   Material: {fileID: 2100000, guid: b7e7f24fa2e49cb48818dace424b5868, type: 2}
   LightOrigin: {x: 0, y: 0, z: 1}
   Shape: 0
+--- !u!114 &1891069723332755222
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6387092560801259802}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 260432002b2b53b44aadf17e9c2cda2d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pulseSpeed: 0.5
+  maxIntensity: 0.9
+  minIntensity: 0.1
 --- !u!114 &5623857294117545528
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -211,7 +227,7 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   lightSprite: {fileID: 1120710169395197036}
-  pulseSpeed: 0.5
+  lightPulser: {fileID: 1891069723332755222}
   mainSprite: {fileID: 2491708056323762168}
   overlaySpriteHandler: {fileID: 5215694570270784447}
   singularity: {fileID: 8644250361354468660, guid: cdb9074b5f159064689eefa35db0205e,
@@ -227,6 +243,8 @@ MonoBehaviour:
   superMatterShard: {fileID: 70068185008237990, guid: f2f44eb806b35ff40a64333b48771101,
     type: 3}
   superMatterScalpel: {fileID: 11400000, guid: 635f2dad6ee0ce749a89253fd4a13f8f, type: 2}
+  superMatterTongs: {fileID: 11400000, guid: 2c4443ad77d74b54a9a305c240a8a850, type: 2}
+  superMatterSliver: {fileID: 11400000, guid: 033fe3055c943534ca5d7b6585c693d8, type: 2}
   nuclearParticlePrefab: {fileID: 3294328072042417454, guid: 51e37bcfda438bc45bae02a757a88dbb,
     type: 3}
   arcEffect: {fileID: 106988, guid: 3f23c24bde2f784479d91bce3b78b3b3, type: 3}
@@ -240,6 +258,7 @@ MonoBehaviour:
       m_AssetGUID: 
       m_SubObjectName: 
       m_SubObjectType: 
+      m_EditorAssetChanged: 0
   normalLoopSound:
     SetLoadSetting: 0
     AssetAddress: Assets/Prefabs/Machines/SuperMatter/SuperMatterNormalLoop.prefab
@@ -247,6 +266,7 @@ MonoBehaviour:
       m_AssetGUID: 
       m_SubObjectName: 
       m_SubObjectType: 
+      m_EditorAssetChanged: 0
   delamLoopSound:
     SetLoadSetting: 0
     AssetAddress: Assets/Prefabs/Machines/SuperMatter/SuperMatterDelamLoop.prefab
@@ -254,6 +274,7 @@ MonoBehaviour:
       m_AssetGUID: 
       m_SubObjectName: 
       m_SubObjectType: 
+      m_EditorAssetChanged: 0
   blobAlarm:
     SetLoadSetting: 0
     AssetAddress: Assets/Prefabs/Machines/BlobAlarm.prefab
@@ -261,6 +282,7 @@ MonoBehaviour:
       m_AssetGUID: 
       m_SubObjectName: 
       m_SubObjectType: 
+      m_EditorAssetChanged: 0
   engineAlert1:
     SetLoadSetting: 0
     AssetAddress: Assets/Prefabs/Machines/SuperMatter/EngineAlertOne.prefab
@@ -268,6 +290,7 @@ MonoBehaviour:
       m_AssetGUID: 
       m_SubObjectName: 
       m_SubObjectType: 
+      m_EditorAssetChanged: 0
   engineAlert2:
     SetLoadSetting: 0
     AssetAddress: Assets/Prefabs/Machines/SuperMatter/EngineAlertTwo.prefab
@@ -275,6 +298,7 @@ MonoBehaviour:
       m_AssetGUID: 
       m_SubObjectName: 
       m_SubObjectType: 
+      m_EditorAssetChanged: 0
   terminalAlert:
     SetLoadSetting: 0
     AssetAddress: Assets/Prefabs/Machines/TerminalAlert.prefab
@@ -282,6 +306,7 @@ MonoBehaviour:
       m_AssetGUID: 
       m_SubObjectName: 
       m_SubObjectType: 
+      m_EditorAssetChanged: 0
   canTakeIntegrityDamage: 1
   isHugBox: 0
 --- !u!114 &6965517500649778319

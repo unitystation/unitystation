@@ -119,12 +119,18 @@ namespace UI
 			screen_Jobs.SetActive(true);
 			SetFooter();
 			footer.SetActive(true);
+			UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
+		}
+
+		private void OnDisable()
+		{
+			UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
 		}
 
 		/// <summary>
 		/// If a role has been selected this waits for the player to spawn.
 		/// </summary>
-		private void Update()
+		private void UpdateMe()
 		{
 			if (PlayerManager.HasSpawned)
 			{

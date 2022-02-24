@@ -7,7 +7,6 @@ using System.Text;
 using Light2D;
 using Mirror;
 using UnityEngine;
-using AddressableReferences;
 using Random = UnityEngine.Random;
 using EpPathFinding.cs;
 using HealthV2;
@@ -1444,7 +1443,7 @@ namespace Blob
 				if (factoryBlob.Value.Count >= 3) continue;
 
 				var result = Spawn.ServerPrefab(blobSpore, factoryBlob.Key.location,
-					factoryBlob.Key.transform);
+					factoryBlob.Key.transform.parent);
 
 				if (!result.Successful) continue;
 
@@ -1912,24 +1911,30 @@ namespace Blob
 
 		private void CheckConnections()
 		{
-			if (!pathSearch)
-			{
-				pathSearch = true;
-				StartCoroutine(CheckPaths());
-			}
+			if (pathSearch || blobTiles.Count <= 0) return;
+			pathSearch = true;
+
+			StartCoroutine(CheckPaths());
 		}
 
 		private IEnumerator CheckPaths()
 		{
-			Profiler.BeginSample("Blob Grid");
-			GenerateGrid();
-			Profiler.EndSample();
+			try
+			{
+				Profiler.BeginSample("Blob Grid");
+				GenerateGrid();
+				Profiler.EndSample();
 
-			Profiler.BeginSample("Blob paths");
-			NodePaths();
-			EcoPaths();
-			FactoryPaths();
-			Profiler.EndSample();
+				Profiler.BeginSample("Blob paths");
+				NodePaths();
+				EcoPaths();
+				FactoryPaths();
+				Profiler.EndSample();
+			}
+			catch (Exception e)
+			{
+				Logger.LogError(e.ToString());
+			}
 
 			pathSearch = false;
 			yield break;

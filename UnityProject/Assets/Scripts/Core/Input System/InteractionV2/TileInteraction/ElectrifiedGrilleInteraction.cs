@@ -97,7 +97,7 @@ namespace Tiles
 			// about whether the overlap is actually connected to a live cable.
 			bool overlapExists = false;
 			float voltage = 0;
-			foreach (var conn in eConns)
+			foreach (var conn in eConns.List)
 			{
 				if (conn.WireEndA == Connection.Overlap || conn.WireEndB == Connection.Overlap)
 				{

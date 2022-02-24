@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using ScriptableObjects.Atmospherics;
 using UI.Core;
+using UI.Core.NetUI;
 using Objects.Atmospherics;
-
 
 namespace UI.Objects.Atmospherics
 {

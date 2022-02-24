@@ -60,6 +60,7 @@ MonoBehaviour:
       m_AssetGUID: 
       m_SubObjectName: 
       m_SubObjectType: 
+      m_EditorAssetChanged: 0
   antagChance: 20
   survivorAntag: {fileID: 11400000, guid: 1f76130a96885d1458294f8986f12bb4, type: 2}
   objective: {fileID: 11400000, guid: 7502e63ba2052fe4f821bdd278b06dae, type: 2}
@@ -123,6 +124,7 @@ MonoBehaviour:
       m_AssetGUID: 
       m_SubObjectName: 
       m_SubObjectType: 
+      m_EditorAssetChanged: 0
   antagChance: 20
   survivorAntag: {fileID: 11400000, guid: 1f76130a96885d1458294f8986f12bb4, type: 2}
   objective: {fileID: 11400000, guid: f4ccc2a0477e62741a7d9fafa6d73154, type: 2}
@@ -233,8 +235,8 @@ MonoBehaviour:
   reagentContainer: {fileID: 5188649654063371458, guid: 63a58edd1e5377040a9ea82e307c1f04,
     type: 3}
   dispersionAgents:
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 11400000, guid: 89e87c0935d40e6249cef390e612f90a, type: 2}
+  - {fileID: 11400000, guid: 2fe711bafe5c109f8b44185374a5071d, type: 2}
   spawnDelayRange: {x: 3, y: 10}
 --- !u!1 &2176390301219290958
 GameObject:
@@ -1151,7 +1153,8 @@ MonoBehaviour:
   parametersPageType: 0
   FakeEvent: 0
   AnnounceEvent: 1
-  immovableRodPrefab: {fileID: 0}
+  immovableRodPrefab: {fileID: 7144248469089430455, guid: 92917100ffedb8446b152dfce67581f8,
+    type: 3}
   minStrength: 200
   maxStrength: 500
   timeBetweenExplosions: 1

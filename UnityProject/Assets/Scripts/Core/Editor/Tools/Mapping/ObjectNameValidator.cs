@@ -25,7 +25,7 @@ namespace Core.Editor.Tools.Mapping
 		private static readonly Type[] types = new Type[] { typeof(AirController), typeof(AirVent), typeof(Scrubber) };
 		private static readonly string[] regexes =
 				new string[] { "^ACU - .+ - [A-z]{5}$", "^Vent - .+ - [A-z]{5}$", "^Scrubber - .+ - [A-z]{5}$" };
-		
+
 		private List<GameObject> gameObjects;
 		private List<GameObject> badObjects = new List<GameObject>();
 		private List<GameObject> modifiedObjects = new List<GameObject>();
@@ -87,7 +87,7 @@ namespace Core.Editor.Tools.Mapping
 			}
 		}
 
-		[MenuItem("Tools/Mapping/Name Validator", priority = 2)]
+		[MenuItem("Mapping/Name Validator", priority = 2)]
 		public static void ShowWindow()
 		{
 			GetWindow<ObjectNameValidator>().Show();

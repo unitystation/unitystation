@@ -5,8 +5,10 @@ using Mirror;
 using UnityEngine;
 using Systems.MobAIs;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 using Systems.Ai;
 using Messages.Server;
+using Objects.Telecomms;
 using UI.Chat_UI;
 
 /// <summary>
@@ -20,6 +22,10 @@ public class ChatRelay : NetworkBehaviour
 	private ChatChannel namelessChannels;
 	private LayerMask layerMask;
 	private LayerMask npcMask;
+	private LayerMask itemsMask;
+
+	private bool radioCheckIsOnCooldown = false;
+	[SerializeField] private float radioCheckRadius = 4f;
 
 	private RconManager rconManager;
 
@@ -45,9 +51,10 @@ public class ChatRelay : NetworkBehaviour
 	public void Start()
 	{
 		namelessChannels = ChatChannel.Examine | ChatChannel.Local | ChatChannel.None | ChatChannel.System |
-						   ChatChannel.Combat;
-		layerMask = LayerMask.GetMask( "Door Closed");
+		                   ChatChannel.Combat;
+		layerMask = LayerMask.GetMask("Door Closed");
 		npcMask = LayerMask.GetMask("NPC");
+		itemsMask = LayerMask.GetMask("Items");
 
 		rconManager = RconManager.Instance;
 	}
@@ -60,8 +67,8 @@ public class ChatRelay : NetworkBehaviour
 
 		//Local chat range checks:
 		if (chatEvent.channels.HasFlag(ChatChannel.Local)
-				|| chatEvent.channels.HasFlag(ChatChannel.Combat)
-				|| chatEvent.channels.HasFlag(ChatChannel.Action))
+		    || chatEvent.channels.HasFlag(ChatChannel.Combat)
+		    || chatEvent.channels.HasFlag(ChatChannel.Action))
 		{
 			for (int i = players.Count - 1; i >= 0; i--)
 			{
@@ -92,7 +99,7 @@ public class ChatRelay : NetworkBehaviour
 
 				//Send chat to PlayerChatLocation pos, usually just the player object but for AI is its vessel
 				var playerPosition = players[i].Script.PlayerChatLocation.OrNull()?.AssumedWorldPosServer()
-					?? players[i].Script.gameObject.AssumedWorldPosServer();
+				                     ?? players[i].Script.gameObject.AssumedWorldPosServer();
 
 				//Do player position to originator distance check
 				if (DistanceCheck(playerPosition) == false)
@@ -140,21 +147,28 @@ public class ChatRelay : NetworkBehaviour
 				}
 			}
 
-			//Get NPCs in vicinity
-			var npcs = Physics2D.OverlapCircleAll(chatEvent.position, 14f, npcMask);
-			foreach (Collider2D coll in npcs)
+
+
+			if (chatEvent.originator != null)
 			{
-				var npcPosition = coll.gameObject.AssumedWorldPosServer();
-				if (MatrixManager.Linecast(chatEvent.position,LayerTypeSelection.Walls,
-					 layerMask,npcPosition).ItHit ==false)
+				//Get NPCs in vicinity
+				var npcs = Physics2D.OverlapCircleAll(chatEvent.position, 14f, npcMask);
+				foreach (Collider2D coll in npcs)
 				{
-					//NPC is in hearing range, pass the message on:
-					var mobAi = coll.GetComponent<MobAI>();
-					if (mobAi != null)
+					var npcPosition = coll.gameObject.AssumedWorldPosServer();
+					if (MatrixManager.Linecast(chatEvent.position, LayerTypeSelection.Walls,
+						layerMask, npcPosition).ItHit == false)
 					{
-						mobAi.LocalChatReceived(chatEvent);
+						//NPC is in hearing range, pass the message on: Physics2D.OverlapCircleAll(chatEvent.originator.AssumedWorldPosServer(), 8f, itemsMask);
+						var mobAi = coll.GetComponent<MobAI>();
+						if (mobAi != null)
+						{
+							mobAi.LocalChatReceived(chatEvent);
+						}
 					}
 				}
+
+				if (radioCheckIsOnCooldown == false) CheckForRadios(chatEvent);
 			}
 		}
 
@@ -163,13 +177,15 @@ public class ChatRelay : NetworkBehaviour
 			ChatChannel channels = chatEvent.channels;
 
 			if (channels.HasFlag(ChatChannel.Combat) || channels.HasFlag(ChatChannel.Local) ||
-				channels.HasFlag(ChatChannel.System) || channels.HasFlag(ChatChannel.Examine) ||
-				channels.HasFlag(ChatChannel.Action))
+			    channels.HasFlag(ChatChannel.System) || channels.HasFlag(ChatChannel.Examine) ||
+			    channels.HasFlag(ChatChannel.Action))
 			{
 				//Binary check here to avoid speaking in local when speaking on binary
-				if (!channels.HasFlag(ChatChannel.Binary) || (players[i].Script.IsGhost && players[i].Script.IsPlayerSemiGhost == false))
+				if (!channels.HasFlag(ChatChannel.Binary) ||
+				    (players[i].Script.IsGhost && players[i].Script.IsPlayerSemiGhost == false))
 				{
-					UpdateChatMessage.Send(players[i].GameObject, channels, chatEvent.modifiers, chatEvent.message, loud, chatEvent.messageOthers,
+					UpdateChatMessage.Send(players[i].GameObject, channels, chatEvent.modifiers, chatEvent.message,
+						loud, chatEvent.messageOthers,
 						chatEvent.originator, chatEvent.speaker, chatEvent.stripTags);
 
 					continue;
@@ -188,7 +204,8 @@ public class ChatRelay : NetworkBehaviour
 			//if the mask ends up being a big fat 0 then don't do anything
 			if (channels != ChatChannel.None)
 			{
-				UpdateChatMessage.Send(players[i].GameObject, channels, chatEvent.modifiers, chatEvent.message, loud, chatEvent.messageOthers,
+				UpdateChatMessage.Send(players[i].GameObject, channels, chatEvent.modifiers, chatEvent.message, loud,
+					chatEvent.messageOthers,
 					chatEvent.originator, chatEvent.speaker, chatEvent.stripTags);
 			}
 		}
@@ -203,6 +220,67 @@ public class ChatRelay : NetworkBehaviour
 
 			RconManager.AddChatLog(message);
 		}
+	}
+
+	private void CheckForRadios(ChatEvent chatEvent)
+	{
+		HandleRadioCheckCooldown();
+		var SBRSpamCheck = false;
+		// Only spoken messages should be forwarded
+		if (chatEvent.channels.HasFlag(ChatChannel.Local) == false)
+		{
+			return;
+		}
+
+		//Check for radios on the player first
+		if (chatEvent.originator != null)
+		{
+			//Check for chat when the item is inside the player's inventory
+			if (chatEvent.originator.TryGetComponent<PlayerScript>(out var playerScript))
+			{
+				foreach (var slots in playerScript.DynamicItemStorage.ServerContents.Values)
+				{
+					if (SBRSpamCheck == true) break;
+					foreach (var slot in slots)
+					{
+						if (slot.IsEmpty) continue;
+						if (slot.Item.TryGetComponent<LocalRadioListener>(out var listener)
+							&& listener != chatEvent.originator)
+						{
+							listener.SendData(chatEvent);
+							SBRSpamCheck = true;
+						}
+					}
+				}
+			}
+		}
+
+		//If we sent the message through the radio that's on a player's inventory, stop so we don't call a physics function.
+		if (SBRSpamCheck == true) return;
+
+		//Check for chat three tiles around the player
+		foreach (Collider2D coll in Physics2D.OverlapCircleAll(chatEvent.position,
+			radioCheckRadius, itemsMask))
+		{
+			if (SBRSpamCheck == true) break;
+			if (chatEvent.originator == coll.gameObject) continue;
+			if (coll.gameObject.TryGetComponent<LocalRadioListener>(out var listener) == false) continue;
+
+			var radioPos = coll.gameObject.AssumedWorldPosServer();
+			if (MatrixManager.Linecast(chatEvent.position, LayerTypeSelection.Walls,
+				layerMask, radioPos).ItHit == false)
+			{
+				listener.SendData(chatEvent);
+				SBRSpamCheck = true;
+			}
+		}
+	}
+
+	private async void HandleRadioCheckCooldown()
+	{
+		radioCheckIsOnCooldown = true;
+		await Task.Delay(500).ConfigureAwait(false);
+		radioCheckIsOnCooldown = false;
 	}
 
 
@@ -223,7 +301,8 @@ public class ChatRelay : NetworkBehaviour
 	}
 
 	[Client]
-	public void UpdateClientChat(string message, ChatChannel channels, bool isOriginator, GameObject recipient, Loudness loudness)
+	public void UpdateClientChat(string message, ChatChannel channels, bool isOriginator, GameObject recipient,
+		Loudness loudness, ChatModifier modifiers)
 	{
 		if (string.IsNullOrEmpty(message)) return;
 
@@ -237,9 +316,10 @@ public class ChatRelay : NetworkBehaviour
 		if (channels != ChatChannel.None)
 		{
 			// replace action messages with chat bubble
-			if(channels.HasFlag(ChatChannel.Combat) || channels.HasFlag(ChatChannel.Action) || channels.HasFlag(ChatChannel.Examine))
+			if (channels.HasFlag(ChatChannel.Combat) || channels.HasFlag(ChatChannel.Action) ||
+			    channels.HasFlag(ChatChannel.Examine) || modifiers.HasFlag(ChatModifier.Emote))
 			{
-				if(isOriginator)
+				if (isOriginator)
 				{
 					ChatBubbleManager.Instance.ShowAction(Regex.Replace(message, "<.*?>", string.Empty), recipient);
 				}

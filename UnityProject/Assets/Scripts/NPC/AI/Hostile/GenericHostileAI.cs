@@ -143,18 +143,18 @@ namespace Systems.MobAIs
 
 		protected virtual void MonitorIdleness()
 		{
-			if (!mobMeleeAction.performingDecision && mobMeleeAction.FollowTarget == null)
+			if (mobMeleeAction.FollowTarget == null)
 			{
 				BeginSearch();
 			}
 			//We have target but not acting, so force do something
-			else if (mobMeleeAction.performingDecision == false && mobMeleeAction.performingAction == false)
+			else
 			{
 				forceActionWaitTime += Time.deltaTime;
 				if (forceActionWaitTime >= forceActionTickRate)
 				{
 					forceActionWaitTime = 0f;
-					mobMeleeAction.ForceTargetAction();
+					mobMeleeAction.DoAction();
 				}
 			}
 		}
@@ -165,7 +165,7 @@ namespace Systems.MobAIs
 		/// <returns>Gameobject of the first player it found</returns>
 		protected virtual GameObject SearchForTarget()
 		{
-			var player = Physics2D.OverlapCircleAll(transform.position, 20f, hitMask);
+			var player = Physics2D.OverlapCircleAll(registerObject.WorldPositionServer.To2Int(), 20f, hitMask);
 			//var hits = coneOfSight.GetObjectsInSight(hitMask, LayerTypeSelection.Walls, dirSprites.CurrentFacingDirection, 10f, 20);
 			if (player.Length == 0)
 			{
@@ -180,7 +180,8 @@ namespace Systems.MobAIs
 					null,
 					coll.gameObject.WorldPosServer()).ItHit == false)
 				{
-					if(coll.gameObject.TryGetComponent<LivingHealthMasterBase>(out var health) && health.IsDead) continue;
+					if(coll.gameObject.TryGetComponent<LivingHealthMasterBase>(out var health) == false ||
+					   health.IsDead) continue;
 
 					return coll.gameObject;
 				}
@@ -324,7 +325,7 @@ namespace Systems.MobAIs
 
 			//face towards the origin:
 			var dir = (chatEvent.originator.transform.position - transform.position).normalized;
-			directional.FaceDirection(Orientation.From(dir));
+			rotatable.SetFaceDirectionLocalVictor(dir.To2Int());
 
 			//Then scan to see if anyone is there:
 			var findTarget = SearchForTarget();

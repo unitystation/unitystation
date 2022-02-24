@@ -35,7 +35,7 @@ public static class RandomUtils
 		Vector3Int point = default;
 		for (int i = 0; i < 10; i++)
 		{
-			point = stationBounds.GetRandomPoint().CutToInt();
+			point = stationBounds.allPositionsWithin().PickRandom();
 
 			if (avoidSpace && MatrixManager.IsSpaceAt(point, CustomNetworkManager.IsServer, stationMatrix))
 			{

@@ -73,7 +73,7 @@ SpriteRenderer:
   m_SortingLayerID: -1463207863
   m_SortingLayer: 13
   m_SortingOrder: 41
-  m_Sprite: {fileID: 21300000, guid: 8d9b65cd313b5ac45a75633c42f7a4c8, type: 3}
+  m_Sprite: {fileID: 21300000, guid: a737a3942de165547b6e9d9f7856f6a0, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -98,12 +98,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   NetworkThis: 1
   SubCatalogue:
-  - {fileID: 11400000, guid: a2cab07fac9fc594692e488195bccc50, type: 2}
-  - {fileID: 11400000, guid: 15ce8105fb9caca49b91b32b30407f51, type: 2}
-  - {fileID: 11400000, guid: d5d5fd1a1f643254daceb274f867457d, type: 2}
-  - {fileID: 11400000, guid: 3a7e4a1e20d2b1348a57990445df2159, type: 2}
-  PresentSpriteSet: {fileID: 11400000, guid: 3a7e4a1e20d2b1348a57990445df2159, type: 2}
+  - {fileID: 11400000, guid: 049540580ca34d04d8a6e155788efa7d, type: 2}
+  - {fileID: 11400000, guid: 5081a5818830237448a6892d4f1d6570, type: 2}
+  - {fileID: 11400000, guid: 1a7ac519b65384942adb176350536ddc, type: 2}
+  - {fileID: 11400000, guid: 2d58c017638dfd4458062cfc90f8d7ce, type: 2}
+  PresentSpriteSet: {fileID: 11400000, guid: 2d58c017638dfd4458062cfc90f8d7ce, type: 2}
   randomInitialSprite: 0
+  doReverseAnimation: 0
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
   palette: []
@@ -180,7 +181,7 @@ SpriteRenderer:
   m_SortingLayerID: -1463207863
   m_SortingLayer: 13
   m_SortingOrder: 41
-  m_Sprite: {fileID: 21300000, guid: 81ecaf4a86ed1ac468360a759f1ac900, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 832ce994ab52c424999c225909263b9b, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -205,8 +206,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   NetworkThis: 1
   SubCatalogue: []
-  PresentSpriteSet: {fileID: 11400000, guid: 4e86dad7bd8f3be4693e24d9c0b1a5d3, type: 2}
+  PresentSpriteSet: {fileID: 11400000, guid: 22234447e213df5428b34e0175230bb6, type: 2}
   randomInitialSprite: 0
+  doReverseAnimation: 0
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
   palette: []
@@ -225,6 +227,7 @@ MonoBehaviour:
   denyStorageOfStorageItems: 88
   canClickPickup: 0
   canQuickEmpty: 0
+  TopLevelAlt: 0
   actionData: {fileID: 0}
 --- !u!114 &3374160553137157433
 MonoBehaviour:
@@ -347,6 +350,11 @@ PrefabInstance:
       propertyPath: m_AssetId
       value: 468072fd130877c408f3a1950377560d
       objectReference: {fileID: 0}
+    - target: {fileID: 114776788309089574, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      propertyPath: customNetTransform
+      value: 
+      objectReference: {fileID: 5629557408749415208}
     - target: {fileID: 114883521337486670, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
       propertyPath: Armor.Acid
@@ -361,7 +369,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 0b9d4a11e300cd44bb0eead0c0c02e26,
+      objectReference: {fileID: 21300000, guid: 06dcf672e918b6745af11ea9c70742a5,
         type: 3}
     - target: {fileID: 212340400423555046, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
@@ -376,7 +384,7 @@ PrefabInstance:
     - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
       propertyPath: initialName
-      value: defibrillator
+      value: Defibrillator
       objectReference: {fileID: 0}
     - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
@@ -392,7 +400,7 @@ PrefabInstance:
         type: 3}
       propertyPath: initialDescription
       value: A device that delivers powerful shocks to detachable paddles that resuscitate
-        incapacitated patients.
+        incapacitated patients. Must be worn on your back to function.
       objectReference: {fileID: 0}
     - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
@@ -423,11 +431,21 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: f2c68234ad8906c4b885a9fe33e23daa,
         type: 2}
+    - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      propertyPath: inventoryMoveSound.AssetAddress
+      value: null
+      objectReference: {fileID: 0}
+    - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      propertyPath: inventoryRemoveSound.AssetAddress
+      value: null
+      objectReference: {fileID: 0}
     - target: {fileID: 6144467708197095229, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
       propertyPath: PresentSpriteSet
       value: 
-      objectReference: {fileID: 11400000, guid: 6165a13e02930904e9c7f8dcb31d658b,
+      objectReference: {fileID: 11400000, guid: 5f754af6af6af34408e53cb0e4a078d1,
         type: 2}
     - target: {fileID: 6393191727481188567, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
@@ -448,3 +466,15 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 5743791597393623618}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &5629557408749415208 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 114341119007412586, guid: a7abba22164ce49f0bf9b9b219f39298,
+    type: 3}
+  m_PrefabInstance: {fileID: 5743791597393623618}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5743668296517273336}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 579884b05ae74e8499329b64997147d3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

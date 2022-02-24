@@ -20,7 +20,7 @@ MonoBehaviour:
   SecondsOfRevivePulse: 30
   CurrentPulse: 0
   salt: {fileID: 11400000, guid: b9bdb0acb54b8dc40837f92c2e7819a6, type: 2}
-  danagerSalt: 0.02
+  dangerSaltLevel: 5
 --- !u!1001 &7673087146983204625
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -136,6 +136,11 @@ PrefabInstance:
         type: 3}
       propertyPath: relatedRecipes.Array.data[0].ingredientIndex
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5047286037071161015, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[1].ingredientIndex
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5146776682568007683, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
         type: 3}

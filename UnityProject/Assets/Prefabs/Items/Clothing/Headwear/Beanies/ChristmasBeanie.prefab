@@ -115,5 +115,15 @@ PrefabInstance:
       propertyPath: initialName
       value: christmas beanie
       objectReference: {fileID: 0}
+    - target: {fileID: 8004422176852823208, guid: 9542c9504316c3845bbb5f541ec22cfb,
+        type: 3}
+      propertyPath: inventoryMoveSound.AssetAddress
+      value: null
+      objectReference: {fileID: 0}
+    - target: {fileID: 8004422176852823208, guid: 9542c9504316c3845bbb5f541ec22cfb,
+        type: 3}
+      propertyPath: inventoryRemoveSound.AssetAddress
+      value: null
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9542c9504316c3845bbb5f541ec22cfb, type: 3}

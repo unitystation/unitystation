@@ -8,6 +8,7 @@ using NaughtyAttributes;
 using TMPro;
 using AdminTools;
 using Managers;
+using Items;
 
 namespace UI.Chat_UI
 {
@@ -141,12 +142,22 @@ namespace UI.Chat_UI
 			chatFilter = Chat.Instance.GetComponent<ChatFilter>();
 		}
 
+		private void OnEnable()
+		{
+			UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
+		}
+
+		private void OnDisable()
+		{
+			UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
+		}
+
 		private void OnDestroy()
 		{
 			EventManager.RemoveHandler(Event.UpdateChatChannels, OnUpdateChatChannels);
 		}
 
-		private void Update()
+		private void UpdateMe()
 		{
 			// TODO add events to inventory slot changes to trigger channel refresh
 			if (chatInputWindow.activeInHierarchy && !isChannelListUpToDate())
@@ -350,8 +361,7 @@ namespace UI.Chat_UI
 		{
 			//Prevent input spam
 			if (windowCoolDown || UIManager.PreventChatInput) return;
-			windowCoolDown = true;
-			StartCoroutine(WindowCoolDown());
+			StartWindowCooldown();
 
 			// Can't open chat window while main menu open
 			if (GUI_IngameMenu.Instance.menuWindow.activeInHierarchy)
@@ -384,8 +394,7 @@ namespace UI.Chat_UI
 
 		public void CloseChatWindow()
 		{
-			windowCoolDown = true;
-			StartCoroutine(WindowCoolDown());
+			StartWindowCooldown();
 			UIManager.IsInputFocus = false;
 			chatInputWindow.SetActive(false);
 			EventManager.Broadcast(Event.ChatUnfocused);
@@ -398,6 +407,14 @@ namespace UI.Chat_UI
 			InputFieldChat.text = "";
 
 			OnChatWindowClosed?.Invoke();
+		}
+
+		public void StartWindowCooldown()
+		{
+			if(windowCoolDown) return;
+
+			windowCoolDown = true;
+			StartCoroutine(WindowCoolDown());
 		}
 
 		private IEnumerator WindowCoolDown()

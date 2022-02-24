@@ -1,7 +1,7 @@
-using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 using System.Linq;
+using UnityEngine;
+using Systems.GhostRoles;
 
 namespace Antagonists
 {
@@ -11,11 +11,10 @@ namespace Antagonists
 	[CreateAssetMenu(menuName="ScriptableObjects/AntagObjectives/Assassinate")]
 	public class Assassinate : Objective
 	{
-
 		/// <summary>
 		/// The person to assassinate
 		/// </summary>
-		private PlayerScript Target;
+		private ConnectedPlayer Target;
 
 		/// <summary>
 		/// Make sure there's at least one player which hasn't been targeted, not including the candidate
@@ -46,17 +45,17 @@ namespace Antagonists
 			}
 
 			// Pick a random target and add them to the targeted list
-			Target = playerPool.PickRandom().Script;
+			Target = playerPool.PickRandom().Script.connectedPlayer;
 
 			//If still null then its a free objective
-			if(Target == null || Target.mind.occupation == null)
+			if(Target == null || Target.Script.mind.occupation == null)
 			{
 				FreeObjective();
 				return;
 			}
 
-			AntagManager.Instance.TargetedPlayers.Add(Target);
-			description = $"Assassinate {Target.playerName}, the {Target.mind.occupation.DisplayName}";
+			AntagManager.Instance.TargetedPlayers.Add(Target.Script);
+			description = $"Assassinate {Target.Script.playerName}, the {Target.Script.mind.occupation.DisplayName}";
 		}
 
 		private void FreeObjective()
@@ -68,7 +67,20 @@ namespace Antagonists
 
 		protected override bool CheckCompletion()
 		{
-			return (Target.playerHealth == null || Target.playerHealth.IsDead);
+			if (Target == null || Target.Script == null) return false;
+			if (IsGhostRole(Target.Job)) return false;
+			return Target.Script.playerHealth == null || Target.Script.IsDeadOrGhost;
+		}
+
+		private static bool IsGhostRole(JobType playerJob)
+		{
+			foreach (var roleData in GhostRoleManager.Instance.GhostRoles)
+			{
+				if (roleData.TargetOccupation == null) continue;
+				if (playerJob == roleData.TargetOccupation.JobType) return true;
+			}
+
+			return false;
 		}
 	}
 }

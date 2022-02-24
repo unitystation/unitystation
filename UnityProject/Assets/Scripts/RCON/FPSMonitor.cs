@@ -19,7 +19,17 @@ namespace Managers
 
 	    private float updateClientsTimer;
 
-	    void Update()
+	    private void OnEnable()
+	    {
+		    UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
+	    }
+
+	    private void OnDisable()
+	    {
+		    UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
+	    }
+
+	    void UpdateMe()
 	    {
 	        timeInMax += Time.unscaledDeltaTime;
 	        timeInMin += Time.unscaledDeltaTime;

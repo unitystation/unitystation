@@ -109,6 +109,12 @@ namespace Antagonists
 		/// </summary>
 		protected bool CheckStorageFor(string name, int count)
 		{
+			if (Owner.body.DynamicItemStorage == null)
+			{
+				//If they have no storage then fail, as they can't have the item
+				return false;
+			}
+			
 			return CheckStorage(Owner.body.DynamicItemStorage, default, name) >= count;
 		}
 

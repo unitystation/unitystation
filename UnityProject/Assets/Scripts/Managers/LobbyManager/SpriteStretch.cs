@@ -14,7 +14,17 @@ public class SpriteStretch : MonoBehaviour
 		image = gameObject.GetComponent<Image>();
 	}
 
-	void Update()
+	private void OnEnable()
+	{
+		UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
+	}
+
+	private void OnDisable()
+	{
+		UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
+	}
+
+	void UpdateMe()
 	{
 		var topRightCorner = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width, Screen.height, Camera.main.transform.position.z));
 		var worldSpaceWidth = topRightCorner.x * 2;

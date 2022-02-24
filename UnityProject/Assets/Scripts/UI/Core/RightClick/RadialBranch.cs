@@ -254,5 +254,20 @@ namespace UI.Core.RightClick
 			Origin.localScale =
 				new Vector3(Mathf.Abs(scale.x) * CurrentQuadrant.x, Mathf.Abs(scale.y) * CurrentQuadrant.y, 1f);
 		}
+
+		public bool PositionChanged()
+		{
+			if (BranchPosition.IsWorldPosition == false)
+			{
+				return false;
+			}
+			BranchPosition.BoundsOffset = Origin.rect.size / 2;
+			
+			if (Origin.position != BranchPosition.GetPositionIn(Camera, Canvas))
+			{
+				return true;
+			}
+			return false;
+		}
 	}
 }

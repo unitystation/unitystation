@@ -20,6 +20,11 @@ public class MetaDataNode : IGasMixContainer
 	public static readonly MetaDataNode None;
 
 	/// <summary>
+	/// MetaDataSystem That is part of
+	/// </summary>
+	public MetaDataSystem MetaDataSystem;
+
+	/// <summary>
 	/// Contains the matrix of the current node
 	/// </summary>
 	public Matrix PositionMatrix = null;
@@ -164,8 +169,9 @@ public class MetaDataNode : IGasMixContainer
 	/// Create a new MetaDataNode on the specified local position (within the parent matrix)
 	/// </summary>
 	/// <param name="position">local position (within the matrix) the node exists on</param>
-	public MetaDataNode(Vector3Int position, ReactionManager reactionManager, Matrix matrix)
+	public MetaDataNode(Vector3Int position, ReactionManager reactionManager, Matrix matrix, MetaDataSystem InMetaDataSystem )
 	{
+		MetaDataSystem = InMetaDataSystem;
 		PositionMatrix = matrix;
 		Position = position;
 		neighborList = new List<MetaDataNode>(4);
@@ -179,7 +185,7 @@ public class MetaDataNode : IGasMixContainer
 
 	static MetaDataNode()
 	{
-		None = new MetaDataNode(Vector3Int.one * -1000000, null, null);
+		None = new MetaDataNode(Vector3Int.one * -1000000, null, null, null);
 	}
 
 	/// <summary>
@@ -289,6 +295,15 @@ public class MetaDataNode : IGasMixContainer
 				SyncNeighbors();
 			}
 		}
+	}
+
+	public void ChangeGasMix(GasMix newGasMix)
+	{
+		AtmosSimulation.RemovalAllGasOverlays(this);
+
+		GasMix = newGasMix;
+
+		AtmosSimulation.GasVisualEffects(this);
 	}
 
 	public override string ToString()

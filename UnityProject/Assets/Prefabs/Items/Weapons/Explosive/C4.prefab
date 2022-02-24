@@ -20,6 +20,7 @@ GameObject:
   - component: {fileID: 1944057801525881069}
   - component: {fileID: -7063633880587810702}
   - component: {fileID: 5745720402341052027}
+  - component: {fileID: 8773347140368194127}
   m_Layer: 0
   m_Name: C4
   m_TagString: Untagged
@@ -240,6 +241,20 @@ MonoBehaviour:
       m_SubObjectName: 
       m_SubObjectType: 
   hitSoundSettings: 0
+  inventoryMoveSound:
+    SetLoadSetting: 0
+    AssetAddress: null
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+  inventoryRemoveSound:
+    SetLoadSetting: 0
+    AssetAddress: null
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
   canConnectToTank: 0
   isEVACapable: 0
   attackVerbs: []
@@ -277,14 +292,17 @@ MonoBehaviour:
   Frequency: 122
   Emitter: {fileID: 0}
   DelayTime: 3
+  EncryptionData: {fileID: 0}
+  ListenToEncryptedData: 0
   explosiveType: 0
   detonateImmediatelyOnSignal: 0
   timeToDetonate: 10
   minimumTimeToDetonate: 10
-  explosionPrefab: {fileID: 2540564744460004555, guid: 311ad0ee31c0a654487179079dd48cdd,
-    type: 3}
+  explosiveStrength: 1000
   activeSpriteSO: {fileID: 11400000, guid: 60942022f971e0440a63456ee27fc478, type: 2}
+  progressTime: 3
   spriteHandler: {fileID: 5258580723283386321}
+  scaleSync: {fileID: 0}
   GUI: {fileID: 0}
 --- !u!210 &-7063633880587810702
 SortingGroup:
@@ -310,6 +328,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   NetTabType: 46
+--- !u!114 &8773347140368194127
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 896716891640034833}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 14a67aad38c961f45ad1cb44ac3b1f07, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
 --- !u!1 &3204498178074362964
 GameObject:
   m_ObjectHideFlags: 0
@@ -407,7 +439,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 0fc6eda29115e5d4ca69669abb541796, type: 3}
+  m_Sprite: {fileID: 21300000, guid: e80d6658444affc469aeb2a07462efb0, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0

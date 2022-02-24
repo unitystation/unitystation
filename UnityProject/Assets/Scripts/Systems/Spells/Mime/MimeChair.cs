@@ -26,7 +26,7 @@ namespace Spells
 				return false;
 			}
 
-			var directional = buckleable.GetComponent<Directional>();
+			var directional = buckleable.GetComponent<Rotatable>();
 			if (directional)
 			{
 				directional.FaceDirection(caster.Script.CurrentDirection);

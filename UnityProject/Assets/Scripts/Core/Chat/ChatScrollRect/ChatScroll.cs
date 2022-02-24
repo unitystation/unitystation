@@ -48,10 +48,16 @@ public class ChatScroll : MonoBehaviour
 		contentWidth = chatContentParent.GetComponent<RectTransform>().rect.width;
 	}
 
+	private void OnEnable()
+	{
+		UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
+	}
+
 	private void OnDisable()
 	{
 		UIManager.IsInputFocus = false;
 		UIManager.PreventChatInput = false;
+		UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
 	}
 
 	void InitPool()
@@ -244,6 +250,7 @@ public class ChatScroll : MonoBehaviour
 
 	public void OnInputSubmit()
 	{
+		if(inputField == null) return;
 		if (string.IsNullOrEmpty(inputField.text)) return;
 
 		if (!doNotAddInputToChatLog)
@@ -285,9 +292,10 @@ public class ChatScroll : MonoBehaviour
 		}
 	}
 
-	void Update()
+	void UpdateMe()
 	{
 		if(isUsingScrollBar) DetermineScrollRate();
+		if(inputField == null) return;
 		if (inputField.IsFocused && KeyboardInputManager.IsEnterPressed())
 		{
 			OnInputSubmit();

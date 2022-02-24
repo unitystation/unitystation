@@ -2,8 +2,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-
-namespace UI.Core
+namespace UI.Core.NetUI
 {
 	/// <summary>
 	/// Main component for the release pressure adjustment wheel
@@ -40,6 +39,16 @@ namespace UI.Core
 			shadow = GetComponent<Shadow>();
 		}
 
+		protected override void OnEnable()
+		{
+			UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
+		}
+
+		protected override void OnDisable()
+		{
+			UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
+		}
+
 		public void RotateToValue(float kPA)
 		{
 			SetRotation(kPA / KPAPerDegree);
@@ -72,7 +81,7 @@ namespace UI.Core
 			windowDrag.disableDrag = true;
 		}
 
-		private void Update()
+		private void UpdateMe()
 		{
 			if (previousDrag != null)
 			{

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 using Mirror;
 using Systems.Botany;
@@ -50,9 +49,6 @@ namespace Objects.Botany
 		[SerializeField] private SpriteHandler nutrimentNotifier = null;
 		[SerializeField] private float tickRate = 0;
 
-
-		private static readonly System.Random random = new System.Random();
-
 		[SerializeField] private PlantData plantData;
 
 		private readonly List<GameObject> readyProduce = new List<GameObject>();
@@ -85,7 +81,7 @@ namespace Objects.Botany
 		{
 			if (isWild)
 			{
-				var data = potentialWildPlants[random.Next(potentialWildPlants.Count)];
+				var data = potentialWildPlants.PickRandom();
 				plantData = PlantData.CreateNewPlant(data.plantData);
 				UpdatePlantStage(PlantSpriteStage.None, PlantSpriteStage.FullyGrown);
 				UpdatePlantGrowthStage(growingPlantStage, plantData.GrowthSpritesSOs.Count - 1);
@@ -115,27 +111,13 @@ namespace Objects.Botany
 			harvestNotifier.PushClear();
 		}
 
-		private void OnEnable()
-		{
-			if(CustomNetworkManager.IsServer == false) return;
-
-			UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
-		}
-
-		private void OnDisable()
-		{
-			if(CustomNetworkManager.IsServer == false) return;
-
-			UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
-		}
-
 		#endregion Lifecycle
 
 		/// <summary>
 		/// Server updates plant status and updates clients as needed
 		/// Server Side Only
 		/// </summary>
-		private void UpdateMe()
+		public override void UpdateMe()
 		{
 			//Only server checks plant status, wild plants do not grow
 			if (isWild) return;
@@ -253,7 +235,7 @@ namespace Objects.Botany
 				{
 					if (weedLevel >= 10)
 					{
-						var data = potentialWeeds[random.Next(potentialWeeds.Count)];
+						var data = potentialWeeds.PickRandom();
 						plantData = PlantData.CreateNewPlant(data.plantData);
 						growingPlantStage = 0;
 						plantCurrentStage = PlantSpriteStage.Growing;

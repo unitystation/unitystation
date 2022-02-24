@@ -38,17 +38,17 @@ public class TileApply : Interaction
 	/// </summary>
 	public GameObject HandObject => UsedObject;
 
-	private readonly Vector2 targetVector;
+	private readonly Vector2 targetPosition;
 
-	/// <summary>
-	/// Targeted world position deduced from target vector and performer position.
-	/// </summary>
-	public Vector2 WorldPositionTarget => (Vector2)Performer.transform.position + targetVector;
 
-	/// <summary>
-	/// Vector pointing from the performer to the targeted position. Set to Vector2.zero if aiming at self.
-	/// </summary>
-	public Vector2 TargetVector => targetVector;
+	/// <summary>Target world position calculated from matrix local position.</summary>
+	public Vector2 WorldPositionTarget =>  TargetPosition.To3().ToWorld(Performer.RegisterTile().Matrix);
+
+	/// <summary>Requested local position target.</summary>
+	public Vector2 TargetPosition => targetPosition;
+
+	/// <summary>Vector pointing from the performer's position to the target position.</summary>
+	public Vector2 TargetVector =>WorldPositionTarget.To3() - Performer.RegisterTile().WorldPosition;
 
 	public enum ApplyType
 	{
@@ -71,21 +71,21 @@ public class TileApply : Interaction
 	/// <param name="handSlot">slot being used</param>
 	/// <param name="targetVector">vector pointing from perform to the targeted position</param>
 	public TileApply(GameObject performer, GameObject usedObject, Intent intent, Vector2Int targetCellPos,
-		InteractableTiles targetInteractableTiles, BasicTile basicTile, ItemSlot handSlot, Vector2 targetVector, ApplyType type = ApplyType.HandApply) : base(performer, usedObject, intent)
+		InteractableTiles targetInteractableTiles, BasicTile basicTile, ItemSlot handSlot, Vector2 targetPosition, ApplyType type = ApplyType.HandApply) : base(performer, usedObject, intent)
 	{
 		this.targetCellPos = targetCellPos;
 		this.targetInteractableTiles = targetInteractableTiles;
 		this.basicTile = basicTile;
 		this.handSlot = handSlot;
-		this.targetVector = targetVector;
+		this.targetPosition = targetPosition;
 		this.applyType = type;
 	}
 
 	public override string ToString()
 	{
-		return $"{nameof(targetCellPos)}: {targetCellPos}, {nameof(targetInteractableTiles)}: {targetInteractableTiles}, {nameof(basicTile)}: {basicTile}, {nameof(handSlot)}: {handSlot}, {nameof(targetVector)}: {targetVector}, {nameof(TargetCellPos)}: {TargetCellPos}, {nameof(TargetInteractableTiles)}: " +
+		return $"{nameof(targetCellPos)}: {targetCellPos}, {nameof(targetInteractableTiles)}: {targetInteractableTiles}, {nameof(basicTile)}: {basicTile}, {nameof(handSlot)}: {handSlot}, {nameof(targetPosition)}: {targetPosition}, {nameof(TargetCellPos)}: {TargetCellPos}, {nameof(TargetInteractableTiles)}: " +
 		       $"{TargetInteractableTiles}, {nameof(TileChangeManager)}: {TileChangeManager}, {nameof(BasicTile)}: " +
 		       $"{BasicTile}, {nameof(HandSlot)}: {HandSlot}, {nameof(HandObject)}: {HandObject}, {nameof(WorldPositionTarget)}: " +
-		       $"{WorldPositionTarget}, {nameof(TargetVector)}: {TargetVector}";
+		       $"{WorldPositionTarget}, {nameof(targetPosition)}: {targetPosition}";
 	}
 }

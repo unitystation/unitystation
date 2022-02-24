@@ -1,9 +1,9 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Items;
 using Objects.Machines;
+using UI.Objects.Cargo;
 
 namespace Objects.Mining
 {
@@ -83,7 +83,7 @@ namespace Objects.Mining
 			UpdateLaborPointsUI();
 		}
 
-		void UpdateLaborPointsUI()
+		private void UpdateLaborPointsUI()
 		{
 			if (oreRedemptiomMachineGUI)
 			{

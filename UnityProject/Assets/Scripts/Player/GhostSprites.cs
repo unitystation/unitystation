@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
@@ -6,8 +7,8 @@ using Mirror;
 /// <summary>
 /// Handles displaying the ghost sprites.
 /// </summary>
-[RequireComponent(typeof(Directional))]
-public class GhostSprites : MonoBehaviour, IServerSpawn
+[RequireComponent(typeof(Rotatable))]
+public class GhostSprites : MonoBehaviour
 {
 	//sprite renderer showing the ghost
 	private SpriteHandler SpriteHandler;
@@ -16,20 +17,27 @@ public class GhostSprites : MonoBehaviour, IServerSpawn
 
 	public List<SpriteDataSO> AdminGhostSpriteSOs = new List<SpriteDataSO>();
 
-	private Directional directional;
-
-	private bool AdminGhost;
+	private Rotatable rotatable;
 
 	protected void Awake()
 	{
-		directional = GetComponent<Directional>();
-		directional.OnDirectionChange.AddListener(OnDirectionChange);
+		rotatable = GetComponent<Rotatable>();
 		SpriteHandler = GetComponentInChildren<SpriteHandler>();
 	}
 
-	public void OnSpawnServer(SpawnInfo info)
+	private void OnEnable()
 	{
-		if (AdminGhost)
+		rotatable.OnRotationChange.AddListener(OnDirectionChange);
+	}
+
+	private void OnDisable()
+	{
+		rotatable.OnRotationChange.RemoveListener(OnDirectionChange);
+	}
+
+	public void SetGhostSprite(bool isAdmin)
+	{
+		if (isAdmin)
 		{
 			SpriteHandler.SetSpriteSO(AdminGhostSpriteSOs.PickRandom());
 		}
@@ -39,22 +47,17 @@ public class GhostSprites : MonoBehaviour, IServerSpawn
 		}
 	}
 
-	public void SetAdminGhost()
+	private void OnDirectionChange(OrientationEnum direction)
 	{
-		AdminGhost = true;
-	}
-
-	private void OnDirectionChange(Orientation direction)
-	{
-		if (Orientation.Down == direction)
+		if (OrientationEnum.Down_By180 == direction)
 		{
 			SpriteHandler.ChangeSpriteVariant(0, networked:false);
 		}
-		else if (Orientation.Up == direction)
+		else if (OrientationEnum.Up_By0 == direction)
 		{
 			SpriteHandler.ChangeSpriteVariant(1, networked:false);
 		}
-		else if (Orientation.Right == direction)
+		else if (OrientationEnum.Right_By270 == direction)
 		{
 			SpriteHandler.ChangeSpriteVariant(2, networked:false);
 		}

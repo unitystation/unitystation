@@ -2,6 +2,7 @@
 using Chemistry;
 using Systems.Atmospherics;
 using Objects.Atmospherics;
+using ScriptableObjects.Atmospherics;
 
 namespace HealthV2
 {
@@ -94,11 +95,13 @@ namespace HealthV2
 		/// </summary>
 		public void GasExchangeFromBlood(GasMix atmos, ReagentMix blood, ReagentMix toProcess)
 		{
-			foreach (var Reagent in toProcess.reagents.m_dict)
+			foreach (var reagent in toProcess.reagents.m_dict)
 			{
-				blood.Remove(Reagent.Key, float.MaxValue);
-				if (!canBreathAnywhere)
-					atmos.AddGas(GAS2ReagentSingleton.Instance.GetReagentToGas(Reagent.Key), Reagent.Value);
+				blood.Remove(reagent.Key, float.MaxValue);
+
+				if (canBreathAnywhere || Gas.ReagentToGas.TryGetValue(reagent.Key, out var gas) == false) continue;
+
+				atmos.AddGas(gas, reagent.Value);
 			}
 		}
 

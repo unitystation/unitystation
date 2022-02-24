@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-namespace UI.Core
+namespace UI.Core.NetUI
 {
 	/// <summary>
 	/// Controls an entire number spinner - a display made up of DigitSpinners.
@@ -86,7 +86,17 @@ namespace UI.Core
 			muteSounds = GetComponentInParent<NetTab>().IsServer;
 		}
 
-		private void Update()
+		private void OnEnable()
+		{
+			UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
+		}
+
+		private void OnDisable()
+		{
+			UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
+		}
+
+		private void UpdateMe()
 		{
 			if (tickCooldown > 0)
 			{

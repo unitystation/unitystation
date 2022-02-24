@@ -202,17 +202,17 @@ namespace Construction.Conveyors
 
 		public enum ConveyorDirection
 		{
-			Up = 0,
-			Down = 1,
-			Left = 2,
-			Right = 3,
+			Down = 0,
+			Up = 1,
+			Right = 2,
+			Left = 3,
 			LeftDown = 4,
-			LeftUp = 5,
-			RightDown = 6,
+			UpLeft = 5,
+			DownRight = 6,
 			RightUp = 7,
 			DownLeft = 8,
-			UpLeft = 9,
-			DownRight = 10,
+			LeftUp = 9,
+			RightDown = 10,
 			UpRight = 11
 		}
 

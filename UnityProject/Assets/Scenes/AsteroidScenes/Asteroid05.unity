@@ -210,6 +210,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   TargetMSpreFrame: 5
   ffLayersValues: []
+  matrix: {fileID: 62446195}
 --- !u!156049354 &62446197
 Grid:
   m_ObjectHideFlags: 0
@@ -279,6 +280,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 594d5aea377441d42a292019e6edbe58, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  subsystemManager: {fileID: 380468360}
   LayerType: 6
   matrix: {fileID: 62446195}
   metaTileMap: {fileID: 62446196}
@@ -414,6 +416,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6975cdddc19a5e14b8b76849d95d0f38, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  subsystemManager: {fileID: 380468360}
   LayerType: 8
   matrix: {fileID: 62446195}
   metaTileMap: {fileID: 62446196}
@@ -577,9 +580,10 @@ MonoBehaviour:
   SafetyProtocolsOn: 1
   initialPosition: {x: 0, y: 0, z: 0}
   pivot: {x: 0, y: 0, z: 0}
+  matrix: {fileID: 0}
+  IsFueled: 0
   IsForceStopped: 0
   RequiresFuel: 0
-  rcsModeActive: 0
   IsNotPilotable: 1
 --- !u!114 &380468358
 MonoBehaviour:
@@ -684,6 +688,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MatrixSync: {fileID: 0}
+  matrix: {fileID: 0}
 --- !u!1001 &592923970
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -843,6 +848,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 594d5aea377441d42a292019e6edbe58, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  subsystemManager: {fileID: 380468360}
   LayerType: 5
   matrix: {fileID: 62446195}
   metaTileMap: {fileID: 62446196}
@@ -1003,6 +1009,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 594d5aea377441d42a292019e6edbe58, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  subsystemManager: {fileID: 380468360}
   LayerType: 9
   matrix: {fileID: 62446195}
   metaTileMap: {fileID: 62446196}
@@ -1149,6 +1156,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f2845199befc4cf8ad5a9702b3bc76ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  subsystemManager: {fileID: 380468360}
   LayerType: 2
   matrix: {fileID: 62446195}
   metaTileMap: {fileID: 62446196}
@@ -1198,6 +1206,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 594d5aea377441d42a292019e6edbe58, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  subsystemManager: {fileID: 380468360}
   LayerType: 3
   matrix: {fileID: 62446195}
   metaTileMap: {fileID: 62446196}
@@ -1470,6 +1479,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 594d5aea377441d42a292019e6edbe58, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  subsystemManager: {fileID: 380468360}
   LayerType: 4
   matrix: {fileID: 62446195}
   metaTileMap: {fileID: 62446196}
@@ -4152,6 +4162,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 594d5aea377441d42a292019e6edbe58, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  subsystemManager: {fileID: 380468360}
   LayerType: 1
   matrix: {fileID: 62446195}
   metaTileMap: {fileID: 62446196}
@@ -4368,6 +4379,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 594d5aea377441d42a292019e6edbe58, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  subsystemManager: {fileID: 380468360}
   LayerType: 0
   matrix: {fileID: 62446195}
   metaTileMap: {fileID: 62446196}

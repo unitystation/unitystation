@@ -8,7 +8,7 @@ using UnityEngine;
 
 namespace Player
 {
-	public class ExaminablePlayer : MonoBehaviour, IExaminable
+	public class ExaminablePlayer : MonoBehaviour, IExaminable, ICheckedInteractable<MouseDrop>
 	{
 		private const string LILAC_COLOR = "#b495bf";
 
@@ -61,6 +61,26 @@ namespace Player
 		{
 			script = GetComponent<PlayerScript>();
 			interactableStorage = GetComponent<InteractableStorage>();
+		}
+
+		public bool WillInteract(MouseDrop interaction, NetworkSide side)
+		{
+			if(DefaultWillInteract.Default(interaction, side) == false) return false;
+
+			if (interaction.DroppedObject == null) return false;
+
+			if (interaction.DroppedObject != gameObject) return false;
+
+			if (interaction.TargetObject == null) return false;
+
+			if (interaction.TargetObject != interaction.Performer) return false;
+
+			return true;
+		}
+
+		public void ServerPerformInteraction(MouseDrop interaction)
+		{
+			Examine(interaction.Performer);
 		}
 
 		/// <summary>
@@ -148,7 +168,7 @@ namespace Player
 			}
 
 			// start itemslot observation
-			this.GetComponent<DynamicItemStorage>().ServerAddObserverPlayer(sentByPlayer);
+			this.GetComponent<DynamicItemStorage>().ServerAddObserverPlayer(sentByPlayer, true);
 			// send message to enable examination window
 			PlayerExaminationMessage.Send(sentByPlayer, this, true);
 
@@ -212,7 +232,7 @@ namespace Player
 			// search for ID identity
 			if (TryFindIDCard(out var idCard))
 			{
-				return idCard.JobType.ToString();
+				return idCard.GetJobTitle();
 			}
 
 			// search for face identity

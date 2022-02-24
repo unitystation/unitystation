@@ -6,6 +6,7 @@ using Mirror;
 using Antagonists;
 using Systems.Spells;
 using HealthV2;
+using Items.PDA;
 using Player;
 using ScriptableObjects.Audio;
 using UI.Action;
@@ -147,6 +148,15 @@ public class Mind
 		body.OrNull()?.GetComponent<PlayerOnlySyncValues>().OrNull()?.ServerSetAntag(true);
 	}
 
+	public void AddObjectiveToAntag(Objective objectiveToAdd)
+	{
+		//TODO : Notify the player that a new objective has been added automatically.
+		var list = new List<Objective>();
+		antag.Objectives.CopyTo<Objective>(list);
+		list.Add(objectiveToAdd);
+		antag.Objectives = list;
+	}
+
 	/// <summary>
 	/// Remove the antag status from this mind
 	/// </summary>
@@ -223,8 +233,25 @@ public class Mind
 	public void ShowObjectives()
 	{
 		if (IsAntag == false) return;
-
-		Chat.AddExamineMsgFromServer(GetCurrentMob(), antag.GetObjectivesForPlayer());
+		var playerMob = GetCurrentMob();
+		
+		//Send Objectives
+		Chat.AddExamineMsgFromServer(playerMob, antag.GetObjectivesForPlayer());
+		
+		if (playerMob.TryGetComponent<PlayerScript>(out var body) == false) return;
+		if (antag.Antagonist.AntagJobType == JobType.TRAITOR || antag.Antagonist.AntagJobType == JobType.SYNDICATE)
+        {
+        	var playerInventory = body.DynamicItemStorage.GetItemSlots();
+        	foreach (var item in playerInventory)
+        	{
+        		if (item.IsEmpty) continue;
+        		if (item.ItemObject.TryGetComponent<PDALogic>(out var PDA) == false) continue;
+        		if(PDA.IsUplinkCapable == false) continue;
+        		
+        		//Send Uplink code
+                Chat.AddExamineMsgFromServer(playerMob, $"PDA uplink code retrieved: {PDA.UplinkUnlockCode}");
+	        }
+        }
 	}
 
 	/// <summary>

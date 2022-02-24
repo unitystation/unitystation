@@ -3,7 +3,7 @@ using UnityEngine;
 using Mirror;
 using Systems.Atmospherics;
 using Systems.Shuttles;
-
+using UI.Core.NetUI;
 
 namespace Objects.Atmospherics
 {

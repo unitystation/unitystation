@@ -1,0 +1,55 @@
+entries:
+  - article_name: "How to Use Random Spawners"
+    article_url: "https://unitystation.github.io/unitystation/development/How-to-Random-Loot/"
+    files:
+      - "UnityProject/Assets/Scripts/Items/Others/RandomItemPool.cs"
+      - "UnityProject/Assets/Scripts/Items/Others/RandomItemSpot.cs"
+
+  - article_name: "Overview of Addressable Sounds"
+    article_url: "https://unitystation.github.io/unitystation/development/Addressables/"
+    files:
+      - "UnityProject/Assets/Scripts/Core/Addressables/**/*"
+
+  - article_name: "Crafting System"
+    article_url: "https://unitystation.github.io/unitystation/development/Crafting-System/"
+    files:
+      - "UnityProject/Assets/Scripts/Systems/CraftingV2/**/*"
+
+  - article_name: "Working with Speech Modifiers"
+    article_url: "https://unitystation.github.io/unitystation/development/Working-with-Speech-Modifiers/"
+    files:
+      - "UnityProject/Assets/Scripts/ScriptableObjects/SpeechModifier.cs"
+      - "UnityProject/Assets/Scripts/ScriptableObjects/SpeechModManager.cs"
+      - "UnityProject/Assets/Scripts/Clothing/WearableSpeechMod.cs"
+
+  - article_name: "How to create an user interface"
+    article_url: "https://unitystation.github.io/unitystation/development/How-To-User-Interface/"
+    files:
+      - "UnityProject/Assets/Scripts/UI/Core/Net/**/*"
+
+  - article_name: "How to use UIActions"
+    article_url: "https://unitystation.github.io/unitystation/development/How-to-use-UIActions/"
+    files:
+      - "UnityProject/Assets/Scripts/UI/Core/Action/*"
+  
+  - article_name: "UnityStationImplementing Interactions"
+    article_url: "https://unitystation.github.io/unitystation/development/Implementing-Interactions/"
+    files:
+      - "UnityProject/Assets/Scripts/Core/Input System/InteractionV2/Interactions/**/*"
+
+  - article_name: "Inventory System"
+    article_url: "https://unitystation.github.io/unitystation/development/Inventory-System/"
+    files:
+      - "UnityProject/Assets/Scripts/Systems/Inventory/**/*"
+
+  - article_name: "Item Traits System"
+    article_url: "https://unitystation.github.io/unitystation/development/Item-Traits-System/"
+    files:
+      - "UnityProject/Assets/Scripts/Items/Traits/**/*"
+
+  - article_name: "Networking (Network Messages)"
+    article_url: "https://unitystation.github.io/unitystation/development/Networking-%28Network-Messages%29/"
+    files:
+      - "UnityProject/Assets/Scripts/Messages/GameMessageBase.cs"
+      - "UnityProject/Assets/Scripts/Messages/Server/ServerMessage.cs"
+      - "UnityProject/Assets/Scripts/Messages/Client/ClientMessage.cs"

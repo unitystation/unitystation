@@ -8,14 +8,42 @@
 		private Transform ourTransform;
 		private int time = 100;
 
+		[SerializeField] private Vector3 offset = new Vector3(0, 0, 0);
+
+		public Transform TransformToRotateAround
+		{
+			get => transformToRotateAround;
+			set => transformToRotateAround = value;
+		}
+
 		private void Awake()
 		{
 			ourTransform = transform;
 			time = Random.Range(50, 100);
 		}
 
-		void Update()
+		private void OnEnable()
 		{
-			ourTransform.RotateAround(transformToRotateAround.position, transformToRotateAround.forward, time*Time.deltaTime);
+			if(CustomNetworkManager.IsHeadless) return;
+			UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
+		}
+
+		private void OnDisable()
+		{
+			UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
+		}
+
+		private void UpdateMe()
+		{
+			if(transformToRotateAround == null) return;
+
+			var pos = CustomNetworkManager.IsServer
+				? transformToRotateAround.gameObject.AssumedWorldPosServer()
+				: transformToRotateAround.gameObject.WorldPosClient();
+
+			//Means object has moved to hidden pos, server should stop orbit automatically
+			if (pos == TransformState.HiddenPos) return;
+
+			ourTransform.RotateAround(pos + offset, transformToRotateAround.forward, time * Time.deltaTime);
 		}
 	}

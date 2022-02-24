@@ -1,9 +1,10 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Objects.Machines;
+using UI.Core.NetUI;
+using Objects.Mining;
 
-namespace Objects.Mining
+namespace UI.Objects.Cargo
 {
 	public class GUI_OreRedemptionMachine : NetTab
 	{

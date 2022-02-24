@@ -140,6 +140,11 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 5047286037071161015, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
         type: 3}
+      propertyPath: relatedRecipes.Array.data[0].ingredientIndex
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5047286037071161015, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
       propertyPath: relatedRecipes.Array.data[1].ingredientIndex
       value: 2
       objectReference: {fileID: 0}

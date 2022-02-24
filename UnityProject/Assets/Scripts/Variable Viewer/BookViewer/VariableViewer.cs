@@ -227,7 +227,7 @@ public static class VariableViewer
 	{
 		if (Librarian.IDToPage.ContainsKey(PageID))
 		{
-			UIManager.Instance.adminChatWindows.adminToAdminChat.ServerAddChatRecord(
+			UIManager.Instance.adminChatWindows.adminLogWindow.ServerAddChatRecord(
 				WhoBy.name + " Modified " + Librarian.IDToPage[PageID].VariableName + " on " +  Librarian.IDToPage[PageID].BindedTo.Title
 				+ " From " + VVUIElementHandler.Serialise(Librarian.IDToPage[PageID].Variable, Librarian.IDToPage[PageID].VariableType) + " to "+ ChangeTo
 				+ " with Send to clients? " + SendToClient, AdminId);
@@ -250,7 +250,7 @@ public static class VariableViewer
 	{
 		if (Librarian.IDToPage.ContainsKey(PageID))
 		{
-			UIManager.Instance.adminChatWindows.adminToAdminChat.ServerAddChatRecord(
+			UIManager.Instance.adminChatWindows.adminLogWindow.ServerAddChatRecord(
 				WhoBy.name + " Invoked " + Librarian.IDToPage[PageID].VariableName + " on " +  Librarian.IDToPage[PageID].BindedTo.Title
 				, AdminId);
 
@@ -695,8 +695,6 @@ public static class Librarian
 					}
 				}
 
-
-				bool hasNull = false;
 				foreach (var Child in libraryBookShelf.InternalContain)
 				{
 					if (Child.Shelf == null)
@@ -1207,6 +1205,54 @@ public static class Librarian
 
 		// The type just couldn't be found...
 		return null;
+	}
+
+	public static Type GetUnderlyingType(this MemberInfo member)
+	{
+		switch (member.MemberType)
+		{
+			case MemberTypes.Event:
+				return ((EventInfo)member).EventHandlerType;
+			case MemberTypes.Field:
+				return ((FieldInfo)member).FieldType;
+			case MemberTypes.Method:
+				return ((MethodInfo)member).ReturnType;
+			case MemberTypes.Property:
+				return ((PropertyInfo)member).PropertyType;
+			default:
+				throw new ArgumentException
+				(
+					"Input MemberInfo must be if type EventInfo, FieldInfo, MethodInfo, or PropertyInfo"
+				);
+		}
+	}
+
+	public static object GetValue(this MemberInfo memberInfo, object forObject)
+	{
+		switch (memberInfo.MemberType)
+		{
+			case MemberTypes.Field:
+				return ((FieldInfo)memberInfo).GetValue(forObject);
+			case MemberTypes.Property:
+				return ((PropertyInfo)memberInfo).GetValue(forObject);
+			default:
+				throw new NotImplementedException();
+		}
+	}
+
+	public static void MemberInfoSetValue(this MemberInfo memberInfo, object ClassObject, object NewVariableObject )
+	{
+		switch (memberInfo.MemberType)
+		{
+			case MemberTypes.Field:
+				((FieldInfo)memberInfo).SetValue(ClassObject,NewVariableObject);
+				break;
+			case MemberTypes.Property:
+				((PropertyInfo)memberInfo).SetValue(ClassObject,NewVariableObject );
+				break;
+			default:
+				throw new NotImplementedException();
+		}
 	}
 }
 

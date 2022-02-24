@@ -24,6 +24,7 @@ namespace Doors.Modules
 
 		public override ModuleSignal BumpingInteraction(GameObject byPlayer, HashSet<DoorProcessingStates> States)
 		{
+			if (byPlayer == null) return ModuleSignal.Continue; //null may appear if door wires are pulsed by EMP
 			var ItemStorage = byPlayer.GetComponent<DynamicItemStorage>();
 			return EmagChecks(ItemStorage, null, States);
 		}
@@ -35,38 +36,34 @@ namespace Doors.Modules
 		/// <param name="interaction">If we're calling this from ClosedInteraction() to provide a HandApply</param>
 		/// <param name="States">Door process states</param>
 		/// <returns>Either hacked or ModuleSignal.Continue</returns>
-		private ModuleSignal EmagChecks(DynamicItemStorage itemStorage, HandApply interaction, HashSet<DoorProcessingStates> States)
+		private ModuleSignal EmagChecks(DynamicItemStorage itemStorage, HandApply interaction,
+			HashSet<DoorProcessingStates> States)
 		{
 			if (itemStorage != null)
 			{
-				try
+				Emag emagInHand = itemStorage.OrNull()?.GetActiveHandSlot()?.Item.OrNull()?.gameObject.OrNull()?.GetComponent<Emag>()?.OrNull();
+				if (emagInHand != null)
 				{
-					Emag emagInHand = itemStorage.GetActiveHandSlot().Item?.OrNull().gameObject.GetComponent<Emag>()?.OrNull();
-					if (emagInHand != null)
+					if (interaction != null)
 					{
-						if (interaction != null)
-						{
-							if (emagInHand.UseCharge(interaction)) return EmagSuccessLogic(States);
-						}
-						if (emagInHand.UseCharge(gameObject, itemStorage.registerPlayer.PlayerScript.gameObject)) return EmagSuccessLogic(States);
+						if (emagInHand.UseCharge(interaction)) return EmagSuccessLogic(States);
 					}
 
-					foreach (var item in itemStorage.GetNamedItemSlots(NamedSlot.id))
-					{
-						Emag emagInIdSlot = item.Item?.OrNull().gameObject.GetComponent<Emag>()?.OrNull();
-						if (emagInIdSlot == null) continue;
-						if (interaction != null)
-						{
-							if (emagInIdSlot.UseCharge(interaction)) return EmagSuccessLogic(States);
-						}
-						if (emagInIdSlot.UseCharge(gameObject, itemStorage.registerPlayer.PlayerScript.gameObject)) return EmagSuccessLogic(States);
-					}
+					if (emagInHand.UseCharge(gameObject, itemStorage.registerPlayer.PlayerScript.gameObject))
+						return EmagSuccessLogic(States);
 				}
-				catch (NullReferenceException exception)
+
+				foreach (var item in itemStorage.GetNamedItemSlots(NamedSlot.id))
 				{
-					Logger.LogError(
-						$"A NRE was caught in EmagInteractionModule.ClosedInteraction() {exception.Message} \n {exception.StackTrace}",
-						Category.Interaction);
+					Emag emagInIdSlot = item?.Item.OrNull()?.gameObject.GetComponent<Emag>()?.OrNull();
+					if (emagInIdSlot == null) continue;
+					if (interaction != null)
+					{
+						if (emagInIdSlot.UseCharge(interaction)) return EmagSuccessLogic(States);
+					}
+
+					if (emagInIdSlot.UseCharge(gameObject, itemStorage.registerPlayer.PlayerScript.gameObject))
+						return EmagSuccessLogic(States);
 				}
 			}
 
@@ -89,6 +86,5 @@ namespace Doors.Modules
 			yield return null;
 			BoltsModule.OrNull()?.PulseToggleBolts(true);
 		}
-
 	}
 }

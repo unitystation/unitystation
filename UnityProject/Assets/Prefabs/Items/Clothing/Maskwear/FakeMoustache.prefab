@@ -29,6 +29,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3532393564309681412, guid: 05a135eab68164d34bb02b82fff3cde0,
         type: 3}
+      propertyPath: disallowConsume
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3532393564309681412, guid: 05a135eab68164d34bb02b82fff3cde0,
+        type: 3}
       propertyPath: currentClothData
       value: 
       objectReference: {fileID: 0}
@@ -140,6 +145,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: 3647d42fb76b6814b9d17c6b7e9cc612,
         type: 3}
+    - target: {fileID: 7994941519237279575, guid: 05a135eab68164d34bb02b82fff3cde0,
+        type: 3}
+      propertyPath: hasSimpleRelatedRecipe
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7994941519237279575, guid: 05a135eab68164d34bb02b82fff3cde0,
         type: 3}
       propertyPath: relatedRecipes.Array.size

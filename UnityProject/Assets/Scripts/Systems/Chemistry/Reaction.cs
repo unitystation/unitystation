@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using System.Linq;
 
 namespace Chemistry
 {
@@ -88,6 +89,11 @@ namespace Chemistry
 
 			//has all ingredients?
 			if (ingredients.m_dict.Count == 0)
+			{
+				return false;
+			}
+
+			if (ingredients.m_dict.Count > reagentMix.reagents.m_dict.Count)
 			{
 				return false;
 			}

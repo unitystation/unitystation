@@ -1,13 +1,14 @@
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using Communications;
 using UnityEngine;
 using Messages.Server;
+using Objects;
 
 namespace Items.Devices
 {
-	public class RemoteSignaller : SignalEmitter, IInteractable<HandActivate>
+	public class RemoteSignaller : SignalEmitter, IInteractable<HandActivate>, ITrapComponent
 	{
 		private Pickupable pickupable;
 
@@ -33,6 +34,11 @@ namespace Items.Devices
 		public void ServerPerformInteraction(HandActivate interaction)
 		{
 			TrySendSignal();
+		}
+
+		public void TriggerTrap()
+		{
+			SendSignalLogic();
 		}
 	}
 

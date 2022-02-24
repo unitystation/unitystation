@@ -34,10 +34,10 @@ namespace Messages.Client
 	{
 		public static int[] ReadMoveAction(this NetworkReader reader)
 		{
-			var moveActions = new int[reader.ReadInt32()];
+			var moveActions = new int[reader.ReadInt()];
 			for ( var i = 0; i < moveActions.Length; i++ )
 			{
-				moveActions[i] = reader.ReadInt32();
+				moveActions[i] = reader.ReadInt();
 			}
 
 			return moveActions;
@@ -45,10 +45,10 @@ namespace Messages.Client
 
 		public static void WriteMoveAction(this NetworkWriter writer, int[] value)
 		{
-			writer.WriteInt32(value.Length);
+			writer.WriteInt(value.Length);
 			for ( var i = 0; i < value.Length; i++ )
 			{
-				writer.WriteInt32(value[i]);
+				writer.WriteInt(value[i]);
 			}
 		}
 	}

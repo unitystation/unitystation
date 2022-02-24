@@ -19,7 +19,7 @@ namespace Systems.Electricity
 		/// <summary>
 		/// Find possible connections (FPC). List of electrical connections.
 		/// </summary>
-		public static List<List<IntrinsicElectronicData>> PooledFPCList = new List<List<IntrinsicElectronicData>>();
+		public static List<IntrinsicElectronicDataList> PooledFPCList = new List<IntrinsicElectronicDataList>();
 
 		//ElectronicSupplyData
 		public static List<ElectronicSupplyData> PooledElectronicSupplyData = new List<ElectronicSupplyData>();
@@ -43,6 +43,7 @@ namespace Systems.Electricity
 				ResistanceWrap.inPool = false;
 				return ResistanceWrap;
 			}
+
 			return new ResistanceWrap();
 		}
 
@@ -85,7 +86,7 @@ namespace Systems.Electricity
 			return new WrapCurrent();
 		}
 
-		public static List<IntrinsicElectronicData> GetFPCList()
+		public static IntrinsicElectronicDataList GetFPCList()
 		{
 			lock (PooledFPCList)
 			{
@@ -93,11 +94,22 @@ namespace Systems.Electricity
 				{
 					var FPCList = PooledFPCList[0];
 					PooledFPCList.RemoveAt(0);
-					FPCList.Clear();
 					return FPCList;
 				}
 
-				return new List<IntrinsicElectronicData>();
+				return new IntrinsicElectronicDataList();
+			}
+		}
+
+
+		public class IntrinsicElectronicDataList
+		{
+			public List<IntrinsicElectronicData> List = new List<IntrinsicElectronicData>();
+
+			public void Pool()
+			{
+				List.Clear();
+				ElectricalPool.PooledFPCList.Add(this);
 			}
 		}
 

@@ -1,71 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-8085407894005445929
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3580619421430961846}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f4e48579d9f047f7868bff8db3655152, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  mobName: facehugger
-  deathSounds:
-  - SetLoadSetting: 0
-    AssetAddress: Assets/Prefabs/NPC/Facehugger.prefab
-    AssetReference:
-      m_AssetGUID: 
-      m_SubObjectName: 
-      m_SubObjectType: 
-  randomSounds: []
-  playRandomSoundTimer: 3
-  randomSoundProbability: 20
-  searchTickRate: 0.5
-  currentStatus: 0
-  ignoreInQueenCount: 0
---- !u!114 &-673324880222467331
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3580619421430961846}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a10a3248df701d54a8766c917e03aa80, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  brain: {fileID: 11400000, guid: ee57f96de53d4b0489799717352da07e, type: 2}
-  agentParameters:
-    agentCameras: []
-    agentRenderTextures: []
-    maxStep: 0
-    resetOnDone: 1
-    onDemandDecision: 1
-    numberOfActionsBetweenDecisions: 1
-  performingDecision: 0
-  performingAction: 0
-  activated: 0
-  TickDelay: 1
-  FollowTarget: {fileID: 0}
-  targetOtherPlayersWhoGetInWay: 1
-  onlyActOnTarget: 0
-  doLerpOnAction: 1
-  spriteHolder: {fileID: 6655050449683268901}
-  actionCooldown: 1
-  mobAI: {fileID: -8085407894005445929}
-  maskObject: {fileID: 8320299039891337921, guid: 6fecf534029349145b17735e15c9498c,
-    type: 3}
-  bite:
-    SetLoadSetting: 0
-    AssetAddress: Assets/Prefabs/NPC/Facehugger.prefab
-    AssetReference:
-      m_AssetGUID: 
-      m_SubObjectName: 
-      m_SubObjectType: 
 --- !u!1001 &377030322204261106
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -91,26 +25,6 @@ PrefabInstance:
     - target: {fileID: 3783638323905235520, guid: cf769d410d94f0e47bab5eee03a3b07d,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3783638323905235520, guid: cf769d410d94f0e47bab5eee03a3b07d,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3783638323905235520, guid: cf769d410d94f0e47bab5eee03a3b07d,
-        type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3783638323905235520, guid: cf769d410d94f0e47bab5eee03a3b07d,
-        type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3783638323905235520, guid: cf769d410d94f0e47bab5eee03a3b07d,
-        type: 3}
-      propertyPath: m_LocalRotation.z
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3783638323905235520, guid: cf769d410d94f0e47bab5eee03a3b07d,
@@ -258,3 +172,62 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 377030322204261106}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &-8085407894005445929
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3580619421430961846}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4e48579d9f047f7868bff8db3655152, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mobName: facehugger
+  registerObject: {fileID: 0}
+  deathSounds:
+  - SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/NPC/Facehugger.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
+  randomSounds: []
+  playRandomSoundTimer: 3
+  randomSoundProbability: 20
+  searchTickRate: 0.5
+  currentStatus: 0
+  ignoreInQueenCount: 0
+--- !u!114 &-673324880222467331
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3580619421430961846}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a10a3248df701d54a8766c917e03aa80, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  AllowDead: 0
+  AllowUnconscious: 0
+  Priority: 0
+  PriorityBalance: 25
+  targetOtherPlayersWhoGetInWay: 1
+  onlyActOnTarget: 0
+  doLerpOnAction: 1
+  spriteHolder: {fileID: 6655050449683268901}
+  actionCooldown: 1
+  maskObject: {fileID: 8320299039891337921, guid: 6fecf534029349145b17735e15c9498c,
+    type: 3}
+  bite:
+    SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/NPC/Facehugger.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0

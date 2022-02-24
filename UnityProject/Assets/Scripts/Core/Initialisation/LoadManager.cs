@@ -1,13 +1,13 @@
-﻿using System;
-using System.Collections;
+﻿using Managers;
+using NaughtyAttributes;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using NaughtyAttributes;
 using UnityEngine;
 
 namespace Initialisation
 {
-	public class LoadManager : MonoBehaviourSingleton<LoadManager>
+	public class LoadManager : SingletonManager<LoadManager>
 	{
 		[ReorderableList] public List<MonoBehaviour> GamesStartInitialiseSystems = new List<MonoBehaviour>();
 
@@ -57,7 +57,17 @@ namespace Initialisation
 			DelayedActions.Add(ToADD);
 		}
 
-		public void Update()
+		private void OnEnable()
+		{
+			UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
+		}
+
+		private void OnDisable()
+		{
+			UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
+		}
+
+		public void UpdateMe()
 		{
 			if (GamesStartInitialiseSystems.Count > 0)
 			{

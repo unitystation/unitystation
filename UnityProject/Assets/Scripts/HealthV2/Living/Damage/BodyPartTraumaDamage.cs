@@ -149,24 +149,23 @@ namespace HealthV2
 		/// </summary>
 		private void Disembowel()
 		{
-			BodyPart randomBodyPart = OrganList.GetRandom().GetComponent<BodyPart>();
-			BodyPart randomCustomBodyPart = OptionalOrgans.GetRandom();
+			BodyPart randomBodyPart = ContainBodyParts.GetRandom();
 			float chance = UnityEngine.Random.Range(0.0f, 1.0f);
 			if(chance >= spillChanceWhenCutPresent)
 			{
-				HealthMaster.DismemberBodyPart(randomBodyPart);
-				if(randomCustomBodyPart != null)
+				foreach (var bodyPart in ContainBodyParts)
 				{
-					HealthMaster.DismemberBodyPart(randomCustomBodyPart);
+					chance = UnityEngine.Random.Range(0.0f, 1.0f);
+					if (chance >= spillChanceWhenCutPresent)
+					{
+						HealthMaster.DismemberBodyPart(bodyPart);
+					}
 				}
+
 			}
 			else
 			{
 				randomBodyPart.ApplyInternalDamage();
-				if (randomCustomBodyPart != null)
-				{
-					randomCustomBodyPart.ApplyInternalDamage();
-				}
 			}
 
 			if (currentPierceDamageLevel >= TraumaDamageLevel.SMALL
@@ -278,6 +277,7 @@ namespace HealthV2
 			var chance = UnityEngine.Random.Range(0, 100);
 			if(chance < armorChanceModifer)
 			{
+				if (this.BodyPartType == BodyPartType.Chest || this.BodyPartType == BodyPartType.Head) return; //TODO is temporary weighting on Trauma discussion
 				HealthMaster.DismemberBodyPart(this);
 			}
 		}
@@ -299,6 +299,7 @@ namespace HealthV2
 		{
 			if(currentBurnDamageLevel >= TraumaDamageLevel.CRITICAL)
 			{
+				if (this.BodyPartType == BodyPartType.Chest || this.BodyPartType == BodyPartType.Head) return; //TODO is temporary weighting on Trauma discussion
 				IEnumerable<ItemSlot> internalItemList = OrganStorage.GetItemSlots();
 				foreach(ItemSlot item in internalItemList)
 				{

@@ -66,11 +66,15 @@ namespace AdminTools
 				return;
 			}
 
-			AdminChatUpdate update = new AdminChatUpdate
+			foreach (var adminChatChunk in serverAdminChatLogs.ToList().Chunk(100))
 			{
-				messages = serverAdminChatLogs
-			};
-			AdminChatUpdateMessage.SendLogUpdateToAdmin(requestee, update);
+				AdminChatUpdate update = new AdminChatUpdate
+				{
+					messages = adminChatChunk.ToList()
+				};
+				AdminChatUpdateMessage.SendLogUpdateToAdmin(requestee, update);
+			}
+
 		}
 
 		private void ClientGetUnreadAdminPlayerMessages()

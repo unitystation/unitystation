@@ -18,37 +18,6 @@ on:
       - ".github/workflows/**"
 
 jobs:
-  ########## HOW TO UPDATE UNITY_LICENSE ##########
-  # The job below is only used to request a new activation file
-  #
-  # !!! WARNING: Use a throw away Unity account for this since anyone will have access to the license file !!!
-  #
-  # If you need a new one follow these steps:
-  #   - Uncomment the job below and run it
-  #   - Download the manual activation file that appears as an artifact in a zip (Unity_v20XX.x.alf).
-  #   - Visit license.unity3d.com, sign in and upload it.
-  #   - You should now receive your license file (Unity_v20XX.x.ulf) as a download.
-  #   - Replace UnityLicense.ulf in the Tools directory with it.
-  #   - Make sure LICENSE_FILE_PATH in the 'Setup license' step still points to it.
-
-  # Request license file job
-  #requestManualActivationFile:
-  #  name: Request manual activation file
-  #  runs-on: ubuntu-latest
-  #  steps:
-  #    # Request manual activation file
-  #    - name: Request manual activation file
-  #      uses: game-ci/unity-request-activation-file@v2.0-alpha-1
-  #      id: getManualLicenseFile
-  #      with:
-  #        unityVersion: 2021.1.14f1
-  #    # Upload artifact (Unity_v20XX.X.XXXX.alf)
-  #    - name: Expose as artifact
-  #      uses: actions/upload-artifact@v1
-  #      with:
-  #        name: ${{ steps.getManualLicenseFile.outputs.filePath }}
-  #        path: ${{ steps.getManualLicenseFile.outputs.filePath }}
-
   # Perform unit testing
   performTest:
     name: Unit testing on ${{ matrix.unityVersion }}
@@ -104,7 +73,7 @@ jobs:
         if: always()
         uses: actions/setup-dotnet@v1
         with:
-          dotnet-version: "2.1.202"
+          dotnet-version: "5.0.x"
 
       # Do the report magic
       - name: Generate .html report

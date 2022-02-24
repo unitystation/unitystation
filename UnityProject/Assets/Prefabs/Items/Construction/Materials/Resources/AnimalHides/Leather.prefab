@@ -32,13 +32,13 @@ PrefabInstance:
     - target: {fileID: 8261308650186557929, guid: b56fec0300832ce48ade0ddf2e577ee7,
         type: 3}
       propertyPath: relatedRecipes.Array.size
-      value: 4
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 8261308650186557929, guid: b56fec0300832ce48ade0ddf2e577ee7,
         type: 3}
       propertyPath: relatedRecipes.Array.data[0].recipe
       value: 
-      objectReference: {fileID: 11400000, guid: 2816662d0e6c3a4428e1a8f6e4e1bdc6,
+      objectReference: {fileID: 11400000, guid: fcdedf23f4a68a64ea5970ffe9800951,
         type: 2}
     - target: {fileID: 8261308650186557929, guid: b56fec0300832ce48ade0ddf2e577ee7,
         type: 3}
@@ -50,11 +50,17 @@ PrefabInstance:
         type: 3}
       propertyPath: relatedRecipes.Array.data[2].recipe
       value: 
-      objectReference: {fileID: 11400000, guid: c9271d7afd825fa4aace8071a9b8a707,
+      objectReference: {fileID: 11400000, guid: 2816662d0e6c3a4428e1a8f6e4e1bdc6,
         type: 2}
     - target: {fileID: 8261308650186557929, guid: b56fec0300832ce48ade0ddf2e577ee7,
         type: 3}
       propertyPath: relatedRecipes.Array.data[3].recipe
+      value: 
+      objectReference: {fileID: 11400000, guid: c9271d7afd825fa4aace8071a9b8a707,
+        type: 2}
+    - target: {fileID: 8261308650186557929, guid: b56fec0300832ce48ade0ddf2e577ee7,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[4].recipe
       value: 
       objectReference: {fileID: 11400000, guid: a932853eb41cc6b44982aa9a6504dfd2,
         type: 2}
@@ -76,6 +82,11 @@ PrefabInstance:
     - target: {fileID: 8261308650186557929, guid: b56fec0300832ce48ade0ddf2e577ee7,
         type: 3}
       propertyPath: relatedRecipes.Array.data[3].ingredientIndex
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8261308650186557929, guid: b56fec0300832ce48ade0ddf2e577ee7,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[4].ingredientIndex
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8340835308478918493, guid: b56fec0300832ce48ade0ddf2e577ee7,

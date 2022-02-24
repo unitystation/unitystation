@@ -14,6 +14,8 @@ namespace Doors
 		[SerializeField]
 		private GameObject airlockAssemblyPrefab = null;
 
+		public GameObject AirlockAssemblyPrefab => airlockAssemblyPrefab;
+
 		[Tooltip("Prefab of the airlock electronics that lives inside this airlock.")]
 		[SerializeField]
 		private GameObject airlockElectronicsPrefab = null;
@@ -50,6 +52,9 @@ namespace Doors
 				return false;
 
 			if (Validations.HasItemTrait(interaction.UsedObject, CommonTraits.Instance.Screwdriver))
+				return true;
+
+			if (Validations.HasUsedComponent<AirlockPainter>(interaction))
 				return true;
 
 			if (weldModule.CanDoorStateChange() == false && boltsModule.CanDoorStateChange() && doorMasterController.HasPower == false)
@@ -100,6 +105,19 @@ namespace Doors
 					"You removed the airlock electronics from the airlock assembly.",
 					$"{interaction.Performer.ExpensiveName()} removed the electronics from the airlock assembly.",
 					() => WhenDestroyed(null));
+				}
+			}
+			if (Validations.HasUsedComponent<AirlockPainter>(interaction))
+			{
+				AirlockPainter painter = interaction.HandObject.GetComponent<AirlockPainter>();
+				if (painter)
+				{
+					ToolUtils.ServerUseToolWithActionMessages(interaction, 3f,
+						$"You start to paint the {gameObject.ExpensiveName()}...",
+						$"{interaction.Performer.ExpensiveName()} starts to paint the {gameObject.ExpensiveName()}...",
+						$"You painted the {gameObject.ExpensiveName()}.",
+						$"{interaction.Performer.ExpensiveName()} painted the {gameObject.ExpensiveName()}.",
+						() => painter.ServerPaintTheAirlock(gameObject, interaction.Performer));
 				}
 			}
 		}

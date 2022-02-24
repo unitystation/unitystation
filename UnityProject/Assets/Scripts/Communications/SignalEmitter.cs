@@ -4,13 +4,26 @@ using Managers;
 using ScriptableObjects.Communications;
 using UnityEngine;
 using Mirror;
+using NaughtyAttributes;
+using UnityEngine.Serialization;
 
 namespace Communications
 {
 	public abstract class SignalEmitter : NetworkBehaviour
 	{
-		[SerializeField] protected SignalDataSO signalData;
-		[SerializeField] protected float frequency = 122f;
+		[SerializeField]
+		[Required("A signalSO is required for this to work.")]
+		protected SignalDataSO signalData;
+		[FormerlySerializedAs("EncryptionData"), SerializeField]
+		private EncryptionDataSO encryptionData;
+		[SerializeField]
+		protected float frequency = 122f;
+		[SerializeField]
+		[Tooltip("For devices that require a power source to operate such as newscasters and wall mounted department radios.")]
+		protected bool requiresPower = false;
+		[SerializeField]
+		[ShowIf(nameof(requiresPower))]
+		protected bool isPowered = true;
 
 		public float Frequency
 		{
@@ -18,14 +31,34 @@ namespace Communications
 			set => frequency = value;
 		}
 
+		public bool IsPowered
+		{
+			get => isPowered;
+			set => isPowered = value;
+		}
+
+		public EncryptionDataSO EncryptionData
+		{
+			get => encryptionData;
+			set => encryptionData = value;
+		}
+
+		public SignalDataSO SignalData => signalData;
+		public bool RequiresPower => requiresPower;
+
 		/// <summary>
 		/// Tells the SignalManager to send a signal to a receiver
 		/// </summary>
-		public void TrySendSignal()
+		public void TrySendSignal(ISignalMessage message = null)
 		{
+			if (requiresPower == true && isPowered == false)
+			{
+				SignalFailed();
+				return;
+			}
 			if (SendSignalLogic())
 			{
-				SignalsManager.Instance.SendSignal(this, signalData.EmittedSignalType, signalData);
+				SignalsManager.Instance.SendSignal(this, signalData.EmittedSignalType, signalData, message);
 				return;
 			}
 			SignalFailed();

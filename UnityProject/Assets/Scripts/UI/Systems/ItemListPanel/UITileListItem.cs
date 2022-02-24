@@ -40,7 +40,17 @@ public class UITileListItem : MonoBehaviour
 		}
 	}
 
-	public void Update()
+	private void OnEnable()
+	{
+		UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
+	}
+
+	private void OnDisable()
+	{
+		UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
+	}
+
+	public void UpdateMe()
 	{
 		//Anyone know of a better way to get the "sprite" in the UI to sync with the sprite in game?
 		if (itemSpriteRenderer)

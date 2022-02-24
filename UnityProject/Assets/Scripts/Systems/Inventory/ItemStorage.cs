@@ -1,11 +1,11 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using Items;
-using NaughtyAttributes;
 using UnityEngine;
 using UnityEngine.Serialization;
+using NaughtyAttributes;
+using Systems.Storage;
+using Items;
 
 /// <summary>
 /// Allows an object to store items.
@@ -188,6 +188,16 @@ public class ItemStorage : MonoBehaviour, IServerLifecycle, IServerInventoryMove
 		if (slot == null) return false;
 
 		return Inventory.ServerTransfer(inSlot, slot, ReplacementStrategy.Cancel);
+	}
+
+	public bool ServerTryTransferFrom(GameObject inSlot)
+	{
+		ItemAttributesV2 Item = inSlot.Item().GetComponent<ItemAttributesV2>();
+		if (Item == null) return false;
+		ItemSlot slot = GetBestSlotFor(inSlot.gameObject.GetComponent<Pickupable>());
+		if (slot == null) return false;
+
+		return Inventory.ServerTransfer(inSlot.gameObject.GetComponent<Pickupable>().ItemSlot, slot, ReplacementStrategy.Cancel);
 	}
 
 	public bool ServerTryRemove(GameObject InGameObject, bool Destroy = false, Vector3? DroppedAtWorldPositionOrThrowVector = null,
@@ -530,14 +540,17 @@ public class ItemStorage : MonoBehaviour, IServerLifecycle, IServerInventoryMove
 	/// of this method.
 	/// </summary>
 	/// <param name="observerPlayer"></param>
-	public void ServerAddObserverPlayer(GameObject observerPlayer)
+	public void ServerAddObserverPlayer(GameObject observerPlayer, bool topLevelOnly = false)
 	{
 		if (!CustomNetworkManager.IsServer) return;
 
 		TrySpawnContents();
 
 		serverObserverPlayers.Add(observerPlayer);
-		foreach (var slot in GetItemSlotTree())
+
+		var slots = topLevelOnly ? GetItemSlots(): GetItemSlotTree();
+
+		foreach (var slot in slots)
 		{
 			slot.ServerAddObserverPlayer(observerPlayer);
 		}
@@ -552,6 +565,12 @@ public class ItemStorage : MonoBehaviour, IServerLifecycle, IServerInventoryMove
 	public void ServerRemoveObserverPlayer(GameObject observerPlayer)
 	{
 		if (!CustomNetworkManager.IsServer) return;
+		if (observerPlayer == null) return;
+		if (this == null)
+		{
+			Logger.LogError(" Try to remove observer when storage was destroyed  ", Category.Inventory);
+			return;
+		}
 		serverObserverPlayers.Remove(observerPlayer);
 		foreach (var slot in GetItemSlotTree())
 		{

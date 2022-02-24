@@ -2,7 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
+using UI.Core.NetUI;
 using Objects.Atmospherics;
 
 // TODO: Figure out toggling a toggle's interactable.
@@ -95,13 +95,13 @@ namespace UI.Objects.Atmospherics
 
 		private PipeDispenser.PipeLayer GetLayerFromNumber(int layerNumber)
 		{
-			switch (layerNumber)
+			return layerNumber switch
 			{
-				case 1: return PipeDispenser.PipeLayer.LayerOne;
-				case 2: return PipeDispenser.PipeLayer.LayerTwo;
-				case 3: return PipeDispenser.PipeLayer.LayerThree;
-				default: return PipeDispenser.PipeLayer.LayerTwo;
-			}
+				1 => PipeDispenser.PipeLayer.LayerOne,
+				2 => PipeDispenser.PipeLayer.LayerTwo,
+				3 => PipeDispenser.PipeLayer.LayerThree,
+				_ => PipeDispenser.PipeLayer.LayerTwo,
+			};
 		}
 
 		#region Buttons

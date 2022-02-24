@@ -2,7 +2,6 @@
 using System.Collections;
 using HealthV2;
 using Messages.Server;
-using Mirror;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -15,29 +14,23 @@ namespace Systems.MobAIs
 	public class MobMeleeAction : MobFollow
 	{
 		[Tooltip("If a player gets close to this mob and blocks the mobs path to the target," +
-				 "should the mob then focus on the human blocking it?. Only works if mob is targeting" +
-				 "a player originally.")]
+		         "should the mob then focus on the human blocking it?. Only works if mob is targeting" +
+		         "a player originally.")]
 		[SerializeField]
 		protected bool targetOtherPlayersWhoGetInWay = true;
 
-		[Tooltip("Act on nothing but the target. No players in the way, no tiles, nada.")]
-		[SerializeField]
+		[Tooltip("Act on nothing but the target. No players in the way, no tiles, nada.")] [SerializeField]
 		public bool onlyActOnTarget = false;
 
-		[SerializeField]
-		private bool doLerpOnAction;
+		[SerializeField] private bool doLerpOnAction;
 
-		[SerializeField]
-		private GameObject spriteHolder = null;
+		[SerializeField] private GameObject spriteHolder = null;
 
-		[SerializeField]
-		private float actionCooldown = 1f;
+		[SerializeField] private float actionCooldown = 1f;
 
 		protected LayerMask checkMask;
 		protected int playersLayer;
 		protected int npcLayer;
-
-		public MobAI mobAI;
 
 		private bool isForLerpBack;
 		private Vector3 lerpFrom;
@@ -48,67 +41,55 @@ namespace Systems.MobAIs
 
 		/// <summary>
 		/// Maximum range that the mob will continue to try to act on the target
+		/// NOTE: Max raycast range is 25 see MatrixManager line 357
 		/// </summary>
-		protected float TetherRange = 30f;
+		protected float TetherRange = 25f;
 
-		public override void OnEnable()
+		public void OnEnable()
 		{
-			base.OnEnable();
 			playersLayer = LayerMask.NameToLayer("Players");
 			npcLayer = LayerMask.NameToLayer("NPC");
 			checkMask = LayerMask.GetMask("Players", "NPC", "Objects");
-			mobAI = GetComponent<MobAI>();
-		}
-
-		protected override void OnPushSolid(Vector3Int destination)
-		{
-			CheckForTargetAction();
-		}
-
-		protected override void OnTileReached(Vector3Int tilePos)
-		{
-			base.OnTileReached(tilePos);
-			CheckForTargetAction();
-		}
-
-		public void ForceTargetAction()
-		{
-			if(Pause || isActing || lerping) return;
-			CheckForTargetAction();
 		}
 
 		/// <summary>
 		/// Determines if the target of the action can be acted upon and what kind of target it is.
 		/// Then performs the appropriate action. Action methods are individually overridable for flexibility.
 		/// </summary>
-		protected virtual bool CheckForTargetAction()
+		public override void DoAction()
 		{
+			base.DoAction();
 			var hitInfo = ValidateTarget();
 			if (hitInfo.ItHit == false)
 			{
-				return false;
+				return;
 			}
-			var dir = (hitInfo.TileHitWorld - OriginTile.WorldPositionServer).normalized;
 
-			if (hitInfo.CollisionHit.GameObject != null && (hitInfo.TileHitWorld - OriginTile.WorldPositionServer).sqrMagnitude <= 4)
+			var dir = (hitInfo.TileHitWorld - mobTile.WorldPositionServer).normalized;
+
+			if (hitInfo.CollisionHit.GameObject != null &&
+			    (hitInfo.TileHitWorld - mobTile.WorldPositionServer).sqrMagnitude <= 4)
 			{
 				if (onlyActOnTarget)
 				{
-					return PerformActionOnlyOnTarget(hitInfo, dir);
+					PerformActionOnlyOnTarget(hitInfo, dir);
+					return;
 				}
 
 				if (hitInfo.CollisionHit.GameObject.layer == playersLayer)
 				{
-					return PerformActionPlayer(hitInfo, dir);
+					PerformActionPlayer(hitInfo, dir);
+					return;
 				}
 
 				if (hitInfo.CollisionHit.GameObject.layer == npcLayer)
 				{
-					return PerformActionNpc(hitInfo, dir);
+					PerformActionNpc(hitInfo, dir);
+					return;
 				}
 			}
 
-			return PerformActionTile(hitInfo, dir);
+			PerformActionTile(hitInfo, dir);
 		}
 
 		/// <summary>
@@ -133,9 +114,12 @@ namespace Systems.MobAIs
 					//Continue if it still exists and is in range
 					if (FollowTarget != null && TargetDistance() < TetherRange)
 					{
-						Vector3 dir = (Vector3)(TargetTile.WorldPositionServer - OriginTile.WorldPositionServer).Normalize() / 1.5f;
-						var hitInfo = MatrixManager.Linecast(OriginTile.WorldPositionServer + dir,
-							LayerTypeSelection.Windows | LayerTypeSelection.Grills, checkMask, TargetTile.WorldPositionServer);
+						Vector3 dir =
+							(Vector3)(FollowTarget.WorldPositionServer - mobTile.WorldPositionServer).Normalize() /
+							1.5f;
+						var hitInfo = MatrixManager.Linecast(mobTile.WorldPositionServer + dir,
+							LayerTypeSelection.Windows | LayerTypeSelection.Grills, checkMask,
+							FollowTarget.WorldPositionServer);
 
 						if (hitInfo.ItHit)
 						{
@@ -146,7 +130,6 @@ namespace Systems.MobAIs
 			}
 
 			FollowTarget = null;
-			Deactivate();
 			return new MatrixManager.CustomPhysicsHit();
 		}
 
@@ -163,7 +146,6 @@ namespace Systems.MobAIs
 					ActOnLivingV2(dir, healthBehaviourV2);
 					return true;
 				}
-
 			}
 			else
 			{
@@ -177,6 +159,7 @@ namespace Systems.MobAIs
 					}
 				}
 			}
+
 			return false;
 		}
 
@@ -192,6 +175,7 @@ namespace Systems.MobAIs
 				{
 					return false;
 				}
+
 				ActOnLivingV2(dir, healthBehaviour);
 
 				if (FollowTarget != null && FollowTarget.gameObject.layer != playersLayer)
@@ -206,14 +190,13 @@ namespace Systems.MobAIs
 
 				if (targetOtherPlayersWhoGetInWay)
 				{
-					FollowTarget = hitInfo.CollisionHit.GameObject;
+					FollowTarget = hitInfo.CollisionHit.GameObject.GetComponent<RegisterTile>();
 					return true;
 				}
 			}
 
 			return false;
 		}
-
 
 		/// <summary>
 		/// What to do if the Mob is trying to act on an NPC
@@ -266,41 +249,42 @@ namespace Systems.MobAIs
 		/// <summary>
 		/// What to do if the Mob is trying to act on a Tile
 		/// </summary>
-		protected virtual bool PerformActionTile(MatrixManager.CustomPhysicsHit hitInfo, Vector3 dir)
+		protected virtual void PerformActionTile(MatrixManager.CustomPhysicsHit hitInfo, Vector3 dir)
 		{
 			if (TargetDistance() > 4.5f)
 			{
 				//Don't bother, the target is too far away to warrant a decision to break a tile
-				return false;
+				return;
 			}
 
 			ActOnTile(hitInfo.TileHitWorld.RoundToInt(), dir);
-			return true;
 		}
 
 		/// <summary>
 		/// Virtual method to override on extensions of this class for acting on living targets using the old health system
 		/// </summary>
-		protected virtual void ActOnLiving(Vector3 dir, LivingHealthBehaviour healthBehaviour) { }
+		protected virtual void ActOnLiving(Vector3 dir, LivingHealthBehaviour healthBehaviour)
+		{
+		}
 
 		/// <summary>
 		/// Virtual method to override on extensions of this class for acting on living targets using the new health system
 		/// </summary>
-		protected virtual void ActOnLivingV2(Vector3 dir, LivingHealthMasterBase livingHealth) { }
-
+		protected virtual void ActOnLivingV2(Vector3 dir, LivingHealthMasterBase livingHealth)
+		{
+		}
 
 		/// <summary>
 		/// Virtual method to override on extensions of this class for acting on tiles
 		/// </summary>
-		protected virtual void ActOnTile(Vector3Int roundToInt, Vector3 dir) { }
-
-
+		protected virtual void ActOnTile(Vector3Int roundToInt, Vector3 dir)
+		{
+		}
 
 		public virtual void ServerDoLerpAnimation(Vector2 dir)
 		{
-			directional.FaceDirection(Orientation.From(dir));
+			rotatable.SetFaceDirectionLocalVictor(dir.To2Int());
 
-			Pause = true;
 			isActing = true;
 			MobMeleeLerpMessage.Send(gameObject, dir);
 			StartCoroutine(WaitForLerp());
@@ -317,18 +301,19 @@ namespace Systems.MobAIs
 				{
 					isActing = false;
 				}
+
 				yield return WaitFor.EndOfFrame;
 			}
+
 			yield return WaitFor.Seconds(actionCooldown);
 			DeterminePostAction();
 		}
 
 		protected virtual void DeterminePostAction()
 		{
-			Pause = false;
 			if (Random.value > 0.2f) //80% chance of hitting the target again
 			{
-				CheckForTargetAction();
+				DoAction();
 			}
 		}
 
@@ -349,10 +334,9 @@ namespace Systems.MobAIs
 			isForLerpBack = false;
 		}
 
-		protected override void ServerUpdateMe()
+		protected void ServerUpdateMe()
 		{
 			CheckLerping();
-			base.ServerUpdateMe();
 		}
 
 		private void CheckLerping()
@@ -375,10 +359,7 @@ namespace Systems.MobAIs
 				ResetLerp();
 				spriteHolder.transform.localPosition = Vector3.zero;
 
-				if (isServer)
-				{
-					isActing = false;
-				}
+				isActing = false;
 			}
 			else
 			{

@@ -14,7 +14,8 @@ namespace UI.CharacterCreator
 		public Image SelectionColourImage;
 		public Dropdown Dropdown;
 		public List<SpriteDataSO> OptionalSprites = new List<SpriteDataSO>();
-
+		public bool AppliesToItemsSprite = false;
+		public bool ColourAppliesToItemsSprite = false;
 		public struct ColourAndSelected
 		{
 			public string color;
@@ -105,6 +106,11 @@ namespace UI.CharacterCreator
 			ColorUtility.TryParseHtmlString(ColourAnd_Selected.color, out BodyPartColour);
 			BodyPartColour.a = 1;
 			Body_Part.RelatedPresentSprites[0].baseSpriteHandler.SetColor(BodyPartColour);
+			if (ColourAppliesToItemsSprite)
+			{
+				Body_Part.BodyPartItemSprite.SetColor(BodyPartColour);
+			}
+
 			OptionalSprites = OptionalSprites.OrderBy(pcd => pcd.DisplayName == "" ? pcd.name : pcd.DisplayName).ToList();
 			if (ColourAnd_Selected.Chosen != 0)
 			{
@@ -116,6 +122,10 @@ namespace UI.CharacterCreator
 
 				Body_Part.RelatedPresentSprites[0].baseSpriteHandler
 					.SetSpriteSO(OptionalSprites[ColourAnd_Selected.Chosen - 1]);
+				if (AppliesToItemsSprite)
+				{
+					Body_Part.BodyPartItemSprite.SetSpriteSO(OptionalSprites[ColourAnd_Selected.Chosen - 1]);
+				}
 			}
 			else
 			{

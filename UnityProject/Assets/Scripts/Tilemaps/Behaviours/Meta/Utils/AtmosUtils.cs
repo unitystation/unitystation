@@ -24,6 +24,70 @@ namespace Systems.Atmospherics
 			return new GasValues();
 		}
 
+
+		public static List<GasValuesList> PooledGasValuesLists = new List<GasValuesList>();
+
+		public static GasValuesList GetGasValuesList()
+		{
+			lock (PooledGasValuesLists)
+			{
+				if (PooledGasValuesLists.Count > 0)
+				{
+					var QEntry = PooledGasValuesLists[0];
+					PooledGasValuesLists.RemoveAt(0);
+					if (QEntry == null)
+					{
+						return new GasValuesList();
+					}
+
+					QEntry.List.Clear();
+
+					return QEntry;
+				}
+			}
+
+			return new GasValuesList();
+		}
+
+		public class GasValuesList
+		{
+			public List<GasValues> List = new List<GasValues>();
+
+			public void Pool()
+			{
+				for (int i = 0; i < List.Count; i++)
+				{
+					List[i].Pool();
+				}
+				List.Clear();
+				lock (PooledGasValuesLists)
+				{
+					PooledGasValuesLists.Add(this);
+				}
+			}
+		}
+
+
+		public static GasValuesList CopyGasArray(GasData GasData)
+		{
+			var List = GetGasValuesList();
+
+			lock (GasData.GasesArray) //no Double lock
+			{
+				foreach (var gv in GasData.GasesArray)
+				{
+					var Newgas = AtmosUtils.GetGasValues();
+					Newgas.Moles = gv.Moles;
+					Newgas.GasSO = gv.GasSO;
+					List.List.Add(Newgas);
+				}
+			}
+
+
+			return List;
+		}
+
+
 		public static readonly Vector2Int MINUS_ONE = new Vector2Int(-1, -1);
 
 		public static bool IsPressureChanged(MetaDataNode node, out Vector2Int windDirection, out float windForce)
@@ -83,7 +147,7 @@ namespace Systems.Atmospherics
 				//Only need to check if false
 				if (result == false)
 				{
-					lock (neighbor.GasMix.GasesArray)
+					lock (neighbor.GasMix.GasesArray) //no Double lock
 					{
 						for (int j = node.GasMix.GasesArray.Count - 1; j >= 0; j--)
 						{
@@ -106,7 +170,7 @@ namespace Systems.Atmospherics
 				//Only need to check if false
 				if (result == false)
 				{
-					lock ( neighbor.GasMix.GasesArray)
+					lock (neighbor.GasMix.GasesArray) //no Double lock
 					{
 						foreach (var gas in neighbor.GasMix.GasesArray) //doesn't appear to modify list while iterating
 						{
@@ -181,7 +245,7 @@ namespace Systems.Atmospherics
 		{
 			var total = 0f;
 
-			lock (data.GasesArray)
+			lock (data.GasesArray) //no Double lock
 			{
 				foreach (var gas in data.GasesArray)
 				{
@@ -324,7 +388,7 @@ namespace Systems.Atmospherics
 		/// </summary>
 		public static void RemoveGasType(this GasData data, GasSO gasType)
 		{
-			lock (data.GasesArray)
+			lock (data.GasesArray) //no Double lock
 			{
 				for (int i = data.GasesArray.Count - 1; i >= 0; i--)
 				{
@@ -347,14 +411,14 @@ namespace Systems.Atmospherics
 		{
 			var newGasData = new GasData();
 
-			lock (oldData.GasesArray)
+			var List = CopyGasArray(oldData);
+
+			foreach (var value in List.List)
 			{
-				foreach (var value in oldData.GasesArray)
-				{
-					newGasData.SetMoles(value.GasSO, value.Moles);
-				}
+				newGasData.SetMoles(value.GasSO, value.Moles);
 			}
 
+			List.Pool();
 
 			newGasData.RegenerateDict();
 
@@ -370,14 +434,14 @@ namespace Systems.Atmospherics
 		{
 			CopyTo.Clear();
 
-			lock (oldData.GasesArray)
+			var List = CopyGasArray(oldData);
+
+			foreach (var value in List.List)
 			{
-				foreach (var value in oldData.GasesArray)
-				{
-					CopyTo.SetMoles(value.GasSO, value.Moles);
-				}
+				CopyTo.SetMoles(value.GasSO, value.Moles);
 			}
 
+			List.Pool();
 
 			CopyTo.RegenerateDict();
 

@@ -1,5 +1,5 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using UI.Core.NetUI;
 using UnityEngine;
 
 namespace Objects.Machines

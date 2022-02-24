@@ -36,7 +36,7 @@ namespace Messages.Client.Admin
 
 		private void TryRespawn(ConnectedPlayer deadPlayer, NetMessage msg, string occupation = null)
 		{
-			UIManager.Instance.adminChatWindows.adminToAdminChat.ServerAddChatRecord(
+			UIManager.Instance.adminChatWindows.adminLogWindow.ServerAddChatRecord(
 					$"{SentByPlayer.Username} respawned dead player {deadPlayer.Username} ({deadPlayer.Name}) as {occupation}",
 					SentByPlayer.UserId);
 

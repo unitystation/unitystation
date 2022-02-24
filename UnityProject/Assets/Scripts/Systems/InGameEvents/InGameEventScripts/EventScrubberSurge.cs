@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using NaughtyAttributes;
 using Chemistry;
@@ -11,7 +12,7 @@ using Objects.Atmospherics;
 
 namespace InGameEvents
 {
-	public class EventScrubberSurge : EventScriptBase, IServerSpawn
+	public class EventScrubberSurge : EventScriptBase
 	{
 		[Tooltip("A temporary container by which chemicals can be dispersed from.")]
 		[SerializeField]
@@ -19,20 +20,12 @@ namespace InGameEvents
 
 		[Tooltip("Assign dispersion agents e.g. smoke or foaming agent.")]
 		[SerializeField]
-		private Reagent[] dispersionAgents = default;
+		private List<Reagent> dispersionAgents = default;
 
 		[Tooltip("Each scrubber will randomly select a delay period before spawning reagents, within this range.")]
 		[SerializeField, MinMaxSlider(0f, 100f)]
 		private Vector2 spawnDelayRange = new Vector2(3f, 10f);
 
-		private static Reagent[] allReagents;
-
-		public void OnSpawnServer(SpawnInfo info)
-		{
-			if (allReagents != null && allReagents.Length > 0) return;
-
-			allReagents = ChemistryReagentsSO.Instance.AllChemistryReagents;
-		}
 
 		public override void OnEventStart()
 		{
@@ -70,10 +63,10 @@ namespace InGameEvents
 			var reagentMix = new ReagentMix();
 			lock (reagentMix.reagents)
 			{
-				reagentMix.reagents.m_dict.Add(allReagents.PickRandom(), 75f);
+				reagentMix.reagents.m_dict.Add(ChemistryReagentsSO.Instance.AllChemistryReagents.PickRandom(), 75f);
 				reagentMix.reagents.m_dict.Add(dispersionAgents.PickRandom(), 25f);
 			}
-			
+
 
 			container.Add(reagentMix);
 			container.Spill(scrubber.registerTile.WorldPositionServer, 50f);

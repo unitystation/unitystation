@@ -43,6 +43,30 @@ namespace Chemistry.Components
 		[Tooltip("If its unique container and can't be bothered to make SO")]
 		public List<Reaction> AdditionalReactions = new List<Reaction>();
 
+		private HashSet<Reaction> containedAdditionalReactions;
+
+
+		//Includes everything on parents to, if needs to be dynamic can change
+		public HashSet<Reaction> ContainedAdditionalReactions
+		{
+			get
+			{
+				lock (AdditionalReactions)
+				{
+					if (containedAdditionalReactions == null)
+					{
+						containedAdditionalReactions = new HashSet<Reaction>();
+						foreach (var Reaction in AdditionalReactions)
+						{
+							containedAdditionalReactions.Add(Reaction);
+						}
+
+					}
+					return containedAdditionalReactions;
+				}
+			}
+		}
+
 		[Tooltip("Can you empty out its contents?")]
 		public bool canPourOut = true;
 
@@ -158,11 +182,33 @@ namespace Chemistry.Components
 			//OnReagentMixChanged.AddListener(ReagentsChanged);
 		}
 
+		private HashSet<Reaction> possibleReactions = new HashSet<Reaction>();
+		//Warning main thread only for now
 		public void ReagentsChanged()
 		{
 			if (ReactionSet != null)
 			{
-				ReactionSet.Apply(this, CurrentReagentMix,AdditionalReactions);
+				possibleReactions.Clear();
+				foreach (var Reagents in currentReagentMix.reagents.m_dict)
+				{
+					var Reactions = Reagents.Key.RelatedReactions;
+					int ReactionsCount = Reactions.Length;
+					for (int i = 0; i < ReactionsCount; i++)
+					{
+						var Reaction = Reactions[i];
+						if (ReactionSet.ContainedReactionss.Contains(Reaction))
+						{
+							possibleReactions.Add(Reaction);
+						}
+						else if (AdditionalReactions.Count > 0 && ContainedAdditionalReactions.Contains(Reaction))
+						{
+							possibleReactions.Add(Reaction);
+						}
+					}
+				}
+
+				ReactionSet.Apply(this, CurrentReagentMix, possibleReactions);
+				//ReactionSet.Apply(this, CurrentReagentMix,AdditionalReactions);
 			}
 		}
 
@@ -397,7 +443,7 @@ namespace Chemistry.Components
 		private void NotifyPlayersOfSpill(Vector3Int worldPos)
 		{
 			var mobs = MatrixManager.GetAt<LivingHealthMasterBase>(worldPos, true);
-			if (mobs.Count > 0)
+			if (mobs is List<LivingHealthMasterBase>)
 			{
 				foreach (var mob in mobs)
 				{

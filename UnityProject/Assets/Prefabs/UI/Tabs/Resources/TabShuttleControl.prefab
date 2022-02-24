@@ -715,7 +715,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 114343398355056170}
-        m_TargetAssemblyTypeName: 
+        m_TargetAssemblyTypeName: UI.Objects.Shuttles.GUI_ShuttleControl, Assets
         m_MethodName: TurnRight
         m_Mode: 1
         m_Arguments:
@@ -1270,10 +1270,9 @@ MonoBehaviour:
   OnTabOpened:
     m_PersistentCalls:
       m_Calls: []
-  rcsLight: {fileID: 4045547224110564359}
+  rcsLight: {fileID: 6023538412421918743}
   rcsLightOn: {fileID: 21300002, guid: 549fbecefe555964a8444a4cd42275a3, type: 3}
   rcsLightOff: {fileID: 21300000, guid: 549fbecefe555964a8444a4cd42275a3, type: 3}
-  rcsToggleButton: {fileID: 2180316960823425740}
   CoordReadout: {fileID: 1286891109983827235}
 --- !u!1 &1608340126526448
 GameObject:
@@ -1479,8 +1478,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 114343398355056170}
-        m_TargetAssemblyTypeName: 
-        m_MethodName: TurnOnOff
+        m_TargetAssemblyTypeName: UI.Objects.Shuttles.GUI_ShuttleControl, Assets
+        m_MethodName: ToggleEngine
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1799,8 +1798,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 114343398355056170}
-        m_TargetAssemblyTypeName: 
-        m_MethodName: SetAutopilot
+        m_TargetAssemblyTypeName: UI.Objects.Shuttles.GUI_ShuttleControl, Assets
+        m_MethodName: ToggleAutopilot
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2039,7 +2038,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 114343398355056170}
-        m_TargetAssemblyTypeName: 
+        m_TargetAssemblyTypeName: UI.Objects.Shuttles.GUI_ShuttleControl, Assets
         m_MethodName: TurnLeft
         m_Mode: 1
         m_Arguments:
@@ -3024,6 +3023,7 @@ GameObject:
   - component: {fileID: 1071522742833516225}
   - component: {fileID: 2606091136585971533}
   - component: {fileID: 4045547224110564359}
+  - component: {fileID: 6023538412421918743}
   m_Layer: 5
   m_Name: LightRed
   m_TagString: Untagged
@@ -3088,6 +3088,21 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &6023538412421918743
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2629233224449148803}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1bd4b313639849d2bad90a2330df0214, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sprites:
+  - {fileID: 21300000, guid: 549fbecefe555964a8444a4cd42275a3, type: 3}
+  - {fileID: 21300002, guid: 549fbecefe555964a8444a4cd42275a3, type: 3}
 --- !u!1 &3204274401632699804
 GameObject:
   m_ObjectHideFlags: 0
@@ -4285,8 +4300,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3673428243094180962}
-  - component: {fileID: 2180316960823425740}
-  - component: {fileID: 4369270839533957215}
+  - component: {fileID: 7550405390306932029}
+  - component: {fileID: 903792251565305510}
   m_Layer: 5
   m_Name: RcsToggle
   m_TagString: Untagged
@@ -4314,7 +4329,7 @@ RectTransform:
   m_AnchoredPosition: {x: -0.6, y: -7.3}
   m_SizeDelta: {x: 70, y: 45}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &2180316960823425740
+--- !u!114 &7550405390306932029
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -4323,11 +4338,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 7955098448894449466}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 220c42e66d2547fcbcb8aa6748e5d421, type: 3}
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 0
+    m_Mode: 3
     m_WrapAround: 0
     m_SelectOnUp: {fileID: 0}
     m_SelectOnDown: {fileID: 0}
@@ -4351,18 +4366,15 @@ MonoBehaviour:
     m_NormalTrigger: Normal
     m_HighlightedTrigger: Highlighted
     m_PressedTrigger: Pressed
-    m_SelectedTrigger: Highlighted
+    m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
   m_Interactable: 1
-  m_TargetGraphic: {fileID: 0}
-  toggleTransition: 0
-  graphic: {fileID: 5149656961688951475}
-  m_Group: {fileID: 0}
-  onValueChanged:
+  m_TargetGraphic: {fileID: 5149656961688951475}
+  m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 4369270839533957215}
-        m_TargetAssemblyTypeName: NetToggle, Assets
+      - m_Target: {fileID: 903792251565305510}
+        m_TargetAssemblyTypeName: NetUIElement`1[[System.String, mscorlib
         m_MethodName: ExecuteClient
         m_Mode: 1
         m_Arguments:
@@ -4373,8 +4385,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  m_IsOn: 0
---- !u!114 &4369270839533957215
+--- !u!114 &903792251565305510
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -4383,19 +4394,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 7955098448894449466}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c469783ba5934436896cc7b30fe5978b, type: 3}
+  m_Script: {fileID: 11500000, guid: f41ce54e3adddc243a63e91303c43614, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enableWorkaround: 0
   ServerMethod:
-    m_PersistentCalls:
-      m_Calls: []
-  ServerMethodWithSubject:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 114343398355056170}
-        m_TargetAssemblyTypeName: 
-        m_MethodName: ServerToggleRcs
+        m_TargetAssemblyTypeName: UI.Objects.Shuttles.GUI_ShuttleControl, Assets
+        m_MethodName: ToggleRcsButton
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

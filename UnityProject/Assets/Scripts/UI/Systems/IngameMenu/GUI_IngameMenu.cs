@@ -148,7 +148,7 @@ namespace UI
 
 		public void LogoutButton()
 		{
-			ModalPanelManager.Confirm("Are you sure?", LogoutConfirmYesButton, "Logout");
+			ModalPanelManager.Confirm("Are you sure?", LogoutConfirmYesButton, "Logout to Main Menu");
 		}
 
 		public void LogoutConfirmYesButton()

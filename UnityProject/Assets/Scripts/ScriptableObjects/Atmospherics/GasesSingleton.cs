@@ -11,8 +11,14 @@ namespace ScriptableObjects.Atmospherics
 	[CreateAssetMenu(fileName = "GasesSingleton", menuName = "Singleton/Atmos/GasesSingleton")]
 	public class GasesSingleton : SingletonScriptableObject<GasesSingleton>
 	{
-		private Dictionary<int, GasSO> gases = new  Dictionary<int, GasSO>();
+		private readonly Dictionary<int, GasSO> gases = new  Dictionary<int, GasSO>();
 		public Dictionary<int, GasSO> Gases => gases;
+
+		private readonly Dictionary<Reagent, GasSO> reagentToGas = new  Dictionary<Reagent, GasSO>();
+		public Dictionary<Reagent, GasSO> ReagentToGas => reagentToGas;
+
+		private readonly Dictionary<GasSO, Reagent> gasToReagent = new  Dictionary<GasSO, Reagent>();
+		public Dictionary<GasSO, Reagent> GasToReagent => gasToReagent;
 
 		public GasSO Plasma = null;
 		public GasSO Oxygen = null;
@@ -29,6 +35,8 @@ namespace ScriptableObjects.Atmospherics
 		public GasSO Stimulum = null;
 		public GasSO Pluoxium = null;
 		public GasSO Freon = null;
+		public GasSO Smoke = null;
+		public GasSO Ash = null;
 
 		private void OnEnable()
 		{
@@ -39,6 +47,8 @@ namespace ScriptableObjects.Atmospherics
 		private void SetUpGases()
 		{
 			gases.Clear();
+			reagentToGas.Clear();
+			gasToReagent.Clear();
 
 			//Could maybe change this to use reflection?
 			AddNewGasSo(Plasma);
@@ -56,20 +66,31 @@ namespace ScriptableObjects.Atmospherics
 			AddNewGasSo(Stimulum);
 			AddNewGasSo(Pluoxium);
 			AddNewGasSo(Freon);
+			AddNewGasSo(Smoke);
+			AddNewGasSo(Ash);
 		}
 
-		private void AddNewGasSo(GasSO so)
+		public void AddNewGasSo(GasSO so)
 		{
 			//Auto make the index based on gases count
 			so.SetIndex(gases.Count);
 			gases.Add(gases.Count, so);
+
+			if (so.AssociatedReagent == null)
+			{
+				Debug.LogError($"{so.Name} has null associated reagent");
+				return;
+			}
+
+			reagentToGas.Add(so.AssociatedReagent, so);
+			gasToReagent.Add(so, so.AssociatedReagent);
 		}
 
 		/// <summary>
 		/// Create a new gas at runtime
 		/// </summary>
 		public void CreateNewGas(string name, float molarHeatCapacity, float molarMass, bool hasOverlay, float minMolesToSee,
-			string tileName, OverlayType overlayType, int fusionPower, Reagent associatedReagent = null)
+			OverlayTile overlayTile = null, Color? colour = null, int fusionPower = 0, Reagent associatedReagent = null)
 		{
 			//Create new SO instance
 			var newSo = ScriptableObject.CreateInstance<GasSO>();
@@ -78,8 +99,15 @@ namespace ScriptableObjects.Atmospherics
 			newSo.Name = name;
 			newSo.HasOverlay = hasOverlay;
 			newSo.MinMolesToSee = minMolesToSee;
-			newSo.TileName = tileName;
-			newSo.OverlayType = overlayType;
+			newSo.OverlayTile = overlayTile;
+			newSo.HasOverlay = overlayTile != null;
+
+			if (colour != null)
+			{
+				newSo.CustomColour = true;
+				newSo.Colour = colour.Value;
+			}
+
 			newSo.FusionPower = fusionPower;
 			newSo.AssociatedReagent = associatedReagent;
 

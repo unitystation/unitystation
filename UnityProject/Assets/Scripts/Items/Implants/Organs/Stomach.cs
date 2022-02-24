@@ -33,7 +33,7 @@ namespace HealthV2
 				}
 				var Digesting = StomachContents.TakeReagents(ToDigest);
 
-				RelatedPart.HealthMaster.CirculatorySystem.UsedBloodPool.Add(Digesting);
+				RelatedPart.HealthMaster.CirculatorySystem.BloodPool.Add(Digesting);
 			}
 
 			if (StomachContents.SpareCapacity < 15f) //Magic number

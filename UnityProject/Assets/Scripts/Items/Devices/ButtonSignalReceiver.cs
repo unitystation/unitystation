@@ -14,7 +14,7 @@ namespace Items
 	{
 		private DoorSwitch doorSwitch;
 
-		public override void ReceiveSignal(SignalStrength strength)
+		public override void ReceiveSignal(SignalStrength strength, ISignalMessage message = null)
 		{
 			if (doorSwitch != null)
 			{

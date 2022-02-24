@@ -690,7 +690,7 @@ namespace Systems.Ai
 			}
 
 			var chosenCameras = new List<SecurityCamera>();
-			var aiPlayerCameraLocation = cameraLocation.position;
+			var aiPlayerCameraLocation = cameraLocation == null ? vesselObject.AssumedWorldPosServer() : cameraLocation.position;
 
 			foreach (var securityCamera in GetValidCameras())
 			{
@@ -1132,6 +1132,9 @@ namespace Systems.Ai
 				Chat.AddExamineMsgFromServer(gameObject, "You must specify a reason to call the shuttle");
 				return;
 			}
+			
+			//Remove tags
+			reason = Chat.StripTags(reason);
 
 			if (reason.Trim().Length < 10)
 			{
@@ -1167,7 +1170,8 @@ namespace Systems.Ai
 
 			while (a > 0.1)
 			{
-				lineRenderer.SetColors(colour, colour);
+				lineRenderer.startColor = colour;
+				lineRenderer.endColor = colour;
 				yield return WaitFor.Seconds(0.1f);
 				a -= 0.1f;
 				a = Mathf.Clamp(a, 0f, 1f);

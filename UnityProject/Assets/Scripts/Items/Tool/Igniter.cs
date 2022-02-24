@@ -1,16 +1,28 @@
 ﻿using System;
 using Systems.Explosions;
+using Objects;
 using UnityEngine;
 
 namespace Items.Tool
 {
-	public class Igniter : MonoBehaviour, ICheckedInteractable<HandActivate>
+	public class Igniter : MonoBehaviour, ICheckedInteractable<HandActivate>, ITrapComponent
 	{
 		private ObjectBehaviour objectBehaviour;
 
 		private void Awake()
 		{
 			objectBehaviour = GetComponent<ObjectBehaviour>();
+		}
+
+		private void Ignite()
+		{
+			SparkUtil.TrySpark(gameObject, expose: false);
+
+			var worldPos = objectBehaviour.AssumedWorldPositionServer();
+
+			//Try start fire if possible
+			var reactionManager = MatrixManager.AtPoint(worldPos, true).ReactionManager;
+			reactionManager.ExposeHotspotWorldPosition(worldPos.To2Int(), 1000, true);
 		}
 
 		public bool WillInteract(HandActivate interaction, NetworkSide side)
@@ -29,13 +41,12 @@ namespace Items.Tool
 
 		public void ServerPerformInteraction(HandActivate interaction)
 		{
-			SparkUtil.TrySpark(gameObject, expose: false);
+			Ignite();
+		}
 
-			var worldPos = objectBehaviour.AssumedWorldPositionServer();
-
-			//Try start fire if possible
-			var reactionManager = MatrixManager.AtPoint(worldPos, true).ReactionManager;
-			reactionManager.ExposeHotspotWorldPosition(worldPos.To2Int(), 1000, true);
+		public void TriggerTrap()
+		{
+			Ignite();
 		}
 	}
 }

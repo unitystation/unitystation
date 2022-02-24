@@ -18,17 +18,12 @@ namespace Systems.Electricity
 
 	public class ElectricalSynchronisation : MonoBehaviour
 	{
-		private bool running;
+		public bool MainThreadStep = false;
 
-		public bool MainThreadProcess = false;
-
-		private Stopwatch StopWatch = new Stopwatch();
-
-		private int MillieSecondDelay;
-
-		private CustomSampler sampler;
+		public CustomSampler sampler;
 
 		private Thread thread;
+		public ElectricalThread electricalThread;
 
 		//What keeps electrical Ticking
 		//so this is correlated to what has changed on the network, Needs to be optimised so (when one resistant source changes only that one updates its values currently the entire network updates their values)
@@ -60,7 +55,6 @@ namespace Systems.Electricity
 		public bool UesAlternativeDirectionWorkOnNextList;
 
 		public int currentTick;
-		private const int Steps = 5;
 
 		private readonly List<PowerTypeCategory> OrderList = new List<PowerTypeCategory>()
 	{
@@ -114,58 +108,15 @@ namespace Systems.Electricity
 		}
 		public void StartSim()
 		{
-			if (!running)
+			foreach (var category in OrderList)
 			{
-				running = true;
-				thread = new Thread(Run);
-				thread.Start();
+				AliveSupplies[category] = new HashSet<ElectricalNodeControl>();
 			}
+			electricalThread = gameObject.AddComponent<ElectricalThread>();
+			electricalThread.StartThread();
 		}
 
 		public void StopSim()
-		{
-			running = false;
-		}
-
-		public void SetSpeed(int inMillieSecondDelay)
-		{
-			MillieSecondDelay = inMillieSecondDelay;
-		}
-
-		public void RunStep(bool threaded = true)
-		{
-			DoUpdate(threaded);
-		}
-
-		private void Run()
-		{
-			Profiler.BeginThreadProfiling("Unitystation", "Electronics");
-			while (running)
-			{
-				sampler.Begin();
-				StopWatch.Restart();
-
-				try
-				{
-					RunStep();
-				}
-				catch (Exception e)
-				{
-					Logger.LogError($"Electrical Thread Error! {e.GetStack()}", Category.Electrical);
-				}
-
-				StopWatch.Stop();
-				sampler.End();
-				if (StopWatch.ElapsedMilliseconds < MillieSecondDelay)
-				{
-					Thread.Sleep(MillieSecondDelay - (int)StopWatch.ElapsedMilliseconds);
-				}
-			}
-			Profiler.EndThreadProfiling();
-			thread.Abort();
-		}
-
-		public void Reset()
 		{
 			NUElectricalObjectsToDestroy.Clear();
 			NUStructureChangeReact.Clear();
@@ -214,21 +165,7 @@ namespace Systems.Electricity
 			ToRemove.Enqueue(quickAdd);
 		}
 
-		public void Initialise()
-		{
-			foreach (var category in OrderList)
-			{
-				AliveSupplies[category] = new HashSet<ElectricalNodeControl>();
-			}
-		}
-
-		public void DoUpdate(bool threaded = true)
-		{
-			DoTick(threaded);
-			currentTick = ++currentTick % Steps;
-		}
-
-		private void DoTick(bool threaded = true)
+		public void DoTick()
 		{
 			switch (currentTick)
 			{
@@ -243,21 +180,20 @@ namespace Systems.Electricity
 					break;
 				case 3:
 					PowerUpdateCurrentChange();
+					MainThreadStep = true;
 					break;
 				case 4:
-					if (threaded)
-					{
-						ThreadedPowerNetworkUpdate();
-					}
-					else
-					{
-						PowerNetworkUpdate();
-					}
-
+					//main thread only step
+					PowerNetworkUpdate();
+					MainThreadStep = false;
 					break;
 			}
-
 			RemoveSupplies();
+			currentTick++;
+			if (currentTick > 4)
+			{
+				currentTick = 0;
+			}
 		}
 
 		/// <summary>
@@ -433,15 +369,6 @@ namespace Systems.Electricity
 				}
 
 				nodeToRemove = new List<ElectricalNodeControl>();
-			}
-		}
-
-		private void ThreadedPowerNetworkUpdate()
-		{
-			lock (ElectricalManager.ElectricalLock)
-			{
-				MainThreadProcess = true;
-				Monitor.Wait(ElectricalManager.ElectricalLock);
 			}
 		}
 

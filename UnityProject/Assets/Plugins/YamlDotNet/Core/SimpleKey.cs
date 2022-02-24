@@ -1,51 +1,53 @@
-//  This file is part of YamlDotNet - A .NET library for YAML.
-//  Copyright (c) Antoine Aubry and contributors
-
-//  Permission is hereby granted, free of charge, to any person obtaining a copy of
-//  this software and associated documentation files (the "Software"), to deal in
-//  the Software without restriction, including without limitation the rights to
-//  use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies
-//  of the Software, and to permit persons to whom the Software is furnished to do
-//  so, subject to the following conditions:
-
-//  The above copyright notice and this permission notice shall be included in all
-//  copies or substantial portions of the Software.
-
-//  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-//  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-//  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-//  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-//  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-//  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-//  SOFTWARE.
-
-using System;
+﻿// This file is part of YamlDotNet - A .NET library for YAML.
+// Copyright (c) Antoine Aubry and contributors
+//
+// Permission is hereby granted, free of charge, to any person obtaining a copy of
+// this software and associated documentation files (the "Software"), to deal in
+// the Software without restriction, including without limitation the rights to
+// use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies
+// of the Software, and to permit persons to whom the Software is furnished to do
+// so, subject to the following conditions:
+//
+// The above copyright notice and this permission notice shall be included in all
+// copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+// SOFTWARE.
 
 namespace YamlDotNet.Core
 {
-    [Serializable]
-    internal class SimpleKey
+    internal sealed class SimpleKey
     {
         private readonly Cursor cursor;
 
-        public bool IsPossible { get; set; }
+        public bool IsPossible { get; private set; }
 
-        public bool IsRequired { get; private set; }
-        public int TokenNumber { get; private set; }
-        public int Index { get { return cursor.Index; } }
-        public int Line { get { return cursor.Line; } }
-        public int LineOffset { get { return cursor.LineOffset; } }
+        public void MarkAsImpossible()
+        {
+            IsPossible = false;
+        }
 
-        public Mark Mark { get { return cursor.Mark(); } }
+        public bool IsRequired { get; }
+        public int TokenNumber { get; }
+        public int Index => cursor.Index;
+        public int Line => cursor.Line;
+        public int LineOffset => cursor.LineOffset;
+
+        public Mark Mark => cursor.Mark();
 
         public SimpleKey()
         {
             cursor = new Cursor();
         }
 
-        public SimpleKey(bool isPossible, bool isRequired, int tokenNumber, Cursor cursor)
+        public SimpleKey(bool isRequired, int tokenNumber, Cursor cursor)
         {
-            IsPossible = isPossible;
+            IsPossible = true;
             IsRequired = isRequired;
             TokenNumber = tokenNumber;
             this.cursor = new Cursor(cursor);

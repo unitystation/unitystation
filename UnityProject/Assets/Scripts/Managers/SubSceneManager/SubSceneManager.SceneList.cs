@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using Mirror;
 using UnityEditor;
 using UnityEngine.SceneManagement;
@@ -146,6 +147,8 @@ public partial class SubSceneManager
 
 		var pickedMap = additionalSceneList.defaultCentComScenes.PickRandom();
 
+		if (string.IsNullOrEmpty(pickedMap)) yield break;
+
 		//If no special CentCom load default.
 		yield return StartCoroutine(LoadSubScene(pickedMap, loadTimer));
 
@@ -256,7 +259,7 @@ public partial class SubSceneManager
 		loadedScenesList.Add(new SceneInfo
 		{
 			SceneName = pickedMap,
-			SceneType = SceneType.AdditionalScenes
+			SceneType = SceneType.HiddenScene
 		});
 		netIdentity.isDirty = true;
 
@@ -275,7 +278,7 @@ public partial class SubSceneManager
 		loadedScenesList.Add(new SceneInfo
 		{
 			SceneName = pickedScene,
-			SceneType = SceneType.AdditionalScenes
+			SceneType = SceneType.HiddenScene
 		});
 		netIdentity.isDirty = true;
 

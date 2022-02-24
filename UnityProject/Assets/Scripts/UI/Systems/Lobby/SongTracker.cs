@@ -38,6 +38,11 @@ namespace Audio.Containers
 				PlayerPrefs.SetInt(PlayerPrefKeys.MuteMusic, 1);
 				PlayerPrefs.Save();
 			}
+		}
+
+		private void Start()
+		{
+			DetermineMuteState();
 
 			if (PlayerPrefs.HasKey(PlayerPrefKeys.MusicVolumeKey))
 			{
@@ -49,12 +54,17 @@ namespace Audio.Containers
 			}
 		}
 
-		private void Start()
+		private void OnEnable()
 		{
-			DetermineMuteState();
+			UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
 		}
 
-		private void Update()
+		private void OnDisable()
+		{
+			UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
+		}
+
+		private void UpdateMe()
 		{
 			if (PlayingRandomPlayList == false || CustomNetworkManager.IsHeadless) return;
 
@@ -153,7 +163,18 @@ namespace Audio.Containers
 
 		public void OnVolumeSliderChange()
 		{
-			MusicManager.Instance.ChangeVolume(volumeSlider.value);
+			if (volumeSlider.value == 0)
+            {
+				ToggleMusicMute();
+			}
+			else
+			{
+				if (PlayerPrefs.GetInt(PlayerPrefKeys.MuteMusic) == 0)
+                {
+					ToggleMusicMute();
+				}
+				MusicManager.Instance.ChangeVolume(volumeSlider.value);
+			}
 		}
 
 		public void OnTrackButtonClick()

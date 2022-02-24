@@ -42,17 +42,18 @@ public class IDCard : NetworkBehaviour, IServerInventoryMove, IServerSpawn, IInt
 	private bool autoInitOnPickup = false;
 	private bool initialized;
 
-
 	public JobType JobType => jobType;
 	public Occupation Occupation => OccupationList.Instance.Get(JobType);
 	public string RegisteredName => registeredName;
-
 
 	[SyncVar(hook = nameof(SyncIDCardType))]
 	private IDCardType idCardType;
 
 	[SyncVar(hook = nameof(SyncJobType))]
 	private JobType jobType;
+
+	[SyncVar(hook = nameof(SyncJobTitle))]
+	private string jobTitle = "";
 
 	[SyncVar(hook = nameof(SyncName))]
 	private string registeredName;
@@ -85,43 +86,49 @@ public class IDCard : NetworkBehaviour, IServerInventoryMove, IServerSpawn, IInt
 		}
 		initialized = false;
 	}
+
 	public void ServerPerformInteraction(HandActivate interaction)
 	{
 		Chat.AddActionMsgToChat(interaction.Performer,
 			$"You show the {itemAttributes.ArticleName}",
 			$"{interaction.Performer.ExpensiveName()} shows you: {itemAttributes.ArticleName}");
 	}
+
 	public void OnInventoryMoveServer(InventoryMove info)
 	{
-		if (!initialized && autoInitOnPickup)
+		if (initialized || !autoInitOnPickup || info.ToPlayer == null)
+			return;
+
+		//auto init if being added to a player's inventory
+		initialized = true;
+
+		//these checks protect against NRE when spawning a player who has no mind, like dummy
+		var ps = info.ToPlayer.GetComponent<PlayerScript>();
+		if (ps == null)
+			return;
+
+		var mind = ps.mind;
+		if (mind == null)
+			return;
+
+		var occupation = mind.occupation;
+		if (occupation == null)
+			return;
+
+		var charSettings = ps.characterSettings;
+		jobType = occupation.JobType;
+		if (jobType == JobType.CAPTAIN)
 		{
-			//auto init if being added to a player's inventory
-			if (info.ToPlayer != null)
-			{
-				initialized = true;
-				//these checks protect against NRE when spawning a player who has no mind, like dummy
-				var ps = info.ToPlayer.GetComponent<PlayerScript>();
-				if (ps == null) return;
-				var mind = ps.mind;
-				if (mind == null) return;
-				var occupation = mind.occupation;
-				if (occupation == null) return;
-				var charSettings = ps.characterSettings;
-				jobType = occupation.JobType;
-				if (jobType == JobType.CAPTAIN)
-				{
-					Initialize(IDCardType.captain, jobType, occupation.AllowedAccess, charSettings.Name);
-				}
-				else if (jobType == JobType.HOP || jobType == JobType.HOS || jobType == JobType.CMO || jobType == JobType.RD ||
-				         jobType == JobType.CHIEF_ENGINEER)
-				{
-					Initialize(IDCardType.command, jobType, occupation.AllowedAccess, charSettings.Name);
-				}
-				else
-				{
-					Initialize(IDCardType.standard, jobType, occupation.AllowedAccess, charSettings.Name);
-				}
-			}
+			Initialize(IDCardType.captain, jobType, occupation.AllowedAccess, charSettings.Name);
+		}
+		else if (jobType == JobType.HOP || jobType == JobType.HOS || jobType == JobType.CMO || jobType == JobType.RD ||
+		         jobType == JobType.CHIEF_ENGINEER)
+		{
+			Initialize(IDCardType.command, jobType, occupation.AllowedAccess, charSettings.Name);
+		}
+		else
+		{
+			Initialize(IDCardType.standard, jobType, occupation.AllowedAccess, charSettings.Name);
 		}
 	}
 
@@ -154,6 +161,12 @@ public class IDCard : NetworkBehaviour, IServerInventoryMove, IServerSpawn, IInt
 		RenameIDObject();
 	}
 
+	public void SyncJobTitle(string oldJobTitle, string newJobTitle)
+	{
+		jobTitle = newJobTitle;
+		RenameIDObject();
+	}
+
 	private void RenameIDObject()
 	{
 		var newName = "";
@@ -162,10 +175,16 @@ public class IDCard : NetworkBehaviour, IServerInventoryMove, IServerSpawn, IInt
 			newName += $"{RegisteredName}'s ";
 		}
 		newName += "ID Card";
-		if (JobType != JobType.NULL)
+
+		if (jobTitle.IsNullOrEmpty() == false)
 		{
-			newName += $" ({JobType})";
+			newName += $" ({jobTitle})";
 		}
+		else if (Occupation != null)
+		{
+			newName += $" ({Occupation.DisplayName})";
+		}
+
 		itemAttributes.ServerSetArticleName(newName);
 	}
 
@@ -195,6 +214,17 @@ public class IDCard : NetworkBehaviour, IServerInventoryMove, IServerSpawn, IInt
 	public bool HasAccess(Access access)
 	{
 		return accessSyncList.Contains((int) access);
+	}
+
+	public string GetJobTitle()
+	{
+		if (jobTitle.IsNullOrEmpty())
+		{
+			var occupation = Occupation;
+			return occupation != null ? occupation.DisplayName : "";
+		}
+
+		return jobTitle;
 	}
 
 	/// <summary>
@@ -258,6 +288,8 @@ public class IDCard : NetworkBehaviour, IServerInventoryMove, IServerSpawn, IInt
 	[Server]
 	public void ServerChangeOccupation(Occupation occupation, bool grantDefaultAccess = true, bool clear = true)
 	{
+		jobTitle = "";
+
 		if (clear)
 		{
 			accessSyncList.Clear();
@@ -280,6 +312,17 @@ public class IDCard : NetworkBehaviour, IServerInventoryMove, IServerSpawn, IInt
 	public void ServerSetRegisteredName(string newName)
 	{
 		SyncName(registeredName, newName);
+	}
+
+	[Server]
+	public void ServerSetJobTitle(string newJobTitle)
+	{
+		if (string.IsNullOrEmpty(newJobTitle))
+		{
+			newJobTitle = "";
+		}
+
+		SyncJobTitle(jobTitle, newJobTitle);
 	}
 
 	public string Examine(Vector3 pos)

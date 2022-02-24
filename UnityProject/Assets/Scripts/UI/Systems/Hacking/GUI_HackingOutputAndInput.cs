@@ -1,9 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
-using NetElements;
 using UnityEngine;
+using UI.Core.NetUI;
 
-namespace Hacking
+namespace UI.Hacking
 {
 	public class GUI_HackingOutputAndInput : NetListButBetter<GUI_HackingOutputAndInput.PortData>
 	{
@@ -89,7 +89,6 @@ namespace Hacking
 				Destroy(GUIHackingPort.gameObject);
 			}
 		}
-
 
 		public void SetPortSelected(GUI_HackingPort inSelectedHackingPort)
 		{

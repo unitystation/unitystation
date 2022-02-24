@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using Blob;
+using Player;
 
 namespace Antagonists
 {

@@ -16,9 +16,13 @@ namespace Systems.MobAIs
 {
 	public class FaceHugAction : MobMeleeAction
 	{
-		[SerializeField] private GameObject maskObject = null;
+		[SerializeField]
+		private GameObject maskObject = null;
+
 		public GameObject MaskObject {get{return maskObject;}}
-		[FormerlySerializedAs("Bite")] [SerializeField] private AddressableAudioSource bite = null;
+
+		[FormerlySerializedAs("Bite")] [SerializeField]
+		private AddressableAudioSource bite = null;
 
 		protected override void ActOnLivingV2(Vector3 dir, LivingHealthMasterBase livingHealth)
 		{

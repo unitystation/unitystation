@@ -27,7 +27,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300002, guid: 16f408214667adc469ad08e1f9ceacab,
+      objectReference: {fileID: 21300000, guid: 16f408214667adc469ad08e1f9ceacab,
         type: 3}
     - target: {fileID: 1689274832931870787, guid: fde32c02abddc814f9366ff1fb21f234,
         type: 3}
@@ -39,6 +39,12 @@ PrefabInstance:
       propertyPath: m_AssetId
       value: c937e0abe85aca9499d09951de736ec6
       objectReference: {fileID: 0}
+    - target: {fileID: 1952478272362544665, guid: fde32c02abddc814f9366ff1fb21f234,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 2dfb772b8c7a46d4b939a627cd46fb95,
+        type: 2}
     - target: {fileID: 2012159806878520143, guid: fde32c02abddc814f9366ff1fb21f234,
         type: 3}
       propertyPath: initialStateSprites
@@ -81,7 +87,7 @@ PrefabInstance:
     - target: {fileID: 3662677150203288956, guid: fde32c02abddc814f9366ff1fb21f234,
         type: 3}
       propertyPath: m_Offset.y
-      value: 0.3642767
+      value: -0.35
       objectReference: {fileID: 0}
     - target: {fileID: 6366695639211736623, guid: fde32c02abddc814f9366ff1fb21f234,
         type: 3}
@@ -108,6 +114,12 @@ PrefabInstance:
       propertyPath: ONColour.a
       value: 0.32156864
       objectReference: {fileID: 0}
+    - target: {fileID: 6947158127070171075, guid: fde32c02abddc814f9366ff1fb21f234,
+        type: 3}
+      propertyPath: gloveTrait
+      value: 
+      objectReference: {fileID: 11400000, guid: 10a21ec3d5e7d1d489334ee8c7382ba7,
+        type: 2}
     - target: {fileID: 6947158127070171075, guid: fde32c02abddc814f9366ff1fb21f234,
         type: 3}
       propertyPath: directional
@@ -224,7 +236,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300002, guid: bd3225efc525643479b237af41876cf0,
+      objectReference: {fileID: 21300000, guid: bd3225efc525643479b237af41876cf0,
         type: 3}
     - target: {fileID: 8010465399013802086, guid: fde32c02abddc814f9366ff1fb21f234,
         type: 3}
@@ -254,22 +266,22 @@ PrefabInstance:
     - target: {fileID: 8016220542479582908, guid: fde32c02abddc814f9366ff1fb21f234,
         type: 3}
       propertyPath: m_LocalRotation.w
-      value: 1
+      value: -0.00000004371139
       objectReference: {fileID: 0}
     - target: {fileID: 8016220542479582908, guid: fde32c02abddc814f9366ff1fb21f234,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8016220542479582908, guid: fde32c02abddc814f9366ff1fb21f234,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8016220542479582908, guid: fde32c02abddc814f9366ff1fb21f234,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0
+      value: -1
       objectReference: {fileID: 0}
     - target: {fileID: 8016220542479582908, guid: fde32c02abddc814f9366ff1fb21f234,
         type: 3}

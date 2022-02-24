@@ -26,6 +26,8 @@ public static class CodeUtilities
 		{
 			return true;
 		}
+
 		return false;
 	}
+
 }

@@ -190,10 +190,9 @@ namespace Objects.Wallmounts
 				foreach (var firelock in FireLockList)
 				{
 					if (firelock == null) continue;
-					var controller = firelock.Controller;
-					if (controller == null) continue;
+					var controller = firelock.DoorMasterController;
 
-					controller.TryOpen();
+					controller.TryOpen(null);
 				}
 			}
 			else

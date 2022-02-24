@@ -42,11 +42,13 @@ public class ResponsiveUI : MonoBehaviour, IInitialise
 	private void OnEnable()
 	{
 		SceneManager.activeSceneChanged += OnSceneChange;
+		UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
 	}
 
 	private void OnDisable()
 	{
 		SceneManager.activeSceneChanged -= OnSceneChange;
+		UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
 	}
 
 	private void OnSceneChange(Scene last, Scene newScene)
@@ -74,7 +76,7 @@ public class ResponsiveUI : MonoBehaviour, IInitialise
 #endif
 	}
 
-	private void Update()
+	private void UpdateMe()
 	{
 		//Check if window has changed and adjust the bottom hud
 		if (monitorWindow)
@@ -90,6 +92,8 @@ public class ResponsiveUI : MonoBehaviour, IInitialise
 
 	private IEnumerator ForceGameWindowAspect()
 	{
+		if (Application.isEditor) yield break;
+
 		yield return WaitFor.Seconds(3f);
 		//The following conditions check if the screen width or height
 		//is an odd number. If it is, then it adjusted to be an even number
@@ -117,7 +121,7 @@ public class ResponsiveUI : MonoBehaviour, IInitialise
 			yield break;
 		}
 
-		main.rect = new Rect(0, 0, width / (float)Screen.width, height / (float)Screen.height);
+		main.rect = new Rect(0, 0, width / (float) Screen.width, height / (float) Screen.height);
 
 		if (requiresChange && !Screen.fullScreen)
 		{

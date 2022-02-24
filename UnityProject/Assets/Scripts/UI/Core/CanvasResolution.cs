@@ -11,7 +11,23 @@ public class CanvasResolution : MonoBehaviour
         AdjustReferenceResolution();
     }
 
-    private void Update()
+    private void OnEnable()
+    {
+	    if (Application.isPlaying)
+	    {
+		    UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
+	    }
+    }
+
+    private void OnDisable()
+    {
+	    if (Application.isPlaying)
+	    {
+		    UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
+	    }
+    }
+
+    private void UpdateMe()
     {
         if (aspectCache != Camera.main.aspect)
         {

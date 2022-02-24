@@ -12,8 +12,18 @@ public class UseMainCameraSize : MonoBehaviour
 		MainCamera = Camera.main;
 	}
 
+	private void OnEnable()
+	{
+		UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
+	}
+
+	private void OnDisable()
+	{
+		UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
+	}
+
 	// Update is called once per frame
-	private void Update()
+	private void UpdateMe()
 	{
 		if (MainCamera != null && Camera != null)
 		{

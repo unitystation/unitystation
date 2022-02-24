@@ -1,27 +1,28 @@
-//  This file is part of YamlDotNet - A .NET library for YAML.
-//  Copyright (c) Antoine Aubry and contributors
-
-//  Permission is hereby granted, free of charge, to any person obtaining a copy of
-//  this software and associated documentation files (the "Software"), to deal in
-//  the Software without restriction, including without limitation the rights to
-//  use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies
-//  of the Software, and to permit persons to whom the Software is furnished to do
-//  so, subject to the following conditions:
-
-//  The above copyright notice and this permission notice shall be included in all
-//  copies or substantial portions of the Software.
-
-//  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-//  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-//  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-//  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-//  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-//  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-//  SOFTWARE.
+﻿// This file is part of YamlDotNet - A .NET library for YAML.
+// Copyright (c) Antoine Aubry and contributors
+//
+// Permission is hereby granted, free of charge, to any person obtaining a copy of
+// this software and associated documentation files (the "Software"), to deal in
+// the Software without restriction, including without limitation the rights to
+// use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies
+// of the Software, and to permit persons to whom the Software is furnished to do
+// so, subject to the following conditions:
+//
+// The above copyright notice and this permission notice shall be included in all
+// copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+// SOFTWARE.
 
 using System;
 using System.Collections.Generic;
 using System.Globalization;
+using YamlDotNet.Core;
 
 namespace YamlDotNet.Serialization.ObjectGraphVisitors
 {
@@ -29,7 +30,7 @@ namespace YamlDotNet.Serialization.ObjectGraphVisitors
     {
         private class AnchorAssignment
         {
-            public string Anchor;
+            public AnchorName Anchor;
         }
 
         private readonly IDictionary<object, AnchorAssignment> assignments = new Dictionary<object, AnchorAssignment>();
@@ -42,12 +43,11 @@ namespace YamlDotNet.Serialization.ObjectGraphVisitors
 
         protected override bool Enter(IObjectDescriptor value)
         {
-            AnchorAssignment assignment;
-            if (value.Value != null && assignments.TryGetValue(value.Value, out assignment))
+            if (value.Value != null && assignments.TryGetValue(value.Value, out var assignment))
             {
-                if (assignment.Anchor == null)
+                if (assignment.Anchor.IsEmpty)
                 {
-                    assignment.Anchor = "o" + nextId.ToString(CultureInfo.InvariantCulture);
+                    assignment.Anchor = new AnchorName("o" + nextId.ToString(CultureInfo.InvariantCulture));
                     ++nextId;
                 }
                 return false;
@@ -87,20 +87,19 @@ namespace YamlDotNet.Serialization.ObjectGraphVisitors
 
         private void VisitObject(IObjectDescriptor value)
         {
-            if(value.Value != null)
+            if (value.Value != null)
             {
                 assignments.Add(value.Value, new AnchorAssignment());
             }
         }
 
-        string IAliasProvider.GetAlias(object target)
+        AnchorName IAliasProvider.GetAlias(object target)
         {
-            AnchorAssignment assignment;
-            if (target != null && assignments.TryGetValue(target, out assignment))
+            if (target != null && assignments.TryGetValue(target, out var assignment))
             {
                 return assignment.Anchor;
             }
-            return null;
+            return AnchorName.Empty;
         }
     }
 }

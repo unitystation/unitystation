@@ -1,3 +1,4 @@
+using TileManagement;
 using UnityEngine;
 
 /// <summary>
@@ -5,29 +6,17 @@ using UnityEngine;
 /// </summary>
 public static class BoundsExtensions
 {
-	public static bool BoundsIntersect(this MatrixInfo matrix, MatrixInfo otherMatrix)
+	public static bool BoundsIntersect(this MatrixInfo matrix, MatrixInfo otherMatrix, out BetterBounds intersection)
 	{
+		intersection = new BetterBounds();
 		if (matrix == null || otherMatrix == null || matrix == otherMatrix)
 		{
 			return false;
 		}
 
-		var rect = matrix.WorldBounds.Extend(1).ToRect();
-
-		return rect.Overlaps(otherMatrix.WorldBounds.Extend(1).ToRect());
-	}
-
-	public static bool BoundsIntersect(this MatrixInfo matrix, MatrixInfo otherMatrix, out Rect intersection)
-	{
-		intersection = Rect.zero;
-		if (matrix == null || otherMatrix == null || matrix == otherMatrix)
-		{
-			return false;
-		}
-
-		var rect = matrix.WorldBounds.Extend(1).ToRect();
-
-		return rect.Intersects(otherMatrix.WorldBounds.Extend(1).ToRect(), out intersection);
+		var rect = matrix.WorldBounds;
+		var Otherrect = otherMatrix.WorldBounds;
+		return rect.Intersects(Otherrect, out intersection);
 	}
 
 	public static Rect ToRect(this Bounds bounds)
