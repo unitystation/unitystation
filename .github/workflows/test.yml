@@ -59,14 +59,15 @@ jobs:
 
       # Run tests - only edit mode supported
       # Note: exits with non-zero on legitimate test fails, "if: always()" is needed for reporting
-      #- name: Run tests
-      #  uses: game-ci/unity-test-runner@v2
-      #  with:
-      #    customParameters: "-nographics"
-      #    projectPath: ${{ matrix.projectPath }}
-      #    unityVersion: ${{ matrix.unityVersion }}
-      #    artifactsPath: ./testReports/${{ matrix.targetPlatform }}
-      #    testMode: editmode
+      - name: Run tests
+        uses: game-ci/unity-test-runner@v2
+        with:
+          customParameters: "-nographics"
+          projectPath: ${{ matrix.projectPath }}
+          unityVersion: ${{ matrix.unityVersion }}
+          artifactsPath: ./testReports/${{ matrix.targetPlatform }}
+          testMode: editmode
+
       # Install dotnet
       - name: Installing dotnet
         if: always()
