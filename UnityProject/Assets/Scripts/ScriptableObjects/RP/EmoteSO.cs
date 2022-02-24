@@ -85,12 +85,12 @@ namespace ScriptableObjects.RP
 				FailText(player, FailType.Normal);
 				return;
 			}
-			else if (requiresHands && CheckHandState(player) == false)
+			if (requiresHands && CheckHandState(player) == false)
 			{
 				FailText(player, FailType.Normal);
 				return;
 			}
-			else if (CheckIfPlayerIsGagged(player))
+			if (CheckIfPlayerIsGagged(player))
 			{
 				FailText(player, FailType.MouthBlocked);
 				return;
@@ -199,12 +199,13 @@ namespace ScriptableObjects.RP
 		{
 			//TODO : This sort of thing should be checked on the player script when reworking telecomms and adding a proper silencing system
 			player.TryGetComponent<PlayerScript>(out var script);
-			if (script.mind.occupation.JobType == JobType.MIME) return true;
+			if (script.mind.occupation.JobType == JobType.MIME) return true; //FIXME : Find a way to check if vow of silence is broken
 			var playerInventory = script.DynamicItemStorage;
 			var masks = playerInventory.GetNamedItemSlots(NamedSlot.mask);
 			foreach (var slot in masks)
 			{
 				if(slot.IsEmpty) continue;
+				Debug.Log(slot.Item.ItemAttributesV2.ArticleName);
 				if (slot.ItemAttributes.HasTrait(CommonTraits.Instance.Gag)) return true;
 			}
 			return false;
