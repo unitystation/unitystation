@@ -90,7 +90,7 @@ namespace ScriptableObjects.RP
 				FailText(player, FailType.Normal);
 				return;
 			}
-			if (isAudibleEmote &&CheckIfPlayerIsGagged(player))
+			if (isAudibleEmote && CheckIfPlayerIsGagged(player))
 			{
 				FailText(player, FailType.MouthBlocked);
 				return;
