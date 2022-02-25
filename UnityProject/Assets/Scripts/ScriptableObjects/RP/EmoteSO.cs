@@ -4,7 +4,6 @@ using HealthV2;
 using Messages.Server.SoundMessages;
 using NaughtyAttributes;
 using UnityEngine;
-using Random = UnityEngine.Random;
 
 namespace ScriptableObjects.RP
 {
@@ -18,7 +17,7 @@ namespace ScriptableObjects.RP
 
 		[Tooltip("Does this emote require the player to have hands that exist and not handcuffed?")]
 		[SerializeField]
-		protected bool requiresHands = false;
+		protected bool requiresHands;
 
 		[Tooltip("Disallow or change emote behavior if the player is in critical condition.")]
 		[SerializeField]
@@ -26,7 +25,7 @@ namespace ScriptableObjects.RP
 
 		[Tooltip("Does this emote require the user's mouth to be free?")]
 		[SerializeField]
-		protected bool isAudibleEmote = false;
+		protected bool isAudibleEmote;
 
 		[Tooltip("Disallow or change emote behavior if the player is crawling on the ground.")]
 		[SerializeField]
@@ -75,17 +74,13 @@ namespace ScriptableObjects.RP
 
 		public virtual void Do(GameObject player)
 		{
-			if (allowEmoteWhileInCrit == false && CheckPlayerCritState(player) == true)
+			if (allowEmoteWhileInCrit == false && CheckPlayerCritState(player))
 			{
 				FailText(player, FailType.Critical);
 				return;
 			}
-			if (allowEmoteWhileCrawling == false && CheckIfPlayerIsCrawling(player) == true)
-			{
-				FailText(player, FailType.Normal);
-				return;
-			}
-			if (requiresHands && CheckHandState(player) == false)
+			if ((allowEmoteWhileCrawling == false && CheckIfPlayerIsCrawling(player))
+			         || (requiresHands && CheckHandState(player) == false))
 			{
 				FailText(player, FailType.Normal);
 				return;
@@ -110,7 +105,7 @@ namespace ScriptableObjects.RP
 			switch (type)
 			{
 				case FailType.Normal:
-					Chat.AddActionMsgToChat(player, $"{failText}", $"");
+					Chat.AddActionMsgToChat(player, $"{failText}", "");
 					break;
 				case FailType.Critical:
 					Chat.AddActionMsgToChat(player, $"{player.ExpensiveName()} {critViewText}.", $"{player.ExpensiveName()} {critViewText}.");
@@ -176,14 +171,12 @@ namespace ScriptableObjects.RP
 		protected bool CheckPlayerCritState(GameObject player)
 		{
 			var health = player.GetComponent<LivingHealthMasterBase>();
-			if (health == null || health.IsCrit == true || health.IsSoftCrit == true)
+			if (health == null || health.IsCrit || health.IsSoftCrit)
 			{
 				return true;
 			}
-			else
-			{
-				return false;
-			}
+
+			return false;
 		}
 
 		protected bool CheckIfPlayerIsCrawling(GameObject player)
@@ -195,15 +188,13 @@ namespace ScriptableObjects.RP
 		/// If an item is blocking this player from making audible emotes is a mime.
 		/// having no mask slot should also count as not having a mouth therefore you can't use an emote (like screaming) that requires a mouth
 		/// </summary>
-		protected bool CheckIfPlayerIsGagged(GameObject player)
+		protected static bool CheckIfPlayerIsGagged(GameObject player)
 		{
+			Logger.Log("Checking if player is gagged");
 			//TODO : This sort of thing should be checked on the player script when reworking telecomms and adding a proper silencing system
-			player.TryGetComponent<PlayerScript>(out var script);
+			if(player.TryGetComponent<PlayerScript>(out var script) == false) return false;
 			if (script.mind.occupation.JobType == JobType.MIME) return true; //FIXME : Find a way to check if vow of silence is broken
-			var playerInventory = script.Equipment;
-			var masks = playerInventory.ItemStorage.GetNamedItemSlots(NamedSlot.mask);
-			Debug.Log(masks);
-			foreach (var slot in masks)
+			foreach (var slot in script.Equipment.ItemStorage.GetItemSlots())
 			{
 				if(slot.IsEmpty) continue;
 				Debug.Log(slot.Item.ItemAttributesV2.ArticleName);

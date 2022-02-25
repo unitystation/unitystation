@@ -1398,11 +1398,11 @@ namespace HealthV2
 			InternalNetIDs = NewInternalNetIDs;
 		}
 
-		public void IndicatePain(float dmgTaken = 0f)
+		public void IndicatePain(float dmgTaken)
 		{
 			if(EmoteActionManager.Instance == null || screamEmote == null ||
 			   canScream == false || ConsciousState == ConsciousState.UNCONSCIOUS || IsDead) return;
-			if(dmgTaken <= 0f || dmgTaken >= painScreamDamage) EmoteActionManager.DoEmote(screamEmote, playerScript.gameObject);
+			if(dmgTaken >= painScreamDamage) EmoteActionManager.DoEmote(screamEmote, playerScript.gameObject);
 			StartCoroutine(ScreamCooldown());
 		}
 		private IEnumerator ScreamCooldown()
