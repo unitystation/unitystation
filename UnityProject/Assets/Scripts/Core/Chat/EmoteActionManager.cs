@@ -5,15 +5,9 @@ using UnityEngine;
 
 namespace Core.Chat
 {
-	public class EmoteActionManager : MonoBehaviour
+	public class EmoteActionManager : Managers.SingletonManager<EmoteActionManager>
 	{
-		public static EmoteActionManager Instance;
 		[SerializeField] private EmoteListSO emoteList;
-
-		private void Awake()
-		{
-			Instance = this;
-		}
 
 		public static bool HasEmote(string emote, EmoteActionManager instance)
 		{
