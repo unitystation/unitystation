@@ -300,6 +300,7 @@ public class Rotatable : NetworkBehaviour, IMatrixRotation
 
 	public void OnValidate()
 	{
+		if (Application.isPlaying) return;
 		Awake();
 		CurrentDirection = CurrentDirection;
 		RotateObject(CurrentDirection);
