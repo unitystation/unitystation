@@ -60,23 +60,8 @@ namespace Objects.Machines
 
 		public int TryRemoveSheet(ItemTrait material, int quantity)
 		{
+			quantity = Mathf.Min(quantity, MaterialList[material] / Cm3PerSheet);
 			var Cm3Used = Cm3PerSheet * quantity;
-			foreach (var materialToTake in MaterialList)
-			{
-				if(materialToTake.Key != material) continue;
-				if(materialToTake.Value > Cm3Used || materialToTake.Value == 0) continue;
-				ConsumeMaterial(material, materialToTake.Value);
-				return quantity;
-			}
-			if (MaterialList[material] < Cm3PerSheet)
-			{
-				return 0;
-			}
-			if (MaterialList[material] < Cm3Used)
-			{
-				quantity = MaterialList[material] / Cm3PerSheet;
-				Cm3Used = Cm3PerSheet * quantity;
-			}
 			ConsumeMaterial(material, Cm3Used);
 			UpdateGUIs.Invoke();
 			return quantity;
