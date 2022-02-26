@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 2959621213063014110}
   - component: {fileID: 5032898753073590648}
   - component: {fileID: 752180679074368365}
+  - component: {fileID: 1404376226815865619}
   m_Layer: 0
   m_Name: NetworkManager
   m_TagString: NetworkManager
@@ -46,7 +47,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dontDestroyOnLoad: 1
-  PersistNetworkManagerToOfflineScene: 0
   runInBackground: 1
   autoStartServerBuild: 1
   serverTickRate: 100
@@ -55,8 +55,6 @@ MonoBehaviour:
   transport: {fileID: 752180679074368365}
   networkAddress: localhost
   maxConnections: 100
-  disconnectInactiveConnections: 0
-  disconnectInactiveTimeout: 60
   authenticator: {fileID: 0}
   playerPrefab: {fileID: 2821122072132512938, guid: 70fd2614e91344280b501ff52714aaa4,
     type: 3}
@@ -78,7 +76,6 @@ MonoBehaviour:
   - {fileID: 106988, guid: 3f23c24bde2f784479d91bce3b78b3b3, type: 3}
   - {fileID: 106988, guid: b2d9eecead2c8b74eb6b7a3782ebe743, type: 3}
   - {fileID: 1762630675659964, guid: 715614a08d7f9514aab57170abfe56ef, type: 3}
-  - {fileID: 1455342170646118, guid: fd40c08c9e8ef41199b2aff06993d79d, type: 3}
   - {fileID: 6770364348648799666, guid: f509953bc6beb934f920b927bb4ea694, type: 3}
   - {fileID: 1558421102126524431, guid: 1d53c177a1d95a0419ddbee5194f25d3, type: 3}
   - {fileID: 7013270530123256728, guid: e9f60ed79c0ab4b479d37f3f8ebb5164, type: 3}
@@ -4628,7 +4625,6 @@ MonoBehaviour:
   - {fileID: 6675068259735517415, guid: 1cbf5ea7cbc745545a7b382eeac3de03, type: 3}
   - {fileID: 1127054139694796, guid: e84d2342632015b4b8ce3227cb04533b, type: 3}
   - {fileID: 1127054139694796, guid: a6f87f3db636f2c4ba3aa4763aba4c3b, type: 3}
-  - {fileID: 1575520830166772, guid: 9e712d0b1be46c44c9a8443b5bed680e, type: 3}
   - {fileID: 1853426429102140, guid: 69c27c4a07b053d458c6fec363e66403, type: 3}
   - {fileID: 1853426429102140, guid: 4bf5be1e4dd7555499d2a7fc31d33c3c, type: 3}
   - {fileID: 1575520830166772, guid: f432c33ecfefc314d9890767213b8d72, type: 3}
@@ -4638,9 +4634,6 @@ MonoBehaviour:
   - {fileID: 2716832475365080019, guid: ebf00f36556800844a2e27793fea2ee9, type: 3}
   - {fileID: 1017948940100847858, guid: 774815558d1580440ae4704cfd274a44, type: 3}
   - {fileID: 1575520830166772, guid: 35eed4273d90143b0926de4715bbc06e, type: 3}
-  - {fileID: 1575520830166772, guid: 7768418aca169b743aa997436a773794, type: 3}
-  - {fileID: 1575520830166772, guid: 97e7d03d1a301d840a18f83143835c24, type: 3}
-  - {fileID: 1575520830166772, guid: 88f0ad40498096a47ae87836baedb762, type: 3}
   - {fileID: 8003434395378829877, guid: f3706893770084a45ae509ebf6836cc9, type: 3}
   - {fileID: 1575520830166772, guid: 84482a6a9ce96a746b992465f8766f03, type: 3}
   - {fileID: 176049325724106043, guid: f0634729183c3dc47ab8bab359bb8585, type: 3}
@@ -5217,11 +5210,6 @@ MonoBehaviour:
   - {fileID: 1175835517521130, guid: 98294d990ba1543649ee77325dd92bc2, type: 3}
   - {fileID: 3802977683328827285, guid: 6b7d76d0441cf764d88345e0892597b5, type: 3}
   - {fileID: 1031329663587859713, guid: c79cc2cf3609d72459060e5de64b4967, type: 3}
-  - {fileID: 7469762742606550612, guid: 94547ba02cb3143d1ab12c8af38e0776, type: 3}
-  - {fileID: 7469762742606550612, guid: 6807d1762ccaf41a3a5394fec3d63462, type: 3}
-  - {fileID: 7469762742606550612, guid: 1deb8a20d7b934c179ebd0a5e03945aa, type: 3}
-  - {fileID: 7469762742606550612, guid: 13ad67b8858d146d587fbd216359e85c, type: 3}
-  - {fileID: 7469762742606550612, guid: 49e831a8168854d889bea11fe37fc489, type: 3}
   - {fileID: 7469762742606550612, guid: 727cdf95076f5664cb82421703bb12fd, type: 3}
   - {fileID: 7469762742606550612, guid: 3d671a1669b7fc344b720f8b6456eea7, type: 3}
   - {fileID: 7469762742606550612, guid: c43de705dc38be447bee54f87e9f95fe, type: 3}
@@ -10921,8 +10909,25 @@ MonoBehaviour:
   serverBindAddress: 
   serverMaxPeerCapacity: 100
   serverMaxNativeWaitTime: 1
+  serverStatusUpdateInterval: 0
   clientMaxNativeWaitTime: 3
   clientStatusUpdateInterval: -1
   Channels: 01000000020000000100000001000000
+  ClientDataBufferSize: 1000
+  ClientConnEventBufferSize: 10
+  ServerDataBufferSize: 5000
+  ServerConnEventBufferSize: 100
   PacketBufferCapacity: 4096
   MaxAllowedPacketSize: 33554432
+--- !u!114 &1404376226815865619
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2920527550438430692}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2a6f523ec7d18a647835095a8050d74b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

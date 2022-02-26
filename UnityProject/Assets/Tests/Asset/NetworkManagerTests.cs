@@ -16,7 +16,7 @@ namespace Tests.Asset
 		public void SpawnableListTest()
 		{
 			var scenesGUIDs = AssetDatabase.FindAssets("OnlineScene t:Scene");
-			var scenesPaths = scenesGUIDs.Select(AssetDatabase.GUIDToAssetPath).ToList();
+			var scenesPaths = scenesGUIDs.Select(AssetDatabase.GUIDToAssetPath).Where(path => path.StartsWith("Assets/Scenes")).ToList();
 
 			if (scenesPaths.Count != 1)
 			{

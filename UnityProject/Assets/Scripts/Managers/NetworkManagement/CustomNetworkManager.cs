@@ -311,7 +311,7 @@ public class CustomNetworkManager : NetworkManager, IInitialise
 	}
 
 	//called on server side when player is being added, this is the main entry point for a client connecting to this server
-	public override void OnServerAddPlayer(NetworkConnection conn)
+	public override void OnServerAddPlayer(NetworkConnectionToClient conn)
 	{
 		if (IsHeadless || GameData.Instance.testServer)
 		{
@@ -329,22 +329,22 @@ public class CustomNetworkManager : NetworkManager, IInitialise
 	}
 
 	//called on client side when client first connects to the server
-	public override void OnClientConnect(NetworkConnection conn)
+	public override void OnClientConnect()
 	{
-		Logger.LogFormat("We (the client) connected to the server {0}", Category.Connections, conn);
+		Logger.Log($"We (the client) connected to the server {NetworkClient.connection}", Category.Connections);
 		//Does this need to happen all the time? OnClientConnect can be called multiple times
 		NetworkManagerExtensions.RegisterClientHandlers();
 
-		base.OnClientConnect(conn);
+		base.OnClientConnect();
 	}
 
-	public override void OnClientDisconnect(NetworkConnection conn)
+	public override void OnClientDisconnect()
 	{
-		base.OnClientDisconnect(conn);
+		base.OnClientDisconnect();
 		OnClientDisconnected.Invoke();
 	}
 
-	public override void OnServerConnect(NetworkConnection conn)
+	public override void OnServerConnect(NetworkConnectionToClient conn)
 	{
 		if (!connectCoolDown.ContainsKey(conn.address))
 		{
@@ -368,7 +368,7 @@ public class CustomNetworkManager : NetworkManager, IInitialise
 	}
 
 	/// server actions when client disconnects
-	public override void OnServerDisconnect(NetworkConnection conn)
+	public override void OnServerDisconnect(NetworkConnectionToClient conn)
 	{
 		//register them as removed from our own player list
 		PlayerList.Instance.RemoveByConnection(conn);
