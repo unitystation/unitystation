@@ -8,8 +8,12 @@ namespace ScriptableObjects.RP
 	{
 		private string viewTextFinal;
 
+		/// <summary>
+		/// Gendered Emote is designed for Players only and any NPC that uses HealthV2
+		/// </summary>
 		public override void Do(GameObject player)
 		{
+			if(CheckAllBaseConditions(player) == false) return;
 			HealthCheck(player);
 			Chat.AddActionMsgToChat(player, $"{youText}", $"{player.ExpensiveName()} {viewTextFinal}.");
 			PlayAudio(GetBodyTypeAudio(player), player);

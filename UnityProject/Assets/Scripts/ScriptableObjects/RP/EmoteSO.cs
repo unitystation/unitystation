@@ -74,26 +74,11 @@ namespace ScriptableObjects.RP
 
 		public virtual void Do(GameObject player)
 		{
-			if (allowEmoteWhileInCrit == false && CheckPlayerCritState(player))
-			{
-				FailText(player, FailType.Critical);
-				return;
-			}
-			if ((allowEmoteWhileCrawling == false && CheckIfPlayerIsCrawling(player))
-			         || (requiresHands && CheckHandState(player) == false))
-			{
-				FailText(player, FailType.Normal);
-				return;
-			}
-			if (isAudibleEmote && CheckIfPlayerIsGagged(player))
-			{
-				FailText(player, FailType.MouthBlocked);
-				return;
-			}
-
+			if(CheckAllBaseConditions(player) == false) return;
 			Chat.AddActionMsgToChat(player, $"{youText}", $"{player.ExpensiveName()} {viewText}.");
 			PlayAudio(defaultSounds, player);
 		}
+
 
 		/// <summary>
 		/// Use this instead of rewriting Chat.AddActionMsgToChat() when adding text to a failed conditon.
@@ -201,6 +186,28 @@ namespace ScriptableObjects.RP
 				if (slot.ItemAttributes.HasTrait(CommonTraits.Instance.Gag)) return true;
 			}
 			return false;
+		}
+
+		protected bool CheckAllBaseConditions(GameObject player)
+		{
+			if (allowEmoteWhileInCrit == false && CheckPlayerCritState(player))
+			{
+				FailText(player, FailType.Critical);
+				return false;
+			}
+			if ((allowEmoteWhileCrawling == false && CheckIfPlayerIsCrawling(player))
+			    || (requiresHands && CheckHandState(player) == false))
+			{
+				FailText(player, FailType.Normal);
+				return false;
+			}
+			if (isAudibleEmote && CheckIfPlayerIsGagged(player))
+			{
+				FailText(player, FailType.MouthBlocked);
+				return false;
+			}
+
+			return true;
 		}
 	}
 }
