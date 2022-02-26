@@ -4,10 +4,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 using Systems.Atmospherics;
-using Systems.Cargo;
 using Random = UnityEngine.Random;
 using DatabaseAPI;
-using Items;
 using Messages.Client;
 using Messages.Server;
 using Messages.Server.HealthMessages;
@@ -20,6 +18,28 @@ namespace IngameDebugConsole
 	/// </summary>
 	public class DebugLogUnitystationCommands : MonoBehaviour
 	{
+		[ConsoleMethod("checkObjectivesStatus", "check the current status of your objectives")]
+		public static void CheckObjectivesStatus()
+		{
+			bool playerSpawned = PlayerManager.LocalPlayer != null;
+			if (playerSpawned == false)
+			{
+				Logger.LogError("Player has not spawned yet to be able to check for their objectives!");
+				return;
+			}
+			if (PlayerManager.LocalPlayerScript.mind.IsAntag == false)
+			{
+				Logger.LogError("Player is not an antagonist!");
+				return;
+			}
+
+			Logger.Log("Current player objectives :");
+			foreach (var objective in PlayerManager.LocalPlayerScript.mind.GetAntag().Objectives)
+			{
+				Logger.Log($"{objective.ObjectiveName} -> {objective.IsComplete()}");
+			}
+		}
+
 		[ConsoleMethod("suicide", "kill yo' self")]
 		public static void RunSuicide()
 		{
@@ -252,8 +272,8 @@ namespace IngameDebugConsole
 				PlayerSpawn.ServerSpawnDummy();
 			}
 		}
-		
-		
+
+
 #if UNITY_EDITOR
 		[MenuItem("Networking/Spawn 100 dummy players")]
 #endif
