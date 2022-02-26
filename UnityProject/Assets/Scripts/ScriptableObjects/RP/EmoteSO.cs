@@ -182,7 +182,6 @@ namespace ScriptableObjects.RP
 			foreach (var slot in script.Equipment.ItemStorage.GetItemSlots())
 			{
 				if(slot.IsEmpty) continue;
-				Debug.Log(slot.Item.ItemAttributesV2.ArticleName);
 				if (slot.ItemAttributes.HasTrait(CommonTraits.Instance.Gag)) return true;
 			}
 			return false;
