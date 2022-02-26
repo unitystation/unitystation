@@ -12,7 +12,8 @@ public class SpriteDataSO : ScriptableObject
 {
 	public List<Variant> Variance = new List<Variant>();
 	public bool IsPalette = false;
-	public int setID = -1;
+
+	[NonSerialized] public int SetID = -1;
 
 	public string DisplayName;
 
@@ -34,7 +35,7 @@ public class SpriteDataSO : ScriptableObject
 	public void Awake()
 	{
 		{
-			if (setID == -1)
+			if (SetID == -1)
 			{
 				if (SpriteCatalogue.Instance == null)
 				{
@@ -47,7 +48,7 @@ public class SpriteDataSO : ScriptableObject
 					SpriteCatalogue.Instance.AddToCatalogue(this);
 				}
 
-				setID = SpriteCatalogue.Instance.Catalogue.IndexOf(this);
+				SetID = SpriteCatalogue.Instance.Catalogue.IndexOf(this);
 				Unity.EditorCoroutines.Editor.EditorCoroutineUtility.StartCoroutine(EditorSave(), this);
 			}
 		}
@@ -55,7 +56,7 @@ public class SpriteDataSO : ScriptableObject
 
 	public void UpdateIDLocation()
 	{
-		if (setID == -1)
+		if (SetID == -1)
 		{
 			if (SpriteCatalogue.Instance == null)
 			{
@@ -68,7 +69,7 @@ public class SpriteDataSO : ScriptableObject
 				SpriteCatalogue.Instance.AddToCatalogue(this);
 			}
 
-			setID = SpriteCatalogue.Instance.Catalogue.IndexOf(this);
+			SetID = SpriteCatalogue.Instance.Catalogue.IndexOf(this);
 			EditorUtility.SetDirty(this);
 			EditorUtility.SetDirty( SpriteCatalogue.Instance);
 		}
@@ -85,7 +86,7 @@ public class SpriteDataSO : ScriptableObject
 	[Button()]
 	public void ForceUpdateID()
 	{
-		setID = -1;
+		SetID = -1;
 		UpdateIDLocation();
 	}
 #endif

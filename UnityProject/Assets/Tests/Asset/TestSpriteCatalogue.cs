@@ -56,15 +56,15 @@ namespace Tests.Asset
 
 			foreach (var Assete in Assets)
 			{
-				if (SpriteDataSOs.ContainsKey(Assete.setID))
+				if (SpriteDataSOs.ContainsKey(Assete.SetID))
 				{
-					ForceUpdateList.Add(SpriteDataSOs[Assete.setID]);
+					ForceUpdateList.Add(SpriteDataSOs[Assete.SetID]);
 					ForceUpdateList.Add(Assete);
-					report.AppendLine($"{Assete.name}: Duplicated ID with {SpriteDataSOs[Assete.setID]}" );
+					report.AppendLine($"{Assete.name}: Duplicated ID with {SpriteDataSOs[Assete.SetID]}" );
 					Failed = true;
 				}
 
-				SpriteDataSOs[Assete.setID] = Assete;
+				SpriteDataSOs[Assete.SetID] = Assete;
 			}
 
 			foreach (var ToForceUpdate in ForceUpdateList)

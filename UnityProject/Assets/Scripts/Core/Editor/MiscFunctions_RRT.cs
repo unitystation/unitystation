@@ -122,7 +122,7 @@ namespace Util
 			var SOs = FindAssetsByType<SpriteDataSO>();
 			foreach (var SO in SOs)
 			{
-				SO.setID = -1;
+				SO.SetID = -1;
 				SO.UpdateIDLocation();
 			}
 
