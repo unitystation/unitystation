@@ -93,6 +93,7 @@ namespace UI
 
 		private void OnDisable()
 		{
+			startedAlready = false;
 			doCountdown = false;
 			isReady = false;
 			adminPanel.SetActive(false);
@@ -149,7 +150,7 @@ namespace UI
 
 			if (GameManager.Instance.QuickLoad && mapLoadingPanel.activeSelf == false)
 			{
-				if (startedAlready == true) return;
+				if (startedAlready == true || this.isActiveAndEnabled == false) return;
 				startedAlready = true;
 				StartCoroutine(WaitForInitialisation());
 			}

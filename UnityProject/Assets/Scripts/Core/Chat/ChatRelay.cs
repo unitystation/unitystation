@@ -148,6 +148,7 @@ public class ChatRelay : NetworkBehaviour
 			}
 
 
+
 			if (chatEvent.originator != null)
 			{
 				//Get NPCs in vicinity

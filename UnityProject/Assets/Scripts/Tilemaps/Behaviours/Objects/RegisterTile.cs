@@ -219,7 +219,7 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 		else
 		{
 			//will be gathered with a GetComponentsInChildren() and initialized by the matrix
-			transform.SetParent(matrix.transform);
+			transform.SetParent(matrix.transform, false);
 		}
 	}
 
@@ -350,15 +350,13 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 	/// <param name="newNetworkedMatrixNetID">uint of the new parent</param>
 	private void SyncNetworkedMatrixNetId(uint oldNetworkMatrixId, uint newNetworkedMatrixNetID)
 	{
-		if (Initialized == false)
-			return;
-
 		networkedMatrixNetId = newNetworkedMatrixNetID;
 		NetworkedMatrix.InvokeWhenInitialized(networkedMatrixNetId, FinishNetworkedMatrixRegistration); //note: we dont actually wait for init here anymore
 	}
 
 	private void FinishNetworkedMatrixRegistration(NetworkedMatrix networkedMatrix)
 	{
+		if (networkedMatrix == null) return;
 		//if we had any spin rotation, preserve it,
 		//otherwise all objects should always have upright local rotation
 		var rotation = transform.rotation;
@@ -376,7 +374,7 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 			objectLayer = newObjectLayer;
 		}
 
-		transform.SetParent(objectLayer.transform, transform.parent); //If it has no parent presumed it was spawned in my mirror that Used the local position
+		transform.SetParent(objectLayer.transform, false);
 
 		//preserve absolute rotation if there was spin rotation
 		if (hadSpinRotation)

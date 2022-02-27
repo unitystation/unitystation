@@ -62,6 +62,10 @@ namespace UI.Objects.Security
 				console.ServerRemoveIDCard(player);
 				UpdateScreen();
 			}
+			else if (IsAIInteracting())
+			{
+				UpdateScreen();
+			}
 		}
 
 		public void UpdateIdText(NetLabel labelToSet)
@@ -71,6 +75,10 @@ namespace UI.Objects.Security
 			{
 				labelToSet.SetValueServer($"{IdCard.RegisteredName}, {IdCard.GetJobTitle()}");
 			}
+			else if (IsAIInteracting())
+			{
+				labelToSet.SetValueServer("AI Control");
+			}
 			else
 			{
 				labelToSet.SetValueServer("********");
@@ -79,7 +87,7 @@ namespace UI.Objects.Security
 
 		public void LogIn()
 		{
-			if (console.IdCard == null || !console.IdCard.HasAccess(Access.security))
+			if (console.IdCard == null || !console.IdCard.HasAccess(Access.security) || IsAIInteracting() == false)
 			{
 				return;
 			}

@@ -1,13 +1,13 @@
-﻿using System;
-using System.Collections;
+﻿using Managers;
+using NaughtyAttributes;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using NaughtyAttributes;
 using UnityEngine;
 
 namespace Initialisation
 {
-	public class LoadManager : MonoBehaviourSingleton<LoadManager>
+	public class LoadManager : SingletonManager<LoadManager>
 	{
 		[ReorderableList] public List<MonoBehaviour> GamesStartInitialiseSystems = new List<MonoBehaviour>();
 

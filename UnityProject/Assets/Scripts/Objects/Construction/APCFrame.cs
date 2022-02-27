@@ -289,6 +289,7 @@ namespace Objects.Construction
 				MatrixInfo matrix = MatrixManager.AtPoint(gameObject.GetComponent<CustomNetTransform>().ServerPosition, true);
 
 				var localPosInt = MatrixManager.WorldToLocalInt(gameObject.GetComponent<CustomNetTransform>().ServerPosition, matrix);
+
 				var econs = interaction.Performer.GetComponentInParent<Matrix>().GetElectricalConnections(localPosInt);
 				foreach (var Connection in econs.List)
 				{
@@ -298,6 +299,9 @@ namespace Objects.Construction
 						return;
 					}
 				}
+
+				econs.Pool();
+
 				GameObject WallMount = Spawn.ServerPrefab(APCObject, gameObject.GetComponent<CustomNetTransform>().ServerPosition, interaction.Performer.transform.parent, spawnItems: false).GameObject;
 
 				var Directional = WallMount.GetComponent<Rotatable>();

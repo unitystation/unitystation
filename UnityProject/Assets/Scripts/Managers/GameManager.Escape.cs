@@ -47,7 +47,7 @@ public partial class GameManager
 			var shuttles = FindObjectsOfType<EscapeShuttle>();
 			if (shuttles.Length < 1)
 			{
-				Logger.LogError("Primary escape shuttle is missing from GameManager!", Category.Round);
+				Logger.LogWarning("Primary escape shuttle is missing from GameManager!", Category.Round);
 				return;
 			}
 			Logger.LogWarning("Primary escape shuttle is missing from GameManager, but one was found on scene", Category.Round);

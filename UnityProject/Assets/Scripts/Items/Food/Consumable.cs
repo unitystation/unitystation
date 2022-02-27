@@ -1,8 +1,12 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using AddressableReferences;
 using HealthV2;
+using Items;
 using UnityEngine;
+using NaughtyAttributes;
+
 
 /// <summary>
 /// Item that can be drinked or eaten by player
@@ -12,6 +16,14 @@ public abstract class Consumable : MonoBehaviour, ICheckedInteractable<HandApply
 {
 	public void ServerPerformInteraction(HandApply interaction)
 	{
+		if (gameObject.TryGetComponent<HandPreparable>(out var preparable))
+		{
+			if (preparable.IsPrepared == false)
+			{
+				Chat.AddExamineMsg(interaction.Performer, preparable.openingRequirementText);
+				return;
+			}
+		}
 		var targetPlayer = interaction.TargetObject.GetComponent<PlayerScript>();
 		if (targetPlayer == null)
 		{

@@ -1,0 +1,377 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 89bcd835b81fe71408841f69af610e37, type: 3}
+  m_Name: TileChangeCheck
+  m_EditorClassIdentifier: 
+  Debug: 0
+  DebugSecondsPerAction: 0
+  TestActions:
+  - CheckValueGameObjectAtData:
+      Prefab: {fileID: 0}
+      WorldPosition: {x: 0, y: 0, z: 0}
+      ComponentName: 
+      MatrixName: 
+      Parameters:
+        VariablePath: 
+        VariableType: 0
+        TargetBoolValue: 0
+        TargetStringValue: 
+        TargetValue: 0
+        HasMin: 0
+        Min: 0
+        HasMax: 0
+        Max: 0
+      CustomFailedText: 
+    HasTileData:
+      WorldPosition: {x: 0, y: 0, z: 0}
+      LayerTile: {fileID: 0}
+      NoTileAt: 0
+      LayerType: 0
+      MatrixName: 
+      CustomFailedText: 
+    DataIsInPlayerInventory:
+      MatrixName: 
+      Inverse: 0
+      NotLocalPlayer: 0
+      WorldPositionOfPlayer: {x: 0, y: 0, z: 0}
+      ObjectToSearchFor: {fileID: 0}
+      TargetSpecifiedSlot: 0
+      TargetSlots: 0
+      IncludeSubInventories: 0
+      CustomFailedText: 
+    DataKeyInput:
+      UnPress: 0
+      Key: 0
+    DataShowPrefab:
+      Prefab: {fileID: 0}
+      InverseMustNotPresent: 0
+      PositionToCheck: {x: 0, y: 0, z: 0}
+      NumberPresent: 0
+      TheStackAmount: 0
+      MatrixName: 
+      CustomFailedText: 
+    RespawnPlayerData:
+      PositionToSpawn: {x: 0, y: 0, z: 0}
+      Occupation: {fileID: 0}
+      SerialisedCharacterSettings: 
+    DataSetMousePosition:
+      WorldPosition: {x: 0, y: 0, z: 0}
+    SetTileData:
+      WorldPosition: {x: 0, y: 0, z: 0}
+      LayerTile: {fileID: 11400000, guid: 2c5573a92f4b03d4c809a9a90ac4ddac, type: 2}
+      MatrixName: 
+      tileLayerRemove: 0
+    SetValueGameObjectAtData:
+      Prefab: {fileID: 0}
+      PositionToCheck: {x: 0, y: 0, z: 0}
+      ComponentName: 
+      MatrixName: 
+      ClassVariableWriter:
+        VariablePath: 
+        VariableType: 0
+        TargetBoolValue: 0
+        TargetStringValue: 
+        TargetValue: 0
+      CustomFailedText: 
+    SpawnXData:
+      Prefab: {fileID: 0}
+      PositionToSpawn: {x: 0, y: 0, z: 0}
+      NumberToSpawn: 0
+      StackableAmount: 0
+    DataActionWaite:
+      WaitForFrame: 0
+      WaitForSeconds: 0
+    DataAssessMetaDataNode:
+      WorldPosition: {x: 0, y: 0, z: 0}
+      MatrixName: 
+      Parameters:
+        VariablePath: 
+        VariableType: 0
+        TargetBoolValue: 0
+        TargetStringValue: 
+        TargetValue: 0
+        HasMin: 0
+        Min: 0
+        HasMax: 0
+        Max: 0
+      CustomFailedText: 
+    SpecifiedAction: 6
+  - CheckValueGameObjectAtData:
+      Prefab: {fileID: 0}
+      WorldPosition: {x: 0, y: 0, z: 0}
+      ComponentName: 
+      MatrixName: 
+      Parameters:
+        VariablePath: 
+        VariableType: 0
+        TargetBoolValue: 0
+        TargetStringValue: 
+        TargetValue: 0
+        HasMin: 0
+        Min: 0
+        HasMax: 0
+        Max: 0
+      CustomFailedText: 
+    HasTileData:
+      WorldPosition: {x: 0, y: 0, z: 0}
+      LayerTile: {fileID: 11400000, guid: 2c5573a92f4b03d4c809a9a90ac4ddac, type: 2}
+      NoTileAt: 0
+      LayerType: 0
+      MatrixName: 
+      CustomFailedText: 
+    DataIsInPlayerInventory:
+      MatrixName: 
+      Inverse: 0
+      NotLocalPlayer: 0
+      WorldPositionOfPlayer: {x: 0, y: 0, z: 0}
+      ObjectToSearchFor: {fileID: 0}
+      TargetSpecifiedSlot: 0
+      TargetSlots: 0
+      IncludeSubInventories: 0
+      CustomFailedText: 
+    DataKeyInput:
+      UnPress: 0
+      Key: 0
+    DataShowPrefab:
+      Prefab: {fileID: 0}
+      InverseMustNotPresent: 0
+      PositionToCheck: {x: 0, y: 0, z: 0}
+      NumberPresent: 0
+      TheStackAmount: 0
+      MatrixName: 
+      CustomFailedText: 
+    RespawnPlayerData:
+      PositionToSpawn: {x: 0, y: 0, z: 0}
+      Occupation: {fileID: 0}
+      SerialisedCharacterSettings: 
+    DataSetMousePosition:
+      WorldPosition: {x: 0, y: 0, z: 0}
+    SetTileData:
+      WorldPosition: {x: 0, y: 0, z: 0}
+      LayerTile: {fileID: 11400000, guid: 2c5573a92f4b03d4c809a9a90ac4ddac, type: 2}
+      MatrixName: 
+      tileLayerRemove: 0
+    SetValueGameObjectAtData:
+      Prefab: {fileID: 0}
+      PositionToCheck: {x: 0, y: 0, z: 0}
+      ComponentName: 
+      MatrixName: 
+      ClassVariableWriter:
+        VariablePath: 
+        VariableType: 0
+        TargetBoolValue: 0
+        TargetStringValue: 
+        TargetValue: 0
+      CustomFailedText: 
+    SpawnXData:
+      Prefab: {fileID: 0}
+      PositionToSpawn: {x: 0, y: 0, z: 0}
+      NumberToSpawn: 0
+      StackableAmount: 0
+    DataActionWaite:
+      WaitForFrame: 0
+      WaitForSeconds: 0
+    DataAssessMetaDataNode:
+      WorldPosition: {x: 0, y: 0, z: 0}
+      MatrixName: 
+      Parameters:
+        VariablePath: 
+        VariableType: 0
+        TargetBoolValue: 0
+        TargetStringValue: 
+        TargetValue: 0
+        HasMin: 0
+        Min: 0
+        HasMax: 0
+        Max: 0
+      CustomFailedText: 
+    SpecifiedAction: 7
+  - CheckValueGameObjectAtData:
+      Prefab: {fileID: 0}
+      WorldPosition: {x: 0, y: 0, z: 0}
+      ComponentName: 
+      MatrixName: 
+      Parameters:
+        VariablePath: 
+        VariableType: 0
+        TargetBoolValue: 0
+        TargetStringValue: 
+        TargetValue: 0
+        HasMin: 0
+        Min: 0
+        HasMax: 0
+        Max: 0
+      CustomFailedText: 
+    HasTileData:
+      WorldPosition: {x: 0, y: 0, z: 0}
+      LayerTile: {fileID: 11400000, guid: 2c5573a92f4b03d4c809a9a90ac4ddac, type: 2}
+      NoTileAt: 0
+      LayerType: 0
+      MatrixName: 
+      CustomFailedText: 
+    DataIsInPlayerInventory:
+      MatrixName: 
+      Inverse: 0
+      NotLocalPlayer: 0
+      WorldPositionOfPlayer: {x: 0, y: 0, z: 0}
+      ObjectToSearchFor: {fileID: 0}
+      TargetSpecifiedSlot: 0
+      TargetSlots: 0
+      IncludeSubInventories: 0
+      CustomFailedText: 
+    DataKeyInput:
+      UnPress: 0
+      Key: 0
+    DataShowPrefab:
+      Prefab: {fileID: 0}
+      InverseMustNotPresent: 0
+      PositionToCheck: {x: 0, y: 0, z: 0}
+      NumberPresent: 0
+      TheStackAmount: 0
+      MatrixName: 
+      CustomFailedText: 
+    RespawnPlayerData:
+      PositionToSpawn: {x: 0, y: 0, z: 0}
+      Occupation: {fileID: 0}
+      SerialisedCharacterSettings: 
+    DataSetMousePosition:
+      WorldPosition: {x: 0, y: 0, z: 0}
+    SetTileData:
+      WorldPosition: {x: 0, y: 0, z: 0}
+      LayerTile: {fileID: 0}
+      MatrixName: 
+      tileLayerRemove: 0
+    SetValueGameObjectAtData:
+      Prefab: {fileID: 0}
+      PositionToCheck: {x: 0, y: 0, z: 0}
+      ComponentName: 
+      MatrixName: 
+      ClassVariableWriter:
+        VariablePath: 
+        VariableType: 0
+        TargetBoolValue: 0
+        TargetStringValue: 
+        TargetValue: 0
+      CustomFailedText: 
+    SpawnXData:
+      Prefab: {fileID: 0}
+      PositionToSpawn: {x: 0, y: 0, z: 0}
+      NumberToSpawn: 0
+      StackableAmount: 0
+    DataActionWaite:
+      WaitForFrame: 0
+      WaitForSeconds: 0
+    DataAssessMetaDataNode:
+      WorldPosition: {x: 0, y: 0, z: 0}
+      MatrixName: 
+      Parameters:
+        VariablePath: 
+        VariableType: 0
+        TargetBoolValue: 0
+        TargetStringValue: 
+        TargetValue: 0
+        HasMin: 0
+        Min: 0
+        HasMax: 0
+        Max: 0
+      CustomFailedText: 
+    SpecifiedAction: 6
+  - CheckValueGameObjectAtData:
+      Prefab: {fileID: 0}
+      WorldPosition: {x: 0, y: 0, z: 0}
+      ComponentName: 
+      MatrixName: 
+      Parameters:
+        VariablePath: 
+        VariableType: 0
+        TargetBoolValue: 0
+        TargetStringValue: 
+        TargetValue: 0
+        HasMin: 0
+        Min: 0
+        HasMax: 0
+        Max: 0
+      CustomFailedText: 
+    HasTileData:
+      WorldPosition: {x: 0, y: 0, z: 0}
+      LayerTile: {fileID: 11400000, guid: 2c5573a92f4b03d4c809a9a90ac4ddac, type: 2}
+      NoTileAt: 1
+      LayerType: 0
+      MatrixName: 
+      CustomFailedText: 
+    DataIsInPlayerInventory:
+      MatrixName: 
+      Inverse: 0
+      NotLocalPlayer: 0
+      WorldPositionOfPlayer: {x: 0, y: 0, z: 0}
+      ObjectToSearchFor: {fileID: 0}
+      TargetSpecifiedSlot: 0
+      TargetSlots: 0
+      IncludeSubInventories: 0
+      CustomFailedText: 
+    DataKeyInput:
+      UnPress: 0
+      Key: 0
+    DataShowPrefab:
+      Prefab: {fileID: 0}
+      InverseMustNotPresent: 0
+      PositionToCheck: {x: 0, y: 0, z: 0}
+      NumberPresent: 0
+      TheStackAmount: 0
+      MatrixName: 
+      CustomFailedText: 
+    RespawnPlayerData:
+      PositionToSpawn: {x: 0, y: 0, z: 0}
+      Occupation: {fileID: 0}
+      SerialisedCharacterSettings: 
+    DataSetMousePosition:
+      WorldPosition: {x: 0, y: 0, z: 0}
+    SetTileData:
+      WorldPosition: {x: 0, y: 0, z: 0}
+      LayerTile: {fileID: 0}
+      MatrixName: 
+      tileLayerRemove: 0
+    SetValueGameObjectAtData:
+      Prefab: {fileID: 0}
+      PositionToCheck: {x: 0, y: 0, z: 0}
+      ComponentName: 
+      MatrixName: 
+      ClassVariableWriter:
+        VariablePath: 
+        VariableType: 0
+        TargetBoolValue: 0
+        TargetStringValue: 
+        TargetValue: 0
+      CustomFailedText: 
+    SpawnXData:
+      Prefab: {fileID: 0}
+      PositionToSpawn: {x: 0, y: 0, z: 0}
+      NumberToSpawn: 0
+      StackableAmount: 0
+    DataActionWaite:
+      WaitForFrame: 0
+      WaitForSeconds: 0
+    DataAssessMetaDataNode:
+      WorldPosition: {x: 0, y: 0, z: 0}
+      MatrixName: 
+      Parameters:
+        VariablePath: 
+        VariableType: 0
+        TargetBoolValue: 0
+        TargetStringValue: 
+        TargetValue: 0
+        HasMin: 0
+        Min: 0
+        HasMax: 0
+        Max: 0
+      CustomFailedText: 
+    SpecifiedAction: 7

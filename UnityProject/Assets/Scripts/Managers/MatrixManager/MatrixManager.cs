@@ -311,6 +311,19 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 		return Instance.spaceMatrix.MatrixInfo;
 	}
 
+	public static MatrixInfo GetByName_DEBUG_ONLY(string Name)
+	{
+		for (int i = 0; i < Instance.ActiveMatricesList.Count; i++)
+		{
+			if (Instance.ActiveMatricesList[i].Name == Name)
+			{
+				return Instance.ActiveMatricesList[i];
+			}
+		}
+
+		return null;
+	}
+
 	private static bool IsInMatrix(Vector3Int worldPos, bool isServer, MatrixInfo matrixInfo)
 	{
 		if (matrixInfo.WorldBounds.Contains(worldPos) == false)

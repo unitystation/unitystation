@@ -111,10 +111,11 @@ namespace Antagonists
 		{
 			if (Owner.body.DynamicItemStorage == null)
 			{
+				Logger.LogError($"Unable to find dynamic storage for {Owner.body} / {Owner.body.connectedPlayer.Username}");
 				//If they have no storage then fail, as they can't have the item
 				return false;
 			}
-			
+
 			return CheckStorage(Owner.body.DynamicItemStorage, default, name) >= count;
 		}
 
@@ -127,11 +128,20 @@ namespace Antagonists
 		private int CheckStorage(DynamicItemStorage itemStorage, Type component, string name)
 		{
 			int count = 0;
-			foreach (var slot in itemStorage.GetItemSlots())
+			foreach (var slot in itemStorage.GetItemSlotTree())
 			{
 				count += CheckSlot(slot, component, name);
 			}
+			return count;
+		}
 
+		private int CheckStorage(ItemStorage itemStorage, Type component, string name)
+		{
+			int count = 0;
+			foreach (var slot in itemStorage.GetItemSlotTree())
+			{
+				count += CheckSlot(slot, component, name);
+			}
 			return count;
 		}
 
@@ -156,6 +166,11 @@ namespace Antagonists
 			if (slot.ItemObject.TryGetComponent<DynamicItemStorage>(out var itemStorage))
 			{
 				return CheckStorage(itemStorage, component, name);
+			}
+
+			if (slot.ItemObject.TryGetComponent<ItemStorage>(out var storage))
+			{
+				return CheckStorage(storage, component, name);
 			}
 
 			return 0;

@@ -82,8 +82,7 @@ public static class Inventory
 		var stackable = fromSlot.ItemObject.GetComponent<Stackable>();
 		if (stackable != null)
 		{
-			stackable.ServerConsume(amountToConsume);
-			return true;
+			return stackable.ServerConsume(amountToConsume);
 		}
 		else
 		{

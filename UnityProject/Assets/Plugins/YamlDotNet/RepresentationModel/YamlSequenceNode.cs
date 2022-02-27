@@ -1,32 +1,32 @@
-//  This file is part of YamlDotNet - A .NET library for YAML.
-//  Copyright (c) Antoine Aubry and contributors
-//  Copyright (c) 2011 Andy Pickett
-
-//  Permission is hereby granted, free of charge, to any person obtaining a copy of
-//  this software and associated documentation files (the "Software"), to deal in
-//  the Software without restriction, including without limitation the rights to
-//  use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies
-//  of the Software, and to permit persons to whom the Software is furnished to do
-//  so, subject to the following conditions:
-
-//  The above copyright notice and this permission notice shall be included in all
-//  copies or substantial portions of the Software.
-
-//  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-//  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-//  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-//  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-//  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-//  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-//  SOFTWARE.
+﻿// This file is part of YamlDotNet - A .NET library for YAML.
+// Copyright (c) Antoine Aubry and contributors
+//
+// Permission is hereby granted, free of charge, to any person obtaining a copy of
+// this software and associated documentation files (the "Software"), to deal in
+// the Software without restriction, including without limitation the rights to
+// use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies
+// of the Software, and to permit persons to whom the Software is furnished to do
+// so, subject to the following conditions:
+//
+// The above copyright notice and this permission notice shall be included in all
+// copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+// SOFTWARE.
 
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Text;
 using YamlDotNet.Core;
 using YamlDotNet.Core.Events;
-using System.Text;
 using YamlDotNet.Serialization;
+using static YamlDotNet.Core.HashCode;
 
 namespace YamlDotNet.RepresentationModel
 {
@@ -34,7 +34,6 @@ namespace YamlDotNet.RepresentationModel
     /// Represents a sequence node in the YAML document.
     /// </summary>
     [DebuggerDisplay("Count = {children.Count}")]
-    [Serializable]
     public sealed class YamlSequenceNode : YamlNode, IEnumerable<YamlNode>, IYamlConvertible
     {
         private readonly IList<YamlNode> children = new List<YamlNode>();
@@ -68,12 +67,12 @@ namespace YamlDotNet.RepresentationModel
 
         private void Load(IParser parser, DocumentLoadingState state)
         {
-            var sequence = parser.Expect<SequenceStart>();
+            var sequence = parser.Consume<SequenceStart>();
             Load(sequence, state);
             Style = sequence.Style;
 
-            bool hasUnresolvedAliases = false;
-            while (!parser.Accept<SequenceEnd>())
+            var hasUnresolvedAliases = false;
+            while (!parser.TryConsume<SequenceEnd>(out var _))
             {
                 var child = ParseNode(parser, state);
                 children.Add(child);
@@ -84,8 +83,6 @@ namespace YamlDotNet.RepresentationModel
             {
                 state.AddNodeWithUnresolvedAliases(this);
             }
-
-            parser.Expect<SequenceEnd>();
         }
 
         /// <summary>
@@ -138,11 +135,11 @@ namespace YamlDotNet.RepresentationModel
         /// <param name="state">The state of the document.</param>
         internal override void ResolveAliases(DocumentLoadingState state)
         {
-            for (int i = 0; i < children.Count; ++i)
+            for (var i = 0; i < children.Count; ++i)
             {
                 if (children[i] is YamlAliasNode)
                 {
-                    children[i] = state.GetNode(children[i].Anchor, true, children[i].Start, children[i].End);
+                    children[i] = state.GetNode(children[i].Anchor!, children[i].Start, children[i].End);
                 }
             }
         }
@@ -154,7 +151,7 @@ namespace YamlDotNet.RepresentationModel
         /// <param name="state">The state.</param>
         internal override void Emit(IEmitter emitter, EmitterState state)
         {
-            emitter.Emit(new SequenceStart(Anchor, Tag, true, Style));
+            emitter.Emit(new SequenceStart(Anchor, Tag, Tag.IsEmpty, Style));
             foreach (var node in children)
             {
                 node.Save(emitter, state);
@@ -174,17 +171,21 @@ namespace YamlDotNet.RepresentationModel
         }
 
         /// <summary />
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
         {
             var other = obj as YamlSequenceNode;
-            if (other == null || !Equals(other) || children.Count != other.children.Count)
+            var areEqual = other != null
+                && Equals(Tag, other.Tag)
+                && children.Count == other.children.Count;
+
+            if (!areEqual)
             {
                 return false;
             }
 
-            for (int i = 0; i < children.Count; ++i)
+            for (var i = 0; i < children.Count; ++i)
             {
-                if (!SafeEquals(children[i], other.children[i]))
+                if (!Equals(children[i], other!.children[i]))
                 {
                     return false;
                 }
@@ -201,12 +202,12 @@ namespace YamlDotNet.RepresentationModel
         /// </returns>
         public override int GetHashCode()
         {
-            var hashCode = base.GetHashCode();
-
+            var hashCode = 0;
             foreach (var item in children)
             {
-                hashCode = CombineHashCodes(hashCode, GetHashCode(item));
+                hashCode = CombineHashCodes(hashCode, item);
             }
+            hashCode = CombineHashCodes(hashCode, Tag);
             return hashCode;
         }
 
@@ -238,10 +239,10 @@ namespace YamlDotNet.RepresentationModel
         }
 
         /// <summary>
-        /// Returns a <see cref="System.String"/> that represents this instance.
+        /// Returns a <see cref="string"/> that represents this instance.
         /// </summary>
         /// <returns>
-        /// A <see cref="System.String"/> that represents this instance.
+        /// A <see cref="string"/> that represents this instance.
         /// </returns>
         internal override string ToString(RecursionLevel level)
         {

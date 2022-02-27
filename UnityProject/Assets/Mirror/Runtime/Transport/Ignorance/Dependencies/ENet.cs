@@ -1175,29 +1175,34 @@ namespace ENet
     {
         // This should address Unity usage and bug #66: Platform specific Enet / libenet
         // https://github.com/SoftwareGuy/Ignorance/issues/66
+
+        #region Editor Specific Native Library Names
 #if UNITY_EDITOR
-        // We are inside the Unity Editor.
 #if UNITY_EDITOR_OSX
 		// Unity Editor on macOS needs to use libenet.
 		private const string nativeLibrary = "libenet";
 #else
+        // All other platforms should be using "enet".
         private const string nativeLibrary = "enet";
 #endif
 #endif
+        #endregion
 
+
+        #region Standalone Specific Native Library Names
 #if !UNITY_EDITOR
-		// We're not inside the Unity Editor.
 #if __APPLE__ && !(__IOS__ || UNITY_IOS)
-		// Use libenet on macOS.
-		private const string nativeLibrary = "libenet";
+	    	// Use libenet on macOS.
+    		private const string nativeLibrary = "libenet";
 #elif __IOS__ || UNITY_IOS
-        // We're building for a certain mobile fruity OS.
-		private const string nativeLibrary = "__Internal";
+            // We're building for a certain mobile fruity OS.
+		    private const string nativeLibrary = "__Internal";
 #else
-		// Assume everything else, Windows et al.		
-		private const string nativeLibrary = "enet";
+    		// Assume everything else, Windows et al.		
+		    private const string nativeLibrary = "enet";
 #endif
 #endif
+        #endregion
 
         [DllImport(nativeLibrary, CallingConvention = CallingConvention.Cdecl)]
         internal static extern int enet_initialize();
@@ -1407,5 +1412,5 @@ namespace ENet
         public static string nativeLibraryName { get { return nativeLibrary; } }
 #endif
 
-	}
+    }
 }

@@ -213,7 +213,7 @@ namespace UI.Objects.Command
 
 		public void ServerRemoveAccessCard(ConnectedPlayer player)
 		{
-			if (console.AccessCard == null)
+			if (console.AccessCard == null || IsAIInteracting() == false)
 			{
 				return;
 			}
@@ -225,7 +225,7 @@ namespace UI.Objects.Command
 		public void ServerLogin()
 		{
 			if (console.AccessCard != null &&
-				console.AccessCard.HasAccess(Access.change_ids))
+				console.AccessCard.HasAccess(Access.change_ids) || IsAIInteracting() == true)
 			{
 				console.LoggedIn = true;
 				pageSwitcher.SetActivePage(usercardPage);

@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: 2683382063024116834}
   - component: {fileID: 5113092717492177231}
   - component: {fileID: 114670293059514580}
+  - component: {fileID: 5568331579781185768}
   m_Layer: 11
   m_Name: Power Sink
   m_TagString: Untagged
@@ -80,7 +81,7 @@ MonoBehaviour:
   syncInterval: 0.1
   matrixDebugLogging: 0
   objectType: 1
-  customNetTransform: {fileID: 0}
+  customNetTransform: {fileID: 114703946515217786}
   prefabTracker: {fileID: 0}
   CurrentsortingGroup: {fileID: 0}
   AtmosPassable: 1
@@ -211,6 +212,23 @@ MonoBehaviour:
   spriteMatrixRotationBehavior: 1
   ignoreExtraRotation: []
   RotateParent: {fileID: 0}
+--- !u!114 &5568331579781185768
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1575520830166772}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sceneId: 0
+  serverOnly: 0
+  visible: 0
+  m_AssetId: 9e712d0b1be46c44c9a8443b5bed680e
+  hasSpawned: 0
 --- !u!1 &1744594665423798
 GameObject:
   m_ObjectHideFlags: 0

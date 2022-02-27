@@ -108,6 +108,11 @@ PrefabInstance:
       propertyPath: m_WasSpriteAssigned
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 3342103684390452506, guid: b04d0f9770ef17c459a1af178889e3ba,
+        type: 3}
+      propertyPath: customNetTransform
+      value: 
+      objectReference: {fileID: 642140874673133880}
     - target: {fileID: 3342215226231398706, guid: b04d0f9770ef17c459a1af178889e3ba,
         type: 3}
       propertyPath: m_AssetId
@@ -173,6 +178,26 @@ PrefabInstance:
       propertyPath: m_Name
       value: SpaceColaCan
       objectReference: {fileID: 0}
+    - target: {fileID: 3568516159987528955, guid: b04d0f9770ef17c459a1af178889e3ba,
+        type: 3}
+      propertyPath: openingVerb
+      value: crack open a cold one to enjoy
+      objectReference: {fileID: 0}
+    - target: {fileID: 3568516159987528955, guid: b04d0f9770ef17c459a1af178889e3ba,
+        type: 3}
+      propertyPath: spriteHandler
+      value: 
+      objectReference: {fileID: 6645879072490295151}
+    - target: {fileID: 3568516159987528955, guid: b04d0f9770ef17c459a1af178889e3ba,
+        type: 3}
+      propertyPath: openingNoise.AssetAddress
+      value: Pop.prefab
+      objectReference: {fileID: 0}
+    - target: {fileID: 3568516159987528955, guid: b04d0f9770ef17c459a1af178889e3ba,
+        type: 3}
+      propertyPath: requiresOpeningBeforeConsumption
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4530569950825010222, guid: b04d0f9770ef17c459a1af178889e3ba,
         type: 3}
       propertyPath: initialReagentMix.reagents.m_keys.Array.size
@@ -207,3 +232,57 @@ PrefabInstance:
         type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b04d0f9770ef17c459a1af178889e3ba, type: 3}
+--- !u!1 &683694994805896424 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3455908610919537798, guid: b04d0f9770ef17c459a1af178889e3ba,
+    type: 3}
+  m_PrefabInstance: {fileID: 2776788492469708910}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &642140874673133880 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3341800471880413526, guid: b04d0f9770ef17c459a1af178889e3ba,
+    type: 3}
+  m_PrefabInstance: {fileID: 2776788492469708910}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 683694994805896424}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 579884b05ae74e8499329b64997147d3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &6645879072490295151 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8841627809843521281, guid: b04d0f9770ef17c459a1af178889e3ba,
+    type: 3}
+  m_PrefabInstance: {fileID: 2776788492469708910}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &4475979094345587770
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 683694994805896424}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 86536f54b4694d5a98b2f4962a473b7e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spriteHandler: {fileID: 0}
+  openingNoise:
+    SetLoadSetting: 0
+    AssetAddress: GenHit.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
+  openedSprite: {fileID: 0}
+  openingVerb: crack open a cold one and enjoy the sound of the
+  openingRequirementText: You need to open this first before using it!

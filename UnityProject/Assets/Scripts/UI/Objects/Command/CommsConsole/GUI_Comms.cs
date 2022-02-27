@@ -103,7 +103,7 @@ namespace UI.Objects.Command
 		private void ProcessIdChange(IDCard newId = null)
 		{
 			UpdateIdTexts();
-			if (newId != null)
+			if (newId != null || IsAIInteracting() == true)
 			{
 				LogIn();
 			}
@@ -250,7 +250,7 @@ namespace UI.Objects.Command
 
 		public void RemoveId(ConnectedPlayer player)
 		{
-			if (console.IdCard)
+			if (console.IdCard && IsAIInteracting() == false)
 			{
 				console.ServerRemoveIDCard(player);
 			}
@@ -264,6 +264,10 @@ namespace UI.Objects.Command
 			{
 				idLabel.SetValueServer($"{IdCard.RegisteredName}, {IdCard.GetJobTitle()}");
 			}
+			if (IsAIInteracting())
+			{
+				idLabel.SetValueServer("AI Control");
+			}
 			else
 			{
 				idLabel.SetValueServer("<No ID inserted>");
@@ -272,8 +276,12 @@ namespace UI.Objects.Command
 
 		public void LogIn()
 		{
-			if (console.IdCard == null)
+			var AI = IsAIInteracting();
+			if (console.IdCard == null && AI == false) return;
+			if (AI)
 			{
+				captainOnlySwitcher.SetActivePage(captainAccessPage);
+				OpenMenu();
 				return;
 			}
 
@@ -282,7 +290,6 @@ namespace UI.Objects.Command
 				idLabel.SetValueServer(idLabel.Value + " (No access)");
 				return;
 			}
-
 			bool isCaptain = console.IdCard.HasAccess(Access.captain);
 			captainOnlySwitcher.SetActivePage(isCaptain ? captainAccessPage : noCaptainAccessPage);
 

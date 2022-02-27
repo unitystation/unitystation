@@ -11,6 +11,7 @@ namespace AdminTools
 	public class PlayerManagePage : AdminPage
 	{
 		[SerializeField] private Toggle mentorToggle = null;
+		[SerializeField] private Toggle quickRespawnToggle = default;
 		[SerializeField] private Text mentorButtonText = null;
 		[SerializeField] private AdminRespawnPage adminRespawnPage = default;
 
@@ -64,6 +65,22 @@ namespace AdminTools
 
 		public void OnRespawnButton()
 		{
+			if (quickRespawnToggle.isOn)
+			{
+				Occupation spawnOcc = new Occupation();
+				foreach (var connectedPlayer in PlayerList.Instance.AllPlayers)
+				{
+					if(connectedPlayer.UserId != PlayerEntry.PlayerData.uid) continue;
+					spawnOcc = connectedPlayer.Script.mind.occupation;
+				}
+				if (spawnOcc == null)
+				{
+					Logger.LogError("Cannot find Occupation for selected player, they most likely haven't joined yet.");
+					return;
+				}
+				RequestRespawnPlayer.SendNormalRespawn(PlayerEntry.PlayerData.uid, spawnOcc);
+				return;
+			}
 			adminRespawnPage.SetTabsWithPlayerEntry(PlayerEntry);
 			adminTools.ShowRespawnPage();
 		}

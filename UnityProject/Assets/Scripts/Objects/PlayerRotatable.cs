@@ -12,6 +12,8 @@ namespace Objects
 	{
 		private Rotatable rotatable;
 
+		[SerializeField] [Tooltip("Allows to be rotated when It cannot be moved")]
+		private bool CanRotateIfNotMovable = false;
 
 		private void Awake()
 		{
@@ -43,7 +45,7 @@ namespace Objects
 		public bool WillInteract(ContextMenuApply interaction, NetworkSide side)
 		{
 			if (!DefaultWillInteract.Default(interaction, side)) return false;
-			if (TryGetComponent(out ObjectBehaviour behaviour) && !behaviour.IsPushable) return false;
+			if (TryGetComponent(out ObjectBehaviour behaviour) && (behaviour.IsPushable == false && CanRotateIfNotMovable == false)) return false;
 
 			return true;
 		}

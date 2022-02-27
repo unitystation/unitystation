@@ -129,7 +129,7 @@ namespace Messages.Server
 		{
 			var players = PlayerList.Instance.InGamePlayers;
 
-			for (int i = players.Count - 1; i > 0; i--)
+			for (int i = players.Count - 1; i >= 0; i--)
 			{
 				if (Vector2.Distance(worldPosition, players[i].GameObject.transform.position) > 15f) continue;
 
