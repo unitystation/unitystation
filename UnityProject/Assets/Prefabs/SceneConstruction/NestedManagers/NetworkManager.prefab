@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 2959621213063014110}
   - component: {fileID: 5032898753073590648}
   - component: {fileID: 752180679074368365}
+  - component: {fileID: 1404376226815865619}
   m_Layer: 0
   m_Name: NetworkManager
   m_TagString: NetworkManager
@@ -46,7 +47,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dontDestroyOnLoad: 1
-  PersistNetworkManagerToOfflineScene: 0
   runInBackground: 1
   autoStartServerBuild: 1
   serverTickRate: 100
@@ -55,8 +55,6 @@ MonoBehaviour:
   transport: {fileID: 752180679074368365}
   networkAddress: localhost
   maxConnections: 100
-  disconnectInactiveConnections: 0
-  disconnectInactiveTimeout: 60
   authenticator: {fileID: 0}
   playerPrefab: {fileID: 2821122072132512938, guid: 70fd2614e91344280b501ff52714aaa4,
     type: 3}
@@ -5217,11 +5215,6 @@ MonoBehaviour:
   - {fileID: 1175835517521130, guid: 98294d990ba1543649ee77325dd92bc2, type: 3}
   - {fileID: 3802977683328827285, guid: 6b7d76d0441cf764d88345e0892597b5, type: 3}
   - {fileID: 1031329663587859713, guid: c79cc2cf3609d72459060e5de64b4967, type: 3}
-  - {fileID: 7469762742606550612, guid: 94547ba02cb3143d1ab12c8af38e0776, type: 3}
-  - {fileID: 7469762742606550612, guid: 6807d1762ccaf41a3a5394fec3d63462, type: 3}
-  - {fileID: 7469762742606550612, guid: 1deb8a20d7b934c179ebd0a5e03945aa, type: 3}
-  - {fileID: 7469762742606550612, guid: 13ad67b8858d146d587fbd216359e85c, type: 3}
-  - {fileID: 7469762742606550612, guid: 49e831a8168854d889bea11fe37fc489, type: 3}
   - {fileID: 7469762742606550612, guid: 727cdf95076f5664cb82421703bb12fd, type: 3}
   - {fileID: 7469762742606550612, guid: 3d671a1669b7fc344b720f8b6456eea7, type: 3}
   - {fileID: 7469762742606550612, guid: c43de705dc38be447bee54f87e9f95fe, type: 3}
@@ -10921,8 +10914,25 @@ MonoBehaviour:
   serverBindAddress: 
   serverMaxPeerCapacity: 100
   serverMaxNativeWaitTime: 1
+  serverStatusUpdateInterval: 0
   clientMaxNativeWaitTime: 3
   clientStatusUpdateInterval: -1
   Channels: 01000000020000000100000001000000
+  ClientDataBufferSize: 1000
+  ClientConnEventBufferSize: 10
+  ServerDataBufferSize: 5000
+  ServerConnEventBufferSize: 100
   PacketBufferCapacity: 4096
   MaxAllowedPacketSize: 33554432
+--- !u!114 &1404376226815865619
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2920527550438430692}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2a6f523ec7d18a647835095a8050d74b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
