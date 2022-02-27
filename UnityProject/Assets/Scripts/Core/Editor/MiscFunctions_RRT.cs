@@ -96,15 +96,16 @@ namespace Util
 			{
 				AssetDatabase.DeleteAsset(oDe);
 			}
-
+			var AAA = FindAssetsByType<SpriteCatalogue>();
 			foreach (var Seve in ToSeve)
 			{
 				AssetDatabase.CreateAsset(Seve.Value, Seve.Key);
-				Seve.Value.Awake();
+				AAA[0].AddToCatalogue(Seve.Value);
 			}
 
 			ToSeve.Clear();
 			ToDel.Clear();
+			EditorUtility.SetDirty(AAA[0]);
 			AssetDatabase.SaveAssets();
 		}
 
@@ -122,10 +123,9 @@ namespace Util
 			var SOs = FindAssetsByType<SpriteDataSO>();
 			foreach (var SO in SOs)
 			{
-				SO.SetID = -1;
-				SO.UpdateIDLocation();
+				AAA[0].AddToCatalogue(SO);
 			}
-
+			EditorUtility.SetDirty(AAA[0]);
 			AssetDatabase.StopAssetEditing();
 			AssetDatabase.SaveAssets();
 		}
