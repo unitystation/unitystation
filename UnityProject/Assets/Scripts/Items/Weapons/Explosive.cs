@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -68,12 +69,19 @@ namespace Items.Weapons
 			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, UpdateBombPosition);
 		}
 
-		public async void Countdown()
+		[Command(requiresAuthority = false)]
+		public void CmdTellServerToCountDown()
+		{
+			StartCoroutine(Countdown());
+		}
+
+		[Server]
+		public IEnumerator Countdown()
 		{
 			countDownActive = true;
 			spriteHandler.SetSpriteSO(activeSpriteSO);
 			if (GUI != null) GUI.StartCoroutine(GUI.UpdateTimer());
-			await Task.Delay(timeToDetonate * 1000); //Delay is in milliseconds
+			yield return WaitFor.Seconds(timeToDetonate); //Delay is in milliseconds
 			Detonate();
 		}
 
@@ -103,7 +111,7 @@ namespace Items.Weapons
 			scaleSync.SetScale(new Vector3(0.6f, 0.6f, 0.6f));
 		}
 
-		public void UpdateBombPosition()
+		private void UpdateBombPosition()
 		{
 			if(attachedToObject == null) return;
 			if(attachedToObject.WorldPosServer() == gameObject.WorldPosServer()) return;
@@ -119,6 +127,13 @@ namespace Items.Weapons
 			detonateImmediatelyOnSignal = mode;
 		}
 
+		[Command(requiresAuthority = false)]
+		private void CmdTellServerToDeattachExplosive()
+		{
+			DeAttachExplosive();
+		}
+
+		[Server]
 		private void DeAttachExplosive()
 		{
 			isOnObject = false;
@@ -137,7 +152,7 @@ namespace Items.Weapons
 				Detonate();
 				return;
 			}
-			Countdown();
+			StartCoroutine(Countdown());
 		}
 
 		/// <summary>
@@ -212,7 +227,15 @@ namespace Items.Weapons
 		{
 			RightClickableResult result = new RightClickableResult();
 			if (isOnObject == false) return result;
-			return result.AddElement("Deattach", DeAttachExplosive);
+			if (CustomNetworkManager.IsServer)
+			{
+				result.AddElement("Deattach", DeAttachExplosive);
+			}
+			else
+			{
+				result.AddElement("Deattach", CmdTellServerToDeattachExplosive);
+			}
+			return result;
 		}
 
 		public void ServerPerformInteraction(InventoryApply interaction)
