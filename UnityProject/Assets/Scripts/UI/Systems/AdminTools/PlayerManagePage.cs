@@ -70,7 +70,7 @@ namespace AdminTools
 				Occupation spawnOcc = new Occupation();
 				foreach (var connectedPlayer in PlayerList.Instance.AllPlayers)
 				{
-					if(connectedPlayer.Username != PlayerEntry.PlayerData.accountName) continue;
+					if(connectedPlayer.UserId != PlayerEntry.PlayerData.uid) continue;
 					spawnOcc = connectedPlayer.Script.mind.occupation;
 				}
 				if (spawnOcc == null)
