@@ -17,6 +17,7 @@ GameObject:
   - component: {fileID: 1586879679072018965}
   - component: {fileID: 8957231011455724627}
   - component: {fileID: 114814968771014250}
+  - component: {fileID: 7253579962530362343}
   m_Layer: 11
   m_Name: SolarPanel
   m_TagString: Untagged
@@ -82,7 +83,7 @@ MonoBehaviour:
   syncInterval: 0.1
   matrixDebugLogging: 0
   objectType: 1
-  customNetTransform: {fileID: 0}
+  customNetTransform: {fileID: 114703946515217786}
   prefabTracker: {fileID: 0}
   CurrentsortingGroup: {fileID: 0}
   AtmosPassable: 1
@@ -206,6 +207,23 @@ MonoBehaviour:
   spriteMatrixRotationBehavior: 1
   ignoreExtraRotation: []
   RotateParent: {fileID: 0}
+--- !u!114 &7253579962530362343
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1575520830166772}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sceneId: 0
+  serverOnly: 0
+  visible: 0
+  m_AssetId: 97e7d03d1a301d840a18f83143835c24
+  hasSpawned: 0
 --- !u!1 &1744594665423798
 GameObject:
   m_ObjectHideFlags: 0

@@ -32,7 +32,7 @@ public class CustomNetworkManager : NetworkManager, IInitialise
 
 	/// <summary>
 	/// List of ALL prefabs in the game which can be spawned, networked or not.
-	/// use spawnPrefabs to get only networked prefabs
+	/// Use <see cref="NetworkManager.spawnPrefabs"/> to get only networked prefabs.
 	/// </summary>
 	[HideInInspector] public List<GameObject> allSpawnablePrefabs = new List<GameObject>();
 
@@ -240,6 +240,8 @@ public class CustomNetworkManager : NetworkManager, IInitialise
 			}
 		}
 
+		EditorUtility.SetDirty(this);
+		EditorUtility.SetDirty(gameObject);
 		AssetDatabase.StopAssetEditing();
 		AssetDatabase.SaveAssets();
 #endif
