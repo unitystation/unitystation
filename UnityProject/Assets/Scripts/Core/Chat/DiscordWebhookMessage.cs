@@ -6,8 +6,11 @@ using System.Net;
 using System.Text.RegularExpressions;
 using DatabaseAPI;
 using System.Collections;
+using System.Threading;
+using System.Threading.Tasks;
 using Managers;
 using Newtonsoft.Json;
+using Object = System.Object;
 
 namespace DiscordWebhook
 {
@@ -52,8 +55,7 @@ namespace DiscordWebhook
 				if (!messageSendingInProgress)
 				{
 					messageSendingInProgress = true;
-
-					_ = StartCoroutine(SendQueuedMessagesToWebhooks());
+					ThreadPool.QueueUserWorkItem( SendQueuedMessagesToWebhooks);
 				}
 
 				sendingTimer = 0;
@@ -89,7 +91,7 @@ namespace DiscordWebhook
 			ErrorMessageHashSet.Clear();
 		}
 
-		private IEnumerator SendQueuedMessagesToWebhooks()
+		private void SendQueuedMessagesToWebhooks(Object stateInfo)
 		{
 			try
 			{
@@ -109,8 +111,6 @@ namespace DiscordWebhook
 
 
 			messageSendingInProgress = false;
-
-			yield break;
 		}
 
 		private void InitDict()
