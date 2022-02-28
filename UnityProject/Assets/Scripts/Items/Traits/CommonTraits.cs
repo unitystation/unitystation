@@ -67,6 +67,7 @@ public class CommonTraits : SingletonScriptableObject<CommonTraits>
 	[BoxGroup("Characteristics")] public ItemTrait CanisterFillable;
 	[BoxGroup("Characteristics")] public ItemTrait Breakable;
 	[BoxGroup("Characteristics")] public ItemTrait EMPResistant;
+	[BoxGroup("Characteristics")] public ItemTrait Gag;
 
 	[BoxGroup("Materials")] public ItemTrait OreGeneral;
 	[BoxGroup("Materials")] public ItemTrait MetalSheet;
