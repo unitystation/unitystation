@@ -36,16 +36,14 @@ public class SpriteCatalogue : SingletonScriptableObject<SpriteCatalogue>
 
 	public void GenerateResistantCatalogue()
 	{
-		foreach (var Cata in Catalogue)
+		for (int i = 0; i < Catalogue.Count; i++)
 		{
+			var Cata = Catalogue[i];
+
 			if (Cata != null)
 			{
-				if (resistantCatalogue.ContainsKey(Cata.setID))
-				{
-					Logger.LogError("OH GOD Duplicate ID on " + Cata.name + " and " + resistantCatalogue[Cata.setID].name);
-				}
-
-				resistantCatalogue[Cata.setID] = Cata;
+				Cata.SetID = i;
+				resistantCatalogue[Cata.SetID] = Cata;
 			}
 		}
 	}
