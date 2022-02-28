@@ -87,7 +87,7 @@ namespace UI.Objects.Security
 
 		public void LogIn()
 		{
-			if (console.IdCard == null || !console.IdCard.HasAccess(Access.security) || IsAIInteracting() == false)
+			if ((console.IdCard == null || console.IdCard.HasAccess(Access.security) == false) && IsAIInteracting() == false)
 			{
 				return;
 			}
