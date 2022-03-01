@@ -282,6 +282,7 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 
 	#endregion
 
+
 	public void ServerSetLocalPosition(Vector3Int value)
 	{
 		if (LocalPositionServer == value)

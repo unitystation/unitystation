@@ -57,7 +57,7 @@ public class Matrix : MonoBehaviour
 	public bool IsLavaLand;
 
 	private CheckedComponent<MatrixMove> checkedMatrixMove;
-	public bool IsMovable => checkedMatrixMove.HasComponent;
+	public bool IsMovable => checkedMatrixMove?.HasComponent ?? false;
 
 	public MatrixMove MatrixMove => checkedMatrixMove.Component;
 

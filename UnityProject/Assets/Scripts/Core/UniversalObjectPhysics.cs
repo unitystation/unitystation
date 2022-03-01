@@ -9,8 +9,13 @@ using UnityEngine.Serialization;
 
 public class UniversalObjectPhysics : NetworkBehaviour
 {
+
+
 	public const float DEFAULT_Friction = 0.01f;
 	public const float DEFAULT_SLIDE_FRICTION = 0.003f;
+
+
+	public BoxCollider2D Collider;
 
 
 	public Vector2 newtonianMovement; //* attributes.Size -> weight
@@ -28,6 +33,10 @@ public class UniversalObjectPhysics : NetworkBehaviour
 
 	public bool onStationMovementsRound;
 
+
+	[SyncVar(hook = nameof(SyncIsNotPushable))]
+	private bool isNotPushable;
+
 	private Attributes attributes;
 	protected RegisterTile registerTile;
 
@@ -38,6 +47,7 @@ public class UniversalObjectPhysics : NetworkBehaviour
 
 	public virtual void Awake()
 	{
+		Collider = this.GetComponent<BoxCollider2D>();
 		ContextGameObjects[0] = gameObject;
 		defaultInteractionLayerMask = LayerMask.GetMask("Furniture", "Walls", "Windows", "Machines", "Players",
 			"Door Closed",
@@ -49,6 +59,12 @@ public class UniversalObjectPhysics : NetworkBehaviour
 
 	public List<PushPull> Pushing;
 	public List<IBumpableObject> Bumps;
+
+	private void SyncIsNotPushable(bool wasNotPushable, bool isNowNotPushable)
+	{
+		this.isNotPushable = isNowNotPushable;
+	}
+
 
 	public void TryTilePush(Vector2Int WorldDirection, float speed = Single.NaN)
 	{
@@ -78,13 +94,17 @@ public class UniversalObjectPhysics : NetworkBehaviour
 
 		var movetoMatrix = SetMatrixCash.GetforDirection(WorldDirection.To3Int()).Matrix;
 
-		transform.position = NewWorldPosition;
+
 		if (registerTile.Matrix != movetoMatrix)
 		{
 			registerTile.ServerSetNetworkedMatrixNetID(movetoMatrix.NetworkedMatrix.MatrixSync.netId);
 		}
 
 		registerTile.ServerSetLocalPosition((NewWorldPosition).ToLocal(movetoMatrix).RoundToInt());
+		registerTile.ClientSetLocalPosition((NewWorldPosition).ToLocal(movetoMatrix).RoundToInt());
+
+		transform.position = NewWorldPosition;
+
 	}
 
 
@@ -228,6 +248,7 @@ public class UniversalObjectPhysics : NetworkBehaviour
 
 		if (intposition != intNewposition)
 		{
+			Collider.enabled = false;
 			var hit = MatrixManager.Linecast(position,
 				LayerTypeSelection.Walls | LayerTypeSelection.Grills | LayerTypeSelection.Windows,
 				defaultInteractionLayerMask, Newposition, true);
@@ -237,6 +258,7 @@ public class UniversalObjectPhysics : NetworkBehaviour
 				Newposition = hit.HitWorld + Offset.To3();
 				newtonianMovement *= 0;
 			}
+			Collider.enabled = true;
 		}
 
 
@@ -251,6 +273,8 @@ public class UniversalObjectPhysics : NetworkBehaviour
 
 		registerTile.ServerSetLocalPosition(
 			(Newposition).ToLocal(movetoMatrix).RoundToInt()); //TODO Past matrix //TODO Update.damn client
+
+		registerTile.ClientSetLocalPosition((Newposition).ToLocal(movetoMatrix).RoundToInt());
 
 		if (newtonianMovement.magnitude < 0.01f) //Has slowed down enough
 		{
