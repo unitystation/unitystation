@@ -164,6 +164,10 @@ namespace Doors
 
 		private void TryBump()
 		{
+			if (matrix.GetFirst<FireLock>(registerTile.LocalPositionServer, true) != null)
+			{
+				if(matrix.GetFirst<FireLock>(registerTile.LocalPositionServer, true).fireAlarm.activated) return;
+			}
 			if (!isAutomatic || !allowInput)
 			{
 				return;
@@ -206,7 +210,6 @@ namespace Doors
 			}
 
 			StartInputCoolDown();
-
 		}
 
 		/// <summary>
@@ -338,6 +341,10 @@ namespace Doors
 
 		public void TryOpen(GameObject originator, bool blockClosing = false)
 		{
+			if (matrix.GetFirst<FireLock>(registerTile.LocalPositionServer, true) != null)
+			{
+				if(matrix.GetFirst<FireLock>(registerTile.LocalPositionServer, true).fireAlarm.activated) return;
+			}
 			if(IsClosed == false || isPerformingAction) return;
 
 			if(HasPower == false)
@@ -492,6 +499,11 @@ namespace Doors
 
 		public void Open(bool blockClosing = false)
 		{
+			if (matrix.GetFirst<FireLock>(registerTile.LocalPositionServer, true) != null)
+			{
+				if(matrix.GetFirst<FireLock>(registerTile.LocalPositionServer, true).fireAlarm.activated) return;
+			}
+
 			if (!this || !gameObject) return; // probably destroyed by a shuttle crash
 
 			if (!blockClosing)

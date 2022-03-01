@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Doors;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.Tilemaps;
@@ -200,8 +201,12 @@ public class Matrix : MonoBehaviour
 	/// </summary>
 	public bool CanCloseDoorAt(Vector3Int position, bool isServer)
 	{
+		if (GetFirst<FireLock>(position, isServer) != null)
+		{
+			if (GetFirst<FireLock>(position, isServer).fireAlarm.activated) return true;
+		}
 		return IsPassableAtOneMatrix(position, position, isServer) &&
-		       GetFirst<LivingHealthMasterBase>(position, isServer) == null;
+		        GetFirst<LivingHealthMasterBase>(position, isServer) == null;
 	}
 
 	/// Can one pass from `origin` to adjacent `position`?
