@@ -178,7 +178,7 @@ PrefabInstance:
     - target: {fileID: 3320711171919508498, guid: 6f371050bff8b32438f91c7c680900bb,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5295069687449651132, guid: 6f371050bff8b32438f91c7c680900bb,
         type: 3}
@@ -515,6 +515,7 @@ MonoBehaviour:
   openingVerb: spark
   openingRequirementText: You need to spark this first before using it!
   glowHandler: {fileID: 1093619615679929208}
+  sparkOnOpen: 0
   runsOutOverTime: 1
   runsOutOverSeconds: 128
   actionButton: {fileID: 2755709628018005534}
