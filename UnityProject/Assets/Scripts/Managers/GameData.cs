@@ -93,11 +93,11 @@ public class GameData : MonoBehaviour
 		}
 		catch (System.Net.Http.HttpRequestException e)
 		{
-			offlineMode = true;
+			forceOfflineMode = true;
 			return;
 		}
-
-		offlineMode = false;
+		
+		forceOfflineMode = false;
 	}
 
 
