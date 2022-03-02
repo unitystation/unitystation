@@ -341,10 +341,8 @@ namespace Doors
 
 		public void TryOpen(GameObject originator, bool blockClosing = false)
 		{
-			if (matrix.GetFirst<FireLock>(registerTile.LocalPositionServer, true) != null)
-			{
-				if(matrix.GetFirst<FireLock>(registerTile.LocalPositionServer, true).fireAlarm.activated) return;
-			}
+			var firelock = matrix.GetFirst<FireLock>(registerTile.LocalPositionServer, true);
+			if (firelock != null && firelock.fireAlarm.activated) return;
 			if(IsClosed == false || isPerformingAction) return;
 
 			if(HasPower == false)
