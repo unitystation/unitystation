@@ -164,10 +164,8 @@ namespace Doors
 
 		private void TryBump()
 		{
-			if (matrix.GetFirst<FireLock>(registerTile.LocalPositionServer, true) != null)
-			{
-				if(matrix.GetFirst<FireLock>(registerTile.LocalPositionServer, true).fireAlarm.activated) return;
-			}
+			var firelock = matrix.GetFirst<FireLock>(registerTile.LocalPositionServer, true);
+			if (firelock != null && firelock.fireAlarm.activated) return;
 			if (!isAutomatic || !allowInput)
 			{
 				return;
