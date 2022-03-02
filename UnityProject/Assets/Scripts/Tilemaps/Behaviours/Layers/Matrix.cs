@@ -201,10 +201,8 @@ public class Matrix : MonoBehaviour
 	/// </summary>
 	public bool CanCloseDoorAt(Vector3Int position, bool isServer)
 	{
-		if (GetFirst<FireLock>(position, isServer) != null)
-		{
-			if (GetFirst<FireLock>(position, isServer).fireAlarm.activated) return true;
-		}
+		var firelock = GetFirst<FireLock>(position, isServer);
+		if (firelock != null && firelock.fireAlarm.activated) return true;)
 		return IsPassableAtOneMatrix(position, position, isServer) &&
 		        GetFirst<LivingHealthMasterBase>(position, isServer) == null;
 	}
