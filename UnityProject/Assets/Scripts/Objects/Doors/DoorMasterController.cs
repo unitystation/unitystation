@@ -497,10 +497,8 @@ namespace Doors
 
 		public void Open(bool blockClosing = false)
 		{
-			if (matrix.GetFirst<FireLock>(registerTile.LocalPositionServer, true) != null)
-			{
-				if(matrix.GetFirst<FireLock>(registerTile.LocalPositionServer, true).fireAlarm.activated) return;
-			}
+			var firelock = matrix.GetFirst<FireLock>(registerTile.LocalPositionServer, true);
+			if (firelock != null && firelock.fireAlarm.activated) return;
 
 			if (!this || !gameObject) return; // probably destroyed by a shuttle crash
 
