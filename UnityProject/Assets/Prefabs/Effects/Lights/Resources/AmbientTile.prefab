@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 212464761122374868}
   - component: {fileID: 114467338736853268}
   - component: {fileID: 61839270515572568}
-  - component: {fileID: 4397741548478619613}
   m_Layer: 23
   m_Name: AmbientTile
   m_TagString: Untagged
@@ -128,20 +127,3 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
---- !u!114 &4397741548478619613
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1455342170646118}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  sceneId: 0
-  serverOnly: 0
-  visible: 0
-  m_AssetId: fd40c08c9e8ef41199b2aff06993d79d
-  hasSpawned: 0
