@@ -69,12 +69,6 @@ namespace Items.Weapons
 			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, UpdateBombPosition);
 		}
 
-		[Command(requiresAuthority = false)]
-		public void CmdTellServerToCountDown()
-		{
-			StartCoroutine(Countdown());
-		}
-
 		[Server]
 		public IEnumerator Countdown()
 		{
@@ -126,7 +120,7 @@ namespace Items.Weapons
 		{
 			detonateImmediatelyOnSignal = mode;
 		}
-
+		
 		[Command(requiresAuthority = false)]
 		private void CmdTellServerToDeattachExplosive()
 		{

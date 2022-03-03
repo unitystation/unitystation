@@ -1459,9 +1459,9 @@ MonoBehaviour:
   onValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 6018750049248943481}
-        m_TargetAssemblyTypeName: UI.GUI_Explosive, Assets
-        m_MethodName: ToggleMode
+      - m_Target: {fileID: 3249521037430449339}
+        m_TargetAssemblyTypeName: UI.Core.NetUI.NetToggle, Assets
+        m_MethodName: ExecuteClient
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1748,9 +1748,9 @@ MonoBehaviour:
   onValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 6018750049248943481}
-        m_TargetAssemblyTypeName: UI.GUI_Explosive, Assets
-        m_MethodName: ArmDevice
+      - m_Target: {fileID: 8769180498747938857}
+        m_TargetAssemblyTypeName: UI.Core.NetUI.NetToggle, Assets
+        m_MethodName: ExecuteClient
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

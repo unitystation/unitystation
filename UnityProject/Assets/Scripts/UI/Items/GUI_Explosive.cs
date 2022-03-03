@@ -74,7 +74,7 @@ namespace UI.Items
 			{
 				modeToggleButton.enabled = false;
 				armToggleButton.enabled = true;
-				explosiveDevice.CmdTellServerToCountDown();
+				StartCoroutine(explosiveDevice.Countdown());
 				UpdateStatusText();
 				return;
 			}
