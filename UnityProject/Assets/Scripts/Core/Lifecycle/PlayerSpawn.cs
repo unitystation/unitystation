@@ -32,7 +32,7 @@ public static class PlayerSpawn
 	/// <param name="characterSettings">settings to use for the character</param>
 	/// <returns>the game object of the spawned player</returns>
 	public static GameObject ServerSpawnPlayer(PlayerSpawnRequest request, JoinedViewer joinedViewer, Occupation occupation, CharacterSettings characterSettings, bool showBanner = true, Vector3Int?
-		spawnPos = null, Mind existingMind = null, NetworkConnectionToClient conn = null)
+		spawnPos = null, Mind existingMind = null, NetworkConnection conn = null)
 	{
 		if(ValidateCharacter(request) == false)
 		{
@@ -183,7 +183,7 @@ public static class PlayerSpawn
 	/// thus we shouldn't send any network message which reference's the old body's ID since it won't exist.</param>
 	///
 	/// <returns>the spawned object</returns>
-	private static GameObject ServerSpawnInternal(NetworkConnectionToClient connection, Occupation occupation, CharacterSettings characterSettings,
+	private static GameObject ServerSpawnInternal(NetworkConnection connection, Occupation occupation, CharacterSettings characterSettings,
 		Mind existingMind, Vector3Int? spawnPos = null, bool spawnItems = true, bool willDestroyOldBody = false, bool showBanner = true)
 	{
 		//determine where to spawn them
@@ -276,7 +276,7 @@ public static class PlayerSpawn
 	/// TODO: Remove need for this parameter
 	/// <param name="forConnection">object forConnection is currently in control of</param>
 	/// <param name="forMind">mind to transfer control back into their body</param>
-	public static void ServerGhostReenterBody(NetworkConnectionToClient forConnection, GameObject fromObject, Mind forMind)
+	public static void ServerGhostReenterBody(NetworkConnection forConnection, GameObject fromObject, Mind forMind)
 	{
 		var body = forMind.GetCurrentMob();
 		var oldGhost = forMind.ghost;
@@ -464,7 +464,7 @@ public static class PlayerSpawn
 		return player;
 	}
 
-	public static void ServerTransferPlayerToNewBody(NetworkConnectionToClient conn, GameObject newBody, GameObject oldBody,
+	public static void ServerTransferPlayerToNewBody(NetworkConnection conn, GameObject newBody, GameObject oldBody,
 		Event eventType, CharacterSettings characterSettings, bool willDestroyOldBody = false)
 	{
 		ServerTransferPlayer(conn, newBody, oldBody, eventType, characterSettings, willDestroyOldBody);
@@ -480,7 +480,7 @@ public static class PlayerSpawn
 	/// <param name="characterSettings">settings, ignored if transferring to an existing player body</param>
 	/// <param name="willDestroyOldBody">if true, indicates the old body is going to be destroyed rather than pooled,
 	/// thus we shouldn't send any network message which reference's the old body's ID since it won't exist.</param>
-	private static void ServerTransferPlayer(NetworkConnectionToClient conn, GameObject newBody, GameObject oldBody,
+	private static void ServerTransferPlayer(NetworkConnection conn, GameObject newBody, GameObject oldBody,
 		Event eventType, CharacterSettings characterSettings, bool willDestroyOldBody = false)
 	{
 		if (oldBody)
