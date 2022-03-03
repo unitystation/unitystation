@@ -100,10 +100,7 @@ Usage:
 
 ### NetButton
 
-NetButton is a component, that lets client call server execution on some code when pressing UI button.
-   
-When interacting with the button locally from the client; we need to fire a `ExecuteClient()` function that lets the server itself do the behavior and we hook up our custom behavior to the NetButton component itself while the actual button triggers the `ExecuteClient()` function. 
-
+NetButton is a component that lets the client call a function on the server when interacting with the Button component locally.
    
    Usage:
 
