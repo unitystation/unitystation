@@ -14,6 +14,12 @@ namespace Util
 
 		#region Constructors
 
+		public CheckedComponent()
+		{
+			HasComponent = false;
+			Component = null;
+		}
+
 		public CheckedComponent(GameObject currentGameObject)
 		{
 			ResetComponent(currentGameObject);
@@ -32,6 +38,11 @@ namespace Util
 		#endregion
 
 		#region Resets
+
+		public void DirectSetComponent(T In)
+		{
+			SetComponent(In);
+		}
 
 		public void ResetComponent(MonoBehaviour monoBehaviour)
 		{

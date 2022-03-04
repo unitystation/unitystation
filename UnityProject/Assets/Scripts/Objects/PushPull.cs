@@ -15,7 +15,7 @@ using Player.Movement;
 using Random = UnityEngine.Random;
 
 
-public class PushPull : NetworkBehaviour, IRightClickable/*, IServerSpawn*/
+public class PushPull : NetworkBehaviour/*, IServerSpawn*/
 {
 	public const float DEFAULT_PUSH_SPEED = 6;
 	/// <summary>
@@ -454,31 +454,31 @@ public class PushPull : NetworkBehaviour, IRightClickable/*, IServerSpawn*/
 		}
 	}
 
-	public RightClickableResult GenerateRightClickOptions()
-	{
-		//check if our local player can reach this
-		var initiator = PlayerManager.LocalPlayerScript.pushPull;
-		if (initiator == null) return null;
-		//if it's pulled by us
-		if (IsPulledByClient(initiator))
-		{
-			//already pulled by us, but we can stop pulling
-			return RightClickableResult.Create()
-				.AddElement("StopPull", TryPullThis);
-		}
-		else
-		{
-			// Check if in range for pulling, not trying to pull itself and it can be pulled.
-			if (Validations.IsReachableByRegisterTiles(initiator.registerTile, registerTile, false, context: gameObject) &&
-				IsPushable && initiator != this)
-			{
-				return RightClickableResult.Create()
-					.AddElement("Pull", TryPullThis);
-			}
-		}
-
-		return null;
-	}
+	// public RightClickableResult GenerateRightClickOptions()
+	// {
+	// 	//check if our local player can reach this
+	// 	var initiator = PlayerManager.LocalPlayerScript.pushPull;
+	// 	if (initiator == null) return null;
+	// 	//if it's pulled by us
+	// 	if (IsPulledByClient(initiator))
+	// 	{
+	// 		//already pulled by us, but we can stop pulling
+	// 		return RightClickableResult.Create()
+	// 			.AddElement("StopPull", TryPullThis);
+	// 	}
+	// 	else
+	// 	{
+	// 		// Check if in range for pulling, not trying to pull itself and it can be pulled.
+	// 		if (Validations.IsReachableByRegisterTiles(initiator.registerTile, registerTile, false, context: gameObject) &&
+	// 			IsPushable && initiator != this)
+	// 		{
+	// 			return RightClickableResult.Create()
+	// 				.AddElement("Pull", TryPullThis);
+	// 		}
+	// 	}
+	//
+	// 	return null;
+	// }
 
 	protected void Awake()
 	{

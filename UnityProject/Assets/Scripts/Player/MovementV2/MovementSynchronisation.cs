@@ -102,6 +102,10 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 
 				if (PushesOff) //space walking
 				{
+					if (PushesOff.TryGetComponent<UniversalObjectPhysics>(out var PhysicsObject))
+					{
+						PhysicsObject.NewtonianPush(NewMoveData.GlobalMoveDirection.TVectoro().To2Int() * -1, 0.1f);//TODO SPEED!
+					}
 					//Pushes off object for example pushing the object the other way
 				}
 
@@ -113,13 +117,13 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 				if (CausesSlipClient)
 				{
 					//SlippingOn
-					//slip
+					//slip //TODO
 				}
 
 
 				if (IsNotFloating(null, out _) == false || CausesSlipClient) //check if floating
 				{
-					//SpaceflightData Setup
+					NewtonianPush(NewMoveData.GlobalMoveDirection.TVectoro().To2Int(), 0.1f); //TODO SPEED!
 				}
 			}
 			else
