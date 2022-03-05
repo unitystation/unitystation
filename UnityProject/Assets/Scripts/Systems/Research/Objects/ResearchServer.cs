@@ -36,7 +36,7 @@ namespace Systems.Research.Objects
 			while (this != null || techweb != null)
 			{
 				yield return WaitFor.Seconds(TrickleTime);
-				techweb.SubtractResearchPoints(researchPointsTrickl);
+				techweb.AddResearchPoints(researchPointsTrickl);
 			}
 		}
 	}
