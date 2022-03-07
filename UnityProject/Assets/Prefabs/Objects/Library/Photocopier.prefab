@@ -228,9 +228,10 @@ MonoBehaviour:
   itemStoragePopulator: {fileID: 0}
   forceSpawnContents: 0
   dropItemsOnDespawn: 1
-  UesAddlistPopulater: 0
+  UesAddlistPopulater: 1
   Populater:
     SlotContents: []
-    DeprecatedContents: []
+    DeprecatedContents:
+    - {fileID: 6396562857704763032, guid: cbd7a12222367de41a635d5b41ec0ac9, type: 3}
   ashPrefab: {fileID: 2957035178188790827, guid: 9ac6968a3f3ed54428662c9aae5a4b32,
     type: 3}

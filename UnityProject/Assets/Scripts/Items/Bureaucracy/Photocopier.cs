@@ -26,9 +26,7 @@ namespace Items.Bureaucracy
 		[SerializeField] private AddressableAudioSource Copier = null;
 		[SerializeField] private ItemStorage inkStorage;
 		[SerializeField] private ItemTrait tonerTrait;
-		[SerializeField] private GameObject tonerPrefab;
-		private Toner inkCartadge;
-		public Toner InkCartadge => inkCartadge;
+		public Toner InkCartadge => inkStorage.GetTopOccupiedIndexedSlot()?.ItemObject.GetComponent<Toner>();
 
 
 		private void Awake()
@@ -38,21 +36,6 @@ namespace Items.Bureaucracy
 			printer = new Internal.Printer(0, trayCapacity, false);
 			scanner = new Internal.Scanner(false, true, null, null);
 			if (inkStorage == null) inkStorage = GetComponent<ItemStorage>();
-		}
-
-		private IEnumerator Start()
-		{
-			//We can't spawn stuff into slots on Awake() because it will screech at us
-			//We do this on Start() and after a frame when the game loads.
-			yield return WaitFor.EndOfFrame;
-			if (tonerPrefab == null) yield break;
-			foreach (var slot in inkStorage.GetItemSlots())
-			{
-				if(slot.IsOccupied) continue;
-				Inventory.ServerSpawnPrefab(tonerPrefab, slot);
-			}
-			var cartradgeSlot = inkStorage.GetTopOccupiedIndexedSlot();
-			inkCartadge = cartradgeSlot.ItemObject.GetComponent<Toner>();
 		}
 
 		public enum PhotocopierState
@@ -114,11 +97,10 @@ namespace Items.Bureaucracy
 
 		public void ServerPerformInteraction(HandApply interaction)
 		{
-			if (inkCartadge == null && interaction.UsedObject.Item().HasTrait(tonerTrait))
+			if (InkCartadge == null && interaction.UsedObject != null && interaction.UsedObject.Item().HasTrait(tonerTrait))
 			{
 				Inventory.ServerTransfer(interaction.UsedObject.GetComponent<Pickupable>().ItemSlot,
 					inkStorage.GetNextFreeIndexedSlot());
-				inkCartadge = interaction.UsedObject.GetComponent<Toner>();
 				return;
 			}
 			if (interaction.HandObject == null)
@@ -154,7 +136,6 @@ namespace Items.Bureaucracy
 		private void RemoveInkCartrdge()
 		{
 			inkStorage.ServerDropAll();
-			inkCartadge = null;
 		}
 
 		#endregion Interactions
@@ -186,7 +167,7 @@ namespace Items.Bureaucracy
 			OnGuiRenderRequired();
 		}
 
-		public bool CanPrint() => printer.CanPrint(scanner.ScannedText, photocopierState == PhotocopierState.Idle) && inkCartadge.CheckInkLevel();
+		public bool CanPrint() => printer.CanPrint(scanner.ScannedText, photocopierState == PhotocopierState.Idle) && InkCartadge.CheckInkLevel();
 
 		[Server]
 		public void Print()
@@ -210,7 +191,7 @@ namespace Items.Bureaucracy
 		public void Scan()
 		{
 			SyncPhotocopierState( PhotocopierState.Production);
-			inkCartadge.SpendInk();
+			InkCartadge.SpendInk();
 			StartCoroutine(WaitForScan());
 		}
 
@@ -242,7 +223,7 @@ namespace Items.Bureaucracy
 		public RightClickableResult GenerateRightClickOptions()
 		{
 			var result = new RightClickableResult();
-			if (inkCartadge == null) return result;
+			if (InkCartadge == null) return result;
 			result.AddElement("Remove Ink Cart", RemoveInkCartrdge);
 			return result;
 		}
