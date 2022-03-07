@@ -22,7 +22,11 @@ MonoBehaviour:
   failText: You cannot scream!
   mouthBlockedText: You try to scream but are unable to make a sound!
   critViewText: screams in pain!
+  soundsAreTyped: 1
   defaultSounds: []
-  maleSounds: []
-  femaleSounds: []
+  TypedSounds:
+  - VoiceRace: {fileID: 11400000, guid: f8cc40dce57da8d4aa283decb92b4507, type: 2}
+    VoiceDatas:
+    - VoiceSex: 1
+      Sounds: []
   pitchRange: {x: 0.7, y: 1}

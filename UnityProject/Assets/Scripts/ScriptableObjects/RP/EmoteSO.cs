@@ -1,9 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using AddressableReferences;
 using HealthV2;
 using Messages.Server.SoundMessages;
 using NaughtyAttributes;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace ScriptableObjects.RP
 {
@@ -49,17 +51,14 @@ namespace ScriptableObjects.RP
 		[SerializeField, Tooltip("Emote view text when the character is in critical condition.")]
 		protected string critViewText = "screams in pain!";
 
+		[Tooltip("Do sounds for this emote work only for specific bodyTypes/Races?")]
+		[SerializeField]
+		protected bool soundsAreTyped = false;
 		[Tooltip("A list of sounds that can be played when this emote happens.")]
 		[SerializeField]
 		protected List<AddressableAudioSource> defaultSounds = new List<AddressableAudioSource>();
-
-		[Tooltip("A list of sounds for male characters.")]
-		[SerializeField]
-		protected List<AddressableAudioSource> maleSounds = new List<AddressableAudioSource>();
-
-		[Tooltip("A list of sounds for female characters.")]
-		[SerializeField]
-		protected List<AddressableAudioSource> femaleSounds = new List<AddressableAudioSource>();
+		[SerializeField, ShowIf(nameof(soundsAreTyped))]
+		protected List<VoiceType> TypedSounds = new List<VoiceType>();
 
 		[Tooltip("Sound pitch will be randomly chosen from this range.")]
 		[SerializeField]
@@ -127,14 +126,30 @@ namespace ScriptableObjects.RP
 		{
 			player.TryGetComponent<LivingHealthMasterBase>(out var health);
 			var bodyType = health.OrNull()?.BodyType;
+			var race = CharacterSettings.GetRaceData(health.playerScript.characterSettings);
+			VoiceType voiceTypeToUse = new VoiceType();
+			foreach (var voice in TypedSounds)
+			{
+				if(race != voice.VoiceRace) continue;
+				voiceTypeToUse = voice;
+			}
 
-			//Add race checks later when lizard men, slime people and lusty xeno-maids get added after the new health system gets merged.
+			List<AddressableAudioSource> GetSounds(BodyType bodyTypeToCheck)
+			{
+				foreach (var sound in voiceTypeToUse.VoiceDatas)
+				{
+					if(sound.VoiceSex != bodyTypeToCheck) continue;
+					return sound.Sounds;
+				}
+				return defaultSounds;
+			}
+
 			switch (bodyType)
 			{
 				case (BodyType.Male):
-					return maleSounds;
+					return GetSounds(BodyType.Male);
 				case (BodyType.Female):
-					return femaleSounds;
+					return GetSounds(BodyType.Female);
 				default:
 					return defaultSounds;
 			}
@@ -208,5 +223,19 @@ namespace ScriptableObjects.RP
 
 			return true;
 		}
+	}
+
+	[Serializable]
+	public struct VoiceType
+	{
+		public PlayerHealthData VoiceRace;
+		public List<VoiceData> VoiceDatas;
+	}
+
+	[Serializable]
+	public struct VoiceData
+	{
+		public BodyType VoiceSex;
+		public List<AddressableAudioSource> Sounds;
 	}
 }
