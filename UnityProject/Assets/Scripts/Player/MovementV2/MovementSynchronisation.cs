@@ -8,11 +8,13 @@ using UnityEngine;
 
 public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllable
 {
-	public SpaceflightData SetSpaceflightData;
-
 	public bool IsCurrentlyFloating;
 	public PlayerScript playerScript;
 
+
+	public List<MoveData> MoveQueue = new List<MoveData>();
+
+	public float MoveMaxDelayQueue = 1f;
 
 	public override void Awake()
 	{
@@ -25,20 +27,17 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 		PlayerManager.SetMovementControllable(this);
 	}
 
-	public void OnEnable()
+	public override void OnEnable()
 	{
+		base.OnEnable();
 		UpdateManager.Add(CallbackType.UPDATE, ClientUpdate);
 	}
 
-	public void OnDisable()
+	public  override void OnDisable()
 	{
+		base.OnDisable();
 		UpdateManager.Remove(CallbackType.UPDATE, ClientUpdate);
 	}
-
-	public struct SpaceflightData
-	{
-	}
-
 
 	public struct MoveData
 	{
@@ -79,7 +78,7 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 
 	public void ReceivePlayerMoveAction(PlayerAction moveActions)
 	{
-		if (Time.timeAsDouble - Last < 0.15f) return;
+		if (IsMoving) return;
 		Last = Time.timeAsDouble;
 		if (moveActions.moveActions.Length == 0) return;
 		SetMatrixCash.ResetNewPosition(registerTile.WorldPosition);
@@ -104,7 +103,7 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 				{
 					if (PushesOff.TryGetComponent<UniversalObjectPhysics>(out var PhysicsObject))
 					{
-						PhysicsObject.NewtonianPush(NewMoveData.GlobalMoveDirection.TVectoro().To2Int() * -1, 0.1f);//TODO SPEED!
+						PhysicsObject.NewtonianPush(NewMoveData.GlobalMoveDirection.TVectoro().To2Int() * -1, TileMoveSpeed);//TODO SPEED!
 					}
 					//Pushes off object for example pushing the object the other way
 				}
@@ -123,7 +122,13 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 
 				if (IsNotFloating(null, out _) == false || CausesSlipClient) //check if floating
 				{
-					NewtonianPush(NewMoveData.GlobalMoveDirection.TVectoro().To2Int(), 0.1f); //TODO SPEED!
+					if (newtonianMovement.magnitude > 0)
+					{
+						Logger.Log("o3o");
+					}
+					newtonianMovement += (Vector2) NewMoveData.GlobalMoveDirection.TVectoro().To2Int().Normalize() * TileMoveSpeed;
+					Logger.LogError(newtonianMovement.ToString() +  "  Movement added! ");
+					//NewtonianPush(NewMoveData.GlobalMoveDirection.TVectoro().To2Int(), 0.1f); //TODO SPEED!
 				}
 			}
 			else
@@ -214,8 +219,20 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 	public bool IsNotFloating(MoveData? moveAction,
 		out RegisterTile CanPushOff) //Sets bool For floating
 	{
+		if (stickyMovement)
+		{
+			if (newtonianMovement.magnitude > maximumStickSpeed)
+			{
+				IsCurrentlyFloating = true;
+				CanPushOff = null;
+				return false;
+			}
+		}
+
+
 		if (IsNotFloatingTileMap())
 		{
+			if (stickyMovement) newtonianMovement *= 0;
 			IsCurrentlyFloating = false;
 			CanPushOff = null;
 			return true;
@@ -223,6 +240,7 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 
 		if (IsNotFloatingObjects(moveAction, out CanPushOff))
 		{
+			if (stickyMovement) newtonianMovement *= 0;
 			IsCurrentlyFloating = false;
 			return true;
 		}
@@ -277,8 +295,16 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 		return false;
 	}
 
-	// [Command]
-	// public void CMDRequestMove()
-	// {
-	// }
+	[Command]
+	public void CMDRequestMove(MoveData InMoveData)
+	{
+		var Age = Time.timeAsDouble - InMoveData.Timestamp;
+		if (Age > MoveMaxDelayQueue)
+		{
+			Logger.LogError($" Move message rejected because it is too old, Consider tweaking if ping is too high or Is being exploited Age {Age}");
+			return;
+
+		}
+		MoveQueue.Add(InMoveData);
+	}
 }

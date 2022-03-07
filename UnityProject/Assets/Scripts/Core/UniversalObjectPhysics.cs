@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Items;
 using Mirror;
 using Objects;
+using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.Serialization;
 using Util;
@@ -15,6 +16,9 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 
 
 	public BoxCollider2D Collider;
+
+	public float TileMoveSpeed = 1;
+	public Vector3 LocalTargetPosition;
 
 
 	public Vector2 newtonianMovement; //* attributes.Size -> weight
@@ -29,7 +33,6 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 	public float maximumStickSpeed = 1.5f;
 	//Speed In tiles per second that, The thing would able to be stop itself if it was sticky
 
-
 	public bool onStationMovementsRound;
 
 
@@ -39,7 +42,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 	private Attributes attributes;
 	protected RegisterTile registerTile;
 
-	private LayerMask defaultInteractionLayerMask;
+	public LayerMask defaultInteractionLayerMask;
 
 	public GameObject[] ContextGameObjects = new GameObject[2];
 
@@ -56,6 +59,17 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 			"HiddenWalls", "Objects");
 		attributes = GetComponent<Attributes>();
 		registerTile = GetComponent<RegisterTile>();
+		LocalTargetPosition = transform.localPosition;
+	}
+
+	public virtual void OnEnable()
+	{
+
+	}
+
+	public virtual void OnDisable()
+	{
+
 	}
 
 
@@ -97,16 +111,21 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 		var movetoMatrix = SetMatrixCash.GetforDirection(WorldDirection.To3Int()).Matrix;
 
 		var CachedPosition = registerTile.WorldPosition;
+
 		if (registerTile.Matrix != movetoMatrix)
 		{
+			var TransformCash = transform.position;
 			registerTile.ServerSetNetworkedMatrixNetID(movetoMatrix.NetworkedMatrix.MatrixSync.netId);
+			transform.position = TransformCash;
 		}
 
-		registerTile.ServerSetLocalPosition((NewWorldPosition).ToLocal(movetoMatrix).RoundToInt());
-		registerTile.ClientSetLocalPosition((NewWorldPosition).ToLocal(movetoMatrix).RoundToInt());
+		var LocalPosition = (NewWorldPosition).ToLocal(movetoMatrix);
 
-		transform.position = NewWorldPosition;
+		registerTile.ServerSetLocalPosition(LocalPosition.RoundToInt());
+		registerTile.ClientSetLocalPosition(LocalPosition.RoundToInt());
 
+		LocalTargetPosition = LocalPosition;
+		UpdateManager.Add(CallbackType.UPDATE, AnimationUpdateMe);
 		if (Pulling.HasComponent)
 		{
 			var InDirection = CachedPosition - Pulling.Component.registerTile.WorldPosition;
@@ -193,6 +212,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 		{
 			WorldDirection.Normalize();
 			newtonianMovement += WorldDirection * speed;
+			Logger.LogError("new " + newtonianMovement);
 			if (float.IsNaN(INairTime) == false)
 			{
 				airTime = INairTime;
@@ -212,6 +232,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 
 			WorldDirection.Normalize();
 			newtonianMovement += WorldDirection * speed;
+			Logger.LogError("new " + newtonianMovement);
 		}
 
 		if (newtonianMovement.magnitude > 0.01f)
@@ -238,9 +259,40 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 		}
 	}
 
+	public void AnimationUpdateMe()
+	{
+		if (IsFlyingSliding)
+		{
+			return;//Animation handled by UpdateMe
+		}
+
+		var LocalPOS = transform.localPosition;
+
+		IsMoving = LocalPOS != LocalTargetPosition;
+
+		if (IsMoving)
+		{
+			transform.localPosition = Vector3.MoveTowards(LocalPOS, LocalTargetPosition,
+				TileMoveSpeed * Time.deltaTime ); //* transform.localPosition.SpeedTo(targetPos)
+		}
+		else
+		{
+			UpdateManager.Remove(CallbackType.UPDATE, AnimationUpdateMe);
+			if (newtonianMovement.magnitude > 0.01f)
+			{
+				//It's moving add to update manager
+				UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
+			}
+		}
+	}
+
+	public bool IsFlyingSliding = false;
+
+	public bool IsMoving = false;
 
 	public void UpdateMe()
 	{
+		IsFlyingSliding = true;
 		if (PulledBy.HasComponent)
 		{
 			return; //It is recursively handled By parent
@@ -286,7 +338,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 
 
 		var position = this.transform.position;
-		var Newposition = position + newtonianMovement.To3();
+		var Newposition = position + (newtonianMovement.To3() * Time.deltaTime);
 
 		var intposition = position.RoundToInt();
 		var intNewposition = Newposition.RoundToInt();
@@ -307,7 +359,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 		}
 
 
-		this.transform.position = Newposition;
+
 
 		var movetoMatrix = MatrixManager.AtPoint(Newposition.RoundToInt(), isServer).Matrix;
 
@@ -315,7 +367,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 		{
 			registerTile.ServerSetNetworkedMatrixNetID(movetoMatrix.NetworkedMatrix.MatrixSync.netId);
 		}
-
+		this.transform.position = Newposition;
 		registerTile.ServerSetLocalPosition(
 			(Newposition).ToLocal(movetoMatrix).RoundToInt()); //TODO Past matrix //TODO Update.damn client
 
@@ -325,9 +377,9 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 		{
 			if (onStationMovementsRound)
 			{
-				this.transform.localPosition = registerTile.LocalPosition;
+				LocalTargetPosition = registerTile.LocalPosition;
 			}
-
+			IsFlyingSliding = false;
 			airTime = 0;
 			slideTime = 0;
 			UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
