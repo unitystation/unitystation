@@ -207,8 +207,6 @@ MonoBehaviour:
       m_EditorAssetChanged: 0
   inkStorage: {fileID: 4363321682485785553}
   tonerTrait: {fileID: 11400000, guid: a8fc278c0b5261540bc28aa751377e89, type: 2}
-  tonerPrefab: {fileID: 6396562857704763032, guid: cbd7a12222367de41a635d5b41ec0ac9,
-    type: 3}
 --- !u!114 &4363321682485785553
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -226,7 +224,7 @@ MonoBehaviour:
   itemStorageCapacity: {fileID: 11400000, guid: 411b6b7a74c524a91b9a38a0c692761b,
     type: 2}
   itemStoragePopulator: {fileID: 0}
-  forceSpawnContents: 0
+  forceSpawnContents: 1
   dropItemsOnDespawn: 1
   UesAddlistPopulater: 1
   Populater:
