@@ -42,15 +42,16 @@
   </PropertyGroup>
   <ItemGroup>
      <None Include="Assets\Audio Files\UI_Sounds\BloopLicense.txt" />
+     <None Include="Assets\Audio Files\voices\lizard\credits.txt" />
      <None Include="Assets\Audio Files\UI_Sounds\BlipLicense.txt" />
      <Reference Include="UnityEngine">
-     <HintPath>Q:/Fast programmes/Unity/2021.1.14f1/Editor/Data/Managed/UnityEngine/UnityEngine.dll</HintPath>
+     <HintPath>D:/UnityPath/Unity 2021.1.28f1/Editor/Data/Managed/UnityEngine/UnityEngine.dll</HintPath>
      </Reference>
      <Reference Include="UnityEngine.CoreModule">
-     <HintPath>Q:/Fast programmes/Unity/2021.1.14f1/Editor/Data/Managed/UnityEngine/UnityEngine.CoreModule.dll</HintPath>
+     <HintPath>D:/UnityPath/Unity 2021.1.28f1/Editor/Data/Managed/UnityEngine/UnityEngine.CoreModule.dll</HintPath>
      </Reference>
      <Reference Include="UnityEditor">
-     <HintPath>Q:/Fast programmes/Unity/2021.1.14f1/Editor/Data/Managed/UnityEngine/UnityEditor.dll</HintPath>
+     <HintPath>D:/UnityPath/Unity 2021.1.28f1/Editor/Data/Managed/UnityEngine/UnityEditor.dll</HintPath>
      </Reference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
