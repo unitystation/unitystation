@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 7994915962571585996}
   - component: {fileID: 8028225034354838132}
-  - component: {fileID: 8028218387555133124}
   - component: {fileID: 8028062986537714290}
   m_Layer: 0
   m_Name: CraftingManager
@@ -190,20 +189,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 99567bdc2b28a7741af1b343a4578114, type: 2}
   - {fileID: 11400000, guid: b7ce9f6cefef7fa4f88b853789e97c7d, type: 2}
   - {fileID: 11400000, guid: 32aef3ad0de4a5241883eb5d3f1069b9, type: 2}
-  techweb: {fileID: 8028218387555133124}
+  techweb: {fileID: 0}
   designs: {fileID: 8028062986537714290}
---- !u!114 &8028218387555133124
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7996566660215339404}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 54e594b0284d84e408da2c6a641c97db, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &8028062986537714290
 MonoBehaviour:
   m_ObjectHideFlags: 0
