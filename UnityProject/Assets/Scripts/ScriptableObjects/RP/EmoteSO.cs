@@ -124,11 +124,9 @@ namespace ScriptableObjects.RP
 		/// </summary>
 		protected List<AddressableAudioSource> GetBodyTypeAudio(GameObject player)
 		{
-			player.TryGetComponent<LivingHealthMasterBase>(out var health);
-			var bodyType = health.OrNull()?.BodyType;
-			if (bodyType == null) return defaultSounds; //if we can't find the player's body type, return default sounds.
-
-			var race = CharacterSettings.GetRaceData(health.playerScript.characterSettings);
+			player.TryGetComponent<PlayerScript>(out var playerScript);
+			var bodyType = playerScript.characterSettings.BodyType;
+			var race = CharacterSettings.GetRaceData(playerScript.characterSettings);
 			VoiceType voiceTypeToUse = new VoiceType();
 			//Get the player's species
 			foreach (var voice in TypedSounds)
@@ -148,6 +146,8 @@ namespace ScriptableObjects.RP
 				Debug.Log($"using default sounds");
 				return defaultSounds;
 			}
+
+			Debug.Log($"Fetching bodyType -> {bodyType}");
 
 			switch (bodyType)
 			{
