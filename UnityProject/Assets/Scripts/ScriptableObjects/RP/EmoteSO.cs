@@ -109,13 +109,10 @@ namespace ScriptableObjects.RP
 				return;
 			}
 
-			var audioSourceParameters = new AudioSourceParameters(pitch: Random.Range(pitchRange.x, pitchRange.y));
+			var audioSourceParameters = new AudioSourceParameters(Random.Range(pitchRange.x, pitchRange.y), 100f);
 
-			SoundManager.PlayNetworkedAtPos(
-				audio.PickRandom(),
-				player.AssumedWorldPosServer(),
-				audioSourceParameters,
-				true);
+			_ = SoundManager.PlayNetworkedAtPosAsync(audio.PickRandom(), player.AssumedWorldPosServer(),
+				audioSourceParameters);
 		}
 
 		/// <summary>
@@ -124,11 +121,12 @@ namespace ScriptableObjects.RP
 		/// </summary>
 		protected List<AddressableAudioSource> GetBodyTypeAudio(GameObject player)
 		{
-			player.TryGetComponent<PlayerScript>(out var playerScript);
+			//TODO : Allow non-players to have sounds based on their Race/Sex
+			if(player.TryGetComponent<PlayerScript>(out var playerScript) == false) return defaultSounds;
 			var bodyType = playerScript.characterSettings.BodyType;
+			//Get the player's species
 			var race = CharacterSettings.GetRaceData(playerScript.characterSettings);
 			VoiceType voiceTypeToUse = new VoiceType();
-			//Get the player's species
 			foreach (var voice in TypedSounds)
 			{
 				if(race != voice.VoiceRace) continue;
@@ -139,6 +137,7 @@ namespace ScriptableObjects.RP
 			{
 				foreach (var sound in voiceTypeToUse.VoiceDatas)
 				{
+					Debug.Log($"Comparing {sound.VoiceSex} to {bodyType} -> {sound.VoiceSex == bodyType}");
 					if(sound.VoiceSex != bodyTypeToCheck) continue;
 					Debug.Log($"using {sound.ToString()} for sounds");
 					return sound.Sounds;
@@ -146,8 +145,6 @@ namespace ScriptableObjects.RP
 				Debug.Log($"using default sounds");
 				return defaultSounds;
 			}
-
-			Debug.Log($"Fetching bodyType -> {bodyType}");
 
 			switch (bodyType)
 			{
