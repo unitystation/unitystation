@@ -11,6 +11,7 @@ using Effects.Overlays;
 using ScriptableObjects;
 using Systems.Atmospherics;
 using Systems.Explosions;
+using Systems.Interaction;
 
 
 /// <summary>
@@ -125,6 +126,7 @@ public class Integrity : NetworkBehaviour, IHealth, IFireExposable, IRightClicka
 	private RegisterTile registerTile;
 	public RegisterTile RegisterTile => registerTile;
 	private IPushable pushable;
+	public Meleeable Meleeable => GetComponent<Meleeable>();
 
 	//The current integrity divided by the initial integrity
 	public float PercentageDamaged => integrity.Approx(0) ? 0 : integrity / initialIntegrity;
@@ -304,10 +306,8 @@ public class Integrity : NetworkBehaviour, IHealth, IFireExposable, IRightClicka
 	{
 		if (!destroyed && integrity <= 0)
 		{
-			Profiler.BeginSample("IntegrityOnWillDestroy");
 			var destructInfo = new DestructionInfo(lastDamageType, this);
 			OnWillDestroyServer.Invoke(destructInfo);
-			Profiler.EndSample();
 
 			if (onFire)
 			{
