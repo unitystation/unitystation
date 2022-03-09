@@ -110,8 +110,10 @@ namespace ScriptableObjects.RP
 			}
 
 			var audioSourceParameters = new AudioSourceParameters(Random.Range(pitchRange.x, pitchRange.y), 100f);
+			var audioToPlay = audio.PickRandom();
+			Debug.Log($"playing {audioToPlay.AssetAddress} || {audioToPlay.AssetReference}");
 
-			_ = SoundManager.PlayNetworkedAtPosAsync(audio.PickRandom(), player.AssumedWorldPosServer(),
+			_ = SoundManager.PlayNetworkedAtPosAsync(audioToPlay, player.AssumedWorldPosServer(),
 				audioSourceParameters);
 		}
 
