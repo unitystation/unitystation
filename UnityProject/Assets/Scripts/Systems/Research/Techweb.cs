@@ -6,7 +6,7 @@ using UnityEngine;
 namespace Systems.Research
 {
 
-	public class Techweb : MonoBehaviour
+	public class Techweb
 	{
 		public List<TechWebNode> nodes = new List<TechWebNode>();
 		public int researchPoints = 10000;
