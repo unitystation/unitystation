@@ -1,11 +1,12 @@
 ﻿using System.Collections.Generic;
 using Systems.Research.Data;
 using Systems.Research.ImporterExporter;
+using UnityEngine;
 
 namespace Systems.Research
 {
 
-	public class Techweb
+	public class Techweb : MonoBehaviour
 	{
 		public List<TechWebNode> nodes = new List<TechWebNode>();
 		public int researchPoints = 10000;
