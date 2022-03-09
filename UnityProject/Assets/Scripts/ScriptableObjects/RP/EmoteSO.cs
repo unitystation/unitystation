@@ -126,8 +126,11 @@ namespace ScriptableObjects.RP
 		{
 			player.TryGetComponent<LivingHealthMasterBase>(out var health);
 			var bodyType = health.OrNull()?.BodyType;
+			if (bodyType == null) return defaultSounds; //if we can't find the player's body type, return default sounds.
+
 			var race = CharacterSettings.GetRaceData(health.playerScript.characterSettings);
 			VoiceType voiceTypeToUse = new VoiceType();
+			//Get the player's species
 			foreach (var voice in TypedSounds)
 			{
 				if(race != voice.VoiceRace) continue;
@@ -138,9 +141,11 @@ namespace ScriptableObjects.RP
 			{
 				foreach (var sound in voiceTypeToUse.VoiceDatas)
 				{
-					if(sound.VoiceSex != bodyTypeToCheck && sound.Sounds.Count != 0) continue;
+					if(sound.VoiceSex != bodyTypeToCheck) continue;
+					Debug.Log($"using {sound.ToString()} for sounds");
 					return sound.Sounds;
 				}
+				Debug.Log($"using default sounds");
 				return defaultSounds;
 			}
 
@@ -150,7 +155,7 @@ namespace ScriptableObjects.RP
 					return GetSounds(BodyType.Male);
 				case (BodyType.Female):
 					return GetSounds(BodyType.Female);
-				default:
+				default: //for body types other than Male and Female (ex : Non-binary)
 					return defaultSounds;
 			}
 		}
