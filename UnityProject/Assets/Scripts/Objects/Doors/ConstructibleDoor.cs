@@ -135,7 +135,7 @@ namespace Doors
 			//When spawning the assembly prefab in the object's place, copy it's access restrictions.
 			AccessRestrictions airlockAccess = GetComponentInChildren<AccessRestrictions>();
 
-			//(Max) : This seems like it's prone to error, I recommend making the assembly part of the door prefab itself and not another one.
+			//(Max) : This seems like it's prone to error, I recommend making the assembly part inside of the door prefab itself and not another one.
 			var doorAssembly = Spawn.ServerPrefab(airlockAssemblyPrefab, SpawnDestination.At(gameObject)).GameObject;
 			if (doorAssembly != null && AirlockElectronicsPrefab != null && airlockAccess != null &&
 			    doorAssembly.TryGetComponent<AirlockAssembly>(out var assembly))
