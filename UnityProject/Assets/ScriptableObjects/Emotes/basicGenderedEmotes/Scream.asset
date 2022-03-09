@@ -23,10 +23,186 @@ MonoBehaviour:
   mouthBlockedText: You try to scream but are unable to make a sound!
   critViewText: screams in pain!
   soundsAreTyped: 1
-  defaultSounds: []
+  defaultSounds:
+  - SetLoadSetting: 0
+    AssetAddress: defaultscream.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
   TypedSounds:
   - VoiceRace: {fileID: 11400000, guid: f8cc40dce57da8d4aa283decb92b4507, type: 2}
     VoiceDatas:
     - VoiceSex: 1
-      Sounds: []
+      Sounds:
+      - SetLoadSetting: 0
+        AssetAddress: MaleScream1.prefab
+        AssetReference:
+          m_AssetGUID: 
+          m_SubObjectName: 
+          m_SubObjectType: 
+      - SetLoadSetting: 0
+        AssetAddress: MaleScream2.prefab
+        AssetReference:
+          m_AssetGUID: 
+          m_SubObjectName: 
+          m_SubObjectType: 
+      - SetLoadSetting: 0
+        AssetAddress: MaleScream3.prefab
+        AssetReference:
+          m_AssetGUID: 
+          m_SubObjectName: 
+          m_SubObjectType: 
+      - SetLoadSetting: 0
+        AssetAddress: MaleScream4.prefab
+        AssetReference:
+          m_AssetGUID: 
+          m_SubObjectName: 
+          m_SubObjectType: 
+      - SetLoadSetting: 0
+        AssetAddress: MaleScream5.prefab
+        AssetReference:
+          m_AssetGUID: 
+          m_SubObjectName: 
+          m_SubObjectType: 
+      - SetLoadSetting: 0
+        AssetAddress: MaleScream6.prefab
+        AssetReference:
+          m_AssetGUID: 
+          m_SubObjectName: 
+          m_SubObjectType: 
+    - VoiceSex: 2
+      Sounds:
+      - SetLoadSetting: 0
+        AssetAddress: FemaleScream1.prefab
+        AssetReference:
+          m_AssetGUID: 
+          m_SubObjectName: 
+          m_SubObjectType: 
+      - SetLoadSetting: 0
+        AssetAddress: FemaleScream2.prefab
+        AssetReference:
+          m_AssetGUID: 
+          m_SubObjectName: 
+          m_SubObjectType: 
+      - SetLoadSetting: 0
+        AssetAddress: FemaleScream3.prefab
+        AssetReference:
+          m_AssetGUID: 
+          m_SubObjectName: 
+          m_SubObjectType: 
+      - SetLoadSetting: 0
+        AssetAddress: FemaleScream4.prefab
+        AssetReference:
+          m_AssetGUID: 
+          m_SubObjectName: 
+          m_SubObjectType: 
+      - SetLoadSetting: 0
+        AssetAddress: FemaleScream5.prefab
+        AssetReference:
+          m_AssetGUID: 
+          m_SubObjectName: 
+          m_SubObjectType: 
+  - VoiceRace: {fileID: 11400000, guid: 4c4d0af544e2b6847a3902db71f721fd, type: 2}
+    VoiceDatas:
+    - VoiceSex: 1
+      Sounds:
+      - SetLoadSetting: 0
+        AssetAddress: MothScream.prefab
+        AssetReference:
+          m_AssetGUID: 
+          m_SubObjectName: 
+          m_SubObjectType: 
+    - VoiceSex: 2
+      Sounds:
+      - SetLoadSetting: 0
+        AssetAddress: MothScream.prefab
+        AssetReference:
+          m_AssetGUID: 
+          m_SubObjectName: 
+          m_SubObjectType: 
+  - VoiceRace: {fileID: 11400000, guid: f0deb843b714e8f4590d893251718804, type: 2}
+    VoiceDatas:
+    - VoiceSex: 1
+      Sounds:
+      - SetLoadSetting: 0
+        AssetAddress: FelinidScream.prefab
+        AssetReference:
+          m_AssetGUID: 
+          m_SubObjectName: 
+          m_SubObjectType: 
+      - SetLoadSetting: 0
+        AssetAddress: FelinidScream2.prefab
+        AssetReference:
+          m_AssetGUID: 
+          m_SubObjectName: 
+          m_SubObjectType: 
+    - VoiceSex: 2
+      Sounds:
+      - SetLoadSetting: 0
+        AssetAddress: FelinidScream.prefab
+        AssetReference:
+          m_AssetGUID: 
+          m_SubObjectName: 
+          m_SubObjectType: 
+      - SetLoadSetting: 0
+        AssetAddress: FelinidScream2.prefab
+        AssetReference:
+          m_AssetGUID: 
+          m_SubObjectName: 
+          m_SubObjectType: 
+  - VoiceRace: {fileID: 11400000, guid: 078513666ca7a3540bf3c90b08eb66da, type: 2}
+    VoiceDatas:
+    - VoiceSex: 2
+      Sounds:
+      - SetLoadSetting: 0
+        AssetAddress: LizardScream1.prefab
+        AssetReference:
+          m_AssetGUID: 
+          m_SubObjectName: 
+          m_SubObjectType: 
+      - SetLoadSetting: 0
+        AssetAddress: LizardScream2.prefab
+        AssetReference:
+          m_AssetGUID: 
+          m_SubObjectName: 
+          m_SubObjectType: 
+      - SetLoadSetting: 0
+        AssetAddress: LizardScream3.prefab
+        AssetReference:
+          m_AssetGUID: 
+          m_SubObjectName: 
+          m_SubObjectType: 
+      - SetLoadSetting: 0
+        AssetAddress: LizardScream4.prefab
+        AssetReference:
+          m_AssetGUID: 
+          m_SubObjectName: 
+          m_SubObjectType: 
+    - VoiceSex: 1
+      Sounds:
+      - SetLoadSetting: 0
+        AssetAddress: LizardScream1.prefab
+        AssetReference:
+          m_AssetGUID: 
+          m_SubObjectName: 
+          m_SubObjectType: 
+      - SetLoadSetting: 0
+        AssetAddress: LizardScream2.prefab
+        AssetReference:
+          m_AssetGUID: 
+          m_SubObjectName: 
+          m_SubObjectType: 
+      - SetLoadSetting: 0
+        AssetAddress: LizardScream3.prefab
+        AssetReference:
+          m_AssetGUID: 
+          m_SubObjectName: 
+          m_SubObjectType: 
+      - SetLoadSetting: 0
+        AssetAddress: LizardScream4.prefab
+        AssetReference:
+          m_AssetGUID: 
+          m_SubObjectName: 
+          m_SubObjectType: 
   pitchRange: {x: 0.7, y: 1}

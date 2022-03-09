@@ -138,7 +138,7 @@ namespace ScriptableObjects.RP
 			{
 				foreach (var sound in voiceTypeToUse.VoiceDatas)
 				{
-					if(sound.VoiceSex != bodyTypeToCheck) continue;
+					if(sound.VoiceSex != bodyTypeToCheck && sound.Sounds.Count != 0) continue;
 					return sound.Sounds;
 				}
 				return defaultSounds;
