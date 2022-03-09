@@ -145,7 +145,6 @@ GameObject:
   - component: {fileID: 6823660321646013446}
   - component: {fileID: 1843120180507275860}
   - component: {fileID: 4544707970122486633}
-  - component: {fileID: 6810823473946284427}
   m_Layer: 0
   m_Name: TabTechWeb
   m_TagString: Untagged
@@ -211,30 +210,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   disableDrag: 0
   resetPositionOnDisable: 1
---- !u!114 &6810823473946284427
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 36128323398816195}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a67344fc1b60f544abdbd7ba0c3c1b57, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Hidden: 0
-  isPopOut: 1
-  Type: 50
-  OnTabClosed:
-    m_PersistentCalls:
-      m_Calls: []
-  OnTabOpened:
-    m_PersistentCalls:
-      m_Calls: []
-  nodePrefab: {fileID: 446317660922249930}
-  nodes: {fileID: 368713424300734301}
-  pointText: {fileID: 689753878064227239}
 --- !u!1 &368713424300734301
 GameObject:
   m_ObjectHideFlags: 0
@@ -917,7 +892,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5704494379059875396}
-  - component: {fileID: 446317660922249930}
   m_Layer: 5
   m_Name: NodeItem
   m_TagString: Untagged
@@ -946,35 +920,6 @@ RectTransform:
   m_AnchoredPosition: {x: 641.0001, y: 197.74329}
   m_SizeDelta: {x: 400, y: 150}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &446317660922249930
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4345861383668656136}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c8d1e60e3f6f0324589bfe697e63b404, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  techData:
-    ID: 
-    DisplayName: 
-    Description: 
-    StartingNode: 0
-    RequiredTechnologies: []
-    DesignIDs: []
-    ResearchCosts: 0
-    ExportPrice: 0
-    PotentialUnlocks: []
-    prefabID: 
-    techType: 0
-  background: {fileID: 8035229844865006857}
-  dataImage: {fileID: 7783515927123260535}
-  nodeTitle: {fileID: 8172089311224060981}
-  description: {fileID: 0}
-  costText: {fileID: 3856306276897093422}
 --- !u!1 &6424184530845946094
 GameObject:
   m_ObjectHideFlags: 0
@@ -1208,7 +1153,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 6810823473946284427}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: UI.Items.GUI_TechWeb, Assets
         m_MethodName: HideUI
         m_Mode: 1
