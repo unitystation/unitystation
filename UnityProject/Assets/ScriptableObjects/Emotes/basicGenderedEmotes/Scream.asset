@@ -25,7 +25,7 @@ MonoBehaviour:
   soundsAreTyped: 1
   defaultSounds:
   - SetLoadSetting: 0
-    AssetAddress: defaultscream.prefab
+    AssetAddress: Assets/Prefabs/Voices/Human/Screams/defaultscream.prefab
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
@@ -36,37 +36,37 @@ MonoBehaviour:
     - VoiceSex: 1
       Sounds:
       - SetLoadSetting: 0
-        AssetAddress: MaleScream1.prefab
+        AssetAddress: Assets/Prefabs/Voices/Human/Screams/MaleScream1.prefab
         AssetReference:
           m_AssetGUID: 
           m_SubObjectName: 
           m_SubObjectType: 
       - SetLoadSetting: 0
-        AssetAddress: MaleScream2.prefab
+        AssetAddress: Assets/Prefabs/Voices/Human/Screams/MaleScream2.prefab
         AssetReference:
           m_AssetGUID: 
           m_SubObjectName: 
           m_SubObjectType: 
       - SetLoadSetting: 0
-        AssetAddress: MaleScream3.prefab
+        AssetAddress: Assets/Prefabs/Voices/Human/Screams/MaleScream3.prefab
         AssetReference:
           m_AssetGUID: 
           m_SubObjectName: 
           m_SubObjectType: 
       - SetLoadSetting: 0
-        AssetAddress: MaleScream4.prefab
+        AssetAddress: Assets/Prefabs/Voices/Human/Screams/MaleScream4.prefab
         AssetReference:
           m_AssetGUID: 
           m_SubObjectName: 
           m_SubObjectType: 
       - SetLoadSetting: 0
-        AssetAddress: MaleScream5.prefab
+        AssetAddress: Assets/Prefabs/Voices/Human/Screams/MaleScream5.prefab
         AssetReference:
           m_AssetGUID: 
           m_SubObjectName: 
           m_SubObjectType: 
       - SetLoadSetting: 0
-        AssetAddress: MaleScream6.prefab
+        AssetAddress: Assets/Prefabs/Voices/Human/Screams/MaleScream6.prefab
         AssetReference:
           m_AssetGUID: 
           m_SubObjectName: 
@@ -74,31 +74,31 @@ MonoBehaviour:
     - VoiceSex: 2
       Sounds:
       - SetLoadSetting: 0
-        AssetAddress: FemaleScream1.prefab
+        AssetAddress: Assets/Prefabs/Voices/Human/Screams/FemaleScream1.prefab
         AssetReference:
           m_AssetGUID: 
           m_SubObjectName: 
           m_SubObjectType: 
       - SetLoadSetting: 0
-        AssetAddress: FemaleScream2.prefab
+        AssetAddress: Assets/Prefabs/Voices/Human/Screams/FemaleScream2.prefab
         AssetReference:
           m_AssetGUID: 
           m_SubObjectName: 
           m_SubObjectType: 
       - SetLoadSetting: 0
-        AssetAddress: FemaleScream3.prefab
+        AssetAddress: Assets/Prefabs/Voices/Human/Screams/FemaleScream3.prefab
         AssetReference:
           m_AssetGUID: 
           m_SubObjectName: 
           m_SubObjectType: 
       - SetLoadSetting: 0
-        AssetAddress: FemaleScream4.prefab
+        AssetAddress: Assets/Prefabs/Voices/Human/Screams/FemaleScream4.prefab
         AssetReference:
           m_AssetGUID: 
           m_SubObjectName: 
           m_SubObjectType: 
       - SetLoadSetting: 0
-        AssetAddress: FemaleScream5.prefab
+        AssetAddress: Assets/Prefabs/Voices/Human/Screams/FemaleScream5.prefab
         AssetReference:
           m_AssetGUID: 
           m_SubObjectName: 
@@ -108,7 +108,7 @@ MonoBehaviour:
     - VoiceSex: 1
       Sounds:
       - SetLoadSetting: 0
-        AssetAddress: MothScream.prefab
+        AssetAddress: Assets/Prefabs/Voices/Moth/Scream/MothScream.prefab
         AssetReference:
           m_AssetGUID: 
           m_SubObjectName: 
@@ -116,7 +116,7 @@ MonoBehaviour:
     - VoiceSex: 2
       Sounds:
       - SetLoadSetting: 0
-        AssetAddress: MothScream.prefab
+        AssetAddress: Assets/Prefabs/Voices/Moth/Scream/MothScream.prefab
         AssetReference:
           m_AssetGUID: 
           m_SubObjectName: 
@@ -126,13 +126,13 @@ MonoBehaviour:
     - VoiceSex: 1
       Sounds:
       - SetLoadSetting: 0
-        AssetAddress: FelinidScream.prefab
+        AssetAddress: Assets/Prefabs/Voices/Feliend/Screams/FelinidScream.prefab
         AssetReference:
           m_AssetGUID: 
           m_SubObjectName: 
           m_SubObjectType: 
       - SetLoadSetting: 0
-        AssetAddress: FelinidScream2.prefab
+        AssetAddress: Assets/Prefabs/Voices/Feliend/Screams/FelinidScream2.prefab
         AssetReference:
           m_AssetGUID: 
           m_SubObjectName: 
@@ -140,13 +140,13 @@ MonoBehaviour:
     - VoiceSex: 2
       Sounds:
       - SetLoadSetting: 0
-        AssetAddress: FelinidScream.prefab
+        AssetAddress: Assets/Prefabs/Voices/Feliend/Screams/FelinidScream.prefab
         AssetReference:
           m_AssetGUID: 
           m_SubObjectName: 
           m_SubObjectType: 
       - SetLoadSetting: 0
-        AssetAddress: FelinidScream2.prefab
+        AssetAddress: Assets/Prefabs/Voices/Feliend/Screams/FelinidScream2.prefab
         AssetReference:
           m_AssetGUID: 
           m_SubObjectName: 
@@ -156,25 +156,25 @@ MonoBehaviour:
     - VoiceSex: 2
       Sounds:
       - SetLoadSetting: 0
-        AssetAddress: LizardScream1.prefab
+        AssetAddress: Assets/Prefabs/Voices/Lizard/Screams/LizardScream1.prefab
         AssetReference:
           m_AssetGUID: 
           m_SubObjectName: 
           m_SubObjectType: 
       - SetLoadSetting: 0
-        AssetAddress: LizardScream2.prefab
+        AssetAddress: Assets/Prefabs/Voices/Lizard/Screams/LizardScream2.prefab
         AssetReference:
           m_AssetGUID: 
           m_SubObjectName: 
           m_SubObjectType: 
       - SetLoadSetting: 0
-        AssetAddress: LizardScream3.prefab
+        AssetAddress: Assets/Prefabs/Voices/Lizard/Screams/LizardScream3.prefab
         AssetReference:
           m_AssetGUID: 
           m_SubObjectName: 
           m_SubObjectType: 
       - SetLoadSetting: 0
-        AssetAddress: LizardScream4.prefab
+        AssetAddress: Assets/Prefabs/Voices/Lizard/Screams/LizardScream4.prefab
         AssetReference:
           m_AssetGUID: 
           m_SubObjectName: 
@@ -182,25 +182,25 @@ MonoBehaviour:
     - VoiceSex: 1
       Sounds:
       - SetLoadSetting: 0
-        AssetAddress: LizardScream1.prefab
+        AssetAddress: Assets/Prefabs/Voices/Lizard/Screams/LizardScream1.prefab
         AssetReference:
           m_AssetGUID: 
           m_SubObjectName: 
           m_SubObjectType: 
       - SetLoadSetting: 0
-        AssetAddress: LizardScream2.prefab
+        AssetAddress: Assets/Prefabs/Voices/Lizard/Screams/LizardScream2.prefab
         AssetReference:
           m_AssetGUID: 
           m_SubObjectName: 
           m_SubObjectType: 
       - SetLoadSetting: 0
-        AssetAddress: LizardScream3.prefab
+        AssetAddress: Assets/Prefabs/Voices/Lizard/Screams/LizardScream3.prefab
         AssetReference:
           m_AssetGUID: 
           m_SubObjectName: 
           m_SubObjectType: 
       - SetLoadSetting: 0
-        AssetAddress: LizardScream4.prefab
+        AssetAddress: Assets/Prefabs/Voices/Lizard/Screams/LizardScream4.prefab
         AssetReference:
           m_AssetGUID: 
           m_SubObjectName: 
