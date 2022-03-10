@@ -8,6 +8,7 @@ namespace Core.Chat
 	public class EmoteActionManager : Managers.SingletonManager<EmoteActionManager>
 	{
 		[SerializeField] private EmoteListSO emoteList;
+		public EmoteListSO EmoteList => emoteList;
 
 		public static bool HasEmote(string emote, EmoteActionManager instance)
 		{

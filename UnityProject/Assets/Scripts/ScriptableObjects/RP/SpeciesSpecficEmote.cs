@@ -12,18 +12,20 @@ namespace ScriptableObjects.RP
 
 		public override void Do(GameObject player)
 		{
-			if (player.TryGetComponent<PlayerScript>(out var playerScript) == false)
-			{
-				FailText(player, FailType.Normal);
-				return;
-			}
-			var race = CharacterSettings.GetRaceData(playerScript.characterSettings);
-			if (race == null || allowedSpecies.Contains(race) == false)
+			if (IsSameSpecies(player) == false)
 			{
 				Chat.AddExamineMsg(player, wrongSpeciesText);
 				return;
 			}
 			base.Do(player);
+		}
+
+		public bool IsSameSpecies(GameObject mobToCheck)
+		{
+			if (mobToCheck.TryGetComponent<PlayerScript>(out var playerScript) == false) return false;
+			var race = CharacterSettings.GetRaceData(playerScript.characterSettings);
+			if (race == null || allowedSpecies.Contains(race) == false) return false;
+			return true;
 		}
 	}
 }
