@@ -188,7 +188,6 @@ namespace ScriptableObjects.RP
 		/// </summary>
 		protected static bool CheckIfPlayerIsGagged(GameObject player)
 		{
-			Logger.Log("Checking if player is gagged");
 			//TODO : This sort of thing should be checked on the player script when reworking telecomms and adding a proper silencing system
 			if(player.TryGetComponent<PlayerScript>(out var script) == false) return false;
 			if (script.mind.occupation.JobType == JobType.MIME) return true; //FIXME : Find a way to check if vow of silence is broken
