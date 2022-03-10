@@ -10,18 +10,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 0}
-  m_Name: Awoo
+  m_Name: Awooooo
   m_EditorClassIdentifier: Assets:ScriptableObjects.RP:SpeciesSpecificEmote
   emoteName: Awoo
   requiresHands: 0
-  allowEmoteWhileInCrit: 1
-  isAudibleEmote: 0
+  allowEmoteWhileInCrit: 0
+  isAudibleEmote: 1
   allowEmoteWhileCrawling: 1
-  viewText: lets out an awoo!
-  youText: You let out an awo!
+  viewText: awoos!
+  youText: let out an awoo!
   failText: You were unable to preform this action!
   mouthBlockedText: You are unable to make a sound!
-  critViewText: awoo in pain..
+  critViewText: 
   soundsAreTyped: 0
   defaultSounds:
   - SetLoadSetting: 0

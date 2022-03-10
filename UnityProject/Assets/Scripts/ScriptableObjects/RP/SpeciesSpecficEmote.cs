@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace ScriptableObjects.RP
 {
-	[CreateAssetMenu(fileName = "Emote", menuName = "ScriptableObjects/RP/Emotes/SpeciesSpecificEmote")]
+	[CreateAssetMenu(fileName = "SpeciesSpecificEmote", menuName = "ScriptableObjects/RP/Emotes/SpeciesSpecificEmote")]
 	public class SpeciesSpecificEmote : GenderedEmote
 	{
 
