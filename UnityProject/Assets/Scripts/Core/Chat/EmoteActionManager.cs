@@ -5,16 +5,15 @@ using UnityEngine;
 
 namespace Core.Chat
 {
-	public class EmoteActionManager : MonoBehaviour
+	public class EmoteActionManager : Managers.SingletonManager<EmoteActionManager>
 	{
-		[SerializeField]
-		private List<EmoteSO> emotes;
+		[SerializeField] private EmoteListSO emoteList;
 
 		public static bool HasEmote(string emote, EmoteActionManager instance)
 		{
 			string[] emoteArray = emote.Split(' ');
 
-			foreach (var e in instance.emotes)
+			foreach (var e in instance.emoteList.Emotes)
 			{
 				if(emoteArray[0].Equals(e.EmoteName, StringComparison.CurrentCultureIgnoreCase))
 				{
@@ -26,13 +25,22 @@ namespace Core.Chat
 
 		public static void DoEmote(string emote, GameObject player, EmoteActionManager instance)
 		{
-			foreach (var e in instance.emotes)
+			foreach (var e in instance.emoteList.Emotes)
 			{
 				if(emote.Equals(e.EmoteName, StringComparison.CurrentCultureIgnoreCase))
 				{
 					e.Do(player);
 					return;
 				}
+			}
+		}
+
+		public static void DoEmote(EmoteSO emoteSo, GameObject player)
+		{
+			foreach (var emote in Instance.emoteList.Emotes)
+			{
+				if(emote != emoteSo) continue;
+				emote.Do(player);
 			}
 		}
 	}
