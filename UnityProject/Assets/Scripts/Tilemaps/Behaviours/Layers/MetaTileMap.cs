@@ -403,47 +403,86 @@ namespace TileManagement
 			else // diagonal travel
 			{
 				Vector3Int toX = new Vector3Int(to.x, origin.y, origin.z);
-				Vector3Int toY = new Vector3Int(origin.x, to.y, origin.z);
 
 
-				bool isPassableIfHorizontalFirst = IsPassableAtOrthogonalTileV2(origin, toX, colliderType) &&
-				                                   IsPassableAtOrthogonalTileV2(toX, to, colliderType);
+				bool isPassableIfHorizontalFirst = IsPassableTileMapHorizontal(origin, to, colliderType);
 
-				if (isPassableIfHorizontalFirst) return true;
+				if (isPassableIfHorizontalFirst)
+				{
+					return true;
+				}
 
-				bool isPassableIfVerticalFirst = IsPassableAtOrthogonalTileV2(origin, toY, colliderType) &&
-				                                 IsPassableAtOrthogonalTileV2(toY, to, colliderType);
 
-				return isPassableIfVerticalFirst;
+				bool isPassableIfVerticalFirst = IsPassableTileMapVertical(origin, to, colliderType);
+
+				if (isPassableIfVerticalFirst)
+				{
+					return true;
+				}
+
+
+				return false;
 			}
-
 		}
 
-		public bool IsPassableAtOneObjectsV2(Vector3Int origin, Vector3Int to, GameObject context, List<PushPull> Pushings, List<IBumpableObject> Bumps)
+		public bool IsPassableAtOneObjectsV2(Vector3Int origin, Vector3Int to, GameObject context,
+			List<PushPull> Pushings, List<IBumpableObject> Bumps)
 		{
 			// Simple case: orthogonal travel
 			if (origin.x == to.x || origin.y == to.y)
 			{
-				return IsPassableAtOrthogonalObjectsV2(origin, to,context,Pushings,Bumps);
+				return IsPassableAtOrthogonalObjectsV2(origin, to, context, Pushings, Bumps);
 			}
 			else // diagonal travel
 			{
-				Vector3Int toX = new Vector3Int(to.x, origin.y, origin.z);
-				Vector3Int toY = new Vector3Int(origin.x, to.y, origin.z);
-
-
-				bool isPassableIfHorizontalFirst = IsPassableAtOrthogonalObjectsV2(origin, toX,context,Pushings,Bumps) &&
-				                                   IsPassableAtOrthogonalObjectsV2(toX, to,context,Pushings,Bumps);
-
+				bool isPassableIfHorizontalFirst = IsPassableObjectsHorizontal(origin, to, context, Pushings, Bumps);
 				if (isPassableIfHorizontalFirst) return true;
 
-				bool isPassableIfVerticalFirst = IsPassableAtOrthogonalObjectsV2(origin, toY,context,Pushings,Bumps) &&
-				                                 IsPassableAtOrthogonalObjectsV2(toY, to,context,Pushings,Bumps);
 
-				return isPassableIfVerticalFirst;
+				bool isPassableIfVerticalFirst = IsPassableObjectsVertical(origin, to, context, Pushings, Bumps);
+				if (isPassableIfVerticalFirst) return true;
+
+
+				return false;
 			}
-
 		}
+
+		public bool IsPassableObjectsHorizontal(Vector3Int origin, Vector3Int to, GameObject context,
+			List<PushPull> Pushings, List<IBumpableObject> Bumps)
+		{
+			Vector3Int toX = new Vector3Int(to.x, origin.y, origin.z);
+			bool isPassableIfHorizontalFirst =
+				IsPassableAtOrthogonalObjectsV2(origin, toX, context, Pushings, Bumps) &&
+				IsPassableAtOrthogonalObjectsV2(toX, to, context, Pushings, Bumps);
+
+			return isPassableIfHorizontalFirst;
+		}
+
+
+		public bool IsPassableObjectsVertical(Vector3Int origin, Vector3Int to, GameObject context,
+			List<PushPull> Pushings, List<IBumpableObject> Bumps)
+		{
+			Vector3Int toY = new Vector3Int(origin.x, to.y, origin.z);
+			return IsPassableAtOrthogonalObjectsV2(origin, toY, context, Pushings, Bumps) &&
+			       IsPassableAtOrthogonalObjectsV2(toY, to, context, Pushings, Bumps);
+		}
+
+		public bool IsPassableTileMapHorizontal(Vector3Int origin, Vector3Int to, CollisionType colliderType)
+		{
+			Vector3Int toX = new Vector3Int(to.x, origin.y, origin.z);
+			bool isPassableIfHorizontalFirst = IsPassableAtOrthogonalTileV2(origin, toX, colliderType) &&
+			                                   IsPassableAtOrthogonalTileV2(toX, to, colliderType);
+
+			return isPassableIfHorizontalFirst;
+		}
+
+		public bool IsPassableTileMapVertical(Vector3Int origin, Vector3Int to, CollisionType colliderType)
+		{
+			Vector3Int toY = new Vector3Int(origin.x, to.y, origin.z);
+			return IsPassableAtOrthogonalTileV2(origin, toY, colliderType) &&
+			       IsPassableAtOrthogonalTileV2(toY, to, colliderType);
+		}
+
 
 		public bool IsPassableAtOneTileMap(Vector3Int origin, Vector3Int to, bool isServer,
 			CollisionType collisionType = CollisionType.Player, bool inclPlayers = true, GameObject context = null,
@@ -483,9 +522,11 @@ namespace TileManagement
 			}
 		}
 
-		private bool IsPassableAtOrthogonalObjectsV2(Vector3Int origin, Vector3Int to, GameObject context , List<PushPull> Pushings, List<IBumpableObject> Bumps)
+		private bool IsPassableAtOrthogonalObjectsV2(Vector3Int origin, Vector3Int to, GameObject context,
+			List<PushPull> Pushings, List<IBumpableObject> Bumps)
 		{
-			return ObjectLayer.IsPassableAtOnThisLayerV2(origin, to, CustomNetworkManager.IsServer, context, Pushings, Bumps);
+			return ObjectLayer.IsPassableAtOnThisLayerV2(origin, to, CustomNetworkManager.IsServer, context, Pushings,
+				Bumps);
 		}
 
 
@@ -1116,10 +1157,12 @@ namespace TileManagement
 			{
 				return true;
 			}
+
 			if (HasTile(position, LayerType.Windows))
 			{
 				return true;
 			}
+
 			if (HasTile(position, LayerType.Grills))
 			{
 				return true;
@@ -1144,7 +1187,9 @@ namespace TileManagement
 
 		public bool IsObjectPresent(GameObject[] context, Vector3Int position, bool isServer, out RegisterTile Object)
 		{
-			foreach (RegisterTile o in isServer ? ObjectLayer.ServerObjects.Get(position) : ObjectLayer.ClientObjects.Get(position))
+			foreach (RegisterTile o in isServer
+				         ? ObjectLayer.ServerObjects.Get(position)
+				         : ObjectLayer.ClientObjects.Get(position))
 			{
 				if (context.Contains(o.gameObject)) continue;
 				if (o.IsPassable(isServer) == false)
@@ -1747,8 +1792,10 @@ namespace TileManagement
 			//Vector3[4] {bottomLeft, bottomRight, topLeft, topRight}; //Presuming It's been updated
 			var bottomLeft = localToWorldMatrix.Value.MultiplyPoint(localBound.min + offset);
 			globalPoints[0] = bottomLeft;
-			globalPoints[1] = localToWorldMatrix.Value.MultiplyPoint(new Vector3(localBound.xMax, localBound.yMin, 0) + offset);
-			globalPoints[2] = localToWorldMatrix.Value.MultiplyPoint(new Vector3(localBound.xMin, localBound.yMax, 0) + offset);
+			globalPoints[1] =
+				localToWorldMatrix.Value.MultiplyPoint(new Vector3(localBound.xMax, localBound.yMin, 0) + offset);
+			globalPoints[2] =
+				localToWorldMatrix.Value.MultiplyPoint(new Vector3(localBound.xMin, localBound.yMax, 0) + offset);
 			globalPoints[3] = localToWorldMatrix.Value.MultiplyPoint(localBound.max + offset);
 
 			var minPosition = bottomLeft;
@@ -1761,7 +1808,7 @@ namespace TileManagement
 
 			var newGlobalBounds = new BetterBounds()
 			{
-				Maximum = maxPosition + new Vector3(0.5f,0.5f,0), Minimum = minPosition + new Vector3(-0.5f,-0.5f,0)
+				Maximum = maxPosition + new Vector3(0.5f, 0.5f, 0), Minimum = minPosition + new Vector3(-0.5f, -0.5f, 0)
 			};
 
 			if (matrix.IsMovable == false ||
@@ -1840,7 +1887,7 @@ namespace TileManagement
 			{
 				var Beginning = (new Vector3((float) origin.x, (float) origin.y, 0).ToWorld(matrix));
 				// Debug.DrawLine(Beginning + (Vector3.right * 0.09f), Beginning + (Vector3.left * 0.09f), Color.yellow,
-					// 30);
+				// 30);
 				// Debug.DrawLine(Beginning + (Vector3.up * 0.09f), Beginning + (Vector3.down * 0.09f), Color.yellow, 30);
 
 				var end = (new Vector3((float) To.Value.x, (float) To.Value.y, 0).ToWorld(matrix));

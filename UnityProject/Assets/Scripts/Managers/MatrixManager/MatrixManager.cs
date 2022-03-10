@@ -1101,17 +1101,40 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 
 		localPosOrigin = WorldToLocalInt(worldOrigin, matrixTarget);
 		localPosTarget = WorldToLocalInt(worldTarget, matrixTarget);
-
-
-		if (matrixTarget.Matrix.MetaTileMap.IsPassableAtOneTileMapV2(localPosOrigin, localPosTarget,
-			    CollisionType.Player))
+		if (localPosOrigin.x == localPosTarget.x || localPosOrigin.y == localPosTarget.y)
 		{
-			if (matrixTarget.Matrix.MetaTileMap.IsPassableAtOneObjectsV2(localPosOrigin, localPosTarget, Context,
-				    PushIng, Bumps))
+			if (matrixTarget.Matrix.MetaTileMap.IsPassableAtOneTileMapV2(localPosOrigin, localPosTarget,
+				    CollisionType.Player))
 			{
-				return true;
+				if (matrixTarget.Matrix.MetaTileMap.IsPassableAtOneObjectsV2(localPosOrigin, localPosTarget, Context,
+					    PushIng, Bumps))
+				{
+					return true;
+				}
 			}
 		}
+		else
+		{
+			if (matrixTarget.Matrix.MetaTileMap.IsPassableTileMapHorizontal(localPosOrigin, localPosTarget,CollisionType.Player ))
+			{
+				if (matrixTarget.Matrix.MetaTileMap.IsPassableObjectsHorizontal(localPosOrigin, localPosTarget, Context,
+					    PushIng, Bumps))
+				{
+					return true;
+				}
+			}
+
+			if (matrixTarget.Matrix.MetaTileMap.IsPassableTileMapVertical(localPosOrigin, localPosTarget,
+				    CollisionType.Player))
+			{
+				if (matrixTarget.Matrix.MetaTileMap.IsPassableObjectsVertical(localPosOrigin, localPosTarget, Context,
+					    PushIng, Bumps))
+				{
+					return true;
+				}
+			}
+		}
+
 
 		return false;
 	}

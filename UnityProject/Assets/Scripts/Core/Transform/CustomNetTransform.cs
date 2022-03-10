@@ -251,6 +251,7 @@ public partial class CustomNetTransform : NetworkBehaviour, IPushable
 	//Server and Client Side
 	private void UpdateMe()
 	{
+		UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
 		if (Synchronize())
 		{
 			stillTimer = 0;
@@ -260,7 +261,7 @@ public partial class CustomNetTransform : NetworkBehaviour, IPushable
 			stillTimer += Time.deltaTime;
 			if (stillTimer >= 5)
 			{
-				UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
+
 				isUpdating = false;
 			}
 		}

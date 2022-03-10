@@ -18,6 +18,9 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 	public BoxCollider2D Collider;
 
 	public float TileMoveSpeed = 1;
+
+	public float TileMoveSpeedOverride = 0;
+
 	public Vector3 LocalTargetPosition;
 
 
@@ -97,12 +100,17 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 
 	public void ForceTilePush(Vector2Int WorldDirection, List<PushPull> InPushing, float speed = Single.NaN)
 	{
+		if (float.IsNaN(speed))
+		{
+			speed = TileMoveSpeed;
+		}
+
 		if (InPushing.Count > 0) //Has to push stuff
 		{
 			//Push Object
 			foreach (var pushPull in InPushing)
 			{
-				pushPull.TryPush(WorldDirection);
+				pushPull.TryPush(WorldDirection, speed);
 			}
 		}
 
@@ -110,7 +118,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 
 		var movetoMatrix = SetMatrixCash.GetforDirection(WorldDirection.To3Int()).Matrix;
 
-		var CachedPosition = registerTile.WorldPosition;
+		var CachedPosition = transform.position;
 
 		if (registerTile.Matrix != movetoMatrix)
 		{
@@ -119,23 +127,30 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 			transform.position = TransformCash;
 		}
 
+
 		var LocalPosition = (NewWorldPosition).ToLocal(movetoMatrix);
 
 		registerTile.ServerSetLocalPosition(LocalPosition.RoundToInt());
 		registerTile.ClientSetLocalPosition(LocalPosition.RoundToInt());
 
 		LocalTargetPosition = LocalPosition;
-		UpdateManager.Add(CallbackType.UPDATE, AnimationUpdateMe);
+		if (Animating == false)
+		{
+			Animating = true;
+			UpdateManager.Add(CallbackType.UPDATE, AnimationUpdateMe);
+			TileMoveSpeedOverride = speed;
+		}
+
 		if (Pulling.HasComponent)
 		{
-			var InDirection = CachedPosition - Pulling.Component.registerTile.WorldPosition;
+			var InDirection = CachedPosition - Pulling.Component.transform.position;
 			if (InDirection.magnitude > 2f)
 			{
 				PullSet(null); //TODO maybe remove
 			}
 			else
 			{
-				Pulling.Component.TryTilePush(InDirection.To2Int()); //TODO Speed
+				Pulling.Component.TryTilePush(InDirection.NormalizeTo2Int(), speed);
 			}
 
 		}
@@ -146,6 +161,8 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 		float slideTime = Single.NaN) //Collision is just naturally part of Newtonian push
 	{
 		//TODO
+		//Check performance of adding and removing from Update list
+		//Work out the same speed for when flying and not
 	}
 
 
@@ -153,6 +170,20 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 	public float AIR = 3;
 	public float SLIDE = 4;
 
+
+	[NaughtyAttributes.Button()][RightClickMethod()]
+	public void DisplayStats()
+	{
+		Logger.LogError("registerTile.WorldPosition "  + registerTile.WorldPosition.ToString() );
+		Logger.LogError("transform.position "  + transform.position.ToString() );
+
+		Logger.LogError("registerTile.LocalPosition "  + registerTile.LocalPosition.ToString() );
+		Logger.LogError("transform.localPosition"  + transform.localPosition.ToString() );
+
+		Logger.LogError("registerTile.Matrix "  + registerTile.Matrix.ToString() );
+		Logger.LogError("transform.parent.parent"  + transform.parent.parent.ToString() );
+
+	}
 
 	[RightClickMethod()]
 	public void ThrowNoSlide()
@@ -212,7 +243,6 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 		{
 			WorldDirection.Normalize();
 			newtonianMovement += WorldDirection * speed;
-			Logger.LogError("new " + newtonianMovement);
 			if (float.IsNaN(INairTime) == false)
 			{
 				airTime = INairTime;
@@ -232,13 +262,16 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 
 			WorldDirection.Normalize();
 			newtonianMovement += WorldDirection * speed;
-			Logger.LogError("new " + newtonianMovement);
 		}
 
 		if (newtonianMovement.magnitude > 0.01f)
 		{
 			//It's moving add to update manager
-			UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
+			if (IsFlyingSliding == false)
+			{
+				IsFlyingSliding = true;
+				UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
+			}
 		}
 	}
 
@@ -259,6 +292,8 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 		}
 	}
 
+	private bool Animating = false;
+
 	public void AnimationUpdateMe()
 	{
 		if (IsFlyingSliding)
@@ -266,22 +301,38 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 			return;//Animation handled by UpdateMe
 		}
 
+		Animating = true;
 		var LocalPOS = transform.localPosition;
 
 		IsMoving = LocalPOS != LocalTargetPosition;
 
 		if (IsMoving)
 		{
-			transform.localPosition = Vector3.MoveTowards(LocalPOS, LocalTargetPosition,
-				TileMoveSpeed * Time.deltaTime ); //* transform.localPosition.SpeedTo(targetPos)
+			if (TileMoveSpeedOverride > 0)
+			{
+				transform.localPosition = Vector3.MoveTowards(LocalPOS, LocalTargetPosition,
+					TileMoveSpeedOverride * Time.deltaTime ); //* transform.localPosition.SpeedTo(targetPos)
+			}
+			else
+			{
+				transform.localPosition = Vector3.MoveTowards(LocalPOS, LocalTargetPosition,
+					TileMoveSpeed * Time.deltaTime ); //* transform.localPosition.SpeedTo(targetPos)
+			}
+
 		}
 		else
 		{
+			TileMoveSpeedOverride = 0;
+			Animating = false;
 			UpdateManager.Remove(CallbackType.UPDATE, AnimationUpdateMe);
 			if (newtonianMovement.magnitude > 0.01f)
 			{
 				//It's moving add to update manager
-				UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
+				if (IsFlyingSliding == false)
+				{
+					IsFlyingSliding = true;
+					UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
+				}
 			}
 		}
 	}
@@ -358,26 +409,34 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 			// Collider.enabled = true;
 		}
 
-
-
-
 		var movetoMatrix = MatrixManager.AtPoint(Newposition.RoundToInt(), isServer).Matrix;
+
+		var CachedPosition = this.transform.position;
+
+		this.transform.position = Newposition;
 
 		if (registerTile.Matrix != movetoMatrix)
 		{
+			var TransformCash = transform.position;
 			registerTile.ServerSetNetworkedMatrixNetID(movetoMatrix.NetworkedMatrix.MatrixSync.netId);
+			transform.position = TransformCash;
 		}
-		this.transform.position = Newposition;
-		registerTile.ServerSetLocalPosition(
-			(Newposition).ToLocal(movetoMatrix).RoundToInt()); //TODO Past matrix //TODO Update.damn client
 
-		registerTile.ClientSetLocalPosition((Newposition).ToLocal(movetoMatrix).RoundToInt());
+		var LocalPosition = (Newposition).ToLocal(movetoMatrix);
+
+		registerTile.ServerSetLocalPosition(LocalPosition.RoundToInt());
+		registerTile.ClientSetLocalPosition(LocalPosition.RoundToInt());
 
 		if (newtonianMovement.magnitude < 0.01f) //Has slowed down enough
 		{
 			if (onStationMovementsRound)
 			{
 				LocalTargetPosition = registerTile.LocalPosition;
+				if (Animating == false)
+				{
+					Animating = true;
+					UpdateManager.Add(CallbackType.UPDATE, AnimationUpdateMe);
+				}
 			}
 			IsFlyingSliding = false;
 			airTime = 0;
@@ -388,33 +447,48 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 
 		if (Pulling.HasComponent)
 		{
-			Pulling.Component.ProcessNewtonianMove(newtonianMovement);
+			var InDirection = CachedPosition - Pulling.Component.transform.position;
+			if (InDirection.magnitude > 2f)
+			{
+				PullSet(null); //TODO maybe remove
+			}
+			else
+			{
+				Pulling.Component.ProcessNewtonianMove(newtonianMovement);
+			}
 		}
 	}
 
 	public void ProcessNewtonianMove(Vector2 InNewtonianMovement)
 	{
+		if (Animating)
+		{
+			TileMoveSpeedOverride = 0;
+			Animating = false;
+			UpdateManager.Remove(CallbackType.UPDATE, AnimationUpdateMe);
+		}
+
+
 		var position = this.transform.position;
-		var Newposition = position + InNewtonianMovement.To3();
+		var Newposition = position + (InNewtonianMovement.To3() * Time.deltaTime);
 
 		// var intposition = position.RoundToInt();
 		// var intNewposition = Newposition.RoundToInt();
 
 		//Check collision?
-
 		this.transform.position = Newposition;
-
 		var movetoMatrix = MatrixManager.AtPoint(Newposition.RoundToInt(), isServer).Matrix;
-
 		if (registerTile.Matrix != movetoMatrix)
 		{
+			var TransformCash = transform.position;
 			registerTile.ServerSetNetworkedMatrixNetID(movetoMatrix.NetworkedMatrix.MatrixSync.netId);
+			transform.position = TransformCash;
 		}
 
-		registerTile.ServerSetLocalPosition(
-			(Newposition).ToLocal(movetoMatrix).RoundToInt()); //TODO Past matrix //TODO Update.damn client
+		var LocalPosition = (Newposition).ToLocal(movetoMatrix);
 
-		registerTile.ClientSetLocalPosition((Newposition).ToLocal(movetoMatrix).RoundToInt());
+		registerTile.ServerSetLocalPosition(LocalPosition.RoundToInt());
+		registerTile.ClientSetLocalPosition(LocalPosition.RoundToInt());
 
 		if (Pulling.HasComponent)
 		{
