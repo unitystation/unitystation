@@ -5,6 +5,8 @@ using Items.Devices;
 using UnityEngine;
 using Communications;
 using Managers;
+using Systems.Electricity;
+using Systems.Electricity.NodeModules;
 
 namespace Items.Weapons
 {
@@ -21,6 +23,8 @@ namespace Items.Weapons
 		private ObjectBehaviour objectBehaviour;
 		private Pickupable pickupable;
 
+		public ResistanceSourceModule RR;
+
 		private bool isAnchored;
 		private bool isCharging;
 		private float currentCharge;
@@ -30,6 +34,7 @@ namespace Items.Weapons
 			objectBehaviour = GetComponent<ObjectBehaviour>();
 			spriteHandler = GetComponentInChildren<SpriteHandler>();
 			pickupable = GetComponentInChildren<Pickupable>();
+			RR = GetComponent<ResistanceSourceModule>();
 		}
 
 		private void OnDisable()
@@ -74,6 +79,7 @@ namespace Items.Weapons
 			isAnchored = true;
 			pickupable.ServerSetCanPickup(false);
 			objectBehaviour.ServerSetPushable(false);
+			ElectricalManager.Instance.electricalSync.StructureChange = true;
 			Chat.AddLocalMsgToChat($"The {gameObject.ExpensiveName()} makes a clicking sound as it anchors to the ground", gameObject);
 			SoundManager.PlayNetworkedAtPos(CommonSounds.Instance.screwdriver, gameObject.AssumedWorldPosServer());
 		}
@@ -82,6 +88,7 @@ namespace Items.Weapons
 			isAnchored = false;
 			pickupable.ServerSetCanPickup(true);
 			objectBehaviour.ServerSetPushable(true);
+			ElectricalManager.Instance.electricalSync.StructureChange = true;
 			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, CheckForVoltage);
 			Chat.AddLocalMsgToChat($"The {gameObject.ExpensiveName()} makes a clicking sound as it unanchors from the ground", gameObject);
 			SoundManager.PlayNetworkedAtPos(CommonSounds.Instance.screwdriver, gameObject.AssumedWorldPosServer());
@@ -94,11 +101,13 @@ namespace Items.Weapons
 			{
 				UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, CheckForVoltage);
 				spriteHandler.SetSpriteSO(inactiveSpriteSO);
+				RR.Resistance = 10000f;
 			}
 			else
 			{
 				UpdateManager.Add(CheckForVoltage, voltageCheckTimeInSeconds);
 				spriteHandler.SetSpriteSO(activeSpriteSO);
+				RR.Resistance = 0.0001f;
 			}
 			isCharging = !isCharging;
 		}

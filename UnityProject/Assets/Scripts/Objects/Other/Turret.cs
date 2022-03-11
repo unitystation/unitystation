@@ -512,6 +512,7 @@ namespace Objects.Other
 
 			if (turretState == TurretState.Stun)
 			{
+				return;
 				bulletName = stunBullet.name;
 				bulletSound = taserSound;
 				shootSpeed *= shootSpeedMultiplier;
