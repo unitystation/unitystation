@@ -5,6 +5,8 @@ using Items.Devices;
 using UnityEngine;
 using Communications;
 using Managers;
+using Systems.Electricity;
+using Systems.Electricity.NodeModules;
 
 namespace Items.Weapons
 {
@@ -16,6 +18,8 @@ namespace Items.Weapons
 		[SerializeField] private float voltageCheckTimeInSeconds = 0.2f;
 		[SerializeField] private SpriteDataSO activeSpriteSO;
 		[SerializeField] private SpriteDataSO inactiveSpriteSO;
+		[SerializeField] private ResistanceSourceModule resistanceSourceModule;
+		[SerializeField] private ElectricalNodeControl nodeControl;
 
 		private SpriteHandler spriteHandler;
 		private ObjectBehaviour objectBehaviour;
@@ -48,6 +52,7 @@ namespace Items.Weapons
 			{
 				if (isAnchored) UnAnchor();
 				else Anchor();
+				SoundManager.PlayNetworkedAtPos(CommonSounds.Instance.screwdriver, gameObject.AssumedWorldPosServer());
 				return;
 			}
 			if (interaction.UsedObject.Item().HasTrait(CommonTraits.Instance.Multitool))
@@ -71,20 +76,20 @@ namespace Items.Weapons
 
 		private void Anchor()
 		{
+			ElectricalManager.Instance.electricalSync.StructureChange = true;
 			isAnchored = true;
 			pickupable.ServerSetCanPickup(false);
 			objectBehaviour.ServerSetPushable(false);
 			Chat.AddLocalMsgToChat($"The {gameObject.ExpensiveName()} makes a clicking sound as it anchors to the ground", gameObject);
-			SoundManager.PlayNetworkedAtPos(CommonSounds.Instance.screwdriver, gameObject.AssumedWorldPosServer());
 		}
 		private void UnAnchor()
 		{
+			ElectricalManager.Instance.electricalSync.StructureChange = false;
 			isAnchored = false;
 			pickupable.ServerSetCanPickup(true);
 			objectBehaviour.ServerSetPushable(true);
 			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, CheckForVoltage);
 			Chat.AddLocalMsgToChat($"The {gameObject.ExpensiveName()} makes a clicking sound as it unanchors from the ground", gameObject);
-			SoundManager.PlayNetworkedAtPos(CommonSounds.Instance.screwdriver, gameObject.AssumedWorldPosServer());
 		}
 
 		private void ToggleActivity()
@@ -114,28 +119,14 @@ namespace Items.Weapons
 
 		public void CheckForVoltage()
 		{
-			if (isAnchored == false) return;
-			var electricalData = gameObject.RegisterTile().Matrix.MetaDataLayer.Get(gameObject.RegisterTile().LocalPosition)?.ElectricalData;
-			if (electricalData != null)
+			if (isAnchored == false || nodeControl == null)
 			{
-				foreach (var data in electricalData)
-				{
-					if(data.InData.Data.ActualVoltage > 0)
-					{
-						//(Max) - Currenty the charge doesn't consume the power going through the tile
-						//And it goes through as if the powersink is not charging off it
-						//I don't know how to fix that and all my attempts have broken the time charge balance and Detonate() function
-						//So I'm leaving it at that until another day or if anyone wants to fix this issue themselves.
-						currentCharge += data.InData.Data.ActualVoltage * chargeAmplifer;
-					}
-				}
-			}
-			else
-			{
-				Logger.LogError($"Unable to find electrical data for {gameObject.ExpensiveName()} at {gameObject.RegisterTile().WorldPosition}!");
-				UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, CheckForVoltage);
+				UnAnchor();
 				return;
 			}
+			currentCharge += nodeControl.Node.InData.Data.ActualVoltage * chargeAmplifer;
+			resistanceSourceModule.Resistance = 10000f;
+			nodeControl.PowerNetworkUpdate();
 			CheckForOverCharge();
 		}
 
