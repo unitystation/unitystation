@@ -49,7 +49,6 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 
 	public GameObject[] ContextGameObjects = new GameObject[2];
 
-
 	public CheckedComponent<UniversalObjectPhysics> Pulling = new CheckedComponent<UniversalObjectPhysics>();
 	public CheckedComponent<UniversalObjectPhysics> PulledBy = new CheckedComponent<UniversalObjectPhysics>();
 
@@ -454,12 +453,13 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 			}
 			else
 			{
-				Pulling.Component.ProcessNewtonianMove(newtonianMovement);
+				Pulling.Component.ProcessNewtonianPull(newtonianMovement, Newposition);
 			}
 		}
 	}
 
-	public void ProcessNewtonianMove(Vector2 InNewtonianMovement)
+
+	public void ProcessNewtonianPull(Vector2 InNewtonianMovement, Vector2 PullerPosition)
 	{
 		if (Animating)
 		{
@@ -468,12 +468,22 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 			UpdateManager.Remove(CallbackType.UPDATE, AnimationUpdateMe);
 		}
 
-
 		var position = this.transform.position;
-		var Newposition = position + (InNewtonianMovement.To3() * Time.deltaTime);
+		var Newmove = InNewtonianMovement;
+		Vector3 Newposition = Vector3.zero;
+		Newmove.Normalize();
+		Vector3 TargetFollowLocation = PullerPosition + (Newmove * -1);
+		if (Vector2.Distance(TargetFollowLocation, transform.position) > 0.1f)
+		{
 
-		// var intposition = position.RoundToInt();
-		// var intNewposition = Newposition.RoundToInt();
+			Newposition = Vector3.MoveTowards(position, TargetFollowLocation,
+				(InNewtonianMovement.magnitude + 4) * Time.deltaTime);
+		}
+		else
+		{
+			Newposition = position + (InNewtonianMovement.To3() * Time.deltaTime);
+		}
+
 
 		//Check collision?
 		this.transform.position = Newposition;
@@ -492,7 +502,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 
 		if (Pulling.HasComponent)
 		{
-			Pulling.Component.ProcessNewtonianMove(InNewtonianMovement);
+			Pulling.Component.ProcessNewtonianPull(InNewtonianMovement, Newposition);
 		}
 	}
 

@@ -576,6 +576,7 @@ public class MatrixMove : ManagedBehaviour
 
 		if (NeedsRotationClient)
 		{
+			matrix.MetaTileMap.GlobalCachedBounds = null;
 			//rotate our transform to our new facing direction
 			if (clientState.RotationTime != 0)
 			{
@@ -593,6 +594,7 @@ public class MatrixMove : ManagedBehaviour
 		}
 		else if (IsMovingClient)
 		{
+			matrix.MetaTileMap.GlobalCachedBounds = null;
 			//Only move target if rotation is finished
 			//predict client state because we don't get constant updates when flying in one direction.
 			clientState.Position += (clientState.Speed * Time.deltaTime) * clientState.FlyingDirection.LocalVector;
@@ -620,6 +622,7 @@ public class MatrixMove : ManagedBehaviour
 		//Lerp
 		if (clientState.Position != transform.position)
 		{
+			matrix.MetaTileMap.GlobalCachedBounds = null;
 			float distance = Vector3.Distance(clientState.Position, transform.position);
 
 			//Teleport (Greater then 30 unity meters away from server target):
@@ -630,7 +633,12 @@ public class MatrixMove : ManagedBehaviour
 			}
 
 
+
 			transform.position = clientState.Position;
+
+			var transform1 = matrix.MetaTileMap.transform;
+			matrix.MetaTileMap.localToWorldMatrix = transform1.localToWorldMatrix; //Update the meta Tilemap with movement
+			matrix.MetaTileMap.worldToLocalMatrix = transform1.worldToLocalMatrix;
 
 
 			//If stopped then lerp to target (snap to grid)
@@ -650,7 +658,6 @@ public class MatrixMove : ManagedBehaviour
 
 			matrixPositionFilter.FilterPosition(transform, transform.position, clientState.FlyingDirection);
 		}
-		matrix.MetaTileMap.GlobalCachedBounds = null;
 	}
 
 	/// Serverside movement routine

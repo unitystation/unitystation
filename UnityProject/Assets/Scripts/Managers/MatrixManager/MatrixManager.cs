@@ -1278,7 +1278,7 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 		MatrixCash MatrixCash, out RegisterTile CanPushOff) //Assuming MatrixCash is Initialised
 	{
 		bool SomethingToHold = false;
-		var Direction = moveAction.GlobalMoveDirection.TVectoro();
+		var Direction = moveAction.GlobalMoveDirection.TVectoro().To3Int();
 		for (int i = 0; i < MatrixCash.DIRs.Length; i++)
 		{
 			var DIR = MatrixCash.DIRs[i];

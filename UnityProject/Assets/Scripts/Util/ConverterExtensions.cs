@@ -45,6 +45,11 @@ public static class ConverterExtensions
 		return Vector2Int.RoundToInt(other);
 	}
 
+	public static Vector3Int To3Int(this Vector2 other)
+	{
+		return new Vector3Int(Mathf.RoundToInt(other.x) , Mathf.RoundToInt(other.y), 0);
+	}
+
 	/// <summary>Round to int while cutting z-axis</summary>
 	public static Vector2Int To2Int(this Vector3 other)
 	{
@@ -218,30 +223,30 @@ public static class ConverterExtensions
 			MatrixManager.AtPoint(Vector3Int.RoundToInt(worldPos), CustomNetworkManager.Instance._isServer));
 	}
 
-	public static Vector3Int TVectoro(this MovementSynchronisation.PlayerMoveDirection Direction)
+	public static Vector2 TVectoro(this MovementSynchronisation.PlayerMoveDirection Direction)
 	{
 		switch (Direction)
 		{
 			case MovementSynchronisation.PlayerMoveDirection.Up_Left:
-				return new Vector3Int(-1, 1, 0);
+				return new Vector2(-1, 1);
 			case MovementSynchronisation.PlayerMoveDirection.Up:
-				return new Vector3Int(0, 1, 0);
+				return new Vector2(0, 1);
 			case MovementSynchronisation.PlayerMoveDirection.Up_Right:
-				return new Vector3Int(1, 1, 0);
+				return new Vector2(1, 1);
 
 			case MovementSynchronisation.PlayerMoveDirection.Left:
-				return new Vector3Int(-1, 0, 0);
+				return new Vector2(-1, 0);
 			case MovementSynchronisation.PlayerMoveDirection.Right:
-				return new Vector3Int(1, 0, 0);
+				return new Vector2(1, 0);
 
 			case MovementSynchronisation.PlayerMoveDirection.Down_Left:
-				return new Vector3Int(-1, -1, 0);
+				return new Vector2(-1, -1);
 			case MovementSynchronisation.PlayerMoveDirection.Down:
-				return new Vector3Int(0, -1, 0);
+				return new Vector2(0, -1);
 			case MovementSynchronisation.PlayerMoveDirection.Down_Right:
-				return new Vector3Int(1, -1, 0);
+				return new Vector2(1, -1);
 		}
-		return Vector3Int.zero;
+		return Vector2.zero;
 	}
 
 	//======== | Cool serialisation stuff | =========

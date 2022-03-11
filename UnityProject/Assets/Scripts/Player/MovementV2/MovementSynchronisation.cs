@@ -103,7 +103,9 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 				{
 					if (PushesOff.TryGetComponent<UniversalObjectPhysics>(out var PhysicsObject))
 					{
-						PhysicsObject.NewtonianPush(NewMoveData.GlobalMoveDirection.TVectoro().To2Int() * -1, TileMoveSpeed);//TODO SPEED!
+						var move = NewMoveData.GlobalMoveDirection.TVectoro();
+						move.Normalize();
+						PhysicsObject.NewtonianPush( (move * -1), TileMoveSpeed);//TODO SPEED!
 					}
 					//Pushes off object for example pushing the object the other way
 				}
@@ -122,13 +124,9 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 
 				if (IsNotFloating(null, out _) == false || CausesSlipClient) //check if floating
 				{
-					if (newtonianMovement.magnitude > 0)
-					{
-						Logger.Log("o3o");
-					}
-					newtonianMovement += (Vector2) NewMoveData.GlobalMoveDirection.TVectoro().To2Int().Normalize() * TileMoveSpeed;
-					Logger.LogError(newtonianMovement.ToString() +  "  Movement added! ");
-					//NewtonianPush(NewMoveData.GlobalMoveDirection.TVectoro().To2Int(), 0.1f); //TODO SPEED!
+					var move = NewMoveData.GlobalMoveDirection.TVectoro();
+					move.Normalize();
+					newtonianMovement += move * TileMoveSpeed;
 				}
 			}
 			else
@@ -187,8 +185,8 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 		slippedOn = null;
 		if (slipProtection) return false;
 
-		var ToMatrix = SetMatrixCash.GetforDirection(moveAction.GlobalMoveDirection.TVectoro()).Matrix;
-		var LocalTo = (registerTile.WorldPosition + moveAction.GlobalMoveDirection.TVectoro()).ToLocal(ToMatrix)
+		var ToMatrix = SetMatrixCash.GetforDirection(moveAction.GlobalMoveDirection.TVectoro().To3Int()).Matrix;
+		var LocalTo = (registerTile.WorldPosition + moveAction.GlobalMoveDirection.TVectoro().To3Int()).ToLocal(ToMatrix)
 			.RoundToInt();
 		if (ToMatrix.MetaDataLayer.IsSlipperyAt(LocalTo))
 		{
@@ -211,7 +209,7 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 	public bool IsNotObstructed(MoveData moveAction, List<PushPull> Pushing, List<IBumpableObject> Bumps)
 	{
 		return MatrixManager.IsPassableAtAllMatricesV2(registerTile.WorldPosition,
-			registerTile.WorldPosition + moveAction.GlobalMoveDirection.TVectoro(), SetMatrixCash, this.gameObject,
+			registerTile.WorldPosition + moveAction.GlobalMoveDirection.TVectoro().To3Int(), SetMatrixCash, this.gameObject,
 			Pushing,Bumps);
 	}
 
