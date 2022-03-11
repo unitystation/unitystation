@@ -133,7 +133,7 @@ namespace Items.Bureaucracy
 			}
 		}
 
-		private void RemoveInkCartrdge()
+		private void RemoveInkCartridge()
 		{
 			inkStorage.ServerDropAll();
 		}
@@ -224,7 +224,7 @@ namespace Items.Bureaucracy
 		{
 			var result = new RightClickableResult();
 			if (InkCartadge == null) return result;
-			result.AddElement("Remove Ink Cart", RemoveInkCartrdge);
+			result.AddElement("Remove Ink Cart", RemoveInkCartridge);
 			return result;
 		}
 	}
