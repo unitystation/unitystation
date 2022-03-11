@@ -11,7 +11,6 @@ namespace Systems.Mob
 	/// <summary>
 	/// Easy to use Directional sprite handler for mobs
 	/// </summary>
-	[RequireComponent(typeof(DirectionalSpriteV2))]
 	public class MobSprite : NetworkBehaviour, IOnLightningHit
 	{
 		private enum MobStateRepType
@@ -61,8 +60,8 @@ namespace Systems.Mob
 		private GameObject electrocutedPrefab = default;
 
 		private LivingHealthBehaviour health;
-		private Directional directional;
-		private DirectionalSpriteV2 directionalSprite;
+		private Rotatable rotatable;
+
 
 		private PlayerDirectionalOverlay burningOverlay;
 		private PlayerDirectionalOverlay electrocutedOverlay;
@@ -80,10 +79,9 @@ namespace Systems.Mob
 		{
 			if (health != null) return;
 			health = GetComponent<LivingHealthBehaviour>();
-			directional = GetComponent<Directional>();
-			directionalSprite = GetComponent<DirectionalSpriteV2>();
+			rotatable = GetComponent<Rotatable>();
 
-			directional.OnDirectionChange.AddListener(OnDirectionChange);
+			rotatable.OnRotationChange.AddListener(OnDirectionChange);
 		}
 
 		public override void OnStartServer()
@@ -226,7 +224,7 @@ namespace Systems.Mob
 				AddOverlayGameObjects();
 			}
 
-			burningOverlay.StartOverlay(directional.CurrentDirection);
+			burningOverlay.StartOverlay(rotatable.CurrentDirection);
 		}
 
 		/// <summary>
@@ -245,7 +243,7 @@ namespace Systems.Mob
 				StartCoroutine(StopElectrocutedOverlayAfter(time));
 			}
 
-			electrocutedOverlay.StartOverlay(directional.CurrentDirection);
+			electrocutedOverlay.StartOverlay(rotatable.CurrentDirection);
 		}
 
 		/// <summary>
@@ -261,7 +259,7 @@ namespace Systems.Mob
 			electrocutedOverlay.StopOverlay();
 		}
 
-		private void OnDirectionChange(Orientation newDirection)
+		private void OnDirectionChange(OrientationEnum newDirection)
 		{
 			if (burningOverlay != null && burningOverlay.OverlayActive)
 			{

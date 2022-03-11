@@ -28,6 +28,11 @@ PrefabInstance:
       propertyPath: minCountOfRodsOnDestroy
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: -2373824299144082348, guid: 157fcff274a3644448d1ff3bdc019619,
+        type: 3}
+      propertyPath: ChangeSprites
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1946156532474512604, guid: 157fcff274a3644448d1ff3bdc019619,
         type: 3}
       propertyPath: PresentSpriteSet
@@ -106,26 +111,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6433222861398829276, guid: 157fcff274a3644448d1ff3bdc019619,
         type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6433222861398829276, guid: 157fcff274a3644448d1ff3bdc019619,
-        type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6433222861398829276, guid: 157fcff274a3644448d1ff3bdc019619,
-        type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6433222861398829276, guid: 157fcff274a3644448d1ff3bdc019619,
-        type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6433222861398829276, guid: 157fcff274a3644448d1ff3bdc019619,
-        type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
       value: 0
       objectReference: {fileID: 0}
@@ -160,5 +145,7 @@ PrefabInstance:
       propertyPath: IsFixedMatrix
       value: 1
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 9143203722852423802, guid: 157fcff274a3644448d1ff3bdc019619, type: 3}
+    - {fileID: 992935627982901909, guid: 157fcff274a3644448d1ff3bdc019619, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 157fcff274a3644448d1ff3bdc019619, type: 3}

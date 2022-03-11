@@ -19,7 +19,7 @@ public static class ConverterExtensions
 
 	public static Vector3 ToNonInt3(this Vector3Int other)
 	{
-		return new Vector3(other.x, other.y, 0);
+		return new Vector3(other.x, other.y, other.z);
 	}
 
 
@@ -187,9 +187,9 @@ public static class ConverterExtensions
 		return MatrixManager.LocalToWorldInt(localPos, MatrixManager.Get(matrix));
 	}
 
-	public static Vector3 ToLocal(this Vector3 worldPos, MatrixInfo matrix)
+	public static Vector3 ToLocal(this Vector3 worldPos, MatrixInfo matrixInfo)
 	{
-		return MatrixManager.WorldToLocal(worldPos, matrix);
+		return MatrixManager.WorldToLocal(worldPos, matrixInfo);
 	}
 
 	public static Vector3 ToWorld(this Vector3 localPos, MatrixInfo matrix)
@@ -252,4 +252,28 @@ public static class ConverterExtensions
 		return Vector2.one.Rotate(GetRandomNumber(-90, 90)) *
 		       GetRandomNumber(minimum, maximum); //the * Minus number will do the other side Making it full 360
 	}
+
+	public static Vector2Int ToLocalVector2Int(this OrientationEnum In)
+	{
+		return ToLocalVector3(In).To2Int();
+	}
+
+	public static Vector3 ToLocalVector3(this OrientationEnum In)
+	{
+		switch (In)
+		{
+			case OrientationEnum.Up_By0:
+				return Vector3.up;
+			case OrientationEnum.Right_By270:
+				return Vector3.right;
+			case OrientationEnum.Down_By180:
+				return Vector3.down;
+			case OrientationEnum.Left_By90:
+				return Vector3.left;
+
+		}
+		return Vector3.zero;
+	}
+
+
 }

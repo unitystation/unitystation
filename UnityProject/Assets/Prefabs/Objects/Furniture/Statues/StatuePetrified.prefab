@@ -1,44 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-2462077407224037943
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1037304268447916204}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 819809cff2481914d883a6e1fefb4edd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  InitialDirection: 3
-  onEditorDirectionChange:
-    m_PersistentCalls:
-      m_Calls: []
-  ChangeDirectionWithMatrix: 1
-  DisableSyncing: 0
---- !u!114 &1624563055219817632
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1037304268447916204}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e74a412989a7a314db7c2d297a269da9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  isChangingSO: 0
-  indexDown: 0
-  indexUp: 1
-  indexRight: 2
-  indexLeft: 3
-  spriteHandlers:
-  - {fileID: 5491522248254032502}
 --- !u!1001 &104764991561506429
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -79,26 +40,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1082192405498165259, guid: ba5045d716084034ab5a9b712f8ce559,
         type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1082192405498165259, guid: ba5045d716084034ab5a9b712f8ce559,
-        type: 3}
-      propertyPath: m_LocalRotation.x
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1082192405498165259, guid: ba5045d716084034ab5a9b712f8ce559,
-        type: 3}
-      propertyPath: m_LocalRotation.y
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1082192405498165259, guid: ba5045d716084034ab5a9b712f8ce559,
-        type: 3}
-      propertyPath: m_LocalRotation.z
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1082192405498165259, guid: ba5045d716084034ab5a9b712f8ce559,
-        type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
       value: 0
       objectReference: {fileID: 0}
@@ -116,21 +57,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: StatuePetrified
-      objectReference: {fileID: 0}
-    - target: {fileID: 3779779929180665186, guid: ba5045d716084034ab5a9b712f8ce559,
-        type: 3}
-      propertyPath: m_LocalRotation.x
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3779779929180665186, guid: ba5045d716084034ab5a9b712f8ce559,
-        type: 3}
-      propertyPath: m_LocalRotation.y
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3779779929180665186, guid: ba5045d716084034ab5a9b712f8ce559,
-        type: 3}
-      propertyPath: m_LocalRotation.z
-      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 4062499396821368984, guid: ba5045d716084034ab5a9b712f8ce559,
         type: 3}
@@ -176,15 +102,22 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 104764991561506429}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &5491522248254032502 stripped
+--- !u!114 &-2462077407224037943
 MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 5567009168163705867, guid: ba5045d716084034ab5a9b712f8ce559,
-    type: 3}
-  m_PrefabInstance: {fileID: 104764991561506429}
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 1037304268447916204}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
+  m_Script: {fileID: 11500000, guid: 819809cff2481914d883a6e1fefb4edd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  MethodRotation: 0
+  ChangeSprites: 1
+  isChangingSO: 0
+  CurrentDirection: 3
+  IsAtmosphericDevice: 0

@@ -39,6 +39,10 @@ namespace Systems.Clothing
 		[SerializeField, EnumFlag]
 		private ClothingHideFlags hideClothingFlags = ClothingHideFlags.HIDE_NONE;
 
+		[Tooltip("Determines if this article of clothing prevents consuming food or drink.")]
+		[SerializeField]
+		private bool disallowConsume = false;
+
 		private ItemAttributesV2 myItem;
 		private Pickupable pickupable;
 
@@ -63,6 +67,11 @@ namespace Systems.Clothing
 		/// Determine when a piece of clothing hides another
 		/// </summary>
 		public ClothingHideFlags HideClothingFlags => hideClothingFlags;
+
+		/// <summary>
+		/// Determines if this article of clothing prevents consuming food or drink.
+		/// </summary>
+		public bool DisallowConsume => disallowConsume;
 
 		private void Awake()
 		{

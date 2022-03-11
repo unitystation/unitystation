@@ -39,11 +39,11 @@ public class WallMountHandApplySpawn : MonoBehaviour, ICheckedInteractable<Posit
 		{
 			if (PlaceDirection.x > 0)
 			{
-				FaceDirection = OrientationEnum.Right;
+				FaceDirection = OrientationEnum.Right_By270;
 			}
 			else
 			{
-				FaceDirection = OrientationEnum.Left;
+				FaceDirection = OrientationEnum.Left_By90;
 			}
 		}
 		else
@@ -53,11 +53,11 @@ public class WallMountHandApplySpawn : MonoBehaviour, ICheckedInteractable<Posit
 			{
 				if (PlaceDirection.y > 0)
 				{
-					FaceDirection = OrientationEnum.Up;
+					FaceDirection = OrientationEnum.Up_By0;
 				}
 				else
 				{
-					FaceDirection = OrientationEnum.Down;
+					FaceDirection = OrientationEnum.Down_By180;
 				}
 			}
 			else
@@ -72,8 +72,8 @@ public class WallMountHandApplySpawn : MonoBehaviour, ICheckedInteractable<Posit
 		}
 
 		GameObject WallMount = Spawn.ServerPrefab(WallMountToSpawn, roundTargetWorldPosition,  interaction.Performer.transform.parent, spawnItems: false).GameObject;
-		var Directional = WallMount.GetComponent<Directional>();
-		if (Directional != null) Directional.FaceDirection(Orientation.FromEnum(FaceDirection));
+		var Directional = WallMount.GetComponent<Rotatable>();
+		if (Directional != null) Directional.FaceDirection(FaceDirection);
 
 		Inventory.ServerConsume(interaction.HandSlot, 1);
 

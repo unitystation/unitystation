@@ -1,17 +1,17 @@
-﻿using System.Collections.Generic;
+﻿using Doors;
+using Items;
+using Managers;
+using Messages.Client.VariableViewer;
+using Objects.Wallmounts;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
-using DatabaseAPI;
-using Doors;
-using Items;
-using Messages.Client.VariableViewer;
-using Objects.Wallmounts;
+using UI;
+using UI.Core.RightClick;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using UI.Core.RightClick;
-using UI;
 
 /// <summary>
 /// Main logic for managing right click behavior.
@@ -22,7 +22,7 @@ using UI;
 ///
 /// Refer to documentation at https://github.com/unitystation/unitystation/wiki/Right-Click-Menu
 /// </summary>
-public class RightClickManager : MonoBehaviourSingleton<RightClickManager>
+public class RightClickManager : SingletonManager<RightClickManager>
 {
 	public static readonly Color ButtonColor = new Color(0.3f, 0.55f, 0.72f, 0.7f);
 
@@ -114,7 +114,8 @@ public class RightClickManager : MonoBehaviourSingleton<RightClickManager>
 			{
 				RightClickAttributedComponent component = new RightClickAttributedComponent
 				{
-					ComponentType = componentType, AttributedMethods = attributedMethodsForType
+					ComponentType = componentType,
+					AttributedMethods = attributedMethodsForType
 				};
 				result.Add(component);
 			}
@@ -181,7 +182,7 @@ public class RightClickManager : MonoBehaviourSingleton<RightClickManager>
 			var slotObject = itemSlot.OrNull()?.ItemObject;
 			if (slotObject != null)
 			{
-				return new List<GameObject>{ slotObject };
+				return new List<GameObject> { slotObject };
 			}
 		}
 

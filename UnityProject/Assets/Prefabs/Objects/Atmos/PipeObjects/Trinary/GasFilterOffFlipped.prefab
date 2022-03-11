@@ -18,11 +18,37 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 08a3f9e4e431c0945b748f87bc69081c,
         type: 2}
+    - target: {fileID: 245935552815682260, guid: f04f1148822d6c949aaafb1e43e5d59b,
+        type: 3}
+      propertyPath: initialVariantIndex
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 848941496079183241, guid: f04f1148822d6c949aaafb1e43e5d59b,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300004, guid: b0acb51e1d67bac48a3d15a157fef8bb,
+        type: 3}
+    - target: {fileID: 1367751887141801738, guid: f04f1148822d6c949aaafb1e43e5d59b,
+        type: 3}
+      propertyPath: initialVariantIndex
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1832514158404938653, guid: f04f1148822d6c949aaafb1e43e5d59b,
+        type: 3}
+      propertyPath: initialVariantIndex
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2904854549324431949, guid: f04f1148822d6c949aaafb1e43e5d59b,
+        type: 3}
+      propertyPath: initialVariantIndex
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3327325209178255850, guid: f04f1148822d6c949aaafb1e43e5d59b,
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 92dcd6fad406af741b497174040f3d77,
+      objectReference: {fileID: 21300002, guid: 92dcd6fad406af741b497174040f3d77,
         type: 3}
     - target: {fileID: 3846844616381856392, guid: f04f1148822d6c949aaafb1e43e5d59b,
         type: 3}
@@ -30,17 +56,48 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 3cb1aabea40c86a469e63993fc0e2e78,
         type: 2}
+    - target: {fileID: 3846844616381856392, guid: f04f1148822d6c949aaafb1e43e5d59b,
+        type: 3}
+      propertyPath: initialVariantIndex
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4630725396653616667, guid: f04f1148822d6c949aaafb1e43e5d59b,
         type: 3}
       propertyPath: foreverID
       value: c27cb1a9c87d9c94abaaf3bd9df216df
       objectReference: {fileID: 0}
+    - target: {fileID: 6521446606565198182, guid: f04f1148822d6c949aaafb1e43e5d59b,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300002, guid: a5831f8b6dd567b41936e6c9fe76e4a2,
+        type: 3}
     - target: {fileID: 7643419451972840866, guid: f04f1148822d6c949aaafb1e43e5d59b,
         type: 3}
       propertyPath: SpawnOnDeconstruct
       value: 
       objectReference: {fileID: 7897349000822447281, guid: 43e66cc377c795d4399ac7b50bbb0549,
         type: 3}
+    - target: {fileID: 7643419451972840866, guid: f04f1148822d6c949aaafb1e43e5d59b,
+        type: 3}
+      propertyPath: pipeData.Connections.Directions.Array.data[0].Bool
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7643419451972840866, guid: f04f1148822d6c949aaafb1e43e5d59b,
+        type: 3}
+      propertyPath: pipeData.Connections.Directions.Array.data[1].Bool
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7643419451972840866, guid: f04f1148822d6c949aaafb1e43e5d59b,
+        type: 3}
+      propertyPath: pipeData.Connections.Directions.Array.data[2].Bool
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7643419451972840866, guid: f04f1148822d6c949aaafb1e43e5d59b,
+        type: 3}
+      propertyPath: pipeData.Connections.Directions.Array.data[3].Bool
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7643419451972840866, guid: f04f1148822d6c949aaafb1e43e5d59b,
         type: 3}
       propertyPath: pipeData.Connections.Directions.Array.data[0].PortType
@@ -61,11 +118,22 @@ PrefabInstance:
       propertyPath: pipeData.Connections.Directions.Array.data[2].flagLogic
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7643419451972840866, guid: f04f1148822d6c949aaafb1e43e5d59b,
+        type: 3}
+      propertyPath: pipeData.Connections.Directions.Array.data[3].flagLogic
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8259218920580726056, guid: f04f1148822d6c949aaafb1e43e5d59b,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: b0acb51e1d67bac48a3d15a157fef8bb,
+        type: 3}
     - target: {fileID: 8381886080152761413, guid: f04f1148822d6c949aaafb1e43e5d59b,
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 77b84b19a81d74544a47748bfbd8916c,
+      objectReference: {fileID: 21300002, guid: 77b84b19a81d74544a47748bfbd8916c,
         type: 3}
     - target: {fileID: 8586105927633606280, guid: f04f1148822d6c949aaafb1e43e5d59b,
         type: 3}

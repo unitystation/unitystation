@@ -14,7 +14,7 @@ namespace Chemistry.Editor
 {
 	public class Importer : EditorWindow
 	{
-		Deserializer deserializer = new DeserializerBuilder().Build();
+		Deserializer deserializer = (Deserializer) new DeserializerBuilder().Build();
 		private string reagentExportPath;
 		private string reactionExportPath;
 		private string reactionSetExportPath;

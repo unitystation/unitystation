@@ -526,7 +526,7 @@ namespace Objects.Engineering
 		public bool WillInteract(HandApply interaction, NetworkSide side)
 		{
 			if (DefaultWillInteract.Default(interaction, side) == false) return false;
-			
+
 			return Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Screwdriver);
 		}
 
@@ -541,7 +541,7 @@ namespace Objects.Engineering
 			float voltage = Voltage*10;
 			Vector3 shockpos = gameObject.WorldPosServer();
 			Electrocution electrocution = new Electrocution(voltage, shockpos, "APC");
-			
+
 			interaction.Performer.GetComponent<PlayerHealthV2>().Electrocute(electrocution);
 
 			ToolUtils.ServerUseToolWithActionMessages(interaction, secondsToScrewdrive,
@@ -572,8 +572,8 @@ namespace Objects.Engineering
 			GameObject frame = frameSpawn.GameObject;
 			frame.GetComponent<APCFrame>().ServerInitFromComputer(this);
 
-			var Directional = frame.GetComponent<Directional>();
-			if (Directional != null) Directional.FaceDirection(gameObject.GetComponent<Directional>().CurrentDirection);
+			var Directional = frame.GetComponent<Rotatable>();
+			if (Directional != null) Directional.FaceDirection(gameObject.GetComponent<Rotatable>().CurrentDirection);
 
 			_ = Despawn.ServerSingle(gameObject);
 

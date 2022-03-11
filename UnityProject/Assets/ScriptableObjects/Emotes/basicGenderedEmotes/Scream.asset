@@ -15,10 +15,12 @@ MonoBehaviour:
   emoteName: scream
   requiresHands: 0
   allowEmoteWhileInCrit: 1
+  isAudibleEmote: 1
   allowEmoteWhileCrawling: 1
   viewText: Screams!
   youText: You scream!
   failText: You cannot scream!
+  mouthBlockedText: You try to scream but are unable to make a sound!
   critViewText: screams in pain!
   defaultSounds: []
   maleSounds: []

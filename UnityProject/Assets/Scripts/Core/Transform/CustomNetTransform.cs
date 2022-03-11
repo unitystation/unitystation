@@ -7,6 +7,7 @@ using UnityEngine.Events;
 using Mirror;
 using NaughtyAttributes;
 using Objects;
+using Util;
 
 // ReSharper disable CompareOfFloatsByEqualityOperator
 
@@ -64,7 +65,7 @@ public partial class CustomNetTransform : NetworkBehaviour, IPushable
 	{
 		get
 		{
-			if (ItemAttributes == null)
+			if (itemAttributes.HasComponent == false)
 			{
 				return ItemSize.Huge;
 			}
@@ -96,20 +97,9 @@ public partial class CustomNetTransform : NetworkBehaviour, IPushable
 	private RegisterTile registerTile;
 	public RegisterTile RegisterTile => registerTile;
 
-	private ItemAttributesV2 ItemAttributes
-	{
-		get
-		{
-			if (itemAttributes == null)
-			{
-				itemAttributes = GetComponent<ItemAttributesV2>();
-			}
+	private ItemAttributesV2 ItemAttributes => itemAttributes.Component;
 
-			return itemAttributes;
-		}
-	}
-
-	private ItemAttributesV2 itemAttributes;
+	private CheckedComponent<ItemAttributesV2> itemAttributes;
 
 	[ReadOnlyAttribute]
 	private TransformState
@@ -167,7 +157,7 @@ public partial class CustomNetTransform : NetworkBehaviour, IPushable
 	private void Awake()
 	{
 		registerTile = GetComponent<RegisterTile>();
-		itemAttributes = GetComponent<ItemAttributesV2>();
+		itemAttributes = new CheckedComponent<ItemAttributesV2>(this);
 		buckleInteract = GetComponent<BuckleInteract>();
 		if (buckleInteract)
 		{
@@ -196,7 +186,7 @@ public partial class CustomNetTransform : NetworkBehaviour, IPushable
 		}
 
 		Vector3 pos = transform.position;
-		if (snapToGridOnStart)
+		if (snapToGridOnStart && isServer)
 		{
 			pos = pos.RoundToInt();
 		}
@@ -473,7 +463,7 @@ public partial class CustomNetTransform : NetworkBehaviour, IPushable
 			if (oldMatrix.IsMovable
 			    && oldMatrix.MatrixMove.IsMovingServer)
 			{
-				Push(oldMatrix.MatrixMove.ServerState.FlyingDirection.Vector.To2Int(), oldMatrix.Speed);
+				Push(oldMatrix.MatrixMove.ServerState.FlyingDirection.LocalVector.To2Int(), oldMatrix.Speed);
 				Logger.LogTraceFormat("{0} inertia pushed while attempting matrix switch", Category.Matrix, gameObject);
 				return;
 			}
@@ -550,6 +540,7 @@ public partial class CustomNetTransform : NetworkBehaviour, IPushable
 		predictedState.MatrixId =
 			MatrixManager.AtPoint(Vector3Int.RoundToInt(worldPos), false, registerTile.Matrix.MatrixInfo).Id;
 		predictedState.WorldPosition = pos;
+
 		transform.position = pos;
 		UpdateActiveStatusClient();
 	}

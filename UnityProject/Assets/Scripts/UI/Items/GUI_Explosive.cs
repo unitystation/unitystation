@@ -62,19 +62,19 @@ namespace UI.Items
 					break;
 			}
 
-			modeToggleButton.Element.isOn = explosiveDevice.DetonateImmediatelyOnSignal;
+			modeToggleButton.Value = explosiveDevice.DetonateImmediatelyOnSignal ? "1" : "0";
 			timerCount = explosiveDevice.TimeToDetonate;
 			explosiveDevice.GUI = this;
 		}
 
 		public void ArmDevice()
 		{
-			explosiveDevice.IsArmed = armToggleButton.Element.isOn;
-			if (modeToggleButton.Element.isOn == false && armToggleButton.Element.isOn == true)
+			explosiveDevice.IsArmed = armToggleButton.Value == "1";
+			if (modeToggleButton.Value == "0" && armToggleButton.Value == "1")
 			{
 				modeToggleButton.enabled = false;
 				armToggleButton.enabled = true;
-				explosiveDevice.Countdown();
+				StartCoroutine(explosiveDevice.Countdown());
 				UpdateStatusText();
 				return;
 			}
@@ -83,31 +83,38 @@ namespace UI.Items
 
 		public void ToggleMode()
 		{
-			explosiveDevice.ToggleMode(modeToggleButton.Element.isOn);
+			if(modeToggleButton.Value == "1")
+			{
+				explosiveDevice.ToggleMode(true);
+			}
+			else
+			{
+				explosiveDevice.ToggleMode(false);
+			}
 			UpdateStatusText();
 		}
 
 		public void IncreaseTimeByOne()
 		{
-			if(armToggleButton.Element.isOn) return;
+			if(armToggleButton.Value == "1") return;
 			explosiveDevice.TimeToDetonate += 1;
 			StartCoroutine(UpdateTimer());
 		}
 		public void IncreaseTimeByTen()
 		{
-			if (armToggleButton.Element.isOn) return;
+			if (armToggleButton.Value == "1") return;
 			explosiveDevice.TimeToDetonate += 10;
 			StartCoroutine(UpdateTimer());
 		}
 		public void DecreaseTimeByOne()
 		{
-			if (explosiveDevice.TimeToDetonate  - 1  < explosiveDevice.MinimumTimeToDetonate || armToggleButton.Element.isOn) return;
+			if (explosiveDevice.TimeToDetonate  - 1  < explosiveDevice.MinimumTimeToDetonate || armToggleButton.Value == "1") return;
 			explosiveDevice.TimeToDetonate -= 1;
 			StartCoroutine(UpdateTimer());
 		}
 		public void DecreaseTimeByTen()
 		{
-			if (explosiveDevice.TimeToDetonate  - 10 < explosiveDevice.MinimumTimeToDetonate|| armToggleButton.Element.isOn) return;
+			if (explosiveDevice.TimeToDetonate  - 10 < explosiveDevice.MinimumTimeToDetonate|| armToggleButton.Value == "1") return;
 			explosiveDevice.TimeToDetonate -= 10;
 			StartCoroutine(UpdateTimer());
 		}

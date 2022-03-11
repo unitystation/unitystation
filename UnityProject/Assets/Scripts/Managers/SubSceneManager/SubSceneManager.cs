@@ -70,7 +70,9 @@ public partial class SubSceneManager : NetworkBehaviour
 	IEnumerator LoadSubScene(string sceneName, SubsceneLoadTimer loadTimer = null, bool HandlSynchronising = true)
 	{
 		AsyncOperation AO = SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Additive);
-		while (!AO.isDone)
+		if (AO == null) yield break; // Null if scene not found.
+
+		while (AO.isDone == false)
 		{
 			if (loadTimer != null) loadTimer.IncrementLoadBar();
 			yield return WaitFor.EndOfFrame;

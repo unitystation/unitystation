@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections;
 using System.IO;
+using System.Net.Http;
+using System.Threading;
 using System.Threading.Tasks;
 using DatabaseAPI;
 using Firebase.Auth;
@@ -8,6 +10,7 @@ using Firebase.Extensions;
 using Lobby;
 using Managers;
 using UnityEngine;
+using UnityEngine.Networking;
 using UnityEngine.Rendering;
 using UnityEngine.SceneManagement;
 
@@ -74,6 +77,30 @@ public class GameData : MonoBehaviour
 		Init();
 	}
 
+	public async void APITest()
+	{
+		var url = "https://api.unitystation.org/validatetoken?data=";
+
+		HttpRequestMessage r = new HttpRequestMessage(HttpMethod.Get,
+			url + UnityWebRequest.EscapeURL(JsonUtility.ToJson("")));
+
+		CancellationToken cancellationToken = new CancellationTokenSource(120000).Token;
+
+		HttpResponseMessage res;
+		try
+		{
+			res = await ServerData.HttpClient.SendAsync(r, cancellationToken);
+		}
+		catch (System.Net.Http.HttpRequestException e)
+		{
+			forceOfflineMode = true;
+			return;
+		}
+		
+		forceOfflineMode = false;
+	}
+
+
 	private void Init()
 	{
 #if UNITY_EDITOR
@@ -87,7 +114,7 @@ public class GameData : MonoBehaviour
 		forceOfflineMode = !string.IsNullOrEmpty(GetArgument("-offlinemode"));
 		Logger.Log($"Build Version is: {BuildNumber}. " + (OfflineMode ? "Offline mode" : string.Empty));
 		CheckHeadlessState();
-
+		APITest();
 		Environment.SetEnvironmentVariable("MONO_REFLECTION_SERIALIZER", "yes");
 
 		string testServerEnv = Environment.GetEnvironmentVariable("TEST_SERVER");
@@ -100,7 +127,15 @@ public class GameData : MonoBehaviour
 		{
 			if (FirebaseAuth.DefaultInstance.CurrentUser != null)
 			{
-				AttemptAutoJoin(LobbyManager.Instance.lobbyDialogue.LoginSuccess);
+				if (LobbyManager.Instance.OrNull()?.lobbyDialogue != null)
+				{
+					AttemptAutoJoin(LobbyManager.Instance.lobbyDialogue.LoginSuccess);
+				}
+				else
+				{
+					Logger.LogWarning("LobbyManager.Instance == null");
+				}
+
 			}
 		}
 	}

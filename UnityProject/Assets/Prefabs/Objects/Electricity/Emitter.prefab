@@ -85,26 +85,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2456943875737660155, guid: f9025da3beb40304cb15babfc0a6cafa,
         type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2456943875737660155, guid: f9025da3beb40304cb15babfc0a6cafa,
-        type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2456943875737660155, guid: f9025da3beb40304cb15babfc0a6cafa,
-        type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2456943875737660155, guid: f9025da3beb40304cb15babfc0a6cafa,
-        type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2456943875737660155, guid: f9025da3beb40304cb15babfc0a6cafa,
-        type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
       value: 0
       objectReference: {fileID: 0}
@@ -303,18 +283,6 @@ SortingGroup:
     type: 3}
   m_PrefabInstance: {fileID: 1745273223061576469}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &8675587485970357742 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 6943869364395329275, guid: f9025da3beb40304cb15babfc0a6cafa,
-    type: 3}
-  m_PrefabInstance: {fileID: 1745273223061576469}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &-7926788470919046243
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -381,31 +349,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  InitialDirection: 3
-  onEditorDirectionChange:
-    m_PersistentCalls:
-      m_Calls: []
-  ChangeDirectionWithMatrix: 1
-  DisableSyncing: 0
---- !u!114 &6945564235337359573
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4194276244320548660}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e74a412989a7a314db7c2d297a269da9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  MethodRotation: 0
+  ChangeSprites: 1
   isChangingSO: 0
-  indexDown: 0
-  indexUp: 1
-  indexRight: 2
-  indexLeft: 3
-  spriteHandlers:
-  - {fileID: 8675587485970357742}
+  CurrentDirection: 3
+  IsAtmosphericDevice: 0
 --- !u!114 &7229877133248999746
 MonoBehaviour:
   m_ObjectHideFlags: 0

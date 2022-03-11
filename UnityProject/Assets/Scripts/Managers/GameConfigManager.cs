@@ -61,5 +61,6 @@ namespace GameConfig
 		public int MalfAIRecieveTheirIntendedObjectiveChance;
 		public int CharacterNameLimit;
 		public bool ServerShutsDownOnRoundEnd;
+		public int PlayerLimit;
 	}
 }

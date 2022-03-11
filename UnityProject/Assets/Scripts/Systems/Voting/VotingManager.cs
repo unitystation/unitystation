@@ -136,7 +136,7 @@ public class VotingManager : NetworkBehaviour
 
 		var msg = $"Vote was vetoed by {PlayerList.Instance.GetByUserID(adminId).Username}";
 
-		UIManager.Instance.adminChatWindows.adminToAdminChat.ServerAddChatRecord(msg, adminId);
+		UIManager.Instance.adminChatWindows.adminLogWindow.ServerAddChatRecord(msg, adminId);
 		Logger.Log(msg, Category.Admin);
 	}
 

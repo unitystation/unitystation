@@ -3,6 +3,20 @@ using System;
 using System.Linq;
 using UnityEngine;
 
+public enum ActionInterruptionType
+{
+	MatrixRotation,
+	MatrixMove,
+	TargetDespawn,
+	PerformerCuffed,
+	PerformerOrTargetMoved,
+	PerformerSlipped,
+	PerformerUnconscious,
+	PerformerDirection,
+	ChangeToPerformerActiveSlot,
+	WelderOff
+}
+
 /// <summary>
 /// Progress action which covers the majority of common progress action use cases.
 /// These should be used once per attempted progress action, don't reuse one for multiple
@@ -13,15 +27,19 @@ public class StandardProgressAction : IProgressAction
 
 	private readonly StandardProgressActionConfig progressActionConfig;
 
+
+
 	//invoked on successful completion
 	private readonly Action onCompletion;
+	//invoked on interruption
+	private readonly Action<ActionInterruptionType> onInterruption;
 
 	//slot being used to perform the action, will be interrupted if slot contents change
 	private ItemSlot usedSlot;
 	//conscious state when beginning progress
 	private ConsciousState initialConsciousState;
 	//initial facing direction
-	private Orientation initialDirection;
+	private OrientationEnum initialDirection;
 	private PlayerScript playerScript;
 	private StartProgressInfo startProgressInfo;
 	//is this a cross matrix action
@@ -47,6 +65,14 @@ public class StandardProgressAction : IProgressAction
 		this.welder = welder;
 	}
 
+	private StandardProgressAction(StandardProgressActionConfig progressActionConfig, Action onCompletion,
+		Action<ActionInterruptionType> onInterruption)
+	{
+		this.progressActionConfig = progressActionConfig;
+		this.onCompletion = onCompletion;
+		this.onInterruption = onInterruption;
+	}
+
 	/// <summary>
 	/// Creates a new instance of a progress action with the indicated configuration and
 	/// completion action.
@@ -70,6 +96,20 @@ public class StandardProgressAction : IProgressAction
 		Action onCompletion, Welder welder)
 	{
 		return new StandardProgressAction(progressActionConfig, onCompletion, welder);
+	}
+
+	/// <summary>
+	/// Creates a new instance of a progress action with the indicated configuration and
+	/// completion action.
+	/// </summary>
+	/// <param name="progressActionConfig">config</param>
+	/// <param name="onCompletion">action to invoke server-side on successful completion (not invoked when interrupted)</param>
+	/// <param name="onInterrupted">action to invoke server-side when interrupted</param>
+	/// <returns></returns>
+	public static StandardProgressAction Create(StandardProgressActionConfig progressActionConfig,
+		Action onCompletion, Action<ActionInterruptionType> onInterrupted)
+	{
+		return new StandardProgressAction(progressActionConfig, onCompletion, onInterrupted);
 	}
 
 	public bool OnServerStartProgress(StartProgressInfo info)
@@ -194,19 +234,19 @@ public class StandardProgressAction : IProgressAction
 			eventRegistry.Register(playerScript.registerTile.OnLocalPositionChangedServer, OnLocalPositionChanged);
 		}
 		//interrupt if player turns away and turning is not allowed
-		eventRegistry.Register(playerScript.playerDirectional.OnDirectionChange, OnDirectionChanged);
+		eventRegistry.Register(playerScript.playerDirectional.OnRotationChange, OnDirectionChanged);
 		initialDirection = playerScript.playerDirectional.CurrentDirection;
 		//interrupt if tile is on different matrix and either matrix moves / rotates
 		if (crossMatrix)
 		{
-			if (startProgressInfo.Target.TargetMatrixInfo.MatrixMove != null)
+			if (startProgressInfo.Target.TargetMatrixInfo.IsMovable)
 			{
 				eventRegistry.Register(startProgressInfo.Target.TargetMatrixInfo.MatrixMove.MatrixMoveEvents.OnStartMovementServer, OnMatrixStartMove);
 				eventRegistry.Register(startProgressInfo.Target.TargetMatrixInfo.MatrixMove.MatrixMoveEvents.OnRotate, OnMatrixRotate);
 			}
 
 			var performerMatrix = playerScript.registerTile.Matrix;
-			if (performerMatrix.MatrixMove != null)
+			if (performerMatrix.IsMovable)
 			{
 				eventRegistry.Register(performerMatrix.MatrixMove.MatrixMoveEvents.OnStartMovementServer, OnMatrixStartMove);
 				eventRegistry.Register(performerMatrix.MatrixMove.MatrixMoveEvents.OnRotate, OnMatrixRotate);
@@ -254,18 +294,19 @@ public class StandardProgressAction : IProgressAction
 		}
 	}
 
-	private void InterruptProgress(string reason)
+	private void InterruptProgress(string reason, ActionInterruptionType interruptionType)
 	{
 		if(progressActionConfig.AllowMovement == true) return;
 		Logger.LogTraceFormat("Server progress bar {0} interrupted: {1}.", Category.ProgressAction,
 			ProgressBar.ID, reason);
 		ProgressBar.ServerInterruptProgress();
+		onInterruption?.Invoke(interruptionType);
 	}
 
 	private void OnMatrixRotate(MatrixRotationInfo arg0)
 	{
 		if(progressActionConfig.AllowMovement == true) return;
-		InterruptProgress("cross-matrix and target or performer matrix rotated");
+		InterruptProgress("cross-matrix and target or performer matrix rotated", ActionInterruptionType.MatrixRotation);
 	}
 
 	private bool CanPlayerStillProgress()
@@ -285,48 +326,54 @@ public class StandardProgressAction : IProgressAction
 
 	private void OnWelderOff()
 	{
-		InterruptProgress("welder off");
+		InterruptProgress("welder off", ActionInterruptionType.WelderOff);
 	}
 
 	private void OnSlotContentsChanged()
 	{
-		InterruptProgress("performer's active slot contents changed");
+		InterruptProgress("performer's active slot contents changed",
+			ActionInterruptionType.ChangeToPerformerActiveSlot);
 	}
 
 	private void OnMatrixStartMove()
 	{
-		InterruptProgress("cross-matrix and performer or target matrix started moving");
+		InterruptProgress("cross-matrix and performer or target matrix started moving",
+			ActionInterruptionType.MatrixMove);
 	}
 
 	private void OnLocalPositionChanged(Vector3Int arg0)
 	{
 		//if player or target moves at all, interrupt
-		InterruptProgress("performer or target moved");
+		InterruptProgress("performer or target moved",ActionInterruptionType.PerformerOrTargetMoved);
 	}
 
 	private void OnDespawned()
 	{
-		InterruptProgress("target was despawned");
+		InterruptProgress("target was despawned", ActionInterruptionType.TargetDespawn);
 	}
 
 	private void OnConsciousStateChange(ConsciousState oldState, ConsciousState newState)
 	{
-		if (!CanPlayerStillProgress()) InterruptProgress("performer not conscious enough");
+		if (!CanPlayerStillProgress()) InterruptProgress("performer not conscious enough",
+			ActionInterruptionType.PerformerUnconscious);
 	}
 
 	private void OnSlipChange(bool wasSlipped, bool nowSlipped)
 	{
-		if (!CanPlayerStillProgress()) InterruptProgress("performer slipped");
+		if (!CanPlayerStillProgress()) InterruptProgress("performer slipped",
+			ActionInterruptionType.PerformerSlipped);
 	}
 
 	private void OnCuffChange(bool wasCuffed, bool nowCuffed)
 	{
-		if (!CanPlayerStillProgress()) InterruptProgress("performer cuffed");
+		if (!CanPlayerStillProgress()) InterruptProgress("performer cuffed",
+			ActionInterruptionType.PerformerCuffed);
 	}
 
 
-	private void OnDirectionChanged(Orientation arg0)
+	private void OnDirectionChanged(OrientationEnum arg0)
 	{
-		if (!CanPlayerStillProgress()) InterruptProgress("performer direction changed");
+		if (!CanPlayerStillProgress()) InterruptProgress("performer direction changed",
+			ActionInterruptionType.PerformerDirection);
 	}
 }

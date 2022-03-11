@@ -12,6 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c8724f2eb82049548ce89dde3d83dfa3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  initialContents: {fileID: 0}
+  spawnContentsAtRoundstart: 1
   randomContentList: []
   alternativeUnwrapSound:
     SetLoadSetting: 0
@@ -139,6 +141,16 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 2469f060531623641b96d9ce5c2031b4,
         type: 2}
+    - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      propertyPath: inventoryMoveSound.AssetAddress
+      value: null
+      objectReference: {fileID: 0}
+    - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      propertyPath: inventoryRemoveSound.AssetAddress
+      value: null
+      objectReference: {fileID: 0}
     - target: {fileID: 1373280397285383934, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
       propertyPath: normalPackagePrefab

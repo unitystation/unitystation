@@ -18,7 +18,7 @@ namespace Player
 	/// Note that the clothing you put on (UniCloths) are handled in Equipment
 	/// Ghosts are handled in GhostSprites.
 	/// </summary>
-	[RequireComponent(typeof(Directional))]
+	[RequireComponent(typeof(Rotatable))]
 	[RequireComponent(typeof(PlayerScript))]
 	public class PlayerSprites : MonoBehaviour
 	{
@@ -65,7 +65,7 @@ namespace Player
 
 		public readonly List<BodyPartSprites> SurfaceSprite = new List<BodyPartSprites>();
 
-		private Directional directional;
+		private Rotatable directional;
 		private PlayerDirectionalOverlay engulfedBurningOverlay;
 		private PlayerDirectionalOverlay partialBurningOverlay;
 		private PlayerDirectionalOverlay electrocutedOverlay;
@@ -92,7 +92,7 @@ namespace Player
 
 		protected void Awake()
 		{
-			directional = GetComponent<Directional>();
+			directional = GetComponent<Rotatable>();
 			playerHealth = GetComponent<PlayerHealthV2>();
 
 			foreach (var clothingItem in GetComponentsInChildren<ClothingItem>())
@@ -102,16 +102,23 @@ namespace Player
 
 			AddOverlayGameObjects();
 
-			directional.OnDirectionChange.AddListener(OnDirectionChange);
+
+		}
+
+		private void OnEnable()
+		{
+			directional.OnRotationChange.AddListener(OnDirectionChange);
+
 			//TODO: Need to reimplement fire stacks on players.
 			playerHealth.OnClientFireStacksChange.AddListener(OnClientFireStacksChange);
 			var healthStateController = GetComponent<HealthStateController>();
 			OnClientFireStacksChange(healthStateController.FireStacks);
 		}
 
-		private void OnDestroy()
+		private void OnDisable()
 		{
 			playerHealth.OnClientFireStacksChange.RemoveListener(OnClientFireStacksChange);
+			directional.OnRotationChange.RemoveListener(OnDirectionChange);
 		}
 
 		/// <summary>
@@ -207,7 +214,7 @@ namespace Player
 			if (ThisCharacter.SerialisedBodyPartCustom == null)
 			{
 				//TODO : (Max) - Fix SerialisedBodyPartCustom being null on Dummy players
-				Logger.LogError($"{gameObject} has spawned with null bodyPart customizations. This error should only appear for Dummy players only.");
+				Logger.LogWarning($"{gameObject} has spawned with null bodyPart customizations. This error should only appear for Dummy players only.");
 				return;
 			}
 
@@ -253,10 +260,15 @@ namespace Player
 
 				if (externalCustomisation == null) continue;
 
-				var SpriteHandlerNorder = Spawn.ServerPrefab(ToInstantiateSpriteCustomisation.gameObject, null, CustomisationSprites.transform)
-										.GameObject.GetComponent<SpriteHandlerNorder>();
+
+				var Net = SpriteHandlerManager.GetRecursivelyANetworkBehaviour(this.gameObject);
+				var SpriteHandlerNorder = Instantiate(ToInstantiateSpriteCustomisation.gameObject, CustomisationSprites.transform)
+										.GetComponent<SpriteHandlerNorder>();
+				SpriteHandlerManager.UnRegisterHandler(Net, SpriteHandlerNorder.SpriteHandler);
+
 				SpriteHandlerNorder.transform.localPosition = Vector3.zero;
 				SpriteHandlerNorder.name = Customisation.CustomisationGroup.ThisType.ToString();
+				SpriteHandlerManager.RegisterHandler(Net, SpriteHandlerNorder.SpriteHandler);
 
 				var newone = new IntName();
 				newone.Int =
@@ -340,7 +352,7 @@ namespace Player
 			UpdateBurningOverlays(newStacks, directional.CurrentDirection);
 		}
 
-		private void OnDirectionChange(Orientation direction)
+		private void OnDirectionChange(OrientationEnum direction)
 		{
 			//update the clothing sprites
 			foreach (var clothingItem in clothes.Values)
@@ -357,7 +369,6 @@ namespace Player
 			{
 				bodypart.OnDirectionChange(direction);
 			}
-
 
 			//TODO: Reimplement player fire sprites.
 			UpdateBurningOverlays(playerHealth.FireStacks, direction);
@@ -387,7 +398,7 @@ namespace Player
 			electrocutedOverlay.StopOverlay();
 		}
 
-		private void UpdateElectrocutionOverlay(Orientation currentFacing)
+		private void UpdateElectrocutionOverlay(OrientationEnum currentFacing)
 		{
 			if (electrocutedOverlay.OverlayActive)
 			{
@@ -402,7 +413,7 @@ namespace Player
 		/// <summary>
 		/// Updates whether burning sprites are showing and sets their facing
 		/// </summary>
-		private void UpdateBurningOverlays(float fireStacks, Orientation currentFacing)
+		private void UpdateBurningOverlays(float fireStacks, OrientationEnum currentFacing)
 		{
 			if (fireStacks <= 0)
 			{
@@ -584,7 +595,7 @@ namespace Player
 				{
 					if (CustomNetworkManager.Instance.allSpawnablePrefabs.Count > ID.Int)
 					{
-						var OB = Instantiate(CustomNetworkManager.Instance.allSpawnablePrefabs[ID.Int], this.gameObject.transform).transform;
+						var OB = Instantiate(CustomNetworkManager.Instance.allSpawnablePrefabs[ID.Int], this.CustomisationSprites.transform).transform;
 						var Net = SpriteHandlerManager.GetRecursivelyANetworkBehaviour(OB.gameObject);
 						var Handlers = OB.GetComponentsInChildren<SpriteHandler>();
 
@@ -593,7 +604,7 @@ namespace Player
 							SpriteHandlerManager.UnRegisterHandler(Net, SH);
 						}
 
-						OB.SetParent(this.transform);
+						OB.SetParent(this.CustomisationSprites.transform);
 						OB.name = ID.Name;
 						OB.localScale = Vector3.one;
 						OB.localPosition = Vector3.zero;

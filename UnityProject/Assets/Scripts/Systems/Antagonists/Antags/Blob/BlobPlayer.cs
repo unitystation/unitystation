@@ -1443,7 +1443,7 @@ namespace Blob
 				if (factoryBlob.Value.Count >= 3) continue;
 
 				var result = Spawn.ServerPrefab(blobSpore, factoryBlob.Key.location,
-					factoryBlob.Key.transform);
+					factoryBlob.Key.transform.parent);
 
 				if (!result.Successful) continue;
 

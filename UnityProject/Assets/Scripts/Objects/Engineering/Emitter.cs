@@ -13,7 +13,7 @@ namespace Objects.Engineering
 {
 	public class Emitter : MonoBehaviour, ICheckedInteractable<HandApply>, INodeControl, IExaminable, ICheckedInteractable<AiActivate>
 	{
-		private Directional directional;
+		private Rotatable directional;
 		private ObjectBehaviour objectBehaviour;
 		private RegisterTile registerTile;
 		private SpriteHandler spriteHandler;
@@ -53,7 +53,7 @@ namespace Objects.Engineering
 
 		private void Awake()
 		{
-			directional = GetComponent<Directional>();
+			directional = GetComponent<Rotatable>();
 			objectBehaviour = GetComponent<ObjectBehaviour>();
 			registerTile = GetComponent<RegisterTile>();
 			accessRestrictions = GetComponent<AccessRestrictions>();
@@ -70,7 +70,7 @@ namespace Objects.Engineering
 			{
 				isWelded = true;
 				isWrenched = true;
-				directional.LockDirection = true;
+				directional.LockDirectionTo(true, directional.CurrentDirection);
 				objectBehaviour.ServerSetPushable(false);
 			}
 		}
@@ -116,7 +116,7 @@ namespace Objects.Engineering
 
 		public void ShootEmitter()
 		{
-			CastProjectileMessage.SendToAll(gameObject, projectilePrefab, directional.CurrentDirection.Vector, default);
+			CastProjectileMessage.SendToAll(gameObject, projectilePrefab, directional.CurrentDirection.ToLocalVector3(), default);
 
 			SoundManager.PlayNetworkedAtPos(sound, registerTile.WorldPositionServer);
 		}
@@ -314,7 +314,7 @@ namespace Objects.Engineering
 					() =>
 					{
 						isWrenched = false;
-						directional.LockDirection = false;
+						directional.LockDirectionTo(false, directional.CurrentDirection);
 						objectBehaviour.ServerSetPushable(true);
 						TogglePower(false);
 					});
@@ -336,7 +336,7 @@ namespace Objects.Engineering
 					() =>
 					{
 						isWrenched = true;
-						directional.LockDirection = true;
+						directional.LockDirectionTo(true, directional.CurrentDirection);
 						objectBehaviour.ServerSetPushable(false);
 					});
 			}

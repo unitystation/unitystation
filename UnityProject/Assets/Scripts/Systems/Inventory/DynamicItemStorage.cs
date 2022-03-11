@@ -1153,13 +1153,13 @@ public class DynamicItemStorage : NetworkBehaviour
 	/// Ensure players can see inventory changes/Interact with storage
 	/// </summary>
 	/// <param name="newBody"></param>
-	public void ServerAddObserverPlayer(GameObject newBody)
+	public void ServerAddObserverPlayer(GameObject newBody, bool topLevelOnly = false)
 	{
 		Observers.Add(newBody);
 
 		foreach (var objt in ServerContainedInventorys)
 		{
-			objt.RelatedStorage.ServerAddObserverPlayer(newBody);
+			objt.RelatedStorage.ServerAddObserverPlayer(newBody, topLevelOnly);
 		}
 	}
 

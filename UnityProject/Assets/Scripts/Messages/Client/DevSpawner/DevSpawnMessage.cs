@@ -36,7 +36,7 @@ namespace Messages.Client.DevSpawner
 			if (NetworkClient.prefabs.TryGetValue(msg.PrefabAssetID, out var prefab))
 			{
 				Spawn.ServerPrefab(prefab, msg.WorldPosition);
-				UIManager.Instance.adminChatWindows.adminToAdminChat.ServerAddChatRecord(
+				UIManager.Instance.adminChatWindows.adminLogWindow.ServerAddChatRecord(
 					$"{SentByPlayer.Username} spawned a {prefab.name} at {msg.WorldPosition}", SentByPlayer.UserId);
 			}
 			else

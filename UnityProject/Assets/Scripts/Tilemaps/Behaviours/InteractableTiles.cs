@@ -469,18 +469,18 @@ public class InteractableTiles : MonoBehaviour, IClientInteractable<PositionalHa
 		{
 			Vector2 cameraPos = MouseUtils.MouseToWorldPos();
 			var tilePos = cameraPos.RoundToInt();
-			OrientationEnum orientation = OrientationEnum.Down;
+			OrientationEnum orientation = OrientationEnum.Down_By180;
 			Vector3Int PlaceDirection = PlayerManager.LocalPlayerScript.WorldPos - tilePos;
 			bool isWallBlocked = false;
 			if (PlaceDirection.x != 0 && !MatrixManager.IsWallAt(tilePos + new Vector3Int(PlaceDirection.x > 0 ? 1 : -1, 0, 0), true))
 			{
 				if (PlaceDirection.x > 0)
 				{
-					orientation = OrientationEnum.Right;
+					orientation = OrientationEnum.Right_By270;
 				}
 				else
 				{
-					orientation = OrientationEnum.Left;
+					orientation = OrientationEnum.Left_By90;
 				}
 			}
 			else
@@ -489,11 +489,11 @@ public class InteractableTiles : MonoBehaviour, IClientInteractable<PositionalHa
 				{
 					if (PlaceDirection.y > 0)
 					{
-						orientation = OrientationEnum.Up;
+						orientation = OrientationEnum.Up_By0;
 					}
 					else
 					{
-						orientation = OrientationEnum.Down;
+						orientation = OrientationEnum.Down_By180;
 					}
 				}
 				else
@@ -521,17 +521,17 @@ public class InteractableTiles : MonoBehaviour, IClientInteractable<PositionalHa
 			Vector3 spritePos = tilePos;
 			if (wallMount.IsWallProtrusion) //for light bulbs, tubes, cameras, etc. move the sprite towards the floor
 			{
-				if(orientation == OrientationEnum.Right)
+				if(orientation == OrientationEnum.Right_By270)
 				{
 					spritePos.x += 0.5f;
 					Highlight.instance.spriteRenderer.transform.rotation = Quaternion.Euler(0,0,270);
 				}
-				else if(orientation == OrientationEnum.Left)
+				else if(orientation == OrientationEnum.Left_By90)
 				{
 						spritePos.x -= 0.5f;
 						Highlight.instance.spriteRenderer.transform.rotation = Quaternion.Euler(0,0,90);
 				}
-				else if(orientation == OrientationEnum.Up)
+				else if(orientation == OrientationEnum.Up_By0)
 				{
 					spritePos.y += 0.5f;
 					Highlight.instance.spriteRenderer.transform.rotation = Quaternion.Euler(0,0,0);

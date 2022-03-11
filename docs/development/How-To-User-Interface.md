@@ -100,8 +100,9 @@ Usage:
 
 ### NetButton
 
-NetButton is a component, that lets client call server execution on some code when pressing UI button.
-Usage:
+NetButton is a component that lets the client call a function on the server when interacting with the Button component locally.
+   
+   Usage:
 
 1. Add `NetButton` to gameobject with `Button` component.
 2. Change button's `OnClick()` to `NetButton.ExecuteClient`.
@@ -110,6 +111,8 @@ Usage:
    ![](https://cdn.discordapp.com/attachments/295186861377323009/583209885299245056/unknown.png) <br>
    Examples:
    `TabCargo` prefab has lots of buttons with `NetButton` component.
+   
+   Note : `NetToggle` is setup and works exactly like this. 
 
 ### NetPages
 

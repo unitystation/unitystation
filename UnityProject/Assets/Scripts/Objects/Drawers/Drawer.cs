@@ -38,7 +38,7 @@ namespace Objects.Drawers
 		}
 
 		protected RegisterObject registerObject;
-		protected Directional directional;
+		protected Rotatable rotatable;
 		protected PushPull drawerPushPull;
 		protected SpriteHandler drawerSpriteHandler;
 
@@ -68,7 +68,7 @@ namespace Objects.Drawers
 		protected virtual void Awake()
 		{
 			registerObject = GetComponent<RegisterObject>();
-			directional = GetComponent<Directional>();
+			rotatable = GetComponent<Rotatable>();
 			drawerPushPull = GetComponent<PushPull>();
 			container = GetComponent<ObjectContainer>();
 			drawerSpriteHandler = GetComponentInChildren<SpriteHandler>();
@@ -78,7 +78,12 @@ namespace Objects.Drawers
 		{
 			registerObject = GetComponent<RegisterObject>();
 			ServerInit();
-			directional.OnDirectionChange.AddListener(OnDirectionChanged);
+			rotatable.OnRotationChange.AddListener(OnDirectionChanged);
+		}
+
+		private void OnDisable()
+		{
+			rotatable.OnRotationChange.RemoveListener(OnDirectionChanged);
 		}
 
 		private void ServerInit()
@@ -117,7 +122,7 @@ namespace Objects.Drawers
 
 		#region Sprite
 
-		private void OnDirectionChanged(Orientation newDirection)
+		private void OnDirectionChanged(OrientationEnum newDirection)
 		{
 			UpdateSpriteOrientation();
 		}
@@ -155,12 +160,12 @@ namespace Objects.Drawers
 
 		private SpriteOrientation GetSpriteDirection()
 		{
-			switch (directional.CurrentDirection.AsEnum())
+			switch (rotatable.CurrentDirection)
 			{
-				case OrientationEnum.Up: return SpriteOrientation.North;
-				case OrientationEnum.Down: return SpriteOrientation.South;
-				case OrientationEnum.Left: return SpriteOrientation.West;
-				case OrientationEnum.Right: return SpriteOrientation.East;
+				case OrientationEnum.Up_By0: return SpriteOrientation.North;
+				case OrientationEnum.Down_By180: return SpriteOrientation.South;
+				case OrientationEnum.Left_By90: return SpriteOrientation.West;
+				case OrientationEnum.Right_By270: return SpriteOrientation.East;
 				default: return SpriteOrientation.South;
 			}
 		}
@@ -192,7 +197,7 @@ namespace Objects.Drawers
 		/// <returns>The tray position</returns>
 		protected Vector3Int GetTrayPosition(Vector3Int drawerPosition)
 		{
-			return (drawerPosition + directional.CurrentDirection.Vector).CutToInt();
+			return (drawerPosition + rotatable.CurrentDirection.ToLocalVector3()).CutToInt();
 		}
 
 		#region Server Only

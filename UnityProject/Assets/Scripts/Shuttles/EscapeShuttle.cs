@@ -22,13 +22,13 @@ public class EscapeShuttle : MonoBehaviour
 	/// Orientation for docking at station, eg Up if north to south.
 	/// </summary>
 	[Tooltip("Orientation for docking at station, eg Up if north to south.")]
-	public OrientationEnum orientationForDocking = OrientationEnum.Up;
+	public OrientationEnum orientationForDocking = OrientationEnum.Up_By0;
 
 	/// <summary>
 	/// Orientation for docking at CentCom, eg Up if south to north.
 	/// </summary>
 	[Tooltip("Orientation for docking at CentCom, eg Up if south to north.")]
-	public OrientationEnum orientationForDockingAtCentcom = OrientationEnum.Right;
+	public OrientationEnum orientationForDockingAtCentcom = OrientationEnum.Right_By270;
 
 	//Coord set in inspector
 	public Vector2 stationDockingLocation;
@@ -145,19 +145,19 @@ public class EscapeShuttle : MonoBehaviour
 	{
 		switch (orientationForDocking)
 		{
-			case OrientationEnum.Right:
+			case OrientationEnum.Right_By270:
 				CentcomDest = new Destination { Orientation = Orientation.Right, Position = stationTeleportLocation};
 				StationDest = new Destination { Orientation = Orientation.Right, Position = stationDockingLocation};
 				break;
-			case OrientationEnum.Up:
+			case OrientationEnum.Up_By0:
 				CentcomDest = new Destination { Orientation = Orientation.Up, Position = stationTeleportLocation};
 				StationDest = new Destination { Orientation = Orientation.Up, Position = stationDockingLocation};
 				break;
-			case OrientationEnum.Left:
+			case OrientationEnum.Left_By90:
 				CentcomDest = new Destination { Orientation = Orientation.Left, Position = stationTeleportLocation};
 				StationDest = new Destination { Orientation = Orientation.Left, Position = stationDockingLocation};
 				break;
-			case OrientationEnum.Down:
+			case OrientationEnum.Down_By180:
 				CentcomDest = new Destination { Orientation = Orientation.Down, Position = stationTeleportLocation};
 				StationDest = new Destination { Orientation = Orientation.Down, Position = stationDockingLocation};
 				break;
@@ -174,15 +174,15 @@ public class EscapeShuttle : MonoBehaviour
 
 		switch (orientationForDockingAtCentcom)
 		{
-			case OrientationEnum.Up:
+			case OrientationEnum.Up_By0:
 				centComTeleportPosOffset += new Vector3(0, -centComDockingOffset, 0);
 				orientation = Orientation.Up;
 				break;
-			case OrientationEnum.Down:
+			case OrientationEnum.Down_By180:
 				centComTeleportPosOffset += new Vector3(0, centComDockingOffset, 0);
 				orientation = Orientation.Down;
 				break;
-			case OrientationEnum.Left:
+			case OrientationEnum.Left_By90:
 				centComTeleportPosOffset += new Vector3(centComDockingOffset, 0, 0);
 				orientation = Orientation.Left;
 				break;

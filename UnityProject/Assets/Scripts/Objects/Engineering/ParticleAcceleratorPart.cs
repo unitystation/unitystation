@@ -16,8 +16,8 @@ namespace Objects.Engineering
 		private SpriteHandler spriteHandler;
 		private WrenchSecurable wrenchSecurable;
 
-		private Directional directional;
-		public Directional Directional => directional;
+		private Rotatable directional;
+		public Rotatable Directional => directional;
 
 		[SerializeField]
 		private ParticleAcceleratorType particleAcceleratorType = ParticleAcceleratorType.Back;
@@ -47,7 +47,7 @@ namespace Objects.Engineering
 			integrity = GetComponent<Integrity>();
 			wrenchSecurable = GetComponent<WrenchSecurable>();
 			spriteHandler = GetComponentInChildren<SpriteHandler>();
-			directional = GetComponent<Directional>();
+			directional = GetComponent<Rotatable>();
 		}
 
 		public void OnSpawnServer(SpawnInfo info)

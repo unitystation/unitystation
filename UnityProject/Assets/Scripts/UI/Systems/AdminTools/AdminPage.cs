@@ -58,6 +58,9 @@ namespace AdminTools
 
 		//Player Management:
 		public List<AdminPlayerEntryData> players = new List<AdminPlayerEntryData>();
+
+		//Server Settings
+		public int playerLimit;
 	}
 
 	[Serializable]
@@ -70,6 +73,7 @@ namespace AdminTools
 		public bool isAlive;
 		public bool isAntag;
 		public bool isAdmin;
+		public bool isMentor;
 		public bool isOnline;
 		public string ipAddress;
 	}

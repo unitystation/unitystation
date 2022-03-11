@@ -282,6 +282,18 @@ namespace Systems.Electricity
 			}
 		}
 
+		private void UpdateState()
+		{
+			if (isSelfPowered)
+			{
+				state = PowerState.On;
+			}
+			if (isSelfPowered)
+			{
+				recordedVoltage = expectedRunningVoltage;
+			}
+		}
+
 		private void UpdateSynchronisedState(PowerState oldState, PowerState newState)
 		{
 			EnsureInit();

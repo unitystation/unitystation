@@ -86,6 +86,13 @@ namespace Items.Food
 
 			var feeder = feederGO.GetComponent<PlayerScript>();
 
+			// Check if player is wearing clothing that prevents eating or drinking
+			if (eater.Equipment.CanConsume() == false)
+			{
+				Chat.AddExamineMsgFromServer(eater.gameObject, $"Remove items that cover your mouth first!");
+				return;
+			}
+
 			// Show eater message
 			var eaterHungerState = eater.playerHealth.HungerState;
 			ConsumableTextUtils.SendGenericConsumeMessage(feeder, eater, eaterHungerState, Name, "eat");

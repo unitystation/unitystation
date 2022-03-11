@@ -1,4 +1,5 @@
-﻿using Systems.GhostRoles;
+﻿using System.Net.Configuration;
+using Systems.GhostRoles;
 using Mirror;
 
 namespace Messages.Server.GhostRoles
@@ -63,6 +64,7 @@ namespace Messages.Server.GhostRoles
 		public static NetMessage SendTo(ConnectedPlayer player, uint key, GhostRoleServer role)
 		{
 			NetMessage msg = GetMessage(key, role);
+			if (PlayerList.Instance.loggedOff.Contains(player)) return msg;
 
 			SendTo(player, msg);
 			return msg;

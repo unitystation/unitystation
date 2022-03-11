@@ -19,6 +19,8 @@ using Objects.Wallmounts;
 /// </summary>
 public static class Validations
 {
+	private static readonly List<LayerType> BlockedLayers = new List<LayerType>
+		{LayerType.Walls, LayerType.Windows, LayerType.Grills};
 
 	/// <summary>
 	/// Check if this game object is not null has the specified component
@@ -396,7 +398,7 @@ public static class Validations
 
 		bool result = MatrixManager.IsPassableAtAllMatrices(worldPosAInt, worldPosBInt, isServer: isServer, collisionType: CollisionType.Click,
 			context: context, includingPlayers: false, isReach: true,
-			excludeLayers: new List<LayerType> { LayerType.Walls, LayerType.Windows, LayerType.Grills },
+			excludeLayers: BlockedLayers,
 			onlyExcludeLayerOnDestination: true);
 
 		return result;

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -7,10 +8,13 @@ using UnityEngine.Events;
 using Mirror;
 using Systems.Atmospherics;
 using Chemistry;
+using Core.Chat;
 using Health.Sickness;
 using JetBrains.Annotations;
+using NaughtyAttributes;
 using Player;
 using Newtonsoft.Json;
+using ScriptableObjects.RP;
 
 namespace HealthV2
 {
@@ -151,6 +155,11 @@ namespace HealthV2
 
 		private float maxBleedStacks = 10f;
 
+		[SerializeField, BoxGroup("PainFeedback")] private float painScreamDamage = 20f;
+		[SerializeField, BoxGroup("PainFeedback")] private float painScreamCooldown = 15f;
+		[SerializeField, BoxGroup("PainFeedback")] private EmoteSO screamEmote;
+		private bool canScream = true;
+
 		private ObjectBehaviour objectBehaviour;
 		public ObjectBehaviour ObjectBehaviour => objectBehaviour;
 
@@ -230,7 +239,7 @@ namespace HealthV2
 		/// <summary>
 		/// Current sicknesses status of the creature and it's current stage
 		/// </summary>
-		private MobSickness mobSickness = null;
+		public MobSickness mobSickness { get; private set; }  = null;
 
 		/// <summary>
 		/// List of sicknesses that creature has gained immunity to
@@ -288,6 +297,7 @@ namespace HealthV2
 			if (CustomNetworkManager.IsServer == false) return;
 
 			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, PeriodicUpdate);
+			StopCoroutine(ScreamCooldown());
 		}
 
 		public void Setbrain(Brain _brain)
@@ -421,6 +431,21 @@ namespace HealthV2
 			{
 				if (implant.DamageContributesToOverallHealth == false) continue;
 				toReturn -= implant.Burn;
+			}
+
+			return toReturn;
+		}
+
+		/// <summary>
+		/// Returns the the sum of all toxin damage taken by body parts
+		/// </summary>
+		public float GetTotalToxDamage()
+		{
+			float toReturn = 0;
+			foreach (var implant in BodyPartList)
+			{
+				if (implant.DamageContributesToOverallHealth == false) continue;
+				toReturn -= implant.Toxin;
 			}
 
 			return toReturn;
@@ -617,6 +642,7 @@ namespace HealthV2
 				//TODO: Re - impliment this using the new reagent- first code introduced in PR #6810
 				//EffectsFactory.BloodSplat(RegisterTile.WorldPositionServer, BloodSplatSize.large, BloodSplatType.red);
 			}
+			IndicatePain(damage);
 		}
 
 		/// <summary>
@@ -671,6 +697,8 @@ namespace HealthV2
 						traumaDamageChance: traumaDamageChance, tramuticDamageType: tramuticDamageType);
 				}
 			}
+
+			IndicatePain(damage);
 		}
 
 		/// <summary>
@@ -1339,6 +1367,17 @@ namespace HealthV2
 							}
 
 							ClientSprites.Remove(bodyPartSprites);
+
+							var net = SpriteHandlerManager.GetRecursivelyANetworkBehaviour(bodyPartSprites.gameObject);
+							var handlers = bodyPartSprites.GetComponentsInChildren<SpriteHandler>();
+
+
+							foreach (var handler in handlers)
+							{
+								SpriteHandlerManager.UnRegisterHandler(net, handler);
+							}
+
+
 							Destroy(bodyPartSprites.gameObject);
 						}
 					}
@@ -1357,6 +1396,20 @@ namespace HealthV2
 			}
 
 			InternalNetIDs = NewInternalNetIDs;
+		}
+
+		public void IndicatePain(float dmgTaken)
+		{
+			if(EmoteActionManager.Instance == null || screamEmote == null ||
+			   canScream == false || ConsciousState == ConsciousState.UNCONSCIOUS || IsDead) return;
+			if(dmgTaken >= painScreamDamage) EmoteActionManager.DoEmote(screamEmote, playerScript.gameObject);
+			StartCoroutine(ScreamCooldown());
+		}
+		private IEnumerator ScreamCooldown()
+		{
+			canScream = false;
+			yield return WaitFor.Seconds(painScreamCooldown);
+			canScream = true;
 		}
 	}
 
