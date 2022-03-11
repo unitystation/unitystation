@@ -558,6 +558,11 @@ namespace Lobby
 			DoServerConnect();
 		}
 
+		public void ConnectToLastServer()
+		{
+			ConnectToServerFromHistory(history.Count - 1);
+		}
+
 		public void OnShowLogButton()
 		{
 			historyPanel.SetActive(!historyPanel.activeSelf);

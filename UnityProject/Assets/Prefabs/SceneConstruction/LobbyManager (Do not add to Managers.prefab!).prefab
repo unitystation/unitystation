@@ -66,7 +66,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: d2e423eaf63374f49995400ef6b10733, type: 3}
+  m_Sprite: {fileID: 21300000, guid: ffd6a771be990034eaf58567d8fc42bb, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -122,7 +122,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 6296311150680667342}
         m_TargetAssemblyTypeName: Lobby.GUI_LobbyDialogue, Assets
-        m_MethodName: OnShowLogButton
+        m_MethodName: ConnectToLastServer
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
