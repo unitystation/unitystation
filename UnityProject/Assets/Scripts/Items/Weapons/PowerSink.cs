@@ -124,7 +124,7 @@ namespace Items.Weapons
 				UnAnchor();
 				return;
 			}
-			currentCharge += nodeControl.Node.InData.Data.ActualVoltage * chargeAmplifer;
+			currentCharge += nodeControl.GetVoltage() * chargeAmplifer;
 			resistanceSourceModule.Resistance = 10000f;
 			nodeControl.PowerNetworkUpdate();
 			CheckForOverCharge();
