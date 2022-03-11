@@ -1,9 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using AddressableReferences;
 using HealthV2;
 using Messages.Server.SoundMessages;
 using NaughtyAttributes;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace ScriptableObjects.RP
 {
@@ -49,17 +51,14 @@ namespace ScriptableObjects.RP
 		[SerializeField, Tooltip("Emote view text when the character is in critical condition.")]
 		protected string critViewText = "screams in pain!";
 
+		[Tooltip("Do sounds for this emote work only for specific bodyTypes/Races?")]
+		[SerializeField]
+		protected bool soundsAreTyped = false;
 		[Tooltip("A list of sounds that can be played when this emote happens.")]
 		[SerializeField]
 		protected List<AddressableAudioSource> defaultSounds = new List<AddressableAudioSource>();
-
-		[Tooltip("A list of sounds for male characters.")]
-		[SerializeField]
-		protected List<AddressableAudioSource> maleSounds = new List<AddressableAudioSource>();
-
-		[Tooltip("A list of sounds for female characters.")]
-		[SerializeField]
-		protected List<AddressableAudioSource> femaleSounds = new List<AddressableAudioSource>();
+		[SerializeField, ShowIf(nameof(soundsAreTyped))]
+		protected List<VoiceType> TypedSounds = new List<VoiceType>();
 
 		[Tooltip("Sound pitch will be randomly chosen from this range.")]
 		[SerializeField]
@@ -110,13 +109,10 @@ namespace ScriptableObjects.RP
 				return;
 			}
 
-			var audioSourceParameters = new AudioSourceParameters(pitch: Random.Range(pitchRange.x, pitchRange.y));
+			var audioSourceParameters = new AudioSourceParameters(Random.Range(pitchRange.x, pitchRange.y), 100f);
 
-			SoundManager.PlayNetworkedAtPos(
-				audio.PickRandom(),
-				player.AssumedWorldPosServer(),
-				audioSourceParameters,
-				true);
+			_ = SoundManager.PlayNetworkedAtPosAsync(audio.PickRandom(), player.AssumedWorldPosServer(),
+				audioSourceParameters);
 		}
 
 		/// <summary>
@@ -125,17 +121,34 @@ namespace ScriptableObjects.RP
 		/// </summary>
 		protected List<AddressableAudioSource> GetBodyTypeAudio(GameObject player)
 		{
-			player.TryGetComponent<LivingHealthMasterBase>(out var health);
-			var bodyType = health.OrNull()?.BodyType;
+			if(player.TryGetComponent<PlayerScript>(out var playerScript) == false) return defaultSounds;
+			var bodyType = playerScript.characterSettings.BodyType;
+			//Get the player's species
+			var race = CharacterSettings.GetRaceData(playerScript.characterSettings);
+			VoiceType voiceTypeToUse = new VoiceType();
+			foreach (var voice in TypedSounds)
+			{
+				if(race != voice.VoiceRace) continue;
+				voiceTypeToUse = voice;
+			}
 
-			//Add race checks later when lizard men, slime people and lusty xeno-maids get added after the new health system gets merged.
+			List<AddressableAudioSource> GetSounds(BodyType bodyTypeToCheck)
+			{
+				foreach (var sound in voiceTypeToUse.VoiceDatas)
+				{
+					if(sound.VoiceSex != bodyTypeToCheck) continue;
+					return sound.Sounds;
+				}
+				return defaultSounds;
+			}
+
 			switch (bodyType)
 			{
 				case (BodyType.Male):
-					return maleSounds;
+					return GetSounds(BodyType.Male);
 				case (BodyType.Female):
-					return femaleSounds;
-				default:
+					return GetSounds(BodyType.Female);
+				default: //for body types other than Male and Female (ex : Non-binary)
 					return defaultSounds;
 			}
 		}
@@ -175,7 +188,6 @@ namespace ScriptableObjects.RP
 		/// </summary>
 		protected static bool CheckIfPlayerIsGagged(GameObject player)
 		{
-			Logger.Log("Checking if player is gagged");
 			//TODO : This sort of thing should be checked on the player script when reworking telecomms and adding a proper silencing system
 			if(player.TryGetComponent<PlayerScript>(out var script) == false) return false;
 			if (script.mind.occupation.JobType == JobType.MIME) return true; //FIXME : Find a way to check if vow of silence is broken
@@ -208,5 +220,19 @@ namespace ScriptableObjects.RP
 
 			return true;
 		}
+	}
+
+	[Serializable]
+	public struct VoiceType
+	{
+		public PlayerHealthData VoiceRace;
+		public List<VoiceData> VoiceDatas;
+	}
+
+	[Serializable]
+	public struct VoiceData
+	{
+		public BodyType VoiceSex;
+		public List<AddressableAudioSource> Sounds;
 	}
 }
