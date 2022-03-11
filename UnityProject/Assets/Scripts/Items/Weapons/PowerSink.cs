@@ -121,6 +121,7 @@ namespace Items.Weapons
 		{
 			if (isAnchored == false || nodeControl == null)
 			{
+				ToggleActivity();
 				UnAnchor();
 				return;
 			}
