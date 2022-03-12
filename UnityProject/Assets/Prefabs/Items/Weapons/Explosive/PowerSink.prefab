@@ -102,6 +102,7 @@ MonoBehaviour:
       m_AssetGUID: 
       m_SubObjectName: 
       m_SubObjectType: 
+      m_EditorAssetChanged: 0
   hitSoundSettings: 0
   inventoryMoveSound:
     SetLoadSetting: 0
@@ -110,6 +111,7 @@ MonoBehaviour:
       m_AssetGUID: 
       m_SubObjectName: 
       m_SubObjectType: 
+      m_EditorAssetChanged: 0
   inventoryRemoveSound:
     SetLoadSetting: 0
     AssetAddress: null
@@ -117,6 +119,7 @@ MonoBehaviour:
       m_AssetGUID: 
       m_SubObjectName: 
       m_SubObjectType: 
+      m_EditorAssetChanged: 0
   canConnectToTank: 0
   isEVACapable: 0
   attackVerbs: []
@@ -175,6 +178,7 @@ MonoBehaviour:
       m_AssetGUID: 
       m_SubObjectName: 
       m_SubObjectType: 
+      m_EditorAssetChanged: 0
   soundDelayTime: 0
   soundMinimumPitchVariance: 1
   soundMaximumPitchVariance: 1
@@ -237,6 +241,7 @@ MonoBehaviour:
       m_AssetGUID: 
       m_SubObjectName: 
       m_SubObjectType: 
+      m_EditorAssetChanged: 0
   damageDeflection: 0
   Armor:
     Melee: 0
@@ -380,6 +385,7 @@ MonoBehaviour:
   voltageCheckTimeInSeconds: 0.2
   activeSpriteSO: {fileID: 11400000, guid: d29ecbbae8bc8e14d8f729779162dbc0, type: 2}
   inactiveSpriteSO: {fileID: 11400000, guid: 39f9ff241730fbd49a83e5d256e14036, type: 2}
+  RR: {fileID: 0}
 --- !u!114 &7229513603755036813
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -411,7 +417,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  Node: {fileID: 0}
+  Node: {fileID: 7229513603755036813}
   ApplianceType: 16
   WireEndB: 9
   WireEndA: 0
@@ -457,11 +463,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ModuleType: 0
-  ControllingNode: {fileID: 0}
+  ControllingNode: {fileID: 8428597534966410806}
   resistance:
-    Ohms: 0.001
+    Ohms: 10000
     ResistanceAvailable: 1
-  EditorResistance: 0.001
+  EditorResistance: 10000
   ReactionTo:
     ConnectingDevice: 1
     DirectionReaction: 0
@@ -470,7 +476,7 @@ MonoBehaviour:
       YouShallNotPass: 0
     ResistanceReactionA:
       Resistance:
-        Ohms: 0.001
+        Ohms: 10000
         ResistanceAvailable: 1
 --- !u!1 &1344926539164060
 GameObject:

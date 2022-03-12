@@ -123,28 +123,13 @@ namespace Items.Weapons
 
 		public void CheckForVoltage()
 		{
-			if (isAnchored == false) return;
-			var electricalData = gameObject.RegisterTile().Matrix.MetaDataLayer.Get(gameObject.RegisterTile().LocalPosition)?.ElectricalData;
-			if (electricalData != null)
+			if (isAnchored == false || RR == null || RR.ControllingNode == null)
 			{
-				foreach (var data in electricalData)
-				{
-					if(data.InData.Data.ActualVoltage > 0)
-					{
-						//(Max) - Currenty the charge doesn't consume the power going through the tile
-						//And it goes through as if the powersink is not charging off it
-						//I don't know how to fix that and all my attempts have broken the time charge balance and Detonate() function
-						//So I'm leaving it at that until another day or if anyone wants to fix this issue themselves.
-						currentCharge += data.InData.Data.ActualVoltage * chargeAmplifer;
-					}
-				}
-			}
-			else
-			{
-				Logger.LogError($"Unable to find electrical data for {gameObject.ExpensiveName()} at {gameObject.RegisterTile().WorldPosition}!");
-				UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, CheckForVoltage);
+				ToggleActivity();
+				UnAnchor();
 				return;
 			}
+			currentCharge = RR.ControllingNode.GetVoltage() * RR.ControllingNode.GetCurrent() * chargeAmplifer;
 			CheckForOverCharge();
 		}
 
