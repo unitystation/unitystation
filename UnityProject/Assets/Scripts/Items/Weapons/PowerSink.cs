@@ -23,7 +23,7 @@ namespace Items.Weapons
 		private ObjectBehaviour objectBehaviour;
 		private Pickupable pickupable;
 
-		public ResistanceSourceModule RR;
+		private ResistanceSourceModule RR;
 
 		private bool isAnchored;
 		private bool isCharging;
@@ -122,13 +122,18 @@ namespace Items.Weapons
 
 		public void CheckForVoltage()
 		{
-			if (isAnchored == false || RR == null || RR.ControllingNode == null)
+			var electricalData = gameObject.RegisterTile().Matrix.MetaDataLayer.Get(gameObject.RegisterTile().LocalPosition)?.ElectricalData;
+			if (isAnchored == false || RR == null || RR.ControllingNode == null || electricalData == null)
 			{
 				if(isCharging) ToggleActivity();
 				UnAnchor();
 				return;
 			}
-			currentCharge = RR.ControllingNode.GetVoltage() * RR.ControllingNode.GetCurrent() * chargeAmplifer;
+			foreach (var data in electricalData)
+			{
+				if(data.InData.Data.ActualVoltage == 0) continue;
+				currentCharge += data.InData.Data.ActualVoltage * chargeAmplifer;
+			}
 			CheckForOverCharge();
 		}
 
