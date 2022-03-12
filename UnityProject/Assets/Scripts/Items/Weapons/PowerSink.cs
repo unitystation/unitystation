@@ -5,6 +5,7 @@ using Items.Devices;
 using UnityEngine;
 using Communications;
 using Managers;
+using Mirror;
 using Systems.Electricity;
 using Systems.Electricity.NodeModules;
 
@@ -25,8 +26,8 @@ namespace Items.Weapons
 
 		private ResistanceSourceModule RR;
 
-		private bool isAnchored;
-		private bool isCharging;
+		[SyncVar] private bool isAnchored;
+		[SyncVar] private bool isCharging;
 		private float currentCharge;
 
 		private void Awake()
