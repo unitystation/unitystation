@@ -51,8 +51,9 @@ namespace Items.Weapons
 			}
 			if (interaction.UsedObject.Item().HasTrait(CommonTraits.Instance.Screwdriver))
 			{
-				if (isAnchored) UnAnchor();
+				if (isAnchored && isCharging == false) UnAnchor();
 				else Anchor();
+				SoundManager.PlayNetworkedAtPos(CommonSounds.Instance.screwdriver, gameObject.AssumedWorldPosServer());
 				return;
 			}
 			if (interaction.UsedObject.Item().HasTrait(CommonTraits.Instance.Multitool))
@@ -80,8 +81,7 @@ namespace Items.Weapons
 			pickupable.ServerSetCanPickup(false);
 			objectBehaviour.ServerSetPushable(false);
 			ElectricalManager.Instance.electricalSync.StructureChange = true;
-			Chat.AddLocalMsgToChat($"The {gameObject.ExpensiveName()} makes a clicking sound as it anchors to the ground", gameObject);
-			SoundManager.PlayNetworkedAtPos(CommonSounds.Instance.screwdriver, gameObject.AssumedWorldPosServer());
+			Chat.AddLocalMsgToChat($"The {gameObject.ExpensiveName()} makes a clicking sound as it <b>anchors</b> to the ground", gameObject);
 		}
 		private void UnAnchor()
 		{
@@ -90,8 +90,7 @@ namespace Items.Weapons
 			objectBehaviour.ServerSetPushable(true);
 			ElectricalManager.Instance.electricalSync.StructureChange = true;
 			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, CheckForVoltage);
-			Chat.AddLocalMsgToChat($"The {gameObject.ExpensiveName()} makes a clicking sound as it unanchors from the ground", gameObject);
-			SoundManager.PlayNetworkedAtPos(CommonSounds.Instance.screwdriver, gameObject.AssumedWorldPosServer());
+			Chat.AddLocalMsgToChat($"The {gameObject.ExpensiveName()} makes a clicking sound as it <b>unanchors</b> from the ground", gameObject);
 		}
 
 		private void ToggleActivity()
@@ -125,7 +124,7 @@ namespace Items.Weapons
 		{
 			if (isAnchored == false || RR == null || RR.ControllingNode == null)
 			{
-				ToggleActivity();
+				if(isCharging) ToggleActivity();
 				UnAnchor();
 				return;
 			}
@@ -141,8 +140,7 @@ namespace Items.Weapons
 			}
 			if(currentCharge > overchargeCap)
 			{
-				//Ensure that we remove this update call before the thing exploads so it doesn't try
-				//Doing it twice in a laggy situation or worse; spam NREs.
+				//Ensure that we remove this update call before the thing exploads so it doesn't try Doing it twice
 				UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, CheckForVoltage);
 				Detonate();
 			}
