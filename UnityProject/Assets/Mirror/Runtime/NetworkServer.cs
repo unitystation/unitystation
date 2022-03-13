@@ -1,10 +1,12 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Mirror.RemoteCalls;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using Debug = UnityEngine.Debug;
 
 namespace Mirror
 {
@@ -1552,7 +1554,7 @@ namespace Mirror
 		}
 
 		// helper function to broadcast the world to a connection
-		static Task BroadcastToConnection(NetworkConnectionToClient connection)
+		static void BroadcastToConnection(NetworkConnectionToClient connection)
 		{
 			// for each entity that this connection is seeing
 			foreach (var identity in connection.observing)
@@ -1607,8 +1609,6 @@ namespace Mirror
 				// GameObject.Destroy instead of NetworkServer.Destroy.
 				//else Debug.LogWarning("Found 'null' entry in observing list for connectionId=" + connection.connectionId + ". Please call NetworkServer.Destroy to destroy networked objects. Don't use GameObject.Destroy.");
 			}
-
-			return Task.CompletedTask;
 		}
 
 		// helper function to check a connection for inactivity
@@ -1636,7 +1636,6 @@ namespace Mirror
 
 		public static int FrameCountCash;
 
-
 		static async Task Broadcast()
 		{
 			// copy all connections into a helper collection so that
@@ -1650,11 +1649,10 @@ namespace Mirror
 			connectionsCopy.Clear();
 			connections.Values.CopyTo(connectionsCopy);
 			FrameCountCash = Time.frameCount;
-			Parallel.ForEach(connectionsCopy, Connection => SubConnectionBroadcast(Connection));
+			Parallel.ForEach(connectionsCopy, connection => SubConnectionBroadcast(connection, 1));
+
 			// go through all connections
 			//CUSTOM UNITYSTATION CODE// for i More performance
-
-
 			// TODO we already clear the serialized component's dirty bits above
 			//      might as well clear everything???
 			//
@@ -1669,33 +1667,37 @@ namespace Mirror
 			return;
 		}
 
-		public static async Task SubConnectionBroadcast(NetworkConnectionToClient connection)
+		public static Task SubConnectionBroadcast(NetworkConnectionToClient connection, int OLD)
 		{
+
 			try
 			{
-				// foreach (NetworkConnectionToClient connection in connectionsCopy)
-				// {
-				// check for inactivity. disconnects if necessary.
-				if (DisconnectIfInactive(connection))
-					return;
 
-				// has this connection joined the world yet?
-				// for each READY connection:
-				//   pull in UpdateVarsMessage for each entity it observes
-				if (connection.isReady)
-				{
-					// broadcast world state to this connection
-					await BroadcastToConnection(connection);
-				}
 
-				// update connection to flush out batched messages
-				connection.Update();
+			// check for inactivity. disconnects if necessary.
+			if (DisconnectIfInactive(connection))
+			{
+				return Task.CompletedTask;
 			}
 
+			// has this connection joined the world yet?
+			// for each READY connection:
+			//   pull in UpdateVarsMessage for each entity it observes
+			if (connection.isReady)
+			{
+				// broadcast world state to this connection
+				BroadcastToConnection(connection);
+			}
+
+			// update connection to flush out batched messages
+			connection.Update();
+			}
 			catch (Exception e)
 			{
 				Debug.LogError(e);
+				throw;
 			}
+			return Task.CompletedTask;
 		}
 
 
