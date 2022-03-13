@@ -27,6 +27,7 @@ namespace Mirror
         public static PooledNetworkWriter GetWriter()
         {
             // grab from pool & reset position
+            //CUSTOM UNITYSTATION CODE// So it can be safely gotten, Without Thread funnies
             lock (Pool)
             {
 	            PooledNetworkWriter writer = Pool.Take();
@@ -38,6 +39,7 @@ namespace Mirror
         /// <summary>Return a writer to the pool.</summary>
         public static void Recycle(PooledNetworkWriter writer)
         {
+	        //CUSTOM UNITYSTATION CODE// So it can be safely Added back, Without Thread funnies
 	        lock (Pool)
 	        {
 		        Pool.Return(writer);

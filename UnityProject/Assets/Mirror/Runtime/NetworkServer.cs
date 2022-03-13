@@ -1496,6 +1496,7 @@ namespace Mirror
 		{
 			// get serialization for this entity (cached)
 			// IMPORTANT: int tick avoids floating point inaccuracy over days/weeks
+			//CUSTOM UNITYSTATION CODE// Changed to FrameCountCash, Because unity doesn't like accessing it from other threads
 			NetworkIdentitySerialization serialization = identity.GetSerializationAtTick(FrameCountCash);
 
 			// is this entity owned by this connection?
@@ -1634,9 +1635,10 @@ namespace Mirror
 		static readonly List<NetworkConnectionToClient> connectionsCopy =
 			new List<NetworkConnectionToClient>();
 
+		//CUSTOM UNITYSTATION CODE// thread Safe read Time.frameCount
 		public static int FrameCountCash;
 
-		static async Task Broadcast()
+		static void Broadcast()
 		{
 			// copy all connections into a helper collection so that
 			// OnTransportDisconnected can be called while iterating.
@@ -1648,8 +1650,10 @@ namespace Mirror
 			//      socket send/recv later.
 			connectionsCopy.Clear();
 			connections.Values.CopyTo(connectionsCopy);
+
+			//CUSTOM UNITYSTATION CODE// Cashs Time.frameCount and Parallel loop instead of for loop
 			FrameCountCash = Time.frameCount;
-			Parallel.ForEach(connectionsCopy, connection => SubConnectionBroadcast(connection, 1));
+			Parallel.ForEach(connectionsCopy, connection => SubConnectionBroadcast(connection));
 
 			// go through all connections
 			//CUSTOM UNITYSTATION CODE// for i More performance
@@ -1664,16 +1668,15 @@ namespace Mirror
 			//      no need to do it for ALL entities ALL the time.
 			//
 			ClearSpawnedDirtyBits();
-			return;
 		}
 
-		public static Task SubConnectionBroadcast(NetworkConnectionToClient connection, int OLD)
+		//CUSTOM UNITYSTATION CODE// Added part of Broadcast Logic
+		public static void SubConnectionBroadcast(NetworkConnectionToClient connection)
 		{
-
 			// check for inactivity. disconnects if necessary.
 			if (DisconnectIfInactive(connection))
 			{
-				return Task.CompletedTask;
+				return;
 			}
 
 			// has this connection joined the world yet?
@@ -1687,7 +1690,6 @@ namespace Mirror
 
 			// update connection to flush out batched messages
 			connection.Update();
-			return Task.CompletedTask;
 		}
 
 
@@ -1701,11 +1703,11 @@ namespace Mirror
 				Transport.activeTransport.ServerEarlyUpdate();
 		}
 
-		internal static async void NetworkLateUpdate()
+		internal static void NetworkLateUpdate()
 		{
 			// only broadcast world if active
 			if (active)
-				await Broadcast();
+				Broadcast();
 
 			// process all outgoing messages after updating the world
 			// (even if not active. still want to process disconnects etc.)

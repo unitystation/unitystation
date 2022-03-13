@@ -990,6 +990,7 @@ namespace Mirror
 			// reserialize if tick is different than last changed.
 			// NOTE: != instead of < because int.max+1 overflows at some point.
 
+			//CUSTOM UNITYSTATION CODE// Look because it needs to be generated, By one Thread
 			lock (lastSerialization.observersWriter)
 			{
 				if (lastSerialization.tick != tick)
