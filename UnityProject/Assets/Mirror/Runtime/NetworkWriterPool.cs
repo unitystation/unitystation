@@ -27,15 +27,21 @@ namespace Mirror
         public static PooledNetworkWriter GetWriter()
         {
             // grab from pool & reset position
-            PooledNetworkWriter writer = Pool.Take();
-            writer.Reset();
-            return writer;
+            lock (Pool)
+            {
+	            PooledNetworkWriter writer = Pool.Take();
+	            writer.Reset();
+	            return writer;
+            }
         }
 
         /// <summary>Return a writer to the pool.</summary>
         public static void Recycle(PooledNetworkWriter writer)
         {
-            Pool.Return(writer);
+	        lock (Pool)
+	        {
+		        Pool.Return(writer);
+	        }
         }
     }
 }

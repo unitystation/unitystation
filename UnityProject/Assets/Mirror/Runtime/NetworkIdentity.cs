@@ -958,22 +958,25 @@ namespace Mirror
         {
             // reserialize if tick is different than last changed.
             // NOTE: != instead of < because int.max+1 overflows at some point.
-            if (lastSerialization.tick != tick)
+            lock (lastSerialization.observersWriter)
             {
-                // reset
-                lastSerialization.ownerWriter.Position = 0;
-                lastSerialization.observersWriter.Position = 0;
+	            if (lastSerialization.tick != tick)
+	            {
+		            // reset
+		            lastSerialization.ownerWriter.Position = 0;
+		            lastSerialization.observersWriter.Position = 0;
 
-                // serialize
-                OnSerializeAllSafely(false,
-                                     lastSerialization.ownerWriter,
-                                     out lastSerialization.ownerWritten,
-                                     lastSerialization.observersWriter,
-                                     out lastSerialization.observersWritten);
+		            // serialize
+		            OnSerializeAllSafely(false,
+			            lastSerialization.ownerWriter,
+			            out lastSerialization.ownerWritten,
+			            lastSerialization.observersWriter,
+			            out lastSerialization.observersWritten);
 
-                // set tick
-                lastSerialization.tick = tick;
-                //Debug.Log($"{name} (netId={netId}) serialized for tick={tickTimeStamp}");
+		            // set tick
+		            lastSerialization.tick = tick;
+		            //Debug.Log($"{name} (netId={netId}) serialized for tick={tickTimeStamp}");
+	            }
             }
 
             // return it
