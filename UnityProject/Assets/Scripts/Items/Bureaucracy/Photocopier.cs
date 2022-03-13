@@ -12,9 +12,8 @@ namespace Items.Bureaucracy
 		public NetTabType NetTabType;
 		public int trayCapacity;
 
-		[SyncVar] private Internal.Printer printer;
-
-		[SyncVar] private Internal.Scanner scanner;
+		private Internal.Printer printer;
+		private Internal.Scanner scanner;
 
 		private PhotocopierState photocopierState;
 
