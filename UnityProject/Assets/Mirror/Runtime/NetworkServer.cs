@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Mirror.RemoteCalls;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -1520,7 +1521,7 @@ namespace Mirror
         }
 
         // helper function to broadcast the world to a connection
-        static void BroadcastToConnection(NetworkConnectionToClient connection)
+        static Task BroadcastToConnection(NetworkConnectionToClient connection)
         {
             // for each entity that this connection is seeing
             foreach (var identity in connection.observing)
@@ -1576,6 +1577,7 @@ namespace Mirror
                 // GameObject.Destroy instead of NetworkServer.Destroy.
                 //else Debug.LogWarning("Found 'null' entry in observing list for connectionId=" + connection.connectionId + ". Please call NetworkServer.Destroy to destroy networked objects. Don't use GameObject.Destroy.");
             }
+            return Task.CompletedTask;
         }
 
         // helper function to check a connection for inactivity
@@ -1601,7 +1603,7 @@ namespace Mirror
         static readonly List<NetworkConnectionToClient> connectionsCopy =
             new List<NetworkConnectionToClient>();
 
-        static void Broadcast()
+        static async Task Broadcast()
         {
             // copy all connections into a helper collection so that
             // OnTransportDisconnected can be called while iterating.
@@ -1614,30 +1616,13 @@ namespace Mirror
             connectionsCopy.Clear();
             connections.Values.CopyTo(connectionsCopy);
 
+
+
+	        await Task.WhenAll(connectionsCopy.Select(SubConnectionBroadcast));
             // go through all connections
             //CUSTOM UNITYSTATION CODE// for i More performance
-            var ConnectionsCount = connectionsCopy.Count;
-            for (int i = 0; i < ConnectionsCount; i++)
-            {
-	            var connection = connectionsCopy[i];
-	            // foreach (NetworkConnectionToClient connection in connectionsCopy)
-            // {
-                // check for inactivity. disconnects if necessary.
-                if (DisconnectIfInactive(connection))
-                    continue;
 
-                // has this connection joined the world yet?
-                // for each READY connection:
-                //   pull in UpdateVarsMessage for each entity it observes
-                if (connection.isReady)
-                {
-                    // broadcast world state to this connection
-                    BroadcastToConnection(connection);
-                }
 
-                // update connection to flush out batched messages
-                connection.Update();
-            }
 
             // TODO we already clear the serialized component's dirty bits above
             //      might as well clear everything???
@@ -1650,7 +1635,31 @@ namespace Mirror
             //      no need to do it for ALL entities ALL the time.
             //
             ClearSpawnedDirtyBits();
+            return;
         }
+
+        public static async Task SubConnectionBroadcast(NetworkConnectionToClient connection)
+        {
+	        // foreach (NetworkConnectionToClient connection in connectionsCopy)
+	        // {
+	        // check for inactivity. disconnects if necessary.
+	        if (DisconnectIfInactive(connection))
+		        return;
+
+	        // has this connection joined the world yet?
+	        // for each READY connection:
+	        //   pull in UpdateVarsMessage for each entity it observes
+	        if (connection.isReady)
+	        {
+		        // broadcast world state to this connection
+				await BroadcastToConnection(connection);
+	        }
+
+	        // update connection to flush out batched messages
+	        connection.Update();
+        }
+
+
 
         // update //////////////////////////////////////////////////////////////
         // NetworkEarlyUpdate called before any Update/FixedUpdate
@@ -1662,11 +1671,11 @@ namespace Mirror
                 Transport.activeTransport.ServerEarlyUpdate();
         }
 
-        internal static void NetworkLateUpdate()
+        internal static async void NetworkLateUpdate()
         {
             // only broadcast world if active
             if (active)
-                Broadcast();
+                await Broadcast();
 
             // process all outgoing messages after updating the world
             // (even if not active. still want to process disconnects etc.)
