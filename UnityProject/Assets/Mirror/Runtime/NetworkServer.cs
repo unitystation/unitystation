@@ -1670,10 +1670,6 @@ namespace Mirror
 		public static Task SubConnectionBroadcast(NetworkConnectionToClient connection, int OLD)
 		{
 
-			try
-			{
-
-
 			// check for inactivity. disconnects if necessary.
 			if (DisconnectIfInactive(connection))
 			{
@@ -1691,12 +1687,6 @@ namespace Mirror
 
 			// update connection to flush out batched messages
 			connection.Update();
-			}
-			catch (Exception e)
-			{
-				Debug.LogError(e);
-				throw;
-			}
 			return Task.CompletedTask;
 		}
 
