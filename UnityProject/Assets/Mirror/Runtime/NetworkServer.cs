@@ -1655,8 +1655,6 @@ namespace Mirror
 			FrameCountCash = Time.frameCount;
 			Parallel.ForEach(connectionsCopy, connection => SubConnectionBroadcast(connection));
 
-			// go through all connections
-			//CUSTOM UNITYSTATION CODE// for i More performance
 			// TODO we already clear the serialized component's dirty bits above
 			//      might as well clear everything???
 			//
@@ -1687,7 +1685,6 @@ namespace Mirror
 				// broadcast world state to this connection
 				BroadcastToConnection(connection);
 			}
-
 			// update connection to flush out batched messages
 			connection.Update();
 		}
