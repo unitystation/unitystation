@@ -236,16 +236,25 @@ namespace Items.Weapons
 				return;
 			}
 
+			//Exclusive logc ot Syndicate Bombs
+			if (explosiveType == ExplosiveType.SyndicateBomb)
+			{
+				if (interaction.HandObject != null && interaction.HandObject.Item().HasTrait(wrenchTrait))
+				{
+					pushPull.ServerSetAnchored(!pushPull.IsPushable, interaction.Performer);
+					var wrenchText = pushPull.IsPushable ? "wrench down" : "unwrench";
+					SoundManager.PlayNetworkedAtPos(CommonSounds.Instance.Wrench, gameObject.AssumedWorldPosServer());
+					Chat.AddExamineMsg(interaction.Performer, $"You {wrenchText} the {gameObject.ExpensiveName()}");
+					return;
+				}
+				sbExplosiveGUI.ServerPerformInteraction(interaction);
+				return;
+			}
+
 			//For interacting with the explosive while it's on a wall.
 			if (isOnObject || interaction.IsAltClick)
 			{
 				explosiveGUI.ServerPerformInteraction(interaction);
-				return;
-			}
-
-			if (explosiveType == ExplosiveType.SyndicateBomb)
-			{
-				sbExplosiveGUI.ServerPerformInteraction(interaction);
 				return;
 			}
 
