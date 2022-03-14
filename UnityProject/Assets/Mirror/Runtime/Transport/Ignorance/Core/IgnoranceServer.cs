@@ -99,7 +99,7 @@ namespace IgnoranceTransport
             ThreadParamInfo setupInfo;
             Address serverAddress = new Address();
             Host serverENetHost;
-            Event serverENetEvent;
+            ENet.Event serverENetEvent;
 
             Peer[] serverPeerArray;
 
