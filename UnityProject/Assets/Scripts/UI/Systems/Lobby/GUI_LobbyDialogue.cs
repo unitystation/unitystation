@@ -1,16 +1,23 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 using DatabaseAPI;
 using UnityEngine;
 using UnityEngine.UI;
 using Mirror;
 using Firebase.Auth;
 using IgnoranceTransport;
+using Newtonsoft.Json;
+using System.Text;
+
 
 namespace Lobby
 {
-	public class GUI_LobbyDialogue : MonoBehaviour
+	public class GUI_LobbyDialogue :  MonoBehaviour
 	{
+		public static GUI_LobbyDialogue Instance;
 		private const string DefaultServerAddress = "127.0.0.1";
 		private const ushort DefaultServerPort = 7777;
 		private const string UserNamePlayerPref = "PlayerName";
@@ -45,7 +52,31 @@ namespace Lobby
 		public Toggle hostServerToggle;
 		public Toggle autoLoginToggle;
 
+		private List<ConnectionHistory> history = new List<ConnectionHistory>();
+		private string isWindows = "/";
+		private string historyFilePath;
+		[SerializeField] private GameObject historyLogEntryGameObject;
+		[SerializeField] private GameObject historyEntries;
+		[SerializeField] private GameObject historyPanel;
+		[SerializeField] private GameObject logShowButton;
+		[SerializeField] private int entrySizeLimit = 5;
+
 		#region Lifecycle
+
+		private void Awake()
+		{
+			isWindows = Application.persistentDataPath.Contains("/") ? $"/" : $"\\";
+			Instance = this;
+			historyFilePath = $"{Application.persistentDataPath}{isWindows}ConnectionHistory.json";
+			if (File.Exists(historyFilePath))
+			{
+				string json = File.ReadAllText(historyFilePath);
+				if(json.Length <= 3) return;
+				history = JsonConvert.DeserializeObject<List<ConnectionHistory>>(json);
+				GenerateHistoryData();
+				if(historyEntries.transform.childCount > 0) logShowButton.SetActive(true);
+			}
+		}
 
 		private void Start()
 		{
@@ -78,6 +109,21 @@ namespace Lobby
 				{
 					PlayerManager.CurrentCharacterSettings = new CharacterSettings();
 				}
+			}
+		}
+
+		private void GenerateHistoryData()
+		{
+			if(history.Count == 0) return;
+			var numberOfGeneratedEntries = 0;
+			foreach (var historyEntry in history)
+			{
+				if(numberOfGeneratedEntries >= entrySizeLimit) break;
+				if(historyEntry.IP == DefaultServerAddress) continue;
+				var newEntry = Instantiate(historyLogEntryGameObject, historyEntries.transform);
+				newEntry.GetComponent<HistoryLogEntry>().SetData(historyEntry.IP, numberOfGeneratedEntries);
+				newEntry.SetActive(true);
+				numberOfGeneratedEntries++;
 			}
 		}
 
@@ -399,8 +445,30 @@ namespace Lobby
 			// {
 			// 	booster.port = serverPort;
 			// }
+			LogConnectionToHistory(serverAddress, serverPort);
 
 			CustomNetworkManager.Instance.StartClient();
+		}
+
+		private void LogConnectionToHistory(string serverAddress, int serverPort)
+		{
+			ConnectionHistory newHistoryEntry = new ConnectionHistory();
+			newHistoryEntry.IP = serverAddress;
+			newHistoryEntry.Port = serverPort;
+			history.Add(newHistoryEntry);
+			UpdateHistoryFile();
+		}
+
+		private void UpdateHistoryFile()
+		{
+			string json = JsonConvert.SerializeObject(history);
+			if(File.Exists(historyFilePath)) File.Delete(historyFilePath);
+			while (!File.Exists(historyFilePath))
+			{
+				var fs = new FileStream(historyFilePath, FileMode.Create); //To avoid share rule violations
+				fs.Dispose();
+				File.WriteAllText(historyFilePath, json);
+			}
 		}
 
 		private void InitPlayerName()
@@ -480,6 +548,30 @@ namespace Lobby
 			{
 				connectionPanel.SetActive(false);
 			}
+		}
+
+		public void ConnectToServerFromHistory(int historyIndex)
+		{
+			serverAddressInput.text = history[historyIndex].IP;
+			serverPortInput.text = history[historyIndex].Port.ToString();
+			hostServerToggle.isOn = false;
+			DoServerConnect();
+		}
+
+		public void ConnectToLastServer()
+		{
+			ConnectToServerFromHistory(history.Count - 1);
+		}
+
+		public void OnShowLogButton()
+		{
+			historyPanel.SetActive(!historyPanel.activeSelf);
+		}
+
+		public struct ConnectionHistory
+		{
+			public string IP;
+			public int Port;
 		}
 	}
 }
