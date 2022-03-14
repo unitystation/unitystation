@@ -7,13 +7,15 @@ using UnityEngine;
 using Mirror;
 using Communications;
 using Managers;
+using Objects;
 using Systems.Explosions;
 using Scripts.Core.Transform;
 using UI.Items;
 
 namespace Items.Weapons
 {
-	public class Explosive : SignalReceiver, ICheckedInteractable<PositionalHandApply>, IRightClickable, IInteractable<InventoryApply>
+	public class Explosive : SignalReceiver,
+		ICheckedInteractable<PositionalHandApply>, IRightClickable, IInteractable<InventoryApply>, ICheckedInteractable<HandApply>
 	{
 		[Header("Explosive settings")]
 		[SerializeField] private ExplosiveType explosiveType;
@@ -26,10 +28,13 @@ namespace Items.Weapons
 		[Header("Explosive Components")]
 		[SerializeField] private SpriteHandler spriteHandler;
 		[SerializeField] private ScaleSync scaleSync;
+		[SerializeField] private ItemTrait wrenchTrait;
 		private RegisterItem registerItem;
 		private ObjectBehaviour objectBehaviour;
 		private Pickupable pickupable;
 		private HasNetworkTabItem explosiveGUI;
+		private HasNetworkTab sbExplosiveGUI;
+		private PushPull pushPull;
 		[HideInInspector] public GUI_Explosive GUI;
 
 		[SyncVar] private bool isArmed;
@@ -49,6 +54,19 @@ namespace Items.Weapons
 			set => isArmed = value;
 		}
 
+		public bool IsOnObject
+		{
+			get
+			{
+				if (pushPull != null)
+				{
+					return pushPull.IsPushable;
+				}
+
+				return isOnObject;
+			}
+		}
+
 		public int MinimumTimeToDetonate => minimumTimeToDetonate;
 		public bool DetonateImmediatelyOnSignal => detonateImmediatelyOnSignal;
 		public bool CountDownActive => countDownActive;
@@ -62,6 +80,13 @@ namespace Items.Weapons
 			objectBehaviour = GetComponent<ObjectBehaviour>();
 			pickupable = GetComponent<Pickupable>();
 			explosiveGUI = GetComponent<HasNetworkTabItem>();
+			if (explosiveType == ExplosiveType.SyndicateBomb)
+			{
+				sbExplosiveGUI = GetComponent<HasNetworkTab>();
+				pickupable.ServerSetCanPickup(false);
+				pushPull = GetComponent<PushPull>();
+				pushPull.ServerSetPushable(true);
+			}
 		}
 
 		private void OnDisable()
@@ -120,7 +145,7 @@ namespace Items.Weapons
 		{
 			detonateImmediatelyOnSignal = mode;
 		}
-		
+
 		[Command(requiresAuthority = false)]
 		private void CmdTellServerToDeattachExplosive()
 		{
@@ -161,9 +186,9 @@ namespace Items.Weapons
 
 		public bool WillInteract(PositionalHandApply interaction, NetworkSide side)
 		{
+			if (explosiveType == ExplosiveType.SyndicateBomb) return false;
 			if (DefaultWillInteract.Default(interaction, side) == false
 			    || isArmed == true || pickupable.ItemSlot == null && isOnObject == false) return false;
-			if (interaction.TargetObject.TryGetComponent<SignalEmitter>(out var em)) return true;
 			return true;
 		}
 
@@ -171,6 +196,11 @@ namespace Items.Weapons
 		{
 			void Perform()
 			{
+				if (explosiveType == ExplosiveType.SyndicateBomb)
+				{
+					Logger.LogError($"{gameObject} IS NOT SUPPOSED TO BE ATTACHED TO OBJECTS NOR PICKED UP!!! - {pushPull} || {pickupable.CanPickup}");
+					return;
+				}
 				if (interaction.TargetObject?.OrNull().RegisterTile()?.OrNull().Matrix?.OrNull() != null)
 				{
 					var matrix = interaction.TargetObject.RegisterTile().Matrix;
@@ -194,13 +224,6 @@ namespace Items.Weapons
 					$"{interaction.PerformerPlayerScript.visibleName} attaches a {gameObject.ExpensiveName()} to {interaction.TargetObject.ExpensiveName()}!");
 			}
 
-			//For interacting with the explosive while it's on a wall.
-			if (isOnObject || interaction.IsAltClick)
-			{
-				explosiveGUI.ServerPerformInteraction(interaction);
-				return;
-			}
-
 			//incase we forgot to pair while the C4 is on the wall
 			if (interaction.TargetObject.TryGetComponent<SignalEmitter>(out var emitter))
 			{
@@ -210,10 +233,58 @@ namespace Items.Weapons
 				return;
 			}
 
+			//For interacting with the explosive while it's on a wall.
+			if (isOnObject || interaction.IsAltClick)
+			{
+				explosiveGUI.ServerPerformInteraction(interaction);
+				return;
+			}
+
 			//The progress bar that triggers Preform()
 			//Must not be interrupted for it to work.
 			var bar = StandardProgressAction.Create(new StandardProgressActionConfig(StandardProgressActionType.CPR, false, false), Perform);
 			bar.ServerStartProgress(interaction.Performer.RegisterTile(), progressTime, interaction.Performer);
+		}
+
+		public bool WillInteract(HandApply interaction, NetworkSide side)
+		{
+			if (explosiveType != ExplosiveType.SyndicateBomb ||
+			    DefaultWillInteract.Default(interaction, side) == false) return false;
+			return true;
+		}
+
+		public void ServerPerformInteraction(HandApply interaction)
+		{
+			if (interaction.UsedObject != null && interaction.UsedObject.Item().HasTrait(wrenchTrait))
+			{
+				pushPull.ServerSetPushable(!pushPull.IsPushable);
+				SoundManager.PlayNetworkedAtPos(CommonSounds.Instance.Wrench, gameObject.AssumedWorldPosServer(),
+					default, true, false);
+				var wrenchText = pushPull.IsPushable ? "wrench" : "unwrench";
+				Chat.AddExamineMsg(interaction.Performer, $"You {wrenchText} the {gameObject.ExpensiveName()}");
+				return;
+			}
+			if (interaction.UsedObject != null && interaction.UsedObject.TryGetComponent<SignalEmitter>(out var emitter))
+			{
+				Emitter = emitter;
+				Frequency = emitter.Frequency;
+				Chat.AddExamineMsg(interaction.Performer, "You successfully pair the remote signal to the device.");
+				return;
+			}
+			sbExplosiveGUI.ServerPerformInteraction(interaction);
+		}
+
+		public void ServerPerformInteraction(InventoryApply interaction)
+		{
+			if (interaction.TargetSlot.IsEmpty == false)
+			{
+				if (interaction.TargetSlot.ItemObject.TryGetComponent<SignalEmitter>(out var emitter))
+				{
+					Emitter = emitter;
+					Frequency = emitter.Frequency;
+					Chat.AddExamineMsg(interaction.Performer, "You successfully pair the remote signal to the device.");
+				}
+			}
 		}
 		#endregion
 
@@ -232,23 +303,12 @@ namespace Items.Weapons
 			return result;
 		}
 
-		public void ServerPerformInteraction(InventoryApply interaction)
-		{
-			if (interaction.TargetSlot.IsEmpty == false)
-			{
-				if (interaction.TargetSlot.ItemObject.TryGetComponent<SignalEmitter>(out var emitter))
-				{
-					Emitter = emitter;
-					Frequency = emitter.Frequency;
-					Chat.AddExamineMsg(interaction.Performer, "You successfully pair the remote signal to the device.");
-				}
-			}
-		}
 	}
 
 	public enum ExplosiveType
 	{
 		C4,
-		X4
+		X4,
+		SyndicateBomb,
 	}
 }
