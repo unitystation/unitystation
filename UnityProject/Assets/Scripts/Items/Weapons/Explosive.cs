@@ -15,7 +15,7 @@ using UI.Items;
 namespace Items.Weapons
 {
 	public class Explosive : SignalReceiver,
-		ICheckedInteractable<PositionalHandApply>, IRightClickable, IInteractable<InventoryApply>, ICheckedInteractable<HandApply>
+		ICheckedInteractable<PositionalHandApply>, IRightClickable, IInteractable<InventoryApply>
 	{
 		[Header("Explosive settings")]
 		[SerializeField] private ExplosiveType explosiveType;
@@ -186,7 +186,6 @@ namespace Items.Weapons
 
 		public bool WillInteract(PositionalHandApply interaction, NetworkSide side)
 		{
-			if (explosiveType == ExplosiveType.SyndicateBomb) return false;
 			if (DefaultWillInteract.Default(interaction, side) == false
 			    || isArmed == true || pickupable.ItemSlot == null && isOnObject == false) return false;
 			return true;
@@ -198,9 +197,11 @@ namespace Items.Weapons
 			{
 				if (explosiveType == ExplosiveType.SyndicateBomb)
 				{
-					Logger.LogError($"{gameObject} IS NOT SUPPOSED TO BE ATTACHED TO OBJECTS NOR PICKED UP!!! - {pushPull} || {pickupable.CanPickup}");
+					Logger.LogError(
+						$"{gameObject} IS NOT SUPPOSED TO BE ATTACHED TO OBJECTS NOR PICKED UP!!! - {pushPull} || {pickupable.CanPickup}");
 					return;
 				}
+
 				if (interaction.TargetObject?.OrNull().RegisterTile()?.OrNull().Matrix?.OrNull() != null)
 				{
 					var matrix = interaction.TargetObject.RegisterTile().Matrix;
@@ -211,7 +212,8 @@ namespace Items.Weapons
 					foreach (var registerTile in tiles)
 					{
 						if (CanAttatchToTarget(registerTile.Matrix, registerTile) == false) continue;
-						Chat.AddExamineMsg(interaction.Performer, $"The {interaction.TargetObject.ExpensiveName()} isn't a good spot to arm the explosive on..");
+						Chat.AddExamineMsg(interaction.Performer,
+							$"The {interaction.TargetObject.ExpensiveName()} isn't a good spot to arm the explosive on..");
 						return;
 					}
 				}
@@ -220,7 +222,8 @@ namespace Items.Weapons
 				isOnObject = true;
 				pickupable.ServerSetCanPickup(false);
 				objectBehaviour.ServerSetPushable(false);
-				Chat.AddActionMsgToChat(interaction.Performer, $"You attach the {gameObject.ExpensiveName()} to {interaction.TargetObject.ExpensiveName()}",
+				Chat.AddActionMsgToChat(interaction.Performer,
+					$"You attach the {gameObject.ExpensiveName()} to {interaction.TargetObject.ExpensiveName()}",
 					$"{interaction.PerformerPlayerScript.visibleName} attaches a {gameObject.ExpensiveName()} to {interaction.TargetObject.ExpensiveName()}!");
 			}
 
@@ -240,38 +243,17 @@ namespace Items.Weapons
 				return;
 			}
 
+			if (explosiveType == ExplosiveType.SyndicateBomb)
+			{
+				sbExplosiveGUI.ServerPerformInteraction(interaction);
+				return;
+			}
+
 			//The progress bar that triggers Preform()
 			//Must not be interrupted for it to work.
-			var bar = StandardProgressAction.Create(new StandardProgressActionConfig(StandardProgressActionType.CPR, false, false), Perform);
+			var bar = StandardProgressAction.Create(
+				new StandardProgressActionConfig(StandardProgressActionType.CPR, false, false), Perform);
 			bar.ServerStartProgress(interaction.Performer.RegisterTile(), progressTime, interaction.Performer);
-		}
-
-		public bool WillInteract(HandApply interaction, NetworkSide side)
-		{
-			if (explosiveType != ExplosiveType.SyndicateBomb ||
-			    DefaultWillInteract.Default(interaction, side) == false) return false;
-			return true;
-		}
-
-		public void ServerPerformInteraction(HandApply interaction)
-		{
-			if (interaction.UsedObject != null && interaction.UsedObject.Item().HasTrait(wrenchTrait))
-			{
-				pushPull.ServerSetPushable(!pushPull.IsPushable);
-				SoundManager.PlayNetworkedAtPos(CommonSounds.Instance.Wrench, gameObject.AssumedWorldPosServer(),
-					default, true, false);
-				var wrenchText = pushPull.IsPushable ? "wrench" : "unwrench";
-				Chat.AddExamineMsg(interaction.Performer, $"You {wrenchText} the {gameObject.ExpensiveName()}");
-				return;
-			}
-			if (interaction.UsedObject != null && interaction.UsedObject.TryGetComponent<SignalEmitter>(out var emitter))
-			{
-				Emitter = emitter;
-				Frequency = emitter.Frequency;
-				Chat.AddExamineMsg(interaction.Performer, "You successfully pair the remote signal to the device.");
-				return;
-			}
-			sbExplosiveGUI.ServerPerformInteraction(interaction);
 		}
 
 		public void ServerPerformInteraction(InventoryApply interaction)

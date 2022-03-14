@@ -60,6 +60,20 @@ namespace Objects
 			TabUpdateMessage.Send(interaction.Performer, gameObject, NetTabType, TabAction.Open);
 		}
 
+		public void ServerPerformInteraction(PositionalHandApply interaction)
+		{
+			foreach (var validateNetTab in GetComponents<ICanOpenNetTab>())
+			{
+				if(validateNetTab.CanOpenNetTab(interaction.Performer, NetTabType)) continue;
+
+				//If false block net tab opening
+				return;
+			}
+
+			playerInteracted = interaction.Performer;
+			TabUpdateMessage.Send(interaction.Performer, gameObject, NetTabType, TabAction.Open);
+		}
+
 		public void OnDespawnServer(DespawnInfo info)
 		{
 			NetworkTabManager.Instance.RemoveTab(gameObject, NetTabType);
