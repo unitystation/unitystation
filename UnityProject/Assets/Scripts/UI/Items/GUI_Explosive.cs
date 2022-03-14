@@ -68,6 +68,7 @@ namespace UI.Items
 			{
 				yield return WaitFor.EndOfFrame;
 			}
+			sbButtons.SetActive(false);
 			explosiveDevice = Provider.GetComponent<Explosive>();
 			if (explosiveDevice.DetonateImmediatelyOnSignal == false)
 			{

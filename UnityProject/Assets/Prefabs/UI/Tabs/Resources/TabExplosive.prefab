@@ -668,7 +668,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 6018750049248943481}
-        m_TargetAssemblyTypeName: UI.GUI_Explosive, Assets
+        m_TargetAssemblyTypeName: UI.Items.GUI_Explosive, Assets
         m_MethodName: ToggleMode
         m_Mode: 1
         m_Arguments:
@@ -1346,7 +1346,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &7031435096593933351
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2951,7 +2951,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 6018750049248943481}
-        m_TargetAssemblyTypeName: UI.GUI_Explosive, Assets
+        m_TargetAssemblyTypeName: UI.Items.GUI_Explosive, Assets
         m_MethodName: ArmDevice
         m_Mode: 1
         m_Arguments:
