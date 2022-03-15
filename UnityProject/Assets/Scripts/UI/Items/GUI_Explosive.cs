@@ -13,7 +13,7 @@ namespace UI.Items
 	/// </summary>
 	public class GUI_Explosive : NetTab
 	{
-		private Explosive explosiveDevice;
+		private ExplosiveBase explosiveDevice;
 
 		[SerializeField] private NetLabel status;
 		[SerializeField] private NetLabel timer;
@@ -69,7 +69,7 @@ namespace UI.Items
 				yield return WaitFor.EndOfFrame;
 			}
 			sbButtons.SetActive(false);
-			explosiveDevice = Provider.GetComponent<Explosive>();
+			explosiveDevice = Provider.GetComponent<ExplosiveBase>();
 			if (explosiveDevice.DetonateImmediatelyOnSignal == false)
 			{
 				timerCount = explosiveDevice.TimeToDetonate;

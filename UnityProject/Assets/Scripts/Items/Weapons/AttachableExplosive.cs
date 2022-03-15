@@ -2,115 +2,21 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using UnityEngine;
 using Mirror;
 using Communications;
-using Managers;
-using Objects;
-using Systems.Explosions;
-using Scripts.Core.Transform;
-using UI.Items;
 
 namespace Items.Weapons
 {
-	public class Explosive : SignalReceiver,
+	public class AttachableExplosive : ExplosiveBase,
 		ICheckedInteractable<PositionalHandApply>, IRightClickable, IInteractable<InventoryApply>
 	{
-		[Header("Explosive settings")]
-		[SerializeField] private ExplosiveType explosiveType;
-		[SerializeField] private bool detonateImmediatelyOnSignal;
-		[SerializeField] private int timeToDetonate = 10;
-		[SerializeField] private int minimumTimeToDetonate = 10;
-		[SerializeField] private float explosiveStrength = 150f;
-		[SerializeField] private SpriteDataSO activeSpriteSO;
-		[SerializeField] private float progressTime = 3f;
-		[Header("Explosive Components")]
-		[SerializeField] private SpriteHandler spriteHandler;
-		[SerializeField] private ScaleSync scaleSync;
-		[SerializeField] private ItemTrait wrenchTrait;
-		private RegisterItem registerItem;
-		private ObjectBehaviour objectBehaviour;
-		private Pickupable pickupable;
-		private HasNetworkTabItem explosiveGUI;
-		private HasNetworkTab sbExplosiveGUI;
-		private PushPull pushPull;
-		[HideInInspector] public GUI_Explosive GUI;
-
-		[SyncVar] private bool isArmed;
-		[SyncVar] private bool countDownActive = false;
 		[SyncVar] private bool isOnObject = false;
 		private GameObject attachedToObject;
-
-		public int TimeToDetonate
-		{
-			get => timeToDetonate;
-			set => timeToDetonate = value;
-		}
-
-		public bool IsArmed
-		{
-			get => isArmed;
-			set => isArmed = value;
-		}
-
-		public bool IsOnObject
-		{
-			get
-			{
-				if (pushPull != null)
-				{
-					return pushPull.IsPushable;
-				}
-
-				return isOnObject;
-			}
-		}
-
-		public int MinimumTimeToDetonate => minimumTimeToDetonate;
-		public bool DetonateImmediatelyOnSignal => detonateImmediatelyOnSignal;
-		public bool CountDownActive => countDownActive;
-		public ExplosiveType ExplosiveType => explosiveType;
-
-		private void Awake()
-		{
-			if(spriteHandler == null) spriteHandler = GetComponentInChildren<SpriteHandler>();
-			if(scaleSync == null) scaleSync = GetComponent<ScaleSync>();
-			registerItem = GetComponent<RegisterItem>();
-			objectBehaviour = GetComponent<ObjectBehaviour>();
-			pickupable = GetComponent<Pickupable>();
-			explosiveGUI = GetComponent<HasNetworkTabItem>();
-			if (explosiveType == ExplosiveType.SyndicateBomb)
-			{
-				sbExplosiveGUI = GetComponent<HasNetworkTab>();
-				pickupable.ServerSetCanPickup(false);
-				pushPull = GetComponent<PushPull>();
-				pushPull.ServerSetPushable(true);
-			}
-		}
 
 		private void OnDisable()
 		{
 			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, UpdateBombPosition);
-		}
-
-		[Server]
-		public IEnumerator Countdown()
-		{
-			countDownActive = true;
-			spriteHandler.SetSpriteSO(activeSpriteSO);
-			if (GUI != null) GUI.StartCoroutine(GUI.UpdateTimer());
-			yield return WaitFor.Seconds(timeToDetonate); //Delay is in milliseconds
-			Detonate();
-		}
-
-		private void Detonate()
-		{
-			// Get data before despawning
-			var worldPos = objectBehaviour.AssumedWorldPositionServer();
-			// Despawn the explosive
-			_ = Despawn.ServerSingle(gameObject);
-			Explosion.StartExplosion(worldPos, explosiveStrength);
 		}
 
 		[Server]
@@ -137,15 +43,6 @@ namespace Items.Weapons
 			registerItem.customNetTransform.SetPosition(attachedToObject.WorldPosServer());
 		}
 
-		/// <summary>
-		/// Toggle the detention mode of the explosive, true means it will only work with a signaling device.
-		/// </summary>
-		/// <param name="mode"></param>
-		public void ToggleMode(bool mode)
-		{
-			detonateImmediatelyOnSignal = mode;
-		}
-
 		[Command(requiresAuthority = false)]
 		private void CmdTellServerToDeattachExplosive()
 		{
@@ -163,17 +60,6 @@ namespace Items.Weapons
 			attachedToObject = null;
 		}
 
-		public override void ReceiveSignal(SignalStrength strength, ISignalMessage message = null)
-		{
-			if(countDownActive == true || isArmed == false) return;
-			if (detonateImmediatelyOnSignal)
-			{
-				Detonate();
-				return;
-			}
-			StartCoroutine(Countdown());
-		}
-
 		/// <summary>
 		/// checks to see if we can attach the explosive to an object.
 		/// </summary>
@@ -182,7 +68,6 @@ namespace Items.Weapons
 			return matrix.Get<RegisterDoor>(tile.WorldPositionServer, true).Any() || matrix.Get<Pickupable>(tile.WorldPositionServer, true).Any();
 		}
 
-		#region Interaction
 
 		public bool WillInteract(PositionalHandApply interaction, NetworkSide side)
 		{
@@ -228,26 +113,11 @@ namespace Items.Weapons
 			}
 
 			//incase we forgot to pair while the C4 is on the wall
-			if (interaction.TargetObject.TryGetComponent<SignalEmitter>(out var emitter))
+			if (interaction.UsedObject.TryGetComponent<SignalEmitter>(out var emitter))
 			{
 				Emitter = emitter;
 				Frequency = emitter.Frequency;
 				Chat.AddExamineMsg(interaction.Performer, "You successfully pair the remote signal to the device.");
-				return;
-			}
-
-			//Exclusive logc ot Syndicate Bombs
-			if (explosiveType == ExplosiveType.SyndicateBomb)
-			{
-				if (interaction.HandObject != null && interaction.HandObject.Item().HasTrait(wrenchTrait))
-				{
-					pushPull.ServerSetAnchored(!pushPull.IsPushable, interaction.Performer);
-					var wrenchText = pushPull.IsPushable ? "wrench down" : "unwrench";
-					SoundManager.PlayNetworkedAtPos(CommonSounds.Instance.Wrench, gameObject.AssumedWorldPosServer());
-					Chat.AddExamineMsg(interaction.Performer, $"You {wrenchText} the {gameObject.ExpensiveName()}");
-					return;
-				}
-				sbExplosiveGUI.ServerPerformInteraction(interaction);
 				return;
 			}
 
@@ -277,7 +147,6 @@ namespace Items.Weapons
 				}
 			}
 		}
-		#endregion
 
 		public RightClickableResult GenerateRightClickOptions()
 		{
@@ -293,13 +162,5 @@ namespace Items.Weapons
 			}
 			return result;
 		}
-
-	}
-
-	public enum ExplosiveType
-	{
-		C4,
-		X4,
-		SyndicateBomb,
 	}
 }
