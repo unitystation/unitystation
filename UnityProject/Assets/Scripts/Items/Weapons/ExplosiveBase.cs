@@ -70,7 +70,7 @@ namespace Items.Weapons
 			{
 				pickupable.ServerSetCanPickup(false);
 				pushPull = GetComponent<PushPull>();
-				pushPull.ServerSetPushable(true);
+				if(CustomNetworkManager.IsServer) pushPull.ServerSetPushable(false);
 			}
 		}
 
