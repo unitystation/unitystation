@@ -18,11 +18,13 @@ namespace Items.Weapons
 
 		public void ServerPerformInteraction(HandApply interaction)
 		{
+
 			if (interaction.HandObject != null && interaction.HandObject.Item().HasTrait(wrenchTrait))
 			{
-				registerItem.PushPull.Component.ServerSetAnchored(!registerItem.PushPull.Component.IsPushable, interaction.Performer);
+				objectBehaviour.ServerSetPushable(!objectBehaviour.IsPushable);
 				SoundManager.PlayNetworkedAtPos(CommonSounds.Instance.Wrench, gameObject.AssumedWorldPosServer());
-				Chat.AddExamineMsg(interaction.Performer, $"You the {gameObject.ExpensiveName()}");
+				var wrenchText = objectBehaviour.IsPushable ? "wrench down" : "unwrench";
+				Chat.AddExamineMsg(interaction.Performer, $"You {wrenchText} the {gameObject.ExpensiveName()}");
 				return;
 			}
 			explosiveGUI.ServerPerformInteraction(interaction);
