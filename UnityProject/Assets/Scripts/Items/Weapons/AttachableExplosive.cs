@@ -113,7 +113,7 @@ namespace Items.Weapons
 			}
 
 			//incase we forgot to pair while the C4 is on the wall
-			if (interaction.UsedObject.TryGetComponent<SignalEmitter>(out var emitter))
+			if (interaction.UsedObject != null && interaction.UsedObject.TryGetComponent<SignalEmitter>(out var emitter))
 			{
 				Emitter = emitter;
 				Frequency = emitter.Frequency;
