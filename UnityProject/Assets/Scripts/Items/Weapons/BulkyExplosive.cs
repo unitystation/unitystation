@@ -18,7 +18,6 @@ namespace Items.Weapons
 
 		public void ServerPerformInteraction(HandApply interaction)
 		{
-
 			if (interaction.HandObject != null && interaction.HandObject.Item().HasTrait(wrenchTrait))
 			{
 				objectBehaviour.ServerSetPushable(!objectBehaviour.IsPushable);
