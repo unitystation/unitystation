@@ -283,6 +283,14 @@ MonoBehaviour:
   scaleSync: {fileID: 0}
   GUI: {fileID: 0}
   wrenchTrait: {fileID: 11400000, guid: 024541a41c4ab42a499f8e49374496d4, type: 2}
+  beepSound:
+    SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/Machines/Beep.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
 --- !u!114 &4256679036758816722
 MonoBehaviour:
   m_ObjectHideFlags: 0

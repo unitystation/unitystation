@@ -1,4 +1,7 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using AddressableReferences;
+using Mirror;
+using UnityEngine;
 
 namespace Items.Weapons
 {
@@ -8,6 +11,28 @@ namespace Items.Weapons
 	public class BulkyExplosive : ExplosiveBase, ICheckedInteractable<HandApply>
 	{
 		[SerializeField] private ItemTrait wrenchTrait;
+		[SerializeField] private AddressableAudioSource beepSound;
+
+		[Server]
+		public override IEnumerator Countdown()
+		{
+			countDownActive = true;
+			spriteHandler.SetSpriteSO(activeSpriteSO);
+			if (GUI != null) GUI.StartCoroutine(GUI.UpdateTimer());
+			StartCoroutine(BeepBeep());
+			yield return WaitFor.Seconds(timeToDetonate); //Delay is in milliseconds
+			countDownActive = false;
+			Detonate();
+		}
+
+		private IEnumerator BeepBeep()
+		{
+			while (countDownActive && gameObject != null)
+			{
+				SoundManager.PlayNetworkedAtPos(beepSound, gameObject.AssumedWorldPosServer());
+				yield return WaitFor.Seconds(2f);
+			}
+		}
 
 		public bool WillInteract(HandApply interaction, NetworkSide side)
 		{
