@@ -8,6 +8,9 @@ using Communications;
 
 namespace Items.Weapons
 {
+	/// <summary>
+	/// Interaction script for explosives that can go on walls, objects, players, etc.
+	/// </summary>
 	public class AttachableExplosive : ExplosiveBase,
 		ICheckedInteractable<PositionalHandApply>, IRightClickable, IInteractable<InventoryApply>
 	{

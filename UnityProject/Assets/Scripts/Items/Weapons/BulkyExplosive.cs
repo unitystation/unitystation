@@ -2,9 +2,13 @@
 
 namespace Items.Weapons
 {
+	/// <summary>
+	/// Interaction script for Bulky explosives that cannot be picked up and instead pulled.
+	/// </summary>
 	public class BulkyExplosive : ExplosiveBase, ICheckedInteractable<HandApply>
 	{
 		[SerializeField] private ItemTrait wrenchTrait;
+
 		public bool WillInteract(HandApply interaction, NetworkSide side)
 		{
 			if (explosiveType != ExplosiveType.SyndicateBomb ||

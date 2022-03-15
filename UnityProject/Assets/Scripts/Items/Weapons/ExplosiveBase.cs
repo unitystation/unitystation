@@ -15,6 +15,10 @@ using UI.Items;
 
 namespace Items.Weapons
 {
+	/// <summary>
+	/// The base script for holding all universal data and functions between explosives.
+	/// Interactions are written separately.
+	/// </summary>
 	public class ExplosiveBase : SignalReceiver
 	{
 		[Header("Explosive settings")]
