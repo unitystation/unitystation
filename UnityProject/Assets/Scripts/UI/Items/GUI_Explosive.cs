@@ -85,6 +85,7 @@ namespace UI.Items
 
 			modeToggleButton.Value = explosiveDevice.DetonateImmediatelyOnSignal ? "1" : "0";
 			timerCount = explosiveDevice.TimeToDetonate;
+			timer.Value = DisplayTime();
 			explosiveDevice.GUI = this;
 		}
 
