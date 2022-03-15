@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using AddressableReferences;
+using Communications;
 using Mirror;
 using UnityEngine;
 
@@ -49,6 +50,13 @@ namespace Items.Weapons
 				SoundManager.PlayNetworkedAtPos(CommonSounds.Instance.Wrench, gameObject.AssumedWorldPosServer());
 				var wrenchText = objectBehaviour.IsPushable ? "wrench down" : "unwrench";
 				Chat.AddExamineMsg(interaction.Performer, $"You {wrenchText} the {gameObject.ExpensiveName()}");
+				return;
+			}
+			if (interaction.HandObject != null && interaction.HandObject.TryGetComponent<SignalEmitter>(out var emitter))
+			{
+				Emitter = emitter;
+				Frequency = emitter.Frequency;
+				Chat.AddExamineMsg(interaction.Performer, "You successfully pair the remote signal to the device.");
 				return;
 			}
 			explosiveGUI.ServerPerformInteraction(interaction);
