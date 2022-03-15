@@ -86,7 +86,7 @@ namespace Items.Weapons
 				if (explosiveType == ExplosiveType.SyndicateBomb)
 				{
 					Logger.LogError(
-						$"{gameObject} IS NOT SUPPOSED TO BE ATTACHED TO OBJECTS NOR PICKED UP!!! - {pushPull} || {pickupable.CanPickup}");
+						$"{gameObject} IS NOT SUPPOSED TO BE ATTACHED TO OBJECTS NOR PICKED UP!!! - {pickupable.CanPickup}");
 					return;
 				}
 

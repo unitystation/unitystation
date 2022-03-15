@@ -36,7 +36,6 @@ namespace Items.Weapons
 		protected ObjectBehaviour objectBehaviour;
 		protected Pickupable pickupable;
 		protected HasNetworkTabItem explosiveGUI;
-		protected PushPull pushPull;
 		[HideInInspector] public GUI_Explosive GUI;
 		[SyncVar] protected bool isArmed;
 		[SyncVar] protected bool countDownActive = false;
@@ -66,12 +65,6 @@ namespace Items.Weapons
 			objectBehaviour = GetComponent<ObjectBehaviour>();
 			pickupable = GetComponent<Pickupable>();
 			explosiveGUI = GetComponent<HasNetworkTabItem>();
-			if (explosiveType == ExplosiveType.SyndicateBomb)
-			{
-				pickupable.ServerSetCanPickup(false);
-				pushPull = GetComponent<PushPull>();
-				if(CustomNetworkManager.IsServer) pushPull.ServerSetPushable(false);
-			}
 		}
 
 		[Server]
