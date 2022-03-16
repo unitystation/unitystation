@@ -230,7 +230,11 @@ namespace Systems.Electricity
 
 				foreach (var CurrentItem in AnInterestingDictionary)
 				{
-					Current += CurrentItem.Value;
+					if (CurrentItem.Value > 0)
+					{
+						Current += CurrentItem.Value;
+					}
+					
 				}
 			}
 
