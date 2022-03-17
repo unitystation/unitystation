@@ -591,6 +591,8 @@ public class MatrixMove : ManagedBehaviour
 				//rotate instantly
 				transform.rotation = InitialFacing.OffsetTo(clientState.FacingDirection).Quaternion;
 			}
+
+			matrix.MetaTileMap.UpdateTransformMatrix();
 		}
 		else if (IsMovingClient)
 		{
@@ -617,12 +619,12 @@ public class MatrixMove : ManagedBehaviour
 		{
 			// Finishes the job of Lerp and straightens the ship with exact angle value
 			transform.rotation = InitialFacing.OffsetTo(clientState.FacingDirection).Quaternion;
+			matrix.MetaTileMap.UpdateTransformMatrix();
 		}
 
 		//Lerp
 		if (clientState.Position != transform.position)
 		{
-			matrix.MetaTileMap.GlobalCachedBounds = null;
 			float distance = Vector3.Distance(clientState.Position, transform.position);
 
 			//Teleport (Greater then 30 unity meters away from server target):
@@ -636,10 +638,7 @@ public class MatrixMove : ManagedBehaviour
 
 			transform.position = clientState.Position;
 
-			var transform1 = matrix.MetaTileMap.transform;
-			matrix.MetaTileMap.localToWorldMatrix = transform1.localToWorldMatrix; //Update the meta Tilemap with movement
-			matrix.MetaTileMap.worldToLocalMatrix = transform1.worldToLocalMatrix;
-
+			matrix.MetaTileMap.UpdateTransformMatrix();
 
 			//If stopped then lerp to target (snap to grid)
 			if (!clientState.IsMoving)

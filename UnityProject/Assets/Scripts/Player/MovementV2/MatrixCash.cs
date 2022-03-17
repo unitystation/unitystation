@@ -22,7 +22,7 @@ public class MatrixCash
 	};
 
 
-	public Vector3Int WorldPOS;
+	public Vector3 WorldPOS;
 
 	private MatrixInfo[] Positions = new MatrixInfo[9];
 
@@ -86,7 +86,7 @@ public class MatrixCash
 		}
 	}
 
-	public void ResetNewPosition(Vector3Int Centrepoint)
+	public void ResetNewPosition(Vector3 Centrepoint)
 	{
 		WorldPOS = Centrepoint;
 		for (int i = 0; i < Positions.Length; i++)

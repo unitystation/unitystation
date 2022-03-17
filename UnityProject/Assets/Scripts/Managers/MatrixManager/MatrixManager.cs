@@ -291,7 +291,7 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 	}
 
 	/// Finds first matrix that is not empty at given world pos
-	public static MatrixInfo AtPoint(Vector3Int worldPos, bool isServer, MatrixInfo possibleMatrix = null)
+	public static MatrixInfo AtPoint(Vector3 worldPos, bool isServer, MatrixInfo possibleMatrix = null)
 	{
 		//for performance, this is just a suggestion on which matrix we believe this point could be in, not always correct
 		if (possibleMatrix != null && IsInMatrix(worldPos, isServer, possibleMatrix))
@@ -324,7 +324,7 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 		return null;
 	}
 
-	private static bool IsInMatrix(Vector3Int worldPos, bool isServer, MatrixInfo matrixInfo)
+	private static bool IsInMatrix(Vector3 worldPos, bool isServer, MatrixInfo matrixInfo)
 	{
 		if (matrixInfo.WorldBounds.Contains(worldPos) == false)
 			return false;
@@ -1080,15 +1080,14 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 
 	///Cross-matrix edition of <see cref="Matrix.IsPassableAt(UnityEngine.Vector3Int,UnityEngine.Vector3Int,bool,GameObject)"/>
 	///<inheritdoc cref="Matrix.IsPassableAt(UnityEngine.Vector3Int,UnityEngine.Vector3Int,bool,GameObject)"/>
-	public static bool IsPassableAtAllMatricesV2(Vector3Int worldOrigin, Vector3Int worldTarget,
+	public static bool IsPassableAtAllMatricesV2(Vector3 worldOrigin, Vector3 worldTarget,
 		MatrixCash MatrixCash, GameObject Context, List<PushPull> PushIng, List<IBumpableObject> Bumps)
 	{
 		var MatrixOrigin = MatrixCash.GetforDirection(Vector3Int.zero);
-		var localPosOrigin = WorldToLocalInt(worldOrigin, MatrixOrigin);
-		var localPosTarget = WorldToLocalInt(worldTarget, MatrixOrigin);
+		var localPosOrigin = WorldToLocal(worldOrigin, MatrixOrigin);
+		var localPosTarget = WorldToLocal(worldTarget, MatrixOrigin);
 
-		bool IsPassable =
-			MatrixOrigin.Matrix.MetaTileMap.IsPassableAtOneObjectsV2(localPosOrigin, localPosTarget, Context, PushIng, Bumps);
+		bool IsPassable = MatrixOrigin.Matrix.MetaTileMap.IsPassableAtOneObjectsV2(localPosOrigin.RoundToInt(), localPosTarget.RoundToInt(), Context, PushIng, Bumps);
 
 		if (IsPassable == false)
 		{
@@ -1097,16 +1096,22 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 		// PushIng.Clear();
 
 
-		var matrixTarget = MatrixCash.GetforDirection(worldTarget - worldOrigin);
+		var matrixTarget = MatrixCash.GetforDirection((worldTarget - worldOrigin).RoundToInt());
 
-		localPosOrigin = WorldToLocalInt(worldOrigin, matrixTarget);
-		localPosTarget = WorldToLocalInt(worldTarget, matrixTarget);
-		if (localPosOrigin.x == localPosTarget.x || localPosOrigin.y == localPosTarget.y)
+		localPosOrigin = WorldToLocal(worldOrigin, matrixTarget);
+		localPosTarget = WorldToLocal(worldTarget, matrixTarget);
+
+		var intlocalPosOrigin = localPosOrigin.RoundToInt();
+		var intlocalPosTarget = localPosTarget.RoundToInt();
+
+
+
+		if (intlocalPosOrigin.x == intlocalPosTarget.x || intlocalPosOrigin.y == intlocalPosTarget.y)
 		{
-			if (matrixTarget.Matrix.MetaTileMap.IsPassableAtOneTileMapV2(localPosOrigin, localPosTarget,
+			if (matrixTarget.Matrix.MetaTileMap.IsPassableAtOneTileMapV2(intlocalPosOrigin, intlocalPosTarget,
 				    CollisionType.Player))
 			{
-				if (matrixTarget.Matrix.MetaTileMap.IsPassableAtOneObjectsV2(localPosOrigin, localPosTarget, Context,
+				if (matrixTarget.Matrix.MetaTileMap.IsPassableAtOneObjectsV2(intlocalPosOrigin, intlocalPosTarget, Context,
 					    PushIng, Bumps))
 				{
 					return true;
@@ -1115,19 +1120,19 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 		}
 		else
 		{
-			if (matrixTarget.Matrix.MetaTileMap.IsPassableTileMapHorizontal(localPosOrigin, localPosTarget,CollisionType.Player ))
+			if (matrixTarget.Matrix.MetaTileMap.IsPassableTileMapHorizontal(intlocalPosOrigin, intlocalPosTarget,CollisionType.Player ))
 			{
-				if (matrixTarget.Matrix.MetaTileMap.IsPassableObjectsHorizontal(localPosOrigin, localPosTarget, Context,
+				if (matrixTarget.Matrix.MetaTileMap.IsPassableObjectsHorizontal(intlocalPosOrigin, intlocalPosTarget, Context,
 					    PushIng, Bumps))
 				{
 					return true;
 				}
 			}
 
-			if (matrixTarget.Matrix.MetaTileMap.IsPassableTileMapVertical(localPosOrigin, localPosTarget,
+			if (matrixTarget.Matrix.MetaTileMap.IsPassableTileMapVertical(intlocalPosOrigin, intlocalPosTarget,
 				    CollisionType.Player))
 			{
-				if (matrixTarget.Matrix.MetaTileMap.IsPassableObjectsVertical(localPosOrigin, localPosTarget, Context,
+				if (matrixTarget.Matrix.MetaTileMap.IsPassableObjectsVertical(intlocalPosOrigin, intlocalPosTarget, Context,
 					    PushIng, Bumps))
 				{
 					return true;
@@ -1435,10 +1440,10 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 			return localPos + matrix.Offset;
 		}
 
-		// if (matrix.MetaTileMap.localToWorldMatrix != null) //TODO After fixing Shuttle offset and Change movement to local
-		// {
-		// 	return matrix.MetaTileMap.localToWorldMatrix.Value.MultiplyPoint(localPos);
-		// }
+		if (matrix.MetaTileMap.localToWorldMatrix != null)
+		{
+			return matrix.MetaTileMap.localToWorldMatrix.Value.MultiplyPoint(localPos);
+		}
 
 		if (state.Equals(default(MatrixState)))
 		{
@@ -1469,10 +1474,10 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 			return worldPos - matrix.Offset;
 		}
 
-		// if (matrix.MetaTileMap.worldToLocalMatrix != null) //TODO After fixing Shuttle offset and Change movement to local
-		// {
-		// 	return matrix.MetaTileMap.worldToLocalMatrix.Value.MultiplyPoint(worldPos);
-		// }
+		if (matrix.MetaTileMap.worldToLocalMatrix != null) //TODO After fixing Shuttle offset and Change movement to local
+		{
+			return matrix.MetaTileMap.worldToLocalMatrix.Value.MultiplyPoint(worldPos);
+		}
 
 
 		var state = matrix.MatrixMove.ClientState;
@@ -1520,7 +1525,7 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 		for (int i = 0; i < travelDistance; i++)
 		{
 			startPos = Vector2.MoveTowards(startPos, targetPos, 1);
-			positionList.Add((startPos).CutToInt());
+			positionList.Add((startPos).RoundToInt());
 		}
 
 		return positionList;

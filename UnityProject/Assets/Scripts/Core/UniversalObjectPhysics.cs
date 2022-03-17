@@ -88,9 +88,9 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 	{
 		Pushing.Clear();
 		Bumps.Clear();
-		SetMatrixCash.ResetNewPosition(registerTile.WorldPosition);
-		if (MatrixManager.IsPassableAtAllMatricesV2(registerTile.WorldPosition,
-			    registerTile.WorldPosition + WorldDirection.To3Int(), SetMatrixCash, this.gameObject,
+		SetMatrixCash.ResetNewPosition(transform.position);
+		if (MatrixManager.IsPassableAtAllMatricesV2(transform.position,
+			    transform.position+ WorldDirection.To3Int(), SetMatrixCash, this.gameObject,
 			    Pushing, Bumps)) //Validate
 		{
 			ForceTilePush(WorldDirection, Pushing, speed);
@@ -113,11 +113,12 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 			}
 		}
 
-		var NewWorldPosition = registerTile.WorldPosition + WorldDirection.To3Int();
+		var CachedPosition = transform.position;
+		var NewWorldPosition = CachedPosition + WorldDirection.To3Int();
 
 		var movetoMatrix = SetMatrixCash.GetforDirection(WorldDirection.To3Int()).Matrix;
 
-		var CachedPosition = transform.position;
+
 
 		if (registerTile.Matrix != movetoMatrix)
 		{
@@ -132,7 +133,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 		registerTile.ServerSetLocalPosition(LocalPosition.RoundToInt());
 		registerTile.ClientSetLocalPosition(LocalPosition.RoundToInt());
 
-		LocalTargetPosition = LocalPosition;
+		LocalTargetPosition = LocalPosition.RoundToInt();
 		if (Animating == false)
 		{
 			Animating = true;

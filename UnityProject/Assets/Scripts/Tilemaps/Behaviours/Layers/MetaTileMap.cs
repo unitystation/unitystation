@@ -104,6 +104,7 @@ namespace TileManagement
 
 		private void OnEnable()
 		{
+
 			Layers = new Dictionary<LayerType, Layer>();
 			var layersKeys = new List<LayerType>();
 			var layersValues = new List<Layer>();
@@ -201,6 +202,18 @@ namespace TileManagement
 			{
 				UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
 			}
+			var transform1 = ObjectLayer.transform;
+			localToWorldMatrix = transform1.localToWorldMatrix;
+			worldToLocalMatrix = transform1.worldToLocalMatrix;
+		}
+
+
+		public void UpdateTransformMatrix()
+		{
+			var transform1 = ObjectLayer.transform;
+			localToWorldMatrix = transform1.localToWorldMatrix;
+			worldToLocalMatrix = transform1.worldToLocalMatrix;
+			GlobalCachedBounds = null;
 		}
 
 		private void OnDisable()
@@ -213,7 +226,7 @@ namespace TileManagement
 
 		public void UpdateMe()
 		{
-			var transform1 = transform;
+			var transform1 = ObjectLayer.transform;
 			localToWorldMatrix = transform1.localToWorldMatrix;
 			worldToLocalMatrix = transform1.worldToLocalMatrix;
 			if (QueuedChanges.Count == 0)
@@ -1780,8 +1793,6 @@ namespace TileManagement
 		{
 			var localBound = GetLocalBounds();
 
-			var offset = new Vector3(0.5f, 0.5f, 0);
-
 			if (localToWorldMatrix == null)
 			{
 				Logger.LogError(
@@ -1790,13 +1801,13 @@ namespace TileManagement
 			}
 
 			//Vector3[4] {bottomLeft, bottomRight, topLeft, topRight}; //Presuming It's been updated
-			var bottomLeft = localToWorldMatrix.Value.MultiplyPoint(localBound.min + offset);
+			var bottomLeft = localToWorldMatrix.Value.MultiplyPoint(localBound.min );
 			globalPoints[0] = bottomLeft;
 			globalPoints[1] =
-				localToWorldMatrix.Value.MultiplyPoint(new Vector3(localBound.xMax, localBound.yMin, 0) + offset);
+				localToWorldMatrix.Value.MultiplyPoint(new Vector3(localBound.xMax, localBound.yMin, 0));
 			globalPoints[2] =
-				localToWorldMatrix.Value.MultiplyPoint(new Vector3(localBound.xMin, localBound.yMax, 0) + offset);
-			globalPoints[3] = localToWorldMatrix.Value.MultiplyPoint(localBound.max + offset);
+				localToWorldMatrix.Value.MultiplyPoint(new Vector3(localBound.xMin, localBound.yMax, 0) );
+			globalPoints[3] = localToWorldMatrix.Value.MultiplyPoint(localBound.max );
 
 			var minPosition = bottomLeft;
 			var maxPosition = bottomLeft;

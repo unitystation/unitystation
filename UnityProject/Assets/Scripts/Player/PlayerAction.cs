@@ -6,10 +6,6 @@ using UnityEngine;
 /// </summary>
 public struct PlayerAction
 {
-	public static Vector2Int Up_Right => new Vector2Int(1, 1);
-	public static Vector2Int Down_Right => new Vector2Int(1, -1);
-	public static Vector2Int Left_Down => new Vector2Int(-1, -1);
-	public static Vector2Int Up_Left => new Vector2Int(-1, 1);
 
 
 	/// int values of the moveactions (will have 2 moveActions if it's a diagonal movement)
@@ -40,44 +36,12 @@ public struct PlayerAction
 		return direction;
 	}
 
+
+
 	public MovementSynchronisation.PlayerMoveDirection ToPlayerMoveDirection()
 	{
 		var direction = Direction();
-
-		if (direction == Vector2Int.up)
-		{
-			return MovementSynchronisation.PlayerMoveDirection.Up;
-		}
-		else if (direction == Vector2Int.down)
-		{
-			return MovementSynchronisation.PlayerMoveDirection.Down;
-		}
-		else if (direction == Vector2Int.left)
-		{
-			return MovementSynchronisation.PlayerMoveDirection.Left;
-		}
-		else if (direction == Vector2Int.right)
-		{
-			return MovementSynchronisation.PlayerMoveDirection.Right;
-		}
-		else if (direction == Up_Right)
-		{
-			return MovementSynchronisation.PlayerMoveDirection.Up_Right;
-		}
-		else if (direction == Down_Right)
-		{
-			return MovementSynchronisation.PlayerMoveDirection.Down_Right;
-		}
-		else if (direction == Left_Down)
-		{
-			return MovementSynchronisation.PlayerMoveDirection.Down_Left;
-		}
-		else if (direction == Up_Left)
-		{
-			return MovementSynchronisation.PlayerMoveDirection.Up_Left;
-		}
-
-		return MovementSynchronisation.PlayerMoveDirection.Up;
+		return MovementSynchronisation.VectorToPlayerMoveDirection(direction);
 	}
 
 	/// <summary>
