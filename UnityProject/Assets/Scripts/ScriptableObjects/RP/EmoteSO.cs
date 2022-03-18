@@ -111,8 +111,7 @@ namespace ScriptableObjects.RP
 
 			var audioSourceParameters = new AudioSourceParameters(Random.Range(pitchRange.x, pitchRange.y), 100f);
 
-			_ = SoundManager.PlayNetworkedAtPosAsync(audio.PickRandom(), player.AssumedWorldPosServer(),
-				audioSourceParameters, true, false);
+			_ = SoundManager.PlayNetworkedAtPosAsync(audio.PickRandom(), player.AssumedWorldPosServer(), audioSourceParameters);
 		}
 
 		/// <summary>
