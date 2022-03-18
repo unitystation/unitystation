@@ -80,7 +80,7 @@ namespace Systems.MobAIs
 			if (player.IsGhost) return;
 			var inventory = player.GetComponent<DynamicItemStorage>();
 			var thingInHand = inventory.GetActiveHandSlot();
-			if (thingInHand == null || thingInHand.Item == null) return;
+			if (thingInHand == null || thingInHand.Item == null || canSteal == false) return;
 
 			StartCoroutine(Stealcooldown());
 			var thingName = thingInHand.ItemAttributes.ArticleName;
