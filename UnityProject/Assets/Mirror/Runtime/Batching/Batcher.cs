@@ -54,7 +54,10 @@ namespace Mirror
             // IMPORTANT: NOT adding a size header / msg saves LOTS of bandwidth
             PooledNetworkWriter writer = NetworkWriterPool.GetWriter();
             writer.WriteBytes(message.Array, message.Offset, message.Count);
-            messages.Enqueue(writer);
+            lock (messages)
+            {
+	            messages.Enqueue(writer);
+            }
         }
 
         // batch as many messages as possible into writer

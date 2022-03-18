@@ -101,12 +101,12 @@ namespace Items
 
 		public void SetLabel(string label)
 		{
+			currentLabel = label;
+
 			if (currentLabel.Length > MAX_TEXT_LENGTH)
 			{
 				currentLabel = currentLabel.Substring(0, MAX_TEXT_LENGTH);
 			}
-
-			currentLabel = label;
 		}
 	}
 }

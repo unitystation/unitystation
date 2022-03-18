@@ -4,7 +4,9 @@ using System.Collections.Generic;
 using System.Linq;
 using Newtonsoft.Json;
 
-public class Design
+namespace Systems.Research
+{
+	public class Design
 {
 	public String InternalID { get; set; } //
 
@@ -141,6 +143,8 @@ public class Designs : MonoBehaviour
 		}
 		Logger.Log ("JsonImportInitialization for designs is done!", Category.Research);
 	}
+
+}
 
 }
 
