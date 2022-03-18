@@ -15,7 +15,9 @@ namespace Systems.MobAIs
 
 		private string lastHeardMsg;
 		private ItemStorage itemStorage;
+		private bool canSteal = true;
 		[SerializeField] private float stealChance = 50f;
+		[SerializeField] private float stealingCooldown = 10f;
 
 		protected override void Awake()
 		{
@@ -38,6 +40,13 @@ namespace Systems.MobAIs
 				Chat.AddActionMsgToChat(gameObject,
 					$"<b>{mobName} drops something!<b>", $"<b>{mobName} drops something!<b>");
 			}
+		}
+
+		private IEnumerator Stealcooldown()
+		{
+			canSteal = false;
+			yield return WaitFor.Seconds(stealingCooldown);
+			canSteal = true;
 		}
 
 		public override void LocalChatReceived(ChatEvent chatEvent)
@@ -71,18 +80,21 @@ namespace Systems.MobAIs
 			if (player.IsGhost) return;
 			var inventory = player.GetComponent<DynamicItemStorage>();
 			var thingInHand = inventory.GetActiveHandSlot();
-
 			if (thingInHand == null || thingInHand.Item == null) return;
-			if (DMMath.Prob(stealChance) == false &&
+
+			StartCoroutine(Stealcooldown());
+			var thingName = thingInHand.ItemAttributes.ArticleName;
+			var freeSlot = itemStorage.GetNextFreeIndexedSlot();
+			if (DMMath.Prob(stealChance) == false && freeSlot == null ||
 			    Inventory.ServerTransfer(thingInHand, itemStorage.GetNextFreeIndexedSlot()) == false)
 			{
-				Chat.AddActionMsgToChat(gameObject, $"{MobName} tried to steal the {thingInHand.ItemAttributes.ArticleName} from {player.visibleName} but failed!",
-					$"{MobName} tried to steal the {thingInHand.ItemAttributes.ArticleName} from {player.visibleName} but failed!");
+				Chat.AddActionMsgToChat(gameObject, $"{MobName} tried to steal the {thingName} from {player.visibleName} but failed!",
+					$"{MobName} tried to steal the {thingName} from {player.visibleName} but failed!");
 				return;
 			}
 			StartCoroutine(FleeAndDrop(player.gameObject));
 			Chat.AddActionMsgToChat(gameObject, $"<color=red>{MobName} stole the {thingInHand.ItemAttributes.ArticleName} from {player.visibleName}!</color>",
-				$"<color=red>{MobName} stole the {thingInHand.ItemAttributes.ArticleName} from {player.visibleName}!</color>");
+				$"<color=red>{MobName} stole the {thingName} from {player.visibleName}!</color>");
 		}
 
 		private IEnumerator FleeAndDrop(GameObject dude)
