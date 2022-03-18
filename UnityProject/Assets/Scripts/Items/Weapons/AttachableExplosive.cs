@@ -83,13 +83,6 @@ namespace Items.Weapons
 		{
 			void Perform()
 			{
-				if (explosiveType == ExplosiveType.SyndicateBomb)
-				{
-					Logger.LogError(
-						$"{gameObject} IS NOT SUPPOSED TO BE ATTACHED TO OBJECTS NOR PICKED UP!!! - {pickupable.CanPickup}");
-					return;
-				}
-
 				if (interaction.TargetObject?.OrNull().RegisterTile()?.OrNull().Matrix?.OrNull() != null)
 				{
 					var matrix = interaction.TargetObject.RegisterTile().Matrix;
