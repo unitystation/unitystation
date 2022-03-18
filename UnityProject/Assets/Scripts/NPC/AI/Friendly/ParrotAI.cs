@@ -85,7 +85,7 @@ namespace Systems.MobAIs
 			StartCoroutine(Stealcooldown());
 			var thingName = thingInHand.ItemAttributes.ArticleName;
 			var freeSlot = itemStorage.GetNextFreeIndexedSlot();
-			if (DMMath.Prob(stealChance) == false && freeSlot == null ||
+			if (DMMath.Prob(stealChance) == false || freeSlot == null ||
 			    Inventory.ServerTransfer(thingInHand, itemStorage.GetNextFreeIndexedSlot()) == false)
 			{
 				Chat.AddActionMsgToChat(gameObject, $"{MobName} tried to steal the {thingName} from {player.visibleName} but failed!",
