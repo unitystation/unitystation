@@ -93,7 +93,7 @@ namespace Systems.MobAIs
 				return;
 			}
 			StartCoroutine(FleeAndDrop(player.gameObject));
-			Chat.AddActionMsgToChat(gameObject, $"<color=red>{MobName} stole the {thingInHand.ItemAttributes.ArticleName} from {player.visibleName}!</color>",
+			Chat.AddActionMsgToChat(gameObject, $"<color=red>{MobName} stole the {thingName} from {player.visibleName}!</color>",
 				$"<color=red>{MobName} stole the {thingName} from {player.visibleName}!</color>");
 		}
 
