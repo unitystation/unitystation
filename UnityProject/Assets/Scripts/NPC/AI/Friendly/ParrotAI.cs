@@ -14,11 +14,30 @@ namespace Systems.MobAIs
 	{
 
 		private string lastHeardMsg;
+		private ItemStorage itemStorage;
+		[SerializeField] private float stealChance = 50f;
 
 		protected override void Awake()
 		{
 			base.Awake();
 			ResetBehaviours();
+			itemStorage = GetComponent<ItemStorage>();
+		}
+
+		protected override void OnAttackReceived(GameObject damagedBy = null)
+		{
+			base.OnAttackReceived(damagedBy);
+			DropItemOnParrot();
+		}
+
+		private void DropItemOnParrot()
+		{
+			var slot = itemStorage.GetTopOccupiedIndexedSlot();
+			if (slot != null && Inventory.ServerDrop(slot))
+			{
+				Chat.AddActionMsgToChat(gameObject,
+					$"<b>{mobName} drops something!<b>", $"<b>{mobName} drops something!<b>");
+			}
 		}
 
 		public override void LocalChatReceived(ChatEvent chatEvent)
@@ -43,6 +62,7 @@ namespace Systems.MobAIs
 		public override void OnPetted(GameObject performer)
 		{
 			ParrotSounds();
+			DropItemOnParrot();
 		}
 
 		// Steals shit from your active hand
@@ -52,19 +72,24 @@ namespace Systems.MobAIs
 			var inventory = player.GetComponent<DynamicItemStorage>();
 			var thingInHand = inventory.GetActiveHandSlot();
 
-			if (thingInHand != null && thingInHand.Item != null)
+			if (thingInHand == null || thingInHand.Item == null) return;
+			if (DMMath.Prob(stealChance) == false &&
+			    Inventory.ServerTransfer(thingInHand, itemStorage.GetNextFreeIndexedSlot()) == false)
 			{
-				GameObject stolenThing = thingInHand.Item.gameObject;
-				Inventory.ServerDespawn(thingInHand);
-				StartCoroutine(FleeAndDrop(player.gameObject, stolenThing));
+				Chat.AddActionMsgToChat(gameObject, $"{mobName} tried to steal the {thingInHand.ItemObject.ExpensiveName()} from {player.visibleName} but failed!",
+					$"{mobName} tried to steal the {thingInHand.ItemObject.ExpensiveName()} from {player.visibleName} but failed!");
+				return;
 			}
+			StartCoroutine(FleeAndDrop(player.gameObject));
+			Chat.AddActionMsgToChat(gameObject, $"<color=red>{mobName} stole the {thingInHand.ItemObject.ExpensiveName()} from {player.visibleName}!</color>",
+				$"<color=red>{mobName} stole the {thingInHand.ItemObject.ExpensiveName()} from {player.visibleName}!</color>");
 		}
 
-		private IEnumerator FleeAndDrop(GameObject dude, GameObject stolenThing)
+		private IEnumerator FleeAndDrop(GameObject dude)
 		{
 			StartFleeing(dude, 3f);
 			yield return WaitFor.Seconds(3f);
-			Spawn.ServerPrefab(stolenThing, gameObject.WorldPosServer());
+			DropItemOnParrot();
 			StartFleeing(dude, 5f);
 			yield break;
 		}
