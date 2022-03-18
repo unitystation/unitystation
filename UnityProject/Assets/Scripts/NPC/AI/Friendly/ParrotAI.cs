@@ -76,13 +76,13 @@ namespace Systems.MobAIs
 			if (DMMath.Prob(stealChance) == false &&
 			    Inventory.ServerTransfer(thingInHand, itemStorage.GetNextFreeIndexedSlot()) == false)
 			{
-				Chat.AddActionMsgToChat(gameObject, $"{mobName} tried to steal the {thingInHand.ItemObject.ExpensiveName()} from {player.visibleName} but failed!",
-					$"{mobName} tried to steal the {thingInHand.ItemObject.ExpensiveName()} from {player.visibleName} but failed!");
+				Chat.AddActionMsgToChat(gameObject, $"{MobName} tried to steal the {thingInHand.ItemAttributes.ArticleName} from {player.visibleName} but failed!",
+					$"{MobName} tried to steal the {thingInHand.ItemAttributes.ArticleName} from {player.visibleName} but failed!");
 				return;
 			}
 			StartCoroutine(FleeAndDrop(player.gameObject));
-			Chat.AddActionMsgToChat(gameObject, $"<color=red>{mobName} stole the {thingInHand.ItemObject.ExpensiveName()} from {player.visibleName}!</color>",
-				$"<color=red>{mobName} stole the {thingInHand.ItemObject.ExpensiveName()} from {player.visibleName}!</color>");
+			Chat.AddActionMsgToChat(gameObject, $"<color=red>{MobName} stole the {thingInHand.ItemAttributes.ArticleName} from {player.visibleName}!</color>",
+				$"<color=red>{MobName} stole the {thingInHand.ItemAttributes.ArticleName} from {player.visibleName}!</color>");
 		}
 
 		private IEnumerator FleeAndDrop(GameObject dude)
