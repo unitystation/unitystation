@@ -7,6 +7,7 @@ using Communications;
 using Managers;
 using Systems.Explosions;
 using UI.Items;
+using Mirror;
 
 namespace Items.Storage
 {
@@ -19,12 +20,12 @@ namespace Items.Storage
 		[SerializeField] private SpriteDataSO spritePizzaBoxMessy;
 		[SerializeField, ShowIf("isBomb")] private SpriteDataSO spritePizzaBoxBombInactive;
 		[SerializeField, ShowIf("isBomb")] private SpriteDataSO spritePizzaBoxBombActive;
-		private bool isOpen = false;
-		private bool hadPizza = false;
-		private bool bombIsCountingDown;
+		[SyncVar] private bool isOpen = false;
+		[SyncVar] private bool hadPizza = false;
+		[SyncVar] private bool bombIsCountingDown;
 		private int timeToDetonate;
 		private bool detenationOnTimer = false;
-		private bool isArmed;
+		[SyncVar] private bool isArmed;
 		[SerializeField] private bool isBomb = false;
 		[SerializeField, ShowIf("isBomb")] private float bombStrength = 3700;
 		[SerializeField] private string writtenNote = "";
@@ -84,7 +85,7 @@ namespace Items.Storage
 		{
 			if (bombIsCountingDown) return;
 			bombIsCountingDown = true;
-			if(isOpen) pizzaSprites.SetSpriteSO(spritePizzaBoxBombActive);
+			if (isOpen) pizzaSprites.SetSpriteSO(spritePizzaBoxBombActive);
 			if (writtenNote != "")
 			{
 				Chat.AddLocalMsgToChat($"<color=red>An explsovive can be seen from the {gameObject.ExpensiveName()} " +

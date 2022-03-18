@@ -14,6 +14,11 @@ namespace Items.Weapons
 		[SerializeField] private ItemTrait wrenchTrait;
 		[SerializeField] private AddressableAudioSource beepSound;
 
+		private void OnDisable()
+		{
+			Emitter = null;
+		}
+
 		[Server]
 		public override IEnumerator Countdown()
 		{
@@ -54,9 +59,7 @@ namespace Items.Weapons
 			}
 			if (interaction.HandObject != null && interaction.HandObject.TryGetComponent<SignalEmitter>(out var emitter))
 			{
-				Emitter = emitter;
-				Frequency = emitter.Frequency;
-				Chat.AddExamineMsg(interaction.Performer, "You successfully pair the remote signal to the device.");
+				PairEmitter(emitter, interaction.Performer);
 				return;
 			}
 			explosiveGUI.ServerPerformInteraction(interaction);
