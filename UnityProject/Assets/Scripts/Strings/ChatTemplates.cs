@@ -10,6 +10,7 @@ namespace Strings
 		public const int LargeText = 18;
 		public const int VeryLargeText = 24;
 		public const int ExtremelyLargeText = 36;
+		public const int AnnoyingText = 64;
 
 		public const string Blue = "#0077ff";
 
