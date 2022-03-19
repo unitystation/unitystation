@@ -44,7 +44,7 @@ public class Disarmable : MonoBehaviour, ICheckedInteractable<PositionalHandAppl
 		targetName = interaction.TargetObject.ExpensiveName();
 		interactionWorldPosition = interaction.WorldPositionTarget;
 
-		if (Cooldowns.TryStart(interaction, this, side: NetworkSide.Server) == false) return;
+		if (Cooldowns.TryStart(interaction, this) == false) return;
 
 		var rng = new System.Random();
 		if (rng.Next(1, 100) <= KNOCKDOWN_CHANCE)

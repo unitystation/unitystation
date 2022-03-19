@@ -593,7 +593,7 @@ namespace Blob
 				return false;
 			}
 
-			if (!autoExpanding && Cooldowns.IsOn(playerScript, CooldownID.Asset(CommonCooldowns.Instance.Melee, NetworkSide.Server)))
+			if (!autoExpanding && Cooldowns.IsOn(playerScript, CooldownID.Asset(CommonCooldowns.Instance.Melee)))
 			{
 				//On attack cooldown
 				return false;

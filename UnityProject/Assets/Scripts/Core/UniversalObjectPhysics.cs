@@ -21,6 +21,8 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 
 	public float TileMoveSpeedOverride = 0;
 
+
+	[SyncVar(hook = nameof(SyncLocalTarget))]
 	public Vector3 LocalTargetPosition;
 
 
@@ -74,13 +76,32 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 
 	}
 
+	[TargetRpc]
+	public void ForceSetPosition(Vector3 ReSetToLocal)
+	{
+		LocalTargetPosition = ReSetToLocal;
+		transform.localPosition = ReSetToLocal;
+		registerTile.ServerSetLocalPosition(ReSetToLocal.RoundToInt());
+		registerTile.ClientSetLocalPosition(ReSetToLocal.RoundToInt());
+	}
+
+
 
 	public List<PushPull> Pushing = new List<PushPull>();
 	public List<IBumpableObject> Bumps = new List<IBumpableObject>();
 
+
+	private void SyncLocalTarget(Vector3 OLDLocalTarget, Vector3 NewLocalTarget)
+	{
+		if (LocalTargetPosition != NewLocalTarget) return;
+		if (isLocalPlayer) return;
+		LocalTargetPosition = NewLocalTarget;
+		if (Animating == false && OLDLocalTarget != NewLocalTarget) UpdateManager.Add(CallbackType.UPDATE, AnimationUpdateMe);
+	}
+
 	private void SyncIsNotPushable(bool wasNotPushable, bool isNowNotPushable)
 	{
-		this.isNotPushable = isNowNotPushable;
+		isNotPushable = isNowNotPushable;
 	}
 
 
@@ -296,6 +317,8 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 
 	public void AnimationUpdateMe()
 	{
+		if (this == null || this.gameObject == null) UpdateManager.Remove(CallbackType.UPDATE, AnimationUpdateMe);
+
 		if (IsFlyingSliding)
 		{
 			return;//Animation handled by UpdateMe

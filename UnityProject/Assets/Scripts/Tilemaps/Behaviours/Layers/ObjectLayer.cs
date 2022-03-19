@@ -188,7 +188,7 @@ public class ObjectLayer : Layer
 					}
 					else
 					{
-						foreach (var objectOnTile in matrix.Get<ObjectBehaviour>(to, true))
+						foreach (var objectOnTile in matrix.Get<ObjectBehaviour>(to, CustomNetworkManager.IsServer))
 						{
 							var bumpAbles = objectOnTile.GetComponents<IBumpableObject>();
 							foreach (var bump in bumpAbles)

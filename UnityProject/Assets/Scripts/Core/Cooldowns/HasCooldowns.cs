@@ -35,9 +35,9 @@ public class HasCooldowns : MonoBehaviour
 	/// <param name="side">indicates which side's cooldown should be started</param>
 	/// <param name="secondsOverride">custom cooldown time in seconds</param>
 	/// <returns>true if cooldown was successfully started, false if cooldown was already on.</returns>
-	public bool TryStart(ICooldown cooldown, NetworkSide side, float secondsOverride = float.NaN)
+	public bool TryStart(ICooldown cooldown, float secondsOverride = float.NaN)
 	{
-		return TryStart(CooldownID.Asset(cooldown, side), float.IsNaN(secondsOverride) ? cooldown.DefaultTime : secondsOverride);
+		return TryStart(CooldownID.Asset(cooldown), float.IsNaN(secondsOverride) ? cooldown.DefaultTime : secondsOverride);
 	}
 
 	/// <summary>
@@ -53,10 +53,10 @@ public class HasCooldowns : MonoBehaviour
 	/// <param name="seconds">how many seconds the cooldown should take</param>
 	/// <param name="side">indicates which side's cooldown should be started</param>
 	/// <returns>true if cooldown was successfully started, false if cooldown was already on.</returns>
-	public bool TryStart<T>(IInteractable<T> interactable, float seconds, NetworkSide side)
+	public bool TryStart<T>(IInteractable<T> interactable, float seconds)
 		where T: Interaction
 	{
-		return TryStart(CooldownID.Interaction(interactable, side), seconds);
+		return TryStart(CooldownID.Interaction(interactable), seconds);
 	}
 
 	/// <summary>

@@ -1132,7 +1132,7 @@ namespace Systems.Ai
 				Chat.AddExamineMsgFromServer(gameObject, "You must specify a reason to call the shuttle");
 				return;
 			}
-			
+
 			//Remove tags
 			reason = Chat.StripTags(reason);
 
@@ -1633,12 +1633,12 @@ namespace Systems.Ai
 
 		public bool OnCoolDown(NetworkSide side)
 		{
-			return cooldowns.IsOn(CooldownID.Asset(CommonCooldowns.Instance.Interaction, side));
+			return cooldowns.IsOn(CooldownID.Asset(CommonCooldowns.Instance.Interaction));
 		}
 
 		public void StartCoolDown(NetworkSide side)
 		{
-			cooldowns.TryStart(CommonCooldowns.Instance.Interaction, side);
+			cooldowns.TryStart(CommonCooldowns.Instance.Interaction);
 		}
 
 		public string AdminInfoString()

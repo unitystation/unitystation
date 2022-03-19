@@ -28,7 +28,7 @@ namespace Items
 			if (!DefaultWillInteract.Default(interaction, side)) return false;
 
 			//Is melee on cooldown?
-			if (Cooldowns.IsOn(interaction, CooldownID.Asset(CommonCooldowns.Instance.Melee, side))) return false;
+			if (Cooldowns.IsOn(interaction, CooldownID.Asset(CommonCooldowns.Instance.Melee))) return false;
 
 			return true;
 		}

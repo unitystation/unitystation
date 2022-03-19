@@ -235,7 +235,7 @@ public class Highlight : MonoBehaviour, IInitialise
 		NetworkSide side)
 		where T : Interaction
 	{
-		if (Cooldowns.IsOn(interaction, CooldownID.Asset(CommonCooldowns.Instance.Interaction, side))) return false;
+		if (Cooldowns.IsOn(interaction, CooldownID.Asset(CommonCooldowns.Instance.Interaction))) return false;
 		var result = false;
 		//check if client side interaction should be triggered
 		if (side == NetworkSide.Client && interactable is IClientInteractable<T> clientInteractable)
