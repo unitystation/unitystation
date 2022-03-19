@@ -62,7 +62,8 @@ namespace Systems.Teleport
 				}
 
 				//Gets Position of Player
-				var teleportInfo = new TeleportInfo(nameOfObject + "\n" + status, player.AssumedWorldPos, player.gameObject);
+				player.UpdateLastSyncedPosition();
+				var teleportInfo = new TeleportInfo(nameOfObject + "\n" + status, player.SyncedWorldPos, player.gameObject);
 
 				yield return teleportInfo;
 			}
