@@ -297,16 +297,7 @@ public class Rotatable : NetworkBehaviour, IMatrixRotation
 		public bool Locked;
 		public OrientationEnum LockedTo;
 	}
-
-	public void OnValidate()
-	{
-		if (Application.isPlaying) return;
-		Awake();
-		CurrentDirection = CurrentDirection;
-		RotateObject(CurrentDirection);
-		ResitOthers();
-	}
-
+	
 	public void ResitOthers()
 	{
 		if (doNotResetOtherSpriteOptions) return;
