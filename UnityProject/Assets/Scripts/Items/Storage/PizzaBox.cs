@@ -34,7 +34,7 @@ namespace Items.Storage
 		[SerializeField] private SpriteHandler pizzaSprites;
 		[SerializeField] private ItemStorage pizzaBoxStorage;
 		[SerializeField, ShowIf("isBomb")] private HasNetworkTabItem netTab;
-		[HideInInspector] public GUI_PizzaBomb GUI;
+		[HideInInspector] public GUI_PizzaBomb PizzaGui;
 
 		public bool BombIsCountingDown
 		{
@@ -76,7 +76,7 @@ namespace Items.Storage
 				Chat.AddLocalMsgToChat($"<color=red>An explosive can be seen ticking from the {gameObject.ExpensiveName()} " +
 				                       $"and below it is a note that reads '{writtenNote}'!</color>", gameObject);
 			}
-			if (GUI != null) GUI.StartCoroutine(GUI.UpdateTimer());
+			if (PizzaGui != null) PizzaGui.StartCoroutine(PizzaGui.UpdateTimer());
 			yield return WaitFor.Seconds(timeToDetonate);
 			Detonate();
 		}

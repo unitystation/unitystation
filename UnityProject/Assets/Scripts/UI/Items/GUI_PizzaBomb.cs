@@ -26,7 +26,7 @@ namespace UI.Items
 				yield return WaitFor.EndOfFrame;
 			}
 			pizza = Provider.GetComponent<PizzaBox>();
-			pizza.GUI = this;
+			pizza.PizzaGui = this;
 			if (pizza.DetenationOnTimer)
 			{
 				StartCoroutine(UpdateTimer());
