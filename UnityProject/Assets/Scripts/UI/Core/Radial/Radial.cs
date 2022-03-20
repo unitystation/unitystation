@@ -91,7 +91,7 @@ namespace UI.Core.Radial
 
 			var prefabName = gameObject.name.Replace("(Clone)", string.Empty);
 
-			Logger.LogError($"{prefabName} prefab is missing a reference for {missingReference}. Functionality may be hindered or outright broken.", Category.UI);
+			Logger.LogError($"{prefabName} prefab is missing a reference for {missingReference}. Functionality may be hindered or broken.", Category.UI);
 
 			return component;
 		}
@@ -102,17 +102,14 @@ namespace UI.Core.Radial
 
 			var prefabName = gameObject.name.Replace("(Clone)", string.Empty);
 
-			Logger.LogError($"{prefabName} prefab is missing a reference for {missingReference}. Check the prefab and add a reference to {objName}. Attempting to find the child object.", Category.UI);
 			component = gameObject.GetComponentsInChildren<V>(true).FirstOrDefault(c => c.name == objName);
+			var missingDescription = $"{prefabName} prefab is missing a reference for {missingReference}";
 
-			if (component == null)
-			{
-				Logger.LogError($"{prefabName} prefab is missing {objName} child. Functionality may be hindered or outright broken.", Category.UI);
-			}
-			else
-			{
-				Logger.LogTrace($"Found {objName} child in {prefabName} prefab. Please fix the missing reference in the prefab.", Category.UI);
-			}
+			Logger.LogError(
+				component == null
+					? $"{missingDescription}. Unable to find the object in the prefab. Functionality may be hindered or broken."
+					: $"{missingDescription}. Found {objName} in the prefab. Check the prefab and add a reference to {objName}.",
+				Category.UI);
 
 			return component;
 		}
