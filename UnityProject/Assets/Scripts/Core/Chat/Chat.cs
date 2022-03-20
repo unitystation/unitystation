@@ -233,16 +233,19 @@ public partial class Chat : MonoBehaviour
 			}
 		}
 
-		//Check if there's any items on the player that affects their chat (e.g : headphones, muzzles, etc)
-		foreach (var slots in player.DynamicItemStorage.ServerContents.Values)
+		if (player.IsDeadOrGhost == false)
 		{
-			foreach (var slot in slots)
+			//Check if there's any items on the player that affects their chat (e.g : headphones, muzzles, etc)
+			foreach (var slots in player.DynamicItemStorage.ServerContents.Values)
 			{
-				if (slot.IsEmpty) continue;
-				if (slot.Item.TryGetComponent<IChatInfluncer>(out var listener)
-				    && listener.RunChecks() == true)
+				foreach (var slot in slots)
 				{
-					chatEvent = listener.InfluenceChat(chatEvent);
+					if (slot.IsEmpty) continue;
+					if (slot.Item.TryGetComponent<IChatInfluncer>(out var listener)
+					    && listener.RunChecks() == true)
+					{
+						chatEvent = listener.InfluenceChat(chatEvent);
+					}
 				}
 			}
 		}
