@@ -52,10 +52,9 @@ namespace Items.Bureaucracy
 
 		public void ServerPerformInteraction(HandApply interaction)
 		{
-			if (interaction.TargetObject != null && interaction.TargetObject.TryGetComponent<Emag>(out var mag))
-			{
-				if (mag.UseCharge(interaction)) isOn = true;
-			}
+			if (interaction.TargetObject == null ||
+			    interaction.TargetObject.TryGetComponent<Emag>(out var mag) == false) return;
+			if (mag.UseCharge(interaction)) isEmmaged = true;
 		}
 
 		public void ServerPerformInteraction(HandActivate interaction)
