@@ -24,11 +24,20 @@ namespace UI.Core.RightClick
 
 		private ParentConstraint parentConstraint;
 
+		private RectTransform BorderPrefab =>
+			VerifyNonChildReference(borderPrefab, nameof(BorderPrefab));
+
+		private Image RadialMask =>
+			VerifyChildReference(ref radialMask, $"{nameof(RadialMask)} to a masked image object", "BackgroundMask");
+
+		private Transform Background =>
+			VerifyChildReference(ref background, $"{nameof(Background)} to a background image object", "RadialActionRing");
+
 		private ParentConstraint ParentConstraint => this.GetComponentByRef(ref parentConstraint);
 
 		private T InitOrGet<T>(ref T obj, T prefab) where T : Component
 		{
-			if (obj == null)
+			if (obj == null && prefab != null)
 			{
 				obj = Instantiate(prefab, transform);
 				obj.SetActive(true);
@@ -37,23 +46,15 @@ namespace UI.Core.RightClick
 			return obj;
 		}
 
-		private RectTransform StartBorder => InitOrGet(ref startBorder, borderPrefab);
+		private RectTransform StartBorder => InitOrGet(ref startBorder, BorderPrefab);
 
-		private RectTransform EndBorder => InitOrGet(ref endBorder, borderPrefab);
+		private RectTransform EndBorder => InitOrGet(ref endBorder, BorderPrefab);
 
 		public void LateUpdate()
 		{
-			try
+			if (Background)
 			{
-				background.rotation = Quaternion.identity;
-			}
-			catch (NullReferenceException exception)
-			{
-				Logger.LogError($"Caught a NRE in ItemRadial.LateUpdate() {exception.Message} \n {exception.StackTrace}", Category.UI);
-			}
-			catch (UnassignedReferenceException exception)
-			{
-				Logger.LogError($"Caught an Unassigned Reference Exception in ItemRadial.LateUpdate() {exception.Message} \n {exception.StackTrace}", Category.UI);
+				Background.rotation = Quaternion.identity;
 			}
 		}
 
@@ -61,10 +62,19 @@ namespace UI.Core.RightClick
 		{
 			ArcMeasure = itemCount * (360 / MaxShownItems);
 			base.Setup(itemCount);
-			radialMask.fillAmount = (1f / 360f) * ArcMeasure;
-			StartBorder.localPosition = new Vector3(0, -.5f, 0);
-			EndBorder.localEulerAngles = new Vector3(0f, 0f, ItemArcMeasure * itemCount);
-			EndBorder.localPosition = new Vector3(-0.5f, 0, 0);
+
+			if (RadialMask)
+			{
+				RadialMask.fillAmount = (1f / 360f) * ArcMeasure;
+			}
+
+			if (StartBorder != null && EndBorder != null)
+			{
+				StartBorder.localPosition = new Vector3(0, -.5f, 0);
+				EndBorder.localEulerAngles = new Vector3(0f, 0f, ItemArcMeasure * itemCount);
+				EndBorder.localPosition = new Vector3(-0.5f, 0, 0);
+			}
+
 			if (Items.Count > 0)
 			{
 				Items[0].SetDividerActive(false);

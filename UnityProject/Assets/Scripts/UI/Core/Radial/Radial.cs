@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UI.Core.Events;
@@ -83,6 +84,35 @@ namespace UI.Core.Radial
 		protected virtual float RaycastableArcMeasure => ArcMeasure;
 
 		public int ShownItemsCount => Math.Min(TotalItemCount, MaxShownItems);
+
+		public V VerifyNonChildReference<V>(V component, string missingReference) where V : UnityEngine.Object
+		{
+			if (component != null) return component;
+
+			var prefabName = gameObject.name.Replace("(Clone)", string.Empty);
+
+			Logger.LogError($"{prefabName} prefab is missing a reference for {missingReference}. Functionality may be hindered or broken.", Category.UI);
+
+			return component;
+		}
+
+		public V VerifyChildReference<V>(ref V component, string missingReference, string objName) where V : UnityEngine.Object
+		{
+			if (component != null) return component;
+
+			var prefabName = gameObject.name.Replace("(Clone)", string.Empty);
+
+			component = gameObject.GetComponentsInChildren<V>(true).FirstOrDefault(c => c.name == objName);
+			var missingDescription = $"{prefabName} prefab is missing a reference for {missingReference}";
+
+			Logger.LogError(
+				component == null
+					? $"{missingDescription}. Unable to find the object in the prefab. Functionality may be hindered or broken."
+					: $"{missingDescription}. Found {objName} in the prefab. Check the prefab and add a reference to {objName}.",
+				Category.UI);
+
+			return component;
+		}
 
 		public virtual void Setup(int itemCount)
 		{

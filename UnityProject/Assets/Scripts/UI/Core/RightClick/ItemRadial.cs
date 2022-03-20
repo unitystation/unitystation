@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using UnityEngine;
 using UI.Core.Radial;
@@ -18,60 +19,11 @@ namespace UI.Core.RightClick
 		[SerializeField]
 		private ReversibleObjectScale nextArrow = default;
 
-		[SerializeField, FormerlySerializedAs("background")]
-		private RectTransform _background;
-
-
-		private RectTransform Background
-		{
-			get
-			{
-				if (_background == null)
-				{
-					Logger.LogError($"RadialItemInnerRing Had to use  GameObject.Find ", Category.UI);
-					_background = GameObject.Find("RadialItemInnerRing").GetComponent<RectTransform>();
-				}
-
-				return _background;
-			}
-		}
-
-		[SerializeField, FormerlySerializedAs("itemRing")]
-		private Graphic _itemRing;
+		[SerializeField]
+		private Graphic itemRing;
 
 		[SerializeField]
-		private Graphic ItemRing
-		{
-			get {
-				if (_itemRing == null)
-				{
-					Logger.LogError($"RadialItemRing Had to use  GameObject.Find ", Category.UI);
-					_itemRing = GameObject.Find("RadialItemRing").GetComponent<Graphic>();
-				}
-
-				return _itemRing;
-			}
-		}
-
-		[SerializeField]
-		private TMP_Text _itemLabel = default;
-
-		[SerializeField]
-		private TMP_Text itemLabel
-		{
-			get {
-				if (_itemLabel == null)
-				{
-					Logger.LogError($"itemLabel Had to use  GameObject.Find ", Category.UI);
-					_itemLabel = GameObject.Find("ItemLabel").GetComponent<TMP_Text>();
-				}
-
-				return _itemLabel;
-			}
-		}
-
-
-
+		private TMP_Text itemLabel = default;
 
 		private float raycastableArcMeasure;
 
@@ -80,6 +32,18 @@ namespace UI.Core.RightClick
 		private RadialDrag drag;
 
 		private AnimatedRadialRotation rotationAnimator;
+
+		private ReversibleObjectScale PreviousArrow =>
+			VerifyChildReference(ref previousArrow, $"{nameof(PreviousArrow)} to an image with ReversibleObjectScale object", "PreviousArrow");
+
+		private ReversibleObjectScale NextArrow =>
+			VerifyChildReference(ref nextArrow, $"{nameof(NextArrow)} to an image with ReversibleObjectScale object", "NextArrow");
+
+		private Graphic ItemRing =>
+			VerifyChildReference(ref itemRing, $"{nameof(ItemRing)} to a SVG graphic object", "RadialItemRing");
+
+		private TMP_Text ItemLabel =>
+			VerifyChildReference(ref itemLabel, $"{nameof(ItemLabel)} to a TMP text object", "ItemLabel");
 
 		protected override float RaycastableArcMeasure => raycastableArcMeasure;
 
@@ -116,9 +80,10 @@ namespace UI.Core.RightClick
 		public override void Setup(int itemCount)
 		{
 			base.Setup(itemCount);
-			itemLabel.SetText(string.Empty);
-			previousArrow.transform.SetAsLastSibling();
-			nextArrow.transform.SetAsLastSibling();
+
+			ItemLabel.OrNull()?.SetText(string.Empty);
+			PreviousArrow.OrNull()?.transform.SetAsLastSibling();
+			NextArrow.OrNull()?.transform.SetAsLastSibling();
 			UpdateArrows();
 		}
 
@@ -144,41 +109,28 @@ namespace UI.Core.RightClick
 
 		private void SetRadialScrollable(bool value)
 		{
-			try
-			{
-				Drag.enabled = value;
-				Scroll.enabled = value;
-				ItemRing.raycastTarget = value;
-				itemLabel.raycastTarget = value;
-			}
-			catch (NullReferenceException exception)
-			{
-				Logger.LogError($"Caught a NRE in ItemRadial.SetRadialScrollable() {exception.Message} \n {exception.StackTrace}", Category.UI);
-			}
+			Drag.enabled = value;
+			Scroll.enabled = value;
+
+			if (ItemRing == null || ItemLabel == null) return;
+
+			ItemRing.raycastTarget = value;
+			ItemLabel.raycastTarget = value;
 		}
 
 		public void UpdateArrows()
 		{
 			var roundedRotation = Mathf.Round(TotalRotation);
-			previousArrow.SetActive(roundedRotation > 0);
-			nextArrow.SetActive(roundedRotation < Mathf.Round(MaxIndex * ItemArcMeasure));
+			PreviousArrow.OrNull()?.SetActive(roundedRotation > 0);
+			NextArrow.OrNull()?.SetActive(roundedRotation < Mathf.Round(MaxIndex * ItemArcMeasure));
 		}
 
 		public void LateUpdate()
 		{
-			try
-			{
-				Background.rotation = Quaternion.identity;
-				itemLabel.transform.rotation = Quaternion.identity;
-			}
-			catch (NullReferenceException exception)
-			{
-				Logger.LogError($"Caught a NRE in ItemRadial.LateUpdate() {exception.Message} \n {exception.StackTrace}", Category.UI);
-			}
-			catch (UnassignedReferenceException exception)
-			{
-				Logger.LogError($"Caught an Unassigned Reference Exception in ItemRadial.LateUpdate() {exception.Message} \n {exception.StackTrace}", Category.UI);
-			}
+			if (ItemRing == null || ItemLabel == null) return;
+
+			ItemRing.transform.rotation = Quaternion.identity;
+			ItemLabel.transform.rotation = Quaternion.identity;
 		}
 
 		public override void RotateRadial(float rotation)
@@ -275,16 +227,16 @@ namespace UI.Core.RightClick
 
 		private void TweenArrows(bool forward)
 		{
-			nextArrow.TweenScale(forward);
-			previousArrow.TweenScale(!forward);
+			NextArrow.OrNull()?.TweenScale(forward);
+			PreviousArrow.OrNull()?.TweenScale(!forward);
 		}
 
 		private void TweenArrowsBack()
 		{
-			nextArrow.TweenScale(AnimationDirection.Backward);
-			previousArrow.TweenScale(AnimationDirection.Backward);
+			NextArrow.OrNull()?.TweenScale(AnimationDirection.Backward);
+			PreviousArrow.OrNull()?.TweenScale(AnimationDirection.Backward);
 		}
 
-		public void ChangeLabel(string text) => itemLabel.SetText(text);
+		public void ChangeLabel(string text) => ItemLabel.OrNull()?.SetText(text);
 	}
 }
