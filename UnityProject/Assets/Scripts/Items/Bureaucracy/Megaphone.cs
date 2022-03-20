@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using Mirror;
 using Systems.Communications;
 using UnityEngine;
@@ -10,12 +11,25 @@ namespace Items.Bureaucracy
 		[SyncVar] private bool isOnCooldown = false;
 		[SyncVar] private bool isOn = false;
 		[SyncVar] private bool isEmmaged = false;
+		[SerializeField] private float cooldown = 10f;
 
 		private Pickupable pickupable;
 
 		private void Awake()
 		{
 			pickupable = GetComponent<Pickupable>();
+		}
+
+		private void OnDisable()
+		{
+			StopCoroutine(Cooldown());
+		}
+
+		private IEnumerator Cooldown()
+		{
+			isOnCooldown = true;
+			yield return WaitFor.Seconds(cooldown);
+			isOnCooldown = false;
 		}
 
 		public bool RunChecks()
@@ -27,6 +41,7 @@ namespace Items.Bureaucracy
 		{
 			var modifiedMsg = chatToManipulate;
 			modifiedMsg.VoiceLevel = isEmmaged ? Loudness.EARRAPE : Loudness.MEGAPHONE;
+			StartCoroutine(Cooldown());
 			return modifiedMsg;
 		}
 
