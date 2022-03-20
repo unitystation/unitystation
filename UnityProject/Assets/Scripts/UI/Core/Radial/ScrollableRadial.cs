@@ -12,11 +12,13 @@ namespace UI.Core.Radial
 		[SerializeField]
 		protected RectTransform upperMask;
 
-		private T lowerMaskItem;
-
-		private T upperMaskItem;
-
 		private float totalRotation;
+
+		protected RectTransform LowerMask =>
+			VerifyChildReference(ref lowerMask, $"{nameof(LowerMask)} to a masked image object", "LowerMask");
+
+		protected RectTransform UpperMask =>
+			VerifyChildReference(ref upperMask, $"{nameof(UpperMask)} to a masked image object", "UpperMask");
 
 		protected float TotalRotation
 		{
@@ -49,15 +51,19 @@ namespace UI.Core.Radial
 		{
 			InitItem(index);
 			var maskItem = Items[index];
-			maskItem.transform.SetParent(parent);
+
+			if (parent)
+			{
+				maskItem.transform.SetParent(parent);
+			}
 
 			return maskItem;
 		}
 
 		public void Awake()
 		{
-			LowerMaskItem = InitMaskItem(lowerMask, 0);
-			UpperMaskItem = InitMaskItem(upperMask, 1);
+			LowerMaskItem = InitMaskItem(LowerMask, 0);
+			UpperMaskItem = InitMaskItem(UpperMask, 1);
 		}
 
 		public override void Setup(int itemCount)
@@ -67,7 +73,12 @@ namespace UI.Core.Radial
 			CurrentIndex = 0;
 
 			var isScrollable = itemCount > ShownItemsCount;
-			upperMask.localEulerAngles = new Vector3(0, 0, ArcMeasure - 360);
+
+			if (UpperMask)
+			{
+				UpperMask.localEulerAngles = new Vector3(0, 0, ArcMeasure - 360);
+			}
+
 			SetupItem(LowerMaskItem, 0, Vector3.zero, isScrollable);
 			SetupItem(UpperMaskItem, ShownItemsCount, Vector3.zero, isScrollable);
 			for (var i = 2; i < Math.Max(2 + ShownItemsCount, Count); i++)
