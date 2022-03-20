@@ -62,9 +62,8 @@ namespace Systems.Teleport
 				}
 
 				//Gets Position of Player
-				var tile = player.gameObject.GetComponent<RegisterTile>();
-
-				var teleportInfo = new TeleportInfo(nameOfObject + "\n" + status, tile.WorldPositionClient, player.gameObject);
+				player.UpdateLastSyncedPosition();
+				var teleportInfo = new TeleportInfo(nameOfObject + "\n" + status, player.SyncedWorldPos, player.gameObject);
 
 				yield return teleportInfo;
 			}
