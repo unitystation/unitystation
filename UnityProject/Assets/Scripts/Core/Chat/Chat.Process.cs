@@ -324,7 +324,8 @@ public partial class Chat
 			Loudness.QUIET => ChatTemplates.SmallText,
 			Loudness.LOUD => ChatTemplates.LargeText,
 			Loudness.SCREAMING => ChatTemplates.VeryLargeText,
-			Loudness.EARRAPE => ChatTemplates.ExtremelyLargeText,
+			Loudness.MEGAPHONE => ChatTemplates.ExtremelyLargeText,
+			Loudness.EARRAPE => ChatTemplates.AnnoyingText,
 			_ => message.Contains("!!") ? ChatTemplates.LargeText : ChatTemplates.NormalText,
 		};
 
