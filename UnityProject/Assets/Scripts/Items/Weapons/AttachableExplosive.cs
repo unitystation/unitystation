@@ -12,13 +12,15 @@ namespace Items.Weapons
 	/// Interaction script for explosives that can go on walls, objects, players, etc.
 	/// </summary>
 	public class AttachableExplosive : ExplosiveBase,
-		ICheckedInteractable<PositionalHandApply>, IRightClickable, IInteractable<InventoryApply>
+		ICheckedInteractable<PositionalHandApply>, IRightClickable, ICheckedInteractable<HandApply>,
+		ICheckedInteractable<InventoryApply>, IInteractable<HandActivate>
 	{
 		[SyncVar] private bool isOnObject = false;
 		private GameObject attachedToObject;
 
 		private void OnDisable()
 		{
+			Emitter = null;
 			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, UpdateBombPosition);
 		}
 
@@ -75,7 +77,7 @@ namespace Items.Weapons
 		public bool WillInteract(PositionalHandApply interaction, NetworkSide side)
 		{
 			if (DefaultWillInteract.Default(interaction, side) == false
-			    || isArmed == true || pickupable.ItemSlot == null && isOnObject == false) return false;
+			    || isArmed == true || pickupable.ItemSlot == null) return false;
 			return true;
 		}
 
@@ -108,22 +110,6 @@ namespace Items.Weapons
 					$"{interaction.PerformerPlayerScript.visibleName} attaches a {gameObject.ExpensiveName()} to {interaction.TargetObject.ExpensiveName()}!");
 			}
 
-			//incase we forgot to pair while the C4 is on the wall
-			if (interaction.UsedObject != null && interaction.UsedObject.TryGetComponent<SignalEmitter>(out var emitter))
-			{
-				Emitter = emitter;
-				Frequency = emitter.Frequency;
-				Chat.AddExamineMsg(interaction.Performer, "You successfully pair the remote signal to the device.");
-				return;
-			}
-
-			//For interacting with the explosive while it's on a wall.
-			if (isOnObject || interaction.IsAltClick)
-			{
-				explosiveGUI.ServerPerformInteraction(interaction);
-				return;
-			}
-
 			//The progress bar that triggers Preform()
 			//Must not be interrupted for it to work.
 			var bar = StandardProgressAction.Create(
@@ -131,17 +117,15 @@ namespace Items.Weapons
 			bar.ServerStartProgress(interaction.Performer.RegisterTile(), progressTime, interaction.Performer);
 		}
 
+		public bool WillInteract(InventoryApply interaction, NetworkSide side)
+		{
+			return interaction.TargetSlot.IsEmpty;
+		}
+
 		public void ServerPerformInteraction(InventoryApply interaction)
 		{
-			if (interaction.TargetSlot.IsEmpty == false)
-			{
-				if (interaction.TargetSlot.ItemObject.TryGetComponent<SignalEmitter>(out var emitter))
-				{
-					Emitter = emitter;
-					Frequency = emitter.Frequency;
-					Chat.AddExamineMsg(interaction.Performer, "You successfully pair the remote signal to the device.");
-				}
-			}
+			if (interaction.TargetSlot.ItemObject.TryGetComponent<SignalEmitter>(out var emitter) == false) return;
+			PairEmitter(emitter, interaction.Performer);
 		}
 
 		public RightClickableResult GenerateRightClickOptions()
@@ -157,6 +141,30 @@ namespace Items.Weapons
 				result.AddElement("Deattach", CmdTellServerToDeattachExplosive);
 			}
 			return result;
+		}
+
+		public bool WillInteract(HandApply interaction, NetworkSide side)
+		{
+			if (DefaultWillInteract.Default(interaction, side) == false) return false;
+			if (isOnObject && interaction.HandObject == null) return true;
+			if (isOnObject == false || interaction.HandObject != null &&
+			    interaction.HandObject.TryGetComponent<SignalEmitter>(out var emitter) == false) return false;
+			return true;
+		}
+
+		public void ServerPerformInteraction(HandApply interaction)
+		{
+			if (interaction.HandObject != null && interaction.HandObject.TryGetComponent<SignalEmitter>(out var emitter))
+			{
+				PairEmitter(emitter, interaction.Performer);
+				return;
+			}
+			explosiveGUI.ServerPerformInteraction(interaction);
+		}
+
+		public void ServerPerformInteraction(HandActivate interaction)
+		{
+			explosiveGUI.ServerPerformInteraction(interaction);
 		}
 	}
 }

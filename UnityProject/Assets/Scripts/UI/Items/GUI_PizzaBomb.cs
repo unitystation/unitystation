@@ -11,9 +11,6 @@ namespace UI.Items
 		[SerializeField] private NetToggle modeToggleButton;
 		[SerializeField] private NetToggle armToggleButton;
 
-		[SerializeField] private Color safeColor = Color.green;
-		[SerializeField] private Color dangerColor = Color.red;
-
 		private float timerCount;
 		private PizzaBox pizza;
 
@@ -29,18 +26,13 @@ namespace UI.Items
 				yield return WaitFor.EndOfFrame;
 			}
 			pizza = Provider.GetComponent<PizzaBox>();
-			pizza.GUI = this;
+			pizza.PizzaGui = this;
 			if (pizza.DetenationOnTimer)
 			{
 				StartCoroutine(UpdateTimer());
 				yield break;
 			}
 			UpdateSignalStatusStatus();
-		}
-
-		public void HideUI()
-		{
-			gameObject.SetActive(false);
 		}
 
 		public void ToggleArmMode()
@@ -54,7 +46,10 @@ namespace UI.Items
 					return;
 				}
 				UpdateSignalStatusStatus();
+				return;
 			}
+			pizza.IsArmed = false;
+			UpdateSignalStatusStatus();
 		}
 
 		public void ChangeMode()
@@ -72,11 +67,9 @@ namespace UI.Items
 			if (pizza.IsArmed)
 			{
 				status.Value = "Awaiting Signal..";
-				status.Element.color = dangerColor;
 				return;
 			}
 			status.Value = DMMath.Prob(25f) ? "Ready to oga some bogas" : "Explosive Unarmed..";
-			status.Element.color = safeColor;
 		}
 
 		private string DisplayTime()

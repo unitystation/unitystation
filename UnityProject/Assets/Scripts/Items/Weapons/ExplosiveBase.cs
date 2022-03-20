@@ -97,13 +97,20 @@ namespace Items.Weapons
 
 		public override void ReceiveSignal(SignalStrength strength, ISignalMessage message = null)
 		{
-			if(countDownActive == true || isArmed == false) return;
+			if(gameObject == null || countDownActive == true) return;
 			if (detonateImmediatelyOnSignal)
 			{
 				Detonate();
 				return;
 			}
 			StartCoroutine(Countdown());
+		}
+
+		protected void PairEmitter(SignalEmitter emitter, GameObject Performer)
+		{
+			Emitter = emitter;
+			Frequency = emitter.Frequency;
+			Chat.AddExamineMsg(Performer, "You successfully pair the remote signal to the device.");
 		}
 	}
 
