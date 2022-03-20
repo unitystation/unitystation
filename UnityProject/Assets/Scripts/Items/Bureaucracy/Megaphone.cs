@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace Items.Bureaucracy
 {
-	public class Megaphone : NetworkBehaviour, IChatInfluncer, ICheckedInteractable<HandApply>, IInteractable<HandActivate>
+	public class Megaphone : NetworkBehaviour, IChatInfluencer, ICheckedInteractable<HandApply>, IInteractable<HandActivate>
 	{
 		[SyncVar] private bool isOnCooldown = false;
 		[SyncVar] private bool isOn = false;

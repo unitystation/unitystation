@@ -238,7 +238,7 @@ public class ChatRelay : NetworkBehaviour
 			radioCheckRadius, itemsMask))
 		{
 			if (chatEvent.originator == coll.gameObject) continue;
-			if (coll.gameObject.TryGetComponent<IChatInfluncer>(out var listener) == false || listener.RunChecks() == false) continue;
+			if (coll.gameObject.TryGetComponent<IChatInfluencer>(out var listener) == false || listener.RunChecks() == false) continue;
 			var radioPos = coll.gameObject.AssumedWorldPosServer();
 			if (MatrixManager.Linecast(chatEvent.position, LayerTypeSelection.Walls,
 				layerMask, radioPos).ItHit == false)
