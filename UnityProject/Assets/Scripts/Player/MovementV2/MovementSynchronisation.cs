@@ -159,14 +159,14 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 				}
 				else
 				{
-					ForceSetPosition(transform.localPosition);
+					ForceSetPosition(transform.localPosition, newtonianMovement, true);
 					//TODO RESET!!
 				}
 			}
 			else
 			{
 				//TODO RESET!!
-				ForceSetPosition(transform.localPosition);
+				ForceSetPosition(transform.localPosition, newtonianMovement, true);
 				MoveQueue.Clear();
 			}
 		}
