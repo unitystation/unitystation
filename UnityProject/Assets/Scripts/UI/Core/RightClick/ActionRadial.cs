@@ -28,7 +28,7 @@ namespace UI.Core.RightClick
 			VerifyNonChildReference(borderPrefab, nameof(BorderPrefab));
 
 		private Image RadialMask =>
-			VerifyChildReference(ref radialMask, $"{nameof(RadialMask)} to an masked image object", "BackgroundMask");
+			VerifyChildReference(ref radialMask, $"{nameof(RadialMask)} to a masked image object", "BackgroundMask");
 
 		private Transform Background =>
 			VerifyChildReference(ref background, $"{nameof(Background)} to a background image object", "RadialActionRing");
