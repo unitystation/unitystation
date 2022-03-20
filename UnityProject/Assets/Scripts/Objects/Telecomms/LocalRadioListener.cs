@@ -5,7 +5,7 @@ using Util;
 
 namespace Objects.Telecomms
 {
-	public class LocalRadioListener : SignalEmitter, IChatInfluncer
+	public class LocalRadioListener : SignalEmitter, IChatInfluencer
 	{
 		public void SendData(ChatEvent chat)
 		{

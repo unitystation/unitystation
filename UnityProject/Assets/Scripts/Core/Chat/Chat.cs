@@ -230,21 +230,21 @@ public partial class Chat : MonoBehaviour
 					//Control the chat bubble
 					player.playerNetworkActions.ServerToggleChatIcon(true, processedMessage.message, channels, processedMessage.chatModifiers);
 				}
-			}
-		}
 
-		if (player.IsDeadOrGhost == false)
-		{
-			//Check if there's any items on the player that affects their chat (e.g : headphones, muzzles, etc)
-			foreach (var slots in player.DynamicItemStorage.ServerContents.Values)
-			{
-				foreach (var slot in slots)
+				if (player.IsDeadOrGhost == false)
 				{
-					if (slot.IsEmpty) continue;
-					if (slot.Item.TryGetComponent<IChatInfluencer>(out var listener)
-					    && listener.RunChecks() == true)
+					//Check if there's any items on the player that affects their chat (e.g : headphones, muzzles, etc)
+					foreach (var slots in player.DynamicItemStorage.ServerContents.Values)
 					{
-						chatEvent = listener.InfluenceChat(chatEvent);
+						foreach (var slot in slots)
+						{
+							if (slot.IsEmpty) continue;
+							if (slot.Item.TryGetComponent<IChatInfluencer>(out var listener)
+							    && listener.RunChecks() == true)
+							{
+								chatEvent = listener.InfluenceChat(chatEvent);
+							}
+						}
 					}
 				}
 			}
