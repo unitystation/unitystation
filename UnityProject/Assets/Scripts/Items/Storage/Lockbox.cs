@@ -60,7 +60,7 @@ namespace Items.Storage
 			}
 			isLocked = !isLocked;
 			spriteHandler.SetSpriteSO(isLocked ? lockedSprite : unlockedSprite);
-			Chat.AddExamineMsg(interaction.Performer, $"The {gameObject.ExpensiveName()} peeps as it accepts this card.");
+			Chat.AddExamineMsg(interaction.Performer, $"The {gameObject.ExpensiveName()} beeps as it accepts this card.");
 		}
 
 		public void ServerPerformInteraction(InventoryApply interaction)
@@ -69,14 +69,14 @@ namespace Items.Storage
 			{
 				if (interaction.UsedObject.TryGetComponent<IDCard>(out var card) && card.HasAccess(allowedAccess) == false)
 				{
-					Chat.AddExamineMsg(interaction.Performer, $"The {gameObject.ExpensiveName()} peeps as it refuses access from this card.");
+					Chat.AddExamineMsg(interaction.Performer, $"The {gameObject.ExpensiveName()} beeps as it refuses access from this card.");
 					return;
 				}
 				if(card != null && card.HasAccess(allowedAccess))
 				{
 					isLocked = !isLocked;
 					spriteHandler.SetSpriteSO(isLocked ? lockedSprite : unlockedSprite);
-					Chat.AddExamineMsg(interaction.Performer, $"The {gameObject.ExpensiveName()} peeps as it accepts this card.");
+					Chat.AddExamineMsg(interaction.Performer, $"The {gameObject.ExpensiveName()} beeps as it accepts this card.");
 					return;
 				}
 				if (interaction.UsedObject.TryGetComponent<Emag>(out var mag) && mag.UseCharge(gameObject, interaction.Performer))
