@@ -13,7 +13,7 @@ namespace Items.Weapons
 	/// </summary>
 	public class AttachableExplosive : ExplosiveBase,
 		ICheckedInteractable<PositionalHandApply>, IRightClickable, ICheckedInteractable<HandApply>,
-		ICheckedInteractable<InventoryApply>, IInteractable<HandActivate>
+		 IInteractable<HandActivate>
 	{
 		[SyncVar] private bool isOnObject = false;
 		private GameObject attachedToObject;
@@ -122,12 +122,6 @@ namespace Items.Weapons
 			return interaction.TargetSlot.IsEmpty;
 		}
 
-		public void ServerPerformInteraction(InventoryApply interaction)
-		{
-			if (interaction.TargetSlot.ItemObject.TryGetComponent<SignalEmitter>(out var emitter) == false) return;
-			PairEmitter(emitter, interaction.Performer);
-		}
-
 		public RightClickableResult GenerateRightClickOptions()
 		{
 			RightClickableResult result = new RightClickableResult();
@@ -154,11 +148,6 @@ namespace Items.Weapons
 
 		public void ServerPerformInteraction(HandApply interaction)
 		{
-			if (interaction.HandObject != null && interaction.HandObject.TryGetComponent<SignalEmitter>(out var emitter))
-			{
-				PairEmitter(emitter, interaction.Performer);
-				return;
-			}
 			explosiveGUI.ServerPerformInteraction(interaction);
 		}
 

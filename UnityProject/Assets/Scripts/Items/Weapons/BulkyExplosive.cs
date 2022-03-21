@@ -57,11 +57,6 @@ namespace Items.Weapons
 				Chat.AddExamineMsg(interaction.Performer, $"You {wrenchText} the {gameObject.ExpensiveName()}");
 				return;
 			}
-			if (interaction.HandObject != null && interaction.HandObject.TryGetComponent<SignalEmitter>(out var emitter))
-			{
-				PairEmitter(emitter, interaction.Performer);
-				return;
-			}
 			explosiveGUI.ServerPerformInteraction(interaction);
 		}
 	}

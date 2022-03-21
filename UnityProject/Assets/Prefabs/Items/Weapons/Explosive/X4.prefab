@@ -75,6 +75,7 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   pickupAnimSpeed: 0.1
+  ItemAttributesV2: {fileID: 0}
 --- !u!114 &5809642687452026922
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -202,6 +203,7 @@ MonoBehaviour:
   HeatResistance: 100
   ExplosionsDamage: 100
   doDamageMessage: 1
+  Meleeable: {fileID: 0}
 --- !u!114 &4625435621097251366
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -292,7 +294,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  SignalTypeToReceive: 0
+  SignalTypeToReceive: 2
   Frequency: 122
   Emitter: {fileID: 0}
   DelayTime: 3
@@ -399,6 +401,7 @@ MonoBehaviour:
   SubCatalogue: []
   PresentSpriteSet: {fileID: 11400000, guid: 3da7f1362142e5c43808482f3aa86082, type: 2}
   randomInitialSprite: 0
+  doReverseAnimation: 0
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
   palette: []
