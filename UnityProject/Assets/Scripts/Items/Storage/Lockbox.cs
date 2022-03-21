@@ -46,7 +46,7 @@ namespace Items.Storage
 			   interaction.UsedObject.TryGetComponent<Emag>(out var mag)) return;
 			if (card != null && card.HasAccess(allowedAccess) == false)
 			{
-				Chat.AddExamineMsg(interaction.Performer, $"The {gameObject.ExpensiveName()} peeps as it refuses access from this card.");
+				Chat.AddExamineMsg(interaction.Performer, $"The {gameObject.ExpensiveName()} beeps as it refuses access from this card.");
 				return;
 			}
 
