@@ -1,12 +1,10 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using TMPro;
 using UnityEngine;
 using UI.Core.Radial;
 using UI.Core.Animations;
 using UnityEngine.EventSystems;
-using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 namespace UI.Core.RightClick
@@ -33,17 +31,13 @@ namespace UI.Core.RightClick
 
 		private AnimatedRadialRotation rotationAnimator;
 
-		private ReversibleObjectScale PreviousArrow =>
-			VerifyChildReference(ref previousArrow, $"{nameof(PreviousArrow)} to an image with ReversibleObjectScale object", "PreviousArrow");
+		private ReversibleObjectScale PreviousArrow => VerifyChildReference(ref previousArrow, "an image");
 
-		private ReversibleObjectScale NextArrow =>
-			VerifyChildReference(ref nextArrow, $"{nameof(NextArrow)} to an image with ReversibleObjectScale object", "NextArrow");
+		private ReversibleObjectScale NextArrow => VerifyChildReference(ref nextArrow, "an image");
 
-		private Graphic ItemRing =>
-			VerifyChildReference(ref itemRing, $"{nameof(ItemRing)} to a SVG graphic object", "RadialItemRing");
+		private Graphic ItemRing => VerifyChildReference(ref itemRing, "a SVG graphic", "RadialItemRing");
 
-		private TMP_Text ItemLabel =>
-			VerifyChildReference(ref itemLabel, $"{nameof(ItemLabel)} to a TMP text object", "ItemLabel");
+		private TMP_Text ItemLabel => VerifyChildReference(ref itemLabel, "a label");
 
 		protected override float RaycastableArcMeasure => raycastableArcMeasure;
 

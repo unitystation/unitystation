@@ -1,9 +1,9 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Animations;
 using UnityEngine.UI;
 using UI.Core.Radial;
+using Util;
 
 namespace UI.Core.RightClick
 {
@@ -25,13 +25,11 @@ namespace UI.Core.RightClick
 		private ParentConstraint parentConstraint;
 
 		private RectTransform BorderPrefab =>
-			VerifyNonChildReference(borderPrefab, nameof(BorderPrefab));
+			this.VerifyNonChildReference(borderPrefab, "a rectangular image prefab", category: Category.UI);
 
-		private Image RadialMask =>
-			VerifyChildReference(ref radialMask, $"{nameof(RadialMask)} to a masked image object", "BackgroundMask");
+		private Image RadialMask => VerifyChildReference(ref radialMask, "a masked image", "BackgroundMask");
 
-		private Transform Background =>
-			VerifyChildReference(ref background, $"{nameof(Background)} to a background image object", "RadialActionRing");
+		private Transform Background => VerifyChildReference(ref background, "a background image", "RadialActionRing");
 
 		private ParentConstraint ParentConstraint => this.GetComponentByRef(ref parentConstraint);
 

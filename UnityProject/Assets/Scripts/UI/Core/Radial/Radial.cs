@@ -2,9 +2,11 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UI.Core.Events;
+using Util;
 
 namespace UI.Core.Radial
 {
@@ -85,34 +87,12 @@ namespace UI.Core.Radial
 
 		public int ShownItemsCount => Math.Min(TotalItemCount, MaxShownItems);
 
-		public V VerifyNonChildReference<V>(V component, string missingReference) where V : UnityEngine.Object
-		{
-			if (component != null) return component;
-
-			var prefabName = gameObject.name.Replace("(Clone)", string.Empty);
-
-			Logger.LogError($"{prefabName} prefab is missing a reference for {missingReference}. Functionality may be hindered or broken.", Category.UI);
-
-			return component;
-		}
-
-		public V VerifyChildReference<V>(ref V component, string missingReference, string objName) where V : UnityEngine.Object
-		{
-			if (component != null) return component;
-
-			var prefabName = gameObject.name.Replace("(Clone)", string.Empty);
-
-			component = gameObject.GetComponentsInChildren<V>(true).FirstOrDefault(c => c.name == objName);
-			var missingDescription = $"{prefabName} prefab is missing a reference for {missingReference}";
-
-			Logger.LogError(
-				component == null
-					? $"{missingDescription}. Unable to find the object in the prefab. Functionality may be hindered or broken."
-					: $"{missingDescription}. Found {objName} in the prefab. Check the prefab and add a reference to {objName}.",
-				Category.UI);
-
-			return component;
-		}
+		/// Convenience method for verifying radial references.
+		/// <see cref="ComponentExtensions.VerifyChildReference"/>
+		protected V VerifyChildReference<V>(ref V component, string refDescription,
+			string childName = null, [CallerMemberName] string refName = "")
+			where V : UnityEngine.Object =>
+			this.VerifyChildReference(ref component, refDescription, childName, refName, Category.UI);
 
 		public virtual void Setup(int itemCount)
 		{
