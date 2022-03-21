@@ -13,8 +13,7 @@ MonoBehaviour:
   m_Name: RemoteSignaller - Encryption
   m_EditorClassIdentifier: 
   EncryptionSecret: Tingles
-  EncryptionFlaw: 45
-  randomWords: {fileID: 0}
+  EncryptionFlaw: 24
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -28,7 +27,6 @@ MonoBehaviour:
   m_Name: RemoteSignaller
   m_EditorClassIdentifier: 
   UsesRange: 1
-  SignalRange: 500
-  EmittedSignalType: 0
+  SignalRange: 120
+  EmittedSignalType: 2
   MinMaxFrequancy: {x: 100, y: 124}
-  EncryptionData: {fileID: -6326205420379670096}
