@@ -105,6 +105,7 @@ namespace Items.Weapons
 				isOnObject = true;
 				pickupable.ServerSetCanPickup(false);
 				objectBehaviour.ServerSetPushable(false);
+				SoundManager.PlayNetworkedAtPos(beepSound, gameObject.AssumedWorldPosServer());
 				Chat.AddActionMsgToChat(interaction.Performer,
 					$"You attach the {gameObject.ExpensiveName()} to {interaction.TargetObject.ExpensiveName()}",
 					$"{interaction.PerformerPlayerScript.visibleName} attaches a {gameObject.ExpensiveName()} to {interaction.TargetObject.ExpensiveName()}!");

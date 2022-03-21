@@ -102,7 +102,6 @@ MonoBehaviour:
       m_AssetGUID: 
       m_SubObjectName: 
       m_SubObjectType: 
-      m_EditorAssetChanged: 0
   hitSoundSettings: 0
   inventoryMoveSound:
     SetLoadSetting: 0
@@ -111,7 +110,6 @@ MonoBehaviour:
       m_AssetGUID: 
       m_SubObjectName: 
       m_SubObjectType: 
-      m_EditorAssetChanged: 0
   inventoryRemoveSound:
     SetLoadSetting: 0
     AssetAddress: null
@@ -119,7 +117,6 @@ MonoBehaviour:
       m_AssetGUID: 
       m_SubObjectName: 
       m_SubObjectType: 
-      m_EditorAssetChanged: 0
   canConnectToTank: 0
   isEVACapable: 0
   attackVerbs: []
@@ -178,7 +175,6 @@ MonoBehaviour:
       m_AssetGUID: 
       m_SubObjectName: 
       m_SubObjectType: 
-      m_EditorAssetChanged: 0
   soundDelayTime: 0
   soundMinimumPitchVariance: 1
   soundMaximumPitchVariance: 1
@@ -241,7 +237,6 @@ MonoBehaviour:
       m_AssetGUID: 
       m_SubObjectName: 
       m_SubObjectType: 
-      m_EditorAssetChanged: 0
   damageDeflection: 0
   Armor:
     Melee: 0
@@ -267,6 +262,7 @@ MonoBehaviour:
   HeatResistance: 100
   ExplosionsDamage: 100
   doDamageMessage: 1
+  Meleeable: {fileID: 0}
 --- !u!114 &114738972662350094
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -385,6 +381,13 @@ MonoBehaviour:
   voltageCheckTimeInSeconds: 0.2
   activeSpriteSO: {fileID: 11400000, guid: d29ecbbae8bc8e14d8f729779162dbc0, type: 2}
   inactiveSpriteSO: {fileID: 11400000, guid: 39f9ff241730fbd49a83e5d256e14036, type: 2}
+  beepSound:
+    SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/Machines/Beep.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
 --- !u!114 &7229513603755036813
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -75,6 +75,7 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   pickupAnimSpeed: 0.1
+  ItemAttributesV2: {fileID: 0}
 --- !u!114 &5809642687452026922
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -200,6 +201,7 @@ MonoBehaviour:
   HeatResistance: 100
   ExplosionsDamage: 100
   doDamageMessage: 1
+  Meleeable: {fileID: 0}
 --- !u!114 &4625435621097251366
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -300,6 +302,13 @@ MonoBehaviour:
   minimumTimeToDetonate: 10
   explosiveStrength: 1000
   activeSpriteSO: {fileID: 11400000, guid: 60942022f971e0440a63456ee27fc478, type: 2}
+  beepSound:
+    SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/Machines/Beep.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
   progressTime: 3
   spriteHandler: {fileID: 5258580723283386321}
   scaleSync: {fileID: 0}
@@ -395,6 +404,7 @@ MonoBehaviour:
   SubCatalogue: []
   PresentSpriteSet: {fileID: 11400000, guid: 854eba4f06f75d74a9a5d20cd7ff5421, type: 2}
   randomInitialSprite: 0
+  doReverseAnimation: 0
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
   palette: []

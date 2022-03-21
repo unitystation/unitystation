@@ -12,7 +12,6 @@ namespace Items.Weapons
 	public class BulkyExplosive : ExplosiveBase, ICheckedInteractable<HandApply>
 	{
 		[SerializeField] private ItemTrait wrenchTrait;
-		[SerializeField] private AddressableAudioSource beepSound;
 
 		private void OnDisable()
 		{
