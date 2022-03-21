@@ -28,7 +28,7 @@ namespace Items.Weapons
 
 		[SyncVar] private bool isAnchored;
 		[SyncVar] private bool isCharging;
-		private float currentCharge;
+		[SyncVar] private float currentCharge;
 
 		private void Awake()
 		{
