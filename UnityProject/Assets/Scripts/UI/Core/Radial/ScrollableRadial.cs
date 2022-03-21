@@ -14,11 +14,9 @@ namespace UI.Core.Radial
 
 		private float totalRotation;
 
-		protected RectTransform LowerMask =>
-			VerifyChildReference(ref lowerMask, $"{nameof(LowerMask)} to a masked image object", "LowerMask");
+		protected RectTransform LowerMask => VerifyChildReference(ref lowerMask, "a masked image");
 
-		protected RectTransform UpperMask =>
-			VerifyChildReference(ref upperMask, $"{nameof(UpperMask)} to a masked image object", "UpperMask");
+		protected RectTransform UpperMask => VerifyChildReference(ref upperMask, "a masked image");
 
 		protected float TotalRotation
 		{
