@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using UnityEngine;
@@ -39,6 +40,9 @@ namespace Util
 		/// will search using the name of the calling method (case-insensitive). Lastly, if no child matches the given
 		/// name, it will attempt to add a reference to the first component with a matching type if no more than a
 		/// single component is found.
+		///
+		/// In the event that no matching child is found, this will attach a small component to the object.
+		/// No further logging or attempts to find another child will occur afterward.
 		/// </summary>
 		/// <param name="parent">The container component with the reference to check.</param>
 		/// <param name="component">A reference to a component to verify.</param>
@@ -53,8 +57,19 @@ namespace Util
 		{
 			if (component != null) return component;
 
-			childName ??= refName;
 			var go = parent.gameObject;
+
+			if (go.TryGetComponent<VerifiedReferences>(out var verified) == false)
+			{
+				verified = go.AddComponent<VerifiedReferences>();
+			}
+			else if (verified.Refs.Contains($"{parent.GetType()}-{refName}"))
+			{
+				return component;
+			}
+
+			verified.Refs.Add($"{parent.GetType()}-{refName}");
+			childName ??= refName;
 			var objName = go.name.RemoveClone();
 			var description = MissingRefDescription(parent, objName, refName, refDescription, typeof(V));
 			var componentsFound = go.GetComponentsInChildren<V>(true);
@@ -79,5 +94,13 @@ namespace Util
 
 		private static string MissingRefDescription(Component parent, string objName, string refName, string refDescription, Type compType) =>
 			$"Component '{parent.GetType()}' in object/prefab '{objName}' is missing a reference for '{refName}' to {refDescription} with '{compType}' component.";
+
+		/// <summary>
+		/// A simple helper component attached to a game object when reference verification fails.
+		/// </summary>
+		private class VerifiedReferences : MonoBehaviour
+		{
+			public readonly HashSet<string> Refs = new HashSet<string>();
+		}
 	}
 }
