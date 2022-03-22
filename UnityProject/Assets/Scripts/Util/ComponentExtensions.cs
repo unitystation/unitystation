@@ -59,16 +59,16 @@ namespace Util
 
 			var go = parent.gameObject;
 
-			if (go.TryGetComponent<VerifiedReferences>(out var verified) == false)
+			if (go.TryGetComponent<FailedReferences>(out var failures) == false)
 			{
-				verified = go.AddComponent<VerifiedReferences>();
+				failures = go.AddComponent<FailedReferences>();
 			}
-			else if (verified.Refs.Contains($"{parent.GetType()}-{refName}"))
+			else if (failures.Refs.Contains($"{parent.GetType()}-{refName}"))
 			{
 				return component;
 			}
 
-			verified.Refs.Add($"{parent.GetType()}-{refName}");
+			failures.Refs.Add($"{parent.GetType()}-{refName}");
 			childName ??= refName;
 			var objName = go.name.RemoveClone();
 			var description = MissingRefDescription(parent, objName, refName, refDescription, typeof(V));
@@ -98,7 +98,7 @@ namespace Util
 		/// <summary>
 		/// A simple helper component attached to a game object when reference verification fails.
 		/// </summary>
-		private class VerifiedReferences : MonoBehaviour
+		private class FailedReferences : MonoBehaviour
 		{
 			public readonly HashSet<string> Refs = new HashSet<string>();
 		}
