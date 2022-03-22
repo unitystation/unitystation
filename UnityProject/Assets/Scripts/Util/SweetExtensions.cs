@@ -16,6 +16,11 @@ public static class SweetExtensions
 		return go.GetComponent<IPushable>();
 	}
 
+	public static Pickupable Pickupable(this GameObject go)
+	{
+		return go.GetComponent<Pickupable>();
+	}
+
 	public static ConnectedPlayer Player(this GameObject go)
 	{
 		var connectedPlayer = PlayerList.Instance?.Get(go);
