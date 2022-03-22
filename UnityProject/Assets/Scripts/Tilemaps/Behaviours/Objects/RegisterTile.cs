@@ -355,7 +355,7 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 		NetworkedMatrix.InvokeWhenInitialized(networkedMatrixNetId, FinishNetworkedMatrixRegistration); //note: we dont actually wait for init here anymore
 	}
 
-	private void FinishNetworkedMatrixRegistration(NetworkedMatrix networkedMatrix)
+	public void FinishNetworkedMatrixRegistration(NetworkedMatrix networkedMatrix)
 	{
 		if (networkedMatrix == null) return;
 		//if we had any spin rotation, preserve it,

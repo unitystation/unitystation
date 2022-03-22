@@ -11,6 +11,8 @@ using Util;
 
 public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 {
+	//TODO Tile push to clients if in pulling conga line
+	//TODO Space flying networking to clients
 	public const float DEFAULT_Friction = 0.01f;
 	public const float DEFAULT_SLIDE_FRICTION = 0.003f;
 
@@ -41,7 +43,6 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 
 	public bool onStationMovementsRound;
 
-
 	[SyncVar(hook = nameof(SyncIsNotPushable))]
 	private bool isNotPushable;
 
@@ -51,6 +52,9 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 	public LayerMask defaultInteractionLayerMask;
 
 	public GameObject[] ContextGameObjects = new GameObject[2];
+
+	[SyncVar(hook = nameof(SynchroniseUpdatePulling))]
+	public PullData ThisPullData;
 
 	public CheckedComponent<UniversalObjectPhysics> Pulling = new CheckedComponent<UniversalObjectPhysics>();
 	public CheckedComponent<UniversalObjectPhysics> PulledBy = new CheckedComponent<UniversalObjectPhysics>();
@@ -67,26 +71,58 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 		LocalTargetPosition = transform.localPosition;
 	}
 
+	public override void OnStartClient()
+	{
+		base.OnStartClient();
+
+	}
+
 	public virtual void OnEnable()
 	{
-
 	}
 
 	public virtual void OnDisable()
 	{
+	}
 
+	public struct PullData
+	{
+		public UniversalObjectPhysics NewPulling;
+		public bool WasCausedByClient;
+	}
+
+
+
+	[ClientRpc]
+	public void RPCClientTilePush(Vector2Int WorldDirection, float speed, bool CausedByClient)
+	{
+		if (isLocalPlayer && CausedByClient) return;
+		Pushing.Clear();
+		Logger.LogError("ClientRpc Tile push for " + transform.name + " Direction " + WorldDirection.ToString());
+		SetMatrixCash.ResetNewPosition(transform.position);
+		ForceTilePush(WorldDirection,Pushing, CausedByClient , speed);
+	}
+
+	public void SynchroniseUpdatePulling(PullData Old, PullData NewPulling)
+	{
+		ThisPullData = NewPulling;
+		if (NewPulling.WasCausedByClient && isLocalPlayer) return;
+		PullSet(NewPulling.NewPulling);
 	}
 
 	[TargetRpc]
-	public void ForceSetPosition(Vector3 ReSetToLocal, Vector2 Momentum, bool Smooth)
+	public void ForceSetPosition(Vector3 ReSetToLocal, Vector2 Momentum, bool Smooth, int MatrixID )
 	{
+		var TransformCash = transform.position;
+		registerTile.FinishNetworkedMatrixRegistration(MatrixManager.Get(MatrixID).Matrix.NetworkedMatrix);
+		transform.position = TransformCash;
 
 		if (Smooth)
 		{
 			if (IsFlyingSliding)
 			{
 				newtonianMovement = Momentum;
-				LocalDifferenceNeeded = transform.localPosition - ReSetToLocal;
+				LocalDifferenceNeeded = ReSetToLocal - transform.localPosition;
 
 				if (CorrectingCourse == false)
 				{
@@ -131,14 +167,13 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 	public bool CorrectingCourse = false;
 
 
-
 	public void FloatingCourseCorrection()
 	{
 		CorrectingCourse = true;
 		var position = transform.localPosition;
 		var NewPosition = this.MoveTowards(position, (position + LocalDifferenceNeeded.To3()),
 			(newtonianMovement.magnitude + 4) * Time.deltaTime);
-		LocalDifferenceNeeded -= (position - NewPosition).To2();
+		LocalDifferenceNeeded -= (NewPosition - position).To2();
 
 		transform.localPosition = NewPosition;
 
@@ -154,20 +189,24 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 	public List<IBumpableObject> Bumps = new List<IBumpableObject>();
 
 	[TargetRpc]
-	private void UpdateClientMomentum( Vector2 NewMomentum)
+	private void UpdateClientMomentum(Vector2 NewMomentum) //TODO Include flight time and stuff, airtime
 	{
 		if (newtonianMovement != NewMomentum) return;
-		if (isLocalPlayer) return; //We are updating other Objects than the player on the client
+		if (isLocalPlayer)
+			return; //We are updating other Objects than the player on the client //TODO Also block if being pulled by local player
 		newtonianMovement = NewMomentum;
 		if (IsFlyingSliding == false) UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
 	}
 
 	private void SyncLocalTarget(Vector3 OLDLocalTarget, Vector3 NewLocalTarget)
 	{
+		return;
 		if (LocalTargetPosition != NewLocalTarget) return;
-		if (isLocalPlayer) return;
+		if (isLocalPlayer || PulledBy.HasComponent) return;
 		LocalTargetPosition = NewLocalTarget;
-		if (Animating == false && transform.localPosition != NewLocalTarget) UpdateManager.Add(CallbackType.UPDATE, AnimationUpdateMe);
+		Logger.LogError(" new position for " + transform.name);
+		if (Animating == false && transform.localPosition != NewLocalTarget)
+			UpdateManager.Add(CallbackType.UPDATE, AnimationUpdateMe);
 	}
 
 	private void SyncIsNotPushable(bool wasNotPushable, bool isNowNotPushable)
@@ -176,20 +215,20 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 	}
 
 
-	public void TryTilePush(Vector2Int WorldDirection, float speed = Single.NaN)
+	public void TryTilePush(Vector2Int WorldDirection, bool ByClient, float speed = Single.NaN)
 	{
 		Pushing.Clear();
 		Bumps.Clear();
 		SetMatrixCash.ResetNewPosition(transform.position);
 		if (MatrixManager.IsPassableAtAllMatricesV2(transform.position,
-			    transform.position+ WorldDirection.To3Int(), SetMatrixCash, this.gameObject,
+			    transform.position + WorldDirection.To3Int(), SetMatrixCash, this.gameObject,
 			    Pushing, Bumps)) //Validate
 		{
-			ForceTilePush(WorldDirection, Pushing, speed);
+			ForceTilePush(WorldDirection, Pushing, ByClient, speed);
 		}
 	}
 
-	public void ForceTilePush(Vector2Int WorldDirection, List<PushPull> InPushing, float speed = Single.NaN)
+	public void ForceTilePush(Vector2Int WorldDirection, List<PushPull> InPushing, bool ByClient, float speed = Single.NaN) //PushPull TODO Change to physics object
 	{
 		if (float.IsNaN(speed))
 		{
@@ -211,11 +250,10 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 		var movetoMatrix = SetMatrixCash.GetforDirection(WorldDirection.To3Int()).Matrix;
 
 
-
 		if (registerTile.Matrix != movetoMatrix)
 		{
 			var TransformCash = transform.position;
-			registerTile.ServerSetNetworkedMatrixNetID(movetoMatrix.NetworkedMatrix.MatrixSync.netId);
+			registerTile.FinishNetworkedMatrixRegistration(movetoMatrix.NetworkedMatrix);
 			transform.position = TransformCash;
 		}
 
@@ -233,18 +271,22 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 			TileMoveSpeedOverride = speed;
 		}
 
+		if (isServer) RPCClientTilePush(WorldDirection, speed,ByClient); //TODO Local direction
+
 		if (Pulling.HasComponent)
 		{
 			var InDirection = CachedPosition - Pulling.Component.transform.position;
 			if (InDirection.magnitude > 2f)
 			{
 				PullSet(null); //TODO maybe remove
+				if (isServer)
+					ThisPullData = new PullData() {NewPulling = null, WasCausedByClient = false};
+				else if (isLocalPlayer) CmdStopPulling();
 			}
 			else
 			{
-				Pulling.Component.TryTilePush(InDirection.NormalizeTo2Int(), speed);
+				Pulling.Component.TryTilePush(InDirection.NormalizeTo2Int(), ByClient, speed);
 			}
-
 		}
 	}
 
@@ -263,18 +305,18 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 	public float SLIDE = 4;
 
 
-	[NaughtyAttributes.Button()][RightClickMethod()]
+	[NaughtyAttributes.Button()]
+	[RightClickMethod()]
 	public void DisplayStats()
 	{
-		Logger.LogError("registerTile.WorldPosition "  + registerTile.WorldPosition.ToString() );
-		Logger.LogError("transform.position "  + transform.position.ToString() );
+		Logger.LogError("registerTile.WorldPosition " + registerTile.WorldPosition.ToString());
+		Logger.LogError("transform.position " + transform.position.ToString());
 
-		Logger.LogError("registerTile.LocalPosition "  + registerTile.LocalPosition.ToString() );
-		Logger.LogError("transform.localPosition"  + transform.localPosition.ToString() );
+		Logger.LogError("registerTile.LocalPosition " + registerTile.LocalPosition.ToString());
+		Logger.LogError("transform.localPosition" + transform.localPosition.ToString());
 
-		Logger.LogError("registerTile.Matrix "  + registerTile.Matrix.ToString() );
-		Logger.LogError("transform.parent.parent"  + transform.parent.parent.ToString() );
-
+		Logger.LogError("registerTile.Matrix " + registerTile.Matrix.ToString());
+		Logger.LogError("transform.parent.parent" + transform.parent.parent.ToString());
 	}
 
 	[RightClickMethod()]
@@ -391,7 +433,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 	{
 		if (IsFlyingSliding)
 		{
-			return;//Animation handled by UpdateMe
+			return; //Animation handled by UpdateMe
 		}
 
 		Animating = true;
@@ -404,14 +446,13 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 			if (TileMoveSpeedOverride > 0)
 			{
 				transform.localPosition = this.MoveTowards(LocalPOS, LocalTargetPosition,
-					TileMoveSpeedOverride * Time.deltaTime ); //* transform.localPosition.SpeedTo(targetPos)
+					TileMoveSpeedOverride * Time.deltaTime); //* transform.localPosition.SpeedTo(targetPos)
 			}
 			else
 			{
 				transform.localPosition = this.MoveTowards(LocalPOS, LocalTargetPosition,
-					TileMoveSpeed * Time.deltaTime ); //* transform.localPosition.SpeedTo(targetPos)
+					TileMoveSpeed * Time.deltaTime); //* transform.localPosition.SpeedTo(targetPos)
 			}
-
 		}
 		else
 		{
@@ -448,6 +489,8 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 	public bool IsFlyingSliding = false;
 
 	public bool IsMoving = false;
+
+	public double LastCheckedTime = 0; //NetworkTime.time
 
 	public void UpdateMe()
 	{
@@ -526,7 +569,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 		if (registerTile.Matrix != movetoMatrix)
 		{
 			var TransformCash = transform.position;
-			registerTile.ServerSetNetworkedMatrixNetID(movetoMatrix.NetworkedMatrix.MatrixSync.netId);
+			registerTile.FinishNetworkedMatrixRegistration(movetoMatrix.NetworkedMatrix);
 			transform.position = TransformCash;
 		}
 
@@ -546,6 +589,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 					UpdateManager.Add(CallbackType.UPDATE, AnimationUpdateMe);
 				}
 			}
+
 			IsFlyingSliding = false;
 			airTime = 0;
 			slideTime = 0;
@@ -559,6 +603,8 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 			if (InDirection.magnitude > 2f)
 			{
 				PullSet(null); //TODO maybe remove
+				if (isServer) ThisPullData = new PullData() {NewPulling = null, WasCausedByClient = false};
+				else if (isLocalPlayer) CmdStopPulling();
 			}
 			else
 			{
@@ -584,7 +630,6 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 		Vector3 TargetFollowLocation = PullerPosition + (Newmove * -1);
 		if (Vector2.Distance(TargetFollowLocation, transform.position) > 0.1f)
 		{
-
 			Newposition = this.MoveTowards(position, TargetFollowLocation,
 				(InNewtonianMovement.magnitude + 4) * Time.deltaTime);
 		}
@@ -600,7 +645,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 		if (registerTile.Matrix != movetoMatrix)
 		{
 			var TransformCash = transform.position;
-			registerTile.ServerSetNetworkedMatrixNetID(movetoMatrix.NetworkedMatrix.MatrixSync.netId);
+			registerTile.FinishNetworkedMatrixRegistration(movetoMatrix.NetworkedMatrix);
 			transform.position = TransformCash;
 		}
 
@@ -690,17 +735,20 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 			if (PulledBy.Component == initiator)
 			{
 				initiator.PullSet(null);
+				if (isServer)  initiator.ThisPullData = new PullData() {NewPulling = null, WasCausedByClient = true};
 				initiator.CmdStopPulling();
 			}
 			else
 			{
 				initiator.PullSet(this);
+				if (isServer) initiator.ThisPullData = new PullData() {NewPulling = this, WasCausedByClient = true};
 				initiator.CmdPullObject(gameObject);
 			}
 		}
 		else
 		{
 			initiator.PullSet(null);
+			if (isServer) initiator.ThisPullData = new PullData() {NewPulling = null, WasCausedByClient = true};
 			initiator.CmdStopPulling();
 		}
 	}
@@ -724,6 +772,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 			}
 
 			PullSet(null);
+			if (isServer) ThisPullData = new PullData() {NewPulling = null, WasCausedByClient = true};
 		}
 
 		ConnectedPlayer clientWhoAsked = PlayerList.Instance.Get(gameObject);
@@ -736,9 +785,9 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 			    context: pullableObject))
 		{
 			PullSet(pullable);
+			if (isServer) ThisPullData = new PullData() {NewPulling = pullable, WasCausedByClient = true};
 			SoundManager.PlayNetworkedAtPos(CommonSounds.Instance.ThudSwoosh, pullable.transform.position,
 				sourceObj: pullableObject);
-
 			//TODO Update the UI
 		}
 	}
@@ -748,6 +797,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 	public void CmdStopPulling()
 	{
 		PullSet(null);
+		if (isServer) ThisPullData = new PullData() {NewPulling = null, WasCausedByClient = true};
 	}
 
 	public void StopPulling()

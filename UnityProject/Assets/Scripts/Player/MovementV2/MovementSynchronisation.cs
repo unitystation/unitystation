@@ -26,7 +26,7 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 
 	public void Update()
 	{
-		CheckQueueingAndMove();
+		ServerCheckQueueingAndMove();
 		if (isLocalPlayer == false) return;
 		PlayerManager.SetMovementControllable(this);
 	}
@@ -34,16 +34,25 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 	public override void OnEnable()
 	{
 		base.OnEnable();
-		if (isServer == false) return;
-		UpdateManager.Add(CallbackType.UPDATE, CheckQueueingAndMove);
+		if (isServer == false)
+		{
+			UpdateManager.Add(CallbackType.UPDATE, ClientCheckLocationFlight);
+			return;
+		}
+		UpdateManager.Add(CallbackType.UPDATE, ServerCheckQueueingAndMove);
 	}
 
 	public override void OnDisable()
 	{
 		base.OnDisable();
-		if (isServer == false) return;
-		UpdateManager.Remove(CallbackType.UPDATE, CheckQueueingAndMove);
+		if (isServer == false)
+		{
+			UpdateManager.Remove(CallbackType.UPDATE, ClientCheckLocationFlight);
+			return;
+		}
+		UpdateManager.Remove(CallbackType.UPDATE, ServerCheckQueueingAndMove);
 	}
+
 
 	public struct MoveData
 	{
@@ -122,11 +131,38 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 	}
 
 
+	[Command]
+	public void ServerCommandValidatePosition(Vector3 ClientLocalPOS)
+	{
+		if ((ClientLocalPOS - transform.localPosition).magnitude > 1.5f)
+		{
+			ForceSetPosition(transform.localPosition, newtonianMovement, true, registerTile.Matrix.Id);
+		}
+	}
+
+	public void ClientCheckLocationFlight()
+	{
+		if (isLocalPlayer == false) return;
+		if (IsFloating())
+		{
+			if ( NetworkTime.time - LastUpdatedFlyingPosition > 2)
+			{
+				LastUpdatedFlyingPosition = NetworkTime.time;
+				ServerCommandValidatePosition(transform.localPosition);
+			}
+		}
+
+	}
+
+	public double LastUpdatedFlyingPosition = 0;
 	public double LastProcessMoved;
 
-	public void CheckQueueingAndMove()
+
+
+	public void ServerCheckQueueingAndMove()
 	{
 		if (isLocalPlayer) return;
+
 
 		if (MoveQueue.Count > 0)
 		{
@@ -140,7 +176,7 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 			SetMatrixCash.ResetNewPosition(transform.position);
 			if (CanInPutMove())
 			{
-				if (TryMove(Entry))
+				if (TryMove(Entry, true))
 				{
 					//do calculation is and set targets and stuff
 					//Reset client if movement failed Since its good movement only Getting sent
@@ -154,19 +190,19 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 					     NetworkTime.time)) //yes Time.timeAsDouble Can rollover but this would only be a problem for a second
 					{
 						transform.localPosition = LocalTargetPosition;
-						CheckQueueingAndMove();
+						ServerCheckQueueingAndMove();
 					}
 				}
 				else
 				{
-					ForceSetPosition(transform.localPosition, newtonianMovement, true);
+					ForceSetPosition(transform.localPosition, newtonianMovement, true, registerTile.Matrix.Id);
 					//TODO RESET!!
 				}
 			}
 			else
 			{
 				//TODO RESET!!
-				ForceSetPosition(transform.localPosition, newtonianMovement, true);
+				ForceSetPosition(transform.localPosition, newtonianMovement, true, registerTile.Matrix.Id);
 				MoveQueue.Clear();
 			}
 		}
@@ -189,7 +225,7 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 				GlobalMoveDirection = moveActions.ToPlayerMoveDirection(),
 				CausesSlip = false,
 			};
-			if (TryMove(NewMoveData))
+			if (TryMove(NewMoveData, true))
 			{
 				if (isServer) return;
 				CMDRequestMove(NewMoveData);
@@ -198,7 +234,7 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 	}
 
 
-	public bool TryMove(MoveData NewMoveData)
+	public bool TryMove(MoveData NewMoveData, bool ByClient)
 	{
 		var PushPulls = new List<PushPull>();
 		var Bumps = new List<IBumpableObject>();
@@ -219,7 +255,7 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 			}
 
 			//move
-			ForceTilePush(NewMoveData.GlobalMoveDirection.TVectoro().To2Int(), PushPulls); //TODO Speed
+			ForceTilePush(NewMoveData.GlobalMoveDirection.TVectoro().To2Int(), PushPulls, ByClient); //TODO Speed
 
 			SetMatrixCash.ResetNewPosition(registerTile.WorldPosition); //Resets the cash
 
