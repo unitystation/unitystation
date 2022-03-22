@@ -11,7 +11,9 @@ namespace Util
 	{
 		/// <summary>
 		/// Checks a component's reference to a non-child component to verify if it has been added properly. If a reference
-		/// is not set, it will log the object/prefab and the component that has the missing reference.
+		/// is not set, it will log the object/prefab and the component that has the missing reference. On a failed
+		/// verification, a small component is attached to the object to track it and other failures. No further
+		/// logging will occur on subsequent calls.
 		/// </summary>
 		/// <param name="parent">The container component with the reference to check.</param>
 		/// <param name="component">A reference to a component to verify.</param>
@@ -26,6 +28,12 @@ namespace Util
 			if (component != null) return component;
 
 			var go = parent.gameObject;
+
+			if (HasFailedReference(go, $"{parent.GetType()}-{refName}"))
+			{
+				return component;
+			}
+
 			var objName = go.name.RemoveClone();
 			var description = MissingRefDescription(parent, objName, refName, refDescription, typeof(V));
 			Logger.LogError($"{description} Functionality may be hindered or broken.", category);
@@ -59,16 +67,11 @@ namespace Util
 
 			var go = parent.gameObject;
 
-			if (go.TryGetComponent<FailedReferences>(out var failures) == false)
-			{
-				failures = go.AddComponent<FailedReferences>();
-			}
-			else if (failures.Refs.Contains($"{parent.GetType()}-{refName}"))
+			if (HasFailedReference(go, $"{parent.GetType()}-{refName}"))
 			{
 				return component;
 			}
 
-			failures.Refs.Add($"{parent.GetType()}-{refName}");
 			childName ??= refName;
 			var objName = go.name.RemoveClone();
 			var description = MissingRefDescription(parent, objName, refName, refDescription, typeof(V));
@@ -92,8 +95,25 @@ namespace Util
 			return component;
 		}
 
+		#region VerifyReference Helpers
+
 		private static string MissingRefDescription(Component parent, string objName, string refName, string refDescription, Type compType) =>
 			$"Component '{parent.GetType()}' in object/prefab '{objName}' is missing a reference for '{refName}' to {refDescription} with '{compType}' component.";
+
+		private static bool HasFailedReference(GameObject go, string referenceKey)
+		{
+			if (go.TryGetComponent<FailedReferences>(out var failures) == false)
+			{
+				failures = go.AddComponent<FailedReferences>();
+			}
+			else if (failures.Refs.Contains(referenceKey))
+			{
+				return true;
+			}
+
+			failures.Refs.Add(referenceKey);
+			return false;
+		}
 
 		/// <summary>
 		/// A simple helper component attached to a game object when reference verification fails.
@@ -102,5 +122,7 @@ namespace Util
 		{
 			public readonly HashSet<string> Refs = new HashSet<string>();
 		}
+
+		#endregion
 	}
 }
