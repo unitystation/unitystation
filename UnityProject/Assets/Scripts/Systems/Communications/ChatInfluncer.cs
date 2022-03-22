@@ -1,8 +1,8 @@
 ﻿namespace Systems.Communications
 {
-	public interface IChatInfluencer 
+	public interface IChatInfluencer
 	{
-		public bool RunChecks();
+		public bool WillInfluenceChat();
 		public ChatEvent InfluenceChat(ChatEvent chatToManipulate);
 	}
 }

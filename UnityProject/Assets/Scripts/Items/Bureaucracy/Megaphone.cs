@@ -32,7 +32,7 @@ namespace Items.Bureaucracy
 			isOnCooldown = false;
 		}
 
-		public bool RunChecks()
+		public bool WillInfluenceChat()
 		{
 			return IsOnCooldown() == false && isOn == true && pickupable.ItemSlot != null;
 		}
