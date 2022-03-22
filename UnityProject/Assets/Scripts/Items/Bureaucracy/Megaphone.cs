@@ -34,7 +34,14 @@ namespace Items.Bureaucracy
 
 		public bool RunChecks()
 		{
-			return isOnCooldown == false && isOn == true && pickupable.ItemSlot != null;
+			return IsOnCooldown() && isOn == true && pickupable.ItemSlot != null;
+		}
+
+		private bool IsOnCooldown()
+		{
+			if (isEmmaged) return false;
+			if(isOnCooldown && pickupable.ItemSlot != null && pickupable.ItemSlot.Player != null) Chat.AddExamineMsg(pickupable.ItemSlot.Player.gameObject,"The megaphone is on cooldown..");
+			return isOnCooldown;
 		}
 
 		public ChatEvent InfluenceChat(ChatEvent chatToManipulate)
