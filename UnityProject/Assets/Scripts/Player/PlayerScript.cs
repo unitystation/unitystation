@@ -294,7 +294,7 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IActi
 		}
 	}
 
-	[Command(requiresAuthority = false)]
+	[Command]
 	public void UpdateLastSyncedPosition()
 	{
 		SetLastRecordedPosition();
@@ -303,6 +303,11 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IActi
 	[Server]
 	private void SetLastRecordedPosition()
 	{
+		if (IsDeadOrGhost)
+		{
+			mind.body.gameObject.AssumedWorldPosServer();
+			return;
+		}
 		SyncedWorldPos = AssumedWorldPos;
 	}
 
