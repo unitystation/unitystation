@@ -41,8 +41,8 @@ namespace Util
 		/// name, it will attempt to add a reference to the first component with a matching type if no more than a
 		/// single component is found.
 		///
-		/// In the event that no matching child is found, this will attach a small component to the object.
-		/// No further logging or attempts to find another child will occur afterward.
+		/// If a reference fails verification, a small component is attached to the object to track it and
+		/// other failures. No further logging or attempts to find another child will occur on subsequent calls.
 		/// </summary>
 		/// <param name="parent">The container component with the reference to check.</param>
 		/// <param name="component">A reference to a component to verify.</param>
