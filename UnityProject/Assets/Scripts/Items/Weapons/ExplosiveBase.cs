@@ -82,6 +82,7 @@ namespace Items.Weapons
 
 		protected virtual void Detonate()
 		{
+			if(gameObject == null) return;
 			// Get data before despawning
 			var worldPos = objectBehaviour.AssumedWorldPositionServer();
 			// Despawn the explosive

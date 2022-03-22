@@ -16,7 +16,8 @@ namespace Items.Weapons
 
 		private void OnDisable()
 		{
-			Emitter = null;
+			StopCoroutine(Countdown());
+			StopCoroutine(BeepBeep());
 		}
 
 		[Server]
@@ -27,7 +28,7 @@ namespace Items.Weapons
 			if (GUI != null) GUI.StartCoroutine(GUI.UpdateTimer());
 			StartCoroutine(BeepBeep());
 			currentCountdown = timeToDetonate;
-			while (currentCountdown > 0 || gameObject != null)
+			while (currentCountdown > 0)
 			{
 				currentCountdown -= 1f;
 				yield return WaitFor.Seconds(1f);
@@ -38,7 +39,7 @@ namespace Items.Weapons
 
 		private IEnumerator BeepBeep()
 		{
-			while (countDownActive && gameObject != null)
+			while (countDownActive)
 			{
 				SoundManager.PlayNetworkedAtPos(beepSound, gameObject.AssumedWorldPosServer());
 				yield return WaitFor.Seconds(currentCountdown > timeToDetonate / 2 ? 2f : 0.5f);
