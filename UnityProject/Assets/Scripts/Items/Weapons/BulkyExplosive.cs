@@ -27,7 +27,7 @@ namespace Items.Weapons
 			if (GUI != null) GUI.StartCoroutine(GUI.UpdateTimer());
 			StartCoroutine(BeepBeep());
 			currentCountdown = timeToDetonate;
-			while (timeToDetonate > 0 || gameObject != null)
+			while (currentCountdown > 0 || gameObject != null)
 			{
 				currentCountdown -= 1f;
 				yield return WaitFor.Seconds(1f);
