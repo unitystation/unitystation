@@ -12,6 +12,7 @@ namespace Items.Weapons
 	public class BulkyExplosive : ExplosiveBase, ICheckedInteractable<HandApply>
 	{
 		[SerializeField] private ItemTrait wrenchTrait;
+		private float currentCountdown;
 
 		private void OnDisable()
 		{
@@ -25,7 +26,12 @@ namespace Items.Weapons
 			spriteHandler.SetSpriteSO(activeSpriteSO);
 			if (GUI != null) GUI.StartCoroutine(GUI.UpdateTimer());
 			StartCoroutine(BeepBeep());
-			yield return WaitFor.Seconds(timeToDetonate); //Delay is in milliseconds
+			currentCountdown = timeToDetonate;
+			while (timeToDetonate > 0 || gameObject != null)
+			{
+				currentCountdown -= 1f;
+				yield return WaitFor.Seconds(1f);
+			}
 			countDownActive = false;
 			Detonate();
 		}
@@ -35,7 +41,7 @@ namespace Items.Weapons
 			while (countDownActive && gameObject != null)
 			{
 				SoundManager.PlayNetworkedAtPos(beepSound, gameObject.AssumedWorldPosServer());
-				yield return WaitFor.Seconds(2f);
+				yield return WaitFor.Seconds(currentCountdown > timeToDetonate / 2 ? 2f : 0.5f);
 			}
 		}
 
