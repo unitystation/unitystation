@@ -33,7 +33,8 @@ namespace Util
 			//Get the window handle.
 			var windowPtr = FindWindow(null, Application.productName);
 			//Set the title text using the window handle.
-			SetWindowText(windowPtr, $"{Application.productName} Build v{Application.version} - {ServerInfoUI.Instance.ServerName.text} ||" +
+			var serverName = ServerInfoUI.Instance.ServerName.text != "" ? ServerInfoUI.Instance.ServerName.text : "Nameless Server";
+			SetWindowText(windowPtr, $"{Application.productName} Build v{Application.version} - {serverName} ||" +
 			                         $" {GameManager.Instance.GetGameModeName()} on {SubSceneManager.ServerChosenMainStation}");
 		}
 
