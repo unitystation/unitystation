@@ -255,6 +255,7 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IActi
 			}
 
 			EventManager.Broadcast(Event.UpdateChatChannels);
+			UpdateStatusTabUI();
 		}
 	}
 
@@ -281,6 +282,29 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IActi
 				playerHealth.RTT = RTT;
 			}
 			CmdUpdateRTT(RTT);
+		}
+	}
+
+	private void UpdateStatusTabUI()
+	{
+		if(StatsTab.Instance == null) return;
+		StatsTab.Instance.UpdateCurrentMap();
+		StatsTab.Instance.UpdateGameMode();
+		StatsTab.Instance.UpdateRoundTime();
+		switch (GameManager.Instance.CurrentRoundState)
+		{
+			case(RoundState.Started):
+				StatsTab.Instance.UpdateRoundStatus("Started");
+				break;
+			case(RoundState.PreRound):
+				StatsTab.Instance.UpdateRoundStatus("Preround");
+				break;
+			case(RoundState.Ended):
+				StatsTab.Instance.UpdateRoundStatus("Ended! Restarting soon..");
+				break;
+			default:
+				StatsTab.Instance.UpdateRoundStatus("???");
+				break;
 		}
 	}
 
