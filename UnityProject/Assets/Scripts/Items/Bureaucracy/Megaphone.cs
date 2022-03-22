@@ -10,7 +10,7 @@ namespace Items.Bureaucracy
 	{
 		[SyncVar] private bool isOnCooldown = false;
 		[SyncVar] private bool isOn = false;
-		[SyncVar] private bool isEmmaged = false;
+		[SyncVar] private bool isEmagged = false;
 		[SerializeField] private float cooldown = 10f;
 
 		private Pickupable pickupable;
@@ -32,29 +32,39 @@ namespace Items.Bureaucracy
 			isOnCooldown = false;
 		}
 
-		public bool RunChecks()
+		public bool WillInfluenceChat()
 		{
-			return isOnCooldown == false && isOn == true && pickupable.ItemSlot != null;
+			return IsOnCooldown() == false && isOn == true && pickupable.ItemSlot != null;
+		}
+
+		private bool IsOnCooldown()
+		{
+			if (isEmagged) return false;
+			if (isOnCooldown && pickupable.ItemSlot != null && pickupable.ItemSlot.Player != null)
+			{
+				Chat.AddExamineMsg(pickupable.ItemSlot.Player.gameObject, "The megaphone's internal capacitor is still recharging...");
+			}
+			return isOnCooldown;
 		}
 
 		public ChatEvent InfluenceChat(ChatEvent chatToManipulate)
 		{
 			var modifiedMsg = chatToManipulate;
-			modifiedMsg.VoiceLevel = isEmmaged ? Loudness.EARRAPE : Loudness.MEGAPHONE;
+			modifiedMsg.VoiceLevel = isEmagged ? Loudness.EARRAPE : Loudness.MEGAPHONE;
 			StartCoroutine(Cooldown());
 			return modifiedMsg;
 		}
 
 		public bool WillInteract(HandApply interaction, NetworkSide side)
 		{
-			return isEmmaged == false && DefaultWillInteract.Default(interaction, side) && pickupable.ItemSlot != null;
+			return isEmagged == false && DefaultWillInteract.Default(interaction, side) && pickupable.ItemSlot != null;
 		}
 
 		public void ServerPerformInteraction(HandApply interaction)
 		{
 			if (interaction.TargetObject == null ||
 			    interaction.TargetObject.TryGetComponent<Emag>(out var mag) == false) return;
-			if (mag.UseCharge(interaction)) isEmmaged = true;
+			if (mag.UseCharge(interaction)) isEmagged = true;
 		}
 
 		public void ServerPerformInteraction(HandActivate interaction)

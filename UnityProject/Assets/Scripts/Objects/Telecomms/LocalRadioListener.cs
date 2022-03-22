@@ -42,7 +42,7 @@ namespace Objects.Telecomms
 			Chat.AddLocalMsgToChat("ksshhhk!", gameObject);
 		}
 
-		public bool RunChecks()
+		public bool WillInfluenceChat()
 		{
 			return true; //other checks such as being powered can be checked for later
 		}

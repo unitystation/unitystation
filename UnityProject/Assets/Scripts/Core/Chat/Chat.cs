@@ -240,7 +240,7 @@ public partial class Chat : MonoBehaviour
 						{
 							if (slot.IsEmpty) continue;
 							if (slot.Item.TryGetComponent<IChatInfluencer>(out var listener)
-							    && listener.RunChecks() == true)
+							    && listener.WillInfluenceChat() == true)
 							{
 								chatEvent = listener.InfluenceChat(chatEvent);
 							}
