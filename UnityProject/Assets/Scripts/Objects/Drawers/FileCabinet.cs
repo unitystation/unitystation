@@ -22,11 +22,11 @@ namespace Objects.Drawers
 
 		public void ServerPerformInteraction(HandApply interaction)
 		{
-			if (interaction.HandObject != null && interaction.HandObject.Pickupable() != null && interaction.HandObject.Item().HasAnyTrait(acceptableObjects))
+			if (interaction.HandObject != null && interaction.HandObject.PickupableOrNull() != null && interaction.HandObject.Item().HasAnyTrait(acceptableObjects))
 			{
 				Chat.AddLocalMsgToChat($"{interaction.PerformerPlayerScript.visibleName} adds the " +
 				                       $"{interaction.HandObject.ExpensiveName()} to the {gameObject.ExpensiveName()}", interaction.Performer);
-				Inventory.ServerTransfer(interaction.HandObject.Pickupable().ItemSlot,
+				Inventory.ServerTransfer(interaction.HandObject.PickupableOrNull().ItemSlot,
 					itemStorage.GetNextFreeIndexedSlot());
 				return;
 			}

@@ -16,7 +16,7 @@ public static class SweetExtensions
 		return go.GetComponent<IPushable>();
 	}
 
-	public static Pickupable Pickupable(this GameObject go)
+	public static Pickupable PickupableOrNull(this GameObject go)
 	{
 		return go.GetComponent<Pickupable>();
 	}
