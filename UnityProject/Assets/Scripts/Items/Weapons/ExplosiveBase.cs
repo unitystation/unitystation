@@ -109,13 +109,6 @@ namespace Items.Weapons
 			}
 			StartCoroutine(Countdown());
 		}
-
-		protected void PairEmitter(SignalEmitter emitter, GameObject Performer)
-		{
-			Emitter = emitter;
-			Frequency = emitter.Frequency;
-			Chat.AddExamineMsg(Performer, "You successfully pair the remote signal to the device.");
-		}
 	}
 
 	public enum ExplosiveType
