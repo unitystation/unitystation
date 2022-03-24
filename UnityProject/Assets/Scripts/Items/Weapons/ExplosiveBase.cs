@@ -115,7 +115,7 @@ namespace Items.Weapons
 		{
 			if (Emitter != null)
 			{
-				Chat.AddLocalMsgToChat($"<color=red>The {interaction.PerformerPlayerScript.visibleName} hovers the {interaction.HandObject.gameObject.ExpensiveName()} " +
+				Chat.AddLocalMsgToChat($"<color=red>{interaction.PerformerPlayerScript.visibleName} hovers the {interaction.HandObject.gameObject.ExpensiveName()} " +
 				                       $"in front of the {gameObject.ExpensiveName()} but nothing happens!</color>", interaction.Performer);
 				return false;
 			}
