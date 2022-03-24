@@ -120,7 +120,7 @@ namespace Items.Weapons
 			void Hack()
 			{
 				emitters.Add(emitter);
-				emitter.Frequency = Frequency;
+				Frequency = emitter.Frequency;
 				Chat.AddLocalMsgToChat($"The {gameObject.ExpensiveName()} copies {Emitter.gameObject.ExpensiveName()}'s " +
 				                       $"codes from {interaction.PerformerPlayerScript.visibleName}'s hands!", interaction.Performer);
 			}
