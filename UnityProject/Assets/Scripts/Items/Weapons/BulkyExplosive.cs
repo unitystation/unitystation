@@ -12,11 +12,12 @@ namespace Items.Weapons
 	public class BulkyExplosive : ExplosiveBase, ICheckedInteractable<HandApply>
 	{
 		[SerializeField] private ItemTrait wrenchTrait;
-		[SerializeField] private AddressableAudioSource beepSound;
+		private float currentCountdown;
 
 		private void OnDisable()
 		{
-			Emitter = null;
+			StopCoroutine(Countdown());
+			StopCoroutine(BeepBeep());
 		}
 
 		[Server]
@@ -26,17 +27,22 @@ namespace Items.Weapons
 			spriteHandler.SetSpriteSO(activeSpriteSO);
 			if (GUI != null) GUI.StartCoroutine(GUI.UpdateTimer());
 			StartCoroutine(BeepBeep());
-			yield return WaitFor.Seconds(timeToDetonate); //Delay is in milliseconds
+			currentCountdown = timeToDetonate;
+			while (currentCountdown > 0)
+			{
+				currentCountdown -= 1f;
+				yield return WaitFor.Seconds(1f);
+			}
 			countDownActive = false;
 			Detonate();
 		}
 
 		private IEnumerator BeepBeep()
 		{
-			while (countDownActive && gameObject != null)
+			while (countDownActive)
 			{
 				SoundManager.PlayNetworkedAtPos(beepSound, gameObject.AssumedWorldPosServer());
-				yield return WaitFor.Seconds(2f);
+				yield return WaitFor.Seconds(currentCountdown > timeToDetonate / 2 ? 2f : 0.5f);
 			}
 		}
 
@@ -55,11 +61,6 @@ namespace Items.Weapons
 				SoundManager.PlayNetworkedAtPos(CommonSounds.Instance.Wrench, gameObject.AssumedWorldPosServer());
 				var wrenchText = objectBehaviour.IsPushable ? "wrench down" : "unwrench";
 				Chat.AddExamineMsg(interaction.Performer, $"You {wrenchText} the {gameObject.ExpensiveName()}");
-				return;
-			}
-			if (interaction.HandObject != null && interaction.HandObject.TryGetComponent<SignalEmitter>(out var emitter))
-			{
-				PairEmitter(emitter, interaction.Performer);
 				return;
 			}
 			explosiveGUI.ServerPerformInteraction(interaction);

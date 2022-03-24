@@ -180,11 +180,6 @@ namespace Items.Storage
 			}
 			if (isOpen && interaction.TargetObject != null && interaction.TargetObject != gameObject)
 			{
-				if (isBomb && interaction.TargetObject.TryGetComponent<SignalEmitter>(out var emitter))
-				{
-					PairEmitter(emitter, interaction.Performer);
-					return;
-				}
 				if(TryAddPizza(interaction.TargetObject)) return;
 				Chat.AddExamineMsg(interaction.Performer, $"<color=red>You can't add {interaction.TargetObject} " +
 				                                          $"to the {gameObject.ExpensiveName()} because there's already something in it!</color>");

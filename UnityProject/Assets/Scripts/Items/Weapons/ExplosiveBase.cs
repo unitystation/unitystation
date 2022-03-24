@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AddressableReferences;
 using UnityEngine;
 using Mirror;
 using Communications;
@@ -28,6 +29,7 @@ namespace Items.Weapons
 		[SerializeField] protected int minimumTimeToDetonate = 10;
 		[SerializeField] protected float explosiveStrength = 150f;
 		[SerializeField] protected SpriteDataSO activeSpriteSO;
+		[SerializeField] protected AddressableAudioSource beepSound;
 		[SerializeField] protected float progressTime = 3f;
 		[Header("Explosive Components")]
 		[SerializeField] protected SpriteHandler spriteHandler;
@@ -70,6 +72,7 @@ namespace Items.Weapons
 		[Server]
 		public virtual IEnumerator Countdown()
 		{
+			Chat.AddLocalMsgToChat($"The {gameObject.ExpensiveName()} beeps and lights up as it starts counting down..", gameObject);
 			countDownActive = true;
 			spriteHandler.SetSpriteSO(activeSpriteSO);
 			if (GUI != null) GUI.StartCoroutine(GUI.UpdateTimer());
@@ -79,6 +82,7 @@ namespace Items.Weapons
 
 		protected virtual void Detonate()
 		{
+			if(gameObject == null) return;
 			// Get data before despawning
 			var worldPos = objectBehaviour.AssumedWorldPositionServer();
 			// Despawn the explosive
@@ -104,13 +108,6 @@ namespace Items.Weapons
 				return;
 			}
 			StartCoroutine(Countdown());
-		}
-
-		protected void PairEmitter(SignalEmitter emitter, GameObject Performer)
-		{
-			Emitter = emitter;
-			Frequency = emitter.Frequency;
-			Chat.AddExamineMsg(Performer, "You successfully pair the remote signal to the device.");
 		}
 	}
 

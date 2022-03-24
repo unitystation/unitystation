@@ -13,7 +13,7 @@ namespace Items.Weapons
 	/// </summary>
 	public class AttachableExplosive : ExplosiveBase,
 		ICheckedInteractable<PositionalHandApply>, IRightClickable, ICheckedInteractable<HandApply>,
-		ICheckedInteractable<InventoryApply>, IInteractable<HandActivate>
+		 IInteractable<HandActivate>
 	{
 		[SyncVar] private bool isOnObject = false;
 		private GameObject attachedToObject;
@@ -105,6 +105,7 @@ namespace Items.Weapons
 				isOnObject = true;
 				pickupable.ServerSetCanPickup(false);
 				objectBehaviour.ServerSetPushable(false);
+				SoundManager.PlayNetworkedAtPos(beepSound, gameObject.AssumedWorldPosServer());
 				Chat.AddActionMsgToChat(interaction.Performer,
 					$"You attach the {gameObject.ExpensiveName()} to {interaction.TargetObject.ExpensiveName()}",
 					$"{interaction.PerformerPlayerScript.visibleName} attaches a {gameObject.ExpensiveName()} to {interaction.TargetObject.ExpensiveName()}!");
@@ -120,12 +121,6 @@ namespace Items.Weapons
 		public bool WillInteract(InventoryApply interaction, NetworkSide side)
 		{
 			return interaction.TargetSlot.IsEmpty;
-		}
-
-		public void ServerPerformInteraction(InventoryApply interaction)
-		{
-			if (interaction.TargetSlot.ItemObject.TryGetComponent<SignalEmitter>(out var emitter) == false) return;
-			PairEmitter(emitter, interaction.Performer);
 		}
 
 		public RightClickableResult GenerateRightClickOptions()
@@ -154,11 +149,6 @@ namespace Items.Weapons
 
 		public void ServerPerformInteraction(HandApply interaction)
 		{
-			if (interaction.HandObject != null && interaction.HandObject.TryGetComponent<SignalEmitter>(out var emitter))
-			{
-				PairEmitter(emitter, interaction.Performer);
-				return;
-			}
 			explosiveGUI.ServerPerformInteraction(interaction);
 		}
 

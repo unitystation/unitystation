@@ -327,7 +327,7 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IActi
 	[Server]
 	private void SetLastRecordedPosition()
 	{
-		SyncedWorldPos = AssumedWorldPos;
+		SyncedWorldPos = gameObject.AssumedWorldPosServer().CutToInt();
 	}
 
 	/// <summary>

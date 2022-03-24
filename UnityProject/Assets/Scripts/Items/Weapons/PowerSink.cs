@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using AddressableReferences;
 using Systems.Explosions;
 using Items.Devices;
 using UnityEngine;
@@ -19,6 +20,7 @@ namespace Items.Weapons
 		[SerializeField] private float voltageCheckTimeInSeconds = 0.2f;
 		[SerializeField] private SpriteDataSO activeSpriteSO;
 		[SerializeField] private SpriteDataSO inactiveSpriteSO;
+		[SerializeField] private AddressableAudioSource beepSound;
 
 		private SpriteHandler spriteHandler;
 		private ObjectBehaviour objectBehaviour;
@@ -41,6 +43,7 @@ namespace Items.Weapons
 		private void OnDisable()
 		{
 			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, CheckForVoltage);
+			StopCoroutine(BeepBeep());
 		}
 
 		public void ServerPerformInteraction(HandApply interaction)
@@ -102,9 +105,11 @@ namespace Items.Weapons
 				UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, CheckForVoltage);
 				spriteHandler.SetSpriteSO(inactiveSpriteSO);
 				RR.Resistance = 10000f;
+				StopCoroutine(BeepBeep());
 			}
 			else
 			{
+				StartCoroutine(BeepBeep());
 				UpdateManager.Add(CheckForVoltage, voltageCheckTimeInSeconds);
 				spriteHandler.SetSpriteSO(activeSpriteSO);
 				RR.Resistance = 0.0001f;
@@ -155,6 +160,15 @@ namespace Items.Weapons
 		public override void ReceiveSignal(SignalStrength strength, ISignalMessage message = null)
 		{
 			ToggleActivity();
+		}
+
+		private IEnumerator BeepBeep()
+		{
+			while (isCharging && gameObject != null)
+			{
+				SoundManager.PlayNetworkedAtPos(beepSound, gameObject.AssumedWorldPosServer());
+				yield return WaitFor.Seconds(2f);
+			}
 		}
 	}
 }
