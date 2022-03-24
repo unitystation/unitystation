@@ -204,7 +204,7 @@ namespace Items.Storage
 			return false;
 		}
 
-		public override void ReceiveSignal(SignalStrength strength, ISignalMessage message = null)
+		public override void ReceiveSignal(SignalStrength strength, SignalEmitter responsibleEmitter, ISignalMessage message = null)
 		{
 			if(isArmed == false) return;
 			if (detenationOnTimer)

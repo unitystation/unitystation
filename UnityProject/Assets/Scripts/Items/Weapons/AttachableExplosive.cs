@@ -83,6 +83,7 @@ namespace Items.Weapons
 
 		public void ServerPerformInteraction(PositionalHandApply interaction)
 		{
+			if(HackEmitter(interaction)) return;
 			void Perform()
 			{
 				if (interaction.TargetObject?.OrNull().RegisterTile()?.OrNull().Matrix?.OrNull() != null)
