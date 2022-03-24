@@ -13,6 +13,7 @@ using Objects;
 using Systems.Explosions;
 using Scripts.Core.Transform;
 using UI.Items;
+using Random = UnityEngine.Random;
 
 namespace Items.Weapons
 {
@@ -68,6 +69,7 @@ namespace Items.Weapons
 			objectBehaviour = GetComponent<ObjectBehaviour>();
 			pickupable = GetComponent<Pickupable>();
 			explosiveGUI = GetComponent<HasNetworkTabItem>();
+			Frequency = Random.Range(120.00f, 122.99f);
 		}
 
 		[Server]
@@ -118,6 +120,7 @@ namespace Items.Weapons
 			void Hack()
 			{
 				emitters.Add(emitter);
+				emitter.Frequency = Frequency;
 				Chat.AddLocalMsgToChat($"The {gameObject.ExpensiveName()} copies {Emitter.gameObject.ExpensiveName()}'s " +
 				                       $"codes from {interaction.PerformerPlayerScript.visibleName}'s hands!", interaction.Performer);
 			}
