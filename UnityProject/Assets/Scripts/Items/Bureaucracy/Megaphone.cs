@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using AddressableReferences;
 using Mirror;
 using Systems.Communications;
 using UnityEngine;
@@ -12,6 +13,7 @@ namespace Items.Bureaucracy
 		[SyncVar] private bool isOn = false;
 		[SyncVar] private bool isEmagged = false;
 		[SerializeField] private float cooldown = 10f;
+		[SerializeField] private AddressableAudioSource megaphoneSound;
 
 		private Pickupable pickupable;
 
@@ -52,6 +54,7 @@ namespace Items.Bureaucracy
 			var modifiedMsg = chatToManipulate;
 			modifiedMsg.VoiceLevel = isEmagged ? Loudness.EARRAPE : Loudness.MEGAPHONE;
 			StartCoroutine(Cooldown());
+			_ = SoundManager.PlayNetworkedAtPosAsync(megaphoneSound, gameObject.AssumedWorldPosServer());
 			return modifiedMsg;
 		}
 
