@@ -128,24 +128,6 @@ namespace Items.Weapons
 			                       $"{emitter.gameObject.ExpensiveName()} over the {gameObject.ExpensiveName()}", interaction.Performer);
 			return true;
 		}
-
-		protected bool HackEmitter(PositionalHandApply interaction)
-		{
-			if(interaction.UsedObject == null || interaction.UsedObject.TryGetComponent<SignalEmitter>(out var emitter) == false) return false;
-			void Hack()
-			{
-				Emitter = emitter;
-				Chat.AddLocalMsgToChat($"The {gameObject.ExpensiveName()} copies {Emitter.gameObject.ExpensiveName()}'s " +
-				                       $"codes from {interaction.PerformerPlayerScript.visibleName}'s hands!", interaction.Performer);
-			}
-			var bar = StandardProgressAction.Create(
-				new StandardProgressActionConfig(StandardProgressActionType.CPR, false, false), Hack);
-			bar.ServerStartProgress(interaction.Performer.RegisterTile(), progressTime, interaction.Performer);
-			SparkUtil.TrySpark(interaction.Performer);
-			Chat.AddLocalMsgToChat($"{interaction.PerformerPlayerScript.visibleName} hovers a " +
-			                       $"{emitter.gameObject.ExpensiveName()} over the {gameObject.ExpensiveName()}", interaction.Performer);
-			return true;
-		}
 	}
 
 	public enum ExplosiveType
