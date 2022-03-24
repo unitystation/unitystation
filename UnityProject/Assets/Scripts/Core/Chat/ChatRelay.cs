@@ -306,6 +306,20 @@ public class ChatRelay : NetworkBehaviour
 		{
 			case ChatChannel.Local:
 				break;
+			case ChatChannel.Action:
+				break;
+			case ChatChannel.Examine:
+				break;
+			case ChatChannel.Ghost: //(Max) : we need a sound for ghosts
+				break;
+			case ChatChannel.System:
+				break;
+			case ChatChannel.Warning:
+				break;
+			case ChatChannel.Blob:
+				break;
+			case ChatChannel.OOC:
+				break;
 			case ChatChannel.Syndicate:
 				_ = SoundManager.Play(Chat.Instance.commonSyndicteChannelSound);
 				break;
