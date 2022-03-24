@@ -41,6 +41,7 @@ namespace Items.Weapons
 		[HideInInspector] public GUI_Explosive GUI;
 		[SyncVar] protected bool isArmed;
 		[SyncVar] protected bool countDownActive = false;
+		protected List<SignalEmitter> emitters = new List<SignalEmitter>();
 
 		public int MinimumTimeToDetonate => minimumTimeToDetonate;
 		public bool DetonateImmediatelyOnSignal => detonateImmediatelyOnSignal;
@@ -102,7 +103,7 @@ namespace Items.Weapons
 		public override void ReceiveSignal(SignalStrength strength, SignalEmitter responsibleEmitter, ISignalMessage message = null)
 		{
 			if(gameObject == null || countDownActive == true) return;
-			if(Emitter != null && Emitter != responsibleEmitter) return;
+			if(emitters.Contains(responsibleEmitter)) return;
 			if (detonateImmediatelyOnSignal)
 			{
 				Detonate();
@@ -113,16 +114,10 @@ namespace Items.Weapons
 
 		protected bool HackEmitter(HandApply interaction)
 		{
-			if (Emitter != null)
-			{
-				Chat.AddLocalMsgToChat($"<color=red>{interaction.PerformerPlayerScript.visibleName} hovers the {interaction.HandObject.gameObject.ExpensiveName()} " +
-				                       $"in front of the {gameObject.ExpensiveName()} but nothing happens!</color>", interaction.Performer);
-				return false;
-			}
 			if(interaction.UsedObject == null || interaction.UsedObject.TryGetComponent<SignalEmitter>(out var emitter) == false) return false;
 			void Hack()
 			{
-				Emitter = emitter;
+				emitters.Add(emitter);
 				Chat.AddLocalMsgToChat($"The {gameObject.ExpensiveName()} copies {Emitter.gameObject.ExpensiveName()}'s " +
 				                       $"codes from {interaction.PerformerPlayerScript.visibleName}'s hands!", interaction.Performer);
 			}
