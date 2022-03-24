@@ -38,7 +38,7 @@ PrefabInstance:
     - target: {fileID: 6918947953705996213, guid: 5288f8108626e2ff1aab9bd925ff1346,
         type: 3}
       propertyPath: m_Name
-      value: Advanced JawsOfLife
+      value: AdvancedJawsOfLife
       objectReference: {fileID: 0}
     - target: {fileID: 6923871703913968321, guid: 5288f8108626e2ff1aab9bd925ff1346,
         type: 3}
@@ -126,6 +126,18 @@ PrefabInstance:
       propertyPath: initialDescription
       value: A prototype set of jaws with faster hydraulics.
       objectReference: {fileID: 0}
+    - target: {fileID: 7415335345799176407, guid: 5288f8108626e2ff1aab9bd925ff1346,
+        type: 3}
+      propertyPath: itemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 10106737c899c8040be796b7de2489e5,
+        type: 2}
+    - target: {fileID: 7415335345799176407, guid: 5288f8108626e2ff1aab9bd925ff1346,
+        type: 3}
+      propertyPath: itemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 11400000, guid: e6af9a12e5c3631458400c264bcee0c5,
+        type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5288f8108626e2ff1aab9bd925ff1346, type: 3}
 --- !u!114 &8563468132595657053 stripped
