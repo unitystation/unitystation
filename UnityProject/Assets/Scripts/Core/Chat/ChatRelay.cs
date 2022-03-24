@@ -304,6 +304,8 @@ public class ChatRelay : NetworkBehaviour
 
 		switch (channels)
 		{
+			case ChatChannel.Local:
+				break;
 			case ChatChannel.Syndicate:
 				_ = SoundManager.Play(Chat.Instance.commonSyndicteChannelSound);
 				break;
