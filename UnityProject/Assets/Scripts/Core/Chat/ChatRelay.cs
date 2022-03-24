@@ -301,6 +301,19 @@ public class ChatRelay : NetworkBehaviour
 
 			ChatUI.Instance.AddChatEntry(message);
 		}
+
+		switch (channels)
+		{
+			case ChatChannel.Syndicate:
+				_ = SoundManager.Play(Chat.Instance.commonSyndicteChannelSound);
+				break;
+			case ChatChannel.Security:
+				_ = SoundManager.Play(Chat.Instance.commonSecurityChannelSound);
+				break;
+			default:
+				_ = SoundManager.Play(Chat.Instance.commonRadioChannelSound);
+				break;
+		}
 	}
 
 	/// <summary>

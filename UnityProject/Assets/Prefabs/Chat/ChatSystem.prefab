@@ -209,6 +209,27 @@ MonoBehaviour:
   warningColor: {r: 1, g: 0.41568628, b: 0.4, a: 1}
   blobColor: {r: 0, g: 1, b: 0, a: 0}
   defaultColor: {r: 1, g: 1, b: 1, a: 1}
+  commonRadioChannelSound:
+    SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/Voices/Radio/Common.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+  commonSecurityChannelSound:
+    SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/Voices/Radio/Security.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+  commonSyndicteChannelSound:
+    SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/Voices/Radio/Syndicate.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
 --- !u!114 &585662512790831443
 MonoBehaviour:
   m_ObjectHideFlags: 0
