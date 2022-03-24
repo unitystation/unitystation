@@ -25,10 +25,15 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 622f5a1a49e029b48a420914f69b878a,
         type: 2}
+    - target: {fileID: 4089184234565288920, guid: 5288f8108626e2ff1aab9bd925ff1346,
+        type: 3}
+      propertyPath: foreverID
+      value: 037968b5e32c4ea41b05e567fa5e0cdf
+      objectReference: {fileID: 0}
     - target: {fileID: 6918947953705996213, guid: 5288f8108626e2ff1aab9bd925ff1346,
         type: 3}
       propertyPath: m_Name
-      value: Syndicate JawsOfLife
+      value: SyndicateJawsOfLife
       objectReference: {fileID: 0}
     - target: {fileID: 6923871703913968321, guid: 5288f8108626e2ff1aab9bd925ff1346,
         type: 3}
@@ -110,6 +115,17 @@ PrefabInstance:
         type: 3}
       propertyPath: exportName
       value: Vicious jaws of life
+      objectReference: {fileID: 0}
+    - target: {fileID: 7415335345799176407, guid: 5288f8108626e2ff1aab9bd925ff1346,
+        type: 3}
+      propertyPath: initialName
+      value: vicious jaws of life
+      objectReference: {fileID: 0}
+    - target: {fileID: 7415335345799176407, guid: 5288f8108626e2ff1aab9bd925ff1346,
+        type: 3}
+      propertyPath: initialDescription
+      value: Calling them 'Jaws of Life' feels a bit misplaced as the cutting implement
+        has been sharpened to a razor edge.
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5288f8108626e2ff1aab9bd925ff1346, type: 3}

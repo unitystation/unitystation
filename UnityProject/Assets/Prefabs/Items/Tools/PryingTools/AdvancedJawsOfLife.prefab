@@ -30,6 +30,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 551ec3235b9660c4aa0e1d37dce24efb,
         type: 2}
+    - target: {fileID: 4089184234565288920, guid: 5288f8108626e2ff1aab9bd925ff1346,
+        type: 3}
+      propertyPath: foreverID
+      value: c4ecf5caadd327e408d00362b31e03cc
+      objectReference: {fileID: 0}
     - target: {fileID: 6918947953705996213, guid: 5288f8108626e2ff1aab9bd925ff1346,
         type: 3}
       propertyPath: m_Name
@@ -110,6 +115,16 @@ PrefabInstance:
         type: 3}
       propertyPath: exportName
       value: advanced jaws of life
+      objectReference: {fileID: 0}
+    - target: {fileID: 7415335345799176407, guid: 5288f8108626e2ff1aab9bd925ff1346,
+        type: 3}
+      propertyPath: initialName
+      value: Advanced jaws of life
+      objectReference: {fileID: 0}
+    - target: {fileID: 7415335345799176407, guid: 5288f8108626e2ff1aab9bd925ff1346,
+        type: 3}
+      propertyPath: initialDescription
+      value: A prototype set of jaws with faster hydraulics.
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5288f8108626e2ff1aab9bd925ff1346, type: 3}
