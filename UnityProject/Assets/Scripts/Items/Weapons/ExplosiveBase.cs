@@ -113,6 +113,12 @@ namespace Items.Weapons
 
 		protected bool HackEmitter(HandApply interaction)
 		{
+			if (Emitter != null)
+			{
+				Chat.AddLocalMsgToChat($"<color=red>The {interaction.PerformerPlayerScript.visibleName} hovers the {interaction.HandObject.gameObject.ExpensiveName()} " +
+				                       $"in front of the {gameObject.ExpensiveName()} but nothing happens!</color>", interaction.Performer);
+				return false;
+			}
 			if(interaction.UsedObject == null || interaction.UsedObject.TryGetComponent<SignalEmitter>(out var emitter) == false) return false;
 			void Hack()
 			{
