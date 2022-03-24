@@ -80,7 +80,7 @@ namespace Managers
 
 			if (strength == SignalStrength.DELAYED)
 			{
-				StartCoroutine(DelayedSignalRecevie(receiver.DelayTime, receiver, strength, signalMessage));
+				StartCoroutine(DelayedSignalRecevie(receiver.DelayTime, receiver, emitter, strength, signalMessage));
 				return;
 			}
 			if (strength == SignalStrength.WEAK)
@@ -88,13 +88,13 @@ namespace Managers
 				Random chance = new Random();
 				if (DMMath.Prob(chance.Next(0, 100)))
 				{
-					StartCoroutine(DelayedSignalRecevie(receiver.DelayTime, receiver, strength, signalMessage));
+					StartCoroutine(DelayedSignalRecevie(receiver.DelayTime, receiver, emitter, strength, signalMessage));
 				}
 				emitter.SignalFailed();
 			}
 		}
 
-		private IEnumerator DelayedSignalRecevie(float waitTime, SignalReceiver receiver, SignalStrength strength, ISignalMessage signalMessage = null)
+		private IEnumerator DelayedSignalRecevie(float waitTime, SignalReceiver receiver, SignalEmitter emitter, SignalStrength strength, ISignalMessage signalMessage = null)
 		{
 			yield return WaitFor.Seconds(waitTime);
 			if (receiver.gameObject == null)
@@ -102,7 +102,7 @@ namespace Managers
 				//In case the object despawns before the signal reaches it
 				yield break;
 			}
-			receiver.ReceiveSignal(strength, receiver.Emitter, signalMessage);
+			receiver.ReceiveSignal(strength, emitter, signalMessage);
 		}
 
 		/// <summary>
