@@ -12,7 +12,10 @@ using Util;
 public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 {
 	//TODO Tile push to clients if in pulling conga line
-	//TODO Space flying networking to clients
+	//TODO if new pulling cancel old Pulling target
+	//TODO PulledBy isn't getting synchronised to client properly on start
+
+	//TODO Snap to LocalTargetPosition When triggered for client viewing other clients
 	public const float DEFAULT_Friction = 0.01f;
 	public const float DEFAULT_SLIDE_FRICTION = 0.003f;
 
@@ -24,11 +27,27 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 	public float TileMoveSpeedOverride = 0;
 
 
-	[SyncVar(hook = nameof(SyncLocalTarget))]
 	public Vector3 LocalTargetPosition;
 
-	public Vector2 newtonianMovement; //* attributes.Size -> weight
+	[SyncVar(hook = nameof(SyncLocalTarget))]
+	public Vector3 SynchLocalTargetPosition;
 
+	public Vector3 SetLocalTarget
+	{
+		get
+		{
+			return LocalTargetPosition;
+		}
+		set
+		{
+			if (isServer) SynchLocalTargetPosition = value;
+			//Logger.LogError("local target position set of "  + value + " On matrix " + registerTile.Matrix);
+			LocalTargetPosition = value;
+		}
+	}
+
+
+	public Vector2 newtonianMovement; //* attributes.Size -> weight
 
 	public float airTime; //Cannot grab onto anything so no friction
 
@@ -68,7 +87,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 			"HiddenWalls", "Objects");
 		attributes = GetComponent<Attributes>();
 		registerTile = GetComponent<RegisterTile>();
-		LocalTargetPosition = transform.localPosition;
+		SetLocalTarget = transform.localPosition;
 	}
 
 	public override void OnStartClient()
@@ -93,14 +112,67 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 
 
 
+	private void SyncLocalTarget(Vector3 OLDLocalTarget, Vector3 NewLocalTarget)
+	{
+		if (isServer) return;
+		if (LocalTargetPosition == NewLocalTarget) return;
+		if (isLocalPlayer || PulledBy.HasComponent) return;
+		LocalTargetPosition = NewLocalTarget;
+		Logger.LogError(" new position for " + transform.name);
+		if (IsFlyingSliding)
+		{
+			IsFlyingSliding = false;
+			airTime = 0;
+			slideTime = 0;
+			UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
+		}
+
+		if (Animating == false && transform.localPosition != NewLocalTarget)
+			UpdateManager.Add(CallbackType.UPDATE, AnimationUpdateMe);
+	}
+
+
+
 	[ClientRpc]
 	public void RPCClientTilePush(Vector2Int WorldDirection, float speed, bool CausedByClient)
 	{
 		if (isLocalPlayer && CausedByClient) return;
+		if (PulledBy.HasComponent) return;
 		Pushing.Clear();
-		Logger.LogError("ClientRpc Tile push for " + transform.name + " Direction " + WorldDirection.ToString());
+		//Logger.LogError("ClientRpc Tile push for " + transform.name + " Direction " + WorldDirection.ToString());
 		SetMatrixCash.ResetNewPosition(transform.position);
 		ForceTilePush(WorldDirection,Pushing, CausedByClient , speed);
+	}
+
+
+	[ClientRpc]
+	public void UpdateClientMomentum(Vector3 ReSetToLocal,  Vector2 NewMomentum, float InairTime, float  InslideTime, int MatrixID )
+	{
+		if (isLocalPlayer)
+			return; //We are updating other Objects than the player on the client //TODO Also block if being pulled by local player
+		newtonianMovement = NewMomentum;
+		airTime = InairTime;
+		slideTime = InslideTime;
+		SetMatrix(MatrixManager.Get(MatrixID).Matrix);
+
+		if (IsFlyingSliding) //If we flying try and smooth it
+		{
+			LocalDifferenceNeeded = ReSetToLocal - transform.localPosition;
+			if (CorrectingCourse == false)
+			{
+				CorrectingCourse = true;
+				UpdateManager.Add(CallbackType.UPDATE, FloatingCourseCorrection);
+			}
+		}
+		else //We are walking around somewhere
+		{
+			LocalTargetPosition = ReSetToLocal;
+			transform.localPosition = ReSetToLocal;
+			registerTile.ServerSetLocalPosition(ReSetToLocal.RoundToInt());
+			registerTile.ClientSetLocalPosition(ReSetToLocal.RoundToInt());
+		}
+
+		if (Animating == false && IsFlyingSliding == false) UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
 	}
 
 	public void SynchroniseUpdatePulling(PullData Old, PullData NewPulling)
@@ -110,12 +182,10 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 		PullSet(NewPulling.NewPulling);
 	}
 
-	[TargetRpc]
+	[ClientRpc]
 	public void ForceSetPosition(Vector3 ReSetToLocal, Vector2 Momentum, bool Smooth, int MatrixID )
 	{
-		var TransformCash = transform.position;
-		registerTile.FinishNetworkedMatrixRegistration(MatrixManager.Get(MatrixID).Matrix.NetworkedMatrix);
-		transform.position = TransformCash;
+		SetMatrix(MatrixManager.Get(MatrixID).Matrix);
 
 		if (Smooth)
 		{
@@ -188,32 +258,20 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 	public List<PushPull> Pushing = new List<PushPull>();
 	public List<IBumpableObject> Bumps = new List<IBumpableObject>();
 
-	[TargetRpc]
-	private void UpdateClientMomentum(Vector2 NewMomentum) //TODO Include flight time and stuff, airtime
-	{
-		if (newtonianMovement != NewMomentum) return;
-		if (isLocalPlayer)
-			return; //We are updating other Objects than the player on the client //TODO Also block if being pulled by local player
-		newtonianMovement = NewMomentum;
-		if (IsFlyingSliding == false) UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
-	}
-
-	private void SyncLocalTarget(Vector3 OLDLocalTarget, Vector3 NewLocalTarget)
-	{
-		return;
-		if (LocalTargetPosition != NewLocalTarget) return;
-		if (isLocalPlayer || PulledBy.HasComponent) return;
-		LocalTargetPosition = NewLocalTarget;
-		Logger.LogError(" new position for " + transform.name);
-		if (Animating == false && transform.localPosition != NewLocalTarget)
-			UpdateManager.Add(CallbackType.UPDATE, AnimationUpdateMe);
-	}
-
 	private void SyncIsNotPushable(bool wasNotPushable, bool isNowNotPushable)
 	{
 		isNotPushable = isNowNotPushable;
 	}
 
+
+	public void SetMatrix(Matrix movetoMatrix)
+	{
+		var TransformCash = transform.position;
+		registerTile.FinishNetworkedMatrixRegistration(movetoMatrix.NetworkedMatrix);
+		transform.position = TransformCash;
+		LocalDifferenceNeeded = Vector2.zero;
+		LocalTargetPosition = transform.localPosition;
+	}
 
 	public void TryTilePush(Vector2Int WorldDirection, bool ByClient, float speed = Single.NaN)
 	{
@@ -252,9 +310,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 
 		if (registerTile.Matrix != movetoMatrix)
 		{
-			var TransformCash = transform.position;
-			registerTile.FinishNetworkedMatrixRegistration(movetoMatrix.NetworkedMatrix);
-			transform.position = TransformCash;
+			SetMatrix(movetoMatrix);
 		}
 
 
@@ -263,7 +319,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 		registerTile.ServerSetLocalPosition(LocalPosition.RoundToInt());
 		registerTile.ClientSetLocalPosition(LocalPosition.RoundToInt());
 
-		LocalTargetPosition = LocalPosition.RoundToInt();
+		SetLocalTarget = LocalPosition.RoundToInt();
 		if (Animating == false)
 		{
 			Animating = true;
@@ -271,12 +327,12 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 			TileMoveSpeedOverride = speed;
 		}
 
-		if (isServer) RPCClientTilePush(WorldDirection, speed,ByClient); //TODO Local direction
+		if (isServer && PulledBy.HasComponent == false) RPCClientTilePush(WorldDirection, speed,ByClient); //TODO Local direction
 
 		if (Pulling.HasComponent)
 		{
 			var InDirection = CachedPosition - Pulling.Component.transform.position;
-			if (InDirection.magnitude > 2f)
+			if (InDirection.magnitude > 2f && (isServer || isLocalPlayer))
 			{
 				PullSet(null); //TODO maybe remove
 				if (isServer)
@@ -346,12 +402,6 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 		NewtonianPush(PlayerManager.LocalPlayer.GetComponent<Rotatable>().CurrentDirection.ToLocalVector2Int(), Speed);
 	}
 
-	[RightClickMethod()]
-	public void PullReset()
-	{
-		PullSet(null);
-	}
-
 	public void PullSet(UniversalObjectPhysics ToPull)
 	{
 		if (ToPull != null)
@@ -405,7 +455,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 			{
 				IsFlyingSliding = true;
 				UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
-				if (isServer) UpdateClientMomentum(newtonianMovement);
+				if (isServer) UpdateClientMomentum(transform.localPosition, newtonianMovement, airTime, slideTime, registerTile.Matrix.Id );
 			}
 		}
 	}
@@ -466,7 +516,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 				{
 					IsFlyingSliding = true;
 					UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
-					if (isServer) UpdateClientMomentum(newtonianMovement);
+					if (isServer) UpdateClientMomentum(transform.localPosition, newtonianMovement, airTime, slideTime, registerTile.Matrix.Id );
 				}
 			}
 		}
@@ -477,7 +527,12 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 		Vector3 target,
 		float maxDistanceDelta)
 	{
-		if ((current - target).magnitude > 3)
+		var magnitude = (current - target).magnitude;
+		if (magnitude > 7f)
+		{
+			maxDistanceDelta *= 40;
+		}
+		else if (magnitude > 3f)
 		{
 			maxDistanceDelta *= 10;
 		}
@@ -490,7 +545,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 
 	public bool IsMoving = false;
 
-	public double LastCheckedTime = 0; //NetworkTime.time
+	public double LastUpdateClientFlying = 0; //NetworkTime.time
 
 	public void UpdateMe()
 	{
@@ -568,9 +623,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 
 		if (registerTile.Matrix != movetoMatrix)
 		{
-			var TransformCash = transform.position;
-			registerTile.FinishNetworkedMatrixRegistration(movetoMatrix.NetworkedMatrix);
-			transform.position = TransformCash;
+			SetMatrix(movetoMatrix);
 		}
 
 		var LocalPosition = (Newposition).ToLocal(movetoMatrix);
@@ -578,11 +631,21 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 		registerTile.ServerSetLocalPosition(LocalPosition.RoundToInt());
 		registerTile.ClientSetLocalPosition(LocalPosition.RoundToInt());
 
+		if (isServer)
+		{
+			if ( NetworkTime.time - LastUpdateClientFlying > 2)
+			{
+				LastUpdateClientFlying = NetworkTime.time;
+				UpdateClientMomentum(transform.localPosition, newtonianMovement, airTime, slideTime, registerTile.Matrix.Id );
+			}
+		}
+
+
 		if (newtonianMovement.magnitude < 0.01f) //Has slowed down enough
 		{
 			if (onStationMovementsRound)
 			{
-				LocalTargetPosition = registerTile.LocalPosition;
+				SetLocalTarget = registerTile.LocalPosition;
 				if (Animating == false)
 				{
 					Animating = true;
@@ -600,7 +663,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 		if (Pulling.HasComponent)
 		{
 			var InDirection = CachedPosition - Pulling.Component.transform.position;
-			if (InDirection.magnitude > 2f)
+			if (InDirection.magnitude > 2f && (isServer || isLocalPlayer))
 			{
 				PullSet(null); //TODO maybe remove
 				if (isServer) ThisPullData = new PullData() {NewPulling = null, WasCausedByClient = false};
@@ -644,9 +707,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 		var movetoMatrix = MatrixManager.AtPoint(Newposition.RoundToInt(), isServer).Matrix;
 		if (registerTile.Matrix != movetoMatrix)
 		{
-			var TransformCash = transform.position;
-			registerTile.FinishNetworkedMatrixRegistration(movetoMatrix.NetworkedMatrix);
-			transform.position = TransformCash;
+			SetMatrix(movetoMatrix);
 		}
 
 		var LocalPosition = (Newposition).ToLocal(movetoMatrix);

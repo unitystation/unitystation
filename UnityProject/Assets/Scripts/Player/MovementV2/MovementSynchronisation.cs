@@ -178,6 +178,7 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 			{
 				if (TryMove(Entry, true))
 				{
+					//TODO this is good but need to clean up movement a bit more Logger.LogError("Delta magnitude " + (transform.position - Entry.LocalPosition.ToWorld(MatrixManager.Get(Entry.MatrixID).Matrix)).magnitude );
 					//do calculation is and set targets and stuff
 					//Reset client if movement failed Since its good movement only Getting sent
 					//if there's enough time to do The next movement to the current time, Then process it instantly
@@ -195,14 +196,15 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 				}
 				else
 				{
-					ForceSetPosition(transform.localPosition, newtonianMovement, true, registerTile.Matrix.Id);
+					ForceSetPosition(LocalTargetPosition, newtonianMovement, true, registerTile.Matrix.Id);
+					MoveQueue.Clear();
 					//TODO RESET!!
 				}
 			}
 			else
 			{
 				//TODO RESET!!
-				ForceSetPosition(transform.localPosition, newtonianMovement, true, registerTile.Matrix.Id);
+				ForceSetPosition(LocalTargetPosition, newtonianMovement, true, registerTile.Matrix.Id);
 				MoveQueue.Clear();
 			}
 		}
@@ -271,6 +273,7 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 				var move = NewMoveData.GlobalMoveDirection.TVectoro();
 				move.Normalize();
 				newtonianMovement += move * TileMoveSpeed;
+				if (isServer) UpdateClientMomentum(transform.localPosition, newtonianMovement, airTime, slideTime, registerTile.Matrix.Id);
 			}
 
 			NewMoveData.LocalMoveDirection =
@@ -376,6 +379,13 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 	public bool IsNotFloating(MoveData? moveAction,
 		out RegisterTile CanPushOff) //Sets bool For floating
 	{
+		if (IsFlyingSliding)
+		{
+			IsCurrentlyFloating = true;
+			CanPushOff = null;
+			return false;
+		}
+
 		if (stickyMovement)
 		{
 			if (newtonianMovement.magnitude > maximumStickSpeed)
