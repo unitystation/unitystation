@@ -6,9 +6,11 @@ using System.Text.RegularExpressions;
 using System.Globalization;
 using System.Linq;
 using System.Text;
+using AddressableReferences;
 using Core.Chat;
 using DatabaseAPI;
 using Mirror;
+using NaughtyAttributes;
 using ScriptableObjects;
 using Strings;
 using Tilemaps.Behaviours.Meta;
@@ -50,6 +52,10 @@ public partial class Chat
 	public Color defaultColor;
 
 	private static bool playedSound;
+
+	[BoxGroup("Sounds")] public AddressableAudioSource commonRadioChannelSound;
+	[BoxGroup("Sounds")] public AddressableAudioSource commonSecurityChannelSound;
+	[BoxGroup("Sounds")] public AddressableAudioSource commonSyndicteChannelSound;
 
 	/// <summary>
 	/// This channels can't be heared as sound by other players (like binary or changeling hivemind)
