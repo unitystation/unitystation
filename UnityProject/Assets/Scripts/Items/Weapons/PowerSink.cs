@@ -157,7 +157,7 @@ namespace Items.Weapons
 			}
 		}
 
-		public override void ReceiveSignal(SignalStrength strength, ISignalMessage message = null)
+		public override void ReceiveSignal(SignalStrength strength, SignalEmitter responsibleEmitter, ISignalMessage message = null)
 		{
 			ToggleActivity();
 		}

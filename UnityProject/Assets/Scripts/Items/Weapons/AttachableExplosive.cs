@@ -149,6 +149,7 @@ namespace Items.Weapons
 
 		public void ServerPerformInteraction(HandApply interaction)
 		{
+			if(HackEmitter(interaction)) return;
 			explosiveGUI.ServerPerformInteraction(interaction);
 		}
 

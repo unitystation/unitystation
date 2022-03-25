@@ -13,6 +13,7 @@ using Objects;
 using Systems.Explosions;
 using Scripts.Core.Transform;
 using UI.Items;
+using Random = UnityEngine.Random;
 
 namespace Items.Weapons
 {
@@ -41,6 +42,7 @@ namespace Items.Weapons
 		[HideInInspector] public GUI_Explosive GUI;
 		[SyncVar] protected bool isArmed;
 		[SyncVar] protected bool countDownActive = false;
+		protected List<SignalEmitter> emitters = new List<SignalEmitter>();
 
 		public int MinimumTimeToDetonate => minimumTimeToDetonate;
 		public bool DetonateImmediatelyOnSignal => detonateImmediatelyOnSignal;
@@ -67,6 +69,7 @@ namespace Items.Weapons
 			objectBehaviour = GetComponent<ObjectBehaviour>();
 			pickupable = GetComponent<Pickupable>();
 			explosiveGUI = GetComponent<HasNetworkTabItem>();
+			Frequency = Random.Range(120.00f, 122.99f);
 		}
 
 		[Server]
@@ -99,15 +102,35 @@ namespace Items.Weapons
 			detonateImmediatelyOnSignal = mode;
 		}
 
-		public override void ReceiveSignal(SignalStrength strength, ISignalMessage message = null)
+		public override void ReceiveSignal(SignalStrength strength, SignalEmitter responsibleEmitter, ISignalMessage message = null)
 		{
 			if(gameObject == null || countDownActive == true) return;
+			if(emitters.Contains(responsibleEmitter)) return;
 			if (detonateImmediatelyOnSignal)
 			{
 				Detonate();
 				return;
 			}
 			StartCoroutine(Countdown());
+		}
+
+		protected bool HackEmitter(HandApply interaction)
+		{
+			if(interaction.UsedObject == null || interaction.UsedObject.TryGetComponent<SignalEmitter>(out var emitter) == false) return false;
+			void Hack()
+			{
+				emitters.Add(emitter);
+				Frequency = emitter.Frequency;
+				Chat.AddLocalMsgToChat($"The {gameObject.ExpensiveName()} copies {Emitter.gameObject.ExpensiveName()}'s " +
+				                       $"codes from {interaction.PerformerPlayerScript.visibleName}'s hands!", interaction.Performer);
+			}
+			var bar = StandardProgressAction.Create(
+				new StandardProgressActionConfig(StandardProgressActionType.CPR, false, false), Hack);
+			bar.ServerStartProgress(interaction.Performer.RegisterTile(), progressTime, interaction.Performer);
+			SparkUtil.TrySpark(interaction.Performer);
+			Chat.AddLocalMsgToChat($"{interaction.PerformerPlayerScript.visibleName} hovers a " +
+			                       $"{emitter.gameObject.ExpensiveName()} over the {gameObject.ExpensiveName()}", interaction.Performer);
+			return true;
 		}
 	}
 
