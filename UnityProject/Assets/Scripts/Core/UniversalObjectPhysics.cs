@@ -477,7 +477,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 		}
 	}
 
-	private bool Animating = false;
+	public bool Animating = false;
 
 	public void AnimationUpdateMe()
 	{

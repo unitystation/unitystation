@@ -6,7 +6,7 @@ using Mirror;
 using Objects;
 using UnityEngine;
 
-public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllable, ICooldown
+public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllable, ICooldown, IBumpableObject
 {
 	public bool IsCurrentlyFloating;
 	public PlayerScript playerScript;
@@ -53,19 +53,28 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 		UpdateManager.Remove(CallbackType.UPDATE, ServerCheckQueueingAndMove);
 	}
 
+	public void OnBump(GameObject bumpedBy)
+	{
+		if (bumpedBy.TryGetComponent<MovementSynchronisation>(out var move))
+		{
+			//TODO bumpedBy.transform.position -
+		}
+	}
+
 
 	public struct MoveData
 	{
-		public Vector3Int LocalPosition; //The current location of the player (  just in case they are desynchronised )
-		public int MatrixID; //( The matrix the movement is on )
-
+		public Vector3 LocalPosition;
+		//The current location of the player (  just in case they are desynchronised )
+		public int MatrixID;
+		//( The matrix the movement is on )
 		public PlayerMoveDirection GlobalMoveDirection;
-
-		public PlayerMoveDirection
-			LocalMoveDirection; //because you want the change in movement to be same across server and client
-
-		public double Timestamp; // 	Timestamp with (800ms gap for being acceptable
-		public bool CausesSlip; //
+		public PlayerMoveDirection LocalMoveDirection;
+		//because you want the change in movement to be same across server and client
+		public double Timestamp;
+		//Timestamp with (800ms gap for being acceptable
+		public bool CausesSlip;
+		//
 	}
 
 	public enum PlayerMoveDirection
@@ -158,6 +167,8 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 	public double LastProcessMoved;
 
 
+	public double DEBUGLastMoveMessageProcessed = 0;
+
 
 	public void ServerCheckQueueingAndMove()
 	{
@@ -174,10 +185,23 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 				return;
 			}
 			SetMatrixCash.ResetNewPosition(transform.position);
+			//Logger.LogError(" Is Animating " +  Animating + " Is floating " +  IsFlyingSliding +" move processed at" + transform.localPosition);
+
+			if (IsFlyingSliding)
+			{
+				if ((transform.localPosition - Entry.LocalPosition).magnitude < 0.24f) //TODO Maybe not needed if needed can be used is when Move request comes in before player has quite reached tile in space flight
+				{
+					transform.localPosition = Entry.LocalPosition;
+					SetMatrixCash.ResetNewPosition(transform.position);
+				}
+			}
+
+
 			if (CanInPutMove())
 			{
 				if (TryMove(Entry, true))
 				{
+
 					//TODO this is good but need to clean up movement a bit more Logger.LogError("Delta magnitude " + (transform.position - Entry.LocalPosition.ToWorld(MatrixManager.Get(Entry.MatrixID).Matrix)).magnitude );
 					//do calculation is and set targets and stuff
 					//Reset client if movement failed Since its good movement only Getting sent
@@ -186,11 +210,9 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 					//timestamp says 0 for the first, 1 For the second
 					//the current server timestamp is 2
 					//So that means it can do 1 and 2 Messages , in the same frame
-					if (MoveQueue.Count > 0 &&
-					    (Entry.Timestamp + (TileMoveSpeed) <
-					     NetworkTime.time)) //yes Time.timeAsDouble Can rollover but this would only be a problem for a second
+					if (MoveQueue.Count > 0 && (Entry.Timestamp + (TileMoveSpeed) < NetworkTime.time)) //yes Time.timeAsDouble Can rollover but this would only be a problem for a second
 					{
-						transform.localPosition = LocalTargetPosition;
+						transform.localPosition = LocalTargetPosition; //TODO Update registered tile
 						ServerCheckQueueingAndMove();
 					}
 				}
@@ -198,12 +220,10 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 				{
 					ForceSetPosition(LocalTargetPosition, newtonianMovement, true, registerTile.Matrix.Id);
 					MoveQueue.Clear();
-					//TODO RESET!!
 				}
 			}
 			else
 			{
-				//TODO RESET!!
 				ForceSetPosition(LocalTargetPosition, newtonianMovement, true, registerTile.Matrix.Id);
 				MoveQueue.Clear();
 			}
@@ -221,12 +241,18 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 		{
 			var NewMoveData = new MoveData()
 			{
-				LocalPosition = registerTile.LocalPosition,
+				LocalPosition = transform.localPosition,
 				Timestamp = NetworkTime.time,
 				MatrixID = registerTile.Matrix.Id,
 				GlobalMoveDirection = moveActions.ToPlayerMoveDirection(),
 				CausesSlip = false,
 			};
+			if (isServer == false)
+			{
+				var AddedLocalPosition = (transform.position + NewMoveData.GlobalMoveDirection.TVectoro().To3()).ToLocal(registerTile.Matrix);
+				NewMoveData.LocalMoveDirection =
+					VectorToPlayerMoveDirection((AddedLocalPosition - transform.localPosition).To2Int()); //Because shuttle could be rotated   enough to make Global  Direction invalid As compared to server
+			}
 			if (TryMove(NewMoveData, true))
 			{
 				if (isServer) return;
@@ -276,9 +302,6 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 				if (isServer) UpdateClientMomentum(transform.localPosition, newtonianMovement, airTime, slideTime, registerTile.Matrix.Id);
 			}
 
-			NewMoveData.LocalMoveDirection =
-				VectorToPlayerMoveDirection((LocalTargetPosition - transform.localPosition).RoundToInt().To2Int());
-
 			return true;
 		}
 		else
@@ -313,8 +336,11 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 		//Space movement, normal movement ( Calling running and walking part of this )
 
 	{
+		bool Obstruction = true;
+		bool Floating = true;
 		if (IsNotFloating(moveAction, out PushesOff))
 		{
+			Floating = false;
 			//Need to check for Obstructions
 			if (IsNotObstructed(moveAction, WillPushObjects, Bumps))
 			{
@@ -379,13 +405,6 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 	public bool IsNotFloating(MoveData? moveAction,
 		out RegisterTile CanPushOff) //Sets bool For floating
 	{
-		if (IsFlyingSliding)
-		{
-			IsCurrentlyFloating = true;
-			CanPushOff = null;
-			return false;
-		}
-
 		if (stickyMovement)
 		{
 			if (newtonianMovement.magnitude > maximumStickSpeed)
@@ -474,6 +493,13 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 				return;
 			}
 
+			// NewMoveData.LocalMoveDirection =
+				// VectorToPlayerMoveDirection((LocalTargetPosition - transform.localPosition).RoundToInt().To2Int());
+				
+			//TODO Might be funny with changing to diagonal not too sure though
+			var AddedGlobalPosition = (transform.localPosition + InMoveData.LocalMoveDirection.TVectoro().To3()).ToWorld(registerTile.Matrix);
+
+			InMoveData.GlobalMoveDirection = VectorToPlayerMoveDirection((AddedGlobalPosition - transform.position).To2Int());
 			MoveQueue.Add(InMoveData);
 		}
 	}
