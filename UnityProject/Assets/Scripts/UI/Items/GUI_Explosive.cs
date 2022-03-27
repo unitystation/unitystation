@@ -75,7 +75,6 @@ namespace UI.Items
 			timerCount = explosiveDevice.TimeToDetonate;
 			EnsureVisualsAreCorrect();
 			UpdateStatusText();
-			DisplayTime();
 
 			timerCount = explosiveDevice.TimeToDetonate;
 			timer.Value = DisplayTime();
@@ -94,7 +93,6 @@ namespace UI.Items
 			explosiveDevice.ToggleMode(!explosiveDevice.DetonateImmediatelyOnSignal);
 			signalIcon.SetValueServer(explosiveDevice.DetonateImmediatelyOnSignal ? "0" : "1");
 			UpdateStatusText();
-			if(Peepers.Count == 0) return;
 			foreach (var peeper in Peepers)
 			{
 				var signalStatus = explosiveDevice.DetonateImmediatelyOnSignal ? "awaits a signal" : "awaits armament";
@@ -144,13 +142,13 @@ namespace UI.Items
 			if (explosiveDevice.CountDownActive == false)
 			{
 				timerCount = explosiveDevice.TimeToDetonate;
-				timer.Value = DisplayTime();
+				timer.SetValueServer(DisplayTime());
 				yield break;
 			}
 			while (timerCount > 0)
 			{
 				timerCount -= 1;
-				timer.Value = DisplayTime();
+				timer.SetValueServer(DisplayTime());
 				yield return WaitFor.Seconds(1f);
 			}
 		}
