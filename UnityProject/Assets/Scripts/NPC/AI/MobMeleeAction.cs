@@ -39,7 +39,7 @@ namespace Systems.MobAIs
 		private float lerpProgress;
 		private bool lerping;
 		private bool isActing = false;
-		private bool isOnCooldown = false;
+		public bool isOnCooldown = false;
 
 		/// <summary>
 		/// Maximum range that the mob will continue to try to act on the target

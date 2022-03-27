@@ -103,6 +103,7 @@ namespace Systems.MobAIs
 					HandleSearch();
 					break;
 				case MobStatus.Attacking:
+					if(mobMeleeAction.isOnCooldown) break;
 					MonitorIdleness();
 					break;
 				case MobStatus.None:
