@@ -77,7 +77,7 @@ namespace Items.Weapons
 		public bool WillInteract(PositionalHandApply interaction, NetworkSide side)
 		{
 			if (DefaultWillInteract.Default(interaction, side) == false
-			    || isArmed == true || pickupable.ItemSlot == null) return false;
+			    || isArmed == true || pickupable.ItemSlot == null || interaction.Intent != Intent.Harm) return false;
 			return true;
 		}
 
