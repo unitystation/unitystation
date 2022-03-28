@@ -75,7 +75,7 @@ namespace Doors
 			}
 			else
 			{
-				return weldModule.CanDoorStateChange() == false;
+				return weldModule.CanDoorStateChange();
 			}
 
 		}
@@ -88,7 +88,7 @@ namespace Doors
 			}
 			else
 			{
-				return boltsModule.CanDoorStateChange() == false;
+				return boltsModule.CanDoorStateChange();
 			}
 		}
 
