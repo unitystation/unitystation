@@ -59,7 +59,7 @@ namespace Items.Medical
 			StringBuilder partMessages = new StringBuilder();
 			foreach (var bodypart in health.BodyPartList)
 			{
-				if (AdvancedHealthScanner == false && bodypart.DamageContributesToOverallHealth == false) continue;
+				if ( bodypart.DamageContributesToOverallHealth == false) continue;
 				if (bodypart.TotalDamage == 0) continue;
 
 				for (int i = 0; i < bodypart.Damages.Length; i++)
@@ -68,6 +68,7 @@ namespace Items.Medical
 				}
 				partMessages.AppendLine(GetBodypartMessage(bodypart));
 			}
+
 
 			if (health.brain)
 			{
@@ -100,6 +101,18 @@ namespace Items.Medical
 				}
 			}
 
+			scanMessage.AppendLine("-------===== Internal damage =====------");
+			partMessages.Clear();
+			foreach (var bodypart in health.BodyPartList)
+			{
+				if ( bodypart.DamageContributesToOverallHealth) continue;
+				if (bodypart.TotalDamage == 0) continue;
+				
+				partMessages.AppendLine(GetBodypartMessage(bodypart));
+			}
+
+			scanMessage.Append(partMessages);
+			scanMessage.Append("</mspace>");
 			scanMessage.Append("----------------------------------------");
 
 			Chat.AddExamineMsgFromServer(interaction.Performer, $"</i>{scanMessage}<i>");
