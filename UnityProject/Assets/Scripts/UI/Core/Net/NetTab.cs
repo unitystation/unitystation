@@ -335,7 +335,7 @@ public class NetTab : Tab
 	{
 		foreach (var peeper in Peepers)
 		{
-			SoundManager.PlayNetworkedForPlayer(peeper.GameObject, audioSource);
+			SoundManager.PlayNetworkedForPlayer(peeper.Script.gameObject, audioSource);
 		}
 	}
 }
