@@ -122,6 +122,7 @@ GameObject:
   - component: {fileID: 1770950277204411534}
   - component: {fileID: 312826962427535196}
   - component: {fileID: 1376043229733945877}
+  - component: {fileID: 3748893601678569643}
   m_Layer: 0
   m_Name: SyndicateBombBecon
   m_TagString: Untagged
@@ -176,7 +177,7 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   pickupAnimSpeed: 0.2
-  ItemAttributesV2: {fileID: 0}
+  ItemAttributesV2: {fileID: 1770950277204411534}
 --- !u!114 &4318035970436536374
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -201,7 +202,6 @@ MonoBehaviour:
       m_AssetGUID: 
       m_SubObjectName: 
       m_SubObjectType: 
-      m_EditorAssetChanged: 0
   soundDelayTime: 0
   soundMinimumPitchVariance: 1
   soundMaximumPitchVariance: 1
@@ -226,7 +226,7 @@ MonoBehaviour:
   objectType: 0
   customNetTransform: {fileID: 6979474968994307204}
   prefabTracker: {fileID: 312826962427535196}
-  CurrentsortingGroup: {fileID: 0}
+  CurrentsortingGroup: {fileID: 3748893601678569643}
 --- !u!114 &6979474968994307204
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -265,7 +265,6 @@ MonoBehaviour:
       m_AssetGUID: 
       m_SubObjectName: 
       m_SubObjectType: 
-      m_EditorAssetChanged: 0
   damageDeflection: 0
   Armor:
     Melee: 0
@@ -329,7 +328,6 @@ MonoBehaviour:
       m_AssetGUID: 
       m_SubObjectName: 
       m_SubObjectType: 
-      m_EditorAssetChanged: 0
   hitSoundSettings: 0
   inventoryMoveSound:
     SetLoadSetting: 0
@@ -338,7 +336,6 @@ MonoBehaviour:
       m_AssetGUID: 
       m_SubObjectName: 
       m_SubObjectType: 
-      m_EditorAssetChanged: 0
   inventoryRemoveSound:
     SetLoadSetting: 0
     AssetAddress: 
@@ -346,7 +343,6 @@ MonoBehaviour:
       m_AssetGUID: 
       m_SubObjectName: 
       m_SubObjectType: 
-      m_EditorAssetChanged: 0
   canConnectToTank: 0
   isEVACapable: 0
   attackVerbs: []
@@ -393,3 +389,14 @@ MonoBehaviour:
   bomb: {fileID: 747172844020729843, guid: 40e765f72dfc72d48ba8ef24ab377060, type: 3}
   remoteDevice: {fileID: 6940507403175904139, guid: 204e1dd6539bdea43b395a881530baa2,
     type: 3}
+--- !u!210 &3748893601678569643
+SortingGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4761250752494374682}
+  m_Enabled: 1
+  m_SortingLayerID: -1463207863
+  m_SortingLayer: 13
+  m_SortingOrder: 0
