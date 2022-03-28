@@ -86,6 +86,16 @@ PrefabInstance:
       propertyPath: m_AssetId
       value: 170d29de25f8b7b45ad90742f9a27973
       objectReference: {fileID: 0}
+    - target: {fileID: 6215333447742293426, guid: 278a488f4ec2d4643bea94c34d67ce70,
+        type: 3}
+      propertyPath: prefabTracker
+      value: 
+      objectReference: {fileID: 2243440809546857954}
+    - target: {fileID: 6215333447742293426, guid: 278a488f4ec2d4643bea94c34d67ce70,
+        type: 3}
+      propertyPath: CurrentsortingGroup
+      value: 
+      objectReference: {fileID: 4155988808594106752}
     - target: {fileID: 6327796227931621540, guid: 278a488f4ec2d4643bea94c34d67ce70,
         type: 3}
       propertyPath: m_Name
@@ -146,6 +156,21 @@ PrefabInstance:
       propertyPath: deathSounds.Array.data[0].AssetAddress
       value: Assets/Prefabs/Effects/Bodyfall.prefab
       objectReference: {fileID: 0}
+    - target: {fileID: 7946963310784402775, guid: 278a488f4ec2d4643bea94c34d67ce70,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7946963310784402775, guid: 278a488f4ec2d4643bea94c34d67ce70,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7946963310784402775, guid: 278a488f4ec2d4643bea94c34d67ce70,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 278a488f4ec2d4643bea94c34d67ce70, type: 3}
 --- !u!1 &7783574141755662557 stripped
@@ -169,3 +194,27 @@ MonoBehaviour:
   despawnBody: 1
   lootDrop:
   - {fileID: 4132242788693647151, guid: ad527ba4de069794796e314f236794f4, type: 3}
+--- !u!210 &4155988808594106752
+SortingGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7783574141755662557}
+  m_Enabled: 1
+  m_SortingLayerID: -229502157
+  m_SortingLayer: 21
+  m_SortingOrder: 0
+--- !u!114 &2243440809546857954
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7783574141755662557}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3f4629d03e356d64eb509d18a7450082, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  foreverID: THY??4m_oGZ6PPkcPtb0
