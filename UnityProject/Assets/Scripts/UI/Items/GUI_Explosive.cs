@@ -83,6 +83,15 @@ namespace UI.Items
 
 		public void ArmDevice()
 		{
+			_ = SoundManager.Play(CommonSounds.Instance.Click01);
+			if (explosiveDevice.IsArmed)
+			{
+				foreach (var peeper in Peepers)
+				{
+					Chat.AddExamineMsg(peeper.GameObject, $"<color=red>The {Provider.ExpensiveName()} is already armed!</color>");
+					return;
+				}
+			}
 			explosiveDevice.IsArmed = true;
 			StartCoroutine(explosiveDevice.Countdown());
 			UpdateStatusText();
@@ -98,6 +107,7 @@ namespace UI.Items
 				var signalStatus = explosiveDevice.DetonateImmediatelyOnSignal ? "awaits a signal" : "awaits armament";
 				Chat.AddExamineMsg(peeper.GameObject, $"The {Provider.ExpensiveName()} {signalStatus}");
 			}
+			_ = SoundManager.Play(CommonSounds.Instance.Click01);
 		}
 
 		public void IncreaseTimeByOne()
@@ -105,12 +115,14 @@ namespace UI.Items
 			if(armToggleButton.Value == "1" || sbArmToggleButton.Value == "1") return;
 			explosiveDevice.TimeToDetonate += 1;
 			StartCoroutine(UpdateTimer());
+			_ = SoundManager.Play(CommonSounds.Instance.Click01);
 		}
 		public void IncreaseTimeByTen()
 		{
 			if(armToggleButton.Value == "1" || sbArmToggleButton.Value == "1") return;
 			explosiveDevice.TimeToDetonate += 10;
 			StartCoroutine(UpdateTimer());
+			_ = SoundManager.Play(CommonSounds.Instance.Click01);
 		}
 		public void DecreaseTimeByOne()
 		{
@@ -118,6 +130,7 @@ namespace UI.Items
 			    || armToggleButton.Value == "1" || sbArmToggleButton.Value == "1") return;
 			explosiveDevice.TimeToDetonate -= 1;
 			StartCoroutine(UpdateTimer());
+			_ = SoundManager.Play(CommonSounds.Instance.Click01);
 		}
 		public void DecreaseTimeByTen()
 		{
@@ -125,6 +138,7 @@ namespace UI.Items
 			    || armToggleButton.Value == "1" || sbArmToggleButton.Value == "1") return;
 			explosiveDevice.TimeToDetonate -= 10;
 			StartCoroutine(UpdateTimer());
+			_ = SoundManager.Play(CommonSounds.Instance.Click01);
 		}
 
 		private void UpdateStatusText()
