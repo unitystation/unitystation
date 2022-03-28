@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using AddressableReferences;
 using Items.Weapons;
 using UnityEngine;
 using UnityEngine.UI;
@@ -81,9 +82,9 @@ namespace UI.Items
 
 		public void ArmDevice()
 		{
-			_ = SoundManager.Play(CommonSounds.Instance.Click01);
 			if (explosiveDevice.IsArmed)
 			{
+				PlaySoundsForPeepers(CommonSounds.Instance.Click01);
 				foreach (var peeper in Peepers)
 				{
 					Chat.AddExamineMsg(peeper.GameObject, $"<color=red>The {Provider.ExpensiveName()} is already armed!</color>");
@@ -97,9 +98,9 @@ namespace UI.Items
 
 		public void ToggleMode()
 		{
-			_ = SoundManager.Play(CommonSounds.Instance.Click01);
 			if (explosiveDevice.IsArmed)
 			{
+				PlaySoundsForPeepers(CommonSounds.Instance.Click01);
 				foreach (var peeper in Peepers)
 				{
 					Chat.AddExamineMsg(peeper.GameObject, $"<color=red>The {Provider.ExpensiveName()} is already armed!</color>");
@@ -121,14 +122,14 @@ namespace UI.Items
 			if(armToggleButton.Value == "1" || sbArmToggleButton.Value == "1") return;
 			explosiveDevice.TimeToDetonate += 1;
 			StartCoroutine(UpdateTimer());
-			_ = SoundManager.Play(CommonSounds.Instance.Click01);
+			PlaySoundsForPeepers(CommonSounds.Instance.Click01);
 		}
 		public void IncreaseTimeByTen()
 		{
 			if(armToggleButton.Value == "1" || sbArmToggleButton.Value == "1") return;
 			explosiveDevice.TimeToDetonate += 10;
 			StartCoroutine(UpdateTimer());
-			_ = SoundManager.Play(CommonSounds.Instance.Click01);
+			PlaySoundsForPeepers(CommonSounds.Instance.Click01);
 		}
 		public void DecreaseTimeByOne()
 		{
@@ -136,7 +137,7 @@ namespace UI.Items
 			    || armToggleButton.Value == "1" || sbArmToggleButton.Value == "1") return;
 			explosiveDevice.TimeToDetonate -= 1;
 			StartCoroutine(UpdateTimer());
-			_ = SoundManager.Play(CommonSounds.Instance.Click01);
+			PlaySoundsForPeepers(CommonSounds.Instance.Click01);
 		}
 		public void DecreaseTimeByTen()
 		{
@@ -144,7 +145,7 @@ namespace UI.Items
 			    || armToggleButton.Value == "1" || sbArmToggleButton.Value == "1") return;
 			explosiveDevice.TimeToDetonate -= 10;
 			StartCoroutine(UpdateTimer());
-			_ = SoundManager.Play(CommonSounds.Instance.Click01);
+			PlaySoundsForPeepers(CommonSounds.Instance.Click01);
 		}
 
 		private void UpdateStatusText()
@@ -170,6 +171,14 @@ namespace UI.Items
 				timerCount -= 1;
 				timer.SetValueServer(DisplayTime());
 				yield return WaitFor.Seconds(1f);
+			}
+		}
+
+		private void PlaySoundsForPeepers(AddressableAudioSource audioSource)
+		{
+			foreach (var peeper in Peepers)
+			{
+				SoundManager.PlayNetworkedForPlayer(peeper.GameObject, CommonSounds.Instance.Click01);
 			}
 		}
 
