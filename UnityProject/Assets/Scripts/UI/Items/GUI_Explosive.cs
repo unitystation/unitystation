@@ -82,9 +82,9 @@ namespace UI.Items
 
 		public void ArmDevice()
 		{
+			PlaySoundsForPeepers(CommonSounds.Instance.Click01);
 			if (explosiveDevice.IsArmed)
 			{
-				PlaySoundsForPeepers(CommonSounds.Instance.Click01);
 				foreach (var peeper in Peepers)
 				{
 					Chat.AddExamineMsg(peeper.GameObject, $"<color=red>The {Provider.ExpensiveName()} is already armed!</color>");
@@ -98,9 +98,9 @@ namespace UI.Items
 
 		public void ToggleMode()
 		{
+			PlaySoundsForPeepers(CommonSounds.Instance.Click01);
 			if (explosiveDevice.IsArmed)
 			{
-				PlaySoundsForPeepers(CommonSounds.Instance.Click01);
 				foreach (var peeper in Peepers)
 				{
 					Chat.AddExamineMsg(peeper.GameObject, $"<color=red>The {Provider.ExpensiveName()} is already armed!</color>");
