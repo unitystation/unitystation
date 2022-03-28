@@ -2,6 +2,7 @@
 using System.Collections;
 using HealthV2;
 using Messages.Server;
+using Mirror;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -38,6 +39,7 @@ namespace Systems.MobAIs
 		private float lerpProgress;
 		private bool lerping;
 		private bool isActing = false;
+		public bool isOnCooldown = false;
 
 		/// <summary>
 		/// Maximum range that the mob will continue to try to act on the target
@@ -53,11 +55,23 @@ namespace Systems.MobAIs
 		}
 
 		/// <summary>
+		/// Cooldown that tells DoAction() to not hit the player. ServerDoLerpAnimation() only affects the animation!!
+		/// </summary>
+		/// <returns></returns>
+		private IEnumerator Cooldown()
+		{
+			isOnCooldown = true;
+			yield return WaitFor.Seconds(actionCooldown);
+			isOnCooldown = false;
+		}
+
+		/// <summary>
 		/// Determines if the target of the action can be acted upon and what kind of target it is.
 		/// Then performs the appropriate action. Action methods are individually overridable for flexibility.
 		/// </summary>
 		public override void DoAction()
 		{
+			if(isOnCooldown) return;
 			base.DoAction();
 			var hitInfo = ValidateTarget();
 			if (hitInfo.ItHit == false)
@@ -65,6 +79,7 @@ namespace Systems.MobAIs
 				return;
 			}
 
+			StartCoroutine(Cooldown());
 			var dir = (hitInfo.TileHitWorld - mobTile.WorldPositionServer).normalized;
 
 			if (hitInfo.CollisionHit.GameObject != null &&
