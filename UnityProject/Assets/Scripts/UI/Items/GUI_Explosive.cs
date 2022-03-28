@@ -97,6 +97,7 @@ namespace UI.Items
 
 		public void ToggleMode()
 		{
+			_ = SoundManager.Play(CommonSounds.Instance.Click01);
 			if (explosiveDevice.IsArmed)
 			{
 				foreach (var peeper in Peepers)
@@ -113,7 +114,6 @@ namespace UI.Items
 				var signalStatus = explosiveDevice.DetonateImmediatelyOnSignal ? "awaits a signal" : "awaits armament";
 				Chat.AddExamineMsg(peeper.GameObject, $"The {Provider.ExpensiveName()} {signalStatus}");
 			}
-			_ = SoundManager.Play(CommonSounds.Instance.Click01);
 		}
 
 		public void IncreaseTimeByOne()
