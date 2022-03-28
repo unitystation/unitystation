@@ -107,11 +107,7 @@ namespace Items.Medical
 			{
 				if ( bodypart.DamageContributesToOverallHealth) continue;
 				if (bodypart.TotalDamage == 0) continue;
-
-				for (int i = 0; i < bodypart.Damages.Length; i++)
-				{
-					fullDamage[i] += bodypart.Damages[i];
-				}
+				
 				partMessages.AppendLine(GetBodypartMessage(bodypart));
 			}
 
