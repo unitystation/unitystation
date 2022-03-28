@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using AddressableReferences;
 using Items.Weapons;
 using UnityEngine;
 using UnityEngine.UI;
@@ -17,8 +18,6 @@ namespace UI.Items
 
 		[SerializeField] private NetLabel status;
 		[SerializeField] private NetLabel timer;
-		[SerializeField] private NetToggle modeToggleButton;
-		[SerializeField] private NetToggle sbModeToggleButton;
 		[SerializeField] private NetToggle armToggleButton;
 		[SerializeField] private NetToggle sbArmToggleButton;
 		[SerializeField] private GameObject sbButtons;
@@ -26,9 +25,7 @@ namespace UI.Items
 		[SerializeField] private GameObject sbDispalyLoc;
 		[SerializeField] private GameObject sbTimerLoc;
 		[SerializeField] private Image background;
-
-		[SerializeField] private Color safeColor = Color.green;
-		[SerializeField] private Color dangerColor = Color.red;
+		[SerializeField] private NetSpriteImage signalIcon;
 
 		[SerializeField] private Sprite C4Graphic;
 		[SerializeField] private Sprite X4Graphic;
@@ -60,6 +57,7 @@ namespace UI.Items
 					background.sprite = SBGraphic;
 					break;
 			}
+			if(CustomNetworkManager.IsServer) signalIcon.SetValueServer(explosiveDevice.DetonateImmediatelyOnSignal ? "0" : "1");
 		}
 
 		private IEnumerator WaitForProvider()
@@ -68,22 +66,15 @@ namespace UI.Items
 			{
 				yield return WaitFor.EndOfFrame;
 			}
-			sbButtons.SetActive(false);
+
+			sbButtons.SetActive(false); //Disable this via code because NetUI doesn't register it from the prefab if it is disabled by default
 			explosiveDevice = Provider.GetComponent<ExplosiveBase>();
-			if (explosiveDevice.DetonateImmediatelyOnSignal == false)
-			{
-				timerCount = explosiveDevice.TimeToDetonate;
-				DisplayTime();
-			}
-			else
-			{
-				timer.Value = "Waiting signal..";
-				status.ElementTmp.color = dangerColor;
-			}
 
+			//Setup variables and graphics
+			timerCount = explosiveDevice.TimeToDetonate;
 			EnsureVisualsAreCorrect();
+			UpdateStatusText();
 
-			modeToggleButton.Value = explosiveDevice.DetonateImmediatelyOnSignal ? "1" : "0";
 			timerCount = explosiveDevice.TimeToDetonate;
 			timer.Value = DisplayTime();
 			explosiveDevice.GUI = this;
@@ -91,39 +82,39 @@ namespace UI.Items
 
 		public void ArmDevice()
 		{
-			if (explosiveDevice.ExplosiveType == ExplosiveType.SyndicateBomb)
+			PlaySoundsForPeepers(CommonSounds.Instance.Click01);
+			if (explosiveDevice.IsArmed)
 			{
-				explosiveDevice.IsArmed = sbArmToggleButton.Value == "1";
+				foreach (var peeper in Peepers)
+				{
+					Chat.AddExamineMsg(peeper.GameObject, $"<color=red>The {Provider.ExpensiveName()} is already armed!</color>");
+					return;
+				}
 			}
-			else
-			{
-				explosiveDevice.IsArmed = armToggleButton.Value == "1";
-			}
-			if ((modeToggleButton.Value == "0" || sbModeToggleButton.Value == "0")
-			    && (armToggleButton.Value == "1" || sbArmToggleButton.Value == "1"))
-			{
-				modeToggleButton.enabled = false;
-				sbModeToggleButton.enabled = false;
-				armToggleButton.enabled = false;
-				sbArmToggleButton.enabled = false;
-				StartCoroutine(explosiveDevice.Countdown());
-				UpdateStatusText();
-				return;
-			}
+			explosiveDevice.IsArmed = true;
+			StartCoroutine(explosiveDevice.Countdown());
 			UpdateStatusText();
 		}
 
 		public void ToggleMode()
 		{
-			if(modeToggleButton.Value == "1" || sbModeToggleButton.Value == "1")
+			PlaySoundsForPeepers(CommonSounds.Instance.Click01);
+			if (explosiveDevice.IsArmed)
 			{
-				explosiveDevice.ToggleMode(true);
+				foreach (var peeper in Peepers)
+				{
+					Chat.AddExamineMsg(peeper.GameObject, $"<color=red>The {Provider.ExpensiveName()} is already armed!</color>");
+					return;
+				}
 			}
-			else
-			{
-				explosiveDevice.ToggleMode(false);
-			}
+			explosiveDevice.ToggleMode(!explosiveDevice.DetonateImmediatelyOnSignal);
+			signalIcon.SetValueServer(explosiveDevice.DetonateImmediatelyOnSignal ? "0" : "1");
 			UpdateStatusText();
+			foreach (var peeper in Peepers)
+			{
+				var signalStatus = explosiveDevice.DetonateImmediatelyOnSignal ? "awaits a signal" : "awaits armament";
+				Chat.AddExamineMsg(peeper.GameObject, $"The {Provider.ExpensiveName()} {signalStatus}");
+			}
 		}
 
 		public void IncreaseTimeByOne()
@@ -131,12 +122,14 @@ namespace UI.Items
 			if(armToggleButton.Value == "1" || sbArmToggleButton.Value == "1") return;
 			explosiveDevice.TimeToDetonate += 1;
 			StartCoroutine(UpdateTimer());
+			PlaySoundsForPeepers(CommonSounds.Instance.Click01);
 		}
 		public void IncreaseTimeByTen()
 		{
 			if(armToggleButton.Value == "1" || sbArmToggleButton.Value == "1") return;
 			explosiveDevice.TimeToDetonate += 10;
 			StartCoroutine(UpdateTimer());
+			PlaySoundsForPeepers(CommonSounds.Instance.Click01);
 		}
 		public void DecreaseTimeByOne()
 		{
@@ -144,6 +137,7 @@ namespace UI.Items
 			    || armToggleButton.Value == "1" || sbArmToggleButton.Value == "1") return;
 			explosiveDevice.TimeToDetonate -= 1;
 			StartCoroutine(UpdateTimer());
+			PlaySoundsForPeepers(CommonSounds.Instance.Click01);
 		}
 		public void DecreaseTimeByTen()
 		{
@@ -151,13 +145,17 @@ namespace UI.Items
 			    || armToggleButton.Value == "1" || sbArmToggleButton.Value == "1") return;
 			explosiveDevice.TimeToDetonate -= 10;
 			StartCoroutine(UpdateTimer());
+			PlaySoundsForPeepers(CommonSounds.Instance.Click01);
 		}
 
 		private void UpdateStatusText()
 		{
-			status.Value = explosiveDevice.IsArmed ? "C4 is armed" : "C4 is unarmed";
-			timer.Value = explosiveDevice.DetonateImmediatelyOnSignal ? "Awaiting Signal" : DisplayTime();
-			status.ElementTmp.color = explosiveDevice.IsArmed ? dangerColor : safeColor;
+			if (explosiveDevice.DetonateImmediatelyOnSignal)
+			{
+				status.SetValueServer("awaiting signal..");
+				return;
+			}
+			status.SetValueServer(explosiveDevice.IsArmed ? "C4 is armed" : "C4 is unarmed");
 		}
 
 		public IEnumerator UpdateTimer()
@@ -165,13 +163,13 @@ namespace UI.Items
 			if (explosiveDevice.CountDownActive == false)
 			{
 				timerCount = explosiveDevice.TimeToDetonate;
-				timer.Value = DisplayTime();
+				timer.SetValueServer(DisplayTime());
 				yield break;
 			}
 			while (timerCount > 0)
 			{
 				timerCount -= 1;
-				timer.Value = DisplayTime();
+				timer.SetValueServer(DisplayTime());
 				yield return WaitFor.Seconds(1f);
 			}
 		}

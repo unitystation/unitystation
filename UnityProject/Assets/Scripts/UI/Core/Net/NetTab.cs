@@ -325,6 +325,19 @@ public class NetTab : Tab
 
 		SoundManager.PlayNetworkedAtPos(sound, position);
 	}
+
+
+	/// <summary>
+	/// Will only play sounds for players observing this NetTab
+	/// </summary>
+	/// <param name="audioSource"></param>
+	protected void PlaySoundsForPeepers(AddressableAudioSource audioSource)
+	{
+		foreach (var peeper in Peepers)
+		{
+			SoundManager.PlayNetworkedForPlayer(peeper.Script.gameObject, audioSource);
+		}
+	}
 }
 
 [Serializable]
