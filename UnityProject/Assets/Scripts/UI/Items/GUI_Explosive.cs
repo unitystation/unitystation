@@ -174,14 +174,6 @@ namespace UI.Items
 			}
 		}
 
-		private void PlaySoundsForPeepers(AddressableAudioSource audioSource)
-		{
-			foreach (var peeper in Peepers)
-			{
-				SoundManager.PlayNetworkedForPlayer(peeper.GameObject, CommonSounds.Instance.Click01);
-			}
-		}
-
 		private string DisplayTime()
 		{
 			return $"{Mathf.RoundToInt(timerCount / 60)}:{(timerCount % 60).RoundToLargestInt()}";
