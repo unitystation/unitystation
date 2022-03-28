@@ -17,8 +17,6 @@ namespace UI.Items
 
 		[SerializeField] private NetLabel status;
 		[SerializeField] private NetLabel timer;
-		[SerializeField] private NetButton modeToggleButton;
-		[SerializeField] private NetButton sbModeToggleButton;
 		[SerializeField] private NetToggle armToggleButton;
 		[SerializeField] private NetToggle sbArmToggleButton;
 		[SerializeField] private GameObject sbButtons;
@@ -99,6 +97,14 @@ namespace UI.Items
 
 		public void ToggleMode()
 		{
+			if (explosiveDevice.IsArmed)
+			{
+				foreach (var peeper in Peepers)
+				{
+					Chat.AddExamineMsg(peeper.GameObject, $"<color=red>The {Provider.ExpensiveName()} is already armed!</color>");
+					return;
+				}
+			}
 			explosiveDevice.ToggleMode(!explosiveDevice.DetonateImmediatelyOnSignal);
 			signalIcon.SetValueServer(explosiveDevice.DetonateImmediatelyOnSignal ? "0" : "1");
 			UpdateStatusText();
