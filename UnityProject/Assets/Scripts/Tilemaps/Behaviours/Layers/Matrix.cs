@@ -376,8 +376,8 @@ public class Matrix : MonoBehaviour
 	public bool IsClearUnderfloorConstruction(Vector3Int position, bool isServer)
 	{
 		var tile = MetaTileMap.GetTile(position, LayerType.Floors);
-		var BasicTiletile = tile as BasicTile;
-		if (tile != null && (BasicTiletile == null || BasicTiletile.BlocksTileInteractionsUnder))
+		var basicTile = tile as BasicTile;
+		if (tile != null && (basicTile == null || basicTile.BlocksTileInteractionsUnder))
 		{
 			return (false);
 		}

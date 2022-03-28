@@ -138,7 +138,7 @@ public class InteractableTiles : MonoBehaviour, IClientInteractable<PositionalHa
 		return metaTileMap.GetTile(pos, ignoreEffectsLayer, excludeNonIntractable: excludeNonIntractable);
 	}
 
-	public LayerTile IntractableLayerTileAt(Vector2 worldPos, bool ignoreEffectsLayer = false)
+	public LayerTile InteractableLayerTileAt(Vector2 worldPos, bool ignoreEffectsLayer = false)
 	{
 		return LayerTileAt(worldPos, ignoreEffectsLayer, true);
 	}
@@ -230,7 +230,7 @@ public class InteractableTiles : MonoBehaviour, IClientInteractable<PositionalHa
 		// translate to the tile interaction system
 		Vector3Int localPosition = WorldToCell(interaction.WorldPositionTarget);
 		// pass the interaction down to the basic tile
-		LayerTile tile = IntractableLayerTileAt(interaction.WorldPositionTarget, true);
+		LayerTile tile = InteractableLayerTileAt(interaction.WorldPositionTarget, true);
 
 		// If the tile we're looking at is a basic tile...
 		if (tile is BasicTile basicTile)
