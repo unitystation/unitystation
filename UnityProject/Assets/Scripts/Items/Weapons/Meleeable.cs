@@ -54,7 +54,7 @@ namespace Systems.Interaction
 			// allowed to attack due to cooldown?
 			// note: actual cooldown is started in WeaponNetworkActions melee logic on server side,
 			// clientPredictInteraction on clientside
-			if (side == NetworkSide.Client && Cooldowns.IsOn(interaction, CooldownID.Asset(CommonCooldowns.Instance.Melee))) return false;
+			if (side == NetworkSide.Client && Cooldowns.IsOn(interaction, CooldownID.Asset(CommonCooldowns.Instance.Melee, side))) return false;
 
 			bool LocalItemCheck()
 			{

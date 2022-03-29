@@ -100,7 +100,7 @@ namespace Player
     	private void Judgement(LivingHealthMasterBase puller)
     	{
     		if (Cooldowns.TryStart(
-    			    interaction.PerformerPlayerScript, this) == false)
+    			    interaction.PerformerPlayerScript, this, NetworkSide.Server) == false)
     		{
     			lastPuller = null;
     		}

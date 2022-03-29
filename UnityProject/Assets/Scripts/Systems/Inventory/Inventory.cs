@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Messages.Client;
 using UnityEngine;
@@ -347,7 +348,7 @@ public static class Inventory
 		//decide how it should be removed
 		var removeType = toPerform.RemoveType;
 		var holder = fromSlot.GetRootStorageOrPlayer();
-		var holderPushPull = holder?.GetComponent<PushPull>();
+		var holderPushPull = holder?.GetComponent<UniversalObjectPhysics>();
 		var parentContainer = holderPushPull == null ? null : holderPushPull.parentContainer;
 		if (parentContainer != null && removeType == InventoryRemoveType.Throw)
 		{
@@ -407,22 +408,25 @@ public static class Inventory
 		{
 			// throw / eject
 			// determine where it will be thrown from
-			var cnt = pickupable.GetComponent<CustomNetTransform>();
-			var assumedWorldPosServer = holder.gameObject.AssumedWorldPosServer();
-			var throwInfo = new ThrowInfo
-			{
-				ThrownBy = holder.gameObject,
-				Aim = toPerform.ThrowAim.GetValueOrDefault(BodyPartType.Chest),
-				OriginWorldPos = assumedWorldPosServer,
-				WorldTrajectory = toPerform.WorldTargetVector.GetValueOrDefault(Vector2.zero),
-				SpinMode = toPerform.ThrowSpinMode.GetValueOrDefault(SpinMode.Clockwise)
-			};
+			var UOP = pickupable.GetComponent<UniversalObjectPhysics>();
+
+			var WorldTrajectory = toPerform.WorldTargetVector.GetValueOrDefault(Vector2.zero).normalized.To3();
 			// dropping from player
 			// Inertia drop works only if player has external impulse (space floating etc.)
-			cnt.Throw(throwInfo);
+
+			UOP.ForceSetLocalPosition(toPerform.FromPlayer.transform.localPosition, Vector2.zero ,false ,toPerform.FromPlayer.Matrix.Id);
+			var Sprites =UOP.GetComponentsInChildren<SpriteRenderer>();
+			foreach (var SP in Sprites)
+			{
+				SP.enabled = true;
+			}
+
+			UOP.NewtonianNewtonPush( WorldTrajectory,UOP.GetWeight() + 1
+				, Single.NaN
+				 , Single.NaN, toPerform.ThrowAim.GetValueOrDefault(BodyPartType.Chest), holder.gameObject );
 
 			// Counter-impulse for players in space
-			holderPushPull.Pushable.NewtonianMove((-throwInfo.WorldTrajectory).NormalizeTo2Int(), speed: (int)cnt.Size + 1);
+			holderPushPull.NewtonianNewtonPush(-WorldTrajectory,UOP.GetWeight() + 1);
 		}
 		// NOTE: vanish doesn't require any extra logic. The item is already at hiddenpos and has
 		// already been removed from the inventory system.

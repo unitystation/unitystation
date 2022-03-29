@@ -1633,12 +1633,12 @@ namespace Systems.Ai
 
 		public bool OnCoolDown(NetworkSide side)
 		{
-			return cooldowns.IsOn(CooldownID.Asset(CommonCooldowns.Instance.Interaction));
+			return cooldowns.IsOn(CooldownID.Asset(CommonCooldowns.Instance.Interaction, side));
 		}
 
 		public void StartCoolDown(NetworkSide side)
 		{
-			cooldowns.TryStart(CommonCooldowns.Instance.Interaction);
+			cooldowns.TryStart(CommonCooldowns.Instance.Interaction, side);
 		}
 
 		public string AdminInfoString()

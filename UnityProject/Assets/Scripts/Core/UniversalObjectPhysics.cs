@@ -13,9 +13,14 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 {
 	//TODO Tile push to clients if in pulling conga line
 	//TODO if new pulling cancel old Pulling target
+	//TODO Do more testing/Polishing with pulling in space with client/server
 	//TODO PulledBy isn't getting synchronised to client properly on start
 
 	//TODO Snap to LocalTargetPosition When triggered for client viewing other clients
+
+	//TODO parentContainer!!
+	public GameObject parentContainer = null;
+
 	public const float DEFAULT_Friction = 0.01f;
 	public const float DEFAULT_SLIDE_FRICTION = 0.003f;
 
@@ -53,6 +58,10 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 
 	public float slideTime;
 	//Reduced friction during this time, if stickyMovement Just has normal friction vs just grabbing
+
+	public GameObject thrownBy;
+
+	public BodyPartType aim;
 
 	public bool stickyMovement = false;
 	//If this thing likes to grab onto stuff such as like a player
@@ -96,6 +105,16 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 
 	}
 
+	public Size GetSize()
+	{
+		return attributes ? attributes.Size : Size.Huge;
+	}
+
+	public float GetWeight()
+	{
+		return SizeToWeight(GetSize());
+	}
+
 	public virtual void OnEnable()
 	{
 	}
@@ -136,6 +155,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 	[ClientRpc]
 	public void RPCClientTilePush(Vector2Int WorldDirection, float speed, bool CausedByClient)
 	{
+		if (isServer) return;
 		if (isLocalPlayer && CausedByClient) return;
 		if (PulledBy.HasComponent) return;
 		Pushing.Clear();
@@ -182,9 +202,10 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 		PullSet(NewPulling.NewPulling);
 	}
 
-	[ClientRpc]
-	public void ForceSetPosition(Vector3 ReSetToLocal, Vector2 Momentum, bool Smooth, int MatrixID )
+
+	public void ForceSetLocalPosition(Vector3 ReSetToLocal, Vector2 Momentum,  bool Smooth, int MatrixID,bool UpdateClient = true)
 	{
+		if (isServer && UpdateClient) RPCForceSetPosition(ReSetToLocal, Momentum, Smooth, MatrixID);
 		SetMatrix(MatrixManager.Get(MatrixID).Matrix);
 
 		if (Smooth)
@@ -230,6 +251,12 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 				registerTile.ClientSetLocalPosition(ReSetToLocal.RoundToInt());
 			}
 		}
+	}
+
+	[ClientRpc]
+	public void RPCForceSetPosition(Vector3 ReSetToLocal, Vector2 Momentum, bool Smooth, int MatrixID )
+	{
+		ForceSetLocalPosition(ReSetToLocal, Momentum, Smooth, MatrixID, false);
 	}
 
 
@@ -347,13 +374,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 	}
 
 
-	public void NewtonianNewtonPush(Vector2Int WorldDirection, float Newtons = Single.NaN, float airTime = Single.NaN,
-		float slideTime = Single.NaN) //Collision is just naturally part of Newtonian push
-	{
-		//TODO
-		//Check performance of adding and removing from Update list
-		//Work out the same speed for when flying and not
-	}
+
 
 
 	public float Speed = 1;
@@ -402,12 +423,20 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 		NewtonianPush(PlayerManager.LocalPlayer.GetComponent<Rotatable>().CurrentDirection.ToLocalVector2Int(), Speed);
 	}
 
+	public void NewtonianNewtonPush(Vector2 WorldDirection, float Newtonians = Single.NaN, float INairTime = Single.NaN,
+		float INslideTime = Single.NaN, BodyPartType inaim = BodyPartType.Chest, GameObject inthrownBy = null) //Collision is just naturally part of Newtonian push
+	{
+		var speed = Newtonians / SizeToWeight(GetSize());
+		NewtonianPush(WorldDirection, speed, INairTime, INslideTime, inaim, inthrownBy);
+	}
+
 	public void PullSet(UniversalObjectPhysics ToPull)
 	{
 		if (ToPull != null)
 		{
 			Pulling.DirectSetComponent(ToPull);
 			ToPull.PulledBy.DirectSetComponent(this);
+			ContextGameObjects[1] = ToPull.gameObject;
 		}
 		else
 		{
@@ -415,14 +444,18 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 			{
 				Pulling.Component.PulledBy.SetToNull();
 				Pulling.SetToNull();
+				ContextGameObjects[1] = null;
 			}
 		}
 	}
 
 
 	public void NewtonianPush(Vector2 WorldDirection, float speed = Single.NaN, float INairTime = Single.NaN,
-		float INslideTime = Single.NaN) //Collision is just naturally part of Newtonian push
+		float INslideTime = Single.NaN, BodyPartType inaim = BodyPartType.Chest, GameObject inthrownBy = null) //Collision is just naturally part of Newtonian push
 	{
+		aim = inaim;
+		thrownBy = inthrownBy;
+
 		if (float.IsNaN(INairTime) == false || float.IsNaN(INslideTime) == false)
 		{
 			WorldDirection.Normalize();
@@ -462,7 +495,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 
 	public void AppliedFriction(float FrictionCoefficient)
 	{
-		var Weight = SizeToWeight(attributes ? attributes.Size : Size.Huge);
+		var Weight = SizeToWeight(GetSize());
 		var SpeedLossDueToFriction = FrictionCoefficient * Weight;
 
 		var NewMagnitude = newtonianMovement.magnitude - SpeedLossDueToFriction;
@@ -879,10 +912,10 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 		return size switch
 		{
 			Size.None => 0,
-			Size.Tiny => 0.1f,
-			Size.Small => 0.5f,
-			Size.Medium => 1f,
-			Size.Large => 3f,
+			Size.Tiny => 0.85f,
+			Size.Small => 1f,
+			Size.Medium => 3f,
+			Size.Large => 5f,
 			Size.Massive => 10f,
 			Size.Humongous => 50f,
 			_ => 1f
