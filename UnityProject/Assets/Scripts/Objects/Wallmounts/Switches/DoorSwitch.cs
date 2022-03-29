@@ -15,7 +15,7 @@ namespace Objects.Wallmounts
 	/// Allows object to function as a door switch - opening / closing door when clicked.
 	/// </summary>
 	[ExecuteInEditMode]
-	public class DoorSwitch : InterfaceGUI, ISubscriptionController, ICheckedInteractable<HandApply>, IMultitoolMasterable,
+	public class DoorSwitch : ImnterfaceMultitoolGUI, ISubscriptionController, ICheckedInteractable<HandApply>, IMultitoolMasterable,
 		IServerSpawn, ICheckedInteractable<AiActivate>
 	{
 		private SpriteRenderer spriteRenderer;

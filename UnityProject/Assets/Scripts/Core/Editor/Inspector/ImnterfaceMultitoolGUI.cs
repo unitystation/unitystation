@@ -11,7 +11,7 @@ namespace CustomInspectors
 	/// Finds C# interfaces in its inheritor and manually assigns a unity editor GUI for the inspector if appropriate
 	/// </summary>
 	[ExecuteInEditMode]
-	public class InterfaceGUI : NetworkBehaviour
+	public class ImnterfaceMultitoolGUI : NetworkBehaviour
 	{
 		public List<InterfaceEditor> runningInterfaces = new List<InterfaceEditor>();
 		public virtual void OnEnable()
@@ -35,16 +35,16 @@ namespace CustomInspectors
 		}
 	}
 
-	[CustomEditor(typeof(InterfaceGUI), true)]
+	[CustomEditor(typeof(ImnterfaceMultitoolGUI), true)]
 	public class InterfaceGUIEditor : Editor
 	{
-		private InterfaceGUI interfaceGUI;
+		private ImnterfaceMultitoolGUI imnterfaceMultitoolGUI;
 
 
 		public override void OnInspectorGUI()
 		{
 			base.OnInspectorGUI();
-			foreach (var interfaceEntry in interfaceGUI.runningInterfaces)
+			foreach (var interfaceEntry in imnterfaceMultitoolGUI.runningInterfaces)
 			{
 				interfaceEntry.OnInspectorGUIInEditor(target);
 			}
@@ -52,9 +52,9 @@ namespace CustomInspectors
 
 		private void OnEnable()
 		{
-			interfaceGUI = (InterfaceGUI)target;
+			imnterfaceMultitoolGUI = (ImnterfaceMultitoolGUI)target;
 
-			foreach (var interfaceEntry in interfaceGUI.runningInterfaces)
+			foreach (var interfaceEntry in imnterfaceMultitoolGUI.runningInterfaces)
 			{
 				interfaceEntry.OnEnableInEditor(target);
 			}
@@ -62,16 +62,16 @@ namespace CustomInspectors
 
 		private void OnDisable()
 		{
-			foreach (var interfaceEntry in interfaceGUI.runningInterfaces)
+			foreach (var interfaceEntry in imnterfaceMultitoolGUI.runningInterfaces)
 			{
 				interfaceEntry.OnDisableInEditor(target);
 			}
 		}
 
 		[DrawGizmo(GizmoType.Selected | GizmoType.Active)]
-		private void DrawGizmoConnection(IMultitoolMasterable device, GizmoType type)
+		private static void DrawGizmoConnection(IMultitoolMasterable device, GizmoType type)
 		{
-			foreach (var interfaceEntry in interfaceGUI.runningInterfaces)
+			foreach (var interfaceEntry in device.gameObject.GetComponent<ImnterfaceMultitoolGUI>().runningInterfaces)
 			{
 				interfaceEntry.DrawGizmoConnectionInEditor(device, type);
 			}

@@ -26,7 +26,7 @@ namespace CustomInspectors
 		}
 
 		[DrawGizmo(GizmoType.Selected | GizmoType.Active)]
-		public void DrawGizmoConnectionCALL(IMultitoolMasterable device, GizmoType type)
+		public static void DrawGizmoConnectionCall(IMultitoolMasterable device, GizmoType type)
 		{
 			DeviceLinker.InitDeviceLists(device.ConType);
 

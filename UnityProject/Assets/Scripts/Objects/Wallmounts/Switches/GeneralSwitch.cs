@@ -7,7 +7,7 @@ using CustomInspectors;
 
 namespace Objects.Wallmounts
 {
-	public class GeneralSwitch : InterfaceGUI, ISubscriptionController, ICheckedInteractable<HandApply>, IMultitoolMasterable
+	public class GeneralSwitch : ImnterfaceMultitoolGUI, ISubscriptionController, ICheckedInteractable<HandApply>, IMultitoolMasterable
 	{
 		private SpriteRenderer spriteRenderer;
 		public Sprite greenSprite;
