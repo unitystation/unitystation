@@ -7,8 +7,7 @@ using NaughtyAttributes;
 using Systems.Interaction;
 using Systems.ObjectConnection;
 using Doors;
-using UnityEditor;
-
+using CustomInspectors;
 
 namespace Objects.Wallmounts
 {
@@ -16,7 +15,7 @@ namespace Objects.Wallmounts
 	/// Allows object to function as a door switch - opening / closing door when clicked.
 	/// </summary>
 	[ExecuteInEditMode]
-	public class DoorSwitch : SubscriptionController, ICheckedInteractable<HandApply>, IMultitoolMasterable,
+	public class DoorSwitch : ImnterfaceMultitoolGUI, ISubscriptionController, ICheckedInteractable<HandApply>, IMultitoolMasterable,
 		IServerSpawn, ICheckedInteractable<AiActivate>
 	{
 		private SpriteRenderer spriteRenderer;
@@ -212,7 +211,7 @@ namespace Objects.Wallmounts
 			}
 		}
 
-		public override IEnumerable<GameObject> SubscribeToController(IEnumerable<GameObject> potentialObjects)
+		public IEnumerable<GameObject> SubscribeToController(IEnumerable<GameObject> potentialObjects)
 		{
 			var approvedObjects = new List<GameObject>();
 

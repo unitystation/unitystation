@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using CustomInspectors;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
@@ -18,7 +19,7 @@ namespace Objects.Wallmounts
 	/// Mounted monitor to show simple images or text
 	/// Escape Shuttle channel is a priority one and will overtake other channels.
 	/// </summary>
-	public class StatusDisplay : NetworkBehaviour, IServerLifecycle, ICheckedInteractable<HandApply>,
+	public class StatusDisplay : ImnterfaceMultitoolGUI, IServerLifecycle, ICheckedInteractable<HandApply>,
 		IMultitoolMasterable,
 		IRightClickable, ICheckedInteractable<ContextMenuApply>, ICheckedInteractable<AiActivate>
 	{
