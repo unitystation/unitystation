@@ -71,11 +71,4 @@ public class RightClickMenuItem
 	{
 		return new RightClickMenuItem(sprite, iconColor, backgroundSprite,  color, label, subMenus, null, null, palette, keepMenuOpen);
 	}
-	public static RightClickMenuItem CreateObjectMenuItem(GameObject gameObject, Color color, Sprite sprite, Sprite backgroundSprite, string label,
-		Color iconColor, List<Color> palette = null, bool keepMenuOpen = true)
-	{
-		return new RightClickMenuItem(sprite, iconColor, backgroundSprite, color, label, null, null, gameObject, palette, keepMenuOpen);
-	}
-
-
 }

@@ -2,7 +2,7 @@
 
 namespace UI.Core.RightClick
 {
-	public class BranchWorldPosition : IBranchPosition
+	public class RadialWorldPosition : IRadialPosition
 	{
 		public bool IsWorldPosition => true;
 
@@ -23,7 +23,7 @@ namespace UI.Core.RightClick
 			return pos.Clamp(rect.min - BoundsOffset, rect.max + BoundsOffset);
 		}
 
-		public BranchWorldPosition SetTile(RegisterTile tile)
+		public RadialWorldPosition SetTile(RegisterTile tile)
 		{
 			Tile = tile;
 			return this;

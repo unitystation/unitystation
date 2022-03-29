@@ -1,10 +1,11 @@
-using AddressableReferences;
+using System;
 using Items.Bureaucracy;
-using Messages.Server.SoundMessages;
 using Mirror;
 using Objects.Construction;
 using System.Collections.Generic;
+using UI.Core.RightClick;
 using UnityEngine;
+using Util;
 
 namespace Doors
 {
@@ -12,8 +13,20 @@ namespace Doors
 	public class AirlockPainter : MonoBehaviour, IClientInteractable<HandActivate>, ICheckedInteractable<ContextMenuApply>, ICheckedInteractable<HandApply>,
 		ICheckedInteractable<InventoryApply>, IExaminable, IServerSpawn, IRightClickable
 	{
+		private static readonly RadialScreenPosition RadialScreenPosition = new RadialScreenPosition(true);
+
+		[SerializeField]
+		private RightClickRadialOptions radialOptions;
+
+		private RightClickRadialOptions RadialOptions =>
+			this.VerifyNonChildReference(radialOptions, "right click branchless options SO");
+
 		[Tooltip("Airlock painting jobs.")]
 		public List<GameObject> AvailablePaintJobs;
+
+		private List<RightClickMenuItem> painterMenuItems;
+
+		private List<RightClickMenuItem> PainterMenuItems => painterMenuItems ??= GeneratePaintMenu(AvailablePaintJobs);
 
 		private int currentPaintJobIndex = -1;
 		public int CurrentPaintJobIndex
@@ -45,16 +58,29 @@ namespace Doors
 			Inventory.ServerSpawnPrefab(tonerPrefab, tonerSlot);
 		}
 
-		public async void ChoosePainJob(GameObject performer)
+		public void ChoosePaintJob()
 		{
-			if (AvailablePaintJobs == null) return;
+			if (AvailablePaintJobs is null || RadialOptions is null) return;
 
-			GameObject chosenPaintJob = await UIManager.RadialMenu.ShowRadialMenu(AvailablePaintJobs, performer);
-			if (chosenPaintJob)
+			var controller = RightClickManager.Instance.MenuController;
+			controller.SetupMenu(PainterMenuItems, RadialScreenPosition, RadialOptions);
+		}
+
+		public List<RightClickMenuItem> GeneratePaintMenu(List<GameObject> objects)
+		{
+			if (objects is null || objects.Count == 0) return null;
+
+			var result = new List<RightClickMenuItem>();
+
+			for (var i = 0; i < objects.Count; i++)
 			{
-				int chosenPaintJobIndex = AvailablePaintJobs.IndexOf(chosenPaintJob);
-				PlayerManager.LocalPlayerScript.playerNetworkActions.CmdSetPaintJob(chosenPaintJobIndex);
+				var index = i; // Copy for action function
+				Action setPaint = () => PlayerManager.LocalPlayerScript.playerNetworkActions.CmdSetPaintJob(index);
+				var res = RightClickManager.CreateObjectMenu(objects[i], null, setPaint);
+				result.Add(res);
 			}
+
+			return result;
 		}
 
 		[Server]
@@ -158,7 +184,7 @@ namespace Doors
 		#region Interactions
 		public bool Interact(HandActivate interaction)
 		{
-			ChoosePainJob(interaction.Performer);
+			ChoosePaintJob();
 			return true;
 		}
 
