@@ -1,4 +1,6 @@
-﻿using System.Linq;
+﻿#if UNITY_EDITOR
+
+using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEditor;
@@ -100,4 +102,4 @@ namespace CustomInspectors
 		}
 	}
 }
-
+#endif

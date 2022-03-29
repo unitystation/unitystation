@@ -1,7 +1,9 @@
 ﻿using System;
 using Systems.ObjectConnection;
 using Mirror;
+#if UNITY_EDITOR
 using UnityEditor;
+#endif
 using UnityEngine;
 using System.Collections.Generic;
 
@@ -13,10 +15,11 @@ namespace CustomInspectors
 	[ExecuteInEditMode]
 	public class ImnterfaceMultitoolGUI : NetworkBehaviour
 	{
+#if UNITY_EDITOR
 		public List<InterfaceEditor> runningInterfaces = new List<InterfaceEditor>();
+
 		public virtual void OnEnable()
 		{
-#if UNITY_EDITOR
 			runningInterfaces.Clear();
 			var objType = GetType();
 			Type[] interfaceList = objType.GetInterfaces();
@@ -31,10 +34,11 @@ namespace CustomInspectors
 					runningInterfaces.Add(ScriptableObject.CreateInstance<SubscriptionControllerEditor>());
 				}
 			}
-#endif
-		}
-	}
 
+		}
+#endif
+	}
+#if UNITY_EDITOR
 	[CustomEditor(typeof(ImnterfaceMultitoolGUI), true)]
 	public class InterfaceGUIEditor : Editor
 	{
@@ -85,7 +89,7 @@ namespace CustomInspectors
 		public virtual void OnInspectorGUIInEditor(object target) { }
 		public void DrawGizmoConnectionInEditor(object target, GizmoType type) { }
 	}
-
+#endif
 }
 
 

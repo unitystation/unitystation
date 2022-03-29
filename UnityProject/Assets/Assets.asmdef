@@ -1,5 +1,6 @@
 {
     "name": "Assets",
+    "rootNamespace": "",
     "references": [
         "Mirror",
         "Mirror.Components",
@@ -21,7 +22,9 @@
         "Unity.Addressables.Editor",
         "Unity.ResourceManager",
         "SpriteProcessing",
-        "Unity.MemoryProfiler"
+        "Unity.MemoryProfiler",
+        "NewAssembly",
+        "EditorAndAssetsSharedScripts"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
