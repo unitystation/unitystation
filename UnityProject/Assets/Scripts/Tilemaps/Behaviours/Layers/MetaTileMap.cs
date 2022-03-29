@@ -917,7 +917,7 @@ namespace TileManagement
 		/// as world position.</param>
 		/// <returns></returns>
 		public LayerTile GetTile(Vector3Int cellPosition, bool ignoreEffectsLayer = false,
-			bool UseExactForMultilayer = false)
+			bool UseExactForMultilayer = false, bool excludeNonIntractable = false)
 		{
 			TileLocation tileLocation = null;
 			foreach (var layer in LayersValues)
@@ -930,7 +930,18 @@ namespace TileManagement
 
 				if (tileLocation != null && tileLocation.layerTile != null)
 				{
-					break;
+					if (excludeNonIntractable)
+					{
+						var basicTile = tileLocation.layerTile as BasicTile;
+						if (basicTile != null && basicTile.BlocksTileInteractionsUnder)
+						{
+							break;
+						}
+					}
+					else
+					{
+						break;
+					}
 				}
 			}
 

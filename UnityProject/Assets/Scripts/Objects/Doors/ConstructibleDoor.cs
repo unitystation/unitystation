@@ -58,12 +58,38 @@ namespace Doors
 			if (Validations.HasUsedComponent<AirlockPainter>(interaction))
 				return true;
 
-			if (weldModule.CanDoorStateChange() == false && boltsModule.CanDoorStateChange() && doorMasterController.HasPower == false)
+			if (CheckWeld() && CheckBolts() && doorMasterController.HasPower == false)
 			{
 				return Validations.HasItemTrait(interaction.UsedObject, CommonTraits.Instance.Crowbar);
 			}
 
 			return false;
+		}
+
+
+		public bool CheckWeld()
+		{
+			if (weldModule == null)
+			{
+				return true;
+			}
+			else
+			{
+				return weldModule.CanDoorStateChange();
+			}
+
+		}
+
+		public bool CheckBolts()
+		{
+			if (boltsModule == null)
+			{
+				return true;
+			}
+			else
+			{
+				return boltsModule.CanDoorStateChange();
+			}
 		}
 
 		public void ServerPerformInteraction(HandApply interaction)
