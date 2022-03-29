@@ -50,7 +50,7 @@ namespace CustomInspectors
 			base.OnInspectorGUI();
 			foreach (var interfaceEntry in imnterfaceMultitoolGUI.runningInterfaces)
 			{
-				interfaceEntry.OnInspectorGUIInEditor(target);
+				interfaceEntry.OnInspectorGUIInEditor((Component)target);
 			}
 		}
 
@@ -86,7 +86,7 @@ namespace CustomInspectors
 	{
 		public virtual void OnEnableInEditor(object target) { }
 		public virtual void OnDisableInEditor(object target) { }
-		public virtual void OnInspectorGUIInEditor(object target) { }
+		public virtual void OnInspectorGUIInEditor(Component target) { }
 		public void DrawGizmoConnectionInEditor(object target, GizmoType type) { }
 	}
 #endif

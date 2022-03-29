@@ -25,15 +25,15 @@ namespace CustomInspectors
 			SceneView.duringSceneGui -= OnScene;
 		}
 
-		public override void OnInspectorGUIInEditor(object target)
+		public override void OnInspectorGUIInEditor(Component target)
 		{
 			if (!isSelecting)
 			{
 				if (GUILayout.Button("Begin Selecting"))
 				{
 					isSelecting = true;
-					gameObject = (GameObject) target;
-					controller = (ISubscriptionController)target;
+					gameObject = target.gameObject;
+					controller = target.GetComponent<ISubscriptionController>();
 				}
 			}
 			else
