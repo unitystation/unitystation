@@ -1,5 +1,6 @@
 {
     "name": "Tests",
+    "rootNamespace": "",
     "references": [
         "Assets",
         "Mirror",
@@ -9,7 +10,9 @@
         "Editor",
         "Chemistry",
         "SerializableDictionary",
-        "Logger"
+        "Logger",
+        "NaughtyAttributes.Editor",
+        "NaughtyAttributes.Core"
     ],
     "includePlatforms": [
         "Editor"

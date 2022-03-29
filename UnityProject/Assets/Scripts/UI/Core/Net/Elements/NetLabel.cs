@@ -30,14 +30,45 @@ namespace UI.Core.NetUI
 				{
 					Element.text = value;
 				}
+				else
+				{
+					Logger.LogError($"Both Text and TMPText were null on {gameObject.name}, check stacktrace to see exact location");
+				}
 
 				externalChange = false;
 				OnSyncedValueChanged?.Invoke(value);
 			}
 		}
 
-		public Text Element => element ??= GetComponent<Text>();
-		public TMP_Text ElementTmp => elementTmp ??= GetComponent<TMP_Text>();
+		public Text Element
+		{
+			get
+			{
+				if (element == null)
+				{
+					element = GetComponent<Text>();
+				}
+
+				return element;
+			}
+
+			set => element = value;
+		}
+
+		public TMP_Text ElementTmp
+		{
+			get
+			{
+				if (elementTmp == null)
+				{
+					elementTmp = GetComponent<TMP_Text>();
+				}
+
+				return elementTmp;
+			}
+
+			set => elementTmp = value;
+		}
 
 		private Text element;
 		private TMP_Text elementTmp;

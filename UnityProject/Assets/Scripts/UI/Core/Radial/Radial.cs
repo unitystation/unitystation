@@ -1,9 +1,12 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UI.Core.Events;
+using Util;
 
 namespace UI.Core.Radial
 {
@@ -83,6 +86,13 @@ namespace UI.Core.Radial
 		protected virtual float RaycastableArcMeasure => ArcMeasure;
 
 		public int ShownItemsCount => Math.Min(TotalItemCount, MaxShownItems);
+
+		/// Convenience method for verifying radial references.
+		/// <see cref="ComponentExtensions.VerifyChildReference"/>
+		protected V VerifyChildReference<V>(ref V component, string refDescription,
+			string childName = null, [CallerMemberName] string refName = "")
+			where V : UnityEngine.Object =>
+			this.VerifyChildReference(ref component, refDescription, childName, refName, Category.UI);
 
 		public virtual void Setup(int itemCount)
 		{

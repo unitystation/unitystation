@@ -100,7 +100,7 @@ namespace Systems.Atmospherics
 
 		public override void UpdateAt(Vector3Int localPosition)
 		{
-			AtmosThread.Enqueue(metaDataLayer.Get(localPosition));
+			AtmosManager.Instance.UpdateNode(metaDataLayer.Get(localPosition));
 		}
 
 		#region Room Gas Setter

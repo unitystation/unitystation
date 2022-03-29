@@ -40,7 +40,7 @@ PrefabInstance:
     - target: {fileID: 2194074672386895265, guid: c27cb1a9c87d9c94abaaf3bd9df216df,
         type: 3}
       propertyPath: m_LocalRotation.w
-      value: 1
+      value: -0.00000004371139
       objectReference: {fileID: 0}
     - target: {fileID: 2194074672386895265, guid: c27cb1a9c87d9c94abaaf3bd9df216df,
         type: 3}
@@ -55,7 +55,7 @@ PrefabInstance:
     - target: {fileID: 2194074672386895265, guid: c27cb1a9c87d9c94abaaf3bd9df216df,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0
+      value: -1
       objectReference: {fileID: 0}
     - target: {fileID: 2194074672386895265, guid: c27cb1a9c87d9c94abaaf3bd9df216df,
         type: 3}
@@ -77,10 +77,37 @@ PrefabInstance:
       propertyPath: foreverID
       value: c9ad1c0d7b699d8439b33158cdaa8d2c
       objectReference: {fileID: 0}
+    - target: {fileID: 4119768353039044280, guid: c27cb1a9c87d9c94abaaf3bd9df216df,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4119768353039044280, guid: c27cb1a9c87d9c94abaaf3bd9df216df,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7655186459384654333, guid: c27cb1a9c87d9c94abaaf3bd9df216df,
+        type: 3}
+      propertyPath: pushTextureOnStartUp
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7762674456558837273, guid: c27cb1a9c87d9c94abaaf3bd9df216df,
         type: 3}
       propertyPath: m_AssetId
       value: c9ad1c0d7b699d8439b33158cdaa8d2c
       objectReference: {fileID: 0}
+    - target: {fileID: 8087188916101107892, guid: c27cb1a9c87d9c94abaaf3bd9df216df,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: e2d530446c392ab44ba1f5086d7b415e,
+        type: 2}
+    - target: {fileID: 8912106392068977699, guid: c27cb1a9c87d9c94abaaf3bd9df216df,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: dc27c82ed88a09d43ac8a5fc2a86bd49,
+        type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c27cb1a9c87d9c94abaaf3bd9df216df, type: 3}

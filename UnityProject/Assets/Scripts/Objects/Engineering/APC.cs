@@ -573,8 +573,8 @@ namespace Objects.Engineering
 			GameObject frame = frameSpawn.GameObject;
 			frame.GetComponent<APCFrame>().ServerInitFromComputer(this);
 
-			var Directional = frame.GetComponent<Directional>();
-			if (Directional != null) Directional.FaceDirection(gameObject.GetComponent<Directional>().CurrentDirection);
+			var Directional = frame.GetComponent<Rotatable>();
+			if (Directional != null) Directional.FaceDirection(gameObject.GetComponent<Rotatable>().CurrentDirection);
 
 			_ = Despawn.ServerSingle(gameObject);
 

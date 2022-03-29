@@ -2,6 +2,7 @@ using Messages.Server;
 using Mirror;
 using System.Collections;
 using System.Collections.Generic;
+using Items;
 using UI;
 using UnityEngine;
 using Random = UnityEngine.Random;
@@ -39,10 +40,13 @@ public class Pickupable : NetworkBehaviour, IPredictedCheckedInteractable<HandAp
 	/// </summary>
 	public UI_ItemSlot LocalUISlot => itemSlot != null ? ItemSlot.LocalUISlot : null;
 
+	public ItemAttributesV2 ItemAttributesV2;
+
 	#region Lifecycle
 
 	private void Awake()
 	{
+		ItemAttributesV2 =  GetComponent<ItemAttributesV2>();
 		customNetTransform = GetComponent<CustomNetTransform>();
 	}
 

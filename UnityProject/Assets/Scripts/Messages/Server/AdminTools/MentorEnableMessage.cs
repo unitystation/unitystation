@@ -10,19 +10,24 @@ namespace Messages.Server.AdminTools
 	{
 		public struct NetMessage : NetworkMessage
 		{
+			public bool Enable;
 			public string MentorToken;
 		}
 
 		public override void Process(NetMessage msg)
 		{
 			PlayerList.Instance.SetClientAsMentor(msg.MentorToken);
-			UIManager.Instance.mentorChatButtons.transform.parent.gameObject.SetActive(true);
+			UIManager.Instance.mentorChatButtons.transform.parent.gameObject.SetActive(msg.Enable);
 		}
 
-		public static NetMessage Send(NetworkConnection player, string mentorToken)
+		public static NetMessage Send(NetworkConnection player, string mentorToken, bool enable = true)
 		{
 			UIManager.Instance.mentorChatButtons.ServerUpdateAdminNotifications(player);
-			NetMessage msg = new NetMessage {MentorToken = mentorToken};
+			NetMessage msg = new NetMessage
+			{
+				Enable = enable,
+				MentorToken = mentorToken
+			};
 
 			SendTo(player, msg);
 			return msg;

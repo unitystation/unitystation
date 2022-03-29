@@ -11,7 +11,7 @@ namespace Managers
 	public class SignalsManager : SingletonManager<SignalsManager>
 	{
 
-		public List<SignalReceiver> Receivers = new List<SignalReceiver>();
+		public HashSet<SignalReceiver> Receivers = new HashSet<SignalReceiver>();
 
 		/// <summary>
 		/// Called from the server as the Receivers list is only available for the host and to avoid clients from cheating.
@@ -20,6 +20,8 @@ namespace Managers
 		[Server]
 		public void SendSignal(SignalEmitter emitter, SignalType type, SignalDataSO signalDataSo, ISignalMessage signalMessage = null)
 		{
+			Receivers.Remove(null);
+
 			foreach (SignalReceiver receiver in Receivers)
 			{
 				if (receiver.SignalTypeToReceive != type) continue;
@@ -30,14 +32,14 @@ namespace Managers
 				if (receiver.SignalTypeToReceive == SignalType.PING && receiver.Emitter == emitter)
 				{
 					if (signalDataSo.UsesRange) { SignalStrengthHandler(receiver, emitter, signalDataSo); break; }
-					receiver.ReceiveSignal(SignalStrength.HEALTHY, signalMessage);
+					receiver.ReceiveSignal(SignalStrength.HEALTHY, emitter, signalMessage);
 					break;
 				}
 				//TODO (Max) : Radio signals should be sent to relays and servers.
 				if (receiver.SignalTypeToReceive == SignalType.RADIO && AreOnTheSameFrequancy(receiver, emitter))
 				{
 					if (signalDataSo.UsesRange) { SignalStrengthHandler(receiver, emitter, signalDataSo, signalMessage); continue; }
-					receiver.ReceiveSignal(SignalStrength.HEALTHY, signalMessage);
+					receiver.ReceiveSignal(SignalStrength.HEALTHY, emitter, signalMessage);
 					continue;
 				}
 				//Bounced radios always have a limited range.
@@ -72,13 +74,13 @@ namespace Managers
 		private void SignalStrengthHandler(SignalReceiver receiver, SignalEmitter emitter, SignalDataSO signalDataSo, ISignalMessage signalMessage = null)
 		{
 			SignalStrength strength = GetStrength(receiver, emitter, signalDataSo.SignalRange);
-			if (strength == SignalStrength.HEALTHY) receiver.ReceiveSignal(strength, signalMessage);
+			if (strength == SignalStrength.HEALTHY) receiver.ReceiveSignal(strength, emitter, signalMessage);
 			if (strength == SignalStrength.TOOFAR) emitter.SignalFailed();
 
 
 			if (strength == SignalStrength.DELAYED)
 			{
-				StartCoroutine(DelayedSignalRecevie(receiver.DelayTime, receiver, strength, signalMessage));
+				StartCoroutine(DelayedSignalRecevie(receiver.DelayTime, receiver, emitter, strength, signalMessage));
 				return;
 			}
 			if (strength == SignalStrength.WEAK)
@@ -86,13 +88,13 @@ namespace Managers
 				Random chance = new Random();
 				if (DMMath.Prob(chance.Next(0, 100)))
 				{
-					StartCoroutine(DelayedSignalRecevie(receiver.DelayTime, receiver, strength, signalMessage));
+					StartCoroutine(DelayedSignalRecevie(receiver.DelayTime, receiver, emitter, strength, signalMessage));
 				}
 				emitter.SignalFailed();
 			}
 		}
 
-		private IEnumerator DelayedSignalRecevie(float waitTime, SignalReceiver receiver, SignalStrength strength, ISignalMessage signalMessage = null)
+		private IEnumerator DelayedSignalRecevie(float waitTime, SignalReceiver receiver, SignalEmitter emitter, SignalStrength strength, ISignalMessage signalMessage = null)
 		{
 			yield return WaitFor.Seconds(waitTime);
 			if (receiver.gameObject == null)
@@ -100,7 +102,7 @@ namespace Managers
 				//In case the object despawns before the signal reaches it
 				yield break;
 			}
-			receiver.ReceiveSignal(strength, signalMessage);
+			receiver.ReceiveSignal(strength, emitter, signalMessage);
 		}
 
 		/// <summary>

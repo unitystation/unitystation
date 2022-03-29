@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using Systems.Ai;
 using Messages.Server;
 using Objects.Telecomms;
+using Systems.Communications;
 using UI.Chat_UI;
 
 /// <summary>
@@ -148,6 +149,7 @@ public class ChatRelay : NetworkBehaviour
 			}
 
 
+
 			if (chatEvent.originator != null)
 			{
 				//Get NPCs in vicinity
@@ -167,7 +169,7 @@ public class ChatRelay : NetworkBehaviour
 					}
 				}
 
-				if (radioCheckIsOnCooldown == false) CheckForRadios(chatEvent);
+				if (radioCheckIsOnCooldown == false) chatEvent = CheckForRadios(chatEvent);
 			}
 		}
 
@@ -221,13 +223,14 @@ public class ChatRelay : NetworkBehaviour
 		}
 	}
 
-	private void CheckForRadios(ChatEvent chatEvent)
+	private ChatEvent CheckForRadios(ChatEvent chatEvent)
 	{
 		HandleRadioCheckCooldown();
+		var SBRSpamCheck = false;
 		// Only spoken messages should be forwarded
 		if (chatEvent.channels.HasFlag(ChatChannel.Local) == false)
 		{
-			return;
+			return chatEvent;
 		}
 
 		//Check for chat three tiles around the player
@@ -235,35 +238,16 @@ public class ChatRelay : NetworkBehaviour
 			radioCheckRadius, itemsMask))
 		{
 			if (chatEvent.originator == coll.gameObject) continue;
-			if (coll.gameObject.TryGetComponent<LocalRadioListener>(out var listener) == false) continue;
-
+			if (coll.gameObject.TryGetComponent<IChatInfluencer>(out var listener) == false || listener.WillInfluenceChat() == false) continue;
 			var radioPos = coll.gameObject.AssumedWorldPosServer();
 			if (MatrixManager.Linecast(chatEvent.position, LayerTypeSelection.Walls,
 				layerMask, radioPos).ItHit == false)
 			{
-				listener.SendData(chatEvent);
+				return listener.InfluenceChat(chatEvent);
 			}
 		}
 
-		if (chatEvent.originator != null)
-		{
-			//Check for chat when the item is inside the player's inventory
-			if (chatEvent.originator.TryGetComponent<PlayerScript>(out var playerScript))
-			{
-				foreach (var slots in playerScript.DynamicItemStorage.ServerContents.Values)
-				{
-					foreach (var slot in slots)
-					{
-						if (slot.IsEmpty) continue;
-						if (slot.Item.TryGetComponent<LocalRadioListener>(out var listener)
-						    && listener != chatEvent.originator)
-						{
-							listener.SendData(chatEvent);
-						}
-					}
-				}
-			}
-		}
+		return chatEvent;
 	}
 
 	private async void HandleRadioCheckCooldown()
@@ -316,6 +300,35 @@ public class ChatRelay : NetworkBehaviour
 			}
 
 			ChatUI.Instance.AddChatEntry(message);
+		}
+
+		switch (channels)
+		{
+			case ChatChannel.Local:
+				break;
+			case ChatChannel.Action:
+				break;
+			case ChatChannel.Examine:
+				break;
+			case ChatChannel.Ghost: //(Max) : we need a sound for ghosts
+				break;
+			case ChatChannel.System:
+				break;
+			case ChatChannel.Warning:
+				break;
+			case ChatChannel.Blob:
+				break;
+			case ChatChannel.OOC:
+				break;
+			case ChatChannel.Syndicate:
+				_ = SoundManager.Play(Chat.Instance.commonSyndicteChannelSound);
+				break;
+			case ChatChannel.Security:
+				_ = SoundManager.Play(Chat.Instance.commonSecurityChannelSound);
+				break;
+			default:
+				_ = SoundManager.Play(Chat.Instance.commonRadioChannelSound);
+				break;
 		}
 	}
 

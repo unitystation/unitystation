@@ -103,7 +103,7 @@ namespace UI.Objects.Command
 		private void ProcessIdChange(IDCard newId = null)
 		{
 			UpdateIdTexts();
-			if (newId != null)
+			if (newId != null || IsAIInteracting() == true)
 			{
 				LogIn();
 			}
@@ -115,6 +115,8 @@ namespace UI.Objects.Command
 
 		public void CallOrRecallShuttle(string text)
 		{
+			text = Chat.StripTags(text);
+
 			Logger.Log(nameof(CallOrRecallShuttle), Category.Shuttles);
 
 			bool isRecall = shuttle.Status == EscapeShuttleStatus.OnRouteStation;
@@ -174,6 +176,8 @@ namespace UI.Objects.Command
 
 		public void SetStatusDisplay(string text)
 		{
+			text = Chat.StripTags(text);
+
 			Logger.Log(nameof(SetStatusDisplay), Category.Shuttles);
 			GameManager.Instance.CentComm.UpdateStatusDisplay(StatusDisplayChannel.Command, text.Substring(0, Mathf.Min(text.Length, 50)));
 			OpenMenu();
@@ -181,6 +185,8 @@ namespace UI.Objects.Command
 
 		public void MakeAnAnnouncement(string text)
 		{
+			text = Chat.StripTags(text);
+
 			Logger.Log(nameof(MakeAnAnnouncement), Category.Shuttles);
 			if (text.Length > 200)
 			{
@@ -244,7 +250,7 @@ namespace UI.Objects.Command
 
 		public void RemoveId(ConnectedPlayer player)
 		{
-			if (console.IdCard)
+			if (console.IdCard && IsAIInteracting() == false)
 			{
 				console.ServerRemoveIDCard(player);
 			}
@@ -256,7 +262,11 @@ namespace UI.Objects.Command
 			var IdCard = console.IdCard;
 			if (IdCard)
 			{
-				idLabel.SetValueServer($"{IdCard.RegisteredName}, {IdCard.JobType.ToString()}");
+				idLabel.SetValueServer($"{IdCard.RegisteredName}, {IdCard.GetJobTitle()}");
+			}
+			if (IsAIInteracting())
+			{
+				idLabel.SetValueServer("AI Control");
 			}
 			else
 			{
@@ -266,8 +276,12 @@ namespace UI.Objects.Command
 
 		public void LogIn()
 		{
-			if (console.IdCard == null)
+			var AI = IsAIInteracting();
+			if (console.IdCard == null && AI == false) return;
+			if (AI)
 			{
+				captainOnlySwitcher.SetActivePage(captainAccessPage);
+				OpenMenu();
 				return;
 			}
 
@@ -276,7 +290,6 @@ namespace UI.Objects.Command
 				idLabel.SetValueServer(idLabel.Value + " (No access)");
 				return;
 			}
-
 			bool isCaptain = console.IdCard.HasAccess(Access.captain);
 			captainOnlySwitcher.SetActivePage(isCaptain ? captainAccessPage : noCaptainAccessPage);
 

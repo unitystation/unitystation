@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -7,10 +8,13 @@ using UnityEngine.Events;
 using Mirror;
 using Systems.Atmospherics;
 using Chemistry;
+using Core.Chat;
 using Health.Sickness;
 using JetBrains.Annotations;
+using NaughtyAttributes;
 using Player;
 using Newtonsoft.Json;
+using ScriptableObjects.RP;
 
 namespace HealthV2
 {
@@ -151,6 +155,11 @@ namespace HealthV2
 
 		private float maxBleedStacks = 10f;
 
+		[SerializeField, BoxGroup("PainFeedback")] private float painScreamDamage = 20f;
+		[SerializeField, BoxGroup("PainFeedback")] private float painScreamCooldown = 15f;
+		[SerializeField, BoxGroup("PainFeedback")] private EmoteSO screamEmote;
+		private bool canScream = true;
+
 		private ObjectBehaviour objectBehaviour;
 		public ObjectBehaviour ObjectBehaviour => objectBehaviour;
 
@@ -230,7 +239,7 @@ namespace HealthV2
 		/// <summary>
 		/// Current sicknesses status of the creature and it's current stage
 		/// </summary>
-		private MobSickness mobSickness = null;
+		public MobSickness mobSickness { get; private set; }  = null;
 
 		/// <summary>
 		/// List of sicknesses that creature has gained immunity to
@@ -288,6 +297,7 @@ namespace HealthV2
 			if (CustomNetworkManager.IsServer == false) return;
 
 			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, PeriodicUpdate);
+			StopCoroutine(ScreamCooldown());
 		}
 
 		public void Setbrain(Brain _brain)
@@ -421,6 +431,21 @@ namespace HealthV2
 			{
 				if (implant.DamageContributesToOverallHealth == false) continue;
 				toReturn -= implant.Burn;
+			}
+
+			return toReturn;
+		}
+
+		/// <summary>
+		/// Returns the the sum of all toxin damage taken by body parts
+		/// </summary>
+		public float GetTotalToxDamage()
+		{
+			float toReturn = 0;
+			foreach (var implant in BodyPartList)
+			{
+				if (implant.DamageContributesToOverallHealth == false) continue;
+				toReturn -= implant.Toxin;
 			}
 
 			return toReturn;
@@ -617,6 +642,7 @@ namespace HealthV2
 				//TODO: Re - impliment this using the new reagent- first code introduced in PR #6810
 				//EffectsFactory.BloodSplat(RegisterTile.WorldPositionServer, BloodSplatSize.large, BloodSplatType.red);
 			}
+			IndicatePain(damage);
 		}
 
 		/// <summary>
@@ -647,6 +673,13 @@ namespace HealthV2
 				bodyPartAim = BodyPartType.Head;
 			}
 
+			//Currently there is no phyiscal "hand" or "foot" game object to be targeted.
+			//We reasign these aims to the arms and legs instead.
+			if (bodyPartAim == BodyPartType.LeftHand) bodyPartAim = BodyPartType.LeftArm;
+			if (bodyPartAim == BodyPartType.RightHand) bodyPartAim = BodyPartType.RightArm;
+			if (bodyPartAim == BodyPartType.LeftFoot) bodyPartAim = BodyPartType.LeftLeg;
+			if (bodyPartAim == BodyPartType.RightFoot) bodyPartAim = BodyPartType.RightLeg;
+
 			foreach (var bodyPart in SurfaceBodyParts)
 			{
 				if (bodyPart.BodyPartType == bodyPartAim)
@@ -664,6 +697,8 @@ namespace HealthV2
 						traumaDamageChance: traumaDamageChance, tramuticDamageType: tramuticDamageType);
 				}
 			}
+
+			IndicatePain(damage);
 		}
 
 		/// <summary>
@@ -830,6 +865,9 @@ namespace HealthV2
 		///</Summary>
 		public void Death()
 		{
+			//Don't trigger if already dead
+			if(ConsciousState == ConsciousState.DEAD) return;
+
 			timeOfDeath = GameManager.Instance.stationTime;
 
 			var HV2 = (this as PlayerHealthV2);
@@ -913,6 +951,9 @@ namespace HealthV2
 			if (objectBehaviour.parentContainer != null) return;
 
 			//TODO: check for formaldehyde in body, prevent if more than 15u
+
+			//Don't continuously produce miasma, only produce max 4 moles on the tile
+			if(node.GasMix.GetMoles(Gas.Miasma) > 4) return;
 
 			node.GasMix.AddGas(Gas.Miasma, AtmosDefines.MIASMA_CORPSE_MOLES);
 		}
@@ -1154,7 +1195,7 @@ namespace HealthV2
 		public void ServerCreateSprite(BodyPart implant)
 		{
 			int i = 0;
-			bool isSurfaceSprite = implant.IsSurface;
+			bool isSurfaceSprite = implant.IsSurface || implant.BodyPartItemInheritsSkinColor;
 			var sprites = implant.GetBodyTypeSprites(playerSprites.ThisCharacter.BodyType);
 			foreach (var Sprite in sprites.Item2)
 			{
@@ -1164,10 +1205,6 @@ namespace HealthV2
 				newSprite.transform.localPosition = Vector3.zero;
 				playerSprites.Addedbodypart.Add(newSprite);
 
-				if (isSurfaceSprite)
-				{
-					playerSprites.SurfaceSprite.Add(newSprite);
-				}
 
 				implant.RelatedPresentSprites.Add(newSprite);
 
@@ -1190,7 +1227,14 @@ namespace HealthV2
 				SpriteHandlerManager.RegisterHandler(playerSprites.GetComponent<NetworkIdentity>(),
 					newSprite.baseSpriteHandler);
 
-				i += 3; // ????????????????????????
+				if (isSurfaceSprite)
+				{
+					playerSprites.SurfaceSprite.Add(newSprite);
+					HandleSurface(newSprite, implant);
+				}
+
+
+				i += 3; // ???????????????????????? for Sprite order clashes, for example hands not rendering over jumpsuit
 			}
 
 			rootBodyPartController.UpdateClients();
@@ -1199,6 +1243,49 @@ namespace HealthV2
 			{
 				implant.LobbyCustomisation.OnPlayerBodyDeserialise(implant, implant.SetCustomisationData, this);
 			}
+		}
+
+
+		public void HandleSurface(BodyPartSprites newSprite, BodyPart implant)
+		{
+			Color CurrentSurfaceColour = Color.white;
+			if (implant.Tone == null) //Has no tone set
+			{
+				if (playerSprites.RaceBodyparts.Base.SkinColours.Count > 0)
+				{
+					ColorUtility.TryParseHtmlString(playerSprites.ThisCharacter.SkinTone, out CurrentSurfaceColour);
+
+					var hasColour = false;
+
+					foreach (var color in playerSprites.RaceBodyparts.Base.SkinColours)
+					{
+						if (color.ColorApprox(CurrentSurfaceColour))
+						{
+							hasColour = true;
+							break;
+						}
+					}
+
+					if (hasColour == false)
+					{
+						CurrentSurfaceColour = playerSprites.RaceBodyparts.Base.SkinColours[0];
+					}
+				}
+				else
+				{
+					ColorUtility.TryParseHtmlString(playerSprites.ThisCharacter.SkinTone, out CurrentSurfaceColour);
+				}
+			}
+			else //Already has tone set
+			{
+				CurrentSurfaceColour = implant.Tone.Value;
+			}
+
+
+			CurrentSurfaceColour.a = 1;
+			newSprite.baseSpriteHandler.SetColor(CurrentSurfaceColour);
+			implant.Tone = CurrentSurfaceColour;
+			implant.BodyPartItemSprite.SetColor(CurrentSurfaceColour);
 		}
 
 		public List<BodyPartSprites> ClientSprites = new List<BodyPartSprites>();
@@ -1280,6 +1367,17 @@ namespace HealthV2
 							}
 
 							ClientSprites.Remove(bodyPartSprites);
+
+							var net = SpriteHandlerManager.GetRecursivelyANetworkBehaviour(bodyPartSprites.gameObject);
+							var handlers = bodyPartSprites.GetComponentsInChildren<SpriteHandler>();
+
+
+							foreach (var handler in handlers)
+							{
+								SpriteHandlerManager.UnRegisterHandler(net, handler);
+							}
+
+
 							Destroy(bodyPartSprites.gameObject);
 						}
 					}
@@ -1298,6 +1396,20 @@ namespace HealthV2
 			}
 
 			InternalNetIDs = NewInternalNetIDs;
+		}
+
+		public void IndicatePain(float dmgTaken)
+		{
+			if(EmoteActionManager.Instance == null || screamEmote == null ||
+			   canScream == false || ConsciousState == ConsciousState.UNCONSCIOUS || IsDead) return;
+			if(dmgTaken >= painScreamDamage) EmoteActionManager.DoEmote(screamEmote, playerScript.gameObject);
+			StartCoroutine(ScreamCooldown());
+		}
+		private IEnumerator ScreamCooldown()
+		{
+			canScream = false;
+			yield return WaitFor.Seconds(painScreamCooldown);
+			canScream = true;
 		}
 	}
 

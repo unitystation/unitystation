@@ -15,10 +15,10 @@ namespace Objects
 	{
 		[SerializeField] private AttackType attackType = AttackType.Melee;
 		[SerializeField] private DamageType damageType = DamageType.Brute;
-		[SerializeField, ShowIf("canCauseTrauma")] private TraumaticDamageTypes traumaType = TraumaticDamageTypes.NONE;
+		[SerializeField, ShowIf(nameof(canCauseTrauma))] private TraumaticDamageTypes traumaType = TraumaticDamageTypes.NONE;
 		[SerializeField] protected float damageToGive = 5f;
 		[SerializeField] protected float armorPentration = 0f;
-		[SerializeField, ShowIf("canCauseTrauma")] protected float traumaChance = 0f;
+		[SerializeField, ShowIf(nameof(canCauseTrauma))] protected float traumaChance = 0f;
 		[SerializeField] protected List<AddressableAudioSource> onStepSounds;
 		[SerializeField] protected bool hurtsOneFootOnly;
 		[SerializeField] protected bool ignoresFootwear;

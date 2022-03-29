@@ -27,6 +27,13 @@ public class MainStationListSO : ScriptableObject
 		}
 
 		// Check that we can actually load the scene.
-		return MainStations.Where(scene => SceneUtility.GetBuildIndexByScenePath(scene) > -1).PickRandom();
+		var mapSoList = MainStations.Where(scene => SceneUtility.GetBuildIndexByScenePath(scene) > -1).ToList();
+
+		if (mapSoList.Count == 0)
+		{
+			Logger.LogError("No valid maps found! Make sure theres a map inside the MainStationList that is also in the build settings");
+		}
+		
+		return mapSoList.PickRandom();
 	}
 }

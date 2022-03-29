@@ -20,6 +20,7 @@ GameObject:
   - component: {fileID: 1944057801525881069}
   - component: {fileID: -7063633880587810702}
   - component: {fileID: 5745720402341052027}
+  - component: {fileID: 8773347140368194127}
   m_Layer: 0
   m_Name: C4
   m_TagString: Untagged
@@ -74,6 +75,7 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   pickupAnimSpeed: 0.1
+  ItemAttributesV2: {fileID: 0}
 --- !u!114 &5809642687452026922
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -201,6 +203,7 @@ MonoBehaviour:
   HeatResistance: 100
   ExplosionsDamage: 100
   doDamageMessage: 1
+  Meleeable: {fileID: 0}
 --- !u!114 &4625435621097251366
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -292,11 +295,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  SignalTypeToReceive: 0
+  SignalTypeToReceive: 2
   Frequency: 122
   Emitter: {fileID: 0}
   DelayTime: 3
-  EncryptionData: {fileID: 0}
+  EncryptionData: {fileID: -6326205420379670096, guid: ac9bcd63f2f8a944ebd2001ce5c0a3b1,
+    type: 2}
   ListenToEncryptedData: 0
   explosiveType: 0
   detonateImmediatelyOnSignal: 0
@@ -304,8 +308,16 @@ MonoBehaviour:
   minimumTimeToDetonate: 10
   explosiveStrength: 1000
   activeSpriteSO: {fileID: 11400000, guid: 60942022f971e0440a63456ee27fc478, type: 2}
+  beepSound:
+    SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/Machines/Beep.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
   progressTime: 3
   spriteHandler: {fileID: 5258580723283386321}
+  scaleSync: {fileID: 0}
   GUI: {fileID: 0}
 --- !u!210 &-7063633880587810702
 SortingGroup:
@@ -331,6 +343,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   NetTabType: 46
+--- !u!114 &8773347140368194127
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 896716891640034833}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 14a67aad38c961f45ad1cb44ac3b1f07, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
 --- !u!1 &3204498178074362964
 GameObject:
   m_ObjectHideFlags: 0
@@ -384,6 +410,7 @@ MonoBehaviour:
   SubCatalogue: []
   PresentSpriteSet: {fileID: 11400000, guid: 854eba4f06f75d74a9a5d20cd7ff5421, type: 2}
   randomInitialSprite: 0
+  doReverseAnimation: 0
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
   palette: []
@@ -428,7 +455,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 0fc6eda29115e5d4ca69669abb541796, type: 3}
+  m_Sprite: {fileID: 21300000, guid: e80d6658444affc469aeb2a07462efb0, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0

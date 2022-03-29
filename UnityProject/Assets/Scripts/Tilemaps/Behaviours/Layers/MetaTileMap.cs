@@ -79,7 +79,11 @@ namespace TileManagement
 		private BetterBoundsInt? LocalCachedBounds;
 		public BetterBounds? GlobalCachedBounds;
 
-		[NonSerialized] public Matrix4x4 localToWorldMatrix = Matrix4x4.identity;
+		[NonSerialized] public Matrix4x4? localToWorldMatrix = null;
+		[NonSerialized] public Matrix4x4? worldToLocalMatrix = null;
+
+		//Vector3[4] {bottomLeft, bottomRight, topLeft, topRight}
+		private Vector3[] globalPoints = new Vector3[4];
 
 		public float Resistance(Vector3Int cellPos, bool includeObjects = true)
 		{
@@ -210,7 +214,9 @@ namespace TileManagement
 
 		public void UpdateMe()
 		{
-			localToWorldMatrix = transform.localToWorldMatrix;
+			var transform1 = transform;
+			localToWorldMatrix = transform1.localToWorldMatrix;
+			worldToLocalMatrix = transform1.worldToLocalMatrix;
 			if (QueuedChanges.Count == 0)
 				return;
 
@@ -1603,12 +1609,19 @@ namespace TileManagement
 
 			var offset = new Vector3(0.5f, 0.5f, 0);
 
-			var bottomLeft = localToWorldMatrix.MultiplyPoint(localBound.min + offset);
-			var bottomRight = localToWorldMatrix.MultiplyPoint(new Vector3(localBound.xMax, localBound.yMin, 0)  + offset);
-			var topLeft = localToWorldMatrix.MultiplyPoint(new Vector3(localBound.xMin, localBound.yMax, 0)  + offset);
-			var topRight = localToWorldMatrix.MultiplyPoint(localBound.max  + offset);
+			if (localToWorldMatrix == null)
+			{
+				Logger.LogError("humm, localToWorldMatrix  tried to be excess before being set humm, Setting to identity matrix, Please fix this ");
+				localToWorldMatrix = Matrix4x4.identity;
+			}
 
-			var globalPoints = new Vector3[4] {bottomLeft, bottomRight, topLeft, topRight};
+			//Vector3[4] {bottomLeft, bottomRight, topLeft, topRight}; //Presuming It's been updated
+			var bottomLeft = localToWorldMatrix.Value.MultiplyPoint(localBound.min + offset);
+			globalPoints[0] = bottomLeft;
+			globalPoints[1] = localToWorldMatrix.Value.MultiplyPoint(new Vector3(localBound.xMax, localBound.yMin, 0)  + offset);
+			globalPoints[2] = localToWorldMatrix.Value.MultiplyPoint(new Vector3(localBound.xMin, localBound.yMax, 0)  + offset);
+			globalPoints[3] = localToWorldMatrix.Value.MultiplyPoint(localBound.max  + offset);
+
 			var minPosition = bottomLeft;
 			var maxPosition = bottomLeft;
 			foreach (var point in globalPoints)
@@ -1622,7 +1635,7 @@ namespace TileManagement
 				Maximum = maxPosition, Minimum = minPosition
 			};
 
-			if (matrix.MatrixMove == null ||
+			if (matrix.IsMovable == false ||
 			    (CustomNetworkManager.IsServer && matrix.MatrixMove.IsMovingServer == false &&
 			     matrix.MatrixMove.IsRotatingServer == false) ||
 			    (CustomNetworkManager.IsServer == false && matrix.MatrixMove.IsMovingClient == false &&
@@ -2187,6 +2200,8 @@ namespace TileManagement
 		FireOverCharged,
 		FireFusion,
 		FireRainbow,
-		Ash
+		Ash,
+		EMP,
+		EMPCenter
 	}
 }

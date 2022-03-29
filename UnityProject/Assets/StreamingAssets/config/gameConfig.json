@@ -5,6 +5,8 @@
 
 	"MinPlayersForCountdown": 1,
 
+	"MinReadyPlayersForCountdown": 1,
+
 	"PreRoundTime": 120,
 
 	"RoundEndTime": 60,
@@ -27,5 +29,7 @@
 	
 	"MalfAIRecieveTheirIntendedObjectiveChance": 35,
 	
-	"ServerShutsDownOnRoundEnd" : true
+	"ServerShutsDownOnRoundEnd" : true,
+	
+	"PlayerLimit" : 100
 }

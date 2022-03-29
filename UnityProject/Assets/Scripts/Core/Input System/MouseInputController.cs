@@ -49,7 +49,7 @@ public class MouseInputController : MonoBehaviour
 
 	private readonly List<Vector2> touchesToDitch = new List<Vector2>();
 	private PlayerMove playerMove;
-	private Directional playerDirectional;
+	private Rotatable playerDirectional;
 
 	/// reference to the global lighting system, used to check occlusion
 	private LightingSystem lightingSystem;
@@ -100,7 +100,7 @@ public class MouseInputController : MonoBehaviour
 	public virtual void Start()
 	{
 		//for changing direction on click
-		playerDirectional = gameObject.GetComponent<Directional>();
+		playerDirectional = gameObject.GetComponent<Rotatable>();
 		playerMove = GetComponent<PlayerMove>();
 		lightingSystem = Camera.main.GetComponent<LightingSystem>();
 	}
@@ -651,9 +651,9 @@ public class MouseInputController : MonoBehaviour
 
 		Vector2 dir = (MouseWorldPosition - playerPos).normalized;
 
-		if (!EventSystem.current.IsPointerOverGameObject() && playerMove.allowInput && !playerMove.IsBuckled)
+		if (!EventSystem.current.IsPointerOverGameObject() && playerMove.allowInput && !playerMove.IsBuckled )
 		{
-			playerDirectional.FaceDirection(Orientation.From(dir));
+			playerDirectional.SetFaceDirectionLocalVictor(dir.To2Int());
 		}
 	}
 

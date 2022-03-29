@@ -14,7 +14,7 @@ namespace Systems.MobAIs
 		protected Matrix matrix => registerTile.Matrix;
 		protected CustomNetTransform cnt;
 
-		protected Directional directional;
+		protected Rotatable rotatable;
 		protected LivingHealthBehaviour health;
 
 		protected bool isServer;
@@ -55,7 +55,7 @@ namespace Systems.MobAIs
 		{
 			registerTile = GetComponent<RegisterTile>();
 			cnt = GetComponent<CustomNetTransform>();
-			directional = GetComponent<Directional>();
+			rotatable = GetComponent<Rotatable>();
 			health = GetComponent<LivingHealthBehaviour>();
 		}
 
@@ -347,9 +347,9 @@ namespace Systems.MobAIs
 						}
 					}
 
-					if (directional != null)
+					if (rotatable != null)
 					{
-						directional.FaceDirection(Orientation.From(dir));
+						rotatable.SetFaceDirectionLocalVictor(dir);
 					}
 
 					cnt.Push(dir, context: gameObject);

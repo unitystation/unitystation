@@ -48,6 +48,7 @@ namespace GameConfig
 		public bool RandomEventsAllowed;
 		public bool SpawnLavaLand;
 		public int MinPlayersForCountdown;
+		public int MinReadyPlayersForCountdown;
 		public float PreRoundTime;
 		public float RoundEndTime;
 		public int RoundsPerMap;
@@ -60,5 +61,6 @@ namespace GameConfig
 		public int MalfAIRecieveTheirIntendedObjectiveChance;
 		public int CharacterNameLimit;
 		public bool ServerShutsDownOnRoundEnd;
+		public int PlayerLimit;
 	}
 }

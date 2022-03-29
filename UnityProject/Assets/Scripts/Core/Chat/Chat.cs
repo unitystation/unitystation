@@ -11,6 +11,7 @@ using Systems.Ai;
 using Core.Chat;
 using Items;
 using Messages.Server;
+using Systems.Communications;
 
 /// <summary>
 /// The Chat API
@@ -228,6 +229,23 @@ public partial class Chat : MonoBehaviour
 				{
 					//Control the chat bubble
 					player.playerNetworkActions.ServerToggleChatIcon(true, processedMessage.message, channels, processedMessage.chatModifiers);
+				}
+
+				if (player.IsDeadOrGhost == false)
+				{
+					//Check if there's any items on the player that affects their chat (e.g : headphones, muzzles, etc)
+					foreach (var slots in player.DynamicItemStorage.ServerContents.Values)
+					{
+						foreach (var slot in slots)
+						{
+							if (slot.IsEmpty) continue;
+							if (slot.Item.TryGetComponent<IChatInfluencer>(out var listener)
+							    && listener.WillInfluenceChat() == true)
+							{
+								chatEvent = listener.InfluenceChat(chatEvent);
+							}
+						}
+					}
 				}
 			}
 		}

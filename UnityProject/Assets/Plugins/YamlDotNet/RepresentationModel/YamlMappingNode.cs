@@ -1,48 +1,47 @@
-//  This file is part of YamlDotNet - A .NET library for YAML.
-//  Copyright (c) Antoine Aubry and contributors
-//  Copyright (c) 2011 Andy Pickett
-
-//  Permission is hereby granted, free of charge, to any person obtaining a copy of
-//  this software and associated documentation files (the "Software"), to deal in
-//  the Software without restriction, including without limitation the rights to
-//  use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies
-//  of the Software, and to permit persons to whom the Software is furnished to do
-//  so, subject to the following conditions:
-
-//  The above copyright notice and this permission notice shall be included in all
-//  copies or substantial portions of the Software.
-
-//  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-//  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-//  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-//  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-//  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-//  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-//  SOFTWARE.
+﻿// This file is part of YamlDotNet - A .NET library for YAML.
+// Copyright (c) Antoine Aubry and contributors
+//
+// Permission is hereby granted, free of charge, to any person obtaining a copy of
+// this software and associated documentation files (the "Software"), to deal in
+// the Software without restriction, including without limitation the rights to
+// use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies
+// of the Software, and to permit persons to whom the Software is furnished to do
+// so, subject to the following conditions:
+//
+// The above copyright notice and this permission notice shall be included in all
+// copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+// SOFTWARE.
 
 using System;
 using System.Collections.Generic;
-using System.Reflection;
 using System.Text;
 using YamlDotNet.Core;
 using YamlDotNet.Core.Events;
+using YamlDotNet.Helpers;
 using YamlDotNet.Serialization;
+using static YamlDotNet.Core.HashCode;
 
 namespace YamlDotNet.RepresentationModel
 {
     /// <summary>
     /// Represents a mapping node in the YAML document.
     /// </summary>
-    [Serializable]
     public sealed class YamlMappingNode : YamlNode, IEnumerable<KeyValuePair<YamlNode, YamlNode>>, IYamlConvertible
     {
-        private readonly IDictionary<YamlNode, YamlNode> children = new Dictionary<YamlNode, YamlNode>();
+        private readonly IOrderedDictionary<YamlNode, YamlNode> children = new OrderedDictionary<YamlNode, YamlNode>();
 
         /// <summary>
         /// Gets the children of the current node.
         /// </summary>
         /// <value>The children.</value>
-        public IDictionary<YamlNode, YamlNode> Children
+        public IOrderedDictionary<YamlNode, YamlNode> Children
         {
             get
             {
@@ -66,12 +65,12 @@ namespace YamlDotNet.RepresentationModel
 
         private void Load(IParser parser, DocumentLoadingState state)
         {
-            var mapping = parser.Expect<MappingStart>();
+            var mapping = parser.Consume<MappingStart>();
             Load(mapping, state);
             Style = mapping.Style;
 
-            bool hasUnresolvedAliases = false;
-            while (!parser.Accept<MappingEnd>())
+            var hasUnresolvedAliases = false;
+            while (!parser.TryConsume<MappingEnd>(out var _))
             {
                 var key = ParseNode(parser, state);
                 var value = ParseNode(parser, state);
@@ -92,21 +91,12 @@ namespace YamlDotNet.RepresentationModel
             {
                 state.AddNodeWithUnresolvedAliases(this);
             }
-
-            parser.Expect<MappingEnd>();
         }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="YamlMappingNode"/> class.
         /// </summary>
         public YamlMappingNode()
-        {
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="YamlMappingNode"/> class.
-        /// </summary>
-        public YamlMappingNode(int dummy) // dummy makes the call to the constructor unambiguous to buggy compilers like mono in Unity.
         {
         }
 
@@ -144,18 +134,16 @@ namespace YamlDotNet.RepresentationModel
         /// <param name="children">A sequence of <see cref="YamlNode"/> where even elements are keys and odd elements are values.</param>
         public YamlMappingNode(IEnumerable<YamlNode> children)
         {
-            using (var enumerator = children.GetEnumerator())
+            using var enumerator = children.GetEnumerator();
+            while (enumerator.MoveNext())
             {
-                while (enumerator.MoveNext())
+                var key = enumerator.Current;
+                if (!enumerator.MoveNext())
                 {
-                    var key = enumerator.Current;
-                    if (!enumerator.MoveNext())
-                    {
-                        throw new ArgumentException("When constructing a mapping node with a sequence, the number of elements of the sequence must be even.");
-                    }
-
-                    Add(key, enumerator.Current);
+                    throw new ArgumentException("When constructing a mapping node with a sequence, the number of elements of the sequence must be even.");
                 }
+
+                Add(key, enumerator.Current);
             }
         }
 
@@ -205,8 +193,8 @@ namespace YamlDotNet.RepresentationModel
         /// <param name="state">The state of the document.</param>
         internal override void ResolveAliases(DocumentLoadingState state)
         {
-            Dictionary<YamlNode, YamlNode> keysToUpdate = null;
-            Dictionary<YamlNode, YamlNode> valuesToUpdate = null;
+            Dictionary<YamlNode, YamlNode>? keysToUpdate = null;
+            Dictionary<YamlNode, YamlNode>? valuesToUpdate = null;
             foreach (var entry in children)
             {
                 if (entry.Key is YamlAliasNode)
@@ -215,7 +203,8 @@ namespace YamlDotNet.RepresentationModel
                     {
                         keysToUpdate = new Dictionary<YamlNode, YamlNode>();
                     }
-                    keysToUpdate.Add(entry.Key, state.GetNode(entry.Key.Anchor, true, entry.Key.Start, entry.Key.End));
+                    // TODO: The representation model should be redesigned, because here the anchor could be null but that would be invalid YAML
+                    keysToUpdate.Add(entry.Key, state.GetNode(entry.Key.Anchor!, entry.Key.Start, entry.Key.End));
                 }
                 if (entry.Value is YamlAliasNode)
                 {
@@ -223,7 +212,8 @@ namespace YamlDotNet.RepresentationModel
                     {
                         valuesToUpdate = new Dictionary<YamlNode, YamlNode>();
                     }
-                    valuesToUpdate.Add(entry.Key, state.GetNode(entry.Value.Anchor, true, entry.Value.Start, entry.Value.End));
+                    // TODO: The representation model should be redesigned, because here the anchor could be null but that would be invalid YAML
+                    valuesToUpdate.Add(entry.Key, state.GetNode(entry.Value.Anchor!, entry.Value.Start, entry.Value.End));
                 }
             }
             if (valuesToUpdate != null)
@@ -237,7 +227,7 @@ namespace YamlDotNet.RepresentationModel
             {
                 foreach (var entry in keysToUpdate)
                 {
-                    YamlNode value = children[entry.Key];
+                    var value = children[entry.Key];
                     children.Remove(entry.Key);
                     children.Add(entry.Value, value);
                 }
@@ -272,18 +262,21 @@ namespace YamlDotNet.RepresentationModel
         }
 
         /// <summary />
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
         {
             var other = obj as YamlMappingNode;
-            if (other == null || !Equals(other) || children.Count != other.children.Count)
+            var areEqual = other != null
+                && Equals(Tag, other.Tag)
+                && children.Count == other.children.Count;
+
+            if (!areEqual)
             {
                 return false;
             }
 
             foreach (var entry in children)
             {
-                YamlNode otherNode;
-                if (!other.children.TryGetValue(entry.Key, out otherNode) || !SafeEquals(entry.Value, otherNode))
+                if (!other!.children.TryGetValue(entry.Key, out var otherNode) || !Equals(entry.Value, otherNode))
                 {
                     return false;
                 }
@@ -304,8 +297,8 @@ namespace YamlDotNet.RepresentationModel
 
             foreach (var entry in children)
             {
-                hashCode = CombineHashCodes(hashCode, GetHashCode(entry.Key));
-                hashCode = CombineHashCodes(hashCode, GetHashCode(entry.Value));
+                hashCode = CombineHashCodes(hashCode, entry.Key);
+                hashCode = CombineHashCodes(hashCode, entry.Value);
             }
             return hashCode;
         }
@@ -342,10 +335,10 @@ namespace YamlDotNet.RepresentationModel
         }
 
         /// <summary>
-        /// Returns a <see cref="System.String"/> that represents this instance.
+        /// Returns a <see cref="string"/> that represents this instance.
         /// </summary>
         /// <returns>
-        /// A <see cref="System.String"/> that represents this instance.
+        /// A <see cref="string"/> that represents this instance.
         /// </returns>
         internal override string ToString(RecursionLevel level)
         {
@@ -408,16 +401,21 @@ namespace YamlDotNet.RepresentationModel
         {
             if (mapping == null)
             {
-                throw new ArgumentNullException("mapping");
+                throw new ArgumentNullException(nameof(mapping));
             }
 
-            var result = new YamlMappingNode(0);
+            var result = new YamlMappingNode();
             foreach (var property in mapping.GetType().GetPublicProperties())
             {
-                if (property.CanRead && property.GetGetMethod().GetParameters().Length == 0)
+                // CanRead == true => GetGetMethod() != null
+                if (property.CanRead && property.GetGetMethod(false)!.GetParameters().Length == 0)
                 {
                     var value = property.GetValue(mapping, null);
-                    var valueNode = (value as YamlNode) ?? (Convert.ToString(value));
+                    if (!(value is YamlNode valueNode))
+                    {
+                        var valueAsString = Convert.ToString(value);
+                        valueNode = valueAsString ?? string.Empty;
+                    }
                     result.Add(property.Name, valueNode);
                 }
             }

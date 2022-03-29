@@ -109,6 +109,16 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: df3f1a389c0f2428690a13b95cf1f9f9,
         type: 2}
+    - target: {fileID: 3387296074795883840, guid: 6b5f74a79e023479cb5b30a2879621da,
+        type: 3}
+      propertyPath: inventoryMoveSound.AssetAddress
+      value: null
+      objectReference: {fileID: 0}
+    - target: {fileID: 3387296074795883840, guid: 6b5f74a79e023479cb5b30a2879621da,
+        type: 3}
+      propertyPath: inventoryRemoveSound.AssetAddress
+      value: null
+      objectReference: {fileID: 0}
     - target: {fileID: 8166491247120154191, guid: 6b5f74a79e023479cb5b30a2879621da,
         type: 3}
       propertyPath: foreverID
@@ -146,6 +156,38 @@ SortingGroup:
     type: 3}
   m_PrefabInstance: {fileID: 7586200644617787968}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &241252857582927713
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4658995992363608162}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9ffa270baac4723983d4ed66622180e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  shadow: {fileID: 0}
+  draggerMustBeAdjacent: 1
+  allowDragWhileSoftCrit: 1
+--- !u!114 &1200700073424461999
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4658995992363608162}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 72c43885acb654c59b452e7069cb64f8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  denyStorageOfStorageItems: 0
+  canClickPickup: 0
+  canQuickEmpty: 0
+  TopLevelAlt: 1
+  actionData: {fileID: 0}
 --- !u!114 &2299321045887744718
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -313,34 +355,3 @@ MonoBehaviour:
       Magic: 0
       Bio: 0
       DismembermentProtectionChance: 0
---- !u!114 &241252857582927713
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4658995992363608162}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e9ffa270baac4723983d4ed66622180e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  shadow: {fileID: 0}
-  draggerMustBeAdjacent: 1
-  allowDragWhileSoftCrit: 1
---- !u!114 &1200700073424461999
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4658995992363608162}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 72c43885acb654c59b452e7069cb64f8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  denyStorageOfStorageItems: 0
-  canClickPickup: 0
-  canQuickEmpty: 0
-  actionData: {fileID: 0}

@@ -54,6 +54,15 @@ namespace HealthV2
 		public override void ImplantPeriodicUpdate()
 		{
 			base.ImplantPeriodicUpdate();
+
+			// Disable breathing for dead and brain damaged players
+			if (RelatedPart.HealthMaster.IsDead)
+				return;
+
+			Brain brain = RelatedPart.HealthMaster.brain;
+			if (brain && brain.RelatedPart.TotalModified <= 0.2f)
+				return;
+
 			Vector3Int position = RelatedPart.HealthMaster.ObjectBehaviour.AssumedWorldPositionServer();
 			MetaDataNode node = MatrixManager.GetMetaDataAt(position);
 			var TotalModified = 1f;
@@ -80,7 +89,7 @@ namespace HealthV2
 
 			if (TryBreathing(node, TotalModified))
 			{
-				AtmosManager.Update(node);
+				AtmosManager.Instance.UpdateNode(node);
 			}
 
 			if (RelatedPart.IsBleedingInternally)
@@ -107,7 +116,6 @@ namespace HealthV2
 			{
 				return false;
 			}
-
 			if (RelatedPart.HealthMaster.CirculatorySystem.BloodPool[RelatedPart.bloodType] == 0)
 			{
 				return false; //No point breathing if we dont have blood.
@@ -284,13 +292,10 @@ namespace HealthV2
 			else if (bloodSaturation <= RelatedPart.HealthMaster.CirculatorySystem.BloodInfo.BLOOD_REAGENT_SATURATION_BAD)
 			{
 				RelatedPart.HealthMaster.HealthStateController.SetSuffocating(true);
-				if (efficiency < 0.5f)
+				if (DMMath.Prob(20))
 				{
-					if (DMMath.Prob(20))
-					{
-						Chat.AddActionMsgToChat(RelatedPart.HealthMaster.gameObject, "You gasp for breath!",
-							$"{RelatedPart.HealthMaster.playerScript.visibleName} gasps!");
-					}
+					Chat.AddActionMsgToChat(RelatedPart.HealthMaster.gameObject, "You gasp for breath!",
+						$"{RelatedPart.HealthMaster.playerScript.visibleName} gasps!");
 				}
 			}
 

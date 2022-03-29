@@ -60,6 +60,11 @@ namespace Objects.Drawers
 
 		public override void ServerPerformInteraction(HandApply interaction)
 		{
+			if (container.GetStoredObjects().Contains(interaction.Performer))
+			{
+				Chat.AddExamineMsg(interaction.Performer, "<color=red>I can't reach the controls from the inside!</color>");
+				return;
+			}
 			if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Screwdriver)) UseScrewdriver(interaction);
 			else if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Emag)
 				&& interaction.HandObject.TryGetComponent<Emag>(out var emag)

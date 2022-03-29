@@ -275,14 +275,8 @@ public partial class PlayerSync
 
 		if (followMode)
 		{
-			playerDirectional.FaceDirection(Orientation.From(direction));
+			playerDirectional.SetFaceDirectionLocalVictor(direction);
 			//force directional update of client, since it can't predict where it's being pulled
-			var conn = playerScript.connectionToClient;
-			if (conn != null)
-			{
-				playerDirectional.TargetForceSyncDirection(conn);
-			}
-
 		}
 		else if (uncorrectedSpeed >= playerMove.PushFallSpeed)
 		{
@@ -465,13 +459,6 @@ public partial class PlayerSync
 
 		var curState = serverState;
 		PlayerState nextState = NextStateServer(curState, serverPendingActions.Dequeue());
-
-		if (Equals(curState, nextState))
-		{
-			TryUpdateServerTarget();
-			return;
-		}
-
 		var newPos = nextState.WorldPosition;
 		var oldPos = serverState.WorldPosition;
 		lastDirectionServer = Vector2Int.RoundToInt(newPos - oldPos);
@@ -532,7 +519,7 @@ public partial class PlayerSync
 			if (serverBump == BumpType.Push || serverBump == BumpType.Blocked)
 			{
 				var worldTarget = state.WorldPosition.RoundToInt() + (Vector3Int)action.Direction();
-				var swapee = MatrixManager.GetAs<RegisterPlayer>(worldTarget, true);
+				var swapee = MatrixManager.GetAs<RegisterPlayer>(worldTarget, true) as List<RegisterPlayer>;
 				if (swapee != null && swapee.Count > 0)
 				{
 					swapee[0].PlayerScript.PlayerSync.RollbackPosition();
@@ -552,7 +539,7 @@ public partial class PlayerSync
 			var dir = action.Direction();
 			if (!(dir.x != 0 && dir.y != 0 && serverBump == BumpType.ClosedDoor))
 			{
-				playerDirectional.FaceDirection(Orientation.From(action.Direction()));
+				playerDirectional.SetFaceDirectionLocalVictor(action.Direction());
 			}
 
 			return state;
@@ -585,10 +572,6 @@ public partial class PlayerSync
 		var nextState = NextState(state, action, true);
 
 		nextState.Speed = SpeedServer;
-		if (playerScript.IsGhost) return nextState;
-
-		FootstepSounds.PlayerFootstepAtPosition(nextState.WorldPosition, this);
-
 		return nextState;
 	}
 
@@ -787,11 +770,14 @@ public partial class PlayerSync
 	private void InteractEnterable(Vector3Int targetPos)
 	{
 		//Object IPlayerEntersTile
-		List<IPlayerEntersTile> enterables = MatrixManager.GetAt<IPlayerEntersTile>(targetPos, isServer);
-		foreach (IPlayerEntersTile enterable in enterables)
+		var registerTiles = MatrixManager.GetRegisterTiles(targetPos, isServer);
+		foreach (var registerTile in registerTiles)
 		{
-			if (enterable.WillAffectPlayer(playerScript) == false) continue;
-			enterable.OnPlayerStep(playerScript);
+			foreach (var enterable in registerTile.IPlayerEntersTiles)
+			{
+				if (enterable.WillAffectPlayer(playerScript) == false) continue;
+				enterable.OnPlayerStep(playerScript);
+			}
 		}
 
 		//Tile IPlayerEntersTile
@@ -973,9 +959,11 @@ public partial class PlayerSync
 			EnterInteract(serverLerpState.WorldPosition, (Vector2)serverLerpState.WorldImpulse);
 
 			// Check for swap once movement is done, to prevent us and another player moving into the same tile
-			if (!playerScript.IsGhost)
+			if (playerScript.IsGhost == false)
 			{
 				CheckAndDoSwap(targetPos.RoundToInt(), lastDirectionServer * -1, isServer: true);
+
+				FootstepSounds.PlayerFootstepAtPosition(serverLerpState.WorldPosition, this);
 			}
 		}
 		if (TryNotifyPlayers())

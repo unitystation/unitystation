@@ -7,47 +7,10 @@ namespace UI.Core.Windows
 {
 	public class TeleportButtonSearchBar : MonoBehaviour
 	{
-		private InputField Searchtext;
+		[SerializeField]
+		private InputField searchText;
 
 		private List<GameObject> HiddenButtons = new List<GameObject>();
-
-		private void Start()
-		{
-			Searchtext = GetComponent<InputField>();
-		}
-
-		private void OnEnable()
-		{
-			UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
-		}
-
-		private void OnDisable()
-		{
-			UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
-		}
-
-		void UpdateMe()
-		{
-			if (Searchtext.isFocused)
-			{
-				InputFocus();
-			}
-			else if (!Searchtext.isFocused)
-			{
-				InputUnfocus();
-			}
-		}
-
-		private void InputFocus()
-		{
-			//disable keyboard commands while input is focused
-			UIManager.IsInputFocus = true;
-		}
-		private void InputUnfocus()
-		{
-			//disable keyboard commands while input is focused
-			UIManager.IsInputFocus = false;
-		}
 
 		public void Search()
 		{
@@ -60,7 +23,7 @@ namespace UI.Core.Windows
 				GameObject button = buttons[i];
 				if (button == null) continue;
 
-				if (button.GetComponent<TeleportButton>().myText.text.ToLower().Contains(Searchtext.text.ToLower()) | Searchtext.text.Length == 0)
+				if (button.GetComponent<TeleportButton>().myText.text.ToLower().Contains(searchText.text.ToLower()) | searchText.text.Length == 0)
 				{
 					continue;
 				}
@@ -82,9 +45,9 @@ namespace UI.Core.Windows
 			HiddenButtons.Clear();
 		}
 
-		public void Resettext()//resets search field text everytime window is closed
+		public void ResetText()//resets search field text everytime window is closed
 		{
-			Searchtext.text = "";
+			searchText.text = "";
 		}
 	}
 }

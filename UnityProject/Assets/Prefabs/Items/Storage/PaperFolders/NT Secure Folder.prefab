@@ -100,5 +100,11 @@ PrefabInstance:
       value: For containing company secrets. A small warning declares "For authorized
         NanoTrasen personnel only."
       objectReference: {fileID: 0}
+    - target: {fileID: 5737996074688694870, guid: 04715b92af42bdc45be575a92446c3bd,
+        type: 3}
+      propertyPath: itemStoragePopulator
+      value: 
+      objectReference: {fileID: 11400000, guid: d6905a697b32e4a4cb3e80c7d9aaefe6,
+        type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 04715b92af42bdc45be575a92446c3bd, type: 3}

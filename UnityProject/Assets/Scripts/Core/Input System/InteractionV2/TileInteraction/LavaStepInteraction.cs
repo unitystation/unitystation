@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using HealthV2;
 using UnityEngine;
+using Systems.Atmospherics;
 
 namespace Systems.Interaction
 {

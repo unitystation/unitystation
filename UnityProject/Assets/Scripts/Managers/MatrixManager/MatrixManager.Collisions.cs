@@ -41,7 +41,7 @@ public partial class MatrixManager
 			return;
 		}
 
-		if (matrixInfo?.MatrixMove != null)
+		if (matrixInfo!= null && matrixInfo.IsMovable)
 		{
 			matrixInfo.MatrixMove.MatrixMoveEvents.OnStartMovementServer.AddListener( () =>
 			{

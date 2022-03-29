@@ -58,6 +58,7 @@ namespace Objects.Wallmounts
 			else
 			{
 				// recalculate if it is facing the player
+				if (Camera2DFollow.followControl.target == null) return;
 				visible = wallmountBehavior.IsFacingPosition(Camera2DFollow.followControl.target.position);
 			}
 			SetAlpha(visible ? 1 : 0);

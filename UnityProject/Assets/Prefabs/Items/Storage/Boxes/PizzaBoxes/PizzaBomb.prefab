@@ -21,7 +21,7 @@ PrefabInstance:
         type: 3}
       propertyPath: netTab
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 4373764861328305485}
     - target: {fileID: 6176497755123761644, guid: d3025a1bc493cc246a21c87ee6e6bfb6,
         type: 3}
       propertyPath: writtenNote
@@ -37,6 +37,11 @@ PrefabInstance:
       propertyPath: objectBehaviour
       value: 
       objectReference: {fileID: 5685423073254728141}
+    - target: {fileID: 6176497755123761644, guid: d3025a1bc493cc246a21c87ee6e6bfb6,
+        type: 3}
+      propertyPath: explosiveStrength
+      value: 3500
+      objectReference: {fileID: 0}
     - target: {fileID: 6176497755123761644, guid: d3025a1bc493cc246a21c87ee6e6bfb6,
         type: 3}
       propertyPath: spritePizzaBoxMessy

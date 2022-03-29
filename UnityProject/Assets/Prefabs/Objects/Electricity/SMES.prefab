@@ -108,7 +108,7 @@ MonoBehaviour:
   syncInterval: 0.1
   matrixDebugLogging: 0
   objectType: 1
-  customNetTransform: {fileID: 0}
+  customNetTransform: {fileID: 114703946515217786}
   prefabTracker: {fileID: 0}
   CurrentsortingGroup: {fileID: 0}
   AtmosPassable: 1
@@ -167,6 +167,7 @@ MonoBehaviour:
       m_AssetGUID: 
       m_SubObjectName: 
       m_SubObjectType: 
+      m_EditorAssetChanged: 0
   damageDeflection: 0
   Armor:
     Melee: 0
@@ -192,7 +193,6 @@ MonoBehaviour:
   HeatResistance: 100
   ExplosionsDamage: 100
   doDamageMessage: 1
-  CannotBeAshed: 0
 --- !u!114 &8848522590704173912
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -212,6 +212,7 @@ MonoBehaviour:
     unit.
   willHighlight: 1
   exportCost: 200
+  exportType: 0
   exportName: 
   exportMessage: 
 --- !u!114 &-3958875245984225180
@@ -244,6 +245,7 @@ MonoBehaviour:
   machineBoardPrefab: {fileID: 8026946951644424067, guid: 7f7934b263cb23040ade0147d14b39aa,
     type: 3}
   canNotBeDeconstructed: 0
+  isEMPResistant: 0
   mustBeUnanchored: 0
   secondsToScrewdrive: 2
 --- !u!114 &114897658894920132
@@ -678,7 +680,7 @@ SpriteRenderer:
   m_SortingLayerID: -24161425
   m_SortingLayer: 8
   m_SortingOrder: 13
-  m_Sprite: {fileID: 21300002, guid: 4135247828c256c4dbd1fdb1a39a2d1b, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 03e8bd3eeae9aeb4a8f984ce5db604a7, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -705,7 +707,7 @@ MonoBehaviour:
   SubCatalogue:
   - {fileID: 11400000, guid: 04bdc709610a043459bc04e8a56cdd75, type: 2}
   - {fileID: 11400000, guid: f67f3880b2b405f418bce2e5aa83cad6, type: 2}
-  PresentSpriteSet: {fileID: 0}
+  PresentSpriteSet: {fileID: 11400000, guid: 04bdc709610a043459bc04e8a56cdd75, type: 2}
   randomInitialSprite: 0
   pushTextureOnStartUp: 0
   initialVariantIndex: 0

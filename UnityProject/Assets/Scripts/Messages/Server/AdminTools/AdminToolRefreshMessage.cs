@@ -57,6 +57,9 @@ namespace Messages.Server.AdminTools
 			//Player list info:
 			pageData.players = GetAllPlayerStates(adminID);
 
+			//Server Setting
+			pageData.playerLimit = GameManager.Instance.PlayerLimit;
+
 			var data = JsonUtility.ToJson(pageData);
 
 			NetMessage  msg =
@@ -66,16 +69,21 @@ namespace Messages.Server.AdminTools
 			return msg;
 		}
 
-		private static List<AdminPlayerEntryData> GetAllPlayerStates(string adminID)
+		public static List<AdminPlayerEntryData> GetAllPlayerStates(string adminID, bool onlineOnly = false)
 		{
 			var playerList = new List<AdminPlayerEntryData>();
 			if (string.IsNullOrEmpty(adminID)) return playerList;
-			var ToSearchThrough = PlayerList.Instance.AllPlayers.ToList();
-			ToSearchThrough.AddRange(PlayerList.Instance.loggedOff);
-			foreach (var player in ToSearchThrough)
+
+			var toSearchThrough = PlayerList.Instance.AllPlayers.ToList();
+
+			if (onlineOnly == false)
+			{
+				toSearchThrough.AddRange(PlayerList.Instance.loggedOff);
+			}
+
+			foreach (var player in toSearchThrough)
 			{
 				if (player == null) continue;
-				//if (player.Connection == null) continue;
 
 				var entry = new AdminPlayerEntryData();
 				entry.name = player.Name;
@@ -85,17 +93,15 @@ namespace Messages.Server.AdminTools
 
 				entry.ipAddress = player.ConnectionIP;
 
-
 				if (player.Script != null && player.Script.playerHealth != null)
 				{
 					entry.isAlive = player.Script.playerHealth.ConsciousState != ConsciousState.DEAD;
-				} else
-				{
-					entry.isAdmin = false;
 				}
+
 				entry.isAntag = PlayerList.Instance.AntagPlayers.Contains(player);
 				entry.isAdmin = PlayerList.Instance.IsAdmin(player.UserId);
-				entry.isOnline = true;
+				entry.isMentor = PlayerList.Instance.IsMentor(player.UserId);
+				entry.isOnline = player.Connection != null;
 
 				playerList.Add(entry);
 			}

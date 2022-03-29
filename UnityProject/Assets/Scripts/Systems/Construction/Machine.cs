@@ -39,6 +39,11 @@ namespace Objects.Machines
 		/// </summary>
 		public bool canNotBeDeconstructed;
 
+		///<summary>
+		/// Is this machine resistant to EMPs?
+		///</summary>
+		public bool isEMPResistant = false;
+
 		/// <summary>
 		/// Does this machine need to be able to move before allowing deconstruction?
 		/// </summary>

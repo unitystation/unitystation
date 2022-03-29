@@ -11,7 +11,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 9bf75f7b0bad2a94fa127060ae0df86a,
+      objectReference: {fileID: 21300002, guid: 9bf75f7b0bad2a94fa127060ae0df86a,
         type: 3}
     - target: {fileID: 463471654561318103, guid: f3c7b7569520f694cb13c4a36184aefb,
         type: 3}
@@ -46,17 +46,17 @@ PrefabInstance:
     - target: {fileID: 570025017275663383, guid: f3c7b7569520f694cb13c4a36184aefb,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 570025017275663383, guid: f3c7b7569520f694cb13c4a36184aefb,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 570025017275663383, guid: f3c7b7569520f694cb13c4a36184aefb,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 570025017275663383, guid: f3c7b7569520f694cb13c4a36184aefb,
         type: 3}
@@ -84,6 +84,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 44c6e1cebd153de4da2480cc8b7a48ef,
         type: 2}
+    - target: {fileID: 5961850752556827364, guid: f3c7b7569520f694cb13c4a36184aefb,
+        type: 3}
+      propertyPath: initialVariantIndex
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6017943696034156426, guid: f3c7b7569520f694cb13c4a36184aefb,
         type: 3}
       propertyPath: pipeObject

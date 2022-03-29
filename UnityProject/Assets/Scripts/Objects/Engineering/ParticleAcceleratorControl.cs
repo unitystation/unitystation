@@ -136,7 +136,7 @@ namespace Objects.Engineering
 			{
 				if (connectedPart.ShootsBullet)
 				{
-					CastProjectileMessage.SendToAll(connectedPart.gameObject, particleAcceleratorBulletPrefab, orientation.Vector, default);
+					CastProjectileMessage.SendToAll(connectedPart.gameObject, particleAcceleratorBulletPrefab, orientation.LocalVector, default);
 				}
 			}
 		}
@@ -182,13 +182,13 @@ namespace Objects.Engineering
 						coord = RotateVector90(coord).To2Int();
 					}
 
-					var objects = MatrixManager.GetAt<ParticleAcceleratorPart>(registerTile.WorldPositionServer + coord.To3Int() , true);
+					var objects = MatrixManager.GetAt<ParticleAcceleratorPart>(registerTile.WorldPositionServer + coord.To3Int() , true) as List<ParticleAcceleratorPart>;
 
-					if (objects.Count > 0 && section.Value == objects[0].ParticleAcceleratorType)
+					if (objects != null && objects.Count > 0 && section.Value == objects[0].ParticleAcceleratorType)
 					{
 						//Correct Part there woo but now check status
 						if (objects[0].CurrentState == ParticleAcceleratorState.Frame || objects[0].CurrentState == ParticleAcceleratorState.Wired
-						    || objects[0].Directional.CurrentDirection.AsEnum() != (OrientationEnum) enumDirection || objects[0].ParticleAcceleratorType != section.Value)
+						    || objects[0].Directional.CurrentDirection != (OrientationEnum) enumDirection || objects[0].ParticleAcceleratorType != section.Value)
 						{
 							//Frame or wired are not ready and isn't right direction so failed check
 							correctArrangement = false;

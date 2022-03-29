@@ -248,6 +248,19 @@ public class CharacterSettings
 		}
 	}
 
+	public Gender GetGender()
+	{
+		switch (BodyType)
+		{
+			case BodyType.Male:
+				return Gender.Male;
+			case BodyType.Female:
+				return Gender.Female;
+			default:
+				return Gender.NonBinary;
+		}
+	}
+
 	#region StaticCustomizationFunctions
 
 	public static CharacterSettings RandomizeCharacterSettings(string SpeciesName)

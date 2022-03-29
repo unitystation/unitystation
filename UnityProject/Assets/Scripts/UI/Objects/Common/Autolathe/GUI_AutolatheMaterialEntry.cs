@@ -62,36 +62,6 @@ namespace UI.Objects
 						break;
 				}
 			}
-			UpdateButtonVisibility();
-		}
-
-		public void UpdateButtonVisibility()
-		{
-			int sheetsDispensable = currentAmount / 2000;
-			if (sheetsDispensable < 1)
-			{
-				buttonOne.SetValueServer("false");
-				buttonTen.SetValueServer("false");
-				buttonFifty.SetValueServer("false");
-			}
-			else if (sheetsDispensable >= 1 && sheetsDispensable < 10)
-			{
-				buttonOne.SetValueServer("true");
-				buttonTen.SetValueServer("false");
-				buttonFifty.SetValueServer("false");
-			}
-			else if (sheetsDispensable >= 10 && sheetsDispensable < 50)
-			{
-				buttonOne.SetValueServer("true");
-				buttonTen.SetValueServer("true");
-				buttonFifty.SetValueServer("false");
-			}
-			else
-			{
-				buttonOne.SetValueServer("true");
-				buttonTen.SetValueServer("true");
-				buttonFifty.SetValueServer("true");
-			}
 		}
 	}
 }

@@ -214,12 +214,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  InitialDirection: 3
-  onEditorDirectionChange:
-    m_PersistentCalls:
-      m_Calls: []
-  ChangeDirectionWithMatrix: 0
-  DisableSyncing: 0
+  MethodRotation: 0
+  ChangeSprites: 1
+  isChangingSO: 0
+  CurrentDirection: 3
 --- !u!114 &1105258743114886135
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -319,9 +317,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cb66dca4b3d0d3e4fb6c386f50cd0375, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
   netTransform: {fileID: 2038932850302980570}
   rotateTransform: {fileID: 3704879063443130025}
-  spriteTransform: {fileID: 4102254142472032470}
 --- !u!1 &7320126117105815585
 GameObject:
   m_ObjectHideFlags: 0
@@ -439,4 +438,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   transformToRotateAround: {fileID: 0}
-  offset: {x: 0.5, y: 0, z: 0}
+  offset: {x: 0, y: 0, z: 0}

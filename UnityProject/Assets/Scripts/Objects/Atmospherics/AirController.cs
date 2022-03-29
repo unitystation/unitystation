@@ -202,8 +202,11 @@ namespace Objects.Atmospherics
 
 		private AcuStatus GetMetricStatus(float[] thresholds, float value)
 		{
-			// ACU does not have thresholds data set for this newly-registered gas.
-			if (thresholds.Any(float.IsNaN)) return AcuStatus.Caution;
+			for (int i = 0; i < thresholds.Length; i++)
+			{
+				// ACU does not have thresholds data set for this newly-registered gas.
+				if (float.IsNaN(thresholds[i])) return AcuStatus.Caution;
+			}
 
 			if (value < thresholds[0]) return AcuStatus.Alert;
 			if (value > thresholds[3]) return AcuStatus.Alert;
@@ -249,7 +252,7 @@ namespace Objects.Atmospherics
 
 		#region Interaction
 
-		public bool IsLocked { get; private set; } = true;
+		public bool IsLocked { get; set; } = true;
 
 		public bool WillInteract(HandApply interaction, NetworkSide side)
 		{

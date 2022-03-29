@@ -17,9 +17,13 @@ public class MetaDataLayer : MonoBehaviour
 {
 	private SerializableDictionary<Vector3Int, MetaDataNode> nodes = new SerializableDictionary<Vector3Int, MetaDataNode>();
 
+
+	private MetaDataSystem MetaDataSystem;
+
 	private SubsystemManager subsystemManager;
 	private ReactionManager reactionManager;
 	private Matrix matrix;
+	public Matrix Matrix => matrix;
 	private FloorDecal existingSplat;
 
 	public Dictionary<GameObject, Vector3> InitialObjects = new Dictionary<GameObject, Vector3>();
@@ -29,6 +33,7 @@ public class MetaDataLayer : MonoBehaviour
 		subsystemManager = GetComponentInParent<SubsystemManager>();
 		reactionManager = GetComponentInParent<ReactionManager>();
 		matrix = GetComponent<Matrix>();
+		MetaDataSystem = subsystemManager.GetComponent<MetaDataSystem>();
 	}
 
 	private void OnDestroy()
@@ -45,7 +50,7 @@ public class MetaDataLayer : MonoBehaviour
 		{
 			if (createIfNotExists)
 			{
-				nodes[localPosition] = new MetaDataNode(localPosition, reactionManager, matrix);
+				nodes[localPosition] = new MetaDataNode(localPosition, reactionManager, matrix, MetaDataSystem);
 			}
 			else
 			{
@@ -119,11 +124,11 @@ public class MetaDataLayer : MonoBehaviour
 		var reagentContainer = MatrixManager.GetAt<ReagentContainer>(worldPosInt, true);
 		var existingSplats = MatrixManager.GetAt<FloorDecal>(worldPosInt, true);
 
-		for (var i = 0; i < existingSplats.Count; i++)
+		foreach (var _existingSplat in existingSplats)
 		{
-			if (existingSplats[i].GetComponent<ReagentContainer>())
+			if (_existingSplat.GetComponent<ReagentContainer>())
 			{
-				existingSplat = existingSplats[i];
+				existingSplat = _existingSplat;
 			}
 		}
 
@@ -235,9 +240,9 @@ public class MetaDataLayer : MonoBehaviour
 		Get(localPosInt).IsSlippery = false;
 		var floorDecals = MatrixManager.GetAt<FloorDecal>(worldPosInt, isServer: true);
 
-		for (var i = 0; i < floorDecals.Count; i++)
+		foreach (var floorDecal in floorDecals)
 		{
-			floorDecals[i].TryClean();
+			floorDecal.TryClean();
 		}
 
 		//check for any moppable overlays

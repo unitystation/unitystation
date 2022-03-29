@@ -54,7 +54,6 @@ namespace InGameEvents
 
 		public override void OnEventStartTimed()
 		{
-			Logger.LogError("OnEventStartTimed on EventImmovableRod");
 			if (IsMatrixInvalid()) return;
 
 			var MaxCoord = new Vector2() { x = stationMatrix.WorldBounds.max.x , y = stationMatrix.WorldBounds.max.y };
@@ -123,7 +122,6 @@ namespace InGameEvents
 
 				CentComm.MakeAnnouncement(ChatTemplates.CentcomAnnounce, text, CentComm.UpdateSound.Alert);
 			}
-			Logger.LogError(" EventImmovableRod event  Ended");
 		}
 
 		private IEnumerator SpawnMeteorsWithDelay(float immovableRodPathCoords, Queue<Vector3> impactCoords)
@@ -131,7 +129,7 @@ namespace InGameEvents
 			if (IsMatrixInvalid()) yield break;
 
 			var rod = Instantiate(immovableRodPrefab, position: impactCoords.Peek(), rotation: stationMatrix.ObjectParent.rotation, parent: stationMatrix.ObjectParent);
-			Logger.LogError("Moving Rod");
+
 			for (var i = 1; i <= immovableRodPathCoords; i++)
 			{
 				var strength = UnityEngine.Random.Range(minStrength, maxStrength);
@@ -144,7 +142,7 @@ namespace InGameEvents
 
 				yield return new WaitForSeconds(timeBetweenExplosions);
 			}
-			Logger.LogError("Destroy(rod);");
+
 			Destroy(rod);
 
 			base.OnEventStartTimed();

@@ -48,7 +48,7 @@ namespace Objects
 			SpawnResult flippedObjectSpawn = Spawn.ServerPrefab(flippedObject, gameObject.RegisterTile().WorldPositionServer);
 			if (flippedObjectSpawn.Successful)
 			{
-				if (flippedObjectSpawn.GameObject.TryGetComponent(out Directional directional))
+				if (flippedObjectSpawn.GameObject.TryGetComponent(out Rotatable directional))
 				{
 					var initialOrientation = directional.CurrentDirection;
 					directional.FaceDirection(initialOrientation);

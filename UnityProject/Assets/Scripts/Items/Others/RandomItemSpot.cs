@@ -20,13 +20,18 @@ namespace Items
 
 		private const int MaxAmountRolls = 5;
 
+		[SerializeField]
+		private bool triggerManually = false;
+
 		public void OnSpawnServer(SpawnInfo info)
 		{
 			RollRandomPool(true);
 		}
 
-		public void RollRandomPool(bool UnrestrictedAndspawn)
+		public void RollRandomPool(bool UnrestrictedAndspawn, bool overrideTrigger = false)
 		{
+			if(overrideTrigger == false && triggerManually) return;
+
 			var RegisterTile = this.GetComponent<RegisterTile>();
 			for (int i = 0; i < lootCount; i++)
 			{

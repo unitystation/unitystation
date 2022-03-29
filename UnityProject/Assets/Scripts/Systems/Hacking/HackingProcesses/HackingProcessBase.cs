@@ -9,6 +9,7 @@ using NaughtyAttributes;
 using Initialisation;
 using Messages.Client;
 using Objects.Electrical;
+using Systems.Explosions;
 
 namespace Systems.Hacking
 {
@@ -18,7 +19,7 @@ namespace Systems.Hacking
 	/// e.g. check if interacted with a screw driver, then check if
 	/// </summary>
 	[RequireComponent(typeof(ItemStorage))]
-	public class HackingProcessBase : NetworkBehaviour, IServerDespawn
+	public class HackingProcessBase : NetworkBehaviour, IServerDespawn, IEmpAble
 	{
 		private static Dictionary<Type, Dictionary<MethodInfo, Color>> ColourDictionary = new Dictionary<Type, Dictionary<MethodInfo, Color>>();
 
@@ -270,9 +271,9 @@ namespace Systems.Hacking
 
 
 					var Hand = PlayerScript.DynamicItemStorage.GetBestHand(Spawned.GetComponent<Stackable>());
-					if (Hand == null)
+					if (Hand == null || Hand.IsOccupied)
 					{
-						Spawned.GetComponent<CustomNetTransform>().AppearAtPositionServer(PlayerScript.WorldPos - this.GetComponent<RegisterTile>().WorldPositionServer);
+						Spawned.GetComponent<CustomNetTransform>().AppearAtPositionServer(PlayerScript.AssumedWorldPos);
 					}
 					else
 					{
@@ -315,7 +316,7 @@ namespace Systems.Hacking
 					foreach (var cable in Cables)
 					{
 						if (LocalPortInput.LocalAction == cable.PanelInput &&
-						    LocalPortOutput.LocalAction == cable.PanelOutput)
+							LocalPortOutput.LocalAction == cable.PanelOutput)
 						{
 							return; //Cable Already at position
 						}
@@ -364,6 +365,17 @@ namespace Systems.Hacking
 					insertCable.PanelOutput = StartActions;
 					Connections[StartActions].Add(insertCable);
 					Cables.Add(insertCable);
+				}
+			}
+		}
+
+		public void OnEmp(int EmpStrength = 0)
+		{
+			foreach(Cable cable in Cables)
+			{
+				if(DMMath.Prob(50))
+				{
+					cable.Impulse();
 				}
 			}
 		}

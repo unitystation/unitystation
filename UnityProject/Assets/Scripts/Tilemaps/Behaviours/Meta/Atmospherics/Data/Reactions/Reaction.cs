@@ -445,7 +445,7 @@ namespace Systems.Atmospherics
 						Gas.Plasma,
 						new GasReactionData()
 						{
-							minimumMolesToReact = 10
+							minimumMolesToReact = AtmosDefines.MINIMUM_MOLE_COUNT
 						}
 					},
 
@@ -466,13 +466,13 @@ namespace Systems.Atmospherics
 					}
 				},
 
-				minimumTileTemperature: AtmosDefines.STIMULUM_HEAT_SCALE / 2,
+				minimumTileTemperature: 1500,
 				maximumTileTemperature: 10000000000,
 				minimumTilePressure: 0,
 				maximumTilePressure: 10000000000,
 
 				//Tritium + Plasma + BZ + Nitryl
-				minimumTileMoles: 90,
+				minimumTileMoles: 80,
 				maximumTileMoles: 10000000000,
 				addToBaseReactions: true
 			);

@@ -22,6 +22,7 @@ namespace AdminTools
 		[SerializeField] private GameObject eventsManagerPage = null;
 		[SerializeField] private GameObject roundManagerPage = null;
 		[SerializeField] private GameObject devToolsPage = null;
+		[SerializeField] private GameObject serverSettingsPage = null;
 		[SerializeField] private AdminRespawnPage adminRespawnPage = default;
 		private PlayerChatPage playerChatPageScript;
 		private PlayerManagePage playerManagePageScript;
@@ -139,6 +140,14 @@ namespace AdminTools
 			AdminCommandsManager.Instance.CmdRequestProfiles();
 		}
 
+		public void ShowServerSettingsPage()
+		{
+			DisableAllPages();
+			serverSettingsPage.SetActive(true);
+			backBtn.SetActive(true);
+			windowTitle.text = "SERVER SETTINGS";
+		}
+
 		public void ShowRespawnPage()
 		{
 			DisableAllPages();
@@ -162,6 +171,7 @@ namespace AdminTools
 			kickBanEntryPage.gameObject.SetActive(false);
 			areYouSurePage.gameObject.SetActive(false);
 			adminRespawnPage.gameObject.SetActive(false);
+			serverSettingsPage.gameObject.SetActive(false);
 		}
 
 		public void CloseRetrievingDataScreen()

@@ -22,7 +22,7 @@ MonoBehaviour:
       Directions:
       - Bool: 1
         pipeType: 1
-        PortType: 0
+        PortType: 3
         flagLogic: 0
       - Bool: 0
         pipeType: 1
@@ -30,7 +30,7 @@ MonoBehaviour:
         flagLogic: 0
       - Bool: 1
         pipeType: 1
-        PortType: 3
+        PortType: 0
         flagLogic: 0
       - Bool: 0
         pipeType: 1
@@ -53,6 +53,8 @@ MonoBehaviour:
         Temperature: 293.15
     MonoPipe: {fileID: 0}
   Colour: {r: 1, g: 1, b: 1, a: 1}
+  spawnedFromItem: 1
+  directional: {fileID: 0}
   spriteHandlerOverlay: {fileID: 6365627804656590152}
   IsOn: 0
 --- !u!1 &8615011672783284396
@@ -80,7 +82,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8615011672783284396}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: -1, w: -0.00000004371139}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
@@ -155,6 +157,7 @@ MonoBehaviour:
   SubCatalogue: []
   PresentSpriteSet: {fileID: 11400000, guid: 3a9de78bf93167b41aca0ce941e5f4b0, type: 2}
   randomInitialSprite: 0
+  doReverseAnimation: 0
   pushTextureOnStartUp: 0
   initialVariantIndex: 0
   palette: []
@@ -203,22 +206,22 @@ PrefabInstance:
     - target: {fileID: 1583787549853510187, guid: 40b91fa71481bb54cbec1e89fa1ff1d2,
         type: 3}
       propertyPath: m_LocalRotation.w
-      value: 1
+      value: 0.7071068
       objectReference: {fileID: 0}
     - target: {fileID: 1583787549853510187, guid: 40b91fa71481bb54cbec1e89fa1ff1d2,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1583787549853510187, guid: 40b91fa71481bb54cbec1e89fa1ff1d2,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1583787549853510187, guid: 40b91fa71481bb54cbec1e89fa1ff1d2,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0
+      value: -0.7071068
       objectReference: {fileID: 0}
     - target: {fileID: 1583787549853510187, guid: 40b91fa71481bb54cbec1e89fa1ff1d2,
         type: 3}
@@ -239,7 +242,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 02663cdc96c04ce45bbc9a2a172da315,
+      objectReference: {fileID: 21300000, guid: d524c6a66521a6847802381f09bed474,
         type: 3}
     - target: {fileID: 1625578739251644646, guid: 40b91fa71481bb54cbec1e89fa1ff1d2,
         type: 3}
@@ -255,20 +258,35 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 2217fe06c75376d41af4a23f9383b678,
+      objectReference: {fileID: 21300002, guid: a5831f8b6dd567b41936e6c9fe76e4a2,
         type: 3}
+    - target: {fileID: 5075775655067238256, guid: 40b91fa71481bb54cbec1e89fa1ff1d2,
+        type: 3}
+      propertyPath: CurrentDirection
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5372049338755677934, guid: 40b91fa71481bb54cbec1e89fa1ff1d2,
         type: 3}
       propertyPath: PresentSpriteSet
       value: 
-      objectReference: {fileID: 11400000, guid: 4b9517bdeea788140abc850f18e4a32d,
+      objectReference: {fileID: 11400000, guid: c59c5e3dd182a7649a161ea1d0bbc672,
         type: 2}
+    - target: {fileID: 5372049338755677934, guid: 40b91fa71481bb54cbec1e89fa1ff1d2,
+        type: 3}
+      propertyPath: initialVariantIndex
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6323048891065173547, guid: 40b91fa71481bb54cbec1e89fa1ff1d2,
         type: 3}
       propertyPath: PresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: c090b9b663714c24bb0bff027182bd6f,
         type: 2}
+    - target: {fileID: 6323048891065173547, guid: 40b91fa71481bb54cbec1e89fa1ff1d2,
+        type: 3}
+      propertyPath: initialVariantIndex
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6931842893682907539, guid: 40b91fa71481bb54cbec1e89fa1ff1d2,
         type: 3}
       propertyPath: m_AssetId
@@ -279,6 +297,12 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 7572042400133878058, guid: 40b91fa71481bb54cbec1e89fa1ff1d2,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: b0acb51e1d67bac48a3d15a157fef8bb,
+        type: 3}
     - target: {fileID: 8163608160046166977, guid: 40b91fa71481bb54cbec1e89fa1ff1d2,
         type: 3}
       propertyPath: initialName
@@ -288,6 +312,11 @@ PrefabInstance:
         type: 3}
       propertyPath: initialDescription
       value: A pump that moves gas by pressure.
+      objectReference: {fileID: 0}
+    - target: {fileID: 8913505815451129662, guid: 40b91fa71481bb54cbec1e89fa1ff1d2,
+        type: 3}
+      propertyPath: initialVariantIndex
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 40b91fa71481bb54cbec1e89fa1ff1d2, type: 3}

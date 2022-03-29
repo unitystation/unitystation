@@ -14,9 +14,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  initialAmount: 1
-  maxAmount: 50
+  initialAmount: 15
+  maxAmount: 15
   stacksWith: []
+  stackNames: []
+  stackSprites:
+  - SpriteSO: {fileID: 11400000, guid: 3cb6f2ed76d09d648bda958c4ccebead, type: 2}
+    OverAmount: 2
+  - SpriteSO: {fileID: 11400000, guid: 98d622dd10330c2429a0259832426185, type: 2}
+    OverAmount: 6
+  - SpriteSO: {fileID: 11400000, guid: 7ab2f0c44122e1246a8aa1b3bd3f7d6a, type: 2}
+    OverAmount: 15
+  - SpriteSO: {fileID: 11400000, guid: ee25f4a4194b23247b9b9dd029f2caec, type: 2}
+    OverAmount: 16
+  autoStackOnSpawn: 1
+  autoStackOnDrop: 0
 --- !u!114 &2710468740513023014
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -34,6 +46,32 @@ MonoBehaviour:
   HealsTraumaDamage: 1
   TraumaDamageToHeal: 50
   TraumaTypeToHeal: 3
+--- !u!114 &4620297301374731262
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1791647728409730387}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 86536f54b4694d5a98b2f4962a473b7e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  spriteHandler: {fileID: 5592108624515032788}
+  destroyThisComponentOnOpen: 1
+  openingNoise:
+    SetLoadSetting: 0
+    AssetAddress: 
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+  openedSprite: {fileID: 11400000, guid: 7ab2f0c44122e1246a8aa1b3bd3f7d6a, type: 2}
+  openingVerb: you tear open the anti-microbial wrapping on the
+  openingRequirementText: You need to open this first before using it!
 --- !u!1001 &1792047792650166761
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -96,6 +134,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 114776788309089574, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
+      propertyPath: customNetTransform
+      value: 
+      objectReference: {fileID: 1821874675337654403}
+    - target: {fileID: 114776788309089574, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
       propertyPath: CurrentsortingGroup
       value: 
       objectReference: {fileID: 5506006793603177245}
@@ -103,7 +146,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 2ee88e67862958e4faf22c9b3712ecd6,
+      objectReference: {fileID: 21300000, guid: 76f7f575af7224b40b20611fffcb73f9,
         type: 3}
     - target: {fileID: 212340400423555046, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
@@ -118,12 +161,12 @@ PrefabInstance:
     - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
       propertyPath: exportName
-      value: Gauze
+      value: Regen Mesh
       objectReference: {fileID: 0}
     - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
       propertyPath: initialName
-      value: Gauze
+      value: Regen Mesh
       objectReference: {fileID: 0}
     - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
@@ -133,7 +176,7 @@ PrefabInstance:
     - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
       propertyPath: initialDescription
-      value: Wrap it around a bleeding limb to stop the bleeding.
+      value: A bacteriostatic mesh used to dress burns.
       objectReference: {fileID: 0}
     - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
@@ -151,11 +194,21 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 10196b348bc94184cbb087529ac01c0c,
         type: 2}
+    - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      propertyPath: inventoryMoveSound.AssetAddress
+      value: null
+      objectReference: {fileID: 0}
+    - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      propertyPath: inventoryRemoveSound.AssetAddress
+      value: null
+      objectReference: {fileID: 0}
     - target: {fileID: 6144467708197095229, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
       propertyPath: PresentSpriteSet
       value: 
-      objectReference: {fileID: 11400000, guid: 7ab2f0c44122e1246a8aa1b3bd3f7d6a,
+      objectReference: {fileID: 11400000, guid: ee25f4a4194b23247b9b9dd029f2caec,
         type: 2}
     - target: {fileID: 6393191727481188567, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
@@ -170,9 +223,33 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 1792047792650166761}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1821874675337654403 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 114341119007412586, guid: a7abba22164ce49f0bf9b9b219f39298,
+    type: 3}
+  m_PrefabInstance: {fileID: 1792047792650166761}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1791647728409730387}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 579884b05ae74e8499329b64997147d3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!210 &5506006793603177245 stripped
 SortingGroup:
   m_CorrespondingSourceObject: {fileID: 6104600676241079028, guid: a7abba22164ce49f0bf9b9b219f39298,
     type: 3}
   m_PrefabInstance: {fileID: 1792047792650166761}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &5592108624515032788 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6144467708197095229, guid: a7abba22164ce49f0bf9b9b219f39298,
+    type: 3}
+  m_PrefabInstance: {fileID: 1792047792650166761}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Profiling;
 using Random = UnityEngine.Random;
-using TileManagement;
 
 namespace Systems.Atmospherics
 {
@@ -59,7 +58,7 @@ namespace Systems.Atmospherics
 		private void Start()
 		{
 			fireLight = AtmosManager.Instance.fireLight;
-			AtmosThread.reactionManagerList.Add(this);
+			AtmosManager.Instance.reactionManagerList.Add(this);
 		}
 
 		private void OnEnable()
@@ -128,13 +127,7 @@ namespace Systems.Atmospherics
 			//hotspot spread to adjacent tiles and damage
 			foreach (MetaDataNode node in hotspots.Values)
 			{
-				foreach (var neighbor in node.Neighbors)
-				{
-					if (neighbor != null)
-					{
-						ExposeHotspot(neighbor.Position);
-					}
-				}
+				ExposeHotspot(node.Position);
 			}
 
 			reactionTick++;
@@ -143,9 +136,15 @@ namespace Systems.Atmospherics
 
 		private void ProcessWindNodes(MetaDataNode windyNode)
 		{
-			foreach (var pushable in matrix.Get<PushPull>(windyNode.Position, true))
+			foreach (var registerTile in matrix.GetRegisterTile(windyNode.Position, true))
 			{
-				float correctedForce = (windyNode.WindForce * PushMultiplier) / (int)pushable.Pushable.Size;
+				//Quicker to get all RegisterTiles and grab the cached PushPull component from it than to get it manually using Get<>
+				if (registerTile.PushPull.HasComponent == false) continue;
+
+				var pushable = registerTile.PushPull.Component;
+
+				float correctedForce = (windyNode.WindForce * PushMultiplier) / (int) pushable.Pushable.Size;
+
 				if (correctedForce >= AtmosConstants.MinPushForce)
 				{
 					if (pushable.Pushable.IsTileSnap)
@@ -154,7 +153,7 @@ namespace Systems.Atmospherics
 						for (byte j = 0; j < pushes; j++)
 						{
 							//converting push to world coords because winddirection is in local coords
-							pushable.QueuePush((transform.rotation * windyNode.WindDirection.To3Int()).To2Int(),
+							pushable.QueuePush((transform.rotation * (Vector2)windyNode.WindDirection).To2Int(),
 								Random.Range((float)(correctedForce * 0.8), correctedForce));
 						}
 					}
@@ -333,8 +332,8 @@ namespace Systems.Atmospherics
 			Profiler.BeginSample("ExposureInit");
 			var isSideExposure = hotspotPosition != atLocalPosition;
 			//calculate world position
-			var hotspotWorldPosition = MatrixManager.LocalToWorldInt(hotspotPosition, MatrixManager.Get(matrix));
-			var atWorldPosition = MatrixManager.LocalToWorldInt(atLocalPosition, MatrixManager.Get(matrix));
+			var hotspotWorldPosition = MatrixManager.LocalToWorldInt(hotspotPosition, matrix.MatrixInfo);
+			var atWorldPosition = MatrixManager.LocalToWorldInt(atLocalPosition, matrix.MatrixInfo);
 
 			if (!hotspots.ContainsKey(hotspotPosition))
 			{

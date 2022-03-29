@@ -18,6 +18,12 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 3fd7d6f9c662f6842b11c1b8777942b3,
         type: 2}
+    - target: {fileID: 2708525666452541148, guid: 3b07eb4c1c5e8f64eb2e3bb79c0db497,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: a1e9c3f1b81bbc24f82e94d2b71e01c7,
+        type: 3}
     - target: {fileID: 2806652032021486620, guid: 3b07eb4c1c5e8f64eb2e3bb79c0db497,
         type: 3}
       propertyPath: customNetTransform
@@ -88,6 +94,12 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8223985327567078919, guid: 3b07eb4c1c5e8f64eb2e3bb79c0db497,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 5a5ae5586c8440749996290479644ed8,
+        type: 2}
     - target: {fileID: 9213751064059195885, guid: 3b07eb4c1c5e8f64eb2e3bb79c0db497,
         type: 3}
       propertyPath: foreverID

@@ -782,7 +782,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300002, guid: a66daa6c84d771445bf2a00e0e1389a6,
+      objectReference: {fileID: 21300000, guid: a66daa6c84d771445bf2a00e0e1389a6,
         type: 3}
     - target: {fileID: 9081061823247388186, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
@@ -844,7 +844,9 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 1251273808921218093, guid: 2f2954acc32d9d3468c620e34a625966, type: 3}
+    - {fileID: 4299547928631692446, guid: 2f2954acc32d9d3468c620e34a625966, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 2f2954acc32d9d3468c620e34a625966, type: 3}
 --- !u!114 &3703115102036861195 stripped
 MonoBehaviour:
