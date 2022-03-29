@@ -29,7 +29,8 @@ namespace CustomInspectors
 				{
 					runningInterfaces.Add(ScriptableObject.CreateInstance<MasterDeviceInspector>());
 				}
-				else if (interfaceType == typeof(ISubscriptionController))
+
+				if (interfaceType == typeof(ISubscriptionController))
 				{
 					runningInterfaces.Add(ScriptableObject.CreateInstance<SubscriptionControllerEditor>());
 				}

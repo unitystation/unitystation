@@ -90,6 +90,7 @@ namespace Objects.Engineering
 		private void OnEnable()
 		{
 			integrity.OnWillDestroyServer.AddListener(WhenDestroyed);
+			base.OnEnable();
 		}
 
 		private void Start()
