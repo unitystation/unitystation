@@ -95,7 +95,7 @@ namespace IgnoranceTransport
             Address clientAddress = new Address();
             Peer clientPeer;        // The peer object that represents the client's connection.
             Host clientHost;        // NOT related to Mirror "Client Host". This is the client's ENet Host Object.
-            Event clientEvent;      // Used when clients get events on the network.
+            ENet.Event clientEvent;      // Used when clients get events on the network.
             IgnoranceClientStats icsu = default;
             bool alreadyNotifiedAboutDisconnect = false;
 
