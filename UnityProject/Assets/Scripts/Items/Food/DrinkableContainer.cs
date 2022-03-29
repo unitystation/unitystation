@@ -85,7 +85,7 @@ public class DrinkableContainer : Consumable
 		}
 	}
 
-	private void Drink(PlayerScript eater, PlayerScript feeder)
+	public virtual void Drink(PlayerScript eater, PlayerScript feeder)
 	{
 		// Start drinking reagent mix
 		var drinkAmount = container.TransferAmount;
