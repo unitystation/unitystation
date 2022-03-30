@@ -12,7 +12,7 @@ namespace Items
 {
 	public class ButtonSignalReceiver : SignalReceiver, ICheckedInteractable<HandApply>
 	{
-		private DoorSwitch doorSwitch;
+		public DoorSwitch doorSwitch;
 
 		public override void ReceiveSignal(SignalStrength strength, SignalEmitter responsibleEmitter, ISignalMessage message = null)
 		{
