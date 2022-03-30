@@ -17,9 +17,10 @@ namespace CustomInspectors
 	{
 #if UNITY_EDITOR
 		public List<InterfaceEditor> runningInterfaces = new List<InterfaceEditor>();
-
+#endif
 		public virtual void OnEnable()
 		{
+#if UNITY_EDITOR
 			runningInterfaces.Clear();
 			var objType = GetType();
 			Type[] interfaceList = objType.GetInterfaces();
@@ -35,9 +36,9 @@ namespace CustomInspectors
 					runningInterfaces.Add(ScriptableObject.CreateInstance<SubscriptionControllerEditor>());
 				}
 			}
-
-		}
 #endif
+		}
+
 	}
 #if UNITY_EDITOR
 	[CustomEditor(typeof(ImnterfaceMultitoolGUI), true)]
