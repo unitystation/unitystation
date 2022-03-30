@@ -310,28 +310,10 @@ public class ChatRelay : NetworkBehaviour
 			case ChatChannel.Security:
 				_ = SoundManager.Play(Chat.Instance.commonSecurityChannelSound);
 				break;
-			case ChatChannel.Common:
-				_ = SoundManager.Play(Chat.Instance.commonRadioChannelSound);
-				break;
-			case ChatChannel.Engineering:
-				_ = SoundManager.Play(Chat.Instance.commonRadioChannelSound);
-				break;
-			case ChatChannel.Science:
-				_ = SoundManager.Play(Chat.Instance.commonRadioChannelSound);
-				break;
-			case ChatChannel.CentComm:
-				_ = SoundManager.Play(Chat.Instance.commonRadioChannelSound);
-				break;
-			case ChatChannel.Supply:
-				_ = SoundManager.Play(Chat.Instance.commonRadioChannelSound);
-				break;
-			case ChatChannel.Command:
-				_ = SoundManager.Play(Chat.Instance.commonRadioChannelSound);
-				break;
-			case ChatChannel.Medical:
-				_ = SoundManager.Play(Chat.Instance.commonRadioChannelSound);
-				break;
-			case ChatChannel.Binary:
+			case var c when c.HasFlag(ChatChannel.Binary) ||
+			                c.HasFlag(ChatChannel.Medical) || c.HasFlag(ChatChannel.Command)
+			                || c.HasFlag(ChatChannel.Supply) || c.HasFlag(ChatChannel.CentComm) ||
+			                c.HasFlag(ChatChannel.Science) || c.HasFlag(ChatChannel.Engineering) || c.HasFlag(ChatChannel.Common):
 				_ = SoundManager.Play(Chat.Instance.commonRadioChannelSound);
 				break;
 		}
