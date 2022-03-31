@@ -310,6 +310,9 @@ public class ChatRelay : NetworkBehaviour
 			case ChatChannel.Security:
 				_ = SoundManager.Play(Chat.Instance.commonSecurityChannelSound);
 				break;
+			case ChatChannel.Common:
+				_ = SoundManager.Play(Chat.Instance.commonRadioChannelSound);
+				break;
 			case ChatChannel.Binary:
 				_ = SoundManager.Play(Chat.Instance.commonRadioChannelSound);
 				break;
@@ -329,9 +332,6 @@ public class ChatRelay : NetworkBehaviour
 				_ = SoundManager.Play(Chat.Instance.commonRadioChannelSound);
 				break;
 			case ChatChannel.Engineering:
-				_ = SoundManager.Play(Chat.Instance.commonRadioChannelSound);
-				break;
-			case ChatChannel.Common:
 				_ = SoundManager.Play(Chat.Instance.commonRadioChannelSound);
 				break;
 		}
