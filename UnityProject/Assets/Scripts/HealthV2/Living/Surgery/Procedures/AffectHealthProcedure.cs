@@ -15,20 +15,25 @@ namespace HealthV2
 
 		public AttackType FailAttackType = AttackType.Melee;
 
+		public bool UseUpItem = false;
+
 		public override void FinnishSurgeryProcedure(BodyPart OnBodyPart, HandApply interaction,
 			Dissectible.PresentProcedure PresentProcedure)
 		{
 			if (interaction.HandSlot.Item != null && interaction.HandSlot.Item.GetComponent<ItemAttributesV2>().HasTrait(RequiredTrait))
 			{
 				OnBodyPart.HealDamage(interaction.UsedObject,HeelStrength,Affects);
-				var stackable = interaction.UsedObject.GetComponent<Stackable>();
-				if (stackable != null)
+				if (UseUpItem)
 				{
-					stackable.ServerConsume(1);
-				}
-				else
-				{
-					_ = Despawn.ServerSingle(interaction.UsedObject);
+					var stackable = interaction.UsedObject.GetComponent<Stackable>();
+					if (stackable != null)
+					{
+						stackable.ServerConsume(1);
+					}
+					else
+					{
+						_ = Despawn.ServerSingle(interaction.UsedObject);
+					}
 				}
 			}
 		}
