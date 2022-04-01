@@ -25,8 +25,6 @@ namespace AdminTools
 		private void SendCentCommAnnouncement()
 		{
 			AdminCommandsManager.Instance.CmdSendCentCommAnnouncement(CentCommInputBox.text);
-
-			adminTools.ShowMainPage();
 		}
 
 		public void SendCentCommReportButtonClick()
@@ -37,8 +35,6 @@ namespace AdminTools
 		private void SendCentCommReport()
 		{
 			AdminCommandsManager.Instance.CmdSendCentCommReport(CentCommInputBox.text);
-
-			adminTools.ShowMainPage();
 		}
 
 		public void CallShuttleButtonClick()

@@ -124,13 +124,5 @@ namespace AdminTools
 			yield return WaitFor.EndOfFrame;
 			UIManager.IsInputFocus = true;
 		}
-
-		public void GoBack()
-		{
-			refreshClock = false;
-			UIManager.IsInputFocus = false;
-			UIManager.PreventChatInput = false;
-			adminTools.ShowMainPage();
-		}
 	}
 }
