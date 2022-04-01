@@ -88,7 +88,7 @@ namespace UI.Systems.AdminTools
 
 		public void GiveItem(DevSpawnerDocument selectedPrefab)
 		{
-			if(selectedPlayer == null || selectedPrefab.Prefab == null) return;
+			if(selectedPlayer == null || selectedPlayer.Script.DynamicItemStorage == null || selectedPrefab.Prefab == null) return;
 			var count = Convert.ToInt32(countInput.text);
 			var item = Spawn.ServerPrefab(selectedPrefab.Prefab, selectedPlayer.Script.mind.body.gameObject.AssumedWorldPosServer());
 			var slot = selectedPlayer.Script.DynamicItemStorage.GetBestHandOrSlotFor(item.GameObject);
