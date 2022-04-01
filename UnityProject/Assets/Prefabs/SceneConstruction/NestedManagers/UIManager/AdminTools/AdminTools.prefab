@@ -2994,7 +2994,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 598.75, y: -51.28}
-  m_SizeDelta: {x: 523.3188, y: 100.56}
+  m_SizeDelta: {x: 300, y: 100.56}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &5302890689566447666
 CanvasRenderer:
@@ -3145,9 +3145,9 @@ MonoBehaviour:
   m_IgnoreLayout: 0
   m_MinWidth: 300
   m_MinHeight: 100
-  m_PreferredWidth: 1195.5
+  m_PreferredWidth: 300
   m_PreferredHeight: 100.56
-  m_FlexibleWidth: 25
+  m_FlexibleWidth: 300
   m_FlexibleHeight: 25
   m_LayoutPriority: 1
 --- !u!1 &630314183170873444
@@ -6412,9 +6412,9 @@ RectTransform:
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
+  m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: -17}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &3373839564378275507
 MonoBehaviour:
@@ -18894,9 +18894,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Content: {fileID: 2800070812383424814}
-  m_Horizontal: 0
-  m_Vertical: 1
-  m_MovementType: 2
+  m_Horizontal: 1
+  m_Vertical: 0
+  m_MovementType: 1
   m_Elasticity: 0.1
   m_Inertia: 1
   m_DecelerationRate: 0.1
