@@ -250,9 +250,9 @@ namespace AdminTools
 
 		public void UpdateWindowTransparency()
 		{
-			var bgColor = backgroundImage.material.color;
+			var bgColor = backgroundImage.color;
 			bgColor.a = transparencySlider.value;
-			backgroundImage.material.color = bgColor;
+			backgroundImage.color = bgColor;
 		}
 	}
 }

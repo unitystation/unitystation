@@ -140,6 +140,17 @@ public partial class PlayerList : NetworkBehaviour
 		return InGamePlayers.FindAll(p => (p.Script != null) && p.Script.registerTile.Matrix.Id == matrix?.Id);
 	}
 
+	public ConnectedPlayer GetPlayerByID(string id)
+	{
+		foreach (var player in AllPlayers)
+		{
+			if(player.UserId != id) continue;
+			return player;
+		}
+
+		return null;
+	}
+
 	public List<ConnectedPlayer> GetAlivePlayers(List<ConnectedPlayer> players = null)
 	{
 		if (players == null)
