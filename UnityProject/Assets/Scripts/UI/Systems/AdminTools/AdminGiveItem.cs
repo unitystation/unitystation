@@ -97,7 +97,7 @@ namespace UI.Systems.AdminTools
 			}
 			var item = Spawn.ServerPrefab(selectedPrefab.Prefab, selectedPlayer.Script.mind.body.gameObject.AssumedWorldPosServer());
 			var slot = selectedPlayer.Script.DynamicItemStorage.GetBestHandOrSlotFor(item.GameObject);
-			if (item.GameObject.TryGetComponent<Stackable>(out var stackable))
+			if (item.GameObject.TryGetComponent<Stackable>(out var stackable) && stackable.MaxAmount <= count)
 			{
 				stackable.ServerSetAmount(count);
 			}
@@ -105,7 +105,8 @@ namespace UI.Systems.AdminTools
 			{
 				Inventory.ServerAdd(item.GameObject, slot);
 			}
-			Chat.AddExamineMsg(selectedPlayer.Script.gameObject, messageInput.text);
+			if(messageInput.text.Contains("") == false) Chat.AddExamineMsg(selectedPlayer.Script.gameObject, messageInput.text);
+			Chat.AddExamineMsg(PlayerManager.LocalPlayer, $"You have given {selectedPlayer.Script.visibleName} : {item.GameObject.ExpensiveName()}");
 		}
 
 		public void GoBack()
