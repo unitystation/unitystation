@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using AdminTools;
+using Castle.Core.Internal;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -101,7 +102,7 @@ namespace UI.Systems.AdminTools
 			{
 				Inventory.ServerAdd(item.GameObject, slot);
 			}
-			if(messageInput.text.Contains("") == false) Chat.AddExamineMsg(selectedPlayer.Script.gameObject, messageInput.text);
+			if(messageInput.text.IsNullOrEmpty() == false) Chat.AddExamineMsg(selectedPlayer.Script.gameObject, messageInput.text);
 			Chat.AddExamineMsg(PlayerManager.LocalPlayer, $"You have given {selectedPlayer.Script.visibleName} : {item.GameObject.ExpensiveName()}");
 		}
 
