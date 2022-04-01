@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using AdminCommands;
 using UI.AdminTools;
+using UI.Systems.AdminTools;
 
 
 namespace AdminTools
@@ -24,6 +25,7 @@ namespace AdminTools
 		[SerializeField] private AdminRespawnPage adminRespawnPage = default;
 		[SerializeField] private Slider transparencySlider;
 		[SerializeField] private Image backgroundImage;
+		public AdminGiveItem giveItemPage;
 		private PlayerChatPage playerChatPageScript;
 		private PlayerManagePage playerManagePageScript;
 		public KickBanEntryPage kickBanEntryPage;
@@ -137,6 +139,15 @@ namespace AdminTools
 			windowTitle.text = "RESPAWN A PLAYER";
 		}
 
+		public void ShowGiveItemPagePage()
+		{
+			DisableAllPages();
+			giveItemPage.SetActive(true);
+			windowTitle.text = $"Give item to {giveItemPage.selectedPlayer.Script.visibleName}";
+			UIManager.IsInputFocus = true;
+			UIManager.PreventChatInput = true;
+		}
+
 		void DisableAllPages()
 		{
 			retrievingDataScreen.SetActive(false);
@@ -152,6 +163,7 @@ namespace AdminTools
 			areYouSurePage.gameObject.SetActive(false);
 			adminRespawnPage.gameObject.SetActive(false);
 			serverSettingsPage.gameObject.SetActive(false);
+			giveItemPage.SetActive(false);
 		}
 
 		public void CloseRetrievingDataScreen()
