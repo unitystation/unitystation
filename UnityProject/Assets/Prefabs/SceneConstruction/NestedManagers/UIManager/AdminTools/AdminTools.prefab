@@ -42576,9 +42576,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 9153378183886187488}
-        m_TargetAssemblyTypeName: AdminTools.GUI_AdminTools, Assets
-        m_MethodName: ShowPlayerManagePage
+      - m_Target: {fileID: 6346748651781295405}
+        m_TargetAssemblyTypeName: UI.Systems.AdminTools.AdminGiveItem, Assets
+        m_MethodName: GoBack
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
