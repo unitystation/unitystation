@@ -34,6 +34,18 @@ namespace UI.Systems.AdminTools
 			Search(normalList);
 		}
 
+		private void OnDisable()
+		{
+			UIManager.IsInputFocus = false;
+			UIManager.PreventChatInput = false;
+		}
+
+		private void OnEnable()
+		{
+			UIManager.IsInputFocus = true;
+			UIManager.PreventChatInput = true;
+		}
+
 		public void OnSearchBoxChanged()
 		{
 			Search(normalList);
@@ -85,7 +97,7 @@ namespace UI.Systems.AdminTools
 			}
 			var item = Spawn.ServerPrefab(selectedPrefab.Prefab, selectedPlayer.Script.mind.body.gameObject.AssumedWorldPosServer());
 			var slot = selectedPlayer.Script.DynamicItemStorage.GetBestHandOrSlotFor(item.GameObject);
-			if (selectedPrefab.Prefab.TryGetComponent<Stackable>(out var stackable))
+			if (item.GameObject.TryGetComponent<Stackable>(out var stackable))
 			{
 				stackable.ServerSetAmount(count);
 			}
@@ -99,6 +111,8 @@ namespace UI.Systems.AdminTools
 		public void GoBack()
 		{
 			adminTools.ShowPlayerManagePage();
+			UIManager.IsInputFocus = false;
+			UIManager.PreventChatInput = false;
 		}
 	}
 }
