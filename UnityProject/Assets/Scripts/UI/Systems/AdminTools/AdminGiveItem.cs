@@ -23,7 +23,7 @@ namespace UI.Systems.AdminTools
 		[SerializeField] private GameObject itemEntry;
 		[SerializeField] private GUI_AdminTools adminTools;
 
-		private  void Start()
+		private void Start()
 		{
 			if (recommendedGameObjects.Count > 0)
 			{
