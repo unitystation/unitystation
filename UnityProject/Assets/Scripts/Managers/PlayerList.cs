@@ -144,8 +144,7 @@ public partial class PlayerList : NetworkBehaviour
 	{
 		foreach (var player in AllPlayers)
 		{
-			if(player.UserId != id) continue;
-			return player;
+			if(player.UserId == id) return player;
 		}
 
 		return null;
