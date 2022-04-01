@@ -90,11 +90,6 @@ namespace UI.Systems.AdminTools
 		{
 			if(selectedPlayer == null || selectedPrefab.Prefab == null) return;
 			var count = Convert.ToInt32(countInput.text);
-			if (selectedPlayer.Script.IsDeadOrGhost)
-			{
-				Logger.LogWarning("Attempted giving a dead player an item!");
-				return;
-			}
 			var item = Spawn.ServerPrefab(selectedPrefab.Prefab, selectedPlayer.Script.mind.body.gameObject.AssumedWorldPosServer());
 			var slot = selectedPlayer.Script.DynamicItemStorage.GetBestHandOrSlotFor(item.GameObject);
 			if (item.GameObject.TryGetComponent<Stackable>(out var stackable) && stackable.MaxAmount <= count)
