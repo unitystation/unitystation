@@ -59,6 +59,7 @@ namespace UI.Systems.AdminTools
 				{
 					CreateListItem(doc, list);
 				}
+				return;
 			}
 
 			if (searchBox.text.Length < 2) return;
