@@ -31,6 +31,8 @@ namespace Managers
 			foreach (SignalReceiver receiver in Receivers)
 			{
 				if (receiver.gameObject == null) continue;
+				//So servers don't accidentally send data back to themselves
+				if(emitter.gameObject == receiver.gameObject) continue;
 				if (receiver.SignalTypeToReceive != type) continue;
 
 				//If the signals are not on the same frequency or requires encryption
@@ -48,7 +50,7 @@ namespace Managers
 				if ((receiver.SignalTypeToReceive == SignalType.RADIOCLIENT || receiver.SignalTypeToReceive == SignalType.RADIOSERVER)
 					&& AreOnTheSameFrequancy(receiver, emitter))
 				{
-					if (receiver is RadioSignalProcessor c)
+					if (receiver.SignalTypeToReceive == SignalType.RADIOSERVER && receiver is RadioSignalProcessor c)
 					{
 						if(c.requiresPower && c.isPowered == false) continue;
 					}
