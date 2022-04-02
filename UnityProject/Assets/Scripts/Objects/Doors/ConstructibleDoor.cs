@@ -75,7 +75,7 @@ namespace Doors
 			}
 			else
 			{
-				return weldModule.CanDoorStateChange();
+				return weldModule.CanDoorStateChange() == false; //Door has to be welded to allow Deconstruction
 			}
 
 		}
@@ -122,7 +122,7 @@ namespace Doors
 					interaction.Performer.AssumedWorldPosServer(), audioSourceParameters, sourceObj: gameObject);
 			}
 
-			if (!weldModule.CanDoorStateChange() && boltsModule.CanDoorStateChange() && !doorMasterController.HasPower)
+			if (CheckWeld() && CheckBolts() && !doorMasterController.HasPower)
 			{
 				if (Validations.HasItemTrait(interaction.UsedObject, CommonTraits.Instance.Crowbar) && airlockAssemblyPrefab)
 				{
