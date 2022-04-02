@@ -5,20 +5,19 @@ namespace Objects.Wallmounts
 {
 	public class PublicDepartmentTerminal : SignalEmitter, IAPCPowerable, ICheckedInteractable<HandApply>
 	{
-		public Department Department;
-		public Access terminalRequieredAccess;
+		public Department Department; //For displaying what the console's department is for
+		public Access terminalRequieredAccess; //only with select access can actually use this
 
 		private float currentVoltage; // for the UI
 		private bool isPowered = false; //To disable the terminal if there is no power detected
-		private IDCard currentLogin;
+		private IDCard currentLogin; //the currently logged in user
 
 		public float CurrentVoltage => currentVoltage;
 		public IDCard CurrentLogin => currentLogin;
 
 		protected override bool SendSignalLogic()
 		{
-			if (currentLogin == null) return false;
-			return isPowered;
+			return currentLogin != null && isPowered;
 		}
 
 		public override void SignalFailed()
