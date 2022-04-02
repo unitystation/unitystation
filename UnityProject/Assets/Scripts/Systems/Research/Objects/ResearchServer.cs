@@ -2,6 +2,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using Communications;
+using Items.Storage.VirtualStorage;
 using Mirror;
 using ScriptableObjects.Research;
 using UnityEngine;
@@ -15,7 +17,7 @@ namespace Systems.Research.Objects
 		//TODO: PLACE HOLDER UNTIL WE GET A TECHWEB EDITOR OF SOME SORT
 		[SerializeField] private DefaultTechwebData defaultTechwebData;
 		//TODO: PLACEHOLDER, TECHWEBS SHOULD BE STORED LOCALLY ON IN-GAME DISKS/CIRCUITS TO BE STOLEN AND MERGED
-		[SyncVar] private Techweb techweb = new Techweb();
+		private Techweb techweb = new Techweb();
 		//TODO : PLACEHOLDER, THIS PATH MUST BE ASSIGNED ON THE CIRCUIT/DISK INSTEAD OF ON THE SERVER PREFAB
 		[SerializeField] private string techWebPath = "/GameData/Research/";
 		[SerializeField] private string techWebFileName = "TechwebData.json";
@@ -32,6 +34,26 @@ namespace Systems.Research.Objects
 			techweb.LoadTechweb($"{techWebPath}{techWebFileName}");
 			StartCoroutine(TrickleResources());
 			UpdateAvailableDesigns();
+		}
+
+		private void Start()
+		{
+			if (diskStorage == null || diskStorage.GetTopOccupiedIndexedSlot() == null)
+			{
+				Logger.LogError("Research server spawned without a disk to hold data!");
+				return;
+			}
+
+			if (diskStorage.GetTopOccupiedIndexedSlot().ItemObject.TryGetComponent<HardDriveBase>(out var disk))
+			{
+				var newTechwebFile = new TechwebFiles();
+				newTechwebFile.Techweb = techweb;
+				disk.AddDataToStorage(newTechwebFile);
+			}
+			else
+			{
+				Logger.LogError("Could not find correct disk to hold Techweb data!!");
+			}
 		}
 
 		private void OnDisable()
@@ -80,6 +102,24 @@ namespace Systems.Research.Objects
 			{
 				yield return WaitFor.Seconds(TrickleTime);
 				techweb.AddResearchPoints(researchPointsTrickl);
+			}
+		}
+
+		private void RemoveHardDisk()
+		{
+			if (diskStorage.GetTopOccupiedIndexedSlot().ItemObject.TryGetComponent<HardDriveBase>(out var disk))
+			{
+				Inventory.ServerDrop(disk.gameObject.PickupableOrNull().ItemSlot);
+				techweb = null;
+			}
+		}
+
+		private void AddHardDisk(ItemSlot disk)
+		{
+			if (disk.ItemObject.TryGetComponent<HardDriveBase>(out var hardDisk) == false) return;
+			if (Inventory.ServerTransfer(disk, diskStorage.GetNextFreeIndexedSlot()))
+			{
+				if (hardDisk.DataOnStorage[0] is TechwebFiles c) techweb = c.Techweb;
 			}
 		}
 
