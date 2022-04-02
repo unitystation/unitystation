@@ -50,15 +50,6 @@ namespace Managers
 				if ((receiver.SignalTypeToReceive == SignalType.RADIOCLIENT || receiver.SignalTypeToReceive == SignalType.RADIOSERVER)
 					&& AreOnTheSameFrequancy(receiver, emitter))
 				{
-					if (receiver.SignalTypeToReceive == SignalType.RADIOSERVER && receiver is RadioSignalProcessor c)
-					{
-						if(c.requiresPower && c.isPowered == false) continue;
-					}
-					else
-					{
-						Logger.LogError("Attempted sending a radio signal to a server that does not have a processor");
-						continue;
-					}
 					if (signalDataSo.UsesRange) { SignalStrengthHandler(receiver, emitter, signalDataSo, signalMessage); continue; }
 					receiver.ReceiveSignal(SignalStrength.HEALTHY, emitter, signalMessage);
 					continue;

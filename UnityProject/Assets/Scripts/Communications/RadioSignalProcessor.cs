@@ -38,6 +38,7 @@ namespace Communications
 		public override void ReceiveSignal(SignalStrength strength, SignalEmitter responsibleEmitter, ISignalMessage message = null)
 		{
 			if(onlyAcceptStrongSignal && strength == SignalStrength.TOOFAR) return;
+			if(requiresPower && isPowered == false) return;
 			if(message == null) return; //(Max) : I see no point in doing anything really if there isn't a message we can use something with.
 			//tho other servers might have some use for signals that have empty messages so they might want to override this function
 			ServerProcessSignal(strength, responsibleEmitter, message);

@@ -5,6 +5,7 @@ namespace Objects.Wallmounts
 {
 	public class PublicDepartmentTerminal : SignalEmitter, IAPCPowerable, ICheckedInteractable<HandApply>
 	{
+		public Department Department;
 		public Access terminalRequieredAccess;
 
 		private float currentVoltage; // for the UI
