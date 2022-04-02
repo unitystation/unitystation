@@ -13,9 +13,6 @@ namespace Communications
 		public bool requiresPower = false;
 		[ShowIf(nameof(requiresPower))] public bool isPowered;
 		[SerializeField] private bool requiresDiskStorage;
-		[SerializeField, ShowIf(nameof(requiresDiskStorage))] private bool spawnWithDisk;
-		[SerializeField, ShowIf(nameof(spawnWithDisk))]
-		private GameObject disk;
 
 		protected RadioSignalCommunicator communicator;
 		[SerializeField] protected ItemStorage diskStorage;

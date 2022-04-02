@@ -12,21 +12,30 @@ using Systems.ObjectConnection;
 
 namespace Systems.Research.Objects
 {
+<<<<<<< HEAD
 	public class ResearchServer : NetworkBehaviour, IMultitoolMasterable
+=======
+	public class ResearchServer : RadioSignalProcessor, ICheckedInteractable<HandApply>
+>>>>>>> 93fba66303 (E)
 	{
 		//TODO: PLACE HOLDER UNTIL WE GET A TECHWEB EDITOR OF SOME SORT
 		[SerializeField] private DefaultTechwebData defaultTechwebData;
-		//TODO: PLACEHOLDER, TECHWEBS SHOULD BE STORED LOCALLY ON IN-GAME DISKS/CIRCUITS TO BE STOLEN AND MERGED
-		private Techweb techweb = new Techweb();
 		//TODO : PLACEHOLDER, THIS PATH MUST BE ASSIGNED ON THE CIRCUIT/DISK INSTEAD OF ON THE SERVER PREFAB
 		[SerializeField] private string techWebPath = "/GameData/Research/";
 		[SerializeField] private string techWebFileName = "TechwebData.json";
 		[SerializeField] private int researchPointsTrickl = 25;
 		[SerializeField] private int TrickleTime = 60; //seconds
 
+<<<<<<< HEAD
 		public List<string> AvailableDesigns = new List<string>();
 
 		[NonSerialized] public Action<int,List<string>> TechWebUpdateEvent;
+=======
+		//Keep a cached reference to the techweb so we dont spam the server with signal requests
+		//Only send signals to the Research Server when issuing commands and changing values, not reading the data everytime we access it.
+		private Techweb techweb = new Techweb();
+		private bool isScrewed = true;
+>>>>>>> 93fba66303 (E)
 
 		private void Awake()
 		{
@@ -119,6 +128,7 @@ namespace Systems.Research.Objects
 			if (disk.ItemObject.TryGetComponent<HardDriveBase>(out var hardDisk) == false) return;
 			if (Inventory.ServerTransfer(disk, diskStorage.GetNextFreeIndexedSlot()))
 			{
+<<<<<<< HEAD
 				if (hardDisk.DataOnStorage[0] is TechwebFiles c) techweb = c.Techweb;
 			}
 		}
@@ -133,5 +143,36 @@ namespace Systems.Research.Objects
 		int IMultitoolMasterable.MaxDistance => int.MaxValue;
 
 		#endregion
+=======
+				//the techweb disk will only have one file so its fine if we just get the first ever one.
+				//if for whatever reason it has more; it's going to be a bug thats not possible.
+				if(hardDisk.DataOnStorage[0] is TechwebFiles c) techweb = c.Techweb;
+			}
+		}
+
+		public bool WillInteract(HandApply interaction, NetworkSide side)
+		{
+			return false; //Techweb Server has no use for now so leave it like this until we're done work on it
+		}
+
+		public void ServerPerformInteraction(HandApply interaction)
+		{
+			if (interaction.HandObject.Item().HasTrait(CommonTraits.Instance.Screwdriver))
+			{
+				isScrewed = !isScrewed;
+				var screwStatus = isScrewed ? "screw" : "unscrew";
+				Chat.AddExamineMsg(interaction.Performer, $"You {screwStatus} the {gameObject.ExpensiveName()}");
+				return;
+			}
+
+			if (isScrewed) return;
+			if (interaction.HandObject.TryGetComponent<HardDriveBase>(out var disk))
+			{
+				AddHardDisk(interaction.HandObject.PickupableOrNull().ItemSlot);
+				return;
+			}
+			RemoveHardDisk();
+		}
+>>>>>>> 93fba66303 (E)
 	}
 }
