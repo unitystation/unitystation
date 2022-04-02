@@ -365,7 +365,7 @@ namespace Lobby
 
 		public void OnStartGameFromHub()
 		{
-			PlayerPrefs.SetString(UserNamePlayerPref, PlayerManager.CurrentCharacterSettings.Name);
+			if (PlayerManager.CurrentCharacterSettings != null) PlayerPrefs.SetString(UserNamePlayerPref, PlayerManager.CurrentCharacterSettings.Name);
 			ConnectToServer();
 			gameObject.SetActive(false);
 		}
