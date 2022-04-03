@@ -310,6 +310,7 @@ public class ChatRelay : NetworkBehaviour
 			case ChatChannel.Security:
 				_ = SoundManager.Play(Chat.Instance.commonSecurityChannelSound);
 				break;
+<<<<<<< HEAD
 			case ChatChannel.Common:
 				_ = SoundManager.Play(Chat.Instance.commonRadioChannelSound);
 				break;
@@ -332,6 +333,12 @@ public class ChatRelay : NetworkBehaviour
 				_ = SoundManager.Play(Chat.Instance.commonRadioChannelSound);
 				break;
 			case ChatChannel.Engineering:
+=======
+			case var c when c.HasFlag(ChatChannel.Binary) ||
+			                c.HasFlag(ChatChannel.Medical) || c.HasFlag(ChatChannel.Command)
+			                || c.HasFlag(ChatChannel.Supply) || c.HasFlag(ChatChannel.CentComm) ||
+			                c.HasFlag(ChatChannel.Science) || c.HasFlag(ChatChannel.Engineering) || c.HasFlag(ChatChannel.Common):
+>>>>>>> parent of ded4875075 (Update ChatRelay.cs)
 				_ = SoundManager.Play(Chat.Instance.commonRadioChannelSound);
 				break;
 		}
