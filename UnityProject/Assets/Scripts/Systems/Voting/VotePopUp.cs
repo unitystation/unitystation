@@ -53,8 +53,8 @@ namespace UI
 
 			foreach (var newBtn in options)
 			{
-				Instantiate(buttonTemp, buttonsList.transform);
-				buttonTemp.GetComponent<VotingButton>().Initlize(newBtn, this);
+				var b = Instantiate(buttonTemp, buttonsList.transform);
+				b.GetComponent<VotingButton>().Initlize(newBtn, this);
 			}
 		}
 
