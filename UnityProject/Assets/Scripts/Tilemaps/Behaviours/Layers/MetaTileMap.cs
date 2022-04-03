@@ -342,8 +342,11 @@ namespace TileManagement
 					Bounds.ExpandToPoint2D(tileLocation.position);
 					LocalCachedBounds = Bounds;
 
+					lock (matrix)
+					{
+						GlobalCachedBounds = null;
+					}
 
-					GlobalCachedBounds = null;
 				}
 			}
 
@@ -1577,22 +1580,28 @@ namespace TileManagement
 
 		public BetterBoundsInt GetLocalBounds()
 		{
-			if (LocalCachedBounds == null)
+			lock (matrix)
 			{
-				CacheLocalBound();
-			}
+				if (LocalCachedBounds == null)
+				{
+					CacheLocalBound();
+				}
 
-			return LocalCachedBounds.Value;
+				return LocalCachedBounds.Value;
+			}
 		}
 
 		public BetterBounds GetWorldBounds()
 		{
-			if (GlobalCachedBounds == null)
+			lock (matrix)
 			{
-				return CacheGlobalBound();
-			}
+				if (GlobalCachedBounds == null)
+				{
+					return CacheGlobalBound();
+				}
 
-			return GlobalCachedBounds.Value;
+				return GlobalCachedBounds.Value;
+			}
 		}
 
 		public void CacheLocalBound()

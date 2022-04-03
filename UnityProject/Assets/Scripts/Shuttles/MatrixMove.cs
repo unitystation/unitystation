@@ -650,7 +650,12 @@ public class MatrixMove : ManagedBehaviour
 
 			matrixPositionFilter.FilterPosition(transform, transform.position, clientState.FlyingDirection);
 		}
-		matrix.MetaTileMap.GlobalCachedBounds = null;
+
+		lock (matrix.MetaTileMap.matrix)
+		{
+			matrix.MetaTileMap.GlobalCachedBounds = null;
+		}
+
 	}
 
 	/// Serverside movement routine
@@ -795,7 +800,11 @@ public class MatrixMove : ManagedBehaviour
 		var oldState = clientState;
 
 		clientState = newState;
-		matrix.MetaTileMap.GlobalCachedBounds = null;
+		lock (matrix.MetaTileMap.matrix)
+		{
+			matrix.MetaTileMap.GlobalCachedBounds = null;
+		}
+
 		Logger.LogTraceFormat("{0} setting client / client target state from message {1}", Category.Shuttles, this, newState);
 
 
@@ -876,7 +885,11 @@ public class MatrixMove : ManagedBehaviour
 	[Server]
 	private void TryNotifyPlayers()
 	{
-		matrix.MetaTileMap.GlobalCachedBounds = null;
+		lock (matrix.MetaTileMap)
+		{
+			matrix.MetaTileMap.GlobalCachedBounds = null;
+		}
+
 		if (ServerPositionsMatch)
 		{
 			//				When serverState reaches its planned destination,
