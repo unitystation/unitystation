@@ -1,6 +1,9 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Castle.Core.Internal;
+using Messages.Client.Admin;
 using Messages.Server;
 using Mirror;
 using UnityEngine;
@@ -46,6 +49,10 @@ public class VotingManager : NetworkBehaviour
 	/// </summary>
 	private Coroutine cooldown;
 
+	private List<string> MapList = new List<string>();
+	private List<string> GameModeList = new List<string>();
+	private List<string> yesNoList = new List<string>();
+
 	public enum VoteType
 	{
 		RestartRound,
@@ -63,6 +70,14 @@ public class VotingManager : NetworkBehaviour
 		{
 			Destroy(gameObject);
 		}
+	}
+
+	private void Start()
+	{
+		MapList = SubSceneManager.Instance.MainStationList.MainStations;
+		GameModeList = GameManager.Instance.GetAvailableGameModeNames();
+		yesNoList.Add("Yes");
+		yesNoList.Add("No");
 	}
 
 	void OnEnable()
@@ -109,10 +124,7 @@ public class VotingManager : NetworkBehaviour
 		voteType = VoteType.RestartRound;
 		votePolicy = VotePolicy.MajorityRules;
 		voteInProgress = true;
-		var yesNoStrings = new List<string>();
-		yesNoStrings.Add("Yes");
-		yesNoStrings.Add("No");
-		RpcOpenVoteWindow("Vote restart initiated by", instigator.name, CountAmountString(), (30 - prevSecond).ToString(), yesNoStrings);
+		RpcOpenVoteWindow("Vote restart initiated by", instigator.name, CountAmountString(), (30 - prevSecond).ToString(), yesNoList);
 		RpcVoteCallerDefault(sender);
 		Logger.Log($"Vote restart initiated by {instigator.name}", Category.Admin);
 	}
@@ -134,8 +146,7 @@ public class VotingManager : NetworkBehaviour
 		voteType = VoteType.NextGameMode;
 		votePolicy = VotePolicy.MajorityRules;
 		voteInProgress = true;
-		var gameModes = GameManager.Instance.GetAvailableGameModeNames();
-		RpcOpenVoteWindow("Vote restart initiated by", instigator.name, CountAmountString(), (30 - prevSecond).ToString(), gameModes);
+		RpcOpenVoteWindow("Vote restart initiated by", instigator.name, CountAmountString(), (30 - prevSecond).ToString(), GameModeList);
 		RpcVoteCallerDefault(sender);
 		Logger.Log($"Vote restart initiated by {instigator.name}", Category.Admin);
 	}
@@ -157,8 +168,7 @@ public class VotingManager : NetworkBehaviour
 		voteType = VoteType.NextMap;
 		votePolicy = VotePolicy.MajorityRules;
 		voteInProgress = true;
-		var gameModes = SubSceneManager.Instance.MainStationList.MainStations;
-		RpcOpenVoteWindow("Vote restart initiated by", instigator.name, CountAmountString(), (30 - prevSecond).ToString(), gameModes);
+		RpcOpenVoteWindow("Vote restart initiated by", instigator.name, CountAmountString(), (30 - prevSecond).ToString(), MapList);
 		RpcVoteCallerDefault(sender);
 		Logger.Log($"Vote restart initiated by {instigator.name}", Category.Admin);
 	}
@@ -246,6 +256,10 @@ public class VotingManager : NetworkBehaviour
 					VideoPlayerMessage.Send(VideoType.RestartRound);
 					GameManager.Instance.EndRound();
 					break;
+				case VoteType.NextGameMode:
+					Chat.AddGameWideSystemMsgToChat($"Vote passed! Next GameMode will be");
+					RequestGameModeUpdate.Send("", false);
+					break;
 			}
 
 			voteInProgress = false;
@@ -291,6 +305,31 @@ public class VotingManager : NetworkBehaviour
 			if (vote.IsNullOrEmpty() == false) count++;
 		}
 		return count;
+	}
+
+	/// <summary>
+	/// Gets the highest vote count on the list
+	/// </summary>
+	/// <returns></returns>
+	private string GetHighestVote()
+	{
+		Dictionary<string, int> count = new Dictionary<string, int>();
+		var highestVote = 0;
+		var winner = "";
+		foreach (var vote in votes)
+		{
+			if (count.ContainsKey(vote.Key) == false)
+			{
+				count.Add(vote.Key, 1);
+				continue;
+			}
+			count[vote.Key] += 1;
+			if (count[vote.Key] <= highestVote) continue;
+			highestVote = count[vote.Key];
+			winner = vote.Key;
+		}
+
+		return winner;
 	}
 
 	[ClientRpc]
