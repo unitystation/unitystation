@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Castle.Core.Internal;
 using Messages.Server;
 using Mirror;
 using UnityEngine;
@@ -12,7 +13,6 @@ public class VotingManager : NetworkBehaviour
 {
 	public static VotingManager Instance;
 
-	public enum VoteType { RestartRound }
 	public enum VotePolicy { MajorityRules }
 
 	private VoteType voteType;
@@ -20,7 +20,7 @@ public class VotingManager : NetworkBehaviour
 	private bool voteInProgress;
 	private float countTime = 0f;
 	private int prevSecond = 0;
-	private Dictionary<string,bool> votes = new Dictionary<string, bool>();
+	private Dictionary<string,string> votes = new Dictionary<string, string>();
 
 	private bool voteRestartSuccess = false;
 
@@ -45,6 +45,13 @@ public class VotingManager : NetworkBehaviour
 	/// The active cooldown Coroutine
 	/// </summary>
 	private Coroutine cooldown;
+
+	public enum VoteType
+	{
+		RestartRound,
+		NextGameMode,
+		NextMap
+	}
 
 	private void Awake()
 	{
@@ -102,18 +109,67 @@ public class VotingManager : NetworkBehaviour
 		voteType = VoteType.RestartRound;
 		votePolicy = VotePolicy.MajorityRules;
 		voteInProgress = true;
-		RpcOpenVoteWindow("Vote restart initiated by", instigator.name, CountAmountString(), (30 - prevSecond).ToString());
+		var yesNoStrings = new List<string>();
+		yesNoStrings.Add("Yes");
+		yesNoStrings.Add("No");
+		RpcOpenVoteWindow("Vote restart initiated by", instigator.name, CountAmountString(), (30 - prevSecond).ToString(), yesNoStrings);
 		RpcVoteCallerDefault(sender);
 		Logger.Log($"Vote restart initiated by {instigator.name}", Category.Admin);
 	}
 
 	[Server]
-	public void RegisterVote(string userId, bool isFor)
+	public void TryInitiateNextGameModeVote(GameObject instigator, NetworkConnection sender = null)
+	{
+		if (voteInProgress || voteRestartSuccess) return;
+
+		if (isCooldownActive)
+		{
+			Chat.AddExamineMsgFromServer(instigator, $"Too soon to trigger a restart vote!");
+			return;
+		}
+
+		votes.Clear();
+		countTime = 0f;
+		prevSecond = 0;
+		voteType = VoteType.NextGameMode;
+		votePolicy = VotePolicy.MajorityRules;
+		voteInProgress = true;
+		var gameModes = GameManager.Instance.GetAvailableGameModeNames();
+		RpcOpenVoteWindow("Vote restart initiated by", instigator.name, CountAmountString(), (30 - prevSecond).ToString(), gameModes);
+		RpcVoteCallerDefault(sender);
+		Logger.Log($"Vote restart initiated by {instigator.name}", Category.Admin);
+	}
+
+	[Server]
+	public void TryInitiateNextMapVote(GameObject instigator, NetworkConnection sender = null)
+	{
+		if (voteInProgress || voteRestartSuccess) return;
+
+		if (isCooldownActive)
+		{
+			Chat.AddExamineMsgFromServer(instigator, $"Too soon to trigger a restart vote!");
+			return;
+		}
+
+		votes.Clear();
+		countTime = 0f;
+		prevSecond = 0;
+		voteType = VoteType.NextMap;
+		votePolicy = VotePolicy.MajorityRules;
+		voteInProgress = true;
+		var gameModes = SubSceneManager.Instance.MainStationList.MainStations;
+		RpcOpenVoteWindow("Vote restart initiated by", instigator.name, CountAmountString(), (30 - prevSecond).ToString(), gameModes);
+		RpcVoteCallerDefault(sender);
+		Logger.Log($"Vote restart initiated by {instigator.name}", Category.Admin);
+	}
+
+	[Server]
+	public void RegisterVote(string userId, string isFor)
 	{
 		//If user has vote change vote if different, else add to vote list
 		if (votes.ContainsKey(userId))
 		{
-			votes.TryGetValue(userId, out bool value);
+			votes.TryGetValue(userId, out string value);
 			if (value == isFor) return;
 
 			votes[userId] = isFor;
@@ -230,9 +286,9 @@ public class VotingManager : NetworkBehaviour
 	private int ForVoteCount()
 	{
 		int count = 0;
-		foreach (bool vote in votes.Values)
+		foreach (string vote in votes.Values)
 		{
-			if (vote) count++;
+			if (vote.IsNullOrEmpty() == false) count++;
 		}
 		return count;
 	}
@@ -256,11 +312,11 @@ public class VotingManager : NetworkBehaviour
 	}
 
 	[ClientRpc]
-	private void RpcOpenVoteWindow(string title, string instigator, string count, string time)
+	private void RpcOpenVoteWindow(string title, string instigator, string count, string time, List<string> options)
 	{
 		if (GUI_IngameMenu.Instance == null) return;
 
-		GUI_IngameMenu.Instance.VotePopUp.ShowVotePopUp(title, instigator, count, time);
+		GUI_IngameMenu.Instance.VotePopUp.ShowVotePopUp(title, instigator, count, time, options);
 	}
 
 	[TargetRpc]

@@ -391,7 +391,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	}
 
 	[Command]
-	public void CmdRegisterVote(bool isFor)
+	public void CmdRegisterVote(string isFor)
 	{
 		if (VotingManager.Instance == null) return;
 		var connectedPlayer = PlayerList.Instance.Get(gameObject);
