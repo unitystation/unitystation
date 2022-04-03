@@ -268,7 +268,7 @@ public class VotingManager : NetworkBehaviour
 					break;
 				case VoteType.NextMap:
 					Chat.AddGameWideSystemMsgToChat($"<color=blue>Vote passed! Next map will be {winner}</color>");
-					RequestGameModeUpdate.Send(winner, false);
+					SubSceneManager.AdminForcedMainStation = winner;
 					break;
 			}
 
