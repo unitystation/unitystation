@@ -66,7 +66,7 @@ public enum NetTabType
 	FrequencyChanger = 48,
 	PizzaBomb = 49,
 	TechWeb = 50,
-	RDProductionMachine = 51,
+	PublicTerminal = 51,
 
 	// add new entres to the bottom
 	// the enum name must match that of the prefab except the prefab has the word tab infront of the enum name
@@ -105,7 +105,7 @@ public class NetTab : Tab
 	public Dictionary<string, NetUIElementBase> CachedElements { get; } = new Dictionary<string, NetUIElementBase>();
 
 	// for server
-	public HashSet<PlayerInfo> Peepers { get; } = new HashSet<PlayerInfo>();
+	public HashSet<ConnectedPlayer> Peepers { get; } = new HashSet<ConnectedPlayer>();
 
 	public bool IsUnobserved => Peepers.Count == 0;
 
@@ -143,14 +143,14 @@ public class NetTab : Tab
 	// for server
 	public void AddPlayer(GameObject player)
 	{
-		var newPeeper = PlayerList.Instance.GetOnline(player);
+		var newPeeper = PlayerList.Instance.Get(player);
 		Peepers.Add(newPeeper);
 		OnTabOpened.Invoke(newPeeper);
 	}
 
 	public void RemovePlayer(GameObject player)
 	{
-		var newPeeper = PlayerList.Instance.GetOnline(player);
+		var newPeeper = PlayerList.Instance.Get(player);
 		OnTabClosed.Invoke(newPeeper);
 		Peepers.Remove(newPeeper);
 	}
@@ -303,7 +303,7 @@ public class NetTab : Tab
 		ControlTabs.CloseTab(Type, Provider);
 	}
 
-	public void ServerCloseTabFor(PlayerInfo player)
+	public void ServerCloseTabFor(ConnectedPlayer player)
 	{
 		TabUpdateMessage.Send(player.GameObject, Provider, Type, TabAction.Close);
 	}
@@ -342,4 +342,4 @@ public class NetTab : Tab
 }
 
 [Serializable]
-public class ConnectedPlayerEvent : UnityEvent<PlayerInfo> { }
+public class ConnectedPlayerEvent : UnityEvent<ConnectedPlayer> { }
