@@ -246,24 +246,28 @@ public class VotingManager : NetworkBehaviour
 
 	private void CheckVoteCriteria()
 	{
-		var winner = GetHighestVote();
 		if (IsSuccess(ForVoteCount(), PlayerList.Instance.AllPlayers.Count))
 		{
+			var winner = GetHighestVote();
 			switch (voteType)
 			{
 				case VoteType.RestartRound:
-					if(winner == "No") return;
+					if (winner == "No")
+					{
+						Chat.AddGameWideSystemMsgToChat($"<color=blue>Voting failed! Not enough people voted to restart");
+						return;
+					}
 					if (GameManager.Instance.CurrentRoundState != RoundState.Started) return;
 					Logger.Log("Vote to restart server was successful. Restarting now.....", Category.Admin);
 					VideoPlayerMessage.Send(VideoType.RestartRound);
 					GameManager.Instance.EndRound();
 					break;
 				case VoteType.NextGameMode:
-					Chat.AddGameWideSystemMsgToChat($"Vote passed! Next GameMode will be {winner}");
+					Chat.AddGameWideSystemMsgToChat($"<color=blue>Vote passed! Next GameMode will be {winner}</color>");
 					RequestGameModeUpdate.Send(winner, false);
 					break;
 				case VoteType.NextMap:
-					Chat.AddGameWideSystemMsgToChat($"Vote passed! Next map will be {winner}");
+					Chat.AddGameWideSystemMsgToChat($"<color=blue>Vote passed! Next map will be {winner}</color>");
 					RequestGameModeUpdate.Send(winner, false);
 					break;
 			}
@@ -321,16 +325,11 @@ public class VotingManager : NetworkBehaviour
 			if (count.ContainsKey(vote.Value) == false)
 			{
 				count.Add(vote.Value, 0);
-				Debug.Log($"Added {vote.Value}");
-				Debug.Log(count[vote.Value]);
 			}
 			count[vote.Value] += 1;
-			if (count[vote.Value] > highestVote)
-			{
-				Debug.Log("Found new winner");
-				highestVote = count[vote.Value];
-				winner = vote.Value;
-			}
+			if (count[vote.Value] < highestVote) continue;
+			highestVote = count[vote.Value];
+			winner = vote.Value;
 		}
 
 		return winner;
