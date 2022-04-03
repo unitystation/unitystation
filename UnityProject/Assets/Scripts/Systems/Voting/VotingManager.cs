@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Castle.Core.Internal;
 using Messages.Client.Admin;
 using Messages.Server;
@@ -78,6 +79,7 @@ public class VotingManager : NetworkBehaviour
 		GameModeList = GameManager.Instance.GetAvailableGameModeNames();
 		yesNoList.Add("Yes");
 		yesNoList.Add("No");
+		if (Application.isEditor) RoundStartCooldownTime = 5f;
 	}
 
 	void OnEnable()
@@ -299,17 +301,11 @@ public class VotingManager : NetworkBehaviour
 	}
 
 	/// <summary>
-	/// Tallies the number of players who have voted 'yes'.
+	/// Gets number of coutns
 	/// </summary>
-	/// <returns>The number of 'yes' votes.</returns>
 	private int ForVoteCount()
 	{
-		int count = 0;
-		foreach (string vote in votes.Values)
-		{
-			if (vote.IsNullOrEmpty() == false) count++;
-		}
-		return count;
+		return votes.Count;
 	}
 
 	/// <summary>
@@ -364,10 +360,11 @@ public class VotingManager : NetworkBehaviour
 	}
 
 	[TargetRpc]
-	private void RpcVoteCallerDefault(NetworkConnection target)
+	private async void RpcVoteCallerDefault(NetworkConnection target)
 	{
-		if (GUI_IngameMenu.Instance == null) return;
+		if (GUI_IngameMenu.Instance == null || PlayerList.Instance.AllPlayers.Count == 1) return;
 
+		await Task.Delay(500); //Away for the list to be generated before automatically voting
 		GUI_IngameMenu.Instance.VotePopUp.VoteYes();
 	}
 }
