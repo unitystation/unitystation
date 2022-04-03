@@ -244,6 +244,7 @@ public class VotingManager : NetworkBehaviour
 
 	private void CheckVoteCriteria()
 	{
+		var winner = GetHighestVote();
 		if (IsSuccess(ForVoteCount(), PlayerList.Instance.AllPlayers.Count))
 		{
 			switch (voteType)
@@ -257,8 +258,12 @@ public class VotingManager : NetworkBehaviour
 					GameManager.Instance.EndRound();
 					break;
 				case VoteType.NextGameMode:
-					Chat.AddGameWideSystemMsgToChat($"Vote passed! Next GameMode will be");
-					RequestGameModeUpdate.Send("", false);
+					Chat.AddGameWideSystemMsgToChat($"Vote passed! Next GameMode will be {winner}");
+					RequestGameModeUpdate.Send(winner, false);
+					break;
+				case VoteType.NextMap:
+					Chat.AddGameWideSystemMsgToChat($"Vote passed! Next GameMode will be {winner}");
+					RequestGameModeUpdate.Send(winner, false);
 					break;
 			}
 
