@@ -8,7 +8,7 @@ using UnityEngine;
 
 public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllable, ICooldown, IBumpableObject
 {
-	public bool IsCurrentlyFloating;
+
 	public PlayerScript playerScript;
 
 
@@ -156,7 +156,7 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 	{
 		if ((ClientLocalPOS - transform.localPosition).magnitude > 1.5f)
 		{
-			ForceSetLocalPosition(transform.localPosition, newtonianMovement, true, registerTile.Matrix.Id);
+			ResetLocationOnClients(true);
 		}
 	}
 
@@ -196,7 +196,7 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 			}
 
 			SetMatrixCash.ResetNewPosition(transform.position);
-			//Logger.LogError(" Is Animating " +  Animating + " Is floating " +  IsFlyingSliding +" move processed at" + transform.localPosition);
+			//Logger.LogError(" Is Animating " +  Animating + " Is floating " +  IsAnimatingFlyingSliding +" move processed at" + transform.localPosition);
 
 			if (IsFlyingSliding)
 			{
@@ -232,13 +232,13 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 				}
 				else
 				{
-					ForceSetLocalPosition(LocalTargetPosition, newtonianMovement, true, registerTile.Matrix.Id);
+					ResetLocationOnClients();
 					MoveQueue.Clear();
 				}
 			}
 			else
 			{
-				ForceSetLocalPosition(LocalTargetPosition, newtonianMovement, true, registerTile.Matrix.Id);
+				ResetLocationOnClients();
 				MoveQueue.Clear();
 			}
 		}
@@ -287,7 +287,7 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 
 	public bool TryMove(MoveData NewMoveData, bool ByClient)
 	{
-		var PushPulls = new List<PushPull>();
+		var PushPulls = new List<UniversalObjectPhysics>();
 		var Bumps = new List<IBumpableObject>();
 		if (CanMoveTo(NewMoveData, out var CausesSlipClient, PushPulls, Bumps, out var PushesOff,
 			    out var SlippingOn))
@@ -300,7 +300,7 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 				{
 					var move = NewMoveData.GlobalMoveDirection.TVectoro();
 					move.Normalize();
-					PhysicsObject.NewtonianPush((move * -1), TileMoveSpeed); //TODO SPEED!
+					PhysicsObject.TryTilePush((move * -1).RoundToInt().To2Int(),false ,TileMoveSpeed); //TODO SPEED!
 				}
 				//Pushes off object for example pushing the object the other way
 			}
@@ -319,12 +319,12 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 
 			if (IsNotFloating(null, out _) == false || CausesSlipClient) //check if floating
 			{
-				var move = NewMoveData.GlobalMoveDirection.TVectoro();
-				move.Normalize();
-				newtonianMovement += move * TileMoveSpeed;
-				if (isServer)
-					UpdateClientMomentum(transform.localPosition, newtonianMovement, airTime, slideTime,
-						registerTile.Matrix.Id);
+				// var move = NewMoveData.GlobalMoveDirection.TVectoro();
+				// move.Normalize();
+				// newtonianMovement += move * TileMoveSpeed;
+				// if (isServer)
+				// 	UpdateClientMomentum(transform.localPosition, newtonianMovement, airTime, slideTime,
+				// 		registerTile.Matrix.Id);
 			}
 
 			return true;
@@ -354,7 +354,7 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 
 	// public bool CausesSlip
 
-	public bool CanMoveTo(MoveData moveAction, out bool CausesSlipClient, List<PushPull> WillPushObjects,
+	public bool CanMoveTo(MoveData moveAction, out bool CausesSlipClient, List<UniversalObjectPhysics> WillPushObjects,
 			List<IBumpableObject> Bumps,
 			out RegisterTile PushesOff,
 			out ItemAttributesV2 slippedOn) //Stuff like shuttles and machines handled in their own IPlayerControllable,
@@ -418,7 +418,7 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 		return false;
 	}
 
-	public bool IsNotObstructed(MoveData moveAction, List<PushPull> Pushing, List<IBumpableObject> Bumps)
+	public bool IsNotObstructed(MoveData moveAction, List<UniversalObjectPhysics> Pushing, List<IBumpableObject> Bumps)
 	{
 		var transform1 = transform.position;
 		return MatrixManager.IsPassableAtAllMatricesV2(transform1,

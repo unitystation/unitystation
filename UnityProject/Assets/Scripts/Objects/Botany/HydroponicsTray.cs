@@ -430,14 +430,14 @@ namespace Objects.Botany
 					continue;
 				}
 
-				CustomNetTransform netTransform = produceObject.GetComponent<CustomNetTransform>();
+				UniversalObjectPhysics ObjectPhysics  = produceObject.GetComponent<UniversalObjectPhysics>();
 				var food = produceObject.GetComponent<GrownFood>();
 				if (food != null)
 				{
 					food.SetUpFood(plantData, modification);
 				}
 
-				netTransform.DisappearFromWorldServer();
+				ObjectPhysics.DisappearFromWorld();
 				readyProduce.Add(produceObject);
 			}
 		}
@@ -564,9 +564,8 @@ namespace Objects.Botany
 			{
 				for (int i = 0; i < readyProduce.Count; i++)
 				{
-					CustomNetTransform netTransform = readyProduce[i].GetComponent<CustomNetTransform>();
-					netTransform.AppearAtPosition(registerTile.WorldPositionServer);
-					netTransform.AppearAtPositionServer(registerTile.WorldPositionServer);
+					UniversalObjectPhysics ObjectPhysics = readyProduce[i].GetComponent<UniversalObjectPhysics>();
+					ObjectPhysics.AppearAtWorldPositionServer(registerTile.WorldPositionServer);
 				}
 
 				readyProduce.Clear();

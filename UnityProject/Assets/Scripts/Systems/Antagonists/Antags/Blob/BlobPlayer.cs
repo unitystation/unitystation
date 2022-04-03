@@ -212,7 +212,7 @@ namespace Blob
 
 			blobCore = result.GameObject.GetComponent<BlobStructure>();
 
-			var pos = blobCore.GetComponent<CustomNetTransform>().ServerPosition;
+			var pos = blobCore.GetComponent<UniversalObjectPhysics>().transform.position.RoundToInt();
 
 			blobTiles.TryAdd(pos, blobCore);
 			nonSpaceBlobTiles.Add(blobCore.gameObject);
@@ -1302,18 +1302,19 @@ namespace Blob
 				return;
 			}
 
-			var core = blobCore.GetComponent<CustomNetTransform>();
-			var node = oldNode.GetComponent<CustomNetTransform>();
+			var core = blobCore.GetComponent<UniversalObjectPhysics>();
+			var node = oldNode.GetComponent<UniversalObjectPhysics>();
 
-			var coreCache = core.ServerPosition;
+			var coreCache = core.transform.position.RoundToInt();
 
-			core.SetPosition(node.ServerPosition);
-			blobTiles[node.ServerPosition] = blobCore;
-			blobCore.location = node.ServerPosition;
+			var position = node.transform.position;
+			core.AppearAtWorldPositionServer(position);
+			blobTiles[position.RoundToInt()] = blobCore;
+			blobCore.location = node.transform.position.RoundToInt();
 
 			blobTiles[coreCache] = oldNode;
 			oldNode.location = coreCache;
-			node.SetPosition(coreCache);
+			node.AppearAtWorldPositionServer(coreCache);
 
 			ResetArea(blobCore.gameObject);
 			ResetArea(oldNode.gameObject);
@@ -1331,18 +1332,18 @@ namespace Blob
 				return;
 			}
 
-			var core = blobCore.GetComponent<CustomNetTransform>();
-			var normal = oldNormal.GetComponent<CustomNetTransform>();
+			var core = blobCore.GetComponent<UniversalObjectPhysics>();
+			var normal = oldNormal.GetComponent<UniversalObjectPhysics>();
 
-			var coreCache = core.ServerPosition;
+			var coreCache = core.transform.position.RoundToInt();
 
-			core.SetPosition(normal.ServerPosition);
-			blobTiles[normal.ServerPosition] = blobCore;
-			blobCore.location = normal.ServerPosition;
+			core.AppearAtWorldPositionServer(normal.transform.position);
+			blobTiles[normal.transform.position.RoundToInt()] = blobCore;
+			blobCore.location = normal.transform.position.RoundToInt();
 
 			blobTiles[coreCache] = oldNormal;
 			oldNormal.location = coreCache;
-			normal.SetPosition(coreCache);
+			normal.AppearAtWorldPositionServer(coreCache);
 
 			ResetArea(blobCore.gameObject);
 		}
@@ -1388,14 +1389,14 @@ namespace Blob
 
 		private void ResetArea(GameObject node)
 		{
-			var pos = node.GetComponent<CustomNetTransform>().ServerPosition;
+			var pos = node.GetComponent<UniversalObjectPhysics>().transform.position;
 			var structNode = node.GetComponent<BlobStructure>();
 
 			if(structNode.blobType != BlobConstructs.Core && structNode.blobType != BlobConstructs.Node) return;
 
-			structNode.expandCoords = GenerateCoords(pos);
+			structNode.expandCoords = GenerateCoords(pos.RoundToInt());
 			structNode.healthPulseCoords = structNode.expandCoords;
-			structNode.location = pos;
+			structNode.location = pos.RoundToInt();
 			structNode.nodeDepleted = false;
 		}
 
@@ -1760,15 +1761,15 @@ namespace Blob
 
 				if(blobStructure == null) continue;
 
-				var first = info.AttackedIntegrity.GetComponent<CustomNetTransform>();
-				var second = blobStructure.GetComponent<CustomNetTransform>();
+				var first = info.AttackedIntegrity.GetComponent<UniversalObjectPhysics>();
+				var second = blobStructure.GetComponent<UniversalObjectPhysics>();
 
 				var posCache = pos + offset;
 
-				first.SetPosition(second.ServerPosition);
-				blobTiles[second.ServerPosition] = first.GetComponent<BlobStructure>();
+				first.AppearAtWorldPositionServer(second.transform.position);
+				blobTiles[second.transform.position.RoundToInt()] = first.GetComponent<BlobStructure>();
 				blobTiles[posCache] = blobStructure;
-				second.SetPosition(posCache);
+				second.AppearAtWorldPositionServer(posCache);
 
 				//If moved to node or core refresh areas
 				ResetArea(first.gameObject);

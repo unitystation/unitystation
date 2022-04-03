@@ -435,7 +435,7 @@ namespace Objects
 					//Only alive mobs can trigger sensor
 					if(mobAi.IsDead) continue;
 
-					worldPos = mobAi.Cnt.ServerPosition;
+					worldPos = mobAi.UOP.transform.position;
 				}
 				else
 				{

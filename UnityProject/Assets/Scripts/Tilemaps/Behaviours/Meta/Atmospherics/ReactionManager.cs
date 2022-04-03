@@ -143,6 +143,8 @@ namespace Systems.Atmospherics
 
 				var pushable = registerTile.PushPull.Component;
 
+				if (pushable.Pushable == null ) continue;
+				;
 				float correctedForce = (windyNode.WindForce * PushMultiplier) / (int) pushable.Pushable.Size;
 
 				if (correctedForce >= AtmosConstants.MinPushForce)

@@ -156,13 +156,9 @@ namespace Systems.Spells.Wizard
 
 		private void TeleportObjectToPosition(GameObject teleportingObject, Vector3 worldPosition)
 		{
-			if (teleportingObject.TryGetComponent<CustomNetTransform>(out var netTransform))
+			if (teleportingObject.TryGetComponent<UniversalObjectPhysics>(out var netTransform))
 			{
-				netTransform.AppearAtPositionServer(worldPosition);
-			}
-			else if (teleportingObject.TryGetComponent<PlayerSync>(out var playerSync))
-			{
-				playerSync.AppearAtPositionServer(worldPosition);
+				netTransform.AppearAtWorldPositionServer(worldPosition);
 			}
 			else
 			{

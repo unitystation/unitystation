@@ -10,8 +10,7 @@ namespace Objects
 		{
 			if (interaction.TargetObject == null) return false;
 			if (interaction.UsedObject == null) return false;
-			var targetObjectPos = side == NetworkSide.Server ?
-				interaction.TargetObject.WorldPosServer() : interaction.TargetObject.WorldPosClient();
+			var targetObjectPos = interaction.TargetObject.transform.position;
 			if (interaction.UsedObject.TryGetComponent<PlayerSync>(out var playerSync))
 			{
 				if (playerSync.IsMoving || playerSync.playerMove.IsBuckled) return false;
@@ -21,11 +20,10 @@ namespace Objects
 				return mag <= PlayerScript.interactionDistance;
 			}
 			// Do the same check but for mouse draggable objects this time.
-			if (interaction.UsedObject.TryGetComponent<CustomNetTransform>(out var netTransform))
+			if (interaction.UsedObject.TryGetComponent<UniversalObjectPhysics>(out var UniversalObjectPhysics))
 			{
-				if (netTransform.PushPull.IsNotPushable) return false;
-				float mag = (targetObjectPos - (side == NetworkSide.Server ?
-					netTransform.ServerPosition : netTransform.ClientPosition)).magnitude;
+				if (UniversalObjectPhysics.IsNotPushable) return false;
+				float mag = (targetObjectPos - (UniversalObjectPhysics.transform.position)).magnitude;
 				return mag <= PlayerScript.interactionDistance;
 			}
 			return false;
@@ -43,9 +41,9 @@ namespace Objects
 				}
 				else
 				{
-					if (interaction.UsedObject.TryGetComponent<CustomNetTransform>(out var transformComp))
+					if (interaction.UsedObject.TryGetComponent<UniversalObjectPhysics>(out var UniversalObjectPhysics))
 					{
-						transformComp.AppearAtPositionServer(gameObject.WorldPosServer());
+						UniversalObjectPhysics.AppearAtWorldPositionServer(gameObject.WorldPosServer());
 					}
 				}
 			}).ServerStartProgress(interaction.UsedObject.RegisterTile(), ClimbTime, interaction.Performer);

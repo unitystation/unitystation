@@ -155,9 +155,9 @@ namespace Objects
 				SpinMode = spin
 			};
 
-			CustomNetTransform itemTransform = item.GetComponent<CustomNetTransform>();
+			UniversalObjectPhysics itemTransform = item.GetComponent<UniversalObjectPhysics>();
 			if (itemTransform == null) return;
-			itemTransform.Throw(throwInfo);
+			itemTransform.NewtonianPush(vector, 1, inaim:BodyPartType.Chest ,inthrownBy : gameObject );
 		}
 
 		private void PushObject(ObjectBehaviour entity, Vector3 pushVector)

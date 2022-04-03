@@ -76,7 +76,7 @@ namespace Objects.Electrical
 					CB.Present.GetComponent<CableInheritance>()?.Smoke.Stop();
 				}
 			}
-			GetComponent<CustomNetTransform>().DisappearFromWorldServer();
+			GetComponent<UniversalObjectPhysics>().DisappearFromWorld();
 			SelfDestruct = true;
 			//gameObject.GetComponentInChildren<SpriteRenderer>().enabled = false;
 			//ElectricalSynchronisation.StructureChange = true;

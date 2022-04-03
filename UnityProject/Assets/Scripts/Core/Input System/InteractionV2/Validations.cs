@@ -236,15 +236,15 @@ public static class Validations
 			}
 			else
 			{
-				CustomNetTransform cnt = (target == null) ? null : target.GetComponent<CustomNetTransform>();
+				UniversalObjectPhysics uop = (target == null) ? null : target.GetComponent<UniversalObjectPhysics>();
 
-				if (cnt == null)
+				if (uop == null)
 				{
 					result = IsInReachInternal(playerScript, target, side, TargetPosition, targetRegisterTile, targetVector: targetVector);
 				}
 				else
 				{
-					result = ServerCanReachExtended(playerScript, cnt.ServerState);
+					result = ServerCanReachExtended(playerScript, uop);
 				}
 			}
 		}
@@ -264,10 +264,10 @@ public static class Validations
 			{
 				targetName = target.name;
 
-				if (target.TryGetComponent(out CustomNetTransform cnt))
+				if (target.TryGetComponent(out UniversalObjectPhysics uop))
 				{
-					worldPosition = cnt.ServerState.WorldPosition;
-					isFloating = cnt.IsFloatingServer;
+					worldPosition = uop.transform.position;
+					isFloating = uop.IsCurrentlyFloating;
 				}
 				else if (target.TryGetComponent(out PlayerSync playerSync))
 				{
@@ -426,9 +426,9 @@ public static class Validations
 		}
 	}
 
-	private static bool ServerCanReachExtended(PlayerScript ps, TransformState state, GameObject context = null)
+	private static bool ServerCanReachExtended(PlayerScript ps, UniversalObjectPhysics state, GameObject context = null)
 	{
-		return ps.IsPositionReachable(state.WorldPosition, true) || ps.IsPositionReachable(state.WorldPosition - (Vector3)state.WorldImpulse, true, 1.75f, context: context);
+		return ps.IsPositionReachable(state.transform.position, true) || ps.IsPositionReachable(state.transform.position - (Vector3)state.newtonianMovement, true, 1.75f, context: context);
 	}
 
 	//AiActivate Validation

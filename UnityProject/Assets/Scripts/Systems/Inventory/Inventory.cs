@@ -349,7 +349,7 @@ public static class Inventory
 		var removeType = toPerform.RemoveType;
 		var holder = fromSlot.GetRootStorageOrPlayer();
 		var holderPushPull = holder?.GetComponent<UniversalObjectPhysics>();
-		var parentContainer = holderPushPull == null ? null : holderPushPull.parentContainer;
+		var parentContainer = holderPushPull == null ? null : holderPushPull.ContainedInContainer;
 		if (parentContainer != null && removeType == InventoryRemoveType.Throw)
 		{
 			Logger.LogTraceFormat("throwing from slot {0} while in container {1}. Will drop instead.", Category.Inventory,
@@ -378,7 +378,7 @@ public static class Inventory
 					Logger.LogWarningFormat("Dropping from slot {0} while in container {1}, but container type was not recognized. " +
 					                      "Currently only ObjectContainer is supported. Please add code to handle this case.", Category.Inventory,
 						fromSlot,
-						holderPushPull.parentContainer.name);
+						holderPushPull.ContainedInContainer.name);
 					return false;
 				}
 				//vanish it and set its parent container
@@ -388,20 +388,19 @@ public static class Inventory
 			}
 
 			var holderPlayer = holder?.GetComponent<PlayerSync>();
-			var cnt = pickupable.GetComponent<CustomNetTransform>();
+			var uop = pickupable.GetComponent<UniversalObjectPhysics>();
 			var holderPosition = holder?.gameObject.AssumedWorldPosServer();
 			Vector3 targetWorldPos = holderPosition.GetValueOrDefault(Vector3.zero) + (Vector3)toPerform.WorldTargetVector.GetValueOrDefault(Vector2.zero);
 			if (holderPlayer != null)
 			{
 				// dropping from player
 				// Inertia drop works only if player has external impulse (space floating etc.)
-				cnt.InertiaDrop(targetWorldPos, holderPlayer.SpeedServer,
-					holderPlayer.ServerImpulse);
+				uop.DropAtAndInheritMomentum(holderPlayer.GetComponent<UniversalObjectPhysics>());
 			}
 			else
 			{
 				// dropping from not-held storage
-				cnt.AppearAtPositionServer(targetWorldPos);
+				uop.AppearAtWorldPositionServer(targetWorldPos);
 			}
 		}
 		else if (removeType == InventoryRemoveType.Throw)
@@ -438,8 +437,8 @@ public static class Inventory
 
 		if (pickupable.gameObject.TryGetComponent<Stackable>(out var stack))
 		{
-			var cnt = pickupable.GetComponent<CustomNetTransform>();
-			stack.ServerStackOnGround(cnt.ServerLocalPosition);
+			var uop = pickupable.GetComponent<UniversalObjectPhysics>();
+			stack.ServerStackOnGround(uop.transform.localPosition.RoundToInt());
 		}
 
 		return true;
@@ -504,7 +503,7 @@ public static class Inventory
 		}
 
 		// go poof, it's in inventory now.
-		pickupable.GetComponent<CustomNetTransform>().DisappearFromWorldServer(true);
+		pickupable.GetComponent<UniversalObjectPhysics>().DisappearFromWorld();
 
 		// no longer inside any PushPull
 		pickupable.GetComponent<ObjectBehaviour>().parentContainer = null;

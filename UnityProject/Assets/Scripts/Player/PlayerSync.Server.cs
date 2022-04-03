@@ -173,16 +173,16 @@ public partial class PlayerSync
 	}
 	public void NewtonianMove(Vector2Int direction, float speed = Single.NaN)
 	{
-		//if we are buckled, transfer the impulse to our buckled object.
-		if (playerMove.IsBuckled)
-		{
-			var buckledCNT = playerMove.BuckledObject.GetComponent<CustomNetTransform>();
-			buckledCNT.NewtonianMove(direction, speed);
-		}
-		else
-		{
-			PushInternal(direction, true, speed);
-		}
+		// //if we are buckled, transfer the impulse to our buckled object.
+		// if (playerMove.IsBuckled)
+		// {
+		// 	var buckledCNT = playerMove.BuckledObject.GetComponent<CustomNetTransform>();
+		// 	buckledCNT.NewtonianMove(direction, speed);
+		// }
+		// else
+		// {
+		// 	PushInternal(direction, true, speed);
+		// }
 	}
 
 	/// <summary>
@@ -201,13 +201,15 @@ public partial class PlayerSync
 		//if we are buckled, transfer the impulse to our buckled object.
 		if (playerMove.IsBuckled)
 		{
-			var buckledCNT = playerMove.BuckledObject.GetComponent<CustomNetTransform>();
-			return buckledCNT.Push(direction, speed, followMode);
+			var buckledUOP = playerMove.BuckledObject.GetComponent<UniversalObjectPhysics>();
+			buckledUOP.TryTilePush(direction,false, speed);
 		}
 		else
 		{
 			return PushInternal(direction, false, speed, followMode, ignorePassable);
 		}
+
+		return true;
 	}
 
 	private bool PushInternal(
@@ -911,13 +913,9 @@ public partial class PlayerSync
 			if (IsAroundPushables(serverState, isServer: true, out spaceObjToGrab) && spaceObjToGrab.IsSolidServer)
 			{
 				//some hacks to avoid space closets stopping out of player's reach
-				var cnt = spaceObjToGrab.GetComponent<CustomNetTransform>();
-				if (cnt && cnt.IsFloatingServer && Vector2Int.RoundToInt(cnt.ServerState.WorldImpulse) == Vector2Int.RoundToInt(serverState.WorldImpulse))
+				var uop = spaceObjToGrab.GetComponent<UniversalObjectPhysics>();
+				if (uop && uop.IsCurrentlyFloating)
 				{
-					Logger.LogTraceFormat("Caught {0} at {1} (registered at {2})", Category.Movement, spaceObjToGrab.gameObject.name,
-							(Vector2)cnt.ServerState.WorldPosition, (Vector2)(Vector3)spaceObjToGrab.registerTile.WorldPositionServer);
-					cnt.SetPosition(spaceObjToGrab.registerTile.WorldPositionServer);
-					spaceObjToGrab.Stop();
 				}
 			}
 			//removing lastDirection when we hit an obstacle in space

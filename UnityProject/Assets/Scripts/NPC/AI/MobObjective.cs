@@ -53,22 +53,7 @@ namespace Systems.MobAIs
 		{
 			var dest = mobTile.LocalPositionServer + dirToMove;
 
-			if (mobTile.customNetTransform.Push(dirToMove.To2Int(), context: gameObject) == false)
-			{
-				//New doors
-				DoorMasterController tryGetDoorMaster = mobTile.Matrix.GetFirst<DoorMasterController>(dest, true);
-				if (tryGetDoorMaster)
-				{
-					tryGetDoorMaster.Bump(gameObject);
-				}
-
-				//Old doors
-				DoorController tryGetDoor = mobTile.Matrix.GetFirst<DoorController>(dest, true);
-				if (tryGetDoor)
-				{
-					tryGetDoor.MobTryOpen(gameObject);
-				}
-			}
+			mobTile.GetComponent<UniversalObjectPhysics>().TryTilePush(dirToMove.To2Int(), false);
 
 			if (rotatable != null)
 			{

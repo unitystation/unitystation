@@ -537,7 +537,7 @@ namespace Objects.Construction
 					newObject.GetComponent<Stackable>().ServerIncrease(amount);
 				}
 
-				newObject.GetComponent<CustomNetTransform>().DisappearFromWorldServer();
+				newObject.GetComponent<UniversalObjectPhysics>().DisappearFromWorld();
 
 				if (newObject.transform.parent != gameObject.transform.parent)
 				{
@@ -549,7 +549,7 @@ namespace Objects.Construction
 			// If not stackable send to hidden pos
 			else
 			{
-				usedObject.GetComponent<CustomNetTransform>().DisappearFromWorldServer();
+				usedObject.GetComponent<UniversalObjectPhysics>().DisappearFromWorld();
 
 				if (usedObject.transform.parent != gameObject.transform.parent)
 				{
@@ -778,9 +778,9 @@ namespace Objects.Construction
 						continue;
 					}
 
-					var pos = gameObject.GetComponent<CustomNetTransform>().ServerPosition;
+					var pos = gameObject.GetComponent<UniversalObjectPhysics>().transform.position;
 
-					item.Key.GetComponent<CustomNetTransform>().AppearAtPositionServer(pos);
+					item.Key.GetComponent<UniversalObjectPhysics>().AppearAtWorldPositionServer(pos);
 				}
 			}
 

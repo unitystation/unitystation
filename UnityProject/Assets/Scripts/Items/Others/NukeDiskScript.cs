@@ -14,7 +14,7 @@ namespace Items.Command
 		[SerializeField]
 		private float boundRadius = 600;
 		private Pickupable pick;
-		private CustomNetTransform customNetTrans;
+		private UniversalObjectPhysics ObjectPhysics;
 		private RegisterTile registerTile;
 		private BetterBoundsInt bound;
 		private EscapeShuttle escapeShuttle;
@@ -35,7 +35,7 @@ namespace Items.Command
 
 		private void Awake()
 		{
-			customNetTrans = GetComponent<CustomNetTransform>();
+			ObjectPhysics = GetComponent<UniversalObjectPhysics>();
 			registerTile = GetComponent<RegisterTile>();
 			pick = GetComponent<Pickupable>();
 		}
@@ -134,7 +134,7 @@ namespace Items.Command
 				Inventory.ServerDrop(pick.ItemSlot);
 				pick.RefreshUISlotImage();
 			}
-			customNetTrans.SetPosition(position);
+			ObjectPhysics.AppearAtWorldPositionServer(position.ToWorld(registerTile.Matrix));
 		}
 	}
 }

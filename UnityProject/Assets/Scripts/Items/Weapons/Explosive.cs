@@ -109,7 +109,7 @@ namespace Items.Weapons
 		{
 			if(attachedToObject == null) return;
 			if(attachedToObject.WorldPosServer() == gameObject.WorldPosServer()) return;
-			registerItem.customNetTransform.SetPosition(attachedToObject.WorldPosServer());
+			registerItem.GetComponent<UniversalObjectPhysics>().AppearAtWorldPositionServer(attachedToObject.WorldPosServer());
 		}
 
 		/// <summary>
@@ -120,7 +120,7 @@ namespace Items.Weapons
 		{
 			detonateImmediatelyOnSignal = mode;
 		}
-		
+
 		[Command(requiresAuthority = false)]
 		private void CmdTellServerToDeattachExplosive()
 		{

@@ -83,7 +83,7 @@ namespace Items
 				}
 
 				RegisterTile.Matrix.MetaDataLayer.InitialObjects[this.gameObject] = this.transform.localPosition;
-				this.GetComponent<CustomNetTransform>().DisappearFromWorldServer(true);
+				this.GetComponent<UniversalObjectPhysics>()?.DisappearFromWorld();
 				this.GetComponent<RegisterTile>().UpdatePositionServer();
 			}
 		}

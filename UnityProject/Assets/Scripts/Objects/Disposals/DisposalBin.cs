@@ -346,10 +346,10 @@ namespace Objects.Disposals
 				}
 				else
 				{
-					var transformComp = interaction.UsedObject.GetComponent<CustomNetTransform>();
+					var transformComp = interaction.UsedObject.GetComponent<UniversalObjectPhysics>();
 					if (transformComp != null)
 					{
-						transformComp.AppearAtPositionServer(targetObjectWorldPos);
+						transformComp.AppearAtWorldPositionServer(targetObjectWorldPos);
 					}
 				}
 
@@ -454,7 +454,7 @@ namespace Objects.Disposals
 		{
 			MetaDataLayer metadata = registerObject.Matrix.MetaDataLayer;
 			GasMix tileMix = metadata.Get(registerObject.LocalPositionServer, false).GasMix;
-			
+
 			// TODO: add voltage multiplier when bins are powered
 			var molesToTransfer = (tileMix.Moles - (tileMix.Moles * (CHARGED_PRESSURE / gasContainer.GasMix.Pressure))) * -1;
 			molesToTransfer *= 0.5f;

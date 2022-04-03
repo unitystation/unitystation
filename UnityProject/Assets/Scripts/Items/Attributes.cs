@@ -6,7 +6,6 @@ using Messages.Client.Interaction;
 using NaughtyAttributes;
 
 [RequireComponent(typeof(Integrity))]
-[RequireComponent(typeof(CustomNetTransform))]
 public class Attributes : NetworkBehaviour, IRightClickable, IExaminable, IServerSpawn
 {
 

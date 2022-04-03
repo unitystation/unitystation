@@ -286,9 +286,9 @@ namespace Objects.Construction
 					$"{interaction.Performer.ExpensiveName()} secures the electronics to the APC.");
 				ToolUtils.ServerPlayToolSound(interaction);
 
-				MatrixInfo matrix = MatrixManager.AtPoint(gameObject.GetComponent<CustomNetTransform>().ServerPosition, true);
+				MatrixInfo matrix = MatrixManager.AtPoint(gameObject.GetComponent<UniversalObjectPhysics>().transform.position, true);
 
-				var localPosInt = MatrixManager.WorldToLocalInt(gameObject.GetComponent<CustomNetTransform>().ServerPosition, matrix);
+				var localPosInt = MatrixManager.WorldToLocalInt(gameObject.GetComponent<UniversalObjectPhysics>().transform.position, matrix);
 
 				var econs = interaction.Performer.GetComponentInParent<Matrix>().GetElectricalConnections(localPosInt);
 				foreach (var Connection in econs.List)
@@ -302,7 +302,7 @@ namespace Objects.Construction
 
 				econs.Pool();
 
-				GameObject WallMount = Spawn.ServerPrefab(APCObject, gameObject.GetComponent<CustomNetTransform>().ServerPosition, interaction.Performer.transform.parent, spawnItems: false).GameObject;
+				GameObject WallMount = Spawn.ServerPrefab(APCObject, gameObject.GetComponent<UniversalObjectPhysics>().transform.position, interaction.Performer.transform.parent, spawnItems: false).GameObject;
 
 				var Directional = WallMount.GetComponent<Rotatable>();
 				if (Directional != null) Directional.FaceDirection(gameObject.GetComponent<Rotatable>().CurrentDirection);

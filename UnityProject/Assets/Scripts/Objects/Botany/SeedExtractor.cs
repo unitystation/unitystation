@@ -58,9 +58,8 @@ namespace Objects.Botany
 			Vector3 spawnPos = gameObject.RegisterTile().WorldPositionServer;
 			foreach (var packet in seedPackets)
 			{
-				CustomNetTransform netTransform = packet.GetComponent<CustomNetTransform>();
-				netTransform.AppearAtPosition(spawnPos);
-				netTransform.AppearAtPositionServer(spawnPos);
+				UniversalObjectPhysics ObjectPhysics = packet.GetComponent<UniversalObjectPhysics>();
+				ObjectPhysics.AppearAtWorldPositionServer(spawnPos);
 			}
 		}
 
@@ -132,9 +131,8 @@ namespace Objects.Botany
 			}
 
 			// Spawn packet if not added directly into inventory
-			CustomNetTransform netTransform = seedPacket.GetComponent<CustomNetTransform>();
-			netTransform.AppearAtPosition(spawnPos);
-			netTransform.AppearAtPositionServer(spawnPos);
+			UniversalObjectPhysics ObjectPhysics = seedPacket.GetComponent<UniversalObjectPhysics>();
+			ObjectPhysics.AppearAtWorldPositionServer(spawnPos);
 
 			// Notify chat
 			Chat.AddLocalMsgToChat($"{seedPacket.gameObject.ExpensiveName()} was dispensed from the seed extractor", gameObject);

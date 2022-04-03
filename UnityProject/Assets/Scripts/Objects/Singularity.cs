@@ -10,6 +10,7 @@ using Systems.Radiation;
 using Systems.Explosions;
 using Objects.Engineering;
 using Weapons.Projectiles.Behaviours;
+using Random = UnityEngine.Random;
 
 
 namespace Objects
@@ -89,7 +90,7 @@ namespace Objects
 		private Transform lightTransform;
 		private RegisterTile registerTile;
 		private SpriteHandler spriteHandler;
-		private CustomNetTransform customNetTransform;
+		private UniversalObjectPhysics ObjectPhysics;
 		private int objectId;
 
 		private Material WarpEffectFrontMat;
@@ -126,7 +127,7 @@ namespace Objects
 		private void Awake()
 		{
 			registerTile = GetComponent<RegisterTile>();
-			customNetTransform = GetComponent<CustomNetTransform>();
+			ObjectPhysics = GetComponent<UniversalObjectPhysics>();
 			spriteHandler = GetComponentInChildren<SpriteHandler>();
 			lightTransform = light.transform;
 			objectId = GetInstanceID();
@@ -169,7 +170,7 @@ namespace Objects
 			}
 
 			gameObject.transform.LeanScale(newScale, updateFrequency);
-			
+
 		}
 
 		private void SyncCurrentStage(SingularityStages oldStage, SingularityStages newStage)
@@ -319,9 +320,9 @@ namespace Objects
 				SpinMode = spin
 			};
 
-			CustomNetTransform itemTransform = item.GetComponent<CustomNetTransform>();
+			UniversalObjectPhysics itemTransform = item.GetComponent<UniversalObjectPhysics>();
 			if (itemTransform == null) return;
-			itemTransform.Throw(throwInfo);
+			itemTransform.NewtonianPush(vector,1, 0,0,(BodyPartType) Random.Range(0, 13),  gameObject, 1 );
 			pushRecently.Add(item.gameObject);
 		}
 
@@ -535,7 +536,7 @@ namespace Objects
 			}
 
 			//Move
-			customNetTransform.SetPosition(coord);
+			ObjectPhysics.AppearAtWorldPositionServer(coord, true);
 		}
 
 		/// <summary>
@@ -658,7 +659,7 @@ namespace Objects
 
 			switch (stage)
 			{
-				case SingularityStages.Stage0: 
+				case SingularityStages.Stage0:
 					scaledRadius = Mathf.Clamp(0.08f * gameObject.transform.localScale.x, 0.08f,0.15f);
 					scaledEffect = 7f;
 					break;

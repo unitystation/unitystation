@@ -135,7 +135,7 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 
 	private IMatrixRotation[] matrixRotationHooks;
 
-	public CustomNetTransform customNetTransform;
+	public UniversalObjectPhysics ObjectPhysics; //TODO change to check component
 
 	//cached for fast fire exposure without gc
 	private IFireExposable[] fireExposables;
@@ -171,7 +171,7 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 		{
 			objectLayer = transform.parent.GetComponent<ObjectLayer>() ?? transform.parent.GetComponentInParent<ObjectLayer>();
 		}
-		customNetTransform = GetComponent<CustomNetTransform>();
+		ObjectPhysics = GetComponent<UniversalObjectPhysics>();
 		matrixRotationHooks = GetComponents<IMatrixRotation>();
 		fireExposables = GetComponents<IFireExposable>();
 		IPlayerEntersTiles = GetComponents<IPlayerEntersTile>();
@@ -362,7 +362,7 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 		//otherwise all objects should always have upright local rotation
 		var rotation = transform.rotation;
 		//only customNetTransform can have spin rotation
-		bool hadSpinRotation = customNetTransform && Quaternion.Angle(transform.localRotation, Quaternion.identity) > 5;
+		bool hadSpinRotation = ObjectPhysics && Quaternion.Angle(transform.localRotation, Quaternion.identity) > 5;
 
 		var newObjectLayer = networkedMatrix.GetComponentInChildren<ObjectLayer>();
 		if (objectLayer != newObjectLayer)

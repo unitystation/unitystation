@@ -23,24 +23,24 @@ namespace Items
 		[SerializeField, ShowIf(nameof(useCustomSound))]
 		private AddressableAudioSource customSound = default;
 
-		private CustomNetTransform customNetTransform;
+		private UniversalObjectPhysics UOP;
 
 		private void Awake()
 		{
-			customNetTransform = GetComponent<CustomNetTransform>();
+			UOP = GetComponent<UniversalObjectPhysics>();
 		}
 
 		private void OnEnable()
 		{
-			customNetTransform.OnThrowEnd.AddListener(OnThrown);
+			UOP.OnThrowEnd.AddListener(OnThrown);
 		}
 
 		private void OnDisable()
 		{
-			customNetTransform.OnThrowEnd.RemoveListener(OnThrown);
+			UOP.OnThrowEnd.RemoveListener(OnThrown);
 		}
 
-		private void OnThrown(ThrowInfo info)
+		private void OnThrown(UniversalObjectPhysics info)
 		{
 			if (DMMath.Prob(chanceToBreak))
 			{

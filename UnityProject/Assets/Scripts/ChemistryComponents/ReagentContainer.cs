@@ -77,7 +77,7 @@ namespace Chemistry.Components
 		private bool destroyOnEmpty = default;
 
 		private ItemAttributesV2 itemAttributes = default;
-		private CustomNetTransform customNetTransform;
+		private UniversalObjectPhysics ObjectPhysics;
 		private Integrity integrity;
 
 
@@ -158,10 +158,10 @@ namespace Chemistry.Components
 		private void Awake()
 		{
 			// register spill on throw
-			customNetTransform = GetComponent<CustomNetTransform>();
-			if (customNetTransform)
+			ObjectPhysics = GetComponent<UniversalObjectPhysics>();
+			if (ObjectPhysics)
 			{
-				customNetTransform.OnThrowEnd.AddListener(throwInfo =>
+				ObjectPhysics.OnThrowEnd.AddListener(throwInfo =>
 				{
 					//check spill on throw
 					if (!Validations.HasItemTrait(this.gameObject, CommonTraits.Instance.SpillOnThrow) || IsEmpty)
@@ -409,7 +409,7 @@ namespace Chemistry.Components
 			{
 				if (!IsEmpty)
 				{
-					var worldPos = customNetTransform.PushPull.AssumedWorldPositionServer();
+					var worldPos = ObjectPhysics.transform.position.RoundToInt();
 					worldPos.z = 0;
 					SpillAll(worldPos, thrown);
 				}

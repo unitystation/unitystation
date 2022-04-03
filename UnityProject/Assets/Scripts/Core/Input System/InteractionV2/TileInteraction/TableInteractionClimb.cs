@@ -20,7 +20,7 @@ public class TableInteractionClimb : TileInteraction
 		if (interaction.TileApplyType != TileApply.ApplyType.MouseDrop) return false;
 
 		PlayerSync playerSync;
-		CustomNetTransform netTransform;
+		UniversalObjectPhysics ObjectPhysics;
 		if(interaction.UsedObject.TryGetComponent(out playerSync))
 		{
 			if (playerSync.IsMoving || playerSync.playerMove.IsBuckled)
@@ -36,9 +36,9 @@ public class TableInteractionClimb : TileInteraction
 				return false;
 			}
 		}
-		else if(interaction.UsedObject.TryGetComponent(out netTransform)) // Do the same check but for mouse draggable objects this time.
+		else if(interaction.UsedObject.TryGetComponent(out ObjectPhysics)) // Do the same check but for mouse draggable objects this time.
 		{
-			var mag = (netTransform.ServerPosition - interaction.PerformerPlayerScript.PlayerSync.ServerPosition).magnitude;
+			var mag = (ObjectPhysics.transform.position - interaction.PerformerPlayerScript.PlayerSync.ServerPosition).magnitude;
 			if (mag > PlayerScript.interactionDistance)
 			{
 				return false;
@@ -74,10 +74,10 @@ public class TableInteractionClimb : TileInteraction
 			}
 			else
 			{
-				var transformComp = interaction.UsedObject.GetComponent<CustomNetTransform>();
+				var transformComp = interaction.UsedObject.GetComponent<UniversalObjectPhysics>();
 				if (transformComp != null)
 				{
-					transformComp.AppearAtPositionServer(interaction.WorldPositionTarget);
+					transformComp.AppearAtWorldPositionServer(interaction.WorldPositionTarget);
 				}
 			}
 			if(canBreakOnClimb == false) return;

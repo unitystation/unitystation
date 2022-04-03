@@ -32,9 +32,11 @@ public class PushPull : NetworkBehaviour/*, IServerSpawn*/
 	/// Setting it to true without parent container will make it appear at HiddenPos.
 	/// Valid server side only
 	/// </summary>
-	public bool VisibleState {
-		get => Pushable.VisibleState;
-		set => Pushable.VisibleState = value;
+	public bool VisibleState
+	{
+		get => true;
+		set { }
+
 	}
 
 	/// <summary>

@@ -189,7 +189,7 @@ namespace Objects.Construction
 		private void Disassemble(HandApply interaction)
 		{
 			Spawn.ServerPrefab(CommonPrefabs.Instance.Metal, registerObject.WorldPositionServer, count: 2);
-			GetComponent<CustomNetTransform>().DisappearFromWorldServer();
+			GetComponent<UniversalObjectPhysics>().DisappearFromWorld();
 		}
 
 		[Server]

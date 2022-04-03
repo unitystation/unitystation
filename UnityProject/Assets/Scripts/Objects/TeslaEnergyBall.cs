@@ -65,7 +65,7 @@ namespace Objects
 
 		private RegisterTile registerTile;
 		private SpriteHandler spriteHandler;
-		private CustomNetTransform customNetTransform;
+		private UniversalObjectPhysics ObjectPhysics ;
 
 		private int lockTimer;
 		private bool pointLock;
@@ -90,7 +90,7 @@ namespace Objects
 		private void Awake()
 		{
 			registerTile = GetComponent<RegisterTile>();
-			customNetTransform = GetComponent<CustomNetTransform>();
+			ObjectPhysics = GetComponent<UniversalObjectPhysics>();
 			spriteHandler = GetComponentInChildren<SpriteHandler>();
 		}
 
@@ -430,7 +430,7 @@ namespace Objects
 			if (layerTile != null && layerTilesToIgnore.Any(l => l.name == layerTile.name )) return;
 
 			//Move
-			customNetTransform.SetPosition(coord);
+			ObjectPhysics.AppearAtWorldPositionServer(coord);
 		}
 
 		#endregion

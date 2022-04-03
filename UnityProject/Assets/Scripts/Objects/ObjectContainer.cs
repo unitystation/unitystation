@@ -31,8 +31,7 @@ namespace Objects
 		[Tooltip("Contents that will be spawned inside when the container spawns.")]
 		private SpawnableList initialContents = default;
 
-		[SerializeField]
-		[Tooltip("Whether the contents will spawn at roundstart or be spawned manually.")]
+		[SerializeField] [Tooltip("Whether the contents will spawn at roundstart or be spawned manually.")]
 		private bool spawnContentsAtRoundstart = true;
 
 		public bool IsEmpty => storedObjects.Count == 0;
@@ -41,6 +40,8 @@ namespace Objects
 
 		private RegisterTile registerTile;
 		private PushPull pushPullObject;
+		private UniversalObjectPhysics ObjectPhysics;
+
 
 		// stored contents and their positional offsets, if applicable
 		private readonly Dictionary<GameObject, Vector3> storedObjects = new Dictionary<GameObject, Vector3>();
@@ -51,6 +52,8 @@ namespace Objects
 		{
 			registerTile = GetComponent<RegisterTile>();
 			pushPullObject = GetComponent<PushPull>();
+			ObjectPhysics = GetComponent<UniversalObjectPhysics>();
+
 
 			registerTile.OnParentChangeComplete.AddListener(() =>
 			{
@@ -100,10 +103,9 @@ namespace Objects
 		{
 			storedObjects.Add(obj, offset);
 
-			if (obj.TryGetComponent<ObjectBehaviour>(out var objBehaviour))
+			if (obj.TryGetComponent<UniversalObjectPhysics>(out var objectPhysics))
 			{
-				objBehaviour.parentContainer = pushPullObject;
-				objBehaviour.VisibleState = false;
+				objectPhysics.StoreTo(ObjectPhysics);
 
 				if (obj.TryGetComponent<PlayerScript>(out var playerScript))
 				{
@@ -115,7 +117,7 @@ namespace Objects
 						FollowCameraMessage.Send(obj, gameObject);
 					}
 
-					CheckPlayerCrawlState(objBehaviour);
+					CheckPlayerCrawlState(objectPhysics);
 				}
 			}
 		}
@@ -141,7 +143,7 @@ namespace Objects
 				if (entity.gameObject == gameObject) continue;
 
 				// Can't store secured objects (exclude this check on mobs as e.g. magboots set pushable false)
-				if (entity.TryGetComponent<HealthV2.LivingHealthMasterBase>(out _) == false && entity.IsPushable == false) continue;
+				if (entity.IsPushable == false) continue;
 
 				//No Nested ObjectContainer shenanigans
 				if (entity.GetComponent<ObjectContainer>()) continue;
@@ -181,32 +183,15 @@ namespace Objects
 			if (obj == null || storedObjects.TryGetValue(obj, out var offset) == false) return;
 			storedObjects.Remove(obj);
 
-			if (obj.TryGetComponent<ObjectBehaviour>(out var objBehaviour))
+			if (obj.TryGetComponent<UniversalObjectPhysics>(out var uop))
 			{
-				objBehaviour.parentContainer = null;
-
-				if (obj.TryGetComponent<CustomNetTransform>(out var cnt))
+				uop.DropAtAndInheritMomentum(pushPullObject.GetComponent<UniversalObjectPhysics>());
+				uop.StoreTo(null);
+				if (obj.TryGetComponent<PlayerScript>(out var playerScript))
 				{
-					//avoids blinking of premapped items when opening first time in another place:
-					Vector3 pos = worldPosition.GetValueOrDefault(registerTile.WorldPositionServer) + offset;
-					cnt.AppearAtPositionServer(pos);
-					if (pushPullObject.Pushable.IsMovingServer)
-					{
-						cnt.InertiaDrop(pos, pushPullObject.Pushable.SpeedServer, pushPullObject.InheritedImpulse.To2Int());
-					}
-				}
-				else if (obj.TryGetComponent<PlayerScript>(out var playerScript))
-				{
-					playerScript.PlayerSync.AppearAtPositionServer(worldPosition.GetValueOrDefault(registerTile.WorldPositionServer));
-					playerScript.playerMove.IsTrapped = false;
-					if (pushPullObject.Pushable.IsMovingServer)
-					{
-						objBehaviour.TryPush(pushPullObject.InheritedImpulse.To2Int(), pushPullObject.Pushable.SpeedServer);
-					}
-
 					// Stop tracking closet
 					FollowCameraMessage.Send(obj, obj);
-					CheckPlayerCrawlState(objBehaviour);
+					//CheckPlayerCrawlState(objBehaviour.GetComponent<UniversalObjectPhysics>());
 				}
 			}
 		}
@@ -247,7 +232,7 @@ namespace Objects
 			}
 		}
 
-		private void CheckPlayerCrawlState(ObjectBehaviour playerBehaviour)
+		private void CheckPlayerCrawlState(UniversalObjectPhysics playerBehaviour)
 		{
 			var regPlayer = playerBehaviour.GetComponent<RegisterPlayer>();
 			regPlayer.HandleGetupAnimation(!regPlayer.IsLayingDown);

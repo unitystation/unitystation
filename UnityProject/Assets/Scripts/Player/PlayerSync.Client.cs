@@ -282,8 +282,8 @@ public partial class PlayerSync
 		//if we are buckled, transfer the impulse to our buckled object.
 		if (playerMove.IsBuckled)
 		{
-			var buckledCNT = playerMove.BuckledObject.GetComponent<CustomNetTransform>();
-			return buckledCNT.PredictivePush(target, speed, followMode);
+			var buckledUOP = playerMove.BuckledObject.GetComponent<UniversalObjectPhysics>();
+			//return buckledUOP.PredictivePush(target, speed, followMode);
 		}
 
 		if (Matrix == null)

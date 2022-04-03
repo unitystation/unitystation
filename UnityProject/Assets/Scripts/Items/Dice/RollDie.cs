@@ -19,7 +19,7 @@ namespace Items.Dice
 
 		private Transform dieTransform;
 		private SpriteHandler faceOverlayHandler;
-		private CustomNetTransform netTransform;
+		private UniversalObjectPhysics ObjectPhysics ;
 		private Cookable cookable;
 
 		private const float ROLL_TIME = 1; // In seconds.
@@ -44,7 +44,7 @@ namespace Items.Dice
 			// This assumes that the Face GameObject, responsible for handling the dice sprite overlays,
 			// is in the second position of the dice hierarchy.
 			faceOverlayHandler = transform.GetChild(1).GetComponent<SpriteHandler>();
-			netTransform = GetComponent<CustomNetTransform>();
+			ObjectPhysics = GetComponent<UniversalObjectPhysics>();
 			cookable = GetComponent<Cookable>();
 		}
 
@@ -59,8 +59,8 @@ namespace Items.Dice
 
 		private void OnEnable()
 		{
-			netTransform.OnThrowStart.AddListener(ThrowStart);
-			netTransform.OnThrowEnd.AddListener(ThrowEnd);
+			ObjectPhysics.OnThrowStart.AddListener(ThrowStart);
+			ObjectPhysics.OnThrowEnd.AddListener(ThrowEnd);
 
 			if (cookable != null && isRiggable)
 			{
@@ -70,8 +70,8 @@ namespace Items.Dice
 
 		private void OnDisable()
 		{
-			netTransform.OnThrowStart.RemoveListener(ThrowStart);
-			netTransform.OnThrowEnd.RemoveListener(ThrowEnd);
+			ObjectPhysics.OnThrowStart.RemoveListener(ThrowStart);
+			ObjectPhysics.OnThrowEnd.RemoveListener(ThrowEnd);
 
 			if (cookable != null)
 			{
@@ -127,14 +127,14 @@ namespace Items.Dice
 
 		#region Throwing
 
-		private void ThrowStart(ThrowInfo throwInfo)
+		private void ThrowStart(UniversalObjectPhysics throwInfo)
 		{
-			if (throwInfo.ThrownBy.GetComponent<NetworkIdentity>() == null) return;
+			if (throwInfo.thrownBy.GetComponent<NetworkIdentity>() == null) return;
 
-			Chat.AddActionMsgToChat(throwInfo.ThrownBy, $"You throw the {dieName}...", $"{throwInfo.ThrownBy.ExpensiveName()} throws the {dieName}...");
+			Chat.AddActionMsgToChat(throwInfo.thrownBy, $"You throw the {dieName}...", $"{throwInfo.thrownBy.ExpensiveName()} throws the {dieName}...");
 		}
 
-		private void ThrowEnd(ThrowInfo throwInfo)
+		private void ThrowEnd(UniversalObjectPhysics throwInfo)
 		{
 			this.RestartCoroutine(WaitForSide(), ref waitForSide);
 		}

@@ -45,7 +45,6 @@ using Systems.Interaction;
 			base.Awake();
 			GetComponent<Integrity>().OnWillDestroyServer.AddListener(OnWillDestroyServer);
 			//Doors/airlocks aren't supposed to switch matrices
-			GetComponent<CustomNetTransform>().IsFixedMatrix = true;
 			tileChangeManager = GetComponentInParent<TileChangeManager>();
 			InteractableDoor = this.GetComponent<InteractableDoor>();
 		}

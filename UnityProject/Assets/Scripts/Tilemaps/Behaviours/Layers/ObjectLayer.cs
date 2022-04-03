@@ -65,7 +65,7 @@ public class ObjectLayer : Layer
 
 
 	public bool IsPassableAtOnThisLayerV2(Vector3Int origin, Vector3Int to, bool isServer, GameObject Incontext,
-		 List<PushPull> Pushings,  List<IBumpableObject> Bumps)
+		 List<UniversalObjectPhysics> Pushings,  List<IBumpableObject> Bumps)
 	{
 		if (CanLeaveTileV2(origin, to, isServer, Pushings, context: Incontext) == false)
 		{
@@ -97,7 +97,7 @@ public class ObjectLayer : Layer
 		return true;
 	}
 
-	public bool CanLeaveTileV2(Vector3Int origin, Vector3Int to, bool isServer, List<PushPull> Pushings,
+	public bool CanLeaveTileV2(Vector3Int origin, Vector3Int to, bool isServer, List<UniversalObjectPhysics> Pushings,
 		GameObject context = null)
 	{
 		bool PushObjectSet = false;
@@ -110,18 +110,17 @@ public class ObjectLayer : Layer
 			    && (context == null || t.gameObject != context))
 			{
 
-				if (t.PushPull.HasComponent)
+				if (t.ObjectPhysics != null) //TODO change to check component
 				{
 					if (PushObjectSet == false)
 					{
 						PushObjectSet = true;
-						CanPushObjects = t.PushPull.Component.CanPushServer(to, (origin - to).To2Int());
-
+						CanPushObjects = t.ObjectPhysics.CanPush((origin - to).To2Int());
 					}
 
 					if (CanPushObjects)
 					{
-						Pushings.Add(t.PushPull.Component);
+						Pushings.Add(t.ObjectPhysics);
 					}
 					else
 					{
@@ -160,7 +159,7 @@ public class ObjectLayer : Layer
 	}
 
 
-	public bool CanEnterTileV2(Vector3Int origin, Vector3Int to, bool isServer, List<PushPull> Pushings, List<IBumpableObject> Bumps,  GameObject context = null)
+	public bool CanEnterTileV2(Vector3Int origin, Vector3Int to, bool isServer, List<UniversalObjectPhysics> Pushings, List<IBumpableObject> Bumps,  GameObject context = null)
 	{
 		bool PushObjectSet = false;
 		bool CanPushObjects = false;
@@ -171,19 +170,19 @@ public class ObjectLayer : Layer
 			if (o.IsPassableFromOutside(origin, isServer, context) == false
 			    && (context == null || o.gameObject != context))
 			{
-				if (o.PushPull.HasComponent)
+				if (o.ObjectPhysics != null)
 				{
 					if (PushObjectSet == false)
 					{
 						PushObjectSet = true;
 						var Worldorigin = origin.ToWorld(matrix);
 						var WorldTo = to.ToWorld(matrix);
-						CanPushObjects = o.PushPull.Component.CanPushServer(WorldTo.RoundToInt(), (WorldTo - Worldorigin).To2Int());
+						CanPushObjects = o.ObjectPhysics.CanPush((WorldTo - Worldorigin).To2Int());
 					}
 
 					if (CanPushObjects)
 					{
-						Pushings.Add(o.PushPull.Component);
+						Pushings.Add(o.ObjectPhysics);
 						continue;
 					}
 					else

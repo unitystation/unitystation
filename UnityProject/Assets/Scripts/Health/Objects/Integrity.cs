@@ -21,7 +21,7 @@ using Systems.Explosions;
 /// This stuff is tracked server side only, client is informed only when the effects of integrity
 /// changes occur.
 /// </summary>
-[RequireComponent(typeof(CustomNetTransform))]
+///
 [RequireComponent(typeof(RegisterTile))]
 public class Integrity : NetworkBehaviour, IHealth, IFireExposable, IRightClickable, IServerSpawn, IExaminable, IServerDespawn
 {

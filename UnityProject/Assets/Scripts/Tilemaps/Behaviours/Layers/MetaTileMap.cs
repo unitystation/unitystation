@@ -439,7 +439,7 @@ namespace TileManagement
 		}
 
 		public bool IsPassableAtOneObjectsV2(Vector3Int origin, Vector3Int to, GameObject context,
-			List<PushPull> Pushings, List<IBumpableObject> Bumps)
+			List<UniversalObjectPhysics> Pushings, List<IBumpableObject> Bumps)
 		{
 			// Simple case: orthogonal travel
 			if (origin.x == to.x || origin.y == to.y)
@@ -461,7 +461,7 @@ namespace TileManagement
 		}
 
 		public bool IsPassableObjectsHorizontal(Vector3Int origin, Vector3Int to, GameObject context,
-			List<PushPull> Pushings, List<IBumpableObject> Bumps)
+			List<UniversalObjectPhysics> Pushings, List<IBumpableObject> Bumps)
 		{
 			Vector3Int toX = new Vector3Int(to.x, origin.y, origin.z);
 			bool isPassableIfHorizontalFirst =
@@ -473,7 +473,7 @@ namespace TileManagement
 
 
 		public bool IsPassableObjectsVertical(Vector3Int origin, Vector3Int to, GameObject context,
-			List<PushPull> Pushings, List<IBumpableObject> Bumps)
+			List<UniversalObjectPhysics> Pushings, List<IBumpableObject> Bumps)
 		{
 			Vector3Int toY = new Vector3Int(origin.x, to.y, origin.z);
 			return IsPassableAtOrthogonalObjectsV2(origin, toY, context, Pushings, Bumps) &&
@@ -536,7 +536,7 @@ namespace TileManagement
 		}
 
 		private bool IsPassableAtOrthogonalObjectsV2(Vector3Int origin, Vector3Int to, GameObject context,
-			List<PushPull> Pushings, List<IBumpableObject> Bumps)
+			List<UniversalObjectPhysics> Pushings, List<IBumpableObject> Bumps)
 		{
 			return ObjectLayer.IsPassableAtOnThisLayerV2(origin, to, CustomNetworkManager.IsServer, context, Pushings,
 				Bumps);

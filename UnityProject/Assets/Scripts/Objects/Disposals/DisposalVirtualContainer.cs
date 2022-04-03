@@ -32,9 +32,9 @@ namespace Objects.Disposals
 
 		#region EjectContents
 
-		private void ThrowItem(CustomNetTransform cnt, Vector3 throwVector)
+		private void ThrowItem(UniversalObjectPhysics uop, Vector3 throwVector)
 		{
-			Vector3 vector = cnt.transform.rotation * throwVector;
+			Vector3 vector = uop.transform.rotation * throwVector;
 			ThrowInfo throwInfo = new ThrowInfo
 			{
 				ThrownBy = gameObject,
@@ -44,7 +44,7 @@ namespace Objects.Disposals
 				SpinMode = DMMath.Prob(50) ? SpinMode.Clockwise : SpinMode.CounterClockwise
 			};
 
-			cnt.Throw(throwInfo);
+			uop.NewtonianPush(vector, Random.Range(1, 100)/100f , Random.Range(1, 85)/100f, Random.Range(1, 25)/100f, (BodyPartType) Random.Range(0, 13), gameObject, Random.Range(0, 13));
 		}
 
 		/// <summary>
@@ -70,9 +70,9 @@ namespace Objects.Disposals
 			{
 				if (obj.TryGetComponent<IPushable>(out var pushable) == false) continue;
 
-				if (obj.TryGetComponent<RegisterObject>(out _) == false && obj.TryGetComponent<CustomNetTransform>(out var cnt))
+				if (obj.TryGetComponent<RegisterObject>(out _) == false && obj.TryGetComponent<UniversalObjectPhysics>(out var uop))
 				{
-					ThrowItem(cnt, exitVector);
+					ThrowItem(uop, exitVector);
 					return;
 				}
 

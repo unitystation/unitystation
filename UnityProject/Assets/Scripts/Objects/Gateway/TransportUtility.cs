@@ -34,12 +34,11 @@ namespace Gateway
 				playerSync.RollbackPrediction();
 			}
 			//Object and Item objects get CustomNetTransform
-			var customNetTransform = pushPullObject.GetComponent<CustomNetTransform>();
+			var customNetTransform = pushPullObject.GetComponent<UniversalObjectPhysics>();
 			if (customNetTransform != null)
 			{
-				customNetTransform.DisappearFromWorldServer();
-				customNetTransform.AppearAtPositionServer(transportTo);
-				customNetTransform.RollbackPrediction();
+				customNetTransform.DisappearFromWorld();
+				customNetTransform.AppearAtWorldPositionServer(transportTo);
 			}
 		}
 

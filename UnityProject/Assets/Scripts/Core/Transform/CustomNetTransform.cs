@@ -11,7 +11,7 @@ using Util;
 
 // ReSharper disable CompareOfFloatsByEqualityOperator
 
-public partial class CustomNetTransform : NetworkBehaviour, IPushable
+public partial class OLDCustomNetTransform : NetworkBehaviour, IPushable
 {
 	[SerializeField] [Tooltip("When the scene loads, snap this to the middle of the nearest tile?")]
 	private bool snapToGridOnStart = true;
@@ -871,7 +871,7 @@ public partial class CustomNetTransform : NetworkBehaviour, IPushable
 	/// </summary>
 	/// <param name="playerGameObject">Whom to notify</param>
 	[Server]
-	public void NotifyPlayer(NetworkConnection playerGameObject)
+	public void NotifyPlayer(NetworkConnection playerGameObject) //Literally lie
 	{
 		UpdateClientState(clientState, serverState);
 	}

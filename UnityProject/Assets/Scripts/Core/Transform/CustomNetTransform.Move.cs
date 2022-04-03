@@ -16,7 +16,7 @@ public enum SpinMode
 	CounterClockwise
 }
 
-public partial class CustomNetTransform
+public partial class OLDCustomNetTransform
 {
 
 	private const string STOPPED_FLOATING = "{0} stopped floating";

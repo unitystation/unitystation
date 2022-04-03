@@ -273,7 +273,7 @@ namespace Systems.Hacking
 					var Hand = PlayerScript.DynamicItemStorage.GetBestHand(Spawned.GetComponent<Stackable>());
 					if (Hand == null)
 					{
-						Spawned.GetComponent<CustomNetTransform>().AppearAtPositionServer(PlayerScript.WorldPos - this.GetComponent<RegisterTile>().WorldPositionServer);
+						Spawned.GetComponent<UniversalObjectPhysics>().AppearAtWorldPositionServer(PlayerScript.WorldPos - this.GetComponent<RegisterTile>().WorldPositionServer);
 					}
 					else
 					{

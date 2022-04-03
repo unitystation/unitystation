@@ -49,7 +49,7 @@ namespace Objects.Drawers
 		protected Vector3Int TrayLocalPosition => ((Vector3)TrayWorldPosition).ToLocalInt(Matrix);
 
 		protected GameObject tray;
-		protected CustomNetTransform trayTransform;
+		protected UniversalObjectPhysics ObjectPhysics;
 		protected ObjectBehaviour trayBehaviour;
 		protected ObjectContainer container;
 		protected SpriteHandler traySpriteHandler;
@@ -99,7 +99,7 @@ namespace Objects.Drawers
 
 			tray.GetComponent<InteractableDrawerTray>().parentDrawer = this;
 			traySpriteHandler = tray.GetComponentInChildren<SpriteHandler>();
-			trayTransform = tray.GetComponent<CustomNetTransform>();
+			ObjectPhysics = tray.GetComponent<UniversalObjectPhysics>();
 			trayBehaviour = tray.GetComponent<ObjectBehaviour>();
 			trayBehaviour.parentContainer = drawerPushPull;
 			trayBehaviour.VisibleState = false;
@@ -206,7 +206,7 @@ namespace Objects.Drawers
 		{
 			if(drawerState == DrawerState.Open) return;
 			trayBehaviour.parentContainer = null;
-			trayTransform.SetPosition(TrayWorldPosition);
+			ObjectPhysics.AppearAtWorldPositionServer(TrayWorldPosition);
 
 			container.RetrieveObjects(TrayWorldPosition);
 

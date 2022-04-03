@@ -293,11 +293,11 @@ public static class Spawn
 				//apply scattering if it was specified
 				if (info.ScatterRadius != null)
 				{
-					var cnt = result.GameObject.GetComponent<CustomNetTransform>();
+					var uop = result.GameObject.GetComponent<UniversalObjectPhysics>();
 					var scatterRadius = info.ScatterRadius.GetValueOrDefault(0);
-					if (cnt != null)
+					if (uop != null)
 					{
-						cnt.SetPosition(info.SpawnDestination.WorldPosition + new Vector3(
+						uop.AppearAtWorldPositionServer(info.SpawnDestination.WorldPosition + new Vector3(
 							Random.Range(-scatterRadius, scatterRadius), Random.Range(-scatterRadius, scatterRadius)));
 					}
 				}

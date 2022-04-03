@@ -49,7 +49,7 @@ namespace Items.Food
 				if (!added)
 				{
 					//If stackable has leavings and they couldn't go in the same slot, they should be dropped
-					pickupable.CustomNetTransform.SetPosition(feeder.WorldPos);
+					pickupable.UniversalObjectPhysics.AppearAtWorldPositionServer(feeder.WorldPos);
 				}
 			}
 		}

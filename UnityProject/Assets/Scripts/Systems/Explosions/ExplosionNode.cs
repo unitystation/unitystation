@@ -93,17 +93,8 @@ namespace Systems.Explosions
 					//Throw items
 					if (integrity.GetComponent<ItemAttributesV2>() != null)
 					{
-						ThrowInfo throwInfo = new ThrowInfo
-						{
-							//the thrown object is itself for now, in case ThrownBy breaks if null
-							ThrownBy = integrity.gameObject,
-							Aim = BodyPartType.Chest,
-							OriginWorldPos = integrity.RegisterTile.WorldPosition,
-							WorldTrajectory = AngleAndIntensity.Rotate90(),
-							SpinMode = RandomUtils.RandomSpin()
-						};
 
-						integrity.GetComponent<CustomNetTransform>().Throw(throwInfo);
+						integrity.GetComponent<UniversalObjectPhysics>().NewtonianPush(AngleAndIntensity.Rotate90(),1,inaim: BodyPartType.Chest,  inthrownBy : integrity.gameObject );
 					}
 
 					//And do damage to objects

@@ -392,10 +392,10 @@ namespace Player.Movement
 			if(integrityBuckledObject != null) integrityBuckledObject.OnServerDespawnEvent -= Unbuckle;
 
 			// we are unbuckled but still will drift with the object.
-			var buckledCNT = previouslyBuckledTo.GetComponent<CustomNetTransform>();
-			if (buckledCNT.IsFloatingServer)
+			var buckledCNT = previouslyBuckledTo.GetComponent<UniversalObjectPhysics>();
+			if (buckledCNT.IsCurrentlyFloating)
 			{
-				PlayerScript.PlayerSync.NewtonianMove(buckledCNT.ServerImpulse.NormalizeToInt(), buckledCNT.SpeedServer);
+				//PlayerScript.PlayerSync.NewtonianMove(buckledCNT.newtonianMovement.RoundToInt(), buckledCNT.newtonianMovement.magnitude);
 			}
 			else
 			{

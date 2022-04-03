@@ -213,7 +213,7 @@ namespace Objects.Atmospherics
 
 		private void EjectInsertedContainer()
 		{
-			InsertedContainer.GetComponent<CustomNetTransform>().AppearAtPositionServer(gameObject.WorldPosServer());
+			InsertedContainer.GetComponent<UniversalObjectPhysics>().AppearAtWorldPositionServer(gameObject.WorldPosServer());
 			InsertedContainer = null;
 			ServerOnExternalTankInserted.Invoke(false);
 			RefreshOverlays();
@@ -305,7 +305,7 @@ namespace Objects.Atmospherics
 					$"{interaction.Performer.ExpensiveName()} inserts a tank into the {this.ContentsName} canister.");
 				Inventory.ServerDrop(interaction.HandSlot);
 				InsertedContainer = interaction.UsedObject;
-				interaction.UsedObject.GetComponent<CustomNetTransform>().DisappearFromWorldServer();
+				interaction.UsedObject.GetComponent<UniversalObjectPhysics>().DisappearFromWorld();
 				ServerOnExternalTankInserted.Invoke(true);
 				RefreshOverlays();
 			}

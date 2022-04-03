@@ -1081,7 +1081,7 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 	///Cross-matrix edition of <see cref="Matrix.IsPassableAt(UnityEngine.Vector3Int,UnityEngine.Vector3Int,bool,GameObject)"/>
 	///<inheritdoc cref="Matrix.IsPassableAt(UnityEngine.Vector3Int,UnityEngine.Vector3Int,bool,GameObject)"/>
 	public static bool IsPassableAtAllMatricesV2(Vector3 worldOrigin, Vector3 worldTarget,
-		MatrixCash MatrixCash, GameObject Context, List<PushPull> PushIng, List<IBumpableObject> Bumps)
+		MatrixCash MatrixCash, GameObject Context, List<UniversalObjectPhysics> PushIng, List<IBumpableObject> Bumps)
 	{
 		var MatrixOrigin = MatrixCash.GetforDirection(Vector3Int.zero);
 		var localPosOrigin = WorldToLocal(worldOrigin, MatrixOrigin);
