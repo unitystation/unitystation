@@ -247,14 +247,14 @@ public class VotingManager : NetworkBehaviour
 	private void CheckVoteCriteria()
 	{
 		var winner = GetHighestVote();
+		Debug.Log(winner);
 		if (IsSuccess(ForVoteCount(), PlayerList.Instance.AllPlayers.Count))
 		{
 			switch (voteType)
 			{
 				case VoteType.RestartRound:
-					if (voteRestartSuccess) return;
+					if(winner == "No") return;
 					if (GameManager.Instance.CurrentRoundState != RoundState.Started) return;
-						voteRestartSuccess = true;
 					Logger.Log("Vote to restart server was successful. Restarting now.....", Category.Admin);
 					VideoPlayerMessage.Send(VideoType.RestartRound);
 					GameManager.Instance.EndRound();
@@ -319,15 +319,16 @@ public class VotingManager : NetworkBehaviour
 		var winner = "";
 		foreach (var vote in votes)
 		{
-			if (count.ContainsKey(vote.Key) == false)
+			if (count.ContainsKey(vote.Value) == false)
 			{
-				count.Add(vote.Key, 1);
+				count.Add(vote.Value, 1);
+				Debug.Log($"Added {vote.Value}");
 				continue;
 			}
-			count[vote.Key] += 1;
-			if (count[vote.Key] <= highestVote) continue;
-			highestVote = count[vote.Key];
-			winner = vote.Key;
+			count[vote.Value] += 1;
+			if (count[vote.Value] < highestVote) continue;
+			highestVote = count[vote.Value];
+			winner = vote.Value;
 		}
 
 		return winner;
