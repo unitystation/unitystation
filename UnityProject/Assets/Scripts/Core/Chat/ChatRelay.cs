@@ -304,29 +304,20 @@ public class ChatRelay : NetworkBehaviour
 
 		switch (channels)
 		{
-			case ChatChannel.Local:
-				break;
-			case ChatChannel.Action:
-				break;
-			case ChatChannel.Examine:
-				break;
-			case ChatChannel.Ghost: //(Max) : we need a sound for ghosts
-				break;
-			case ChatChannel.System:
-				break;
-			case ChatChannel.Warning:
-				break;
-			case ChatChannel.Blob:
-				break;
-			case ChatChannel.OOC:
-				break;
 			case ChatChannel.Syndicate:
 				_ = SoundManager.Play(Chat.Instance.commonSyndicteChannelSound);
 				break;
 			case ChatChannel.Security:
 				_ = SoundManager.Play(Chat.Instance.commonSecurityChannelSound);
 				break;
-			default:
+			case ChatChannel.Binary:
+			case ChatChannel.Medical:
+			case ChatChannel.Command:
+			case ChatChannel.Supply:
+			case ChatChannel.CentComm:
+			case ChatChannel.Science:
+			case ChatChannel.Engineering:
+			case ChatChannel.Common:
 				_ = SoundManager.Play(Chat.Instance.commonRadioChannelSound);
 				break;
 		}
