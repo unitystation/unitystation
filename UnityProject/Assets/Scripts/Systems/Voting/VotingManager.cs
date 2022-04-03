@@ -247,7 +247,6 @@ public class VotingManager : NetworkBehaviour
 	private void CheckVoteCriteria()
 	{
 		var winner = GetHighestVote();
-		Debug.Log(winner);
 		if (IsSuccess(ForVoteCount(), PlayerList.Instance.AllPlayers.Count))
 		{
 			switch (voteType)
@@ -321,14 +320,17 @@ public class VotingManager : NetworkBehaviour
 		{
 			if (count.ContainsKey(vote.Value) == false)
 			{
-				count.Add(vote.Value, 1);
+				count.Add(vote.Value, 0);
 				Debug.Log($"Added {vote.Value}");
-				continue;
+				Debug.Log(count[vote.Value]);
 			}
 			count[vote.Value] += 1;
-			if (count[vote.Value] < highestVote) continue;
-			highestVote = count[vote.Value];
-			winner = vote.Value;
+			if (count[vote.Value] > highestVote)
+			{
+				Debug.Log("Found new winner");
+				highestVote = count[vote.Value];
+				winner = vote.Value;
+			}
 		}
 
 		return winner;
