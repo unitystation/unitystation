@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading;
 using NaughtyAttributes;
@@ -58,7 +59,16 @@ namespace Core.Threading
 					return;
 				}
 				mainThreadTimer.Restart();
-				RunTick();
+				try
+				{
+					RunTick();
+				}
+				catch (Exception e)
+				{
+					Logger.LogError(e.ToString(), Category.Threading);
+					throw;
+				}
+
 				ticker++;
 			}
 		}
