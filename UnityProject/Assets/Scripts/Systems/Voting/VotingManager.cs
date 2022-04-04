@@ -313,7 +313,7 @@ public class VotingManager : NetworkBehaviour
 	/// </summary>
 	private int TotalVotes()
 	{
-		return votes.Count;
+		return votes == null ? 0 : votes.Count;
 	}
 
 	/// <summary>
