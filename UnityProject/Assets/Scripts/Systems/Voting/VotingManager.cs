@@ -148,7 +148,7 @@ public class VotingManager : NetworkBehaviour
 		voteType = VoteType.NextGameMode;
 		votePolicy = VotePolicy.MajorityRules;
 		voteInProgress = true;
-		RpcOpenVoteWindow("Vote restart initiated by", instigator.name, CountAmountString(), (30 - prevSecond).ToString(), GameModeList);
+		RpcOpenVoteWindow("Voting for next game mode initiated by", instigator.name, CountAmountString(), (30 - prevSecond).ToString(), GameModeList);
 		RpcVoteCallerDefault(sender);
 		Logger.Log($"Vote restart initiated by {instigator.name}", Category.Admin);
 	}
@@ -170,7 +170,7 @@ public class VotingManager : NetworkBehaviour
 		voteType = VoteType.NextMap;
 		votePolicy = VotePolicy.MajorityRules;
 		voteInProgress = true;
-		RpcOpenVoteWindow("Vote restart initiated by", instigator.name, CountAmountString(), (30 - prevSecond).ToString(), MapList);
+		RpcOpenVoteWindow("Voting for next map initiated by", instigator.name, CountAmountString(), (30 - prevSecond).ToString(), MapList);
 		RpcVoteCallerDefault(sender);
 		Logger.Log($"Vote restart initiated by {instigator.name}", Category.Admin);
 	}
