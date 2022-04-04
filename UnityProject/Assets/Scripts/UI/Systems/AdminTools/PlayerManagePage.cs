@@ -208,13 +208,7 @@ namespace AdminTools
 
 		public void GiveItemToPlayerButton()
 		{
-			var player = PlayerList.Instance.GetPlayerByID(PlayerEntry.PlayerData.uid);
-			if (player == null)
-			{
-				Logger.LogWarning("Unable to find player to give item to! Are you sure that they're still on the list?");
-				return;
-			}
-			adminTools.giveItemPage.selectedPlayer = player;
+			adminTools.giveItemPage.selectedPlayer = PlayerEntry.PlayerData.connectedPlayer;
 			adminTools.ShowGiveItemPagePage();
 		}
 	}
