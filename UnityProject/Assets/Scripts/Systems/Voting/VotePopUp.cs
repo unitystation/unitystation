@@ -54,7 +54,7 @@ namespace UI
 			foreach (var newBtn in options)
 			{
 				var b = Instantiate(buttonTemp, buttonsList.transform);
-				b.GetComponent<VotingButton>().Initlize(newBtn, this);
+				b.GetComponent<VotingButton>().Initialize(newBtn, this);
 			}
 		}
 

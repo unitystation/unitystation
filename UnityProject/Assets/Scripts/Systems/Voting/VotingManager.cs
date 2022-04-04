@@ -251,7 +251,7 @@ public class VotingManager : NetworkBehaviour
 			var winner = GetHighestVote();
 			if (winner == "")
 			{
-				Chat.AddGameWideSystemMsgToChat($"<color=blue>Voting failed! Not enough people voted!</color>");
+				Chat.AddGameWideSystemMsgToChat($"<color=blue>Voting failed! vote has somehow passed but no winner was written!</color>");
 				return;
 			}
 			switch (voteType)

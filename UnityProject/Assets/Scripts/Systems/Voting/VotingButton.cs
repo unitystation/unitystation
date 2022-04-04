@@ -8,7 +8,7 @@ namespace UI
 		public TMP_Text btnText;
 		private VotePopUp popUp;
 
-		public void Initlize(string optionTxt, VotePopUp pop)
+		public void Initialize(string optionTxt, VotePopUp pop)
 		{
 			popUp = pop;
 			btnText.text = optionTxt;
