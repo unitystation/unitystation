@@ -246,7 +246,7 @@ public class VotingManager : NetworkBehaviour
 
 	private void CheckVoteCriteria()
 	{
-		if (IsSuccess(TotalVotes(), PlayerList.Instance.AllPlayers.Count))
+		if (IsSuccess(votes.Count, PlayerList.Instance.AllPlayers.Count))
 		{
 			var winner = GetHighestVote();
 			if (winner == "")
@@ -305,15 +305,7 @@ public class VotingManager : NetworkBehaviour
 
 	private string CountAmountString()
 	{
-		return $"{TotalVotes()} / {PlayerList.Instance.AllPlayers.Count}";
-	}
-
-	/// <summary>
-	/// Gets number of coutns
-	/// </summary>
-	private int TotalVotes()
-	{
-		return votes == null ? 0 : votes.Count;
+		return $"{votes.Count} / {PlayerList.Instance.AllPlayers.Count}";
 	}
 
 	/// <summary>
