@@ -65,7 +65,7 @@ namespace Core.Threading
 				}
 				catch (Exception e)
 				{
-					Logger.LogError(e.ToString());
+					Logger.LogError(e.ToString(), Category.Threading);
 					throw;
 				}
 
