@@ -249,6 +249,11 @@ public class VotingManager : NetworkBehaviour
 		if (IsSuccess(ForVoteCount(), PlayerList.Instance.AllPlayers.Count))
 		{
 			var winner = GetHighestVote();
+			if (winner == "")
+			{
+				Chat.AddGameWideSystemMsgToChat($"<color=blue>Voting failed! Not enough people voted!</color>");
+				return;
+			}
 			switch (voteType)
 			{
 				case VoteType.RestartRound:
