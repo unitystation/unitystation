@@ -54,6 +54,8 @@ public class VotingManager : NetworkBehaviour
 	private List<string> GameModeList = new List<string>();
 	private List<string> yesNoList = new List<string>();
 
+	private List<string> possibleVotes = new List<string>();
+
 	public enum VoteType
 	{
 		RestartRound,
@@ -112,72 +114,70 @@ public class VotingManager : NetworkBehaviour
 	[Server]
 	public void TryInitiateRestartVote(GameObject instigator, NetworkConnection sender = null)
 	{
-		if (voteInProgress || voteRestartSuccess) return;
-
-		if (isCooldownActive)
-		{
-			Chat.AddExamineMsgFromServer(instigator, $"Too soon to trigger a restart vote!");
-			return;
-		}
-
-		votes.Clear();
-		countTime = 0f;
-		prevSecond = 0;
-		voteType = VoteType.RestartRound;
-		votePolicy = VotePolicy.MajorityRules;
-		voteInProgress = true;
-		RpcOpenVoteWindow("Vote restart initiated by", instigator.name, CountAmountString(), (30 - prevSecond).ToString(), yesNoList);
-		RpcVoteCallerDefault(sender);
-		Logger.Log($"Vote restart initiated by {instigator.name}", Category.Admin);
+		SetupVote(VoteType.RestartRound, VotePolicy.MajorityRules, 30, instigator, sender);
 	}
 
 	[Server]
 	public void TryInitiateNextGameModeVote(GameObject instigator, NetworkConnection sender = null)
 	{
-		if (voteInProgress || voteRestartSuccess) return;
-
-		if (isCooldownActive)
-		{
-			Chat.AddExamineMsgFromServer(instigator, $"Too soon to trigger a restart vote!");
-			return;
-		}
-
-		votes.Clear();
-		countTime = 0f;
-		prevSecond = 0;
-		voteType = VoteType.NextGameMode;
-		votePolicy = VotePolicy.MajorityRules;
-		voteInProgress = true;
-		RpcOpenVoteWindow("Voting for next game mode initiated by", instigator.name, CountAmountString(), (30 - prevSecond).ToString(), GameModeList);
-		RpcVoteCallerDefault(sender);
-		Logger.Log($"Vote restart initiated by {instigator.name}", Category.Admin);
+		SetupVote(VoteType.NextGameMode, VotePolicy.MajorityRules, 30, instigator, sender);
 	}
 
 	[Server]
 	public void TryInitiateNextMapVote(GameObject instigator, NetworkConnection sender = null)
 	{
+		SetupVote(VoteType.NextMap, VotePolicy.MajorityRules, 30, instigator, sender);
+	}
+
+	private void SetupVote(VoteType type, VotePolicy policy, int time, GameObject instigator, NetworkConnection sender)
+	{
 		if (voteInProgress || voteRestartSuccess) return;
 
 		if (isCooldownActive)
 		{
-			Chat.AddExamineMsgFromServer(instigator, $"Too soon to trigger a restart vote!");
+			Chat.AddExamineMsgFromServer(instigator, $"Too soon to trigger a vote!");
 			return;
 		}
 
 		votes.Clear();
+		possibleVotes.Clear();
 		countTime = 0f;
 		prevSecond = 0;
-		voteType = VoteType.NextMap;
-		votePolicy = VotePolicy.MajorityRules;
+		voteType = type;
+		votePolicy = policy;
 		voteInProgress = true;
-		RpcOpenVoteWindow("Voting for next map initiated by", instigator.name, CountAmountString(), (30 - prevSecond).ToString(), MapList);
+		switch (type)
+		{
+			case VoteType.RestartRound:
+				possibleVotes.AddRange(yesNoList);
+				RpcOpenVoteWindow("Voting for round restart initiated by", instigator.name, CountAmountString(), (time - prevSecond).ToString(), MapList);
+				break;
+			case VoteType.NextGameMode:
+				possibleVotes.AddRange(GameModeList);
+				RpcOpenVoteWindow("Voting for next Game Mode initiated by", instigator.name, CountAmountString(), (time - prevSecond).ToString(), MapList);
+				break;
+			case VoteType.NextMap:
+				possibleVotes.AddRange(MapList);
+				RpcOpenVoteWindow("Voting for next map initiated by", instigator.name, CountAmountString(), (time - prevSecond).ToString(), MapList);
+				break;
+		}
 		RpcVoteCallerDefault(sender);
-		Logger.Log($"Vote restart initiated by {instigator.name}", Category.Admin);
+		Logger.Log($"Vote initiated by {instigator.name}", Category.Admin);
+	}
+
+	/// <summary>
+	/// I only made this a function for the reference
+	/// </summary>
+	private bool CheckForSussyVote(string isFor)
+	{
+		return possibleVotes.Contains(isFor);
 	}
 
 	[Server]
 	public void RegisterVote(string userId, string isFor)
 	{
+		if(CheckForSussyVote(isFor) == false) return; //User is cheating.
+
 		//If user has vote change vote if different, else add to vote list
 		if (votes.ContainsKey(userId))
 		{
