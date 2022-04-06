@@ -102,7 +102,6 @@ namespace Messages.Server.AdminTools
 				entry.isAdmin = PlayerList.Instance.IsAdmin(player.UserId);
 				entry.isMentor = PlayerList.Instance.IsMentor(player.UserId);
 				entry.isOnline = player.Connection != null;
-				entry.connectedPlayer = player.Script.connectedPlayer;
 
 				playerList.Add(entry);
 			}
