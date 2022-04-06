@@ -76,7 +76,6 @@ namespace AdminTools
 		public bool isMentor;
 		public bool isOnline;
 		public string ipAddress;
-		public ConnectedPlayer connectedPlayer;
 	}
 
 	[Serializable]
