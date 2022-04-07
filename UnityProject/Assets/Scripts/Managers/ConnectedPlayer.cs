@@ -32,7 +32,7 @@ public class ConnectedPlayer
 	public JoinedViewer ViewerScript { get; private set; }
 	public string ClientId { get; set; }
 	public string UserId { get; set; }
-	public NetworkConnectionToClient Connection { get; set; }
+	public NetworkConnection Connection { get; set; }
 
 	public string ConnectionIP { get; set; }
 
