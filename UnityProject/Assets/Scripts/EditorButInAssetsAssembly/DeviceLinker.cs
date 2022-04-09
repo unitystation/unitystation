@@ -177,9 +177,7 @@ namespace Core.Editor.Tools.Mapping
 
 					return false;
 				}
-
-
-				//if (slave.Master != null && relinkConnected == false) return false;
+				
 
 				float distance = DeviceLinker.TryLinkSlaveToClosestMaster(slave);
 				if (distance > DeviceLinker.Masters[0].MaxDistance)
