@@ -179,7 +179,7 @@ namespace Core.Editor.Tools.Mapping
 				}
 
 
-				if (slave.Master != null && relinkConnected == false) return false;
+				//if (slave.Master != null && relinkConnected == false) return false;
 
 				float distance = DeviceLinker.TryLinkSlaveToClosestMaster(slave);
 				if (distance > DeviceLinker.Masters[0].MaxDistance)
@@ -292,6 +292,10 @@ namespace Core.Editor.Tools.Mapping
 
 			float distance = Vector3.Distance(slave.gameObject.transform.position, Masters[0].gameObject.transform.position);
 			slave.SetMasterEditor(distance > Masters[0].MaxDistance ? null : Masters[0]);
+			if (Masters.Count > 0)
+			{
+				EditorUtility.SetDirty((Component)Masters[0]);
+			}
 
 			return distance;
 		}
