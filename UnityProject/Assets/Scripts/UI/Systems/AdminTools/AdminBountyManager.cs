@@ -67,7 +67,7 @@ namespace UI.Systems.AdminTools
 		{
 			foreach (Transform child in bountiesList.transform)
 			{
-				Destroy(child);
+				Destroy(child.gameObject);
 			}
 
 			foreach (var activeBounty in CargoManager.Instance.ActiveBounties)
