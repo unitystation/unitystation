@@ -379,6 +379,11 @@ namespace Systems.Cargo
 					return;
 				}
 			}
+			CompleteBounty(cargoBounty);
+		}
+
+		public void CompleteBounty(CargoBounty cargoBounty)
+		{
 			ActiveBounties.Remove(cargoBounty);
 			Credits += cargoBounty.Reward;
 			CentcomMessage += $"+{cargoBounty.Reward.ToString()} credits: {cargoBounty.Description} - completed.\n";
@@ -463,6 +468,20 @@ namespace Systems.Cargo
 			}
 
 			return 0;
+		}
+
+		/// <summary>
+		/// Adds a new bounty to the bounty list. Returns false if it fails.
+		/// </summary>
+		public bool AddBounty(ItemTrait trait, int amount, string description, int reward)
+		{
+			if(amount < 1 || reward < 1) return false;
+			CargoBounty newBounty = new CargoBounty();
+			newBounty.Demands.Add(trait, amount);
+			newBounty.Description = description;
+			newBounty.Reward = reward;
+			ActiveBounties.Add(newBounty);
+			return true;
 		}
 
 		private class ExportedItem
