@@ -34,10 +34,18 @@ namespace UI.Systems.AdminTools
 			itemTraitsForBounties.AddOptions(traitNames);
 		}
 
+		private void OnDisable()
+		{
+			UIManager.IsInputFocus = false;
+			UIManager.PreventChatInput = false;
+		}
+
 		public override void OnEnable()
 		{
 			base.OnEnable();
 			RefreshBountiesList();
+			UIManager.IsInputFocus = true;
+			UIManager.PreventChatInput = true;
 		}
 
 		public void ShowManager()
