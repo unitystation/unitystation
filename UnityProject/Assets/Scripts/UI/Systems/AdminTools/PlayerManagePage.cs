@@ -208,13 +208,19 @@ namespace AdminTools
 
 		public void GiveItemToPlayerButton()
 		{
-			var player = PlayerList.Instance.GetPlayerByID(PlayerEntry.PlayerData.uid);
-			if (player == null)
+			adminTools.giveItemPage.selectedPlayer = null;
+			var players = FindObjectsOfType<PlayerScript>(); //since this is client sided it's fiinnnneee
+			foreach (var possiblePlayer in players)
 			{
-				Logger.LogWarning("Unable to find player to give item to! Are you sure that they're still on the list?");
+				if(possiblePlayer.connectedPlayer.UserId != PlayerEntry.PlayerData.uid) continue;
+				adminTools.giveItemPage.selectedPlayer = possiblePlayer.connectedPlayer;
+			}
+
+			if (adminTools.giveItemPage.selectedPlayer == null)
+			{
+				Logger.LogWarning("Unable to find player to give item to! Are you sure that they joined the game?");
 				return;
 			}
-			adminTools.giveItemPage.selectedPlayer = player;
 			adminTools.ShowGiveItemPagePage();
 		}
 	}
