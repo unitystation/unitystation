@@ -149,11 +149,11 @@ public class VotingManager : NetworkBehaviour
 		{
 			case VoteType.RestartRound:
 				possibleVotes.AddRange(yesNoList);
-				RpcOpenVoteWindow("Voting for round restart initiated by", instigator.name, CountAmountString(), (time - prevSecond).ToString(), MapList);
+				RpcOpenVoteWindow("Voting for round restart initiated by", instigator.name, CountAmountString(), (time - prevSecond).ToString(), yesNoList);
 				break;
 			case VoteType.NextGameMode:
 				possibleVotes.AddRange(GameModeList);
-				RpcOpenVoteWindow("Voting for next Game Mode initiated by", instigator.name, CountAmountString(), (time - prevSecond).ToString(), MapList);
+				RpcOpenVoteWindow("Voting for next Game Mode initiated by", instigator.name, CountAmountString(), (time - prevSecond).ToString(), GameModeList);
 				break;
 			case VoteType.NextMap:
 				possibleVotes.AddRange(MapList);
