@@ -263,7 +263,7 @@ namespace Objects.Engineering
 		[SyncVar(hook = nameof(SyncIsDelam))]
 		private bool isDelam;
 
-		private int explosionStrength = 55000;
+		[SerializeField] private int explosionStrength = 55000;
 
 		#region LifeCycle
 
