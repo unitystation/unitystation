@@ -100,7 +100,6 @@ MonoBehaviour:
       m_AssetGUID: 
       m_SubObjectName: 
       m_SubObjectType: 
-      m_EditorAssetChanged: 0
   soundDelayTime: 0
   soundMinimumPitchVariance: 1
   soundMaximumPitchVariance: 1
@@ -177,7 +176,6 @@ MonoBehaviour:
       m_AssetGUID: 
       m_SubObjectName: 
       m_SubObjectType: 
-      m_EditorAssetChanged: 0
   damageDeflection: 0
   Armor:
     Melee: 0
@@ -244,7 +242,6 @@ MonoBehaviour:
       m_AssetGUID: 
       m_SubObjectName: 
       m_SubObjectType: 
-      m_EditorAssetChanged: 0
   hitSoundSettings: 0
   inventoryMoveSound:
     SetLoadSetting: 0
@@ -253,7 +250,6 @@ MonoBehaviour:
       m_AssetGUID: 
       m_SubObjectName: 
       m_SubObjectType: 
-      m_EditorAssetChanged: 0
   inventoryRemoveSound:
     SetLoadSetting: 0
     AssetAddress: null
@@ -261,7 +257,6 @@ MonoBehaviour:
       m_AssetGUID: 
       m_SubObjectName: 
       m_SubObjectType: 
-      m_EditorAssetChanged: 0
   canConnectToTank: 0
   isEVACapable: 0
   attackVerbs: []
@@ -306,7 +301,7 @@ MonoBehaviour:
   detonateImmediatelyOnSignal: 0
   timeToDetonate: 10
   minimumTimeToDetonate: 10
-  explosiveStrength: 1000
+  explosiveStrength: 1750
   activeSpriteSO: {fileID: 11400000, guid: 60942022f971e0440a63456ee27fc478, type: 2}
   beepSound:
     SetLoadSetting: 0
