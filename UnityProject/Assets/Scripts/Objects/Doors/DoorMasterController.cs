@@ -54,6 +54,11 @@ namespace Doors
 		[Tooltip("Prevent the door from auto closing when opened.")]
 		private bool blockAutoClose = false;
 
+		[SerializeField, PrefabModeOnly]
+		[Tooltip("Prevent the door from auto closing when opened if was Clicked on to be opened.")]
+		private bool clickDisablesAutoClose = false;
+
+
 		private DoorAnimatorV2 doorAnimator;
 		public DoorAnimatorV2 DoorAnimator => doorAnimator;
 
@@ -279,6 +284,10 @@ namespace Doors
 
 			if (!isPerformingAction && canClose && CheckStatusAllow(states) && allowInteraction)
 			{
+				if (clickDisablesAutoClose)
+				{
+					blockAutoClose = false;
+				}
 				PulseTryClose(interaction.Performer, inOverrideLogic: true);
 			}
 
@@ -317,6 +326,10 @@ namespace Doors
 
 			if (!isPerformingAction && (canOpen) && CheckStatusAllow(states) && allowInteraction)
 			{
+				if (clickDisablesAutoClose)
+				{
+					blockAutoClose = true;
+				}
 				TryOpen(interaction.Performer);
 			}
 			else if(HasPower == false)
