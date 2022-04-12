@@ -165,6 +165,7 @@ namespace Objects.Kitchen
 					{
 						// Swap item for its cooked version, if applicable.
 						if (slotCooked.CookedProduct == null) return;
+						Spawn.ServerPrefab(slotCooked.CookedProduct, slotCooked.gameObject.transform.position, transform.parent);
 						var stackable = slotCooked.GetComponent<Stackable>();
 						if (stackable != null && stackable.Amount > 1)
 						{
@@ -175,7 +176,7 @@ namespace Objects.Kitchen
 						{
 							_ = Despawn.ServerSingle(slotCooked.gameObject);
 						}
-						Spawn.ServerPrefab(slotCooked.CookedProduct, slotCooked.gameObject.transform.position, transform.parent);
+
 
 					}
 				}
