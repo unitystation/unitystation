@@ -52,7 +52,7 @@ PrefabInstance:
     - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
       propertyPath: InitialVendorContent.Array.size
-      value: 10
+      value: 11
       objectReference: {fileID: 0}
     - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
@@ -121,6 +121,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
+      propertyPath: InitialVendorContent.Array.data[10].Item
+      value: 
+      objectReference: {fileID: 1520232852812707528, guid: 283a683616266a84a99465971784e0f3,
+        type: 3}
+    - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
+        type: 3}
       propertyPath: InitialVendorContent.Array.data[1].Stock
       value: 8
       objectReference: {fileID: 0}
@@ -163,6 +169,11 @@ PrefabInstance:
         type: 3}
       propertyPath: InitialVendorContent.Array.data[9].Stock
       value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
+        type: 3}
+      propertyPath: InitialVendorContent.Array.data[10].Stock
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
@@ -213,6 +224,11 @@ PrefabInstance:
         type: 3}
       propertyPath: InitialVendorContent.Array.data[9].ItemName
       value: Knife
+      objectReference: {fileID: 0}
+    - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
+        type: 3}
+      propertyPath: InitialVendorContent.Array.data[10].ItemName
+      value: Universal Enzyme
       objectReference: {fileID: 0}
     - target: {fileID: 5293842515076411475, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
