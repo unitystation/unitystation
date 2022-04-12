@@ -113,7 +113,7 @@ namespace Systems.MobAIs
 		#endregion
 
 		/// <summary>
-		/// Server only update loop. Make sure to call base.UpdateMe() if overriding
+		/// Server only update loop. Make sure to call base.FlyingUpdateMe() if overriding
 		/// </summary>
 		protected virtual void UpdateMe()
 		{

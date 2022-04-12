@@ -451,12 +451,12 @@ public partial class MatrixManager
 		{
 			if (matrix == null || pushVector == Vector2Int.zero) return;
 
-			foreach ( var pushPull in matrix.Matrix.Get<PushPull>( cellPos, true ) )
+			foreach ( var pushPull in matrix.Matrix.Get<UniversalObjectPhysics>( cellPos, true ) )
 			{
 				byte pushes = (byte) Mathf.Clamp( speed / 4, 1, 4 );
 				for ( int j = 0; j < pushes; j++ )
 				{
-					pushPull.QueuePush( pushVector, speed * Random.Range( 0.8f, 1.1f ) );
+					pushPull.NewtonianPush( pushVector, speed * Random.Range( 0.8f, 1.1f ) );
 				}
 			}
 		}

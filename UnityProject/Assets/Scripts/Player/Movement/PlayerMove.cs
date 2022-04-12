@@ -106,17 +106,17 @@ namespace Player.Movement
 			bool canSwap;
 			if (isLocalPlayer && !isServer)
 			{
-				if (PlayerScript.pushPull == null)
-				{
-					// Is a ghost
-					canSwap = false;
-				}
-				else
-				{
-					// locally predict
-					canSwap = UIManager.CurrentIntent == Intent.Help
-					          && !PlayerScript.pushPull.IsPullingSomething;
-				}
+				// if (PlayerScript.pushPull == null)
+				// {
+				// 	// Is a ghost
+				// 	canSwap = false;
+				// }
+				// else
+				// {
+				// 	// locally predict
+				// 	// canSwap = UIManager.CurrentIntent == Intent.Help
+				// 	          // && !PlayerScript.pushPull.IsPullingSomething;
+				// }
 			}
 			else
 			{
@@ -124,13 +124,14 @@ namespace Player.Movement
 				canSwap = isSwappable;
 			}
 
-			return canSwap
+			// return true canSwap
 			       // don't swap with ghosts
-			       && PlayerScript.IsGhost == false
+			       // && PlayerScript.IsGhost == false
 			       // pass through players if we can
-			       && registerPlayer.IsPassable(isServer) == false
+			       // && registerPlayer.IsPassable(isServer) == false
 			       // can't swap with buckled players, they're strapped down
-			       && IsBuckled == false;
+			       // && IsBuckled == false;
+			return true;
 		}
 
 		private readonly List<MoveAction> moveActionList = new List<MoveAction>();
@@ -188,10 +189,10 @@ namespace Player.Movement
 			base.OnStartServer();
 			// when pulling status changes, re-check whether client needs to be told if
 			// this is swappable.
-			if (PlayerScript.pushPull != null)
-			{
-				PlayerScript.pushPull.OnPullingSomethingChangedServer.AddListener(ServerUpdateIsSwappable);
-			}
+			// if (PlayerScript.pushPull != null)
+			// {
+			// 	PlayerScript.pushPull.OnPullingSomethingChangedServer.AddListener(ServerUpdateIsSwappable);
+			// }
 
 			ServerUpdateIsSwappable();
 		}
@@ -301,49 +302,49 @@ namespace Player.Movement
 		[Server]
 		public void ServerBuckle(BuckleInteract buckleInteract, Action unbuckledAction = null)
 		{
-			var netid = buckleInteract.gameObject.NetId();
-			if (netid == NetId.Invalid)
-			{
-				Logger.LogError("attempted to buckle to object " + buckleInteract.gameObject + " which has no NetworkIdentity. Buckle" +
-				                " can only be used on objects with a Net ID. Ensure this object has one.", Category.Movement);
-				return;
-			}
-
-			if (buckleInteract.forceLayingDown)
-			{
-				registerPlayer.ServerLayDown();
-			}
-			else
-			{
-				registerPlayer.ServerStandUp();
-			}
-
-			SyncBuckledObjectNetId(0, netid);
-			// can't push/pull when buckled in, break if we are pulled / pulling
-			// sinform the puller
-			if (PlayerScript.pushPull.PulledBy != null)
-			{
-				PlayerScript.pushPull.PulledBy.ServerStopPulling();
-			}
-
-			PlayerScript.pushPull.StopFollowing();
-			PlayerScript.pushPull.ServerStopPulling();
-			PlayerScript.pushPull.ServerSetPushable(false);
-			onUnbuckled = unbuckledAction;
-
-			// sync position to ensure they buckle to the correct spot
-			PlayerScript.PlayerSync.SetPosition(buckleInteract.gameObject.TileWorldPosition().To3Int());
-
-			// set direction if toObject has a direction
-			var directionalObject = buckleInteract.GetComponent<Rotatable>();
-			if (directionalObject != null)
-			{
-				playerDirectional.FaceDirection(directionalObject.CurrentDirection);
-			}
-			else
-			{
-				playerDirectional.FaceDirection(playerDirectional.CurrentDirection);
-			}
+			// var netid = buckleInteract.gameObject.NetId();
+			// if (netid == NetId.Invalid)
+			// {
+			// 	Logger.LogError("attempted to buckle to object " + buckleInteract.gameObject + " which has no NetworkIdentity. Buckle" +
+			// 	                " can only be used on objects with a Net ID. Ensure this object has one.", Category.Movement);
+			// 	return;
+			// }
+			//
+			// if (buckleInteract.forceLayingDown)
+			// {
+			// 	registerPlayer.ServerLayDown();
+			// }
+			// else
+			// {
+			// 	registerPlayer.ServerStandUp();
+			// }
+			//
+			// SyncBuckledObjectNetId(0, netid);
+			// // can't push/pull when buckled in, break if we are pulled / pulling
+			// // sinform the puller
+			// if (PlayerScript.pushPull.PulledBy != null)
+			// {
+			// 	PlayerScript.pushPull.PulledBy.ServerStopPulling();
+			// }
+			//
+			// PlayerScript.pushPull.StopFollowing();
+			// PlayerScript.pushPull.ServerStopPulling();
+			// PlayerScript.pushPull.ServerSetPushable(false);
+			// onUnbuckled = unbuckledAction;
+			//
+			// // sync position to ensure they buckle to the correct spot
+			// PlayerScript.PlayerSync.SetPosition(buckleInteract.gameObject.TileWorldPosition().To3Int());
+			//
+			// // set direction if toObject has a direction
+			// var directionalObject = buckleInteract.GetComponent<Rotatable>();
+			// if (directionalObject != null)
+			// {
+			// 	playerDirectional.FaceDirection(directionalObject.CurrentDirection);
+			// }
+			// else
+			// {
+			// 	playerDirectional.FaceDirection(playerDirectional.CurrentDirection);
+			// }
 		}
 
 		/// <summary>
@@ -378,30 +379,30 @@ namespace Player.Movement
 		[Server]
 		public void Unbuckle()
 		{
-			var previouslyBuckledTo = BuckledObject;
-			SyncBuckledObjectNetId(0, NetId.Empty);
-			// we can be pushed / pulled again
-			PlayerScript.pushPull.ServerSetPushable(true);
-			// decide if we should fall back down when unbuckled
-			registerPlayer.ServerSetIsStanding(PlayerScript.playerHealth.ConsciousState == ConsciousState.CONSCIOUS);
-			onUnbuckled?.Invoke();
-
-			if (previouslyBuckledTo == null) return;
-
-			var integrityBuckledObject = previouslyBuckledTo.GetComponent<Integrity>();
-			if(integrityBuckledObject != null) integrityBuckledObject.OnServerDespawnEvent -= Unbuckle;
-
-			// we are unbuckled but still will drift with the object.
-			var buckledCNT = previouslyBuckledTo.GetComponent<UniversalObjectPhysics>();
-			if (buckledCNT.IsCurrentlyFloating)
-			{
-				//PlayerScript.PlayerSync.NewtonianMove(buckledCNT.newtonianMovement.RoundToInt(), buckledCNT.newtonianMovement.magnitude);
-			}
-			else
-			{
-				// stop in place because our object wasn't moving either.
-				PlayerScript.PlayerSync.Stop();
-			}
+			// var previouslyBuckledTo = BuckledObject;
+			// SyncBuckledObjectNetId(0, NetId.Empty);
+			// // we can be pushed / pulled again
+			// PlayerScript.pushPull.ServerSetPushable(true);
+			// // decide if we should fall back down when unbuckled
+			// registerPlayer.ServerSetIsStanding(PlayerScript.playerHealth.ConsciousState == ConsciousState.CONSCIOUS);
+			// onUnbuckled?.Invoke();
+			//
+			// if (previouslyBuckledTo == null) return;
+			//
+			// var integrityBuckledObject = previouslyBuckledTo.GetComponent<Integrity>();
+			// if(integrityBuckledObject != null) integrityBuckledObject.OnServerDespawnEvent -= Unbuckle;
+			//
+			// // we are unbuckled but still will drift with the object.
+			// var buckledCNT = previouslyBuckledTo.GetComponent<UniversalObjectPhysics>();
+			// if (buckledCNT.IsCurrentlyFloating)
+			// {
+			// 	//PlayerScript.PlayerSync.NewtonianMove(buckledCNT.newtonianMovement.RoundToInt(), buckledCNT.newtonianMovement.magnitude);
+			// }
+			// else
+			// {
+			// 	// stop in place because our object wasn't moving either.
+			// 	PlayerScript.PlayerSync.Stop();
+			// }
 		}
 
 		// invoked when buckledTo changes direction, so we can update our direction
@@ -539,9 +540,9 @@ namespace Player.Movement
 		/// </summary>
 		private void ServerUpdateIsSwappable()
 		{
-			isSwappable = isHelpIntentServer && PlayerScript != null &&
-			              PlayerScript.pushPull != null &&
-			              !PlayerScript.pushPull.IsPullingSomethingServer;
+			// isSwappable = isHelpIntentServer && PlayerScript != null &&
+			//               PlayerScript.pushPull != null &&
+			//               !PlayerScript.pushPull.IsPullingSomethingServer;
 		}
 
 		public void OnSpawnServer(SpawnInfo info)

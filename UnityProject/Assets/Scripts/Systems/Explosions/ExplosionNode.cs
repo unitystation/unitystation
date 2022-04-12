@@ -101,11 +101,11 @@ namespace Systems.Explosions
 					integrity.ApplyDamage(Damagedealt, AttackType.Bomb, DamageType.Brute);
 				}
 
-				foreach (var player in matrix.Get<ObjectBehaviour>(v3int, ObjectType.Player, true))
+				foreach (var player in matrix.Get<PlayerHealthV2>(v3int, ObjectType.Player, true))
 				{
 
 					// do damage
-					player.GetComponent<PlayerHealthV2>().ApplyDamageAll(null, Damagedealt, AttackType.Bomb, DamageType.Brute);
+					player.ApplyDamageAll(null, Damagedealt, AttackType.Bomb, DamageType.Brute);
 
 				}
 

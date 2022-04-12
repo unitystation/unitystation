@@ -116,7 +116,7 @@ public static class SweetExtensions
 	/// Creates garbage! Use very sparsely!
 	public static Vector3 AssumedWorldPosServer(this GameObject go)
 	{
-		return go.GetComponent<ObjectBehaviour>()?.AssumedWorldPositionServer() ?? WorldPosServer(go);
+		return go.GetComponent<UniversalObjectPhysics>()?.registerTile.WorldPosition ?? WorldPosServer(go);
 	}
 	/// Creates garbage! Use very sparsely!
 	public static Vector3 WorldPosServer(this GameObject go)

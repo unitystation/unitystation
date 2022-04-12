@@ -22,8 +22,8 @@ public partial class OLDCustomNetTransform
 	private const string STOPPED_FLOATING = "{0} stopped floating";
 	private const string PREDICTIVE_STOP_TO = "{0}: predictive stop @ {1} to {2}";
 	private const string NUDGE = "Nudge:{0} {1}";
-	private PushPull pushPull;
-	public PushPull PushPull => pushPull ? pushPull : (pushPull = GetComponent<PushPull>());
+	private UniversalObjectPhysics objectPhysics;
+	public UniversalObjectPhysics ObjectPhysics => objectPhysics ? objectPhysics : (objectPhysics = GetComponent<UniversalObjectPhysics>());
 
 	/// Containers and other objects meant to be snapped by tile
 	public bool IsTileSnap => registerTile.ObjectType == ObjectType.Object;
@@ -40,8 +40,8 @@ public partial class OLDCustomNetTransform
 	public bool IsFloatingClient => predictedState.WorldImpulse != Vector2.zero && predictedState.Speed > 0f && !IsBeingPulledClient;
 	public bool IsBeingThrownServer => !serverState.ActiveThrow.Equals(ThrowInfo.NoThrow);
 	public bool IsBeingThrownClient => !clientState.ActiveThrow.Equals(ThrowInfo.NoThrow);
-	public bool IsBeingPulledServer => pushPull && pushPull.IsBeingPulled;
-	public bool IsBeingPulledClient => pushPull && pushPull.IsBeingPulledClient;
+	public bool IsBeingPulledServer => ObjectPhysics && true;
+	public bool IsBeingPulledClient => ObjectPhysics && true;
 
 	/// (Server) Did the flying item reach the planned landing point?
 	private bool ShouldStopThrow
@@ -120,7 +120,7 @@ public partial class OLDCustomNetTransform
 		}
 		else
 		{
-			serverState.Speed = PushPull.DEFAULT_PUSH_SPEED;
+			// serverState.Speed = PushPull.DEFAULT_PUSH_SPEED;
 		}
 
 		if (followMode)
@@ -164,7 +164,7 @@ public partial class OLDCustomNetTransform
 		}
 		else
 		{
-			predictedState.Speed = PushPull.DEFAULT_PUSH_SPEED;
+			// predictedState.Speed = PushPull.DEFAULT_PUSH_SPEED;
 		}
 
 		predictedState.MatrixId = MatrixManager.AtPoint(target3int, false, registerTile.Matrix.MatrixInfo).Id;
@@ -388,10 +388,10 @@ public partial class OLDCustomNetTransform
 	[Server]
 	public void Nudge(NudgeInfo info ) {
 
-		if ( PushPull.IsNotPushable )
-        {
-            return;
-        }
+		// if ( PushPull.IsNotPushable )
+        // {
+            // return;
+        // }
 
 		Vector2 impulse = info.Trajectory.normalized;
 
@@ -505,33 +505,33 @@ public partial class OLDCustomNetTransform
 		}
 		else
 		{
-			if (serverState.Speed >= PushPull.HIGH_SPEED_COLLISION_THRESHOLD && IsTileSnap)
-			{
-				//Stop first (reach tile), then inform about collision
-				var collisionInfo = new CollisionInfo
-				{
-					Speed = serverState.Speed,
-						Size = this.Size,
-						CollisionTile = intGoal
-				};
+			// if (serverState.Speed >= PushPull.HIGH_SPEED_COLLISION_THRESHOLD && IsTileSnap)
+			// {
+				// Stop first (reach tile), then inform about collision
+				// var collisionInfo = new CollisionInfo
+				// {
+					// Speed = serverState.Speed,
+						// Size = this.Size,
+						// CollisionTile = intGoal
+				// };
 
-				Stop();
+				// Stop();
 
-				OnHighSpeedCollision().Invoke(collisionInfo);
-			}
-			else
-			{
-				Stop();
-			}
+				// OnHighSpeedCollision().Invoke(collisionInfo);
+			// }
+			// else
+			// {
+				// Stop();
+			// }
 
 			//Process any objects that we might have bumped into
-			foreach (var objectBehaviour in MatrixManager.GetAt<ObjectBehaviour>(intGoal, true))
-			{
-				foreach (var bump in objectBehaviour.GetComponents<IBumpableObject>())
-				{
-					bump.OnBump(gameObject);
-				}
-			}
+			// foreach (var objectBehaviour in MatrixManager.GetAt<ObjectBehaviour>(intGoal, true))
+			// {
+				// foreach (var bump in objectBehaviour.GetComponents<IBumpableObject>())
+				// {
+					// bump.OnBump(gameObject);
+				// }
+			// }
 		}
 
 		if (distance > 1)

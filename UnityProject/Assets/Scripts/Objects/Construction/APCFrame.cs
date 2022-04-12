@@ -21,7 +21,7 @@ namespace Objects.Construction
 		[SerializeField] private StatefulState powerCellAddedState = null;
 		[SerializeField] private StatefulState wrenchedState = null;
 
-		private ObjectBehaviour objectBehaviour;
+		private UniversalObjectPhysics objectBehaviour;
 		private Integrity integrity;
 		private SpriteHandler spriteHandler;
 
@@ -41,7 +41,7 @@ namespace Objects.Construction
 			powerControlSlot = GetComponent<ItemStorage>().GetIndexedItemSlot(0);
 			powerCellSlot = GetComponent<ItemStorage>().GetIndexedItemSlot(1);
 			stateful = GetComponent<Stateful>();
-			objectBehaviour = GetComponent<ObjectBehaviour>();
+			objectBehaviour = GetComponent<UniversalObjectPhysics>();
 
 			if (!CustomNetworkManager.IsServer) return;
 
@@ -381,7 +381,7 @@ namespace Objects.Construction
 			spriteHandler.ChangeSprite((int)SpriteStates.FrameWrenched);
 
 			// Set initial state
-			objectBehaviour.ServerSetPushable(false);
+			objectBehaviour.SetIsNotPushable(true);
 			stateful.ServerChangeState(wrenchedState);
 		}
 

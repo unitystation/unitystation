@@ -139,11 +139,11 @@ namespace Systems.Spells.Wizard
 
 		private GameObject GetRootContainer(GameObject childItem)
 		{
-			ObjectBehaviour objBehaviour = childItem.GetComponent<ObjectBehaviour>();
+			UniversalObjectPhysics objBehaviour = childItem.GetComponent<UniversalObjectPhysics>();
 			int i = 0;
-			while (i < 10 && objBehaviour != null && objBehaviour.parentContainer != null)
+			while (i < 10 && objBehaviour != null && objBehaviour.ContainedInContainer != null)
 			{
-				if (objBehaviour.parentContainer.TryGetComponent<ObjectBehaviour>(out var newBehaviour))
+				if (objBehaviour.ContainedInContainer.TryGetComponent<UniversalObjectPhysics>(out var newBehaviour))
 				{
 					objBehaviour = newBehaviour;
 				}

@@ -139,37 +139,17 @@ namespace Systems.Atmospherics
 			foreach (var registerTile in matrix.GetRegisterTile(windyNode.Position, true))
 			{
 				//Quicker to get all RegisterTiles and grab the cached PushPull component from it than to get it manually using Get<>
-				if (registerTile.PushPull.HasComponent == false) continue;
+				if (registerTile.ObjectPhysics.HasComponent == false) continue;
 
-				var pushable = registerTile.PushPull.Component;
+				var pushable = registerTile.ObjectPhysics.Component;
 
-				if (pushable.Pushable == null ) continue;
-				;
-				float correctedForce = (windyNode.WindForce * PushMultiplier) / (int) pushable.Pushable.Size;
+				if (pushable == null ) continue;
+
+				float correctedForce = (windyNode.WindForce * PushMultiplier) / (int) pushable.GetSize();
 
 				if (correctedForce >= AtmosConstants.MinPushForce)
 				{
-					if (pushable.Pushable.IsTileSnap)
-					{
-						byte pushes = (byte)Mathf.Clamp((int)correctedForce / 10, 1, 10);
-						for (byte j = 0; j < pushes; j++)
-						{
-							//converting push to world coords because winddirection is in local coords
-							pushable.QueuePush((transform.rotation * (Vector2)windyNode.WindDirection).To2Int(),
-								Random.Range((float)(correctedForce * 0.8), correctedForce));
-						}
-					}
-					else
-					{
-						pushable.Pushable.Nudge(new NudgeInfo
-						{
-							OriginPos = pushable.Pushable.ServerPosition,
-							Trajectory = (Vector2)windyNode.WindDirection,
-							SpinMode = SpinMode.None,
-							SpinMultiplier = 1,
-							InitialSpeed = correctedForce,
-						});
-					}
+					pushable.NewtonianPush(transform.rotation * (Vector2)windyNode.WindDirection, Random.Range((float)(correctedForce * 0.8), correctedForce));
 				}
 			}
 

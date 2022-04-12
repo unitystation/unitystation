@@ -13,7 +13,6 @@ namespace Items
 	/// well with using prefab variants.
 	/// </summary>
 	[RequireComponent(typeof(Pickupable))] //Inventory interaction
-	[RequireComponent(typeof(ObjectBehaviour))] //pull and Push
 	[RequireComponent(typeof(RegisterItem))] //Registry with subsistence
 	public class ItemAttributesV2 : Attributes
 	{

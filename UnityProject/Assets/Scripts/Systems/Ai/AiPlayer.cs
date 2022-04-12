@@ -810,13 +810,13 @@ namespace Systems.Ai
 				return;
 			}
 
-			if(vesselObject == null || vesselObject.TryGetComponent<ObjectBehaviour>(out var objectBehaviour) == false) return;
+			if(vesselObject == null || vesselObject.TryGetComponent<UniversalObjectPhysics>(out var objectBehaviour) == false) return;
 
-			var newState = objectBehaviour.IsNotPushable;
+			var newState = !objectBehaviour.IsNotPushable;
 
 			Chat.AddActionMsgToChat(gameObject, $"You {(newState ? "disengage" : "engage")} your core floor bolts",
 				$"{vesselObject.ExpensiveName()} {(newState ? "disengages" : "engages")} its floor bolts");
-			objectBehaviour.ServerSetPushable(newState);
+			objectBehaviour.SetIsNotPushable(newState);
 		}
 
 		[Server]

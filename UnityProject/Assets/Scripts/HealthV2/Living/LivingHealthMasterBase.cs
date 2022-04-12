@@ -160,8 +160,8 @@ namespace HealthV2
 		[SerializeField, BoxGroup("PainFeedback")] private EmoteSO screamEmote;
 		private bool canScream = true;
 
-		private ObjectBehaviour objectBehaviour;
-		public ObjectBehaviour ObjectBehaviour => objectBehaviour;
+		private UniversalObjectPhysics objectBehaviour;
+		public UniversalObjectPhysics ObjectBehaviour => objectBehaviour;
 
 		private HealthStateController healthStateController;
 		public HealthStateController HealthStateController => healthStateController;
@@ -256,7 +256,7 @@ namespace HealthV2
 			RegisterTile = GetComponent<RegisterTile>();
 			RespiratorySystem = GetComponent<RespiratorySystemBase>();
 			CirculatorySystem = GetComponent<CirculatorySystemBase>();
-			objectBehaviour = GetComponent<ObjectBehaviour>();
+			objectBehaviour = GetComponent<UniversalObjectPhysics>();
 			healthStateController = GetComponent<HealthStateController>();
 			mobSickness = GetComponent<MobSickness>();
 			playerScript = GetComponent<PlayerScript>();
@@ -948,7 +948,7 @@ namespace HealthV2
 
 			//If we are in a container then don't produce miasma
 			//TODO: make this only happen with coffins, body bags and other body containers (morgue, etc)
-			if (objectBehaviour.parentContainer != null) return;
+			if (objectBehaviour.ContainedInContainer != null) return;
 
 			//TODO: check for formaldehyde in body, prevent if more than 15u
 

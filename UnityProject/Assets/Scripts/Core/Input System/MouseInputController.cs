@@ -239,26 +239,26 @@ public class MouseInputController : MonoBehaviour
 	{
 		//checks if there is anything in reach we can drag
 		var topObject = MouseUtils.GetOrderedObjectsUnderMouse(null,
-			go => go.GetComponent<PushPull>() != null).FirstOrDefault();
+			go => go.GetComponent<UniversalObjectPhysics>() != null).FirstOrDefault();
 
 		if (topObject != null)
 		{
-			PushPull pushPull = null;
+			UniversalObjectPhysics pushPull = null;
 
 			// If the topObject has a PlayerMove, we check if he is buckled
 			// The PushPull object we want in this case, is the chair/object on which he is buckled to
 			if (topObject.TryGetComponent<PlayerMove>(out var playerMove) && playerMove.IsBuckled)
 			{
-				pushPull = playerMove.BuckledObject.GetComponent<PushPull>();
+				pushPull = playerMove.BuckledObject.GetComponent<UniversalObjectPhysics>();
 			}
 			else
 			{
-				pushPull = topObject.GetComponent<PushPull>();
+				pushPull = topObject.GetComponent<UniversalObjectPhysics>();
 			}
 
 			if (pushPull != null)
 			{
-				pushPull.TryPullThis();
+				pushPull.TryTogglePull();
 			}
 		}
 	}
@@ -371,7 +371,7 @@ public class MouseInputController : MonoBehaviour
 			}
 
 			// If we're dragging something, try to move it.
-			if (PlayerManager.LocalPlayerScript.pushPull.IsPullingSomethingClient)
+			if (PlayerManager.LocalPlayerScript.objectPhysics.Pulling.HasComponent)
 			{
 				TrySlide();
 				return false;

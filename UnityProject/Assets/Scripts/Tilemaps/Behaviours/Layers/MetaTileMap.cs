@@ -213,7 +213,10 @@ namespace TileManagement
 			var transform1 = ObjectLayer.transform;
 			localToWorldMatrix = transform1.localToWorldMatrix;
 			worldToLocalMatrix = transform1.worldToLocalMatrix;
-			GlobalCachedBounds = null;
+			lock (matrix)
+			{
+				GlobalCachedBounds = null;
+			}
 		}
 
 		private void OnDisable()
@@ -353,9 +356,10 @@ namespace TileManagement
 					var Bounds = LocalCachedBounds.Value; // struct funnies With references
 					Bounds.ExpandToPoint2D(tileLocation.position);
 					LocalCachedBounds = Bounds;
-
-
-					GlobalCachedBounds = null;
+					lock (matrix)
+					{
+						GlobalCachedBounds = null;
+					}
 				}
 			}
 
@@ -438,7 +442,7 @@ namespace TileManagement
 			}
 		}
 
-		public bool IsPassableAtOneObjectsV2(Vector3Int origin, Vector3Int to, GameObject context,
+		public bool IsPassableAtOneObjectsV2(Vector3Int origin, Vector3Int to, UniversalObjectPhysics context,
 			List<UniversalObjectPhysics> Pushings, List<IBumpableObject> Bumps)
 		{
 			// Simple case: orthogonal travel
@@ -460,7 +464,7 @@ namespace TileManagement
 			}
 		}
 
-		public bool IsPassableObjectsHorizontal(Vector3Int origin, Vector3Int to, GameObject context,
+		public bool IsPassableObjectsHorizontal(Vector3Int origin, Vector3Int to, UniversalObjectPhysics context,
 			List<UniversalObjectPhysics> Pushings, List<IBumpableObject> Bumps)
 		{
 			Vector3Int toX = new Vector3Int(to.x, origin.y, origin.z);
@@ -472,7 +476,7 @@ namespace TileManagement
 		}
 
 
-		public bool IsPassableObjectsVertical(Vector3Int origin, Vector3Int to, GameObject context,
+		public bool IsPassableObjectsVertical(Vector3Int origin, Vector3Int to, UniversalObjectPhysics context,
 			List<UniversalObjectPhysics> Pushings, List<IBumpableObject> Bumps)
 		{
 			Vector3Int toY = new Vector3Int(origin.x, to.y, origin.z);
@@ -535,7 +539,7 @@ namespace TileManagement
 			}
 		}
 
-		private bool IsPassableAtOrthogonalObjectsV2(Vector3Int origin, Vector3Int to, GameObject context,
+		private bool IsPassableAtOrthogonalObjectsV2(Vector3Int origin, Vector3Int to, UniversalObjectPhysics context,
 			List<UniversalObjectPhysics> Pushings, List<IBumpableObject> Bumps)
 		{
 			return ObjectLayer.IsPassableAtOnThisLayerV2(origin, to, CustomNetworkManager.IsServer, context, Pushings,
@@ -1146,7 +1150,7 @@ namespace TileManagement
 					{
 						if (o is RegisterObject)
 						{
-							PushPull pushPull = o.GetComponent<PushPull>();
+							var pushPull = o.GetComponent<UniversalObjectPhysics>();
 							if (pushPull == null && o.IsPassable(isServer) == false)
 							{
 								return false;
@@ -1752,22 +1756,28 @@ namespace TileManagement
 
 		public BetterBoundsInt GetLocalBounds()
 		{
-			if (LocalCachedBounds == null)
+			lock (matrix)
 			{
-				CacheLocalBound();
-			}
+				if (LocalCachedBounds == null)
+				{
+					CacheLocalBound();
+				}
 
-			return LocalCachedBounds.Value;
+				return LocalCachedBounds.Value;
+			}
 		}
 
 		public BetterBounds GetWorldBounds()
 		{
-			if (GlobalCachedBounds == null)
+			lock (matrix)
 			{
-				return CacheGlobalBound();
-			}
+				if (GlobalCachedBounds == null)
+				{
+					return CacheGlobalBound();
+				}
 
-			return GlobalCachedBounds.Value;
+				return GlobalCachedBounds.Value;
+			}
 		}
 
 		public void CacheLocalBound()

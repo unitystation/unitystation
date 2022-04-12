@@ -618,12 +618,12 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 			if (other != null)
 			{
 				//if we are pulling something, we can only swap with that thing
-				if (bumper.PlayerScript.pushPull.IsPullingSomething &&
-				    bumper.PlayerScript.pushPull.PulledObject == other.PlayerScript.pushPull)
+				if (bumper.PlayerScript.objectPhysics.Pulling.HasComponent &&
+				    bumper.PlayerScript.objectPhysics.Pulling.Component == other.PlayerScript.objectPhysics)
 				{
 					return BumpType.Swappable;
 				}
-				else if (bumper.PlayerScript.pushPull.IsPullingSomething == false)
+				else if (bumper.PlayerScript.objectPhysics.Pulling.HasComponent == false)
 				{
 					return BumpType.Swappable;
 				}
@@ -799,7 +799,7 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 
 	/// Gets pushables residing on one tile
 	/// <see cref="MatrixManager.GetPushableAt(Vector3Int, Vector2Int, GameObject, bool)"/>
-	private static void GetPushablesOneTile(ref List<PushPull> pushableList, Vector3Int pushableLocation,
+	private static void GetPushablesOneTile(ref List<UniversalObjectPhysics> pushableList, Vector3Int pushableLocation,
 		Vector2Int dir, GameObject pusher, bool isServer,
 		bool ignoreNonBlockable, bool isLeaving, MatrixInfo MatrixAt = null)
 	{
@@ -810,7 +810,7 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 
 		Vector3Int localPushableLocation =
 			WorldToLocalInt(pushableLocation, MatrixAt.Matrix);
-		foreach (PushPull pushPull in GetAt<PushPull>(pushableLocation, isServer, MatrixAt))
+		foreach (UniversalObjectPhysics pushPull in GetAt<UniversalObjectPhysics>(pushableLocation, isServer, MatrixAt))
 		{
 			if (pushPull == null || pushPull.gameObject == pusher) continue;
 
@@ -838,11 +838,11 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 
 			// If the object being Push/Pulled is a player, and that player is buckled, we should use the pushPull object that the player is buckled to.
 			// By design, chairs are not "solid" so, the condition above will filter chairs but won't filter players
-			PushPull pushable = pushPull;
+			UniversalObjectPhysics pushable = pushPull;
 			PlayerMove playerMove = pushPull.GetComponent<PlayerMove>();
 			if (playerMove && playerMove.IsBuckled)
 			{
-				PushPull buckledPushPull = playerMove.BuckledObject.GetComponent<PushPull>();
+				UniversalObjectPhysics buckledPushPull = playerMove.BuckledObject.GetComponent<UniversalObjectPhysics>();
 
 				if (buckledPushPull)
 					pushable = buckledPushPull;
@@ -862,10 +862,10 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 	/// <returns>each pushable other than pusher at worldTarget for which it is possible to actually move it
 	/// when pushing from worldOrigin (i.e. if it's against a wall and you try to push against the wall, that pushable would be excluded).
 	/// Empty list if no pushables.</returns>
-	public static List<PushPull> GetPushableAt(Vector3Int worldOrigin, Vector2Int dir, GameObject pusher, bool isServer,
+	public static List<UniversalObjectPhysics> GetPushableAt(Vector3Int worldOrigin, Vector2Int dir, GameObject pusher, bool isServer,
 		bool ignoreNonBlockable, MatrixInfo MatrixAt = null)
 	{
-		List<PushPull> result = new List<PushPull>();
+		List<UniversalObjectPhysics> result = new List<UniversalObjectPhysics>();
 
 		// Get pushables the pusher is pushing "inside" from
 		GetPushablesOneTile(ref result, worldOrigin, dir, pusher, isServer, ignoreNonBlockable, true, MatrixAt);
@@ -1081,7 +1081,7 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 	///Cross-matrix edition of <see cref="Matrix.IsPassableAt(UnityEngine.Vector3Int,UnityEngine.Vector3Int,bool,GameObject)"/>
 	///<inheritdoc cref="Matrix.IsPassableAt(UnityEngine.Vector3Int,UnityEngine.Vector3Int,bool,GameObject)"/>
 	public static bool IsPassableAtAllMatricesV2(Vector3 worldOrigin, Vector3 worldTarget,
-		MatrixCash MatrixCash, GameObject Context, List<UniversalObjectPhysics> PushIng, List<IBumpableObject> Bumps)
+		MatrixCash MatrixCash, UniversalObjectPhysics Context, List<UniversalObjectPhysics> PushIng, List<IBumpableObject> Bumps)
 	{
 		var MatrixOrigin = MatrixCash.GetforDirection(Vector3Int.zero);
 		var localPosOrigin = WorldToLocal(worldOrigin, MatrixOrigin);
@@ -1292,9 +1292,9 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 			var localPos = WorldToLocalInt(worldPos + DIR, matrixInfo);
 			if (matrixInfo.MetaTileMap.IsObjectPresent(context, localPos, isServer, out var registerTile))
 			{
-				SomethingToHold = true;
 				if (Direction != DIR)
 				{
+					SomethingToHold = true;
 					CanPushOff = registerTile;
 					return true;
 				}

@@ -43,7 +43,7 @@ public partial class PlayerSync
 	/// Max size of serverside queue, client will be rolled back if it overflows
 	private readonly int maxServerQueue = 10;
 
-	private HashSet<PushPull> questionablePushables = new HashSet<PushPull>();
+	private HashSet<UniversalObjectPhysics> questionablePushables = new HashSet<UniversalObjectPhysics>();
 
 	/// Last direction that player moved in. Currently works more like a true impulse, therefore is zero-able
 	private Vector2 lastDirectionServer;
@@ -76,8 +76,8 @@ public partial class PlayerSync
 			{
 				return false;
 			}
-			GameObject[] context = pushPull.IsPullingSomethingServer ? new[] { gameObject, pushPull.PulledObjectServer.gameObject } : new[] { gameObject };
-			return MatrixManager.IsFloatingAt(context, Vector3Int.RoundToInt(serverState.WorldPosition), isServer: true, registerPlayer.Matrix.MatrixInfo);
+			// GameObject[] context = objectPhysics.IsPullingSomethingServer ? new[] { gameObject, objectPhysics.PulledObjectServer.gameObject } : new[] { gameObject };
+			return MatrixManager.IsFloatingAt(new []{this.gameObject}, Vector3Int.RoundToInt(serverState.WorldPosition), isServer: true, registerPlayer.Matrix.MatrixInfo);
 		}
 	}
 
@@ -164,7 +164,7 @@ public partial class PlayerSync
 
 		if (visible)
 		{
-			AppearAtPositionServer(pushPull.AssumedWorldPositionServer());
+			AppearAtPositionServer(objectPhysics.registerTile.WorldPosition);
 		}
 		else
 		{
@@ -220,7 +220,7 @@ public partial class PlayerSync
 			return false;
 		}
 
-		speed = float.IsNaN(speed) ? PushPull.DEFAULT_PUSH_SPEED : speed;
+		speed = float.IsNaN(speed) ? UniversalObjectPhysics.DEFAULT_PUSH_SPEED : speed;
 
 		direction = direction.Normalize();
 
@@ -265,7 +265,7 @@ public partial class PlayerSync
 
 				if (isSameDirection)
 				{
-					correctedSpeed = Mathf.Clamp(speed + currentFlyingSpeed, currentFlyingSpeed, PushPull.MAX_NEWTONIAN_SPEED);
+					correctedSpeed = Mathf.Clamp(speed + currentFlyingSpeed, currentFlyingSpeed, UniversalObjectPhysics.MAX_NEWTONIAN_SPEED);
 				}
 
 				Logger.LogTraceFormat("proposed: {0}@{1}, current: {2}@{3}, result: {4}@{5}", Category.PushPull,
@@ -388,14 +388,14 @@ public partial class PlayerSync
 
 		//hack to make clients accept non-pull-breaking external pushes for stuff they're pulling
 		//because they ignore updates for stuff they pull w/prediction
-		bool isPullNudge = pushPull
-						&& pushPull.IsBeingPulled
+		bool isPullNudge = objectPhysics
+						&& objectPhysics.PulledBy.HasComponent
 						&& !serverState.IsFollowUpdate
 						&& serverState.WorldImpulse != Vector2.zero;
 		if (isPullNudge)
 		{
 			//temporarily "break" pull so that puller would get the update
-			InformPullMessage.Send(pushPull.PulledBy, this.pushPull, null);
+			//InformPullMessage.Send(objectPhysics.PulledBy.Component, this.objectPhysics, null);
 		}
 
 		serverState.NoLerp = noLerp;
@@ -409,8 +409,8 @@ public partial class PlayerSync
 		{
 			//restore pull for client.
 			//previous fake break erases all pull train info from train head, so we make head aware again
-			pushPull.InformHead(pushPull.PulledBy);
-			//			InformPullMessage.Send( pushPull.PulledBy, this.pushPull, pushPull.PulledBy );
+			//objectPhysics.InformHead(objectPhysics.PulledBy);
+			//			InformPullMessage.Send( objectPhysics.PulledBy, this.objectPhysics, objectPhysics.PulledBy );
 		}
 		UpdateClientState(serverState);
 	}
@@ -435,7 +435,7 @@ public partial class PlayerSync
 			//make sure component is not already destroyed
 			if (questionablePushable == null) continue;
 			Logger.LogWarningFormat("Notified questionable pushable {0}", Category.PushPull, questionablePushable);
-			questionablePushable.NotifyPlayers();
+			// questionablePushable.NotifyPlayers();
 		}
 		SetPosition(serverState.WorldPosition);
 		questionablePushables.Clear();
@@ -451,13 +451,13 @@ public partial class PlayerSync
 		{
 			return;
 		}
-		if (consideredFloatingServer || !serverState.Active || CanNotSpaceMoveServer || (pushPull && pushPull.IsBeingPulled))
-		{
-			Logger.LogWarning("Server ignored queued move while player isn't supposed to move", Category.Movement);
-			ClearQueueServer();
-			RollbackPosition();
-			return;
-		}
+		// if (consideredFloatingServer || !serverState.Active || CanNotSpaceMoveServer || (objectPhysics && objectPhysics.IsBeingPulled))
+		// {
+		// 	Logger.LogWarning("Server ignored queued move while player isn't supposed to move", Category.Movement);
+		// 	ClearQueueServer();
+		// 	RollbackPosition();
+		// 	return;
+		// }
 
 		var curState = serverState;
 		PlayerState nextState = NextStateServer(curState, serverPendingActions.Dequeue());
@@ -557,11 +557,11 @@ public partial class PlayerSync
 
 		if (IsNonStickyServer && !swapped)
 		{
-			PushPull pushable;
-			if (!swapped && IsAroundPushables(serverState, isServer: true, out pushable))
-			{
-				StartCoroutine(InteractSpacePushable(pushable, action.Direction()));
-			}
+			// PushPull pushable;
+			// if (!swapped && IsAroundPushables(serverState, isServer: true, out pushable))
+			// {
+				// StartCoroutine(InteractSpacePushable(pushable, action.Direction()));
+			// }
 			return state;
 		}
 
@@ -583,14 +583,14 @@ public partial class PlayerSync
 	[Command]
 	private void CmdValidatePush(GameObject pushable)
 	{
-		if (pushable && pushable.TryGetComponent(out PushPull pushPull))
-		{
-			if (Validations.CanInteract(playerScript, NetworkSide.Server) || pushPull && !playerScript.IsRegisterTileReachable(pushPull.registerTile, true))
-			{
-				questionablePushables.Add(pushPull);
-				Logger.LogWarningFormat("Added questionable {0}", Category.PushPull, pushPull);
-			}
-		}
+		// if (pushable && pushable.TryGetComponent(out PushPull pushPull))
+		// {
+			// if (Validations.CanInteract(playerScript, NetworkSide.Server) || pushPull && !playerScript.IsRegisterTileReachable(pushPull.registerTile, true))
+			// {
+				// questionablePushables.Add(pushPull);
+				// Logger.LogWarningFormat("Added questionable {0}", Category.PushPull, pushPull);
+			// }
+		// }
 	}
 
 	/// <summary>
@@ -632,14 +632,14 @@ public partial class PlayerSync
 		InteractPushable(worldPos, direction);
 
 		//Bump all objects with IBumpObject interface
-		foreach (var objectOnTile in MatrixManager.GetAt<ObjectBehaviour>(worldTarget, true))
-		{
-			var bumpAbles = objectOnTile.GetComponents<IBumpableObject>();
-			foreach (var bump in bumpAbles)
-			{
-				bump.OnBump(gameObject);
-			}
-		}
+		// foreach (var objectOnTile in MatrixManager.GetAt<ObjectBehaviour>(worldTarget, true))
+		// {
+			// var bumpAbles = objectOnTile.GetComponents<IBumpableObject>();
+			// foreach (var bump in bumpAbles)
+			// {
+				// bump.OnBump(gameObject);
+			// }
+		// }
 
 		yield return WaitFor.Seconds(.1f);
 	}
@@ -658,7 +658,7 @@ public partial class PlayerSync
 	}
 
 
-	private IEnumerator InteractSpacePushable(PushPull pushable, Vector2 direction, bool isRecursive = false, int i = 0)
+	private IEnumerator InteractSpacePushable(OLDPushPull pushable, Vector2 direction, bool isRecursive = false, int i = 0)
 	{
 		//Return if pushable is solid and you're trying to walk through it
 		Vector3Int pushablePosition = pushable.Pushable.ServerPosition;
@@ -686,7 +686,7 @@ public partial class PlayerSync
 
 		if (i <= 0) yield break;
 
-		pushPull.QueuePush(Vector2Int.RoundToInt(direction));
+		// objectPhysics.QueuePush(Vector2Int.RoundToInt(direction));
 		i--;
 		Logger.LogTraceFormat("Queued player push. {0} pushes left", Category.PushPull, i);
 
@@ -716,31 +716,31 @@ public partial class PlayerSync
 		Vector2Int twoIntDirection = direction.To2Int();
 		Vector3Int pushableLocation = worldOrigin + (Vector3Int)twoIntDirection;
 
-		List<PushPull> pushables = MatrixManager.GetPushableAt(worldOrigin, twoIntDirection, gameObject, true, true);
-		if (pushables.Count > 0)
-		{
-			foreach ( PushPull pushable in pushables)
-			{
+		// List<PushPull> pushables = MatrixManager.GetPushableAt(worldOrigin, twoIntDirection, gameObject, true, true);
+		// if (pushables.Count > 0)
+		// {
+			// foreach ( PushPull pushable in pushables)
+			// {
 				// whether or not we actually manage to push it, make sure we aren't pulling it!
-				if (pushPull.PulledObjectServer == pushable)
-				{
-					pushPull.ServerStopPulling();
-				}
+				// if (objectPhysics.PulledObjectServer == pushable)
+				// {
+					// objectPhysics.ServerStopPulling();
+				// }
 
 				// if player can't reach, player can't push
-				if (MatrixManager.IsPassableAtAllMatrices(worldOrigin, pushableLocation, isServer: true, includingPlayers: false,
-						context: pushable.gameObject, isReach: true) == false)
-				{
-					continue;
-				}
+				// if (MatrixManager.IsPassableAtAllMatrices(worldOrigin, pushableLocation, isServer: true, includingPlayers: false,
+						// context: pushable.gameObject, isReach: true) == false)
+				// {
+					// continue;
+				// }
 
 				// Try pushables until we get one that moves
-				if (pushable.TryPush(twoIntDirection))
-				{
-					break;
-				}
-			}
-		}
+				// if (pushable.TryPush(twoIntDirection))
+				// {
+					// break;
+				// }
+			// }
+		// }
 	}
 
 	/// <summary>
@@ -871,7 +871,7 @@ public partial class PlayerSync
 				Logger.LogFormat("Letting stunned {0} fly onto {1}", Category.Movement, gameObject.name, worldTarget);
 				return;
 			}
-			if (serverState.Speed >= PushPull.HIGH_SPEED_COLLISION_THRESHOLD && IsTileSnap)
+			if (serverState.Speed >= UniversalObjectPhysics.HIGH_SPEED_COLLISION_THRESHOLD && IsTileSnap)
 			{
 				//Stop first (reach tile), then inform about collision
 				var collisionInfo = new CollisionInfo
@@ -909,15 +909,15 @@ public partial class PlayerSync
 		this.TryStopCoroutine(ref floatingSyncHandle);
 		if (consideredFloatingServer)
 		{
-			PushPull spaceObjToGrab;
-			if (IsAroundPushables(serverState, isServer: true, out spaceObjToGrab) && spaceObjToGrab.IsSolidServer)
-			{
-				//some hacks to avoid space closets stopping out of player's reach
-				var uop = spaceObjToGrab.GetComponent<UniversalObjectPhysics>();
-				if (uop && uop.IsCurrentlyFloating)
-				{
-				}
-			}
+			// PushPull spaceObjToGrab;
+			// if (IsAroundPushables(serverState, isServer: true, out spaceObjToGrab) && spaceObjToGrab.IsSolidServer)
+			// {
+				// some hacks to avoid space closets stopping out of player's reach
+				// var uop = spaceObjToGrab.GetComponent<UniversalObjectPhysics>();
+				// if (uop && uop.IsCurrentlyFloating)
+				// {
+				// }
+			// }
 			//removing lastDirection when we hit an obstacle in space
 			lastDirectionServer = Vector2.zero;
 

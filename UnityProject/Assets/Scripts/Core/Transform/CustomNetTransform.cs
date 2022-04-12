@@ -164,7 +164,7 @@ public partial class OLDCustomNetTransform : NetworkBehaviour, IPushable
 			hasBuckleInteract = true;
 		}
 
-		pushPull = GetComponent<PushPull>();
+		objectPhysics = GetComponent<UniversalObjectPhysics>();
 		syncInterval = 0f;
 	}
 
@@ -402,9 +402,9 @@ public partial class OLDCustomNetTransform : NetworkBehaviour, IPushable
 	[Server]
 	public void SetPosition(Vector3 worldPos, bool notify = true, bool keepRotation = false)
 	{
-		if (worldPos != TransformState.HiddenPos && pushPull)
+		if (worldPos != TransformState.HiddenPos && ObjectPhysics)
 		{
-			pushPull.parentContainer = null;
+			// ObjectPhysics.se = null;
 		}
 
 		Poke();
@@ -550,14 +550,14 @@ public partial class OLDCustomNetTransform : NetworkBehaviour, IPushable
 	{
 		if (visible)
 		{
-			var objectBehaviour = PushPull.TopContainer;
+			// var objectBehaviour = PushPull.TopContainer;
 
-			if (objectBehaviour.transform.position == TransformState.HiddenPos)
-			{
-				Logger.LogError($"${this} is set to become visible at HiddenPos!");
-			}
+			// if (objectBehaviour.transform.position == TransformState.HiddenPos)
+			// {
+				// Logger.LogError($"${this} is set to become visible at HiddenPos!");
+			// }
 
-			AppearAtPositionServer(objectBehaviour.AssumedWorldPositionServer());
+			// AppearAtPositionServer(objectBehaviour.AssumedWorldPositionServer());
 		}
 		else
 		{
@@ -703,12 +703,12 @@ public partial class OLDCustomNetTransform : NetworkBehaviour, IPushable
 		OnUpdateRecieved().Invoke(Vector3Int.RoundToInt(newState.WorldPosition));
 
 		//Ignore "Follow Updates" if you're pulling it
-		if (newState.Active
-		    && newState.IsFollowUpdate
-		    && pushPull && pushPull.IsPulledByClient(PlayerManager.LocalPlayerScript?.pushPull))
-		{
-			return;
-		}
+		// if (newState.Active
+		    // && newState.IsFollowUpdate
+		    // && ObjectPhysics && ObjectPhysics.IsPulledByClient(PlayerManager.LocalPlayerScript?.pushPull))
+		// {
+			// return;
+		// }
 
 		//We want to toggle the colls before moving the transform
 		Collider2D[] colls = GetComponents<Collider2D>();

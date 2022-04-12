@@ -66,7 +66,7 @@ namespace Objects.Engineering
 
 		private Integrity integrity;
 		private RegisterTile registerTile;
-		private PushPull pushPull;
+		private UniversalObjectPhysics objectPhysics;
 
 		[SerializeField]
 		private Vector3 arcOffSet = new Vector3(0 ,0.5f, 0);
@@ -77,7 +77,7 @@ namespace Objects.Engineering
 		{
 			integrity = GetComponent<Integrity>();
 			registerTile = GetComponent<RegisterTile>();
-			pushPull = GetComponent<PushPull>();
+			objectPhysics = GetComponent<UniversalObjectPhysics>();
 		}
 
 		private void OnEnable()
@@ -104,7 +104,7 @@ namespace Objects.Engineering
 			{
 				isWelded = true;
 				isWrenched = true;
-				pushPull.ServerSetPushable(false);
+				objectPhysics.SetIsNotPushable(true);
 			}
 		}
 
@@ -633,7 +633,7 @@ namespace Objects.Engineering
 					() =>
 					{
 						isWrenched = false;
-						pushPull.ServerSetPushable(true);
+						objectPhysics.SetIsNotPushable(false);
 						TogglePower(false);
 					});
 			}
@@ -654,7 +654,7 @@ namespace Objects.Engineering
 					() =>
 					{
 						isWrenched = true;
-						pushPull.ServerSetPushable(false);
+						objectPhysics.SetIsNotPushable(true);
 					});
 			}
 		}

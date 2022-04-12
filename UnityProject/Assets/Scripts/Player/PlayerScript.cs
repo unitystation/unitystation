@@ -40,7 +40,7 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IActi
 	/// <summary>
 	/// Will be null if player is a ghost.
 	/// </summary>
-	public ObjectBehaviour pushPull { get; set; }
+	public UniversalObjectPhysics objectPhysics { get; set; }
 
 	public Rotatable playerDirectional { get; set; }
 
@@ -66,12 +66,12 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IActi
 	/// Serverside world position.
 	/// Outputs correct world position even if you're hidden (e.g. in a locker)
 	/// </summary>
-	public Vector3Int AssumedWorldPos => pushPull.AssumedWorldPositionServer();
+	public Vector3Int AssumedWorldPos => objectPhysics.registerTile.WorldPosition;
 
 	/// <summary>
 	/// World position of the player.
 	/// Returns InvalidPos if you're hidden (e.g. in a locker)
-	/// </summary>
+	/// </summary>If the
 	public Vector3Int WorldPos => registerTile.WorldPosition;
 
 	/// <summary>
@@ -131,7 +131,7 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IActi
 		playerNetworkActions = GetComponent<PlayerNetworkActions>();
 		registerTile = GetComponent<RegisterPlayer>();
 		playerHealth = GetComponent<PlayerHealthV2>();
-		pushPull = GetComponent<ObjectBehaviour>();
+		objectPhysics = GetComponent<UniversalObjectPhysics>();
 		weaponNetworkActions = GetComponent<WeaponNetworkActions>();
 		mouseInputController = GetComponent<MouseInputController>();
 		chatIcon = GetComponentInChildren<ChatIcon>(true);

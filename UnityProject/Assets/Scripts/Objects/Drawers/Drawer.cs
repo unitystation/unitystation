@@ -12,7 +12,6 @@ namespace Objects.Drawers
 	/// <summary>
 	/// A generic drawer component designed for multi-tile drawer objects.
 	/// </summary>
-	[RequireComponent(typeof(ObjectBehaviour))] // For setting held items' containers to the drawer.
 	[ExecuteInEditMode]
 	public class Drawer : NetworkBehaviour, IServerLifecycle, ICheckedInteractable<HandApply>, IEscapable
 	{
@@ -39,7 +38,7 @@ namespace Objects.Drawers
 
 		protected RegisterObject registerObject;
 		protected Rotatable rotatable;
-		protected PushPull drawerPushPull;
+		protected UniversalObjectPhysics drawerPushPull;
 		protected SpriteHandler drawerSpriteHandler;
 
 		protected Matrix Matrix => registerObject.Matrix;
@@ -50,7 +49,7 @@ namespace Objects.Drawers
 
 		protected GameObject tray;
 		protected UniversalObjectPhysics ObjectPhysics;
-		protected ObjectBehaviour trayBehaviour;
+		protected UniversalObjectPhysics trayBehaviour;
 		protected ObjectContainer container;
 		protected SpriteHandler traySpriteHandler;
 
@@ -69,7 +68,7 @@ namespace Objects.Drawers
 		{
 			registerObject = GetComponent<RegisterObject>();
 			rotatable = GetComponent<Rotatable>();
-			drawerPushPull = GetComponent<PushPull>();
+			drawerPushPull = GetComponent<UniversalObjectPhysics>();
 			container = GetComponent<ObjectContainer>();
 			drawerSpriteHandler = GetComponentInChildren<SpriteHandler>();
 		}
@@ -100,9 +99,8 @@ namespace Objects.Drawers
 			tray.GetComponent<InteractableDrawerTray>().parentDrawer = this;
 			traySpriteHandler = tray.GetComponentInChildren<SpriteHandler>();
 			ObjectPhysics = tray.GetComponent<UniversalObjectPhysics>();
-			trayBehaviour = tray.GetComponent<ObjectBehaviour>();
-			trayBehaviour.parentContainer = drawerPushPull;
-			trayBehaviour.VisibleState = false;
+			trayBehaviour = ObjectPhysics;
+			trayBehaviour.StoreTo(container);
 
 			UpdateSpriteState();
 			UpdateSpriteOrientation();
@@ -205,7 +203,7 @@ namespace Objects.Drawers
 		public virtual void OpenDrawer()
 		{
 			if(drawerState == DrawerState.Open) return;
-			trayBehaviour.parentContainer = null;
+			trayBehaviour.StoreTo(null);
 			ObjectPhysics.AppearAtWorldPositionServer(TrayWorldPosition);
 
 			container.RetrieveObjects(TrayWorldPosition);
@@ -217,9 +215,7 @@ namespace Objects.Drawers
 
 		public virtual void CloseDrawer()
 		{
-			trayBehaviour.parentContainer = drawerPushPull;
-			trayBehaviour.VisibleState = false;
-
+			trayBehaviour.StoreTo(container);
 			GatherObjects();
 			AudioSourceParameters audioSourceParameters = new AudioSourceParameters(pitch: Random.Range(0.8f, 1.2f));
 			SoundManager.PlayNetworkedAtPos(BinCloseSFX, DrawerWorldPosition, audioSourceParameters, sourceObj: gameObject);
@@ -228,11 +224,11 @@ namespace Objects.Drawers
 
 		protected virtual void GatherObjects()
 		{
-			var items = Matrix.Get<ObjectBehaviour>(TrayLocalPosition, true);
-			foreach (ObjectBehaviour item in items)
+			var items = Matrix.Get<UniversalObjectPhysics>(TrayLocalPosition, true);
+			foreach (var item in items)
 			{
 				//Prevents stuff like cameras ending up inside (check for health in case player wearing mag boots)
-				if(item.IsPushable == false && item.TryGetComponent<HealthV2.LivingHealthMasterBase>(out _) == false) continue;
+				if(item.IsNotPushable && item.TryGetComponent<HealthV2.LivingHealthMasterBase>(out _) == false) continue;
 
 				if (storePlayers == false && item.TryGetComponent<PlayerScript>(out _)) continue;
 

@@ -208,16 +208,16 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	public void CmdSlideItem(Vector3Int destination)
 	{
 		if (playerScript.IsPositionReachable(destination, true) == false
-			|| playerScript.pushPull.PulledObjectServer == null
+			|| playerScript.objectPhysics.Pulling.HasComponent == null
 			|| playerScript.IsGhost
 			|| playerScript.playerHealth.ConsciousState != ConsciousState.CONSCIOUS)
 		{
 			return;
 		}
-		PushPull pushPull = playerScript.pushPull.PulledObjectServer;
+		var pushPull = playerScript.objectPhysics.Pulling.Component;
 		Vector3Int origin = pushPull.registerTile.WorldPositionServer;
 		Vector2Int dir = (Vector2Int)(destination - origin);
-		pushPull.TryPush(dir);
+		pushPull.TryTilePush(dir, false);
 	}
 
 	/// <summary>
@@ -528,13 +528,13 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 				break;
 		}
 
-		playerScript.pushPull.ServerStopPulling();
+		playerScript.objectPhysics.StopPulling();
 	}
 
 	[Server]
 	public void ServerToggleChatIcon(bool turnOn, string message, ChatChannel chatChannel, ChatModifier chatModifier)
 	{
-		if (!playerScript.pushPull.VisibleState || (playerScript.mind.occupation.JobType == JobType.NULL
+		if (!playerScript.objectPhysics.IsVisible || (playerScript.mind.occupation.JobType == JobType.NULL
 												|| playerScript.playerHealth.IsDead || playerScript.playerHealth.IsCrit))
 		{
 			//Don't do anything with chat icon if player is invisible or not spawned in
@@ -694,7 +694,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		}
 
 		//body might be in a container, reentering should still be allowed in that case
-		if (body.pushPull != null && body.pushPull.parentContainer == null && body.WorldPos == TransformState.HiddenPos)
+		if (body.objectPhysics != null && body.objectPhysics.ContainedInContainer == null && body.WorldPos == TransformState.HiddenPos)
 		{
 			Logger.LogFormat("There's nothing left of {0}'s body, not entering it", Category.Ghosts, body);
 			return;

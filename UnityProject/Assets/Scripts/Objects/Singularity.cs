@@ -283,7 +283,7 @@ namespace Objects
 			{
 				if (DMMath.Prob(50)) continue;
 
-				var objects = MatrixManager.GetAt<PushPull>(tile, true);
+				var objects = MatrixManager.GetAt<UniversalObjectPhysics>(tile, true);
 
 				foreach (var objectToMove in objects)
 				{
@@ -307,7 +307,7 @@ namespace Objects
 			}
 		}
 
-		private void ThrowItem(PushPull item, Vector3 throwVector)
+		private void ThrowItem(UniversalObjectPhysics item, Vector3 throwVector)
 		{
 			Vector3 vector = item.transform.rotation * throwVector;
 			var spin = RandomUtils.RandomSpin();
@@ -326,7 +326,7 @@ namespace Objects
 			pushRecently.Add(item.gameObject);
 		}
 
-		private void PushObject(PushPull objectToPush, Vector3 pushVector)
+		private void PushObject(UniversalObjectPhysics objectToPush, Vector3 pushVector)
 		{
 			if (CurrentStage == SingularityStages.Stage5 || CurrentStage == SingularityStages.Stage4)
 			{
@@ -339,15 +339,14 @@ namespace Objects
 						$"{objectToPush.gameObject.ExpensiveName()} is knocked down by the singularity");
 				}
 			}
-			else if (objectToPush.IsPushable == false)
+			else if (objectToPush.IsNotPushable)
 			{
 				//Dont push anchored objects unless stage 5 or 4
 				return;
 			}
 
 			//Force Push Twice
-			objectToPush.QueuePush(pushVector.NormalizeTo2Int(), forcePush: true);
-			objectToPush.QueuePush(pushVector.NormalizeTo2Int(), forcePush: true);
+			objectToPush.NewtonianNewtonPush(pushVector.NormalizeTo2Int(), 10);
 		}
 
 		#endregion

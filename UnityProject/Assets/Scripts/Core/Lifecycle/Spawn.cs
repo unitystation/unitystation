@@ -131,7 +131,7 @@ public static class Spawn
 	public static SpawnResult ServerPrefab(GameObject prefab, Vector3? worldPosition = null, Transform parent = null,
 		Quaternion? localRotation = null, int count = 1, float? scatterRadius = null, bool cancelIfImpassable = false,
 		bool spawnItems = true, bool AutoOnSpawnServerHook = true,
-		PushPull sharePosition = null, bool mapspawn = false, bool PrePickRandom = false)
+		UniversalObjectPhysics sharePosition = null, bool mapspawn = false, bool PrePickRandom = false)
 	{
 		return Server(
 			SpawnInfo.Spawnable(
@@ -303,9 +303,9 @@ public static class Spawn
 				}
 
 				if (info.SpawnDestination.SharePosition != null &&
-				    info.SpawnDestination.SharePosition.parentContainer != null)
+				    info.SpawnDestination.SharePosition.ContainedInContainer != null)
 				{
-					info.SpawnDestination.SharePosition.parentContainer.GetComponent<ObjectContainer>().StoreObjects(result.GameObjects);
+					info.SpawnDestination.SharePosition.ContainedInContainer.StoreObjects(result.GameObjects);
 				}
 			}
 			else

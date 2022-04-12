@@ -20,7 +20,7 @@ namespace HealthV2
 		/// Controller for sprite direction and walking into objects
 		/// </summary>
 		public PlayerMove PlayerMove => playerMove;
-		
+
 		private PlayerNetworkActions playerNetworkActions;
 
 		private RegisterPlayer registerPlayer;
@@ -78,7 +78,7 @@ namespace HealthV2
 			}
 
 			base.Gib();
-			PlayerMove.PlayerScript.pushPull.VisibleState = false;
+			PlayerMove.PlayerScript.objectPhysics.DisappearFromWorld ();
 			playerNetworkActions.ServerSpawnPlayerGhost();
 		}
 

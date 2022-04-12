@@ -756,7 +756,7 @@ namespace Weapons
 				}
 
 				//kickback
-				shooterScript.pushPull.Pushable.NewtonianMove((-nextShot.finalDirection).NormalizeToInt());
+				shooterScript.objectPhysics.NewtonianPush((-nextShot.finalDirection).NormalizeToInt(), 1);
 
 				if (SpawnsCasing)
 				{

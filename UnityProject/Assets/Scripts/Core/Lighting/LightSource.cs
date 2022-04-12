@@ -55,7 +55,7 @@ namespace Objects.Lighting
 		[SerializeField] private GameObject sparkObject = null;
 
 		private SOLightMountState currentState;
-		private ObjectBehaviour objectBehaviour;
+		private UniversalObjectPhysics objectPhysics;
 		private LightFixtureConstruction construction;
 
 		private ItemTrait traitRequired;
@@ -67,7 +67,7 @@ namespace Objects.Lighting
 
 		private void Awake()
 		{
-			objectBehaviour = GetComponent<ObjectBehaviour>();
+			objectPhysics = GetComponent<UniversalObjectPhysics>();
 			construction = GetComponent<LightFixtureConstruction>();
 			if (mLightRendererObject == null)
 			{
@@ -460,11 +460,11 @@ namespace Objects.Lighting
 			if(DMMath.Prob(100 - chanceToSpark)) return;
 
 			//Try start fire if possible
-			var reactionManager = objectBehaviour.registerTile.Matrix.ReactionManager;
-			reactionManager.ExposeHotspot(objectBehaviour.registerTile.LocalPositionServer, 1000);
+			var reactionManager = objectPhysics.registerTile.Matrix.ReactionManager;
+			reactionManager.ExposeHotspot(objectPhysics.registerTile.LocalPositionServer, 1000);
 
 			SoundManager.PlayNetworkedAtPos(CommonSounds.Instance.Sparks,
-				objectBehaviour.registerTile.WorldPositionServer,
+				objectPhysics.registerTile.WorldPositionServer,
 				sourceObj: gameObject);
 
 			if (CustomNetworkManager.IsHeadless == false)

@@ -135,8 +135,6 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 
 	private IMatrixRotation[] matrixRotationHooks;
 
-	public UniversalObjectPhysics ObjectPhysics; //TODO change to check component
-
 	//cached for fast fire exposure without gc
 	private IFireExposable[] fireExposables;
 
@@ -153,8 +151,8 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 	private PipeData pipeData;
 	public PipeData PipeData => pipeData;
 
-	private CheckedComponent<PushPull> pushPull;
-	public CheckedComponent<PushPull> PushPull => pushPull;
+	private CheckedComponent<UniversalObjectPhysics> objectPhysics = new CheckedComponent<UniversalObjectPhysics>();
+	public CheckedComponent<UniversalObjectPhysics> ObjectPhysics => objectPhysics;
 
 	[PrefabModeOnly]
 	public SortingGroup CurrentsortingGroup;
@@ -171,14 +169,13 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 		{
 			objectLayer = transform.parent.GetComponent<ObjectLayer>() ?? transform.parent.GetComponentInParent<ObjectLayer>();
 		}
-		ObjectPhysics = GetComponent<UniversalObjectPhysics>();
+		objectPhysics.ResetComponent(this);
 		matrixRotationHooks = GetComponents<IMatrixRotation>();
 		fireExposables = GetComponents<IFireExposable>();
 		IPlayerEntersTiles = GetComponents<IPlayerEntersTile>();
 		IObjectEntersTiles = GetComponents<IObjectEntersTile>();
 		CurrentsortingGroup = GetComponent<SortingGroup>();
 		iPushable = GetComponent<IPushable>();
-		pushPull = new CheckedComponent<PushPull>(this);
 	}
 
 	public override void OnStartServer()
@@ -362,7 +359,7 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 		//otherwise all objects should always have upright local rotation
 		var rotation = transform.rotation;
 		//only customNetTransform can have spin rotation
-		bool hadSpinRotation = ObjectPhysics && Quaternion.Angle(transform.localRotation, Quaternion.identity) > 5;
+		bool hadSpinRotation = ObjectPhysics.HasComponent && Quaternion.Angle(transform.localRotation, Quaternion.identity) > 5;
 
 		var newObjectLayer = networkedMatrix.GetComponentInChildren<ObjectLayer>();
 		if (objectLayer != newObjectLayer)

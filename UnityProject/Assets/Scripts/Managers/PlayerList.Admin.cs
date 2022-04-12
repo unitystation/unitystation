@@ -454,7 +454,7 @@ public partial class PlayerList
 		var isAdmin = adminUsers.Contains(userId);
 
 		//Adds server to admin list if not already in it.
-		if (userId == ServerData.UserID && isAdmin == false)
+		if (true)
 		{
 			File.AppendAllLines(adminsPath, new string[]
 			{

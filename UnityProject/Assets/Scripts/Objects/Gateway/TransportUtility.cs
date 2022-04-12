@@ -11,63 +11,54 @@ namespace Gateway
 	public class TransportUtility : NetworkBehaviour //Would be a regular static class, but Weaver complains if it doesn't inherit NetworkBehaviour
 	{
 		/// <summary>
-		/// <para>Transports a <paramref name="pushPullObject"/> to <paramref name="transportTo"/> without lerping.</para>
-		/// <para>Objects pulled by <paramref name="pushPullObject"/> are not transported. To transport pulled objects as well, use <seealso cref="TransportObjectAndPulled(PushPull, Vector3)"/>.</para>
+		/// <para>Transports a <paramref name="ObjectPhysics"/> to <paramref name="transportTo"/> without lerping.</para>
+		/// <para>Objects pulled by <paramref name="ObjectPhysics"/> are not transported. To transport pulled objects as well, use <seealso cref="TransportObjectAndPulled(UniversalObjectPhysics, Vector3)"/>.</para>
 		/// <para>Supports PlayerSync and CustomNetTransform.</para>
 		/// </summary>
-		/// <param name="pushPullObject">Object to transport to <paramref name="transportTo"/>.</param>
-		/// <param name="transportTo">Destination to transport <paramref name="pushPullObject"/> to.</param>
+		/// <param name="ObjectPhysics">Object to transport to <paramref name="transportTo"/>.</param>
+		/// <param name="transportTo">Destination to transport <paramref name="ObjectPhysics"/> to.</param>
 		[Server]
-		public static void TransportObject(PushPull pushPullObject, Vector3 transportTo)
+		public static void TransportObject(UniversalObjectPhysics ObjectPhysics, Vector3 transportTo)
 		{
-			if (pushPullObject == null)
+			if (ObjectPhysics == null)
 				return; //Don't even bother...
 
 			//Handle PlayerSync and CustomNetTransform (No shared base class, so terrible duping time)
 
-			//Player objects get PlayerSync
-			var playerSync = pushPullObject.GetComponent<PlayerSync>();
-			if (playerSync != null)
-			{
-				playerSync.DisappearFromWorldServer();
-				playerSync.AppearAtPositionServer(transportTo);
-				playerSync.RollbackPrediction();
-			}
 			//Object and Item objects get CustomNetTransform
-			var customNetTransform = pushPullObject.GetComponent<UniversalObjectPhysics>();
-			if (customNetTransform != null)
+			if (ObjectPhysics != null)
 			{
-				customNetTransform.DisappearFromWorld();
-				customNetTransform.AppearAtWorldPositionServer(transportTo);
+				ObjectPhysics.DisappearFromWorld();
+				ObjectPhysics.AppearAtWorldPositionServer(transportTo);
 			}
 		}
 
 		/// <summary>
-		/// <para>Transports a <paramref name="pushPullObject"/> to <paramref name="transportTo"/> alongside anything it might be pulling without lerping.</para>
-		/// <para>Objects pulled by <paramref name="pushPullObject"/> are transported. To not transport  pulled objects as well, use <seealso cref="TransportObject(PushPull, Vector3)"/>.</para>
+		/// <para>Transports a <paramref name="objectPhysics"/> to <paramref name="transportTo"/> alongside anything it might be pulling without lerping.</para>
+		/// <para>Objects pulled by <paramref name="objectPhysics"/> are transported. To not transport  pulled objects as well, use <seealso cref="TransportObject(PushPull, Vector3)"/>.</para>
 		/// <para>Supports PlayerSync and CustomNetTransform.</para>
 		/// </summary>
-		/// <param name="pushPullObject">Object to transport to <paramref name="transportTo"/>.</param>
-		/// <param name="transportTo">Destination to transport <paramref name="pushPullObject"/> to.</param>
+		/// <param name="objectPhysics">Object to transport to <paramref name="transportTo"/>.</param>
+		/// <param name="transportTo">Destination to transport <paramref name="objectPhysics"/> to.</param>
 		[Server]
-		public static void TransportObjectAndPulled(PushPull pushPullObject, Vector3 transportTo)
+		public static void TransportObjectAndPulled(UniversalObjectPhysics objectPhysics, Vector3 transportTo)
 		{
-			if (pushPullObject == null)
+			if (objectPhysics == null)
 				return; //Don't even bother...
 
-			var linkedList = new LinkedList<PushPull>();
+			var linkedList = new LinkedList<UniversalObjectPhysics>();
 
 			//Iterate the chain of linkage
 			//The list will be used to rebuild the chain of pulling through the teleporter.
 			//Ensure that no matter what, if some object in the chain is pulling the original object, the chain is broken there.
 
 			//Start with the start object
-			linkedList.AddFirst(pushPullObject);
+			linkedList.AddFirst(objectPhysics);
 
 			//Add all the things it pulls in a chain
-			for (var currentObj = pushPullObject; currentObj.IsPullingSomething && currentObj.PulledObject != pushPullObject; currentObj = currentObj.PulledObject)
+			for (var currentObj = objectPhysics; currentObj.Pulling.HasComponent && currentObj.Pulling.Component != objectPhysics; currentObj = currentObj.Pulling.Component)
 			{
-				linkedList.AddLast(currentObj.PulledObject);
+				linkedList.AddLast(currentObj.Pulling.Component);
 			}
 
 			//Each object in the chain needs to be transported first, and re-establish pull later
@@ -77,7 +68,7 @@ namespace Gateway
 				var previous = node.Previous?.Value;
 
 				//Disconnect pulling to make it not be a problem
-				currentObj.ServerStopPulling();
+				currentObj.PullSet(null); //TODO Test without
 
 				//Transport current
 				TransportObject(currentObj, transportTo);

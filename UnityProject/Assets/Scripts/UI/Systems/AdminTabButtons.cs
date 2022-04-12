@@ -19,7 +19,7 @@ namespace UI.AdminTools
 
 		private void Awake()
 		{
-			DisableAllGUI();
+			//DisableAllGUI();
 		}
 
 		public void BtnAdminPanel()

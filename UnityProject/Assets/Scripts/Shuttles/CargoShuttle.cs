@@ -154,7 +154,7 @@ namespace Systems.Cargo
 				if (item == null) continue;
 
 				//need VisibleState check because despawned objects still stick around on their matrix transform
-				if (item.TryGetComponent<ObjectBehaviour>(out var behaviour) && behaviour.VisibleState)
+				if (item.TryGetComponent<UniversalObjectPhysics>(out var behaviour) && behaviour.IsVisible)
 				{
 					if (item.TryGetComponent<Attributes>(out var attributes))
 					{
@@ -249,8 +249,8 @@ namespace Systems.Cargo
 			}
 			else
 			{
-				Logger.LogWarning($"{crate.ExpensiveName()} does not have {nameof(ObjectBehaviour)}. Please fix CargoData" +
-								  $" to ensure that the crate prefab is actually a crate (with {nameof(ObjectBehaviour)} component)." +
+				Logger.LogWarning($"{crate.ExpensiveName()} does not have {nameof(UniversalObjectPhysics)}. Please fix CargoData" +
+								  $" to ensure that the crate prefab is actually a crate (with {nameof(UniversalObjectPhysics)} component)." +
 								  $" This order will be ignored.", Category.Cargo);
 				return true;
 			}
@@ -265,7 +265,7 @@ namespace Systems.Cargo
 			if (obj.TryGetComponent<RandomItemSpot>(out var randomItem))
 			{
 				var registerTile = container.gameObject.RegisterTile();
-				var items = registerTile.Matrix.Get<ObjectBehaviour>(registerTile.LocalPositionServer, ObjectType.Item, true)
+				var items = registerTile.Matrix.Get<UniversalObjectPhysics>(registerTile.LocalPositionServer, ObjectType.Item, true)
 						.Select(ob => ob.gameObject).Where(go => go != obj);
 
 				container.StoreObjects(items);

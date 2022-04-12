@@ -53,7 +53,7 @@ public partial class PlayerSync
 			{
 				return false;
 			}
-			GameObject[] context = pushPull.IsPullingSomethingClient ? new[] { gameObject, pushPull.PulledObjectClient.gameObject } : new[] { gameObject };
+			GameObject[] context = objectPhysics.Pulling.HasComponent ? new[] { gameObject, objectPhysics.Pulling.Component.gameObject } : new[] { gameObject };
 			return MatrixManager.IsFloatingAt(context, Vector3Int.RoundToInt(predictedState.WorldPosition), isServer: false, registerPlayer.Matrix.MatrixInfo);
 		}
 	}
@@ -236,16 +236,16 @@ public partial class PlayerSync
 			return;
 		}
 		// Is the object pushable (iterate through all of the objects at the position):
-		List<PushPull> pushPulls = MatrixManager.GetPushableAt(worldOrigin, direction, gameObject, false, true);
+		List<UniversalObjectPhysics> pushPulls = MatrixManager.GetPushableAt(worldOrigin, direction, gameObject, false, true);
 		for (int i = 0; i < pushPulls.Count; i++)
 		{
 			var potentialPushed = pushPulls[i];
 			if (potentialPushed && potentialPushed.gameObject != gameObject)
 			{
 				// whether or not we actually manage to push it, make sure we aren't pulling it!
-				if (pushPull.PulledObjectClient == potentialPushed)
+				if (objectPhysics.Pulling.Component == potentialPushed)
 				{
-					pushPull.CmdStopPulling();
+					objectPhysics.CmdStopPulling();
 				}
 
 				// if player can't reach, player can't push
@@ -256,23 +256,23 @@ public partial class PlayerSync
 				}
 
 
-				// If its movement is blocked, don't push it
-				if (potentialPushed.CanPushClient(worldTile, direction) == false)
-				{
-					continue;
-				}
-
-				//					Logger.LogTraceFormat( "Predictive pushing {0} from {1} to {2}", Category.PushPull, pushPulls[i].gameObject, worldTile, (Vector2)(Vector3)worldTile+(Vector2)direction );
-				if (potentialPushed.TryPredictivePush(worldTile, direction))
-				{
-					//telling server what we just predictively pushed this thing
-					//so that server could rollback it for client if it was wrong
-					//instead of leaving it messed up permanently on client side
-					CmdValidatePush(potentialPushed.gameObject);
-				}
-
-				//If we managed to push, stop trying any more
-				break;
+				// // If its movement is blocked, don't push it
+				// if (potentialPushed.CanPushClient(worldTile, direction) == false)
+				// {
+				// 	continue;
+				// }
+				//
+				// //					Logger.LogTraceFormat( "Predictive pushing {0} from {1} to {2}", Category.PushPull, pushPulls[i].gameObject, worldTile, (Vector2)(Vector3)worldTile+(Vector2)direction );
+				// if (potentialPushed.TryPredictivePush(worldTile, direction))
+				// {
+				// 	//telling server what we just predictively pushed this thing
+				// 	//so that server could rollback it for client if it was wrong
+				// 	//instead of leaving it messed up permanently on client side
+				// 	CmdValidatePush(potentialPushed.gameObject);
+				// }
+				//
+				// //If we managed to push, stop trying any more
+				// break;
 			}
 		}
 	}
@@ -313,7 +313,7 @@ public partial class PlayerSync
 		if ( !float.IsNaN( speed ) && speed > 0 ) {
 			predictedState.Speed = speed;
 		} else {
-			predictedState.Speed = PushPull.DEFAULT_PUSH_SPEED;
+			// predictedState.Speed = PushPull.DEFAULT_PUSH_SPEED;
 		}
 
 		OnClientStartMove().Invoke(currentPos, target3int); //?
@@ -447,12 +447,12 @@ public partial class PlayerSync
 		//			}
 
 		//Ignore "Follow Updates" if you're pulling it
-		if (newState.Active
-			 && pushPull != null && pushPull.IsPulledByClient(PlayerManager.LocalPlayerScript?.pushPull)
-		)
-		{
-			return;
-		}
+		// if (newState.Active
+		// 	 && objectPhysics != null && objectPhysics.IsPulledByClient(PlayerManager.LocalPlayerScript?.pushPull)
+		// )
+		// {
+		// 	return;
+		// }
 
 		if (!isLocalPlayer)
 		{
@@ -490,23 +490,23 @@ public partial class PlayerSync
 		if (isFloatingClient || isPseudoFloatingClient)
 		{
 			//rollback prediction if either wrong impulse on given step OR both impulses are non-zero and point in different directions
-			bool spacewalkReset = predictedState.WorldImpulse != playerState.WorldImpulse
-							 && ((predictedState.MoveNumber == playerState.MoveNumber && !pushPull.IsPullingSomethingClient)
-								  || playerState.WorldImpulse != Vector2.zero && predictedState.WorldImpulse != Vector2.zero);
-			bool wrongFloatDir = playerState.MoveNumber < predictedState.MoveNumber &&
-							playerState.WorldImpulse != Vector2.zero &&
-							//note: since the Positions used below are local, we must use LocalImpulse to see if the prediction is actually wrong
-							playerState.LocalImpulse(this).normalized != (Vector2)(predictedState.LocalPosition - playerState.LocalPosition).normalized;
-			if (spacewalkReset || wrongFloatDir)
-			{
-				//NOTE: This is currently generated when client is slipping indoors because there's no way for client
-				//to know if a tile is slippery, thus they can never predict it correctly
-				Logger.LogWarning($"{nameof(spacewalkReset)}={spacewalkReset}, {nameof(wrongFloatDir)}={wrongFloatDir}", Category.Movement);
-				ClearQueueClient();
-				RollbackPrediction();
-
-				OnClientStartMove().Invoke( newWorldPos-LastDirectionClient.RoundToInt(), newWorldPos );
-			}
+			// bool spacewalkReset = predictedState.WorldImpulse != playerState.WorldImpulse
+			// 				 && ((predictedState.MoveNumber == playerState.MoveNumber && !objectPhysics.IsPullingSomethingClient)
+			// 					  || playerState.WorldImpulse != Vector2.zero && predictedState.WorldImpulse != Vector2.zero);
+			// bool wrongFloatDir = playerState.MoveNumber < predictedState.MoveNumber &&
+			// 				playerState.WorldImpulse != Vector2.zero &&
+			// 				//note: since the Positions used below are local, we must use LocalImpulse to see if the prediction is actually wrong
+			// 				playerState.LocalImpulse(this).normalized != (Vector2)(predictedState.LocalPosition - playerState.LocalPosition).normalized;
+			// if (spacewalkReset || wrongFloatDir)
+			// {
+			// 	//NOTE: This is currently generated when client is slipping indoors because there's no way for client
+			// 	//to know if a tile is slippery, thus they can never predict it correctly
+			// 	Logger.LogWarning($"{nameof(spacewalkReset)}={spacewalkReset}, {nameof(wrongFloatDir)}={wrongFloatDir}", Category.Movement);
+			// 	ClearQueueClient();
+			// 	RollbackPrediction();
+			//
+			// 	OnClientStartMove().Invoke( newWorldPos-LastDirectionClient.RoundToInt(), newWorldPos );
+			// }
 			return;
 		}
 		if (pendingActions != null)
@@ -565,12 +565,12 @@ public partial class PlayerSync
 	private IEnumerator RollbackPullables()
 	{
 		yield return WaitFor.EndOfFrame;
-		if (gameObject == PlayerManager.LocalPlayer
-			 && pushPull && pushPull.IsPullingSomethingClient)
-		{
-			//Rollback whatever you're pulling predictively, too
-			pushPull.PulledObjectClient.Pushable.RollbackPrediction();
-		}
+		// if (gameObject == PlayerManager.LocalPlayer
+		// 	 && objectPhysics && objectPhysics.IsPullingSomethingClient)
+		// {
+		// 	//Rollback whatever you're pulling predictively, too
+		// 	objectPhysics.PulledObjectClient.Pushable.RollbackPrediction();
+		// }
 	}
 
 	/// Clears client pending actions queue

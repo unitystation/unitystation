@@ -21,7 +21,7 @@ public class ManagedBehaviour : MonoBehaviour
 	///     If your class uses the Awake function, please use  protected override void Awake() instead.
 	///     Also don't forget to call ManagedNetworkBehaviour.Awake(); first.
 	///     If your class does not use the Awake function, this object will be added to the UpdateManager automatically.
-	///     Do not forget to replace your Update function with public override void UpdateMe()
+	///     Do not forget to replace your Update function with public override void FlyingUpdateMe()
 	/// </summary>
 	public virtual void UpdateMe()
 	{

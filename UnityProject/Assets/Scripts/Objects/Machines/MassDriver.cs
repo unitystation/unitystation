@@ -115,23 +115,23 @@ namespace Objects
 			massDriverOperating = true;
 			UpdateSpriteOutletState();
 			//detect players positioned on the mass driver
-			var playersFound = Matrix.Get<ObjectBehaviour>(registerTile.LocalPositionServer, ObjectType.Player, true);
+			var playersFound = Matrix.Get<UniversalObjectPhysics>(registerTile.LocalPositionServer, ObjectType.Player, true);
 
 			var throwVector = orientation.ToLocalVector3();
 
-			foreach (ObjectBehaviour player in playersFound)
+			foreach (var player in playersFound)
 			{
 				// Players cannot currently be thrown, so just push them in the direction for now.
 				PushPlayer(player, throwVector);
 			}
 
-			foreach (var objects in Matrix.Get<ObjectBehaviour>(registerTile.LocalPositionServer, ObjectType.Object, true))
+			foreach (var objects in Matrix.Get<UniversalObjectPhysics>(registerTile.LocalPositionServer, ObjectType.Object, true))
 			{
 				// Objects cannot currently be thrown, so just push them in the direction for now.
 				PushObject(objects, throwVector);
 			}
 
-			foreach (var item in Matrix.Get<ObjectBehaviour>(registerTile.LocalPositionServer, ObjectType.Item, true))
+			foreach (var item in Matrix.Get<UniversalObjectPhysics>(registerTile.LocalPositionServer, ObjectType.Item, true))
 			{
 				ThrowItem(item, throwVector);
 			}
@@ -142,7 +142,7 @@ namespace Objects
 			UpdateSpriteOutletState();
 		}
 
-		private void ThrowItem(ObjectBehaviour item, Vector3 throwVector)
+		private void ThrowItem(UniversalObjectPhysics item, Vector3 throwVector)
 		{
 			Vector3 vector = item.transform.rotation * throwVector;
 			var spin = RandomUtils.RandomSpin();
@@ -160,20 +160,18 @@ namespace Objects
 			itemTransform.NewtonianPush(vector, 1, inaim:BodyPartType.Chest ,inthrownBy : gameObject );
 		}
 
-		private void PushObject(ObjectBehaviour entity, Vector3 pushVector)
+		private void PushObject(UniversalObjectPhysics entity, Vector3 pushVector)
 		{
 			//Push Twice
-			entity.QueuePush(pushVector.NormalizeTo2Int());
-			entity.QueuePush(pushVector.NormalizeTo2Int());
+			entity.NewtonianPush(pushVector.NormalizeTo2Int(), 10);
 		}
 
-		private void PushPlayer(ObjectBehaviour player, Vector3 pushVector)
+		private void PushPlayer(UniversalObjectPhysics player, Vector3 pushVector)
 		{
 			player.GetComponent<RegisterPlayer>()?.ServerStun();
 
 			//Push Twice
-			player.QueuePush(pushVector.NormalizeTo2Int());
-			player.QueuePush(pushVector.NormalizeTo2Int());
+			player.NewtonianPush(pushVector.NormalizeTo2Int(), 10);
 		}
 
 		#region WrenchChangeDirection

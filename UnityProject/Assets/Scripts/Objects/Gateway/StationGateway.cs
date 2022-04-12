@@ -213,7 +213,7 @@ namespace Objects
 		public virtual void DetectPlayer()
 		{
 			// detect players positioned on the portal bit of the gateway
-			var playersFound = Matrix.Get<ObjectBehaviour>(registerTile.LocalPositionServer + Vector3Int.up, ObjectType.Player, true);
+			var playersFound = Matrix.Get<MovementSynchronisation>(registerTile.LocalPositionServer + Vector3Int.up, ObjectType.Player, true);
 
 			if (SpawnedMobs == false && selectedWorld != null && playersFound.Count() > 0)
 			{
@@ -226,7 +226,7 @@ namespace Objects
 				SpawnedMobs = true;
 			}
 
-			foreach (ObjectBehaviour player in playersFound)
+			foreach (MovementSynchronisation player in playersFound)
 			{
 				var coord = new Vector2(Position.x, Position.y);
 				Chat.AddLocalMsgToChat(Message, coord, gameObject);
@@ -234,8 +234,8 @@ namespace Objects
 				TransportUtility.TransportObjectAndPulled(player, TeleportTargetCoord);
 			}
 
-			foreach (var item in Matrix.Get<ObjectBehaviour>(registerTile.LocalPositionServer + Vector3Int.up, ObjectType.Object, true)
-										.Concat(Matrix.Get<ObjectBehaviour>(registerTile.LocalPositionServer + Vector3Int.up, ObjectType.Item, true)))
+			foreach (var item in Matrix.Get<UniversalObjectPhysics>(registerTile.LocalPositionServer + Vector3Int.up, ObjectType.Object, true)
+										.Concat(Matrix.Get<UniversalObjectPhysics>(registerTile.LocalPositionServer + Vector3Int.up, ObjectType.Item, true)))
 			{
 				TransportUtility.TransportObjectAndPulled(item, TeleportTargetCoord);
 			}

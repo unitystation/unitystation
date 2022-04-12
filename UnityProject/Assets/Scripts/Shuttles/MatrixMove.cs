@@ -563,7 +563,7 @@ public class MatrixMove : ManagedBehaviour
 	}
 
 	/// <summary>
-	/// Performs the rotation / movement animation on all clients and server. Called every UpdateMe()
+	/// Performs the rotation / movement animation on all clients and server. Called every FlyingUpdateMe()
 	/// </summary>
 	private void AnimateMovement()
 	{
@@ -576,7 +576,6 @@ public class MatrixMove : ManagedBehaviour
 
 		if (NeedsRotationClient)
 		{
-			matrix.MetaTileMap.GlobalCachedBounds = null;
 			//rotate our transform to our new facing direction
 			if (clientState.RotationTime != 0)
 			{
@@ -596,7 +595,6 @@ public class MatrixMove : ManagedBehaviour
 		}
 		else if (IsMovingClient)
 		{
-			matrix.MetaTileMap.GlobalCachedBounds = null;
 			//Only move target if rotation is finished
 			//predict client state because we don't get constant updates when flying in one direction.
 			clientState.Position += (clientState.Speed * Time.deltaTime) * clientState.FlyingDirection.LocalVector;
@@ -801,7 +799,6 @@ public class MatrixMove : ManagedBehaviour
 		var oldState = clientState;
 
 		clientState = newState;
-		matrix.MetaTileMap.GlobalCachedBounds = null;
 		Logger.LogTraceFormat("{0} setting client / client target state from message {1}", Category.Shuttles, this, newState);
 
 
@@ -882,7 +879,6 @@ public class MatrixMove : ManagedBehaviour
 	[Server]
 	private void TryNotifyPlayers()
 	{
-		matrix.MetaTileMap.GlobalCachedBounds = null;
 		if (ServerPositionsMatch)
 		{
 			//				When serverState reaches its planned destination,

@@ -156,7 +156,7 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 	{
 		if ((ClientLocalPOS - transform.localPosition).magnitude > 1.5f)
 		{
-			ResetLocationOnClients(true);
+			ResetLocationOnClients(false);
 		}
 	}
 
@@ -207,6 +207,15 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 					SetMatrixCash.ResetNewPosition(transform.position);
 				}
 			}
+			else
+			{
+				if ((transform.localPosition - Entry.LocalPosition).magnitude > 0.5f) //Resets play location if too far away
+				{
+					ResetLocationOnClients();
+					MoveQueue.Clear();
+				}
+			}
+
 
 
 			if (CanInPutMove())
@@ -422,7 +431,7 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 	{
 		var transform1 = transform.position;
 		return MatrixManager.IsPassableAtAllMatricesV2(transform1,
-			transform1 + moveAction.GlobalMoveDirection.TVectoro().To3Int(), SetMatrixCash, this.gameObject,
+			transform1 + moveAction.GlobalMoveDirection.TVectoro().To3Int(), SetMatrixCash, this,
 			Pushing, Bumps);
 	}
 

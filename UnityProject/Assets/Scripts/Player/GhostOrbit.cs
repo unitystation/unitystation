@@ -51,7 +51,7 @@ namespace Player
 		private void UpdateMe()
 		{
 			if(isLocalPlayer == false) return;
-		
+
 			if (Input.GetMouseButtonDown(0))
 			{
 				if (hasClicked == false)
@@ -72,7 +72,7 @@ namespace Player
 			var possibleTargets = MouseUtils.GetOrderedObjectsUnderMouse();
 			foreach (var possibleTarget in possibleTargets)
 			{
-				if (possibleTarget.TryGetComponent<PushPull>(out var pull) || possibleTarget.TryGetComponent<Singularity>(out var loose))
+				if (possibleTarget.TryGetComponent<UniversalObjectPhysics>(out var pull) || possibleTarget.TryGetComponent<Singularity>(out var loose))
 				{
 					CmdServerOrbit(possibleTarget);
 					return;

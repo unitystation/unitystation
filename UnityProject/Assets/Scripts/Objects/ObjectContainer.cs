@@ -4,6 +4,8 @@ using System.Linq;
 using JetBrains.Annotations;
 using UnityEngine;
 using Messages.Server;
+using Mirror;
+using Objects;
 
 namespace Objects
 {
@@ -39,8 +41,35 @@ namespace Objects
 		private bool initialContentsSpawned = false;
 
 		private RegisterTile registerTile;
-		private PushPull pushPullObject;
 		private UniversalObjectPhysics ObjectPhysics;
+
+		/// <summary>
+		/// Experimental. Top owner object
+		/// </summary>
+		public UniversalObjectPhysics TopContainer {
+			get {
+				if (ObjectPhysics.ContainedInContainer != null)
+				{
+					return ObjectPhysics.ContainedInContainer.TopContainer;
+				}
+
+				if (ObjectPhysics.IsVisible == false)
+				{
+					var pu = GetComponent<Pickupable>();
+					if (pu != null && pu.ItemSlot != null)
+					{
+						//we are in an itemstorage, so report our root item storage object.
+						var UOP = pu.ItemSlot.GetRootStorageOrPlayer().GetComponent<UniversalObjectPhysics>();
+						if (UOP != null)
+						{
+							//our container has a pushpull, so use its parent
+							return UOP;
+						}
+					}
+				}
+				return ObjectPhysics;
+			}
+		}
 
 
 		// stored contents and their positional offsets, if applicable
@@ -51,7 +80,6 @@ namespace Objects
 		private void Awake()
 		{
 			registerTile = GetComponent<RegisterTile>();
-			pushPullObject = GetComponent<PushPull>();
 			ObjectPhysics = GetComponent<UniversalObjectPhysics>();
 
 
@@ -105,7 +133,7 @@ namespace Objects
 
 			if (obj.TryGetComponent<UniversalObjectPhysics>(out var objectPhysics))
 			{
-				objectPhysics.StoreTo(ObjectPhysics);
+				objectPhysics.StoreTo(this);
 
 				if (obj.TryGetComponent<PlayerScript>(out var playerScript))
 				{
@@ -137,13 +165,13 @@ namespace Objects
 
 		public void GatherObjects()
 		{
-			foreach (var entity in registerTile.Matrix.Get<ObjectBehaviour>(registerTile.LocalPositionServer, true))
+			foreach (var entity in registerTile.Matrix.Get<UniversalObjectPhysics>(registerTile.LocalPositionServer, true))
 			{
 				// Don't add the container to itself...
 				if (entity.gameObject == gameObject) continue;
 
 				// Can't store secured objects (exclude this check on mobs as e.g. magboots set pushable false)
-				if (entity.IsPushable == false) continue;
+				if (entity.IsNotPushable) continue;
 
 				//No Nested ObjectContainer shenanigans
 				if (entity.GetComponent<ObjectContainer>()) continue;
@@ -185,7 +213,7 @@ namespace Objects
 
 			if (obj.TryGetComponent<UniversalObjectPhysics>(out var uop))
 			{
-				uop.DropAtAndInheritMomentum(pushPullObject.GetComponent<UniversalObjectPhysics>());
+				uop.DropAtAndInheritMomentum(ObjectPhysics);
 				uop.StoreTo(null);
 				if (obj.TryGetComponent<PlayerScript>(out var playerScript))
 				{
@@ -219,7 +247,7 @@ namespace Objects
 				if (kvp.Key == null) continue;
 
 				storedObjects[kvp.Key] = kvp.Value;
-				kvp.Key.GetComponent<ObjectBehaviour>().parentContainer = pushPullObject;
+				kvp.Key.GetComponent<UniversalObjectPhysics>().StoreTo( this );
 
 				if (kvp.Key.TryGetComponent<PlayerScript>(out var playerScript))
 				{
@@ -257,9 +285,9 @@ namespace Objects
 		/// <returns>Returns true if at least one ObjectContainer exists on the same tile.</returns>
 		public bool IsAnotherContainerNear()
 		{
-			foreach (var entity in registerTile.Matrix.Get<ObjectBehaviour>(registerTile.LocalPositionServer, true))
+			foreach (var entity in registerTile.Matrix.Get<UniversalObjectPhysics>(registerTile.LocalPositionServer, true))
 			{
-				if (entity.GetComponent<ObjectContainer>() && entity != pushPullObject)
+				if (entity.GetComponent<ObjectContainer>() && entity != ObjectPhysics)
 				{
 					return true;
 				}
@@ -267,5 +295,18 @@ namespace Objects
 
 			return false;
 		}
+	}
+}
+
+public static class ObjectContainerReaderWriter
+{
+	public static ObjectContainer Deserialize(this NetworkReader reader)
+	{
+		return NetworkIdentity.spawned[reader.ReadUInt()].GetComponent<ObjectContainer>();
+	}
+
+	public static void Serialize(this NetworkWriter writer, ObjectContainer message)
+	{
+		writer.WriteUInt(message.GetComponent<NetworkIdentity>().netId);
 	}
 }

@@ -270,7 +270,7 @@ public class RegisterPlayer : RegisterTile, IServerSpawn, RegisterPlayer.IContro
 		AudioSourceParameters audioSourceParameters = new AudioSourceParameters(pitch: Random.Range(0.9f, 1.1f));
 		SoundManager.PlayNetworkedAtPos(CommonSounds.Instance.Slip, WorldPositionServer, audioSourceParameters, sourceObj: gameObject);
 		// Let go of pulled items.
-		playerScript.pushPull.ServerStopPulling();
+		playerScript.objectPhysics.StopPulling();
 	}
 
 	/// <summary>

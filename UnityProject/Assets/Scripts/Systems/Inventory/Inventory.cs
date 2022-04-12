@@ -348,8 +348,8 @@ public static class Inventory
 		//decide how it should be removed
 		var removeType = toPerform.RemoveType;
 		var holder = fromSlot.GetRootStorageOrPlayer();
-		var holderPushPull = holder?.GetComponent<UniversalObjectPhysics>();
-		var parentContainer = holderPushPull == null ? null : holderPushPull.ContainedInContainer;
+		var universalObjectPhysics = holder?.GetComponent<UniversalObjectPhysics>();
+		var parentContainer = universalObjectPhysics == null ? null : universalObjectPhysics.ContainedInContainer;
 		if (parentContainer != null && removeType == InventoryRemoveType.Throw)
 		{
 			Logger.LogTraceFormat("throwing from slot {0} while in container {1}. Will drop instead.", Category.Inventory,
@@ -378,7 +378,7 @@ public static class Inventory
 					Logger.LogWarningFormat("Dropping from slot {0} while in container {1}, but container type was not recognized. " +
 					                      "Currently only ObjectContainer is supported. Please add code to handle this case.", Category.Inventory,
 						fromSlot,
-						holderPushPull.ContainedInContainer.name);
+						universalObjectPhysics.ContainedInContainer.name);
 					return false;
 				}
 				//vanish it and set its parent container
@@ -425,7 +425,7 @@ public static class Inventory
 				 , Single.NaN, toPerform.ThrowAim.GetValueOrDefault(BodyPartType.Chest), holder.gameObject );
 
 			// Counter-impulse for players in space
-			holderPushPull.NewtonianNewtonPush(-WorldTrajectory,UOP.GetWeight() + 1);
+			universalObjectPhysics.NewtonianNewtonPush(-WorldTrajectory,UOP.GetWeight() + 1);
 		}
 		// NOTE: vanish doesn't require any extra logic. The item is already at hiddenpos and has
 		// already been removed from the inventory system.
@@ -506,7 +506,7 @@ public static class Inventory
 		pickupable.GetComponent<UniversalObjectPhysics>().DisappearFromWorld();
 
 		// no longer inside any PushPull
-		pickupable.GetComponent<ObjectBehaviour>().parentContainer = null;
+		pickupable.GetComponent<UniversalObjectPhysics>().StoreTo(null) ;
 		pickupable.GetComponent<RegisterTile>().UpdatePositionServer();
 
 		// update pickupable's item and slot's item

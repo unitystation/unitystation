@@ -49,8 +49,9 @@ namespace Items.Others
 			if (gasContainer.GasMix.Moles <= 0) return;
 			if (player.PlayerSync.InputMovementDetected)//Is movement pressed?
 			{
-				if (player.pushPull.TryPush(player.CurrentDirection.ToLocalVector2Int(), player.playerMove.RunSpeed, true))
+				if (player.objectPhysics.CanPush(player.CurrentDirection.ToLocalVector2Int()))
 				{
+					player.objectPhysics.TryTilePush(player.CurrentDirection.ToLocalVector2Int(),false, player.playerMove.RunSpeed);
 					var domGas = gasContainer.GasMix.GetBiggestGasSOInMix();
 					if (domGas != null) gasContainer.GasMix.RemoveGas(domGas, gasReleaseOnUse);
 				}

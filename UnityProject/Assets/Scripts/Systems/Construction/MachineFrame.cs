@@ -39,7 +39,7 @@ namespace Objects.Construction
 		[SerializeField] private StatefulState circuitAddedState = null;
 		[SerializeField] private StatefulState partsAddedState = null;
 
-		private ObjectBehaviour objectBehaviour;
+		private UniversalObjectPhysics objectBehaviour;
 		private Integrity integrity;
 		private SpriteHandler spriteHandler;
 
@@ -66,7 +66,7 @@ namespace Objects.Construction
 		{
 			circuitBoardSlot = GetComponent<ItemStorage>().GetIndexedItemSlot(0);
 			stateful = GetComponent<Stateful>();
-			objectBehaviour = GetComponent<ObjectBehaviour>();
+			objectBehaviour = GetComponent<UniversalObjectPhysics>();
 
 			if (!CustomNetworkManager.IsServer) return;
 
@@ -704,7 +704,7 @@ namespace Objects.Construction
 			Inventory.ServerAdd(board, circuitBoardSlot);
 
 			// Set initial state
-			objectBehaviour.ServerSetPushable(false);
+			objectBehaviour.SetIsNotPushable(true);
 			stateful.ServerChangeState(partsAddedState);
 			putBoardInManually = false;
 		}

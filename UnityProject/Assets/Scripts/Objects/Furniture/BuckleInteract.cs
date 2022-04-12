@@ -47,14 +47,14 @@ namespace Objects
 				sameSquare = false;
 
 				bool canPush = false;
-				var playerPushPull = playerScript.pushPull;
+				var playerPushPull = playerScript.objectPhysics;
 				if (side == NetworkSide.Server)
 				{
-					canPush = playerPushPull.CanPushServer((Vector3Int)playerWorldPos, dir);
+					canPush = playerPushPull.CanPush( dir);
 				}
 				else
 				{
-					canPush = playerPushPull.CanPushClient((Vector3Int)playerWorldPos, dir);
+					canPush = playerPushPull.CanPush( dir);
 				}
 
 				if (canPush == false) return false;
@@ -105,7 +105,7 @@ namespace Objects
 
 			if (sameSquare == false)
 			{
-				playerScript.pushPull.QueuePush(dir, forcePush: allowImpassable);
+				playerScript.objectPhysics.NewtonianPush(dir);
 			}
 
 			BucklePlayer(playerScript);

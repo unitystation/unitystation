@@ -70,12 +70,12 @@ namespace Items
 
 			if (UnrestrictedAndspawn)
 			{
-				if (RegisterTile.TryGetComponent<ObjectBehaviour>(out var ObjectBehaviour))
+				if (RegisterTile.TryGetComponent<UniversalObjectPhysics>(out var ObjectBehaviour))
 				{
-					if (ObjectBehaviour.parentContainer != null)
+					if (ObjectBehaviour.ContainedInContainer != null)
 					{
 						//TODO Do item storage
-						if (ObjectBehaviour.parentContainer.TryGetComponent<ObjectContainer>(out var ObjectContainer))
+						if (ObjectBehaviour.ContainedInContainer.TryGetComponent<ObjectContainer>(out var ObjectContainer))
 						{
 							ObjectContainer.RetrieveObject(this.gameObject);
 						}
@@ -114,7 +114,7 @@ namespace Items
 			if (spawn == false) return;
 
 			var worldPos = gameObject.AssumedWorldPosServer();
-			var pushPull = GetComponent<PushPull>();
+			var pushPull = GetComponent<UniversalObjectPhysics>();
 			Spawn.ServerPrefab(item.Prefab, worldPos, count: maxAmt, scatterRadius: spread, sharePosition: pushPull);
 		}
 	}

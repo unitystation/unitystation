@@ -155,7 +155,7 @@ namespace Objects.Kitchen
 
 		private void CheckCooked(float cookTime)
 		{
-			var itemsOnGrill = Matrix.Get<ObjectBehaviour>(registerTile.LocalPositionServer, ObjectType.Item, true)
+			var itemsOnGrill = Matrix.Get<UniversalObjectPhysics>(registerTile.LocalPositionServer, ObjectType.Item, true)
 				.Where(ob => ob != null && ob.gameObject != gameObject);
 			foreach (var onGrill in itemsOnGrill)
 			{

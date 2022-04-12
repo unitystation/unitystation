@@ -181,12 +181,14 @@ public static class Validations
 	{
 		if (playerScript == null) return false;
 
-		var playerObjBehavior = playerScript.pushPull;
+		var playerObjBehavior = playerScript.objectPhysics;
 
-		if (CanInteract(playerScript, side, allowSoftCrit) == false)
-		{
-			return false;
-		}
+		//TODO READD
+
+		// if (CanInteract(playerScript, side, allowSoftCrit) == false)
+		// {
+			// return false;
+		// }
 
 		//no matter what, if player is in closet, they can only reach the closet
 		if (playerScript.IsHidden)
@@ -201,8 +203,8 @@ public static class Validations
 			else
 			{
 				//server checks if player is trying to click the container they are in.
-				var parentObj = playerObjBehavior.parentContainer != null
-					? playerObjBehavior.parentContainer.gameObject
+				var parentObj = playerObjBehavior.ContainedInContainer != null
+					? playerObjBehavior.ContainedInContainer.gameObject
 					: null;
 				return parentObj == target;
 			}

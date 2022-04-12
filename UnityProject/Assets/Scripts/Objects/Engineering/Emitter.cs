@@ -14,7 +14,7 @@ namespace Objects.Engineering
 	public class Emitter : MonoBehaviour, ICheckedInteractable<HandApply>, INodeControl, IExaminable, ICheckedInteractable<AiActivate>
 	{
 		private Rotatable directional;
-		private ObjectBehaviour objectBehaviour;
+		private UniversalObjectPhysics objectBehaviour;
 		private RegisterTile registerTile;
 		private SpriteHandler spriteHandler;
 		private AccessRestrictions accessRestrictions;
@@ -54,7 +54,7 @@ namespace Objects.Engineering
 		private void Awake()
 		{
 			directional = GetComponent<Rotatable>();
-			objectBehaviour = GetComponent<ObjectBehaviour>();
+			objectBehaviour = GetComponent<UniversalObjectPhysics>();
 			registerTile = GetComponent<RegisterTile>();
 			accessRestrictions = GetComponent<AccessRestrictions>();
 			clearanceCheckable = GetComponent<ClearanceCheckable>();
@@ -71,7 +71,7 @@ namespace Objects.Engineering
 				isWelded = true;
 				isWrenched = true;
 				directional.LockDirectionTo(true, directional.CurrentDirection);
-				objectBehaviour.ServerSetPushable(false);
+				objectBehaviour.SetIsNotPushable(true);
 			}
 		}
 
@@ -315,7 +315,7 @@ namespace Objects.Engineering
 					{
 						isWrenched = false;
 						directional.LockDirectionTo(false, directional.CurrentDirection);
-						objectBehaviour.ServerSetPushable(true);
+						objectBehaviour.SetIsNotPushable(false);
 						TogglePower(false);
 					});
 			}
@@ -337,7 +337,7 @@ namespace Objects.Engineering
 					{
 						isWrenched = true;
 						directional.LockDirectionTo(true, directional.CurrentDirection);
-						objectBehaviour.ServerSetPushable(false);
+						objectBehaviour.SetIsNotPushable(true);
 					});
 			}
 		}

@@ -27,7 +27,7 @@ namespace Items.Weapons
 		[SerializeField] private SpriteHandler spriteHandler;
 		[SerializeField] private ScaleSync scaleSync;
 		private RegisterItem registerItem;
-		private ObjectBehaviour objectBehaviour;
+		private UniversalObjectPhysics objectBehaviour;
 		private Pickupable pickupable;
 		private HasNetworkTabItem explosiveGUI;
 		[HideInInspector] public GUI_Explosive GUI;
@@ -59,7 +59,7 @@ namespace Items.Weapons
 			if(spriteHandler == null) spriteHandler = GetComponentInChildren<SpriteHandler>();
 			if(scaleSync == null) scaleSync = GetComponent<ScaleSync>();
 			registerItem = GetComponent<RegisterItem>();
-			objectBehaviour = GetComponent<ObjectBehaviour>();
+			objectBehaviour = GetComponent<UniversalObjectPhysics>();
 			pickupable = GetComponent<Pickupable>();
 			explosiveGUI = GetComponent<HasNetworkTabItem>();
 		}
@@ -82,7 +82,7 @@ namespace Items.Weapons
 		private void Detonate()
 		{
 			// Get data before despawning
-			var worldPos = objectBehaviour.AssumedWorldPositionServer();
+			var worldPos = objectBehaviour.registerTile.WorldPosition;
 			// Despawn the explosive
 			_ = Despawn.ServerSingle(gameObject);
 			Explosion.StartExplosion(worldPos, explosiveStrength);
@@ -91,7 +91,7 @@ namespace Items.Weapons
 		[Server]
 		private void AttachExplosive(GameObject target, Vector2 targetPostion)
 		{
-			if (target.TryGetComponent<PushPull>(out var handler))
+			if (target.TryGetComponent<UniversalObjectPhysics>(out var handler))
 			{
 				Inventory.ServerDrop(pickupable.ItemSlot, targetPostion);
 				attachedToObject = target;
@@ -132,7 +132,7 @@ namespace Items.Weapons
 		{
 			isOnObject = false;
 			pickupable.ServerSetCanPickup(true);
-			objectBehaviour.ServerSetPushable(true);
+			objectBehaviour.SetIsNotPushable(false);
 			scaleSync.SetScale(new Vector3(1f, 1f, 1f));
 			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, UpdateBombPosition);
 			attachedToObject = null;
@@ -189,7 +189,7 @@ namespace Items.Weapons
 				AttachExplosive(interaction.TargetObject, interaction.TargetVector);
 				isOnObject = true;
 				pickupable.ServerSetCanPickup(false);
-				objectBehaviour.ServerSetPushable(false);
+				objectBehaviour.SetIsNotPushable(true);
 				Chat.AddActionMsgToChat(interaction.Performer, $"You attach the {gameObject.ExpensiveName()} to {interaction.TargetObject.ExpensiveName()}",
 					$"{interaction.PerformerPlayerScript.visibleName} attaches a {gameObject.ExpensiveName()} to {interaction.TargetObject.ExpensiveName()}!");
 			}

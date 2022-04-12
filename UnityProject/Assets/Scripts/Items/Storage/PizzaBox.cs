@@ -33,7 +33,7 @@ namespace Items.Storage
 		[SerializeField] private SpriteHandler writingSprites;
 		[SerializeField] private SpriteHandler pizzaSprites;
 		[SerializeField] private ItemStorage pizzaBoxStorage;
-		[SerializeField] private ObjectBehaviour objectBehaviour;
+		[SerializeField] private UniversalObjectPhysics objectBehaviour;
 		[SerializeField, ShowIf("isBomb")] private HasNetworkTabItem netTab;
 		[HideInInspector] public GUI_PizzaBomb GUI;
 
@@ -72,7 +72,7 @@ namespace Items.Storage
 			if (isServer)
 			{
 				// Get data before despawning
-				var worldPos = objectBehaviour.AssumedWorldPositionServer();
+				var worldPos = objectBehaviour.registerTile.WorldPosition;
 
 				// Despawn the explosive
 				_ = Despawn.ServerSingle(gameObject);

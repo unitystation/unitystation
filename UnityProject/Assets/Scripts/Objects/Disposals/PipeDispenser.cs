@@ -15,7 +15,7 @@ namespace Objects.Atmospherics
 		[SerializeField]
 		private AddressableAudioSource OperatingSound = null;
 
-		private ObjectBehaviour objectBehaviour;
+		private UniversalObjectPhysics objectPhysics;
 		private WrenchSecurable securable;
 		private HasNetworkTab netTab;
 		private SpriteHandler spriteHandler;
@@ -39,7 +39,7 @@ namespace Objects.Atmospherics
 
 		private void Awake()
 		{
-			objectBehaviour = GetComponent<ObjectBehaviour>();
+			objectPhysics = GetComponent<UniversalObjectPhysics>();
 			securable = GetComponent<WrenchSecurable>();
 			netTab = GetComponent<HasNetworkTab>();
 			spriteHandler = transform.GetChild(0).GetComponent<SpriteHandler>();
@@ -64,7 +64,7 @@ namespace Objects.Atmospherics
 			if (MachineOperating || securable.IsAnchored == false) return;
 
 			this.RestartCoroutine(SetMachineOperating(), ref animationRoutine);
-			SpawnResult spawnResult = Spawn.ServerPrefab(objectPrefab, objectBehaviour.AssumedWorldPositionServer());
+			SpawnResult spawnResult = Spawn.ServerPrefab(objectPrefab, objectPhysics.registerTile.WorldPosition);
 			if (spawnResult.Successful == false)
 			{
 				Logger.LogError(
@@ -89,7 +89,7 @@ namespace Objects.Atmospherics
 		{
 			MachineOperating = true;
 			UpdateSprite();
-			SoundManager.PlayNetworkedAtPos(OperatingSound, objectBehaviour.AssumedWorldPositionServer(), sourceObj: gameObject);
+			SoundManager.PlayNetworkedAtPos(OperatingSound, objectPhysics.registerTile.WorldPosition, sourceObj: gameObject);
 			yield return WaitFor.Seconds(DISPENSING_TIME);
 			MachineOperating = false;
 			UpdateSprite();

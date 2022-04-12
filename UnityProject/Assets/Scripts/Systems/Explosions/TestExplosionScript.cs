@@ -6,12 +6,12 @@ namespace Systems.Explosions
 {
 	public class TestExplosionScript : MonoBehaviour
 	{
-		private ObjectBehaviour objectBehaviour;
+		private UniversalObjectPhysics objectBehaviour;
 		private RegisterObject registerObject;
 
 		private void Awake()
 		{
-			objectBehaviour = this.GetComponent<ObjectBehaviour>();
+			objectBehaviour = this.GetComponent<UniversalObjectPhysics>();
 			registerObject = this.GetComponent<RegisterObject>();
 		}
 

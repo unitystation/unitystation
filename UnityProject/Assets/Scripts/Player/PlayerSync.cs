@@ -61,10 +61,10 @@ public partial class PlayerSync : NetworkBehaviour, IPushable, IPlayerControllab
 	/// <summary>
 	/// Note - can be null if this is a ghost player
 	/// </summary>
-	private PushPull pushPull;
+	private UniversalObjectPhysics objectPhysics;
 
-	public bool IsBeingPulledServer => pushPull && pushPull.IsBeingPulled;
-	public bool IsBeingPulledClient => pushPull && pushPull.IsBeingPulledClient;
+	public bool IsBeingPulledServer => objectPhysics && objectPhysics.Pulling.HasComponent;
+	public bool IsBeingPulledClient => objectPhysics && objectPhysics.Pulling.HasComponent;
 
 	/// <summary>
 	/// true when player tries to break pull or leave container (e.g. locker).
@@ -82,7 +82,7 @@ public partial class PlayerSync : NetworkBehaviour, IPushable, IPlayerControllab
 	private void Awake()
 	{
 		playerScript = GetComponent<PlayerScript>();
-		pushPull = GetComponent<PushPull>();
+		objectPhysics = GetComponent<UniversalObjectPhysics>();
 		playerDirectional = GetComponent<Rotatable>();
 		registerPlayer = GetComponent<RegisterPlayer>();
 	}
@@ -288,18 +288,18 @@ public partial class PlayerSync : NetworkBehaviour, IPushable, IPlayerControllab
 
 	private bool IsAroundPushables(PlayerState state, bool isServer)
 	{
-		PushPull pushable;
+		UniversalObjectPhysics pushable;
 		return IsAroundPushables(state, isServer, out pushable);
 	}
 
 	/// Around player
-	private bool IsAroundPushables(PlayerState state, bool isServer, out PushPull pushable, GameObject except = null)
+	private bool IsAroundPushables(PlayerState state, bool isServer, out UniversalObjectPhysics pushable, GameObject except = null)
 	{
 		return IsAroundPushables(state.WorldPosition, isServer, out pushable, except);
 	}
 
 	/// Man, these are expensive and generate a lot of garbage. Try to use sparsely
-	private bool IsAroundPushables(Vector3 worldPos, bool isServer, out PushPull pushable, GameObject except = null)
+	private bool IsAroundPushables(Vector3 worldPos, bool isServer, out UniversalObjectPhysics pushable, GameObject except = null)
 	{
 		pushable = null;
 		foreach (Vector3Int pos in worldPos.CutToInt().BoundsAround().allPositionsWithin)
@@ -313,11 +313,11 @@ public partial class PlayerSync : NetworkBehaviour, IPushable, IPlayerControllab
 		return false;
 	}
 
-	private bool HasPushablesAt(Vector3 stateWorldPosition, bool isServer, out PushPull firstPushable,
+	private bool HasPushablesAt(Vector3 stateWorldPosition, bool isServer, out UniversalObjectPhysics firstPushable,
 		GameObject except = null)
 	{
 		firstPushable = null;
-		var pushables = MatrixManager.GetAt<PushPull>(stateWorldPosition.CutToInt(), isServer);
+		var pushables = MatrixManager.GetAt<UniversalObjectPhysics>(stateWorldPosition.CutToInt(), isServer);
 		foreach (var pushable in pushables)
 		{
 			if (pushable.gameObject == this.gameObject || except != null && pushable.gameObject == except)
@@ -394,7 +394,7 @@ public partial class PlayerSync : NetworkBehaviour, IPushable, IPlayerControllab
 	/// <param name="toWorldPosition">destination to move to</param>
 	/// <param name="swapper">pushpull of the person initiating the swap, to check if we should break our
 	/// current pull</param>
-	private void BeSwapped(Vector3Int toWorldPosition, PushPull swapper)
+	private void BeSwapped(Vector3Int toWorldPosition, UniversalObjectPhysics swapper)
 	{
 		if (isServer)
 		{
@@ -402,9 +402,9 @@ public partial class PlayerSync : NetworkBehaviour, IPushable, IPlayerControllab
 				toWorldPosition.To2Int());
 			PlayerState nextStateServer = NextStateSwap(serverState, toWorldPosition, true);
 			ServerState = nextStateServer;
-			if (pushPull != null && pushPull.IsBeingPulled && !pushPull.PulledBy == swapper)
+			if (objectPhysics != null && objectPhysics.PulledBy.HasComponent && !objectPhysics.PulledBy.Component == swapper)
 			{
-				pushPull.StopFollowing();
+				objectPhysics.PullSet(null);
 			}
 		}
 
@@ -426,7 +426,7 @@ public partial class PlayerSync : NetworkBehaviour, IPushable, IPlayerControllab
 	/// <param name="toWorldPosition">destination to swap to</param>
 	private void InitiateSwap(PlayerMove swapee, Vector3Int toWorldPosition)
 	{
-		swapee.PlayerScript.PlayerSync.BeSwapped(toWorldPosition, pushPull);
+		swapee.PlayerScript.PlayerSync.BeSwapped(toWorldPosition, objectPhysics);
 	}
 
 	#endregion
@@ -440,8 +440,8 @@ public partial class PlayerSync : NetworkBehaviour, IPushable, IPlayerControllab
 	[Server]
 	public void ServerTryEscapeContainer()
 	{
-		if (pushPull == null || pushPull.parentContainer == null) return;
-		GameObject parentContainer = pushPull.parentContainer.gameObject;
+		if (objectPhysics == null || objectPhysics.ContainedInContainer == null) return;
+		GameObject parentContainer = objectPhysics.ContainedInContainer.gameObject;
 
 		foreach (var escapable in parentContainer.GetComponents<IEscapable>())
 		{
@@ -466,9 +466,9 @@ public partial class PlayerSync : NetworkBehaviour, IPushable, IPlayerControllab
 					    isServer ? NetworkSide.Server : NetworkSide.Client))
 				{
 					//	If being pulled by another player and you try to break free
-					if (pushPull != null && pushPull.IsBeingPulledClient)
+					if (objectPhysics != null && objectPhysics.Pulling.HasComponent)
 					{
-						pushPull.CmdStopFollowing();
+						objectPhysics.PullSet(null);
 						didWiggle = true;
 					}
 					// Player inside something
@@ -680,7 +680,7 @@ public partial class PlayerSync : NetworkBehaviour, IPushable, IPlayerControllab
 	{
 		if (moveActions.moveActions.Length != 0 && !MoveCooldown && isLocalPlayer && playerMove != null && !didWiggle && ClientPositionReady)
 		{
-			bool beingDraggedWithCuffs = playerMove.IsCuffed && playerScript.pushPull.IsBeingPulledClient;
+			bool beingDraggedWithCuffs = playerMove.IsCuffed && playerScript.objectPhysics.PulledBy.HasComponent;
 
 			if (playerMove.allowInput && !beingDraggedWithCuffs && !UIManager.IsInputFocus && ActionSpeed(moveActions) > 0)
 			{
