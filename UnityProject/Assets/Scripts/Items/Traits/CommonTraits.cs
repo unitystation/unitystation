@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using NaughtyAttributes;
 using ScriptableObjects;
 using UnityEngine;
@@ -97,4 +98,6 @@ public class CommonTraits : SingletonScriptableObject<CommonTraits>
 	public ItemTrait ProximitySensor;
 	public ItemTrait PowerControlBoard;
 	public ItemTrait Beaker;
+
+	public List<ItemTrait> everyTraitOutThere = new List<ItemTrait>();
 }
