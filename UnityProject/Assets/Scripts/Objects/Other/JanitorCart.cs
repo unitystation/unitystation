@@ -15,7 +15,6 @@ namespace Objects.Other
 
 		private void Awake()
 		{
-			liquds = GetComponent<ReagentContainer>();
 			jaintorToolsHolding = GetComponent<ItemStorage>();
 		}
 
