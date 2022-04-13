@@ -100,6 +100,11 @@ PrefabInstance:
       propertyPath: m_AssetId
       value: 39f11c8504eb6b7409e8dba3179a52ca
       objectReference: {fileID: 0}
+    - target: {fileID: 1140667517167752775, guid: a7af28adb717b4c44b8b2002b27670bd,
+        type: 3}
+      propertyPath: Meleeable
+      value: 
+      objectReference: {fileID: 7988589231758933372}
     - target: {fileID: 1197192003336439530, guid: a7af28adb717b4c44b8b2002b27670bd,
         type: 3}
       propertyPath: initialName
@@ -241,6 +246,65 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 8248558368109462878}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &7988589231758933372 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2064319571996571682, guid: a7af28adb717b4c44b8b2002b27670bd,
+    type: 3}
+  m_PrefabInstance: {fileID: 8248558368109462878}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 450498622285847684}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0f68d36ed5e334f99b82dc3801757e89, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &772111864290309540
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 450498622285847684}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fdce8a163088453ca593c0e98f2c5f07, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemStorageStructure: {fileID: 11400000, guid: 74bf3e872403e488695c17ecdde194ab,
+    type: 2}
+  itemStorageCapacity: {fileID: 11400000, guid: 411b6b7a74c524a91b9a38a0c692761b,
+    type: 2}
+  itemStoragePopulator: {fileID: 0}
+  forceSpawnContents: 1
+  dropItemsOnDespawn: 1
+  UesAddlistPopulater: 1
+  Populater:
+    SlotContents: []
+    DeprecatedContents:
+    - {fileID: 359432221073519209, guid: 4dddcb74ff9a3ee4ca69bc6d757dca03, type: 3}
+  ashPrefab: {fileID: 2957035178188790827, guid: 9ac6968a3f3ed54428662c9aae5a4b32,
+    type: 3}
+--- !u!114 &2827566681100547254
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 450498622285847684}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 819809cff2481914d883a6e1fefb4edd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  MethodRotation: 0
+  ChangeSprites: 1
+  isChangingSO: 0
+  CurrentDirection: 3
+  IgnoreServerUpdatesIfLocalPlayer: 0
+  IsAtmosphericDevice: 0
+  doNotResetOtherSpriteOptions: 0
 --- !u!114 &4320299406662285398
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -258,7 +322,7 @@ MonoBehaviour:
   fillSpriteRender: {fileID: 4758289030963813880}
   fillIcons:
   - {fileID: 21300002, guid: a5f4f4df60b0b9140bfbfcf452db0502, type: 3}
---- !u!114 &7030391235084296120
+--- !u!114 &7087012579486443808
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -267,13 +331,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 450498622285847684}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a6adedb9416d7b647b6c3811ff2f0824, type: 3}
+  m_Script: {fileID: 11500000, guid: d7a784e759cd4d83a10d616f9999dbf4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   maxCapacity: 100
   reactionSet: {fileID: 11400000, guid: 2d5f766d9268838aa8d819bee2a442a7, type: 2}
   AdditionalReactions: []
-  canPourOut: 1
+  canPourOut: 0
   initialReagentMix:
     temperature: 273.15
     reagents:
@@ -284,9 +348,19 @@ MonoBehaviour:
   ContentsSet: 0
   UseStandardExamine: 1
   ExamineAmount: 0
-  ExamineContent: 0
+  ExamineContent: 1
   traitWhitelist: []
   reagentWhitelist: []
   transferMode: 0
   possibleTransferAmounts: []
-  transferAmount: 5
+  transferAmount: 20
+  dippingSound:
+    SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/footsteps/water/FootstepWater1.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
+  mopTrait: {fileID: 11400000, guid: 20597800d3cec8f438706d926881018b, type: 2}
+  trashbagTrait: {fileID: 11400000, guid: 3bc88a6fd0eb5cd49a3295a04e1ca62d, type: 2}
