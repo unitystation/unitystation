@@ -11,7 +11,6 @@ namespace Objects.Other
 		[SerializeField] private ItemTrait mopTrait;
 		[SerializeField] private ItemTrait trashbagTrait;
 
-		private ReagentContainer liquds;
 		private ItemStorage jaintorToolsHolding;
 
 		private void Awake()
