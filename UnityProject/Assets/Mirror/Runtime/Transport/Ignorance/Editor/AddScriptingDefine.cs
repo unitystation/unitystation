@@ -1,8 +1,8 @@
-// Ignorance 1.4.x
+// Ignorance 1.4.x LTS (Long Term Support)
 // https://github.com/SoftwareGuy/Ignorance
 // -----------------
 // Copyright (c) 2019 - 2021 Matt Coburn (SoftwareGuy/Coburn64)
-// Ignorance Transport is licensed under the MIT license. Refer
+// Ignorance is licensed under the MIT license. Refer
 // to the LICENSE file for more information.
 #if UNITY_EDITOR
 using System.Collections.Generic;
@@ -18,7 +18,7 @@ namespace IgnoranceTransport
     [InitializeOnLoad]
     public class AddIgnoranceDefine : Editor
     {
-        private static bool debugThisShit = false;
+        private static bool debugMode = false;
         private static string existingDefines = string.Empty;
 
         /// <summary>
@@ -76,7 +76,7 @@ namespace IgnoranceTransport
         {
             foreach(string s in DoNotRemoveTheseSymbols)
             {
-                if(debugThisShit)
+                if(debugMode)
                     UnityEngine.Debug.Log($"{s.Trim()} matches blacklist");
 
                 if (s == symbol.Trim()) return true;
@@ -89,7 +89,7 @@ namespace IgnoranceTransport
         {
             if (input.StartsWith("IGNORANCE") && !DoesSymbolExistInBlacklist(input))
             {
-                if (debugThisShit)
+                if (debugMode)
                     UnityEngine.Debug.Log($"{input.Trim()} is safe to remove");
 
                 return true;
