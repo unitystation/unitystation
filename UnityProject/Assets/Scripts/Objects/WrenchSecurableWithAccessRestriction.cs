@@ -10,29 +10,12 @@ namespace Objects
 	public class WrenchSecurableWithAccessRestriction : MonoBehaviour, ICheckedInteractable<HandApply>
 	{
 		private AccessRestrictions accessRestrictions;
-		public AccessRestrictions AccessRestrictions
-		{
-			get
-			{
-				if (accessRestrictions == false)
-				{
-					accessRestrictions = GetComponent<AccessRestrictions>();
-				}
-				return accessRestrictions;
-			}
-		}
 
 		private ObjectAttributes objectAttributes;
-		public ObjectAttributes ObjectAttributes
-		{
-			get
-			{
-				if (objectAttributes == false)
-				{
-					objectAttributes = GetComponent<ObjectAttributes>();
-				}
-				return objectAttributes;
-			}
+
+		void Awake() {
+			objectAttributes = GetComponent<ObjectAttributes>();
+			accessRestrictions = GetComponent<AccessRestrictions>();
 		}
 
 		public bool WillInteract(HandApply interaction, NetworkSide side)
@@ -40,7 +23,7 @@ namespace Objects
 			//start with the default HandApply WillInteract logic.
 			if (!DefaultWillInteract.Default(interaction, side)) return false;
 
-			return !(AccessRestrictions.CheckAccess(interaction.Performer) && Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Wrench));
+			return !(accessRestrictions.CheckAccess(interaction.Performer) && Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Wrench));
 		}
 
 		public void ClientPredictInteraction(HandApply interaction)
@@ -59,7 +42,7 @@ namespace Objects
 		{
 			if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Wrench))
 			{
-				string objectName = ObjectAttributes.name;
+				string objectName = objectAttributes.name;
 				//Notify player that they are unable to wrench down barrier
 				Chat.AddActionMsgToChat(interaction, "You try to wrench down the " + objectName + ", access is denied", "");
 			}
