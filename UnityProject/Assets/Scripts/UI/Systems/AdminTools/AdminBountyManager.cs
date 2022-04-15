@@ -59,7 +59,7 @@ namespace UI.Systems.AdminTools
 		{
 			bountiesAdderTab.SetActive(false);
 			bountiesManagerTab.SetActive(true);
-			CargoManager.Instance.CmdRequestServerData(PlayerManager.LocalPlayerScript.netIdentity.connectionToServer);
+			CargoManager.Instance.CmdRequestServerData(PlayerManager.LocalPlayerScript.netIdentity.connectionToClient);
 		}
 
 		public void ShowAdder()
@@ -100,7 +100,7 @@ namespace UI.Systems.AdminTools
 			}
 			//We ask to refresh the data we have first from the server.
 			//(Max) : Should we have a short delay for slow connections? Or does the mirror await it for us?
-			CargoManager.Instance.CmdRequestServerData(PlayerManager.LocalPlayerScript.netIdentity.connectionToServer);
+			CargoManager.Instance.CmdRequestServerData(PlayerManager.LocalPlayerScript.netIdentity.connectionToClient);
 		}
 	}
 }

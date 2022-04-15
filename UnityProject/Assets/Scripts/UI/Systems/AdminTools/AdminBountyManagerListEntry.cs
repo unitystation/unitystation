@@ -25,7 +25,7 @@ namespace UI.Systems.AdminTools
 
 		public void CompleteBounty()
 		{
-			CargoManager.Instance.CmdRemoveBounty(BountyIndex);
+			CargoManager.Instance.CmdRemoveBounty(BountyIndex, true);
 			Destroy(gameObject);
 		}
 	}

@@ -497,7 +497,7 @@ namespace Systems.Cargo
 		}
 
 		[Command(requiresAuthority = false)]
-		public void CmdRequestServerData(NetworkConnection requester)
+		public void CmdRequestServerData(NetworkConnectionToClient conn = null)
 		{
 			List<BountySyncData> simpleData = new List<BountySyncData>();
 			for (int i = 0; i < ActiveBounties.Count; i++)
@@ -508,7 +508,7 @@ namespace Systems.Cargo
 				foundBounty.Index = i;
 				simpleData.Add(foundBounty);
 			}
-			TargetSendCargoData(requester, simpleData);
+			TargetSendCargoData(conn, simpleData);
 		}
 
 		[TargetRpc]
@@ -518,7 +518,7 @@ namespace Systems.Cargo
 		}
 
 		[Command(requiresAuthority = false)]
-		public void CmdRemoveBounty(int index, bool completeBounty = true)
+		public void CmdRemoveBounty(int index, bool completeBounty)
 		{
 			if (completeBounty)
 			{
