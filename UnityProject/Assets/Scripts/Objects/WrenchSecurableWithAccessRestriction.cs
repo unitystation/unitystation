@@ -22,7 +22,7 @@ namespace Objects
 		public bool WillInteract(HandApply interaction, NetworkSide side)
 		{
 			//start with the default HandApply WillInteract logic.
-			if (!DefaultWillInteract.Default(interaction, side)) return false;
+			if (DefaultWillInteract.Default(interaction, side) == false) return false;
 
 			return !(accessRestrictions.CheckAccess(interaction.Performer) && Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Wrench));
 		}
