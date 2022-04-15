@@ -4,19 +4,23 @@ using System.Collections.Generic;
 using System.Text;
 using Items;
 using Items.Cargo.Wrapping;
+using Managers;
+using Mirror;
 using Objects;
 using Objects.Atmospherics;
+using Strings;
+using UI.Systems.AdminTools;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.SceneManagement;
 
 namespace Systems.Cargo
 {
-	public class CargoManager : MonoBehaviour
+	public class CargoManager : NetworkBehaviour
 	{
 		public static CargoManager Instance;
 
-		public int Credits;
+		[SyncVar] public int Credits;
 		public ShuttleStatus ShuttleStatus = ShuttleStatus.DockedStation;
 		public float CurrentFlyTime;
 		public string CentcomMessage = "";  // Message that will appear in status tab. Resets on sending shuttle to centcom.
@@ -473,7 +477,8 @@ namespace Systems.Cargo
 		/// <summary>
 		/// Adds a new bounty to the bounty list. Returns false if it fails.
 		/// </summary>
-		public bool AddBounty(ItemTrait trait, int amount, string description, int reward)
+		[Server]
+		public bool AddBounty(ItemTrait trait, int amount, string description, int reward, bool announce)
 		{
 			if(amount < 1 || reward < 1) return false;
 			CargoBounty newBounty = new CargoBounty();
@@ -481,7 +486,47 @@ namespace Systems.Cargo
 			newBounty.Description = description;
 			newBounty.Reward = reward;
 			ActiveBounties.Add(newBounty);
+			if(announce) CentComm.MakeAnnouncement(ChatTemplates.CentcomAnnounce, "A bounty for cargo has been issued from central communications", CentComm.UpdateSound.Notice);
 			return true;
+		}
+
+		[Command(requiresAuthority = false)]
+		public void CmdAddBounty(ItemTrait trait, int amount, string description, int reward, bool announce)
+		{
+			AddBounty(trait, amount, description, reward, announce);
+		}
+
+		[Command(requiresAuthority = false)]
+		public void CmdRequestServerData(NetworkConnection requester)
+		{
+			List<BountySyncData> simpleData = new List<BountySyncData>();
+			for (int i = 0; i < ActiveBounties.Count; i++)
+			{
+				var foundBounty = new BountySyncData();
+				foundBounty.Reward = ActiveBounties[i].Reward;
+				foundBounty.Desc = ActiveBounties[i].Description;
+				foundBounty.Index = i;
+				simpleData.Add(foundBounty);
+			}
+			TargetSendCargoData(requester, simpleData);
+		}
+
+		[TargetRpc]
+		private void TargetSendCargoData(NetworkConnection target, List<BountySyncData> data)
+		{
+			AdminBountyManager.Instance.RefreshBountiesList(data);
+		}
+
+		[Command(requiresAuthority = false)]
+		public void CmdRemoveBounty(int index, bool completeBounty = true)
+		{
+			if (completeBounty)
+			{
+				CompleteBounty(ActiveBounties[index]);
+				return;
+			}
+
+			ActiveBounties.Remove(ActiveBounties[index]);
 		}
 
 		private class ExportedItem
@@ -490,6 +535,13 @@ namespace Systems.Cargo
 			public string ExportName;
 			public int Count;
 			public int TotalValue;
+		}
+
+		public struct BountySyncData
+		{
+			public string Desc;
+			public int Reward;
+			public int Index;
 		}
 	}
 
