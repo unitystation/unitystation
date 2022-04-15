@@ -54,7 +54,10 @@ public class CustomNetworkManager : NetworkManager, IInitialise
 		{
 			new Task(SetUpSpawnablePrefabsIndex).Start();
 		}
-
+		if (ForeverIDLookupSpawnablePrefabs.Count == 0)
+		{
+			new Task(SetUpSpawnablePrefabsForEverID).Start();
+		}
 
 		if (Instance == null)
 		{
@@ -101,6 +104,7 @@ public class CustomNetworkManager : NetworkManager, IInitialise
 	{
 		for (int i = 0; i < allSpawnablePrefabs.Count; i++)
 		{
+			ForeverIDLookupSpawnablePrefabs[allSpawnablePrefabs[i].GetComponent<PrefabTracker>().ForeverID] = allSpawnablePrefabs[i];
 		}
 	}
 

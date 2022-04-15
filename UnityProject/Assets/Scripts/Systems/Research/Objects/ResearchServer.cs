@@ -1,13 +1,16 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.IO;
 using Mirror;
 using ScriptableObjects.Research;
 using UnityEngine;
+using Systems.Research.Data;
+using Systems.ObjectConnection;
 
 namespace Systems.Research.Objects
 {
-	public class ResearchServer : NetworkBehaviour
+	public class ResearchServer : NetworkBehaviour, IMultitoolMasterable
 	{
 		//TODO: PLACE HOLDER UNTIL WE GET A TECHWEB EDITOR OF SOME SORT
 		[SerializeField] private DefaultTechwebData defaultTechwebData;
@@ -18,6 +21,8 @@ namespace Systems.Research.Objects
 		[SerializeField] private string techWebFileName = "TechwebData.json";
 		[SerializeField] private int researchPointsTrickl = 25;
 		[SerializeField] private int TrickleTime = 60; //seconds
+
+		public List<string> AvailableDesigns = new List<string>();
 
 		private void Awake()
 		{
@@ -31,6 +36,25 @@ namespace Systems.Research.Objects
 			StopCoroutine(TrickleResources());
 		}
 
+		public List<string> UpdateAvailableDesigns()
+		{
+			List<string> availableDesigns = AvailableDesigns;
+
+			foreach (Technology tech in techweb.researchedTech)
+			{
+				foreach(string str in tech.DesignIDs)
+				{
+					if (!availableDesigns.Contains(str))
+					{
+						availableDesigns.Add(str);
+					}
+				}
+			}
+
+			AvailableDesigns = availableDesigns;
+
+			return AvailableDesigns; 
+		}
 		private IEnumerator TrickleResources()
 		{
 			while (this != null || techweb != null)
@@ -39,5 +63,16 @@ namespace Systems.Research.Objects
 				techweb.AddResearchPoints(researchPointsTrickl);
 			}
 		}
+
+		#region MultitoolInteraction
+
+		[SerializeField]
+		private MultitoolConnectionType conType = MultitoolConnectionType.ResearchServer;
+		public MultitoolConnectionType ConType => conType;
+
+		public bool MultiMaster => true;
+		int IMultitoolMasterable.MaxDistance => int.MaxValue;
+
+		#endregion
 	}
 }

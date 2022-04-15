@@ -3,6 +3,7 @@ using UnityEngine;
 using System.Collections.Generic;
 using System.Linq;
 using Newtonsoft.Json;
+using Systems.Research.Data;
 
 namespace Systems.Research
 {
@@ -60,11 +61,11 @@ public class Designs : MonoBehaviour
 
 	void Awake()
 	{
-		//if (!(Globals.IsInitialised))
-		//{
-		//	JsonImportInitialization();
-		//	Globals.IsInitialised = true;
-		//}
+		if (!(Globals.IsInitialised))
+		{
+			JsonImportInitialization();
+			Globals.IsInitialised = true;
+		}
 	}
 	public static class Globals
 	{
@@ -90,7 +91,6 @@ public class Designs : MonoBehaviour
 		};
 		public static Dictionary<string,Design> InternalIDSearch;
 
-
 	}
 	private static void JsonImportInitialization ()
 	{
@@ -115,6 +115,15 @@ public class Designs : MonoBehaviour
 					DesignPass.Category = JsonConvert.DeserializeObject<List<string>> (JsonTechnologies [i] ["Category"].ToString ());
 				} else {
 					DesignPass.Category = new List<string> ();
+				}
+
+				if (JsonTechnologies[i].ContainsKey("Materials"))
+				{
+					DesignPass.Materials = JsonConvert.DeserializeObject<Dictionary<string, int>>(JsonTechnologies[i]["Materials"].ToString());
+				}
+				else
+				{
+					DesignPass.Materials = new Dictionary<string, int>();
 				}
 
 				if (JsonTechnologies [i].ContainsKey ("Compatible_machinery")) {
