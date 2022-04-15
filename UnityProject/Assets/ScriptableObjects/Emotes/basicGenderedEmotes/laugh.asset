@@ -15,12 +15,110 @@ MonoBehaviour:
   emoteName: laugh
   requiresHands: 0
   allowEmoteWhileInCrit: 1
+  isAudibleEmote: 1
   allowEmoteWhileCrawling: 1
   viewText: laughs.
   youText: You let out a laugh.
   failText: Not Funny. Didn't laugh.
+  mouthBlockedText: You are unable to make a sound!
   critViewText: hides their pain behind a laugh.
+  soundsAreTyped: 1
   defaultSounds: []
-  maleSounds: []
-  femaleSounds: []
-  pitchRange: {x: 0.7, y: 1}
+  TypedSounds:
+  - VoiceRace: {fileID: 11400000, guid: 4c4d0af544e2b6847a3902db71f721fd, type: 2}
+    VoiceDatas:
+    - VoiceSex: 1
+      Sounds:
+      - SetLoadSetting: 0
+        AssetAddress: Assets/Prefabs/Voices/Moth/Laugh/MothLaugh.prefab
+        AssetReference:
+          m_AssetGUID: 
+          m_SubObjectName: 
+          m_SubObjectType: 
+    - VoiceSex: 2
+      Sounds:
+      - SetLoadSetting: 0
+        AssetAddress: Assets/Prefabs/Voices/Moth/Laugh/MothLaugh.prefab
+        AssetReference:
+          m_AssetGUID: 
+          m_SubObjectName: 
+          m_SubObjectType: 
+  - VoiceRace: {fileID: 11400000, guid: f0deb843b714e8f4590d893251718804, type: 2}
+    VoiceDatas:
+    - VoiceSex: 1
+      Sounds:
+      - SetLoadSetting: 0
+        AssetAddress: Assets/Prefabs/Voices/Feliend/Laughs/FelinindLaugh.prefab
+        AssetReference:
+          m_AssetGUID: 
+          m_SubObjectName: 
+          m_SubObjectType: 
+      - SetLoadSetting: 0
+        AssetAddress: Assets/Prefabs/Voices/Feliend/Laughs/FelinindLaugh 1.prefab
+        AssetReference:
+          m_AssetGUID: 
+          m_SubObjectName: 
+          m_SubObjectType: 
+      - SetLoadSetting: 0
+        AssetAddress: Assets/Prefabs/Voices/Feliend/Laughs/FelinindLaugh 2.prefab
+        AssetReference:
+          m_AssetGUID: 
+          m_SubObjectName: 
+          m_SubObjectType: 
+      - SetLoadSetting: 0
+        AssetAddress: Assets/Prefabs/Voices/Feliend/Laughs/FelinindLaugh 3.prefab
+        AssetReference:
+          m_AssetGUID: 
+          m_SubObjectName: 
+          m_SubObjectType: 
+    - VoiceSex: 2
+      Sounds:
+      - SetLoadSetting: 0
+        AssetAddress: Assets/Prefabs/Voices/Feliend/Laughs/FelinindLaugh.prefab
+        AssetReference:
+          m_AssetGUID: 
+          m_SubObjectName: 
+          m_SubObjectType: 
+      - SetLoadSetting: 0
+        AssetAddress: Assets/Prefabs/Voices/Feliend/Laughs/FelinindLaugh 1.prefab
+        AssetReference:
+          m_AssetGUID: 
+          m_SubObjectName: 
+          m_SubObjectType: 
+      - SetLoadSetting: 0
+        AssetAddress: Assets/Prefabs/Voices/Feliend/Laughs/FelinindLaugh 2.prefab
+        AssetReference:
+          m_AssetGUID: 
+          m_SubObjectName: 
+          m_SubObjectType: 
+      - SetLoadSetting: 0
+        AssetAddress: Assets/Prefabs/Voices/Feliend/Laughs/FelinindLaugh 3.prefab
+        AssetReference:
+          m_AssetGUID: 
+          m_SubObjectName: 
+          m_SubObjectType: 
+  - VoiceRace: {fileID: 11400000, guid: f8cc40dce57da8d4aa283decb92b4507, type: 2}
+    VoiceDatas:
+    - VoiceSex: 1
+      Sounds:
+      - SetLoadSetting: 0
+        AssetAddress: Assets/Prefabs/Voices/Human/Laughs/MaleLaugh1.prefab
+        AssetReference:
+          m_AssetGUID: 
+          m_SubObjectName: 
+          m_SubObjectType: 
+      - SetLoadSetting: 0
+        AssetAddress: Assets/Prefabs/Voices/Human/Laughs/MaleLaugh2.prefab
+        AssetReference:
+          m_AssetGUID: 
+          m_SubObjectName: 
+          m_SubObjectType: 
+    - VoiceSex: 2
+      Sounds:
+      - SetLoadSetting: 0
+        AssetAddress: Assets/Prefabs/Voices/Human/Laughs/FemaleLaugh.prefab
+        AssetReference:
+          m_AssetGUID: 
+          m_SubObjectName: 
+          m_SubObjectType: 
+  pitchRange: {x: 0.8, y: 1}

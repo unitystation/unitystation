@@ -71,8 +71,6 @@ public class UIManager : MonoBehaviour, IInitialise
 
 	public CraftingMenu CraftingMenu;
 
-	public RadialMenu radialMenu;
-
 	public SplittingMenu SplittingMenu;
 
 	public static bool PreventChatInput
@@ -193,7 +191,7 @@ public class UIManager : MonoBehaviour, IInitialise
 	}
 
 	public static BuildMenu BuildMenu => Instance.buildMenu;
-	public static RadialMenu RadialMenu => Instance.radialMenu;
+
 	public static ZoneSelector ZoneSelector => Instance.zoneSelector;
 
 	public static GUI_Info InfoWindow => Instance.infoWindow;

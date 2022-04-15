@@ -2,6 +2,7 @@
 using DatabaseAPI;
 using Messages.Client.Admin;
 using UI.AdminTools;
+using UI.Systems.AdminTools;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -14,6 +15,7 @@ namespace AdminTools
 		[SerializeField] private Toggle quickRespawnToggle = default;
 		[SerializeField] private Text mentorButtonText = null;
 		[SerializeField] private AdminRespawnPage adminRespawnPage = default;
+
 
 		public AdminPlayerEntry PlayerEntry { get; private set; }
 
@@ -202,6 +204,24 @@ namespace AdminTools
 				isAghost,
 				coord
 				);
+		}
+
+		public void GiveItemToPlayerButton()
+		{
+			adminTools.giveItemPage.selectedPlayer = null;
+			var players = FindObjectsOfType<PlayerScript>(); //since this is client sided it's fiinnnneee
+			foreach (var possiblePlayer in players)
+			{
+				if(possiblePlayer.connectedPlayer.UserId != PlayerEntry.PlayerData.uid) continue;
+				adminTools.giveItemPage.selectedPlayer = possiblePlayer.connectedPlayer;
+			}
+
+			if (adminTools.giveItemPage.selectedPlayer == null)
+			{
+				Logger.LogWarning("Unable to find player to give item to! Are you sure that they joined the game?");
+				return;
+			}
+			adminTools.ShowGiveItemPagePage();
 		}
 	}
 }

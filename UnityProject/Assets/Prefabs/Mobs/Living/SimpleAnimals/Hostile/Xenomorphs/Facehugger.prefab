@@ -7,6 +7,21 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 941816724250882487, guid: cf769d410d94f0e47bab5eee03a3b07d,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 941816724250882487, guid: cf769d410d94f0e47bab5eee03a3b07d,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 941816724250882487, guid: cf769d410d94f0e47bab5eee03a3b07d,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
     - target: {fileID: 3783638323905235520, guid: cf769d410d94f0e47bab5eee03a3b07d,
         type: 3}
       propertyPath: m_RootOrder
@@ -193,7 +208,6 @@ MonoBehaviour:
       m_AssetGUID: 
       m_SubObjectName: 
       m_SubObjectType: 
-      m_EditorAssetChanged: 0
   randomSounds: []
   playRandomSoundTimer: 3
   randomSoundProbability: 20
@@ -220,7 +234,8 @@ MonoBehaviour:
   onlyActOnTarget: 0
   doLerpOnAction: 1
   spriteHolder: {fileID: 6655050449683268901}
-  actionCooldown: 1
+  actionCooldown: 3
+  isOnCooldown: 0
   maskObject: {fileID: 8320299039891337921, guid: 6fecf534029349145b17735e15c9498c,
     type: 3}
   bite:
@@ -230,4 +245,3 @@ MonoBehaviour:
       m_AssetGUID: 
       m_SubObjectName: 
       m_SubObjectType: 
-      m_EditorAssetChanged: 0

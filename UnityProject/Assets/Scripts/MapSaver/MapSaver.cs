@@ -370,6 +370,8 @@ namespace MapSaver
 						}
 
 
+						if (TileAndLocation.Value?.layerTile == null) continue;
+
 						if (CommonLayerTilesCount.ContainsKey(TileAndLocation.Value.layerTile))
 						{
 							CommonLayerTilesCount[TileAndLocation.Value.layerTile]++;
@@ -474,6 +476,8 @@ namespace MapSaver
 				{
 					foreach (var TileAndLocation in Layer.Value)
 					{
+						if (TileAndLocation.Value?.layerTile == null) continue;
+
 						if (UseBoundary)
 						{
 							if (IsPointWithin(Localboundarie1.Value, Localboundarie2.Value, TileAndLocation.Key) ==
@@ -934,6 +938,8 @@ namespace MapSaver
 
 				var PrefabDefault = Field.GetValue(PrefabInstance);
 				var MonoSet = Field.GetValue(SpawnedInstance);
+
+				if (MonoSet == null) continue;
 
 				var selfValueComparer = PrefabDefault as IComparable;
 				bool areSame;

@@ -1,10 +1,11 @@
 using Communications;
 using Managers;
+using Systems.Communications;
 using Util;
 
 namespace Objects.Telecomms
 {
-	public class LocalRadioListener : SignalEmitter
+	public class LocalRadioListener : SignalEmitter, IChatInfluencer
 	{
 		public void SendData(ChatEvent chat)
 		{
@@ -39,6 +40,17 @@ namespace Objects.Telecomms
 		public override void SignalFailed()
 		{
 			Chat.AddLocalMsgToChat("ksshhhk!", gameObject);
+		}
+
+		public bool WillInfluenceChat()
+		{
+			return true; //other checks such as being powered can be checked for later
+		}
+
+		public ChatEvent InfluenceChat(ChatEvent chatToManipulate)
+		{
+			SendData(chatToManipulate);
+			return chatToManipulate;
 		}
 	}
 

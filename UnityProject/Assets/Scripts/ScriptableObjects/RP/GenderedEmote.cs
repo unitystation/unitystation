@@ -16,7 +16,12 @@ namespace ScriptableObjects.RP
 			if(CheckAllBaseConditions(player) == false) return;
 			HealthCheck(player);
 			Chat.AddActionMsgToChat(player, $"{youText}", $"{player.ExpensiveName()} {viewTextFinal}.");
-			PlayAudio(GetBodyTypeAudio(player), player);
+			if (soundsAreTyped)
+			{
+				PlayAudio(GetBodyTypeAudio(player), player);
+				return;
+			}
+			PlayAudio(defaultSounds, player);
 		}
 
 		private void HealthCheck(GameObject player)

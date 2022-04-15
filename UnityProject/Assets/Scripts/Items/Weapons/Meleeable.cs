@@ -26,6 +26,10 @@ namespace Systems.Interaction
 				}
 				return isMeleeable;
 			}
+			set
+			{
+				isMeleeable = value;
+			}
 		}
 
 		/// <summary>
@@ -48,6 +52,7 @@ namespace Systems.Interaction
 
 		public bool WillInteract(PositionalHandApply interaction, NetworkSide side)
 		{
+			if (isMeleeable == false) return false;
 			if (DefaultWillInteract.Default(interaction, side) == false) return false;
 			// must be targeting us
 			if (interaction.TargetObject != gameObject) return false;

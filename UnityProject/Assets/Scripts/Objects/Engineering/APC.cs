@@ -12,6 +12,7 @@ using Systems.ObjectConnection;
 using Objects.Lighting;
 using Objects.Construction;
 using Core.Editor.Attributes;
+using CustomInspectors;
 using ScriptableObjects;
 using HealthV2;
 
@@ -19,7 +20,7 @@ namespace Objects.Engineering
 {
 	[RequireComponent(typeof(ElectricalNodeControl))]
 	[RequireComponent(typeof(ResistanceSourceModule))]
-	public class APC : SubscriptionController, INodeControl, ICheckedInteractable<HandApply>, IServerDespawn, IMultitoolMasterable
+	public class APC : ImnterfaceMultitoolGUI, ISubscriptionController, INodeControl, ICheckedInteractable<HandApply>, IServerDespawn, IMultitoolMasterable
 	{
 		// -----------------------------------------------------
 		//					ELECTRICAL THINGS
@@ -89,6 +90,7 @@ namespace Objects.Engineering
 		private void OnEnable()
 		{
 			integrity.OnWillDestroyServer.AddListener(WhenDestroyed);
+			base.OnEnable();
 		}
 
 		private void Start()
@@ -485,7 +487,7 @@ namespace Objects.Engineering
 			}
 		}
 
-		public override IEnumerable<GameObject> SubscribeToController(IEnumerable<GameObject> potentialObjects)
+		public IEnumerable<GameObject> SubscribeToController(IEnumerable<GameObject> potentialObjects)
 		{
 			var approvedObjects = new List<GameObject>();
 

@@ -1,9 +1,9 @@
 ﻿using System;
+using System.IO;
 using System.Text;
 using System.Threading;
-using Debug = UnityEngine.Debug;
-using System.IO;
 using Mirror.RemoteCalls;
+using Debug = UnityEngine.Debug;
 
 namespace Managers
 {
@@ -90,12 +90,11 @@ namespace Managers
 	        }
 
 	        //cmd and rcp checkpoints
-	        if (RemoteCallHelper.mirrorProcessingCMD)
+	        if (RemoteProcedureCalls.mirrorProcessingCMD)
 	        {
-		        var className = RemoteCallHelper.mirrorLastInvoker.invokeClass.FullName;
-		        var methodName = RemoteCallHelper.mirrorLastInvoker.invokeFunction.Method.Name;
-		        var invokeType = RemoteCallHelper.mirrorLastInvoker.invokeType;
-		        stringBuilder.AppendLine($" - Mirror {invokeType} - class: {className} - method: {methodName}");
+		        var className = RemoteProcedureCalls.mirrorLastInvoker.function.Method.DeclaringType.Name;
+				var methodName = RemoteProcedureCalls.mirrorLastInvoker.function.Method.Name;
+				stringBuilder.AppendLine($" - Mirror invoke - class: {className} - method: {methodName}");
 	        }
 
 	        //game message checkpoints

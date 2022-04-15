@@ -655,6 +655,12 @@ public class MatrixMove : ManagedBehaviour
 
 			matrixPositionFilter.FilterPosition(transform, transform.position, clientState.FlyingDirection);
 		}
+
+
+		lock (matrix.MetaTileMap.matrix)
+		{
+			matrix.MetaTileMap.GlobalCachedBounds = null;
+		}Our stupid
 	}
 
 	/// Serverside movement routine
@@ -799,6 +805,11 @@ public class MatrixMove : ManagedBehaviour
 		var oldState = clientState;
 
 		clientState = newState;
+		lock (matrix.MetaTileMap.matrix)
+		{
+			matrix.MetaTileMap.GlobalCachedBounds = null;
+		}
+
 		Logger.LogTraceFormat("{0} setting client / client target state from message {1}", Category.Shuttles, this, newState);
 
 
@@ -879,6 +890,11 @@ public class MatrixMove : ManagedBehaviour
 	[Server]
 	private void TryNotifyPlayers()
 	{
+		lock (matrix.MetaTileMap)
+		{
+			matrix.MetaTileMap.GlobalCachedBounds = null;
+		}
+
 		if (ServerPositionsMatch)
 		{
 			//				When serverState reaches its planned destination,

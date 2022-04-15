@@ -1,16 +1,19 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
 using NaughtyAttributes;
 using Communications;
+using Items.Weapons;
 using Managers;
 using Systems.Explosions;
 using UI.Items;
+using Mirror;
 
 namespace Items.Storage
 {
-	public class PizzaBox : SignalReceiver, ICheckedInteractable<HandApply>, IInteractable<InventoryApply>
+	public class PizzaBox : ExplosiveBase, ICheckedInteractable<HandApply>, IInteractable<InventoryApply>
 	{
 		[Header("Settings")]
 		[SerializeField] private ItemTrait pizzaTrait;
@@ -19,23 +22,19 @@ namespace Items.Storage
 		[SerializeField] private SpriteDataSO spritePizzaBoxMessy;
 		[SerializeField, ShowIf("isBomb")] private SpriteDataSO spritePizzaBoxBombInactive;
 		[SerializeField, ShowIf("isBomb")] private SpriteDataSO spritePizzaBoxBombActive;
-		private bool isOpen = false;
-		private bool hadPizza = false;
-		private bool bombIsCountingDown;
-		private int timeToDetonate;
+		[SyncVar] private bool isOpen = false;
+		[SyncVar] private bool hadPizza = false;
+		[SyncVar] private bool bombIsCountingDown;
 		private bool detenationOnTimer = false;
-		private bool isArmed;
 		[SerializeField] private bool isBomb = false;
-		[SerializeField, ShowIf("isBomb")] private float bombStrength = 3700;
 		[SerializeField] private string writtenNote = "";
 		[Header("Components")]
 		[SerializeField] private SpriteHandler boxSprites;
 		[SerializeField] private SpriteHandler writingSprites;
 		[SerializeField] private SpriteHandler pizzaSprites;
 		[SerializeField] private ItemStorage pizzaBoxStorage;
-		[SerializeField] private UniversalObjectPhysics objectBehaviour;
 		[SerializeField, ShowIf("isBomb")] private HasNetworkTabItem netTab;
-		[HideInInspector] public GUI_PizzaBomb GUI;
+		[HideInInspector] public GUI_PizzaBomb PizzaGui;
 
 		public bool BombIsCountingDown
 		{
@@ -67,31 +66,18 @@ namespace Items.Storage
 			}
 		}
 
-		private void Detonate()
+		public override IEnumerator Countdown()
 		{
-			if (isServer)
-			{
-				// Get data before despawning
-				var worldPos = objectBehaviour.registerTile.WorldPosition;
-
-				// Despawn the explosive
-				_ = Despawn.ServerSingle(gameObject);
-				Explosion.StartExplosion(worldPos, bombStrength);
-			}
-		}
-
-		public async void Countdown()
-		{
-			if (bombIsCountingDown) return;
+			if (bombIsCountingDown) yield break;
 			bombIsCountingDown = true;
-			if(isOpen) pizzaSprites.SetSpriteSO(spritePizzaBoxBombActive);
+			if (isOpen) pizzaSprites.SetSpriteSO(spritePizzaBoxBombActive);
 			if (writtenNote != "")
 			{
-				Chat.AddLocalMsgToChat($"<color=red>An explsovive can be seen from the {gameObject.ExpensiveName()} " +
+				Chat.AddLocalMsgToChat($"<color=red>An explosive can be seen ticking from the {gameObject.ExpensiveName()} " +
 				                       $"and below it is a note that reads '{writtenNote}'!</color>", gameObject);
 			}
-			if (GUI != null) GUI.StartCoroutine(GUI.UpdateTimer());
-			await Task.Delay(timeToDetonate * 1000).ConfigureAwait(false); //Delay is in milliseconds
+			if (PizzaGui != null) PizzaGui.StartCoroutine(PizzaGui.UpdateTimer());
+			yield return WaitFor.Seconds(timeToDetonate);
 			Detonate();
 		}
 
@@ -114,7 +100,7 @@ namespace Items.Storage
 			UpdatePizzaSprites();
 			if (isArmed && detenationOnTimer == false)
 			{
-				Countdown();
+				StartCoroutine(Countdown());
 				return;
 			}
 			if (isBomb)
@@ -165,13 +151,8 @@ namespace Items.Storage
 			}
 			if (interaction.UsedObject != null)
 			{
-				if (interaction.UsedObject.Item().HasTrait(pizzaTrait))
+				if(TryAddPizza(interaction.UsedObject) == false)
 				{
-					if (pizzaBoxStorage.ServerTryTransferFrom(interaction.UsedObject))
-					{
-						UpdatePizzaSprites();
-						return;
-					}
 					Chat.AddExamineMsg(interaction.Performer, $"<color=red>You can't add {interaction.UsedObject} " +
 					                                          $"to the {gameObject.ExpensiveName()} because there's already something in it!</color>");
 					return;
@@ -197,6 +178,13 @@ namespace Items.Storage
 				OpenBox();
 				return;
 			}
+			if (isOpen && interaction.TargetObject != null && interaction.TargetObject != gameObject)
+			{
+				if(TryAddPizza(interaction.TargetObject)) return;
+				Chat.AddExamineMsg(interaction.Performer, $"<color=red>You can't add {interaction.TargetObject} " +
+				                                          $"to the {gameObject.ExpensiveName()} because there's already something in it!</color>");
+				return;
+			}
 			if (isBomb && interaction.IsAltClick == false)
 			{
 				netTab.ServerPerformInteraction(interaction);
@@ -205,12 +193,23 @@ namespace Items.Storage
 			CloseBox();
 		}
 
-		public override void ReceiveSignal(SignalStrength strength, ISignalMessage message = null)
+		private bool TryAddPizza(GameObject pizzaItem)
+		{
+			if (pizzaItem.Item().HasTrait(pizzaTrait) == false) return false;
+			if (pizzaBoxStorage.ServerTryTransferFrom(pizzaItem))
+			{
+				UpdatePizzaSprites();
+				return true;
+			}
+			return false;
+		}
+
+		public override void ReceiveSignal(SignalStrength strength, SignalEmitter responsibleEmitter, ISignalMessage message = null)
 		{
 			if(isArmed == false) return;
 			if (detenationOnTimer)
 			{
-				Countdown();
+				StartCoroutine(Countdown());
 				return;
 			}
 			Detonate();

@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using Systems.Ai;
 using Messages.Server;
 using Objects.Telecomms;
+using Systems.Communications;
 using UI.Chat_UI;
 
 /// <summary>
@@ -168,7 +169,7 @@ public class ChatRelay : NetworkBehaviour
 					}
 				}
 
-				if (radioCheckIsOnCooldown == false) CheckForRadios(chatEvent);
+				if (radioCheckIsOnCooldown == false) chatEvent = CheckForRadios(chatEvent);
 			}
 		}
 
@@ -222,58 +223,31 @@ public class ChatRelay : NetworkBehaviour
 		}
 	}
 
-	private void CheckForRadios(ChatEvent chatEvent)
+	private ChatEvent CheckForRadios(ChatEvent chatEvent)
 	{
 		HandleRadioCheckCooldown();
 		var SBRSpamCheck = false;
 		// Only spoken messages should be forwarded
 		if (chatEvent.channels.HasFlag(ChatChannel.Local) == false)
 		{
-			return;
+			return chatEvent;
 		}
-
-		//Check for radios on the player first
-		if (chatEvent.originator != null)
-		{
-			//Check for chat when the item is inside the player's inventory
-			if (chatEvent.originator.TryGetComponent<PlayerScript>(out var playerScript))
-			{
-				foreach (var slots in playerScript.DynamicItemStorage.ServerContents.Values)
-				{
-					if (SBRSpamCheck == true) break;
-					foreach (var slot in slots)
-					{
-						if (slot.IsEmpty) continue;
-						if (slot.Item.TryGetComponent<LocalRadioListener>(out var listener)
-							&& listener != chatEvent.originator)
-						{
-							listener.SendData(chatEvent);
-							SBRSpamCheck = true;
-						}
-					}
-				}
-			}
-		}
-
-		//If we sent the message through the radio that's on a player's inventory, stop so we don't call a physics function.
-		if (SBRSpamCheck == true) return;
 
 		//Check for chat three tiles around the player
 		foreach (Collider2D coll in Physics2D.OverlapCircleAll(chatEvent.position,
 			radioCheckRadius, itemsMask))
 		{
-			if (SBRSpamCheck == true) break;
 			if (chatEvent.originator == coll.gameObject) continue;
-			if (coll.gameObject.TryGetComponent<LocalRadioListener>(out var listener) == false) continue;
-
+			if (coll.gameObject.TryGetComponent<IChatInfluencer>(out var listener) == false || listener.WillInfluenceChat() == false) continue;
 			var radioPos = coll.gameObject.AssumedWorldPosServer();
 			if (MatrixManager.Linecast(chatEvent.position, LayerTypeSelection.Walls,
 				layerMask, radioPos).ItHit == false)
 			{
-				listener.SendData(chatEvent);
-				SBRSpamCheck = true;
+				return listener.InfluenceChat(chatEvent);
 			}
 		}
+
+		return chatEvent;
 	}
 
 	private async void HandleRadioCheckCooldown()
@@ -326,6 +300,26 @@ public class ChatRelay : NetworkBehaviour
 			}
 
 			ChatUI.Instance.AddChatEntry(message);
+		}
+
+		switch (channels)
+		{
+			case ChatChannel.Syndicate:
+				_ = SoundManager.Play(Chat.Instance.commonSyndicteChannelSound);
+				break;
+			case ChatChannel.Security:
+				_ = SoundManager.Play(Chat.Instance.commonSecurityChannelSound);
+				break;
+			case ChatChannel.Binary:
+			case ChatChannel.Medical:
+			case ChatChannel.Command:
+			case ChatChannel.Supply:
+			case ChatChannel.CentComm:
+			case ChatChannel.Science:
+			case ChatChannel.Engineering:
+			case ChatChannel.Common:
+				_ = SoundManager.Play(Chat.Instance.commonRadioChannelSound);
+				break;
 		}
 	}
 
