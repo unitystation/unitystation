@@ -478,7 +478,7 @@ namespace Systems.Cargo
 		/// Adds a new bounty to the bounty list. Returns false if it fails.
 		/// </summary>
 		[Server]
-		public void AddBounty(ItemTrait trait, int amount, string description, int reward, bool announce)
+		private void AddBounty(ItemTrait trait, int amount, string description, int reward, bool announce)
 		{
 			Debug.Log("Server is adding bounty");
 			if (amount < 1 || reward < 1) return;

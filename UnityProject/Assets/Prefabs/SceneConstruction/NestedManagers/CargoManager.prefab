@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1774880439545786558}
   - component: {fileID: 1774880439545786545}
+  - component: {fileID: 4280952799419482114}
   m_Layer: 0
   m_Name: CargoManager
   m_TagString: Untagged
@@ -43,6 +44,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4289915e7c267bbf0a38261747963c73, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
   Credits: 100
   ShuttleStatus: 1
   CurrentFlyTime: 0
@@ -54,3 +57,20 @@ MonoBehaviour:
   cartSizeLimit: 20
   cargoData: {fileID: 11400000, guid: 7cae1272613faf9a89f21ea1fbc2d806, type: 2}
   shuttleFlyDuration: 10
+--- !u!114 &4280952799419482114
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1774880439545786559}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sceneId: 0
+  serverOnly: 0
+  visible: 2
+  m_AssetId: 8662ed4b11864147ca7cd8e242d7b247
+  hasSpawned: 0
