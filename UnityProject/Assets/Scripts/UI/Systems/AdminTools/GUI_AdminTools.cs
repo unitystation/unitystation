@@ -143,7 +143,7 @@ namespace AdminTools
 		{
 			DisableAllPages();
 			giveItemPage.SetActive(true);
-			windowTitle.text = $"Give item to {giveItemPage.selectedPlayer.Script.visibleName}";
+			windowTitle.text = $"Give item to {SelectedPlayer}";
 			UIManager.IsInputFocus = true;
 			UIManager.PreventChatInput = true;
 		}
