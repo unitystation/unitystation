@@ -6,7 +6,7 @@ namespace Objects.Security
 {
 	[RequireComponent(typeof(AccessRestrictions))]
 	[RequireComponent(typeof(Construction.WrenchSecurable))]
-	public class SecBarrier : MonoBehaviour, IPredictedCheckedInteractable<HandApply>
+	public class SecBarrier : MonoBehaviour, ICheckedInteractable<HandApply>
 	{
 		private AccessRestrictions accessRestrictions;
 		public AccessRestrictions AccessRestrictions
