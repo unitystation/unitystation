@@ -24,17 +24,36 @@ namespace Systems.Research.Objects
 
 		public List<string> AvailableDesigns = new List<string>();
 
+		[NonSerialized] public Action<int,List<string>> TechWebUpdateEvent;
+
 		private void Awake()
 		{
 			if (File.Exists($"{techWebPath}{techWebFileName}") == false) defaultTechwebData.GenerateDefaultData();
 			techweb.LoadTechweb($"{techWebPath}{techWebFileName}");
 			StartCoroutine(TrickleResources());
+			UpdateAvailableDesigns();
 		}
 
 		private void OnDisable()
 		{
 			StopCoroutine(TrickleResources());
 		}
+
+		public void OnDespawnServer(DespawnInfo info)
+		{
+			TechWebUpdateEvent?.Invoke(0, null);
+		}
+
+		public void OnSpawnServer(SpawnInfo info)
+		{
+			TechWebUpdateEvent?.Invoke(1, AvailableDesigns);
+		}
+
+		//TODO
+		//Once Techweb is fully implemented:
+		//TechWebUpdateEvent should be invoked with (1, UpdateAvailiableDesigns()) whenever a new node is researched
+		//TechWebUpdateEvent should be invoked with (0, null) when a Techweb Drive is removed from its server
+		//TechWebUpdateEvent should be invoked with (1, UpdateAvailiableDesigns()) whenever a new dirve is added to a server
 
 		public List<string> UpdateAvailableDesigns()
 		{

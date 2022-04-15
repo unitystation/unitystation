@@ -32,18 +32,6 @@ namespace UI.Objects
 			}
 		}
 
-		public void ProduceProduct()
-		{
-			if (RDProMasterTab == null)
-			{
-				MasterTab.GetComponent<GUI_RDProductionMachine>().rdProductionMachine.CanProcessProduct(Product);
-			}
-			else
-			{
-				RDProMasterTab?.rdProductionMachine.CanProcessProduct(Product);
-			}
-		}
-
 		public void ReInit()
 		{
 			if (product == null)

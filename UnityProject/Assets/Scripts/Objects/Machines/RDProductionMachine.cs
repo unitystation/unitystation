@@ -163,6 +163,11 @@ namespace Systems.Research.Objects
 			}
 
 			OnRemoveTechweb();
+
+			if(researchServer != null)
+			{
+				researchServer.TechWebUpdateEvent += TechWebUpdate;
+			}
 		}
 
 		public void OnSpawnServer(SpawnInfo info)
@@ -184,7 +189,6 @@ namespace Systems.Research.Objects
 		}
 
 		#endregion
-
 
 		public bool WillInteract(HandApply interaction, NetworkSide side)
 		{
@@ -224,7 +228,6 @@ namespace Systems.Research.Objects
 		[Server]
 		public bool CanProcessProduct(string DesignID)
 		{
-
 			if (AvailableForMachine.Contains(DesignID))
 			{
 				Design Designclass = Designs.Globals.InternalIDSearch[DesignID];
@@ -265,7 +268,7 @@ namespace Systems.Research.Objects
 			}
 			else
 			{
-				Debug.LogWarning("No gameobject found to instantiate at " + Designclass.ItemID);
+				Debug.LogWarning("No gameobject found with ItemID: " + Designclass.ItemID);
 			}
 			stateSync = RDProState.Idle;
 		}
@@ -284,6 +287,7 @@ namespace Systems.Research.Objects
 				MaterialsManipulated();
 			}
 		}
+
 		private IEnumerator AnimateAcceptingMaterials()
 		{
 			stateSync = RDProState.AcceptingMaterials;
@@ -348,7 +352,11 @@ namespace Systems.Research.Objects
 		public void SubscribeToServerEvent(ResearchServer server)
 		{
 			UnSubscribeFromServerEvent();
+
+			server.TechWebUpdateEvent += TechWebUpdate;
+			AddDesigns(server.UpdateAvailableDesigns());
 			researchServer = server;
+			
 		}
 
 		public void UnSubscribeFromServerEvent()
@@ -356,9 +364,22 @@ namespace Systems.Research.Objects
 			OnRemoveTechweb();
 
 			if (researchServer == null) return;
+			researchServer.TechWebUpdateEvent -= TechWebUpdate;
 			researchServer = null;
 		}
 
+		public void TechWebUpdate(int UpdateType, List<string> DesignList)
+		{
+			switch(UpdateType)
+			{
+				case 1: //A new node is researched or drive is added
+					AddDesigns(DesignList);
+					break;
+				case 2: //Techweb Drive is removed or server is destroyed
+					OnRemoveTechweb();
+					break;
+			}
+		}
 		#endregion
 
 		#region IAPCPowerable
