@@ -13,7 +13,8 @@ namespace Objects
 
 		private ObjectAttributes objectAttributes;
 
-		void Awake() {
+		void Awake()
+		{
 			objectAttributes = GetComponent<ObjectAttributes>();
 			accessRestrictions = GetComponent<AccessRestrictions>();
 		}
