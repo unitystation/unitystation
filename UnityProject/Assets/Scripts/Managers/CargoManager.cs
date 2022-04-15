@@ -478,16 +478,16 @@ namespace Systems.Cargo
 		/// Adds a new bounty to the bounty list. Returns false if it fails.
 		/// </summary>
 		[Server]
-		public bool AddBounty(ItemTrait trait, int amount, string description, int reward, bool announce)
+		public void AddBounty(ItemTrait trait, int amount, string description, int reward, bool announce)
 		{
-			if(amount < 1 || reward < 1) return false;
+			Debug.Log("Server is adding bounty");
+			if (amount < 1 || reward < 1) return;
 			CargoBounty newBounty = new CargoBounty();
 			newBounty.Demands.Add(trait, amount);
 			newBounty.Description = description;
 			newBounty.Reward = reward;
 			ActiveBounties.Add(newBounty);
 			if(announce) CentComm.MakeAnnouncement(ChatTemplates.CentcomAnnounce, "A bounty for cargo has been issued from central communications", CentComm.UpdateSound.Notice);
-			return true;
 		}
 
 		[Command(requiresAuthority = false)]
@@ -497,7 +497,7 @@ namespace Systems.Cargo
 		}
 
 		[Command(requiresAuthority = false)]
-		public void CmdRequestServerData(NetworkConnectionToClient conn = null)
+		public void CmdRequestServerData(string id)
 		{
 			List<BountySyncData> simpleData = new List<BountySyncData>();
 			for (int i = 0; i < ActiveBounties.Count; i++)
@@ -508,12 +508,14 @@ namespace Systems.Cargo
 				foundBounty.Index = i;
 				simpleData.Add(foundBounty);
 			}
-			TargetSendCargoData(conn, simpleData);
+			Debug.Log(simpleData.Count);
+			TargetSendCargoData(PlayerList.Instance.GetByUserID(id).Connection, simpleData);
 		}
 
 		[TargetRpc]
 		private void TargetSendCargoData(NetworkConnection target, List<BountySyncData> data)
 		{
+			Debug.Log(target.connectionId);
 			AdminBountyManager.Instance.RefreshBountiesList(data);
 		}
 
