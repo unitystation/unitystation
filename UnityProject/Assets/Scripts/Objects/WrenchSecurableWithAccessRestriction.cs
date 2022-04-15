@@ -2,11 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Objects.Security
+namespace Objects
 {
 	[RequireComponent(typeof(AccessRestrictions))]
+	[RequireComponent(typeof(ObjectAttributes))]
 	[RequireComponent(typeof(Construction.WrenchSecurable))]
-	public class SecBarrier : MonoBehaviour, ICheckedInteractable<HandApply>
+	public class WrenchSecurableWithAccessRestriction : MonoBehaviour, ICheckedInteractable<HandApply>
 	{
 		private AccessRestrictions accessRestrictions;
 		public AccessRestrictions AccessRestrictions
@@ -21,22 +22,25 @@ namespace Objects.Security
 			}
 		}
 
+		private ObjectAttributes objectAttributes;
+		public ObjectAttributes ObjectAttributes
+		{
+			get
+			{
+				if (objectAttributes == false)
+				{
+					objectAttributes = GetComponent<ObjectAttributes>();
+				}
+				return objectAttributes;
+			}
+		}
+
 		public bool WillInteract(HandApply interaction, NetworkSide side)
 		{
 			//start with the default HandApply WillInteract logic.
 			if (!DefaultWillInteract.Default(interaction, side)) return false;
 
-			//Only go through with interaction if correct access restriction
-			if (AccessRestrictions.CheckAccess(interaction.Performer))
-			{
-				//Player needs wrench to interact
-				if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Wrench))
-				{
-					return false;
-				}
-			}
-
-			return true;
+			return !(AccessRestrictions.CheckAccess(interaction.Performer) && Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Wrench));
 		}
 
 		public void ClientPredictInteraction(HandApply interaction)
@@ -55,9 +59,10 @@ namespace Objects.Security
 		{
 			if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Wrench))
 			{
+				string objectName = ObjectAttributes.name;
 				//Notify player that they are unable to wrench down barrier
-				Chat.AddActionMsgToChat(interaction, "You try to wrench down the barrier...",
-					"The barrier denies you access.");
+				Chat.AddActionMsgToChat(interaction, "You try to wrench down the " + objectName + "...",
+					"The " + objectName + " denies you access.");
 			}
 			else {
 				Chat.AddActionMsgToChat(interaction, "ACCESS DENIED","");
