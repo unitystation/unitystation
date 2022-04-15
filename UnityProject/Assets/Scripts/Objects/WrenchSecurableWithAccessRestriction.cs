@@ -61,8 +61,7 @@ namespace Objects
 			{
 				string objectName = ObjectAttributes.name;
 				//Notify player that they are unable to wrench down barrier
-				Chat.AddActionMsgToChat(interaction, "You try to wrench down the " + objectName + "...",
-					"The " + objectName + " denies you access.");
+				Chat.AddActionMsgToChat(interaction, "You try to wrench down the " + objectName + ", access is denied", "");
 			}
 			else {
 				Chat.AddActionMsgToChat(interaction, "ACCESS DENIED","");
