@@ -375,7 +375,7 @@ namespace Systems.Research.Objects
 				case 1: //A new node is researched or drive is added
 					AddDesigns(DesignList);
 					break;
-				case 2: //Techweb Drive is removed or server is destroyed
+				case 0: //Techweb Drive is removed or server is destroyed
 					OnRemoveTechweb();
 					break;
 			}
