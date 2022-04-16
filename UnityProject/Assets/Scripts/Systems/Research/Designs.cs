@@ -3,6 +3,7 @@ using UnityEngine;
 using System.Collections.Generic;
 using System.Linq;
 using Newtonsoft.Json;
+using System.Threading.Tasks;
 using Systems.Research.Data;
 
 namespace Systems.Research
@@ -63,8 +64,7 @@ public class Designs : MonoBehaviour
 	{
 		if (!(Globals.IsInitialised))
 		{
-			JsonImportInitialization();
-			Globals.IsInitialised = true;
+			new Task(JsonImportInitialization).Start();
 		}
 	}
 	public static class Globals
@@ -151,6 +151,7 @@ public class Designs : MonoBehaviour
 
 		}
 		Logger.Log ("JsonImportInitialization for designs is done!", Category.Research);
+		Globals.IsInitialised = true;
 	}
 
 }
