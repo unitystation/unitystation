@@ -22,7 +22,7 @@
             "Engineering"
         ],
         "name": "Basic Power Cell",
-        "Item_ID": "/obj/item/weapon/stock_parts/cell"
+        "Item_ID": "a910878bd30ff5d439b94cd12e623762"
     },
     {
         "Internal_ID": "high_cell",
@@ -33,7 +33,8 @@
         ],
         "Materials": {
             "Metal": 700,
-            "Glass": 60
+            "Glass": 70,
+            "Silver": 10
         },
         "Machinery_type": [
             "ProtoLathe",
@@ -45,7 +46,7 @@
             "Engineering"
         ],
         "name": "High-Capacity Power Cell",
-        "Item_ID": "/obj/item/weapon/stock_parts/cell/high"
+        "Item_ID": "e95a1fa76d625d348b07406df101d4c0"
     },
     {
         "Internal_ID": "super_cell",
@@ -56,7 +57,8 @@
         ],
         "Materials": {
             "Metal": 700,
-            "Glass": 70
+            "Glass": 80,
+            "Silver": 50
         },
         "Machinery_type": [
             "ProtoLathe",
@@ -67,7 +69,7 @@
             "Engineering"
         ],
         "name": "Super-Capacity Power Cell",
-        "Item_ID": "/obj/item/weapon/stock_parts/cell/super"
+        "Item_ID": "2ae9099a5658a05418f3185e2ddd67b1"
     },
     {
         "Internal_ID": "hyper_cell",
@@ -91,7 +93,7 @@
             "Engineering"
         ],
         "name": "Hyper-Capacity Power Cell",
-        "Item_ID": "/obj/item/weapon/stock_parts/cell/hyper"
+        "Item_ID": "0a53ebee1e0986546b60d1c4db04f258"
     },
     {
         "Internal_ID": "bluespace_cell",
@@ -117,7 +119,7 @@
             "Engineering"
         ],
         "name": "Bluespace Power Cell",
-        "Item_ID": "/obj/item/weapon/stock_parts/cell/bluespace"
+        "Item_ID": "4fe646094fef97d47b13f0d2dd3f3b0c"
     },
     {
         "Internal_ID": "light_replacer",

@@ -110,6 +110,121 @@ PrefabInstance:
       propertyPath: initialDescription
       value: Converts raw materials into useful objects.
       objectReference: {fileID: 0}
+    - target: {fileID: 7450782813167368733, guid: 76c4b888beee06f4c9fda031b6e4d47b,
+        type: 3}
+      propertyPath: idleSprite
+      value: 
+      objectReference: {fileID: 11400000, guid: acd573ce73539854397a71430aec20b5,
+        type: 2}
+    - target: {fileID: 7450782813167368733, guid: 76c4b888beee06f4c9fda031b6e4d47b,
+        type: 3}
+      propertyPath: CategoryList
+      value: 
+      objectReference: {fileID: 11400000, guid: 7416a89c01e498c4b91d8f0d89ce0572,
+        type: 2}
+    - target: {fileID: 7450782813167368733, guid: 76c4b888beee06f4c9fda031b6e4d47b,
+        type: 3}
+      propertyPath: Machinerytype
+      value: ProtoLathe
+      objectReference: {fileID: 0}
+    - target: {fileID: 7450782813167368733, guid: 76c4b888beee06f4c9fda031b6e4d47b,
+        type: 3}
+      propertyPath: spriteHandler
+      value: 
+      objectReference: {fileID: 6828357949381082410}
+    - target: {fileID: 7450782813167368733, guid: 76c4b888beee06f4c9fda031b6e4d47b,
+        type: 3}
+      propertyPath: InitialDesigns
+      value: 
+      objectReference: {fileID: 11400000, guid: e334116c166e2184693a0718930822ab,
+        type: 2}
+    - target: {fileID: 7450782813167368733, guid: 76c4b888beee06f4c9fda031b6e4d47b,
+        type: 3}
+      propertyPath: productionSprite
+      value: 
+      objectReference: {fileID: 11400000, guid: e5707d85363b8194d985c424a705a9c5,
+        type: 2}
+    - target: {fileID: 7450782813167368733, guid: 76c4b888beee06f4c9fda031b6e4d47b,
+        type: 3}
+      propertyPath: MachineDepartment
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 7450782813167368733, guid: 76c4b888beee06f4c9fda031b6e4d47b,
+        type: 3}
+      propertyPath: acceptingMaterialsSprite
+      value: 
+      objectReference: {fileID: 11400000, guid: d6d32805352d9a4438f970cd217b052b,
+        type: 2}
+    - target: {fileID: 7450782813167368733, guid: 76c4b888beee06f4c9fda031b6e4d47b,
+        type: 3}
+      propertyPath: InitialDesigns.Array.size
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 7450782813167368733, guid: 76c4b888beee06f4c9fda031b6e4d47b,
+        type: 3}
+      propertyPath: InitialDesigns.Array.data[0]
+      value: basic_cell
+      objectReference: {fileID: 0}
+    - target: {fileID: 7450782813167368733, guid: 76c4b888beee06f4c9fda031b6e4d47b,
+        type: 3}
+      propertyPath: InitialDesigns.Array.data[1]
+      value: basic_capacitor
+      objectReference: {fileID: 0}
+    - target: {fileID: 7450782813167368733, guid: 76c4b888beee06f4c9fda031b6e4d47b,
+        type: 3}
+      propertyPath: InitialDesigns.Array.data[2]
+      value: basic_scanning
+      objectReference: {fileID: 0}
+    - target: {fileID: 7450782813167368733, guid: 76c4b888beee06f4c9fda031b6e4d47b,
+        type: 3}
+      propertyPath: InitialDesigns.Array.data[3]
+      value: micro_mani
+      objectReference: {fileID: 0}
+    - target: {fileID: 7450782813167368733, guid: 76c4b888beee06f4c9fda031b6e4d47b,
+        type: 3}
+      propertyPath: InitialDesigns.Array.data[4]
+      value: basic_micro_laser
+      objectReference: {fileID: 0}
+    - target: {fileID: 7450782813167368733, guid: 76c4b888beee06f4c9fda031b6e4d47b,
+        type: 3}
+      propertyPath: InitialDesigns.Array.data[5]
+      value: basic_matter_bin
+      objectReference: {fileID: 0}
+    - target: {fileID: 7450782813167368733, guid: 76c4b888beee06f4c9fda031b6e4d47b,
+        type: 3}
+      propertyPath: InitialDesigns.Array.data[6]
+      value: gravitygun
+      objectReference: {fileID: 0}
+    - target: {fileID: 7450782813167368733, guid: 76c4b888beee06f4c9fda031b6e4d47b,
+        type: 3}
+      propertyPath: AvailiableCategories.Array.size
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7450782813167368733, guid: 76c4b888beee06f4c9fda031b6e4d47b,
+        type: 3}
+      propertyPath: AvailiableCategories.Array.data[0]
+      value: Stock Parts
+      objectReference: {fileID: 0}
+    - target: {fileID: 7450782813167368733, guid: 76c4b888beee06f4c9fda031b6e4d47b,
+        type: 3}
+      propertyPath: AvailiableCategories.Array.data[1]
+      value: Power Designs
+      objectReference: {fileID: 0}
+    - target: {fileID: 7450782813167368733, guid: 76c4b888beee06f4c9fda031b6e4d47b,
+        type: 3}
+      propertyPath: AvailiableCategories.Array.data[2]
+      value: Weapons
+      objectReference: {fileID: 0}
+    - target: {fileID: 7450782813167368733, guid: 76c4b888beee06f4c9fda031b6e4d47b,
+        type: 3}
+      propertyPath: AvailiableCategories.Array.data[3]
+      value: Mining Designs
+      objectReference: {fileID: 0}
+    - target: {fileID: 7450782813167368733, guid: 76c4b888beee06f4c9fda031b6e4d47b,
+        type: 3}
+      propertyPath: AvailiableCategories.Array.data[4]
+      value: Misc
+      objectReference: {fileID: 0}
     - target: {fileID: 8234065340674907188, guid: 76c4b888beee06f4c9fda031b6e4d47b,
         type: 3}
       propertyPath: PresentSpriteSet
@@ -118,3 +233,15 @@ PrefabInstance:
         type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 76c4b888beee06f4c9fda031b6e4d47b, type: 3}
+--- !u!114 &6828357949381082410 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8234065340674907188, guid: 76c4b888beee06f4c9fda031b6e4d47b,
+    type: 3}
+  m_PrefabInstance: {fileID: 3208381171987276062}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

@@ -1,0 +1,41 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f174c01085af99e4289d29410d51ea40, type: 3}
+  m_Name: DesignProductionData
+  m_EditorClassIdentifier: 
+  MaterialSheets:
+    m_keys:
+    - Metal
+    - Glass
+    - Silver
+    - Titanium
+    - Plasma
+    - Plastic
+    - Bluespace
+    - Diamond
+    - Gold
+    - Biomass
+    - Bananium
+    - Uranium
+    m_values:
+    - {fileID: 11400000, guid: 80c7380282adee649aa0c255f79bc5f2, type: 2}
+    - {fileID: 11400000, guid: cde83a8cd1e2083479c40e5e1c19292b, type: 2}
+    - {fileID: 11400000, guid: 34a32a7e1dca6124e9b583dd262acb0a, type: 2}
+    - {fileID: 11400000, guid: 78dc359894fa18744acf5862e480dd75, type: 2}
+    - {fileID: 11400000, guid: 01512fe0b1af9ff48ba20fec373b37e3, type: 2}
+    - {fileID: 11400000, guid: 03fa80a098c6fb14e8bfd4bf6f5d8ddb, type: 2}
+    - {fileID: 11400000, guid: b7ce9f6cefef7fa4f88b853789e97c7d, type: 2}
+    - {fileID: 11400000, guid: 32aef3ad0de4a5241883eb5d3f1069b9, type: 2}
+    - {fileID: 11400000, guid: aad81582143ba4f4fb4f4c99563f715f, type: 2}
+    - {fileID: 11400000, guid: 88ef78086b9e1524ca8e9c5373865c5d, type: 2}
+    - {fileID: 11400000, guid: 99567bdc2b28a7741af1b343a4578114, type: 2}
+    - {fileID: 11400000, guid: 8aeea7bd472220c4abf642776d281f42, type: 2}
