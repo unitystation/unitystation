@@ -80,7 +80,7 @@ namespace AdminCommands
 		public void CmdChangePlayerLimit(int newLimit, NetworkConnectionToClient sender = null)
 		{
 			if (IsAdmin(sender, out var player) == false) return;
-			
+
 			if (newLimit < 0) return;
 
 			var currentLimit = GameManager.Instance.PlayerLimit;
@@ -357,6 +357,8 @@ namespace AdminCommands
 
 		#region Sound
 
+		//FIXME: DISABLED UNTIL JUSTIN RETURNS WORK ON THIS AND WEAVER ISSUES GET FIXED
+		/*
 		[Command(requiresAuthority = false)]
 		public void CmdPlaySound(AddressableAudioSource addressableAudioSource, NetworkConnectionToClient sender = null)
 		{
@@ -375,6 +377,7 @@ namespace AdminCommands
 			if (IsAdmin(sender, out var admin) == false) return;
 			MusicManager.PlayNetworked(addressableAudioSource);
 		}
+		*/
 
 		#endregion
 
