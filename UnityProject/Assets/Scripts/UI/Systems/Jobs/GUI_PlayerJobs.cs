@@ -57,6 +57,8 @@ namespace UI
 		[Tooltip("Number of seconds to wait after selecting a job. If the player does not spawn within that time the job selection re-opens.")]
 		private float waitForSpawnTimerMax = 6;
 
+		public OccupationList EmergancyOccupationList;
+
 		/// <summary>
 		/// Called when the player select a job selection button.
 		/// Assigns the player that job and spawns them, unless the job was already taken.
@@ -156,6 +158,12 @@ namespace UI
 
 		public void UpdateJobsList()
 		{
+			var listToUse = OccupationList.Instance != null ? OccupationList.Instance : EmergancyOccupationList;
+			if (listToUse == null)
+			{
+				Logger.LogError("NO JOBS HAVE BEEN FOUND. OCCUPATION LIST IS NULL.");
+				return;
+			}
 			screen_Jobs.SetActive(false);
 
 			foreach (Transform child in screen_Jobs.transform)
@@ -163,7 +171,7 @@ namespace UI
 				Destroy(child.gameObject);
 			}
 
-			foreach (Occupation occupation in OccupationList.Instance.Occupations)
+			foreach (Occupation occupation in listToUse.Occupations)
 			{
 				JobType jobType = occupation.JobType;
 
