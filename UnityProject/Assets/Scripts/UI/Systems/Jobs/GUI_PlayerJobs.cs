@@ -158,12 +158,6 @@ namespace UI
 
 		public void UpdateJobsList()
 		{
-			var listToUse = OccupationList.Instance != null ? OccupationList.Instance : EmergancyOccupationList;
-			if (listToUse == null)
-			{
-				Logger.LogError("NO JOBS HAVE BEEN FOUND. OCCUPATION LIST IS NULL.");
-				return;
-			}
 			screen_Jobs.SetActive(false);
 
 			foreach (Transform child in screen_Jobs.transform)
@@ -171,7 +165,7 @@ namespace UI
 				Destroy(child.gameObject);
 			}
 
-			foreach (Occupation occupation in listToUse.Occupations)
+			foreach (Occupation occupation in OccupationList.Instance.Occupations)
 			{
 				JobType jobType = occupation.JobType;
 
