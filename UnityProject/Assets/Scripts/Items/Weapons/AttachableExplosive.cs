@@ -27,7 +27,7 @@ namespace Items.Weapons
 		[Server]
 		private void AttachExplosive(GameObject target, Vector2 targetPostion)
 		{
-			if (target.TryGetComponent<PushPull>(out var handler))
+			if (target.TryGetComponent<UniversalObjectPhysics>(out var handler))
 			{
 				Inventory.ServerDrop(pickupable.ItemSlot, targetPostion);
 				attachedToObject = target;
@@ -45,7 +45,7 @@ namespace Items.Weapons
 		{
 			if(attachedToObject == null) return;
 			if(attachedToObject.WorldPosServer() == gameObject.WorldPosServer()) return;
-			registerItem.customNetTransform.SetPosition(attachedToObject.WorldPosServer());
+			registerItem.ObjectPhysics.Component.AppearAtWorldPositionServer(attachedToObject.WorldPosServer());
 		}
 
 		[Command(requiresAuthority = false)]
@@ -59,7 +59,7 @@ namespace Items.Weapons
 		{
 			isOnObject = false;
 			pickupable.ServerSetCanPickup(true);
-			objectBehaviour.ServerSetPushable(true);
+			objectBehaviour.SetIsNotPushable(false);
 			scaleSync.SetScale(new Vector3(1f, 1f, 1f));
 			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, UpdateBombPosition);
 			attachedToObject = null;
@@ -104,7 +104,7 @@ namespace Items.Weapons
 				AttachExplosive(interaction.TargetObject, interaction.TargetVector);
 				isOnObject = true;
 				pickupable.ServerSetCanPickup(false);
-				objectBehaviour.ServerSetPushable(false);
+				objectBehaviour.SetIsNotPushable(true);
 				SoundManager.PlayNetworkedAtPos(beepSound, gameObject.AssumedWorldPosServer());
 				Chat.AddActionMsgToChat(interaction.Performer,
 					$"You attach the {gameObject.ExpensiveName()} to {interaction.TargetObject.ExpensiveName()}",

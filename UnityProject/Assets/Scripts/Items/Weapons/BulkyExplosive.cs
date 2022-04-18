@@ -58,9 +58,9 @@ namespace Items.Weapons
 			if(HackEmitter(interaction)) return;
 			if (interaction.HandObject != null && interaction.HandObject.Item().HasTrait(wrenchTrait))
 			{
-				objectBehaviour.ServerSetPushable(!objectBehaviour.IsPushable);
+				objectBehaviour.SetIsNotPushable(!objectBehaviour.IsNotPushable);
 				SoundManager.PlayNetworkedAtPos(CommonSounds.Instance.Wrench, gameObject.AssumedWorldPosServer());
-				var wrenchText = objectBehaviour.IsPushable ? "wrench down" : "unwrench";
+				var wrenchText = objectBehaviour.IsNotPushable ? "unwrench" :  "wrench down";
 				Chat.AddExamineMsg(interaction.Performer, $"You {wrenchText} the {gameObject.ExpensiveName()}");
 				return;
 			}

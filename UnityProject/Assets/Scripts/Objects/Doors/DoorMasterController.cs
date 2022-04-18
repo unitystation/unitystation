@@ -527,6 +527,13 @@ namespace Doors
 			{
 				ResetWaiting();
 			}
+			StartCoroutine(DelayOpen());
+		}
+
+
+		public IEnumerator DelayOpen()
+		{
+			yield return WaitFor.Seconds(0.1f);
 
 			IsClosed = false;
 			UpdateGui();
@@ -535,6 +542,7 @@ namespace Doors
 			{
 				DoorUpdateMessage.SendToAll(gameObject, DoorUpdateType.Open, ConstructibleDoor != null && ConstructibleDoor.Panelopen);
 			}
+
 		}
 
 		public void BoxCollToggleOn()

@@ -54,10 +54,10 @@ namespace Construction.Conveyors
 		#region Belt Operation
 
 		[Server]
-		public void MoveBelt()
+		public void MoveBelt(float ConveyorBeltSpeed)
 		{
 			DetectItems();
-			MoveEntities();
+			MoveEntities(ConveyorBeltSpeed);
 		}
 
 		private void DetectItems()
@@ -76,26 +76,20 @@ namespace Construction.Conveyors
 			}
 		}
 
-		private void MoveEntities()
+		private void MoveEntities(float ConveyorBeltSpeed)
 		{
 			while (cntCache.Count > 0)
 			{
-				Transport(cntCache.Dequeue());
+				Transport(cntCache.Dequeue(), ConveyorBeltSpeed);
 			}
 		}
 
-		[Server]
-		private void TransportPlayer(PlayerSync player)
-		{
-			//push player to the next tile
-			player?.Push(PushDirectionPosition.To2Int());
-		}
 
 		[Server]
-		private void Transport(UniversalObjectPhysics item)
+		private void Transport(UniversalObjectPhysics item, float ConveyorBeltSpeed)
 		{
 			item.OrNull()?.Pushing?.Clear();
-			item.OrNull()?.ForceTilePush(PushDirectionPosition.To2Int(), item.Pushing, false, 1);
+			item.OrNull()?.ForceTilePush(PushDirectionPosition.To2Int(), item.Pushing, false, ConveyorBeltSpeed);
 		}
 
 		#endregion Belt Operation

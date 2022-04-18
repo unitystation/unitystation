@@ -443,21 +443,21 @@ namespace TileManagement
 			}
 		}
 
-		public bool IsPassableAtOneObjectsV2(Vector3Int origin, Vector3Int to, UniversalObjectPhysics context,
-			List<UniversalObjectPhysics> Pushings, List<IBumpableObject> Bumps)
+		public bool IsPassableAtOneObjectsV2(Vector3Int localOrigin, Vector3Int localTo, UniversalObjectPhysics context,
+			List<UniversalObjectPhysics> Pushings, List<IBumpableObject> Bumps, List<UniversalObjectPhysics> Hits = null)
 		{
 			// Simple case: orthogonal travel
-			if (origin.x == to.x || origin.y == to.y)
+			if (localOrigin.x == localTo.x || localOrigin.y == localTo.y)
 			{
-				return IsPassableAtOrthogonalObjectsV2(origin, to, context, Pushings, Bumps);
+				return IsPassableAtOrthogonalObjectsV2(localOrigin, localTo, context, Pushings, Bumps, Hits: Hits);
 			}
 			else // diagonal travel
 			{
-				bool isPassableIfHorizontalFirst = IsPassableObjectsHorizontal(origin, to, context, Pushings, Bumps);
+				bool isPassableIfHorizontalFirst = IsPassableObjectsHorizontal(localOrigin, localTo, context, Pushings, Bumps, Hits);
 				if (isPassableIfHorizontalFirst) return true;
 
 
-				bool isPassableIfVerticalFirst = IsPassableObjectsVertical(origin, to, context, Pushings, Bumps);
+				bool isPassableIfVerticalFirst = IsPassableObjectsVertical(localOrigin, localTo, context, Pushings, Bumps,Hits);
 				if (isPassableIfVerticalFirst) return true;
 
 
@@ -466,23 +466,23 @@ namespace TileManagement
 		}
 
 		public bool IsPassableObjectsHorizontal(Vector3Int origin, Vector3Int to, UniversalObjectPhysics context,
-			List<UniversalObjectPhysics> Pushings, List<IBumpableObject> Bumps)
+			List<UniversalObjectPhysics> Pushings, List<IBumpableObject> Bumps, List<UniversalObjectPhysics> Hits = null)
 		{
 			Vector3Int toX = new Vector3Int(to.x, origin.y, origin.z);
 			bool isPassableIfHorizontalFirst =
-				IsPassableAtOrthogonalObjectsV2(origin, toX, context, Pushings, Bumps) &&
-				IsPassableAtOrthogonalObjectsV2(toX, to, context, Pushings, Bumps);
+				IsPassableAtOrthogonalObjectsV2(origin, toX, context, Pushings, Bumps, origin, to, Hits) &&
+				IsPassableAtOrthogonalObjectsV2(toX, to, context, Pushings, Bumps, origin, to, Hits);
 
 			return isPassableIfHorizontalFirst;
 		}
 
 
 		public bool IsPassableObjectsVertical(Vector3Int origin, Vector3Int to, UniversalObjectPhysics context,
-			List<UniversalObjectPhysics> Pushings, List<IBumpableObject> Bumps)
+			List<UniversalObjectPhysics> Pushings, List<IBumpableObject> Bumps, List<UniversalObjectPhysics> Hits = null)
 		{
 			Vector3Int toY = new Vector3Int(origin.x, to.y, origin.z);
-			return IsPassableAtOrthogonalObjectsV2(origin, toY, context, Pushings, Bumps) &&
-			       IsPassableAtOrthogonalObjectsV2(toY, to, context, Pushings, Bumps);
+			return IsPassableAtOrthogonalObjectsV2(origin, toY, context, Pushings, Bumps, origin, to, Hits) &&
+			       IsPassableAtOrthogonalObjectsV2(toY, to, context, Pushings, Bumps, origin, to, Hits);
 		}
 
 		public bool IsPassableTileMapHorizontal(Vector3Int origin, Vector3Int to, CollisionType colliderType)
@@ -540,11 +540,11 @@ namespace TileManagement
 			}
 		}
 
-		private bool IsPassableAtOrthogonalObjectsV2(Vector3Int origin, Vector3Int to, UniversalObjectPhysics context,
-			List<UniversalObjectPhysics> Pushings, List<IBumpableObject> Bumps)
+		private bool IsPassableAtOrthogonalObjectsV2(Vector3Int localOrigin, Vector3Int localTo, UniversalObjectPhysics context,
+			List<UniversalObjectPhysics> Pushings, List<IBumpableObject> Bumps,Vector3Int? originalFrom = null,Vector3Int? originalTo = null, List<UniversalObjectPhysics> Hits = null)
 		{
-			return ObjectLayer.IsPassableAtOnThisLayerV2(origin, to, CustomNetworkManager.IsServer, context, Pushings,
-				Bumps);
+			return ObjectLayer.IsPassableAtOnThisLayerV2(localOrigin, localTo, CustomNetworkManager.IsServer, context, Pushings,
+				Bumps, originalFrom , originalTo, Hits);
 		}
 
 

@@ -302,11 +302,36 @@ public static class ObjectContainerReaderWriter
 {
 	public static ObjectContainer Deserialize(this NetworkReader reader)
 	{
-		return NetworkIdentity.spawned[reader.ReadUInt()].GetComponent<ObjectContainer>();
+		var Uint = reader.ReadUInt();
+		if (Uint == NetId.Invalid || Uint == NetId.Empty)
+		{
+			return null;
+		}
+		else
+		{
+			return NetworkIdentity.spawned[Uint].GetComponent<ObjectContainer>();
+		}
+
 	}
 
 	public static void Serialize(this NetworkWriter writer, ObjectContainer message)
 	{
-		writer.WriteUInt(message.GetComponent<NetworkIdentity>().netId);
+		if (message == null)
+		{
+			writer.WriteUInt(NetId.Empty);
+			return;
+		}
+
+		var NID = message.GetComponent<NetworkIdentity>();
+		if (NID == null)
+		{
+			Logger.LogError("Does not have NetworkIdentity On " + message.gameObject);
+			writer.WriteUInt(NetId.Invalid);
+		}
+		else
+		{
+			writer.WriteUInt(NID.netId);
+		}
+
 	}
 }

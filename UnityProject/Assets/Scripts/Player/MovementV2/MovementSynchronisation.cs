@@ -261,7 +261,7 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 			PlayerSpawn.ServerSpawnDummy(gameObject.transform);
 		}
 
-		if (IsMoving) return;
+		if (IsWalking) return;
 		if (moveActions.moveActions.Length == 0) return;
 		SetMatrixCash.ResetNewPosition(transform.position);
 
@@ -315,7 +315,7 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 			}
 
 			//move
-			ForceTilePush(NewMoveData.GlobalMoveDirection.TVectoro().To2Int(), PushPulls, ByClient); //TODO Speed
+			ForceTilePush(NewMoveData.GlobalMoveDirection.TVectoro().To2Int(), PushPulls, ByClient, IsWalk : true); //TODO Speed
 
 			SetMatrixCash.ResetNewPosition(registerTile.WorldPosition); //Resets the cash
 

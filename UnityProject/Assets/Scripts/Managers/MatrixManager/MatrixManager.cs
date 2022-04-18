@@ -1081,20 +1081,20 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 	///Cross-matrix edition of <see cref="Matrix.IsPassableAt(UnityEngine.Vector3Int,UnityEngine.Vector3Int,bool,GameObject)"/>
 	///<inheritdoc cref="Matrix.IsPassableAt(UnityEngine.Vector3Int,UnityEngine.Vector3Int,bool,GameObject)"/>
 	public static bool IsPassableAtAllMatricesV2(Vector3 worldOrigin, Vector3 worldTarget,
-		MatrixCash MatrixCash, UniversalObjectPhysics Context, List<UniversalObjectPhysics> PushIng, List<IBumpableObject> Bumps)
+		MatrixCash MatrixCash, UniversalObjectPhysics Context, List<UniversalObjectPhysics> PushIng, List<IBumpableObject> Bumps, List<UniversalObjectPhysics> Hits = null)
 	{
 		var MatrixOrigin = MatrixCash.GetforDirection(Vector3Int.zero);
 		var localPosOrigin = WorldToLocal(worldOrigin, MatrixOrigin);
 		var localPosTarget = WorldToLocal(worldTarget, MatrixOrigin);
 
-		bool IsPassable = MatrixOrigin.Matrix.MetaTileMap.IsPassableAtOneObjectsV2(localPosOrigin.RoundToInt(), localPosTarget.RoundToInt(), Context, PushIng, Bumps);
+		bool IsPassable = MatrixOrigin.Matrix.MetaTileMap.IsPassableAtOneObjectsV2(localPosOrigin.RoundToInt(), localPosTarget.RoundToInt(), Context, PushIng, Bumps,Hits);
 
 		if (IsPassable == false)
 		{
 			return false;
 		}
 		// PushIng.Clear();
-
+		if (Hits != null) Hits.Clear();
 
 		var matrixTarget = MatrixCash.GetforDirection((worldTarget - worldOrigin).RoundToInt());
 
@@ -1112,7 +1112,7 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 				    CollisionType.Player))
 			{
 				if (matrixTarget.Matrix.MetaTileMap.IsPassableAtOneObjectsV2(intlocalPosOrigin, intlocalPosTarget, Context,
-					    PushIng, Bumps))
+					    PushIng, Bumps, Hits))
 				{
 					return true;
 				}
@@ -1123,17 +1123,21 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 			if (matrixTarget.Matrix.MetaTileMap.IsPassableTileMapHorizontal(intlocalPosOrigin, intlocalPosTarget,CollisionType.Player ))
 			{
 				if (matrixTarget.Matrix.MetaTileMap.IsPassableObjectsHorizontal(intlocalPosOrigin, intlocalPosTarget, Context,
-					    PushIng, Bumps))
+					    PushIng, Bumps, Hits))
 				{
 					return true;
 				}
 			}
 
+			if (Hits != null) Hits.Clear();
+			Bumps.Clear();
+			PushIng.Clear();
+
 			if (matrixTarget.Matrix.MetaTileMap.IsPassableTileMapVertical(intlocalPosOrigin, intlocalPosTarget,
 				    CollisionType.Player))
 			{
 				if (matrixTarget.Matrix.MetaTileMap.IsPassableObjectsVertical(intlocalPosOrigin, intlocalPosTarget, Context,
-					    PushIng, Bumps))
+					    PushIng, Bumps, Hits))
 				{
 					return true;
 				}

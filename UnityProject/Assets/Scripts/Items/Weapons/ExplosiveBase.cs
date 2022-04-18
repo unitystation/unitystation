@@ -36,7 +36,7 @@ namespace Items.Weapons
 		[SerializeField] protected SpriteHandler spriteHandler;
 		[SerializeField] protected ScaleSync scaleSync;
 		protected RegisterItem registerItem;
-		protected ObjectBehaviour objectBehaviour;
+		protected UniversalObjectPhysics objectBehaviour;
 		protected Pickupable pickupable;
 		protected HasNetworkTabItem explosiveGUI;
 		[HideInInspector] public GUI_Explosive GUI;
@@ -66,7 +66,7 @@ namespace Items.Weapons
 			if(spriteHandler == null) spriteHandler = GetComponentInChildren<SpriteHandler>();
 			if(scaleSync == null) scaleSync = GetComponent<ScaleSync>();
 			registerItem = GetComponent<RegisterItem>();
-			objectBehaviour = GetComponent<ObjectBehaviour>();
+			objectBehaviour = GetComponent<UniversalObjectPhysics>();
 			pickupable = GetComponent<Pickupable>();
 			explosiveGUI = GetComponent<HasNetworkTabItem>();
 			Frequency = Random.Range(120.00f, 122.99f);
@@ -87,7 +87,7 @@ namespace Items.Weapons
 		{
 			if(gameObject == null) return;
 			// Get data before despawning
-			var worldPos = objectBehaviour.AssumedWorldPositionServer();
+			var worldPos = objectBehaviour.registerTile.WorldPosition;
 			// Despawn the explosive
 			_ = Despawn.ServerSingle(gameObject);
 			Explosion.StartExplosion(worldPos, explosiveStrength);

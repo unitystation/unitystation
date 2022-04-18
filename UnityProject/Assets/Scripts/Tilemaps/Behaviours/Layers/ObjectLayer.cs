@@ -64,15 +64,19 @@ public class ObjectLayer : Layer
 	}
 
 
-	public bool IsPassableAtOnThisLayerV2(Vector3Int origin, Vector3Int to, bool isServer, UniversalObjectPhysics Incontext,
-		 List<UniversalObjectPhysics> Pushings,  List<IBumpableObject> Bumps)
+	public bool IsPassableAtOnThisLayerV2(Vector3Int localOrigin, Vector3Int localTo, bool isServer,
+		UniversalObjectPhysics Incontext,
+		List<UniversalObjectPhysics> Pushings, List<IBumpableObject> Bumps, Vector3Int? originalFrom = null,
+		Vector3Int? originalTo = null, List<UniversalObjectPhysics> Hits = null)
 	{
-		if (CanLeaveTileV2(origin, to, isServer, Pushings, context: Incontext) == false)
+		if (CanLeaveTileV2(localOrigin, localTo, isServer, Pushings, Bumps, Incontext, originalFrom, originalTo,
+			    Hits) == false)
 		{
 			return false;
 		}
 
-		if (CanEnterTileV2(origin, to, isServer, Pushings,Bumps ,  context: Incontext) == false)
+		if (CanEnterTileV2(localOrigin, localTo, isServer, Pushings, Bumps, Incontext, originalFrom, originalTo,
+			    Hits) == false)
 		{
 			return false;
 		}
@@ -97,8 +101,54 @@ public class ObjectLayer : Layer
 		return true;
 	}
 
+	public bool PushingCalculation(RegisterTile o, Vector3Int originalFrom, Vector3Int originalTo,
+		List<UniversalObjectPhysics> Pushings, List<IBumpableObject> Bumps, ref bool PushObjectSet,
+		ref bool CanPushObjects, List<UniversalObjectPhysics> Hits = null) //True equal return False
+	{
+		if (PushObjectSet == false)
+		{
+			PushObjectSet = true;
+			var Worldorigin = (originalFrom).ToWorld(matrix);
+			var WorldTo = (originalTo).ToWorld(matrix);
+			CanPushObjects = o.ObjectPhysics.Component.CanPush((WorldTo - Worldorigin).To2Int());
+		}
+		else
+		{
+			if (o.ObjectPhysics.Component.IsNotPushable)
+			{
+				CanPushObjects = false;
+				Pushings.Clear();
+			}
+		}
+
+		if (CanPushObjects)
+		{
+			if (Hits != null) Hits.Add(o.ObjectPhysics.Component);
+			Pushings.Add(o.ObjectPhysics.Component);
+			return false;
+		}
+		else
+		{
+			foreach (var objectOnTile in matrix.Get<UniversalObjectPhysics>(originalTo, CustomNetworkManager.IsServer))
+			{
+				var bumpAbles = objectOnTile.GetComponents<IBumpableObject>();
+				foreach (var bump in bumpAbles)
+				{
+					Bumps.Add(bump);
+				}
+			}
+
+			if (Hits != null) Hits.Add(o.ObjectPhysics.Component);
+
+			Pushings.Clear();
+			return true;
+		}
+	}
+
 	public bool CanLeaveTileV2(Vector3Int origin, Vector3Int to, bool isServer, List<UniversalObjectPhysics> Pushings,
-		UniversalObjectPhysics context = null)
+		List<IBumpableObject> Bumps,
+		UniversalObjectPhysics context = null, Vector3Int? originalFrom = null, Vector3Int? originalTo = null,
+		List<UniversalObjectPhysics> Hits = null)
 	{
 		bool PushObjectSet = false;
 		bool CanPushObjects = false;
@@ -109,28 +159,27 @@ public class ObjectLayer : Layer
 			if (t.IsPassableFromInside(to, isServer, context.OrNull().gameObject) == false
 			    && (context == null || t.gameObject != context.gameObject))
 			{
-
-				if (t.ObjectPhysics.HasComponent)
+				if (context != null)
 				{
-					if (PushObjectSet == false)
+					if (context.Pulling.HasComponent)
 					{
-						PushObjectSet = true;
-						CanPushObjects = t.ObjectPhysics.Component.CanPush((origin - to).To2Int());
+						if (t.gameObject == context.Pulling.Component.gameObject)
+						{
+							return false;
+						}
 					}
-
-					if (CanPushObjects)
+					else if (context.PulledBy.HasComponent)
 					{
-						Pushings.Add(t.ObjectPhysics.Component);
-					}
-					else
-					{
-						Pushings.Clear();
-						return false;
+						if (t.gameObject == context.PulledBy.Component.gameObject)
+						{
+							return false;
+						}
 					}
 				}
-				else
+
+				if (PushingCalculation(t, originalFrom ?? origin, originalTo ?? to, Pushings, Bumps, ref PushObjectSet,
+					    ref CanPushObjects, Hits))
 				{
-					Pushings.Clear();
 					return false;
 				}
 			}
@@ -143,7 +192,6 @@ public class ObjectLayer : Layer
 		CollisionType collisionType = CollisionType.Player,
 		bool inclPlayers = true, GameObject context = null, List<TileType> excludeTiles = null, bool isReach = false)
 	{
-
 		//Targeting windoors here
 		foreach (RegisterTile t in GetTileList(isServer).Get(origin))
 		{
@@ -159,7 +207,9 @@ public class ObjectLayer : Layer
 	}
 
 
-	public bool CanEnterTileV2(Vector3Int origin, Vector3Int to, bool isServer, List<UniversalObjectPhysics> Pushings, List<IBumpableObject> Bumps,  UniversalObjectPhysics context = null)
+	public bool CanEnterTileV2(Vector3Int origin, Vector3Int to, bool isServer, List<UniversalObjectPhysics> Pushings,
+		List<IBumpableObject> Bumps, UniversalObjectPhysics context = null,
+		Vector3Int? originalFrom = null, Vector3Int? originalTo = null, List<UniversalObjectPhysics> Hits = null)
 	{
 		bool PushObjectSet = false;
 		bool CanPushObjects = false;
@@ -183,54 +233,14 @@ public class ObjectLayer : Layer
 						return false;
 					}
 				}
-
 			}
 
 			if (o.IsPassableFromOutside(origin, isServer, context.OrNull().gameObject) == false
 			    && (context == null || o.gameObject != context.gameObject))
 			{
-				if (o.ObjectPhysics.HasComponent)
+				if (PushingCalculation(o, originalFrom ?? origin, originalTo ?? to, Pushings, Bumps, ref PushObjectSet,
+					    ref CanPushObjects, Hits))
 				{
-					if (PushObjectSet == false)
-					{
-						PushObjectSet = true;
-						var Worldorigin = origin.ToWorld(matrix);
-						var WorldTo = to.ToWorld(matrix);
-						CanPushObjects = o.ObjectPhysics.Component.CanPush((WorldTo - Worldorigin).To2Int());
-					}
-
-					if (CanPushObjects)
-					{
-						Pushings.Add(o.ObjectPhysics.Component);
-						continue;
-					}
-					else
-					{
-						foreach (var objectOnTile in matrix.Get<UniversalObjectPhysics>(to, CustomNetworkManager.IsServer))
-						{
-							var bumpAbles = objectOnTile.GetComponents<IBumpableObject>();
-							foreach (var bump in bumpAbles)
-							{
-								Bumps.Add(bump);
-							}
-						}
-
-						Pushings.Clear();
-						return false;
-					}
-				}
-				else
-				{
-					foreach (var objectOnTile in matrix.Get<UniversalObjectPhysics>(to, true))
-					{
-						var bumpAbles = objectOnTile.GetComponents<IBumpableObject>();
-						foreach (var bump in bumpAbles)
-						{
-							Bumps.Add(bump);
-						}
-					}
-
-					Pushings.Clear();
 					return false;
 				}
 			}

@@ -660,7 +660,7 @@ public class MatrixMove : ManagedBehaviour
 		lock (matrix.MetaTileMap.matrix)
 		{
 			matrix.MetaTileMap.GlobalCachedBounds = null;
-		}Our stupid
+		}
 	}
 
 	/// Serverside movement routine

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Items;
 using Messages.Client;
 using UnityEngine;
 using Systems.Storage;
@@ -412,16 +413,18 @@ public static class Inventory
 			var WorldTrajectory = toPerform.WorldTargetVector.GetValueOrDefault(Vector2.zero).normalized.To3();
 			// dropping from player
 			// Inertia drop works only if player has external impulse (space floating etc.)
+			UOP.DropAtAndInheritMomentum(universalObjectPhysics);
 
-			UOP.ForceSetLocalPosition(toPerform.FromPlayer.transform.localPosition, Vector2.zero ,false ,toPerform.FromPlayer.Matrix.Id);
-			var Sprites =UOP.GetComponentsInChildren<SpriteRenderer>();
-			foreach (var SP in Sprites)
+
+			var Distance = toPerform.WorldTargetVector.Value.magnitude;
+			var IA2 = ((ItemAttributesV2) UOP.attributes);
+			if (Distance > IA2.ThrowRange)
 			{
-				SP.enabled = true;
+				Distance = IA2.ThrowRange;
 			}
 
-			UOP.NewtonianNewtonPush( WorldTrajectory,UOP.GetWeight() + 1
-				, Single.NaN
+			UOP.NewtonianPush( WorldTrajectory,((ItemAttributesV2) UOP.attributes).ThrowSpeed
+				, (Distance / IA2.ThrowSpeed )
 				 , Single.NaN, toPerform.ThrowAim.GetValueOrDefault(BodyPartType.Chest), holder.gameObject );
 
 			// Counter-impulse for players in space
@@ -502,12 +505,8 @@ public static class Inventory
 			return false;
 		}
 
-		// go poof, it's in inventory now.
-		pickupable.GetComponent<UniversalObjectPhysics>().DisappearFromWorld();
-
 		// no longer inside any PushPull
-		pickupable.GetComponent<UniversalObjectPhysics>().StoreTo(null) ;
-		pickupable.GetComponent<RegisterTile>().UpdatePositionServer();
+		pickupable.GetComponent<UniversalObjectPhysics>().DisappearFromWorld();
 
 		// update pickupable's item and slot's item
 		pickupable._SetItemSlot(toSlot);

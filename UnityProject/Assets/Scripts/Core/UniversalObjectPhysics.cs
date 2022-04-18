@@ -1,7 +1,9 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using HealthV2;
 using Items;
+using Messages.Server.SoundMessages;
 using Mirror;
 using Objects;
 using Objects.Construction;
@@ -14,22 +16,28 @@ using Random = UnityEngine.Random;
 
 public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 {
-	//TODO Synchronise Throwing
-	//TODO Tile push to clients if in pulling conga line
+	//TODO Push objects being Reset our client
+	//TODO Tile push to clients if in pulling conga line?
+
 	//TODO if new pulling cancel old Pulling target
-	//TODO Do more testing/Polishing with pulling in space with client/server
+	//TODO Do more testing/Polishing with pulling in space with client/serverDo more testing/Polishing with pulling in space with client/server
 	//TODO PulledBy isn't getting synchronised to client properly on start
 
 	//TODO Snap to LocalTargetPosition When triggered for client viewing other clients
 
-	//TODO parentContainer!!
-	//TODO check Conveyor belts with player movement
+	//TODO parentContainer!!?
+	//TODO check Conveyor belts with player movement, Conveyor belts a bit buggy but good
+
+
+	//TODO delay when opening doors
 
 	public const float DEFAULT_PUSH_SPEED = 6;
+
 	/// <summary>
 	/// Maximum speed player can reach by throwing stuff in space
 	/// </summary>
 	public const float MAX_NEWTONIAN_SPEED = 12;
+
 	public const int HIGH_SPEED_COLLISION_THRESHOLD = 15;
 
 	public const float DEFAULT_Friction = 0.01f;
@@ -73,6 +81,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 
 	[SyncVar(hook = nameof(SyncIsNotPushable))]
 	private bool isNotPushable;
+
 	public bool IsNotPushable => isNotPushable;
 
 	[SyncVar(hook = nameof(SynchroniseUpdatePulling))]
@@ -105,9 +114,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 	public bool onStationMovementsRound;
 
 
-
-
-	private Attributes attributes;
+	public Attributes attributes;
 	public RegisterTile registerTile;
 
 	public LayerMask defaultInteractionLayerMask;
@@ -206,14 +213,14 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 	{
 		if (NewParent == this) return; //Storing something inside of itself what?
 
-		parentContainer = NewParent; //TODO Disappear
+		parentContainer = NewParent;
 		if (NewParent == null)
 		{
-			isVisible = true;
+			SynchroniseVisibility(isVisible, true);
 		}
 		else
 		{
-			isVisible = false;
+			SynchroniseVisibility(isVisible, false);
 		}
 	}
 	//TODO Handle stuff like cart riding
@@ -261,7 +268,11 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 			registerTile.ClientSetLocalPosition(ReSetToLocal.RoundToInt());
 		}
 
-		if (Animating == false && IsFlyingSliding == false) UpdateManager.Add(CallbackType.UPDATE, FlyingUpdateMe);
+		if (Animating == false && IsFlyingSliding == false)
+		{
+			IsFlyingSliding = true;
+			UpdateManager.Add(CallbackType.UPDATE, FlyingUpdateMe);
+		}
 	}
 
 	private void SynchronisedoNotApplyMomentumOnTarget(bool Oldvariable, bool Newvariable)
@@ -310,28 +321,34 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 
 	public void AppearAtWorldPositionServer(Vector3 WorldPOS, bool Smooth = false)
 	{
-		isVisible = true;
+		SynchroniseVisibility(isVisible, true);
 		var Matrix = MatrixManager.AtPoint(WorldPOS, isServer);
 		ForceSetLocalPosition(WorldPOS.ToLocal(Matrix), Vector2.zero, Smooth, Matrix.Id);
 	}
 
 	public void DropAtAndInheritMomentum(UniversalObjectPhysics DroppedFrom)
 	{
-		isVisible = true;
+		SynchroniseVisibility(isVisible, true);
 		ForceSetLocalPosition(DroppedFrom.transform.localPosition, DroppedFrom.newtonianMovement, false,
 			DroppedFrom.registerTile.Matrix.Id);
 	}
 
 	public void DisappearFromWorld()
 	{
-		isVisible = false;
+		SynchroniseVisibility(isVisible, false);
 	}
 
 	public void ForceSetLocalPosition(Vector3 ReSetToLocal, Vector2 Momentum, bool Smooth, int MatrixID,
 		bool UpdateClient = true)
 	{
-		if (isServer && UpdateClient) RPCForceSetPosition(ReSetToLocal, Momentum, Smooth, MatrixID);
+		if (isServer && UpdateClient)
+		{
+			isVisible = true;
+			RPCForceSetPosition(ReSetToLocal, Momentum, Smooth, MatrixID);
+		}
+
 		SetMatrix(MatrixManager.Get(MatrixID).Matrix);
+
 
 		if (Smooth)
 		{
@@ -419,6 +436,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 
 	public List<UniversalObjectPhysics> Pushing = new List<UniversalObjectPhysics>();
 	public List<IBumpableObject> Bumps = new List<IBumpableObject>();
+	public List<UniversalObjectPhysics> Hits = new List<UniversalObjectPhysics>();
 
 	public void ServerSetAnchored(bool isAnchored, GameObject performer)
 	{
@@ -426,7 +444,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 		if (isAnchored)
 		{
 			if (ServerValidations.IsConstructionBlocked(performer, gameObject,
-				    (Vector2Int)registerTile.WorldPositionServer)) return;
+				    (Vector2Int) registerTile.WorldPositionServer)) return;
 		}
 
 		SetIsNotPushable(isAnchored);
@@ -434,7 +452,6 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 
 	public void SetIsNotPushable(bool NewState)
 	{
-
 		isNotPushable = NewState;
 	}
 
@@ -459,14 +476,17 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 	/// </summary>
 	public bool CausesGravity()
 	{
-		if (isNotPushable == false|| floorDecal != null)
+		if (isNotPushable == false || floorDecal != null)
 			return false;
 
 		return true;
 	}
 
-	public bool CanPush(Vector2Int WorldDirection)
+	public bool
+		CanPush(Vector2Int WorldDirection) //NOTE: It's presumed that If true one time the rest universal physics objects will return true to , manually checks for isNotPushable
 	{
+		if (isNotPushable) return false;
+
 		//TODO Secured stuff
 		Pushing.Clear();
 		Bumps.Clear();
@@ -497,7 +517,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 	}
 
 	public void ForceTilePush(Vector2Int WorldDirection, List<UniversalObjectPhysics> InPushing, bool ByClient,
-		float speed = Single.NaN) //PushPull TODO Change to physics object
+		float speed = Single.NaN, bool IsWalk = false) //PushPull TODO Change to physics object
 	{
 		if (float.IsNaN(speed))
 		{
@@ -532,6 +552,10 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 		registerTile.ClientSetLocalPosition(LocalPosition.RoundToInt());
 
 		SetLocalTarget = LocalPosition.RoundToInt();
+
+		MoveIsWalking = IsWalk;
+
+
 		if (Animating == false)
 		{
 			Animating = true;
@@ -567,6 +591,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 		if (CorrectingCourse) UpdateManager.Remove(CallbackType.UPDATE, FloatingCourseCorrection);
 
 
+		IsWalking = false;
 		LocalTargetPosition = transform.localPosition;
 		newtonianMovement = Vector2.zero;
 		airTime = 0;
@@ -644,10 +669,11 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 
 	public void NewtonianNewtonPush(Vector2 WorldDirection, float Newtonians = Single.NaN, float INairTime = Single.NaN,
 		float INslideTime = Single.NaN, BodyPartType inaim = BodyPartType.Chest,
-		GameObject inthrownBy = null) //Collision is just naturally part of Newtonian push
+		GameObject inthrownBy = null,
+		float spinFactor = 0) //Collision is just naturally part of Newtonian push
 	{
 		var speed = Newtonians / SizeToWeight(GetSize());
-		NewtonianPush(WorldDirection, speed, INairTime, INslideTime, inaim, inthrownBy);
+		NewtonianPush(WorldDirection, speed, INairTime, INslideTime, inaim, inthrownBy, spinFactor);
 	}
 
 	public void PullSet(UniversalObjectPhysics ToPull)
@@ -719,8 +745,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 
 	public void AppliedFriction(float FrictionCoefficient)
 	{
-		var Weight = SizeToWeight(GetSize());
-		var SpeedLossDueToFriction = FrictionCoefficient * Weight;
+		var SpeedLossDueToFriction = FrictionCoefficient * 3;
 
 		var NewMagnitude = newtonianMovement.magnitude - SpeedLossDueToFriction;
 
@@ -756,6 +781,15 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 
 		IsMoving = LocalPOS != LocalTargetPosition;
 
+		if (MoveIsWalking)
+		{
+			IsWalking = IsMoving;
+		}
+		else
+		{
+			IsWalking = false;
+		}
+
 		if (IsMoving)
 		{
 			if (TileMoveSpeedOverride > 0)
@@ -781,12 +815,14 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 
 			TileMoveSpeedOverride = 0;
 			Animating = false;
-			OnLocalTileReached.Invoke(transform.localPosition);
 
-			if (IsFloating() && PulledBy.HasComponent == false && doNotApplyMomentumOnTarget ==false)
+			OnLocalTileReached.Invoke(transform.localPosition);
+			IsWalking = false;
+			MoveIsWalking = false;
+
+			if (IsFloating() && PulledBy.HasComponent == false && doNotApplyMomentumOnTarget == false)
 			{
-				Logger.Log(LastDifference.normalized.ToString());
-				NewtonianPush(LastDifference.normalized,Cash);
+				NewtonianPush(LastDifference.normalized, Cash);
 				LastDifference = Vector3.zero;
 			}
 
@@ -831,6 +867,10 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 	public bool IsFlyingSliding = false;
 
 	public bool IsMoving = false;
+
+	public bool IsWalking = false;
+
+	public bool MoveIsWalking = false;
 
 	public double LastUpdateClientFlying = 0; //NetworkTime.time
 
@@ -896,7 +936,6 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 
 		if (intposition != intNewposition)
 		{
-
 			// if (Collider != null) Collider.enabled = false;
 			//
 			// var hit = MatrixManager.Linecast(position,
@@ -913,18 +952,20 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 
 			if (newtonianMovement.magnitude > 0)
 			{
+				var CashednewtonianMovement = newtonianMovement;
 				SetMatrixCash.ResetNewPosition(intposition);
 				Pushing.Clear();
 				Bumps.Clear();
-
+				Hits.Clear();
 				if (MatrixManager.IsPassableAtAllMatricesV2(intposition,
 					    intNewposition, SetMatrixCash, this,
-					    Pushing, Bumps) == false)
+					    Pushing, Bumps, Hits) == false)
 				{
 					foreach (var Bump in Bumps) //Bump Whatever we Bumped into
 					{
 						Bump.OnBump(this.gameObject);
 					}
+
 					Newposition = position;
 					newtonianMovement *= 0;
 				}
@@ -934,13 +975,51 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 					foreach (var push in Pushing)
 					{
 						if (push == this) continue;
-						push.NewtonianPush(newtonianMovement, newtonianMovement.magnitude, airTime, slideTime, aim, thrownBy, spinMagnitude);
+
+						push.NewtonianNewtonPush(newtonianMovement, (newtonianMovement.magnitude * GetWeight()),
+							Single.NaN, Single.NaN, aim, thrownBy, spinMagnitude);
 					}
+
 					Newposition = position;
 					newtonianMovement *= 0;
 				}
-			}
 
+				var IAV2 = (attributes as ItemAttributesV2);
+				if (IAV2 != null)
+				{
+					foreach (var hit in Hits)
+					{
+						//Integrity
+						//LivingHealthMasterBase
+						//TODO DamageTile( goal,Matrix.Matrix.TilemapsDamage);
+
+						if (hit.gameObject == thrownBy) continue;
+						if (CashednewtonianMovement.magnitude > IAV2.ThrowSpeed * 0.75f)
+						{
+							//Remove cast to int when moving health values to float
+							var damage = (IAV2.ServerThrowDamage);
+
+
+							if (hit.TryGetComponent<Integrity>(out var Integrity))
+							{
+								Integrity.ApplyDamage(damage, AttackType.Melee, IAV2.ServerDamageType);
+							}
+
+							if (hit.TryGetComponent<LivingHealthMasterBase>(out var LivingHealthMasterBase))
+							{
+								var hitZone = aim.Randomize();
+								LivingHealthMasterBase.ApplyDamageToBodyPart(thrownBy, damage, AttackType.Melee, DamageType.Brute,
+									hitZone);
+								Chat.AddThrowHitMsgToChat(gameObject, LivingHealthMasterBase.gameObject, hitZone);
+							}
+
+							AudioSourceParameters audioSourceParameters = new AudioSourceParameters(pitch: 1f);
+							SoundManager.PlayNetworkedAtPos(CommonSounds.Instance.GenericHit, transform.position,
+								audioSourceParameters, sourceObj: gameObject);
+						}
+					}
+				}
+			}
 		}
 
 		var movetoMatrix = MatrixManager.AtPoint(Newposition.RoundToInt(), isServer).Matrix;
@@ -1015,6 +1094,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 		{
 			TileMoveSpeedOverride = 0;
 			Animating = false;
+			IsWalking = false;
 			UpdateManager.Remove(CallbackType.UPDATE, AnimationUpdateMe);
 		}
 

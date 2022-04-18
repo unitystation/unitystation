@@ -59,7 +59,7 @@ namespace Construction.Conveyors
 		{
 			for (int i = 0; i < conveyorBelts.Count; i++)
 			{
-				if (conveyorBelts[i] != null) conveyorBelts[i].MoveBelt();
+				if (conveyorBelts[i] != null) conveyorBelts[i].MoveBelt(ConveyorBeltSpeed);
 			}
 		}
 
@@ -167,7 +167,7 @@ namespace Construction.Conveyors
 
 			if (CurrentState != SwitchState.Off)
 			{
-				UpdateManager.Add(UpdateMe, ConveyorBeltSpeed);
+				UpdateManager.Add(UpdateMe, 0.5f);
 			}
 			else
 			{

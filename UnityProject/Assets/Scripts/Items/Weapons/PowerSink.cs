@@ -23,7 +23,7 @@ namespace Items.Weapons
 		[SerializeField] private AddressableAudioSource beepSound;
 
 		private SpriteHandler spriteHandler;
-		private ObjectBehaviour objectBehaviour;
+		private UniversalObjectPhysics objectBehaviour;
 		private Pickupable pickupable;
 
 		private ResistanceSourceModule RR;
@@ -34,7 +34,7 @@ namespace Items.Weapons
 
 		private void Awake()
 		{
-			objectBehaviour = GetComponent<ObjectBehaviour>();
+			objectBehaviour = GetComponent<UniversalObjectPhysics>();
 			spriteHandler = GetComponentInChildren<SpriteHandler>();
 			pickupable = GetComponentInChildren<Pickupable>();
 			RR = GetComponent<ResistanceSourceModule>();
@@ -83,7 +83,7 @@ namespace Items.Weapons
 		{
 			isAnchored = true;
 			pickupable.ServerSetCanPickup(false);
-			objectBehaviour.ServerSetPushable(false);
+			objectBehaviour.SetIsNotPushable(true);
 			ElectricalManager.Instance.electricalSync.StructureChange = true;
 			Chat.AddLocalMsgToChat($"The {gameObject.ExpensiveName()} makes a clicking sound as it <b>anchors</b> to the ground", gameObject);
 		}
@@ -91,7 +91,7 @@ namespace Items.Weapons
 		{
 			isAnchored = false;
 			pickupable.ServerSetCanPickup(true);
-			objectBehaviour.ServerSetPushable(true);
+			objectBehaviour.SetIsNotPushable(false);
 			ElectricalManager.Instance.electricalSync.StructureChange = true;
 			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, CheckForVoltage);
 			Chat.AddLocalMsgToChat($"The {gameObject.ExpensiveName()} makes a clicking sound as it <b>unanchors</b> from the ground", gameObject);
