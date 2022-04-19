@@ -1,4 +1,5 @@
-﻿using AddressableReferences;
+﻿using System;
+using AddressableReferences;
 using Mirror;
 using UnityEngine;
 
@@ -8,10 +9,17 @@ namespace Objects.Other
 	{
 		[SerializeField, SyncVar] private bool isWrenched = false;
 		[SerializeField, SyncVar] private bool isOn = false;
-		[SerializeField] private float progressBarTime;
+		[SerializeField] private float progressBarTime = 4f;
 		[SerializeField] private float timeInBetweenFlashes = 12f;
 
 		private ObjectBehaviour objectBehaviour;
+
+		private void Awake()
+		{
+			if(CustomNetworkManager.IsServer == false) return;
+			//Incase mappers want the portable flashers to be active on the map without someone setting it up
+			if(isOn) UpdateManager.Add(FlashInRadius, timeInBetweenFlashes);
+		}
 
 
 		public bool WillInteract(HandApply interaction, NetworkSide side)
@@ -37,6 +45,8 @@ namespace Objects.Other
 			//We inverse this to get the opposite of the wrench, so if its not wrenched; isPushable is true and vice versa
 			objectBehaviour.ServerSetPushable(!isWrenched);
 			SoundManager.PlayNetworkedAtPos(CommonSounds.Instance.Wrench, gameObject.AssumedWorldPosServer());
+			var status = !isWrenched ? "immovable" : "movable";
+			Chat.AddLocalMsgToChat($"The {gameObject.ExpensiveName()} is now {status}", gameObject);
 		}
 
 		private void SwitchOffOn(PlayerScript switcher)

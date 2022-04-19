@@ -110,6 +110,21 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8196760117574954170, guid: 3e02bb6440df3c34f88a1add858dfac8,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8196760117574954170, guid: 3e02bb6440df3c34f88a1add858dfac8,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8196760117574954170, guid: 3e02bb6440df3c34f88a1add858dfac8,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
     - target: {fileID: 9066908898016155968, guid: 3e02bb6440df3c34f88a1add858dfac8,
         type: 3}
       propertyPath: foreverID
@@ -119,3 +134,41 @@ PrefabInstance:
     - {fileID: 6990654033406033745, guid: 3e02bb6440df3c34f88a1add858dfac8, type: 3}
     - {fileID: 8954267026484833717, guid: 3e02bb6440df3c34f88a1add858dfac8, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 3e02bb6440df3c34f88a1add858dfac8, type: 3}
+--- !u!1 &1185562140364895280 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5378927155846326025, guid: 3e02bb6440df3c34f88a1add858dfac8,
+    type: 3}
+  m_PrefabInstance: {fileID: 6545489219064025913}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &7076398014117559573
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1185562140364895280}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ab2c21a9da2642fda56e3a8b7edf5679, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  flashRadius: 12
+  flashTime: 12
+  stunExtraTime: 3
+  flashCooldown: 24
+  sunglassesTrait: {fileID: 11400000, guid: 4f5b7ce1cca0a644cba934af14ea4b2c, type: 2}
+  flashSound:
+    SetLoadSetting: 0
+    AssetAddress: 
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
+  stunsPlayers: 1
+  isWrenched: 0
+  isOn: 0
+  progressBarTime: 4
+  timeInBetweenFlashes: 12

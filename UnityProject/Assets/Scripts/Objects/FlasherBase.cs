@@ -20,11 +20,13 @@ namespace Objects
 		[SyncVar] private bool onCooldown = false;
 		public bool OnCooldown => onCooldown;
 		private LayerMask pLayerMask;
+		private LayerMask layerMask;
 
 		private void Start()
 		{
 			//(Max) : How would this work when we get to the mind rework? Will we force all objects that inherit from player to change their mask to "Players"? Or will we make a new one?
 			pLayerMask = LayerMask.GetMask("Players");
+			layerMask = LayerMask.GetMask("Door Closed"); //I copied this from ChatRelay.cs
 		}
 
 		[Server]
@@ -36,6 +38,8 @@ namespace Objects
 			foreach (var target in possibleTargets)
 			{
 				if(gameObject == target.gameObject) continue;
+				if (MatrixManager.Linecast(gameObject.AssumedWorldPosServer(), LayerTypeSelection.Walls,
+					    layerMask, target.gameObject.AssumedWorldPosServer()).ItHit == false) continue;
 				if(target.gameObject.TryGetComponent<RegisterPlayer>(out var player) == false) continue; //If it's not a player, check next
 				if(target.gameObject.TryGetComponent<PlayerFlashEffects>(out var flashEffector) == false) continue; //If the player doesn't have the ability to be flashed for whatever reason, check next
 				if(target.gameObject.TryGetComponent<DynamicItemStorage>(out var playerStorage) == false) continue; //If the player has no storage for whatever reason... would this be a bug?
@@ -56,6 +60,7 @@ namespace Objects
 				}
 			}
 			StartCoroutine(Cooldown());
+			Chat.AddLocalMsgToChat($"The {gameObject.ExpensiveName()} flashes everyone in it's radius.", gameObject);
 		}
 
 		[Server]
