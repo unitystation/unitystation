@@ -10,7 +10,6 @@ namespace CameraEffects
 
 		public DrunkCamera drunkCamera;
 		public GreyscaleCamera greyscaleCamera;
-		public OverlayCrits overlayFlashCamera;
 		public GlitchEffect glitchEffect;
 		public NightVisionCamera nightVisionCamera;
 
@@ -23,7 +22,6 @@ namespace CameraEffects
 
 		private const float TIMER_INTERVAL = 1f;
 		private float drunkCameraTime = 0;
-		private float flashCameraTime = 0;
 
 		private void OnEnable()
 		{
@@ -59,11 +57,12 @@ namespace CameraEffects
 
 		public void FlashEyes(float flashTime)
 		{
-			flashCameraTime += flashTime;
-			flashCameraTime = Mathf.Min(flashCameraTime, maxFlashTime);
-			overlayFlashCamera.enabled = true;
-			overlayFlashCamera.expectedRadius = 0f;
-			if(overlayFlashCamera.Radius >= 5f) UpdateManager.Add(CallbackType.UPDATE, DoFlashTimeCheck);
+			StartCoroutine(FlashEyesCoroutine(flashTime));
+		}
+		private IEnumerator FlashEyesCoroutine(float flashTime)
+		{
+			//TODO : Add flash effects here later
+			yield break;
 		}
 
 		public void ToggleDrunkEffectState(bool state)
@@ -93,13 +92,6 @@ namespace CameraEffects
 				drunkCamera.enabled = false;
 
 			}
-		}
-
-		private void DoFlashTimeCheck()
-		{
-			overlayFlashCamera.expectedRadius = Mathf.Lerp(overlayFlashCamera.expectedRadius,
-				overlayFlashCamera.Radius + 0.5f, Time.deltaTime);
-			if(overlayFlashCamera.Radius >= 5f) UpdateManager.Remove(CallbackType.UPDATE, DoFlashTimeCheck);
 		}
 
 		/// <summary>
