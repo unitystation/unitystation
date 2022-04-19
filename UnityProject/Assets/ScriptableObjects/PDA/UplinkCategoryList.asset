@@ -298,7 +298,7 @@ MonoBehaviour:
         type: 3}
       name: '[PLACEHOLDER] Shielded Hardsuit'
       isNukeOps: 1
-  - categoryName: Misc. Gadgets
+  - categoryName: Devices and Tools
     itemList:
     - cost: 1
       item: {fileID: 3668676918291703395, guid: 00019cd41de95b244ac165825679fd64,
@@ -324,6 +324,11 @@ MonoBehaviour:
         type: 3}
       name: Surgical Equipment Bundle
       isNukeOps: 0
+    - cost: 4
+      item: {fileID: 5647395047373439380, guid: e456d62fc63bc3344a513208fbc3018a,
+        type: 3}
+      name: Combat Med Kit
+      isNukeOps: 1
     - cost: 4
       item: {fileID: 6081445882463156587, guid: 037968b5e32c4ea41b05e567fa5e0cdf,
         type: 3}

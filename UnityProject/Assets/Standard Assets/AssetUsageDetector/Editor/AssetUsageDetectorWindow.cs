@@ -230,15 +230,15 @@ namespace AssetUsageDetectorNamespace
 			mainWindow = this;
 
 #if UNITY_2018_3_OR_NEWER
-			UnityEditor.Experimental.SceneManagement.PrefabStage.prefabStageClosing -= ReplacePrefabStageObjectsWithAssets;
-			UnityEditor.Experimental.SceneManagement.PrefabStage.prefabStageClosing += ReplacePrefabStageObjectsWithAssets;
+			UnityEditor.SceneManagement.PrefabStage.prefabStageClosing -= ReplacePrefabStageObjectsWithAssets;
+			UnityEditor.SceneManagement.PrefabStage.prefabStageClosing += ReplacePrefabStageObjectsWithAssets;
 #endif
 		}
 
 		private void OnDisable()
 		{
 #if UNITY_2018_3_OR_NEWER
-			UnityEditor.Experimental.SceneManagement.PrefabStage.prefabStageClosing -= ReplacePrefabStageObjectsWithAssets;
+			UnityEditor.SceneManagement.PrefabStage.prefabStageClosing -= ReplacePrefabStageObjectsWithAssets;
 #endif
 
 			if( mainWindow == this )
@@ -623,7 +623,7 @@ namespace AssetUsageDetectorNamespace
 				SavePrefs();
 
 #if UNITY_2018_3_OR_NEWER
-				ReplacePrefabStageObjectsWithAssets( UnityEditor.Experimental.SceneManagement.PrefabStageUtility.GetCurrentPrefabStage() );
+				ReplacePrefabStageObjectsWithAssets( UnityEditor.SceneManagement.PrefabStageUtility.GetCurrentPrefabStage() );
 #endif
 
 				// Start searching
@@ -651,7 +651,7 @@ namespace AssetUsageDetectorNamespace
 
 #if UNITY_2018_3_OR_NEWER
 		// Try replacing searched objects who are part of currently open prefab stage with their corresponding prefab assets
-		public void ReplacePrefabStageObjectsWithAssets( UnityEditor.Experimental.SceneManagement.PrefabStage prefabStage )
+		public void ReplacePrefabStageObjectsWithAssets( UnityEditor.SceneManagement.PrefabStage prefabStage )
 		{
 			if( prefabStage == null || !prefabStage.stageHandle.IsValid() )
 				return;
