@@ -19,7 +19,7 @@ namespace AdminTools
 		{
 			if (index < audioList.Count)
 			{
-				AdminCommandsManager.Instance.CmdPlayMusic(audioList[index]);
+				//AdminCommandsManager.Instance.CmdPlayMusic(audioList[index]);
 			}
 		}
 	}

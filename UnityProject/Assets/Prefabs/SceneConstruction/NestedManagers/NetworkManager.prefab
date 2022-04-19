@@ -30,6 +30,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -3436,7 +3437,9 @@ MonoBehaviour:
   - {fileID: 9154479224526578033, guid: 3e16004dbf7f0e44bb12728d0a565ef1, type: 3}
   - {fileID: 5399078393026600257, guid: 229264d974a6b1d4da1ff804d0dca730, type: 3}
   - {fileID: 1779836936379840953, guid: dbbf6d75ddede15448d4f44a35e2b6e1, type: 3}
+  - {fileID: 1547119920814930578, guid: 5cf1ec03dd8d4db4388f32009cf45e68, type: 3}
   - {fileID: 1693542147258265400, guid: da48d3ea930b7f747b15cd3314c86fd0, type: 3}
+  - {fileID: 5647395047373439380, guid: e456d62fc63bc3344a513208fbc3018a, type: 3}
   - {fileID: 8635195139948178778, guid: d0eb5dacbdcd4844e8c76aabde50434f, type: 3}
   - {fileID: 5486197112001328378, guid: 28e04200f63c4714f8608d921b156edd, type: 3}
   - {fileID: 2206236943065396344, guid: c7b3e5dba3b250b469a1eba65c03fc82, type: 3}
@@ -8665,7 +8668,9 @@ MonoBehaviour:
   - {fileID: 9154479224526578033, guid: 3e16004dbf7f0e44bb12728d0a565ef1, type: 3}
   - {fileID: 5399078393026600257, guid: 229264d974a6b1d4da1ff804d0dca730, type: 3}
   - {fileID: 1779836936379840953, guid: dbbf6d75ddede15448d4f44a35e2b6e1, type: 3}
+  - {fileID: 1547119920814930578, guid: 5cf1ec03dd8d4db4388f32009cf45e68, type: 3}
   - {fileID: 1693542147258265400, guid: da48d3ea930b7f747b15cd3314c86fd0, type: 3}
+  - {fileID: 5647395047373439380, guid: e456d62fc63bc3344a513208fbc3018a, type: 3}
   - {fileID: 8635195139948178778, guid: d0eb5dacbdcd4844e8c76aabde50434f, type: 3}
   - {fileID: 5486197112001328378, guid: 28e04200f63c4714f8608d921b156edd, type: 3}
   - {fileID: 2206236943065396344, guid: c7b3e5dba3b250b469a1eba65c03fc82, type: 3}
