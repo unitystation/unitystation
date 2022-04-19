@@ -144,7 +144,12 @@ PrefabInstance:
     - target: {fileID: 4590635147716259917, guid: ad527ba4de069794796e314f236794f4,
         type: 3}
       propertyPath: attackVerbs.Array.size
-      value: 5
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 4590635147716259917, guid: ad527ba4de069794796e314f236794f4,
+        type: 3}
+      propertyPath: initialTraits.Array.size
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 4590635147716259917, guid: ad527ba4de069794796e314f236794f4,
         type: 3}
@@ -168,9 +173,26 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4590635147716259917, guid: ad527ba4de069794796e314f236794f4,
         type: 3}
+      propertyPath: attackVerbs.Array.data[5]
+      value: Reaped
+      objectReference: {fileID: 0}
+    - target: {fileID: 4590635147716259917, guid: ad527ba4de069794796e314f236794f4,
+        type: 3}
       propertyPath: itemSprites.SpriteLeftHand
       value: 
       objectReference: {fileID: 11400000, guid: 81e931154f714a7419adfe27297c5700,
+        type: 2}
+    - target: {fileID: 4590635147716259917, guid: ad527ba4de069794796e314f236794f4,
+        type: 3}
+      propertyPath: initialTraits.Array.data[4]
+      value: 
+      objectReference: {fileID: 11400000, guid: b05bab692e98c487eb4996a0614d143d,
+        type: 2}
+    - target: {fileID: 4590635147716259917, guid: ad527ba4de069794796e314f236794f4,
+        type: 3}
+      propertyPath: initialTraits.Array.data[5]
+      value: 
+      objectReference: {fileID: 11400000, guid: c45c93fdd4d59483cbdb87a1d323bcc5,
         type: 2}
     - target: {fileID: 4590635147716259917, guid: ad527ba4de069794796e314f236794f4,
         type: 3}
@@ -197,9 +219,37 @@ MonoBehaviour:
     type: 3}
   m_PrefabInstance: {fileID: 593508874221327262}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 3559037504847875249}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 579884b05ae74e8499329b64997147d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &3559037504847875249 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4132242788693647151, guid: ad527ba4de069794796e314f236794f4,
+    type: 3}
+  m_PrefabInstance: {fileID: 593508874221327262}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &9137265665619854313
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3559037504847875249}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8e15827970984ba78808f03bc3f01586, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  allClothingData:
+  - {fileID: 11400000, guid: 28c2a4c61f0b02648a66e963d3edf290, type: 2}
+  CurrentClothIndex: 0
+  randomInitialClothData: 0
+  hidesIdentity: 0
+  hidesSlots: 0
+  hideClothingFlags: 0
+  disallowConsume: 0
