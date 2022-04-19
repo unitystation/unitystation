@@ -16,6 +16,7 @@ namespace Objects.Other
 
 		private void Awake()
 		{
+			objectBehaviour = GetComponent<ObjectBehaviour>();
 			if(CustomNetworkManager.IsServer == false) return;
 			//Incase mappers want the portable flashers to be active on the map without someone setting it up
 			if(isOn) UpdateManager.Add(FlashInRadius, timeInBetweenFlashes);
@@ -50,7 +51,7 @@ namespace Objects.Other
 			//We inverse this to get the opposite of the wrench, so if its not wrenched; isPushable is true and vice versa
 			objectBehaviour.ServerSetPushable(!isWrenched);
 			SoundManager.PlayNetworkedAtPos(CommonSounds.Instance.Wrench, gameObject.AssumedWorldPosServer());
-			var status = !isWrenched ? "immovable" : "movable";
+			var status = !isWrenched ? "movable" : "immovable";
 			Chat.AddActionMsgToChat(wrenchHolder.gameObject, $"The {gameObject.ExpensiveName()} is now {status}",
 				$"{wrenchHolder.visibleName} uses the wrench on the {gameObject.ExpensiveName()}");
 		}

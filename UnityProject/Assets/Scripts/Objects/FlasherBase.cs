@@ -39,7 +39,7 @@ namespace Objects
 			{
 				if(gameObject == target.gameObject) continue;
 				if (MatrixManager.Linecast(gameObject.AssumedWorldPosServer(), LayerTypeSelection.Walls,
-					    layerMask, target.gameObject.AssumedWorldPosServer()).ItHit == false) continue;
+					    layerMask, target.gameObject.AssumedWorldPosServer()).ItHit) continue;
 				if(target.gameObject.TryGetComponent<RegisterPlayer>(out var player) == false) continue; //If it's not a player, check next
 				if(target.gameObject.TryGetComponent<PlayerFlashEffects>(out var flashEffector) == false) continue; //If the player doesn't have the ability to be flashed for whatever reason, check next
 				if(target.gameObject.TryGetComponent<DynamicItemStorage>(out var playerStorage) == false) continue; //If the player has no storage for whatever reason... would this be a bug?
