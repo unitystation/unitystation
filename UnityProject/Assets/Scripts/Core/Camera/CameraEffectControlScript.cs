@@ -10,7 +10,7 @@ namespace CameraEffects
 
 		public DrunkCamera drunkCamera;
 		public GreyscaleCamera greyscaleCamera;
-		public OverlayCrits greyscaleFlashCamera;
+		public OverlayCrits overlayFlashCamera;
 		public GlitchEffect glitchEffect;
 		public NightVisionCamera nightVisionCamera;
 
@@ -61,9 +61,9 @@ namespace CameraEffects
 		{
 			flashCameraTime += flashTime;
 			flashCameraTime = Mathf.Min(flashCameraTime, maxFlashTime);
-			greyscaleFlashCamera.enabled = true;
-			greyscaleFlashCamera.expectedRadius = 0f;
-			if(greyscaleFlashCamera.Radius >= 5f) UpdateManager.Add(CallbackType.UPDATE, DoFlashTimeCheck);
+			overlayFlashCamera.enabled = true;
+			overlayFlashCamera.expectedRadius = 0f;
+			if(overlayFlashCamera.Radius >= 5f) UpdateManager.Add(CallbackType.UPDATE, DoFlashTimeCheck);
 		}
 
 		public void ToggleDrunkEffectState(bool state)
@@ -97,9 +97,9 @@ namespace CameraEffects
 
 		private void DoFlashTimeCheck()
 		{
-			greyscaleFlashCamera.expectedRadius = Mathf.Lerp(greyscaleFlashCamera.expectedRadius,
-				greyscaleFlashCamera.Radius + 0.5f, Time.deltaTime);
-			if(greyscaleFlashCamera.Radius >= 5f) UpdateManager.Remove(CallbackType.UPDATE, DoFlashTimeCheck);
+			overlayFlashCamera.expectedRadius = Mathf.Lerp(overlayFlashCamera.expectedRadius,
+				overlayFlashCamera.Radius + 0.5f, Time.deltaTime);
+			if(overlayFlashCamera.Radius >= 5f) UpdateManager.Remove(CallbackType.UPDATE, DoFlashTimeCheck);
 		}
 
 		/// <summary>
