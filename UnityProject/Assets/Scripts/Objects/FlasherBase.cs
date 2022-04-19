@@ -11,7 +11,7 @@ namespace Objects
 	public class FlasherBase : NetworkBehaviour
 	{
 		[SerializeField] protected float flashRadius = 12f;
-		[SerializeField, MinMaxSlider(3,20)] protected float flashStrength = 12f;
+		[SerializeField, MinMaxSlider(3,20)] protected float flashTime = 12f;
 		[SerializeField, MinMaxSlider(3,6), ShowIf(nameof(stunsPlayers))] protected float stunExtraTime = 3f;
 		[SerializeField] protected float flashCooldown = 24f;
 		[SerializeField] protected ItemTrait sunglassesTrait;
@@ -87,8 +87,8 @@ namespace Objects
 		[Server]
 		private void TellClientThatTheyHaveBeenFlashed(PlayerFlashEffects effects, RegisterPlayer player)
 		{
-			effects.ServerSendMessageToClient(player.gameObject, flashStrength);
-			if(stunsPlayers) player.ServerStun(flashStrength + stunExtraTime);
+			effects.ServerSendMessageToClient(player.gameObject, flashTime);
+			if(stunsPlayers) player.ServerStun(flashTime + stunExtraTime);
 		}
 
 		[Server]
