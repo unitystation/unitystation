@@ -53,6 +53,11 @@ namespace CameraEffects
 			}
 		}
 
+		public void FlashEyes(float flashTime)
+		{
+
+		}
+
 		public void ToggleDrunkEffectState(bool state)
 		{
 			drunkCamera.enabled = state;
