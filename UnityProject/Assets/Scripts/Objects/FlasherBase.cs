@@ -12,6 +12,7 @@ namespace Objects
 		[SerializeField, MinMaxSlider(3,20)] protected float flashStrength = 12f;
 		[SerializeField] protected float flashCooldown = 24f;
 		[SerializeField] protected ItemTrait sunglassesTrait;
+		[SerializeField] protected bool stunsPlayers = true;
 		[SyncVar] private bool onCooldown = false;
 		public bool OnCooldown => onCooldown;
 		private LayerMask pLayerMask;
@@ -31,8 +32,12 @@ namespace Objects
 					if(slots.Key != NamedSlot.eyes) continue;
 					foreach (var onSlots in slots.Value)
 					{
-						if(onSlots.IsEmpty) continue;
-						if(onSlots.ItemAttributes.HasTrait(sunglassesTrait) == false) continue;
+						if (onSlots.IsEmpty)
+						{
+							flashEffector.ServerSendMessageToClient(target.gameObject, flashStrength);
+							continue;
+						}
+						if(onSlots.ItemAttributes.HasTrait(sunglassesTrait)) continue;
 						flashEffector.ServerSendMessageToClient(target.gameObject, flashStrength);
 						break;
 					}
