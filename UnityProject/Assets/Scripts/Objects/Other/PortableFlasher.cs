@@ -35,25 +35,31 @@ namespace Objects.Other
 				return;
 			}
 			if(interaction.HandObject.Item().HasTrait(CommonTraits.Instance.Wrench) == false) return;
+
+			void DoWrenchInteraction()
+			{
+				WrenchInteraction(interaction.PerformerPlayerScript);
+			}
 			var cfg = new StandardProgressActionConfig(StandardProgressActionType.Mop);
-			var bar = StandardProgressAction.Create(cfg, WrenchInteraction).ServerStartProgress(interaction.Performer.AssumedWorldPosServer(), progressBarTime, interaction.Performer);
+			var bar = StandardProgressAction.Create(cfg, DoWrenchInteraction).ServerStartProgress(interaction.Performer.AssumedWorldPosServer(), progressBarTime, interaction.Performer);
 		}
 
-		private void WrenchInteraction()
+		private void WrenchInteraction(PlayerScript wrenchHolder)
 		{
 			isWrenched = !isWrenched;
 			//We inverse this to get the opposite of the wrench, so if its not wrenched; isPushable is true and vice versa
 			objectBehaviour.ServerSetPushable(!isWrenched);
 			SoundManager.PlayNetworkedAtPos(CommonSounds.Instance.Wrench, gameObject.AssumedWorldPosServer());
 			var status = !isWrenched ? "immovable" : "movable";
-			Chat.AddLocalMsgToChat($"The {gameObject.ExpensiveName()} is now {status}", gameObject);
+			Chat.AddActionMsgToChat(wrenchHolder.gameObject, $"The {gameObject.ExpensiveName()} is now {status}",
+				$"{wrenchHolder.visibleName} uses the wrench on the {gameObject.ExpensiveName()}");
 		}
 
 		private void SwitchOffOn(PlayerScript switcher)
 		{
 			if (isWrenched == false && isOn == false)
 			{
-				Chat.AddExamineMsg(switcher.gameObject, "You need to wrench this first before you can turn it on!");
+				Chat.AddExamineMsg(switcher.gameObject, "You need to wrench this down first before you can turn it on!");
 				return;
 			}
 
