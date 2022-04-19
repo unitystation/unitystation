@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d636b8087f64d7e4bb4b3d742d8c5cb1, type: 3}
+  m_Name: ArtifactData
+  m_EditorClassIdentifier: 
+  compositionData:
+    m_keys:
+    - iron
+    - uranium
+    - bananium
+    - bluespace
+    - glass
+    m_values:
+    - {fileID: 5770283965274354279, guid: b83b68cfa4a201748aeeece963a989c3, type: 3}
+    - {fileID: 5079880465429418907, guid: e85621ccf37627c47bb04b501d86fb83, type: 3}
+    - {fileID: 1455605835710910032, guid: 4f841c65f76fe974880847c01e7a432d, type: 3}
+    - {fileID: 6211075373097523109, guid: ec5fbdce8af90e84ead236f0e04aa67a, type: 3}
+    - {fileID: 8579127030982015588, guid: 66a5287d0bf216847a2f4fe34228a0cf, type: 3}

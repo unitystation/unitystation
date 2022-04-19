@@ -24,6 +24,8 @@ namespace Systems.Research.Objects
 
 		public List<string> AvailableDesigns = new List<string>();
 
+		public List<string> researchedSlivers;
+
 		[NonSerialized] public Action<int,List<string>> TechWebUpdateEvent;
 
 		private void Awake()
@@ -81,6 +83,16 @@ namespace Systems.Research.Objects
 				yield return WaitFor.Seconds(TrickleTime);
 				techweb.AddResearchPoints(researchPointsTrickl);
 			}
+		}
+
+		public bool AddPointsToTechWeb(int points)
+		{
+			if(techweb != null)
+			{
+				techweb.AddResearchPoints(points);
+				return true;
+			}
+			return false;			
 		}
 
 		#region MultitoolInteraction
