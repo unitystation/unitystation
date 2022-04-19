@@ -511,7 +511,6 @@ namespace AdminCommands
 		[TargetRpc]
 		private void TargetSendCargoData(NetworkConnection target, List<CargoManager.BountySyncData> data)
 		{
-			Debug.Log(target.connectionId);
 			AdminBountyManager.Instance.RefreshBountiesList(data);
 		}
 
@@ -527,7 +526,6 @@ namespace AdminCommands
 				foundBounty.Index = i;
 				simpleData.Add(foundBounty);
 			}
-			Debug.Log(simpleData.Count);
 			TargetSendCargoData(PlayerList.Instance.GetByUserID(id).Connection, simpleData);
 		}
 
