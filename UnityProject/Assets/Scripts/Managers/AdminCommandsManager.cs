@@ -497,8 +497,9 @@ namespace AdminCommands
 		#region CargoControlCommands
 
 		[Command(requiresAuthority = false)]
-		public void CmdRemoveBounty(int index, bool completeBounty)
+		public void CmdRemoveBounty(int index, bool completeBounty, NetworkConnectionToClient sender = null)
 		{
+			if (IsAdmin(sender, out var admin) == false) return;
 			if (completeBounty)
 			{
 				CargoManager.Instance.CompleteBounty(CargoManager.Instance.ActiveBounties[index]);
@@ -515,8 +516,9 @@ namespace AdminCommands
 		}
 
 		[Command(requiresAuthority = false)]
-		public void CmdRequestCargoServerData(string id)
+		public void CmdRequestCargoServerData(string id, NetworkConnectionToClient sender = null)
 		{
+			if (IsAdmin(sender, out var admin) == false) return;
 			List<CargoManager.BountySyncData> simpleData = new List<CargoManager.BountySyncData>();
 			for (int i = 0; i < CargoManager.Instance.ActiveBounties.Count; i++)
 			{
@@ -530,8 +532,9 @@ namespace AdminCommands
 		}
 
 		[Command(requiresAuthority = false)]
-		public void CmdAddBounty(ItemTrait trait, int amount, string description, int reward, bool announce)
+		public void CmdAddBounty(ItemTrait trait, int amount, string description, int reward, bool announce, NetworkConnectionToClient sender = null)
 		{
+			if (IsAdmin(sender, out var admin) == false) return;
 			CargoManager.Instance.AddBounty(trait, amount, description, reward, announce);
 		}
 
