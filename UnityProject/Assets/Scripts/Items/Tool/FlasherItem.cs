@@ -6,7 +6,8 @@ namespace Items.Tool
 	{
 		public bool WillInteract(HandApply interaction, NetworkSide side)
 		{
-			return DefaultWillInteract.Default(interaction, side);
+			if (DefaultWillInteract.Default(interaction, side) == false) return false;
+			return gameObject.PickupableOrNull().ItemSlot != null;
 		}
 
 		public void ServerPerformInteraction(HandApply interaction)
