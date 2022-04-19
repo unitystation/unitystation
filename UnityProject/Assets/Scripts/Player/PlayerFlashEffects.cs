@@ -11,6 +11,7 @@ namespace Player
 		public void ServerSendMessageToClient(GameObject client, float newValue)
 		{
 			PlayerDrunkServerMessage.Send(client, newValue);
+			PlayerFlashEffectsMessage.Send(client, newValue);
 		}
 	}
 
