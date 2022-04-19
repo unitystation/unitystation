@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using AdminCommands;
 using UnityEngine;
 using UnityEngine.UI;
 using AdminTools;
@@ -12,6 +14,8 @@ namespace UI.Systems.AdminTools
 {
 	public class AdminBountyManager : AdminPage
 	{
+
+		public static AdminBountyManager Instance;
 		[SerializeField] private TMP_InputField bountyAmount;
 		[SerializeField] private TMP_InputField bountyReward;
 		[SerializeField] private TMP_InputField bountyDesc;
@@ -22,6 +26,11 @@ namespace UI.Systems.AdminTools
 		[SerializeField] private GameObject bountiesManagerTab;
 		[SerializeField] private GameObject bountiesAdderTab;
 
+
+		private void Awake()
+		{
+			Instance = this;
+		}
 
 		private void Start()
 		{
@@ -43,7 +52,7 @@ namespace UI.Systems.AdminTools
 		public override void OnEnable()
 		{
 			base.OnEnable();
-			RefreshBountiesList();
+			AdminCommandsManager.Instance.CmdRequestCargoServerData(PlayerManager.PlayerScript.connectedPlayer.UserId);
 			UIManager.IsInputFocus = true;
 			UIManager.PreventChatInput = true;
 		}
@@ -52,7 +61,7 @@ namespace UI.Systems.AdminTools
 		{
 			bountiesAdderTab.SetActive(false);
 			bountiesManagerTab.SetActive(true);
-			RefreshBountiesList();
+			AdminCommandsManager.Instance.CmdRequestCargoServerData(PlayerManager.PlayerScript.connectedPlayer.UserId);
 		}
 
 		public void ShowAdder()
@@ -66,17 +75,17 @@ namespace UI.Systems.AdminTools
 			gameObject.SetActive(false);
 		}
 
-		private void RefreshBountiesList()
+		public void RefreshBountiesList(List<CargoManager.BountySyncData> data)
 		{
 			foreach (Transform child in bountiesList.transform)
 			{
 				Destroy(child.gameObject);
 			}
 
-			foreach (var activeBounty in CargoManager.Instance.ActiveBounties)
+			foreach (var activeBounty in data)
 			{
 				var newEntry = Instantiate(bountyEntryTemplate, bountiesList.transform);
-				newEntry.GetComponent<AdminBountyManagerListEntry>().Setup(activeBounty);
+				newEntry.GetComponent<AdminBountyManagerListEntry>().Setup(activeBounty.Index, activeBounty.Desc, activeBounty.Reward);
 				newEntry.SetActive(true);
 			}
 		}
@@ -86,16 +95,13 @@ namespace UI.Systems.AdminTools
 			foreach (var possibleTrait in CommonTraits.Instance.everyTraitOutThere)
 			{
 				if(possibleTrait.name != itemTraitsForBounties.options[itemTraitsForBounties.value].text) continue;
-				if (CargoManager.Instance.AddBounty(possibleTrait, int.Parse(bountyAmount.text),
-					    bountyDesc.text, int.Parse(bountyReward.text)) && bountyAnnoucementToggle.isOn)
-				{
-					CentComm.MakeAnnouncement(ChatTemplates.CentcomAnnounce, "A bounty for cargo has been issued from central communications", CentComm.UpdateSound.Notice);
-					bountyAnnoucementToggle.isOn = false;
-				}
-
+				AdminCommandsManager.Instance.CmdAddBounty(possibleTrait, int.Parse(bountyAmount.text),
+					bountyDesc.text, int.Parse(bountyReward.text) , bountyAnnoucementToggle.isOn);
+				bountyAnnoucementToggle.isOn = false;
 				break;
 			}
-			RefreshBountiesList();
+
+			AdminCommandsManager.Instance.CmdRequestCargoServerData(PlayerManager.PlayerScript.connectedPlayer.UserId);
 		}
 	}
 }
