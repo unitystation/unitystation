@@ -11,8 +11,8 @@ namespace Objects
 	public class FlasherBase : NetworkBehaviour
 	{
 		[SerializeField] protected float flashRadius = 12f;
-		[SerializeField, MinMaxSlider(3,20)] protected float flashTime = 12f;
-		[SerializeField, MinMaxSlider(3,6), ShowIf(nameof(stunsPlayers))] protected float stunExtraTime = 3f;
+		[SerializeField] protected float flashTime = 12f;
+		[SerializeField, ShowIf(nameof(stunsPlayers))] protected float stunExtraTime = 3f;
 		[SerializeField] protected float flashCooldown = 24f;
 		[SerializeField] protected ItemTrait sunglassesTrait;
 		[SerializeField] protected AddressableAudioSource flashSound;

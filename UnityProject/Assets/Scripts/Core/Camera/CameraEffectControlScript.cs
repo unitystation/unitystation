@@ -10,17 +10,20 @@ namespace CameraEffects
 
 		public DrunkCamera drunkCamera;
 		public GreyscaleCamera greyscaleCamera;
+		public OverlayCrits greyscaleFlashCamera;
 		public GlitchEffect glitchEffect;
 		public NightVisionCamera nightVisionCamera;
 
 		[SerializeField]
 		private GameObject minimalVisibilitySprite;
 
-		[SerializeField]
-		private int maxDrunkTime = 120000;
+
+		[SerializeField] private int maxDrunkTime = 120000;
+		[SerializeField] private int maxFlashTime = 25;
 
 		private const float TIMER_INTERVAL = 1f;
 		private float drunkCameraTime = 0;
+		private float flashCameraTime = 0;
 
 		private void OnEnable()
 		{
@@ -48,6 +51,7 @@ namespace CameraEffects
 
 			if (drunkCamera.enabled == false)
 			{
+				ToggleDrunkEffectState(true);
 				drunkCamera.ModerateDrunk();
 				UpdateManager.Add(DoEffectTimeCheck, TIMER_INTERVAL);
 			}
@@ -55,7 +59,11 @@ namespace CameraEffects
 
 		public void FlashEyes(float flashTime)
 		{
-
+			flashCameraTime += flashTime;
+			flashCameraTime = Mathf.Min(flashCameraTime, maxFlashTime);
+			greyscaleFlashCamera.enabled = true;
+			greyscaleFlashCamera.expectedRadius = 0f;
+			if(greyscaleFlashCamera.Radius >= 5f) UpdateManager.Add(CallbackType.UPDATE, DoFlashTimeCheck);
 		}
 
 		public void ToggleDrunkEffectState(bool state)
@@ -83,8 +91,15 @@ namespace CameraEffects
 			else
 			{
 				drunkCamera.enabled = false;
-				UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, DoEffectTimeCheck);
+
 			}
+		}
+
+		private void DoFlashTimeCheck()
+		{
+			greyscaleFlashCamera.expectedRadius = Mathf.Lerp(greyscaleFlashCamera.expectedRadius,
+				greyscaleFlashCamera.Radius + 0.5f, Time.deltaTime);
+			if(greyscaleFlashCamera.Radius >= 5f) UpdateManager.Remove(CallbackType.UPDATE, DoFlashTimeCheck);
 		}
 
 		/// <summary>
