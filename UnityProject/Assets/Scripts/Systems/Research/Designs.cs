@@ -3,6 +3,8 @@ using UnityEngine;
 using System.Collections.Generic;
 using System.Linq;
 using Newtonsoft.Json;
+using System.Threading.Tasks;
+using Systems.Research.Data;
 
 namespace Systems.Research
 {
@@ -60,11 +62,10 @@ public class Designs : MonoBehaviour
 
 	void Awake()
 	{
-		//if (!(Globals.IsInitialised))
-		//{
-		//	JsonImportInitialization();
-		//	Globals.IsInitialised = true;
-		//}
+		if (!(Globals.IsInitialised))
+		{
+			new Task(JsonImportInitialization).Start();
+		}
 	}
 	public static class Globals
 	{
@@ -89,7 +90,6 @@ public class Designs : MonoBehaviour
 			@"Metadata\Designs\WeaponDesigns",
 		};
 		public static Dictionary<string,Design> InternalIDSearch;
-
 
 	}
 	private static void JsonImportInitialization ()
@@ -117,6 +117,15 @@ public class Designs : MonoBehaviour
 					DesignPass.Category = new List<string> ();
 				}
 
+				if (JsonTechnologies[i].ContainsKey("Materials"))
+				{
+					DesignPass.Materials = JsonConvert.DeserializeObject<Dictionary<string, int>>(JsonTechnologies[i]["Materials"].ToString());
+				}
+				else
+				{
+					DesignPass.Materials = new Dictionary<string, int>();
+				}
+
 				if (JsonTechnologies [i].ContainsKey ("Compatible_machinery")) {
 					DesignPass.CompatibleMachinery = JsonConvert.DeserializeObject<List<string>> (JsonTechnologies [i] ["Compatible_machinery"].ToString ());
 				} else {
@@ -142,6 +151,7 @@ public class Designs : MonoBehaviour
 
 		}
 		Logger.Log ("JsonImportInitialization for designs is done!", Category.Research);
+		Globals.IsInitialised = true;
 	}
 
 }

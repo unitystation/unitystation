@@ -11,14 +11,7 @@ namespace Systems.Electricity
 			electricalSync.sampler.Begin();
 			if (electricalSync.MainThreadStep == false)
 			{
-				try
-				{
-					electricalSync.DoTick();
-				}
-				catch (Exception e)
-				{
-					Logger.LogError($"Electrical Thread Error! {e.GetStack()}", Category.Electrical);
-				}
+				electricalSync.DoTick();
 			}
 			electricalSync.sampler.End();
 		}

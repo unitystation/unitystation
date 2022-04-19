@@ -212,8 +212,8 @@ namespace AdminTools
 			var players = FindObjectsOfType<PlayerScript>(); //since this is client sided it's fiinnnneee
 			foreach (var possiblePlayer in players)
 			{
-				if(possiblePlayer.connectedPlayer.UserId != PlayerEntry.PlayerData.uid) continue;
-				adminTools.giveItemPage.selectedPlayer = possiblePlayer.connectedPlayer;
+				if(possiblePlayer.connectedPlayer.Username != PlayerEntry.PlayerData.accountName) continue;
+				adminTools.giveItemPage.selectedPlayer = possiblePlayer.gameObject;
 			}
 
 			if (adminTools.giveItemPage.selectedPlayer == null)
