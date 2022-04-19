@@ -82,7 +82,15 @@ namespace Core.Threading
 			Profiler.BeginThreadProfiling("Unitystation", threadName);
 			while (running && threadMode == ThreadMode.Threaded && midTick == false)
 			{
-				RunTick();
+				try
+				{
+					RunTick();
+				}
+				catch (Exception e)
+				{
+					ThreadLogger.AddLog(e.ToString(), Category.Threading);
+				}
+
 				Thread.Sleep(tickDelay);
 				ticker++;
 			}
