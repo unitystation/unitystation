@@ -25,6 +25,7 @@ namespace Objects
 			foreach (var target in possibleTargets)
 			{
 				if(gameObject == target.gameObject) continue;
+				if(target.gameObject.TryGetComponent<RegisterPlayer>(out var player) == false) continue;
 				if(target.gameObject.TryGetComponent<PlayerFlashEffects>(out var flashEffector) == false) continue;
 				if(target.gameObject.TryGetComponent<DynamicItemStorage>(out var playerStorage) == false) continue;
 				foreach (var slots in playerStorage.ServerContents)
@@ -34,16 +35,22 @@ namespace Objects
 					{
 						if (onSlots.IsEmpty)
 						{
-							flashEffector.ServerSendMessageToClient(target.gameObject, flashStrength);
+							TellClientThatTheyHaveBeenFlashed(flashEffector, player);
 							continue;
 						}
 						if(onSlots.ItemAttributes.HasTrait(sunglassesTrait)) continue;
-						flashEffector.ServerSendMessageToClient(target.gameObject, flashStrength);
+						TellClientThatTheyHaveBeenFlashed(flashEffector, player);
 						break;
 					}
 				}
 			}
 			StartCoroutine(Cooldown());
+		}
+
+		private void TellClientThatTheyHaveBeenFlashed(PlayerFlashEffects effects, RegisterPlayer player)
+		{
+			effects.ServerSendMessageToClient(player.gameObject, flashStrength);
+			if(stunsPlayers) player.ServerStun(flashStrength + 3);
 		}
 
 		[Server]
