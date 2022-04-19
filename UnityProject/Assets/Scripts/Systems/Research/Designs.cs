@@ -8,7 +8,7 @@ using Systems.Research.Data;
 
 namespace Systems.Research
 {
-	public class Design
+public class Design
 {
 	public String InternalID { get; set; } //
 
@@ -64,7 +64,7 @@ public class Designs : MonoBehaviour
 	{
 		if (!(Globals.IsInitialised))
 		{
-			new Task(JsonImportInitialization).Start();
+			JsonImportInitialization();
 		}
 	}
 	public static class Globals
@@ -94,27 +94,35 @@ public class Designs : MonoBehaviour
 	}
 	private static void JsonImportInitialization ()
 	{
-		Globals.InternalIDSearch =  new Dictionary<string,Design>();
-		foreach (string FilePath in Globals.PathsList) {
-			string json = (Resources.Load (FilePath) as TextAsset).ToString ();
-			var JsonTechnologies = JsonConvert.DeserializeObject<List<Dictionary<String,System.Object>>> (json);
-			for (var i = 0; i < JsonTechnologies.Count (); i++) {
-				Design DesignPass = new Design ();
-				DesignPass.InternalID = JsonTechnologies [i] ["Internal_ID"].ToString ();
-				DesignPass.Name = JsonTechnologies [i] ["name"].ToString ();
-				DesignPass.ItemID = JsonTechnologies [i] ["Item_ID"].ToString ();
+		Globals.InternalIDSearch = new Dictionary<string, Design>();
+		foreach (string FilePath in Globals.PathsList)
+		{
+			string json = (Resources.Load(FilePath) as TextAsset).ToString();
+			var JsonTechnologies = JsonConvert.DeserializeObject<List<Dictionary<String, System.Object>>>(json);
+			for (var i = 0; i < JsonTechnologies.Count(); i++)
+			{
+				Design DesignPass = new Design();
+				DesignPass.InternalID = JsonTechnologies[i]["Internal_ID"].ToString();
+				DesignPass.Name = JsonTechnologies[i]["name"].ToString();
+				DesignPass.ItemID = JsonTechnologies[i]["Item_ID"].ToString();
 
-				if (JsonTechnologies [i].ContainsKey ("Description")) {
-					DesignPass.Description = JsonTechnologies [i] ["Description"].ToString ();
-				} else {
+				if (JsonTechnologies[i].ContainsKey("Description"))
+				{
+					DesignPass.Description = JsonTechnologies[i]["Description"].ToString();
+				}
+				else
+				{
 					DesignPass.Description = " *Breathes in through teeth* nahh, no description here mate ";
 				}
 
 
-				if (JsonTechnologies [i].ContainsKey ("Category")) {
-					DesignPass.Category = JsonConvert.DeserializeObject<List<string>> (JsonTechnologies [i] ["Category"].ToString ());
-				} else {
-					DesignPass.Category = new List<string> ();
+				if (JsonTechnologies[i].ContainsKey("Category"))
+				{
+					DesignPass.Category = JsonConvert.DeserializeObject<List<string>>(JsonTechnologies[i]["Category"].ToString());
+				}
+				else
+				{
+					DesignPass.Category = new List<string>();
 				}
 
 				if (JsonTechnologies[i].ContainsKey("Materials"))
@@ -126,31 +134,40 @@ public class Designs : MonoBehaviour
 					DesignPass.Materials = new Dictionary<string, int>();
 				}
 
-				if (JsonTechnologies [i].ContainsKey ("Compatible_machinery")) {
-					DesignPass.CompatibleMachinery = JsonConvert.DeserializeObject<List<string>> (JsonTechnologies [i] ["Compatible_machinery"].ToString ());
-				} else {
-					DesignPass.CompatibleMachinery = new List<string> ();
+				if (JsonTechnologies[i].ContainsKey("Compatible_machinery"))
+				{
+					DesignPass.CompatibleMachinery = JsonConvert.DeserializeObject<List<string>>(JsonTechnologies[i]["Compatible_machinery"].ToString());
+				}
+				else
+				{
+					DesignPass.CompatibleMachinery = new List<string>();
 				}
 
-				DesignPass.MachineryType = JsonConvert.DeserializeObject<List<string>> (JsonTechnologies [i] ["Machinery_type"].ToString ());
+				DesignPass.MachineryType = JsonConvert.DeserializeObject<List<string>>(JsonTechnologies[i]["Machinery_type"].ToString());
 
-				if (JsonTechnologies [i].ContainsKey ("Required_reagents")) {
-					DesignPass.RequiredReagents = JsonConvert.DeserializeObject<Dictionary<string,int>> (JsonTechnologies [i] ["Required_reagents"].ToString ());
-				} else {
-					DesignPass.RequiredReagents = new Dictionary<string,int> ();
+				if (JsonTechnologies[i].ContainsKey("Required_reagents"))
+				{
+					DesignPass.RequiredReagents = JsonConvert.DeserializeObject<Dictionary<string, int>>(JsonTechnologies[i]["Required_reagents"].ToString());
+				}
+				else
+				{
+					DesignPass.RequiredReagents = new Dictionary<string, int>();
 				}
 
-				if (JsonTechnologies [i].ContainsKey ("Make_reagents")) {
-					DesignPass.ReagentsToMake = JsonConvert.DeserializeObject<Dictionary<string,int>> (JsonTechnologies [i] ["Make_reagents"].ToString ());
-				} else {
-					DesignPass.ReagentsToMake = new Dictionary<string,int> ();
+				if (JsonTechnologies[i].ContainsKey("Make_reagents"))
+				{
+					DesignPass.ReagentsToMake = JsonConvert.DeserializeObject<Dictionary<string, int>>(JsonTechnologies[i]["Make_reagents"].ToString());
+				}
+				else
+				{
+					DesignPass.ReagentsToMake = new Dictionary<string, int>();
 				}
 
 				Globals.InternalIDSearch[DesignPass.InternalID] = DesignPass;
 			}
 
 		}
-		Logger.Log ("JsonImportInitialization for designs is done!", Category.Research);
+		Logger.Log("JsonImportInitialization for designs is done!", Category.Research);
 		Globals.IsInitialised = true;
 	}
 
