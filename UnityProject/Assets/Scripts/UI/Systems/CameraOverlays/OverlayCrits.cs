@@ -22,7 +22,7 @@ using System.Collections;
 
 		public float Epow = 2;
 
-		public float expectedRadius;
+		private float expectedRadius;
 
 		void LateUpdate()
 		{
