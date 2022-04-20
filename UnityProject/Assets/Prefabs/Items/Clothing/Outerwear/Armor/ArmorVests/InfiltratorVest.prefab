@@ -24,6 +24,16 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 4d3fe1d2ae051104c91cad14100fa2f4,
         type: 2}
+    - target: {fileID: 4742361789441152362, guid: 900572ab8ed9030429b12eaa3974a43f,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[0].armor.Bomb
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 4742361789441152362, guid: 900572ab8ed9030429b12eaa3974a43f,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[0].armor.Melee
+      value: 40
+      objectReference: {fileID: 0}
     - target: {fileID: 8841056279837395319, guid: 900572ab8ed9030429b12eaa3974a43f,
         type: 3}
       propertyPath: initialName
