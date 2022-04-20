@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Newtonsoft.Json;
 using System.Threading.Tasks;
-using Systems.Research.Data;
+using System.IO;
 
 namespace Systems.Research
 {
@@ -60,44 +60,46 @@ namespace Systems.Research
 	public class Designs : MonoBehaviour
 	{
 
+		static List<string> Jsons = new List<string>();
+
 		void Awake()
 		{
 			if (!(Globals.IsInitialised))
 			{
-				JsonImportInitialization();
+				Jsons.Clear();
+
+				Globals.InternalIDSearch = new Dictionary<string, Design>();
+
+				string info = Application.dataPath + Designs.Globals.DesignPath;
+
+				string[] fileInfo = Directory.GetFiles(info,"*.json");
+
+				foreach(string file in fileInfo)
+				{
+					string f = file;
+
+					f = f.Replace(Application.dataPath + @"\Resources\", "");
+					f = f.Replace(".json", "");
+
+					Jsons.Add((Resources.Load(f) as TextAsset).ToString());
+				}
+
+				new Task(JsonImportInitialization).Start();
 			}
 		}
 		public static class Globals
 		{
 			public static bool IsInitialised = false;
-			public static List<string> PathsList = new List<string> {
-				@"Metadata\Designs\AIDesigns",
-				@"Metadata\Designs\BiogeneratorDesigns",
-				@"Metadata\Designs\BluespaceDesigns",
-				@"Metadata\Designs\CompBoardDesigns",
-				@"Metadata\Designs\ComputerPartDesigns",
-				@"Metadata\Designs\ElectronicsDesigns",
-				@"Metadata\Designs\LimbgrowerDesigns",
-				@"Metadata\Designs\MachineDesigns",
-				@"Metadata\Designs\MechaDesigns",
-				@"Metadata\Designs\MechfabricatorDesigns",
-				@"Metadata\Designs\MedicalDesigns",
-				@"Metadata\Designs\MiningDesigns",
-				@"Metadata\Designs\MiscDesigns",
-				@"Metadata\Designs\PowerDesigns",
-				@"Metadata\Designs\StockPartsDesigns",
-				@"Metadata\Designs\TelecommsDesigns",
-				@"Metadata\Designs\WeaponDesigns",
-			};
+
+			public static string DesignPath = @"\Resources\Metadata\Designs\";
+
 			public static Dictionary<string,Design> InternalIDSearch;
 
 		}
-		private static void JsonImportInitialization ()
+		private static void JsonImportInitialization()
 		{
-			Globals.InternalIDSearch = new Dictionary<string, Design>();
-			foreach (string FilePath in Globals.PathsList)
+			foreach (string json in Jsons)
 			{
-				string json = (Resources.Load(FilePath) as TextAsset).ToString();
 				var JsonTechnologies = JsonConvert.DeserializeObject<List<Dictionary<String, System.Object>>>(json);
 				for (var i = 0; i < JsonTechnologies.Count(); i++)
 				{
