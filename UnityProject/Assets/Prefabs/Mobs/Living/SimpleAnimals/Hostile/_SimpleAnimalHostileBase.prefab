@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mobName: =
+  registerObject: {fileID: 0}
   deathSounds: []
   randomSounds: []
   playRandomSoundTimer: 6
@@ -31,25 +32,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 857bf8f3709511b4fb9178b76caed382, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  brain: {fileID: 11400000, guid: ee57f96de53d4b0489799717352da07e, type: 2}
-  agentParameters:
-    agentCameras: []
-    agentRenderTextures: []
-    maxStep: 0
-    resetOnDone: 1
-    onDemandDecision: 0
-    numberOfActionsBetweenDecisions: 1
-  performingDecision: 0
-  performingAction: 0
-  activated: 1
-  TickDelay: 0.01
-  FollowTarget: {fileID: 0}
+  AllowDead: 0
+  AllowUnconscious: 0
+  Priority: 0
+  PriorityBalance: 25
   targetOtherPlayersWhoGetInWay: 0
   onlyActOnTarget: 0
   doLerpOnAction: 0
   spriteHolder: {fileID: 6440154112111017943}
   actionCooldown: 1
-  mobAI: {fileID: 811126669682120101}
   attackSound:
     SetLoadSetting: 0
     AssetAddress: null
@@ -150,6 +141,11 @@ PrefabInstance:
         type: 3}
       propertyPath: initialCrawlPassable
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7921348372470815473, guid: 64d782023543d4542b89ce3f9402b084,
+        type: 3}
+      propertyPath: visionRange
+      value: 5
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 6494159132825836884, guid: 64d782023543d4542b89ce3f9402b084, type: 3}

@@ -85,7 +85,7 @@ MonoBehaviour:
   isInitiallyNotPushable: 0
   pushPullSound:
     SetLoadSetting: 0
-    AssetAddress: 
+    AssetAddress: null
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
@@ -165,21 +165,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f1b8bd5d209198a459a56b1b6032b5bc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  brain: {fileID: 11400000, guid: ce26c971a96f49243b68ea8a875ac9c5, type: 2}
-  agentParameters:
-    agentCameras: []
-    agentRenderTextures: []
-    maxStep: 0
-    resetOnDone: 1
-    onDemandDecision: 0
-    numberOfActionsBetweenDecisions: 1
-  performingDecision: 0
-  performingAction: 0
-  activated: 1
-  TickDelay: 1
+  AllowDead: 0
+  AllowUnconscious: 0
+  Priority: 15
+  visionRange: 10
+  PriorityBalance: 10
   CB_REAGENT: {fileID: 0}
   target: 3
+  targetPos: {x: 0, y: 0, z: 0}
   actionPerformTime: 0
+  visionUpdateInterval: 1.5
   hasFoodPrefereces: 0
   foodPreferences: []
   IsEmagged: 0
@@ -243,7 +238,6 @@ MonoBehaviour:
   HeatResistance: 100
   ExplosionsDamage: 100
   doDamageMessage: 1
-  CannotBeAshed: 0
 --- !u!114 &-7291452680395599711
 MonoBehaviour:
   m_ObjectHideFlags: 0

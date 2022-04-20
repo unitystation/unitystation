@@ -17,6 +17,13 @@ namespace Systems.MobAIs
 	/// </summary>
 	public class MobExplore : MobObjective, IServerSpawn
 	{
+		private List<Vector2Int> visionCirclePerimeter = new List<Vector2Int>();
+		private List<Vector3Int> visionCircleArea = new List<Vector3Int>();
+
+		[Tooltip("Range of search")]
+		[SerializeField]
+		public int visionRange = 10;
+
 		private AddressableAudioSource eatFoodSound;
 
 		//Add your targets as needed
@@ -38,9 +45,15 @@ namespace Systems.MobAIs
 
 		public Target target;
 
+		public Vector3Int targetPos;
+
 		[Tooltip("Indicates the time it takes for the mob to perform its main action. If the the time is 0, it means that the action is instantaneous.")]
 		[SerializeField]
 		private float actionPerformTime = 0.0f;
+
+		[Tooltip("Delay before each vision area update.")]
+		[SerializeField]
+		private float visionUpdateInterval = 0.5f;
 
 		[Tooltip("If true, this creature will only eat stuff in the food preferences list.")]
 		[SerializeField]
@@ -53,6 +66,9 @@ namespace Systems.MobAIs
 
 		// Timer that indicates if the action perform time is reached and the action can be performed.
 		private float actionPerformTimer = 0.0f;
+
+		//Timer that indicates if vision area can be updated again.
+		private float visionUpdateTimer = 0.0f;
 
 		private InteractableTiles _interactableTiles = null;
 		// Position at which an action is performed
@@ -75,6 +91,100 @@ namespace Systems.MobAIs
 			eatFoodSound = CommonSounds.Instance.EatFood;
 		}
 
+		//remove later
+		void debugCross(Vector3Int cPos, Color color, int duration = 5)
+        {
+			Vector3 pos = cPos.ToNonInt3();
+			Debug.DrawLine(new Vector3(pos.x - 0.35f, pos.y + 0.35f, pos.z), new Vector3(pos.x + 0.35f, pos.y - 0.35f, pos.z), color, duration);
+			Debug.DrawLine(new Vector3(pos.x - 0.35f, pos.y - 0.35f, pos.z), new Vector3(pos.x + 0.35f, pos.y + 0.35f, pos.z), color, duration);
+		}
+
+		//remove later
+		void debugSquare(Vector3Int cPos, Color color, int duration = 5)
+		{
+			Vector3 pos = cPos.ToNonInt3();
+			Debug.DrawLine(new Vector3(pos.x + 0.35f, pos.y + 0.35f, pos.z), new Vector3(pos.x - 0.35f, pos.y + 0.35f, pos.z), color, duration);
+			Debug.DrawLine(new Vector3(pos.x + 0.35f, pos.y - 0.35f, pos.z), new Vector3(pos.x - 0.35f, pos.y - 0.35f, pos.z), color, duration);
+			Debug.DrawLine(new Vector3(pos.x - 0.35f, pos.y - 0.35f, pos.z), new Vector3(pos.x - 0.35f, pos.y + 0.35f, pos.z), color, duration);
+			Debug.DrawLine(new Vector3(pos.x + 0.35f, pos.y - 0.35f, pos.z), new Vector3(pos.x + 0.35f, pos.y + 0.35f, pos.z), color, duration);
+		}
+
+		//https://www.geeksforgeeks.org/bresenhams-circle-drawing-algorithm/
+		// Function for circle-generation
+		// using Bresenham's algorithm
+		void circleBres(int xc, int yc, int r)
+		{
+			debugSquare(new Vector3Int(xc, yc, 0), Color.red, 10);
+			int x = 0, y = r;
+			int d = 3 - 2 * r;
+			drawCircle(xc, yc, x, y);
+			while (y >= x)
+			{
+				// for each pixel we will
+				// draw all eight pixels
+
+				x++;
+
+				// check for decision parameter
+				// and correspondingly
+				// update d, x, y
+				if (d > 0)
+				{
+					y--;
+					d = d + 4 * (x - y) + 10;
+				}
+				else
+					d = d + 4 * x + 6;
+
+				drawCircle(xc, yc, x, y);
+			}
+		}
+
+		// Function to put Locations
+		// at subsequence points
+		void drawCircle(int xc, int yc, int x, int y)
+		{
+			visionCirclePerimeter.Add(new Vector2Int(xc + x, yc + y));
+			visionCirclePerimeter.Add(new Vector2Int(xc - x, yc + y));
+			visionCirclePerimeter.Add(new Vector2Int(xc + x, yc - y));
+			visionCirclePerimeter.Add(new Vector2Int(xc - x, yc - y));
+			visionCirclePerimeter.Add(new Vector2Int(xc + y, yc + x));
+			visionCirclePerimeter.Add(new Vector2Int(xc - y, yc + x));
+			visionCirclePerimeter.Add(new Vector2Int(xc + y, yc - x));
+			visionCirclePerimeter.Add(new Vector2Int(xc - y, yc - x));
+		}
+
+		//https://rosettacode.org/wiki/Bitmap/Bresenham%27s_line_algorithm#C.23
+		void fillCircle(int xc, int yc, int z)
+		{
+			foreach(Vector3Int pos in visionCirclePerimeter)
+			{
+				int dx = Math.Abs(pos.x - xc), sx = xc < pos.x ? 1 : -1;
+				int dy = Math.Abs(pos.y - yc), sy = yc < pos.y ? 1 : -1;
+				int err = (dx > dy ? dx : -dy) / 2, e2;
+				for (; ; )
+				{
+					visionCircleArea.Add(new Vector3Int(xc, yc, z));
+					debugCross(new Vector3Int(xc, yc, z), Color.yellow, 10);
+					if (xc == pos.x && yc == pos.y) break;
+					e2 = err;
+					if (e2 > -dx) { err -= dy; xc += sx; }
+					if (e2 < dy) { err += dx; yc += sy; }
+				}
+			}
+		}
+
+		//refreshes vision area
+		void updateVisionArea()
+        {
+			visionCircleArea.Clear();
+			visionCirclePerimeter.Clear();
+			int xc = mobTile.WorldPositionServer.x;
+			int yc = mobTile.WorldPositionServer.y;
+			int z = mobTile.WorldPositionServer.z;
+			circleBres(xc, yc, visionRange);
+			fillCircle(xc, yc, z);
+        }
 
 		/// <summary>
 		/// Begin exploring for the given target type
@@ -85,6 +195,30 @@ namespace Systems.MobAIs
 			target = _target;
 		}
 
+		//gets nearest available target
+		private void RefreshTargetPos()
+		{
+			if (visionCircleArea.Count < 1)
+			{
+				updateVisionArea();
+			}
+
+			float minDist = 999;
+			foreach(Vector3Int pos in visionCircleArea)
+            {
+				if (IsTargetFound(pos))
+                {
+					debugSquare(pos, Color.green);
+					float curDist = Vector3.Distance(pos.ToWorld(mobTile.Matrix), mobTile.WorldPositionServer);
+					if (curDist < minDist)
+                    {
+						minDist = curDist;
+						targetPos = pos.ToWorld(mobTile.Matrix).RoundToInt();
+					}
+                }
+            }
+			Logger.Log("REFRESHED TARGET POSITION, OBJECT: " + gameObject.ToString() + ", NEW TARGET POS: " + targetPos.x.ToString() + ";" + targetPos.y.ToString());
+		}
 
 		private bool IsTargetFound(Vector3Int checkPos)
 		{
@@ -223,7 +357,7 @@ namespace Systems.MobAIs
 			if ((actionPerformTime == 0) || (actionPerformTimer >= actionPerformTime))
 			{
 				PerformTargetAction(actionPosition);
-
+				
 				actionPerformTimer = 0;
 			}
 		}
@@ -235,6 +369,10 @@ namespace Systems.MobAIs
 			{
 				Priority += PriorityBalance * 10;
 			}
+			else if (targetPos != null)
+            {
+				PriorityBalance += PriorityBalance * 5;
+            }
 			else
 			{
 				Priority += PriorityBalance;
@@ -242,16 +380,71 @@ namespace Systems.MobAIs
 
 		}
 
+		public bool MatchesMobPos(Vector3Int pos)
+        {
+			return pos == mobTile.WorldPositionServer;
+        }
+
+		public bool MatchesCurrentTarget(Vector3Int pos)
+        {
+			return pos == targetPos;
+        }
 
 		public override void DoAction()
 		{
+			visionUpdateTimer += Time.deltaTime;
+
+			if (visionUpdateTimer >= visionUpdateInterval)
+			{
+				updateVisionArea();
+
+				visionUpdateTimer = 0;
+			}
+
+
 			if (IsTargetFound(mobTile.LocalPositionServer))
 			{
 				StartPerformAction(mobTile.LocalPositionServer);
 			}
 			else
 			{
-				Move(Directions.PickRandom());
+				if (Vector3.Distance(targetPos, mobTile.WorldPositionServer) > visionRange * 3)
+                {
+					RefreshTargetPos();
+                }
+
+				if (targetPos != null)
+				{
+					//Logger.Log("obj = "+ gameObject.ToString() + ", tpos = " + targetPos.x.ToString() + ";" + targetPos.y.ToString());
+					var moveToRelative = (targetPos - mobTile.WorldPositionServer).ToNonInt3();
+					moveToRelative.Normalize();
+					var stepDirectionWorld = ChooseDominantDirection(moveToRelative);
+					var moveTo = mobTile.WorldPositionServer + stepDirectionWorld;
+					var localMoveTo = moveTo.ToLocal(mobTile.Matrix).RoundToInt();
+
+					var distance = Vector3.Distance(targetPos, mobTile.WorldPositionServer);
+					if (distance > 2)
+					{
+						if (mobTile.Matrix.MetaTileMap.IsPassableAtOneTileMap(mobTile.LocalPositionServer, localMoveTo, true))
+						{
+							Move(stepDirectionWorld);
+						}
+						else
+						{
+							Move(Directions.PickRandom());
+						}
+					}
+					else
+					{
+						Move(stepDirectionWorld);
+					}
+				}
+				else
+				{
+					Move(Directions.PickRandom());
+				}
+
+				RefreshTargetPos();
 			}
 		}
 	}
