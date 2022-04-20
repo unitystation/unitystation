@@ -52,7 +52,7 @@ namespace UI.Systems.AdminTools
 		public override void OnEnable()
 		{
 			base.OnEnable();
-			AdminCommandsManager.Instance.CmdRequestCargoServerData(PlayerManager.PlayerScript.connectedPlayer.UserId);
+			AdminCommandsManager.Instance.CmdRequestCargoServerData();
 			UIManager.IsInputFocus = true;
 			UIManager.PreventChatInput = true;
 		}
@@ -61,7 +61,7 @@ namespace UI.Systems.AdminTools
 		{
 			bountiesAdderTab.SetActive(false);
 			bountiesManagerTab.SetActive(true);
-			AdminCommandsManager.Instance.CmdRequestCargoServerData(PlayerManager.PlayerScript.connectedPlayer.UserId);
+			AdminCommandsManager.Instance.CmdRequestCargoServerData();
 		}
 
 		public void ShowAdder()
@@ -101,7 +101,7 @@ namespace UI.Systems.AdminTools
 				break;
 			}
 
-			AdminCommandsManager.Instance.CmdRequestCargoServerData(PlayerManager.PlayerScript.connectedPlayer.UserId);
+			AdminCommandsManager.Instance.CmdRequestCargoServerData();
 		}
 	}
 }

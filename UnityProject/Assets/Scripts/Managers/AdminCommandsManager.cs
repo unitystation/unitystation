@@ -516,7 +516,7 @@ namespace AdminCommands
 		}
 
 		[Command(requiresAuthority = false)]
-		public void CmdRequestCargoServerData(string id, NetworkConnectionToClient sender = null)
+		public void CmdRequestCargoServerData(NetworkConnectionToClient sender = null)
 		{
 			if (IsAdmin(sender, out var admin) == false) return;
 			List<CargoManager.BountySyncData> simpleData = new List<CargoManager.BountySyncData>();
@@ -528,7 +528,7 @@ namespace AdminCommands
 				foundBounty.Index = i;
 				simpleData.Add(foundBounty);
 			}
-			TargetSendCargoData(PlayerList.Instance.GetByUserID(id).Connection, simpleData);
+			TargetSendCargoData(sender, simpleData);
 		}
 
 		[Command(requiresAuthority = false)]
