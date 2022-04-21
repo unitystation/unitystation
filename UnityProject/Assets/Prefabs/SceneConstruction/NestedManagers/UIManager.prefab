@@ -408,6 +408,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6106590413781591019}
+  - component: {fileID: 1163091288851734139}
   m_Layer: 5
   m_Name: ProTipManager
   m_TagString: Untagged
@@ -436,6 +437,18 @@ RectTransform:
   m_AnchoredPosition: {x: 1018.5, y: 305.73}
   m_SizeDelta: {x: 678.53, y: 174.38}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1163091288851734139
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6060143912423022853}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0067555974524b23a33a5524a9f03bbf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &6185235251004871776
 GameObject:
   m_ObjectHideFlags: 0
