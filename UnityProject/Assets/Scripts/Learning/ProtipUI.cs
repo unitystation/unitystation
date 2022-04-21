@@ -22,8 +22,15 @@ namespace Learning
 			UPDOWN
 		}
 
+		private void Start()
+		{
+			transform.localScale = Vector3.zero;
+			ShowTip("Balling");
+		}
+
 		public void ShowTip(string tip, float showDuration = 25f, Sprite img = null, SpriteAnimation animation = SpriteAnimation.ROCKING)
 		{
+			StopAllCoroutines();
 			SetPositionInTransform();
 			gameObject.SetActive(true);
 			tipText.text = tip;
@@ -49,19 +56,20 @@ namespace Learning
 
 		private IEnumerator TipShowCooldown(float duration)
 		{
-			LeanTween.scale(gameObject, Vector3.one, 0.5f);
+			LeanTween.scale(gameObject, Vector3.one, 1.5f).setEaseInBounce();
 			isShown = true;
 			yield return WaitFor.Seconds(duration);
 			isShown = false;
-			LeanTween.scale(gameObject, Vector3.zero, 0.5f);
+			LeanTween.scale(gameObject, Vector3.zero, 0.7f);
+			yield return WaitFor.Seconds(1.5f);
 			gameObject.SetActive(false);
 		}
 
 		private IEnumerator DoImageRockAnimations()
 		{
-			var rot = 40;
+			var rot = 10;
 			var halfRockDone = false;
-			var rockTime = 0.5f;
+			var rockTime = 0.65f;
 
 			while (isShown)
 			{
