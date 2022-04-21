@@ -47,6 +47,9 @@ namespace Systems.MobAIs
 
 		public Vector3Int targetPos;
 
+		// to actually check if target is valid since vector isnt nullable type and we dont want for mobs to follow 0,0 or target far out of its target range
+		public bool targetIsValid = false;
+
 		[Tooltip("Indicates the time it takes for the mob to perform its main action. If the the time is 0, it means that the action is instantaneous.")]
 		[SerializeField]
 		private float actionPerformTime = 0.0f;
@@ -91,30 +94,11 @@ namespace Systems.MobAIs
 			eatFoodSound = CommonSounds.Instance.EatFood;
 		}
 
-		//remove later
-		void debugCross(Vector3Int cPos, Color color, int duration = 5)
-        {
-			Vector3 pos = cPos.ToNonInt3();
-			Debug.DrawLine(new Vector3(pos.x - 0.35f, pos.y + 0.35f, pos.z), new Vector3(pos.x + 0.35f, pos.y - 0.35f, pos.z), color, duration);
-			Debug.DrawLine(new Vector3(pos.x - 0.35f, pos.y - 0.35f, pos.z), new Vector3(pos.x + 0.35f, pos.y + 0.35f, pos.z), color, duration);
-		}
-
-		//remove later
-		void debugSquare(Vector3Int cPos, Color color, int duration = 5)
-		{
-			Vector3 pos = cPos.ToNonInt3();
-			Debug.DrawLine(new Vector3(pos.x + 0.35f, pos.y + 0.35f, pos.z), new Vector3(pos.x - 0.35f, pos.y + 0.35f, pos.z), color, duration);
-			Debug.DrawLine(new Vector3(pos.x + 0.35f, pos.y - 0.35f, pos.z), new Vector3(pos.x - 0.35f, pos.y - 0.35f, pos.z), color, duration);
-			Debug.DrawLine(new Vector3(pos.x - 0.35f, pos.y - 0.35f, pos.z), new Vector3(pos.x - 0.35f, pos.y + 0.35f, pos.z), color, duration);
-			Debug.DrawLine(new Vector3(pos.x + 0.35f, pos.y - 0.35f, pos.z), new Vector3(pos.x + 0.35f, pos.y + 0.35f, pos.z), color, duration);
-		}
-
 		//https://www.geeksforgeeks.org/bresenhams-circle-drawing-algorithm/
 		// Function for circle-generation
 		// using Bresenham's algorithm
 		void circleBres(int xc, int yc, int r)
 		{
-			debugSquare(new Vector3Int(xc, yc, 0), Color.red, 10);
 			int x = 0, y = r;
 			int d = 3 - 2 * r;
 			drawCircle(xc, yc, x, y);
@@ -165,7 +149,6 @@ namespace Systems.MobAIs
 				for (; ; )
 				{
 					visionCircleArea.Add(new Vector3Int(xc, yc, z));
-					debugCross(new Vector3Int(xc, yc, z), Color.yellow, 10);
 					if (xc == pos.x && yc == pos.y) break;
 					e2 = err;
 					if (e2 > -dx) { err -= dy; xc += sx; }
@@ -208,16 +191,15 @@ namespace Systems.MobAIs
             {
 				if (IsTargetFound(pos))
                 {
-					debugSquare(pos, Color.green);
 					float curDist = Vector3.Distance(pos.ToWorld(mobTile.Matrix), mobTile.WorldPositionServer);
 					if (curDist < minDist)
                     {
 						minDist = curDist;
 						targetPos = pos.ToWorld(mobTile.Matrix).RoundToInt();
+						targetIsValid = true;
 					}
                 }
             }
-			Logger.Log("REFRESHED TARGET POSITION, OBJECT: " + gameObject.ToString() + ", NEW TARGET POS: " + targetPos.x.ToString() + ";" + targetPos.y.ToString());
 		}
 
 		private bool IsTargetFound(Vector3Int checkPos)
@@ -369,9 +351,9 @@ namespace Systems.MobAIs
 			{
 				Priority += PriorityBalance * 10;
 			}
-			else if (targetPos != null)
+			if (targetIsValid)
             {
-				PriorityBalance += PriorityBalance * 5;
+				Priority += PriorityBalance * 5;
             }
 			else
 			{
@@ -405,17 +387,27 @@ namespace Systems.MobAIs
 			if (IsTargetFound(mobTile.LocalPositionServer))
 			{
 				StartPerformAction(mobTile.LocalPositionServer);
+				Vector3Int oldPos = targetPos;
+				RefreshTargetPos();
+				if (oldPos == targetPos) //target is reached but no new targets found, so its not valid anymore
+				{
+					targetIsValid = false;
+				}
 			}
 			else
 			{
 				if (Vector3.Distance(targetPos, mobTile.WorldPositionServer) > visionRange * 3)
                 {
+					Vector3Int oldPos = targetPos;
 					RefreshTargetPos();
+					if (oldPos == targetPos) //target is out of range but no new targets found, so its not valid anymore
+                    {
+						targetIsValid = false;
+                    }
                 }
 
-				if (targetPos != null)
+				if (targetPos != null && targetIsValid)
 				{
-					//Logger.Log("obj = "+ gameObject.ToString() + ", tpos = " + targetPos.x.ToString() + ";" + targetPos.y.ToString());
 					var moveToRelative = (targetPos - mobTile.WorldPositionServer).ToNonInt3();
 					moveToRelative.Normalize();
 					var stepDirectionWorld = ChooseDominantDirection(moveToRelative);

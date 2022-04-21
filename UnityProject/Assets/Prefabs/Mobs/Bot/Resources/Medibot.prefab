@@ -14,10 +14,16 @@ GameObject:
   - component: {fileID: -2540428561962423853}
   - component: {fileID: 1227186742206851651}
   - component: {fileID: -8519898221246118159}
+  - component: {fileID: 6416759286681682483}
   - component: {fileID: -8165460994767987552}
   - component: {fileID: -388511124484068398}
   - component: {fileID: 4634694392886692913}
   - component: {fileID: -7291452680395599711}
+  - component: {fileID: 1155523742289210574}
+  - component: {fileID: 3772498646161289006}
+  - component: {fileID: 2958527641997624201}
+  - component: {fileID: -2317459489200695272}
+  - component: {fileID: 153717687660613522}
   m_Layer: 12
   m_Name: Medibot
   m_TagString: Untagged
@@ -153,6 +159,19 @@ MonoBehaviour:
   visible: 0
   m_AssetId: 2d3792ef0c450da49ab3ec9bc4ac2664
   hasSpawned: 0
+--- !u!114 &6416759286681682483
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4447485276008945440}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5a02af87cf44eaf4b81945b406d2757f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MobObjectives: []
 --- !u!114 &-8165460994767987552
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -173,6 +192,7 @@ MonoBehaviour:
   CB_REAGENT: {fileID: 0}
   target: 3
   targetPos: {x: 0, y: 0, z: 0}
+  targetIsValid: 0
   actionPerformTime: 0
   visionUpdateInterval: 1.5
   hasFoodPrefereces: 0
@@ -252,6 +272,86 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+--- !u!114 &1155523742289210574
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4447485276008945440}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9c86f0d5246b4abe8fd9bb34e7cee0d6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  maxHealth: 100
+  bloodColor: 2
+  BodyParts: []
+  butcherResults: []
+--- !u!114 &3772498646161289006
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4447485276008945440}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e16004dedecb6d54e8bde3e5d6279b4c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  AllowDead: 0
+  AllowUnconscious: 0
+  Priority: 0
+  PriorityBalance: 25
+--- !u!114 &2958527641997624201
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4447485276008945440}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e1d7861cc0289714b8989f7181986a18, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fieldOfView: 180
+--- !u!114 &-2317459489200695272
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4447485276008945440}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0fade882731d3484cb3c63dfcad2def4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  activated: 0
+  TickDelay: 1
+  status: 0
+  fleeTarget: {fileID: 0}
+--- !u!114 &153717687660613522
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4447485276008945440}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3e28b1f5f04e4f699099349719baa668, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mobName: 
+  registerObject: {fileID: 0}
+  minTimeBetweenRandomActions: 10
+  maxTimeBetweenRandomActions: 30
+  doRandomActionWhenInTask: 0
 --- !u!1 &6133043633157464636
 GameObject:
   m_ObjectHideFlags: 0
