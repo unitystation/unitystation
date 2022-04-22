@@ -60,7 +60,7 @@ namespace Objects
 				}
 			}
 			StartCoroutine(Cooldown());
-			Chat.AddLocalMsgToChat($"The {gameObject.ExpensiveName()} flashes everyone in it's radius.", gameObject);
+			Chat.AddLocalMsgToChat($"The {gameObject.ExpensiveName()} flashes everyone in its radius.", gameObject);
 		}
 
 		[Server]
