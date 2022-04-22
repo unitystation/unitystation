@@ -25,14 +25,14 @@ namespace IgnoranceCore
 
     public class IgnoranceInternals
     {
-        public const string Version = "1.4.0r1 (LTS)";
+        public const string Version = "1.4.0r2 (LTS)";
         public const string Scheme = "enet";
         public const string BindAnyAddress = "::0";
     }
 
     public enum IgnoranceLogType
     {
-        Nothing,
+        Quiet,
         Standard,
         Verbose
     }

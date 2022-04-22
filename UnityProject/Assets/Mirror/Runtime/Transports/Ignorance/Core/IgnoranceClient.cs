@@ -50,7 +50,7 @@ namespace IgnoranceCore
             if (WorkerThread != null && WorkerThread.IsAlive)
             {
                 // Cannot do that.
-                Debug.LogError("Ignorance Client: A worker thread is already running. Cannot start another.");
+                Debug.LogError("Ignorance: A client worker thread is already running. Cannot start another.");
                 return;
             }
 
@@ -78,14 +78,15 @@ namespace IgnoranceCore
             WorkerThread = new Thread(ThreadWorker);
             WorkerThread.Start(threadParams);
 
-            Debug.Log("Ignorance Client: Dispatched worker thread.");
+            if(Verbosity > 0) 
+                Debug.Log("Ignorance: Client instance has dispatched worker thread.");
         }
 
         public void Stop()
         {
             if (WorkerThread != null && !CeaseOperation)
             {
-                Debug.Log("Ignorance Client: Stop acknowledged. This may take a while depending on network load...");
+                Debug.Log("Ignorance: Client stop request acknowledged. This may take a while depending on network load...");
 
                 CeaseOperation = true;
             }
@@ -97,7 +98,7 @@ namespace IgnoranceCore
         private void ThreadWorker(Object parameters)
         {
             if (Verbosity > 0)
-                Debug.Log("Ignorance Client: Initializing. Please stand by...");
+                Debug.Log("Ignorance: Client instance worker thread initializing. Please stand by...");
 
             ThreadParamInfo setupInfo;
             Address clientAddress = new Address();
@@ -112,16 +113,16 @@ namespace IgnoranceCore
                 setupInfo = (ThreadParamInfo)parameters;
             else
             {
-                Debug.LogError("Ignorance Client: Startup failure; Invalid thread parameters. Aborting.");
+                Debug.LogError("Ignorance: Client instance worker thread startup failure; Invalid thread parameters. Aborting.");
                 return;
             }
 
             // Attempt to initialize ENet inside the thread.
             if (Library.Initialize())
-                Debug.Log("Ignorance Client: ENet Native successfully initialized.");
+                Debug.Log("Ignorance: Client instance worker thread successfully initialized ENet.");
             else
             {
-                Debug.LogError("Ignorance Client: Failed to initialize ENet Native. Aborting.");
+                Debug.LogError("Ignorance: Client instance worker thread failed to initialize ENet. Aborting.");
                 return;
             }
 
@@ -134,12 +135,14 @@ namespace IgnoranceCore
                 try
                 {
                     clientHost.Create();
+
+                    Debug.Log($"Ignorance: Client worker thread attempting connection to '{setupInfo.Address}:{setupInfo.Port}'.");
                     clientPeer = clientHost.Connect(clientAddress, setupInfo.Channels);
                 }
                 catch (Exception ex)
                 {
                     // Oops, something failed.
-                    Debug.LogError($"Ignorance Client: Looks like something went wrong. While attempting to create client object, we caught an exception:\n{ex.Message}");
+                    Debug.LogError($"Ignorance: Client instance worker thread reports that something went wrong. While attempting to create client object, we caught an exception:\n{ex.Message}\n");
                     Debug.LogError($"You could try the debug-enabled version of the native ENet library which creates a logfile, or alternatively you could try restart " +
                         $"your device to ensure jank is cleared out of memory. If problems persist, please file a support ticket explaining what happened.");
 
@@ -186,14 +189,14 @@ namespace IgnoranceCore
                     // Step 1: Sending to Server
                     while (Outgoing.TryDequeue(out IgnoranceOutgoingPacket outgoingPacket))
                     {
-                        // TODO: Revise this, could we tell the Peer to disconnect right here?
+                        // TODO: Revise this, could we tell the Peer to disconnect right here?                       
                         // Stop early if we get a client stop packet.
                         // if (outgoingPacket.Type == IgnorancePacketType.ClientWantsToStop) break;
 
                         int ret = clientPeer.Send(outgoingPacket.Channel, ref outgoingPacket.Payload);
 
                         if (ret < 0 && setupInfo.Verbosity > 0)
-                            Debug.LogWarning($"Ignorance Client: ENet error {ret} while sending packet to Server via Peer {outgoingPacket.NativePeerId}.");
+                            Debug.LogWarning($"Ignorance: ENet error {ret} while sending packet to Server via Peer {outgoingPacket.NativePeerId}.");
                     }
 
                     // If something outside the thread has told us to stop execution, then we need to break out of this while loop.
@@ -232,7 +235,7 @@ namespace IgnoranceCore
 
                             case EventType.Connect:
                                 if (setupInfo.Verbosity > 0)
-                                    Debug.Log("Ignorance Client: ENet has connected to the server.");
+                                    Debug.Log($"Ignorance: Client worker thread has connected to '{incomingPeer.IP}:{incomingPeer.Port}'.");
 
                                 ConnectionEvents.Enqueue(new IgnoranceConnectionEvent
                                 {
@@ -246,7 +249,7 @@ namespace IgnoranceCore
                             case EventType.Disconnect:
                             case EventType.Timeout:
                                 if (setupInfo.Verbosity > 0)
-                                    Debug.Log("Ignorance Client: ENet has been disconnected from the server.");
+                                    Debug.Log($"Ignorance: Client worker thread has disconnected from '{incomingPeer.IP}:{incomingPeer.Port}'.");
 
                                 ConnectionEvents.Enqueue(new IgnoranceConnectionEvent { EventType = 0x01 });
                                 CeaseOperation = true;
@@ -260,7 +263,7 @@ namespace IgnoranceCore
                                 if (!incomingPacket.IsSet)
                                 {
                                     if (setupInfo.Verbosity > 0)
-                                        Debug.LogWarning($"Ignorance Client: A receive event did not supply us with a packet to work with. This should never happen.");
+                                        Debug.LogWarning($"Ignorance: Client receive event did not supply us with a packet to work with. This should never happen.");
                                     break;
                                 }
 
@@ -270,7 +273,7 @@ namespace IgnoranceCore
                                 if (incomingPacketLength > setupInfo.PacketSizeLimit)
                                 {
                                     if (setupInfo.Verbosity > 0)
-                                        Debug.LogWarning($"Ignorance Client: Incoming packet is too big. My limit is {setupInfo.PacketSizeLimit} byte(s) whilest this packet is {incomingPacketLength} bytes.");
+                                        Debug.LogWarning($"Ignorance: Client incoming packet is too big. My limit is {setupInfo.PacketSizeLimit} byte(s) whilest this packet is {incomingPacketLength} bytes.");
 
                                     incomingPacket.Dispose();
                                     break;
@@ -294,7 +297,8 @@ namespace IgnoranceCore
                         break;
                 }
 
-                Debug.Log("Ignorance Client: Thread shutdown commencing. Disconnecting and flushing connection.");
+                if (Verbosity > 0)
+                    Debug.Log("Ignorance: Client worker thread shutdown commencing. Disconnecting and flushing connection.");
 
                 // Flush the client and disconnect.
                 clientPeer.Disconnect(0);
@@ -317,13 +321,13 @@ namespace IgnoranceCore
             Library.Deinitialize();
 
             if (setupInfo.Verbosity > 0)
-                Debug.Log("Ignorance Client: Shutdown complete.");
+                Debug.Log("Ignorance: Client worker thread shutdown complete.");
         }
         #endregion
 
         private void SetupRingBuffersIfNull()
         {
-            Debug.Log($"Ignorance: Setting up ring buffers if they're not already created. " +
+            Debug.Log($"Ignorance: Setting up the ring buffers if they're not already created. " +
                 $"If they are already, this step will be skipped.");
 
             if (Incoming == null)

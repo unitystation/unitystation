@@ -33,6 +33,9 @@ namespace IgnoranceCore
         // - Queue Sizing
         public int IncomingOutgoingBufferSize = 5000;
         public int ConnectionEventBufferSize = 100;
+        // - Fruity devices
+        public bool IsFruityDevice;
+        public bool BindAllInterfaces;
 
         public bool IsAlive => WorkerThread != null && WorkerThread.IsAlive;
 
@@ -67,6 +70,8 @@ namespace IgnoranceCore
             CeaseOperation = false;
             ThreadParamInfo threadParams = new ThreadParamInfo()
             {
+                IsFruityDevice = IsFruityDevice,
+                BindAllInterfaces = BindAllInterfaces,
                 Address = BindAddress,
                 Port = BindPort,
                 Peers = MaximumPeers,
@@ -108,7 +113,7 @@ namespace IgnoranceCore
         private void ThreadWorker(Object parameters)
         {
             if (Verbosity > 0)
-                Debug.Log("Ignorance Server: Initializing. Please stand by...");
+                Debug.Log("Ignorance: Server instance worker thread is initializing. Please stand by...");
 
             // Thread cache items
             ThreadParamInfo setupInfo;
@@ -126,14 +131,14 @@ namespace IgnoranceCore
             }
             else
             {
-                Debug.LogError("Ignorance Server: Startup failure; Invalid thread parameters. Aborting.");
+                Debug.LogError("Ignorance: Server instance worker thread reports startup failure; Invalid thread parameters. Aborting.");
                 return;
             }
 
             // Attempt to initialize ENet inside the thread.
             if (Library.Initialize())
             {
-                Debug.Log("Ignorance Server: ENet Native successfully initialized.");
+                Debug.Log("Ignorance: Server instance worker thread successfully initialized ENet.");
             }
             else
             {
@@ -142,7 +147,26 @@ namespace IgnoranceCore
             }
 
             // Configure the server address.
-            serverAddress.SetHost(setupInfo.Address);
+            // So... if we're running on a Mac, we have an issue where if we attempt to bind to all devices which usually is either
+            // 0.0.0.0 or ::0. In older versions of Mac OS, this worked since those addresses are "broadcast" or "listen all"...
+            // but on newer versions this broke the server functionality. So the fix was rather easy but the debugging was not.
+            // The fix was to NOT set any IP/Host if we're binding to all addresses on MacOS. Apparently that works. Go figure.
+            // Afterthought: Maybe it's something funky in ENet...?
+
+            if (setupInfo.IsFruityDevice)
+            {
+                if (!setupInfo.BindAllInterfaces)
+                    serverAddress.SetHost(setupInfo.Address);
+            }
+            else
+            {
+                if (setupInfo.BindAllInterfaces)
+                    serverAddress.SetIP(IgnoranceInternals.BindAnyAddress);
+                else
+                    serverAddress.SetHost(setupInfo.Address);
+            }
+
+            // Set the port too.
             serverAddress.Port = (ushort)setupInfo.Port;
             serverPeerArray = new Peer[setupInfo.Peers];
 
@@ -155,7 +179,7 @@ namespace IgnoranceCore
                 }
                 catch (Exception ex)
                 {
-                    Debug.LogError($"Ignorance Server: While attempting to create server host object, we caught an exception:\n{ex.Message}");
+                    Debug.LogError($"Ignorance: Server instance worker thread reports that something went wrong. While attempting to create server host object, we caught an exception:\n{ex.Message}");
                     Debug.LogError($"If you are getting a \"Host creation call failed\" exception, please ensure you don't have a server already running on the same IP and Port.\n" +
                         $"Multiple server instances running on the same port are not supported. Also check to see if ports are not in-use by another application. In the worse case scenario, " +
                         $"restart your device to ensure no random background ENet threads are active that haven't been cleaned up correctly. If problems persist, please file a support ticket.");
@@ -182,7 +206,7 @@ namespace IgnoranceCore
                                 if (!serverPeerArray[targetPeer].IsSet) continue;
 
                                 if (setupInfo.Verbosity > 0)
-                                    Debug.Log($"Ignorance Server: Booting Peer {targetPeer} off");
+                                    Debug.Log($"Ignorance: Server instance is disconnecting peer {targetPeer}.");
 
                                 IgnoranceConnectionEvent iced = new IgnoranceConnectionEvent
                                 {
@@ -242,13 +266,13 @@ namespace IgnoranceCore
                             int ret = serverPeerArray[outgoingPacket.NativePeerId].Send(outgoingPacket.Channel, ref outgoingPacket.Payload);
 
                             if (ret < 0 && setupInfo.Verbosity > 0)
-                                Debug.LogWarning($"Ignorance Server: ENet error {ret} while sending packet to Peer {outgoingPacket.NativePeerId}.");
+                                Debug.LogWarning($"Ignorance: Server instance ENet error {ret} while sending packet to Peer {outgoingPacket.NativePeerId}.");
                         }
                         else
                         {
                             // A peer might have disconnected, this is OK - just log the packet if set to paranoid.
                             if (setupInfo.Verbosity > 1)
-                                Debug.LogWarning("Ignorance Server: Can't send packet, a native peer object is not set. This may be normal if the Peer has disconnected before this send cycle.");
+                                Debug.LogWarning("Ignorance: Server instance can't send packet, a native peer object is not set. This may be normal if the Peer has disconnected before this send cycle.");
                         }
 
                     }
@@ -286,7 +310,7 @@ namespace IgnoranceCore
                             // Connection Event.
                             case EventType.Connect:
                                 if (setupInfo.Verbosity > 1)
-                                    Debug.Log($"Ignorance Server: Peer ID {incomingPeer.ID} says Hi.");
+                                    Debug.Log($"Ignorance: Server instance says that Peer {incomingPeer.ID} says Hi.");
 
                                 IgnoranceConnectionEvent ice = new IgnoranceConnectionEvent()
                                 {
@@ -307,7 +331,7 @@ namespace IgnoranceCore
                                 if (!serverPeerArray[incomingPeer.ID].IsSet) break;
 
                                 if (setupInfo.Verbosity > 1)
-                                    Debug.Log($"Ignorance Server: Peer {incomingPeer.ID} has disconnected.");
+                                    Debug.Log($"Ignorance: Server instance says that Peer {incomingPeer.ID} has disconnected.");
 
                                 IgnoranceConnectionEvent iced = new IgnoranceConnectionEvent
                                 {
@@ -327,7 +351,7 @@ namespace IgnoranceCore
                                 if (!incomingPacket.IsSet)
                                 {
                                     if (setupInfo.Verbosity > 0)
-                                        Debug.LogWarning($"Ignorance Server: A receive event did not supply us with a packet to work with. This should never happen.");
+                                        Debug.LogWarning($"Ignorance: Server instance receive event did not supply us with a packet to work with. This should never happen.");
                                     break;
                                 }
 
@@ -337,7 +361,7 @@ namespace IgnoranceCore
                                 if (incomingPacketLength > setupInfo.PacketSizeLimit)
                                 {
                                     if (setupInfo.Verbosity > 0)
-                                        Debug.LogWarning($"Ignorance Server: Incoming packet is too big. My limit is {setupInfo.PacketSizeLimit} byte(s) whilest this packet is {incomingPacketLength} bytes.");
+                                        Debug.LogWarning($"Ignorance: Server incoming packet is too big. My limit is {setupInfo.PacketSizeLimit} byte(s) whilest this packet is {incomingPacketLength} bytes.");
 
                                     incomingPacket.Dispose();
                                     break;
@@ -358,7 +382,7 @@ namespace IgnoranceCore
                 }
 
                 if (Verbosity > 0)
-                    Debug.Log("Ignorance Server: Thread shutdown commencing. Flushing connections.");
+                    Debug.Log("Ignorance: Server instance thread shutdown commencing. Flushing connections.");
 
                 // Cleanup and flush everything.
                 serverENetHost.Flush();
@@ -372,7 +396,7 @@ namespace IgnoranceCore
             }
 
             if (setupInfo.Verbosity > 0)
-                Debug.Log("Ignorance Server: Shutdown complete.");
+                Debug.Log("Ignorance: Server instance thread shutdown complete.");
 
             Library.Deinitialize();
         }
@@ -399,6 +423,8 @@ namespace IgnoranceCore
 
         private struct ThreadParamInfo
         {
+            public bool IsFruityDevice;
+            public bool BindAllInterfaces;
             public int Channels;
             public int Peers;
             public int PollTime;

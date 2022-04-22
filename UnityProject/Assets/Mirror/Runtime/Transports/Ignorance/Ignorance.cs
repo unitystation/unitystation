@@ -21,10 +21,10 @@ namespace IgnoranceTransport
         public int port = 7777;
 
         [Header("Debug & Logging")]
-        [Tooltip("How verbose do you want Ignorance to be?")]
-        public IgnoranceLogType LogType = IgnoranceLogType.Standard;
         [Tooltip("Uses OnGUI to present you with statistics for Server and Client backend instances.")]
         public bool DebugDisplay = false;
+        [Tooltip("How verbose do you want Ignorance to be?")]
+        public IgnoranceLogType LogType = IgnoranceLogType.Standard;
 
         [Header("Server Configuration")]
         [Tooltip("Should the server bind to all interfaces?")]
@@ -49,15 +49,15 @@ namespace IgnoranceTransport
         public IgnoranceChannelTypes[] Channels;
 
         [Header("Ring Buffer Tweaking")]
-        [Tooltip("Affects client only. Defines the capacity of Client Incoming/Outgoing ring buffers. It is up to you to ensure that the buffer doesn't overflow - increase as required. This value translates to packets per second under a worse-case scenario.")]
+        [Tooltip("[Client Only] Capacity of the incoming and outgoing ring buffers. If the ring buffer is full, it will spin waiting for a free slot in the buffer. Test and increase as required. This value translates to packets per second under a worse-case scenario.")]
         public int ClientDataBufferSize = 1000;
-        [Tooltip("Affects client only. Defines the capacity of Client connection event buffer. This is probably best to keep small as connection events are literally minimal in Mirror.")]
+        [Tooltip("[Client Only] Capacity of the connection event buffer. This is probably best to keep small as connection events are literally minimal in Mirror.")]
         public int ClientConnEventBufferSize = 10;
 
-        [Tooltip("Affects Server only. Defines the capacity of Server Incoming/Outgoing ring buffers. It is up to you to ensure that the buffer doesn't overflow. This value translates to packets per second under a worse-case scenario.\n\n" +
-            "Unlike the client value, it is recommended that you keep this resonably high as Servers process more network IO than clients.")]
+        [Tooltip("[Server Only] Capacity of Server Incoming/Outgoing ring buffers. If the ring buffer is full, it will spin waiting for a free slot in the RingBuffer. Test and increase as required. This value translates to packets per second under a worse-case scenario.\n\n" +
+            "Unlike the client value, it is recommended that you keep this resonably high as servers process more network IO than clients.")]
         public int ServerDataBufferSize = 5000;
-        [Tooltip("Affects Server only. Defines the capacity of server connection event buffer. This is probably best to keep moderately small unless you expect to have a large influx of users connecting/disconnecting at once.")]
+        [Tooltip("[Server Only] Defines the capacity of server connection event buffer. This is probably best to keep moderately small unless you expect to have a large influx of users connecting/disconnecting at once.")]
         public int ServerConnEventBufferSize = 100;
 
         [Header("Danger: I hope you know what you're doing!")]
@@ -76,7 +76,7 @@ namespace IgnoranceTransport
         {
             // Ignorance is not available for Unity WebGL, the PS4 (no dev kit to confirm) or Switch (port exists but I have no access to said code).
             // Ignorance is available for most other operating systems.
-#if UNITY_WEBGL || UNITY_PS4 || UNITY_SWITCH
+#if UNITY_WEBGL || UNITY_PS4 || UNITY_PS5 || UNITY_SWITCH
             return false;
 #else
             return true;
@@ -85,7 +85,7 @@ namespace IgnoranceTransport
 
         public void Awake()
         {
-            if (LogType != IgnoranceLogType.Nothing)
+            if (LogType != IgnoranceLogType.Quiet)
                 print($"Ignorance {IgnoranceInternals.Version} has arrived. Keep up to date, report bugs and support the developer at https://github.com/SoftwareGuy/Ignorance!");
         }
 
@@ -96,7 +96,8 @@ namespace IgnoranceTransport
 
         public override void ClientConnect(string address)
         {
-            Debug.LogWarning("ClientConnect has been fired");
+            if (LogType != IgnoranceLogType.Quiet)
+                print($"Ignorance: Requesting client thread dispatch for a connection to '{address}'");
 
             ClientState = ConnectionState.Connecting;
             cachedConnectionAddress = address;
@@ -104,7 +105,7 @@ namespace IgnoranceTransport
             // Initialize.
             InitializeClientBackend();
 
-            // Get going.
+            // Get going.            
             ignoreDataPackets = false;
 
             // Start!
@@ -175,8 +176,8 @@ namespace IgnoranceTransport
             // Warn if over recommended MTU...
             bool flagsSet = (desiredFlags & ReliableOrUnreliableFragmented) > 0;
 
-            if (LogType != IgnoranceLogType.Nothing && byteCount > 1200 && !flagsSet)
-                Debug.LogWarning($"Ignorance Client: Trying to send a Unreliable packet bigger than the recommended ENet 1200 byte MTU ({byteCount} > 1200). ENet will force Reliable Fragmented delivery.");
+            if (LogType != IgnoranceLogType.Quiet && byteCount > 1200 && !flagsSet)
+                Debug.LogWarning($"Ignorance: Client tried to send a Unreliable packet bigger than the recommended ENet 1200 byte MTU ({byteCount} > 1200). ENet will force Reliable Fragmented delivery.");
 
             // Create the packet.
             clientOutgoingPacket.Create(segment.Array, byteOffset, byteCount + byteOffset, desiredFlags);
@@ -257,7 +258,7 @@ namespace IgnoranceTransport
             // Warn if over recommended MTU
             bool flagsSet = (desiredFlags & ReliableOrUnreliableFragmented) > 0;
 
-            if (LogType != IgnoranceLogType.Nothing && byteCount > 1200 && !flagsSet)
+            if (LogType != IgnoranceLogType.Quiet && byteCount > 1200 && !flagsSet)
                 Debug.LogWarning($"Ignorance Server: Trying to send a Unreliable packet bigger than the recommended ENet 1200 byte MTU ({byteCount} > 1200). ENet will force Reliable Fragmented delivery.");
 
             // Create the packet.
@@ -273,13 +274,13 @@ namespace IgnoranceTransport
 
             lock (Server) // UNITYSTATION CODE // Multithreading requires some locks sometime!!!, Please notice!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!, Before updating ignorance
             {
-	            Server.Outgoing.Enqueue(dispatchPacket);
+                Server.Outgoing.Enqueue(dispatchPacket);
             }
-        }
+		}
 
         public override void ServerStart()
         {
-            if (LogType != IgnoranceLogType.Nothing)
+            if (LogType != IgnoranceLogType.Quiet)
                 Debug.Log("Ignorance Server: Instance starting up...");
 
             InitializeServerBackend();
@@ -291,7 +292,7 @@ namespace IgnoranceTransport
         {
             if (Server != null)
             {
-                if (LogType != IgnoranceLogType.Nothing)
+                if (LogType != IgnoranceLogType.Quiet)
                     Debug.Log("Ignorance Server: Instance shutting down...");
 
                 Server.Stop();
@@ -322,7 +323,7 @@ namespace IgnoranceTransport
         {
             if (Channels != null && Channels.Length >= 2)
             {
-                // Check to make sure that Channel 0 and 1 are correct.
+                // Check to make sure that Channel 0 and 1 are correct.             
                 if (Channels[0] != IgnoranceChannelTypes.Reliable)
                 {
                     Debug.LogWarning("Please do not modify Ignorance Channel 0. The channel will be reset to Reliable delivery. If you need a channel with a different delivery, define and use it instead.");
@@ -360,8 +361,12 @@ namespace IgnoranceTransport
 
             // Set up the new IgnoranceServer reference.
             if (serverBindsAll)
+            {
                 // MacOS is special. It's also a massive thorn in my backside.
+                Server.IsFruityDevice = SystemInfo.operatingSystemFamily == OperatingSystemFamily.MacOSX;
                 Server.BindAddress = IgnoranceInternals.BindAnyAddress;
+                Server.BindAllInterfaces = true;
+            }            
             else
                 // Use the supplied bind address.
                 Server.BindAddress = serverBindAddress;
@@ -394,7 +399,7 @@ namespace IgnoranceTransport
         {
             if (Client == null)
             {
-                Debug.LogWarning("Ignorance Client: Backend instance reference was null. This shouldn't happen, but to be safe we'll reinitialize it.");
+                Debug.LogWarning("Ignorance: Client backend instance reference was null. This shouldn't happen, but to be safe we'll reinitialize it.");
                 Client = new IgnoranceClient();
             }
 
@@ -546,7 +551,7 @@ namespace IgnoranceTransport
             while (Client.ConnectionEvents.TryDequeue(out IgnoranceConnectionEvent connectionEvent))
             {
                 if (LogType == IgnoranceLogType.Verbose)
-                    Debug.Log($"Ignorance Client Debug: Processing a client ConnectionEvents queue item. Type: {connectionEvent.EventType.ToString("{0:X2}")}");
+                    Debug.Log($"Ignorance Debug: Client processing a ConnectionEvents queue item. Type: {connectionEvent.EventType.ToString("{0:X2}")}");
 
                 switch (connectionEvent.EventType)
                 {
@@ -554,8 +559,8 @@ namespace IgnoranceTransport
                         // Connected to server.
                         ClientState = ConnectionState.Connected;
 
-                        if (LogType != IgnoranceLogType.Nothing)
-                            Debug.Log($"Ignorance Client has successfully connected to server at {connectionEvent.IP}:{connectionEvent.Port}");
+                        if (LogType != IgnoranceLogType.Quiet)
+                            Debug.Log($"Ignorance: Client has successfully connected to server at {connectionEvent.IP}:{connectionEvent.Port}");
 
                         ignoreDataPackets = false;
                         OnClientConnected?.Invoke();
@@ -565,8 +570,8 @@ namespace IgnoranceTransport
                         // Disconnected from server.
                         ClientState = ConnectionState.Disconnected;
 
-                        if (LogType != IgnoranceLogType.Nothing)
-                            Debug.Log($"Ignorance Client has been disconnected from server.");
+                        if (LogType != IgnoranceLogType.Quiet)
+                            Debug.Log($"Ignorance: Client has been disconnected from server.");
 
                         ignoreDataPackets = true;
                         OnClientDisconnected?.Invoke();
@@ -574,8 +579,8 @@ namespace IgnoranceTransport
 
                     default:
                         // Unknown type.
-                        if (LogType != IgnoranceLogType.Nothing)
-                            Debug.LogWarning($"Ignorance Client: Unknown connection event type {connectionEvent.EventType.ToString("{0:X2}")}.");
+                        if (LogType != IgnoranceLogType.Quiet)
+                            Debug.LogWarning($"Ignorance: Client has unknown connection event type {connectionEvent.EventType.ToString("{0:X2}")}.");
                         break;
                 }
             }
@@ -588,7 +593,7 @@ namespace IgnoranceTransport
                 if (ignoreDataPackets)
                 {
                     if (LogType == IgnoranceLogType.Verbose)
-                        Debug.Log("Ignorance Client: ProcessClientPackets cycle skipped; ignoring data packet");
+                        Debug.Log("Ignorance: Client ProcessClientPackets cycle skipped; ignoring data packet");
                     break;
                 }
 
