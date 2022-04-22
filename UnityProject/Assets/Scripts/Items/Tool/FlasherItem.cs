@@ -14,7 +14,7 @@ namespace Items.Tool
 		{
 			if (OnCooldown)
 			{
-				Chat.AddExamineMsg(interaction.Performer,"This flash seems to be on cooldown!");
+				Chat.AddExamineMsg(interaction.Performer,"This flash seems to be recharging!");
 				return;
 			}
 			if(interaction.TargetObject == null || interaction.TargetObject.TryGetComponent<RegisterPlayer>(out var player) == false) return;
