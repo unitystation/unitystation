@@ -8,6 +8,7 @@ using NaughtyAttributes;
 using Objects.Construction;
 using AddressableReferences;
 using Chemistry;
+using HealthV2;
 
 namespace Systems.MobAIs
 {
@@ -41,13 +42,22 @@ namespace Systems.MobAIs
 		[Tooltip("The reagent used by emagged cleanbots")]
 		[SerializeField] private Reagent CB_REAGENT;
 
+		[Tooltip("The reagent used by medibots")]
+		[SerializeField] private Reagent HEALING_REAGENT;
+
+		[Tooltip("The reagent used by emagged medibots")]
+		[SerializeField] private Reagent HARMFUL_REAGENT;
+
 		public event Action FoodEatenEvent;
 
+		[NonSerialized]
 		public Target target;
 
+		[NonSerialized]
 		public Vector3Int targetPos;
 
 		// to actually check if target is valid since vector isnt nullable type and we dont want for mobs to follow 0,0 or target far out of its target range
+		[NonSerialized]
 		public bool targetIsValid = false;
 
 		[Tooltip("Indicates the time it takes for the mob to perform its main action. If the the time is 0, it means that the action is instantaneous.")]
@@ -97,11 +107,11 @@ namespace Systems.MobAIs
 		//https://www.geeksforgeeks.org/bresenhams-circle-drawing-algorithm/
 		// Function for circle-generation
 		// using Bresenham's algorithm
-		void circleBres(int xc, int yc, int r)
+		private void CircleBres(int xc, int yc, int r)
 		{
 			int x = 0, y = r;
 			int d = 3 - 2 * r;
-			drawCircle(xc, yc, x, y);
+			DrawCircle(xc, yc, x, y);
 			while (y >= x)
 			{
 				// for each pixel we will
@@ -120,13 +130,13 @@ namespace Systems.MobAIs
 				else
 					d = d + 4 * x + 6;
 
-				drawCircle(xc, yc, x, y);
+				DrawCircle(xc, yc, x, y);
 			}
 		}
 
 		// Function to put Locations
 		// at subsequence points
-		void drawCircle(int xc, int yc, int x, int y)
+		private void DrawCircle(int xc, int yc, int x, int y)
 		{
 			visionCirclePerimeter.Add(new Vector2Int(xc + x, yc + y));
 			visionCirclePerimeter.Add(new Vector2Int(xc - x, yc + y));
@@ -139,7 +149,7 @@ namespace Systems.MobAIs
 		}
 
 		//https://rosettacode.org/wiki/Bitmap/Bresenham%27s_line_algorithm#C.23
-		void fillCircle(int xc, int yc, int z)
+		private void FillCircle(int xc, int yc, int z)
 		{
 			foreach(Vector3Int pos in visionCirclePerimeter)
 			{
@@ -158,16 +168,16 @@ namespace Systems.MobAIs
 		}
 
 		//refreshes vision area
-		void updateVisionArea()
-        {
+		private void UpdateVisionArea()
+		{
 			visionCircleArea.Clear();
 			visionCirclePerimeter.Clear();
 			int xc = mobTile.WorldPositionServer.x;
 			int yc = mobTile.WorldPositionServer.y;
 			int z = mobTile.WorldPositionServer.z;
-			circleBres(xc, yc, visionRange);
-			fillCircle(xc, yc, z);
-        }
+			CircleBres(xc, yc, visionRange);
+			FillCircle(xc, yc, z);
+		}
 
 		/// <summary>
 		/// Begin exploring for the given target type
@@ -183,23 +193,23 @@ namespace Systems.MobAIs
 		{
 			if (visionCircleArea.Count < 1)
 			{
-				updateVisionArea();
+				UpdateVisionArea();
 			}
 
 			float minDist = 999;
 			foreach(Vector3Int pos in visionCircleArea)
-            {
+			{
 				if (IsTargetFound(pos))
-                {
+				{
 					float curDist = Vector3.Distance(pos.ToWorld(mobTile.Matrix), mobTile.WorldPositionServer);
 					if (curDist < minDist)
-                    {
+					{
 						minDist = curDist;
 						targetPos = pos.ToWorld(mobTile.Matrix).RoundToInt();
 						targetIsValid = true;
 					}
-                }
-            }
+				}
+			}
 		}
 
 		private bool IsTargetFound(Vector3Int checkPos)
@@ -220,6 +230,12 @@ namespace Systems.MobAIs
 					else return interactableTiles.MetaTileMap.GetTile(checkPos)?.LayerType == LayerType.Floors;
 
 				case Target.injuredPeople:
+					PlayerScript player = mobTile.Matrix.GetFirst<PlayerScript>(checkPos, true);
+					if (player != null)
+					{
+						if (!IsEmagged) return player.playerHealth.OverallHealth < 75;
+						else return true;
+					}
 					return false;
 
 				// this includes ghosts!
@@ -316,6 +332,12 @@ namespace Systems.MobAIs
 
 					break;
 				case Target.injuredPeople:
+					var patient = mobTile.Matrix.GetFirst<PlayerScript>(checkPos, true);
+					if (patient != null)
+					{
+						if (!IsEmagged) patient.playerHealth.CirculatorySystem.BloodPool.Add(new ReagentMix(HEALING_REAGENT, 5, 283.15f));
+						else patient.playerHealth.CirculatorySystem.BloodPool.Add(new ReagentMix(HARMFUL_REAGENT, 5, 283.15f));
+					}
 					break;
 				case Target.players:
 					var people = mobTile.Matrix.GetFirst<PlayerScript>(checkPos, true);
@@ -352,9 +374,9 @@ namespace Systems.MobAIs
 				Priority += PriorityBalance * 10;
 			}
 			if (targetIsValid)
-            {
+			{
 				Priority += PriorityBalance * 5;
-            }
+			}
 			else
 			{
 				Priority += PriorityBalance;
@@ -363,14 +385,14 @@ namespace Systems.MobAIs
 		}
 
 		public bool MatchesMobPos(Vector3Int pos)
-        {
+		{
 			return pos == mobTile.WorldPositionServer;
-        }
+		}
 
 		public bool MatchesCurrentTarget(Vector3Int pos)
-        {
+		{
 			return pos == targetPos;
-        }
+		}
 
 		public override void DoAction()
 		{
@@ -378,7 +400,7 @@ namespace Systems.MobAIs
 
 			if (visionUpdateTimer >= visionUpdateInterval)
 			{
-				updateVisionArea();
+				UpdateVisionArea();
 
 				visionUpdateTimer = 0;
 			}
@@ -397,14 +419,14 @@ namespace Systems.MobAIs
 			else
 			{
 				if (Vector3.Distance(targetPos, mobTile.WorldPositionServer) > visionRange * 3)
-                {
+				{
 					Vector3Int oldPos = targetPos;
 					RefreshTargetPos();
 					if (oldPos == targetPos) //target is out of range but no new targets found, so its not valid anymore
-                    {
+					{
 						targetIsValid = false;
-                    }
-                }
+					}
+				}
 
 				if (targetPos != null && targetIsValid)
 				{
