@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Tiles;
+using UnityEngine;
 
 namespace ScriptableObjects.Gun.HitConditions.Tile
 {

@@ -4,6 +4,7 @@ using System;
 using UnityEngine;
 using Random = UnityEngine.Random;
 using TileManagement;
+using Tiles;
 
 /// <summary>
 /// Changes the tile to a different tile when an item with a particular

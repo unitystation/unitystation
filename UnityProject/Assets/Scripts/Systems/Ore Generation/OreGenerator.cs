@@ -9,6 +9,7 @@ using Shuttles;
 using TileManagement;
 using Tilemaps.Behaviours.Layers;
 using UnityEngine.Serialization;
+using Tiles;
 
 /// <summary>
 /// Component which should go on a Matrix and which generates ore tiles in any mineable tiles of that matrix.

@@ -2,6 +2,7 @@
 using ScriptableObjects.Atmospherics;
 using UnityEngine;
 using Mirror;
+using Tiles;
 
 namespace Systems.Atmospherics
 {

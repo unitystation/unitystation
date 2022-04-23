@@ -5,6 +5,7 @@ using UnityEngine;
 using NaughtyAttributes;
 using AddressableReferences;
 using Systems.Spells;
+using Tiles;
 
 namespace ScriptableObjects.Systems.Spells
 {

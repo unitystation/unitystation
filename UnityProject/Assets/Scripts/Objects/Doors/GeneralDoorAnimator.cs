@@ -5,6 +5,7 @@ using TileManagement;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 using UnityEditor;
+using Tiles;
 
 namespace Doors
 {
