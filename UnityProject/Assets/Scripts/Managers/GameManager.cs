@@ -32,6 +32,11 @@ public partial class GameManager : MonoBehaviour, IInitialise
 	public int PlayerLimit { get; set; } = 100;
 
 	/// <summary>
+	/// The minimum amount of players which triggers a lowPop status
+	/// </summary>
+	public int LowPopLimit { get; set; } = 25;
+
+	/// <summary>
 	/// The minimum number of players needed to start the pre-round countdown
 	/// </summary>
 	public int MinPlayersForCountdown { get; set; } = 1;
@@ -199,6 +204,7 @@ public partial class GameManager : MonoBehaviour, IInitialise
 		MalfAIRecieveTheirIntendedObjectiveChance = GameConfigManager.GameConfig.MalfAIRecieveTheirIntendedObjectiveChance;
 		ServerShutsDownOnRoundEnd = GameConfigManager.GameConfig.ServerShutsDownOnRoundEnd;
 		PlayerLimit = GameConfigManager.GameConfig.PlayerLimit;
+		LowPopLimit = GameConfigManager.GameConfig.LowPopLimit;
 
 		Physics.autoSimulation = false;
 		Physics2D.simulationMode = SimulationMode2D.Update;

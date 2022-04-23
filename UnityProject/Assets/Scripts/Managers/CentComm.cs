@@ -44,6 +44,8 @@ namespace Managers
 
 		[NonSerialized] public AlertLevel CurrentAlertLevel;
 
+		public bool IsLowPop = false;
+
 		//Server only:
 		public static List<Vector2> asteroidLocations = new List<Vector2>();
 
@@ -80,6 +82,7 @@ namespace Managers
 			asteroidLocations.Clear();
 			ChangeAlertLevel(initialAlertLevel, false);
 			StartCoroutine(WaitToPrepareReport());
+			if(CustomNetworkManager.IsServer) LowpopCheck();
 		}
 
 		private IEnumerator WaitToPrepareReport()
@@ -156,6 +159,33 @@ namespace Managers
 
 			yield return WaitFor.Seconds(10);
 			MakeAnnouncement(ChatTemplates.CentcomAnnounce, PlayerUtils.GetGenericReport(), UpdateSound.Announce);
+		}
+
+		private void LowpopCheck()
+		{
+			if(PlayerList.Instance.GetAlivePlayers().Count > gameManager.LowPopLimit) return;
+			IsLowPop = true;
+			StartCoroutine(CheckIfLowPopHasPassed());
+		}
+
+		private IEnumerator CheckIfLowPopHasPassed()
+		{
+			yield return WaitFor.Seconds(5);
+			//We wait a bit to make this announcement as it cant be triggered as soon as the round starts
+			MakeAnnouncement(ChatTemplates.CentcomAnnounce,
+				"Due to the shortage of staff on the station; We have granted additional access to all crew members until further notice."
+				, UpdateSound.Announce);
+			Debug.Log("announcing");
+			while (IsLowPop)
+			{
+				if (PlayerList.Instance.GetAlivePlayers().Count >= gameManager.LowPopLimit) break;
+				Debug.Log("still in lowpop");
+				yield return WaitFor.Seconds(120);
+			}
+			MakeAnnouncement(ChatTemplates.CentcomAnnounce,
+				"We're revoking additional access that has been given to the crew as the station seems to be well staffed finally. Joining crew members in the future will arrive with the default access for their department."
+				, UpdateSound.Announce);
+			IsLowPop = false;
 		}
 
 		/// <summary>

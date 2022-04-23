@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using Items;
+using Managers;
 using UnityEngine;
 using Mirror;
 using UnityEngine.Serialization;
@@ -117,18 +118,26 @@ public class IDCard : NetworkBehaviour, IServerInventoryMove, IServerSpawn, IInt
 
 		var charSettings = ps.characterSettings;
 		jobType = occupation.JobType;
+
+		var accessToGive = GameManager.Instance.CentComm.IsLowPop
+			? occupation.AllowedAccess
+			: occupation.AllowedLowPopAccess;
+
+		if (accessToGive == occupation.AllowedLowPopAccess && accessToGive.Count == 0)
+			accessToGive = occupation.AllowedAccess; //(Max) : Incase we forgot to set it up in the SO aka you're lazy like me
+
 		if (jobType == JobType.CAPTAIN)
 		{
-			Initialize(IDCardType.captain, jobType, occupation.AllowedAccess, charSettings.Name);
+			Initialize(IDCardType.captain, jobType, accessToGive, charSettings.Name);
 		}
 		else if (jobType == JobType.HOP || jobType == JobType.HOS || jobType == JobType.CMO || jobType == JobType.RD ||
 		         jobType == JobType.CHIEF_ENGINEER)
 		{
-			Initialize(IDCardType.command, jobType, occupation.AllowedAccess, charSettings.Name);
+			Initialize(IDCardType.command, jobType, accessToGive, charSettings.Name);
 		}
 		else
 		{
-			Initialize(IDCardType.standard, jobType, occupation.AllowedAccess, charSettings.Name);
+			Initialize(IDCardType.standard, jobType, accessToGive, charSettings.Name);
 		}
 	}
 
