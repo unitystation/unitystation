@@ -437,7 +437,6 @@ public partial class PlayerList
 			Logger.Log($"A user tried to connect with null/empty username" +
 			           $"Details: Username: {unverifiedConnPlayer.Username}, ClientID: {unverifiedConnPlayer.ClientId}, IP: {unverifiedConnPlayer.ConnectionIP}",
 				Category.Admin);
-			return false;
 		}
 
 		//Allow error response for local offline testing
