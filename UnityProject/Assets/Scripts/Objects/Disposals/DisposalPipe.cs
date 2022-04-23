@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Systems.DisposalPipes;
+using Tiles;
 
 namespace Objects.Disposals
 {

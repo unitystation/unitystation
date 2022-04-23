@@ -2,6 +2,7 @@
 using UnityEngine;
 using Mirror;
 using ScriptableObjects;
+using Tiles;
 
 namespace Objects.Construction
 {

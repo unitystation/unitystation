@@ -9,6 +9,7 @@ using Items;
 using Messages.Server.SoundMessages;
 using Player.Movement;
 using Systems.Interaction;
+using Tiles;
 
 public class WeaponNetworkActions : NetworkBehaviour
 {

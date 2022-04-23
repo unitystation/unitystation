@@ -1,8 +1,8 @@
 using UnityEngine;
-using System.Runtime.InteropServices;
 
 /// <summary>
-/// Indicates an Examinable Component -- Deets are coming later.
+/// Indicates an Examinable object - players can examine this object and get a textual response.
+/// Implement this if your object's examination response is dynamic.
 /// </summary>
 public interface IExaminable
 {

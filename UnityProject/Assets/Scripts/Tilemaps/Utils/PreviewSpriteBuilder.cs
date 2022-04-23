@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
+using Tiles;
 using UnityEditor;
 using UnityEngine;
 
 
-	public static class PreviewSpriteBuilder
+public static class PreviewSpriteBuilder
 	{
 		private const string previewPath = "Assets/Textures/TilePreviews";
 

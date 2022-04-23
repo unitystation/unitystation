@@ -15,6 +15,7 @@ using Messages.Client.NewPlayer;
 using Messages.Client.SpriteMessages;
 using Player.Movement;
 using Mirror;
+using Tiles;
 
 /// <summary>
 /// Defines collision type we expect

@@ -6,7 +6,7 @@ using UnityEngine.UI;
 using TMPro;
 using Messages.Server;
 using Systems.Interaction;
-
+using Tiles;
 
 namespace UI
 {

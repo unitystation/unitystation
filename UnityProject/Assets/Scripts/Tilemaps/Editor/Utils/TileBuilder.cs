@@ -1,9 +1,10 @@
 ﻿using System.IO;
+using Tiles;
 using UnityEditor;
 using UnityEngine;
 
 
-	public static class TileBuilder
+public static class TileBuilder
 	{
 		public static void CreateTile<T>(LayerType layer, string tileName, string path = null) where T : LayerTile
 		{
