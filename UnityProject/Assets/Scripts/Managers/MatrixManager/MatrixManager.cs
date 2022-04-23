@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using Chemistry;
 using Doors;
@@ -224,7 +225,7 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 
 		ActiveMatrices.Add(matrixInfo.Id, matrixInfo);
 		ActiveMatricesList.Add(matrixInfo);
-		if (matrixInfo.MatrixMove != null)
+		if (matrixInfo.IsMovable)
 		{
 			MovableMatrices.Add(matrixInfo);
 		}
@@ -279,7 +280,6 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 			Matrix = matrix,
 			GameObject = gameObj,
 			Objects = gameObj.transform.GetComponentInChildren<ObjectLayer>().transform,
-			MatrixMove = gameObj.GetComponentInParent<MatrixMove>(),
 			MetaTileMap = gameObj.GetComponent<MetaTileMap>(),
 			MetaDataLayer = gameObj.GetComponent<MetaDataLayer>(),
 			SubsystemManager = gameObj.GetComponentInParent<SubsystemManager>(),
@@ -308,6 +308,19 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 		}
 
 		return Instance.spaceMatrix.MatrixInfo;
+	}
+
+	public static MatrixInfo GetByName_DEBUG_ONLY(string Name)
+	{
+		for (int i = 0; i < Instance.ActiveMatricesList.Count; i++)
+		{
+			if (Instance.ActiveMatricesList[i].Name == Name)
+			{
+				return Instance.ActiveMatricesList[i];
+			}
+		}
+
+		return null;
 	}
 
 	private static bool IsInMatrix(Vector3Int worldPos, bool isServer, MatrixInfo matrixInfo)
@@ -355,7 +368,7 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 
 		var Distance = (WorldTo - Worldorigin).Value.magnitude;
 
-		if (Distance > 25)
+		if (Distance > 30)
 		{
 			Logger.LogError($" Limit exceeded on raycast, Look at stack trace for What caused it at {Distance}"); //Meant to catch up stuff that's been naughty and doing stuff like 900 tile Ray casts
 			return new CustomPhysicsHit();
@@ -369,17 +382,17 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 
 		if (layerMask != LayerTypeSelection.None)
 		{
+			//TODO do we really need to go through all matrixes? Can we break out at some point?
 			foreach (var matrixInfo in Instance.ActiveMatricesList)
 			{
-				var Localorigin = Worldorigin.ToLocal(matrixInfo.Matrix);
-				var LocalTo = WorldTo.Value.ToLocal(matrixInfo.Matrix);
-
-				if (LineIntersectsRect(Localorigin, LocalTo, matrixInfo.LocalBounds))
+				if (LineIntersectsRect(Worldorigin, WorldTo.Value, matrixInfo.WorldBounds))
 				{
-					Checkhit = matrixInfo.MetaTileMap.Raycast(Localorigin, Vector2.zero,
+					var localOrigin = WorldToLocal(Worldorigin, matrixInfo).To2();
+					var localTo = WorldToLocal(WorldTo.Value, matrixInfo).To2();
+					Checkhit = matrixInfo.MetaTileMap.Raycast(localOrigin, Vector2.zero,
 						distance,
 						layerMask,
-						LocalTo, tileNamesToIgnore);
+						localTo, tileNamesToIgnore);
 
 					if (Checkhit != null)
 					{
@@ -419,8 +432,8 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 		{
 			ClosestHit = new CustomPhysicsHit();
 		}
-
 		return ClosestHit.Value;
+
 	}
 
 
@@ -477,7 +490,7 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 		public TileLocation TileLocation;
 	}
 
-	public static bool LineIntersectsRect(Vector2 p1, Vector2 p2, BetterBoundsInt r)
+	public static bool LineIntersectsRect(Vector2 p1, Vector2 p2, BetterBounds r)
 	{
 		var xMin = r.xMin;
 		var yMin = r.yMin;
@@ -491,7 +504,7 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 		       (FindPoint(r.min, r.max, p1) && FindPoint(r.min, r.max, p2));
 	}
 
-	static bool FindPoint(Vector3Int min, Vector3Int max, Vector2 Point)
+	static bool FindPoint(Vector3 min, Vector3 max, Vector2 Point)
 	{
 		if (Point.x > min.x && Point.x < max.x &&
 		    Point.y > min.y && Point.y < max.y)
@@ -1244,7 +1257,7 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 	/// </summary>
 	public static Vector3Int LocalToWorldInt(Vector3 localPos, Matrix matrix)
 	{
-		return LocalToWorldInt(localPos, Get(matrix));
+		return LocalToWorldInt(localPos, matrix?.MatrixInfo);
 	}
 
 	/// <inheritdoc cref="LocalToWorldInt(Vector3, Matrix)"/>
@@ -1259,7 +1272,7 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 	/// </summary>
 	public static Vector3 LocalToWorld(Vector3 localPos, Matrix matrix)
 	{
-		return LocalToWorld(localPos, Get(matrix));
+		return LocalToWorld(localPos, matrix?.MatrixInfo);
 	}
 
 	/// <inheritdoc cref="LocalToWorld(Vector3, Matrix)"/>
@@ -1273,10 +1286,15 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 
 //		return matrix.MetaTileMap.LocalToWorld( localPos );
 
-		if (matrix.MatrixMove == null)
+		if (matrix.IsMovable == false)
 		{
 			return localPos + matrix.Offset;
 		}
+
+		// if (matrix.MetaTileMap.localToWorldMatrix != null) //TODO After fixing Shuttle offset and Change movement to local
+		// {
+		// 	return matrix.MetaTileMap.localToWorldMatrix.Value.MultiplyPoint(localPos);
+		// }
 
 		if (state.Equals(default(MatrixState)))
 		{
@@ -1302,15 +1320,22 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 			return TransformState.HiddenPos;
 		}
 
-		if (matrix.MatrixMove == null)
+		if (matrix.IsMovable == false)
 		{
 			return worldPos - matrix.Offset;
 		}
 
+		// if (matrix.MetaTileMap.worldToLocalMatrix != null) //TODO After fixing Shuttle offset and Change movement to local
+		// {
+		// 	return matrix.MetaTileMap.worldToLocalMatrix.Value.MultiplyPoint(worldPos);
+		// }
+
+
 		var state = matrix.MatrixMove.ClientState;
+		var pivot = matrix.MatrixMove.Pivot.ToNonInt3();
 
 		return (state.FacingOffsetFromInitial(matrix.MatrixMove).QuaternionInverted *
-		        (worldPos - matrix.MatrixMove.Pivot - matrix.GetOffset(state))) + matrix.MatrixMove.Pivot;
+		        (worldPos - pivot - matrix.GetOffset(state))) + pivot;
 	}
 
 	/// <summary>

@@ -10,6 +10,7 @@ namespace UI.AdminTools
 {
 	public class AdminRespawnPage: AdminPage
 	{
+		[SerializeField] private GUI_AdminTools mainWindow;
 		[SerializeField][Tooltip("Game object that corresponds to this tab")]
 		private RespawnTab normalJobTab = default;
 		[SerializeField][Tooltip("Game object that corresponds to this tab")]
@@ -142,11 +143,7 @@ namespace UI.AdminTools
 		public void OnTabConfirmButton()
 		{
 			activeTab.RequestRespawn();
-		}
-
-		public void OnTabCancelButton()
-		{
-			adminTools.ShowMainPage();
+			mainWindow.ShowPlayerManagePage();
 		}
 	}
 

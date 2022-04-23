@@ -163,7 +163,18 @@ namespace Audio.Containers
 
 		public void OnVolumeSliderChange()
 		{
-			MusicManager.Instance.ChangeVolume(volumeSlider.value);
+			if (volumeSlider.value == 0)
+            {
+				ToggleMusicMute();
+			}
+			else
+			{
+				if (PlayerPrefs.GetInt(PlayerPrefKeys.MuteMusic) == 0)
+                {
+					ToggleMusicMute();
+				}
+				MusicManager.Instance.ChangeVolume(volumeSlider.value);
+			}
 		}
 
 		public void OnTrackButtonClick()

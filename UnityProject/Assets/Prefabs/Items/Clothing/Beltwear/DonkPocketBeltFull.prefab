@@ -72,6 +72,21 @@ PrefabInstance:
       propertyPath: m_AssetId
       value: ee2d4c5686865174eb2fd6ccfa607d9d
       objectReference: {fileID: 0}
+    - target: {fileID: 3935190214602303804, guid: 83d2b03c412c85040b16a0dad37bc91a,
+        type: 3}
+      propertyPath: initialName
+      value: Tactical Donk Belt
+      objectReference: {fileID: 0}
+    - target: {fileID: 3935190214602303804, guid: 83d2b03c412c85040b16a0dad37bc91a,
+        type: 3}
+      propertyPath: attackVerbs.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 3935190214602303804, guid: 83d2b03c412c85040b16a0dad37bc91a,
+        type: 3}
+      propertyPath: attackVerbs.Array.data[3]
+      value: Donked
+      objectReference: {fileID: 0}
     - target: {fileID: 4592635236357623684, guid: 83d2b03c412c85040b16a0dad37bc91a,
         type: 3}
       propertyPath: itemStoragePopulator

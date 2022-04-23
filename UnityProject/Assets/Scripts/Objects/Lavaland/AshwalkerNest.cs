@@ -56,6 +56,8 @@ namespace Objects
 			new Vector3Int(-1, 1, 0)
 		};
 
+		private bool wasMapped;
+
 		#region Life Cycle
 
 		private void Awake()
@@ -69,14 +71,14 @@ namespace Objects
 		{
 			UpdateManager.Add(PeriodicUpdate, 1f);
 			integrity.OnWillDestroyServer.AddListener(OnDestruction);
-			EventManager.AddHandler(Event.RoundStarted, OnRoundRestart);
+			EventManager.AddHandler(Event.LavalandFirstEntered, OnRoundRestart);
 		}
 
 		private void OnDisable()
 		{
 			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, PeriodicUpdate);
 			integrity.OnWillDestroyServer.RemoveListener(OnDestruction);
-			EventManager.RemoveHandler(Event.RoundStarted, OnRoundRestart);
+			EventManager.RemoveHandler(Event.LavalandFirstEntered, OnRoundRestart);
 
 			//Just in case remove the role here too
 			GhostRoleManager.Instance.ServerRemoveRole(createdRoleKey);
@@ -190,7 +192,8 @@ namespace Objects
 		//Used for when admin or in round spawned
 		public void OnSpawnServer(SpawnInfo info)
 		{
-			if(GameManager.Instance.CurrentRoundState != RoundState.Started) return;
+			wasMapped = info.SpawnType == SpawnType.Mapped;
+			if(wasMapped) return;
 
 			OnRoundRestart();
 		}
@@ -211,6 +214,8 @@ namespace Objects
 			GhostRoleManager.Instance.ServerUpdateRole(createdRoleKey, 1, ashwalkerEggs, -1);
 
 			role.OnPlayerAdded += OnSpawnPlayer;
+
+			EventManager.RemoveHandler(Event.LavalandFirstEntered, OnRoundRestart);
 		}
 
 		private void OnSpawnPlayer(ConnectedPlayer player)

@@ -57,6 +57,8 @@ namespace UI
 		[Tooltip("Number of seconds to wait after selecting a job. If the player does not spawn within that time the job selection re-opens.")]
 		private float waitForSpawnTimerMax = 6;
 
+		public OccupationList EmergancyOccupationList;
+
 		/// <summary>
 		/// Called when the player select a job selection button.
 		/// Assigns the player that job and spawns them, unless the job was already taken.

@@ -10,6 +10,7 @@ using AddressableReferences;
 using Chemistry;
 using HealthV2;
 
+
 namespace Systems.MobAIs
 {
 	/// <summary>
@@ -88,6 +89,9 @@ namespace Systems.MobAIs
 		protected Vector3Int actionPosition;
 
 		public bool IsEmagged = false;
+
+		private readonly Random random = new Random();
+
 		private InteractableTiles interactableTiles {
 			get {
 				if (_interactableTiles == null)

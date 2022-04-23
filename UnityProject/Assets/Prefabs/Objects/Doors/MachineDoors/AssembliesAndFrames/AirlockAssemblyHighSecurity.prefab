@@ -34,7 +34,7 @@ PrefabInstance:
     - target: {fileID: 459137905406169173, guid: b52e9566ba635f944a7a656928335414,
         type: 3}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 492649207374439926, guid: b52e9566ba635f944a7a656928335414,
         type: 3}
@@ -57,6 +57,12 @@ PrefabInstance:
       propertyPath: airlockToSpawn
       value: 
       objectReference: {fileID: 7725623250533126920, guid: 10b4df308fde4ce4da5578a90de97c13,
+        type: 3}
+    - target: {fileID: 5358550384649939024, guid: b52e9566ba635f944a7a656928335414,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: a4fed253c0586244892813051faea91d,
         type: 3}
     - target: {fileID: 6125502474817307791, guid: b52e9566ba635f944a7a656928335414,
         type: 3}

@@ -11,6 +11,8 @@ namespace Weapons
 	[RequireComponent(typeof(MeleeEffect))]
 	public class ToggleableEffect : NetworkBehaviour, ICheckedInteractable<HandActivate>, IServerSpawn, ICheckedInteractable<InventoryApply>
 	{
+		[SerializeField] private bool toggleAffectsComponent = false;
+
 		private SpriteHandler spriteHandler;
 
 		private MeleeEffect meleeEffect;
@@ -23,7 +25,7 @@ namespace Weapons
 		private WeaponState intialState = WeaponState.Off;
 
 		///Both used as states for the item and for the sub-catalogue in the sprite handler.
-		private enum WeaponState
+		public enum WeaponState
 		{
 			Off,
 			On,
@@ -31,6 +33,12 @@ namespace Weapons
 		}
 
 		private WeaponState weaponState;
+
+		public WeaponState CurrentWeaponState
+		{
+			get { return weaponState; }
+			set { weaponState = value; }
+		}
 
 		private void Awake()
 		{
@@ -58,7 +66,7 @@ namespace Weapons
 
 		public void TurnOn()
 		{
-			meleeEffect.enabled = true;
+			if(toggleAffectsComponent) meleeEffect.enabled = true;
 			weaponState = WeaponState.On;
 			spriteHandler.ChangeSprite((int)WeaponState.On);
 		}
@@ -66,7 +74,7 @@ namespace Weapons
 		public void TurnOff()
 		{
 			//logic to turn the teleprod off.
-			meleeEffect.enabled = false;
+			if (toggleAffectsComponent) meleeEffect.enabled = false;
 			weaponState = WeaponState.Off;
 			spriteHandler.ChangeSprite((int)WeaponState.Off);
 		}
@@ -74,7 +82,7 @@ namespace Weapons
 		private void RemoveCell()
 		{
 			//Logic for removing the items battery
-			meleeEffect.enabled = false;
+			if (toggleAffectsComponent) meleeEffect.enabled = false;
 			weaponState = WeaponState.NoCell;
 			spriteHandler.ChangeSprite((int)WeaponState.NoCell);
 			Inventory.ServerDrop(meleeEffect.batterySlot);
@@ -120,7 +128,7 @@ namespace Weapons
 			{
 				if (interaction.UsedObject.GetComponent<Battery>().MaxWatts >= meleeEffect.chargeUsage)
 				{
-					Inventory.ClientRequestTransfer(interaction.FromSlot, meleeEffect.batterySlot);
+					Inventory.ServerTransfer(interaction.FromSlot, meleeEffect.batterySlot);
 					TurnOff();
 				}
 				else

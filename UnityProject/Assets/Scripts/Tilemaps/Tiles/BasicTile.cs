@@ -50,6 +50,7 @@ public abstract class BasicTile : LayerTile
 	[Range(0f, 1000000f)] [Tooltip("Heat Capacity 0 to 1000000")] [SerializeField]
 	public float HeatCapacity = 10000;
 
+
 	/// <summary>
 	/// Can this tile be mined?
 	/// </summary>
@@ -66,6 +67,9 @@ public abstract class BasicTile : LayerTile
 
 	[Tooltip("Do explosions have to completely destroy the tile before passing it, Otherwise explosion extends all its energy on the wall")]
 	public bool ExplosionImpassable;
+
+	[Tooltip("Blocks interactions for tiles underneath it")]
+	public bool BlocksTileInteractionsUnder = true;
 
 	[Tooltip("What things are allowed to pass through this even if it is not passable?")]
 	[FormerlySerializedAs("PassableException")]

@@ -12,24 +12,19 @@ namespace Systems.Atmospherics
 		{
 			var atmosManager = AtmosManager.Instance;
 			atmosManager.sampler.Begin();
-			try
-			{
-				atmosManager.simulation.Run();
 
-				if (atmosManager.StopPipes == false)
-				{
-					atmosManager.pipeList.Iterate(atmosManager.processPipeDelegator);
-				}
+			atmosManager.simulation.Run();
 
-				foreach (var reactionManger in atmosManager.reactionManagerList)
-				{
-					reactionManger.DoTick();
-				}
-			}
-			catch (Exception e)
+			if (atmosManager.StopPipes == false)
 			{
-				Logger.LogError($"Atmos Thread Error! {e.GetStack()}", Category.Atmos);
+				atmosManager.pipeList.Iterate(atmosManager.processPipeDelegator);
 			}
+
+			foreach (var reactionManger in atmosManager.reactionManagerList)
+			{
+				reactionManger.DoTick();
+			}
+
 
 			atmosManager.sampler.End();
 		}

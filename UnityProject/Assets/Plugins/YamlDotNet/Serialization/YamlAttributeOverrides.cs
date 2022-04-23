@@ -1,38 +1,36 @@
-﻿//  This file is part of YamlDotNet - A .NET library for YAML.
-//  Copyright (c) Antoine Aubry and contributors
-
-//  Permission is hereby granted, free of charge, to any person obtaining a copy of
-//  this software and associated documentation files (the "Software"), to deal in
-//  the Software without restriction, including without limitation the rights to
-//  use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies
-//  of the Software, and to permit persons to whom the Software is furnished to do
-//  so, subject to the following conditions:
-
-//  The above copyright notice and this permission notice shall be included in all
-//  copies or substantial portions of the Software.
-
-//  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-//  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-//  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-//  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-//  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-//  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-//  SOFTWARE.
+﻿// This file is part of YamlDotNet - A .NET library for YAML.
+// Copyright (c) Antoine Aubry and contributors
+//
+// Permission is hereby granted, free of charge, to any person obtaining a copy of
+// this software and associated documentation files (the "Software"), to deal in
+// the Software without restriction, including without limitation the rights to
+// use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies
+// of the Software, and to permit persons to whom the Software is furnished to do
+// so, subject to the following conditions:
+//
+// The above copyright notice and this permission notice shall be included in all
+// copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+// SOFTWARE.
 
 using System;
 using System.Collections.Generic;
-using System.Globalization;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
-using System.Linq.Expressions;
-using YamlDotNet.Core;
-using YamlDotNet.Helpers;
+using HashCode = YamlDotNet.Core.HashCode;
 
 namespace YamlDotNet.Serialization
 {
     /// <summary>
     /// Define a collection of YamlAttribute Overrides for pre-defined object types.
     /// </summary>
-    public sealed class YamlAttributeOverrides
+    public sealed partial class YamlAttributeOverrides
     {
         private struct AttributeKey
         {
@@ -45,10 +43,10 @@ namespace YamlDotNet.Serialization
                 PropertyName = propertyName;
             }
 
-            public override bool Equals(object obj)
+            public override bool Equals(object? obj)
             {
-                var other = (AttributeKey)obj;
-                return AttributeType.Equals(other.AttributeType)
+                return obj is AttributeKey other
+                    && AttributeType.Equals(other.AttributeType)
                     && PropertyName.Equals(other.PropertyName);
             }
 
@@ -69,10 +67,9 @@ namespace YamlDotNet.Serialization
                 Attribute = attribute;
             }
 
-            public override bool Equals(object obj)
+            public override bool Equals(object? obj)
             {
-                var other = obj as AttributeMapping;
-                return other != null
+                return obj is AttributeMapping other
                     && RegisteredType.Equals(other.RegisteredType)
                     && Attribute.Equals(other.Attribute);
             }
@@ -89,8 +86,8 @@ namespace YamlDotNet.Serialization
             public int Matches(Type matchType)
             {
                 var currentPriority = 0;
-                var currentType = matchType;
-                while (currentType != null)
+                Type? currentType = matchType;
+                do
                 {
                     ++currentPriority;
                     if (currentType == RegisteredType)
@@ -98,7 +95,7 @@ namespace YamlDotNet.Serialization
                         return currentPriority;
                     }
                     currentType = currentType.BaseType();
-                }
+                } while (currentType != null);
 
                 if (matchType.GetInterfaces().Contains(RegisteredType))
                 {
@@ -111,13 +108,13 @@ namespace YamlDotNet.Serialization
 
         private readonly Dictionary<AttributeKey, List<AttributeMapping>> overrides = new Dictionary<AttributeKey, List<AttributeMapping>>();
 
+        [return: MaybeNull]
         public T GetAttribute<T>(Type type, string member) where T : Attribute
         {
-            List<AttributeMapping> mappings;
-            if (overrides.TryGetValue(new AttributeKey(typeof(T), member), out mappings))
+            if (overrides.TryGetValue(new AttributeKey(typeof(T), member), out var mappings))
             {
-                int bestMatchPriority = 0;
-                AttributeMapping bestMatch = null;
+                var bestMatchPriority = 0;
+                AttributeMapping? bestMatch = null;
 
                 foreach (var mapping in mappings)
                 {
@@ -131,11 +128,11 @@ namespace YamlDotNet.Serialization
 
                 if (bestMatchPriority > 0)
                 {
-                    return (T)bestMatch.Attribute;
+                    return (T)bestMatch!.Attribute;
                 }
             }
 
-            return null;
+            return default;
         }
 
         /// <summary>
@@ -148,28 +145,18 @@ namespace YamlDotNet.Serialization
         {
             var mapping = new AttributeMapping(type, attribute);
 
-            List<AttributeMapping> mappings;
             var attributeKey = new AttributeKey(attribute.GetType(), member);
-            if (!overrides.TryGetValue(attributeKey, out mappings))
+            if (!overrides.TryGetValue(attributeKey, out var mappings))
             {
                 mappings = new List<AttributeMapping>();
                 overrides.Add(attributeKey, mappings);
             }
             else if (mappings.Contains(mapping))
             {
-                throw new InvalidOperationException(string.Format(CultureInfo.InvariantCulture, "Attribute ({2}) already set for Type {0}, Member {1}", type.FullName, member, attribute));
+                throw new InvalidOperationException($"Attribute ({attribute}) already set for Type {type.FullName}, Member {member}");
             }
 
             mappings.Add(mapping);
-        }
-
-        /// <summary>
-        /// Adds a Member Attribute Override
-        /// </summary>
-        public void Add<TClass>(Expression<Func<TClass, object>> propertyAccessor, Attribute attribute)
-        {
-            var property = propertyAccessor.AsProperty();
-            Add(typeof(TClass), property.Name, attribute);
         }
 
         /// <summary>
@@ -189,3 +176,23 @@ namespace YamlDotNet.Serialization
         }
     }
 }
+
+#if !NET20
+namespace YamlDotNet.Serialization
+{
+    using System.Linq.Expressions;
+    using YamlDotNet.Helpers;
+
+    partial class YamlAttributeOverrides
+    {
+        /// <summary>
+        /// Adds a Member Attribute Override
+        /// </summary>
+        public void Add<TClass>(Expression<Func<TClass, object>> propertyAccessor, Attribute attribute)
+        {
+            var property = propertyAccessor.AsProperty();
+            Add(typeof(TClass), property.Name, attribute);
+        }
+    }
+}
+#endif

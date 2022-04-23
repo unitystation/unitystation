@@ -1,12 +1,16 @@
 ﻿using System;
 using System.Linq;
 using System.Collections.Generic;
+using System.Reflection;
 using UnityEngine;
 using UnityEngine.UI;
 using AdminTools;
 using AdminCommands;
 using Managers;
 using Messages.Client.Admin;
+using Strings;
+using Systems.Cargo;
+using TMPro;
 
 
 public class RoundManagerPage : AdminPage
@@ -24,6 +28,8 @@ public class RoundManagerPage : AdminPage
 	private Dropdown alertLevelDropDown = null;
 
 	private List<string> alertLevelEnumCache = new List<string>();
+
+	[SerializeField] private GameObject bountyManagerPanel;
 
 	private void Start()
 	{
@@ -143,6 +149,11 @@ public class RoundManagerPage : AdminPage
 				return;
 			}
 		}
+	}
+
+	public void ShowBountyManagerPanel()
+	{
+		bountyManagerPanel.SetActive(true);
 	}
 
 	private void GenerateDropDownOptionsAlertLevels(AdminPageRefreshData adminPageData)

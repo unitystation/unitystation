@@ -13,7 +13,12 @@ public static class SweetExtensions
 {
 	public static IPushable Pushable(this GameObject go)
 	{
-		return go.GetComponent<IPushable>();
+		return go.OrNull()?.GetComponent<IPushable>();
+	}
+
+	public static Pickupable PickupableOrNull(this GameObject go)
+	{
+		return go.OrNull()?.GetComponent<Pickupable>();
 	}
 
 	public static ConnectedPlayer Player(this GameObject go)

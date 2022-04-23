@@ -14,7 +14,7 @@ public class IngredientMarker : MonoBehaviour, ICheckedInteractable<InventoryApp
 	//check if item is being applied to offhand with chopable object on it.
 	public bool WillInteract(InventoryApply interaction, NetworkSide side)
 	{
-	
+
 		//can the player act at all?
 		if (!DefaultWillInteract.Default(interaction, side)) return false;
 
@@ -54,8 +54,8 @@ public class IngredientMarker : MonoBehaviour, ICheckedInteractable<InventoryApp
 		}
 		else if (cut2)
 		{
-			Inventory.ServerDespawn(interaction.TargetSlot);
-			Inventory.ServerDespawn(interaction.Performer);
+			Inventory.ServerDespawn(interaction.TargetObject);
+			Inventory.ServerDespawn(interaction.UsedObject);
 
 			SpawnResult spwn = Spawn.ServerPrefab(CraftingManager.SimpleMeal.FindOutputMeal(cut2.name),
 			SpawnDestination.At(), 1);

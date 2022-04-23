@@ -131,12 +131,18 @@ public class InteractableTiles : MonoBehaviour, IClientInteractable<PositionalHa
 	/// </summary>
 	/// <param name="worldPos"></param>
 	/// <returns></returns>
-	public LayerTile LayerTileAt(Vector2 worldPos, bool ignoreEffectsLayer = false)
+	public LayerTile LayerTileAt(Vector2 worldPos, bool ignoreEffectsLayer = false, bool excludeNonIntractable = false)
 	{
 		Vector3Int pos = objectLayer.transform.InverseTransformPoint(worldPos).RoundToInt();
 
-		return metaTileMap.GetTile(pos, ignoreEffectsLayer);
+		return metaTileMap.GetTile(pos, ignoreEffectsLayer, excludeNonIntractable: excludeNonIntractable);
 	}
+
+	public LayerTile InteractableLayerTileAt(Vector2 worldPos, bool ignoreEffectsLayer = false)
+	{
+		return LayerTileAt(worldPos, ignoreEffectsLayer, true);
+	}
+
 
 	/// <summary>
 	/// Gets the LayerTile of the tile at the indicated position, null if no tile there (open space).
@@ -224,7 +230,7 @@ public class InteractableTiles : MonoBehaviour, IClientInteractable<PositionalHa
 		// translate to the tile interaction system
 		Vector3Int localPosition = WorldToCell(interaction.WorldPositionTarget);
 		// pass the interaction down to the basic tile
-		LayerTile tile = LayerTileAt(interaction.WorldPositionTarget, true);
+		LayerTile tile = InteractableLayerTileAt(interaction.WorldPositionTarget, true);
 
 		// If the tile we're looking at is a basic tile...
 		if (tile is BasicTile basicTile)
@@ -469,18 +475,18 @@ public class InteractableTiles : MonoBehaviour, IClientInteractable<PositionalHa
 		{
 			Vector2 cameraPos = MouseUtils.MouseToWorldPos();
 			var tilePos = cameraPos.RoundToInt();
-			OrientationEnum orientation = OrientationEnum.Down;
+			OrientationEnum orientation = OrientationEnum.Down_By180;
 			Vector3Int PlaceDirection = PlayerManager.LocalPlayerScript.WorldPos - tilePos;
 			bool isWallBlocked = false;
 			if (PlaceDirection.x != 0 && !MatrixManager.IsWallAt(tilePos + new Vector3Int(PlaceDirection.x > 0 ? 1 : -1, 0, 0), true))
 			{
 				if (PlaceDirection.x > 0)
 				{
-					orientation = OrientationEnum.Right;
+					orientation = OrientationEnum.Right_By270;
 				}
 				else
 				{
-					orientation = OrientationEnum.Left;
+					orientation = OrientationEnum.Left_By90;
 				}
 			}
 			else
@@ -489,11 +495,11 @@ public class InteractableTiles : MonoBehaviour, IClientInteractable<PositionalHa
 				{
 					if (PlaceDirection.y > 0)
 					{
-						orientation = OrientationEnum.Up;
+						orientation = OrientationEnum.Up_By0;
 					}
 					else
 					{
-						orientation = OrientationEnum.Down;
+						orientation = OrientationEnum.Down_By180;
 					}
 				}
 				else
@@ -521,17 +527,17 @@ public class InteractableTiles : MonoBehaviour, IClientInteractable<PositionalHa
 			Vector3 spritePos = tilePos;
 			if (wallMount.IsWallProtrusion) //for light bulbs, tubes, cameras, etc. move the sprite towards the floor
 			{
-				if(orientation == OrientationEnum.Right)
+				if(orientation == OrientationEnum.Right_By270)
 				{
 					spritePos.x += 0.5f;
 					Highlight.instance.spriteRenderer.transform.rotation = Quaternion.Euler(0,0,270);
 				}
-				else if(orientation == OrientationEnum.Left)
+				else if(orientation == OrientationEnum.Left_By90)
 				{
 						spritePos.x -= 0.5f;
 						Highlight.instance.spriteRenderer.transform.rotation = Quaternion.Euler(0,0,90);
 				}
-				else if(orientation == OrientationEnum.Up)
+				else if(orientation == OrientationEnum.Up_By0)
 				{
 					spritePos.y += 0.5f;
 					Highlight.instance.spriteRenderer.transform.rotation = Quaternion.Euler(0,0,0);

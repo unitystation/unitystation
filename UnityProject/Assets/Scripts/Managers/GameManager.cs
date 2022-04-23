@@ -19,11 +19,18 @@ using Messages.Server;
 using Tilemaps.Behaviours.Layers;
 using UnityEngine.Profiling;
 using Player;
+using Systems.Research;
 
 public partial class GameManager : MonoBehaviour, IInitialise
 {
 	public static GameManager Instance;
 	public bool counting;
+
+	/// <summary>
+	/// The maximum amount of players which can join the server (Excludes admins and players who were already in the current round)
+	/// </summary>
+	public int PlayerLimit { get; set; } = 100;
+
 	/// <summary>
 	/// The minimum number of players needed to start the pre-round countdown
 	/// </summary>
@@ -53,6 +60,7 @@ public partial class GameManager : MonoBehaviour, IInitialise
 	/// The current time left on the countdown timer
 	/// </summary>
 	public float CountdownTime { get; private set; }
+
 	public double CountdownEndTime { get; private set; }
 
 	/// <summary>
@@ -134,17 +142,12 @@ public partial class GameManager : MonoBehaviour, IInitialise
 
 	public InitialisationSystems Subsystem => InitialisationSystems.GameManager;
 
-	[SerializeField]
-	private AudioClipsArray endOfRoundSounds = null;
+	[SerializeField] private AudioClipsArray endOfRoundSounds = null;
 
-	[NonSerialized]
-	public int ServerCurrentFPS;
-	[NonSerialized]
-	public int ServerAverageFPS;
-	[NonSerialized]
-	public int errorCounter;
-	[NonSerialized]
-	public int uniqueErrorCounter;
+	[NonSerialized] public int ServerCurrentFPS;
+	[NonSerialized] public int ServerAverageFPS;
+	[NonSerialized] public int errorCounter;
+	[NonSerialized] public int uniqueErrorCounter;
 
 	void IInitialise.Initialise()
 	{
@@ -195,6 +198,8 @@ public partial class GameManager : MonoBehaviour, IInitialise
 		AdminOnlyHtml = GameConfigManager.GameConfig.AdminOnlyHtml;
 		MalfAIRecieveTheirIntendedObjectiveChance = GameConfigManager.GameConfig.MalfAIRecieveTheirIntendedObjectiveChance;
 		ServerShutsDownOnRoundEnd = GameConfigManager.GameConfig.ServerShutsDownOnRoundEnd;
+		PlayerLimit = GameConfigManager.GameConfig.PlayerLimit;
+
 		Physics.autoSimulation = false;
 		Physics2D.simulationMode = SimulationMode2D.Update;
 	}
@@ -221,7 +226,7 @@ public partial class GameManager : MonoBehaviour, IInitialise
 		if (mm.ServerState.Position == TransformState.HiddenPos)
 		{
 			Logger.LogError("Matrix Move is not initialized! Wait for it to be" +
-				"ready before calling ServerSetSpaceBody ", Category.Server);
+			                "ready before calling ServerSetSpaceBody ", Category.Server);
 			return;
 		}
 
@@ -245,16 +250,17 @@ public partial class GameManager : MonoBehaviour, IInitialise
 		var target = GameManager.Instance.PrimaryEscapeShuttle.stationDockingLocation;
 
 
-		var distance = (int)Vector2.Distance(beginning, target);
+		var distance = (int) Vector2.Distance(beginning, target);
 
-		if (!EscapeShuttlePathGenerated)//Only generated once
+		if (!EscapeShuttlePathGenerated) //Only generated once
 		{
-			EscapeShuttlePath.Add(beginning);//Adds original vector
-			for (int i = 0; i < (distance/50); i++)
+			EscapeShuttlePath.Add(beginning); //Adds original vector
+			for (int i = 0; i < (distance / 50); i++)
 			{
-				beginning = Vector2.MoveTowards(beginning, target, 50);//Vector 50 distance apart from prev vector
+				beginning = Vector2.MoveTowards(beginning, target, 50); //Vector 50 distance apart from prev vector
 				EscapeShuttlePath.Add(beginning);
 			}
+
 			EscapeShuttlePathGenerated = true;
 		}
 
@@ -265,7 +271,8 @@ public partial class GameManager : MonoBehaviour, IInitialise
 			Vector3 proposedPosition = RandomPositionInSolarSystem();
 
 			bool failedChecks =
-				Vector3.Distance(proposedPosition, MatrixManager.Instance.spaceMatrix.transform.parent.transform.position) <
+				Vector3.Distance(proposedPosition,
+					MatrixManager.Instance.spaceMatrix.transform.parent.transform.position) <
 				minDistanceBetweenSpaceBodies;
 
 			//Make sure it is away from the middle of space matrix
@@ -283,7 +290,8 @@ public partial class GameManager : MonoBehaviour, IInitialise
 			//Checks whether the other spacebodies are near
 			for (int i = 0; i < SpaceBodies.Count; i++)
 			{
-				if (Vector3.Distance(proposedPosition, SpaceBodies[i].transform.position) < minDistanceBetweenSpaceBodies)
+				if (Vector3.Distance(proposedPosition, SpaceBodies[i].transform.position) <
+				    minDistanceBetweenSpaceBodies)
 				{
 					failedChecks = true;
 				}
@@ -295,8 +303,10 @@ public partial class GameManager : MonoBehaviour, IInitialise
 				mm.SetPosition(proposedPosition);
 				SpaceBodies.Add(mm);
 			}
+
 			yield return WaitFor.EndOfFrame;
 		}
+
 		yield return WaitFor.EndOfFrame;
 		isProcessingSpaceBody = false;
 	}
@@ -320,6 +330,7 @@ public partial class GameManager : MonoBehaviour, IInitialise
 		{
 			PreRoundStart();
 		}
+
 		ResetStaticsOnNewRound();
 	}
 
@@ -344,7 +355,8 @@ public partial class GameManager : MonoBehaviour, IInitialise
 
 		if (!CustomNetworkManager.Instance._isServer)
 		{
-			stationTime = DateTime.ParseExact(currentTime, "O", CultureInfo.InvariantCulture, DateTimeStyles.RoundtripKind);
+			stationTime = DateTime.ParseExact(currentTime, "O", CultureInfo.InvariantCulture,
+				DateTimeStyles.RoundtripKind);
 			counting = true;
 		}
 	}
@@ -388,8 +400,7 @@ public partial class GameManager : MonoBehaviour, IInitialise
 			roundTimer.text = stationTime.ToString("HH:mm:ss");
 		}
 
-		if(CustomNetworkManager.Instance._isServer == false) return;
-
+		if (CustomNetworkManager.Instance._isServer == false) return;
 	}
 
 	/// <summary>
@@ -470,7 +481,7 @@ public partial class GameManager : MonoBehaviour, IInitialise
 
 		// Tell all clients that the countdown has finished
 		UpdateCountdownMessage.Send(true, 0);
-		EventManager.Broadcast(Event.PostRoundStarted);
+		EventManager.Broadcast(Event.PostRoundStarted, true);
 	}
 
 	/// <summary>
@@ -482,12 +493,12 @@ public partial class GameManager : MonoBehaviour, IInitialise
 
 		foreach (var readyPlayer in PlayerList.Instance.ReadyPlayers)
 		{
-			if(readyPlayer.CharacterSettings?.AntagPreferences == null) continue;
+			if (readyPlayer.CharacterSettings?.AntagPreferences == null) continue;
 
 			foreach (var antagPreference in readyPlayer.CharacterSettings.AntagPreferences)
 			{
 				//Only record enabled antags
-				if(antagPreference.Value == false) continue;
+				if (antagPreference.Value == false) continue;
 
 				if (antagDict.TryGetValue(antagPreference.Key, out var antagNum))
 				{
@@ -508,7 +519,8 @@ public partial class GameManager : MonoBehaviour, IInitialise
 
 		foreach (var antag in antagDict)
 		{
-			antagString.AppendLine($"{antag.Value} players have {antag.Key} enabled, {count - antag.Value} have it disabled");
+			antagString.AppendLine(
+				$"{antag.Value} players have {antag.Key} enabled, {count - antag.Value} have it disabled");
 		}
 
 		DiscordWebhookMessage.Instance.AddWebHookMessageToQueue(DiscordWebhookURLs.DiscordWebhookAdminLogURL,
@@ -565,6 +577,7 @@ public partial class GameManager : MonoBehaviour, IInitialise
 		{
 			yield return WaitFor.EndOfFrame;
 		}
+
 		// Clear the list of ready players so they have to ready up again
 		PlayerList.Instance.ClearReadyPlayers();
 		CheckPlayerCount();
@@ -591,7 +604,8 @@ public partial class GameManager : MonoBehaviour, IInitialise
 
 		string msg = GameManager.Instance.SecretGameMode ? "Secret" : $"{GameManager.Instance.GameMode}";
 
-		string message = $"A new round is starting on {ServerData.ServerConfig.ServerName}.\nThe current gamemode is: {msg}\nThe current map is: {SubSceneManager.ServerChosenMainStation}\n";
+		string message =
+			$"A new round is starting on {ServerData.ServerConfig.ServerName}.\nThe current gamemode is: {msg}\nThe current map is: {SubSceneManager.ServerChosenMainStation}\n";
 
 		var playerNumber = PlayerList.Instance.ConnectionCount > PlayerList.LastRoundPlayerCount
 			? PlayerList.Instance.ConnectionCount
@@ -606,11 +620,14 @@ public partial class GameManager : MonoBehaviour, IInitialise
 			message += $"There are {playerNumber} players online.\n";
 		}
 
-		DiscordWebhookMessage.Instance.AddWebHookMessageToQueue(DiscordWebhookURLs.DiscordWebhookAnnouncementURL, message, "");
+		DiscordWebhookMessage.Instance.AddWebHookMessageToQueue(DiscordWebhookURLs.DiscordWebhookAnnouncementURL,
+			message, "");
 
-		DiscordWebhookMessage.Instance.AddWebHookMessageToQueue(DiscordWebhookURLs.DiscordWebhookOOCURL, "`A new round countdown has started`", "");
+		DiscordWebhookMessage.Instance.AddWebHookMessageToQueue(DiscordWebhookURLs.DiscordWebhookOOCURL,
+			"`A new round countdown has started`", "");
 
-		DiscordWebhookMessage.Instance.AddWebHookMessageToQueue(DiscordWebhookURLs.DiscordWebhookErrorLogURL, "```A new round countdown has started```", "");
+		DiscordWebhookMessage.Instance.AddWebHookMessageToQueue(DiscordWebhookURLs.DiscordWebhookErrorLogURL,
+			"```A new round countdown has started```", "");
 
 		UpdateCountdownMessage.Send(waitForStart, PreRoundTime);
 	}
@@ -716,6 +733,7 @@ public partial class GameManager : MonoBehaviour, IInitialise
 		{
 			Logger.Log($"{jobType} count: {count}", Category.Jobs);
 		}
+
 		return count;
 	}
 
@@ -767,6 +785,7 @@ public partial class GameManager : MonoBehaviour, IInitialise
 			Logger.Log("Cannot restart round, round is already restarting!", Category.Round);
 			return;
 		}
+
 		CurrentRoundState = RoundState.Restarting;
 		StartCoroutine(ServerRoundRestart());
 	}
@@ -780,7 +799,8 @@ public partial class GameManager : MonoBehaviour, IInitialise
 	{
 		string[] args = Environment.GetCommandLineArgs();
 		if ((ServerShutsDownOnRoundEnd == false || args.Contains("-NoReboot"))
-		    && (ServerAverageFPS >= 45 || GetMemeoryUsagePrecentage() <= 75f) || args.Contains("-AlwaysReboot") == false)
+		    && (ServerAverageFPS >= 45 || GetMemeoryUsagePrecentage() <= 75f) ||
+		    args.Contains("-AlwaysReboot") == false)
 		{
 			Logger.Log("Server restarting round now.", Category.Round);
 			Chat.AddGameWideSystemMsgToChat("<b>The round is now restarting...</b>");
@@ -794,8 +814,9 @@ public partial class GameManager : MonoBehaviour, IInitialise
 			StopAllCoroutines();
 			yield break;
 		}
+
 		Logger.LogError("Server is rebooting now. If you don't have a way to automatically restart the " +
-		           "Unitystation process such as systemctl the server won't be able to restart!", Category.Round);
+		                "Unitystation process such as systemctl the server won't be able to restart!", Category.Round);
 		Chat.AddGameWideSystemMsgToChat("<size=72><b>The server is now restarting!</b></size>");
 		yield return WaitFor.Seconds(2f);
 		Application.Quit();

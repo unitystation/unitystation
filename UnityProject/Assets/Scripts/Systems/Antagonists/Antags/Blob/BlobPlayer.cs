@@ -1443,7 +1443,7 @@ namespace Blob
 				if (factoryBlob.Value.Count >= 3) continue;
 
 				var result = Spawn.ServerPrefab(blobSpore, factoryBlob.Key.location,
-					factoryBlob.Key.transform);
+					factoryBlob.Key.transform.parent);
 
 				if (!result.Successful) continue;
 
@@ -1911,7 +1911,7 @@ namespace Blob
 
 		private void CheckConnections()
 		{
-			if (pathSearch == false || blobTiles.Count <= 0) return;
+			if (pathSearch || blobTiles.Count <= 0) return;
 			pathSearch = true;
 
 			StartCoroutine(CheckPaths());

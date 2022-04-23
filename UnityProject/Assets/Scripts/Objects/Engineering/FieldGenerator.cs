@@ -265,8 +265,10 @@ namespace Objects.Engineering
 
 					var objects = MatrixManager.GetAt<FieldGenerator>(pos, true) as List<FieldGenerator>;
 
+					if (objects == null) continue;
+
 					//If there isn't a field generator and it is impassable dont check further
-					if (objects == null && MatrixManager.IsPassableAtAllMatricesOneTile(pos, true, false) == false)
+					if (objects.Count == 0 && MatrixManager.IsPassableAtAllMatricesOneTile(pos, true, false) == false)
 					{
 						break;
 					}

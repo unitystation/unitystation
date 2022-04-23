@@ -41,6 +41,14 @@ namespace Items.Food
 		}
 
 		/// <summary>
+		///  basically resets all the cooking time
+		/// </summary>
+		public void ResetTimeCooked()
+		{
+			timeSpentCooking = 0;
+		}
+
+		/// <summary>
 		/// Adds the given cooking time to this object. Will return true if the item is now cooked.
 		/// </summary>
 		/// <param name="time">The amount of time in seconds to add to this object's time spent cooking.</param>

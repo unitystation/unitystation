@@ -192,6 +192,7 @@ MonoBehaviour:
   SubCatalogue: []
   PresentSpriteSet: {fileID: 11400000, guid: f2278abe38a535e42b3b34bdbda20d6b, type: 2}
   randomInitialSprite: 0
+  doReverseAnimation: 0
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
   palette: []
@@ -242,31 +243,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  InitialDirection: 3
-  onEditorDirectionChange:
-    m_PersistentCalls:
-      m_Calls: []
-  ChangeDirectionWithMatrix: 1
-  DisableSyncing: 0
---- !u!114 &8468541593350246070
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6966868441258359322}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e74a412989a7a314db7c2d297a269da9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  MethodRotation: 0
+  ChangeSprites: 1
   isChangingSO: 0
-  indexDown: 0
-  indexUp: 1
-  indexRight: 2
-  indexLeft: 3
-  spriteHandlers:
-  - {fileID: 2521937934871351488}
+  CurrentDirection: 3
+  IsAtmosphericDevice: 0
 --- !u!1001 &8517980150118973350
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -327,11 +308,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1625533340043428710, guid: b69bfc56f39849d4ba9139d2d51bedb6,
         type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1625533340043428710, guid: b69bfc56f39849d4ba9139d2d51bedb6,
-        type: 3}
       propertyPath: m_LocalRotation.x
       value: 0
       objectReference: {fileID: 0}
@@ -377,23 +353,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3314592590375341583, guid: b69bfc56f39849d4ba9139d2d51bedb6,
         type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3314592590375341583, guid: b69bfc56f39849d4ba9139d2d51bedb6,
-        type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3314592590375341583, guid: b69bfc56f39849d4ba9139d2d51bedb6,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3314592590375341583, guid: b69bfc56f39849d4ba9139d2d51bedb6,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4059580613945667852, guid: b69bfc56f39849d4ba9139d2d51bedb6,
         type: 3}
@@ -411,6 +382,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 4284a67f2830d4d4ea81fc8f8c8f9fa1,
         type: 2}
+    - target: {fileID: 6109775972905365350, guid: b69bfc56f39849d4ba9139d2d51bedb6,
+        type: 3}
+      propertyPath: doReverseAnimation
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6109775972905365350, guid: b69bfc56f39849d4ba9139d2d51bedb6,
         type: 3}
       propertyPath: SubCatalogue.Array.size

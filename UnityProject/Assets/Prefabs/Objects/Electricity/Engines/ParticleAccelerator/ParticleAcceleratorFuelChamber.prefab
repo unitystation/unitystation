@@ -1,98 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &726049116645519880
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7626373619265571698}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 48487dad7f2bc0541964880f6187c474, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  isSecuredStateExaminable: 1
-  isExposedFloorPlatingRequired: 0
-  secondsToSecure: 0
-  secondsToUnsecure: 0
-  lockSpriteDirection: 1
-  blockAnchorChange: 0
-  blockMessage: You cannot unwrench until the wires have been removed
---- !u!114 &3365940896058025105
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7626373619265571698}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e74a412989a7a314db7c2d297a269da9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  isChangingSO: 0
-  indexDown: 0
-  indexUp: 1
-  indexRight: 2
-  indexLeft: 3
-  spriteHandlers:
-  - {fileID: 3136373107225239976}
---- !u!114 &6102419918182967108
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7626373619265571698}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 819809cff2481914d883a6e1fefb4edd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  InitialDirection: 3
-  onEditorDirectionChange:
-    m_PersistentCalls:
-      m_Calls: []
-  ChangeDirectionWithMatrix: 1
-  DisableSyncing: 0
---- !u!114 &8507118215461041940
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7626373619265571698}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ce7c49c8f5ed8004b87ff3c96ad030cc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  particleAcceleratorType: 2
-  amountOfWiresNeeded: 4
-  shootsBullet: 0
-  startSetUp: 0
-  OnShutDown:
-    m_PersistentCalls:
-      m_Calls: []
---- !u!114 &9221331097720190623
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7626373619265571698}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d1b752b8671651846ba4fca8bf2c233a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
 --- !u!1001 &7192913138366226162
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -145,26 +52,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalPosition.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 725567512822600538, guid: b06b702714bab49b9ad949eab1ca4534,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 725567512822600538, guid: b06b702714bab49b9ad949eab1ca4534,
-        type: 3}
-      propertyPath: m_LocalRotation.x
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 725567512822600538, guid: b06b702714bab49b9ad949eab1ca4534,
-        type: 3}
-      propertyPath: m_LocalRotation.y
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 725567512822600538, guid: b06b702714bab49b9ad949eab1ca4534,
-        type: 3}
-      propertyPath: m_LocalRotation.z
-      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 725567512822600538, guid: b06b702714bab49b9ad949eab1ca4534,
         type: 3}
@@ -273,15 +160,76 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 7192913138366226162}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &3136373107225239976 stripped
+--- !u!114 &726049116645519880
 MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 5212070883374448474, guid: b06b702714bab49b9ad949eab1ca4534,
-    type: 3}
-  m_PrefabInstance: {fileID: 7192913138366226162}
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 7626373619265571698}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
+  m_Script: {fileID: 11500000, guid: 48487dad7f2bc0541964880f6187c474, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  isSecuredStateExaminable: 1
+  isExposedFloorPlatingRequired: 0
+  secondsToSecure: 0
+  secondsToUnsecure: 0
+  lockSpriteDirection: 1
+  blockAnchorChange: 0
+  blockMessage: You cannot unwrench until the wires have been removed
+--- !u!114 &6102419918182967108
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7626373619265571698}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 819809cff2481914d883a6e1fefb4edd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  MethodRotation: 0
+  ChangeSprites: 1
+  isChangingSO: 0
+  CurrentDirection: 3
+  IsAtmosphericDevice: 0
+--- !u!114 &8507118215461041940
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7626373619265571698}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ce7c49c8f5ed8004b87ff3c96ad030cc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  particleAcceleratorType: 2
+  amountOfWiresNeeded: 4
+  shootsBullet: 0
+  startSetUp: 0
+  OnShutDown:
+    m_PersistentCalls:
+      m_Calls: []
+--- !u!114 &9221331097720190623
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7626373619265571698}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d1b752b8671651846ba4fca8bf2c233a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1

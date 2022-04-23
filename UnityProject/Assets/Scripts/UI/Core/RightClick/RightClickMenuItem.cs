@@ -22,7 +22,7 @@ public class RightClickMenuItem
 	public readonly GameObject gameObject;
 
 
-	private RightClickMenuItem(Sprite iconSprite, Color iconColor, Sprite backgroundSprite, Color backgroundColor,
+	public RightClickMenuItem(Sprite iconSprite, Color iconColor, Sprite backgroundSprite, Color backgroundColor,
 		string label, List<RightClickMenuItem> subMenus, Action action, GameObject gameObject, List<Color> palette = null, bool keepMenuOpen = true)
 	{
 		this.BackgroundColor = backgroundColor;
@@ -71,11 +71,4 @@ public class RightClickMenuItem
 	{
 		return new RightClickMenuItem(sprite, iconColor, backgroundSprite,  color, label, subMenus, null, null, palette, keepMenuOpen);
 	}
-	public static RightClickMenuItem CreateObjectMenuItem(GameObject gameObject, Color color, Sprite sprite, Sprite backgroundSprite, string label,
-		Color iconColor, List<Color> palette = null, bool keepMenuOpen = true)
-	{
-		return new RightClickMenuItem(sprite, iconColor, backgroundSprite, color, label, null, null, gameObject, palette, keepMenuOpen);
-	}
-
-
 }

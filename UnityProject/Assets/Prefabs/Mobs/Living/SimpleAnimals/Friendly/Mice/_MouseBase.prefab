@@ -1,67 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &1999042661015471151
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2524868651543535755}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 198e62f73ad0d294699f0d7d013cefc1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  initialMoodLevel: 50
-  maxMoodLevel: 50
-  isAffectedByDamage: 1
-  moodOnHit: -10
-  isAffectedByPetting: 0
-  moodOnPetted: 10
-  pettingCooldown: -1
-  isAffectedByFood: 1
-  moodOnFood: 10
-  timeBetweenFoodCheck: 300
---- !u!114 &6785168792680588904
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2524868651543535755}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 10470e342fd41de468f149e991721d5a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  despawnBody: 1
-  lootDrop:
-  - {fileID: 4184658972748340991, guid: eb0c626c3a078634594555c4139784d4, type: 3}
---- !u!114 &8962060352565631437
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2524868651543535755}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7f6c589ccf330c5478854f4822f1d639, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  mobName: mouse
-  registerObject: {fileID: 0}
-  minTimeBetweenRandomActions: 10
-  maxTimeBetweenRandomActions: 30
-  doRandomActionWhenInTask: 1
-  angryMouseLevel: 10
-  squeekSound:
-    SetLoadSetting: 0
-    AssetAddress: Assets/Prefabs/NPC/MouseSqueek.prefab
-    AssetReference:
-      m_AssetGUID: 
-      m_SubObjectName: 
-      m_SubObjectType: 
 --- !u!1001 &5406587717983825944
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -168,26 +106,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7497246779718121111, guid: 64d782023543d4542b89ce3f9402b084,
         type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7497246779718121111, guid: 64d782023543d4542b89ce3f9402b084,
-        type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7497246779718121111, guid: 64d782023543d4542b89ce3f9402b084,
-        type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7497246779718121111, guid: 64d782023543d4542b89ce3f9402b084,
-        type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7497246779718121111, guid: 64d782023543d4542b89ce3f9402b084,
-        type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
       value: 0
       objectReference: {fileID: 0}
@@ -232,3 +150,66 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 5406587717983825944}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1999042661015471151
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2524868651543535755}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 198e62f73ad0d294699f0d7d013cefc1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  initialMoodLevel: 50
+  maxMoodLevel: 50
+  isAffectedByDamage: 1
+  moodOnHit: -10
+  isAffectedByPetting: 0
+  moodOnPetted: 10
+  pettingCooldown: -1
+  isAffectedByFood: 1
+  moodOnFood: 10
+  timeBetweenFoodCheck: 300
+--- !u!114 &6785168792680588904
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2524868651543535755}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 10470e342fd41de468f149e991721d5a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  despawnBody: 1
+  lootDrop:
+  - {fileID: 4184658972748340991, guid: eb0c626c3a078634594555c4139784d4, type: 3}
+--- !u!114 &8962060352565631437
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2524868651543535755}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7f6c589ccf330c5478854f4822f1d639, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mobName: mouse
+  registerObject: {fileID: 0}
+  minTimeBetweenRandomActions: 10
+  maxTimeBetweenRandomActions: 30
+  doRandomActionWhenInTask: 1
+  angryMouseLevel: 10
+  squeekSound:
+    SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/NPC/MouseSqueek.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0

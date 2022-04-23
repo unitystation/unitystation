@@ -1,23 +1,23 @@
-//  This file is part of YamlDotNet - A .NET library for YAML.
-//  Copyright (c) Antoine Aubry and contributors
-
-//  Permission is hereby granted, free of charge, to any person obtaining a copy of
-//  this software and associated documentation files (the "Software"), to deal in
-//  the Software without restriction, including without limitation the rights to
-//  use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies
-//  of the Software, and to permit persons to whom the Software is furnished to do
-//  so, subject to the following conditions:
-
-//  The above copyright notice and this permission notice shall be included in all
-//  copies or substantial portions of the Software.
-
-//  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-//  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-//  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-//  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-//  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-//  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-//  SOFTWARE.
+﻿// This file is part of YamlDotNet - A .NET library for YAML.
+// Copyright (c) Antoine Aubry and contributors
+//
+// Permission is hereby granted, free of charge, to any person obtaining a copy of
+// this software and associated documentation files (the "Software"), to deal in
+// the Software without restriction, including without limitation the rights to
+// use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies
+// of the Software, and to permit persons to whom the Software is furnished to do
+// so, subject to the following conditions:
+//
+// The above copyright notice and this permission notice shall be included in all
+// copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+// SOFTWARE.
 
 using System;
 using System.Collections.Generic;
@@ -31,7 +31,6 @@ namespace YamlDotNet.RepresentationModel
     /// <summary>
     /// Represents an YAML document.
     /// </summary>
-    [Serializable]
     public class YamlDocument
     {
         /// <summary>
@@ -63,22 +62,23 @@ namespace YamlDotNet.RepresentationModel
         {
             var state = new DocumentLoadingState();
 
-            parser.Expect<DocumentStart>();
+            parser.Consume<DocumentStart>();
 
-            while (!parser.Accept<DocumentEnd>())
+            while (!parser.TryConsume<DocumentEnd>(out var _))
             {
                 Debug.Assert(RootNode == null);
                 RootNode = YamlNode.ParseNode(parser, state);
 
                 if (RootNode is YamlAliasNode)
                 {
-                    throw new YamlException();
+                    throw new YamlException("A document cannot contain only an alias");
                 }
             }
 
             state.ResolveAliases();
 
-            parser.Expect<DocumentEnd>();
+            // Throw should not happen unless the parser has a bug
+            RootNode = RootNode ?? throw new ArgumentException("Atempted to parse an empty document");
         }
 
         /// <summary>
@@ -87,7 +87,7 @@ namespace YamlDotNet.RepresentationModel
         /// </summary>
         private class AnchorAssigningVisitor : YamlVisitorBase
         {
-            private readonly HashSet<string> existingAnchors = new HashSet<string>();
+            private readonly HashSet<AnchorName> existingAnchors = new HashSet<AnchorName>();
             /// <summary>
             /// Key: Node, Value: IsDuplicate
             /// </summary>
@@ -105,9 +105,9 @@ namespace YamlDotNet.RepresentationModel
                 {
                     if (visitedNode.Value)
                     {
-                        string anchor;
+                        AnchorName anchor;
                         // If the existing anchor is not already used, we can have it
-                        if (!string.IsNullOrEmpty(visitedNode.Key.Anchor) && !existingAnchors.Contains(visitedNode.Key.Anchor))
+                        if (!visitedNode.Key.Anchor.IsEmpty && !existingAnchors.Contains(visitedNode.Key.Anchor))
                         {
                             anchor = visitedNode.Key.Anchor;
                         }
@@ -115,7 +115,7 @@ namespace YamlDotNet.RepresentationModel
                         {
                             do
                             {
-                                anchor = random.Next().ToString(CultureInfo.InvariantCulture);
+                                anchor = new AnchorName(random.Next().ToString(CultureInfo.InvariantCulture));
                             } while (existingAnchors.Contains(anchor));
                         }
 
@@ -130,8 +130,7 @@ namespace YamlDotNet.RepresentationModel
             /// </summary>
             private bool VisitNodeAndFindDuplicates(YamlNode node)
             {
-                bool isDuplicate;
-                if (visitedNodes.TryGetValue(node, out isDuplicate))
+                if (visitedNodes.TryGetValue(node, out var isDuplicate))
                 {
                     if (!isDuplicate)
                     {
@@ -154,13 +153,17 @@ namespace YamlDotNet.RepresentationModel
             public override void Visit(YamlMappingNode mapping)
             {
                 if (!VisitNodeAndFindDuplicates(mapping))
+                {
                     base.Visit(mapping);
+                }
             }
 
             public override void Visit(YamlSequenceNode sequence)
             {
                 if (!VisitNodeAndFindDuplicates(sequence))
+                {
                     base.Visit(sequence);
+                }
             }
         }
 

@@ -15,6 +15,11 @@ public partial class PlayerList : NetworkBehaviour
 	private List<ConnectedPlayer> loggedIn = new List<ConnectedPlayer>();
 	public List<ConnectedPlayer> loggedOff = new List<ConnectedPlayer>();
 
+	/// <summary>
+	/// The ConnectedPlayers who have been in this current round, clears at round end
+	/// </summary>
+	private HashSet<ConnectedPlayer> roundPlayers = new HashSet<ConnectedPlayer>();
+
 	//For client needs: updated via UpdateConnectedPlayersMessage, useless for server
 	public List<ClientConnectedPlayer> ClientConnectedPlayers = new List<ClientConnectedPlayer>();
 
@@ -23,6 +28,9 @@ public partial class PlayerList : NetworkBehaviour
 	public int OfflineConnCount => loggedOff.Count;
 	public int OnlineAndOfflineConnCount => loggedIn.Count + loggedOff.Count;
 
+	/// <summary>
+	/// All players inside this list are online players.
+	/// </summary>
 	public List<ConnectedPlayer> InGamePlayers => loggedIn.FindAll(player => player.Script != null);
 
 	public List<ConnectedPlayer> NonAntagPlayers =>
@@ -64,12 +72,25 @@ public partial class PlayerList : NetworkBehaviour
 
 	void OnEnable()
 	{
-		EventManager.AddHandler(Event.RoundEnded, SetEndOfRoundPlayerCount);
+		EventManager.AddHandler(Event.RoundStarted, OnRoundStart);
+		EventManager.AddHandler(Event.RoundEnded, OnEndOfRound);
 	}
 
 	void OnDisable()
 	{
-		EventManager.RemoveHandler(Event.RoundEnded, SetEndOfRoundPlayerCount);
+		EventManager.RemoveHandler(Event.RoundStarted, OnRoundStart);
+		EventManager.RemoveHandler(Event.RoundEnded, OnEndOfRound);
+	}
+
+	private void OnRoundStart()
+	{
+		PopulateRoundPlayers();
+	}
+
+	private void OnEndOfRound()
+	{
+		SetEndOfRoundPlayerCount();
+		ClearRoundPlayers();
 	}
 
 	private void SetEndOfRoundPlayerCount()
@@ -117,6 +138,16 @@ public partial class PlayerList : NetworkBehaviour
 	public List<ConnectedPlayer> GetPlayersOnMatrix(MatrixInfo matrix)
 	{
 		return InGamePlayers.FindAll(p => (p.Script != null) && p.Script.registerTile.Matrix.Id == matrix?.Id);
+	}
+
+	public ConnectedPlayer GetPlayerByID(string id)
+	{
+		foreach (var player in AllPlayers)
+		{
+			if(player.UserId == id) return player;
+		}
+
+		return null;
 	}
 
 	public List<ConnectedPlayer> GetAlivePlayers(List<ConnectedPlayer> players = null)
@@ -418,6 +449,7 @@ public partial class PlayerList : NetworkBehaviour
 
 		SetPlayerReady(player, false);
 		CheckForLoggedOffAdmin(player.UserId, player.Username);
+		CheckForLoggedOffMentor(player.UserId, player.Username);
 		TryMoveClientToOfflineList(player);
 	}
 
@@ -569,6 +601,32 @@ public partial class PlayerList : NetworkBehaviour
 	public void ClearReadyPlayers()
 	{
 		ReadyPlayers.Clear();
+	}
+
+	/// <summary>
+	/// Clears the list of round players
+	/// </summary>
+	[Server]
+	public void ClearRoundPlayers()
+	{
+		roundPlayers.Clear();
+	}
+
+	[Server]
+	public void AddToRoundPlayers(ConnectedPlayer newPlayer)
+	{
+		if(roundPlayers.Contains(newPlayer)) return;
+
+		roundPlayers.Add(newPlayer);
+	}
+
+	[Server]
+	public void PopulateRoundPlayers()
+	{
+		foreach (var player in loggedIn)
+		{
+			AddToRoundPlayers(player);
+		}
 	}
 
 	public static bool HasAntagEnabled(AntagPrefsDict antagPrefs, Antagonist antag)

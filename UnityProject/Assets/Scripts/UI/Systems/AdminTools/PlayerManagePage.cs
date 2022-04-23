@@ -2,6 +2,7 @@
 using DatabaseAPI;
 using Messages.Client.Admin;
 using UI.AdminTools;
+using UI.Systems.AdminTools;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -10,16 +11,20 @@ namespace AdminTools
 {
 	public class PlayerManagePage : AdminPage
 	{
-		[SerializeField] private Button deputiseBtn = null;
+		[SerializeField] private Toggle mentorToggle = null;
+		[SerializeField] private Toggle quickRespawnToggle = default;
+		[SerializeField] private Text mentorButtonText = null;
 		[SerializeField] private AdminRespawnPage adminRespawnPage = default;
+
 
 		public AdminPlayerEntry PlayerEntry { get; private set; }
 
 		public void SetData(AdminPlayerEntry entry)
 		{
 			PlayerEntry = entry;
-			deputiseBtn.interactable = !entry.PlayerData.isAdmin;
-			// respawnBtn.interactable = !playerEntry.PlayerData.isAlive;
+
+			mentorButtonText.text = entry.PlayerData.isMentor ? "REMOVE MENTOR" : "MAKE MENTOR";
+			mentorToggle.gameObject.SetActive(entry.PlayerData.isMentor == false);
 		}
 
 		public void OnKickBtn()
@@ -46,13 +51,38 @@ namespace AdminTools
 
 		public void OnDeputiseBtn()
 		{
+			if (PlayerEntry.PlayerData.isMentor == false)
+			{
+				adminTools.areYouSurePage.SetAreYouSurePage(
+					$"Are you sure you want to make {PlayerEntry.PlayerData.accountName} a {(mentorToggle.isOn ? "temporary" : "permanent")} mentor?",
+					SendMakePlayerMentorRequest);
+
+				return;
+			}
+
 			adminTools.areYouSurePage.SetAreYouSurePage(
-				$"Are you sure you want to make {PlayerEntry.PlayerData.name} an admin?",
-				SendMakePlayerAdminRequest);
+				$"Are you sure you want to remove {PlayerEntry.PlayerData.accountName} mentor?",
+				SendRemovePlayerMentorRequest);
 		}
 
 		public void OnRespawnButton()
 		{
+			if (quickRespawnToggle.isOn)
+			{
+				Occupation spawnOcc = new Occupation();
+				foreach (var connectedPlayer in PlayerList.Instance.AllPlayers)
+				{
+					if(connectedPlayer.UserId != PlayerEntry.PlayerData.uid) continue;
+					spawnOcc = connectedPlayer.Script.mind.occupation;
+				}
+				if (spawnOcc == null)
+				{
+					Logger.LogError("Cannot find Occupation for selected player, they most likely haven't joined yet.");
+					return;
+				}
+				RequestRespawnPlayer.SendNormalRespawn(PlayerEntry.PlayerData.uid, spawnOcc);
+				return;
+			}
 			adminRespawnPage.SetTabsWithPlayerEntry(PlayerEntry);
 			adminTools.ShowRespawnPage();
 		}
@@ -72,9 +102,15 @@ namespace AdminTools
 			RefreshPage();
 		}
 
-		private void SendMakePlayerAdminRequest()
+		private void SendMakePlayerMentorRequest()
 		{
-			RequestAdminPromotion.Send(PlayerEntry.PlayerData.uid);
+			AdminCommandsManager.Instance.CmdAddMentor(PlayerEntry.PlayerData.uid, mentorToggle.isOn == false);
+			RefreshPage();
+		}
+
+		private void SendRemovePlayerMentorRequest()
+		{
+			AdminCommandsManager.Instance.CmdRemoveMentor(PlayerEntry.PlayerData.uid);
 			RefreshPage();
 		}
 
@@ -168,6 +204,24 @@ namespace AdminTools
 				isAghost,
 				coord
 				);
+		}
+
+		public void GiveItemToPlayerButton()
+		{
+			adminTools.giveItemPage.selectedPlayer = null;
+			var players = FindObjectsOfType<PlayerScript>(); //since this is client sided it's fiinnnneee
+			foreach (var possiblePlayer in players)
+			{
+				if(possiblePlayer.connectedPlayer.Username != PlayerEntry.PlayerData.accountName) continue;
+				adminTools.giveItemPage.selectedPlayer = possiblePlayer.gameObject;
+			}
+
+			if (adminTools.giveItemPage.selectedPlayer == null)
+			{
+				Logger.LogWarning("Unable to find player to give item to! Are you sure that they joined the game?");
+				return;
+			}
+			adminTools.ShowGiveItemPagePage();
 		}
 	}
 }

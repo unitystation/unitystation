@@ -22,6 +22,22 @@ PrefabInstance:
       propertyPath: Gases.Array.data[3]
       value: 17.47
       objectReference: {fileID: 0}
+    - target: {fileID: 14087197572857903, guid: 0f8ec2262945efb4bb2ae2aab5329be9,
+        type: 3}
+      propertyPath: StoredGasMix.GasData.GasesArray.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 14087197572857903, guid: 0f8ec2262945efb4bb2ae2aab5329be9,
+        type: 3}
+      propertyPath: StoredGasMix.GasData.GasesArray.Array.data[0].GasSO
+      value: 
+      objectReference: {fileID: 11400000, guid: b466ee2bb3ca27941b3c2393555d4fab,
+        type: 2}
+    - target: {fileID: 14087197572857903, guid: 0f8ec2262945efb4bb2ae2aab5329be9,
+        type: 3}
+      propertyPath: StoredGasMix.GasData.GasesArray.Array.data[0].Moles
+      value: 100
+      objectReference: {fileID: 0}
     - target: {fileID: 1211068856770080705, guid: 0f8ec2262945efb4bb2ae2aab5329be9,
         type: 3}
       propertyPath: foreverID
@@ -145,5 +161,15 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 15f66a8d78fb1ab43a1034d41e5d68b0,
         type: 2}
+    - target: {fileID: 5663760201861811406, guid: 0f8ec2262945efb4bb2ae2aab5329be9,
+        type: 3}
+      propertyPath: inventoryMoveSound.AssetAddress
+      value: null
+      objectReference: {fileID: 0}
+    - target: {fileID: 5663760201861811406, guid: 0f8ec2262945efb4bb2ae2aab5329be9,
+        type: 3}
+      propertyPath: inventoryRemoveSound.AssetAddress
+      value: null
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0f8ec2262945efb4bb2ae2aab5329be9, type: 3}

@@ -4,6 +4,7 @@ using NaughtyAttributes;
 using AddressableReferences;
 using Messages.Server;
 using Systems.Clearance;
+using Systems.Electricity;
 using Systems.Electricity.NodeModules;
 using Systems.Interaction;
 
@@ -12,7 +13,7 @@ namespace Objects.Engineering
 {
 	public class Emitter : MonoBehaviour, ICheckedInteractable<HandApply>, INodeControl, IExaminable, ICheckedInteractable<AiActivate>
 	{
-		private Directional directional;
+		private Rotatable directional;
 		private ObjectBehaviour objectBehaviour;
 		private RegisterTile registerTile;
 		private SpriteHandler spriteHandler;
@@ -52,7 +53,7 @@ namespace Objects.Engineering
 
 		private void Awake()
 		{
-			directional = GetComponent<Directional>();
+			directional = GetComponent<Rotatable>();
 			objectBehaviour = GetComponent<ObjectBehaviour>();
 			registerTile = GetComponent<RegisterTile>();
 			accessRestrictions = GetComponent<AccessRestrictions>();
@@ -69,7 +70,7 @@ namespace Objects.Engineering
 			{
 				isWelded = true;
 				isWrenched = true;
-				directional.LockDirection = true;
+				directional.LockDirectionTo(true, directional.CurrentDirection);
 				objectBehaviour.ServerSetPushable(false);
 			}
 		}
@@ -115,7 +116,7 @@ namespace Objects.Engineering
 
 		public void ShootEmitter()
 		{
-			CastProjectileMessage.SendToAll(gameObject, projectilePrefab, directional.CurrentDirection.Vector, default);
+			CastProjectileMessage.SendToAll(gameObject, projectilePrefab, directional.CurrentDirection.ToLocalVector3(), default);
 
 			SoundManager.PlayNetworkedAtPos(sound, registerTile.WorldPositionServer);
 		}
@@ -272,6 +273,7 @@ namespace Objects.Engineering
 					$"{interaction.Performer.ExpensiveName()} unwelds the emitter from the floor.",
 					() =>
 					{
+						ElectricalManager.Instance.electricalSync.StructureChange = true;
 						isWelded = false;
 						TogglePower(false);
 					});
@@ -283,7 +285,11 @@ namespace Objects.Engineering
 					$"{interaction.Performer.ExpensiveName()} starts to weld the emitter...",
 					"You weld the emitter to the floor.",
 					$"{interaction.Performer.ExpensiveName()} welds the emitter to the floor.",
-					() => { isWelded = true; });
+					() =>
+					{
+						ElectricalManager.Instance.electricalSync.StructureChange = true;
+						isWelded = true;
+					});
 			}
 		}
 
@@ -308,7 +314,7 @@ namespace Objects.Engineering
 					() =>
 					{
 						isWrenched = false;
-						directional.LockDirection = false;
+						directional.LockDirectionTo(false, directional.CurrentDirection);
 						objectBehaviour.ServerSetPushable(true);
 						TogglePower(false);
 					});
@@ -330,7 +336,7 @@ namespace Objects.Engineering
 					() =>
 					{
 						isWrenched = true;
-						directional.LockDirection = true;
+						directional.LockDirectionTo(true, directional.CurrentDirection);
 						objectBehaviour.ServerSetPushable(false);
 					});
 			}

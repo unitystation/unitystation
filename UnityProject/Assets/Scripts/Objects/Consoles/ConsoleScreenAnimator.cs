@@ -3,10 +3,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Systems.Electricity;
+using Objects.Construction;
 
 namespace Objects
 {
-	public class ConsoleScreenAnimator : MonoBehaviour, IAPCPowerable
+	public class ConsoleScreenAnimator : MonoBehaviour
 	{
 		public SpriteHandler SpriteHandlerHere {
 			get {
@@ -25,7 +26,7 @@ namespace Objects
 		private SpriteHandler spriteHandler;
 		public GameObject ScreenGlow;
 
-		private void ToggleOn(bool turnOn)
+		public void ToggleOn(bool turnOn)
 		{
 			if (turnOn)
 			{
@@ -35,6 +36,7 @@ namespace Objects
 					return;
 				}
 				SpriteHandlerHere.PushTexture();
+				ScreenGlow.SetActive(true);
 			}
 			else
 			{
@@ -45,23 +47,5 @@ namespace Objects
 				}
 			}
 		}
-
-		#region IAPCPowerable
-
-		public void PowerNetworkUpdate(float voltage) { }
-
-		public void StateUpdate(PowerState state)
-		{
-			if (state == PowerState.Off || state == PowerState.LowVoltage)
-			{
-				ToggleOn(false);
-			}
-			else
-			{
-				ToggleOn(true);
-			}
-		}
-
-		#endregion
 	}
 }

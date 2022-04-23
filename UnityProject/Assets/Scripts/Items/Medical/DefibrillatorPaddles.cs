@@ -24,7 +24,7 @@ namespace Items.Medical
 
 	private bool isReady;
 	private bool onCooldown;
-	private readonly int cooldownMs = 5000;
+	private readonly float cooldown = 5;
 
 	public bool WillInteract(HandApply interaction, NetworkSide side)
 	{
@@ -70,23 +70,24 @@ namespace Items.Medical
 		void Perform()
 		{
 			var livingHealthMaster = interaction.TargetObject.GetComponent<LivingHealthMasterBase>();
+			var objectPos = gameObject.AssumedWorldPosServer();
 			if (CanDefibrillate(livingHealthMaster, interaction.Performer) == false)
 			{
-				_ = SoundManager.PlayNetworkedAtPosAsync(soundFailed, gameObject.AssumedWorldPosServer());
-				Cooldown();
+				_ = SoundManager.PlayNetworkedAtPosAsync(soundFailed, objectPos);
+				StartCoroutine(Cooldown());
 				return;
 			}
 			livingHealthMaster.RestartHeart();
-			_ = SoundManager.PlayNetworkedAtPosAsync(soundZap, gameObject.AssumedWorldPosServer());
+			_ = SoundManager.PlayNetworkedAtPosAsync(soundZap, objectPos);
 			if (livingHealthMaster.IsDead == false)
 			{
 				livingHealthMaster.playerScript.ReturnGhostToBody();
-				_ = SoundManager.PlayNetworkedAtPosAsync(soundSuccsuess, gameObject.AssumedWorldPosServer());
-				Cooldown();
+				_ = SoundManager.PlayNetworkedAtPosAsync(soundSuccsuess, objectPos);
+				StartCoroutine(Cooldown());
 				return;
 			}
-			_ = SoundManager.PlayNetworkedAtPosAsync(soundFailed, gameObject.AssumedWorldPosServer());
-			Cooldown();
+			_ = SoundManager.PlayNetworkedAtPosAsync(soundFailed, objectPos);
+			StartCoroutine(Cooldown());
 		}
 
 		if (isReady == false || onCooldown == true)
@@ -98,10 +99,10 @@ namespace Items.Medical
 		bar.ServerStartProgress(interaction.Performer.RegisterTile(), Time, interaction.Performer);
 	}
 
-	private async void Cooldown()
+	private IEnumerator Cooldown()
 	{
 		onCooldown = true;
-		await Task.Delay(cooldownMs).ConfigureAwait(false);
+		yield return WaitFor.Seconds(cooldown);
 		onCooldown = false;
 		SoundManager.PlayNetworkedAtPos(soundCharged, gameObject.AssumedWorldPosServer());
 	}

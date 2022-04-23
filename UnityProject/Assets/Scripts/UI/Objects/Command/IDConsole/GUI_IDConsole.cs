@@ -109,7 +109,7 @@ namespace UI.Objects.Command
 		private void ServerUpdateLoginCardName()
 		{
 			loginCardName.SetValueServer(console.AccessCard != null ?
-				$"{console.AccessCard.RegisteredName}, {console.AccessCard.JobType.ToString()}" : "********");
+				$"{console.AccessCard.RegisteredName}, {console.AccessCard.GetJobTitle()}" : "********");
 		}
 
 		private void ServerRefreshCardNames()
@@ -117,7 +117,7 @@ namespace UI.Objects.Command
 			string valToSet = null;
 			if (console.AccessCard != null && accessCardName)
 			{
-				valToSet = $"{console.AccessCard.RegisteredName}, {console.AccessCard.JobType.ToString()}";
+				valToSet = $"{console.AccessCard.RegisteredName}, {console.AccessCard.GetJobTitle()}";
 			}
 			else
 			{
@@ -132,7 +132,7 @@ namespace UI.Objects.Command
 
 			if (console.TargetCard != null)
 			{
-				valToSet = $"{console.TargetCard.RegisteredName}, {console.TargetCard.JobType.ToString()}";
+				valToSet = $"{console.TargetCard.RegisteredName}, {console.TargetCard.GetJobTitle()}";
 			}
 			else
 			{
@@ -147,8 +147,30 @@ namespace UI.Objects.Command
 
 		public void ServerChangeName(string newName)
 		{
-			console.TargetCard.ServerSetRegisteredName(newName);
-			ServerRefreshCardNames();
+			if (newName.Length <= 32)
+			{
+				console.TargetCard.ServerSetRegisteredName(newName);
+				ServerRefreshCardNames();
+			}
+			else
+			{
+				Chat.AddExamineMsgToClient($"Name cannot exceed 32 characters!");
+				return;
+			}
+		}
+
+		public void ServerChangeJobTitle(string newJobTitle)
+		{
+			if (newJobTitle.Length <= 32)
+			{
+				console.TargetCard.ServerSetJobTitle(newJobTitle);
+				ServerRefreshCardNames();
+			}
+			else
+			{
+				Chat.AddExamineMsgToClient($"Job title cannot exceed 32 characters!");
+				return;
+			}
 		}
 
 		/// <summary>
@@ -191,7 +213,7 @@ namespace UI.Objects.Command
 
 		public void ServerRemoveAccessCard(ConnectedPlayer player)
 		{
-			if (console.AccessCard == null)
+			if (console.AccessCard == null || IsAIInteracting() == false)
 			{
 				return;
 			}
@@ -203,7 +225,7 @@ namespace UI.Objects.Command
 		public void ServerLogin()
 		{
 			if (console.AccessCard != null &&
-				console.AccessCard.HasAccess(Access.change_ids))
+				console.AccessCard.HasAccess(Access.change_ids) || IsAIInteracting() == true)
 			{
 				console.LoggedIn = true;
 				pageSwitcher.SetActivePage(usercardPage);

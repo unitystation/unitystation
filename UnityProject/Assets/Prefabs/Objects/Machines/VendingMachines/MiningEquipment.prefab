@@ -37,7 +37,7 @@ PrefabInstance:
     - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
       propertyPath: InitialVendorContent.Array.size
-      value: 10
+      value: 11
       objectReference: {fileID: 0}
     - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
@@ -109,6 +109,12 @@ PrefabInstance:
       propertyPath: InitialVendorContent.Array.data[0].Stock
       value: 5
       objectReference: {fileID: 0}
+    - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
+        type: 3}
+      propertyPath: InitialVendorContent.Array.data[10].Item
+      value: 
+      objectReference: {fileID: 3431291279286482953, guid: 5668f8777ce1a794980fbd35aa58f56b,
+        type: 3}
     - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
       propertyPath: InitialVendorContent.Array.data[1].Price
@@ -198,6 +204,16 @@ PrefabInstance:
         type: 3}
       propertyPath: InitialVendorContent.Array.data[9].Stock
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
+        type: 3}
+      propertyPath: InitialVendorContent.Array.data[10].Price
+      value: 2000
+      objectReference: {fileID: 0}
+    - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
+        type: 3}
+      propertyPath: InitialVendorContent.Array.data[10].Stock
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
@@ -298,6 +314,16 @@ PrefabInstance:
         type: 3}
       propertyPath: InitialVendorContent.Array.data[9].ItemName
       value: Havanian Cigar Case
+      objectReference: {fileID: 0}
+    - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
+        type: 3}
+      propertyPath: InitialVendorContent.Array.data[10].Currency
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
+        type: 3}
+      propertyPath: InitialVendorContent.Array.data[10].ItemName
+      value: Night Vision Goggles
       objectReference: {fileID: 0}
     - target: {fileID: 5293842515076411475, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}

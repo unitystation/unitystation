@@ -104,6 +104,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 2d58c017638dfd4458062cfc90f8d7ce, type: 2}
   PresentSpriteSet: {fileID: 11400000, guid: 2d58c017638dfd4458062cfc90f8d7ce, type: 2}
   randomInitialSprite: 0
+  doReverseAnimation: 0
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
   palette: []
@@ -207,6 +208,7 @@ MonoBehaviour:
   SubCatalogue: []
   PresentSpriteSet: {fileID: 11400000, guid: 22234447e213df5428b34e0175230bb6, type: 2}
   randomInitialSprite: 0
+  doReverseAnimation: 0
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
   palette: []
@@ -225,6 +227,7 @@ MonoBehaviour:
   denyStorageOfStorageItems: 88
   canClickPickup: 0
   canQuickEmpty: 0
+  TopLevelAlt: 0
   actionData: {fileID: 0}
 --- !u!114 &3374160553137157433
 MonoBehaviour:
@@ -397,7 +400,7 @@ PrefabInstance:
         type: 3}
       propertyPath: initialDescription
       value: A device that delivers powerful shocks to detachable paddles that resuscitate
-        incapacitated patients.
+        incapacitated patients. Must be worn on your back to function.
       objectReference: {fileID: 0}
     - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}

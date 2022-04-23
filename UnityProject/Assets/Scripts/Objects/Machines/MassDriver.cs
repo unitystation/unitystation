@@ -17,7 +17,7 @@ namespace Objects
 		private RegisterTile registerTile;
 
 		[SerializeField]
-		private Directional directional = default;
+		private Rotatable directional = default;
 
 		private Matrix Matrix => registerTile.Matrix;
 
@@ -28,28 +28,33 @@ namespace Objects
 		bool massDriverOperating = false;
 
 		[SyncVar(hook = nameof(OnSyncOrientation))]
-		private Orientation orientation;
+		private OrientationEnum orientation;
 
 		private void Awake()
 		{
 			registerTile = GetComponent<RegisterTile>();
 			spriteHandler = GetComponentInChildren<SpriteHandler>();
 			switchController = GetComponent<GeneralSwitchController>();
-
-			if (directional != null)
-			{
-				directional.OnDirectionChange.AddListener(OnDirectionChanged);
-			}
 		}
 
 		private void OnEnable()
 		{
 			switchController.SwitchPressedDoAction.AddListener(DoAction);
+
+			if (directional != null)
+			{
+				directional.OnRotationChange.AddListener(OnDirectionChanged);
+			}
 		}
 
 		private void OnDisable()
 		{
 			switchController.SwitchPressedDoAction.RemoveListener(DoAction);
+
+			if (directional != null)
+			{
+				directional.OnRotationChange.RemoveListener(OnDirectionChanged);
+			}
 		}
 
 		#region Sync
@@ -60,12 +65,12 @@ namespace Objects
 			else spriteHandler.ChangeSprite(0);
 		}
 
-		private void OnDirectionChanged(Orientation newDir)
+		private void OnDirectionChanged(OrientationEnum newDir)
 		{
 			orientation = newDir;
 		}
 
-		private void OnSyncOrientation(Orientation oldState, Orientation newState)
+		private void OnSyncOrientation(OrientationEnum oldState, OrientationEnum newState)
 		{
 			orientation = newState;
 			UpdateSpriteOrientation();
@@ -73,24 +78,24 @@ namespace Objects
 
 		public void EditorUpdate()
 		{
-			orientation = directional.InitialOrientation;
+			orientation = directional.CurrentDirection;
 			UpdateSpriteOrientation();
 		}
 
 		private void UpdateSpriteOrientation()
 		{
-			switch (orientation.AsEnum())
+			switch (orientation)
 			{
-				case OrientationEnum.Up:
+				case OrientationEnum.Up_By0:
 					spriteHandler.ChangeSpriteVariant(1);
 					break;
-				case OrientationEnum.Down:
+				case OrientationEnum.Down_By180:
 					spriteHandler.ChangeSpriteVariant(0);
 					break;
-				case OrientationEnum.Left:
+				case OrientationEnum.Left_By90:
 					spriteHandler.ChangeSpriteVariant(3);
 					break;
-				case OrientationEnum.Right:
+				case OrientationEnum.Right_By270:
 					spriteHandler.ChangeSpriteVariant(2);
 					break;
 			}
@@ -112,7 +117,7 @@ namespace Objects
 			//detect players positioned on the mass driver
 			var playersFound = Matrix.Get<ObjectBehaviour>(registerTile.LocalPositionServer, ObjectType.Player, true);
 
-			var throwVector = orientation.Vector;
+			var throwVector = orientation.ToLocalVector3();
 
 			foreach (ObjectBehaviour player in playersFound)
 			{
@@ -188,19 +193,19 @@ namespace Objects
 
 			if (Validations.HasItemTrait(interaction.UsedObject, CommonTraits.Instance.Wrench))
 			{
-				switch (orientation.AsEnum())
+				switch (orientation)
 				{
-					case OrientationEnum.Right:
-						directional.FaceDirection(Orientation.Up);
+					case OrientationEnum.Right_By270:
+						directional.FaceDirection(OrientationEnum.Up_By0);
 						break;
-					case OrientationEnum.Up:
-						directional.FaceDirection(Orientation.Left);
+					case OrientationEnum.Up_By0:
+						directional.FaceDirection(OrientationEnum.Left_By90);
 						break;
-					case OrientationEnum.Left:
-						directional.FaceDirection(Orientation.Down);
+					case OrientationEnum.Left_By90:
+						directional.FaceDirection(OrientationEnum.Down_By180);
 						break;
-					case OrientationEnum.Down:
-						directional.FaceDirection(Orientation.Right);
+					case OrientationEnum.Down_By180:
+						directional.FaceDirection(OrientationEnum.Right_By270);
 						break;
 				}
 			}

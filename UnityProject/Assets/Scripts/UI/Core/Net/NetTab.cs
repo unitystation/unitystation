@@ -65,6 +65,8 @@ public enum NetTabType
 	AirlockElectronics = 47,
 	FrequencyChanger = 48,
 	PizzaBomb = 49,
+	TechWeb = 50,
+	RDProductionMachine = 51,
 
 	// add new entres to the bottom
 	// the enum name must match that of the prefab except the prefab has the word tab infront of the enum name
@@ -286,6 +288,16 @@ public class NetTab : Tab
 		}
 	}
 
+	public bool IsAIInteracting()
+	{
+		foreach(var peep in Peepers)
+		{
+			if (peep.Job != JobType.AI) continue;
+			return true;
+		}
+		return false;
+	}
+
 	public void CloseTab()
 	{
 		ControlTabs.CloseTab(Type, Provider);
@@ -313,6 +325,19 @@ public class NetTab : Tab
 					: Provider.RegisterTile().WorldPosition;
 
 		SoundManager.PlayNetworkedAtPos(sound, position);
+	}
+
+
+	/// <summary>
+	/// Will only play sounds for players observing this NetTab
+	/// </summary>
+	/// <param name="audioSource"></param>
+	protected void PlaySoundsForPeepers(AddressableAudioSource audioSource)
+	{
+		foreach (var peeper in Peepers)
+		{
+			SoundManager.PlayNetworkedForPlayer(peeper.Script.gameObject, audioSource);
+		}
 	}
 }
 

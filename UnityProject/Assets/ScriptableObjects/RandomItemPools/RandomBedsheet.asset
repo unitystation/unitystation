@@ -1,0 +1,83 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ce108c02d022d1940bc023ceca025d81, type: 3}
+  m_Name: RandomBedsheet
+  m_EditorClassIdentifier: 
+  pool:
+  - prefab: {fileID: 3961673132676458627, guid: 423cab216aa4e354f8159742cc80d10a,
+      type: 3}
+    maxAmount: 1
+    probability: 100
+  - prefab: {fileID: 8623536237055031713, guid: ff7e36dadb51d6343803b5db743c421e,
+      type: 3}
+    maxAmount: 1
+    probability: 100
+  - prefab: {fileID: 8623536237055031713, guid: d6e9e89b99e0d4046b52ad7ff64c7b5e,
+      type: 3}
+    maxAmount: 1
+    probability: 100
+  - prefab: {fileID: 8623536237055031713, guid: 03d1e4d93d1ce424e946abcf50999548,
+      type: 3}
+    maxAmount: 1
+    probability: 100
+  - prefab: {fileID: 8623536237055031713, guid: c79f96ac80bf969428d3de18c2c56744,
+      type: 3}
+    maxAmount: 1
+    probability: 100
+  - prefab: {fileID: 8623536237055031713, guid: 3a4418c4707ae5b4fa4fd5f48c06443b,
+      type: 3}
+    maxAmount: 1
+    probability: 100
+  - prefab: {fileID: 8623536237055031713, guid: 8fb1bf0b161512544a9ace92e6ad5e63,
+      type: 3}
+    maxAmount: 1
+    probability: 100
+  - prefab: {fileID: 8623536237055031713, guid: 07df33c696968bb48b1ad136e9dda5bb,
+      type: 3}
+    maxAmount: 1
+    probability: 100
+  - prefab: {fileID: 8623536237055031713, guid: e18eec624ee4d04488adfbd0971d2931,
+      type: 3}
+    maxAmount: 1
+    probability: 100
+  - prefab: {fileID: 8623536237055031713, guid: 86de36bc3a71e6b4980d27ea63a4b71a,
+      type: 3}
+    maxAmount: 1
+    probability: 100
+  - prefab: {fileID: 8623536237055031713, guid: 59206c4a8fc671349b7dce87e1f64686,
+      type: 3}
+    maxAmount: 1
+    probability: 100
+  - prefab: {fileID: 8623536237055031713, guid: cf19a3dc5b58ee645b1289dd6e021d76,
+      type: 3}
+    maxAmount: 1
+    probability: 100
+  - prefab: {fileID: 8623536237055031713, guid: d10afef7f693cd8458a74bbf5b2a59ce,
+      type: 3}
+    maxAmount: 1
+    probability: 100
+  - prefab: {fileID: 8623536237055031713, guid: 220ff2ed476a3ef4499779b010f5fe1e,
+      type: 3}
+    maxAmount: 1
+    probability: 100
+  - prefab: {fileID: 8623536237055031713, guid: e020e755a38f8e94aa8c9401873c7d03,
+      type: 3}
+    maxAmount: 1
+    probability: 100
+  - prefab: {fileID: 3961673132676458627, guid: 423cab216aa4e354f8159742cc80d10a,
+      type: 3}
+    maxAmount: 1
+    probability: 100
+  - prefab: {fileID: 3961673132676458627, guid: 423cab216aa4e354f8159742cc80d10a,
+      type: 3}
+    maxAmount: 1
+    probability: 100

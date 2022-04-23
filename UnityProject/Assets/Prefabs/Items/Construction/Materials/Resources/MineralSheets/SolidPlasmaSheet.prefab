@@ -1,21 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &3226264520061043506
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9177804066296137559}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8688576ed720a4f40b3583f62adeeb23, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  groundReagents:
-    m_keys:
-    - {fileID: 11400000, guid: 3f8ba0db83a8157ae8fbb3c4115580e7, type: 2}
-    m_values: 14000000
 --- !u!1001 &3259288868005657216
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -207,9 +191,47 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8026742801534802552, guid: 8a023982b9ee4fd40b87f69c23492dd6,
         type: 3}
+      propertyPath: stackSprites.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8026742801534802552, guid: 8a023982b9ee4fd40b87f69c23492dd6,
+        type: 3}
       propertyPath: stacksWith.Array.data[0]
       value: 
       objectReference: {fileID: 9177804066296137559}
+    - target: {fileID: 8026742801534802552, guid: 8a023982b9ee4fd40b87f69c23492dd6,
+        type: 3}
+      propertyPath: stackSprites.Array.data[0].SpriteSO
+      value: 
+      objectReference: {fileID: 11400000, guid: 4c94f09266fb5c840ac902fef267ae5c,
+        type: 2}
+    - target: {fileID: 8026742801534802552, guid: 8a023982b9ee4fd40b87f69c23492dd6,
+        type: 3}
+      propertyPath: stackSprites.Array.data[1].SpriteSO
+      value: 
+      objectReference: {fileID: 11400000, guid: 9166e45caf3ab324ea6c27e4c875eeb0,
+        type: 2}
+    - target: {fileID: 8026742801534802552, guid: 8a023982b9ee4fd40b87f69c23492dd6,
+        type: 3}
+      propertyPath: stackSprites.Array.data[2].SpriteSO
+      value: 
+      objectReference: {fileID: 11400000, guid: 9f1c32c52a5bb2a43b4afb4daaa65296,
+        type: 2}
+    - target: {fileID: 8026742801534802552, guid: 8a023982b9ee4fd40b87f69c23492dd6,
+        type: 3}
+      propertyPath: stackSprites.Array.data[0].OverAmount
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8026742801534802552, guid: 8a023982b9ee4fd40b87f69c23492dd6,
+        type: 3}
+      propertyPath: stackSprites.Array.data[1].OverAmount
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8026742801534802552, guid: 8a023982b9ee4fd40b87f69c23492dd6,
+        type: 3}
+      propertyPath: stackSprites.Array.data[2].OverAmount
+      value: 51
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8a023982b9ee4fd40b87f69c23492dd6, type: 3}
 --- !u!1 &9177804066296137559 stripped
@@ -218,3 +240,19 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 3259288868005657216}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &3226264520061043506
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9177804066296137559}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8688576ed720a4f40b3583f62adeeb23, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  groundReagents:
+    m_keys:
+    - {fileID: 11400000, guid: 3f8ba0db83a8157ae8fbb3c4115580e7, type: 2}
+    m_values: 14000000

@@ -4,12 +4,18 @@ using Light2D;
 using HealthV2;
 using Systems.Pipes;
 using Items;
+using Items.Others;
+using Objects.Machines;
+using Doors;
+using Systems.Electricity;
 
 
 namespace Systems.Explosions
 {
 	public class ExplosionNode
 	{
+		public int EmpStrength = 0;
+
 		public Vector3Int Location;
 		public Matrix matrix;
 
@@ -32,7 +38,7 @@ namespace Systems.Explosions
 
 			var metaTileMap = matrix.MetaTileMap;
 
-			if (Damagedealt <= 0)
+			if (Damagedealt <= 0 && EmpStrength <= 0)
 			{
 				return;
 			}
@@ -42,65 +48,129 @@ namespace Systems.Explosions
 				return;
 			}
 
-			EnergyExpended = metaTileMap.ApplyDamage(v3int, Damagedealt,
+			if (EmpStrength > 0)
+			{
+				foreach (var thing in matrix.Get<Integrity>(v3int, true))
+				{
+					EmpThing(thing.gameObject, EmpStrength);
+				}
+
+				foreach (var thing in matrix.Get<LivingHealthMasterBase>(v3int, true))
+				{
+					EmpThing(thing.gameObject, EmpStrength);
+				}
+
+				EmpStrength = 0;
+			}
+
+			if(Damagedealt > 0)
+			{
+				EnergyExpended = metaTileMap.ApplyDamage(v3int, Damagedealt,
 			MatrixManager.LocalToWorldInt(v3int, matrix.MatrixInfo), AttackType.Bomb);
 
-			if (Damagedealt > 100)
-			{
-				var Node = matrix.GetMetaDataNode(v3int);
-				if (Node != null)
+				if (Damagedealt > 100)
 				{
-					foreach (var electricalData in Node.ElectricalData)
+					var Node = matrix.GetMetaDataNode(v3int);
+					if (Node != null)
 					{
-						electricalData.InData.DestroyThisPlease();
+						foreach (var electricalData in Node.ElectricalData)
+						{
+							electricalData.InData.DestroyThisPlease();
+						}
+
+						SavedPipes.Clear();
+						SavedPipes.AddRange(Node.PipeData);
+						foreach (var Pipe in SavedPipes)
+						{
+							Pipe.pipeData.DestroyThis();
+						}
+					}
+				}
+
+
+				foreach (var integrity in matrix.Get<Integrity>(v3int, true))
+				{
+					//Throw items
+					if (integrity.GetComponent<ItemAttributesV2>() != null)
+					{
+						ThrowInfo throwInfo = new ThrowInfo
+						{
+							//the thrown object is itself for now, in case ThrownBy breaks if null
+							ThrownBy = integrity.gameObject,
+							Aim = BodyPartType.Chest,
+							OriginWorldPos = integrity.RegisterTile.WorldPosition,
+							WorldTrajectory = AngleAndIntensity.Rotate90(),
+							SpinMode = RandomUtils.RandomSpin()
+						};
+
+						integrity.GetComponent<CustomNetTransform>().Throw(throwInfo);
 					}
 
-					SavedPipes.Clear();
-					SavedPipes.AddRange(Node.PipeData);
-					foreach (var Pipe in SavedPipes)
+					//And do damage to objects
+					integrity.ApplyDamage(Damagedealt, AttackType.Bomb, DamageType.Brute);
+				}
+
+				foreach (var player in matrix.Get<ObjectBehaviour>(v3int, ObjectType.Player, true))
+				{
+
+					// do damage
+					player.GetComponent<PlayerHealthV2>().ApplyDamageAll(null, Damagedealt, AttackType.Bomb, DamageType.Brute);
+
+				}
+
+				foreach (var line in PresentLines)
+				{
+					line.ExplosionStrength -= EnergyExpended * (line.ExplosionStrength / Damagedealt);
+				}
+				AngleAndIntensity = Vector2.zero;
+			}
+		}
+
+		private void EmpThing(GameObject thing, int EmpStrength)
+		{
+			if (thing != null)
+			{
+				if (isEmpAble(thing))
+				{
+					if (thing.TryGetComponent<ItemStorage>(out var storage))
 					{
-						Pipe.pipeData.DestroyThis();
+						foreach (var slot in storage.GetItemSlots())
+						{
+							EmpThing(slot.ItemObject, EmpStrength);
+						}
+					}
+
+					if (thing.TryGetComponent<DynamicItemStorage>(out var dStorage))
+					{
+						foreach (var slot in dStorage.GetItemSlots())
+						{
+							EmpThing(slot.ItemObject, EmpStrength);
+						}
+					}
+
+					var interfaces = thing.GetComponents<IEmpAble>();
+
+					foreach (var EMPAble in interfaces)
+					{
+						EMPAble.OnEmp(EmpStrength);
 					}
 				}
 			}
+		}
 
-
-			foreach (var integrity in matrix.Get<Integrity>(v3int, true))
+		private bool isEmpAble(GameObject thing)
+		{
+			if (thing.TryGetComponent<Machine>(out var machine))
 			{
-				//Throw items
-				if(integrity.GetComponent<ItemAttributesV2>() != null)
-				{
-					ThrowInfo throwInfo = new ThrowInfo
-					{
-						//the thrown object is itself for now, in case ThrownBy breaks if null
-						ThrownBy = integrity.gameObject,
-						Aim = BodyPartType.Chest,
-						OriginWorldPos = integrity.RegisterTile.WorldPosition,
-						WorldTrajectory = AngleAndIntensity.Rotate90(),
-						SpinMode = RandomUtils.RandomSpin()
-					};
-
-					integrity.GetComponent<CustomNetTransform>().Throw(throwInfo);
-				}
-
-				//And do damage to objects
-				integrity.ApplyDamage(Damagedealt, AttackType.Bomb, DamageType.Brute);
+				if (machine.isEMPResistant) return false;
 			}
 
-			foreach (var player in matrix.Get<ObjectBehaviour>(v3int, ObjectType.Player, true))
+			if (thing.TryGetComponent<ItemAttributesV2>(out var attributes))
 			{
-
-				// do damage
-				player.GetComponent<PlayerHealthV2>().ApplyDamageAll(null, Damagedealt, AttackType.Bomb, DamageType.Brute);
-
+				if (Validations.HasItemTrait(thing.gameObject, CommonTraits.Instance.EMPResistant)) return false;
 			}
 
-			foreach (var line in PresentLines)
-			{
-				line.ExplosionStrength -= EnergyExpended * (line.ExplosionStrength / Damagedealt);
-			}
-			AngleAndIntensity = Vector2.zero;
-
+			return true;
 		}
 	}
 }

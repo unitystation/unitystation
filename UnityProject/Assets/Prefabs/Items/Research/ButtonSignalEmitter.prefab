@@ -1,21 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &5870844943703940498
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3648832323169248661}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 94ef0b479478b5a40a4d6476c1c2c7fc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  signalData: {fileID: 11400000, guid: 6980af798d7f70544a57c269b32d5334, type: 2}
-  Frequancy: 122
 --- !u!1001 &3648151331491256623
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -85,7 +69,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 2b25cea0043b2a445a1462458c2c4af6,
+      objectReference: {fileID: 21300000, guid: 5ce36425289d2114f97d9462dab55bb4,
         type: 3}
     - target: {fileID: 212340400423555046, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
@@ -105,7 +89,8 @@ PrefabInstance:
     - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
       propertyPath: initialDescription
-      value: Sends a signal to a paired receiver.
+      value: Sends a signal to a paired door button(s). Just click this on a door
+        button to add a signal receiver to it.
       objectReference: {fileID: 0}
     - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
@@ -159,3 +144,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 579884b05ae74e8499329b64997147d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &5870844943703940498
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3648832323169248661}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 94ef0b479478b5a40a4d6476c1c2c7fc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  signalData: {fileID: 11400000, guid: 6980af798d7f70544a57c269b32d5334, type: 2}
+  encryptionData: {fileID: 0}
+  frequency: 122
+  requiresPower: 0
+  isPowered: 1

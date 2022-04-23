@@ -1,19 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &232258247691512548
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1649789061759636159}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 10470e342fd41de468f149e991721d5a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  despawnBody: 1
-  lootDrop: []
 --- !u!1001 &1621574716528591692
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -44,26 +30,6 @@ PrefabInstance:
     - target: {fileID: 30532920826853367, guid: 6c9f4a005c9a60d4b8dee2e5fdbe767d,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 30532920826853367, guid: 6c9f4a005c9a60d4b8dee2e5fdbe767d,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 30532920826853367, guid: 6c9f4a005c9a60d4b8dee2e5fdbe767d,
-        type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 30532920826853367, guid: 6c9f4a005c9a60d4b8dee2e5fdbe767d,
-        type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 30532920826853367, guid: 6c9f4a005c9a60d4b8dee2e5fdbe767d,
-        type: 3}
-      propertyPath: m_LocalRotation.z
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 30532920826853367, guid: 6c9f4a005c9a60d4b8dee2e5fdbe767d,
@@ -128,3 +94,17 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 1621574716528591692}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &232258247691512548
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1649789061759636159}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 10470e342fd41de468f149e991721d5a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  despawnBody: 1
+  lootDrop: []

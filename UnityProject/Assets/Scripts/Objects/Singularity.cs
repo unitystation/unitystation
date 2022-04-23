@@ -7,6 +7,7 @@ using Light2D;
 using HealthV2;
 using Systems.Pipes;
 using Systems.Radiation;
+using Systems.Explosions;
 using Objects.Engineering;
 using Weapons.Projectiles.Behaviours;
 
@@ -232,9 +233,18 @@ namespace Objects
 			dynamicScale = GetDynamicScale();
 
 			//Radiation Pulse
-			var strength = Mathf.Max(((float) CurrentStage + 1) / 6 * maxRadiation, 0);
+			var radStrength = Mathf.Max(((float) CurrentStage + 1) / 6 * maxRadiation, 0);
 
-			RadiationManager.Instance.RequestPulse(registerTile.WorldPositionServer, strength, objectId);
+			RadiationManager.Instance.RequestPulse(registerTile.WorldPositionServer, radStrength, objectId);
+
+			if(DMMath.Prob(5))
+			{
+				int EMPStrength = UnityEngine.Random.Range((int)CurrentStage * 100, (int)CurrentStage * 100 + 300);
+				Vector3Int EMPPosition = registerTile.WorldPositionServer;
+				EMPPosition.x += UnityEngine.Random.Range(-3 - (int)CurrentStage, 3 + (int)CurrentStage);
+				EMPPosition.y += UnityEngine.Random.Range(-3 - (int)CurrentStage, 3 + (int)CurrentStage);
+				Explosion.StartExplosion(EMPPosition, EMPStrength, true);
+			}
 		}
 
 		#region Throw/Push
@@ -399,9 +409,9 @@ namespace Objects
 					if (objectToMove.ObjectType == ObjectType.Player && objectToMove.TryGetComponent<PlayerHealthV2>(out var health) && health != null)
 					{
 						if (health.RegisterPlayer.PlayerScript != null &&
-						    health.RegisterPlayer.PlayerScript.mind != null &&
-						    health.RegisterPlayer.PlayerScript.mind.occupation != null &&
-						    health.RegisterPlayer.PlayerScript.mind.occupation == OccupationList.Instance.Get(JobType.CLOWN))
+							health.RegisterPlayer.PlayerScript.mind != null &&
+							health.RegisterPlayer.PlayerScript.mind.occupation != null &&
+							health.RegisterPlayer.PlayerScript.mind.occupation == OccupationList.Instance.Get(JobType.CLOWN))
 						{
 							health.Gib();
 							ChangePoints(DMMath.Prob(50) ? -1000 : 1000);
@@ -424,7 +434,7 @@ namespace Objects
 						}
 
 						if (objectToMove.TryGetComponent<FieldGenerator>(out var fieldGenerator)
-						    && fieldGenerator != null)
+							&& fieldGenerator != null)
 						{
 							if (CurrentStage != SingularityStages.Stage4 && CurrentStage != SingularityStages.Stage5 && fieldGenerator.Energy != 0)
 							{

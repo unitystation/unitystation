@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using Mirror;
 using UnityEditor;
 using UnityEngine.SceneManagement;
@@ -145,6 +146,8 @@ public partial class SubSceneManager
 		}
 
 		var pickedMap = additionalSceneList.defaultCentComScenes.PickRandom();
+
+		if (string.IsNullOrEmpty(pickedMap)) yield break;
 
 		//If no special CentCom load default.
 		yield return StartCoroutine(LoadSubScene(pickedMap, loadTimer));
@@ -302,7 +305,7 @@ public partial class SubSceneManager
 	/// <summary>
 	/// Add a new scene to a specific connections observable list
 	/// </summary>
-	void AddObservableSceneToConnection(NetworkConnection conn, Scene sceneContext)
+	void AddObservableSceneToConnection(NetworkConnectionToClient conn, Scene sceneContext)
 	{
 		if (!NetworkServer.observerSceneList.ContainsKey(conn))
 		{

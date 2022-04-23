@@ -169,7 +169,7 @@ namespace AdminTools
 			var playerScript = perp.GetComponent<PlayerScript>();
 			if (playerScript == null || playerScript.IsGhost || playerScript.playerHealth == null) return;
 			ConnectedPlayer perpPlayer = perp.Player();
-			UIManager.Instance.adminChatWindows.adminToAdminChat.ServerAddChatRecord(
+			UIManager.Instance.adminChatWindows.adminLogWindow.ServerAddChatRecord(
 					$"{admin.Player().Username} BRUTALLY GIBBED player {perpPlayer.Name} ({perpPlayer.Username}) for a " +
 			        $"{alertEntry.playerAlertType.ToString()} incident that happened at roundtime: {alertEntry.roundTime}", adminId);
 
@@ -188,7 +188,7 @@ namespace AdminTools
 			var playerScript = perp.GetComponent<PlayerScript>();
 			if (playerScript == null || playerScript.IsGhost || playerScript.playerHealth == null) return;
 			ConnectedPlayer perpPlayer = perp.Player();
-			UIManager.Instance.adminChatWindows.adminToAdminChat.ServerAddChatRecord(
+			UIManager.Instance.adminChatWindows.adminLogWindow.ServerAddChatRecord(
 					$"{admin.Player().Username} is talking to or monitoring player {perpPlayer.Name} ({perpPlayer.Username}) for a " +
 			        $"{alertEntry.playerAlertType} incident that happened at roundtime: {alertEntry.roundTime}", adminId);
 

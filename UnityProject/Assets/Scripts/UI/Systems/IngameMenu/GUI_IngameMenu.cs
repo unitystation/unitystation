@@ -14,6 +14,7 @@ namespace UI
 		/// Menu window that will be deactivated when closing the menu.
 		/// </summary>
 		public GameObject menuWindow;
+		public GameObject votingWindow;
 
 		public VotePopUp VotePopUp;
 
@@ -142,6 +143,36 @@ namespace UI
 			CloseMenuPanel();
 		}
 
+		public void InitiateMapVote()
+		{
+			_ = SoundManager.Play(CommonSounds.Instance.Click01);
+
+			if (PlayerManager.PlayerScript == null) return;
+			if (PlayerManager.PlayerScript.playerNetworkActions == null) return;
+
+			PlayerManager.PlayerScript.playerNetworkActions.CmdInitiateMapVote();
+
+			CloseMenuPanel();
+		}
+
+		public void InitiateGameModeVote()
+		{
+			_ = SoundManager.Play(CommonSounds.Instance.Click01);
+
+			if (PlayerManager.PlayerScript == null) return;
+			if (PlayerManager.PlayerScript.playerNetworkActions == null) return;
+
+			PlayerManager.PlayerScript.playerNetworkActions.CmdInitiateGameModeVote();
+
+			CloseMenuPanel();
+		}
+
+		public void ShowVoteOptions()
+		{
+			HideAllMenus();
+			votingWindow.SetActive(true);
+		}
+
 		#endregion
 
 		#region Logout Confirmation Window Functions
@@ -205,6 +236,7 @@ namespace UI
 		{
 			menuWindow.SetActive(false);
 			serverInfo.SetActive(false);
+			votingWindow.SetActive(false);
 			if (UIManager.Display.disclaimer != null) UIManager.Display.disclaimer.SetActive(false);
 		}
 

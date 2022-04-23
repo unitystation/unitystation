@@ -37,7 +37,7 @@ public class CameraZoomHandler : MonoBehaviour
 	private void UpdatePixelPerfectCamera()
 	{
 		// Connect up to the PixelPerfectCamera in the OnlineScene
-		PixelPerfectCamera current = Camera.main.GetComponent<PixelPerfectCamera>();
+		PixelPerfectCamera current = Camera.main.OrNull()?.GetComponent<PixelPerfectCamera>();
 
 		// Discard our old reference if it is from an old OnlineScene
 		if (current != null && pixelPerfectCamera != current)

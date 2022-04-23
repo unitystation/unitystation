@@ -52,24 +52,9 @@ namespace Tests.Asset
 				}
 			}
 
-			Dictionary<int, SpriteDataSO> SpriteDataSOs = new Dictionary<int, SpriteDataSO>();
-
-			foreach (var Assete in Assets)
-			{
-				if (SpriteDataSOs.ContainsKey(Assete.setID))
-				{
-					ForceUpdateList.Add(SpriteDataSOs[Assete.setID]);
-					ForceUpdateList.Add(Assete);
-					report.AppendLine($"{Assete.name}: Duplicated ID with {SpriteDataSOs[Assete.setID]}" );
-					Failed = true;
-				}
-
-				SpriteDataSOs[Assete.setID] = Assete;
-			}
-
 			foreach (var ToForceUpdate in ForceUpdateList)
 			{
-				ToForceUpdate.ForceUpdateID();
+				SpriteCatalogue.Instance.Catalogue.Add(ToForceUpdate);
 				EditorUtility.SetDirty(ToForceUpdate);
 			}
 

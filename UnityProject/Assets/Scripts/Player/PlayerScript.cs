@@ -28,7 +28,7 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IActi
 
 	public WeaponNetworkActions weaponNetworkActions { get; set; }
 
-	public Orientation CurrentDirection => playerDirectional.CurrentDirection;
+	public OrientationEnum CurrentDirection => playerDirectional.CurrentDirection;
 	/// <summary>
 	/// Will be null if player is a ghost.
 	/// </summary>
@@ -42,7 +42,7 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IActi
 	/// </summary>
 	public ObjectBehaviour pushPull { get; set; }
 
-	public Directional playerDirectional { get; set; }
+	public Rotatable playerDirectional { get; set; }
 
 	public PlayerSync PlayerSync;
 
@@ -67,6 +67,8 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IActi
 	/// Outputs correct world position even if you're hidden (e.g. in a locker)
 	/// </summary>
 	public Vector3Int AssumedWorldPos => pushPull.AssumedWorldPositionServer();
+
+	[SyncVar] public Vector3Int SyncedWorldPos = new Vector3Int(0,0,0);
 
 	/// <summary>
 	/// World position of the player.
@@ -136,7 +138,7 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IActi
 		mouseInputController = GetComponent<MouseInputController>();
 		chatIcon = GetComponentInChildren<ChatIcon>(true);
 		playerMove = GetComponent<PlayerMove>();
-		playerDirectional = GetComponent<Directional>();
+		playerDirectional = GetComponent<Rotatable>();
 		DynamicItemStorage = GetComponent<DynamicItemStorage>();
 		Equipment = GetComponent<Equipment>();
 		Cooldowns = GetComponent<HasCooldowns>();
@@ -253,6 +255,7 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IActi
 			}
 
 			EventManager.Broadcast(Event.UpdateChatChannels);
+			UpdateStatusTabUI();
 		}
 	}
 
@@ -282,6 +285,29 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IActi
 		}
 	}
 
+	private void UpdateStatusTabUI()
+	{
+		if(StatsTab.Instance == null) return;
+		StatsTab.Instance.UpdateCurrentMap();
+		StatsTab.Instance.UpdateGameMode();
+		StatsTab.Instance.UpdateRoundTime();
+		switch (GameManager.Instance.CurrentRoundState)
+		{
+			case(RoundState.Started):
+				StatsTab.Instance.UpdateRoundStatus("Started");
+				break;
+			case(RoundState.PreRound):
+				StatsTab.Instance.UpdateRoundStatus("Preround");
+				break;
+			case(RoundState.Ended):
+				StatsTab.Instance.UpdateRoundStatus("Ended! Restarting soon..");
+				break;
+			default:
+				StatsTab.Instance.UpdateRoundStatus("???");
+				break;
+		}
+	}
+
 	[Command]
 	private void CmdUpdateRTT(float rtt)
 	{
@@ -290,6 +316,18 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IActi
 		{
 			playerHealth.RTT = rtt;
 		}
+	}
+
+	[Command(requiresAuthority = false)]
+	public void UpdateLastSyncedPosition()
+	{
+		SetLastRecordedPosition();
+	}
+
+	[Server]
+	private void SetLastRecordedPosition()
+	{
+		SyncedWorldPos = gameObject.AssumedWorldPosServer().CutToInt();
 	}
 
 	/// <summary>
@@ -345,7 +383,7 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IActi
 	/// </summary>
 	public bool IsGhost => (PlayerState == PlayerStates.Normal) == false;
 
- 	/// <summary>
+	/// <summary>
 	/// Same as is ghost, but also true when player inside his dead body
 	/// </summary>
 	public bool IsDeadOrGhost
@@ -435,13 +473,13 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IActi
 		if (playerState == PlayerStates.Ai)
 		{
 			ChatChannel aiTransmitChannels = ChatChannel.OOC | ChatChannel.Local | ChatChannel.Binary | ChatChannel.Command
-			                                 | ChatChannel.Common | ChatChannel.Engineering |
-			                                 ChatChannel.Medical | ChatChannel.Science | ChatChannel.Security | ChatChannel.Service
-			                                 | ChatChannel.Supply;
+											 | ChatChannel.Common | ChatChannel.Engineering |
+											 ChatChannel.Medical | ChatChannel.Science | ChatChannel.Security | ChatChannel.Service
+											 | ChatChannel.Supply;
 			ChatChannel aiReceiveChannels = ChatChannel.Examine | ChatChannel.System | ChatChannel.Combat |
-			                                   ChatChannel.Binary | ChatChannel.Command | ChatChannel.Common | ChatChannel.Engineering |
-			                                   ChatChannel.Medical | ChatChannel.Science | ChatChannel.Security | ChatChannel.Service
-			                                   | ChatChannel.Supply;
+											   ChatChannel.Binary | ChatChannel.Command | ChatChannel.Common | ChatChannel.Engineering |
+											   ChatChannel.Medical | ChatChannel.Science | ChatChannel.Security | ChatChannel.Service
+											   | ChatChannel.Supply;
 
 			if (GetComponent<AiPlayer>().AllowRadio == false)
 			{
@@ -479,6 +517,7 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IActi
 			{
 				if(earSlot.IsEmpty) continue;
 				if(earSlot.Item.TryGetComponent<Headset>(out var headset) == false) continue;
+				if(headset.isEMPed) continue;
 
 				EncryptionKeyType key = headset.EncryptionKey;
 				transmitChannels = transmitChannels | EncryptionKey.Permissions[key];

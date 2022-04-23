@@ -1,0 +1,39 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 83e3bc049a54424fb1dbe8ab97e16284, type: 3}
+  m_Name: FelinePurr
+  m_EditorClassIdentifier: 
+  emoteName: Purr
+  requiresHands: 0
+  allowEmoteWhileInCrit: 1
+  isAudibleEmote: 0
+  allowEmoteWhileCrawling: 1
+  viewText: purrs.
+  youText: you purr.. calming yourself down.
+  failText: You were unable to preform this action!
+  mouthBlockedText: You are unable to make a sound!
+  critViewText: attempts to calm themselves down by purring.
+  soundsAreTyped: 0
+  defaultSounds:
+  - SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/NPC/Purr.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+  TypedSounds: []
+  pitchRange: {x: 0.7, y: 1}
+  allowedSpecies:
+  - {fileID: 11400000, guid: f0deb843b714e8f4590d893251718804, type: 2}
+  wrongSpeciesText: Your species can't do that!
+  healAmount: 1
+  totalDamageBeforeIneffective: 15

@@ -94,7 +94,7 @@ public class CablePlacementVisualisation : MonoBehaviour
 		if (!cablePlacementVisualisation.activeSelf) return;
 
 
-		if (PlayerManager.LocalPlayer.RegisterTile().Matrix.MatrixMove != null)
+		if (PlayerManager.LocalPlayer.RegisterTile().Matrix.IsMovable)
 		{
 			cablePlacementVisualisation.transform.localRotation = PlayerManager.LocalPlayer.RegisterTile().Matrix.MatrixMove
 				.FacingOffsetFromInitial.Quaternion;
@@ -167,7 +167,7 @@ public class CablePlacementVisualisation : MonoBehaviour
 
 		Vector3 Position = Vector3.zero;
 
-		if (Register.Matrix.MatrixMove == null)
+		if (Register.Matrix.IsMovable == false)
 		{
 			Position = cablePlacementVisualisation.transform.position + (new Vector3(0.5f, 0.5f, 0));
 		}
@@ -300,8 +300,29 @@ public class CablePlacementVisualisation : MonoBehaviour
 
 	public void OnHover()
 	{
-		if (!UIManager.IsMouseInteractionDisabled && PlayerManager.LocalPlayerScript?.DynamicItemStorage?.GetActiveHandSlot() != null)
+
+		if (!UIManager.IsMouseInteractionDisabled )
 		{
+			var hand = PlayerManager.LocalPlayerScript?.DynamicItemStorage?.GetActiveHandSlot();
+			if (hand == null)
+			{
+				DisableVisualisation();
+				return;
+			}
+			if (hand.Item == null)
+			{
+				DisableVisualisation();
+				return;
+			}
+
+			if (hand.Item.ItemAttributesV2.HasTrait(CommonTraits.Instance.Cable) == false)
+			{
+				DisableVisualisation();
+				return;
+			}
+
+
+
 			// get mouse position
 			var mousePosition = MouseUtils.MouseToWorldPos().RoundToInt();
 
@@ -319,14 +340,14 @@ public class CablePlacementVisualisation : MonoBehaviour
 				lastMouseWordlPositionInt = mousePosition;
 
 				var metaTileMap = MatrixManager.AtPoint(mousePosition, false).MetaTileMap;
-				var topTile = metaTileMap.GetTile(metaTileMap.WorldToCell(mousePosition), true);
+				var topTile = metaTileMap.GetTile(metaTileMap.WorldToCell(mousePosition), true, excludeNonIntractable : true );
 
 				if (topTile && (topTile.LayerType == LayerType.Base || topTile.LayerType == LayerType.Underfloor))
 				{
 					// move cable placement visualisation to rounded mouse position and enable it
 					var RegisterTile = PlayerManager.LocalPlayer.RegisterTile();
 
-					if (RegisterTile.Matrix.MatrixMove == null)
+					if (RegisterTile.Matrix.IsMovable == false)
 					{
 						cablePlacementVisualisation.transform.position = mousePosition - (new Vector3(0.5f, 0.5f, 0)) ;
 						cablePlacementVisualisation.SetActive(true);

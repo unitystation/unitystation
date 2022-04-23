@@ -11,8 +11,7 @@ using Objects.Atmospherics;
 
 namespace Objects.Engineering
 {
-	public class ReactorGraphiteChamber : MonoBehaviour, IInteractable<HandApply>, IMultitoolMasterable, IServerDespawn,
-		IServerSpawn
+	public class ReactorGraphiteChamber : MonoBehaviour, IInteractable<HandApply>, IMultitoolMasterable, IServerDespawn
 	{
 		public float EditorPresentNeutrons;
 		public float EditorEnergyReleased;
@@ -76,10 +75,18 @@ namespace Objects.Engineering
 			ReactorPipe = this.GetComponent<ReactorPipe>();
 		}
 
-		public void OnSpawnServer(SpawnInfo info)
+		public void OnEnable()
 		{
+			if (CustomNetworkManager.IsServer == false) return;
 			UpdateManager.Add(CycleUpdate, 1);
 		}
+
+		public void OnDisable()
+		{
+			if (CustomNetworkManager.IsServer == false) return;
+			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, CycleUpdate);
+		}
+
 
 		/// <summary>
 		/// is the function to denote that it will be pooled or destroyed immediately after this function is finished, Used for cleaning up anything that needs to be cleaned up before this happens

@@ -178,7 +178,7 @@ namespace Health.Sickness
 		private void SpawnContagion(SymptomManifestation symptomManifestation)
 		{
 			Vector3Int position = symptomManifestation.MobHealth.gameObject.RegisterTile().WorldPositionServer;
-			Directional directional = symptomManifestation.MobHealth.GetComponent<Directional>();
+			Rotatable directional = symptomManifestation.MobHealth.GetComponent<Rotatable>();
 
 			// Player position
 			SpawnContagionSpot(symptomManifestation, position);
@@ -186,13 +186,13 @@ namespace Health.Sickness
 			if(directional == null) return;
 
 			// In front
-			SpawnContagionSpot(symptomManifestation, position + directional.CurrentDirection.Vector);
+			SpawnContagionSpot(symptomManifestation, position + directional.CurrentDirection.ToLocalVector3());
 
 			// Front left
-			SpawnContagionSpot(symptomManifestation, position + (Quaternion.Euler(0, 0, -45) * directional.CurrentDirection.Vector));
+			SpawnContagionSpot(symptomManifestation, position + (Quaternion.Euler(0, 0, -45) * directional.CurrentDirection.ToLocalVector3()));
 
 			// Front Right
-			SpawnContagionSpot(symptomManifestation, position + (Quaternion.Euler(0, 0, 45) * directional.CurrentDirection.Vector));
+			SpawnContagionSpot(symptomManifestation, position + (Quaternion.Euler(0, 0, 45) * directional.CurrentDirection.ToLocalVector3()));
 		}
 
 		private void SpawnContagionSpot(SymptomManifestation symptomManifestation, Vector3 position)
