@@ -167,12 +167,13 @@ namespace Managers
 
 		private IEnumerator LowpopCheck()
 		{
-			yield return WaitFor.Seconds(300);
+			yield return WaitFor.Seconds(Application.isEditor ? 60 : 300);
 			if(PlayerList.Instance.GetAlivePlayers().Count > gameManager.LowPopLimit) yield break;
 			IsLowPop = true;
 			MakeAnnouncement(ChatTemplates.CentcomAnnounce,
 				"Due to the shortage of staff on the station; We have granted additional access to all crew members until further notice."
 				, UpdateSound.Announce);
+			IDCards.Remove(null);
 			foreach (var card in IDCards)
 			{
 				card.ReplaceAccessWithLowPopVersion();
