@@ -175,11 +175,9 @@ namespace Managers
 			MakeAnnouncement(ChatTemplates.CentcomAnnounce,
 				"Due to the shortage of staff on the station; We have granted additional access to all crew members until further notice."
 				, UpdateSound.Announce);
-			Debug.Log("announcing");
 			while (IsLowPop)
 			{
 				if (PlayerList.Instance.GetAlivePlayers().Count >= gameManager.LowPopLimit) break;
-				Debug.Log("still in lowpop");
 				yield return WaitFor.Seconds(120);
 			}
 			MakeAnnouncement(ChatTemplates.CentcomAnnounce,
