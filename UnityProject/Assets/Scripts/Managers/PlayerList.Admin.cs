@@ -433,8 +433,8 @@ public partial class PlayerList
 		//Must have non-null/empty username
 		if (string.IsNullOrEmpty(unverifiedConnPlayer.Username))
 		{
-			StartCoroutine(KickPlayer(unverifiedConnPlayer, $"Server Error: Account has invalid username (Null/Empty)."));
-			Logger.Log($"A user tried to connect with null/empty username" +
+			StartCoroutine(KickPlayer(unverifiedConnPlayer, $"Server Error: Account has invalid username (Null/Empty). To fix go to character creator then click Serialise and then load"));
+			Logger.LogError($"A user tried to connect with null/empty username" +
 			           $"Details: Username: {unverifiedConnPlayer.Username}, ClientID: {unverifiedConnPlayer.ClientId}, IP: {unverifiedConnPlayer.ConnectionIP}",
 				Category.Admin);
 		}
