@@ -25,7 +25,6 @@ namespace Learning
 		private void Start()
 		{
 			transform.localScale = Vector3.zero;
-			ShowTip("Balling");
 		}
 
 		public void ShowTip(string tip, float showDuration = 25f, Sprite img = null, SpriteAnimation animation = SpriteAnimation.ROCKING)

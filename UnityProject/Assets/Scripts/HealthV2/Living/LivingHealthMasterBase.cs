@@ -15,6 +15,7 @@ using NaughtyAttributes;
 using Player;
 using Newtonsoft.Json;
 using ScriptableObjects.RP;
+using Event = ENet.Event;
 
 namespace HealthV2
 {
@@ -250,6 +251,9 @@ namespace HealthV2
 		private List<Sickness> immunedSickness = new List<Sickness>();
 
 		public PlayerScript playerScript;
+
+		public event Action<DamageType> OnTakeDamageType;
+		public UnityEvent OnLowHealth = new UnityEvent();
 
 		public virtual void Awake()
 		{
@@ -702,6 +706,14 @@ namespace HealthV2
 			}
 
 			IndicatePain(damage);
+			OnTakeDamageType?.Invoke(damageType);
+			if(HealthIsLow()) OnLowHealth?.Invoke();
+		}
+
+		private bool HealthIsLow()
+		{
+			var percentage = (OverallHealth / maxHealth) * 100;
+			return percentage < 35;
 		}
 
 		/// <summary>

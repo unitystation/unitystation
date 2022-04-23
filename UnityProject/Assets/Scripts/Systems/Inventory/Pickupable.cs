@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using Items;
 using UI;
 using UnityEngine;
+using UnityEngine.Events;
 using Random = UnityEngine.Random;
 
 /// <summary>
@@ -42,6 +43,8 @@ public class Pickupable : NetworkBehaviour, IPredictedCheckedInteractable<HandAp
 
 	public ItemAttributesV2 ItemAttributesV2;
 
+	public readonly UnityEvent OnMoveToPlayerInventory = new UnityEvent();
+
 	#region Lifecycle
 
 	private void Awake()
@@ -78,7 +81,6 @@ public class Pickupable : NetworkBehaviour, IPredictedCheckedInteractable<HandAp
 		 *
 		 * Bubbling should help prevent this
 		 */
-
 
 		//update appearance depending on the slot that was changed
 		if (info.FromPlayer != null &&
@@ -215,6 +217,7 @@ public class Pickupable : NetworkBehaviour, IPredictedCheckedInteractable<HandAp
 
 	private void PickupAnim(GameObject interactor)
 	{
+		OnMoveToPlayerInventory.Invoke();
 		LeanTween.move(gameObject, interactor.transform, pickupAnimSpeed);
 		LeanTween.scale(gameObject, new Vector3(0, 0), pickupAnimSpeed);
 	}
