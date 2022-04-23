@@ -56,6 +56,8 @@ namespace Managers
 
 		private static Dictionary<UpdateSound, AddressableAudioSource> updateTypes;
 
+		public HashSet<IDCard> IDCards = new HashSet<IDCard>();
+
 		private void Awake()
 		{
 			updateTypes = new Dictionary<UpdateSound, AddressableAudioSource>
@@ -83,7 +85,8 @@ namespace Managers
 			ChangeAlertLevel(initialAlertLevel, false);
 			StartCoroutine(WaitToPrepareReport());
 			IsLowPop = false;
-			if(CustomNetworkManager.IsServer) LowpopCheck();
+			IDCards.Clear();
+			if(CustomNetworkManager.IsServer) StartCoroutine(LowpopCheck());
 		}
 
 		private IEnumerator WaitToPrepareReport()
@@ -162,13 +165,18 @@ namespace Managers
 			MakeAnnouncement(ChatTemplates.CentcomAnnounce, PlayerUtils.GetGenericReport(), UpdateSound.Announce);
 		}
 
-		private void LowpopCheck()
+		private IEnumerator LowpopCheck()
 		{
-			if(PlayerList.Instance.GetAlivePlayers().Count > gameManager.LowPopLimit) return;
+			yield return WaitFor.Seconds(300);
+			if(PlayerList.Instance.GetAlivePlayers().Count > gameManager.LowPopLimit) yield break;
 			IsLowPop = true;
 			MakeAnnouncement(ChatTemplates.CentcomAnnounce,
 				"Due to the shortage of staff on the station; We have granted additional access to all crew members until further notice."
 				, UpdateSound.Announce);
+			foreach (var card in IDCards)
+			{
+				card.ReplaceAccessWithLowPopVersion();
+			}
 		}
 
 		/// <summary>
