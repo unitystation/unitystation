@@ -12,7 +12,7 @@ using Systems.Electricity.NodeModules;
 
 namespace Items.Weapons
 {
-	public class PowerSink : SignalReceiver, ICheckedInteractable<HandApply>
+	public class PowerSink : SignalReceiver, ICheckedInteractable<HandApply>, IExaminable
 	{
 		[SerializeField] private float overchargeCap = 250000;
 		[SerializeField] private float explosionAmplifer = 0.15f;
@@ -53,10 +53,26 @@ namespace Items.Weapons
 				ToggleActivity();
 				return;
 			}
+
 			if (interaction.UsedObject.Item().HasTrait(CommonTraits.Instance.Screwdriver))
 			{
-				if (isAnchored && isCharging == false) UnAnchor();
-				else Anchor();
+				// TODO check that the plating is exposed and no objects in the way, via MatrixManager.IsConstructable() or something
+
+				var pos = objectBehaviour.registerTile.LocalPositionServer;
+				var electricalConnections = objectBehaviour.registerTile.Matrix.GetElectricalConnections(pos);
+				if (electricalConnections?.List.Count == 0)
+				{
+					Chat.AddExamineMsgFromServer(interaction.Performer, "You screw the power sink down, but there are no cables to tap into!");
+				}
+
+				if (isAnchored && isCharging == false)
+				{
+					UnAnchor();
+				}
+				else
+				{
+					Anchor();
+				}
 				SoundManager.PlayNetworkedAtPos(CommonSounds.Instance.screwdriver, gameObject.AssumedWorldPosServer());
 				return;
 			}
@@ -169,6 +185,13 @@ namespace Items.Weapons
 				SoundManager.PlayNetworkedAtPos(beepSound, gameObject.AssumedWorldPosServer());
 				yield return WaitFor.Seconds(2f);
 			}
+		}
+
+		public string Examine(Vector3 worldPos = default)
+		{
+			return isAnchored
+				? "It is held in place with some <b>screws</b>."
+				: "Some mounting <b>screws</b> are exposed on the underside.";
 		}
 	}
 }

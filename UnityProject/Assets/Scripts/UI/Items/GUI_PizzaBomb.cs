@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using UnityEngine;
 using UI.Core.NetUI;
 using Items.Storage;
@@ -27,7 +27,7 @@ namespace UI.Items
 			}
 			pizza = Provider.GetComponent<PizzaBox>();
 			pizza.PizzaGui = this;
-			if (pizza.DetenationOnTimer)
+			if (pizza.DetonateByTimer)
 			{
 				StartCoroutine(UpdateTimer());
 				yield break;
@@ -37,18 +37,14 @@ namespace UI.Items
 
 		public void ToggleArmMode()
 		{
-			if (armToggleButton.Value == "1")
+			pizza.IsArmed = !pizza.IsArmed;
+			if (pizza.IsArmed && pizza.DetonateByTimer)
 			{
-				pizza.IsArmed = true;
-				if (pizza.DetenationOnTimer)
-				{
-					StartCoroutine(UpdateTimer());
-					return;
-				}
+				StartCoroutine(UpdateTimer());
 				UpdateSignalStatusStatus();
 				return;
 			}
-			pizza.IsArmed = false;
+
 			UpdateSignalStatusStatus();
 		}
 
@@ -59,17 +55,17 @@ namespace UI.Items
 				UpdateSignalStatusStatus();
 				return;
 			}
-			status.Value = DisplayTime();
+			status.SetValueServer(DisplayTime());
 		}
 
 		private void UpdateSignalStatusStatus()
 		{
 			if (pizza.IsArmed)
 			{
-				status.Value = "Awaiting Signal..";
+				status.SetValueServer("Armed");
 				return;
 			}
-			status.Value = DMMath.Prob(25f) ? "Ready to oga some bogas" : "Explosive Unarmed..";
+			status.SetValueServer(DMMath.Prob(25f) ? "Ready to oga some bogas" : "Explosive Unarmed..");
 		}
 
 		private string DisplayTime()
@@ -82,13 +78,13 @@ namespace UI.Items
 			timerCount = pizza.TimeToDetonate;
 			if (pizza.BombIsCountingDown == false)
 			{
-				status.Value = DisplayTime();
+				status.SetValueServer(DisplayTime());
 				yield break;
 			}
 			while (timerCount > 0)
 			{
 				timerCount -= 1;
-				status.Value = DisplayTime();
+				status.SetValueServer(DisplayTime());
 				yield return WaitFor.Seconds(1f);
 			}
 		}
