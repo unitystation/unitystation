@@ -121,8 +121,8 @@ public class IDCard : NetworkBehaviour, IServerInventoryMove, IServerSpawn, IInt
 		jobType = occupation.JobType;
 
 		var accessToGive = GameManager.Instance.CentComm.IsLowPop
-			? occupation.AllowedAccess
-			: occupation.AllowedLowPopAccess;
+			? occupation.AllowedLowPopAccess
+			: occupation.AllowedAccess;
 
 		if (accessToGive == occupation.AllowedLowPopAccess && accessToGive.Count == 0)
 			accessToGive = occupation.AllowedAccess; //(Max) : Incase we forgot to set it up in the SO aka you're lazy like me
