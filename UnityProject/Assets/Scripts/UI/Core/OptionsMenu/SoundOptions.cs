@@ -25,6 +25,12 @@ namespace Unitystation.Options
         [SerializeField]
 		private Slider TTSSlider = null;
 
+		[SerializeField]
+		private Slider RadioSlider = null;
+
+		[SerializeField]
+		private Toggle CommonRadioToggle = null;
+
 		void OnEnable()
         {
             Refresh();
@@ -50,7 +56,20 @@ namespace Unitystation.Options
 	        AudioManager.AmbientVolume(ambientSlider.value);
         }
 
-		public void TTSToggle()
+
+        public void OnRadioChatterChange()
+        {
+	        AudioManager.RadioChatterVolume(RadioSlider.value);
+        }
+
+        public void OnCommonRadioChatterChange()
+        {
+	        AudioManager.CommonRadioChatter(CommonRadioToggle.isOn);
+        }
+
+
+
+        public void TTSToggle()
         {
             UIManager.ToggleTTS(ttsToggle.isOn);
             TTSSlider.transform.parent.SetActive(ttsToggle.isOn);
@@ -71,6 +90,9 @@ namespace Unitystation.Options
 			masterSlider.value = PlayerPrefs.GetFloat(PlayerPrefKeys.MasterVolumeKey);
             TTSSlider.transform.parent.SetActive(ttsToggle.isOn);
 
+            CommonRadioToggle.isOn = PlayerPrefs.GetInt(PlayerPrefKeys.CommonRadioToggleKey) == 1;
+            RadioSlider.value = PlayerPrefs.GetFloat(PlayerPrefKeys.RadioVolumeKey);
+
 		}
 
         public void ResetDefaults()
@@ -85,6 +107,8 @@ namespace Unitystation.Options
                     AudioManager.MusicVolume(0.2f);
                     AudioManager.TtsVolume(0.2f);
 					AudioListener.volume = 1;
+					AudioManager.CommonRadioChatter(false);
+					AudioManager.RadioChatterVolume(0.2f);
                     Refresh();
                 },
                 "Reset"
