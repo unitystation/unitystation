@@ -56,8 +56,6 @@ namespace Managers
 
 		private static Dictionary<UpdateSound, AddressableAudioSource> updateTypes;
 
-		public HashSet<IDCard> IDCards = new HashSet<IDCard>();
-
 		private void Awake()
 		{
 			updateTypes = new Dictionary<UpdateSound, AddressableAudioSource>
@@ -85,7 +83,6 @@ namespace Managers
 			ChangeAlertLevel(initialAlertLevel, false);
 			StartCoroutine(WaitToPrepareReport());
 			IsLowPop = false;
-			IDCards.Clear();
 			if(CustomNetworkManager.IsServer) StartCoroutine(LowpopCheck());
 		}
 
@@ -173,11 +170,6 @@ namespace Managers
 			MakeAnnouncement(ChatTemplates.CentcomAnnounce,
 				"Due to the shortage of staff on the station; We have granted additional access to all crew members until further notice."
 				, UpdateSound.Announce);
-			IDCards.Remove(null);
-			foreach (var card in IDCards)
-			{
-				card.ReplaceAccessWithLowPopVersion();
-			}
 		}
 
 		/// <summary>

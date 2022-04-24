@@ -72,7 +72,6 @@ public class IDCard : NetworkBehaviour, IServerInventoryMove, IServerSpawn, IInt
 
 	private void Awake()
 	{
-		GameManager.Instance.CentComm.IDCards.Add(this);
 		spriteRenderer = GetComponentInChildren<SpriteRenderer>();
 		pickupable = GetComponent<Pickupable>();
 		itemAttributes = GetComponent<ItemAttributesV2>();
@@ -223,6 +222,10 @@ public class IDCard : NetworkBehaviour, IServerInventoryMove, IServerSpawn, IInt
 	/// <returns></returns>
 	public bool HasAccess(Access access)
 	{
+		if (GameManager.Instance.CentComm.IsLowPop)
+		{
+			return accessSyncList.Contains((int)access) || Occupation.AllowedLowPopAccess.Contains(access);
+		}
 		return accessSyncList.Contains((int) access);
 	}
 
