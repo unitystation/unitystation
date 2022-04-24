@@ -9,6 +9,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using Objects;
 using ScriptableObjects.Audio;
+using Tiles;
 
 public partial class PlayerSync
 {

@@ -18,11 +18,11 @@
 
 		//cent_captain = 11,
 		//cent_creed = 12,
-		//cent_ert = 13,
+		cent_ert = 13,
 		//cent_general = 14,
 		//cent_living = 15,
 		//cent_medical = 16,
-		//cent_specops = 17,
+		cent_specops = 17,
 		//cent_storage = 18,
 		//cent_teleporter = 19,
 		//cent_thunder = 20,

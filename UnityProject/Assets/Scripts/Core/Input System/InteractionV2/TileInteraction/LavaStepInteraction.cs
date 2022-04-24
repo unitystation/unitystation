@@ -2,6 +2,7 @@
 using HealthV2;
 using UnityEngine;
 using Systems.Atmospherics;
+using Tiles;
 
 namespace Systems.Interaction
 {

@@ -8,6 +8,7 @@ using Mirror;
 using NaughtyAttributes;
 using Objects;
 using Util;
+using Tiles;
 
 // ReSharper disable CompareOfFloatsByEqualityOperator
 

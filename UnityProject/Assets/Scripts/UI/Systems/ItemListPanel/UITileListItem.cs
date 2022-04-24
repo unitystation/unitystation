@@ -1,70 +1,74 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
+using Tiles;
 
-public class UITileListItem : MonoBehaviour
+namespace UI
 {
-	public Button button;
-	public Image image;
-
-	private GameObject item;
-	private SpriteRenderer itemSpriteRenderer;
-	public Text text;
-	private LayerTile tile;
-	private Sprite tileSprite;
-
-	public GameObject Item
+	public class UITileListItem : MonoBehaviour
 	{
-		get { return item; }
-		set
+		public Button button;
+		public Image image;
+
+		private GameObject item;
+		private SpriteRenderer itemSpriteRenderer;
+		public Text text;
+		private LayerTile tile;
+		private Sprite tileSprite;
+
+		public GameObject Item
 		{
-			item = value;
-			tile = null;
-			itemSpriteRenderer = value.transform.GetComponentInChildren<SpriteRenderer>(false);
-			image.sprite = itemSpriteRenderer.sprite;
-			tileSprite = null;
-			text.text = value.ExpensiveName();
+			get { return item; }
+			set
+			{
+				item = value;
+				tile = null;
+				itemSpriteRenderer = value.transform.GetComponentInChildren<SpriteRenderer>(false);
+				image.sprite = itemSpriteRenderer.sprite;
+				tileSprite = null;
+				text.text = value.ExpensiveName();
+			}
 		}
-	}
 
-	public LayerTile Tile
-	{
-		get { return tile; }
-		set
+		public LayerTile Tile
 		{
-			item = null;
-			tile = value;
-			itemSpriteRenderer = null;
-			tileSprite = tile?.PreviewSprite;
-			image.sprite = tileSprite;
-			text.text = value?.DisplayName;
+			get { return tile; }
+			set
+			{
+				item = null;
+				tile = value;
+				itemSpriteRenderer = null;
+				tileSprite = tile?.PreviewSprite;
+				image.sprite = tileSprite;
+				text.text = value?.DisplayName;
+			}
 		}
-	}
 
-	private void OnEnable()
-	{
-		UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
-	}
-
-	private void OnDisable()
-	{
-		UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
-	}
-
-	public void UpdateMe()
-	{
-		//Anyone know of a better way to get the "sprite" in the UI to sync with the sprite in game?
-		if (itemSpriteRenderer)
+		private void OnEnable()
 		{
-			image.sprite = itemSpriteRenderer.sprite;
+			UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
 		}
-	}
 
-	public void Button_Item()
-	{
-		//clicking on tile does nothing
-		if (tile && item == null)
+		private void OnDisable()
 		{
-			return;
+			UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
+		}
+
+		public void UpdateMe()
+		{
+			//Anyone know of a better way to get the "sprite" in the UI to sync with the sprite in game?
+			if (itemSpriteRenderer)
+			{
+				image.sprite = itemSpriteRenderer.sprite;
+			}
+		}
+
+		public void Button_Item()
+		{
+			//clicking on tile does nothing
+			if (tile && item == null)
+			{
+				return;
+			}
 		}
 	}
 }

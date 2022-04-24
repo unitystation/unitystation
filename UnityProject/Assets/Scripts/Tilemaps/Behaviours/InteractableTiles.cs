@@ -1,11 +1,14 @@
 ﻿using System.Collections;
-using Mirror;
+using System.Text;
 using System.Linq;
+using UnityEngine;
+using TileManagement;
+using Mirror;
 using HealthV2;
 using Messages.Client.Interaction;
-using TileManagement;
-using UnityEngine;
 using Systems.Electricity;
+using Tiles;
+
 
 /// <summary>
 /// Main entry point for Tile Interaction system.
@@ -212,10 +215,20 @@ public class InteractableTiles : MonoBehaviour, IClientInteractable<PositionalHa
 		{
 			return "Space";
 		}
-		string msg = "This is a " + tile.DisplayName + ".";
-		if (tile is IExaminable) msg += "\n" + (tile as IExaminable).Examine();
 
-		return msg;
+		var desc = (tile.Description ?? string.Empty).Trim();
+		StringBuilder sb = new($"This is a {tile.DisplayName}. {desc}");
+		if (desc != string.Empty && !desc.EndsWith('.') && !desc.EndsWith('!') && !desc.EndsWith('?'))
+		{
+			sb.Append('.');
+		}
+
+		if (tile is IExaminable examinable)
+		{
+			sb.AppendLine(examinable.Examine());
+		}
+
+		return sb.ToString();
 	}
 
 	/// <summary>

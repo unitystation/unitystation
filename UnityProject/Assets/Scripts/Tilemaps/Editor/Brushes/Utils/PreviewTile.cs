@@ -1,8 +1,9 @@
-﻿using UnityEngine;
+﻿using Tiles;
+using UnityEngine;
 using UnityEngine.Tilemaps;
 
 
-	public class PreviewTile : LayerTile
+public class PreviewTile : LayerTile
 	{
 		public GenericTile ReferenceTile;
 
