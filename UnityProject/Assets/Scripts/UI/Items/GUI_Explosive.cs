@@ -155,7 +155,7 @@ namespace UI.Items
 				status.SetValueServer("awaiting signal..");
 				return;
 			}
-			status.SetValueServer(explosiveDevice.IsArmed ? "C4 is armed" : "C4 is unarmed");
+			status.SetValueServer(explosiveDevice.IsArmed ? "Armed" : "Unarmed");
 		}
 
 		public IEnumerator UpdateTimer()

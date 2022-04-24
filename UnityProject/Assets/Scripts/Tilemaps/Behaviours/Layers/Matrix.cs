@@ -403,12 +403,12 @@ public class Matrix : MonoBehaviour
 		return metaTileMap.GetAllTilesByType<Objects.Disposals.DisposalPipe>(position, LayerType.Underfloor);
 	}
 
-	public ElectricalPool.IntrinsicElectronicDataList GetElectricalConnections(Vector3Int position)
+	public ElectricalPool.IntrinsicElectronicDataList GetElectricalConnections(Vector3Int localPosition)
 	{
 		var list = ElectricalPool.GetFPCList();
 		if (ServerObjects != null)
 		{
-			var collection = ServerObjects.Get(position);
+			var collection = ServerObjects.Get(localPosition);
 			for (int i = collection.Count - 1; i >= 0; i--)
 			{
 				if (i < collection.Count && collection[i] != null
@@ -420,9 +420,9 @@ public class Matrix : MonoBehaviour
 			}
 		}
 
-		if (metaDataLayer.Get(position)?.ElectricalData != null)
+		if (metaDataLayer.Get(localPosition)?.ElectricalData != null)
 		{
-			foreach (var electricalMetaData in metaDataLayer.Get(position).ElectricalData)
+			foreach (var electricalMetaData in metaDataLayer.Get(localPosition).ElectricalData)
 			{
 				list.List.Add(electricalMetaData.InData);
 			}
