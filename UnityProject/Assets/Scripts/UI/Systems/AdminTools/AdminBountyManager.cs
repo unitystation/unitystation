@@ -19,6 +19,7 @@ namespace UI.Systems.AdminTools
 		[SerializeField] private TMP_InputField bountyAmount;
 		[SerializeField] private TMP_InputField bountyReward;
 		[SerializeField] private TMP_InputField bountyDesc;
+		[SerializeField] private TMP_InputField budgetInput;
 		[SerializeField] private Toggle bountyAnnoucementToggle;
 		[SerializeField] private TMP_Dropdown itemTraitsForBounties;
 		[SerializeField] private GameObject bountiesList;
@@ -41,6 +42,15 @@ namespace UI.Systems.AdminTools
 			}
 			itemTraitsForBounties.options.Clear();
 			itemTraitsForBounties.AddOptions(traitNames);
+		}
+
+		private void Update()
+		{
+			if(Input.GetKey(KeyCode.KeypadEnter) == false || Input.GetKey(KeyCode.Return) == false) return;
+			if(budgetInput.isFocused == false) return;
+			var newBudget = int.Parse(bountyReward.text);
+			if(newBudget < 0) return;
+			AdminCommandsManager.Instance.CmdChangeBudget(newBudget);
 		}
 
 		private void OnDisable()
