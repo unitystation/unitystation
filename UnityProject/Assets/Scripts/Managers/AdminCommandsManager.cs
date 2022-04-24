@@ -522,6 +522,12 @@ namespace AdminCommands
 			AdminBountyManager.Instance.RefreshBountiesList(data);
 		}
 
+		[TargetRpc]
+		private void TargetUpdateBudgetForClient(NetworkConnection target, int data)
+		{
+			AdminBountyManager.Instance.budgetInput.text = data.ToString();
+		}
+
 		[Command(requiresAuthority = false)]
 		public void CmdRequestCargoServerData(NetworkConnectionToClient sender = null)
 		{
@@ -536,6 +542,7 @@ namespace AdminCommands
 				simpleData.Add(foundBounty);
 			}
 			TargetSendCargoData(sender, simpleData);
+			TargetUpdateBudgetForClient(sender, CargoManager.Instance.Credits);
 		}
 
 		[Command(requiresAuthority = false)]

@@ -20,11 +20,10 @@ namespace UI.Systems.AdminTools
 		private void Update()
 		{
 			//(Max) : Keycode return is ENTER. No idea why it's called like this.
-			if(Input.GetKey(KeyCode.KeypadEnter) == false || Input.GetKey(KeyCode.Return) == false) return;
-			if(bountyReward.isFocused == false) return;
+			if(Input.GetKeyDown(KeyCode.Return) == false) return;
 			var newReward = int.Parse(bountyReward.text);
 			if(newReward < 0) return;
-			AdminCommandsManager.Instance.CmdAdjustBountyRewards(BountyIndex, int.Parse(bountyReward.text));
+			AdminCommandsManager.Instance.CmdAdjustBountyRewards(BountyIndex, newReward);
 		}
 
 		public void RemoveBounty()
