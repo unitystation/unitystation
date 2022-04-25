@@ -62,6 +62,6 @@ jobs:
         with:
           source-directory: 'output'
           destination-github-username: 'unitystation'
-          destination-repository-name: 'unitystation/changelog'
+          destination-repository-name: 'changelog'
           user-email: unitystation@unitystation.org
           target-branch: main
