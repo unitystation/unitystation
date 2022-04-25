@@ -170,6 +170,15 @@ namespace Managers
 			MakeAnnouncement(ChatTemplates.CentcomAnnounce,
 				"Due to the shortage of staff on the station; We have granted additional access to all crew members until further notice."
 				, UpdateSound.Announce);
+
+			var idsSpawned = FindObjectsOfType<IDCard>();
+			foreach (var card in idsSpawned)
+			{
+				foreach (var access in card.Occupation.AllowedLowPopAccess)
+				{
+					card.ServerAddAccess(access);
+				}
+			}
 		}
 
 		/// <summary>
