@@ -1,0 +1,87 @@
+name: Integration testing
+
+on:
+ push:
+  branches:
+   - develop
+  paths:
+   - "Tools/UnityLicense.ulf"
+   - "UnityProject/**"
+   - ".github/workflows/**"
+   - "Docker/**"
+ pull_request:
+  branches:
+   - develop
+  paths:
+   - "Tools/UnityLicense.ulf"
+   - "UnityProject/**"
+   - ".github/workflows/**"
+
+jobs:
+ # Perform unit testing
+ performPlayTest:
+  name: Integration testing on ${{ matrix.unityVersion }}
+  runs-on: ubuntu-latest
+  strategy:
+   fail-fast: false
+   matrix:
+    projectPath:
+     - UnityProject
+    unityVersion:
+     - 2021.3.0f1
+    targetPlatform:
+     - StandaloneWindows64
+
+  steps:
+   # Checkout repository (required to test local actions)
+   - name: Checkout repository
+     uses: actions/checkout@v2
+
+   # Cache the library directory to speed up builds
+   - name: Cache library directory
+     uses: actions/cache@v2
+     with:
+      path: ${{ matrix.projectPath }}/Library
+      key: Library2-${{ matrix.projectPath }}-${{ matrix.targetPlatform }}
+      restore-keys: |
+       Library2-${{ matrix.projectPath }}-${{ matrix.targetPlatform }}
+       Library2-${{ matrix.projectPath }}-
+       Library2-
+
+   # Set the UNITY_LICENSE environment variable with contents of $LICENSE_FILE_PATH
+   - name: Setup license
+     env:
+      LICENSE_FILE_PATH: ./Tools/UnityLicense.ulf
+     run: |
+      echo 'UNITY_LICENSE<<LICENSE-EOF' >> "$GITHUB_ENV"
+      cat "$LICENSE_FILE_PATH" >> "$GITHUB_ENV"
+      printf "\nLICENSE-EOF" >> "$GITHUB_ENV"
+
+   - name: Run Play tests
+     uses: game-ci/unity-test-runner@v2
+     with:
+      projectPath: ${{ matrix.projectPath }}
+      unityVersion: ${{ matrix.unityVersion }}
+      artifactsPath: ./testReports/${{ matrix.targetPlatform }}
+      testMode: playmode
+
+   # Install dotnet
+   - name: Installing dotnet
+     if: always()
+     uses: actions/setup-dotnet@v1.9.1
+     with:
+      dotnet-version: "5.0.405"
+
+   # Do the report magic
+   - name: Generate .html report
+     if: always()
+     run: sudo dotnet ./Tools/ExtentReports/ExtentReportsDotNetCLI.dll -i=testReports/${{ matrix.targetPlatform }}/playmode-results.xml -o testReports/${{ matrix.targetPlatform }}/
+
+   # Upload test results
+   - name: Upload Test Results
+     if: always()
+     uses: actions/upload-artifact@v2
+     with:
+      name: Test results
+      path: ./testReports/${{ matrix.targetPlatform }}
+
