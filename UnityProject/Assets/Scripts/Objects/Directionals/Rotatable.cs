@@ -139,33 +139,7 @@ public class Rotatable : NetworkBehaviour, IMatrixRotation
 
 	public void SetFaceDirectionLocalVictor(Vector2Int direction)
 	{
-		var newDir = OrientationEnum.Down_By180;
-		if (direction == Vector2Int.down)
-		{
-			newDir = OrientationEnum.Down_By180;
-		}
-		else if (direction == Vector2Int.left)
-		{
-			newDir = OrientationEnum.Left_By90;
-		}
-		else if (direction == Vector2Int.up)
-		{
-			newDir = OrientationEnum.Up_By0;
-		}
-		else if (direction == Vector2Int.right)
-		{
-			newDir = OrientationEnum.Right_By270;
-		}
-		else if (direction.y == -1)
-		{
-			newDir = OrientationEnum.Down_By180;
-		}
-		else if (direction.y == 1)
-		{
-			newDir = OrientationEnum.Up_By0;
-		}
-
-		SetDirection(newDir);
+		SetDirection(direction.ToOrientationEnum());
 	}
 
 	public void FaceDirection(OrientationEnum newDir)
@@ -297,7 +271,7 @@ public class Rotatable : NetworkBehaviour, IMatrixRotation
 		public bool Locked;
 		public OrientationEnum LockedTo;
 	}
-	
+
 	public void ResitOthers()
 	{
 		if (doNotResetOtherSpriteOptions) return;

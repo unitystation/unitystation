@@ -34,7 +34,7 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IActi
 	/// </summary>
 	public PlayerHealthV2 playerHealth { get; set; }
 
-	public PlayerMove playerMove { get; set; }
+	public MovementSynchronisation playerMove { get; set; }
 	public PlayerSprites playerSprites { get; set; }
 
 	/// <summary>
@@ -44,7 +44,7 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IActi
 
 	public Rotatable playerDirectional { get; set; }
 
-	public PlayerSync PlayerSync;
+	public MovementSynchronisation PlayerSync;
 
 	public Equipment Equipment { get; private set; }
 
@@ -137,14 +137,14 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IActi
 		weaponNetworkActions = GetComponent<WeaponNetworkActions>();
 		mouseInputController = GetComponent<MouseInputController>();
 		chatIcon = GetComponentInChildren<ChatIcon>(true);
-		playerMove = GetComponent<PlayerMove>();
+		playerMove = GetComponent<MovementSynchronisation>();
 		playerDirectional = GetComponent<Rotatable>();
 		DynamicItemStorage = GetComponent<DynamicItemStorage>();
 		Equipment = GetComponent<Equipment>();
 		Cooldowns = GetComponent<HasCooldowns>();
 		PlayerOnlySyncValues = GetComponent<PlayerOnlySyncValues>();
 		playerCrafting = GetComponent<PlayerCrafting>();
-		PlayerSync = GetComponent<PlayerSync>();
+		PlayerSync = GetComponent<MovementSynchronisation>();
 	}
 
 	public override void OnStartClient()
@@ -209,7 +209,7 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IActi
 				UIManager.Instance.statsTab.window.SetActive(true);
 			}
 
-			IPlayerControllable input = PlayerSync;
+			IPlayerControllable input = GetComponent<IPlayerControllable>();
 
 			if (TryGetComponent<AiMouseInputController>(out var aiMouseInputController))
 			{

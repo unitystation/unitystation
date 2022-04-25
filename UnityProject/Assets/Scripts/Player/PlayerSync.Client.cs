@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public partial class PlayerSync
+public partial class OLDPlayerSync
 {
 	//Client-only fields, don't concern server
 	private DualVector3IntEvent onClientStartMove = new DualVector3IntEvent();
@@ -129,7 +129,7 @@ public partial class PlayerSync
 
 				}
 				//can only move freely if we are grounded or adjacent to another player
-				else if (CanMoveFreely(isGrounded, clientBump) && playerScript.playerMove.IsBuckled == false)
+				else if (CanMoveFreely(isGrounded, clientBump) && playerScript.playerMove.BuckledObject == null)
 				{
 					//move freely
 					pendingActions.Enqueue(action);
@@ -236,24 +236,24 @@ public partial class PlayerSync
 			return;
 		}
 		// Is the object pushable (iterate through all of the objects at the position):
-		List<UniversalObjectPhysics> pushPulls = MatrixManager.GetPushableAt(worldOrigin, direction, gameObject, false, true);
-		for (int i = 0; i < pushPulls.Count; i++)
-		{
-			var potentialPushed = pushPulls[i];
-			if (potentialPushed && potentialPushed.gameObject != gameObject)
-			{
-				// whether or not we actually manage to push it, make sure we aren't pulling it!
-				if (objectPhysics.Pulling.Component == potentialPushed)
-				{
-					objectPhysics.CmdStopPulling();
-				}
-
-				// if player can't reach, player can't push
-				if (MatrixManager.IsPassableAtAllMatrices(worldOrigin, worldTile, isServer: false, includingPlayers: false,
-						context: potentialPushed.gameObject, isReach: true) == false)
-				{
-					continue;
-				}
+		// List<UniversalObjectPhysics> pushPulls = MatrixManager.GetPushableAt(worldOrigin, direction, gameObject, false, true);
+		// for (int i = 0; i < pushPulls.Count; i++)
+		// {
+		// 	var potentialPushed = pushPulls[i];
+		// 	if (potentialPushed && potentialPushed.gameObject != gameObject)
+		// 	{
+		// 		// whether or not we actually manage to push it, make sure we aren't pulling it!
+		// 		if (objectPhysics.Pulling.Component == potentialPushed)
+		// 		{
+		// 			objectPhysics.CmdStopPulling();
+		// 		}
+		//
+		// 		// if player can't reach, player can't push
+		// 		if (MatrixManager.IsPassableAtAllMatrices(worldOrigin, worldTile, isServer: false, includingPlayers: false,
+		// 				context: potentialPushed.gameObject, isReach: true) == false)
+		// 		{
+		// 			continue;
+		// 		}
 
 
 				// // If its movement is blocked, don't push it
@@ -273,8 +273,8 @@ public partial class PlayerSync
 				//
 				// //If we managed to push, stop trying any more
 				// break;
-			}
-		}
+			// }
+		// }
 	}
 	//Predictively pushing this player to target pos
 	public bool PredictivePush(Vector2Int target, float speed = Single.NaN, bool followMode = false)
@@ -653,8 +653,8 @@ public partial class PlayerSync
 
 				//Extending prediction by one tile if player's transform reaches previously set goal
 				//note: position is local, so we must use local impulse to predict the new position
-				Vector3Int newGoal = Vector3Int.RoundToInt(predictedState.LocalPosition + (Vector3)predictedState.LocalImpulse(this));
-				predictedState.LocalPosition = newGoal;
+				// Vector3Int newGoal = Vector3Int.RoundToInt(predictedState.LocalPosition + (Vector3)predictedState.LocalImpulse(this));
+				// predictedState.LocalPosition = newGoal;
 
 				var newPos = predictedState.WorldPosition;
 

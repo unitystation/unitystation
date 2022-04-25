@@ -341,7 +341,7 @@ namespace Objects.Disposals
 				{
 					if (playerScript.registerTile.Matrix.IsPassableAtOneMatrixOneTile(targetObjectLocalPosition, true, context: gameObject))
 					{
-						playerScript.PlayerSync.SetPosition(targetObjectWorldPos);
+						playerScript.PlayerSync.AppearAtWorldPositionServer(targetObjectWorldPos, false);
 					}
 				}
 				else

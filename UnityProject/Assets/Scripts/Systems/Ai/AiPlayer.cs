@@ -370,7 +370,7 @@ namespace Systems.Ai
 
 				//This is to move the player object so we can see the Ai Eye sprite underneath us
 				//TODO for some reason this isnt always working the sprite sometimes stays on the core, or last position
-				playerScript.PlayerSync.SetPosition(cameraLocation.gameObject.WorldPosServer(), true);
+				playerScript.PlayerSync.AppearAtWorldPositionServer(cameraLocation.gameObject.WorldPosServer(), false);
 			}
 			else
 			{

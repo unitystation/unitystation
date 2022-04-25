@@ -40,7 +40,7 @@ namespace Objects
 
 		private bool initialContentsSpawned = false;
 
-		private RegisterTile registerTile;
+		public RegisterTile registerTile;
 		private UniversalObjectPhysics ObjectPhysics;
 
 		/// <summary>
@@ -137,8 +137,6 @@ namespace Objects
 
 				if (obj.TryGetComponent<PlayerScript>(out var playerScript))
 				{
-					playerScript.playerMove.IsTrapped = true;
-
 					// Start tracking container
 					if (playerScript.IsGhost == false)
 					{
@@ -295,43 +293,5 @@ namespace Objects
 
 			return false;
 		}
-	}
-}
-
-public static class ObjectContainerReaderWriter
-{
-	public static ObjectContainer Deserialize(this NetworkReader reader)
-	{
-		var Uint = reader.ReadUInt();
-		if (Uint == NetId.Invalid || Uint == NetId.Empty)
-		{
-			return null;
-		}
-		else
-		{
-			return NetworkIdentity.spawned[Uint].GetComponent<ObjectContainer>();
-		}
-
-	}
-
-	public static void Serialize(this NetworkWriter writer, ObjectContainer message)
-	{
-		if (message == null)
-		{
-			writer.WriteUInt(NetId.Empty);
-			return;
-		}
-
-		var NID = message.GetComponent<NetworkIdentity>();
-		if (NID == null)
-		{
-			Logger.LogError("Does not have NetworkIdentity On " + message.gameObject);
-			writer.WriteUInt(NetId.Invalid);
-		}
-		else
-		{
-			writer.WriteUInt(NID.netId);
-		}
-
 	}
 }

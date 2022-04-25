@@ -15,7 +15,7 @@ namespace Messages.Client
 
 		public override void Process(NetMessage msg)
 		{
-			SentByPlayer.Script.PlayerSync.ProcessAction(msg.Action);
+			//SentByPlayer.Script.PlayerSync.ProcessAction(msg.Action);
 		}
 
 		public static NetMessage Send(PlayerAction action)

@@ -65,23 +65,23 @@ namespace Objects
 		public bool WillInteract(MouseDrop interaction, NetworkSide side)
 		{
 			if (DefaultWillInteract.Default(interaction, side) == false) return false;
-			if (Validations.HasComponent<PlayerMove>(interaction.DroppedObject) == false) return false;
+			if (Validations.HasComponent<MovementSynchronisation>(interaction.DroppedObject) == false) return false;
 
-			var playerMove = interaction.DroppedObject.GetComponent<PlayerMove>();
+			var playerMove = interaction.DroppedObject.GetComponent<MovementSynchronisation>();
 			var registerPlayer = playerMove.GetComponent<RegisterPlayer>();
 			// Determine if a push into the tile would be necessary or insufficient.
 
 			if (allowImpassable == false && IsPushEnough(interaction, side, registerPlayer.PlayerScript, out _, out _) == false) return false;
 
 			//if there are any restrained players already here, we can't restrain another one here
-			if (MatrixManager.GetAt<PlayerMove>(interaction.TargetObject, side)
+			if (MatrixManager.GetAt<MovementSynchronisation>(interaction.TargetObject, side)
 				.Any(pm => pm.IsBuckled))
 			{
 				return false;
 			}
 
 			//can't buckle during movement
-			var playerSync = interaction.DroppedObject.GetComponent<PlayerSync>();
+			var playerSync = interaction.DroppedObject.GetComponent<MovementSynchronisation>();
 			if (playerSync.IsMoving) return false;
 
 			//if the player to buckle is currently downed, we cannot buckle if there is another player on the tile
@@ -93,7 +93,7 @@ namespace Objects
 			//Player to buckle is down,
 			//return false if there are any blocking players on this tile (because if we buckle this player
 			//they would become blocking, and we can't have 2 blocking players on the same tile).
-			return MatrixManager.GetAt<PlayerMove>(interaction.TargetObject, side)
+			return MatrixManager.GetAt<MovementSynchronisation>(interaction.TargetObject, side)
 				.Any(pm => pm != playerMove && pm.GetComponent<RegisterPlayer>().IsBlocking) == false;
 		}
 
@@ -118,11 +118,8 @@ namespace Objects
 		{
 			SoundManager.PlayNetworkedAtPos(CommonSounds.Instance.Click01, gameObject.WorldPosServer(), sourceObj: gameObject);
 
-			playerScript.playerMove.ServerBuckle(this, OnUnbuckle);
+			playerScript.playerMove.BuckleTo(this.GetComponent<UniversalObjectPhysics>());
 
-			//if this is a directional sprite, we render it in front of the player
-			//when they are buckled
-			occupiableDirectionalSprite?.SetOccupant(playerScript.netId);
 		}
 
 		public bool WillInteract(HandApply interaction, NetworkSide side)
@@ -133,7 +130,7 @@ namespace Objects
 			if (interaction.HandObject != null) return false;
 
 			//can only do this if there is a buckled player here
-			return MatrixManager.GetAt<PlayerMove>(interaction.TargetObject, side)
+			return MatrixManager.GetAt<MovementSynchronisation>(interaction.TargetObject, side)
 				.Any(pm => pm.IsBuckled);
 		}
 
@@ -153,7 +150,7 @@ namespace Objects
 			{
 				return;
 			}
-			foreach (var playerMove in MatrixManager.GetAt<PlayerMove>(gameObject, NetworkSide.Server))
+			foreach (var playerMove in MatrixManager.GetAt<MovementSynchronisation>(gameObject, NetworkSide.Server))
 			{
 				if (playerMove.IsBuckled)
 				{

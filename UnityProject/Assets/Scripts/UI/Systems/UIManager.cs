@@ -224,7 +224,7 @@ public class UIManager : MonoBehaviour, IInitialise
 			//update the intent of the player on server so server knows we are swappable or not
 			if (PlayerManager.LocalPlayerScript != null)
 			{
-				PlayerManager.LocalPlayerScript.playerMove.CmdSetHelpIntent(currentIntent == global::Intent.Help);
+				PlayerManager.LocalPlayerScript.playerNetworkActions.CmdSetCurrentIntent(currentIntent);
 			}
 		}
 	}

@@ -15,11 +15,11 @@ namespace HealthV2
 {
 	public class PlayerHealthV2 : LivingHealthMasterBase, RegisterPlayer.IControlPlayerState
 	{
-		private PlayerMove playerMove;
+		private MovementSynchronisation playerMove;
 		/// <summary>
 		/// Controller for sprite direction and walking into objects
 		/// </summary>
-		public PlayerMove PlayerMove => playerMove;
+		public MovementSynchronisation PlayerMove => playerMove;
 
 		private PlayerNetworkActions playerNetworkActions;
 
@@ -50,7 +50,7 @@ namespace HealthV2
 		{
 			base.Awake();
 			playerNetworkActions = GetComponent<PlayerNetworkActions>();
-			playerMove = GetComponent<PlayerMove>();
+			playerMove = GetComponent<MovementSynchronisation>();
 			playerSprites = GetComponent<PlayerSprites>();
 			registerPlayer = GetComponent<RegisterPlayer>();
 			dynamicItemStorage = GetComponent<DynamicItemStorage>();
@@ -66,7 +66,7 @@ namespace HealthV2
 			}
 
 			//we stay upright if buckled or conscious
-			registerPlayer.ServerSetIsStanding(newState == ConsciousState.CONSCIOUS || PlayerMove.IsBuckled);
+			registerPlayer.ServerSetIsStanding(newState == ConsciousState.CONSCIOUS || PlayerMove.BuckledObject != null);
 		}
 
 		public override void Gib()
@@ -78,7 +78,7 @@ namespace HealthV2
 			}
 
 			base.Gib();
-			PlayerMove.PlayerScript.objectPhysics.DisappearFromWorld ();
+			PlayerMove.playerScript.objectPhysics.DisappearFromWorld ();
 			playerNetworkActions.ServerSpawnPlayerGhost();
 		}
 

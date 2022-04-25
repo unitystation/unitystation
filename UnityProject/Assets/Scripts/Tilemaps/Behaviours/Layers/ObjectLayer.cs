@@ -105,6 +105,10 @@ public class ObjectLayer : Layer
 		List<UniversalObjectPhysics> Pushings, List<IBumpableObject> Bumps, ref bool PushObjectSet,
 		ref bool CanPushObjects, List<UniversalObjectPhysics> Hits = null) //True equal return False
 	{
+		if (o.ObjectPhysics.HasComponent == false)
+		{
+			Logger.LogError(o.name + " Is missing UniversalObjectPhysics");
+		}
 		if (PushObjectSet == false)
 		{
 			PushObjectSet = true;
@@ -124,7 +128,11 @@ public class ObjectLayer : Layer
 		if (CanPushObjects)
 		{
 			if (Hits != null) Hits.Add(o.ObjectPhysics.Component);
-			Pushings.Add(o.ObjectPhysics.Component);
+			if (Pushings.Contains(o.ObjectPhysics.Component) == false)
+			{
+				Pushings.Add(o.ObjectPhysics.Component);
+			}
+
 			return false;
 		}
 		else

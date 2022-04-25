@@ -37,7 +37,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 
 	private Equipment equipment = null;
 
-	private PlayerMove playerMove;
+	private MovementSynchronisation playerMove;
 	private PlayerScript playerScript;
 	public DynamicItemStorage itemStorage => playerScript.DynamicItemStorage;
 	public Transform chatBubbleTarget;
@@ -46,7 +46,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 
 	private void Awake()
 	{
-		playerMove = GetComponent<PlayerMove>();
+		playerMove = GetComponent<MovementSynchronisation>();
 		playerScript = GetComponent<PlayerScript>();
 	}
 
@@ -87,6 +87,13 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		equipment.SetReference((int) enumA, Item);
 	}
 
+	[Command]
+	public void CmdSetCurrentIntent(Intent intent)
+	{
+		playerMove.intent = intent;
+	}
+
+
 	/// <summary>
 	/// Server handling of the request to perform a resist action.
 	/// </summary>
@@ -96,7 +103,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		if (!Cooldowns.TryStartServer(playerScript, CommonCooldowns.Instance.Interaction)) return;
 
 		// Handle the movement restricted actions first.
-		if (playerScript.playerMove.IsBuckled)
+		if (playerScript.playerMove.BuckledObject != null)
 		{
 			// Make sure we don't unbuckle if we are currently cuffed.
 			if (!playerScript.playerMove.IsCuffed)
@@ -125,7 +132,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 				}
 			}
 		}
-		else if (playerScript.playerMove.IsTrapped) // Check if trapped.
+		else if (playerScript.playerMove.BuckledObject != null || playerScript.playerMove.ContainedInContainer != null) // Check if trapped.
 		{
 			playerScript.PlayerSync.ServerTryEscapeContainer();
 		}
@@ -509,7 +516,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		{
 			case ConsciousState.CONSCIOUS:
 				playerMove.allowInput = true;
-				playerScript.PlayerSync.SpeedServer = playerMove.RunSpeed;
+				playerMove.TileMoveSpeed = playerMove.RunSpeed;
 				break;
 			case ConsciousState.BARELY_CONSCIOUS:
 				//Drop hand items when unconscious
@@ -518,7 +525,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 					Inventory.ServerDrop(itemSlot);
 				}
 				playerMove.allowInput = true;
-				playerScript.PlayerSync.SpeedServer = playerMove.CrawlSpeed;
+				playerMove.TileMoveSpeed = playerMove.CrawlSpeed;
 				if (oldState == ConsciousState.CONSCIOUS)
 				{
 					//only play the sound if we are falling
@@ -882,7 +889,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	{
 		if (playerScript.IsGhost && Math.Abs(s3.x) <= 20000 && Math.Abs(s3.y) <= 20000)
 		{
-			playerScript.PlayerSync.SetPosition(s3); //server forces position on player
+			playerScript.PlayerSync.AppearAtWorldPositionServer(s3, false); //server forces position on player
 		}
 	}
 

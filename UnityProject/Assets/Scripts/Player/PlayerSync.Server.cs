@@ -10,7 +10,7 @@ using UnityEngine.Events;
 using Objects;
 using ScriptableObjects.Audio;
 
-public partial class PlayerSync
+public partial class OLDPlayerSync
 {
 	//Server-only fields, don't concern clients in any way
 	private DualVector3IntEvent onStartMove = new DualVector3IntEvent();
@@ -524,7 +524,7 @@ public partial class PlayerSync
 				var swapee = MatrixManager.GetAs<RegisterPlayer>(worldTarget, true) as List<RegisterPlayer>;
 				if (swapee != null && swapee.Count > 0)
 				{
-					swapee[0].PlayerScript.PlayerSync.RollbackPosition();
+					// swapee[0].PlayerScript.PlayerSync.RollbackPosition();
 				}
 			}
 		}
@@ -835,16 +835,16 @@ public partial class PlayerSync
 					//Extending prediction by one tile if player's transform reaches previously set goal
 					//note: since this is a local position, the impulse needs to be converted to a local rotation,
 					//hence the multiplication
-					Vector3Int newGoal = Vector3Int.RoundToInt(serverState.LocalPosition + (Vector3)serverState.LocalImpulse(this));
-					Vector3Int intOrigin = Vector3Int.RoundToInt(registerPlayer.WorldPosition + (Vector3)serverState.LocalImpulse(this));
+					// Vector3Int newGoal = Vector3Int.RoundToInt(serverState.LocalPosition + (Vector3)serverState.LocalImpulse(this));
+					// Vector3Int intOrigin = Vector3Int.RoundToInt(registerPlayer.WorldPosition + (Vector3)serverState.LocalImpulse(this));
 
-					if (intOrigin.x > 18000 || intOrigin.x < -18000 || intOrigin.y > 18000 || intOrigin.y < -18000)
-					{
-						Stop();
-						Logger.Log($"Player {transform.name} was forced to stop at {intOrigin}", Category.Movement);
-						return;
-					}
-					serverState.LocalPosition = newGoal;
+					// if (intOrigin.x > 18000 || intOrigin.x < -18000 || intOrigin.y > 18000 || intOrigin.y < -18000)
+					// {
+					// 	Stop();
+					// 	Logger.Log($"Player {transform.name} was forced to stop at {intOrigin}", Category.Movement);
+					// 	return;
+					// }
+					// serverState.LocalPosition = newGoal;
 					ClearQueueServer();
 
 					var newPos = serverState.WorldPosition;
@@ -961,7 +961,7 @@ public partial class PlayerSync
 			{
 				CheckAndDoSwap(targetPos.RoundToInt(), lastDirectionServer * -1, isServer: true);
 
-				FootstepSounds.PlayerFootstepAtPosition(serverLerpState.WorldPosition, this);
+				// FootstepSounds.PlayerFootstepAtPosition(serverLerpState.WorldPosition, this);
 			}
 		}
 		if (TryNotifyPlayers())

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using AddressableReferences;
+using Messages.Server.SoundMessages;
 
 namespace Weapons
 {
@@ -12,6 +13,8 @@ namespace Weapons
 
 		private bool allowRecharge = true;
 		private float rechargeTime = 2.0f;
+
+		public AddressableAudioSource ShootSound;
 
 		public override void OnSpawnServer(SpawnInfo info)
 		{
@@ -51,7 +54,9 @@ namespace Weapons
 			}
 			else
 			{
-				SoundManager.PlayNetworkedAtPos(CommonSounds.Instance.KineticReload, gameObject.AssumedWorldPosServer(), sourceObj: serverHolder);
+				AudioSourceParameters audioSourceParameters = new AudioSourceParameters();
+				audioSourceParameters.Volume = 0.1f;
+				SoundManager.PlayNetworkedAtPos(CommonSounds.Instance.KineticReload, gameObject.AssumedWorldPosServer(),audioSourceParameters,  sourceObj: serverHolder);
 			}
 			allowRecharge = true;
 		}

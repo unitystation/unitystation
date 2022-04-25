@@ -359,7 +359,7 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 		//otherwise all objects should always have upright local rotation
 		var rotation = transform.rotation;
 		//only customNetTransform can have spin rotation
-		bool hadSpinRotation = ObjectPhysics.HasComponent && Quaternion.Angle(transform.localRotation, Quaternion.identity) > 5;
+		bool hadSpinRotation = Quaternion.Angle(transform.localRotation, Quaternion.identity) > 5;
 
 		var newObjectLayer = networkedMatrix.GetComponentInChildren<ObjectLayer>();
 		if (objectLayer != newObjectLayer)

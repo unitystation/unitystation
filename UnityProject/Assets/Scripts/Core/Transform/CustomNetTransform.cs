@@ -883,7 +883,7 @@ public partial class OLDCustomNetTransform : NetworkBehaviour, IPushable
 		if (hasBuckleInteract && buckleInteract.OccupantPlayerScript != null)
 		{
 			//sync position to ensure they buckle to the correct spot
-			buckleInteract.OccupantPlayerScript.PlayerSync.SetPosition(registerTile.WorldPosition);
+			buckleInteract.OccupantPlayerScript.PlayerSync.AppearAtWorldPositionServer(registerTile.WorldPosition);
 			Logger.LogTraceFormat("UpdatedOccupant {0}", Category.Movement, registerTile.WorldPosition);
 		}
 	}

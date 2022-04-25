@@ -21,7 +21,7 @@ namespace Player.Movement
 	///     handles interaction with objects that can
 	///     be walked into it.
 	/// </summary>
-	public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn, IActionGUI, ICheckedInteractable<ContextMenuApply>, RegisterPlayer.IControlPlayerState
+	public class OLDPlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn, IActionGUI, ICheckedInteractable<ContextMenuApply>, RegisterPlayer.IControlPlayerState
 	{
 		public PlayerScript PlayerScript { get; private set; }
 
@@ -451,40 +451,7 @@ namespace Player.Movement
 			}
 
 			// ensure we are in sync with server
-			PlayerScript.OrNull()?.PlayerSync.OrNull()?.RollbackPrediction();
-		}
-
-		private readonly HashSet<IMovementEffect> movementAffects = new HashSet<IMovementEffect>();
-
-		[Server]
-		public void AddModifier( IMovementEffect modifier)
-		{
-			movementAffects.Add(modifier);
-			UpdateSpeeds();
-		}
-
-		[Server]
-		public void RemoveModifier( IMovementEffect modifier)
-		{
-			movementAffects.Remove(modifier);
-			UpdateSpeeds();
-		}
-
-		public void UpdateSpeeds()
-		{
-			float newRunSpeed = 0;
-			float newWalkSpeed = 0;
-			float newCrawlSpeed = 0;
-			foreach (var movementAffect in movementAffects)
-			{
-				newRunSpeed += movementAffect.RunningSpeedModifier;
-				newWalkSpeed += movementAffect.WalkingSpeedModifier;
-				newCrawlSpeed += movementAffect.CrawlingSpeedModifier;
-			}
-
-			RunSpeed = Mathf.Clamp(newRunSpeed, 0, float.MaxValue);
-			WalkSpeed = Mathf.Clamp(newWalkSpeed, 0, float.MaxValue);
-			CrawlSpeed = Mathf.Clamp(newCrawlSpeed, 0, float.MaxValue);
+			PlayerScript.OrNull()?.PlayerSync.OrNull()?.ResetLocationOnClients();
 		}
 
 		private void SyncRunSpeed(float oldSpeed, float newSpeed)

@@ -98,7 +98,7 @@ namespace Objects
 			if (HasOccupant)
 			{
 				var playerMoveAtPosition =
-					MatrixManager.GetAt<PlayerMove>(transform.position.CutToInt(), true)
+					MatrixManager.GetAt<MovementSynchronisation>(transform.position.CutToInt(), true)
 					.FirstOrDefault(pm => pm.IsBuckled);
 
 				if (playerMoveAtPosition != null)

@@ -31,14 +31,14 @@ public class WeaponNetworkActions : NetworkBehaviour
 	private SpriteRenderer spriteRendererSource; // need renderer for shader configuration
 
 	private Vector3 lerpTo;
-	private PlayerMove playerMove;
+	private MovementSynchronisation playerMove;
 	private PlayerScript playerScript;
 	private GameObject spritesObj;
 
 	private void Start()
 	{
 		spritesObj = transform.Find("Sprites").gameObject;
-		playerMove = GetComponent<PlayerMove>();
+		playerMove = GetComponent<MovementSynchronisation>();
 		playerScript = GetComponent<PlayerScript>();
 		spriteRendererSource = null;
 	}

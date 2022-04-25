@@ -13,8 +13,6 @@ GameObject:
   - component: {fileID: 5316147545403001103}
   - component: {fileID: 3553771700973194240}
   - component: {fileID: 4504212478988223552}
-  - component: {fileID: 3920682320074774566}
-  - component: {fileID: 2038932850302980570}
   - component: {fileID: 843330595842111116}
   - component: {fileID: 1176408661413567387}
   - component: {fileID: 1105258743114886135}
@@ -24,6 +22,7 @@ GameObject:
   - component: {fileID: 6663514336625432320}
   - component: {fileID: 3816408273032552164}
   - component: {fileID: 1852173234745760124}
+  - component: {fileID: 4627358022732072967}
   m_Layer: 31
   m_Name: Ghost
   m_TagString: Untagged
@@ -41,6 +40,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 3862673439606775660}
   m_Father: {fileID: 0}
@@ -102,6 +102,7 @@ MonoBehaviour:
   playerName: ' '
   visibleName: ' '
   PlayerSync: {fileID: 0}
+  SyncedWorldPos: {x: 0, y: 0, z: 0}
   RTT: 0
   RcsMode: 0
   RcsMatrixMove: {fileID: 0}
@@ -140,46 +141,6 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   chatBubbleTarget: {fileID: 0}
---- !u!114 &3920682320074774566
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4390267312333422610}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 57ce4d8a508787441857fade34082bd9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  diagonalMovement: 1
-  allowInput: 1
-  IsTrapped: 0
-  actionData: {fileID: 0}
-  moveList: 05000000060000000700000008000000
-  RunSpeed: 10
-  WalkSpeed: 10
-  CrawlSpeed: 0.8
-  PushFallSpeed: 10
---- !u!114 &2038932850302980570
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4390267312333422610}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 18a28f9f9a41257418b09671ebb5c96e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  playerMove: {fileID: 3920682320074774566}
-  playerScript: {fileID: 0}
-  Step: 0
 --- !u!114 &843330595842111116
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -196,7 +157,6 @@ MonoBehaviour:
   syncInterval: 0.1
   matrixDebugLogging: 0
   objectType: 2
-  customNetTransform: {fileID: 0}
   prefabTracker: {fileID: 0}
   CurrentsortingGroup: {fileID: 0}
   networkedLean: {fileID: 0}
@@ -218,6 +178,9 @@ MonoBehaviour:
   ChangeSprites: 1
   isChangingSO: 0
   CurrentDirection: 3
+  IgnoreServerUpdatesIfLocalPlayer: 0
+  IsAtmosphericDevice: 0
+  doNotResetOtherSpriteOptions: 1
 --- !u!114 &1105258743114886135
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -274,8 +237,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62cc3ef7cd9082443aaf3c255851d15a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
 --- !u!114 &6663514336625432320
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -319,8 +280,27 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  netTransform: {fileID: 2038932850302980570}
+  GhostMove: {fileID: 0}
   rotateTransform: {fileID: 3704879063443130025}
+--- !u!114 &4627358022732072967
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4390267312333422610}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: faf282c09194a314cb25f54383703898, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  MoveSpeed: 15
+  Moving: 0
+  registerTile: {fileID: 0}
+  Rotate: {fileID: 0}
+  LocalTargetPosition: {x: 0, y: 0, z: 0}
 --- !u!1 &7320126117105815585
 GameObject:
   m_ObjectHideFlags: 0
@@ -350,6 +330,7 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 4102254142472032470}
   m_RootOrder: 0
@@ -422,6 +403,7 @@ MonoBehaviour:
   SubCatalogue: []
   PresentSpriteSet: {fileID: 11400000, guid: 920c286f89116144f9dc93553e3c8282, type: 2}
   randomInitialSprite: 0
+  doReverseAnimation: 0
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
   palette: []

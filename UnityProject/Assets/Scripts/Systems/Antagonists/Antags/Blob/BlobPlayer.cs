@@ -58,7 +58,7 @@ namespace Blob
 		public int adaptStrainCost = 40;
 		public int rerollStrainsCost = 20;
 
-		private PlayerSync playerSync;
+		private MovementSynchronisation playerSync;
 		private RegisterPlayer registerPlayer;
 		private PlayerScript playerScript;
 		public int numOfTilesForVictory = 400;
@@ -183,7 +183,7 @@ namespace Blob
 		/// </summary>
 		public void BlobStart()
 		{
-			playerSync = GetComponent<PlayerSync>();
+			playerSync = GetComponent<MovementSynchronisation>();
 			registerPlayer = GetComponent<RegisterPlayer>();
 			playerScript = GetComponent<PlayerScript>();
 
@@ -253,7 +253,7 @@ namespace Blob
 
 		private void Awake()
 		{
-			playerSync = GetComponent<PlayerSync>();
+			playerSync = GetComponent<MovementSynchronisation>();
 			registerPlayer = GetComponent<RegisterPlayer>();
 			playerScript = GetComponent<PlayerScript>();
 
@@ -271,7 +271,7 @@ namespace Blob
 			rerollTimer += 1f;
 
 			// Force overmind back to blob if camera moves too far
-			if (!teleportCheck && !victory && !ValidateAction(playerSync.ServerPosition, true) && blobCore != null)
+			if (!teleportCheck && !victory && !ValidateAction(playerSync.registerTile.WorldPosition, true) && blobCore != null)
 			{
 				teleportCheck = true;
 
@@ -366,7 +366,7 @@ namespace Blob
 
 			yield return WaitFor.Seconds(1f);
 
-			if (ValidateAction(playerSync.ServerPosition, true))
+			if (ValidateAction(playerSync.registerTile.WorldPosition, true))
 			{
 				teleportCheck = false;
 				yield break;
@@ -386,7 +386,7 @@ namespace Blob
 		{
 			if(blobCore == null) return;
 
-			playerSync.SetPosition(blobCore.location);
+			playerSync.AppearAtWorldPositionServer(blobCore.location);
 		}
 
 		[Command]
@@ -401,7 +401,7 @@ namespace Blob
 
 			var vector = float.PositiveInfinity;
 
-			var pos = playerSync.ServerPosition;
+			var pos = playerSync.registerTile.WorldPosition;
 
 			//Find closet node
 			foreach (var blobStructure in nodeBlobs)
@@ -420,11 +420,11 @@ namespace Blob
 				//Blob is dead :(
 				if(blobCore == null) return;
 
-				playerSync.SetPosition(blobCore.location);
+				playerSync.AppearAtWorldPositionServer(blobCore.location);
 				return;
 			}
 
-			playerSync.SetPosition(node.WorldPosServer());
+			playerSync.AppearAtWorldPositionServer(node.WorldPosServer());
 		}
 
 		#endregion
@@ -567,7 +567,7 @@ namespace Blob
 			//standing on (or around since validation checks adjacent)
 			if (!clickCoords)
 			{
-				worldPos = playerSync.ServerPosition;
+				worldPos = playerSync.registerTile.WorldPosition;
 			}
 
 			//Whether player has toggled always remove on in the UI

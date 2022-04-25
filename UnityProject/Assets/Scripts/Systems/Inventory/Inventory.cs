@@ -388,7 +388,7 @@ public static class Inventory
 				return true;
 			}
 
-			var holderPlayer = holder?.GetComponent<PlayerSync>();
+			var holderPlayer = holder.OrNull()?.GetComponent<UniversalObjectPhysics>();
 			var uop = pickupable.GetComponent<UniversalObjectPhysics>();
 			var holderPosition = holder?.gameObject.AssumedWorldPosServer();
 			Vector3 targetWorldPos = holderPosition.GetValueOrDefault(Vector3.zero) + (Vector3)toPerform.WorldTargetVector.GetValueOrDefault(Vector2.zero);
@@ -396,7 +396,7 @@ public static class Inventory
 			{
 				// dropping from player
 				// Inertia drop works only if player has external impulse (space floating etc.)
-				uop.DropAtAndInheritMomentum(holderPlayer.GetComponent<UniversalObjectPhysics>());
+				uop.DropAtAndInheritMomentum(holderPlayer);
 			}
 			else
 			{

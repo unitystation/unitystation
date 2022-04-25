@@ -179,7 +179,7 @@ public class RegisterPlayer : RegisterTile, IServerSpawn, RegisterPlayer.IContro
 			{
 				spriteRenderer.sortingLayerName = "Bodies";
 			}
-			playerScript.PlayerSync.SpeedServer = playerScript.playerMove.CrawlSpeed;
+			playerScript.PlayerSync.TileMoveSpeed = playerScript.playerMove.CrawlSpeed;
 			//lock current direction
 			playerDirectional.LockDirectionTo(true, playerDirectional.CurrentDirection );
 		}
@@ -192,7 +192,7 @@ public class RegisterPlayer : RegisterTile, IServerSpawn, RegisterPlayer.IContro
 				spriteRenderer.sortingLayerName = "Players";
 			}
 			playerDirectional.LockDirectionTo(false, playerDirectional.CurrentDirection );
-			playerScript.PlayerSync.SpeedServer = playerScript.playerMove.RunSpeed;
+			playerScript.PlayerSync.TileMoveSpeed = playerScript.playerMove.RunSpeed;
 		}
 	}
 
@@ -256,7 +256,7 @@ public class RegisterPlayer : RegisterTile, IServerSpawn, RegisterPlayer.IContro
 		// Don't slip while the players hunger state is Strarving
 		// Don't slip if you got no legs (HealthV2)
 		if (IsSlippingServer
-			|| !slipWhileWalking && playerScript.PlayerSync.SpeedServer <= playerScript.playerMove.WalkSpeed
+			|| !slipWhileWalking && playerScript.PlayerSync.TileMoveSpeed <= playerScript.playerMove.WalkSpeed
             || isLayingDown
 			|| playerScript.playerHealth.IsCrit
 			|| playerScript.playerHealth.IsSoftCrit

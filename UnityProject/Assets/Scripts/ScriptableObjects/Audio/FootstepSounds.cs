@@ -22,7 +22,7 @@ namespace ScriptableObjects.Audio
 		}
 
 		public static void PlayerFootstepAtPosition(Vector3 worldPos,
-			PlayerSync playerSync)
+			MovementSynchronisation playerSync)
 		{
 			if (playerSync.playerScript.registerTile.IsLayingDown == false)
 			{
@@ -46,7 +46,7 @@ namespace ScriptableObjects.Audio
 
 		}
 
-		private static StepType GetFootStepType(PlayerSync playerSync)
+		private static StepType GetFootStepType(MovementSynchronisation playerSync)
 		{
 			foreach (var itemSlot in playerSync.playerScript.Equipment.ItemStorage.GetNamedItemSlots(NamedSlot.feet))
 			{

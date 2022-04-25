@@ -33,7 +33,7 @@ namespace Objects
 		{
 			//start with the default HandApply WillInteract logic.
 			if (!DefaultWillInteract.Default(interaction, side)) return false;
-			
+
 			//only care about interactions targeting us
 			if (interaction.TargetObject != gameObject) return false;
 			//only try to interact if the user has a wrench, screwdriver in their hand
@@ -44,7 +44,7 @@ namespace Objects
 
 		public void ServerPerformInteraction(HandApply interaction)
 		{
-			if (MatrixManager.GetAt<PlayerMove>(interaction.TargetObject, NetworkSide.Server)
+			if (MatrixManager.GetAt<MovementSynchronisation>(interaction.TargetObject, NetworkSide.Server)
 					.Any(pm => pm.IsBuckled))
 			{
 				Chat.AddExamineMsgFromServer(interaction.Performer, $"You cannot deconstruct this while it is occupied!");

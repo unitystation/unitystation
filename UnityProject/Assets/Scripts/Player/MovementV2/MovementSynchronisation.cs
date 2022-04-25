@@ -1,14 +1,19 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using HealthV2;
 using Items;
+using Messages.Client.Interaction;
 using Mirror;
 using Objects;
+using Player.Movement;
+using UI.Action;
 using UnityEngine;
 
-public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllable, ICooldown, IBumpableObject
+public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllable, ICooldown, IBumpableObject,
+	IActionGUI, ICheckedInteractable<ContextMenuApply>, IRightClickable
 {
-
 	public PlayerScript playerScript;
 
 
@@ -18,6 +23,311 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 
 	public float DefaultTime { get; } = 0.5f;
 
+	public bool Step = false;
+
+
+	[NonSerialized] public bool allowInput = true; //Should be synchvar far
+
+	public Intent intent; //TODO Cleanup in mind rework
+
+	//TODO foots Steps
+	//TODO move IsCuffed to PlayerOnlySyncValues maybe?
+
+	/// <summary>
+	/// Invoked on server side when the cuffed state is changed
+	/// </summary>
+	[NonSerialized] public CuffEvent OnCuffChangeServer = new CuffEvent();
+
+	[field: SyncVar(hook = nameof(SyncCuffed))]
+	public bool IsCuffed { get; private set; }
+
+	public bool IsTrapped => IsCuffed || ContainedInContainer != null;
+
+	// netid of the game object we are buckled to, NetId.Empty if not buckled
+	[SyncVar(hook = nameof(SyncBuckledObject))]
+	private UniversalObjectPhysics buckledObject = null;
+
+	public UniversalObjectPhysics BuckledObject => buckledObject;
+
+	public bool IsBuckled => buckledObject != null;
+
+	//[SyncVar(hook = nameof(SyncRunSpeed))]
+	public float RunSpeed;
+
+	//[SyncVar(hook = nameof(SyncWalkSpeed))]
+	public float WalkSpeed;
+
+	//[SyncVar(hook = nameof(SyncCrawlingSpeed))]
+	public float CrawlSpeed;
+
+	public ActionData actionData;
+	ActionData IActionGUI.ActionData => actionData;
+
+	public bool IsBumping = false;
+
+	public void CallActionClient()
+	{
+		CmdUnbuckle();
+	}
+
+
+	[Command]
+	public void CmdUnbuckle()
+	{
+		if (IsCuffed)
+		{
+			if (CanUnBuckleSelf())
+			{
+				Chat.AddActionMsgToChat(
+					playerScript.gameObject,
+					"You're trying to unbuckle yourself from the chair! (this will take some time...)",
+					playerScript.name + " is trying to unbuckle themself from the chair!"
+				);
+				StandardProgressAction.Create(
+					new StandardProgressActionConfig(StandardProgressActionType.Unbuckle),
+					Unbuckle
+				).ServerStartProgress(
+					buckledObject.registerTile,
+					buckledObject.GetComponent<BuckleInteract>().ResistTime,
+					playerScript.gameObject
+				);
+			}
+		}
+		else
+		{
+			Unbuckle();
+		}
+	}
+
+	private bool CanUnBuckleSelf()
+	{
+		PlayerHealthV2 playerHealth = playerScript.playerHealth;
+
+		return !(playerHealth == null ||
+		         playerHealth.ConsciousState == ConsciousState.DEAD ||
+		         playerHealth.ConsciousState == ConsciousState.UNCONSCIOUS ||
+		         playerHealth.ConsciousState == ConsciousState.BARELY_CONSCIOUS);
+	}
+
+	/// <summary>
+	/// Server side logic for unbuckling a player
+	/// </summary>
+	[Server]
+	public void Unbuckle()
+	{
+		buckledObject = null;
+	}
+
+	/// <summary>
+	/// Server side logic for buckling a player
+	/// </summary>
+	[Server]
+	public void BuckleTo(UniversalObjectPhysics newBuckledTo)
+	{
+		buckledObject = newBuckledTo;
+	}
+
+	[Server]
+	public void ServerTryEscapeContainer()
+	{
+		if (ContainedInContainer != null)
+		{
+			GameObject parentContainer = ContainedInContainer.gameObject;
+
+			foreach (var escapable in parentContainer.GetComponents<IEscapable>())
+			{
+				escapable.EntityTryEscape(gameObject, null);
+			}
+		}
+		else if (buckledObject != null)
+		{
+			CmdUnbuckle();
+		}
+	}
+
+	#region Cuffing
+
+	/// <summary>
+	/// Anything with PlayerMove can be cuffed and uncuffed. Might make sense to seperate that into its own behaviour
+	/// </summary>
+	/// <returns>The menu including the uncuff action if applicable, otherwise null</returns>
+	public RightClickableResult GenerateRightClickOptions()
+	{
+		var result = RightClickableResult.Create();
+
+		if (!WillInteract(ContextMenuApply.ByLocalPlayer(gameObject, "Uncuff"), NetworkSide.Client)) return result;
+
+		return result.AddElement("Uncuff", OnUncuffClicked);
+	}
+
+	/// <summary>
+	/// Used for the right click action, sends a message requesting uncuffing
+	/// </summary>
+	public void OnUncuffClicked()
+	{
+		RequestInteractMessage.Send(ContextMenuApply.ByLocalPlayer(gameObject, "Uncuff"), this);
+	}
+
+	/// <summary>
+	/// Determines if the interaction request for uncuffing is valid clientside and if true, then serverside
+	/// </summary>
+	public bool WillInteract(ContextMenuApply interaction, NetworkSide side)
+	{
+		return DefaultWillInteract.Default(interaction, side) && IsCuffed;
+	}
+
+	/// <summary>
+	/// Handles the interaction request for uncuffing serverside
+	/// </summary>
+	public void ServerPerformInteraction(ContextMenuApply interaction)
+	{
+		TryUnCuff(interaction.TargetObject, interaction.Performer);
+	}
+
+	public void TryUnCuff(GameObject targetObject, GameObject performer)
+	{
+		var handcuffSlots = targetObject.GetComponent<DynamicItemStorage>().OrNull()
+			?.GetNamedItemSlots(NamedSlot.handcuffs)
+			.Where(x => x.IsEmpty == false).ToList();
+
+		if (handcuffSlots == null) return;
+
+		//Somehow has no cuffs but has cuffed effect, force uncuff
+		if (handcuffSlots.Count == 0)
+		{
+			Uncuff();
+			return;
+		}
+
+		foreach (var handcuffSlot in handcuffSlots)
+		{
+			var restraint = handcuffSlot.Item.GetComponent<Restraint>();
+			if (restraint == null) continue;
+
+			var progressConfig = new StandardProgressActionConfig(StandardProgressActionType.Uncuff);
+			StandardProgressAction.Create(progressConfig, Uncuff)
+				.ServerStartProgress(targetObject.RegisterTile(),
+					restraint.RemoveTime * (handcuffSlots.Count / 2f), performer);
+
+			//Only need to do it once
+			break;
+		}
+	}
+
+	/// <summary>
+	/// Request a ContextMenuApply interaction if you have not done your own validation.
+	/// Calling this clientside will break your client.
+	/// </summary>
+	[Server]
+	public void Uncuff()
+	{
+		SyncCuffed(IsCuffed, false);
+		foreach (var itemSlot in playerScript.DynamicItemStorage.GetNamedItemSlots(NamedSlot.handcuffs))
+		{
+			Inventory.ServerDrop(itemSlot);
+		}
+	}
+
+
+	[Server]
+	public void Cuff(HandApply interaction)
+	{
+		SyncCuffed(IsCuffed, true);
+
+		var targetStorage = interaction.TargetObject.GetComponent<DynamicItemStorage>();
+
+		//transfer cuffs to the special cuff slot
+
+		foreach (var handcuffSlot in targetStorage.GetNamedItemSlots(NamedSlot.handcuffs))
+		{
+			Inventory.ServerTransfer(interaction.HandSlot, handcuffSlot);
+			break;
+		}
+
+		//drop hand items
+		foreach (var itemSlot in targetStorage.GetNamedItemSlots(NamedSlot.leftHand))
+		{
+			Inventory.ServerDrop(itemSlot);
+		}
+
+		foreach (var itemSlot in targetStorage.GetNamedItemSlots(NamedSlot.rightHand))
+		{
+			Inventory.ServerDrop(itemSlot);
+		}
+	}
+
+
+	private void PlayerUIHandCuffToggle(bool HideState)
+	{
+		if (HideState)
+		{
+			HandsController.Instance.HideHands(HiddenHandValue.bothHands);
+		}
+		else
+		{
+			HandsController.Instance.HideHands(HiddenHandValue.none);
+		}
+	}
+
+	private void SyncCuffed(bool wasCuffed, bool cuffed)
+	{
+		var oldCuffed = this.IsCuffed;
+		this.IsCuffed = cuffed;
+
+		if (isServer)
+		{
+			OnCuffChangeServer.Invoke(oldCuffed, this.IsCuffed);
+		}
+
+		if (this.gameObject == PlayerManager.LocalPlayer)
+		{
+			PlayerUIHandCuffToggle(this.IsCuffed);
+		}
+	}
+
+	#endregion Cuffing
+
+	// syncvar hook invoked client side when the buckledTo changes
+	private void SyncBuckledObject(UniversalObjectPhysics oldBuckledTo, UniversalObjectPhysics newBuckledTo)
+	{
+		// unsub if we are subbed
+		if (oldBuckledTo != null)
+		{
+			var directionalObject = oldBuckledTo.GetComponent<Rotatable>();
+			if (directionalObject != null)
+			{
+				directionalObject.OnRotationChange.RemoveListener(OnBuckledObjectDirectionChange);
+			}
+		}
+
+		if (PlayerManager.LocalPlayer == gameObject)
+		{
+			UIActionManager.ToggleLocal(this, newBuckledTo != null);
+		}
+
+		buckledObject = newBuckledTo;
+		// sub
+		if (buckledObject != null)
+		{
+			var directionalObject = buckledObject.GetComponent<Rotatable>();
+			if (directionalObject != null)
+			{
+				directionalObject.OnRotationChange.AddListener(OnBuckledObjectDirectionChange);
+			}
+		}
+	}
+
+	private void OnBuckledObjectDirectionChange(OrientationEnum newDir)
+	{
+		if (rotatable == null)
+		{
+			rotatable = gameObject.GetComponent<Rotatable>();
+		}
+
+		rotatable.FaceDirection(newDir);
+	}
+
+
 	public override void Awake()
 	{
 		playerScript = GetComponent<PlayerScript>();
@@ -26,9 +336,61 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 
 	public void Update()
 	{
-		ServerCheckQueueingAndMove();
+		if (isServer)
+		{
+			ServerCheckQueueingAndMove();
+		}
+
 		if (isLocalPlayer == false) return;
-		PlayerManager.SetMovementControllable(this);
+		bool inputDetected = KeyboardInputManager.IsMovementPressed(KeyboardInputManager.KeyEventType.Hold);
+		if (inputDetected != IsPressedCashed)
+		{
+			IsPressedCashed = inputDetected;
+			CMDPressedMovementKey(inputDetected);
+		}
+	}
+
+	public bool IsPressedCashed;
+	public bool IsPressedServer;
+
+	[Command]
+	public void CMDPressedMovementKey(bool IsPressed)
+	{
+		IsPressedServer = IsPressed;
+	}
+
+
+	private readonly HashSet<IMovementEffect> movementAffects = new HashSet<IMovementEffect>();
+
+	[Server]
+	public void AddModifier(IMovementEffect modifier)
+	{
+		movementAffects.Add(modifier);
+		UpdateSpeeds();
+	}
+
+	[Server]
+	public void RemoveModifier(IMovementEffect modifier)
+	{
+		movementAffects.Remove(modifier);
+		UpdateSpeeds();
+	}
+
+	public void UpdateSpeeds()
+	{
+		float newRunSpeed = 0;
+		float newWalkSpeed = 0;
+		float newCrawlSpeed = 0;
+		foreach (var movementAffect in movementAffects)
+		{
+			newRunSpeed += movementAffect.RunningSpeedModifier;
+			newWalkSpeed += movementAffect.WalkingSpeedModifier;
+			newCrawlSpeed += movementAffect.CrawlingSpeedModifier;
+		}
+
+		RunSpeed = Mathf.Clamp(newRunSpeed, 0, float.MaxValue);
+		WalkSpeed = Mathf.Clamp(newWalkSpeed, 0, float.MaxValue);
+		CrawlSpeed = Mathf.Clamp(newCrawlSpeed, 0, float.MaxValue);
 	}
 
 	public override void OnEnable()
@@ -58,12 +420,22 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 	public void OnBump(GameObject bumpedBy)
 	{
 		Pushing.Clear();
-		if (bumpedBy.TryGetComponent<MovementSynchronisation>(out var move))
+		if (intent == Intent.Help)
 		{
-			var PushVector = (bumpedBy.transform.position - this.transform.position).RoundToInt().To2Int();
-			ForceTilePush(PushVector, Pushing, false, move.TileMoveSpeed);
-			PushVector *= -1;
-			move.ForceTilePush(PushVector, Pushing, false, move.TileMoveSpeed);
+			if (bumpedBy.TryGetComponent<MovementSynchronisation>(out var move))
+			{
+				if (move.intent == Intent.Help)
+				{
+					var PushVector = (bumpedBy.transform.position - this.transform.position).RoundToInt().To2Int();
+					ForceTilePush(PushVector, Pushing, false, move.TileMoveSpeed);
+
+					if (move.IsBumping)
+					{
+						PushVector *= -1;
+						move.ForceTilePush(PushVector, Pushing, false, move.TileMoveSpeed);
+					}
+				}
+			}
 		}
 	}
 
@@ -209,13 +581,13 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 			}
 			else
 			{
-				if ((transform.localPosition - Entry.LocalPosition).magnitude > 0.5f) //Resets play location if too far away
+				if ((transform.localPosition - Entry.LocalPosition).magnitude >
+				    0.5f) //Resets play location if too far away
 				{
 					ResetLocationOnClients();
 					MoveQueue.Clear();
 				}
 			}
-
 
 
 			if (CanInPutMove())
@@ -309,13 +681,37 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 				{
 					var move = NewMoveData.GlobalMoveDirection.TVectoro();
 					move.Normalize();
-					PhysicsObject.TryTilePush((move * -1).RoundToInt().To2Int(),false ,TileMoveSpeed); //TODO SPEED!
+					PhysicsObject.TryTilePush((move * -1).RoundToInt().To2Int(), false, TileMoveSpeed); //TODO SPEED!
 				}
 				//Pushes off object for example pushing the object the other way
 			}
 
+
+			if (intent == Intent.Help)
+			{
+				UniversalObjectPhysics Toremove = null;
+				foreach (var PushPull in PushPulls)
+				{
+					var Player = PushPull as MovementSynchronisation;
+					if (Player != null)
+					{
+						if (Player.intent == Intent.Help)
+						{
+							Toremove = PushPull;
+							Player.OnBump(this.gameObject);
+						}
+					}
+				}
+
+				if (Toremove != null)
+				{
+					PushPulls.Remove(Toremove);
+				}
+			}
+
 			//move
-			ForceTilePush(NewMoveData.GlobalMoveDirection.TVectoro().To2Int(), PushPulls, ByClient, IsWalk : true); //TODO Speed
+			ForceTilePush(NewMoveData.GlobalMoveDirection.TVectoro().To2Int(), PushPulls, ByClient,
+				IsWalk: true); //TODO Speed
 
 			SetMatrixCash.ResetNewPosition(registerTile.WorldPosition); //Resets the cash
 
@@ -325,21 +721,11 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 				//slip //TODO
 			}
 
-
-			if (IsNotFloating(null, out _) == false || CausesSlipClient) //check if floating
-			{
-				// var move = NewMoveData.GlobalMoveDirection.TVectoro();
-				// move.Normalize();
-				// newtonianMovement += move * TileMoveSpeed;
-				// if (isServer)
-				// 	UpdateClientMomentum(transform.localPosition, newtonianMovement, airTime, slideTime,
-				// 		registerTile.Matrix.Id);
-			}
-
 			return true;
 		}
 		else
 		{
+			IsBumping = true;
 			bool BumpedSomething = false;
 			if (Cooldowns.TryStart(playerScript, this, NetworkSide.Server))
 			{
@@ -350,6 +736,7 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 				}
 			}
 
+			IsBumping = false;
 
 			return BumpedSomething;
 		}
@@ -358,6 +745,9 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 	public bool CanInPutMove()
 		//False for in machine/Buckled, No gravity/Nothing to push off, Is slipping, Is being thrown, Is incapacitated
 	{
+		//TODO if Hidden Can't move
+		//TODO allowInput
+		//TODO buckledObject
 		return true;
 	}
 
@@ -370,16 +760,19 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 		//Space movement, normal movement ( Calling running and walking part of this )
 
 	{
-		bool Obstruction = true;
-		bool Floating = true;
-		if (IsNotFloating(moveAction, out PushesOff))
+		if (buckledObject == null)
 		{
-			Floating = false;
-			//Need to check for Obstructions
-			if (IsNotObstructed(moveAction, WillPushObjects, Bumps))
+			bool Obstruction = true;
+			bool Floating = true;
+			if (IsNotFloating(moveAction, out PushesOff))
 			{
-				CausesSlipClient = DoesSlip(moveAction, out slippedOn);
-				return true;
+				Floating = false;
+				//Need to check for Obstructions
+				if (IsNotObstructed(moveAction, WillPushObjects, Bumps))
+				{
+					CausesSlipClient = DoesSlip(moveAction, out slippedOn);
+					return true;
+				}
 			}
 		}
 

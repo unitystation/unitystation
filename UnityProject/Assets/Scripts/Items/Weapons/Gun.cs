@@ -706,7 +706,7 @@ namespace Weapons
 				QueuedShot nextShot = queuedShots.Dequeue();
 
 				// check if we can still shoot
-				PlayerMove shooter = nextShot.shooter.GetComponent<PlayerMove>();
+				MovementSynchronisation shooter = nextShot.shooter.GetComponent<MovementSynchronisation>();
 				PlayerScript shooterScript = nextShot.shooter.GetComponent<PlayerScript>();
 				if (!shooter.allowInput || shooterScript.IsGhost)
 				{

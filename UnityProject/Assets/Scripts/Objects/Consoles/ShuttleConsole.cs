@@ -130,7 +130,7 @@ namespace Objects.Shuttles
 				if(playerScript && playerScript != PlayerManager.LocalPlayerScript)
 				{
 					ShuttleRcsMessage.SendTo(this, newState, playerScript.connectedPlayer);
-					playerScript.PlayerSync.RollbackPosition();
+					playerScript.PlayerSync.ResetLocationOnClients();
 				}
 			}
 		}

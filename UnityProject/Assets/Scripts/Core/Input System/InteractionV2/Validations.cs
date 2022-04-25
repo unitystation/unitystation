@@ -271,11 +271,6 @@ public static class Validations
 					worldPosition = uop.transform.position;
 					isFloating = uop.IsCurrentlyFloating;
 				}
-				else if (target.TryGetComponent(out PlayerSync playerSync))
-				{
-					worldPosition = playerSync.ServerState.WorldPosition;
-					isFloating = playerSync.IsWeightlessServer;
-				}
 			}
 
 			Logger.LogTraceFormat($"Not in reach! Target: {targetName} server pos:{worldPosition} "+

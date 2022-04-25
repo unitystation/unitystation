@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using HealthV2;
 using Items;
@@ -7,10 +6,8 @@ using Messages.Server.SoundMessages;
 using Mirror;
 using Objects;
 using Objects.Construction;
-using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.Events;
-using UnityEngine.Serialization;
 using Util;
 using Random = UnityEngine.Random;
 
@@ -19,7 +16,6 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 	//TODO Push objects being Reset our client
 	//TODO Tile push to clients if in pulling conga line?
 
-	//TODO if new pulling cancel old Pulling target
 	//TODO Do more testing/Polishing with pulling in space with client/serverDo more testing/Polishing with pulling in space with client/server
 	//TODO PulledBy isn't getting synchronised to client properly on start
 
@@ -29,7 +25,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 	//TODO check Conveyor belts with player movement, Conveyor belts a bit buggy but good
 
 
-	//TODO delay when opening doors
+	//TODO Combine buckling and object storage Sometime
 
 	public const float DEFAULT_PUSH_SPEED = 6;
 
@@ -48,7 +44,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 
 	public BoxCollider2D Collider; //TODO Checked component
 
-	public float TileMoveSpeed = 1;
+
 
 	public float TileMoveSpeedOverride = 0;
 
@@ -56,6 +52,8 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 
 	public Vector3 LocalTargetPosition;
 
+
+	public Rotatable rotatable;
 
 	public Vector3 SetLocalTarget
 	{
@@ -69,6 +67,9 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 	}
 
 	public bool IsVisible => isVisible;
+
+	[SyncVar(hook = nameof(SyncMovementSpeed))]
+	public float TileMoveSpeed = 1;
 
 	[SyncVar(hook = nameof(SyncLocalTarget))]
 	public Vector3 SynchLocalTargetPosition;
@@ -88,9 +89,36 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 	public PullData ThisPullData;
 
 	[SyncVar(hook = nameof(SynchroniseParent))]
-	private ObjectContainer parentContainer = null;
+	private uint parentContainer;
 
-	public ObjectContainer ContainedInContainer => parentContainer;
+
+	public ObjectContainer CashedContainedInContainer;
+	public ObjectContainer ContainedInContainer
+	{
+		get
+		{
+			if (parentContainer is NetId.Invalid or NetId.Empty)
+			{
+				return null;
+			}
+			else
+			{
+				if (CashedContainedInContainer == null)
+				{
+					CashedContainedInContainer = NetworkIdentity.spawned[parentContainer].GetComponent<ObjectContainer>();
+				}
+				else
+				{
+					if (CashedContainedInContainer.registerTile.netId != parentContainer)
+					{
+						CashedContainedInContainer = NetworkIdentity.spawned[parentContainer].GetComponent<ObjectContainer>();
+					}
+				}
+
+				return CashedContainedInContainer;
+			}
+		}
+	}
 
 	public Vector2 newtonianMovement; //* attributes.Size -> weight
 
@@ -147,6 +175,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 			"HiddenWalls", "Objects");
 		attributes = GetComponent<Attributes>();
 		registerTile = GetComponent<RegisterTile>();
+		rotatable = GetComponent<Rotatable>();
 		SetLocalTarget = transform.localPosition;
 	}
 
@@ -189,13 +218,18 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 	}
 
 
+	private void SyncMovementSpeed(float old, float Newmove)
+	{
+		TileMoveSpeed = Newmove;
+	}
+
+
 	private void SyncLocalTarget(Vector3 OLDLocalTarget, Vector3 NewLocalTarget)
 	{
 		if (isServer) return;
 		if (LocalTargetPosition == NewLocalTarget) return;
 		if (isLocalPlayer || PulledBy.HasComponent) return;
 		LocalTargetPosition = NewLocalTarget;
-		Logger.LogError(" new position for " + transform.name);
 		if (IsFlyingSliding)
 		{
 			IsFlyingSliding = false;
@@ -213,7 +247,16 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 	{
 		if (NewParent == this) return; //Storing something inside of itself what?
 
-		parentContainer = NewParent;
+		if (NewParent == null)
+		{
+			parentContainer = NetId.Empty;
+		}
+		else
+		{
+			parentContainer = NewParent.registerTile.netId;
+		}
+
+		CashedContainedInContainer = NewParent;
 		if (NewParent == null)
 		{
 			SynchroniseVisibility(isVisible, true);
@@ -306,7 +349,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 		}
 	}
 
-	private void SynchroniseParent(ObjectContainer Old, ObjectContainer NewPulling)
+	private void SynchroniseParent(uint Old, uint NewPulling)
 	{
 		parentContainer = NewPulling;
 		//Visibility is handled by Server with Synchronised var
@@ -482,8 +525,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 		return true;
 	}
 
-	public bool
-		CanPush(Vector2Int WorldDirection) //NOTE: It's presumed that If true one time the rest universal physics objects will return true to , manually checks for isNotPushable
+	public bool CanPush(Vector2Int WorldDirection) //NOTE: It's presumed that If true one time the rest universal physics objects will return true to , manually checks for isNotPushable
 	{
 		if (isNotPushable) return false;
 
@@ -519,6 +561,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 	public void ForceTilePush(Vector2Int WorldDirection, List<UniversalObjectPhysics> InPushing, bool ByClient,
 		float speed = Single.NaN, bool IsWalk = false) //PushPull TODO Change to physics object
 	{
+		doNotApplyMomentumOnTarget = false;
 		if (float.IsNaN(speed))
 		{
 			speed = TileMoveSpeed;
@@ -678,8 +721,17 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 
 	public void PullSet(UniversalObjectPhysics ToPull)
 	{
+
+
+
 		if (ToPull != null)
 		{
+			if (Pulling.HasComponent)
+			{
+				Pulling.Component.PulledBy.SetToNull();
+				Pulling.SetToNull();
+				ContextGameObjects[1] = null;
+			}
 			Pulling.DirectSetComponent(ToPull);
 			ToPull.PulledBy.DirectSetComponent(this);
 			ContextGameObjects[1] = ToPull.gameObject;
@@ -769,6 +821,8 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 		{
 			return; //Animation handled by FlyingUpdateMe
 		}
+
+		if (this == null) UpdateManager.Remove(CallbackType.UPDATE, AnimationUpdateMe);
 
 		if (name == "DEBUG")
 		{
@@ -877,6 +931,8 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 	public void FlyingUpdateMe()
 	{
 		IsFlyingSliding = true;
+
+		if (this == null) UpdateManager.Remove(CallbackType.UPDATE, FlyingUpdateMe);
 
 		if (name == "DEBUG")
 		{

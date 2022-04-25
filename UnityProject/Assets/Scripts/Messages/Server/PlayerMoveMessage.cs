@@ -32,22 +32,22 @@ namespace Messages.Server
 			}
 
 			Logger.LogTraceFormat("Processed {1}'s state: {0}", Category.Movement, this, NetworkObject.name);
-			var playerSync = NetworkObject.GetComponent<PlayerSync>();
-			playerSync.UpdateClientState(msg.State);
-
-			if ( NetworkObject == PlayerManager.LocalPlayer ) {
-				if (msg.State.ResetClientQueue)
-				{
-					playerSync.ClearQueueClient();
-					playerSync.RollbackPrediction();
-				}
-				if (msg.State.MoveNumber == 0 ) {
-					playerSync.ClearQueueClient();
-					playerSync.RollbackPrediction();
-				}
-
-				ControlTabs.CheckTabClose();
-			}
+			// var playerSync = NetworkObject.GetComponent<PlayerSync>();
+			// playerSync.UpdateClientState(msg.State);
+			//
+			// if ( NetworkObject == PlayerManager.LocalPlayer ) {
+			// 	if (msg.State.ResetClientQueue)
+			// 	{
+			// 		playerSync.ClearQueueClient();
+			// 		playerSync.RollbackPrediction();
+			// 	}
+			// 	if (msg.State.MoveNumber == 0 ) {
+			// 		playerSync.ClearQueueClient();
+			// 		playerSync.RollbackPrediction();
+			// 	}
+			//
+			// 	ControlTabs.CheckTabClose();
+			// }
 		}
 
 		public static NetMessage Send(NetworkConnection recipient, GameObject subjectPlayer, PlayerState state)

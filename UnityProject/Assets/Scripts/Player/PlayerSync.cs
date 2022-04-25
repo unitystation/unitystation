@@ -6,7 +6,7 @@ using Messages.Client.NewPlayer;
 using Objects;
 using Player.Movement;
 
-public partial class PlayerSync : NetworkBehaviour, IPushable, IPlayerControllable
+public partial class OLDPlayerSync : NetworkBehaviour, IPushable, IPlayerControllable
 {
 	public bool VisibleState {
 		get => ServerPosition != TransformState.HiddenPos;
@@ -47,7 +47,7 @@ public partial class PlayerSync : NetworkBehaviour, IPushable, IPlayerControllab
 	/// </summary>
 	public bool IsMoving => isServer ? IsMovingServer : IsMovingClient;
 
-	public PlayerMove playerMove;
+	public OLDPlayerMove playerMove;
 	public PlayerScript playerScript;
 	private Rotatable playerDirectional;
 
@@ -179,42 +179,42 @@ public partial class PlayerSync : NetworkBehaviour, IPushable, IPlayerControllab
 		//better diagonal movement logic without cutting corners)
 		Vector2Int dir1 = new Vector2Int(facingUpDown ? direction.x : 0, facingUpDown ? 0 : direction.y);
 		Vector2Int dir2 = new Vector2Int(facingUpDown ? 0 : direction.x, facingUpDown ? direction.y : 0);
-		BumpType bump1 = MatrixManager.GetBumpTypeAt(state.WorldPosition.RoundToInt(), dir1, playerMove, isServer, MatrixAtOrigin);
-		BumpType bump2 = MatrixManager.GetBumpTypeAt(state.WorldPosition.RoundToInt(), dir2, playerMove, isServer, MatrixAtOrigin);
+		// BumpType bump1 = MatrixManager.GetBumpTypeAt(state.WorldPosition.RoundToInt(), dir1, playerMove, isServer, MatrixAtOrigin);
+		// BumpType bump2 = MatrixManager.GetBumpTypeAt(state.WorldPosition.RoundToInt(), dir2, playerMove, isServer, MatrixAtOrigin);
 
 		MoveAction? newAction = null;
 		BumpType? newBump = null;
 
-		if (bump1 == BumpType.None || bump1 == BumpType.Swappable)
-		{
-			newAction = PlayerAction.GetMoveAction(dir1);
-			newBump = bump1;
-		}
-		else if (bump2 == BumpType.None || bump2 == BumpType.Swappable)
-		{
-			newAction = PlayerAction.GetMoveAction(dir2);
-			newBump = bump2;
-		}
-		else if (bump1 == BumpType.Push)
-		{
-			newAction = PlayerAction.GetMoveAction(dir1);
-			newBump = bump1;
-		}
-		else if (bump2 == BumpType.Push)
-		{
-			newAction = PlayerAction.GetMoveAction(dir2);
-			newBump = bump2;
-		}
-		else if (bump1 == BumpType.ClosedDoor)
-		{
-			newAction = PlayerAction.GetMoveAction(dir1);
-			newBump = bump1;
-		}
-		else if (bump2 == BumpType.ClosedDoor)
-		{
-			newAction = PlayerAction.GetMoveAction(dir2);
-			newBump = bump2;
-		}
+		// if (bump1 == BumpType.None || bump1 == BumpType.Swappable)
+		// {
+		// 	newAction = PlayerAction.GetMoveAction(dir1);
+		// 	newBump = bump1;
+		// }
+		// else if (bump2 == BumpType.None || bump2 == BumpType.Swappable)
+		// {
+		// 	newAction = PlayerAction.GetMoveAction(dir2);
+		// 	newBump = bump2;
+		// }
+		// else if (bump1 == BumpType.Push)
+		// {
+		// 	newAction = PlayerAction.GetMoveAction(dir1);
+		// 	newBump = bump1;
+		// }
+		// else if (bump2 == BumpType.Push)
+		// {
+		// 	newAction = PlayerAction.GetMoveAction(dir2);
+		// 	newBump = bump2;
+		// }
+		// else if (bump1 == BumpType.ClosedDoor)
+		// {
+		// 	newAction = PlayerAction.GetMoveAction(dir1);
+		// 	newBump = bump1;
+		// }
+		// else if (bump2 == BumpType.ClosedDoor)
+		// {
+		// 	newAction = PlayerAction.GetMoveAction(dir2);
+		// 	newBump = bump2;
+		// }
 
 		if (newAction.HasValue)
 		{
@@ -237,50 +237,50 @@ public partial class PlayerSync : NetworkBehaviour, IPushable, IPlayerControllab
 	/// <returns>the type of bump that occurs at the final destination (after sliding has been attempted)</returns>
 	private BumpType CheckSlideAndBump(PlayerState playerState, bool isServer, ref PlayerAction playerAction)
 	{
-		//bump never happens if we are a ghost
-		if (playerScript.IsGhost)
-		{
-			return BumpType.None;
-		}
-
-		var MatrixAtPointOrigin = MatrixManager.AtPoint(playerState.WorldPosition.RoundToInt(), isServer);
-
-		BumpType bump = MatrixManager.GetBumpTypeAt(playerState, playerAction, playerMove, isServer, MatrixAtPointOrigin);
-		//on diagonal movement, don't allow cutting corners or pushing (check x and y tile passability)
-		var dir = playerAction.Direction();
-		if (dir.x != 0 && dir.y != 0)
-		{
-			if (bump == BumpType.Push)
-			{
-				bump = BumpType.Blocked;
-			}
-
-			var xBump = MatrixManager.GetBumpTypeAt(playerState.WorldPosition.RoundToInt(), new Vector2Int(dir.x, 0),
-				playerMove, isServer, MatrixAtPointOrigin);
-			var yBump = MatrixManager.GetBumpTypeAt(playerState.WorldPosition.RoundToInt(), new Vector2Int(0, dir.y),
-				playerMove, isServer, MatrixAtPointOrigin);
-
-			//opening doors diagonally is allowed only if x or y are blocked (assumes we are sliding along a
-			//wall and we hit a door).
-			//if both are open, then we will instead slide to one of the open spaces.
-			//This gives better behavior on opening side by side doors while sliding on a wall
-			if ((xBump == BumpType.Blocked || yBump == BumpType.Blocked) && bump != BumpType.ClosedDoor)
-			{
-				bump = BumpType.Blocked;
-			}
-			else if (xBump != BumpType.Blocked && yBump != BumpType.Blocked && bump == BumpType.ClosedDoor)
-			{
-				bump = BumpType.Blocked;
-			}
-		}
-
-		// if movement is blocked, try to slide
-		if (bump == BumpType.Blocked)
-		{
-			return TrySlide(playerState, isServer, ref playerAction, MatrixAtPointOrigin) ?? bump;
-		}
-
-		return bump;
+		// //bump never happens if we are a ghost
+		// if (playerScript.IsGhost)
+		// {
+		// 	return BumpType.None;
+		// }
+		//
+		// var MatrixAtPointOrigin = MatrixManager.AtPoint(playerState.WorldPosition.RoundToInt(), isServer);
+		//
+		// BumpType bump = MatrixManager.GetBumpTypeAt(playerState, playerAction, playerMove, isServer, MatrixAtPointOrigin);
+		// //on diagonal movement, don't allow cutting corners or pushing (check x and y tile passability)
+		// var dir = playerAction.Direction();
+		// if (dir.x != 0 && dir.y != 0)
+		// {
+		// 	if (bump == BumpType.Push)
+		// 	{
+		// 		bump = BumpType.Blocked;
+		// 	}
+		//
+		// 	var xBump = MatrixManager.GetBumpTypeAt(playerState.WorldPosition.RoundToInt(), new Vector2Int(dir.x, 0),
+		// 		playerMove, isServer, MatrixAtPointOrigin);
+		// 	var yBump = MatrixManager.GetBumpTypeAt(playerState.WorldPosition.RoundToInt(), new Vector2Int(0, dir.y),
+		// 		playerMove, isServer, MatrixAtPointOrigin);
+		//
+		// 	//opening doors diagonally is allowed only if x or y are blocked (assumes we are sliding along a
+		// 	//wall and we hit a door).
+		// 	//if both are open, then we will instead slide to one of the open spaces.
+		// 	//This gives better behavior on opening side by side doors while sliding on a wall
+		// 	if ((xBump == BumpType.Blocked || yBump == BumpType.Blocked) && bump != BumpType.ClosedDoor)
+		// 	{
+		// 		bump = BumpType.Blocked;
+		// 	}
+		// 	else if (xBump != BumpType.Blocked && yBump != BumpType.Blocked && bump == BumpType.ClosedDoor)
+		// 	{
+		// 		bump = BumpType.Blocked;
+		// 	}
+		// }
+		//
+		// // if movement is blocked, try to slide
+		// if (bump == BumpType.Blocked)
+		// {
+		// 	return TrySlide(playerState, isServer, ref playerAction, MatrixAtPointOrigin) ?? bump;
+		// }
+		//
+		return BumpType.Blocked;
 	}
 
 
@@ -367,18 +367,18 @@ public partial class PlayerSync : NetworkBehaviour, IPushable, IPlayerControllab
 	/// <returns>true iff swap was performed</returns>
 	private bool CheckAndDoSwap(Vector3Int targetWorldPos, Vector2 inDirection, bool isServer)
 	{
-		PlayerMove other = MatrixManager.GetSwappableAt(targetWorldPos, gameObject, isServer);
-		if (other != null)
-		{
-			// on server, must verify that position matches
-			if ((isServer && !other.PlayerScript.PlayerSync.IsMovingServer)
-			    || (!isServer && !other.PlayerScript.PlayerSync.IsMovingClient))
-			{
-				//they've stopped there, so let's swap them
-				InitiateSwap(other, targetWorldPos + inDirection.RoundToInt());
-				return true;
-			}
-		}
+		// PlayerMove other = MatrixManager.GetSwappableAt(targetWorldPos, gameObject, isServer);
+		// if (other != null)
+		// {
+		// 	// on server, must verify that position matches
+		// 	if ((isServer && !other.PlayerScript.PlayerSync.IsMovingServer)
+		// 	    || (!isServer && !other.PlayerScript.PlayerSync.IsMovingClient))
+		// 	{
+		// 		//they've stopped there, so let's swap them
+		// 		InitiateSwap(other, targetWorldPos + inDirection.RoundToInt());
+		// 		return true;
+		// 	}
+		// }
 
 		return false;
 	}
@@ -424,10 +424,10 @@ public partial class PlayerSync : NetworkBehaviour, IPushable, IPlayerControllab
 	/// </summary>
 	/// <param name="swapee">player we will swap</param>
 	/// <param name="toWorldPosition">destination to swap to</param>
-	private void InitiateSwap(PlayerMove swapee, Vector3Int toWorldPosition)
-	{
-		swapee.PlayerScript.PlayerSync.BeSwapped(toWorldPosition, objectPhysics);
-	}
+	// private void InitiateSwap(PlayerMove swapee, Vector3Int toWorldPosition)
+	// {
+	// 	swapee.PlayerScript.PlayerSync.BeSwapped(toWorldPosition, objectPhysics);
+	// }
 
 	#endregion
 

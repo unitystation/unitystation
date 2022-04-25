@@ -22,7 +22,7 @@ namespace Objects
 				return false;
 			}
 
-			if (MatrixManager.GetAt<PlayerMove>(interaction.TargetObject, side)
+			if (MatrixManager.GetAt<MovementSynchronisation>(interaction.TargetObject, side)
 				.Any(pm => pm.IsBuckled))
 			{
 				return false;

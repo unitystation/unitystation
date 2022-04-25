@@ -770,11 +770,11 @@ public class OLDPushPull : NetworkBehaviour/*, IServerSpawn*/
 			//Moves players buckled to the pushed object
 			if (gameObject.GetComponent<BuckleInteract>() != null)
 			{
-				foreach (var playerMove in MatrixManager.GetAt<PlayerMove>(gameObject, NetworkSide.Server))
+				foreach (var playerMove in MatrixManager.GetAt<MovementSynchronisation>(gameObject, NetworkSide.Server))
 				{
-					if (playerMove.IsBuckled)
+					if (playerMove.BuckledObject != null)
 					{
-						playerMove.PlayerScript.PlayerSync.SetPosition(target);
+						playerMove.AppearAtWorldPositionServer(target);
 						break;
 					}
 				}

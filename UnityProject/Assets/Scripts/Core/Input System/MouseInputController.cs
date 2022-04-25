@@ -48,7 +48,7 @@ public class MouseInputController : MonoBehaviour
 		new Dictionary<Vector2, Tuple<Color, float>>();
 
 	private readonly List<Vector2> touchesToDitch = new List<Vector2>();
-	private PlayerMove playerMove;
+	private MovementSynchronisation playerMove;
 	private Rotatable playerDirectional;
 
 	/// reference to the global lighting system, used to check occlusion
@@ -101,7 +101,7 @@ public class MouseInputController : MonoBehaviour
 	{
 		//for changing direction on click
 		playerDirectional = gameObject.GetComponent<Rotatable>();
-		playerMove = GetComponent<PlayerMove>();
+		playerMove = GetComponent<MovementSynchronisation>();
 		lightingSystem = Camera.main.GetComponent<LightingSystem>();
 	}
 
@@ -247,7 +247,7 @@ public class MouseInputController : MonoBehaviour
 
 			// If the topObject has a PlayerMove, we check if he is buckled
 			// The PushPull object we want in this case, is the chair/object on which he is buckled to
-			if (topObject.TryGetComponent<PlayerMove>(out var playerMove) && playerMove.IsBuckled)
+			if (topObject.TryGetComponent<MovementSynchronisation>(out var playerMove) && playerMove.BuckledObject != null)
 			{
 				pushPull = playerMove.BuckledObject.GetComponent<UniversalObjectPhysics>();
 			}
@@ -651,10 +651,22 @@ public class MouseInputController : MonoBehaviour
 
 		Vector2 dir = (MouseWorldPosition - playerPos).normalized;
 
-		if (!EventSystem.current.IsPointerOverGameObject() && playerMove.allowInput && !playerMove.IsBuckled )
+		if (playerMove != null)
 		{
-			playerDirectional.SetFaceDirectionLocalVictor(dir.To2Int());
+			if (!EventSystem.current.IsPointerOverGameObject() && playerMove.allowInput && playerMove.BuckledObject == null )
+			{
+				playerDirectional.SetFaceDirectionLocalVictor(dir.To2Int());
+			}
 		}
+		else
+		{
+			if (!EventSystem.current.IsPointerOverGameObject())
+			{
+				playerDirectional.SetFaceDirectionLocalVictor(dir.To2Int());
+			}
+		}
+
+
 	}
 
 	#region Cursor Textures

@@ -307,4 +307,35 @@ public static class ConverterExtensions
 	}
 
 
+	public static OrientationEnum ToOrientationEnum(this Vector2Int direction)
+	{
+		if (direction == Vector2Int.down)
+		{
+			return OrientationEnum.Down_By180;
+		}
+		else if (direction == Vector2Int.left)
+		{
+			return OrientationEnum.Left_By90;
+		}
+		else if (direction == Vector2Int.up)
+		{
+			return OrientationEnum.Up_By0;
+		}
+		else if (direction == Vector2Int.right)
+		{
+			return OrientationEnum.Right_By270;
+		}
+		else if (direction.y == -1)
+		{
+			return OrientationEnum.Down_By180;
+		}
+		else if (direction.y == 1)
+		{
+			return OrientationEnum.Up_By0;
+		}
+
+		return OrientationEnum.Down_By180;
+	}
+
+
 }
