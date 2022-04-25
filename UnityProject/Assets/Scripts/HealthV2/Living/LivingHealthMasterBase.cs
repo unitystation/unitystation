@@ -1411,6 +1411,22 @@ namespace HealthV2
 			yield return WaitFor.Seconds(painScreamCooldown);
 			canScream = true;
 		}
+
+		public void EnableFastRegen()
+		{
+			if(CustomNetworkManager.IsServer == false) return;
+			UpdateManager.Add(FastRegen, tickRate);
+		}
+
+		private void FastRegen()
+		{
+			playerScript.registerTile.ServerRemoveStun();
+			if(OverallHealth > 50) return;
+			foreach (var part in BodyPartList)
+			{
+				part.HealDamage(null, 6, DamageType.Brute);
+			}
+		}
 	}
 
 	/// <summary>

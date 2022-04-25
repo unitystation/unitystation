@@ -9,7 +9,7 @@ namespace Systems.Antagonists
 
 		public override void AfterSpawn(ConnectedPlayer player)
 		{
-
+			player.Script.playerHealth.EnableFastRegen();
 		}
 	}
 }
