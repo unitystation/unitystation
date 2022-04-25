@@ -60,7 +60,7 @@ jobs:
         env:
           API_TOKEN_GITHUB: ${{ secrets.API_TOKEN_GITHUB }}
         with:
-          source-directory: 'output'
+          source-directory: 'output/changelod.md'
           destination-github-username: 'unitystation'
           destination-repository-name: 'changelog'
           user-email: unitystation@unitystation.org
