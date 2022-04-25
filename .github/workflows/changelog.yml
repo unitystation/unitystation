@@ -61,7 +61,7 @@ jobs:
           API_TOKEN_GITHUB: ${{ secrets.API_TOKEN_GITHUB }}
         with:
           source-directory: 'output'
-          destination-github-username: 'US13-BOT'
+          destination-github-username: 'unitystation'
           destination-repository-name: 'changelog'
           user-email: unitystation@unitystation.org
           target-branch: main
