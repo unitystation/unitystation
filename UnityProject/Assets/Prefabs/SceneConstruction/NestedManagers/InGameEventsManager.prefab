@@ -372,6 +372,60 @@ MonoBehaviour:
   - {fileID: 8818221027602392145, guid: 8a3e59523b330ee4c97b0dfb14fdb5d7, type: 3}
   mobCount: {x: 5, y: 10}
   rareMobChance: 5
+--- !u!1 &2278905489614366051
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2110485772938674}
+  - component: {fileID: 6886710165829155076}
+  m_Layer: 0
+  m_Name: Highlander
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2110485772938674
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2278905489614366051}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 739026179657658727}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6886710165829155076
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2278905489614366051}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8aafa47584a545058ed21aa7cc39caae, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  EventName: Highlander
+  StartTimer: 0
+  EndTimer: 0
+  EventType: 3
+  ChanceToHappen: 5
+  MinPlayersToTrigger: 0
+  parametersPageType: 0
+  FakeEvent: 0
+  AnnounceEvent: 1
+  highlanderAntag: {fileID: 11400000, guid: 0f19f9b747ac2ee499c57e02517aed37, type: 2}
 --- !u!1 &2330691836870820202
 GameObject:
   m_ObjectHideFlags: 0
@@ -692,6 +746,7 @@ Transform:
   - {fileID: 1986124767922438636}
   - {fileID: 3219844687204394920}
   - {fileID: 4276429877836597935}
+  - {fileID: 2110485772938674}
   m_Father: {fileID: 8934140032923375002}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

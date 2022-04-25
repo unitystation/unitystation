@@ -10,6 +10,7 @@ namespace Systems.Antagonists
 		public override void AfterSpawn(ConnectedPlayer player)
 		{
 			player.Script.playerHealth.EnableFastRegen();
+			player.Script.characterSettings.Speech = Speech.Scotsman;
 		}
 	}
 }
