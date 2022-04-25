@@ -509,10 +509,23 @@ namespace AdminCommands
 			CargoManager.Instance.ActiveBounties.Remove(CargoManager.Instance.ActiveBounties[index]);
 		}
 
+		[Command(requiresAuthority = false)]
+		public void CmdAdjustBountyRewards(int index, int newReward, NetworkConnectionToClient sender = null)
+		{
+			if (IsAdmin(sender, out var admin) == false) return;
+			CargoManager.Instance.ActiveBounties[index].Reward = newReward;
+		}
+
 		[TargetRpc]
 		private void TargetSendCargoData(NetworkConnection target, List<CargoManager.BountySyncData> data)
 		{
 			AdminBountyManager.Instance.RefreshBountiesList(data);
+		}
+
+		[TargetRpc]
+		private void TargetUpdateBudgetForClient(NetworkConnection target, int data)
+		{
+			AdminBountyManager.Instance.budgetInput.text = data.ToString();
 		}
 
 		[Command(requiresAuthority = false)]
@@ -529,6 +542,7 @@ namespace AdminCommands
 				simpleData.Add(foundBounty);
 			}
 			TargetSendCargoData(sender, simpleData);
+			TargetUpdateBudgetForClient(sender, CargoManager.Instance.Credits);
 		}
 
 		[Command(requiresAuthority = false)]
@@ -536,6 +550,13 @@ namespace AdminCommands
 		{
 			if (IsAdmin(sender, out var admin) == false) return;
 			CargoManager.Instance.AddBounty(trait, amount, description, reward, announce);
+		}
+
+		[Command(requiresAuthority = false)]
+		public void CmdChangeBudget(int budget, NetworkConnectionToClient sender = null)
+		{
+			if (IsAdmin(sender, out var admin) == false) return;
+			CargoManager.Instance.Credits = budget;
 		}
 
 		#endregion
