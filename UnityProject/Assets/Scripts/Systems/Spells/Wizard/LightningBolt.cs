@@ -178,8 +178,6 @@ namespace Systems.Spells.Wizard
 			Collider2D[] entities = Physics2D.OverlapCircleAll(point, radius, mask);
 			foreach (Collider2D coll in entities)
 			{
-				Debug.Log(coll.gameObject.name);
-
 				if (ignored != null && ignored.Contains(coll.gameObject)) continue;
 
 				if (RaycastToTarget(point, coll.transform.position).ItHit == false)
