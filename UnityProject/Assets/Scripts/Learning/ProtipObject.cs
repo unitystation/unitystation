@@ -43,11 +43,11 @@ namespace Learning
 			StartCoroutine(Cooldown());
 		}
 
-		public void TriggerTip(ProtipSO protipSo)
+		public void TriggerTip(ProtipSO protipSo, bool ignoreSaveTriggerState = true)
 		{
 			if(TriggerConditions() == false) return;
 			ProtipManager.Instance.ShowTip(protipSo.TipData.Tip, protipSo.TipData.ShowDuration, protipSo.TipData.TipIcon, protipSo.TipData.ShowAnimation);
-			if (triggerOnce)
+			if (triggerOnce && ignoreSaveTriggerState == false)
 			{
 				PlayerPrefs.SetString($"{gameObject.GetComponent<PrefabTracker>().ForeverID}/{saveID.ToString()}", "true");
 				PlayerPrefs.Save();
