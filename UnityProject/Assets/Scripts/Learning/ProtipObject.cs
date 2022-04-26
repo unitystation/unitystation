@@ -23,6 +23,7 @@ namespace Learning
 
 		protected virtual bool TriggerConditions()
 		{
+			if (isOnCooldown) return false;
 			if (hasBeenTriggeredBefore) return false;
 			if (ProtipManager.Instance.PlayerExperienceLevel < TipSO.TipData.MinimumExperienceLevelToTrigger) return false;
 			return true;
@@ -32,6 +33,20 @@ namespace Learning
 		{
 			if(TriggerConditions() == false) return;
 			ProtipManager.Instance.ShowTip(TipSO.TipData.Tip, TipSO.TipData.ShowDuration, TipSO.TipData.TipIcon, TipSO.TipData.ShowAnimation);
+			if (triggerOnce)
+			{
+				PlayerPrefs.SetString($"{gameObject.GetComponent<PrefabTracker>().ForeverID}/{saveID.ToString()}", "true");
+				PlayerPrefs.Save();
+				return;
+			}
+
+			StartCoroutine(Cooldown());
+		}
+
+		public void TriggerTip(ProtipSO protipSo)
+		{
+			if(TriggerConditions() == false) return;
+			ProtipManager.Instance.ShowTip(protipSo.TipData.Tip, protipSo.TipData.ShowDuration, protipSo.TipData.TipIcon, protipSo.TipData.ShowAnimation);
 			if (triggerOnce)
 			{
 				PlayerPrefs.SetString($"{gameObject.GetComponent<PrefabTracker>().ForeverID}/{saveID.ToString()}", "true");
