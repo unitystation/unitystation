@@ -17,7 +17,7 @@ namespace Learning
 
 		[SerializeField]
 		private bool showEvenAfterDeath = false;
-		
+
 		[SerializeField, HideIf(nameof(triggerOnce)), Tooltip("Will not appear again after a while to not annoy the player with it")]
 		private float tipCooldown = 200f;
 
