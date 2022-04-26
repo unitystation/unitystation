@@ -31,7 +31,7 @@ namespace Learning
 			foreach (var tipSO in ProtipManager.Instance.RecordedProtips)
 			{
 				var newEntry = Instantiate(entryToSpawn, entryList);
-				newEntry.GetComponent<ProtipListEntry>();
+				newEntry.GetComponent<ProtipListEntry>().Setup(tipSO);
 			}
 		}
 	}
