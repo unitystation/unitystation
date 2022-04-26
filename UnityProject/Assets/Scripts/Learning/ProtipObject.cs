@@ -8,7 +8,7 @@ namespace Learning
 {
 	public class ProtipObject : MonoBehaviour
 	{
-		public Protip Tip;
+		public ProtipSO TipSO;
 		[SerializeField] private int saveID;
 		[SerializeField] private bool triggerOnce = true;
 		[SerializeField, ShowIf(nameof(triggerOnce))] private bool hasBeenTriggeredBefore = false;
@@ -18,20 +18,20 @@ namespace Learning
 		private void Awake()
 		{
 			var saved = PlayerPrefs.GetString($"{gameObject.GetComponent<PrefabTracker>().ForeverID}/{saveID.ToString()}");
-			if(saved == "true") Destroy(this);
+			if(saved == "true" || TipSO == null) Destroy(this);
 		}
 
 		protected virtual bool TriggerConditions()
 		{
 			if (hasBeenTriggeredBefore) return false;
-			if (ProtipManager.Instance.PlayerExperienceLevel < Tip.MinimumExperienceLevelToTrigger) return false;
+			if (ProtipManager.Instance.PlayerExperienceLevel < TipSO.TipData.MinimumExperienceLevelToTrigger) return false;
 			return true;
 		}
 
 		public void TriggerTip()
 		{
 			if(TriggerConditions() == false) return;
-			ProtipManager.Instance.ShowTip(Tip.Tip, Tip.ShowDuration, Tip.TipIcon, Tip.ShowAnimation);
+			ProtipManager.Instance.ShowTip(TipSO.TipData.Tip, TipSO.TipData.ShowDuration, TipSO.TipData.TipIcon, TipSO.TipData.ShowAnimation);
 			if (triggerOnce)
 			{
 				PlayerPrefs.SetString($"{gameObject.GetComponent<PrefabTracker>().ForeverID}/{saveID.ToString()}", "true");
