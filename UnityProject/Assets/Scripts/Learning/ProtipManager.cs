@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Learning
@@ -6,6 +7,7 @@ namespace Learning
 	{
 		public ProtipUI UI;
 		public ExperienceLevel PlayerExperienceLevel;
+		public List<ProtipSO> RecordedProtips;
 
 		public enum ExperienceLevel
 		{
