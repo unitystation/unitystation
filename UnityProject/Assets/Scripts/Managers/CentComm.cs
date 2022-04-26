@@ -164,7 +164,7 @@ namespace Managers
 
 		private IEnumerator LowpopCheck()
 		{
-			yield return WaitFor.Seconds(Application.isEditor ? 60 : 300);
+			yield return WaitFor.Seconds(Application.isEditor ? 30 : gameManager.LowPopCheckTimeAfterRoundStart);
 			if(PlayerList.Instance.GetAlivePlayers().Count > gameManager.LowPopLimit) yield break;
 			IsLowPop = true;
 			MakeAnnouncement(ChatTemplates.CentcomAnnounce,
@@ -174,6 +174,7 @@ namespace Managers
 			var idsSpawned = FindObjectsOfType<IDCard>();
 			foreach (var card in idsSpawned)
 			{
+				if(card.Occupation == null) continue;
 				foreach (var access in card.Occupation.AllowedLowPopAccess)
 				{
 					card.ServerAddAccess(access);

@@ -154,6 +154,8 @@ public partial class GameManager : MonoBehaviour, IInitialise
 	[NonSerialized] public int errorCounter;
 	[NonSerialized] public int uniqueErrorCounter;
 
+	public int LowPopCheckTimeAfterRoundStart = 300;
+
 	void IInitialise.Initialise()
 	{
 		// Set up server defaults, needs to be loaded here to ensure gameConfigManager is load.
@@ -205,6 +207,7 @@ public partial class GameManager : MonoBehaviour, IInitialise
 		ServerShutsDownOnRoundEnd = GameConfigManager.GameConfig.ServerShutsDownOnRoundEnd;
 		PlayerLimit = GameConfigManager.GameConfig.PlayerLimit;
 		LowPopLimit = GameConfigManager.GameConfig.LowPopLimit;
+		LowPopCheckTimeAfterRoundStart = GameConfigManager.GameConfig.LowPopCheckTimeAfterRoundStart;
 
 		Physics.autoSimulation = false;
 		Physics2D.simulationMode = SimulationMode2D.Update;

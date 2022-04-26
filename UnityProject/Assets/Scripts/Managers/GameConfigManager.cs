@@ -63,5 +63,6 @@ namespace GameConfig
 		public bool ServerShutsDownOnRoundEnd;
 		public int PlayerLimit;
 		public int LowPopLimit;
+		public int LowPopCheckTimeAfterRoundStart;
 	}
 }
