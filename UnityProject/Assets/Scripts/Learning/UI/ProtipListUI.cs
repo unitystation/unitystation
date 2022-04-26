@@ -28,6 +28,13 @@ namespace Learning
 
 		private void RefreshSOList()
 		{
+			if (entryList.childCount > 0)
+			{
+				for (int i = 0; i < entryList.childCount - 1; i++)
+				{
+					Destroy(entryList.GetChild(i));
+				}
+			}
 			foreach (var tipSO in ProtipManager.Instance.RecordedProtips)
 			{
 				var newEntry = Instantiate(entryToSpawn, entryList);
