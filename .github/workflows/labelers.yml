@@ -18,6 +18,8 @@ jobs:
         with:
           CONFLICT_LABEL_NAME: "Status: Merge Conflicts"
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          MAX_RETRIES: 5
+          WAIT_MS: 5000
 
       - name: auto labeler
         if: ${{ github.event_name == 'pull_request_target' }}
