@@ -23,6 +23,11 @@ namespace Learning.ProtipObjectTypes
 			var possibleTargets = Physics2D.OverlapCircleAll(gameObject.AssumedWorldPosServer(), SearchRadius, MaskToCheck);
 			foreach (var target in possibleTargets)
 			{
+				if (Application.isEditor)
+				{
+					Debug.Log(target.name);
+					Debug.DrawLine(gameObject.AssumedWorldPosServer(), target.gameObject.AssumedWorldPosServer());
+				}
 				if(gameObject == target.gameObject) continue;
 				if (MatrixManager.Linecast(gameObject.AssumedWorldPosServer(), LayerTypeSelection.Walls,
 					    MaskToCheck, target.gameObject.AssumedWorldPosServer()).ItHit) continue;

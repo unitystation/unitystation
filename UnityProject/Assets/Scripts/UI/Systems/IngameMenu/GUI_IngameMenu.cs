@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using ServerInfo;
 using DatabaseAPI;
+using Learning;
 
 
 namespace UI
@@ -182,7 +183,7 @@ namespace UI
 
 		public void ShowProtipListUI()
 		{
-			
+			ProtipManager.Instance.ShowListUI();
 		}
 
 		#endregion
