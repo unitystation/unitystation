@@ -9,11 +9,20 @@ namespace Learning
 	public class ProtipObject : MonoBehaviour
 	{
 		public ProtipSO TipSO;
-		[SerializeField] private int saveID;
-		[SerializeField] private bool triggerOnce = true;
-		[SerializeField, ShowIf(nameof(triggerOnce))] private bool hasBeenTriggeredBefore = false;
-		[SerializeField, HideIf(nameof(triggerOnce))] private float tipCooldown = 200f;
+
+		[SerializeField, Tooltip("Incase there are more than one Protip on a single item/object")]
+		private int saveID;
+		[SerializeField, Tooltip("Does this tip object only trigger once then saved as so?")]
+		private bool triggerOnce = true;
+
+		[SerializeField]
+		private bool showEvenAfterDeath = false;
+		
+		[SerializeField, HideIf(nameof(triggerOnce)), Tooltip("Will not appear again after a while to not annoy the player with it")]
+		private float tipCooldown = 200f;
+
 		private bool isOnCooldown = false;
+		private bool hasBeenTriggeredBefore = false;
 
 		private void Awake()
 		{
@@ -25,6 +34,7 @@ namespace Learning
 		{
 			if (isOnCooldown) return false;
 			if (hasBeenTriggeredBefore) return false;
+			if (showEvenAfterDeath == false && PlayerManager.PlayerScript.IsDeadOrGhost) return false;
 			if (ProtipManager.Instance.PlayerExperienceLevel < TipSO.TipData.MinimumExperienceLevelToTrigger) return false;
 			return true;
 		}
