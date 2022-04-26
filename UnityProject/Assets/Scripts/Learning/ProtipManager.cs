@@ -6,6 +6,7 @@ namespace Learning
 	public class ProtipManager : Managers.SingletonManager<ProtipManager>
 	{
 		public ProtipUI UI;
+		public ProtipListUI ListUI;
 		public ExperienceLevel PlayerExperienceLevel;
 		public List<ProtipSO> RecordedProtips;
 
@@ -14,7 +15,12 @@ namespace Learning
 			NewToSpaceStation = 0, //TRIGGER EVERYTHING!!!1!!1!
 			NewToUnityStation = 1, //Unitystation changes only
 			SomewhatExperienced = 2, //Life critical Advice only
-			Robust = 4 //Nothing will get triggered on this level.
+			Robust = 3 //Nothing will get triggered on this level.
+		}
+
+		public void ShowListUI()
+		{
+			ListUI.SetActive(true);
 		}
 
 		public void SetExperienceLevel(ExperienceLevel level)

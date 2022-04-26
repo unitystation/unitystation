@@ -486,7 +486,19 @@ MonoBehaviour:
       m_Image: {fileID: 0}
   m_OnValueChanged:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 2534403997290217932}
+        m_TargetAssemblyTypeName: Learning.ProtipListUI, Assets
+        m_MethodName: OnChangeDropDownValue
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   m_AlphaFadeSpeed: 0.15
 --- !u!1 &1262609122847295292
 GameObject:
@@ -608,7 +620,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 6222377583426852429}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 2534403997290217932}
+        m_TargetAssemblyTypeName: Learning.ProtipListUI, Assets
+        m_MethodName: CloseUI
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &1609984083575749749
 GameObject:
   m_ObjectHideFlags: 0
@@ -1175,6 +1199,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3011434951953516719}
+  - component: {fileID: 2534403997290217932}
   m_Layer: 5
   m_Name: ProtipList
   m_TagString: Untagged
@@ -1204,6 +1229,21 @@ RectTransform:
   m_AnchoredPosition: {x: 81.272, y: -83.00197}
   m_SizeDelta: {x: 1486.82, y: 964.601}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &2534403997290217932
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4116585290635388964}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6836dcc0ca644ff590736e1c7a9b4039, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  entryToSpawn: {fileID: 7904040470770723297}
+  entryList: {fileID: 6989988183180877201}
+  expierenceControlDropdown: {fileID: 4649164335472216761}
 --- !u!1 &4147655419545132695
 GameObject:
   m_ObjectHideFlags: 0
@@ -2521,6 +2561,7 @@ GameObject:
   - component: {fileID: 8224649843505430839}
   - component: {fileID: 1121749113089304146}
   - component: {fileID: 7537035440667254097}
+  - component: {fileID: 6682539446305613806}
   m_Layer: 5
   m_Name: Entry
   m_TagString: Untagged
@@ -2589,6 +2630,21 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &6682539446305613806
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7904040470770723297}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0c3d394be5f2444abb828d0ad1f4c762, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tipIcon: {fileID: 6083035631456833907}
+  tipText: {fileID: 6339136272681961161}
+  tipTitle: {fileID: 31339634022262824}
 --- !u!1 &9136025646707827597
 GameObject:
   m_ObjectHideFlags: 0

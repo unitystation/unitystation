@@ -1,4 +1,5 @@
 using System;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -8,12 +9,12 @@ namespace Learning
 	{
 		[SerializeField] private GameObject entryToSpawn;
 		[SerializeField] private Transform entryList;
-		[SerializeField] private Dropdown expierenceControlDropdown;
+		[SerializeField] private TMP_Dropdown expierenceControlDropdown;
 
 
 		private void Awake()
 		{
-			RefreshSOList();
+			RefreshList();
 		}
 
 		public void CloseUI()
@@ -23,10 +24,10 @@ namespace Learning
 
 		public void OnChangeDropDownValue()
 		{
-
+			ProtipManager.Instance.SetExperienceLevel((ProtipManager.ExperienceLevel) expierenceControlDropdown.value);
 		}
 
-		private void RefreshSOList()
+		private void RefreshList()
 		{
 			if (entryList.childCount > 0)
 			{
