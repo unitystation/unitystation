@@ -15,6 +15,7 @@ namespace UI
 		/// </summary>
 		public GameObject menuWindow;
 		public GameObject votingWindow;
+		public GameObject helpWindow;
 
 		public VotePopUp VotePopUp;
 
@@ -171,6 +172,17 @@ namespace UI
 		{
 			HideAllMenus();
 			votingWindow.SetActive(true);
+		}
+
+		public void ShowHelpMenu()
+		{
+			HideAllMenus();
+			helpWindow.SetActive(true);
+		}
+
+		public void ShowProtipListUI()
+		{
+			
 		}
 
 		#endregion
