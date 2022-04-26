@@ -36,8 +36,6 @@ namespace HealthV2
 		public TraumaDamageLevel CurrentBurnDamageLevel   => currentBurnDamageLevel;
 		public TraumaDamageLevel CurrentBluntDamageLevel  => currentBluntDamageLevel;
 
-
-		public DamageSeverity GibsOnSeverityLevel = DamageSeverity.Max;
 		public int GibChance = 15;
 
 		/// <summary>
@@ -77,7 +75,8 @@ namespace HealthV2
 		/// </summary>
 		public void ApplyTraumaDamage(TraumaticDamageTypes damageType = TraumaticDamageTypes.SLASH, bool ignoreSeverityCheck = false)
 		{
-			if(Severity < DamageSeverity.Bad && ignoreSeverityCheck == false) return;
+			if(Severity < DamageSeverity.Critical && ignoreSeverityCheck == false) return;
+
 			//We use dismember protection chance because it's the most logical value.
 			if(DMMath.Prob(SelfArmor.DismembermentProtectionChance) == false)
 			{
@@ -266,20 +265,13 @@ namespace HealthV2
 		/// </summary>
 		private void DismemberBodyPartWithChance()
 		{
-			if (GibChance == 0)
-				return;
+			if (GibChance == 0 || Severity != DamageSeverity.Max) return;
 			var armorChanceModifer = GibChance - SelfArmor.DismembermentProtectionChance;
-			if (Severity == DamageSeverity.Max)
-			{
-				armorChanceModifer += 25; //Make it more likely that the bodypart can be gibbed in it's worst condition.
-			}
 
 			var chance = UnityEngine.Random.Range(0, 100);
-			if(chance < armorChanceModifer)
-			{
-				if (this.BodyPartType == BodyPartType.Chest || this.BodyPartType == BodyPartType.Head) return; //TODO is temporary weighting on Trauma discussion
-				HealthMaster.DismemberBodyPart(this);
-			}
+			if (chance >= armorChanceModifer) return;
+			if (BodyPartType == BodyPartType.Chest) return; //TODO is temporary weighting on Trauma discussion
+			HealthMaster.DismemberBodyPart(this);
 		}
 
 		private void TakeBurnDamage()
@@ -339,7 +331,7 @@ namespace HealthV2
 				StartCoroutine(ExternalBleedingLogic());
 			}
 
-			if(Severity >= GibsOnSeverityLevel || currentSlashDamageLevel > TraumaDamageLevel.CRITICAL)
+			if(currentSlashDamageLevel > TraumaDamageLevel.CRITICAL)
 			{
 				DismemberBodyPartWithChance();
 			}
