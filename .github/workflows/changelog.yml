@@ -47,21 +47,20 @@ jobs:
         with:
           categories: Fix;New;Improvement
 
-      - name: Commit files
-        if: ${{ steps.pr2changelog.outputs.generated_changelog == 1}}
+      - name: prepare files to push
+        if: ${{ steps.pr2changelog.outputs.generated_changelog == 1 }}
         run: |
-          git config --local user.email "action@github.com"
-          git config --local user.name "GitHub Action"
-          git add *
-          git commit -m "misc: update Changelog" -a
+          mkdir output
+          cp CHANGELOG.md output/CHANGELOG.md
+          # cp CHANGELOG.json output/CHANGELOG.json
 
-      - name: Pushes to another repository
+      - name: Push to changelog repo
         uses: cpina/github-action-push-to-another-repository@main
         env:
-          API_TOKEN_GITHUB: ${{ secrets.API_TOKEN_GITHUB }}
+          API_TOKEN_GITHUB: ${{ secrets.PR2CHANGELOG_TOKEN }}
         with:
-          source-directory: 'output/changelod.md'
-          destination-github-username: 'unitystation'
-          destination-repository-name: 'changelog'
-          user-email: unitystation@unitystation.org
+          source-directory: output/changelod.md
+          destination-github-username: unitystation
+          destination-repository-name: changelog
+          user-email: action@github.com
           target-branch: main
