@@ -34,6 +34,7 @@ namespace Learning
 
 		public void ShowTip(string TipText, float duration = 25f, Sprite img = null, ProtipUI.SpriteAnimation showAnim = ProtipUI.SpriteAnimation.ROCKING)
 		{
+			if(duration == 0) duration = 25f; //Incase whoever was setting the SO data forgot to set the duration.
 			UI.ShowTip(TipText, duration, img, showAnim);
 		}
 	}

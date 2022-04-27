@@ -35,7 +35,7 @@ namespace Learning
 			if (isOnCooldown) return false;
 			if (hasBeenTriggeredBefore) return false;
 			if (showEvenAfterDeath == false && PlayerManager.PlayerScript.IsDeadOrGhost) return false;
-			if (ProtipManager.Instance.PlayerExperienceLevel < TipSO.TipData.MinimumExperienceLevelToTrigger) return false;
+			if (ProtipManager.Instance.PlayerExperienceLevel > TipSO.TipData.MinimumExperienceLevelToTrigger) return false;
 			return true;
 		}
 
@@ -53,11 +53,11 @@ namespace Learning
 			StartCoroutine(Cooldown());
 		}
 
-		public void TriggerTip(ProtipSO protipSo, bool ignoreSaveTriggerState = true)
+		public void TriggerTip(ProtipSO protipSo)
 		{
 			if(TriggerConditions() == false) return;
 			ProtipManager.Instance.ShowTip(protipSo.TipData.Tip, protipSo.TipData.ShowDuration, protipSo.TipData.TipIcon, protipSo.TipData.ShowAnimation);
-			if (triggerOnce && ignoreSaveTriggerState == false)
+			if (triggerOnce)
 			{
 				PlayerPrefs.SetString($"{gameObject.GetComponent<PrefabTracker>().ForeverID}/{saveID.ToString()}", "true");
 				PlayerPrefs.Save();

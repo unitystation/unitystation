@@ -25,8 +25,7 @@ namespace Learning.ProtipObjectTypes
 			{
 				if (Application.isEditor)
 				{
-					Debug.Log(target.name);
-					Debug.DrawLine(gameObject.AssumedWorldPosServer(), target.gameObject.AssumedWorldPosServer(), Color.green, 25f);
+					Debug.DrawLine(gameObject.AssumedWorldPosServer(), target.gameObject.AssumedWorldPosServer(), Color.green, 8f);
 				}
 				if(gameObject == target.gameObject) continue;
 				if (MatrixManager.Linecast(gameObject.AssumedWorldPosServer(), LayerTypeSelection.Walls,
@@ -35,6 +34,7 @@ namespace Learning.ProtipObjectTypes
 				{
 					if(data.GameObjectToCheck != target.gameObject) continue;
 					TriggerTip(data.AssoicateSo);
+					Debug.Log("Hit and triggered");
 				}
 			}
 		}
