@@ -38,10 +38,9 @@ namespace Learning.ProtipObjectTypes
 					if(prefabTracker == null || targetTracker == null) continue;
 					if(prefabTracker.ForeverID != targetTracker.ForeverID) continue;
 					TriggerTip(data.AssoicateSo);
-					Debug.Log("Hit and triggered");
+					ObjectsToCheck.Remove(data);
 					break;
 				}
-				Debug.Log("Hit");
 			}
 		}
 
