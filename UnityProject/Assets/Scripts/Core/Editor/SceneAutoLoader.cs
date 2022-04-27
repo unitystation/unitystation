@@ -84,7 +84,6 @@ namespace Core.Editor
 			else
 			{
 				TryOpenScene(MasterScene);
-				//CustomNetworkManager.Instance.StartHost();
 			}
 		}
 
