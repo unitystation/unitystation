@@ -29,7 +29,6 @@ namespace Learning
 
 		public void ShowTip(string tip, float showDuration = 25f, Sprite img = null, SpriteAnimation animation = SpriteAnimation.ROCKING)
 		{
-			transform.localScale = Vector3.zero;
 			StopAllCoroutines();
 			SetPositionInTransform();
 			gameObject.SetActive(true);

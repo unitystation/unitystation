@@ -29,7 +29,7 @@ namespace Learning.ProtipObjectTypes
 				}
 				if(gameObject == target.gameObject) continue;
 				if (MatrixManager.Linecast(gameObject.AssumedWorldPosServer(), LayerTypeSelection.Walls,
-					    MaskToCheck, target.gameObject.AssumedWorldPosServer()).ItHit == false) continue;
+					    MaskToCheck, target.gameObject.AssumedWorldPosServer()).ItHit) continue;
 				foreach (var data in ObjectsToCheck)
 				{
 					if(data.GameObjectToCheck != target.gameObject) continue;
