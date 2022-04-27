@@ -160,6 +160,9 @@ namespace HealthV2
 		[SerializeField, BoxGroup("PainFeedback")] private EmoteSO screamEmote;
 		private bool canScream = true;
 
+		[SerializeField, BoxGroup("FastRegen")] private float fastRegenHeal = 12;
+		[SerializeField, BoxGroup("FastRegen")] private float fastRegenThreshold = 85;
+
 		private ObjectBehaviour objectBehaviour;
 		public ObjectBehaviour ObjectBehaviour => objectBehaviour;
 
@@ -1421,10 +1424,10 @@ namespace HealthV2
 		private void FastRegen()
 		{
 			playerScript.registerTile.ServerRemoveStun();
-			if(OverallHealth > 50) return;
+			if(OverallHealth > fastRegenThreshold) return;
 			foreach (var part in BodyPartList)
 			{
-				part.HealDamage(null, 6, DamageType.Brute);
+				part.HealDamage(null, fastRegenHeal, DamageType.Brute);
 			}
 		}
 	}
