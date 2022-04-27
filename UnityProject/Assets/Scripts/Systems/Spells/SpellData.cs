@@ -28,6 +28,7 @@ namespace ScriptableObjects.Systems.Spells
 		[SerializeField]
 		private GameObject spellImplementation = null;
 
+
 		[Tooltip("Rechargeable has unlimited uses, LimitedCharges is limited by StartingCharges")]
 		[SerializeField, BoxGroup("Replenishment")]
 		private SpellChargeType chargeType = SpellChargeType.Rechargeable;
@@ -103,22 +104,8 @@ namespace ScriptableObjects.Systems.Spells
 
 		#endregion
 
-		private void Awake()
-		{
-			CheckImplementation();
-		}
-
-		private void OnEnable()
-		{
-			CheckImplementation();
-		}
-
-		private void OnValidate()
-		{
-			CheckImplementation();
-		}
-
-		private void CheckImplementation()
+		[NaughtyAttributes.Button()]
+		public void CheckImplementation()
 		{
 			if (spellImplementation == null && SpellList.Instance != null)
 			{
