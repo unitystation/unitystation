@@ -76,12 +76,7 @@ namespace Systems.Research
 
 				foreach(string file in fileInfo)
 				{
-					string f = file;
-
-					f = f.Replace(Application.dataPath + @"\Resources\", "");
-					f = f.Replace(".json", "");
-
-					Jsons.Add((Resources.Load(f) as TextAsset).ToString());
+					Jsons.Add(File.ReadAllText(file));
 				}
 
 				new Task(JsonImportInitialization).Start();
@@ -91,7 +86,7 @@ namespace Systems.Research
 		{
 			public static bool IsInitialised = false;
 
-			public static string DesignPath = @"\Resources\Metadata\Designs\";
+			public static string DesignPath = @"\StreamingAssets\TechWeb\Designs\";
 
 			public static Dictionary<string,Design> InternalIDSearch;
 
