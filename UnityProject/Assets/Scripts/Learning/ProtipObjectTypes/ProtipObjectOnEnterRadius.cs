@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using Util;
 
 namespace Learning.ProtipObjectTypes
 {
@@ -32,7 +33,10 @@ namespace Learning.ProtipObjectTypes
 					    MaskToCheck, target.gameObject.AssumedWorldPosServer()).ItHit) continue;
 				foreach (var data in ObjectsToCheck)
 				{
-					if(data.GameObjectToCheck != target.gameObject) continue;
+					var prefabTracker = data.GameObjectToCheck.GetComponent<PrefabTracker>();
+					var targetTracker = target.GetComponent<PrefabTracker>();
+					if(prefabTracker == null || targetTracker == null) continue;
+					if(prefabTracker.ForeverID != targetTracker.ForeverID) continue;
 					TriggerTip(data.AssoicateSo);
 					Debug.Log("Hit and triggered");
 					break;

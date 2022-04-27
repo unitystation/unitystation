@@ -54,11 +54,11 @@ namespace Learning
 
 		private IEnumerator TipShowCooldown(float duration)
 		{
-			LeanTween.scale(gameObject, Vector3.one, 1.5f);
+			LeanTween.scale(gameObject, Vector3.one, 1f).setEase(LeanTweenType.easeOutBounce);
 			isShown = true;
 			yield return WaitFor.Seconds(duration);
 			isShown = false;
-			LeanTween.scale(gameObject, Vector3.zero, 0.7f);
+			LeanTween.scale(gameObject, Vector3.zero, 0.7f).setEase(LeanTweenType.easeInBounce);
 			yield return WaitFor.Seconds(1.5f);
 			gameObject.SetActive(false);
 		}
