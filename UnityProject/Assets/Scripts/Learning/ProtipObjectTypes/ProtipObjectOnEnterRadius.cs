@@ -35,7 +35,9 @@ namespace Learning.ProtipObjectTypes
 					if(data.GameObjectToCheck != target.gameObject) continue;
 					TriggerTip(data.AssoicateSo);
 					Debug.Log("Hit and triggered");
+					break;
 				}
+				Debug.Log("Hit");
 			}
 		}
 

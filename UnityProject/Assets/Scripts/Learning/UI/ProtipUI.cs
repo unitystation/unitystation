@@ -22,7 +22,7 @@ namespace Learning
 			UPDOWN
 		}
 
-		private void Start()
+		private void OnEnable()
 		{
 			transform.localScale = Vector3.zero;
 		}
@@ -31,7 +31,6 @@ namespace Learning
 		{
 			StopAllCoroutines();
 			SetPositionInTransform();
-			gameObject.SetActive(true);
 			tipText.text = tip;
 			if (img != null) tipImage.sprite = img;
 			StartCoroutine(TipShowCooldown(showDuration));
