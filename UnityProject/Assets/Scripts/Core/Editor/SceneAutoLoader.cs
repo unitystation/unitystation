@@ -1,100 +1,111 @@
-﻿using UnityEngine;
-using UnityEditor;
+﻿using UnityEditor;
 using UnityEditor.SceneManagement;
+using UnityEngine;
 
-/// <summary>
-/// Scene auto loader.
-/// </summary>
-/// <description>
-/// This class adds a File > Scene Autoload menu containing options to select
-/// a "master scene" enable it to be auto-loaded when the user presses play
-/// in the editor. When enabled, the selected scene will be loaded on play,
-/// then the original scene will be reloaded on stop.
-///
-/// Based on an idea on this thread:
-/// http://forum.unity3d.com/threads/157502-Executing-first-scene-in-build-settings-when-pressing-play-button-in-editor
-/// </description>
-[InitializeOnLoad]
-static class SceneAutoLoader
+namespace Core.Editor
 {
-	// Static constructor binds a playmode-changed callback.
-	// [InitializeOnLoad] above makes sure this gets executed.
-	static SceneAutoLoader()
-	{
-		EditorApplication.playModeStateChanged += OnPlayModeChanged;
-	}
 
-	// Play mode change callback handles the scene load/reload.
-	private static void OnPlayModeChanged(PlayModeStateChange state)
+	/// <summary>
+	/// Scene auto loader.
+	/// </summary>
+	/// <description>
+	/// This class adds a File > Scene Autoload menu containing options to select
+	/// a "master scene" enable it to be auto-loaded when the user presses play
+	/// in the editor. When enabled, the selected scene will be loaded on play,
+	/// then the original scene will be reloaded on stop.
+	///
+	/// Based on an idea on this thread:
+	/// http://forum.unity3d.com/threads/157502-Executing-first-scene-in-build-settings-when-pressing-play-button-in-editor
+	/// </description>
+	[InitializeOnLoad]
+	static class SceneAutoLoader
 	{
-		if (!EditorApplication.isPlaying && EditorApplication.isPlayingOrWillChangePlaymode)
+		private static string MasterScene => "Assets/Scenes/ActiveScenes/OnlineScene.unity";
+
+		private static string PreviousSceneName
 		{
-			if (EditorSceneManager.GetActiveScene().name.Contains("InitTestScene"))
+			get => EditorPrefs.GetString("prevEditorScene", UnityEngine.SceneManagement.SceneManager.GetActiveScene().name);
+			set => EditorPrefs.SetString("prevEditorScene", value);
+		}
+
+		private static string PreviousScenePath
+		{
+			get => EditorPrefs.GetString("SceneAutoLoader.PreviousScenePath", UnityEngine.SceneManagement.SceneManager.GetActiveScene().path);
+			set => EditorPrefs.SetString("SceneAutoLoader.PreviousScenePath", value);
+		}
+
+		// Static constructor binds a playmode-changed callback.
+		// [InitializeOnLoad] above makes sure this gets executed.
+		static SceneAutoLoader()
+		{
+			EditorApplication.playModeStateChanged += OnPlayModeChanged;
+		}
+
+		// Play mode change callback handles the scene load/reload.
+		private static void OnPlayModeChanged(PlayModeStateChange state)
+		{
+			if (state == PlayModeStateChange.ExitingEditMode)
 			{
-				EditorPrefs.SetString("prevEditorScene", "RRT CleanStation"); //Sets it to the Test statistician to load
+				OnEnteringPlayMode();
+			}
+
+			if (state == PlayModeStateChange.EnteredEditMode)
+			{
+				OnExitedPlayMode();
+			}
+		}
+
+		private static void OnEnteringPlayMode()
+		{
+			if (UnityEngine.SceneManagement.SceneManager.GetActiveScene().name.Contains("InitTestScene"))
+			{
+				PreviousSceneName = "RRT CleanStation"; //Sets it to the Test statistician to load
 				return; //tests are running do not interfere
 			}
 
-			if (EditorSceneManager.GetActiveScene().name == "Lobby" ||
-			    EditorSceneManager.GetActiveScene().name == "OnlineScene")
-			{
-				EditorPrefs.SetString("prevEditorScene", "");
-				PreviousScene = "";
-				return;
-			}
-
-			EditorPrefs.SetString("prevEditorScene", EditorSceneManager.GetActiveScene().name);
-
-			// User pressed play -- autoload online scene.
-			PreviousScene = EditorSceneManager.GetActiveScene().path;
-			if (EditorSceneManager.SaveCurrentModifiedScenesIfUserWantsTo())
-			{
-				try
-				{
-					EditorSceneManager.OpenScene(MasterScene);
-				}
-				catch
-				{
-					Logger.LogError($"Tried to autoload scene, but scene not found: {MasterScene}", Category.Editor);
-					EditorApplication.isPlaying = false;
-				}
-			}
-			else
+			// User pressed play -- check for unsaved changes.
+			if (EditorSceneManager.SaveCurrentModifiedScenesIfUserWantsTo() == false)
 			{
 				// User cancelled the save operation -- cancel play as well.
 				EditorApplication.isPlaying = false;
+				return;
+			}
+
+			// Save current scene to return to it after play mode.
+			PreviousSceneName = UnityEngine.SceneManagement.SceneManager.GetActiveScene().name;
+			PreviousScenePath = UnityEngine.SceneManagement.SceneManager.GetActiveScene().path;
+
+			// if the scene is startup or lobby, load lobby scene
+			var initialScene = UnityEngine.SceneManagement.SceneManager.GetActiveScene().path;
+			if (initialScene.Contains("StartUp") || initialScene.Contains("Lobby"))
+			{
+				TryOpenScene(initialScene);
+			}
+			else
+			{
+				TryOpenScene(MasterScene);
 			}
 		}
 
-		// isPlaying check required because cannot OpenScene while playing
-		if (!EditorApplication.isPlaying && !EditorApplication.isPlayingOrWillChangePlaymode)
+		private static void OnExitedPlayMode()
 		{
 			// User pressed stop -- reload previous scene.
+			if (string.IsNullOrEmpty(PreviousScenePath)) return;
+
+			TryOpenScene(PreviousScenePath);
+			PreviousScenePath = string.Empty;
+		}
+
+		private static void TryOpenScene(string scenePath)
+		{
 			try
 			{
-				EditorPrefs.SetString("prevEditorScene", "");
-				if (!string.IsNullOrEmpty(PreviousScene))
-				{
-					EditorSceneManager.OpenScene(PreviousScene);
-				}
+				EditorSceneManager.OpenScene(scenePath);
 			}
 			catch
 			{
-				Logger.LogError($"Tried to autoload scene, but scene not found: {PreviousScene}", Category.Editor);
+				Logger.LogError($"Tried to autoload scene, but scene not found: {scenePath}", Category.Editor);
 			}
 		}
-	}
-
-	private const string cEditorPrefPreviousScene = "SceneAutoLoader.PreviousScene";
-
-	private static string MasterScene
-	{
-		get { return "Assets/Scenes/ActiveScenes/OnlineScene.unity"; }
-	}
-
-	private static string PreviousScene
-	{
-		get { return EditorPrefs.GetString(cEditorPrefPreviousScene, EditorSceneManager.GetActiveScene().path); }
-		set { EditorPrefs.SetString(cEditorPrefPreviousScene, value); }
 	}
 }
