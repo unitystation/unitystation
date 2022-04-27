@@ -2,10 +2,8 @@
 
 name: Labelers
 on:
-  push:
-    branches: [develop]
-
   pull_request_target:
+    types: [synchronize]
     branches: [develop]
 
 jobs:
@@ -13,16 +11,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: conflicts labeler
-        if: ${{ github.event_name == 'push' }}
-        uses: mschilde/auto-label-merge-conflicts@v2.0
+        uses: eps1lon/actions-label-merge-conflict@releases/2.x
         with:
-          CONFLICT_LABEL_NAME: "Status: Merge Conflicts"
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          MAX_RETRIES: 10
-          WAIT_MS: 5000
-
+          dirtyLabel: "Status: Merge Conflicts"
+          repoToken: "${{ secrets.GITHUB_TOKEN }}"
+          commentOnDirty: "This pull request has conflicts, please resolve those before we can evaluate the pull request."
+          commentOnClean: "Conflicts have been resolved. A maintainer will review the pull request shortly."
+        
       - name: auto labeler
-        if: ${{ github.event_name == 'pull_request_target' }}
         uses: actions/labeler@v3-preview
         with:
           repo-token: "${{ secrets.GITHUB_TOKEN }}"
