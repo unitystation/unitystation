@@ -18,6 +18,17 @@ namespace Learning
 			Robust = 3 //Nothing will get triggered on this level.
 		}
 
+		private void Awake() 
+		{
+			var experience = PlayerPrefs.GetInt("Learning/ExperienceLevel", -1);
+			if(experience == -1)
+			{
+				//TODO : TRIGGER FIRST TIME TIP SELECTION.
+				return;
+			}
+			PlayerExperienceLevel = (ExperienceLevel) experience;
+		}
+
 		public void ShowListUI()
 		{
 			ListUI.SetActive(true);
