@@ -26,11 +26,11 @@ namespace Learning.ProtipObjectTypes
 				if (Application.isEditor)
 				{
 					Debug.Log(target.name);
-					Debug.DrawLine(gameObject.AssumedWorldPosServer(), target.gameObject.AssumedWorldPosServer());
+					Debug.DrawLine(gameObject.AssumedWorldPosServer(), target.gameObject.AssumedWorldPosServer(), Color.green, 25f);
 				}
 				if(gameObject == target.gameObject) continue;
 				if (MatrixManager.Linecast(gameObject.AssumedWorldPosServer(), LayerTypeSelection.Walls,
-					    MaskToCheck, target.gameObject.AssumedWorldPosServer()).ItHit) continue;
+					    MaskToCheck, target.gameObject.AssumedWorldPosServer()).ItHit == false) continue;
 				foreach (var data in ObjectsToCheck)
 				{
 					if(data.GameObjectToCheck != target.gameObject) continue;
