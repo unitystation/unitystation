@@ -253,7 +253,7 @@ namespace HealthV2
 		public PlayerScript playerScript;
 
 		public event Action<DamageType> OnTakeDamageType;
-		public UnityEvent OnLowHealth = new UnityEvent();
+		public event Action OnLowHealth;
 
 		public virtual void Awake()
 		{
