@@ -10,9 +10,8 @@ namespace GameRunTests
 		[UnityTestAttribute]
 		public IEnumerator NewTestScriptWithEnumeratorPasses()
 		{
-			yield return new WaitForSeconds(10);
 			yield return SceneManager.LoadSceneAsync("OnlineScene");
-			yield return new WaitForSeconds(10);
+
 			if (GameManager.Instance == null)
 			{
 				Logger.LogError("Unable to load OnlineScene Properly returning");
