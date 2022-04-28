@@ -246,9 +246,9 @@ public class AddressableCatalogueManager : MonoBehaviour, IInitialise
 		var directories = System.IO.Directory.GetDirectories(pathss);
 		var catalogues = new List<string>();
 		var multiCatalogues = new List<string>();
-		foreach (var Directorie in directories)
+		foreach (var directorie in directories)
 		{
-			var newpaths = Directorie.Replace(@"\", "/");
+			var newpaths = directorie.Replace(@"\", "/");
 			var newDirectories = System.IO.Directory.GetFiles(newpaths);
 
 			foreach (var pathST in newDirectories)
@@ -264,13 +264,13 @@ public class AddressableCatalogueManager : MonoBehaviour, IInitialise
 			string Newest = "";
 			if (multiCatalogues.Count > 1)
 			{
-				foreach (var Catalogue in multiCatalogues)
+				foreach (var catalogue in multiCatalogues)
 				{
-					var intCatalogue = Catalogue.Replace(".json", "");
+					var intCatalogue = catalogue.Replace(".json", "");
 					intCatalogue =	intCatalogue.Substring(intCatalogue.IndexOf("\\", StringComparison.Ordinal) + 1).Trim();
 					if (string.IsNullOrEmpty(Newest))
 					{
-						Newest = Catalogue;
+						Newest = catalogue;
 					}
 					else
 					{
@@ -279,7 +279,7 @@ public class AddressableCatalogueManager : MonoBehaviour, IInitialise
 
 						if (double.Parse(intCatalogue) > double.Parse(intNewest))
 						{
-							Newest = Catalogue;
+							Newest = catalogue;
 						}
 					}
 				}
