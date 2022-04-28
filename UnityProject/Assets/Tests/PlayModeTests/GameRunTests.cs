@@ -7,7 +7,7 @@ namespace GameRunTests
 {
 	public class GameRunTests
 	{
-		[UnityTestAttribute]
+		[UnityTest]
 		public IEnumerator NewTestScriptWithEnumeratorPasses()
 		{
 			yield return SceneManager.LoadSceneAsync("OnlineScene");
