@@ -50,7 +50,7 @@ namespace Antagonists
 
 			foreach (var item in possibleItems)
 			{
-				if(item.Value.blacklistedOccupations.Contains(Owner.occupation) == false) continue;
+				if(item.Value.BlacklistedOccupations.Contains(Owner.occupation) == false) continue;
 				possibleItems.Remove(item);
 			}
 
@@ -80,7 +80,7 @@ namespace Antagonists
 				                $"Item: {itemEntry.Key.Item().gameObject.name}", Category.Antags);
 				return;
 			}
-			Amount = itemEntry.Value.amountToSteal;
+			Amount = itemEntry.Value.AmountToSteal;
 			AntagManager.Instance.TargetedItems.Add(itemEntry.Key);
 			// TODO randomise amount based on range/weightings?
 			description = $"Steal {Amount} {ItemName}";
@@ -95,7 +95,7 @@ namespace Antagonists
 	[Serializable]
 	public struct StealData
 	{
-		public int amountToSteal;
-		public List<Occupation> blacklistedOccupations;
+		public int AmountToSteal;
+		public List<Occupation> BlacklistedOccupations;
 	}
 }
