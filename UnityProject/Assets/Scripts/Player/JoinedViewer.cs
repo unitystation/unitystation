@@ -66,7 +66,7 @@ namespace Player
 			_ = ServerSetUpPlayer(unverifiedClientId, unverifiedUsername, unverifiedUserid, unverifiedClientVersion, unverifiedToken,clientCurrentScene);
 		}
 
-
+		[Server]
 		private void ServerRequestLoadedScenes(string AlreadyLoaded)
 		{
 			List<SceneInfo> SceneS = new List<SceneInfo>();

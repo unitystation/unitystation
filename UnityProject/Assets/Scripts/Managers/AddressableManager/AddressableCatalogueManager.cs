@@ -243,10 +243,10 @@ public class AddressableCatalogueManager : MonoBehaviour, IInitialise
 	public static List<string> GetCataloguePathStreamingAssets()
 	{
 		var pathss = Application.streamingAssetsPath + "/AddressableCatalogues";
-		var Directories = System.IO.Directory.GetDirectories(pathss);
-		var Catalogues = new List<string>();
-		var MultiCatalogues = new List<string>();
-		foreach (var Directorie in Directories)
+		var directories = System.IO.Directory.GetDirectories(pathss);
+		var catalogues = new List<string>();
+		var multiCatalogues = new List<string>();
+		foreach (var Directorie in directories)
 		{
 			var newpaths = Directorie.Replace(@"\", "/");
 			var newDirectories = System.IO.Directory.GetFiles(newpaths);
@@ -255,16 +255,16 @@ public class AddressableCatalogueManager : MonoBehaviour, IInitialise
 			{
 				if (pathST.Contains(".json"))
 				{
-					MultiCatalogues.Add(pathST);
+					multiCatalogues.Add(pathST);
 				}
 
 			}
 
 
 			string Newest = "";
-			if (MultiCatalogues.Count > 1)
+			if (multiCatalogues.Count > 1)
 			{
-				foreach (var Catalogue in MultiCatalogues)
+				foreach (var Catalogue in multiCatalogues)
 				{
 					var intCatalogue = Catalogue.Replace(".json", "");
 					intCatalogue =	intCatalogue.Substring(intCatalogue.IndexOf("\\", StringComparison.Ordinal) + 1).Trim();
@@ -283,14 +283,14 @@ public class AddressableCatalogueManager : MonoBehaviour, IInitialise
 						}
 					}
 				}
-				Catalogues.Add(Newest);
+				catalogues.Add(Newest);
 			}
 			else
 			{
-				Catalogues.Add(MultiCatalogues[0]);
+				catalogues.Add(multiCatalogues[0]);
 			}
 		}
 
-		return Catalogues;
+		return catalogues;
 	}
 }
