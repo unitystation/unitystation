@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections;
 using Mirror;
 using UnityEditor;
@@ -74,11 +74,11 @@ public partial class SubSceneManager
 		MainStationLoaded = true;
 		//Auto scene load stuff in editor:
 		var prevEditorScene = GetEditorPrevScene();
-		if (AdminForcedMainStation == "Random" && mainStationList.Contains(prevEditorScene))
+		if ((prevEditorScene != "") && AdminForcedMainStation == "Random")
 		{
 			serverChosenMainStation = prevEditorScene;
 		}
-		else if (AdminForcedMainStation == "Random")
+		else if(AdminForcedMainStation == "Random")
 		{
 			serverChosenMainStation = mainStationList.GetRandomMainStation();
 		}
@@ -287,11 +287,17 @@ public partial class SubSceneManager
 
 	#endregion
 
-	public static string GetEditorPrevScene()
+	string GetEditorPrevScene()
 	{
-		var prevEditorScene = string.Empty;
+		var prevEditorScene = "";
 #if UNITY_EDITOR
-		prevEditorScene = EditorPrefs.GetString("prevEditorScene", prevEditorScene);
+		if (EditorPrefs.HasKey("prevEditorScene"))
+		{
+			if (!string.IsNullOrEmpty(EditorPrefs.GetString("prevEditorScene")))
+			{
+				prevEditorScene = EditorPrefs.GetString("prevEditorScene");
+			}
+		}
 #endif
 		return prevEditorScene;
 	}

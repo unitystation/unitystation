@@ -114,12 +114,11 @@ public class CustomNetworkManager : NetworkManager, IInitialise
 	{
 		CheckTransport();
 		ApplyConfig();
-
-		// if editor prefs previousEditorScene is StartUp or Lobby, return
-		var prevEditorScene = SubSceneManager.GetEditorPrevScene();
-		if (prevEditorScene == "StartUp" || prevEditorScene == "Lobby") return;
-
-		StartHost();
+		//Automatically host if starting up game *not* from lobby
+		if (SceneManager.GetActiveScene().name != "Lobby")
+		{
+			StartHost();
+		}
 	}
 
 	void CheckTransport()
