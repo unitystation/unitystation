@@ -3,7 +3,7 @@
 name: Labelers
 on:
   pull_request_target:
-    types: [synchronize]
+    types: [synchronize, opened, edited]
     branches: [develop]
 
 jobs:
@@ -19,6 +19,7 @@ jobs:
           commentOnClean: "Conflicts have been resolved. A maintainer will review the pull request shortly."
         
       - name: auto labeler
+        if: ${{github.event.action}} != "synchronize"
         uses: actions/labeler@v3-preview
         with:
           repo-token: "${{ secrets.GITHUB_TOKEN }}"
