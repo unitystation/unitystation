@@ -245,6 +245,7 @@ public class AddressableCatalogueManager : MonoBehaviour, IInitialise
 		var pathss = Application.streamingAssetsPath + "/AddressableCatalogues";
 		var Directories = System.IO.Directory.GetDirectories(pathss);
 		var Catalogues = new List<string>();
+		var MultiCatalogues = new List<string>();
 		foreach (var Directorie in Directories)
 		{
 			var newpaths = Directorie.Replace(@"\", "/");
@@ -254,9 +255,39 @@ public class AddressableCatalogueManager : MonoBehaviour, IInitialise
 			{
 				if (pathST.Contains(".json"))
 				{
-					Catalogues.Add(pathST);
+					MultiCatalogues.Add(pathST);
 				}
 
+			}
+
+
+			string Newest = "";
+			if (MultiCatalogues.Count > 1)
+			{
+				foreach (var Catalogue in MultiCatalogues)
+				{
+					var intCatalogue = Catalogue.Replace(".json", "");
+					intCatalogue =	intCatalogue.Substring(intCatalogue.IndexOf("\\", StringComparison.Ordinal) + 1).Trim();
+					if (string.IsNullOrEmpty(Newest))
+					{
+						Newest = Catalogue;
+					}
+					else
+					{
+						var intNewest = Newest.Replace(".json", "");
+						intNewest =	intNewest.Substring(intNewest.IndexOf("\\", StringComparison.Ordinal) + 1).Trim();
+
+						if (double.Parse(intCatalogue) > double.Parse(intNewest))
+						{
+							Newest = Catalogue;
+						}
+					}
+				}
+				Catalogues.Add(Newest);
+			}
+			else
+			{
+				Catalogues.Add(MultiCatalogues[0]);
 			}
 		}
 
