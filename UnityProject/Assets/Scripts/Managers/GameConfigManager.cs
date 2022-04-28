@@ -64,5 +64,6 @@ namespace GameConfig
 		public int PlayerLimit;
 		public int LowPopLimit;
 		public int LowPopCheckTimeAfterRoundStart;
+		public int RebootOnAverageFPSOrLower;
 	}
 }
