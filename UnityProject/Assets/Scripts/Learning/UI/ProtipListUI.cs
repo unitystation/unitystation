@@ -11,6 +11,8 @@ namespace Learning
 		[SerializeField] private Transform entryList;
 		[SerializeField] private TMP_Dropdown expierenceControlDropdown;
 
+		[SerializeField] private string wikiURL = "https://unitystation.github.io/unitystation-wiki/";
+
 
 		private void Awake()
 		{
@@ -25,6 +27,12 @@ namespace Learning
 		public void OnChangeDropDownValue()
 		{
 			ProtipManager.Instance.SetExperienceLevel((ProtipManager.ExperienceLevel) expierenceControlDropdown.value);
+		}
+
+		public void OnPressWikiButton()
+		{
+			//TODO : ADD THE WIKI IN-GAME PAGE THAT LETS YOU SEARCH ARTICLES TO OPEN LIKE SS13
+			Application.OpenURL(wikiURL);
 		}
 
 		private void RefreshList()
