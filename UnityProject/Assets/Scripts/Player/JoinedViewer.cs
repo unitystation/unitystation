@@ -43,29 +43,31 @@ namespace Player
 			{
 				CmdServerSetupPlayer(GetNetworkInfo(),
 					PlayerManager.CurrentCharacterSettings.Username, DatabaseAPI.ServerData.UserID, GameData.BuildNumber,
-					DatabaseAPI.ServerData.IdToken);
-				CmdServerRequestLoadedScenes(SceneManager.GetActiveScene().name);
+					DatabaseAPI.ServerData.IdToken, SceneManager.GetActiveScene().name);
+
 			}
 		}
+
+
 
 		private async void HandleServerConnection()
 		{
 			await ServerSetUpPlayer(GetNetworkInfo(),
 				PlayerManager.CurrentCharacterSettings.Username, DatabaseAPI.ServerData.UserID, GameData.BuildNumber,
-				DatabaseAPI.ServerData.IdToken);
+				DatabaseAPI.ServerData.IdToken, "");
 			ClientFinishLoading();
 		}
 
 		[Command]
 		private void CmdServerSetupPlayer(string unverifiedClientId, string unverifiedUsername,
-			string unverifiedUserid, int unverifiedClientVersion, string unverifiedToken)
+			string unverifiedUserid, int unverifiedClientVersion, string unverifiedToken, string clientCurrentScene)
 		{
 			ClearCache();
-			_ = ServerSetUpPlayer(unverifiedClientId, unverifiedUsername, unverifiedUserid, unverifiedClientVersion, unverifiedToken);
+			_ = ServerSetUpPlayer(unverifiedClientId, unverifiedUsername, unverifiedUserid, unverifiedClientVersion, unverifiedToken,clientCurrentScene);
 		}
 
-		[Command]
-		private void CmdServerRequestLoadedScenes(string AlreadyLoaded)
+		[Server]
+		private void ServerRequestLoadedScenes(string AlreadyLoaded)
 		{
 			List<SceneInfo> SceneS = new List<SceneInfo>();
 
@@ -95,7 +97,8 @@ namespace Player
 			string unverifiedUsername,
 			string unverifiedUserid,
 			int unverifiedClientVersion,
-			string unverifiedToken)
+			string unverifiedToken,
+			string clientCurrentScene)
 		{
 			Logger.LogFormat("A joinedviewer called CmdServerSetupPlayer on this server, Unverified ClientId: {0} Unverified Username: {1}",
 				Category.Connections,
@@ -144,6 +147,10 @@ namespace Player
 			STUnverifiedClientId = unverifiedClientId;
 			STVerifiedUserid = unverifiedUserid; //Is validated within  PlayerList.Instance.ValidatePlayer(
 			STVerifiedConnPlayer = unverifiedConnPlayer;
+			if (string.IsNullOrEmpty(clientCurrentScene) == false)
+			{
+				ServerRequestLoadedScenes(clientCurrentScene );
+			}
 		}
 
 		[Command]

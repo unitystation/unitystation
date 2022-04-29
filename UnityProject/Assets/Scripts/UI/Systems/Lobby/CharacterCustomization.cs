@@ -235,6 +235,7 @@ namespace UI.CharacterCreator
 			currentCharacterIndex = PlayerCharacters.Count() - 1;
 			LoadSettings(PlayerCharacters[currentCharacterIndex]);
 			currentCharacter.Species = Race.Human.ToString();
+			currentCharacter.Username = ServerData.Auth.CurrentUser.DisplayName;
 			ShowCharacterCreator();
 			ReturnCharacterPreviewFromTheCharacterSelector();
 			_ = SoundManager.Play(CommonSounds.Instance.Click01);
