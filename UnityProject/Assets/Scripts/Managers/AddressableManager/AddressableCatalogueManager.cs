@@ -246,10 +246,10 @@ public class AddressableCatalogueManager : MonoBehaviour, IInitialise
 		var directories = System.IO.Directory.GetDirectories(pathss);
 		var catalogues = new List<string>();
 		var multiCatalogues = new List<string>();
-		foreach (var directorie in directories)
+		foreach (var directory in directories)
 		{
-			var newpaths = directorie.Replace(@"\", "/");
-			var newDirectories = System.IO.Directory.GetFiles(newpaths);
+			var newPath = directory.Replace(@"\", "/");
+			var newDirectories = System.IO.Directory.GetFiles(newPath);
 
 			foreach (var pathST in newDirectories)
 			{
