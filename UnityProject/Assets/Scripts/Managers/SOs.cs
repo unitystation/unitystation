@@ -36,7 +36,6 @@ namespace ScriptableObjects
 		public MachinePartsPrefabs MachinePartsPrefabs;
 		public OccupationList OccupationList;
 		public PipeTileSingleton PipeTileSingleton;
-		public PlayerTextureDataSOs PlayerTextureDataSOs;
 		public PoolConfig PoolConfig;
 		public RaceSOSingleton RaceSOSingleton;
 		public SOAdminJobsList AdminJobsList;
@@ -70,7 +69,6 @@ namespace ScriptableObjects
 				{ typeof(MachinePartsPrefabs), MachinePartsPrefabs },
 				{ typeof(OccupationList), OccupationList },
 				{ typeof(PipeTileSingleton), PipeTileSingleton },
-				{ typeof(PlayerTextureDataSOs), PlayerTextureDataSOs },
 				{ typeof(PoolConfig), PoolConfig },
 				{ typeof(RaceSOSingleton), RaceSOSingleton },
 				{ typeof(SOAdminJobsList), AdminJobsList },

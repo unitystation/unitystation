@@ -9,7 +9,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 211380796749433702}
-  - component: {fileID: 5697933326920294237}
   m_Layer: 0
   m_Name: Resource Tracker
   m_TagString: Untagged
@@ -27,22 +26,8 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 2.8227558, y: -0.16122223, z: -0.023416582}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &5697933326920294237
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8132406591557002375}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e3520ffabc530214787e1bdf8d717244, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  DataRaceData:
-  - {fileID: 11400000, guid: 246903de1c8e6a5458d029144461c26e, type: 2}
-  - {fileID: 11400000, guid: 246903de1c8e6a5458d029144461c26e, type: 2}
