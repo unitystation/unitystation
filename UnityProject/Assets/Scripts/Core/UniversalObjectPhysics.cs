@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Core.Editor.Attributes;
 using HealthV2;
 using Items;
 using Messages.Server.SoundMessages;
@@ -39,21 +40,20 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 	public const float DEFAULT_Friction = 0.01f;
 	public const float DEFAULT_SLIDE_FRICTION = 0.003f;
 
-
+	[PrefabModeOnly]
 	public bool SnapToGridOnStart = false;
 
-	public BoxCollider2D Collider; //TODO Checked component
+	private BoxCollider2D Collider; //TODO Checked component
+
+	private float TileMoveSpeedOverride = 0;
 
 
+	private FloorDecal floorDecal; // Used to make sure some objects are not causing gravity
 
-	public float TileMoveSpeedOverride = 0;
-
-	public FloorDecal floorDecal; // Used to make sure some objects are not causing gravity
-
+	[PlayModeOnly]
 	public Vector3 LocalTargetPosition;
 
-
-	public Rotatable rotatable;
+	protected Rotatable rotatable;
 
 	public Vector3 SetLocalTarget
 	{
@@ -72,7 +72,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 	public float TileMoveSpeed = 1;
 
 	[SyncVar(hook = nameof(SyncLocalTarget))]
-	public Vector3 SynchLocalTargetPosition;
+	private Vector3 SynchLocalTargetPosition;
 
 	[SyncVar(hook = nameof(SynchronisedoNotApplyMomentumOnTarget))]
 	private bool doNotApplyMomentumOnTarget = false;
@@ -81,18 +81,18 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 	private bool isVisible = true;
 
 	[SyncVar(hook = nameof(SyncIsNotPushable))]
-	private bool isNotPushable;
+	public bool isNotPushable;
 
 	public bool IsNotPushable => isNotPushable;
 
 	[SyncVar(hook = nameof(SynchroniseUpdatePulling))]
-	public PullData ThisPullData;
+	private PullData ThisPullData;
 
 	[SyncVar(hook = nameof(SynchroniseParent))]
 	private uint parentContainer;
 
 
-	public ObjectContainer CashedContainedInContainer;
+	private ObjectContainer CashedContainedInContainer;
 	public ObjectContainer ContainedInContainer
 	{
 		get
@@ -120,46 +120,65 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 		}
 	}
 
+	[PlayModeOnly]
 	public Vector2 newtonianMovement; //* attributes.Size -> weight
 
+	[PlayModeOnly]
 	public float airTime; //Cannot grab onto anything so no friction
 
+	[PlayModeOnly]
 	public float slideTime;
 	//Reduced friction during this time, if stickyMovement Just has normal friction vs just grabbing
 
+	[PlayModeOnly]
 	public GameObject thrownBy;
 
+	[PlayModeOnly]
 	public BodyPartType aim;
 
+	[PlayModeOnly]
 	public float spinMagnitude = 0; //TODO Multiplied by magnitude of movement Kind of a proportion would
 
+	[PrefabModeOnly]
 	public bool stickyMovement = false;
 	//If this thing likes to grab onto stuff such as like a player
 
+	[PrefabModeOnly]
 	public float maximumStickSpeed = 1.5f;
 	//Speed In tiles per second that, The thing would able to be stop itself if it was sticky
 
+	[PrefabModeOnly]
 	public bool onStationMovementsRound;
 
-
+	[HideInInspector]
 	public Attributes attributes;
+
+	[HideInInspector]
 	public RegisterTile registerTile;
 
-	public LayerMask defaultInteractionLayerMask;
+	protected LayerMask defaultInteractionLayerMask;
 
+	[HideInInspector]
 	public GameObject[] ContextGameObjects = new GameObject[2];
 
+	[PlayModeOnly]
 	public bool IsCurrentlyFloating;
 
 
+	[PlayModeOnly]
 	public CheckedComponent<UniversalObjectPhysics> Pulling = new CheckedComponent<UniversalObjectPhysics>();
+	[PlayModeOnly]
 	public CheckedComponent<UniversalObjectPhysics> PulledBy = new CheckedComponent<UniversalObjectPhysics>();
 
 	#region Events
 
+	[PlayModeOnly]
 	public ForceEvent OnThrowStart = new ForceEvent();
+
+	[PlayModeOnly]
 	public ForceEvent OnThrowEnd = new ForceEvent();
 
+	[PlayModeOnly]
 	public Vector3Event OnLocalTileReached = new Vector3Event();
 
 	#endregion
@@ -384,6 +403,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 	public void ForceSetLocalPosition(Vector3 ReSetToLocal, Vector2 Momentum, bool Smooth, int MatrixID,
 		bool UpdateClient = true)
 	{
+		IsWalking = false;
 		if (isServer && UpdateClient)
 		{
 			isVisible = true;
@@ -455,7 +475,10 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 		//Update client to server state
 	}
 
+	[PlayModeOnly]
 	public Vector2 LocalDifferenceNeeded;
+
+	[PlayModeOnly]
 	public bool CorrectingCourse = false;
 
 
@@ -477,8 +500,13 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 	}
 
 
+	[HideInInspector]
 	public List<UniversalObjectPhysics> Pushing = new List<UniversalObjectPhysics>();
+
+	[HideInInspector]
 	public List<IBumpableObject> Bumps = new List<IBumpableObject>();
+
+	[HideInInspector]
 	public List<UniversalObjectPhysics> Hits = new List<UniversalObjectPhysics>();
 
 	public void ServerSetAnchored(bool isAnchored, GameObject performer)
@@ -635,6 +663,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 
 
 		IsWalking = false;
+		MoveIsWalking = false;
 		LocalTargetPosition = transform.localPosition;
 		newtonianMovement = Vector2.zero;
 		airTime = 0;
@@ -643,9 +672,13 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 		Animating = false;
 	}
 
-
+	[PlayModeOnly]
 	public float Speed = 1;
+
+	[PlayModeOnly]
 	public float AIR = 3;
+
+	[PlayModeOnly]
 	public float SLIDE = 4;
 
 
@@ -811,9 +844,11 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 		}
 	}
 
+	[PlayModeOnly]
 	public bool Animating = false;
 
-	public Vector3 LastDifference = Vector3.zero;
+	[PlayModeOnly]
+	private Vector3 LastDifference = Vector3.zero;
 
 	public void AnimationUpdateMe()
 	{
@@ -822,7 +857,12 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 			return; //Animation handled by FlyingUpdateMe
 		}
 
-		if (this == null) UpdateManager.Remove(CallbackType.UPDATE, AnimationUpdateMe);
+		if (this == null)
+		{
+			IsWalking = false;
+			MoveIsWalking = false;
+			UpdateManager.Remove(CallbackType.UPDATE, AnimationUpdateMe);
+		}
 
 		if (name == "DEBUG")
 		{
@@ -918,14 +958,19 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 			maxDistanceDelta);
 	}
 
+	[PlayModeOnly]
 	public bool IsFlyingSliding = false;
 
+	[PlayModeOnly]
 	public bool IsMoving = false;
 
+	[PlayModeOnly]
 	public bool IsWalking = false;
 
+	[PlayModeOnly]
 	public bool MoveIsWalking = false;
 
+	[PlayModeOnly]
 	public double LastUpdateClientFlying = 0; //NetworkTime.time
 
 	public void FlyingUpdateMe()
@@ -1151,6 +1196,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 			TileMoveSpeedOverride = 0;
 			Animating = false;
 			IsWalking = false;
+			MoveIsWalking = false;
 			UpdateManager.Remove(CallbackType.UPDATE, AnimationUpdateMe);
 		}
 

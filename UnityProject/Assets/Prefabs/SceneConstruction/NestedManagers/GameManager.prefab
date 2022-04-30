@@ -28,6 +28,7 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -52,7 +53,7 @@ MonoBehaviour:
   minDistanceBetweenSpaceBodies: 200
   solarSystemRadius: 600
   CentComm: {fileID: 5244294626086762232}
-  QuickLoad: 0
+  QuickLoad: 1
   endOfRoundSounds: {fileID: 11400000, guid: 3505a71866d7e9e43a6cdc336306b41f, type: 2}
   primaryEscapeShuttle: {fileID: 0}
   GameModeData: {fileID: 11400000, guid: 050782fd4c93a164e8100c4c7183d5b3, type: 2}

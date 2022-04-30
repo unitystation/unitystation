@@ -423,8 +423,9 @@ public static class Inventory
 				Distance = IA2.ThrowRange;
 			}
 
+
 			UOP.NewtonianPush( WorldTrajectory,((ItemAttributesV2) UOP.attributes).ThrowSpeed
-				, (Distance / IA2.ThrowSpeed )
+				, ((Distance / IA2.ThrowSpeed ) - ( ))
 				 , Single.NaN, toPerform.ThrowAim.GetValueOrDefault(BodyPartType.Chest), holder.gameObject );
 
 			// Counter-impulse for players in space

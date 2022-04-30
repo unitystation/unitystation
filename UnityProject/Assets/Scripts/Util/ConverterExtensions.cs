@@ -223,6 +223,38 @@ public static class ConverterExtensions
 			MatrixManager.AtPoint(Vector3Int.RoundToInt(worldPos), CustomNetworkManager.Instance._isServer));
 	}
 
+	public static bool IsDiagonal(this MovementSynchronisation.PlayerMoveDirection Direction)
+	{
+		switch (Direction)
+		{
+			case MovementSynchronisation.PlayerMoveDirection.Down:
+			case MovementSynchronisation.PlayerMoveDirection.Up:
+			case MovementSynchronisation.PlayerMoveDirection.Left:
+			case MovementSynchronisation.PlayerMoveDirection.Right:
+				return false;
+			default:
+				return true;
+		}
+	}
+
+	public static MovementSynchronisation.PlayerMoveDirection ToNonDiagonal(this MovementSynchronisation.PlayerMoveDirection Direction, bool First)
+	{
+		switch (Direction)
+		{
+			case MovementSynchronisation.PlayerMoveDirection.Down_Left:
+				return First ? MovementSynchronisation.PlayerMoveDirection.Down : MovementSynchronisation.PlayerMoveDirection.Left;
+			case MovementSynchronisation.PlayerMoveDirection.Down_Right:
+				return First ? MovementSynchronisation.PlayerMoveDirection.Down : MovementSynchronisation.PlayerMoveDirection.Right;
+			case MovementSynchronisation.PlayerMoveDirection.Up_Left:
+				return First ? MovementSynchronisation.PlayerMoveDirection.Up : MovementSynchronisation.PlayerMoveDirection.Left;
+			case MovementSynchronisation.PlayerMoveDirection.Up_Right:
+				return First ? MovementSynchronisation.PlayerMoveDirection.Up : MovementSynchronisation.PlayerMoveDirection.Right;
+			default:
+				return MovementSynchronisation.PlayerMoveDirection.Down;
+
+		}
+	}
+
 	public static Vector2 TVectoro(this MovementSynchronisation.PlayerMoveDirection Direction)
 	{
 		switch (Direction)

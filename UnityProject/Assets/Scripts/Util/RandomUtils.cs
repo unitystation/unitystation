@@ -4,6 +4,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
+public enum SpinMode
+{
+	None,
+	Clockwise,
+	CounterClockwise
+}
+
+
 public static class RandomUtils
 {
 	public static Quaternion RandomRotation2D()

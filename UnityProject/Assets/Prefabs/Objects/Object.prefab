@@ -259,12 +259,9 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   SnapToGridOnStart: 0
-  Collider: {fileID: 0}
-  TileMoveSpeed: 1
-  TileMoveSpeedOverride: 0
-  floorDecal: {fileID: 0}
   LocalTargetPosition: {x: 0, y: 0, z: 0}
-  SynchLocalTargetPosition: {x: 0, y: 0, z: 0}
+  TileMoveSpeed: 1
+  isNotPushable: 1
   newtonianMovement: {x: 0, y: 0}
   airTime: 0
   slideTime: 0
@@ -276,9 +273,6 @@ MonoBehaviour:
   onStationMovementsRound: 1
   attributes: {fileID: 0}
   registerTile: {fileID: 0}
-  defaultInteractionLayerMask:
-    serializedVersion: 2
-    m_Bits: 0
   ContextGameObjects:
   - {fileID: 0}
   - {fileID: 0}
@@ -291,7 +285,6 @@ MonoBehaviour:
   AIR: 3
   SLIDE: 4
   Animating: 0
-  LastDifference: {x: 0, y: 0, z: 0}
   IsFlyingSliding: 0
   IsMoving: 0
   IsWalking: 0

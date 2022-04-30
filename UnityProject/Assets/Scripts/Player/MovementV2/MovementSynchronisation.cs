@@ -647,24 +647,48 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 				GlobalMoveDirection = moveActions.ToPlayerMoveDirection(),
 				CausesSlip = false,
 			};
-			if (isServer == false)
-			{
-				var AddedLocalPosition =
-					(transform.position + NewMoveData.GlobalMoveDirection.TVectoro().To3())
-					.ToLocal(registerTile.Matrix);
-				NewMoveData.LocalMoveDirection =
-					VectorToPlayerMoveDirection((AddedLocalPosition - transform.localPosition)
-						.To2Int()); //Because shuttle could be rotated   enough to make Global  Direction invalid As compared to server
-			}
+
 
 			if (TryMove(NewMoveData, true))
 			{
-				if (isServer) return;
-				CMDRequestMove(NewMoveData);
+				AfterSuccessfulTryMove(NewMoveData);
+				return;
+			}
+			else if (NewMoveData.GlobalMoveDirection.IsDiagonal())
+			{
+				var Cash = NewMoveData.GlobalMoveDirection;
+				NewMoveData.GlobalMoveDirection = Cash.ToNonDiagonal(true);
+				if (TryMove(NewMoveData, true))
+				{
+					AfterSuccessfulTryMove(NewMoveData);
+					return;
+				}
+
+				NewMoveData.GlobalMoveDirection = Cash.ToNonDiagonal(false);
+				if (TryMove(NewMoveData, true))
+				{
+					AfterSuccessfulTryMove(NewMoveData);
+					return;
+				}
 			}
 		}
 	}
 
+
+	public void AfterSuccessfulTryMove(MoveData NewMoveData)
+	{
+		if (isServer) return;
+
+		var AddedLocalPosition =
+			(transform.position + NewMoveData.GlobalMoveDirection.TVectoro().To3())
+			.ToLocal(registerTile.Matrix);
+		NewMoveData.LocalMoveDirection =
+			VectorToPlayerMoveDirection((AddedLocalPosition - transform.localPosition)
+				.To2Int()); //Because shuttle could be rotated   enough to make Global  Direction invalid As compared to server
+
+		CMDRequestMove(NewMoveData);
+		return;
+	}
 
 	public bool TryMove(MoveData NewMoveData, bool ByClient)
 	{
