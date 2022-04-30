@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using UnityEngine.UI;
 using UI.CharacterCreator;
 
@@ -9,7 +9,6 @@ namespace Lobby
 		public static LobbyManager Instance;
 		public AccountLogin accountLogin;
 		public CharacterCustomization characterCustomization;
-		public Toggle hostToggle;
 
 		public GUI_LobbyDialogue lobbyDialogue;
 
@@ -30,6 +29,10 @@ namespace Lobby
 			DetermineUIScale();
 			UIManager.Display.SetScreenForLobby();
 			EventManager.AddHandler(Event.LoggedOut, SetOnLogOut);
+		}
+
+		private void OnEnable()
+		{
 			CustomNetworkManager.Instance.OnClientDisconnected.AddListener(OnClientDisconnect);
 		}
 

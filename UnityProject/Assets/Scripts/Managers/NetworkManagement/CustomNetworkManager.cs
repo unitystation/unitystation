@@ -403,6 +403,11 @@ public class CustomNetworkManager : NetworkManager, IInitialise
 			// EventManager.Broadcast(EVENT.RoundStarted);
 			StartCoroutine(DoHeadlessCheck());
 		}
+		else
+		{
+			// must've disconnected, let lobby know (now that scene is loaded)
+			Lobby.LobbyManager.Instance.lobbyDialogue.wasDisconnected = true;
+		}
 	}
 
 	private IEnumerator DoHeadlessCheck()

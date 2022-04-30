@@ -256,7 +256,6 @@ public class GameData : MonoBehaviour
 
 		LobbyManager.Instance.lobbyDialogue.serverAddressInput.text = ip;
 		LobbyManager.Instance.lobbyDialogue.serverPortInput.text = port;
-		LobbyManager.Instance.hostToggle.isOn = false;
 
 		GameScreenManager.Instance.serverIP = ip;
 
