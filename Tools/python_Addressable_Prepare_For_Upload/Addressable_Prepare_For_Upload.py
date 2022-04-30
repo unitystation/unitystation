@@ -15,10 +15,12 @@ else:
 
 paths = os.getcwd()
 
-paths = paths.replace("Tools\python_Addressable_Prepare_For_Upload", "")
+paths = paths.replace("\\", "/")
+
+paths = paths.replace("Tools/python_Addressable_Prepare_For_Upload", "")
 print(paths)
 
-paths = paths + "UnityProject\\AddressablePackingProjects\\"
+paths = paths + "UnityProject/AddressablePackingProjects/"
 
 print(paths)
 
@@ -30,7 +32,7 @@ Folders = os.listdir(paths)
 
 for Folder in Folders:
     Folder_Name = Folder
-    Folder = paths + Folder  + "\\ServerData\\"
+    Folder = paths + Folder  + "/ServerData/"
 
 
     Files = os.listdir(Folder)
@@ -40,7 +42,7 @@ for Folder in Folders:
         if ".json" in File:
             FilePath =  Folder + File
             print(FilePath)
-            with open(FilePath, "r+", encoding ='utf8') as f:
+            with open(FilePath, "r+") as f:
                 d = json.load(f)
                 i = 0
 
