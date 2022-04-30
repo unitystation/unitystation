@@ -158,6 +158,9 @@ public partial class GameManager : MonoBehaviour, IInitialise
 
 	public int RebootOnAverageFPSOrLower = 35;
 
+	[NonSerialized]
+	public bool DisconnectExpected = false;
+	
 	void IInitialise.Initialise()
 	{
 		// Set up server defaults, needs to be loaded here to ensure gameConfigManager is load.
