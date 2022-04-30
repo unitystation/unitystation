@@ -114,8 +114,9 @@ public class CustomNetworkManager : NetworkManager, IInitialise
 	{
 		CheckTransport();
 		ApplyConfig();
-		//Automatically host if starting up game *not* from lobby
-		if (SceneManager.GetActiveScene().name != "Lobby")
+
+		var prevEditorScene = SubSceneManager.GetEditorPrevScene();
+		if (prevEditorScene != string.Empty && prevEditorScene != "StartUp" && prevEditorScene != "Lobby")
 		{
 			StartHost();
 		}
