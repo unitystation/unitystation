@@ -207,8 +207,12 @@ namespace Lobby
 		{
 			HideAllPanels();
 			joinPanel.SetActive(true);
-			serverAddressInput.text = history.Last().IP;
-			serverPortInput.text = history.Last().Port.ToString();
+
+			if (history.Count > 0) {
+				serverAddressInput.text = history.Last().IP;
+				serverPortInput.text = history.Last().Port.ToString();
+			}
+
 			dialogueTitle.text = "Join Game";
 		}
 
