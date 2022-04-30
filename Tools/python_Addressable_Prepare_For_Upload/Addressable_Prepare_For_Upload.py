@@ -2,11 +2,9 @@ import sys
 import os
 import json
 
-print(os.getcwd())
-
 
 print("Have you done an addressable bundle build in the editor to ensure its up-to-date? and deleted the old bundle build?")
-In = "y" # input("y or n \n")
+In = input("y or n \n")
 
 if In != "y":
     print("either you entered something other than 'y' or you haven't done it yet so do it!")
