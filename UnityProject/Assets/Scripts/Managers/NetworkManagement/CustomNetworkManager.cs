@@ -115,9 +115,8 @@ public class CustomNetworkManager : NetworkManager, IInitialise
 		CheckTransport();
 		ApplyConfig();
 
-		// if editor prefs previousEditorScene is StartUp or Lobby, return
 		var prevEditorScene = SubSceneManager.GetEditorPrevScene();
-		if (prevEditorScene != "StartUp" && prevEditorScene != "Lobby")
+		if (prevEditorScene != string.Empty && prevEditorScene != "StartUp" && prevEditorScene != "Lobby")
 		{
 			StartHost();
 		}
