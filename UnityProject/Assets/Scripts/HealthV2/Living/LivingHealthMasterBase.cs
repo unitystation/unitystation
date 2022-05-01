@@ -15,7 +15,6 @@ using NaughtyAttributes;
 using Player;
 using Newtonsoft.Json;
 using ScriptableObjects.RP;
-using Event = ENet.Event;
 
 namespace HealthV2
 {
