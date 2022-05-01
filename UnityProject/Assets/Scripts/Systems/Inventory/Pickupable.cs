@@ -218,7 +218,7 @@ public class Pickupable : NetworkBehaviour, IPredictedCheckedInteractable<HandAp
 
 	private void PickupAnim(GameObject interactor)
 	{
-		OnMoveToPlayerInventory.Invoke();
+		OnMoveToPlayerInventory?.Invoke();
 		LeanTween.move(gameObject, interactor.transform, pickupAnimSpeed);
 		LeanTween.scale(gameObject, new Vector3(0, 0), pickupAnimSpeed);
 	}
