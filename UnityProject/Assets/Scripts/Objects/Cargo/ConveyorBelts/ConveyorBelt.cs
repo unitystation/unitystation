@@ -4,7 +4,9 @@ using UnityEngine;
 using Mirror;
 using ScriptableObjects;
 using Systems.ObjectConnection;
-
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 
 namespace Construction.Conveyors
 {
@@ -47,7 +49,10 @@ namespace Construction.Conveyors
 		private void OnValidate()
 		{
 			if (Application.isPlaying) return;
-			RefreshSprites();
+#if UNITY_EDITOR
+			EditorApplication.delayCall += RefreshSprites;
+#endif
+
 		}
 
 		#endregion Lifecycle

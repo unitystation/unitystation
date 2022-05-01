@@ -3,6 +3,9 @@ using Messages.Server;
 using Mirror;
 using ScriptableObjects;
 using ScriptableObjects.Gun;
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 using UnityEngine;
 using Weapons;
 using Weapons.Projectiles;
@@ -61,7 +64,14 @@ namespace Objects.Engineering
 		private void OnValidate()
 		{
 			if (Application.isPlaying) return;
+#if UNITY_EDITOR
+			EditorApplication.delayCall += ValidateLate;
+#endif
 
+		}
+
+		public void ValidateLate()
+		{
 			spriteHandler = GetComponentInChildren<SpriteHandler>();
 			currentState = startingState;
 			spriteHandler.ChangeSprite((int)startingState);
@@ -69,6 +79,7 @@ namespace Objects.Engineering
 			transform.localEulerAngles = new Vector3(0, 0, rotation);
 			spriteTransform.localEulerAngles = Vector3.zero;
 		}
+
 
 		private void Start()
 		{
