@@ -99,10 +99,6 @@ public class Rotatable : NetworkBehaviour, IMatrixRotation
 		}
 	}
 
-	// private bool HasSetEditor = false;
-	//
-	// private OrientationEnum Cashed = OrientationEnum.Default;
-
 	public void OnValidate()
 	{
 		if (Application.isPlaying) return;
