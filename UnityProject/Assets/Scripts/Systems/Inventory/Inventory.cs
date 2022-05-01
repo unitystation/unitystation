@@ -5,6 +5,7 @@ using Messages.Client;
 using UnityEngine;
 using Systems.Storage;
 using Objects;
+using Random = UnityEngine.Random;
 
 /// <summary>
 /// Main API for modifying inventory. If you need to do something with inventory, check here first.
@@ -423,11 +424,47 @@ public static class Inventory
 				Distance = IA2.ThrowRange;
 			}
 
+			if (UOP.DEBUG)
+			{
+				Logger.LogError(((Mathf.Pow(IA2.ThrowSpeed,2) / (2*UniversalObjectPhysics.DEFAULT_Friction)) / IA2.ThrowSpeed).ToString());
+			}
 
+
+			//v = u + at
+			// u – initial velocity
+			// v – final velocity
+			// a – acceleration
+			// t – time
+			// s – displacement
+
+			//so
+			//0 = IA2.ThrowSpeed + UniversalObjectPhysics.DEFAULT_Friction * t?
+
+			//t = (IA2.ThrowSpeed) / UniversalObjectPhysics.DEFAULT_Friction
+			//s=1/2*(u+v)*t
+
+			//s=1/2*(IA2.ThrowSpeed)*(IA2.ThrowSpeed / UniversalObjectPhysics.DEFAULT_Friction)
+
+			//s=1/2*(u+v)*(u/f)
+
+			//s= u^2 / 2f
+
+			//Distance / IA2.ThrowSpeed
+
+			//   (u^2 / 2f) / A2.ThrowSpeed
+
+
+			// (Mathf.Pow(IA2.ThrowSpeed,2) / 2*UniversalObjectPhysics.DEFAULT_Friction) / A2.ThrowSpeed
+
+			var AAAA = Mathf.Pow(IA2.ThrowSpeed, 2);
+
+			//speedloss  / friction
 			UOP.NewtonianPush( WorldTrajectory,((ItemAttributesV2) UOP.attributes).ThrowSpeed
-				, ((Distance / IA2.ThrowSpeed ) - ( ))
-				 , Single.NaN, toPerform.ThrowAim.GetValueOrDefault(BodyPartType.Chest), holder.gameObject );
+				, (Distance / IA2.ThrowSpeed  ) - ((AAAA / (2*UniversalObjectPhysics.DEFAULT_Friction)) / IA2.ThrowSpeed)
+				 , Single.NaN, toPerform.ThrowAim.GetValueOrDefault(BodyPartType.Chest), holder.gameObject, Random.Range(25, 150));
 
+
+			//
 			// Counter-impulse for players in space
 			universalObjectPhysics.NewtonianNewtonPush(-WorldTrajectory,UOP.GetWeight() + 1);
 		}

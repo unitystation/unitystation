@@ -37,8 +37,11 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 
 	public const int HIGH_SPEED_COLLISION_THRESHOLD = 15;
 
-	public const float DEFAULT_Friction = 0.01f;
-	public const float DEFAULT_SLIDE_FRICTION = 0.003f;
+	//public const float DEFAULT_Friction = 9999999999999f;
+	public const float DEFAULT_Friction = 15f;
+	public const float DEFAULT_SLIDE_FRICTION = 5f;
+
+	public bool DEBUG = false;
 
 	[PrefabModeOnly]
 	public bool SnapToGridOnStart = false;
@@ -306,8 +309,8 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 	public void UpdateClientMomentum(Vector3 ReSetToLocal, Vector2 NewMomentum, float InairTime, float InslideTime,
 		int MatrixID)
 	{
-		if (isLocalPlayer)
-			return; //We are updating other Objects than the player on the client //TODO Also block if being pulled by local player
+		if (isServer) return;
+		if (isLocalPlayer) return; //We are updating other Objects than the player on the client //TODO Also block if being pulled by local player
 		newtonianMovement = NewMomentum;
 		airTime = InairTime;
 		slideTime = InslideTime;
@@ -785,15 +788,31 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 		float INslideTime = Single.NaN, BodyPartType inaim = BodyPartType.Chest, GameObject inthrownBy = null,
 		float spinFactor = 0) //Collision is just naturally part of Newtonian push
 	{
+
+		SetD = false;
+
 		aim = inaim;
 		thrownBy = inthrownBy;
-		spinMagnitude = spinFactor;
+		if (Random.Range(0, 1) == 1)
+		{
+			spinMagnitude = spinFactor * 1;
+		}
+		else
+		{
+			spinMagnitude = spinFactor * -1;
+		}
+
+
 		if (float.IsNaN(INairTime) == false || float.IsNaN(INslideTime) == false)
 		{
 			WorldDirection.Normalize();
 			newtonianMovement += WorldDirection * speed;
 			if (float.IsNaN(INairTime) == false)
 			{
+				if (INairTime < 0)
+				{
+					Logger.LogError(INairTime.ToString());
+				}
 				airTime = INairTime;
 			}
 
@@ -830,9 +849,11 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 
 	public void AppliedFriction(float FrictionCoefficient)
 	{
-		var SpeedLossDueToFriction = FrictionCoefficient * 3;
+		var SpeedLossDueToFriction = FrictionCoefficient* Time.deltaTime;
 
-		var NewMagnitude = newtonianMovement.magnitude - SpeedLossDueToFriction;
+		var oldMagnitude = newtonianMovement.magnitude;
+
+		var NewMagnitude = oldMagnitude - SpeedLossDueToFriction;
 
 		if (NewMagnitude <= 0)
 		{
@@ -840,7 +861,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 		}
 		else
 		{
-			newtonianMovement *= (NewMagnitude / newtonianMovement.magnitude);
+			newtonianMovement *= (NewMagnitude / oldMagnitude);
 		}
 	}
 
@@ -973,17 +994,17 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 	[PlayModeOnly]
 	public double LastUpdateClientFlying = 0; //NetworkTime.time
 
+	public float CashedTimeWhenSliding = 0;
+
+
+	public bool SetD = false;
+	private Vector2 CachedMomentum;
+
 	public void FlyingUpdateMe()
 	{
 		IsFlyingSliding = true;
 
 		if (this == null) UpdateManager.Remove(CallbackType.UPDATE, FlyingUpdateMe);
-
-		if (name == "DEBUG")
-		{
-			Logger.LogError("o3o");
-		}
-
 
 		if (PulledBy.HasComponent)
 		{
@@ -1021,6 +1042,11 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 		}
 		else
 		{
+			if (SetD == false)
+			{
+				SetD = true;
+				CashedTimeWhenSliding = Time.time;
+			}
 			var Floating = IsFloating();
 			if (Floating == false)
 			{
@@ -1034,6 +1060,8 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 
 		var intposition = position.RoundToInt();
 		var intNewposition = Newposition.RoundToInt();
+
+		transform.Rotate (new Vector3 (0, 0, spinMagnitude * newtonianMovement.magnitude* Time.deltaTime)); //TODO Reset rotation to!!!
 
 		if (intposition != intNewposition)
 		{
@@ -1053,6 +1081,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 
 			if (newtonianMovement.magnitude > 0)
 			{
+
 				var CashednewtonianMovement = newtonianMovement;
 				SetMatrixCash.ResetNewPosition(intposition);
 				Pushing.Clear();
@@ -1067,8 +1096,11 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 						Bump.OnBump(this.gameObject);
 					}
 
+
+					var Normal = (intposition - intNewposition).ToNonInt3();
 					Newposition = position;
-					newtonianMovement *= 0;
+					newtonianMovement -= 2 * (newtonianMovement * Normal) * Normal;
+					spinMagnitude *= -1;
 				}
 
 				if (Pushing.Count > 0)
@@ -1080,9 +1112,11 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 						push.NewtonianNewtonPush(newtonianMovement, (newtonianMovement.magnitude * GetWeight()),
 							Single.NaN, Single.NaN, aim, thrownBy, spinMagnitude);
 					}
-
+					var Normal = (intposition - intNewposition).ToNonInt3();
 					Newposition = position;
-					newtonianMovement *= 0;
+					newtonianMovement -= 2 * (newtonianMovement * Normal) * Normal;
+					newtonianMovement *= 0.5f;
+					spinMagnitude *= -1;
 				}
 
 				var IAV2 = (attributes as ItemAttributesV2);
@@ -1141,9 +1175,10 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 
 		if (isServer)
 		{
-			if (NetworkTime.time - LastUpdateClientFlying > 2)
+			if (NetworkTime.time - LastUpdateClientFlying > 1)
 			{
 				LastUpdateClientFlying = NetworkTime.time;
+				CachedMomentum = newtonianMovement;
 				UpdateClientMomentum(transform.localPosition, newtonianMovement, airTime, slideTime,
 					registerTile.Matrix.Id);
 			}
@@ -1152,6 +1187,12 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 
 		if (newtonianMovement.magnitude < 0.01f) //Has slowed down enough
 		{
+			if (DEBUG)
+			{
+				Logger.LogError( "it took To slighter halt" + (CashedTimeWhenSliding - Time.time));
+			}
+
+
 			OnLocalTileReached.Invoke(transform.localPosition);
 			if (onStationMovementsRound)
 			{

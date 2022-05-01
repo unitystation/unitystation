@@ -97,7 +97,7 @@ namespace Items
 		/// <summary>
 		/// How many tiles to move per 0.1s when being thrown
 		/// </summary>
-		public float ThrowSpeed => throwSpeed;
+		public float ThrowSpeed => throwSpeed * 4;
 
 		[Tooltip("Max throw distance")]
 		[SerializeField]
