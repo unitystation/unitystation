@@ -1,12 +1,14 @@
 using System;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Learning
 {
 	[CreateAssetMenu(fileName = "Protip", menuName = "ScriptableObjects/Learning/ProtipSO")]
     public class ProtipSO : ScriptableObject
     {
-        public string TipTile;
+		[FormerlySerializedAs("TipTile")]
+        public string TipTitle;
         public Protip TipData;
     }
 
