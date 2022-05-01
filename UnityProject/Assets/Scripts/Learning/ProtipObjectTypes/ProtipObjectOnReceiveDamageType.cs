@@ -7,9 +7,14 @@ namespace Learning.ProtipObjectTypes
 	{
 		[SerializeField] private DamageType damageTypeThatTriggersTip;
 
-		public void Start()
+		public void OnEnable()
 		{
 			PlayerManager.PlayerScript.playerHealth.OnTakeDamageType += DamageTypeSimilar;
+		}
+
+		public void OnDisable()
+		{
+			PlayerManager.PlayerScript.playerHealth.OnTakeDamageType -= DamageTypeSimilar;
 		}
 
 		private void DamageTypeSimilar(DamageType type)
