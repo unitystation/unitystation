@@ -1,3 +1,4 @@
+using System;
 using Messages.Server;
 using Mirror;
 using System.Collections;
@@ -5,7 +6,6 @@ using System.Collections.Generic;
 using Items;
 using UI;
 using UnityEngine;
-using UnityEngine.Events;
 using Random = UnityEngine.Random;
 
 /// <summary>
@@ -43,8 +43,9 @@ public class Pickupable : NetworkBehaviour, IPredictedCheckedInteractable<HandAp
 
 	public ItemAttributesV2 ItemAttributesV2;
 
-	public readonly UnityEvent OnMoveToPlayerInventory = new UnityEvent();
+	public event Action OnMoveToPlayerInventory;
 
+	
 	#region Lifecycle
 
 	private void Awake()

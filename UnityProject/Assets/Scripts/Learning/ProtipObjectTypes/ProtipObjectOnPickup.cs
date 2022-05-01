@@ -7,7 +7,7 @@ namespace Learning.ProtipObjectTypes
 	{
 		public void Start()
 		{
-			gameObject.PickupableOrNull().OnMoveToPlayerInventory.AddListener(TriggerTip);
+			gameObject.PickupableOrNull().OnMoveToPlayerInventory += TriggerTip;
 		}
 	}
 }
