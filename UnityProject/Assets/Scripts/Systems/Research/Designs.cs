@@ -70,7 +70,7 @@ namespace Systems.Research
 
 				Globals.InternalIDSearch = new Dictionary<string, Design>();
 
-				string info = Application.streamingAssetsPath + Designs.Globals.DesignPath;
+				string info = Path.Combine(Application.streamingAssetsPath, "TechWeb", "Designs");
 
 				string[] fileInfo = Directory.GetFiles(info,"*.json");
 
@@ -85,8 +85,6 @@ namespace Systems.Research
 		public static class Globals
 		{
 			public static bool IsInitialised = false;
-
-			public static string DesignPath = @"\TechWeb\Designs\";
 
 			public static Dictionary<string,Design> InternalIDSearch;
 
