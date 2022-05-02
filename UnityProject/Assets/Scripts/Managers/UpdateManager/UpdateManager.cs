@@ -99,14 +99,23 @@ public class UpdateManager : MonoBehaviour
 		instance.threadSafeAddQueue.Enqueue(new Tuple<CallbackType, Action>(type, action));
 	}
 
-	public static void Add(Action action, float timeInterval)
+	public static void Add(Action action, float timeInterval, bool offsetUpdate = true)
 	{
 		if (Instance.periodicUpdateActions.Any(x => x.Action == action)) return;
 		TimedUpdate timedUpdate = Instance.GetTimedUpdates();
 		timedUpdate.SetUp(action, timeInterval);
-		timedUpdate.TimeTitleNext += NumberOfUpdatesAdded * 0.1f;
-		NumberOfUpdatesAdded++;
+		if (offsetUpdate)
+		{
+			timedUpdate.TimeTitleNext += NumberOfUpdatesAdded * 0.01f;
+		}
+
 		Instance.periodicUpdateActions.Add(timedUpdate);
+
+		NumberOfUpdatesAdded++;
+		if (NumberOfUpdatesAdded > 500)
+		{
+			NumberOfUpdatesAdded = 0; //So the delay can't be too big
+		}
 	}
 
 	public static void SafeAdd(Action action, float timeInterval)
@@ -334,14 +343,13 @@ public class UpdateManager : MonoBehaviour
 	/// </summary>
 	private void ProcessDelayUpdate()
 	{
-		NumberOfUpdatesAdded = 0;
 		for (int i = 0; i < periodicUpdateActions.Count; i++)
 		{
 			periodicUpdateActions[i].TimeTitleNext -= CashedDeltaTime;
 			if (periodicUpdateActions[i].TimeTitleNext <= 0)
 			{
 				LastInvokedAction = periodicUpdateActions[i].Action;
-				periodicUpdateActions[i].TimeTitleNext = periodicUpdateActions[i].TimeDelayPreUpdate;
+				periodicUpdateActions[i].TimeTitleNext = periodicUpdateActions[i].TimeDelayPreUpdate + periodicUpdateActions[i].TimeTitleNext;
 				periodicUpdateActions[i].Action();
 			}
 		}

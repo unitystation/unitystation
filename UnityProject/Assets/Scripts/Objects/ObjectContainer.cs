@@ -150,11 +150,11 @@ namespace Objects
 			}
 		}
 
-		public IEnumerable<GameObject> GetStoredObjects()
+		public IEnumerable<GameObject> GetStoredObjects(bool onlyInstantiated = false)
 		{
-			if (initialContentsSpawned == false)
+			if (initialContentsSpawned == false && onlyInstantiated == false)
 			{
-				TrySpawnInitialContents();
+				TrySpawnInitialContents(true);
 			}
 
 			foreach (var obj in storedObjects.Keys)
@@ -166,6 +166,7 @@ namespace Objects
 			}
 		}
 
+		//Only use for items that are being destroyed TODO Probably should cleanup values for nice pooling
 		public void RemoveObject(GameObject obj)
 		{
 			storedObjects.Remove(obj);
@@ -196,7 +197,7 @@ namespace Objects
 				}
 				else if (obj.TryGetComponent<PlayerScript>(out var playerScript))
 				{
-					playerScript.PlayerSync.AppearAtPositionServer(registerTile.WorldPositionServer);
+					playerScript.PlayerSync.AppearAtPositionServer(worldPosition.GetValueOrDefault(registerTile.WorldPositionServer));
 					playerScript.playerMove.IsTrapped = false;
 					if (pushPullObject.Pushable.IsMovingServer)
 					{
@@ -259,7 +260,7 @@ namespace Objects
 		/// <param name="parentNetId">new parent net ID</param>
 		private void ReparentStoredObjects(uint parentNetId)
 		{
-			foreach (GameObject obj in GetStoredObjects())
+			foreach (GameObject obj in GetStoredObjects(true))
 			{
 				obj.RegisterTile().ServerSetNetworkedMatrixNetID(parentNetId);
 			}

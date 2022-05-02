@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Doors;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.Tilemaps;
@@ -12,7 +13,8 @@ using HealthV2;
 using Systems.Atmospherics;
 using Systems.Electricity;
 using Systems.Pipes;
-
+using Util;
+using Tiles;
 
 /// <summary>
 /// Behavior which indicates a matrix - a contiguous grid of tiles.
@@ -55,7 +57,10 @@ public class Matrix : MonoBehaviour
 	public bool IsMainStation;
 	public bool IsLavaLand;
 
-	public MatrixMove MatrixMove { get; private set; }
+	private CheckedComponent<MatrixMove> checkedMatrixMove = new CheckedComponent<MatrixMove>();
+	public bool IsMovable => checkedMatrixMove.HasComponent;
+
+	public MatrixMove MatrixMove => checkedMatrixMove.Component;
 
 	private TileChangeManager tileChangeManager;
 	public TileChangeManager TileChangeManager => tileChangeManager;
@@ -65,7 +70,7 @@ public class Matrix : MonoBehaviour
 	/// <summary>
 	/// Does this have a matrix move and is that matrix move moving?
 	/// </summary>
-	public bool IsMovingServer => MatrixMove != null && MatrixMove.IsMovingServer;
+	public bool IsMovingServer => checkedMatrixMove.HasComponent && MatrixMove.IsMovingServer;
 
 	/// <summary>
 	/// Matrix info that is provided via MatrixManager
@@ -107,7 +112,7 @@ public class Matrix : MonoBehaviour
 		initialOffset = Vector3Int.CeilToInt(gameObject.transform.position);
 		reactionManager = GetComponent<ReactionManager>();
 		metaDataLayer = GetComponent<MetaDataLayer>();
-		MatrixMove = GetComponentInParent<MatrixMove>();
+		checkedMatrixMove = new CheckedComponent<MatrixMove>(GetComponentInParent<MatrixMove>());
 		tileChangeManager = GetComponentInParent<TileChangeManager>();
 		underFloorLayer = GetComponentInChildren<UnderFloorLayer>();
 		tilemapsDamage = GetComponentsInChildren<TilemapDamage>().ToList();
@@ -196,8 +201,10 @@ public class Matrix : MonoBehaviour
 	/// </summary>
 	public bool CanCloseDoorAt(Vector3Int position, bool isServer)
 	{
+		var firelock = GetFirst<FireLock>(position, isServer);
+		if (firelock != null && firelock.fireAlarm.activated) return true;
 		return IsPassableAtOneMatrix(position, position, isServer) &&
-		       GetFirst<LivingHealthMasterBase>(position, isServer) == null;
+		        GetFirst<LivingHealthMasterBase>(position, isServer) == null;
 	}
 
 	/// Can one pass from `origin` to adjacent `position`?
@@ -273,18 +280,17 @@ public class Matrix : MonoBehaviour
 	}
 
 	//Has to inherit from register tile
-	public IEnumerable<T> GetAs<T>(Vector3Int localPosition, bool isServer) where T : class
+	public IEnumerable<T> GetAs<T>(Vector3Int localPosition, bool isServer) where T : RegisterTile
 	{
 		if (!(isServer ? ServerObjects : ClientObjects).HasObjects(localPosition))
 		{
-			return Enumerable.Empty<T>(); //?
+			return Enumerable.Empty<T>(); //Enumerable.Empty<T>() Does not GC while new List<T> does
 		}
 
 		var filtered = new List<T>();
 		foreach (RegisterTile t in (isServer ? ServerObjects : ClientObjects).Get(localPosition))
 		{
-			T x = t as T;
-			if (x != null)
+			if (t is T x)
 			{
 				filtered.Add(x);
 			}
@@ -294,11 +300,24 @@ public class Matrix : MonoBehaviour
 	}
 
 
+	public IEnumerable<RegisterTile> Get(Vector3Int localPosition, bool isServer)
+	{
+		if (!(isServer ? ServerObjects : ClientObjects).HasObjects(localPosition))
+		{
+			return Enumerable.Empty<RegisterTile>(); //Enumerable.Empty<T>() Does not GC while new List<T> does
+		}
+
+		var filtered = new List<RegisterTile>();
+		filtered.AddRange((isServer ? ServerObjects : ClientObjects).Get(localPosition));
+		return filtered;
+	}
+
+
 	public IEnumerable<T> Get<T>(Vector3Int localPosition, bool isServer)
 	{
 		if (!(isServer ? ServerObjects : ClientObjects).HasObjects(localPosition))
 		{
-			return Enumerable.Empty<T>(); //?
+			return Enumerable.Empty<T>(); //Enumerable.Empty<T>() Does not GC while new List<T> does
 		}
 
 		var filtered = new List<T>();
@@ -319,6 +338,7 @@ public class Matrix : MonoBehaviour
 		//This has been checked in the profiler. 0% CPU and 0kb garbage, so should be fine
 		foreach (RegisterTile t in (isServer ? ServerObjects : ClientObjects).Get(position))
 		{
+			//Note GetComponent GC's in editor but not in build
 			T c = t.GetComponent<T>();
 			if (c != null)
 			{
@@ -332,7 +352,7 @@ public class Matrix : MonoBehaviour
 	{
 		if (!(isServer ? ServerObjects : ClientObjects).HasObjects(localPosition))
 		{
-			return Enumerable.Empty<T>();
+			return  Enumerable.Empty<T>(); //Enumerable.Empty<T>() Does not GC while new List<T> does
 		}
 
 		var filtered = new List<T>();
@@ -355,7 +375,9 @@ public class Matrix : MonoBehaviour
 
 	public bool IsClearUnderfloorConstruction(Vector3Int position, bool isServer)
 	{
-		if (MetaTileMap.HasTile(position, LayerType.Floors))
+		var tile = MetaTileMap.GetTile(position, LayerType.Floors);
+		var basicTile = tile as BasicTile;
+		if (tile != null && (basicTile == null || basicTile.BlocksTileInteractionsUnder))
 		{
 			return (false);
 		}
@@ -381,28 +403,28 @@ public class Matrix : MonoBehaviour
 		return metaTileMap.GetAllTilesByType<Objects.Disposals.DisposalPipe>(position, LayerType.Underfloor);
 	}
 
-	public List<IntrinsicElectronicData> GetElectricalConnections(Vector3Int position)
+	public ElectricalPool.IntrinsicElectronicDataList GetElectricalConnections(Vector3Int localPosition)
 	{
 		var list = ElectricalPool.GetFPCList();
 		if (ServerObjects != null)
 		{
-			var collection = ServerObjects.Get(position);
+			var collection = ServerObjects.Get(localPosition);
 			for (int i = collection.Count - 1; i >= 0; i--)
 			{
 				if (i < collection.Count && collection[i] != null
 				                         && collection[i].ElectricalData != null &&
 				                         collection[i].ElectricalData.InData != null)
 				{
-					list.Add(collection[i].ElectricalData.InData);
+					list.List.Add(collection[i].ElectricalData.InData);
 				}
 			}
 		}
 
-		if (metaDataLayer.Get(position)?.ElectricalData != null)
+		if (metaDataLayer.Get(localPosition)?.ElectricalData != null)
 		{
-			foreach (var electricalMetaData in metaDataLayer.Get(position).ElectricalData)
+			foreach (var electricalMetaData in metaDataLayer.Get(localPosition).ElectricalData)
 			{
-				list.Add(electricalMetaData.InData);
+				list.List.Add(electricalMetaData.InData);
 			}
 		}
 
@@ -543,7 +565,7 @@ public class Matrix : MonoBehaviour
 
 		var bounds = MetaTileMap.GetWorldBounds();
 		DebugGizmoUtils.DrawText(gameObject.name, bounds.max, 11, 5);
-		DebugGizmoUtils.DrawRect(bounds);
+		DebugGizmoUtils.DrawRect(bounds.Minimum, bounds.Maximum);
 	}
 #endif
 }

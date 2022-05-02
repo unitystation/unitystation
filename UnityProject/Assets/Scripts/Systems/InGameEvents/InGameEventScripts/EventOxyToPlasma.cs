@@ -41,13 +41,12 @@ namespace InGameEvents
 					}
 				},
 
-				minimumTemperature: 0f,
-				maximumTemperature:10000000000f,
-				minimumPressure:0f,
-				maximumPressure: 10000000000f,
-				minimumMoles: 0.01f,
-				maximumMoles:10000000000f,
-				energyChange: 0f
+				minimumTileTemperature: 0,
+				maximumTileTemperature:10000000000,
+				minimumTilePressure:0,
+				maximumTilePressure: 10000000000,
+				minimumTileMoles: 0.01f,
+				maximumTileMoles:10000000000
 				);
 
 			base.OnEventStart();

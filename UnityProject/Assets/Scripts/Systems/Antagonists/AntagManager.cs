@@ -2,14 +2,14 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using System.Text;
 using System.Linq;
 using DiscordWebhook;
-using DatabaseAPI;
 using Messages.Server.LocalGuiMessages;
 using Objects.Command;
 using Strings;
-using UnityEngine.SceneManagement;
+using Player;
 
 namespace Antagonists
 {
@@ -56,24 +56,24 @@ namespace Antagonists
 			}
 		}
 
-		void OnEnable()
+		private void OnEnable()
 		{
 			SceneManager.activeSceneChanged += OnSceneChange;
 			EventManager.AddHandler(Event.RoundEnded, OnRoundEnd);
 		}
 
-		void OnDisable()
+		private void OnDisable()
 		{
 			SceneManager.activeSceneChanged -= OnSceneChange;
 			EventManager.RemoveHandler(Event.RoundEnded, OnRoundEnd);
 		}
 
-		void OnSceneChange(Scene oldScene, Scene newScene)
+		private void OnSceneChange(Scene oldScene, Scene newScene)
 		{
 			SyndiNukeCode = Nuke.CodeGenerator();
 		}
 
-		void OnRoundEnd()
+		private void OnRoundEnd()
 		{
 			ResetAntags();
 		}
@@ -248,6 +248,5 @@ namespace Antagonists
 			TargetedPlayers.Clear();
 			TargetedItems.Clear();
 		}
-
 	}
 }

@@ -20,7 +20,7 @@ namespace Systems.MobAIs
 		protected MobExplore mobExplore;
 		protected MobFlee mobFlee;
 		[NonSerialized] public LivingHealthBehaviour health;
-		protected Directional directional;
+		protected Rotatable rotatable;
 		protected MobSprite mobSprite;
 		protected CustomNetTransform cnt;
 		public CustomNetTransform Cnt => cnt;
@@ -46,15 +46,6 @@ namespace Systems.MobAIs
 		protected UnityEvent exploringStopped = new UnityEvent();
 		protected UnityEvent fleeingStopped = new UnityEvent();
 
-		/// <summary>
-		/// Is MobAI currently performing an AI task like following or exploring
-		/// </summary>
-		public bool IsPerformingTask {
-			get {
-				return (mobExplore.activated || mobFollow.activated || mobFlee.activated);
-			}
-		}
-
 		public bool IsDead => health.IsDead;
 
 		public bool IsUnconscious => health.IsCrit;
@@ -70,7 +61,7 @@ namespace Systems.MobAIs
 			mobExplore = GetComponent<MobExplore>();
 			mobFlee = GetComponent<MobFlee>();
 			health = GetComponent<LivingHealthBehaviour>();
-			directional = GetComponent<Directional>();
+			rotatable = GetComponent<Rotatable>();
 			mobSprite = GetComponent<MobSprite>();
 			cnt = GetComponent<CustomNetTransform>();
 			registerObject = GetComponent<RegisterObject>();
@@ -197,7 +188,7 @@ namespace Systems.MobAIs
 
 		private void MonitorFollowingTime()
 		{
-			if (mobFollow.activated && followTimeMax > 0)
+			if (mobFollow.Priority < 25 && followTimeMax > 0)
 			{
 				followingTime += Time.deltaTime;
 				if (followingTime > followTimeMax)
@@ -209,7 +200,7 @@ namespace Systems.MobAIs
 
 		private void MonitorExploreTime()
 		{
-			if (mobExplore.activated && exploreTimeMax > 0)
+			if (mobExplore.Priority < 25 && exploreTimeMax > 0)
 			{
 				exploringTime += Time.deltaTime;
 				if (exploringTime > exploreTimeMax)
@@ -273,7 +264,7 @@ namespace Systems.MobAIs
 		/// </summary>
 		protected void StopFollowing()
 		{
-			mobFollow.Deactivate();
+			mobFollow.FollowTarget = null;
 			followTimeMax = -1f;
 			followingTime = 0f;
 			followingStopped.Invoke();
@@ -295,7 +286,6 @@ namespace Systems.MobAIs
 		/// </summary>
 		protected void StopExploring()
 		{
-			mobExplore.Deactivate();
 			exploreTimeMax = -1f;
 			exploringTime = 0f;
 			exploringStopped.Invoke();
@@ -396,7 +386,7 @@ namespace Systems.MobAIs
 			if (dir != Vector2Int.zero)
 			{
 				cnt.Push(dir, context: gameObject);
-				directional.FaceDirection(Orientation.From(dir));
+				rotatable.SetFaceDirectionLocalVictor(dir);
 			}
 		}
 
@@ -433,16 +423,6 @@ namespace Systems.MobAIs
 				mobFlee.Deactivate();
 			}
 
-			if (mobFollow.activated)
-			{
-				mobFollow.Deactivate();
-			}
-
-			if (mobExplore.activated)
-			{
-				mobExplore.Deactivate();
-			}
-
 			fleeTimeMax = -1f;
 			fleeingTime = 0f;
 			exploreTimeMax = -1f;
@@ -459,7 +439,7 @@ namespace Systems.MobAIs
 		{
 			// face performer
 			var dir = (performer.transform.position - transform.position).normalized;
-			directional.FaceDirection(Orientation.From(dir));
+			rotatable.SetFaceDirectionLocalVictor(dir.To2Int());
 			PettedEvent?.Invoke();
 		}
 

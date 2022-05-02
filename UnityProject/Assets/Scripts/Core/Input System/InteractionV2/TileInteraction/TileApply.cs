@@ -1,4 +1,5 @@
 
+using Tiles;
 using UnityEngine;
 
 /// <summary>
@@ -41,17 +42,14 @@ public class TileApply : Interaction
 	private readonly Vector2 targetPosition;
 
 
-	/// <summary>
-	/// Targeted world position deduced from target vector and performer position.
-	/// </summary>
-	public Vector2 WorldPositionTarget => TargetPosition.To3().ToWorld(Performer.RegisterTile().Matrix);
+	/// <summary>Target world position calculated from matrix local position.</summary>
+	public Vector2 WorldPositionTarget =>  TargetPosition.To3().ToWorld(Performer.RegisterTile().Matrix);
 
-	/// <summary>
-	/// Vector pointing from the performer to the targeted position. Set to Vector2.zero if aiming at self.
-	/// </summary>
+	/// <summary>Requested local position target.</summary>
 	public Vector2 TargetPosition => targetPosition;
 
-	public Vector2 TargetVector => Performer.transform.localPosition.To2() - targetPosition;
+	/// <summary>Vector pointing from the performer's position to the target position.</summary>
+	public Vector2 TargetVector =>WorldPositionTarget.To3() - Performer.RegisterTile().WorldPosition;
 
 	public enum ApplyType
 	{

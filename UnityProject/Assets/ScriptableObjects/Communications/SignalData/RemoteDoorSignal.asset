@@ -13,5 +13,6 @@ MonoBehaviour:
   m_Name: RemoteDoorSignal
   m_EditorClassIdentifier: 
   UsesRange: 1
-  SignalRange: 25
-  EmittedSignalType: 0
+  SignalRange: 30
+  EmittedSignalType: 2
+  MinMaxFrequancy: {x: 100, y: 144}

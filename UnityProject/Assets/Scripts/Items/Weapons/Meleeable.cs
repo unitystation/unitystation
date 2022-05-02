@@ -26,6 +26,10 @@ namespace Systems.Interaction
 				}
 				return isMeleeable;
 			}
+			set
+			{
+				isMeleeable = value;
+			}
 		}
 
 		/// <summary>
@@ -48,6 +52,7 @@ namespace Systems.Interaction
 
 		public bool WillInteract(PositionalHandApply interaction, NetworkSide side)
 		{
+			if (isMeleeable == false) return false;
 			if (DefaultWillInteract.Default(interaction, side) == false) return false;
 			// must be targeting us
 			if (interaction.TargetObject != gameObject) return false;
@@ -55,7 +60,7 @@ namespace Systems.Interaction
 			// note: actual cooldown is started in WeaponNetworkActions melee logic on server side,
 			// clientPredictInteraction on clientside
 			if (side == NetworkSide.Client && Cooldowns.IsOn(interaction, CooldownID.Asset(CommonCooldowns.Instance.Melee, side))) return false;
-			
+
 			bool LocalItemCheck()
 			{
 				return interaction.HandObject.OrNull()?.Item().CanBeUsedOnSelfOnHelpIntent ?? false;

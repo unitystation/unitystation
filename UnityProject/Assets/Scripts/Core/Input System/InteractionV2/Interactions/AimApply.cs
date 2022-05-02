@@ -20,9 +20,6 @@ public class AimApply : BodyPartTargetedInteraction
 	private readonly ItemSlot handSlot;
 
 
-	/// <summary>
-	/// Vector pointing from the performer to the targeted position. Set to Vector2.zero if aiming at self.
-	/// </summary>
 	public Vector2 TargetPosition => targetPosition;
 
 
@@ -36,13 +33,12 @@ public class AimApply : BodyPartTargetedInteraction
 	/// </summary>
 	public MouseButtonState MouseButtonState => mouseButtonState;
 
-	/// <summary>
-	/// Targeted world position deduced from target vector and performer position.
-	/// </summary>
+
+	/// <summary>Target world position calculated from matrix local position.</summary>
 	public Vector2 WorldPositionTarget => (Vector2)targetPosition.To3().ToWorld(Performer.RegisterTile().Matrix);
 
-	public Vector2 TargetVector => targetPosition - Performer.transform.localPosition.To2() ;
-
+	/// <summary>Vector pointing from the performer's position to the target position.</summary>
+	public Vector2 TargetVector => WorldPositionTarget.To3() - Performer.RegisterTile().WorldPosition;
 	/// <summary>
 	/// Whether player is aiming at themselves.
 	/// </summary>
@@ -82,7 +78,9 @@ public class AimApply : BodyPartTargetedInteraction
 			PLAYER_LAYER_MASK = LayerMask.GetMask("Players");
 		}
 
-		var targetPosition = MouseUtils.MouseToWorldPos().ToLocal(PlayerManager.LocalPlayer.RegisterTile().Matrix).To2();
+
+		var InternaltargetPosition = MouseUtils.MouseToWorldPos().ToLocal(PlayerManager.LocalPlayer.RegisterTile().Matrix).To2();
+
 
 		//check for self aim if target vector is sufficiently small so we can avoid raycast
 		var selfAim = false;
@@ -98,7 +96,8 @@ public class AimApply : BodyPartTargetedInteraction
 		return new AimApply(PlayerManager.LocalPlayer, PlayerManager.LocalPlayerScript.DynamicItemStorage.GetActiveHandSlot().ItemObject,
 			PlayerManager.LocalPlayerScript.DynamicItemStorage.GetActiveHandSlot(),
 			buttonState,
-			selfAim ? PlayerManager.LocalPlayer.transform.localPosition.To2() : targetPosition, UIManager.DamageZone, UIManager.CurrentIntent, PlayerManager.LocalPlayer.transform.localPosition.To2());
+
+			selfAim ? PlayerManager.LocalPlayer.transform.localPosition.To2() : InternaltargetPosition, UIManager.DamageZone, UIManager.CurrentIntent, PlayerManager.LocalPlayer.transform.localPosition.To2());
 	}
 
 	/// <summary>

@@ -243,23 +243,54 @@ public class AddressableCatalogueManager : MonoBehaviour, IInitialise
 	public static List<string> GetCataloguePathStreamingAssets()
 	{
 		var pathss = Application.streamingAssetsPath + "/AddressableCatalogues";
-		var Directories = System.IO.Directory.GetDirectories(pathss);
-		var Catalogues = new List<string>();
-		foreach (var Directorie in Directories)
+		var directories = System.IO.Directory.GetDirectories(pathss);
+		var catalogues = new List<string>();
+		var multiCatalogues = new List<string>();
+		foreach (var directory in directories)
 		{
-			var newpaths = Directorie.Replace(@"\", "/");
-			var newDirectories = System.IO.Directory.GetFiles(newpaths);
+			var newPath = directory.Replace(@"\", "/");
+			var newDirectories = System.IO.Directory.GetFiles(newPath);
 
 			foreach (var pathST in newDirectories)
 			{
 				if (pathST.Contains(".json"))
 				{
-					Catalogues.Add(pathST);
+					multiCatalogues.Add(pathST);
 				}
 
 			}
+
+
+			string Newest = "";
+			if (multiCatalogues.Count > 1)
+			{
+				foreach (var catalogue in multiCatalogues)
+				{
+					var intCatalogue = catalogue.Replace(".json", "");
+					intCatalogue =	intCatalogue.Substring(intCatalogue.IndexOf("\\", StringComparison.Ordinal) + 1).Trim();
+					if (string.IsNullOrEmpty(Newest))
+					{
+						Newest = catalogue;
+					}
+					else
+					{
+						var intNewest = Newest.Replace(".json", "");
+						intNewest =	intNewest.Substring(intNewest.IndexOf("\\", StringComparison.Ordinal) + 1).Trim();
+
+						if (double.Parse(intCatalogue) > double.Parse(intNewest))
+						{
+							Newest = catalogue;
+						}
+					}
+				}
+				catalogues.Add(Newest);
+			}
+			else
+			{
+				catalogues.Add(multiCatalogues[0]);
+			}
 		}
 
-		return Catalogues;
+		return catalogues;
 	}
 }

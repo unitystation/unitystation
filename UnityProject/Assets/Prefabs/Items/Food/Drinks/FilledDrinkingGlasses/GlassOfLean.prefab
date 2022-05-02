@@ -1,0 +1,175 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &7646106601405272736
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 2916459844357016968, guid: fee295a4b61f370429840936c3956722,
+        type: 3}
+      propertyPath: initialName
+      value: Glass of Lean
+      objectReference: {fileID: 0}
+    - target: {fileID: 2916459844357016968, guid: fee295a4b61f370429840936c3956722,
+        type: 3}
+      propertyPath: initialDescription
+      value: The Lung killer
+      objectReference: {fileID: 0}
+    - target: {fileID: 3352719172264976286, guid: fee295a4b61f370429840936c3956722,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3352719172264976286, guid: fee295a4b61f370429840936c3956722,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3352719172264976286, guid: fee295a4b61f370429840936c3956722,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3352719172264976286, guid: fee295a4b61f370429840936c3956722,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3352719172264976286, guid: fee295a4b61f370429840936c3956722,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3352719172264976286, guid: fee295a4b61f370429840936c3956722,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3352719172264976286, guid: fee295a4b61f370429840936c3956722,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3352719172264976286, guid: fee295a4b61f370429840936c3956722,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3352719172264976286, guid: fee295a4b61f370429840936c3956722,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3352719172264976286, guid: fee295a4b61f370429840936c3956722,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3352719172264976286, guid: fee295a4b61f370429840936c3956722,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3356521420407087850, guid: fee295a4b61f370429840936c3956722,
+        type: 3}
+      propertyPath: m_Name
+      value: GlassOfLean
+      objectReference: {fileID: 0}
+    - target: {fileID: 3386866862029914998, guid: fee295a4b61f370429840936c3956722,
+        type: 3}
+      propertyPath: customNetTransform
+      value: 
+      objectReference: {fileID: 4980137051466096026}
+    - target: {fileID: 3386979507669081950, guid: fee295a4b61f370429840936c3956722,
+        type: 3}
+      propertyPath: m_AssetId
+      value: 26d3d6cf5c7ce6d4183ca47ac55c4552
+      objectReference: {fileID: 0}
+    - target: {fileID: 4593330484870900290, guid: fee295a4b61f370429840936c3956722,
+        type: 3}
+      propertyPath: reactionSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 5e9cd20e17eb54a49b4676ae98d5a6a1,
+        type: 2}
+    - target: {fileID: 4593330484870900290, guid: fee295a4b61f370429840936c3956722,
+        type: 3}
+      propertyPath: destroyOnEmpty
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4593330484870900290, guid: fee295a4b61f370429840936c3956722,
+        type: 3}
+      propertyPath: AdditionalReactions.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4593330484870900290, guid: fee295a4b61f370429840936c3956722,
+        type: 3}
+      propertyPath: AdditionalReactions.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: b9b2d19afaa324540a0b5a9d8bb203af,
+        type: 2}
+    - target: {fileID: 4593330484870900290, guid: fee295a4b61f370429840936c3956722,
+        type: 3}
+      propertyPath: AdditionalReactions.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: c57863b3f01a344e58e3fb4a55f80d3a,
+        type: 2}
+    - target: {fileID: 4593330484870900290, guid: fee295a4b61f370429840936c3956722,
+        type: 3}
+      propertyPath: AdditionalReactions.Array.data[2]
+      value: 
+      objectReference: {fileID: 11400000, guid: 775e363ed10182c4dbb4e39792a14759,
+        type: 2}
+    - target: {fileID: 4593330484870900290, guid: fee295a4b61f370429840936c3956722,
+        type: 3}
+      propertyPath: initialReagentMix.reagents.m_keys.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 44d930a4eaefa064ba2d7c934f0bd0a9,
+        type: 2}
+    - target: {fileID: 8515879833374371463, guid: fee295a4b61f370429840936c3956722,
+        type: 3}
+      propertyPath: foreverID
+      value: Zp7q_YDe-Q0ma!3pzV-f
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 3523207349366164119, guid: fee295a4b61f370429840936c3956722, type: 3}
+  m_SourcePrefab: {fileID: 100100000, guid: fee295a4b61f370429840936c3956722, type: 3}
+--- !u!1 &4938389421849145418 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3356521420407087850, guid: fee295a4b61f370429840936c3956722,
+    type: 3}
+  m_PrefabInstance: {fileID: 7646106601405272736}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &4980137051466096026 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3387108457866989370, guid: fee295a4b61f370429840936c3956722,
+    type: 3}
+  m_PrefabInstance: {fileID: 7646106601405272736}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4938389421849145418}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 579884b05ae74e8499329b64997147d3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &4089827206837211520
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4938389421849145418}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ba8febc3c8584802b87295d0f110959e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  drinkSound:
+    SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/Effects/Slurp.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+  lungDamage: 30

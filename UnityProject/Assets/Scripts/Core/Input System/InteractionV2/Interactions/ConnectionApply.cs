@@ -29,6 +29,7 @@ public class ConnectionApply : TargetedInteraction
 	/// <summary>
 	/// Vector pointing from the performer to the targeted position. Set to Vector2.zero if aiming at self.
 	/// </summary>
+	///
 	public Vector2 TargetPosition => targetPosition;
 
 
@@ -72,6 +73,7 @@ public class ConnectionApply : TargetedInteraction
 	public static ConnectionApply ByLocalPlayer(GameObject targetObject, Connection wireEndA, Connection wireEndB, Vector3? IntargetVector)
 	{
 		if (PlayerManager.LocalPlayerScript.IsGhost) return Invalid;
+
 		Vector3 targetVec = Vector3.zero;
 		if (IntargetVector != null)
 		{

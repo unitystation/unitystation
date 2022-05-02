@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8b1bfcb29a2677e48add641bd21c8ade, type: 3}
   m_Name: SO-Medium_Voltage_Cable
   m_EditorClassIdentifier: 
-  displayName: 
+  displayName: medium voltage cable
   LayerType: 8
   TileType: 11
   RequiredTiles: []
@@ -31,6 +31,7 @@ MonoBehaviour:
   doesReflectBullet: 0
   indestructible: 0
   ExplosionImpassable: 0
+  BlocksTileInteractionsUnder: 1
   passableException:
     m_keys: 
     m_values: 
@@ -50,6 +51,7 @@ MonoBehaviour:
     DismembermentProtectionChance: 0
   tileInteractions:
   - {fileID: 11400000, guid: a357998b2bd41c0489e7b22914e697e5, type: 2}
+  tileStepInteractions: []
   spawnOnDeconstruct: {fileID: 4435676122793348777, guid: c567e6c3b003a2b488534a8766866cb0,
     type: 3}
   spawnAmountOnDeconstruct: 1
@@ -64,6 +66,7 @@ MonoBehaviour:
       m_AssetGUID: 
       m_SubObjectName: 
       m_SubObjectType: 
+      m_EditorAssetChanged: 0
   SoundOnDestroy: []
   CanConnectTo: 0100000003000000020000000600000007000000040000000d00000010000000140000000500000015000000
   PowerType: 1

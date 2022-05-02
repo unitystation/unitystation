@@ -35,8 +35,6 @@ namespace UI.CharacterCreator
 
 		public Dictionary<BodyPart, List<BodyPart>> ParentDictionary = new Dictionary<BodyPart, List<BodyPart>>();
 
-		public List<GameObject> RootCustomisations = new List<GameObject>();
-
 		public List<BodyTypeName> AvailableBodyTypes = new List<BodyTypeName>();
 
 		public int SelectedBodyType = 0;
@@ -58,11 +56,6 @@ namespace UI.CharacterCreator
 
 		public PlayerHealthData ThisSetRace = null;
 
-		public CharacterSprites torsoSpriteController;
-		public CharacterSprites headSpriteController;
-
-		public PlayerTextureData playerTextureData;
-
 		public CharacterDir currentDir;
 
 		[SerializeField] private List<Color> availableSkinColors;
@@ -79,13 +72,6 @@ namespace UI.CharacterCreator
 		public int CurrentSurfaceInt = 0;
 
 		public Color CurrentSurfaceColour = Color.white;
-
-		/// <summary>
-		/// Empty, blank sprite texture used for selecting null customizations
-		/// (e.g. selecting or scrolling to "None" for hair, facial hair, underwear,
-		/// or socks).
-		/// </summary>
-		public SpriteDataSO BobTheEmptySprite;
 
 		public List<CustomisationStorage> bodyPartCustomisationStorage = new List<CustomisationStorage>();
 		public List<ExternalCustomisation> ExternalCustomisationStorage = new List<ExternalCustomisation>();
@@ -142,6 +128,7 @@ namespace UI.CharacterCreator
 			var copyStr = JsonConvert.SerializeObject(currentCharacter);
 			lastSettings = JsonConvert.DeserializeObject<CharacterSettings>(copyStr);
 			colorPicker.gameObject.SetActive(false);
+			colorPicker.onValueChanged.RemoveAllListeners();
 			colorPicker.onValueChanged.AddListener(OnColorChange);
 			DisplayErrorText("");
 			RefreshSelectorData();
@@ -211,7 +198,6 @@ namespace UI.CharacterCreator
 			ReturnCharacterPreviewFromTheCharacterSelector();
 			Cleanup();
 			LoadSettings(currentCharacter);
-			RefreshAll();
 			_ = SoundManager.Play(CommonSounds.Instance.Click01);
 		}
 
@@ -249,9 +235,9 @@ namespace UI.CharacterCreator
 			currentCharacterIndex = PlayerCharacters.Count() - 1;
 			LoadSettings(PlayerCharacters[currentCharacterIndex]);
 			currentCharacter.Species = Race.Human.ToString();
+			currentCharacter.Username = ServerData.Auth.CurrentUser.DisplayName;
 			ShowCharacterCreator();
 			ReturnCharacterPreviewFromTheCharacterSelector();
-			RefreshAll();
 			_ = SoundManager.Play(CommonSounds.Instance.Click01);
 		}
 
@@ -262,7 +248,6 @@ namespace UI.CharacterCreator
 			lastSettings = PlayerCharacters[currentCharacterIndex];
 			ReturnCharacterPreviewFromTheCharacterSelector();
 			ShowCharacterCreator();
-			RefreshAll();
 		}
 
 		public void HandleExitButton()
@@ -291,6 +276,7 @@ namespace UI.CharacterCreator
 			CharacterPreviewDropdown.ClearOptions();
 			var itemOptions = PlayerCharacters.Select(pcd => pcd.Name).ToList();
 			CharacterPreviewDropdown.AddOptions(itemOptions);
+			CharacterPreviewDropdown.onValueChanged.RemoveAllListeners();
 			CharacterPreviewDropdown.onValueChanged.AddListener(ItemChange);
 		}
 
@@ -398,6 +384,13 @@ namespace UI.CharacterCreator
 				SetRace = RaceSOSingleton.Instance.Races.First();
 			}
 
+			InitiateFresh(SetRace);
+			currentCharacter.SkinTone = inCharacterSettings.SkinTone;
+		}
+
+		public void InitiateFresh(PlayerHealthData SetRace)
+		{
+			Cleanup();
 			//SelectedSpecies
 			SelectedSpecies = 0;
 			foreach (var Species in RaceSOSingleton.Instance.Races)
@@ -414,12 +407,12 @@ namespace UI.CharacterCreator
 			ThisSetRace = SetRace;
 
 			availableSkinColors = SetRace.Base.SkinColours;
-			currentCharacter.SkinTone = inCharacterSettings.SkinTone;
+
 			PlayerManager.CurrentCharacterSettings = currentCharacter;
 			SetUpSpeciesBody(SetRace);
 			PopulateAllDropdowns(SetRace);
-			DoInitChecks();
 			RefreshAll();
+			DoInitChecks();
 		}
 
 		#region BodyPartsSprites
@@ -666,11 +659,12 @@ namespace UI.CharacterCreator
 			RefreshClothing();
 			RefreshPronoun();
 			RefreshRace();
+			RefreshRotation();
 		}
 
 		public void RollRandomCharacter()
 		{
-			currentCharacter = CharacterSettings.RandomizeCharacterSettings();
+			currentCharacter = CharacterSettings.RandomizeCharacterSettings(currentCharacter.Species);
 
 			//Randomises player accents. (Italian, Scottish, etc)
 
@@ -688,12 +682,13 @@ namespace UI.CharacterCreator
 		private void randomizeAppearance()
 		{
 			//Randomizes hair, tails, etc
-			foreach(var custom in GetComponentsInChildren<BodyPartCustomisationBase>())
+			foreach(var custom in OpenBodyCustomisation.Values)
 			{
 				custom.RandomizeValues();
 			}
+
 			//Randomizes clothes
-			foreach(var customSubPart in GetComponentsInChildren<CustomisationSubPart>())
+			foreach(var customSubPart in OpenCustomisation)
 			{
 				customSubPart.RandomizeValues();
 			}
@@ -741,7 +736,7 @@ namespace UI.CharacterCreator
 			}
 
 			currentDir = (CharacterDir) nextDir;
-			SetRotation();
+			RefreshRotation();
 		}
 
 		public void RightRotate()
@@ -753,10 +748,10 @@ namespace UI.CharacterCreator
 			}
 
 			currentDir = (CharacterDir) nextDir;
-			SetRotation();
+			RefreshRotation();
 		}
 
-		public void SetRotation()
+		public void RefreshRotation()
 		{
 			int referenceOffset = 0;
 			if (currentDir == CharacterDir.down)
@@ -1131,13 +1126,9 @@ namespace UI.CharacterCreator
 				return;
 			}
 
-			PlayerCharacters[currentCharacterIndex] = currentCharacter;
-
-			//Ensure that the character skin tone is assigned when saving the character
-			string skintone = currentCharacter.SkinTone = "#" + ColorUtility.ToHtmlStringRGB(CurrentSurfaceColour);
-			PlayerCharacters[currentCharacterIndex].SkinTone = skintone;
-
+			PlayerCharacters[currentCharacterIndex] = currentCharacter; //SaveData Saves the PlayerCharacters
 			SaveData();
+			GetSavedCharacters();
 			ShowCharacterSelectorPage();
 			_ = SoundManager.Play(CommonSounds.Instance.Click01);
 			gameObject.SetActive(false);
@@ -1246,7 +1237,7 @@ namespace UI.CharacterCreator
 
 			currentCharacter.BodyType = AvailableBodyTypes[SelectedBodyType].bodyType;
 			SkinColourChange(CurrentSurfaceColour);
-			SetRotation();
+			RefreshRotation();
 			RefreshBodyType();
 		}
 
@@ -1266,10 +1257,17 @@ namespace UI.CharacterCreator
 
 		public void OnAgeChange()
 		{
-			int.TryParse(ageField.text, out int tryInt);
-			tryInt = Mathf.Clamp(tryInt, 18, 99);
-			currentCharacter.Age = tryInt;
-			RefreshAge();
+			if (int.TryParse(ageField.text, out int tryInt))
+			{
+				tryInt = Mathf.Clamp(tryInt, 18, 99);
+				currentCharacter.Age = tryInt;
+				RefreshAge();
+			}
+			else
+			{
+				RefreshAge();
+			}
+
 		}
 
 		#endregion
@@ -1440,25 +1438,8 @@ namespace UI.CharacterCreator
 
 			Cleanup();
 			var SetRace = RaceSOSingleton.Instance.Races[SelectedSpecies];
-			availableSkinColors = SetRace.Base.SkinColours;
-			SetUpSpeciesBody(SetRace);
-			PopulateAllDropdowns(SetRace);
-			DoInitChecks();
-
-			foreach (var BodyCustomisation in OpenBodyCustomisation)
-			{
-				BodyCustomisation.Value.Refresh();
-			}
-
-			foreach (var Customisation in OpenCustomisation)
-			{
-				Customisation.Refresh();
-			}
-
-
+			InitiateFresh(SetRace);
 			RefreshRace();
-
-			OnSurfaceColourChange();
 		}
 
 		private void RefreshRace()
@@ -1513,12 +1494,6 @@ namespace UI.CharacterCreator
 	{
 		public string path;
 		public string Data;
-	}
-
-	public class DataAndType
-	{
-		public CustomisationType CustomisationType;
-		public string data;
 	}
 
 	public enum CustomisationType

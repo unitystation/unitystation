@@ -1,7 +1,7 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UI.Objects.Cargo;
 
 namespace Objects.Machines
 {
@@ -26,7 +26,6 @@ namespace Objects.Machines
 		{
 			return usedStorage.TryAddSheet(InsertedMaterialType, materialSheetAmount);
 		}
-
 
 		public void ConnectToSilo(MaterialStorage silo)
 		{

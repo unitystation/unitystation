@@ -2,20 +2,20 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using UI.Core.Net;
 using UnityEngine;
 using Mirror;
 using Core.Editor.Attributes;
+using UI.Core.Net;
 using Messages.Client.NewPlayer;
 using Messages.Server;
 using Systems.Electricity;
+using Systems.Hacking;
 using Systems.Interaction;
 using Systems.ObjectConnection;
+using Systems.Explosions;
 using Doors.Modules;
-using Hacking;
 using HealthV2;
 using Objects.Wallmounts;
-
 
 namespace Doors
 {
@@ -38,6 +38,10 @@ namespace Doors
 		private bool isAutomatic = true;
 
 		[SerializeField, PrefabModeOnly]
+		[Tooltip("Can you interact with the door by HandApply or Bump?")]
+		private bool allowInteraction = true;
+
+		[SerializeField, PrefabModeOnly]
 		[Tooltip("Is this door designed no matter what is under neath it?")]
 		private bool ignorePassableChecks = false;
 
@@ -49,6 +53,11 @@ namespace Doors
 		[SerializeField, PrefabModeOnly]
 		[Tooltip("Prevent the door from auto closing when opened.")]
 		private bool blockAutoClose = false;
+
+		[SerializeField, PrefabModeOnly]
+		[Tooltip("Prevent the door from auto closing when opened if was Clicked on to be opened.")]
+		private bool clickDisablesAutoClose = false;
+
 
 		private DoorAnimatorV2 doorAnimator;
 		public DoorAnimatorV2 DoorAnimator => doorAnimator;
@@ -160,6 +169,8 @@ namespace Doors
 
 		private void TryBump()
 		{
+			var firelock = matrix.GetFirst<FireLock>(registerTile.LocalPositionServer, true);
+			if (firelock != null && firelock.fireAlarm.activated) return;
 			if (!isAutomatic || !allowInput)
 			{
 				return;
@@ -196,13 +207,12 @@ namespace Doors
 			{
 				TryOpen(byPlayer);
 			}
-			else if(HasPower == false)
+			else if(HasPower == false && byPlayer != null)
 			{
 				Chat.AddExamineMsgFromServer(byPlayer, $"{gameObject.ExpensiveName()} is unpowered");
 			}
 
 			StartInputCoolDown();
-
 		}
 
 		/// <summary>
@@ -225,7 +235,6 @@ namespace Doors
 					return;
 				}
 			}
-
 
 			//When a player interacts with the door, we must first check with each module on what to do.
 			//For instance, if one of the modules has locked the door, that module will want to prevent us from
@@ -273,8 +282,12 @@ namespace Doors
 				}
 			}
 
-			if (!isPerformingAction && canClose && CheckStatusAllow(states))
+			if (!isPerformingAction && canClose && CheckStatusAllow(states) && allowInteraction)
 			{
+				if (clickDisablesAutoClose)
+				{
+					blockAutoClose = false;
+				}
 				PulseTryClose(interaction.Performer, inOverrideLogic: true);
 			}
 
@@ -311,8 +324,12 @@ namespace Doors
 				}
 			}
 
-			if (!isPerformingAction && (canOpen) && CheckStatusAllow(states))
+			if (!isPerformingAction && (canOpen) && CheckStatusAllow(states) && allowInteraction)
 			{
+				if (clickDisablesAutoClose)
+				{
+					blockAutoClose = true;
+				}
 				TryOpen(interaction.Performer);
 			}
 			else if(HasPower == false)
@@ -335,6 +352,8 @@ namespace Doors
 
 		public void TryOpen(GameObject originator, bool blockClosing = false)
 		{
+			var firelock = matrix.GetFirst<FireLock>(registerTile.LocalPositionServer, true);
+			if (firelock != null && firelock.fireAlarm.activated) return;
 			if(IsClosed == false || isPerformingAction) return;
 
 			if(HasPower == false)
@@ -354,19 +373,20 @@ namespace Doors
 		/// Purely check to see if there is something physically restraining the door from being opened such as a weld or door bolts.
 		///	This would be in situations like as prying the door with a crowbar.
 		/// </summary>
-		public void TryForceOpen()
+		public bool TryForceOpen()
 		{
-			if (!IsClosed) return; //Can't open if we are open. Figures.
+			if (!IsClosed) return false; //Can't open if we are open. Figures.
 
 			foreach (DoorModuleBase module in modulesList)
 			{
 				if (!module.CanDoorStateChange())
 				{
-					return;
+					return false;
 				}
 			}
 
 			Open();
+			return true;
 		}
 
 		public void PulseTryForceClose()
@@ -488,6 +508,9 @@ namespace Doors
 
 		public void Open(bool blockClosing = false)
 		{
+			var firelock = matrix.GetFirst<FireLock>(registerTile.LocalPositionServer, true);
+			if (firelock != null && firelock.fireAlarm.activated) return;
+
 			if (!this || !gameObject) return; // probably destroyed by a shuttle crash
 
 			if (!blockClosing)

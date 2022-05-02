@@ -1,28 +1,27 @@
-// This file is part of YamlDotNet - A .NET library for YAML.
-// Copyright (c) Antoine Aubry
-// 
-// Permission is hereby granted, free of charge, to any person obtaining a copy
-// of this software and associated documentation files (the "Software"), to deal
-// in the Software without restriction, including without limitation the rights
-// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-// copies of the Software, and to permit persons to whom the Software is
-// furnished to do so, subject to the following conditions:
-// 
-// The above copyright notice and this permission notice shall be included in
-// all copies or substantial portions of the Software.
-// 
+﻿// This file is part of YamlDotNet - A .NET library for YAML.
+// Copyright (c) Antoine Aubry and contributors
+//
+// Permission is hereby granted, free of charge, to any person obtaining a copy of
+// this software and associated documentation files (the "Software"), to deal in
+// the Software without restriction, including without limitation the rights to
+// use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies
+// of the Software, and to permit persons to whom the Software is furnished to do
+// so, subject to the following conditions:
+//
+// The above copyright notice and this permission notice shall be included in all
+// copies or substantial portions of the Software.
+//
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 // IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
 // FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
 // AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-// THE SOFTWARE.
+// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+// SOFTWARE.
 
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Reflection;
 
 namespace YamlDotNet.Helpers
 {
@@ -30,21 +29,17 @@ namespace YamlDotNet.Helpers
     /// Adapts an <see cref="System.Collections.Generic.IDictionary{TKey, TValue}" /> to <see cref="IDictionary" />
     /// because not all generic dictionaries implement <see cref="IDictionary" />.
     /// </summary>
-    internal sealed class GenericDictionaryToNonGenericAdapter : IDictionary
+    internal sealed class GenericDictionaryToNonGenericAdapter<TKey, TValue> : IDictionary
+        where TKey : notnull
     {
-        private readonly object genericDictionary;
-        private readonly Type genericDictionaryType;
-        private readonly MethodInfo indexerSetter;
+        private readonly IDictionary<TKey, TValue> genericDictionary;
 
-        public GenericDictionaryToNonGenericAdapter(object genericDictionary, Type genericDictionaryType)
+        public GenericDictionaryToNonGenericAdapter(IDictionary<TKey, TValue> genericDictionary)
         {
-            this.genericDictionary = genericDictionary;
-            this.genericDictionaryType = genericDictionaryType;
-
-            indexerSetter = genericDictionaryType.GetPublicProperty("Item").GetSetMethod();
+            this.genericDictionary = genericDictionary ?? throw new ArgumentNullException(nameof(genericDictionary));
         }
 
-        public void Add(object key, object value)
+        public void Add(object key, object? value)
         {
             throw new NotSupportedException();
         }
@@ -61,7 +56,7 @@ namespace YamlDotNet.Helpers
 
         public IDictionaryEnumerator GetEnumerator()
         {
-            return new DictionaryEnumerator(genericDictionary, genericDictionaryType);
+            return new DictionaryEnumerator(genericDictionary.GetEnumerator());
         }
 
         public bool IsFixedSize
@@ -89,7 +84,7 @@ namespace YamlDotNet.Helpers
             get { throw new NotSupportedException(); }
         }
 
-        public object this[object key]
+        public object? this[object key]
         {
             get
             {
@@ -97,7 +92,7 @@ namespace YamlDotNet.Helpers
             }
             set
             {
-                indexerSetter.Invoke(genericDictionary, new object[] { key, value });
+                genericDictionary[(TKey)key] = (TValue)value!;
             }
         }
 
@@ -123,24 +118,16 @@ namespace YamlDotNet.Helpers
 
         IEnumerator IEnumerable.GetEnumerator()
         {
-            return ((IEnumerable)genericDictionary).GetEnumerator();
+            return GetEnumerator();
         }
 
         private class DictionaryEnumerator : IDictionaryEnumerator
         {
-            private readonly IEnumerator enumerator;
-            private readonly MethodInfo getKeyMethod;
-            private readonly MethodInfo getValueMethod;
+            private readonly IEnumerator<KeyValuePair<TKey, TValue>> enumerator;
 
-            public DictionaryEnumerator(object genericDictionary, Type genericDictionaryType)
+            public DictionaryEnumerator(IEnumerator<KeyValuePair<TKey, TValue>> enumerator)
             {
-                var genericArguments = genericDictionaryType.GetGenericArguments();
-                var keyValuePairType = typeof(KeyValuePair<,>).MakeGenericType(genericArguments);
-
-                getKeyMethod = keyValuePairType.GetPublicProperty("Key").GetGetMethod();
-                getValueMethod = keyValuePairType.GetPublicProperty("Value").GetGetMethod();
-
-                enumerator = ((IEnumerable)genericDictionary).GetEnumerator();
+                this.enumerator = enumerator;
             }
 
             public DictionaryEntry Entry
@@ -153,12 +140,12 @@ namespace YamlDotNet.Helpers
 
             public object Key
             {
-                get { return getKeyMethod.Invoke(enumerator.Current, null); }
+                get { return enumerator.Current.Key!; }
             }
 
-            public object Value
+            public object? Value
             {
-                get { return getValueMethod.Invoke(enumerator.Current, null); }
+                get { return enumerator.Current.Value; }
             }
 
             public object Current

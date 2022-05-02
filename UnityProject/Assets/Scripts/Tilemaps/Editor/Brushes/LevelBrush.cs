@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.Tilemaps;
 using UnityEditor.Tilemaps;
 using Random = UnityEngine.Random;
-
+using Tiles;
 
 [CustomGridBrush(false, true, true, "Level Brush")]
 public class LevelBrush : GridBrush

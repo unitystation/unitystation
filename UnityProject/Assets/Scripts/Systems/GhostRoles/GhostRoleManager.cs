@@ -196,6 +196,7 @@ namespace Systems.GhostRoles
 
 		private bool ServerPlayerIsQueued(ConnectedPlayer player)
 		{
+			RemoveOfflineWaitingPlayers();
 			foreach (KeyValuePair<uint, GhostRoleServer> kvp in serverAvailableRoles)
 			{
 				if (kvp.Value.WaitingPlayers.Contains(player)) return true;
@@ -206,6 +207,8 @@ namespace Systems.GhostRoles
 
 		private GhostRoleResponseCode VerifyPlayerCanQueue(ConnectedPlayer player, uint key)
 		{
+			if (PlayerList.Instance.loggedOff.Contains(player)) return GhostRoleResponseCode.Error;
+
 			if (player.Script.IsDeadOrGhost == false)
 			{
 				return GhostRoleResponseCode.Error;
@@ -254,8 +257,8 @@ namespace Systems.GhostRoles
 
 		private void ServerTryAddPlayerToRole(ConnectedPlayer player, uint key)
 		{
+			RemoveOfflineWaitingPlayers();
 			GhostRoleResponseCode responseCode = VerifyPlayerCanQueue(player, key);
-
 			if (responseCode == GhostRoleResponseCode.Success)
 			{
 				var role = serverAvailableRoles[key];
@@ -273,6 +276,44 @@ namespace Systems.GhostRoles
 			}
 
 			GhostRoleResponseMessage.SendTo(player, key, responseCode);
+		}
+
+		/// <summary>
+		/// Remove player from waiting for a role
+		/// </summary>
+		public void ServerRemoveWaitingPlayer(uint key, ConnectedPlayer player)
+		{
+			var role = serverAvailableRoles[key];
+			role.WaitingPlayers.Remove(player);
+			RemoveOfflineWaitingPlayers();
+
+			GhostRoleResponseMessage.SendTo(player, key, GhostRoleResponseCode.ClearMessage);
+		}
+
+		public void RemoveOfflineWaitingPlayers()
+		{
+			foreach (var ghostRoleQueue in serverAvailableRoles.Values)
+			{
+				for (int i = ghostRoleQueue.WaitingPlayers.Count - 1; i >= 0; i--)
+				{
+					if(PlayerList.Instance.loggedOff.Contains(ghostRoleQueue.WaitingPlayers[i]) == false) continue;
+					ghostRoleQueue.WaitingPlayers.Remove(ghostRoleQueue.WaitingPlayers[i]);
+				}
+			}
+		}
+
+		/// <summary>
+		/// Remove player from all waiting roles
+		/// </summary>
+		public void ServerRemoveWaitingPlayer(ConnectedPlayer player)
+		{
+			foreach (var role in serverAvailableRoles)
+			{
+				if (role.Value.WaitingPlayers.Contains(player) == false) continue;
+				role.Value.WaitingPlayers.Remove(player);
+				GhostRoleResponseMessage.SendTo(player, role.Key, GhostRoleResponseCode.ClearMessage);
+			}
+			RemoveOfflineWaitingPlayers();
 		}
 	}
 }

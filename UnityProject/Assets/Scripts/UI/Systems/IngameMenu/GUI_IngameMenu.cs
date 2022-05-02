@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -14,6 +14,7 @@ namespace UI
 		/// Menu window that will be deactivated when closing the menu.
 		/// </summary>
 		public GameObject menuWindow;
+		public GameObject votingWindow;
 
 		public VotePopUp VotePopUp;
 
@@ -142,20 +143,51 @@ namespace UI
 			CloseMenuPanel();
 		}
 
+		public void InitiateMapVote()
+		{
+			_ = SoundManager.Play(CommonSounds.Instance.Click01);
+
+			if (PlayerManager.PlayerScript == null) return;
+			if (PlayerManager.PlayerScript.playerNetworkActions == null) return;
+
+			PlayerManager.PlayerScript.playerNetworkActions.CmdInitiateMapVote();
+
+			CloseMenuPanel();
+		}
+
+		public void InitiateGameModeVote()
+		{
+			_ = SoundManager.Play(CommonSounds.Instance.Click01);
+
+			if (PlayerManager.PlayerScript == null) return;
+			if (PlayerManager.PlayerScript.playerNetworkActions == null) return;
+
+			PlayerManager.PlayerScript.playerNetworkActions.CmdInitiateGameModeVote();
+
+			CloseMenuPanel();
+		}
+
+		public void ShowVoteOptions()
+		{
+			HideAllMenus();
+			votingWindow.SetActive(true);
+		}
+
 		#endregion
 
 		#region Logout Confirmation Window Functions
 
-		public void LogoutButton()
+		public void ExitToMainMenuBtn()
 		{
 			ModalPanelManager.Confirm("Are you sure?", LogoutConfirmYesButton, "Logout to Main Menu");
 		}
 
 		public void LogoutConfirmYesButton()
 		{
-			EventManager.Broadcast(Event.RoundEnded);
 			_ = SoundManager.Play(CommonSounds.Instance.Click01);
+			EventManager.Broadcast(Event.RoundEnded);
 			HideAllMenus();
+			GameManager.Instance.DisconnectExpected = true;
 			StopNetworking();
 			SceneManager.LoadScene("Lobby");
 		}
@@ -205,6 +237,7 @@ namespace UI
 		{
 			menuWindow.SetActive(false);
 			serverInfo.SetActive(false);
+			votingWindow.SetActive(false);
 			if (UIManager.Display.disclaimer != null) UIManager.Display.disclaimer.SetActive(false);
 		}
 

@@ -1,16 +1,17 @@
-using UnityEngine;
 using System;
-using AdminTools;
-using Tilemaps.Behaviours.Meta;
-using DiscordWebhook;
-using DatabaseAPI;
-using Systems.MobAIs;
 using System.Text;
 using System.Text.RegularExpressions;
-using Systems.Ai;
+using UnityEngine;
+using Tilemaps.Behaviours.Meta;
+using AdminTools;
+using DiscordWebhook;
+using DatabaseAPI;
+using Systems.Communications;
+using Systems.MobAIs;
 using Core.Chat;
-using Items;
 using Messages.Server;
+using Items;
+using Tiles;
 
 /// <summary>
 /// The Chat API
@@ -91,7 +92,7 @@ public partial class Chat : MonoBehaviour
 		//Sanity check for null username
 		if (string.IsNullOrWhiteSpace(sentByPlayer.Username))
 		{
-			Logger.Log($"Null/empty Username, Details: Username: {sentByPlayer.Username}, ClientID: {sentByPlayer.ClientId}, IP: {sentByPlayer.Connection.address}",
+			Logger.Log($"Null/empty Username, Details: Username: {sentByPlayer.Username}, ClientID: {sentByPlayer.ClientId}, IP: {sentByPlayer.ConnectionIP}",
 				Category.Admin);
 			return;
 		}
@@ -228,6 +229,23 @@ public partial class Chat : MonoBehaviour
 				{
 					//Control the chat bubble
 					player.playerNetworkActions.ServerToggleChatIcon(true, processedMessage.message, channels, processedMessage.chatModifiers);
+				}
+
+				if (player.IsDeadOrGhost == false)
+				{
+					//Check if there's any items on the player that affects their chat (e.g : headphones, muzzles, etc)
+					foreach (var slots in player.DynamicItemStorage.ServerContents.Values)
+					{
+						foreach (var slot in slots)
+						{
+							if (slot.IsEmpty) continue;
+							if (slot.Item.TryGetComponent<IChatInfluencer>(out var listener)
+							    && listener.WillInfluenceChat() == true)
+							{
+								chatEvent = listener.InfluenceChat(chatEvent);
+							}
+						}
+					}
 				}
 			}
 		}
@@ -623,7 +641,7 @@ public partial class Chat : MonoBehaviour
 	/// <param name="message"> The message to add to the client chat stream</param>
 	public static void AddExamineMsgToClient(string message)
 	{
-		ChatRelay.Instance.UpdateClientChat(message, ChatChannel.Examine, true, PlayerManager.LocalPlayer, Loudness.NORMAL);
+		ChatRelay.Instance.UpdateClientChat(message, ChatChannel.Examine, true, PlayerManager.LocalPlayer, Loudness.NORMAL, ChatModifier.None);
 	}
 
 	/// <summary>
@@ -659,7 +677,7 @@ public partial class Chat : MonoBehaviour
 	public static void AddWarningMsgToClient(string message)
 	{
 		message = ProcessMessageFurther(message, "", ChatChannel.Warning, ChatModifier.None, Loudness.NORMAL); //TODO: Put processing in a unified place for server and client.
-		ChatRelay.Instance.UpdateClientChat(message, ChatChannel.Warning, true, PlayerManager.LocalPlayer, Loudness.NORMAL);
+		ChatRelay.Instance.UpdateClientChat(message, ChatChannel.Warning, true, PlayerManager.LocalPlayer, Loudness.NORMAL, ChatModifier.None);
 	}
 
 	public static void AddAdminPrivMsg(string message)

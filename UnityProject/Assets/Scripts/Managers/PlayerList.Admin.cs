@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 using DatabaseAPI;
 using Mirror;
@@ -23,8 +24,8 @@ public partial class PlayerList
 	private FileSystemWatcher adminListWatcher;
 	private FileSystemWatcher mentorListWatcher;
 	private FileSystemWatcher WhiteListWatcher;
-	private List<string> adminUsers = new List<string>();
-	private List<string> mentorUsers = new List<string>();
+	private HashSet<string> adminUsers = new HashSet<string>();
+	private HashSet<string> mentorUsers = new HashSet<string>();
 	private Dictionary<string, string> loggedInAdmins = new Dictionary<string, string>();
 	private Dictionary<string, string> loggedInMentors = new Dictionary<string, string>();
 	private BanList banList;
@@ -173,7 +174,7 @@ public partial class PlayerList
 		//ensure any writing has finished
 		yield return WaitFor.EndOfFrame;
 		adminUsers.Clear();
-		adminUsers = new List<string>(File.ReadAllLines(adminsPath));
+		adminUsers = new HashSet<string>(File.ReadAllLines(adminsPath));
 	}
 
 	IEnumerator LoadMentors()
@@ -181,7 +182,7 @@ public partial class PlayerList
 		//ensure any writing has finished
 		yield return WaitFor.EndOfFrame;
 		mentorUsers.Clear();
-		mentorUsers = new List<string>(File.ReadAllLines(mentorsPath));
+		mentorUsers = new HashSet<string>(File.ReadAllLines(mentorsPath));
 	}
 
 	[Server]
@@ -288,6 +289,54 @@ public partial class PlayerList
 		return mentorUsers.Contains(userID);
 	}
 
+	[Server]
+	public void TryAddMentor(string userID, bool addToFile = true)
+	{
+		if (IsMentor(userID) && addToFile == false) return;
+
+		mentorUsers.Add(userID);
+
+		var player = GetByUserID(userID);
+		if (player != null)
+		{
+			CheckMentorState(player, userID);
+		}
+
+		if (addToFile == false) return;
+
+		//Read file to see if already in file
+		var fileContents = File.ReadAllLines(mentorsPath);
+		if(fileContents.Contains(userID)) return;
+
+		//Write to file if not
+		var newContents = fileContents.Append(userID);
+		File.WriteAllLines(mentorsPath, newContents);
+	}
+
+	[Server]
+	public void TryRemoveMentor(string userID)
+	{
+		if (IsMentor(userID) == false) return;
+
+		mentorUsers.Remove(userID);
+
+		var player = GetByUserID(userID);
+		if (player != null)
+		{
+			MentorEnableMessage.Send(player.Connection, string.Empty, false);
+
+			CheckForLoggedOffMentor(userID, player.Username);
+		}
+
+		//Read file to see if already in file
+		var fileContents = File.ReadAllLines(mentorsPath);
+		if(fileContents.Contains(userID) == false) return;
+
+		//Remove from file if they are in there
+		var newContents = fileContents.Where(line => line != userID);
+		File.WriteAllLines(mentorsPath, newContents);
+	}
+
 	public async Task<bool> ValidatePlayer(int unverifiedClientVersion, ConnectedPlayer unverifiedConnPlayer,
 		string unverifiedToken)
 	{
@@ -325,7 +374,7 @@ public partial class PlayerList
 		{
 			StartCoroutine(KickPlayer(unverifiedConnPlayer, $"Server Error: Account has invalid cookie."));
 			Logger.Log($"A user tried to connect with null userid or token value" +
-					   $"Details: Username: {unverifiedConnPlayer.Username}, ClientID: {unverifiedConnPlayer.ClientId}, IP: {unverifiedConnPlayer.Connection.address}",
+					   $"Details: Username: {unverifiedConnPlayer.Username}, ClientID: {unverifiedConnPlayer.ClientId}, IP: {unverifiedConnPlayer.ConnectionIP}",
 				Category.Admin);
 			return false;
 		}
@@ -343,7 +392,7 @@ public partial class PlayerList
 						StartCoroutine(
 							KickPlayer(unverifiedConnPlayer, $"Server Error: You are already logged into this server!"));
 						Logger.Log($"A user tried to connect with another client while already logged in \r\n" +
-								   $"Details: Username: {unverifiedConnPlayer.Username}, ClientID: {unverifiedConnPlayer.ClientId}, IP: {unverifiedConnPlayer.Connection.address}",
+								   $"Details: Username: {unverifiedConnPlayer.Username}, ClientID: {unverifiedConnPlayer.ClientId}, IP: {unverifiedConnPlayer.ConnectionIP}",
 							Category.Admin);
 						return false;
 					}
@@ -356,7 +405,7 @@ public partial class PlayerList
 				StartCoroutine(
 					KickPlayer(unverifiedConnPlayer, $"Server Error: You already have an existing connection with the server!"));
 				Logger.LogWarning($"Warning 2 simultaneous connections from same IP detected\r\n" +
-						   $"Details: Unverified Username: {unverifiedConnPlayer.Username}, Unverified ClientID: {unverifiedConnPlayer.ClientId}, IP: {unverifiedConnPlayer.Connection.address}",
+						   $"Details: Unverified Username: {unverifiedConnPlayer.Username}, Unverified ClientID: {unverifiedConnPlayer.ClientId}, IP: {unverifiedConnPlayer.ConnectionIP}",
 					Category.Admin);
 			}
 		}
@@ -371,7 +420,7 @@ public partial class PlayerList
 			{
 				StartCoroutine(KickPlayer(unverifiedConnPlayer, $"Server Error: Server request error"));
 				Logger.Log($"Server request error for " +
-						   $"Details: Username: {unverifiedConnPlayer.Username}, ClientID: {unverifiedConnPlayer.ClientId}, IP: {unverifiedConnPlayer.Connection.address}",
+						   $"Details: Username: {unverifiedConnPlayer.Username}, ClientID: {unverifiedConnPlayer.ClientId}, IP: {unverifiedConnPlayer.ConnectionIP}",
 					Category.Admin);
 				return false;
 			}
@@ -384,11 +433,10 @@ public partial class PlayerList
 		//Must have non-null/empty username
 		if (string.IsNullOrEmpty(unverifiedConnPlayer.Username))
 		{
-			StartCoroutine(KickPlayer(unverifiedConnPlayer, $"Server Error: Account has invalid username (Null/Empty)."));
-			Logger.Log($"A user tried to connect with null/empty username" +
-			           $"Details: Username: {unverifiedConnPlayer.Username}, ClientID: {unverifiedConnPlayer.ClientId}, IP: {unverifiedConnPlayer.Connection.address}",
+			StartCoroutine(KickPlayer(unverifiedConnPlayer, $"Server Error: Account has invalid username (Null/Empty). To fix go to character creator then click Serialise and then load"));
+			Logger.LogError($"A user tried to connect with null/empty username" +
+			           $"Details: Username: {unverifiedConnPlayer.Username}, ClientID: {unverifiedConnPlayer.ClientId}, IP: {unverifiedConnPlayer.ConnectionIP}",
 				Category.Admin);
-			return false;
 		}
 
 		//Allow error response for local offline testing
@@ -396,14 +444,16 @@ public partial class PlayerList
 		{
 			StartCoroutine(KickPlayer(unverifiedConnPlayer, $"Server Error: Account has invalid cookie."));
 			Logger.Log($"A spoof attempt was recorded. " +
-					   $"Details: Username: {unverifiedConnPlayer.Username}, ClientID: {unverifiedConnPlayer.ClientId}, IP: {unverifiedConnPlayer.Connection.address}",
+					   $"Details: Username: {unverifiedConnPlayer.Username}, ClientID: {unverifiedConnPlayer.ClientId}, IP: {unverifiedConnPlayer.ConnectionIP}",
 				Category.Admin);
 			return false;
 		}
+
 		var userId = unverifiedConnPlayer.UserId;
+		var isAdmin = adminUsers.Contains(userId);
 
 		//Adds server to admin list if not already in it.
-		if (userId == ServerData.UserID && !adminUsers.Contains(userId))
+		if (userId == ServerData.UserID && isAdmin == false)
 		{
 			File.AppendAllLines(adminsPath, new string[]
 			{
@@ -423,22 +473,38 @@ public partial class PlayerList
 			}
 		}
 
-		//Whitelist checking:
-		var lines = File.ReadAllLines(whiteListPath);
-
-		//Checks whether the userid is in either the Admins or whitelist AND that the whitelist file has something in it.
-		//Whitelist only activates if whitelist is populated.
-		if (lines.Length > 0 && !adminUsers.Contains(userId) && !whiteListUsers.Contains(userId))
+		if (isAdmin == false)
 		{
-			StartCoroutine(KickPlayer(unverifiedConnPlayer, $"Server Error: This account is not whitelisted."));
+			var playerLimit = GameManager.Instance.PlayerLimit;
 
-			Logger.Log($"{unverifiedConnPlayer.Username} tried to log in but the account is not whitelisted. " +
-						   $"IP: {unverifiedConnPlayer.Connection.address}", Category.Admin);
-			return false;
+			//PlayerLimit Checking:
+			//Deny player joining if limit reached and this player wasn't already in the round (in case of disconnect)
+			if (ConnectionCount > GameManager.Instance.PlayerLimit && roundPlayers.Contains(unverifiedConnPlayer) == false)
+			{
+				StartCoroutine(KickPlayer(unverifiedConnPlayer, $"Server Error: The server is full, player limit: {playerLimit}."));
+
+				Logger.Log($"{unverifiedConnPlayer.Username} tried to log in but PlayerLimit ({playerLimit}) was reached. " +
+				           $"IP: {unverifiedConnPlayer.ConnectionIP}", Category.Admin);
+				return false;
+			}
+
+			//Whitelist checking:
+			var lines = File.ReadAllLines(whiteListPath);
+
+			//Checks whether the userid is in either the Admins or whitelist AND that the whitelist file has something in it.
+			//Whitelist only activates if whitelist is populated.
+			if (lines.Length > 0 && !whiteListUsers.Contains(userId))
+			{
+				StartCoroutine(KickPlayer(unverifiedConnPlayer, $"Server Error: This account is not whitelisted."));
+
+				Logger.Log($"{unverifiedConnPlayer.Username} tried to log in but the account is not whitelisted. " +
+				           $"IP: {unverifiedConnPlayer.ConnectionIP}", Category.Admin);
+				return false;
+			}
 		}
 
 		//Banlist checking:
-		var banEntry = banList?.CheckForEntry(userId, unverifiedConnPlayer.Connection.address, unverifiedConnPlayer.ClientId);
+		var banEntry = banList?.CheckForEntry(userId, unverifiedConnPlayer.ConnectionIP, unverifiedConnPlayer.ClientId);
 		if (banEntry != null)
 		{
 			var entryTime = DateTime.ParseExact(banEntry.dateTimeOfBan, "O", CultureInfo.InvariantCulture);
@@ -456,7 +522,7 @@ public partial class PlayerList
 				StartCoroutine(KickPlayer(unverifiedConnPlayer, $"Server Error: This account is banned. " +
 													  $"You were banned for {banEntry.reason}. This ban has {banEntry.minutes - totalMins} minutes remaining."));
 				Logger.Log($"{unverifiedConnPlayer.Username} tried to log back in but the account is banned. " +
-						   $"IP: {unverifiedConnPlayer.Connection.address}", Category.Admin);
+						   $"IP: {unverifiedConnPlayer.ConnectionIP}", Category.Admin);
 				return false;
 			}
 		}
@@ -520,7 +586,7 @@ public partial class PlayerList
 	public JobBanEntry FindPlayerJobBanEntry(ConnectedPlayer connPlayer, JobType jobType, bool serverSideCheck)
 	{
 		//jobbanlist checking:
-		var jobBanPlayerEntry = jobBanList?.CheckForEntry(connPlayer.UserId, connPlayer.Connection.address, connPlayer.ClientId);
+		var jobBanPlayerEntry = jobBanList?.CheckForEntry(connPlayer.UserId, connPlayer.ConnectionIP, connPlayer.ClientId);
 
 		if (jobBanPlayerEntry.Value.Item1 == null)
 		{
@@ -553,7 +619,7 @@ public partial class PlayerList
 			if (!serverSideCheck) return jobBanEntry;
 
 			//User is still banned and has bypassed join data client check!!!!:
-			Logger.Log($"{connPlayer.Username} has bypassed the client side check for ban entry, possible hack attempt. " + $"IP: {connPlayer.Connection.address}", Category.Admin);
+			Logger.Log($"{connPlayer.Username} has bypassed the client side check for ban entry, possible hack attempt. " + $"IP: {connPlayer.ConnectionIP}", Category.Admin);
 			return jobBanEntry;
 		}
 
@@ -575,7 +641,7 @@ public partial class PlayerList
 		}
 
 		string playerUserID = connPlayer.UserId;
-		string playerAddress = connPlayer.Connection.address;
+		string playerAddress = connPlayer.ConnectionIP;
 		string playerClientID = connPlayer.ClientId;
 
 		//jobbanlist checking:
@@ -605,11 +671,11 @@ public partial class PlayerList
 				JobBanExpireCheck(jobBan, jobBanPlayerEntry.Value.Item2, connPlayer);
 			}
 
-			if (jobBanList?.CheckForEntry(connPlayer.UserId, connPlayer.Connection.address, connPlayer.ClientId).Item1.jobBanEntry.Count == 0) break;
+			if (jobBanList?.CheckForEntry(connPlayer.UserId, connPlayer.ConnectionIP, connPlayer.ClientId).Item1.jobBanEntry.Count == 0) break;
 		}
 
 		var newJobBanPlayerEntry = jobBanList
-			?.CheckForEntry(connPlayer.UserId, connPlayer.Connection.address, connPlayer.ClientId).Item1.jobBanEntry;
+			?.CheckForEntry(connPlayer.UserId, connPlayer.ConnectionIP, connPlayer.ClientId).Item1.jobBanEntry;
 
 		if (newJobBanPlayerEntry == null)
 		{
@@ -820,7 +886,7 @@ public partial class PlayerList
 		if (adminUsers.Contains(userid) || (GameData.Instance.OfflineMode && playerConn.GameObject == PlayerManager.LocalViewerScript.gameObject))
 		{
 			//This is an admin, send admin notify to the users client
-			Logger.Log($"{playerConn.Username} logged in as Admin. IP: {playerConn.Connection.address}", Category.Admin);
+			Logger.Log($"{playerConn.Username} logged in as Admin. IP: {playerConn.ConnectionIP}", Category.Admin);
 			var newToken = System.Guid.NewGuid().ToString();
 			if (!loggedInAdmins.ContainsKey(userid))
 			{
@@ -834,7 +900,7 @@ public partial class PlayerList
 	{
 		if (mentorUsers.Contains(userid) && !adminUsers.Contains(userid))
 		{
-			Logger.Log($"{playerConn.Username} logged in as Mentor. IP: {playerConn.Connection.address}", Category.Admin);
+			Logger.Log($"{playerConn.Username} logged in as Mentor. IP: {playerConn.ConnectionIP}", Category.Admin);
 			var newToken = System.Guid.NewGuid().ToString();
 			if (!loggedInMentors.ContainsKey(userid))
 			{
@@ -846,11 +912,18 @@ public partial class PlayerList
 
 	void CheckForLoggedOffAdmin(string userid, string userName)
 	{
-		if (loggedInAdmins.ContainsKey(userid))
-		{
-			Logger.Log($"Admin {userName} logged off.", Category.Admin);
-			loggedInAdmins.Remove(userid);
-		}
+		if (loggedInAdmins.ContainsKey(userid) == false) return;
+
+		Logger.Log($"Admin {userName} logged off.", Category.Admin);
+		loggedInAdmins.Remove(userid);
+	}
+
+	void CheckForLoggedOffMentor(string userid, string userName)
+	{
+		if (loggedInMentors.ContainsKey(userid) == false) return;
+
+		Logger.Log($"Mentor {userName} logged off.", Category.Admin);
+		loggedInMentors.Remove(userid);
 	}
 
 	public void SetClientAsAdmin(string _adminToken)
@@ -914,7 +987,7 @@ public partial class PlayerList
 
 				DiscordWebhookMessage.Instance.AddWebHookMessageToQueue(DiscordWebhookURLs.DiscordWebhookAdminLogURL, message + $"\nReason: {reason}", "");
 
-				UIManager.Instance.adminChatWindows.adminToAdminChat.ServerAddChatRecord(message, null);
+				UIManager.Instance.adminChatWindows.adminLogWindow.ServerAddChatRecord(message, null);
 
 				if (!announceBan || !ServerData.ServerConfig.DiscordWebhookEnableBanKickAnnouncement) return;
 
@@ -951,7 +1024,7 @@ public partial class PlayerList
 
 				DiscordWebhookMessage.Instance.AddWebHookMessageToQueue(DiscordWebhookURLs.DiscordWebhookAdminLogURL, message + $"\nReason: {reason}", "");
 
-				UIManager.Instance.adminChatWindows.adminToAdminChat.ServerAddChatRecord(message, null);
+				UIManager.Instance.adminChatWindows.adminLogWindow.ServerAddChatRecord(message, null);
 
 				if (!announceBan || !ServerData.ServerConfig.DiscordWebhookEnableBanKickAnnouncement) return;
 
@@ -1069,7 +1142,7 @@ public partial class PlayerList
 
 				StartCoroutine(JobBanPlayer(p, reason, isPerma, banMinutes, jobType, adminPlayer));
 
-				UIManager.Instance.adminChatWindows.adminToAdminChat.ServerAddChatRecord($"{adminPlayer.Username}: job banned {p.Username} from {jobType}, IsPerma: {isPerma}, BanMinutes: {banMinutes}", null);
+				UIManager.Instance.adminChatWindows.adminLogWindow.ServerAddChatRecord($"{adminPlayer.Username}: job banned {p.Username} from {jobType}, IsPerma: {isPerma}, BanMinutes: {banMinutes}", null);
 
 				DiscordWebhookMessage.Instance.AddWebHookMessageToQueue(DiscordWebhookURLs.DiscordWebhookAdminLogURL, message + $"\nReason: {reason}", "");
 
@@ -1117,7 +1190,7 @@ public partial class PlayerList
 		);
 
 		//jobbanlist checking:
-		var jobBanPlayerEntry = jobBanList?.CheckForEntry(connPlayer.UserId, connPlayer.Connection.address, connPlayer.ClientId);
+		var jobBanPlayerEntry = jobBanList?.CheckForEntry(connPlayer.UserId, connPlayer.ConnectionIP, connPlayer.ClientId);
 
 		if (jobBanPlayerEntry.Value.Item1 == null)
 		{
@@ -1127,14 +1200,14 @@ public partial class PlayerList
 			{
 				userId = connPlayer?.UserId,
 				userName = connPlayer?.Username,
-				ipAddress = connPlayer?.Connection?.address,
+				ipAddress = connPlayer?.ConnectionIP,
 				clientId = connPlayer?.ClientId,
 				jobBanEntry = new List<JobBanEntry>(),
 				adminId = admin?.UserId,
 				adminName = admin?.Username
 			});
 
-			jobBanPlayerEntry = jobBanList?.CheckForEntry(connPlayer.UserId, connPlayer.Connection.address, connPlayer.ClientId);
+			jobBanPlayerEntry = jobBanList?.CheckForEntry(connPlayer.UserId, connPlayer.ConnectionIP, connPlayer.ClientId);
 		}
 
 		if (jobBanPlayerEntry.Value.Item1 == null)

@@ -246,6 +246,10 @@ public static class ToolUtils
 			{
 				soundName = CommonSounds.Instance.Shovel;
 			}
+			else if (itemAttrs.HasTrait(CommonTraits.Instance.AirlockPainter))
+			{
+				soundName = CommonSounds.Instance.AirlockPainter;
+			}
 		}
 
 		if (soundName != null)

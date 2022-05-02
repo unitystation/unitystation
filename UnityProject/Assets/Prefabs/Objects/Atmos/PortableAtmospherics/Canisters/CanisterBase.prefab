@@ -105,98 +105,6 @@ MonoBehaviour:
   pushTextureOnStartUp: 0
   initialVariantIndex: 0
   palette: []
---- !u!114 &-6176799362412192573
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3330777552754972672}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6d7277dcc993463cb6c7f79b663f36fc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  NetTabType: 10
-  aiInteractable: 0
---- !u!114 &3242550791702936155
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3330777552754972672}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cf6a312c50114272bc561c429cbb4175, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  StoredGasMix:
-    GasData:
-      GasesArray: []
-    Pressure: 0
-    Volume: 2.5
-    Temperature: 293.15
-  MaximumMoles: 1846.242
-  ReleasePressure: 101.325
-  Volume: 1
-  Temperature: 293.15
---- !u!114 &3744673748159336733
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3330777552754972672}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 229b269e3471bff4c9ad9c70bddea31e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  spawnCount: 2
-  timeToSalvage: 2
---- !u!114 &4620245307892029763
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3330777552754972672}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 931d5444a5bf4c9aa3be62ecbf046740, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  gasContainer: {fileID: 3242550791702936155}
-  molesAdded: 15000
---- !u!114 &7067097863662868376
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3330777552754972672}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c9ae6b6bba5c4e3aa4780272577c9bcf, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  ContentsName: Gas
-  UIBGTint: {r: 0.9686275, g: 0.8745099, b: 0.13333334, a: 1}
-  UIInnerPanelTint: {r: 1, g: 0.95294124, b: 0.5176471, a: 1}
-  canisterTier: 0
-  valveIsInitiallyOpen: 0
-  baseSpriteHandler: {fileID: 7811982109262590682}
-  canisterTierOverlay: {fileID: 8321291328493317021}
-  pressureIndicatorOverlay: {fileID: 5292510251321650616}
-  connectorHoseOverlay: {fileID: 9134291535749874632}
-  tankInsertedOverlay: {fileID: 6970499638236400721}
-  openValveOverlay: {fileID: 3794313558254657728}
-  tankValveOpen: 0
 --- !u!1 &4303483376002105739
 GameObject:
   m_ObjectHideFlags: 0
@@ -833,6 +741,98 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &-6176799362412192573
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3330777552754972672}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d7277dcc993463cb6c7f79b663f36fc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  NetTabType: 10
+  aiInteractable: 0
+--- !u!114 &3242550791702936155
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3330777552754972672}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cf6a312c50114272bc561c429cbb4175, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  StoredGasMix:
+    GasData:
+      GasesArray: []
+    Pressure: 0
+    Volume: 2.5
+    Temperature: 293.15
+  MaximumMoles: 1846.242
+  ReleasePressure: 101.325
+  Volume: 1
+  Temperature: 293.15
+--- !u!114 &3744673748159336733
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3330777552754972672}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 229b269e3471bff4c9ad9c70bddea31e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spawnCount: 2
+  timeToSalvage: 2
+--- !u!114 &4620245307892029763
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3330777552754972672}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 931d5444a5bf4c9aa3be62ecbf046740, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gasContainer: {fileID: 3242550791702936155}
+  molesAdded: 15000
+--- !u!114 &7067097863662868376
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3330777552754972672}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c9ae6b6bba5c4e3aa4780272577c9bcf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  ContentsName: Gas
+  UIBGTint: {r: 0.9686275, g: 0.8745099, b: 0.13333334, a: 1}
+  UIInnerPanelTint: {r: 1, g: 0.95294124, b: 0.5176471, a: 1}
+  canisterTier: 0
+  valveIsInitiallyOpen: 0
+  baseSpriteHandler: {fileID: 7811982109262590682}
+  canisterTierOverlay: {fileID: 8321291328493317021}
+  pressureIndicatorOverlay: {fileID: 5292510251321650616}
+  connectorHoseOverlay: {fileID: 9134291535749874632}
+  tankInsertedOverlay: {fileID: 6970499638236400721}
+  openValveOverlay: {fileID: 3794313558254657728}
+  tankValveOpen: 0
 --- !u!114 &583222324059402696
 MonoBehaviour:
   m_ObjectHideFlags: 0

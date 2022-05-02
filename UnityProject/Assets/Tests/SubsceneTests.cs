@@ -10,7 +10,7 @@ using UnityEditor.SceneManagement;
 using Tilemaps.Behaviours.Layers;
 using Shuttles;
 using Objects.Atmospherics;
-
+using Tiles;
 
 namespace Tests
 {
@@ -393,7 +393,7 @@ namespace Tests
 
 				}
 
-				EditorApplication.SaveScene();
+				EditorSceneManager.SaveOpenScenes();
 			}
 
 			if (isok == false)

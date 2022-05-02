@@ -31,7 +31,7 @@ namespace Objects.Atmospherics
 
 			Pressure = mix.Pressure;
 			Temperature = mix.Temperature;
-			lock (mix.GasesArray)
+			lock (mix.GasesArray) //no Double lock
 			{
 				foreach (GasValues gas in mix.GasesArray)  //doesn't appear to modify list while iterating
 				{

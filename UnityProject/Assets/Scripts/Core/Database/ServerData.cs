@@ -9,7 +9,7 @@ namespace DatabaseAPI
 {
 	public partial class ServerData : MonoBehaviour, IInitialise
 	{
-		class Status
+		private class Status
 		{
 			public bool error = false;
 			public bool profileSet = false;
@@ -43,7 +43,7 @@ namespace DatabaseAPI
 		private Firebase.Auth.FirebaseAuth auth;
 		public static Firebase.Auth.FirebaseAuth Auth => Instance.auth;
 
-		private Dictionary<string, Firebase.Auth.FirebaseUser> userByAuth =
+		private readonly Dictionary<string, Firebase.Auth.FirebaseUser> userByAuth =
 			new Dictionary<string, Firebase.Auth.FirebaseUser>();
 
 		private Firebase.Auth.FirebaseUser user = null;
@@ -66,7 +66,7 @@ namespace DatabaseAPI
 		private bool fetchingToken = false;
 		public string idToken;
 		public static string IdToken => Instance.idToken;
-		private HttpClient httpClient = new HttpClient();
+		private readonly HttpClient httpClient = new HttpClient();
 
 		public static HttpClient HttpClient => Instance.httpClient;
 
@@ -90,19 +90,19 @@ namespace DatabaseAPI
 			AuthStateChanged(this, null);
 		}
 
-		void OnEnable()
+		private void OnEnable()
 		{
 			EventManager.AddHandler(Event.LoggedOut, OnLogOut);
 			UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
 		}
 
-		void OnDisable()
+		private void OnDisable()
 		{
 			EventManager.RemoveHandler(Event.LoggedOut, OnLogOut);
 			UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
 		}
 
-		void UpdateMe()
+		private void UpdateMe()
 		{
 			if (config != null)
 			{
@@ -129,7 +129,7 @@ namespace DatabaseAPI
 		}
 
 		// Track state changes of the auth object.
-		void AuthStateChanged(object sender, System.EventArgs eventArgs)
+		private void AuthStateChanged(object sender, EventArgs eventArgs)
 		{
 			Firebase.Auth.FirebaseAuth senderAuth = sender as Firebase.Auth.FirebaseAuth;
 			if (senderAuth != null) userByAuth.TryGetValue(senderAuth.App.Name, out user);
@@ -147,7 +147,7 @@ namespace DatabaseAPI
 		}
 
 		// Track ID token changes.
-		void IdTokenChanged(object sender, System.EventArgs eventArgs)
+		private void IdTokenChanged(object sender, EventArgs eventArgs)
 		{
 			Firebase.Auth.FirebaseAuth senderAuth = sender as Firebase.Auth.FirebaseAuth;
 			if (senderAuth == auth && senderAuth.CurrentUser != null && !fetchingToken)
@@ -157,7 +157,7 @@ namespace DatabaseAPI
 			}
 		}
 
-		void SetToken(string result)
+		private void SetToken(string result)
 		{
 			Instance.idToken = result;
 		}

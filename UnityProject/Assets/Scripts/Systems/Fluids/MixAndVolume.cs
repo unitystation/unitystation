@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using ScriptableObjects.Atmospherics;
 using Chemistry;
@@ -103,7 +104,7 @@ namespace Systems.Pipes
 			mix.Add(mixAndVolume.mix);
 
 			var newOne = new GasData();
-			lock (gasMix.GasesArray)
+			lock (gasMix.GasesArray) //is ok is new GasData
 			{
 				for (int i = gasMix.GasesArray.Count - 1; i >= 0; i--)
 				{
@@ -138,7 +139,7 @@ namespace Systems.Pipes
 			var newOne = new GasData();
 			var removeNewOne = new GasData();
 
-			lock (gasMix.GasesArray)
+			lock (gasMix.GasesArray) //is ok is new GasData
 			{
 				for (int i =  gasMix.GasesArray.Count - 1; i >= 0; i--)
 				{
@@ -172,7 +173,7 @@ namespace Systems.Pipes
 			mix.Divide(divideAmount);
 
 			var newOne = new GasData();
-			lock (gasMix.GasesArray)
+			lock (gasMix.GasesArray) //is ok is new GasData
 			{
 				for (int i = gasMix.GasesArray.Count - 1; i >= 0; i--)
 				{
@@ -196,7 +197,7 @@ namespace Systems.Pipes
 			mix.Multiply(multiplyAmount);
 
 			var newOne = new GasData();
-			lock (gasMix.GasesArray)
+			lock (gasMix.GasesArray)  //is ok is new GasData
 			{
 				for (int i = gasMix.GasesArray.Count - 1; i >= 0; i--)
 				{
@@ -415,7 +416,13 @@ namespace Systems.Pipes
 
 		public override string ToString()
 		{
-			return $"Volume > {Volume} Mix > {mix} gasMix > {gasMix.ToString()}";
+			string Returnstring = "";
+			foreach (var gv in gasMix.GasData.GasesArray)
+			{
+				Returnstring += $" Name : {gv.GasSO.Name} Amount : {gv.Moles}";
+			}
+
+			return $"Volume > {Volume} Mix > {mix} gasMix > {gasMix.ToString()} gases > " + Returnstring;
 		}
 	}
 }

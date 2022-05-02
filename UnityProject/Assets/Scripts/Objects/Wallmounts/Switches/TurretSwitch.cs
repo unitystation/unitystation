@@ -6,6 +6,7 @@ using Messages.Server;
 using Systems.Electricity;
 using Systems.Interaction;
 using Systems.ObjectConnection;
+using CustomInspectors;
 using UI.Core.Net;
 using Objects.Other;
 
@@ -14,7 +15,7 @@ namespace Objects.Wallmounts.Switches
 {
 	[RequireComponent(typeof(AccessRestrictions))]
 	[RequireComponent(typeof(APCPoweredDevice))]
-	public class TurretSwitch : SubscriptionController, ICheckedInteractable<AiActivate>, IMultitoolMasterable, ICanOpenNetTab
+	public class TurretSwitch : ImnterfaceMultitoolGUI, ISubscriptionController, ICheckedInteractable<AiActivate>, IMultitoolMasterable, ICanOpenNetTab, IServerSpawn
 	{
 		[Header("Access Restrictions for ID")]
 		[Tooltip("Is this door restricted?")]
@@ -27,7 +28,6 @@ namespace Objects.Wallmounts.Switches
 		private List<Turret> turrets = new List<Turret>();
 
 		private SpriteHandler spriteHandler;
-		private bool buttonCoolDown = false;
 		private APCPoweredDevice apcPoweredDevice;
 
 		private bool hasPower;
@@ -50,18 +50,10 @@ namespace Objects.Wallmounts.Switches
 			accessRestrictions = GetComponent<AccessRestrictions>();
 		}
 
-		private void Start()
+		public void OnSpawnServer(SpawnInfo info)
 		{
-			if(CustomNetworkManager.IsServer == false) return;
-
-			ChangeTurretStates();
-		}
-
-		private void OnEnable()
-		{
-			if(CustomNetworkManager.IsServer == false) return;
-
 			apcPoweredDevice.OnStateChangeEvent.AddListener(OnPowerStatusChange);
+			ChangeTurretStates();
 		}
 
 		private void OnDisable()
@@ -258,7 +250,7 @@ namespace Objects.Wallmounts.Switches
 			}
 		}
 
-		public override IEnumerable<GameObject> SubscribeToController(IEnumerable<GameObject> potentialObjects)
+		public IEnumerable<GameObject> SubscribeToController(IEnumerable<GameObject> potentialObjects)
 		{
 			var approvedObjects = new List<GameObject>();
 

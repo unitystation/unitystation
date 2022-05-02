@@ -1,4 +1,5 @@
 ﻿using Mirror;
+using Player;
 
 namespace Messages.Client.NewPlayer
 {

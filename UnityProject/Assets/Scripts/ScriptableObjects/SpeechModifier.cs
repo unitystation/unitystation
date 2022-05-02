@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text.RegularExpressions;
+using System.Text;
 using UnityEngine;
 
 namespace ScriptableObjects
@@ -29,29 +29,83 @@ namespace ScriptableObjects
 		[Tooltip("If assigned, text will be processed by this class instead. Remember to implement a ProcessMessage method with a string message as argument!")]
 		public CustomSpeechModifier customCode = null;
 
-		string Replace (string message)
+		private Dictionary<string, List<string>> wordLookup;
+
+		string Replace(string message)
 		{
-			if (wordReplaceList.Count > 0)
+			// Construct a lookup table on first run
+			if (wordLookup == null)
 			{
-				foreach (var word in wordReplaceList)
+				wordLookup = new Dictionary<string, List<string>>(wordReplaceList.Count);
+				foreach (StringListOfStrings strings in wordReplaceList)
 				{
-					message = Regex.Replace(
-						message,
-						@"\b(" + word.original + @")\b",
-						m => WasYelling(m.Groups[1].Value) ? word.replaceWith.PickRandom().ToUpper() : word.replaceWith.PickRandom(),
-						RegexOptions.IgnoreCase);
+					try
+					{
+						wordLookup.Add(strings.original, strings.replaceWith);
+					}
+					catch (ArgumentException)
+					{
+						Debug.LogWarningFormat("Duplicate word {0} in {1}", strings.original, this);
+					}
 				}
 			}
 
-			if (letterReplaceList.Count > 0)
+			// Split the message into words, and replace them if needed
+			var builder = new StringBuilder(message.Length);
+			int start = 0;
+			for (int i = 0; i < message.Length; i++)
 			{
-				foreach (var word in letterReplaceList)
+				char c = message[i];
+
+				if (!char.IsSeparator(c) && !char.IsPunctuation(c)) continue;
+
+				string substring = message.Substring(start, i - start);
+				if (wordLookup.TryGetValue(substring, out var replacements))
 				{
-					message = Regex.Replace(
-						message,
-						"(" + word.original + ")",
-						m => WasYelling(m.Groups[1].Value) ? word.replaceWith.PickRandom().ToUpper() : word.replaceWith.PickRandom(),
-						RegexOptions.IgnoreCase);
+					string replacement = replacements.PickRandom();
+					if (WasYelling(substring))
+					{
+						replacement = replacement.ToUpper();
+					}
+					builder.Append(replacement);
+				}
+				else
+				{
+					builder.Append(substring);
+				}
+
+				builder.Append(c);
+				start = i + 1;
+			}
+
+			// Add the rest of the text, if present
+			if (start < message.Length - 1)
+			{
+				builder.Append(message.Substring(start));
+			}
+
+			message = builder.ToString();
+
+			// Replace letter combinations
+			foreach (StringListOfStrings strings in letterReplaceList)
+			{
+				int index = 0;
+				string original = strings.original;
+				while (true)
+				{
+					int match = message.IndexOf(original, index, StringComparison.InvariantCultureIgnoreCase);
+					if (match == -1)
+					{
+						break;
+					}
+
+					string replacement = strings.replaceWith.PickRandom();
+					if (WasYelling(message.Substring(match, original.Length)))
+					{
+						replacement = replacement.ToUpper();
+					}
+					message = message.Remove(match, original.Length).Insert(match, replacement);
+					index = match + replacement.Length;
 				}
 			}
 
@@ -76,7 +130,18 @@ namespace ScriptableObjects
 			return message;
 		}
 
-		bool WasYelling(string message) => message == message.ToUpper();
+		bool WasYelling(string message)
+		{
+			foreach (char c in message)
+			{
+				if (char.IsLower(c))
+				{
+					return false;
+				}
+			}
+
+			return true;
+		}
 
 		public string ProcessMessage(string message)
 		{

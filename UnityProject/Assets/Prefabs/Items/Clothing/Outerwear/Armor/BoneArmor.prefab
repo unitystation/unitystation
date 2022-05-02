@@ -277,6 +277,17 @@ PrefabInstance:
       propertyPath: initialDescription
       value: A tribal armor plate, crafted from animal bone.
       objectReference: {fileID: 0}
+    - target: {fileID: 3595869727840540324, guid: e606c25f8104ffa4e94b68151182a216,
+        type: 3}
+      propertyPath: relatedRecipes.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3595869727840540324, guid: e606c25f8104ffa4e94b68151182a216,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[0].recipe
+      value: 
+      objectReference: {fileID: 11400000, guid: 6d4fc2a13396cd848a11ffe3d371aa86,
+        type: 2}
     - target: {fileID: 3791466462619397166, guid: e606c25f8104ffa4e94b68151182a216,
         type: 3}
       propertyPath: m_Sprite

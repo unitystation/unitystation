@@ -1,31 +1,28 @@
 using System;
 using UnityEngine;
 
-/// Sends client's touch coordinates (within element) over network
-[RequireComponent(typeof( TouchScreen ))]
-[Serializable]
-public class NetTouchScreen : NetUIStringElement
+namespace UI.Core.NetUI
 {
-	public override ElementMode InteractionMode => ElementMode.ClientWrite;
+	/// Sends client's touch coordinates (within element) over network
+	[RequireComponent(typeof(TouchScreen))]
+	[Serializable]
+	public class NetTouchScreen : NetUIStringElement
+	{
+		public override ElementMode InteractionMode => ElementMode.ClientWrite;
 
-	public override string Value {
-		set { Element.LastTouchPosition = value.Vectorized(); }
-		get { return Element.LastTouchPosition.Stringified(); }
-	}
-
-	private TouchScreen element;
-	public TouchScreen Element {
-		get {
-			if ( !element ) {
-				element = GetComponent<TouchScreen>();
-			}
-			return element;
+		public override string Value {
+			set => Element.LastTouchPosition = value.Vectorized();
+			get => Element.LastTouchPosition.Stringified();
 		}
-	}
 
-	public StringEvent ServerMethod;
+		private TouchScreen element;
+		public TouchScreen Element => element ??= GetComponent<TouchScreen>();
 
-	public override void ExecuteServer(ConnectedPlayer subject) {
-		ServerMethod.Invoke(Value);
+		public StringEvent ServerMethod;
+
+		public override void ExecuteServer(ConnectedPlayer subject)
+		{
+			ServerMethod.Invoke(Value);
+		}
 	}
 }

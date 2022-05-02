@@ -1,5 +1,70 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &7225003947232659167
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 2513334523036133845, guid: 8df46e8f4633f9e43ab5993c9075028e,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2513334523036133845, guid: 8df46e8f4633f9e43ab5993c9075028e,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2513334523036133845, guid: 8df46e8f4633f9e43ab5993c9075028e,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2513334523036133845, guid: 8df46e8f4633f9e43ab5993c9075028e,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2513334523036133845, guid: 8df46e8f4633f9e43ab5993c9075028e,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2513334523036133845, guid: 8df46e8f4633f9e43ab5993c9075028e,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2513334523036133845, guid: 8df46e8f4633f9e43ab5993c9075028e,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2515425442973781969, guid: 8df46e8f4633f9e43ab5993c9075028e,
+        type: 3}
+      propertyPath: m_Name
+      value: GoatPete
+      objectReference: {fileID: 0}
+    - target: {fileID: 2556025810940187981, guid: 8df46e8f4633f9e43ab5993c9075028e,
+        type: 3}
+      propertyPath: m_AssetId
+      value: e56e2d22b6f68cf48b3ababcdccd8a4d
+      objectReference: {fileID: 0}
+    - target: {fileID: 8811541528191602133, guid: 8df46e8f4633f9e43ab5993c9075028e,
+        type: 3}
+      propertyPath: mobName
+      value: Pete
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 8df46e8f4633f9e43ab5993c9075028e, type: 3}
+--- !u!1 &5092666089846311182 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2515425442973781969, guid: 8df46e8f4633f9e43ab5993c9075028e,
+    type: 3}
+  m_PrefabInstance: {fileID: 7225003947232659167}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &-5473302497831608342
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -70,88 +135,3 @@ MonoBehaviour:
   onMilkedEmpty:
     m_PersistentCalls:
       m_Calls: []
---- !u!1001 &7225003947232659167
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 2513334523036133845, guid: 8df46e8f4633f9e43ab5993c9075028e,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2513334523036133845, guid: 8df46e8f4633f9e43ab5993c9075028e,
-        type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2513334523036133845, guid: 8df46e8f4633f9e43ab5993c9075028e,
-        type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2513334523036133845, guid: 8df46e8f4633f9e43ab5993c9075028e,
-        type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2513334523036133845, guid: 8df46e8f4633f9e43ab5993c9075028e,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2513334523036133845, guid: 8df46e8f4633f9e43ab5993c9075028e,
-        type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2513334523036133845, guid: 8df46e8f4633f9e43ab5993c9075028e,
-        type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2513334523036133845, guid: 8df46e8f4633f9e43ab5993c9075028e,
-        type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2513334523036133845, guid: 8df46e8f4633f9e43ab5993c9075028e,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2513334523036133845, guid: 8df46e8f4633f9e43ab5993c9075028e,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2513334523036133845, guid: 8df46e8f4633f9e43ab5993c9075028e,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2515425442973781969, guid: 8df46e8f4633f9e43ab5993c9075028e,
-        type: 3}
-      propertyPath: m_Name
-      value: GoatPete
-      objectReference: {fileID: 0}
-    - target: {fileID: 2556025810940187981, guid: 8df46e8f4633f9e43ab5993c9075028e,
-        type: 3}
-      propertyPath: m_AssetId
-      value: e56e2d22b6f68cf48b3ababcdccd8a4d
-      objectReference: {fileID: 0}
-    - target: {fileID: 8811541528191602133, guid: 8df46e8f4633f9e43ab5993c9075028e,
-        type: 3}
-      propertyPath: mobName
-      value: Pete
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 8df46e8f4633f9e43ab5993c9075028e, type: 3}
---- !u!1 &5092666089846311182 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 2515425442973781969, guid: 8df46e8f4633f9e43ab5993c9075028e,
-    type: 3}
-  m_PrefabInstance: {fileID: 7225003947232659167}
-  m_PrefabAsset: {fileID: 0}

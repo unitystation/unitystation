@@ -3,6 +3,7 @@ using AddressableReferences;
 using Messages.Server.SoundMessages;
 using Objects.Mining;
 using TileManagement;
+using Tiles;
 
 namespace Items
 {

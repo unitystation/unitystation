@@ -1,20 +1,28 @@
-﻿using System;
+using System;
 using System.Collections;
+using System.Collections.Generic;
+using System.IO;
 using DatabaseAPI;
 using UnityEngine;
 using UnityEngine.UI;
 using Mirror;
 using Firebase.Auth;
 using IgnoranceTransport;
+using Newtonsoft.Json;
+using System.Linq;
+
 
 namespace Lobby
 {
-	public class GUI_LobbyDialogue : MonoBehaviour
+	public class GUI_LobbyDialogue :  MonoBehaviour
 	{
+		public static GUI_LobbyDialogue Instance;
 		private const string DefaultServerAddress = "127.0.0.1";
 		private const ushort DefaultServerPort = 7777;
 		private const string UserNamePlayerPref = "PlayerName";
 
+		public GameObject mainPanel;
+		public GameObject joinPanel;
 		public GameObject accountLoginPanel;
 		public GameObject createAccountPanel;
 		public GameObject pendingCreationPanel;
@@ -22,7 +30,7 @@ namespace Lobby
 		public GameObject wrongVersionPanel;
 		public GameObject controlInformationPanel;
 		public GameObject loggingInPanel;
-		public GameObject connectionPanel;
+		public GameObject disconnectPanel;
 
 		//Account Creation screen:
 		public InputField chosenUsernameInput;
@@ -38,25 +46,77 @@ namespace Lobby
 
 		public InputField serverAddressInput;
 		public InputField serverPortInput;
-		public Text serverConnectionFailedText;
 		public Text dialogueTitle;
+		public Text menuUsernameText;
+		public Text serverConnectionFailedText;
 		public Text pleaseWaitCreationText;
 		public Text loggingInText;
-		public Toggle hostServerToggle;
 		public Toggle autoLoginToggle;
+
+		public bool wasDisconnected = false;
+
+		private List<ConnectionHistory> history = new();
+		private string isWindows = "/";
+		private string historyFilePath;
+		[SerializeField] private GameObject historyLogEntryGameObject;
+		[SerializeField] private GameObject historyEntries;
+		[SerializeField] private GameObject historyPanel;
+		[SerializeField] private GameObject logShowButton;
+		[SerializeField] private int entrySizeLimit = 5;
+
+		private GameObject[] allPanels;
 
 		#region Lifecycle
 
+		private void Awake()
+		{
+			allPanels = new GameObject[] { mainPanel, joinPanel, accountLoginPanel, createAccountPanel,
+					pendingCreationPanel,informationPanel, controlInformationPanel, loggingInPanel, disconnectPanel };
+
+			isWindows = Application.persistentDataPath.Contains("/") ? $"/" : $"\\";
+			Instance = this;
+			historyFilePath = $"{Application.persistentDataPath}{isWindows}ConnectionHistory.json";
+			if (File.Exists(historyFilePath))
+			{
+				string json = File.ReadAllText(historyFilePath);
+				if(json.Length <= 3) return;
+				history = JsonConvert.DeserializeObject<List<ConnectionHistory>>(json);
+				GenerateHistoryData();
+				if(historyEntries.transform.childCount > 0) logShowButton.SetActive(true);
+			}
+		}
+
 		private void Start()
 		{
-			OnHostToggle();
 			// Init Lobby UI
+			HideAllPanels();
 			InitPlayerName();
+
+			if (ServerData.Auth?.CurrentUser == null)
+			{
+				ShowLoginScreen();
+			}
+			else if (wasDisconnected && GameManager.Instance.DisconnectExpected == false)
+			{
+				ShowDisconnectPanel();
+			}
+			else
+			{
+				ShowMainPanel();
+			}
+
+			// reset
+			wasDisconnected = false;
+			GameManager.Instance.DisconnectExpected = false;
 		}
 
 		private void OnEnable()
 		{
-			UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
+			//login skip only allowed (and only works properly) in offline mode
+			if (GameData.Instance.OfflineMode)
+			{
+				UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
+			}
 		}
 
 		private void OnDisable()
@@ -66,18 +126,30 @@ namespace Lobby
 
 		private void UpdateMe()
 		{
-			//login skip only allowed (and only works properly) in offline mode
-			if (Input.GetKeyDown(KeyCode.F6) && GameData.Instance.OfflineMode)
+			if (Input.GetKeyDown(KeyCode.F6))
 			{
 				//skip login
-				HideAllPanels();
-				connectionPanel.SetActive(true);
-				dialogueTitle.text = "Connection Panel";
+				ShowMainPanel();
 				//if there aren't char settings, default
 				if (PlayerManager.CurrentCharacterSettings == null)
 				{
 					PlayerManager.CurrentCharacterSettings = new CharacterSettings();
 				}
+			}
+		}
+
+		private void GenerateHistoryData()
+		{
+			if(history.Count == 0) return;
+			var numberOfGeneratedEntries = 0;
+			foreach (var historyEntry in history)
+			{
+				if(numberOfGeneratedEntries >= entrySizeLimit) break;
+				if(historyEntry.IP == DefaultServerAddress) continue;
+				var newEntry = Instantiate(historyLogEntryGameObject, historyEntries.transform);
+				newEntry.GetComponent<HistoryLogEntry>().SetData(historyEntry.IP, numberOfGeneratedEntries);
+				newEntry.SetActive(true);
+				numberOfGeneratedEntries++;
 			}
 		}
 
@@ -87,15 +159,23 @@ namespace Lobby
 		{
 			LoadingScreenManager.Instance.CloseLoadingScreen();
 			gameObject.SetActive(true);
-			ShowConnectionPanel();
+			ShowJoinPanel();
 			StartCoroutine(FlashConnectionFailedText());
 		}
 
-		IEnumerator FlashConnectionFailedText()
+		private IEnumerator FlashConnectionFailedText()
 		{
 			serverConnectionFailedText.gameObject.SetActive(true);
 			yield return WaitFor.Seconds(5);
 			serverConnectionFailedText.gameObject.SetActive(false);
+		}
+
+		public void ShowMainPanel()
+		{
+			HideAllPanels();
+			mainPanel.SetActive(true);
+			menuUsernameText.text = $"Logged in as {ServerData.Auth.CurrentUser.DisplayName}";
+			dialogueTitle.text = string.Empty;
 		}
 
 		public void ShowLoginScreen()
@@ -116,7 +196,6 @@ namespace Lobby
 		public void ShowCharacterEditor(Action onCloseAction = null)
 		{
 			_ = SoundManager.Play(CommonSounds.Instance.Click01);
-			HideAllPanels();
 			LobbyManager.Instance.characterCustomization.gameObject.SetActive(true);
 			if (onCloseAction != null)
 			{
@@ -124,25 +203,28 @@ namespace Lobby
 			}
 		}
 
-		public void ShowConnectionPanel()
+		public void ShowJoinPanel()
 		{
 			HideAllPanels();
-			if (ServerData.Auth.CurrentUser != null)
-			{
-				connectionPanel.SetActive(true);
-				dialogueTitle.text = "Connection Panel";
+			joinPanel.SetActive(true);
 
-				StartCoroutine(WaitForReloadProfile());
+			if (history.Count > 0) {
+				serverAddressInput.text = history.Last().IP;
+				serverPortInput.text = history.Last().Port.ToString();
 			}
-			else
-			{
-				loggingInPanel.SetActive(true);
-				dialogueTitle.text = "Please Wait..";
-			}
+
+			dialogueTitle.text = "Join Game";
+		}
+
+		public void ShowDisconnectPanel()
+		{
+			HideAllPanels();
+			disconnectPanel.SetActive(true);
+			dialogueTitle.text = "Disconnected";
 		}
 
 		//Make sure we have the latest DisplayName from Auth
-		IEnumerator WaitForReloadProfile()
+		private IEnumerator WaitForReloadProfile()
 		{
 			ServerData.ReloadProfile();
 
@@ -160,10 +242,7 @@ namespace Lobby
 				yield return WaitFor.EndOfFrame;
 			}
 
-			if (!string.IsNullOrEmpty(ServerData.Auth.CurrentUser.DisplayName))
-			{
-				dialogueTitle.text = "Logged in: " + ServerData.Auth.CurrentUser.DisplayName;
-			}
+			menuUsernameText.text = $"Logged in as {ServerData.Auth.CurrentUser.DisplayName}";
 		}
 
 		public void CreationNextButton()
@@ -221,25 +300,11 @@ namespace Lobby
 		public void ShowLoggingInStatus(string status)
 		{
 			HideAllPanels();
-			if (loggingInPanel == null) return;
 
 			loggingInPanel.SetActive(true);
 			loggingInText.text = status;
 			loginNextButton.SetActive(false);
 			loginGoBackButton.SetActive(false);
-		}
-
-		public void OnLogout()
-		{
-			_ = SoundManager.Play(CommonSounds.Instance.Click01);
-			HideAllPanels();
-			ServerData.Auth.SignOut();
-			NetworkClient.Disconnect();
-			PlayerPrefs.SetString("username", "");
-			PlayerPrefs.SetString("cookie", "");
-			PlayerPrefs.SetInt("autoLogin", 0);
-			PlayerPrefs.Save();
-			ShowLoginScreen();
 		}
 
 		public void OnExit()
@@ -250,13 +315,13 @@ namespace Lobby
 
 		public void LoginSuccess(string msg)
 		{
-			loggingInText.text = "Login Success..";
-			ShowConnectionPanel();
+			loggingInText.text = "Login Success";
+			ShowMainPanel();
 		}
 
 		public void LoginError(string msg)
 		{
-			loggingInText.text = "Login failed: " + msg;
+			loggingInText.text = $"Login failed: {msg}";
 			if (msg.Contains("Email Not Verified"))
 			{
 				resendEmailButton.gameObject.SetActive(true);
@@ -281,45 +346,45 @@ namespace Lobby
 			FirebaseAuth.DefaultInstance.SignOut();
 		}
 
-		public void OnHostToggle()
+		#region Button handlers
+
+		public void OnMainMenuJoinBtn()
 		{
-			serverAddressInput.interactable = !hostServerToggle.isOn;
-			serverPortInput.interactable = !hostServerToggle.isOn;
+			_ = SoundManager.Play(CommonSounds.Instance.Click01);
+			ShowJoinPanel();
 		}
 
-		// Button handlers
-		public void OnStartGame()
+		public void OnMainMenuHostBtn()
 		{
 			_ = SoundManager.Play(CommonSounds.Instance.Click01);
 
-			// Return if no network address is specified
-			if (string.IsNullOrEmpty(serverAddressInput.text))
-			{
-				return;
-			}
+			dialogueTitle.text = "Hosting Game...";
 
 			// Set and cache player name
 			PlayerPrefs.SetString(UserNamePlayerPref, PlayerManager.CurrentCharacterSettings.Name);
 
-			// Start game
-			dialogueTitle.text = "Starting Game...";
-			if (!hostServerToggle.isOn)
-			{
-				ConnectToServer();
-			}
-			else
-			{
-				LoadingScreenManager.LoadFromLobby(CustomNetworkManager.Instance.StartHost);
-			}
+			LoadingScreenManager.LoadFromLobby(CustomNetworkManager.Instance.StartHost);
+		}
 
-			// Hide dialogue and show status text
-			gameObject.SetActive(false);
-			//	UIManager.Chat.CurrentChannelText.text = "<color=green>Loading game please wait..</color>\r\n";
+		public void OnJoinMenuJoinBtn()
+		{
+			_ = SoundManager.Play(CommonSounds.Instance.Click01);
+
+			// Return if no network address is specified
+			if (string.IsNullOrEmpty(serverAddressInput.text)) return;
+
+			dialogueTitle.text = "Joining Game...";
+
+			ConnectToServer();
 		}
 
 		public void OnStartGameFromHub()
 		{
-			PlayerPrefs.SetString(UserNamePlayerPref, PlayerManager.CurrentCharacterSettings.Name);
+			if (PlayerManager.CurrentCharacterSettings != null)
+			{
+				PlayerPrefs.SetString(UserNamePlayerPref, PlayerManager.CurrentCharacterSettings.Name);
+			}
+			
 			ConnectToServer();
 			gameObject.SetActive(false);
 		}
@@ -346,7 +411,7 @@ namespace Lobby
 			gameObject.SetActive(true);
 			if (ServerData.Auth.CurrentUser != null)
 			{
-				ShowConnectionPanel();
+				ShowJoinPanel();
 			}
 			else
 			{
@@ -355,13 +420,28 @@ namespace Lobby
 			}
 		}
 
+		public void OnLogoutBtn()
+		{
+			_ = SoundManager.Play(CommonSounds.Instance.Click01);
+			HideAllPanels();
+			ServerData.Auth.SignOut();
+			NetworkClient.Disconnect();
+			PlayerPrefs.SetString("username", "");
+			PlayerPrefs.SetString("cookie", "");
+			PlayerPrefs.SetInt("autoLogin", 0);
+			PlayerPrefs.Save();
+			ShowLoginScreen();
+		}
+
+		#endregion
+
 		// Game handlers
 		public void ConnectToServer()
 		{
 			LoadingScreenManager.LoadFromLobby(DoServerConnect);
 		}
 
-		void DoServerConnect()
+		private void DoServerConnect()
 		{
 			// Set network address
 			string serverAddress = serverAddressInput.text;
@@ -399,11 +479,33 @@ namespace Lobby
 			// {
 			// 	booster.port = serverPort;
 			// }
+			LogConnectionToHistory(serverAddress, serverPort);
 
 			CustomNetworkManager.Instance.StartClient();
 		}
 
-		void InitPlayerName()
+		private void LogConnectionToHistory(string serverAddress, int serverPort)
+		{
+			ConnectionHistory newHistoryEntry = new ConnectionHistory();
+			newHistoryEntry.IP = serverAddress;
+			newHistoryEntry.Port = serverPort;
+			history.Add(newHistoryEntry);
+			UpdateHistoryFile();
+		}
+
+		private void UpdateHistoryFile()
+		{
+			string json = JsonConvert.SerializeObject(history);
+			if(File.Exists(historyFilePath)) File.Delete(historyFilePath);
+			while (!File.Exists(historyFilePath))
+			{
+				var fs = new FileStream(historyFilePath, FileMode.Create); //To avoid share rule violations
+				fs.Dispose();
+				File.WriteAllText(historyFilePath, json);
+			}
+		}
+
+		private void InitPlayerName()
 		{
 			string steamName = "";
 			string prefsName;
@@ -424,19 +526,19 @@ namespace Lobby
 			}
 		}
 
-		void ShowInformationPanel()
+		private void ShowInformationPanel()
 		{
 			HideAllPanels();
 			informationPanel.SetActive(true);
 		}
 
-		void ShowControlInformationPanel()
+		private void ShowControlInformationPanel()
 		{
 			HideAllPanels();
 			controlInformationPanel.SetActive(true);
 		}
 
-		void ShowWrongVersionPanel()
+		private void ShowWrongVersionPanel()
 		{
 			HideAllPanels();
 			wrongVersionPanel.SetActive(true);
@@ -444,42 +546,36 @@ namespace Lobby
 
 		public void HideAllPanels()
 		{
-			// TODO: FIXME
-			//	startGamePanel.SetActive(false);
-			if (accountLoginPanel != null)
+			foreach (var panel in allPanels)
 			{
-				accountLoginPanel.SetActive(false);
+				if (panel != null)
+				{
+					panel.SetActive(false);
+				}
 			}
+		}
 
-			if (createAccountPanel != null)
-			{
-				createAccountPanel.SetActive(false);
-			}
+		public void ConnectToServerFromHistory(int historyIndex)
+		{
+			serverAddressInput.text = history[historyIndex].IP;
+			serverPortInput.text = history[historyIndex].Port.ToString();
+			DoServerConnect();
+		}
 
-			if (pendingCreationPanel != null)
-			{
-				pendingCreationPanel.SetActive(false);
-			}
+		public void ConnectToLastServer()
+		{
+			ConnectToServerFromHistory(history.Count - 1);
+		}
 
-			if (informationPanel != null)
-			{
-				informationPanel.SetActive(false);
-			}
+		public void OnShowLogButton()
+		{
+			historyPanel.SetActive(!historyPanel.activeSelf);
+		}
 
-			if (controlInformationPanel != null)
-			{
-				controlInformationPanel.SetActive(false);
-			}
-
-			if (loggingInPanel != null)
-			{
-				loggingInPanel.SetActive(false);
-			}
-
-			if (connectionPanel != null)
-			{
-				connectionPanel.SetActive(false);
-			}
+		public struct ConnectionHistory
+		{
+			public string IP;
+			public int Port;
 		}
 	}
 }

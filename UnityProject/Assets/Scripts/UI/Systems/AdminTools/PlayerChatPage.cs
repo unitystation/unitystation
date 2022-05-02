@@ -42,8 +42,9 @@ namespace AdminTools
 			inputField.ActivateInputField();
 		}
 
-		private void OnEnable()
+		public override void OnEnable()
 		{
+			base.OnEnable();
 			UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
 		}
 
@@ -122,14 +123,6 @@ namespace AdminTools
 		{
 			yield return WaitFor.EndOfFrame;
 			UIManager.IsInputFocus = true;
-		}
-
-		public void GoBack()
-		{
-			refreshClock = false;
-			UIManager.IsInputFocus = false;
-			UIManager.PreventChatInput = false;
-			adminTools.ShowMainPage();
 		}
 	}
 }

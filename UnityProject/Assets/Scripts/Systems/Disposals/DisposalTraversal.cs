@@ -25,7 +25,7 @@ namespace Systems.Disposals
 		private Vector3Int currentPipeLocalPos;
 		private Orientation currentPipeOutputSide;
 
-		private Vector3Int NextPipeVector => currentPipeOutputSide.VectorInt.To3Int();
+		private Vector3Int NextPipeVector => currentPipeOutputSide.LocalVectorInt.To3Int();
 		private Vector3Int NextPipeLocalPosition => currentPipeLocalPos + NextPipeVector;
 
 		/// <summary>
@@ -109,10 +109,10 @@ namespace Systems.Disposals
 		{
 			switch (side.AsEnum())
 			{
-				case OrientationEnum.Up: return Orientation.Down;
-				case OrientationEnum.Down: return Orientation.Up;
-				case OrientationEnum.Left: return Orientation.Right;
-				case OrientationEnum.Right: return Orientation.Left;
+				case OrientationEnum.Up_By0: return Orientation.Down;
+				case OrientationEnum.Down_By180: return Orientation.Up;
+				case OrientationEnum.Left_By90: return Orientation.Right;
+				case OrientationEnum.Right_By270: return Orientation.Left;
 			}
 
 			return Orientation.Left;
@@ -156,7 +156,7 @@ namespace Systems.Disposals
 			var worldPos = MatrixManager.LocalToWorld(NextPipeLocalPosition, matrix);
 			SoundManager.PlayNetworkedAtPos(DisposalsManager.Instance.DisposalEjectionHiss, worldPos);
 			TransferContainerToVector(NextPipeVector);
-			virtualContainer.EjectContentsWithVector(currentPipeOutputSide.Vector);
+			virtualContainer.EjectContentsWithVector(currentPipeOutputSide.LocalVector);
 			DespawnContainerAndFinish();
 		}
 

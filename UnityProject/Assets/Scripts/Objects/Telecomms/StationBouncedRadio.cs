@@ -41,7 +41,7 @@ namespace Objects.Telecomms
 			Frequency = radioListener.Frequency;
 		}
 
-		public override void ReceiveSignal(SignalStrength strength, ISignalMessage message = null)
+		public override void ReceiveSignal(SignalStrength strength, SignalEmitter responsibleEmitter, ISignalMessage message = null)
 		{
 			if (message is RadioMessage msg)
 			{
@@ -84,8 +84,8 @@ namespace Objects.Telecomms
 				}
 				messageContent = EncryptionUtils.Decrypt(messageContent, EncryptionData.EncryptionSecret);
 			}
-			return $"<b><color=#{ColorUtility.ToHtmlStringRGBA(Chat.Instance.commonColor)}><sprite=\"RadioIcon\" name=\"radio_walkietalkie\">" +
-			       $" -{messageSender} says \"{messageContent}\"</color></b>";
+			return $"<b><color=#{ColorUtility.ToHtmlStringRGBA(Chat.Instance.commonColor)}>[{Frequency}]" +
+			       $" - {messageSender} says \"{messageContent}\"</color></b>.";
 		}
 
 		public void AddEncryptionKey(EncryptionKey key)

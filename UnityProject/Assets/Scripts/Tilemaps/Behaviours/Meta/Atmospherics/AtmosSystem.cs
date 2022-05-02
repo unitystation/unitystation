@@ -2,6 +2,7 @@
 using ScriptableObjects.Atmospherics;
 using UnityEngine;
 using Mirror;
+using Tiles;
 
 namespace Systems.Atmospherics
 {
@@ -12,7 +13,9 @@ namespace Systems.Atmospherics
 		[SerializeField]
 		private GasMixesSO defaultRoomGasMixOverride = null;
 
-		private Dictionary<int, RoomGasSetter> toSet = new Dictionary<int, RoomGasSetter>();
+		private Dictionary<int, RoomGasSetter> toSetRoom = new Dictionary<int, RoomGasSetter>();
+
+		private Dictionary<Vector3Int, RoomGasSetter> toSetOccupied = new Dictionary<Vector3Int, RoomGasSetter>();
 
 		[Server]
 		public override void Initialize()
@@ -25,9 +28,9 @@ namespace Systems.Atmospherics
 				gasSetter.SetUp();
 			}
 
-			BoundsInt bounds = metaTileMap.GetLocalBounds();
+			var bounds = metaTileMap.GetLocalBounds();
 
-			foreach (Vector3Int position in bounds.allPositionsWithin)
+			foreach (Vector3Int position in bounds.allPositionsWithin())
 			{
 				//Get top tile at pos to check if it should spawn with no air
 				bool spawnWithNoAir = false;
@@ -42,13 +45,32 @@ namespace Systems.Atmospherics
 				if ((node.IsRoom || node.IsOccupied) && !spawnWithNoAir)
 				{
 					//Check to see if theres a special room mix
-					if (toSet.Count > 0 && toSet.TryGetValue(node.RoomNumber, out var gasSetter))
+					if (node.IsRoom && toSetRoom.Count > 0 && toSetRoom.TryGetValue(node.RoomNumber, out var roomGasSetter))
 					{
-						node.GasMix = GasMix.NewGasMix(gasSetter.GasMixToSpawn);
+						//We use ChangeGasMix here incase we need to add overlays, while the BaseAirMix and BaseSpaceMix can set directly since none of the gases in them do
+						//Does come with a performance penalty
+						//node.ChangeGasMix(GasMix.NewGasMix(gasSetter.GasMixToSpawn));
+
+						//TODO: above commented out due to performance on load for lavaland, remove line below if solution is found
+						node.GasMix = GasMix.NewGasMix(roomGasSetter.GasMixToSpawn);
+					}
+					//Check to see if theres a special occupied mix
+					else if (node.IsOccupied && toSetOccupied.Count > 0 && toSetOccupied.TryGetValue(position, out var occupiedGasSetter))
+					{
+						//We use ChangeGasMix here incase we need to add overlays, while the BaseAirMix and BaseSpaceMix can set directly since none of the gases in them do
+						//Does come with a performance penalty
+						//node.ChangeGasMix(GasMix.NewGasMix(gasSetter.GasMixToSpawn));
+
+						//TODO: above commented out due to performance on load for lavaland, remove line below if solution is found
+						node.GasMix = GasMix.NewGasMix(occupiedGasSetter.GasMixToSpawn);
 					}
 					//See if the whole matrix has a custom mix
-					else if(hasCustomMix)
+					else if (hasCustomMix)
 					{
+						//ChangeGasMix here too for the same reason as above
+						//node.ChangeGasMix(GasMix.NewGasMix(defaultRoomGasMixOverride.BaseGasMix));
+
+						//TODO: above commented out due to performance on load for lavaland, remove line below if solution is found
 						node.GasMix = GasMix.NewGasMix(defaultRoomGasMixOverride.BaseGasMix);
 					}
 					//Default to air mix otherwise
@@ -63,30 +85,47 @@ namespace Systems.Atmospherics
 				}
 			}
 
-			foreach (var gasSetter in toSet)
+			foreach (var gasSetter in toSetRoom)
 			{
 				_ = Despawn.ServerSingle(gasSetter.Value.gameObject);
 			}
 
-			toSet.Clear();
+			foreach (var gasSetter in toSetOccupied)
+			{
+				_ = Despawn.ServerSingle(gasSetter.Value.gameObject);
+			}
+
+			toSetRoom.Clear();
+			toSetOccupied.Clear();
 		}
 
 		public override void UpdateAt(Vector3Int localPosition)
 		{
-			AtmosThread.Enqueue(metaDataLayer.Get(localPosition));
+			AtmosManager.Instance.UpdateNode(metaDataLayer.Get(localPosition));
 		}
 
 		#region Room Gas Setter
 
-		public void AddToList(int room, RoomGasSetter toAdd)
+		public void AddToListRoom(int room, RoomGasSetter toAdd)
 		{
-			if (toSet.ContainsKey(room))
+			if (toSetRoom.ContainsKey(room))
 			{
 				Logger.LogError($"Room number: {room} was already added, cant add {toAdd.gameObject.ExpensiveName()}");
 				return;
 			}
 
-			toSet.Add(room, toAdd);
+			toSetRoom.Add(room, toAdd);
+		}
+
+		public void AddToListOccupied(Vector3Int localPos, RoomGasSetter toAdd)
+		{
+			if (toSetOccupied.ContainsKey(localPos))
+			{
+				Logger.LogError($"Local pos: {localPos} was already added, cant add {toAdd.gameObject.ExpensiveName()}");
+				return;
+			}
+
+			toSetOccupied.Add(localPos, toAdd);
 		}
 
 		/// <summary>
@@ -96,14 +135,15 @@ namespace Systems.Atmospherics
 		/// <param name="gasMixToUse">GasMix to fill room with</param>
 		public void SetRoomGas(int roomNumber, GasMix gasMixToUse)
 		{
-			BoundsInt bounds = metaTileMap.GetLocalBounds();
+			var bounds = metaTileMap.GetLocalBounds();
 
-			foreach (Vector3Int position in bounds.allPositionsWithin)
+			foreach (Vector3Int position in bounds.allPositionsWithin())
 			{
 				MetaDataNode node = metaDataLayer.Get(position, false);
 				if (node.IsRoom && node.RoomNumber == roomNumber)
 				{
-					node.GasMix = GasMix.NewGasMix(gasMixToUse);
+					//Use ChangeGasMix to remove old gas overlays and add new overlays
+					node.ChangeGasMix(GasMix.NewGasMix(gasMixToUse));
 				}
 			}
 		}

@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1b9c037cd481c0f4db1c77e9cdf31787, type: 3}
+  m_Name: Merp
+  m_EditorClassIdentifier: 
+  emoteName: merp
+  requiresHands: 0
+  allowEmoteWhileInCrit: 1
+  isAudibleEmote: 1
+  allowEmoteWhileCrawling: 1
+  viewText: merps.
+  youText: You merp.
+  failText: You were unable to merp!
+  mouthBlockedText: You are unable to make a sound!
+  critViewText: merps in pain.
+  soundsAreTyped: 0
+  defaultSounds:
+  - SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/Voices/Misc/Merp.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+  TypedSounds: []
+  pitchRange: {x: 0.8, y: 1}

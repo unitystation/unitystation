@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using UI.Chat_UI;
+using UnityEngine;
 using UnityEngine.UI;
 
 /// <summary>
@@ -61,6 +62,7 @@ public class GUI_DevSpawner : MonoBehaviour
 	    // disable keyboard commands while input is focused
 	    isFocused = true;
 	    UIManager.IsInputFocus = true;
+	    UIManager.PreventChatInput = true;
     }
 
     private void InputUnfocus()
@@ -68,6 +70,10 @@ public class GUI_DevSpawner : MonoBehaviour
 	    // disable keyboard commands while input is focused
 	    isFocused = false;
 	    UIManager.IsInputFocus = false;
+	    UIManager.PreventChatInput = false;
+
+	    //Note: this is what stops the chat box from opening when pressing enter
+	    ChatUI.Instance.StartWindowCooldown();
     }
 
     public void OnSearchBoxChanged()
@@ -100,9 +106,8 @@ public class GUI_DevSpawner : MonoBehaviour
     // add a list item to the content panel for spawning the specified result
     private void CreateListItem(DevSpawnerDocument doc)
     {
-	    GameObject listItem = Instantiate(listItemPrefab);
+	    GameObject listItem = Instantiate(listItemPrefab, contentPanel.transform);
 	    listItem.GetComponent<DevSpawnerListItemController>().Initialize(doc);
-	    listItem.transform.SetParent(contentPanel.transform);
 	    listItem.transform.localScale = Vector3.one;
     }
 

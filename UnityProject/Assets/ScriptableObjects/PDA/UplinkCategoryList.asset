@@ -230,6 +230,30 @@ MonoBehaviour:
       item: {fileID: 896716891640034833, guid: 9ca978c567f2e5c4bb8a6be3190717f7, type: 3}
       name: X4
       isNukeOps: 0
+    - cost: 24
+      item: {fileID: 2149007544274266856, guid: 0a6b7e420d85d4f42b5378e35facf718,
+        type: 3}
+      name: Grenadier's Belt
+      isNukeOps: 1
+    - cost: 10
+      item: {fileID: 5724235118832229837, guid: b14ebaef76ba2ea45a602bdac304de0a,
+        type: 3}
+      name: Pizza Bomb
+      isNukeOps: 0
+    - cost: 10
+      item: {fileID: 4222118818240899638, guid: b2fc19add39d4ef45bccea514f0e426c,
+        type: 3}
+      name: EMP grenade box
+      isNukeOps: 0
+    - cost: 15
+      item: {fileID: 1011433845357754, guid: 2354313a50efe2543862cb92150a5388, type: 3}
+      name: Power Sink
+      isNukeOps: 0
+    - cost: 20
+      item: {fileID: 4761250752494374682, guid: 00265c28041a8b84f9012e430f772f08,
+        type: 3}
+      name: Syndicate Bomb
+      isNukeOps: 0
   - categoryName: Stealthy Weapons
     itemList:
     - cost: 2
@@ -274,7 +298,7 @@ MonoBehaviour:
         type: 3}
       name: '[PLACEHOLDER] Shielded Hardsuit'
       isNukeOps: 1
-  - categoryName: Misc. Gadgets
+  - categoryName: Devices and Tools
     itemList:
     - cost: 1
       item: {fileID: 3668676918291703395, guid: 00019cd41de95b244ac165825679fd64,
@@ -301,7 +325,12 @@ MonoBehaviour:
       name: Surgical Equipment Bundle
       isNukeOps: 0
     - cost: 4
-      item: {fileID: 6918947953705996213, guid: 5288f8108626e2ff1aab9bd925ff1346,
+      item: {fileID: 5647395047373439380, guid: e456d62fc63bc3344a513208fbc3018a,
+        type: 3}
+      name: Combat Med Kit
+      isNukeOps: 1
+    - cost: 4
+      item: {fileID: 6081445882463156587, guid: 037968b5e32c4ea41b05e567fa5e0cdf,
         type: 3}
       name: Syndicate Jaws of Life
       isNukeOps: 1
@@ -331,6 +360,21 @@ MonoBehaviour:
       item: {fileID: 8743402964508765710, guid: 8c0cd43087354414196842dd7f64a46a,
         type: 3}
       name: Syndicate Smokes
+      isNukeOps: 0
+    - cost: 4
+      item: {fileID: 2226368129053124309, guid: 970de07033f527d48af8fc68aa02df85,
+        type: 3}
+      name: Clown Disguise
+      isNukeOps: 0
+    - cost: 4
+      item: {fileID: 3368031108693316832, guid: 27af229b89b85ff4ca762bfbad0000ff,
+        type: 3}
+      name: Greytide Disguise
+      isNukeOps: 0
+    - cost: 20
+      item: {fileID: 2561269402831639547, guid: 1bcc710685b02a940bc36cadde3b0ade,
+        type: 3}
+      name: Centcom Officer Disguise
       isNukeOps: 0
   - categoryName: Bundles and Telecrystals
     itemList:
@@ -362,7 +406,7 @@ MonoBehaviour:
         type: 3}
       name: Bulldozer Bundle
       isNukeOps: 1
-    - cost: 14
+    - cost: 15
       item: {fileID: 4052594192556048590, guid: c6a44742c1c75b26f9c4320efd6ec51f,
         type: 3}
       name: Stalker Bundle

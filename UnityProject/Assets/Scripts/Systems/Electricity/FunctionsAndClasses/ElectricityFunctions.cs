@@ -56,7 +56,7 @@ namespace Systems.Electricity
 			{
 				// LogError Duplicate wires
 				var eConnsAtSearchVec = matrix.GetElectricalConnections(searchVecInt);
-				foreach (var con in eConnsAtSearchVec)
+				foreach (var con in eConnsAtSearchVec.List)
 				{
 					if (OIinheritance != con)
 					{
@@ -69,8 +69,7 @@ namespace Systems.Electricity
 					}
 				}
 
-				eConnsAtSearchVec.Clear();
-				ElectricalPool.PooledFPCList.Add(eConnsAtSearchVec);
+				eConnsAtSearchVec.Pool();
 			}
 
 			if (connectionPoint == Connection.SurroundingTiles)
@@ -87,7 +86,7 @@ namespace Systems.Electricity
 					HashSet<Connection> possibleConnections = ConnectionMap.GetConnectionsTargeting(dir.Key);
 					if (possibleConnections != null)
 					{
-						foreach (var con in conns)
+						foreach (var con in conns.List)
 						{
 							if (OIinheritance != con
 							    && CanConnectTo.Contains(con.Categorytype)
@@ -102,8 +101,7 @@ namespace Systems.Electricity
 						}
 					}
 
-					conns.Clear();
-					ElectricalPool.PooledFPCList.Add(conns);
+					conns.Pool();
 				}
 
 				return;
@@ -116,7 +114,7 @@ namespace Systems.Electricity
 				{
 					var pos = searchVecInt + dir;
 					var conns = matrix.GetElectricalConnections(pos);
-					foreach (var con in conns)
+					foreach (var con in conns.List)
 					{
 						if (OIinheritance != con && CanConnectTo.Contains(con.Categorytype) &&
 						    ConnectionMap.IsConnectedToTile(Connection.MachineConnect, con.GetConnPoints()) &&
@@ -126,8 +124,7 @@ namespace Systems.Electricity
 						}
 					}
 
-					conns.Clear();
-					ElectricalPool.PooledFPCList.Add(conns);
+					conns.Pool();
 				}
 
 				return;
@@ -141,7 +138,7 @@ namespace Systems.Electricity
 			{
 				var eConnsAtPosition = matrix.GetElectricalConnections(position);
 				bool connectionsAdded = false;
-				foreach (var con in eConnsAtPosition)
+				foreach (var con in eConnsAtPosition.List)
 				{
 					if (CanConnectTo.Contains(con.Categorytype) &&
 					    ConnectionMap.IsConnectedToTile(connectionPoint, con.GetConnPoints()))
@@ -151,8 +148,7 @@ namespace Systems.Electricity
 					}
 				}
 
-				eConnsAtPosition.Clear();
-				ElectricalPool.PooledFPCList.Add(eConnsAtPosition);
+				eConnsAtPosition.Pool();
 
 				if (connectionsAdded)
 				{
@@ -163,7 +159,7 @@ namespace Systems.Electricity
 			// Connect to overlap
 			{
 				var eConnsAtSearchVec = matrix.GetElectricalConnections(searchVecInt);
-				foreach (var con in eConnsAtSearchVec)
+				foreach (var con in eConnsAtSearchVec.List)
 				{
 					if (OIinheritance != con && CanConnectTo.Contains(con.Categorytype) &&
 					    ConnectionMap.IsConnectedToTileOverlap(connectionPoint, con.GetConnPoints()))
@@ -172,8 +168,7 @@ namespace Systems.Electricity
 					}
 				}
 
-				eConnsAtSearchVec.Clear();
-				ElectricalPool.PooledFPCList.Add(eConnsAtSearchVec);
+				eConnsAtSearchVec.Pool();
 			}
 		}
 
@@ -239,6 +234,7 @@ namespace Systems.Electricity
 					{
 						Current += CurrentItem.Value;
 					}
+					
 				}
 			}
 

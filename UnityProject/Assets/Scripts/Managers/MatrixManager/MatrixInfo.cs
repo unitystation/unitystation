@@ -5,6 +5,7 @@ using Mirror;
 using Systems.Atmospherics;
 using TileManagement;
 using Tilemaps.Behaviours.Layers;
+using Util;
 
 /// Class that helps identify matrices
 public class MatrixInfo : IEquatable<MatrixInfo>
@@ -24,29 +25,30 @@ public class MatrixInfo : IEquatable<MatrixInfo>
 
 	// Transform containing all the physical objects on the map
 	public Transform Objects;
-	public MatrixMove MatrixMove;
+	public MatrixMove MatrixMove => Matrix.MatrixMove;
+
 	private Vector3Int initialOffset;
 	private uint netId;
 
-	public BoundsInt LocalBounds => MetaTileMap.GetLocalBounds();
+	public BetterBoundsInt LocalBounds => MetaTileMap.GetLocalBounds();
 
 	//Warning slow
-	public Bounds WorldBounds => MetaTileMap.GetWorldBounds();
+	public BetterBounds WorldBounds => MetaTileMap.GetWorldBounds();
 
 	public Transform ObjectParent => MetaTileMap.ObjectLayer.transform;
 
-	public Color Color => Matrix ? Matrix.Color : Color.red;
+	public Color Color => IsMovable ? Matrix.Color : Color.red;
 
-	public float Speed => MatrixMove ? MatrixMove.ServerState.Speed : 0f;
+	public float Speed => IsMovable ? MatrixMove.ServerState.Speed : 0f;
 
 	public string Name => Matrix.gameObject.name;
 
 	//todo: placeholder, should depend on solid tiles count instead (and use caching)
 	public float Mass => LocalBounds.size.sqrMagnitude/1000f;
 
-	public bool IsMovable => MatrixMove != null;
+	public bool IsMovable => Matrix.IsMovable;
 
-	public Vector2Int MovementVector => ( IsMovable && MatrixMove.IsMovingServer ) ? MatrixMove.ServerState.FlyingDirection.VectorInt : Vector2Int.zero;
+	public Vector2Int MovementVector => ( IsMovable && MatrixMove.IsMovingServer ) ? MatrixMove.ServerState.FlyingDirection.LocalVectorInt : Vector2Int.zero;
 
 	public Vector3Int InitialOffset
 	{
@@ -61,7 +63,7 @@ public class MatrixInfo : IEquatable<MatrixInfo>
 
 	public Vector3Int GetOffset(MatrixState state = default(MatrixState))
 	{
-		if (!MatrixMove)
+		if (IsMovable == false)
 		{
 			return InitialOffset;
 		}
@@ -117,7 +119,7 @@ public class MatrixInfo : IEquatable<MatrixInfo>
 
 			string pivot = "pivot";
 			string state = "state";
-			if(MatrixMove != null)
+			if(IsMovable)
 			{
 				pivot = MatrixMove.Pivot.ToString();
 				state = MatrixMove.ServerState.ToString();

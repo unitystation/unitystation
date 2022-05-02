@@ -14,10 +14,10 @@ public class PositionalHandApply : HandApply
 	/// <summary>Target position, the Local position that the performer is pointing at</summary>
 	public Vector2 TargetPosition { get; protected set; }
 
-	/// <summary>Vector pointing from the performer to the targeted position. Set to Vector2.zero if aiming at self.</summary>
-	public Vector2 TargetVector => TargetPosition - Performer.transform.localPosition.To2();
+	/// <summary>Vector pointing from the performer's position to the target position.</summary>
+	public Vector2 TargetVector => WorldPositionTarget.To3() - Performer.RegisterTile().WorldPosition;
 
-	/// <summary>Targeted world position deduced from target vector and performer position.</summary>
+	/// <summary>Target world position calculated from matrix local position.</summary>
 	public Vector2 WorldPositionTarget => (Vector2) TargetPosition.To3().ToWorld(Performer.RegisterTile().Matrix);
 
 	/// <param name="performer">The gameobject of the player performing the drop interaction</param>
@@ -39,18 +39,20 @@ public class PositionalHandApply : HandApply
 	/// <param name="targetVector">Target position, the Local position that the performer is pointing at , Defaults
 	/// to where the mouse currently is.</param>
 	/// <returns></returns>
-	public static PositionalHandApply ByLocalPlayer(GameObject targetObject, Vector2? targetVector = null)
+	public static PositionalHandApply ByLocalPlayer(GameObject targetObject, Vector2? IntargePosition = null)
 	{
 		if (PlayerManager.LocalPlayerScript.IsGhost)
 		{
 			return Invalid;
 		}
-		var targetVec = targetVector ?? MouseUtils.MouseToWorldPos().ToLocal(PlayerManager.LocalPlayer.RegisterTile().Matrix);
+
+		var targePosition = IntargePosition ?? MouseUtils.MouseToWorldPos().ToLocal(PlayerManager.LocalPlayer.RegisterTile().Matrix);
+
 		return new PositionalHandApply(
 				PlayerManager.LocalPlayer,
 				PlayerManager.LocalPlayerScript.DynamicItemStorage.GetActiveHandSlot()?.ItemObject,
 				targetObject,
-				targetVec,
+				targePosition,
 				PlayerManager.LocalPlayerScript.DynamicItemStorage.GetActiveHandSlot(),
 				UIManager.CurrentIntent,
 				UIManager.DamageZone,

@@ -32,6 +32,8 @@ namespace UI
 
 		[SerializeField] private GameObject warnText = null;
 
+		[SerializeField] private GameObject notEnoughReady = null;
+
 		// UI panels
 		[SerializeField]
 		private GameObject adminPanel = null;
@@ -86,14 +88,17 @@ namespace UI
 		private void OnEnable()
 		{
 			UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
+			EventManager.AddHandler(Event.PostRoundStarted, OnCountdownEnd);
 		}
 
 		private void OnDisable()
 		{
+			startedAlready = false;
 			doCountdown = false;
 			isReady = false;
 			adminPanel.SetActive(false);
 			UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
+			EventManager.RemoveHandler(Event.PostRoundStarted, OnCountdownEnd);
 		}
 
 		private void UpdateMe()
@@ -138,13 +143,14 @@ namespace UI
 		{
 			if (NetworkTime.time >= countdownEndTime)
 			{
-				OnCountdownEnd();
+				notEnoughReady.SetActive(true);
+				return;
 			}
 			timer.text = TimeSpan.FromSeconds(countdownEndTime - NetworkTime.time).ToString(@"mm\:ss");
 
 			if (GameManager.Instance.QuickLoad && mapLoadingPanel.activeSelf == false)
 			{
-				if (startedAlready == true) return;
+				if (startedAlready == true || this.isActiveAndEnabled == false) return;
 				startedAlready = true;
 				StartCoroutine(WaitForInitialisation());
 			}
@@ -298,6 +304,7 @@ namespace UI
 		/// </summary>
 		public void SetUIForJoining()
 		{
+			notEnoughReady.SetActive(false);
 			warnText.SetActive(false);
 			joinPanel.SetActive(true);
 			timerPanel.SetActive(false);

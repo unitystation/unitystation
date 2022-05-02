@@ -5,6 +5,7 @@ using Systems.ElectricalArcs;
 using ScriptableObjects.Gun;
 using UnityEngine;
 using Weapons.Projectiles.Behaviours;
+using Tiles;
 
 namespace Objects.Engineering
 {
@@ -263,22 +264,23 @@ namespace Objects.Engineering
 				{
 					var pos = registerTile.WorldPositionServer + GetCoordFromDirection((Direction)value) * i;
 
-					var objects = MatrixManager.GetAt<FieldGenerator>(pos, true);
+					var objects = MatrixManager.GetAt<FieldGenerator>(pos, true) as List<FieldGenerator>;
 
-					//If there isn't a field generator but it is impassable dont check further
-					if (objects.Count == 0 && !MatrixManager.IsPassableAtAllMatricesOneTile(pos, true, false))
+					if (objects == null) continue;
+
+					//If there isn't a field generator and it is impassable dont check further
+					if (objects.Count == 0 && MatrixManager.IsPassableAtAllMatricesOneTile(pos, true, false) == false)
 					{
 						break;
 					}
 
-					if (objects.Count > 0 && objects[0].isWelded)
-					{
-						//Shouldn't be more than one, but just in case pick first
-						//Add to connected gen dictionary
-						connectedGenerator.Add((Direction)value, new Tuple<GameObject, bool>(objects[0].gameObject, false));
-						objects[0].integrity.OnWillDestroyServer.AddListener(OnConnectedDestroy);
-						break;
-					}
+					if (objects.Count <= 0 || objects[0].isWelded == false) continue;
+
+					//Shouldn't be more than one, but just in case pick first
+					//Add to connected gen dictionary
+					connectedGenerator.Add((Direction)value, new Tuple<GameObject, bool>(objects[0].gameObject, false));
+					objects[0].integrity.OnWillDestroyServer.AddListener(OnConnectedDestroy);
+					break;
 				}
 			}
 		}

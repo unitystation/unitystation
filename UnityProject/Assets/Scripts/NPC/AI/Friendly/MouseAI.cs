@@ -73,10 +73,10 @@ namespace Systems.MobAIs
 
 			// Check if there's cables at this position
 			var cables = matrix.GetElectricalConnections(registerObject.LocalPosition);
-			if (cables == null || cables.Count < 1) return;
+			if (cables == null || cables.List.Count < 1) return;
 
 			// Pick a random cable from the mouse's current tile position to chew from
-			var cable = cables[Random.Range(0, cables.Count - 1)];
+			var cable = cables.List[Random.Range(0, cables.List.Count - 1)];
 			WireChew(cable);
 		}
 

@@ -49,6 +49,12 @@ public class DrinkableContainer : Consumable
 		if (eater == null || feeder == null)
 			return;
 
+		// Check if player is wearing clothing that prevents eating or drinking
+		if (eater.Equipment.CanConsume() == false)
+		{
+			Chat.AddExamineMsgFromServer(eater.gameObject, $"Remove items that cover your mouth first!");
+			return;
+		}
 		// Check if container is empty
 		var reagentUnits = container.ReagentMixTotal;
 		if (reagentUnits <= 0f)
@@ -61,6 +67,7 @@ public class DrinkableContainer : Consumable
 		var name = itemAttributes ? itemAttributes.ArticleName : gameObject.ExpensiveName();
 		// Generate message to player
 		ConsumableTextUtils.SendGenericConsumeMessage(feeder, eater, HungerState.Hungry, name, "drink");
+
 
 		if (feeder != eater)  //If you're feeding it to someone else.
 		{
@@ -78,7 +85,7 @@ public class DrinkableContainer : Consumable
 		}
 	}
 
-	private void Drink(PlayerScript eater, PlayerScript feeder)
+	public virtual void Drink(PlayerScript eater, PlayerScript feeder)
 	{
 		// Start drinking reagent mix
 		var drinkAmount = container.TransferAmount;

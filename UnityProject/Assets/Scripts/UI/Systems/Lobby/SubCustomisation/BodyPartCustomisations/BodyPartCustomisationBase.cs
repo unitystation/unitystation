@@ -10,7 +10,13 @@ namespace UI.CharacterCreator
 	{
 		public TMP_Text Text;
 		public CharacterCustomization characterCustomization;
-		public List<SpriteHandlerNorder> RelatedRelatedPreviewSprites => characterCustomization.OpenBodySprites[RelatedBodyPart];
+		public List<SpriteHandlerNorder> RelatedRelatedPreviewSprites
+		{
+			get
+			{
+				return characterCustomization.OpenBodySprites[RelatedBodyPart];
+			}
+		}
 
 		public BodyPart RelatedBodyPart;
 

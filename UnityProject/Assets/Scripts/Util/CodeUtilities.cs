@@ -5,6 +5,8 @@ using UnityEngine;
 
 public static class CodeUtilities
 {
+	public static string RemoveClone(this string text) => text?.Replace("(Clone)", string.Empty);
+
 	public static string GetUntilOrEmpty(this string text, string stopAt = "-")
 	{
 		if (!String.IsNullOrWhiteSpace(text))
@@ -26,6 +28,8 @@ public static class CodeUtilities
 		{
 			return true;
 		}
+
 		return false;
 	}
+
 }

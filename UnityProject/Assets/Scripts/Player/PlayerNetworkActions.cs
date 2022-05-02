@@ -21,7 +21,8 @@ using Player.Movement;
 using Shuttles;
 using UI.Core;
 using UI.Items;
-
+using Doors;
+using Tiles;
 
 public partial class PlayerNetworkActions : NetworkBehaviour
 {
@@ -179,9 +180,9 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 			playerScript.playerHealth.ChangeFireStacks(-0.5f);
 
 			// Find the next in the roll sequence. Also unlock the facing direction temporarily since laying down locks it.
-			playerScript.playerDirectional.LockDirection = false;
-			playerScript.playerDirectional.FaceDirection(playerScript.playerDirectional.CurrentDirection.Rotate(RotationOffset.Right));
-			playerScript.playerDirectional.LockDirection = true;
+			playerScript.playerDirectional.LockDirectionTo(false, playerScript.playerDirectional.CurrentDirection);
+			playerScript.playerDirectional.RotateBy(2);
+			playerScript.playerDirectional.LockDirectionTo(true, playerScript.playerDirectional.CurrentDirection);
 
 			yield return WaitFor.Seconds(0.2f);
 		}
@@ -291,7 +292,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		if (!Validations.CanInteract(playerScript, NetworkSide.Server, allowCuffed: false)) return; //Not allowed to transfer while cuffed
 		if (!Cooldowns.TryStartServer(playerScript, CommonCooldowns.Instance.Interaction)) return;
 
-		ItemSlot emptySlot = PlayerManager.LocalPlayerScript.DynamicItemStorage.GetActiveHandSlot(); //Were assuming that slot to which player wants to transfer stuff is always active hand
+		ItemSlot emptySlot = playerScript.DynamicItemStorage.GetActiveHandSlot(); //Were assuming that slot to which player wants to transfer stuff is always active hand
 
 		if(NetworkIdentity.spawned.TryGetValue(fromSlotID, out var objFS) == false) return;
 		var stackSlot = itemStorage.GetNamedItemSlot(objFS.gameObject, fromSlot);
@@ -391,7 +392,21 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	}
 
 	[Command]
-	public void CmdRegisterVote(bool isFor)
+	public void CmdInitiateGameModeVote()
+	{
+		if (VotingManager.Instance == null) return;
+		VotingManager.Instance.TryInitiateNextGameModeVote(gameObject, connectionToClient);
+	}
+
+	[Command]
+	public void CmdInitiateMapVote()
+	{
+		if (VotingManager.Instance == null) return;
+		VotingManager.Instance.TryInitiateNextMapVote(gameObject, connectionToClient);
+	}
+
+	[Command]
+	public void CmdRegisterVote(string isFor)
 	{
 		if (VotingManager.Instance == null) return;
 		var connectedPlayer = PlayerList.Instance.Get(gameObject);
@@ -595,7 +610,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	}
 
 	[Server]
-	public void ServerRespawnPlayerSpecial(string occupation = null)
+	public void ServerRespawnPlayerSpecial(string occupation = null, Vector3Int? spawnPos = null)
 	{
 		if (occupation != null)
 		{
@@ -611,7 +626,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 			}
 		}
 
-		PlayerSpawn.ServerRespawnPlayer(playerScript.mind);
+		PlayerSpawn.ServerRespawnPlayer(playerScript.mind, spawnPos);
 	}
 
 	[Server]
@@ -743,6 +758,8 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 			return;
 		if (playerScript.IsGhost || playerScript.playerHealth.ConsciousState != ConsciousState.CONSCIOUS)
 			return;
+
+		if(pointTarget == null) return;
 
 		//If we are trying to find matrix get matrix instead
 		if (pointTarget.TryGetComponent<MatrixSync>(out var matrixSync))
@@ -999,8 +1016,23 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 			if(slot.IsEmpty) continue;
 			if (slot.ItemObject.TryGetComponent<MouseTrap>(out var trap))
 			{
-				if(trap.IsArmed) trap.TriggerTrap(playerScript.playerHealth);
+				if (trap.IsArmed)
+				{
+					trap.TriggerTrap(playerScript.playerHealth);
+					interactableStorage.PreventUIShowingAfterTrapTrigger = true;
+					return;
+				}
 			}
 		}
+	}
+
+	[Command]
+	public void CmdSetPaintJob(int paintJobIndex)
+	{
+		var handObject = GetActiveHandItem();
+
+		if (handObject == null || handObject.TryGetComponent<AirlockPainter>(out var painter) == false) return;
+
+		painter.CurrentPaintJobIndex = paintJobIndex;
 	}
 }

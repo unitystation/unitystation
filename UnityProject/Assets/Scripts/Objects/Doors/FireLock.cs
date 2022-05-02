@@ -8,65 +8,21 @@ using UnityEngine.Rendering;
 
 namespace Doors
 {
-	public class FireLock : InteractableDoor, IMultitoolSlaveable
+	public class FireLock : MonoBehaviour, IMultitoolSlaveable
 	{
-		public SortingGroup SortingGroup;
-
 		public FireAlarm fireAlarm;
 
-		[SyncVar(hook = nameof(SynchroniseLayerState))]
-		public DoorUpdateType DoorState = DoorUpdateType.Open;
+		private DoorMasterController doorMasterController;
+		public DoorMasterController DoorMasterController => doorMasterController;
 
-		public override void TryClose() { }
-
-		public override void TryOpen(GameObject performer) { }
-
-		public void Awake()
+		private void Awake()
 		{
-			SortingGroup = this.GetComponent<SortingGroup>();
-			Controller.OnDoorClose.AddListener(DoorClose);
-			Controller.OnDoorOpen.AddListener(DoorOpen);
-		}
-
-		public void DoorClose()
-		{
-			SynchroniseLayerState(DoorState, DoorUpdateType.Close);
-		}
-
-		public void DoorOpen()
-		{
-			SynchroniseLayerState(DoorState, DoorUpdateType.Open);
-		}
-
-		void TriggerAlarm()
-		{
-			if (!Controller.IsWelded)
-			{
-				if (fireAlarm)
-				{
-					fireAlarm.SendCloseAlerts();
-				}
-				else
-				{
-					ReceiveAlert();
-				}
-			}
+			doorMasterController = GetComponent<DoorMasterController>();
 		}
 
 		public void ReceiveAlert()
 		{
-			if (Controller == null)
-				return;
-			Controller.CloseSignal();
-		}
-
-		public void OnSpawnServer(SpawnInfo info)
-		{
-			var integrity = GetComponent<Integrity>();
-			integrity.OnExposedEvent.AddListener(TriggerAlarm);
-			RegisterTile registerTile = GetComponent<RegisterTile>();
-			MetaDataLayer metaDataLayer = MatrixManager.AtPoint(registerTile.WorldPositionServer, true).MetaDataLayer;
-			Controller.Open();
+			doorMasterController.TryClose();
 		}
 
 		#region Multitool Interaction
@@ -97,29 +53,6 @@ namespace Doors
 			{
 				fireAlarm = alarm;
 				fireAlarm.FireLockList.Add(this);
-			}
-		}
-
-		public void UpdateLayerClosed()
-		{
-			SortingGroup.sortingLayerID = SortingLayer.NameToID("Doors Closed");
-		}
-
-		public void UpdateLayerOpen()
-		{
-			SortingGroup.sortingLayerID = SortingLayer.NameToID("Machines");
-		}
-
-		public void SynchroniseLayerState(DoorUpdateType OldType, DoorUpdateType NewType)
-		{
-			DoorState = NewType;
-			if (NewType == DoorUpdateType.Close)
-			{
-				UpdateLayerClosed();
-			}
-			else if (NewType == DoorUpdateType.Open)
-			{
-				UpdateLayerOpen();
 			}
 		}
 

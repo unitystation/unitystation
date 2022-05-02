@@ -4,8 +4,10 @@ using System.Collections.Generic;
 using System.Text;
 using Items;
 using Items.Cargo.Wrapping;
+using Managers;
 using Objects;
 using Objects.Atmospherics;
+using Strings;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.SceneManagement;
@@ -310,7 +312,7 @@ namespace Systems.Cargo
 			{
 				var stringBuilder = new StringBuilder(export.ExportMessage);
 
-				lock (gasContainer.GasMix.GasesArray)
+				lock (gasContainer.GasMix.GasesArray) //no Double lock
 				{
 					foreach (var gas in gasContainer.GasMix.GasesArray)  //doesn't appear to modify list while iterating
 					{
@@ -379,6 +381,11 @@ namespace Systems.Cargo
 					return;
 				}
 			}
+			CompleteBounty(cargoBounty);
+		}
+
+		public void CompleteBounty(CargoBounty cargoBounty)
+		{
 			ActiveBounties.Remove(cargoBounty);
 			Credits += cargoBounty.Reward;
 			CentcomMessage += $"+{cargoBounty.Reward.ToString()} credits: {cargoBounty.Description} - completed.\n";
@@ -465,12 +472,33 @@ namespace Systems.Cargo
 			return 0;
 		}
 
+		/// <summary>
+		/// Adds a new bounty to the bounty list. Returns false if it fails.
+		/// </summary>
+		public void AddBounty(ItemTrait trait, int amount, string description, int reward, bool announce)
+		{
+			if(amount < 1 || reward < 1) return;
+			CargoBounty newBounty = new CargoBounty();
+			newBounty.Demands.Add(trait, amount);
+			newBounty.Description = description;
+			newBounty.Reward = reward;
+			ActiveBounties.Add(newBounty);
+			if(announce) CentComm.MakeAnnouncement(ChatTemplates.CentcomAnnounce, "A bounty for cargo has been issued from central communications", CentComm.UpdateSound.Notice);
+		}
+
 		private class ExportedItem
 		{
 			public string ExportMessage;
 			public string ExportName;
 			public int Count;
 			public int TotalValue;
+		}
+
+		public struct BountySyncData
+		{
+			public string Desc;
+			public int Reward;
+			public int Index;
 		}
 	}
 

@@ -6,6 +6,7 @@ using NUnit.Framework;
 using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityEngine;
+using Util;
 
 namespace Tests.Asset
 {
@@ -14,7 +15,7 @@ namespace Tests.Asset
 		[Test]
 		public void SpawnableListTest()
 		{
-			var scenesGUIDs = AssetDatabase.FindAssets("OnlineScene t:Scene");
+			var scenesGUIDs = AssetDatabase.FindAssets("OnlineScene t:Scene", new string[] { "Assets/Scenes" });
 			var scenesPaths = scenesGUIDs.Select(AssetDatabase.GUIDToAssetPath).ToList();
 
 			if (scenesPaths.Count != 1)

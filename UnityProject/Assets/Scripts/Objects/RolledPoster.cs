@@ -81,8 +81,7 @@ namespace Items
 		public void ServerPerformInteraction(PositionalHandApply interaction)
 		{
 			wallPrefab.GetComponent<PosterBehaviour>().posterVariant = posterVariant;
-			wallPrefab.GetComponent<Directional>().InitialDirection = Orientation
-				.From(interaction.Performer.TileWorldPosition() - interaction.WorldPositionTarget).AsEnum();
+			wallPrefab.GetComponent<Rotatable>().SetFaceDirectionLocalVictor((interaction.Performer.TileLocalPosition() - interaction.TargetPosition).To2Int());
 
 			Spawn.ServerPrefab(wallPrefab, interaction.WorldPositionTarget.RoundToInt(),
 				interaction.Performer.transform.parent);

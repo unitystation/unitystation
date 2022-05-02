@@ -39,6 +39,11 @@ public class Occupation : ScriptableObject
 	private ItemStoragePopulator inventoryPopulator = null;
 	public ItemStoragePopulator InventoryPopulator => inventoryPopulator;
 
+	[SerializeField]
+	[Tooltip("Whether to use the StandardOccupationPopulator too")]
+	private bool useStandardPopulator = true;
+	public bool UseStandardPopulator => useStandardPopulator;
+
 	[FormerlySerializedAs("Limit")]
 	[SerializeField]
 	[Tooltip("Maximum simultaneous players with this occupation. Set to -1 for unlimited")]
@@ -56,6 +61,11 @@ public class Occupation : ScriptableObject
 	[Tooltip("Default access allowed for this occupation.")]
 	private List<Access> allowedAccess = null;
 	public List<Access> AllowedAccess => allowedAccess;
+
+	[SerializeField]
+	[Tooltip("Default lowpop access allowed for this occupation.")]
+	private List<Access> allowedLowPopAccess = null;
+	public List<Access> AllowedLowPopAccess => allowedLowPopAccess;
 
 	[SerializeField]
 	[Tooltip("Default clearance issued to this occupation.")]

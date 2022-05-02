@@ -1,4 +1,5 @@
-﻿using System.Collections;
+using System;
+using System.Collections;
 using Mirror;
 using UnityEditor;
 using UnityEngine.SceneManagement;
@@ -73,11 +74,11 @@ public partial class SubSceneManager
 		MainStationLoaded = true;
 		//Auto scene load stuff in editor:
 		var prevEditorScene = GetEditorPrevScene();
-		if ((prevEditorScene != "") && AdminForcedMainStation == "Random")
+		if (AdminForcedMainStation == "Random" && mainStationList.Contains(prevEditorScene))
 		{
 			serverChosenMainStation = prevEditorScene;
 		}
-		else if(AdminForcedMainStation == "Random")
+		else if (AdminForcedMainStation == "Random")
 		{
 			serverChosenMainStation = mainStationList.GetRandomMainStation();
 		}
@@ -145,6 +146,8 @@ public partial class SubSceneManager
 		}
 
 		var pickedMap = additionalSceneList.defaultCentComScenes.PickRandom();
+
+		if (string.IsNullOrEmpty(pickedMap)) yield break;
 
 		//If no special CentCom load default.
 		yield return StartCoroutine(LoadSubScene(pickedMap, loadTimer));
@@ -256,7 +259,7 @@ public partial class SubSceneManager
 		loadedScenesList.Add(new SceneInfo
 		{
 			SceneName = pickedMap,
-			SceneType = SceneType.AdditionalScenes
+			SceneType = SceneType.HiddenScene
 		});
 		netIdentity.isDirty = true;
 
@@ -275,7 +278,7 @@ public partial class SubSceneManager
 		loadedScenesList.Add(new SceneInfo
 		{
 			SceneName = pickedScene,
-			SceneType = SceneType.AdditionalScenes
+			SceneType = SceneType.HiddenScene
 		});
 		netIdentity.isDirty = true;
 
@@ -284,17 +287,11 @@ public partial class SubSceneManager
 
 	#endregion
 
-	string GetEditorPrevScene()
+	public static string GetEditorPrevScene()
 	{
-		var prevEditorScene = "";
+		var prevEditorScene = string.Empty;
 #if UNITY_EDITOR
-		if (EditorPrefs.HasKey("prevEditorScene"))
-		{
-			if (!string.IsNullOrEmpty(EditorPrefs.GetString("prevEditorScene")))
-			{
-				prevEditorScene = EditorPrefs.GetString("prevEditorScene");
-			}
-		}
+		prevEditorScene = EditorPrefs.GetString("prevEditorScene", prevEditorScene);
 #endif
 		return prevEditorScene;
 	}
@@ -302,7 +299,7 @@ public partial class SubSceneManager
 	/// <summary>
 	/// Add a new scene to a specific connections observable list
 	/// </summary>
-	void AddObservableSceneToConnection(NetworkConnection conn, Scene sceneContext)
+	void AddObservableSceneToConnection(NetworkConnectionToClient conn, Scene sceneContext)
 	{
 		if (!NetworkServer.observerSceneList.ContainsKey(conn))
 		{

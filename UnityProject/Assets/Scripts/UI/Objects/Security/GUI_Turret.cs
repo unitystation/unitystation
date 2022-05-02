@@ -1,5 +1,6 @@
-﻿using Objects.Other;
-using UnityEngine;
+﻿using UnityEngine;
+using UI.Core.NetUI;
+using Objects.Other;
 
 namespace UI.Objects.Security
 {
@@ -24,14 +25,7 @@ namespace UI.Objects.Security
 		private NetLabel labelLifeSigns = null;
 
 		private Turret turret;
-		private Turret Turret {
-			get {
-				if (turret == null)
-					turret = Provider.GetComponent<Turret>();
-
-				return turret;
-			}
-		}
+		private Turret Turret => turret ??= Provider.GetComponent<Turret>();
 
 		public void OnTabOpenedHandler(ConnectedPlayer connectedPlayer)
 		{

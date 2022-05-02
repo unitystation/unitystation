@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using Mirror;
 using UnityEngine;
 
@@ -192,7 +191,7 @@ namespace Messages.Server.SpritesMessages
 			{
 				UnprocessedData = null;
 				bool ProcessSection = true;
-				uint NetID = reader.ReadUInt32();
+				uint NetID = reader.ReadUInt();
 				if (NetID == 0)
 				{
 					break;
@@ -238,7 +237,7 @@ namespace Messages.Server.SpritesMessages
 
 					if (Operation == 1)
 					{
-						int SpriteID = reader.ReadInt32();
+						int SpriteID = reader.ReadInt();
 						if (ProcessSection)
 						{
 							try
@@ -247,9 +246,8 @@ namespace Messages.Server.SpritesMessages
 							}
 							catch (Exception e)
 							{
-								Logger.Log("ddD");
+								Logger.Log(e.StackTrace);
 							}
-
 						}
 						else
 						{
@@ -261,7 +259,7 @@ namespace Messages.Server.SpritesMessages
 
 					if (Operation == 2)
 					{
-						int Variant = reader.ReadInt32();
+						int Variant = reader.ReadInt();
 						if (ProcessSection)
 						{
 							SP.ChangeSpriteVariant(Variant, networked: false);
@@ -275,7 +273,7 @@ namespace Messages.Server.SpritesMessages
 
 					if (Operation == 3)
 					{
-						int Sprite = reader.ReadInt32();
+						int Sprite = reader.ReadInt();
 						if (ProcessSection)
 						{
 							SP.ChangeSprite(Sprite, false);
@@ -289,7 +287,7 @@ namespace Messages.Server.SpritesMessages
 
 					if (Operation == 4)
 					{
-						int SpriteAnimate = reader.ReadInt32();
+						int SpriteAnimate = reader.ReadInt();
 						if (ProcessSection)
 						{
 							SP.AnimateOnce(SpriteAnimate, false);
@@ -410,31 +408,31 @@ namespace Messages.Server.SpritesMessages
 			foreach (var keyValuePair in message.Data)
 			{
 				var spriteChange = keyValuePair.Value;
-				writer.WriteUInt32(keyValuePair.Key.GetMasterNetID().netId);
+				writer.WriteUInt(keyValuePair.Key.GetMasterNetID().netId);
 				writer.WriteString(keyValuePair.Key.name);
 
 				if (spriteChange.PresentSpriteSet != -1)
 				{
 					writer.WriteByte((byte) 1);
-					writer.WriteInt32(spriteChange.PresentSpriteSet);
+					writer.WriteInt(spriteChange.PresentSpriteSet);
 				}
 
 				if (spriteChange.VariantIndex != -1)
 				{
 					writer.WriteByte((byte) 2);
-					writer.WriteInt32(spriteChange.VariantIndex);
+					writer.WriteInt(spriteChange.VariantIndex);
 				}
 
 				if (spriteChange.CataloguePage != -1)
 				{
 					writer.WriteByte((byte) 3);
-					writer.WriteInt32(spriteChange.CataloguePage);
+					writer.WriteInt(spriteChange.CataloguePage);
 				}
 
 				if (spriteChange.AnimateOnce)
 				{
 					writer.WriteByte((byte) 4);
-					writer.WriteInt32(spriteChange.CataloguePage);
+					writer.WriteInt(spriteChange.CataloguePage);
 				}
 
 				if (spriteChange.PushTexture)
@@ -474,7 +472,7 @@ namespace Messages.Server.SpritesMessages
 				}
 				writer.WriteByte((byte) 255);
 			}
-			writer.WriteUInt32(0);
+			writer.WriteUInt(0);
 		}
 	}
 }

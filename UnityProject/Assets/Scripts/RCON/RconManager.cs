@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text;
 using DatabaseAPI;
 using UnityEngine;
 using WebSocketSharp;
@@ -244,7 +245,9 @@ public class RconManager : SingletonManager<RconManager>
 
 	public static string GetFullLog()
 	{
-		var log = ServerLog;
+		var stringBuilder = new StringBuilder();
+		stringBuilder.Append(ServerLog);
+		var log = stringBuilder.ToString();
 		if (log.Length > 5000)
 		{
 			log = log.Substring(4000);
@@ -254,7 +257,10 @@ public class RconManager : SingletonManager<RconManager>
 
 	public static string GetFullChatLog()
 	{
-		var log = ChatLog;
+		var stringBuilder = new StringBuilder();
+		stringBuilder.Append(ChatLog);
+		var log = stringBuilder.ToString();
+
 		if (string.IsNullOrEmpty(log))
 		{
 			return "No one has said anything yet..";
@@ -269,21 +275,24 @@ public class RconManager : SingletonManager<RconManager>
 
 	#region RconConsole
 
-	protected static string ServerLog { get; private set; }
+	protected static List<string> serverLog = new List<string>(1000);
+	protected static List<string> ServerLog => serverLog;
 	protected static string LastLog { get; private set; }
 
-	protected static string ChatLog { get; private set; }
+
+	protected static List<string> chatLog = new List<string>(1000);
+	protected static List<string> ChatLog => chatLog;
 	protected static string ChatLastLog { get; private set; }
 
 	protected static void AmendLog(string msg)
 	{
-		ServerLog += msg;
+		ServerLog.Add(msg);
 		LastLog = msg;
 	}
 
 	protected static void AmendChatLog(string msg)
 	{
-		ChatLog += msg;
+		ChatLog.Add(msg);
 		ChatLastLog = msg;
 	}
 
@@ -386,7 +395,7 @@ public class Players
 			var player = PlayerList.Instance.InGamePlayers[i];
 			var playerEntry = new PlayerDetails()
 			{
-				playerName = player.Name + $" {player.Job.ToString()} : Acc: {player.Username} {player.UserId} {player.Connection.address} ",
+				playerName = player.Name + $" {player.Job.ToString()} : Acc: {player.Username} {player.UserId} {player.ConnectionIP} ",
 					job = player.Job.ToString()
 			};
 			players.Add(playerEntry);

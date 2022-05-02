@@ -1,5 +1,5 @@
-﻿using System.Collections;
-using UnityEngine;
+﻿using UnityEngine;
+using UI.Core.NetUI;
 using ScriptableObjects.Items.SpellBook;
 
 namespace UI.SpellBook

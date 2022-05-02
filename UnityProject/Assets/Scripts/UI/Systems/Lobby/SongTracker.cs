@@ -38,6 +38,11 @@ namespace Audio.Containers
 				PlayerPrefs.SetInt(PlayerPrefKeys.MuteMusic, 1);
 				PlayerPrefs.Save();
 			}
+		}
+
+		private void Start()
+		{
+			DetermineMuteState();
 
 			if (PlayerPrefs.HasKey(PlayerPrefKeys.MusicVolumeKey))
 			{
@@ -47,11 +52,6 @@ namespace Audio.Containers
 			{
 				volumeSlider.value = 0.8f;
 			}
-		}
-
-		private void Start()
-		{
-			DetermineMuteState();
 		}
 
 		private void OnEnable()
@@ -163,7 +163,18 @@ namespace Audio.Containers
 
 		public void OnVolumeSliderChange()
 		{
-			MusicManager.Instance.ChangeVolume(volumeSlider.value);
+			if (volumeSlider.value == 0)
+            {
+				ToggleMusicMute();
+			}
+			else
+			{
+				if (PlayerPrefs.GetInt(PlayerPrefKeys.MuteMusic) == 0)
+                {
+					ToggleMusicMute();
+				}
+				MusicManager.Instance.ChangeVolume(volumeSlider.value);
+			}
 		}
 
 		public void OnTrackButtonClick()

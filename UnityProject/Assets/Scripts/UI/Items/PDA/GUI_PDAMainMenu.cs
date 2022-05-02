@@ -1,5 +1,6 @@
 ﻿using System;
 using UnityEngine;
+using UI.Core.NetUI;
 
 namespace UI.Items.PDA
 {
@@ -57,14 +58,7 @@ namespace UI.Items.PDA
 
 		private void UpdateIDStatus()
 		{
-			if (IDCard != null)
-			{
-				SetIDStatus($"{IDCard.RegisteredName}, {IDCard.JobType}");
-			}
-			else
-			{
-				SetIDStatus("<No ID Inserted>");
-			}
+			SetIDStatus(IDCard != null ? $"{IDCard.RegisteredName}, {IDCard.GetJobTitle()}" : "<No ID Inserted>");
 
 			if (controller.mainSwitcher.CurrentPage == this)
 			{

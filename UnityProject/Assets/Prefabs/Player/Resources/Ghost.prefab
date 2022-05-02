@@ -23,6 +23,7 @@ GameObject:
   - component: {fileID: 4509690511415981971}
   - component: {fileID: 6663514336625432320}
   - component: {fileID: 3816408273032552164}
+  - component: {fileID: 1852173234745760124}
   m_Layer: 31
   m_Name: Ghost
   m_TagString: Untagged
@@ -100,8 +101,10 @@ MonoBehaviour:
   syncInterval: 0.1
   playerName: ' '
   visibleName: ' '
+  PlayerSync: {fileID: 0}
   RTT: 0
   RcsMode: 0
+  RcsMatrixMove: {fileID: 0}
   playerState: 1
   actionData: {fileID: 0}
   playerChatLocation: {fileID: 4390267312333422610}
@@ -211,12 +214,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  InitialDirection: 3
-  onEditorDirectionChange:
-    m_PersistentCalls:
-      m_Calls: []
-  ChangeDirectionWithMatrix: 0
-  DisableSyncing: 0
+  MethodRotation: 0
+  ChangeSprites: 1
+  isChangingSO: 0
+  CurrentDirection: 3
 --- !u!114 &1105258743114886135
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -304,6 +305,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 1
   syncInterval: 0.1
+--- !u!114 &1852173234745760124
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4390267312333422610}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cb66dca4b3d0d3e4fb6c386f50cd0375, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  netTransform: {fileID: 2038932850302980570}
+  rotateTransform: {fileID: 3704879063443130025}
 --- !u!1 &7320126117105815585
 GameObject:
   m_ObjectHideFlags: 0
@@ -315,6 +332,7 @@ GameObject:
   - component: {fileID: 3862673439606775660}
   - component: {fileID: 8982399715002782878}
   - component: {fileID: 1790310942916481698}
+  - component: {fileID: 3704879063443130025}
   m_Layer: 31
   m_Name: Ghosts Sprite
   m_TagString: Untagged
@@ -407,3 +425,17 @@ MonoBehaviour:
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
   palette: []
+--- !u!114 &3704879063443130025
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7320126117105815585}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62ef7c2887a58cf46984f3bd506f9cfe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  transformToRotateAround: {fileID: 0}
+  offset: {x: 0, y: 0, z: 0}

@@ -16,8 +16,9 @@ namespace CameraEffects
 		[SerializeField]
 		private GameObject minimalVisibilitySprite;
 
-		[SerializeField]
-		private int maxDrunkTime = 120000;
+
+		[SerializeField] private int maxDrunkTime = 120000;
+		[SerializeField] private int maxFlashTime = 25;
 
 		private const float TIMER_INTERVAL = 1f;
 		private float drunkCameraTime = 0;
@@ -48,9 +49,20 @@ namespace CameraEffects
 
 			if (drunkCamera.enabled == false)
 			{
+				ToggleDrunkEffectState(true);
 				drunkCamera.ModerateDrunk();
 				UpdateManager.Add(DoEffectTimeCheck, TIMER_INTERVAL);
 			}
+		}
+
+		public void FlashEyes(float flashTime)
+		{
+			StartCoroutine(FlashEyesCoroutine(flashTime));
+		}
+		private IEnumerator FlashEyesCoroutine(float flashTime)
+		{
+			//TODO : Add flash effects here later
+			yield break;
 		}
 
 		public void ToggleDrunkEffectState(bool state)
@@ -78,7 +90,7 @@ namespace CameraEffects
 			else
 			{
 				drunkCamera.enabled = false;
-				UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, DoEffectTimeCheck);
+
 			}
 		}
 

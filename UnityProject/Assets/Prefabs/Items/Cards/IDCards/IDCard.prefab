@@ -164,7 +164,7 @@ PrefabInstance:
     - target: {fileID: 8982824578945154677, guid: 08128a9a69925eb4c93bc817c6ec2a88,
         type: 3}
       propertyPath: initialDescription
-      value: A card used to provide ID and determine access across the station.
+      value: A card used to provide identification and access to secure electronics.
       objectReference: {fileID: 0}
     - target: {fileID: 8982824578945154677, guid: 08128a9a69925eb4c93bc817c6ec2a88,
         type: 3}
@@ -197,10 +197,20 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 8982824578945154677, guid: 08128a9a69925eb4c93bc817c6ec2a88,
         type: 3}
+      propertyPath: inventoryMoveSound.AssetAddress
+      value: null
+      objectReference: {fileID: 0}
+    - target: {fileID: 8982824578945154677, guid: 08128a9a69925eb4c93bc817c6ec2a88,
+        type: 3}
       propertyPath: itemSprites.SpriteInventoryIcon
       value: 
       objectReference: {fileID: 11400000, guid: ef001fb2e69bed346858f1fb9d243c21,
         type: 2}
+    - target: {fileID: 8982824578945154677, guid: 08128a9a69925eb4c93bc817c6ec2a88,
+        type: 3}
+      propertyPath: inventoryRemoveSound.AssetAddress
+      value: null
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 08128a9a69925eb4c93bc817c6ec2a88, type: 3}
 --- !u!1 &6945987494597785492 stripped

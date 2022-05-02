@@ -274,9 +274,17 @@ namespace Blob
 
 			var spawnResult = Spawn.ServerPrefab(AntagManager.Instance.blobPlayerViewer, gameObject.RegisterTile().WorldPositionServer, gameObject.transform.parent);
 
-			if (!spawnResult.Successful)
+			if (spawnResult.Successful == false)
 			{
 				Logger.LogError("Failed to spawn blob!", Category.Blob);
+				Destroy(this);
+				return;
+			}
+
+			if (playerScript.mind == null)
+			{
+				//If this is true, block blob spawning
+				_ = Despawn.ServerSingle(spawnResult.GameObject);
 				Destroy(this);
 				return;
 			}

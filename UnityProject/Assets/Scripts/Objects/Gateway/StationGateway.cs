@@ -230,7 +230,7 @@ namespace Objects
 			{
 				var coord = new Vector2(Position.x, Position.y);
 				Chat.AddLocalMsgToChat(Message, coord, gameObject);
-				_ = SoundManager.PlayNetworkedForPlayer(player.gameObject,CommonSounds.Instance.StealthOff); // very weird, sometimes does the sound other times not.
+				SoundManager.PlayNetworkedForPlayer(player.gameObject,CommonSounds.Instance.StealthOff); // very weird, sometimes does the sound other times not.
 				TransportUtility.TransportObjectAndPulled(player, TeleportTargetCoord);
 			}
 

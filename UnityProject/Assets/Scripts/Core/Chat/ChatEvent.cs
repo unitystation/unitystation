@@ -85,6 +85,7 @@ public enum Loudness
 	NORMAL,
 	LOUD,
 	SCREAMING,
+	MEGAPHONE,
 	EARRAPE
 }
 

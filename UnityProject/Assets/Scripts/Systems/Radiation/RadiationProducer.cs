@@ -79,24 +79,20 @@ namespace Systems.Radiation
 
 		private void UpdateValues(float Invalue)
 		{
-			try
+			if (this == null)
 			{
-				OutPuttingRadiation = Invalue;
-				float LightPower = OutPuttingRadiation / 24000;
-				if (LightPower > 1)
-				{
-					mLightRendererObject.transform.localScale = Vector3.one * 7 * LightPower;
-					LightPower = 1;
-				}
+				Logger.LogError(" The radioactive object has been destroyed but you're still trying to Produce radiation ", Category.Radiation);
+				return;
+			}
+			OutPuttingRadiation = Invalue;
+			float LightPower = OutPuttingRadiation / 24000;
+			if (LightPower > 1)
+			{
+				mLightRendererObject.transform.localScale = Vector3.one * (7 * LightPower);
+				LightPower = 1;
+			}
 
-				lightSprite.Color.a = LightPower;
-			}
-			catch (NullReferenceException exception)
-			{
-				Logger.LogError(
-					$"Caught NRE with RadiationProducer UpdateValues {exception.Message} \n {exception.StackTrace}",
-					Category.Electrical);
-			}
+			lightSprite.Color.a = LightPower;
 		}
 
 		private void RequestPulse()
@@ -105,11 +101,13 @@ namespace Systems.Radiation
 			{
 				if (registerObject == null)
 				{
-					RadiationManager.Instance.RequestPulse(objectBehaviour.registerTile.WorldPositionServer, OutPuttingRadiation, ObjectID);
+					RadiationManager.Instance.RequestPulse(objectBehaviour.registerTile.WorldPositionServer,
+						OutPuttingRadiation, ObjectID);
 				}
 				else
 				{
-					RadiationManager.Instance.RequestPulse(registerObject.WorldPositionServer, OutPuttingRadiation, ObjectID);
+					RadiationManager.Instance.RequestPulse(registerObject.WorldPositionServer, OutPuttingRadiation,
+						ObjectID);
 				}
 			}
 

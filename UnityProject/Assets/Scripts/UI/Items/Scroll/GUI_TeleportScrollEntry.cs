@@ -1,5 +1,5 @@
-﻿using System.Collections;
-using UnityEngine;
+﻿using UnityEngine;
+using UI.Core.NetUI;
 using Items.Scrolls.TeleportScroll;
 
 namespace UI.Scroll

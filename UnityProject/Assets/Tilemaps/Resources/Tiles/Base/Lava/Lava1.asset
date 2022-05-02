@@ -49,6 +49,8 @@ MonoBehaviour:
     Bio: 100
     DismembermentProtectionChance: 0
   tileInteractions: []
+  tileStepInteractions:
+  - {fileID: 11400000, guid: d6e823d468fafa349a68094e225caa83, type: 2}
   spawnOnDeconstruct: {fileID: 0}
   spawnAmountOnDeconstruct: 1
   lootOnDespawn: {fileID: 0}
@@ -57,11 +59,12 @@ MonoBehaviour:
   damageOverlayList: {fileID: 0}
   soundOnHit:
     SetLoadSetting: 0
-    AssetAddress: 
+    AssetAddress: null
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
       m_SubObjectType: 
+      m_EditorAssetChanged: 0
   SoundOnDestroy: []
   Sprites:
   - {fileID: 21300000, guid: 54da34d787400e541a5283f09927d1e1, type: 3}

@@ -1,10 +1,12 @@
 using System.Text;
 
-public abstract class NetUIStringElement : NetUIElement<string>
+namespace UI.Core.NetUI
 {
-	public override byte[] BinaryValue
+	public abstract class NetUIStringElement : NetUIElement<string>
 	{
-		get => Encoding.UTF8.GetBytes(Value ?? string.Empty);
-		set => Value = Encoding.UTF8.GetString(value);
+		public override byte[] BinaryValue {
+			get => Encoding.UTF8.GetBytes(Value ?? string.Empty);
+			set => Value = Encoding.UTF8.GetString(value);
+		}
 	}
 }

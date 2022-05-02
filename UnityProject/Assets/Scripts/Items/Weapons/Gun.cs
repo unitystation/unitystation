@@ -1,16 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using UnityEngine;
+using UnityEngine.Serialization;
+using Mirror;
 using Items;
 using AddressableReferences;
 using Messages.Server;
 using Messages.Server.SoundMessages;
-using Mirror;
-using UnityEditor;
-using UnityEngine;
-using UnityEngine.Serialization;
 using Weapons.Projectiles;
 using NaughtyAttributes;
+using Player;
 using Player.Movement;
 
 namespace Weapons
@@ -23,13 +23,6 @@ namespace Weapons
 	public class Gun : NetworkBehaviour, ICheckedInteractable<AimApply>, ICheckedInteractable<HandActivate>,
 		ICheckedInteractable<InventoryApply>, IServerInventoryMove, IServerSpawn, IExaminable
 	{
-		//constants for calculating screen shake due to recoil. Currently unused.
-		/*
-	private static readonly float MAX_PROJECTILE_VELOCITY = 48f;
-	private static readonly float MAX_SHAKE_INTENSITY = 1f;
-	private static readonly float MIN_SHAKE_INTENSITY = 0.01f;
-	*/
-
 		/// <summary>
 		/// Prefab to be spawned within on roundstart
 		/// </summary>
@@ -190,9 +183,9 @@ namespace Weapons
 		private uint queuedLoadMagNetID = NetId.Invalid;
 
 		private RegisterTile registerTile;
-		[NaughtyAttributes.ReadOnlyAttribute] public ItemSlot magSlot;
-		[NaughtyAttributes.ReadOnlyAttribute] public ItemSlot pinSlot;
-		[NaughtyAttributes.ReadOnlyAttribute] public ItemSlot suppressorSlot;
+		[ReadOnly] public ItemSlot magSlot;
+		[ReadOnly] public ItemSlot pinSlot;
+		[ReadOnly] public ItemSlot suppressorSlot;
 
 		protected const float PinRemoveTime = 10f;
 

@@ -42,6 +42,7 @@ namespace Objects.Atmospherics
 		[SerializeField, SceneModeOnly]
 		[Tooltip("If enabled, allows the scrubber to operate without being connected to a pipenet (magic). Usage is discouraged.")]
 		private bool selfSufficient = false;
+		public bool SelfSufficient => selfSufficient;
 
 		private List<GasSO> defaultFilteredGases;
 		private List<GasSO> defaultContaminatedGases;
@@ -147,7 +148,7 @@ namespace Objects.Atmospherics
 			// If all these gases exceed transfer amount, reduce each gas scrub mole count proportionally.
 
 			float scrubbableMolesAvailable = 0;
-			lock (metaNode.GasMix.GasesArray)
+			lock (metaNode.GasMix.GasesArray) //no Double lock
 			{
 				foreach (GasValues gas in metaNode.GasMix.GasesArray) //doesn't appear to modify list while iterating
 				{

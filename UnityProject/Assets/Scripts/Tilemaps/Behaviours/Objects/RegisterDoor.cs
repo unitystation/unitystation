@@ -1,5 +1,7 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using Core.Editor.Attributes;
+using Doors;
 using Systems.Interaction;
 
 
@@ -12,6 +14,9 @@ using Systems.Interaction;
 		private SubsystemManager SubsystemManager => subsystemManager ? subsystemManager : subsystemManager = GetComponentInParent<SubsystemManager>();
 
 		private TileChangeManager tileChangeManager;
+
+		[NonSerialized]
+		public InteractableDoor InteractableDoor;
 
 		[PrefabModeOnly]
 		public bool OneDirectionRestricted;
@@ -42,6 +47,7 @@ using Systems.Interaction;
 			//Doors/airlocks aren't supposed to switch matrices
 			GetComponent<CustomNetTransform>().IsFixedMatrix = true;
 			tileChangeManager = GetComponentInParent<TileChangeManager>();
+			InteractableDoor = this.GetComponent<InteractableDoor>();
 		}
 
 		public override void OnDespawnServer(DespawnInfo info)
@@ -76,7 +82,7 @@ using Systems.Interaction;
 				var direction = reachingFrom - position;
 
 				//Use Directional component if it exists
-				var tryGetDir = GetComponent<Directional>();
+				var tryGetDir = GetComponent<Rotatable>();
 				if (tryGetDir != null)
 				{
 					return CheckViaDirectional(tryGetDir, direction);
@@ -101,7 +107,7 @@ using Systems.Interaction;
 				var direction = leavingTo - position;
 
 				//Use Directional component if it exists
-				var tryGetDir = GetComponent<Directional>();
+				var tryGetDir = GetComponent<Rotatable>();
 				if (tryGetDir != null)
 				{
 					return CheckViaDirectional(tryGetDir, direction);
@@ -113,21 +119,21 @@ using Systems.Interaction;
 			return !isClosed;
 		}
 
-		bool CheckViaDirectional(Directional directional, Vector3Int dir)
+		bool CheckViaDirectional(Rotatable directional, Vector3Int dir)
 		{
 			var dir2Int = dir.To2Int();
-			switch (directional.CurrentDirection.AsEnum())
+			switch (directional.CurrentDirection)
 			{
-				case OrientationEnum.Down:
+				case OrientationEnum.Down_By180:
 					if (dir2Int == Vector2Int.down) return false;
 					return true;
-				case OrientationEnum.Left:
+				case OrientationEnum.Left_By90:
 					if (dir2Int == Vector2Int.left) return false;
 					return true;
-				case OrientationEnum.Up:
+				case OrientationEnum.Up_By0:
 					if (dir2Int == Vector2Int.up) return false;
 					return true;
-				case OrientationEnum.Right:
+				case OrientationEnum.Right_By270:
 					if (dir2Int == Vector2Int.right) return false;
 					return true;
 			}

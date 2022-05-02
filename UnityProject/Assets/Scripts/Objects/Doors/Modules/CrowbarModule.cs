@@ -13,59 +13,74 @@ namespace Doors.Modules
 		[SerializeField]
 		private AddressableAudioSource prySound = null;
 
+		[SerializeField]
+		[Tooltip("Can you crowbar pry the door when there no power")]
+		private bool crowbarRequiresNoPower = true;
+
 		private string soundGuid = "";
+
+
+
 
 		public override ModuleSignal OpenInteraction(HandApply interaction, HashSet<DoorProcessingStates> States)
 		{
 			if (interaction == null) return ModuleSignal.Continue;
 			//If the door is powered, only allow things that are made to pry doors. If it isn't powered, we let crowbars work.
-			if ((!master.HasPower ||
-			     !Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.CanPryDoor)) &&
-			    (master.HasPower || !Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Crowbar)))
+
+			if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.CanPryDoor) || Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Crowbar))
 			{
-				return ModuleSignal.Continue;
+				if ((crowbarRequiresNoPower && master.HasPower) && (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.CanPryDoor) == false) )
+				{
+					return ModuleSignal.Continue;
+				}
+
+				ToolUtils.ServerUseToolWithActionMessages(interaction, pryTime,
+					"You start closing the door...",
+					$"{interaction.Performer.ExpensiveName()} starts closing the door...",
+					$"",
+					$"",
+					() => TryPry(interaction));
+
+				return ModuleSignal.Break;
 			}
 
+
+			return ModuleSignal.Continue;
+
 			//allows the jaws of life to pry close doors
-			ToolUtils.ServerUseToolWithActionMessages(interaction, pryTime,
-				"You start closing the door...",
-				$"{interaction.Performer.ExpensiveName()} starts closing the door...",
-				$"You force close the door with your {interaction.HandObject.ExpensiveName()}!",
-				$"{interaction.Performer.ExpensiveName()} force closes the door!",
-				TryPry);
-
-			return ModuleSignal.Break;
-
 		}
 
 		public override ModuleSignal ClosedInteraction(HandApply interaction, HashSet<DoorProcessingStates> States)
 		{
 			if (interaction == null) return ModuleSignal.Continue;
-			//If the door is powered, only allow things that are made to pry doors. If it isn't powered, we let crowbars work.
-			if ((!master.HasPower ||
-			     !Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.CanPryDoor)) &&
-			    (master.HasPower || !Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Crowbar)))
+
+			if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.CanPryDoor) ||
+			    Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Crowbar))
 			{
-				return ModuleSignal.Continue;
+				if ((crowbarRequiresNoPower && master.HasPower) && (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.CanPryDoor) == false))
+				{
+					return ModuleSignal.Continue;
+				}
+				if (soundGuid != "")
+				{
+					SoundManager.StopNetworked(soundGuid);
+				}
+
+				soundGuid = Guid.NewGuid().ToString();
+				SoundManager.PlayAtPositionAttached(prySound, master.RegisterTile.WorldPositionServer, gameObject, soundGuid);
+
+				//allows the jaws of life to pry open doors
+				ToolUtils.ServerUseToolWithActionMessages(interaction, pryTime,
+					"You start prying open the door...",
+					$"{interaction.Performer.ExpensiveName()} starts prying open the door...",
+					$"",
+					$"",
+					() => TryPry(interaction), onFailComplete: OnFailPry, playSound: false);
+
+				return ModuleSignal.Break;
 			}
 
-			if (soundGuid != "")
-			{
-				SoundManager.StopNetworked(soundGuid);
-			}
-
-			soundGuid = Guid.NewGuid().ToString();
-			SoundManager.PlayAtPositionAttached(prySound, master.RegisterTile.WorldPositionServer, gameObject, soundGuid);
-
-			//allows the jaws of life to pry open doors
-			ToolUtils.ServerUseToolWithActionMessages(interaction, pryTime,
-				"You start prying open the door...",
-				$"{interaction.Performer.ExpensiveName()} starts prying open the door...",
-				$"You force the door open with your {interaction.HandObject.ExpensiveName()}!",
-				$"{interaction.Performer.ExpensiveName()} forces the door open!",
-				TryPry, onFailComplete: OnFailPry, playSound: false);
-
-			return ModuleSignal.Break;
+			return ModuleSignal.Continue;
 		}
 
 		public override ModuleSignal BumpingInteraction(GameObject byPlayer, HashSet<DoorProcessingStates> States)
@@ -73,11 +88,21 @@ namespace Doors.Modules
 			return ModuleSignal.Continue;
 		}
 
-		private void TryPry()
+		private void TryPry(HandApply interaction)
 		{
 			if (master.IsClosed && !master.IsPerformingAction)
 			{
-				master.TryForceOpen();
+				if (master.TryForceOpen())
+				{
+					Chat.AddActionMsgToChat(interaction.Performer, $"You force the door open with your {interaction.HandObject.ExpensiveName()}!",
+						$"{interaction.Performer.ExpensiveName()} forces the door open!");
+
+				}
+				else
+				{
+					Chat.AddActionMsgToChat(interaction.Performer, $"The door does not budge at all!",
+						$"{interaction.Performer.ExpensiveName()} Tries to force the door open failing!");
+				}
 			}
 			else if (!master.IsClosed && !master.IsPerformingAction)
 			{
