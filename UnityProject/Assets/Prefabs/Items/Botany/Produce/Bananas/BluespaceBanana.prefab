@@ -117,5 +117,16 @@ PrefabInstance:
       propertyPath: initialName
       value: bluespace banana
       objectReference: {fileID: 0}
+    - target: {fileID: 9195228928975526187, guid: b29d3b3d0eac3a84d9ef700d10f41b3a,
+        type: 3}
+      propertyPath: initialTraits.Array.size
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 9195228928975526187, guid: b29d3b3d0eac3a84d9ef700d10f41b3a,
+        type: 3}
+      propertyPath: initialTraits.Array.data[4]
+      value: 
+      objectReference: {fileID: 11400000, guid: 871fa9fc93b832545aa60e4b22221a4c,
+        type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b29d3b3d0eac3a84d9ef700d10f41b3a, type: 3}
