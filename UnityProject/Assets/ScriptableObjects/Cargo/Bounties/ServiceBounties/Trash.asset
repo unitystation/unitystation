@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 942de2d1e5138ff479292c0ff88783b8, type: 3}
+  m_Name: Trash
+  m_EditorClassIdentifier: 
+  Demands:
+    m_keys:
+    - {fileID: 11400000, guid: 77ecf8292d96402488afcc99b057daab, type: 2}
+    m_values: 0a000000
+  Reward: 400
+  Description: Recently a group of janitors have run out of trash to clean up, without
+    any trash Centcom wants to fire them to cut costs. Send a shipment of trash to
+    keep them employed, and they'll give you a small compensation.

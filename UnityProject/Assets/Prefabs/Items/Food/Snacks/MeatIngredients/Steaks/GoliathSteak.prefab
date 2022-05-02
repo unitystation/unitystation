@@ -9,6 +9,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 773223925429699056, guid: bdbfea1235c0674488cd2a61b2e9cfa4,
         type: 3}
+      propertyPath: exportCost
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 773223925429699056, guid: bdbfea1235c0674488cd2a61b2e9cfa4,
+        type: 3}
       propertyPath: initialName
       value: goliath steak
       objectReference: {fileID: 0}
@@ -17,6 +22,17 @@ PrefabInstance:
       propertyPath: initialDescription
       value: A delicious, lava cooked steak.
       objectReference: {fileID: 0}
+    - target: {fileID: 773223925429699056, guid: bdbfea1235c0674488cd2a61b2e9cfa4,
+        type: 3}
+      propertyPath: initialTraits.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 773223925429699056, guid: bdbfea1235c0674488cd2a61b2e9cfa4,
+        type: 3}
+      propertyPath: initialTraits.Array.data[2]
+      value: 
+      objectReference: {fileID: 11400000, guid: f104f8824bcf2c348add3215f63fb093,
+        type: 2}
     - target: {fileID: 884134360074916838, guid: bdbfea1235c0674488cd2a61b2e9cfa4,
         type: 3}
       propertyPath: m_RootOrder
