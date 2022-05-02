@@ -20,13 +20,14 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 	//TODO Do more testing/Polishing with pulling in space with client/serverDo more testing/Polishing with pulling in space with client/server
 	//TODO PulledBy isn't getting synchronised to client properly on start
 
-	//TODO Snap to LocalTargetPosition When triggered for client viewing other clients
+	//TODO parentContainer Need to test
 
-	//TODO parentContainer!!?
-	//TODO check Conveyor belts with player movement, Conveyor belts a bit buggy but good
+	//TODO Maybe work on conveyor belts and players a bit more
 
 
-	//TODO Combine buckling and object storage Sometime
+	//TODO Reset also resets object rotation
+
+	//TODO Sometime Combine buckling and object storage
 
 	public const float DEFAULT_PUSH_SPEED = 6;
 
@@ -57,6 +58,9 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 	public Vector3 LocalTargetPosition;
 
 	protected Rotatable rotatable;
+
+	[PrefabModeOnly]
+	public bool ChangesDirectionPush = false;
 
 	public Vector3 SetLocalTarget
 	{
@@ -140,7 +144,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 	public BodyPartType aim;
 
 	[PlayModeOnly]
-	public float spinMagnitude = 0; //TODO Multiplied by magnitude of movement Kind of a proportion would
+	public float spinMagnitude = 0;
 
 	[PrefabModeOnly]
 	public bool stickyMovement = false;
@@ -288,7 +292,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 			SynchroniseVisibility(isVisible, false);
 		}
 	}
-	//TODO Handle stuff like cart riding
+	//TODO Sometime Handle stuff like cart riding
 	//would be basically just saying with updates with an offset to the thing that parented to the object
 
 
@@ -307,13 +311,14 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 
 	[ClientRpc]
 	public void UpdateClientMomentum(Vector3 ReSetToLocal, Vector2 NewMomentum, float InairTime, float InslideTime,
-		int MatrixID)
+		int MatrixID, float InspinFactor)
 	{
 		if (isServer) return;
 		if (isLocalPlayer) return; //We are updating other Objects than the player on the client //TODO Also block if being pulled by local player
 		newtonianMovement = NewMomentum;
 		airTime = InairTime;
 		slideTime = InslideTime;
+		spinMagnitude = InspinFactor;
 		SetMatrix(MatrixManager.Get(MatrixID).Matrix);
 
 		if (IsFlyingSliding) //If we flying try and smooth it
@@ -404,9 +409,10 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 	}
 
 	public void ForceSetLocalPosition(Vector3 ReSetToLocal, Vector2 Momentum, bool Smooth, int MatrixID,
-		bool UpdateClient = true)
+		bool UpdateClient = true, float Rotation = 0)
 	{
 		IsWalking = false;
+		transform.localRotation = Quaternion.Euler(new Vector3(0,0,  Rotation));
 		if (isServer && UpdateClient)
 		{
 			isVisible = true;
@@ -470,7 +476,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 
 	public void ResetLocationOnClients(bool Smooth = false)
 	{
-		ForceSetLocalPosition(transform.localPosition, newtonianMovement, Smooth, registerTile.Matrix.Id);
+		ForceSetLocalPosition(transform.localPosition, newtonianMovement, Smooth, registerTile.Matrix.Id, Rotation : transform.localRotation.eulerAngles.z);
 		if (Pulling.HasComponent)
 		{
 			Pulling.Component.ResetLocationOnClients();
@@ -619,6 +625,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 			SetMatrix(movetoMatrix);
 		}
 
+		rotatable.OrNull()?.SetFaceDirectionLocalVictor(WorldDirection);
 
 		var LocalPosition = (NewWorldPosition).ToLocal(movetoMatrix);
 
@@ -788,9 +795,6 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 		float INslideTime = Single.NaN, BodyPartType inaim = BodyPartType.Chest, GameObject inthrownBy = null,
 		float spinFactor = 0) //Collision is just naturally part of Newtonian push
 	{
-
-		SetD = false;
-
 		aim = inaim;
 		thrownBy = inthrownBy;
 		if (Random.Range(0, 1) == 1)
@@ -842,7 +846,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 				UpdateManager.Add(CallbackType.UPDATE, FlyingUpdateMe);
 				if (isServer)
 					UpdateClientMomentum(transform.localPosition, newtonianMovement, airTime, slideTime,
-						registerTile.Matrix.Id);
+						registerTile.Matrix.Id, spinFactor);
 			}
 		}
 	}
@@ -954,7 +958,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 					UpdateManager.Add(CallbackType.UPDATE, FlyingUpdateMe);
 					if (isServer)
 						UpdateClientMomentum(transform.localPosition, newtonianMovement, airTime, slideTime,
-							registerTile.Matrix.Id);
+							registerTile.Matrix.Id,spinMagnitude);
 				}
 			}
 		}
@@ -993,12 +997,6 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 
 	[PlayModeOnly]
 	public double LastUpdateClientFlying = 0; //NetworkTime.time
-
-	public float CashedTimeWhenSliding = 0;
-
-
-	public bool SetD = false;
-	private Vector2 CachedMomentum;
 
 	public void FlyingUpdateMe()
 	{
@@ -1042,11 +1040,6 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 		}
 		else
 		{
-			if (SetD == false)
-			{
-				SetD = true;
-				CashedTimeWhenSliding = Time.time;
-			}
 			var Floating = IsFloating();
 			if (Floating == false)
 			{
@@ -1061,7 +1054,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 		var intposition = position.RoundToInt();
 		var intNewposition = Newposition.RoundToInt();
 
-		transform.Rotate (new Vector3 (0, 0, spinMagnitude * newtonianMovement.magnitude* Time.deltaTime)); //TODO Reset rotation to!!!
+		transform.Rotate (new Vector3 (0, 0, spinMagnitude * newtonianMovement.magnitude* Time.deltaTime));
 
 		if (intposition != intNewposition)
 		{
@@ -1175,22 +1168,18 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 
 		if (isServer)
 		{
-			if (NetworkTime.time - LastUpdateClientFlying > 1)
+			if (NetworkTime.time - LastUpdateClientFlying > 2)
 			{
 				LastUpdateClientFlying = NetworkTime.time;
-				CachedMomentum = newtonianMovement;
 				UpdateClientMomentum(transform.localPosition, newtonianMovement, airTime, slideTime,
-					registerTile.Matrix.Id);
+					registerTile.Matrix.Id, spinMagnitude);
 			}
 		}
 
 
 		if (newtonianMovement.magnitude < 0.01f) //Has slowed down enough
 		{
-			if (DEBUG)
-			{
-				Logger.LogError( "it took To slighter halt" + (CashedTimeWhenSliding - Time.time));
-			}
+
 
 
 			OnLocalTileReached.Invoke(transform.localPosition);

@@ -424,12 +424,6 @@ public static class Inventory
 				Distance = IA2.ThrowRange;
 			}
 
-			if (UOP.DEBUG)
-			{
-				Logger.LogError(((Mathf.Pow(IA2.ThrowSpeed,2) / (2*UniversalObjectPhysics.DEFAULT_Friction)) / IA2.ThrowSpeed).ToString());
-			}
-
-
 			//v = u + at
 			// u – initial velocity
 			// v – final velocity
@@ -456,11 +450,9 @@ public static class Inventory
 
 			// (Mathf.Pow(IA2.ThrowSpeed,2) / 2*UniversalObjectPhysics.DEFAULT_Friction) / A2.ThrowSpeed
 
-			var AAAA = Mathf.Pow(IA2.ThrowSpeed, 2);
-
 			//speedloss  / friction
 			UOP.NewtonianPush( WorldTrajectory,((ItemAttributesV2) UOP.attributes).ThrowSpeed
-				, (Distance / IA2.ThrowSpeed  ) - ((AAAA / (2*UniversalObjectPhysics.DEFAULT_Friction)) / IA2.ThrowSpeed)
+				, (Distance / IA2.ThrowSpeed  ) - ((Mathf.Pow(IA2.ThrowSpeed, 2) / (2*UniversalObjectPhysics.DEFAULT_Friction)) / IA2.ThrowSpeed)
 				 , Single.NaN, toPerform.ThrowAim.GetValueOrDefault(BodyPartType.Chest), holder.gameObject, Random.Range(25, 150));
 
 
