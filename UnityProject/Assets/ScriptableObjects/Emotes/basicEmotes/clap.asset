@@ -15,12 +15,14 @@ MonoBehaviour:
   emoteName: clap
   requiresHands: 1
   allowEmoteWhileInCrit: 1
+  isAudibleEmote: 0
   allowEmoteWhileCrawling: 1
   viewText: claps!
   youText: You clap your hands together!
   failText: You do not have free hands to preform this action!
+  mouthBlockedText: You are unable to make a sound!
   critViewText: claps!
+  soundsAreTyped: 0
   defaultSounds: []
-  maleSounds: []
-  femaleSounds: []
+  TypedSounds: []
   pitchRange: {x: 0.7, y: 1}

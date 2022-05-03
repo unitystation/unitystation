@@ -181,12 +181,6 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 377030322204261106}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &6655050449683268901 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 6440154112111017943, guid: cf769d410d94f0e47bab5eee03a3b07d,
-    type: 3}
-  m_PrefabInstance: {fileID: 377030322204261106}
-  m_PrefabAsset: {fileID: 0}
 --- !u!114 &-8085407894005445929
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -208,6 +202,7 @@ MonoBehaviour:
       m_AssetGUID: 
       m_SubObjectName: 
       m_SubObjectType: 
+      m_EditorAssetChanged: 0
   randomSounds: []
   playRandomSoundTimer: 3
   randomSoundProbability: 20
@@ -245,3 +240,10 @@ MonoBehaviour:
       m_AssetGUID: 
       m_SubObjectName: 
       m_SubObjectType: 
+      m_EditorAssetChanged: 0
+--- !u!1 &6655050449683268901 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6440154112111017943, guid: cf769d410d94f0e47bab5eee03a3b07d,
+    type: 3}
+  m_PrefabInstance: {fileID: 377030322204261106}
+  m_PrefabAsset: {fileID: 0}

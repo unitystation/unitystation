@@ -1,106 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-6004209530045016704
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3250310938253979280}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2a7e4e3178cbc144096bda59feec2ea8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  doorSFX: {fileID: 11400000, guid: 549f7b89039d4d54aaae21c7b6f17a03, type: 2}
-  timerBeepSFX:
-    SetLoadSetting: 0
-    AssetAddress: Assets/Prefabs/Machines/Beep.prefab
-    AssetReference:
-      m_AssetGUID: 
-      m_SubObjectName: 
-      m_SubObjectType: 
-  doneDingSFX:
-    SetLoadSetting: 0
-    AssetAddress: Assets/Prefabs/Machines/Microwave/MicrowaveDing.prefab
-    AssetReference:
-      m_AssetGUID: 
-      m_SubObjectName: 
-      m_SubObjectType: 
-  DefaultTimerTime: 10
-  startSFX:
-    SetLoadSetting: 0
-    AssetAddress: Assets/Prefabs/Machines/Microwave/MicrowaveStart.prefab
-    AssetReference:
-      m_AssetGUID: 
-      m_SubObjectName: 
-      m_SubObjectType: 
-  kaputSfx:
-    SetLoadSetting: 0
-    AssetAddress: Assets/Prefabs/Effects/Bang.prefab
-    AssetReference:
-      m_AssetGUID: 
-      m_SubObjectName: 
-      m_SubObjectType: 
-  RunningAudio:
-    SetLoadSetting: 0
-    AssetAddress: Assets/Prefabs/Machines/Microwave/MicrowaveLoop.prefab
-    AssetReference:
-      m_AssetGUID: 
-      m_SubObjectName: 
-      m_SubObjectType: 
-  ScreenGlow: {fileID: 6475573901286532631}
-  OvenGlow: {fileID: 6985493059789907342}
-  TierStorage:
-  - {fileID: 11400000, guid: 263bf834f99424f12bda19d67c3ab5fc, type: 2}
-  - {fileID: 11400000, guid: 74bf3e872403e488695c17ecdde194ab, type: 2}
-  - {fileID: 11400000, guid: ee76ba24a0cd443b1a308dd04cdb3678, type: 2}
-  - {fileID: 11400000, guid: 8fdde641eac38ad4da32ccc0eeea50fc, type: 2}
-  circuitWattage: 5
-  ovenBulbWattage: 25
-  magnetronWattage: 850
---- !u!114 &-1987769092904718235
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3250310938253979280}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0dc41097d7716d74696096737b0aa40f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  doorRegion: {fileID: 292277418653205106}
-  powerRegion: {fileID: 4247284413902882658}
-  timerAddRegion: {fileID: 7845561594951407151}
-  timerRemoveRegion: {fileID: 431733717579353358}
---- !u!114 &6580316994347479842
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3250310938253979280}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fdce8a163088453ca593c0e98f2c5f07, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  itemStorageStructure: {fileID: 11400000, guid: 263bf834f99424f12bda19d67c3ab5fc,
-    type: 2}
-  itemStorageCapacity: {fileID: 11400000, guid: 51557be05ba9141e7849ea1c1c3ed19d,
-    type: 2}
-  itemStoragePopulator: {fileID: 0}
-  forceSpawnContents: 0
-  dropItemsOnDespawn: 0
-  UesAddlistPopulater: 0
-  Populater:
-    SlotContents: []
-    DeprecatedContents: []
-  ashPrefab: {fileID: 0}
 --- !u!1 &3916454252802896482
 GameObject:
   m_ObjectHideFlags: 0
@@ -128,6 +27,7 @@ RectTransform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1620760171862631715}
   m_RootOrder: 2
@@ -176,6 +76,7 @@ RectTransform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1620760171862631715}
   m_RootOrder: 1
@@ -226,6 +127,7 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0.26500005, y: 0.24499993, z: 0}
   m_LocalScale: {x: 0.19999999, y: 0.19999999, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 3246771360178382922}
   m_RootOrder: 1
@@ -325,6 +227,7 @@ RectTransform:
   m_LocalRotation: {x: -0, y: -0, z: -0.00000014901144, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1620760171862631715}
   m_RootOrder: 0
@@ -375,6 +278,7 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: -0.00000014901144, w: 1}
   m_LocalPosition: {x: -0.07999997, y: 0.093000025, z: 0}
   m_LocalScale: {x: 0.59999996, y: 0.59999996, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 3246771360178382922}
   m_RootOrder: 2
@@ -474,6 +378,7 @@ RectTransform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1620760171862631715}
   m_RootOrder: 3
@@ -690,9 +595,9 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b69bfc56f39849d4ba9139d2d51bedb6, type: 3}
---- !u!1 &3250310938253979280 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1628816798482564540, guid: b69bfc56f39849d4ba9139d2d51bedb6,
+--- !u!4 &1620760171862631715 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 3314592590375341583, guid: b69bfc56f39849d4ba9139d2d51bedb6,
     type: 3}
   m_PrefabInstance: {fileID: 4287942156532837164}
   m_PrefabAsset: {fileID: 0}
@@ -702,9 +607,115 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 4287942156532837164}
   m_PrefabAsset: {fileID: 0}
---- !u!4 &1620760171862631715 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 3314592590375341583, guid: b69bfc56f39849d4ba9139d2d51bedb6,
+--- !u!1 &3250310938253979280 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1628816798482564540, guid: b69bfc56f39849d4ba9139d2d51bedb6,
     type: 3}
   m_PrefabInstance: {fileID: 4287942156532837164}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &-6004209530045016704
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3250310938253979280}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2a7e4e3178cbc144096bda59feec2ea8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  doorSFX: {fileID: 11400000, guid: 549f7b89039d4d54aaae21c7b6f17a03, type: 2}
+  timerBeepSFX:
+    SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/Machines/Beep.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
+  doneDingSFX:
+    SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/Machines/Microwave/MicrowaveDing.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
+  DefaultTimerTime: 10
+  startSFX:
+    SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/Machines/Microwave/MicrowaveStart.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
+  kaputSfx:
+    SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/Effects/Bang.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
+  RunningAudio:
+    SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/Machines/Microwave/MicrowaveLoop.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
+  ScreenGlow: {fileID: 6475573901286532631}
+  OvenGlow: {fileID: 6985493059789907342}
+  TierStorage:
+  - {fileID: 11400000, guid: 263bf834f99424f12bda19d67c3ab5fc, type: 2}
+  - {fileID: 11400000, guid: 74bf3e872403e488695c17ecdde194ab, type: 2}
+  - {fileID: 11400000, guid: ee76ba24a0cd443b1a308dd04cdb3678, type: 2}
+  - {fileID: 11400000, guid: 8fdde641eac38ad4da32ccc0eeea50fc, type: 2}
+  circuitWattage: 5
+  ovenBulbWattage: 25
+  magnetronWattage: 850
+--- !u!114 &-1987769092904718235
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3250310938253979280}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0dc41097d7716d74696096737b0aa40f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  doorRegion: {fileID: 292277418653205106}
+  powerRegion: {fileID: 4247284413902882658}
+  timerAddRegion: {fileID: 7845561594951407151}
+  timerRemoveRegion: {fileID: 431733717579353358}
+--- !u!114 &6580316994347479842
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3250310938253979280}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fdce8a163088453ca593c0e98f2c5f07, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemStorageStructure: {fileID: 11400000, guid: 263bf834f99424f12bda19d67c3ab5fc,
+    type: 2}
+  itemStorageCapacity: {fileID: 11400000, guid: 51557be05ba9141e7849ea1c1c3ed19d,
+    type: 2}
+  itemStoragePopulator: {fileID: 0}
+  forceSpawnContents: 0
+  dropItemsOnDespawn: 0
+  UesAddlistPopulater: 0
+  Populater:
+    SlotContents: []
+    DeprecatedContents: []
+  ashPrefab: {fileID: 0}

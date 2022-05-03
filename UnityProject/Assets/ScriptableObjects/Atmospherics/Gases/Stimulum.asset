@@ -15,10 +15,10 @@ MonoBehaviour:
   MolarHeatCapacity: 5
   MolarMass: 44.01
   Name: Stimulum
-  HasOverlay: 0
   MinMolesToSee: 0.4
-  TileName: NONE
-  OverlayType: 0
+  OverlayTile: {fileID: 0}
+  CustomColour: 0
+  Colour: {r: 0, g: 0, b: 0, a: 0}
   FusionPower: 7
   AssociatedReagent: {fileID: 11400000, guid: 61cf9c4a2f0e886ea912d0c18998db21, type: 2}
   ExportPrice: 100

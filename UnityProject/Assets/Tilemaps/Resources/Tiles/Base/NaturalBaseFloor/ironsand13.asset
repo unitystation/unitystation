@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: ironsand13
   m_EditorClassIdentifier: 
   displayName: sand
+  description: 
   LayerType: 4
   TileType: 7
   RequiredTiles: []
@@ -31,6 +32,7 @@ MonoBehaviour:
   doesReflectBullet: 0
   indestructible: 0
   ExplosionImpassable: 0
+  BlocksTileInteractionsUnder: 1
   passableException:
     m_keys: 01000000
     m_values: 00
@@ -50,6 +52,7 @@ MonoBehaviour:
     DismembermentProtectionChance: 0
   tileInteractions:
   - {fileID: 11400000, guid: 7532420ce3464b348b4018420cba3044, type: 2}
+  tileStepInteractions: []
   spawnOnDeconstruct: {fileID: 0}
   spawnAmountOnDeconstruct: 1
   lootOnDespawn: {fileID: 11400000, guid: 97c5dfde9f162f4409c8103d4137de31, type: 2}
@@ -63,5 +66,6 @@ MonoBehaviour:
       m_AssetGUID: 
       m_SubObjectName: 
       m_SubObjectType: 
+      m_EditorAssetChanged: 0
   SoundOnDestroy: []
   sprite: {fileID: 21300000, guid: 8e0784738e5e3c049ba47c63981d323c, type: 3}

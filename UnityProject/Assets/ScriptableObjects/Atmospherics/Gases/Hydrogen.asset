@@ -15,10 +15,10 @@ MonoBehaviour:
   MolarHeatCapacity: 30
   MolarMass: 1
   Name: Hydrogen
-  HasOverlay: 0
   MinMolesToSee: 0.4
-  TileName: NONE
-  OverlayType: 0
+  OverlayTile: {fileID: 0}
+  CustomColour: 0
+  Colour: {r: 0, g: 0, b: 0, a: 0}
   FusionPower: 0
   AssociatedReagent: {fileID: 11400000, guid: b96ae222601db3faca1e9f832716f776, type: 2}
   ExportPrice: 1

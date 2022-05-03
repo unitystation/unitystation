@@ -1,29 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-7428436057667655002
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3650686735825012231}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 15547858c4462dc4fb5dcad7eb78f118, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  ShuttleMatrixMove: {fileID: 0}
-  radarDetectionSound:
-    SetLoadSetting: 0
-    AssetAddress: null
-    AssetReference:
-      m_AssetGUID: 
-      m_SubObjectName: 
-      m_SubObjectType: 
-  GUItab: {fileID: 0}
-  shuttleConsoleState: 0
 --- !u!1001 &6414903393843979902
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -630,12 +606,6 @@ PrefabInstance:
         type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b46887a995abc224aab70e21b9e53697, type: 3}
---- !u!1 &3650686735825012231 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 7759570870767460473, guid: b46887a995abc224aab70e21b9e53697,
-    type: 3}
-  m_PrefabInstance: {fileID: 6414903393843979902}
-  m_PrefabAsset: {fileID: 0}
 --- !u!114 &1877286795687809285 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 4830997643641780091, guid: b46887a995abc224aab70e21b9e53697,
@@ -648,3 +618,34 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 579884b05ae74e8499329b64997147d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &3650686735825012231 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7759570870767460473, guid: b46887a995abc224aab70e21b9e53697,
+    type: 3}
+  m_PrefabInstance: {fileID: 6414903393843979902}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &-7428436057667655002
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3650686735825012231}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 15547858c4462dc4fb5dcad7eb78f118, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  ShuttleMatrixMove: {fileID: 0}
+  radarDetectionSound:
+    SetLoadSetting: 0
+    AssetAddress: null
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
+  GUItab: {fileID: 0}
+  shuttleConsoleState: 0

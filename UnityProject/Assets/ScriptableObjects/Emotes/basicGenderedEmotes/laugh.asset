@@ -35,6 +35,7 @@ MonoBehaviour:
           m_AssetGUID: 
           m_SubObjectName: 
           m_SubObjectType: 
+          m_EditorAssetChanged: 0
     - VoiceSex: 2
       Sounds:
       - SetLoadSetting: 0
@@ -43,6 +44,7 @@ MonoBehaviour:
           m_AssetGUID: 
           m_SubObjectName: 
           m_SubObjectType: 
+          m_EditorAssetChanged: 0
   - VoiceRace: {fileID: 11400000, guid: f0deb843b714e8f4590d893251718804, type: 2}
     VoiceDatas:
     - VoiceSex: 1
@@ -53,24 +55,28 @@ MonoBehaviour:
           m_AssetGUID: 
           m_SubObjectName: 
           m_SubObjectType: 
+          m_EditorAssetChanged: 0
       - SetLoadSetting: 0
         AssetAddress: Assets/Prefabs/Voices/Feliend/Laughs/FelinindLaugh 1.prefab
         AssetReference:
           m_AssetGUID: 
           m_SubObjectName: 
           m_SubObjectType: 
+          m_EditorAssetChanged: 0
       - SetLoadSetting: 0
         AssetAddress: Assets/Prefabs/Voices/Feliend/Laughs/FelinindLaugh 2.prefab
         AssetReference:
           m_AssetGUID: 
           m_SubObjectName: 
           m_SubObjectType: 
+          m_EditorAssetChanged: 0
       - SetLoadSetting: 0
         AssetAddress: Assets/Prefabs/Voices/Feliend/Laughs/FelinindLaugh 3.prefab
         AssetReference:
           m_AssetGUID: 
           m_SubObjectName: 
           m_SubObjectType: 
+          m_EditorAssetChanged: 0
     - VoiceSex: 2
       Sounds:
       - SetLoadSetting: 0
@@ -79,24 +85,28 @@ MonoBehaviour:
           m_AssetGUID: 
           m_SubObjectName: 
           m_SubObjectType: 
+          m_EditorAssetChanged: 0
       - SetLoadSetting: 0
         AssetAddress: Assets/Prefabs/Voices/Feliend/Laughs/FelinindLaugh 1.prefab
         AssetReference:
           m_AssetGUID: 
           m_SubObjectName: 
           m_SubObjectType: 
+          m_EditorAssetChanged: 0
       - SetLoadSetting: 0
         AssetAddress: Assets/Prefabs/Voices/Feliend/Laughs/FelinindLaugh 2.prefab
         AssetReference:
           m_AssetGUID: 
           m_SubObjectName: 
           m_SubObjectType: 
+          m_EditorAssetChanged: 0
       - SetLoadSetting: 0
         AssetAddress: Assets/Prefabs/Voices/Feliend/Laughs/FelinindLaugh 3.prefab
         AssetReference:
           m_AssetGUID: 
           m_SubObjectName: 
           m_SubObjectType: 
+          m_EditorAssetChanged: 0
   - VoiceRace: {fileID: 11400000, guid: f8cc40dce57da8d4aa283decb92b4507, type: 2}
     VoiceDatas:
     - VoiceSex: 1
@@ -107,12 +117,14 @@ MonoBehaviour:
           m_AssetGUID: 
           m_SubObjectName: 
           m_SubObjectType: 
+          m_EditorAssetChanged: 0
       - SetLoadSetting: 0
         AssetAddress: Assets/Prefabs/Voices/Human/Laughs/MaleLaugh2.prefab
         AssetReference:
           m_AssetGUID: 
           m_SubObjectName: 
           m_SubObjectType: 
+          m_EditorAssetChanged: 0
     - VoiceSex: 2
       Sounds:
       - SetLoadSetting: 0
@@ -121,4 +133,5 @@ MonoBehaviour:
           m_AssetGUID: 
           m_SubObjectName: 
           m_SubObjectType: 
+          m_EditorAssetChanged: 0
   pitchRange: {x: 0.8, y: 1}

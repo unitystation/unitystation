@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: FancyTablePurple
   m_EditorClassIdentifier: 
   displayName: fancy table
+  description: 
   LayerType: 9
   TileType: 4
   RequiredTiles: []
@@ -31,6 +32,7 @@ MonoBehaviour:
   doesReflectBullet: 0
   indestructible: 0
   ExplosionImpassable: 0
+  BlocksTileInteractionsUnder: 1
   passableException:
     m_keys: 0200000003000000
     m_values: 0101
@@ -52,6 +54,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 433c4f9163700f44e9f51a94fa7d4acf, type: 2}
   - {fileID: 11400000, guid: fc968a68963834c05a67838fe15fedec, type: 2}
   - {fileID: 11400000, guid: d27fd166098cf084abd6ebb4f8b2dd25, type: 2}
+  tileStepInteractions: []
   spawnOnDeconstruct: {fileID: 5761054042025821513, guid: 62ea242d9811a1743833815abef2a40a,
     type: 3}
   spawnAmountOnDeconstruct: 2
@@ -66,6 +69,7 @@ MonoBehaviour:
       m_AssetGUID: 
       m_SubObjectName: 
       m_SubObjectType: 
+      m_EditorAssetChanged: 0
   SoundOnDestroy: []
   connectCategory: 2
   connectType: 1

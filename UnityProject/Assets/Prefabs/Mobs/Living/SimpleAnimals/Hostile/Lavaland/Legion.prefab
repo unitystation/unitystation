@@ -12,6 +12,21 @@ PrefabInstance:
       propertyPath: mobName
       value: Legion
       objectReference: {fileID: 0}
+    - target: {fileID: 941816724250882487, guid: cf769d410d94f0e47bab5eee03a3b07d,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 941816724250882487, guid: cf769d410d94f0e47bab5eee03a3b07d,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 941816724250882487, guid: cf769d410d94f0e47bab5eee03a3b07d,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
     - target: {fileID: 3560083802713417254, guid: cf769d410d94f0e47bab5eee03a3b07d,
         type: 3}
       propertyPath: target
@@ -161,9 +176,9 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: cf769d410d94f0e47bab5eee03a3b07d, type: 3}
---- !u!114 &7948330173153512605 stripped
+--- !u!114 &7722290455542768351 stripped
 MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 6254140286428870878, guid: cf769d410d94f0e47bab5eee03a3b07d,
+  m_CorrespondingSourceObject: {fileID: 6029784556651730588, guid: cf769d410d94f0e47bab5eee03a3b07d,
     type: 3}
   m_PrefabInstance: {fileID: 4072678318663070787}
   m_PrefabAsset: {fileID: 0}
@@ -173,9 +188,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea79a12bc31d4df394067a2be447854d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &7722290455542768351 stripped
+--- !u!114 &7948330173153512605 stripped
 MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 6029784556651730588, guid: cf769d410d94f0e47bab5eee03a3b07d,
+  m_CorrespondingSourceObject: {fileID: 6254140286428870878, guid: cf769d410d94f0e47bab5eee03a3b07d,
     type: 3}
   m_PrefabInstance: {fileID: 4072678318663070787}
   m_PrefabAsset: {fileID: 0}

@@ -132,6 +132,27 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 4611384421298149839}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1274154695810470592
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3889671606360607823}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 48487dad7f2bc0541964880f6187c474, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  isSecuredStateExaminable: 1
+  isExposedFloorPlatingRequired: 0
+  secondsToSecure: 0
+  secondsToUnsecure: 0
+  lockSpriteDirection: 0
+  blockAnchorChange: 0
+  blockMessage: 
 --- !u!114 &6004809496483065080
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -177,27 +198,6 @@ MonoBehaviour:
   - idleSprite: {fileID: 11400000, guid: bf7612bb6306db0498d4180064eb762d, type: 2}
     activeSprite: {fileID: 11400000, guid: aa9f51003be09f94898f2c42788a2c6a, type: 2}
   EffectTimeout: 10
---- !u!114 &1274154695810470592
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3889671606360607823}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 48487dad7f2bc0541964880f6187c474, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  isSecuredStateExaminable: 1
-  isExposedFloorPlatingRequired: 0
-  secondsToSecure: 0
-  secondsToUnsecure: 0
-  lockSpriteDirection: 0
-  blockAnchorChange: 0
-  blockMessage: 
 --- !u!114 &8622725775991219861 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 5212070883374448474, guid: b06b702714bab49b9ad949eab1ca4534,

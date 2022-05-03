@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: DisposalPipeBent-SW
   m_EditorClassIdentifier: 
   displayName: disposal pipe
+  description: 
   LayerType: 8
   TileType: 10
   RequiredTiles: []
@@ -31,6 +32,7 @@ MonoBehaviour:
   doesReflectBullet: 0
   indestructible: 0
   ExplosionImpassable: 0
+  BlocksTileInteractionsUnder: 1
   passableException:
     m_keys: 
     m_values: 
@@ -50,6 +52,7 @@ MonoBehaviour:
     DismembermentProtectionChance: 0
   tileInteractions:
   - {fileID: 11400000, guid: 60beb21b338960e459175e414f6016ef, type: 2}
+  tileStepInteractions: []
   spawnOnDeconstruct: {fileID: 4963410394627383141, guid: bffafb3a1c5f0364e8a7c8ffbbc55000,
     type: 3}
   spawnAmountOnDeconstruct: 1
@@ -64,6 +67,7 @@ MonoBehaviour:
       m_AssetGUID: 
       m_SubObjectName: 
       m_SubObjectType: 
+      m_EditorAssetChanged: 0
   SoundOnDestroy: []
   PipeType: 0
   DisposalPipeObjectOrientation: 1

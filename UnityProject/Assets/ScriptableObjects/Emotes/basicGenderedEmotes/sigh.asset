@@ -15,12 +15,14 @@ MonoBehaviour:
   emoteName: sigh
   requiresHands: 0
   allowEmoteWhileInCrit: 1
+  isAudibleEmote: 0
   allowEmoteWhileCrawling: 1
   viewText: sighs.
   youText: You let out a sigh.
   failText: You cannot sigh.
+  mouthBlockedText: You are unable to make a sound!
   critViewText: sighs at their fate.
+  soundsAreTyped: 0
   defaultSounds: []
-  maleSounds: []
-  femaleSounds: []
+  TypedSounds: []
   pitchRange: {x: 0.7, y: 1}

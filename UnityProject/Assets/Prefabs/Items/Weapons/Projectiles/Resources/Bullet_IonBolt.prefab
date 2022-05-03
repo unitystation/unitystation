@@ -1,21 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &8265206592782456799
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6260622887161348618}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b67ae181d191ee74484da644b7d4d950, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  useExplosionPrefab: 1
-  explosionPrefab: {fileID: 1904054853546756045, guid: b92335a79d662fa4aaaf3f9ce49faa5d,
-    type: 3}
-  explosionStrength: 80
 --- !u!1001 &6262176374680771742
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -130,3 +114,19 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 6262176374680771742}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &8265206592782456799
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6260622887161348618}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b67ae181d191ee74484da644b7d4d950, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  useExplosionPrefab: 1
+  explosionPrefab: {fileID: 1904054853546756045, guid: b92335a79d662fa4aaaf3f9ce49faa5d,
+    type: 3}
+  explosionStrength: 80

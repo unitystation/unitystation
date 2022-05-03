@@ -1,44 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-7854131440459965118
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2897339443933191501}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1bc3324b84a14cee957e50cc7c7d2212, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  forceFertilized: 0
-  fertilizedChance: 0
-  hatchingTime: {x: 60, y: 120}
-  chick: {fileID: 8457756863439930462, guid: 811930e8c9257a443b53ed7cf7881f18, type: 3}
---- !u!114 &-4051721431735094544
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2897339443933191501}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e6e2838b2774be543831c510d9f5e4e4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  brokenItem: {fileID: 3880655971207283372, guid: ff80a95bbc8011c47b00ce4fcba0f2a6,
-    type: 3}
-  chanceToBreak: 100
-  useCustomSound: 1
-  customSound:
-    SetLoadSetting: 0
-    AssetAddress: null
-    AssetReference:
-      m_AssetGUID: 
-      m_SubObjectName: 
-      m_SubObjectType: 
 --- !u!1001 &4237391950619250826
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -301,3 +262,43 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 4237391950619250826}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &-7854131440459965118
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2897339443933191501}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1bc3324b84a14cee957e50cc7c7d2212, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  forceFertilized: 0
+  fertilizedChance: 0
+  hatchingTime: {x: 60, y: 120}
+  chick: {fileID: 8457756863439930462, guid: 811930e8c9257a443b53ed7cf7881f18, type: 3}
+--- !u!114 &-4051721431735094544
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2897339443933191501}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e6e2838b2774be543831c510d9f5e4e4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  brokenItem: {fileID: 3880655971207283372, guid: ff80a95bbc8011c47b00ce4fcba0f2a6,
+    type: 3}
+  chanceToBreak: 100
+  useCustomSound: 1
+  customSound:
+    SetLoadSetting: 0
+    AssetAddress: null
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0

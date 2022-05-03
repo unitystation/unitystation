@@ -21,6 +21,7 @@ GameObject:
   - component: {fileID: 6882544262421382559}
   - component: {fileID: 3389356315660204640}
   - component: {fileID: 4596431440032544948}
+  - component: {fileID: 3747851571713637400}
   m_Layer: 11
   m_Name: research_0
   m_TagString: Untagged
@@ -38,6 +39,7 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 4345547865384232}
   m_Father: {fileID: 0}
@@ -159,6 +161,7 @@ MonoBehaviour:
       m_AssetGUID: 
       m_SubObjectName: 
       m_SubObjectType: 
+      m_EditorAssetChanged: 0
   damageDeflection: 0
   Armor:
     Melee: 0
@@ -184,7 +187,7 @@ MonoBehaviour:
   HeatResistance: 100
   ExplosionsDamage: 100
   doDamageMessage: 1
-  CannotBeAshed: 0
+  Meleeable: {fileID: 0}
 --- !u!114 &114527855772597142
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -214,8 +217,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62cc3ef7cd9082443aaf3c255851d15a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
 --- !u!114 &-7059121599107143143
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -232,6 +233,7 @@ MonoBehaviour:
   machineBoardPrefab: {fileID: 8026946951644424067, guid: 23d78abe2740d804ca053640b8d7d10e,
     type: 3}
   canNotBeDeconstructed: 0
+  isEMPResistant: 0
   mustBeUnanchored: 0
   secondsToScrewdrive: 2
 --- !u!114 &6882544262421382559
@@ -286,6 +288,21 @@ MonoBehaviour:
   UpdateGUIs:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &3747851571713637400
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1024134714361146}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 01e266b02032c5442b067c162ae425c1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  IsUsingSilo: 0
+  usedStorage: {fileID: 0}
+  materialListGUI: {fileID: 0}
 --- !u!1 &1880078836778836
 GameObject:
   m_ObjectHideFlags: 0
@@ -314,6 +331,7 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 4483784073314418}
   m_RootOrder: 0
@@ -386,6 +404,7 @@ MonoBehaviour:
   SubCatalogue: []
   PresentSpriteSet: {fileID: 11400000, guid: d70277bfa0ca32049b0f6f1f24452b40, type: 2}
   randomInitialSprite: 0
+  doReverseAnimation: 0
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
   palette: []

@@ -28,6 +28,7 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0.028, y: 0.264, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 6976381843524439032}
   m_RootOrder: 2
@@ -101,6 +102,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 872f1f1276ddf204faa4feb42ba46647, type: 2}
   PresentSpriteSet: {fileID: 11400000, guid: 7d2de9c440cedfa4a855277fac47f8d0, type: 2}
   randomInitialSprite: 0
+  doReverseAnimation: 0
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
   palette: []
@@ -133,6 +135,7 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 3, y: 3, z: 3}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 6976381843524439032}
   m_RootOrder: 1
@@ -212,139 +215,6 @@ MonoBehaviour:
   pulseSpeed: 0.5
   maxIntensity: 0.9
   minIntensity: 0.1
---- !u!114 &5623857294117545528
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6972878001720233250}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fb27585bb87157648850712c5a4bcfcc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  lightSprite: {fileID: 1120710169395197036}
-  lightPulser: {fileID: 1891069723332755222}
-  mainSprite: {fileID: 2491708056323762168}
-  overlaySpriteHandler: {fileID: 5215694570270784447}
-  singularity: {fileID: 8644250361354468660, guid: cdb9074b5f159064689eefa35db0205e,
-    type: 3}
-  energyBall: {fileID: 4980862255455180990, guid: 219babad3d250474eaacdbe1bb0af025,
-    type: 3}
-  gravitationalAnomaly: {fileID: 0}
-  fluxAnomaly: {fileID: 0}
-  pyroAnomaly: {fileID: 0}
-  detonationRads: 2000
-  emitterBulletPrefab: {fileID: 3294328072042417454, guid: cb2dd6c06a988d947b53d2dcf0ec9575,
-    type: 3}
-  superMatterShard: {fileID: 70068185008237990, guid: f2f44eb806b35ff40a64333b48771101,
-    type: 3}
-  superMatterScalpel: {fileID: 11400000, guid: 635f2dad6ee0ce749a89253fd4a13f8f, type: 2}
-  superMatterTongs: {fileID: 11400000, guid: 2c4443ad77d74b54a9a305c240a8a850, type: 2}
-  superMatterSliver: {fileID: 11400000, guid: 033fe3055c943534ca5d7b6585c693d8, type: 2}
-  nuclearParticlePrefab: {fileID: 3294328072042417454, guid: 51e37bcfda438bc45bae02a757a88dbb,
-    type: 3}
-  arcEffect: {fileID: 106988, guid: 3f23c24bde2f784479d91bce3b78b3b3, type: 3}
-  secondaryArcCount: 3
-  duration: 2
-  secondaryRange: 4
-  lightningSound:
-    SetLoadSetting: 0
-    AssetAddress: Assets/Prefabs/Effects/SuperMatter.prefab
-    AssetReference:
-      m_AssetGUID: 
-      m_SubObjectName: 
-      m_SubObjectType: 
-      m_EditorAssetChanged: 0
-  normalLoopSound:
-    SetLoadSetting: 0
-    AssetAddress: Assets/Prefabs/Machines/SuperMatter/SuperMatterNormalLoop.prefab
-    AssetReference:
-      m_AssetGUID: 
-      m_SubObjectName: 
-      m_SubObjectType: 
-      m_EditorAssetChanged: 0
-  delamLoopSound:
-    SetLoadSetting: 0
-    AssetAddress: Assets/Prefabs/Machines/SuperMatter/SuperMatterDelamLoop.prefab
-    AssetReference:
-      m_AssetGUID: 
-      m_SubObjectName: 
-      m_SubObjectType: 
-      m_EditorAssetChanged: 0
-  blobAlarm:
-    SetLoadSetting: 0
-    AssetAddress: Assets/Prefabs/Machines/BlobAlarm.prefab
-    AssetReference:
-      m_AssetGUID: 
-      m_SubObjectName: 
-      m_SubObjectType: 
-      m_EditorAssetChanged: 0
-  engineAlert1:
-    SetLoadSetting: 0
-    AssetAddress: Assets/Prefabs/Machines/SuperMatter/EngineAlertOne.prefab
-    AssetReference:
-      m_AssetGUID: 
-      m_SubObjectName: 
-      m_SubObjectType: 
-      m_EditorAssetChanged: 0
-  engineAlert2:
-    SetLoadSetting: 0
-    AssetAddress: Assets/Prefabs/Machines/SuperMatter/EngineAlertTwo.prefab
-    AssetReference:
-      m_AssetGUID: 
-      m_SubObjectName: 
-      m_SubObjectType: 
-      m_EditorAssetChanged: 0
-  terminalAlert:
-    SetLoadSetting: 0
-    AssetAddress: Assets/Prefabs/Machines/TerminalAlert.prefab
-    AssetReference:
-      m_AssetGUID: 
-      m_SubObjectName: 
-      m_SubObjectType: 
-      m_EditorAssetChanged: 0
-  canTakeIntegrityDamage: 1
-  isHugBox: 0
---- !u!114 &6965517500649778319
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6972878001720233250}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8de3e7e4629e452a9546be4e9b7a3182, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  category: 32
-  type: 0
-  priority: 0
---- !u!114 &7328592128274559140
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6972878001720233250}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 48487dad7f2bc0541964880f6187c474, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  isSecuredStateExaminable: 1
-  isExposedFloorPlatingRequired: 0
-  secondsToSecure: 10
-  secondsToUnsecure: 10
-  lockSpriteDirection: 0
-  blockAnchorChange: 0
-  blockMessage: 
 --- !u!1001 &7692339049185974434
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -643,24 +513,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b06b702714bab49b9ad949eab1ca4534, type: 3}
---- !u!1 &6972878001720233250 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 721717256067945856, guid: b06b702714bab49b9ad949eab1ca4534,
-    type: 3}
-  m_PrefabInstance: {fileID: 7692339049185974434}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &6976381843524439032 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 725567512822600538, guid: b06b702714bab49b9ad949eab1ca4534,
-    type: 3}
-  m_PrefabInstance: {fileID: 7692339049185974434}
-  m_PrefabAsset: {fileID: 0}
---- !u!210 &5622916386991815058 stripped
-SortingGroup:
-  m_CorrespondingSourceObject: {fileID: 2650422487074349360, guid: b06b702714bab49b9ad949eab1ca4534,
-    type: 3}
-  m_PrefabInstance: {fileID: 7692339049185974434}
-  m_PrefabAsset: {fileID: 0}
 --- !u!114 &2491708056323762168 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 5212070883374448474, guid: b06b702714bab49b9ad949eab1ca4534,
@@ -673,3 +525,155 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!210 &5622916386991815058 stripped
+SortingGroup:
+  m_CorrespondingSourceObject: {fileID: 2650422487074349360, guid: b06b702714bab49b9ad949eab1ca4534,
+    type: 3}
+  m_PrefabInstance: {fileID: 7692339049185974434}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &6972878001720233250 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 721717256067945856, guid: b06b702714bab49b9ad949eab1ca4534,
+    type: 3}
+  m_PrefabInstance: {fileID: 7692339049185974434}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &5623857294117545528
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6972878001720233250}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fb27585bb87157648850712c5a4bcfcc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  lightSprite: {fileID: 1120710169395197036}
+  lightPulser: {fileID: 1891069723332755222}
+  mainSprite: {fileID: 2491708056323762168}
+  overlaySpriteHandler: {fileID: 5215694570270784447}
+  singularity: {fileID: 8644250361354468660, guid: cdb9074b5f159064689eefa35db0205e,
+    type: 3}
+  energyBall: {fileID: 4980862255455180990, guid: 219babad3d250474eaacdbe1bb0af025,
+    type: 3}
+  gravitationalAnomaly: {fileID: 0}
+  fluxAnomaly: {fileID: 0}
+  pyroAnomaly: {fileID: 0}
+  detonationRads: 2000
+  emitterBulletPrefab: {fileID: 3294328072042417454, guid: cb2dd6c06a988d947b53d2dcf0ec9575,
+    type: 3}
+  superMatterShard: {fileID: 70068185008237990, guid: f2f44eb806b35ff40a64333b48771101,
+    type: 3}
+  superMatterScalpel: {fileID: 11400000, guid: 635f2dad6ee0ce749a89253fd4a13f8f, type: 2}
+  superMatterTongs: {fileID: 11400000, guid: 2c4443ad77d74b54a9a305c240a8a850, type: 2}
+  superMatterSliver: {fileID: 11400000, guid: 033fe3055c943534ca5d7b6585c693d8, type: 2}
+  nuclearParticlePrefab: {fileID: 3294328072042417454, guid: 51e37bcfda438bc45bae02a757a88dbb,
+    type: 3}
+  arcEffect: {fileID: 106988, guid: 3f23c24bde2f784479d91bce3b78b3b3, type: 3}
+  secondaryArcCount: 3
+  duration: 2
+  secondaryRange: 4
+  lightningSound:
+    SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/Effects/SuperMatter.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
+  normalLoopSound:
+    SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/Machines/SuperMatter/SuperMatterNormalLoop.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
+  delamLoopSound:
+    SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/Machines/SuperMatter/SuperMatterDelamLoop.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
+  blobAlarm:
+    SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/Machines/BlobAlarm.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
+  engineAlert1:
+    SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/Machines/SuperMatter/EngineAlertOne.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
+  engineAlert2:
+    SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/Machines/SuperMatter/EngineAlertTwo.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
+  terminalAlert:
+    SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/Machines/TerminalAlert.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
+  canTakeIntegrityDamage: 1
+  isHugBox: 0
+  explosionStrength: 55000
+--- !u!114 &6965517500649778319
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6972878001720233250}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8de3e7e4629e452a9546be4e9b7a3182, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  category: 32
+  type: 0
+  priority: 0
+--- !u!114 &7328592128274559140
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6972878001720233250}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 48487dad7f2bc0541964880f6187c474, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  isSecuredStateExaminable: 1
+  isExposedFloorPlatingRequired: 0
+  secondsToSecure: 10
+  secondsToUnsecure: 10
+  lockSpriteDirection: 0
+  blockAnchorChange: 0
+  blockMessage: 
+--- !u!4 &6976381843524439032 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 725567512822600538, guid: b06b702714bab49b9ad949eab1ca4534,
+    type: 3}
+  m_PrefabInstance: {fileID: 7692339049185974434}
+  m_PrefabAsset: {fileID: 0}

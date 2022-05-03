@@ -18,6 +18,7 @@ GameObject:
   - component: {fileID: 7947394244290333764}
   - component: {fileID: 7473882610070268955}
   - component: {fileID: 114656121473676726}
+  - component: {fileID: 3508287085359387148}
   m_Layer: 11
   m_Name: SolarPanelController
   m_TagString: Untagged
@@ -35,6 +36,7 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 4, y: -34, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 4920401221825478}
   m_Father: {fileID: 0}
@@ -262,6 +264,23 @@ MonoBehaviour:
   spriteMatrixRotationBehavior: 1
   ignoreExtraRotation: []
   RotateParent: {fileID: 0}
+--- !u!114 &3508287085359387148
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1575520830166772}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sceneId: 0
+  serverOnly: 0
+  visible: 0
+  m_AssetId: 88f0ad40498096a47ae87836baedb762
+  hasSpawned: 0
 --- !u!1 &1744594665423798
 GameObject:
   m_ObjectHideFlags: 0
@@ -289,6 +308,7 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 4734855229797344}
   m_RootOrder: 0

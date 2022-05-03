@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: WoodFloorParquetBroken4
   m_EditorClassIdentifier: 
   displayName: parquet wood floor
+  description: 
   LayerType: 3
   TileType: 3
   RequiredTiles:
@@ -32,6 +33,7 @@ MonoBehaviour:
   doesReflectBullet: 0
   indestructible: 0
   ExplosionImpassable: 0
+  BlocksTileInteractionsUnder: 1
   passableException:
     m_keys: 01000000
     m_values: 00
@@ -51,6 +53,7 @@ MonoBehaviour:
     DismembermentProtectionChance: 0
   tileInteractions:
   - {fileID: 11400000, guid: 7b6820d9f95c544a8bf274f9125b4941, type: 2}
+  tileStepInteractions: []
   spawnOnDeconstruct: {fileID: 72467465350694048, guid: 1a637edeb6755fe4fb434d0855a3fd66,
     type: 3}
   spawnAmountOnDeconstruct: 1
@@ -65,5 +68,6 @@ MonoBehaviour:
       m_AssetGUID: 
       m_SubObjectName: 
       m_SubObjectType: 
+      m_EditorAssetChanged: 0
   SoundOnDestroy: []
   sprite: {fileID: 21300000, guid: 7e25496bfd9c48d4aab5ad67670e2a5c, type: 3}

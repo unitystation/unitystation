@@ -133,9 +133,11 @@ namespace Util
 		[MenuItem("Tools/GenerateSpriteSO")]
 		public static void Generate()
 		{
-			return;
+
 			AssetDatabase.StartAssetEditing();
 			AssetDatabase.ForceReserializeAssets();
+			AssetDatabase.StopAssetEditing();
+			return;
 			//FindInGo
 			var doors = LoadAllPrefabsOfType<DoorController>("");
 

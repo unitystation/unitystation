@@ -28,6 +28,7 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 8598753728636343461}
   m_RootOrder: 1
@@ -100,49 +101,10 @@ MonoBehaviour:
   SubCatalogue: []
   PresentSpriteSet: {fileID: 11400000, guid: 72f0f92b8d8e6d247be61b5ac8c4fa10, type: 2}
   randomInitialSprite: 0
+  doReverseAnimation: 0
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
   palette: []
---- !u!114 &1766713119144583738
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8594955878468889041}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8e15827970984ba78808f03bc3f01586, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  allClothingData:
-  - {fileID: 11400000, guid: 48a85cb1bc55f854c868e47536157d9c, type: 2}
-  CurrentClothIndex: 0
-  randomInitialClothData: 0
-  hidesIdentity: 0
-  hidesSlots: 0
-  hideClothingFlags: 0
---- !u!114 &4221194372170591464
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8594955878468889041}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 80ea89a879a2d3c8ba477fca535a2332, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ammoBackfire: 0
-  sawnSize: 3
-  sawnMaxRecoilVariance: 0.1
-  SawnCameraRecoilConfig:
-    Distance: 0.5
-    RecoilDuration: 0.1
-    RecoveryDuration: 0.6
 --- !u!1001 &5300130788311338973
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -334,6 +296,47 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 5300130788311338973}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1766713119144583738
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8594955878468889041}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8e15827970984ba78808f03bc3f01586, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  allClothingData:
+  - {fileID: 11400000, guid: 48a85cb1bc55f854c868e47536157d9c, type: 2}
+  CurrentClothIndex: 0
+  randomInitialClothData: 0
+  hidesIdentity: 0
+  hidesSlots: 0
+  hideClothingFlags: 0
+  disallowConsume: 0
+--- !u!114 &4221194372170591464
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8594955878468889041}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 80ea89a879a2d3c8ba477fca535a2332, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ammoBackfire: 0
+  sawnSize: 3
+  sawnMaxRecoilVariance: 0.1
+  SawnCameraRecoilConfig:
+    Distance: 0.5
+    RecoilDuration: 0.1
+    RecoveryDuration: 0.6
 --- !u!4 &8598753728636343461 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4528703864325004152, guid: f0c995ee924eb904dae952cd56a8c1d6,

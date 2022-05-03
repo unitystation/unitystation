@@ -1,21 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &3044181827350616606
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8615308116400047564}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: adb32492e5772fa4d9e222f1a90d8359, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  spriteHandler: {fileID: 2506717331081805387}
-  spritesByCount: []
 --- !u!1001 &4980904903103666879
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -87,7 +71,7 @@ PrefabInstance:
     - target: {fileID: 3643415983708594035, guid: e46ba34aab52d654787ef10d896b0874,
         type: 3}
       propertyPath: m_Name
-      value: FancyStorageBase
+      value: _FancyStorageBase
       objectReference: {fileID: 0}
     - target: {fileID: 3676122640429376199, guid: e46ba34aab52d654787ef10d896b0874,
         type: 3}
@@ -127,12 +111,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e46ba34aab52d654787ef10d896b0874, type: 3}
---- !u!1 &8615308116400047564 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 3643415983708594035, guid: e46ba34aab52d654787ef10d896b0874,
-    type: 3}
-  m_PrefabInstance: {fileID: 4980904903103666879}
-  m_PrefabAsset: {fileID: 0}
 --- !u!114 &2506717331081805387 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 7482199438493803764, guid: e46ba34aab52d654787ef10d896b0874,
@@ -145,3 +123,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &8615308116400047564 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3643415983708594035, guid: e46ba34aab52d654787ef10d896b0874,
+    type: 3}
+  m_PrefabInstance: {fileID: 4980904903103666879}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &3044181827350616606
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8615308116400047564}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: adb32492e5772fa4d9e222f1a90d8359, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  spriteHandler: {fileID: 2506717331081805387}
+  spritesByCount: []
