@@ -15,7 +15,7 @@ namespace Learning
 		{
 			tipIcon.sprite = data.TipData.TipIcon;
 			tipText.text = data.TipData.Tip;
-			tipTitle.text = data.TipTile;
+			tipTitle.text = data.TipTitle;
 			gameObject.SetActive(true);
 		}
 	}
