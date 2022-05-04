@@ -241,15 +241,15 @@ PrefabInstance:
     m_RemovedComponents:
     - {fileID: 768889878625444157, guid: b69bfc56f39849d4ba9139d2d51bedb6, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: b69bfc56f39849d4ba9139d2d51bedb6, type: 3}
---- !u!1 &7510513459082912813 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1628816798482564540, guid: b69bfc56f39849d4ba9139d2d51bedb6,
-    type: 3}
-  m_PrefabInstance: {fileID: 9124306096315654545}
-  m_PrefabAsset: {fileID: 0}
 --- !u!210 &5113427267692286109 stripped
 SortingGroup:
   m_CorrespondingSourceObject: {fileID: 4059580613945667852, guid: b69bfc56f39849d4ba9139d2d51bedb6,
+    type: 3}
+  m_PrefabInstance: {fileID: 9124306096315654545}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &7510513459082912813 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1628816798482564540, guid: b69bfc56f39849d4ba9139d2d51bedb6,
     type: 3}
   m_PrefabInstance: {fileID: 9124306096315654545}
   m_PrefabAsset: {fileID: 0}
@@ -298,7 +298,9 @@ MonoBehaviour:
   ChangeSprites: 0
   isChangingSO: 0
   CurrentDirection: 3
+  IgnoreServerUpdatesIfLocalPlayer: 0
   IsAtmosphericDevice: 0
+  doNotResetOtherSpriteOptions: 0
 --- !u!114 &5514233769525790750
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -313,6 +315,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  runningInterfaces: []
   restricted: 0
   turrets: []
   isOn: 1

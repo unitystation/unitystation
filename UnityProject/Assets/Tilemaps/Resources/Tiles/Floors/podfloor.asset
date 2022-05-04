@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: podfloor
   m_EditorClassIdentifier: 
   displayName: 
+  description: 
   LayerType: 3
   TileType: 3
   RequiredTiles:
@@ -32,6 +33,7 @@ MonoBehaviour:
   doesReflectBullet: 0
   indestructible: 0
   ExplosionImpassable: 0
+  BlocksTileInteractionsUnder: 1
   passableException:
     m_keys: 01000000
     m_values: 00
@@ -51,6 +53,7 @@ MonoBehaviour:
     DismembermentProtectionChance: 0
   tileInteractions:
   - {fileID: 11400000, guid: 7b6820d9f95c544a8bf274f9125b4941, type: 2}
+  tileStepInteractions: []
   spawnOnDeconstruct: {fileID: 6877444318845913398, guid: 822fad4a227b1f5439faf0e35f2d180c,
     type: 3}
   spawnAmountOnDeconstruct: 1
@@ -65,5 +68,6 @@ MonoBehaviour:
       m_AssetGUID: 
       m_SubObjectName: 
       m_SubObjectType: 
+      m_EditorAssetChanged: 0
   SoundOnDestroy: []
   sprite: {fileID: 21300000, guid: 519d69c11005eac43ab99ac999d72805, type: 3}

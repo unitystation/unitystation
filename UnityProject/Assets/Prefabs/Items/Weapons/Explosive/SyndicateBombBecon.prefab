@@ -28,6 +28,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2441663713712526442}
   m_RootOrder: 0
@@ -140,6 +141,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1906645886393087282}
   m_Father: {fileID: 0}
@@ -202,6 +204,7 @@ MonoBehaviour:
       m_AssetGUID: 
       m_SubObjectName: 
       m_SubObjectType: 
+      m_EditorAssetChanged: 0
   soundDelayTime: 0
   soundMinimumPitchVariance: 1
   soundMaximumPitchVariance: 1
@@ -265,6 +268,7 @@ MonoBehaviour:
       m_AssetGUID: 
       m_SubObjectName: 
       m_SubObjectType: 
+      m_EditorAssetChanged: 0
   damageDeflection: 0
   Armor:
     Melee: 0
@@ -328,6 +332,7 @@ MonoBehaviour:
       m_AssetGUID: 
       m_SubObjectName: 
       m_SubObjectType: 
+      m_EditorAssetChanged: 0
   hitSoundSettings: 0
   inventoryMoveSound:
     SetLoadSetting: 0
@@ -336,6 +341,7 @@ MonoBehaviour:
       m_AssetGUID: 
       m_SubObjectName: 
       m_SubObjectType: 
+      m_EditorAssetChanged: 0
   inventoryRemoveSound:
     SetLoadSetting: 0
     AssetAddress: 
@@ -343,6 +349,7 @@ MonoBehaviour:
       m_AssetGUID: 
       m_SubObjectName: 
       m_SubObjectType: 
+      m_EditorAssetChanged: 0
   canConnectToTank: 0
   isEVACapable: 0
   attackVerbs: []

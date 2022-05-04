@@ -40,6 +40,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 3862673439606775660}
   - {fileID: 6724187335295023059}
@@ -63,6 +64,7 @@ MonoBehaviour:
   playerName: ' '
   visibleName: ' '
   PlayerSync: {fileID: 0}
+  SyncedWorldPos: {x: 0, y: 0, z: 0}
   RTT: 0
   RcsMode: 0
   RcsMatrixMove: {fileID: 0}
@@ -162,6 +164,9 @@ MonoBehaviour:
   ChangeSprites: 0
   isChangingSO: 0
   CurrentDirection: 3
+  IgnoreServerUpdatesIfLocalPlayer: 0
+  IsAtmosphericDevice: 0
+  doNotResetOtherSpriteOptions: 0
 --- !u!114 &1105258743114886135
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -218,8 +223,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62cc3ef7cd9082443aaf3c255851d15a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
 --- !u!114 &2991741834301703790
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -368,6 +371,7 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 6, y: 6, z: 6}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 4102254142472032470}
   m_RootOrder: 1
@@ -460,6 +464,7 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 4102254142472032470}
   m_RootOrder: 0
@@ -532,6 +537,7 @@ MonoBehaviour:
   SubCatalogue: []
   PresentSpriteSet: {fileID: 11400000, guid: c1b2c47bfe18ab548824bbdb5158f2bf, type: 2}
   randomInitialSprite: 0
+  doReverseAnimation: 0
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
   palette: []

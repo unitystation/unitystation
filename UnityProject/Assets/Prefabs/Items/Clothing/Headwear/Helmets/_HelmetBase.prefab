@@ -19,6 +19,17 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1778182844913246397, guid: a7a048f6c330048e9a2358fb6f71d385,
         type: 3}
+      propertyPath: initialTraits.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1778182844913246397, guid: a7a048f6c330048e9a2358fb6f71d385,
+        type: 3}
+      propertyPath: initialTraits.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: 33c38f426171f894e9743c69f64fafd3,
+        type: 2}
+    - target: {fileID: 1778182844913246397, guid: a7a048f6c330048e9a2358fb6f71d385,
+        type: 3}
       propertyPath: inventoryMoveSound.AssetAddress
       value: null
       objectReference: {fileID: 0}

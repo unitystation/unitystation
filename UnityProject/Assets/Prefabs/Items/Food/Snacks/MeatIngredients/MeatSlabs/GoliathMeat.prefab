@@ -30,6 +30,17 @@ PrefabInstance:
       value: A slab of goliath meat. It's not very edible now, but it cooks great
         in lava.
       objectReference: {fileID: 0}
+    - target: {fileID: 2326103295181735537, guid: 9914f83c172606747877a09872724398,
+        type: 3}
+      propertyPath: initialTraits.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2326103295181735537, guid: 9914f83c172606747877a09872724398,
+        type: 3}
+      propertyPath: initialTraits.Array.data[2]
+      value: 
+      objectReference: {fileID: 11400000, guid: f104f8824bcf2c348add3215f63fb093,
+        type: 2}
     - target: {fileID: 2619852224633018959, guid: 9914f83c172606747877a09872724398,
         type: 3}
       propertyPath: m_Sprite

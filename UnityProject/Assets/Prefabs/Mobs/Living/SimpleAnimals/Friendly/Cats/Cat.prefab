@@ -146,12 +146,6 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 8459564455701055161}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &8081786582678036113 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 382294827147974696, guid: f74cbb9054020dd4f8c9dcdedd7398eb,
-    type: 3}
-  m_PrefabInstance: {fileID: 8459564455701055161}
-  m_PrefabAsset: {fileID: 0}
 --- !u!114 &2103681918909080673
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -214,6 +208,7 @@ MonoBehaviour:
   doLerpOnAction: 0
   spriteHolder: {fileID: 8081786582678036113}
   actionCooldown: 1
+  isOnCooldown: 0
   attackSound:
     SetLoadSetting: 0
     AssetAddress: Assets/Prefabs/NPC/bite.prefab
@@ -224,3 +219,9 @@ MonoBehaviour:
       m_EditorAssetChanged: 0
   hitDamage: 5
   attackVerb: swiped
+--- !u!1 &8081786582678036113 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 382294827147974696, guid: f74cbb9054020dd4f8c9dcdedd7398eb,
+    type: 3}
+  m_PrefabInstance: {fileID: 8459564455701055161}
+  m_PrefabAsset: {fileID: 0}

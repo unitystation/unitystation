@@ -15,10 +15,10 @@ MonoBehaviour:
   MolarHeatCapacity: 20
   MolarMass: 31.9988
   Name: Oxygen
-  HasOverlay: 0
   MinMolesToSee: 0.4
-  TileName: NONE
-  OverlayType: 0
+  OverlayTile: {fileID: 0}
+  CustomColour: 0
+  Colour: {r: 0, g: 0, b: 0, a: 0}
   FusionPower: 0
   AssociatedReagent: {fileID: 11400000, guid: 72991f100b5704f5fb63c9629fcdeb6c, type: 2}
   ExportPrice: 0

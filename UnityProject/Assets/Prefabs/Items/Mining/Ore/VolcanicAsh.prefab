@@ -99,6 +99,17 @@ PrefabInstance:
       propertyPath: initialName
       value: volcanic ash
       objectReference: {fileID: 0}
+    - target: {fileID: 889110503579901290, guid: 6e4200f349a2e834c93abd60c2264641,
+        type: 3}
+      propertyPath: initialTraits.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 889110503579901290, guid: 6e4200f349a2e834c93abd60c2264641,
+        type: 3}
+      propertyPath: initialTraits.Array.data[2]
+      value: 
+      objectReference: {fileID: 11400000, guid: 56e5551b72545a3449b6c7b4f1ed6a8a,
+        type: 2}
     - target: {fileID: 5909252791432691301, guid: 6e4200f349a2e834c93abd60c2264641,
         type: 3}
       propertyPath: foreverID

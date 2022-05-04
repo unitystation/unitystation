@@ -28,6 +28,7 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 6680860236849151549}
   m_RootOrder: 3
@@ -101,6 +102,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: e7475929fe7685b4eb3f9f18ba668902, type: 2}
   PresentSpriteSet: {fileID: 0}
   randomInitialSprite: 0
+  doReverseAnimation: 0
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
   palette: []
@@ -132,6 +134,7 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 6680860236849151549}
   m_RootOrder: 2
@@ -210,34 +213,10 @@ MonoBehaviour:
   - {fileID: 11400000, guid: cbea34572a64be44a9876810290319f2, type: 2}
   PresentSpriteSet: {fileID: 0}
   randomInitialSprite: 0
+  doReverseAnimation: 0
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
   palette: []
---- !u!114 &5099608509324219461
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6675068259735517415}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ba496b5e226fce949a70e4a24c94d57d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  topSpriteHandler: {fileID: 5001973244404650828}
-  powerSpriteHandler: {fileID: 5964778382560065242}
-  healthSpriteHandler: {fileID: 2446990718313052257}
-  vertical: {fileID: 11400000, guid: 51840014302a39247966acfe3275576f, type: 2}
-  horizontal: {fileID: 11400000, guid: 36ea0bfaed379084fb2513e68ccffb50, type: 2}
-  electricalArc: {fileID: 106988, guid: b2d9eecead2c8b74eb6b7a3782ebe743, type: 3}
-  startSetUp: 0
-  alwaysOn: 0
-  detectionRange: 8
-  maxEnergy: 100
-  energyLossRate: 1
-  energy: 0
-  arcOffSet: {x: 0, y: 0.25, z: 0}
 --- !u!1 &7895098804929828835
 GameObject:
   m_ObjectHideFlags: 0
@@ -266,6 +245,7 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 6680860236849151549}
   m_RootOrder: 1
@@ -341,6 +321,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 4ddef7361a3102e48bec2af0d97f6f66, type: 2}
   PresentSpriteSet: {fileID: 0}
   randomInitialSprite: 0
+  doReverseAnimation: 0
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
   palette: []
@@ -516,6 +497,31 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 6243841975866764647}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &5099608509324219461
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6675068259735517415}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ba496b5e226fce949a70e4a24c94d57d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  topSpriteHandler: {fileID: 5001973244404650828}
+  powerSpriteHandler: {fileID: 5964778382560065242}
+  healthSpriteHandler: {fileID: 2446990718313052257}
+  vertical: {fileID: 11400000, guid: 51840014302a39247966acfe3275576f, type: 2}
+  horizontal: {fileID: 11400000, guid: 36ea0bfaed379084fb2513e68ccffb50, type: 2}
+  electricalArc: {fileID: 106988, guid: b2d9eecead2c8b74eb6b7a3782ebe743, type: 3}
+  startSetUp: 0
+  alwaysOn: 0
+  detectionRange: 8
+  maxEnergy: 100
+  energyLossRate: 1
+  energy: 0
+  arcOffSet: {x: 0, y: 0.25, z: 0}
 --- !u!4 &6680860236849151549 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 725567512822600538, guid: b06b702714bab49b9ad949eab1ca4534,

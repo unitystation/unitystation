@@ -28,6 +28,7 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1709540627035095788}
   m_RootOrder: 1
@@ -100,72 +101,10 @@ MonoBehaviour:
   SubCatalogue: []
   PresentSpriteSet: {fileID: 11400000, guid: 36be84c14c5687848b616989d859c55c, type: 2}
   randomInitialSprite: 0
+  doReverseAnimation: 0
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
   palette: []
---- !u!114 &6115472537149730407
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1705799857596220470}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9aa2fe07febb8124f90c7779c20a5e13, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  cameraName: 
-  securityCameraChannel: Station
-  aiSprite: {fileID: 1084228954753203219}
-  cameraLight: {fileID: 8737062874307794873}
-  spriteHandler: {fileID: 0}
-  motionSensingCamera: 0
-  motionSensingRange: 5
---- !u!114 &7527627783644952830
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1705799857596220470}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ca1b889ca3e42c04ead4397346637578, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  isInteliCard: 0
-  inteliCardTrait: {fileID: 11400000, guid: 4166a0f908942d840b767de9c1f43597, type: 2}
-  aiCoreFramePrefab: {fileID: 9212783838044624069, guid: 2f2e6aac51ae2974b9d8b337462d6611,
-    type: 3}
-  vesselSpriteHandler: {fileID: 6196046200730087148}
-  moduleTrait: {fileID: 11400000, guid: 6a8a62b47010e4c498c7ef77ec09535e, type: 2}
---- !u!114 &8414053308888204017
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1705799857596220470}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 053e2d398d507cc449f05be2499aa497, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  minimumWorkingVoltage: 190
-  expectedRunningVoltage: 240
-  maximumWorkingVoltage: 300
-  deviceType: 0
-  isSelfPowered: 0
-  wattusage: 0.01
-  InitialResistance: 100000000
-  RelatedAPC: {fileID: 0}
-  AdvancedControlToScript: 0
-  StateUpdateOnClient: 1
 --- !u!1 &2252006090964192169
 GameObject:
   m_ObjectHideFlags: 0
@@ -194,6 +133,7 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0.738, y: 0.313, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 3550277353866562950}
   m_RootOrder: 0
@@ -271,6 +211,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 3cc58aaaccdf34c499544ffeac4e7a56, type: 2}
   PresentSpriteSet: {fileID: 11400000, guid: 0ae7d83d6d2e07041a08b251e147d876, type: 2}
   randomInitialSprite: 0
+  doReverseAnimation: 0
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
   palette: []
@@ -300,6 +241,7 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: -0.27950388, y: 0.3687627, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 3657202396266724688}
   m_Father: {fileID: 5850491218166586209}
@@ -332,6 +274,7 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 3550277353866562950}
   m_Father: {fileID: 1709540627035095788}
@@ -417,6 +360,7 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 6, y: 6, z: 6}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1709540627035095788}
   m_RootOrder: 3
@@ -651,6 +595,69 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 2137021707047424438}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &6115472537149730407
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1705799857596220470}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9aa2fe07febb8124f90c7779c20a5e13, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  cameraName: 
+  securityCameraChannel: Station
+  aiSprite: {fileID: 1084228954753203219}
+  cameraLight: {fileID: 8737062874307794873}
+  spriteHandler: {fileID: 0}
+  motionSensingCamera: 0
+  motionSensingRange: 5
+--- !u!114 &7527627783644952830
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1705799857596220470}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ca1b889ca3e42c04ead4397346637578, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isInteliCard: 0
+  inteliCardTrait: {fileID: 11400000, guid: 4166a0f908942d840b767de9c1f43597, type: 2}
+  aiCoreFramePrefab: {fileID: 9212783838044624069, guid: 2f2e6aac51ae2974b9d8b337462d6611,
+    type: 3}
+  vesselSpriteHandler: {fileID: 6196046200730087148}
+  moduleTrait: {fileID: 11400000, guid: 6a8a62b47010e4c498c7ef77ec09535e, type: 2}
+--- !u!114 &8414053308888204017
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1705799857596220470}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 053e2d398d507cc449f05be2499aa497, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  minimumWorkingVoltage: 190
+  expectedRunningVoltage: 240
+  maximumWorkingVoltage: 300
+  deviceType: 0
+  isSelfPowered: 0
+  wattusage: 0.01
+  InitialResistance: 100000000
+  RelatedAPC: {fileID: 0}
+  AdvancedControlToScript: 0
+  StateUpdateOnClient: 1
 --- !u!4 &1709540627035095788 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 725567512822600538, guid: b06b702714bab49b9ad949eab1ca4534,

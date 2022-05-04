@@ -15,10 +15,10 @@ MonoBehaviour:
   MolarHeatCapacity: 80
   MolarMass: 44.01
   Name: Pluoxium
-  HasOverlay: 0
   MinMolesToSee: 0.4
-  TileName: NONE
-  OverlayType: 0
+  OverlayTile: {fileID: 0}
+  CustomColour: 0
+  Colour: {r: 0, g: 0, b: 0, a: 0}
   FusionPower: -10
   AssociatedReagent: {fileID: 11400000, guid: b23db5078d0c9e647846c79befc52bfa, type: 2}
   ExportPrice: 5

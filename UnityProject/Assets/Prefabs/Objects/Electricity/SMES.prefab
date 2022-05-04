@@ -41,6 +41,7 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 4, y: -34, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 4920401221825478}
   - {fileID: 6736603676201583526}
@@ -193,6 +194,7 @@ MonoBehaviour:
   HeatResistance: 100
   ExplosionsDamage: 100
   doDamageMessage: 1
+  Meleeable: {fileID: 0}
 --- !u!114 &8848522590704173912
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -227,8 +229,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62cc3ef7cd9082443aaf3c255851d15a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
 --- !u!114 &2733088097871749730
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -422,6 +422,7 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 4734855229797344}
   m_RootOrder: 3
@@ -499,6 +500,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 4df32e0c22d2c0a4cb2cece53e2791f5, type: 2}
   PresentSpriteSet: {fileID: 11400000, guid: bd329062e4ba725438d3b6775fa20f6f, type: 2}
   randomInitialSprite: 0
+  doReverseAnimation: 0
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
   palette: []
@@ -530,6 +532,7 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 4734855229797344}
   m_RootOrder: 0
@@ -604,6 +607,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 0fed0ab9d0449274aa1f22b4433a42a9, type: 2}
   PresentSpriteSet: {fileID: 11400000, guid: e4214d0cb98499d4c919e029794bcf5f, type: 2}
   randomInitialSprite: 0
+  doReverseAnimation: 0
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
   palette: []
@@ -635,6 +639,7 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 4734855229797344}
   m_RootOrder: 2
@@ -709,6 +714,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: f67f3880b2b405f418bce2e5aa83cad6, type: 2}
   PresentSpriteSet: {fileID: 11400000, guid: 04bdc709610a043459bc04e8a56cdd75, type: 2}
   randomInitialSprite: 0
+  doReverseAnimation: 0
   pushTextureOnStartUp: 0
   initialVariantIndex: 0
   palette: []
@@ -740,6 +746,7 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 4734855229797344}
   m_RootOrder: 1
@@ -814,6 +821,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 76e1ddfdf021c5442a3571c4d9d1cfc7, type: 2}
   PresentSpriteSet: {fileID: 11400000, guid: 099b545340b1ba449a6fa244256f1f97, type: 2}
   randomInitialSprite: 0
+  doReverseAnimation: 0
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
   palette: []

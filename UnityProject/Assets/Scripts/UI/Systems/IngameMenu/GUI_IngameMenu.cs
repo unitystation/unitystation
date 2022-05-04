@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -177,16 +177,17 @@ namespace UI
 
 		#region Logout Confirmation Window Functions
 
-		public void LogoutButton()
+		public void ExitToMainMenuBtn()
 		{
 			ModalPanelManager.Confirm("Are you sure?", LogoutConfirmYesButton, "Logout to Main Menu");
 		}
 
 		public void LogoutConfirmYesButton()
 		{
-			EventManager.Broadcast(Event.RoundEnded);
 			_ = SoundManager.Play(CommonSounds.Instance.Click01);
+			EventManager.Broadcast(Event.RoundEnded);
 			HideAllMenus();
+			GameManager.Instance.DisconnectExpected = true;
 			StopNetworking();
 			SceneManager.LoadScene("Lobby");
 		}

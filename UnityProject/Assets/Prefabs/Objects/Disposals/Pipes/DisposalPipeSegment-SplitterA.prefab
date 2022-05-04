@@ -61,6 +61,21 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1710127415778951519, guid: b9bb4cf2e55ac1249ae2afe0243cf436,
         type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1710127415778951519, guid: b9bb4cf2e55ac1249ae2afe0243cf436,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1710127415778951519, guid: b9bb4cf2e55ac1249ae2afe0243cf436,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1710127415778951519, guid: b9bb4cf2e55ac1249ae2afe0243cf436,
+        type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
       value: 0
       objectReference: {fileID: 0}
@@ -78,6 +93,21 @@ PrefabInstance:
         type: 3}
       propertyPath: foreverID
       value: 939e6587a9109644b9dc3507b3b34e5c
+      objectReference: {fileID: 0}
+    - target: {fileID: 3227768396750277686, guid: b9bb4cf2e55ac1249ae2afe0243cf436,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3227768396750277686, guid: b9bb4cf2e55ac1249ae2afe0243cf436,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3227768396750277686, guid: b9bb4cf2e55ac1249ae2afe0243cf436,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 5066112798346183791, guid: b9bb4cf2e55ac1249ae2afe0243cf436,
         type: 3}
@@ -178,12 +208,6 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 843849146950285694}
   m_PrefabAsset: {fileID: 0}
---- !u!212 &2268664829468498668 stripped
-SpriteRenderer:
-  m_CorrespondingSourceObject: {fileID: 1499169744200704914, guid: b9bb4cf2e55ac1249ae2afe0243cf436,
-    type: 3}
-  m_PrefabInstance: {fileID: 843849146950285694}
-  m_PrefabAsset: {fileID: 0}
 --- !u!114 &-2125881624524770152
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -198,3 +222,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   flippedObject: {fileID: 2025448082421612283, guid: f4e4f3265195dcf4faa52078e4d7fd34,
     type: 3}
+--- !u!212 &2268664829468498668 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 1499169744200704914, guid: b9bb4cf2e55ac1249ae2afe0243cf436,
+    type: 3}
+  m_PrefabInstance: {fileID: 843849146950285694}
+  m_PrefabAsset: {fileID: 0}

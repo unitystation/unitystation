@@ -1,48 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &2113994910920152532
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2086702233188027947}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6d7277dcc993463cb6c7f79b663f36fc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  NetTabType: 0
-  aiInteractable: 1
---- !u!114 &3537368556672211879
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2086702233188027947}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8ed381a72f1e344bb8020dc181414b43, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  InitialVendorContent: []
-  HullColor: {r: 1, g: 1, b: 1, a: 1}
-  EjectObjects: 0
-  EjectDirection: 0
-  VendingSound:
-    SetLoadSetting: 0
-    AssetAddress: Assets/Prefabs/Machines/MachineVend.prefab
-    AssetReference:
-      m_AssetGUID: 
-      m_SubObjectName: 
-      m_SubObjectType: 
-  restockMessage: Items restocked.
-  noAccessMessage: Access denied!
-  isEmagged: 0
-  VendorContent: []
-  ActualCurrentPowerState: 2
-  DoesntRequirePower: 0
 --- !u!1001 &752044648290175895
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -187,3 +144,47 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 752044648290175895}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &2113994910920152532
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2086702233188027947}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d7277dcc993463cb6c7f79b663f36fc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  NetTabType: 0
+  aiInteractable: 1
+--- !u!114 &3537368556672211879
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2086702233188027947}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8ed381a72f1e344bb8020dc181414b43, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  InitialVendorContent: []
+  HullColor: {r: 1, g: 1, b: 1, a: 1}
+  EjectObjects: 0
+  EjectDirection: 0
+  VendingSound:
+    SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/Machines/MachineVend.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
+  restockMessage: Items restocked.
+  noAccessMessage: Access denied!
+  isEmagged: 0
+  VendorContent: []
+  ActualCurrentPowerState: 2
+  DoesntRequirePower: 0

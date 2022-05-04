@@ -12,8 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 89bcd835b81fe71408841f69af610e37, type: 3}
   m_Name: AtmosphericTest
   m_EditorClassIdentifier: 
-  Debug: 0
+  DebugThis: 0
+  DebugBreak: 0
   DebugSecondsPerAction: 0
+  RunThisone: 0
   TestActions:
   - DataAssessMetaDataNode:
       WorldPosition: {x: 0, y: 0, z: 0}
@@ -65,6 +67,13 @@ MonoBehaviour:
     DataKeyInput:
       UnPress: 0
       Key: 0
+    InManipulatePlayersInventory:
+      MatrixName: 
+      NotLocalPlayer: 0
+      WorldPositionOfPlayer: {x: 0, y: 0, z: 0}
+      Interaction: 0
+      TargetSlots: 2048
+      TargetSlotsTo: 0
     DataShowPrefab:
       Prefab: {fileID: 0}
       InverseMustNotPresent: 0
@@ -111,6 +120,7 @@ MonoBehaviour:
     DataActionWaite:
       WaitForFrame: 0
       WaitForSeconds: 0
+      SetPreset: 0
     SpecifiedAction: 12
   - DataAssessMetaDataNode:
       WorldPosition: {x: 0, y: 0, z: 0}
@@ -162,6 +172,13 @@ MonoBehaviour:
     DataKeyInput:
       UnPress: 0
       Key: 0
+    InManipulatePlayersInventory:
+      MatrixName: 
+      NotLocalPlayer: 0
+      WorldPositionOfPlayer: {x: 0, y: 0, z: 0}
+      Interaction: 0
+      TargetSlots: 2048
+      TargetSlotsTo: 0
     DataShowPrefab:
       Prefab: {fileID: 0}
       InverseMustNotPresent: 0
@@ -208,6 +225,7 @@ MonoBehaviour:
     DataActionWaite:
       WaitForFrame: 0
       WaitForSeconds: 0
+      SetPreset: 0
     SpecifiedAction: 6
   - DataAssessMetaDataNode:
       WorldPosition: {x: 0, y: 0, z: 0}
@@ -259,6 +277,13 @@ MonoBehaviour:
     DataKeyInput:
       UnPress: 0
       Key: 0
+    InManipulatePlayersInventory:
+      MatrixName: 
+      NotLocalPlayer: 0
+      WorldPositionOfPlayer: {x: 0, y: 0, z: 0}
+      Interaction: 0
+      TargetSlots: 2048
+      TargetSlotsTo: 0
     DataShowPrefab:
       Prefab: {fileID: 0}
       InverseMustNotPresent: 0
@@ -305,6 +330,7 @@ MonoBehaviour:
     DataActionWaite:
       WaitForFrame: 0
       WaitForSeconds: 2
+      SetPreset: 0
     SpecifiedAction: 5
   - DataAssessMetaDataNode:
       WorldPosition: {x: 0, y: 0, z: 0}
@@ -356,6 +382,13 @@ MonoBehaviour:
     DataKeyInput:
       UnPress: 0
       Key: 0
+    InManipulatePlayersInventory:
+      MatrixName: 
+      NotLocalPlayer: 0
+      WorldPositionOfPlayer: {x: 0, y: 0, z: 0}
+      Interaction: 0
+      TargetSlots: 2048
+      TargetSlotsTo: 0
     DataShowPrefab:
       Prefab: {fileID: 0}
       InverseMustNotPresent: 0
@@ -402,6 +435,7 @@ MonoBehaviour:
     DataActionWaite:
       WaitForFrame: 0
       WaitForSeconds: 2
+      SetPreset: 0
     SpecifiedAction: 12
   - DataAssessMetaDataNode:
       WorldPosition: {x: 0, y: 0, z: 0}
@@ -453,6 +487,13 @@ MonoBehaviour:
     DataKeyInput:
       UnPress: 0
       Key: 0
+    InManipulatePlayersInventory:
+      MatrixName: 
+      NotLocalPlayer: 0
+      WorldPositionOfPlayer: {x: 0, y: 0, z: 0}
+      Interaction: 0
+      TargetSlots: 2048
+      TargetSlotsTo: 0
     DataShowPrefab:
       Prefab: {fileID: 0}
       InverseMustNotPresent: 0
@@ -499,6 +540,7 @@ MonoBehaviour:
     DataActionWaite:
       WaitForFrame: 0
       WaitForSeconds: 2
+      SetPreset: 0
     SpecifiedAction: 6
   - DataAssessMetaDataNode:
       WorldPosition: {x: 0, y: 0, z: 0}
@@ -550,6 +592,13 @@ MonoBehaviour:
     DataKeyInput:
       UnPress: 0
       Key: 0
+    InManipulatePlayersInventory:
+      MatrixName: 
+      NotLocalPlayer: 0
+      WorldPositionOfPlayer: {x: 0, y: 0, z: 0}
+      Interaction: 0
+      TargetSlots: 2048
+      TargetSlotsTo: 0
     DataShowPrefab:
       Prefab: {fileID: 0}
       InverseMustNotPresent: 0
@@ -596,6 +645,7 @@ MonoBehaviour:
     DataActionWaite:
       WaitForFrame: 0
       WaitForSeconds: 2
+      SetPreset: 0
     SpecifiedAction: 6
   - DataAssessMetaDataNode:
       WorldPosition: {x: 0, y: 0, z: 0}
@@ -647,6 +697,13 @@ MonoBehaviour:
     DataKeyInput:
       UnPress: 0
       Key: 0
+    InManipulatePlayersInventory:
+      MatrixName: 
+      NotLocalPlayer: 0
+      WorldPositionOfPlayer: {x: 0, y: 0, z: 0}
+      Interaction: 0
+      TargetSlots: 2048
+      TargetSlotsTo: 0
     DataShowPrefab:
       Prefab: {fileID: 0}
       InverseMustNotPresent: 0
@@ -694,6 +751,7 @@ MonoBehaviour:
     DataActionWaite:
       WaitForFrame: 0
       WaitForSeconds: 2
+      SetPreset: 0
     SpecifiedAction: 1
   - DataAssessMetaDataNode:
       WorldPosition: {x: 0, y: 0, z: 0}
@@ -745,6 +803,13 @@ MonoBehaviour:
     DataKeyInput:
       UnPress: 0
       Key: 0
+    InManipulatePlayersInventory:
+      MatrixName: 
+      NotLocalPlayer: 0
+      WorldPositionOfPlayer: {x: 0, y: 0, z: 0}
+      Interaction: 0
+      TargetSlots: 2048
+      TargetSlotsTo: 0
     DataShowPrefab:
       Prefab: {fileID: 0}
       InverseMustNotPresent: 0
@@ -793,6 +858,7 @@ MonoBehaviour:
     DataActionWaite:
       WaitForFrame: 0
       WaitForSeconds: 2
+      SetPreset: 0
     SpecifiedAction: 13
   - DataAssessMetaDataNode:
       WorldPosition: {x: 0, y: 0, z: 0}
@@ -844,6 +910,13 @@ MonoBehaviour:
     DataKeyInput:
       UnPress: 0
       Key: 0
+    InManipulatePlayersInventory:
+      MatrixName: 
+      NotLocalPlayer: 0
+      WorldPositionOfPlayer: {x: 0, y: 0, z: 0}
+      Interaction: 0
+      TargetSlots: 2048
+      TargetSlotsTo: 0
     DataShowPrefab:
       Prefab: {fileID: 0}
       InverseMustNotPresent: 0
@@ -892,6 +965,7 @@ MonoBehaviour:
     DataActionWaite:
       WaitForFrame: 1
       WaitForSeconds: 0
+      SetPreset: 0
     SpecifiedAction: 5
   - DataAssessMetaDataNode:
       WorldPosition: {x: 0, y: 0, z: 0}
@@ -943,6 +1017,13 @@ MonoBehaviour:
     DataKeyInput:
       UnPress: 0
       Key: 0
+    InManipulatePlayersInventory:
+      MatrixName: 
+      NotLocalPlayer: 0
+      WorldPositionOfPlayer: {x: 0, y: 0, z: 0}
+      Interaction: 0
+      TargetSlots: 2048
+      TargetSlotsTo: 0
     DataShowPrefab:
       Prefab: {fileID: 0}
       InverseMustNotPresent: 0
@@ -991,4 +1072,5 @@ MonoBehaviour:
     DataActionWaite:
       WaitForFrame: 0
       WaitForSeconds: 2
+      SetPreset: 0
     SpecifiedAction: 12

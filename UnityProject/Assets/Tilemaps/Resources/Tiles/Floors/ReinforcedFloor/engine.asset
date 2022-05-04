@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: engine
   m_EditorClassIdentifier: 
   displayName: reinforced floor
+  description: 
   LayerType: 3
   TileType: 3
   RequiredTiles:
@@ -32,6 +33,7 @@ MonoBehaviour:
   doesReflectBullet: 0
   indestructible: 0
   ExplosionImpassable: 0
+  BlocksTileInteractionsUnder: 1
   passableException:
     m_keys: 01000000
     m_values: 00
@@ -51,6 +53,7 @@ MonoBehaviour:
     DismembermentProtectionChance: 0
   tileInteractions:
   - {fileID: 11400000, guid: 3573a00d8b086489180e20299fd2a40f, type: 2}
+  tileStepInteractions: []
   spawnOnDeconstruct: {fileID: 7198241665461443898, guid: 5dce4d3e01518474bb9bb8085b718980,
     type: 3}
   spawnAmountOnDeconstruct: 2
@@ -65,5 +68,6 @@ MonoBehaviour:
       m_AssetGUID: 
       m_SubObjectName: 
       m_SubObjectType: 
+      m_EditorAssetChanged: 0
   SoundOnDestroy: []
   sprite: {fileID: 21300000, guid: 91c0600c38b8bd84a86f9ac8a86c7d19, type: 3}

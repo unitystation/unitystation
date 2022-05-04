@@ -28,6 +28,7 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 4297268230046392}
   m_RootOrder: 0
@@ -135,6 +136,7 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: -0.642414, w: 0.76635784}
   m_LocalPosition: {x: 0.24, y: 0.12, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 4297268230046392}
   m_RootOrder: 1
@@ -4901,6 +4903,7 @@ ParticleSystemRenderer:
   m_SortingLayer: 22
   m_SortingOrder: 34
   m_RenderMode: 0
+  m_MeshDistribution: 0
   m_SortMode: 0
   m_MinParticleSize: 0
   m_MaxParticleSize: 0.5
@@ -4924,6 +4927,10 @@ ParticleSystemRenderer:
   m_Mesh1: {fileID: 0}
   m_Mesh2: {fileID: 0}
   m_Mesh3: {fileID: 0}
+  m_MeshWeighting: 1
+  m_MeshWeighting1: 1
+  m_MeshWeighting2: 1
+  m_MeshWeighting3: 1
   m_MaskInteraction: 0
 --- !u!1 &1853426429102140
 GameObject:
@@ -4968,6 +4975,7 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 70, y: 67, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 4552222611090834}
   - {fileID: 4251179346184678}
@@ -5118,6 +5126,7 @@ MonoBehaviour:
   HeatResistance: 100
   ExplosionsDamage: 100
   doDamageMessage: 1
+  Meleeable: {fileID: 0}
 --- !u!114 &3535876737568715888
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5152,8 +5161,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62cc3ef7cd9082443aaf3c255851d15a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
 --- !u!114 &7951845945411301283
 MonoBehaviour:
   m_ObjectHideFlags: 0

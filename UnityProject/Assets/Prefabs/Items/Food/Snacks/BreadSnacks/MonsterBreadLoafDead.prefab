@@ -106,5 +106,16 @@ PrefabInstance:
       value: A smashed up loaf of monster bread, now inanimate. Careful with the
         spikes.
       objectReference: {fileID: 0}
+    - target: {fileID: 8499929426702675201, guid: f297c5f7ec90e204fa5a9991c56a8388,
+        type: 3}
+      propertyPath: initialTraits.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 8499929426702675201, guid: f297c5f7ec90e204fa5a9991c56a8388,
+        type: 3}
+      propertyPath: initialTraits.Array.data[3]
+      value: 
+      objectReference: {fileID: 11400000, guid: d5ce66a7940b3fc4aa39ca6c8463a154,
+        type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f297c5f7ec90e204fa5a9991c56a8388, type: 3}

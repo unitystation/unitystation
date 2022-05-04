@@ -1,46 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-6356777978426299504
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1628816798482564540}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 053e2d398d507cc449f05be2499aa497, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  minimumWorkingVoltage: 190
-  expectedRunningVoltage: 240
-  maximumWorkingVoltage: 300
-  deviceType: 3
-  isSelfPowered: 0
-  wattusage: 0.01
-  InitialResistance: 100000000
-  RelatedAPC: {fileID: 0}
-  AdvancedControlToScript: 0
-  StateUpdateOnClient: 1
---- !u!114 &768889878625444157
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1628816798482564540}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ec392d028bea6ad43b1fa1cbc45394ca, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  MachineParts: {fileID: 0}
-  machineBoardPrefab: {fileID: 0}
-  canNotBeDeconstructed: 0
-  mustBeUnanchored: 0
-  secondsToScrewdrive: 2
 --- !u!1001 &3231522615107585013
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -186,3 +145,45 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 3231522615107585013}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &-6356777978426299504
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1628816798482564540}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 053e2d398d507cc449f05be2499aa497, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  minimumWorkingVoltage: 190
+  expectedRunningVoltage: 240
+  maximumWorkingVoltage: 300
+  deviceType: 3
+  isSelfPowered: 0
+  wattusage: 0.01
+  InitialResistance: 100000000
+  RelatedAPC: {fileID: 0}
+  AdvancedControlToScript: 0
+  StateUpdateOnClient: 1
+--- !u!114 &768889878625444157
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1628816798482564540}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ec392d028bea6ad43b1fa1cbc45394ca, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MachineParts: {fileID: 0}
+  machineBoardPrefab: {fileID: 0}
+  canNotBeDeconstructed: 0
+  isEMPResistant: 0
+  mustBeUnanchored: 0
+  secondsToScrewdrive: 2

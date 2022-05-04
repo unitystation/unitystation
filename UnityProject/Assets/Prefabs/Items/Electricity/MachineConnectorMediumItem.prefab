@@ -28,6 +28,7 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2581277900118603866}
   m_RootOrder: 3
@@ -100,6 +101,7 @@ MonoBehaviour:
   SubCatalogue: []
   PresentSpriteSet: {fileID: 11400000, guid: e0b8cdb24436763418f4194be9ef1a5f, type: 2}
   randomInitialSprite: 0
+  doReverseAnimation: 0
   pushTextureOnStartUp: 0
   initialVariantIndex: 3
   palette: []
@@ -131,6 +133,7 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2581277900118603866}
   m_RootOrder: 2
@@ -203,48 +206,9 @@ MonoBehaviour:
   SubCatalogue: []
   PresentSpriteSet: {fileID: 11400000, guid: e0b8cdb24436763418f4194be9ef1a5f, type: 2}
   randomInitialSprite: 0
+  doReverseAnimation: 0
   pushTextureOnStartUp: 0
   initialVariantIndex: 2
-  palette: []
---- !u!114 &9102969064241332941
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2576181618821966758}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4bc9e380fd03f31419ee48f3f78da640, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  seedPacket: {fileID: 1127054139694796, guid: a6f87f3db636f2c4ba3aa4763aba4c3b, type: 3}
-  deleteItemOnUse: 1
-  spawnSound:
-    SetLoadSetting: 0
-    AssetAddress: Assets/Prefabs/Effects/wiring/SmallElectricShock2.prefab
-    AssetReference:
-      m_AssetGUID: 
-      m_SubObjectName: 
-      m_SubObjectType: 
---- !u!114 &7464693483205764157
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2578098961789976192}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  NetworkThis: 0
-  SubCatalogue: []
-  PresentSpriteSet: {fileID: 11400000, guid: eabd3920d32be7344b53880c089ae6f9, type: 2}
-  randomInitialSprite: 0
-  pushTextureOnStartUp: 0
-  initialVariantIndex: 0
   palette: []
 --- !u!1 &4773347837579322437
 GameObject:
@@ -274,6 +238,7 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2581277900118603866}
   m_RootOrder: 1
@@ -346,6 +311,7 @@ MonoBehaviour:
   SubCatalogue: []
   PresentSpriteSet: {fileID: 11400000, guid: e0b8cdb24436763418f4194be9ef1a5f, type: 2}
   randomInitialSprite: 0
+  doReverseAnimation: 0
   pushTextureOnStartUp: 0
   initialVariantIndex: 0
   palette: []
@@ -377,6 +343,7 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2581277900118603866}
   m_RootOrder: 0
@@ -449,6 +416,7 @@ MonoBehaviour:
   SubCatalogue: []
   PresentSpriteSet: {fileID: 11400000, guid: e0b8cdb24436763418f4194be9ef1a5f, type: 2}
   randomInitialSprite: 0
+  doReverseAnimation: 0
   pushTextureOnStartUp: 0
   initialVariantIndex: 1
   palette: []
@@ -461,7 +429,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1011433845357754, guid: a7abba22164ce49f0bf9b9b219f39298, type: 3}
       propertyPath: m_Name
-      value: PowerTerminalMediumItem
+      value: MachineConnectorMediumItem
       objectReference: {fileID: 0}
     - target: {fileID: 4527534762131918, guid: a7abba22164ce49f0bf9b9b219f39298, type: 3}
       propertyPath: m_RootOrder
@@ -566,12 +534,6 @@ PrefabInstance:
     m_RemovedComponents:
     - {fileID: 6144467708197095229, guid: a7abba22164ce49f0bf9b9b219f39298, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: a7abba22164ce49f0bf9b9b219f39298, type: 3}
---- !u!1 &2576181618821966758 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1011433845357754, guid: a7abba22164ce49f0bf9b9b219f39298,
-    type: 3}
-  m_PrefabInstance: {fileID: 2577176557509859100}
-  m_PrefabAsset: {fileID: 0}
 --- !u!114 &2474095539369444982 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 114341119007412586, guid: a7abba22164ce49f0bf9b9b219f39298,
@@ -584,12 +546,60 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 579884b05ae74e8499329b64997147d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &2576181618821966758 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1011433845357754, guid: a7abba22164ce49f0bf9b9b219f39298,
+    type: 3}
+  m_PrefabInstance: {fileID: 2577176557509859100}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &9102969064241332941
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2576181618821966758}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4bc9e380fd03f31419ee48f3f78da640, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  seedPacket: {fileID: 1127054139694796, guid: a6f87f3db636f2c4ba3aa4763aba4c3b, type: 3}
+  deleteItemOnUse: 1
+  spawnSound:
+    SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/Effects/wiring/SmallElectricShock2.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
 --- !u!1 &2578098961789976192 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1344926539164060, guid: a7abba22164ce49f0bf9b9b219f39298,
     type: 3}
   m_PrefabInstance: {fileID: 2577176557509859100}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &7464693483205764157
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2578098961789976192}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  NetworkThis: 0
+  SubCatalogue: []
+  PresentSpriteSet: {fileID: 11400000, guid: eabd3920d32be7344b53880c089ae6f9, type: 2}
+  randomInitialSprite: 0
+  doReverseAnimation: 0
+  pushTextureOnStartUp: 0
+  initialVariantIndex: 0
+  palette: []
 --- !u!4 &2581277900118603866 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4911511444418374, guid: a7abba22164ce49f0bf9b9b219f39298,

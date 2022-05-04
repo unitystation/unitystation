@@ -1,70 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &779761725270966111
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2453728123087481889}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8bcb4d76605debd40aa28d5b8fcfc99a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  registerTile: {fileID: 0}
-  connected: 0
-  Logall: 0
---- !u!114 &2353904009134093219
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2453728123087481889}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6674578bb1278de4c9af970c45c78d9d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ModuleType: 0
-  ControllingNode: {fileID: 0}
-  resistance:
-    Ohms: 0
-    ResistanceAvailable: 1
-  EditorResistance: 0
-  ReactionTo:
-    ConnectingDevice: 0
-    DirectionReaction: 0
-    ResistanceReaction: 0
-    DirectionReactionA:
-      YouShallNotPass: 0
-    ResistanceReactionA:
-      Resistance:
-        Ohms: 0
-        ResistanceAvailable: 1
---- !u!114 &8828844020504926570
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2453728123087481889}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f382852d80b4a434f9d53c414fc2d72b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  Node: {fileID: 0}
-  ApplianceType: 0
-  WireEndB: 0
-  WireEndA: 0
-  ListCanConnectTo: 
-  Reactions: []
 --- !u!1001 &3789740078830315933
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -166,3 +101,68 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 3789740078830315933}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &779761725270966111
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2453728123087481889}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8bcb4d76605debd40aa28d5b8fcfc99a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  registerTile: {fileID: 0}
+  connected: 0
+  Logall: 0
+--- !u!114 &2353904009134093219
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2453728123087481889}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6674578bb1278de4c9af970c45c78d9d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ModuleType: 0
+  ControllingNode: {fileID: 0}
+  resistance:
+    Ohms: 0
+    ResistanceAvailable: 1
+  EditorResistance: 0
+  ReactionTo:
+    ConnectingDevice: 0
+    DirectionReaction: 0
+    ResistanceReaction: 0
+    DirectionReactionA:
+      YouShallNotPass: 0
+    ResistanceReactionA:
+      Resistance:
+        Ohms: 0
+        ResistanceAvailable: 1
+--- !u!114 &8828844020504926570
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2453728123087481889}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f382852d80b4a434f9d53c414fc2d72b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  Node: {fileID: 0}
+  ApplianceType: 0
+  WireEndB: 0
+  WireEndA: 0
+  ListCanConnectTo: 
+  Reactions: []

@@ -1,25 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-4441519557137854397
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8467174088351874367}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e01cf0e4c6ebb4443a9ca96c6f09f22c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  magType: 1
-  initalProjectile: {fileID: 2003804624138751089, guid: 0db28ea7632de0b4593a32bba473e844,
-    type: 3}
-  ProjectilesFired: 1
-  ammoType: 15
-  magazineSize: 1
 --- !u!1001 &7648859886471655158
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -138,3 +118,23 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 7648859886471655158}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &-4441519557137854397
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8467174088351874367}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e01cf0e4c6ebb4443a9ca96c6f09f22c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  magType: 1
+  initalProjectile: {fileID: 2003804624138751089, guid: 0db28ea7632de0b4593a32bba473e844,
+    type: 3}
+  ProjectilesFired: 1
+  ammoType: 15
+  magazineSize: 1

@@ -29,6 +29,7 @@ Transform:
   m_LocalRotation: {x: 0.00000031610085, y: 0.00000021073383, z: -0.70710677, w: 0.7071069}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1.4, y: 1.4, z: 1.4}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 9084847140033546432}
   m_RootOrder: 1
@@ -101,76 +102,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1638153431970083507}
   m_Mesh: {fileID: 0}
---- !u!114 &-6000257747755797179
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9081061823247388186}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6d7277dcc993463cb6c7f79b663f36fc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  NetTabType: 0
-  aiInteractable: 1
---- !u!114 &1251273808921218093
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9081061823247388186}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 91b1f6111eb8ac243b137dc8a7e36d1a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  restriction: 0
---- !u!114 &4299547928631692446
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9081061823247388186}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 09b7e5ca3d7645bf909222e46af44b5f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  requiredClearance: 
-  type: 0
---- !u!114 &4813939428139522015
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9081061823247388186}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8ed381a72f1e344bb8020dc181414b43, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  InitialVendorContent: []
-  HullColor: {r: 0.58431375, g: 0.58431375, b: 0.58431375, a: 1}
-  EjectObjects: 0
-  EjectDirection: 0
-  VendingSound:
-    SetLoadSetting: 0
-    AssetAddress: Assets/Prefabs/Machines/MachineVend.prefab
-    AssetReference:
-      m_AssetGUID: 
-      m_SubObjectName: 
-      m_SubObjectType: 
-  restockMessage: Items restocked.
-  noAccessMessage: Access denied!
-  isEmagged: 0
-  VendorContent: []
-  ActualCurrentPowerState: 2
-  DoesntRequirePower: 0
 --- !u!1001 &7538130373444340646
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -315,6 +246,77 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 7538130373444340646}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &-6000257747755797179
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9081061823247388186}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d7277dcc993463cb6c7f79b663f36fc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  NetTabType: 0
+  aiInteractable: 1
+--- !u!114 &1251273808921218093
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9081061823247388186}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 91b1f6111eb8ac243b137dc8a7e36d1a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  restriction: 0
+--- !u!114 &4299547928631692446
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9081061823247388186}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 09b7e5ca3d7645bf909222e46af44b5f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  requiredClearance: 
+  type: 0
+--- !u!114 &4813939428139522015
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9081061823247388186}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8ed381a72f1e344bb8020dc181414b43, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  InitialVendorContent: []
+  HullColor: {r: 0.58431375, g: 0.58431375, b: 0.58431375, a: 1}
+  EjectObjects: 0
+  EjectDirection: 0
+  VendingSound:
+    SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/Machines/MachineVend.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
+  restockMessage: Items restocked.
+  noAccessMessage: Access denied!
+  isEmagged: 0
+  VendorContent: []
+  ActualCurrentPowerState: 2
+  DoesntRequirePower: 0
 --- !u!4 &9084847140033546432 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1625533340043428710, guid: b69bfc56f39849d4ba9139d2d51bedb6,
