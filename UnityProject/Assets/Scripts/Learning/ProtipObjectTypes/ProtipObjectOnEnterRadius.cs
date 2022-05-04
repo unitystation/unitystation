@@ -50,13 +50,10 @@ namespace Learning.ProtipObjectTypes
 			public GameObject GameObjectToCheck;
 			public ProtipSO AssoicatedSo;
 
-			public override bool Equals(object obj)
+			public bool Equals(ObjectCheckData obj)
 			{
-				if (obj == null || GetType() != obj.GetType())
-				{
-					return false;
-				}
-				
+				if(obj.AssoicatedSo == null || AssoicatedSo == null) return false;
+				if(obj.AssoicatedSo != AssoicatedSo) return false;			
 				return base.Equals (obj);
 			}
 		}
