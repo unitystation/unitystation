@@ -28,6 +28,7 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 8788344772610484879}
   m_RootOrder: 1
@@ -101,38 +102,10 @@ MonoBehaviour:
   - {fileID: 11400000, guid: cda6abfa9bb53374d879e5d536a40fe5, type: 2}
   PresentSpriteSet: {fileID: 11400000, guid: cda6abfa9bb53374d879e5d536a40fe5, type: 2}
   randomInitialSprite: 0
+  doReverseAnimation: 0
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
   palette: []
---- !u!114 &-735950409198653472
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8783702771992860667}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8f1c39b1f85624448b81a30f8c44e137, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  sides: 6
-  isRiggable: 1
---- !u!114 &2517326105594482239
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8783702771992860667}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 85f61ef9334eff448b907d2bf379cb03, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  CookTime: 15
-  CookedProduct: {fileID: 0}
-  CookableBy: 2
 --- !u!1001 &8783827724552596289
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -310,6 +283,35 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 8783827724552596289}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &-735950409198653472
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8783702771992860667}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8f1c39b1f85624448b81a30f8c44e137, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sides: 6
+  isRiggable: 1
+--- !u!114 &2517326105594482239
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8783702771992860667}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 85f61ef9334eff448b907d2bf379cb03, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CookTime: 15
+  CookedProduct: {fileID: 0}
+  CookableBy: 2
 --- !u!4 &8788344772610484879 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4527534762131918, guid: a7abba22164ce49f0bf9b9b219f39298,

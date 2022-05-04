@@ -28,6 +28,7 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 953758288651862470}
   m_RootOrder: 2
@@ -102,6 +103,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 017f48424060c3e40ad9f951b6b7262b, type: 2}
   PresentSpriteSet: {fileID: 11400000, guid: ce21b73b5871e53458c587d56498f940, type: 2}
   randomInitialSprite: 0
+  doReverseAnimation: 0
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
   palette: []

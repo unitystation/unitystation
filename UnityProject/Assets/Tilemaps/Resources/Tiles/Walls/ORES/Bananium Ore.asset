@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: Bananium Ore
   m_EditorClassIdentifier: 
   displayName: 
+  description: 
   LayerType: 0
   TileType: 1
   RequiredTiles: []
@@ -31,6 +32,7 @@ MonoBehaviour:
   doesReflectBullet: 0
   indestructible: 0
   ExplosionImpassable: 1
+  BlocksTileInteractionsUnder: 1
   passableException:
     m_keys: 
     m_values: 
@@ -49,6 +51,7 @@ MonoBehaviour:
     Bio: 100
     DismembermentProtectionChance: 0
   tileInteractions: []
+  tileStepInteractions: []
   spawnOnDeconstruct: {fileID: 315512072097039032, guid: 7f36d623d91cac64cb72c7fe44cc9d72,
     type: 3}
   spawnAmountOnDeconstruct: 3
@@ -63,5 +66,6 @@ MonoBehaviour:
       m_AssetGUID: 
       m_SubObjectName: 
       m_SubObjectType: 
+      m_EditorAssetChanged: 0
   SoundOnDestroy: []
   sprite: {fileID: 21300000, guid: a9d8f27a5eb052c4a88ae45d1bbc2acf, type: 3}

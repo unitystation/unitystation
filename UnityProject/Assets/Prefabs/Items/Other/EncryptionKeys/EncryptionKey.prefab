@@ -1,42 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &4791085273085273267
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3875362642490517515}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 39031962c2560794798fb20ca683975d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  EncryptionDataSo: {fileID: 11400000, guid: 5369749773813564ab8bb530fa87da44, type: 2}
-  binarySprite: {fileID: 0}
-  captainSprite: {fileID: 0}
-  centCommSprite: {fileID: 0}
-  chiefEngineerSprite: {fileID: 0}
-  chiefMedicalOfficerSprite: {fileID: 0}
-  commonSprite: {fileID: 0}
-  engineeringSprite: {fileID: 0}
-  headOfPersonnelSprite: {fileID: 0}
-  headOfSecuritySprite: {fileID: 0}
-  medicalSprite: {fileID: 0}
-  quarterMasterSprite: {fileID: 0}
-  researchDirectorSprite: {fileID: 0}
-  scienceSprite: {fileID: 0}
-  securitySprite: {fileID: 0}
-  serviceSprite: {fileID: 0}
-  spriteRenderer: {fileID: 0}
-  supplySprite: {fileID: 0}
-  syndicateSprite: {fileID: 0}
-  srvsecSprite: {fileID: 0}
-  centCommPlusSprite: {fileID: 0}
-  srvmedSprite: {fileID: 0}
-  type: 0
 --- !u!1001 &3876361429768967345
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -168,3 +131,19 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 3876361429768967345}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &4791085273085273267
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3875362642490517515}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 39031962c2560794798fb20ca683975d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  EncryptionDataSo: {fileID: 11400000, guid: 5369749773813564ab8bb530fa87da44, type: 2}
+  type: 0

@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: RustyRWallAnchorBolts
   m_EditorClassIdentifier: 
   displayName: rusted reinforced wall
+  description: 
   LayerType: 0
   TileType: 1
   RequiredTiles:
@@ -32,6 +33,7 @@ MonoBehaviour:
   doesReflectBullet: 0
   indestructible: 0
   ExplosionImpassable: 0
+  BlocksTileInteractionsUnder: 1
   passableException:
     m_keys: 
     m_values: 
@@ -52,6 +54,7 @@ MonoBehaviour:
   tileInteractions:
   - {fileID: 11400000, guid: d0e702dfe483f094b992064c970866ff, type: 2}
   - {fileID: 11400000, guid: f3311d87312fa6140a735a15bd461d7f, type: 2}
+  tileStepInteractions: []
   spawnOnDeconstruct: {fileID: 0}
   spawnAmountOnDeconstruct: 1
   lootOnDespawn: {fileID: 0}
@@ -66,5 +69,6 @@ MonoBehaviour:
       m_AssetGUID: 
       m_SubObjectName: 
       m_SubObjectType: 
+      m_EditorAssetChanged: 0
   SoundOnDestroy: []
   sprite: {fileID: 21300000, guid: f4447399673382f4091dc10efcb7d5c5, type: 3}

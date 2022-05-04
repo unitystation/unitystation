@@ -1,22 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &3376649339572036493
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2252916025122891987}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fed2cf7456994529af1ff0211d56565c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  initialState: {fileID: 11400000, guid: 0d5b51914201743839c146199035f0f6, type: 2}
-  cablesAddedState: {fileID: 11400000, guid: d79ac6c47f9344f7b9f08f649a8667f7, type: 2}
-  circuitScrewedState: {fileID: 11400000, guid: 333fbbb380e214ad5b76feb75aca2eef,
-    type: 2}
-  glassAddedState: {fileID: 11400000, guid: b0485d0b10d5c4a7e8c31a997e28cc2b, type: 2}
 --- !u!1001 &4113050514255528528
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -182,3 +165,20 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 4113050514255528528}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &3376649339572036493
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2252916025122891987}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fed2cf7456994529af1ff0211d56565c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  initialState: {fileID: 11400000, guid: 0d5b51914201743839c146199035f0f6, type: 2}
+  cablesAddedState: {fileID: 11400000, guid: d79ac6c47f9344f7b9f08f649a8667f7, type: 2}
+  circuitScrewedState: {fileID: 11400000, guid: 333fbbb380e214ad5b76feb75aca2eef,
+    type: 2}
+  glassAddedState: {fileID: 11400000, guid: b0485d0b10d5c4a7e8c31a997e28cc2b, type: 2}

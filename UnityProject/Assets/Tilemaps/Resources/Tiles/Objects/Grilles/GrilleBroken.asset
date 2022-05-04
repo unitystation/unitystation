@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: GrilleBroken
   m_EditorClassIdentifier: 
   displayName: broken grille
+  description: 
   LayerType: 5
   TileType: 6
   RequiredTiles: []
@@ -31,6 +32,7 @@ MonoBehaviour:
   doesReflectBullet: 0
   indestructible: 0
   ExplosionImpassable: 0
+  BlocksTileInteractionsUnder: 1
   passableException:
     m_keys: 
     m_values: 
@@ -52,6 +54,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 433fa20f26ef08d4a844cf98c3a923f3, type: 2}
   - {fileID: 11400000, guid: 56d4fa73fb766d54383a8a2453c9d619, type: 2}
   - {fileID: 11400000, guid: 894695c059ed5e64da8e5ad42c196d22, type: 2}
+  tileStepInteractions: []
   spawnOnDeconstruct: {fileID: 0}
   spawnAmountOnDeconstruct: 0
   lootOnDespawn: {fileID: 0}
@@ -65,6 +68,7 @@ MonoBehaviour:
       m_AssetGUID: 
       m_SubObjectName: 
       m_SubObjectType: 
+      m_EditorAssetChanged: 0
   SoundOnDestroy:
   - SetLoadSetting: 0
     AssetAddress: Assets/Prefabs/Effects/GrillHit.prefab
@@ -72,4 +76,5 @@ MonoBehaviour:
       m_AssetGUID: 
       m_SubObjectName: 
       m_SubObjectType: 
+      m_EditorAssetChanged: 0
   sprite: {fileID: 21300000, guid: 2f1b3e8d6fb118b41889deb99ae48c0d, type: 3}

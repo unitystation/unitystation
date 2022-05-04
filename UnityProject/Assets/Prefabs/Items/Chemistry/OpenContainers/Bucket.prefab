@@ -1,72 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &454348368429393324
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8724836040044288808}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8e15827970984ba78808f03bc3f01586, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  allClothingData:
-  - {fileID: 11400000, guid: a81a8c7023268144cb09641be85e8664, type: 2}
-  CurrentClothIndex: 0
-  randomInitialClothData: 0
-  hidesIdentity: 0
-  hidesSlots: 0
-  hideClothingFlags: 256
---- !u!114 &1141365726382165537
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8724836040044288808}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3307020aa3640594a870e4961a6de749, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  slot: 2
-  armoredBodyParts:
-  - armoringBodyPartType: 0
-    armor:
-      Melee: 10
-      Bullet: 0
-      Laser: 0
-      Energy: 0
-      Bomb: 0
-      Rad: 0
-      Fire: 75
-      Acid: 50
-      Magic: 0
-      Bio: 0
-      DismembermentProtectionChance: 0
---- !u!114 &6812290110784052155
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8724836040044288808}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ccbb5729ffc2e0b4f89279dcaf8110ae, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  stackableMaterials: 0
-  materialCost: 0
-  reagentContainer: 1
-  craftItem:
-  - {fileID: 6513434798660266608, guid: f5de4bfc8649c7a428e694010049af77, type: 3}
-  assembly: {fileID: 5914959498962467419, guid: 487e0ccc7184595408fc207296ee20d9,
-    type: 3}
 --- !u!1001 &3540516328072298958
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -320,15 +253,83 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 364841a08150e9345b119e71191c8dcf, type: 3}
---- !u!1 &8724836040044288808 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 5203532174433049318, guid: 364841a08150e9345b119e71191c8dcf,
-    type: 3}
-  m_PrefabInstance: {fileID: 3540516328072298958}
-  m_PrefabAsset: {fileID: 0}
 --- !u!210 &3287814896275168614 stripped
 SortingGroup:
   m_CorrespondingSourceObject: {fileID: 2054445091669433512, guid: 364841a08150e9345b119e71191c8dcf,
     type: 3}
   m_PrefabInstance: {fileID: 3540516328072298958}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &8724836040044288808 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5203532174433049318, guid: 364841a08150e9345b119e71191c8dcf,
+    type: 3}
+  m_PrefabInstance: {fileID: 3540516328072298958}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &454348368429393324
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8724836040044288808}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8e15827970984ba78808f03bc3f01586, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  allClothingData:
+  - {fileID: 11400000, guid: a81a8c7023268144cb09641be85e8664, type: 2}
+  CurrentClothIndex: 0
+  randomInitialClothData: 0
+  hidesIdentity: 0
+  hidesSlots: 0
+  hideClothingFlags: 256
+  disallowConsume: 0
+--- !u!114 &1141365726382165537
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8724836040044288808}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3307020aa3640594a870e4961a6de749, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  slot: 2
+  armoredBodyParts:
+  - armoringBodyPartType: 0
+    armor:
+      Melee: 10
+      Bullet: 0
+      Laser: 0
+      Energy: 0
+      Bomb: 0
+      Rad: 0
+      Fire: 75
+      Acid: 50
+      Magic: 0
+      Bio: 0
+      DismembermentProtectionChance: 0
+--- !u!114 &6812290110784052155
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8724836040044288808}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ccbb5729ffc2e0b4f89279dcaf8110ae, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  stackableMaterials: 0
+  materialCost: 0
+  reagentContainer: 1
+  craftItem:
+  - {fileID: 6513434798660266608, guid: f5de4bfc8649c7a428e694010049af77, type: 3}
+  assembly: {fileID: 5914959498962467419, guid: 487e0ccc7184595408fc207296ee20d9,
+    type: 3}

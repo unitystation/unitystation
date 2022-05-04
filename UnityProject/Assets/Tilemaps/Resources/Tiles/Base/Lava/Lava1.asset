@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: Lava1
   m_EditorClassIdentifier: 
   displayName: Lava
+  description: 
   LayerType: 4
   TileType: 7
   RequiredTiles: []
@@ -31,6 +32,7 @@ MonoBehaviour:
   doesReflectBullet: 0
   indestructible: 0
   ExplosionImpassable: 0
+  BlocksTileInteractionsUnder: 1
   passableException:
     m_keys: 
     m_values: 

@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: ast_warn_0
   m_EditorClassIdentifier: 
   displayName: 
+  description: 
   LayerType: 3
   TileType: 3
   RequiredTiles:
@@ -67,5 +68,6 @@ MonoBehaviour:
       m_AssetGUID: 
       m_SubObjectName: 
       m_SubObjectType: 
+      m_EditorAssetChanged: 0
   SoundOnDestroy: []
   sprite: {fileID: 21300000, guid: b4b4df8b8312e1f439e51a83f3714c7d, type: 3}

@@ -1,34 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &2203031153855875897
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 317081173677754432}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fc7c06bdea2cb45f7bd5b868d67ad589, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  explosionPrefab: {fileID: 503338041199445092, guid: 7442edc5f98954af09587a7233e5a7c5,
-    type: 3}
-  unstableFuse: 0
-  fuseLength: 3
-  maxDamage: 20
-  maxRadius: 3
-  spriteHandler: {fileID: 5845778498150757319}
-  ArmedSound:
-    SetLoadSetting: 0
-    AssetAddress: Assets/Prefabs/Weapons/sizzle.prefab
-    AssetReference:
-      m_AssetGUID: 
-      m_SubObjectName: 
-      m_SubObjectType: 
-  lemonPotencyOverride: 0
 --- !u!1001 &5799932992146609633
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -175,6 +146,36 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 5799932992146609633}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &2203031153855875897
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 317081173677754432}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fc7c06bdea2cb45f7bd5b868d67ad589, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  explosionPrefab: {fileID: 503338041199445092, guid: 7442edc5f98954af09587a7233e5a7c5,
+    type: 3}
+  unstableFuse: 0
+  fuseLength: 3
+  maxDamage: 20
+  maxRadius: 3
+  spriteHandler: {fileID: 5845778498150757319}
+  ArmedSound:
+    SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/Weapons/sizzle.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
+  lemonPotencyOverride: 0
 --- !u!114 &5845778498150757319 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 98481889963402790, guid: 9e66d5e812c05254e9c2291df78005dd,

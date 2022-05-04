@@ -27,6 +27,7 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: 0.00000014901144, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 7373467433817843582}
   m_RootOrder: 0
@@ -121,6 +122,7 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: -0.00000014901144, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 7373467433605523662}
   m_Father: {fileID: 0}
@@ -242,6 +244,7 @@ MonoBehaviour:
       m_AssetGUID: 
       m_SubObjectName: 
       m_SubObjectType: 
+      m_EditorAssetChanged: 0
   damageDeflection: 0
   Armor:
     Melee: 50
@@ -267,7 +270,7 @@ MonoBehaviour:
   HeatResistance: 100
   ExplosionsDamage: 100
   doDamageMessage: 1
-  CannotBeAshed: 0
+  Meleeable: {fileID: 0}
 --- !u!114 &114876689548865824
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -309,6 +312,7 @@ MonoBehaviour:
       m_AssetGUID: 
       m_SubObjectName: 
       m_SubObjectType: 
+      m_EditorAssetChanged: 0
   soundDelayTime: 0
   soundMinimumPitchVariance: 1
   soundMaximumPitchVariance: 1
@@ -327,8 +331,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62cc3ef7cd9082443aaf3c255851d15a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
 --- !u!114 &4456424331474363299
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -347,6 +349,7 @@ MonoBehaviour:
   initialDescription: A flimsy framework of metal rods.
   willHighlight: 1
   exportCost: 10
+  exportType: 0
   exportName: 
   exportMessage: 
 --- !u!114 &8402624206278935752

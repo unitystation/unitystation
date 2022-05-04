@@ -30,6 +30,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: -0.6505754, w: 0.7594417}
   m_LocalPosition: {x: 0.01, y: 0.18, z: 0}
   m_LocalScale: {x: 3, y: 3, z: 3}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 7373467433817843582}
   m_RootOrder: 3
@@ -146,6 +147,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0.50452757, w: 0.86339563}
   m_LocalPosition: {x: 0.01, y: 0.18, z: 0}
   m_LocalScale: {x: 7, y: 7, z: 7}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 7373467433817843582}
   m_RootOrder: 0
@@ -262,6 +264,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: -0.05495013, w: 0.99848914}
   m_LocalPosition: {x: 0.01, y: 0.18, z: 0}
   m_LocalScale: {x: 5.7720003, y: 5.7720003, z: 5.7683997}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 7373467433817843582}
   m_RootOrder: 2
@@ -376,6 +379,7 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: 0.00000014901144, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 8}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 7373467433817843582}
   m_RootOrder: 1
@@ -449,6 +453,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 99c4134ba9863be428d4c368f6e985f9, type: 2}
   PresentSpriteSet: {fileID: 11400000, guid: 99c4134ba9863be428d4c368f6e985f9, type: 2}
   randomInitialSprite: 0
+  doReverseAnimation: 0
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
   palette: []
@@ -487,6 +492,7 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: -0.00000014901144, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 8}
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1528592080736278900}
   - {fileID: 7373467433605523662}
@@ -611,6 +617,7 @@ MonoBehaviour:
       m_AssetGUID: 
       m_SubObjectName: 
       m_SubObjectType: 
+      m_EditorAssetChanged: 0
   damageDeflection: 0
   Armor:
     Melee: 0
@@ -636,7 +643,7 @@ MonoBehaviour:
   HeatResistance: 100
   ExplosionsDamage: 100
   doDamageMessage: 1
-  CannotBeAshed: 0
+  Meleeable: {fileID: 0}
 --- !u!114 &114876689548865824
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -678,6 +685,7 @@ MonoBehaviour:
       m_AssetGUID: 
       m_SubObjectName: 
       m_SubObjectType: 
+      m_EditorAssetChanged: 0
   soundDelayTime: 0
   soundMinimumPitchVariance: 1
   soundMaximumPitchVariance: 1
@@ -696,5 +704,3 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62cc3ef7cd9082443aaf3c255851d15a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1

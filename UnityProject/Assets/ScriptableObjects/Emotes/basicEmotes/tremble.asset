@@ -15,14 +15,16 @@ MonoBehaviour:
   emoteName: tremble
   requiresHands: 0
   allowEmoteWhileInCrit: 1
+  isAudibleEmote: 0
   allowEmoteWhileCrawling: 1
   viewText: trembles in fear!
   youText: Fear overcomes you.
   failText: You were unable to preform this action!
+  mouthBlockedText: You are unable to make a sound!
   critViewText: screams in pain!
+  soundsAreTyped: 0
   defaultSounds: []
-  maleSounds: []
-  femaleSounds: []
+  TypedSounds: []
   pitchRange: {x: 0.7, y: 1}
   shakeDuration: 0.55
   shakeIntensity: 0.06

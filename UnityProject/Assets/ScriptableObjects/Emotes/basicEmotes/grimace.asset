@@ -15,12 +15,14 @@ MonoBehaviour:
   emoteName: grimace
   requiresHands: 0
   allowEmoteWhileInCrit: 1
+  isAudibleEmote: 0
   allowEmoteWhileCrawling: 1
   viewText: grimaces.
   youText: You grimace.
   failText: You were unable to preform this action!
+  mouthBlockedText: You are unable to make a sound!
   critViewText: screams in pain!
+  soundsAreTyped: 0
   defaultSounds: []
-  maleSounds: []
-  femaleSounds: []
+  TypedSounds: []
   pitchRange: {x: 0.7, y: 1}

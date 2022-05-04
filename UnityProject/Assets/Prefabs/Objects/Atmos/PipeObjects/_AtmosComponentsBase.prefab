@@ -28,6 +28,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: -1, w: -0.00000004371139}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 4749535366278089535}
   m_RootOrder: 2
@@ -100,6 +101,7 @@ MonoBehaviour:
   SubCatalogue: []
   PresentSpriteSet: {fileID: 11400000, guid: 4b9517bdeea788140abc850f18e4a32d, type: 2}
   randomInitialSprite: 0
+  doReverseAnimation: 0
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
   palette: []
@@ -131,6 +133,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: -1, w: -0.00000004371139}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 4749535366278089535}
   m_RootOrder: 1
@@ -203,6 +206,7 @@ MonoBehaviour:
   SubCatalogue: []
   PresentSpriteSet: {fileID: 11400000, guid: c59c5e3dd182a7649a161ea1d0bbc672, type: 2}
   randomInitialSprite: 0
+  doReverseAnimation: 0
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
   palette: []
@@ -338,15 +342,15 @@ PrefabInstance:
     - {fileID: 8353694130705612946, guid: 8e4c205a853b5d44bb1b793530feaefe, type: 3}
     - {fileID: 7359720613216847608, guid: 8e4c205a853b5d44bb1b793530feaefe, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 8e4c205a853b5d44bb1b793530feaefe, type: 3}
---- !u!1 &4754684695952805349 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 5255355345183453768, guid: 8e4c205a853b5d44bb1b793530feaefe,
-    type: 3}
-  m_PrefabInstance: {fileID: 653810697508814765}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &4749535366278089535 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5258920263574484114, guid: 8e4c205a853b5d44bb1b793530feaefe,
+    type: 3}
+  m_PrefabInstance: {fileID: 653810697508814765}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &4754684695952805349 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5255355345183453768, guid: 8e4c205a853b5d44bb1b793530feaefe,
     type: 3}
   m_PrefabInstance: {fileID: 653810697508814765}
   m_PrefabAsset: {fileID: 0}
@@ -368,4 +372,6 @@ MonoBehaviour:
   ChangeSprites: 0
   isChangingSO: 0
   CurrentDirection: 3
+  IgnoreServerUpdatesIfLocalPlayer: 0
   IsAtmosphericDevice: 1
+  doNotResetOtherSpriteOptions: 0
