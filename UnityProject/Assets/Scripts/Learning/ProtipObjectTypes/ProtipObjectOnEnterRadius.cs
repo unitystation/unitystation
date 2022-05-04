@@ -45,10 +45,20 @@ namespace Learning.ProtipObjectTypes
 		}
 
 		[Serializable]
-		public struct ObjectCheckData
+		public struct ObjectCheckData : IEquatable<ObjectCheckData>
 		{
 			public GameObject GameObjectToCheck;
 			public ProtipSO AssoicatedSo;
+
+			public override bool Equals(object obj)
+			{
+				if (obj == null || GetType() != obj.GetType())
+				{
+					return false;
+				}
+				
+				return base.Equals (obj);
+			}
 		}
 	}
 }
