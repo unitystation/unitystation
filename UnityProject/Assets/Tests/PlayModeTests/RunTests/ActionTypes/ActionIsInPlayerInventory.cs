@@ -51,7 +51,7 @@ public partial class TestAction
 			}
 			else
 			{
-				DynamicItemStorage = PlayerManager.LocalPlayer.GetComponent<DynamicItemStorage>();
+				DynamicItemStorage = PlayerManager.LocalPlayerScript.DynamicItemStorage;
 			}
 
 			if (DynamicItemStorage == null)

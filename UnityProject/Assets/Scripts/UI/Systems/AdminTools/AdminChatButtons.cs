@@ -113,8 +113,8 @@ namespace AdminTools
 			{
 				foreach (var n in playerNotification?.notifications)
 				{
-					if (PlayerList.Instance.GetByUserID(n.Key) == null
-						|| PlayerList.Instance.GetByUserID(n.Key).Connection == null) continue;
+					if (PlayerList.Instance.TryGetOnlineByUserID(n.Key, out var player) == false
+							|| player.Connection == null) continue;
 
 					update.notificationEntries.Add(new AdminChatNotificationEntry
 					{
@@ -129,8 +129,8 @@ namespace AdminTools
 			{
 				foreach (var n in mentorNotification?.notifications)
 				{
-					if (PlayerList.Instance.GetByUserID(n.Key) == null
-						|| PlayerList.Instance.GetByUserID(n.Key).Connection == null) continue;
+					if (PlayerList.Instance.TryGetOnlineByUserID(n.Key, out var player) == false
+							|| player.Connection == null) continue;
 
 					update.notificationEntries.Add(new AdminChatNotificationEntry
 					{
@@ -145,8 +145,8 @@ namespace AdminTools
 			{
 				foreach (var n in prayerNotification?.notifications)
 				{
-					if (PlayerList.Instance.GetByUserID(n.Key) == null
-						|| PlayerList.Instance.GetByUserID(n.Key).Connection == null) continue;
+					if (PlayerList.Instance.TryGetOnlineByUserID(n.Key, out var player) == false
+							|| player.Connection == null) continue;
 
 					update.notificationEntries.Add(new AdminChatNotificationEntry
 					{
@@ -161,8 +161,8 @@ namespace AdminTools
 			{
 				foreach (var n in adminLogNotification?.notifications)
 				{
-					if (PlayerList.Instance.GetByUserID(n.Key) == null
-						|| PlayerList.Instance.GetByUserID(n.Key).Connection == null) continue;
+					if (PlayerList.Instance.TryGetOnlineByUserID(n.Key, out var player) == false
+							|| player.Connection == null) continue;
 
 					update.notificationEntries.Add(new AdminChatNotificationEntry
 					{

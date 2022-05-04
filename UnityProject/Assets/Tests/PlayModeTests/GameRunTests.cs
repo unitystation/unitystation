@@ -24,12 +24,11 @@ namespace GameRunTests
 			GameManager.Instance.QuickLoad = false;
 		}
 
-
 		public static void RunRestartRound()
 		{
 			GameManager.Instance.RoundEndTime = 0f;
 			GameManager.Instance.EndRound();
-			PlayerManager.LocalPlayer = null;
+			PlayerManager.LocalPlayerObject = null;
 		}
 
 		// public void RunRestartRound()
@@ -45,5 +44,4 @@ namespace GameRunTests
 		// 	GameManager.Instance.EndRound();
 		// }
 	}
-
 }

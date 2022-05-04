@@ -19,7 +19,7 @@ namespace UI.Objects.Engineering
 		private ParticleAcceleratorControl ParticleAccelerator =>
 				particleAccelerator ??= Provider.GetComponent<ParticleAcceleratorControl>();
 
-		public void OnTabOpenedHandler(ConnectedPlayer connectedPlayer)
+		public void OnTabOpenedHandler(PlayerInfo connectedPlayer)
 		{
 			powerSetting.Value = ParticleAccelerator.Status;
 			powerUse.Value = ParticleAccelerator.PowerUsage + " volts";

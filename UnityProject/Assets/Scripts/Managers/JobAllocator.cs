@@ -17,11 +17,11 @@ namespace Managers
 		/// <summary>
 		/// Players who haven't been allocated a job yet
 		/// </summary>
-		private List<ConnectedPlayer> playersLeft;
+		private List<PlayerInfo> playersLeft;
 		/// <summary>
 		/// Players who missed out on their job preference
 		/// </summary>
-		private List<ConnectedPlayer> missedOutPlayers;
+		private List<PlayerInfo> missedOutPlayers;
 
 		private Dictionary<Occupation, int> occupationCount = new Dictionary<Occupation, int>();
 
@@ -30,11 +30,11 @@ namespace Managers
 		/// </summary>
 		/// <param name="players">The players to assign jobs to</param>
 		/// <returns>A list of JoinedViewers with the JobTypes assigned to them</returns>
-		public List<PlayerSpawnRequest> DetermineJobs(IEnumerable<ConnectedPlayer> players)
+		public List<PlayerSpawnRequest> DetermineJobs(IEnumerable<PlayerInfo> players)
 		{
 			// Reset all player lists
 			playersLeft = players.ToList();
-			missedOutPlayers = new List<ConnectedPlayer>();
+			missedOutPlayers = new List<PlayerInfo>();
 			determinedPlayers = new List<PlayerSpawnRequest>();
 
 			// Find all head jobs and normal jobs
@@ -79,7 +79,7 @@ namespace Managers
 		/// <param name="priority">The priority to check for</param>
 		/// <param name="playerPool">The available players to choose from</param>
 		private void ChoosePlayers(IEnumerable<Occupation> occupations, Priority priority,
-			IReadOnlyCollection<ConnectedPlayer> playerPool)
+			IReadOnlyCollection<PlayerInfo> playerPool)
 		{
 			foreach (var occupation in occupations)
 			{
@@ -94,7 +94,7 @@ namespace Managers
 					continue;
 				}
 
-				List<ConnectedPlayer> chosen;
+				List<PlayerInfo> chosen;
 				if (candidates.Count > slotsLeft)
 				{
 					// More candidates than job slots, choose people randomly to fill all slots
@@ -127,8 +127,8 @@ namespace Managers
 		/// <param name="priority">The priority level to check</param>
 		/// <param name="candidates">A list of candidates if any were found</param>
 		/// <returns>Returns true if candidates were found, and false if not.</returns>
-		private bool TryGetCandidates(ref IReadOnlyCollection<ConnectedPlayer> playerPool, Occupation occupation,
-			Priority priority, out List<ConnectedPlayer> candidates)
+		private bool TryGetCandidates(ref IReadOnlyCollection<PlayerInfo> playerPool, Occupation occupation,
+			Priority priority, out List<PlayerInfo> candidates)
 		{
 			// Find any players that selected the job with the specified priority
 			candidates = playerPool.Where(player =>
@@ -143,7 +143,7 @@ namespace Managers
 		/// </summary>
 		/// <param name="players">Players to allocate jobs to</param>
 		/// <param name="job">The job to allocate</param>
-		private void AllocateJobs(IReadOnlyCollection<ConnectedPlayer> players, Occupation job)
+		private void AllocateJobs(IReadOnlyCollection<PlayerInfo> players, Occupation job)
 		{
 			// Update determined players and players left
 			determinedPlayers.AddRange(players.Select(player =>

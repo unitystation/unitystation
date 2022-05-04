@@ -30,7 +30,7 @@ namespace Antagonists
 				if (player != null)
 				{
 					playersFound++;
-					var playerDetails = PlayerList.Instance.Get(player.gameObject);
+					var playerDetails = PlayerList.Instance.GetOnline(player.gameObject);
 					if (playerDetails.Job != JobType.CARGOTECH && playerDetails.Job != JobType.MINER
 					                                           && playerDetails.Job != JobType.QUARTERMASTER)
 					{

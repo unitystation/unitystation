@@ -11,12 +11,12 @@ namespace Spells
 		[SerializeField]
 		private GameObject boxMime = default;
 
-		protected override string FormatInvocationMessage(ConnectedPlayer caster, string modPrefix)
+		protected override string FormatInvocationMessage(PlayerInfo caster, string modPrefix)
 		{
 			return string.Format(SpellData.InvocationMessage, caster.Name, caster.CharacterSettings.TheirPronoun(caster.Script));
 		}
 
-		public override bool ValidateCast(ConnectedPlayer caster)
+		public override bool ValidateCast(PlayerInfo caster)
 		{
 			if (base.ValidateCast(caster) == false) return false;
 
@@ -29,7 +29,7 @@ namespace Spells
 			return true;
 		}
 
-		public override bool CastSpellServer(ConnectedPlayer caster)
+		public override bool CastSpellServer(PlayerInfo caster)
 		{
 			if (base.CastSpellServer(caster) == false) return false;
 

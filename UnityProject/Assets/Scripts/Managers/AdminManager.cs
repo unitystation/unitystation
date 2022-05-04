@@ -9,7 +9,7 @@ namespace Managers
 		public GameObject ItemStorageHolderPrefab;
 		private Dictionary<string, ItemStorage> ghostStorageList = new Dictionary<string, ItemStorage>();
 
-		private ItemStorage CreateItemSlotStorage(ConnectedPlayer player)
+		private ItemStorage CreateItemSlotStorage(PlayerInfo player)
 		{
 			var holder = Spawn.ServerPrefab(ItemStorageHolderPrefab, null, gameObject.transform);
 			var itemStorage = holder.GameObject.GetComponent<ItemStorage>();
@@ -17,7 +17,7 @@ namespace Managers
 			return itemStorage;
 		}
 
-		public ItemStorage GetItemSlotStorage(ConnectedPlayer player)
+		public ItemStorage GetItemSlotStorage(PlayerInfo player)
 		{
 			if (ghostStorageList.ContainsKey(player.UserId))
 			{

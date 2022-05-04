@@ -30,7 +30,7 @@ namespace InGameEvents
 				return;
 			}
 
-			foreach (ConnectedPlayer player in PlayerList.Instance.InGamePlayers)
+			foreach (PlayerInfo player in PlayerList.Instance.InGamePlayers)
 			{
 				if (player.Script.IsDeadOrGhost) continue;
 
@@ -38,12 +38,12 @@ namespace InGameEvents
 			}
 		}
 
-		protected virtual void HandlePlayer(ConnectedPlayer player)
+		protected virtual void HandlePlayer(PlayerInfo player)
 		{
 			GiveGunToPlayer(player);
 		}
 
-		protected void GiveGunToPlayer(ConnectedPlayer player)
+		protected void GiveGunToPlayer(PlayerInfo player)
 		{
 			GameObject gun = Spawn.ServerPrefab(gunList.GetRandom(),
 						player.Script.WorldPos, player.Script.transform.parent, player.Script.transform.rotation).GameObject;

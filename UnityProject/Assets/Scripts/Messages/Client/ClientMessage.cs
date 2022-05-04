@@ -8,10 +8,10 @@ namespace Messages.Client
 		/// Player that sent this ClientMessage.
 		/// Returns ConnectedPlayer.Invalid if there are issues finding one from PlayerList (like, player already left)
 		/// </summary>
-		public ConnectedPlayer SentByPlayer;
+		public PlayerInfo SentByPlayer;
 		public override void Process(NetworkConnection sentBy, T msg)
 		{
-			SentByPlayer = PlayerList.Instance.Get(sentBy);
+			SentByPlayer = PlayerList.Instance.GetOnline(sentBy);
 			base.Process(sentBy, msg);
 		}
 
@@ -27,17 +27,14 @@ namespace Messages.Client
 
 		internal bool IsFromAdmin()
 		{
-			if (CustomNetworkManager.IsServer)
-			{
-				return PlayerList.Instance.IsAdmin(SentByPlayer);
-			}
-
-			return PlayerList.Instance.IsClientAdmin;
+			return CustomNetworkManager.IsServer
+					? SentByPlayer.IsAdmin
+					: PlayerList.Instance.IsClientAdmin;
 		}
 
 		private static uint LocalPlayerId()
 		{
-			return PlayerManager.LocalPlayer.GetComponent<NetworkIdentity>().netId;
+			return PlayerManager.LocalPlayerObject.GetComponent<NetworkIdentity>().netId;
 		}
 	}
 }

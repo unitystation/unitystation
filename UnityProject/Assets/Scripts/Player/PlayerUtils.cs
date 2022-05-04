@@ -35,7 +35,7 @@ public static class PlayerUtils
 	{
 		if (CustomNetworkManager.IsServer == false) return;
 
-		foreach ( ConnectedPlayer player in PlayerList.Instance.InGamePlayers )
+		foreach ( PlayerInfo player in PlayerList.Instance.InGamePlayers )
 		{
 			var ps = player.Script;
 			if (ps.IsDeadOrGhost) continue;

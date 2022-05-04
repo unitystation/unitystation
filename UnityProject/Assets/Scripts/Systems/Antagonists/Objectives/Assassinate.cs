@@ -14,7 +14,7 @@ namespace Antagonists
 		/// <summary>
 		/// The person to assassinate
 		/// </summary>
-		private ConnectedPlayer Target;
+		private PlayerInfo Target;
 
 		/// <summary>
 		/// Make sure there's at least one player which hasn't been targeted, not including the candidate
@@ -33,7 +33,7 @@ namespace Antagonists
 		protected override void Setup()
 		{
 			// Get all ingame players except the one who owns this objective and players who have already been targeted and the ones who cant be targeted
-			List<ConnectedPlayer> playerPool = PlayerList.Instance.InGamePlayers.Where( p =>
+			List<PlayerInfo> playerPool = PlayerList.Instance.InGamePlayers.Where( p =>
 				(p.Script != Owner.body) && !AntagManager.Instance.TargetedPlayers.Contains(p.Script) && p.Script.mind.occupation != null && p.Script.mind.occupation.IsTargeteable
 
 			).ToList();
@@ -45,7 +45,7 @@ namespace Antagonists
 			}
 
 			// Pick a random target and add them to the targeted list
-			Target = playerPool.PickRandom().Script.connectedPlayer;
+			Target = playerPool.PickRandom().Script.PlayerInfo;
 
 			//If still null then its a free objective
 			if(Target == null || Target.Script.mind.occupation == null)

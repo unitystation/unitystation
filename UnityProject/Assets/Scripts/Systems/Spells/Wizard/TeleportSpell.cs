@@ -40,7 +40,7 @@ namespace Systems.Spells.Wizard
 
 		private IEnumerator RunTeleportSequence(Vector3Int toWorldPos)
 		{
-			ConnectedPlayer player = teleportingPlayer.Player();
+			PlayerInfo player = teleportingPlayer.Player();
 
 			IsBusy = true;
 			syncAnimation = true;

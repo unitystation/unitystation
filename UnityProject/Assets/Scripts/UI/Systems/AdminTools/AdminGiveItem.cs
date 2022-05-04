@@ -102,7 +102,7 @@ namespace UI.Systems.AdminTools
 				Inventory.ServerAdd(item.GameObject, slot);
 			}
 			if(string.IsNullOrEmpty(messageInput.text) == false) Chat.AddExamineMsg(selectedPlayer, messageInput.text);
-			Chat.AddExamineMsg(PlayerManager.LocalPlayer, $"You have given {script.visibleName} : {item.GameObject.ExpensiveName()}");
+			Chat.AddExamineMsg(PlayerManager.LocalPlayerObject, $"You have given {script.visibleName} : {item.GameObject.ExpensiveName()}");
 		}
 
 		public void GoBack()

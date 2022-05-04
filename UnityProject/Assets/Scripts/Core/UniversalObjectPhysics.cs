@@ -317,7 +317,9 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 		if (isServer) return;
 		if (LocalTargetPosition == NewLocalTarget.Vector3) return;
 		if (isLocalPlayer || PulledBy.HasComponent) return;
-		if (NewLocalTarget.ByClient != NetId.Empty &&  NewLocalTarget.ByClient != NetId.Invalid  && NetworkIdentity.spawned.ContainsKey(NewLocalTarget.ByClient) && NetworkIdentity.spawned[NewLocalTarget.ByClient].gameObject  == PlayerManager.LocalPlayer) return;
+		if (NewLocalTarget.ByClient != NetId.Empty && NewLocalTarget.ByClient != NetId.Invalid
+				&& NetworkIdentity.spawned.ContainsKey(NewLocalTarget.ByClient)
+				&& NetworkIdentity.spawned[NewLocalTarget.ByClient].gameObject == PlayerManager.LocalPlayerObject) return;
 
 		SetLocalTarget = NewLocalTarget;
 
@@ -373,7 +375,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 	{
 		SetTimestampID = TimestampID;
 		if (isServer) return;
-		if (PlayerManager.LocalPlayer == CausedByClient) return;
+		if (PlayerManager.LocalPlayerObject == CausedByClient) return;
 		if (PulledBy.HasComponent && overridePull == false) return;
 		if (isLocalPlayer)
 		{
@@ -391,8 +393,9 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 		int MatrixID, float InspinFactor, bool ForceOverride, uint DoNotUpdateThisClient)
 	{
 		if (isServer) return;
-		if (DoNotUpdateThisClient != NetId.Empty && DoNotUpdateThisClient != NetId.Invalid &&
-		    NetworkIdentity.spawned.ContainsKey(DoNotUpdateThisClient) && NetworkIdentity.spawned[DoNotUpdateThisClient].gameObject  == PlayerManager.LocalPlayer) return;
+		if (DoNotUpdateThisClient != NetId.Empty && DoNotUpdateThisClient != NetId.Invalid
+			&& NetworkIdentity.spawned.ContainsKey(DoNotUpdateThisClient)
+			&& NetworkIdentity.spawned[DoNotUpdateThisClient].gameObject == PlayerManager.LocalPlayerObject) return;
 
 
 		//if (isLocalPlayer) return; //We are updating other Objects than the player on the client //TODO Also block if being pulled by local player //Why we need this?
@@ -1590,7 +1593,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 			PullSet(null, true);
 		}
 
-		ConnectedPlayer clientWhoAsked = PlayerList.Instance.Get(gameObject);
+		PlayerInfo clientWhoAsked = PlayerList.Instance.Get(gameObject);
 		if (Validations.CanApply(clientWhoAsked.Script, gameObject, NetworkSide.Server) == false)
 		{
 			return;

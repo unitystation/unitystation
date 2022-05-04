@@ -46,7 +46,7 @@ namespace Player
 			return new PlayerSpawnRequest(requestedOccupation, requestedBy, characterSettings, userID);
 		}
 
-		public static PlayerSpawnRequest RequestOccupation(ConnectedPlayer requestedBy, Occupation requestedOccupation)
+		public static PlayerSpawnRequest RequestOccupation(PlayerInfo requestedBy, Occupation requestedOccupation)
 		{
 			return new PlayerSpawnRequest(requestedOccupation, requestedBy.ViewerScript, requestedBy.CharacterSettings, requestedBy.UserId);
 		}

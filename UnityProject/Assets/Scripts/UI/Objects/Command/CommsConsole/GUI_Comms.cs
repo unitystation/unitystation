@@ -248,7 +248,7 @@ namespace UI.Objects.Command
 			Logger.Log(nameof(RequestNukeCodes), Category.Shuttles);
 		}
 
-		public void RemoveId(ConnectedPlayer player)
+		public void RemoveId(PlayerInfo player)
 		{
 			if (console.IdCard && IsAIInteracting() == false)
 			{

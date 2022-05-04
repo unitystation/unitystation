@@ -326,10 +326,10 @@ public class MouseInputController : MonoBehaviour
 
 	private void TrySlide()
 	{
-		if (PlayerManager.PlayerScript.IsGhost ||
-		    PlayerManager.PlayerScript.playerHealth.ConsciousState != ConsciousState.CONSCIOUS)
+		if (PlayerManager.LocalPlayerScript.IsGhost ||
+		    PlayerManager.LocalPlayerScript.playerHealth.ConsciousState != ConsciousState.CONSCIOUS)
 			return;
-		PlayerManager.PlayerScript.playerNetworkActions.CmdSlideItem(Vector3Int.RoundToInt(MouseWorldPosition));
+		PlayerManager.LocalPlayerScript.playerNetworkActions.CmdSlideItem(Vector3Int.RoundToInt(MouseWorldPosition));
 	}
 
 	private bool CheckClick()
@@ -537,10 +537,10 @@ public class MouseInputController : MonoBehaviour
 		var clickedObject = MouseUtils.GetOrderedObjectsUnderMouse(null, null).FirstOrDefault();
 		if (!clickedObject)
 			return;
-		if (PlayerManager.PlayerScript.IsGhost ||
-		    PlayerManager.PlayerScript.playerHealth.ConsciousState != ConsciousState.CONSCIOUS)
+		if (PlayerManager.LocalPlayerScript.IsGhost ||
+		    PlayerManager.LocalPlayerScript.playerHealth.ConsciousState != ConsciousState.CONSCIOUS)
 			return;
-		if (Cooldowns.TryStartClient(PlayerManager.PlayerScript, CommonCooldowns.Instance.Interaction) == false)
+		if (Cooldowns.TryStartClient(PlayerManager.LocalPlayerScript, CommonCooldowns.Instance.Interaction) == false)
 			return;
 
 		if (clickedObject.TryGetComponent<NetworkedMatrix>(out var networkedMatrix))
@@ -548,7 +548,7 @@ public class MouseInputController : MonoBehaviour
 			clickedObject = networkedMatrix.MatrixSync.gameObject;
 		}
 
-		PlayerManager.PlayerScript.playerNetworkActions.CmdPoint(clickedObject, MouseWorldPosition);
+		PlayerManager.LocalPlayerScript.playerNetworkActions.CmdPoint(clickedObject, MouseWorldPosition);
 	}
 
 	/// <summary>
@@ -607,7 +607,7 @@ public class MouseInputController : MonoBehaviour
 						$"Forcefully updated atmos at worldPos {position}/ localPos {localPos} of {matrix.Name}");
 				});
 
-				Chat.AddLocalMsgToChat("Ping " + DateTime.Now.ToFileTimeUtc(), PlayerManager.LocalPlayer);
+				Chat.AddLocalMsgToChat("Ping " + DateTime.Now.ToFileTimeUtc(), PlayerManager.LocalPlayerObject);
 			}
 
 			return true;
@@ -623,8 +623,9 @@ public class MouseInputController : MonoBehaviour
 			var currentSlot = PlayerManager.LocalPlayerScript.DynamicItemStorage.GetActiveHandSlot();
 			if (currentSlot.Item != null || PlayerManager.LocalPlayerScript.playerMove.Pulling.HasComponent)
 			{
-				PlayerManager.LocalPlayerScript.playerNetworkActions.CmdThrow(
-					MouseWorldPosition.ToLocal(playerMove.registerTile.Matrix), (int) UIManager.DamageZone, MouseWorldPosition - PlayerManager.LocalPlayer.transform.position);
+				var localTarget = MouseWorldPosition.ToLocal(playerMove.registerTile.Matrix);
+				var vector = MouseWorldPosition - PlayerManager.LocalPlayerScript.transform.position;
+				PlayerManager.LocalPlayerScript.playerNetworkActions.CmdThrow(localTarget, (int) UIManager.DamageZone, vector);
 
 				//Disabling throw button
 				UIManager.Action.Throw();

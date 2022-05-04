@@ -79,16 +79,16 @@ namespace UI
 		{
 			Logger.Log("OnClickRunWalk", Category.UserInput);
 			_ = SoundManager.Play(CommonSounds.Instance.Click01);
-			if(PlayerManager.PlayerScript.playerMove.CurrentMovementType == Player.Movement.MovementType.Crawling
-				|| PlayerManager.PlayerScript.playerHealth.IsSoftCrit)
+			if(PlayerManager.LocalPlayerScript.playerMove.CurrentMovementType == Player.Movement.MovementType.Crawling
+				|| PlayerManager.LocalPlayerScript.playerHealth.IsSoftCrit)
 			{
-				Chat.AddExamineMsg(PlayerManager.PlayerScript.gameObject, "You struggle to change how fast you move!");
+				Chat.AddExamineMsg(PlayerManager.LocalPlayerObject, "You struggle to change how fast you move!");
 				return;
 			}
 
 			Running = !Running;
 			runWalkBorder.SetActive(Running);
-			PlayerManager.PlayerScript.playerMove.CmdChangeCurrentWalkMode(Running);
+			PlayerManager.LocalPlayerScript.playerMove.CmdChangeCurrentWalkMode(Running);
 
 			Chat.AddExamineMsgToClient(Running ? startRunningMessage : startWalkingMessage);
 		}

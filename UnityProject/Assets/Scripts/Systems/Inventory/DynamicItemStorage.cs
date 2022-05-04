@@ -681,7 +681,7 @@ public class DynamicItemStorage : NetworkBehaviour
 		ClientSlotCharacteristic[Slot] = storageCharacteristicse;
 		ClientTotal.Add(Slot);
 
-		if (PlayerManager.LocalPlayer == this.gameObject && storageCharacteristicse.NotPresentOnUI == false)
+		if (PlayerManager.LocalPlayerObject == this.gameObject && storageCharacteristicse.NotPresentOnUI == false)
 		{
 			UIManager.Instance.UI_SlotManager.SetActive(true);
 			UIManager.Instance.UI_SlotManager.UpdateUI();
@@ -719,7 +719,7 @@ public class DynamicItemStorage : NetworkBehaviour
 			.Remove(slot);
 		if (ClientSlotCharacteristic.ContainsKey(slot)) ClientSlotCharacteristic.Remove(slot);
 		ClientTotal.Remove(slot);
-		if (PlayerManager.LocalPlayer == this.gameObject)
+		if (PlayerManager.LocalPlayerObject == this.gameObject)
 		{
 			UIManager.Instance.UI_SlotManager.UpdateUI();
 		}

@@ -35,7 +35,7 @@ namespace Systems.CraftingV2.ClientServerLogic
 			);
 		}
 
-		public static void SendTo(ConnectedPlayer recipient)
+		public static void SendTo(PlayerInfo recipient)
 		{
 			if (recipient.Script.PlayerCrafting.IsPlayerAbleToCraft() == false)
 			{

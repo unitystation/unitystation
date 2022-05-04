@@ -17,7 +17,7 @@ namespace Messages.Server
 			shuttleConsole.ChangeRcsPlayer(msg.State, PlayerManager.LocalPlayerScript);
 		}
 
-		public static NetMessage SendTo(ShuttleConsole shuttleConsole, bool state, ConnectedPlayer connectedPlayer)
+		public static NetMessage SendTo(ShuttleConsole shuttleConsole, bool state, PlayerInfo connectedPlayer)
 		{
 			NetMessage msg = new NetMessage
 			{

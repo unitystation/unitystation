@@ -169,7 +169,7 @@ namespace Objects
 		[Client]
 		private void SyncStatus(bool oldState, bool newState)
 		{
-			if(PlayerManager.LocalPlayer.OrNull()?.GetComponent<AiPlayer>() == null) return;
+			if(PlayerManager.LocalPlayerObject.OrNull()?.GetComponent<AiPlayer>() == null) return;
 
 			ToggleAiSprite(newState);
 
@@ -199,7 +199,7 @@ namespace Objects
 
 		public void SetUp(PlayerScript player)
 		{
-			if(player.connectedPlayer?.Connection == null) return;
+			if(player.PlayerInfo?.Connection == null) return;
 
 			player.playerNetworkActions.TargetRpcOpenInput(gameObject, "Camera Channel", securityCameraChannel);
 		}

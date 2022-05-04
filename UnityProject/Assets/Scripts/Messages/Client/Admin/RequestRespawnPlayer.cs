@@ -21,20 +21,23 @@ namespace Messages.Client.Admin
 		{
 			if (IsFromAdmin() == false) return;
 
-			var deadPlayer = PlayerList.Instance.GetByUserID(msg.UserToRespawn);
-			if (deadPlayer == null || deadPlayer.Script == null) return;
-
-			// Wasn't so dead, let's kill them
-			if (deadPlayer.Script.playerHealth != null &&
-			    deadPlayer.Script.playerHealth.IsDead == false)
+			if (PlayerList.Instance.TryGetByUserID(msg.UserToRespawn, out var player) == false || player.Script == null)
 			{
-				deadPlayer.Script.playerHealth.ApplyDamageAll(SentByPlayer.GameObject, 200, AttackType.Internal, DamageType.Brute);
+				Logger.LogError($"Player with user ID '{msg.UserToRespawn}' not found or has no script. Cannot respawn player.", Category.Admin);
+				return;
 			}
 
-			TryRespawn(deadPlayer, msg, msg.OccupationToRespawn);
+			// Wasn't so dead, let's kill them
+			if (player.Script.playerHealth != null &&
+				player.Script.playerHealth.IsDead == false)
+			{
+				player.Script.playerHealth.ApplyDamageAll(SentByPlayer.GameObject, 200, AttackType.Internal, DamageType.Brute);
+			}
+
+			TryRespawn(player, msg, msg.OccupationToRespawn);
 		}
 
-		private void TryRespawn(ConnectedPlayer deadPlayer, NetMessage msg, string occupation = null)
+		private void TryRespawn(PlayerInfo deadPlayer, NetMessage msg, string occupation = null)
 		{
 			UIManager.Instance.adminChatWindows.adminLogWindow.ServerAddChatRecord(
 					$"{SentByPlayer.Username} respawned dead player {deadPlayer.Username} ({deadPlayer.Name}) as {occupation}",

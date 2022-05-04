@@ -17,7 +17,7 @@ namespace Messages.Server
 			HighlanderTimerUI.Instance.Show(msg.Time);
 		}
 
-		public static void Send(ConnectedPlayer player)
+		public static void Send(PlayerInfo player)
 		{
 			var highlanderEvent =  InGameEventsManager.Instance.ListOfAntagonistEventScripts.Find(x => x.GetType() == typeof(EventHighlander))
 				.GetComponent<EventHighlander>();

@@ -22,10 +22,16 @@ public static class SweetExtensions
 		return go.OrNull()?.GetComponent<Pickupable>();
 	}
 
-	public static ConnectedPlayer Player(this GameObject go)
+	public static bool TryGetPlayer(this GameObject gameObject, out PlayerInfo player)
+	{
+		player = PlayerList.Instance?.Get(gameObject);
+		return player != null;
+	}
+
+	public static PlayerInfo Player(this GameObject go)
 	{
 		var connectedPlayer = PlayerList.Instance?.Get(go);
-		return connectedPlayer == ConnectedPlayer.Invalid ? null : connectedPlayer;
+		return connectedPlayer == PlayerInfo.Invalid ? null : connectedPlayer;
 	}
 	public static ItemAttributesV2 Item(this GameObject go)
 	{

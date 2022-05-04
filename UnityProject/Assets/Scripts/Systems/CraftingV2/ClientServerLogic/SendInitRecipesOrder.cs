@@ -24,7 +24,7 @@ namespace Systems.CraftingV2.ClientServerLogic
 			PlayerManager.LocalPlayerScript.PlayerCrafting.InitRecipes(serverSideKnownRecipes);
 		}
 
-		public static void SendTo(ConnectedPlayer recipient, List<List<CraftingRecipe>> serverSideKnownRecipes)
+		public static void SendTo(PlayerInfo recipient, List<List<CraftingRecipe>> serverSideKnownRecipes)
 		{
 			List<int> serverSideKnownRecipeIds = new List<int>();
 			foreach (List<CraftingRecipe> recipesInCategory in serverSideKnownRecipes)

@@ -72,6 +72,12 @@ namespace AdminTools
 
 		private void ServerMessageRecording(string playerId, AdminChatMessage entry)
 		{
+			if (PlayerList.Instance.TryGetByUserID(playerId, out var player) == false)
+			{
+				Logger.LogError($"Could not find player with ID '{playerId}'. Unable to record mentor dialogue.");
+				return;
+			}
+
 			var chatlogDir = Path.Combine(Application.streamingAssetsPath, "chatlogs");
 			if (!Directory.Exists(chatlogDir))
 			{
@@ -80,23 +86,20 @@ namespace AdminTools
 
 			var filePath = Path.Combine(chatlogDir, $"{playerId}-mentor.txt");
 
-			var connectedPlayer = PlayerList.Instance.GetByUserID(playerId);
-
 			if (!File.Exists(filePath))
 			{
 				var stream = File.Create(filePath);
 				stream.Close();
-				string header = $"Username: {connectedPlayer.Username} Player Name: {connectedPlayer.Name} \r\n" +
-				                $"IsAntag: {PlayerList.Instance.AntagPlayers.Contains(connectedPlayer)}  role: {connectedPlayer.Job} \r\n" +
+				string header = $"Username: {player.Username} Character Name: {player.Name} \r\n" +
+				                $"IsAntag: {PlayerList.Instance.AntagPlayers.Contains(player)}  role: {player.Job} \r\n" +
 				                $"-----Chat Log----- \r\n" +
 				                $" \r\n";
 				File.AppendAllText(filePath, header);
 			}
 
-			string entryName = connectedPlayer.Name;
-			if (entry.wasFromAdmin)
+			string entryName = player.Name;
+			if (entry.wasFromAdmin && PlayerList.Instance.TryGetByUserID(entry.fromUserid, out var mentorPlayer))
 			{
-				var mentorPlayer = PlayerList.Instance.GetByUserID(entry.fromUserid);
 				entryName = "[Mentor] " + mentorPlayer.Name;
 			}
 

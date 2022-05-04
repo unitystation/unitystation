@@ -29,9 +29,9 @@ namespace Systems.Spells.Wizard
 		[SerializeField, Range(3, 12)]
 		private int secondaryRange = 4;
 
-		private ConnectedPlayer caster;
+		private PlayerInfo caster;
 
-		public override bool CastSpellServer(ConnectedPlayer caster, Vector3 clickPosition)
+		public override bool CastSpellServer(PlayerInfo caster, Vector3 clickPosition)
 		{
 			this.caster = caster;
 
@@ -48,7 +48,7 @@ namespace Systems.Spells.Wizard
 			return true;
 		}
 
-		private GameObject ZapPrimaryTarget(ConnectedPlayer caster, Vector3 targetPosition)
+		private GameObject ZapPrimaryTarget(PlayerInfo caster, Vector3 targetPosition)
 		{
 			GameObject targetObject = default;
 

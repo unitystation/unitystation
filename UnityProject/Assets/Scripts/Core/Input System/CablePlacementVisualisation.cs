@@ -94,9 +94,9 @@ public class CablePlacementVisualisation : MonoBehaviour
 		if (!cablePlacementVisualisation.activeSelf) return;
 
 
-		if (PlayerManager.LocalPlayer.RegisterTile().Matrix.IsMovable)
+		if (PlayerManager.LocalPlayerObject.RegisterTile().Matrix.IsMovable)
 		{
-			cablePlacementVisualisation.transform.localRotation = PlayerManager.LocalPlayer.RegisterTile().Matrix.MatrixMove
+			cablePlacementVisualisation.transform.localRotation = PlayerManager.LocalPlayerObject.RegisterTile().Matrix.MatrixMove
 				.FacingOffsetFromInitial.Quaternion;
 		}
 		else
@@ -106,7 +106,7 @@ public class CablePlacementVisualisation : MonoBehaviour
 
 
 		// get releative mouse position
-		Vector2 releativeMousePosition = MouseUtils.MouseToWorldPos().ToLocal(PlayerManager.LocalPlayer.RegisterTile().Matrix) - cablePlacementVisualisation.transform.position.ToLocal(PlayerManager.LocalPlayer.RegisterTile().Matrix);
+		Vector2 releativeMousePosition = MouseUtils.MouseToWorldPos().ToLocal(PlayerManager.LocalPlayerObject.RegisterTile().Matrix) - cablePlacementVisualisation.transform.position.ToLocal(PlayerManager.LocalPlayerObject.RegisterTile().Matrix);
 		// get nearest point
 		int x = Mathf.RoundToInt(releativeMousePosition.x * 2);
 		int y = 2 - Mathf.RoundToInt(releativeMousePosition.y * 2);
@@ -163,7 +163,7 @@ public class CablePlacementVisualisation : MonoBehaviour
 	private void Build()
 	{
 		if (startPoint == endPoint || target == null) return;
-		var Register = PlayerManager.LocalPlayer.RegisterTile();
+		var Register = PlayerManager.LocalPlayerObject.RegisterTile();
 
 		Vector3 Position = Vector3.zero;
 
@@ -178,7 +178,7 @@ public class CablePlacementVisualisation : MonoBehaviour
 		}
 
 
-		Vector2 targetVector = Position.ToLocal(PlayerManager.LocalPlayer.RegisterTile().Matrix); // transform.position ( - transform.position); //TODO? what? is this
+		Vector2 targetVector = Position.ToLocal(PlayerManager.LocalPlayerObject.RegisterTile().Matrix); // transform.position ( - transform.position); //TODO? what? is this
 
 		ConnectionApply cableApply = ConnectionApply.ByLocalPlayer(target, startPoint, endPoint, targetVector);
 
@@ -345,7 +345,7 @@ public class CablePlacementVisualisation : MonoBehaviour
 				if (topTile && (topTile.LayerType == LayerType.Base || topTile.LayerType == LayerType.Underfloor))
 				{
 					// move cable placement visualisation to rounded mouse position and enable it
-					var RegisterTile = PlayerManager.LocalPlayer.RegisterTile();
+					var RegisterTile = PlayerManager.LocalPlayerObject.RegisterTile();
 
 					if (RegisterTile.Matrix.IsMovable == false)
 					{

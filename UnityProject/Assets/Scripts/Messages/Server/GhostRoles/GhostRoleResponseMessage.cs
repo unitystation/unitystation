@@ -28,7 +28,7 @@ namespace Messages.Server.GhostRoles
 		// To be run on client
 		public override void Process(NetMessage msg)
 		{
-			if (PlayerManager.LocalPlayer == null) return;
+			if (PlayerManager.LocalPlayerObject == null) return;
 
 			if (MatrixManager.IsInitialized == false) return;
 
@@ -38,7 +38,7 @@ namespace Messages.Server.GhostRoles
 		/// <summary>
 		/// Sends a message to the specific player, informing them about the outcome of their request for a ghost role.
 		/// </summary>
-		public static NetMessage SendTo(ConnectedPlayer player, uint key, GhostRoleResponseCode code)
+		public static NetMessage SendTo(PlayerInfo player, uint key, GhostRoleResponseCode code)
 		{
 			NetMessage msg = new NetMessage
 			{

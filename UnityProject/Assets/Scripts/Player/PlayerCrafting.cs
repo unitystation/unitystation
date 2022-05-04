@@ -122,7 +122,7 @@ namespace Player
 				// ...then we'll handle the recipe learning on the "client" side,
 				// so we won't have duplicates in the known recipes list
 				// (because the server and the client have one known recipes list for two)
-				SendLearnedCraftingRecipe.SendTo(playerScript.connectedPlayer, recipe);
+				SendLearnedCraftingRecipe.SendTo(playerScript.PlayerInfo, recipe);
 				return;
 			}
 
@@ -131,7 +131,7 @@ namespace Player
 				return;
 			}
 
-			SendLearnedCraftingRecipe.SendTo(playerScript.connectedPlayer, recipe);
+			SendLearnedCraftingRecipe.SendTo(playerScript.PlayerInfo, recipe);
 		}
 
 		/// <summary>
@@ -188,7 +188,7 @@ namespace Player
 				return;
 			}
 
-			SendForgottenCraftingRecipe.SendTo(playerScript.connectedPlayer, recipe);
+			SendForgottenCraftingRecipe.SendTo(playerScript.PlayerInfo, recipe);
 		}
 
 		[Server]

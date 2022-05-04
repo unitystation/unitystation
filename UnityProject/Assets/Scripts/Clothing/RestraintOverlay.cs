@@ -48,7 +48,7 @@ namespace UI.Items
 
 		private void DetermineAlertUI()
 		{
-			if (thisPlayerScript != PlayerManager.PlayerScript) return;
+			if (thisPlayerScript != PlayerManager.LocalPlayerScript) return;
 
 			UIActionManager.ToggleLocal(this, GameObjectReference != null);
 		}
@@ -98,7 +98,7 @@ namespace UI.Items
 
 		public void CallActionClient()
 		{
-			PlayerManager.PlayerScript.playerNetworkActions.CmdTryUncuff();
+			PlayerManager.LocalPlayerScript.playerNetworkActions.CmdTryUncuff();
 		}
 	}
 }
