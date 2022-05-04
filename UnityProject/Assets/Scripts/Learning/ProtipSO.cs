@@ -13,7 +13,7 @@ namespace Learning
     }
 
     [Serializable]
-	public struct Protip
+	public struct Protip : IEquatable<Protip>
 	{
 		public string Tip;
 		public Sprite TipIcon;
