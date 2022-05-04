@@ -65,10 +65,8 @@ for Folder in Folders:
         FilePath =  Folder + File
         shutil.copy(FilePath, Local_Addressable_path)
 
-print("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
-print(Addressable_path)
 Folders = os.listdir(Addressable_path)
-print(Folders)
+
 for Folder in Folders:
     Folder_Name = Folder
     Folder = Addressable_path + Folder+ "/"
