@@ -790,6 +790,7 @@ public class SpriteHandler : MonoBehaviour
 		if (PresentFrame == null)
 		{
 			TryToggleAnimationState(false);
+			return;
 		}
 
 		if (timeElapsed >= PresentFrame.secondDelay)
