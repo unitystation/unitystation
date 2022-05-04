@@ -1,32 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-4406379432716685636
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4268756647099948457}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aa81ec511a774901a8b33ad5ee4bc94a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  RingSound:
-    SetLoadSetting: 0
-    AssetAddress: Assets/Prefabs/Effects/ServiceBell.prefab
-    AssetReference:
-      m_AssetGUID: 
-      m_SubObjectName: 
-      m_SubObjectType: 
-  BigBellRingSound:
-    SetLoadSetting: 0
-    AssetAddress: Assets/Prefabs/Effects/ServiceBell.prefab
-    AssetReference:
-      m_AssetGUID: 
-      m_SubObjectName: 
-      m_SubObjectType: 
-  BellSpriteRenderer: {fileID: 7961155477752538670}
 --- !u!1001 &4268915920441319699
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -127,6 +100,35 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 4268915920441319699}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &-4406379432716685636
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4268756647099948457}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa81ec511a774901a8b33ad5ee4bc94a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  RingSound:
+    SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/Effects/ServiceBell.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
+  BigBellRingSound:
+    SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/Effects/ServiceBell.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
+  BellSpriteRenderer: {fileID: 7961155477752538670}
 --- !u!114 &7961155477752538670 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 6144467708197095229, guid: a7abba22164ce49f0bf9b9b219f39298,

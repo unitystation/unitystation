@@ -322,22 +322,16 @@ PrefabInstance:
     m_RemovedComponents:
     - {fileID: 5091645988084169630, guid: 6f371050bff8b32438f91c7c680900bb, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 6f371050bff8b32438f91c7c680900bb, type: 3}
---- !u!1 &4784655301099371187 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 5734849685452875998, guid: 6f371050bff8b32438f91c7c680900bb,
-    type: 3}
-  m_PrefabInstance: {fileID: 1004520157929427565}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &4896307685547251555 stripped
+--- !u!114 &1666505115895660852 stripped
 MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 5621592014544258318, guid: 6f371050bff8b32438f91c7c680900bb,
+  m_CorrespondingSourceObject: {fileID: 1932141341405303641, guid: 6f371050bff8b32438f91c7c680900bb,
     type: 3}
   m_PrefabInstance: {fileID: 1004520157929427565}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4784655301099371187}
+  m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 579884b05ae74e8499329b64997147d3, type: 3}
+  m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &2755709628018005534 stripped
@@ -352,18 +346,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1360d2b65a03cdf449035cd3c4cd0153, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &1666505115895660852 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 1932141341405303641, guid: 6f371050bff8b32438f91c7c680900bb,
+--- !u!1 &4784655301099371187 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5734849685452875998, guid: 6f371050bff8b32438f91c7c680900bb,
     type: 3}
   m_PrefabInstance: {fileID: 1004520157929427565}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &-8188105322153847258
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -403,6 +391,7 @@ MonoBehaviour:
       m_AssetGUID: 
       m_SubObjectName: 
       m_SubObjectType: 
+      m_EditorAssetChanged: 0
   openedSprite: {fileID: 11400000, guid: cc73178d517fe324b95168df570fa6f7, type: 2}
   openingVerb: spark
   openingRequirementText: You need to spark this first before using it!
@@ -411,3 +400,15 @@ MonoBehaviour:
   runsOutOverTime: 1
   runsOutOverSeconds: 356
   actionButton: {fileID: 2755709628018005534}
+--- !u!114 &4896307685547251555 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5621592014544258318, guid: 6f371050bff8b32438f91c7c680900bb,
+    type: 3}
+  m_PrefabInstance: {fileID: 1004520157929427565}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4784655301099371187}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 579884b05ae74e8499329b64997147d3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

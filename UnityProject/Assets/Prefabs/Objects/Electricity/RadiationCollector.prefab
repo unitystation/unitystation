@@ -42,6 +42,7 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 4, y: -34, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 4920401221825478}
   m_Father: {fileID: 0}
@@ -267,6 +268,7 @@ MonoBehaviour:
       m_AssetGUID: 
       m_SubObjectName: 
       m_SubObjectType: 
+      m_EditorAssetChanged: 0
   damageDeflection: 0
   Armor:
     Melee: 0
@@ -292,7 +294,7 @@ MonoBehaviour:
   HeatResistance: 100
   ExplosionsDamage: 100
   doDamageMessage: 1
-  CannotBeAshed: 0
+  Meleeable: {fileID: 0}
 --- !u!114 &1773004346421643381
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -317,6 +319,7 @@ MonoBehaviour:
       m_AssetGUID: 
       m_SubObjectName: 
       m_SubObjectType: 
+      m_EditorAssetChanged: 0
   soundDelayTime: 0
   soundMinimumPitchVariance: 1
   soundMaximumPitchVariance: 1
@@ -336,7 +339,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mainSpriteHandler: {fileID: 8106342113633906247}
-  slotHandler: {fileID: 0}
   startSetUp: 0
   radiationWatts: 10
 --- !u!114 &5933879109768817857
@@ -355,6 +357,7 @@ MonoBehaviour:
   machineBoardPrefab: {fileID: 8026946951644424067, guid: 2f9708f30e072384b90ff2e8c13583b6,
     type: 3}
   canNotBeDeconstructed: 0
+  isEMPResistant: 0
   mustBeUnanchored: 0
   secondsToScrewdrive: 2
 --- !u!114 &7688260226702700199
@@ -375,6 +378,7 @@ MonoBehaviour:
   initialDescription: generates power from radiation
   willHighlight: 1
   exportCost: 100
+  exportType: 0
   exportName: radiation collector
   exportMessage: 
 --- !u!114 &-6790315723496725363
@@ -389,8 +393,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62cc3ef7cd9082443aaf3c255851d15a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
 --- !u!114 &6904090263313110087
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -440,6 +442,7 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 4734855229797344}
   m_RootOrder: 0
@@ -516,6 +519,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 22bd67fd274607e4080c296c5306a0d6, type: 2}
   PresentSpriteSet: {fileID: 11400000, guid: d7874798bfaf4ac4491ec0b7c3c88171, type: 2}
   randomInitialSprite: 0
+  doReverseAnimation: 0
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
   palette: []

@@ -28,6 +28,7 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 6997084797836643915}
   m_RootOrder: 2
@@ -100,6 +101,7 @@ MonoBehaviour:
   SubCatalogue: []
   PresentSpriteSet: {fileID: 0}
   randomInitialSprite: 0
+  doReverseAnimation: 0
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
   palette: []
@@ -285,54 +287,6 @@ PrefabInstance:
     - {fileID: 7267447368795639582, guid: 3e5919f639f566c4590d07d54ef256dd, type: 3}
     - {fileID: 1910413750983129818, guid: 3e5919f639f566c4590d07d54ef256dd, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 3e5919f639f566c4590d07d54ef256dd, type: 3}
---- !u!1 &6992156924195287871 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 8635195139948178778, guid: 3e5919f639f566c4590d07d54ef256dd,
-    type: 3}
-  m_PrefabInstance: {fileID: 1648108108435218021}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &6997084797836643915 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 8630552864855298094, guid: 3e5919f639f566c4590d07d54ef256dd,
-    type: 3}
-  m_PrefabInstance: {fileID: 1648108108435218021}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &6961596275498819311 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 8521883043285352586, guid: 3e5919f639f566c4590d07d54ef256dd,
-    type: 3}
-  m_PrefabInstance: {fileID: 1648108108435218021}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6992156924195287871}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 579884b05ae74e8499329b64997147d3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &6962316566559280959 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 8520915567889977690, guid: 3e5919f639f566c4590d07d54ef256dd,
-    type: 3}
-  m_PrefabInstance: {fileID: 1648108108435218021}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6992156924195287871}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c23c49138f42840a1bc22ade283c1694, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &7981628501990062821 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 8654565269348869248, guid: 3e5919f639f566c4590d07d54ef256dd,
-    type: 3}
-  m_PrefabInstance: {fileID: 1648108108435218021}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6992156924195287871}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fdce8a163088453ca593c0e98f2c5f07, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &3769300246753970360 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 2490630288303511261, guid: 3e5919f639f566c4590d07d54ef256dd,
@@ -357,6 +311,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &6961596275498819311 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8521883043285352586, guid: 3e5919f639f566c4590d07d54ef256dd,
+    type: 3}
+  m_PrefabInstance: {fileID: 1648108108435218021}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6992156924195287871}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 579884b05ae74e8499329b64997147d3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!1 &6992156924195287871 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8635195139948178778, guid: 3e5919f639f566c4590d07d54ef256dd,
+    type: 3}
+  m_PrefabInstance: {fileID: 1648108108435218021}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &6176497755123761644
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -371,6 +343,30 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  SignalTypeToReceive: 0
+  Frequency: 122
+  Emitter: {fileID: 0}
+  DelayTime: 3
+  EncryptionData: {fileID: 0}
+  ListenToEncryptedData: 0
+  explosiveType: 0
+  detonateImmediatelyOnSignal: 0
+  timeToDetonate: 10
+  minimumTimeToDetonate: 10
+  explosiveStrength: 150
+  activeSpriteSO: {fileID: 0}
+  beepSound:
+    SetLoadSetting: 0
+    AssetAddress: 
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
+  progressTime: 3
+  spriteHandler: {fileID: 0}
+  scaleSync: {fileID: 0}
+  GUI: {fileID: 0}
   pizzaTrait: {fileID: 11400000, guid: cd226ab9f359da043915d086705debf6, type: 2}
   spritePizzaBoxOpen: {fileID: 11400000, guid: cff0fa2c253b3d345b350d5e33730670, type: 2}
   spritePizzaBoxClosed: {fileID: 11400000, guid: 672b2b26fed65b547b20abbcbf991134,
@@ -379,11 +375,30 @@ MonoBehaviour:
     type: 2}
   spritePizzaBoxBombInactive: {fileID: 0}
   spritePizzaBoxBombActive: {fileID: 0}
+  isArmedOnSpawn: 0
   isBomb: 0
-  bombStrength: 3700
   writtenNote: 
   boxSprites: {fileID: 3769300246753970360}
   writingSprites: {fileID: 4950580763301468999}
   pizzaSprites: {fileID: 3012071937241240436}
   pizzaBoxStorage: {fileID: 7981628501990062821}
-  objectBehaviour: {fileID: 6962316566559280959}
+  netTab: {fileID: 0}
+  PizzaGui: {fileID: 0}
+--- !u!4 &6997084797836643915 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 8630552864855298094, guid: 3e5919f639f566c4590d07d54ef256dd,
+    type: 3}
+  m_PrefabInstance: {fileID: 1648108108435218021}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &7981628501990062821 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8654565269348869248, guid: 3e5919f639f566c4590d07d54ef256dd,
+    type: 3}
+  m_PrefabInstance: {fileID: 1648108108435218021}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6992156924195287871}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fdce8a163088453ca593c0e98f2c5f07, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

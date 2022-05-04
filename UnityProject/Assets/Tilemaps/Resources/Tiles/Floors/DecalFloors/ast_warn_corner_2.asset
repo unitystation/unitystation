@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: ast_warn_corner_2
   m_EditorClassIdentifier: 
   displayName: 
+  description: 
   LayerType: 3
   TileType: 3
   RequiredTiles:
@@ -67,5 +68,6 @@ MonoBehaviour:
       m_AssetGUID: 
       m_SubObjectName: 
       m_SubObjectType: 
+      m_EditorAssetChanged: 0
   SoundOnDestroy: []
   sprite: {fileID: 21300004, guid: 74cfb3448358f49418cf30ca38619548, type: 3}

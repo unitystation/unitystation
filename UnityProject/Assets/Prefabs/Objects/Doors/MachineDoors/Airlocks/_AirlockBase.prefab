@@ -28,6 +28,7 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 8242232534866279461}
   m_RootOrder: 3
@@ -107,6 +108,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: f198981ae0bd7c64d8071596aee94a88, type: 2}
   PresentSpriteSet: {fileID: 11400000, guid: 7d2de9c440cedfa4a855277fac47f8d0, type: 2}
   randomInitialSprite: 0
+  doReverseAnimation: 0
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
   palette: []
@@ -139,6 +141,7 @@ RectTransform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 8242232534866279461}
   m_RootOrder: 6
@@ -221,6 +224,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: b6d6f712350769a4d95a3f16a0bfff85, type: 2}
   PresentSpriteSet: {fileID: 11400000, guid: 7d2de9c440cedfa4a855277fac47f8d0, type: 2}
   randomInitialSprite: 0
+  doReverseAnimation: 0
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
   palette: []
@@ -264,6 +268,7 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 8242232534866279461}
   m_RootOrder: 2
@@ -340,6 +345,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 86765f96f3bed7040b551fd59e73639a, type: 2}
   PresentSpriteSet: {fileID: 11400000, guid: 83e7069aacdb7864587c92e14b75f560, type: 2}
   randomInitialSprite: 0
+  doReverseAnimation: 0
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
   palette: []
@@ -371,6 +377,7 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 8242232534866279461}
   m_RootOrder: 4
@@ -448,6 +455,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 73deda64c14a4434b83b7c7fa7174574, type: 2}
   PresentSpriteSet: {fileID: 11400000, guid: 7d2de9c440cedfa4a855277fac47f8d0, type: 2}
   randomInitialSprite: 0
+  doReverseAnimation: 0
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
   palette: []
@@ -479,6 +487,7 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 8242232534866279461}
   m_RootOrder: 5
@@ -553,6 +562,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: c3c73697d5b82ab489b6fc447e168c0a, type: 2}
   PresentSpriteSet: {fileID: 11400000, guid: 7d2de9c440cedfa4a855277fac47f8d0, type: 2}
   randomInitialSprite: 0
+  doReverseAnimation: 0
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
   palette: []
@@ -585,6 +595,7 @@ RectTransform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 8242232534866279461}
   m_RootOrder: 7
@@ -666,6 +677,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 12139cf587da66641bc1724a279fff4a, type: 2}
   PresentSpriteSet: {fileID: 11400000, guid: 7d2de9c440cedfa4a855277fac47f8d0, type: 2}
   randomInitialSprite: 0
+  doReverseAnimation: 0
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
   palette: []
@@ -715,6 +727,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 8242232534866279461}
   m_RootOrder: 1
@@ -752,6 +765,8 @@ MonoBehaviour:
       m_AssetGUID: 
       m_SubObjectName: 
       m_SubObjectType: 
+      m_EditorAssetChanged: 0
+  crowbarRequiresNoPower: 1
 --- !u!114 &934849774931252631
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -813,6 +828,7 @@ MonoBehaviour:
       m_AssetGUID: 
       m_SubObjectName: 
       m_SubObjectType: 
+      m_EditorAssetChanged: 0
   boltsDownSound:
     SetLoadSetting: 0
     AssetAddress: Assets/Prefabs/Doors/AirlockBoltDown.prefab
@@ -820,6 +836,7 @@ MonoBehaviour:
       m_AssetGUID: 
       m_SubObjectName: 
       m_SubObjectType: 
+      m_EditorAssetChanged: 0
 --- !u!114 &5426044163123208281
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1035,12 +1052,6 @@ PrefabInstance:
     - {fileID: -4969049584947791526, guid: 1291a5cb15d008c41bf0a373403f56b2, type: 3}
     - {fileID: 720260447592516819, guid: 1291a5cb15d008c41bf0a373403f56b2, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 1291a5cb15d008c41bf0a373403f56b2, type: 3}
---- !u!4 &8242232534866279461 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 4817606987798484682, guid: 1291a5cb15d008c41bf0a373403f56b2,
-    type: 3}
-  m_PrefabInstance: {fileID: 3511082394880060143}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &215518841633704133 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3622147455447933482, guid: 1291a5cb15d008c41bf0a373403f56b2,
@@ -1059,12 +1070,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 383ace094608c5f4898a03bdda48266e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!210 &6682145752921394767 stripped
-SortingGroup:
-  m_CorrespondingSourceObject: {fileID: 7782817179362649248, guid: 1291a5cb15d008c41bf0a373403f56b2,
-    type: 3}
-  m_PrefabInstance: {fileID: 3511082394880060143}
-  m_PrefabAsset: {fileID: 0}
 --- !u!114 &6544664031488290301 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 7668099194671236882, guid: 1291a5cb15d008c41bf0a373403f56b2,
@@ -1077,6 +1082,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 579884b05ae74e8499329b64997147d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!210 &6682145752921394767 stripped
+SortingGroup:
+  m_CorrespondingSourceObject: {fileID: 7782817179362649248, guid: 1291a5cb15d008c41bf0a373403f56b2,
+    type: 3}
+  m_PrefabInstance: {fileID: 3511082394880060143}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &8242232534866279461 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4817606987798484682, guid: 1291a5cb15d008c41bf0a373403f56b2,
+    type: 3}
+  m_PrefabInstance: {fileID: 3511082394880060143}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &8248341723222571775 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 4813822218561835024, guid: 1291a5cb15d008c41bf0a373403f56b2,
@@ -1126,6 +1143,7 @@ MonoBehaviour:
       m_AssetGUID: 
       m_SubObjectName: 
       m_SubObjectType: 
+      m_EditorAssetChanged: 0
   closingSFX:
     SetLoadSetting: 0
     AssetAddress: Assets/Prefabs/Doors/AirlockClose.prefab
@@ -1133,6 +1151,7 @@ MonoBehaviour:
       m_AssetGUID: 
       m_SubObjectName: 
       m_SubObjectType: 
+      m_EditorAssetChanged: 0
   deniedSFX:
     SetLoadSetting: 0
     AssetAddress: Assets/Prefabs/Effects/AccessDenied.prefab
@@ -1140,6 +1159,7 @@ MonoBehaviour:
       m_AssetGUID: 
       m_SubObjectName: 
       m_SubObjectType: 
+      m_EditorAssetChanged: 0
   warningSFX:
     SetLoadSetting: 0
     AssetAddress: Assets/Prefabs/Doors/TripleBeep.prefab
@@ -1147,6 +1167,7 @@ MonoBehaviour:
       m_AssetGUID: 
       m_SubObjectName: 
       m_SubObjectType: 
+      m_EditorAssetChanged: 0
 --- !u!114 &2268823939221595730
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1164,9 +1185,11 @@ MonoBehaviour:
   damageOnClose: 0
   damageClosed: 15
   isAutomatic: 1
+  allowInteraction: 1
   ignorePassableChecks: 0
   maxTimeOpen: 5
   blockAutoClose: 0
+  clickDisablesAutoClose: 0
   isWindowedDoor: 0
   HackingProcessBase: {fileID: 2590545318543294087}
   ConstructibleDoor: {fileID: 2423441889713074305}

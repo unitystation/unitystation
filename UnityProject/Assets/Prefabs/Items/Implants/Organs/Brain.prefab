@@ -1,41 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &4959976547195528774
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3442747058158572537}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 840609453e4bf334cbd14cd7999c6fb6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &8557864071590038898
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3442747058158572537}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d2cd4df264ca2434792937c1337b5b65, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  severityAndSymptoms:
-  - HealthPercentageAndBelow: 0.5
-    Affects:
-    - Your head aches mildly
-    - You feel slightly sick
-    - You feel a bit dizzy
-  - HealthPercentageAndBelow: 0.25
-    Affects:
-    - Your head hurts immensely
-    - You feel very sick
-    - You find it hard to keep your balance
-  TimeBetweenSymptoms: 120
 --- !u!1001 &7946465884936551576
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -256,3 +220,39 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 7946465884936551576}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &4959976547195528774
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3442747058158572537}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 840609453e4bf334cbd14cd7999c6fb6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &8557864071590038898
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3442747058158572537}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d2cd4df264ca2434792937c1337b5b65, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  severityAndSymptoms:
+  - HealthPercentageAndBelow: 0.5
+    Affects:
+    - Your head aches mildly
+    - You feel slightly sick
+    - You feel a bit dizzy
+  - HealthPercentageAndBelow: 0.25
+    Affects:
+    - Your head hurts immensely
+    - You feel very sick
+    - You find it hard to keep your balance
+  TimeBetweenSymptoms: 120

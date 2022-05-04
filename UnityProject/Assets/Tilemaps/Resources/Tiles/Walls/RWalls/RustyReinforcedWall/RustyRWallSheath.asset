@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: RustyRWallSheath
   m_EditorClassIdentifier: 
   displayName: rusted reinforced wall
+  description: 
   LayerType: 0
   TileType: 1
   RequiredTiles:
@@ -32,6 +33,7 @@ MonoBehaviour:
   doesReflectBullet: 0
   indestructible: 0
   ExplosionImpassable: 0
+  BlocksTileInteractionsUnder: 1
   passableException:
     m_keys: 
     m_values: 
@@ -52,6 +54,7 @@ MonoBehaviour:
   tileInteractions:
   - {fileID: 11400000, guid: 3391ed0e4f277294aa7a20c54d89d25b, type: 2}
   - {fileID: 11400000, guid: ed81a2062dacd4535b82f9374790ff9c, type: 2}
+  tileStepInteractions: []
   spawnOnDeconstruct: {fileID: 0}
   spawnAmountOnDeconstruct: 1
   lootOnDespawn: {fileID: 0}
@@ -65,5 +68,6 @@ MonoBehaviour:
       m_AssetGUID: 
       m_SubObjectName: 
       m_SubObjectType: 
+      m_EditorAssetChanged: 0
   SoundOnDestroy: []
   sprite: {fileID: 21300000, guid: d28d128652e19e04dbb0597105fffdbc, type: 3}

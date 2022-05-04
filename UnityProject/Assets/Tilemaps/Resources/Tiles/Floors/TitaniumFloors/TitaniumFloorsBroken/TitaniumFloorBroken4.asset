@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: TitaniumFloorBroken4
   m_EditorClassIdentifier: 
   displayName: titanium floor
+  description: 
   LayerType: 3
   TileType: 3
   RequiredTiles:
@@ -32,6 +33,7 @@ MonoBehaviour:
   doesReflectBullet: 0
   indestructible: 0
   ExplosionImpassable: 0
+  BlocksTileInteractionsUnder: 1
   passableException:
     m_keys: 01000000
     m_values: 00
@@ -51,6 +53,7 @@ MonoBehaviour:
     DismembermentProtectionChance: 0
   tileInteractions:
   - {fileID: 11400000, guid: 7b6820d9f95c544a8bf274f9125b4941, type: 2}
+  tileStepInteractions: []
   spawnOnDeconstruct: {fileID: 4965965328686146164, guid: d640dc90fad3f994a84f5646febe29c0,
     type: 3}
   spawnAmountOnDeconstruct: 0
@@ -65,5 +68,6 @@ MonoBehaviour:
       m_AssetGUID: 
       m_SubObjectName: 
       m_SubObjectType: 
+      m_EditorAssetChanged: 0
   SoundOnDestroy: []
   sprite: {fileID: 21300000, guid: 65babc991b716f5469b3ff58468f420d, type: 3}

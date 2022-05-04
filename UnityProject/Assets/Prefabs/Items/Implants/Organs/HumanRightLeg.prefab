@@ -1,56 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &5655852655570756341
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6498312071342856297}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fdce8a163088453ca593c0e98f2c5f07, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  itemStorageStructure: {fileID: 11400000, guid: 60f0f20732f0c3648af398f9e3bb91e5,
-    type: 2}
-  itemStorageCapacity: {fileID: 11400000, guid: 7ecea5325dc0a4af0999d4b7cf5042e6,
-    type: 2}
-  itemStoragePopulator: {fileID: 0}
-  forceSpawnContents: 0
-  dropItemsOnDespawn: 0
-  UesAddlistPopulater: 0
-  Populater:
-    SlotContents: []
-    DeprecatedContents: []
-  ashPrefab: {fileID: 0}
---- !u!114 &6633847452124842489
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6498312071342856297}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe56a83532907c141b7592eead8f0641, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  NamedSlotFlagged: 0
-  relatedStorage: {fileID: 5655852655570756341}
-  storage:
-  - NotPresentOnUI: 0
-    SlotArea: 4
-    namedSlot: 3
-    hoverName: Feet
-    DropContents: 1
-    placeholderSprite: {fileID: 21300000, guid: d7d5558b9127fa7469f51a1a8bfdf062,
-      type: 3}
-    Conditional: 1
-    Condition:
-      CategoryID: Feet1
-      ConditionalParameter: 1
-      XAmountConditional: 2
 --- !u!1001 &1050759302020462618
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -403,3 +352,54 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 1050759302020462618}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &5655852655570756341
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6498312071342856297}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fdce8a163088453ca593c0e98f2c5f07, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemStorageStructure: {fileID: 11400000, guid: 60f0f20732f0c3648af398f9e3bb91e5,
+    type: 2}
+  itemStorageCapacity: {fileID: 11400000, guid: 7ecea5325dc0a4af0999d4b7cf5042e6,
+    type: 2}
+  itemStoragePopulator: {fileID: 0}
+  forceSpawnContents: 0
+  dropItemsOnDespawn: 0
+  UesAddlistPopulater: 0
+  Populater:
+    SlotContents: []
+    DeprecatedContents: []
+  ashPrefab: {fileID: 0}
+--- !u!114 &6633847452124842489
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6498312071342856297}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe56a83532907c141b7592eead8f0641, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  NamedSlotFlagged: 0
+  relatedStorage: {fileID: 5655852655570756341}
+  storage:
+  - NotPresentOnUI: 0
+    SlotArea: 4
+    namedSlot: 3
+    hoverName: Feet
+    DropContents: 1
+    placeholderSprite: {fileID: 21300000, guid: d7d5558b9127fa7469f51a1a8bfdf062,
+      type: 3}
+    Conditional: 1
+    Condition:
+      CategoryID: Feet1
+      ConditionalParameter: 1
+      XAmountConditional: 2

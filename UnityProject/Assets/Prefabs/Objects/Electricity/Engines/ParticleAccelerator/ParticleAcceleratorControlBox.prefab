@@ -1,170 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-8721447106317942515
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7626373619265571698}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8bcb4d76605debd40aa28d5b8fcfc99a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  registerTile: {fileID: 0}
-  connected: 0
-  Logall: 0
---- !u!114 &-5258891434953042552
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7626373619265571698}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ce7c49c8f5ed8004b87ff3c96ad030cc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  particleAcceleratorType: 0
-  amountOfWiresNeeded: 4
-  shootsBullet: 0
-  startSetUp: 0
-  OnShutDown:
-    m_PersistentCalls:
-      m_Calls: []
---- !u!114 &-3310032033918015596
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7626373619265571698}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 48487dad7f2bc0541964880f6187c474, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  isSecuredStateExaminable: 1
-  isExposedFloorPlatingRequired: 0
-  secondsToSecure: 0
-  secondsToUnsecure: 0
-  lockSpriteDirection: 0
-  blockAnchorChange: 0
-  blockMessage: You cannot unwrench until the wires have been removed
---- !u!114 &-434670522804980446
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7626373619265571698}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 11075af8b8fcdfa439425bba1fea8616, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  voltageIncreasePerPowerLevel: 200
-  particleAcceleratorBulletPrefab: {fileID: 3294328072042417454, guid: 51e37bcfda438bc45bae02a757a88dbb,
-    type: 3}
-  isAlwaysOn: 0
-  timeToHack: 20
-  chanceToFailHack: 25
-  isHacked: 0
---- !u!114 &1971649633990310126
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7626373619265571698}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f382852d80b4a434f9d53c414fc2d72b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  Node: {fileID: 0}
-  ApplianceType: 21
-  WireEndB: 9
-  WireEndA: 0
-  ListCanConnectTo: 01000000080000000b000000
-  Reactions:
-  - ConnectingDevice: 1
-    DirectionReaction: 0
-    ResistanceReaction: 1
-    DirectionReactionA:
-      YouShallNotPass: 0
-    ResistanceReactionA:
-      Resistance:
-        Ohms: 50
-        ResistanceAvailable: 0
-  - ConnectingDevice: 8
-    DirectionReaction: 0
-    ResistanceReaction: 1
-    DirectionReactionA:
-      YouShallNotPass: 0
-    ResistanceReactionA:
-      Resistance:
-        Ohms: 50
-        ResistanceAvailable: 0
-  - ConnectingDevice: 11
-    DirectionReaction: 0
-    ResistanceReaction: 1
-    DirectionReactionA:
-      YouShallNotPass: 0
-    ResistanceReactionA:
-      Resistance:
-        Ohms: 50
-        ResistanceAvailable: 0
---- !u!114 &4556656648178866946
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7626373619265571698}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6d7277dcc993463cb6c7f79b663f36fc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  NetTabType: 34
-  aiInteractable: 1
---- !u!114 &5049598380141041155
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7626373619265571698}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6674578bb1278de4c9af970c45c78d9d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ModuleType: 0
-  ControllingNode: {fileID: 0}
-  resistance:
-    Ohms: 1000
-    ResistanceAvailable: 1
-  EditorResistance: 500
-  ReactionTo:
-    ConnectingDevice: 1
-    DirectionReaction: 0
-    ResistanceReaction: 1
-    DirectionReactionA:
-      YouShallNotPass: 0
-    ResistanceReactionA:
-      Resistance:
-        Ohms: 1000
-        ResistanceAvailable: 1
 --- !u!1001 &7192913138366226162
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -345,3 +180,168 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 7192913138366226162}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &-8721447106317942515
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7626373619265571698}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8bcb4d76605debd40aa28d5b8fcfc99a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  registerTile: {fileID: 0}
+  connected: 0
+  Logall: 0
+--- !u!114 &-5258891434953042552
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7626373619265571698}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ce7c49c8f5ed8004b87ff3c96ad030cc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  particleAcceleratorType: 0
+  amountOfWiresNeeded: 4
+  shootsBullet: 0
+  startSetUp: 0
+  OnShutDown:
+    m_PersistentCalls:
+      m_Calls: []
+--- !u!114 &-3310032033918015596
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7626373619265571698}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 48487dad7f2bc0541964880f6187c474, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  isSecuredStateExaminable: 1
+  isExposedFloorPlatingRequired: 0
+  secondsToSecure: 0
+  secondsToUnsecure: 0
+  lockSpriteDirection: 0
+  blockAnchorChange: 0
+  blockMessage: You cannot unwrench until the wires have been removed
+--- !u!114 &-434670522804980446
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7626373619265571698}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 11075af8b8fcdfa439425bba1fea8616, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  voltageIncreasePerPowerLevel: 200
+  particleAcceleratorBulletPrefab: {fileID: 3294328072042417454, guid: 51e37bcfda438bc45bae02a757a88dbb,
+    type: 3}
+  isAlwaysOn: 0
+  timeToHack: 20
+  chanceToFailHack: 25
+  isHacked: 0
+--- !u!114 &1971649633990310126
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7626373619265571698}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f382852d80b4a434f9d53c414fc2d72b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  Node: {fileID: 0}
+  ApplianceType: 21
+  WireEndB: 9
+  WireEndA: 0
+  ListCanConnectTo: 01000000080000000b000000
+  Reactions:
+  - ConnectingDevice: 1
+    DirectionReaction: 0
+    ResistanceReaction: 1
+    DirectionReactionA:
+      YouShallNotPass: 0
+    ResistanceReactionA:
+      Resistance:
+        Ohms: 50
+        ResistanceAvailable: 0
+  - ConnectingDevice: 8
+    DirectionReaction: 0
+    ResistanceReaction: 1
+    DirectionReactionA:
+      YouShallNotPass: 0
+    ResistanceReactionA:
+      Resistance:
+        Ohms: 50
+        ResistanceAvailable: 0
+  - ConnectingDevice: 11
+    DirectionReaction: 0
+    ResistanceReaction: 1
+    DirectionReactionA:
+      YouShallNotPass: 0
+    ResistanceReactionA:
+      Resistance:
+        Ohms: 50
+        ResistanceAvailable: 0
+--- !u!114 &4556656648178866946
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7626373619265571698}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d7277dcc993463cb6c7f79b663f36fc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  NetTabType: 34
+  aiInteractable: 1
+--- !u!114 &5049598380141041155
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7626373619265571698}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6674578bb1278de4c9af970c45c78d9d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ModuleType: 0
+  ControllingNode: {fileID: 0}
+  resistance:
+    Ohms: 1000
+    ResistanceAvailable: 1
+  EditorResistance: 500
+  ReactionTo:
+    ConnectingDevice: 1
+    DirectionReaction: 0
+    ResistanceReaction: 1
+    DirectionReactionA:
+      YouShallNotPass: 0
+    ResistanceReactionA:
+      Resistance:
+        Ohms: 1000
+        ResistanceAvailable: 1

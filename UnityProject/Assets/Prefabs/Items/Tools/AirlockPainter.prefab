@@ -1,64 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-5522512837400179287
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 61925522838763065}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fdce8a163088453ca593c0e98f2c5f07, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  itemStorageStructure: {fileID: 11400000, guid: 263bf834f99424f12bda19d67c3ab5fc,
-    type: 2}
-  itemStorageCapacity: {fileID: 11400000, guid: 03bcf5d1fa8081449b5358ec040c97b3,
-    type: 2}
-  itemStoragePopulator: {fileID: 0}
-  forceSpawnContents: 0
-  dropItemsOnDespawn: 0
-  UesAddlistPopulater: 0
-  Populater:
-    SlotContents: []
-    DeprecatedContents: []
-  ashPrefab: {fileID: 2957035178188790827, guid: 9ac6968a3f3ed54428662c9aae5a4b32,
-    type: 3}
---- !u!114 &-2033254541000654494
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 61925522838763065}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c53ed5d706af153448a5a4e7c282cc43, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  radialOptions: {fileID: 11400000, guid: 48525f674f6a27c4c9f4abb9d7e5896a, type: 2}
-  AvailablePaintJobs:
-  - {fileID: 4868402226933362728, guid: faeb065acf677894a9699942fdc1b49c, type: 3}
-  - {fileID: 2491579639006112463, guid: 9de45e9fab1eaf746b1c5791997a5135, type: 3}
-  - {fileID: 5602034946934495649, guid: 2bb2787c427eb384ba89c9fd13ec823b, type: 3}
-  - {fileID: 263231906647728719, guid: ed01dbb56f7eaec43a7c493afa00559a, type: 3}
-  - {fileID: 296115620468684665, guid: 7dea0790d26246447a9b881689c7dbdf, type: 3}
-  - {fileID: 8241062540143209899, guid: 3a051ede9e105054e9e1b098aa972e6f, type: 3}
-  - {fileID: 8672421692912153910, guid: 9f6a082ba93c5684b808b09619c08044, type: 3}
-  - {fileID: 3219073340430485023, guid: 54a552cbe4002ac44ae29b958a90e545, type: 3}
-  - {fileID: 1289009413962026671, guid: 08e6671a2473b2047a07dde96ef8c538, type: 3}
-  - {fileID: 7580511327174855396, guid: c5b14909d311eea4ea1e1488557ba906, type: 3}
-  - {fileID: 3860531583485830378, guid: 29107a3e6fd05d34c864ad077d34bafc, type: 3}
-  tonerPrefab: {fileID: 6396562857704763032, guid: cbd7a12222367de41a635d5b41ec0ac9,
-    type: 3}
-  OpenClose:
-    SetLoadSetting: 0
-    AssetAddress: Assets/Prefabs/Machines/ClickOnOff.prefab
-    AssetReference:
-      m_AssetGUID: 
-      m_SubObjectName: 
-      m_SubObjectType: 
 --- !u!1001 &8620358634491806318
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -221,6 +162,58 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 8620358634491806318}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &-5522512837400179287
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 61925522838763065}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fdce8a163088453ca593c0e98f2c5f07, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemStorageStructure: {fileID: 11400000, guid: 263bf834f99424f12bda19d67c3ab5fc,
+    type: 2}
+  itemStorageCapacity: {fileID: 11400000, guid: 03bcf5d1fa8081449b5358ec040c97b3,
+    type: 2}
+  itemStoragePopulator: {fileID: 0}
+  forceSpawnContents: 0
+  dropItemsOnDespawn: 0
+  UesAddlistPopulater: 0
+  Populater:
+    SlotContents: []
+    DeprecatedContents: []
+  ashPrefab: {fileID: 2957035178188790827, guid: 9ac6968a3f3ed54428662c9aae5a4b32,
+    type: 3}
+--- !u!114 &-2033254541000654494
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 61925522838763065}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c53ed5d706af153448a5a4e7c282cc43, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  radialOptions: {fileID: 11400000, guid: 48525f674f6a27c4c9f4abb9d7e5896a, type: 2}
+  AvailablePaintJobs:
+  - {fileID: 4868402226933362728, guid: faeb065acf677894a9699942fdc1b49c, type: 3}
+  - {fileID: 2491579639006112463, guid: 9de45e9fab1eaf746b1c5791997a5135, type: 3}
+  - {fileID: 5602034946934495649, guid: 2bb2787c427eb384ba89c9fd13ec823b, type: 3}
+  - {fileID: 263231906647728719, guid: ed01dbb56f7eaec43a7c493afa00559a, type: 3}
+  - {fileID: 296115620468684665, guid: 7dea0790d26246447a9b881689c7dbdf, type: 3}
+  - {fileID: 8241062540143209899, guid: 3a051ede9e105054e9e1b098aa972e6f, type: 3}
+  - {fileID: 8672421692912153910, guid: 9f6a082ba93c5684b808b09619c08044, type: 3}
+  - {fileID: 3219073340430485023, guid: 54a552cbe4002ac44ae29b958a90e545, type: 3}
+  - {fileID: 1289009413962026671, guid: 08e6671a2473b2047a07dde96ef8c538, type: 3}
+  - {fileID: 7580511327174855396, guid: c5b14909d311eea4ea1e1488557ba906, type: 3}
+  - {fileID: 3860531583485830378, guid: 29107a3e6fd05d34c864ad077d34bafc, type: 3}
+  tonerPrefab: {fileID: 6396562857704763032, guid: cbd7a12222367de41a635d5b41ec0ac9,
+    type: 3}
 --- !u!114 &92798436879703017 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 8568103989096618375, guid: c9c58a9243d494537abcb4ee470efab0,

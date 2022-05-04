@@ -1,53 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-4475860596054929552
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8635195139948178778}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 498378a6a03686e4fa4b6e365b6e0d42, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  StorageItemName: 1
---- !u!114 &7428690068708387878
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8635195139948178778}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aefd7c28c7594dfea70e14d8bcc5c696, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  spriteToColor: {fileID: 8441880568126201350}
-  OnColorChange:
-    m_PersistentCalls:
-      m_Calls: []
---- !u!114 &8388977633140008013
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8635195139948178778}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 212cb157043d4fc5ab199f0fdcbaeb50, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  pickupAnimSpeed: 0.2
-  boxSpriteColor: {fileID: 7428690068708387878}
-  netTransform: {fileID: 8521883043285352586}
 --- !u!1001 &4991786853530350121
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -241,9 +193,9 @@ PrefabInstance:
     m_RemovedComponents:
     - {fileID: 3676074921659133965, guid: e46ba34aab52d654787ef10d896b0874, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: e46ba34aab52d654787ef10d896b0874, type: 3}
---- !u!1 &8635195139948178778 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 3643415983708594035, guid: e46ba34aab52d654787ef10d896b0874,
+--- !u!212 &8441880568126201350 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 3486338153467046959, guid: e46ba34aab52d654787ef10d896b0874,
     type: 3}
   m_PrefabInstance: {fileID: 4991786853530350121}
   m_PrefabAsset: {fileID: 0}
@@ -259,9 +211,58 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 579884b05ae74e8499329b64997147d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!212 &8441880568126201350 stripped
-SpriteRenderer:
-  m_CorrespondingSourceObject: {fileID: 3486338153467046959, guid: e46ba34aab52d654787ef10d896b0874,
+--- !u!1 &8635195139948178778 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3643415983708594035, guid: e46ba34aab52d654787ef10d896b0874,
     type: 3}
   m_PrefabInstance: {fileID: 4991786853530350121}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &-4475860596054929552
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8635195139948178778}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 498378a6a03686e4fa4b6e365b6e0d42, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  StorageItemName: 1
+--- !u!114 &7428690068708387878
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8635195139948178778}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aefd7c28c7594dfea70e14d8bcc5c696, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  spriteToColor: {fileID: 8441880568126201350}
+  OnColorChange:
+    m_PersistentCalls:
+      m_Calls: []
+--- !u!114 &8388977633140008013
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8635195139948178778}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 212cb157043d4fc5ab199f0fdcbaeb50, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  pickupAnimSpeed: 0.2
+  ItemAttributesV2: {fileID: 0}
+  boxSpriteColor: {fileID: 7428690068708387878}
+  netTransform: {fileID: 8521883043285352586}
