@@ -20,5 +20,15 @@ namespace Learning
 		public ProtipUI.SpriteAnimation ShowAnimation;
 		public ProtipManager.ExperienceLevel MinimumExperienceLevelToTrigger;
 		public float ShowDuration;
+
+		public override bool Equals(object obj)
+		{		
+			if (obj == null || GetType() != obj.GetType())
+			{
+				return false;
+			}
+
+			return base.Equals (obj);
+		}
 	}
 }
