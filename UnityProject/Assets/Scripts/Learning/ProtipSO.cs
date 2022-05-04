@@ -21,13 +21,10 @@ namespace Learning
 		public ProtipManager.ExperienceLevel MinimumExperienceLevelToTrigger;
 		public float ShowDuration;
 
-		public override bool Equals(object obj)
+		public bool Equals(Protip obj)
 		{		
-			if (obj == null || GetType() != obj.GetType())
-			{
-				return false;
-			}
-
+			if(obj.Tip == null || Tip == null) return false;
+			if(obj.Tip != Tip) return false;
 			return base.Equals (obj);
 		}
 	}
