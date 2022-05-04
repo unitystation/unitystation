@@ -124,15 +124,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a7af28adb717b4c44b8b2002b27670bd, type: 3}
---- !u!1 &8787633699505619018 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 8374648283101600218, guid: a7af28adb717b4c44b8b2002b27670bd,
-    type: 3}
-  m_PrefabInstance: {fileID: 993967807199959440}
-  m_PrefabAsset: {fileID: 0}
 --- !u!210 &6286969531550004474 stripped
 SortingGroup:
   m_CorrespondingSourceObject: {fileID: 6554009657133641066, guid: a7af28adb717b4c44b8b2002b27670bd,
+    type: 3}
+  m_PrefabInstance: {fileID: 993967807199959440}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &8787633699505619018 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8374648283101600218, guid: a7af28adb717b4c44b8b2002b27670bd,
     type: 3}
   m_PrefabInstance: {fileID: 993967807199959440}
   m_PrefabAsset: {fileID: 0}
@@ -167,4 +167,6 @@ MonoBehaviour:
   ChangeSprites: 0
   isChangingSO: 0
   CurrentDirection: 3
+  IgnoreServerUpdatesIfLocalPlayer: 0
   IsAtmosphericDevice: 0
+  doNotResetOtherSpriteOptions: 0

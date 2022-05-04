@@ -192,21 +192,15 @@ PrefabInstance:
     m_RemovedComponents:
     - {fileID: 768889878625444157, guid: b69bfc56f39849d4ba9139d2d51bedb6, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: b69bfc56f39849d4ba9139d2d51bedb6, type: 3}
---- !u!1 &5426333912481427708 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1628816798482564540, guid: b69bfc56f39849d4ba9139d2d51bedb6,
-    type: 3}
-  m_PrefabInstance: {fileID: 6761184856822150464}
-  m_PrefabAsset: {fileID: 0}
---- !u!210 &7314420570406863948 stripped
-SortingGroup:
-  m_CorrespondingSourceObject: {fileID: 4059580613945667852, guid: b69bfc56f39849d4ba9139d2d51bedb6,
-    type: 3}
-  m_PrefabInstance: {fileID: 6761184856822150464}
-  m_PrefabAsset: {fileID: 0}
 --- !u!212 &5201104623901103339 stripped
 SpriteRenderer:
   m_CorrespondingSourceObject: {fileID: 1583724279418462635, guid: b69bfc56f39849d4ba9139d2d51bedb6,
+    type: 3}
+  m_PrefabInstance: {fileID: 6761184856822150464}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &5426333912481427708 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1628816798482564540, guid: b69bfc56f39849d4ba9139d2d51bedb6,
     type: 3}
   m_PrefabInstance: {fileID: 6761184856822150464}
   m_PrefabAsset: {fileID: 0}
@@ -228,7 +222,9 @@ MonoBehaviour:
   ChangeSprites: 0
   isChangingSO: 0
   CurrentDirection: 3
+  IgnoreServerUpdatesIfLocalPlayer: 0
   IsAtmosphericDevice: 0
+  doNotResetOtherSpriteOptions: 0
 --- !u!114 &5448639519452539588
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -243,6 +239,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  runningInterfaces: []
   listOfLights: []
   isOn: 1
   coolDownTime: 2
@@ -264,3 +261,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   directional: {fileID: 1464140253092834357}
+--- !u!210 &7314420570406863948 stripped
+SortingGroup:
+  m_CorrespondingSourceObject: {fileID: 4059580613945667852, guid: b69bfc56f39849d4ba9139d2d51bedb6,
+    type: 3}
+  m_PrefabInstance: {fileID: 6761184856822150464}
+  m_PrefabAsset: {fileID: 0}

@@ -237,24 +237,6 @@ PrefabInstance:
         type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3937c48f98f9cd043babc5471ee77682, type: 3}
---- !u!1 &2712773701786103897 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1580494814286032113, guid: 3937c48f98f9cd043babc5471ee77682,
-    type: 3}
-  m_PrefabInstance: {fileID: 3479803565540039848}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &6735167719794446353 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 7868529330565958841, guid: 3937c48f98f9cd043babc5471ee77682,
-    type: 3}
-  m_PrefabInstance: {fileID: 3479803565540039848}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2712773701786103897}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9a459a0316cc4d5b87d046f28dc136c8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &937059977152898907 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 4416806320167582707, guid: 3937c48f98f9cd043babc5471ee77682,
@@ -267,18 +249,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 579884b05ae74e8499329b64997147d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &7490970043693980291 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 6323048891065173547, guid: 3937c48f98f9cd043babc5471ee77682,
+--- !u!1 &2712773701786103897 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1580494814286032113, guid: 3937c48f98f9cd043babc5471ee77682,
     type: 3}
   m_PrefabInstance: {fileID: 3479803565540039848}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &2285184685862058016
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -333,6 +309,7 @@ MonoBehaviour:
     MonoPipe: {fileID: 0}
   Colour: {r: 1, g: 1, b: 1, a: 1}
   spawnedFromItem: 1
+  directional: {fileID: 0}
   weldFinishSfx:
     SetLoadSetting: 0
     AssetAddress: Assets/Prefabs/Effects/WeldFinish.prefab
@@ -355,3 +332,27 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Controller: {fileID: 0}
+--- !u!114 &6735167719794446353 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7868529330565958841, guid: 3937c48f98f9cd043babc5471ee77682,
+    type: 3}
+  m_PrefabInstance: {fileID: 3479803565540039848}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2712773701786103897}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a459a0316cc4d5b87d046f28dc136c8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &7490970043693980291 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6323048891065173547, guid: 3937c48f98f9cd043babc5471ee77682,
+    type: 3}
+  m_PrefabInstance: {fileID: 3479803565540039848}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

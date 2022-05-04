@@ -1,21 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-590941689496351905
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3848343717668343118}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b67ae181d191ee74484da644b7d4d950, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  useExplosionPrefab: 1
-  explosionPrefab: {fileID: 1516046346184751261, guid: 5c989e33fac52e543b05e6356af6a1fe,
-    type: 3}
-  explosionStrength: 80
 --- !u!1001 &1707427394190646323
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -87,7 +71,7 @@ PrefabInstance:
     - target: {fileID: 2511337419890708861, guid: b343aea0e51a4c44694589195b8eae77,
         type: 3}
       propertyPath: m_Name
-      value: Bullet_HERocket
+      value: Bullet_84mmHERocket
       objectReference: {fileID: 0}
     - target: {fileID: 2567588430541566183, guid: b343aea0e51a4c44694589195b8eae77,
         type: 3}
@@ -131,3 +115,19 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 1707427394190646323}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &-590941689496351905
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3848343717668343118}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b67ae181d191ee74484da644b7d4d950, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  useExplosionPrefab: 1
+  explosionPrefab: {fileID: 1516046346184751261, guid: 5c989e33fac52e543b05e6356af6a1fe,
+    type: 3}
+  explosionStrength: 80

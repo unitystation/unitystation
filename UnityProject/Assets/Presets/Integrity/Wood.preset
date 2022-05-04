@@ -58,6 +58,10 @@ Preset:
     value: 
     objectReference: {fileID: 0}
   - target: {fileID: 0}
+    propertyPath: soundOnHit.AssetReference.m_EditorAssetChanged
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
     propertyPath: damageDeflection
     value: 0
     objectReference: {fileID: 0}
@@ -150,7 +154,7 @@ Preset:
     value: 1
     objectReference: {fileID: 0}
   - target: {fileID: 0}
-    propertyPath: CannotBeAshed
-    value: 0
+    propertyPath: Meleeable
+    value: 
     objectReference: {fileID: 0}
   m_ExcludedProperties: []

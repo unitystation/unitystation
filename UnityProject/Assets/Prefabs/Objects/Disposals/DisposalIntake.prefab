@@ -141,24 +141,6 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 1347533324463388387}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &3464330467401233505 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 2495170526828774018, guid: b06b702714bab49b9ad949eab1ca4534,
-    type: 3}
-  m_PrefabInstance: {fileID: 1347533324463388387}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1781006999364248419}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 579884b05ae74e8499329b64997147d3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!210 &3925827565069146067 stripped
-SortingGroup:
-  m_CorrespondingSourceObject: {fileID: 2650422487074349360, guid: b06b702714bab49b9ad949eab1ca4534,
-    type: 3}
-  m_PrefabInstance: {fileID: 1347533324463388387}
-  m_PrefabAsset: {fileID: 0}
 --- !u!114 &1611609056092413673
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -255,7 +237,9 @@ MonoBehaviour:
   ChangeSprites: 1
   isChangingSO: 0
   CurrentDirection: 3
+  IgnoreServerUpdatesIfLocalPlayer: 0
   IsAtmosphericDevice: 0
+  doNotResetOtherSpriteOptions: 0
 --- !u!114 &8957056455312658134
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -271,3 +255,21 @@ MonoBehaviour:
   spriteMatrixRotationBehavior: 1
   ignoreExtraRotation: []
   RotateParent: {fileID: 0}
+--- !u!114 &3464330467401233505 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2495170526828774018, guid: b06b702714bab49b9ad949eab1ca4534,
+    type: 3}
+  m_PrefabInstance: {fileID: 1347533324463388387}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1781006999364248419}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 579884b05ae74e8499329b64997147d3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!210 &3925827565069146067 stripped
+SortingGroup:
+  m_CorrespondingSourceObject: {fileID: 2650422487074349360, guid: b06b702714bab49b9ad949eab1ca4534,
+    type: 3}
+  m_PrefabInstance: {fileID: 1347533324463388387}
+  m_PrefabAsset: {fileID: 0}

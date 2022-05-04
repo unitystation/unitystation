@@ -1,53 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-4174779943615365324
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8320053050054170569}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6f29e6d2ff5e85744814055d0d21353e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  juicedReagents:
-    m_keys:
-    - {fileID: 11400000, guid: d691dd754085bdd89a62fe473e8af408, type: 2}
-    m_values: 05000000
---- !u!114 &1792260442981685302
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8320053050054170569}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1468e3dc2ea50c647aea7b69f0986db9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  FermentTime: 10
-  fermentedReagents:
-    m_keys:
-    - {fileID: 11400000, guid: a2f2da04196bb32b2935d5a21b362f9b, type: 2}
-    m_values: 00000000
---- !u!114 &4835630698732451463
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8320053050054170569}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 515cf3640b8b76a40818c365f7017cdb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  processedProduct: {fileID: 2479133105247277124, guid: 1dd69bf738eada14d81a0ed0b1d4aacd,
-    type: 3}
-  productAmount: 1
 --- !u!1001 &7136174711255010181
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -303,3 +255,51 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 7136174711255010181}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &-4174779943615365324
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8320053050054170569}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6f29e6d2ff5e85744814055d0d21353e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  juicedReagents:
+    m_keys:
+    - {fileID: 11400000, guid: d691dd754085bdd89a62fe473e8af408, type: 2}
+    m_values: 05000000
+--- !u!114 &1792260442981685302
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8320053050054170569}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1468e3dc2ea50c647aea7b69f0986db9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  FermentTime: 10
+  fermentedReagents:
+    m_keys:
+    - {fileID: 11400000, guid: a2f2da04196bb32b2935d5a21b362f9b, type: 2}
+    m_values: 00000000
+--- !u!114 &4835630698732451463
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8320053050054170569}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 515cf3640b8b76a40818c365f7017cdb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  processedProduct: {fileID: 2479133105247277124, guid: 1dd69bf738eada14d81a0ed0b1d4aacd,
+    type: 3}
+  productAmount: 1

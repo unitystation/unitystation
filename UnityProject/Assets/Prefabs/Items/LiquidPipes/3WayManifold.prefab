@@ -1,23 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &1547415373468314330
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7446904160649250317}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c88bb5b421259954781bcdfb75018051, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  Colour: {r: 1, g: 1, b: 1, a: 1}
-  SpriteHandler: {fileID: 3611509593911475594}
-  registerItem: {fileID: 0}
-  pipeTile: {fileID: 11400000, guid: 7fbdd8b9ce747b0458abebe9c4367cbe, type: 2}
 --- !u!1001 &6688775126130695637
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -284,12 +266,6 @@ PrefabInstance:
     - {fileID: 7343457972493425774, guid: 59bffb44a6861484ca22d6edb4fbf5e5, type: 3}
     - {fileID: 4188173932925032876, guid: 59bffb44a6861484ca22d6edb4fbf5e5, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 59bffb44a6861484ca22d6edb4fbf5e5, type: 3}
---- !u!1 &7446904160649250317 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 4290798399627566040, guid: 59bffb44a6861484ca22d6edb4fbf5e5,
-    type: 3}
-  m_PrefabInstance: {fileID: 6688775126130695637}
-  m_PrefabAsset: {fileID: 0}
 --- !u!114 &3611509593911475594 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 7984289908694917215, guid: 59bffb44a6861484ca22d6edb4fbf5e5,
@@ -302,3 +278,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &7446904160649250317 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4290798399627566040, guid: 59bffb44a6861484ca22d6edb4fbf5e5,
+    type: 3}
+  m_PrefabInstance: {fileID: 6688775126130695637}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1547415373468314330
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7446904160649250317}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c88bb5b421259954781bcdfb75018051, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  Colour: {r: 1, g: 1, b: 1, a: 1}
+  SpriteHandler: {fileID: 3611509593911475594}
+  registerItem: {fileID: 0}
+  rotatable: {fileID: 0}
+  pipeTile: {fileID: 11400000, guid: 7fbdd8b9ce747b0458abebe9c4367cbe, type: 2}

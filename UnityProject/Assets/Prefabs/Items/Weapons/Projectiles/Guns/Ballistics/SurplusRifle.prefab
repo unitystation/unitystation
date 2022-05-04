@@ -1,26 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &6964865487867032592
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 331383614235509145}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8e15827970984ba78808f03bc3f01586, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  allClothingData:
-  - {fileID: 11400000, guid: 48a85cb1bc55f854c868e47536157d9c, type: 2}
-  CurrentClothIndex: 0
-  randomInitialClothData: 0
-  hidesIdentity: 0
-  hidesSlots: 0
-  hideClothingFlags: 0
 --- !u!1 &7211338498965613066
 GameObject:
   m_ObjectHideFlags: 0
@@ -49,6 +28,7 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 327299890508004589}
   m_RootOrder: 1
@@ -121,6 +101,7 @@ MonoBehaviour:
   SubCatalogue: []
   PresentSpriteSet: {fileID: 11400000, guid: 3514c3344006bd84ba65fc06f443492d, type: 2}
   randomInitialSprite: 0
+  doReverseAnimation: 0
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
   palette: []
@@ -275,15 +256,37 @@ PrefabInstance:
         type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a940a8ef1ee65024fb0a322703040d98, type: 3}
---- !u!1 &331383614235509145 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 8169796687342940242, guid: a940a8ef1ee65024fb0a322703040d98,
-    type: 3}
-  m_PrefabInstance: {fileID: 8501034030556885451}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &327299890508004589 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8175001912389225766, guid: a940a8ef1ee65024fb0a322703040d98,
     type: 3}
   m_PrefabInstance: {fileID: 8501034030556885451}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &331383614235509145 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8169796687342940242, guid: a940a8ef1ee65024fb0a322703040d98,
+    type: 3}
+  m_PrefabInstance: {fileID: 8501034030556885451}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &6964865487867032592
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 331383614235509145}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8e15827970984ba78808f03bc3f01586, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  allClothingData:
+  - {fileID: 11400000, guid: 48a85cb1bc55f854c868e47536157d9c, type: 2}
+  CurrentClothIndex: 0
+  randomInitialClothData: 0
+  hidesIdentity: 0
+  hidesSlots: 0
+  hideClothingFlags: 0
+  disallowConsume: 0
