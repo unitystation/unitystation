@@ -36,13 +36,13 @@ namespace Learning
 			StartCoroutine(TipShowCooldown(showDuration));
 			switch (animation)
 			{
-				case SpriteAnimation.NONE:
-					break;
 				case SpriteAnimation.ROCKING:
 					StartCoroutine(DoImageRockAnimations());
 					break;
 				case SpriteAnimation.UPDOWN:
 					StartCoroutine(DoImageJumpAnimations());
+					break;
+				default:
 					break;
 			}
 		}
