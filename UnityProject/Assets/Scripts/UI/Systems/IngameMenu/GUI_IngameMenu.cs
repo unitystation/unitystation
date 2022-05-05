@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using ServerInfo;
 using DatabaseAPI;
+using Learning;
 
 
 namespace UI
@@ -15,6 +16,7 @@ namespace UI
 		/// </summary>
 		public GameObject menuWindow;
 		public GameObject votingWindow;
+		public GameObject helpWindow;
 
 		public VotePopUp VotePopUp;
 
@@ -171,6 +173,17 @@ namespace UI
 		{
 			HideAllMenus();
 			votingWindow.SetActive(true);
+		}
+
+		public void ShowHelpMenu()
+		{
+			HideAllMenus();
+			helpWindow.SetActive(true);
+		}
+
+		public void ShowProtipListUI()
+		{
+			ProtipManager.Instance.ShowListUI();
 		}
 
 		#endregion

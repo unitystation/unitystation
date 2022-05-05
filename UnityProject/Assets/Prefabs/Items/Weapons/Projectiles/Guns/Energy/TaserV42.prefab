@@ -139,6 +139,11 @@ PrefabInstance:
       propertyPath: m_AssetId
       value: d8899487e8faa39488f7f57af1acb363
       objectReference: {fileID: 0}
+    - target: {fileID: 4342993046395136242, guid: 143d3926d4a5fa84f95f987c152b33a2,
+        type: 3}
+      propertyPath: customNetTransform
+      value: 
+      objectReference: {fileID: 9124272605048683153}
     - target: {fileID: 4450321759764526106, guid: 143d3926d4a5fa84f95f987c152b33a2,
         type: 3}
       propertyPath: m_RootOrder
@@ -323,3 +328,40 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 143d3926d4a5fa84f95f987c152b33a2, type: 3}
+--- !u!114 &9124272605048683153 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4342760245914264766, guid: 143d3926d4a5fa84f95f987c152b33a2,
+    type: 3}
+  m_PrefabInstance: {fileID: 4817577236366974511}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9154202684297418561}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 579884b05ae74e8499329b64997147d3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!1 &9154202684297418561 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4454405483554457966, guid: 143d3926d4a5fa84f95f987c152b33a2,
+    type: 3}
+  m_PrefabInstance: {fileID: 4817577236366974511}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1534828075940723733
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9154202684297418561}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1be952724c3641bf965e9f9f6ba63ec5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Tip:
+    Tip: You can change a taser's firemode by activating them with Z or clicking
+      them.
+    TipIcon: {fileID: 21300000, guid: 8110b00796501a14c8c950df5556ab94, type: 3}
+    ShowAnimation: 1
+    MinimumExperienceLevelToTrigger: 0
+    ShowDuration: 25
