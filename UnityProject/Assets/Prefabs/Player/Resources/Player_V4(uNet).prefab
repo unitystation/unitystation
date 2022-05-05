@@ -462,6 +462,7 @@ GameObject:
   - component: {fileID: 5123748548063984441}
   - component: {fileID: 4951365732200208794}
   - component: {fileID: 1594872346571213938}
+  - component: {fileID: 7153920685726011974}
   m_Layer: 8
   m_Name: Player_V4(uNet)
   m_TagString: Untagged
@@ -1409,6 +1410,38 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+--- !u!114 &7153920685726011974
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1133514949248654}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ab91260447fa445e936d59ba0abdc464, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  TipSO: {fileID: 11400000, guid: eb646ca04872733468148685a9a74fc0, type: 2}
+  saveID: 0
+  triggerOnce: 0
+  showEvenAfterDeath: 1
+  tipCooldown: 35
+  ObjectsToCheck:
+  - GameObjectToCheck: {fileID: 6972878001720233250, guid: a2f7e3ea5d1b72341939c4aeb0895b36,
+      type: 3}
+    AssoicatedSo: {fileID: 11400000, guid: 49dea0a964248a141bbedf6798ad8265, type: 2}
+  - GameObjectToCheck: {fileID: 5092666089846311182, guid: e56e2d22b6f68cf48b3ababcdccd8a4d,
+      type: 3}
+    AssoicatedSo: {fileID: 11400000, guid: eb646ca04872733468148685a9a74fc0, type: 2}
+  - GameObjectToCheck: {fileID: 2515425442973781969, guid: 8df46e8f4633f9e43ab5993c9075028e,
+      type: 3}
+    AssoicatedSo: {fileID: 11400000, guid: eb646ca04872733468148685a9a74fc0, type: 2}
+  SearchRadius: 9
+  SearchCooldown: 6
+  MaskToCheck:
+    serializedVersion: 2
+    m_Bits: 537418752
 --- !u!1 &1147423205297840
 GameObject:
   m_ObjectHideFlags: 0
