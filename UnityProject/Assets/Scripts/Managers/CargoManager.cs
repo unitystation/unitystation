@@ -11,6 +11,7 @@ using Strings;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.SceneManagement;
+using NaughtyAttributes;
 
 namespace Systems.Cargo
 {
@@ -45,6 +46,13 @@ namespace Systems.Cargo
 
 		public Dictionary<ItemTrait, int> SoldHistory = new Dictionary<ItemTrait, int>();
 
+		private int lastTimeRecorded = 0;
+		private int randomBountyTimeCheck = 0;
+
+		[SerializeField, BoxGroup("Random Bounties")] private float checkForTimeCooldown = 50f;
+		[SerializeField, BoxGroup("Random Bounties")] private Vector2 randomTimeRangeForRandomBounty = new Vector2(320, 690);
+		[SerializeField, BoxGroup("Random Bounties")] private List<CargoBounty> randomBountiesList = new List<CargoBounty>();
+
 		private void Awake()
 		{
 			if (Instance == null)
@@ -55,7 +63,12 @@ namespace Systems.Cargo
 			{
 				Destroy(this);
 			}
+
+			if(CustomNetworkManager.IsServer == false) return;
+			UpdateManager.Add(UpdateMe, checkForTimeCooldown);
+			randomBountyTimeCheck = UnityEngine.Random.Range((int)randomTimeRangeForRandomBounty.x, (int)randomTimeRangeForRandomBounty.y);
 		}
+
 
 		private void OnEnable()
 		{
@@ -99,6 +112,29 @@ namespace Systems.Cargo
 			CentcomMessage = "";
 			Supplies = new List<CargoCategory>(cargoData.Categories);
 			ActiveBounties = new List<CargoBounty>(cargoData.CargoBounties);
+			lastTimeRecorded = 0;
+			randomBountyTimeCheck = UnityEngine.Random.Range((int)randomTimeRangeForRandomBounty.x, (int)randomTimeRangeForRandomBounty.y);
+		}
+
+		void UpdateMe()
+		{
+			lastTimeRecorded += (int) checkForTimeCooldown;
+			if(lastTimeRecorded >= randomBountyTimeCheck)
+			{
+				RollRandomBounties();
+				lastTimeRecorded = 0;
+				randomBountyTimeCheck = UnityEngine.Random.Range((int)randomTimeRangeForRandomBounty.x, (int)randomTimeRangeForRandomBounty.y);
+			}
+		}
+
+		private void RollRandomBounties()
+		{
+			var randomBountiesNumber = UnityEngine.Random.Range(1, 3);
+			for (int i = 0; i < randomBountiesNumber; i++)
+			{
+				var randomBounty = randomBountiesList[UnityEngine.Random.Range(0, randomBountiesList.Count)];
+				AddBounty(randomBounty, i == (i = randomBountiesNumber) ? true : false);
+			}
 		}
 
 		/// <summary>
@@ -483,6 +519,13 @@ namespace Systems.Cargo
 			newBounty.Description = description;
 			newBounty.Reward = reward;
 			ActiveBounties.Add(newBounty);
+			if(announce) CentComm.MakeAnnouncement(ChatTemplates.CentcomAnnounce, "A bounty for cargo has been issued from central communications", CentComm.UpdateSound.Notice);
+		}
+
+		public void AddBounty(CargoBounty bounty, bool announce)
+		{
+			if(bounty == null) return;
+			ActiveBounties.Add(bounty);
 			if(announce) CentComm.MakeAnnouncement(ChatTemplates.CentcomAnnounce, "A bounty for cargo has been issued from central communications", CentComm.UpdateSound.Notice);
 		}
 
