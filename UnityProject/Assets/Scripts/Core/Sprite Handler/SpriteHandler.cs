@@ -790,6 +790,7 @@ public class SpriteHandler : MonoBehaviour
 		if (PresentFrame == null)
 		{
 			TryToggleAnimationState(false);
+			return;
 		}
 
 		if (timeElapsed >= PresentFrame.secondDelay)
@@ -947,6 +948,7 @@ public class SpriteHandler : MonoBehaviour
 	}
 	public void ValidateLate()
 	{
+		if (Application.isPlaying) return;
 		variantIndex = initialVariantIndex;
 		PushTexture();
 	}
