@@ -519,14 +519,19 @@ namespace Systems.Cargo
 			newBounty.Description = description;
 			newBounty.Reward = reward;
 			ActiveBounties.Add(newBounty);
-			if(announce) CentComm.MakeAnnouncement(ChatTemplates.CentcomAnnounce, "A bounty for cargo has been issued from central communications", CentComm.UpdateSound.Notice);
+			if(announce) AnnounceNewBounty();
 		}
 
 		public void AddBounty(CargoBounty bounty, bool announce)
 		{
 			if(bounty == null) return;
 			ActiveBounties.Add(bounty);
-			if(announce) CentComm.MakeAnnouncement(ChatTemplates.CentcomAnnounce, "A bounty for cargo has been issued from central communications", CentComm.UpdateSound.Notice);
+			if(announce) AnnounceNewBounty();
+		}
+
+		private void AnnounceNewBounty() 
+		{
+			CentComm.MakeAnnouncement(ChatTemplates.CentcomAnnounce, "A bounty for cargo has been issued from central communications", CentComm.UpdateSound.Notice);
 		}
 
 		private class ExportedItem
