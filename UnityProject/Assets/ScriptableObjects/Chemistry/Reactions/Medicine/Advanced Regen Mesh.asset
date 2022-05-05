@@ -10,13 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 96e73ad475d1d24158bd2935f105cf3d, type: 3}
-  m_Name: Soapification
+  m_Name: Advanced Regen Mesh
   m_EditorClassIdentifier: 
   ingredients:
     m_keys:
-    - {fileID: 11400000, guid: 3afb1893f74fb775d806cbc4563ed1e7, type: 2}
-    - {fileID: 11400000, guid: 4d31620644b580ae09c87962a41d1369, type: 2}
-    m_values: 0a0000000a000000
+    - {fileID: 11400000, guid: 454222573f97dd46f928ed8296abc49d, type: 2}
+    - {fileID: 11400000, guid: 3651d24d9a966843ca171d685e354b0c, type: 2}
+    - {fileID: 11400000, guid: f972208dc79aa9241bf34b9cedd44993, type: 2}
+    m_values: 0a0000001400000014000000
   useExactAmounts: 0
   catalysts:
     m_keys: []
@@ -32,4 +33,4 @@ MonoBehaviour:
     m_keys: []
     m_values: 
   effects:
-  - {fileID: 11400000, guid: 0dfcb0cbe09eb01458b52575dd543943, type: 2}
+  - {fileID: 11400000, guid: 16d3b9d5b08c9cc40b347ba84af546da, type: 2}
