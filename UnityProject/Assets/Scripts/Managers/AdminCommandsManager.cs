@@ -560,9 +560,9 @@ namespace AdminCommands
 		}
 
 		[Command(requiresAuthority = false)]
-		public void CmdChangeCargoConnectionStatus(bool status, NetworkConnectionToClient sender = null)
+		public void CmdChangeCargoConnectionStatus(bool online, NetworkConnectionToClient sender = null)
 		{
-			CargoManager.Instance.CargoOffline = status;
+			CargoManager.Instance.CargoOffline = online;
 		}
 
 		#endregion
