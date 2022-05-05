@@ -15,12 +15,14 @@ MonoBehaviour:
   emoteName: sneeze
   requiresHands: 0
   allowEmoteWhileInCrit: 1
+  isAudibleEmote: 0
   allowEmoteWhileCrawling: 1
   viewText: sneezes.
   youText: Better grab some tissues, You've sneezed.
   failText: You were unable to preform this action!
+  mouthBlockedText: You are unable to make a sound!
   critViewText: recoils in pain as they sneeze.
+  soundsAreTyped: 0
   defaultSounds: []
-  maleSounds: []
-  femaleSounds: []
+  TypedSounds: []
   pitchRange: {x: 0.7, y: 1}

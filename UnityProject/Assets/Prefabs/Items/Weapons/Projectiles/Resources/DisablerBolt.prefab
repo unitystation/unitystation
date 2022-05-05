@@ -1,20 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &3333515706396716452
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5418626791516505491}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a04173a2848442f582e712cc1c8215a3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  stunTime: 0.5
-  willDisarm: 0
-  doMsg: 1
 --- !u!1001 &8547774218782980902
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -135,3 +120,18 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 8547774218782980902}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &3333515706396716452
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5418626791516505491}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a04173a2848442f582e712cc1c8215a3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  stunTime: 0.5
+  willDisarm: 0
+  doMsg: 1

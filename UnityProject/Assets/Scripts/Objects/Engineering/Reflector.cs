@@ -64,6 +64,7 @@ namespace Objects.Engineering
 
 		public void ValidateLate()
 		{
+			if (Application.isPlaying) return;
 			spriteHandler = GetComponentInChildren<SpriteHandler>();
 			currentState = startingState;
 			spriteHandler.ChangeSprite((int) startingState);

@@ -110,6 +110,7 @@ public class Rotatable : NetworkBehaviour, IMatrixRotation
 
 	public void ValidateLate()
 	{
+		if (Application.isPlaying) return;
 		Awake();
 		CurrentDirection = CurrentDirection;
 		RotateObject(CurrentDirection);

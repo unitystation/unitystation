@@ -175,6 +175,7 @@ namespace Construction.Conveyors
 
 		private void RefreshSprites()
 		{
+			if (Application.isPlaying) return;
 			if (this == null) return;
 			spriteHandler.ChangeSprite((int)CurrentStatus);
 			var variant = (int)CurrentDirection;

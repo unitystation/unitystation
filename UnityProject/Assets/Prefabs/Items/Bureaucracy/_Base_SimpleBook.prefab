@@ -1,66 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &6541784096974092951
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1575487906646857171}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0a12becbce50baf4382e39bb3505be79, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  catalogue:
-  - {fileID: 11400000, guid: 2cded0bc000a25a4ba71a0b0042cec98, type: 2}
-  - {fileID: 11400000, guid: 96b0ac71a57e8504a96ced923cd9a8fb, type: 2}
-  - {fileID: 11400000, guid: b7882565d43e89b43a3c85ab76ca7b46, type: 2}
-  - {fileID: 11400000, guid: 03917ade24698184d9b1a62a19532352, type: 2}
-  - {fileID: 11400000, guid: a441ed79a7f1e084487524e468e5610d, type: 2}
-  - {fileID: 11400000, guid: c3b8a255cc6406640b7a87076d9985e1, type: 2}
-  - {fileID: 11400000, guid: 3ada32c898cee54469aa7b121c7bfc57, type: 2}
-  - {fileID: 11400000, guid: f36eafc4eeda42c40b52d9ebf29f9e9c, type: 2}
-  - {fileID: 11400000, guid: 2dfc2e01f30cd454bb5d1bb62a347323, type: 2}
---- !u!114 &7046694432102436986
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1575487906646857171}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f13555f378b81c54190f426366dfaa55, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  pagesToRead: 3
-  timeToReadPage: 5
-  canBeReadMultipleTimes: 1
-  allowOnlyOneReader: 0
-  remarks:
-  - A remarkably simple book...
-  - Why am I reading this simple book?
-  - Simple things amuse simple minds...
-  pageturnSfx:
-  - SetLoadSetting: 0
-    AssetAddress: Assets/Prefabs/Effects/PageTurn2.prefab
-    AssetReference:
-      m_AssetGUID: 
-      m_SubObjectName: 
-      m_SubObjectType: 
-  - SetLoadSetting: 0
-    AssetAddress: Assets/Prefabs/Effects/PageTurn2.prefab
-    AssetReference:
-      m_AssetGUID: 
-      m_SubObjectName: 
-      m_SubObjectType: 
-  - SetLoadSetting: 0
-    AssetAddress: Assets/Prefabs/Effects/PageTurn2.prefab
-    AssetReference:
-      m_AssetGUID: 
-      m_SubObjectName: 
-      m_SubObjectType: 
 --- !u!1001 &1575932230491761001
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -152,12 +91,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a7abba22164ce49f0bf9b9b219f39298, type: 3}
---- !u!1 &1575487906646857171 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1011433845357754, guid: a7abba22164ce49f0bf9b9b219f39298,
-    type: 3}
-  m_PrefabInstance: {fileID: 1575932230491761001}
-  m_PrefabAsset: {fileID: 0}
 --- !u!114 &1461680483349084163 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 114341119007412586, guid: a7abba22164ce49f0bf9b9b219f39298,
@@ -170,3 +103,73 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 579884b05ae74e8499329b64997147d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &1575487906646857171 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1011433845357754, guid: a7abba22164ce49f0bf9b9b219f39298,
+    type: 3}
+  m_PrefabInstance: {fileID: 1575932230491761001}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &6541784096974092951
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1575487906646857171}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0a12becbce50baf4382e39bb3505be79, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  catalogue:
+  - {fileID: 11400000, guid: 2cded0bc000a25a4ba71a0b0042cec98, type: 2}
+  - {fileID: 11400000, guid: 96b0ac71a57e8504a96ced923cd9a8fb, type: 2}
+  - {fileID: 11400000, guid: b7882565d43e89b43a3c85ab76ca7b46, type: 2}
+  - {fileID: 11400000, guid: 03917ade24698184d9b1a62a19532352, type: 2}
+  - {fileID: 11400000, guid: a441ed79a7f1e084487524e468e5610d, type: 2}
+  - {fileID: 11400000, guid: c3b8a255cc6406640b7a87076d9985e1, type: 2}
+  - {fileID: 11400000, guid: 3ada32c898cee54469aa7b121c7bfc57, type: 2}
+  - {fileID: 11400000, guid: f36eafc4eeda42c40b52d9ebf29f9e9c, type: 2}
+  - {fileID: 11400000, guid: 2dfc2e01f30cd454bb5d1bb62a347323, type: 2}
+--- !u!114 &7046694432102436986
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1575487906646857171}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f13555f378b81c54190f426366dfaa55, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pagesToRead: 3
+  timeToReadPage: 5
+  canBeReadMultipleTimes: 1
+  allowOnlyOneReader: 0
+  remarks:
+  - A remarkably simple book...
+  - Why am I reading this simple book?
+  - Simple things amuse simple minds...
+  pageturnSfx:
+  - SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/Effects/PageTurn2.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
+  - SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/Effects/PageTurn2.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
+  - SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/Effects/PageTurn2.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0

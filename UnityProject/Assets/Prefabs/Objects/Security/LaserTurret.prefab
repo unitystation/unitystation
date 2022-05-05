@@ -1,124 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &1586561495887623337
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1526276624429649764}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 91b1f6111eb8ac243b137dc8a7e36d1a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  restriction: 68
---- !u!114 &1598609385433514140
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1526276624429649764}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8834d09d3d6759c479d22c84a45216ef, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  spawnGun: {fileID: 6733076708105069041, guid: d589c17f6fd91da4190edfdd2cb5aa53,
-    type: 3}
-  range: 8
-  laserBullet: {fileID: 2404555472885326642, guid: 49a8364f6515be34bac52c48c9214d85,
-    type: 3}
-  stunBullet: {fileID: 6809207048716157800, guid: 00552b9802a37ba4bbe1aca46515b240,
-    type: 3}
-  gunLossChance: 30
-  shootSpeedMultiplier: 1.5
-  defaultShootSpeed: 1
-  framePrefab: {fileID: 4949295524855822690, guid: d6457d17134225b4db0c2857b5012c94,
-    type: 3}
-  gunSprite: {fileID: 6304648460530296254}
-  frameSprite: {fileID: 8358811458960317800}
-  taserSound:
-    SetLoadSetting: 0
-    AssetAddress: Assets/Prefabs/Weapons/Taser1.prefab
-    AssetReference:
-      m_AssetGUID: 
-      m_SubObjectName: 
-      m_SubObjectType: 
-  ballisticTurret: 0
-  turretType: 0
-  CheckWeaponAuthorisation: 0
-  weaponAuthorisation: 4400000026000000
-  CheckSecurityRecords: 1
-  CheckForArrest: 1
-  CheckUnauthorisedPersonnel: 0
-  authorisedAccess: 4400000026000000
-  CheckUnidentifiedLifeSigns: 1
---- !u!114 &2506153195070795302
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1526276624429649764}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 053e2d398d507cc449f05be2499aa497, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  minimumWorkingVoltage: 190
-  expectedRunningVoltage: 240
-  maximumWorkingVoltage: 300
-  deviceType: 0
-  isSelfPowered: 0
-  wattusage: 0.01
-  InitialResistance: 100000000
-  RelatedAPC: {fileID: 0}
-  AdvancedControlToScript: 0
-  StateUpdateOnClient: 1
---- !u!114 &7246554565139759485
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1526276624429649764}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6d7277dcc993463cb6c7f79b663f36fc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  NetTabType: 43
-  aiInteractable: 1
---- !u!114 &7993706743923889274
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1526276624429649764}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fdce8a163088453ca593c0e98f2c5f07, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  itemStorageStructure: {fileID: 11400000, guid: 263bf834f99424f12bda19d67c3ab5fc,
-    type: 2}
-  itemStorageCapacity: {fileID: 11400000, guid: 3b1533d95791f46449f739d50d759817,
-    type: 2}
-  itemStoragePopulator: {fileID: 0}
-  forceSpawnContents: 0
-  dropItemsOnDespawn: 0
-  UesAddlistPopulater: 0
-  Populater:
-    SlotContents: []
-    DeprecatedContents: []
-  ashPrefab: {fileID: 0}
 --- !u!1 &5035411517673045519
 GameObject:
   m_ObjectHideFlags: 0
@@ -147,6 +28,7 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1530055412931709374}
   m_RootOrder: 1
@@ -223,6 +105,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: f62e4b566337b064f96ccf3061654fa5, type: 2}
   PresentSpriteSet: {fileID: 11400000, guid: 2a0c00d506dfa084b9b82a6290d9fb6d, type: 2}
   randomInitialSprite: 0
+  doReverseAnimation: 0
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
   palette: []
@@ -442,6 +325,126 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 2245715690121042660}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1586561495887623337
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1526276624429649764}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 91b1f6111eb8ac243b137dc8a7e36d1a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  restriction: 68
+--- !u!114 &1598609385433514140
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1526276624429649764}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8834d09d3d6759c479d22c84a45216ef, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  spawnGun: {fileID: 6733076708105069041, guid: d589c17f6fd91da4190edfdd2cb5aa53,
+    type: 3}
+  range: 8
+  laserBullet: {fileID: 2404555472885326642, guid: 49a8364f6515be34bac52c48c9214d85,
+    type: 3}
+  stunBullet: {fileID: 6809207048716157800, guid: 00552b9802a37ba4bbe1aca46515b240,
+    type: 3}
+  gunLossChance: 30
+  shootSpeedMultiplier: 1.5
+  defaultShootSpeed: 1
+  framePrefab: {fileID: 4949295524855822690, guid: d6457d17134225b4db0c2857b5012c94,
+    type: 3}
+  gunSprite: {fileID: 6304648460530296254}
+  frameSprite: {fileID: 8358811458960317800}
+  taserSound:
+    SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/Weapons/Taser1.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
+  ballisticTurret: 0
+  turretType: 0
+  CheckWeaponAuthorisation: 0
+  weaponAuthorisation: 4400000026000000
+  CheckSecurityRecords: 1
+  CheckForArrest: 1
+  CheckUnauthorisedPersonnel: 0
+  authorisedAccess: 4400000026000000
+  CheckUnidentifiedLifeSigns: 1
+--- !u!114 &2506153195070795302
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1526276624429649764}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 053e2d398d507cc449f05be2499aa497, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  minimumWorkingVoltage: 190
+  expectedRunningVoltage: 240
+  maximumWorkingVoltage: 300
+  deviceType: 0
+  isSelfPowered: 0
+  wattusage: 0.01
+  InitialResistance: 100000000
+  RelatedAPC: {fileID: 0}
+  AdvancedControlToScript: 0
+  StateUpdateOnClient: 1
+--- !u!114 &7246554565139759485
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1526276624429649764}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d7277dcc993463cb6c7f79b663f36fc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  NetTabType: 43
+  aiInteractable: 1
+--- !u!114 &7993706743923889274
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1526276624429649764}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fdce8a163088453ca593c0e98f2c5f07, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemStorageStructure: {fileID: 11400000, guid: 263bf834f99424f12bda19d67c3ab5fc,
+    type: 2}
+  itemStorageCapacity: {fileID: 11400000, guid: 3b1533d95791f46449f739d50d759817,
+    type: 2}
+  itemStoragePopulator: {fileID: 0}
+  forceSpawnContents: 0
+  dropItemsOnDespawn: 0
+  UesAddlistPopulater: 0
+  Populater:
+    SlotContents: []
+    DeprecatedContents: []
+  ashPrefab: {fileID: 0}
 --- !u!4 &1530055412931709374 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 725567512822600538, guid: b06b702714bab49b9ad949eab1ca4534,

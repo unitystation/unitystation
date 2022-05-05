@@ -15,13 +15,15 @@ MonoBehaviour:
   emoteName: dance
   requiresHands: 0
   allowEmoteWhileInCrit: 0
+  isAudibleEmote: 0
   allowEmoteWhileCrawling: 1
   viewText: dances!
   youText: You throw some sick moves!
   failText: You were unable to preform this action!
+  mouthBlockedText: You are unable to make a sound!
   critViewText: tries to cheer themselves up by dancing, but they're too weak to
     dance and are hurt.
+  soundsAreTyped: 0
   defaultSounds: []
-  maleSounds: []
-  femaleSounds: []
+  TypedSounds: []
   pitchRange: {x: 0.7, y: 1}

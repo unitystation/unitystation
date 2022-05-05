@@ -28,6 +28,7 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 105814575089489618}
   m_RootOrder: 1
@@ -108,6 +109,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 7e489763d9936ce449e6e444390cc5f3, type: 2}
   PresentSpriteSet: {fileID: 11400000, guid: 5a9ab032af75965428729a36d94645fb, type: 2}
   randomInitialSprite: 0
+  doReverseAnimation: 0
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
   palette: []
@@ -365,12 +367,6 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 101322261917603612}
   m_PrefabAsset: {fileID: 0}
---- !u!4 &105814575089489618 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 4527534762131918, guid: a7abba22164ce49f0bf9b9b219f39298,
-    type: 3}
-  m_PrefabInstance: {fileID: 101322261917603612}
-  m_PrefabAsset: {fileID: 0}
 --- !u!114 &-3733500092611804698
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -390,3 +386,9 @@ MonoBehaviour:
   maxMagnitude: 50
   mediumMagnitude: 20
   closeMagnitude: 10
+--- !u!4 &105814575089489618 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4527534762131918, guid: a7abba22164ce49f0bf9b9b219f39298,
+    type: 3}
+  m_PrefabInstance: {fileID: 101322261917603612}
+  m_PrefabAsset: {fileID: 0}

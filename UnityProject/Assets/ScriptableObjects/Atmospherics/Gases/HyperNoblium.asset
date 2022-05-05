@@ -15,10 +15,10 @@ MonoBehaviour:
   MolarHeatCapacity: 2000
   MolarMass: 44.01
   Name: Hyper-Noblium
-  HasOverlay: 0
   MinMolesToSee: 0.4
-  TileName: NONE
-  OverlayType: 0
+  OverlayTile: {fileID: 0}
+  CustomColour: 0
+  Colour: {r: 0, g: 0, b: 0, a: 0}
   FusionPower: 0
   AssociatedReagent: {fileID: 11400000, guid: 55def898de7e0a1408ccc59e19a58530, type: 2}
   ExportPrice: 5

@@ -35,9 +35,20 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4268463137979442700, guid: 143d3926d4a5fa84f95f987c152b33a2,
         type: 3}
+      propertyPath: initialTraits.Array.size
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4268463137979442700, guid: 143d3926d4a5fa84f95f987c152b33a2,
+        type: 3}
       propertyPath: itemSprites.SpriteLeftHand
       value: 
       objectReference: {fileID: 11400000, guid: d8207bd9c629e0f4bbef0855255e82c8,
+        type: 2}
+    - target: {fileID: 4268463137979442700, guid: 143d3926d4a5fa84f95f987c152b33a2,
+        type: 3}
+      propertyPath: initialTraits.Array.data[4]
+      value: 
+      objectReference: {fileID: 11400000, guid: 4b8a2d1facb43884ca56a1643ba18bbc,
         type: 2}
     - target: {fileID: 4268463137979442700, guid: 143d3926d4a5fa84f95f987c152b33a2,
         type: 3}
@@ -212,7 +223,7 @@ MonoBehaviour:
   projectile: {fileID: 7081206667275519994, guid: a4c2debd67d612549b05801d1e37121a,
     type: 3}
   rechargeTime: 2
-  shootSound:
+  rechargeSound:
     SetLoadSetting: 0
     AssetAddress: Assets/Prefabs/Weapons/KineticReload.prefab
     AssetReference:

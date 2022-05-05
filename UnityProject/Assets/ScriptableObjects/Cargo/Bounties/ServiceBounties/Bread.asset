@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 942de2d1e5138ff479292c0ff88783b8, type: 3}
+  m_Name: Bread
+  m_EditorClassIdentifier: 
+  Demands:
+    m_keys:
+    - {fileID: 11400000, guid: c3d4d535a3d0c5948a29bc462aeb55fb, type: 2}
+    m_values: 0a000000
+  Reward: 1300
+  Description: A nearby outpost is performing experiments on loafs of bread. Send
+    10 over.

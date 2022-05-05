@@ -1,25 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-3403904624850175620
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3396913131367550736}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 462d967aee8e4662964d700de16a6740, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  pickaxeSound:
-    SetLoadSetting: 0
-    AssetAddress: Assets/Prefabs/Effects/pickaxe1.prefab
-    AssetReference:
-      m_AssetGUID: 
-      m_SubObjectName: 
-      m_SubObjectType: 
-  timeMultiplier: 10
 --- !u!1001 &6202252267861231270
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -150,3 +130,26 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 6202252267861231270}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &-3403904624850175620
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3396913131367550736}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 462d967aee8e4662964d700de16a6740, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pickaxeSound:
+    SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/Effects/pickaxe1.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
+  timeMultiplier: 10
+pickaxe-hardness
+  pickHardness: 3

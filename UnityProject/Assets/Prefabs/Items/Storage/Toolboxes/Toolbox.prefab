@@ -28,6 +28,7 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 8573033213633377226}
   m_RootOrder: 1
@@ -103,41 +104,10 @@ MonoBehaviour:
   - {fileID: 11400000, guid: ca5a5d1843e4fdd4aa11f726f13d283f, type: 2}
   PresentSpriteSet: {fileID: 11400000, guid: 629838426e75c1047be7985e566681d3, type: 2}
   randomInitialSprite: 1
+  doReverseAnimation: 0
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
   palette: []
---- !u!114 &4699351480206158359
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8568672687853555390}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ccbb5729ffc2e0b4f89279dcaf8110ae, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  stackableMaterials: 1
-  materialCost: 10
-  reagentContainer: 0
-  craftItem:
-  - {fileID: 7602444472548548205, guid: 28ccdf7c9ebf84198bf4b8bd543f4ce8, type: 3}
-  assembly: {fileID: 8622575264684028204, guid: 4ea433b6871fa2b4193194fd6be7a8ce,
-    type: 3}
---- !u!114 &7381038148697665226
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8568672687853555390}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 498378a6a03686e4fa4b6e365b6e0d42, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  StorageItemName: 2
 --- !u!1001 &4934267206829871565
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -263,6 +233,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3782347747540316177, guid: e46ba34aab52d654787ef10d896b0874,
         type: 3}
+      propertyPath: initialTraits.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3782347747540316177, guid: e46ba34aab52d654787ef10d896b0874,
+        type: 3}
       propertyPath: attackVerbs.Array.data[0]
       value: robusted
       objectReference: {fileID: 0}
@@ -271,6 +246,12 @@ PrefabInstance:
       propertyPath: itemSprites.SpriteLeftHand
       value: 
       objectReference: {fileID: 11400000, guid: b141c5d6b1f8b8245a182b3a94ed9948,
+        type: 2}
+    - target: {fileID: 3782347747540316177, guid: e46ba34aab52d654787ef10d896b0874,
+        type: 3}
+      propertyPath: initialTraits.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 47c300e686142a04282fddf7bd2b8e98,
         type: 2}
     - target: {fileID: 3782347747540316177, guid: e46ba34aab52d654787ef10d896b0874,
         type: 3}
@@ -370,6 +351,38 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 4934267206829871565}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &4699351480206158359
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8568672687853555390}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ccbb5729ffc2e0b4f89279dcaf8110ae, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  stackableMaterials: 1
+  materialCost: 10
+  reagentContainer: 0
+  craftItem:
+  - {fileID: 7602444472548548205, guid: 28ccdf7c9ebf84198bf4b8bd543f4ce8, type: 3}
+  assembly: {fileID: 8622575264684028204, guid: 4ea433b6871fa2b4193194fd6be7a8ce,
+    type: 3}
+--- !u!114 &7381038148697665226
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8568672687853555390}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 498378a6a03686e4fa4b6e365b6e0d42, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  StorageItemName: 2
 --- !u!4 &8573033213633377226 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3639895484745261575, guid: e46ba34aab52d654787ef10d896b0874,

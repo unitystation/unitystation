@@ -27,6 +27,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -43,9 +44,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 82a7b771adf143e9b7a36d9cfde3508d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Speed: 40
-  NumberThreads: 1
-  Mode: 0
+  reactionManagerList: []
   StopPipes: 0
   fireLight: {fileID: 1762630675659964, guid: 715614a08d7f9514aab57170abfe56ef, type: 3}
   iceShard: {fileID: 2265521501557685915, guid: 0a1bb784a4392e94aa77541dd0939565,

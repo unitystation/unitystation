@@ -40,6 +40,7 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: -0.00000014901144, w: 1}
   m_LocalPosition: {x: 59, y: 56, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 4000013165729510}
   - {fileID: 1391620685814759568}
@@ -190,6 +191,7 @@ MonoBehaviour:
   HeatResistance: 100
   ExplosionsDamage: 100
   doDamageMessage: 1
+  Meleeable: {fileID: 0}
 --- !u!114 &2759009461426029734
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -223,8 +225,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62cc3ef7cd9082443aaf3c255851d15a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
 --- !u!114 &1106781050470487967
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -423,6 +423,7 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: 0.00000014901144, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 4000013482940758}
   m_RootOrder: 0
@@ -498,6 +499,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 98f80200d3798fc4ab5d5035751324b5, type: 2}
   PresentSpriteSet: {fileID: 11400000, guid: 481fa73f0a45b494ab84768d90753166, type: 2}
   randomInitialSprite: 0
+  doReverseAnimation: 0
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
   palette: []
@@ -529,6 +531,7 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: 0.00000014901144, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 4000013482940758}
   m_RootOrder: 1
@@ -605,6 +608,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 8accdf0b4519a794aaa0eb89adc58543, type: 2}
   PresentSpriteSet: {fileID: 11400000, guid: 68bb3e29d9b789a46a66370031d05eeb, type: 2}
   randomInitialSprite: 0
+  doReverseAnimation: 0
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
   palette: []

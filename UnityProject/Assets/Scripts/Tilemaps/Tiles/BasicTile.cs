@@ -42,10 +42,17 @@ namespace Tiles
 		[FormerlySerializedAs("Mineable")]
 		[SerializeField]
 		private bool mineable = false;
+
 		[Tooltip("How long does it take to mine this tile?")]
 		[SerializeField]
 		[ShowIf(nameof(mineable))]
 		private float miningTime = 5f;
+
+		[Range(1, 10)]
+		[Tooltip("How hard is this tile to mine? Higher means certain tools cannot mine it.")]
+		[SerializeField]
+		[ShowIf(nameof(mineable))]
+		private int miningHardness = 1;
 
 		[Tooltip("Can a player construct above this tile?")]
 		public bool constructable;
@@ -71,6 +78,7 @@ namespace Tiles
 		/// </summary>
 		public bool Mineable => mineable;
 		public float MiningTime => miningTime;
+		public int MiningHardness => miningHardness;
 
 		[Tooltip("Will bullets bounce from this tile?")]
 		[SerializeField]
