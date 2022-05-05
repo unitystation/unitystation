@@ -133,7 +133,7 @@ namespace Systems.Cargo
 			for (int i = 0; i < randomBountiesNumber; i++)
 			{
 				var randomBounty = randomBountiesList[UnityEngine.Random.Range(0, randomBountiesList.Count)];
-				AddBounty(randomBounty, i == (i = randomBountiesNumber) ? true : false);
+				AddBounty(randomBounty, i == randomBountiesNumber ? true : false);
 			}
 		}
 
