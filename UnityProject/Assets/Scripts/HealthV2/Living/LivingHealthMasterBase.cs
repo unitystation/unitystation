@@ -251,6 +251,9 @@ namespace HealthV2
 
 		public PlayerScript playerScript;
 
+		public event Action<DamageType> OnTakeDamageType;
+		public event Action OnLowHealth;
+
 		public virtual void Awake()
 		{
 			rootBodyPartController = GetComponent<RootBodyPartController>();
@@ -702,6 +705,14 @@ namespace HealthV2
 			}
 
 			IndicatePain(damage);
+			OnTakeDamageType?.Invoke(damageType);
+			if(HealthIsLow()) OnLowHealth?.Invoke();
+		}
+
+		private bool HealthIsLow()
+		{
+			var percentage = (OverallHealth / maxHealth) * 100;
+			return percentage < 35;
 		}
 
 		/// <summary>
