@@ -45,6 +45,8 @@ namespace Systems.Cargo
 
 		public Dictionary<ItemTrait, int> SoldHistory = new Dictionary<ItemTrait, int>();
 
+		public bool CargoOffline = false;
+
 		private void Awake()
 		{
 			if (Instance == null)
