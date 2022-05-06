@@ -46,7 +46,9 @@ namespace Systems.Cargo
 
 		public Dictionary<ItemTrait, int> SoldHistory = new Dictionary<ItemTrait, int>();
 
-		private int lastTimeRecorded = 0;
+		public bool CargoOffline = false;
+    
+    private int lastTimeRecorded = 0;
 		private int randomBountyTimeCheck = 0;
 
 		[SerializeField, BoxGroup("Random Bounties")] private float checkForTimeCooldown = 50f;

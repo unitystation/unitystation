@@ -49,12 +49,18 @@ namespace UI.Objects.Cargo
 
 		private void UpdateCreditsText()
 		{
+			if(CargoManager.Instance.CargoOffline)
+			{
+				СreditsText.SetValueServer("OFFLINE");
+				return;
+			}
 			СreditsText.SetValueServer($"Budget: {CargoManager.Instance.Credits}");
 			if (cargoConsole != null) { cargoConsole.PlayBudgetUpdateSound(); }
 		}
 
 		public void CallShuttle()
 		{
+			if(CargoManager.Instance.CargoOffline) return;
 			CargoManager.Instance.CallShuttle();
 		}
 
