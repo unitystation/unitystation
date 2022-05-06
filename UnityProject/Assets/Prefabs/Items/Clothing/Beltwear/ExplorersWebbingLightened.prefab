@@ -11,7 +11,7 @@ PrefabInstance:
         type: 3}
       propertyPath: itemStorageStructure
       value: 
-      objectReference: {fileID: 11400000, guid: 72f86270876774165a3778d641b8a8bb,
+      objectReference: {fileID: 11400000, guid: e8b6fa61b6bdb4b8aa2833a751dfc487,
         type: 2}
     - target: {fileID: 4041017618710770341, guid: 6050fe71b1f8f6a4cb17dc69b4e9223b,
         type: 3}
@@ -96,9 +96,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4570374279545905267, guid: 6050fe71b1f8f6a4cb17dc69b4e9223b,
         type: 3}
+      propertyPath: initialSize
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4570374279545905267, guid: 6050fe71b1f8f6a4cb17dc69b4e9223b,
+        type: 3}
       propertyPath: initialDescription
       value: A versatile chest rig, cherished by miners and hunters alike. This version
-        has been lightened.
+        has been lightened, reducing it's size, but also it's carrying capacity.
       objectReference: {fileID: 0}
     - target: {fileID: 5691568116976668390, guid: 6050fe71b1f8f6a4cb17dc69b4e9223b,
         type: 3}
