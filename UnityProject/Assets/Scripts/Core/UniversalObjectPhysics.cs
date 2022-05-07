@@ -40,7 +40,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 
 	//public const float DEFAULT_Friction = 9999999999999f;
 	public const float DEFAULT_Friction = 15f;
-	public const float DEFAULT_SLIDE_FRICTION = 5f;
+	public const float DEFAULT_SLIDE_FRICTION = 9f;
 
 	public bool DEBUG = false;
 
@@ -797,7 +797,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 	{
 		aim = inaim;
 		thrownBy = inthrownBy;
-		if (Random.Range(0, 1) == 1)
+		if (Random.Range(0, 2) == 1)
 		{
 			spinMagnitude = spinFactor * 1;
 		}

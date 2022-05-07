@@ -633,7 +633,7 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 			PlayerSpawn.ServerSpawnDummy(gameObject.transform);
 		}
 
-		if (IsWalking) return;
+
 		if (moveActions.moveActions.Length == 0) return;
 		SetMatrixCash.ResetNewPosition(transform.position);
 
@@ -741,6 +741,10 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 
 			if (CausesSlipClient)
 			{
+				NewtonianPush(NewMoveData.GlobalMoveDirection.TVectoro().To2Int(), TileMoveSpeed, Single.NaN, 4, spinFactor: 35);
+
+				var Player = registerTile as RegisterPlayer;
+				Player.OrNull()?.ServerSlip();
 				//SlippingOn
 				//slip //TODO
 			}
@@ -766,12 +770,28 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 		}
 	}
 
-	public bool CanInPutMove()
-		//False for in machine/Buckled, No gravity/Nothing to push off, Is slipping, Is being thrown, Is incapacitated
+	public bool CanInPutMove() //False for in machine/Buckled, No gravity/Nothing to push off, Is slipping, Is being thrown, Is incapacitated
 	{
+		if (IsWalking) return false;
+		if (slideTime > 0) return false;
+		if (allowInput == false) return false;
+		if (buckledObject) return false;
+		if (UIManager.IsInputFocus) return false;
+		if (IsCuffed && PulledBy.HasComponent) return false;
+		//
+		//playerMove.IsCuffed && playerScript.pushPull.IsBeingPulledClient
 		//TODO if Hidden Can't move
-		//TODO allowInput
-		//TODO buckledObject
+
+
+
+		//TODO Is cuffed and being pulled
+
+		//TODO good stuff
+		// if (!playerScript.IsGhost && playerScript.playerHealth.IsDead)
+		// {
+		// 	playerScript.playerNetworkActions.CmdSpawnPlayerGhost();
+		// }
+
 		return true;
 	}
 
