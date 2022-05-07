@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.Serialization;
 using TileManagement;
+using Tiles;
 
 /// <summary>
 /// Tile which is merely an effect / overlay. Doesn't really

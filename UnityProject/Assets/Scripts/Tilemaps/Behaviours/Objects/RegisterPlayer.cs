@@ -314,7 +314,7 @@ public class RegisterPlayer : RegisterTile, IServerSpawn, RegisterPlayer.IContro
 		}
 	}
 
-	private void ServerRemoveStun()
+	public void ServerRemoveStun()
 	{
 		var oldVal = IsSlippingServer;
 		IsSlippingServer = false;

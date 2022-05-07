@@ -114,8 +114,9 @@ public class CustomNetworkManager : NetworkManager, IInitialise
 	{
 		CheckTransport();
 		ApplyConfig();
-		//Automatically host if starting up game *not* from lobby
-		if (SceneManager.GetActiveScene().name != "Lobby")
+
+		var prevEditorScene = SubSceneManager.GetEditorPrevScene();
+		if (prevEditorScene != string.Empty && prevEditorScene != "StartUp" && prevEditorScene != "Lobby")
 		{
 			StartHost();
 		}
@@ -401,6 +402,11 @@ public class CustomNetworkManager : NetworkManager, IInitialise
 			// TODO check if this is needed
 			// EventManager.Broadcast(EVENT.RoundStarted);
 			StartCoroutine(DoHeadlessCheck());
+		}
+		else
+		{
+			// must've disconnected, let lobby know (now that scene is loaded)
+			Lobby.LobbyManager.Instance.lobbyDialogue.wasDisconnected = true;
 		}
 	}
 

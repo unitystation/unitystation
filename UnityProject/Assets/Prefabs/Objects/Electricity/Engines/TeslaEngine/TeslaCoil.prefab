@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 4734855229797344}
   - component: {fileID: 61344596048250936}
   - component: {fileID: 114038174743996046}
+  - component: {fileID: 114703946515217786}
   - component: {fileID: 8275105296698566321}
   - component: {fileID: 4896273805710721720}
   - component: {fileID: 672904832946805518}
@@ -22,8 +23,8 @@ GameObject:
   - component: {fileID: 5933879109768817857}
   - component: {fileID: 995656881568404554}
   - component: {fileID: 588005893669932203}
+  - component: {fileID: -8454344639580198061}
   - component: {fileID: -7944490345238607186}
-  - component: {fileID: 1297135240561435207}
   m_Layer: 11
   m_Name: TeslaCoil
   m_TagString: Untagged
@@ -89,6 +90,7 @@ MonoBehaviour:
   syncInterval: 0.1
   matrixDebugLogging: 0
   objectType: 1
+  customNetTransform: {fileID: 0}
   prefabTracker: {fileID: 0}
   CurrentsortingGroup: {fileID: 0}
   AtmosPassable: 1
@@ -96,6 +98,22 @@ MonoBehaviour:
   initialPassable: 0
   initialCrawlPassable: 0
   passableExclusionsToThis: []
+--- !u!114 &114703946515217786
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1575520830166772}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 579884b05ae74e8499329b64997147d3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  snapToGridOnStart: 1
+  IsFixedMatrix: 0
 --- !u!114 &8275105296698566321
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -298,7 +316,6 @@ MonoBehaviour:
   exportType: 0
   exportName: tesla coil
   exportMessage: 
-  initialSize: 3
 --- !u!114 &5933879109768817857
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -355,6 +372,37 @@ MonoBehaviour:
   lockSpriteDirection: 0
   blockAnchorChange: 0
   blockMessage: 
+--- !u!114 &-8454344639580198061
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1575520830166772}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c23c49138f42840a1bc22ade283c1694, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  registerTile: {fileID: 0}
+  floorDecal: {fileID: 0}
+  isInitiallyNotPushable: 0
+  pushPullSound:
+    SetLoadSetting: 0
+    AssetAddress: null
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
+  soundDelayTime: 0
+  soundMinimumPitchVariance: 1
+  soundMaximumPitchVariance: 1
+  OnPullingSomethingChangedServer:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &-7944490345238607186
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -367,52 +415,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62cc3ef7cd9082443aaf3c255851d15a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &1297135240561435207
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1575520830166772}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 52a6a264ee47433418b51f654439372f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  SnapToGridOnStart: 0
-  LocalTargetPosition: {x: 0, y: 0, z: 0}
-  TileMoveSpeed: 1
-  isNotPushable: 0
-  newtonianMovement: {x: 0, y: 0}
-  airTime: 0
-  slideTime: 0
-  thrownBy: {fileID: 0}
-  aim: 0
-  spinMagnitude: 0
-  stickyMovement: 0
-  maximumStickSpeed: 1.5
-  onStationMovementsRound: 0
-  attributes: {fileID: 0}
-  registerTile: {fileID: 0}
-  ContextGameObjects:
-  - {fileID: 0}
-  - {fileID: 0}
-  IsCurrentlyFloating: 0
-  LocalDifferenceNeeded: {x: 0, y: 0}
-  CorrectingCourse: 0
-  Pushing: []
-  Hits: []
-  Speed: 1
-  AIR: 3
-  SLIDE: 4
-  Animating: 0
-  IsFlyingSliding: 0
-  IsMoving: 0
-  IsWalking: 0
-  MoveIsWalking: 0
-  LastUpdateClientFlying: 0
 --- !u!1 &1744594665423798
 GameObject:
   m_ObjectHideFlags: 0

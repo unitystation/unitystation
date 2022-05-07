@@ -1,9 +1,10 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using ServerInfo;
 using DatabaseAPI;
+using Learning;
 
 
 namespace UI
@@ -15,6 +16,7 @@ namespace UI
 		/// </summary>
 		public GameObject menuWindow;
 		public GameObject votingWindow;
+		public GameObject helpWindow;
 
 		public VotePopUp VotePopUp;
 
@@ -173,20 +175,32 @@ namespace UI
 			votingWindow.SetActive(true);
 		}
 
+		public void ShowHelpMenu()
+		{
+			HideAllMenus();
+			helpWindow.SetActive(true);
+		}
+
+		public void ShowProtipListUI()
+		{
+			ProtipManager.Instance.ShowListUI();
+		}
+
 		#endregion
 
 		#region Logout Confirmation Window Functions
 
-		public void LogoutButton()
+		public void ExitToMainMenuBtn()
 		{
 			ModalPanelManager.Confirm("Are you sure?", LogoutConfirmYesButton, "Logout to Main Menu");
 		}
 
 		public void LogoutConfirmYesButton()
 		{
-			EventManager.Broadcast(Event.RoundEnded);
 			_ = SoundManager.Play(CommonSounds.Instance.Click01);
+			EventManager.Broadcast(Event.RoundEnded);
 			HideAllMenus();
+			GameManager.Instance.DisconnectExpected = true;
 			StopNetworking();
 			SceneManager.LoadScene("Lobby");
 		}

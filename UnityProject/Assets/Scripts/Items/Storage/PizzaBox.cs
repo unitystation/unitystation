@@ -13,7 +13,7 @@ using Mirror;
 
 namespace Items.Storage
 {
-	public class PizzaBox : ExplosiveBase, ICheckedInteractable<HandApply>, IInteractable<InventoryApply>
+	public class PizzaBox : ExplosiveBase, ICheckedInteractable<HandApply>, IInteractable<InventoryApply>, IServerSpawn, ICheckedInteractable<HandActivate>
 	{
 		[Header("Settings")]
 		[SerializeField] private ItemTrait pizzaTrait;
@@ -22,10 +22,11 @@ namespace Items.Storage
 		[SerializeField] private SpriteDataSO spritePizzaBoxMessy;
 		[SerializeField, ShowIf("isBomb")] private SpriteDataSO spritePizzaBoxBombInactive;
 		[SerializeField, ShowIf("isBomb")] private SpriteDataSO spritePizzaBoxBombActive;
+		[SerializeField, ShowIf("isBomb")] private bool isArmedOnSpawn;
 		[SyncVar] private bool isOpen = false;
 		[SyncVar] private bool hadPizza = false;
 		[SyncVar] private bool bombIsCountingDown;
-		private bool detenationOnTimer = false;
+		[SyncVar(hook=nameof(OnArmStateChange))] private bool detonateByTimer = false;
 		[SerializeField] private bool isBomb = false;
 		[SerializeField] private string writtenNote = "";
 		[Header("Components")]
@@ -41,10 +42,10 @@ namespace Items.Storage
 			set => bombIsCountingDown = value;
 			get => bombIsCountingDown;
 		}
-		public bool DetenationOnTimer
+		public bool DetonateByTimer
 		{
-			set => detenationOnTimer = value;
-			get => detenationOnTimer;
+			set => detonateByTimer = value;
+			get => detonateByTimer;
 		}
 		public float TimeToDetonate
 		{
@@ -98,11 +99,19 @@ namespace Items.Storage
 			pizzaSprites.SetActive(true);
 			if(writtenNote != "") writingSprites.SetActive(true);
 			UpdatePizzaSprites();
-			if (isArmed && detenationOnTimer == false)
+			
+			if (isArmed && detonateByTimer == false)
+			{
+				Detonate();
+				return;
+			}
+			
+			if (isArmed && detonateByTimer)
 			{
 				StartCoroutine(Countdown());
 				return;
 			}
+
 			if (isBomb)
 			{
 				if (bombIsCountingDown)
@@ -135,10 +144,16 @@ namespace Items.Storage
 			}
 		}
 
+		protected override void Detonate()
+		{
+			Chat.AddLocalMsgToChat("<color=red>The pizza bomb violently explodes!</color>", gameObject);
+			base.Detonate();
+		}
+
 		public bool WillInteract(HandApply interaction, NetworkSide side)
 		{
 			if (DefaultWillInteract.Default(interaction, side) == false) return false;
-			if (isOpen == false && interaction.IsAltClick == false) return false;
+			if (interaction.IsAltClick == false) return false; // alt click to open on the spot, else pick it up
 			return true;
 		}
 
@@ -207,12 +222,34 @@ namespace Items.Storage
 		public override void ReceiveSignal(SignalStrength strength, SignalEmitter responsibleEmitter, ISignalMessage message = null)
 		{
 			if(isArmed == false) return;
-			if (detenationOnTimer)
+			if (detonateByTimer)
 			{
 				StartCoroutine(Countdown());
 				return;
 			}
 			Detonate();
+		}
+
+		public void OnSpawnServer(SpawnInfo info)
+		{
+			IsArmed = isBomb && isArmedOnSpawn;
+		}
+
+		public bool WillInteract(HandActivate interaction, NetworkSide side)
+		{
+			if (DefaultWillInteract.Default(interaction, side) == false) return false;
+
+			// if it is a bomb, it is armed and is not by timer, allow the interaction else pass it to NetTab
+			return isBomb && isArmed && detonateByTimer == false;
+		}
+		public void ServerPerformInteraction(HandActivate interaction)
+		{
+			Detonate();
+		}
+
+		protected override void OnArmStateChange(bool oldState, bool newState)
+		{
+			netTab.enabled = !isArmed && !detonateByTimer;
 		}
 	}
 }

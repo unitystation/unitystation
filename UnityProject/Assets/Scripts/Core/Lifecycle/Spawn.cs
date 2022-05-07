@@ -42,7 +42,6 @@ public static class Spawn
 	private static GameObject uniCloth;
 	private static GameObject uniBackpack;
 	private static GameObject uniHeadSet;
-	public static Dictionary<string, PlayerTextureData> RaceData = new Dictionary<string, PlayerTextureData>();
 
 	/// <summary>
 	/// Default scatter radius when spawning multiple things

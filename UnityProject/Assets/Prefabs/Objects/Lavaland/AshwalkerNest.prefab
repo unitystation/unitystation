@@ -1,31 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &5951980482707864936
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1981319381412522267}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f620de7460104b3bb27d116f9e4dab46, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ghostRole: {fileID: 11400000, guid: 87ed037326d06fd458fe27837dfb4151, type: 2}
-  ashwalkerRaceData: {fileID: 11400000, guid: 31250f329a28a20458b0f76c1f157a7f, type: 2}
-  ashwalkerCraftingRecipesList: {fileID: 11400000, guid: 9750de4dded8127498a76227f03309d6,
-    type: 2}
-  consumeSound:
-    SetLoadSetting: 0
-    AssetAddress: Assets/Prefabs/Magic/DemonConsume.prefab
-    AssetReference:
-      m_AssetGUID: 
-      m_SubObjectName: 
-      m_SubObjectType: 
-      m_EditorAssetChanged: 0
-  meatCost: 2
-  timeBetweenEating: 30
 --- !u!1 &3643080488099169610
 GameObject:
   m_ObjectHideFlags: 0
@@ -55,6 +29,7 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 6, y: 6, z: 6}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1975596654213558209}
   m_RootOrder: 1
@@ -298,15 +273,41 @@ PrefabInstance:
         type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: bdc0bbe82126ea747b3fc1d25464d588, type: 3}
---- !u!1 &1981319381412522267 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 3851917000086120591, guid: bdc0bbe82126ea747b3fc1d25464d588,
-    type: 3}
-  m_PrefabInstance: {fileID: 3317971365740102036}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1975596654213558209 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3846487292726357589, guid: bdc0bbe82126ea747b3fc1d25464d588,
     type: 3}
   m_PrefabInstance: {fileID: 3317971365740102036}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1981319381412522267 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3851917000086120591, guid: bdc0bbe82126ea747b3fc1d25464d588,
+    type: 3}
+  m_PrefabInstance: {fileID: 3317971365740102036}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &5951980482707864936
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1981319381412522267}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f620de7460104b3bb27d116f9e4dab46, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ghostRole: {fileID: 11400000, guid: 87ed037326d06fd458fe27837dfb4151, type: 2}
+  ashwalkerRaceData: {fileID: 11400000, guid: 31250f329a28a20458b0f76c1f157a7f, type: 2}
+  ashwalkerCraftingRecipesList: {fileID: 11400000, guid: 9750de4dded8127498a76227f03309d6,
+    type: 2}
+  consumeSound:
+    SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/Magic/DemonConsume.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
+  meatCost: 2
+  timeBetweenEating: 30

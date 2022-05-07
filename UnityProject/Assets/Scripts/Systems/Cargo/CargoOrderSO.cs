@@ -41,10 +41,14 @@ namespace Systems.Cargo
 				}
 			}
 
-			if (Crate.TryGetComponent<Attributes>(out var crateAtt))
+			if (Crate != null)
 			{
-				value += crateAtt.ExportCost;
+				if (Crate.TryGetComponent<Attributes>(out var crateAtt))
+				{
+					value += crateAtt.ExportCost;
+				}
 			}
+
 
 			ContentSellPrice = value;
 		}

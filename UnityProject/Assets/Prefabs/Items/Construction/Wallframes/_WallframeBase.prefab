@@ -1,20 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &2857779259520588454
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1865031144277094196}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 33b38f9924c4caf478c56581b0c47cc0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  WallMountToSpawn: {fileID: 0}
-  IsAPC: 0
-  IsWallProtrusion: 0
 --- !u!1001 &1865189625501176718
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -110,3 +95,17 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 1865189625501176718}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &2857779259520588454
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1865031144277094196}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 33b38f9924c4caf478c56581b0c47cc0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  WallMountToSpawn: {fileID: 0}
+  IsWallProtrusion: 0

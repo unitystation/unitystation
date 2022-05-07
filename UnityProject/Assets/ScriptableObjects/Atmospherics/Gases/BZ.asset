@@ -15,10 +15,10 @@ MonoBehaviour:
   MolarHeatCapacity: 20
   MolarMass: 44.01
   Name: BZ
-  HasOverlay: 0
   MinMolesToSee: 0.4
-  TileName: NONE
-  OverlayType: 0
+  OverlayTile: {fileID: 0}
+  CustomColour: 0
+  Colour: {r: 0, g: 0, b: 0, a: 0}
   FusionPower: 8
   AssociatedReagent: {fileID: 11400000, guid: c613019079cd32b37b5035dae70fba74, type: 2}
   ExportPrice: 4

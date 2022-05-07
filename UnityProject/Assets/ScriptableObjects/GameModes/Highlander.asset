@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 324914575e544e199d192ea0d5ee2e78, type: 3}
+  m_Name: Highlander
+  m_EditorClassIdentifier: 
+  gameModeName: Highlander
+  description: "You have two goals:\r\n\r\n    Get dat fukken disk.\r\n    Escape
+    alone on the shuttle.\r\n\r\nWhen the highlander button is pressed, every single
+    living person on the station will be given these same goals and outfitted with
+    the equipment listed in the following section. This means you will be competing
+    with the entire station for the disk. Latejoins are also given highlander gear,
+    so don't expect a free pass. "
+  canRespawn: 1
+  minPlayers: 6
+  antagRatio: 1
+  minAntags: 0
+  maxAntags: 100000
+  forceMinAntags: 0
+  teamGameMode: 0
+  midRoundAntags: 1
+  midRoundAntagsChance: 100
+  possibleAntags:
+  - {fileID: 11400000, guid: 0f19f9b747ac2ee499c57e02517aed37, type: 2}
+  allocateJobsToAntags: 0
+  nonAntagJobTypes: 06000000160000001700000023000000210000001100000001000000

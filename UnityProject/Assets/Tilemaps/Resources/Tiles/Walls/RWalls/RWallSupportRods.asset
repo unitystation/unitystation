@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: RWallSupportRods
   m_EditorClassIdentifier: 
   displayName: reinforced wall
+  description: 
   LayerType: 0
   TileType: 1
   RequiredTiles:
@@ -32,6 +33,7 @@ MonoBehaviour:
   doesReflectBullet: 0
   indestructible: 0
   ExplosionImpassable: 0
+  BlocksTileInteractionsUnder: 1
   passableException:
     m_keys: 
     m_values: 
@@ -52,6 +54,7 @@ MonoBehaviour:
   tileInteractions:
   - {fileID: 11400000, guid: 4c0e26fe41a85429ea69f01523c76cc5, type: 2}
   - {fileID: 11400000, guid: 14798733b170b464a9172271406ea016, type: 2}
+  tileStepInteractions: []
   spawnOnDeconstruct: {fileID: 0}
   spawnAmountOnDeconstruct: 1
   lootOnDespawn: {fileID: 0}
@@ -66,5 +69,6 @@ MonoBehaviour:
       m_AssetGUID: 
       m_SubObjectName: 
       m_SubObjectType: 
+      m_EditorAssetChanged: 0
   SoundOnDestroy: []
   sprite: {fileID: 21300000, guid: dd9a7c1b503085c43ae7db9ba115f2db, type: 3}

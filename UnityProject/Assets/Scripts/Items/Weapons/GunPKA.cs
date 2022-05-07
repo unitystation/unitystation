@@ -12,9 +12,12 @@ namespace Weapons
 		private GameObject projectile;
 
 		private bool allowRecharge = true;
+
+		[SerializeField]
 		private float rechargeTime = 2.0f;
 
-		public AddressableAudioSource ShootSound;
+
+		public AddressableAudioSource rechargeSound;
 
 		public override void OnSpawnServer(SpawnInfo info)
 		{
@@ -54,9 +57,7 @@ namespace Weapons
 			}
 			else
 			{
-				AudioSourceParameters audioSourceParameters = new AudioSourceParameters();
-				audioSourceParameters.Volume = 0.1f;
-				SoundManager.PlayNetworkedAtPos(CommonSounds.Instance.KineticReload, gameObject.AssumedWorldPosServer(),audioSourceParameters,  sourceObj: serverHolder);
+				SoundManager.PlayNetworkedAtPos(rechargeSound, gameObject.AssumedWorldPosServer(), sourceObj: serverHolder);
 			}
 			allowRecharge = true;
 		}

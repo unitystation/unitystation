@@ -1,38 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-4588343741896083994
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5726072393579967880}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1468e3dc2ea50c647aea7b69f0986db9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  FermentTime: 10
-  fermentedReagents:
-    m_keys:
-    - {fileID: 11400000, guid: d8b9bc35821b330168e659473e685d14, type: 2}
-    m_values: 00000000
---- !u!114 &3288822452712985832
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5726072393579967880}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8688576ed720a4f40b3583f62adeeb23, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  groundReagents:
-    m_keys:
-    - {fileID: 11400000, guid: ef37ee7a5ebb9efee9ea12f6050cf37e, type: 2}
-    m_values: 05000000
 --- !u!1001 &6848028609317726660
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -150,12 +117,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 27208d0fc3f7c3544a8d1a7861253b52, type: 3}
---- !u!1 &5726072393579967880 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1188401911067925580, guid: 27208d0fc3f7c3544a8d1a7861253b52,
-    type: 3}
-  m_PrefabInstance: {fileID: 6848028609317726660}
-  m_PrefabAsset: {fileID: 0}
 --- !u!114 &5684307721922910296 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 1291304377019134364, guid: 27208d0fc3f7c3544a8d1a7861253b52,
@@ -168,3 +129,42 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 579884b05ae74e8499329b64997147d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &5726072393579967880 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1188401911067925580, guid: 27208d0fc3f7c3544a8d1a7861253b52,
+    type: 3}
+  m_PrefabInstance: {fileID: 6848028609317726660}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &-4588343741896083994
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5726072393579967880}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1468e3dc2ea50c647aea7b69f0986db9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  FermentTime: 10
+  fermentedReagents:
+    m_keys:
+    - {fileID: 11400000, guid: d8b9bc35821b330168e659473e685d14, type: 2}
+    m_values: 00000000
+--- !u!114 &3288822452712985832
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5726072393579967880}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8688576ed720a4f40b3583f62adeeb23, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  groundReagents:
+    m_keys:
+    - {fileID: 11400000, guid: ef37ee7a5ebb9efee9ea12f6050cf37e, type: 2}
+    m_values: 05000000

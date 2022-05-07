@@ -1,26 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &2717646778893725560
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6179021888983442440}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8e15827970984ba78808f03bc3f01586, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  allClothingData:
-  - {fileID: 11400000, guid: 13d89148f239dd843be31849dc001a96, type: 2}
-  CurrentClothIndex: 0
-  randomInitialClothData: 0
-  hidesIdentity: 0
-  hidesSlots: 0
-  hideClothingFlags: 0
 --- !u!1001 &8931294245204068101
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -151,3 +130,25 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 8931294245204068101}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &2717646778893725560
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6179021888983442440}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8e15827970984ba78808f03bc3f01586, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  allClothingData:
+  - {fileID: 11400000, guid: 13d89148f239dd843be31849dc001a96, type: 2}
+  CurrentClothIndex: 0
+  randomInitialClothData: 0
+  hidesIdentity: 0
+  hidesSlots: 0
+  hideClothingFlags: 0
+  disallowConsume: 0

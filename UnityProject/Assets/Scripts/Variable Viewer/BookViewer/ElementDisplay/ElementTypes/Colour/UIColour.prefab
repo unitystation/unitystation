@@ -28,6 +28,7 @@ RectTransform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2673092198557550532}
   m_RootOrder: 0
@@ -163,6 +164,7 @@ RectTransform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 706493220688474575}
   m_Father: {fileID: 2673092198557550532}
@@ -262,6 +264,7 @@ RectTransform:
   m_LocalRotation: {x: 0, y: 0, z: 1, w: 0}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 6832947845141345723}
   m_RootOrder: 0
@@ -338,6 +341,7 @@ RectTransform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 4773963771840946681}
   m_Father: {fileID: 8643410275484401698}
@@ -472,6 +476,7 @@ RectTransform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 6832947845141345723}
   - {fileID: 2673092198557550532}
@@ -573,6 +578,7 @@ RectTransform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 7674133586562678839}
   - {fileID: 7814199626047965460}
@@ -1667,12 +1673,6 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 706493220666554557}
   m_PrefabAsset: {fileID: 0}
---- !u!224 &706493220688474575 stripped
-RectTransform:
-  m_CorrespondingSourceObject: {fileID: 22448498, guid: 916ee089a0d7b63419075f91e1c657ec,
-    type: 3}
-  m_PrefabInstance: {fileID: 706493220666554557}
-  m_PrefabAsset: {fileID: 0}
 --- !u!114 &706493220676400697 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 11423364, guid: 916ee089a0d7b63419075f91e1c657ec,
@@ -1685,3 +1685,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8262e4a8322117f4da079921eaa72834, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!224 &706493220688474575 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 22448498, guid: 916ee089a0d7b63419075f91e1c657ec,
+    type: 3}
+  m_PrefabInstance: {fileID: 706493220666554557}
+  m_PrefabAsset: {fileID: 0}

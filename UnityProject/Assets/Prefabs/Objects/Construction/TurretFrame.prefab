@@ -1,31 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &81333469552657725
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4949295524855822690}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aa4e2bb35cd58d3499433dac605cf386, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  initialState: {fileID: 11400000, guid: 85e2cbc94f7c6194bbfb6e7bfc4a9ec7, type: 2}
-  anchoredState: {fileID: 11400000, guid: b3abf6443712a864b91b4740c679419f, type: 2}
-  metalAddedState: {fileID: 11400000, guid: 47027d3b966a75344b139240a063833f, type: 2}
-  wrenchState: {fileID: 11400000, guid: 147cee7d27fd7b145b518b00af6b3c5b, type: 2}
-  gunAddedState: {fileID: 11400000, guid: 68f9c592f1b35244f9aa6eb1737ef884, type: 2}
-  proxAddedState: {fileID: 11400000, guid: ce45d89cc11c0204cbaec45db0104472, type: 2}
-  screwState: {fileID: 11400000, guid: 78874d69ba9c2a845a623d384a48d654, type: 2}
-  secondMetalAddedState: {fileID: 11400000, guid: 9142a25d95db6b6429f16e794a3c21c1,
-    type: 2}
-  proximityPrefab: {fileID: 6513434798660266608, guid: f5de4bfc8649c7a428e694010049af77,
-    type: 3}
-  turretPrefab: {fileID: 1526276624429649764, guid: 24217cb8b2338a3479aaf8d32b727ed1,
-    type: 3}
-  gunTrait: {fileID: 11400000, guid: 1c98230014db4344db8ab42b83408117, type: 2}
 --- !u!1 &8962499539190424830
 GameObject:
   m_ObjectHideFlags: 0
@@ -54,6 +28,7 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 4952512379085651896}
   m_RootOrder: 1
@@ -126,6 +101,7 @@ MonoBehaviour:
   SubCatalogue: []
   PresentSpriteSet: {fileID: 11400000, guid: 9014854e5081e91448b87e0b18311170, type: 2}
   randomInitialSprite: 0
+  doReverseAnimation: 0
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
   palette: []
@@ -332,6 +308,32 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 7131701351565382625}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &81333469552657725
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4949295524855822690}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa4e2bb35cd58d3499433dac605cf386, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  initialState: {fileID: 11400000, guid: 85e2cbc94f7c6194bbfb6e7bfc4a9ec7, type: 2}
+  anchoredState: {fileID: 11400000, guid: b3abf6443712a864b91b4740c679419f, type: 2}
+  metalAddedState: {fileID: 11400000, guid: 47027d3b966a75344b139240a063833f, type: 2}
+  wrenchState: {fileID: 11400000, guid: 147cee7d27fd7b145b518b00af6b3c5b, type: 2}
+  gunAddedState: {fileID: 11400000, guid: 68f9c592f1b35244f9aa6eb1737ef884, type: 2}
+  proxAddedState: {fileID: 11400000, guid: ce45d89cc11c0204cbaec45db0104472, type: 2}
+  screwState: {fileID: 11400000, guid: 78874d69ba9c2a845a623d384a48d654, type: 2}
+  secondMetalAddedState: {fileID: 11400000, guid: 9142a25d95db6b6429f16e794a3c21c1,
+    type: 2}
+  proximityPrefab: {fileID: 6513434798660266608, guid: f5de4bfc8649c7a428e694010049af77,
+    type: 3}
+  turretPrefab: {fileID: 1526276624429649764, guid: 24217cb8b2338a3479aaf8d32b727ed1,
+    type: 3}
+  gunTrait: {fileID: 11400000, guid: 1c98230014db4344db8ab42b83408117, type: 2}
 --- !u!4 &4952512379085651896 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2756835590118157401, guid: aa11b93feb043fe4e84e2f313cc41f6b,

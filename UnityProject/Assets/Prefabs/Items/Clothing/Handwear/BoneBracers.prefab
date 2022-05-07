@@ -110,6 +110,17 @@ PrefabInstance:
       propertyPath: initialDescription
       value: Provides moderate protection to both arms of the wearer.
       objectReference: {fileID: 0}
+    - target: {fileID: 6081843052801809340, guid: f819cf8b4a0534ec59570563e52c8508,
+        type: 3}
+      propertyPath: initialTraits.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 6081843052801809340, guid: f819cf8b4a0534ec59570563e52c8508,
+        type: 3}
+      propertyPath: initialTraits.Array.data[2]
+      value: 
+      objectReference: {fileID: 11400000, guid: 71b6c4640889d4c4fb1f249f6933fc08,
+        type: 2}
     - target: {fileID: 7928915401163525585, guid: f819cf8b4a0534ec59570563e52c8508,
         type: 3}
       propertyPath: armoredBodyParts.Array.data[0].armor.Bio

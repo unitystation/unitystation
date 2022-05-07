@@ -2,14 +2,16 @@
 %TAG !u! tag:unity3d.com,2011:
 --- !u!21 &2100000
 Material:
-  serializedVersion: 6
+  serializedVersion: 8
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Post-Occlusion Blur Material
   m_Shader: {fileID: 4800000, guid: 9f62641d1fe2ddf459783eb645c5cda2, type: 3}
-  m_ShaderKeywords: _EMISSION
+  m_ValidKeywords: []
+  m_InvalidKeywords:
+  - _EMISSION
   m_LightmapFlags: 1
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0

@@ -62,5 +62,8 @@ namespace GameConfig
 		public int CharacterNameLimit;
 		public bool ServerShutsDownOnRoundEnd;
 		public int PlayerLimit;
+		public int LowPopLimit;
+		public int LowPopCheckTimeAfterRoundStart;
+		public int RebootOnAverageFPSOrLower;
 	}
 }

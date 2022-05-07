@@ -4,6 +4,7 @@ using Mirror;
 using ScriptableObjects;
 using Doors;
 using TileManagement;
+using Tiles;
 
 namespace Objects.Construction
 {

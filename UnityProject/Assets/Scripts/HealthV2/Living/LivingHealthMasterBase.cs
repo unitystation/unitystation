@@ -163,6 +163,10 @@ namespace HealthV2
 		private UniversalObjectPhysics objectBehaviour;
 		public UniversalObjectPhysics ObjectBehaviour => objectBehaviour;
 
+		[SerializeField, BoxGroup("FastRegen")] private float fastRegenHeal = 12;
+		[SerializeField, BoxGroup("FastRegen")] private float fastRegenThreshold = 85;
+
+
 		private HealthStateController healthStateController;
 		public HealthStateController HealthStateController => healthStateController;
 
@@ -247,6 +251,9 @@ namespace HealthV2
 		private List<Sickness> immunedSickness = new List<Sickness>();
 
 		public PlayerScript playerScript;
+
+		public event Action<DamageType> OnTakeDamageType;
+		public event Action OnLowHealth;
 
 		public virtual void Awake()
 		{
@@ -699,6 +706,14 @@ namespace HealthV2
 			}
 
 			IndicatePain(damage);
+			OnTakeDamageType?.Invoke(damageType);
+			if(HealthIsLow()) OnLowHealth?.Invoke();
+		}
+
+		private bool HealthIsLow()
+		{
+			var percentage = (OverallHealth / maxHealth) * 100;
+			return percentage < 35;
 		}
 
 		/// <summary>
@@ -1410,6 +1425,22 @@ namespace HealthV2
 			canScream = false;
 			yield return WaitFor.Seconds(painScreamCooldown);
 			canScream = true;
+		}
+
+		public void EnableFastRegen()
+		{
+			if(CustomNetworkManager.IsServer == false) return;
+			UpdateManager.Add(FastRegen, tickRate);
+		}
+
+		private void FastRegen()
+		{
+			playerScript.registerTile.ServerRemoveStun();
+			if(OverallHealth > fastRegenThreshold) return;
+			foreach (var part in BodyPartList)
+			{
+				part.HealDamage(null, fastRegenHeal, DamageType.Brute);
+			}
 		}
 	}
 

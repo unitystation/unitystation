@@ -23,6 +23,17 @@ PrefabInstance:
       value: A Type I-B armored vest that provides decent protection against most
         types of damage. A bit heavier on the shoulders than it's type I-A cousin.
       objectReference: {fileID: 0}
+    - target: {fileID: 3495234765619245072, guid: e606c25f8104ffa4e94b68151182a216,
+        type: 3}
+      propertyPath: initialTraits.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3495234765619245072, guid: e606c25f8104ffa4e94b68151182a216,
+        type: 3}
+      propertyPath: initialTraits.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: 75be80c01c8b8be4891c5261046bad3c,
+        type: 2}
     - target: {fileID: 3791466462619397166, guid: e606c25f8104ffa4e94b68151182a216,
         type: 3}
       propertyPath: m_Sprite

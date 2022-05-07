@@ -99,6 +99,24 @@ public class Rotatable : NetworkBehaviour, IMatrixRotation
 		}
 	}
 
+	public void OnValidate()
+	{
+		if (Application.isPlaying) return;
+#if UNITY_EDITOR
+		EditorApplication.delayCall += ValidateLate;
+#endif
+
+	}
+
+	public void ValidateLate()
+	{
+		if (Application.isPlaying) return;
+		Awake();
+		CurrentDirection = CurrentDirection;
+		RotateObject(CurrentDirection);
+		ResitOthers();
+	}
+
 	private void SyncServerDirection(OrientationEnum oldDir, OrientationEnum dir)
 	{
 		if (IgnoreServerUpdatesIfLocalPlayer && isLocalPlayer)
@@ -161,6 +179,7 @@ public class Rotatable : NetworkBehaviour, IMatrixRotation
 	[NaughtyAttributes.Button()]
 	public void Refresh()
 	{
+		Awake();
 		SetDirection(CurrentDirection);
 		ResitOthers();
 	}
@@ -177,12 +196,12 @@ public class Rotatable : NetworkBehaviour, IMatrixRotation
 
 	private void Awake()
 	{
-		if (spriteRenderers == null)
+		if (spriteRenderers == null || spriteRenderers.Length == 0 )
 		{
 			spriteRenderers = GetComponentsInChildren<SpriteRenderer>();
 		}
 
-		if (spriteHandlers == null)
+		if (spriteHandlers == null || spriteHandlers.Length == 0)
 		{
 			spriteHandlers = GetComponentsInChildren<SpriteHandler>();
 		}
@@ -326,6 +345,7 @@ public class Rotatable : NetworkBehaviour, IMatrixRotation
 
 				var localRotation = serializedObject.FindProperty("m_LocalRotation");
 				PrefabUtility.RevertPropertyOverride(localRotation, InteractionMode.AutomatedAction);
+				EditorUtility.SetDirty(this);
 			}
 
 			if (MethodRotation != RotationMethod.Sprites)
@@ -335,6 +355,7 @@ public class Rotatable : NetworkBehaviour, IMatrixRotation
 					SerializedObject serializedObject = new UnityEditor.SerializedObject(spriteRenderer.transform);
 					var localRotation = serializedObject.FindProperty("m_LocalRotation");
 					PrefabUtility.RevertPropertyOverride(localRotation, InteractionMode.AutomatedAction);
+					EditorUtility.SetDirty(this);
 				}
 			}
 
@@ -353,6 +374,7 @@ public class Rotatable : NetworkBehaviour, IMatrixRotation
 					SerializedObject serializedSpriteRenderer = new UnityEditor.SerializedObject(SpriteRenderer);
 					var sprite = serializedSpriteRenderer.FindProperty("m_Sprite");
 					PrefabUtility.RevertPropertyOverride(sprite, InteractionMode.AutomatedAction);
+					EditorUtility.SetDirty(this);
 				}
 			}
 		}

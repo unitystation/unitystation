@@ -32,6 +32,11 @@ public partial class GameManager : MonoBehaviour, IInitialise
 	public int PlayerLimit { get; set; } = 100;
 
 	/// <summary>
+	/// The minimum amount of players which triggers a lowPop status
+	/// </summary>
+	public int LowPopLimit { get; set; } = 25;
+
+	/// <summary>
 	/// The minimum number of players needed to start the pre-round countdown
 	/// </summary>
 	public int MinPlayersForCountdown { get; set; } = 1;
@@ -94,7 +99,7 @@ public partial class GameManager : MonoBehaviour, IInitialise
 	/// <summary>
 	/// ENABLE ON SERVERS THAT SUPPORT AUTO-RESTARTING ONLY VIA A MANAGER!
 	/// </summary>
-	public bool ServerShutsDownOnRoundEnd { get; set; }
+	public bool ServerShutsDownOnRoundEnd { get; set; } = true;
 
 	/// <summary>
 	/// If true, only admins who put http/https links in OOC will be allowed
@@ -149,6 +154,13 @@ public partial class GameManager : MonoBehaviour, IInitialise
 	[NonSerialized] public int errorCounter;
 	[NonSerialized] public int uniqueErrorCounter;
 
+	public int LowPopCheckTimeAfterRoundStart = 300;
+
+	public int RebootOnAverageFPSOrLower = 35;
+
+	[NonSerialized]
+	public bool DisconnectExpected = false;
+	
 	void IInitialise.Initialise()
 	{
 		// Set up server defaults, needs to be loaded here to ensure gameConfigManager is load.
@@ -199,6 +211,9 @@ public partial class GameManager : MonoBehaviour, IInitialise
 		MalfAIRecieveTheirIntendedObjectiveChance = GameConfigManager.GameConfig.MalfAIRecieveTheirIntendedObjectiveChance;
 		ServerShutsDownOnRoundEnd = GameConfigManager.GameConfig.ServerShutsDownOnRoundEnd;
 		PlayerLimit = GameConfigManager.GameConfig.PlayerLimit;
+		LowPopLimit = GameConfigManager.GameConfig.LowPopLimit;
+		LowPopCheckTimeAfterRoundStart = GameConfigManager.GameConfig.LowPopCheckTimeAfterRoundStart;
+		RebootOnAverageFPSOrLower = GameConfigManager.GameConfig.RebootOnAverageFPSOrLower;
 
 		Physics.autoSimulation = false;
 		Physics2D.simulationMode = SimulationMode2D.Update;
@@ -799,7 +814,7 @@ public partial class GameManager : MonoBehaviour, IInitialise
 	{
 		string[] args = Environment.GetCommandLineArgs();
 		if ((ServerShutsDownOnRoundEnd == false || args.Contains("-NoReboot"))
-		    && (ServerAverageFPS >= 45 || GetMemeoryUsagePrecentage() <= 75f) ||
+		    && (ServerAverageFPS >= RebootOnAverageFPSOrLower || GetMemeoryUsagePrecentage() <= 75f) ||
 		    args.Contains("-AlwaysReboot") == false)
 		{
 			Logger.Log("Server restarting round now.", Category.Round);

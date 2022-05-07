@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using UnityEngine;
@@ -12,7 +12,7 @@ public class MainStationListSO : ScriptableObject
 	[InfoBox("Remember to also add your scene to " +
 	         "the build settings list",EInfoBoxType.Normal)]
 	[Scene]
-	public List<string> MainStations = new List<string>();
+	public List<string> MainStations = new();
 
 	public string GetRandomMainStation()
 	{
@@ -35,5 +35,10 @@ public class MainStationListSO : ScriptableObject
 		}
 		
 		return mapSoList.PickRandom();
+	}
+
+	public bool Contains(string sceneName)
+	{
+		return MainStations.Contains(sceneName);
 	}
 }

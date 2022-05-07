@@ -76,8 +76,23 @@ namespace Items.Weapons
 
 		public bool WillInteract(PositionalHandApply interaction, NetworkSide side)
 		{
-			if (DefaultWillInteract.Default(interaction, side) == false
-			    || isArmed == true || pickupable.ItemSlot == null || interaction.Intent != Intent.Harm) return false;
+			if (DefaultWillInteract.Default(interaction, side) == false || pickupable.ItemSlot == null) return false;
+
+			// Why do we prevent mounting if it is armed?
+			if (isArmed)
+			{
+				Chat.AddExamineMsg(interaction.Performer, $"The {gameObject.ExpensiveName()} is already armed!", side);
+				return false;
+			}
+
+			// Why?
+			if (interaction.Intent != Intent.Harm)
+			{
+				
+				Chat.AddExamineMsg(interaction.Performer, $"You must be on harm intent to attach the {gameObject.ExpensiveName()}.", side);
+				return false;
+			}
+
 			return true;
 		}
 

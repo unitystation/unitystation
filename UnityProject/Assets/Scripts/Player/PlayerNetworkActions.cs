@@ -22,6 +22,7 @@ using Shuttles;
 using UI.Core;
 using UI.Items;
 using Doors;
+using Tiles;
 
 public partial class PlayerNetworkActions : NetworkBehaviour
 {

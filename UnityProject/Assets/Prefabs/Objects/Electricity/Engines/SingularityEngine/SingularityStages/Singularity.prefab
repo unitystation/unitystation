@@ -28,6 +28,7 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 3, y: 3, z: 3}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 4692177491394706899}
   m_RootOrder: 1
@@ -121,6 +122,7 @@ Transform:
   m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1.5, y: 1.5, z: 1.5}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 4692177491394706899}
   m_RootOrder: 2
@@ -218,6 +220,7 @@ Transform:
   m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1.5, y: 1.5, z: 1.5}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 4692177491394706899}
   m_RootOrder: 3
@@ -286,48 +289,6 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
---- !u!114 &-3154322499425992788
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4686069471335676681}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1b137ecbc04593249b954730673929e1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  startingStage: 0
-  singularityPoints: 150
-  maximumPoints: 3250
-  pointLossRate: 4
-  maxRadiation: 5000
-  WarpEffectFront: {fileID: 4225673206677485874}
-  WarpEffectBack: {fileID: 8690972991113334663}
-  light: {fileID: 1404268602364526087}
-  eatenSuperMatter: 0
-  preventDowngrade: 0
-  zeroPointDeath: 1
-  vertical: {fileID: 11400000, guid: 51840014302a39247966acfe3275576f, type: 2}
-  horizontal: {fileID: 11400000, guid: 36ea0bfaed379084fb2513e68ccffb50, type: 2}
---- !u!114 &6563874705953926858
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4686069471335676681}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8de3e7e4629e452a9546be4e9b7a3182, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  category: 32
-  type: 0
-  priority: 0
 --- !u!1001 &8884009795189538112
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -607,6 +568,48 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 8884009795189538112}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &-3154322499425992788
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4686069471335676681}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1b137ecbc04593249b954730673929e1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  startingStage: 0
+  singularityPoints: 150
+  maximumPoints: 3250
+  pointLossRate: 4
+  maxRadiation: 5000
+  WarpEffectFront: {fileID: 4225673206677485874}
+  WarpEffectBack: {fileID: 8690972991113334663}
+  light: {fileID: 1404268602364526087}
+  eatenSuperMatter: 0
+  preventDowngrade: 0
+  zeroPointDeath: 1
+  vertical: {fileID: 11400000, guid: 51840014302a39247966acfe3275576f, type: 2}
+  horizontal: {fileID: 11400000, guid: 36ea0bfaed379084fb2513e68ccffb50, type: 2}
+--- !u!114 &6563874705953926858
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4686069471335676681}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8de3e7e4629e452a9546be4e9b7a3182, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  category: 32
+  type: 0
+  priority: 0
 --- !u!4 &4692177491394706899 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4204006106222477459, guid: ebb08cf966efc084aa918bd8d9429604,

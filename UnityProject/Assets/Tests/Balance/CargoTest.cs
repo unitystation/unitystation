@@ -8,6 +8,30 @@ namespace Tests.Balance
 {
 	public class CargoTest
 	{
+
+		[Test]
+		public void EverythingNeedsACreate()
+		{
+			bool fail = false;
+			var report = new StringBuilder();
+
+			var orders = Utils.FindAssetsByType<CargoOrderSO>();
+
+			foreach (var order in orders)
+			{
+				if (order.Crate == null)
+				{
+					fail = true;
+					report.AppendLine($" cargo order {order.name} is missing a crate to put items in, please fix ");
+				}
+			}
+
+			if (fail)
+			{
+				Assert.Fail(report.ToString());
+			}
+		}
+
 		[Test]
 		public void StonksTest()
 		{

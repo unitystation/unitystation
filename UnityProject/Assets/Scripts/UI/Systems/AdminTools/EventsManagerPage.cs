@@ -10,7 +10,7 @@ using System.Linq;
 using Messages.Client.Admin;
 
 
-public class EventsManagerPage : AdminPage
+public class EventsManagerPage : AdminPage, ICooldown
 {
 	[SerializeField]
 	private Dropdown nextDropDown = null;
@@ -39,25 +39,15 @@ public class EventsManagerPage : AdminPage
 		eventsParametersPages = GetComponent<EventParameterPages>();
 	}
 
-
-	private DateTime stationTimeHolder;
-	private DateTime stationTimeSnapshot;
+	float ICooldown.DefaultTime => 5; // cooldown for triggering events
 
 	public void TriggerEvent()
 	{
-		// Pull time from game manager and put it into a private holder variable which gets cleared on timeout and allows the button to be pressed again. Current WAIT time set to 5 secs
-		
-		stationTimeHolder = GameManager.Instance.stationTime;
-
-		if (stationTimeHolder < (stationTimeSnapshot))
-   		{
-            // Tells all admins to wait X seconds, this is based on round time so if the server stutters loading an event it 
-            // will take it into account effectivly stopping any sort of spam.
-			Chat.AddExamineMsgToClient($"Please wait {Mathf.Round((float)stationTimeSnapshot.Subtract(stationTimeHolder).TotalSeconds)} seconds before trying to generate another event.");
-            return;
-    	}
-
-		stationTimeSnapshot = stationTimeHolder.AddSeconds(5);
+		if (Cooldowns.TryStartClient(PlayerManager.LocalPlayerScript, this) == false)
+		{
+			Chat.AddExamineMsgToClient("Wait a few seconds before triggering another event.");
+			return;
+		}
 
 		if (!InGameEventType.TryParse(eventTypeDropDown.options[eventTypeDropDown.value].text,
 			out InGameEventType eventType)) return;

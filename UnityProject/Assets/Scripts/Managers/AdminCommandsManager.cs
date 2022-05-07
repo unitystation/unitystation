@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 using Mirror;
@@ -12,6 +13,8 @@ using HealthV2;
 using AddressableReferences;
 using Messages.Server.SoundMessages;
 using Audio.Containers;
+using Systems.Cargo;
+using UI.Systems.AdminTools;
 
 namespace AdminCommands
 {
@@ -487,6 +490,79 @@ namespace AdminCommands
 			UIManager.Instance.adminChatWindows.adminLogWindow.ServerAddChatRecord(msg, null);
 			DiscordWebhookMessage.Instance.AddWebHookMessageToQueue(DiscordWebhookURLs.DiscordWebhookAdminLogURL, msg,
 				userName);
+		}
+
+		#endregion
+
+		#region CargoControlCommands
+
+		[Command(requiresAuthority = false)]
+		public void CmdRemoveBounty(int index, bool completeBounty, NetworkConnectionToClient sender = null)
+		{
+			if (IsAdmin(sender, out var admin) == false) return;
+			if (completeBounty)
+			{
+				CargoManager.Instance.CompleteBounty(CargoManager.Instance.ActiveBounties[index]);
+				return;
+			}
+
+			CargoManager.Instance.ActiveBounties.Remove(CargoManager.Instance.ActiveBounties[index]);
+		}
+
+		[Command(requiresAuthority = false)]
+		public void CmdAdjustBountyRewards(int index, int newReward, NetworkConnectionToClient sender = null)
+		{
+			if (IsAdmin(sender, out var admin) == false) return;
+			CargoManager.Instance.ActiveBounties[index].Reward = newReward;
+		}
+
+		[TargetRpc]
+		private void TargetSendCargoData(NetworkConnection target, List<CargoManager.BountySyncData> data)
+		{
+			AdminBountyManager.Instance.RefreshBountiesList(data);
+		}
+
+		[TargetRpc]
+		private void TargetUpdateBudgetForClient(NetworkConnection target, int data)
+		{
+			AdminBountyManager.Instance.budgetInput.text = data.ToString();
+		}
+
+		[Command(requiresAuthority = false)]
+		public void CmdRequestCargoServerData(NetworkConnectionToClient sender = null)
+		{
+			if (IsAdmin(sender, out var admin) == false) return;
+			List<CargoManager.BountySyncData> simpleData = new List<CargoManager.BountySyncData>();
+			for (int i = 0; i < CargoManager.Instance.ActiveBounties.Count; i++)
+			{
+				var foundBounty = new CargoManager.BountySyncData();
+				foundBounty.Reward = CargoManager.Instance.ActiveBounties[i].Reward;
+				foundBounty.Desc = CargoManager.Instance.ActiveBounties[i].Description;
+				foundBounty.Index = i;
+				simpleData.Add(foundBounty);
+			}
+			TargetSendCargoData(sender, simpleData);
+			TargetUpdateBudgetForClient(sender, CargoManager.Instance.Credits);
+		}
+
+		[Command(requiresAuthority = false)]
+		public void CmdAddBounty(ItemTrait trait, int amount, string description, int reward, bool announce, NetworkConnectionToClient sender = null)
+		{
+			if (IsAdmin(sender, out var admin) == false) return;
+			CargoManager.Instance.AddBounty(trait, amount, description, reward, announce);
+		}
+
+		[Command(requiresAuthority = false)]
+		public void CmdChangeBudget(int budget, NetworkConnectionToClient sender = null)
+		{
+			if (IsAdmin(sender, out var admin) == false) return;
+			CargoManager.Instance.Credits = budget;
+		}
+
+		[Command(requiresAuthority = false)]
+		public void CmdChangeCargoConnectionStatus(bool online, NetworkConnectionToClient sender = null)
+		{
+			CargoManager.Instance.CargoOffline = online;
 		}
 
 		#endregion

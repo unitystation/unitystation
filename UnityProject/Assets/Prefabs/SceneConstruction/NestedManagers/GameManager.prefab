@@ -55,6 +55,8 @@ MonoBehaviour:
   CentComm: {fileID: 5244294626086762232}
   QuickLoad: 1
   endOfRoundSounds: {fileID: 11400000, guid: 3505a71866d7e9e43a6cdc336306b41f, type: 2}
+  LowPopCheckTimeAfterRoundStart: 300
+  RebootOnAverageFPSOrLower: 35
   primaryEscapeShuttle: {fileID: 0}
   GameModeData: {fileID: 11400000, guid: 050782fd4c93a164e8100c4c7183d5b3, type: 2}
   SecretGameMode: 1
@@ -75,4 +77,5 @@ MonoBehaviour:
   paperPrefab: {fileID: 8734328976324889014, guid: d3c71176f32c1274b929f3a88695a795,
     type: 3}
   initialAlertLevel: 1
+  IsLowPop: 0
   coolDownAlertChange: 5

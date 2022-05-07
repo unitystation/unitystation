@@ -15,12 +15,14 @@ MonoBehaviour:
   emoteName: backflip
   requiresHands: 0
   allowEmoteWhileInCrit: 0
+  isAudibleEmote: 0
   allowEmoteWhileCrawling: 0
   viewText: does a backflip!
   youText: You do a backflip, Rad!
   failText: You were unable to preform this action!
+  mouthBlockedText: You are unable to make a sound!
   critViewText: attempts to move their body but fail as they groan in pain.
+  soundsAreTyped: 0
   defaultSounds: []
-  maleSounds: []
-  femaleSounds: []
+  TypedSounds: []
   pitchRange: {x: 0.7, y: 1}

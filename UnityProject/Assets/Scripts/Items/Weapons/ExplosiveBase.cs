@@ -40,7 +40,7 @@ namespace Items.Weapons
 		protected Pickupable pickupable;
 		protected HasNetworkTabItem explosiveGUI;
 		[HideInInspector] public GUI_Explosive GUI;
-		[SyncVar] protected bool isArmed;
+		[SyncVar(hook=nameof(OnArmStateChange))] protected bool isArmed;
 		[SyncVar] protected bool countDownActive = false;
 		protected List<SignalEmitter> emitters = new List<SignalEmitter>();
 
@@ -86,6 +86,7 @@ namespace Items.Weapons
 		protected virtual void Detonate()
 		{
 			if(gameObject == null) return;
+
 			// Get data before despawning
 			var worldPos = objectBehaviour.registerTile.WorldPosition;
 			// Despawn the explosive
@@ -132,6 +133,8 @@ namespace Items.Weapons
 			                       $"{emitter.gameObject.ExpensiveName()} over the {gameObject.ExpensiveName()}", interaction.Performer);
 			return true;
 		}
+
+		protected virtual void OnArmStateChange(bool oldState, bool newState) { }
 	}
 
 	public enum ExplosiveType

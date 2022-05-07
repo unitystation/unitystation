@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: basalt0
   m_EditorClassIdentifier: 
   displayName: 
+  description: 
   LayerType: 3
   TileType: 3
   RequiredTiles:
@@ -32,6 +33,7 @@ MonoBehaviour:
   doesReflectBullet: 0
   indestructible: 0
   ExplosionImpassable: 0
+  BlocksTileInteractionsUnder: 1
   passableException:
     m_keys: 01000000
     m_values: 00
@@ -50,6 +52,7 @@ MonoBehaviour:
     Bio: 100
     DismembermentProtectionChance: 0
   tileInteractions: []
+  tileStepInteractions: []
   spawnOnDeconstruct: {fileID: 0}
   spawnAmountOnDeconstruct: 1
   lootOnDespawn: {fileID: 0}
@@ -63,5 +66,6 @@ MonoBehaviour:
       m_AssetGUID: 
       m_SubObjectName: 
       m_SubObjectType: 
+      m_EditorAssetChanged: 0
   SoundOnDestroy: []
   sprite: {fileID: 21300000, guid: ade78dc1356cfdb4eb8a1d9bccdbba81, type: 3}

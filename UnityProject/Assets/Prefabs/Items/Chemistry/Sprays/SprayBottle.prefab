@@ -1,28 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &1082222910563012093
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2785691462360487645}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 96edd14bb3cb38c4fac108e8865c1afd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  travelDistance: 3
-  Spray2:
-    SetLoadSetting: 0
-    AssetAddress: Assets/Prefabs/Effects/Spray2.prefab
-    AssetReference:
-      m_AssetGUID: 
-      m_SubObjectName: 
-      m_SubObjectType: 
-  reagentsPerUse: 5
 --- !u!1 &8659696762531335906
 GameObject:
   m_ObjectHideFlags: 0
@@ -51,6 +28,7 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2790896412868586409}
   m_RootOrder: 1
@@ -4897,6 +4875,7 @@ ParticleSystemRenderer:
   m_SortingLayer: 23
   m_SortingOrder: 0
   m_RenderMode: 1
+  m_MeshDistribution: 0
   m_SortMode: 0
   m_MinParticleSize: 0
   m_MaxParticleSize: 1
@@ -4920,6 +4899,10 @@ ParticleSystemRenderer:
   m_Mesh1: {fileID: 0}
   m_Mesh2: {fileID: 0}
   m_Mesh3: {fileID: 0}
+  m_MeshWeighting: 1
+  m_MeshWeighting1: 1
+  m_MeshWeighting2: 1
+  m_MeshWeighting3: 1
   m_MaskInteraction: 0
 --- !u!1001 &5378493307020091709
 PrefabInstance:
@@ -5177,6 +5160,30 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 5378493307020091709}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1082222910563012093
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2785691462360487645}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 96edd14bb3cb38c4fac108e8865c1afd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  travelDistance: 3
+  Spray2:
+    SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/Effects/Spray2.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
+  reagentsPerUse: 5
 --- !u!4 &2790896412868586409 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7791085151706811028, guid: f866b44bcdd7d734885f7c49999d85c9,

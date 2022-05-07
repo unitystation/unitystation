@@ -214,6 +214,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  CanRotateIfNotMovable: 0
 --- !u!114 &6909978738857824860
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -232,4 +233,6 @@ MonoBehaviour:
   ChangeSprites: 1
   isChangingSO: 0
   CurrentDirection: 3
+  IgnoreServerUpdatesIfLocalPlayer: 0
   IsAtmosphericDevice: 0
+  doNotResetOtherSpriteOptions: 0

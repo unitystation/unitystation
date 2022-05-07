@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9d1de2691495b304e9843ac3335b626d, type: 3}
+  m_Name: pirateEVAsuitworn
+  m_EditorClassIdentifier: 
+  Variance:
+  - Frames:
+    - sprite: {fileID: 21300000, guid: b376fa77cce4b514e8015f9e8058c44a, type: 3}
+      secondDelay: 0
+  - Frames:
+    - sprite: {fileID: 21300000, guid: 9740ecedb555d7e49bc71a08a4d3e601, type: 3}
+      secondDelay: 0
+  - Frames:
+    - sprite: {fileID: 21300000, guid: ae6772ed77e68ed4c96ed81ee4586875, type: 3}
+      secondDelay: 0
+  - Frames:
+    - sprite: {fileID: 21300000, guid: def92a87203a04245a2362d94c860f91, type: 3}
+      secondDelay: 0
+  IsPalette: 0
+  DisplayName: 

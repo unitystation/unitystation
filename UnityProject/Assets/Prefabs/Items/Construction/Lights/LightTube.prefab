@@ -1,28 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-2234112497965333867
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5906873233642746271}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e6e2838b2774be543831c510d9f5e4e4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  brokenItem: {fileID: 4766721875690198130, guid: 24b56977c4055b64cb1f133b59595e60,
-    type: 3}
-  chanceToBreak: 100
-  useCustomSound: 1
-  customSound:
-    SetLoadSetting: 0
-    AssetAddress: Assets/Prefabs/Effects/GlassBreak02.prefab
-    AssetReference:
-      m_AssetGUID: 
-      m_SubObjectName: 
-      m_SubObjectType: 
 --- !u!1001 &3576332567142839379
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -174,3 +151,27 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 3576332567142839379}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &-2234112497965333867
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5906873233642746271}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e6e2838b2774be543831c510d9f5e4e4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  brokenItem: {fileID: 4766721875690198130, guid: 24b56977c4055b64cb1f133b59595e60,
+    type: 3}
+  chanceToBreak: 100
+  useCustomSound: 1
+  customSound:
+    SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/Effects/GlassBreak02.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0

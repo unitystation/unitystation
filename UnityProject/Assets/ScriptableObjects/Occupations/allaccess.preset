@@ -42,6 +42,10 @@ Preset:
     value: 
     objectReference: {fileID: 11400000, guid: ac8944d15e19a44d8854ef116f80b4ee, type: 2}
   - target: {fileID: 0}
+    propertyPath: useStandardPopulator
+    value: 1
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
     propertyPath: limit
     value: 1
     objectReference: {fileID: 0}
@@ -306,6 +310,10 @@ Preset:
     value: 80
     objectReference: {fileID: 0}
   - target: {fileID: 0}
+    propertyPath: allowedLowPopAccess.Array.size
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
     propertyPath: issuedClearance.Array.size
     value: 0
     objectReference: {fileID: 0}
@@ -415,6 +423,10 @@ Preset:
   - target: {fileID: 0}
     propertyPath: spawnSound.AssetReference.m_SubObjectType
     value: 
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: spawnSound.AssetReference.m_EditorAssetChanged
+    value: 0
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: textColor.r

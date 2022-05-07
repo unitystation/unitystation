@@ -11,15 +11,16 @@ GameObject:
   - component: {fileID: 406365593819970653}
   - component: {fileID: 3984589335700137458}
   - component: {fileID: 6536533875639940645}
+  - component: {fileID: 5809642687452026922}
   - component: {fileID: 4084437145900613279}
   - component: {fileID: 4995588745208452066}
+  - component: {fileID: 799814669979061557}
   - component: {fileID: 2661870228097985241}
   - component: {fileID: 4625435621097251366}
   - component: {fileID: 1944057801525881069}
   - component: {fileID: -7063633880587810702}
   - component: {fileID: 5745720402341052027}
   - component: {fileID: 8773347140368194127}
-  - component: {fileID: 7641793294383270079}
   m_Layer: 0
   m_Name: C4
   m_TagString: Untagged
@@ -76,6 +77,37 @@ MonoBehaviour:
   syncInterval: 0.1
   pickupAnimSpeed: 0.1
   ItemAttributesV2: {fileID: 0}
+--- !u!114 &5809642687452026922
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 896716891640034833}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c23c49138f42840a1bc22ade283c1694, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  registerTile: {fileID: 0}
+  floorDecal: {fileID: 0}
+  isInitiallyNotPushable: 0
+  pushPullSound:
+    SetLoadSetting: 0
+    AssetAddress: null
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
+  soundDelayTime: 0
+  soundMinimumPitchVariance: 1
+  soundMaximumPitchVariance: 1
+  OnPullingSomethingChangedServer:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &4084437145900613279
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -92,6 +124,7 @@ MonoBehaviour:
   syncInterval: 0.1
   matrixDebugLogging: 0
   objectType: 0
+  customNetTransform: {fileID: 799814669979061557}
   prefabTracker: {fileID: 4995588745208452066}
   CurrentsortingGroup: {fileID: -7063633880587810702}
 --- !u!114 &4995588745208452066
@@ -107,6 +140,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   foreverID: Ba1MYhuJ@eQ4Pdz!Ukd$
+--- !u!114 &799814669979061557
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 896716891640034833}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 579884b05ae74e8499329b64997147d3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  snapToGridOnStart: 1
+  IsFixedMatrix: 0
 --- !u!114 &2661870228097985241
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -178,10 +227,10 @@ MonoBehaviour:
   exportType: 0
   exportName: C4
   exportMessage: Time to oga some bogas.
-  initialSize: 1
   initialTraits:
   - {fileID: 11400000, guid: 5eafba0d7388d428c8e08ed1b5d5d260, type: 2}
   - {fileID: 11400000, guid: ad341a2eb0870e54b97a56ae508f6622, type: 2}
+  initialSize: 1
   hitDamage: 0
   damageType: 0
   throwDamage: 0
@@ -310,52 +359,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
---- !u!114 &7641793294383270079
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 896716891640034833}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 52a6a264ee47433418b51f654439372f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  SnapToGridOnStart: 0
-  LocalTargetPosition: {x: 0, y: 0, z: 0}
-  TileMoveSpeed: 1
-  isNotPushable: 0
-  newtonianMovement: {x: 0, y: 0}
-  airTime: 0
-  slideTime: 0
-  thrownBy: {fileID: 0}
-  aim: 0
-  spinMagnitude: 0
-  stickyMovement: 0
-  maximumStickSpeed: 1.5
-  onStationMovementsRound: 0
-  attributes: {fileID: 0}
-  registerTile: {fileID: 0}
-  ContextGameObjects:
-  - {fileID: 0}
-  - {fileID: 0}
-  IsCurrentlyFloating: 0
-  LocalDifferenceNeeded: {x: 0, y: 0}
-  CorrectingCourse: 0
-  Pushing: []
-  Hits: []
-  Speed: 1
-  AIR: 3
-  SLIDE: 4
-  Animating: 0
-  IsFlyingSliding: 0
-  IsMoving: 0
-  IsWalking: 0
-  MoveIsWalking: 0
-  LastUpdateClientFlying: 0
 --- !u!1 &3204498178074362964
 GameObject:
   m_ObjectHideFlags: 0

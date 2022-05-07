@@ -2,6 +2,7 @@
 using Light2D;
 using Mirror;
 using TileManagement;
+using Tiles;
 using UnityEngine;
 
 public class TilemapDamage : MonoBehaviour, IFireExposable

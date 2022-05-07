@@ -7,6 +7,7 @@ using Items;
 using Mirror;
 using UnityEngine;
 using UI.Objects.Cargo;
+using Systems.Cargo;
 
 namespace Objects.Cargo
 {
@@ -21,6 +22,8 @@ namespace Objects.Cargo
 		private List<JobType> allowedTypes = null;
 
 		[SerializeField] private AddressableAudioSource creditArrivalSound;
+
+		[SerializeField] private string offlineMessage = "The console flashes red as an error message appears and says that access is denied.";
 
 		public bool WillInteract(HandApply interaction, NetworkSide side)
 		{
@@ -46,6 +49,7 @@ namespace Objects.Cargo
 		{
 			if (interaction.HandSlot.Item.TryGetComponent<IDCard>(out var id))
 			{
+
 				CheckID(id.JobType, interaction.Performer);
 				return;
 			}
@@ -64,6 +68,8 @@ namespace Objects.Cargo
 		{
 			if (cargoGUI == null)
 				return;
+
+			if(CargoOfflineCheck()) return;
 			foreach (var aJob in allowedTypes.Where(aJob => usedID == aJob))
 			{
 				CorrectID = true;
@@ -84,6 +90,17 @@ namespace Objects.Cargo
 		public void PlayBudgetUpdateSound()
 		{
 			_ = SoundManager.PlayNetworkedAtPosAsync(creditArrivalSound, gameObject.WorldPosServer());
+		}
+
+		public bool CargoOfflineCheck()
+		{
+			if(CargoManager.Instance.CargoOffline)
+			{
+				Chat.AddActionMsgToChat(gameObject, offlineMessage, offlineMessage);
+				return true;
+			}
+
+			return false;
 		}
 	}
 }

@@ -419,8 +419,11 @@ GameObject:
   - component: {fileID: 114413669770135258}
   - component: {fileID: 114407246905810916}
   - component: {fileID: 114390575568471296}
+  - component: {fileID: 114792299177679754}
+  - component: {fileID: 114617980452984522}
   - component: {fileID: 114644792539986700}
   - component: {fileID: 114285504268110804}
+  - component: {fileID: 114803877374308862}
   - component: {fileID: 114449635359748350}
   - component: {fileID: 50851566022184656}
   - component: {fileID: 114908376472113748}
@@ -458,7 +461,8 @@ GameObject:
   - component: {fileID: 3160124018402396833}
   - component: {fileID: 5123748548063984441}
   - component: {fileID: 4951365732200208794}
-  - component: {fileID: 5565978731565463129}
+  - component: {fileID: 1594872346571213938}
+  - component: {fileID: 7153920685726011974}
   m_Layer: 8
   m_Name: Player_V4(uNet)
   m_TagString: Untagged
@@ -640,6 +644,46 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   chatBubbleTarget: {fileID: 8006988482386011679}
+--- !u!114 &114792299177679754
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1133514949248654}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 57ce4d8a508787441857fade34082bd9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  diagonalMovement: 1
+  allowInput: 1
+  IsTrapped: 0
+  actionData: {fileID: 11400000, guid: 967a13d2ea206e9448f6c6e2af11a3cf, type: 2}
+  moveList: 05000000060000000700000008000000
+  RunSpeed: 6
+  WalkSpeed: 3
+  CrawlSpeed: 0.8
+  PushFallSpeed: 10
+--- !u!114 &114617980452984522
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1133514949248654}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 18a28f9f9a41257418b09671ebb5c96e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  playerMove: {fileID: 114792299177679754}
+  playerScript: {fileID: 0}
+  Step: 0
 --- !u!114 &114644792539986700
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -699,9 +743,41 @@ MonoBehaviour:
   syncInterval: 0.1
   matrixDebugLogging: 0
   objectType: 2
+  customNetTransform: {fileID: 0}
   prefabTracker: {fileID: 0}
   CurrentsortingGroup: {fileID: 0}
   networkedLean: {fileID: -8106636780342977062}
+--- !u!114 &114803877374308862
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1133514949248654}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c23c49138f42840a1bc22ade283c1694, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  registerTile: {fileID: 0}
+  floorDecal: {fileID: 0}
+  isInitiallyNotPushable: 0
+  pushPullSound:
+    SetLoadSetting: 0
+    AssetAddress: null
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
+  soundDelayTime: 0
+  soundMinimumPitchVariance: 1
+  soundMaximumPitchVariance: 1
+  OnPullingSomethingChangedServer:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &114449635359748350
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1029,6 +1105,8 @@ MonoBehaviour:
   painScreamDamage: 18
   painScreamCooldown: 15
   screamEmote: {fileID: 11400000, guid: c167f7374cdcf604a82efb440115efe4, type: 2}
+  fastRegenHeal: 12
+  fastRegenThreshold: 85
   rootBodyPartController: {fileID: 0}
   playerScript: {fileID: 0}
   CHem: {fileID: 11400000, guid: 6c3a3878e8878972ea633a27c6d0ba12, type: 2}
@@ -1318,7 +1396,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   foreverID: oRKrJS26sGZ7QuMo1?Rh
---- !u!114 &5565978731565463129
+--- !u!114 &1594872346571213938
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1327,65 +1405,43 @@ MonoBehaviour:
   m_GameObject: {fileID: 1133514949248654}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 84699d86ce37b1b40891616630505912, type: 3}
+  m_Script: {fileID: 11500000, guid: 61d54d2e664e46eebfc8375e5a889f19, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  SnapToGridOnStart: 0
-  Collider: {fileID: 0}
-  TileMoveSpeedOverride: 0
-  floorDecal: {fileID: 0}
-  LocalTargetPosition: {x: 0, y: 0, z: 0}
-  rotatable: {fileID: 0}
-  TileMoveSpeed: 8
-  SynchLocalTargetPosition: {x: 0, y: 0, z: 0}
-  newtonianMovement: {x: 0, y: 0}
-  airTime: 0
-  slideTime: 0
-  thrownBy: {fileID: 0}
-  aim: 0
-  spinMagnitude: 0
-  stickyMovement: 1
-  maximumStickSpeed: 10
-  onStationMovementsRound: 1
-  attributes: {fileID: 0}
-  registerTile: {fileID: 0}
-  defaultInteractionLayerMask:
+--- !u!114 &7153920685726011974
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1133514949248654}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ab91260447fa445e936d59ba0abdc464, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  TipSO: {fileID: 11400000, guid: eb646ca04872733468148685a9a74fc0, type: 2}
+  saveID: 0
+  triggerOnce: 0
+  showEvenAfterDeath: 1
+  tipCooldown: 35
+  ObjectsToCheck:
+  - GameObjectToCheck: {fileID: 6972878001720233250, guid: a2f7e3ea5d1b72341939c4aeb0895b36,
+      type: 3}
+    AssoicatedSo: {fileID: 11400000, guid: 49dea0a964248a141bbedf6798ad8265, type: 2}
+  - GameObjectToCheck: {fileID: 5092666089846311182, guid: e56e2d22b6f68cf48b3ababcdccd8a4d,
+      type: 3}
+    AssoicatedSo: {fileID: 11400000, guid: eb646ca04872733468148685a9a74fc0, type: 2}
+  - GameObjectToCheck: {fileID: 2515425442973781969, guid: 8df46e8f4633f9e43ab5993c9075028e,
+      type: 3}
+    AssoicatedSo: {fileID: 11400000, guid: eb646ca04872733468148685a9a74fc0, type: 2}
+  SearchRadius: 9
+  SearchCooldown: 6
+  MaskToCheck:
     serializedVersion: 2
-    m_Bits: 0
-  ContextGameObjects:
-  - {fileID: 0}
-  - {fileID: 0}
-  IsCurrentlyFloating: 0
-  LocalDifferenceNeeded: {x: 0, y: 0}
-  CorrectingCourse: 0
-  Pushing: []
-  Hits: []
-  Speed: 1
-  AIR: 3
-  SLIDE: 4
-  Animating: 0
-  LastDifference: {x: 0, y: 0, z: 0}
-  IsFlyingSliding: 0
-  IsMoving: 0
-  IsWalking: 0
-  MoveIsWalking: 0
-  LastUpdateClientFlying: 0
-  playerScript: {fileID: 0}
-  MoveMaxDelayQueue: 1
-  Step: 0
-  intent: 0
-  RunSpeed: 0
-  WalkSpeed: 0
-  CrawlSpeed: 0
-  actionData: {fileID: 11400000, guid: 967a13d2ea206e9448f6c6e2af11a3cf, type: 2}
-  IsBumping: 0
-  IsPressedCashed: 0
-  IsPressedServer: 0
-  LastUpdatedFlyingPosition: 0
-  LastProcessMoved: 0
-  DEBUGLastMoveMessageProcessed: 0
+    m_Bits: 537418752
 --- !u!1 &1147423205297840
 GameObject:
   m_ObjectHideFlags: 0
