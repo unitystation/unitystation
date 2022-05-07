@@ -8,8 +8,8 @@ SCRIPT_FOLDER_PATH = Path(__file__).parent.resolve()
 REPO_PATH = SCRIPT_FOLDER_PATH.parent.parent.resolve()
 ADD_PROJECT_PATH = REPO_PATH / "UnityProject" / "AddressablePackingProjects"
 RESULT_CONTENT_PATH = REPO_PATH / "AddressableContent"
-GITHUB_URL_TEMPLATE = "https://raw.githubusercontent.com/unitystation/unitystation/AddressableContent/{}/{}"
-GITHUB_CONTENT_URL = "https://raw.githubusercontent.com/unitystation/unitystation/AddressableContent"
+GITHUB_URL_TEMPLATE = "https://raw.githubusercontent.com/unitystation/unitystation/develop/AddressableContent/{}/{}"
+GITHUB_CONTENT_URL = "https://raw.githubusercontent.com/unitystation/unitystation/develop/AddressableContent"
 
 def main():
     # do_user_confirmation()
