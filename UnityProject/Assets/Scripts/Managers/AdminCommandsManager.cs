@@ -562,6 +562,7 @@ namespace AdminCommands
 		[Command(requiresAuthority = false)]
 		public void CmdChangeCargoConnectionStatus(bool online, NetworkConnectionToClient sender = null)
 		{
+			if (IsAdmin(sender, out var admin) == false) return;
 			CargoManager.Instance.CargoOffline = online;
 		}
 
