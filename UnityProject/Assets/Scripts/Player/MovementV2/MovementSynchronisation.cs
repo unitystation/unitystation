@@ -10,6 +10,7 @@ using Objects;
 using Player.Movement;
 using UI.Action;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 
 public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllable, ICooldown, IBumpableObject,
 	IActionGUI, ICheckedInteractable<ContextMenuApply>, IRightClickable
@@ -59,6 +60,18 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 
 	//[SyncVar(hook = nameof(SyncCrawlingSpeed))]
 	public float CrawlSpeed;
+
+	private MovementType _currentMovementType;
+
+	public MovementType CurrentMovementType
+	{
+		set
+		{
+			_currentMovementType = value;
+			UpdateMovementSpeed();
+		}
+		get => _currentMovementType;
+	}
 
 	public ActionData actionData;
 	ActionData IActionGUI.ActionData => actionData;
@@ -391,6 +404,23 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 		RunSpeed = Mathf.Clamp(newRunSpeed, 0, float.MaxValue);
 		WalkSpeed = Mathf.Clamp(newWalkSpeed, 0, float.MaxValue);
 		CrawlSpeed = Mathf.Clamp(newCrawlSpeed, 0, float.MaxValue);
+		UpdateMovementSpeed();
+	}
+
+	public void UpdateMovementSpeed()
+	{
+		switch (CurrentMovementType)
+		{
+			case MovementType.Running:
+				SyncMovementSpeed(TileMoveSpeed, RunSpeed);
+				break;
+			case MovementType.Walking:
+				SyncMovementSpeed(TileMoveSpeed, WalkSpeed);
+				break;
+			case MovementType.Crawling:
+				SyncMovementSpeed(TileMoveSpeed,CrawlSpeed );
+				break;
+		}
 	}
 
 	public override void OnEnable()

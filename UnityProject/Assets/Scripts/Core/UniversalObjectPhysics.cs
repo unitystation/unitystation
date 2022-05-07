@@ -73,10 +73,15 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 		}
 	}
 
+
+
+
 	public bool IsVisible => isVisible;
 
 	[SyncVar(hook = nameof(SyncMovementSpeed))]
-	public float TileMoveSpeed = 1;
+	protected float tileMoveSpeed = 1;
+
+	public float TileMoveSpeed => tileMoveSpeed;
 
 	[SyncVar(hook = nameof(SyncLocalTarget))]
 	private Vector3 SynchLocalTargetPosition;
@@ -244,9 +249,9 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 	}
 
 
-	private void SyncMovementSpeed(float old, float Newmove)
+	public void SyncMovementSpeed(float old, float Newmove)
 	{
-		TileMoveSpeed = Newmove;
+		tileMoveSpeed = Newmove;
 	}
 
 

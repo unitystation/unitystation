@@ -7,6 +7,7 @@ using UnityEngine.Events;
 using Random = UnityEngine.Random;
 using Systems.Teleport;
 using Messages.Server.SoundMessages;
+using Player.Movement;
 
 [RequireComponent(typeof(Rotatable))]
 [RequireComponent(typeof(UprightSprites))]
@@ -179,7 +180,7 @@ public class RegisterPlayer : RegisterTile, IServerSpawn, RegisterPlayer.IContro
 			{
 				spriteRenderer.sortingLayerName = "Bodies";
 			}
-			playerScript.PlayerSync.TileMoveSpeed = playerScript.playerMove.CrawlSpeed;
+			playerScript.PlayerSync.CurrentMovementType  = MovementType.Crawling;
 			//lock current direction
 			playerDirectional.LockDirectionTo(true, playerDirectional.CurrentDirection );
 		}
@@ -192,7 +193,7 @@ public class RegisterPlayer : RegisterTile, IServerSpawn, RegisterPlayer.IContro
 				spriteRenderer.sortingLayerName = "Players";
 			}
 			playerDirectional.LockDirectionTo(false, playerDirectional.CurrentDirection );
-			playerScript.PlayerSync.TileMoveSpeed = playerScript.playerMove.RunSpeed;
+			playerScript.PlayerSync.CurrentMovementType = MovementType.Running;
 		}
 	}
 

@@ -517,7 +517,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		{
 			case ConsciousState.CONSCIOUS:
 				playerMove.allowInput = true;
-				playerMove.TileMoveSpeed = playerMove.RunSpeed;
+				playerMove.CurrentMovementType = MovementType.Running;
 				break;
 			case ConsciousState.BARELY_CONSCIOUS:
 				//Drop hand items when unconscious
@@ -526,7 +526,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 					Inventory.ServerDrop(itemSlot);
 				}
 				playerMove.allowInput = true;
-				playerMove.TileMoveSpeed = playerMove.CrawlSpeed;
+				playerMove.CurrentMovementType = MovementType.Running;
 				if (oldState == ConsciousState.CONSCIOUS)
 				{
 					//only play the sound if we are falling
