@@ -672,6 +672,32 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 				}
 			}
 		}
+		else
+		{
+			if ( playerScript.playerHealth.IsDead)
+			{
+				playerScript.playerNetworkActions.CmdSpawnPlayerGhost();
+			}
+			else
+			{
+				if (ContainedInContainer != null)
+				{
+					CMDTryEscapeContainer();
+				}
+			}
+		}
+	}
+
+	[Command]
+	public void CMDTryEscapeContainer()
+	{
+		if (allowInput == false) return;
+		if (ContainedInContainer == null) return;
+
+		foreach (var Escape in ContainedInContainer.IEscapables)
+		{
+			Escape.EntityTryEscape(gameObject,null);
+		}
 	}
 
 
@@ -776,21 +802,12 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 		if (slideTime > 0) return false;
 		if (allowInput == false) return false;
 		if (buckledObject) return false;
-		if (UIManager.IsInputFocus) return false;
+		if (isLocalPlayer && UIManager.IsInputFocus) return false;
 		if (IsCuffed && PulledBy.HasComponent) return false;
+		if (ContainedInContainer != null) return false;
 		//
 		//playerMove.IsCuffed && playerScript.pushPull.IsBeingPulledClient
 		//TODO if Hidden Can't move
-
-
-
-		//TODO Is cuffed and being pulled
-
-		//TODO good stuff
-		// if (!playerScript.IsGhost && playerScript.playerHealth.IsDead)
-		// {
-		// 	playerScript.playerNetworkActions.CmdSpawnPlayerGhost();
-		// }
 
 		return true;
 	}

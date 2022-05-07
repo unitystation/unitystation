@@ -43,6 +43,8 @@ namespace Objects
 		public RegisterTile registerTile;
 		private UniversalObjectPhysics ObjectPhysics;
 
+		public List<IEscapable> IEscapables;
+
 		/// <summary>
 		/// Experimental. Top owner object
 		/// </summary>
@@ -82,7 +84,7 @@ namespace Objects
 			registerTile = GetComponent<RegisterTile>();
 			ObjectPhysics = GetComponent<UniversalObjectPhysics>();
 
-
+			IEscapables = GetComponents<IEscapable>().ToList();
 			registerTile.OnParentChangeComplete.AddListener(() =>
 			{
 				ReparentStoredObjects(registerTile.NetworkedMatrixNetId);
