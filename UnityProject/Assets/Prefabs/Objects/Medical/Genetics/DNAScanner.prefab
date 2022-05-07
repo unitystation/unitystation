@@ -123,11 +123,9 @@ GameObject:
   - component: {fileID: 61404138305600890}
   - component: {fileID: 114261379763110518}
   - component: {fileID: 759269907227586911}
-  - component: {fileID: 114657711786529776}
   - component: {fileID: 8266124704489133993}
   - component: {fileID: -921045048710611501}
   - component: {fileID: 114039584032850022}
-  - component: {fileID: 5322609074420117545}
   - component: {fileID: 114529692711081598}
   - component: {fileID: 114532654656294352}
   - component: {fileID: 6712593994754809297}
@@ -136,6 +134,7 @@ GameObject:
   - component: {fileID: 7670393869610928267}
   - component: {fileID: 9128197607768152992}
   - component: {fileID: 7336153530023379248}
+  - component: {fileID: 6558962961384461941}
   m_Layer: 11
   m_Name: DNAScanner
   m_TagString: Untagged
@@ -214,22 +213,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62cc3ef7cd9082443aaf3c255851d15a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &114657711786529776
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1711816394935574}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 579884b05ae74e8499329b64997147d3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  snapToGridOnStart: 1
-  IsFixedMatrix: 0
 --- !u!114 &8266124704489133993
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -246,7 +229,6 @@ MonoBehaviour:
   syncInterval: 0.1
   matrixDebugLogging: 0
   objectType: 1
-  customNetTransform: {fileID: 114657711786529776}
   prefabTracker: {fileID: 0}
   CurrentsortingGroup: {fileID: 0}
   AtmosPassable: 1
@@ -275,6 +257,7 @@ MonoBehaviour:
   exportType: 0
   exportName: 
   exportMessage: 
+  initialSize: 3
 --- !u!114 &114039584032850022
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -324,37 +307,6 @@ MonoBehaviour:
   ExplosionsDamage: 100
   doDamageMessage: 1
   Meleeable: {fileID: 0}
---- !u!114 &5322609074420117545
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1711816394935574}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c23c49138f42840a1bc22ade283c1694, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  registerTile: {fileID: 0}
-  floorDecal: {fileID: 0}
-  isInitiallyNotPushable: 1
-  pushPullSound:
-    SetLoadSetting: 0
-    AssetAddress: null
-    AssetReference:
-      m_AssetGUID: 
-      m_SubObjectName: 
-      m_SubObjectType: 
-      m_EditorAssetChanged: 0
-  soundDelayTime: 0
-  soundMinimumPitchVariance: 1
-  soundMaximumPitchVariance: 1
-  OnPullingSomethingChangedServer:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!114 &114529692711081598
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -440,6 +392,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   initialContents: {fileID: 0}
   spawnContentsAtRoundstart: 1
+  registerTile: {fileID: 0}
 --- !u!114 &7670393869610928267
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -549,3 +502,50 @@ MonoBehaviour:
   ReleasePressure: 101.325
   Volume: 1
   Temperature: 293.15
+--- !u!114 &6558962961384461941
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1711816394935574}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 52a6a264ee47433418b51f654439372f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  DEBUG: 0
+  SnapToGridOnStart: 0
+  LocalTargetPosition: {x: 0, y: 0, z: 0}
+  ChangesDirectionPush: 0
+  isNotPushable: 0
+  newtonianMovement: {x: 0, y: 0}
+  airTime: 0
+  slideTime: 0
+  thrownBy: {fileID: 0}
+  aim: 0
+  spinMagnitude: 0
+  stickyMovement: 0
+  maximumStickSpeed: 1.5
+  onStationMovementsRound: 0
+  attributes: {fileID: 0}
+  registerTile: {fileID: 0}
+  ContextGameObjects:
+  - {fileID: 0}
+  - {fileID: 0}
+  IsCurrentlyFloating: 0
+  LocalDifferenceNeeded: {x: 0, y: 0}
+  CorrectingCourse: 0
+  Pushing: []
+  Hits: []
+  Speed: 1
+  AIR: 3
+  SLIDE: 4
+  Animating: 0
+  IsFlyingSliding: 0
+  IsMoving: 0
+  IsWalking: 0
+  MoveIsWalking: 0
+  LastUpdateClientFlying: 0
