@@ -106,7 +106,7 @@ namespace Items.Weapons
 		public override void ReceiveSignal(SignalStrength strength, SignalEmitter responsibleEmitter, ISignalMessage message = null)
 		{
 			if(gameObject == null || countDownActive == true) return;
-			if(emitters.Contains(responsibleEmitter)) return;
+			if(emitters.Contains(responsibleEmitter) == false) return;
 			if (detonateImmediatelyOnSignal)
 			{
 				Detonate();
@@ -121,8 +121,8 @@ namespace Items.Weapons
 			void Hack()
 			{
 				emitters.Add(emitter);
-				Frequency = emitter.Frequency;
-				Chat.AddLocalMsgToChat($"The {gameObject.ExpensiveName()} copies {Emitter.gameObject.ExpensiveName()}'s " +
+				emitter.Frequency = Frequency;
+				Chat.AddLocalMsgToChat($"The {gameObject.ExpensiveName()} copies {emitter.gameObject.ExpensiveName()}'s " +
 				                       $"codes from {interaction.PerformerPlayerScript.visibleName}'s hands!", interaction.Performer);
 			}
 			var bar = StandardProgressAction.Create(
