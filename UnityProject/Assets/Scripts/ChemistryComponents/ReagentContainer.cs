@@ -76,9 +76,6 @@ namespace Chemistry.Components
 			}
 		}
 
-		[Tooltip("Can you empty out its contents?")]
-		public bool canPourOut = true;
-
 		[Tooltip("Initial mix of reagent inside container")]
 		[FormerlySerializedAs("reagentMix")]
 		[SerializeField] private ReagentMix initialReagentMix = new ReagentMix();
@@ -496,7 +493,7 @@ namespace Chemistry.Components
 
 			var pourOutContext = ContextMenuApply.ByLocalPlayer(gameObject, "PourOut");
 			//Pour / add can only be done if in reach
-			if (WillInteract(pourOutContext, NetworkSide.Client) && canPourOut && menuOptions.HasFlag(ShowMenuOptions.PourOut))
+			if (WillInteract(pourOutContext, NetworkSide.Client) && menuOptions.HasFlag(ShowMenuOptions.PourOut))
 			{
 				result.AddElement("PourOut", OnPourOutClicked);
 			}
