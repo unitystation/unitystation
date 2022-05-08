@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c0c8fd537387459c95edf35f9c5dd2c3, type: 3}
+  m_Name: Random Fruit Crate
+  m_EditorClassIdentifier: 
+  OrderName: Assorted Fruits
+  CreditCost: 1000
+  Crate: {fileID: 6021181062730950660, guid: 871c3d9267933674894b9bfb2f956c56, type: 3}
+  Items:
+  - {fileID: 4955296975579916585, guid: 003bcc08bfd787c4c8e4d54d3e1aaed4, type: 3}
+  - {fileID: 4955296975579916585, guid: 003bcc08bfd787c4c8e4d54d3e1aaed4, type: 3}
+  ContentSellPrice: 500
+  EmagOnly: 0
