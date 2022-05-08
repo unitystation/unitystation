@@ -31,6 +31,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 
 	//===============================================
 	//TODO pull isn't being Cancelled on client When slipping
+	//TODO Implement swap if you're dragging someone
 
 	public const float DEFAULT_PUSH_SPEED = 6;
 
