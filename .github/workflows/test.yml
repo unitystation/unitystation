@@ -21,7 +21,7 @@ jobs:
   # Perform unit testing
   performTest:
     name: Unit testing on ${{ matrix.unityVersion }}
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     strategy:
       fail-fast: false
       matrix:
