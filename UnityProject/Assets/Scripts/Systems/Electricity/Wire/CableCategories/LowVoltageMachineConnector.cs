@@ -46,12 +46,11 @@ namespace Objects.Engineering
 		{
 			void Remove()
 			{
-				if (removedOnce) return;
-				removedOnce = true;
-				Spawn.ServerPrefab(
+				if (removedOnce == false) Spawn.ServerPrefab(
 					machineConnectorPrefab, gameObject.AssumedWorldPosServer(),
 					// Random positioning to make it clear this is disassembled
 					scatterRadius: 0.35f, localRotation: RandomUtils.RandomRotation2D());
+				removedOnce = true; //Counter measure incase the gameobject doesn't despawn for whatever reason.
 				_ = Despawn.ServerSingle(gameObject);
 			}
 
