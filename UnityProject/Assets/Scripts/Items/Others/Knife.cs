@@ -18,18 +18,21 @@ public class Knife : MonoBehaviour, ICheckedInteractable<InventoryApply>,  IChec
 		//if the item isn't a butcher knife, no go.
 		if (Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Knife) == false) return false;
 
-		if (Validations.HasComponent<ItemAttributesV2>(interaction.TargetObject) == false) return false;
-
-		ItemAttributesV2 attr = interaction.TargetObject.GetComponent<ItemAttributesV2>();
-		Ingredient ingredient = new Ingredient(attr.ArticleName);
-		GameObject cut = CraftingManager.Cuts.FindRecipe(new List<Ingredient> { ingredient });
-
-		if (cut == null)
+		if (interaction.TargetObject.TryGetComponent<ItemAttributesV2>(out var attr))
 		{
-			return false;
+			Ingredient ingredient = new Ingredient(attr.ArticleName);
+			GameObject cut = CraftingManager.Cuts.FindRecipe(new List<Ingredient> { ingredient });
+
+			if (cut == null)
+			{
+				return false;
+			}
+
+			return true;
 		}
 
-		return true;
+		return false;
+
 	}
 
 	public void ServerPerformInteraction(HandApply interaction)
