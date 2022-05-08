@@ -6,7 +6,7 @@ using Systems.Electricity;
 
 namespace Objects.Engineering
 {
-	public class LowVoltageMachineConnector : NetworkBehaviour, ICheckedInteractable<PositionalHandApply>
+	public class LowVoltageMachineConnector : NetworkBehaviour, ICheckedInteractable<PositionalHandApply>, IServerSpawn
 	{
 		[Tooltip("The machine connector prefab to spawn on interaction.")]
 		[SerializeField]
@@ -32,9 +32,14 @@ namespace Objects.Engineering
 			RelatedWire.InData.WireEndB = Connection.SurroundingTiles;
 		}
 
+
+		public void OnSpawnServer(SpawnInfo info)
+		{
+			removedOnce = false; //(Max) : Bod said this was important for object pooling.
+		}
+
 		public bool WillInteract(PositionalHandApply interaction, NetworkSide side)
 		{
-			if(removedOnce) return false; //Counter measure for desynced clients that somehow can get to spawn multiple of these
 			if (DefaultWillInteract.Default(interaction, side) == false) return false;
 			if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Wirecutter) == false) return false;
 			if (interaction.TargetObject != gameObject) return false;
