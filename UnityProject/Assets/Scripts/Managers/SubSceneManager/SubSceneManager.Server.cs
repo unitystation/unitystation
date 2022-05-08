@@ -20,7 +20,7 @@ public partial class SubSceneManager
 	/// <summary>
 	/// Starts a collection of scenes that this connection is allowed to see
 	/// </summary>
-	public void AddNewObserverScenePermissions(NetworkConnection conn)
+	public void AddNewObserverScenePermissions(NetworkConnectionToClient conn)
 	{
 		if (NetworkServer.observerSceneList.ContainsKey(conn))
 		{
@@ -30,7 +30,7 @@ public partial class SubSceneManager
 		NetworkServer.observerSceneList.Add(conn, new List<Scene> {SceneManager.GetActiveScene()});
 	}
 
-	public void RemoveSceneObserver(NetworkConnection conn)
+	public void RemoveSceneObserver(NetworkConnectionToClient conn)
 	{
 		NetworkServer.observerSceneList.Remove(conn);
 	}
@@ -39,7 +39,7 @@ public partial class SubSceneManager
 	/// No scene / proximity visibility checking. Just adding it to everything
 	/// </summary>
 	/// <param name="connToAdd"></param>
-	void AddObserverToAllObjects(NetworkConnection connToAdd, Scene sceneContext)
+	void AddObserverToAllObjects(NetworkConnectionToClient connToAdd, Scene sceneContext)
 	{
 		StartCoroutine(SyncPlayerData(connToAdd, sceneContext));
 		AddObservableSceneToConnection(connToAdd, sceneContext);
@@ -47,7 +47,7 @@ public partial class SubSceneManager
 
 	/// Sync init data with specific scenes
 	/// staggered over multiple frames
-	public IEnumerator SyncPlayerData(NetworkConnection connToAdd, Scene sceneContext)
+	public IEnumerator SyncPlayerData(NetworkConnectionToClient connToAdd, Scene sceneContext)
 	{
 
 		var client = connToAdd.clientOwnedObjects.Count == 0 ? null : connToAdd.clientOwnedObjects.ElementAt(0).gameObject;
@@ -62,7 +62,7 @@ public partial class SubSceneManager
 	/// <summary>
 	/// Add a connection as an observer to everything in a scene
 	/// </summary>
-	IEnumerator AddObserversForClient(NetworkConnection connToAdd, Scene sceneContext)
+	IEnumerator AddObserversForClient(NetworkConnectionToClient connToAdd, Scene sceneContext)
 	{
 		//Activate the matrices on the client first
 		foreach (var matrixInfo in MatrixManager.Instance.ActiveMatrices.Values)
@@ -79,6 +79,8 @@ public partial class SubSceneManager
 		var netIds = NetworkIdentity.spawned.Values.ToList();
 		foreach (var n in netIds)
 		{
+			if (n == null) continue;
+
 			if (n.gameObject.scene != sceneContext)
 				continue;
 

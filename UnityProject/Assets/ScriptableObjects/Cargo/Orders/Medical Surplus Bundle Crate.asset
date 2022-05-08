@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c0c8fd537387459c95edf35f9c5dd2c3, type: 3}
+  m_Name: Medical Surplus Bundle Crate
+  m_EditorClassIdentifier: 
+  OrderName: Medical Surplus Bundle Crate
+  CreditCost: 2000
+  Crate: {fileID: 2395943996647778371, guid: a85bb77436de9574c8523fe45acffb14, type: 3}
+  Items:
+  - {fileID: 9070816803229505669, guid: 69b7c5956d9ea234c8a74d2bd486f9d7, type: 3}
+  - {fileID: 1791647728409730387, guid: 3ce7c70f4f293004689a6e84fe5b861d, type: 3}
+  - {fileID: 3315478416307109378, guid: 68ef2c0235224f347b94384d5dcdae47, type: 3}
+  - {fileID: 3315478416307109378, guid: 68ef2c0235224f347b94384d5dcdae47, type: 3}
+  - {fileID: 2954276314869534095, guid: dd33a51f8c440da4cb4273b8954c03b3, type: 3}
+  - {fileID: 2954276314869534095, guid: dd33a51f8c440da4cb4273b8954c03b3, type: 3}
+  - {fileID: 2954276314869534095, guid: dd33a51f8c440da4cb4273b8954c03b3, type: 3}
+  - {fileID: 2954276314869534095, guid: dd33a51f8c440da4cb4273b8954c03b3, type: 3}
+  - {fileID: 2954276314869534095, guid: dd33a51f8c440da4cb4273b8954c03b3, type: 3}
+  ContentSellPrice: 572
+  EmagOnly: 0

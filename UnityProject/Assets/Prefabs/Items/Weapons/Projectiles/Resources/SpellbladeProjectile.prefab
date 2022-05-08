@@ -1,0 +1,127 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &6759265094486428691
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 1534706377851657813, guid: b3e452483c7f60f4b9fdf04e19571591,
+        type: 3}
+      propertyPath: decal
+      value: 
+      objectReference: {fileID: 64157212496800772, guid: cd302345568216c40988ac17b9ee7754,
+        type: 3}
+    - target: {fileID: 1534706377851657813, guid: b3e452483c7f60f4b9fdf04e19571591,
+        type: 3}
+      propertyPath: animationTime
+      value: 0.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 2244463492161318593, guid: b3e452483c7f60f4b9fdf04e19571591,
+        type: 3}
+      propertyPath: damageData
+      value: 
+      objectReference: {fileID: 11400000, guid: 55fe36b79d4d236488284adf924ea4f4,
+        type: 2}
+    - target: {fileID: 5717873336927598056, guid: b3e452483c7f60f4b9fdf04e19571591,
+        type: 3}
+      propertyPath: maxDistance
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 7263384001536958968, guid: b3e452483c7f60f4b9fdf04e19571591,
+        type: 3}
+      propertyPath: damageData
+      value: 
+      objectReference: {fileID: 11400000, guid: 55fe36b79d4d236488284adf924ea4f4,
+        type: 2}
+    - target: {fileID: 7323545170550902110, guid: b3e452483c7f60f4b9fdf04e19571591,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7323545170550902110, guid: b3e452483c7f60f4b9fdf04e19571591,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7323545170550902110, guid: b3e452483c7f60f4b9fdf04e19571591,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7323545170550902110, guid: b3e452483c7f60f4b9fdf04e19571591,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7323545170550902110, guid: b3e452483c7f60f4b9fdf04e19571591,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7323545170550902110, guid: b3e452483c7f60f4b9fdf04e19571591,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7323545170550902110, guid: b3e452483c7f60f4b9fdf04e19571591,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7323545170550902110, guid: b3e452483c7f60f4b9fdf04e19571591,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7323545170550902110, guid: b3e452483c7f60f4b9fdf04e19571591,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7323545170550902110, guid: b3e452483c7f60f4b9fdf04e19571591,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7323545170550902110, guid: b3e452483c7f60f4b9fdf04e19571591,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7329398683759525986, guid: b3e452483c7f60f4b9fdf04e19571591,
+        type: 3}
+      propertyPath: m_Name
+      value: SpellbladeProjectile
+      objectReference: {fileID: 0}
+    - target: {fileID: 7440212042109581576, guid: b3e452483c7f60f4b9fdf04e19571591,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 455f1ee5e6a6fff4da5f7be096c0602d,
+        type: 3}
+    - target: {fileID: 7592575146021449342, guid: b3e452483c7f60f4b9fdf04e19571591,
+        type: 3}
+      propertyPath: overrideVelocity
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7592575146021449342, guid: b3e452483c7f60f4b9fdf04e19571591,
+        type: 3}
+      propertyPath: projectileVelocity
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 8915517050689389146, guid: b3e452483c7f60f4b9fdf04e19571591,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: bff5b193fbcb4d3479f995a79782b5d3,
+        type: 2}
+    - target: {fileID: 9022486613941831419, guid: b3e452483c7f60f4b9fdf04e19571591,
+        type: 3}
+      propertyPath: damageData
+      value: 
+      objectReference: {fileID: 11400000, guid: 55fe36b79d4d236488284adf924ea4f4,
+        type: 2}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: b3e452483c7f60f4b9fdf04e19571591, type: 3}

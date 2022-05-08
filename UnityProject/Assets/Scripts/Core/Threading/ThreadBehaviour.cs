@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading;
 using NaughtyAttributes;
@@ -58,7 +59,16 @@ namespace Core.Threading
 					return;
 				}
 				mainThreadTimer.Restart();
-				RunTick();
+				try
+				{
+					RunTick();
+				}
+				catch (Exception e)
+				{
+					Logger.LogError(e.ToString(), Category.Threading);
+					throw;
+				}
+
 				ticker++;
 			}
 		}
@@ -72,7 +82,15 @@ namespace Core.Threading
 			Profiler.BeginThreadProfiling("Unitystation", threadName);
 			while (running && threadMode == ThreadMode.Threaded && midTick == false)
 			{
-				RunTick();
+				try
+				{
+					RunTick();
+				}
+				catch (Exception e)
+				{
+					ThreadLogger.AddLog(e.ToString(), Category.Threading);
+				}
+
 				Thread.Sleep(tickDelay);
 				ticker++;
 			}

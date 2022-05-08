@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -7,10 +8,13 @@ using UnityEngine.Events;
 using Mirror;
 using Systems.Atmospherics;
 using Chemistry;
+using Core.Chat;
 using Health.Sickness;
 using JetBrains.Annotations;
+using NaughtyAttributes;
 using Player;
 using Newtonsoft.Json;
+using ScriptableObjects.RP;
 
 namespace HealthV2
 {
@@ -151,6 +155,14 @@ namespace HealthV2
 
 		private float maxBleedStacks = 10f;
 
+		[SerializeField, BoxGroup("PainFeedback")] private float painScreamDamage = 20f;
+		[SerializeField, BoxGroup("PainFeedback")] private float painScreamCooldown = 15f;
+		[SerializeField, BoxGroup("PainFeedback")] private EmoteSO screamEmote;
+		private bool canScream = true;
+
+		[SerializeField, BoxGroup("FastRegen")] private float fastRegenHeal = 12;
+		[SerializeField, BoxGroup("FastRegen")] private float fastRegenThreshold = 85;
+
 		private ObjectBehaviour objectBehaviour;
 		public ObjectBehaviour ObjectBehaviour => objectBehaviour;
 
@@ -239,6 +251,9 @@ namespace HealthV2
 
 		public PlayerScript playerScript;
 
+		public event Action<DamageType> OnTakeDamageType;
+		public event Action OnLowHealth;
+
 		public virtual void Awake()
 		{
 			rootBodyPartController = GetComponent<RootBodyPartController>();
@@ -288,6 +303,7 @@ namespace HealthV2
 			if (CustomNetworkManager.IsServer == false) return;
 
 			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, PeriodicUpdate);
+			StopCoroutine(ScreamCooldown());
 		}
 
 		public void Setbrain(Brain _brain)
@@ -632,6 +648,7 @@ namespace HealthV2
 				//TODO: Re - impliment this using the new reagent- first code introduced in PR #6810
 				//EffectsFactory.BloodSplat(RegisterTile.WorldPositionServer, BloodSplatSize.large, BloodSplatType.red);
 			}
+			IndicatePain(damage);
 		}
 
 		/// <summary>
@@ -686,6 +703,16 @@ namespace HealthV2
 						traumaDamageChance: traumaDamageChance, tramuticDamageType: tramuticDamageType);
 				}
 			}
+
+			IndicatePain(damage);
+			OnTakeDamageType?.Invoke(damageType);
+			if(HealthIsLow()) OnLowHealth?.Invoke();
+		}
+
+		private bool HealthIsLow()
+		{
+			var percentage = (OverallHealth / maxHealth) * 100;
+			return percentage < 35;
 		}
 
 		/// <summary>
@@ -1383,6 +1410,36 @@ namespace HealthV2
 			}
 
 			InternalNetIDs = NewInternalNetIDs;
+		}
+
+		public void IndicatePain(float dmgTaken)
+		{
+			if(EmoteActionManager.Instance == null || screamEmote == null ||
+			   canScream == false || ConsciousState == ConsciousState.UNCONSCIOUS || IsDead) return;
+			if(dmgTaken >= painScreamDamage) EmoteActionManager.DoEmote(screamEmote, playerScript.gameObject);
+			StartCoroutine(ScreamCooldown());
+		}
+		private IEnumerator ScreamCooldown()
+		{
+			canScream = false;
+			yield return WaitFor.Seconds(painScreamCooldown);
+			canScream = true;
+		}
+
+		public void EnableFastRegen()
+		{
+			if(CustomNetworkManager.IsServer == false) return;
+			UpdateManager.Add(FastRegen, tickRate);
+		}
+
+		private void FastRegen()
+		{
+			playerScript.registerTile.ServerRemoveStun();
+			if(OverallHealth > fastRegenThreshold) return;
+			foreach (var part in BodyPartList)
+			{
+				part.HealDamage(null, fastRegenHeal, DamageType.Brute);
+			}
 		}
 	}
 

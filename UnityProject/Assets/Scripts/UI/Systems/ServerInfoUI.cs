@@ -12,7 +12,7 @@ using UI;
 
 namespace ServerInfo
 {
-	public class ServerInfoUI : MonoBehaviour, IInitialise
+	public class ServerInfoUI : Managers.SingletonManager<ServerInfoUI>, IInitialise
     {
     	public TMP_Text ServerName;
 

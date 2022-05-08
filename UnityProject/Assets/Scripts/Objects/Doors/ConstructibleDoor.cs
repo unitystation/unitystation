@@ -3,6 +3,7 @@ using Messages.Server;
 using Messages.Server.SoundMessages;
 using UnityEngine;
 using Objects.Construction;
+using Systems.Interaction;
 
 namespace Doors
 {
@@ -57,12 +58,38 @@ namespace Doors
 			if (Validations.HasUsedComponent<AirlockPainter>(interaction))
 				return true;
 
-			if (weldModule.CanDoorStateChange() == false && boltsModule.CanDoorStateChange() && doorMasterController.HasPower == false)
+			if (CheckWeld() && CheckBolts() && doorMasterController.HasPower == false)
 			{
 				return Validations.HasItemTrait(interaction.UsedObject, CommonTraits.Instance.Crowbar);
 			}
 
 			return false;
+		}
+
+
+		public bool CheckWeld()
+		{
+			if (weldModule == null)
+			{
+				return true;
+			}
+			else
+			{
+				return weldModule.CanDoorStateChange() == false; //Door has to be welded to allow Deconstruction
+			}
+
+		}
+
+		public bool CheckBolts()
+		{
+			if (boltsModule == null)
+			{
+				return true;
+			}
+			else
+			{
+				return boltsModule.CanDoorStateChange();
+			}
 		}
 
 		public void ServerPerformInteraction(HandApply interaction)
@@ -95,7 +122,7 @@ namespace Doors
 					interaction.Performer.AssumedWorldPosServer(), audioSourceParameters, sourceObj: gameObject);
 			}
 
-			if (!weldModule.CanDoorStateChange() && boltsModule.CanDoorStateChange() && !doorMasterController.HasPower)
+			if (CheckWeld() && CheckBolts() && !doorMasterController.HasPower)
 			{
 				if (Validations.HasItemTrait(interaction.UsedObject, CommonTraits.Instance.Crowbar) && airlockAssemblyPrefab)
 				{
@@ -121,18 +148,28 @@ namespace Doors
 				}
 			}
 		}
+
 		public void WhenDestroyed(DestructionInfo info)
 		{
 			// rare cases were gameObject is destroyed for some reason and then the method is called
 			if (gameObject == null) return;
+			//Ensure that we cant hit the object in rare cases where two hits can happen quickly before WhenDestroyed() is not invoked or an NRE happens for whatever reason
+			if (integrity.Meleeable != null) integrity.Meleeable.IsMeleeable = false;
+			//Remove the listener to avoid infinite spawns of objects incase Despawn.ServerSingle() fails for whatever reason
+			integrity.OnWillDestroyServer.RemoveListener(WhenDestroyed);
 
+			//When spawning the assembly prefab in the object's place, copy it's access restrictions.
 			AccessRestrictions airlockAccess = GetComponentInChildren<AccessRestrictions>();
 
+			//(Max) : This seems like it's prone to error, I recommend making the assembly part inside of the door prefab itself and not another one.
 			var doorAssembly = Spawn.ServerPrefab(airlockAssemblyPrefab, SpawnDestination.At(gameObject)).GameObject;
-			doorAssembly.GetComponent<AirlockAssembly>().ServerInitFromComputer(AirlockElectronicsPrefab, airlockAccess.restriction, doorMasterController.isWindowedDoor);
-			_ = Despawn.ServerSingle(gameObject);
+			if (doorAssembly != null && AirlockElectronicsPrefab != null && airlockAccess != null &&
+			    doorAssembly.TryGetComponent<AirlockAssembly>(out var assembly))
+			{
+				assembly.ServerInitFromComputer(AirlockElectronicsPrefab, airlockAccess.restriction, doorMasterController.isWindowedDoor);
+			}
 
-			integrity.OnWillDestroyServer.RemoveListener(WhenDestroyed);
+			_ = Despawn.ServerSingle(gameObject);
 		}
 	}
 }

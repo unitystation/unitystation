@@ -17,6 +17,7 @@ namespace Systems.ObjectConnection
 		GeneralSwitch,
 		Turret,
 		Acu,
+		ResearchServer,
 	}
 
 	public interface IMultitoolLinkable

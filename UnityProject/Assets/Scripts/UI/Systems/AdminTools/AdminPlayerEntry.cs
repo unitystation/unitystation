@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using Player;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -21,6 +22,8 @@ namespace AdminTools
 		public Color selectedColor;
 		public Color defaultColor;
 		public Color antagTextColor;
+		private bool recentClick = false;
+		private float secondClickTime = 0.25f;
 
 		public AdminPlayerEntryData PlayerData { get; set; }
 
@@ -90,6 +93,8 @@ namespace AdminTools
 
 		public void OnClick()
 		{
+			SecondClickCheck();
+			StartCoroutine(ClickCooldown());
 			if (OnClickEvent != null)
 			{
 				OnClickEvent.Invoke(this);
@@ -111,6 +116,23 @@ namespace AdminTools
 		public void DeselectPlayer()
 		{
 			bg.color = defaultColor;
+		}
+
+		private void SecondClickCheck()
+		{
+			if(recentClick == false) return;
+			var player = PlayerList.Instance.GetPlayerByID(PlayerData.uid);
+			if (player == null || player.Script == null || player.Script.mind.body == null) return;
+			if(PlayerManager.PlayerScript.IsDeadOrGhost == false) AGhost.Ghost();
+			GhostOrbit.Instance.CmdServerOrbit(player.Script.mind.body.gameObject);
+		}
+
+		private IEnumerator ClickCooldown()
+		{
+			if(recentClick) yield break;
+			recentClick = true;
+			yield return WaitFor.Seconds(secondClickTime);
+			recentClick = false;
 		}
 	}
 }

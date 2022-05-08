@@ -1,23 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-7232385233336646472
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3895582770230364606}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 271836c74bb64724fa117f60603e2297, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  sides: 3
-  isRiggable: 1
-  specialFaces:
-  - '-'
-  - ... what?
-  - +
 --- !u!1001 &5758442294471106117
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -165,3 +147,21 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 5758442294471106117}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &-7232385233336646472
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3895582770230364606}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 271836c74bb64724fa117f60603e2297, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sides: 3
+  isRiggable: 1
+  specialFaces:
+  - '-'
+  - ... what?
+  - +

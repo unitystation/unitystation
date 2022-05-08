@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: seed vendor
   m_EditorClassIdentifier: 
   displayName: 
+  description: 
   LayerType: 2
   TileType: 0
   RequiredTiles: []
@@ -31,6 +32,7 @@ MonoBehaviour:
   doesReflectBullet: 0
   indestructible: 0
   ExplosionImpassable: 0
+  BlocksTileInteractionsUnder: 1
   passableException:
     m_keys: 
     m_values: 
@@ -49,6 +51,7 @@ MonoBehaviour:
     Bio: 100
     DismembermentProtectionChance: 0
   tileInteractions: []
+  tileStepInteractions: []
   spawnOnDeconstruct: {fileID: 0}
   spawnAmountOnDeconstruct: 1
   lootOnDespawn: {fileID: 0}
@@ -62,6 +65,7 @@ MonoBehaviour:
       m_AssetGUID: 
       m_SubObjectName: 
       m_SubObjectType: 
+      m_EditorAssetChanged: 0
   SoundOnDestroy: []
   IsItem: 0
   KeepOrientation: 0

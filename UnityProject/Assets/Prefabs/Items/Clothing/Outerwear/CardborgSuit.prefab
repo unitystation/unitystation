@@ -170,6 +170,17 @@ PrefabInstance:
       value: This suit's flimsy building material will not offer much protection,
         especially against fire.
       objectReference: {fileID: 0}
+    - target: {fileID: 8180636746358705475, guid: 47cf030149b5a174f91d3ec320a7f031,
+        type: 3}
+      propertyPath: initialTraits.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8180636746358705475, guid: 47cf030149b5a174f91d3ec320a7f031,
+        type: 3}
+      propertyPath: initialTraits.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: 0f24a1a85891e93478397078cf451e7f,
+        type: 2}
     - target: {fileID: 8474396741760651645, guid: 47cf030149b5a174f91d3ec320a7f031,
         type: 3}
       propertyPath: m_Sprite

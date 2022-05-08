@@ -75,9 +75,9 @@ public class TileList
 		}
 	}
 
-	public bool HasObjects(Vector3Int position)
+	public bool HasObjects(Vector3Int localPosition)
 	{
-		return _objects.ContainsKey(position) && _objects[position].Count > 0;
+		return _objects.ContainsKey(localPosition) && _objects[localPosition].Count > 0;
 	}
 	public List<RegisterTile> Get(Vector3Int position)
 	{

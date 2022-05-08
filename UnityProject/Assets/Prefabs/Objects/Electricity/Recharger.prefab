@@ -1,120 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &3714082574942529750
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7363612023958579371}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d06639902572409c80160fe696467bed, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  spriteMatrixRotationBehavior: 1
-  ignoreExtraRotation: []
-  RotateParent: {fileID: 0}
---- !u!114 &5156441712337473685
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7363612023958579371}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ec392d028bea6ad43b1fa1cbc45394ca, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  MachineParts: {fileID: 11400000, guid: f0fa3ba37105f0c47b3256c9b1a53029, type: 2}
-  machineBoardPrefab: {fileID: 7003283453982593561, guid: 057772381b5669948b32540d09f450d2,
-    type: 3}
-  canNotBeDeconstructed: 0
-  mustBeUnanchored: 0
-  secondsToScrewdrive: 2
---- !u!114 &5248956404812388229
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7363612023958579371}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fdce8a163088453ca593c0e98f2c5f07, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  itemStorageStructure: {fileID: 11400000, guid: 263bf834f99424f12bda19d67c3ab5fc,
-    type: 2}
-  itemStorageCapacity: {fileID: 11400000, guid: 230ed48f5979a0d498056381b84ece28,
-    type: 2}
-  itemStoragePopulator: {fileID: 0}
-  forceSpawnContents: 0
-  dropItemsOnDespawn: 0
-  UesAddlistPopulater: 0
-  Populater:
-    SlotContents: []
-    DeprecatedContents: []
-  ashPrefab: {fileID: 0}
---- !u!114 &5794580443693233542
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7363612023958579371}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 053e2d398d507cc449f05be2499aa497, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  minimumWorkingVoltage: 190
-  expectedRunningVoltage: 240
-  maximumWorkingVoltage: 300
-  deviceType: 0
-  isSelfPowered: 0
-  wattusage: 0.01
-  InitialResistance: 100000000
-  RelatedAPC: {fileID: 0}
-  AdvancedControlToScript: 1
-  StateUpdateOnClient: 0
---- !u!114 &7812584158791827984
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7363612023958579371}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 48487dad7f2bc0541964880f6187c474, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  isSecuredStateExaminable: 1
-  isExposedFloorPlatingRequired: 0
-  secondsToSecure: 0
-  secondsToUnsecure: 0
-  lockSpriteDirection: 0
-  blockAnchorChange: 0
-  blockMessage: 
---- !u!114 &7890775987687605318
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7363612023958579371}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 97a0aa37319240e4e8073cc8cc5f8555, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _APCPoweredDevice: {fileID: 5794580443693233542}
 --- !u!1001 &7797068074463247659
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -328,3 +213,119 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 7797068074463247659}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &3714082574942529750
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7363612023958579371}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d06639902572409c80160fe696467bed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spriteMatrixRotationBehavior: 1
+  ignoreExtraRotation: []
+  RotateParent: {fileID: 0}
+--- !u!114 &5156441712337473685
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7363612023958579371}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ec392d028bea6ad43b1fa1cbc45394ca, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MachineParts: {fileID: 11400000, guid: f0fa3ba37105f0c47b3256c9b1a53029, type: 2}
+  machineBoardPrefab: {fileID: 7003283453982593561, guid: 057772381b5669948b32540d09f450d2,
+    type: 3}
+  canNotBeDeconstructed: 0
+  isEMPResistant: 0
+  mustBeUnanchored: 0
+  secondsToScrewdrive: 2
+--- !u!114 &5248956404812388229
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7363612023958579371}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fdce8a163088453ca593c0e98f2c5f07, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemStorageStructure: {fileID: 11400000, guid: 263bf834f99424f12bda19d67c3ab5fc,
+    type: 2}
+  itemStorageCapacity: {fileID: 11400000, guid: 230ed48f5979a0d498056381b84ece28,
+    type: 2}
+  itemStoragePopulator: {fileID: 0}
+  forceSpawnContents: 0
+  dropItemsOnDespawn: 0
+  UesAddlistPopulater: 0
+  Populater:
+    SlotContents: []
+    DeprecatedContents: []
+  ashPrefab: {fileID: 0}
+--- !u!114 &5794580443693233542
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7363612023958579371}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 053e2d398d507cc449f05be2499aa497, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  minimumWorkingVoltage: 190
+  expectedRunningVoltage: 240
+  maximumWorkingVoltage: 300
+  deviceType: 0
+  isSelfPowered: 0
+  wattusage: 0.01
+  InitialResistance: 100000000
+  RelatedAPC: {fileID: 0}
+  AdvancedControlToScript: 1
+  StateUpdateOnClient: 0
+--- !u!114 &7812584158791827984
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7363612023958579371}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 48487dad7f2bc0541964880f6187c474, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  isSecuredStateExaminable: 1
+  isExposedFloorPlatingRequired: 0
+  secondsToSecure: 0
+  secondsToUnsecure: 0
+  lockSpriteDirection: 0
+  blockAnchorChange: 0
+  blockMessage: 
+--- !u!114 &7890775987687605318
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7363612023958579371}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 97a0aa37319240e4e8073cc8cc5f8555, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _APCPoweredDevice: {fileID: 5794580443693233542}

@@ -27,6 +27,7 @@ RectTransform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 3162252475673521054}
   m_RootOrder: 1
@@ -48,100 +49,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a65193c7116581f42a70e5eac144e923, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &468503854296196221
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1191175191847657517}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 64605a390c766f043aca083002137698, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  doorRegion: {fileID: 4039051787268256360}
-  powerRegion: {fileID: 3050114577101094981}
---- !u!114 &5924659611237124736
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1191175191847657517}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6294b173f99176f408ea82813bbc7ee3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  doorOpenSfx:
-    SetLoadSetting: 0
-    AssetAddress: Assets/Prefabs/Machines/Oven/OvenOpen.prefab
-    AssetReference:
-      m_AssetGUID: 
-      m_SubObjectName: 
-      m_SubObjectType: 
-  doorCloseSfx:
-    SetLoadSetting: 0
-    AssetAddress: Assets/Prefabs/Machines/Oven/OvenClose.prefab
-    AssetReference:
-      m_AssetGUID: 
-      m_SubObjectName: 
-      m_SubObjectType: 
-  startSfx:
-    SetLoadSetting: 0
-    AssetAddress: Assets/Prefabs/Machines/ClickOnOff.prefab
-    AssetReference:
-      m_AssetGUID: 
-      m_SubObjectName: 
-      m_SubObjectType: 
-  RunningAudio:
-    SetLoadSetting: 0
-    AssetAddress: Assets/Prefabs/Machines/Oven/OvenLoop.prefab
-    AssetReference:
-      m_AssetGUID: 
-      m_SubObjectName: 
-      m_SubObjectType: 
-  ScreenGlow: {fileID: 1700017244080195699}
-  OvenGlow: {fileID: 4167867868307564188}
-  TierStorage:
-  - {fileID: 11400000, guid: 74bf3e872403e488695c17ecdde194ab, type: 2}
-  - {fileID: 11400000, guid: 8fdde641eac38ad4da32ccc0eeea50fc, type: 2}
-  - {fileID: 11400000, guid: e8b6fa61b6bdb4b8aa2833a751dfc487, type: 2}
-  - {fileID: 11400000, guid: 0480160aa55493d42b53c8d08da3be7c, type: 2}
-  circuitWattage: 5
-  ovenBulbWattage: 25
-  magnetronWattage: 850
-  spriteHandlerOven: {fileID: 5969265503478598391}
-  spriteHandlerDoor: {fileID: 7353734858922960060}
-  particles: {fileID: 5378606682119167609}
---- !u!114 &6490717980884280653
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1191175191847657517}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fdce8a163088453ca593c0e98f2c5f07, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  itemStorageStructure: {fileID: 11400000, guid: 74bf3e872403e488695c17ecdde194ab,
-    type: 2}
-  itemStorageCapacity: {fileID: 11400000, guid: 51557be05ba9141e7849ea1c1c3ed19d,
-    type: 2}
-  itemStoragePopulator: {fileID: 0}
-  forceSpawnContents: 0
-  dropItemsOnDespawn: 1
-  UesAddlistPopulater: 0
-  Populater:
-    SlotContents: []
-    DeprecatedContents: []
-  ashPrefab: {fileID: 2957035178188790827, guid: 9ac6968a3f3ed54428662c9aae5a4b32,
-    type: 3}
 --- !u!1 &1700017244080195699
 GameObject:
   m_ObjectHideFlags: 0
@@ -171,6 +78,7 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0.359375, y: 0.078125, z: 0}
   m_LocalScale: {x: 0.1, y: 0.1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1194107341289531127}
   m_RootOrder: 2
@@ -271,6 +179,7 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: -0.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 3162252475673521054}
   m_RootOrder: 2
@@ -345,6 +254,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 1549756d10c187943ba2b1bf3a6b0eae, type: 2}
   PresentSpriteSet: {fileID: 11400000, guid: 1549756d10c187943ba2b1bf3a6b0eae, type: 2}
   randomInitialSprite: 0
+  doReverseAnimation: 0
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
   palette: []
@@ -377,6 +287,7 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: -0.00000014901144, w: 1}
   m_LocalPosition: {x: -0.07999997, y: -0.1875, z: 0}
   m_LocalScale: {x: 0.59999996, y: 0.59999996, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1194107341289531127}
   m_RootOrder: 3
@@ -476,6 +387,7 @@ RectTransform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 3162252475673521054}
   m_RootOrder: 0
@@ -525,6 +437,7 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: -0.079, y: 0.437, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1194107341289531127}
   m_RootOrder: 1
@@ -5279,6 +5192,7 @@ ParticleSystemRenderer:
   m_SortingLayer: 23
   m_SortingOrder: 1
   m_RenderMode: 0
+  m_MeshDistribution: 0
   m_SortMode: 3
   m_MinParticleSize: 0
   m_MaxParticleSize: 1
@@ -5302,6 +5216,10 @@ ParticleSystemRenderer:
   m_Mesh1: {fileID: 0}
   m_Mesh2: {fileID: 0}
   m_Mesh3: {fileID: 0}
+  m_MeshWeighting: 1
+  m_MeshWeighting1: 1
+  m_MeshWeighting2: 1
+  m_MeshWeighting3: 1
   m_MaskInteraction: 2
 --- !u!1001 &440613586908767633
 PrefabInstance:
@@ -5469,24 +5387,116 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b69bfc56f39849d4ba9139d2d51bedb6, type: 3}
+--- !u!1 &1191175191847657517 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1628816798482564540, guid: b69bfc56f39849d4ba9139d2d51bedb6,
+    type: 3}
+  m_PrefabInstance: {fileID: 440613586908767633}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &468503854296196221
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1191175191847657517}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 64605a390c766f043aca083002137698, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  doorRegion: {fileID: 4039051787268256360}
+  powerRegion: {fileID: 3050114577101094981}
+--- !u!114 &5924659611237124736
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1191175191847657517}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6294b173f99176f408ea82813bbc7ee3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  doorOpenSfx:
+    SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/Machines/Oven/OvenOpen.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
+  doorCloseSfx:
+    SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/Machines/Oven/OvenClose.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
+  startSfx:
+    SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/Machines/ClickOnOff.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
+  RunningAudio:
+    SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/Machines/Oven/OvenLoop.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
+  ScreenGlow: {fileID: 1700017244080195699}
+  OvenGlow: {fileID: 4167867868307564188}
+  TierStorage:
+  - {fileID: 11400000, guid: 74bf3e872403e488695c17ecdde194ab, type: 2}
+  - {fileID: 11400000, guid: 8fdde641eac38ad4da32ccc0eeea50fc, type: 2}
+  - {fileID: 11400000, guid: e8b6fa61b6bdb4b8aa2833a751dfc487, type: 2}
+  - {fileID: 11400000, guid: 0480160aa55493d42b53c8d08da3be7c, type: 2}
+  circuitWattage: 5
+  ovenBulbWattage: 25
+  magnetronWattage: 850
+  spriteHandlerOven: {fileID: 5969265503478598391}
+  spriteHandlerDoor: {fileID: 7353734858922960060}
+  particles: {fileID: 5378606682119167609}
+--- !u!114 &6490717980884280653
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1191175191847657517}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fdce8a163088453ca593c0e98f2c5f07, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemStorageStructure: {fileID: 11400000, guid: 74bf3e872403e488695c17ecdde194ab,
+    type: 2}
+  itemStorageCapacity: {fileID: 11400000, guid: 51557be05ba9141e7849ea1c1c3ed19d,
+    type: 2}
+  itemStoragePopulator: {fileID: 0}
+  forceSpawnContents: 0
+  dropItemsOnDespawn: 1
+  UesAddlistPopulater: 0
+  Populater:
+    SlotContents: []
+    DeprecatedContents: []
+  ashPrefab: {fileID: 2957035178188790827, guid: 9ac6968a3f3ed54428662c9aae5a4b32,
+    type: 3}
 --- !u!4 &1194107341289531127 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1625533340043428710, guid: b69bfc56f39849d4ba9139d2d51bedb6,
     type: 3}
   m_PrefabInstance: {fileID: 440613586908767633}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &5969265503478598391 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 6109775972905365350, guid: b69bfc56f39849d4ba9139d2d51bedb6,
-    type: 3}
-  m_PrefabInstance: {fileID: 440613586908767633}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!4 &3162252475673521054 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3314592590375341583, guid: b69bfc56f39849d4ba9139d2d51bedb6,
@@ -5505,9 +5515,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 579884b05ae74e8499329b64997147d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!1 &1191175191847657517 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1628816798482564540, guid: b69bfc56f39849d4ba9139d2d51bedb6,
+--- !u!114 &5969265503478598391 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6109775972905365350, guid: b69bfc56f39849d4ba9139d2d51bedb6,
     type: 3}
   m_PrefabInstance: {fileID: 440613586908767633}
   m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

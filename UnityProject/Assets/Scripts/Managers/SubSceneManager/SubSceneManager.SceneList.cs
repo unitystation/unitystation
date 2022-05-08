@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 using Mirror;
 using UnityEditor;
@@ -74,11 +74,11 @@ public partial class SubSceneManager
 		MainStationLoaded = true;
 		//Auto scene load stuff in editor:
 		var prevEditorScene = GetEditorPrevScene();
-		if ((prevEditorScene != "") && AdminForcedMainStation == "Random")
+		if (AdminForcedMainStation == "Random" && mainStationList.Contains(prevEditorScene))
 		{
 			serverChosenMainStation = prevEditorScene;
 		}
-		else if(AdminForcedMainStation == "Random")
+		else if (AdminForcedMainStation == "Random")
 		{
 			serverChosenMainStation = mainStationList.GetRandomMainStation();
 		}
@@ -287,17 +287,11 @@ public partial class SubSceneManager
 
 	#endregion
 
-	string GetEditorPrevScene()
+	public static string GetEditorPrevScene()
 	{
-		var prevEditorScene = "";
+		var prevEditorScene = string.Empty;
 #if UNITY_EDITOR
-		if (EditorPrefs.HasKey("prevEditorScene"))
-		{
-			if (!string.IsNullOrEmpty(EditorPrefs.GetString("prevEditorScene")))
-			{
-				prevEditorScene = EditorPrefs.GetString("prevEditorScene");
-			}
-		}
+		prevEditorScene = EditorPrefs.GetString("prevEditorScene", prevEditorScene);
 #endif
 		return prevEditorScene;
 	}
@@ -305,7 +299,7 @@ public partial class SubSceneManager
 	/// <summary>
 	/// Add a new scene to a specific connections observable list
 	/// </summary>
-	void AddObservableSceneToConnection(NetworkConnection conn, Scene sceneContext)
+	void AddObservableSceneToConnection(NetworkConnectionToClient conn, Scene sceneContext)
 	{
 		if (!NetworkServer.observerSceneList.ContainsKey(conn))
 		{

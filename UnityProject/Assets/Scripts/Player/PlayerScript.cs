@@ -68,6 +68,8 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IActi
 	/// </summary>
 	public Vector3Int AssumedWorldPos => pushPull.AssumedWorldPositionServer();
 
+	[SyncVar] public Vector3Int SyncedWorldPos = new Vector3Int(0,0,0);
+
 	/// <summary>
 	/// World position of the player.
 	/// Returns InvalidPos if you're hidden (e.g. in a locker)
@@ -253,6 +255,7 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IActi
 			}
 
 			EventManager.Broadcast(Event.UpdateChatChannels);
+			UpdateStatusTabUI();
 		}
 	}
 
@@ -282,6 +285,29 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IActi
 		}
 	}
 
+	private void UpdateStatusTabUI()
+	{
+		if(StatsTab.Instance == null) return;
+		StatsTab.Instance.UpdateCurrentMap();
+		StatsTab.Instance.UpdateGameMode();
+		StatsTab.Instance.UpdateRoundTime();
+		switch (GameManager.Instance.CurrentRoundState)
+		{
+			case(RoundState.Started):
+				StatsTab.Instance.UpdateRoundStatus("Started");
+				break;
+			case(RoundState.PreRound):
+				StatsTab.Instance.UpdateRoundStatus("Preround");
+				break;
+			case(RoundState.Ended):
+				StatsTab.Instance.UpdateRoundStatus("Ended! Restarting soon..");
+				break;
+			default:
+				StatsTab.Instance.UpdateRoundStatus("???");
+				break;
+		}
+	}
+
 	[Command]
 	private void CmdUpdateRTT(float rtt)
 	{
@@ -290,6 +316,18 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IActi
 		{
 			playerHealth.RTT = rtt;
 		}
+	}
+
+	[Command(requiresAuthority = false)]
+	public void UpdateLastSyncedPosition()
+	{
+		SetLastRecordedPosition();
+	}
+
+	[Server]
+	private void SetLastRecordedPosition()
+	{
+		SyncedWorldPos = gameObject.AssumedWorldPosServer().CutToInt();
 	}
 
 	/// <summary>

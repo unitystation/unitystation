@@ -5,6 +5,7 @@ using Systems.Atmospherics;
 using Tilemaps.Behaviours.Meta;
 using UnityEngine;
 using Mirror;
+using Tiles;
 
 /// <summary>
 /// Subsystem behavior which manages updating the MetaDataNodes and simulation that affects them for a given matrix.

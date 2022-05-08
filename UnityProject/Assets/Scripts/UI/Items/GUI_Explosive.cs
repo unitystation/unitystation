@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using AddressableReferences;
 using Items.Weapons;
 using UnityEngine;
 using UnityEngine.UI;
@@ -13,19 +14,22 @@ namespace UI.Items
 	/// </summary>
 	public class GUI_Explosive : NetTab
 	{
-		private Explosive explosiveDevice;
+		private ExplosiveBase explosiveDevice;
 
 		[SerializeField] private NetLabel status;
 		[SerializeField] private NetLabel timer;
-		[SerializeField] private NetToggle modeToggleButton;
 		[SerializeField] private NetToggle armToggleButton;
+		[SerializeField] private NetToggle sbArmToggleButton;
+		[SerializeField] private GameObject sbButtons;
+		[SerializeField] private GameObject sharedButtons;
+		[SerializeField] private GameObject sbDispalyLoc;
+		[SerializeField] private GameObject sbTimerLoc;
 		[SerializeField] private Image background;
-
-		[SerializeField] private Color safeColor = Color.green;
-		[SerializeField] private Color dangerColor = Color.red;
+		[SerializeField] private NetSpriteImage signalIcon;
 
 		[SerializeField] private Sprite C4Graphic;
 		[SerializeField] private Sprite X4Graphic;
+		[SerializeField] private Sprite SBGraphic;
 
 		private float timerCount;
 
@@ -34,24 +38,9 @@ namespace UI.Items
 			StartCoroutine(WaitForProvider());
 		}
 
-		private IEnumerator WaitForProvider()
+		public void EnsureVisualsAreCorrect()
 		{
-			while (Provider == null)
-			{
-				yield return WaitFor.EndOfFrame;
-			}
-			explosiveDevice = Provider.GetComponent<Explosive>();
-			if (explosiveDevice.DetonateImmediatelyOnSignal == false)
-			{
-				timerCount = explosiveDevice.TimeToDetonate;
-				DisplayTime();
-			}
-			else
-			{
-				timer.Value = "Waiting signal..";
-				status.ElementTmp.color = dangerColor;
-			}
-
+			if(explosiveDevice == null) return; //properly start() has not finished yet
 			switch (explosiveDevice.ExplosiveType)
 			{
 				case ExplosiveType.C4:
@@ -60,70 +49,113 @@ namespace UI.Items
 				case ExplosiveType.X4:
 					background.sprite = X4Graphic;
 					break;
+				case ExplosiveType.SyndicateBomb:
+					sbButtons.SetActive(true);
+					sharedButtons.SetActive(false);
+					status.transform.position = sbDispalyLoc.transform.position;
+					timer.transform.position = sbTimerLoc.transform.position;
+					background.sprite = SBGraphic;
+					break;
+			}
+			if(CustomNetworkManager.IsServer) signalIcon.SetValueServer(explosiveDevice.DetonateImmediatelyOnSignal ? "0" : "1");
+		}
+
+		private IEnumerator WaitForProvider()
+		{
+			while (Provider == null)
+			{
+				yield return WaitFor.EndOfFrame;
 			}
 
-			modeToggleButton.Value = explosiveDevice.DetonateImmediatelyOnSignal ? "1" : "0";
+			sbButtons.SetActive(false); //Disable this via code because NetUI doesn't register it from the prefab if it is disabled by default
+			explosiveDevice = Provider.GetComponent<ExplosiveBase>();
+
+			//Setup variables and graphics
 			timerCount = explosiveDevice.TimeToDetonate;
+			EnsureVisualsAreCorrect();
+			UpdateStatusText();
+
+			timerCount = explosiveDevice.TimeToDetonate;
+			timer.Value = DisplayTime();
 			explosiveDevice.GUI = this;
 		}
 
 		public void ArmDevice()
 		{
-			explosiveDevice.IsArmed = armToggleButton.Value == "1";
-			if (modeToggleButton.Value == "0" && armToggleButton.Value == "1")
+			PlaySoundsForPeepers(CommonSounds.Instance.Click01);
+			if (explosiveDevice.IsArmed)
 			{
-				modeToggleButton.enabled = false;
-				armToggleButton.enabled = true;
-				explosiveDevice.Countdown();
-				UpdateStatusText();
-				return;
+				foreach (var peeper in Peepers)
+				{
+					Chat.AddExamineMsg(peeper.GameObject, $"<color=red>The {Provider.ExpensiveName()} is already armed!</color>");
+					return;
+				}
 			}
+			explosiveDevice.IsArmed = true;
+			StartCoroutine(explosiveDevice.Countdown());
 			UpdateStatusText();
 		}
 
 		public void ToggleMode()
 		{
-			if(modeToggleButton.Value == "1")
+			PlaySoundsForPeepers(CommonSounds.Instance.Click01);
+			if (explosiveDevice.IsArmed)
 			{
-				explosiveDevice.ToggleMode(true);
+				foreach (var peeper in Peepers)
+				{
+					Chat.AddExamineMsg(peeper.GameObject, $"<color=red>The {Provider.ExpensiveName()} is already armed!</color>");
+					return;
+				}
 			}
-			else
-			{
-				explosiveDevice.ToggleMode(false);
-			}
+			explosiveDevice.ToggleMode(!explosiveDevice.DetonateImmediatelyOnSignal);
+			signalIcon.SetValueServer(explosiveDevice.DetonateImmediatelyOnSignal ? "0" : "1");
 			UpdateStatusText();
+			foreach (var peeper in Peepers)
+			{
+				var signalStatus = explosiveDevice.DetonateImmediatelyOnSignal ? "awaits a signal" : "awaits armament";
+				Chat.AddExamineMsg(peeper.GameObject, $"The {Provider.ExpensiveName()} {signalStatus}");
+			}
 		}
 
 		public void IncreaseTimeByOne()
 		{
-			if(armToggleButton.Value == "1") return;
+			if(armToggleButton.Value == "1" || sbArmToggleButton.Value == "1") return;
 			explosiveDevice.TimeToDetonate += 1;
 			StartCoroutine(UpdateTimer());
+			PlaySoundsForPeepers(CommonSounds.Instance.Click01);
 		}
 		public void IncreaseTimeByTen()
 		{
-			if (armToggleButton.Value == "1") return;
+			if(armToggleButton.Value == "1" || sbArmToggleButton.Value == "1") return;
 			explosiveDevice.TimeToDetonate += 10;
 			StartCoroutine(UpdateTimer());
+			PlaySoundsForPeepers(CommonSounds.Instance.Click01);
 		}
 		public void DecreaseTimeByOne()
 		{
-			if (explosiveDevice.TimeToDetonate  - 1  < explosiveDevice.MinimumTimeToDetonate || armToggleButton.Value == "1") return;
+			if (explosiveDevice.TimeToDetonate  - 1  < explosiveDevice.MinimumTimeToDetonate
+			    || armToggleButton.Value == "1" || sbArmToggleButton.Value == "1") return;
 			explosiveDevice.TimeToDetonate -= 1;
 			StartCoroutine(UpdateTimer());
+			PlaySoundsForPeepers(CommonSounds.Instance.Click01);
 		}
 		public void DecreaseTimeByTen()
 		{
-			if (explosiveDevice.TimeToDetonate  - 10 < explosiveDevice.MinimumTimeToDetonate|| armToggleButton.Value == "1") return;
+			if (explosiveDevice.TimeToDetonate  - 10 < explosiveDevice.MinimumTimeToDetonate
+			    || armToggleButton.Value == "1" || sbArmToggleButton.Value == "1") return;
 			explosiveDevice.TimeToDetonate -= 10;
 			StartCoroutine(UpdateTimer());
+			PlaySoundsForPeepers(CommonSounds.Instance.Click01);
 		}
 
 		private void UpdateStatusText()
 		{
-			status.Value = explosiveDevice.IsArmed ? "C4 is armed" : "C4 is unarmed";
-			timer.Value = explosiveDevice.DetonateImmediatelyOnSignal ? "Awaiting Signal" : DisplayTime();
-			status.ElementTmp.color = explosiveDevice.IsArmed ? dangerColor : safeColor;
+			if (explosiveDevice.DetonateImmediatelyOnSignal)
+			{
+				status.SetValueServer("awaiting signal..");
+				return;
+			}
+			status.SetValueServer(explosiveDevice.IsArmed ? "Armed" : "Unarmed");
 		}
 
 		public IEnumerator UpdateTimer()
@@ -131,13 +163,13 @@ namespace UI.Items
 			if (explosiveDevice.CountDownActive == false)
 			{
 				timerCount = explosiveDevice.TimeToDetonate;
-				timer.Value = DisplayTime();
+				timer.SetValueServer(DisplayTime());
 				yield break;
 			}
 			while (timerCount > 0)
 			{
 				timerCount -= 1;
-				timer.Value = DisplayTime();
+				timer.SetValueServer(DisplayTime());
 				yield return WaitFor.Seconds(1f);
 			}
 		}

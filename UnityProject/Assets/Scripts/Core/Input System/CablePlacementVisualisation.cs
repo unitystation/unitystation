@@ -340,7 +340,7 @@ public class CablePlacementVisualisation : MonoBehaviour
 				lastMouseWordlPositionInt = mousePosition;
 
 				var metaTileMap = MatrixManager.AtPoint(mousePosition, false).MetaTileMap;
-				var topTile = metaTileMap.GetTile(metaTileMap.WorldToCell(mousePosition), true);
+				var topTile = metaTileMap.GetTile(metaTileMap.WorldToCell(mousePosition), true, excludeNonIntractable : true );
 
 				if (topTile && (topTile.LayerType == LayerType.Base || topTile.LayerType == LayerType.Underfloor))
 				{

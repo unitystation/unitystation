@@ -7,8 +7,44 @@ using UnityEngine;
 /// Marks an item as a knife, letting it cut up items on the players other hand based on the recipe list in CraftingManager.Cuts.
 /// </summary>
 [RequireComponent(typeof(Pickupable))]
-public class Knife : MonoBehaviour, ICheckedInteractable<InventoryApply>
+public class Knife : MonoBehaviour, ICheckedInteractable<InventoryApply>,  ICheckedInteractable<HandApply>
 {
+
+	public bool WillInteract(HandApply interaction, NetworkSide side)
+	{
+		//can the player act at all?
+		if (!DefaultWillInteract.Default(interaction, side)) return false;
+
+		//if the item isn't a butcher knife, no go.
+		if (!Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Knife)) return false;
+
+		return true;
+	}
+
+	public void ServerPerformInteraction(HandApply interaction)
+	{
+		//is the target item cuttable?
+		ItemAttributesV2 attr = interaction.TargetObject.GetComponent<ItemAttributesV2>();
+		Ingredient ingredient = new Ingredient(attr.ArticleName);
+		GameObject cut = CraftingManager.Cuts.FindRecipe(new List<Ingredient> { ingredient });
+
+		if (cut == null)
+		{
+			Chat.AddExamineMsgFromServer(interaction.Performer, "You can't cut this.");
+			return;
+		}
+
+		if (interaction.TargetObject.TryGetComponent(out Stackable stackable) &&
+		    stackable.Amount != ingredient.requiredAmount)
+		{
+			Chat.AddExamineMsgFromServer(interaction.Performer, "Not enough or too much of the ingredient.");
+			return;
+		}
+
+		PerformCut(interaction, cut);
+	}
+
+
 	//check if item is being applied to offhand with cuttable object on it.
 	public bool WillInteract(InventoryApply interaction, NetworkSide side)
 	{
@@ -63,5 +99,15 @@ public class Knife : MonoBehaviour, ICheckedInteractable<InventoryApply>
 		{
 			Inventory.ServerAdd(spwn.GameObject, interaction.TargetSlot);
 		}
+	}
+
+	private void PerformCut(HandApply interaction, GameObject cut)
+	{
+		var WodPOS = interaction.TargetObject.transform.position;
+		_ = Despawn.ServerSingle(interaction.TargetObject);
+
+		SpawnResult spwn = Spawn.ServerPrefab(CraftingManager.Cuts.FindOutputMeal(cut.name),
+			SpawnDestination.At(WodPOS), 1);
+
 	}
 }

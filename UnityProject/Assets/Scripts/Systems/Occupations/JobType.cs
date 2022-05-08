@@ -67,7 +67,8 @@ public enum JobType
 	BLOB = 55,
 	ANCIENT_ENGINEER = 56,
 	REDSHIELD_OFFICER = 57,
-	ASHWALKER = 58
+	ASHWALKER = 58,
+	HIGHLANDER = 59
 }
 
 public static class JobCategories

@@ -15,12 +15,14 @@ MonoBehaviour:
   emoteName: yawn
   requiresHands: 0
   allowEmoteWhileInCrit: 1
+  isAudibleEmote: 0
   allowEmoteWhileCrawling: 1
   viewText: yawns.
   youText: A nap wouldn't hurt..
   failText: You were unable to preform this action!
+  mouthBlockedText: You are unable to make a sound!
   critViewText: has some troubles keeping their eyes open!
+  soundsAreTyped: 0
   defaultSounds: []
-  maleSounds: []
-  femaleSounds: []
+  TypedSounds: []
   pitchRange: {x: 0.7, y: 1}

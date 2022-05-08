@@ -1,23 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &7760974441610081215
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3648832323169248661}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8e51546a99cdfed4e91d5b21638adf00, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  SignalTypeToReceive: 0
-  Frequency: 122
-  Emitter: {fileID: 0}
-  DelayTime: 3
 --- !u!1001 &3648151331491256623
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -149,6 +131,27 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 3648151331491256623}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &7760974441610081215
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3648832323169248661}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8e51546a99cdfed4e91d5b21638adf00, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  SignalTypeToReceive: 2
+  Frequency: 122
+  Emitter: {fileID: 0}
+  DelayTime: 3
+  EncryptionData: {fileID: 0}
+  ListenToEncryptedData: 0
+  doorSwitch: {fileID: 0}
 --- !u!114 &3690399637724710981 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 114341119007412586, guid: a7abba22164ce49f0bf9b9b219f39298,

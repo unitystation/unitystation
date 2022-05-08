@@ -29,6 +29,7 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 7095842655139070026}
   m_RootOrder: 1
@@ -109,6 +110,7 @@ RectTransform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 7095842655139070026}
   m_RootOrder: 7
@@ -234,6 +236,7 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 7095842655139070026}
   m_RootOrder: 2
@@ -342,6 +345,7 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 7095842655139070026}
   m_RootOrder: 5
@@ -449,6 +453,7 @@ RectTransform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 7095842655139070026}
   m_RootOrder: 6
@@ -575,6 +580,7 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 7095842655139070026}
   m_RootOrder: 4
@@ -684,6 +690,7 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 7095842655139070026}
   m_RootOrder: 3
@@ -1001,12 +1008,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 383ace094608c5f4898a03bdda48266e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!210 &5521683306015224352 stripped
-SortingGroup:
-  m_CorrespondingSourceObject: {fileID: 7782817179362649248, guid: 1291a5cb15d008c41bf0a373403f56b2,
-    type: 3}
-  m_PrefabInstance: {fileID: 2351700664918873728}
-  m_PrefabAsset: {fileID: 0}
 --- !u!114 &5388667851921723794 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 7668099194671236882, guid: 1291a5cb15d008c41bf0a373403f56b2,
@@ -1019,9 +1020,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 579884b05ae74e8499329b64997147d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!4 &7095842655139070026 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 4817606987798484682, guid: 1291a5cb15d008c41bf0a373403f56b2,
+--- !u!210 &5521683306015224352 stripped
+SortingGroup:
+  m_CorrespondingSourceObject: {fileID: 7782817179362649248, guid: 1291a5cb15d008c41bf0a373403f56b2,
     type: 3}
   m_PrefabInstance: {fileID: 2351700664918873728}
   m_PrefabAsset: {fileID: 0}
@@ -1070,6 +1071,7 @@ MonoBehaviour:
   ignorePassableChecks: 1
   maxTimeOpen: 5
   blockAutoClose: 0
+  clickDisablesAutoClose: 0
   isWindowedDoor: 1
   HackingProcessBase: {fileID: 3740312760444830440}
   ConstructibleDoor: {fileID: 3852277652561589864}
@@ -1142,3 +1144,9 @@ MonoBehaviour:
       m_SubObjectName: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0
+--- !u!4 &7095842655139070026 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4817606987798484682, guid: 1291a5cb15d008c41bf0a373403f56b2,
+    type: 3}
+  m_PrefabInstance: {fileID: 2351700664918873728}
+  m_PrefabAsset: {fileID: 0}

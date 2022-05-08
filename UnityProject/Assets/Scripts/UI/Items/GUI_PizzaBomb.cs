@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using UnityEngine;
 using UI.Core.NetUI;
 using Items.Storage;
@@ -10,9 +10,6 @@ namespace UI.Items
 		[SerializeField] private NetLabel status;
 		[SerializeField] private NetToggle modeToggleButton;
 		[SerializeField] private NetToggle armToggleButton;
-
-		[SerializeField] private Color safeColor = Color.green;
-		[SerializeField] private Color dangerColor = Color.red;
 
 		private float timerCount;
 		private PizzaBox pizza;
@@ -29,8 +26,8 @@ namespace UI.Items
 				yield return WaitFor.EndOfFrame;
 			}
 			pizza = Provider.GetComponent<PizzaBox>();
-			pizza.GUI = this;
-			if (pizza.DetenationOnTimer)
+			pizza.PizzaGui = this;
+			if (pizza.DetonateByTimer)
 			{
 				StartCoroutine(UpdateTimer());
 				yield break;
@@ -38,23 +35,17 @@ namespace UI.Items
 			UpdateSignalStatusStatus();
 		}
 
-		public void HideUI()
-		{
-			gameObject.SetActive(false);
-		}
-
 		public void ToggleArmMode()
 		{
-			if (armToggleButton.Value == "1")
+			pizza.IsArmed = !pizza.IsArmed;
+			if (pizza.IsArmed && pizza.DetonateByTimer)
 			{
-				pizza.IsArmed = true;
-				if (pizza.DetenationOnTimer)
-				{
-					StartCoroutine(UpdateTimer());
-					return;
-				}
+				StartCoroutine(UpdateTimer());
 				UpdateSignalStatusStatus();
+				return;
 			}
+
+			UpdateSignalStatusStatus();
 		}
 
 		public void ChangeMode()
@@ -64,19 +55,17 @@ namespace UI.Items
 				UpdateSignalStatusStatus();
 				return;
 			}
-			status.Value = DisplayTime();
+			status.SetValueServer(DisplayTime());
 		}
 
 		private void UpdateSignalStatusStatus()
 		{
 			if (pizza.IsArmed)
 			{
-				status.Value = "Awaiting Signal..";
-				status.Element.color = dangerColor;
+				status.SetValueServer("Armed");
 				return;
 			}
-			status.Value = DMMath.Prob(25f) ? "Ready to oga some bogas" : "Explosive Unarmed..";
-			status.Element.color = safeColor;
+			status.SetValueServer(DMMath.Prob(25f) ? "Ready to oga some bogas" : "Explosive Unarmed..");
 		}
 
 		private string DisplayTime()
@@ -89,13 +78,13 @@ namespace UI.Items
 			timerCount = pizza.TimeToDetonate;
 			if (pizza.BombIsCountingDown == false)
 			{
-				status.Value = DisplayTime();
+				status.SetValueServer(DisplayTime());
 				yield break;
 			}
 			while (timerCount > 0)
 			{
 				timerCount -= 1;
-				status.Value = DisplayTime();
+				status.SetValueServer(DisplayTime());
 				yield return WaitFor.Seconds(1f);
 			}
 		}

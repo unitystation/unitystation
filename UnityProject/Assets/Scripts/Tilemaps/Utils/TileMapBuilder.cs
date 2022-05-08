@@ -1,8 +1,9 @@
 ﻿using TileManagement;
+using Tiles;
 using UnityEngine;
 
 
-	public class TileMapBuilder
+public class TileMapBuilder
 	{
 		private readonly bool importMode;
 		private readonly MetaTileMap metaTileMap;

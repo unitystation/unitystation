@@ -234,6 +234,7 @@ namespace Systems.Electricity
 					{
 						Current += CurrentItem.Value;
 					}
+					
 				}
 			}
 

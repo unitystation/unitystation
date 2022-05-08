@@ -19,7 +19,6 @@ public class AddressableReferencePropertyDrawer : PropertyDrawer
 	{
 		EditorGUI.BeginProperty(position, label, property);
 		string addressableType = "SoundAndMusic";
-		GUILayout.BeginHorizontal();
 		var Path = property.FindPropertyRelative("AssetAddress");
 		string stringpath = Path.stringValue;
 		if (string.IsNullOrEmpty(stringpath))
@@ -27,9 +26,14 @@ public class AddressableReferencePropertyDrawer : PropertyDrawer
 			stringpath = "Null";
 		}
 
+		Rect labelposition = position;
+		Rect buttonposition = position;
+		labelposition.xMax -= 150;
+		buttonposition.xMin += 150;
 
-		EditorGUILayout.LabelField($"{property.displayName}", GUILayout.ExpandWidth(false), GUILayout.Width(250));
-		if (GUILayout.Button($"{stringpath}", EditorStyles.popup))
+		EditorGUI.LabelField(labelposition,$"{property.displayName}");
+		// EditorGUILayout.LabelField($"{property.displayName}", GUILayout.ExpandWidth(false), ;
+		if (GUI.Button( buttonposition, $"{stringpath}", EditorStyles.popup))
 		{
 			SearchWindow.Open(
 				new SearchWindowContext(GUIUtility.GUIToScreenPoint((UnityEngine.Event.current.mousePosition))),
@@ -41,13 +45,7 @@ public class AddressableReferencePropertyDrawer : PropertyDrawer
 
 		}
 
-		GUILayout.EndHorizontal();
 		EditorGUI.EndProperty();
-	}
-
-	public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
-	{
-		return 0;
 	}
 
 	/// <summary>

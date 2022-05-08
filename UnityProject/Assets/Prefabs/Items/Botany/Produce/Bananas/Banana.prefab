@@ -1,38 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-4849632247437526332
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8750944094386566729}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1468e3dc2ea50c647aea7b69f0986db9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  FermentTime: 10
-  fermentedReagents:
-    m_keys:
-    - {fileID: 11400000, guid: ef4b69d69ac2a22fda15fc992d0de088, type: 2}
-    m_values: 00000000
---- !u!114 &7042268780759555367
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8750944094386566729}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6f29e6d2ff5e85744814055d0d21353e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  juicedReagents:
-    m_keys:
-    - {fileID: 11400000, guid: f225fc056ed995028b8b5192de8f067b, type: 2}
-    m_values: 05000000
 --- !u!1001 &7570432740889192965
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -282,3 +249,36 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 7570432740889192965}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &-4849632247437526332
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8750944094386566729}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1468e3dc2ea50c647aea7b69f0986db9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  FermentTime: 10
+  fermentedReagents:
+    m_keys:
+    - {fileID: 11400000, guid: ef4b69d69ac2a22fda15fc992d0de088, type: 2}
+    m_values: 00000000
+--- !u!114 &7042268780759555367
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8750944094386566729}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6f29e6d2ff5e85744814055d0d21353e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  juicedReagents:
+    m_keys:
+    - {fileID: 11400000, guid: f225fc056ed995028b8b5192de8f067b, type: 2}
+    m_values: 05000000

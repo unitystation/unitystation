@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: WindowPlastitanium_Unsecuring_Step_3
   m_EditorClassIdentifier: 
   displayName: plastitanium window
+  description: 
   LayerType: 1
   TileType: 2
   RequiredTiles: []
@@ -31,6 +32,7 @@ MonoBehaviour:
   doesReflectBullet: 0
   indestructible: 0
   ExplosionImpassable: 0
+  BlocksTileInteractionsUnder: 1
   passableException:
     m_keys: 
     m_values: 
@@ -51,6 +53,7 @@ MonoBehaviour:
   tileInteractions:
   - {fileID: 11400000, guid: 005f9054d7ecdad4dbc2743967956019, type: 2}
   - {fileID: 11400000, guid: 4635ca63f127a4b1cb58c7ff9de5695a, type: 2}
+  tileStepInteractions: []
   spawnOnDeconstruct: {fileID: 0}
   spawnAmountOnDeconstruct: 0
   lootOnDespawn: {fileID: 11400000, guid: a7650f85d1f8f0545a4d7da9d6435cb2, type: 2}
@@ -64,6 +67,7 @@ MonoBehaviour:
       m_AssetGUID: 
       m_SubObjectName: 
       m_SubObjectType: 
+      m_EditorAssetChanged: 0
   SoundOnDestroy: []
   connectCategory: 1
   connectType: 1

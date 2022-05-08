@@ -13,8 +13,7 @@ MonoBehaviour:
   m_Name: StationBouncedRadio - Encryption
   m_EditorClassIdentifier: 
   EncryptionSecret: ASS. BLAST. THE. USA.
-  EncryptionFlaw: 33
-  randomWords: {fileID: 4900000, guid: 6b541d4ce19b14d4087ebb0d0c841b98, type: 3}
+  EncryptionFlaw: 10
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -31,4 +30,3 @@ MonoBehaviour:
   SignalRange: 300
   EmittedSignalType: 2
   MinMaxFrequancy: {x: 100, y: 159.9}
-  EncryptionData: {fileID: -2842204651015810191}

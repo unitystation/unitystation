@@ -64,7 +64,7 @@ namespace UI.Core.RightClick
 			}
 		}
 
-		private IBranchPosition BranchPosition { get; set; }
+		private IRadialPosition RadialPosition { get; set; }
 
 		private RectTransform Target { get; set; }
 
@@ -89,10 +89,10 @@ namespace UI.Core.RightClick
 		/// </summary>
 		private void UpdateDirection()
 		{
-			if (BranchPosition.IsWorldPosition)
+			if (RadialPosition.IsWorldPosition)
 			{
-				BranchPosition.BoundsOffset = Origin.rect.size / 2;
-				Origin.position = BranchPosition.GetPositionIn(Camera, Canvas);
+				RadialPosition.BoundsOffset = Origin.rect.size / 2;
+				Origin.position = RadialPosition.GetPositionIn(Camera, Canvas);
 			}
 
 			var relativePos = Origin.anchoredPosition - Target.anchoredPosition;
@@ -120,7 +120,7 @@ namespace UI.Core.RightClick
 
 		public void UpdateLines(IRadial outerRadial, int radius)
 		{
-			if (BranchPosition.IsWorldPosition == false)
+			if (RadialPosition.IsWorldPosition == false)
 			{
 				return;
 			}
@@ -173,11 +173,11 @@ namespace UI.Core.RightClick
 			return outerRadial.IsPositionWithinRadial(linePosition, false) ? annulusSize : 0;
 		}
 
-		public void SetupAndEnable(RectTransform target, int radius, float scale, IBranchPosition branchPosition)
+		public void SetupAndEnable(RectTransform target, int radius, float scale, IRadialPosition radialPosition)
 		{
 			Target = target;
-			BranchPosition = branchPosition;
-			Origin.position = branchPosition.GetPositionIn(Camera, Canvas);
+			RadialPosition = radialPosition;
+			Origin.position = radialPosition.GetPositionIn(Camera, Canvas);
 			var originPos = Origin.anchoredPosition;
 			CurrentQuadrant = new Vector3(Mathf.Sign(originPos.x), Mathf.Sign(originPos.y), 1f);
 			if (LineFromOrigin == null)
@@ -206,7 +206,7 @@ namespace UI.Core.RightClick
 			// Canvas Screen Space - Overlay sort order is based on object hierarchy. It can be changed with an overridden
 			// canvas sorting order but it needs to be set at some point after an object is enabled, each time, to work properly.
 			var sortingOrder = ManagerCanvas.sortingOrder;
-			Canvas.sortingOrder = BranchPosition.IsWorldPosition ? sortingOrder - 1 : sortingOrder + 1;
+			Canvas.sortingOrder = RadialPosition.IsWorldPosition ? sortingOrder - 1 : sortingOrder + 1;
 		}
 
 		private void CalculateTargetPosition(float radius, float scale)
@@ -253,21 +253,6 @@ namespace UI.Core.RightClick
 			var scale = Origin.localScale;
 			Origin.localScale =
 				new Vector3(Mathf.Abs(scale.x) * CurrentQuadrant.x, Mathf.Abs(scale.y) * CurrentQuadrant.y, 1f);
-		}
-
-		public bool PositionChanged()
-		{
-			if (BranchPosition.IsWorldPosition == false)
-			{
-				return false;
-			}
-			BranchPosition.BoundsOffset = Origin.rect.size / 2;
-			
-			if (Origin.position != BranchPosition.GetPositionIn(Camera, Canvas))
-			{
-				return true;
-			}
-			return false;
 		}
 	}
 }

@@ -2,6 +2,7 @@
 using DatabaseAPI;
 using Messages.Client.Admin;
 using UI.AdminTools;
+using UI.Systems.AdminTools;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -11,8 +12,10 @@ namespace AdminTools
 	public class PlayerManagePage : AdminPage
 	{
 		[SerializeField] private Toggle mentorToggle = null;
+		[SerializeField] private Toggle quickRespawnToggle = default;
 		[SerializeField] private Text mentorButtonText = null;
 		[SerializeField] private AdminRespawnPage adminRespawnPage = default;
+
 
 		public AdminPlayerEntry PlayerEntry { get; private set; }
 
@@ -64,6 +67,22 @@ namespace AdminTools
 
 		public void OnRespawnButton()
 		{
+			if (quickRespawnToggle.isOn)
+			{
+				Occupation spawnOcc = new Occupation();
+				foreach (var connectedPlayer in PlayerList.Instance.AllPlayers)
+				{
+					if(connectedPlayer.UserId != PlayerEntry.PlayerData.uid) continue;
+					spawnOcc = connectedPlayer.Script.mind.occupation;
+				}
+				if (spawnOcc == null)
+				{
+					Logger.LogError("Cannot find Occupation for selected player, they most likely haven't joined yet.");
+					return;
+				}
+				RequestRespawnPlayer.SendNormalRespawn(PlayerEntry.PlayerData.uid, spawnOcc);
+				return;
+			}
 			adminRespawnPage.SetTabsWithPlayerEntry(PlayerEntry);
 			adminTools.ShowRespawnPage();
 		}
@@ -185,6 +204,24 @@ namespace AdminTools
 				isAghost,
 				coord
 				);
+		}
+
+		public void GiveItemToPlayerButton()
+		{
+			adminTools.giveItemPage.selectedPlayer = null;
+			var players = FindObjectsOfType<PlayerScript>(); //since this is client sided it's fiinnnneee
+			foreach (var possiblePlayer in players)
+			{
+				if(possiblePlayer.connectedPlayer.Username != PlayerEntry.PlayerData.accountName) continue;
+				adminTools.giveItemPage.selectedPlayer = possiblePlayer.gameObject;
+			}
+
+			if (adminTools.giveItemPage.selectedPlayer == null)
+			{
+				Logger.LogWarning("Unable to find player to give item to! Are you sure that they joined the game?");
+				return;
+			}
+			adminTools.ShowGiveItemPagePage();
 		}
 	}
 }

@@ -14,6 +14,12 @@ namespace Util
 
 		#region Constructors
 
+		public CheckedComponent()
+		{
+			Component = null;
+			HasComponent = false;
+		}
+
 		public CheckedComponent(GameObject currentGameObject)
 		{
 			ResetComponent(currentGameObject);

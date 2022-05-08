@@ -38,6 +38,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 3977958541996598942}
   m_Father: {fileID: 0}
@@ -75,6 +76,7 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   pickupAnimSpeed: 0.1
+  ItemAttributesV2: {fileID: 0}
 --- !u!114 &5809642687452026922
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -99,6 +101,7 @@ MonoBehaviour:
       m_AssetGUID: 
       m_SubObjectName: 
       m_SubObjectType: 
+      m_EditorAssetChanged: 0
   soundDelayTime: 0
   soundMinimumPitchVariance: 1
   soundMaximumPitchVariance: 1
@@ -175,6 +178,7 @@ MonoBehaviour:
       m_AssetGUID: 
       m_SubObjectName: 
       m_SubObjectType: 
+      m_EditorAssetChanged: 0
   damageDeflection: 0
   Armor:
     Melee: 0
@@ -200,6 +204,7 @@ MonoBehaviour:
   HeatResistance: 100
   ExplosionsDamage: 100
   doDamageMessage: 1
+  Meleeable: {fileID: 0}
 --- !u!114 &4625435621097251366
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -240,6 +245,7 @@ MonoBehaviour:
       m_AssetGUID: 
       m_SubObjectName: 
       m_SubObjectType: 
+      m_EditorAssetChanged: 0
   hitSoundSettings: 0
   inventoryMoveSound:
     SetLoadSetting: 0
@@ -248,6 +254,7 @@ MonoBehaviour:
       m_AssetGUID: 
       m_SubObjectName: 
       m_SubObjectType: 
+      m_EditorAssetChanged: 0
   inventoryRemoveSound:
     SetLoadSetting: 0
     AssetAddress: null
@@ -255,6 +262,7 @@ MonoBehaviour:
       m_AssetGUID: 
       m_SubObjectName: 
       m_SubObjectType: 
+      m_EditorAssetChanged: 0
   canConnectToTank: 0
   isEVACapable: 0
   attackVerbs: []
@@ -288,18 +296,27 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  SignalTypeToReceive: 0
+  SignalTypeToReceive: 2
   Frequency: 122
   Emitter: {fileID: 0}
   DelayTime: 3
-  EncryptionData: {fileID: 0}
+  EncryptionData: {fileID: -6326205420379670096, guid: ac9bcd63f2f8a944ebd2001ce5c0a3b1,
+    type: 2}
   ListenToEncryptedData: 0
   explosiveType: 0
   detonateImmediatelyOnSignal: 0
   timeToDetonate: 10
   minimumTimeToDetonate: 10
-  explosiveStrength: 1000
+  explosiveStrength: 1750
   activeSpriteSO: {fileID: 11400000, guid: 60942022f971e0440a63456ee27fc478, type: 2}
+  beepSound:
+    SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/Machines/Beep.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
   progressTime: 3
   spriteHandler: {fileID: 5258580723283386321}
   scaleSync: {fileID: 0}
@@ -370,6 +387,7 @@ RectTransform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 406365593819970653}
   m_RootOrder: 0
@@ -395,6 +413,7 @@ MonoBehaviour:
   SubCatalogue: []
   PresentSpriteSet: {fileID: 11400000, guid: 854eba4f06f75d74a9a5d20cd7ff5421, type: 2}
   randomInitialSprite: 0
+  doReverseAnimation: 0
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
   palette: []

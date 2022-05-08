@@ -50,8 +50,10 @@ public class StringSearchList : ScriptableObject, ISearchWindowProvider
 		{
 			string[] EntryTitle = Item.Split('/');
 			string Groupname = "";
+			
 			for (int i = 0; i < EntryTitle.Length-1; i++)
 			{
+
 				Groupname += EntryTitle[i];
 				if (Groups.Contains(Groupname) == false)
 				{
@@ -65,7 +67,7 @@ public class StringSearchList : ScriptableObject, ISearchWindowProvider
 			var Entry = new SearchTreeEntry(new GUIContent(EntryTitle.Last()))
 			{
 				level = EntryTitle.Length,
-				userData = EntryTitle.Last()
+				userData = Item
 			};
 			SL.Add(Entry);
 		}

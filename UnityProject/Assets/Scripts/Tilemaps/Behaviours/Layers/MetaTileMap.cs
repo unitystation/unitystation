@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading;
 using Messages.Server;
 using Objects.Atmospherics;
+using Tiles;
 using UnityEngine;
 #if UNITY_EDITOR
 using Debug = UnityEngine.Debug;
@@ -342,8 +343,11 @@ namespace TileManagement
 					Bounds.ExpandToPoint2D(tileLocation.position);
 					LocalCachedBounds = Bounds;
 
+					lock (matrix)
+					{
+						GlobalCachedBounds = null;
+					}
 
-					GlobalCachedBounds = null;
 				}
 			}
 
@@ -917,7 +921,7 @@ namespace TileManagement
 		/// as world position.</param>
 		/// <returns></returns>
 		public LayerTile GetTile(Vector3Int cellPosition, bool ignoreEffectsLayer = false,
-			bool UseExactForMultilayer = false)
+			bool UseExactForMultilayer = false, bool excludeNonIntractable = false)
 		{
 			TileLocation tileLocation = null;
 			foreach (var layer in LayersValues)
@@ -930,7 +934,18 @@ namespace TileManagement
 
 				if (tileLocation != null && tileLocation.layerTile != null)
 				{
-					break;
+					if (excludeNonIntractable)
+					{
+						var basicTile = tileLocation.layerTile as BasicTile;
+						if (basicTile != null && basicTile.BlocksTileInteractionsUnder)
+						{
+							break;
+						}
+					}
+					else
+					{
+						break;
+					}
 				}
 			}
 
@@ -1566,22 +1581,28 @@ namespace TileManagement
 
 		public BetterBoundsInt GetLocalBounds()
 		{
-			if (LocalCachedBounds == null)
+			lock (matrix)
 			{
-				CacheLocalBound();
-			}
+				if (LocalCachedBounds == null)
+				{
+					CacheLocalBound();
+				}
 
-			return LocalCachedBounds.Value;
+				return LocalCachedBounds.Value;
+			}
 		}
 
 		public BetterBounds GetWorldBounds()
 		{
-			if (GlobalCachedBounds == null)
+			lock (matrix)
 			{
-				return CacheGlobalBound();
-			}
+				if (GlobalCachedBounds == null)
+				{
+					return CacheGlobalBound();
+				}
 
-			return GlobalCachedBounds.Value;
+				return GlobalCachedBounds.Value;
+			}
 		}
 
 		public void CacheLocalBound()

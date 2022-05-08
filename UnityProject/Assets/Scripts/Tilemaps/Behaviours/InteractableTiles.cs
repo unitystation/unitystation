@@ -1,11 +1,14 @@
 ﻿using System.Collections;
-using Mirror;
+using System.Text;
 using System.Linq;
+using UnityEngine;
+using TileManagement;
+using Mirror;
 using HealthV2;
 using Messages.Client.Interaction;
-using TileManagement;
-using UnityEngine;
 using Systems.Electricity;
+using Tiles;
+
 
 /// <summary>
 /// Main entry point for Tile Interaction system.
@@ -131,12 +134,18 @@ public class InteractableTiles : MonoBehaviour, IClientInteractable<PositionalHa
 	/// </summary>
 	/// <param name="worldPos"></param>
 	/// <returns></returns>
-	public LayerTile LayerTileAt(Vector2 worldPos, bool ignoreEffectsLayer = false)
+	public LayerTile LayerTileAt(Vector2 worldPos, bool ignoreEffectsLayer = false, bool excludeNonIntractable = false)
 	{
 		Vector3Int pos = objectLayer.transform.InverseTransformPoint(worldPos).RoundToInt();
 
-		return metaTileMap.GetTile(pos, ignoreEffectsLayer);
+		return metaTileMap.GetTile(pos, ignoreEffectsLayer, excludeNonIntractable: excludeNonIntractable);
 	}
+
+	public LayerTile InteractableLayerTileAt(Vector2 worldPos, bool ignoreEffectsLayer = false)
+	{
+		return LayerTileAt(worldPos, ignoreEffectsLayer, true);
+	}
+
 
 	/// <summary>
 	/// Gets the LayerTile of the tile at the indicated position, null if no tile there (open space).
@@ -206,10 +215,20 @@ public class InteractableTiles : MonoBehaviour, IClientInteractable<PositionalHa
 		{
 			return "Space";
 		}
-		string msg = "This is a " + tile.DisplayName + ".";
-		if (tile is IExaminable) msg += "\n" + (tile as IExaminable).Examine();
 
-		return msg;
+		var desc = (tile.Description ?? string.Empty).Trim();
+		StringBuilder sb = new($"This is a {tile.DisplayName}. {desc}");
+		if (desc != string.Empty && !desc.EndsWith('.') && !desc.EndsWith('!') && !desc.EndsWith('?'))
+		{
+			sb.Append('.');
+		}
+
+		if (tile is IExaminable examinable)
+		{
+			sb.AppendLine(examinable.Examine());
+		}
+
+		return sb.ToString();
 	}
 
 	/// <summary>
@@ -224,7 +243,7 @@ public class InteractableTiles : MonoBehaviour, IClientInteractable<PositionalHa
 		// translate to the tile interaction system
 		Vector3Int localPosition = WorldToCell(interaction.WorldPositionTarget);
 		// pass the interaction down to the basic tile
-		LayerTile tile = LayerTileAt(interaction.WorldPositionTarget, true);
+		LayerTile tile = InteractableLayerTileAt(interaction.WorldPositionTarget, true);
 
 		// If the tile we're looking at is a basic tile...
 		if (tile is BasicTile basicTile)

@@ -1,35 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &3509948477264097407
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4335030035501419005}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ca1b889ca3e42c04ead4397346637578, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  isInteliCard: 1
-  inteliCardTrait: {fileID: 11400000, guid: 4166a0f908942d840b767de9c1f43597, type: 2}
-  aiCoreFramePrefab: {fileID: 0}
-  vesselSpriteHandler: {fileID: 7597293221589594746}
-  moduleTrait: {fileID: 11400000, guid: 6a8a62b47010e4c498c7ef77ec09535e, type: 2}
---- !u!114 &8039393862034619870
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4335030035501419005}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a69951b025439433aaae48b3e8c4017b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  NetTabType: 41
 --- !u!1001 &4335428489196270919
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -169,6 +139,36 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 4335428489196270919}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &3509948477264097407
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4335030035501419005}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ca1b889ca3e42c04ead4397346637578, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isInteliCard: 1
+  inteliCardTrait: {fileID: 11400000, guid: 4166a0f908942d840b767de9c1f43597, type: 2}
+  aiCoreFramePrefab: {fileID: 0}
+  vesselSpriteHandler: {fileID: 7597293221589594746}
+  moduleTrait: {fileID: 11400000, guid: 6a8a62b47010e4c498c7ef77ec09535e, type: 2}
+--- !u!114 &8039393862034619870
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4335030035501419005}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a69951b025439433aaae48b3e8c4017b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  NetTabType: 41
 --- !u!210 &7538300945010233267 stripped
 SortingGroup:
   m_CorrespondingSourceObject: {fileID: 6104600676241079028, guid: a7abba22164ce49f0bf9b9b219f39298,

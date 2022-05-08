@@ -1,4 +1,5 @@
 using System.Collections;
+using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.TestTools;
 
@@ -10,6 +11,7 @@ namespace GameRunTests
 		public IEnumerator NewTestScriptWithEnumeratorPasses()
 		{
 			yield return SceneManager.LoadSceneAsync("OnlineScene");
+
 			if (GameManager.Instance == null)
 			{
 				Logger.LogError("Unable to load OnlineScene Properly returning");

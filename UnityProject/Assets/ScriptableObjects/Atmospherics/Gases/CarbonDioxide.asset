@@ -15,10 +15,10 @@ MonoBehaviour:
   MolarHeatCapacity: 30
   MolarMass: 44.01
   Name: Carbon Dioxide
-  HasOverlay: 0
   MinMolesToSee: 0.4
-  TileName: NONE
-  OverlayType: 0
+  OverlayTile: {fileID: 0}
+  CustomColour: 0
+  Colour: {r: 0, g: 0, b: 0, a: 0}
   FusionPower: 0
   AssociatedReagent: {fileID: 11400000, guid: 2a39c514112f198858f2c7407b75d8c4, type: 2}
   ExportPrice: 0

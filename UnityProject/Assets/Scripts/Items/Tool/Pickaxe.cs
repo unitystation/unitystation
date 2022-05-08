@@ -3,6 +3,7 @@ using AddressableReferences;
 using Messages.Server.SoundMessages;
 using Objects.Mining;
 using TileManagement;
+using Tiles;
 
 namespace Items
 {
@@ -16,6 +17,11 @@ namespace Items
 		[Tooltip("How much does this tool multiply mining time")]
 		[SerializeField]
 		private float timeMultiplier = 1f;
+
+		[Range(1, 10)]
+		[Tooltip("what degree of hardness this mining tool can overcome. Higher means the pick can mine more types of things.")]
+		[SerializeField]
+		private int pickHardness = 5;
 
 		private string objectName;
 
@@ -60,12 +66,21 @@ namespace Items
 
 			SoundManager.PlayNetworkedAtPos(pickaxeSound, interaction.WorldPositionTarget);
 
-			ToolUtils.ServerUseToolWithActionMessages(
+			if (pickHardness >= wallTile.MiningHardness)
+			{
+				ToolUtils.ServerUseToolWithActionMessages(
 				interaction, calculatedMineTime,
 				$"You start mining the {objectName}...",
 				$"{interaction.Performer.ExpensiveName()} starts mining the {objectName}...",
 				default, default,
 				FinishMine);
+			}
+			else
+			{
+				Chat.AddActionMsgToChat(interaction,
+					$"You ping off the {objectName}, leaving hardly a scratch.",
+						$"{interaction.Performer.ExpensiveName()} pings off the {objectName}, leaving hardly a scratch.");
+			}
 		}
 
 		#endregion
@@ -85,7 +100,11 @@ namespace Items
 			var calculatedMineTime = interaction.TargetObject.GetComponent<PickaxeMineable>().MineTime * timeMultiplier;
 			objectName = interaction.TargetObject.ExpensiveName();
 
-			ToolUtils.ServerUseToolWithActionMessages(
+			SoundManager.PlayNetworkedAtPos(pickaxeSound, interaction.PerformerPlayerScript.WorldPos, sourceObj: interaction.Performer);
+
+			if (pickHardness >= interaction.TargetObject.GetComponent<PickaxeMineable>().MineableHardness)
+			{
+				ToolUtils.ServerUseToolWithActionMessages(
 				interaction, calculatedMineTime,
 				$"You start mining the {objectName}...",
 				$"{interaction.Performer.ExpensiveName()} starts mining the {objectName}...",
@@ -96,6 +115,15 @@ namespace Items
 							interaction.PerformerPlayerScript.WorldPos, sourceObj: interaction.Performer);
 					_ = Despawn.ServerSingle(interaction.TargetObject);
 				});
+			}
+			else
+			{
+				Chat.AddActionMsgToChat(interaction,
+					$"You ping off the {objectName}, leaving hardly a scratch.",
+						$"{interaction.Performer.ExpensiveName()} pings off the {objectName}, leaving hardly a scratch.");
+			}
+
+				
 		}
 
 		#endregion

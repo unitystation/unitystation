@@ -13,13 +13,49 @@ using UnityEngine;
 namespace GameRunTests
 {
 	[CreateAssetMenu(fileName = "TestSingleton", menuName = "Singleton/TestSingleton")]
-	public class TestSingleton : SingletonScriptableObject<TestSingleton>
+	public class TestSingleton : ScriptableObject
 	{
+		public static List<T> FindAssetsByType<T>() where T : UnityEngine.Object
+		{
+			List<T> assets = new List<T>();
+			string[] guids = AssetDatabase.FindAssets(string.Format("t:{0}", typeof(T)));
+			for (int i = 0; i < guids.Length; i++)
+			{
+				string assetPath = AssetDatabase.GUIDToAssetPath(guids[i]);
+				T asset = AssetDatabase.LoadAssetAtPath<T>(assetPath);
+				if (asset != null)
+				{
+					assets.Add(asset);
+				}
+			}
+
+			return assets;
+		}
+
+
+		static TestSingleton _instance = null;
+
+
+		public static TestSingleton Instance
+		{
+			get
+			{
+				if (_instance == null)
+				{
+					_instance = FindAssetsByType<TestSingleton>().FirstOrDefault();
+				}
+
+				return _instance;
+			}
+		}
+
 
 		public List<TestRunSO> Tests = new List<TestRunSO>();
 
 
-		[NonSerialized] public Dictionary<TestRunSO, Tuple<bool, StringBuilder>> Results = new Dictionary<TestRunSO, Tuple<bool, StringBuilder>>();
+		[NonSerialized]
+		public Dictionary<TestRunSO, Tuple<bool, StringBuilder>> Results =
+			new Dictionary<TestRunSO, Tuple<bool, StringBuilder>>();
 
 		public IEnumerator RunTests()
 		{

@@ -1,30 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &2832537527261000937
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9063439616851718856}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 064528c52a5b48c7f8912a3b6914eb79, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  CorrectID: 0
-  Emagged: 0
-  cargoGUI: {fileID: 0}
-  allowedTypes: 0000000006000000070000001600000001000000100000001d000000
-  creditArrivalSound:
-    SetLoadSetting: 0
-    AssetAddress: null
-    AssetReference:
-      m_AssetGUID: 
-      m_SubObjectName: 
-      m_SubObjectType: 
 --- !u!1001 &1614618359472984753
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -272,12 +247,6 @@ PrefabInstance:
         type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b46887a995abc224aab70e21b9e53697, type: 3}
---- !u!1 &9063439616851718856 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 7759570870767460473, guid: b46887a995abc224aab70e21b9e53697,
-    type: 3}
-  m_PrefabInstance: {fileID: 1614618359472984753}
-  m_PrefabAsset: {fileID: 0}
 --- !u!114 &6152867160171636170 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 4830997643641780091, guid: b46887a995abc224aab70e21b9e53697,
@@ -290,3 +259,35 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 579884b05ae74e8499329b64997147d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &9063439616851718856 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7759570870767460473, guid: b46887a995abc224aab70e21b9e53697,
+    type: 3}
+  m_PrefabInstance: {fileID: 1614618359472984753}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &2832537527261000937
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9063439616851718856}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 064528c52a5b48c7f8912a3b6914eb79, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  CorrectID: 0
+  Emagged: 0
+  cargoGUI: {fileID: 0}
+  allowedTypes: 0000000006000000070000001600000001000000100000001d000000
+  creditArrivalSound:
+    SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/Machines/TerminalAlert.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0

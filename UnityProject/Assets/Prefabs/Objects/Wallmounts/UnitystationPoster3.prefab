@@ -36,6 +36,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 26, y: 46, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 4000012011277096}
   m_Father: {fileID: 0}
@@ -122,6 +123,9 @@ MonoBehaviour:
   ChangeSprites: 0
   isChangingSO: 0
   CurrentDirection: 3
+  IgnoreServerUpdatesIfLocalPlayer: 0
+  IsAtmosphericDevice: 0
+  doNotResetOtherSpriteOptions: 0
 --- !u!114 &114728076805570486
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -199,6 +203,7 @@ MonoBehaviour:
   HeatResistance: 100
   ExplosionsDamage: 100
   doDamageMessage: 1
+  Meleeable: {fileID: 0}
 --- !u!114 &114477464032290438
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -228,8 +233,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62cc3ef7cd9082443aaf3c255851d15a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
 --- !u!210 &4419326951301909527
 SortingGroup:
   m_ObjectHideFlags: 0
@@ -270,6 +273,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: -1, w: -0.00000004371139}
   m_LocalPosition: {x: -0, y: 0, z: 0}
   m_LocalScale: {x: 0.7369004, y: 0.7369004, z: 0.7369004}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 4000010754108532}
   m_RootOrder: 0

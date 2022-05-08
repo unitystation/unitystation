@@ -6,6 +6,7 @@ using Mirror;
 using UnityEngine.Serialization;
 #if UNITY_EDITOR
 using Unity.EditorCoroutines.Editor;
+using UnityEditor;
 #endif
 using UnityEngine.UI;
 
@@ -487,12 +488,12 @@ public class SpriteHandler : MonoBehaviour
 
 		if (newSpriteSO != null)
 		{
-			if (newSpriteSO.setID == -1)
+			if (newSpriteSO.SetID == -1)
 			{
 				Logger.Log("NewSpriteDataSO NO ID!" + newSpriteSO.name, Category.Sprites);
 			}
 			if (spriteChange.Empty) spriteChange.Empty = false;
-			spriteChange.PresentSpriteSet = newSpriteSO.setID;
+			spriteChange.PresentSpriteSet = newSpriteSO.SetID;
 		}
 
 		if (newVariantIndex != -1)
@@ -789,6 +790,7 @@ public class SpriteHandler : MonoBehaviour
 		if (PresentFrame == null)
 		{
 			TryToggleAnimationState(false);
+			return;
 		}
 
 		if (timeElapsed >= PresentFrame.secondDelay)
@@ -938,11 +940,18 @@ public class SpriteHandler : MonoBehaviour
 		}
 		if (this.gameObject.scene.path == null || this.gameObject.scene.path.Contains("Scenes") == false)
 		{
-			variantIndex = initialVariantIndex;
-			PushTexture();
+#if UNITY_EDITOR
+			EditorApplication.delayCall += ValidateLate;
+#endif
+
 		}
 	}
-
+	public void ValidateLate()
+	{
+		if (Application.isPlaying) return;
+		variantIndex = initialVariantIndex;
+		PushTexture();
+	}
 
 	private bool EditorTryToggleAnimationState(bool turnOn)
 	{

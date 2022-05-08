@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Doors;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.Tilemaps;
@@ -13,7 +14,7 @@ using Systems.Atmospherics;
 using Systems.Electricity;
 using Systems.Pipes;
 using Util;
-
+using Tiles;
 
 /// <summary>
 /// Behavior which indicates a matrix - a contiguous grid of tiles.
@@ -56,7 +57,7 @@ public class Matrix : MonoBehaviour
 	public bool IsMainStation;
 	public bool IsLavaLand;
 
-	private CheckedComponent<MatrixMove> checkedMatrixMove;
+	private CheckedComponent<MatrixMove> checkedMatrixMove = new CheckedComponent<MatrixMove>();
 	public bool IsMovable => checkedMatrixMove.HasComponent;
 
 	public MatrixMove MatrixMove => checkedMatrixMove.Component;
@@ -200,8 +201,10 @@ public class Matrix : MonoBehaviour
 	/// </summary>
 	public bool CanCloseDoorAt(Vector3Int position, bool isServer)
 	{
+		var firelock = GetFirst<FireLock>(position, isServer);
+		if (firelock != null && firelock.fireAlarm.activated) return true;
 		return IsPassableAtOneMatrix(position, position, isServer) &&
-		       GetFirst<LivingHealthMasterBase>(position, isServer) == null;
+		        GetFirst<LivingHealthMasterBase>(position, isServer) == null;
 	}
 
 	/// Can one pass from `origin` to adjacent `position`?
@@ -372,7 +375,9 @@ public class Matrix : MonoBehaviour
 
 	public bool IsClearUnderfloorConstruction(Vector3Int position, bool isServer)
 	{
-		if (MetaTileMap.HasTile(position, LayerType.Floors))
+		var tile = MetaTileMap.GetTile(position, LayerType.Floors);
+		var basicTile = tile as BasicTile;
+		if (tile != null && (basicTile == null || basicTile.BlocksTileInteractionsUnder))
 		{
 			return (false);
 		}
@@ -398,12 +403,12 @@ public class Matrix : MonoBehaviour
 		return metaTileMap.GetAllTilesByType<Objects.Disposals.DisposalPipe>(position, LayerType.Underfloor);
 	}
 
-	public ElectricalPool.IntrinsicElectronicDataList GetElectricalConnections(Vector3Int position)
+	public ElectricalPool.IntrinsicElectronicDataList GetElectricalConnections(Vector3Int localPosition)
 	{
 		var list = ElectricalPool.GetFPCList();
 		if (ServerObjects != null)
 		{
-			var collection = ServerObjects.Get(position);
+			var collection = ServerObjects.Get(localPosition);
 			for (int i = collection.Count - 1; i >= 0; i--)
 			{
 				if (i < collection.Count && collection[i] != null
@@ -415,9 +420,9 @@ public class Matrix : MonoBehaviour
 			}
 		}
 
-		if (metaDataLayer.Get(position)?.ElectricalData != null)
+		if (metaDataLayer.Get(localPosition)?.ElectricalData != null)
 		{
-			foreach (var electricalMetaData in metaDataLayer.Get(position).ElectricalData)
+			foreach (var electricalMetaData in metaDataLayer.Get(localPosition).ElectricalData)
 			{
 				list.List.Add(electricalMetaData.InData);
 			}

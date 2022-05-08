@@ -12,6 +12,21 @@ PrefabInstance:
       propertyPath: mobName
       value: Goliath
       objectReference: {fileID: 0}
+    - target: {fileID: 941816724250882487, guid: cf769d410d94f0e47bab5eee03a3b07d,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 941816724250882487, guid: cf769d410d94f0e47bab5eee03a3b07d,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 941816724250882487, guid: cf769d410d94f0e47bab5eee03a3b07d,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
     - target: {fileID: 3560083802713417254, guid: cf769d410d94f0e47bab5eee03a3b07d,
         type: 3}
       propertyPath: target
@@ -66,7 +81,7 @@ PrefabInstance:
         type: 3}
       propertyPath: PresentSpriteSet
       value: 
-      objectReference: {fileID: 11400000, guid: f555fd6a6fc8e9c44af1acaa391d119d,
+      objectReference: {fileID: 11400000, guid: fc99dd7d293ecb742aa13176058888fe,
         type: 2}
     - target: {fileID: 7649476325489687081, guid: cf769d410d94f0e47bab5eee03a3b07d,
         type: 3}
@@ -77,13 +92,13 @@ PrefabInstance:
         type: 3}
       propertyPath: SubCatalogue.Array.data[0]
       value: 
-      objectReference: {fileID: 11400000, guid: f555fd6a6fc8e9c44af1acaa391d119d,
+      objectReference: {fileID: 11400000, guid: fc99dd7d293ecb742aa13176058888fe,
         type: 2}
     - target: {fileID: 7649476325489687081, guid: cf769d410d94f0e47bab5eee03a3b07d,
         type: 3}
       propertyPath: SubCatalogue.Array.data[1]
       value: 
-      objectReference: {fileID: 11400000, guid: a05c57ed60f488948a2c65217e9f08b6,
+      objectReference: {fileID: 11400000, guid: c7031d72edf72fe40a4ab7a51cc5f164,
         type: 2}
     - target: {fileID: 8452744359610409676, guid: cf769d410d94f0e47bab5eee03a3b07d,
         type: 3}
@@ -147,7 +162,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: ee8a624d5518f5b428c86f2f90c8b1b0,
+      objectReference: {fileID: 21300000, guid: 2a2922e50ffb7be49a68e72b2eeac7d9,
         type: 3}
     - target: {fileID: 8598374214700404016, guid: cf769d410d94f0e47bab5eee03a3b07d,
         type: 3}
@@ -161,9 +176,9 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: cf769d410d94f0e47bab5eee03a3b07d, type: 3}
---- !u!114 &7948330173153512605 stripped
+--- !u!114 &7722290455542768351 stripped
 MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 6254140286428870878, guid: cf769d410d94f0e47bab5eee03a3b07d,
+  m_CorrespondingSourceObject: {fileID: 6029784556651730588, guid: cf769d410d94f0e47bab5eee03a3b07d,
     type: 3}
   m_PrefabInstance: {fileID: 4072678318663070787}
   m_PrefabAsset: {fileID: 0}
@@ -173,9 +188,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea79a12bc31d4df394067a2be447854d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &7722290455542768351 stripped
+--- !u!114 &7948330173153512605 stripped
 MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 6029784556651730588, guid: cf769d410d94f0e47bab5eee03a3b07d,
+  m_CorrespondingSourceObject: {fileID: 6254140286428870878, guid: cf769d410d94f0e47bab5eee03a3b07d,
     type: 3}
   m_PrefabInstance: {fileID: 4072678318663070787}
   m_PrefabAsset: {fileID: 0}

@@ -15,6 +15,7 @@ using Messages.Client.NewPlayer;
 using Messages.Client.SpriteMessages;
 using Player.Movement;
 using Mirror;
+using Tiles;
 
 /// <summary>
 /// Defines collision type we expect
@@ -345,7 +346,6 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 		return RayCast(Worldorigin, Vector2.zero, 0, layerMask, Layermask2D, WorldTo);
 	}
 
-
 	public static CustomPhysicsHit RayCast(Vector3 Worldorigin,
 		Vector2 direction,
 		float distance,
@@ -365,12 +365,14 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 		{
 			WorldTo = Worldorigin + (Vector3) (direction.normalized * distance);
 		}
-
-		var Distance = (WorldTo - Worldorigin).Value.magnitude;
-
-		if (Distance > 30)
+		else
 		{
-			Logger.LogError($" Limit exceeded on raycast, Look at stack trace for What caused it at {Distance}"); //Meant to catch up stuff that's been naughty and doing stuff like 900 tile Ray casts
+			distance = (WorldTo - Worldorigin).Value.magnitude;
+		}
+
+		if (distance > 30)
+		{
+			Logger.LogError($" Limit exceeded on raycast, Look at stack trace for What caused it at {distance}"); //Meant to catch up stuff that's been naughty and doing stuff like 900 tile Ray casts
 			return new CustomPhysicsHit();
 		}
 

@@ -18,6 +18,15 @@ namespace Chemistry.Components
 	public partial class ReagentContainer : MonoBehaviour, IServerSpawn, IRightClickable, ICheckedInteractable<ContextMenuApply>,
 		IEnumerable<KeyValuePair<Reagent, float>>
 	{
+		[Flags]
+		private enum ShowMenuOptions
+		{
+			None = 0,
+			ShowContents = 1 << 0,
+			PourOut = 1 << 1,
+			All = ~None
+		}
+
 		[Header("Container Parameters")]
 
 		[Tooltip("Max container capacity in units")]
@@ -67,9 +76,6 @@ namespace Chemistry.Components
 			}
 		}
 
-		[Tooltip("Can you empty out its contents?")]
-		public bool canPourOut = true;
-
 		[Tooltip("Initial mix of reagent inside container")]
 		[FormerlySerializedAs("reagentMix")]
 		[SerializeField] private ReagentMix initialReagentMix = new ReagentMix();
@@ -82,6 +88,10 @@ namespace Chemistry.Components
 
 
 		public bool ContentsSet = false;
+
+		[Tooltip("What options should appear on the right click menu.")]
+		[SerializeField]
+		private ShowMenuOptions menuOptions = ShowMenuOptions.All;
 
 		/// <summary>
 		/// Invoked server side when regent container spills all of its contents
@@ -476,9 +486,14 @@ namespace Chemistry.Components
 		public RightClickableResult GenerateRightClickOptions()
 		{
 			var result = RightClickableResult.Create();
-			result.AddElement("Contents", OnExamineContentsClicked);
+			if (menuOptions.HasFlag(ShowMenuOptions.ShowContents))
+			{
+				result.AddElement("Contents", OnExamineContentsClicked);
+			}
+
+			var pourOutContext = ContextMenuApply.ByLocalPlayer(gameObject, "PourOut");
 			//Pour / add can only be done if in reach
-			if (WillInteract(ContextMenuApply.ByLocalPlayer(gameObject, "PourOut"), NetworkSide.Client) && canPourOut)
+			if (WillInteract(pourOutContext, NetworkSide.Client) && menuOptions.HasFlag(ShowMenuOptions.PourOut))
 			{
 				result.AddElement("PourOut", OnPourOutClicked);
 			}

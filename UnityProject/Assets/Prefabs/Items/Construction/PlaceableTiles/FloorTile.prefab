@@ -1,229 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-8452655453788033201
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7602444472548548205}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d3ffff154c2b40449b7aa654f4ab847b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  waysToPlace:
-  - layerTile: {fileID: 11400000, guid: 055e0f95db6960e418ca4012af91afbb, type: 2}
-    layerTileToReplaceBase: {fileID: 11400000, guid: 83855008e43a2674d8d6a006ce94326f,
-      type: 2}
-    placeableOn: 4
-    placeableOnlyOnTile: {fileID: 11400000, guid: 31cfe61a4fed5b44a8c509cfd52beab5,
-      type: 2}
-    itemCost: 1
-  - layerTile: {fileID: 11400000, guid: 055e0f95db6960e418ca4012af91afbb, type: 2}
-    layerTileToReplaceBase: {fileID: 11400000, guid: 83855008e43a2674d8d6a006ce94326f,
-      type: 2}
-    placeableOn: 4
-    placeableOnlyOnTile: {fileID: 11400000, guid: a0918914f9690da41bdb6ffc098d1891,
-      type: 2}
-    itemCost: 1
-  - layerTile: {fileID: 11400000, guid: 055e0f95db6960e418ca4012af91afbb, type: 2}
-    layerTileToReplaceBase: {fileID: 11400000, guid: 83855008e43a2674d8d6a006ce94326f,
-      type: 2}
-    placeableOn: 4
-    placeableOnlyOnTile: {fileID: 11400000, guid: c4a9856fd80eb75458302d0ee91629bb,
-      type: 2}
-    itemCost: 1
-  - layerTile: {fileID: 11400000, guid: 055e0f95db6960e418ca4012af91afbb, type: 2}
-    layerTileToReplaceBase: {fileID: 11400000, guid: 83855008e43a2674d8d6a006ce94326f,
-      type: 2}
-    placeableOn: 4
-    placeableOnlyOnTile: {fileID: 11400000, guid: 59ffada845e4676448345ea1586f021f,
-      type: 2}
-    itemCost: 1
-  - layerTile: {fileID: 11400000, guid: 055e0f95db6960e418ca4012af91afbb, type: 2}
-    layerTileToReplaceBase: {fileID: 11400000, guid: 83855008e43a2674d8d6a006ce94326f,
-      type: 2}
-    placeableOn: 4
-    placeableOnlyOnTile: {fileID: 11400000, guid: f35fc6958364d9342b34f3901e62ba82,
-      type: 2}
-    itemCost: 1
-  - layerTile: {fileID: 11400000, guid: 055e0f95db6960e418ca4012af91afbb, type: 2}
-    layerTileToReplaceBase: {fileID: 11400000, guid: 83855008e43a2674d8d6a006ce94326f,
-      type: 2}
-    placeableOn: 4
-    placeableOnlyOnTile: {fileID: 11400000, guid: fd5307b3509f3a242bd7c609c00f1e17,
-      type: 2}
-    itemCost: 1
-  - layerTile: {fileID: 11400000, guid: 055e0f95db6960e418ca4012af91afbb, type: 2}
-    layerTileToReplaceBase: {fileID: 11400000, guid: 83855008e43a2674d8d6a006ce94326f,
-      type: 2}
-    placeableOn: 4
-    placeableOnlyOnTile: {fileID: 11400000, guid: e8bc5a4b7772f144599ef566fcb0e9c1,
-      type: 2}
-    itemCost: 1
-  - layerTile: {fileID: 11400000, guid: 055e0f95db6960e418ca4012af91afbb, type: 2}
-    layerTileToReplaceBase: {fileID: 11400000, guid: 83855008e43a2674d8d6a006ce94326f,
-      type: 2}
-    placeableOn: 4
-    placeableOnlyOnTile: {fileID: 11400000, guid: 99790a160c163a64181d83ec64c7a50e,
-      type: 2}
-    itemCost: 1
-  - layerTile: {fileID: 11400000, guid: 055e0f95db6960e418ca4012af91afbb, type: 2}
-    layerTileToReplaceBase: {fileID: 11400000, guid: 83855008e43a2674d8d6a006ce94326f,
-      type: 2}
-    placeableOn: 4
-    placeableOnlyOnTile: {fileID: 11400000, guid: a310e441ff7e6c64786866ed1ab5f5fd,
-      type: 2}
-    itemCost: 1
-  - layerTile: {fileID: 11400000, guid: 055e0f95db6960e418ca4012af91afbb, type: 2}
-    layerTileToReplaceBase: {fileID: 11400000, guid: 83855008e43a2674d8d6a006ce94326f,
-      type: 2}
-    placeableOn: 4
-    placeableOnlyOnTile: {fileID: 11400000, guid: 43358809f46f3af40a51b1c3911223f1,
-      type: 2}
-    itemCost: 1
-  - layerTile: {fileID: 11400000, guid: 055e0f95db6960e418ca4012af91afbb, type: 2}
-    layerTileToReplaceBase: {fileID: 11400000, guid: 83855008e43a2674d8d6a006ce94326f,
-      type: 2}
-    placeableOn: 4
-    placeableOnlyOnTile: {fileID: 11400000, guid: 698ec1503b1688749a04c070a650591e,
-      type: 2}
-    itemCost: 1
-  - layerTile: {fileID: 11400000, guid: 055e0f95db6960e418ca4012af91afbb, type: 2}
-    layerTileToReplaceBase: {fileID: 11400000, guid: 83855008e43a2674d8d6a006ce94326f,
-      type: 2}
-    placeableOn: 4
-    placeableOnlyOnTile: {fileID: 11400000, guid: a511f6181edd95f47a2cb67059571559,
-      type: 2}
-    itemCost: 1
-  - layerTile: {fileID: 11400000, guid: 055e0f95db6960e418ca4012af91afbb, type: 2}
-    layerTileToReplaceBase: {fileID: 11400000, guid: 83855008e43a2674d8d6a006ce94326f,
-      type: 2}
-    placeableOn: 4
-    placeableOnlyOnTile: {fileID: 11400000, guid: d8c958f149ee4e644a8d48d3dcef803b,
-      type: 2}
-    itemCost: 1
-  - layerTile: {fileID: 11400000, guid: 055e0f95db6960e418ca4012af91afbb, type: 2}
-    layerTileToReplaceBase: {fileID: 11400000, guid: 83855008e43a2674d8d6a006ce94326f,
-      type: 2}
-    placeableOn: 4
-    placeableOnlyOnTile: {fileID: 11400000, guid: 5a8f7eadc9d11134a8754b0b4fe3a719,
-      type: 2}
-    itemCost: 1
-  - layerTile: {fileID: 11400000, guid: 055e0f95db6960e418ca4012af91afbb, type: 2}
-    layerTileToReplaceBase: {fileID: 11400000, guid: 83855008e43a2674d8d6a006ce94326f,
-      type: 2}
-    placeableOn: 4
-    placeableOnlyOnTile: {fileID: 11400000, guid: 079594a5175539c4e9e06adbd9643e49,
-      type: 2}
-    itemCost: 1
-  - layerTile: {fileID: 11400000, guid: 055e0f95db6960e418ca4012af91afbb, type: 2}
-    layerTileToReplaceBase: {fileID: 11400000, guid: 83855008e43a2674d8d6a006ce94326f,
-      type: 2}
-    placeableOn: 4
-    placeableOnlyOnTile: {fileID: 11400000, guid: 1cbd00c0c8750d34ea9dc7026dde5dd4,
-      type: 2}
-    itemCost: 1
-  - layerTile: {fileID: 11400000, guid: 055e0f95db6960e418ca4012af91afbb, type: 2}
-    layerTileToReplaceBase: {fileID: 11400000, guid: 83855008e43a2674d8d6a006ce94326f,
-      type: 2}
-    placeableOn: 4
-    placeableOnlyOnTile: {fileID: 11400000, guid: 1b84a89a074bea44fa460c354eb1c945,
-      type: 2}
-    itemCost: 1
-  - layerTile: {fileID: 11400000, guid: 055e0f95db6960e418ca4012af91afbb, type: 2}
-    layerTileToReplaceBase: {fileID: 11400000, guid: 83855008e43a2674d8d6a006ce94326f,
-      type: 2}
-    placeableOn: 4
-    placeableOnlyOnTile: {fileID: 11400000, guid: ccbf232f3cd85a846bbd966476ca50b5,
-      type: 2}
-    itemCost: 1
-  - layerTile: {fileID: 11400000, guid: 055e0f95db6960e418ca4012af91afbb, type: 2}
-    layerTileToReplaceBase: {fileID: 11400000, guid: 83855008e43a2674d8d6a006ce94326f,
-      type: 2}
-    placeableOn: 4
-    placeableOnlyOnTile: {fileID: 11400000, guid: f4ca93edee48beb4b8c508e780ecf1ff,
-      type: 2}
-    itemCost: 1
-  - layerTile: {fileID: 11400000, guid: 055e0f95db6960e418ca4012af91afbb, type: 2}
-    layerTileToReplaceBase: {fileID: 11400000, guid: 83855008e43a2674d8d6a006ce94326f,
-      type: 2}
-    placeableOn: 4
-    placeableOnlyOnTile: {fileID: 11400000, guid: 2164c32c2317d9e4e9a6d1972c59b899,
-      type: 2}
-    itemCost: 1
-  - layerTile: {fileID: 11400000, guid: 055e0f95db6960e418ca4012af91afbb, type: 2}
-    layerTileToReplaceBase: {fileID: 11400000, guid: 83855008e43a2674d8d6a006ce94326f,
-      type: 2}
-    placeableOn: 4
-    placeableOnlyOnTile: {fileID: 11400000, guid: eecb3cf4c3c6beb43ac232bb464bebe3,
-      type: 2}
-    itemCost: 1
-  - layerTile: {fileID: 11400000, guid: 055e0f95db6960e418ca4012af91afbb, type: 2}
-    layerTileToReplaceBase: {fileID: 11400000, guid: 83855008e43a2674d8d6a006ce94326f,
-      type: 2}
-    placeableOn: 4
-    placeableOnlyOnTile: {fileID: 11400000, guid: 18299ca4b2e7b7441a21746a308fa915,
-      type: 2}
-    itemCost: 1
-  - layerTile: {fileID: 11400000, guid: 055e0f95db6960e418ca4012af91afbb, type: 2}
-    layerTileToReplaceBase: {fileID: 11400000, guid: 83855008e43a2674d8d6a006ce94326f,
-      type: 2}
-    placeableOn: 4
-    placeableOnlyOnTile: {fileID: 11400000, guid: a7fb0d8d3575eed47bdc1b6c666fd685,
-      type: 2}
-    itemCost: 1
-  - layerTile: {fileID: 11400000, guid: 055e0f95db6960e418ca4012af91afbb, type: 2}
-    layerTileToReplaceBase: {fileID: 11400000, guid: 83855008e43a2674d8d6a006ce94326f,
-      type: 2}
-    placeableOn: 4
-    placeableOnlyOnTile: {fileID: 11400000, guid: 42bfff6b7367cdc4b830ea8331e76113,
-      type: 2}
-    itemCost: 1
-  - layerTile: {fileID: 11400000, guid: 055e0f95db6960e418ca4012af91afbb, type: 2}
-    layerTileToReplaceBase: {fileID: 11400000, guid: 83855008e43a2674d8d6a006ce94326f,
-      type: 2}
-    placeableOn: 4
-    placeableOnlyOnTile: {fileID: 11400000, guid: b54908d4da5e296478e0fc4b816cf4e2,
-      type: 2}
-    itemCost: 1
-  - layerTile: {fileID: 11400000, guid: 055e0f95db6960e418ca4012af91afbb, type: 2}
-    layerTileToReplaceBase: {fileID: 11400000, guid: 83855008e43a2674d8d6a006ce94326f,
-      type: 2}
-    placeableOn: 4
-    placeableOnlyOnTile: {fileID: 11400000, guid: c7029b77514e99c408a4f2ba040c4f2a,
-      type: 2}
-    itemCost: 1
-  - layerTile: {fileID: 11400000, guid: 055e0f95db6960e418ca4012af91afbb, type: 2}
-    layerTileToReplaceBase: {fileID: 11400000, guid: 83855008e43a2674d8d6a006ce94326f,
-      type: 2}
-    placeableOn: 4
-    placeableOnlyOnTile: {fileID: 11400000, guid: 51d48f60b7f1a9e42a5e5a002c32f4b3,
-      type: 2}
-    itemCost: 1
-  - layerTile: {fileID: 11400000, guid: 055e0f95db6960e418ca4012af91afbb, type: 2}
-    layerTileToReplaceBase: {fileID: 11400000, guid: 83855008e43a2674d8d6a006ce94326f,
-      type: 2}
-    placeableOn: 4
-    placeableOnlyOnTile: {fileID: 11400000, guid: 8537b3231b6c7a84ba5d74543de58ebb,
-      type: 2}
-    itemCost: 1
-  - layerTile: {fileID: 11400000, guid: 055e0f95db6960e418ca4012af91afbb, type: 2}
-    layerTileToReplaceBase: {fileID: 11400000, guid: 83855008e43a2674d8d6a006ce94326f,
-      type: 2}
-    placeableOn: 4
-    placeableOnlyOnTile: {fileID: 11400000, guid: caac4e682b31370458443390467ba86f,
-      type: 2}
-    itemCost: 1
-  placeTime: 0
-  placeSound:
-    SetLoadSetting: 0
-    AssetAddress: Assets/Prefabs/Effects/GenHit.prefab
-    AssetReference:
-      m_AssetGUID: 
-      m_SubObjectName: 
-      m_SubObjectType: 
 --- !u!1001 &2821420188953315750
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1085,3 +861,228 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 2821420188953315750}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &-8452655453788033201
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7602444472548548205}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d3ffff154c2b40449b7aa654f4ab847b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  waysToPlace:
+  - layerTile: {fileID: 11400000, guid: 055e0f95db6960e418ca4012af91afbb, type: 2}
+    layerTileToReplaceBase: {fileID: 11400000, guid: 83855008e43a2674d8d6a006ce94326f,
+      type: 2}
+    placeableOn: 4
+    placeableOnlyOnTile: {fileID: 11400000, guid: 31cfe61a4fed5b44a8c509cfd52beab5,
+      type: 2}
+    itemCost: 1
+  - layerTile: {fileID: 11400000, guid: 055e0f95db6960e418ca4012af91afbb, type: 2}
+    layerTileToReplaceBase: {fileID: 11400000, guid: 83855008e43a2674d8d6a006ce94326f,
+      type: 2}
+    placeableOn: 4
+    placeableOnlyOnTile: {fileID: 11400000, guid: a0918914f9690da41bdb6ffc098d1891,
+      type: 2}
+    itemCost: 1
+  - layerTile: {fileID: 11400000, guid: 055e0f95db6960e418ca4012af91afbb, type: 2}
+    layerTileToReplaceBase: {fileID: 11400000, guid: 83855008e43a2674d8d6a006ce94326f,
+      type: 2}
+    placeableOn: 4
+    placeableOnlyOnTile: {fileID: 11400000, guid: c4a9856fd80eb75458302d0ee91629bb,
+      type: 2}
+    itemCost: 1
+  - layerTile: {fileID: 11400000, guid: 055e0f95db6960e418ca4012af91afbb, type: 2}
+    layerTileToReplaceBase: {fileID: 11400000, guid: 83855008e43a2674d8d6a006ce94326f,
+      type: 2}
+    placeableOn: 4
+    placeableOnlyOnTile: {fileID: 11400000, guid: 59ffada845e4676448345ea1586f021f,
+      type: 2}
+    itemCost: 1
+  - layerTile: {fileID: 11400000, guid: 055e0f95db6960e418ca4012af91afbb, type: 2}
+    layerTileToReplaceBase: {fileID: 11400000, guid: 83855008e43a2674d8d6a006ce94326f,
+      type: 2}
+    placeableOn: 4
+    placeableOnlyOnTile: {fileID: 11400000, guid: f35fc6958364d9342b34f3901e62ba82,
+      type: 2}
+    itemCost: 1
+  - layerTile: {fileID: 11400000, guid: 055e0f95db6960e418ca4012af91afbb, type: 2}
+    layerTileToReplaceBase: {fileID: 11400000, guid: 83855008e43a2674d8d6a006ce94326f,
+      type: 2}
+    placeableOn: 4
+    placeableOnlyOnTile: {fileID: 11400000, guid: fd5307b3509f3a242bd7c609c00f1e17,
+      type: 2}
+    itemCost: 1
+  - layerTile: {fileID: 11400000, guid: 055e0f95db6960e418ca4012af91afbb, type: 2}
+    layerTileToReplaceBase: {fileID: 11400000, guid: 83855008e43a2674d8d6a006ce94326f,
+      type: 2}
+    placeableOn: 4
+    placeableOnlyOnTile: {fileID: 11400000, guid: e8bc5a4b7772f144599ef566fcb0e9c1,
+      type: 2}
+    itemCost: 1
+  - layerTile: {fileID: 11400000, guid: 055e0f95db6960e418ca4012af91afbb, type: 2}
+    layerTileToReplaceBase: {fileID: 11400000, guid: 83855008e43a2674d8d6a006ce94326f,
+      type: 2}
+    placeableOn: 4
+    placeableOnlyOnTile: {fileID: 11400000, guid: 99790a160c163a64181d83ec64c7a50e,
+      type: 2}
+    itemCost: 1
+  - layerTile: {fileID: 11400000, guid: 055e0f95db6960e418ca4012af91afbb, type: 2}
+    layerTileToReplaceBase: {fileID: 11400000, guid: 83855008e43a2674d8d6a006ce94326f,
+      type: 2}
+    placeableOn: 4
+    placeableOnlyOnTile: {fileID: 11400000, guid: a310e441ff7e6c64786866ed1ab5f5fd,
+      type: 2}
+    itemCost: 1
+  - layerTile: {fileID: 11400000, guid: 055e0f95db6960e418ca4012af91afbb, type: 2}
+    layerTileToReplaceBase: {fileID: 11400000, guid: 83855008e43a2674d8d6a006ce94326f,
+      type: 2}
+    placeableOn: 4
+    placeableOnlyOnTile: {fileID: 11400000, guid: 43358809f46f3af40a51b1c3911223f1,
+      type: 2}
+    itemCost: 1
+  - layerTile: {fileID: 11400000, guid: 055e0f95db6960e418ca4012af91afbb, type: 2}
+    layerTileToReplaceBase: {fileID: 11400000, guid: 83855008e43a2674d8d6a006ce94326f,
+      type: 2}
+    placeableOn: 4
+    placeableOnlyOnTile: {fileID: 11400000, guid: 698ec1503b1688749a04c070a650591e,
+      type: 2}
+    itemCost: 1
+  - layerTile: {fileID: 11400000, guid: 055e0f95db6960e418ca4012af91afbb, type: 2}
+    layerTileToReplaceBase: {fileID: 11400000, guid: 83855008e43a2674d8d6a006ce94326f,
+      type: 2}
+    placeableOn: 4
+    placeableOnlyOnTile: {fileID: 11400000, guid: a511f6181edd95f47a2cb67059571559,
+      type: 2}
+    itemCost: 1
+  - layerTile: {fileID: 11400000, guid: 055e0f95db6960e418ca4012af91afbb, type: 2}
+    layerTileToReplaceBase: {fileID: 11400000, guid: 83855008e43a2674d8d6a006ce94326f,
+      type: 2}
+    placeableOn: 4
+    placeableOnlyOnTile: {fileID: 11400000, guid: d8c958f149ee4e644a8d48d3dcef803b,
+      type: 2}
+    itemCost: 1
+  - layerTile: {fileID: 11400000, guid: 055e0f95db6960e418ca4012af91afbb, type: 2}
+    layerTileToReplaceBase: {fileID: 11400000, guid: 83855008e43a2674d8d6a006ce94326f,
+      type: 2}
+    placeableOn: 4
+    placeableOnlyOnTile: {fileID: 11400000, guid: 5a8f7eadc9d11134a8754b0b4fe3a719,
+      type: 2}
+    itemCost: 1
+  - layerTile: {fileID: 11400000, guid: 055e0f95db6960e418ca4012af91afbb, type: 2}
+    layerTileToReplaceBase: {fileID: 11400000, guid: 83855008e43a2674d8d6a006ce94326f,
+      type: 2}
+    placeableOn: 4
+    placeableOnlyOnTile: {fileID: 11400000, guid: 079594a5175539c4e9e06adbd9643e49,
+      type: 2}
+    itemCost: 1
+  - layerTile: {fileID: 11400000, guid: 055e0f95db6960e418ca4012af91afbb, type: 2}
+    layerTileToReplaceBase: {fileID: 11400000, guid: 83855008e43a2674d8d6a006ce94326f,
+      type: 2}
+    placeableOn: 4
+    placeableOnlyOnTile: {fileID: 11400000, guid: 1cbd00c0c8750d34ea9dc7026dde5dd4,
+      type: 2}
+    itemCost: 1
+  - layerTile: {fileID: 11400000, guid: 055e0f95db6960e418ca4012af91afbb, type: 2}
+    layerTileToReplaceBase: {fileID: 11400000, guid: 83855008e43a2674d8d6a006ce94326f,
+      type: 2}
+    placeableOn: 4
+    placeableOnlyOnTile: {fileID: 11400000, guid: 1b84a89a074bea44fa460c354eb1c945,
+      type: 2}
+    itemCost: 1
+  - layerTile: {fileID: 11400000, guid: 055e0f95db6960e418ca4012af91afbb, type: 2}
+    layerTileToReplaceBase: {fileID: 11400000, guid: 83855008e43a2674d8d6a006ce94326f,
+      type: 2}
+    placeableOn: 4
+    placeableOnlyOnTile: {fileID: 11400000, guid: ccbf232f3cd85a846bbd966476ca50b5,
+      type: 2}
+    itemCost: 1
+  - layerTile: {fileID: 11400000, guid: 055e0f95db6960e418ca4012af91afbb, type: 2}
+    layerTileToReplaceBase: {fileID: 11400000, guid: 83855008e43a2674d8d6a006ce94326f,
+      type: 2}
+    placeableOn: 4
+    placeableOnlyOnTile: {fileID: 11400000, guid: f4ca93edee48beb4b8c508e780ecf1ff,
+      type: 2}
+    itemCost: 1
+  - layerTile: {fileID: 11400000, guid: 055e0f95db6960e418ca4012af91afbb, type: 2}
+    layerTileToReplaceBase: {fileID: 11400000, guid: 83855008e43a2674d8d6a006ce94326f,
+      type: 2}
+    placeableOn: 4
+    placeableOnlyOnTile: {fileID: 11400000, guid: 2164c32c2317d9e4e9a6d1972c59b899,
+      type: 2}
+    itemCost: 1
+  - layerTile: {fileID: 11400000, guid: 055e0f95db6960e418ca4012af91afbb, type: 2}
+    layerTileToReplaceBase: {fileID: 11400000, guid: 83855008e43a2674d8d6a006ce94326f,
+      type: 2}
+    placeableOn: 4
+    placeableOnlyOnTile: {fileID: 11400000, guid: eecb3cf4c3c6beb43ac232bb464bebe3,
+      type: 2}
+    itemCost: 1
+  - layerTile: {fileID: 11400000, guid: 055e0f95db6960e418ca4012af91afbb, type: 2}
+    layerTileToReplaceBase: {fileID: 11400000, guid: 83855008e43a2674d8d6a006ce94326f,
+      type: 2}
+    placeableOn: 4
+    placeableOnlyOnTile: {fileID: 11400000, guid: 18299ca4b2e7b7441a21746a308fa915,
+      type: 2}
+    itemCost: 1
+  - layerTile: {fileID: 11400000, guid: 055e0f95db6960e418ca4012af91afbb, type: 2}
+    layerTileToReplaceBase: {fileID: 11400000, guid: 83855008e43a2674d8d6a006ce94326f,
+      type: 2}
+    placeableOn: 4
+    placeableOnlyOnTile: {fileID: 11400000, guid: a7fb0d8d3575eed47bdc1b6c666fd685,
+      type: 2}
+    itemCost: 1
+  - layerTile: {fileID: 11400000, guid: 055e0f95db6960e418ca4012af91afbb, type: 2}
+    layerTileToReplaceBase: {fileID: 11400000, guid: 83855008e43a2674d8d6a006ce94326f,
+      type: 2}
+    placeableOn: 4
+    placeableOnlyOnTile: {fileID: 11400000, guid: 42bfff6b7367cdc4b830ea8331e76113,
+      type: 2}
+    itemCost: 1
+  - layerTile: {fileID: 11400000, guid: 055e0f95db6960e418ca4012af91afbb, type: 2}
+    layerTileToReplaceBase: {fileID: 11400000, guid: 83855008e43a2674d8d6a006ce94326f,
+      type: 2}
+    placeableOn: 4
+    placeableOnlyOnTile: {fileID: 11400000, guid: b54908d4da5e296478e0fc4b816cf4e2,
+      type: 2}
+    itemCost: 1
+  - layerTile: {fileID: 11400000, guid: 055e0f95db6960e418ca4012af91afbb, type: 2}
+    layerTileToReplaceBase: {fileID: 11400000, guid: 83855008e43a2674d8d6a006ce94326f,
+      type: 2}
+    placeableOn: 4
+    placeableOnlyOnTile: {fileID: 11400000, guid: c7029b77514e99c408a4f2ba040c4f2a,
+      type: 2}
+    itemCost: 1
+  - layerTile: {fileID: 11400000, guid: 055e0f95db6960e418ca4012af91afbb, type: 2}
+    layerTileToReplaceBase: {fileID: 11400000, guid: 83855008e43a2674d8d6a006ce94326f,
+      type: 2}
+    placeableOn: 4
+    placeableOnlyOnTile: {fileID: 11400000, guid: 51d48f60b7f1a9e42a5e5a002c32f4b3,
+      type: 2}
+    itemCost: 1
+  - layerTile: {fileID: 11400000, guid: 055e0f95db6960e418ca4012af91afbb, type: 2}
+    layerTileToReplaceBase: {fileID: 11400000, guid: 83855008e43a2674d8d6a006ce94326f,
+      type: 2}
+    placeableOn: 4
+    placeableOnlyOnTile: {fileID: 11400000, guid: 8537b3231b6c7a84ba5d74543de58ebb,
+      type: 2}
+    itemCost: 1
+  - layerTile: {fileID: 11400000, guid: 055e0f95db6960e418ca4012af91afbb, type: 2}
+    layerTileToReplaceBase: {fileID: 11400000, guid: 83855008e43a2674d8d6a006ce94326f,
+      type: 2}
+    placeableOn: 4
+    placeableOnlyOnTile: {fileID: 11400000, guid: caac4e682b31370458443390467ba86f,
+      type: 2}
+    itemCost: 1
+  placeTime: 0
+  placeSound:
+    SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/Effects/GenHit.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0

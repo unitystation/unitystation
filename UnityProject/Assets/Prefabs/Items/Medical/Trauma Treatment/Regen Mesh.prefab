@@ -120,7 +120,7 @@ PrefabInstance:
         type: 3}
       propertyPath: initialTraits.Array.data[0]
       value: 
-      objectReference: {fileID: 11400000, guid: 10196b348bc94184cbb087529ac01c0c,
+      objectReference: {fileID: 11400000, guid: 983416b6f230b524cacf1a43349d14f7,
         type: 2}
     - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
@@ -151,36 +151,6 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 1792047792650166761}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1821874675337654403 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 114341119007412586, guid: a7abba22164ce49f0bf9b9b219f39298,
-    type: 3}
-  m_PrefabInstance: {fileID: 1792047792650166761}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1791647728409730387}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 579884b05ae74e8499329b64997147d3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!210 &5506006793603177245 stripped
-SortingGroup:
-  m_CorrespondingSourceObject: {fileID: 6104600676241079028, guid: a7abba22164ce49f0bf9b9b219f39298,
-    type: 3}
-  m_PrefabInstance: {fileID: 1792047792650166761}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &5592108624515032788 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 6144467708197095229, guid: a7abba22164ce49f0bf9b9b219f39298,
-    type: 3}
-  m_PrefabInstance: {fileID: 1792047792650166761}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &-6495101291114284292
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -239,7 +209,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 86536f54b4694d5a98b2f4962a473b7e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
   spriteHandler: {fileID: 5592108624515032788}
+  destroyThisComponentOnOpen: 1
   openingNoise:
     SetLoadSetting: 0
     AssetAddress: 
@@ -249,5 +222,35 @@ MonoBehaviour:
       m_SubObjectType: 
       m_EditorAssetChanged: 0
   openedSprite: {fileID: 11400000, guid: 7ab2f0c44122e1246a8aa1b3bd3f7d6a, type: 2}
-  openingVerb: open
+  openingVerb: you tear open the anti-microbial wrapping on the
   openingRequirementText: You need to open this first before using it!
+--- !u!114 &1821874675337654403 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 114341119007412586, guid: a7abba22164ce49f0bf9b9b219f39298,
+    type: 3}
+  m_PrefabInstance: {fileID: 1792047792650166761}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1791647728409730387}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 579884b05ae74e8499329b64997147d3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!210 &5506006793603177245 stripped
+SortingGroup:
+  m_CorrespondingSourceObject: {fileID: 6104600676241079028, guid: a7abba22164ce49f0bf9b9b219f39298,
+    type: 3}
+  m_PrefabInstance: {fileID: 1792047792650166761}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &5592108624515032788 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6144467708197095229, guid: a7abba22164ce49f0bf9b9b219f39298,
+    type: 3}
+  m_PrefabInstance: {fileID: 1792047792650166761}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

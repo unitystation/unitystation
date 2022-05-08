@@ -12,10 +12,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 89bcd835b81fe71408841f69af610e37, type: 3}
   m_Name: TileChangeCheck
   m_EditorClassIdentifier: 
-  Debug: 0
+  DebugThis: 0
+  DebugBreak: 0
   DebugSecondsPerAction: 0
+  RunThisone: 0
   TestActions:
-  - CheckValueGameObjectAtData:
+  - DataAssessMetaDataNode:
+      WorldPosition: {x: 0, y: 0, z: 0}
+      MatrixName: 
+      Parameters:
+        VariablePath: 
+        VariableType: 0
+        TargetBoolValue: 0
+        TargetStringValue: 
+        TargetValue: 0
+        HasMin: 0
+        Min: 0
+        HasMax: 0
+        Max: 0
+      CustomFailedText: 
+    CheckValueGameObjectAtData:
       Prefab: {fileID: 0}
       WorldPosition: {x: 0, y: 0, z: 0}
       ComponentName: 
@@ -51,6 +67,13 @@ MonoBehaviour:
     DataKeyInput:
       UnPress: 0
       Key: 0
+    InManipulatePlayersInventory:
+      MatrixName: 
+      NotLocalPlayer: 0
+      WorldPositionOfPlayer: {x: 0, y: 0, z: 0}
+      Interaction: 0
+      TargetSlots: 2048
+      TargetSlotsTo: 0
     DataShowPrefab:
       Prefab: {fileID: 0}
       InverseMustNotPresent: 0
@@ -87,10 +110,19 @@ MonoBehaviour:
       PositionToSpawn: {x: 0, y: 0, z: 0}
       NumberToSpawn: 0
       StackableAmount: 0
+    FunctionGameObjectData:
+      Prefab: {fileID: 0}
+      PositionToCheck: {x: 0, y: 0, z: 0}
+      ComponentName: 
+      MatrixName: 
+      ClassFunctionInvoke:
+        VariablePath: 
     DataActionWaite:
       WaitForFrame: 0
       WaitForSeconds: 0
-    DataAssessMetaDataNode:
+      SetPreset: 0
+    SpecifiedAction: 6
+  - DataAssessMetaDataNode:
       WorldPosition: {x: 0, y: 0, z: 0}
       MatrixName: 
       Parameters:
@@ -104,8 +136,7 @@ MonoBehaviour:
         HasMax: 0
         Max: 0
       CustomFailedText: 
-    SpecifiedAction: 6
-  - CheckValueGameObjectAtData:
+    CheckValueGameObjectAtData:
       Prefab: {fileID: 0}
       WorldPosition: {x: 0, y: 0, z: 0}
       ComponentName: 
@@ -141,6 +172,13 @@ MonoBehaviour:
     DataKeyInput:
       UnPress: 0
       Key: 0
+    InManipulatePlayersInventory:
+      MatrixName: 
+      NotLocalPlayer: 0
+      WorldPositionOfPlayer: {x: 0, y: 0, z: 0}
+      Interaction: 0
+      TargetSlots: 2048
+      TargetSlotsTo: 0
     DataShowPrefab:
       Prefab: {fileID: 0}
       InverseMustNotPresent: 0
@@ -177,25 +215,33 @@ MonoBehaviour:
       PositionToSpawn: {x: 0, y: 0, z: 0}
       NumberToSpawn: 0
       StackableAmount: 0
+    FunctionGameObjectData:
+      Prefab: {fileID: 0}
+      PositionToCheck: {x: 0, y: 0, z: 0}
+      ComponentName: 
+      MatrixName: 
+      ClassFunctionInvoke:
+        VariablePath: 
     DataActionWaite:
       WaitForFrame: 0
       WaitForSeconds: 0
-    DataAssessMetaDataNode:
-      WorldPosition: {x: 0, y: 0, z: 0}
-      MatrixName: 
-      Parameters:
-        VariablePath: 
-        VariableType: 0
-        TargetBoolValue: 0
-        TargetStringValue: 
-        TargetValue: 0
-        HasMin: 0
-        Min: 0
-        HasMax: 0
-        Max: 0
-      CustomFailedText: 
+      SetPreset: 0
     SpecifiedAction: 7
-  - CheckValueGameObjectAtData:
+  - DataAssessMetaDataNode:
+      WorldPosition: {x: 0, y: 0, z: 0}
+      MatrixName: 
+      Parameters:
+        VariablePath: 
+        VariableType: 0
+        TargetBoolValue: 0
+        TargetStringValue: 
+        TargetValue: 0
+        HasMin: 0
+        Min: 0
+        HasMax: 0
+        Max: 0
+      CustomFailedText: 
+    CheckValueGameObjectAtData:
       Prefab: {fileID: 0}
       WorldPosition: {x: 0, y: 0, z: 0}
       ComponentName: 
@@ -231,6 +277,13 @@ MonoBehaviour:
     DataKeyInput:
       UnPress: 0
       Key: 0
+    InManipulatePlayersInventory:
+      MatrixName: 
+      NotLocalPlayer: 0
+      WorldPositionOfPlayer: {x: 0, y: 0, z: 0}
+      Interaction: 0
+      TargetSlots: 2048
+      TargetSlotsTo: 0
     DataShowPrefab:
       Prefab: {fileID: 0}
       InverseMustNotPresent: 0
@@ -267,10 +320,19 @@ MonoBehaviour:
       PositionToSpawn: {x: 0, y: 0, z: 0}
       NumberToSpawn: 0
       StackableAmount: 0
+    FunctionGameObjectData:
+      Prefab: {fileID: 0}
+      PositionToCheck: {x: 0, y: 0, z: 0}
+      ComponentName: 
+      MatrixName: 
+      ClassFunctionInvoke:
+        VariablePath: 
     DataActionWaite:
       WaitForFrame: 0
       WaitForSeconds: 0
-    DataAssessMetaDataNode:
+      SetPreset: 0
+    SpecifiedAction: 6
+  - DataAssessMetaDataNode:
       WorldPosition: {x: 0, y: 0, z: 0}
       MatrixName: 
       Parameters:
@@ -284,8 +346,7 @@ MonoBehaviour:
         HasMax: 0
         Max: 0
       CustomFailedText: 
-    SpecifiedAction: 6
-  - CheckValueGameObjectAtData:
+    CheckValueGameObjectAtData:
       Prefab: {fileID: 0}
       WorldPosition: {x: 0, y: 0, z: 0}
       ComponentName: 
@@ -321,6 +382,13 @@ MonoBehaviour:
     DataKeyInput:
       UnPress: 0
       Key: 0
+    InManipulatePlayersInventory:
+      MatrixName: 
+      NotLocalPlayer: 0
+      WorldPositionOfPlayer: {x: 0, y: 0, z: 0}
+      Interaction: 0
+      TargetSlots: 2048
+      TargetSlotsTo: 0
     DataShowPrefab:
       Prefab: {fileID: 0}
       InverseMustNotPresent: 0
@@ -357,21 +425,15 @@ MonoBehaviour:
       PositionToSpawn: {x: 0, y: 0, z: 0}
       NumberToSpawn: 0
       StackableAmount: 0
+    FunctionGameObjectData:
+      Prefab: {fileID: 0}
+      PositionToCheck: {x: 0, y: 0, z: 0}
+      ComponentName: 
+      MatrixName: 
+      ClassFunctionInvoke:
+        VariablePath: 
     DataActionWaite:
       WaitForFrame: 0
       WaitForSeconds: 0
-    DataAssessMetaDataNode:
-      WorldPosition: {x: 0, y: 0, z: 0}
-      MatrixName: 
-      Parameters:
-        VariablePath: 
-        VariableType: 0
-        TargetBoolValue: 0
-        TargetStringValue: 
-        TargetValue: 0
-        HasMin: 0
-        Min: 0
-        HasMax: 0
-        Max: 0
-      CustomFailedText: 
+      SetPreset: 0
     SpecifiedAction: 7

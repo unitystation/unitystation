@@ -2,18 +2,15 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class StatsTab : MonoBehaviour
+public class StatsTab : Managers.SingletonManager<StatsTab>
 {
 	public GameObject window;
 
-	[SerializeField]
-	private Text roundStatus = default;
-	[SerializeField]
-	private Text currentMap = default;
-	[SerializeField]
-	private Text gameMode = default;
-	[SerializeField]
-	private Text serverFPS = default;
+	[SerializeField] private Text roundStatus = default;
+	[SerializeField] private Text currentMap = default;
+	[SerializeField] private Text gameMode = default;
+	[SerializeField] private Text serverFPS = default;
+	[SerializeField] private Text roundTimer;
 
 	void OnEnable()
 	{
@@ -57,24 +54,30 @@ public class StatsTab : MonoBehaviour
 		UpdateRoundStatus("ended, restarting soon");
 	}
 
-	private void UpdateRoundStatus(string text)
+	public void UpdateRoundStatus(string text)
 	{
 		if (roundStatus == null) return;
 
 		roundStatus.text = text;
 	}
 
-	private void UpdateCurrentMap()
+	public void UpdateCurrentMap()
 	{
 		if (roundStatus == null) return;
 
 		currentMap.text = MatrixManager.MainStationMatrix.GameObject.scene.name;
 	}
 
-	private void UpdateGameMode()
+	public void UpdateGameMode()
 	{
 		if (roundStatus == null) return;
 
 		gameMode.text = GameManager.Instance.GetGameModeName();
+	}
+
+	public void UpdateRoundTime()
+	{
+		if(roundTimer == null) return;
+		roundTimer.text = GameManager.Instance.stationTime.ToShortTimeString();
 	}
 }

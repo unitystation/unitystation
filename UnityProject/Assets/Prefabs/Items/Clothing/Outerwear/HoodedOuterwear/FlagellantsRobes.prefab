@@ -1,20 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &325348189252866311
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2235147280921133615}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1fbb517be744373419b00ecd28766f80, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  runningSpeedDebuff: -0.6
-  walkingSpeedDebuff: -0.3
-  slot: 0
 --- !u!1001 &1524958149056565779
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -415,3 +400,18 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 1524958149056565779}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &325348189252866311
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2235147280921133615}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1fbb517be744373419b00ecd28766f80, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  runningSpeedDebuff: -0.6
+  walkingSpeedDebuff: -0.3
+  slot: 0

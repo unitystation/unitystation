@@ -12,3 +12,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 037ebb847a5f15440ba60f35c839948b, type: 3}
   m_Name: TableInteractionClimb
   m_EditorClassIdentifier: 
+  canBreakOnClimb: 0
+  breakChance: 90
+  stunTimeOnBreak: 5
+  damageOnBreak: 5
+  soundOnBreak:
+    SetLoadSetting: 0
+    AssetAddress: 
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0

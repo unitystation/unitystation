@@ -93,7 +93,7 @@ PrefabInstance:
     - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
       propertyPath: InitialVendorContent.Array.size
-      value: 42
+      value: 43
       objectReference: {fileID: 0}
     - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
@@ -369,6 +369,12 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
+      propertyPath: InitialVendorContent.Array.data[42].Item
+      value: 
+      objectReference: {fileID: 4938389421849145418, guid: 26d3d6cf5c7ce6d4183ca47ac55c4552,
+        type: 3}
+    - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
+        type: 3}
       propertyPath: InitialVendorContent.Array.data[4].Stock
       value: 10
       objectReference: {fileID: 0}
@@ -555,6 +561,11 @@ PrefabInstance:
     - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
       propertyPath: InitialVendorContent.Array.data[41].Stock
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
+        type: 3}
+      propertyPath: InitialVendorContent.Array.data[42].Stock
       value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
@@ -767,6 +778,11 @@ PrefabInstance:
       propertyPath: InitialVendorContent.Array.data[41].ItemName
       value: Luini Amaretto
       objectReference: {fileID: 0}
+    - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
+        type: 3}
+      propertyPath: InitialVendorContent.Array.data[42].ItemName
+      value: Glass of Lean
+      objectReference: {fileID: 0}
     - target: {fileID: 5293842515076411475, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
       propertyPath: foreverID
@@ -780,10 +796,25 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 9036003665837402637, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
+      propertyPath: m_Size.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9036003665837402637, guid: 2f2954acc32d9d3468c620e34a625966,
+        type: 3}
+      propertyPath: m_Size.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9036003665837402637, guid: 2f2954acc32d9d3468c620e34a625966,
+        type: 3}
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: 21300000, guid: a66daa6c84d771445bf2a00e0e1389a6,
         type: 3}
+    - target: {fileID: 9036003665837402637, guid: 2f2954acc32d9d3468c620e34a625966,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 9081061823247388186, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
       propertyPath: m_Name
@@ -844,7 +875,9 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 1251273808921218093, guid: 2f2954acc32d9d3468c620e34a625966, type: 3}
+    - {fileID: 4299547928631692446, guid: 2f2954acc32d9d3468c620e34a625966, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 2f2954acc32d9d3468c620e34a625966, type: 3}
 --- !u!114 &3703115102036861195 stripped
 MonoBehaviour:
