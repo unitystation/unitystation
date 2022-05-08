@@ -1,0 +1,138 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &5933652905976140448
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 161414568140501327, guid: f709eab732189d6429ae3fa5beaf3fd3,
+        type: 3}
+      propertyPath: SpeedMultiplier
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3837935182567797810, guid: f709eab732189d6429ae3fa5beaf3fd3,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: ca313dc348752a4459a0622e83648471,
+        type: 2}
+    - target: {fileID: 4089184234565288920, guid: f709eab732189d6429ae3fa5beaf3fd3,
+        type: 3}
+      propertyPath: foreverID
+      value: 985a20b63ab386e4bb087266e5a0cc3a
+      objectReference: {fileID: 0}
+    - target: {fileID: 6918947953705996213, guid: f709eab732189d6429ae3fa5beaf3fd3,
+        type: 3}
+      propertyPath: m_Name
+      value: CaravanCrowbar
+      objectReference: {fileID: 0}
+    - target: {fileID: 6923871703913968321, guid: f709eab732189d6429ae3fa5beaf3fd3,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6923871703913968321, guid: f709eab732189d6429ae3fa5beaf3fd3,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6923871703913968321, guid: f709eab732189d6429ae3fa5beaf3fd3,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6923871703913968321, guid: f709eab732189d6429ae3fa5beaf3fd3,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6923871703913968321, guid: f709eab732189d6429ae3fa5beaf3fd3,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6923871703913968321, guid: f709eab732189d6429ae3fa5beaf3fd3,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6923871703913968321, guid: f709eab732189d6429ae3fa5beaf3fd3,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6923871703913968321, guid: f709eab732189d6429ae3fa5beaf3fd3,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6923871703913968321, guid: f709eab732189d6429ae3fa5beaf3fd3,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6923871703913968321, guid: f709eab732189d6429ae3fa5beaf3fd3,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6923871703913968321, guid: f709eab732189d6429ae3fa5beaf3fd3,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7030469871661085185, guid: f709eab732189d6429ae3fa5beaf3fd3,
+        type: 3}
+      propertyPath: m_AssetId
+      value: 985a20b63ab386e4bb087266e5a0cc3a
+      objectReference: {fileID: 0}
+    - target: {fileID: 7030498920203595305, guid: f709eab732189d6429ae3fa5beaf3fd3,
+        type: 3}
+      propertyPath: customNetTransform
+      value: 
+      objectReference: {fileID: 3731289606400471237}
+    - target: {fileID: 7130604612900027625, guid: f709eab732189d6429ae3fa5beaf3fd3,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 6b8ae90833e01da428bfcff218ec8e99,
+        type: 3}
+    - target: {fileID: 7415335345799176407, guid: f709eab732189d6429ae3fa5beaf3fd3,
+        type: 3}
+      propertyPath: initialName
+      value: Caravan crowbar
+      objectReference: {fileID: 0}
+    - target: {fileID: 7415335345799176407, guid: f709eab732189d6429ae3fa5beaf3fd3,
+        type: 3}
+      propertyPath: initialDescription
+      value: A prototype of a new crowbar design, allegedly the red color scheme
+        makes it go faster.
+      objectReference: {fileID: 0}
+    - target: {fileID: 7415335345799176407, guid: f709eab732189d6429ae3fa5beaf3fd3,
+        type: 3}
+      propertyPath: itemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 9faaed9c20b7d2c42bbde7ab139d8a47,
+        type: 2}
+    - target: {fileID: 7415335345799176407, guid: f709eab732189d6429ae3fa5beaf3fd3,
+        type: 3}
+      propertyPath: itemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 11400000, guid: ef8015f665229574ba027f27d1097c0d,
+        type: 2}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: f709eab732189d6429ae3fa5beaf3fd3, type: 3}
+--- !u!114 &3731289606400471237 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7030301270543393381, guid: f709eab732189d6429ae3fa5beaf3fd3,
+    type: 3}
+  m_PrefabInstance: {fileID: 5933652905976140448}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 579884b05ae74e8499329b64997147d3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
