@@ -13,10 +13,21 @@ public class Knife : MonoBehaviour, ICheckedInteractable<InventoryApply>,  IChec
 	public bool WillInteract(HandApply interaction, NetworkSide side)
 	{
 		//can the player act at all?
-		if (!DefaultWillInteract.Default(interaction, side)) return false;
+		if (DefaultWillInteract.Default(interaction, side) == false) return false;
 
 		//if the item isn't a butcher knife, no go.
-		if (!Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Knife)) return false;
+		if (Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Knife) == false) return false;
+
+		if (Validations.HasComponent<ItemAttributesV2>(interaction.TargetObject) == false) return false;
+
+		ItemAttributesV2 attr = interaction.TargetObject.GetComponent<ItemAttributesV2>();
+		Ingredient ingredient = new Ingredient(attr.ArticleName);
+		GameObject cut = CraftingManager.Cuts.FindRecipe(new List<Ingredient> { ingredient });
+
+		if (cut == null)
+		{
+			return false;
+		}
 
 		return true;
 	}
