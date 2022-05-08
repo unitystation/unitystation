@@ -29,6 +29,9 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 
 	//TODO Sometime Combine buckling and object storage
 
+	//===============================================
+	//TODO pull isn't being Cancelled on client When slipping
+
 	public const float DEFAULT_PUSH_SPEED = 6;
 
 	/// <summary>
@@ -416,7 +419,6 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 	public void ForceSetLocalPosition(Vector3 ReSetToLocal, Vector2 Momentum, bool Smooth, int MatrixID,
 		bool UpdateClient = true, float Rotation = 0)
 	{
-		IsWalking = false;
 		transform.localRotation = Quaternion.Euler(new Vector3(0,0,  Rotation));
 		if (isServer && UpdateClient)
 		{
@@ -630,7 +632,11 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 			SetMatrix(movetoMatrix);
 		}
 
-		rotatable.OrNull()?.SetFaceDirectionLocalVictor(WorldDirection);
+		if (ChangesDirectionPush)
+		{
+			rotatable.OrNull()?.SetFaceDirectionLocalVictor(WorldDirection);
+		}
+
 
 		var LocalPosition = (NewWorldPosition).ToLocal(movetoMatrix);
 
@@ -677,7 +683,6 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 		if (CorrectingCourse) UpdateManager.Remove(CallbackType.UPDATE, FloatingCourseCorrection);
 
 
-		IsWalking = false;
 		MoveIsWalking = false;
 		LocalTargetPosition = transform.localPosition;
 		newtonianMovement = Vector2.zero;
@@ -889,7 +894,6 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 
 		if (this == null)
 		{
-			IsWalking = false;
 			MoveIsWalking = false;
 			UpdateManager.Remove(CallbackType.UPDATE, AnimationUpdateMe);
 		}
@@ -904,15 +908,6 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 		var LocalPOS = transform.localPosition;
 
 		IsMoving = LocalPOS != LocalTargetPosition;
-
-		if (MoveIsWalking)
-		{
-			IsWalking = IsMoving;
-		}
-		else
-		{
-			IsWalking = false;
-		}
 
 		if (IsMoving)
 		{
@@ -941,7 +936,6 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 			Animating = false;
 
 			OnLocalTileReached.Invoke(transform.localPosition);
-			IsWalking = false;
 			MoveIsWalking = false;
 
 			if (IsFloating() && PulledBy.HasComponent == false && doNotApplyMomentumOnTarget == false)
@@ -994,8 +988,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 	[PlayModeOnly]
 	public bool IsMoving = false;
 
-	[PlayModeOnly]
-	public bool IsWalking = false;
+	public bool IsWalking => MoveIsWalking && IsMoving;
 
 	[PlayModeOnly]
 	public bool MoveIsWalking = false;
@@ -1006,8 +999,12 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 	public void FlyingUpdateMe()
 	{
 		IsFlyingSliding = true;
+		MoveIsWalking = false;
 
-		if (this == null) UpdateManager.Remove(CallbackType.UPDATE, FlyingUpdateMe);
+		if (this == null)
+		{
+			UpdateManager.Remove(CallbackType.UPDATE, FlyingUpdateMe);
+		}
 
 		if (PulledBy.HasComponent)
 		{
@@ -1184,9 +1181,6 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 
 		if (newtonianMovement.magnitude < 0.01f) //Has slowed down enough
 		{
-
-
-
 			OnLocalTileReached.Invoke(transform.localPosition);
 			if (onStationMovementsRound)
 			{
@@ -1230,7 +1224,6 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 		{
 			TileMoveSpeedOverride = 0;
 			Animating = false;
-			IsWalking = false;
 			MoveIsWalking = false;
 			UpdateManager.Remove(CallbackType.UPDATE, AnimationUpdateMe);
 		}

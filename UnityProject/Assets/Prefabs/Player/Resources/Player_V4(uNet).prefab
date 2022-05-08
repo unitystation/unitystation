@@ -1385,7 +1385,7 @@ MonoBehaviour:
   DEBUG: 0
   SnapToGridOnStart: 0
   LocalTargetPosition: {x: 0, y: 0, z: 0}
-  ChangesDirectionPush: 0
+  ChangesDirectionPush: 1
   isNotPushable: 0
   newtonianMovement: {x: 0, y: 0}
   airTime: 0
@@ -1393,9 +1393,9 @@ MonoBehaviour:
   thrownBy: {fileID: 0}
   aim: 0
   spinMagnitude: 0
-  stickyMovement: 0
+  stickyMovement: 1
   maximumStickSpeed: 1.5
-  onStationMovementsRound: 0
+  onStationMovementsRound: 1
   attributes: {fileID: 0}
   registerTile: {fileID: 0}
   ContextGameObjects:

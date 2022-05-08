@@ -418,7 +418,7 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 				SyncMovementSpeed(TileMoveSpeed, WalkSpeed);
 				break;
 			case MovementType.Crawling:
-				SyncMovementSpeed(TileMoveSpeed,CrawlSpeed );
+				SyncMovementSpeed(TileMoveSpeed, CrawlSpeed);
 				break;
 		}
 	}
@@ -586,59 +586,66 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 	{
 		if (isLocalPlayer) return;
 
-
-		if (MoveQueue.Count > 0)
+		if (CanInPutMove()) //TODO potential issue with messages building up
 		{
-			var Entry = MoveQueue[0];
-			MoveQueue.RemoveAt(0);
-			if (LastProcessMoved > Entry.Timestamp)
+			if (MoveQueue.Count > 0)
 			{
-				Logger.LogError("Potentially Out of order message ");
-				return;
-			}
-
-			SetMatrixCash.ResetNewPosition(transform.position);
-			//Logger.LogError(" Is Animating " +  Animating + " Is floating " +  IsAnimatingFlyingSliding +" move processed at" + transform.localPosition);
-
-			if (IsFlyingSliding)
-			{
-				if ((transform.localPosition - Entry.LocalPosition).magnitude <
-				    0.24f) //TODO Maybe not needed if needed can be used is when Move request comes in before player has quite reached tile in space flight
+				var Entry = MoveQueue[0];
+				MoveQueue.RemoveAt(0);
+				if (LastProcessMoved > Entry.Timestamp)
 				{
-					transform.localPosition = Entry.LocalPosition;
-					SetMatrixCash.ResetNewPosition(transform.position);
+					Logger.LogError("Potentially Out of order message ");
+					return;
 				}
-			}
-			else
-			{
-				if ((transform.localPosition - Entry.LocalPosition).magnitude >
-				    0.5f) //Resets play location if too far away
-				{
-					ResetLocationOnClients();
-					MoveQueue.Clear();
-				}
-			}
 
+				SetMatrixCash.ResetNewPosition(transform.position);
+				//Logger.LogError(" Is Animating " +  Animating + " Is floating " +  IsAnimatingFlyingSliding +" move processed at" + transform.localPosition);
 
-			if (CanInPutMove())
-			{
-				if (TryMove(Entry, true))
+				if (IsFlyingSliding)
 				{
-					//TODO this is good but need to clean up movement a bit more Logger.LogError("Delta magnitude " + (transform.position - Entry.LocalPosition.ToWorld(MatrixManager.Get(Entry.MatrixID).Matrix)).magnitude );
-					//do calculation is and set targets and stuff
-					//Reset client if movement failed Since its good movement only Getting sent
-					//if there's enough time to do The next movement to the current time, Then process it instantly
-					//Like,  it takes 1 to do movement
-					//timestamp says 0 for the first, 1 For the second
-					//the current server timestamp is 2
-					//So that means it can do 1 and 2 Messages , in the same frame
-					if (MoveQueue.Count > 0 &&
-					    (Entry.Timestamp + (TileMoveSpeed) <
-					     NetworkTime
-						     .time)) //yes Time.timeAsDouble Can rollover but this would only be a problem for a second
+					if ((transform.localPosition - Entry.LocalPosition).magnitude <
+					    0.24f) //TODO Maybe not needed if needed can be used is when Move request comes in before player has quite reached tile in space flight
 					{
-						transform.localPosition = LocalTargetPosition; //TODO Update registered tile
-						ServerCheckQueueingAndMove();
+						transform.localPosition = Entry.LocalPosition;
+						SetMatrixCash.ResetNewPosition(transform.position);
+					}
+				}
+				else
+				{
+					if ((transform.localPosition - Entry.LocalPosition).magnitude >
+					    0.5f) //Resets play location if too far away
+					{
+						ResetLocationOnClients();
+						MoveQueue.Clear();
+					}
+				}
+
+
+				if (CanInPutMove())
+				{
+					if (TryMove(Entry, true))
+					{
+						//TODO this is good but need to clean up movement a bit more Logger.LogError("Delta magnitude " + (transform.position - Entry.LocalPosition.ToWorld(MatrixManager.Get(Entry.MatrixID).Matrix)).magnitude );
+						//do calculation is and set targets and stuff
+						//Reset client if movement failed Since its good movement only Getting sent
+						//if there's enough time to do The next movement to the current time, Then process it instantly
+						//Like,  it takes 1 to do movement
+						//timestamp says 0 for the first, 1 For the second
+						//the current server timestamp is 2
+						//So that means it can do 1 and 2 Messages , in the same frame
+						if (MoveQueue.Count > 0 &&
+						    (Entry.Timestamp + (TileMoveSpeed) <
+						     NetworkTime
+							     .time)) //yes Time.timeAsDouble Can rollover but this would only be a problem for a second
+						{
+							transform.localPosition = LocalTargetPosition; //TODO Update registered tile
+							ServerCheckQueueingAndMove();
+						}
+					}
+					else
+					{
+						ResetLocationOnClients();
+						MoveQueue.Clear();
 					}
 				}
 				else
@@ -646,11 +653,6 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 					ResetLocationOnClients();
 					MoveQueue.Clear();
 				}
-			}
-			else
-			{
-				ResetLocationOnClients();
-				MoveQueue.Clear();
 			}
 		}
 	}
@@ -704,7 +706,7 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 		}
 		else
 		{
-			if ( playerScript.playerHealth.IsDead)
+			if (playerScript.playerHealth.IsDead)
 			{
 				playerScript.playerNetworkActions.CmdSpawnPlayerGhost();
 			}
@@ -726,7 +728,7 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 
 		foreach (var Escape in ContainedInContainer.IEscapables)
 		{
-			Escape.EntityTryEscape(gameObject,null);
+			Escape.EntityTryEscape(gameObject, null);
 		}
 	}
 
@@ -797,7 +799,8 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 
 			if (CausesSlipClient)
 			{
-				NewtonianPush(NewMoveData.GlobalMoveDirection.TVectoro().To2Int(), TileMoveSpeed, Single.NaN, 4, spinFactor: 35);
+				NewtonianPush(NewMoveData.GlobalMoveDirection.TVectoro().To2Int(), TileMoveSpeed, Single.NaN, 4,
+					spinFactor: 35);
 
 				var Player = registerTile as RegisterPlayer;
 				Player.OrNull()?.ServerSlip();
@@ -826,18 +829,20 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 		}
 	}
 
-	public bool CanInPutMove() //False for in machine/Buckled, No gravity/Nothing to push off, Is slipping, Is being thrown, Is incapacitated
+	public bool CanInPutMove(bool Queueing = false)
+		//False for in machine/Buckled, No gravity/Nothing to push off, Is slipping, Is being thrown, Is incapacitated
 	{
-		if (IsWalking) return false;
+		if (Queueing == false)
+		{
+			if (IsWalking) return false;
+		}
+
 		if (slideTime > 0) return false;
 		if (allowInput == false) return false;
 		if (buckledObject) return false;
 		if (isLocalPlayer && UIManager.IsInputFocus) return false;
 		if (IsCuffed && PulledBy.HasComponent) return false;
 		if (ContainedInContainer != null) return false;
-		//
-		//playerMove.IsCuffed && playerScript.pushPull.IsBeingPulledClient
-		//TODO if Hidden Can't move
 
 		return true;
 	}
@@ -1002,7 +1007,7 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 	[Command]
 	public void CMDRequestMove(MoveData InMoveData)
 	{
-		if (CanInPutMove())
+		if (CanInPutMove(true))
 		{
 			var Age = NetworkTime.time - InMoveData.Timestamp;
 			if (Age > MoveMaxDelayQueue)
