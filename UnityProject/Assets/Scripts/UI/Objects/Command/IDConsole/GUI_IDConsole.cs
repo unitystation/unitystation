@@ -213,7 +213,7 @@ namespace UI.Objects.Command
 
 		public void ServerRemoveAccessCard(ConnectedPlayer player)
 		{
-			if (console.AccessCard == null || IsAIInteracting() == false)
+			if (console.AccessCard == null)
 			{
 				return;
 			}
