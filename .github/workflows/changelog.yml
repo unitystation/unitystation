@@ -49,7 +49,7 @@ jobs:
         id: pr2changelog
         uses: corp-0/pr2changelog@master
         with:
-          categories: Fix;New;Improvement
+          categories: Fix;New;Improvement;Balance
 
       -   name: Commit files
           if: ${{ steps.pr2changelog.outputs.generated_changelog == 1}}
