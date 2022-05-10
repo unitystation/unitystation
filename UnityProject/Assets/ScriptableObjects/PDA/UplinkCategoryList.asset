@@ -278,10 +278,15 @@ MonoBehaviour:
       isNukeOps: 0
   - categoryName: Suits
     itemList:
-    - cost: 4
+    - cost: 5
       item: {fileID: 1558225297725682349, guid: 5e3c47b463befd44ebaa3bc0bfeea116,
         type: 3}
       name: Syndicate Spacesuit
+      isNukeOps: 0
+    - cost: 4
+      item: {fileID: 9141470852570775663, guid: f24cb487d4fbf0b4dbd8979eeb325ab1,
+        type: 3}
+      name: Infiltrator Suit
       isNukeOps: 0
     - cost: 8
       item: {fileID: 1558225297725682349, guid: d8156c3dd0457934192767f6099cb000,
