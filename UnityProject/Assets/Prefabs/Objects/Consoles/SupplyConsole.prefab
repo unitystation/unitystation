@@ -285,9 +285,11 @@ MonoBehaviour:
   allowedTypes: 0000000006000000070000001600000001000000100000001d000000
   creditArrivalSound:
     SetLoadSetting: 0
-    AssetAddress: Assets/Prefabs/Machines/TerminalAlert.prefab
+    AssetAddress: Assets/Prefabs/UI/Select.prefab
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0
+  offlineMessage: The console flashes red as an error message appears and says that
+    access is denied.

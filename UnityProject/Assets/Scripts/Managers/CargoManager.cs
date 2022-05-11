@@ -35,6 +35,7 @@ namespace Systems.Cargo
 		public CargoUpdateEvent OnCreditsUpdate = new CargoUpdateEvent();
 		public CargoUpdateEvent OnTimerUpdate = new CargoUpdateEvent();
 		public CargoUpdateEvent OnBountiesUpdate = new CargoUpdateEvent();
+		public CargoUpdateEvent OnConnectionChangeToCentComm = new CargoUpdateEvent();
 
 		[SerializeField]
 		private CargoData cargoData;
@@ -47,7 +48,7 @@ namespace Systems.Cargo
 		public Dictionary<ItemTrait, int> SoldHistory = new Dictionary<ItemTrait, int>();
 
 		public bool CargoOffline = false;
-    
+
     private int lastTimeRecorded = 0;
 		private int randomBountyTimeCheck = 0;
 
@@ -531,7 +532,7 @@ namespace Systems.Cargo
 			if(announce) AnnounceNewBounty();
 		}
 
-		private void AnnounceNewBounty() 
+		private void AnnounceNewBounty()
 		{
 			CentComm.MakeAnnouncement(ChatTemplates.CentcomAnnounce, "A bounty for cargo has been issued from central communications", CentComm.UpdateSound.Notice);
 		}
