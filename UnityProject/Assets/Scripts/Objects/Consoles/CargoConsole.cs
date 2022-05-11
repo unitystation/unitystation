@@ -47,6 +47,7 @@ namespace Objects.Cargo
 
 		public void ServerPerformInteraction(HandApply interaction)
 		{
+			if(CargoOfflineCheck()) return;
 			if (interaction.HandSlot.Item.TryGetComponent<IDCard>(out var id))
 			{
 
@@ -66,10 +67,8 @@ namespace Objects.Cargo
 		[Server]
 		private void CheckID(JobType usedID, GameObject playeref)
 		{
-			if (cargoGUI == null)
-				return;
+			if (cargoGUI == null) return;
 
-			if(CargoOfflineCheck()) return;
 			foreach (var aJob in allowedTypes.Where(aJob => usedID == aJob))
 			{
 				CorrectID = true;
