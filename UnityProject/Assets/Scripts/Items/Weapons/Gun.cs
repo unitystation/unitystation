@@ -20,7 +20,7 @@ namespace Weapons
 	/// </summary>
 	[RequireComponent(typeof(Pickupable))]
 	[RequireComponent(typeof(ItemStorage))]
-	public class Gun : NetworkBehaviour, IPredictedCheckedInteractable<AimApply>, ICheckedInteractable<HandActivate>,
+	public class Gun : NetworkBehaviour, ICheckedInteractable<AimApply>, ICheckedInteractable<HandActivate>,
 		ICheckedInteractable<InventoryApply>, IServerInventoryMove, IServerSpawn, IExaminable
 	{
 		/// <summary>
@@ -449,30 +449,6 @@ namespace Weapons
 			return false;
 		}
 
-		public virtual void ClientPredictInteraction(AimApply interaction)
-		{
-			//do we need to check if this is a suicide (want to avoid the check because it involves a raycast).
-			//case 1 - we are beginning a new shot, need to see if we are shooting ourselves
-			//case 2 - we are firing an automatic and are currently shooting ourselves, need to see if we moused off
-			//	ourselves.
-			var isSuicide = false;
-			if (interaction.MouseButtonState == MouseButtonState.PRESS ||
-					(WeaponType != WeaponType.SemiAutomatic && AllowSuicide))
-			{
-				isSuicide = interaction.IsAimingAtSelf;
-				AllowSuicide = isSuicide;
-			}
-
-			if (FiringPin != null)
-			{
-				FiringPin.gunComp = this;
-				FiringPin.ClientBehaviour(interaction, isSuicide);
-			}
-		}
-
-		//nothing to rollback
-		public void ServerRollbackClient(AimApply interaction) { }
-
 		public virtual void ServerPerformInteraction(AimApply interaction)
 		{
 			//do we need to check if this is a suicide (want to avoid the check because it involves a raycast).
@@ -740,13 +716,10 @@ namespace Weapons
 				}
 
 				//perform the actual server side shooting, creating the bullet that does actual damage
-				DisplayShot(nextShot.shooter, nextShot.finalDirection, nextShot.damageZone, nextShot.isSuicide, toShoot.name, quantity);
+				DisplayShot(nextShot.shooter, nextShot.finalDirection, nextShot.damageZone, nextShot.isSuicide, toShoot, quantity);
 
 				//trigger a hotspot caused by gun firing
 				shooterRegisterTile.Matrix.ReactionManager.ExposeHotspotWorldPosition(nextShot.shooter.TileWorldPosition(), 500);
-
-				//tell all the clients to display the shot
-				ShootMessage.SendToAll(nextShot.finalDirection, nextShot.damageZone, nextShot.shooter, this.gameObject, nextShot.isSuicide, toShoot.name, quantity);
 
 				if (isSuppressed == false && nextShot.isSuicide == false)
 				{
@@ -784,7 +757,7 @@ namespace Weapons
 		/// <param name="projectileName">the name of the projectile that should be spawned</param>
 		/// <param name="quantity">the amount of projectiles to spawn when displaying the shot</param>
 		public void DisplayShot(GameObject shooter, Vector2 finalDirection,
-			BodyPartType damageZone, bool isSuicideShot, string projectileName, int quantity)
+			BodyPartType damageZone, bool isSuicideShot, GameObject projectile, int quantity)
 		{
 			if (!MatrixManager.IsInitialized) return;
 
@@ -814,18 +787,18 @@ namespace Weapons
 
 			if (isSuicideShot)
 			{
-				GameObject projectile = Spawn.ClientPrefab(projectileName,
+				GameObject Newprojectile = Spawn.ServerPrefab(projectile,
 					shooter.transform.position, parent: shooter.transform.parent).GameObject;
-				Projectile projectileComponent = projectile.GetComponent<Projectile>();
+				Projectile projectileComponent = Newprojectile.GetComponent<Projectile>();
 				projectileComponent.Suicide(shooter, this, damageZone);
 			}
 			else
 			{
 				for (int n = 0; n < quantity; n++)
 				{
-					GameObject projectile = Spawn.ClientPrefab(projectileName,
+					GameObject Newprojectile = Spawn.ServerPrefab(projectile,
 						shooter.transform.position, parent: shooter.transform.parent).GameObject;
-					Projectile projectileComponent = projectile.GetComponent<Projectile>();
+					Projectile projectileComponent = Newprojectile.GetComponent<Projectile>();
 					Vector2 finalDirectionOverride = CalcDirection(finalDirection, n);
 					projectileComponent.Shoot(finalDirectionOverride, shooter, this, damageZone);
 				}

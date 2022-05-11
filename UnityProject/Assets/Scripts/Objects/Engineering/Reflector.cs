@@ -15,18 +15,14 @@ namespace Objects.Engineering
 {
 	public class Reflector : NetworkBehaviour, IOnHitDetect, ICheckedInteractable<HandApply>
 	{
-		[SerializeField]
-		private ReflectorType startingState = ReflectorType.Base;
+		[SerializeField] private ReflectorType startingState = ReflectorType.Base;
 		private ReflectorType currentState = ReflectorType.Base;
 
-		[SerializeField]
-		private float startingAngle = 0;
+		[SerializeField] private float startingAngle = 0;
 
-		[SerializeField]
-		private bool startSetUp;
+		[SerializeField] private bool startSetUp;
 
-		[SerializeField]
-		private Transform spriteTransform;
+		[SerializeField] private Transform spriteTransform;
 
 		private SpriteHandler spriteHandler;
 		private ObjectBehaviour objectBehaviour;
@@ -34,12 +30,9 @@ namespace Objects.Engineering
 		private ObjectAttributes objectAttributes;
 		private Integrity integrity;
 
-		[SerializeField]
-		private int glassNeeded = 5;
-		[SerializeField]
-		private int reinforcedGlassNeeded = 10;
-		[SerializeField]
-		private int diamondsNeeded = 1;
+		[SerializeField] private int glassNeeded = 5;
+		[SerializeField] private int reinforcedGlassNeeded = 10;
+		[SerializeField] private int diamondsNeeded = 1;
 
 		[SerializeField]
 		//Use to check whether a bullet is a laser
@@ -47,8 +40,7 @@ namespace Objects.Engineering
 
 		private bool isWelded;
 
-		[SyncVar(hook = nameof(SyncRotation))]
-		private float rotation;
+		[SyncVar(hook = nameof(SyncRotation))] private float rotation;
 
 		#region LifeCycle
 
@@ -75,7 +67,7 @@ namespace Objects.Engineering
 			if (Application.isPlaying) return;
 			spriteHandler = GetComponentInChildren<SpriteHandler>();
 			currentState = startingState;
-			spriteHandler.ChangeSprite((int)startingState);
+			spriteHandler.ChangeSprite((int) startingState);
 			rotation = -startingAngle;
 			transform.localEulerAngles = new Vector3(0, 0, rotation);
 			spriteTransform.localEulerAngles = Vector3.zero;
@@ -120,7 +112,7 @@ namespace Objects.Engineering
 		private void ChangeState(ReflectorType newState)
 		{
 			currentState = newState;
-			spriteHandler.ChangeSprite((int)newState);
+			spriteHandler.ChangeSprite((int) newState);
 			objectAttributes.ServerSetArticleName(newState + " Reflector");
 		}
 
@@ -143,7 +135,8 @@ namespace Objects.Engineering
 
 			if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.GlassSheet)) return true;
 
-			if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.ReinforcedGlassSheet)) return true;
+			if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.ReinforcedGlassSheet))
+				return true;
 
 			if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.DiamondSheet)) return true;
 
@@ -236,10 +229,7 @@ namespace Objects.Engineering
 				$"{interaction.Performer.ExpensiveName()} starts deconstructing the {gameObject.ExpensiveName()}...",
 				$"You deconstruct the {gameObject.ExpensiveName()}",
 				$"{interaction.Performer.ExpensiveName()} deconstructs the {gameObject.ExpensiveName()}",
-				() =>
-				{
-					DownGradeState();
-				}
+				() => { DownGradeState(); }
 			);
 		}
 
@@ -305,7 +295,7 @@ namespace Objects.Engineering
 
 		private void TryBuild(HandApply interaction)
 		{
-			if(currentState != ReflectorType.Base) return;
+			if (currentState != ReflectorType.Base) return;
 
 			if (TryAddParts(interaction))
 			{
@@ -317,7 +307,8 @@ namespace Objects.Engineering
 		{
 			if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.GlassSheet))
 			{
-				if (interaction.HandObject.TryGetComponent<Stackable>(out var stackable) && stackable.Amount >= glassNeeded)
+				if (interaction.HandObject.TryGetComponent<Stackable>(out var stackable) &&
+				    stackable.Amount >= glassNeeded)
 				{
 					stackable.ServerConsume(glassNeeded);
 					currentState = ReflectorType.Single;
@@ -329,13 +320,15 @@ namespace Objects.Engineering
 					return true;
 				}
 
-				Chat.AddExamineMsgFromServer(interaction.Performer, $"You need {glassNeeded} glass sheets to build a single reflector.");
+				Chat.AddExamineMsgFromServer(interaction.Performer,
+					$"You need {glassNeeded} glass sheets to build a single reflector.");
 				return false;
 			}
 
 			if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.ReinforcedGlassSheet))
 			{
-				if (interaction.HandObject.TryGetComponent<Stackable>(out var stackable) && stackable.Amount >= reinforcedGlassNeeded)
+				if (interaction.HandObject.TryGetComponent<Stackable>(out var stackable) &&
+				    stackable.Amount >= reinforcedGlassNeeded)
 				{
 					stackable.ServerConsume(reinforcedGlassNeeded);
 					currentState = ReflectorType.Double;
@@ -346,13 +339,15 @@ namespace Objects.Engineering
 					return true;
 				}
 
-				Chat.AddExamineMsgFromServer(interaction.Performer, $"You need {reinforcedGlassNeeded} reinforced glass sheets to build a double reflector.");
+				Chat.AddExamineMsgFromServer(interaction.Performer,
+					$"You need {reinforcedGlassNeeded} reinforced glass sheets to build a double reflector.");
 				return false;
 			}
 
 			if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.DiamondSheet))
 			{
-				if (interaction.HandObject.TryGetComponent<Stackable>(out var stackable) && stackable.Amount >= diamondsNeeded)
+				if (interaction.HandObject.TryGetComponent<Stackable>(out var stackable) &&
+				    stackable.Amount >= diamondsNeeded)
 				{
 					stackable.ServerConsume(diamondsNeeded);
 					currentState = ReflectorType.Box;
@@ -363,7 +358,8 @@ namespace Objects.Engineering
 					return true;
 				}
 
-				Chat.AddExamineMsgFromServer(interaction.Performer, $"You need {diamondsNeeded} diamond sheets to build a box reflector.");
+				Chat.AddExamineMsgFromServer(interaction.Performer,
+					$"You need {diamondsNeeded} diamond sheets to build a box reflector.");
 				return false;
 			}
 
@@ -388,9 +384,10 @@ namespace Objects.Engineering
 		public void OnHitDetect(OnHitDetectData data)
 		{
 			//Only reflect lasers
-			if (data.BulletObject.TryGetComponent<Bullet>(out var bullet) == false || bullet.MaskData != laserData) return;
+			if (data.BulletObject.TryGetComponent<Bullet>(out var bullet) == false ||
+			    bullet.MaskData != laserData) return;
 
-			if(currentState == ReflectorType.Base) return;
+			if (currentState == ReflectorType.Base) return;
 
 			if (isWelded == false) return;
 
@@ -423,7 +420,8 @@ namespace Objects.Engineering
 			{
 				ShootAtDirection(rotation + 90, data);
 			}
-			else if (Vector2.Angle(data.BulletShootDirection, VectorExtensions.DegreeToVector2(rotation + 180 - 90)) <= 55)
+			else if (Vector2.Angle(data.BulletShootDirection, VectorExtensions.DegreeToVector2(rotation + 180 - 90)) <=
+			         55)
 			{
 				ShootAtDirection(rotation + 180 + 90, data);
 			}
@@ -438,7 +436,8 @@ namespace Objects.Engineering
 				range = rangeLimited.CurrentDistance;
 			}
 
-			CastProjectileMessage.SendToAll(gameObject, data.BulletObject.GetComponent<Bullet>().PrefabName, VectorExtensions.DegreeToVector2(rotationToShoot), default, range);
+			ProjectileManager.InstantiateAndShoot(data.BulletObject.GetComponent<Bullet>().PrefabName,
+				VectorExtensions.DegreeToVector2(rotationToShoot), gameObject, null, BodyPartType.None, range);
 		}
 	}
 }
