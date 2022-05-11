@@ -566,6 +566,13 @@ namespace AdminCommands
 			CargoManager.Instance.CargoOffline = online;
 		}
 
+		[Command(requiresAuthority = false)]
+		public void CmdToggleCargoRandomBounty(bool state, NetworkConnectionToClient sender = null)
+		{
+			if (IsAdmin(sender, out var admin) == false) return;
+			CargoManager.Instance.CargoOffline = state;
+		}
+
 		#endregion
 	}
 }
