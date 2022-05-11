@@ -74,7 +74,7 @@ public class ConnectionApply : TargetedInteraction
 	{
 		if (PlayerManager.LocalPlayerScript.IsGhost) return Invalid;
 
-		Vector3 targetVec = Vector3.zero;
+		Vector3 targetVec;
 		if (IntargetVector != null)
 		{
 			targetVec = IntargetVector.Value;
