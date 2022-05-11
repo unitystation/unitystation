@@ -10,6 +10,7 @@ namespace UI.Objects.Cargo
     public class GUI_CargoOfflinePage : GUI_CargoPage
     {
         public Text errorText;
+        public float blinkTime = 0.3f;
 
         public override void OpenTab()
         {
@@ -21,10 +22,10 @@ namespace UI.Objects.Cargo
         {
             while(gameObject.activeSelf)
             {
-	            errorText.color = new Color(errorText.color.r, errorText.color.g, 0);
-	            yield return WaitFor.Seconds(0.2f);
-	            errorText.color = new Color(errorText.color.r, errorText.color.g, 1);
-	            yield return WaitFor.Seconds(0.3f);
+	            LeanTween.alpha(errorText.gameObject, 0, blinkTime);
+	            yield return WaitFor.Seconds(blinkTime);
+	            LeanTween.alpha(errorText.gameObject, 1, blinkTime);
+	            yield return WaitFor.Seconds(blinkTime);
             }
         }
     }
