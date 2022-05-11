@@ -16,10 +16,12 @@ namespace UI.Objects.Cargo
 
 		public GUI_CargoPageCart pageCart;
 		public GUI_CargoPageSupplies pageSupplies;
+		public GUI_CargoOfflinePage OfflinePage;
 
 		protected override void InitServer()
 		{
 			CargoManager.Instance.OnCreditsUpdate.AddListener(UpdateCreditsText);
+			CargoManager.Instance.OnConnectionChangeToCentComm.AddListener(SwitchToOfflinePage);
 			foreach (var page in NestedSwitcher.Pages)
 			{
 				page.GetComponent<GUI_CargoPage>().cargoGUI = this;
@@ -40,7 +42,7 @@ namespace UI.Objects.Cargo
 
 		public void OpenTab(NetPage pageToOpen)
 		{
-			NestedSwitcher.SetActivePage(pageToOpen);
+			NestedSwitcher.SetActivePage(CargoManager.Instance.CargoOffline ? OfflinePage : pageToOpen);
 			var cargopage = pageToOpen.GetComponent<GUI_CargoPage>();
 			cargopage.OpenTab();
 			cargopage.UpdateTab();
@@ -67,6 +69,13 @@ namespace UI.Objects.Cargo
 		public void ResetId()
 		{
 			cargoConsole.ResetID();
+		}
+
+		private void SwitchToOfflinePage()
+		{
+			if(CargoManager.Instance.CargoOffline == false) return;
+			OpenTab(OfflinePage);
+			ResetId();
 		}
 	}
 }

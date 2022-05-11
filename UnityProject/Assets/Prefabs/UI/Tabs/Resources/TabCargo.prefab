@@ -319,6 +319,7 @@ MonoBehaviour:
   cargoConsole: {fileID: 0}
   pageCart: {fileID: 6294078452491510302}
   pageSupplies: {fileID: 2086902534434124868}
+  OfflinePage: {fileID: 0}
 --- !u!1 &1571967781877764
 GameObject:
   m_ObjectHideFlags: 0
@@ -1165,6 +1166,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3519184594870294653}
+  - component: {fileID: 3457916164249116016}
   m_Layer: 5
   m_Name: OfflinePage
   m_TagString: Untagged
@@ -1193,6 +1195,21 @@ RectTransform:
   m_AnchoredPosition: {x: 5.3387, y: -39.1578}
   m_SizeDelta: {x: 689.927, y: 635.6356}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &3457916164249116016
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 554546792109795053}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 471c40d3ce8365a4eba1df5a2f9f25b4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  DirectoryName: /.../
+  cargoGUI: {fileID: 5799221400677952107}
+  errorText: {fileID: 1977844361548214529}
 --- !u!1 &565771500631554775
 GameObject:
   m_ObjectHideFlags: 0
