@@ -22,11 +22,11 @@ namespace UI.Objects.Cargo
         {
             while(gameObject.activeSelf)
             {
-	            LeanTween.alpha(errorText.gameObject, 0, blinkTime);
+	            errorText.SetActive(false);
 	            yield return WaitFor.Seconds(blinkTime);
-	            LeanTween.alpha(errorText.gameObject, 1, blinkTime);
-	            yield return WaitFor.Seconds(blinkTime);
+	            errorText.SetActive(true);
             }
+            errorText.SetActive(true);
         }
     }
 }
