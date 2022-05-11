@@ -32,6 +32,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 	//===============================================
 	//TODO pull isn't being Cancelled on client When slipping
 	//TODO Implement swap if you're dragging someone
+	//TODO pull Doesn't respect wrenched
 
 	public const float DEFAULT_PUSH_SPEED = 6;
 
@@ -418,13 +419,20 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 	}
 
 	public void ForceSetLocalPosition(Vector3 ReSetToLocal, Vector2 Momentum, bool Smooth, int MatrixID,
-		bool UpdateClient = true, float Rotation = 0)
+		bool UpdateClient = true, float Rotation = 0, NetworkConnection Client = null)
 	{
 		transform.localRotation = Quaternion.Euler(new Vector3(0,0,  Rotation));
 		if (isServer && UpdateClient)
 		{
 			isVisible = true;
-			RPCForceSetPosition(ReSetToLocal, Momentum, Smooth, MatrixID);
+			if (Client != null)
+			{
+				RPCForceSetPosition(Client, ReSetToLocal, Momentum, Smooth, MatrixID, Rotation);
+			}
+			else
+			{
+				RPCForceSetPosition(ReSetToLocal, Momentum, Smooth, MatrixID, Rotation);
+			}
 		}
 
 		SetMatrix(MatrixManager.Get(MatrixID).Matrix);
@@ -476,9 +484,15 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 	}
 
 	[ClientRpc]
-	public void RPCForceSetPosition(Vector3 ReSetToLocal, Vector2 Momentum, bool Smooth, int MatrixID)
+	public void RPCForceSetPosition(Vector3 ReSetToLocal, Vector2 Momentum, bool Smooth, int MatrixID, float Rotation)
 	{
-		ForceSetLocalPosition(ReSetToLocal, Momentum, Smooth, MatrixID, false);
+		ForceSetLocalPosition(ReSetToLocal, Momentum, Smooth, MatrixID, false, Rotation);
+	}
+
+	[TargetRpc]
+	public void RPCForceSetPosition(NetworkConnection target, Vector3 ReSetToLocal, Vector2 Momentum, bool Smooth, int MatrixID, float Rotation)
+	{
+		ForceSetLocalPosition(ReSetToLocal, Momentum, Smooth, MatrixID, false, Rotation);
 	}
 
 
@@ -487,7 +501,18 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 		ForceSetLocalPosition(transform.localPosition, newtonianMovement, Smooth, registerTile.Matrix.Id, Rotation : transform.localRotation.eulerAngles.z);
 		if (Pulling.HasComponent)
 		{
-			Pulling.Component.ResetLocationOnClients();
+			Pulling.Component.ResetLocationOnClients(Smooth);
+		}
+		//Update client to server state
+	}
+
+
+	public void ResetLocationOnClient(NetworkConnection Client ,bool Smooth = false)
+	{
+		ForceSetLocalPosition(transform.localPosition, newtonianMovement, Smooth, registerTile.Matrix.Id, Rotation : transform.localRotation.eulerAngles.z, Client : Client);
+		if (Pulling.HasComponent)
+		{
+			Pulling.Component.ResetLocationOnClient(Client, Smooth);
 		}
 		//Update client to server state
 	}

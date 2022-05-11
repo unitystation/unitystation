@@ -6,6 +6,7 @@ using HealthV2;
 using Items;
 using Messages.Client.Interaction;
 using Mirror;
+using Newtonsoft.Json;
 using Objects;
 using Player.Movement;
 using UI.Action;
@@ -487,7 +488,9 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 
 		//Timestamp with (800ms gap for being acceptable
 		public bool CausesSlip;
-		//
+
+		//Pushed objects
+		public string PushedIDs;
 	}
 
 	public enum PlayerMoveDirection
@@ -495,9 +498,7 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 		Up,
 		Up_Right,
 		Right,
-
-		/* you are */
-		Down_Right, //Dastardly
+		/* you are */ Down_Right, //Dastardly
 		Down,
 		Down_Left,
 		Left,
@@ -625,6 +626,33 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 				{
 					if (TryMove(Entry, true))
 					{
+
+
+						if (string.IsNullOrEmpty(Entry.PushedIDs) == false || Pushing.Count > 0)
+						{
+							var specialist = new List<uint>();
+							var NetIDList = new List<uint>();
+							foreach (var Push in Pushing)
+							{
+								specialist.Add(Push.netId);
+							}
+
+							if (string.IsNullOrEmpty(Entry.PushedIDs) == false)
+							{
+								NetIDList = JsonConvert.DeserializeObject<List<uint>>(Entry.PushedIDs);
+							}
+
+							var Nonmatching = specialist.Except(specialist);
+
+							foreach (var NonMatch in Nonmatching)
+							{
+								NetworkIdentity.spawned[NonMatch].GetComponent<UniversalObjectPhysics>().ResetLocationOnClient(connectionToClient);
+							}
+						}
+
+						//TODO Entry.CausesSlip
+						//TODO Entry.BumpedIDs
+
 						//TODO this is good but need to clean up movement a bit more Logger.LogError("Delta magnitude " + (transform.position - Entry.LocalPosition.ToWorld(MatrixManager.Get(Entry.MatrixID).Matrix)).magnitude );
 						//do calculation is and set targets and stuff
 						//Reset client if movement failed Since its good movement only Getting sent
@@ -744,15 +772,30 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 			VectorToPlayerMoveDirection((AddedLocalPosition - transform.localPosition)
 				.To2Int()); //Because shuttle could be rotated   enough to make Global  Direction invalid As compared to server
 
+		if (Pushing.Count > 0)
+		{
+			List<uint> NetIDs = new List<uint>();
+			foreach (var Push in Pushing)
+			{
+				NetIDs.Add(Push.GetComponent<NetworkIdentity>().netId);
+			}
+
+			NewMoveData.PushedIDs = JsonConvert.SerializeObject(NetIDs);
+		}
+		else
+		{
+			NewMoveData.PushedIDs = "";
+		}
+
 		CMDRequestMove(NewMoveData);
 		return;
 	}
 
 	public bool TryMove(MoveData NewMoveData, bool ByClient)
 	{
-		var PushPulls = new List<UniversalObjectPhysics>();
-		var Bumps = new List<IBumpableObject>();
-		if (CanMoveTo(NewMoveData, out var CausesSlipClient, PushPulls, Bumps, out var PushesOff,
+		Bumps.Clear();
+		Pushing.Clear();
+		if (CanMoveTo(NewMoveData, out var CausesSlipClient, Pushing, Bumps, out var PushesOff,
 			    out var SlippingOn))
 		{
 			NewMoveData.CausesSlip = CausesSlipClient;
@@ -763,16 +806,16 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 				{
 					var move = NewMoveData.GlobalMoveDirection.TVectoro();
 					move.Normalize();
-					PhysicsObject.TryTilePush((move * -1).RoundToInt().To2Int(), false, TileMoveSpeed); //TODO SPEED!
+					PhysicsObject.TryTilePush((move * -1).RoundToInt().To2Int(), false, TileMoveSpeed);
 				}
 				//Pushes off object for example pushing the object the other way
 			}
 
-
+			UniversalObjectPhysics Toremove = null;
 			if (intent == Intent.Help)
 			{
-				UniversalObjectPhysics Toremove = null;
-				foreach (var PushPull in PushPulls)
+
+				foreach (var PushPull in Pushing)
 				{
 					var Player = PushPull as MovementSynchronisation;
 					if (Player != null)
@@ -787,12 +830,12 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 
 				if (Toremove != null)
 				{
-					PushPulls.Remove(Toremove);
+					Pushing.Remove(Toremove);
 				}
 			}
 
 			//move
-			ForceTilePush(NewMoveData.GlobalMoveDirection.TVectoro().To2Int(), PushPulls, ByClient,
+			ForceTilePush(NewMoveData.GlobalMoveDirection.TVectoro().To2Int(), Pushing, ByClient,
 				IsWalk: true); //TODO Speed
 
 			SetMatrixCash.ResetNewPosition(registerTile.WorldPosition); //Resets the cash
@@ -804,10 +847,12 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 
 				var Player = registerTile as RegisterPlayer;
 				Player.OrNull()?.ServerSlip();
-				//SlippingOn
-				//slip //TODO
 			}
 
+			if (Toremove != null)
+			{
+				Pushing.Add(Toremove);
+			}
 			return true;
 		}
 		else
