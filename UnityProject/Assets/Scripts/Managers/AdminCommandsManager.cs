@@ -565,6 +565,7 @@ namespace AdminCommands
 			if (IsAdmin(sender, out var admin) == false) return;
 			CargoManager.Instance.CargoOffline = online;
 			CargoManager.Instance.OnConnectionChangeToCentComm?.Invoke();
+			LogAdminAction($"{admin.Username} has changed the cargo online status to -> {online}");
 		}
 
 		#endregion

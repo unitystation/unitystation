@@ -43,6 +43,9 @@ namespace UI.Objects.Cargo
 		public void OpenTab(NetPage pageToOpen)
 		{
 			NestedSwitcher.SetActivePage(CargoManager.Instance.CargoOffline ? OfflinePage : pageToOpen);
+			//(Max) : NetUI shinangins where pages would randomly be null and kick players on headless servers.
+			//This is a workaround to stop people from getting kicked. In-game reason would be this : Solar winds obstruct communications between CC and the station.
+			if (pageToOpen == null) pageToOpen = OfflinePage;
 			var cargopage = pageToOpen.GetComponent<GUI_CargoPage>();
 			cargopage.OpenTab();
 			cargopage.UpdateTab();
@@ -73,6 +76,7 @@ namespace UI.Objects.Cargo
 
 		private void SwitchToOfflinePage()
 		{
+			//If the event has been invoked and cargo is online, ignore.
 			if(CargoManager.Instance.CargoOffline == false) return;
 			OpenTab(OfflinePage);
 			ResetId();
