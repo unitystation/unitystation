@@ -56,6 +56,11 @@ namespace Learning
 		public void TriggerTip(ProtipSO protipSo)
 		{
 			if(TriggerConditions() == false) return;
+			if(protipSo == null) 
+			{
+				Logger.LogError("Passed ProtipSO is null. Cannot trigger tip.");
+				return;
+			}
 			ProtipManager.Instance.ShowTip(protipSo.TipData.Tip, protipSo.TipData.ShowDuration, protipSo.TipData.TipIcon, protipSo.TipData.ShowAnimation);
 			if (triggerOnce)
 			{
