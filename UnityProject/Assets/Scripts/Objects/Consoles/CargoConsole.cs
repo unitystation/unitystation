@@ -22,6 +22,7 @@ namespace Objects.Cargo
 		private List<JobType> allowedTypes = null;
 
 		[SerializeField] private AddressableAudioSource creditArrivalSound;
+		private bool soundIsOnCooldown = false;
 
 		[SerializeField] private string offlineMessage = "The console flashes red as an error message appears and says that access is denied.";
 
@@ -89,6 +90,7 @@ namespace Objects.Cargo
 		public void PlayBudgetUpdateSound()
 		{
 			_ = SoundManager.PlayNetworkedAtPosAsync(creditArrivalSound, gameObject.WorldPosServer());
+			StartCoroutine(SoundCooldown());
 		}
 
 		public bool CargoOfflineCheck()
@@ -100,6 +102,13 @@ namespace Objects.Cargo
 			}
 
 			return false;
+		}
+
+		private IEnumerator SoundCooldown()
+		{
+			soundIsOnCooldown = true;
+			yield return WaitFor.Seconds(2f);
+			soundIsOnCooldown = false;
 		}
 	}
 }
