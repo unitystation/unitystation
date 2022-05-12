@@ -48,7 +48,7 @@ namespace Systems.Cargo
 		public Dictionary<ItemTrait, int> SoldHistory = new Dictionary<ItemTrait, int>();
 
 		public bool CargoOffline = false;
-
+		public bool RandomBountiesActive = true;
     private int lastTimeRecorded = 0;
 		private int randomBountyTimeCheck = 0;
 
@@ -121,6 +121,7 @@ namespace Systems.Cargo
 
 		void UpdateMe()
 		{
+			if(RandomBountiesActive == false || CargoOffline) return;
 			lastTimeRecorded += (int) checkForTimeCooldown;
 			if(lastTimeRecorded >= randomBountyTimeCheck)
 			{

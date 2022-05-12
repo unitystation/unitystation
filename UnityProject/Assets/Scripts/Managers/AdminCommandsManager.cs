@@ -574,6 +574,13 @@ namespace AdminCommands
 			LogAdminAction($"{admin.Username} has changed the cargo online status to -> {online}");
 		}
 
+		[Command(requiresAuthority = false)]
+		public void CmdToggleCargoRandomBounty(bool state, NetworkConnectionToClient sender = null)
+		{
+			if (IsAdmin(sender, out var admin) == false) return;
+			CargoManager.Instance.CargoOffline = state;
+		}
+
 		#endregion
 	}
 }
