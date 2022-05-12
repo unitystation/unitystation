@@ -17,11 +17,11 @@ public static class ConverterExtensions
 	}
 
 
+
 	public static Vector3 ToNonInt3(this Vector3Int other)
 	{
 		return new Vector3(other.x, other.y, other.z);
 	}
-
 
 	public static Vector3Int RoundToInt(this Vector3 other)
 	{

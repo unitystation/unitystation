@@ -6,11 +6,14 @@ using Systems.Electricity;
 
 namespace Objects.Engineering
 {
-	public class LowVoltageMachineConnector : NetworkBehaviour, ICheckedInteractable<PositionalHandApply>
+	public class LowVoltageMachineConnector : NetworkBehaviour, ICheckedInteractable<PositionalHandApply>, IServerSpawn
 	{
 		[Tooltip("The machine connector prefab to spawn on interaction.")]
 		[SerializeField]
 		private GameObject machineConnectorPrefab = default;
+
+		[SerializeField] private float progressTimeToRemove = 1f;
+		[SyncVar] private bool removedOnce = false;
 
 		public WireConnect RelatedWire;
 		public PowerTypeCategory ApplianceType = PowerTypeCategory.LowMachineConnector;
@@ -29,6 +32,12 @@ namespace Objects.Engineering
 			RelatedWire.InData.WireEndB = Connection.SurroundingTiles;
 		}
 
+
+		public void OnSpawnServer(SpawnInfo info)
+		{
+			removedOnce = false; //(Max) : Bod said this was important for object pooling.
+		}
+
 		public bool WillInteract(PositionalHandApply interaction, NetworkSide side)
 		{
 			if (DefaultWillInteract.Default(interaction, side) == false) return false;
@@ -40,6 +49,16 @@ namespace Objects.Engineering
 
 		public void ServerPerformInteraction(PositionalHandApply interaction)
 		{
+			void Remove()
+			{
+				if (removedOnce == false) Spawn.ServerPrefab(
+					machineConnectorPrefab, gameObject.AssumedWorldPosServer(),
+					// Random positioning to make it clear this is disassembled
+					scatterRadius: 0.35f, localRotation: RandomUtils.RandomRotation2D());
+				removedOnce = true; //Counter measure incase the gameobject doesn't despawn for whatever reason.
+				_ = Despawn.ServerSingle(gameObject);
+			}
+
 			// wirecutters can be used to cut this cable
 			Vector3Int worldPosInt = interaction.WorldPositionTarget.To2Int().To3Int();
 			var matrixInfo = MatrixManager.AtPoint(worldPosInt, true);
@@ -50,11 +69,9 @@ namespace Objects.Engineering
 
 			ToolUtils.ServerPlayToolSound(interaction);
 
-			Spawn.ServerPrefab(
-					machineConnectorPrefab, gameObject.AssumedWorldPosServer(),
-					// Random positioning to make it clear this is disassembled
-					scatterRadius: 0.35f, localRotation: RandomUtils.RandomRotation2D());
-			_ = Despawn.ServerSingle(gameObject);
+			var bar = StandardProgressAction.Create(
+				new StandardProgressActionConfig(StandardProgressActionType.CPR, false, false), Remove);
+			bar.ServerStartProgress(interaction.Performer.RegisterTile(), progressTimeToRemove, interaction.Performer);
 		}
 	}
 }

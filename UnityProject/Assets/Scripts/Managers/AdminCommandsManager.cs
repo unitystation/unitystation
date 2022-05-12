@@ -503,10 +503,13 @@ namespace AdminCommands
 			if (completeBounty)
 			{
 				CargoManager.Instance.CompleteBounty(CargoManager.Instance.ActiveBounties[index]);
+				CargoManager.Instance.OnCreditsUpdate?.Invoke();
+				CargoManager.Instance.OnBountiesUpdate?.Invoke();
 				return;
 			}
 
 			CargoManager.Instance.ActiveBounties.Remove(CargoManager.Instance.ActiveBounties[index]);
+			CargoManager.Instance.OnBountiesUpdate?.Invoke();
 		}
 
 		[Command(requiresAuthority = false)]
@@ -514,6 +517,7 @@ namespace AdminCommands
 		{
 			if (IsAdmin(sender, out var admin) == false) return;
 			CargoManager.Instance.ActiveBounties[index].Reward = newReward;
+			CargoManager.Instance.OnBountiesUpdate?.Invoke();
 		}
 
 		[TargetRpc]
@@ -550,6 +554,7 @@ namespace AdminCommands
 		{
 			if (IsAdmin(sender, out var admin) == false) return;
 			CargoManager.Instance.AddBounty(trait, amount, description, reward, announce);
+			CargoManager.Instance.OnBountiesUpdate?.Invoke();
 		}
 
 		[Command(requiresAuthority = false)]
@@ -557,6 +562,7 @@ namespace AdminCommands
 		{
 			if (IsAdmin(sender, out var admin) == false) return;
 			CargoManager.Instance.Credits = budget;
+			CargoManager.Instance.OnCreditsUpdate?.Invoke();
 		}
 
 		[Command(requiresAuthority = false)]
@@ -564,6 +570,8 @@ namespace AdminCommands
 		{
 			if (IsAdmin(sender, out var admin) == false) return;
 			CargoManager.Instance.CargoOffline = online;
+			CargoManager.Instance.OnConnectionChangeToCentComm?.Invoke();
+			LogAdminAction($"{admin.Username} has changed the cargo online status to -> {online}");
 		}
 
 		[Command(requiresAuthority = false)]
