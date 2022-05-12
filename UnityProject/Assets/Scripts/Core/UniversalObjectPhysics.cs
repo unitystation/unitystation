@@ -32,7 +32,9 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 	//===============================================
 	//TODO pull isn't being Cancelled on client When slipping
 	//TODO Implement swap if you're dragging someone
-	//TODO pull Doesn't respect wrenched
+	//TODO Stunned preventing movement isn't communicated to client
+	//TODO Test shuttle RCS
+	//TODO Slipping into locker Causes locker to move on client but not on server, Sometimes???
 
 	public const float DEFAULT_PUSH_SPEED = 6;
 
@@ -396,7 +398,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 	{
 		ThisPullData = NewPulling;
 		if (NewPulling.WasCausedByClient && isLocalPlayer) return;
-		PullSet(NewPulling.NewPulling);
+		PullSet(NewPulling.NewPulling, false, true);
 	}
 
 	public void AppearAtWorldPositionServer(Vector3 WorldPOS, bool Smooth = false)
@@ -496,9 +498,10 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 	}
 
 
+	//Warning only update clients!!
 	public void ResetLocationOnClients(bool Smooth = false)
 	{
-		ForceSetLocalPosition(transform.localPosition, newtonianMovement, Smooth, registerTile.Matrix.Id, Rotation : transform.localRotation.eulerAngles.z);
+		RPCForceSetPosition(transform.localPosition, newtonianMovement, Smooth, registerTile.Matrix.Id, transform.localRotation.eulerAngles.z);;
 		if (Pulling.HasComponent)
 		{
 			Pulling.Component.ResetLocationOnClients(Smooth);
@@ -506,10 +509,14 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 		//Update client to server state
 	}
 
+	//Warning only update client!!
 
 	public void ResetLocationOnClient(NetworkConnection Client ,bool Smooth = false)
 	{
-		ForceSetLocalPosition(transform.localPosition, newtonianMovement, Smooth, registerTile.Matrix.Id, Rotation : transform.localRotation.eulerAngles.z, Client : Client);
+		isVisible = true;
+
+		RPCForceSetPosition(Client, transform.localPosition, newtonianMovement, Smooth, registerTile.Matrix.Id, transform.localRotation.eulerAngles.z);
+
 		if (Pulling.HasComponent)
 		{
 			Pulling.Component.ResetLocationOnClient(Client, Smooth);
@@ -570,6 +577,10 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 
 	private void SyncIsNotPushable(bool wasNotPushable, bool isNowNotPushable)
 	{
+		if (isNowNotPushable && PulledBy.HasComponent)
+		{
+			PulledBy.Component.StopPulling(false);
+		}
 		isNotPushable = isNowNotPushable;
 	}
 
@@ -617,12 +628,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 
 	public void TryTilePush(Vector2Int WorldDirection, bool ByClient, float speed = Single.NaN)
 	{
-		Pushing.Clear();
-		Bumps.Clear();
-		SetMatrixCash.ResetNewPosition(transform.position);
-		if (MatrixManager.IsPassableAtAllMatricesV2(transform.position,
-			    transform.position + WorldDirection.To3Int(), SetMatrixCash, this,
-			    Pushing, Bumps)) //Validate
+		if (CanPush(WorldDirection))
 		{
 			ForceTilePush(WorldDirection, Pushing, ByClient, speed);
 		}
@@ -689,10 +695,8 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 			var InDirection = CachedPosition - Pulling.Component.transform.position;
 			if (InDirection.magnitude > 2f && (isServer || isLocalPlayer))
 			{
-				PullSet(null); //TODO maybe remove
-				if (isServer)
-					ThisPullData = new PullData() {NewPulling = null, WasCausedByClient = false};
-				else if (isLocalPlayer) CmdStopPulling();
+				PullSet(null,false ); //TODO maybe remove
+				if (isLocalPlayer && isServer == false) CmdStopPulling();
 			}
 			else
 			{
@@ -700,7 +704,6 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 			}
 		}
 	}
-
 
 	public void ResetEverything()
 	{
@@ -798,10 +801,9 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 		NewtonianPush(WorldDirection, speed, INairTime, INslideTime, inaim, inthrownBy, spinFactor);
 	}
 
-	public void PullSet(UniversalObjectPhysics ToPull)
+	public void PullSet(UniversalObjectPhysics ToPull, bool ByClient, bool Synced = false)
 	{
-
-
+		if (isServer && Synced == false) SynchroniseUpdatePulling(ThisPullData, new PullData() {NewPulling = ToPull, WasCausedByClient = ByClient});
 
 		if (ToPull != null)
 		{
@@ -831,6 +833,8 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 		float INslideTime = Single.NaN, BodyPartType inaim = BodyPartType.Chest, GameObject inthrownBy = null,
 		float spinFactor = 0) //Collision is just naturally part of Newtonian push
 	{
+		if (isNotPushable) return;
+
 		aim = inaim;
 		thrownBy = inthrownBy;
 		if (Random.Range(0, 2) == 1)
@@ -1232,9 +1236,8 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 			var InDirection = CachedPosition - Pulling.Component.transform.position;
 			if (InDirection.magnitude > 2f && (isServer || isLocalPlayer))
 			{
-				PullSet(null); //TODO maybe remove
-				if (isServer) ThisPullData = new PullData() {NewPulling = null, WasCausedByClient = false};
-				else if (isLocalPlayer) CmdStopPulling();
+				PullSet(null, false); //TODO maybe remove
+				if (isLocalPlayer && isServer == false) CmdStopPulling();
 			}
 			else
 			{
@@ -1367,21 +1370,18 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 			//client request: start/stop pulling
 			if (PulledBy.Component == initiator)
 			{
-				initiator.PullSet(null);
-				if (isServer) initiator.ThisPullData = new PullData() {NewPulling = null, WasCausedByClient = true};
+				initiator.PullSet(null, true);
 				initiator.CmdStopPulling();
 			}
 			else
 			{
-				initiator.PullSet(this);
-				if (isServer) initiator.ThisPullData = new PullData() {NewPulling = this, WasCausedByClient = true};
+				initiator.PullSet(this, true);
 				initiator.CmdPullObject(gameObject);
 			}
 		}
 		else
 		{
-			initiator.PullSet(null);
-			if (isServer) initiator.ThisPullData = new PullData() {NewPulling = null, WasCausedByClient = true};
+			initiator.PullSet(null, true);
 			initiator.CmdStopPulling();
 		}
 	}
@@ -1404,8 +1404,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 				return;
 			}
 
-			PullSet(null);
-			if (isServer) ThisPullData = new PullData() {NewPulling = null, WasCausedByClient = true};
+			PullSet(null, true);
 		}
 
 		ConnectedPlayer clientWhoAsked = PlayerList.Instance.Get(gameObject);
@@ -1417,8 +1416,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 		if (Validations.IsReachableByRegisterTiles(pullable.registerTile, this.registerTile, true,
 			    context: pullableObject))
 		{
-			PullSet(pullable);
-			if (isServer) ThisPullData = new PullData() {NewPulling = pullable, WasCausedByClient = true};
+			PullSet(pullable, true);
 			SoundManager.PlayNetworkedAtPos(CommonSounds.Instance.ThudSwoosh, pullable.transform.position,
 				sourceObj: pullableObject);
 			//TODO Update the UI
@@ -1429,14 +1427,13 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 	[Command]
 	public void CmdStopPulling()
 	{
-		PullSet(null);
-		if (isServer) ThisPullData = new PullData() {NewPulling = null, WasCausedByClient = true};
+		PullSet(null, true);
 	}
 
-	public void StopPulling()
+	public void StopPulling(bool byClient)
 	{
-		CmdStopPulling();
-		PullSet(null);
+		if (isServer == false) CmdStopPulling();
+		PullSet(null, byClient);
 	}
 
 	//--Handles--

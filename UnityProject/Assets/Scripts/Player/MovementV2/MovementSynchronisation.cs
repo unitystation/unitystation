@@ -609,6 +609,7 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 					{
 						transform.localPosition = Entry.LocalPosition;
 						SetMatrixCash.ResetNewPosition(transform.position);
+						return;
 					}
 				}
 				else
@@ -616,8 +617,10 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 					if ((transform.localPosition - Entry.LocalPosition).magnitude >
 					    0.5f) //Resets play location if too far away
 					{
+						Logger.LogError("Reset from distance from actual target" + (transform.localPosition - Entry.LocalPosition).magnitude + " SERVER : " + transform.localPosition + " Client : " + Entry.LocalPosition);
 						ResetLocationOnClients();
 						MoveQueue.Clear();
+						return;
 					}
 				}
 
@@ -641,8 +644,24 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 							{
 								NetIDList = JsonConvert.DeserializeObject<List<uint>>(Entry.PushedIDs);
 							}
+							var Nonmatching = new List<uint>();
 
-							var Nonmatching = specialist.Except(specialist);
+							foreach (var _In in NetIDList)
+							{
+								if (specialist.Contains(_In) == false)
+								{
+									Nonmatching.Add(_In);
+								}
+							}
+
+							foreach (var _In in specialist)
+							{
+								if (NetIDList.Contains(_In) == false)
+								{
+									Nonmatching.Add(_In);
+								}
+							}
+
 
 							foreach (var NonMatch in Nonmatching)
 							{
@@ -672,12 +691,14 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 					}
 					else
 					{
+						Logger.LogError("Failed TryMove");
 						ResetLocationOnClients();
 						MoveQueue.Clear();
 					}
 				}
 				else
 				{
+					Logger.LogError("Failed Can input");
 					ResetLocationOnClients();
 					MoveQueue.Clear();
 				}

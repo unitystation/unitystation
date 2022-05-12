@@ -550,7 +550,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 				break;
 		}
 
-		playerScript.objectPhysics.StopPulling();
+		playerScript.objectPhysics.StopPulling(false);
 	}
 
 	[Server]

@@ -112,7 +112,7 @@ namespace UI
 				var ps = PlayerManager.LocalPlayerScript.GetComponent<UniversalObjectPhysics>();
 				if (ps != null)
 				{
-					ps.StopPulling();
+					ps.StopPulling(true);
 				}
 			}
 		}

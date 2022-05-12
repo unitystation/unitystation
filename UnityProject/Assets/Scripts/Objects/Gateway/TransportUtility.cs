@@ -68,7 +68,7 @@ namespace Gateway
 				var previous = node.Previous?.Value;
 
 				//Disconnect pulling to make it not be a problem
-				currentObj.PullSet(null); //TODO Test without
+				currentObj.PullSet(null, false); //TODO Test without
 
 				//Transport current
 				TransportObject(currentObj, transportTo);
