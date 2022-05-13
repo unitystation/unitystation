@@ -25,7 +25,7 @@ namespace Items.Construction
 
 		public bool WillInteract(HandApply interaction, NetworkSide side)
 		{
-			if (customTypes.Count == 0) return false;
+			if (customTypes.Count == 0 || screwdriver == null) return false;
 			if (DefaultWillInteract.Default(interaction, side) == false) return false;
 			return interaction.HandObject.Item().HasTrait(screwdriver);
 		}
