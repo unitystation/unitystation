@@ -35,7 +35,7 @@ namespace Items.Construction
 			currentIndex++;
 			if (currentIndex >= customTypes.Count) currentIndex = 0;
 			computerToSpawn = customTypes[currentIndex];
-			Chat.AddExamineMsg(interaction.Performer, $"The board will spawn a {customTypes[currentIndex].name}");
+			Chat.AddExamineMsg(interaction.Performer, $"You tune the board to create a {customTypes[currentIndex].name}");
 		}
 	}
 }
