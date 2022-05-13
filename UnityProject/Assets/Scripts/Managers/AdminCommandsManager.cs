@@ -540,8 +540,9 @@ namespace AdminCommands
 			for (int i = 0; i < CargoManager.Instance.ActiveBounties.Count; i++)
 			{
 				var foundBounty = new CargoManager.BountySyncData();
+				foundBounty.Title = CargoManager.Instance.ActiveBounties[i].Title;
 				foundBounty.Reward = CargoManager.Instance.ActiveBounties[i].Reward;
-				foundBounty.Desc = CargoManager.Instance.ActiveBounties[i].Description;
+				foundBounty.Desc = CargoManager.Instance.ActiveBounties[i].TooltipDescription;
 				foundBounty.Index = i;
 				simpleData.Add(foundBounty);
 			}
@@ -550,10 +551,10 @@ namespace AdminCommands
 		}
 
 		[Command(requiresAuthority = false)]
-		public void CmdAddBounty(ItemTrait trait, int amount, string description, int reward, bool announce, NetworkConnectionToClient sender = null)
+		public void CmdAddBounty(ItemTrait trait, int amount, string title, string description, int reward, bool announce, NetworkConnectionToClient sender = null)
 		{
 			if (IsAdmin(sender, out var admin) == false) return;
-			CargoManager.Instance.AddBounty(trait, amount, description, reward, announce);
+			CargoManager.Instance.AddBounty(trait, amount, title, description, reward, announce);
 			CargoManager.Instance.OnBountiesUpdate?.Invoke();
 		}
 
