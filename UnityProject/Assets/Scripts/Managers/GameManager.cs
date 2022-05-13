@@ -158,9 +158,11 @@ public partial class GameManager : MonoBehaviour, IInitialise
 
 	public int RebootOnAverageFPSOrLower = 35;
 
+	public List<string> ServerCustomMusic = new List<string>();
+
 	[NonSerialized]
 	public bool DisconnectExpected = false;
-	
+
 	void IInitialise.Initialise()
 	{
 		// Set up server defaults, needs to be loaded here to ensure gameConfigManager is load.
@@ -214,6 +216,7 @@ public partial class GameManager : MonoBehaviour, IInitialise
 		LowPopLimit = GameConfigManager.GameConfig.LowPopLimit;
 		LowPopCheckTimeAfterRoundStart = GameConfigManager.GameConfig.LowPopCheckTimeAfterRoundStart;
 		RebootOnAverageFPSOrLower = GameConfigManager.GameConfig.RebootOnAverageFPSOrLower;
+		ServerCustomMusic = GameConfigManager.GameConfig.ServerCustomMusic;
 
 		Physics.autoSimulation = false;
 		Physics2D.simulationMode = SimulationMode2D.Update;

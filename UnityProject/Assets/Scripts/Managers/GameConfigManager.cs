@@ -65,5 +65,6 @@ namespace GameConfig
 		public int LowPopLimit;
 		public int LowPopCheckTimeAfterRoundStart;
 		public int RebootOnAverageFPSOrLower;
+		public List<string> ServerCustomMusic;
 	}
 }
