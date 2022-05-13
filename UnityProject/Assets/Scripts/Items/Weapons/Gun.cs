@@ -749,8 +749,7 @@ namespace Weapons
 				SoundManager.PlayNetworkedAtPos(FiringSoundA, shooter.transform.position);
 			}
 
-			RPCShowMuzzleFlash(shooter.GetComponent<NetworkIdentity>());
-			//shooter.GetComponent<PlayerSprites>().ShowMuzzleFlash();
+			RPCShowMuzzleFlash(shooter.GetComponent<NetworkIdentity>()); ;
 		}
 
 		[ClientRpc]
