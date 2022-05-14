@@ -27,7 +27,7 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 
 	public bool Step = false;
 
-
+	[SyncVar(hook = nameof(SyncInput))]
 	[NonSerialized] public bool allowInput = true; //Should be synchvar far
 
 	public Intent intent; //TODO Cleanup in mind rework
@@ -300,6 +300,11 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 	}
 
 	#endregion Cuffing
+
+	private void SyncInput(bool OLDInput, bool NewInput)
+	{
+		allowInput = NewInput;
+	}
 
 	// syncvar hook invoked client side when the buckledTo changes
 	private void SyncBuckledObject(UniversalObjectPhysics oldBuckledTo, UniversalObjectPhysics newBuckledTo)

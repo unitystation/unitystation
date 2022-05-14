@@ -30,9 +30,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 	//TODO Sometime Combine buckling and object storage
 
 	//===============================================
-	//TODO pull isn't being Cancelled on client When slipping
 	//TODO Implement swap if you're dragging someone
-	//TODO Stunned preventing movement isn't communicated to client
 	//TODO Test shuttle RCS
 	//TODO Slipping into locker Causes locker to move on client but not on server, Sometimes???
 

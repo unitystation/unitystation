@@ -299,7 +299,7 @@ public class RegisterPlayer : RegisterTile, IServerSpawn, RegisterPlayer.IContro
 				Inventory.ServerDrop(itemSlot);
 			}
 		}
-		playerScript.playerMove.allowInput = false;
+		//playerScript.playerMove.allowInput = false; Remove stun so people can call around
 
 		this.RestartCoroutine(StunTimer(stunDuration), ref unstunHandle);
 	}

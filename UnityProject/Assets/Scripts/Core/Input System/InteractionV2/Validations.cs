@@ -184,12 +184,11 @@ public static class Validations
 
 		var playerObjBehavior = playerScript.objectPhysics;
 
-		//TODO READD
 
-		// if (CanInteract(playerScript, side, allowSoftCrit) == false)
-		// {
-			// return false;
-		// }
+		if (CanInteract(playerScript, side, allowSoftCrit) == false)
+		{
+			return false;
+		}
 
 		//no matter what, if player is in closet, they can only reach the closet
 		if (playerScript.IsHidden)
