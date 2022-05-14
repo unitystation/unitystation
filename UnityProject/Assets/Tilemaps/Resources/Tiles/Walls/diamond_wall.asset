@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad263680d73c8c54ba53262044a57d04, type: 3}
   m_Name: diamond_wall
   m_EditorClassIdentifier: 
-  displayName: 
-  description: 
+  displayName: solid diamond wall
+  description: A wall with diamond plating. You monster.
   LayerType: 0
   TileType: 1
   RequiredTiles:
@@ -26,6 +26,7 @@ MonoBehaviour:
   passable: 0
   mineable: 0
   miningTime: 5
+  miningHardness: 1
   constructable: 0
   RadiationPassability: 0.75
   ThermalConductivity: 0
@@ -37,10 +38,10 @@ MonoBehaviour:
   passableException:
     m_keys: 
     m_values: 
-  maxHealth: 100
-  damageDeflection: 0
+  maxHealth: 400
+  damageDeflection: 16
   armor:
-    Melee: 90
+    Melee: 100
     Bullet: 90
     Laser: 90
     Energy: 90
