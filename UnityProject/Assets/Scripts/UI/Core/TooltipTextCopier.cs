@@ -1,23 +1,23 @@
-using System.Collections;
-using Mirror;
 using UnityEngine;
-using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 namespace UI.Core
 {
-	public class TooltipNetworked : NetworkBehaviour
+	/// <summary>
+	/// Copies the text from a target and displays it in a tooltip. (Useful for NetUI)
+	/// </summary>
+	public class TooltipTextCopier : MonoBehaviour
 	{
 		const float TOOLTIP_INTERVAL = 1.0f;
 		private float enterTime = 0;
 		[SerializeField] private GameObject tooltipObject = null;
-		[SyncVar] public string TooltipText = "No description setup yet.";
 		private Text tooltipTextUI;
+		[SerializeField] private Text TextToCopy;
 
 		void Awake()
 		{
 			tooltipTextUI = tooltipObject.GetComponentInChildren<Text>();
-			tooltipTextUI.text = TooltipText;
+			tooltipTextUI.text = "No description set yet";
 			tooltipObject.SetActive(false);
 		}
 
@@ -51,7 +51,7 @@ namespace UI.Core
 
 		private void UpdateOnTextChange()
 		{
-			tooltipTextUI.text = TooltipText;
+			tooltipTextUI.text = TextToCopy.text;
 		}
 
 

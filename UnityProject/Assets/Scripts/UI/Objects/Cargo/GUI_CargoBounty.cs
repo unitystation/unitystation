@@ -8,13 +8,14 @@ namespace UI.Objects.Cargo
 {
 	public class GUI_CargoBounty : DynamicEntry
 	{
-		[SerializeField] private NetLabel bountyDescription;
-		[SerializeField] private TooltipNetworked bountyTooltip;
+		[SerializeField] private NetLabel bountyTitle;
+		[SerializeField] private NetLabel InvisblebountyDescription;
+		[SerializeField] private TooltipTextCopier bountyTooltip;
 
 		public void SetValues(CargoBounty cargoBounty)
 		{
-			bountyDescription.SetValueServer($"{cargoBounty.Reward} credits - {cargoBounty.Title}");
-			bountyTooltip.TooltipText = cargoBounty.TooltipDescription;
+			bountyTitle.SetValueServer($"{cargoBounty.Reward} credits - {cargoBounty.Title}");
+			InvisblebountyDescription.SetValueServer(cargoBounty.TooltipDescription);
 		}
 	}
 }

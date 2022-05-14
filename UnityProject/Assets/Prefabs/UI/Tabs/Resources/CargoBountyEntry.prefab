@@ -13,8 +13,8 @@ GameObject:
   - component: {fileID: 1486424344477127055}
   - component: {fileID: 4341083777065238306}
   - component: {fileID: 2837313162299302631}
-  - component: {fileID: 6374582689600507409}
   - component: {fileID: 3644111299621548400}
+  - component: {fileID: 7926593808286996122}
   m_Layer: 5
   m_Name: CargoBountyEntry
   m_TagString: Untagged
@@ -36,6 +36,7 @@ RectTransform:
   m_Children:
   - {fileID: 6570738871471658974}
   - {fileID: 2910861955266229441}
+  - {fileID: 1056225099114812996}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -94,8 +95,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f092601d81a992d4fb3316a290374679, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bountyDescription: {fileID: 5750191188921129346}
-  bountyTooltip: {fileID: 6374582689600507409}
+  bountyTitle: {fileID: 362836110038484650}
+  InvisblebountyDescription: {fileID: 5750191188921129346}
+  bountyTooltip: {fileID: 7926593808286996122}
 --- !u!114 &2837313162299302631
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -113,21 +115,6 @@ MonoBehaviour:
   visible: 0
   m_AssetId: 5767dd03f5ff5d34483e97b5df2d2fc4
   hasSpawned: 0
---- !u!114 &6374582689600507409
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3799708768014915418}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 14db9994d9be4710b0309ac3422c8dad, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  tooltipObject: {fileID: 9113551560293830792}
 --- !u!114 &3644111299621548400
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -145,8 +132,8 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 6374582689600507409}
-          m_TargetAssemblyTypeName: UI.Core.TooltipNetworked, Assets
+        - m_Target: {fileID: 7926593808286996122}
+          m_TargetAssemblyTypeName: UI.Core.TooltipTextCopier, Assets
           m_MethodName: PointerEnter
           m_Mode: 1
           m_Arguments:
@@ -161,8 +148,8 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 6374582689600507409}
-          m_TargetAssemblyTypeName: UI.Core.TooltipNetworked, Assets
+        - m_Target: {fileID: 7926593808286996122}
+          m_TargetAssemblyTypeName: UI.Core.TooltipTextCopier, Assets
           m_MethodName: PointerExit
           m_Mode: 1
           m_Arguments:
@@ -173,6 +160,113 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
+--- !u!114 &7926593808286996122
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3799708768014915418}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 895c922fbdff4f07b12c38989aabc759, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tooltipObject: {fileID: 9113551560293830792}
+  TextToCopy: {fileID: 8719791986845542966}
+--- !u!1 &7859153141295830359
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1056225099114812996}
+  - component: {fileID: 5544196538342042180}
+  - component: {fileID: 6741772097409359555}
+  - component: {fileID: 362836110038484650}
+  m_Layer: 5
+  m_Name: Title
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1056225099114812996
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7859153141295830359}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 4760123875520080070}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 341.94, y: 0}
+  m_SizeDelta: {x: 666.125, y: 0}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!222 &5544196538342042180
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7859153141295830359}
+  m_CullTransparentMesh: 0
+--- !u!114 &6741772097409359555
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7859153141295830359}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 0.8, b: 0, a: 1}
+  m_RaycastTarget: 0
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_FontData:
+    m_Font: {fileID: 12800000, guid: b8471550233548f5a8aecb61061a2263, type: 3}
+    m_FontSize: 15
+    m_FontStyle: 0
+    m_BestFit: 0
+    m_MinSize: 0
+    m_MaxSize: 300
+    m_Alignment: 3
+    m_AlignByGeometry: 0
+    m_RichText: 1
+    m_HorizontalOverflow: 0
+    m_VerticalOverflow: 1
+    m_LineSpacing: 1
+  m_Text: Title
+--- !u!114 &362836110038484650
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7859153141295830359}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 21afa0ea296b4f4091642a323912e6e5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &9206037113111953145
 GameObject:
   m_ObjectHideFlags: 0
@@ -233,7 +327,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 0.8, b: 0, a: 1}
+  m_Color: {r: 1, g: 0.8, b: 0, a: 0}
   m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
