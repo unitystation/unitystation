@@ -21,12 +21,12 @@ namespace Learning.ProtipObjectTypes
 
 		private void CheckForNearbyItems()
 		{
-			var possibleTargets = Physics2D.OverlapCircleAll(gameObject.AssumedWorldPosServer(), SearchRadius, MaskToCheck);
+			var possibleTargets = Physics2D.OverlapCircleAll(gameObject.RegisterTile().WorldPosition.ToNonInt3(), SearchRadius, MaskToCheck);
 			foreach (var target in possibleTargets)
 			{
 				if(gameObject == target.gameObject) continue;
-				if (MatrixManager.Linecast(gameObject.AssumedWorldPosServer(), LayerTypeSelection.Walls,
-					    MaskToCheck, target.gameObject.AssumedWorldPosServer()).ItHit) continue;
+				if (MatrixManager.Linecast(gameObject.RegisterTile().WorldPosition, LayerTypeSelection.Walls,
+					    MaskToCheck, target.gameObject.RegisterTile().WorldPosition).ItHit) continue;
 				foreach (var data in ObjectsToCheck)
 				{
 					var prefabTracker = data.GameObjectToCheck.GetComponent<PrefabTracker>();
@@ -49,7 +49,7 @@ namespace Learning.ProtipObjectTypes
 			public bool Equals(ObjectCheckData obj)
 			{
 				if(obj.AssoicatedSo == null || AssoicatedSo == null) return false;
-				if(obj.AssoicatedSo != AssoicatedSo) return false;			
+				if(obj.AssoicatedSo != AssoicatedSo) return false;
 				return base.Equals (obj);
 			}
 		}
