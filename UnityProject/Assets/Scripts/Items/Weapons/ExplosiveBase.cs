@@ -26,7 +26,7 @@ namespace Items.Weapons
 		[Header("Explosive settings")]
 		[SerializeField] protected ExplosiveType explosiveType;
 		[SerializeField] protected bool detonateImmediatelyOnSignal;
-		[SerializeField] protected int timeToDetonate = 10;
+		[SerializeField, SyncVar] protected int timeToDetonate = 10;
 		[SerializeField] protected int minimumTimeToDetonate = 10;
 		[SerializeField] protected float explosiveStrength = 150f;
 		[SerializeField] protected SpriteDataSO activeSpriteSO;
