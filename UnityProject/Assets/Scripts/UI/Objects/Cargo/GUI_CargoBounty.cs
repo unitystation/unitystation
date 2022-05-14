@@ -10,7 +10,6 @@ namespace UI.Objects.Cargo
 	{
 		[SerializeField] private NetLabel bountyTitle;
 		[SerializeField] private NetLabel InvisblebountyDescription;
-		[SerializeField] private TooltipTextCopier bountyTooltip;
 
 		public void SetValues(CargoBounty cargoBounty)
 		{

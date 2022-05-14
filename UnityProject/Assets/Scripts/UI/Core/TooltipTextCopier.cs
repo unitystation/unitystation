@@ -41,7 +41,7 @@ namespace UI.Core
 				tooltipObject.transform.position = CommonInput.mousePosition - new Vector3(0, 20, 0);
 			}
 
-			if (enterTime == 0 || Time.realtimeSinceStartup - enterTime < TOOLTIP_INTERVAL) return;
+			if (enterTime <= 0 || Time.realtimeSinceStartup - enterTime < TOOLTIP_INTERVAL) return;
 			// Move tooltip above all other layers. We do it now so new objects wont hide it.
 			tooltipObject.transform.SetAsLastSibling();
 			tooltipObject.SetActive(true);
