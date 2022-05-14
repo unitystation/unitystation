@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 1098926129202944411}
   - component: {fileID: 1486424344477127055}
   - component: {fileID: 4341083777065238306}
-  - component: {fileID: 2837313162299302631}
   - component: {fileID: 3644111299621548400}
   - component: {fileID: 7926593808286996122}
   m_Layer: 5
@@ -97,24 +96,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bountyTitle: {fileID: 362836110038484650}
   InvisblebountyDescription: {fileID: 5750191188921129346}
-  bountyTooltip: {fileID: 7926593808286996122}
---- !u!114 &2837313162299302631
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3799708768014915418}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  sceneId: 0
-  serverOnly: 0
-  visible: 0
-  m_AssetId: 5767dd03f5ff5d34483e97b5df2d2fc4
-  hasSpawned: 0
 --- !u!114 &3644111299621548400
 MonoBehaviour:
   m_ObjectHideFlags: 0
