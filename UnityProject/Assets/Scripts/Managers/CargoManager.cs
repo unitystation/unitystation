@@ -428,7 +428,7 @@ namespace Systems.Cargo
 		{
 			ActiveBounties.Remove(cargoBounty);
 			Credits += cargoBounty.Reward;
-			CentcomMessage += $"+{cargoBounty.Reward.ToString()} credits: {cargoBounty.Description} - completed.\n";
+			CentcomMessage += $"+{cargoBounty.Reward.ToString()} credits: {cargoBounty.TooltipDescription} - completed.\n";
 			OnBountiesUpdate.Invoke();
 		}
 
@@ -515,12 +515,13 @@ namespace Systems.Cargo
 		/// <summary>
 		/// Adds a new bounty to the bounty list. Returns false if it fails.
 		/// </summary>
-		public void AddBounty(ItemTrait trait, int amount, string description, int reward, bool announce)
+		public void AddBounty(ItemTrait trait, int amount, string title, string description, int reward, bool announce)
 		{
 			if(amount < 1 || reward < 1) return;
 			CargoBounty newBounty = new CargoBounty();
 			newBounty.Demands.Add(trait, amount);
-			newBounty.Description = description;
+			newBounty.TooltipDescription = description;
+			newBounty.Title = title;
 			newBounty.Reward = reward;
 			ActiveBounties.Add(newBounty);
 			if(announce) AnnounceNewBounty();
@@ -548,6 +549,7 @@ namespace Systems.Cargo
 
 		public struct BountySyncData
 		{
+			public string Title;
 			public string Desc;
 			public int Reward;
 			public int Index;
