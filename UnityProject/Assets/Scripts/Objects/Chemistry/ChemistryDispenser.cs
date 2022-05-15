@@ -71,6 +71,13 @@ namespace Chemistry
 
 		public void ServerPerformInteraction(HandApply interaction)
 		{
+			//Inserts reagent container
+			if (itemSlot.IsOccupied)
+			{
+				Chat.AddExamineMsgFromServer(interaction.Performer, "The machine already has a beaker in it");
+				return;
+			}
+
 			//put the reagant container inside me
 			Inventory.ServerTransfer(interaction.HandSlot, itemSlot);
 			UpdateGUI();
