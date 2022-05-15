@@ -168,20 +168,6 @@ namespace Weapons
 		/// </summary>
 		[SerializeField] protected bool allowPinSwap = true;
 
-		/// <summary>
-		/// Used only in server, the queued up shots that need to be performed when the weapon FireCountDown hits 0.
-		/// </summary>
-		private Queue<QueuedShot> queuedShots;
-
-		/// <summary>
-		/// We don't want to eject the magazine or reload as soon as the client says its time to do those things - if the client is
-		/// firing a burst, they might shoot the whole magazine then eject it and reload before server is done processing the last shot.
-		/// Instead, these vars are set when the client says to eject or load a new magazine, and the server will only process
-		/// the actual unload / load (updating MagNetID) once the shot queue is empty.
-		/// </summary>
-		private bool queuedUnload = false;
-
-		private uint queuedLoadMagNetID = NetId.Invalid;
 
 		private RegisterTile registerTile;
 		[ReadOnly] public ItemSlot magSlot;
@@ -215,7 +201,6 @@ namespace Weapons
 			pinSlot = itemStorage.GetIndexedItemSlot(1);
 			suppressorSlot = itemStorage.GetIndexedItemSlot(2);
 			registerTile = GetComponent<RegisterTile>();
-			queuedShots = new Queue<QueuedShot>();
 			if (pinSlot == null || magSlot == null || itemStorage == null)
 			{
 				Logger.LogWarning($"{gameObject.name} missing components, may cause issues", Category.Firearms);
@@ -292,10 +277,9 @@ namespace Weapons
 		public virtual bool WillInteract(HandActivate interaction, NetworkSide side)
 		{
 			if (DefaultWillInteract.Default(interaction, side) == false) return false;
-			if (side == NetworkSide.Server && DefaultWillInteract.Default(interaction, side)) return true;
 
 			//try ejecting the mag if external
-			if (CurrentMagazine != null && allowMagazineRemoval && !MagInternal && side == NetworkSide.Client)
+			if (CurrentMagazine != null && allowMagazineRemoval && !MagInternal)
 			{
 				return true;
 			}
@@ -417,7 +401,7 @@ namespace Weapons
 					{
 						PlayEmptySfx();
 					}
-
+					StartCoroutine(DelayGun());
 					return false;
 				}
 
@@ -447,7 +431,6 @@ namespace Weapons
 
 		public virtual void ServerPerformInteraction(AimApply interaction)
 		{
-
 			//do we need to check if this is a suicide (want to avoid the check because it involves a raycast).
 			//case 1 - we are beginning a new shot, need to see if we are shooting ourselves
 			//case 2 - we are firing an automatic and are currently shooting ourselves, need to see if we moused off
@@ -582,7 +565,7 @@ namespace Weapons
 		public void ServerShoot(GameObject shotBy, Vector2 target,
 			BodyPartType damageZone, bool isSuicideShot)
 		{
-			var finalDirection = ApplyRecoil(target);
+
 			//don't enqueue the shot if the player is no longer able to shoot
 			PlayerScript shooter = shotBy.GetComponent<PlayerScript>();
 			if (!Validations.CanInteract(shooter, NetworkSide.Server))
@@ -604,8 +587,6 @@ namespace Weapons
 		private void DequeueAndProcessServerShot(GameObject shotBy, Vector2 target,
 			BodyPartType damageZone, bool isSuicideShot)
 		{
-
-
 			// check if we can still shoot
 			PlayerMove shooter = shotBy.GetComponent<PlayerMove>();
 			PlayerScript shooterScript = shotBy.GetComponent<PlayerScript>();
@@ -643,10 +624,9 @@ namespace Weapons
 				return;
 			}
 
-
-
+			var finalDirection = ApplyRecoil(target);
 			//perform the actual server side shooting, creating the bullet that does actual damage
-			DisplayShot(shotBy, target, damageZone, isSuicideShot, toShoot,
+			DisplayShot(shotBy, finalDirection, damageZone, isSuicideShot, toShoot,
 				quantity);
 
 			StartCoroutine(DelayGun());
@@ -718,7 +698,7 @@ namespace Weapons
 			//add additional recoil after shooting for the next round
 			AppendRecoil();
 
-			Camera2DFollow.followControl.Recoil(-finalDirection, CameraRecoilConfig);
+
 
 
 			if (isSuicideShot)
@@ -749,12 +729,14 @@ namespace Weapons
 				SoundManager.PlayNetworkedAtPos(FiringSoundA, shooter.transform.position);
 			}
 
-			RPCShowMuzzleFlash(shooter.GetComponent<NetworkIdentity>()); ;
+			RPCShowMuzzleFlashAndRecoil(shooter.GetComponent<NetworkIdentity>(), finalDirection);
+
 		}
 
 		[ClientRpc]
-		public void RPCShowMuzzleFlash(NetworkIdentity NetOb)
+		public void RPCShowMuzzleFlashAndRecoil(NetworkIdentity NetOb, Vector2 finalDirection)
 		{
+			Camera2DFollow.followControl.Recoil(-finalDirection, CameraRecoilConfig);
 			NetOb.GetComponent<PlayerSprites>().ShowMuzzleFlash();
 		}
 
@@ -793,17 +775,23 @@ namespace Weapons
 		[Server]
 		public void ServerHandleReloadRequest(GameObject mag)
 		{
-			uint networkID = mag.gameObject.GetComponent<NetworkIdentity>().netId;
-			if (queuedLoadMagNetID != NetId.Invalid)
+			if (CurrentMagazine == null)
 			{
-				//can happen if client is spamming CmdLoadWeapon
-				Logger.LogWarning(
-					"Player tried to queue a load action while a load action was already queued, ignoring the second load.",
-					Category.Firearms);
+				Logger.LogWarning($"Why is {nameof(CurrentMagazine)} null for {this}?", Category.Firearms);
+			}
+
+			if (MagInternal)
+			{
+				var clip = mag;
+				MagazineBehaviour clipComp = clip.GetComponent<MagazineBehaviour>();
+				string message = CurrentMagazine.LoadFromClip(clipComp);
+				Chat.AddExamineMsg(serverHolder, message);
 			}
 			else
 			{
-				queuedLoadMagNetID = networkID;
+				var magazine = mag;
+				var fromSlot = magazine.GetComponent<Pickupable>().ItemSlot;
+				Inventory.ServerTransfer(fromSlot, magSlot);
 			}
 		}
 
@@ -813,22 +801,9 @@ namespace Weapons
 		/// </summary>
 		public void ServerHandleUnloadRequest()
 		{
-			if (queuedUnload)
+			if (!MagInternal)
 			{
-				//this can happen if client is spamming CmdUnloadWeapon
-				Logger.LogWarning(
-					"Player tried to queue an unload action while an unload action was already queued. Ignoring the second unload.",
-					Category.Firearms);
-			}
-			else if (queuedLoadMagNetID != NetId.Invalid)
-			{
-				Logger.LogWarning(
-					"Player tried to queue an unload action while a load action was already queued. Ignoring the unload.",
-					Category.Firearms);
-			}
-			else
-			{
-				queuedUnload = true;
+				Inventory.ServerDrop(magSlot);
 			}
 		}
 
