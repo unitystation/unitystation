@@ -22,7 +22,7 @@ public class Mind
 	public Occupation occupation;
 	public PlayerScript ghost;
 	public PlayerScript body;
-	public SpawnedAntag antag;
+	private SpawnedAntag antag;
 	public bool IsAntag => antag != null;
 	public bool IsGhosting;
 	public bool DenyCloning;
