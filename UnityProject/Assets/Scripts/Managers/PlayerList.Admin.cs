@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 using DatabaseAPI;
 using Mirror;
@@ -433,10 +434,15 @@ public partial class PlayerList
 		//Must have non-null/empty username
 		if (string.IsNullOrEmpty(unverifiedConnPlayer.Username))
 		{
-			StartCoroutine(KickPlayer(unverifiedConnPlayer, $"Server Error: Account has invalid username (Null/Empty). To fix go to character creator then click Serialise and then load"));
-			Logger.LogError($"A user tried to connect with null/empty username" +
-			           $"Details: Username: {unverifiedConnPlayer.Username}, ClientID: {unverifiedConnPlayer.ClientId}, IP: {unverifiedConnPlayer.ConnectionIP}",
-				Category.Admin);
+			var prefsCheck = PlayerPrefs.GetString("currentcharacter");
+			if (string.IsNullOrEmpty(prefsCheck))
+			{
+				StartCoroutine(KickPlayer(unverifiedConnPlayer, $"Server Error: Account has invalid username (Null/Empty). To fix go to character creator then click Serialise and then load"));
+				Logger.LogError($"A user tried to connect with null/empty username" +
+				                $"Details: Username: {unverifiedConnPlayer.Username}, ClientID: {unverifiedConnPlayer.ClientId}, IP: {unverifiedConnPlayer.ConnectionIP}",
+					Category.Admin);
+			}
+			Logger.Log("First time player found. Skipping username checks.");
 		}
 
 		//Allow error response for local offline testing
