@@ -10,6 +10,7 @@ using DatabaseAPI;
 using Mirror;
 using UnityEngine;
 using DiscordWebhook;
+using Lobby;
 using Messages.Client;
 using Messages.Server;
 using Messages.Server.AdminTools;
@@ -442,6 +443,7 @@ public partial class PlayerList
 				                $"Details: Username: {unverifiedConnPlayer.Username}, ClientID: {unverifiedConnPlayer.ClientId}, IP: {unverifiedConnPlayer.ConnectionIP}",
 					Category.Admin);
 			}
+			LobbyManager.Instance.characterCustomization.SetActive(true);
 			Logger.Log("First time player found. Skipping username checks.");
 		}
 
