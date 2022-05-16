@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -22,6 +23,12 @@ namespace Items.Construction
 		/// Computer which should be spawned when this circuitboard's frame is constructed
 		/// </summary>
 		public GameObject ComputerToSpawn => computerToSpawn;
+
+		private void Awake()
+		{
+			if(customTypes.Count == 0 || computerToSpawn != null) return;
+			computerToSpawn = customTypes[currentIndex];
+		}
 
 		public bool WillInteract(HandApply interaction, NetworkSide side)
 		{
