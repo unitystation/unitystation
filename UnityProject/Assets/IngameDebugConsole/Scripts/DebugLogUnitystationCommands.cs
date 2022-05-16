@@ -6,10 +6,12 @@ using UnityEditor;
 using Systems.Atmospherics;
 using Random = UnityEngine.Random;
 using DatabaseAPI;
+using HealthV2;
 using Messages.Client;
 using Messages.Server;
 using Messages.Server.HealthMessages;
 using ScriptableObjects;
+using UI.Action;
 
 namespace IngameDebugConsole
 {
@@ -18,6 +20,21 @@ namespace IngameDebugConsole
 	/// </summary>
 	public class DebugLogUnitystationCommands : MonoBehaviour
 	{
+
+		[ConsoleMethod("CloneSelf", "Allows user to test cloning quickly.")]
+		public static void CloneSelf()
+		{
+			if (AdminCommands.AdminCommandsManager.IsAdmin(PlayerManager.PlayerScript.connectedPlayer.Connection, out var _) == false)
+			{
+				Logger.Log("This function can only be executed by admins.", Category.DebugConsole);
+				return;
+			}
+
+			var mind = PlayerManager.LocalPlayerScript.mind;
+			var playerBody = PlayerSpawn.ServerClonePlayer(mind, mind.body.gameObject.transform.position.CutToInt()).GetComponent<LivingHealthMasterBase>();
+			playerBody.ApplyDamageAll(null, 2, AttackType.Internal, DamageType.Clone, false);
+		}
+
 		[ConsoleMethod("checkObjectivesStatus", "check the current status of your objectives")]
 		public static void CheckObjectivesStatus()
 		{
