@@ -1,15 +1,8 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Threading;
-using Mirror;
+﻿using Mirror;
 using NaughtyAttributes;
-using UnityEditor.SceneManagement;
 
 #if UNITY_EDITOR
 using UnityEditor;
-using UnityEngine.SceneManagement;
 #endif
 using UnityEngine;
 using UnityEngine.Events;
