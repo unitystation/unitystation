@@ -26,15 +26,10 @@ namespace Tests.Asset
 
 			foreach (var prefab in Utils.FindPrefabs(false))
 			{
-				foreach (var component in prefab.GetComponentsInChildren<Component>(true).Where(c => c == null))
-				{
-					var compType = Utils.GetObjectType(component);
-					var compName = compType is null ? "component" : $"component ({compType.Name})";
-					report.Fail()
-						.Append($"{prefab.name} is missing a component. ")
-						.Append($"The associated script for the {compName} could not be loaded.")
-						.AppendLine();
-				}
+				var hasNullComponents = prefab.GetComponentsInChildren<Component>(true).Any(c => c == null);
+
+				report.FailIf(hasNullComponents)
+					.AppendLine($"The script for a component on {prefab.name} could not be loaded.");
 			}
 
 			report.AssertPassed();
@@ -137,7 +132,7 @@ namespace Tests.Asset
 		public void TestScriptableObjects()
 		{
 			CheckMissingScriptableObjects("ScriptableObjects");
-			CheckMissingReferenceFieldsScriptableObjects("Assets/ScriptableObjects",
+			CheckMissingReferenceFieldsScriptableObjects("ScriptableObjects",
 				ReferenceStatus.Missing);
 		}
 
@@ -148,7 +143,7 @@ namespace Tests.Asset
 		public void TestSingletonScriptableObjects()
 		{
 			CheckMissingScriptableObjects("Resources/ScriptableObjectsSingletons");
-			CheckMissingReferenceFieldsScriptableObjects("Assets/Resources/ScriptableObjectsSingletons",
+			CheckMissingReferenceFieldsScriptableObjects("Resources/ScriptableObjectsSingletons",
 				ReferenceStatus.None);
 		}
 	}

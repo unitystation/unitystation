@@ -10,8 +10,10 @@ namespace Tests
 {
 	public static class Utils
 	{
-		public const string ScenesFolder = "Assets/Scenes";
-		public const string PrefabsFolder = "Assets/Prefabs";
+		/// <summary>
+		/// Cached assets array to pass to FindAssets
+		/// </summary>
+		private static readonly string[] AssetsArr = { "Assets" };
 
 		/// <summary>
 		/// Returns a sequence of any scenes not found in the ActiveScenes and DevScenes folders.
@@ -20,7 +22,7 @@ namespace Tests
 		{
 			get
 			{
-				return GUIDsToPaths(FindGUIDsOfType("Scene", ScenesFolder),
+				return GUIDsToPaths(FindGUIDsOfType("Scene", "Scenes"),
 					s => (s.Contains("ActiveScenes")
 						|| s.Contains("DevScenes")
 						|| s.StartsWith("Packages")) == false);
@@ -37,13 +39,13 @@ namespace Tests
 			Predicate<string> pathFilter = null)
 		{
 			return GUIDsToAssets<GameObject>(
-				FindGUIDsOfType("prefab", onlyPrefabsFolder ? PrefabsFolder : "Assets"), pathFilter);
+				FindGUIDsOfType("prefab", onlyPrefabsFolder ? "Prefabs" : null), pathFilter);
 		}
 
 		/// <summary>
 		/// Finds all assets of a specific type and returns the loaded assets.
 		/// </summary>
-		/// <param name="inFolder">Run the search in a specific folder.</param>
+		/// <param name="inFolder">Run the search in a specific folder. Auto prefixes with Assets Folder.</param>
 		/// <param name="pathFilter">A predicate to filter found asset paths.</param>
 		public static IEnumerable<T> FindAssetsByType<T>(string inFolder = null, Predicate<string> pathFilter = null)
 			where T : Object
@@ -55,10 +57,13 @@ namespace Tests
 		/// Finds all assets of a specific type and returns the asset guids.
 		/// </summary>
 		/// <param name="type">The type of asset to find.</param>
-		/// <param name="inFolder">Search in a specific folder.</param>
+		/// <param name="inFolder">Search in a specific folder. Auto prefixes with Assets folder.</param>
 		public static string[] FindGUIDsOfType(string type, string inFolder = null)
 		{
-			return AssetDatabase.FindAssets($"t:{type}", inFolder is null ? null : new[] { inFolder });
+			return AssetDatabase.FindAssets($"t:{type}", inFolder is null ? AssetsArr : new[]
+			{
+				$"Assets/{inFolder}"
+			});
 		}
 
 		private static IEnumerable<T> GUIDsToAssets<T>(IEnumerable<string> guids, Predicate<string> pathFilter)
@@ -67,6 +72,11 @@ namespace Tests
 			return GUIDsToPaths(guids, pathFilter).Select(AssetDatabase.LoadAssetAtPath<T>);
 		}
 
+		/// <summary>
+		/// Converts a sequence of GUIDs into path strings.
+		/// </summary>
+		/// <param name="guids">The GUIDs to convert</param>
+		/// <param name="pathFilter">A predicate to filter found asset paths.</param>
 		public static IEnumerable<string> GUIDsToPaths(IEnumerable<string> guids, Predicate<string> pathFilter)
 		{
 			return guids.Select(AssetDatabase.GUIDToAssetPath).Where(path => pathFilter is null || pathFilter(path));

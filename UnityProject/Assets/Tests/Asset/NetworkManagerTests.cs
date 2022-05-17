@@ -58,7 +58,7 @@ namespace Tests.Asset
 
 		private Scene GetOnlineSceneOrThrow()
 		{
-			var scenePaths = Utils.GUIDsToPaths(Utils.FindGUIDsOfType("Scene", "Assets/Scenes"),
+			var scenePaths = Utils.GUIDsToPaths(Utils.FindGUIDsOfType("Scene", "Scenes"),
 				s => s.Contains("OnlineScene"))
 				.ToList();
 

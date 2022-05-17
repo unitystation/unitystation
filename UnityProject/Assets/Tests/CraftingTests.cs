@@ -10,7 +10,7 @@ namespace Tests
 {
 	public class CraftingTests
 	{
-		private readonly string recipesPath = "Assets/ScriptableObjects/Crafting/Recipes";
+		private readonly string recipesPath = "ScriptableObjects/Crafting/Recipes";
 
 		[Test]
 		public void CheckCraftingIndex()
