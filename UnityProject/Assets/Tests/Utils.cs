@@ -1,51 +1,92 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
+using NUnit.Framework;
 using UnityEditor;
+using UnityEngine;
+using Object = UnityEngine.Object;
 
 namespace Tests
 {
 	public static class Utils
 	{
+		public const string ScenesFolder = "Assets/Scenes";
+		public const string PrefabsFolder = "Assets/Prefabs";
 
-		public static List<T> FindAssetsByType<T>() where T : UnityEngine.Object
+		public static IEnumerable<string> NonDevScenes =>
+			GUIDsToPaths(FindGUIDsOfType("Scene", ScenesFolder),
+				s => (s.Contains("ActiveScenes")
+					|| s.Contains("DevScenes")
+					|| s.StartsWith("Packages")) == false);
+
+		/// <summary>
+		/// Finds all prefabs located in the prefabs folder and returns them as GameObjects.
+		/// </summary>
+		/// <param name="onlyPrefabsFolder">Should it retrieve only prefabs in the main Prefabs folder</param>
+		/// <param name="pathFilter">A predicate to filter found prefab paths.</param>
+		public static IEnumerable<GameObject> FindPrefabs(
+			bool onlyPrefabsFolder = true,
+			Predicate<string> pathFilter = null) =>
+			GUIDsToAssets<GameObject>(
+				FindGUIDsOfType("prefab", onlyPrefabsFolder ? PrefabsFolder : "Assets"), pathFilter);
+
+		public static IEnumerable<ScriptableObject> FindScriptableObjects(
+			string inFolder = null,
+			Predicate<string> pathFilter = null) =>
+			GUIDsToAssets<ScriptableObject>(FindGUIDsOfType("ScriptableObject", inFolder ?? "Assets"), pathFilter);
+
+		/// <summary>
+		/// Finds all assets of a specific type and returns the loaded assets.
+		/// </summary>
+		/// <param name="inFolder">Search in a specific folder.</param>
+		/// <param name="pathFilter">A predicate to filter found asset paths.</param>
+		public static IEnumerable<T> FindAssetsByType<T>(string inFolder = null, Predicate<string> pathFilter = null)
+			where T : UnityEngine.Object =>
+			GUIDsToAssets<T>(FindGUIDsOfType(typeof(T).Name, inFolder), pathFilter);
+
+		/// <summary>
+		/// Finds all assets of a specific type and returns the asset guids.
+		/// </summary>
+		/// <param name="type">The type of asset to find.</param>
+		/// <param name="inFolder">Search in a specific folder.</param>
+		public static string[] FindGUIDsOfType(string type, string inFolder = null) =>
+			AssetDatabase.FindAssets($"t:{type}", inFolder is null ? null : new[] { inFolder });
+
+		private static IEnumerable<T> GUIDsToAssets<T>(IEnumerable<string> guids, Predicate<string> pathFilter)
+			where T : UnityEngine.Object =>
+			GUIDsToPaths(guids, pathFilter).Select(AssetDatabase.LoadAssetAtPath<T>);
+
+		public static IEnumerable<string> GUIDsToPaths(IEnumerable<string> guids, Predicate<string> pathFilter) =>
+			guids.Select(AssetDatabase.GUIDToAssetPath).Where(path => pathFilter is null || pathFilter(path));
+
+		/// <summary>
+		/// Finds a single scriptable object of a given type. Throws an exception if none or more than one are found.
+		/// </summary>
+		public static T GetSingleScriptableObject<T>(TestReport report) where T : ScriptableObject
 		{
-			List<T> assets = new List<T>();
-			string[] guids = AssetDatabase.FindAssets(string.Format("t:{0}", typeof(T)));
-			for (int i = 0; i < guids.Length; i++)
-			{
-				string assetPath = AssetDatabase.GUIDToAssetPath(guids[i]);
-				T asset = AssetDatabase.LoadAssetAtPath<T>(assetPath);
-				if (asset != null)
-				{
-					assets.Add(asset);
-				}
-			}
+			var typeName = typeof(T).Name;
+			var guids = AssetDatabase.FindAssets($"t: {typeName}");
 
-			return assets;
+			report.FailIf(guids.Length, Is.EqualTo(0))
+				.AppendLine($"{typeName}: could not locate {typeName}")
+				.AssertPassed()
+				.FailIf(guids.Length, Is.GreaterThan(1))
+				.AppendLine($"{typeName}: more than one {typeName} exists!")
+				.AssertPassed();
+
+			return AssetDatabase.LoadAssetAtPath<T>(AssetDatabase.GUIDToAssetPath(guids.First()));
 		}
 
-		public static bool TryGetScriptableObjectGUID(Type scriptableObjectType, StringBuilder sb, out string assetGUID)
-		{
-			assetGUID = string.Empty;
-			var typeName = scriptableObjectType.Name;
-			string[] assets = AssetDatabase.FindAssets($"t: {typeName}");
+		/// <summary>
+		/// Returns the object's type. Even if the object is considered Unity's null, GetType can still
+		/// be accessed. If the instance is a true null, then null is returned;
+		/// </summary>
+		public static Type GetObjectType(Object instance) => instance is null ? null : instance.GetType();
 
-			if (assets.Any() == false)
-			{
-				sb.AppendLine($"{typeName}: could not locate {typeName}");
-				return false;
-			}
-
-			if (assets.Length > 1)
-			{
-				sb.AppendLine($"{typeName}: more than one {typeName} exists!");
-				return false;
-			}
-
-			assetGUID = assets.First();
-			return true;
-		}
+		/// <summary>
+		/// Returns the instanceID of an object. Even if the object is considered Unity's null, GetInstanceID can still
+		/// be accessed. If the instance is a true null, then 0 is returned.
+		/// </summary>
+		public static int GetInstanceID(Object instance) => instance is null ? 0 : instance.GetInstanceID();
 	}
 }

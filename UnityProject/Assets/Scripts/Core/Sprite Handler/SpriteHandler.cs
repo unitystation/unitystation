@@ -948,6 +948,14 @@ public class SpriteHandler : MonoBehaviour
 	}
 	public void ValidateLate()
 	{
+		// OnDestroy/OnDisable might not be called on editor scene unload. Make sure we don't try to access anything
+		// if the object is destroyed and unregister from delayCall.
+		if (this == null)
+		{
+			EditorApplication.delayCall -= ValidateLate;
+			return;
+		}
+
 		if (Application.isPlaying) return;
 		variantIndex = initialVariantIndex;
 		PushTexture();

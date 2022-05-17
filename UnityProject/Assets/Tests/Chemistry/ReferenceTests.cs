@@ -8,6 +8,7 @@ using UnityEngine;
 namespace Tests.Chemistry
 {
 	[TestFixture]
+	[Category(nameof(Chemistry))]
 	public class ReferenceTests
 	{
 		[Test]

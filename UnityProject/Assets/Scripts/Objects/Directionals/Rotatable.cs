@@ -1,12 +1,15 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Threading;
 using Mirror;
 using NaughtyAttributes;
+using UnityEditor.SceneManagement;
 
 #if UNITY_EDITOR
 using UnityEditor;
+using UnityEngine.SceneManagement;
 #endif
 using UnityEngine;
 using UnityEngine.Events;
@@ -110,6 +113,14 @@ public class Rotatable : NetworkBehaviour, IMatrixRotation
 
 	public void ValidateLate()
 	{
+		// OnDestroy/OnDisable might not be called on editor scene unload. Make sure we don't try to access anything
+		// if the object is destroyed and unregister from delayCall.
+		if (this == null)
+		{
+			EditorApplication.delayCall -= ValidateLate;
+			return;
+		}
+
 		if (Application.isPlaying) return;
 		Awake();
 		CurrentDirection = CurrentDirection;
