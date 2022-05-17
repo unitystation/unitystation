@@ -13,11 +13,19 @@ namespace Tests
 		public const string ScenesFolder = "Assets/Scenes";
 		public const string PrefabsFolder = "Assets/Prefabs";
 
-		public static IEnumerable<string> NonDevScenes =>
-			GUIDsToPaths(FindGUIDsOfType("Scene", ScenesFolder),
-				s => (s.Contains("ActiveScenes")
-					|| s.Contains("DevScenes")
-					|| s.StartsWith("Packages")) == false);
+		/// <summary>
+		/// Returns a sequence of any scenes not found in the ActiveScenes and DevScenes folders.
+		/// </summary>
+		public static IEnumerable<string> NonDevScenes
+		{
+			get
+			{
+				return GUIDsToPaths(FindGUIDsOfType("Scene", ScenesFolder),
+					s => (s.Contains("ActiveScenes")
+						|| s.Contains("DevScenes")
+						|| s.StartsWith("Packages")) == false);
+			}
+		}
 
 		/// <summary>
 		/// Finds all prefabs located in the prefabs folder and returns them as GameObjects.
@@ -26,38 +34,43 @@ namespace Tests
 		/// <param name="pathFilter">A predicate to filter found prefab paths.</param>
 		public static IEnumerable<GameObject> FindPrefabs(
 			bool onlyPrefabsFolder = true,
-			Predicate<string> pathFilter = null) =>
-			GUIDsToAssets<GameObject>(
+			Predicate<string> pathFilter = null)
+		{
+			return GUIDsToAssets<GameObject>(
 				FindGUIDsOfType("prefab", onlyPrefabsFolder ? PrefabsFolder : "Assets"), pathFilter);
-
-		public static IEnumerable<ScriptableObject> FindScriptableObjects(
-			string inFolder = null,
-			Predicate<string> pathFilter = null) =>
-			GUIDsToAssets<ScriptableObject>(FindGUIDsOfType("ScriptableObject", inFolder ?? "Assets"), pathFilter);
+		}
 
 		/// <summary>
 		/// Finds all assets of a specific type and returns the loaded assets.
 		/// </summary>
-		/// <param name="inFolder">Search in a specific folder.</param>
+		/// <param name="inFolder">Run the search in a specific folder.</param>
 		/// <param name="pathFilter">A predicate to filter found asset paths.</param>
 		public static IEnumerable<T> FindAssetsByType<T>(string inFolder = null, Predicate<string> pathFilter = null)
-			where T : UnityEngine.Object =>
-			GUIDsToAssets<T>(FindGUIDsOfType(typeof(T).Name, inFolder), pathFilter);
+			where T : Object
+		{
+			return GUIDsToAssets<T>(FindGUIDsOfType(typeof(T).Name, inFolder), pathFilter);
+		}
 
 		/// <summary>
 		/// Finds all assets of a specific type and returns the asset guids.
 		/// </summary>
 		/// <param name="type">The type of asset to find.</param>
 		/// <param name="inFolder">Search in a specific folder.</param>
-		public static string[] FindGUIDsOfType(string type, string inFolder = null) =>
-			AssetDatabase.FindAssets($"t:{type}", inFolder is null ? null : new[] { inFolder });
+		public static string[] FindGUIDsOfType(string type, string inFolder = null)
+		{
+			return AssetDatabase.FindAssets($"t:{type}", inFolder is null ? null : new[] { inFolder });
+		}
 
 		private static IEnumerable<T> GUIDsToAssets<T>(IEnumerable<string> guids, Predicate<string> pathFilter)
-			where T : UnityEngine.Object =>
-			GUIDsToPaths(guids, pathFilter).Select(AssetDatabase.LoadAssetAtPath<T>);
+			where T : Object
+		{
+			return GUIDsToPaths(guids, pathFilter).Select(AssetDatabase.LoadAssetAtPath<T>);
+		}
 
-		public static IEnumerable<string> GUIDsToPaths(IEnumerable<string> guids, Predicate<string> pathFilter) =>
-			guids.Select(AssetDatabase.GUIDToAssetPath).Where(path => pathFilter is null || pathFilter(path));
+		public static IEnumerable<string> GUIDsToPaths(IEnumerable<string> guids, Predicate<string> pathFilter)
+		{
+			return guids.Select(AssetDatabase.GUIDToAssetPath).Where(path => pathFilter is null || pathFilter(path));
+		}
 
 		/// <summary>
 		/// Finds a single scriptable object of a given type. Throws an exception if none or more than one are found.

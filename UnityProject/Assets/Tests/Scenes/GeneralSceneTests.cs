@@ -169,7 +169,7 @@ namespace Tests.Scenes
 				ResetTile(tilemap, localPos);
 			}
 
-			void HandlePipeTile(PipeTile pipeTile, Vector3Int localPos, Span<bool> chPipeDir)
+			void HandlePipeTile(PipeTile pipeTile, Vector3Int localPos, Span<bool> isDirConnected)
 			{
 				var transformMatrix = tilemap.GetTransformMatrix(localPos);
 				var connections = PipeTile.GetRotatedConnection(pipeTile, transformMatrix);
@@ -179,7 +179,7 @@ namespace Tests.Scenes
 					// Copern: Bool? What is Bool representing? "IsConnected"?
 					if (pipeDir[d].Bool == false) continue;
 
-					if (chPipeDir[d])
+					if (isDirConnected[d])
 					{
 						Report.Fail()
 							.Append($"A pipe is overlapping its connection at ({x}, {y}) in {Scene.name} - ")
@@ -189,7 +189,7 @@ namespace Tests.Scenes
 						ResetTile(tilemap, localPos);
 						break;
 					}
-					chPipeDir[d] = true;
+					isDirConnected[d] = true;
 				}
 			}
 		}
@@ -210,7 +210,10 @@ namespace Tests.Scenes
 			{
 				foreach (var comp in go.GetComponents<Component>())
 				{
+					// The component might be considered Unity's null but still exist.
+					// Try to retrieve the component's type and use it in the report.
 					var compType = Utils.GetObjectType(comp);
+
 					if (comp == null)
 					{
 						var compName = compType is null ? "component" : $"component ({compType.Name})";

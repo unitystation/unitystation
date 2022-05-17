@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using JetBrains.Annotations;
 using UnityEditor;
 using UnityEngine;
 using Object = UnityEngine.Object;
@@ -18,28 +19,26 @@ namespace Tests
 
 	/// <summary>
 	/// Creating and iterating through <see cref="SerializedObject"/> is quite slow when we are checking tens of
-	/// thousands of objects. If we are only checking fields with serialized Unity Objects to see if they are none or
-	/// missing, then we can cache those fields instead. This class handles creating the <see cref="FieldInfo"/>
-	/// lists for a type as needed and safely handles checking for null/missing references on instances.
+	/// thousands of objects/components. If we are only checking fields with serialized Unity Objects to see if they
+	/// are none or missing, then we can cache those fields instead. This class handles creating the
+	/// <see cref="FieldInfo"/> lists for a type as needed and safely handles checking for null/missing
+	/// references on instances.
 	/// needed.
 	/// </summary>
 	public class SerializedObjectFieldsMap
 	{
 		private Dictionary<Type, List<FieldInfo>> Map { get; } = new();
 
-		private IReadOnlyList<FieldInfo> this[Object instance]
+		private IReadOnlyList<FieldInfo> GetFieldsFor(Object instance)
 		{
-			get
-			{
-				var type = Utils.GetObjectType(instance);
+			var type = Utils.GetObjectType(instance);
 
-				if (Map.TryGetValue(type, out var fieldsInfo)) return fieldsInfo;
+			if (Map.TryGetValue(type, out var fieldsInfo)) return fieldsInfo;
 
-				fieldsInfo = CreateSerializedFieldsInfo(instance);
-				Map.Add(type, fieldsInfo);
+			fieldsInfo = CreateSerializedFieldsInfo(instance);
+			Map.Add(type, fieldsInfo);
 
-				return fieldsInfo;
-			}
+			return fieldsInfo;
 		}
 
 		private static List<FieldInfo> CreateSerializedFieldsInfo(Object @object)
@@ -61,7 +60,7 @@ namespace Tests
 		{
 			if (instance == null) yield break;
 
-			foreach (var field in this[instance])
+			foreach (var field in GetFieldsFor(instance))
 			{
 				if ((GetReferenceStatus(field, instance) & status) == 0) continue;
 
@@ -69,12 +68,18 @@ namespace Tests
 			}
 		}
 
+		/// <summary>
+		/// Checks and returns the field's reference status. A field that isn't null will return Object status.
+		/// If the reference is considered Unity's null, then attempt to get the instance ID from the value.
+		/// If that ID is not 0, then it means the reference is missing. Otherwise the reference is None or Null.
+		/// </summary>
 		private static ReferenceStatus GetReferenceStatus(FieldInfo field, Object instance)
 		{
 			var value = field.GetValue(instance) as Object;
 
 			if (value != null) return ReferenceStatus.Object;
 
+			// At this point, value is Unity's null but the object may still actually exist.
 			return Utils.GetInstanceID(value) != 0 ? ReferenceStatus.Missing : ReferenceStatus.None;
 		}
 	}

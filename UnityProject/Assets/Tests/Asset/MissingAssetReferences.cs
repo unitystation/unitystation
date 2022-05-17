@@ -110,7 +110,6 @@ namespace Tests.Asset
 
 			foreach (var so in Utils.FindAssetsByType<ScriptableObject>(path))
 			{
-				var soType = so.GetType();
 				var missingRefs = serializedObjectFieldsMap
 					.FieldNamesWithStatus(so, status)
 					.ToList();

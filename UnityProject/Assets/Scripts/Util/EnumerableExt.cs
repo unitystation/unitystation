@@ -26,9 +26,21 @@ public static class EnumerableExt
 		return list1.Count() == list2.Count() && !list1.Except(list2).Any();
 	}
 
-	public static IEnumerable<(T, int)> WithIndex<T>(this IEnumerable<T> source) => source.Select((t, i) => (t, i));
+	/// <summary>
+	/// Projects a sequence into an IEnumerable of value tuples containing the object and the index.
+	/// </summary>
+	public static IEnumerable<(T, int)> WithIndex<T>(this IEnumerable<T> source)
+	{
+		return source.Select((t, i) => (t, i));
+	}
 
-	public static IEnumerable<T> NotNull<T>(this IEnumerable<T> source) => source.Where(obj => obj != null);
+	/// <summary>
+	/// Filters out all null objects in a sequence.
+	/// </summary>
+	public static IEnumerable<T> NotNull<T>(this IEnumerable<T> source)
+	{
+		return source.Where(obj => obj != null);
+	}
 
 	#region GameObject and Components
 	// Unfortunately there is no common interface for GameObjects and Components to access the GetComponent*
@@ -40,8 +52,10 @@ public static class EnumerableExt
 	/// <param name="source">A sequence of GameObjects.</param>
 	/// <typeparam name="T">The type of <see cref="Component"/> to filter for.</typeparam>
 	/// <returns>A flattened sequence of components.</returns>
-	public static IEnumerable<T> Components<T>(this IEnumerable<GameObject> source) =>
-		source.GetComponentsInternal<GameObject, T>((go, results) => go.GetComponents(results));
+	public static IEnumerable<T> Components<T>(this IEnumerable<GameObject> source)
+	{
+		return source.GetComponentsInternal<GameObject, T>((go, results) => go.GetComponents(results));
+	}
 
 	/// <summary>
 	/// Projects a sequence of Components into a flattened IEnumerable of the parent GameObject's components
@@ -50,8 +64,10 @@ public static class EnumerableExt
 	/// <param name="source">A sequence of Components.</param>
 	/// <typeparam name="T">The type of <see cref="Component"/> to filter for.</typeparam>
 	/// <returns>A flattened sequence of components.</returns>
-	public static IEnumerable<T> Components<T>(this IEnumerable<Component> source) =>
-		source?.GetComponentsInternal<Component, T>((comp, results) => comp.GetComponents(results));
+	public static IEnumerable<T> Components<T>(this IEnumerable<Component> source)
+	{
+		return source?.GetComponentsInternal<Component, T>((comp, results) => comp.GetComponents(results));
+	}
 
 
 	/// <summary>
@@ -60,8 +76,10 @@ public static class EnumerableExt
 	/// <param name="source">A sequence of GameObjects.</param>
 	/// <typeparam name="T">The type of <see cref="Component"/> to filter for.</typeparam>
 	/// <returns>A flattened sequence of components.</returns>
-	public static IEnumerable<T> ComponentInChildren<T>(this IEnumerable<GameObject> source) =>
-		source?.Select(go => go.GetComponentInChildren<T>());
+	public static IEnumerable<T> ComponentInChildren<T>(this IEnumerable<GameObject> source)
+	{
+		return source?.Select(go => go.GetComponentInChildren<T>());
+	}
 
 	/// <summary>
 	/// Projects a sequence of Components into an IEnumerable of the parent GameObject's child component
@@ -70,8 +88,10 @@ public static class EnumerableExt
 	/// <param name="source">A sequence of Components.</param>
 	/// <typeparam name="T">The type of <see cref="Component"/> to filter for.</typeparam>
 	/// <returns>A flattened sequence of components.</returns>
-	public static IEnumerable<T> ComponentInChildren<T>(this IEnumerable<Component> source) =>
-		source?.Select(go => go.GetComponentInChildren<T>());
+	public static IEnumerable<T> ComponentInChildren<T>(this IEnumerable<Component> source)
+	{
+		return source?.Select(go => go.GetComponentInChildren<T>());
+	}
 
 	/// <summary>
 	/// Projects a sequence of GameObjects into a flattened IEnumerable of all child components filtered by type.
@@ -79,8 +99,10 @@ public static class EnumerableExt
 	/// <param name="source">A sequence of GameObjects.</param>
 	/// <typeparam name="T">The type of <see cref="Component"/> to filter for.</typeparam>
 	/// <returns>A flattened sequence of components.</returns>
-	public static IEnumerable<T> ComponentsInChildren<T>(this IEnumerable<GameObject> source) =>
-		source?.GetComponentsInternal<GameObject, T>((go, results) => go.GetComponentsInChildren(results));
+	public static IEnumerable<T> ComponentsInChildren<T>(this IEnumerable<GameObject> source)
+	{
+		return source?.GetComponentsInternal<GameObject, T>((go, results) => go.GetComponentsInChildren(results));
+	}
 
 	/// <summary>
 	/// Projects a sequence of Components into a flattened IEnumerable of all child components filtered by type.
@@ -89,8 +111,10 @@ public static class EnumerableExt
 	/// <param name="source">A sequence of Components.</param>
 	/// <typeparam name="T">The type of <see cref="Component"/> to filter for.</typeparam>
 	/// <returns>A flattened sequence of components.</returns>
-	public static IEnumerable<T> ComponentsInChildren<T>(this IEnumerable<Component> source) =>
-		source?.GetComponentsInternal<Component, T>((comp, results) => comp.GetComponentsInChildren(results));
+	public static IEnumerable<T> ComponentsInChildren<T>(this IEnumerable<Component> source)
+	{
+		return source?.GetComponentsInternal<Component, T>((comp, results) => comp.GetComponentsInChildren(results));
+	}
 
 	private static IEnumerable<TResult> GetComponentsInternal<TSource, TResult>(
 		this IEnumerable<TSource> source,
