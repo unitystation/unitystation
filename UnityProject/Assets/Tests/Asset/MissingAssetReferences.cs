@@ -112,7 +112,7 @@ namespace Tests.Asset
 				var message = $"ScriptableObject ({so.name}) has serializable fields";
 				message = status switch
 				{
-					ReferenceStatus.None => $"{message} that are None/Null: ",
+					ReferenceStatus.Null => $"{message} that are None/Null: ",
 					ReferenceStatus.Missing => $"{message} with a missing reference to a unity object: ",
 					_ => string.Empty
 				};
@@ -144,7 +144,7 @@ namespace Tests.Asset
 		{
 			CheckMissingScriptableObjects("Resources/ScriptableObjectsSingletons");
 			CheckMissingReferenceFieldsScriptableObjects("Resources/ScriptableObjectsSingletons",
-				ReferenceStatus.None);
+				ReferenceStatus.Null);
 		}
 	}
 }

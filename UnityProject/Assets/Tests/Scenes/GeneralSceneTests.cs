@@ -25,17 +25,18 @@ namespace Tests.Scenes
 		[Test]
 		public void PrefabsAreNotAt00()
 		{
-			var objLayerTransforms = RootObjects
-				.ComponentsInChildren<ObjectLayer>().NotNull()
-				.Select(layer => layer.transform);
-			foreach (var transform in objLayerTransforms)
+			foreach (var layer in RootObjects.ComponentsInChildren<ObjectLayer>().NotNull())
 			{
-				var objName = transform.name;
-				var localPos = transform.localPosition;
-				Report.FailIf(objName.Contains("Missing Prefab"))
-					.AppendLine($"{Scene.name}: {objName} Missing prefab")
-					.FailIf(localPos.x == 0 && localPos.y == 0)
-					.AppendLine($"{Scene.name}: {objName} is at 0,0. Please update the prefab/update the map/revert.");
+				foreach (Transform transform in layer.transform)
+				{
+					var localPos = transform.localPosition;
+					var objName = transform.name;
+					var message = $"Object: \"{transform.HierarchyName()}\"";
+					Report.FailIf(objName.Contains("Missing Prefab"))
+						.AppendLine($"{message} is missing prefab")
+						.FailIf(localPos.x == 0 && localPos.y == 0)
+						.AppendLine($"{message} is at 0,0. Please update the prefab/update the map/revert.");
+				}
 			}
 
 			Report.AssertPassed();
@@ -47,26 +48,26 @@ namespace Tests.Scenes
 		[Test]
 		public void MatrixHasMatrixSyncAndIsCorrectParent()
 		{
-			var sceneName = Scene.name;
 			using var pool = ListPool<MatrixSync>.Get(out var matrixSyncs);
 
 			foreach (var matrix in RootObjects.Select(go => go.GetComponent<NetworkedMatrix>()).NotNull())
 			{
 				matrix.GetComponentsInChildren(matrixSyncs);
-				var matrixName = matrix.name;
+				var matrixName = matrix.transform.HierarchyName();
 
 				Report.FailIf(matrixSyncs.Count, Is.EqualTo(0))
-					.AppendLine($"{sceneName}: {matrixName} is missing a MatrixSync, please add one")
+					.AppendLine($"\"{matrixName}\" is missing a MatrixSync, please add one")
 					.FailIf(matrixSyncs.Count, Is.GreaterThan(1))
-					.AppendLine($"{sceneName}: {matrixName} has more than one MatrixSync, only one is allowed");
+					.AppendLine($"\"{matrixName}\" has more than one MatrixSync, only one is allowed");
 
 				//Make sure matrix sync has correct parent
 				foreach (var matrixSync in matrixSyncs)
 				{
-					var parent = matrixSync.transform.parent;
+					var transform = matrixSync.transform;
+					var parent = transform.parent;
 					Report.FailIfNot(parent, Is.EqualTo(matrix.transform))
-						.Append($"{sceneName}: {matrixSync.name} is parented to {parent.name}, ")
-						.Append($"when it should be parented to {matrixName}")
+						.Append($"\"{matrixSync.name}\" is parented to \"{parent.transform.HierarchyName()}\" ")
+						.Append($"when it should be parented to \"{matrixName}\"")
 						.AppendLine();
 				}
 			}
@@ -82,9 +83,10 @@ namespace Tests.Scenes
 				.ComponentsInChildren<ItemStorage>().NotNull();
 			foreach (var storage in storages)
 			{
+				var name = storage.transform.HierarchyName();
 				//Currently objects should always force spawn as it can cause issues otherwise
 				Report.FailIf(IsStorageWithoutForceSpawn(storage))
-					.AppendLine($"{Scene.name}: {storage.name} is an object with a item storage with forceSpawnContents off, turn it on.");
+					.AppendLine($"\"{name}\" is an object with a item storage with forceSpawnContents off, turn it on.");
 			}
 
 			Report.AssertPassed();
@@ -210,17 +212,12 @@ namespace Tests.Scenes
 			{
 				foreach (var comp in go.GetComponents<Component>())
 				{
-					// The component might be considered Unity's null but still exist.
-					// Try to retrieve the component's type and use it in the report.
-					var compType = Utils.GetObjectType(comp);
+					var name = go.transform.HierarchyName();
 
+					// A missing component is always a true null.
 					if (comp == null)
 					{
-						var compName = compType is null ? "component" : $"component ({compType.Name})";
-						Report.Fail()
-							.Append($"{go.transform.HierarchyName()} is missing a component. ")
-							.Append($"The associated script for the {compName} could not be loaded.")
-							.AppendLine();
+						Report.Fail().AppendLine($"The script for a component on \"{name}\" could not be loaded.");
 						continue;
 					}
 
@@ -228,7 +225,7 @@ namespace Tests.Scenes
 						.ToList();
 
 					Report.FailIf(missingRefs.Count, Is.GreaterThan(0))
-						.AppendLine($"{comp.name} has missing references in component {compType.Name}: ")
+						.AppendLine($"\"{name}\" has missing references in component \"{comp.GetType().Name}\": ")
 						.AppendLineRange(missingRefs, "\tField: ");
 				}
 			}

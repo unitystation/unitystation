@@ -60,10 +60,8 @@ namespace Tests
 		/// <param name="inFolder">Search in a specific folder. Auto prefixes with Assets folder.</param>
 		public static string[] FindGUIDsOfType(string type, string inFolder = null)
 		{
-			return AssetDatabase.FindAssets($"t:{type}", inFolder is null ? AssetsArr : new[]
-			{
-				$"Assets/{inFolder}"
-			});
+			return AssetDatabase.FindAssets($"t:{type}",
+				inFolder is null ? AssetsArr : new[] { $"Assets/{inFolder}" });
 		}
 
 		private static IEnumerable<T> GUIDsToAssets<T>(IEnumerable<string> guids, Predicate<string> pathFilter)

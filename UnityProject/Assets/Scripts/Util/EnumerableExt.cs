@@ -106,7 +106,6 @@ public static class EnumerableExt
 
 	/// <summary>
 	/// Projects a sequence of Components into a flattened IEnumerable of all child components filtered by type.
-	/// filtered by type.
 	/// </summary>
 	/// <param name="source">A sequence of Components.</param>
 	/// <typeparam name="T">The type of <see cref="Component"/> to filter for.</typeparam>

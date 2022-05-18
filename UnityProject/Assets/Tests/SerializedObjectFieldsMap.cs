@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using JetBrains.Annotations;
 using UnityEditor;
 using UnityEngine;
 using Object = UnityEngine.Object;
@@ -13,8 +12,9 @@ namespace Tests
 	public enum ReferenceStatus
 	{
 		None = 0,
-		Missing = 1 << 0,
-		Object = 1 << 1
+		Null = 1 << 0,
+		Missing = 1 << 1,
+		Object = 1 << 2
 	}
 
 	/// <summary>
@@ -71,7 +71,7 @@ namespace Tests
 		/// <summary>
 		/// Checks and returns the field's reference status. A field that isn't null will return Object status.
 		/// If the reference is considered Unity's null, then attempt to get the instance ID from the value.
-		/// If that ID is not 0, then it means the reference is missing. Otherwise the reference is None or Null.
+		/// If that ID is not 0, then it means the reference is missing. Otherwise the reference is Null/None.
 		/// </summary>
 		private static ReferenceStatus GetReferenceStatus(FieldInfo field, Object instance)
 		{
@@ -80,7 +80,7 @@ namespace Tests
 			if (value != null) return ReferenceStatus.Object;
 
 			// At this point, value is Unity's null but the object may still actually exist.
-			return Utils.GetInstanceID(value) != 0 ? ReferenceStatus.Missing : ReferenceStatus.None;
+			return Utils.GetInstanceID(value) != 0 ? ReferenceStatus.Missing : ReferenceStatus.Null;
 		}
 	}
 }

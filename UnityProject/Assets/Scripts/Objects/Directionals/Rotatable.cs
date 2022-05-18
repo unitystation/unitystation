@@ -106,15 +106,8 @@ public class Rotatable : NetworkBehaviour, IMatrixRotation
 
 	public void ValidateLate()
 	{
-		// OnDestroy/OnDisable might not be called on editor scene unload. Make sure we don't try to access anything
-		// if the object is destroyed and unregister from delayCall.
-		if (this == null)
-		{
-			EditorApplication.delayCall -= ValidateLate;
-			return;
-		}
-
-		if (Application.isPlaying) return;
+		// ValidateLate might be called after this object is already destroyed.
+		if (this == null || Application.isPlaying) return;
 		Awake();
 		CurrentDirection = CurrentDirection;
 		RotateObject(CurrentDirection);

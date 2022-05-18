@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.Pool;
 
 namespace Tests
@@ -14,19 +13,19 @@ namespace Tests
 		/// </summary>
 		public static string HierarchyName(this Transform transform, char separator = '/')
 		{
-			using var pool = ListPool<string>.Get(out var parentNames);
-			var parent = transform.parent;
+			if (transform == null) return string.Empty;
 
-			while (parent != null)
+			using var pool = ListPool<string>.Get(out var names);
+			var current = transform;
+
+			while (current != null)
 			{
-				parentNames.Add(parent.name);
-				parent = parent.transform.parent;
+				names.Add(current.name);
+				current = current.transform.parent;
 			}
 
-			parentNames.Reverse();
-			return parentNames.Count == 0
-				? string.Empty
-				: parentNames.Aggregate(parentNames[0], (current, name) => $"{current}{separator}{name}");
+			names.Reverse();
+			return string.Join(separator, names);
 		}
 	}
 }
