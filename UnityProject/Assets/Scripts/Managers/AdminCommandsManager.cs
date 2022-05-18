@@ -537,7 +537,7 @@ namespace AdminCommands
 		{
 			if (IsAdmin(sender, out var admin) == false) return;
 			List<CargoManager.BountySyncData> simpleData = new List<CargoManager.BountySyncData>();
-			for (int i = 0; i < CargoManager.Instance.ActiveBounties.Count; i++)
+			for (int i = 0; i < CargoManager.Instance.ActiveBounties.Count - 1; i++)
 			{
 				var foundBounty = new CargoManager.BountySyncData();
 				foundBounty.Title = CargoManager.Instance.ActiveBounties[i].Title;
