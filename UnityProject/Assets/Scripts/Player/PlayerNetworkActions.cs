@@ -1035,4 +1035,14 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 
 		painter.CurrentPaintJobIndex = paintJobIndex;
 	}
+
+	[Command]
+	public void CmdServerReplaceItemInInventory(GameObject gameObject, uint id, NamedSlot namedSlot)
+	{
+		if (NetworkIdentity.spawned.ContainsKey(id) == false) return;
+		var Object = NetworkIdentity.spawned[id].gameObject;
+		var slot = itemStorage.GetNamedItemSlot(Object,namedSlot);
+		if (slot == null) return;
+		Inventory.ServerTransfer(gameObject.PickupableOrNull().ItemSlot, slot, ReplacementStrategy.DropOther);
+	}
 }
