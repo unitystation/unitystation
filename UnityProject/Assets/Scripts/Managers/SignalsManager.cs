@@ -24,6 +24,8 @@ namespace Managers
 
 			foreach (SignalReceiver receiver in Receivers)
 			{
+				if (receiver.gameObject == null) continue;
+				;
 				if (receiver.SignalTypeToReceive != type) continue;
 
 				if (receiver.Frequency.IsBetween(signalDataSo.MinMaxFrequancy.x, signalDataSo.MinMaxFrequancy.y) == false) continue;
