@@ -442,17 +442,11 @@ public partial class PlayerList
 		//Must have non-null/empty username
 		if (string.IsNullOrEmpty(unverifiedConnPlayer.Username))
 		{
-			var prefsCheck = PlayerPrefs.GetString("currentcharacter");
-			if (string.IsNullOrEmpty(prefsCheck))
-			{
-				StartCoroutine(KickPlayer(unverifiedConnPlayer, $"Server Error: Account has invalid username (Null/Empty). To fix go to character creator then click Serialise and then load"));
-				Logger.LogError($"A user tried to connect with null/empty username" +
-				                $"Details: Username: {unverifiedConnPlayer.Username}, ClientID: {unverifiedConnPlayer.ClientId}, IP: {unverifiedConnPlayer.ConnectionIP}",
-					Category.Admin);
-			}
-
 			RpcShowCharacterCreatorScreenRemotely(unverifiedConnPlayer.Connection);
-			Logger.Log("First time player found. Skipping username checks.");
+			StartCoroutine(KickPlayer(unverifiedConnPlayer, $"Server Error: Account has invalid username (Null/Empty). To fix go to character creator then click Serialise and then load"));
+			Logger.LogError($"A user tried to connect with null/empty username" +
+			                $"Details: Username: {unverifiedConnPlayer.Username}, ClientID: {unverifiedConnPlayer.ClientId}, IP: {unverifiedConnPlayer.ConnectionIP}",
+				Category.Admin);
 		}
 
 		//Allow error response for local offline testing
