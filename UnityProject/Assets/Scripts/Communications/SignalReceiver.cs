@@ -16,13 +16,22 @@ namespace Communications
 
 		private void OnEnable()
 		{
-			if(CustomNetworkManager.Instance._isServer == false) return;
+			if(CustomNetworkManager.IsServer == false) return;
 			SignalsManager.Instance.Receivers.Add(this);
 		}
 
 		private void OnDisable()
 		{
-			if(CustomNetworkManager.Instance._isServer == false) return;
+			RemoveSelfFromManager();
+		}
+
+		/// <summary>
+		/// Sometimes OnDisable() gets overriden or doesn't get called properly when called using the Despawn class so manually call this in your extended script.
+		/// Or when you need to remove this receiver from the manager for whatever reason.
+		/// </summary>
+		protected void RemoveSelfFromManager()
+		{
+			if(CustomNetworkManager.IsServer == false) return;
 			SignalsManager.Instance.Receivers.Remove(this);
 		}
 
@@ -33,7 +42,7 @@ namespace Communications
 
 
 		/// <summary>
-		/// Optional. If ReceiveSignal logic has been succesful we can respond to the emitter with some logic.
+		/// Optional. If ReceiveSignal logic has been successful we can respond to the emitter with some logic.
 		/// </summary>
 		public virtual void Respond(SignalEmitter signalEmitter) { }
 	}

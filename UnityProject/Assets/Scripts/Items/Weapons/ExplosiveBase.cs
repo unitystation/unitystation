@@ -90,6 +90,7 @@ namespace Items.Weapons
 			// Get data before despawning
 			var worldPos = objectBehaviour.AssumedWorldPositionServer();
 			// Despawn the explosive
+			RemoveSelfFromManager();
 			_ = Despawn.ServerSingle(gameObject);
 			Explosion.StartExplosion(worldPos, explosiveStrength);
 		}
