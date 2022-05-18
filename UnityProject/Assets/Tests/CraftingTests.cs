@@ -21,14 +21,15 @@ namespace Tests
 			var recipeSingleton = Utils.GetSingleScriptableObject<CraftingRecipeSingleton>(report);
 			foreach (var recipe in Utils.FindAssetsByType<CraftingRecipe>())
 			{
+				var index = recipe.IndexInSingleton;
 				report.Clean()
-					.FailIf(recipe.IndexInSingleton, Is.LessThan(0))
-					.Append($"The recipe: {recipe.RecipeName} index is -1. ")
+					.FailIf(index, Is.LessThan(0))
+					.Append($"The recipe: \"{recipe.RecipeName}\" index is {index}. ")
 					.Append($"Recipe is missing from the {singletonName}, use button on recipe to add it.")
 					.AppendLine()
 					.MarkDirtyIfFailed()
 					.FailIf(HasBadIndex(recipe))
-					.Append($"The recipe: {recipe.RecipeName} has incorrect index. ")
+					.Append($"The recipe: \"{recipe.RecipeName}\" has incorrect index. ")
 					.Append("Perhaps this recipe has wrong indexInSingleton that doesn't match a real index in ")
 					.Append($"the singleton. Regenerate the indexes in the {singletonName} to fix")
 					.AppendLine();
@@ -36,9 +37,12 @@ namespace Tests
 
 			report.Log().AssertPassed();
 
-			bool HasBadIndex(CraftingRecipe recipe) =>
-				recipe.IndexInSingleton > recipeSingleton.CountTotalStoredRecipes() ||
-				recipeSingleton.GetRecipeByIndex(recipe.IndexInSingleton) != recipe;
+			bool HasBadIndex(CraftingRecipe recipe)
+			{
+				var index = recipe.IndexInSingleton;
+				return index < 0 || index > recipeSingleton.CountTotalStoredRecipes()
+					|| recipeSingleton.GetRecipeByIndex(recipe.IndexInSingleton) != recipe;
+			}
 		}
 
 		[Test]

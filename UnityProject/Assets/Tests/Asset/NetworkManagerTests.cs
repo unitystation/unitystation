@@ -82,7 +82,7 @@ namespace Tests.Asset
 
 		private bool PrefabIsNotInSpawnPrefabs(GameObject prefab, CustomNetworkManager networkManager) =>
 			prefab.TryGetComponent<NetworkIdentity>(out _)
-			&& networkManager!.spawnPrefabs.Contains(prefab) == false
+			&& networkManager.spawnPrefabs.Contains(prefab) == false
 			&& networkManager.playerPrefab != prefab;
 	}
 }

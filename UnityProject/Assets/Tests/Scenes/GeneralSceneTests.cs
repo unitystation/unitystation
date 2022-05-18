@@ -78,10 +78,7 @@ namespace Tests.Scenes
 		[Test]
 		public void ItemStorageHasForcesSpawn()
 		{
-			var storages = RootObjects
-				.Components<NetworkedMatrix>().NotNull()
-				.ComponentsInChildren<ItemStorage>().NotNull();
-			foreach (var storage in storages)
+			foreach (var storage in RootObjects.ComponentsInChildren<ItemStorage>().NotNull())
 			{
 				var name = storage.transform.HierarchyName();
 				//Currently objects should always force spawn as it can cause issues otherwise
@@ -108,19 +105,15 @@ namespace Tests.Scenes
 		[Test]
 		public void PipesAndCablesAreNotOverlappingOrDuplicate()
 		{
-			var matrices = RootObjects
-				.ComponentsInChildren<Matrix>().NotNull()
-				.Where(matrix => matrix.UnderFloorLayer != null);
-
-			foreach (var matrix in matrices)
+			foreach (var layer in RootObjects.ComponentsInChildren<UnderFloorLayer>().NotNull())
 			{
-				var tilemap = matrix.UnderFloorLayer.Tilemap;
+				var tilemap = layer.Tilemap;
 				var bounds = tilemap.cellBounds;
 				for (var x = bounds.xMin; x < bounds.xMax; x++)
 				{
 					for (var y = bounds.yMin; y < bounds.yMax; y++)
 					{
-						CheckPipeAndCableTiles(matrix, tilemap, x, y);
+						CheckPipeAndCableTiles(layer.matrix, tilemap, x, y);
 					}
 				}
 			}
@@ -135,8 +128,9 @@ namespace Tests.Scenes
 
 		private void CheckPipeAndCableTiles(Matrix matrix, Tilemap tilemap, int x, int y)
 		{
-			var foundCable = false;
+			using var pool = ListPool<ElectricalCableTile>.Get(out var cables);
 			Span<bool> checkPipeDir = stackalloc bool[4];
+
 			// Copern: What are these magic numbers? Why specifically -48 to 1?
 			for (int z = -48; z < 2; z++)
 			{
@@ -157,18 +151,16 @@ namespace Tests.Scenes
 
 			void HandleCableTile(ElectricalCableTile cableTile, Vector3Int localPos)
 			{
-				if (foundCable == false)
+				if (cables.Contains(cableTile))
 				{
-					foundCable = true;
-					return;
+					Report.Fail()
+						.Append($"Duplicate cable found at ({x}, {y}) in {Scene.name} - {matrix.name} ")
+						.Append($"with another cable -> {cableTile.name}")
+						.AppendLine();
+
+					ResetTile(tilemap, localPos);
 				}
-
-				Report.Fail()
-					.Append($"Duplicate cable found at ({x}, {y}) in {matrix.name} ")
-					.Append($"with another cable -> {cableTile.name}")
-					.AppendLine();
-
-				ResetTile(tilemap, localPos);
+				cables.Add(cableTile);
 			}
 
 			void HandlePipeTile(PipeTile pipeTile, Vector3Int localPos, Span<bool> isDirConnected)
