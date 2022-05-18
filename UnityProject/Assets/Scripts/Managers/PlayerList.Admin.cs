@@ -339,6 +339,13 @@ public partial class PlayerList
 		File.WriteAllLines(mentorsPath, newContents);
 	}
 
+	[TargetRpc]
+	public void RpcShowCharacterCreatorScreenRemotely(NetworkConnection target)
+	{
+		LobbyManager.Instance.SetActive(true);
+		LobbyManager.Instance.characterCustomization.SetActive(true);
+	}
+
 	public async Task<bool> ValidatePlayer(int unverifiedClientVersion, ConnectedPlayer unverifiedConnPlayer,
 		string unverifiedToken)
 	{
@@ -443,7 +450,8 @@ public partial class PlayerList
 				                $"Details: Username: {unverifiedConnPlayer.Username}, ClientID: {unverifiedConnPlayer.ClientId}, IP: {unverifiedConnPlayer.ConnectionIP}",
 					Category.Admin);
 			}
-			LobbyManager.Instance.characterCustomization.SetActive(true);
+
+			RpcShowCharacterCreatorScreenRemotely(unverifiedConnPlayer.Connection);
 			Logger.Log("First time player found. Skipping username checks.");
 		}
 
