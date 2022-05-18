@@ -4,11 +4,13 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 using DatabaseAPI;
 using Mirror;
 using UnityEngine;
 using DiscordWebhook;
+using Lobby;
 using Messages.Client;
 using Messages.Server;
 using Messages.Server.AdminTools;
@@ -337,6 +339,13 @@ public partial class PlayerList
 		File.WriteAllLines(mentorsPath, newContents);
 	}
 
+	[TargetRpc]
+	public void RpcShowCharacterCreatorScreenRemotely(NetworkConnection target)
+	{
+		LobbyManager.Instance.SetActive(true);
+		LobbyManager.Instance.characterCustomization.SetActive(true);
+	}
+
 	public async Task<bool> ValidatePlayer(int unverifiedClientVersion, ConnectedPlayer unverifiedConnPlayer,
 		string unverifiedToken)
 	{
@@ -433,9 +442,10 @@ public partial class PlayerList
 		//Must have non-null/empty username
 		if (string.IsNullOrEmpty(unverifiedConnPlayer.Username))
 		{
+			RpcShowCharacterCreatorScreenRemotely(unverifiedConnPlayer.Connection);
 			StartCoroutine(KickPlayer(unverifiedConnPlayer, $"Server Error: Account has invalid username (Null/Empty). To fix go to character creator then click Serialise and then load"));
 			Logger.LogError($"A user tried to connect with null/empty username" +
-			           $"Details: Username: {unverifiedConnPlayer.Username}, ClientID: {unverifiedConnPlayer.ClientId}, IP: {unverifiedConnPlayer.ConnectionIP}",
+			                $"Details: Username: {unverifiedConnPlayer.Username}, ClientID: {unverifiedConnPlayer.ClientId}, IP: {unverifiedConnPlayer.ConnectionIP}",
 				Category.Admin);
 		}
 
