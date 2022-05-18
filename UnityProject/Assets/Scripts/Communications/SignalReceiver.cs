@@ -1,10 +1,12 @@
+using System;
 using Managers;
 using Mirror;
 using ScriptableObjects.Communications;
+using UnityEngine;
 
 namespace Communications
 {
-	public abstract class SignalReceiver : NetworkBehaviour
+	public abstract class SignalReceiver : NetworkBehaviour, IServerDespawn
 	{
 		public SignalType SignalTypeToReceive = SignalType.PING;
 		public float Frequency = 122F;
@@ -20,7 +22,7 @@ namespace Communications
 			SignalsManager.Instance.Receivers.Add(this);
 		}
 
-		private void OnDisable()
+		public void OnDespawnServer(DespawnInfo info)
 		{
 			RemoveSelfFromManager();
 		}
