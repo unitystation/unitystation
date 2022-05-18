@@ -280,8 +280,18 @@ public class RegisterPlayer : RegisterTile, IServerSpawn, RegisterPlayer.IContro
 	/// <param name="stunDuration">Time before the stun is removed.</param>
 	/// <param name="dropItem">If items in the hand slots should be dropped on stun.</param>
 	[Server]
-	public void ServerStun(float stunDuration = 4f, bool dropItem = true)
+	public void ServerStun(float stunDuration = 4f, bool dropItem = true, bool checkForArmor = true, float armorFailValue = 50f)
 	{
+		bool CheckArmorCanStun()
+		{
+			var stunNumbers = 0f;
+			foreach (var bodyPart in PlayerScript.playerHealth.SurfaceBodyParts)
+			{
+				stunNumbers += bodyPart.SelfArmor.Energy + bodyPart.SelfArmor.Bomb;
+			}
+			return (stunNumbers > armorFailValue);
+		}
+		if(checkForArmor && CheckArmorCanStun()) return;
 		var oldVal = IsSlippingServer;
 		IsSlippingServer = true;
 		ServerCheckStandingChange( true);
