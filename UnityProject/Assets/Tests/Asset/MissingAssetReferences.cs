@@ -10,8 +10,6 @@ namespace Tests.Asset
 {
 	/// <summary>
 	/// Checks for missing references on prefabs and scriptable objects.
-	/// TODO: These tests (both old and revised) have a strange issue causing them to take longer than they should
-	/// sometimes. It may be caused by the SlotPopulatorEntry.Prefab exceeding serialization depth.
 	/// </summary>
 	[Category(nameof(Asset))]
 	public class MissingAssetReferences
