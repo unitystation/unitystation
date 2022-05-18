@@ -29,13 +29,13 @@ namespace UI.Systems.AdminTools
 		public void RemoveBounty()
 		{
 			AdminCommandsManager.Instance.CmdRemoveBounty(BountyIndex, false);
-			Destroy(gameObject);
+			AdminCommandsManager.Instance.CmdRequestCargoServerData();
 		}
 
 		public void CompleteBounty()
 		{
 			AdminCommandsManager.Instance.CmdRemoveBounty(BountyIndex, true);
-			Destroy(gameObject);
+			AdminCommandsManager.Instance.CmdRequestCargoServerData();
 		}
 	}
 }
