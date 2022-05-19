@@ -61,8 +61,6 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 	/// </summary>
 	public ObjectType ObjectType => objectType;
 
-	private IPushable iPushable;
-
 	/// <summary>
 	/// Matrix this object lives in
 	/// </summary>
@@ -175,7 +173,6 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 		IPlayerEntersTiles = GetComponents<IPlayerEntersTile>();
 		IObjectEntersTiles = GetComponents<IObjectEntersTile>();
 		CurrentsortingGroup = GetComponent<SortingGroup>();
-		iPushable = GetComponent<IPushable>();
 	}
 
 	public override void OnStartServer()
@@ -223,11 +220,6 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 	public void Initialize(Matrix matrix)
 	{
 		Matrix = matrix;
-		if (iPushable != null)
-		{
-			iPushable.SetInitialPositionStates();
-		}
-
 		Initialized = true;
 		var networkedMatrix = Matrix.transform.parent.GetComponent<NetworkedMatrix>();
 		if (isServer)
@@ -385,8 +377,19 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 			transform.localRotation = Quaternion.identity;
 		}
 
+
+
 		//this will fire parent change hooks so we do it last
 		SetMatrix(networkedMatrix.GetComponentInChildren<Matrix>());
+
+
+
+		if (objectPhysics.HasComponent)
+		{
+			transform.localPosition =  objectPhysics.Component.CalculateLocalPosition();
+		}
+
+
 
 		UpdatePositionClient();
 
@@ -477,14 +480,7 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 	public void UpdatePositionServer()
 	{
 		var prevPosition = LocalPositionServer;
-		if (iPushable != null)
-		{
-			ServerSetLocalPosition(iPushable.ServerLocalPosition);
-		}
-		else
-		{
-			ServerSetLocalPosition(transform.localPosition.RoundToInt());
-		}
+		ServerSetLocalPosition(transform.localPosition.RoundToInt());
 		if (prevPosition != LocalPositionServer)
 		{
 			OnLocalPositionChangedServer.Invoke(LocalPositionServer);
@@ -494,14 +490,9 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 
 	public void UpdatePositionClient()
 	{
-		if (iPushable != null)
-		{
-			ClientSetLocalPosition(iPushable.ClientLocalPosition);
-		}
-		else
-		{
-			ClientSetLocalPosition(transform.localPosition.RoundToInt());
-		}
+
+		ClientSetLocalPosition(transform.localPosition.RoundToInt());
+
 		CheckSameMatrixRelationships();
 	}
 

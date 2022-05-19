@@ -1069,8 +1069,8 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 		return true;
 	}
 
-	public static bool IsFloatingAtV2Tile(Vector3Int worldPos, bool isServer,
-		MatrixCash MatrixCash) //Assuming MatrixCash is Initialised
+	public static bool IsFloatingAtV2Tile(Vector3 worldPos, bool isServer,
+		MatrixCash MatrixCash, bool DEBUG = false) //Assuming MatrixCash is Initialised
 	{
 		for (int i = 0; i < MatrixCash.DIRs.Length; i++)
 		{

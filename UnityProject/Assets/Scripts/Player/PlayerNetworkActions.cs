@@ -23,6 +23,7 @@ using UI.Core;
 using UI.Items;
 using Doors;
 using Tiles;
+using Random = UnityEngine.Random;
 
 public partial class PlayerNetworkActions : NetworkBehaviour
 {
@@ -364,15 +365,40 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	/// Server handling of the request to throw an item from a client
 	/// </summary>
 	[Command]
-	public void CmdThrow( Vector3 worldTargetVector, int aim)
+	public void CmdThrow( Vector3 TargetLocalPosition, int aim, Vector3 ClientWorldOfDifference)
 	{
 		//only allowed to throw from hands
 		if (!Validations.CanInteract(playerScript, NetworkSide.Server)) return;
 
 		if (!Cooldowns.TryStartServer(playerScript, CommonCooldowns.Instance.Interaction)) return;
 		var slot = itemStorage.GetActiveHandSlot();
-		Inventory.ServerThrow(slot, worldTargetVector,
-			slot.NamedSlot == NamedSlot.leftHand ? SpinMode.Clockwise : SpinMode.CounterClockwise, (BodyPartType) aim);
+		Vector3 targetVector = TargetLocalPosition.ToWorld(playerMove.registerTile.Matrix) - playerMove.transform.position;
+		if (slot.Item != null)
+		{
+			Inventory.ServerThrow(slot, targetVector,
+				slot.NamedSlot == NamedSlot.leftHand ? SpinMode.Clockwise : SpinMode.CounterClockwise, (BodyPartType) aim);
+		}
+		else if (playerMove.Pulling.HasComponent)
+		{
+			var Distance = targetVector.magnitude;
+
+			if (Distance > 6)
+			{
+				Distance = 6;
+			}
+
+			var Pulling = playerMove.Pulling.Component;
+			playerMove.StopPulling(false);
+			//speedloss  / friction
+			var speed = 8;
+
+			Pulling.NewtonianPush( targetVector,speed
+				, (Distance / speed ) - ((Mathf.Pow(speed, 2) / (2*UniversalObjectPhysics.DEFAULT_Friction)) / speed)
+				, Single.NaN, (BodyPartType) aim, this.gameObject, Random.Range(25, 150));
+		}
+
+
+
 	}
 
 	[Command]

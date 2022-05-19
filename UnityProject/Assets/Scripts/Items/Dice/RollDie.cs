@@ -129,7 +129,7 @@ namespace Items.Dice
 
 		private void ThrowStart(UniversalObjectPhysics throwInfo)
 		{
-			if (throwInfo.thrownBy.GetComponent<NetworkIdentity>() == null) return;
+			if (throwInfo.thrownBy.OrNull()?.GetComponent<NetworkIdentity>() == null) return;
 
 			Chat.AddActionMsgToChat(throwInfo.thrownBy, $"You throw the {dieName}...", $"{throwInfo.thrownBy.ExpensiveName()} throws the {dieName}...");
 		}

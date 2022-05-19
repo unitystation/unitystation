@@ -36,7 +36,7 @@ namespace Objects.Disposals
 		Handle = 3
 	}
 
-	public class DisposalBin : DisposalMachine, IExaminable, ICheckedInteractable<MouseDrop>, IEscapable
+	public class DisposalBin : DisposalMachine, IExaminable, ICheckedInteractable<MouseDrop>, IEscapable, IBumpableObject
 	{
 		private const int CHARGED_PRESSURE = 600; // kPa
 		private const int AUTO_FLUSH_DELAY = 2;
@@ -296,20 +296,23 @@ namespace Objects.Disposals
 		#endregion Interactions
 
 		// gives the probability of an object falling into the bin. Yes, it's like basketball
-		public void OnFlyingObjectHit(GameObject item)
+		public void OnBump(GameObject item)
 		{
 			if (MachineSecured == false) return;
 
-			if (DMMath.Prob(25))
+			if (item.GetComponent<UniversalObjectPhysics>().IsFlyingSliding)
 			{
-				Chat.AddLocalMsgToChat($"The {item.ExpensiveName()} bounces off the rim of the {gameObject.ExpensiveName()}!", gameObject);
-				var dunkMissParameters = new AudioSourceParameters(pitch: RandomDunkPitch);
-				SoundManager.PlayNetworkedAtPos(trashDunkMissSound, registerObject.WorldPositionServer, dunkMissParameters);
-				return;
-			}
+				if (DMMath.Prob(25))
+				{
+					Chat.AddLocalMsgToChat($"The {item.ExpensiveName()} bounces off the rim of the {gameObject.ExpensiveName()}!", gameObject);
+					var dunkMissParameters = new AudioSourceParameters(pitch: RandomDunkPitch);
+					SoundManager.PlayNetworkedAtPos(trashDunkMissSound, registerObject.WorldPositionServer, dunkMissParameters);
+					return;
+				}
 
-			Chat.AddLocalMsgToChat($"The {item.ExpensiveName()} goes straight into the {gameObject.ExpensiveName()}! Score!", gameObject);
-			StoreItem(item);
+				Chat.AddLocalMsgToChat($"The {item.ExpensiveName()} goes straight into the {gameObject.ExpensiveName()}! Score!", gameObject);
+				StoreItem(item);
+			}
 		}
 
 		private void StoreItem(GameObject item)

@@ -53,7 +53,7 @@ namespace Systems.MobAIs
 
 		protected void Move(Vector3Int dirToMove)
 		{
-			UniversalObjectPhysics.TryTilePush(dirToMove.To2Int(), false);
+			UniversalObjectPhysics.OrNull()?.TryTilePush(dirToMove.To2Int(), false);
 
 			if (rotatable != null)
 			{

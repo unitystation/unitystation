@@ -95,6 +95,8 @@ public class PlayerManager : MonoBehaviour
 
 	private void UpdateMe()
 	{
+
+
 		if (ShuttleConsole != null)
 		{
 			var move = GetMovementActions();
@@ -110,6 +112,9 @@ public class PlayerManager : MonoBehaviour
 		{
 			MovementControllable.ReceivePlayerMoveAction(GetMovementActions());
 		}
+
+
+
 	}
 
 	private void OnLevelFinishedLoading(Scene oldScene, Scene newScene)

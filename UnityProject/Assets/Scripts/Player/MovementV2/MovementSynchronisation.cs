@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using HealthV2;
 using Items;
+using Managers;
 using Messages.Client.Interaction;
 using Mirror;
 using Newtonsoft.Json;
@@ -21,7 +22,7 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 
 	public List<MoveData> MoveQueue = new List<MoveData>();
 
-	public float MoveMaxDelayQueue = 1f;
+	public float MoveMaxDelayQueue = 4f; //Only matters when low FPS mode
 
 	public float DefaultTime { get; } = 0.5f;
 
@@ -596,6 +597,9 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 		{
 			if (MoveQueue.Count > 0)
 			{
+				bool Fudged = false;
+				Vector3 Stored = Vector3.zero;
+
 				var Entry = MoveQueue[0];
 				MoveQueue.RemoveAt(0);
 				if (LastProcessMoved > Entry.Timestamp)
@@ -609,11 +613,22 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 
 				if (IsFlyingSliding)
 				{
+
 					if ((transform.localPosition - Entry.LocalPosition).magnitude <
 					    0.24f) //TODO Maybe not needed if needed can be used is when Move request comes in before player has quite reached tile in space flight
 					{
+						Stored = transform.localPosition;
 						transform.localPosition = Entry.LocalPosition;
+						registerTile.ServerSetLocalPosition(Entry.LocalPosition.RoundToInt());
+						registerTile.ClientSetLocalPosition(Entry.LocalPosition.RoundToInt());
 						SetMatrixCash.ResetNewPosition(transform.position);
+						Fudged = true;
+					}
+					else
+					{
+						Logger.LogError(" Fail the Range floating check ");
+						ResetLocationOnClients();
+						MoveQueue.Clear();
 						return;
 					}
 				}
@@ -634,8 +649,7 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 				{
 					if (TryMove(Entry, true))
 					{
-
-
+						//Logger.LogError("Move processed");
 						if (string.IsNullOrEmpty(Entry.PushedIDs) == false || Pushing.Count > 0)
 						{
 							var specialist = new List<uint>();
@@ -685,18 +699,34 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 						//timestamp says 0 for the first, 1 For the second
 						//the current server timestamp is 2
 						//So that means it can do 1 and 2 Messages , in the same frame
-						if (MoveQueue.Count > 0 &&
-						    (Entry.Timestamp + (TileMoveSpeed) <
-						     NetworkTime
-							     .time)) //yes Time.timeAsDouble Can rollover but this would only be a problem for a second
+
+						if (MoveQueue.Count > 0)
+							//yes Time.timeAsDouble Can rollover but this would only be a problem for a second
 						{
-							transform.localPosition = LocalTargetPosition; //TODO Update registered tile
-							ServerCheckQueueingAndMove();
+							if (FPSMonitor.Instance.Average < 10)
+							{
+								if ((Entry.Timestamp + (TileMoveSpeed) < NetworkTime.time))
+								{
+									transform.localPosition = LocalTargetPosition;
+									registerTile.ServerSetLocalPosition(LocalTargetPosition.RoundToInt());
+									registerTile.ClientSetLocalPosition(LocalTargetPosition.RoundToInt());
+									ServerCheckQueueingAndMove();
+								}
+							}
+
 						}
+
 					}
 					else
 					{
 						Logger.LogError("Failed TryMove");
+						if (Fudged)
+						{
+							transform.localPosition = Stored;
+							registerTile.ServerSetLocalPosition(Stored.RoundToInt());
+							registerTile.ClientSetLocalPosition(Stored.RoundToInt());
+							SetMatrixCash.ResetNewPosition(transform.position);
+						}
 						ResetLocationOnClients();
 						MoveQueue.Clear();
 					}
@@ -704,6 +734,13 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 				else
 				{
 					Logger.LogError("Failed Can input");
+					if (Fudged)
+					{
+						transform.localPosition = Stored;
+						registerTile.ServerSetLocalPosition(Stored.RoundToInt());
+						registerTile.ClientSetLocalPosition(Stored.RoundToInt());
+						SetMatrixCash.ResetNewPosition(transform.position);
+					}
 					ResetLocationOnClients();
 					MoveQueue.Clear();
 				}
@@ -813,6 +850,7 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 			NewMoveData.PushedIDs = "";
 		}
 
+		//Logger.LogError(" Requested move ");
 		CMDRequestMove(NewMoveData);
 		return;
 	}
@@ -862,7 +900,7 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 
 			//move
 			ForceTilePush(NewMoveData.GlobalMoveDirection.TVectoro().To2Int(), Pushing, ByClient,
-				IsWalk: true); //TODO Speed
+				IsWalk: true);
 
 			SetMatrixCash.ResetNewPosition(registerTile.WorldPosition); //Resets the cash
 
@@ -889,7 +927,7 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 			{
 				foreach (var Bump in Bumps)
 				{
-					Bump.OnBump(this.gameObject);
+					if (isServer) Bump.OnBump(this.gameObject);
 					BumpedSomething = true;
 				}
 			}
@@ -940,6 +978,14 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 					CausesSlipClient = DoesSlip(moveAction, out slippedOn);
 					return true;
 				}
+				else
+				{
+					//if (isServer) Logger.LogError("failed is obstructed");
+				}
+			}
+			else
+			{
+				//if (isServer) Logger.LogError("failed is floating");
 			}
 		}
 
@@ -1009,19 +1055,18 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 			}
 		}
 
-
 		if (IsNotFloatingTileMap())
 		{
-			if (stickyMovement) newtonianMovement *= 0;
 			IsCurrentlyFloating = false;
+			newtonianMovement *= 0;
 			CanPushOff = null;
 			return true;
 		}
 
 		if (IsNotFloatingObjects(moveAction, out CanPushOff))
 		{
-			if (stickyMovement) newtonianMovement *= 0;
 			IsCurrentlyFloating = false;
+			newtonianMovement *= 0;
 			return true;
 		}
 
@@ -1032,8 +1077,8 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 
 	public bool IsNotFloatingTileMap()
 	{
-		return MatrixManager.IsFloatingAtV2Tile(transform.position.RoundToInt(), CustomNetworkManager.IsServer,
-			SetMatrixCash) == false;
+		return MatrixManager.IsFloatingAtV2Tile(transform.position, CustomNetworkManager.IsServer,
+			SetMatrixCash, true) == false;
 	}
 
 	public bool IsNotFloatingObjects(MoveData? moveAction, out RegisterTile CanPushOff)
@@ -1080,6 +1125,7 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 	{
 		if (CanInPutMove(true))
 		{
+
 			var Age = NetworkTime.time - InMoveData.Timestamp;
 			if (Age > MoveMaxDelayQueue)
 			{
@@ -1097,6 +1143,7 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 
 			InMoveData.GlobalMoveDirection =
 				VectorToPlayerMoveDirection((AddedGlobalPosition - transform.position).To2Int());
+			//Logger.LogError(" Received move at  " + InMoveData.LocalPosition.ToString() + "  Currently at " + transform.localPosition );
 			MoveQueue.Add(InMoveData);
 		}
 	}

@@ -621,24 +621,15 @@ public class MouseInputController : MonoBehaviour
 		if (UIManager.IsThrow)
 		{
 			var currentSlot = PlayerManager.LocalPlayerScript.DynamicItemStorage.GetActiveHandSlot();
-			if (currentSlot.Item == null)
+			if (currentSlot.Item != null || PlayerManager.LocalPlayerScript.playerMove.Pulling.HasComponent)
 			{
-				return false;
+				PlayerManager.LocalPlayerScript.playerNetworkActions.CmdThrow(
+					MouseWorldPosition.ToLocal(playerMove.registerTile.Matrix), (int) UIManager.DamageZone, MouseWorldPosition - PlayerManager.LocalPlayer.transform.position);
+
+				//Disabling throw button
+				UIManager.Action.Throw();
+				return true;
 			}
-
-			Vector3 targetPosition = MouseWorldPosition;
-			targetPosition.z = 0f;
-
-			//using transform position instead of registered position
-			//so target is still correct when lerping on a matrix (since registered world position is rounded)
-			Vector3 targetVector = targetPosition - PlayerManager.LocalPlayer.transform.position;
-
-			PlayerManager.LocalPlayerScript.playerNetworkActions.CmdThrow(
-				targetVector, (int) UIManager.DamageZone);
-
-			//Disabling throw button
-			UIManager.Action.Throw();
-			return true;
 		}
 
 		return false;

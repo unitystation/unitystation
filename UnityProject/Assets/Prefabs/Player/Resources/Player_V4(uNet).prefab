@@ -1394,7 +1394,7 @@ MonoBehaviour:
   aim: 0
   spinMagnitude: 0
   stickyMovement: 1
-  maximumStickSpeed: 1.5
+  maximumStickSpeed: 10
   onStationMovementsRound: 1
   attributes: {fileID: 0}
   registerTile: {fileID: 0}
@@ -1412,7 +1412,6 @@ MonoBehaviour:
   Animating: 0
   IsFlyingSliding: 0
   IsMoving: 0
-  IsWalking: 0
   MoveIsWalking: 0
   LastUpdateClientFlying: 0
   playerScript: {fileID: 0}
