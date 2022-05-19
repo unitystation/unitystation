@@ -1043,6 +1043,12 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		var Object = NetworkIdentity.spawned[id].gameObject;
 		var slot = itemStorage.GetNamedItemSlot(Object,namedSlot);
 		if (slot == null) return;
-		Inventory.ServerTransfer(gameObject.PickupableOrNull().ItemSlot, slot, ReplacementStrategy.DropOther);
+
+		if (gameObject.PickupableOrNull()?.ItemSlot == null) return;
+		var fromslot = gameObject.PickupableOrNull()?.ItemSlot;
+		if (fromslot.ItemStorage.ServerIsObserver(playerMove.gameObject))
+		{
+			Inventory.ServerTransfer(gameObject.PickupableOrNull().ItemSlot, slot, ReplacementStrategy.DropOther);
+		}
 	}
 }
