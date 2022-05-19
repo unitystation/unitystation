@@ -105,7 +105,7 @@ namespace Tests.Scenes
 		[Test]
 		public void PipesAndCablesAreNotOverlappingOrDuplicate()
 		{
-			foreach (var layer in RootObjects.ComponentsInChildren<UnderFloorLayer>().NotNull())
+			foreach (var layer in RootObjects.ComponentInChildren<UnderFloorLayer>().NotNull())
 			{
 				var tilemap = layer.Tilemap;
 				var bounds = tilemap.cellBounds;
@@ -214,6 +214,7 @@ namespace Tests.Scenes
 					}
 
 					var missingRefs = serializedObjectFieldsMap.FieldNamesWithStatus(comp, ReferenceStatus.Missing)
+						.Select(pair => pair.name)
 						.ToList();
 
 					Report.FailIf(missingRefs.Count, Is.GreaterThan(0))

@@ -21,7 +21,7 @@ namespace Tests
 
 		private bool Dirty { get; set; }
 
-		public bool Failed { get; private set; }
+		private bool Failed { get; set; }
 
 		public TestReport(StringBuilder builder = null) => Builder = builder ?? new StringBuilder();
 
@@ -44,9 +44,13 @@ namespace Tests
 		/// </summary>
 		public TestReport AppendLine(string line = null) => TryAppend((b, s) => b.AppendLine(s), line);
 
+		/// <summary>
+		/// Appends a sequence of lines to the report. Will only append if the previous condition failed and the report
+		/// isn't dirty. <see cref="StringBuilder.AppendLine(string)"/>
+		/// </summary>
 		public TestReport AppendLineRange(IEnumerable<string> range, string prefix = "", string postfix = "")
 		{
-			if (range is null) return this;
+			if (Dirty || range is null) return this;
 
 			foreach (var str in range)
 			{
@@ -88,14 +92,20 @@ namespace Tests
 			return this;
 		}
 
+		/// <summary>
+		/// Leaves the report in a fail state for its lifetime if the condition meets the given Assert expression.
+		/// </summary>
 		public TestReport FailIf<T>(T obj, IResolveConstraint expression) =>
 			FailIf(GetExpressionResult(obj, expression));
 
 		/// <summary>
-		/// <see cref="FailIf"/>
+		/// Opposite version of FailIf. <see cref="FailIf"/>
 		/// </summary>
 		public TestReport FailIfNot(bool condition) => FailIf(condition == false);
 
+		/// <summary>
+		/// Opposite version of FailIf. <see cref="FailIf{T}"/>
+		/// </summary>
 		public TestReport FailIfNot<T>(T obj, IResolveConstraint expression) =>
 			FailIf(GetExpressionResult(obj, expression) == false);
 

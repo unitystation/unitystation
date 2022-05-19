@@ -49,6 +49,7 @@ namespace Tests.Asset
 					var compType = component.GetType();
 					var missingRefs = serializedObjectFieldsMap
 						.FieldNamesWithStatus(component, ReferenceStatus.Missing)
+						.Select(pair => pair.name)
 						.ToList();
 
 					report.FailIf(missingRefs.Any())
@@ -96,7 +97,7 @@ namespace Tests.Asset
 		}
 
 
-		private void CheckMissingReferenceFieldsScriptableObjects(string path, ReferenceStatus status)
+		private void CheckMissingOrNullReferenceFieldsScriptableObjects(string path, ReferenceStatus status)
 		{
 			var report = new TestReport();
 			var serializedObjectFieldsMap = new SerializedObjectFieldsMap();
@@ -105,15 +106,16 @@ namespace Tests.Asset
 			{
 				var missingRefs = serializedObjectFieldsMap
 					.FieldNamesWithStatus(so, status)
+					.Select(pair => pair.status switch
+						{
+							ReferenceStatus.Null => $"{pair.name} is None/Null",
+							ReferenceStatus.Missing => $"{pair.name} has a missing reference.",
+							_ => string.Empty
+						}
+					)
 					.ToList();
 
-				var message = $"ScriptableObject ({so.name}) has serializable fields";
-				message = status switch
-				{
-					ReferenceStatus.Null => $"{message} that are None/Null: ",
-					ReferenceStatus.Missing => $"{message} with a missing reference to a unity object: ",
-					_ => string.Empty
-				};
+				var message = $"ScriptableObject ({so.name}) has invalid serializable Unity object fields: ";
 
 				report.FailIf(missingRefs.Any())
 					.AppendLine(message)
@@ -130,7 +132,7 @@ namespace Tests.Asset
 		public void TestScriptableObjects()
 		{
 			CheckMissingScriptableObjects("ScriptableObjects");
-			CheckMissingReferenceFieldsScriptableObjects("ScriptableObjects",
+			CheckMissingOrNullReferenceFieldsScriptableObjects("ScriptableObjects",
 				ReferenceStatus.Missing);
 		}
 
@@ -141,8 +143,8 @@ namespace Tests.Asset
 		public void TestSingletonScriptableObjects()
 		{
 			CheckMissingScriptableObjects("Resources/ScriptableObjectsSingletons");
-			CheckMissingReferenceFieldsScriptableObjects("Resources/ScriptableObjectsSingletons",
-				ReferenceStatus.Null);
+			CheckMissingOrNullReferenceFieldsScriptableObjects("Resources/ScriptableObjectsSingletons",
+				ReferenceStatus.Null | ReferenceStatus.Missing);
 		}
 	}
 }

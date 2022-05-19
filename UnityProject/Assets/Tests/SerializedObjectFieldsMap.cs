@@ -54,17 +54,19 @@ namespace Tests
 		}
 
 		/// <summary>
-		/// Gather all field names on an instance that match the given reference status.
+		/// Gather all field names and their status from an instance that match the given reference status.
 		/// </summary>
-		public IEnumerable<string> FieldNamesWithStatus(Object instance, ReferenceStatus status)
+		public IEnumerable<(string name, ReferenceStatus status)> FieldNamesWithStatus(Object instance, ReferenceStatus status)
 		{
 			if (instance == null) yield break;
 
 			foreach (var field in GetFieldsFor(instance))
 			{
-				if ((GetReferenceStatus(field, instance) & status) == 0) continue;
+				var fieldStatus = GetReferenceStatus(field, instance);
 
-				yield return field.Name;
+				if ((fieldStatus & status) == 0) continue;
+
+				yield return (field.Name, fieldStatus);
 			}
 		}
 

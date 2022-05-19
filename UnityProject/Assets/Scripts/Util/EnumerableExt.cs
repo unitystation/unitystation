@@ -27,7 +27,7 @@ public static class EnumerableExt
 	}
 
 	/// <summary>
-	/// Projects a sequence into an IEnumerable of value tuples containing the object and the index.
+	/// Projects a sequence into an <see cref="IEnumerable{T}"/> of value tuples containing the object and the index.
 	/// </summary>
 	public static IEnumerable<(T, int)> WithIndex<T>(this IEnumerable<T> source)
 	{
@@ -47,7 +47,9 @@ public static class EnumerableExt
 	// functions.
 
 	/// <summary>
-	/// Projects a sequence of GameObjects into a flattened IEnumerable of their components filtered by type.
+	/// Projects a sequence of GameObjects into a flattened <see cref="IEnumerable{T}"/> of their components filtered
+	/// by type.
+	/// Avoids garbage from retrieving components by using a pooled list, but still causes enumerator allocations.
 	/// </summary>
 	/// <param name="source">A sequence of GameObjects.</param>
 	/// <typeparam name="T">The type of <see cref="Component"/> to filter for.</typeparam>
@@ -58,8 +60,9 @@ public static class EnumerableExt
 	}
 
 	/// <summary>
-	/// Projects a sequence of Components into a flattened IEnumerable of the parent GameObject's components
-	/// filtered by type.
+	/// Projects a sequence of Components into a flattened <see cref="IEnumerable{T}"/> of the parent GameObject's
+	/// components filtered by type.
+	/// Avoids garbage from retrieving components by using a pooled list, but still causes enumerator allocations.
 	/// </summary>
 	/// <param name="source">A sequence of Components.</param>
 	/// <typeparam name="T">The type of <see cref="Component"/> to filter for.</typeparam>
@@ -71,7 +74,8 @@ public static class EnumerableExt
 
 
 	/// <summary>
-	/// Projects a sequence of GameObjects into an IEnumerable of the child component filtered by type.
+	/// Projects a sequence of GameObjects into an <see cref="IEnumerable{T}"/> of the child component filtered by type.
+	/// Avoids garbage from retrieving components by using a pooled list, but still causes enumerator allocations.
 	/// </summary>
 	/// <param name="source">A sequence of GameObjects.</param>
 	/// <typeparam name="T">The type of <see cref="Component"/> to filter for.</typeparam>
@@ -82,8 +86,9 @@ public static class EnumerableExt
 	}
 
 	/// <summary>
-	/// Projects a sequence of Components into an IEnumerable of the parent GameObject's child component
+	/// Projects a sequence of Components into an <see cref="IEnumerable{T}"/> of the parent GameObject's child component
 	/// filtered by type.
+	/// Avoids garbage from retrieving components by using a pooled list, but still causes enumerator allocations.
 	/// </summary>
 	/// <param name="source">A sequence of Components.</param>
 	/// <typeparam name="T">The type of <see cref="Component"/> to filter for.</typeparam>
@@ -94,7 +99,9 @@ public static class EnumerableExt
 	}
 
 	/// <summary>
-	/// Projects a sequence of GameObjects into a flattened IEnumerable of all child components filtered by type.
+	/// Projects a sequence of GameObjects into a flattened <see cref="IEnumerable{T}"/> of all child components
+	/// filtered by type.
+	/// Avoids garbage from retrieving components by using a pooled list, but still causes enumerator allocations.
 	/// </summary>
 	/// <param name="source">A sequence of GameObjects.</param>
 	/// <typeparam name="T">The type of <see cref="Component"/> to filter for.</typeparam>
@@ -105,7 +112,9 @@ public static class EnumerableExt
 	}
 
 	/// <summary>
-	/// Projects a sequence of Components into a flattened IEnumerable of all child components filtered by type.
+	/// Projects a sequence of Components into a flattened <see cref="IEnumerable{T}"/> of all child components
+	/// filtered by type.
+	/// Avoids garbage from retrieving components by using a pooled list, but still causes enumerator allocations.
 	/// </summary>
 	/// <param name="source">A sequence of Components.</param>
 	/// <typeparam name="T">The type of <see cref="Component"/> to filter for.</typeparam>
@@ -121,7 +130,7 @@ public static class EnumerableExt
 	{
 		if (getComponentsCallback is null) yield break;
 
-		var results = ListPool<TResult>.Get();
+		using var pool = ListPool<TResult>.Get(out var results);
 
 		foreach (var obj in source)
 		{
@@ -134,8 +143,6 @@ public static class EnumerableExt
 				yield return result;
 			}
 		}
-
-		ListPool<TResult>.Release(results);
 	}
 
 	#endregion
