@@ -138,14 +138,13 @@ namespace Tests.Scenes
 
 				if (tilemap.GetTile(localPos) is not LayerTile layerTile) continue;
 
-				switch (layerTile)
+				if (layerTile is ElectricalCableTile cableTile)
 				{
-					case ElectricalCableTile cableTile:
-						HandleCableTile(cableTile, localPos);
-						break;
-					case PipeTile pipeTile:
-						HandlePipeTile(pipeTile, localPos, checkPipeDir);
-						break;
+					HandleCableTile(cableTile, localPos);
+				}
+				else if (layerTile is PipeTile pipeTile)
+				{
+					HandlePipeTile(pipeTile, localPos, checkPipeDir);
 				}
 			}
 

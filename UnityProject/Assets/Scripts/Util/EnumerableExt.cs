@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.Pool;
+using Object = UnityEngine.Object;
 
 public static class EnumerableExt
 {
@@ -126,7 +127,7 @@ public static class EnumerableExt
 
 	private static IEnumerable<TResult> GetComponentsInternal<TSource, TResult>(
 		this IEnumerable<TSource> source,
-		Action<TSource, List<TResult>> getComponentsCallback)
+		Action<TSource, List<TResult>> getComponentsCallback) where TSource : Object
 	{
 		if (getComponentsCallback is null) yield break;
 
