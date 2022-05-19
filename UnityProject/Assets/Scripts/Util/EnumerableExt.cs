@@ -76,7 +76,6 @@ public static class EnumerableExt
 
 	/// <summary>
 	/// Projects a sequence of GameObjects into an <see cref="IEnumerable{T}"/> of the child component filtered by type.
-	/// Avoids garbage from retrieving components by using a pooled list, but still causes enumerator allocations.
 	/// </summary>
 	/// <param name="source">A sequence of GameObjects.</param>
 	/// <typeparam name="T">The type of <see cref="Component"/> to filter for.</typeparam>
@@ -89,7 +88,6 @@ public static class EnumerableExt
 	/// <summary>
 	/// Projects a sequence of Components into an <see cref="IEnumerable{T}"/> of the parent GameObject's child component
 	/// filtered by type.
-	/// Avoids garbage from retrieving components by using a pooled list, but still causes enumerator allocations.
 	/// </summary>
 	/// <param name="source">A sequence of Components.</param>
 	/// <typeparam name="T">The type of <see cref="Component"/> to filter for.</typeparam>
