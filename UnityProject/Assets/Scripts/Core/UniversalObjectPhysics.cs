@@ -26,21 +26,17 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 
 	//TODO Sometime Combine buckling and object storage
 
+	//TODO pulling Isn't updating the pulling icon properly on Rejoin of client
+
 	//=================================== Maybe
 	//TODO Client gets double update of space speed! Could be editor only issue, couldn't replicate on build???
 	//TODO Slipping into locker Causes locker to move on client but not on server, Sometimes???
+
 	//=================================== balance Maybe
 	//=============================================== TODO some time
 	//TODO Make space Movement perfect ( Is pretty much good now )
 	//=============================================== Definitely
 	//TODO Implement swap if you're dragging someone
-	//TODO PulledBy isn't getting synchronised to client properly on start
-	//TODO Clients Clients both pulling each other explodes?
-
-	//TODO make objects heavy ( like lockers )
-	//TODO objects aren't synchronised on the correct locations on start (local to world malarkey)
-
-	//TODO New Players synchronisation
 
 	public const float DEFAULT_PUSH_SPEED = 6;
 
@@ -80,7 +76,10 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 		get { return LocalTargetPosition; }
 		set
 		{
-			if (isServer)  SyncLocalTarget(synchLocalTargetPosition, value);
+			if (CustomNetworkManager.IsServer && synchLocalTargetPosition != value)
+			{
+				SyncLocalTarget(synchLocalTargetPosition, value);
+			}
 			//Logger.LogError("local target position set of "  + value + " On matrix " + registerTile.Matrix);
 			LocalTargetPosition = value;
 		}
@@ -252,6 +251,10 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 		{
 			SetLocalTarget = transform.localPosition;
 		}
+		else
+		{
+			transform.localPosition = synchLocalTargetPosition;
+		}
 
 		if (SnapToGridOnStart && isServer)
 		{
@@ -302,7 +305,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 		if (isServer) return;
 		if (LocalTargetPosition == NewLocalTarget) return;
 		if (isLocalPlayer || PulledBy.HasComponent) return;
-		LocalTargetPosition = NewLocalTarget;
+		SetLocalTarget = NewLocalTarget;
 		if (IsFlyingSliding)
 		{
 			IsFlyingSliding = false;
@@ -379,7 +382,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 		}
 		else //We are walking around somewhere
 		{
-			LocalTargetPosition = ReSetToLocal;
+			SetLocalTarget = ReSetToLocal;
 			transform.localPosition = ReSetToLocal;
 			registerTile.ServerSetLocalPosition(ReSetToLocal.RoundToInt());
 			registerTile.ClientSetLocalPosition(ReSetToLocal.RoundToInt());
@@ -491,7 +494,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 			else
 			{
 				newtonianMovement = Momentum;
-				LocalTargetPosition = ReSetToLocal;
+				SetLocalTarget = ReSetToLocal;
 
 				if (Animating == false)
 				{
@@ -512,7 +515,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 			else
 			{
 				newtonianMovement = Momentum;
-				LocalTargetPosition = ReSetToLocal;
+				SetLocalTarget = ReSetToLocal;
 				transform.localPosition = ReSetToLocal;
 				registerTile.ServerSetLocalPosition(ReSetToLocal.RoundToInt());
 				registerTile.ClientSetLocalPosition(ReSetToLocal.RoundToInt());
@@ -624,10 +627,11 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 	public void SetMatrix(Matrix movetoMatrix)
 	{
 		var TransformCash = transform.position;
+		registerTile.ServerSetNetworkedMatrixNetID(movetoMatrix.NetworkedMatrix.MatrixSync.netId);
 		registerTile.FinishNetworkedMatrixRegistration(movetoMatrix.NetworkedMatrix);
 		transform.position = TransformCash;
 		LocalDifferenceNeeded = Vector2.zero;
-		LocalTargetPosition = transform.localPosition;
+		SetLocalTarget = transform.localPosition;
 	}
 
 	/// <summary>
@@ -750,7 +754,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 
 
 		MoveIsWalking = false;
-		LocalTargetPosition = transform.localPosition;
+		SetLocalTarget = transform.localPosition;
 		newtonianMovement = Vector2.zero;
 		airTime = 0;
 		slideTime = 0;
@@ -861,9 +865,11 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 			Pulling.DirectSetComponent(ToPull);
 			ToPull.PulledBy.DirectSetComponent(this);
 			ContextGameObjects[1] = ToPull.gameObject;
+			if (isLocalPlayer) UIManager.Action.UpdatePullingUI(true);
 		}
 		else
 		{
+			if (isLocalPlayer) UIManager.Action.UpdatePullingUI(false);
 			if (Pulling.HasComponent)
 			{
 				Pulling.Component.PulledBy.SetToNull();

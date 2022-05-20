@@ -380,6 +380,13 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		}
 		else if (playerMove.Pulling.HasComponent)
 		{
+			if ((playerMove.Pulling.Component as MovementSynchronisation) == null)
+			{
+				if (playerMove.Pulling.Component.attributes.Size >= Size.Large)
+				{
+					return;
+				}
+			};
 			var Distance = targetVector.magnitude;
 
 			if (Distance > 6)
