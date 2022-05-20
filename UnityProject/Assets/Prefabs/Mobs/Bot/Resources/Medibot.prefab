@@ -170,10 +170,14 @@ MonoBehaviour:
   AllowDead: 0
   AllowUnconscious: 0
   Priority: 0
+  visionRange: 10
   PriorityBalance: 1
   CB_REAGENT: {fileID: 0}
+  HEALING_REAGENT: {fileID: 11400000, guid: 49314e67edf9a9a99966702ee82aeaa8, type: 2}
+  HARMFUL_REAGENT: {fileID: 11400000, guid: 6c3a3878e8878972ea633a27c6d0ba12, type: 2}
   target: 3
   actionPerformTime: 0
+  visionUpdateInterval: 0.5
   hasFoodPrefereces: 0
   foodPreferences: []
   IsEmagged: 0
