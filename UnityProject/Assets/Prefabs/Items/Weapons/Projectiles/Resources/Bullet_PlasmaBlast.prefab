@@ -112,7 +112,7 @@ PrefabInstance:
     - target: {fileID: -6130738676024284386, guid: 5858b89c4790c084bb1915952309853d,
         type: 3}
       propertyPath: maxDistance
-      value: 4
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 1560634355228308, guid: 5858b89c4790c084bb1915952309853d, type: 3}
       propertyPath: m_Name
@@ -260,7 +260,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e7e2b3b76f744e8382af6ed53ea6794d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  projectileHardness: 4
+  projectileHardness: 5
+  projectileMineFail:
+    SetLoadSetting: 0
+    AssetAddress: 
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
   maxHits: 4
 --- !u!4 &7818161943669900781 stripped
 Transform:
