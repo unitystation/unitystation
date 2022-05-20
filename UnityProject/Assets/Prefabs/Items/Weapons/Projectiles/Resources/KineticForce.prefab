@@ -76,6 +76,11 @@ PrefabInstance:
       propertyPath: visibleName
       value: kinetic force
       objectReference: {fileID: 0}
+    - target: {fileID: 1410495953153992223, guid: 5858b89c4790c084bb1915952309853d,
+        type: 3}
+      propertyPath: m_AssetId
+      value: a4c2debd67d612549b05801d1e37121a
+      objectReference: {fileID: 0}
     - target: {fileID: 2164135355554094252, guid: 5858b89c4790c084bb1915952309853d,
         type: 3}
       propertyPath: PresentSpriteSet
@@ -106,6 +111,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 28e42a5980a64168a02f90a0ccc06d3d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  projectileHardness: 5
+  projectileMineFail:
+    SetLoadSetting: 0
+    AssetAddress: null
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
 --- !u!114 &1221977244184338686
 MonoBehaviour:
   m_ObjectHideFlags: 0
