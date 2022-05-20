@@ -155,6 +155,11 @@ PrefabInstance:
       propertyPath: armoredBodyParts.Array.data[0].armor.Bullet
       value: 100
       objectReference: {fileID: 0}
+    - target: {fileID: 8215174308799955191, guid: de234d793cfd842599c9c8726207f217,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[0].armor.StunImmunity
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: de234d793cfd842599c9c8726207f217, type: 3}
 --- !u!1 &3011710637427380133 stripped
