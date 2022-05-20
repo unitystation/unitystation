@@ -26,9 +26,12 @@ namespace Weapons.Projectiles.Behaviours
 			{
 
 				if (projectileHardness < basicTile.MiningHardness)
-				SoundManager.PlayNetworkedAtPos(projectileMineFail, gameObject.AssumedWorldPosServer());
-				Chat.AddLocalMsgToChat($"The projectile pings off the surface, leaving hardly a scratch.", gameObject);
-				return false;
+				{
+					SoundManager.PlayNetworkedAtPos(projectileMineFail, gameObject.AssumedWorldPosServer());
+					Chat.AddLocalMsgToChat($"The projectile pings off the surface, leaving hardly a scratch.", gameObject);
+					return false;
+				}
+				
 				
 			}
 			return interactableTiles.TryMine(worldPosition);
