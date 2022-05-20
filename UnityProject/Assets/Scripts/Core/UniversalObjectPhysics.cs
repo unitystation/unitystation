@@ -92,7 +92,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 	public bool IsVisible => isVisible;
 
 	[SyncVar(hook = nameof(SyncMovementSpeed))]
-	protected float tileMoveSpeed = 1;
+	public float tileMoveSpeed = 1;
 
 	public float TileMoveSpeed => tileMoveSpeed;
 
@@ -117,6 +117,8 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 
 	[SyncVar(hook = nameof(SynchroniseParent))]
 	private uint parentContainer;
+
+
 
 
 	private ObjectContainer CashedContainedInContainer;
@@ -752,7 +754,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 		if (Animating) UpdateManager.Remove(CallbackType.UPDATE, AnimationUpdateMe);
 		if (CorrectingCourse) UpdateManager.Remove(CallbackType.UPDATE, FloatingCourseCorrection);
 
-
+		IsMoving = false;
 		MoveIsWalking = false;
 		SetLocalTarget = transform.localPosition;
 		newtonianMovement = Vector2.zero;
@@ -1319,6 +1321,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 			TileMoveSpeedOverride = 0;
 			Animating = false;
 			MoveIsWalking = false;
+			IsMoving = false;
 			UpdateManager.Remove(CallbackType.UPDATE, AnimationUpdateMe);
 		}
 

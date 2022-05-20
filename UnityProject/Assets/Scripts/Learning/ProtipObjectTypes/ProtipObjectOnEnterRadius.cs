@@ -21,12 +21,12 @@ namespace Learning.ProtipObjectTypes
 
 		private void CheckForNearbyItems()
 		{
-			var possibleTargets = Physics2D.OverlapCircleAll(gameObject.RegisterTile().WorldPosition.ToNonInt3(), SearchRadius, MaskToCheck);
+			var possibleTargets = Physics2D.OverlapCircleAll(gameObject.transform.position.To2(), SearchRadius, MaskToCheck);
 			foreach (var target in possibleTargets)
 			{
 				if(gameObject == target.gameObject) continue;
-				if (MatrixManager.Linecast(gameObject.RegisterTile().WorldPosition, LayerTypeSelection.Walls,
-					    MaskToCheck, target.gameObject.RegisterTile().WorldPosition).ItHit) continue;
+				if (MatrixManager.Linecast(gameObject.transform.position, LayerTypeSelection.Walls,
+					    MaskToCheck, target.gameObject.transform.position).ItHit) continue;
 				foreach (var data in ObjectsToCheck)
 				{
 					var prefabTracker = data.GameObjectToCheck.GetComponent<PrefabTracker>();

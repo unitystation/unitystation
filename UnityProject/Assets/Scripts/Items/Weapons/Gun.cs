@@ -588,7 +588,7 @@ namespace Weapons
 			BodyPartType damageZone, bool isSuicideShot)
 		{
 			// check if we can still shoot
-			PlayerMove shooter = shotBy.GetComponent<PlayerMove>();
+			MovementSynchronisation shooter = shotBy.GetComponent<MovementSynchronisation>();
 			PlayerScript shooterScript = shotBy.GetComponent<PlayerScript>();
 			if (!shooter.allowInput || shooterScript.IsGhost)
 			{
@@ -643,7 +643,7 @@ namespace Weapons
 			}
 
 				//kickback
-				shooterScript.objectPhysics.NewtonianPush((-nextShot.finalDirection).NormalizeToInt(), 1);
+				shooterScript.objectPhysics.NewtonianPush((-finalDirection).NormalizeToInt(), 1);
 
 			if (SpawnsCasing)
 			{

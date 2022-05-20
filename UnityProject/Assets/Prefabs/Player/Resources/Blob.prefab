@@ -320,6 +320,7 @@ MonoBehaviour:
   LocalTargetPosition: {x: 0, y: 0, z: 0}
   ChangesDirectionPush: 0
   InitialLocationSynchronised: 0
+  tileMoveSpeed: 8
   isNotPushable: 0
   newtonianMovement: {x: 0, y: 0}
   airTime: 0
@@ -352,6 +353,7 @@ MonoBehaviour:
   MoveMaxDelayQueue: 4
   Step: 0
   intent: 0
+  CanMoveThroughObstructions: 1
   RunSpeed: 18
   WalkSpeed: 18
   CrawlSpeed: 18

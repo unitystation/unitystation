@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Core.Editor.Attributes;
 using HealthV2;
 using Items;
 using Managers;
@@ -28,8 +29,8 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 
 	public bool Step = false;
 
-	[SyncVar(hook = nameof(SyncInput))]
-	[NonSerialized] public bool allowInput = true; //Should be synchvar far
+	[SyncVar(hook = nameof(SyncInput))] [NonSerialized]
+	public bool allowInput = true; //Should be synchvar far
 
 	public Intent intent; //TODO Cleanup in mind rework
 
@@ -45,6 +46,8 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 	public bool IsCuffed { get; private set; }
 
 	public bool IsTrapped => IsCuffed || ContainedInContainer != null;
+
+	[PrefabModeOnly] public bool CanMoveThroughObstructions = false;
 
 	// netid of the game object we are buckled to, NetId.Empty if not buckled
 	[SyncVar(hook = nameof(SyncBuckledObject))]
@@ -504,7 +507,9 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 		Up,
 		Up_Right,
 		Right,
-		/* you are */ Down_Right, //Dastardly
+
+		/* you are */
+		Down_Right, //Dastardly
 		Down,
 		Down_Left,
 		Left,
@@ -613,7 +618,6 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 
 				if (IsFlyingSliding)
 				{
-
 					if ((transform.localPosition - Entry.LocalPosition).magnitude <
 					    0.24f) //TODO Maybe not needed if needed can be used is when Move request comes in before player has quite reached tile in space flight
 					{
@@ -637,7 +641,9 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 					if ((transform.localPosition - Entry.LocalPosition).magnitude >
 					    0.5f) //Resets play location if too far away
 					{
-						Logger.LogError("Reset from distance from actual target" + (transform.localPosition - Entry.LocalPosition).magnitude + " SERVER : " + transform.localPosition + " Client : " + Entry.LocalPosition);
+						Logger.LogError("Reset from distance from actual target" +
+						                (transform.localPosition - Entry.LocalPosition).magnitude + " SERVER : " +
+						                transform.localPosition + " Client : " + Entry.LocalPosition);
 						ResetLocationOnClients();
 						MoveQueue.Clear();
 						return;
@@ -663,6 +669,7 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 							{
 								NetIDList = JsonConvert.DeserializeObject<List<uint>>(Entry.PushedIDs);
 							}
+
 							var Nonmatching = new List<uint>();
 
 							foreach (var _In in NetIDList)
@@ -684,7 +691,8 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 
 							foreach (var NonMatch in Nonmatching)
 							{
-								NetworkIdentity.spawned[NonMatch].GetComponent<UniversalObjectPhysics>().ResetLocationOnClient(connectionToClient);
+								NetworkIdentity.spawned[NonMatch].GetComponent<UniversalObjectPhysics>()
+									.ResetLocationOnClient(connectionToClient);
 							}
 						}
 
@@ -713,9 +721,7 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 									ServerCheckQueueingAndMove();
 								}
 							}
-
 						}
-
 					}
 					else
 					{
@@ -727,6 +733,7 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 							registerTile.ClientSetLocalPosition(Stored.RoundToInt());
 							SetMatrixCash.ResetNewPosition(transform.position);
 						}
+
 						ResetLocationOnClients();
 						MoveQueue.Clear();
 					}
@@ -741,6 +748,7 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 						registerTile.ClientSetLocalPosition(Stored.RoundToInt());
 						SetMatrixCash.ResetNewPosition(transform.position);
 					}
+
 					ResetLocationOnClients();
 					MoveQueue.Clear();
 				}
@@ -797,7 +805,7 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 		}
 		else
 		{
-			if (playerScript.playerHealth.IsDead)
+			if (playerScript.OrNull()?.playerHealth.OrNull()?.IsDead == true)
 			{
 				playerScript.playerNetworkActions.CmdSpawnPlayerGhost();
 			}
@@ -878,7 +886,6 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 			UniversalObjectPhysics Toremove = null;
 			if (intent == Intent.Help)
 			{
-
 				foreach (var PushPull in Pushing)
 				{
 					var Player = PushPull as MovementSynchronisation;
@@ -917,6 +924,7 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 			{
 				Pushing.Add(Toremove);
 			}
+
 			return true;
 		}
 		else
@@ -972,6 +980,12 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 			if (IsNotFloating(moveAction, out PushesOff))
 			{
 				Floating = false;
+				if (CanMoveThroughObstructions)
+				{
+					CausesSlipClient = false;
+					slippedOn = null;
+					return true;
+				}
 				//Need to check for Obstructions
 				if (IsNotObstructed(moveAction, WillPushObjects, Bumps))
 				{
@@ -999,12 +1013,15 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 	public bool DoesSlip(MoveData moveAction, out ItemAttributesV2 slippedOn)
 	{
 		bool slipProtection = true;
-		foreach (var itemSlot in playerScript.DynamicItemStorage.GetNamedItemSlots(NamedSlot.feet))
+		if (playerScript.DynamicItemStorage != null)
 		{
-			if (itemSlot.ItemAttributes == null ||
-			    itemSlot.ItemAttributes.HasTrait(CommonTraits.Instance.NoSlip) == false)
+			foreach (var itemSlot in playerScript.DynamicItemStorage.GetNamedItemSlots(NamedSlot.feet))
 			{
-				slipProtection = false;
+				if (itemSlot.ItemAttributes == null ||
+				    itemSlot.ItemAttributes.HasTrait(CommonTraits.Instance.NoSlip) == false)
+				{
+					slipProtection = false;
+				}
 			}
 		}
 
@@ -1125,7 +1142,6 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 	{
 		if (CanInPutMove(true))
 		{
-
 			var Age = NetworkTime.time - InMoveData.Timestamp;
 			if (Age > MoveMaxDelayQueue)
 			{
