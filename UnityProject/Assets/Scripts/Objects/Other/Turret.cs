@@ -450,7 +450,8 @@ namespace Objects.Other
 
 			SoundManager.PlayNetworkedAtPos(bulletSound, registerTile.WorldPosition, sourceObj: gameObject);
 
-			CastProjectileMessage.SendToAll(gameObject, bulletName, rotationToShoot, default);
+			ProjectileManager.InstantiateAndShoot(bulletName,
+				rotationToShoot, gameObject, null, BodyPartType.None);
 		}
 
 		#endregion

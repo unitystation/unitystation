@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c576ac449c2d45d99890dcfa21598645, type: 3}
   m_Name: Plating
   m_EditorClassIdentifier: 
-  displayName: plating
+  displayName: base plating
   description: 
   LayerType: 4
   TileType: 7
@@ -25,6 +25,7 @@ MonoBehaviour:
   passable: 1
   mineable: 0
   miningTime: 5
+  miningHardness: 1
   constructable: 1
   RadiationPassability: 1
   ThermalConductivity: 0.05

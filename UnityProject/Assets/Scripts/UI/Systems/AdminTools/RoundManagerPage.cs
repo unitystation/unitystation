@@ -28,6 +28,9 @@ public class RoundManagerPage : AdminPage
 	private Toggle cargoToggle = null;
 
 	[SerializeField]
+	private Toggle randomBountyToggle = null;
+
+	[SerializeField]
 	private Dropdown alertLevelDropDown = null;
 
 	private List<string> alertLevelEnumCache = new List<string>();
@@ -187,5 +190,10 @@ public class RoundManagerPage : AdminPage
 	public void ToggleCargo()
 	{
 		AdminCommandsManager.Instance.CmdChangeCargoConnectionStatus(cargoToggle.isOn);
+	}
+
+	public void ToggleRandomBounties()
+	{
+		AdminCommandsManager.Instance.CmdToggleCargoRandomBounty(randomBountyToggle.isOn);
 	}
 }

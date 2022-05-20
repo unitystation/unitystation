@@ -1,4 +1,5 @@
 ﻿using System;
+using Initialisation;
 using UnityEngine;
 using NaughtyAttributes;
 using ScriptableObjects.Gun;
@@ -139,17 +140,7 @@ namespace Weapons.Projectiles
 				behaviour.OnDespawn(hit, point);
 			}
 
-			if (CustomNetworkManager.IsServer)
-			{
-				_ = Despawn.ServerSingle(gameObject);
-			}
-			else
-			{
-				if (Despawn.ClientSingle(gameObject).Successful == false)
-				{
-					Destroy(gameObject);
-				}
-			}
+			_ = Despawn.ServerSingle(gameObject);
 		}
 
 		private void OnDisable()

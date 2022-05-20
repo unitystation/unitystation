@@ -64,7 +64,7 @@ namespace Weapons
 		public void ServerPerformInteraction(InventoryApply interaction)
 		{
 			//TODO: switch this trait to the circular saw when that is implemented
-			if (Validations.HasItemTrait(interaction.UsedObject, CommonTraits.Instance.Welder) && gunComp.FireCountDown == 0)
+			if (Validations.HasItemTrait(interaction.UsedObject, CommonTraits.Instance.Welder) && gunComp.FireOnCooldowne == false)
 			{
 				if (isSawn)
 				{

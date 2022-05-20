@@ -2,6 +2,7 @@
 using Messages.Server;
 using UnityEngine;
 using Weapons;
+using Weapons.Projectiles;
 
 namespace Systems.Spells.Wizard
 {
@@ -18,7 +19,8 @@ namespace Systems.Spells.Wizard
 			Vector3Int casterWorldPos = caster.Script.WorldPos;
 			Vector2 castVector = clickPosition - casterWorldPos;
 
-			CastProjectileMessage.SendToAll(caster.GameObject, projectilePrefab, castVector, default);
+			ProjectileManager.InstantiateAndShoot(projectilePrefab, castVector, caster.GameObject,
+				null, BodyPartType.None);
 			return true;
 		}
 	}

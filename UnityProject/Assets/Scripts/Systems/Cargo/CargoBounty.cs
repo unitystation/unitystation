@@ -8,6 +8,7 @@ namespace Systems.Cargo
 	{
 		public SerializableDictionary<ItemTrait, int> Demands = new SerializableDictionary<ItemTrait, int>();
 		public int Reward;
-		public string Description;
+		public string TooltipDescription;
+		[FormerlySerializedAs("Description")] public string Title;
 	}
 }

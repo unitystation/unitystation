@@ -5,6 +5,7 @@ using Messages.Server;
 using ScriptableObjects.Gun;
 using UnityEngine;
 using Systems.Electricity.NodeModules;
+using Weapons.Projectiles;
 using Weapons.Projectiles.Behaviours;
 
 namespace Objects.Engineering
@@ -136,7 +137,7 @@ namespace Objects.Engineering
 			{
 				if (connectedPart.ShootsBullet)
 				{
-					CastProjectileMessage.SendToAll(connectedPart.gameObject, particleAcceleratorBulletPrefab, orientation.LocalVector, default);
+					ProjectileManager.InstantiateAndShoot( particleAcceleratorBulletPrefab, orientation.LocalVector, connectedPart.gameObject,default);
 				}
 			}
 		}

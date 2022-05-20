@@ -35,6 +35,7 @@ namespace Systems.Cargo
 		public CargoUpdateEvent OnCreditsUpdate = new CargoUpdateEvent();
 		public CargoUpdateEvent OnTimerUpdate = new CargoUpdateEvent();
 		public CargoUpdateEvent OnBountiesUpdate = new CargoUpdateEvent();
+		public CargoUpdateEvent OnConnectionChangeToCentComm = new CargoUpdateEvent();
 
 		[SerializeField]
 		private CargoData cargoData;
@@ -47,7 +48,7 @@ namespace Systems.Cargo
 		public Dictionary<ItemTrait, int> SoldHistory = new Dictionary<ItemTrait, int>();
 
 		public bool CargoOffline = false;
-    
+		public bool RandomBountiesActive = true;
     private int lastTimeRecorded = 0;
 		private int randomBountyTimeCheck = 0;
 
@@ -120,6 +121,7 @@ namespace Systems.Cargo
 
 		void UpdateMe()
 		{
+			if(RandomBountiesActive == false || CargoOffline) return;
 			lastTimeRecorded += (int) checkForTimeCooldown;
 			if(lastTimeRecorded >= randomBountyTimeCheck)
 			{
@@ -426,7 +428,7 @@ namespace Systems.Cargo
 		{
 			ActiveBounties.Remove(cargoBounty);
 			Credits += cargoBounty.Reward;
-			CentcomMessage += $"+{cargoBounty.Reward.ToString()} credits: {cargoBounty.Description} - completed.\n";
+			CentcomMessage += $"+{cargoBounty.Reward.ToString()} credits: {cargoBounty.TooltipDescription} - completed.\n";
 			OnBountiesUpdate.Invoke();
 		}
 
@@ -513,12 +515,13 @@ namespace Systems.Cargo
 		/// <summary>
 		/// Adds a new bounty to the bounty list. Returns false if it fails.
 		/// </summary>
-		public void AddBounty(ItemTrait trait, int amount, string description, int reward, bool announce)
+		public void AddBounty(ItemTrait trait, int amount, string title, string description, int reward, bool announce)
 		{
 			if(amount < 1 || reward < 1) return;
 			CargoBounty newBounty = new CargoBounty();
 			newBounty.Demands.Add(trait, amount);
-			newBounty.Description = description;
+			newBounty.TooltipDescription = description;
+			newBounty.Title = title;
 			newBounty.Reward = reward;
 			ActiveBounties.Add(newBounty);
 			if(announce) AnnounceNewBounty();
@@ -531,7 +534,7 @@ namespace Systems.Cargo
 			if(announce) AnnounceNewBounty();
 		}
 
-		private void AnnounceNewBounty() 
+		private void AnnounceNewBounty()
 		{
 			CentComm.MakeAnnouncement(ChatTemplates.CentcomAnnounce, "A bounty for cargo has been issued from central communications", CentComm.UpdateSound.Notice);
 		}
@@ -546,6 +549,7 @@ namespace Systems.Cargo
 
 		public struct BountySyncData
 		{
+			public string Title;
 			public string Desc;
 			public int Reward;
 			public int Index;

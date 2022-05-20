@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: ReinforcedWall
   m_EditorClassIdentifier: 
   displayName: reinforced wall
-  description: 
+  description: A strong, composite structure design to resist a good deal of punishment.
   LayerType: 0
   TileType: 1
   RequiredTiles:
@@ -26,6 +26,7 @@ MonoBehaviour:
   passable: 0
   mineable: 0
   miningTime: 5
+  miningHardness: 1
   constructable: 0
   RadiationPassability: 0.6
   ThermalConductivity: 0
@@ -37,8 +38,8 @@ MonoBehaviour:
   passableException:
     m_keys: 
     m_values: 
-  maxHealth: 100
-  damageDeflection: 0
+  maxHealth: 400
+  damageDeflection: 21
   armor:
     Melee: 90
     Bullet: 90

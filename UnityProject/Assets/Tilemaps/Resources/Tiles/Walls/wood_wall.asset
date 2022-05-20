@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad263680d73c8c54ba53262044a57d04, type: 3}
   m_Name: wood_wall
   m_EditorClassIdentifier: 
-  displayName: 
-  description: 
+  displayName: wood plank wall
+  description: a wall plated with wood planks. Looks pretty flammable.
   LayerType: 0
   TileType: 1
   RequiredTiles:
@@ -26,8 +26,9 @@ MonoBehaviour:
   passable: 0
   mineable: 0
   miningTime: 5
+  miningHardness: 1
   constructable: 0
-  RadiationPassability: 0.75
+  RadiationPassability: 0.95
   ThermalConductivity: 0
   HeatCapacity: 312500
   doesReflectBullet: 0
@@ -40,13 +41,13 @@ MonoBehaviour:
   maxHealth: 100
   damageDeflection: 0
   armor:
-    Melee: 90
-    Bullet: 90
-    Laser: 90
-    Energy: 90
-    Bomb: 90
+    Melee: 50
+    Bullet: 0
+    Laser: 0
+    Energy: 0
+    Bomb: 0
     Rad: 100
-    Fire: 100
+    Fire: -30
     Acid: 90
     Magic: 0
     Bio: 90

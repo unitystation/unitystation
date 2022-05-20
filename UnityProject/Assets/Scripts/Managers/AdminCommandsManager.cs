@@ -503,10 +503,13 @@ namespace AdminCommands
 			if (completeBounty)
 			{
 				CargoManager.Instance.CompleteBounty(CargoManager.Instance.ActiveBounties[index]);
+				CargoManager.Instance.OnCreditsUpdate?.Invoke();
+				CargoManager.Instance.OnBountiesUpdate?.Invoke();
 				return;
 			}
 
 			CargoManager.Instance.ActiveBounties.Remove(CargoManager.Instance.ActiveBounties[index]);
+			CargoManager.Instance.OnBountiesUpdate?.Invoke();
 		}
 
 		[Command(requiresAuthority = false)]
@@ -514,6 +517,7 @@ namespace AdminCommands
 		{
 			if (IsAdmin(sender, out var admin) == false) return;
 			CargoManager.Instance.ActiveBounties[index].Reward = newReward;
+			CargoManager.Instance.OnBountiesUpdate?.Invoke();
 		}
 
 		[TargetRpc]
@@ -536,8 +540,9 @@ namespace AdminCommands
 			for (int i = 0; i < CargoManager.Instance.ActiveBounties.Count; i++)
 			{
 				var foundBounty = new CargoManager.BountySyncData();
+				foundBounty.Title = CargoManager.Instance.ActiveBounties[i].Title;
 				foundBounty.Reward = CargoManager.Instance.ActiveBounties[i].Reward;
-				foundBounty.Desc = CargoManager.Instance.ActiveBounties[i].Description;
+				foundBounty.Desc = CargoManager.Instance.ActiveBounties[i].TooltipDescription;
 				foundBounty.Index = i;
 				simpleData.Add(foundBounty);
 			}
@@ -546,10 +551,11 @@ namespace AdminCommands
 		}
 
 		[Command(requiresAuthority = false)]
-		public void CmdAddBounty(ItemTrait trait, int amount, string description, int reward, bool announce, NetworkConnectionToClient sender = null)
+		public void CmdAddBounty(ItemTrait trait, int amount, string title, string description, int reward, bool announce, NetworkConnectionToClient sender = null)
 		{
 			if (IsAdmin(sender, out var admin) == false) return;
-			CargoManager.Instance.AddBounty(trait, amount, description, reward, announce);
+			CargoManager.Instance.AddBounty(trait, amount, title, description, reward, announce);
+			CargoManager.Instance.OnBountiesUpdate?.Invoke();
 		}
 
 		[Command(requiresAuthority = false)]
@@ -557,6 +563,7 @@ namespace AdminCommands
 		{
 			if (IsAdmin(sender, out var admin) == false) return;
 			CargoManager.Instance.Credits = budget;
+			CargoManager.Instance.OnCreditsUpdate?.Invoke();
 		}
 
 		[Command(requiresAuthority = false)]
@@ -564,6 +571,15 @@ namespace AdminCommands
 		{
 			if (IsAdmin(sender, out var admin) == false) return;
 			CargoManager.Instance.CargoOffline = online;
+			CargoManager.Instance.OnConnectionChangeToCentComm?.Invoke();
+			LogAdminAction($"{admin.Username} has changed the cargo online status to -> {online}");
+		}
+
+		[Command(requiresAuthority = false)]
+		public void CmdToggleCargoRandomBounty(bool state, NetworkConnectionToClient sender = null)
+		{
+			if (IsAdmin(sender, out var admin) == false) return;
+			CargoManager.Instance.CargoOffline = state;
 		}
 
 		#endregion

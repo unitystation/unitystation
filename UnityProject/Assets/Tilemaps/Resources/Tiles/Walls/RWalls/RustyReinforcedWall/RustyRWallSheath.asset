@@ -26,6 +26,7 @@ MonoBehaviour:
   passable: 0
   mineable: 0
   miningTime: 5
+  miningHardness: 1
   constructable: 0
   RadiationPassability: 0.7
   ThermalConductivity: 0
@@ -44,7 +45,7 @@ MonoBehaviour:
     Bullet: 90
     Laser: 90
     Energy: 90
-    Bomb: 90
+    Bomb: 65
     Rad: 100
     Fire: 100
     Acid: 90

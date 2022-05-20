@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using JetBrains.Annotations;
 using Messages.Server;
 using UnityEngine;
@@ -188,8 +189,12 @@ namespace UI.Action
 		{
 			foreach (var actionButton in Instance.DicIActionGUI)
 			{
-				//If there is a duplicate of this button, don't spawn it!
-				if (actionButton.Value.ActionData == iActionGUI.ActionData) return;
+				//Remove old button from list. Don't spawn the same button if it already exists!
+				if (actionButton.Value.ActionData == iActionGUI.ActionData)
+				{
+					Hide(actionButton.Key);
+					break;
+				}
 			}
 			UIAction _UIAction;
 			if (Instance.PooledUIAction.Count > 0)
@@ -269,17 +274,12 @@ namespace UI.Action
 			CheckEvent(Event.PlayerRejoined);
 		}
 
-		public void CheckEvent(Event Event)
+		private void CheckEvent(Event Event)
 		{
 			var TOremove = new List<IActionGUI>();
 			foreach (var action in DicIActionGUI)
 			{
-				if (action.Key.ActionData == null)
-				{
-					Logger.LogWarningFormat("UIAction {0}: action data is null!", Category.UserInput, action.Key + ":" + action.Value);
-					continue;
-				}
-				if (action.Key.ActionData.DisableOnEvent.Contains(Event))
+				if (action.Key.ActionData != null && action.Key.ActionData.DisableOnEvent.Contains(Event))
 				{
 					action.Value.Pool();
 					TOremove.Add(action.Key);
@@ -288,6 +288,15 @@ namespace UI.Action
 			foreach (var Remove in TOremove)
 			{
 				DicIActionGUI.Remove(Remove);
+			}
+		}
+
+		public static void ClearAllActions()
+		{
+			if(Instance.DicIActionGUI.Count == 0) return;
+			for (int i = Instance.DicIActionGUI.Count - 1; i > -1; i--)
+			{
+				Hide(Instance.DicIActionGUI.ElementAt(i).Key);
 			}
 		}
 
