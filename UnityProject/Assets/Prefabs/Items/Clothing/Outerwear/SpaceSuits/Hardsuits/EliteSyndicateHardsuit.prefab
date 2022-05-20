@@ -382,6 +382,11 @@ PrefabInstance:
       propertyPath: armoredBodyParts.Array.data[5].armor.Energy
       value: 60
       objectReference: {fileID: 0}
+    - target: {fileID: 4278487051228794417, guid: eec487290ececeb4db71bab916465099,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[0].armor.StunImmunity
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6028708010380084937, guid: eec487290ececeb4db71bab916465099,
         type: 3}
       propertyPath: PresentSpriteSet
