@@ -382,7 +382,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		{
 			if ((playerMove.Pulling.Component as MovementSynchronisation) == null)
 			{
-				if (playerMove.Pulling.Component.attributes.Size >= Size.Large)
+				if (playerMove.Pulling.Component.attributes.OrNull()?.Size != null && playerMove.Pulling.Component.attributes.Size >= Size.Large)
 				{
 					return;
 				}

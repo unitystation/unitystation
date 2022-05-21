@@ -35,6 +35,8 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 	//=================================== balance Maybe
 	//=============================================== TODO some time
 	//TODO Make space Movement perfect ( Is pretty much good now )
+	//TODO after thrown not synchronised Properly need to synchronise rotation
+	//TODO When throwing rotation Direction needs to be set by server
 	//=============================================== Definitely
 	//TODO Implement swap if you're dragging someone
 
@@ -256,6 +258,8 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 		}
 		else
 		{
+			registerTile.ServerSetLocalPosition(synchLocalTargetPosition.RoundToInt());
+			registerTile.ClientSetLocalPosition(synchLocalTargetPosition.RoundToInt());
 			transform.localPosition = synchLocalTargetPosition;
 		}
 
@@ -309,6 +313,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 		if (LocalTargetPosition == NewLocalTarget) return;
 		if (isLocalPlayer || PulledBy.HasComponent) return;
 		SetLocalTarget = NewLocalTarget;
+
 		if (IsFlyingSliding)
 		{
 			IsFlyingSliding = false;
@@ -487,7 +492,8 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 			{
 				newtonianMovement = Momentum;
 				LocalDifferenceNeeded = ReSetToLocal - transform.localPosition;
-
+				registerTile.ServerSetLocalPosition(ReSetToLocal.RoundToInt());
+				registerTile.ClientSetLocalPosition(ReSetToLocal.RoundToInt());
 				if (CorrectingCourse == false)
 				{
 					CorrectingCourse = true;
@@ -498,6 +504,8 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 			{
 				newtonianMovement = Momentum;
 				SetLocalTarget = ReSetToLocal;
+				registerTile.ServerSetLocalPosition(ReSetToLocal.RoundToInt());
+				registerTile.ClientSetLocalPosition(ReSetToLocal.RoundToInt());
 
 				if (Animating == false)
 				{
@@ -529,7 +537,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 	[ClientRpc]
 	public void RPCForceSetPosition(Vector3 ReSetToLocal, Vector2 Momentum, bool Smooth, int MatrixID, float Rotation)
 	{
-		Logger.LogError("Reset!!");
+		if (isLocalPlayer) Logger.LogError("Reset!!");
 		ForceSetLocalPosition(ReSetToLocal, Momentum, Smooth, MatrixID, false, Rotation);
 	}
 
@@ -651,6 +659,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 
 	public bool CanPush(Vector2Int WorldDirection) //NOTE: It's presumed that If true one time the rest universal physics objects will return true to , manually checks for isNotPushable
 	{
+		if (WorldDirection == Vector2Int.zero) return true;
 		if (isNotPushable) return false;
 
 		//TODO Secured stuff
@@ -985,14 +994,9 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 		if (this == null)
 		{
 			MoveIsWalking = false;
+			IsMoving = false;
 			UpdateManager.Remove(CallbackType.UPDATE, AnimationUpdateMe);
 		}
-
-		if (name == "DEBUG")
-		{
-			Logger.LogError("o3o");
-		}
-
 
 		Animating = true;
 		var LocalPOS = transform.localPosition;
@@ -1279,11 +1283,12 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 
 		if (newtonianMovement.magnitude < 0.01f) //Has slowed down enough
 		{
-			OnLocalTileReached.Invoke(transform.localPosition);
+			var localPosition = transform.localPosition;
+			SetLocalTarget = localPosition;
+			OnLocalTileReached.Invoke(localPosition);
 			if (onStationMovementsRound)
 			{
 				doNotApplyMomentumOnTarget = true;
-				SetLocalTarget = registerTile.LocalPosition;
 				if (Animating == false)
 				{
 					Animating = true;
@@ -1425,7 +1430,13 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 			}
 		}
 
-		return null;
+		return RightClickableResult.Create();
+	}
+
+	public virtual void OnDestroy()
+	{
+		if (Animating) UpdateManager.Remove(CallbackType.UPDATE, AnimationUpdateMe);
+		if (IsFlyingSliding) UpdateManager.Remove(CallbackType.UPDATE, FlyingUpdateMe);
 	}
 
 

@@ -48,6 +48,7 @@ public class RegisterPlayer : RegisterTile, IServerSpawn, RegisterPlayer.IContro
 	private PlayerScript playerScript;
 	public PlayerScript PlayerScript => playerScript;
 	private Rotatable playerDirectional;
+	public Rotatable PlayerDirectional => playerDirectional;
 	private UprightSprites uprightSprites;
 	[SerializeField] private Util.NetworkedLeanTween networkedLean;
 

@@ -5,6 +5,7 @@ using System.Linq;
 using Core.Editor.Attributes;
 using HealthV2;
 using Items;
+using JetBrains.Annotations;
 using Managers;
 using Messages.Client.Interaction;
 using Mirror;
@@ -171,7 +172,8 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 	/// <returns>The menu including the uncuff action if applicable, otherwise null</returns>
 	public RightClickableResult GenerateRightClickOptions()
 	{
-		var result = RightClickableResult.Create();
+
+		var result = base.GenerateRightClickOptions();
 
 		if (!WillInteract(ContextMenuApply.ByLocalPlayer(gameObject, "Uncuff"), NetworkSide.Client)) return result;
 
@@ -354,7 +356,20 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 	public override void Awake()
 	{
 		playerScript = GetComponent<PlayerScript>();
+		OnThrowEnd.AddListener(ThrowEnding);
 		base.Awake();
+	}
+
+	private void ThrowEnding(UniversalObjectPhysics thing)
+	{
+		if (playerScript.registerTile.IsLayingDown)
+		{
+			transform.localRotation = Quaternion.Euler(0,0,90);
+		}
+		else
+		{
+			transform.localRotation = Quaternion.Euler(0,0,0);
+		}
 	}
 
 	public void Update()
@@ -455,6 +470,12 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 		}
 
 		UpdateManager.Remove(CallbackType.UPDATE, ServerCheckQueueingAndMove);
+	}
+
+	public override void OnDestroy()
+	{
+		base.OnDestroy();
+		UpdateManager.Remove(CallbackType.UPDATE, ClientCheckLocationFlight);
 	}
 
 	public void OnBump(GameObject bumpedBy)
@@ -843,7 +864,17 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 
 	public void AfterSuccessfulTryMove(MoveData NewMoveData)
 	{
-		if (isServer) return;
+		if (isServer)
+		{
+			if (isLocalPlayer)
+			{
+				Step = !Step;
+				if (Step)
+				{
+					FootstepSounds.PlayerFootstepAtPosition(transform.position, this);
+				}
+			}
+		}
 
 		var AddedLocalPosition =
 			(transform.position + NewMoveData.GlobalMoveDirection.TVectoro().To3())

@@ -19,6 +19,11 @@ namespace Learning.ProtipObjectTypes
 			UpdateManager.Add(CheckForNearbyItems, SearchCooldown);
 		}
 
+		public void OnDestroy()
+		{
+			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE , CheckForNearbyItems);
+		}
+
 		private void CheckForNearbyItems()
 		{
 			var possibleTargets = Physics2D.OverlapCircleAll(gameObject.transform.position.To2(), SearchRadius, MaskToCheck);

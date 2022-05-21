@@ -393,10 +393,9 @@ public static class Inventory
 			var uop = pickupable.GetComponent<UniversalObjectPhysics>();
 			var holderPosition = holder?.gameObject.AssumedWorldPosServer();
 			Vector3 targetWorldPos = holderPosition.GetValueOrDefault(Vector3.zero) + (Vector3)toPerform.WorldTargetVector.GetValueOrDefault(Vector2.zero);
-			if (holderPlayer != null)
+			if (holderPlayer != null && toPerform.WorldTargetVector.GetValueOrDefault(Vector2.zero).magnitude == 0)
 			{
 				// dropping from player
-				// Inertia drop works only if player has external impulse (space floating etc.)
 				uop.DropAtAndInheritMomentum(holderPlayer);
 			}
 			else
