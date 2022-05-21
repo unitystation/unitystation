@@ -1046,6 +1046,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 
 		if (gameObject.PickupableOrNull()?.ItemSlot == null) return;
 		var fromslot = gameObject.PickupableOrNull()?.ItemSlot;
+		if (fromslot == null) return;
 		if (fromslot.ItemStorage.ServerIsObserver(playerMove.gameObject))
 		{
 			Inventory.ServerTransfer(gameObject.PickupableOrNull().ItemSlot, slot, ReplacementStrategy.DropOther);
