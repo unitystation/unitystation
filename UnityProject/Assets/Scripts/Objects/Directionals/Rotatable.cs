@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Threading;
-using Mirror;
+﻿using Mirror;
 using NaughtyAttributes;
 
 #if UNITY_EDITOR
@@ -110,7 +106,8 @@ public class Rotatable : NetworkBehaviour, IMatrixRotation
 
 	public void ValidateLate()
 	{
-		if (Application.isPlaying) return;
+		// ValidateLate might be called after this object is already destroyed.
+		if (this == null || Application.isPlaying) return;
 		Awake();
 		CurrentDirection = CurrentDirection;
 		RotateObject(CurrentDirection);

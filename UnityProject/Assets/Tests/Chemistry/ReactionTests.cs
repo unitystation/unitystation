@@ -7,6 +7,7 @@ using Effect = Chemistry.Effect;
 namespace Tests.Chemistry
 {
 	[TestFixture]
+	[Category(nameof(Chemistry))]
 	public class ReactionTests
 	{
 		[Test]

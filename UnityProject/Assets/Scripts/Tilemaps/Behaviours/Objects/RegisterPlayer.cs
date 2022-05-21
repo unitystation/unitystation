@@ -8,6 +8,7 @@ using Random = UnityEngine.Random;
 using Systems.Teleport;
 using Messages.Server.SoundMessages;
 using Player.Movement;
+using Systems.Explosions;
 
 [RequireComponent(typeof(Rotatable))]
 [RequireComponent(typeof(UprightSprites))]
@@ -281,8 +282,26 @@ public class RegisterPlayer : RegisterTile, IServerSpawn, RegisterPlayer.IContro
 	/// <param name="stunDuration">Time before the stun is removed.</param>
 	/// <param name="dropItem">If items in the hand slots should be dropped on stun.</param>
 	[Server]
-	public void ServerStun(float stunDuration = 4f, bool dropItem = true)
+	public void ServerStun(float stunDuration = 4f, bool dropItem = true, bool checkForArmor = true)
 	{
+		bool CheckArmorCanStun()
+		{
+			foreach (var bodyPart in PlayerScript.playerHealth.SurfaceBodyParts)
+			{
+				if(bodyPart.BodyPartType is not (BodyPartType.Chest or BodyPartType.Custom)) continue;
+				foreach (Armor armor in bodyPart.ClothingArmors)
+				{
+					if (armor.StunImmunity) return true;
+				}
+			}
+			return false;
+		}
+
+		if (checkForArmor && CheckArmorCanStun())
+		{
+			SparkUtil.TrySpark(PlayerScript.gameObject);
+			return;
+		}
 		var oldVal = IsSlippingServer;
 		IsSlippingServer = true;
 		ServerCheckStandingChange( true);

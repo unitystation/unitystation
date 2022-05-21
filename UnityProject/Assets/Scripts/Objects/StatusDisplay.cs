@@ -103,7 +103,12 @@ namespace Objects.Wallmounts
 
 		private void Start()
 		{
+			#if UNITY_EDITOR
+			// Chances are we are trying to edit or test a scene and the managers aren't loaded.
+			if (Application.isPlaying == false) return;
+			#endif
 			centComm = GameManager.Instance.CentComm;
+
 		}
 
 		/// <summary>

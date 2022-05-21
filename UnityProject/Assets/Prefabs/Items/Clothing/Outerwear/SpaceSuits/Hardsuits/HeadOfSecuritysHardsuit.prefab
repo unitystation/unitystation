@@ -167,6 +167,11 @@ PrefabInstance:
       propertyPath: armoredBodyParts.Array.data[5].armor.Energy
       value: 40
       objectReference: {fileID: 0}
+    - target: {fileID: 756736423731080748, guid: 57ebbb1ff3ac5d6478cafc0e84d81f3b,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[0].armor.StunImmunity
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3594306772352922161, guid: 57ebbb1ff3ac5d6478cafc0e84d81f3b,
         type: 3}
       propertyPath: initialName

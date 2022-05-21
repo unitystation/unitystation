@@ -1,38 +1,28 @@
-using System.Collections;
-using System.Collections.Generic;
-using System.Text;
 using NUnit.Framework;
 using ScriptableObjects.Systems.Spells;
-using Tests;
-using UnityEngine;
 
-public class HandleMissingSpells
+namespace Tests.Asset
 {
-
-
-	[Test]
-	public void TestMissingSpells()
+	[Category(nameof(Asset))]
+	public class HandleMissingSpells
 	{
-		var report = new StringBuilder();
-		bool Failed = false;
-		var SpellDatas = Utils.FindAssetsByType<SpellData>();
-
-		foreach (var SpellData in SpellDatas)
+		[Test]
+		public void SpellDataIsNotMissingImplementation()
 		{
-			if (SpellData.SpellImplementation == null)
+			var report = new TestReport();
+			var spellImplName = $"{nameof(SpellData)}.{nameof(SpellData.SpellImplementation)}";
+
+			foreach (var spellData in Utils.FindAssetsByType<SpellData>())
 			{
-				Failed = true;
-				report.AppendLine($" SpellData.SpellImplementation missing on {SpellData.name}");
-				SpellData.CheckImplementation();
+				if (spellData.SpellImplementation != null) continue;
+				report.Fail()
+					.AppendLine(
+						$"{spellData.Name} is missing a {spellImplName}, a default implementation will be added.");
+				spellData.CheckImplementation();
 			}
-		}
 
-		if (Failed)
-		{
-			report.AppendLine($" Please Commit changes ");
-			Assert.Fail(report.ToString());
+			report.AppendLine("Please commit spell changes.");
+			report.AssertPassed();
 		}
-
 	}
-
 }

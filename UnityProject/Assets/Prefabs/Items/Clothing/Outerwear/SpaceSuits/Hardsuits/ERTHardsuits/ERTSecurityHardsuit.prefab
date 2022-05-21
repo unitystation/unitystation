@@ -7,6 +7,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1382959582050582858, guid: 05f59888eb108484aabd67b53074c7a6,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[0].armor.StunImmunity
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2905032154871127383, guid: 05f59888eb108484aabd67b53074c7a6,
         type: 3}
       propertyPath: initialName

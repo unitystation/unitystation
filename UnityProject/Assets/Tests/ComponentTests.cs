@@ -1,45 +1,30 @@
-﻿using System.Linq;
-using System.Text;
-using Items;
+﻿using Items;
 using NUnit.Framework;
-using UnityEditor;
 using UnityEngine;
 
 namespace Tests
 {
-	public class ComponentTests : MonoBehaviour
+	public class ComponentTests
 	{
-		/// <summary>
-		/// Find null item traits from prefabs
-		/// </summary>
 		[Test]
-		public void ItemTraitTest()
+		public void PrefabsDoNotHaveNullItemTrait()
 		{
-			bool isok = true;
-			var report = new StringBuilder();
-			var prefabGUIDs = AssetDatabase.FindAssets("t:prefab", new string[] {"Assets/Prefabs"});
-			var prefabPaths = prefabGUIDs.Select(AssetDatabase.GUIDToAssetPath);
+			var report = new TestReport();
 
-			foreach (var prefab in prefabPaths)
+			foreach (var prefab in Utils.FindPrefabs())
 			{
-				var gameObject = AssetDatabase.LoadAssetAtPath<GameObject>(prefab);
-
-				if(gameObject == null) continue;
-
-				if (gameObject.TryGetComponent<ItemAttributesV2>(out var itemAttributesV2) == false) continue;
-
-				if(itemAttributesV2.InitialTraits.Contains(null) == false) continue;
-				
-				if(gameObject.name.Contains("Base")) continue;
-
-				report.AppendLine($"{prefab}: {gameObject.name} has null item trait. Remove empty index from list or add an item trait to index");
-				isok = false;
+				report.FailIf(HasNullTrait(prefab))
+					.Append($"{prefab.name} has null item trait. ")
+					.Append("Remove empty index from list or add an item trait to index")
+					.AppendLine();
 			}
 
-			if (isok == false)
-			{
-				Assert.Fail(report.ToString());
-			}
+			bool HasNullTrait(GameObject prefab) =>
+				prefab.TryGetComponent<ItemAttributesV2>(out var attributes)
+				&& attributes.InitialTraits.Contains(null)
+				&& prefab.name.Contains("Base") == false;
+
+			report.AssertPassed();
 		}
 	}
 }

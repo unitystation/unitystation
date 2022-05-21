@@ -948,7 +948,8 @@ public class SpriteHandler : MonoBehaviour
 	}
 	public void ValidateLate()
 	{
-		if (Application.isPlaying) return;
+		// ValidateLate might be called after this object is already destroyed.
+		if (this == null || Application.isPlaying) return;
 		variantIndex = initialVariantIndex;
 		PushTexture();
 	}

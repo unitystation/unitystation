@@ -11,6 +11,9 @@ namespace Weapons.Projectiles.Behaviours
 		[Tooltip("How long the player hit by this will be stunned")]
 		[SerializeField] private float stunTime = 4.0f;
 
+		[Tooltip("Do you want to ignore armor stun immunity?")]
+		[SerializeField] private bool passThroughStunImmunity = true;
+
 		[Tooltip("Will this stun disarm.")]
 		[SerializeField] private bool willDisarm = true;
 
@@ -36,7 +39,7 @@ namespace Weapons.Projectiles.Behaviours
 			var player = coll.GetComponent<RegisterPlayer>();
 			if (player == null) return false;
 
-			player.ServerStun(stunTime, willDisarm);
+			player.ServerStun(stunTime, willDisarm, passThroughStunImmunity);
 
 			if (doMsg)
 			{
