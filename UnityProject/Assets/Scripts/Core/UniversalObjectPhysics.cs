@@ -31,12 +31,13 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 	//=================================== Maybe
 	//TODO Client gets double update of space speed! Could be editor only issue, couldn't replicate on build???
 	//TODO Slipping into locker Causes locker to move on client but not on server, Sometimes???
-
+	//TODO move IsCuffed to PlayerOnlySyncValues maybe?
 	//=================================== balance Maybe
 	//=============================================== TODO some time
 	//TODO Make space Movement perfect ( Is pretty much good now )
 	//=============================================== Definitely
 	//TODO Implement swap if you're dragging someone
+
 
 	public const float DEFAULT_PUSH_SPEED = 6;
 

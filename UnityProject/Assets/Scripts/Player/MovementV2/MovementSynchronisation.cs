@@ -11,6 +11,7 @@ using Mirror;
 using Newtonsoft.Json;
 using Objects;
 using Player.Movement;
+using ScriptableObjects.Audio;
 using UI.Action;
 using UnityEngine;
 using UnityEngine.Tilemaps;
@@ -34,8 +35,7 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 
 	public Intent intent; //TODO Cleanup in mind rework
 
-	//TODO foots Steps
-	//TODO move IsCuffed to PlayerOnlySyncValues maybe?
+
 
 	/// <summary>
 	/// Invoked on server side when the cuffed state is changed
@@ -653,7 +653,7 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 
 				if (CanInPutMove())
 				{
-					if (TryMove(Entry, true))
+					if (TryMove(Entry, true, true, out var Slip))
 					{
 						//Logger.LogError("Move processed");
 						if (string.IsNullOrEmpty(Entry.PushedIDs) == false || Pushing.Count > 0)
@@ -696,8 +696,17 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 							}
 						}
 
-						//TODO Entry.CausesSlip
-						//TODO Entry.BumpedIDs
+						if (Entry.CausesSlip != Slip)
+						{
+							ResetLocationOnClients();
+							MoveQueue.Clear();
+						}
+
+						Step = !Step;
+						if (Step)
+						{
+							FootstepSounds.PlayerFootstepAtPosition(transform.position, this);
+						}
 
 						//TODO this is good but need to clean up movement a bit more Logger.LogError("Delta magnitude " + (transform.position - Entry.LocalPosition.ToWorld(MatrixManager.Get(Entry.MatrixID).Matrix)).magnitude );
 						//do calculation is and set targets and stuff
@@ -780,7 +789,7 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 			};
 
 
-			if (TryMove(NewMoveData, true))
+			if (TryMove(NewMoveData, true, false, out _))
 			{
 				AfterSuccessfulTryMove(NewMoveData);
 				return;
@@ -789,14 +798,14 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 			{
 				var Cash = NewMoveData.GlobalMoveDirection;
 				NewMoveData.GlobalMoveDirection = Cash.ToNonDiagonal(true);
-				if (TryMove(NewMoveData, true))
+				if (TryMove(NewMoveData, true, false, out _))
 				{
 					AfterSuccessfulTryMove(NewMoveData);
 					return;
 				}
 
 				NewMoveData.GlobalMoveDirection = Cash.ToNonDiagonal(false);
-				if (TryMove(NewMoveData, true))
+				if (TryMove(NewMoveData, true, false, out _))
 				{
 					AfterSuccessfulTryMove(NewMoveData);
 					return;
@@ -863,14 +872,23 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 		return;
 	}
 
-	public bool TryMove(MoveData NewMoveData, bool ByClient)
+	public bool TryMove(MoveData NewMoveData, bool ByClient, bool Processing, out bool causesSlip)
 	{
+		causesSlip = false;
 		Bumps.Clear();
 		Pushing.Clear();
 		if (CanMoveTo(NewMoveData, out var CausesSlipClient, Pushing, Bumps, out var PushesOff,
 			    out var SlippingOn))
 		{
-			NewMoveData.CausesSlip = CausesSlipClient;
+			if (Processing == false)
+			{
+				NewMoveData.CausesSlip = CausesSlipClient;
+			}
+			else
+			{
+				causesSlip = CausesSlipClient;
+			}
+
 
 			if (PushesOff) //space walking
 			{
