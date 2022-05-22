@@ -478,8 +478,9 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 		UpdateManager.Remove(CallbackType.UPDATE, ClientCheckLocationFlight);
 	}
 
-	public void OnBump(GameObject bumpedBy)
+	public void OnBump(GameObject bumpedBy, GameObject Client)
 	{
+
 		Pushing.Clear();
 		if (intent == Intent.Help)
 		{
@@ -488,12 +489,12 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 				if (move.intent == Intent.Help)
 				{
 					var PushVector = (bumpedBy.transform.position - this.transform.position).RoundToInt().To2Int();
-					ForceTilePush(PushVector, Pushing, false, move.TileMoveSpeed);
+					ForceTilePush(PushVector, Pushing, Client, move.TileMoveSpeed);
 
 					if (move.IsBumping)
 					{
 						PushVector *= -1;
-						move.ForceTilePush(PushVector, Pushing, false, move.TileMoveSpeed);
+						move.ForceTilePush(PushVector, Pushing, Client, move.TileMoveSpeed);
 					}
 				}
 			}
@@ -674,7 +675,7 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 
 				if (CanInPutMove())
 				{
-					if (TryMove(Entry, true, true, out var Slip))
+					if (TryMove(Entry, gameObject, true, out var Slip))
 					{
 						//Logger.LogError("Move processed");
 						if (string.IsNullOrEmpty(Entry.PushedIDs) == false || Pushing.Count > 0)
@@ -810,7 +811,7 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 			};
 
 
-			if (TryMove(NewMoveData, true, false, out _))
+			if (TryMove(NewMoveData, gameObject, false, out _))
 			{
 				AfterSuccessfulTryMove(NewMoveData);
 				return;
@@ -819,14 +820,14 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 			{
 				var Cash = NewMoveData.GlobalMoveDirection;
 				NewMoveData.GlobalMoveDirection = Cash.ToNonDiagonal(true);
-				if (TryMove(NewMoveData, true, false, out _))
+				if (TryMove(NewMoveData, gameObject, false, out _))
 				{
 					AfterSuccessfulTryMove(NewMoveData);
 					return;
 				}
 
 				NewMoveData.GlobalMoveDirection = Cash.ToNonDiagonal(false);
-				if (TryMove(NewMoveData, true, false, out _))
+				if (TryMove(NewMoveData, gameObject, false, out _))
 				{
 					AfterSuccessfulTryMove(NewMoveData);
 					return;
@@ -903,7 +904,7 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 		return;
 	}
 
-	public bool TryMove(MoveData NewMoveData, bool ByClient, bool Processing, out bool causesSlip)
+	public bool TryMove(MoveData NewMoveData, GameObject ByClient, bool ServerProcessing, out bool causesSlip)
 	{
 		causesSlip = false;
 		Bumps.Clear();
@@ -911,7 +912,7 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 		if (CanMoveTo(NewMoveData, out var CausesSlipClient, Pushing, Bumps, out var PushesOff,
 			    out var SlippingOn))
 		{
-			if (Processing == false)
+			if (ServerProcessing == false)
 			{
 				NewMoveData.CausesSlip = CausesSlipClient;
 			}
@@ -927,7 +928,7 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 				{
 					var move = NewMoveData.GlobalMoveDirection.TVectoro();
 					move.Normalize();
-					PhysicsObject.TryTilePush((move * -1).RoundToInt().To2Int(), false, TileMoveSpeed);
+					PhysicsObject.TryTilePush((move * -1).RoundToInt().To2Int(), ByClient, TileMoveSpeed);
 				}
 				//Pushes off object for example pushing the object the other way
 			}
@@ -943,7 +944,7 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 						if (Player.intent == Intent.Help)
 						{
 							Toremove = PushPull;
-							Player.OnBump(this.gameObject);
+							Player.OnBump(this.gameObject, ByClient);
 						}
 					}
 				}
@@ -984,7 +985,7 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 			{
 				foreach (var Bump in Bumps)
 				{
-					if (isServer) Bump.OnBump(this.gameObject);
+					Bump.OnBump(this.gameObject, ByClient);
 					BumpedSomething = true;
 				}
 			}

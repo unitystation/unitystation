@@ -385,7 +385,7 @@ namespace Systems.MobAIs
 		{
 			if (dir != Vector2Int.zero)
 			{
-				uop.TryTilePush(dir, false);
+				uop.TryTilePush(dir, null);
 				rotatable.SetFaceDirectionLocalVictor(dir);
 			}
 		}

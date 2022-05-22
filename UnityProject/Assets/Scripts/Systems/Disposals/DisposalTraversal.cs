@@ -148,7 +148,7 @@ namespace Systems.Disposals
 		private void TransferContainerToVector(Vector3Int nextPipePosition)
 		{
 			ObjectPhysics.Pushing.Clear();
-			ObjectPhysics.ForceTilePush(nextPipePosition.To2Int(), ObjectPhysics.Pushing, false);
+			ObjectPhysics.ForceTilePush(nextPipePosition.To2Int(), ObjectPhysics.Pushing, null);
 		}
 
 		private void EjectViaPipeEnd()

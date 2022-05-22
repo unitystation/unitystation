@@ -35,16 +35,7 @@ namespace Objects.Disposals
 		private void ThrowItem(UniversalObjectPhysics uop, Vector3 throwVector)
 		{
 			Vector3 vector = uop.transform.rotation * throwVector;
-			ThrowInfo throwInfo = new ThrowInfo
-			{
-				ThrownBy = gameObject,
-				Aim = (BodyPartType) Random.Range(0, 13),
-				OriginWorldPos = ContainerWorldPosition,
-				WorldTrajectory = vector,
-				SpinMode = DMMath.Prob(50) ? SpinMode.Clockwise : SpinMode.CounterClockwise
-			};
-
-			uop.NewtonianPush(vector, Random.Range(1, 100)/100f , Random.Range(1, 85)/100f, Random.Range(1, 25)/100f, (BodyPartType) Random.Range(0, 13), gameObject, Random.Range(0, 13));
+			uop.NewtonianPush(vector, Random.Range(1, 100)/10f , Random.Range(1, 85)/100f, Random.Range(1, 25)/100f, (BodyPartType) Random.Range(0, 13), gameObject, Random.Range(0, 13));
 		}
 
 		/// <summary>
@@ -68,16 +59,11 @@ namespace Objects.Disposals
 
 			foreach (var obj in objects)
 			{
-				if (obj.TryGetComponent<IPushable>(out var pushable) == false) continue;
-
-				if (obj.TryGetComponent<RegisterObject>(out _) == false && obj.TryGetComponent<UniversalObjectPhysics>(out var uop))
+				if (obj.TryGetComponent<UniversalObjectPhysics>(out var uop))
 				{
+					uop.AppearAtWorldPositionServer(transform.position + exitVector);
 					ThrowItem(uop, exitVector);
-					return;
 				}
-
-				pushable.Push(exitVector.To2Int());
-
 				if (obj.TryGetComponent<PlayerScript>(out var script))
 				{
 					script.registerTile.ServerStun();

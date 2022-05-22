@@ -46,7 +46,7 @@ namespace Doors
 		//nothing to rollback
 		public void ServerRollbackClient(HandApply interaction) { }
 
-		public void OnBump(GameObject byPlayer)
+		public void OnBump(GameObject byPlayer, GameObject Client)
 		{
 			if (Controller.IsClosed && Controller.IsAutomatic)
 			{

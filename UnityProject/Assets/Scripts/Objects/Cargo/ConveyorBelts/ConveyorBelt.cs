@@ -75,7 +75,7 @@ namespace Construction.Conveyors
 
 			foreach (var item in Matrix.Get<UniversalObjectPhysics>(registerTile.LocalPositionServer, true))
 			{
-				if (item.gameObject == gameObject || item.IsNotPushable) continue;
+				if (item.gameObject == gameObject || item.IsNotPushable || item.Intangible) continue;
 
 				cntCache.Enqueue(item);
 			}
@@ -94,7 +94,7 @@ namespace Construction.Conveyors
 		private void Transport(UniversalObjectPhysics item, float ConveyorBeltSpeed)
 		{
 			item.OrNull()?.Pushing?.Clear();
-			item.OrNull()?.ForceTilePush(PushDirectionPosition.To2Int(), item.Pushing, false, ConveyorBeltSpeed);
+			item.OrNull()?.ForceTilePush(PushDirectionPosition.To2Int(), item.Pushing, null, ConveyorBeltSpeed);
 		}
 
 		#endregion Belt Operation

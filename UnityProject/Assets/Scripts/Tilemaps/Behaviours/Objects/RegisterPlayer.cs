@@ -269,7 +269,7 @@ public class RegisterPlayer : RegisterTile, IServerSpawn, RegisterPlayer.IContro
 			return;
 		}
 
-		ServerStun();
+		ServerStun(StopMovement : false);
 		AudioSourceParameters audioSourceParameters = new AudioSourceParameters(pitch: Random.Range(0.9f, 1.1f));
 		SoundManager.PlayNetworkedAtPos(CommonSounds.Instance.Slip, WorldPositionServer, audioSourceParameters, sourceObj: gameObject);
 		// Let go of pulled items.
@@ -283,7 +283,7 @@ public class RegisterPlayer : RegisterTile, IServerSpawn, RegisterPlayer.IContro
 	/// <param name="stunDuration">Time before the stun is removed.</param>
 	/// <param name="dropItem">If items in the hand slots should be dropped on stun.</param>
 	[Server]
-	public void ServerStun(float stunDuration = 4f, bool dropItem = true, bool checkForArmor = true)
+	public void ServerStun(float stunDuration = 4f, bool dropItem = true, bool checkForArmor = true, bool StopMovement = true)
 	{
 		bool CheckArmorCanStun()
 		{
@@ -319,7 +319,12 @@ public class RegisterPlayer : RegisterTile, IServerSpawn, RegisterPlayer.IContro
 				Inventory.ServerDrop(itemSlot);
 			}
 		}
-		//playerScript.playerMove.allowInput = false; Remove stun so people can call around
+
+		if (StopMovement)
+		{
+			playerScript.playerMove.allowInput = false;
+		}
+
 
 		this.RestartCoroutine(StunTimer(stunDuration), ref unstunHandle);
 	}

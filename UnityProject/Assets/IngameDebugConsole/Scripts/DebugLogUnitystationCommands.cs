@@ -235,7 +235,7 @@ namespace IngameDebugConsole
 		{
 			foreach (ConnectedPlayer player in PlayerList.Instance.InGamePlayers)
 			{
-				player.GameObject.GetComponent<PlayerScript>().PlayerSync.TryTilePush(Vector2Int.up, false);
+				player.GameObject.GetComponent<PlayerScript>().PlayerSync.TryTilePush(Vector2Int.up, null);
 			}
 		}
 #if UNITY_EDITOR

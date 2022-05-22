@@ -352,7 +352,7 @@ namespace Systems.MobAIs
 						rotatable.SetFaceDirectionLocalVictor(dir);
 					}
 
-					uop.TryTilePush(dir, false);
+					uop.TryTilePush(dir, null);
 					movingToTile = true;
 				}
 				else
