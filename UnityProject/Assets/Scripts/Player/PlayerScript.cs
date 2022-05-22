@@ -7,6 +7,7 @@ using Player;
 using Player.Movement;
 using UI.Action;
 using Items;
+using Systems.StatusesAndEffects;
 
 public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IActionGUI
 {
@@ -61,6 +62,8 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IActi
 	public MouseInputController mouseInputController { get; set; }
 
 	public ChatIcon chatIcon { get; private set; }
+
+	public StatusEffectManager statusEffectManager { get; private set; }
 
 	/// <summary>
 	/// Serverside world position.
@@ -145,6 +148,7 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IActi
 		PlayerOnlySyncValues = GetComponent<PlayerOnlySyncValues>();
 		playerCrafting = GetComponent<PlayerCrafting>();
 		PlayerSync = GetComponent<PlayerSync>();
+		statusEffectManager = GetComponent<StatusEffectManager>();
 	}
 
 	public override void OnStartClient()
