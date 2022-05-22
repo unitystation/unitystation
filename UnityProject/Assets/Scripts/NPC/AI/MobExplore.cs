@@ -117,6 +117,20 @@ namespace Systems.MobAIs
 			eatFoodSound = CommonSounds.Instance.EatFood;
 		}
 
+		private void debugCross(Vector3 pos)
+		{
+			Debug.DrawLine(new Vector2(pos.x - 0.5f, pos.y - 0.5f), new Vector2(pos.x + 0.5f, pos.y + 0.5f), Color.red, 10);
+			Debug.DrawLine(new Vector2(pos.x - 0.5f, pos.y + 0.5f), new Vector2(pos.x + 0.5f, pos.y - 0.5f), Color.red, 10);
+		}
+
+		private void debugSquare(Vector3 pos)
+		{
+			Debug.DrawLine(new Vector2(pos.x - 0.5f, pos.y - 0.5f), new Vector2(pos.x + 0.5f, pos.y - 0.5f), Color.blue, 10);
+			Debug.DrawLine(new Vector2(pos.x - 0.5f, pos.y + 0.5f), new Vector2(pos.x + 0.5f, pos.y + 0.5f), Color.blue, 10);
+			Debug.DrawLine(new Vector2(pos.x - 0.5f, pos.y - 0.5f), new Vector2(pos.x - 0.5f, pos.y + 0.5f), Color.blue, 10);
+			Debug.DrawLine(new Vector2(pos.x + 0.5f, pos.y - 0.5f), new Vector2(pos.x + 0.5f, pos.y + 0.5f), Color.blue, 10);
+		}
+
 		//https://www.geeksforgeeks.org/bresenhams-circle-drawing-algorithm/
 		// Function for circle-generation
 		// using Bresenham's algorithm
@@ -212,8 +226,9 @@ namespace Systems.MobAIs
 			float minDist = 999;
 			foreach (Vector3Int worldPos in visionCircleArea)
 			{
-				if (IsTargetFound(worldPos.ToNonInt3().ToLocalInt(mobTile.Matrix)))
+				if (IsTargetFound(worldPos))
 				{
+					debugCross(worldPos.ToNonInt3());
 					float curDist = Vector3.Distance(worldPos, mobTile.WorldPositionServer);
 					if (curDist < minDist)
 					{
@@ -231,29 +246,40 @@ namespace Systems.MobAIs
 			{
 				case Target.food:
 					if (hasFoodPrefereces)
-						return mobTile.Matrix.Get<ItemAttributesV2>(checkPos, true).Any(IsInFoodPreferences);
-					return mobTile.Matrix.GetFirst<Edible>(checkPos, true) != null;
-
+						return mobTile.Matrix.Get<ItemAttributesV2>(checkPos.ToNonInt3().ToLocalInt(mobTile.Matrix), true).Any(IsInFoodPreferences);
+					return mobTile.Matrix.GetFirst<Edible>(checkPos.ToNonInt3().ToLocalInt(mobTile.Matrix), true) != null;
 				case Target.dirtyFloor:
-					if (IsEmagged == false) return (mobTile.Matrix.Get<FloorDecal>(checkPos, true).Any(p => p.Cleanable));
-					else return (mobTile.Matrix.Get<FloorDecal>(checkPos, true).Any(p => p.Cleanable) || (!mobTile.Matrix.Get<FloorDecal>(checkPos, true).Any() && interactableTiles.MetaTileMap.GetTile(checkPos)?.LayerType == LayerType.Floors));
-
+					if (IsEmagged == false) return (MatrixManager.GetAt<FloorDecal>(checkPos, isServer: true).Any(p => p.Cleanable));
+					else return (MatrixManager.GetAt<FloorDecal>(checkPos, isServer: true).Any(p => p.Cleanable) || (MatrixManager.GetAt<FloorDecal>(checkPos, isServer: true).Any() && interactableTiles.MetaTileMap.GetTile(checkPos)?.LayerType == LayerType.Floors));
 				case Target.missingFloor:
 					if (IsEmagged == false) return (interactableTiles.MetaTileMap.GetTile(checkPos)?.LayerType == LayerType.Base || interactableTiles.MetaTileMap.GetTile(checkPos)?.LayerType == LayerType.Underfloor); // Checks the topmost tile if its the base or underfloor layer (below the floor)
 					else return interactableTiles.MetaTileMap.GetTile(checkPos)?.LayerType == LayerType.Floors;
-
 				case Target.injuredPeople:
-					PlayerScript player = mobTile.Matrix.GetFirst<PlayerScript>(checkPos, true);
-					if (player != null && player != recentPatient)
-					{
-						if (!IsEmagged) return player.playerHealth.OverallHealth < 75;
-						else return true;
-					}
+					var players = MatrixManager.GetAt<PlayerScript>(checkPos, isServer: true);
+					if (players.Count() != 0)
+                    {
+						foreach(PlayerScript player in players)
+                        {
+							if (player != null && player != recentPatient)
+							{
+								if (!IsEmagged && player.playerHealth.OverallHealth < 75)
+								{
+									Chat.AddCommMsgByMachineToChat(gameObject, "Hold on, I'm coming!", ChatChannel.Local, Loudness.SCREAMING, broadcasterName: "Medibot: "); //todo: add voicelines
+									return true;
+								}
+								else if (IsEmagged)
+								{
+									return true;
+								}
+								else continue;
+							}
+						}
+                    }
 					return false;
 
 				// this includes ghosts!
 				case Target.players:
-					return mobTile.Matrix.GetFirst<PlayerScript>(checkPos, true) != null;
+					return MatrixManager.GetAt<PlayerScript>(checkPos, isServer: true).Count() != 0;
 
 				default:
 					return false;
@@ -345,11 +371,18 @@ namespace Systems.MobAIs
 
 					break;
 				case Target.injuredPeople:
-					var patient = mobTile.Matrix.GetFirst<PlayerScript>(checkPos, true);
-					if (patient != null)
+					var players = MatrixManager.GetAt<PlayerScript>(checkPos, isServer: true);
+					if (players.Count() != 0)
 					{
-						if (!IsEmagged) patient.playerHealth.CirculatorySystem.BloodPool.Add(new ReagentMix(HEALING_REAGENT, 5, 283.15f));
-						else patient.playerHealth.CirculatorySystem.BloodPool.Add(new ReagentMix(HARMFUL_REAGENT, 5, 283.15f));
+						foreach (PlayerScript player in players)
+						{
+							if (player != null && player != recentPatient)
+							{
+								if (!IsEmagged && player.playerHealth.OverallHealth < 75) player.playerHealth.CirculatorySystem.BloodPool.Add(new ReagentMix(HEALING_REAGENT, 5, 283.15f));
+								else if (IsEmagged) player.playerHealth.CirculatorySystem.BloodPool.Add(new ReagentMix(HARMFUL_REAGENT, 5, 283.15f));
+								else continue;
+							}
+						}
 					}
 					break;
 				case Target.players:
