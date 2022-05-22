@@ -44,9 +44,12 @@ namespace Tests.Asset
 				storedIDs[prefabTracker.ForeverID] = prefabTracker;
 			}
 
-			report.FailIfNot(networkManager!.TryGetComponent<SpawnListMonitor>(out var spawnListMonitor))
-				.AppendLine($"{nameof(CustomNetworkManager)} does not contain a {nameof(SpawnListMonitor)}!")
-				.AssertPassed();
+			if (networkManager!.TryGetComponent<SpawnListMonitor>(out var spawnListMonitor) == false)
+			{
+				report.Fail()
+					.AppendLine($"{nameof(CustomNetworkManager)} does not contain a {nameof(SpawnListMonitor)}!")
+					.AssertPassed();
+			}
 
 			if (spawnListMonitor.GenerateSpawnList())
 			{
