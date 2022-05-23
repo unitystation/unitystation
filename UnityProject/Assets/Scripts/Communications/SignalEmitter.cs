@@ -14,8 +14,7 @@ namespace Communications
 		[SerializeField]
 		[Required("A signalSO is required for this to work.")]
 		protected SignalDataSO signalData;
-		[FormerlySerializedAs("EncryptionData"), SerializeField]
-		private EncryptionDataSO encryptionData;
+		protected int passCode;
 		[SerializeField]
 		protected float frequency = 122f;
 		[SerializeField]
@@ -37,10 +36,10 @@ namespace Communications
 			set => isPowered = value;
 		}
 
-		public EncryptionDataSO EncryptionData
+		public int Passcode
 		{
-			get => encryptionData;
-			set => encryptionData = value;
+			get => passCode;
+			set => passCode = value;
 		}
 
 		public SignalDataSO SignalData => signalData;

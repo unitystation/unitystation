@@ -2,6 +2,7 @@
 using System;
 using System.Security.Cryptography;
 using System.IO;
+using System.Linq;
 
 namespace Util
 {
@@ -90,6 +91,27 @@ namespace Util
 				return Encoding.Convert(Encoding.UTF8, Encoding.Unicode, array).ToString();
 			}
 			return outSB.ToString();
+		}
+
+		/// <summary>
+		/// Generates a random alphanumeric string.
+		/// </summary>
+		/// <param name="length">The desired length of the string</param>
+		/// <returns>The string which has been generated</returns>
+		public static string GenerateRandomAlphanumericString(int length, bool randomizeLength = true)
+		{
+			var finalLength = length;
+			const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+
+			var random = new Random();
+
+			if (randomizeLength)
+			{
+				finalLength += random.Next(length / 2, length * 2);
+			}
+			var randomString = new string(Enumerable.Repeat(chars, finalLength)
+				.Select(s => s[random.Next(s.Length)]).ToArray());
+			return randomString;
 		}
 	}
 }
