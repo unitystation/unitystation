@@ -53,6 +53,7 @@ namespace Managers
 
 		private bool MatchingEncryption(SignalReceiver receiver, SignalEmitter emitter)
 		{
+			if(receiver.PassCode == 0) return true;
 			return emitter.Passcode == receiver.PassCode;
 		}
 
@@ -144,7 +145,6 @@ namespace Managers
 		public string Sender;
 		public string Message;
 		public int Code;
-		public string OriginalSenderName;
 	}
 }
 
