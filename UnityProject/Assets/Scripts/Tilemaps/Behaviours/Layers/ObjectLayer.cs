@@ -232,6 +232,7 @@ public class ObjectLayer : Layer
 				{
 					if (o.gameObject == context.Pulling.Component.gameObject)
 					{
+						context.StopPulling(false);
 						return false;
 					}
 				}

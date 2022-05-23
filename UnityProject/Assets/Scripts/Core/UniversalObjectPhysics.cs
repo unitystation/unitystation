@@ -557,7 +557,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 	{
 		RPCForceSetPosition(transform.localPosition, newtonianMovement, Smooth, registerTile.Matrix.Id,
 			transform.localRotation.eulerAngles.z);
-		;
+
 		if (Pulling.HasComponent)
 		{
 			Pulling.Component.ResetLocationOnClients(Smooth);
@@ -664,8 +664,8 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 		return true;
 	}
 
-	public bool
-		CanPush(Vector2Int WorldDirection) //NOTE: It's presumed that If true one time the rest universal physics objects will return true to , manually checks for isNotPushable
+	public bool CanPush(Vector2Int WorldDirection)
+		//NOTE: It's presumed that If true one time the rest universal physics objects will return true to , manually checks for isNotPushable
 	{
 		if (WorldDirection == Vector2Int.zero) return true;
 		if (isNotPushable) return false;
