@@ -729,15 +729,29 @@ namespace Weapons
 				SoundManager.PlayNetworkedAtPos(FiringSoundA, shooter.transform.position);
 			}
 
-			RPCShowMuzzleFlashAndRecoil(shooter.GetComponent<NetworkIdentity>(), finalDirection);
+			var Identity = shooter.GetComponent<NetworkIdentity>();
+			if (Identity.OrNull()?.connectionToClient != null)
+			{
+				if (isServer && shooter == PlayerManager.LocalPlayer)
+				{
+					Camera2DFollow.followControl.Recoil(-finalDirection, CameraRecoilConfig);
+				}
 
+				RPCShowMuzzleFlash(shooter.GetComponent<NetworkIdentity>());
+				RPCShowRecoil(Identity.connectionToClient , finalDirection);
+			}
+		}
+
+		[TargetRpc]
+		public void RPCShowRecoil(NetworkConnection target, Vector2 finalDirection)
+		{
+			Camera2DFollow.followControl.Recoil(-finalDirection, CameraRecoilConfig);
 		}
 
 		[ClientRpc]
-		public void RPCShowMuzzleFlashAndRecoil(NetworkIdentity NetOb, Vector2 finalDirection)
+		public void RPCShowMuzzleFlash(NetworkIdentity target)
 		{
-			Camera2DFollow.followControl.Recoil(-finalDirection, CameraRecoilConfig);
-			NetOb.GetComponent<PlayerSprites>().ShowMuzzleFlash();
+			target.GetComponent<PlayerSprites>().ShowMuzzleFlash();
 		}
 
 		private Vector2 CalcDirection(Vector2 direction, int iteration)
