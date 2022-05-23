@@ -17,6 +17,7 @@ namespace UI
 			base.Awake();
 			content.SetActive(false);
 			EventManager.AddHandler(Event.PlayerRejoined, Rejoin);
+			EventManager.AddHandler(Event.LoggedOut, Hide);
 		}
 
 		private void UpdateTimer()
@@ -35,6 +36,12 @@ namespace UI
 			content.SetActive(true);
 			timeLeft = time;
 			UpdateManager.Add(UpdateTimer, 1f);
+		}
+
+		private void Hide()
+		{
+			content.SetActive(false);
+			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, UpdateTimer);
 		}
 	}
 }
