@@ -107,7 +107,7 @@ namespace Util
 
 			if (randomizeLength)
 			{
-				finalLength += random.Next(Math.Clamp(length /2, 0, 100), Math.Clamp(length * 2, 0, 100));
+				finalLength = random.Next(Math.Clamp(length /2, 0, 100), Math.Clamp(length * 2, 0, 100));
 			}
 			var randomString = new string(Enumerable.Repeat(chars, finalLength)
 				.Select(s => s[random.Next(s.Length)]).ToArray());
