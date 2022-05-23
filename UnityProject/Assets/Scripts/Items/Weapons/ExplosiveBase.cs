@@ -107,13 +107,19 @@ namespace Items.Weapons
 		public override void ReceiveSignal(SignalStrength strength, SignalEmitter responsibleEmitter, ISignalMessage message = null)
 		{
 			if(gameObject == null || countDownActive == true) return;
-			if(emitters.Contains(responsibleEmitter) == false) return;
+			if(ValidSignal(responsibleEmitter) == false) return;
 			if (detonateImmediatelyOnSignal)
 			{
 				Detonate();
 				return;
 			}
 			StartCoroutine(Countdown());
+		}
+
+		private bool ValidSignal(SignalEmitter responsibleEmitter)
+		{
+			if(PassCode == 0) return true; //0 means that this explosive will accept any signal it passes through it even if it's not on the emitter list.
+			return emitters.Contains(responsibleEmitter) && responsibleEmitter.Passcode == PassCode;
 		}
 
 		protected bool HackEmitter(HandApply interaction)
@@ -123,6 +129,7 @@ namespace Items.Weapons
 			{
 				emitters.Add(emitter);
 				Frequency = emitter.Frequency;
+				PassCode = emitter.Passcode;
 				Chat.AddLocalMsgToChat($"The {gameObject.ExpensiveName()} copies {emitter.gameObject.ExpensiveName()}'s " +
 				                       $"codes from {interaction.PerformerPlayerScript.visibleName}'s hands!", interaction.Performer);
 			}

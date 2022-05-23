@@ -9,7 +9,7 @@ using UnityEngine.Serialization;
 
 namespace Communications
 {
-	public abstract class SignalEmitter : NetworkBehaviour
+	public abstract class SignalEmitter : NetworkBehaviour, IExaminable
 	{
 		[SerializeField]
 		[Required("A signalSO is required for this to work.")]
@@ -24,6 +24,8 @@ namespace Communications
 		[SerializeField]
 		[ShowIf(nameof(requiresPower))]
 		protected bool isPowered = true;
+
+		[SerializeField] protected bool canExamineFrequency = false;
 
 		public float Frequency
 		{
@@ -75,6 +77,14 @@ namespace Communications
 		/// </summary>
 		public abstract void SignalFailed();
 
+		public string Examine(Vector3 worldPos = default(Vector3))
+		{
+			if (canExamineFrequency == false)
+			{
+				return "There is a signal emitter on this device. Though its unclear what frequency it is transmitting to.";
+			}
+			return $"The emitter on this device is sending a frequency of {frequency}Khz.";
+		}
 	}
 }
 
