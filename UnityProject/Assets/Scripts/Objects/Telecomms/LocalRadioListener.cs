@@ -17,8 +17,7 @@ namespace Objects.Telecomms
 			{
 				Sender = chatSpeaker,
 				Message = chatMessage,
-				Code = code,
-				OriginalSenderName = chat.speaker
+				Code = code
 			};
 			TrySendSignal(msg);
 		}
