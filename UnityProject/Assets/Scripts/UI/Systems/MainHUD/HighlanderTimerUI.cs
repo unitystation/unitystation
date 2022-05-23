@@ -18,6 +18,7 @@ namespace UI
 			content.SetActive(false);
 			EventManager.AddHandler(Event.PlayerRejoined, Rejoin);
 			EventManager.AddHandler(Event.LoggedOut, Hide);
+			EventManager.AddHandler(Event.RoundEnded, Hide);
 		}
 
 		private void UpdateTimer()
