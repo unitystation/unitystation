@@ -53,18 +53,8 @@ namespace Managers
 
 		private bool MatchingEncryption(SignalReceiver receiver, SignalEmitter emitter)
 		{
-			if (receiver.EncryptionData == null) return true;
-			if (emitter.EncryptionData == null)
-			{
-				return false;
-			}
-
-			if (emitter.EncryptionData.EncryptionSecret != receiver.EncryptionData.EncryptionSecret)
-			{
-				return false;
-			}
-
-			return true;
+			if(receiver.PassCode == 0) return true;
+			return emitter.Passcode == receiver.PassCode;
 		}
 
 		private bool AreOnTheSameFrequancy(SignalReceiver receiver , SignalEmitter emitter)
@@ -154,8 +144,7 @@ namespace Managers
 	{
 		public string Sender;
 		public string Message;
-		public bool IsEncrypted;
-		public string OriginalSenderName;
+		public int Code;
 	}
 }
 
