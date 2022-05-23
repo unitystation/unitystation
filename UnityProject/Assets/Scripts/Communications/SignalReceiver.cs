@@ -3,6 +3,7 @@ using Managers;
 using Mirror;
 using ScriptableObjects.Communications;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace Communications
 {
@@ -34,6 +35,12 @@ namespace Communications
 		{
 			if(CustomNetworkManager.IsServer == false) return;
 			SignalsManager.Instance.Receivers.Remove(this);
+		}
+
+		protected void RandomizeFreqAndCode()
+		{
+			Frequency = Random.Range(120.00f, 122.99f);
+			PassCode = Random.Range(1,255);
 		}
 
 		/// <summary>
