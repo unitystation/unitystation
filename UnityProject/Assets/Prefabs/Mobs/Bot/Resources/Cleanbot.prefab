@@ -184,13 +184,13 @@ MonoBehaviour:
   HEALING_REAGENT: {fileID: 0}
   HARMFUL_REAGENT: {fileID: 0}
   target: 1
-  actionPerformTime: 3
+  actionPerformTime: 1
   patientMemoryTime: 15
   visionUpdateInterval: 0.5
+  phraseInterval: 0
   hasFoodPrefereces: 0
   foodPreferences: []
   IsEmagged: 0
-  debug: 1
 --- !u!114 &822779961239697815
 MonoBehaviour:
   m_ObjectHideFlags: 0

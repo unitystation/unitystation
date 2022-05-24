@@ -73,6 +73,10 @@ namespace Systems.MobAIs
 		[SerializeField]
 		private float visionUpdateInterval = 0.5f;
 
+		[Tooltip("Delay before each medibot phrase.")]
+		[SerializeField]
+		private float phraseInterval = 5.0f;
+
 		[Tooltip("If true, this creature will only eat stuff in the food preferences list.")]
 		[SerializeField]
 		private bool hasFoodPrefereces = false;
@@ -90,6 +94,9 @@ namespace Systems.MobAIs
 
 		//Timer that indicates if recent patient can be forgotten
 		private float patientTimer = 0.0f;
+
+		//Timer that indicates if medibot can shout again or he must shut up
+		private float phraseTimer = 0.0f;
 
 		private InteractableTiles _interactableTiles = null;
 		//Position at which an action is performed
@@ -249,7 +256,13 @@ namespace Systems.MobAIs
 						{
 							if (!IsEmagged && player.playerHealth.OverallHealth < 75)
 							{
-								Chat.AddCommMsgByMachineToChat(gameObject, "Hold on, I'm coming!", ChatChannel.Local, Loudness.SCREAMING, broadcasterName: "Medibot: "); //todo: add voicelines
+								phraseTimer += Time.deltaTime;
+
+								if (phraseTimer >= phraseInterval)
+								{
+									Chat.AddCommMsgByMachineToChat(gameObject, "Hold on, I'm coming!", ChatChannel.Local, Loudness.SCREAMING, broadcasterName: "Medibot: "); //todo: add voicelines
+									phraseTimer = 0;
+								}
 								return true;
 							}
 							else if (IsEmagged)
@@ -362,7 +375,11 @@ namespace Systems.MobAIs
 						{
 							if (player != null && player != recentPatient)
 							{
-								if (!IsEmagged && player.playerHealth.OverallHealth < 75) player.playerHealth.CirculatorySystem.BloodPool.Add(new ReagentMix(HEALING_REAGENT, 5, 283.15f));
+								if (!IsEmagged && player.playerHealth.OverallHealth < 75)
+								{
+									player.playerHealth.CirculatorySystem.BloodPool.Add(new ReagentMix(HEALING_REAGENT, 5, 283.15f));
+									Chat.AddCommMsgByMachineToChat(gameObject, "Feel better soon.", ChatChannel.Local, Loudness.NORMAL, broadcasterName: "Medibot: ");
+								}
 								else if (IsEmagged) player.playerHealth.CirculatorySystem.BloodPool.Add(new ReagentMix(HARMFUL_REAGENT, 5, 283.15f));
 								else continue;
 							}
@@ -424,6 +441,27 @@ namespace Systems.MobAIs
 			return pos == targetPos;
 		}
 
+		public Vector3Int IsTargetNear(Vector3Int pos)
+        {
+			List<Vector3Int> adjacentTiles = new List<Vector3Int>();
+			adjacentTiles.Add(new Vector3Int(pos.x, pos.y + 1, pos.z));
+			adjacentTiles.Add(new Vector3Int(pos.x, pos.y - 1, pos.z));
+			adjacentTiles.Add(new Vector3Int(pos.x + 1, pos.y, pos.z));
+			adjacentTiles.Add(new Vector3Int(pos.x + 1, pos.y + 1, pos.z));
+			adjacentTiles.Add(new Vector3Int(pos.x + 1, pos.y - 1, pos.z));
+			adjacentTiles.Add(new Vector3Int(pos.x - 1, pos.y, pos.z));
+			adjacentTiles.Add(new Vector3Int(pos.x - 1, pos.y + 1, pos.z));
+			adjacentTiles.Add(new Vector3Int(pos.x - 1, pos.y - 1, pos.z));
+			foreach (Vector3Int checkPos in adjacentTiles)
+            {
+				if (IsTargetFound(checkPos))
+                {
+					return checkPos;
+                }
+            }
+			return mobTile.LocalPositionServer; //vector is not nullable, so we are returning mobtile position as "false" response
+		}
+
 		public override void DoAction()
 		{
 			visionUpdateTimer += Time.deltaTime;
@@ -441,13 +479,20 @@ namespace Systems.MobAIs
 			{
 				recentPatient = null;
 
-				visionUpdateTimer = 0;
+				patientTimer = 0;
 			}
 
-
-			if (IsTargetFound(mobTile.LocalPositionServer))
+			Vector3Int nearPos = IsTargetNear(mobTile.LocalPositionServer);
+			if (IsTargetFound(mobTile.LocalPositionServer) || (target == Target.injuredPeople && nearPos != mobTile.LocalPositionServer))
 			{
-				StartPerformAction(mobTile.LocalPositionServer);
+				if (IsTargetFound(mobTile.LocalPositionServer))
+                {
+					StartPerformAction(mobTile.LocalPositionServer);
+				}
+                else
+                {
+					StartPerformAction(nearPos);
+                }
 				Vector3Int oldPos = targetPos;
 				RefreshTargetPos();
 				if (oldPos == targetPos) //target is reached but no new targets found, so its not valid anymore
