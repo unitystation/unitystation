@@ -522,6 +522,8 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 
 		//Pushed objects
 		public string PushedIDs;
+
+		public bool Bump;
 	}
 
 	public enum PlayerMoveDirection
@@ -640,7 +642,7 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 
 				if (IsFlyingSliding)
 				{
-					if ((transform.localPosition - Entry.LocalPosition).magnitude <
+					if ((transform.position - Entry.LocalPosition.ToWorld(MatrixManager.Get(Entry.MatrixID))).magnitude <
 					    0.24f) //TODO Maybe not needed if needed can be used is when Move request comes in before player has quite reached tile in space flight
 					{
 						Stored = transform.localPosition;
@@ -660,12 +662,12 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 				}
 				else
 				{
-					if ((transform.localPosition - Entry.LocalPosition).magnitude >
+					if ((transform.position - Entry.LocalPosition.ToWorld(MatrixManager.Get(Entry.MatrixID))).magnitude >
 					    0.5f) //Resets play location if too far away
 					{
 						Logger.LogError("Reset from distance from actual target" +
-						                (transform.localPosition - Entry.LocalPosition).magnitude + " SERVER : " +
-						                transform.localPosition + " Client : " + Entry.LocalPosition);
+						                (transform.position - Entry.LocalPosition.ToWorld(MatrixManager.Get(Entry.MatrixID))).magnitude + " SERVER : " +
+						                transform.position + " Client : " + Entry.LocalPosition.ToWorld(MatrixManager.Get(Entry.MatrixID)));
 						ResetLocationOnClients();
 						MoveQueue.Clear();
 						return;
@@ -675,7 +677,7 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 
 				if (CanInPutMove())
 				{
-					if (TryMove(Entry, gameObject, true, out var Slip))
+					if (TryMove(ref Entry, gameObject, true, out var Slip))
 					{
 						//Logger.LogError("Move processed");
 						if (string.IsNullOrEmpty(Entry.PushedIDs) == false || Pushing.Count > 0)
@@ -808,10 +810,11 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 				MatrixID = registerTile.Matrix.Id,
 				GlobalMoveDirection = moveActions.ToPlayerMoveDirection(),
 				CausesSlip = false,
+				Bump = false
 			};
 
 
-			if (TryMove(NewMoveData, gameObject, false, out _))
+			if (TryMove(ref NewMoveData, gameObject, false, out _))
 			{
 				AfterSuccessfulTryMove(NewMoveData);
 				return;
@@ -820,14 +823,16 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 			{
 				var Cash = NewMoveData.GlobalMoveDirection;
 				NewMoveData.GlobalMoveDirection = Cash.ToNonDiagonal(true);
-				if (TryMove(NewMoveData, gameObject, false, out _))
+				NewMoveData.Bump = false;
+				if (TryMove(ref NewMoveData, gameObject, false, out _))
 				{
 					AfterSuccessfulTryMove(NewMoveData);
 					return;
 				}
 
 				NewMoveData.GlobalMoveDirection = Cash.ToNonDiagonal(false);
-				if (TryMove(NewMoveData, gameObject, false, out _))
+				NewMoveData.Bump = false;
+				if (TryMove(ref NewMoveData, gameObject, false, out _))
 				{
 					AfterSuccessfulTryMove(NewMoveData);
 					return;
@@ -880,9 +885,9 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 		var AddedLocalPosition =
 			(transform.position + NewMoveData.GlobalMoveDirection.TVectoro().To3())
 			.ToLocal(registerTile.Matrix);
-		NewMoveData.LocalMoveDirection =
-			VectorToPlayerMoveDirection((AddedLocalPosition - transform.localPosition)
-				.To2Int()); //Because shuttle could be rotated   enough to make Global  Direction invalid As compared to server
+
+		NewMoveData.LocalMoveDirection = VectorToPlayerMoveDirection((AddedLocalPosition - transform.localPosition).To2Int());
+		//Because shuttle could be rotated   enough to make Global  Direction invalid As compared to server
 
 		if (Pushing.Count > 0)
 		{
@@ -899,12 +904,12 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 			NewMoveData.PushedIDs = "";
 		}
 
-		//Logger.LogError(" Requested move ");
+		//Logger.LogError(" Requested move > wth  Bump " + NewMoveData.Bump);
 		CMDRequestMove(NewMoveData);
 		return;
 	}
 
-	public bool TryMove(MoveData NewMoveData, GameObject ByClient, bool ServerProcessing, out bool causesSlip)
+	public bool TryMove(ref MoveData NewMoveData, GameObject ByClient, bool ServerProcessing, out bool causesSlip)
 	{
 		causesSlip = false;
 		Bumps.Clear();
@@ -918,6 +923,11 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 			}
 			else
 			{
+				if (NewMoveData.Bump)
+				{
+					Logger.LogError("NewMoveData.Bump");
+					return true;
+				}
 				causesSlip = CausesSlipClient;
 			}
 
@@ -991,6 +1001,10 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 			}
 
 			IsBumping = false;
+			if (ServerProcessing == false)
+			{
+				NewMoveData.Bump = BumpedSomething;
+			}
 
 			return BumpedSomething;
 		}

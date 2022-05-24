@@ -21,7 +21,6 @@ public static class StopRandomMidGameCompile_import
 		if (state == PlayModeStateChange.ExitingPlayMode)
 		{
 			AssetDatabase.StopAssetEditing();
-			AssetDatabase.SaveAssets();
 		}
 		else if (state == PlayModeStateChange.EnteredPlayMode)
 		{

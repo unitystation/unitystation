@@ -163,6 +163,9 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 
 	[PlayModeOnly] public float spinMagnitude = 0;
 
+	[PlayModeOnly] public int PushedFrame = 0;
+	[PlayModeOnly] public bool FramePushDecision = true;
+
 	[PrefabModeOnly] public bool stickyMovement = false;
 	//If this thing likes to grab onto stuff such as like a player
 
@@ -237,7 +240,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 			SetLocalTarget = new Vector3WithData()
 			{
 				Vector3 = transform.localPosition,
-				ByClient = null
+				ByClient = NetId.Empty
 			};
 		}
 		else
@@ -287,7 +290,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 	public struct Vector3WithData
 	{
 		public Vector3 Vector3;
-		public GameObject ByClient;
+		public uint ByClient;
 	}
 
 	public void SyncMovementSpeed(float old, float Newmove)
@@ -302,7 +305,8 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 		if (isServer) return;
 		if (LocalTargetPosition == NewLocalTarget.Vector3) return;
 		if (isLocalPlayer || PulledBy.HasComponent) return;
-		if (NewLocalTarget.ByClient == PlayerManager.LocalPlayer) return;
+		if (NewLocalTarget.ByClient != NetId.Empty &&  NewLocalTarget.ByClient != NetId.Invalid  && NetworkIdentity.spawned.ContainsKey(NewLocalTarget.ByClient) && NetworkIdentity.spawned[NewLocalTarget.ByClient].gameObject  == PlayerManager.LocalPlayer) return;
+
 		SetLocalTarget = NewLocalTarget;
 
 		if (IsFlyingSliding)
@@ -370,6 +374,9 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 		spinMagnitude = InspinFactor;
 		SetMatrix(MatrixManager.Get(MatrixID).Matrix);
 
+		registerTile.ServerSetLocalPosition(ReSetToLocal.RoundToInt());
+		registerTile.ClientSetLocalPosition(ReSetToLocal.RoundToInt());
+
 		if (IsFlyingSliding) //If we flying try and smooth it
 		{
 			LocalDifferenceNeeded = ReSetToLocal - transform.localPosition;
@@ -384,11 +391,10 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 			SetLocalTarget = new Vector3WithData()
 			{
 				Vector3 = ReSetToLocal,
-				ByClient = null
+				ByClient = NetId.Empty
 			};
 			transform.localPosition = ReSetToLocal;
-			registerTile.ServerSetLocalPosition(ReSetToLocal.RoundToInt());
-			registerTile.ClientSetLocalPosition(ReSetToLocal.RoundToInt());
+
 		}
 
 		if (Animating == false && IsFlyingSliding == false)
@@ -501,7 +507,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 				SetLocalTarget = new Vector3WithData()
 				{
 					Vector3 = ReSetToLocal,
-					ByClient = null
+					ByClient = NetId.Empty
 				};
 				registerTile.ServerSetLocalPosition(ReSetToLocal.RoundToInt());
 				registerTile.ClientSetLocalPosition(ReSetToLocal.RoundToInt());
@@ -529,7 +535,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 				SetLocalTarget = new Vector3WithData()
 				{
 					Vector3 = ReSetToLocal,
-					ByClient = null
+					ByClient = NetId.Empty
 				};
 				transform.localPosition = ReSetToLocal;
 				registerTile.ServerSetLocalPosition(ReSetToLocal.RoundToInt());
@@ -648,7 +654,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 		SetLocalTarget = new Vector3WithData()
 		{
 			Vector3 = transform.localPosition,
-			ByClient = null
+			ByClient = NetId.Empty
 		};
 	}
 
@@ -669,7 +675,10 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 	{
 		if (WorldDirection == Vector2Int.zero) return true;
 		if (isNotPushable) return false;
-
+		if (PushedFrame == Time.frameCount)
+		{
+			return FramePushDecision;
+		}
 		//TODO Secured stuff
 		Pushing.Clear();
 		Bumps.Clear();
@@ -678,10 +687,14 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 			    transform.position + WorldDirection.To3Int(), SetMatrixCash, this,
 			    Pushing, Bumps)) //Validate
 		{
+			PushedFrame = Time.frameCount;
+			FramePushDecision = true;
 			return true;
 		}
 		else
 		{
+			PushedFrame = Time.frameCount;
+			FramePushDecision = false;
 			return false;
 		}
 	}
@@ -745,7 +758,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 		SetLocalTarget = new Vector3WithData()
 		{
 			Vector3 = LocalPosition.RoundToInt(),
-			ByClient = ByClient
+			ByClient = ByClient.NetId()
 		};
 
 
@@ -788,7 +801,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 		SetLocalTarget = new Vector3WithData()
 		{
 			Vector3 = transform.localPosition,
-			ByClient = null
+			ByClient = NetId.Empty
 		};
 		newtonianMovement = Vector2.zero;
 		airTime = 0;
@@ -818,12 +831,6 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 		Logger.LogError("transform.parent.parent" + transform.parent.parent.ToString());
 	}
 
-	[RightClickMethod()]
-	public void ThrowNoSlide()
-	{
-		NewtonianPush(PlayerManager.LocalPlayer.GetComponent<Rotatable>().CurrentDirection.ToLocalVector2Int(), Speed,
-			AIR);
-	}
 
 	[RightClickMethod()]
 	public void ThrowWithSlide()
@@ -832,17 +839,23 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 			AIR, SLIDE);
 	}
 
-	[RightClickMethod()]
-	public void Slide()
-	{
-		NewtonianPush(PlayerManager.LocalPlayer.GetComponent<Rotatable>().CurrentDirection.ToLocalVector2Int(), Speed,
-			INslideTime: SLIDE);
-	}
 
 	[RightClickMethod()]
 	public void Push()
 	{
 		NewtonianPush(PlayerManager.LocalPlayer.GetComponent<Rotatable>().CurrentDirection.ToLocalVector2Int(), Speed);
+	}
+
+	[RightClickMethod()]
+	public void TryTilePush()
+	{
+		TryTilePush(PlayerManager.LocalPlayer.GetComponent<Rotatable>().CurrentDirection.ToLocalVector2Int(), null);
+	}
+
+	[RightClickMethod()]
+	public void ForceTilePush()
+	{
+		ForceTilePush(PlayerManager.LocalPlayer.GetComponent<Rotatable>().CurrentDirection.ToLocalVector2Int(), Pushing, null);
 	}
 
 	[Server]
@@ -1311,7 +1324,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 			SetLocalTarget = new Vector3WithData()
 			{
 				Vector3 = localPosition,
-				ByClient = null
+				ByClient = NetId.Empty
 			};
 			;
 			OnLocalTileReached.Invoke(localPosition);

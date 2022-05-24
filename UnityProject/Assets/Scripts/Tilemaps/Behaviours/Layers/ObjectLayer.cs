@@ -104,7 +104,7 @@ public class ObjectLayer : Layer
 
 	public bool PushingCalculation(RegisterTile o, Vector3Int originalFrom, Vector3Int originalTo,
 		List<UniversalObjectPhysics> Pushings, List<IBumpableObject> Bumps, ref bool PushObjectSet,
-		ref bool CanPushObjects, List<UniversalObjectPhysics> Hits = null) //True equal return False
+		ref bool CanPushObjects, UniversalObjectPhysics context, List<UniversalObjectPhysics> Hits = null) //True equal return False
 	{
 		if (o.ObjectPhysics.HasComponent == false)
 		{
@@ -113,8 +113,8 @@ public class ObjectLayer : Layer
 		if (PushObjectSet == false)
 		{
 			PushObjectSet = true;
-			var Worldorigin = (originalFrom).ToWorld(matrix);
-			var WorldTo = (originalTo).ToWorld(matrix);
+			var Worldorigin = (originalFrom).ToWorld(context.registerTile.Matrix);
+			var WorldTo = (originalTo).ToWorld(context.registerTile.Matrix);
 			CanPushObjects = o.ObjectPhysics.Component.CanPush((WorldTo - Worldorigin).To2Int());
 		}
 		else
@@ -156,7 +156,7 @@ public class ObjectLayer : Layer
 
 	public bool CanLeaveTileV2(Vector3Int origin, Vector3Int to, bool isServer, List<UniversalObjectPhysics> Pushings,
 		List<IBumpableObject> Bumps,
-		UniversalObjectPhysics context = null, Vector3Int? originalFrom = null, Vector3Int? originalTo = null,
+		UniversalObjectPhysics context, Vector3Int? originalFrom = null, Vector3Int? originalTo = null,
 		List<UniversalObjectPhysics> Hits = null)
 	{
 		bool PushObjectSet = false;
@@ -187,7 +187,7 @@ public class ObjectLayer : Layer
 				}
 
 				if (PushingCalculation(t, originalFrom ?? origin, originalTo ?? to, Pushings, Bumps, ref PushObjectSet,
-					    ref CanPushObjects, Hits))
+					    ref CanPushObjects, context, Hits))
 				{
 					return false;
 				}
@@ -217,14 +217,15 @@ public class ObjectLayer : Layer
 
 
 	public bool CanEnterTileV2(Vector3Int origin, Vector3Int to, bool isServer, List<UniversalObjectPhysics> Pushings,
-		List<IBumpableObject> Bumps, UniversalObjectPhysics context = null,
+		List<IBumpableObject> Bumps, UniversalObjectPhysics context,
 		Vector3Int? originalFrom = null, Vector3Int? originalTo = null, List<UniversalObjectPhysics> Hits = null)
 	{
 		bool PushObjectSet = false;
 		bool CanPushObjects = false;
 
 		//Targeting windoors here
-		foreach (RegisterTile o in GetTileList(isServer).Get(to))
+		var List = GetTileList(isServer).Get(to);
+		foreach (RegisterTile o in List)
 		{
 			if (context != null)
 			{
@@ -246,10 +247,10 @@ public class ObjectLayer : Layer
 			}
 
 			if (o.IsPassableFromOutside(origin, isServer, context.OrNull().gameObject) == false
-			    && (context == null || o.gameObject != context.gameObject))
+			    && (context == null || o.OrNull()?.gameObject != context.OrNull()?.gameObject))
 			{
 				if (PushingCalculation(o, originalFrom ?? origin, originalTo ?? to, Pushings, Bumps, ref PushObjectSet,
-					    ref CanPushObjects, Hits))
+					    ref CanPushObjects, context, Hits))
 				{
 					return false;
 				}
