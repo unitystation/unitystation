@@ -729,16 +729,15 @@ namespace Weapons
 				SoundManager.PlayNetworkedAtPos(FiringSoundA, shooter.transform.position);
 			}
 
-			var Identity = shooter.GetComponent<NetworkIdentity>();
-			if (Identity.OrNull()?.connectionToClient != null)
+			var identity = shooter.GetComponent<NetworkIdentity>();
+			RPCShowMuzzleFlash(identity);
+			if (identity.OrNull()?.connectionToClient != null)
 			{
 				if (isServer && shooter == PlayerManager.LocalPlayer)
 				{
 					Camera2DFollow.followControl.Recoil(-finalDirection, CameraRecoilConfig);
 				}
-
-				RPCShowMuzzleFlash(shooter.GetComponent<NetworkIdentity>());
-				RPCShowRecoil(Identity.connectionToClient , finalDirection);
+				RPCShowRecoil(identity.connectionToClient , finalDirection);
 			}
 		}
 
