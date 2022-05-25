@@ -17,7 +17,7 @@ namespace Messages.Client
 
 		public static NetMessage Send(ConnectedPlayer player)
 		{
-			var msg = new NetMessage()
+			var msg = new NetMessage
 			{
 				ConnectedPlayer = player
 			};
