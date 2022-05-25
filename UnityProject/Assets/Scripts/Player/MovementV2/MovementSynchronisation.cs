@@ -34,6 +34,7 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 	[SyncVar(hook = nameof(SyncInput))] [NonSerialized]
 	public bool allowInput = true; //Should be synchvar far
 
+	[SyncVar(hook = nameof(SyncIntent))] [NonSerialized]
 	public Intent intent; //TODO Cleanup in mind rework
 
 
@@ -311,6 +312,12 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 	{
 		allowInput = NewInput;
 	}
+
+	private void SyncIntent(Intent OLDIntent, Intent NEWIntent)
+	{
+		OLDIntent = NEWIntent;
+	}
+
 
 	// syncvar hook invoked client side when the buckledTo changes
 	private void SyncBuckledObject(UniversalObjectPhysics oldBuckledTo, UniversalObjectPhysics newBuckledTo)
