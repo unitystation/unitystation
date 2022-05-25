@@ -451,7 +451,6 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 	{
 		if (CurrentMovementType == MovementType.Crawling) return;
 		CurrentMovementType = isRunning ? MovementType.Running : MovementType.Walking;
-		Debug.Log($"Current movement type is now : {CurrentMovementType}");
 	}
 
 	public override void OnEnable()
