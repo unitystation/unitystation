@@ -11,13 +11,23 @@ namespace Objects.Telecomms
 		{
 			string chatMessage = chat.message;
 			string chatSpeaker = chat.speaker;
-			int code = passCode;
-
+			bool isEncrypted;
+			if (EncryptionData != null)
+			{
+				chatMessage = EncryptionUtils.Encrypt(chatMessage, EncryptionData.EncryptionSecret);
+				chatSpeaker = EncryptionUtils.Encrypt(chatSpeaker, EncryptionData.EncryptionSecret);
+				isEncrypted = true;
+			}
+			else
+			{
+				isEncrypted = false;
+			}
 			RadioMessage msg = new RadioMessage
 			{
 				Sender = chatSpeaker,
 				Message = chatMessage,
-				Code = code
+				IsEncrypted = isEncrypted,
+				OriginalSenderName = chat.speaker
 			};
 			TrySendSignal(msg);
 		}

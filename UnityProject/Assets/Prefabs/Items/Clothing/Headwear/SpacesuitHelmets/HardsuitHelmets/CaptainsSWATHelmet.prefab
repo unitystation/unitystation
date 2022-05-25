@@ -121,5 +121,25 @@ PrefabInstance:
       value: A tactical MK.II SWAT helmet boasting better protection and a reasonable
         fashion sense.
       objectReference: {fileID: 0}
+    - target: {fileID: 8292990573504535775, guid: 68ff916d2f0053c4ab145dfd70a7aa0f,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[0].armor.Laser
+      value: 70
+      objectReference: {fileID: 0}
+    - target: {fileID: 8292990573504535775, guid: 68ff916d2f0053c4ab145dfd70a7aa0f,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[0].armor.Melee
+      value: 80
+      objectReference: {fileID: 0}
+    - target: {fileID: 8292990573504535775, guid: 68ff916d2f0053c4ab145dfd70a7aa0f,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[0].armor.Bullet
+      value: 70
+      objectReference: {fileID: 0}
+    - target: {fileID: 8292990573504535775, guid: 68ff916d2f0053c4ab145dfd70a7aa0f,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[0].armor.Energy
+      value: 50
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 68ff916d2f0053c4ab145dfd70a7aa0f, type: 3}

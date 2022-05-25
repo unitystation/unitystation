@@ -5,7 +5,6 @@ using Communications;
 using UnityEngine;
 using Messages.Server;
 using Objects;
-using UI.Objects.Telecomms;
 
 namespace Items.Devices
 {
@@ -42,8 +41,6 @@ namespace Items.Devices
 		{
 			SendSignalLogic();
 		}
-
-
 	}
 
 }

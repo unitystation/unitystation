@@ -12,7 +12,6 @@ namespace UI.Objects.Telecomms
 	public class GUI_FrequencyChanger : NetTab
 	{
 		[SerializeField] private TMP_InputField freuquencyLabel;
-		[SerializeField] private TMP_InputField codeInput;
 		[SerializeField] private Slider frequencySlider;
 		[SerializeField] private Toggle radioPowerToggle;
 		[SerializeField] private Toggle broadcastModeToggle;
@@ -60,7 +59,6 @@ namespace UI.Objects.Telecomms
 		private void UpdateFrequencyFromProvider()
 		{
 			freuquencyLabel.text = $"{emittingDevice.Frequency.ToString()}KHz";
-			codeInput.text = $"{emittingDevice.Passcode.ToString()}";
 		}
 
 		public void UpdateFrequencyFromInput()
@@ -78,11 +76,6 @@ namespace UI.Objects.Telecomms
 				return;
 			}
 			freuquencyLabel.text = $"{emittingDevice.Frequency.ToString()}KHz";
-		}
-
-		public void UpdateCodeFromInput()
-		{
-			emittingDevice.Passcode = int.Parse(codeInput.text);
 		}
 
 		public void ToggleDevicePower()

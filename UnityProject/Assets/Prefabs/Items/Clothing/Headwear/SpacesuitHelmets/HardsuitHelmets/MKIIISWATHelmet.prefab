@@ -30,7 +30,7 @@ PrefabInstance:
     - target: {fileID: 1958420083617270434, guid: c60440956ff96af4b84ba3e95e41c3e0,
         type: 3}
       propertyPath: armoredBodyParts.Array.data[0].armor.Bomb
-      value: 90
+      value: 95
       objectReference: {fileID: 0}
     - target: {fileID: 1958420083617270434, guid: c60440956ff96af4b84ba3e95e41c3e0,
         type: 3}
@@ -45,7 +45,7 @@ PrefabInstance:
     - target: {fileID: 1958420083617270434, guid: c60440956ff96af4b84ba3e95e41c3e0,
         type: 3}
       propertyPath: armoredBodyParts.Array.data[1].armor.Bomb
-      value: 90
+      value: 95
       objectReference: {fileID: 0}
     - target: {fileID: 1958420083617270434, guid: c60440956ff96af4b84ba3e95e41c3e0,
         type: 3}
@@ -60,7 +60,7 @@ PrefabInstance:
     - target: {fileID: 1958420083617270434, guid: c60440956ff96af4b84ba3e95e41c3e0,
         type: 3}
       propertyPath: armoredBodyParts.Array.data[2].armor.Bomb
-      value: 90
+      value: 95
       objectReference: {fileID: 0}
     - target: {fileID: 1958420083617270434, guid: c60440956ff96af4b84ba3e95e41c3e0,
         type: 3}
@@ -74,11 +74,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1958420083617270434, guid: c60440956ff96af4b84ba3e95e41c3e0,
         type: 3}
-      propertyPath: armoredBodyParts.Array.data[0].armor.Magic
-      value: 30
-      objectReference: {fileID: 0}
-    - target: {fileID: 1958420083617270434, guid: c60440956ff96af4b84ba3e95e41c3e0,
-        type: 3}
       propertyPath: armoredBodyParts.Array.data[0].armor.Melee
       value: 80
       objectReference: {fileID: 0}
@@ -89,11 +84,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1958420083617270434, guid: c60440956ff96af4b84ba3e95e41c3e0,
         type: 3}
-      propertyPath: armoredBodyParts.Array.data[1].armor.Magic
-      value: 30
-      objectReference: {fileID: 0}
-    - target: {fileID: 1958420083617270434, guid: c60440956ff96af4b84ba3e95e41c3e0,
-        type: 3}
       propertyPath: armoredBodyParts.Array.data[1].armor.Melee
       value: 80
       objectReference: {fileID: 0}
@@ -101,11 +91,6 @@ PrefabInstance:
         type: 3}
       propertyPath: armoredBodyParts.Array.data[2].armor.Laser
       value: 50
-      objectReference: {fileID: 0}
-    - target: {fileID: 1958420083617270434, guid: c60440956ff96af4b84ba3e95e41c3e0,
-        type: 3}
-      propertyPath: armoredBodyParts.Array.data[2].armor.Magic
-      value: 30
       objectReference: {fileID: 0}
     - target: {fileID: 1958420083617270434, guid: c60440956ff96af4b84ba3e95e41c3e0,
         type: 3}
@@ -141,36 +126,6 @@ PrefabInstance:
         type: 3}
       propertyPath: armoredBodyParts.Array.data[2].armor.Energy
       value: 60
-      objectReference: {fileID: 0}
-    - target: {fileID: 1958420083617270434, guid: c60440956ff96af4b84ba3e95e41c3e0,
-        type: 3}
-      propertyPath: armoredBodyParts.Array.data[0].armor.StunImmunity
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1958420083617270434, guid: c60440956ff96af4b84ba3e95e41c3e0,
-        type: 3}
-      propertyPath: armoredBodyParts.Array.data[1].armor.StunImmunity
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1958420083617270434, guid: c60440956ff96af4b84ba3e95e41c3e0,
-        type: 3}
-      propertyPath: armoredBodyParts.Array.data[2].armor.StunImmunity
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1958420083617270434, guid: c60440956ff96af4b84ba3e95e41c3e0,
-        type: 3}
-      propertyPath: armoredBodyParts.Array.data[0].armor.DismembermentProtectionChance
-      value: 80
-      objectReference: {fileID: 0}
-    - target: {fileID: 1958420083617270434, guid: c60440956ff96af4b84ba3e95e41c3e0,
-        type: 3}
-      propertyPath: armoredBodyParts.Array.data[1].armor.DismembermentProtectionChance
-      value: 80
-      objectReference: {fileID: 0}
-    - target: {fileID: 1958420083617270434, guid: c60440956ff96af4b84ba3e95e41c3e0,
-        type: 3}
-      propertyPath: armoredBodyParts.Array.data[2].armor.DismembermentProtectionChance
-      value: 80
       objectReference: {fileID: 0}
     - target: {fileID: 2352077745602750771, guid: c60440956ff96af4b84ba3e95e41c3e0,
         type: 3}

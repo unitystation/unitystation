@@ -3,22 +3,22 @@ using Managers;
 using Mirror;
 using ScriptableObjects.Communications;
 using UnityEngine;
-using Random = UnityEngine.Random;
 
 namespace Communications
 {
-	public abstract class SignalReceiver : NetworkBehaviour, IServerDespawn, IServerSpawn
+	public abstract class SignalReceiver : NetworkBehaviour, IServerDespawn
 	{
 		public SignalType SignalTypeToReceive = SignalType.PING;
 		public float Frequency = 122F;
 		public SignalEmitter Emitter;
 		public float DelayTime = 3f; //How many seconds of delay before the SignalReceive logic happens for weak signals
-		public int PassCode;
+		public EncryptionDataSO EncryptionData;
 		public bool ListenToEncryptedData = false; //For devices that are designed for spying and hacking
 
 
-		public void OnSpawnServer(SpawnInfo info)
+		private void OnEnable()
 		{
+			if(CustomNetworkManager.IsServer == false) return;
 			SignalsManager.Instance.Receivers.Add(this);
 		}
 
@@ -35,12 +35,6 @@ namespace Communications
 		{
 			if(CustomNetworkManager.IsServer == false) return;
 			SignalsManager.Instance.Receivers.Remove(this);
-		}
-
-		protected void RandomizeFreqAndCode()
-		{
-			Frequency = Random.Range(120.00f, 122.99f);
-			PassCode = Random.Range(1,255);
 		}
 
 		/// <summary>

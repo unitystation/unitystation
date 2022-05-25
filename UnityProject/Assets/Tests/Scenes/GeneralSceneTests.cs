@@ -76,42 +76,6 @@ namespace Tests.Scenes
 		}
 
 		[Test]
-		public void LayersHaveCorrectParentAndAreNotDuplicated()
-		{
-			using var pool = HashSetPool<LayerType>.Get(out var layers);
-
-			foreach (var matrix in RootObjects.ComponentInChildren<Matrix>().NotNull())
-			{
-				layers.Clear();
-
-				foreach (var layer in matrix.GetComponentsInChildren<Layer>().NotNull())
-				{
-					var layerType = layer.LayerType;
-
-					if (layers.Contains(layerType))
-					{
-						Report.Fail()
-							.AppendLine($"Two or more {layerType} exist on \"{matrix.name}\".");
-					}
-					else
-					{
-						layers.Add(layerType);
-					}
-
-					Report.FailIf(layer.matrix != matrix)
-						.AppendLine($"{layer.name} is located in \"{matrix.name}\" but is bound to \"{layer.matrix.name}\".")
-						.FailIf(layer.transform.parent != matrix.transform)
-						.Append($"{layer.name} is not a direct child of the \"{matrix.name}\" matrix. ")
-						.Append($"Currently located at: {layer.transform.HierarchyName()}.")
-						.AppendLine();
-
-				}
-			}
-
-			Report.AssertPassed();
-		}
-
-		[Test]
 		public void ItemStorageHasForcesSpawn()
 		{
 			foreach (var storage in RootObjects.ComponentsInChildren<ItemStorage>().NotNull())

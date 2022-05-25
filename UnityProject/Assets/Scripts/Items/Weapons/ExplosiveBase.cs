@@ -1,13 +1,19 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using AddressableReferences;
 using UnityEngine;
 using Mirror;
 using Communications;
+using Items.Devices;
 using Managers;
+using Objects;
 using Systems.Explosions;
 using Scripts.Core.Transform;
 using UI.Items;
+using Random = UnityEngine.Random;
 
 namespace Items.Weapons
 {
@@ -63,7 +69,7 @@ namespace Items.Weapons
 			objectBehaviour = GetComponent<ObjectBehaviour>();
 			pickupable = GetComponent<Pickupable>();
 			explosiveGUI = GetComponent<HasNetworkTabItem>();
-			RandomizeFreqAndCode();
+			Frequency = Random.Range(120.00f, 122.99f);
 		}
 
 		[Server]
@@ -101,19 +107,13 @@ namespace Items.Weapons
 		public override void ReceiveSignal(SignalStrength strength, SignalEmitter responsibleEmitter, ISignalMessage message = null)
 		{
 			if(gameObject == null || countDownActive == true) return;
-			if(ValidSignal(responsibleEmitter) == false) return;
+			if(emitters.Contains(responsibleEmitter) == false) return;
 			if (detonateImmediatelyOnSignal)
 			{
 				Detonate();
 				return;
 			}
 			StartCoroutine(Countdown());
-		}
-
-		private bool ValidSignal(SignalEmitter responsibleEmitter)
-		{
-			if(PassCode == 0) return true; //0 means that this explosive will accept any signal it passes through it even if it's not on the emitter list.
-			return emitters.Contains(responsibleEmitter) && responsibleEmitter.Passcode == PassCode;
 		}
 
 		protected bool HackEmitter(HandApply interaction)
@@ -123,7 +123,6 @@ namespace Items.Weapons
 			{
 				emitters.Add(emitter);
 				Frequency = emitter.Frequency;
-				PassCode = emitter.Passcode;
 				Chat.AddLocalMsgToChat($"The {gameObject.ExpensiveName()} copies {emitter.gameObject.ExpensiveName()}'s " +
 				                       $"codes from {interaction.PerformerPlayerScript.visibleName}'s hands!", interaction.Performer);
 			}

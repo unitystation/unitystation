@@ -9,13 +9,13 @@ using UnityEngine.Serialization;
 
 namespace Communications
 {
-	public abstract class SignalEmitter : NetworkBehaviour, IExaminable
+	public abstract class SignalEmitter : NetworkBehaviour
 	{
 		[SerializeField]
 		[Required("A signalSO is required for this to work.")]
 		protected SignalDataSO signalData;
-		[SerializeField]
-		protected int passCode;
+		[FormerlySerializedAs("EncryptionData"), SerializeField]
+		private EncryptionDataSO encryptionData;
 		[SerializeField]
 		protected float frequency = 122f;
 		[SerializeField]
@@ -24,8 +24,6 @@ namespace Communications
 		[SerializeField]
 		[ShowIf(nameof(requiresPower))]
 		protected bool isPowered = true;
-
-		[SerializeField] protected bool canExamineFrequency = false;
 
 		public float Frequency
 		{
@@ -39,10 +37,10 @@ namespace Communications
 			set => isPowered = value;
 		}
 
-		public int Passcode
+		public EncryptionDataSO EncryptionData
 		{
-			get => passCode;
-			set => passCode = value;
+			get => encryptionData;
+			set => encryptionData = value;
 		}
 
 		public SignalDataSO SignalData => signalData;
@@ -77,14 +75,6 @@ namespace Communications
 		/// </summary>
 		public abstract void SignalFailed();
 
-		public string Examine(Vector3 worldPos = default(Vector3))
-		{
-			if (canExamineFrequency == false)
-			{
-				return "There is a signal emitter on this device. Though its unclear what frequency it is transmitting to.";
-			}
-			return $"The emitter on this device is sending a frequency of {frequency}Khz.";
-		}
 	}
 }
 

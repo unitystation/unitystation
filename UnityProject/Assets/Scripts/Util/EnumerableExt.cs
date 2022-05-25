@@ -32,7 +32,7 @@ public static class EnumerableExt
 	/// </summary>
 	public static IEnumerable<(T, int)> WithIndex<T>(this IEnumerable<T> source)
 	{
-		return source?.Select((t, i) => (t, i)) ?? Enumerable.Empty<(T, int)>();
+		return source.Select((t, i) => (t, i));
 	}
 
 	/// <summary>
@@ -40,7 +40,7 @@ public static class EnumerableExt
 	/// </summary>
 	public static IEnumerable<T> NotNull<T>(this IEnumerable<T> source)
 	{
-		return source?.Where(obj => obj != null) ?? Enumerable.Empty<T>();
+		return source.Where(obj => obj != null);
 	}
 
 	#region GameObject and Components
@@ -57,8 +57,7 @@ public static class EnumerableExt
 	/// <returns>A flattened sequence of components.</returns>
 	public static IEnumerable<T> Components<T>(this IEnumerable<GameObject> source)
 	{
-		return source?.GetComponentsInternal<GameObject, T>((go, results) => go.GetComponents(results))
-			?? Enumerable.Empty<T>();
+		return source.GetComponentsInternal<GameObject, T>((go, results) => go.GetComponents(results));
 	}
 
 	/// <summary>
@@ -71,8 +70,7 @@ public static class EnumerableExt
 	/// <returns>A flattened sequence of components.</returns>
 	public static IEnumerable<T> Components<T>(this IEnumerable<Component> source)
 	{
-		return source?.GetComponentsInternal<Component, T>((comp, results) => comp.GetComponents(results))
-			?? Enumerable.Empty<T>();
+		return source?.GetComponentsInternal<Component, T>((comp, results) => comp.GetComponents(results));
 	}
 
 
@@ -84,8 +82,7 @@ public static class EnumerableExt
 	/// <returns>A flattened sequence of components.</returns>
 	public static IEnumerable<T> ComponentInChildren<T>(this IEnumerable<GameObject> source)
 	{
-		return source?.Select(go => go.GetComponentInChildren<T>())
-			?? Enumerable.Empty<T>();
+		return source?.Select(go => go.GetComponentInChildren<T>());
 	}
 
 	/// <summary>
@@ -97,8 +94,7 @@ public static class EnumerableExt
 	/// <returns>A flattened sequence of components.</returns>
 	public static IEnumerable<T> ComponentInChildren<T>(this IEnumerable<Component> source)
 	{
-		return source?.Select(go => go.GetComponentInChildren<T>())
-			?? Enumerable.Empty<T>();
+		return source?.Select(go => go.GetComponentInChildren<T>());
 	}
 
 	/// <summary>
@@ -111,8 +107,7 @@ public static class EnumerableExt
 	/// <returns>A flattened sequence of components.</returns>
 	public static IEnumerable<T> ComponentsInChildren<T>(this IEnumerable<GameObject> source)
 	{
-		return source?.GetComponentsInternal<GameObject, T>((go, results) => go.GetComponentsInChildren(results))
-			?? Enumerable.Empty<T>();
+		return source?.GetComponentsInternal<GameObject, T>((go, results) => go.GetComponentsInChildren(results));
 	}
 
 	/// <summary>
@@ -125,8 +120,7 @@ public static class EnumerableExt
 	/// <returns>A flattened sequence of components.</returns>
 	public static IEnumerable<T> ComponentsInChildren<T>(this IEnumerable<Component> source)
 	{
-		return source?.GetComponentsInternal<Component, T>((comp, results) => comp.GetComponentsInChildren(results))
-			?? Enumerable.Empty<T>();
+		return source?.GetComponentsInternal<Component, T>((comp, results) => comp.GetComponentsInChildren(results));
 	}
 
 	private static IEnumerable<TResult> GetComponentsInternal<TSource, TResult>(

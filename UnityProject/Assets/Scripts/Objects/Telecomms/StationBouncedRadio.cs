@@ -70,14 +70,19 @@ namespace Objects.Telecomms
 		{
 			string messageSender = message.Sender;
 			string messageContent = message.Message;
-			bool encrypted = message.Code != 0;
-			if (encrypted)
+			bool encrypted = message.IsEncrypted;
+			if (encrypted && EncryptionData != null)
 			{
-				if (PassCode != message.Code)
+				if (EncryptionUtils.Decrypt(messageSender, EncryptionData.EncryptionSecret) !=
+				    message.OriginalSenderName)
 				{
 					messageSender = "???";
-					messageContent = EncryptionUtils.GenerateRandomAlphanumericString(message.Message.Length);
 				}
+				else
+				{
+					messageSender = message.OriginalSenderName;
+				}
+				messageContent = EncryptionUtils.Decrypt(messageContent, EncryptionData.EncryptionSecret);
 			}
 			return $"<b><color=#{ColorUtility.ToHtmlStringRGBA(Chat.Instance.commonColor)}>[{Frequency}]" +
 			       $" - {messageSender} says \"{messageContent}\"</color></b>.";
@@ -87,15 +92,16 @@ namespace Objects.Telecomms
 		{
 			if (keyStorage.ServerTryTransferFrom(key.gameObject) && isScrewed == false)
 			{
-				PassCode = key.EncryptionDataSo.EncryptionCode;
-				radioListener.Passcode = key.EncryptionDataSo.EncryptionCode;
+				EncryptionData = key.EncryptionDataSo;
+				radioListener.EncryptionData = key.EncryptionDataSo;
 			}
 		}
 
 		public void RemoveEncryptionKey()
 		{
 			keyStorage.ServerDropAll();
-			radioListener.Passcode = 0;
+			EncryptionData = null;
+			radioListener.EncryptionData = null;
 		}
 
 		public bool WillInteract(HandApply interaction, NetworkSide side)
