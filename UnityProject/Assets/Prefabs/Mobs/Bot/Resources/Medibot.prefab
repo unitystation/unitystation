@@ -10,13 +10,21 @@ GameObject:
   m_Component:
   - component: {fileID: 260481592809474432}
   - component: {fileID: 2040526581482602852}
+  - component: {fileID: 4892831060978822830}
   - component: {fileID: -2540428561962423853}
+  - component: {fileID: 1227186742206851651}
   - component: {fileID: -8519898221246118159}
   - component: {fileID: -8165460994767987552}
   - component: {fileID: -388511124484068398}
   - component: {fileID: 4634694392886692913}
   - component: {fileID: -7291452680395599711}
-  - component: {fileID: 1089936845282558583}
+  - component: {fileID: 5581498910669095191}
+  - component: {fileID: -2793767357239087140}
+  - component: {fileID: 1212024150483510973}
+  - component: {fileID: 2706556063739853453}
+  - component: {fileID: -6386125956021093366}
+  - component: {fileID: -6862461587600950208}
+  - component: {fileID: 4192941183501334965}
   m_Layer: 12
   m_Name: Medibot
   m_TagString: Untagged
@@ -66,6 +74,37 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!114 &4892831060978822830
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4447485276008945440}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c23c49138f42840a1bc22ade283c1694, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  registerTile: {fileID: 0}
+  floorDecal: {fileID: 0}
+  isInitiallyNotPushable: 0
+  pushPullSound:
+    SetLoadSetting: 0
+    AssetAddress: 
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
+  soundDelayTime: 0
+  soundMinimumPitchVariance: 1
+  soundMaximumPitchVariance: 1
+  OnPullingSomethingChangedServer:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &-2540428561962423853
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -82,6 +121,7 @@ MonoBehaviour:
   syncInterval: 0.1
   matrixDebugLogging: 0
   objectType: 0
+  customNetTransform: {fileID: 1227186742206851651}
   prefabTracker: {fileID: 0}
   CurrentsortingGroup: {fileID: 0}
   AtmosPassable: 1
@@ -89,6 +129,22 @@ MonoBehaviour:
   initialPassable: 1
   initialCrawlPassable: 1
   passableExclusionsToThis: []
+--- !u!114 &1227186742206851651
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4447485276008945440}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 579884b05ae74e8499329b64997147d3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  snapToGridOnStart: 1
+  IsFixedMatrix: 0
 --- !u!114 &-8519898221246118159
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -118,14 +174,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f1b8bd5d209198a459a56b1b6032b5bc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  UniversalObjectPhysics: {fileID: 0}
   AllowDead: 0
   AllowUnconscious: 0
   Priority: 0
+  visionRange: 10
   PriorityBalance: 1
   CB_REAGENT: {fileID: 0}
+  HEALING_REAGENT: {fileID: 11400000, guid: 49314e67edf9a9a99966702ee82aeaa8, type: 2}
+  HARMFUL_REAGENT: {fileID: 11400000, guid: 6c3a3878e8878972ea633a27c6d0ba12, type: 2}
   target: 3
-  actionPerformTime: 0
+  actionPerformTime: 1
+  patientMemoryTime: 15
+  visionUpdateInterval: 0.5
+  phraseInterval: 5
   hasFoodPrefereces: 0
   foodPreferences: []
   IsEmagged: 0
@@ -203,7 +264,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62cc3ef7cd9082443aaf3c255851d15a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &1089936845282558583
+--- !u!114 &5581498910669095191
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -212,44 +273,117 @@ MonoBehaviour:
   m_GameObject: {fileID: 4447485276008945440}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 52a6a264ee47433418b51f654439372f, type: 3}
+  m_Script: {fileID: 11500000, guid: 9c86f0d5246b4abe8fd9bb34e7cee0d6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  DEBUG: 0
-  SnapToGridOnStart: 0
-  LocalTargetPosition: {x: 0, y: 0, z: 0}
-  ChangesDirectionPush: 0
-  isNotPushable: 0
-  newtonianMovement: {x: 0, y: 0}
-  airTime: 0
-  slideTime: 0
-  thrownBy: {fileID: 0}
-  aim: 0
-  spinMagnitude: 0
-  stickyMovement: 0
-  maximumStickSpeed: 1.5
-  onStationMovementsRound: 0
-  attributes: {fileID: 0}
-  registerTile: {fileID: 0}
-  ContextGameObjects:
-  - {fileID: 0}
-  - {fileID: 0}
-  IsCurrentlyFloating: 0
-  LocalDifferenceNeeded: {x: 0, y: 0}
-  CorrectingCourse: 0
-  Pushing: []
-  Hits: []
-  Speed: 1
-  AIR: 3
-  SLIDE: 4
-  Animating: 0
-  IsFlyingSliding: 0
-  IsMoving: 0
-  IsWalking: 0
-  MoveIsWalking: 0
-  LastUpdateClientFlying: 0
+  maxHealth: 100
+  bloodColor: 2
+  BodyParts: []
+  butcherResults: []
+--- !u!114 &-2793767357239087140
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4447485276008945440}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5a02af87cf44eaf4b81945b406d2757f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MobObjectives: []
+--- !u!114 &1212024150483510973
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4447485276008945440}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bd3699f88578c2445b1173a427e8cb9a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  spriteHandler: {fileID: 4858564363706761541}
+  spriteRend: {fileID: 5576515851082341260}
+  aliveSpriteIndex: 0
+  deadStateRep: 0
+  deadSpriteIndex: 0
+  deadOrientation: 90
+  knockedDownStateRep: 1
+  knockedDownSpriteIndex: 1
+  knockedDownOrientation: 90
+  burningPrefab: {fileID: 1558421102126524431, guid: 36094128399f8704da2ff54a58c2f4f5,
+    type: 3}
+  electrocutedPrefab: {fileID: 1558421102126524431, guid: 0cea8096a0de31746a1b6ef11b019ab2,
+    type: 3}
+--- !u!114 &2706556063739853453
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4447485276008945440}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e16004dedecb6d54e8bde3e5d6279b4c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  AllowDead: 0
+  AllowUnconscious: 0
+  Priority: 0
+  PriorityBalance: 25
+--- !u!114 &-6386125956021093366
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4447485276008945440}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e1d7861cc0289714b8989f7181986a18, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fieldOfView: 180
+--- !u!114 &-6862461587600950208
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4447485276008945440}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0fade882731d3484cb3c63dfcad2def4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  activated: 0
+  TickDelay: 1
+  status: 0
+  fleeTarget: {fileID: 0}
+--- !u!114 &4192941183501334965
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4447485276008945440}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3e28b1f5f04e4f699099349719baa668, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mobName: 
+  registerObject: {fileID: 0}
+  minTimeBetweenRandomActions: 10
+  maxTimeBetweenRandomActions: 30
+  doRandomActionWhenInTask: 0
 --- !u!1 &6133043633157464636
 GameObject:
   m_ObjectHideFlags: 0
@@ -259,6 +393,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 9220763097622914983}
+  - component: {fileID: 4858564363706761541}
   - component: {fileID: 5576515851082341260}
   m_Layer: 12
   m_Name: Sprite
@@ -282,6 +417,28 @@ Transform:
   m_Father: {fileID: 260481592809474432}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4858564363706761541
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6133043633157464636}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  NetworkThis: 1
+  SubCatalogue:
+  - {fileID: 11400000, guid: f6b9f324666f5cf48965a9cac2276929, type: 2}
+  - {fileID: 11400000, guid: f70611bcbb45f824b9d128bb9e5fe90f, type: 2}
+  PresentSpriteSet: {fileID: 11400000, guid: f6b9f324666f5cf48965a9cac2276929, type: 2}
+  randomInitialSprite: 0
+  doReverseAnimation: 0
+  pushTextureOnStartUp: 1
+  initialVariantIndex: 0
+  palette: []
 --- !u!212 &5576515851082341260
 SpriteRenderer:
   m_ObjectHideFlags: 0
