@@ -68,6 +68,7 @@ namespace DatabaseAPI
 				}
 				catch
 				{
+					Logger.LogWarning($"Couldn't deserialise saved character settings.");
 					characterSettings = new CharacterSettings();
 					characterSettings.Username = user.DisplayName;
 					characterSettings.Name = StringManager.GetRandomMaleName();
