@@ -52,9 +52,9 @@ namespace ScriptableObjects.Audio
 		{
 			foreach (var itemSlot in playerSync.playerScript.Equipment.ItemStorage.GetNamedItemSlots(NamedSlot.feet))
 			{
-				if (itemSlot.Item != null && itemSlot.ItemObject.TryGetComponent<StepChanger>(out var stepInfo))
+				if (itemSlot.Item != null)
 				{
-					return stepInfo.SoundChange.Shoes.Count != 0 ? StepType.Shoes : StepType.None;
+					return StepType.Shoes;
 				}
 			}
 
