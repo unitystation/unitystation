@@ -1,6 +1,7 @@
-﻿using System.Collections.Generic;
-using AddressableReferences;
+﻿using AddressableReferences;
+using Clothing;
 using Messages.Server.SoundMessages;
+using System.Collections.Generic;
 using Tiles;
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -53,7 +54,7 @@ namespace ScriptableObjects.Audio
 			{
 				if (itemSlot.Item != null)
 				{
-					return StepType.Shoes;
+					return itemSlot.ItemObject.GetComponent<StepChanger>().SoundChange.Shoes.Count != 0 ? StepType.Shoes : StepType.None;
 				}
 			}
 

@@ -24,6 +24,8 @@ namespace Clothing
 
 		private Mind mind;
 
+		public FloorSounds SoundChange => soundChange;
+
 		private bool IsPuttingOn(InventoryMove info)
 		{
 			return info.ToSlot != null &&
@@ -40,8 +42,6 @@ namespace Clothing
 
 		public void OnInventoryMoveServer(InventoryMove info)
 		{
-			if (soundChange == null) return;
-
 			if (IsPuttingOn(info))
 			{
 				mind = info.ToPlayer.OrNull()?.PlayerScript.OrNull()?.mind;
