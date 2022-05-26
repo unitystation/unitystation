@@ -38,7 +38,7 @@ namespace InGameEvents
 		{
 			remainingTime = eventTime;
 			countingDown = true;
-			while (remainingTime > 0f)
+			while (remainingTime > 0f && countingDown)
 			{
 				remainingTime -= 1f;
 				yield return WaitFor.Seconds(1f);
