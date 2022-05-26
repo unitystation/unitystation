@@ -1,7 +1,6 @@
-﻿using AddressableReferences;
-using Clothing;
+﻿using System.Collections.Generic;
+using AddressableReferences;
 using Messages.Server.SoundMessages;
-using System.Collections.Generic;
 using Tiles;
 using UnityEngine;
 using UnityEngine.Serialization;
