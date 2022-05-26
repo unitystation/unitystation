@@ -14,7 +14,6 @@ namespace InGameEvents
 		[SerializeField] private float eventTime = 900f;
 
 		private float remainingTime = 0f;
-		private bool countingDown = false;
 
 		public float RemainingTime => remainingTime;
 
@@ -37,19 +36,16 @@ namespace InGameEvents
 		private IEnumerator StartRoundTimer()
 		{
 			remainingTime = eventTime;
-			countingDown = true;
-			while (remainingTime > 0f && countingDown)
+			while (remainingTime > 0f)
 			{
 				remainingTime -= 1f;
 				yield return WaitFor.Seconds(1f);
 			}
-			if(countingDown == false) yield break;
 			GameManager.Instance.EndRound();
 		}
 
 		private void OnShuttleCalled()
 		{
-			countingDown = false;
 			StopCoroutine(StartRoundTimer());
 			GameManager.Instance.PrimaryEscapeShuttle.blockCall = true;
 			GameManager.Instance.PrimaryEscapeShuttle.blockRecall = true;
