@@ -364,9 +364,13 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 
 	[ClientRpc]
 	public void UpdateClientMomentum(Vector3 ReSetToLocal, Vector2 NewMomentum, float InairTime, float InslideTime,
-		int MatrixID, float InspinFactor, bool ForceOverride)
+		int MatrixID, float InspinFactor, bool ForceOverride, uint DoNotUpdateThisClient)
 	{
 		if (isServer) return;
+		if (DoNotUpdateThisClient != NetId.Empty && DoNotUpdateThisClient != NetId.Invalid &&
+		    NetworkIdentity.spawned.ContainsKey(DoNotUpdateThisClient) && NetworkIdentity.spawned[DoNotUpdateThisClient].gameObject  == PlayerManager.LocalPlayer) return;
+
+
 		//if (isLocalPlayer) return; //We are updating other Objects than the player on the client //TODO Also block if being pulled by local player //Why we need this?
 		newtonianMovement = NewMomentum;
 		airTime = InairTime;
@@ -929,7 +933,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 
 	public void NewtonianPush(Vector2 WorldDirection, float speed = Single.NaN, float INairTime = Single.NaN,
 		float INslideTime = Single.NaN, BodyPartType inaim = BodyPartType.Chest, GameObject inthrownBy = null,
-		float spinFactor = 0) //Collision is just naturally part of Newtonian push
+		float spinFactor = 0, GameObject DoNotUpdateThisClient = null) //Collision is just naturally part of Newtonian push
 	{
 		if (isNotPushable) return;
 
@@ -997,7 +1001,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 				{
 					LastUpdateClientFlying = NetworkTime.time;
 					UpdateClientMomentum(transform.localPosition, newtonianMovement, airTime, slideTime,
-						registerTile.Matrix.Id, spinFactor, true);
+						registerTile.Matrix.Id, spinFactor, true, DoNotUpdateThisClient.NetId());
 				}
 			}
 		}
@@ -1091,7 +1095,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 					UpdateManager.Add(CallbackType.UPDATE, FlyingUpdateMe);
 					if (isServer)
 						UpdateClientMomentum(transform.localPosition, newtonianMovement, airTime, slideTime,
-							registerTile.Matrix.Id, spinMagnitude, false);
+							registerTile.Matrix.Id, spinMagnitude, false, NetId.Empty);
 				}
 			}
 		}
@@ -1313,7 +1317,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 			{
 				LastUpdateClientFlying = NetworkTime.time;
 				UpdateClientMomentum(transform.localPosition, newtonianMovement, airTime, slideTime,
-					registerTile.Matrix.Id, spinMagnitude, true);
+					registerTile.Matrix.Id, spinMagnitude, true, NetId.Empty);
 			}
 		}
 

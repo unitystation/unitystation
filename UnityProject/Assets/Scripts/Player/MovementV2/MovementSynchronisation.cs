@@ -981,7 +981,7 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 			if (CausesSlipClient)
 			{
 				NewtonianPush(NewMoveData.GlobalMoveDirection.TVectoro().To2Int(), TileMoveSpeed, Single.NaN, 4,
-					spinFactor: 35);
+					spinFactor: 35, DoNotUpdateThisClient:ByClient );
 
 				var Player = registerTile as RegisterPlayer;
 				Player.OrNull()?.ServerSlip();
