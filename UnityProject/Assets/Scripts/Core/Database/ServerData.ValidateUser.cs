@@ -69,6 +69,8 @@ namespace DatabaseAPI
 				catch
 				{
 					characterSettings = new CharacterSettings();
+					characterSettings.Username = user.DisplayName;
+					characterSettings.Name = StringManager.GetRandomMaleName();
 				}
 
 				// Validate and correct settings in case the customization options change
