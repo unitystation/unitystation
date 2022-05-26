@@ -113,6 +113,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: _ReagentDispenserBase
       objectReference: {fileID: 0}
+    - target: {fileID: 8561688399768036000, guid: a7af28adb717b4c44b8b2002b27670bd,
+        type: 3}
+      propertyPath: isNotPushable
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8599771746108915149, guid: a7af28adb717b4c44b8b2002b27670bd,
         type: 3}
       propertyPath: m_Size.x
@@ -157,7 +162,6 @@ MonoBehaviour:
   maxCapacity: 1000
   reactionSet: {fileID: 0}
   AdditionalReactions: []
-  canPourOut: 1
   initialReagentMix:
     temperature: 0
     reagents:
@@ -168,6 +172,7 @@ MonoBehaviour:
     reagentKeys: []
   destroyOnEmpty: 0
   ContentsSet: 0
+  menuOptions: -1
   UseStandardExamine: 1
   ExamineAmount: 0
   ExamineContent: 1
