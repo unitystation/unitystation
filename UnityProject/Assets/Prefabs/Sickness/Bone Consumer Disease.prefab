@@ -46,13 +46,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sicknessName: Bone Consumer Disease
   contagious: 1
-  sicknessStages:
-  - symptom: 2
-    repeatSymptom: 0
-    repeatMinDelay: 0
-    repeatMaxDelay: 0
-    secondsBeforeNextStage: 0
-    extendedSymptomParametersSerialized: null
+  sicknessStages: []
   possibleCures:
   - {fileID: 11400000, guid: a1724b1210d8177c097a28325415c0b1, type: 2}
   - {fileID: 11400000, guid: 0c793b26027c29a1cb5806c738a7a556, type: 2}

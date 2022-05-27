@@ -46,13 +46,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sicknessName: Solar Dust Disease
   contagious: 1
-  sicknessStages:
-  - symptom: 3
-    repeatSymptom: 0
-    repeatMinDelay: 0
-    repeatMaxDelay: 0
-    secondsBeforeNextStage: 0
-    extendedSymptomParametersSerialized: null
+  sicknessStages: []
   possibleCures:
   - {fileID: 11400000, guid: 8d1468f2ac5202e65af28854a30b9c55, type: 2}
   - {fileID: 11400000, guid: e6830e17bac769bad861bd5ebe3b389e, type: 2}
