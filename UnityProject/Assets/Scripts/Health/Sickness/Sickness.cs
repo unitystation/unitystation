@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using HealthV2;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Health.Sickness
@@ -22,6 +23,9 @@ namespace Health.Sickness
 		/// </summary>
 		[SerializeField]
 		private List<SicknessStage> sicknessStages = null;
+
+		[SerializeField] private List<Chemistry.Reagent> possibleCures = new List<Chemistry.Reagent>();
+		private Chemistry.Reagent cureForSickness = null;
 
 		public Sickness()
 		{
@@ -62,6 +66,24 @@ namespace Health.Sickness
 			{
 				return sicknessStages;
 			}
+		}
+
+		public void SetCure()
+		{
+			if (possibleCures.Count != 0) cureForSickness = possibleCures.PickRandom();
+		}
+
+		public void SetCure(Chemistry.Reagent cure)
+		{
+			cureForSickness = cure;
+		}
+
+		public virtual void SicknessBehavior(LivingHealthMasterBase health) { }
+
+		public virtual bool CheckForCureInHealth(LivingHealthMasterBase health)
+		{
+			if (health.CirculatorySystem.BloodPool.reagentKeys.Contains(cureForSickness) == false) return false;
+			return true;
 		}
 	}
 }
