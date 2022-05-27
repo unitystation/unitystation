@@ -32,7 +32,7 @@ public class MetaDataNode : IGasMixContainer
 	/// <summary>
 	/// Used for calculating explosion data
 	/// </summary>
-	public ExplosionNode ExplosionNode = null;
+	public List<ExplosionNode> ExplosionNodes = new List<ExplosionNode>();
 
 	/// <summary>
 	/// Used for storing useful information for the radiation system and The radiation level

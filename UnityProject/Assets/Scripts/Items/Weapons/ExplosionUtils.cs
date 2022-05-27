@@ -14,7 +14,6 @@ namespace Systems.Explosions
 		private static readonly AddressableAudioSource[] EXPLOSION_SOUNDS = { CommonSounds.Instance.Explosion1, CommonSounds.Instance.Explosion2 };
 		private static readonly AddressableAudioSource[] DISTANT_EXPLOSION_SOUNDS = { CommonSounds.Instance.ExplosionDistant1, CommonSounds.Instance.ExplosionDistant2 };
 		private static readonly AddressableAudioSource[] STATION_GROAN_SOUNDS = { CommonSounds.Instance.ExplosionCreak1, CommonSounds.Instance.ExplosionCreak2, CommonSounds.Instance.ExplosionCreak3 };
-		private static readonly AddressableAudioSource EMP_SOUND = CommonSounds.Instance.Empulse;
 
 		/// <summary>
 		/// Play explosion sound and shake ground
@@ -22,13 +21,12 @@ namespace Systems.Explosions
 		/// <param name="worldPosition">position explosion is centered at</param>
 		/// <param name="shakeIntensity">intensity of shaking</param>
 		/// <param name="shakeDistance">how far away the shaking can be felt</param>
-		public static void PlaySoundAndShake(Vector3Int worldPosition, byte shakeIntensity, int shakeDistance, bool isEMP = false)
+		public static void PlaySoundAndShake(Vector3Int worldPosition, byte shakeIntensity, int shakeDistance, AddressableAudioSource customSound = null)
 		{
 			AudioSourceParameters audioSourceParameters = new AudioSourceParameters(0f, 100f);
-			if (isEMP)
+			if (customSound != null)
 			{
-				AddressableAudioSource EMPSound = EMP_SOUND;
-				_ = SoundManager.PlayNetworkedAtPosAsync(EMPSound, worldPosition, audioSourceParameters, true, false);
+				_ = SoundManager.PlayNetworkedAtPosAsync(customSound, worldPosition, audioSourceParameters, true, false);
 			}
 			else
 			{

@@ -1,14 +1,13 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace Systems.Explosions
 {
 	public class ExplosionPropagationLine
 	{
-		public bool isEmp;
-
 		public static List<ExplosionPropagationLine> PooledThis = new List<ExplosionPropagationLine>();
 
 		public static ExplosionPropagationLine Getline()
@@ -48,7 +47,9 @@ namespace Systems.Explosions
 		public float ExplosionStrength = 0;
 		private bool InitialStep = true;
 
-		public void SetUp(int X0, int Y0, int X1, int Y1, float InExplosionStrength, bool isEmPulse)
+		private ExplosionNode NodeType;
+
+		public void SetUp(int X0, int Y0, int X1, int Y1, float InExplosionStrength, ExplosionNode nodeType)
 		{
 			x0 = X0;
 			y0 = Y0;
@@ -68,7 +69,8 @@ namespace Systems.Explosions
 			err = (dx > dy ? dx : -dy) / 2;
 			ExplosionStrength = InExplosionStrength;
 
-			isEmp = isEmPulse;
+			NodeType = nodeType;
+			Logger.Log("Setting up line, x0: " + X0.ToString() + "; y0: " + Y0.ToString() + "; x1: " + X1.ToString() + "; y1: " + Y1.ToString() + "; strength: " + InExplosionStrength.ToString() + "; node: " + nodeType.GetType().ToString());
 		}
 
 		public void Step()
@@ -85,28 +87,29 @@ namespace Systems.Explosions
 				return;
 			}
 
-			var WorldPSos = new Vector3Int(x0, y0, 0);
-			var Matrix = MatrixManager.AtPoint(WorldPSos, CustomNetworkManager.IsServer);
-			var Local = WorldPSos.ToLocal(Matrix.Matrix).RoundToInt();
-			var NodePoint = Matrix.MetaDataLayer.Get(Local); //Explosion node
+			Vector3Int WorldPSos = new Vector3Int(x0, y0, 0);
+			MatrixInfo Matrix = MatrixManager.AtPoint(WorldPSos, CustomNetworkManager.IsServer);
+			Vector3Int Local = WorldPSos.ToLocal(Matrix.Matrix).RoundToInt();
+			MetaDataNode NodePoint = Matrix.MetaDataLayer.Get(Local); //Explosion node
+
 			if (NodePoint != null)
 			{
-				if (NodePoint.ExplosionNode == null)
+				if (!NodePoint.ExplosionNodes.Any(p => p.GetType() == NodeType.GetType()))
 				{
-					NodePoint.ExplosionNode = new ExplosionNode();
-					NodePoint.ExplosionNode.Initialise(Local, Matrix.Matrix);
+					ExplosionNode expNode = (ExplosionNode)Activator.CreateInstance(NodeType.GetType());
+					NodePoint.ExplosionNodes.Add(expNode);
+					expNode.Initialise(Local, Matrix.Matrix);
 				}
 
-				if (isEmp)
+				foreach (ExplosionNode expNode in NodePoint.ExplosionNodes) //separating explosion nodes of our type from others, so we dont interfere with EMPs or whatever
 				{
-					NodePoint.ExplosionNode.EmpStrength += (int)(GetXYDirection(Angle, ExplosionStrength).magnitude);
+					if (expNode.GetType() == NodeType.GetType())
+					{
+						expNode.AngleAndIntensity += GetXYDirection(Angle, ExplosionStrength);
+						expNode.PresentLines.Add(this);
+						ExplosionManager.CheckLocations.Add(expNode);
+					}
 				}
-				else
-				{
-					NodePoint.ExplosionNode.AngleAndIntensity += GetXYDirection(Angle, ExplosionStrength);
-				}
-				NodePoint.ExplosionNode.PresentLines.Add(this);
-				ExplosionManager.CheckLocations.Add(NodePoint.ExplosionNode);
 			}
 
 			e2 = err;
@@ -146,30 +149,50 @@ namespace Systems.Explosions
 			public HashSet<Vector2Int> CircleCircumference = new HashSet<Vector2Int>();
 		}
 
-		public static void StartExplosion(Vector3Int WorldPOS, float strength, bool isEmp = false)
+		public static void StartExplosion(Vector3Int WorldPOS, float strength, ExplosionNode nodeType = null, int fixedRadius = -1, int fixedShakingStrength = -1)
 		{
-			int Radius = (int) Math.Round(strength / (Math.PI * 75));
+			if (!(nodeType is ExplosionNode))
+			{
+				nodeType = new ExplosionNode();
+			}
 
+			int Radius = 0;
+			if (fixedRadius <= 0)
+            {
+				Radius = (int)Math.Round(strength / (Math.PI * 75));
+			}
+            else
+            {
+				Radius = fixedRadius;
+            }
 			if (Radius > 150)
 			{
 				Radius = 150;
 			}
 
-			byte ShakingStrength = 25;
-			if (strength > 800)
-			{
-				ShakingStrength = 75;
+			byte ShakingStrength = 0;
+			if (fixedShakingStrength <= 0 || fixedShakingStrength > 255)
+            {
+				ShakingStrength = 25;
+				if (strength > 800)
+				{
+					ShakingStrength = 75;
+				}
+				else if (strength > 8000)
+				{
+					ShakingStrength = 125;
+				}
+				else if (strength > 80000)
+				{
+					ShakingStrength = 255;
+				}
 			}
-			else if (strength > 8000)
-			{
-				ShakingStrength = 125;
-			}
-			else if (strength > 80000)
-			{
-				ShakingStrength = 255;
-			}
+            else
+            {
+				ShakingStrength = (byte)fixedShakingStrength;
+            }
 
-			ExplosionUtils.PlaySoundAndShake(WorldPOS, ShakingStrength, Radius / 20, isEmp);
+			ExplosionUtils.PlaySoundAndShake(WorldPOS, ShakingStrength, Radius / 20, nodeType.CustomSound);
 
 			//Generates the conference
 			var explosionData = new ExplosionData();
@@ -179,7 +202,7 @@ namespace Systems.Explosions
 			foreach (var ToPoint in explosionData.CircleCircumference)
 			{
 				var Line = ExplosionPropagationLine.Getline();
-				Line.SetUp(WorldPOS.x, WorldPOS.y, ToPoint.x, ToPoint.y, InitialStrength, isEmp);
+				Line.SetUp(WorldPOS.x, WorldPOS.y, ToPoint.x, ToPoint.y, InitialStrength, nodeType);
 				Line.Step();
 			}
 		}
