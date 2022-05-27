@@ -1,4 +1,5 @@
 ﻿using HealthV2;
+using ScriptableObjects.RP;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -26,6 +27,8 @@ namespace Health.Sickness
 
 		[SerializeField] private List<Chemistry.Reagent> possibleCures = new List<Chemistry.Reagent>();
 		private Chemistry.Reagent cureForSickness = null;
+
+		[SerializeField] protected EmoteSO emoteFeedback;
 
 		public Sickness()
 		{

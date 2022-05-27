@@ -1,3 +1,4 @@
+using Core.Chat;
 using HealthV2;
 using System.Collections;
 using System.Collections.Generic;
@@ -24,6 +25,7 @@ namespace Health.Sickness
 			health.StartCoroutine(Cooldown());
 			if (DMMath.Prob(chanceToDamage) == false) return;
 			health.BodyPartList.Shuffle();
+			EmoteActionManager.DoEmote(emoteFeedback, health.gameObject);
 			if(specficBodyPartsToTarget.Count != 0)
 			{
 				foreach(var part in health.BodyPartList)
