@@ -9,7 +9,6 @@ namespace Health.Sickness
 	{
 		[Range(0f, 45f), SerializeField] private float damageToDo = 2f;
 		[Range(0f, 100f), SerializeField] private float chanceToDamage = 50f;
-		[SerializeField] private List<BodyPartType> typesToDamage = new List<BodyPartType>();
 		[SerializeField] private List<BodyPart> specficBodyPartsToTarget = new List<BodyPart>();
 		[SerializeField] private AttackType attackType = AttackType.Bio;
 		[SerializeField] private DamageType damageType = DamageType.Tox;
@@ -22,14 +21,20 @@ namespace Health.Sickness
 		public override void SicknessBehavior(LivingHealthMasterBase health)
 		{
 			if (hasCooldown && isOnCooldown) return;
-			StartCoroutine(Cooldown());
+			health.StartCoroutine(Cooldown());
 			if (DMMath.Prob(chanceToDamage) == false) return;
-			foreach(var bodyPart in health.BodyPartList)
+			health.BodyPartList.Shuffle();
+			if(specficBodyPartsToTarget.Count != 0)
 			{
-				if (typesToDamage.Contains(bodyPart.BodyPartType) == false || specficBodyPartsToTarget.Contains(bodyPart)) continue;
-				bodyPart.TakeDamage(null, damageToDo, attackType, damageType);
-				break;
+				foreach(var part in health.BodyPartList)
+				{
+					if (specficBodyPartsToTarget.Contains(part) == false) continue;
+					part.TakeDamage(null, damageToDo, attackType, damageType);
+					return;
+				}
 			}
+			var bodyPart = health.BodyPartList.PickRandom();
+			bodyPart.TakeDamage(null, damageToDo, attackType, damageType);
 		}
 
 		private IEnumerator Cooldown()
