@@ -28,6 +28,7 @@ namespace Health.Sickness
 			{
 				if (typesToDamage.Contains(bodyPart.BodyPartType) == false || specficBodyPartsToTarget.Contains(bodyPart)) continue;
 				bodyPart.TakeDamage(null, damageToDo, attackType, damageType);
+				break;
 			}
 		}
 
