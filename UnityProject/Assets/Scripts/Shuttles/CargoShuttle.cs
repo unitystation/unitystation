@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,10 +21,14 @@ namespace Systems.Cargo
 		private bool ChangeDirectionAtOffset = false;
 		private Vector3 destination;
 		private List<Vector3Int> availableSpawnSlots = new List<Vector3Int>();
-		//It is actually (cargoZoneWidth - 1) / 2
-		private int shuttleWidth = 2;
-		//It is actually (cargoZoneHeight - 1) / 2
-		private int shuttleHeight = 4;
+		[SerializeField]
+		private int shuttleWidth;
+		private int shuttleZoneWidth;
+		[SerializeField]
+		private int shuttleHeight;
+		private int shuttleZoneHeight;
+		[SerializeField]
+		private bool heightInMiddle = false;
 		private bool moving;
 
 		private MatrixMove mm;
@@ -41,6 +46,9 @@ namespace Systems.Cargo
 
 			mm = GetComponent<MatrixMove>();
 			mm.SetAccuracy(2);
+
+			shuttleZoneWidth = Convert.ToInt32(Math.Ceiling(Convert.ToDecimal((shuttleWidth - 1) / 2)));
+			shuttleZoneHeight = Convert.ToInt32(Math.Ceiling(Convert.ToDecimal((shuttleHeight - 1) / 2)));
 		}
 
 		private void OnEnable()
@@ -283,16 +291,18 @@ namespace Systems.Cargo
 		private void GetAvailablePositions()
 		{
 			Vector3Int pos;
+			int x = 0;
+			if (!heightInMiddle) { x = 1; }
 			availableSpawnSlots = new List<Vector3Int>();
-
-			for (int i = -shuttleHeight; i <= shuttleHeight; i++)
+			for (int i = -shuttleZoneHeight; i <= shuttleZoneHeight - (shuttleHeight%2); i++)
 			{
-				for (int j = -shuttleWidth; j <= shuttleWidth; j++)
+				for (int j = -shuttleZoneWidth; j <= shuttleZoneWidth; j++)
 				{
 					pos = mm.ServerState.Position.RoundToInt();
 					//i + 1 because cargo shuttle center is offseted by 1
-					pos += new Vector3Int(j, i + 1, 0);
-					if (MatrixManager.Instance.GetFirst<ClosetControl>(pos, true) == null)
+					pos += new Vector3Int(j, i + x, 0);
+					if ((MatrixManager.Instance.GetFirst<ClosetControl>(pos, true) == null) &&
+						MatrixManager.IsFloorAt(pos, true))
 					{
 						availableSpawnSlots.Add(pos);
 					}
@@ -309,7 +319,7 @@ namespace Systems.Cargo
 
 			if (availableSpawnSlots.Count > 0)
 			{
-				spawnPos = availableSpawnSlots[Random.Range(0, availableSpawnSlots.Count)];
+				spawnPos = availableSpawnSlots[UnityEngine.Random.Range(0, availableSpawnSlots.Count)];
 				availableSpawnSlots.Remove(spawnPos);
 				return spawnPos;
 			}
