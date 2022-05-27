@@ -86,23 +86,33 @@ namespace Chemistry.Effects
 
 			if (strength > 0)
 			{
+				ExplosionNode node;
+				if (isEMP)
+				{
+					node = new ExplosionEmpNode();
+				}
+                else
+                {
+					node = new ExplosionNode();
+                }
+
 				//Check if this is happening inside of an Object first (machines, closets?)
 				if (registerObject == null)
 				{
 					//If not, we need to check if the item is a bodypart inside of a player
 					if (insideBody)
 					{
-						Explosion.StartExplosion(bodyPart.HealthMaster.RegisterTile.WorldPosition, strength, isEMP);
+						Explosion.StartExplosion(bodyPart.HealthMaster.RegisterTile.WorldPosition, strength, node);
 					}
 					else
 					{
 						//Otherwise, if it's not inside of a player, we consider it just an item
-						Explosion.StartExplosion(objectBehaviour.registerTile.WorldPosition, strength, isEMP);
+						Explosion.StartExplosion(objectBehaviour.registerTile.WorldPosition, strength, node);
 					}
 				}
 				else
 				{
-					Explosion.StartExplosion(registerObject.WorldPosition, strength, isEMP);
+					Explosion.StartExplosion(registerObject.WorldPosition, strength, node);
 				}
 			}
 

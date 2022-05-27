@@ -150,7 +150,7 @@ namespace Items.Weapons
 				// Explosion here
 				var explosionGO = Instantiate(explosionPrefab, explosionMatrix.transform);
 				explosionGO.transform.position = worldPos;
-				explosionGO.Explode(explosionMatrix);
+				explosionGO.Explode();
 			}
 		}
 
