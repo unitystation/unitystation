@@ -163,6 +163,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 
 	[PlayModeOnly] public float spinMagnitude = 0;
 
+	[PlayModeOnly] public int TryPushedFrame = 0;
 	[PlayModeOnly] public int PushedFrame = 0;
 	[PlayModeOnly] public bool FramePushDecision = true;
 
@@ -683,6 +684,12 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 		{
 			return FramePushDecision;
 		}
+		else if (TryPushedFrame == Time.frameCount)
+		{
+			return false;
+		}
+
+		TryPushedFrame = Time.frameCount;
 		//TODO Secured stuff
 		Pushing.Clear();
 		Bumps.Clear();
@@ -706,6 +713,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 	public void TryTilePush(Vector2Int WorldDirection, GameObject ByClient, float speed = Single.NaN,
 		UniversalObjectPhysics PushedBy = null)
 	{
+		if (PushedBy == this) return;
 		if (CanPush(WorldDirection))
 		{
 			ForceTilePush(WorldDirection, Pushing, ByClient, speed, PushedBy: PushedBy);
@@ -733,7 +741,13 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 				if (push == PushedBy) continue;
 				if (Pulling.HasComponent && Pulling.Component == push) continue;
 				if (PulledBy.HasComponent && PulledBy.Component == push) continue;
-				push.TryTilePush(WorldDirection, ByClient, speed, this);
+				if (PushedBy == null)
+				{
+					PushedBy = this;
+				}
+
+				var PushDirection = -1 * (this.transform.position - push.transform.position);
+				push.TryTilePush(PushDirection.To2Int(), ByClient, speed, PushedBy);
 			}
 		}
 
@@ -789,7 +803,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 			}
 			else
 			{
-				Pulling.Component.TryTilePush(InDirection.NormalizeTo2Int(), ByClient, speed);
+				Pulling.Component.TryTilePush(InDirection.NormalizeTo2Int(), ByClient, speed, PushedBy);
 			}
 		}
 	}
