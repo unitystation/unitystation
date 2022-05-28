@@ -70,7 +70,6 @@ namespace Systems.Explosions
 			ExplosionStrength = InExplosionStrength;
 
 			NodeType = nodeType;
-			Logger.Log("Setting up line, x0: " + X0.ToString() + "; y0: " + Y0.ToString() + "; x1: " + X1.ToString() + "; y1: " + Y1.ToString() + "; strength: " + InExplosionStrength.ToString() + "; node: " + nodeType.GetType().ToString());
 		}
 
 		public void Step()
@@ -94,7 +93,7 @@ namespace Systems.Explosions
 
 			if (NodePoint != null)
 			{
-				if (!NodePoint.ExplosionNodes.Any(p => p.GetType() == NodeType.GetType()))
+				if (NodePoint.ExplosionNodes.Any(p => p.GetType() == NodeType.GetType()) == false)
 				{
 					ExplosionNode expNode = (ExplosionNode)Activator.CreateInstance(NodeType.GetType());
 					NodePoint.ExplosionNodes.Add(expNode);
@@ -158,13 +157,13 @@ namespace Systems.Explosions
 
 			int Radius = 0;
 			if (fixedRadius <= 0)
-            {
+			{
 				Radius = (int)Math.Round(strength / (Math.PI * 75));
 			}
-            else
-            {
+			else
+			{
 				Radius = fixedRadius;
-            }
+			}
 			if (Radius > 150)
 			{
 				Radius = 150;
@@ -172,7 +171,7 @@ namespace Systems.Explosions
 
 			byte ShakingStrength = 0;
 			if (fixedShakingStrength <= 0 || fixedShakingStrength > 255)
-            {
+			{
 				ShakingStrength = 25;
 				if (strength > 800)
 				{
@@ -187,10 +186,10 @@ namespace Systems.Explosions
 					ShakingStrength = 255;
 				}
 			}
-            else
-            {
+			else
+			{
 				ShakingStrength = (byte)fixedShakingStrength;
-            }
+			}
 
 			ExplosionUtils.PlaySoundAndShake(WorldPOS, ShakingStrength, Radius / 20, nodeType.CustomSound);
 
