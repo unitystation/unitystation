@@ -163,6 +163,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 
 	[PlayModeOnly] public float spinMagnitude = 0;
 
+	[PlayModeOnly] public int ForcedPushedFrame = 0;
 	[PlayModeOnly] public int TryPushedFrame = 0;
 	[PlayModeOnly] public int PushedFrame = 0;
 	[PlayModeOnly] public bool FramePushDecision = true;
@@ -724,6 +725,12 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 		float speed = Single.NaN, bool IsWalk = false,
 		UniversalObjectPhysics PushedBy = null) //PushPull TODO Change to physics object
 	{
+		if (TryPushedFrame == Time.frameCount)
+		{
+			return;
+		}
+
+		TryPushedFrame = Time.frameCount;
 		if (isNotPushable) return;
 		//Nothing is pushing this (  mainly because I left it on player And forgot to turn it off ), And it was hard to tell it was on
 		doNotApplyMomentumOnTarget = false;

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Threading.Tasks;
+using Core.Threading;
 using Managers;
 using Mirror;
 using UnityEngine;
@@ -44,14 +45,12 @@ namespace Messages.Server.AdminTools
 
 		private static async Task SendMessageCo(ConnectedPlayer player, string adminToken)
 		{
+
+			await Task.Delay(3000);
 			ItemStorage adminGhostItemStorage = null;
 
 			UIManager.Instance.adminChatButtons.ServerUpdateAdminNotifications(player.Connection);
 			adminGhostItemStorage = AdminManager.Instance.GetItemSlotStorage(player);
-
-
-
-			await Task.Delay(3000);
 
 			Send(player, adminToken, adminGhostItemStorage.GetComponent<NetworkIdentity>().netId);
 		}
