@@ -896,9 +896,9 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 
 		var AddedLocalPosition =
 			(transform.position + NewMoveData.GlobalMoveDirection.TVectoro().To3())
-			.ToLocal(registerTile.Matrix);
+			.ToLocal(MatrixManager.Get(NewMoveData.MatrixID));
 
-		NewMoveData.LocalMoveDirection = VectorToPlayerMoveDirection((AddedLocalPosition - transform.localPosition).To2Int());
+		NewMoveData.LocalMoveDirection = VectorToPlayerMoveDirection((AddedLocalPosition - transform.position.ToLocal(MatrixManager.Get(NewMoveData.MatrixID))).To2Int());
 		//Because shuttle could be rotated   enough to make Global  Direction invalid As compared to server
 
 		if (Pushing.Count > 0)
@@ -1231,7 +1231,7 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 
 			//TODO Might be funny with changing to diagonal not too sure though
 			var AddedGlobalPosition =
-				(transform.localPosition + InMoveData.LocalMoveDirection.TVectoro().To3()).ToWorld(registerTile.Matrix);
+				(transform.position.ToLocal(MatrixManager.Get(InMoveData.MatrixID)) + InMoveData.LocalMoveDirection.TVectoro().To3()).ToWorld(MatrixManager.Get(InMoveData.MatrixID));
 
 			InMoveData.GlobalMoveDirection =
 				VectorToPlayerMoveDirection((AddedGlobalPosition - transform.position).To2Int());
