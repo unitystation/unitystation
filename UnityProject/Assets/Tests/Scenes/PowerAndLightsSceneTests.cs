@@ -46,7 +46,7 @@ namespace Tests.Scenes
 		/// if device is not assigned to this APC
 		/// </summary>
 		[Test]
-		public void APCsHaveConnectedDevices()
+		public void APCsConnectedDevicesContainsValidReferences()
 		{
 			var sceneName = Scene.name;
 			foreach (var device in RootObjects.ComponentsInChildren<APC>())
