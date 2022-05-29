@@ -675,7 +675,7 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 				else
 				{
 					if ((transform.position - Entry.LocalPosition.ToWorld(MatrixManager.Get(Entry.MatrixID))).magnitude >
-					    0.5f) //Resets play location if too far away
+					    0.75f) //Resets play location if too far away
 					{
 						Logger.LogError("Reset from distance from actual target" +
 						                (transform.position - Entry.LocalPosition.ToWorld(MatrixManager.Get(Entry.MatrixID))).magnitude + " SERVER : " +
