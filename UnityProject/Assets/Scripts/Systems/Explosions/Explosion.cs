@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 
 namespace Systems.Explosions
@@ -49,6 +48,35 @@ namespace Systems.Explosions
 
 		private ExplosionNode NodeType;
 
+		private bool IsAnyMatchingType(ExplosionNode[] expNodes, ExplosionNode nodeType)
+        {
+			foreach(ExplosionNode expNode in expNodes)
+            {
+				if (IsMatchingType(expNode, nodeType)) return true;
+            }
+			return false;
+        }
+
+		private bool IsMatchingType(ExplosionNode expNode, ExplosionNode nodeType)
+        {
+			if (expNode != null && nodeType != null) return expNode.GetType() == NodeType.GetType();
+			return false;
+		}
+
+		private int FirstNullValue(ExplosionNode[] expNodes)
+        {
+			int count = 0;
+			foreach(var val in expNodes)
+            {
+				if(val == null)
+                {
+					return count;
+                }
+				count++;
+            }
+			return -1;
+        }
+
 		public void SetUp(int X0, int Y0, int X1, int Y1, float InExplosionStrength, ExplosionNode nodeType)
 		{
 			x0 = X0;
@@ -93,16 +121,17 @@ namespace Systems.Explosions
 
 			if (NodePoint != null)
 			{
-				if (NodePoint.ExplosionNodes.Any(p => p.GetType() == NodeType.GetType()) == false)
+				if (IsAnyMatchingType(NodePoint.ExplosionNodes, NodeType) == false)
 				{
 					ExplosionNode expNode = (ExplosionNode)Activator.CreateInstance(NodeType.GetType());
-					NodePoint.ExplosionNodes.Add(expNode);
+					int fnull = FirstNullValue(NodePoint.ExplosionNodes);
+					if (fnull >= 0) NodePoint.ExplosionNodes[fnull] = expNode;
 					expNode.Initialise(Local, Matrix.Matrix);
 				}
 
 				foreach (ExplosionNode expNode in NodePoint.ExplosionNodes) //separating explosion nodes of our type from others, so we dont interfere with EMPs or whatever
 				{
-					if (expNode.GetType() == NodeType.GetType())
+					if (IsMatchingType(expNode, NodeType))
 					{
 						expNode.AngleAndIntensity += GetXYDirection(Angle, ExplosionStrength);
 						expNode.PresentLines.Add(this);
