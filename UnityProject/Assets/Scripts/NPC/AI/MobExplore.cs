@@ -212,6 +212,7 @@ namespace Systems.MobAIs
 		//gets nearest available target
 		private void RefreshTargetPos()
 		{
+			return;
 			if (visionCircleArea.Count < 1)
 			{
 				UpdateVisionArea();
@@ -249,7 +250,7 @@ namespace Systems.MobAIs
 					else return interactableTiles.MetaTileMap.GetTile(checkPos)?.LayerType == LayerType.Floors;
 				case Target.injuredPeople:
 					var players = mobTile.Matrix.Get<PlayerScript>(checkPos, true);
-					
+
 					foreach(PlayerScript player in players)
 					{
 						if (player != null && player != recentPatient)
