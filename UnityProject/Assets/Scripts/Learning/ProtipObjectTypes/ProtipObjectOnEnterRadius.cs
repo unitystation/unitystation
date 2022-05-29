@@ -12,9 +12,12 @@ namespace Learning.ProtipObjectTypes
 		public float SearchCooldown = 6f;
 		public LayerMask MaskToCheck;
 
+		private bool playerSearching = false;
+
 		private void Start()
 		{
 			if(CustomNetworkManager.IsHeadless) return;
+			if (gameObject == PlayerManager.LocalPlayerScript.gameObject) playerSearching = true;
 			if(ProtipManager.Instance.PlayerExperienceLevel == ProtipManager.ExperienceLevel.Robust) return;
 			UpdateManager.Add(CheckForNearbyItems, SearchCooldown);
 		}
@@ -33,7 +36,7 @@ namespace Learning.ProtipObjectTypes
 					var targetTracker = target.GetComponent<PrefabTracker>();
 					if(prefabTracker == null || targetTracker == null) continue;
 					if(prefabTracker.ForeverID != targetTracker.ForeverID) continue;
-					TriggerTip(data.AssoicatedSo, gameObject);
+					TriggerTip(data.AssoicatedSo, playerSearching ? gameObject : null);
 					ObjectsToCheck.Remove(data);
 					break;
 				}

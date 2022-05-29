@@ -32,7 +32,9 @@ namespace Learning
 
 		protected virtual bool TriggerConditions(GameObject triggeredBy)
 		{
-			if (PlayerManager.LocalPlayerScript == null) return false; //To avoid issues with NREs, Protips should only trigger if a PlayerScript exists.
+			//To avoid issues with NREs, Protips should only trigger if a PlayerScript exists.
+			if (PlayerManager.LocalPlayerScript == null) return false; 
+			//triggeredBy check should only be null when you want a global protip incase of something like an event
 			if (triggeredBy != null && triggeredBy != PlayerManager.LocalPlayerScript.gameObject) return false;
 			if (isOnCooldown) return false;
 			if (hasBeenTriggeredBefore) return false;
