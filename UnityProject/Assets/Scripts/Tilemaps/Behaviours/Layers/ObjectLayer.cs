@@ -249,7 +249,15 @@ public class ObjectLayer : Layer
 			if (o.IsPassableFromOutside(origin, isServer, context.OrNull().gameObject) == false
 			    && (context == null || o.OrNull()?.gameObject != context.OrNull()?.gameObject))
 			{
-				if (PushingCalculation(o, originalFrom ?? origin, originalTo ?? to, Pushings, Bumps, ref PushObjectSet,
+				var PushDirection = (o.transform.localPosition - (originalFrom ?? origin)).To2Int();
+				if (PushDirection == Vector2Int.zero)
+				{
+					PushDirection = ((originalTo ?? to) - (originalFrom ?? origin)).To2Int();
+				}
+
+				var theOriginal = originalFrom ?? origin;
+
+				if (PushingCalculation(o, originalFrom ?? origin,(theOriginal + (Vector3Int) PushDirection) , Pushings, Bumps, ref PushObjectSet,
 					    ref CanPushObjects, context, Hits))
 				{
 					return false;
