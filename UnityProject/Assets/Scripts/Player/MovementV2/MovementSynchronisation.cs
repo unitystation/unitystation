@@ -37,8 +37,6 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 	[SyncVar(hook = nameof(SyncIntent))] [NonSerialized]
 	public Intent intent; //TODO Cleanup in mind rework
 
-
-
 	/// <summary>
 	/// Invoked on server side when the cuffed state is changed
 	/// </summary>
@@ -453,6 +451,13 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 				SyncMovementSpeed(TileMoveSpeed, CrawlSpeed);
 				break;
 		}
+	}
+
+	[Command]
+	public void CmdChangeCurrentWalkMode(bool isRunning)
+	{
+		if (CurrentMovementType == MovementType.Crawling) return;
+		CurrentMovementType = isRunning ? MovementType.Running : MovementType.Walking;
 	}
 
 	public override void OnEnable()
