@@ -277,7 +277,7 @@ public class Matrix : MonoBehaviour
 		return MetaTileMap.IsNoGravityAt(position, isServer);
 	}
 
-	public IEnumerable<RegisterTile> GetRegisterTile(Vector3Int localPosition, bool isServer)
+	public List<RegisterTile> GetRegisterTile(Vector3Int localPosition, bool isServer)
 	{
 		return (isServer ? ServerObjects : ClientObjects).Get(localPosition);
 	}

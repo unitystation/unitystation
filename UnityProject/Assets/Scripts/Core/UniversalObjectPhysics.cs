@@ -45,9 +45,10 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 	/// <summary>
 	/// Maximum speed player can reach by throwing stuff in space
 	/// </summary>
-	public const float MAX_NEWTONIAN_SPEED = 12;
+	public const float MAX_SPEED = 25;
 
-	public const int HIGH_SPEED_COLLISION_THRESHOLD = 15;
+	public const int HIGH_SPEED_COLLISION_THRESHOLD = 13;
+
 
 	//public const float DEFAULT_Friction = 9999999999999f;
 	public const float DEFAULT_Friction = 15f;
@@ -725,12 +726,12 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 		float speed = Single.NaN, bool IsWalk = false,
 		UniversalObjectPhysics PushedBy = null) //PushPull TODO Change to physics object
 	{
-		if (TryPushedFrame == Time.frameCount)
+		if (ForcedPushedFrame == Time.frameCount)
 		{
 			return;
 		}
 
-		TryPushedFrame = Time.frameCount;
+		ForcedPushedFrame = Time.frameCount;
 		if (isNotPushable) return;
 		//Nothing is pushing this (  mainly because I left it on player And forgot to turn it off ), And it was hard to tell it was on
 		doNotApplyMomentumOnTarget = false;
@@ -753,8 +754,12 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 					PushedBy = this;
 				}
 
-				var PushDirection = -1 * (this.transform.position - push.transform.position);
-				push.TryTilePush(PushDirection.To2Int(), ByClient, speed, PushedBy);
+				var PushDirection = -1 * (this.transform.position - push.transform.position).To2Int();
+				if (PushDirection == Vector2Int.zero)
+				{
+					PushDirection = WorldDirection;
+				}
+				push.TryTilePush(PushDirection, ByClient, speed, PushedBy);
 			}
 		}
 
@@ -979,6 +984,11 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 			}
 
 			newtonianMovement += WorldDirection * speed;
+			if (newtonianMovement.magnitude > MAX_SPEED)
+			{
+				newtonianMovement *= (MAX_SPEED / newtonianMovement.magnitude);
+			}
+
 			if (float.IsNaN(INairTime) == false)
 			{
 				if (INairTime < 0)
@@ -1008,6 +1018,11 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 			}
 
 			newtonianMovement += WorldDirection * speed;
+			if (newtonianMovement.magnitude > MAX_SPEED)
+			{
+				newtonianMovement *= (MAX_SPEED / newtonianMovement.magnitude);
+			}
+
 		}
 
 		OnThrowStart.Invoke(this);
@@ -1272,9 +1287,13 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 
 					var Normal = (intposition - intNewposition).ToNonInt3();
 					Newposition = position;
-					newtonianMovement -= 2 * (newtonianMovement * Normal) * Normal;
+					if (CashednewtonianMovement.magnitude < 10)
+					{
+						newtonianMovement -= 2 * (newtonianMovement * Normal) * Normal;
+						spinMagnitude *= -1;
+					}
 					newtonianMovement *= 0.5f;
-					spinMagnitude *= -1;
+
 				}
 
 				var IAV2 = (attributes as ItemAttributesV2);
