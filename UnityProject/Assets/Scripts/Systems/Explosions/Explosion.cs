@@ -49,33 +49,33 @@ namespace Systems.Explosions
 		private ExplosionNode NodeType;
 
 		private bool IsAnyMatchingType(ExplosionNode[] expNodes, ExplosionNode nodeType)
-        {
+		{
 			foreach(ExplosionNode expNode in expNodes)
-            {
+			{
 				if (IsMatchingType(expNode, nodeType)) return true;
-            }
+			}
 			return false;
-        }
+		}
 
 		private bool IsMatchingType(ExplosionNode expNode, ExplosionNode nodeType)
-        {
+		{
 			if (expNode != null && nodeType != null) return expNode.GetType() == NodeType.GetType();
 			return false;
 		}
 
 		private int FirstNullValue(ExplosionNode[] expNodes)
-        {
+		{
 			int count = 0;
 			foreach(var val in expNodes)
-            {
+			{
 				if(val == null)
-                {
+				{
 					return count;
-                }
+				}
 				count++;
-            }
+			}
 			return -1;
-        }
+		}
 
 		public void SetUp(int X0, int Y0, int X1, int Y1, float InExplosionStrength, ExplosionNode nodeType)
 		{
