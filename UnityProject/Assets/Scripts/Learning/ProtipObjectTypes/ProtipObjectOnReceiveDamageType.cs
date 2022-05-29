@@ -19,7 +19,7 @@ namespace Learning.ProtipObjectTypes
 
 		private void DamageTypeSimilar(DamageType type)
 		{
-			if(type == damageTypeThatTriggersTip) TriggerTip();
+			if(type == damageTypeThatTriggersTip) TriggerTip(gameObject);
 		}
 	}
 }

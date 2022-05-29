@@ -33,7 +33,7 @@ namespace Learning.ProtipObjectTypes
 					var targetTracker = target.GetComponent<PrefabTracker>();
 					if(prefabTracker == null || targetTracker == null) continue;
 					if(prefabTracker.ForeverID != targetTracker.ForeverID) continue;
-					TriggerTip(data.AssoicatedSo);
+					TriggerTip(data.AssoicatedSo, gameObject);
 					ObjectsToCheck.Remove(data);
 					break;
 				}
