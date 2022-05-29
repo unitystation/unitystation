@@ -283,7 +283,7 @@ public class RegisterPlayer : RegisterTile, IServerSpawn, RegisterPlayer.IContro
 	[Server]
 	public void ServerStun(float stunDuration = 4f, bool dropItem = true, bool checkForArmor = true, bool showSparkFeedback = false)
 	{
-		bool CheckArmorCanStun()
+		bool CheckArmorStunImmunity()
 		{
 			foreach (var bodyPart in PlayerScript.playerHealth.SurfaceBodyParts)
 			{
@@ -296,7 +296,7 @@ public class RegisterPlayer : RegisterTile, IServerSpawn, RegisterPlayer.IContro
 			return false;
 		}
 
-		if (checkForArmor && CheckArmorCanStun())
+		if (checkForArmor && CheckArmorStunImmunity()) 
 		{
 			if(showSparkFeedback) SparkUtil.TrySpark(PlayerScript.gameObject);
 			return;
