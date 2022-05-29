@@ -163,6 +163,8 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 
 	[PlayModeOnly] public float spinMagnitude = 0;
 
+	[PlayModeOnly] public int ForcedPushedFrame = 0;
+	[PlayModeOnly] public int TryPushedFrame = 0;
 	[PlayModeOnly] public int PushedFrame = 0;
 	[PlayModeOnly] public bool FramePushDecision = true;
 
@@ -364,9 +366,13 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 
 	[ClientRpc]
 	public void UpdateClientMomentum(Vector3 ReSetToLocal, Vector2 NewMomentum, float InairTime, float InslideTime,
-		int MatrixID, float InspinFactor, bool ForceOverride)
+		int MatrixID, float InspinFactor, bool ForceOverride, uint DoNotUpdateThisClient)
 	{
 		if (isServer) return;
+		if (DoNotUpdateThisClient != NetId.Empty && DoNotUpdateThisClient != NetId.Invalid &&
+		    NetworkIdentity.spawned.ContainsKey(DoNotUpdateThisClient) && NetworkIdentity.spawned[DoNotUpdateThisClient].gameObject  == PlayerManager.LocalPlayer) return;
+
+
 		//if (isLocalPlayer) return; //We are updating other Objects than the player on the client //TODO Also block if being pulled by local player //Why we need this?
 		newtonianMovement = NewMomentum;
 		airTime = InairTime;
@@ -679,6 +685,12 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 		{
 			return FramePushDecision;
 		}
+		else if (TryPushedFrame == Time.frameCount)
+		{
+			return false;
+		}
+
+		TryPushedFrame = Time.frameCount;
 		//TODO Secured stuff
 		Pushing.Clear();
 		Bumps.Clear();
@@ -702,6 +714,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 	public void TryTilePush(Vector2Int WorldDirection, GameObject ByClient, float speed = Single.NaN,
 		UniversalObjectPhysics PushedBy = null)
 	{
+		if (PushedBy == this) return;
 		if (CanPush(WorldDirection))
 		{
 			ForceTilePush(WorldDirection, Pushing, ByClient, speed, PushedBy: PushedBy);
@@ -712,6 +725,12 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 		float speed = Single.NaN, bool IsWalk = false,
 		UniversalObjectPhysics PushedBy = null) //PushPull TODO Change to physics object
 	{
+		if (TryPushedFrame == Time.frameCount)
+		{
+			return;
+		}
+
+		TryPushedFrame = Time.frameCount;
 		if (isNotPushable) return;
 		//Nothing is pushing this (  mainly because I left it on player And forgot to turn it off ), And it was hard to tell it was on
 		doNotApplyMomentumOnTarget = false;
@@ -729,7 +748,13 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 				if (push == PushedBy) continue;
 				if (Pulling.HasComponent && Pulling.Component == push) continue;
 				if (PulledBy.HasComponent && PulledBy.Component == push) continue;
-				push.TryTilePush(WorldDirection, ByClient, speed, this);
+				if (PushedBy == null)
+				{
+					PushedBy = this;
+				}
+
+				var PushDirection = -1 * (this.transform.position - push.transform.position);
+				push.TryTilePush(PushDirection.To2Int(), ByClient, speed, PushedBy);
 			}
 		}
 
@@ -785,7 +810,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 			}
 			else
 			{
-				Pulling.Component.TryTilePush(InDirection.NormalizeTo2Int(), ByClient, speed);
+				Pulling.Component.TryTilePush(InDirection.NormalizeTo2Int(), ByClient, speed, PushedBy);
 			}
 		}
 	}
@@ -929,7 +954,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 
 	public void NewtonianPush(Vector2 WorldDirection, float speed = Single.NaN, float INairTime = Single.NaN,
 		float INslideTime = Single.NaN, BodyPartType inaim = BodyPartType.Chest, GameObject inthrownBy = null,
-		float spinFactor = 0) //Collision is just naturally part of Newtonian push
+		float spinFactor = 0, GameObject DoNotUpdateThisClient = null) //Collision is just naturally part of Newtonian push
 	{
 		if (isNotPushable) return;
 
@@ -997,7 +1022,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 				{
 					LastUpdateClientFlying = NetworkTime.time;
 					UpdateClientMomentum(transform.localPosition, newtonianMovement, airTime, slideTime,
-						registerTile.Matrix.Id, spinFactor, true);
+						registerTile.Matrix.Id, spinFactor, true, DoNotUpdateThisClient.NetId());
 				}
 			}
 		}
@@ -1091,7 +1116,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 					UpdateManager.Add(CallbackType.UPDATE, FlyingUpdateMe);
 					if (isServer)
 						UpdateClientMomentum(transform.localPosition, newtonianMovement, airTime, slideTime,
-							registerTile.Matrix.Id, spinMagnitude, false);
+							registerTile.Matrix.Id, spinMagnitude, false, NetId.Empty);
 				}
 			}
 		}
@@ -1313,7 +1338,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 			{
 				LastUpdateClientFlying = NetworkTime.time;
 				UpdateClientMomentum(transform.localPosition, newtonianMovement, airTime, slideTime,
-					registerTile.Matrix.Id, spinMagnitude, true);
+					registerTile.Matrix.Id, spinMagnitude, true, NetId.Empty);
 			}
 		}
 

@@ -273,8 +273,12 @@ namespace Systems.MobAIs
 		/// <summary>
 		/// Begins exploring for the target
 		/// </summary>
-		protected void BeginExploring(MobExplore.Target target = MobExplore.Target.food, float exploreDuration = -1f)
+		protected void BeginExploring(MobExplore.Target target = MobExplore.Target.none, float exploreDuration = -1f)
 		{
+			if (target == MobExplore.Target.none)
+            {
+				target = mobExplore.target; //so we don't interfere with existing target in MobExplore if it's set
+            }
 			ResetBehaviours();
 			mobExplore.BeginExploring(target);
 			exploreTimeMax = exploreDuration;

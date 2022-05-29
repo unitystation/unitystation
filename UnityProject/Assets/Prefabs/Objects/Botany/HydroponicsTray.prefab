@@ -341,7 +341,6 @@ MonoBehaviour:
   maxCapacity: 200
   reactionSet: {fileID: 0}
   AdditionalReactions: []
-  canPourOut: 1
   initialReagentMix:
     temperature: 300
     reagents:
@@ -354,6 +353,7 @@ MonoBehaviour:
     reagentKeys: []
   destroyOnEmpty: 0
   ContentsSet: 0
+  menuOptions: -1
   UseStandardExamine: 1
   ExamineAmount: 0
   ExamineContent: 0
@@ -398,6 +398,7 @@ MonoBehaviour:
     Magic: 0
     Bio: 0
     DismembermentProtectionChance: 0
+    StunImmunity: 0
   Resistances:
     LavaProof: 0
     FireProof: 0
@@ -511,28 +512,27 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  DEBUG: 0
   SnapToGridOnStart: 0
-  Collider: {fileID: 0}
-  TileMoveSpeedOverride: 0
-  floorDecal: {fileID: 0}
   LocalTargetPosition: {x: 0, y: 0, z: 0}
-  rotatable: {fileID: 0}
-  TileMoveSpeed: 1
-  SynchLocalTargetPosition: {x: 0, y: 0, z: 0}
+  ChangesDirectionPush: 0
+  Intangible: 0
+  InitialLocationSynchronised: 0
+  tileMoveSpeed: 1
+  isNotPushable: 1
   newtonianMovement: {x: 0, y: 0}
   airTime: 0
   slideTime: 0
   thrownBy: {fileID: 0}
   aim: 0
   spinMagnitude: 0
+  PushedFrame: 0
+  FramePushDecision: 1
   stickyMovement: 0
   maximumStickSpeed: 1.5
   onStationMovementsRound: 0
   attributes: {fileID: 0}
   registerTile: {fileID: 0}
-  defaultInteractionLayerMask:
-    serializedVersion: 2
-    m_Bits: 0
   ContextGameObjects:
   - {fileID: 0}
   - {fileID: 0}
@@ -545,10 +545,8 @@ MonoBehaviour:
   AIR: 3
   SLIDE: 4
   Animating: 0
-  LastDifference: {x: 0, y: 0, z: 0}
   IsFlyingSliding: 0
   IsMoving: 0
-  IsWalking: 0
   MoveIsWalking: 0
   LastUpdateClientFlying: 0
 --- !u!1 &1998759520953530410

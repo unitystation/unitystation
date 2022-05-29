@@ -34,7 +34,8 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 	[SyncVar(hook = nameof(SyncInput))] [NonSerialized]
 	public bool allowInput = true; //Should be synchvar far
 
-	[SyncVar] public Intent intent; //TODO Cleanup in mind rework
+	[SyncVar(hook = nameof(SyncIntent))] [NonSerialized]
+	public Intent intent; //TODO Cleanup in mind rework
 
 	/// <summary>
 	/// Invoked on server side when the cuffed state is changed
@@ -309,6 +310,12 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 	{
 		allowInput = NewInput;
 	}
+
+	private void SyncIntent(Intent OLDIntent, Intent NEWIntent)
+	{
+		OLDIntent = NEWIntent;
+	}
+
 
 	// syncvar hook invoked client side when the buckledTo changes
 	private void SyncBuckledObject(UniversalObjectPhysics oldBuckledTo, UniversalObjectPhysics newBuckledTo)
@@ -972,14 +979,14 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 
 			//move
 			ForceTilePush(NewMoveData.GlobalMoveDirection.TVectoro().To2Int(), Pushing, ByClient,
-				IsWalk: true);
+				IsWalk: true, PushedBy : this);
 
 			SetMatrixCash.ResetNewPosition(registerTile.WorldPosition); //Resets the cash
 
 			if (CausesSlipClient)
 			{
 				NewtonianPush(NewMoveData.GlobalMoveDirection.TVectoro().To2Int(), TileMoveSpeed, Single.NaN, 4,
-					spinFactor: 35);
+					spinFactor: 35, DoNotUpdateThisClient:ByClient );
 
 				var Player = registerTile as RegisterPlayer;
 				Player.OrNull()?.ServerSlip();

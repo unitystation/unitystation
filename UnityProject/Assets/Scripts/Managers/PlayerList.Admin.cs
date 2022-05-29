@@ -375,6 +375,19 @@ public partial class PlayerList
 		{
 			Logger.Log($"{unverifiedConnPlayer.Username} logged in successfully in offline mode. " +
 					   $"userid: {unverifiedConnPlayer.UserId}", Category.Admin);
+
+			var AuserId = unverifiedConnPlayer.UserId;
+			adminUsers.Add(AuserId);
+			var user = GetByUserID(AuserId);
+
+			if (user == null) return false;
+
+			var newToken = Guid.NewGuid().ToString();
+			if (!loggedInAdmins.ContainsKey(AuserId))
+			{
+				loggedInAdmins.Add(AuserId, newToken);
+				AdminEnableMessage.SendMessage(user, newToken);
+			}
 			return true;
 		}
 
@@ -463,7 +476,7 @@ public partial class PlayerList
 		var isAdmin = adminUsers.Contains(userId);
 
 		//Adds server to admin list if not already in it.
-		if (true)
+		if (userId == ServerData.UserID && isAdmin == false)
 		{
 			File.AppendAllLines(adminsPath, new string[]
 			{
