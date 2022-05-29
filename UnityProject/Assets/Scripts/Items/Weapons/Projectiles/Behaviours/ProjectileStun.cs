@@ -39,7 +39,7 @@ namespace Weapons.Projectiles.Behaviours
 			var player = coll.GetComponent<RegisterPlayer>();
 			if (player == null) return false;
 
-			player.ServerStun(stunTime, willDisarm, passThroughStunImmunity);
+			player.ServerStun(stunTime, willDisarm, passThroughStunImmunity, true);
 
 			if (doMsg)
 			{
