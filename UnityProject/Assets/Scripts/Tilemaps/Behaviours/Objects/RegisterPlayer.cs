@@ -281,7 +281,7 @@ public class RegisterPlayer : RegisterTile, IServerSpawn, RegisterPlayer.IContro
 	/// <param name="stunDuration">Time before the stun is removed.</param>
 	/// <param name="dropItem">If items in the hand slots should be dropped on stun.</param>
 	[Server]
-	public void ServerStun(float stunDuration = 4f, bool dropItem = true, bool checkForArmor = true, bool showSparkFeedback = false)
+	public void ServerStun(float stunDuration = 4f, bool dropItem = true, bool checkForArmor = true, Action stunImmunityFeedback = null)
 	{
 		bool CheckArmorStunImmunity()
 		{
@@ -298,9 +298,10 @@ public class RegisterPlayer : RegisterTile, IServerSpawn, RegisterPlayer.IContro
 
 		if (checkForArmor && CheckArmorStunImmunity()) 
 		{
-			if(showSparkFeedback) SparkUtil.TrySpark(PlayerScript.gameObject);
+			if(stunImmunityFeedback != null) stunImmunityFeedback();
 			return;
 		}
+
 		var oldVal = IsSlippingServer;
 		IsSlippingServer = true;
 		ServerCheckStandingChange( true);
