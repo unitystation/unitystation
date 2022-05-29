@@ -52,8 +52,6 @@ namespace Tests.Scenes
 			foreach (var device in RootObjects.ComponentsInChildren<APC>())
 			{
 				var deviceName = device.name;
-				Report.FailIf(device.ConnectedDevices.Count, Is.EqualTo(0))
-					.AppendLine($"{sceneName}: \"{deviceName}\" has an empty list of devices.");
 
 				foreach (var connectedDevice in device.ConnectedDevices)
 				{
