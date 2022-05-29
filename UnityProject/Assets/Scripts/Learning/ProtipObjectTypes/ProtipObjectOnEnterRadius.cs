@@ -28,7 +28,8 @@ namespace Learning.ProtipObjectTypes
 			foreach (var target in possibleTargets)
 			{
 				if(gameObject == target.gameObject) continue;
-				if (MatrixManager.Linecast(gameObject.RegisterTile().WorldPosition, LayerTypeSelection.Walls,
+				
+				if (MatrixManager.Linecast(Vector3.ClampMagnitude(gameObject.RegisterTile().LocalPositionClient, SearchRadius), LayerTypeSelection.Walls,
 					    MaskToCheck, target.gameObject.RegisterTile().WorldPosition).ItHit) continue;
 				foreach (var data in ObjectsToCheck)
 				{
