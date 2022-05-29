@@ -38,7 +38,7 @@ namespace Systems.Scenes
 		[SerializeField]
 		private RandomItemSpot mobPools = null;
 
-		private void Awake()
+		private void Start()
 		{
 			LavaLandManager.Instance.randomGenScripts.Add(this);
 
