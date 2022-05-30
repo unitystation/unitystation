@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4000010398824326}
   - component: {fileID: 212000011035671136}
+  - component: {fileID: 4133933947125843288}
   m_Layer: 19
   m_Name: Sprite
   m_TagString: Untagged
@@ -24,7 +25,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1000012866604890}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -73,7 +74,7 @@ SpriteRenderer:
   m_SortingLayerID: 142874271
   m_SortingLayer: 12
   m_SortingOrder: 1
-  m_Sprite: {fileID: 21300000, guid: 255e9e6716483e5429e863f683211e5e, type: 3}
+  m_Sprite: {fileID: 956801648, guid: eb038e15353257647910c810f3b8f6e3, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -84,6 +85,27 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &4133933947125843288
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1000012866604890}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  NetworkThis: 1
+  SubCatalogue:
+  - {fileID: 11400000, guid: 1d9889e84a4e0cc439a21887155429d7, type: 2}
+  PresentSpriteSet: {fileID: 11400000, guid: 1d9889e84a4e0cc439a21887155429d7, type: 2}
+  randomInitialSprite: 0
+  doReverseAnimation: 0
+  pushTextureOnStartUp: 1
+  initialVariantIndex: 0
+  palette: []
 --- !u!1 &1000012867342320
 GameObject:
   m_ObjectHideFlags: 0
@@ -102,6 +124,7 @@ GameObject:
   - component: {fileID: 114424016656816112}
   - component: {fileID: -4200185537629918332}
   - component: {fileID: -4512905668311285164}
+  - component: {fileID: 844616233261102074}
   m_Layer: 11
   m_Name: KitchenSink
   m_TagString: Untagged
@@ -116,7 +139,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1000012867342320}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -167,7 +190,7 @@ MonoBehaviour:
   syncInterval: 0.1
   matrixDebugLogging: 0
   objectType: 1
-  customNetTransform: {fileID: 0}
+  customNetTransform: {fileID: 114083128491867546}
   prefabTracker: {fileID: 0}
   CurrentsortingGroup: {fileID: 0}
   AtmosPassable: 1
@@ -255,6 +278,7 @@ MonoBehaviour:
     Magic: 0
     Bio: 0
     DismembermentProtectionChance: 0
+    StunImmunity: 0
   Resistances:
     LavaProof: 0
     FireProof: 0
@@ -314,3 +338,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62cc3ef7cd9082443aaf3c255851d15a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &844616233261102074
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1000012867342320}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 819809cff2481914d883a6e1fefb4edd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  MethodRotation: 0
+  ChangeSprites: 1
+  isChangingSO: 0
+  CurrentDirection: -1
+  IgnoreServerUpdatesIfLocalPlayer: 0
+  IsAtmosphericDevice: 0
+  doNotResetOtherSpriteOptions: 0
