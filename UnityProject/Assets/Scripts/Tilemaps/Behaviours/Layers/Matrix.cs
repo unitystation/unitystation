@@ -263,6 +263,11 @@ public class Matrix : MonoBehaviour
 		return MetaTileMap.HasTile(position, LayerType.Grills);
 	}
 
+	public bool IsFloorAt(Vector3Int position, bool isServer)
+	{
+		return MetaTileMap.HasTile(position, LayerType.Floors);
+	}
+
 	public bool IsEmptyAt(Vector3Int position, bool isServer)
 	{
 		return MetaTileMap.IsEmptyAt(position, isServer);
