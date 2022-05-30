@@ -168,9 +168,9 @@ public static class Inventory
 	/// <param name="spinMode"></param>
 	/// <param name="aim">body part to target</param>
 	/// <returns>true if successful</returns>
-	public static bool ServerThrow(ItemSlot fromSlot, Vector2 worldTargetVector, SpinMode spinMode = SpinMode.CounterClockwise, BodyPartType aim = BodyPartType.Chest)
+	public static bool ServerThrow(ItemSlot fromSlot, Vector2 worldTargetVector, BodyPartType aim = BodyPartType.Chest)
 	{
-		return ServerPerform(InventoryMove.Throw(fromSlot, worldTargetVector, spinMode, aim));
+		return ServerPerform(InventoryMove.Throw(fromSlot, worldTargetVector, aim));
 	}
 
 	/// <summary>

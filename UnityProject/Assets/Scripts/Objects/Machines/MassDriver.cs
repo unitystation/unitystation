@@ -145,16 +145,6 @@ namespace Objects
 		private void ThrowItem(UniversalObjectPhysics item, Vector3 throwVector)
 		{
 			Vector3 vector = item.transform.rotation * throwVector;
-			var spin = RandomUtils.RandomSpin();
-			ThrowInfo throwInfo = new ThrowInfo
-			{
-				ThrownBy = gameObject,
-				Aim = BodyPartType.Chest,
-				OriginWorldPos = transform.position,
-				WorldTrajectory = vector,
-				SpinMode = spin
-			};
-
 			UniversalObjectPhysics itemTransform = item.GetComponent<UniversalObjectPhysics>();
 			if (itemTransform == null) return;
 			itemTransform.NewtonianPush(vector, 1, inaim:BodyPartType.Chest ,inthrownBy : gameObject );

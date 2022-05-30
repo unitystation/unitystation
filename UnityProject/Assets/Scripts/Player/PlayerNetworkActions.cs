@@ -375,8 +375,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		Vector3 targetVector = TargetLocalPosition.ToWorld(playerMove.registerTile.Matrix) - playerMove.transform.position;
 		if (slot.Item != null)
 		{
-			Inventory.ServerThrow(slot, targetVector,
-				slot.NamedSlot == NamedSlot.leftHand ? SpinMode.Clockwise : SpinMode.CounterClockwise, (BodyPartType) aim);
+			Inventory.ServerThrow(slot, targetVector, (BodyPartType) aim);
 		}
 		else if (playerMove.Pulling.HasComponent)
 		{
