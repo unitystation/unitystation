@@ -381,7 +381,7 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IActi
 		RefreshVisibleName();
 	}
 
-	public bool IsHidden => false; //TODO
+	public bool IsHidden => PlayerSync.IsVisible == false;
 
 	/// <summary>
 	/// True if this player is a ghost, meaning they exist in the ghost layer
@@ -444,7 +444,7 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IActi
 	/// <param name="context">If not null, will ignore collisions caused by this gameobject</param>
 	public bool IsPositionReachable(Vector3 otherPosition, bool isServer, float interactDist = interactionDistance, GameObject context = null)
 	{
-		return Validations.IsReachableByPositions(isServer ? registerTile.WorldPositionServer : registerTile.WorldPositionClient, otherPosition, isServer, interactDist, context: context);
+		return Validations.IsReachableByPositions(isServer ? registerTile.WorldPositionServer : registerTile.WorldPosition, otherPosition, isServer, interactDist, context: context);
 	}
 
 	/// <summary>

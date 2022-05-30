@@ -125,7 +125,7 @@ public class WeaponNetworkActions : NetworkBehaviour
 			if (weaponAttributes != null && weaponAttributes.hitSoundSettings != SoundItemSettings.OnlyItem)
 			{
 				AudioSourceParameters audioSourceParameters = new AudioSourceParameters(pitch: Random.Range(0.9f, 1.1f));
-				SoundManager.PlayNetworkedAtPos(integrity.soundOnHit, gameObject.WorldPosServer(), audioSourceParameters, sourceObj: gameObject);
+				SoundManager.PlayNetworkedAtPos(integrity.soundOnHit, gameObject.AssumedWorldPosServer(), audioSourceParameters, sourceObj: gameObject);
 			}
 
 			integrity.ApplyDamage(damage, AttackType.Melee, damageType);

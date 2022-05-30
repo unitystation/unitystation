@@ -15,7 +15,7 @@ namespace UI.Objects.Cargo
 
 		public void DispenseMaterial(int amount)
 		{
-			materialList.materialStorageLink.usedStorage.DispenseSheet(amount, materialType, materialList.materialStorageLink.gameObject.WorldPosServer());
+			materialList.materialStorageLink.usedStorage.DispenseSheet(amount, materialType, materialList.materialStorageLink.gameObject.AssumedWorldPosServer());
 		}
 
 		public void SetValues(ItemTrait material, int amount, GUI_MaterialsList matListDisplay)

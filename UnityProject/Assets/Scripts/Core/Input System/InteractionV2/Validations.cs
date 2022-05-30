@@ -268,7 +268,7 @@ public static class Validations
 
 				if (target.TryGetComponent(out UniversalObjectPhysics uop))
 				{
-					worldPosition = uop.transform.position;
+					worldPosition = uop.OfficialPosition;
 					isFloating = uop.IsCurrentlyFloating;
 				}
 			}
@@ -419,13 +419,13 @@ public static class Validations
 		}
 		else
 		{
-			return IsReachableByPositions(from.WorldPositionClient, to.WorldPositionClient, isServer, interactDist, context: context);
+			return IsReachableByPositions(from.WorldPosition, to.WorldPosition, isServer, interactDist, context: context);
 		}
 	}
 
 	private static bool ServerCanReachExtended(PlayerScript ps, UniversalObjectPhysics state, GameObject context = null)
 	{
-		return ps.IsPositionReachable(state.transform.position, true) || ps.IsPositionReachable(state.transform.position - (Vector3)state.newtonianMovement, true, 1.75f, context: context);
+		return ps.IsPositionReachable(state.OfficialPosition, true) || ps.IsPositionReachable(state.OfficialPosition - (Vector3)state.newtonianMovement, true, 1.75f, context: context);
 	}
 
 	//AiActivate Validation

@@ -758,7 +758,7 @@ namespace Objects.Construction
 				foreach (var part in machineParts.machineParts)
 				{
 					//Spawn the part
-					var partObj = Spawn.ServerPrefab(part.basicItem, gameObject.WorldPosServer(), gameObject.transform.parent, count: part.amountOfThisPart).GameObject;
+					var partObj = Spawn.ServerPrefab(part.basicItem, gameObject.AssumedWorldPosServer(), gameObject.transform.parent, count: part.amountOfThisPart).GameObject;
 
 					//Transfer vendor content if possible
 					var restock = partObj.GetComponent<VendingRestock>();
@@ -778,7 +778,7 @@ namespace Objects.Construction
 						continue;
 					}
 
-					var pos = gameObject.GetComponent<UniversalObjectPhysics>().transform.position;
+					var pos = gameObject.AssumedWorldPosServer();
 
 					item.Key.GetComponent<UniversalObjectPhysics>().AppearAtWorldPositionServer(pos);
 				}

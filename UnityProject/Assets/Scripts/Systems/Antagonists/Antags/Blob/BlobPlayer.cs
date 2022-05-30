@@ -424,7 +424,7 @@ namespace Blob
 				return;
 			}
 
-			playerSync.AppearAtWorldPositionServer(node.WorldPosServer());
+			playerSync.AppearAtWorldPositionServer(node.AssumedWorldPosServer());
 		}
 
 		#endregion
@@ -1742,7 +1742,7 @@ namespace Blob
 		{
 			if(info.DamageType != DamageType.Burn && info.AttackType != AttackType.Fire) return;
 
-			var pos = info.AttackedIntegrity.gameObject.WorldPosServer().RoundToInt();
+			var pos = info.AttackedIntegrity.gameObject.AssumedWorldPosServer().RoundToInt();
 
 			foreach (var offset in coords)
 			{
@@ -1752,7 +1752,7 @@ namespace Blob
 
 		private void SwapPositionWithBlob(DamageInfo info)
 		{
-			var pos = info.AttackedIntegrity.gameObject.WorldPosServer().RoundToInt();
+			var pos = info.AttackedIntegrity.gameObject.AssumedWorldPosServer().RoundToInt();
 
 			foreach (var offset in coords)
 			{
@@ -1783,7 +1783,7 @@ namespace Blob
 
 		private void SpreadDamageOut(DamageInfo info)
 		{
-			var pos = info.AttackedIntegrity.gameObject.WorldPosServer().RoundToInt();
+			var pos = info.AttackedIntegrity.gameObject.AssumedWorldPosServer().RoundToInt();
 
 			List<Integrity> blobIntegrities = new List<Integrity>();
 

@@ -68,7 +68,7 @@ public class SpawnDestination
 	/// <returns></returns>
 	public static SpawnDestination At(GameObject existingObject, bool cancelIfImpassable = false)
 	{
-		var position = existingObject.WorldPosServer();
+		var position = existingObject.AssumedWorldPosServer();
 		var parent = existingObject.transform.parent;
 		var localRotation = existingObject.transform.localRotation;
 		return At(position, parent, localRotation, cancelIfImpassable);

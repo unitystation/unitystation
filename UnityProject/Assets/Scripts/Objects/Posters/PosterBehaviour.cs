@@ -108,7 +108,7 @@ namespace Objects
 
 		public void ServerPerformInteraction(HandApply interaction)
 		{
-			var pos = interaction.Performer.WorldPosServer();
+			var pos = interaction.Performer.AssumedWorldPosServer();
 			var pna = interaction.Performer.GetComponent<PlayerNetworkActions>();
 			var item = pna.GetActiveHandItem();
 			if (Validations.HasItemTrait(item, CommonTraits.Instance.Wirecutter))

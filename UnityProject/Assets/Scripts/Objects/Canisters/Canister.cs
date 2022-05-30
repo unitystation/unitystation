@@ -213,7 +213,7 @@ namespace Objects.Atmospherics
 
 		private void EjectInsertedContainer()
 		{
-			InsertedContainer.GetComponent<UniversalObjectPhysics>().AppearAtWorldPositionServer(gameObject.WorldPosServer());
+			InsertedContainer.GetComponent<UniversalObjectPhysics>().AppearAtWorldPositionServer(gameObject.AssumedWorldPosServer());
 			InsertedContainer = null;
 			ServerOnExternalTankInserted.Invoke(false);
 			RefreshOverlays();

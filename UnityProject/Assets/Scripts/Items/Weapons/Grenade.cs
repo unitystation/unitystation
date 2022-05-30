@@ -94,7 +94,7 @@ namespace Items.Weapons
 			{
 				timerRunning = true;
 				UpdateTimer(timerRunning);
-				PlayPinSFX(originator.WorldPosServer());
+				PlayPinSFX(originator.AssumedWorldPosServer());
 
 				if (unstableFuse)
 				{

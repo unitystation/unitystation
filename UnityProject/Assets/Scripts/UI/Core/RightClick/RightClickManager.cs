@@ -242,7 +242,7 @@ public class RightClickManager : SingletonManager<RightClickManager>
 
 	private bool IsUnderFloorTile(GameObject obj)
 	{
-		LayerTile tile = UITileList.GetTileAtPosition(obj.WorldPosClient());
+		LayerTile tile = UITileList.GetTileAtPosition(obj.AssumedWorldPosServer());
 
 		// Layer 22 is the 'Floor' layer
 		return (tile != null && tile.LayerType != LayerType.Base && obj.layer == 22);

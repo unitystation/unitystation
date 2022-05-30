@@ -34,13 +34,13 @@ public class TransformGizmoDrawer : MonoBehaviour {
 
 		//registerTile client pos
 		Gizmos.color = color0;
-		Vector3 regPosC = rt.WorldPositionClient;
+		Vector3 regPosC = rt.WorldPosition;
 		Gizmos.DrawCube( regPosC, size2 );
 
 
 		//serverState
 		Gizmos.color = color2;
-		Vector3 ssPos = UOP.transform.position;
+		Vector3 ssPos = UOP.OfficialPosition;
 		Gizmos.DrawWireCube( ssPos, size2 );
 		DebugGizmoUtils.DrawArrow( ssPos + Vector3.right / 2, UOP.newtonianMovement );
 		DebugGizmoUtils.DrawText( UOP.registerTile.Matrix.Id.ToString(), ssPos + Vector3.right / 2 + Vector3.up / 3, 15 );

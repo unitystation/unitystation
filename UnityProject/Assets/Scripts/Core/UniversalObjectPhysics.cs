@@ -73,6 +73,26 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 		}
 	}
 
+	public Vector3 OfficialPosition
+	{
+		get
+		{
+			if (ContainedInContainer != null)
+			{
+				return ContainedInContainer.registerTile.ObjectPhysics.Component.OfficialPosition;
+			}
+			else if (pickupable != null && pickupable.ItemSlot != null)
+			{
+				return ComponentManager.TryGetUniversalObjectPhysics(pickupable.ItemSlot.ItemStorage.gameObject).OfficialPosition;
+			}
+			else
+			{
+				return transform.position;
+			}
+		}
+	}
+
+	private Pickupable pickupable;
 
 	public bool InitialLocationSynchronised;
 
@@ -202,6 +222,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 		attributes = GetComponent<Attributes>();
 		registerTile = GetComponent<RegisterTile>();
 		rotatable = GetComponent<Rotatable>();
+		pickupable = GetComponent<Pickupable>();
 	}
 
 	public Vector3 CalculateLocalPosition()
@@ -313,7 +334,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 
 	public void StoreTo(ObjectContainer NewParent)
 	{
-		if (NewParent == this) return; //Storing something inside of itself what?
+		if (NewParent.gameObject == this.gameObject) return; //Storing something inside of itself what?
 
 		if (NewParent == null)
 		{
@@ -701,6 +722,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 	public void TryTilePush(Vector2Int WorldDirection, GameObject ByClient, float speed = Single.NaN,
 		UniversalObjectPhysics PushedBy = null)
 	{
+		if (isVisible == false) return;
 		if (PushedBy == this) return;
 		if (CanPush(WorldDirection))
 		{
@@ -712,6 +734,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 		float speed = Single.NaN, bool IsWalk = false,
 		UniversalObjectPhysics PushedBy = null) //PushPull TODO Change to physics object
 	{
+		if (isVisible == false) return;
 		if (ForcedPushedFrame == Time.frameCount)
 		{
 			return;
@@ -825,7 +848,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 		IsFlyingSliding = false;
 		Animating = false;
 	}
-	
+
 	[Server]
 	public void ForceDrop(Vector3 pos)
 	{
@@ -899,6 +922,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 		float INslideTime = Single.NaN, BodyPartType inaim = BodyPartType.Chest, GameObject inthrownBy = null,
 		float spinFactor = 0, GameObject DoNotUpdateThisClient = null) //Collision is just naturally part of Newtonian push
 	{
+		if (isVisible == false) return;
 		if (isNotPushable) return;
 
 		aim = inaim;
@@ -1005,10 +1029,19 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 
 	public void AnimationUpdateMe()
 	{
+		if (isVisible == false)
+		{
+			MoveIsWalking = false;
+			IsMoving = false;
+			Animating = false;
+			UpdateManager.Remove(CallbackType.UPDATE, AnimationUpdateMe);
+		}
+
 		if (this == null)
 		{
 			MoveIsWalking = false;
 			IsMoving = false;
+			Animating = false;
 			UpdateManager.Remove(CallbackType.UPDATE, AnimationUpdateMe);
 		}
 
@@ -1106,6 +1139,14 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 
 	public void FlyingUpdateMe()
 	{
+		if (isVisible == false)
+		{
+			IsFlyingSliding = false;
+			airTime = 0;
+			slideTime = 0;
+			UpdateManager.Remove(CallbackType.UPDATE, FlyingUpdateMe);
+		}
+
 		if (IsMoving)
 		{
 			return;
@@ -1308,7 +1349,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 				Vector3 = localPosition,
 				ByClient = NetId.Empty
 			};
-			;
+
 			OnLocalTileReached.Invoke(localPosition);
 			if (onStationMovementsRound)
 			{

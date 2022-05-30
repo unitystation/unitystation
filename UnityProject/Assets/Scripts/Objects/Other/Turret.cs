@@ -432,7 +432,7 @@ namespace Objects.Other
 
 		private void ShootTarget()
 		{
-			var angleToShooter = CalculateAngle(target.WorldPosServer());
+			var angleToShooter = CalculateAngle(target.AssumedWorldPosServer());
 			rotationAngle = angleToShooter;
 
 			ShootAtDirection(angleToShooter);

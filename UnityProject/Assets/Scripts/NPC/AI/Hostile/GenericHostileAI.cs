@@ -176,10 +176,10 @@ namespace Systems.MobAIs
 			foreach (var coll in player)
 			{
 				if (MatrixManager.Linecast(
-					gameObject.WorldPosServer(),
+					gameObject.AssumedWorldPosServer(),
 					LayerTypeSelection.Walls,
 					null,
-					coll.gameObject.WorldPosServer()).ItHit == false)
+					coll.gameObject.AssumedWorldPosServer()).ItHit == false)
 				{
 					if(coll.gameObject.TryGetComponent<LivingHealthMasterBase>(out var health) == false ||
 					   health.IsDead) continue;

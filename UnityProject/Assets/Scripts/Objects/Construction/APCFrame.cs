@@ -286,9 +286,9 @@ namespace Objects.Construction
 					$"{interaction.Performer.ExpensiveName()} secures the electronics to the APC.");
 				ToolUtils.ServerPlayToolSound(interaction);
 
-				MatrixInfo matrix = MatrixManager.AtPoint(gameObject.GetComponent<UniversalObjectPhysics>().transform.position, true);
+				MatrixInfo matrix = MatrixManager.AtPoint(gameObject.AssumedWorldPosServer(), true);
 
-				var localPosInt = MatrixManager.WorldToLocalInt(gameObject.GetComponent<UniversalObjectPhysics>().transform.position, matrix);
+				var localPosInt = MatrixManager.WorldToLocalInt(gameObject.AssumedWorldPosServer(), matrix);
 
 				var econs = interaction.Performer.GetComponentInParent<Matrix>().GetElectricalConnections(localPosInt);
 				foreach (var Connection in econs.List)

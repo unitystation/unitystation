@@ -304,7 +304,7 @@ namespace Objects.Engineering
 					{
 						var pos = registerTile.WorldPositionServer + GetCoordFromDirection(generator.Key) * i;
 
-						if (pos == generator.Value.Item1.WorldPosServer())
+						if (pos == generator.Value.Item1.AssumedWorldPosServer())
 						{
 							passCheck = true;
 							break;
@@ -401,7 +401,7 @@ namespace Objects.Engineering
 			{
 				var pos = registerTile.WorldPositionServer + GetCoordFromDirection(direction) * i;
 
-				if (pos == generatorToRemove.WorldPosServer())
+				if (pos == generatorToRemove.AssumedWorldPosServer())
 				{
 					break;
 				}

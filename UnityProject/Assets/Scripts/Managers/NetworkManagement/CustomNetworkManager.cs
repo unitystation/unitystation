@@ -460,7 +460,7 @@ public class CustomNetworkManager : NetworkManager, IInitialise
 
 	private static void NudgeTransform(UniversalObjectPhysics ObjectPhysics, Vector3 where)
 	{
-		ObjectPhysics.AppearAtWorldPositionServer(ObjectPhysics.transform.position + where);
+		ObjectPhysics.AppearAtWorldPositionServer(ObjectPhysics.OfficialPosition + where);
 	}
 #endif
 }

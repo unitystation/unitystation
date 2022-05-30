@@ -321,7 +321,7 @@ namespace Objects.Disposals
 			objectContainer.StoreObject(item);
 
 			AudioSourceParameters dunkParameters = new AudioSourceParameters(pitch: RandomDunkPitch);
-			SoundManager.PlayNetworkedAtPos(trashDunkSounds, gameObject.WorldPosServer(), dunkParameters);
+			SoundManager.PlayNetworkedAtPos(trashDunkSounds, gameObject.AssumedWorldPosServer(), dunkParameters);
 
 			this.RestartCoroutine(AutoFlush(), ref autoFlushCoroutine);
 		}
@@ -330,7 +330,7 @@ namespace Objects.Disposals
 		private void StartStoringPlayer(MouseDrop interaction)
 		{
 			Vector3Int targetObjectLocalPosition = interaction.TargetObject.RegisterTile().LocalPosition;
-			Vector3Int targetObjectWorldPos = interaction.TargetObject.WorldPosServer().CutToInt();
+			Vector3Int targetObjectWorldPos = interaction.TargetObject.AssumedWorldPosServer().CutToInt();
 
 			// We check if there's nothing in the way, like another player or a directional window.
 			if (interaction.UsedObject.RegisterTile().Matrix.IsPassableAtOneMatrixOneTile(targetObjectLocalPosition, true, context: gameObject) == false)

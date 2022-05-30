@@ -44,8 +44,8 @@ namespace Items.Weapons
 		private void UpdateBombPosition()
 		{
 			if(attachedToObject == null) return;
-			if(attachedToObject.WorldPosServer() == gameObject.WorldPosServer()) return;
-			registerItem.ObjectPhysics.Component.AppearAtWorldPositionServer(attachedToObject.WorldPosServer());
+			if(attachedToObject.AssumedWorldPosServer() == gameObject.AssumedWorldPosServer()) return;
+			registerItem.ObjectPhysics.Component.AppearAtWorldPositionServer(attachedToObject.AssumedWorldPosServer());
 		}
 
 		[Command(requiresAuthority = false)]
@@ -88,7 +88,7 @@ namespace Items.Weapons
 			// Why?
 			if (interaction.Intent != Intent.Harm)
 			{
-				
+
 				Chat.AddExamineMsg(interaction.Performer, $"You must be on harm intent to attach the {gameObject.ExpensiveName()}.", side);
 				return false;
 			}

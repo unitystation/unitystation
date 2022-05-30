@@ -212,16 +212,16 @@ namespace Doors
 		{
 			if(CustomNetworkManager.IsHeadless) return;
 
-			_ = SoundManager.PlayAtPosition(sound, gameObject.WorldPosClient());
+			_ = SoundManager.PlayAtPosition(sound, gameObject.AssumedWorldPosServer());
 		}
 
 		public void ServerPlayDeniedSound()
 		{
-			_ = SoundManager.PlayNetworkedAtPosAsync(deniedSFX, gameObject.WorldPosServer());
+			_ = SoundManager.PlayNetworkedAtPosAsync(deniedSFX, gameObject.AssumedWorldPosServer());
 		}
 		public void ServerPlayPressureSound()
 		{
-			_ = SoundManager.PlayNetworkedAtPosAsync(warningSFX, gameObject.WorldPosServer());
+			_ = SoundManager.PlayNetworkedAtPosAsync(warningSFX, gameObject.AssumedWorldPosServer());
 		}
 
 		public void TurnOffAllLights()

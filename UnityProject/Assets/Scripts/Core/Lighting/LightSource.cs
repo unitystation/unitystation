@@ -334,7 +334,7 @@ namespace Objects.Lighting
 					return;
 				}
 
-				var spawnedItem = Spawn.ServerPrefab(itemInMount, interaction.Performer.WorldPosServer()).GameObject;
+				var spawnedItem = Spawn.ServerPrefab(itemInMount, interaction.Performer.AssumedWorldPosServer()).GameObject;
 				ItemSlot bestHand = interaction.PerformerPlayerScript.DynamicItemStorage.GetBestHand();
 				if (bestHand != null && spawnedItem != null)
 				{
@@ -376,7 +376,7 @@ namespace Objects.Lighting
 		{
 			if (mState != LightMountState.MissingBulb)
 			{
-				Spawn.ServerPrefab(itemInMount, interaction.Performer.WorldPosServer());
+				Spawn.ServerPrefab(itemInMount, interaction.Performer.AssumedWorldPosServer());
 				ServerChangeLightState(LightMountState.MissingBulb);
 			}
 		}

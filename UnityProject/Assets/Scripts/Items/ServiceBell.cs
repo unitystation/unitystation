@@ -18,7 +18,7 @@ namespace Objects
 		public bool WillInteract(HandApply interaction, NetworkSide side)
 		{
 			if (DefaultWillInteract.Default(interaction, side) == false) return false;
-			
+
 			return interaction.Intent != Intent.Grab
 			       && interaction.Intent != Intent.Harm
 			       && interaction.TargetObject == gameObject
@@ -27,7 +27,7 @@ namespace Objects
 
 		public void ServerPerformInteraction(HandApply interaction)
 		{
-			SoundManager.PlayNetworkedAtPos(RingSound, interaction.TargetObject.WorldPosServer());
+			SoundManager.PlayNetworkedAtPos(RingSound, interaction.TargetObject.AssumedWorldPosServer());
 		}
 
 		public void OnSpawnServer(SpawnInfo info)

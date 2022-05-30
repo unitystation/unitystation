@@ -153,7 +153,7 @@ namespace Player
 
 
 
-			if (target.WorldPosServer() == TransformState.HiddenPos)
+			if (target.AssumedWorldPosServer() == TransformState.HiddenPos)
 			{
 				//In closet so cancel orbit for clients
 				StopOrbiting();

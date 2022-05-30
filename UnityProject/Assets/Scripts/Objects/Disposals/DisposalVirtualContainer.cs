@@ -61,7 +61,7 @@ namespace Objects.Disposals
 			{
 				if (obj.TryGetComponent<UniversalObjectPhysics>(out var uop))
 				{
-					uop.AppearAtWorldPositionServer(transform.position + exitVector);
+					uop.AppearAtWorldPositionServer(this.gameObject.AssumedWorldPosServer() + exitVector);
 					ThrowItem(uop, exitVector);
 				}
 				if (obj.TryGetComponent<PlayerScript>(out var script))

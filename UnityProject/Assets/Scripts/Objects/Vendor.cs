@@ -242,7 +242,7 @@ namespace Objects
 
 			// Play vending sound
 			AudioSourceParameters audioSourceParameters = new AudioSourceParameters(pitch: Random.Range(.75f, 1.1f));
-			SoundManager.PlayNetworkedAtPos(VendingSound, gameObject.WorldPosServer(), audioSourceParameters, sourceObj: gameObject);
+			SoundManager.PlayNetworkedAtPos(VendingSound, gameObject.AssumedWorldPosServer(), audioSourceParameters, sourceObj: gameObject);
 
 			// Ejecting in direction
 			if (EjectObjects && EjectDirection != EjectDirection.None &&

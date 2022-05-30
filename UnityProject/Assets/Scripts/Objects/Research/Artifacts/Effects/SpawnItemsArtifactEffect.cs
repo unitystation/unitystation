@@ -41,7 +41,7 @@ public class SpawnItemsArtifactEffect : ArtifactEffect
 
 		for (int i = 0; i < amount; i++)
 		{
-			Spawn.ServerPrefab(itemsToSpawn.GetRandom(), gameObject.WorldPosServer(), transform.parent.transform
+			Spawn.ServerPrefab(itemsToSpawn.GetRandom(), gameObject.AssumedWorldPosServer(), transform.parent.transform
 				, count: amountItem, scatterRadius: scatterRadius);
 		}
 

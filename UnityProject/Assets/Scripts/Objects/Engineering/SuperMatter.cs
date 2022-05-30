@@ -1186,7 +1186,7 @@ namespace Objects.Engineering
 					$"{interaction.Performer.ExpensiveName()} scrapes off a shard from the {gameObject.ExpensiveName()}.",
 					() =>
 					{
-						Spawn.ServerPrefab(superMatterShard, interaction.Performer.WorldPosServer(),
+						Spawn.ServerPrefab(superMatterShard, interaction.Performer.AssumedWorldPosServer(),
 							interaction.Performer.transform.parent);
 						matterPower += 800;
 

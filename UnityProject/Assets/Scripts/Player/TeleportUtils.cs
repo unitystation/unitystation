@@ -186,7 +186,7 @@ namespace Systems.Teleport
 		public static void TeleportLocalGhostTo(TeleportInfo teleportInfo)
 		{
 			var latestPosition = teleportInfo.gameObject.transform.position;
-			var playerPosition = PlayerManager.LocalPlayer.gameObject.GetComponent<RegisterTile>().WorldPositionClient;//Finds current player coords
+			var playerPosition = PlayerManager.LocalPlayer.gameObject.GetComponent<RegisterTile>().WorldPosition;//Finds current player coords
 
 			if (latestPosition != playerPosition)//Spam Prevention
 			{

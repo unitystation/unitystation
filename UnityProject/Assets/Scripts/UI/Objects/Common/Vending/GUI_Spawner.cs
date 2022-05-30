@@ -114,7 +114,7 @@ namespace UI
 				return;
 			}
 
-			Vector3 originPos = Provider.WorldPosServer();
+			Vector3 originPos = Provider.AssumedWorldPosServer();
 			Vector3 nearestPlayerPos = GetNearestPlayerPos(originPos);
 
 			if (nearestPlayerPos == TransformState.HiddenPos)

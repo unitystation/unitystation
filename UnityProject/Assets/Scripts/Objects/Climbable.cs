@@ -36,13 +36,13 @@ namespace Objects
 			{
 				if (interaction.UsedObject.TryGetComponent<PlayerScript>(out var playerScript))
 				{
-					playerScript.PlayerSync.AppearAtWorldPositionServer(gameObject.WorldPosServer());
+					playerScript.PlayerSync.AppearAtWorldPositionServer(gameObject.AssumedWorldPosServer());
 				}
 				else
 				{
 					if (interaction.UsedObject.TryGetComponent<UniversalObjectPhysics>(out var UniversalObjectPhysics))
 					{
-						UniversalObjectPhysics.AppearAtWorldPositionServer(gameObject.WorldPosServer());
+						UniversalObjectPhysics.AppearAtWorldPositionServer(gameObject.AssumedWorldPosServer());
 					}
 				}
 			}).ServerStartProgress(interaction.UsedObject.RegisterTile(), ClimbTime, interaction.Performer);

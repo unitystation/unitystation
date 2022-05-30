@@ -370,7 +370,7 @@ namespace Systems.Ai
 
 				//This is to move the player object so we can see the Ai Eye sprite underneath us
 				//TODO for some reason this isnt always working the sprite sometimes stays on the core, or last position
-				playerScript.PlayerSync.AppearAtWorldPositionServer(cameraLocation.gameObject.WorldPosServer(), false);
+				playerScript.PlayerSync.AppearAtWorldPositionServer(cameraLocation.gameObject.AssumedWorldPosServer(), false);
 			}
 			else
 			{
@@ -475,7 +475,7 @@ namespace Systems.Ai
 			if (hasPower && cameraLocation != null)
 			{
 				var validCameras = GetValidCameras().OrderBy(c =>
-					Vector3.Distance(cameraLocation.position, c.gameObject.WorldPosServer())).ToArray();
+					Vector3.Distance(cameraLocation.position, c.gameObject.AssumedWorldPosServer())).ToArray();
 
 				if (validCameras.Any())
 				{
@@ -694,7 +694,7 @@ namespace Systems.Ai
 
 			foreach (var securityCamera in GetValidCameras())
 			{
-				var securityCameraLocation = securityCamera.gameObject.WorldPosClient();
+				var securityCameraLocation = securityCamera.gameObject.AssumedWorldPosServer();
 
 				var direction = securityCameraLocation - aiPlayerCameraLocation;
 				var angle = (Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg) - 45;
@@ -714,7 +714,7 @@ namespace Systems.Ai
 			if(chosenCameras.Count == 0) return;
 
 			var sortedCameras = chosenCameras.OrderBy(c =>
-				Vector3.Distance(aiPlayerCameraLocation, c.gameObject.WorldPosClient()));
+				Vector3.Distance(aiPlayerCameraLocation, c.gameObject.AssumedWorldPosServer()));
 
 			//Move to nearest camera
 			CmdTeleportToCamera(sortedCameras.First().gameObject, false);

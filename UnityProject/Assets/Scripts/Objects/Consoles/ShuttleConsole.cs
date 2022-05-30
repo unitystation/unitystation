@@ -62,7 +62,7 @@ namespace Objects.Shuttles
 
 		public void PlayRadarDetectionSound()
 		{
-			_ = SoundManager.PlayNetworkedAtPosAsync(radarDetectionSound, gameObject.WorldPosServer(),
+			_ = SoundManager.PlayNetworkedAtPosAsync(radarDetectionSound, gameObject.AssumedWorldPosServer(),
 				default, default, default, default, gameObject);
 		}
 

@@ -200,7 +200,7 @@ public class Attributes : NetworkBehaviour, IRightClickable, IExaminable, IServe
 
 	private void OnPointTo()
 	{
-		PlayerManager.PlayerScript.playerNetworkActions.CmdPoint(gameObject, gameObject.WorldPosClient());
+		PlayerManager.PlayerScript.playerNetworkActions.CmdPoint(gameObject, gameObject.AssumedWorldPosServer());
 	}
 
 	// Initial implementation of shift examine behaviour
