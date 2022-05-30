@@ -18,40 +18,28 @@ namespace Systems.Explosions
 		public int shaking = 0;
 
 		[TooltipAttribute("Explosion type")]
-		public ExplosionType explosionType = ExplosionType.Regular;
+		public ExplosionTypes.ExplosionType explosionType = ExplosionTypes.ExplosionType.Regular;
 
-		public void SetExplosionData(float _strength, ExplosionType _explosionType = ExplosionType.Regular, int _radius = 0, int _shaking = 0)
-        {
+		public void SetExplosionData(float _strength, ExplosionTypes.ExplosionType _explosionType = ExplosionTypes.ExplosionType.Regular, int _radius = 0, int _shaking = 0)
+		{
 			if (0 > _shaking || _shaking > 255)
-            {
+			{
 				_shaking = 0;
-            }
+			}
 			if (0 > _radius || _radius > 150)
-            {
+			{
 				_radius = 0;
-            }
+			}
 
 			strength = _strength;
 			radius = _radius;
 			shaking = _shaking;
 			explosionType = _explosionType;
-        }
+		}
 
 		public void Explode()
-        {
-			Explosion.StartExplosion(GetComponentInChildren<Transform>().position.RoundToInt(), strength, nodeTypes[explosionType], radius, shaking);
-        }
-
-		public enum ExplosionType //add your explosion type here
-        {
-			Regular,
-			EMP
-        }
-
-		private Dictionary<ExplosionType, ExplosionNode> nodeTypes = new Dictionary<ExplosionType, ExplosionNode>() //add your node type here
 		{
-			{ExplosionType.Regular, new ExplosionNode()},
-			{ExplosionType.EMP, new ExplosionEmpNode()}
-		};
+			Explosion.StartExplosion(GetComponentInChildren<Transform>().position.RoundToInt(), strength, ExplosionTypes.NodeTypes[explosionType], radius, shaking);
+		}
 	}
 }

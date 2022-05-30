@@ -17,8 +17,8 @@ namespace Chemistry.Effects
 		[Tooltip("Multiplier applied to final strength calculation")]
 		[SerializeField] private float potency = 1;
 
-		[Tooltip("Is explosion is actually EMP")]
-		[SerializeField] private bool isEMP = false;
+		[Tooltip("Explosion type")]
+		[SerializeField] private ExplosionTypes.ExplosionType explosionType = ExplosionTypes.ExplosionType.Regular;
 
 		public override void Apply(MonoBehaviour sender, float amount)
 		{
@@ -28,6 +28,7 @@ namespace Chemistry.Effects
 			ObjectBehaviour objectBehaviour = sender.GetComponent<ObjectBehaviour>();
 			RegisterObject registerObject = sender.GetComponent<RegisterObject>();
 			BodyPart bodyPart = sender.GetComponent<BodyPart>();
+			ExplosionNode node = ExplosionTypes.NodeTypes[explosionType];
 
 			bool insideBody = false;
 			if (bodyPart != null && bodyPart.HealthMaster != null)
@@ -39,37 +40,12 @@ namespace Chemistry.Effects
 
 			// Based on radius calculation in Explosions\Explosion.cs, where an amount of 30u will have an
 			// explosion radius of 1. Strength is determined using a logarthmic formula to cause diminishing returns.
-			var strength = (float)(-463+205*Mathf.Log(amount)+75*Math.PI)*potency;
+			float strength = (float)(-463+205*Mathf.Log(amount)+75*Math.PI)*potency;
 
 
-			if (insideBody && strength > 0 && isEMP == false)
+			if (insideBody && strength > 0)
 			{
-				if (strength >= bodyPart.Health)
-				{
-					float temp = bodyPart.Health; //temporary store to make sure we don't use an updated health when decrementing strength
-					bodyPart.TakeDamage(null, temp, AttackType.Internal, DamageType.Brute);
-					strength -= temp;
-				}
-				else
-				{
-					bodyPart.TakeDamage(null, strength, AttackType.Internal, DamageType.Brute);
-					strength = 0;
-				}
-
-				foreach (BodyPart part in bodyPart.HealthMaster.BodyPartList)
-				{
-					if (strength >= part.Health)
-					{
-						float temp = part.Health; //temporary store to make sure we don't use an updated health when decrementing strength
-						part.TakeDamage(null, temp, AttackType.Internal, DamageType.Brute);
-						strength -= temp;
-					}
-					else
-					{
-						part.TakeDamage(null, strength, AttackType.Internal, DamageType.Brute);
-						strength = 0;
-					}
-				}
+				node.DoInternalDamage(strength, bodyPart);
 			}
 
 			// Explosion here
@@ -86,16 +62,6 @@ namespace Chemistry.Effects
 
 			if (strength > 0)
 			{
-				ExplosionNode node;
-				if (isEMP)
-				{
-					node = new ExplosionEmpNode();
-				}
-                else
-                {
-					node = new ExplosionNode();
-                }
-
 				//Check if this is happening inside of an Object first (machines, closets?)
 				if (registerObject == null)
 				{

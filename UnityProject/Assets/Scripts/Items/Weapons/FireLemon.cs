@@ -182,7 +182,7 @@ namespace Items.Weapons
 			// Explosion here
 			var explosionGO = Instantiate(explosionPrefab, explosionMatrix.transform);
 			explosionGO.transform.position = worldPos;
-			explosionGO.SetExplosionData(finalDamage, ExplosionComponent.ExplosionType.Regular, (int)finalRadius);
+			explosionGO.SetExplosionData(finalDamage, ExplosionTypes.ExplosionType.Regular, (int)finalRadius);
 			explosionGO.Explode();
 		}
 
