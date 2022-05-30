@@ -31,7 +31,7 @@ namespace Systems.Cargo
 		private int shuttleZoneHeight;
 		[SerializeField]
 		[Tooltip("Check if the matrix is exactly in the middle")]
-		private bool heightInMiddle = false; // Unreal makes me upset
+		private bool heightInMiddle = false; // Only Unreal does this
 		private bool moving;
 
 		private MatrixMove mm;
