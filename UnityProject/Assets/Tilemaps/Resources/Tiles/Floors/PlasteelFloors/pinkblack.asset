@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c576ac449c2d45d99890dcfa21598645, type: 3}
   m_Name: pinkblack
   m_EditorClassIdentifier: 
-  displayName: 
+  displayName: vaporware floor
   description: 
   LayerType: 3
   TileType: 3
@@ -26,6 +26,7 @@ MonoBehaviour:
   passable: 1
   mineable: 0
   miningTime: 5
+  miningHardness: 1
   constructable: 1
   RadiationPassability: 1
   ThermalConductivity: 0.05
@@ -51,6 +52,7 @@ MonoBehaviour:
     Magic: 0
     Bio: 100
     DismembermentProtectionChance: 0
+    StunImmunity: 0
   tileInteractions:
   - {fileID: 11400000, guid: 7b6820d9f95c544a8bf274f9125b4941, type: 2}
   tileStepInteractions: []
