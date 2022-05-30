@@ -76,7 +76,7 @@ namespace Items.Command
 
 		private bool DiskLost()
 		{
-			if (((gameObject.AssumedWorldPosServer() - MatrixManager.MainStationMatrix.GameObject.AssumedWorldPosServer())
+			if (((gameObject.AssumedWorldPosServer() - MatrixManager.MainStationMatrix.GameObject.transform.position)
 				.magnitude < boundRadius)) return false;
 
 			if (escapeShuttle != null && escapeShuttle.Status != EscapeShuttleStatus.DockedCentcom)

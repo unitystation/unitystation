@@ -23,8 +23,12 @@ public class ComponentManager : SingletonManager<ComponentManager>
 			var UOP = gameObject.GetComponent<UniversalObjectPhysics>();
 			if (UOP == null)
 			{
-				Logger.LogError($"Unable to find UniversalObjectPhysics on {gameObject.name}");
-				return null;
+				UOP = gameObject.GetComponentInParent<UniversalObjectPhysics>();
+				if (UOP == null)
+				{
+					Logger.LogError($"Unable to find UniversalObjectPhysics on {gameObject.name}");
+					return null;
+				}
 			}
 
 			ObjectToPhysics[gameObject] = UOP;

@@ -334,7 +334,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 
 	public void StoreTo(ObjectContainer NewParent)
 	{
-		if (NewParent.gameObject == this.gameObject) return; //Storing something inside of itself what?
+		if (NewParent.OrNull()?.gameObject == this.gameObject) return; //Storing something inside of itself what?
 
 		if (NewParent == null)
 		{
