@@ -15,6 +15,7 @@ using Player.Movement;
 using ScriptableObjects.Audio;
 using UI.Action;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.Tilemaps;
 
 public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllable, ICooldown, IBumpableObject,
@@ -1240,3 +1241,7 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 		}
 	}
 }
+/// <summary>
+/// Cuff state changed, provides old state and new state as 1st and 2nd args
+/// </summary>
+public class CuffEvent : UnityEvent<bool, bool> { }

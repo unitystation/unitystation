@@ -565,7 +565,7 @@ public class MatrixMove : ManagedBehaviour
 	}
 
 	/// <summary>
-	/// Performs the rotation / movement animation on all clients and server. Called every FlyingUpdateMe()
+	/// Performs the rotation / movement animation on all clients and server. Called every UpdateMe()
 	/// </summary>
 	private void AnimateMovement()
 	{

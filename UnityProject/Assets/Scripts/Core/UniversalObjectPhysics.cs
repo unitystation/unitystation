@@ -14,22 +14,10 @@ using Random = UnityEngine.Random;
 
 public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 {
-	//TODO Push objects being Reset our client
-	//TODO Tile push to clients if in pulling conga line?
-
-
 	//TODO parentContainer Need to test
-
 	//TODO Maybe work on conveyor belts and players a bit more
-
-
 	//TODO Sometime Combine buckling and object storage
-
-	//TODO pulling Isn't updating the pulling icon properly on Rejoin of client
-
 	//=================================== Maybe
-	//TODO Client gets double update of space speed! Could be editor only issue, couldn't replicate on build???
-	//TODO Slipping into locker Causes locker to move on client but not on server, Sometimes???
 	//TODO move IsCuffed to PlayerOnlySyncValues maybe?
 	//=================================== balance Maybe
 	//=============================================== TODO some time
@@ -37,8 +25,6 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 	//TODO after thrown not synchronised Properly need to synchronise rotation
 	//TODO When throwing rotation Direction needs to be set by server
 	//=============================================== Definitely
-	//TODO Implement swap if you're dragging someone
-
 
 	public const float DEFAULT_PUSH_SPEED = 6;
 
@@ -839,55 +825,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 		IsFlyingSliding = false;
 		Animating = false;
 	}
-
-	[PlayModeOnly] public float Speed = 1;
-
-	[PlayModeOnly] public float AIR = 3;
-
-	[PlayModeOnly] public float SLIDE = 4;
-
-
-	[NaughtyAttributes.Button()]
-	[RightClickMethod()]
-	public void DisplayStats()
-	{
-		Logger.LogError("registerTile.WorldPosition " + registerTile.WorldPosition.ToString());
-		Logger.LogError("transform.position " + transform.position.ToString());
-
-		Logger.LogError("registerTile.LocalPosition " + registerTile.LocalPosition.ToString());
-		Logger.LogError("transform.localPosition" + transform.localPosition.ToString());
-
-		Logger.LogError("registerTile.Matrix " + registerTile.Matrix.ToString());
-		Logger.LogError("transform.parent.parent" + transform.parent.parent.ToString());
-	}
-
-
-	[RightClickMethod()]
-	public void ThrowWithSlide()
-	{
-		NewtonianPush(PlayerManager.LocalPlayer.GetComponent<Rotatable>().CurrentDirection.ToLocalVector2Int(), Speed,
-			AIR, SLIDE);
-	}
-
-
-	[RightClickMethod()]
-	public void Push()
-	{
-		NewtonianPush(PlayerManager.LocalPlayer.GetComponent<Rotatable>().CurrentDirection.ToLocalVector2Int(), Speed);
-	}
-
-	[RightClickMethod()]
-	public void TryTilePush()
-	{
-		TryTilePush(PlayerManager.LocalPlayer.GetComponent<Rotatable>().CurrentDirection.ToLocalVector2Int(), null);
-	}
-
-	[RightClickMethod()]
-	public void ForceTilePush()
-	{
-		ForceTilePush(PlayerManager.LocalPlayer.GetComponent<Rotatable>().CurrentDirection.ToLocalVector2Int(), Pushing, null);
-	}
-
+	
 	[Server]
 	public void ForceDrop(Vector3 pos)
 	{
