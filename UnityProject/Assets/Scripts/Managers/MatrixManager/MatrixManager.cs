@@ -1102,6 +1102,14 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 		return value;
 	}
 
+	public static bool IsFloorAt(Vector3Int worldPos, bool isServer)
+	{
+		var matrixInfo = AtPoint(worldPos, isServer);
+		var localPos = WorldToLocalInt(worldPos, matrixInfo);
+		var value = matrixInfo.Matrix.IsFloorAt(localPos, isServer);
+		return value;
+	}
+
 	/// <summary>
 	/// Serverside only: checks if tile is slippery
 	/// </summary>
