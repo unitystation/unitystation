@@ -348,6 +348,7 @@ namespace HealthV2
 			FireStacksDamage();
 			CalculateRadiationDamage();
 			BleedStacksDamage();
+			mobSickness.TriggerCustomSicknessLogic();
 
 			if (IsDead)
 			{
