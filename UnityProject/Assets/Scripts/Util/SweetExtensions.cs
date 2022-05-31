@@ -122,12 +122,14 @@ public static class SweetExtensions
 	/// Creates garbage! Use very sparsely!
 	public static Vector3 AssumedWorldPosServer(this GameObject go)
 	{
-		var UOP = ComponentManager.TryGetUniversalObjectPhysics(go);
-		if (UOP == null)
+		if (ComponentManager.TryGetUniversalObjectPhysics(go, out  var UOP))
+		{
+			return UOP.OfficialPosition;
+		}
+		else
 		{
 			return go.transform.position;
 		}
-		return UOP.OfficialPosition;
 	}
 
 	/// <summary>

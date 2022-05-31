@@ -302,7 +302,7 @@ namespace Objects.Construction
 
 				econs.Pool();
 
-				GameObject WallMount = Spawn.ServerPrefab(APCObject, gameObject.GetComponent<UniversalObjectPhysics>().transform.position, interaction.Performer.transform.parent, spawnItems: false).GameObject;
+				GameObject WallMount = Spawn.ServerPrefab(APCObject, gameObject.AssumedWorldPosServer(), interaction.Performer.transform.parent, spawnItems: false).GameObject;
 
 				var Directional = WallMount.GetComponent<Rotatable>();
 				if (Directional != null) Directional.FaceDirection(gameObject.GetComponent<Rotatable>().CurrentDirection);

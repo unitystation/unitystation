@@ -83,7 +83,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 			}
 			else if (pickupable != null && pickupable.ItemSlot != null)
 			{
-				return ComponentManager.TryGetUniversalObjectPhysics(pickupable.ItemSlot.ItemStorage.gameObject).OfficialPosition;
+				return pickupable.ItemSlot.ItemStorage.gameObject.AssumedWorldPosServer();
 			}
 			else
 			{
@@ -334,7 +334,12 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 
 	public void StoreTo(ObjectContainer NewParent)
 	{
-		if (NewParent.OrNull()?.gameObject == this.gameObject) return; //Storing something inside of itself what?
+		if (NewParent.OrNull()?.gameObject == this.gameObject)
+		{
+			Chat.AddGameWideSystemMsgToChat(" Something doesn't feel right? **BBBBBBBBBBBBBOOOOOOOOOOOOOOOOOOOMMMMMMMMMMMEMMEEEEE** ");
+			Logger.LogError("Tried to store object within itself");
+			return; //Storing something inside of itself what?
+		}
 
 		if (NewParent == null)
 		{
@@ -354,6 +359,8 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 		{
 			SynchroniseVisibility(isVisible, false);
 		}
+
+
 	}
 	//TODO Sometime Handle stuff like cart riding
 	//would be basically just saying with updates with an offset to the thing that parented to the object
@@ -1035,6 +1042,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 			IsMoving = false;
 			Animating = false;
 			UpdateManager.Remove(CallbackType.UPDATE, AnimationUpdateMe);
+			return;
 		}
 
 		if (this == null)
@@ -1145,6 +1153,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 			airTime = 0;
 			slideTime = 0;
 			UpdateManager.Remove(CallbackType.UPDATE, FlyingUpdateMe);
+			return;
 		}
 
 		if (IsMoving)
@@ -1313,6 +1322,8 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 				}
 			}
 		}
+
+		if (isVisible == false) return;
 
 		var movetoMatrix = MatrixManager.AtPoint(Newposition.RoundToInt(), isServer).Matrix;
 

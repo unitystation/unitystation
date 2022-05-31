@@ -16,25 +16,34 @@ public class ComponentManager : SingletonManager<ComponentManager>
 
 	}
 
-	public static UniversalObjectPhysics TryGetUniversalObjectPhysics(GameObject gameObject)
+	public static bool TryGetUniversalObjectPhysics(GameObject gameObject, out UniversalObjectPhysics UOP)
 	{
-		if (ObjectToPhysics.ContainsKey(gameObject) == false)
+
+		if (ObjectToPhysics.TryGetValue(gameObject, out UOP))
 		{
-			var UOP = gameObject.GetComponent<UniversalObjectPhysics>();
-			if (UOP == null)
+			return true;
+		}
+		else
+		{
+
+			if ( gameObject.TryGetComponent<UniversalObjectPhysics>(out UOP))
 			{
-				UOP = gameObject.GetComponentInParent<UniversalObjectPhysics>();
+
+			}
+			else
+			{
+				UOP = gameObject.GetComponentInParent<UniversalObjectPhysics>(); //No try get components in parent : ( : P
 				if (UOP == null)
 				{
 					Logger.LogError($"Unable to find UniversalObjectPhysics on {gameObject.name}");
-					return null;
+					return false;
 				}
 			}
 
 			ObjectToPhysics[gameObject] = UOP;
+			return true;
 		}
 
-		return ObjectToPhysics[gameObject];
 	}
 
 	private void OnEnable()

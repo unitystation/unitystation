@@ -182,7 +182,7 @@ namespace Objects.Construction
 
 		public string Examine(Vector3 worldPos)
 		{
-			return (objectBehaviour.IsNotPushable! ? "Use a wrench to secure to the floor, or a screwdriver to disassemble it."
+			return (objectBehaviour.IsNotPushable == false ? "Use a wrench to secure to the floor, or a screwdriver to disassemble it."
 					: "Apply metal sheets to finalize the plating, or plasteel to reinforce the structure. Use a wrench to unsecure the girder.");
 		}
 

@@ -49,7 +49,7 @@ namespace Objects.Other
 		{
 			isWrenched = !isWrenched;
 			//We inverse this to get the opposite of the wrench, so if its not wrenched; isPushable is true and vice versa
-			objectBehaviour.SetIsNotPushable(!isWrenched);
+			objectBehaviour.SetIsNotPushable(isWrenched);
 			SoundManager.PlayNetworkedAtPos(CommonSounds.Instance.Wrench, gameObject.AssumedWorldPosServer());
 			var status = !isWrenched ? "movable" : "immovable";
 			Chat.AddActionMsgToChat(wrenchHolder.gameObject, $"The {gameObject.ExpensiveName()} is now {status}",
