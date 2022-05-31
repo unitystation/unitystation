@@ -12,6 +12,7 @@ using Objects.Engineering;
 using Weapons.Projectiles.Behaviours;
 using Random = UnityEngine.Random;
 using Tiles;
+using Systems.Explosions;
 
 
 namespace Objects
@@ -245,7 +246,7 @@ namespace Objects
 				Vector3Int EMPPosition = registerTile.WorldPositionServer;
 				EMPPosition.x += UnityEngine.Random.Range(-3 - (int)CurrentStage, 3 + (int)CurrentStage);
 				EMPPosition.y += UnityEngine.Random.Range(-3 - (int)CurrentStage, 3 + (int)CurrentStage);
-				Explosion.StartExplosion(EMPPosition, EMPStrength, true);
+				Explosion.StartExplosion(EMPPosition, EMPStrength, new ExplosionEmpNode());
 			}
 		}
 
