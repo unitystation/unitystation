@@ -17,7 +17,7 @@ namespace Items.Magical
 			GameObject explosionObject = Spawn.ServerPrefab(explosionPrefab, player.Script.WorldPos).GameObject;
 			if (explosionObject.TryGetComponent<ExplosionComponent>(out var explosion))
 			{
-				explosion.Explode(MatrixManager.AtPoint(player.Script.WorldPos, true).Matrix);
+				explosion.Explode();
 			}
 			else
 			{

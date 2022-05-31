@@ -44,12 +44,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b6b8d82cf0e1fe54bb75a283c2a2881e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  unstableRadius: 0
-  damage: 150
+  strength: 500
   radius: 6
+  shaking: 0
   explosionType: 1
-  shakeDistance: 1
-  minDamage: 10
-  maxEffectDuration: 0.25
-  minEffectDuration: 0.05
-  isEmp: 1
