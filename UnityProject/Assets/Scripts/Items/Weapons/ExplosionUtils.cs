@@ -24,16 +24,16 @@ namespace Systems.Explosions
 		public static void PlaySoundAndShake(Vector3Int worldPosition, byte shakeIntensity, int shakeDistance, AddressableAudioSource customSound = null)
 		{
 			AudioSourceParameters audioSourceParameters = new AudioSourceParameters(0f, 100f);
+			ShakeParameters shakeParameters = new ShakeParameters(true, shakeIntensity, shakeDistance);
 			if (customSound != null)
 			{
-				_ = SoundManager.PlayNetworkedAtPosAsync(customSound, worldPosition, audioSourceParameters, true, false);
+				_ = SoundManager.PlayNetworkedAtPosAsync(customSound, worldPosition, audioSourceParameters, true, false, shakeParameters);
 			}
 			else
 			{
 				AddressableAudioSource explosionSound = EXPLOSION_SOUNDS.PickRandom();
 				AddressableAudioSource groanSound = STATION_GROAN_SOUNDS.PickRandom();
 				AddressableAudioSource distantSound = DISTANT_EXPLOSION_SOUNDS.PickRandom();
-				ShakeParameters shakeParameters = new ShakeParameters(true, shakeIntensity, shakeDistance);
 
 				//Closest sound
 				_ = SoundManager.PlayNetworkedAtPosAsync(explosionSound, worldPosition, audioSourceParameters, true, false, shakeParameters);

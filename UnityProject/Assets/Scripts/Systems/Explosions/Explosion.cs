@@ -179,7 +179,7 @@ namespace Systems.Explosions
 
 		public static void StartExplosion(Vector3Int WorldPOS, float strength, ExplosionNode nodeType = null, int fixedRadius = -1, int fixedShakingStrength = -1)
 		{
-			if (!(nodeType is ExplosionNode))
+			if (nodeType == null)
 			{
 				nodeType = new ExplosionNode();
 			}

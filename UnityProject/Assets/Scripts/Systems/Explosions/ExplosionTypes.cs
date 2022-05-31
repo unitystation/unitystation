@@ -11,7 +11,7 @@ public class ExplosionTypes
 		EMP
 	}
 
-	public static Dictionary<ExplosionType, ExplosionNode> NodeTypes = new Dictionary<ExplosionType, ExplosionNode>() //add your node type here
+	public static readonly Dictionary<ExplosionType, ExplosionNode> NodeTypes = new Dictionary<ExplosionType, ExplosionNode>() //add your node type here
 	{
 			{ExplosionType.Regular, new ExplosionNode()},
 			{ExplosionType.EMP, new ExplosionEmpNode()}
