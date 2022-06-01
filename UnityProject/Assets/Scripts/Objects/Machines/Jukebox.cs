@@ -172,7 +172,7 @@ namespace Objects
 				// The fun isn't over, we just finished the current track.  We just start playing the next one (or stop if it was the last one).
 				if (NextSong() == false)
 				{
-					Stop();
+					_ = Stop();
 				}
 			}
 		}
@@ -199,9 +199,9 @@ namespace Objects
 			}
 		}
 
-		public async Task Stop()
+		public async Task Stop(bool autoplay = false)
 		{
-			IsPlaying = false;
+			if(autoplay == false) IsPlaying = false;
 
 			if (integrity.integrity >= integrity.initialIntegrity / 2)
 				spriteHandler.SetSpriteSO(SpriteIdle);
@@ -215,7 +215,7 @@ namespace Objects
 
 		public void PreviousSong()
 		{
-			_ = Stop();
+			_ = Stop(true);
 			if (actionNotDone) return;
 			if (currentSongTrackIndex > 0)
 			{
@@ -228,7 +228,7 @@ namespace Objects
 
 		public bool NextSong()
 		{
-			_ = Stop();
+			_ = Stop(true);
 			if (actionNotDone) return false;
 			if (currentSongTrackIndex < musics.Count - 1)
 			{
