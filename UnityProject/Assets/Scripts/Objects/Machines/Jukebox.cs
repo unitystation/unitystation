@@ -215,6 +215,7 @@ namespace Objects
 
 		public void PreviousSong()
 		{
+			Stop();
 			if (actionNotDone) return;
 			if (currentSongTrackIndex > 0)
 			{
