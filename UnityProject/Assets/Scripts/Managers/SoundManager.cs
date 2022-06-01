@@ -677,7 +677,7 @@ public class SoundManager : MonoBehaviour
 	/// <param name="soundSpawnToken">The SoundSpawn Token that identifies the sound to be stopped</returns>
 	public static void StopNetworked(string soundSpawnToken, int id = 0)
 	{
-		StopSoundMessage.SendToAll(soundSpawnToken);
+		StopSoundMessage.SendToAll(soundSpawnToken, id);
 	}
 
 	/// <summary>
