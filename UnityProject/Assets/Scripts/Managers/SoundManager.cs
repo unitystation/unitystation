@@ -96,7 +96,7 @@ public class SoundManager : MonoBehaviour
 	/// <param name="soundSpawnToken">The SoundSpawn Token that identifies the same sound spawn instance across server and clients</returns>
 	/// <returns>The SoundSpawn to be played</returns>
 	private SoundSpawn GetNewSoundSpawn(AddressableAudioSource addressableAudioSource, AudioSource audioSource,
-		string soundSpawnToken)
+		string soundSpawnToken, int soundID = 0)
 	{
 		// The position doesn't matter at this point, but we need to provide one.
 		GameObject soundSpawnObject = Instantiate(Instance.soundSpawnPrefab, Vector3.zero, Quaternion.identity);
@@ -106,6 +106,7 @@ public class SoundManager : MonoBehaviour
 		soundSpawn.AudioSource.outputAudioMixerGroup = AudioManager.Instance.SFXMixer;
 		soundSpawn.SetAudioSource(audioSource);
 		soundSpawn.assetAddress = addressableAudioSource.AssetAddress;
+		soundSpawn.soundID = soundID;
 		if (soundSpawnToken != string.Empty)
 		{
 			soundSpawn.Token = soundSpawnToken;
@@ -123,7 +124,7 @@ public class SoundManager : MonoBehaviour
 	/// <param name="soundSpawnToken">The SoundSpawn Token that identifies the same sound spawn instance across server and clients</returns>
 	/// <returns>The SoundSpawn to be played</returns>
 	private SoundSpawn GetSoundSpawn(AddressableAudioSource addressableAudioSource, AudioSource audioSource,
-		string soundSpawnToken)
+		string soundSpawnToken, int soundID)
 	{
 		if (NonplayingSounds.ContainsKey(addressableAudioSource.AssetAddress) &&
 			NonplayingSounds[addressableAudioSource.AssetAddress].Count > 0)
@@ -184,7 +185,7 @@ public class SoundManager : MonoBehaviour
 	/// <returns>The SoundSpawn Token generated that identifies the same sound spawn instance across server and clients</returns>
 	public static async Task<string> PlayNetworkedAtPosAsync(AddressableAudioSource addressableAudioSource, Vector3 worldPos,
 		AudioSourceParameters audioSourceParameters = new AudioSourceParameters(), bool polyphonic = false, bool global = true,
-		ShakeParameters shakeParameters = new ShakeParameters(), GameObject sourceObj = null)
+		ShakeParameters shakeParameters = new ShakeParameters(), GameObject sourceObj = null, int soundID = 0)
 	{
 		if (addressableAudioSource == null || string.IsNullOrEmpty(addressableAudioSource.AssetAddress) ||
 			addressableAudioSource.AssetAddress == "null")
@@ -373,14 +374,14 @@ public class SoundManager : MonoBehaviour
 	/// <param name="audioSourceParameters">Parameters for how to play the sound</param>
 	/// <param name="polyphonic">Should the sound be played polyphonically</param>
 	public static async Task Play(AddressableAudioSource addressableAudioSource, string soundSpawnToken = "",
-		AudioSourceParameters audioSourceParameters = new AudioSourceParameters(), bool polyphonic = false)
+		AudioSourceParameters audioSourceParameters = new AudioSourceParameters(), bool polyphonic = false, int soundID = 0)
 	{
 		if(GameData.IsHeadlessServer)
 			return;
 
 		addressableAudioSource = await AudioManager.GetAddressableAudioSourceFromCache(addressableAudioSource);
 		SoundSpawn soundSpawn =
-			Instance.GetSoundSpawn(addressableAudioSource, addressableAudioSource.AudioSource, soundSpawnToken);
+			Instance.GetSoundSpawn(addressableAudioSource, addressableAudioSource.AudioSource, soundSpawnToken, soundID);
 		ApplyAudioSourceParameters(audioSourceParameters, soundSpawn);
 		Instance.PlaySource(soundSpawn, polyphonic, true, audioSourceParameters.MixerType);
 	}
@@ -394,10 +395,10 @@ public class SoundManager : MonoBehaviour
 	/// <param name="audioSourceParameters">Parameters for how to play the sound</param>
 	/// <param name="polyphonic">Should the sound be played polyphonically</param>
 	public static async Task Play(List<AddressableAudioSource> addressableAudioSources, string soundSpawnToken = "",
-		AudioSourceParameters audioSourceParameters = new AudioSourceParameters(), bool polyphonic = false)
+		AudioSourceParameters audioSourceParameters = new AudioSourceParameters(), bool polyphonic = false, int soundID = 0)
 	{
 		AddressableAudioSource addressableAudioSource = addressableAudioSources.PickRandom();
-		await Play(addressableAudioSource, soundSpawnToken, audioSourceParameters, polyphonic);
+		await Play(addressableAudioSource, soundSpawnToken, audioSourceParameters, polyphonic, soundID);
 	}
 
 	/// <summary>
@@ -484,7 +485,7 @@ public class SoundManager : MonoBehaviour
 	/// <param name="soundSpawnToken">The SoundSpawn Token that identifies the same sound spawn instance across server and clients</returns>
 	public static async Task PlayAtPosition(AddressableAudioSource addressableAudioSource, Vector3 worldPos,
 		GameObject gameObject = null, string soundSpawnToken = "", bool polyphonic = false,
-		bool isGlobal = false, AudioSourceParameters audioSourceParameters = new AudioSourceParameters())
+		bool isGlobal = false, AudioSourceParameters audioSourceParameters = new AudioSourceParameters(), int soundID = 0)
 	{
 		uint netId = NetId.Empty;
 		if (gameObject != null)
@@ -499,7 +500,7 @@ public class SoundManager : MonoBehaviour
 		}
 
 		await PlayAtPosition(new List<AddressableAudioSource>() {addressableAudioSource}, worldPos, soundSpawnToken,
-			polyphonic, isGlobal, netId, audioSourceParameters);
+			polyphonic, isGlobal, netId, audioSourceParameters, soundID);
 	}
 
 	/// <summary>
@@ -510,14 +511,14 @@ public class SoundManager : MonoBehaviour
 	/// <param name="soundSpawnToken">The token that identifies the SoundSpawn uniquely among the server and all clients </param>
 	public static async Task PlayAtPosition(List<AddressableAudioSource> addressableAudioSources,
 		Vector3 worldPos, string soundSpawnToken, bool polyphonic = false,
-		bool isGlobal = false, uint netId = NetId.Empty, AudioSourceParameters audioSourceParameters = new AudioSourceParameters())
+		bool isGlobal = false, uint netId = NetId.Empty, AudioSourceParameters audioSourceParameters = new AudioSourceParameters(), int soundID = 0)
 	{
 		if (GameData.IsHeadlessServer) return;
 
 		AddressableAudioSource addressableAudioSource =
 			await AudioManager.GetAddressableAudioSourceFromCache(addressableAudioSources);
 		SoundSpawn soundSpawn =
-			Instance.GetSoundSpawn(addressableAudioSource, addressableAudioSource.AudioSource, soundSpawnToken);
+			Instance.GetSoundSpawn(addressableAudioSource, addressableAudioSource.AudioSource, soundSpawnToken, soundID);
 
 		ApplyAudioSourceParameters(audioSourceParameters, soundSpawn);
 
@@ -674,7 +675,7 @@ public class SoundManager : MonoBehaviour
 	/// Tell all clients to stop playing a sound
 	/// </summary>
 	/// <param name="soundSpawnToken">The SoundSpawn Token that identifies the sound to be stopped</returns>
-	public static void StopNetworked(string soundSpawnToken)
+	public static void StopNetworked(string soundSpawnToken, int id = 0)
 	{
 		StopSoundMessage.SendToAll(soundSpawnToken);
 	}
@@ -687,6 +688,19 @@ public class SoundManager : MonoBehaviour
 	{
 		if (Instance.SoundSpawns.ContainsKey(soundSpawnToken))
 			Instance.SoundSpawns[soundSpawnToken]?.AudioSource.Stop();
+	}
+
+	/// <summary>
+	/// Stops a given sound from playing locally.
+	/// </summary>
+	/// <param name="soundSpawnToken">The Token of the soundSpawn to stop</param>
+	public static void Stop(int soundSpawnID)
+	{
+		foreach(var sound in Instance.SoundSpawns)
+		{
+			if (sound.Value.soundID != soundSpawnID) continue;
+			sound.Value.AudioSource.Stop();
+		}
 	}
 
 	/// <summary>

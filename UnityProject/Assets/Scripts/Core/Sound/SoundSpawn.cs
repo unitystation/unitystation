@@ -16,6 +16,7 @@ public class SoundSpawn: MonoBehaviour
 	private bool monitor = false;
 
 	public string assetAddress = "";
+	public int soundID = 0;
 
 	/// <summary>
 	/// The Unique Token of the SoundSpawn.  Keep it to retrieve the playing sound.

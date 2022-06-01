@@ -27,6 +27,8 @@ namespace Messages.Server.SoundMessages
 			// Allow to personalize Audio Source parameters for any sound to play.
 			public AudioSourceParameters AudioParameters;
 
+			public int soundID;
+
 			public override string ToString()
 			{
 				string audioSourceParametersValue = AudioParameters.ToString();
@@ -50,11 +52,11 @@ namespace Messages.Server.SoundMessages
 
 			if (isPositionProvided)
 			{
-				_ = SoundManager.PlayAtPosition(addressableAudioSources, msg.Position, msg.SoundSpawnToken, msg.Polyphonic, netId: msg.TargetNetId, audioSourceParameters: msg.AudioParameters);
+				_ = SoundManager.PlayAtPosition(addressableAudioSources, msg.Position, msg.SoundSpawnToken, msg.Polyphonic, netId: msg.TargetNetId, audioSourceParameters: msg.AudioParameters, soundID: msg.soundID);
 			}
 			else
 			{
-				_ = SoundManager.Play(addressableAudioSources, msg.SoundSpawnToken, msg.AudioParameters, msg.Polyphonic);
+				_ = SoundManager.Play(addressableAudioSources, msg.SoundSpawnToken, msg.AudioParameters, msg.Polyphonic, msg.soundID);
 			}
 
 			if (msg.ShakeParameters.ShakeGround)
@@ -114,7 +116,7 @@ namespace Messages.Server.SoundMessages
 		public static string SendToAll(AddressableAudioSource addressableAudioSource, Vector3 pos,
 			bool polyphonic = false, GameObject sourceObj = null,
 			ShakeParameters shakeParameters = new ShakeParameters(),
-			AudioSourceParameters audioSourceParameters = new AudioSourceParameters())
+			AudioSourceParameters audioSourceParameters = new AudioSourceParameters(), int soundID = 0)
 		{
 			var netId = NetId.Empty;
 			if (sourceObj != null)
