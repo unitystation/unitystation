@@ -199,7 +199,7 @@ namespace Objects
 			}
 		}
 
-		public async void Stop()
+		public async Task Stop()
 		{
 			IsPlaying = false;
 
@@ -215,7 +215,7 @@ namespace Objects
 
 		public void PreviousSong()
 		{
-			Stop();
+			_ = Stop();
 			if (actionNotDone) return;
 			if (currentSongTrackIndex > 0)
 			{
@@ -228,7 +228,7 @@ namespace Objects
 
 		public bool NextSong()
 		{
-			Stop();
+			_ = Stop();
 			if (actionNotDone) return false;
 			if (currentSongTrackIndex < musics.Count - 1)
 			{
