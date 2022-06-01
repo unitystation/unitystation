@@ -178,7 +178,7 @@ namespace Objects
 		}
 
 		[Server]
-		private async void WaitForActionToFinish(System.Action action)
+		private async Task WaitForActionToFinish(System.Action action)
 		{
 			actionNotDone = true;
 			await Task.Run(() => action);
