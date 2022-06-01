@@ -62,7 +62,7 @@ namespace Objects
 
 		private List<AddressableAudioSource> musics;
 
-		private string guid = "";
+		[SyncVar] private string guid = "";
 
 		/// <summary>
 		/// The current state of the jukebox powered/overpowered/underpowered/no power
@@ -80,6 +80,7 @@ namespace Objects
 		private int currentSongTrackIndex = 0;
 		private float startPlayTime;
 		private bool secondLoadAttempt;
+		[SyncVar] private bool actionNotDone = false;
 
 		public bool IsPlaying { get; set; } = false;
 
@@ -175,10 +176,18 @@ namespace Objects
 			}
 		}
 
+		[Server]
+		private async void WaitForActionToFinish(System.Action action)
+		{
+			actionNotDone = true;
+			await Task.Run(() => action);
+			actionNotDone = false;
+		}
+
 		public async Task Play()
 		{
 			// Too much damage stops the jukebox from being able to play
-			if (integrity.integrity > integrity.initialIntegrity / 2)
+			if (integrity.integrity > integrity.initialIntegrity / 2 || actionNotDone)
 			{
 				SoundManager.StopNetworked(guid);
 				IsPlaying = true;
@@ -189,7 +198,7 @@ namespace Objects
 			}
 		}
 
-		public void Stop()
+		public async void Stop()
 		{
 			IsPlaying = false;
 
@@ -198,13 +207,14 @@ namespace Objects
 			else
 				spriteHandler.SetSpriteSO(SpriteDamaged);
 
-			SoundManager.StopNetworked(guid);
+			await Task.Run(() => WaitForActionToFinish(() => SoundManager.StopNetworked(guid)));
 
 			UpdateGUI();
 		}
 
 		public void PreviousSong()
 		{
+			if (actionNotDone) return;
 			if (currentSongTrackIndex > 0)
 			{
 				if (IsPlaying)
@@ -224,6 +234,7 @@ namespace Objects
 
 		public bool NextSong()
 		{
+			if (actionNotDone) return false;
 			if (currentSongTrackIndex < musics.Count - 1)
 			{
 				if (IsPlaying)
