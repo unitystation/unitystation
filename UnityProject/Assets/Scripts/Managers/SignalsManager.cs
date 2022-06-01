@@ -16,12 +16,7 @@ namespace Managers
 		private void Start()
 		{
 			base.Start();
-			EventManager.AddHandler(Event.RoundEnded, ClearAtRoundEnd);
-		}
-
-		private void ClearAtRoundEnd()
-		{
-			Receivers.Clear();
+			EventManager.AddHandler(Event.SceneUnloading, () => Receivers.Clear());
 		}
 
 		/// <summary>
