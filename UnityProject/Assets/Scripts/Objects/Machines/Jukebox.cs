@@ -236,21 +236,14 @@ namespace Objects
 
 		public bool NextSong()
 		{
+			Stop();
 			if (actionNotDone) return false;
 			if (currentSongTrackIndex < musics.Count - 1)
 			{
-				if (IsPlaying)
-				{
-					SoundManager.StopNetworked(guid);
-				}
-
 				currentSongTrackIndex++;
 				UpdateGUI();
 
-				if (IsPlaying)
-				{
-					_ = Play();
-				}
+				if (IsPlaying) _ = Play();
 
 				return true;
 			}
