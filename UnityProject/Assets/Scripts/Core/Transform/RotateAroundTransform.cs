@@ -37,9 +37,8 @@
 		{
 			if(transformToRotateAround == null) return;
 
-			var pos = CustomNetworkManager.IsServer
-				? transformToRotateAround.gameObject.AssumedWorldPosServer()
-				: transformToRotateAround.gameObject.WorldPosClient();
+			var pos = transformToRotateAround.gameObject.AssumedWorldPosServer();
+
 
 			//Means object has moved to hidden pos, server should stop orbit automatically
 			if (pos == TransformState.HiddenPos) return;

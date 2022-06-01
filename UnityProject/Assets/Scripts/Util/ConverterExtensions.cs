@@ -45,6 +45,11 @@ public static class ConverterExtensions
 		return Vector2Int.RoundToInt(other);
 	}
 
+	public static Vector3Int To3Int(this Vector2 other)
+	{
+		return new Vector3Int(Mathf.RoundToInt(other.x) , Mathf.RoundToInt(other.y), 0);
+	}
+
 	/// <summary>Round to int while cutting z-axis</summary>
 	public static Vector2Int To2Int(this Vector3 other)
 	{
@@ -218,6 +223,64 @@ public static class ConverterExtensions
 			MatrixManager.AtPoint(Vector3Int.RoundToInt(worldPos), CustomNetworkManager.Instance._isServer));
 	}
 
+	public static bool IsDiagonal(this MovementSynchronisation.PlayerMoveDirection Direction)
+	{
+		switch (Direction)
+		{
+			case MovementSynchronisation.PlayerMoveDirection.Down:
+			case MovementSynchronisation.PlayerMoveDirection.Up:
+			case MovementSynchronisation.PlayerMoveDirection.Left:
+			case MovementSynchronisation.PlayerMoveDirection.Right:
+				return false;
+			default:
+				return true;
+		}
+	}
+
+	public static MovementSynchronisation.PlayerMoveDirection ToNonDiagonal(this MovementSynchronisation.PlayerMoveDirection Direction, bool First)
+	{
+		switch (Direction)
+		{
+			case MovementSynchronisation.PlayerMoveDirection.Down_Left:
+				return First ? MovementSynchronisation.PlayerMoveDirection.Down : MovementSynchronisation.PlayerMoveDirection.Left;
+			case MovementSynchronisation.PlayerMoveDirection.Down_Right:
+				return First ? MovementSynchronisation.PlayerMoveDirection.Down : MovementSynchronisation.PlayerMoveDirection.Right;
+			case MovementSynchronisation.PlayerMoveDirection.Up_Left:
+				return First ? MovementSynchronisation.PlayerMoveDirection.Up : MovementSynchronisation.PlayerMoveDirection.Left;
+			case MovementSynchronisation.PlayerMoveDirection.Up_Right:
+				return First ? MovementSynchronisation.PlayerMoveDirection.Up : MovementSynchronisation.PlayerMoveDirection.Right;
+			default:
+				return MovementSynchronisation.PlayerMoveDirection.Down;
+
+		}
+	}
+
+	public static Vector2 TVectoro(this MovementSynchronisation.PlayerMoveDirection Direction)
+	{
+		switch (Direction)
+		{
+			case MovementSynchronisation.PlayerMoveDirection.Up_Left:
+				return new Vector2(-1, 1);
+			case MovementSynchronisation.PlayerMoveDirection.Up:
+				return new Vector2(0, 1);
+			case MovementSynchronisation.PlayerMoveDirection.Up_Right:
+				return new Vector2(1, 1);
+
+			case MovementSynchronisation.PlayerMoveDirection.Left:
+				return new Vector2(-1, 0);
+			case MovementSynchronisation.PlayerMoveDirection.Right:
+				return new Vector2(1, 0);
+
+			case MovementSynchronisation.PlayerMoveDirection.Down_Left:
+				return new Vector2(-1, -1);
+			case MovementSynchronisation.PlayerMoveDirection.Down:
+				return new Vector2(0, -1);
+			case MovementSynchronisation.PlayerMoveDirection.Down_Right:
+				return new Vector2(1, -1);
+		}
+		return Vector2.zero;
+	}
+
 	//======== | Cool serialisation stuff | =========
 
 	public static Color UncompresseToColour(this string SerialiseData)
@@ -273,6 +336,37 @@ public static class ConverterExtensions
 
 		}
 		return Vector3.zero;
+	}
+
+
+	public static OrientationEnum ToOrientationEnum(this Vector2Int direction)
+	{
+		if (direction == Vector2Int.down)
+		{
+			return OrientationEnum.Down_By180;
+		}
+		else if (direction == Vector2Int.left)
+		{
+			return OrientationEnum.Left_By90;
+		}
+		else if (direction == Vector2Int.up)
+		{
+			return OrientationEnum.Up_By0;
+		}
+		else if (direction == Vector2Int.right)
+		{
+			return OrientationEnum.Right_By270;
+		}
+		else if (direction.y == -1)
+		{
+			return OrientationEnum.Down_By180;
+		}
+		else if (direction.y == 1)
+		{
+			return OrientationEnum.Up_By0;
+		}
+
+		return OrientationEnum.Down_By180;
 	}
 
 

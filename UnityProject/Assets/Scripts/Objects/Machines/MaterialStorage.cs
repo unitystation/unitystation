@@ -108,7 +108,7 @@ namespace Objects.Machines
 				var amountToSpawn = MaterialList[material] / Cm3PerSheet;
 				if (amountToSpawn > 0)
 				{
-					Spawn.ServerPrefab(materialToSpawn, gameObject.WorldPosServer(), transform.parent, count: amountToSpawn);
+					Spawn.ServerPrefab(materialToSpawn, gameObject.AssumedWorldPosServer(), transform.parent, count: amountToSpawn);
 				}
 			}
 		}

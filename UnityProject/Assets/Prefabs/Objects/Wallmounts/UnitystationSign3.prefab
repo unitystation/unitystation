@@ -15,13 +15,13 @@ GameObject:
   - component: {fileID: 114731318519112812}
   - component: {fileID: 114346909182757630}
   - component: {fileID: 114721762102328376}
-  - component: {fileID: 114098454942565874}
   - component: {fileID: 114213073453988466}
   - component: {fileID: 114923429385349424}
   - component: {fileID: 114881631371079200}
   - component: {fileID: 6940342393076514312}
   - component: {fileID: -8269195091269968629}
   - component: {fileID: -4302952046954039534}
+  - component: {fileID: -3735139749476167569}
   m_Layer: 19
   m_Name: UnitystationSign3
   m_TagString: Untagged
@@ -107,7 +107,6 @@ MonoBehaviour:
   syncInterval: 0.1
   matrixDebugLogging: 0
   objectType: 1
-  customNetTransform: {fileID: 114098454942565874}
   prefabTracker: {fileID: 0}
   CurrentsortingGroup: {fileID: -4302952046954039534}
   AtmosPassable: 1
@@ -164,22 +163,6 @@ MonoBehaviour:
   IgnoreServerUpdatesIfLocalPlayer: 0
   IsAtmosphericDevice: 0
   doNotResetOtherSpriteOptions: 0
---- !u!114 &114098454942565874
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1000011522901538}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 579884b05ae74e8499329b64997147d3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  snapToGridOnStart: 1
-  IsFixedMatrix: 0
 --- !u!114 &114213073453988466
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -280,6 +263,7 @@ MonoBehaviour:
   exportType: 0
   exportName: 
   exportMessage: 
+  initialSize: 3
 --- !u!114 &-8269195091269968629
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -303,6 +287,53 @@ SortingGroup:
   m_SortingLayerID: 1855317293
   m_SortingLayer: 18
   m_SortingOrder: 0
+--- !u!114 &-3735139749476167569
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1000011522901538}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 52a6a264ee47433418b51f654439372f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  DEBUG: 0
+  SnapToGridOnStart: 0
+  LocalTargetPosition: {x: 0, y: 0, z: 0}
+  ChangesDirectionPush: 0
+  isNotPushable: 0
+  newtonianMovement: {x: 0, y: 0}
+  airTime: 0
+  slideTime: 0
+  thrownBy: {fileID: 0}
+  aim: 0
+  spinMagnitude: 0
+  stickyMovement: 0
+  maximumStickSpeed: 1.5
+  onStationMovementsRound: 0
+  attributes: {fileID: 0}
+  registerTile: {fileID: 0}
+  ContextGameObjects:
+  - {fileID: 0}
+  - {fileID: 0}
+  IsCurrentlyFloating: 0
+  LocalDifferenceNeeded: {x: 0, y: 0}
+  CorrectingCourse: 0
+  Pushing: []
+  Hits: []
+  Speed: 1
+  AIR: 3
+  SLIDE: 4
+  Animating: 0
+  IsFlyingSliding: 0
+  IsMoving: 0
+  IsWalking: 0
+  MoveIsWalking: 0
+  LastUpdateClientFlying: 0
 --- !u!1 &1000013907114358
 GameObject:
   m_ObjectHideFlags: 0

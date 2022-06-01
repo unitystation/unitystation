@@ -130,7 +130,7 @@ public static class Spawn
 	public static SpawnResult ServerPrefab(GameObject prefab, Vector3? worldPosition = null, Transform parent = null,
 		Quaternion? localRotation = null, int count = 1, float? scatterRadius = null, bool cancelIfImpassable = false,
 		bool spawnItems = true, bool AutoOnSpawnServerHook = true,
-		PushPull sharePosition = null, bool mapspawn = false, bool PrePickRandom = false)
+		UniversalObjectPhysics sharePosition = null, bool mapspawn = false, bool PrePickRandom = false)
 	{
 		return Server(
 			SpawnInfo.Spawnable(
@@ -292,19 +292,19 @@ public static class Spawn
 				//apply scattering if it was specified
 				if (info.ScatterRadius != null)
 				{
-					var cnt = result.GameObject.GetComponent<CustomNetTransform>();
+					var uop = result.GameObject.GetComponent<UniversalObjectPhysics>();
 					var scatterRadius = info.ScatterRadius.GetValueOrDefault(0);
-					if (cnt != null)
+					if (uop != null)
 					{
-						cnt.SetPosition(info.SpawnDestination.WorldPosition + new Vector3(
+						uop.AppearAtWorldPositionServer(info.SpawnDestination.WorldPosition + new Vector3(
 							Random.Range(-scatterRadius, scatterRadius), Random.Range(-scatterRadius, scatterRadius)));
 					}
 				}
 
 				if (info.SpawnDestination.SharePosition != null &&
-				    info.SpawnDestination.SharePosition.parentContainer != null)
+				    info.SpawnDestination.SharePosition.ContainedInContainer != null)
 				{
-					info.SpawnDestination.SharePosition.parentContainer.GetComponent<ObjectContainer>().StoreObjects(result.GameObjects);
+					info.SpawnDestination.SharePosition.ContainedInContainer.StoreObjects(result.GameObjects);
 				}
 			}
 			else

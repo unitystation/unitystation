@@ -588,7 +588,7 @@ namespace Weapons
 			BodyPartType damageZone, bool isSuicideShot)
 		{
 			// check if we can still shoot
-			PlayerMove shooter = shotBy.GetComponent<PlayerMove>();
+			MovementSynchronisation shooter = shotBy.GetComponent<MovementSynchronisation>();
 			PlayerScript shooterScript = shotBy.GetComponent<PlayerScript>();
 			if (!shooter.allowInput || shooterScript.IsGhost)
 			{
@@ -597,6 +597,7 @@ namespace Weapons
 					Category.Firearms);
 				return;
 			}
+
 
 
 			if (CurrentMagazine == null || CurrentMagazine.ServerAmmoRemains <= 0 ||
@@ -641,9 +642,8 @@ namespace Weapons
 					$"{serverHolder.ExpensiveName()} fires their {gameObject.ExpensiveName()}");
 			}
 
-			//kickback
-			shooterScript.pushPull.Pushable.NewtonianMove(
-				(-target).NormalizeToInt());
+				//kickback
+				shooterScript.objectPhysics.NewtonianPush((-finalDirection).NormalizeToInt(), 1);
 
 			if (SpawnsCasing)
 			{

@@ -133,11 +133,15 @@ namespace ScriptableObjects.RP
 
 			List<AddressableAudioSource> GetSounds(BodyType bodyTypeToCheck)
 			{
-				foreach (var sound in voiceTypeToUse.VoiceDatas)
+				if (voiceTypeToUse.VoiceDatas != null)
 				{
-					if(sound.VoiceSex != bodyTypeToCheck) continue;
-					return sound.Sounds;
+					foreach (var sound in voiceTypeToUse.VoiceDatas)
+					{
+						if(sound.VoiceSex != bodyTypeToCheck) continue;
+						return sound.Sounds;
+					}
 				}
+
 				return defaultSounds;
 			}
 

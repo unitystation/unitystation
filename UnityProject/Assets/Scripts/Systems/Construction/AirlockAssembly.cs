@@ -42,7 +42,7 @@ namespace Objects.Construction
 		private SpriteHandler overlayFillHandler;
 		private SpriteHandler overlayHackingHandler;
 		private StatefulState CurrentState => stateful.CurrentState;
-		private ObjectBehaviour objectBehaviour;
+		private UniversalObjectPhysics objectBehaviour;
 		private Integrity integrity;
 
 		private bool glassAdded = false;
@@ -51,7 +51,7 @@ namespace Objects.Construction
 		{
 			airlockElectronicsSlot = GetComponent<ItemStorage>().GetIndexedItemSlot(0);
 			stateful = GetComponent<Stateful>();
-			objectBehaviour = GetComponent<ObjectBehaviour>();
+			objectBehaviour = GetComponent<UniversalObjectPhysics>();
 
 			overlayFillHandler = overlayFill.GetComponent<SpriteHandler>();
 			overlayHackingHandler = overlayHacking.GetComponent<SpriteHandler>();
@@ -385,7 +385,7 @@ namespace Objects.Construction
 			var airlockElectronics = Spawn.ServerPrefab(airlockElectronicsPrefab, SpawnDestination.At(gameObject)).GameObject;
 			airlockElectronics.GetComponent<AirlockElectronics>().CurrentAccess = airlockAccess;
 
-			objectBehaviour.ServerSetPushable(false);
+			objectBehaviour.SetIsNotPushable(true);
 			stateful.ServerChangeState(cablesAddedState);
 			overlayHackingHandler.ChangeSprite((int)Panel.WiresAdded);
 			if (isWindowed)

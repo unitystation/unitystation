@@ -35,7 +35,7 @@ public class RodsToMetal : NetworkBehaviour, ICheckedInteractable<HandApply>
 		Stackable stack = gameObject.GetComponent<Stackable>();
 		if (stack.Amount >= minimumRods)
 		{
-			Spawn.ServerPrefab(CommonPrefabs.Instance.Metal, interaction.Performer.WorldPosServer(), count: metalSpawnCount);
+			Spawn.ServerPrefab(CommonPrefabs.Instance.Metal, interaction.Performer.AssumedWorldPosServer(), count: metalSpawnCount);
 			stack.ServerConsume(minimumRods);
 		}
 	}

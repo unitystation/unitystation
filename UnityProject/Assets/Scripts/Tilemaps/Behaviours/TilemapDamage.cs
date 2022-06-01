@@ -36,7 +36,7 @@ public class TilemapDamage : MonoBehaviour, IFireExposable
 		    && metaTileMap.HasObject(cellPos, CustomNetworkManager.Instance._isServer)
 		)
 		{
-			foreach (var customNetTransform in matrix.Get<CustomNetTransform>(cellPos, true))
+			foreach (var customNetTransform in matrix.Get<UniversalObjectPhysics>(cellPos, true))
 			{
 				customNetTransform.CheckMatrixSwitch();
 			}

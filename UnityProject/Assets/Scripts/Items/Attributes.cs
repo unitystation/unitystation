@@ -6,8 +6,7 @@ using Messages.Client.Interaction;
 using NaughtyAttributes;
 
 [RequireComponent(typeof(Integrity))]
-[RequireComponent(typeof(CustomNetTransform))]
-public class Attributes : NetworkBehaviour, IRightClickable, IExaminable
+public class Attributes : NetworkBehaviour, IRightClickable, IExaminable, IServerSpawn
 {
 
 	[Tooltip("Display name of this item when spawned.")]
@@ -75,6 +74,32 @@ public class Attributes : NetworkBehaviour, IRightClickable, IExaminable
 	[SyncVar(hook = nameof(SyncArticleDescription))]
 	private string articleDescription;
 
+
+	/// <summary>
+	/// Sizes:
+	/// Tiny - pen, coin, pills. Anything you'd easily lose in a couch.
+	/// Small - Pocket-sized items. You could hold a couple in one hand, but ten would be a hassle without a bag. Apple, phone, drinking glass etc.
+	/// Medium - default size. Fairly bulky but stuff you could carry in one hand and stuff into a backpack. Most tools would fit this size.
+	/// Large - particularly long or bulky items that would need a specialised bag to carry them. A shovel, a snowboard etc or wall mounts, kitchen appliance.
+	/// Huge - Think, like, a fridge. Absolute unit. You aren't stuffing this into anything less than a shipping crate or plasma generator.
+	/// Massive - Particle accelerator piece, takes up the entire tile.
+	/// Humongous - Multi-block/Sprite stretches across multiple tiles structures such as the gateway
+	/// </summary>
+	[Tooltip("Size of this item when spawned. Is medium by default, which you should change if needed.")]
+	[SerializeField]
+	private Size initialSize = global::Size.Medium;
+
+	/// <summary>
+	/// Current size.
+	/// </summary>
+	[SyncVar(hook = nameof(SyncSize))]
+	private Size size;
+
+	/// <summary>
+	/// Current size
+	/// </summary>
+	public Size Size => size;
+
 	/// <summary>
 	/// Current description
 	/// </summary>
@@ -84,6 +109,7 @@ public class Attributes : NetworkBehaviour, IRightClickable, IExaminable
 	{
 		SyncArticleName(articleName, articleName);
 		SyncArticleDescription(articleDescription, articleDescription);
+		SyncSize(size, this.size);
 		base.OnStartClient();
 	}
 
@@ -94,6 +120,21 @@ public class Attributes : NetworkBehaviour, IRightClickable, IExaminable
 		base.OnStartServer();
 	}
 
+	private void SyncSize(Size oldSize, Size newSize)
+	{
+		size = newSize;
+	}
+
+	/// <summary>
+	/// Change this item's size and sync it to clients.
+	/// </summary>
+	/// <param name="newSize"></param>
+	[Server]
+	public void ServerSetSize(Size newSize)
+	{
+		SyncSize(size, newSize);
+	}
+
 	private void SyncArticleName(string oldName, string newName)
 	{
 		articleName = newName;
@@ -102,6 +143,11 @@ public class Attributes : NetworkBehaviour, IRightClickable, IExaminable
 	private void SyncArticleDescription(string oldDescription, string newDescription)
 	{
 		articleDescription = newDescription;
+	}
+
+	public void OnSpawnServer(SpawnInfo info)
+	{
+		size = initialSize;
 	}
 
 	/// <summary>
@@ -154,7 +200,7 @@ public class Attributes : NetworkBehaviour, IRightClickable, IExaminable
 
 	private void OnPointTo()
 	{
-		PlayerManager.PlayerScript.playerNetworkActions.CmdPoint(gameObject, gameObject.WorldPosClient());
+		PlayerManager.PlayerScript.playerNetworkActions.CmdPoint(gameObject, gameObject.AssumedWorldPosServer());
 	}
 
 	// Initial implementation of shift examine behaviour

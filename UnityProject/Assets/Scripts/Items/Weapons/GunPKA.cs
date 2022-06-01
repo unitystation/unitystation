@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using AddressableReferences;
+using Messages.Server.SoundMessages;
 
 namespace Weapons
 {
@@ -14,6 +15,7 @@ namespace Weapons
 
 		[SerializeField]
 		private float rechargeTime = 2.0f;
+
 
 		public AddressableAudioSource rechargeSound;
 

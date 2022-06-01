@@ -57,7 +57,7 @@ namespace Objects.Other
 
 			if (DMMath.Prob(10))
 			{
-				_ = SoundManager.PlayNetworkedAtPosAsync(ambientReminder, gameObject.WorldPosServer());
+				_ = SoundManager.PlayNetworkedAtPosAsync(ambientReminder, gameObject.AssumedWorldPosServer());
 			}
 		}
 

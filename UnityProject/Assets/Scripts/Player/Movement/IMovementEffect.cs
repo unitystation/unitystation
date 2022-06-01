@@ -6,4 +6,11 @@
 		float WalkingSpeedModifier { get; }
 		float CrawlingSpeedModifier { get; }
 	}
+
+	public enum MovementType
+	{
+		Running,
+		Walking,
+		Crawling
+	}
 }

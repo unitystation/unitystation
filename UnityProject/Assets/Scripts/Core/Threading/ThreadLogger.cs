@@ -16,6 +16,7 @@ namespace Core.Threading
 				{
 					Logger.LogError(log);
 				}
+				otherThreadLogs.Clear();
 			}
 		}
 

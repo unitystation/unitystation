@@ -45,7 +45,6 @@ using Systems.Interaction;
 			base.Awake();
 			GetComponent<Integrity>().OnWillDestroyServer.AddListener(OnWillDestroyServer);
 			//Doors/airlocks aren't supposed to switch matrices
-			GetComponent<CustomNetTransform>().IsFixedMatrix = true;
 			tileChangeManager = GetComponentInParent<TileChangeManager>();
 			InteractableDoor = this.GetComponent<InteractableDoor>();
 		}
@@ -116,7 +115,7 @@ using Systems.Interaction;
 				return !direction.y.Equals(v.y) || !direction.x.Equals(v.x);
 			}
 
-			return !isClosed;
+			return true; //Should be able to walk out of closed doors
 		}
 
 		bool CheckViaDirectional(Rotatable directional, Vector3Int dir)
@@ -143,8 +142,27 @@ using Systems.Interaction;
 
 		public override bool IsPassableFromOutside( Vector3Int from, bool isServer, GameObject context = null)
 		{
-			// Entering and leaving is the same check
-			return IsPassableFromInside( from, isServer );
+			if (isClosed && OneDirectionRestricted)
+			{
+
+				// OneDirectionRestricted is hardcoded to only be from the negative y position
+				Vector3Int v = Vector3Int.RoundToInt(transform.localRotation * Vector3.down);
+
+				// Returns false if player is bumping door from the restricted direction
+				var position = isServer? LocalPositionServer : LocalPositionClient;
+				var direction = from - position;
+
+				//Use Directional component if it exists
+				var tryGetDir = GetComponent<Rotatable>();
+				if (tryGetDir != null)
+				{
+					return CheckViaDirectional(tryGetDir, direction);
+				}
+
+				return !direction.y.Equals(v.y) || !direction.x.Equals(v.x);
+			}
+
+			return !isClosed;
 		}
 
 		public override bool IsPassable(bool isServer, GameObject context = null)

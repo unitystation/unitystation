@@ -122,7 +122,7 @@ namespace Objects.Machines
 				return;
 			}
 
-			if (mustBeUnanchored && gameObject.GetComponent<PushPull>()?.IsPushable == false)
+			if (mustBeUnanchored && gameObject.GetComponent<UniversalObjectPhysics>().OrNull()?.IsNotPushable == true)
 			{
 				Chat.AddExamineMsgFromServer(interaction.Performer,
 					$"The {gameObject.ExpensiveName()} needs to be unanchored first.");

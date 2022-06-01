@@ -58,7 +58,7 @@ public class CPRable : MonoBehaviour, ICheckedInteractable<HandApply>
 	private void ServerDoCPR(GameObject performer, GameObject target, BodyPartType TargetBodyPart)
 	{
 		var health = target.GetComponent<LivingHealthMasterBase>();
-		Vector3Int position = health.ObjectBehaviour.AssumedWorldPositionServer();
+		Vector3Int position = health.ObjectBehaviour.registerTile.WorldPosition;
 		MetaDataNode node = MatrixManager.GetMetaDataAt(position);
 
 		bool hasLung = false;

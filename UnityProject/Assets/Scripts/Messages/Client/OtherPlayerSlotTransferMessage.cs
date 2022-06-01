@@ -44,7 +44,7 @@ namespace Messages.Client
 
 			if (targetSlot.NamedSlot == NamedSlot.handcuffs)
 			{
-				targetObject.GetComponent<PlayerMove>().TryUnCuff(targetObject, playerObject);
+				targetObject.GetComponent< MovementSynchronisation>().TryUnCuff(targetObject, playerObject);
 				return;
 			}
 

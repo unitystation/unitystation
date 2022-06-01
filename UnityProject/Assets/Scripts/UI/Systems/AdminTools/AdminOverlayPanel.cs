@@ -12,7 +12,7 @@ namespace AdminTools
 	public class AdminOverlayPanel : MonoBehaviour
 	{
 		[SerializeField] private Text displayText = null;
-		private ObjectBehaviour targetObjBehaviour;
+		private UniversalObjectPhysics targetObjBehaviour;
 		private AdminOverlay adminOverlay;
 		private Transform target;
 		private Vector3 followOffset;
@@ -33,7 +33,7 @@ namespace AdminTools
 		{
 			if (objectToFollow == null) return;
 
-			targetObjBehaviour = objectToFollow.GetComponent<ObjectBehaviour>();
+			targetObjBehaviour = objectToFollow.GetComponent<UniversalObjectPhysics>();
 			target = objectToFollow.transform;
 
 			cam = Camera.main;
@@ -89,11 +89,11 @@ namespace AdminTools
 			// check container:
 			if(targetObjBehaviour != null)
 			{
-				if (targetObjBehaviour.parentContainer != null)
+				if (targetObjBehaviour.ContainedInContainer != null)
 				{
-					if (targetObjBehaviour.parentContainer.transform != target)
+					if (targetObjBehaviour.ContainedInContainer.transform != target)
 					{
-						target = targetObjBehaviour.parentContainer.transform;
+						target = targetObjBehaviour.ContainedInContainer.transform;
 					}
 				}
 				else

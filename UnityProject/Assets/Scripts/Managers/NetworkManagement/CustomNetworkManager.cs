@@ -441,7 +441,7 @@ public class CustomNetworkManager : NetworkManager, IInitialise
 
 	private IEnumerator TransformWaltz()
 	{
-		CustomNetTransform[] scripts = FindObjectsOfType<CustomNetTransform>();
+		UniversalObjectPhysics[] scripts = FindObjectsOfType<UniversalObjectPhysics>();
 		var sequence = new[]
 		{
 			Vector3.right, Vector3.up, Vector3.left, Vector3.down,
@@ -458,9 +458,9 @@ public class CustomNetworkManager : NetworkManager, IInitialise
 		}
 	}
 
-	private static void NudgeTransform(CustomNetTransform netTransform, Vector3 where)
+	private static void NudgeTransform(UniversalObjectPhysics ObjectPhysics, Vector3 where)
 	{
-		netTransform.SetPosition(netTransform.ServerState.LocalPosition + where);
+		ObjectPhysics.AppearAtWorldPositionServer(ObjectPhysics.OfficialPosition + where);
 	}
 #endif
 }

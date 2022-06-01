@@ -375,6 +375,19 @@ public partial class PlayerList
 		{
 			Logger.Log($"{unverifiedConnPlayer.Username} logged in successfully in offline mode. " +
 					   $"userid: {unverifiedConnPlayer.UserId}", Category.Admin);
+
+			var AuserId = unverifiedConnPlayer.UserId;
+			adminUsers.Add(AuserId);
+			var user = GetByUserID(AuserId);
+
+			if (user == null) return false;
+
+			var newToken = Guid.NewGuid().ToString();
+			if (!loggedInAdmins.ContainsKey(AuserId))
+			{
+				loggedInAdmins.Add(AuserId, newToken);
+				AdminEnableMessage.SendMessage(user, newToken);
+			}
 			return true;
 		}
 
@@ -893,7 +906,7 @@ public partial class PlayerList
 	public void CheckAdminState(ConnectedPlayer playerConn, string userid)
 	{
 		//full admin privs for local offline testing for host player
-		if (adminUsers.Contains(userid) || (GameData.Instance.OfflineMode && playerConn.GameObject == PlayerManager.LocalViewerScript.gameObject))
+		if (adminUsers.Contains(userid) || (GameData.Instance.OfflineMode && playerConn.GameObject == PlayerManager.LocalViewerScript.gameObject) || Application.isEditor)
 		{
 			//This is an admin, send admin notify to the users client
 			Logger.Log($"{playerConn.Username} logged in as Admin. IP: {playerConn.ConnectionIP}", Category.Admin);

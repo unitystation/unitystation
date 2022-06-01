@@ -62,7 +62,7 @@ namespace Player
 
     		AudioSourceParameters audioSourceParameters = new AudioSourceParameters(pitch: Random.Range(0.8f, 1.2f));
     		SoundManager.PlayNetworkedAtPos(
-    				CommonSounds.Instance.ThudSwoosh, interaction.TargetObject.WorldPosServer(), audioSourceParameters, sourceObj: interaction.TargetObject);
+    				CommonSounds.Instance.ThudSwoosh, interaction.TargetObject.AssumedWorldPosServer(), audioSourceParameters, sourceObj: interaction.TargetObject);
     	}
 
     	// TODO Consider moving this into its own component, or merging Huggable, this and CPRable into

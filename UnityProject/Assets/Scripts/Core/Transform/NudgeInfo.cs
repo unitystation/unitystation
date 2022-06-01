@@ -12,13 +12,12 @@ public struct NudgeInfo
 //	public Vector3 TargetPos;
 	public float SpinMultiplier;
 	public float InitialSpeed;
-	public SpinMode SpinMode;
 	public Vector3 Trajectory;
 
 	public override string ToString() {
 		return Equals(NoNudge) ? "[No nudge]" :
 			$"[{nameof( OriginPos )}: {OriginPos}, " +
-			$"{nameof( SpinMultiplier )}: {SpinMultiplier}, {nameof( InitialSpeed )}: {InitialSpeed}, {nameof( SpinMode )}: {SpinMode}]";
+			$"{nameof( SpinMultiplier )}: {SpinMultiplier}, {nameof( InitialSpeed )}: {InitialSpeed}]";
 	}
 
 	public bool Equals( NudgeInfo other ) {

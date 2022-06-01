@@ -94,7 +94,7 @@ namespace Items
 		public void ServerPerformInteraction(InventoryApply interaction)
 		{
 			ToolUtils.ServerPlayToolSound(interaction);
-			Spawn.ServerPrefab(CommonPrefabs.Instance.Metal, interaction.Performer.WorldPosServer().CutToInt(), transform.parent, count: 1,
+			Spawn.ServerPrefab(CommonPrefabs.Instance.Metal, interaction.Performer.AssumedWorldPosServer().CutToInt(), transform.parent, count: 1,
 				scatterRadius: Spawn.DefaultScatterRadius, cancelIfImpassable: true);
 			Inventory.ServerDespawn(interaction.FromSlot);
 		}

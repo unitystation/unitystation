@@ -12,8 +12,8 @@ namespace Systems.Atmospherics
 	/// </summary>
 	public class ReactionManager : MonoBehaviour
 	{
-		private float RollingAverageN = 20;
-		private float PushMultiplier = 5;
+		private float RollingAverageN = 50;
+		private float PushMultiplier = 4;
 
 		private GameObject fireLight = null;
 		public GameObject FireLightPrefab => fireLight;
@@ -136,43 +136,31 @@ namespace Systems.Atmospherics
 
 		private void ProcessWindNodes(MetaDataNode windyNode)
 		{
-			foreach (var registerTile in matrix.GetRegisterTile(windyNode.Position, true))
+
+			var RegisterTiles = matrix.GetRegisterTile(windyNode.Position, true);
+			for (int i = 0; i < RegisterTiles.Count; i++)
 			{
+				var registerTile = RegisterTiles[i];
 				//Quicker to get all RegisterTiles and grab the cached PushPull component from it than to get it manually using Get<>
-				if (registerTile.PushPull.HasComponent == false) continue;
+				if (registerTile.ObjectPhysics.HasComponent == false) continue;
 
-				var pushable = registerTile.PushPull.Component;
+				var pushable = registerTile.ObjectPhysics.Component;
 
-				float correctedForce = (windyNode.WindForce * PushMultiplier) / (int) pushable.Pushable.Size;
+				if (pushable == null ) continue;
 
-				if (correctedForce >= AtmosConstants.MinPushForce)
+				float correctedForce = (windyNode.WindForce ) / (int) pushable.GetSize();
+
+				correctedForce = Mathf.Clamp(correctedForce, 0, 30);
+
+				pushable.NewtonianPush(transform.rotation * (Vector2)windyNode.WindDirection, Random.Range((float)(correctedForce * 0.8), correctedForce));
+				if (pushable.stickyMovement && windyNode.WindForce > 3)
 				{
-					if (pushable.Pushable.IsTileSnap)
-					{
-						byte pushes = (byte)Mathf.Clamp((int)correctedForce / 10, 1, 10);
-						for (byte j = 0; j < pushes; j++)
-						{
-							//converting push to world coords because winddirection is in local coords
-							pushable.QueuePush((transform.rotation * (Vector2)windyNode.WindDirection).To2Int(),
-								Random.Range((float)(correctedForce * 0.8), correctedForce));
-						}
-					}
-					else
-					{
-						pushable.Pushable.Nudge(new NudgeInfo
-						{
-							OriginPos = pushable.Pushable.ServerPosition,
-							Trajectory = (Vector2)windyNode.WindDirection,
-							SpinMode = SpinMode.None,
-							SpinMultiplier = 1,
-							InitialSpeed = correctedForce,
-						});
-					}
+					pushable.TryTilePush((transform.rotation * (Vector2)windyNode.WindDirection).To2Int(), null);
 				}
 			}
 
 			windyNode.WindForce = (windyNode.WindForce * ((RollingAverageN - 1) / RollingAverageN));
-			if (windyNode.WindForce < 0.5f * (1f / PushMultiplier))
+			if (windyNode.WindForce < 0.25f)
 			{
 				winds.Remove(windyNode);
 				windyNode.WindForce = 0;
@@ -400,7 +388,7 @@ namespace Systems.Atmospherics
 				winds.AddIfMissing(node);
 
 				node.WindForce = (node.WindForce * ((RollingAverageN - 1) / RollingAverageN)) +
-				                 pressureDifference / RollingAverageN;
+				                 (pressureDifference  * PushMultiplier) / RollingAverageN;
 				node.WindDirection = windDirection;
 			}
 		}

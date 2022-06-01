@@ -235,7 +235,7 @@ namespace IngameDebugConsole
 		{
 			foreach (ConnectedPlayer player in PlayerList.Instance.InGamePlayers)
 			{
-				player.GameObject.GetComponent<PlayerScript>().PlayerSync.Push(Vector2Int.up);
+				player.GameObject.GetComponent<PlayerScript>().PlayerSync.TryTilePush(Vector2Int.up, null);
 			}
 		}
 #if UNITY_EDITOR
@@ -247,9 +247,9 @@ namespace IngameDebugConsole
 				Vector3 playerPos = player.Script.WorldPos;
 				Vector3 spawnPos = playerPos + new Vector3( 0, 2, 0 );
 				GameObject mealPrefab = CraftingManager.Meals.FindOutputMeal("Meat Steak");
-				var slabs = new List<CustomNetTransform>();
+				var slabs = new List<UniversalObjectPhysics>();
 				for ( int i = 0; i < 5; i++ ) {
-					slabs.Add( Spawn.ServerPrefab(mealPrefab, spawnPos).GameObject.GetComponent<CustomNetTransform>() );
+					slabs.Add( Spawn.ServerPrefab(mealPrefab, spawnPos).GameObject.GetComponent<UniversalObjectPhysics>() );
 				}
 				for ( var i = 0; i < slabs.Count; i++ ) {
 					Vector3 vector3 = i%2 == 0 ? new Vector3(i,-i,0) : new Vector3(-i,i,0);

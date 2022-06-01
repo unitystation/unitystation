@@ -47,7 +47,7 @@ public class Stackable : NetworkBehaviour, IServerLifecycle, ICheckedInteractabl
 	private bool amountInit;
 
 	private Pickupable pickupable;
-	private PushPull pushPull;
+	private UniversalObjectPhysics objectPhysics;
 	private RegisterTile registerTile;
 	private GameObject prefab;
 	private SpriteHandler spriteHandler;
@@ -74,7 +74,7 @@ public class Stackable : NetworkBehaviour, IServerLifecycle, ICheckedInteractabl
 		if (pickupable != null) return;
 		pickupable = GetComponent<Pickupable>();
 		amount = initialAmount;
-		pushPull = GetComponent<PushPull>();
+		objectPhysics = GetComponent<UniversalObjectPhysics>();
 		registerTile = GetComponent<RegisterTile>();
 		spriteHandler = GetComponentInChildren<SpriteHandler>();
 	}
@@ -82,7 +82,7 @@ public class Stackable : NetworkBehaviour, IServerLifecycle, ICheckedInteractabl
 	private void OnLocalPositionChangedServer(Vector3Int newLocalPos)
 	{
 		//if we are being pulled, combine the stacks with any on the ground under us.
-		if (pushPull.IsBeingPulled)
+		if (objectPhysics.PulledBy.HasComponent)
 		{
 			//check for stacking with things on the ground
 			ServerStackOnGround(newLocalPos);

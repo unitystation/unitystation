@@ -344,8 +344,8 @@ public static class PlayerSpawn
 		}
 
 		Vector3Int spawnPosition = TransformState.HiddenPos;
-		var objBeh = body.GetComponent<ObjectBehaviour>();
-		if (objBeh != null) spawnPosition = objBeh.AssumedWorldPositionServer();
+		var objBeh = body.GetComponent<UniversalObjectPhysics>();
+		if (objBeh != null) spawnPosition = objBeh.registerTile.WorldPosition;
 
 		if (spawnPosition == TransformState.HiddenPos)
 		{
@@ -460,6 +460,8 @@ public static class PlayerSpawn
 		//be upright w.r.t.  localRotation, NOT world rotation
 		var player = UnityEngine.Object.Instantiate(playerPrefab, spawnPosition, parentTransform.rotation,
 			parentTransform);
+		player.GetComponent<UniversalObjectPhysics>().ForceSetLocalPosition(spawnPosition.ToLocal(matrixInfo.Matrix), Vector2.zero, false, matrixInfo.Id,  true, 0);
+
 
 		return player;
 	}
@@ -533,10 +535,10 @@ public static class PlayerSpawn
 
 		// If the player is inside a container, send a ClosetHandlerMessage.
 		// The ClosetHandlerMessage will attach the container to the transfered player.
-		var playerObjectBehavior = newBody.GetComponent<ObjectBehaviour>();
-		if (playerObjectBehavior && playerObjectBehavior.parentContainer)
+		var playerObjectBehavior = newBody.GetComponent<UniversalObjectPhysics>();
+		if (playerObjectBehavior && playerObjectBehavior.ContainedInContainer)
 		{
-			FollowCameraMessage.Send(newBody, playerObjectBehavior.parentContainer.gameObject);
+			FollowCameraMessage.Send(newBody, playerObjectBehavior.ContainedInContainer.gameObject);
 		}
 
 		if (characterSettings != null)

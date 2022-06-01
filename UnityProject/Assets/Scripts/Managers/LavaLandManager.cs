@@ -204,7 +204,7 @@ namespace Systems.Scenes
 
 			var bounds = new BoundsInt(minPosition, maxPosition - minPosition);
 
-			var gameObjectPos = script.gameObject.WorldPosServer().RoundToInt();
+			var gameObjectPos = script.gameObject.AssumedWorldPosServer().RoundToInt();
 
 			foreach (var layer in layers)
 			{

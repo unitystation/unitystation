@@ -528,7 +528,7 @@ namespace Systems.CraftingV2
 				spawnedResult.Add(
 					Spawn.ServerPrefab(
 						resultedGameObject,
-						crafterPlayerScript.PlayerSync.ClientPosition
+						crafterPlayerScript.PlayerSync.registerTile.WorldPosition
 					).GameObject
 				);
 			}

@@ -90,7 +90,7 @@ namespace Objects.Cargo
 		public void PlayBudgetUpdateSound()
 		{
 			if(soundIsOnCooldown) return;
-			_ = SoundManager.PlayNetworkedAtPosAsync(creditArrivalSound, gameObject.WorldPosServer());
+			_ = SoundManager.PlayNetworkedAtPosAsync(creditArrivalSound, gameObject.AssumedWorldPosServer());
 			StartCoroutine(SoundCooldown());
 		}
 

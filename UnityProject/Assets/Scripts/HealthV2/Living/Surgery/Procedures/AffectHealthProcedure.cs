@@ -13,6 +13,8 @@ namespace HealthV2
 		public DamageType Affects;
 		public float HeelStrength;
 
+		public bool ConsumeItem;
+
 		public AttackType FailAttackType = AttackType.Melee;
 
 		public bool UseUpItem = false;
@@ -23,7 +25,8 @@ namespace HealthV2
 			if (interaction.HandSlot.Item != null && interaction.HandSlot.Item.GetComponent<ItemAttributesV2>().HasTrait(RequiredTrait))
 			{
 				OnBodyPart.HealDamage(interaction.UsedObject,HeelStrength,Affects);
-				if (UseUpItem)
+
+				if (ConsumeItem)
 				{
 					var stackable = interaction.UsedObject.GetComponent<Stackable>();
 					if (stackable != null)
@@ -35,6 +38,7 @@ namespace HealthV2
 						_ = Despawn.ServerSingle(interaction.UsedObject);
 					}
 				}
+
 			}
 		}
 

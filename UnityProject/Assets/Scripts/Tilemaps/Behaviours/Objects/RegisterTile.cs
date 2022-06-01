@@ -61,8 +61,6 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 	/// </summary>
 	public ObjectType ObjectType => objectType;
 
-	private IPushable iPushable;
-
 	/// <summary>
 	/// Matrix this object lives in
 	/// </summary>
@@ -109,10 +107,9 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 	/// Returns the correct client/server version of world position depending on if this is
 	/// called on client or server.
 	/// </summary>
-	public Vector3Int WorldPosition => isServer ? WorldPositionServer : WorldPositionClient;
+	public Vector3Int WorldPosition => objectPhysics.Component.OfficialPosition.RoundToInt();
 
-	public Vector3Int WorldPositionServer => MatrixManager.LocalToWorldInt(LocalPositionServer, Matrix);
-	public Vector3Int WorldPositionClient => MatrixManager.LocalToWorldInt(LocalPositionClient, Matrix);
+	public Vector3Int WorldPositionServer => objectPhysics.Component.OfficialPosition.RoundToInt();
 
 	/// <summary>
 	/// Registered local position of this object. Returns correct value depending on if this is on the
@@ -135,8 +132,6 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 
 	private IMatrixRotation[] matrixRotationHooks;
 
-	public CustomNetTransform customNetTransform;
-
 	//cached for fast fire exposure without gc
 	private IFireExposable[] fireExposables;
 
@@ -153,8 +148,8 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 	private PipeData pipeData;
 	public PipeData PipeData => pipeData;
 
-	private CheckedComponent<PushPull> pushPull;
-	public CheckedComponent<PushPull> PushPull => pushPull;
+	private CheckedComponent<UniversalObjectPhysics> objectPhysics = new CheckedComponent<UniversalObjectPhysics>();
+	public CheckedComponent<UniversalObjectPhysics> ObjectPhysics => objectPhysics;
 
 	[PrefabModeOnly]
 	public SortingGroup CurrentsortingGroup;
@@ -171,14 +166,12 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 		{
 			objectLayer = transform.parent.GetComponent<ObjectLayer>() ?? transform.parent.GetComponentInParent<ObjectLayer>();
 		}
-		customNetTransform = GetComponent<CustomNetTransform>();
+		objectPhysics.ResetComponent(this);
 		matrixRotationHooks = GetComponents<IMatrixRotation>();
 		fireExposables = GetComponents<IFireExposable>();
 		IPlayerEntersTiles = GetComponents<IPlayerEntersTile>();
 		IObjectEntersTiles = GetComponents<IObjectEntersTile>();
 		CurrentsortingGroup = GetComponent<SortingGroup>();
-		iPushable = GetComponent<IPushable>();
-		pushPull = new CheckedComponent<PushPull>(this);
 	}
 
 	public override void OnStartServer()
@@ -226,11 +219,6 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 	public void Initialize(Matrix matrix)
 	{
 		Matrix = matrix;
-		if (iPushable != null)
-		{
-			iPushable.SetInitialPositionStates();
-		}
-
 		Initialized = true;
 		var networkedMatrix = Matrix.transform.parent.GetComponent<NetworkedMatrix>();
 		if (isServer)
@@ -281,6 +269,7 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 	}
 
 	#endregion
+
 
 	public void ServerSetLocalPosition(Vector3Int value)
 	{
@@ -354,14 +343,14 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 		NetworkedMatrix.InvokeWhenInitialized(networkedMatrixNetId, FinishNetworkedMatrixRegistration); //note: we dont actually wait for init here anymore
 	}
 
-	private void FinishNetworkedMatrixRegistration(NetworkedMatrix networkedMatrix)
+	public void FinishNetworkedMatrixRegistration(NetworkedMatrix networkedMatrix)
 	{
 		if (networkedMatrix == null) return;
 		//if we had any spin rotation, preserve it,
 		//otherwise all objects should always have upright local rotation
 		var rotation = transform.rotation;
 		//only customNetTransform can have spin rotation
-		bool hadSpinRotation = customNetTransform && Quaternion.Angle(transform.localRotation, Quaternion.identity) > 5;
+		bool hadSpinRotation = Quaternion.Angle(transform.localRotation, Quaternion.identity) > 5;
 
 		var newObjectLayer = networkedMatrix.GetComponentInChildren<ObjectLayer>();
 		if (objectLayer != newObjectLayer)
@@ -387,8 +376,19 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 			transform.localRotation = Quaternion.identity;
 		}
 
+
+
 		//this will fire parent change hooks so we do it last
 		SetMatrix(networkedMatrix.GetComponentInChildren<Matrix>());
+
+
+
+		if (objectPhysics.HasComponent)
+		{
+			transform.localPosition =  objectPhysics.Component.CalculateLocalPosition();
+		}
+
+
 
 		UpdatePositionClient();
 
@@ -479,14 +479,7 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 	public void UpdatePositionServer()
 	{
 		var prevPosition = LocalPositionServer;
-		if (iPushable != null)
-		{
-			ServerSetLocalPosition(iPushable.ServerLocalPosition);
-		}
-		else
-		{
-			ServerSetLocalPosition(transform.localPosition.RoundToInt());
-		}
+		ServerSetLocalPosition(transform.localPosition.RoundToInt());
 		if (prevPosition != LocalPositionServer)
 		{
 			OnLocalPositionChangedServer.Invoke(LocalPositionServer);
@@ -496,14 +489,9 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 
 	public void UpdatePositionClient()
 	{
-		if (iPushable != null)
-		{
-			ClientSetLocalPosition(iPushable.ClientLocalPosition);
-		}
-		else
-		{
-			ClientSetLocalPosition(transform.localPosition.RoundToInt());
-		}
+
+		ClientSetLocalPosition(transform.localPosition.RoundToInt());
+
 		CheckSameMatrixRelationships();
 	}
 

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using Newtonsoft.Json;
+using Objects.Shuttles;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Player;
@@ -11,6 +12,9 @@ public class PlayerManager : MonoBehaviour
 	private static PlayerManager playerManager;
 
 	public static IPlayerControllable MovementControllable { get; private set; }
+
+	public static ShuttleConsole ShuttleConsole { get;  set; } //So Hardcoded for RCS but I don't want to mess around with messages and Make a mess of new movement
+
 	public static GameObject LocalPlayer { get; set; }
 
 	public static Equipment Equipment { get; private set; }
@@ -91,10 +95,26 @@ public class PlayerManager : MonoBehaviour
 
 	private void UpdateMe()
 	{
+
+
+		if (ShuttleConsole != null)
+		{
+			var move = GetMovementActions();
+			if (move.moveActions.Length > 0)
+			{
+				ShuttleConsole.CmdMove(Orientation.From(GetMovementActions().ToPlayerMoveDirection().TVectoro()));
+				return;
+			}
+		}
+
+
 		if (MovementControllable != null)
 		{
 			MovementControllable.ReceivePlayerMoveAction(GetMovementActions());
 		}
+
+
+
 	}
 
 	private void OnLevelFinishedLoading(Scene oldScene, Scene newScene)

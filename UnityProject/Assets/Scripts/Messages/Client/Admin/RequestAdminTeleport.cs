@@ -53,7 +53,7 @@ namespace Messages.Client.Admin
 
 			var coord = new Vector3 {x = msg.vectorX, y = msg.vectorY, z = msg.vectorZ };
 
-			userToTeleport.PlayerSync.SetPosition(coord, true);
+			userToTeleport.PlayerSync.AppearAtWorldPositionServer(coord, false);
 
 			UIManager.Instance.adminChatWindows.adminLogWindow.ServerAddChatRecord(
 					$"{SentByPlayer.Username} teleported {userToTeleport.playerName} to themselves", SentByPlayer.UserId);
@@ -81,7 +81,7 @@ namespace Messages.Client.Admin
 
 			if (playerScript == null) return;
 
-			playerScript.PlayerSync.SetPosition(userToTeleportTo.gameObject.AssumedWorldPosServer(), true);
+			playerScript.PlayerSync.AppearAtWorldPositionServer(userToTeleportTo.gameObject.AssumedWorldPosServer(), false);
 
 			string message;
 
@@ -125,7 +125,7 @@ namespace Messages.Client.Admin
 				{
 					var coord = new Vector3 { x = msg.vectorX, y = msg.vectorY, z = msg.vectorZ };
 
-					userToTeleport.PlayerSync.SetPosition(coord, true);
+					userToTeleport.PlayerSync.AppearAtWorldPositionServer(coord, false);
 				}
 				else if (destinationPlayer.IsGhost)
 				{
@@ -136,7 +136,7 @@ namespace Messages.Client.Admin
 				}
 				else
 				{
-					userToTeleport.PlayerSync.SetPosition(destinationPlayer.gameObject.AssumedWorldPosServer(), true);
+					userToTeleport.PlayerSync.AppearAtWorldPositionServer(destinationPlayer.gameObject.AssumedWorldPosServer(), false);
 				}
 			}
 

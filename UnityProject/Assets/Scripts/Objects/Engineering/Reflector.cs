@@ -25,7 +25,7 @@ namespace Objects.Engineering
 		[SerializeField] private Transform spriteTransform;
 
 		private SpriteHandler spriteHandler;
-		private ObjectBehaviour objectBehaviour;
+		private UniversalObjectPhysics objectBehaviour;
 		private RegisterTile registerTile;
 		private ObjectAttributes objectAttributes;
 		private Integrity integrity;
@@ -47,7 +47,7 @@ namespace Objects.Engineering
 		private void Awake()
 		{
 			spriteHandler = GetComponentInChildren<SpriteHandler>();
-			objectBehaviour = GetComponent<ObjectBehaviour>();
+			objectBehaviour = GetComponent<UniversalObjectPhysics>();
 			registerTile = GetComponent<RegisterTile>();
 			objectAttributes = GetComponent<ObjectAttributes>();
 			integrity = GetComponent<Integrity>();
@@ -86,7 +86,7 @@ namespace Objects.Engineering
 			if (startSetUp)
 			{
 				isWelded = true;
-				objectBehaviour.ServerSetPushable(false);
+				objectBehaviour.SetIsNotPushable(true);
 			}
 		}
 
@@ -185,7 +185,7 @@ namespace Objects.Engineering
 					() =>
 					{
 						isWelded = false;
-						objectBehaviour.ServerSetPushable(true);
+						objectBehaviour.SetIsNotPushable(false);
 					}
 				);
 
@@ -203,7 +203,7 @@ namespace Objects.Engineering
 					() =>
 					{
 						isWelded = true;
-						objectBehaviour.ServerSetPushable(false);
+						objectBehaviour.SetIsNotPushable(true);
 					}
 				);
 

@@ -35,17 +35,17 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IActi
 	/// </summary>
 	public PlayerHealthV2 playerHealth { get; set; }
 
-	public PlayerMove playerMove { get; set; }
+	public MovementSynchronisation playerMove { get; set; }
 	public PlayerSprites playerSprites { get; set; }
 
 	/// <summary>
 	/// Will be null if player is a ghost.
 	/// </summary>
-	public ObjectBehaviour pushPull { get; set; }
+	public UniversalObjectPhysics objectPhysics { get; set; }
 
 	public Rotatable playerDirectional { get; set; }
 
-	public PlayerSync PlayerSync;
+	public MovementSynchronisation PlayerSync;
 
 	public Equipment Equipment { get; private set; }
 
@@ -69,14 +69,14 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IActi
 	/// Serverside world position.
 	/// Outputs correct world position even if you're hidden (e.g. in a locker)
 	/// </summary>
-	public Vector3Int AssumedWorldPos => pushPull.AssumedWorldPositionServer();
+	public Vector3Int AssumedWorldPos => objectPhysics.registerTile.WorldPosition;
 
 	[SyncVar] public Vector3Int SyncedWorldPos = new Vector3Int(0,0,0);
 
 	/// <summary>
 	/// World position of the player.
 	/// Returns InvalidPos if you're hidden (e.g. in a locker)
-	/// </summary>
+	/// </summary>If the
 	public Vector3Int WorldPos => registerTile.WorldPosition;
 
 	/// <summary>
@@ -136,19 +136,20 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IActi
 		playerNetworkActions = GetComponent<PlayerNetworkActions>();
 		registerTile = GetComponent<RegisterPlayer>();
 		playerHealth = GetComponent<PlayerHealthV2>();
-		pushPull = GetComponent<ObjectBehaviour>();
+		objectPhysics = GetComponent<UniversalObjectPhysics>();
 		weaponNetworkActions = GetComponent<WeaponNetworkActions>();
 		mouseInputController = GetComponent<MouseInputController>();
 		chatIcon = GetComponentInChildren<ChatIcon>(true);
-		playerMove = GetComponent<PlayerMove>();
+		playerMove = GetComponent<MovementSynchronisation>();
 		playerDirectional = GetComponent<Rotatable>();
 		DynamicItemStorage = GetComponent<DynamicItemStorage>();
 		Equipment = GetComponent<Equipment>();
 		Cooldowns = GetComponent<HasCooldowns>();
 		PlayerOnlySyncValues = GetComponent<PlayerOnlySyncValues>();
 		playerCrafting = GetComponent<PlayerCrafting>();
-		PlayerSync = GetComponent<PlayerSync>();
+		PlayerSync = GetComponent<MovementSynchronisation>();
 		statusEffectManager = GetComponent<StatusEffectManager>();
+
 	}
 
 	public override void OnStartClient()
@@ -213,7 +214,7 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IActi
 				UIManager.Instance.statsTab.window.SetActive(true);
 			}
 
-			IPlayerControllable input = PlayerSync;
+			IPlayerControllable input = GetComponent<IPlayerControllable>();
 
 			if (TryGetComponent<AiMouseInputController>(out var aiMouseInputController))
 			{
@@ -380,7 +381,7 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IActi
 		RefreshVisibleName();
 	}
 
-	public bool IsHidden => !PlayerSync.ClientState.Active;
+	public bool IsHidden => PlayerSync.IsVisible == false;
 
 	/// <summary>
 	/// True if this player is a ghost, meaning they exist in the ghost layer
@@ -443,7 +444,7 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IActi
 	/// <param name="context">If not null, will ignore collisions caused by this gameobject</param>
 	public bool IsPositionReachable(Vector3 otherPosition, bool isServer, float interactDist = interactionDistance, GameObject context = null)
 	{
-		return Validations.IsReachableByPositions(isServer ? registerTile.WorldPositionServer : registerTile.WorldPositionClient, otherPosition, isServer, interactDist, context: context);
+		return Validations.IsReachableByPositions(isServer ? registerTile.WorldPositionServer : registerTile.WorldPosition, otherPosition, isServer, interactDist, context: context);
 	}
 
 	/// <summary>

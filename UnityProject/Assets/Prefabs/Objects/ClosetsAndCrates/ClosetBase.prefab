@@ -468,7 +468,7 @@ PrefabInstance:
         type: 3}
       propertyPath: customNetTransform
       value: 
-      objectReference: {fileID: 2616614252389378058}
+      objectReference: {fileID: 0}
     - target: {fileID: 929166672355850642, guid: a7af28adb717b4c44b8b2002b27670bd,
         type: 3}
       propertyPath: CurrentsortingGroup
@@ -606,6 +606,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: ClosetBase
+      objectReference: {fileID: 0}
+    - target: {fileID: 8561688399768036000, guid: a7af28adb717b4c44b8b2002b27670bd,
+        type: 3}
+      propertyPath: isNotPushable
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8599771746108915149, guid: a7af28adb717b4c44b8b2002b27670bd,
         type: 3}
@@ -779,6 +784,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   initialContents: {fileID: 0}
   spawnContentsAtRoundstart: 0
+  registerTile: {fileID: 0}
 --- !u!114 &5739732223049864694
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -828,18 +834,6 @@ MonoBehaviour:
   lockSpriteDirection: 0
   blockAnchorChange: 0
   blockMessage: 
---- !u!114 &2616614252389378058 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 6673231170480590552, guid: a7af28adb717b4c44b8b2002b27670bd,
-    type: 3}
-  m_PrefabInstance: {fileID: 8704332902418867922}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 933576176691117832}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 579884b05ae74e8499329b64997147d3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!4 &4004208935647589563 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5718954047647765097, guid: a7af28adb717b4c44b8b2002b27670bd,

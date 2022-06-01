@@ -10,8 +10,10 @@ using Systems.Radiation;
 using Systems.Explosions;
 using Objects.Engineering;
 using Weapons.Projectiles.Behaviours;
+using Random = UnityEngine.Random;
 using Tiles;
 using Systems.Explosions;
+
 
 namespace Objects
 {
@@ -90,7 +92,7 @@ namespace Objects
 		private Transform lightTransform;
 		private RegisterTile registerTile;
 		private SpriteHandler spriteHandler;
-		private CustomNetTransform customNetTransform;
+		private UniversalObjectPhysics ObjectPhysics;
 		private int objectId;
 
 		private Material WarpEffectFrontMat;
@@ -127,7 +129,7 @@ namespace Objects
 		private void Awake()
 		{
 			registerTile = GetComponent<RegisterTile>();
-			customNetTransform = GetComponent<CustomNetTransform>();
+			ObjectPhysics = GetComponent<UniversalObjectPhysics>();
 			spriteHandler = GetComponentInChildren<SpriteHandler>();
 			lightTransform = light.transform;
 			objectId = GetInstanceID();
@@ -170,7 +172,7 @@ namespace Objects
 			}
 
 			gameObject.transform.LeanScale(newScale, updateFrequency);
-			
+
 		}
 
 		private void SyncCurrentStage(SingularityStages oldStage, SingularityStages newStage)
@@ -283,7 +285,7 @@ namespace Objects
 			{
 				if (DMMath.Prob(50)) continue;
 
-				var objects = MatrixManager.GetAt<PushPull>(tile, true);
+				var objects = MatrixManager.GetAt<UniversalObjectPhysics>(tile, true);
 
 				foreach (var objectToMove in objects)
 				{
@@ -307,26 +309,16 @@ namespace Objects
 			}
 		}
 
-		private void ThrowItem(PushPull item, Vector3 throwVector)
+		private void ThrowItem(UniversalObjectPhysics item, Vector3 throwVector)
 		{
 			Vector3 vector = item.transform.rotation * throwVector;
-			var spin = RandomUtils.RandomSpin();
-			ThrowInfo throwInfo = new ThrowInfo
-			{
-				ThrownBy = gameObject,
-				Aim = BodyPartType.Chest,
-				OriginWorldPos = transform.position,
-				WorldTrajectory = vector,
-				SpinMode = spin
-			};
-
-			CustomNetTransform itemTransform = item.GetComponent<CustomNetTransform>();
+			UniversalObjectPhysics itemTransform = item.GetComponent<UniversalObjectPhysics>();
 			if (itemTransform == null) return;
-			itemTransform.Throw(throwInfo);
+			itemTransform.NewtonianPush(vector,1, 0,0,(BodyPartType) Random.Range(0, 13),  gameObject, 1 );
 			pushRecently.Add(item.gameObject);
 		}
 
-		private void PushObject(PushPull objectToPush, Vector3 pushVector)
+		private void PushObject(UniversalObjectPhysics objectToPush, Vector3 pushVector)
 		{
 			if (CurrentStage == SingularityStages.Stage5 || CurrentStage == SingularityStages.Stage4)
 			{
@@ -339,15 +331,14 @@ namespace Objects
 						$"{objectToPush.gameObject.ExpensiveName()} is knocked down by the singularity");
 				}
 			}
-			else if (objectToPush.IsPushable == false)
+			else if (objectToPush.IsNotPushable)
 			{
 				//Dont push anchored objects unless stage 5 or 4
 				return;
 			}
 
 			//Force Push Twice
-			objectToPush.QueuePush(pushVector.NormalizeTo2Int(), forcePush: true);
-			objectToPush.QueuePush(pushVector.NormalizeTo2Int(), forcePush: true);
+			objectToPush.NewtonianNewtonPush(pushVector.NormalizeTo2Int(), 10);
 		}
 
 		#endregion
@@ -536,7 +527,7 @@ namespace Objects
 			}
 
 			//Move
-			customNetTransform.SetPosition(coord);
+			ObjectPhysics.AppearAtWorldPositionServer(coord, true);
 		}
 
 		/// <summary>
@@ -659,7 +650,7 @@ namespace Objects
 
 			switch (stage)
 			{
-				case SingularityStages.Stage0: 
+				case SingularityStages.Stage0:
 					scaledRadius = Mathf.Clamp(0.08f * gameObject.transform.localScale.x, 0.08f,0.15f);
 					scaledEffect = 7f;
 					break;

@@ -45,9 +45,11 @@ namespace Objects.Shuttles
 				}
 				else
 				{
-					Logger.Log($"No MatrixMove reference set to {this}, found {ShuttleMatrixMove} automatically", Category.Shuttles);
+					Logger.Log($"No MatrixMove reference set to {this}, found {ShuttleMatrixMove} automatically",
+						Category.Shuttles);
 				}
 			}
+
 			if (ShuttleMatrixMove.IsNotPilotable)
 			{
 				hasNetworkTab.enabled = false;
@@ -60,7 +62,7 @@ namespace Objects.Shuttles
 
 		public void PlayRadarDetectionSound()
 		{
-			_ = SoundManager.PlayNetworkedAtPosAsync(radarDetectionSound, gameObject.WorldPosServer(),
+			_ = SoundManager.PlayNetworkedAtPosAsync(radarDetectionSound, gameObject.AssumedWorldPosServer(),
 				default, default, default, default, gameObject);
 		}
 
@@ -87,11 +89,32 @@ namespace Objects.Shuttles
 			{
 				shuttleConsoleState = ShuttleConsoleState.Normal;
 			}
+
 			if (GUItab)
 			{
 				GUItab.OnStateChange(shuttleConsoleState);
 			}
 		}
+
+
+
+		public void ClientTryMove(Orientation GlobalMoveDirection)
+		{
+			var move = registerTile.Matrix.MatrixMove;
+			if (move.CanClientUseRcs == false || move.ClientState.IsMoving == false || move.IsForceStopped || (move.IsFueled == false && move.RequiresFuel))
+				return;
+			CmdMove(GlobalMoveDirection);
+		}
+
+
+		[Command(requiresAuthority = false)]
+		public void CmdMove(Orientation GlobalMoveDirection, NetworkConnectionToClient sender = null)
+		{
+			if (sender == null) return;
+			if (Validations.CanApply(PlayerList.Instance.Get(sender).Script, this.gameObject, NetworkSide.Server, false, ReachRange.Standard) == false) return;
+			registerTile.Matrix.MatrixMove.RcsMoveServer(GlobalMoveDirection);
+		}
+
 
 		/// <summary>
 		/// Connects or disconnects a player from a shuttle rcs
@@ -104,16 +127,19 @@ namespace Objects.Shuttles
 			{
 				playerScript.RcsMode = true;
 				playerScript.RcsMatrixMove = matrixMove;
+				PlayerManager.ShuttleConsole = this;
 				matrixMove.playerControllingRcs = playerScript;
 				matrixMove.rcsModeActive = true;
 			}
 			else
 			{
+				PlayerManager.ShuttleConsole = null;
 				if (playerScript)
 				{
 					playerScript.RcsMode = false;
 					playerScript.RcsMatrixMove = null;
 				}
+
 				matrixMove.playerControllingRcs = null;
 				matrixMove.rcsModeActive = false;
 			}
@@ -127,10 +153,10 @@ namespace Objects.Shuttles
 					GUItab.SetRcsLight(newState);
 				}
 
-				if(playerScript && playerScript != PlayerManager.LocalPlayerScript)
+				if (playerScript && playerScript != PlayerManager.LocalPlayerScript)
 				{
 					ShuttleRcsMessage.SendTo(this, newState, playerScript.connectedPlayer);
-					playerScript.PlayerSync.RollbackPosition();
+					playerScript.PlayerSync.ResetLocationOnClients();
 				}
 			}
 		}

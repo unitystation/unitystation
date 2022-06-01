@@ -25,7 +25,7 @@ namespace Weapons
 		private bool ammoBackfire = true;
 
 		[SerializeField, Tooltip("Sawn off item size")]
-		private ItemSize sawnSize = ItemSize.Medium;
+		private Size sawnSize = Size.Medium;
 
 		[SerializeField, Tooltip("Value that determines how far a shot will deviate. (Never set this higher then 0.5 unless you want questionable results.)")]
 		private float sawnMaxRecoilVariance;

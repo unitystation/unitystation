@@ -122,17 +122,14 @@ public static class SweetExtensions
 	/// Creates garbage! Use very sparsely!
 	public static Vector3 AssumedWorldPosServer(this GameObject go)
 	{
-		return go.GetComponent<ObjectBehaviour>()?.AssumedWorldPositionServer() ?? WorldPosServer(go);
-	}
-	/// Creates garbage! Use very sparsely!
-	public static Vector3 WorldPosServer(this GameObject go)
-	{
-		return go.GetComponent<RegisterTile>()?.WorldPositionServer ?? go.transform.position;
-	}
-	/// Creates garbage! Use very sparsely!
-	public static Vector3 WorldPosClient(this GameObject go)
-	{
-		return go.GetComponent<RegisterTile>()?.WorldPositionClient ?? go.transform.position;
+		if (ComponentManager.TryGetUniversalObjectPhysics(go, out  var UOP))
+		{
+			return UOP.OfficialPosition;
+		}
+		else
+		{
+			return go.transform.position;
+		}
 	}
 
 	/// <summary>

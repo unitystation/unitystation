@@ -19,14 +19,19 @@ namespace Learning.ProtipObjectTypes
 			UpdateManager.Add(CheckForNearbyItems, SearchCooldown);
 		}
 
+		public void OnDestroy()
+		{
+			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE , CheckForNearbyItems);
+		}
+
 		private void CheckForNearbyItems()
 		{
-			var possibleTargets = Physics2D.OverlapCircleAll(gameObject.RegisterTile().WorldPosition.ToNonInt3(), SearchRadius, MaskToCheck);
+			var possibleTargets = Physics2D.OverlapCircleAll(gameObject.AssumedWorldPosServer(), SearchRadius, MaskToCheck);
 			foreach (var target in possibleTargets)
 			{
 				if(gameObject == target.gameObject) continue;
-				if (MatrixManager.Linecast(gameObject.RegisterTile().WorldPosition, LayerTypeSelection.Walls,
-					    MaskToCheck, target.gameObject.RegisterTile().WorldPosition).ItHit) continue;
+				if (MatrixManager.Linecast(gameObject.AssumedWorldPosServer(), LayerTypeSelection.Walls,
+					    MaskToCheck, target.gameObject.AssumedWorldPosServer()).ItHit) continue;
 				foreach (var data in ObjectsToCheck)
 				{
 					var prefabTracker = data.GameObjectToCheck.GetComponent<PrefabTracker>();

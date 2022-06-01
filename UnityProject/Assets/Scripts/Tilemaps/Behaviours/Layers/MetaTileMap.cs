@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 using Messages.Server;
+using Objects;
 using Objects.Atmospherics;
 using Tiles;
 using UnityEngine;
@@ -104,6 +105,7 @@ namespace TileManagement
 
 		private void OnEnable()
 		{
+
 			Layers = new Dictionary<LayerType, Layer>();
 			var layersKeys = new List<LayerType>();
 			var layersValues = new List<Layer>();
@@ -134,7 +136,7 @@ namespace TileManagement
 					continue;
 				}
 
-				var InBoundLocations = new BetterBoundsInt( )
+				var InBoundLocations = new BetterBoundsInt()
 				{
 					Maximum = Vector3Int.one,
 					Minimum = Vector3Int.zero
@@ -181,8 +183,6 @@ namespace TileManagement
 			}
 
 
-
-
 			layersKeys.Sort((layerOne, layerTwo) =>
 				layerOne.GetOrder().CompareTo(layerTwo.GetOrder()));
 
@@ -203,6 +203,21 @@ namespace TileManagement
 			{
 				UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
 			}
+			var transform1 = ObjectLayer.transform;
+			localToWorldMatrix = transform1.localToWorldMatrix;
+			worldToLocalMatrix = transform1.worldToLocalMatrix;
+		}
+
+
+		public void UpdateTransformMatrix()
+		{
+			var transform1 = ObjectLayer.transform;
+			localToWorldMatrix = transform1.localToWorldMatrix;
+			worldToLocalMatrix = transform1.worldToLocalMatrix;
+			lock (matrix)
+			{
+				GlobalCachedBounds = null;
+			}
 		}
 
 		private void OnDisable()
@@ -215,7 +230,7 @@ namespace TileManagement
 
 		public void UpdateMe()
 		{
-			var transform1 = transform;
+			var transform1 = ObjectLayer.transform;
 			localToWorldMatrix = transform1.localToWorldMatrix;
 			worldToLocalMatrix = transform1.worldToLocalMatrix;
 			if (QueuedChanges.Count == 0)
@@ -347,7 +362,6 @@ namespace TileManagement
 					{
 						GlobalCachedBounds = null;
 					}
-
 				}
 			}
 
@@ -398,6 +412,97 @@ namespace TileManagement
 			return (damage - RemainingDamage);
 		}
 
+		public bool IsPassableAtOneTileMapV2(Vector3Int origin, Vector3Int to, CollisionType colliderType)
+		{
+			// Simple case: orthogonal travel
+			if (origin.x == to.x || origin.y == to.y)
+			{
+				return IsPassableAtOrthogonalTileV2(origin, to, colliderType);
+			}
+			else // diagonal travel
+			{
+				Vector3Int toX = new Vector3Int(to.x, origin.y, origin.z);
+
+
+				bool isPassableIfHorizontalFirst = IsPassableTileMapHorizontal(origin, to, colliderType);
+
+				if (isPassableIfHorizontalFirst)
+				{
+					return true;
+				}
+
+
+				bool isPassableIfVerticalFirst = IsPassableTileMapVertical(origin, to, colliderType);
+
+				if (isPassableIfVerticalFirst)
+				{
+					return true;
+				}
+
+
+				return false;
+			}
+		}
+
+		public bool IsPassableAtOneObjectsV2(Vector3Int localOrigin, Vector3Int localTo, UniversalObjectPhysics context,
+			List<UniversalObjectPhysics> Pushings, List<IBumpableObject> Bumps, List<UniversalObjectPhysics> Hits = null)
+		{
+			// Simple case: orthogonal travel
+			if (localOrigin.x == localTo.x || localOrigin.y == localTo.y)
+			{
+				return IsPassableAtOrthogonalObjectsV2(localOrigin, localTo, context, Pushings, Bumps, Hits: Hits);
+			}
+			else // diagonal travel
+			{
+				bool isPassableIfHorizontalFirst = IsPassableObjectsHorizontal(localOrigin, localTo, context, Pushings, Bumps, Hits);
+				if (isPassableIfHorizontalFirst) return true;
+
+
+				bool isPassableIfVerticalFirst = IsPassableObjectsVertical(localOrigin, localTo, context, Pushings, Bumps,Hits);
+				if (isPassableIfVerticalFirst) return true;
+
+
+				return false;
+			}
+		}
+
+		public bool IsPassableObjectsHorizontal(Vector3Int origin, Vector3Int to, UniversalObjectPhysics context,
+			List<UniversalObjectPhysics> Pushings, List<IBumpableObject> Bumps, List<UniversalObjectPhysics> Hits = null)
+		{
+			Vector3Int toX = new Vector3Int(to.x, origin.y, origin.z);
+			bool isPassableIfHorizontalFirst =
+				IsPassableAtOrthogonalObjectsV2(origin, toX, context, Pushings, Bumps, origin, to, Hits) &&
+				IsPassableAtOrthogonalObjectsV2(toX, to, context, Pushings, Bumps, origin, to, Hits);
+
+			return isPassableIfHorizontalFirst;
+		}
+
+
+		public bool IsPassableObjectsVertical(Vector3Int origin, Vector3Int to, UniversalObjectPhysics context,
+			List<UniversalObjectPhysics> Pushings, List<IBumpableObject> Bumps, List<UniversalObjectPhysics> Hits = null)
+		{
+			Vector3Int toY = new Vector3Int(origin.x, to.y, origin.z);
+			return IsPassableAtOrthogonalObjectsV2(origin, toY, context, Pushings, Bumps, origin, to, Hits) &&
+			       IsPassableAtOrthogonalObjectsV2(toY, to, context, Pushings, Bumps, origin, to, Hits);
+		}
+
+		public bool IsPassableTileMapHorizontal(Vector3Int origin, Vector3Int to, CollisionType colliderType)
+		{
+			Vector3Int toX = new Vector3Int(to.x, origin.y, origin.z);
+			bool isPassableIfHorizontalFirst = IsPassableAtOrthogonalTileV2(origin, toX, colliderType) &&
+			                                   IsPassableAtOrthogonalTileV2(toX, to, colliderType);
+
+			return isPassableIfHorizontalFirst;
+		}
+
+		public bool IsPassableTileMapVertical(Vector3Int origin, Vector3Int to, CollisionType colliderType)
+		{
+			Vector3Int toY = new Vector3Int(origin.x, to.y, origin.z);
+			return IsPassableAtOrthogonalTileV2(origin, toY, colliderType) &&
+			       IsPassableAtOrthogonalTileV2(toY, to, colliderType);
+		}
+
+
 		public bool IsPassableAtOneTileMap(Vector3Int origin, Vector3Int to, bool isServer,
 			CollisionType collisionType = CollisionType.Player, bool inclPlayers = true, GameObject context = null,
 			List<LayerType> excludeLayers = null, List<TileType> excludeTiles = null, bool ignoreObjects = false,
@@ -435,6 +540,36 @@ namespace TileManagement
 				return isPassableIfVerticalFirst;
 			}
 		}
+
+		private bool IsPassableAtOrthogonalObjectsV2(Vector3Int localOrigin, Vector3Int localTo, UniversalObjectPhysics context,
+			List<UniversalObjectPhysics> Pushings, List<IBumpableObject> Bumps,Vector3Int? originalFrom = null,Vector3Int? originalTo = null, List<UniversalObjectPhysics> Hits = null)
+		{
+			return ObjectLayer.IsPassableAtOnThisLayerV2(localOrigin, localTo, CustomNetworkManager.IsServer, context, Pushings,
+				Bumps, originalFrom , originalTo, Hits);
+		}
+
+
+		private bool IsPassableAtOrthogonalTileV2(Vector3Int origin, Vector3Int to, CollisionType colliderType)
+		{
+			TileLocation tileLocation = null;
+			for (var i = 0; i < SolidLayersValues.Length; i++)
+			{
+				var solidLayer = SolidLayersValues[i];
+
+				tileLocation = GetCorrectTileLocationForLayer(to, solidLayer);
+
+				if (tileLocation?.layerTile == null) continue;
+				var tile = tileLocation.layerTile as BasicTile;
+
+				if (tile.IsPassable(colliderType, origin, this) == false)
+				{
+					return false;
+				}
+			}
+
+			return true;
+		}
+
 
 		private bool IsPassableAtOrthogonal(Vector3Int origin, Vector3Int to, bool isServer,
 			CollisionType collisionType = CollisionType.Player, bool inclPlayers = true, GameObject context = null,
@@ -996,8 +1131,8 @@ namespace TileManagement
 				if (layer.LayerType == LayerType.Objects)
 				{
 					foreach (RegisterTile o in isServer
-						? ((ObjectLayer) LayersValues[index]).ServerObjects.Get(position)
-						: ((ObjectLayer) LayersValues[index]).ClientObjects.Get(position))
+						         ? ((ObjectLayer) LayersValues[index]).ServerObjects.Get(position)
+						         : ((ObjectLayer) LayersValues[index]).ClientObjects.Get(position))
 					{
 						if (o.IsPassable(isServer) == false)
 						{
@@ -1023,12 +1158,12 @@ namespace TileManagement
 				if (layer == LayerType.Objects)
 				{
 					foreach (RegisterTile o in isServer
-						? ((ObjectLayer) LayersValues[i]).ServerObjects.Get(position)
-						: ((ObjectLayer) LayersValues[i]).ClientObjects.Get(position))
+						         ? ((ObjectLayer) LayersValues[i]).ServerObjects.Get(position)
+						         : ((ObjectLayer) LayersValues[i]).ClientObjects.Get(position))
 					{
 						if (o is RegisterObject)
 						{
-							PushPull pushPull = o.GetComponent<PushPull>();
+							var pushPull = o.GetComponent<UniversalObjectPhysics>();
 							if (pushPull == null && o.IsPassable(isServer) == false)
 							{
 								return false;
@@ -1046,6 +1181,58 @@ namespace TileManagement
 			return true;
 		}
 
+		public bool HasGrabbleTileMap(Vector3Int position, bool isServer)
+		{
+			if (HasTile(position, LayerType.Walls))
+			{
+				return true;
+			}
+
+			if (HasTile(position, LayerType.Windows))
+			{
+				return true;
+			}
+
+			if (HasTile(position, LayerType.Grills))
+			{
+				return true;
+			}
+
+			return false;
+		}
+
+		public bool IsEmptyTileMap(Vector3Int position)
+		{
+			for (var i1 = 0; i1 < LayersKeys.Length; i1++)
+			{
+				LayerType layer = LayersKeys[i1];
+				if (layer != LayerType.Objects && HasTile(position, layer))
+				{
+					return false;
+				}
+			}
+
+			return true;
+		}
+
+		public bool IsObjectPresent(GameObject[] context, Vector3Int position, bool isServer, out RegisterTile Object)
+		{
+			foreach (RegisterTile o in isServer
+				         ? ObjectLayer.ServerObjects.Get(position)
+				         : ObjectLayer.ClientObjects.Get(position))
+			{
+				if (context.Contains(o.gameObject)) continue;
+				if (o.IsPassable(isServer) == false)
+				{
+					Object = o;
+					return true;
+				}
+			}
+
+			Object = null;
+			return false;
+		}
+
 		public bool IsEmptyAt(GameObject[] context, Vector3Int position, bool isServer)
 		{
 			for (var i1 = 0; i1 < LayersKeys.Length; i1++)
@@ -1059,8 +1246,8 @@ namespace TileManagement
 				if (layer == LayerType.Objects)
 				{
 					foreach (RegisterTile o in isServer
-						? ((ObjectLayer) LayersValues[i1]).ServerObjects.Get(position)
-						: ((ObjectLayer) LayersValues[i1]).ClientObjects.Get(position))
+						         ? ((ObjectLayer) LayersValues[i1]).ServerObjects.Get(position)
+						         : ((ObjectLayer) LayersValues[i1]).ClientObjects.Get(position))
 					{
 						if (o.IsPassable(isServer) == false)
 						{
@@ -1534,6 +1721,7 @@ namespace TileManagement
 					{
 						RemoveOverlaysOfType(tileLocation.position, LayerType.Effects, OverlayType.Damage);
 					}
+
 					return;
 				}
 			}
@@ -1628,20 +1816,21 @@ namespace TileManagement
 		{
 			var localBound = GetLocalBounds();
 
-			var offset = new Vector3(0.5f, 0.5f, 0);
-
 			if (localToWorldMatrix == null)
 			{
-				Logger.LogError("humm, localToWorldMatrix  tried to be excess before being set humm, Setting to identity matrix, Please fix this ");
+				Logger.LogError(
+					"humm, localToWorldMatrix  tried to be excess before being set humm, Setting to identity matrix, Please fix this ");
 				localToWorldMatrix = Matrix4x4.identity;
 			}
 
 			//Vector3[4] {bottomLeft, bottomRight, topLeft, topRight}; //Presuming It's been updated
-			var bottomLeft = localToWorldMatrix.Value.MultiplyPoint(localBound.min + offset);
+			var bottomLeft = localToWorldMatrix.Value.MultiplyPoint(localBound.min );
 			globalPoints[0] = bottomLeft;
-			globalPoints[1] = localToWorldMatrix.Value.MultiplyPoint(new Vector3(localBound.xMax, localBound.yMin, 0)  + offset);
-			globalPoints[2] = localToWorldMatrix.Value.MultiplyPoint(new Vector3(localBound.xMin, localBound.yMax, 0)  + offset);
-			globalPoints[3] = localToWorldMatrix.Value.MultiplyPoint(localBound.max  + offset);
+			globalPoints[1] =
+				localToWorldMatrix.Value.MultiplyPoint(new Vector3(localBound.xMax, localBound.yMin, 0));
+			globalPoints[2] =
+				localToWorldMatrix.Value.MultiplyPoint(new Vector3(localBound.xMin, localBound.yMax, 0) );
+			globalPoints[3] = localToWorldMatrix.Value.MultiplyPoint(localBound.max );
 
 			var minPosition = bottomLeft;
 			var maxPosition = bottomLeft;
@@ -1653,7 +1842,7 @@ namespace TileManagement
 
 			var newGlobalBounds = new BetterBounds()
 			{
-				Maximum = maxPosition, Minimum = minPosition
+				Maximum = maxPosition + new Vector3(0.5f, 0.5f, 0), Minimum = minPosition + new Vector3(-0.5f, -0.5f, 0)
 			};
 
 			if (matrix.IsMovable == false ||
@@ -1731,13 +1920,13 @@ namespace TileManagement
 			if (DEBUG)
 			{
 				var Beginning = (new Vector3((float) origin.x, (float) origin.y, 0).ToWorld(matrix));
-				Debug.DrawLine(Beginning + (Vector3.right * 0.09f), Beginning + (Vector3.left * 0.09f), Color.yellow,
-					30);
-				Debug.DrawLine(Beginning + (Vector3.up * 0.09f), Beginning + (Vector3.down * 0.09f), Color.yellow, 30);
+				// Debug.DrawLine(Beginning + (Vector3.right * 0.09f), Beginning + (Vector3.left * 0.09f), Color.yellow,
+				// 30);
+				// Debug.DrawLine(Beginning + (Vector3.up * 0.09f), Beginning + (Vector3.down * 0.09f), Color.yellow, 30);
 
 				var end = (new Vector3((float) To.Value.x, (float) To.Value.y, 0).ToWorld(matrix));
-				Debug.DrawLine(end + (Vector3.right * 0.09f), end + (Vector3.left * 0.09f), Color.red, 30);
-				Debug.DrawLine(end + (Vector3.up * 0.09f), end + (Vector3.down * 0.09f), Color.red, 30);
+				// Debug.DrawLine(end + (Vector3.right * 0.09f), end + (Vector3.left * 0.09f), Color.red, 30);
+				// Debug.DrawLine(end + (Vector3.up * 0.09f), end + (Vector3.down * 0.09f), Color.red, 30);
 
 				Debug.DrawLine(Beginning, end, Color.magenta, 30);
 			}
@@ -1800,7 +1989,7 @@ namespace TileManagement
 			       Math.Abs((ySteps + gridOffsety + stepY) * vexinvY) < distance)
 			{
 				if ((xSteps + gridOffsetx + stepX) * vexinvX < (ySteps + gridOffsety + stepY) * vexinvY
-				) // which one has a lesser multiplication factor since that will give a less Magnitude
+				   ) // which one has a lesser multiplication factor since that will give a less Magnitude
 				{
 					xSteps += stepX;
 
@@ -1848,14 +2037,14 @@ namespace TileManagement
 								30);
 							Debug.DrawLine(wold + (Vector3.up * 0.09f), wold + (Vector3.down * 0.09f), Color.green, 30);
 
-							if (LeftFaceHit)
-							{
-								Debug.DrawLine(wold + (Vector3.up * 4f), wold + (Vector3.down * 4), Color.blue, 30);
-							}
-							else
-							{
-								Debug.DrawLine(wold + (Vector3.right * 4), wold + (Vector3.left * 4), Color.blue, 30);
-							}
+							// if (LeftFaceHit)
+							// {
+							// 	Debug.DrawLine(wold + (Vector3.up * 4f), wold + (Vector3.down * 4), Color.blue, 30);
+							// }
+							// else
+							// {
+							// 	Debug.DrawLine(wold + (Vector3.right * 4), wold + (Vector3.left * 4), Color.blue, 30);
+							// }
 
 							ColorUtility.TryParseHtmlString("#ea9335", out var Orange);
 							var map = ((Vector3) vec).ToWorld(matrix);
@@ -2115,7 +2304,7 @@ namespace TileManagement
 				if (matchColour != null)
 				{
 					var tileColour = GetColour(cellPosition, layerType);
-					if(matchColour != tileColour) continue;
+					if (matchColour != tileColour) continue;
 				}
 
 				RemoveTileWithlayer(cellPosition, layerType);

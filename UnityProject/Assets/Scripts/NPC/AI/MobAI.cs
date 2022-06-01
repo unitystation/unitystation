@@ -22,8 +22,8 @@ namespace Systems.MobAIs
 		[NonSerialized] public LivingHealthBehaviour health;
 		protected Rotatable rotatable;
 		protected MobSprite mobSprite;
-		protected CustomNetTransform cnt;
-		public CustomNetTransform Cnt => cnt;
+		protected UniversalObjectPhysics uop;
+		public UniversalObjectPhysics UOP => uop;
 
 		public RegisterObject registerObject;
 		protected UprightSprites uprightSprites;
@@ -63,7 +63,7 @@ namespace Systems.MobAIs
 			health = GetComponent<LivingHealthBehaviour>();
 			rotatable = GetComponent<Rotatable>();
 			mobSprite = GetComponent<MobSprite>();
-			cnt = GetComponent<CustomNetTransform>();
+			uop = GetComponent<UniversalObjectPhysics>();
 			registerObject = GetComponent<RegisterObject>();
 			uprightSprites = GetComponent<UprightSprites>();
 		}
@@ -389,7 +389,7 @@ namespace Systems.MobAIs
 		{
 			if (dir != Vector2Int.zero)
 			{
-				cnt.Push(dir, context: gameObject);
+				uop.TryTilePush(dir, null);
 				rotatable.SetFaceDirectionLocalVictor(dir);
 			}
 		}

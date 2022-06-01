@@ -57,8 +57,8 @@ public class Matrix : MonoBehaviour
 	public bool IsMainStation;
 	public bool IsLavaLand;
 
-	private CheckedComponent<MatrixMove> checkedMatrixMove = new CheckedComponent<MatrixMove>();
-	public bool IsMovable => checkedMatrixMove.HasComponent;
+	private CheckedComponent<MatrixMove> checkedMatrixMove;
+	public bool IsMovable => checkedMatrixMove?.HasComponent ?? false;
 
 	public MatrixMove MatrixMove => checkedMatrixMove.Component;
 
@@ -99,6 +99,9 @@ public class Matrix : MonoBehaviour
 	public NetworkedMatrix NetworkedMatrix => networkedMatrix;
 
 	[NonSerialized] public bool Initialized;
+
+	//Pretty self-explanatory, TODO gravity generator
+	public bool HasGravity = true;
 
 	private void Awake()
 	{
@@ -279,7 +282,7 @@ public class Matrix : MonoBehaviour
 		return MetaTileMap.IsNoGravityAt(position, isServer);
 	}
 
-	public IEnumerable<RegisterTile> GetRegisterTile(Vector3Int localPosition, bool isServer)
+	public List<RegisterTile> GetRegisterTile(Vector3Int localPosition, bool isServer)
 	{
 		return (isServer ? ServerObjects : ClientObjects).Get(localPosition);
 	}

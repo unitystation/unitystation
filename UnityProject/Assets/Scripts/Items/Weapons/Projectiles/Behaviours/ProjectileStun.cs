@@ -40,7 +40,7 @@ namespace Weapons.Projectiles.Behaviours
 			var player = coll.GetComponent<RegisterPlayer>();
 			if (player == null) return false;
 
-			player.ServerStun(stunTime, willDisarm, passThroughStunImmunity, () => SparkUtil.TrySpark(gameObject));
+			player.ServerStun(stunTime, willDisarm, passThroughStunImmunity, true, () => SparkUtil.TrySpark(gameObject));
 
 			if (doMsg)
 			{

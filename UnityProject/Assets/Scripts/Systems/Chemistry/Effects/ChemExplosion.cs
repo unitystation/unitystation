@@ -25,7 +25,7 @@ namespace Chemistry.Effects
 			// Following function uses the code from the Explosions file.
 
 			// Get data from container before despawning
-			ObjectBehaviour objectBehaviour = sender.GetComponent<ObjectBehaviour>();
+			UniversalObjectPhysics objectBehaviour = sender.GetComponent<UniversalObjectPhysics>();
 			RegisterObject registerObject = sender.GetComponent<RegisterObject>();
 			BodyPart bodyPart = sender.GetComponent<BodyPart>();
 			ExplosionNode node = ExplosionTypes.NodeTypes[explosionType];
@@ -55,7 +55,7 @@ namespace Chemistry.Effects
 				//If sender is in an inventory use the position of the inventory.
 				if (picked.ItemSlot != null)
 				{
-					objectBehaviour = picked.ItemSlot.ItemStorage.GetRootStorageOrPlayer().GetComponent<ObjectBehaviour>();
+					objectBehaviour = picked.ItemSlot.ItemStorage.GetRootStorageOrPlayer().GetComponent<UniversalObjectPhysics>();
 					registerObject = picked.ItemSlot.ItemStorage.GetRootStorageOrPlayer().GetComponent<RegisterObject>();
 				}
 			}

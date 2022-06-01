@@ -13,7 +13,7 @@ namespace Objects.Construction
 	public class WrenchSecurable : NetworkBehaviour, ICheckedInteractable<HandApply>, IExaminable
 	{
 		private RegisterObject registerObject;
-		private ObjectBehaviour objectBehaviour;
+		private UniversalObjectPhysics objectBehaviour;
 		private HandApply currentInteraction;
 		private string objectName;
 
@@ -22,7 +22,7 @@ namespace Objects.Construction
 		/// </summary>
 		[NonSerialized] public UnityEvent OnAnchoredChange = new UnityEvent();
 
-		public bool IsAnchored => objectBehaviour != null && !objectBehaviour.IsPushable;
+		public bool IsAnchored => objectBehaviour != null && objectBehaviour.IsNotPushable;
 
 		[SerializeField, FormerlySerializedAs("stateSecuredStatus")]
 		[Tooltip("Whether the object will state if it is secured or unsecured upon examination.")]
@@ -49,7 +49,7 @@ namespace Objects.Construction
 		private void Awake()
 		{
 			registerObject = GetComponent<RegisterObject>();
-			objectBehaviour = GetComponent<ObjectBehaviour>();
+			objectBehaviour = GetComponent<UniversalObjectPhysics>();
 		}
 
 		private void Start()
@@ -183,7 +183,7 @@ namespace Objects.Construction
 
 		public void ServerSetPushable(bool isPushable)
 		{
-			objectBehaviour.ServerSetPushable(isPushable);
+			objectBehaviour.SetIsNotPushable(!isPushable);
 		}
 	}
 }

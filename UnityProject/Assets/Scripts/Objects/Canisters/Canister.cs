@@ -44,7 +44,7 @@ namespace Objects.Atmospherics
 		// Components attached to GameObject.
 		public GasContainer GasContainer { get; private set; }
 		private RegisterObject registerObject;
-		private ObjectBehaviour objectBehaviour;
+		private UniversalObjectPhysics objectPhysics;
 		private HasNetworkTab networkTab;
 
 		private Connector connector;
@@ -94,7 +94,7 @@ namespace Objects.Atmospherics
 			GasContainer = GetComponent<GasContainer>();
 			networkTab = GetComponent<HasNetworkTab>();
 			registerObject = GetComponent<RegisterObject>();
-			objectBehaviour = GetComponent<ObjectBehaviour>();
+			objectPhysics = GetComponent<UniversalObjectPhysics>();
 		}
 
 		public void OnSpawnServer(SpawnInfo info)
@@ -213,7 +213,7 @@ namespace Objects.Atmospherics
 
 		private void EjectInsertedContainer()
 		{
-			InsertedContainer.GetComponent<CustomNetTransform>().AppearAtPositionServer(gameObject.WorldPosServer());
+			InsertedContainer.GetComponent<UniversalObjectPhysics>().AppearAtWorldPositionServer(gameObject.AssumedWorldPosServer());
 			InsertedContainer = null;
 			ServerOnExternalTankInserted.Invoke(false);
 			RefreshOverlays();
@@ -305,7 +305,7 @@ namespace Objects.Atmospherics
 					$"{interaction.Performer.ExpensiveName()} inserts a tank into the {this.ContentsName} canister.");
 				Inventory.ServerDrop(interaction.HandSlot);
 				InsertedContainer = interaction.UsedObject;
-				interaction.UsedObject.GetComponent<CustomNetTransform>().DisappearFromWorldServer();
+				interaction.UsedObject.GetComponent<UniversalObjectPhysics>().DisappearFromWorld();
 				ServerOnExternalTankInserted.Invoke(true);
 				RefreshOverlays();
 			}
@@ -324,7 +324,7 @@ namespace Objects.Atmospherics
 		{
 			ToolUtils.ServerPlayToolSound(interaction);
 			RefreshOverlays();
-			objectBehaviour.ServerSetPushable(!IsConnected);
+			objectPhysics.SetIsNotPushable(IsConnected);
 			ServerOnConnectionStatusChange.Invoke(IsConnected);
 		}
 

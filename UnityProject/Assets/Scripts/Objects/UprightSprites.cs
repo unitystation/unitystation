@@ -42,7 +42,7 @@ public class UprightSprites : MonoBehaviour, IMatrixRotation
 
 	private SpriteRenderer[] spriteRenderers;
 	private RegisterTile registerTile;
-	private CustomNetTransform cnt;
+	private UniversalObjectPhysics uop;
 
 	private void Awake()
 	{
@@ -52,7 +52,7 @@ public class UprightSprites : MonoBehaviour, IMatrixRotation
 			spriteRenderers = GetComponentsInChildren<SpriteRenderer>().Except(ignoreExtraRotation).ToArray();
 		}
 
-		cnt = GetComponent<CustomNetTransform>();
+		uop = GetComponent<UniversalObjectPhysics>();
 		registerTile.OnParentChangeComplete.AddListener(OnAppearOrChangeMatrix);
 		registerTile.OnAppearClient.AddListener(OnAppearOrChangeMatrix);
 		SetSpritesUpright();
@@ -95,8 +95,8 @@ public class UprightSprites : MonoBehaviour, IMatrixRotation
 
 		//if the object has rotation (due to spinning), don't set sprites upright, this
 		//avoids it suddenly flicking upright when it crosses a matrix or matrix rotates
-		//note only CNTs can have spin rotation
-		if (cnt != null && Quaternion.Angle(transform.localRotation, Quaternion.identity) > 5) return;
+		//note only uopS can have spin rotation
+		if (uop != null && Quaternion.Angle(transform.localRotation, Quaternion.identity) > 5) return;
 
 		if (RotateParent != null)
 		{

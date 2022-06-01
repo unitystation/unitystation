@@ -57,7 +57,7 @@ namespace Items.Others
 				yield return WaitFor.EndOfFrame;
 			}
 
-			player.Script.PlayerSync.SetPosition(gameObject.AssumedWorldPosServer(), true);
+			player.Script.PlayerSync.AppearAtWorldPositionServer(gameObject.AssumedWorldPosServer(), false);
 		}
 
 		public void ClearGhostRole()
