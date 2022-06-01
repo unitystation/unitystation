@@ -663,6 +663,8 @@ public class SoundManager : MonoBehaviour
 					return AudioManager.Instance.SFXMuffledMixer;
 				case MixerType.Ambient:
 					return AudioManager.Instance.AmbientMixer;
+				case MixerType.JukeBox:
+					return AudioManager.Instance.JukeboxMixer;
 				default:
 					return AudioManager.Instance.SFXMixer;
 			}

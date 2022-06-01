@@ -122,7 +122,7 @@ namespace Objects
 			integrity.OnApplyDamage.AddListener(OnDamageReceived);
 
 			audioSourceParameters = new AudioSourceParameters(volume: Volume, spatialBlend: 1, spread: Spread,
-				minDistance: MinSoundDistance, maxDistance: MaxSoundDistance, mixerType: MixerType.Muffled,
+				minDistance: MinSoundDistance, maxDistance: MaxSoundDistance, mixerType: MixerType.JukeBox,
 				volumeRolloffType: VolumeRolloffType.EaseInAndOut);
 		}
 
