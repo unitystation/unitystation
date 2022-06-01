@@ -219,18 +219,10 @@ namespace Objects
 			if (actionNotDone) return;
 			if (currentSongTrackIndex > 0)
 			{
-				if (IsPlaying)
-				{
-					SoundManager.StopNetworked(guid);
-				}
-
 				currentSongTrackIndex--;
 				UpdateGUI();
 
-				if (IsPlaying)
-				{
-					_ = Play();
-				}
+				if (IsPlaying) _ = Play();
 			}
 		}
 
