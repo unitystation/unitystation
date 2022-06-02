@@ -27,7 +27,8 @@ namespace Systems.MobAIs
 			dirtyFloor,
 			missingFloor,
 			injuredPeople,
-			players
+			players,
+			none
 		}
 
 		public float PriorityBalance = 1;
