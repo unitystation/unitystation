@@ -67,6 +67,11 @@ PrefabInstance:
       propertyPath: m_AssetId
       value: 22a414437f29f374c9a192acc5e18af4
       objectReference: {fileID: 0}
+    - target: {fileID: 5736064494939018447, guid: cf769d410d94f0e47bab5eee03a3b07d,
+        type: 3}
+      propertyPath: tileMoveSpeed
+      value: 7
+      objectReference: {fileID: 0}
     - target: {fileID: 8452744359610409676, guid: cf769d410d94f0e47bab5eee03a3b07d,
         type: 3}
       propertyPath: bloodColor
@@ -125,6 +130,7 @@ MonoBehaviour:
     Magic: 0
     Bio: 0
     DismembermentProtectionChance: 0
+    StunImmunity: 0
   initialResistances:
     LavaProof: 0
     FireProof: 0
