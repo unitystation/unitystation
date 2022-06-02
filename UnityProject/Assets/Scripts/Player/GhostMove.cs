@@ -123,7 +123,8 @@ public class GhostMove : NetworkBehaviour, IPlayerControllable
 
 		if (Moving == false)
 		{
-			var NewWorldPosition = transform.position + moveActions.ToPlayerMoveDirection().TVectoro().To3Int();
+			var Worlddifference = moveActions.ToPlayerMoveDirection().TVectoro().To3Int();
+			var NewWorldPosition = transform.position + Worlddifference;
 
 			var Orientation = moveActions.ToPlayerMoveDirection().TVectoro().To2Int().ToOrientationEnum();
 
@@ -138,9 +139,10 @@ public class GhostMove : NetworkBehaviour, IPlayerControllable
 				transform.position = Position;
 			}
 
-			LocalTargetPosition = NewWorldPosition;
-
+			NewWorldPosition.z = 0; //No hidden POS for us
 			var LocalPosition = (NewWorldPosition).ToLocal(movetoMatrix);
+
+			LocalTargetPosition = LocalPosition;
 
 			registerTile.ServerSetLocalPosition(LocalPosition.RoundToInt());
 			registerTile.ClientSetLocalPosition(LocalPosition.RoundToInt());

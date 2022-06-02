@@ -107,9 +107,29 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 	/// Returns the correct client/server version of world position depending on if this is
 	/// called on client or server.
 	/// </summary>
-	public Vector3Int WorldPosition => objectPhysics.Component.OfficialPosition.RoundToInt();
+	public Vector3Int WorldPosition
+	{
+		get
+		{
+			if (objectPhysics.HasComponent == false)
+			{
+				objectPhysics.ResetComponent(gameObject);
+			}
+			return objectPhysics.Component.OfficialPosition.RoundToInt();
+		}
+	}
 
-	public Vector3Int WorldPositionServer => objectPhysics.Component.OfficialPosition.RoundToInt();
+	public Vector3Int WorldPositionServer
+	{
+		get
+		{
+			if (objectPhysics.HasComponent == false)
+			{
+				objectPhysics.ResetComponent(gameObject);
+			}
+			return objectPhysics.Component.OfficialPosition.RoundToInt();
+		}
+	}
 
 	/// <summary>
 	/// Registered local position of this object. Returns correct value depending on if this is on the

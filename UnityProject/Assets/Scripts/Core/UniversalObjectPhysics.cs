@@ -367,11 +367,11 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 
 
 	[ClientRpc]
-	public void RPCClientTilePush(Vector2Int WorldDirection, float speed, GameObject CausedByClient)
+	public void RPCClientTilePush(Vector2Int WorldDirection, float speed, GameObject CausedByClient, bool OverridePull)
 	{
 		if (isServer) return;
 		if (PlayerManager.LocalPlayer == CausedByClient) return;
-		if (PulledBy.HasComponent) return;
+		if (PulledBy.HasComponent && OverridePull == false) return;
 		Pushing.Clear();
 		//Logger.LogError("ClientRpc Tile push for " + transform.name + " Direction " + WorldDirection.ToString());
 		SetMatrixCash.ResetNewPosition(transform.position);
@@ -727,19 +727,19 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 	}
 
 	public void TryTilePush(Vector2Int WorldDirection, GameObject ByClient, float speed = Single.NaN,
-		UniversalObjectPhysics PushedBy = null)
+		UniversalObjectPhysics PushedBy = null, bool Overridepull =false)
 	{
 		if (isVisible == false) return;
 		if (PushedBy == this) return;
 		if (CanPush(WorldDirection))
 		{
-			ForceTilePush(WorldDirection, Pushing, ByClient, speed, PushedBy: PushedBy);
+			ForceTilePush(WorldDirection, Pushing, ByClient, speed, PushedBy: PushedBy, Overridepull: Overridepull);
 		}
 	}
 
 	public void ForceTilePush(Vector2Int WorldDirection, List<UniversalObjectPhysics> InPushing, GameObject ByClient,
 		float speed = Single.NaN, bool IsWalk = false,
-		UniversalObjectPhysics PushedBy = null) //PushPull TODO Change to physics object
+		UniversalObjectPhysics PushedBy = null, bool Overridepull =false) //PushPull TODO Change to physics object
 	{
 		if (isVisible == false) return;
 		if (ForcedPushedFrame == Time.frameCount)
@@ -818,8 +818,8 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 			TileMoveSpeedOverride = speed;
 		}
 
-		if (isServer && PulledBy.HasComponent == false)
-			RPCClientTilePush(WorldDirection, speed, ByClient); //TODO Local direction
+		if (isServer && (PulledBy.HasComponent == false || Overridepull))
+			RPCClientTilePush(WorldDirection, speed, ByClient, Overridepull); //TODO Local direction
 
 		if (Pulling.HasComponent)
 		{
