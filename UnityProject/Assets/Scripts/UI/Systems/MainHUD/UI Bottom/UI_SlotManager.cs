@@ -30,10 +30,19 @@ public class UI_SlotManager : MonoBehaviour
 	public List<Tuple<IDynamicItemSlotS, BodyPartUISlots.StorageCharacteristics>> ContainSlots = new List<Tuple<IDynamicItemSlotS, BodyPartUISlots.StorageCharacteristics>>();
 	public void Start()
 	{
-		EventManager.AddHandler(Event.LoggedOut, UpdateUI);
+		EventManager.AddHandler(Event.LoggedOut, CompleteClean);
 		EventManager.AddHandler(Event.PlayerSpawned, UpdateUI);
 		EventManager.AddHandler(Event.RoundEnded, UpdateUI);
-		EventManager.AddHandler(Event.PreRoundStarted, UpdateUI);
+		EventManager.AddHandler(Event.PreRoundStarted, CompleteClean);
+	}
+
+	public void CompleteClean()
+	{
+		foreach (var contained in ContainSlots)
+		{
+			RemoveSpecifyedUISlot(contained.Item1, contained.Item2);
+		}
+		ContainSlots.Clear();
 	}
 
 	public void UpdateUI()
