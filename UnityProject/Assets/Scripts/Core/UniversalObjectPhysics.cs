@@ -668,7 +668,10 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 	public void SetMatrix(Matrix movetoMatrix)
 	{
 		var TransformCash = transform.position;
-		registerTile.ServerSetNetworkedMatrixNetID(movetoMatrix.NetworkedMatrix.MatrixSync.netId);
+		if (isServer)
+		{
+			registerTile.ServerSetNetworkedMatrixNetID(movetoMatrix.NetworkedMatrix.MatrixSync.netId);
+		}
 		registerTile.FinishNetworkedMatrixRegistration(movetoMatrix.NetworkedMatrix);
 		transform.position = TransformCash;
 		LocalDifferenceNeeded = Vector2.zero;
