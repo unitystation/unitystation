@@ -8,8 +8,7 @@ using NaughtyAttributes;
 using Objects.Construction;
 using AddressableReferences;
 using Chemistry;
-using HealthV2;
-
+using Random = System.Random;
 
 namespace Systems.MobAIs
 {
@@ -19,13 +18,6 @@ namespace Systems.MobAIs
 	/// </summary>
 	public class MobExplore : MobObjective, IServerSpawn
 	{
-		private List<Vector2Int> visionCirclePerimeter = new List<Vector2Int>();
-		private List<Vector3Int> visionCircleArea = new List<Vector3Int>();
-
-		[Tooltip("Range of search")]
-		[SerializeField]
-		public int visionRange = 10;
-
 		private AddressableAudioSource eatFoodSound;
 
 		//Add your targets as needed
@@ -35,8 +27,7 @@ namespace Systems.MobAIs
 			dirtyFloor,
 			missingFloor,
 			injuredPeople,
-			players,
-			none
+			players
 		}
 
 		public float PriorityBalance = 1;
@@ -44,38 +35,13 @@ namespace Systems.MobAIs
 		[Tooltip("The reagent used by emagged cleanbots")]
 		[SerializeField] private Reagent CB_REAGENT;
 
-		[Tooltip("The reagent used by medibots")]
-		[SerializeField] private Reagent HEALING_REAGENT;
-
-		[Tooltip("The reagent used by emagged medibots")]
-		[SerializeField] private Reagent HARMFUL_REAGENT;
-
 		public event Action FoodEatenEvent;
 
 		public Target target;
 
-		[NonSerialized]
-		public Vector3Int targetPos;
-
-		// to actually check if target is valid since vector isnt nullable type and we dont want for mobs to follow 0,0 or target far out of its target range
-		[NonSerialized]
-		public bool targetIsValid = false;
-
 		[Tooltip("Indicates the time it takes for the mob to perform its main action. If the the time is 0, it means that the action is instantaneous.")]
 		[SerializeField]
 		private float actionPerformTime = 0.0f;
-
-		[Tooltip("Indicates the time it takes for the mob to forget it's recent patient.")]
-		[SerializeField]
-		private float patientMemoryTime = 15.0f;
-
-		[Tooltip("Delay before each vision area update.")]
-		[SerializeField]
-		private float visionUpdateInterval = 0.5f;
-
-		[Tooltip("Delay before each medibot phrase.")]
-		[SerializeField]
-		private float phraseInterval = 5.0f;
 
 		[Tooltip("If true, this creature will only eat stuff in the food preferences list.")]
 		[SerializeField]
@@ -86,26 +52,16 @@ namespace Systems.MobAIs
 		[ShowIf(nameof(hasFoodPrefereces))]
 		private List<ItemTrait> foodPreferences = null;
 
-		//Timer that indicates if the action perform time is reached and the action can be performed.
+		// Timer that indicates if the action perform time is reached and the action can be performed.
 		private float actionPerformTimer = 0.0f;
 
-		//Timer that indicates if vision area can be updated again.
-		private float visionUpdateTimer = 0.0f;
-
-		//Timer that indicates if recent patient can be forgotten
-		private float patientTimer = 0.0f;
-
-		//Timer that indicates if medibot can shout again or he must shut up
-		private float phraseTimer = 0.0f;
-
 		private InteractableTiles _interactableTiles = null;
-		//Position at which an action is performed
+		// Position at which an action is performed
 		protected Vector3Int actionPosition;
 
 		public bool IsEmagged = false;
 
-		//So medibot won't inject same patient 10 times in a row
-		private PlayerScript recentPatient;
+		private readonly Random random = new Random();
 
 		private InteractableTiles interactableTiles
 		{
@@ -125,80 +81,6 @@ namespace Systems.MobAIs
 			eatFoodSound = CommonSounds.Instance.EatFood;
 		}
 
-		//https://www.geeksforgeeks.org/bresenhams-circle-drawing-algorithm/
-		// Function for circle-generation
-		// using Bresenham's algorithm
-		private void CircleBres(int xc, int yc, int r)
-		{
-			int x = 0, y = r;
-			int d = 3 - 2 * r;
-			DrawCircle(xc, yc, x, y);
-			while (y >= x)
-			{
-				// for each pixel we will
-				// draw all eight pixels
-
-				x++;
-
-				// check for decision parameter
-				// and correspondingly
-				// update d, x, y
-				if (d > 0)
-				{
-					y--;
-					d = d + 4 * (x - y) + 10;
-				}
-				else
-					d = d + 4 * x + 6;
-
-				DrawCircle(xc, yc, x, y);
-			}
-		}
-
-		// Function to put Locations
-		// at subsequence points
-		private void DrawCircle(int xc, int yc, int x, int y)
-		{
-			visionCirclePerimeter.Add(new Vector2Int(xc + x, yc + y));
-			visionCirclePerimeter.Add(new Vector2Int(xc - x, yc + y));
-			visionCirclePerimeter.Add(new Vector2Int(xc + x, yc - y));
-			visionCirclePerimeter.Add(new Vector2Int(xc - x, yc - y));
-			visionCirclePerimeter.Add(new Vector2Int(xc + y, yc + x));
-			visionCirclePerimeter.Add(new Vector2Int(xc - y, yc + x));
-			visionCirclePerimeter.Add(new Vector2Int(xc + y, yc - x));
-			visionCirclePerimeter.Add(new Vector2Int(xc - y, yc - x));
-		}
-
-		//https://rosettacode.org/wiki/Bitmap/Bresenham%27s_line_algorithm#C.23
-		private void FillCircle(int xc, int yc, int z)
-		{
-			foreach (Vector3Int pos in visionCirclePerimeter)
-			{
-				int dx = Math.Abs(pos.x - xc), sx = xc < pos.x ? 1 : -1;
-				int dy = Math.Abs(pos.y - yc), sy = yc < pos.y ? 1 : -1;
-				int err = (dx > dy ? dx : -dy) / 2, e2;
-				for (; ; )
-				{
-					visionCircleArea.Add(new Vector3Int(xc, yc, z));
-					if (xc == pos.x && yc == pos.y) break;
-					e2 = err;
-					if (e2 > -dx) { err -= dy; xc += sx; }
-					if (e2 < dy) { err += dx; yc += sy; }
-				}
-			}
-		}
-
-		//refreshes vision area
-		private void UpdateVisionArea()
-		{
-			visionCircleArea.Clear();
-			visionCirclePerimeter.Clear();
-			int xc = mobTile.WorldPositionServer.x;
-			int yc = mobTile.WorldPositionServer.y;
-			int z = mobTile.WorldPositionServer.z;
-			CircleBres(xc, yc, visionRange);
-			FillCircle(xc, yc, z);
-		}
 
 		/// <summary>
 		/// Begin exploring for the given target type
@@ -209,30 +91,6 @@ namespace Systems.MobAIs
 			target = _target;
 		}
 
-		//gets nearest available target
-		private void RefreshTargetPos()
-		{
-			return;
-			if (visionCircleArea.Count < 1)
-			{
-				UpdateVisionArea();
-			}
-
-			float minDist = 999;
-			foreach (Vector3Int worldPos in visionCircleArea)
-			{
-				if (IsTargetFound(worldPos.ToNonInt3().ToLocalInt(mobTile.Matrix)))
-				{
-					float curDist = Vector3.Distance(worldPos, mobTile.WorldPositionServer);
-					if (curDist < minDist)
-					{
-						minDist = curDist;
-						targetPos = worldPos;
-						targetIsValid = true;
-					}
-				}
-			}
-		}
 
 		private bool IsTargetFound(Vector3Int checkPos)
 		{
@@ -242,42 +100,21 @@ namespace Systems.MobAIs
 					if (hasFoodPrefereces)
 						return mobTile.Matrix.Get<ItemAttributesV2>(checkPos, true).Any(IsInFoodPreferences);
 					return mobTile.Matrix.GetFirst<Edible>(checkPos, true) != null;
+
 				case Target.dirtyFloor:
 					if (IsEmagged == false) return (mobTile.Matrix.Get<FloorDecal>(checkPos, true).Any(p => p.Cleanable));
 					else return (mobTile.Matrix.Get<FloorDecal>(checkPos, true).Any(p => p.Cleanable) || (!mobTile.Matrix.Get<FloorDecal>(checkPos, true).Any() && interactableTiles.MetaTileMap.GetTile(checkPos)?.LayerType == LayerType.Floors));
+
 				case Target.missingFloor:
 					if (IsEmagged == false) return (interactableTiles.MetaTileMap.GetTile(checkPos)?.LayerType == LayerType.Base || interactableTiles.MetaTileMap.GetTile(checkPos)?.LayerType == LayerType.Underfloor); // Checks the topmost tile if its the base or underfloor layer (below the floor)
 					else return interactableTiles.MetaTileMap.GetTile(checkPos)?.LayerType == LayerType.Floors;
+
 				case Target.injuredPeople:
-					var players = mobTile.Matrix.Get<PlayerScript>(checkPos, true);
-
-					foreach(PlayerScript player in players)
-					{
-						if (player != null && player != recentPatient)
-						{
-							if (!IsEmagged && player.playerHealth.OverallHealth < 75)
-							{
-								phraseTimer += Time.deltaTime;
-
-								if (phraseTimer >= phraseInterval)
-								{
-									Chat.AddCommMsgByMachineToChat(gameObject, "Hold on, I'm coming!", ChatChannel.Local, Loudness.SCREAMING, broadcasterName: "Medibot: "); //todo: add voicelines
-									phraseTimer = 0;
-								}
-								return true;
-							}
-							else if (IsEmagged)
-							{
-								return true;
-							}
-							else continue;
-						}
-					}
 					return false;
 
 				// this includes ghosts!
 				case Target.players:
-					return mobTile.Matrix.Get<PlayerScript>(checkPos, true).Count() != 0;
+					return mobTile.Matrix.GetFirst<PlayerScript>(checkPos, true) != null;
 
 				default:
 					return false;
@@ -369,23 +206,6 @@ namespace Systems.MobAIs
 
 					break;
 				case Target.injuredPeople:
-					var players = MatrixManager.GetAt<PlayerScript>(checkPos, isServer: true);
-					if (players.Count() != 0)
-					{
-						foreach (PlayerScript player in players)
-						{
-							if (player != null && player != recentPatient)
-							{
-								if (!IsEmagged && player.playerHealth.OverallHealth < 75)
-								{
-									player.playerHealth.CirculatorySystem.BloodPool.Add(new ReagentMix(HEALING_REAGENT, 5, 283.15f));
-									Chat.AddCommMsgByMachineToChat(gameObject, "Feel better soon.", ChatChannel.Local, Loudness.NORMAL, broadcasterName: "Medibot: ");
-								}
-								else if (IsEmagged) player.playerHealth.CirculatorySystem.BloodPool.Add(new ReagentMix(HARMFUL_REAGENT, 5, 283.15f));
-								else continue;
-							}
-						}
-					}
 					break;
 				case Target.players:
 					var people = mobTile.Matrix.GetFirst<PlayerScript>(checkPos, true);
@@ -421,10 +241,6 @@ namespace Systems.MobAIs
 			{
 				Priority += PriorityBalance * 10;
 			}
-			if (targetIsValid)
-			{
-				Priority += PriorityBalance * 5;
-			}
 			else
 			{
 				Priority += PriorityBalance;
@@ -432,121 +248,16 @@ namespace Systems.MobAIs
 
 		}
 
-		public bool MatchesMobPos(Vector3Int pos)
-		{
-			return pos == mobTile.WorldPositionServer;
-		}
-
-		public bool MatchesCurrentTarget(Vector3Int pos)
-		{
-			return pos == targetPos;
-		}
-
-		public Vector3Int IsTargetNear(Vector3Int pos)
-        {
-			List<Vector3Int> adjacentTiles = new List<Vector3Int>();
-			adjacentTiles.Add(new Vector3Int(pos.x, pos.y + 1, pos.z));
-			adjacentTiles.Add(new Vector3Int(pos.x, pos.y - 1, pos.z));
-			adjacentTiles.Add(new Vector3Int(pos.x + 1, pos.y, pos.z));
-			adjacentTiles.Add(new Vector3Int(pos.x + 1, pos.y + 1, pos.z));
-			adjacentTiles.Add(new Vector3Int(pos.x + 1, pos.y - 1, pos.z));
-			adjacentTiles.Add(new Vector3Int(pos.x - 1, pos.y, pos.z));
-			adjacentTiles.Add(new Vector3Int(pos.x - 1, pos.y + 1, pos.z));
-			adjacentTiles.Add(new Vector3Int(pos.x - 1, pos.y - 1, pos.z));
-			foreach (Vector3Int checkPos in adjacentTiles)
-            {
-				if (IsTargetFound(checkPos))
-                {
-					return checkPos;
-                }
-            }
-			return mobTile.LocalPositionServer; //vector is not nullable, so we are returning mobtile position as "false" response
-		}
 
 		public override void DoAction()
 		{
-			visionUpdateTimer += Time.deltaTime;
-
-			if (visionUpdateTimer >= visionUpdateInterval)
+			if (IsTargetFound(mobTile.LocalPositionServer))
 			{
-				UpdateVisionArea();
-
-				visionUpdateTimer = 0;
-			}
-
-			patientTimer += Time.deltaTime;
-
-			if (patientTimer >= patientMemoryTime)
-			{
-				recentPatient = null;
-
-				patientTimer = 0;
-			}
-
-			Vector3Int nearPos = IsTargetNear(mobTile.LocalPositionServer);
-			if (IsTargetFound(mobTile.LocalPositionServer) || (target == Target.injuredPeople && nearPos != mobTile.LocalPositionServer))
-			{
-				if (IsTargetFound(mobTile.LocalPositionServer))
-                {
-					StartPerformAction(mobTile.LocalPositionServer);
-				}
-                else
-                {
-					StartPerformAction(nearPos);
-                }
-				Vector3Int oldPos = targetPos;
-				RefreshTargetPos();
-				if (oldPos == targetPos) //target is reached but no new targets found, so its not valid anymore
-				{
-					targetIsValid = false;
-				}
+				StartPerformAction(mobTile.LocalPositionServer);
 			}
 			else
 			{
-				if (Vector3.Distance(targetPos, mobTile.WorldPositionServer) > visionRange * 3)
-				{
-					Vector3Int oldPos = targetPos;
-					RefreshTargetPos();
-					if (oldPos == targetPos) //target is out of range but no new targets found, so its not valid anymore
-					{
-						targetIsValid = false;
-					}
-				}
-
-				if (targetPos != null && targetIsValid)
-				{
-					var moveToRelative = (targetPos - mobTile.WorldPositionServer).ToNonInt3();
-					moveToRelative.Normalize();
-					var stepDirectionWorld = ChooseDominantDirection(moveToRelative);
-					var moveTo = mobTile.WorldPositionServer + stepDirectionWorld;
-					var localMoveTo = moveTo.ToLocal(mobTile.Matrix).RoundToInt();
-
-					var distance = Vector3.Distance(targetPos, mobTile.WorldPositionServer);
-					if (distance > 2)
-					{
-						if (mobTile.Matrix.MetaTileMap.IsPassableAtOneTileMap(mobTile.LocalPositionServer, localMoveTo, true))
-						{
-							Move(stepDirectionWorld);
-						}
-						else
-						{
-							Move(Directions.PickRandom());
-						}
-					}
-					else
-					{
-						if (distance != 0)
-						{
-							Move(stepDirectionWorld);
-						}
-					}
-				}
-				else
-				{
-					Move(Directions.PickRandom());
-				}
-
-				RefreshTargetPos();
+				Move(Directions[random.Next(0, Directions.Count)]);
 			}
 		}
 	}
