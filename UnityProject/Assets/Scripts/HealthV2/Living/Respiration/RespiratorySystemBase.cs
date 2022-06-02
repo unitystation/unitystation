@@ -12,7 +12,7 @@ namespace HealthV2
 	{
 		private LivingHealthMasterBase healthMaster;
 		private PlayerScript playerScript;
-		private ObjectBehaviour objectBehaviour;
+		private UniversalObjectPhysics objectBehaviour;
 		private HealthStateController healthStateController;
 
 		[Tooltip("If this is turned on, the organism can breathe anywhere and wont affect atmospherics.")]
@@ -33,7 +33,7 @@ namespace HealthV2
 		{
 			healthMaster = GetComponent<LivingHealthMasterBase>();
 			playerScript = GetComponent<PlayerScript>();
-			objectBehaviour = GetComponent<ObjectBehaviour>();
+			objectBehaviour = GetComponent<UniversalObjectPhysics>();
 			healthStateController = GetComponent<HealthStateController>();
 		}
 
@@ -73,15 +73,15 @@ namespace HealthV2
 			}
 
 			GasMix ambientGasMix;
-			if (objectBehaviour.parentContainer != null &&
-					objectBehaviour.parentContainer.TryGetComponent<GasContainer>(out var gasContainer))
+			if (objectBehaviour.ContainedInContainer != null &&
+					objectBehaviour.ContainedInContainer.TryGetComponent<GasContainer>(out var gasContainer))
 			{
 				ambientGasMix = gasContainer.GasMix;
 			}
 			else
 			{
 				var matrix = healthMaster.RegisterTile.Matrix;
-				Vector3Int localPosition = MatrixManager.WorldToLocalInt(objectBehaviour.AssumedWorldPositionServer(), matrix);
+				Vector3Int localPosition = MatrixManager.WorldToLocalInt(objectBehaviour.registerTile.WorldPosition, matrix);
 				ambientGasMix = matrix.MetaDataLayer.Get(localPosition).GasMix;
 			}
 

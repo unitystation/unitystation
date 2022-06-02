@@ -31,8 +31,8 @@ namespace Weapons.Projectiles.Behaviours
 					Chat.AddLocalMsgToChat($"The projectile pings off the surface, leaving hardly a scratch.", gameObject);
 					return false;
 				}
-				
-				
+
+
 			}
 			return interactableTiles.TryMine(worldPosition);
 		}

@@ -37,7 +37,7 @@ namespace Messages.Server.VariableViewer
 		public static NetMessage Send(Librarian.Library Library, GameObject ToWho)
 		{
 			NetMessage msg = new NetMessage();
-			var ListsOfLists = VariableViewerNetworking.ProcessLibrary(Library).Chunk(700).ToList();
+			var ListsOfLists = VariableViewerNetworking.ProcessLibrary(Library).Chunk(500).ToList();
 
 			foreach (var List in ListsOfLists)
 			{

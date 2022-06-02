@@ -160,11 +160,12 @@ namespace HealthV2
 		[SerializeField, BoxGroup("PainFeedback")] private EmoteSO screamEmote;
 		private bool canScream = true;
 
+		private UniversalObjectPhysics objectBehaviour;
+		public UniversalObjectPhysics ObjectBehaviour => objectBehaviour;
+
 		[SerializeField, BoxGroup("FastRegen")] private float fastRegenHeal = 12;
 		[SerializeField, BoxGroup("FastRegen")] private float fastRegenThreshold = 85;
 
-		private ObjectBehaviour objectBehaviour;
-		public ObjectBehaviour ObjectBehaviour => objectBehaviour;
 
 		private HealthStateController healthStateController;
 		public HealthStateController HealthStateController => healthStateController;
@@ -262,7 +263,7 @@ namespace HealthV2
 			RegisterTile = GetComponent<RegisterTile>();
 			RespiratorySystem = GetComponent<RespiratorySystemBase>();
 			CirculatorySystem = GetComponent<CirculatorySystemBase>();
-			objectBehaviour = GetComponent<ObjectBehaviour>();
+			objectBehaviour = GetComponent<UniversalObjectPhysics>();
 			healthStateController = GetComponent<HealthStateController>();
 			mobSickness = GetComponent<MobSickness>();
 			playerScript = GetComponent<PlayerScript>();
@@ -348,6 +349,7 @@ namespace HealthV2
 			FireStacksDamage();
 			CalculateRadiationDamage();
 			BleedStacksDamage();
+			mobSickness.TriggerCustomSicknessLogic();
 
 			if (IsDead)
 			{
@@ -962,7 +964,7 @@ namespace HealthV2
 
 			//If we are in a container then don't produce miasma
 			//TODO: make this only happen with coffins, body bags and other body containers (morgue, etc)
-			if (objectBehaviour.parentContainer != null) return;
+			if (objectBehaviour.ContainedInContainer != null) return;
 
 			//TODO: check for formaldehyde in body, prevent if more than 15u
 

@@ -310,7 +310,7 @@ public partial class Chat : MonoBehaviour
 			message = message,
 			modifiers = chatModifiers,
 			speaker = broadcasterName != default ? broadcasterName : sentByMachine.ExpensiveName(),
-			position = sentByMachine.WorldPosServer(),
+			position = sentByMachine.AssumedWorldPosServer(),
 			channels = channels,
 			originator = sentByMachine,
 			VoiceLevel = voiceLevel

@@ -33,7 +33,7 @@ public class SpawnMobArtifactEffect : ArtifactEffect
 
 	private void TrySpawnMob()
 	{
-		var pos = gameObject.WorldPosServer();
+		var pos = gameObject.AssumedWorldPosServer();
 
 		spawnedMobs.Remove(null);
 

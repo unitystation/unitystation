@@ -23,6 +23,7 @@ using UI.Core;
 using UI.Items;
 using Doors;
 using Tiles;
+using Random = UnityEngine.Random;
 
 public partial class PlayerNetworkActions : NetworkBehaviour
 {
@@ -38,7 +39,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 
 	private Equipment equipment = null;
 
-	private PlayerMove playerMove;
+	private MovementSynchronisation playerMove;
 	private PlayerScript playerScript;
 	public DynamicItemStorage itemStorage => playerScript.DynamicItemStorage;
 	public Transform chatBubbleTarget;
@@ -47,7 +48,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 
 	private void Awake()
 	{
-		playerMove = GetComponent<PlayerMove>();
+		playerMove = GetComponent<MovementSynchronisation>();
 		playerScript = GetComponent<PlayerScript>();
 	}
 
@@ -88,6 +89,13 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		equipment.SetReference((int) enumA, Item);
 	}
 
+	[Command]
+	public void CmdSetCurrentIntent(Intent intent)
+	{
+		playerMove.intent = intent;
+	}
+
+
 	/// <summary>
 	/// Server handling of the request to perform a resist action.
 	/// </summary>
@@ -97,7 +105,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		if (!Cooldowns.TryStartServer(playerScript, CommonCooldowns.Instance.Interaction)) return;
 
 		// Handle the movement restricted actions first.
-		if (playerScript.playerMove.IsBuckled)
+		if (playerScript.playerMove.BuckledObject != null)
 		{
 			// Make sure we don't unbuckle if we are currently cuffed.
 			if (!playerScript.playerMove.IsCuffed)
@@ -126,7 +134,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 				}
 			}
 		}
-		else if (playerScript.playerMove.IsTrapped) // Check if trapped.
+		else if (playerScript.playerMove.BuckledObject != null || playerScript.playerMove.ContainedInContainer != null) // Check if trapped.
 		{
 			playerScript.PlayerSync.ServerTryEscapeContainer();
 		}
@@ -209,16 +217,16 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	public void CmdSlideItem(Vector3Int destination)
 	{
 		if (playerScript.IsPositionReachable(destination, true) == false
-			|| playerScript.pushPull.PulledObjectServer == null
+			|| playerScript.objectPhysics.Pulling.HasComponent == null
 			|| playerScript.IsGhost
 			|| playerScript.playerHealth.ConsciousState != ConsciousState.CONSCIOUS)
 		{
 			return;
 		}
-		PushPull pushPull = playerScript.pushPull.PulledObjectServer;
+		var pushPull = playerScript.objectPhysics.Pulling.Component;
 		Vector3Int origin = pushPull.registerTile.WorldPositionServer;
 		Vector2Int dir = (Vector2Int)(destination - origin);
-		pushPull.TryPush(dir);
+		pushPull.TryTilePush(dir, null);
 	}
 
 	/// <summary>
@@ -357,15 +365,46 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	/// Server handling of the request to throw an item from a client
 	/// </summary>
 	[Command]
-	public void CmdThrow( Vector3 worldTargetVector, int aim)
+	public void CmdThrow( Vector3 TargetLocalPosition, int aim, Vector3 ClientWorldOfDifference)
 	{
 		//only allowed to throw from hands
 		if (!Validations.CanInteract(playerScript, NetworkSide.Server)) return;
 
 		if (!Cooldowns.TryStartServer(playerScript, CommonCooldowns.Instance.Interaction)) return;
 		var slot = itemStorage.GetActiveHandSlot();
-		Inventory.ServerThrow(slot, worldTargetVector,
-			slot.NamedSlot == NamedSlot.leftHand ? SpinMode.Clockwise : SpinMode.CounterClockwise, (BodyPartType) aim);
+		Vector3 targetVector = TargetLocalPosition.ToWorld(playerMove.registerTile.Matrix) - playerMove.transform.position;
+		if (slot.Item != null)
+		{
+			Inventory.ServerThrow(slot, targetVector, (BodyPartType) aim);
+		}
+		else if (playerMove.Pulling.HasComponent)
+		{
+			if ((playerMove.Pulling.Component as MovementSynchronisation) == null)
+			{
+				if (playerMove.Pulling.Component.attributes.OrNull()?.Size != null && playerMove.Pulling.Component.attributes.Size >= Size.Large)
+				{
+					return;
+				}
+			};
+			var Distance = targetVector.magnitude;
+
+			if (Distance > 6)
+			{
+				Distance = 6;
+			}
+
+			var Pulling = playerMove.Pulling.Component;
+			playerMove.StopPulling(false);
+			//speedloss  / friction
+			var speed = 8;
+
+			Pulling.NewtonianPush( targetVector,speed
+				, (Distance / speed ) - ((Mathf.Pow(speed, 2) / (2*UniversalObjectPhysics.DEFAULT_Friction)) / speed)
+				, Single.NaN, (BodyPartType) aim, this.gameObject, Random.Range(25, 150));
+		}
+
+
+
 	}
 
 	[Command]
@@ -510,7 +549,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		{
 			case ConsciousState.CONSCIOUS:
 				playerMove.allowInput = true;
-				playerScript.PlayerSync.SpeedServer = playerMove.RunSpeed;
+				playerMove.CurrentMovementType = MovementType.Running;
 				break;
 			case ConsciousState.BARELY_CONSCIOUS:
 				//Drop hand items when unconscious
@@ -519,7 +558,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 					Inventory.ServerDrop(itemSlot);
 				}
 				playerMove.allowInput = true;
-				playerScript.PlayerSync.SpeedServer = playerMove.CrawlSpeed;
+				playerMove.CurrentMovementType = MovementType.Running;
 				if (oldState == ConsciousState.CONSCIOUS)
 				{
 					//only play the sound if we are falling
@@ -543,13 +582,13 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 				break;
 		}
 
-		playerScript.pushPull.ServerStopPulling();
+		playerScript.objectPhysics.StopPulling(false);
 	}
 
 	[Server]
 	public void ServerToggleChatIcon(bool turnOn, string message, ChatChannel chatChannel, ChatModifier chatModifier)
 	{
-		if (!playerScript.pushPull.VisibleState || (playerScript.mind.occupation.JobType == JobType.NULL
+		if (!playerScript.objectPhysics.IsVisible || (playerScript.mind.occupation.JobType == JobType.NULL
 												|| playerScript.playerHealth.IsDead || playerScript.playerHealth.IsCrit))
 		{
 			//Don't do anything with chat icon if player is invisible or not spawned in
@@ -709,7 +748,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		}
 
 		//body might be in a container, reentering should still be allowed in that case
-		if (body.pushPull != null && body.pushPull.parentContainer == null && body.WorldPos == TransformState.HiddenPos)
+		if (body.objectPhysics != null && body.objectPhysics.ContainedInContainer == null && body.WorldPos == TransformState.HiddenPos)
 		{
 			Logger.LogFormat("There's nothing left of {0}'s body, not entering it", Category.Ghosts, body);
 			return;
@@ -883,7 +922,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	{
 		if (playerScript.IsGhost && Math.Abs(s3.x) <= 20000 && Math.Abs(s3.y) <= 20000)
 		{
-			playerScript.PlayerSync.SetPosition(s3); //server forces position on player
+			playerScript.PlayerSync.AppearAtWorldPositionServer(s3, false); //server forces position on player
 		}
 	}
 

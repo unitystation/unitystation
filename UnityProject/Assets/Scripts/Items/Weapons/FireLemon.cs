@@ -72,12 +72,12 @@ namespace Items.Weapons
 
 		//this object's registerObject
 		private RegisterItem registerItem;
-		private ObjectBehaviour objectBehaviour;
+		private UniversalObjectPhysics objectBehaviour;
 
 		private void Start()
 		{
 			registerItem = GetComponent<RegisterItem>();
-			objectBehaviour = GetComponent<ObjectBehaviour>();
+			objectBehaviour = GetComponent<UniversalObjectPhysics>();
 
 			// Set grenade to locked state by default
 			UpdateSprite(LOCKED_SPRITE);
@@ -174,7 +174,7 @@ namespace Items.Weapons
 
 			// Get data from grenade before despawning
 			var explosionMatrix = registerItem.Matrix;
-			var worldPos = objectBehaviour.AssumedWorldPositionServer();
+			var worldPos = objectBehaviour.registerTile.WorldPosition;
 
 			// Despawn grenade
 			_ = Despawn.ServerSingle(gameObject);
@@ -182,8 +182,8 @@ namespace Items.Weapons
 			// Explosion here
 			var explosionGO = Instantiate(explosionPrefab, explosionMatrix.transform);
 			explosionGO.transform.position = worldPos;
-			explosionGO.SetExplosionData(Mathf.RoundToInt(finalDamage), finalRadius);
-			explosionGO.Explode(explosionMatrix);
+			explosionGO.SetExplosionData(finalDamage, ExplosionTypes.ExplosionType.Regular, (int)finalRadius);
+			explosionGO.Explode();
 		}
 
 		private void PlayPinSFX(Vector3 position)

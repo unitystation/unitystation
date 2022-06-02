@@ -114,7 +114,7 @@ namespace UI
 				return;
 			}
 
-			Vector3 originPos = Provider.WorldPosServer();
+			Vector3 originPos = Provider.AssumedWorldPosServer();
 			Vector3 nearestPlayerPos = GetNearestPlayerPos(originPos);
 
 			if (nearestPlayerPos == TransformState.HiddenPos)
@@ -123,14 +123,8 @@ namespace UI
 			}
 
 			var spawnedItem = Spawn.ServerPrefab(item.Prefab, originPos, Provider.transform.parent).GameObject;
-			spawnedItem.GetComponent<CustomNetTransform>()?.Throw(new ThrowInfo
-			{
-				ThrownBy = Provider,
-				Aim = BodyPartType.Chest,
-				OriginWorldPos = originPos,
-				WorldTrajectory = nearestPlayerPos - originPos, //haha
-				SpinMode = SpinMode.CounterClockwise
-			});
+			spawnedItem.GetComponent<UniversalObjectPhysics>()?.NewtonianPush(nearestPlayerPos - originPos, 1,
+				inthrownBy: Provider, inaim: BodyPartType.Chest);
 		}
 
 		///Tries to get nearest player's position within range, and returns HiddenPos if it fails

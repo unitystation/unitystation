@@ -31,13 +31,12 @@ namespace Construction.Conveyors
 		[SerializeField] private SpriteHandler spriteHandler = null;
 		private RegisterTile registerTile;
 
-		private Vector3 position;
+		private Vector3 PushDirectionPosition;
 		private Matrix Matrix => registerTile.Matrix;
 
 		public ConveyorBeltSwitch AssignedSwitch { get; private set; }
 
-		private Queue<PlayerSync> playerCache = new Queue<PlayerSync>();
-		private Queue<CustomNetTransform> cntCache = new Queue<CustomNetTransform>();
+		private Queue<UniversalObjectPhysics> cntCache = new Queue<UniversalObjectPhysics>();
 
 		#region Lifecycle
 
@@ -60,10 +59,10 @@ namespace Construction.Conveyors
 		#region Belt Operation
 
 		[Server]
-		public void MoveBelt()
+		public void MoveBelt(float ConveyorBeltSpeed)
 		{
 			DetectItems();
-			MoveEntities();
+			MoveEntities(ConveyorBeltSpeed);
 		}
 
 		private void DetectItems()
@@ -72,45 +71,30 @@ namespace Construction.Conveyors
 
 			GetPositionOffset();
 			if (!Matrix.IsPassableAtOneMatrix(registerTile.LocalPositionServer,
-				Vector3Int.RoundToInt(registerTile.LocalPositionServer + position), true)) return;
+				Vector3Int.RoundToInt(registerTile.LocalPositionServer + PushDirectionPosition), true)) return;
 
-			foreach (var player in Matrix.Get<PlayerSync>(registerTile.LocalPositionServer, ObjectType.Player, true))
+			foreach (var item in Matrix.Get<UniversalObjectPhysics>(registerTile.LocalPositionServer, true))
 			{
-				playerCache.Enqueue(player);
-			}
-
-			foreach (var item in Matrix.Get<CustomNetTransform>(registerTile.LocalPositionServer, true))
-			{
-				if (item.gameObject == gameObject || item.PushPull == null || !item.PushPull.IsPushable) continue;
+				if (item.gameObject == gameObject || item.IsNotPushable || item.Intangible) continue;
 
 				cntCache.Enqueue(item);
 			}
 		}
 
-		private void MoveEntities()
+		private void MoveEntities(float ConveyorBeltSpeed)
 		{
-			while (playerCache.Count > 0)
-			{
-				TransportPlayer(playerCache.Dequeue());
-			}
-
 			while (cntCache.Count > 0)
 			{
-				Transport(cntCache.Dequeue());
+				Transport(cntCache.Dequeue(), ConveyorBeltSpeed);
 			}
 		}
 
-		[Server]
-		private void TransportPlayer(PlayerSync player)
-		{
-			//push player to the next tile
-			player?.Push(position.To2Int());
-		}
 
 		[Server]
-		private void Transport(CustomNetTransform item)
+		private void Transport(UniversalObjectPhysics item, float ConveyorBeltSpeed)
 		{
-			item?.Push(position.To2Int());
+			item.OrNull()?.Pushing?.Clear();
+			item.OrNull()?.ForceTilePush(PushDirectionPosition.To2Int(), item.Pushing, null, ConveyorBeltSpeed);
 		}
 
 		#endregion Belt Operation
@@ -188,13 +172,13 @@ namespace Construction.Conveyors
 			switch (CurrentStatus)
 			{
 				case ConveyorStatus.Forward:
-					position = ConveyorDirections.directionsForward[CurrentDirection];
+					PushDirectionPosition = ConveyorDirections.directionsForward[CurrentDirection];
 					break;
 				case ConveyorStatus.Backward:
-					position = ConveyorDirections.directionsBackward[CurrentDirection];
+					PushDirectionPosition = ConveyorDirections.directionsBackward[CurrentDirection];
 					break;
 				default:
-					position = Vector3.up;
+					PushDirectionPosition = Vector3.up;
 					break;
 			}
 		}

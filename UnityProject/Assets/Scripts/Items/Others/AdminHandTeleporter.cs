@@ -10,7 +10,7 @@ public class AdminHandTeleporter : MonoBehaviour, ICheckedInteractable<AimApply>
 	{
 		if (interaction.MouseButtonState == MouseButtonState.PRESS)
 		{
-			interaction.PerformerPlayerScript.PlayerSync.SetPosition(interaction.WorldPositionTarget, true);
+			interaction.PerformerPlayerScript.PlayerSync.AppearAtWorldPositionServer(interaction.WorldPositionTarget, true);
 		}
 	}
 

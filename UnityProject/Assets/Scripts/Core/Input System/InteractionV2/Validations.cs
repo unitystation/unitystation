@@ -182,7 +182,8 @@ public static class Validations
 	{
 		if (playerScript == null) return false;
 
-		var playerObjBehavior = playerScript.pushPull;
+		var playerObjBehavior = playerScript.objectPhysics;
+
 
 		if (CanInteract(playerScript, side, allowSoftCrit) == false)
 		{
@@ -202,8 +203,8 @@ public static class Validations
 			else
 			{
 				//server checks if player is trying to click the container they are in.
-				var parentObj = playerObjBehavior.parentContainer != null
-					? playerObjBehavior.parentContainer.gameObject
+				var parentObj = playerObjBehavior.ContainedInContainer != null
+					? playerObjBehavior.ContainedInContainer.gameObject
 					: null;
 				return parentObj == target;
 			}
@@ -237,15 +238,15 @@ public static class Validations
 			}
 			else
 			{
-				CustomNetTransform cnt = (target == null) ? null : target.GetComponent<CustomNetTransform>();
+				UniversalObjectPhysics uop = (target == null) ? null : target.GetComponent<UniversalObjectPhysics>();
 
-				if (cnt == null)
+				if (uop == null)
 				{
 					result = IsInReachInternal(playerScript, target, side, TargetPosition, targetRegisterTile, targetVector: targetVector);
 				}
 				else
 				{
-					result = ServerCanReachExtended(playerScript, cnt.ServerState);
+					result = ServerCanReachExtended(playerScript, uop);
 				}
 			}
 		}
@@ -265,15 +266,10 @@ public static class Validations
 			{
 				targetName = target.name;
 
-				if (target.TryGetComponent(out CustomNetTransform cnt))
+				if (target.TryGetComponent(out UniversalObjectPhysics uop))
 				{
-					worldPosition = cnt.ServerState.WorldPosition;
-					isFloating = cnt.IsFloatingServer;
-				}
-				else if (target.TryGetComponent(out PlayerSync playerSync))
-				{
-					worldPosition = playerSync.ServerState.WorldPosition;
-					isFloating = playerSync.IsWeightlessServer;
+					worldPosition = uop.OfficialPosition;
+					isFloating = uop.IsCurrentlyFloating;
 				}
 			}
 
@@ -423,13 +419,13 @@ public static class Validations
 		}
 		else
 		{
-			return IsReachableByPositions(from.WorldPositionClient, to.WorldPositionClient, isServer, interactDist, context: context);
+			return IsReachableByPositions(from.WorldPosition, to.WorldPosition, isServer, interactDist, context: context);
 		}
 	}
 
-	private static bool ServerCanReachExtended(PlayerScript ps, TransformState state, GameObject context = null)
+	private static bool ServerCanReachExtended(PlayerScript ps, UniversalObjectPhysics state, GameObject context = null)
 	{
-		return ps.IsPositionReachable(state.WorldPosition, true) || ps.IsPositionReachable(state.WorldPosition - (Vector3)state.WorldImpulse, true, 1.75f, context: context);
+		return ps.IsPositionReachable(state.OfficialPosition, true) || ps.IsPositionReachable(state.OfficialPosition - (Vector3)state.newtonianMovement, true, 1.75f, context: context);
 	}
 
 	//AiActivate Validation

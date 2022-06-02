@@ -242,11 +242,11 @@ namespace Objects
 
 			// Play vending sound
 			AudioSourceParameters audioSourceParameters = new AudioSourceParameters(pitch: Random.Range(.75f, 1.1f));
-			SoundManager.PlayNetworkedAtPos(VendingSound, gameObject.WorldPosServer(), audioSourceParameters, sourceObj: gameObject);
+			SoundManager.PlayNetworkedAtPos(VendingSound, gameObject.AssumedWorldPosServer(), audioSourceParameters, sourceObj: gameObject);
 
 			// Ejecting in direction
 			if (EjectObjects && EjectDirection != EjectDirection.None &&
-				spawnedItem.TryGetComponent<CustomNetTransform>(out var cnt))
+				spawnedItem.TryGetComponent<UniversalObjectPhysics>(out var uop))
 			{
 				Vector3 offset = Vector3.zero;
 				switch (EjectDirection)
@@ -261,14 +261,7 @@ namespace Objects
 						offset = new Vector3(Random.Range(-0.15f, 0.15f), Random.Range(-0.15f, 0.15f), 0);
 						break;
 				}
-				cnt.Throw(new ThrowInfo
-				{
-					ThrownBy = spawnedItem,
-					Aim = BodyPartType.Chest,
-					OriginWorldPos = spawnPos,
-					WorldTrajectory = offset,
-					SpinMode = (EjectDirection == EjectDirection.Random) ? SpinMode.Clockwise : SpinMode.None
-				});
+				uop.NewtonianPush(offset, 1, 0, 0, BodyPartType.Chest, inthrownBy:spawnedItem);
 			}
 
 			OnItemVended.Invoke(vendorItem);

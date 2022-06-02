@@ -49,7 +49,7 @@ public class MouseInputController : MonoBehaviour
 		new Dictionary<Vector2, Tuple<Color, float>>();
 
 	private readonly List<Vector2> touchesToDitch = new List<Vector2>();
-	private PlayerMove playerMove;
+	private MovementSynchronisation playerMove;
 	private Rotatable playerDirectional;
 
 	/// reference to the global lighting system, used to check occlusion
@@ -102,7 +102,7 @@ public class MouseInputController : MonoBehaviour
 	{
 		//for changing direction on click
 		playerDirectional = gameObject.GetComponent<Rotatable>();
-		playerMove = GetComponent<PlayerMove>();
+		playerMove = GetComponent<MovementSynchronisation>();
 		lightingSystem = Camera.main.GetComponent<LightingSystem>();
 	}
 
@@ -240,26 +240,26 @@ public class MouseInputController : MonoBehaviour
 	{
 		//checks if there is anything in reach we can drag
 		var topObject = MouseUtils.GetOrderedObjectsUnderMouse(null,
-			go => go.GetComponent<PushPull>() != null).FirstOrDefault();
+			go => go.GetComponent<UniversalObjectPhysics>() != null).FirstOrDefault();
 
 		if (topObject != null)
 		{
-			PushPull pushPull = null;
+			UniversalObjectPhysics pushPull = null;
 
 			// If the topObject has a PlayerMove, we check if he is buckled
 			// The PushPull object we want in this case, is the chair/object on which he is buckled to
-			if (topObject.TryGetComponent<PlayerMove>(out var playerMove) && playerMove.IsBuckled)
+			if (topObject.TryGetComponent<MovementSynchronisation>(out var playerMove) && playerMove.BuckledObject != null)
 			{
-				pushPull = playerMove.BuckledObject.GetComponent<PushPull>();
+				pushPull = playerMove.BuckledObject.GetComponent<UniversalObjectPhysics>();
 			}
 			else
 			{
-				pushPull = topObject.GetComponent<PushPull>();
+				pushPull = topObject.GetComponent<UniversalObjectPhysics>();
 			}
 
 			if (pushPull != null)
 			{
-				pushPull.TryPullThis();
+				pushPull.TryTogglePull();
 			}
 		}
 	}
@@ -372,7 +372,7 @@ public class MouseInputController : MonoBehaviour
 			}
 
 			// If we're dragging something, try to move it.
-			if (PlayerManager.LocalPlayerScript.pushPull.IsPullingSomethingClient)
+			if (PlayerManager.LocalPlayerScript.objectPhysics.Pulling.HasComponent)
 			{
 				TrySlide();
 				return false;
@@ -621,24 +621,15 @@ public class MouseInputController : MonoBehaviour
 		if (UIManager.IsThrow)
 		{
 			var currentSlot = PlayerManager.LocalPlayerScript.DynamicItemStorage.GetActiveHandSlot();
-			if (currentSlot.Item == null)
+			if (currentSlot.Item != null || PlayerManager.LocalPlayerScript.playerMove.Pulling.HasComponent)
 			{
-				return false;
+				PlayerManager.LocalPlayerScript.playerNetworkActions.CmdThrow(
+					MouseWorldPosition.ToLocal(playerMove.registerTile.Matrix), (int) UIManager.DamageZone, MouseWorldPosition - PlayerManager.LocalPlayer.transform.position);
+
+				//Disabling throw button
+				UIManager.Action.Throw();
+				return true;
 			}
-
-			Vector3 targetPosition = MouseWorldPosition;
-			targetPosition.z = 0f;
-
-			//using transform position instead of registered position
-			//so target is still correct when lerping on a matrix (since registered world position is rounded)
-			Vector3 targetVector = targetPosition - PlayerManager.LocalPlayer.transform.position;
-
-			PlayerManager.LocalPlayerScript.playerNetworkActions.CmdThrow(
-				targetVector, (int) UIManager.DamageZone);
-
-			//Disabling throw button
-			UIManager.Action.Throw();
-			return true;
 		}
 
 		return false;
@@ -652,10 +643,22 @@ public class MouseInputController : MonoBehaviour
 
 		Vector2 dir = (MouseWorldPosition - playerPos).normalized;
 
-		if (!EventSystem.current.IsPointerOverGameObject() && playerMove.allowInput && !playerMove.IsBuckled )
+		if (playerMove != null)
 		{
-			playerDirectional.SetFaceDirectionLocalVictor(dir.To2Int());
+			if (!EventSystem.current.IsPointerOverGameObject() && playerMove.allowInput && playerMove.BuckledObject == null )
+			{
+				playerDirectional.SetFaceDirectionLocalVictor(dir.To2Int());
+			}
 		}
+		else
+		{
+			if (!EventSystem.current.IsPointerOverGameObject())
+			{
+				playerDirectional.SetFaceDirectionLocalVictor(dir.To2Int());
+			}
+		}
+
+
 	}
 
 	#region Cursor Textures

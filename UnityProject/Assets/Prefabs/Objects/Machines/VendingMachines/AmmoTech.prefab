@@ -27,6 +27,12 @@ PrefabInstance:
       propertyPath: initialDescription
       value: A weapons munition vendor.
       objectReference: {fileID: 0}
+    - target: {fileID: 4145616584517116956, guid: bb2d0192db81c7d469ced45d96e3629e,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 8f01d5b3451e2114a955dd68ad2bcd85,
+        type: 2}
     - target: {fileID: 4500706934722235458, guid: bb2d0192db81c7d469ced45d96e3629e,
         type: 3}
       propertyPath: requiredClearance.Array.data[0]
@@ -138,6 +144,12 @@ PrefabInstance:
       propertyPath: foreverID
       value: a1a6c8c3bb2c82f46903a568d5f1e4ca
       objectReference: {fileID: 0}
+    - target: {fileID: 8698980198332754641, guid: bb2d0192db81c7d469ced45d96e3629e,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 1535456655, guid: bb3e576379955a342a3e50ae8f4e8995,
+        type: 3}
     - target: {fileID: 8920915372798248988, guid: bb2d0192db81c7d469ced45d96e3629e,
         type: 3}
       propertyPath: m_RootOrder

@@ -74,7 +74,7 @@ public partial class SubSceneManager
 		MainStationLoaded = true;
 		//Auto scene load stuff in editor:
 		var prevEditorScene = GetEditorPrevScene();
-		if (AdminForcedMainStation == "Random" && mainStationList.Contains(prevEditorScene))
+		if (AdminForcedMainStation == "Random" && prevEditorScene.Contains("Lobby") == false && (prevEditorScene != ""))
 		{
 			serverChosenMainStation = prevEditorScene;
 		}

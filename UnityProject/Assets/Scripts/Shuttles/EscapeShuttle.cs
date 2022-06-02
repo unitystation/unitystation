@@ -17,6 +17,7 @@ public class EscapeShuttle : MonoBehaviour
 
 	public ShuttleStatusEvent OnShuttleUpdate = new ShuttleStatusEvent();
 	public ShuttleTimerEvent OnTimerUpdate = new ShuttleTimerEvent();
+	public event Action OnShuttleCalled;
 
 	/// <summary>
 	/// Orientation for docking at station, eg Up if north to south.
@@ -434,6 +435,7 @@ public class EscapeShuttle : MonoBehaviour
 		//start ticking timer
 		this.TryStopCoroutine( ref timerHandle );
 		this.StartCoroutine( TickTimer(), ref timerHandle );
+		OnShuttleCalled?.Invoke();
 
 		callResult = "Shuttle has been called.";
 		return true;

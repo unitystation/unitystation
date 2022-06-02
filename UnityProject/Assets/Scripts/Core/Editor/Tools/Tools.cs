@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using Systems.CraftingV2;
@@ -37,6 +38,7 @@ namespace Core.Editor.Tools
 				EditorUtility.SetDirty(directional.gameObject);
 				directional.Refresh();
 			}
+
 			Logger.Log($"Refreshed {rotatables.Length} rotatables", Category.Editor);
 		}
 
@@ -155,7 +157,7 @@ namespace Core.Editor.Tools
 		[MenuItem("Mapping/Save all scenes")]
 		private static void SaveAllScenes()
 		{
-			var scenesGUIDs = AssetDatabase.FindAssets("t:Scene",new string[] {"Assets/Scenes"});
+			var scenesGUIDs = AssetDatabase.FindAssets("t:Scene", new string[] {"Assets/Scenes"});
 			var scenesPaths = scenesGUIDs.Select(AssetDatabase.GUIDToAssetPath);
 
 			foreach (var scene in scenesPaths)
@@ -184,11 +186,11 @@ namespace Core.Editor.Tools
 			{
 				var apcPowered = allNets[i];
 
-				if(apcPowered.IsSelfPowered) continue;
+				if (apcPowered.IsSelfPowered) continue;
 
-				if(apcPowered.RelatedAPC == null) continue;
+				if (apcPowered.RelatedAPC == null) continue;
 
-				if(apcPowered.RelatedAPC.ConnectedDevices.Contains(apcPowered)) continue;
+				if (apcPowered.RelatedAPC.ConnectedDevices.Contains(apcPowered)) continue;
 
 				EditorUtility.SetDirty(apcPowered.RelatedAPC);
 
@@ -248,6 +250,7 @@ namespace Core.Editor.Tools
 					result.Add(obj);
 				}
 			}
+
 			return result;
 		}
 
@@ -413,7 +416,7 @@ namespace Core.Editor.Tools
 			int count = 0;
 			foreach (GameObject gameObject in SceneManager.GetActiveScene().GetRootGameObjects())
 			{
-				foreach (var cnt in gameObject.GetComponentsInChildren<CustomNetTransform>())
+				foreach (var cnt in gameObject.GetComponentsInChildren<UniversalObjectPhysics>())
 				{
 					if (cnt.SnapToGridOnStart == false) continue;
 
@@ -429,6 +432,37 @@ namespace Core.Editor.Tools
 			Logger.Log($"Centered {count} objects!");
 		}
 
+		public static List<GameObject> LoadAllPrefabsOfType(string path)
+		{
+			if (path != "")
+			{
+				if (path.EndsWith("/"))
+				{
+					path = path.TrimEnd('/');
+				}
+			}
+
+			DirectoryInfo dirInfo = new DirectoryInfo(path);
+			FileInfo[] fileInf = dirInfo.GetFiles("*.prefab", SearchOption.AllDirectories);
+
+			//loop through directory loading the game object and checking if it has the component you want
+			List<GameObject> prefabComponents = new List<GameObject>();
+			foreach (FileInfo fileInfo in fileInf)
+			{
+				string fullPath = fileInfo.FullName.Replace(@"\", "/");
+				string assetPath = "Assets" + fullPath.Replace(Application.dataPath, "");
+				GameObject prefab = AssetDatabase.LoadAssetAtPath(assetPath, typeof(GameObject)) as GameObject;
+
+				if (prefab != null)
+				{
+					prefabComponents.Add(prefab);
+				}
+			}
+
+			return prefabComponents;
+		}
+
+
 		[MenuItem("Tools/Remove Missing Scripts")]
 		/// Courtesy of <see cref="https://answers.unity.com/questions/15225/how-do-i-remove-null-components-ie-missingmono-scr.html?childToView=1614734#answer-1614734"/>
 		private static void RemoveMissingScripts()
@@ -436,23 +470,45 @@ namespace Core.Editor.Tools
 			int compCount = 0;
 			int goCount = 0;
 
-			foreach (var o in AssetDatabase.FindAssets("t:Prefab")
-				.Select(guid => AssetDatabase.LoadAssetAtPath<GameObject>(AssetDatabase.GUIDToAssetPath(guid))))
+			foreach (var o in LoadAllPrefabsOfType("Assets"))
 			{
-				if (o is GameObject go)
+
+				bool Missing = false;
+				//Get all components on the GameObject, then loop through them
+				Component[] components = o.GetComponents<Component>();
+				for (int i = 0; i < components.Length; i++)
 				{
-					int count = GameObjectUtility.GetMonoBehavioursWithMissingScriptCount(go);
-					if (count > 0)
+					Component currentComponent = components[i];
+
+					//If the component is null, that means it's a missing script!
+					if (currentComponent == null)
 					{
-						// Edit: use undo record object, since undo destroy wont work with missing
-						Undo.RegisterCompleteObjectUndo(go, "Remove missing scripts");
-						GameObjectUtility.RemoveMonoBehavioursWithMissingScript(go);
-						compCount += count;
-						goCount++;
+						Missing = true;
+						//Logger.LogError(o.name);
 					}
 				}
+
+				if (Missing)
+				{
+					Undo.RegisterCompleteObjectUndo(o, "Remove missing scripts");
+					o.AddComponent<UniversalObjectPhysics>();
+					GameObjectUtility.RemoveMonoBehavioursWithMissingScript(o);
+					EditorUtility.SetDirty(o);
+					goCount++;
+				}
+				// int count = GameObjectUtility.GetMonoBehavioursWithMissingScriptCount(o);
+				// if (count > 0)
+				// {
+				// 	// Edit: use undo record object, since undo destroy wont work with missing
+				// 	// Undo.RegisterCompleteObjectUndo(go, "Remove missing scripts");
+				// 	// GameObjectUtility.RemoveMonoBehavioursWithMissingScript(go);
+				// 	Logger.LogError(o.name);
+				// 	compCount += count;
+				// 	goCount++;
+				// }
 			}
-			Debug.Log($"Found and removed {compCount} missing scripts from {goCount} GameObjects");
+			AssetDatabase.SaveAssets();
+			Debug.Log($"Found and removed missing scripts from {goCount} GameObjects");
 		}
 
 		[MenuItem("Tools/Crafting/FixCraftingCrossLinks")]
@@ -523,6 +579,7 @@ namespace Core.Editor.Tools
 					relatedRecipe.IngredientIndex = indexInRecipe;
 					PrefabUtility.SavePrefabAsset(requiredIngredient);
 				}
+
 				break;
 			}
 

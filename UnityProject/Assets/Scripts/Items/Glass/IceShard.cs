@@ -51,7 +51,7 @@ namespace Items
 			//If in an itemslot try to get that root position
 			if (pickupable.ItemSlot != null)
 			{
-				pos = pickupable.ItemSlot.GetRootStorageOrPlayer().gameObject.WorldPosServer().RoundToInt();
+				pos = pickupable.ItemSlot.GetRootStorageOrPlayer().gameObject.AssumedWorldPosServer().RoundToInt();
 			}
 
 			//If the position is still hidden then the shard or the top pickupable is also hidden
@@ -138,7 +138,7 @@ namespace Items
 			//If in inventory use player pos instead, check root in case player is in something
 			if (pickupable.ItemSlot != null)
 			{
-				pos = pickupable.ItemSlot.GetRootStorageOrPlayer().gameObject.WorldPosServer().RoundToInt();
+				pos = pickupable.ItemSlot.GetRootStorageOrPlayer().gameObject.AssumedWorldPosServer().RoundToInt();
 			}
 
 			//If hidden then stop

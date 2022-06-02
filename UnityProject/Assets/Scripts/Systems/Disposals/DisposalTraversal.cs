@@ -14,7 +14,7 @@ namespace Systems.Disposals
 	{
 		readonly Matrix matrix;
 		readonly DisposalVirtualContainer virtualContainer;
-		readonly CustomNetTransform containerTransform;
+		readonly UniversalObjectPhysics ObjectPhysics;
 
 		public bool ReadyToTraverse = false;
 		public bool CurrentlyDelayed = false;
@@ -40,7 +40,7 @@ namespace Systems.Disposals
 			matrix = registerTile.Matrix;
 			currentPipeLocalPos = registerTile.LocalPositionServer;
 			virtualContainer = container;
-			containerTransform = container.GetComponent<CustomNetTransform>();
+			ObjectPhysics = container.GetComponent<UniversalObjectPhysics>();
 
 			currentPipe = GetPipeAt(currentPipeLocalPos, DisposalPipeType.Terminal);
 			if (currentPipe == null)
@@ -147,7 +147,8 @@ namespace Systems.Disposals
 
 		private void TransferContainerToVector(Vector3Int nextPipePosition)
 		{
-			containerTransform.Push(nextPipePosition.To2Int(), ignorePassable: true);
+			ObjectPhysics.Pushing.Clear();
+			ObjectPhysics.ForceTilePush(nextPipePosition.To2Int(), ObjectPhysics.Pushing, null);
 		}
 
 		private void EjectViaPipeEnd()

@@ -22,7 +22,7 @@ namespace Objects.Command
 
 		[SerializeField] private AddressableAudioSource TimerTickSound = null;
 
-		private ObjectBehaviour objectBehaviour;
+		private UniversalObjectPhysics objectBehaviour;
 		private ItemStorage itemNuke;
 		private Coroutine timerHandle;
 		private CentComm.AlertLevel CurrentAlertLevel;
@@ -72,7 +72,7 @@ namespace Objects.Command
 		private void Awake()
 		{
 			currentTimerSeconds = minTimer;
-			objectBehaviour = GetComponent<ObjectBehaviour>();
+			objectBehaviour = GetComponent<UniversalObjectPhysics>();
 			itemNuke = GetComponent<ItemStorage>();
 			nukeSlot = itemNuke.GetIndexedItemSlot(0);
 			Detonated = false;
@@ -206,8 +206,8 @@ namespace Objects.Command
 		{
 			if (IsCodeRight && !isSafetyOn)
 			{
-				bool isPushable = !objectBehaviour.IsPushable;
-				GetComponent<ObjectBehaviour>().ServerSetPushable(isPushable);
+				bool isPushable = !objectBehaviour.IsNotPushable;
+				objectBehaviour.SetIsNotPushable(isPushable);
 				return isPushable;
 			}
 			return null;

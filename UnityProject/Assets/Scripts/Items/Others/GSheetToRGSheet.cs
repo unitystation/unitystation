@@ -17,7 +17,7 @@ public class GSheetToRGSheet : NetworkBehaviour, ICheckedInteractable<HandApply>
 	[Tooltip("How many reinforced glass sheets to get.")]
 	[SerializeField]
 	private int sheetsReinforcedGlass = 1;
-	
+
 	[Tooltip("What kind of reinforced glass to make.")]
 	public GameObject sheetsReinforcedGlassType;
 
@@ -51,7 +51,7 @@ public class GSheetToRGSheet : NetworkBehaviour, ICheckedInteractable<HandApply>
 		Stackable stack = gameObject.GetComponent<Stackable>();
 		if (stack.Amount >= sheetsGlass)
 		{
-			Spawn.ServerPrefab(sheetsReinforcedGlassType, interaction.Performer.WorldPosServer(), count: sheetsReinforcedGlass);
+			Spawn.ServerPrefab(sheetsReinforcedGlassType, interaction.Performer.AssumedWorldPosServer(), count: sheetsReinforcedGlass);
 			stack.ServerConsume(sheetsGlass);
 			interaction.HandObject.GetComponent<Stackable>().ServerConsume(rods); ;
 		}

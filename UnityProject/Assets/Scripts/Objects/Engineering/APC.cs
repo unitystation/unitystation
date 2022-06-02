@@ -301,7 +301,7 @@ namespace Objects.Engineering
 					screenDisplay.sprite = null;
 					EmergencyState = true;
 					StopRefresh();
-					_ = SoundManager.PlayAtPosition(NoPowerSound, gameObject.WorldPosServer());
+					_ = SoundManager.PlayAtPosition(NoPowerSound, gameObject.AssumedWorldPosServer());
 					break;
 			}
 		}
@@ -541,7 +541,7 @@ namespace Objects.Engineering
 			}
 
 			float voltage = Voltage*10;
-			Vector3 shockpos = gameObject.WorldPosServer();
+			Vector3 shockpos = gameObject.AssumedWorldPosServer();
 			Electrocution electrocution = new Electrocution(voltage, shockpos, "APC");
 
 			interaction.Performer.GetComponent<PlayerHealthV2>().Electrocute(electrocution);

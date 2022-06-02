@@ -186,7 +186,7 @@ namespace Systems.Teleport
 		public static void TeleportLocalGhostTo(TeleportInfo teleportInfo)
 		{
 			var latestPosition = teleportInfo.gameObject.transform.position;
-			var playerPosition = PlayerManager.LocalPlayer.gameObject.GetComponent<RegisterTile>().WorldPositionClient;//Finds current player coords
+			var playerPosition = PlayerManager.LocalPlayer.gameObject.GetComponent<RegisterTile>().WorldPosition;//Finds current player coords
 
 			if (latestPosition != playerPosition)//Spam Prevention
 			{
@@ -217,13 +217,9 @@ namespace Systems.Teleport
 			Vector3Int originalPosition = registerTile.WorldPositionServer;
 			Vector3Int newPosition = GetTeleportPos(originalPosition, minRadius, maxRadius, tryAvoidSpace, tryAvoidImpassable, registerTile.Matrix.MatrixInfo);
 
-			if (objectToTeleport.TryGetComponent(out CustomNetTransform netTransform))
+			if (objectToTeleport.TryGetComponent(out UniversalObjectPhysics netTransform))
 			{
-				netTransform.SetPosition(newPosition);
-			}
-			else if (objectToTeleport.TryGetComponent(out PlayerSync playerSync))
-			{
-				playerSync.SetPosition(newPosition);
+				netTransform.AppearAtWorldPositionServer(newPosition);
 			}
 			else
 			{

@@ -46,7 +46,7 @@ namespace Items.Cargo.Wrapping
 			spriteHandler.ChangeSprite((int) type);
 		}
 
-		public void SetSize(ItemSize size)
+		public void SetSize(Size size)
 		{
 			itemAttributesV2.ServerSetSize(size);
 		}

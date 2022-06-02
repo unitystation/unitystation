@@ -68,7 +68,7 @@ namespace Items.Cargo.Wrapping
 			var wrap = toSpawn.GetComponent<WrappedObject>();
 			wrap.SetContent(gameObject);
 			GetComponent<ObjectContainer>().TransferObjectsTo(wrap);
-			GetComponent<PushPull>().parentContainer = wrap.GetComponent<PushPull>();
+			GetComponent<UniversalObjectPhysics>().StoreTo(wrap);
 			wrap.SetContainerTypeSprite(spriteType);
 
 			Inventory.ServerConsume(paper.ItemSlot, neededPaperAmount);

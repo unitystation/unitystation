@@ -10,9 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4398708211663736}
   - component: {fileID: 61711516699828072}
-  - component: {fileID: 114555785714625820}
   - component: {fileID: 114713267190622314}
-  - component: {fileID: 114386898746361270}
   - component: {fileID: 114405087929252270}
   - component: {fileID: 114536369792164230}
   - component: {fileID: 114477129915142950}
@@ -21,6 +19,7 @@ GameObject:
   - component: {fileID: 4816238574199996034}
   - component: {fileID: -1660133359393167650}
   - component: {fileID: 4995315385982660190}
+  - component: {fileID: 8869584225780784631}
   m_Layer: 12
   m_Name: _MobBase
   m_TagString: Untagged
@@ -71,37 +70,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
---- !u!114 &114555785714625820
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1722833055556988}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c23c49138f42840a1bc22ade283c1694, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  registerTile: {fileID: 0}
-  floorDecal: {fileID: 0}
-  isInitiallyNotPushable: 0
-  pushPullSound:
-    SetLoadSetting: 0
-    AssetAddress: null
-    AssetReference:
-      m_AssetGUID: 
-      m_SubObjectName: 
-      m_SubObjectType: 
-      m_EditorAssetChanged: 0
-  soundDelayTime: 0
-  soundMinimumPitchVariance: 1
-  soundMaximumPitchVariance: 1
-  OnPullingSomethingChangedServer:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!114 &114713267190622314
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -118,7 +86,6 @@ MonoBehaviour:
   syncInterval: 0.232
   matrixDebugLogging: 0
   objectType: 1
-  customNetTransform: {fileID: 114386898746361270}
   prefabTracker: {fileID: 0}
   CurrentsortingGroup: {fileID: 0}
   AtmosPassable: 1
@@ -126,22 +93,6 @@ MonoBehaviour:
   initialPassable: 1
   initialCrawlPassable: 0
   passableExclusionsToThis: []
---- !u!114 &114386898746361270
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1722833055556988}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 579884b05ae74e8499329b64997147d3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  snapToGridOnStart: 1
-  IsFixedMatrix: 0
 --- !u!114 &114405087929252270
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -272,6 +223,60 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MobObjectives: []
+--- !u!114 &8869584225780784631
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1722833055556988}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 52a6a264ee47433418b51f654439372f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  SnapToGridOnStart: 0
+  Collider: {fileID: 0}
+  TileMoveSpeedOverride: 0
+  floorDecal: {fileID: 0}
+  LocalTargetPosition: {x: 0, y: 0, z: 0}
+  rotatable: {fileID: 0}
+  TileMoveSpeed: 8
+  SynchLocalTargetPosition: {x: 0, y: 0, z: 0}
+  newtonianMovement: {x: 0, y: 0}
+  airTime: 0
+  slideTime: 0
+  thrownBy: {fileID: 0}
+  aim: 0
+  spinMagnitude: 0
+  stickyMovement: 0
+  maximumStickSpeed: 1.5
+  onStationMovementsRound: 0
+  attributes: {fileID: 0}
+  registerTile: {fileID: 0}
+  defaultInteractionLayerMask:
+    serializedVersion: 2
+    m_Bits: 0
+  ContextGameObjects:
+  - {fileID: 0}
+  - {fileID: 0}
+  IsCurrentlyFloating: 0
+  LocalDifferenceNeeded: {x: 0, y: 0}
+  CorrectingCourse: 0
+  Pushing: []
+  Hits: []
+  Speed: 1
+  AIR: 3
+  SLIDE: 4
+  Animating: 0
+  LastDifference: {x: 0, y: 0, z: 0}
+  IsFlyingSliding: 0
+  IsMoving: 0
+  IsWalking: 0
+  MoveIsWalking: 0
+  LastUpdateClientFlying: 0
 --- !u!1 &3951175065346152907
 GameObject:
   m_ObjectHideFlags: 0

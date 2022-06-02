@@ -13,7 +13,7 @@ namespace Player
 		[SyncVar(hook = nameof(SyncOrbitObject))]
 		private GameObject target;
 
-		[SerializeField] private PlayerSync netTransform;
+		[SerializeField] private GhostMove GhostMove;
 		[SerializeField] private RotateAroundTransform rotateTransform;
 
 		/// <summary>
@@ -24,7 +24,7 @@ namespace Player
 
 		private void Start()
 		{
-			if (netTransform == null) netTransform = GetComponent<PlayerSync>();
+			if (GhostMove == null) GhostMove = GetComponent<GhostMove>();
 			if (rotateTransform == null) rotateTransform = GetComponent<RotateAroundTransform>();
 			UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
 			Instance = this;
@@ -75,7 +75,7 @@ namespace Player
 			var possibleTargets = MouseUtils.GetOrderedObjectsUnderMouse();
 			foreach (var possibleTarget in possibleTargets)
 			{
-				if (possibleTarget.TryGetComponent<PushPull>(out var pull) || possibleTarget.TryGetComponent<Singularity>(out var loose))
+				if (possibleTarget.TryGetComponent<UniversalObjectPhysics>(out var pull) || possibleTarget.TryGetComponent<Singularity>(out var loose))
 				{
 					CmdServerOrbit(possibleTarget);
 					return;
@@ -96,7 +96,10 @@ namespace Player
 			if(thingToOrbit == null) return;
 			target = thingToOrbit;
 
-			netTransform.SetPosition(target.AssumedWorldPosServer(), false);
+			var WorldMove = target.AssumedWorldPosServer();
+			var Matrix = MatrixManager.AtPoint(WorldMove, isServer);
+			GhostMove.ForcePositionClient( WorldMove.ToLocal(Matrix), Matrix.Id, OrientationEnum.Down_By180);
+
 			UpdateManager.Add(FollowTarget, 0.1f);
 			Chat.AddExamineMsg(gameObject, $"You start orbiting {thingToOrbit.ExpensiveName()}");
 		}
@@ -143,9 +146,14 @@ namespace Player
 		{
 			if (target == null) return;
 
-			netTransform.SetPosition(target.AssumedWorldPosServer(), false);
 
-			if (target.WorldPosServer() == TransformState.HiddenPos)
+			var WorldMove = target.AssumedWorldPosServer();
+			var Matrix = MatrixManager.AtPoint(WorldMove, isServer);
+			GhostMove.ForcePositionClient( WorldMove.ToLocal(Matrix), Matrix.Id, OrientationEnum.Down_By180);
+
+
+
+			if (target.AssumedWorldPosServer() == TransformState.HiddenPos)
 			{
 				//In closet so cancel orbit for clients
 				StopOrbiting();

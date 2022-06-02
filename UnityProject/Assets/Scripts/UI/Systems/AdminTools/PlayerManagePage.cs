@@ -146,7 +146,7 @@ namespace AdminTools
 				null,
 				RequestAdminTeleport.OpperationList.PlayerToAdmin,
 				false,
-				PlayerManager.LocalPlayerScript.PlayerSync.ClientPosition
+				PlayerManager.LocalPlayerScript.PlayerSync.registerTile.WorldPosition
 				);
 		}
 
@@ -188,7 +188,7 @@ namespace AdminTools
 
 			if (PlayerManager.LocalPlayerScript.IsGhost && PlayerEntry.PlayerData.uid == ServerData.UserID)
 			{
-				coord = PlayerManager.LocalPlayerScript.PlayerSync.ClientPosition;
+				coord = PlayerManager.LocalPlayerScript.PlayerSync.registerTile.WorldPosition;
 				isAghost = true;
 			}
 			else

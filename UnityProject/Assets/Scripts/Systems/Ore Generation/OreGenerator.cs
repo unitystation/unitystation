@@ -14,7 +14,7 @@ using Tiles;
 /// <summary>
 /// Component which should go on a Matrix and which generates ore tiles in any mineable tiles of that matrix.
 /// </summary>
-public class OreGenerator : MonoBehaviour
+public class OreGenerator : MonoBehaviour, IServerSpawn
 {
 	private static readonly List<Vector3Int> DIRECTIONS = new List<Vector3Int>() {
 		Vector3Int.up,
@@ -39,23 +39,17 @@ public class OreGenerator : MonoBehaviour
 
 	public bool runOnStart = true;
 
-	// Start is called before the first frame update
-	void Start()
+	public void OnSpawnServer(SpawnInfo info)
 	{
-		if (CustomNetworkManager.IsServer == false) return;
-		if(!runOnStart) return;
-		LoadManager.RegisterActionDelayed(RunOreGenerator, 2);
+		if(runOnStart == false) return;
+		RunOreGenerator();
 	}
-
-
 
 	public void RunOreGenerator()
 	{
 		metaTileMap = GetComponentInChildren<MetaTileMap>();
 		wallTilemap = metaTileMap.Layers[LayerType.Walls].GetComponent<Tilemap>();
 		tileChangeManager = GetComponent<TileChangeManager>();
-
-		if (CustomNetworkManager.IsServer == false) return;
 
 		if (TryGetComponent<NetworkedMatrix>(out var net) && net.MatrixSync == null)
 		{
@@ -88,11 +82,8 @@ public class OreGenerator : MonoBehaviour
 
 				if (metaTileMap.HasTile(localPlace))
 				{
-					var tile = metaTileMap.GetTile(localPlace);
-					if (tile.name.Contains("rock_wall"))
-					{
-						miningTiles.Add(localPlace);
-					}
+					BasicTile tile = metaTileMap.GetTile(localPlace, LayerType.Walls) as BasicTile;
+					if(tile != null && tile.Mineable) miningTiles.Add(localPlace);
 				}
 			}
 		}
@@ -122,7 +113,7 @@ public class OreGenerator : MonoBehaviour
 			var chosenLocation = locations[RANDOM.Next(locations.Count)];
 			var ranLocation = chosenLocation + DIRECTIONS[RANDOM.Next(DIRECTIONS.Count)];
 			var tile = metaTileMap.GetTile(ranLocation);
-			if (tile != null && tile.name.Contains("rock_wall"))
+			if (tile != null)
 			{
 				tileChangeManager.MetaTileMap.SetTile(ranLocation, materialSpecified.WallTile);
 				locations.Add(ranLocation);

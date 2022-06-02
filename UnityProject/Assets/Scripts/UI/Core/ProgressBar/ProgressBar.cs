@@ -235,7 +235,7 @@ public class ProgressBar : MonoBehaviour
 		//check if progress should continue
 		if (!progressAction.OnServerContinueProgress(new InProgressInfo(progress)))
 		{
-			// Remove from UpdateMe before invoking action, lest action fails and so infinite loop.
+			// Remove from FlyingUpdateMe before invoking action, lest action fails and so infinite loop.
 			ServerCloseProgressBar();
 			progressAction.OnServerEndProgress(new EndProgressInfo(false));
 			Logger.LogTraceFormat("Server progress bar {0} interrupted.", Category.ProgressAction, ID);
@@ -244,7 +244,7 @@ public class ProgressBar : MonoBehaviour
 		//Finished! Invoke the action and close the progress bar for the player
 		if (progress >= timeToFinish)
 		{
-			// Remove from UpdateMe before invoking action, lest action fails and so infinite loop.
+			// Remove from FlyingUpdateMe before invoking action, lest action fails and so infinite loop.
 			ServerCloseProgressBar();
 			progressAction.OnServerEndProgress(new EndProgressInfo(true));
 			Logger.LogTraceFormat("Server progress bar {0} completed.", Category.ProgressAction, ID);

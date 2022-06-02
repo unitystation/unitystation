@@ -14,8 +14,6 @@ namespace Messages.Client.NewPlayer
 		{
 			LoadNetworkObject(msg.Player);
 			if (NetworkObject == null) return;
-			NetworkObject.GetComponent<PlayerSync>()?.NotifyPlayer(
-				SentByPlayer.Connection);
 			NetworkObject.GetComponent<PlayerSprites>()?.NotifyPlayer(
 				SentByPlayer.Connection);
 			NetworkObject.GetComponent<Equipment>()?.NotifyPlayer(

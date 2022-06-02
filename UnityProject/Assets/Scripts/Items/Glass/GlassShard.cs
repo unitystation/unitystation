@@ -13,7 +13,7 @@ public class GlassShard : NetworkBehaviour, IServerSpawn
 	private Quaternion spriteRotation;
 
 	private SpriteRenderer spriteRenderer;
-	private CustomNetTransform netTransform;
+	private UniversalObjectPhysics ObjectPhysics;
 	private SpriteHandler spriteHandler;
 
 	#region Lifecycle
@@ -21,7 +21,7 @@ public class GlassShard : NetworkBehaviour, IServerSpawn
 	void Awake()
 	{
 		spriteRenderer = GetComponentInChildren<SpriteRenderer>();
-		netTransform = GetComponent<CustomNetTransform>();
+		ObjectPhysics = GetComponent<UniversalObjectPhysics>();
 		spriteHandler = GetComponentInChildren<SpriteHandler>();
 	}
 
@@ -36,7 +36,7 @@ public class GlassShard : NetworkBehaviour, IServerSpawn
 	public void SetSpriteAndScatter(int index)
 	{
 		spriteHandler.ChangeSprite(index);
-		netTransform?.SetPosition(netTransform.ServerState.WorldPosition + new Vector3(Random.Range(-0.4f, 0.4f), Random.Range(-0.4f, 0.4f)));
+		ObjectPhysics?.ForceDrop(ObjectPhysics.OfficialPosition);
 
 		//Add a bit of rotation variance to the sprite obj:
 		var axis = new Vector3(0, 0, 1);

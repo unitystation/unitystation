@@ -170,7 +170,7 @@ namespace Chemistry
 			for (int i = 0; i < numberOfProduct; i++)
 			{
 				//Spawn Object
-				var product = Spawn.ServerPrefab(ChemMasterProducts[productId], gameObject.WorldPosServer(),
+				var product = Spawn.ServerPrefab(ChemMasterProducts[productId], gameObject.AssumedWorldPosServer(),
 					transform.parent).GameObject;
 
 				//Fill Product

@@ -6,12 +6,17 @@ using UnityEngine;
 /// </summary>
 public struct PlayerAction
 {
+
+
 	/// int values of the moveactions (will have 2 moveActions if it's a diagonal movement)
 	public int[] moveActions;
+
 	/// Set to true when client believes this action doesn't make player move
 	public bool isBump;
+
 	/// Set to true when client demands to run for given move (instead of walking)
 	public bool isRun;
+
 	/// Set to true when client suggests some action that isn't covered by prediction
 	public bool isNonPredictive;
 
@@ -22,12 +27,21 @@ public struct PlayerAction
 		Vector2Int direction = Vector2Int.zero;
 		for (var i = 0; i < moveActions.Length; i++)
 		{
-			direction += GetMoveDirection((MoveAction)moveActions[i]);
+			direction += GetMoveDirection((MoveAction) moveActions[i]);
 		}
+
 		direction.x = Mathf.Clamp(direction.x, -1, 1);
 		direction.y = Mathf.Clamp(direction.y, -1, 1);
 
 		return direction;
+	}
+
+
+
+	public MovementSynchronisation.PlayerMoveDirection ToPlayerMoveDirection()
+	{
+		var direction = Direction();
+		return MovementSynchronisation.VectorToPlayerMoveDirection(direction);
 	}
 
 	/// <summary>
@@ -41,7 +55,7 @@ public struct PlayerAction
 		if (Math.Abs(direction.x) + Math.Abs(direction.y) >= 2)
 		{
 			Logger.LogErrorFormat("MoveAction.GetMoveAction invoked on an invalid, non-cardinal direction {0}." +
-				" This will cause undefined behavior. Please fix the code to only pass a valid cardinal direction.", 
+			                      " This will cause undefined behavior. Please fix the code to only pass a valid cardinal direction.",
 				Category.Movement, direction);
 		}
 
@@ -76,6 +90,7 @@ public struct PlayerAction
 			case MoveAction.MoveRight:
 				return Vector2Int.right;
 		}
+
 		return Vector2Int.zero;
 	}
 

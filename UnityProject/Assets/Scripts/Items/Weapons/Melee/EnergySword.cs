@@ -17,8 +17,8 @@ public class EnergySword : NetworkBehaviour, ICheckedInteractable<HandActivate>,
 	private SwordColor color = default;
 
 	[SerializeField]
-	private ItemSize activatedSize = ItemSize.Huge;
-	private ItemSize offSize;
+	private Size activatedSize = Size.Huge;
+	private Size offSize;
 
 	[SerializeField]
 	private AddressableAudioSource activatedHitSound = null;

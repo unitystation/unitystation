@@ -11,8 +11,6 @@ GameObject:
   - component: {fileID: 4102254142472032470}
   - component: {fileID: 5316147545403001103}
   - component: {fileID: 4504212478988223552}
-  - component: {fileID: 3920682320074774566}
-  - component: {fileID: 2038932850302980570}
   - component: {fileID: 843330595842111116}
   - component: {fileID: 1176408661413567387}
   - component: {fileID: 1105258743114886135}
@@ -23,6 +21,7 @@ GameObject:
   - component: {fileID: 448360181673478972}
   - component: {fileID: 1205907779006116383}
   - component: {fileID: 376142281930293820}
+  - component: {fileID: 728878296905371439}
   m_Layer: 31
   m_Name: Blob
   m_TagString: Untagged
@@ -86,46 +85,6 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   chatBubbleTarget: {fileID: 0}
---- !u!114 &3920682320074774566
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4390267312333422610}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 57ce4d8a508787441857fade34082bd9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  diagonalMovement: 0
-  allowInput: 1
-  IsTrapped: 0
-  actionData: {fileID: 0}
-  moveList: 05000000060000000700000008000000
-  RunSpeed: 10
-  WalkSpeed: 10
-  CrawlSpeed: 0.8
-  PushFallSpeed: 10
---- !u!114 &2038932850302980570
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4390267312333422610}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 18a28f9f9a41257418b09671ebb5c96e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  playerMove: {fileID: 3920682320074774566}
-  playerScript: {fileID: 0}
-  Step: 0
 --- !u!114 &843330595842111116
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -142,7 +101,6 @@ MonoBehaviour:
   syncInterval: 0.1
   matrixDebugLogging: 0
   objectType: 2
-  customNetTransform: {fileID: 0}
   prefabTracker: {fileID: 0}
   CurrentsortingGroup: {fileID: 0}
   networkedLean: {fileID: 0}
@@ -343,6 +301,70 @@ MonoBehaviour:
   syncInterval: 0.1
   offsetPosition: {x: 0, y: -0.6}
   waitToInit: 2
+--- !u!114 &728878296905371439
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4390267312333422610}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 84699d86ce37b1b40891616630505912, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  DEBUG: 0
+  SnapToGridOnStart: 0
+  LocalTargetPosition: {x: 0, y: 0, z: 0}
+  ChangesDirectionPush: 0
+  Intangible: 1
+  InitialLocationSynchronised: 0
+  tileMoveSpeed: 8
+  isNotPushable: 0
+  newtonianMovement: {x: 0, y: 0}
+  airTime: 0
+  slideTime: 0
+  thrownBy: {fileID: 0}
+  aim: 0
+  spinMagnitude: 0
+  stickyMovement: 1
+  maximumStickSpeed: 9999
+  onStationMovementsRound: 0
+  attributes: {fileID: 0}
+  registerTile: {fileID: 0}
+  ContextGameObjects:
+  - {fileID: 0}
+  - {fileID: 0}
+  IsCurrentlyFloating: 0
+  LocalDifferenceNeeded: {x: 0, y: 0}
+  CorrectingCourse: 0
+  Pushing: []
+  Hits: []
+  Speed: 1
+  AIR: 3
+  SLIDE: 4
+  Animating: 0
+  IsFlyingSliding: 0
+  IsMoving: 0
+  MoveIsWalking: 0
+  LastUpdateClientFlying: 0
+  playerScript: {fileID: 0}
+  MoveMaxDelayQueue: 4
+  Step: 0
+  intent: 0
+  CanMoveThroughObstructions: 1
+  RunSpeed: 18
+  WalkSpeed: 18
+  CrawlSpeed: 18
+  actionData: {fileID: 0}
+  IsBumping: 0
+  IsPressedCashed: 0
+  IsPressedServer: 0
+  LastUpdatedFlyingPosition: 0
+  LastProcessMoved: 0
+  DEBUGLastMoveMessageProcessed: 0
 --- !u!1 &6777920429691229453
 GameObject:
   m_ObjectHideFlags: 0
@@ -461,7 +483,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7320126117105815585}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0

@@ -25,7 +25,7 @@ namespace Player.EmoteScripts
 		private IEnumerator PerformDance(GameObject player)
 		{
 			var directional = player.transform.GetComponent<Rotatable>();
-			var move = player.transform.GetComponent<PlayerMove>();
+			var move = player.transform.GetComponent<MovementSynchronisation>();
 
 			if (move.allowInput && !move.IsBuckled)
 			{

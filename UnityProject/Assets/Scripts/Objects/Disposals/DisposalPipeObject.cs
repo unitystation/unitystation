@@ -12,7 +12,7 @@ namespace Objects.Disposals
 		private float weldTime = 3;
 
 		private RegisterTile registerTile;
-		private ObjectBehaviour behaviour;
+		private UniversalObjectPhysics behaviour;
 
 		[SerializeField]
 		[Tooltip("Tile to spawn when pipe is welded in the Up orientation.")]
@@ -33,12 +33,12 @@ namespace Objects.Disposals
 		private string objectName;
 		private HandApply currentInteraction;
 
-		public bool Anchored => behaviour.IsPushable == false;
+		public bool Anchored => behaviour.IsNotPushable;
 
 		private void Awake()
 		{
 			registerTile = gameObject.RegisterTile();
-			behaviour = GetComponent<ObjectBehaviour>();
+			behaviour = GetComponent<UniversalObjectPhysics>();
 		}
 
 		public override void OnStartServer()
