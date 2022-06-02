@@ -8,12 +8,19 @@ namespace Learning.ProtipObjectTypes
 	{
 		public void OnEnable()
 		{
-			gameObject.PickupableOrNull().OnMoveToPlayerInventory += TriggerTip;
+			gameObject.PickupableOrNull().OnMoveToPlayerInventory += Trigger;
 		}
 
 		private void OnDisable()
 		{
-			gameObject.PickupableOrNull().OnMoveToPlayerInventory -= TriggerTip;
+			gameObject.PickupableOrNull().OnMoveToPlayerInventory -= Trigger;
+		}
+
+		private void Trigger()
+		{
+			var pickup = gameObject.PickupableOrNull();
+			if (pickup == null || pickup.ItemSlot == null || pickup.ItemSlot.Player?.PlayerScript.gameObject == null) return;
+			TriggerTip(pickup.ItemSlot.Player?.PlayerScript.gameObject);
 		}
 	}
 }

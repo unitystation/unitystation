@@ -30,8 +30,12 @@ namespace Learning
 			if(saved == "true" || TipSO == null) Destroy(this);
 		}
 
-		protected virtual bool TriggerConditions()
+		protected virtual bool TriggerConditions(GameObject triggeredBy)
 		{
+			//To avoid issues with NREs, Protips should only trigger if a PlayerScript exists.
+			if (PlayerManager.LocalPlayerScript == null) return false; 
+			//triggeredBy check should only be null when you want a global protip incase of something like an event
+			if (triggeredBy != null && triggeredBy != PlayerManager.LocalPlayerScript.gameObject) return false;
 			if (isOnCooldown) return false;
 			if (hasBeenTriggeredBefore) return false;
 			if (showEvenAfterDeath == false && PlayerManager.PlayerScript.IsDeadOrGhost) return false;
@@ -39,9 +43,9 @@ namespace Learning
 			return true;
 		}
 
-		public void TriggerTip()
+		public void TriggerTip(GameObject triggeredBy = null)
 		{
-			if(TriggerConditions() == false) return;
+			if(TriggerConditions(triggeredBy) == false) return;
 			ProtipManager.Instance.ShowTip(TipSO.TipData.Tip, TipSO.TipData.ShowDuration, TipSO.TipData.TipIcon, TipSO.TipData.ShowAnimation);
 			if (triggerOnce)
 			{
@@ -53,9 +57,9 @@ namespace Learning
 			StartCoroutine(Cooldown());
 		}
 
-		public void TriggerTip(ProtipSO protipSo)
+		public void TriggerTip(ProtipSO protipSo, GameObject triggeredBy = null)
 		{
-			if(TriggerConditions() == false) return;
+			if(TriggerConditions(triggeredBy) == false) return;
 			if(protipSo == null) 
 			{
 				Logger.LogError("Passed ProtipSO is null. Cannot trigger tip.");
