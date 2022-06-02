@@ -14,5 +14,37 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pool:
   - prefab: {fileID: 437675654651693147, guid: 4b0433309915496428241d4045fbf0b3, type: 3}
-    maxAmount: 1
+    maxAmount: 10
+    probability: 100
+  - prefab: {fileID: 3061888992995513543, guid: 3b74130becf8e1e42bfcb5768f119546,
+      type: 3}
+    maxAmount: 10
+    probability: 100
+  - prefab: {fileID: 7663319456515384632, guid: 1e69fbfbe122451498857827c3948d71,
+      type: 3}
+    maxAmount: 10
+    probability: 100
+  - prefab: {fileID: 8108368654346562078, guid: bf35de76d70bec44aa8c96d7900cde2a,
+      type: 3}
+    maxAmount: 10
+    probability: 100
+  - prefab: {fileID: 7279552090635917009, guid: d5857b34a07ae814cadac71fa230bfcc,
+      type: 3}
+    maxAmount: 10
+    probability: 100
+  - prefab: {fileID: 5761054042025821513, guid: 62ea242d9811a1743833815abef2a40a,
+      type: 3}
+    maxAmount: 10
+    probability: 100
+  - prefab: {fileID: 5645325623986056927, guid: 6adb1fb71d9c3df4eaa8c4a6e1d5642f,
+      type: 3}
+    maxAmount: 10
+    probability: 100
+  - prefab: {fileID: 5463467247816296153, guid: 174d57554e32bd240958d3b5b91b5018,
+      type: 3}
+    maxAmount: 10
+    probability: 100
+  - prefab: {fileID: 1128728779388521037, guid: 741e06c10138afa4c9bc10b866d3c2a1,
+      type: 3}
+    maxAmount: 10
     probability: 100

@@ -13,7 +13,27 @@ MonoBehaviour:
   m_Name: RandomCash
   m_EditorClassIdentifier: 
   pool:
-  - prefab: {fileID: 7235659444419165720, guid: 3ddcbd135399a4747b00acd64830d59c,
+  - prefab: {fileID: 7235659444419165720, guid: 552cb08d7db47c14e81ddaf7ca4fd55c,
       type: 3}
     maxAmount: 1
+    probability: 100
+  - prefab: {fileID: 7235659444419165720, guid: 3ddcbd135399a4747b00acd64830d59c,
+      type: 3}
+    maxAmount: 3
+    probability: 100
+  - prefab: {fileID: 7235659444419165720, guid: 72a2e38244f1fd84cb5832e3c8f20553,
+      type: 3}
+    maxAmount: 3
+    probability: 100
+  - prefab: {fileID: 7235659444419165720, guid: d518bf59694c4ab49bdce3b364359c10,
+      type: 3}
+    maxAmount: 5
+    probability: 100
+  - prefab: {fileID: 7235659444419165720, guid: 871d368db6bde3143a6d03663a5762bc,
+      type: 3}
+    maxAmount: 1
+    probability: 100
+  - prefab: {fileID: 7235659444419165720, guid: d518bf59694c4ab49bdce3b364359c10,
+      type: 3}
+    maxAmount: 5
     probability: 100
