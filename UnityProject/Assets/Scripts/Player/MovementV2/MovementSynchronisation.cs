@@ -495,19 +495,23 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 	{
 
 		Pushing.Clear();
+		Bumps.Clear();
 		if (intent == Intent.Help)
 		{
 			if (bumpedBy.TryGetComponent<MovementSynchronisation>(out var move))
 			{
 				if (move.intent == Intent.Help)
 				{
-					var PushVector = (bumpedBy.transform.position - this.transform.position).RoundToInt().To2Int();
-					ForceTilePush(PushVector, Pushing, Client, move.TileMoveSpeed);
-
-					if (move.IsBumping)
+					if (MatrixManager.IsPassableAtAllMatricesV2(bumpedBy.AssumedWorldPosServer(), this.gameObject.AssumedWorldPosServer(), SetMatrixCash, this, Pushing, Bumps))
 					{
-						PushVector *= -1;
-						move.ForceTilePush(PushVector, Pushing, Client, move.TileMoveSpeed);
+						var PushVector = (bumpedBy.transform.position - this.transform.position).RoundToInt().To2Int();
+						ForceTilePush(PushVector, Pushing, Client, move.TileMoveSpeed);
+
+						if (move.IsBumping)
+						{
+							PushVector *= -1;
+							move.ForceTilePush(PushVector, Pushing, Client, move.TileMoveSpeed);
+						}
 					}
 				}
 			}
