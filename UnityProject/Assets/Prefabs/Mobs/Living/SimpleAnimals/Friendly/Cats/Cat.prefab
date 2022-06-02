@@ -13,6 +13,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 639fe71c8579b98479fe7f032db1bb85,
         type: 2}
+    - target: {fileID: 1419954747890742064, guid: f74cbb9054020dd4f8c9dcdedd7398eb,
+        type: 3}
+      propertyPath: tileMoveSpeed
+      value: 7
+      objectReference: {fileID: 0}
     - target: {fileID: 1714471794134156218, guid: f74cbb9054020dd4f8c9dcdedd7398eb,
         type: 3}
       propertyPath: m_RootOrder
@@ -199,6 +204,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 857bf8f3709511b4fb9178b76caed382, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  UniversalObjectPhysics: {fileID: 0}
   AllowDead: 0
   AllowUnconscious: 0
   Priority: 0
