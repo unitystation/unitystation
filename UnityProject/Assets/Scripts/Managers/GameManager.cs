@@ -821,6 +821,7 @@ public partial class GameManager : MonoBehaviour, IInitialise
 			Chat.AddGameWideSystemMsgToChat("<b>The round is now restarting...</b>");
 			// Notify all clients that the round has ended
 			EventManager.Broadcast(Event.RoundEnded, true);
+			EventManager.Broadcast(Event.SceneUnloading, true);
 
 			yield return WaitFor.Seconds(0.2f);
 

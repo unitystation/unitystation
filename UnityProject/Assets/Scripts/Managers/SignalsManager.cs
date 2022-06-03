@@ -13,6 +13,12 @@ namespace Managers
 
 		public HashSet<SignalReceiver> Receivers = new HashSet<SignalReceiver>();
 
+		private void Start()
+		{
+			base.Start();
+			EventManager.AddHandler(Event.SceneUnloading, () => Receivers.Clear());
+		}
+
 		/// <summary>
 		/// Called from the server as the Receivers list is only available for the host and to avoid clients from cheating.
 		/// Loops through all receivers and sends the signal if they match the signal type and/or frequancy
