@@ -265,8 +265,8 @@ public class UIManager : MonoBehaviour, IInitialise
 			ttsToggle = PlayerPrefs.GetInt(PlayerPrefKeys.TTSToggleKey) == 1;
 		}
 
-		adminChatButtons.transform.parent.gameObject.SetActive(true);
-		mentorChatButtons.transform.parent.gameObject.SetActive(true);
+		adminChatButtons.transform.parent.gameObject.SetActive(false);
+		mentorChatButtons.transform.parent.gameObject.SetActive(false);
 		SetVersionDisplay = $"Work In Progress {GameData.BuildNumber}";
 	}
 

@@ -226,7 +226,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		var pushPull = playerScript.objectPhysics.Pulling.Component;
 		Vector3Int origin = pushPull.registerTile.WorldPositionServer;
 		Vector2Int dir = (Vector2Int)(destination - origin);
-		pushPull.TryTilePush(dir, null);
+		pushPull.TryTilePush(dir, null, overridePull: true);
 	}
 
 	/// <summary>

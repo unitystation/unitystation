@@ -26,7 +26,7 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 
 	public List<MoveData> MoveQueue = new List<MoveData>();
 
-	public float MoveMaxDelayQueue = 4f; //Only matters when low FPS mode
+	private float MoveMaxDelayQueue = 4f; //Only matters when low FPS mode
 
 	public float DefaultTime { get; } = 0.5f;
 
@@ -172,7 +172,6 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 	/// <returns>The menu including the uncuff action if applicable, otherwise null</returns>
 	public RightClickableResult GenerateRightClickOptions()
 	{
-
 		var result = base.GenerateRightClickOptions();
 
 		if (!WillInteract(ContextMenuApply.ByLocalPlayer(gameObject, "Uncuff"), NetworkSide.Client)) return result;
@@ -370,11 +369,11 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 	{
 		if (playerScript.registerTile.IsLayingDown)
 		{
-			transform.localRotation = Quaternion.Euler(0,0,90);
+			transform.localRotation = Quaternion.Euler(0, 0, 90);
 		}
 		else
 		{
-			transform.localRotation = Quaternion.Euler(0,0,0);
+			transform.localRotation = Quaternion.Euler(0, 0, 0);
 		}
 	}
 
@@ -493,21 +492,25 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 
 	public void OnBump(GameObject bumpedBy, GameObject Client)
 	{
-
 		Pushing.Clear();
+		Bumps.Clear();
 		if (intent == Intent.Help)
 		{
 			if (bumpedBy.TryGetComponent<MovementSynchronisation>(out var move))
 			{
 				if (move.intent == Intent.Help)
 				{
-					var PushVector = (bumpedBy.transform.position - this.transform.position).RoundToInt().To2Int();
-					ForceTilePush(PushVector, Pushing, Client, move.TileMoveSpeed);
-
-					if (move.IsBumping)
+					if (MatrixManager.IsPassableAtAllMatricesV2(bumpedBy.AssumedWorldPosServer(),
+						    this.gameObject.AssumedWorldPosServer(), SetMatrixCash, this, Pushing, Bumps))
 					{
-						PushVector *= -1;
-						move.ForceTilePush(PushVector, Pushing, Client, move.TileMoveSpeed);
+						var PushVector = (bumpedBy.transform.position - this.transform.position).RoundToInt().To2Int();
+						ForceTilePush(PushVector, Pushing, Client, move.TileMoveSpeed);
+
+						if (move.IsBumping)
+						{
+							PushVector *= -1;
+							move.ForceTilePush(PushVector, Pushing, Client, move.TileMoveSpeed);
+						}
 					}
 				}
 			}
@@ -537,6 +540,8 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 		public string PushedIDs;
 
 		public bool Bump;
+
+		public int LastPushID;
 	}
 
 	public enum PlayerMoveDirection
@@ -596,12 +601,6 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 		return PlayerMoveDirection.Up;
 	}
 
-	public void Start()
-	{
-		LastProcessMoved = NetworkTime.time;
-	}
-
-
 	[Command]
 	public void ServerCommandValidatePosition(Vector3 ClientLocalPOS)
 	{
@@ -625,8 +624,6 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 	}
 
 	public double LastUpdatedFlyingPosition = 0;
-	public double LastProcessMoved;
-
 
 	public double DEBUGLastMoveMessageProcessed = 0;
 
@@ -644,18 +641,14 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 
 				var Entry = MoveQueue[0];
 				MoveQueue.RemoveAt(0);
-				if (LastProcessMoved > Entry.Timestamp)
-				{
-					Logger.LogError("Potentially Out of order message ");
-					return;
-				}
 
 				SetMatrixCash.ResetNewPosition(transform.position);
 				//Logger.LogError(" Is Animating " +  Animating + " Is floating " +  IsAnimatingFlyingSliding +" move processed at" + transform.localPosition);
 
 				if (IsFlyingSliding)
 				{
-					if ((transform.position - Entry.LocalPosition.ToWorld(MatrixManager.Get(Entry.MatrixID))).magnitude <
+					if ((transform.position - Entry.LocalPosition.ToWorld(MatrixManager.Get(Entry.MatrixID)))
+					    .magnitude <
 					    0.24f) //TODO Maybe not needed if needed can be used is when Move request comes in before player has quite reached tile in space flight
 					{
 						Stored = transform.localPosition;
@@ -675,15 +668,22 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 				}
 				else
 				{
-					if ((transform.position - Entry.LocalPosition.ToWorld(MatrixManager.Get(Entry.MatrixID))).magnitude >
-					    0.75f) //Resets play location if too far away
+					if (SetTimestampID == Entry.LastPushID || Entry.LastPushID == -1)
 					{
-						Logger.LogError("Reset from distance from actual target" +
-						                (transform.position - Entry.LocalPosition.ToWorld(MatrixManager.Get(Entry.MatrixID))).magnitude + " SERVER : " +
-						                transform.position + " Client : " + Entry.LocalPosition.ToWorld(MatrixManager.Get(Entry.MatrixID)));
-						ResetLocationOnClients();
-						MoveQueue.Clear();
-						return;
+						if ((transform.position - Entry.LocalPosition.ToWorld(MatrixManager.Get(Entry.MatrixID)))
+						    .magnitude >
+						    0.75f) //Resets play location if too far away
+						{
+							Logger.LogError("Reset from distance from actual target" +
+							                (transform.position -
+							                 Entry.LocalPosition.ToWorld(MatrixManager.Get(Entry.MatrixID))).magnitude +
+							                " SERVER : " +
+							                transform.position + " Client : " +
+							                Entry.LocalPosition.ToWorld(MatrixManager.Get(Entry.MatrixID)));
+							ResetLocationOnClients();
+							MoveQueue.Clear();
+							return;
+						}
 					}
 				}
 
@@ -823,7 +823,8 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 				MatrixID = registerTile.Matrix.Id,
 				GlobalMoveDirection = moveActions.ToPlayerMoveDirection(),
 				CausesSlip = false,
-				Bump = false
+				Bump = false,
+				LastPushID = SetTimestampID
 			};
 
 
@@ -899,7 +900,8 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 			(transform.position + NewMoveData.GlobalMoveDirection.TVectoro().To3())
 			.ToLocal(MatrixManager.Get(NewMoveData.MatrixID));
 
-		NewMoveData.LocalMoveDirection = VectorToPlayerMoveDirection((AddedLocalPosition - transform.position.ToLocal(MatrixManager.Get(NewMoveData.MatrixID))).To2Int());
+		NewMoveData.LocalMoveDirection = VectorToPlayerMoveDirection(
+			(AddedLocalPosition - transform.position.ToLocal(MatrixManager.Get(NewMoveData.MatrixID))).To2Int());
 		//Because shuttle could be rotated   enough to make Global  Direction invalid As compared to server
 
 		if (Pushing.Count > 0)
@@ -941,6 +943,7 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 					Logger.LogError("NewMoveData.Bump");
 					return true;
 				}
+
 				causesSlip = CausesSlipClient;
 			}
 
@@ -980,14 +983,14 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 
 			//move
 			ForceTilePush(NewMoveData.GlobalMoveDirection.TVectoro().To2Int(), Pushing, ByClient,
-				IsWalk: true, PushedBy : this);
+				IsWalk: true, PushedBy: this);
 
 			SetMatrixCash.ResetNewPosition(registerTile.WorldPosition); //Resets the cash
 
 			if (CausesSlipClient)
 			{
 				NewtonianPush(NewMoveData.GlobalMoveDirection.TVectoro().To2Int(), TileMoveSpeed, Single.NaN, 4,
-					spinFactor: 35, DoNotUpdateThisClient:ByClient );
+					spinFactor: 35, DoNotUpdateThisClient: ByClient);
 
 				var Player = registerTile as RegisterPlayer;
 				Player.OrNull()?.ServerSlip();
@@ -1063,6 +1066,7 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 					slippedOn = null;
 					return true;
 				}
+
 				//Need to check for Obstructions
 				if (IsNotObstructed(moveAction, WillPushObjects, Bumps))
 				{
@@ -1224,15 +1228,19 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 			{
 				Logger.LogError(
 					$" Move message rejected because it is too old, Consider tweaking if ping is too high or Is being exploited Age {Age}");
+				ResetLocationOnClients();
+				MoveQueue.Clear();
 				return;
 			}
+
 
 			// NewMoveData.LocalMoveDirection =
 			// VectorToPlayerMoveDirection((LocalTargetPosition - transform.localPosition).RoundToInt().To2Int());
 
 			//TODO Might be funny with changing to diagonal not too sure though
 			var AddedGlobalPosition =
-				(transform.position.ToLocal(MatrixManager.Get(InMoveData.MatrixID)) + InMoveData.LocalMoveDirection.TVectoro().To3()).ToWorld(MatrixManager.Get(InMoveData.MatrixID));
+				(transform.position.ToLocal(MatrixManager.Get(InMoveData.MatrixID)) +
+				 InMoveData.LocalMoveDirection.TVectoro().To3()).ToWorld(MatrixManager.Get(InMoveData.MatrixID));
 
 			InMoveData.GlobalMoveDirection =
 				VectorToPlayerMoveDirection((AddedGlobalPosition - transform.position).To2Int());
@@ -1241,7 +1249,10 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 		}
 	}
 }
+
 /// <summary>
 /// Cuff state changed, provides old state and new state as 1st and 2nd args
 /// </summary>
-public class CuffEvent : UnityEvent<bool, bool> { }
+public class CuffEvent : UnityEvent<bool, bool>
+{
+}

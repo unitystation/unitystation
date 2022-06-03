@@ -25,6 +25,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 	//TODO after thrown not synchronised Properly need to synchronise rotation
 	//TODO When throwing rotation Direction needs to be set by server
 	//=============================================== Definitely
+	//TODO Smooth pushing, syncvar well if Statements in force and stuff On process player action,  Smooth resetting if Space wind
 
 	public const float DEFAULT_PUSH_SPEED = 6;
 
@@ -125,6 +126,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 	[SyncVar(hook = nameof(SynchroniseParent))]
 	private uint parentContainer;
 
+	protected int SetTimestampID = -1;
 
 	private ObjectContainer CashedContainedInContainer;
 
@@ -367,11 +369,16 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 
 
 	[ClientRpc]
-	public void RPCClientTilePush(Vector2Int WorldDirection, float speed, GameObject CausedByClient)
+	public void RPCClientTilePush(Vector2Int WorldDirection, float speed, GameObject CausedByClient, bool overridePull, int TimestampID)
 	{
+		SetTimestampID = TimestampID;
 		if (isServer) return;
 		if (PlayerManager.LocalPlayer == CausedByClient) return;
-		if (PulledBy.HasComponent) return;
+		if (PulledBy.HasComponent && overridePull == false) return;
+		if (isLocalPlayer)
+		{
+			Logger.LogError("AAA");
+		}
 		Pushing.Clear();
 		//Logger.LogError("ClientRpc Tile push for " + transform.name + " Direction " + WorldDirection.ToString());
 		SetMatrixCash.ResetNewPosition(transform.position);
@@ -668,7 +675,10 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 	public void SetMatrix(Matrix movetoMatrix)
 	{
 		var TransformCash = transform.position;
-		registerTile.ServerSetNetworkedMatrixNetID(movetoMatrix.NetworkedMatrix.MatrixSync.netId);
+		if (isServer)
+		{
+			registerTile.ServerSetNetworkedMatrixNetID(movetoMatrix.NetworkedMatrix.MatrixSync.netId);
+		}
 		registerTile.FinishNetworkedMatrixRegistration(movetoMatrix.NetworkedMatrix);
 		transform.position = TransformCash;
 		LocalDifferenceNeeded = Vector2.zero;
@@ -709,9 +719,14 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 		//TODO Secured stuff
 		Pushing.Clear();
 		Bumps.Clear();
-		SetMatrixCash.ResetNewPosition(transform.position);
-		if (MatrixManager.IsPassableAtAllMatricesV2(transform.position,
-			    transform.position + WorldDirection.To3Int(), SetMatrixCash, this,
+		var From = transform.position;
+		if (IsMoving) //We are moving combined targets
+		{
+			From = LocalTargetPosition.ToWorld(registerTile.Matrix);
+		}
+		SetMatrixCash.ResetNewPosition(From);
+		if (MatrixManager.IsPassableAtAllMatricesV2(From,
+			    From + WorldDirection.To3Int(), SetMatrixCash, this,
 			    Pushing, Bumps)) //Validate
 		{
 			PushedFrame = Time.frameCount;
@@ -727,19 +742,19 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 	}
 
 	public void TryTilePush(Vector2Int WorldDirection, GameObject ByClient, float speed = Single.NaN,
-		UniversalObjectPhysics PushedBy = null)
+		UniversalObjectPhysics PushedBy = null, bool overridePull =false)
 	{
 		if (isVisible == false) return;
 		if (PushedBy == this) return;
 		if (CanPush(WorldDirection))
 		{
-			ForceTilePush(WorldDirection, Pushing, ByClient, speed, PushedBy: PushedBy);
+			ForceTilePush(WorldDirection, Pushing, ByClient, speed, PushedBy: PushedBy, overridePull: overridePull);
 		}
 	}
 
 	public void ForceTilePush(Vector2Int WorldDirection, List<UniversalObjectPhysics> InPushing, GameObject ByClient,
 		float speed = Single.NaN, bool IsWalk = false,
-		UniversalObjectPhysics PushedBy = null) //PushPull TODO Change to physics object
+		UniversalObjectPhysics PushedBy = null, bool overridePull =false) //PushPull TODO Change to physics object
 	{
 		if (isVisible == false) return;
 		if (ForcedPushedFrame == Time.frameCount)
@@ -780,7 +795,14 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 		}
 
 		var CachedPosition = transform.position;
+		if (IsMoving) //We are moving combined targets
+		{
+			CachedPosition = LocalTargetPosition.ToWorld(registerTile.Matrix);
+		}
+
 		var NewWorldPosition = CachedPosition + WorldDirection.To3Int();
+
+		if ((NewWorldPosition- transform.position).magnitude > 1.45f) return; //Is pushing too far
 
 		var movetoMatrix = SetMatrixCash.GetforDirection(WorldDirection.To3Int()).Matrix;
 
@@ -818,8 +840,13 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 			TileMoveSpeedOverride = speed;
 		}
 
-		if (isServer && PulledBy.HasComponent == false)
-			RPCClientTilePush(WorldDirection, speed, ByClient); //TODO Local direction
+		if (isServer && (PulledBy.HasComponent == false || overridePull))
+		{
+			SetTimestampID = Time.frameCount;
+			RPCClientTilePush(WorldDirection, speed, ByClient, overridePull, SetTimestampID); //TODO Local direction
+		}
+
+
 
 		if (Pulling.HasComponent)
 		{
@@ -1135,9 +1162,9 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 			maxDistanceDelta);
 	}
 
-	[PlayModeOnly] public bool IsFlyingSliding = false;
+	[PlayModeOnly] public bool IsFlyingSliding = false; //Is animating with space flying
 
-	[PlayModeOnly] public bool IsMoving = false;
+	[PlayModeOnly] public bool IsMoving = false; //Is animating with tile movement
 
 	public bool IsWalking => MoveIsWalking && IsMoving;
 
