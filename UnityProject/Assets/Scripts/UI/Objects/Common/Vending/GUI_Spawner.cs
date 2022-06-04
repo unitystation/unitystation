@@ -124,7 +124,7 @@ namespace UI
 
 			var spawnedItem = Spawn.ServerPrefab(item.Prefab, originPos, Provider.transform.parent).GameObject;
 			spawnedItem.GetComponent<UniversalObjectPhysics>()?.NewtonianPush(nearestPlayerPos - originPos, 1,
-				inthrownBy: Provider, inaim: BodyPartType.Chest);
+				inThrownBy: Provider, inAim: BodyPartType.Chest);
 		}
 
 		///Tries to get nearest player's position within range, and returns HiddenPos if it fails

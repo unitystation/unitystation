@@ -261,7 +261,7 @@ namespace Objects
 						offset = new Vector3(Random.Range(-0.15f, 0.15f), Random.Range(-0.15f, 0.15f), 0);
 						break;
 				}
-				uop.NewtonianPush(offset, 1, 0, 0, BodyPartType.Chest, inthrownBy:spawnedItem);
+				uop.NewtonianPush(offset, 1, 0, 0, BodyPartType.Chest, inThrownBy:spawnedItem);
 			}
 
 			OnItemVended.Invoke(vendorItem);

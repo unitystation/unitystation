@@ -983,7 +983,7 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 
 			//move
 			ForceTilePush(NewMoveData.GlobalMoveDirection.TVectoro().To2Int(), Pushing, ByClient,
-				IsWalk: true, PushedBy: this);
+				isWalk: true, pushedBy: this);
 
 			SetMatrixCash.ResetNewPosition(registerTile.WorldPosition, registerTile); //Resets the cash
 
