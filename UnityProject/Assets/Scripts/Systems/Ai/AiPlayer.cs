@@ -270,7 +270,7 @@ namespace Systems.Ai
 			if(newCore == null) return;
 
 			//Something weird with headless and local host triggering the sync even though its set to owner
-			if (CustomNetworkManager.IsHeadless || PlayerManager.LocalPlayer != gameObject) return;
+			if (CustomNetworkManager.IsHeadless || PlayerManager.LocalPlayerObject != gameObject) return;
 
 			Init();
 			aiUi.OrNull()?.SetUp(this);
@@ -294,7 +294,7 @@ namespace Systems.Ai
 		{
 			hasPower = newState;
 
-			if (CustomNetworkManager.IsHeadless || PlayerManager.LocalPlayer != gameObject) return;
+			if (CustomNetworkManager.IsHeadless || PlayerManager.LocalPlayerObject != gameObject) return;
 
 			Init();
 
@@ -308,7 +308,7 @@ namespace Systems.Ai
 		{
 			power = newValue;
 
-			if (CustomNetworkManager.IsHeadless || PlayerManager.LocalPlayer != gameObject) return;
+			if (CustomNetworkManager.IsHeadless || PlayerManager.LocalPlayerObject != gameObject) return;
 
 			Init();
 
@@ -320,7 +320,7 @@ namespace Systems.Ai
 		{
 			integrity = newValue;
 
-			if (CustomNetworkManager.IsHeadless || PlayerManager.LocalPlayer != gameObject) return;
+			if (CustomNetworkManager.IsHeadless || PlayerManager.LocalPlayerObject != gameObject) return;
 
 			Init();
 
@@ -332,7 +332,7 @@ namespace Systems.Ai
 		{
 			numberOfCameras = newValue;
 
-			if (CustomNetworkManager.IsHeadless || PlayerManager.LocalPlayer != gameObject) return;
+			if (CustomNetworkManager.IsHeadless || PlayerManager.LocalPlayerObject != gameObject) return;
 
 			Init();
 

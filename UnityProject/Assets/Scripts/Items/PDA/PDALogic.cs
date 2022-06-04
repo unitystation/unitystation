@@ -152,7 +152,7 @@ namespace Items.PDA
 			if (RegisteredPlayerName != default) return; // PDA already registered to someone
 			if (info.ToRootPlayer == null) return; // PDA was not added to player
 
-			ConnectedPlayer pickedUpBy = info.ToRootPlayer.gameObject.Player();
+			PlayerInfo pickedUpBy = info.ToRootPlayer.gameObject.Player();
 			RegisterTo(pickedUpBy);
 
 			if (debugUplink)
@@ -161,7 +161,7 @@ namespace Items.PDA
 			}
 		}
 
-		private void RegisterTo(ConnectedPlayer player)
+		private void RegisterTo(PlayerInfo player)
 		{
 			RegisteredPlayerName = player.Script.playerName;
 			gameObject.name = $"{player.Script.playerName}'s PDA ({player.Script.mind.occupation.DisplayName})";
@@ -206,7 +206,7 @@ namespace Items.PDA
 			}
 		}
 
-		private ConnectedPlayer GetPlayerByParentInventory()
+		private PlayerInfo GetPlayerByParentInventory()
 		{
 			if (pickupable.ItemSlot == null) return default;
 
@@ -242,7 +242,7 @@ namespace Items.PDA
 		{
 			GameObject sourceObject = gameObject;
 
-			ConnectedPlayer player = GetPlayerByParentInventory();
+			PlayerInfo player = GetPlayerByParentInventory();
 			if (player != null)
 			{
 				sourceObject = player.GameObject;
@@ -386,7 +386,7 @@ namespace Items.PDA
 		/// <param name="informPlayer">The player that will be informed the code to the PDA uplink</param>
 		/// <param name="tcCount">The amount of telecrystals to add to the uplink.</param>
 		/// <param name="isNukie">Determines if the uplink can purchase nukeop exclusive items</param>
-		public void InstallUplink(ConnectedPlayer informPlayer, int tcCount, bool isNukie)
+		public void InstallUplink(PlayerInfo informPlayer, int tcCount, bool isNukie)
 		{
 			UplinkTC = tcCount; // Add; if uplink installed again (e.g. via admin tools (player request more TC)).
 			UplinkUnlockCode = GenerateUplinkUnlockCode();
@@ -406,14 +406,14 @@ namespace Items.PDA
 			return code + nums;
 		}
 
-		private IEnumerator DelayInformUplinkCode(ConnectedPlayer forPlayer)
+		private IEnumerator DelayInformUplinkCode(PlayerInfo forPlayer)
 		{
 			// We delay the uplink code inform to reduce information overload (player was likely just given objectives)
 			yield return WaitFor.Seconds(informUplinkCodeDelay);
 			InformUplinkCode(forPlayer);
 		}
 
-		private void InformUplinkCode(ConnectedPlayer player)
+		private void InformUplinkCode(PlayerInfo player)
 		{
 			var uplinkMessage =
 					$"{(debugUplink ? "<b>UPLINK DEBUGGING ENABLED: </b>" : "")}" +

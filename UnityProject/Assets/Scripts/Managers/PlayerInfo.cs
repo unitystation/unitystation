@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using Mirror;
 using Player;
@@ -6,13 +7,13 @@ using Messages.Server;
 /// <summary>
 /// Server-only full player information class
 /// </summary>
-public class ConnectedPlayer
+public class PlayerInfo
 {
 	/// <summary>
 	/// Name that is used if the client's character name is empty
 	/// </summary>
 	private const string DEFAULT_NAME = "Anonymous Spessman";
-	public static readonly ConnectedPlayer Invalid = new ConnectedPlayer
+	public static readonly PlayerInfo Invalid = new PlayerInfo
 	{
 		Connection = null,
 		gameObject = null,
@@ -24,21 +25,29 @@ public class ConnectedPlayer
 		ConnectionIP = ""
 	};
 
+	/// <summary>Username for the player's account.</summary>
 	public string Username { get; set; }
-	private string name;
-	private JobType job;
-	private GameObject gameObject;
+	
+	/// <summary>The player script for the player while in the game.</summary>
 	public PlayerScript Script { get; private set; }
+	/// <summary>The player script for the player while in the lobby.</summary>
 	public JoinedViewer ViewerScript { get; private set; }
+
 	public string ClientId { get; set; }
 	public string UserId { get; set; }
 	public NetworkConnectionToClient Connection { get; set; }
 
 	public string ConnectionIP { get; set; }
 
+	public bool IsOnline { get; private set; }
+	public PlayerRole PlayerRoles { get; set; }
+
+	public bool IsAdmin => (PlayerRoles & PlayerRole.Admin) != 0;
+
 	//This is only set when the player presses the ready button? But not if late joining, wtf?????
 	public CharacterSettings CharacterSettings { get; set; }
 
+	/// <summary>The player GameObject. Different GameObject if in lobby vs. in game.</summary>
 	public GameObject GameObject
 	{
 		get => gameObject;
@@ -47,7 +56,7 @@ public class ConnectedPlayer
 			gameObject = value;
 			if (Script)
 			{
-				Script.connectedPlayer = null;
+				Script.PlayerInfo = null;
 			}
 			if (gameObject != null)
 			{
@@ -56,7 +65,7 @@ public class ConnectedPlayer
 				Script = value.GetComponent<PlayerScript>();
 				if (Script)
 				{
-					Script.connectedPlayer = this;
+					Script.PlayerInfo = this;
 				}
 				ViewerScript = value.GetComponent<JoinedViewer>();
 			}
@@ -97,6 +106,10 @@ public class ConnectedPlayer
 			TrySendUpdate();
 		}
 	}
+
+	private string name;
+	private JobType job;
+	private GameObject gameObject;
 
 	private void TryChangeName(string playerName)
 	{
@@ -143,7 +156,7 @@ public class ConnectedPlayer
 				Logger.LogTrace($"TRYING: {proposedName}", Category.Connections);
 			}
 
-			if (!PlayerList.Instance.ContainsName(proposedName, _UserId, true))
+			if (!PlayerList.Instance.Has(proposedName, _UserId))
 			{
 				return proposedName;
 			}
@@ -172,4 +185,12 @@ public class ConnectedPlayer
 		return $"ConnectedPlayer {nameof(Username)}: {Username}, {nameof(ClientId)}: {ClientId}, " +
 		       $"{nameof(UserId)}: {UserId}, {nameof(Connection)}: {Connection}, {nameof(Name)}: {Name}, {nameof(Job)}: {Job}";
 	}
+}
+
+[Flags]
+public enum PlayerRole
+{
+	Player = 0,
+	Admin = 1,
+	Mentor = 2,
 }

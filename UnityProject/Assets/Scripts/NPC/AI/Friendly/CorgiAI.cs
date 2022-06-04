@@ -73,18 +73,15 @@ namespace Systems.MobAIs
 
 		void ProcessLocalChat(ChatEvent chatEvent)
 		{
-			var speaker = PlayerList.Instance.Get(chatEvent.speaker);
+			if (chatEvent.originator.TryGetPlayer(out var player) == false) return;
 
-			if (speaker.Script == null) return;
-			if (speaker.Script.playerNetworkActions == null) return;
-
-			if (speaker.Job == JobType.CAPTAIN || speaker.Job == JobType.HOP)
+			if (player.Job == JobType.CAPTAIN || player.Job == JobType.HOP)
 			{
-				StartCoroutine(PerformVoiceCommand(chatEvent.message.ToLower(), speaker));
+				StartCoroutine(PerformVoiceCommand(chatEvent.message.ToLower(), player));
 			}
 		}
 
-		IEnumerator PerformVoiceCommand(string msg, ConnectedPlayer speaker)
+		IEnumerator PerformVoiceCommand(string msg, PlayerInfo speaker)
 		{
 			//We want these ones to happen right away:
 			if (msg.Contains($"{dogName} run") || msg.Contains($"{dogName} get out of here"))

@@ -124,7 +124,7 @@ namespace Antagonists
 		/// <summary>
 		/// Called just after spawning or respawning.
 		/// </summary>
-		public abstract void AfterSpawn(ConnectedPlayer player);
+		public abstract void AfterSpawn(PlayerInfo player);
 
 		public void AddObjective(Objective objective)
 		{

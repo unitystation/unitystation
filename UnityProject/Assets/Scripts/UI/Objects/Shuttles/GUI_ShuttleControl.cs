@@ -232,7 +232,7 @@ namespace UI.Objects.Shuttles
 			}
 		}
 
-		public void ToggleRcsButton(ConnectedPlayer connectedPlayer)
+		public void ToggleRcsButton(PlayerInfo connectedPlayer)
 		{
 			if (matrixMove.playerControllingRcs != null && matrixMove.playerControllingRcs != connectedPlayer.Script)
 			{

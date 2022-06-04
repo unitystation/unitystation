@@ -19,7 +19,7 @@ namespace Items.Magical
 		[SerializeField]
 		private AddressableAudioSource punishSfx = default;
 
-		public override void Punish(ConnectedPlayer player)
+		public override void Punish(PlayerInfo player)
 		{
 			Chat.AddCombatMsgToChat(player.GameObject,
 					"You suddenly feel very solid!",

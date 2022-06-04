@@ -16,7 +16,7 @@ namespace Messages.Client
 
 		public override void Process(NetMessage msg)
 		{
-			if (SentByPlayer != ConnectedPlayer.Invalid)
+			if (SentByPlayer != PlayerInfo.Invalid)
 			{
 				Chat.AddChatMsgToChat(SentByPlayer, msg.ChatMessageText, msg.Channels, msg.Loudness);
 			}

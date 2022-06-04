@@ -106,8 +106,8 @@ namespace Items.Command
 					return true;
 				}
 
-				var checkPlayer = PlayerList.Instance.Get(player.gameObject, true);
-				if (checkPlayer.Equals(ConnectedPlayer.Invalid))
+				var checkPlayer = PlayerList.Instance.Get(player.gameObject);
+				if (checkPlayer.Equals(PlayerInfo.Invalid))
 				{
 					return true;
 				}

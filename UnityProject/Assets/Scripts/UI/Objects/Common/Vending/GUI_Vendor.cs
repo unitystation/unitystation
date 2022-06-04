@@ -54,7 +54,7 @@ namespace UI.Objects
 		/// <summary>
 		/// Buy UI button was pressed by client
 		/// </summary>
-		public void OnVendItemButtonPressed(VendorItem vendorItem, ConnectedPlayer player)
+		public void OnVendItemButtonPressed(VendorItem vendorItem, PlayerInfo player)
 		{
 			if (vendor)
 			{

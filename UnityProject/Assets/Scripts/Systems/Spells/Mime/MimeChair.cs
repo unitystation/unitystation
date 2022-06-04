@@ -7,12 +7,12 @@ namespace Spells
 {
 	public class MimeChair : Spell
 	{
-		protected override string FormatInvocationMessage(ConnectedPlayer caster, string modPrefix)
+		protected override string FormatInvocationMessage(PlayerInfo caster, string modPrefix)
 		{
 			return string.Format(SpellData.InvocationMessage, caster.Name, caster.CharacterSettings.ThemPronoun(caster.Script));
 		}
 
-		public override bool CastSpellServer(ConnectedPlayer caster)
+		public override bool CastSpellServer(PlayerInfo caster)
 		{
 			if (!base.CastSpellServer(caster))
 			{
@@ -37,7 +37,7 @@ namespace Spells
 			return true;
 		}
 
-		public override bool ValidateCast(ConnectedPlayer caster)
+		public override bool ValidateCast(PlayerInfo caster)
 		{
 			if (!base.ValidateCast(caster))
 			{

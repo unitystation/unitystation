@@ -105,13 +105,12 @@ namespace HealthV2
 		{
 			if (CustomNetworkManager.Instance._isServer)
 			{
-				ConnectedPlayer player = PlayerList.Instance.Get(gameObject, true);
+				PlayerInfo player = gameObject.Player();
 
 				string killerName = null;
 				if (LastDamagedBy != null)
 				{
-					var lastDamager = PlayerList.Instance.Get(LastDamagedBy, true);
-					if (lastDamager != null)
+					if (LastDamagedBy.TryGetPlayer(out var lastDamager))
 					{
 						killerName = lastDamager.Name;
 						AutoMod.ProcessPlayerKill(lastDamager, player);

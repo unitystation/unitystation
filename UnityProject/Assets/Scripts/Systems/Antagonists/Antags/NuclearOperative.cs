@@ -10,7 +10,7 @@ namespace Antagonists
 		[SerializeField]
 		private int initialTC = 25;
 
-		public override void AfterSpawn(ConnectedPlayer player)
+		public override void AfterSpawn(PlayerInfo player)
 		{
 			player.Job = JobType.SYNDICATE;
 			UpdateChatMessage.Send(player.GameObject, ChatChannel.Syndicate, ChatModifier.None,

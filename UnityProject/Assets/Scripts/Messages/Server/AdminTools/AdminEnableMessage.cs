@@ -38,12 +38,12 @@ namespace Messages.Server.AdminTools
 			UIManager.Instance.mentorChatButtons.transform.parent.gameObject.SetActive(true);
 		}
 
-		public static void SendMessage(ConnectedPlayer player, string adminToken)
+		public static void SendMessage(PlayerInfo player, string adminToken)
 		{
 			_ = SendMessageCo(player, adminToken);
 		}
 
-		private static async Task SendMessageCo(ConnectedPlayer player, string adminToken)
+		private static async Task SendMessageCo(PlayerInfo player, string adminToken)
 		{
 
 			await Task.Delay(3000);
@@ -55,7 +55,7 @@ namespace Messages.Server.AdminTools
 			Send(player, adminToken, adminGhostItemStorage.GetComponent<NetworkIdentity>().netId);
 		}
 
-		private static NetMessage Send(ConnectedPlayer player, string adminToken, uint netId)
+		private static NetMessage Send(PlayerInfo player, string adminToken, uint netId)
 		{
 			NetMessage msg = new NetMessage
 			{

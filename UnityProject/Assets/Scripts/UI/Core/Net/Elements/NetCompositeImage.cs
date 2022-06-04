@@ -86,6 +86,6 @@ namespace UI.Core.NetUI
 			ResolvedObject = NetworkIdentity.spawned[id].gameObject;
 		}
 
-		public override void ExecuteServer(ConnectedPlayer subject) { }
+		public override void ExecuteServer(PlayerInfo subject) { }
 	}
 }

@@ -33,7 +33,7 @@ public partial class TestAction
 				characterSettings = JsonConvert.DeserializeObject<CharacterSettings>(SerialisedCharacterSettings);
 			}
 
-			var Connectedplayer = PlayerList.Instance.Get(PlayerManager.LocalPlayer);
+			var Connectedplayer = PlayerList.Instance.Get(PlayerManager.LocalPlayerObject);
 
 			var Request = PlayerSpawnRequest.RequestOccupation( PlayerManager.LocalViewerScript, Occupation, characterSettings,
 				Connectedplayer.UserId);

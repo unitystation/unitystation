@@ -5,11 +5,11 @@ namespace Systems.Spells.Wizard
 {
 	public class InstantSummons : Spell
 	{
-		private ConnectedPlayer caster;
+		private PlayerInfo caster;
 		private Pickupable markedItem;
 		private bool isSet = false;
 
-		public override bool CastSpellServer(ConnectedPlayer caster)
+		public override bool CastSpellServer(PlayerInfo caster)
 		{
 			this.caster = caster;
 

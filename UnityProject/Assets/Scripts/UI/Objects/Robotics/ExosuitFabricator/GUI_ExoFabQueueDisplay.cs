@@ -123,7 +123,7 @@ namespace UI.Objects.Robotics
 			}
 		}
 
-		public override void ExecuteServer(ConnectedPlayer subject)
+		public override void ExecuteServer(PlayerInfo subject)
 		{
 		}
 	}

@@ -80,7 +80,7 @@ public class PlayerHealthUI : MonoBehaviour
 
 	void UpdateMe()
 	{
-		if (PlayerManager.LocalPlayer == null)
+		if (PlayerManager.LocalPlayerObject == null)
 		{
 			return;
 		}

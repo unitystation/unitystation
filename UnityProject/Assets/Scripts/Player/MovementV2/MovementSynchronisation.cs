@@ -298,7 +298,7 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 			OnCuffChangeServer.Invoke(oldCuffed, this.IsCuffed);
 		}
 
-		if (this.gameObject == PlayerManager.LocalPlayer)
+		if (this.gameObject == PlayerManager.LocalPlayerObject)
 		{
 			PlayerUIHandCuffToggle(this.IsCuffed);
 		}
@@ -330,7 +330,7 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 			}
 		}
 
-		if (PlayerManager.LocalPlayer == gameObject)
+		if (PlayerManager.LocalPlayerObject == gameObject)
 		{
 			UIActionManager.ToggleLocal(this, newBuckledTo != null);
 		}
@@ -805,7 +805,7 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 
 	public void ReceivePlayerMoveAction(PlayerAction moveActions)
 	{
-		if (CommonInput.GetKeyDown(KeyCode.F7) && gameObject == PlayerManager.LocalPlayer)
+		if (CommonInput.GetKeyDown(KeyCode.F7) && gameObject == PlayerManager.LocalPlayerObject)
 		{
 			PlayerSpawn.ServerSpawnDummy(gameObject.transform);
 		}

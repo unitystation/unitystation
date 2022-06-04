@@ -45,8 +45,8 @@ namespace AdminTools
 		//Cooldown is based on a score system. A score is created every time a user posts a chat message. It will check how many
 		//times the user has posted something, how fast and compare the content. If the resulting score is higher then the max score
 		//them AutoMod will take action to stop the spamming
-		private static Dictionary<ConnectedPlayer, MessageRecord> chatLogs =
-			new Dictionary<ConnectedPlayer, MessageRecord>();
+		private static Dictionary<PlayerInfo, MessageRecord> chatLogs =
+			new Dictionary<PlayerInfo, MessageRecord>();
 
 		private static float maxScore = 0.7f; //0 - 1f;
 
@@ -128,7 +128,7 @@ namespace AdminTools
 			}
 		}
 
-		public static string ProcessChatServer(ConnectedPlayer player, string message)
+		public static string ProcessChatServer(PlayerInfo player, string message)
 		{
 			if (player == null || Instance.loadedConfig == null
 			                   || !Instance.loadedConfig.enableSpamProtection) return message;
@@ -165,7 +165,7 @@ namespace AdminTools
 			return message;
 		}
 
-		public static void ProcessPlayerKill(ConnectedPlayer killedBy, ConnectedPlayer victim)
+		public static void ProcessPlayerKill(PlayerInfo killedBy, PlayerInfo victim)
 		{
 			if (victim == null || killedBy == null
 				|| Instance.loadedConfig == null
@@ -178,7 +178,7 @@ namespace AdminTools
 				$"{roundTime} : {killedBy.Name} killed {victim.Name} as a non-antag");
 		}
 
-		public static void ProcessPlasmaRelease(ConnectedPlayer perp)
+		public static void ProcessPlasmaRelease(PlayerInfo perp)
 		{
 			if (perp == null || Instance.loadedConfig == null
 			                 || !Instance.loadedConfig.enablePlasmaReleaseNotification) return;
@@ -219,7 +219,7 @@ namespace AdminTools
 		{
 			private Dictionary<DateTime, string> messageLog = new Dictionary<DateTime, string>();
 			private List<MuteRecord> muteRecords = new List<MuteRecord>();
-			public ConnectedPlayer player;
+			public PlayerInfo player;
 
 			public bool IsSpamming(string message)
 			{

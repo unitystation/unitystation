@@ -25,7 +25,7 @@ namespace UI.Objects.Shuttles
 		private GUI_FuelGauge element;
 		public GUI_FuelGauge Element => element ??= GetComponent<GUI_FuelGauge>();
 
-		public override void ExecuteServer(ConnectedPlayer subject)
+		public override void ExecuteServer(PlayerInfo subject)
 		{
 			ServerMethod.Invoke(Element.PercentageFuel);
 		}

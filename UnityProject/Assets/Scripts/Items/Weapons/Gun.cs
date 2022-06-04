@@ -377,7 +377,7 @@ namespace Weapons
 
 			if (FiringPin == null)
 			{
-				if (interaction.Performer == PlayerManager.LocalPlayer)
+				if (interaction.Performer == PlayerManager.LocalPlayerObject)
 				{
 					Chat.AddExamineMsgToClient("The " + gameObject.ExpensiveName() +
 					                           "'s trigger is locked. It doesn't have a firing pin installed!");
@@ -677,7 +677,7 @@ namespace Weapons
 			if (!MatrixManager.IsInitialized) return;
 
 			//if this is our gun (or server), last check to ensure we really can shoot
-			if (isServer || PlayerManager.LocalPlayer == shooter)
+			if (isServer || PlayerManager.LocalPlayerObject == shooter)
 			{
 				if (CurrentMagazine.ClientAmmoRemains <= 0)
 				{
@@ -733,7 +733,7 @@ namespace Weapons
 			RPCShowMuzzleFlash(identity);
 			if (identity.OrNull()?.connectionToClient != null)
 			{
-				if (isServer && shooter == PlayerManager.LocalPlayer)
+				if (isServer && shooter == PlayerManager.LocalPlayerObject)
 				{
 					Camera2DFollow.followControl.Recoil(-finalDirection, CameraRecoilConfig);
 				}

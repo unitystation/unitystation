@@ -47,7 +47,7 @@ public class UIActionSOSingleton : SingletonScriptableObject<UIActionSOSingleton
 		return (null);
 	}
 
-	public void ActionCallServer(ushort ID, ConnectedPlayer SentByPlayer)
+	public void ActionCallServer(ushort ID, PlayerInfo SentByPlayer)
 	{
 		if (!Initialised)
 		{

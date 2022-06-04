@@ -240,9 +240,9 @@ public class WeaponNetworkActions : NetworkBehaviour
 				{
 					ResetLerp();
 					spritesObj.transform.localPosition = Vector3.zero;
-					if (PlayerManager.LocalPlayer)
+					if (PlayerManager.LocalPlayerObject)
 					{
-						if (PlayerManager.LocalPlayer == gameObject)
+						if (PlayerManager.LocalPlayerObject == gameObject)
 						{
 							CmdRequestInputActivation(); // Ask server if you can move again after melee attack
 						}

@@ -1,42 +1,76 @@
 ﻿using Mirror;
 
-
 namespace Messages.Client.Admin
 {
 	public class RequestKickMessage : ClientMessage<RequestKickMessage.NetMessage>
 	{
 		public struct NetMessage : NetworkMessage
 		{
-			public string UserToKick;
+			public string UserIDToKick;
 			public string Reason;
-			public bool IsBan;
-			public int BanMinutes;
-			public bool AnnounceBan;
+			public bool Announce;
 		}
 
 		public override void Process(NetMessage msg)
 		{
-			VerifyAdminStatus(msg);
-		}
-
-		private void VerifyAdminStatus(NetMessage msg)
-		{
-			if (IsFromAdmin())
+			if (IsFromAdmin() == false)
 			{
-				PlayerList.Instance.ProcessKickRequest(
-						SentByPlayer.UserId, msg.UserToKick, msg.Reason, msg.IsBan, msg.BanMinutes, msg.AnnounceBan);
+				Logger.Log($"Player {SentByPlayer.Username} tried to kick someone but they weren't an admin!", Category.Exploits);
+			}
+
+			if (PlayerList.Instance.TryGetByUserID(msg.UserIDToKick, out var player))
+			{
+				PlayerList.Instance.ServerKickPlayer(player, msg.Reason, msg.Announce);
+				Logger.Log($"Admin {SentByPlayer.Username} has kicked {player.Username}.", Category.Admin);
 			}
 		}
 
-		public static NetMessage Send(string userIDToKick, string reason, bool ban = false, int banminutes = 0, bool announceBan = true)
+		public static NetMessage Send(string userIdToKick, string reason, bool announce = true)
 		{
-			NetMessage msg = new NetMessage
+			NetMessage msg = new()
 			{
-				UserToKick = userIDToKick,
+				UserIDToKick = userIdToKick,
 				Reason = reason,
-				IsBan = ban,
-				BanMinutes = banminutes,
-				AnnounceBan = announceBan
+				Announce = announce,
+			};
+
+			Send(msg);
+			return msg;
+		}
+	}
+
+	public class RequestBanMessage : ClientMessage<RequestBanMessage.NetMessage>
+	{
+		public struct NetMessage : NetworkMessage
+		{
+			public string UserIDToBan;
+			public string Reason;
+			public bool Announce;
+			public int Minutes;
+		}
+
+		public override void Process(NetMessage msg)
+		{
+			if (IsFromAdmin() == false)
+			{
+				Logger.Log($"Player {SentByPlayer.Username} tried to ban someone but they weren't an admin!", Category.Exploits);
+			}
+
+			if (PlayerList.Instance.TryGetByUserID(msg.UserIDToBan, out var player))
+			{
+				PlayerList.Instance.ServerBanPlayer(player, msg.Reason, msg.Announce, msg.Minutes);
+				Logger.Log($"Admin {SentByPlayer.Username} has banned {player.Username}.", Category.Admin);
+			}
+		}
+
+		public static NetMessage Send(string userIdToBan, string reason, bool announceBan = true, int minutes = 0)
+		{
+			NetMessage msg = new()
+			{
+				UserIDToBan = userIdToBan,
+				Reason = reason,
+				Announce = announceBan,
+				Minutes = minutes,
 			};
 
 			Send(msg);

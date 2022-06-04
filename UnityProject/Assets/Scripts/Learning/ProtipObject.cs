@@ -38,7 +38,7 @@ namespace Learning
 			if (triggeredBy != null && triggeredBy != PlayerManager.LocalPlayerScript.gameObject) return false;
 			if (isOnCooldown) return false;
 			if (hasBeenTriggeredBefore) return false;
-			if (showEvenAfterDeath == false && PlayerManager.PlayerScript.IsDeadOrGhost) return false;
+			if (showEvenAfterDeath == false && PlayerManager.LocalPlayerScript.IsDeadOrGhost) return false;
 			if (ProtipManager.Instance.PlayerExperienceLevel > TipSO.TipData.MinimumExperienceLevelToTrigger) return false;
 			return true;
 		}

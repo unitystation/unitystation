@@ -155,7 +155,7 @@ namespace Objects.Shuttles
 
 				if (playerScript && playerScript != PlayerManager.LocalPlayerScript)
 				{
-					ShuttleRcsMessage.SendTo(this, newState, playerScript.connectedPlayer);
+					ShuttleRcsMessage.SendTo(this, newState, playerScript.PlayerInfo);
 					playerScript.PlayerSync.ResetLocationOnClients();
 				}
 			}

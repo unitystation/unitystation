@@ -98,8 +98,10 @@ public static class PlayerSpawn
 
 	private static void ValidateFail(JoinedViewer joinedViewer, string userId, string message)
 	{
-		PlayerList.Instance.ServerKickPlayer(userId, message, false, 1, false);
-		if(joinedViewer.isServer || joinedViewer.isLocalPlayer)
+		if (PlayerList.Instance.TryGetByUserID(userId, out var player) == false) return;
+
+		PlayerList.Instance.ServerKickPlayer(player, message);
+		if (joinedViewer.isServer || joinedViewer.isLocalPlayer)
 		{
 			joinedViewer.Spectate();
 		}
@@ -240,7 +242,7 @@ public static class PlayerSpawn
 
 
 		var ps = newPlayer.GetComponent<PlayerScript>();
-		var connectedPlayer = PlayerList.Instance.Get(connection);
+		var connectedPlayer = PlayerList.Instance.GetOnline(connection);
 		connectedPlayer.Name = ps.playerName;
 		connectedPlayer.Job = ps.mind.occupation.JobType;
 		UpdateConnectedPlayersMessage.Send();
@@ -379,10 +381,10 @@ public static class PlayerSpawn
 			SpawnDestination.At(spawnPosition, parentTransform));
 		Spawn._ServerFireClientServerSpawnHooks(SpawnResult.Single(info, ghost));
 
-		var isAdmin = PlayerList.Instance.IsAdmin(forMind.ghost.connectedPlayer);
+		var isAdmin = forMind.ghost.PlayerInfo.IsAdmin;
 		if (isAdmin)
 		{
-			var adminItemStorage = AdminManager.Instance.GetItemSlotStorage(forMind.ghost.connectedPlayer);
+			var adminItemStorage = AdminManager.Instance.GetItemSlotStorage(forMind.ghost.PlayerInfo);
 			adminItemStorage.ServerAddObserverPlayer(ghost);
 		}
 
@@ -407,7 +409,7 @@ public static class PlayerSpawn
 		Mind.Create(newPlayer);
 		ServerTransferPlayer(joinedViewer.connectionToClient, newPlayer, null, Event.GhostSpawned, characterSettings);
 
-		var isAdmin = PlayerList.Instance.IsAdmin(PlayerList.Instance.Get(joinedViewer.connectionToClient));
+		var isAdmin = PlayerList.Instance.GetOnline(joinedViewer.connectionToClient).IsAdmin;
 		newPlayer.GetComponent<GhostSprites>().SetGhostSprite(isAdmin);
 	}
 
@@ -503,8 +505,8 @@ public static class PlayerSpawn
 			CustomNetworkManager.Instance.OnServerDisconnect(netIdentity.connectionToClient);
 		}
 
-		var connectedPlayer = PlayerList.Instance.Get(conn);
-		if (connectedPlayer == ConnectedPlayer.Invalid) //this isn't an online player
+		var connectedPlayer = PlayerList.Instance.GetOnline(conn);
+		if (connectedPlayer == PlayerInfo.Invalid) //this isn't an online player
 		{
 			PlayerList.Instance.UpdateLoggedOffPlayer(newBody, oldBody);
 			NetworkServer.Spawn(newBody);

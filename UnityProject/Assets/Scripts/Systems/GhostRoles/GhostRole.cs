@@ -78,14 +78,14 @@ namespace Systems.GhostRoles
 	public class GhostRoleServer : GhostRole
 	{
 		/// <summary>A list of players currently signed up to this specific ghost role instance.</summary>
-		public readonly List<ConnectedPlayer> WaitingPlayers = new List<ConnectedPlayer>();
+		public readonly List<PlayerInfo> WaitingPlayers = new List<PlayerInfo>();
 
 		public bool QuickPoolInProgress { get; private set; }
 		/// <summary>The players that quickly request the role upon availability. Players will be randomly selected from this pool.</summary>
-		public readonly List<ConnectedPlayer> QuickPlayerPool = new List<ConnectedPlayer>();
+		public readonly List<PlayerInfo> QuickPlayerPool = new List<PlayerInfo>();
 
 		/// <summary>Invoked when a player is successfully added to <see cref="WaitingPlayers"/>.</summary>
-		public event Action<ConnectedPlayer> OnPlayerAdded;
+		public event Action<PlayerInfo> OnPlayerAdded;
 		/// <summary>Invoked when the count of <see cref="WaitingPlayers"/> hits <see cref="GhostRole.MinPlayers"/>.</summary>
 		public event Action OnMinPlayersReached;
 		/// <summary>Invoked when the count of <see cref="WaitingPlayers"/> hits <see cref="GhostRole.MaxPlayers"/>.</summary>
@@ -113,7 +113,7 @@ namespace Systems.GhostRoles
 		/// possibly <see cref="OnMinPlayersReached"/>, <see cref="OnMaxPlayersReached"/>.
 		/// Intended for use with <see cref="GhostRoleManager"/>.
 		/// </summary>
-		public void AddPlayer(ConnectedPlayer player)
+		public void AddPlayer(PlayerInfo player)
 		{
 			WaitingPlayers.Add(player);
 			totalPlayers++;
@@ -133,7 +133,7 @@ namespace Systems.GhostRoles
 
 		private void EnableDefaultRespawning()
 		{
-			OnPlayerAdded += (ConnectedPlayer player) =>
+			OnPlayerAdded += (PlayerInfo player) =>
 			{
 				if (totalPlayers < MinPlayers) return;
 				SpawnPlayer(player);
@@ -142,7 +142,7 @@ namespace Systems.GhostRoles
 
 			OnMinPlayersReached += () =>
 			{
-				foreach (ConnectedPlayer player in WaitingPlayers)
+				foreach (PlayerInfo player in WaitingPlayers)
 				{
 					SpawnPlayer(player);
 				}
@@ -150,7 +150,7 @@ namespace Systems.GhostRoles
 			};
 		}
 
-		private void SpawnPlayer(ConnectedPlayer player)
+		private void SpawnPlayer(PlayerInfo player)
 		{
 			playersSpawned++;
 			if (RoleData.IsAntagonist)
@@ -172,11 +172,11 @@ namespace Systems.GhostRoles
 
 			for (int i = 0; i < QuickPlayerPool.Count; i++)
 			{
-				ConnectedPlayer player = QuickPlayerPool.PickRandom();
+				PlayerInfo player = QuickPlayerPool.PickRandom();
 				if (player == null) break;
 
 				QuickPlayerPool.Remove(player);
-				if (player.Equals(ConnectedPlayer.Invalid)) continue;
+				if (player.Equals(PlayerInfo.Invalid)) continue;
 
 				var kvp = GhostRoleManager.Instance.serverAvailableRoles.FirstOrDefault(role => role.Value == this);
 				GhostRoleManager.Instance.ServerGhostRequestRole(player, kvp.Key);

@@ -151,7 +151,7 @@ public class InteractableStorage : MonoBehaviour, IClientInteractable<HandActiva
 		}
 
 		// can only be opened if it's in the player's top level inventory or player is alt-clicking
-		if ((PlayerManager.PlayerScript.DynamicItemStorage.ClientTotal.Contains(interaction.TargetSlot) && TopLevelAlt == false) || interaction.IsAltClick)
+		if ((PlayerManager.LocalPlayerScript.DynamicItemStorage.ClientTotal.Contains(interaction.TargetSlot) && TopLevelAlt == false) || interaction.IsAltClick)
 		{
 			if (interaction.UsedObject == null)
 			{
@@ -464,13 +464,13 @@ public class InteractableStorage : MonoBehaviour, IClientInteractable<HandActiva
 
 							return;
 						}
-						if (PlayerManager.PlayerScript == null) return;
-						if (Validations.IsInReachDistanceByPositions(PlayerManager.PlayerScript.registerTile.WorldPosition ,interaction.WorldPositionTarget) == false) return;
-						if (MatrixManager.IsPassableAtAllMatricesOneTile( interaction.WorldPositionTarget.RoundToInt(), CustomNetworkManager.Instance._isServer) == false) return;
+						if (PlayerManager.LocalPlayerScript == null) return;
+						if (Validations.IsInReachDistanceByPositions(PlayerManager.LocalPlayerScript.registerTile.WorldPosition, interaction.WorldPositionTarget) == false) return;
+						if (MatrixManager.IsPassableAtAllMatricesOneTile(interaction.WorldPositionTarget.RoundToInt(), CustomNetworkManager.Instance._isServer) == false) return;
 
-							PlayerManager.PlayerScript.playerNetworkActions.CmdDropAllItems(itemStorage.GetIndexedItemSlot(0)
+							PlayerManager.LocalPlayerScript.playerNetworkActions.CmdDropAllItems(itemStorage.GetIndexedItemSlot(0)
 							.ItemStorageNetID, interaction.WorldPositionTarget);
-
+						
 
 						Chat.AddExamineMsgFromServer(interaction.Performer, $"You start dumping out the {gameObject.ExpensiveName()}.");
 
@@ -500,9 +500,9 @@ public class InteractableStorage : MonoBehaviour, IClientInteractable<HandActiva
 				return false;
 			}
 
-			if (PlayerManager.PlayerScript == null) return false;
+			if (PlayerManager.LocalPlayerScript == null) return false;
 
-			PlayerManager.PlayerScript.playerNetworkActions.CmdDropAllItems(itemStorage.GetIndexedItemSlot(0)
+			PlayerManager.LocalPlayerScript.playerNetworkActions.CmdDropAllItems(itemStorage.GetIndexedItemSlot(0)
 				.ItemStorageNetID, TransformState.HiddenPos);
 
 			if (CustomNetworkManager.Instance._isServer == false)
@@ -672,6 +672,6 @@ public class InteractableStorage : MonoBehaviour, IClientInteractable<HandActiva
 
 	public void CallActionClient()
 	{
-		PlayerManager.PlayerScript.playerNetworkActions.CmdSwitchPickupMode();
+		PlayerManager.LocalPlayerScript.playerNetworkActions.CmdSwitchPickupMode();
 	}
 }
