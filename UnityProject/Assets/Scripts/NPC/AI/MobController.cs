@@ -32,7 +32,7 @@ namespace Systems.MobAIs
 		{
 			if (CustomNetworkManager.IsServer == false) return;
 			SceneManager.activeSceneChanged += OnRoundRestart;
-			if (CurrentMobs > 10)
+			if (CurrentMobs > 20)
 			{
 				return;
 			}
