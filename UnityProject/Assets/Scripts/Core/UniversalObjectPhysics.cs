@@ -320,7 +320,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 		public uint ByClient;
 
 
-		public bool Equals(Vector3WithData other) => Equals(Vector3, other.Vector3) && Equals(ByClient, other.ByClient);
+		public bool Equals(Vector3WithData other) => Equals(Vector3, other.Vector3) && ByClient == other.ByClient;
 
 		public override bool Equals(object? obj)
 		{
