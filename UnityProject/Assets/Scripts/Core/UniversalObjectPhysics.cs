@@ -296,6 +296,21 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 	{
 		public UniversalObjectPhysics NewPulling;
 		public bool WasCausedByClient;
+
+		public override bool Equals(object? obj)
+		{
+			return obj is PullData other && Equals(other);
+		}
+
+		public bool Equals(PullData other)
+		{
+			return Equals(NewPulling, other.NewPulling) && WasCausedByClient == other.WasCausedByClient;
+		}
+
+		public override int GetHashCode()
+		{
+			return HashCode.Combine(NewPulling, WasCausedByClient);
+		}
 	}
 
 
@@ -303,6 +318,19 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 	{
 		public Vector3 Vector3;
 		public uint ByClient;
+
+
+		public bool Equals(Vector3WithData other) => Equals(Vector3, other.Vector3) && Equals(ByClient, other.ByClient);
+
+		public override bool Equals(object? obj)
+		{
+			return obj is Vector3WithData other && Equals(other);
+		}
+
+		public override int GetHashCode()
+		{
+			return HashCode.Combine(Vector3, ByClient);
+		}
 	}
 
 	public void SyncMovementSpeed(float old, float Newmove)
