@@ -693,6 +693,7 @@ public class DynamicItemStorage : NetworkBehaviour
 
 	public void RemoveClient(IDynamicItemSlotS bodyPartUISlots, int index)
 	{
+		if (bodyPartUISlots == null) return;
 		if (ClientContainedInventorys.Contains(bodyPartUISlots))
 		{
 			ClientContainedInventorys.Remove(bodyPartUISlots);
