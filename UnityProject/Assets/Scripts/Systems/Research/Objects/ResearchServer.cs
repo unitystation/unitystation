@@ -12,11 +12,7 @@ using Systems.ObjectConnection;
 
 namespace Systems.Research.Objects
 {
-<<<<<<< HEAD
-	public class ResearchServer : NetworkBehaviour, IMultitoolMasterable
-=======
-	public class ResearchServer : RadioSignalProcessor, ICheckedInteractable<HandApply>
->>>>>>> 93fba66303 (E)
+	public class ResearchServer : NetworkBehaviour, IMultitoolMasterable, ICheckedInteractable<HandApply>
 	{
 		//TODO: PLACE HOLDER UNTIL WE GET A TECHWEB EDITOR OF SOME SORT
 		[SerializeField] private DefaultTechwebData defaultTechwebData;
@@ -26,16 +22,13 @@ namespace Systems.Research.Objects
 		[SerializeField] private int researchPointsTrickl = 25;
 		[SerializeField] private int TrickleTime = 60; //seconds
 
-<<<<<<< HEAD
 		public List<string> AvailableDesigns = new List<string>();
 
 		[NonSerialized] public Action<int,List<string>> TechWebUpdateEvent;
-=======
 		//Keep a cached reference to the techweb so we dont spam the server with signal requests
 		//Only send signals to the Research Server when issuing commands and changing values, not reading the data everytime we access it.
 		private Techweb techweb = new Techweb();
 		private bool isScrewed = true;
->>>>>>> 93fba66303 (E)
 
 		private void Awake()
 		{
@@ -128,7 +121,8 @@ namespace Systems.Research.Objects
 			if (disk.ItemObject.TryGetComponent<HardDriveBase>(out var hardDisk) == false) return;
 			if (Inventory.ServerTransfer(disk, diskStorage.GetNextFreeIndexedSlot()))
 			{
-<<<<<<< HEAD
+				//the techweb disk will only have one file so its fine if we just get the first ever one.
+				//if for whatever reason it has more; it's going to be a bug thats not possible.
 				if (hardDisk.DataOnStorage[0] is TechwebFiles c) techweb = c.Techweb;
 			}
 		}
@@ -141,14 +135,6 @@ namespace Systems.Research.Objects
 
 		public bool MultiMaster => true;
 		int IMultitoolMasterable.MaxDistance => int.MaxValue;
-
-		#endregion
-=======
-				//the techweb disk will only have one file so its fine if we just get the first ever one.
-				//if for whatever reason it has more; it's going to be a bug thats not possible.
-				if(hardDisk.DataOnStorage[0] is TechwebFiles c) techweb = c.Techweb;
-			}
-		}
 
 		public bool WillInteract(HandApply interaction, NetworkSide side)
 		{
@@ -173,6 +159,5 @@ namespace Systems.Research.Objects
 			}
 			RemoveHardDisk();
 		}
->>>>>>> 93fba66303 (E)
 	}
 }
