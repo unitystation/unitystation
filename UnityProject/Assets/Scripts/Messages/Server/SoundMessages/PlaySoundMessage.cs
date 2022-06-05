@@ -27,8 +27,6 @@ namespace Messages.Server.SoundMessages
 			// Allow to personalize Audio Source parameters for any sound to play.
 			public AudioSourceParameters AudioParameters;
 
-			public int soundID;
-
 			public override string ToString()
 			{
 				string audioSourceParametersValue = AudioParameters.ToString();
@@ -52,11 +50,11 @@ namespace Messages.Server.SoundMessages
 
 			if (isPositionProvided)
 			{
-				_ = SoundManager.PlayAtPosition(addressableAudioSources, msg.Position, msg.SoundSpawnToken, msg.Polyphonic, netId: msg.TargetNetId, audioSourceParameters: msg.AudioParameters, soundID: msg.soundID);
+				_ = SoundManager.PlayAtPosition(addressableAudioSources, msg.Position, msg.SoundSpawnToken, msg.Polyphonic, netId: msg.TargetNetId, audioSourceParameters: msg.AudioParameters);
 			}
 			else
 			{
-				_ = SoundManager.Play(addressableAudioSources, msg.SoundSpawnToken, msg.AudioParameters, msg.Polyphonic, msg.soundID);
+				_ = SoundManager.Play(addressableAudioSources, msg.SoundSpawnToken, msg.AudioParameters, msg.Polyphonic);
 			}
 
 			if (msg.ShakeParameters.ShakeGround)
