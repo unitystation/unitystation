@@ -134,6 +134,8 @@ namespace Systems.Research.Objects
 			return false; //Techweb Server has no use for now so leave it like this until we're done work on it
 		}
 
+		#endregion
+
 		public void ServerPerformInteraction(HandApply interaction)
 		{
 			if (interaction.HandObject.Item().HasTrait(CommonTraits.Instance.Screwdriver))
