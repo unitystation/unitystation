@@ -403,13 +403,9 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 	{
 		SetTimestampID = timestampID;
 		if (isServer) return;
-		if (PlayerManager.LocalPlayerObject == CausedByClient) return;
+		if (PlayerManager.LocalPlayerObject == causedByClient) return;
 		if (PulledBy.HasComponent && overridePull == false) return;
-		if (isLocalPlayer)
-		{
-			Logger.LogError("AAA");
-		}
-
+		
 		Pushing.Clear();
 		//Logger.LogError("ClientRpc Tile push for " + transform.name + " Direction " + WorldDirection.ToString());
 		SetMatrixCash.ResetNewPosition(transform.position, registerTile);
