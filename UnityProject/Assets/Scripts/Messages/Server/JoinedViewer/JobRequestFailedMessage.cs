@@ -17,7 +17,7 @@ namespace Messages.Server
 			UIManager.Display.jobSelectWindow.GetComponent<GUI_PlayerJobs>().ShowFailMessage(msg.FailReason);
 		}
 
-		public static NetMessage SendTo(ConnectedPlayer recipient, JobRequestError failReason)
+		public static NetMessage SendTo(PlayerInfo recipient, JobRequestError failReason)
 		{
 			var msg = new NetMessage
 			{

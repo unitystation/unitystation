@@ -34,7 +34,7 @@ namespace InGameEvents
 			survivorAntag.RemoveObjective(objective); // remove lest we reuse survivor antag for other events
 		}
 
-		protected override void HandlePlayer(ConnectedPlayer player)
+		protected override void HandlePlayer(PlayerInfo player)
 		{
 			GiveGunToPlayer(player);
 
@@ -44,7 +44,7 @@ namespace InGameEvents
 			}
 		}
 
-		private void SetAsAntagSurvivor(ConnectedPlayer player)
+		private void SetAsAntagSurvivor(PlayerInfo player)
 		{
 			Chat.AddExamineMsgFromServer(player, $"<color=red><size={ChatTemplates.VeryLargeText}>You are the survivalist!</size></color>");
 			AntagManager.Instance.ServerFinishAntag(survivorAntag, player);

@@ -33,7 +33,7 @@ namespace UI
 		/// </summary>
 		public void OxygenSelect()
 		{
-			if (PlayerManager.LocalPlayer == null) return;
+			if (PlayerManager.LocalPlayerObject == null) return;
 			if (PlayerManager.LocalPlayerScript.playerHealth.IsCrit) return;
 
 			_ = SoundManager.Play(CommonSounds.Instance.Click01);

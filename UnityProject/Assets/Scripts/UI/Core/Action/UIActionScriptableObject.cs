@@ -17,7 +17,7 @@ public class UIActionScriptableObject : ScriptableObject, IServerActionGUI
 		//Remember if its networked do validationNot just
 	}
 
-	public virtual void CallActionServer(ConnectedPlayer SentByPlayer)
+	public virtual void CallActionServer(PlayerInfo SentByPlayer)
 	{
 		Logger.Log("CallActionServer SO", Category.UserInput);
 		//Validation

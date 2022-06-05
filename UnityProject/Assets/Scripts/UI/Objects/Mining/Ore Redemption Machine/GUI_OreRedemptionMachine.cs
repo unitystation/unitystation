@@ -40,7 +40,7 @@ namespace UI.Objects.Cargo
 			laborPointsLabel.SetValueServer($"Unclaimed points: {laborPoints.ToString()}");
 		}
 
-		public void ClaimLaborPoints(ConnectedPlayer connectedPlayer)
+		public void ClaimLaborPoints(PlayerInfo connectedPlayer)
 		{
 			oreRedemptionMachine.ClaimLaborPoints(connectedPlayer.GameObject);
 		}

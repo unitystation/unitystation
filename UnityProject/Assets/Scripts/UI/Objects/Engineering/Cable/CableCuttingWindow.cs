@@ -435,7 +435,7 @@ public class CableCuttingWindow : MonoBehaviour
 		// create  message
 		CableCuttingMessage message = new CableCuttingMessage()
 		{
-			performer = PlayerManager.LocalPlayer,
+			performer = PlayerManager.LocalPlayerObject,
 			targetWorldPosition = targetWorldPosition,
 			Name = Name,
 			TileType = TileType

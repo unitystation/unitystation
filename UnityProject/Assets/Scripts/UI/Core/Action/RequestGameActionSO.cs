@@ -13,7 +13,7 @@ public class RequestGameActionSO : ClientMessage<RequestGameActionSO.NetMessage>
 
 	public override void Process(NetMessage msg)
 	{
-		if (SentByPlayer != ConnectedPlayer.Invalid)
+		if (SentByPlayer != PlayerInfo.Invalid)
 		{
 			UIActionSOSingleton.Instance.ActionCallServer(msg.soID, SentByPlayer);
 		}

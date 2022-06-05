@@ -60,7 +60,7 @@ namespace Items.Magical
 		{
 			if (spellEntry.Cost > Points) return;
 
-			ConnectedPlayer player = GetLastReader();
+			PlayerInfo player = GetLastReader();
 
 			int currentSpellTier = GetReaderSpellLevel(spellEntry.Spell);
 			if (currentSpellTier < spellEntry.Spell.TierCount)
@@ -77,7 +77,7 @@ namespace Items.Magical
 			}
 		}
 
-		private void LearnSpell(ConnectedPlayer player, SpellBookSpell spellEntry)
+		private void LearnSpell(PlayerInfo player, SpellBookSpell spellEntry)
 		{
 			points -= spellEntry.Cost;
 
@@ -125,7 +125,7 @@ namespace Items.Magical
 		{
 			if (ritualEntry.Cost > Points) return;
 
-			ConnectedPlayer player = GetLastReader();
+			PlayerInfo player = GetLastReader();
 
 			if (ritualEntry.InvocationMessage != default)
 			{
@@ -171,7 +171,7 @@ namespace Items.Magical
 
 		#endregion Interaction
 
-		private bool IsWizard(ConnectedPlayer player)
+		private bool IsWizard(PlayerInfo player)
 		{
 			return player.Script.mind.IsOfAntag<Antagonists.Wizard>();
 		}
@@ -204,7 +204,7 @@ namespace Items.Magical
 		/// <summary>
 		/// Gets the latest player to interact with tab.
 		/// </summary>
-		public ConnectedPlayer GetLastReader()
+		public PlayerInfo GetLastReader()
 		{
 			return netTab.LastInteractedPlayer().Player();
 		}

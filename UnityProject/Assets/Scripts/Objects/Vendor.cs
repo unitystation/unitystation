@@ -144,7 +144,7 @@ namespace Objects
 			}
 		}
 
-		private bool CanSell(VendorItem itemToSpawn, ConnectedPlayer player)
+		private bool CanSell(VendorItem itemToSpawn, PlayerInfo player)
 		{
 			// check if selected item is valid
 			var isSelectionValid = itemToSpawn != null && itemToSpawn.Stock > 0;
@@ -213,7 +213,7 @@ namespace Objects
 		/// <summary>
 		/// Try spawn vending item and reduce items count in stock
 		/// </summary>
-		public void TryVendItem(VendorItem vendorItem, ConnectedPlayer player = null)
+		public void TryVendItem(VendorItem vendorItem, PlayerInfo player = null)
 		{
 			if (vendorItem == null)
 			{

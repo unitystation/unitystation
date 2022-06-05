@@ -13,11 +13,11 @@ namespace Messages.Client.SpriteMessages
 		public override void Process(NetMessage msg)
 		{
 			LoadNetworkObject(msg.SpriteHandlerManager);
-			if (SentByPlayer == ConnectedPlayer.Invalid)
+			if (SentByPlayer == PlayerInfo.Invalid)
 				return;
 
 		LoadNetworkObject(msg.SpriteHandlerManager);
-		if (SentByPlayer == ConnectedPlayer.Invalid)
+		if (SentByPlayer == PlayerInfo.Invalid)
 			return;
 		//TODO Need some safeguards
 		NetworkObject.GetComponent<SpriteHandlerManager>().UpdateNewPlayer(SentByPlayer.Connection);

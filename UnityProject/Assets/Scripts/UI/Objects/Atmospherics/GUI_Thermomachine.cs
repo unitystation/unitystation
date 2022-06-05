@@ -17,7 +17,7 @@ namespace UI.Objects.Atmospherics
 		private HeaterFreezer heaterFreezer;
 		private HeaterFreezer HeaterFreezer => heaterFreezer ??= Provider.GetComponent<HeaterFreezer>();
 
-		public void OnTabOpenedHandler(ConnectedPlayer connectedPlayer)
+		public void OnTabOpenedHandler(PlayerInfo connectedPlayer)
 		{
 			var state = HeaterFreezer.ApcPoweredDevice.State == PowerState.Off ? "No Power" :
 				HeaterFreezer.IsOn ? "On" : "Off";

@@ -111,7 +111,7 @@ namespace Systems.Teleport
 		/// <returns>TeleportInfo, with name, position and object</returns>
 		public static IEnumerable<TeleportInfo> GetCameraDestinations()
 		{
-			if (PlayerManager.LocalPlayer.TryGetComponent<AiPlayer>(out var aiPlayer) == false) yield break;
+			if (PlayerManager.LocalPlayerObject.TryGetComponent<AiPlayer>(out var aiPlayer) == false) yield break;
 
 			var securityCameras = UnityEngine.Object.FindObjectsOfType<SecurityCamera>();
 
@@ -146,7 +146,7 @@ namespace Systems.Teleport
 		/// <returns>TeleportInfo, with name, position and object</returns>
 		public static IEnumerable<TeleportInfo> GetCameraTrackPlayerDestinations()
 		{
-			if (PlayerManager.LocalPlayer.TryGetComponent<AiPlayer>(out var aiPlayer) == false) yield break;
+			if (PlayerManager.LocalPlayerObject.TryGetComponent<AiPlayer>(out var aiPlayer) == false) yield break;
 
 			//Check for players
 			var playerScripts = UnityEngine.Object.FindObjectsOfType<PlayerScript>();
@@ -186,7 +186,7 @@ namespace Systems.Teleport
 		public static void TeleportLocalGhostTo(TeleportInfo teleportInfo)
 		{
 			var latestPosition = teleportInfo.gameObject.transform.position;
-			var playerPosition = PlayerManager.LocalPlayer.gameObject.GetComponent<RegisterTile>().WorldPosition;//Finds current player coords
+			var playerPosition = PlayerManager.LocalPlayerObject.GetComponent<RegisterTile>().WorldPosition;//Finds current player coords
 
 			if (latestPosition != playerPosition)//Spam Prevention
 			{

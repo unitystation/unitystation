@@ -137,10 +137,10 @@ namespace UI
 		{
 			_ = SoundManager.Play(CommonSounds.Instance.Click01);
 
-			if (PlayerManager.PlayerScript == null) return;
-			if (PlayerManager.PlayerScript.playerNetworkActions == null) return;
+			if (PlayerManager.LocalPlayerScript == null) return;
+			if (PlayerManager.LocalPlayerScript.playerNetworkActions == null) return;
 
-			PlayerManager.PlayerScript.playerNetworkActions.CmdInitiateRestartVote();
+			PlayerManager.LocalPlayerScript.playerNetworkActions.CmdInitiateRestartVote();
 
 			CloseMenuPanel();
 		}
@@ -149,10 +149,10 @@ namespace UI
 		{
 			_ = SoundManager.Play(CommonSounds.Instance.Click01);
 
-			if (PlayerManager.PlayerScript == null) return;
-			if (PlayerManager.PlayerScript.playerNetworkActions == null) return;
+			if (PlayerManager.LocalPlayerScript == null) return;
+			if (PlayerManager.LocalPlayerScript.playerNetworkActions == null) return;
 
-			PlayerManager.PlayerScript.playerNetworkActions.CmdInitiateMapVote();
+			PlayerManager.LocalPlayerScript.playerNetworkActions.CmdInitiateMapVote();
 
 			CloseMenuPanel();
 		}
@@ -161,10 +161,10 @@ namespace UI
 		{
 			_ = SoundManager.Play(CommonSounds.Instance.Click01);
 
-			if (PlayerManager.PlayerScript == null) return;
-			if (PlayerManager.PlayerScript.playerNetworkActions == null) return;
+			if (PlayerManager.LocalPlayerScript == null) return;
+			if (PlayerManager.LocalPlayerScript.playerNetworkActions == null) return;
 
-			PlayerManager.PlayerScript.playerNetworkActions.CmdInitiateGameModeVote();
+			PlayerManager.LocalPlayerScript.playerNetworkActions.CmdInitiateGameModeVote();
 
 			CloseMenuPanel();
 		}

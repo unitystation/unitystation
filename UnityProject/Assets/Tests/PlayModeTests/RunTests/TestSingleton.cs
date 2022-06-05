@@ -73,7 +73,7 @@ namespace GameRunTests
 
 			foreach (var Test in Tests)
 			{
-				while (PlayerManager.LocalPlayer == null)
+				while (PlayerManager.LocalPlayerObject == null)
 				{
 					yield return null;
 				}

@@ -40,7 +40,7 @@ public class RequestGameAction : ClientMessage<RequestGameAction.NetMessage>
 		var type = componentIDToComponentType[msg.ComponentID];
 		LoadNetworkObject(msg.NetObject);
 
-		if (SentByPlayer != ConnectedPlayer.Invalid)
+		if (SentByPlayer != PlayerInfo.Invalid)
 		{
 			var IActionGUIs = NetworkObject.GetComponentsInChildren(type);
 			if (IActionGUIs.Length > msg.ComponentLocation)

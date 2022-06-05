@@ -14,7 +14,7 @@ namespace Systems.Spells.Wizard
 		[SerializeField]
 		private GameObject projectilePrefab = default;
 
-		public override bool CastSpellServer(ConnectedPlayer caster, Vector3 clickPosition)
+		public override bool CastSpellServer(PlayerInfo caster, Vector3 clickPosition)
 		{
 			Vector3Int casterWorldPos = caster.Script.WorldPos;
 			Vector2 castVector = clickPosition - casterWorldPos;

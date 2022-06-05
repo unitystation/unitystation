@@ -103,7 +103,7 @@ namespace UI.Objects.Booze
 			UpdateAll();
 		}
 
-		public void EjectContainer(ConnectedPlayer player)
+		public void EjectContainer(PlayerInfo player)
 		{
 			if (BoozeDispenser.Container != null)
 			{

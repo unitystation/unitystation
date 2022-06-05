@@ -319,6 +319,6 @@ namespace UI.Core.NetUI
 			}
 		}
 
-		public override void ExecuteServer(ConnectedPlayer subject) { }
+		public override void ExecuteServer(PlayerInfo subject) { }
 	}
 }

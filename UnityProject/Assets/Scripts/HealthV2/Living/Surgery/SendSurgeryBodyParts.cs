@@ -31,7 +31,7 @@ public class SendSurgeryBodyParts : ServerMessage<SendSurgeryBodyParts.NetMessag
 
     }
 
-    public static NetMessage SendTo(List<BodyPart> BodyParts, Dissectible InDissectible ,  ConnectedPlayer Player)
+    public static NetMessage SendTo(List<BodyPart> BodyParts, Dissectible InDissectible ,  PlayerInfo Player)
     {
 
 	    List<uint> NetIDs = new List<uint>();

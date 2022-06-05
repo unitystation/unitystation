@@ -259,7 +259,7 @@ namespace HealthV2
 
 		}
 
-		public void SendClientBodyParts(ConnectedPlayer SentByPlayer, BodyPartType inTargetBodyPart = BodyPartType.None)
+		public void SendClientBodyParts(PlayerInfo SentByPlayer, BodyPartType inTargetBodyPart = BodyPartType.None)
 		{
 			if (currentlyOn == null)
 			{

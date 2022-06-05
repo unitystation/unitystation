@@ -26,7 +26,7 @@ namespace Player
 
 		public string STUnverifiedClientId;
 		public string STVerifiedUserid;
-		public ConnectedPlayer STVerifiedConnPlayer;
+		public PlayerInfo STVerifiedConnPlayer;
 
 		public override void OnStartLocalPlayer()
 		{
@@ -105,7 +105,7 @@ namespace Player
 				unverifiedClientId, unverifiedUsername);
 
 			// Register player to player list (logging code exists in PlayerList so no need for extra logging here)
-			var unverifiedConnPlayer = PlayerList.Instance.AddOrUpdate(new ConnectedPlayer
+			var unverifiedConnPlayer = PlayerList.Instance.AddOrUpdate(new PlayerInfo
 			{
 				Connection = connectionToClient,
 				GameObject = gameObject,
@@ -351,7 +351,7 @@ namespace Player
 		[Command]
 		private void CmdPlayerReady(bool isReady, string jsonCharSettings)
 		{
-			var player = PlayerList.Instance.GetByConnection(connectionToClient);
+			var player = PlayerList.Instance.GetOnline(connectionToClient);
 
 			CharacterSettings charSettings = null;
 			if (isReady)

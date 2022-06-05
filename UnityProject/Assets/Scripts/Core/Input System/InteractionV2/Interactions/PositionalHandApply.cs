@@ -46,10 +46,10 @@ public class PositionalHandApply : HandApply
 			return Invalid;
 		}
 
-		var targePosition = IntargePosition ?? MouseUtils.MouseToWorldPos().ToLocal(PlayerManager.LocalPlayer.RegisterTile().Matrix);
+		var targePosition = IntargePosition ?? MouseUtils.MouseToWorldPos().ToLocal(PlayerManager.LocalPlayerObject.RegisterTile().Matrix);
 
 		return new PositionalHandApply(
-				PlayerManager.LocalPlayer,
+				PlayerManager.LocalPlayerObject,
 				PlayerManager.LocalPlayerScript.DynamicItemStorage.GetActiveHandSlot()?.ItemObject,
 				targetObject,
 				targePosition,

@@ -45,7 +45,7 @@ public class HandApply : BodyPartTargetedInteraction
 			//hand apply never works when local player
 			return HandApply.Invalid;
 		}
-		return new HandApply(PlayerManager.LocalPlayer,
+		return new HandApply(PlayerManager.LocalPlayerObject,
 			PlayerManager.LocalPlayerScript.DynamicItemStorage.GetActiveHandSlot()?.ItemObject,
 			targetObject,
 			UIManager.DamageZone,

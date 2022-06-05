@@ -91,7 +91,7 @@ public class ProgressBar : MonoBehaviour
 		this.progressAction = progressAction;
 		id = GetInstanceID();
 
-		if (startInfo.Performer != PlayerManager.LocalPlayer)
+		if (startInfo.Performer != PlayerManager.LocalPlayerObject)
 		{
 			//server should not see clients progress bar
 			spriteRenderer.enabled = false;
@@ -192,7 +192,7 @@ public class ProgressBar : MonoBehaviour
 			return;
 		}
 
-		if (registerPlayer != null && registerPlayer.gameObject != PlayerManager.LocalPlayer)
+		if (registerPlayer != null && registerPlayer.gameObject != PlayerManager.LocalPlayerObject)
 		{
 			//this is for server's copy of client's progress bar -
 			//server should not render clients progress bar
@@ -269,7 +269,7 @@ public class ProgressBar : MonoBehaviour
 	{
 		done = true;
 		//Notify player to turn off progress bar:
-		if (PlayerManager.LocalPlayer == registerPlayer.gameObject)
+		if (PlayerManager.LocalPlayerObject == registerPlayer.gameObject)
 		{
 			//server player's bar, just destroy it
 			DestroyProgressBar();

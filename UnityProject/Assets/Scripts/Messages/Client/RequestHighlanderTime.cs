@@ -7,7 +7,8 @@ namespace Messages.Client
 	{
 		public struct NetMessage : NetworkMessage
 		{
-			public ConnectedPlayer ConnectedPlayer;
+			// TODO: don't send whole class objects (GC issues and PlayerInfo is not tiny)
+			public PlayerInfo ConnectedPlayer;
 		}
 
 		public override void Process(NetMessage msg)
@@ -15,7 +16,7 @@ namespace Messages.Client
 			HighlanderTimerMessage.Send(msg.ConnectedPlayer);
 		}
 
-		public static NetMessage Send(ConnectedPlayer player)
+		public static NetMessage Send(PlayerInfo player)
 		{
 			var msg = new NetMessage
 			{

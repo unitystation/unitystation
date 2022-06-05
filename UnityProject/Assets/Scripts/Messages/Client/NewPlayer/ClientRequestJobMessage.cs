@@ -43,7 +43,7 @@ namespace Messages.Client.NewPlayer
 
 		private bool ValidateMessage(NetMessage msg)
 		{
-			if (SentByPlayer == null || SentByPlayer.Equals(ConnectedPlayer.Invalid))
+			if (SentByPlayer == null || SentByPlayer.Equals(PlayerInfo.Invalid))
 			{
 				Logger.LogError($"Cannot process {nameof(ClientRequestJobMessage)}: {nameof(SentByPlayer)} is null!", Category.Jobs);
 				return false;

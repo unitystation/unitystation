@@ -566,7 +566,7 @@ public static class Inventory
 	public static void ClientRequestTransfer(ItemSlot from, ItemSlot to)
 	{
 		if (!Validations.CanPutItemToSlot(PlayerManager.LocalPlayerScript, to, from.Item,
-			NetworkSide.Client, PlayerManager.LocalPlayer, examineRecipient: PlayerManager.LocalPlayer))
+			NetworkSide.Client, PlayerManager.LocalPlayerObject, examineRecipient: PlayerManager.LocalPlayerObject))
 		{
 			Logger.LogTraceFormat("Client cannot request transfer from {0} to {1} because" +
 			                      " validation failed.", Category.Inventory,

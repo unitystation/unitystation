@@ -51,7 +51,7 @@ namespace UI.Objects
 			}
 		}
 
-		public void OnVendItemButtonPressed(ConnectedPlayer player)
+		public void OnVendItemButtonPressed(PlayerInfo player)
 		{
 			if (vendorItem == null || vendorWindow == null) return;
 

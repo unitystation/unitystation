@@ -57,10 +57,10 @@ namespace AdminCommands
 		/// </summary>
 		/// <param name="sender">The client which sends the command, this is populated by mirror so doesnt need to be manually
 		/// put in the parameters when calling the commands</param>
-		public static bool IsAdmin(NetworkConnection sender, out ConnectedPlayer player, bool logFailure = true)
+		public static bool IsAdmin(NetworkConnection sender, out PlayerInfo player, bool logFailure = true)
 		{
-			player = PlayerList.Instance.GetByConnection(sender);
-			if (PlayerList.Instance.IsAdmin(player) == false)
+			player = PlayerList.Instance.GetOnline(sender);
+			if (player.IsAdmin == false)
 			{
 				if (logFailure)
 				{
@@ -307,17 +307,20 @@ namespace AdminCommands
 		{
 			if (IsAdmin(sender, out var admin) == false) return;
 
-			foreach (ConnectedPlayer player in PlayerList.Instance.GetAllByUserID(userToSmite))
+			if (PlayerList.Instance.TryGetByUserID(userToSmite, out var player) == false)
 			{
-				if (player?.Script == null || player.Script.IsGhost || player.Script.playerHealth == null) continue;
-
-				string message = $"{admin.Username}: Smited Username: {player.Username} ({player.Name})";
-				Logger.Log(message, Category.Admin);
-
-				LogAdminAction(message);
-
-				player.Script.playerHealth.Gib();
+				Logger.LogError($"{admin.Username} tried to smite a player with user ID '{userToSmite}' but they couldn't be found.");
+				return;
 			}
+
+			if (player?.Script == null || player.Script.IsGhost || player.Script.playerHealth == null) return;
+
+			string message = $"{admin.Username}: Smited Username: {player.Username} ({player.Name})";
+			Logger.Log(message, Category.Admin);
+
+			LogAdminAction(message);
+
+			player.Script.playerHealth.Gib();
 		}
 
 		/// <summary>
@@ -332,28 +335,31 @@ namespace AdminCommands
 		{
 			if (IsAdmin(sender, out var admin) == false) return;
 
-			foreach (ConnectedPlayer player in PlayerList.Instance.GetAllByUserID(userToHeal))
+			if (PlayerList.Instance.TryGetByUserID(userToHeal, out var player) == false)
 			{
-				//get player stuff.
-				PlayerScript playerScript = player.Script;
-				Mind playerMind = playerScript.mind;
-				var playerBody = playerMind.body;
-				string message;
-
-				//Does this player have a body that can be healed?
-				if (playerBody != null && playerBody.TryGetComponent<IFullyHealable>(out var healable))
-				{
-					healable.FullyHeal();
-					message = $"{admin.Username}: Healed up Username: {player.Username} ({player.Name})";
-				}
-				else
-				{
-					message = $"{admin.Username}: Attempted healing {player.Username} but they had no body!";
-				}
-				//Log what we did.
-				Logger.Log(message, Category.Admin);
-				LogAdminAction(message);
+				Logger.LogError($"Could not find player with user ID '{userToHeal}'. Unable to heal.", Category.Admin);
+				return;
 			}
+	
+			//get player stuff.
+			PlayerScript playerScript = player.Script;
+			Mind playerMind = playerScript.mind;
+			var playerBody = playerMind.body;
+			string message;
+
+			//Does this player have a body that can be healed?
+			if (playerBody != null && playerBody.TryGetComponent<IFullyHealable>(out var healable))
+			{
+				healable.FullyHeal();
+				message = $"{admin.Username}: Healed up Username: {player.Username} ({player.Name})";
+			}
+			else
+			{
+				message = $"{admin.Username}: Attempted healing {player.Username} but they had no body!";
+			}
+			//Log what we did.
+			Logger.Log(message, Category.Admin);
+			LogAdminAction(message);
 		}
 
 		#endregion
@@ -464,7 +470,12 @@ namespace AdminCommands
 
 			PlayerList.Instance.TryAddMentor(userToUpgrade, isPermanent);
 
-			var player = PlayerList.Instance.GetByUserID(userToUpgrade);
+			if (PlayerList.Instance.TryGetByUserID(userToUpgrade, out var player) == false)
+			{
+				Logger.LogWarning($"{admin.Username} has set user with ID '{userToUpgrade}' "
+						+ "as mentor but they could not be found!", Category.Admin);
+				return;
+			}
 
 			LogAdminAction($"{admin.Username}: Gave {player.Username} {(isPermanent ? "permanent" : "temporary")} Mentor");
 		}
@@ -476,7 +487,12 @@ namespace AdminCommands
 
 			PlayerList.Instance.TryRemoveMentor(userToDowngrade);
 
-			var player = PlayerList.Instance.GetByUserID(userToDowngrade);
+			if (PlayerList.Instance.TryGetByUserID(userToDowngrade, out var player) == false)
+			{
+				Logger.LogWarning($"{admin.Username} has unset user with ID '{userToDowngrade}' "
+						+ "as mentor but they could not be found!", Category.Admin);
+				return;
+			}
 
 			LogAdminAction($"{admin.Username}: Removed {player.Username} mentor");
 		}

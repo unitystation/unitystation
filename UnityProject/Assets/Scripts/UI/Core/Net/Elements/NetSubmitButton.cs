@@ -24,7 +24,7 @@ namespace UI.Core.NetUI
 		public StringEvent ServerMethod;
 		public InputField SourceInputField;
 
-		public override void ExecuteServer(ConnectedPlayer subject)
+		public override void ExecuteServer(PlayerInfo subject)
 		{
 			ServerMethod.Invoke(Value);
 		}

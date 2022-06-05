@@ -111,7 +111,7 @@ namespace Antagonists
 		{
 			if (Owner.body.DynamicItemStorage == null)
 			{
-				Logger.LogError($"Unable to find dynamic storage for {Owner.body} / {Owner.body.connectedPlayer.Username}");
+				Logger.LogError($"Unable to find dynamic storage for {Owner.body} / {Owner.body.PlayerInfo.Username}");
 				//If they have no storage then fail, as they can't have the item
 				return false;
 			}

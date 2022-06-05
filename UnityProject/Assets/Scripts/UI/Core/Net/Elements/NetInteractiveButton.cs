@@ -37,7 +37,7 @@ namespace UI.Core.NetUI
 		public Selectable Element => element ??= GetComponent<Selectable>();
 		private Selectable element;
 
-		public override void ExecuteServer(ConnectedPlayer subject)
+		public override void ExecuteServer(PlayerInfo subject)
 		{
 			ServerMethod.Invoke();
 		}

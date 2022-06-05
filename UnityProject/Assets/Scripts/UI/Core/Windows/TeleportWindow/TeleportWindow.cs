@@ -47,7 +47,7 @@ namespace UI.Core.Windows
 		public void ButtonClicked(TeleportInfo info)
 		{
 			onTeleportRequested?.Invoke(info);
-			if (PlayerManager.LocalPlayer.TryGetComponent<GhostOrbit>(out var orbit) == false) return;
+			if (PlayerManager.LocalPlayerObject.TryGetComponent<GhostOrbit>(out var orbit) == false) return;
 			orbit.CmdStopOrbiting();
 			if (OrbitOnTeleport == false) return;
 			orbit.CmdServerOrbit(info.gameObject);

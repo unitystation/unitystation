@@ -2,11 +2,11 @@ namespace Systems.Spells
 {
 	public class MimeWall : Spell
 	{
-		protected override string FormatInvocationMessage(ConnectedPlayer caster, string modPrefix)
+		protected override string FormatInvocationMessage(PlayerInfo caster, string modPrefix)
 		{
 			return string.Format(SpellData.InvocationMessage, caster.Name, caster.CharacterSettings.ThemPronoun(caster.Script));
 		}
-		public override bool ValidateCast(ConnectedPlayer caster)
+		public override bool ValidateCast(PlayerInfo caster)
 		{
 			if (!base.ValidateCast(caster))
 			{

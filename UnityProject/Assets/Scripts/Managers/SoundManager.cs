@@ -409,15 +409,15 @@ public class SoundManager : MonoBehaviour
 	/// <param name="mixerType">The type of mixer to use</param>
 	private void PlaySource(SoundSpawn source, bool polyphonic = false, bool global = true, MixerType mixerType = MixerType.Master)
 	{
-		if (global == false && PlayerManager.LocalPlayer != null)
+		if (global == false && PlayerManager.LocalPlayerObject != null)
 		{
-			if ( ((PlayerManager.LocalPlayer.TileWorldPosition().To3Int() - source.transform.position.To2Int().To3Int()).magnitude > 20 ))
+			if ( ((PlayerManager.LocalPlayerObject.TileWorldPosition().To3Int() - source.transform.position.To2Int().To3Int()).magnitude > 20 ))
 			{
 				source.AudioSource.outputAudioMixerGroup = AudioManager.Instance.SFXMuffledMixer; //Maybe just not play?
 			}
 			else
 			{
-				if (MatrixManager.Linecast(PlayerManager.LocalPlayer.TileWorldPosition().To3Int(),
+				if (MatrixManager.Linecast(PlayerManager.LocalPlayerObject.TileWorldPosition().To3Int(),
 						LayerTypeSelection.Walls, layerMask, source.transform.position.To2Int().To3Int())
 					.ItHit)
 				{

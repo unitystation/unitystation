@@ -29,7 +29,7 @@ namespace UI
 
 		public void Rejoin()
 		{
-			RequestHighlanderTime.Send(PlayerManager.PlayerScript.connectedPlayer);
+			RequestHighlanderTime.Send(PlayerManager.LocalPlayerScript.PlayerInfo);
 		}
 
 		public void Show(float time)

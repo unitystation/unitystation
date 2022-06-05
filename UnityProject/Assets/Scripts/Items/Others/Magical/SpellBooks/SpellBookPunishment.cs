@@ -8,6 +8,6 @@ namespace Items.Magical
 	/// </summary>
 	public abstract class SpellBookPunishment : MonoBehaviour
 	{
-		public abstract void Punish(ConnectedPlayer player);
+		public abstract void Punish(PlayerInfo player);
 	}
 }

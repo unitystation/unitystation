@@ -120,7 +120,7 @@ namespace UI.Objects.Atmospherics.Acu
 			}
 		}
 
-		private void TabOpened(ConnectedPlayer newPeeper = default)
+		private void TabOpened(PlayerInfo newPeeper = default)
 		{
 			SetPage(ValidatePage(requestedPage));
 
@@ -131,7 +131,7 @@ namespace UI.Objects.Atmospherics.Acu
 			if (IsAIInteracting()) Acu.IsLocked = false;
 		}
 
-		private void TabClosed(ConnectedPlayer oldPeeper = default)
+		private void TabClosed(PlayerInfo oldPeeper = default)
 		{
 			// Remove listeners when unobserved (old peeper has not yet been removed).
 			if (Peepers.Count <= 1)

@@ -81,13 +81,13 @@ public class ConnectionApply : TargetedInteraction
 		}
 		else
 		{
-			targetVec = MouseUtils.MouseToWorldPos().ToLocal(PlayerManager.LocalPlayer.RegisterTile().Matrix);
+			targetVec = MouseUtils.MouseToWorldPos().ToLocal(PlayerManager.LocalPlayerObject.RegisterTile().Matrix);
 		}
 
 
 
 		return new ConnectionApply(
-			PlayerManager.LocalPlayer,
+			PlayerManager.LocalPlayerObject,
 			PlayerManager.LocalPlayerScript.DynamicItemStorage.GetActiveHandSlot().ItemObject,
 			targetObject,
 			wireEndA,

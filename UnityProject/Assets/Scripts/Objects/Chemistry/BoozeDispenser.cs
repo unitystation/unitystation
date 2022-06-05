@@ -38,7 +38,7 @@ namespace Chemistry
 			}
 		}
 
-		private ItemSlot GetBestSlot(GameObject item, ConnectedPlayer subject)
+		private ItemSlot GetBestSlot(GameObject item, PlayerInfo subject)
 		{
 			if (subject == null)
 			{
@@ -60,7 +60,7 @@ namespace Chemistry
 		/// Ejects input container from ChemMaster into best slot available and clears the buffer
 		/// </summary>
 		/// <param name="subject"></param>
-		public void EjectContainer(ConnectedPlayer subject)
+		public void EjectContainer(PlayerInfo subject)
 		{
 			var bestSlot = GetBestSlot(itemSlot.ItemObject, subject);
 
