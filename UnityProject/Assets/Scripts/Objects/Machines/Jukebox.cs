@@ -81,7 +81,6 @@ namespace Objects
 		private float startPlayTime;
 		private bool secondLoadAttempt;
 		[SyncVar] private bool actionNotDone = false;
-		[SerializeField] private int jukeboxSoundID = 955;
 
 		public bool IsPlaying { get; set; } = false;
 
@@ -193,7 +192,7 @@ namespace Objects
 				SoundManager.StopNetworked(guid);
 				IsPlaying = true;
 				spriteHandler.SetSpriteSO(SpritePlaying);
-				guid  = await SoundManager.PlayNetworkedAtPosAsync(musics[currentSongTrackIndex], registerTile.WorldPositionServer, audioSourceParameters, false, true, sourceObj: gameObject, soundID: jukeboxSoundID);
+				guid  = await SoundManager.PlayNetworkedAtPosAsync(musics[currentSongTrackIndex], registerTile.WorldPositionServer, audioSourceParameters, false, true, sourceObj: gameObject);
 				startPlayTime = Time.time;
 				UpdateGUI();
 			}
@@ -208,7 +207,7 @@ namespace Objects
 			else
 				spriteHandler.SetSpriteSO(SpriteDamaged);
 
-			await Task.Run(() => WaitForActionToFinish(() => SoundManager.StopNetworked(guid, jukeboxSoundID)));
+			await Task.Run(() => WaitForActionToFinish(() => SoundManager.StopNetworked(guid)));
 
 			UpdateGUI();
 		}
