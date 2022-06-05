@@ -14,13 +14,10 @@ namespace Systems.Research.Objects
 {
 	public class ResearchServer : NetworkBehaviour, IMultitoolMasterable, ICheckedInteractable<HandApply>
 	{
-		//TODO: PLACE HOLDER UNTIL WE GET A TECHWEB EDITOR OF SOME SORT
-		[SerializeField] private DefaultTechwebData defaultTechwebData;
-		//TODO : PLACEHOLDER, THIS PATH MUST BE ASSIGNED ON THE CIRCUIT/DISK INSTEAD OF ON THE SERVER PREFAB
-		[SerializeField] private string techWebPath = "/GameData/Research/";
-		[SerializeField] private string techWebFileName = "TechwebData.json";
 		[SerializeField] private int researchPointsTrickl = 25;
 		[SerializeField] private int TrickleTime = 60; //seconds
+
+		private ItemStorage diskStorage;
 
 		public List<string> AvailableDesigns = new List<string>();
 
@@ -29,14 +26,6 @@ namespace Systems.Research.Objects
 		//Only send signals to the Research Server when issuing commands and changing values, not reading the data everytime we access it.
 		private Techweb techweb = new Techweb();
 		private bool isScrewed = true;
-
-		private void Awake()
-		{
-			if (File.Exists($"{techWebPath}{techWebFileName}") == false) defaultTechwebData.GenerateDefaultData();
-			techweb.LoadTechweb($"{techWebPath}{techWebFileName}");
-			StartCoroutine(TrickleResources());
-			UpdateAvailableDesigns();
-		}
 
 		private void Start()
 		{
@@ -55,7 +44,11 @@ namespace Systems.Research.Objects
 			else
 			{
 				Logger.LogError("Could not find correct disk to hold Techweb data!!");
+				return;
 			}
+
+			StartCoroutine(TrickleResources());
+			UpdateAvailableDesigns();
 		}
 
 		private void OnDisable()
@@ -96,7 +89,7 @@ namespace Systems.Research.Objects
 
 			AvailableDesigns = availableDesigns;
 
-			return AvailableDesigns; 
+			return AvailableDesigns;
 		}
 		private IEnumerator TrickleResources()
 		{
