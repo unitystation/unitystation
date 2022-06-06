@@ -12,7 +12,7 @@ using Systems.ObjectConnection;
 
 namespace Systems.Research.Objects
 {
-	public class ResearchServer : NetworkBehaviour, IMultitoolMasterable, ICheckedInteractable<HandApply>
+	public class ResearchServer : NetworkBehaviour, IMultitoolMasterable
 	{
 		[SerializeField] private int researchPointsTrickl = 25;
 		[SerializeField] private int TrickleTime = 60; //seconds
@@ -25,7 +25,6 @@ namespace Systems.Research.Objects
 		//Keep a cached reference to the techweb so we dont spam the server with signal requests
 		//Only send signals to the Research Server when issuing commands and changing values, not reading the data everytime we access it.
 		private Techweb techweb = new Techweb();
-		private bool isScrewed = true;
 
 		private void Start()
 		{
@@ -130,30 +129,6 @@ namespace Systems.Research.Objects
 		public bool MultiMaster => true;
 		int IMultitoolMasterable.MaxDistance => int.MaxValue;
 
-		public bool WillInteract(HandApply interaction, NetworkSide side)
-		{
-			return false; //Techweb Server has no use for now so leave it like this until we're done work on it
-		}
-
 		#endregion
-
-		public void ServerPerformInteraction(HandApply interaction)
-		{
-			if (interaction.HandObject.Item().HasTrait(CommonTraits.Instance.Screwdriver))
-			{
-				isScrewed = !isScrewed;
-				var screwStatus = isScrewed ? "screw" : "unscrew";
-				Chat.AddExamineMsg(interaction.Performer, $"You {screwStatus} the {gameObject.ExpensiveName()}");
-				return;
-			}
-
-			if (isScrewed) return;
-			if (interaction.HandObject.TryGetComponent<HardDriveBase>(out var disk))
-			{
-				AddHardDisk(interaction.HandObject.PickupableOrNull().ItemSlot);
-				return;
-			}
-			RemoveHardDisk();
-		}
 	}
 }
