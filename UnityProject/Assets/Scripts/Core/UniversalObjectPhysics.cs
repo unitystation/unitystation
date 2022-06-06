@@ -388,6 +388,9 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 			return; //Storing something inside of itself what?
 		}
 
+		PullSet(null,false); //Presume you can't Pulling stuff inside container
+		//TODO Handle non-disappearing containers like Cart riding
+
 		if (NewParent == null)
 		{
 			parentContainer = NetId.Empty;
@@ -974,6 +977,8 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 
 	public void PullSet(UniversalObjectPhysics ToPull, bool ByClient, bool Synced = false)
 	{
+		if (ToPull != null && ContainedInContainer != null) return; //Can't pull stuff inside of objects)
+
 		if (isServer && Synced == false)
 			SynchroniseUpdatePulling(ThisPullData, new PullData() {NewPulling = ToPull, WasCausedByClient = ByClient});
 
@@ -1637,6 +1642,8 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 	[Command]
 	public void CmdPullObject(GameObject pullableObject)
 	{
+		if (ContainedInContainer != null) return;//Can't pull stuff inside of objects
+
 		if (pullableObject == null || pullableObject == this.gameObject) return;
 		var pullable = pullableObject.GetComponent<UniversalObjectPhysics>();
 		if (pullable == null || pullable.isNotPushable)
