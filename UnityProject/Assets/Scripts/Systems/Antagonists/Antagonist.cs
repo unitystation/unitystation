@@ -118,7 +118,7 @@ namespace Antagonists
 		public virtual GameObject ServerSpawn(PlayerSpawnRequest spawnRequest)
 		{
 			// spawn them normally but override the player-requested occupation with the antagonist occupation
-			return PlayerSpawn.ServerSpawnPlayer(spawnRequest, spawnRequest.JoinedViewer, AntagOccupation, spawnRequest.CharacterSettings, false);
+			return PlayerSpawn.ServerSpawnPlayer(spawnRequest, spawnRequest.Player.ViewerScript, AntagOccupation, spawnRequest.CharacterSettings, false);
 		}
 
 		/// <summary>

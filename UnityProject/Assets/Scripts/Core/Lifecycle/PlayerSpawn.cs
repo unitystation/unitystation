@@ -90,20 +90,18 @@ public static class PlayerSpawn
 		if (isOk == false)
 		{
 			message += " Please change and resave character.";
-			ValidateFail(request.JoinedViewer, request.UserID, message);
+			ValidateFail(request.Player, message);
 		}
 
 		return isOk;
 	}
 
-	private static void ValidateFail(JoinedViewer joinedViewer, string userId, string message)
+	private static void ValidateFail(PlayerInfo player, string message)
 	{
-		if (PlayerList.Instance.TryGetByUserID(userId, out var player) == false) return;
-
 		PlayerList.Instance.ServerKickPlayer(player, message);
-		if (joinedViewer.isServer || joinedViewer.isLocalPlayer)
+		if (player.ViewerScript.isServer || player.ViewerScript.isLocalPlayer)
 		{
-			joinedViewer.Spectate();
+			player.ViewerScript.Spectate();
 		}
 	}
 
@@ -116,7 +114,7 @@ public static class PlayerSpawn
 	/// <returns>the game object of the spawned player</returns>
 	public static GameObject ServerSpawnPlayer(PlayerSpawnRequest spawnRequest)
 	{
-		return ServerSpawnPlayer(spawnRequest, spawnRequest.JoinedViewer, spawnRequest.RequestedOccupation,
+		return ServerSpawnPlayer(spawnRequest, spawnRequest.Player.ViewerScript, spawnRequest.RequestedOccupation,
 			spawnRequest.CharacterSettings);
 	}
 
