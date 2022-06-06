@@ -49,17 +49,21 @@ namespace Tests.Scenes
 		public void APCsConnectedDevicesContainsValidReferences()
 		{
 			var sceneName = Scene.name;
-			foreach (var apc in RootObjects.ComponentsInChildren<APC>())
+			foreach (var apc in RootObjects.ComponentsInChildren<APC>().NotNull())
 			{
-				var apcName = apc.name;
-
 				foreach (var connectedDevice in apc.ConnectedDevices)
 				{
-					Report.FailIf(connectedDevice, Is.Null)
-						.AppendLine($"{sceneName}: \"{apcName}\" has a null value in the list.")
-						.MarkDirtyIfFailed()
-						.FailIf(connectedDevice.OrNull()?.RelatedAPC, Is.Not.EqualTo(apc))
-						.AppendLine($"{sceneName}: \"{apcName}\" is not assigned to \"{connectedDevice.name}\"");
+					if (connectedDevice == null)
+					{
+						Report.Fail()
+							.AppendLine($"{sceneName}: APC at \"{apc.transform.HierarchyName()}\" has a null value in the list.");
+						continue;
+					}
+
+					Report.FailIfNot(connectedDevice.RelatedAPC, Is.EqualTo(apc))
+						.Append($"{sceneName}: Device at \"{connectedDevice.transform.HierarchyName()}\" ")
+						.Append($"is not assigned to connected devices in APC at \"{apc.transform.HierarchyName()}\".")
+						.AppendLine();
 				}
 			}
 
