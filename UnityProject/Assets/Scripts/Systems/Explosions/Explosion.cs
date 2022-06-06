@@ -48,7 +48,7 @@ namespace Systems.Explosions
 		private bool InitialStep = true;
 
 		private ExplosionNode NodeType;
-		private ReagentMix ReagentsPerNode;
+		private ReagentMix ReagentsPerNode = new ReagentMix();
 
 		private bool IsAnyMatchingType(ExplosionNode[] expNodes, ExplosionNode nodeType)
 		{
@@ -143,6 +143,7 @@ namespace Systems.Explosions
 					if (IsMatchingType(expNode, NodeType))
 					{
 						expNode.AngleAndIntensity += GetXYDirection(Angle, ExplosionStrength);
+						expNode.Reagents = ReagentsPerNode.Clone();
 						expNode.PresentLines.Add(this);
 						ExplosionManager.CheckLocations.Add(expNode);
 					}

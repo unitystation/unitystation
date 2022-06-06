@@ -62,6 +62,8 @@ namespace Chemistry
 				reagentMix.Add(result.Key, reactionResult);
 			}
 
+			reagentMix.RemoveSmallerThan(0.000001); //to avoid those tiny leftovers of reagents which appear after reaction
+
 			foreach (var effect in effects)
 			{
 				if (effect != null)

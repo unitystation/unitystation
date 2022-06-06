@@ -40,9 +40,9 @@ namespace Systems.Explosions
 		public virtual ReagentMix Reagents
         {
 			get { return reagents; }
-            set { if (reagents == null && value != null) reagents = value; }
+            set { if (value != null) reagents = value; }
         }
-		private ReagentMix reagents;
+		private ReagentMix reagents = new ReagentMix();
 
 		public void Initialise(Vector3Int Loc, Matrix Inmatrix)
 		{

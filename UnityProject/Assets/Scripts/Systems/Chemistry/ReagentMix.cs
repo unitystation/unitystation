@@ -687,6 +687,20 @@ namespace Chemistry
 			return true;
 		}
 
+		public void RemoveSmallerThan(double minVal)
+        {
+            lock (reagents)
+            {
+				foreach (var reagent in reagents.m_dict)
+				{
+					if (reagent.Value < minVal)
+					{
+						reagents.m_dict.Remove(reagent.Key);
+					}
+				}
+			}
+        }
+
 		public override string ToString()
 		{
 			return "Temperature > " + Temperature + " reagents > " + "{" + string.Join(",", reagents.m_dict.Select(kv => kv.Key + "=" + kv.Value).ToArray()) + "}";

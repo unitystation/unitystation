@@ -18,7 +18,7 @@ namespace Chemistry
 		public ReagentMix Reagents
 		{
 			get { return reagents; }
-			set { if (reagents == null) reagents = value; SyncReagents(); }
+			set { if (value != null) reagents = value; SyncReagents(); }
 		}
 
 		private void SyncReagents()

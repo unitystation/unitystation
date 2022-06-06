@@ -25,6 +25,9 @@ namespace Chemistry.Effects
 		[Tooltip("Despawn container after reaction?")]
 		[SerializeField] private bool DespawnContainer = true;
 
+		[Tooltip("Use other reagents in container?")]
+		[SerializeField] private bool UseOtherReagents = true;
+
 		public override void Apply(MonoBehaviour sender, float amount)
 		{
 			// Following function uses the code from the Explosions file.
@@ -34,7 +37,12 @@ namespace Chemistry.Effects
 			RegisterObject registerObject = sender.GetComponent<RegisterObject>();
 			BodyPart bodyPart = sender.GetComponent<BodyPart>();
 			ExplosionNode node = ExplosionTypes.NodeTypes[explosionType];
-			ReagentMix otherReagents = sender.gameObject.GetComponent<ReagentContainer>().CurrentReagentMix; //used by smoke and foam
+			ReagentMix otherReagents = new ReagentMix();
+			if (UseOtherReagents)
+			{
+				otherReagents = sender.gameObject.GetComponent<ReagentContainer>().CurrentReagentMix.Clone();
+				sender.gameObject.GetComponent<ReagentContainer>().CurrentReagentMix.Clear();
+			}
 
 			bool insideBody = false;
 			if (bodyPart != null && bodyPart.HealthMaster != null)
