@@ -8,6 +8,7 @@
 		Muffled,
 		Ambient,
 		SoundFX,
+		JukeBox,
 		Music
 	}
 
