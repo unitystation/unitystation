@@ -142,15 +142,27 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 			{
 				if (CashedContainedInContainer == null)
 				{
-					CashedContainedInContainer =
-						NetworkIdentity.spawned[parentContainer].GetComponent<ObjectContainer>();
+					if (NetworkIdentity.spawned.TryGetValue(parentContainer, out var Net))
+					{
+						CashedContainedInContainer = Net.GetComponent<ObjectContainer>();
+					}
+					else
+					{
+						CashedContainedInContainer = null;
+					}
 				}
 				else
 				{
 					if (CashedContainedInContainer.registerTile.netId != parentContainer)
 					{
-						CashedContainedInContainer =
-							NetworkIdentity.spawned[parentContainer].GetComponent<ObjectContainer>();
+						if (NetworkIdentity.spawned.TryGetValue(parentContainer, out var Net))
+						{
+							CashedContainedInContainer = Net.GetComponent<ObjectContainer>();
+						}
+						else
+						{
+							CashedContainedInContainer = null;
+						}
 					}
 				}
 
@@ -179,6 +191,8 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 
 	[PrefabModeOnly] public bool stickyMovement = false;
 	//If this thing likes to grab onto stuff such as like a player
+
+	[PrefabModeOnly] public bool OnThrowEndResetRotation;
 
 	[PrefabModeOnly] public float maximumStickSpeed = 1.5f;
 	//Speed In tiles per second that, The thing would able to be stop itself if it was sticky
@@ -405,7 +419,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 		if (isServer) return;
 		if (PlayerManager.LocalPlayerObject == causedByClient) return;
 		if (PulledBy.HasComponent && overridePull == false) return;
-		
+
 		Pushing.Clear();
 		//Logger.LogError("ClientRpc Tile push for " + transform.name + " Direction " + WorldDirection.ToString());
 		SetMatrixCash.ResetNewPosition(transform.position, registerTile);
@@ -701,6 +715,13 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 
 	public void SetMatrix(Matrix movetoMatrix)
 	{
+		if (movetoMatrix == null) return;
+		if (registerTile == null)
+		{
+			Logger.LogError("null Register tile on " + this.name);
+			return;
+		}
+
 		var TransformCash = transform.position;
 		if (isServer)
 		{
@@ -1111,7 +1132,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 			return;
 		}
 
-		if (this == null)
+		if (this == null || transform == null)
 		{
 			MoveIsWalking = false;
 			IsMoving = false;
@@ -1442,6 +1463,11 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 			airTime = 0;
 			slideTime = 0;
 			OnThrowEnd.Invoke(this);
+			if (OnThrowEndResetRotation)
+			{
+				transform.localRotation = Quaternion.Euler(0, 0, 0);
+			}
+
 			UpdateManager.Remove(CallbackType.UPDATE, FlyingUpdateMe);
 		}
 
