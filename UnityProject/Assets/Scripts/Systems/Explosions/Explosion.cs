@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Chemistry;
 
 namespace Systems.Explosions
 {
@@ -47,6 +48,7 @@ namespace Systems.Explosions
 		private bool InitialStep = true;
 
 		private ExplosionNode NodeType;
+		private ReagentMix ReagentsPerNode;
 
 		private bool IsAnyMatchingType(ExplosionNode[] expNodes, ExplosionNode nodeType)
 		{
@@ -77,8 +79,14 @@ namespace Systems.Explosions
 			return -1;
 		}
 
-		public void SetUp(int X0, int Y0, int X1, int Y1, float InExplosionStrength, ExplosionNode nodeType)
+		public void SetUp(int X0, int Y0, int X1, int Y1, float inExplosionStrength, ExplosionNode nodeType, ReagentMix initialReagents, float reagentAmountMultiplier)
 		{
+			if (initialReagents != null)
+            {
+				initialReagents.Multiply(reagentAmountMultiplier);
+				ReagentsPerNode = initialReagents;
+			}
+
 			x0 = X0;
 			y0 = Y0;
 
@@ -95,7 +103,7 @@ namespace Systems.Explosions
 			sy = y0 < y1 ? 1 : -1;
 
 			err = (dx > dy ? dx : -dy) / 2;
-			ExplosionStrength = InExplosionStrength;
+			ExplosionStrength = inExplosionStrength;
 
 			NodeType = nodeType;
 		}
@@ -124,6 +132,7 @@ namespace Systems.Explosions
 				if (IsAnyMatchingType(NodePoint.ExplosionNodes, NodeType) == false)
 				{
 					ExplosionNode expNode = (ExplosionNode)Activator.CreateInstance(NodeType.GetType());
+					expNode.Reagents = ReagentsPerNode.Clone();
 					int fnull = FirstNullValue(NodePoint.ExplosionNodes);
 					if (fnull >= 0) NodePoint.ExplosionNodes[fnull] = expNode;
 					expNode.Initialise(Local, Matrix.Matrix);
@@ -177,7 +186,7 @@ namespace Systems.Explosions
 			public HashSet<Vector2Int> CircleCircumference = new HashSet<Vector2Int>();
 		}
 
-		public static void StartExplosion(Vector3Int WorldPOS, float strength, ExplosionNode nodeType = null, int fixedRadius = -1, int fixedShakingStrength = -1)
+		public static void StartExplosion(Vector3Int WorldPOS, float strength, ExplosionNode nodeType = null, int fixedRadius = -1, int fixedShakingStrength = -1, ReagentMix initialReagents = null)
 		{
 			if (nodeType == null)
 			{
@@ -222,15 +231,16 @@ namespace Systems.Explosions
 
 			ExplosionUtils.PlaySoundAndShake(WorldPOS, ShakingStrength, Radius / 20, nodeType.CustomSound);
 
-			//Generates the conference
+			//Generates the circumference
 			var explosionData = new ExplosionData();
 			circleBres(explosionData, WorldPOS.x, WorldPOS.y, Radius);
 			float InitialStrength = strength / explosionData.CircleCircumference.Count;
+			float reagentAmountMultiplier = (float)(1/(Math.PI * (Radius * Radius)));
 
 			foreach (var ToPoint in explosionData.CircleCircumference)
 			{
 				var Line = ExplosionPropagationLine.Getline();
-				Line.SetUp(WorldPOS.x, WorldPOS.y, ToPoint.x, ToPoint.y, InitialStrength, nodeType);
+				Line.SetUp(WorldPOS.x, WorldPOS.y, ToPoint.x, ToPoint.y, InitialStrength, nodeType, initialReagents, reagentAmountMultiplier);
 				Line.Step();
 			}
 		}

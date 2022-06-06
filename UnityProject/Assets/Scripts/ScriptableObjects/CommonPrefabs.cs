@@ -28,5 +28,7 @@ namespace ScriptableObjects
 
 		public GameObject BurningSmall;
 		public GameObject BurningLarge;
+
+		public GameObject ChemSmoke;
 	}
 }

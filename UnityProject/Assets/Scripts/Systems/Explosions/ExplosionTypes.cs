@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using Systems.Explosions;
+using Chemistry;
 
 //explosion types available to ExplosionComponent and ChemExplosion, you don't have to put your own explosion type here, but this will make it available to those components
 public class ExplosionTypes
@@ -8,12 +9,14 @@ public class ExplosionTypes
 	public enum ExplosionType //add your explosion type here
 	{
 		Regular,
-		EMP
+		EMP,
+		Smoke
 	}
 
 	public static readonly Dictionary<ExplosionType, ExplosionNode> NodeTypes = new Dictionary<ExplosionType, ExplosionNode>() //add your node type here
 	{
 			{ExplosionType.Regular, new ExplosionNode()},
-			{ExplosionType.EMP, new ExplosionEmpNode()}
+			{ExplosionType.EMP, new ExplosionEmpNode()},
+			{ExplosionType.Smoke, new ExplosionSmokeNode()}
 	};
 }

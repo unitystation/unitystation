@@ -10,6 +10,7 @@ using Items.Others;
 using Systems.Electricity;
 using TileManagement;
 using AddressableReferences;
+using Chemistry;
 
 
 namespace Systems.Explosions
@@ -36,6 +37,12 @@ namespace Systems.Explosions
 		{
 			get { return null; }
 		}
+		public virtual ReagentMix Reagents
+        {
+			get { return reagents; }
+            set { if (reagents == null && value != null) reagents = value; }
+        }
+		private ReagentMix reagents;
 
 		public void Initialise(Vector3Int Loc, Matrix Inmatrix)
 		{
@@ -62,7 +69,7 @@ namespace Systems.Explosions
 
 			if(DamageDealt > 0)
 			{
-				if (EffectName != null && EffectOverlayType != null && tileManager != null)
+				if (EffectName != null && EffectOverlayType != OverlayType.None && tileManager != null)
 				{
 					TimedEffect(v3int, DamageDealt * 10, EffectName, EffectOverlayType, tileManager);
 				}

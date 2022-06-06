@@ -26,6 +26,7 @@ namespace Chemistry
 
 		public float? tempMin;
 		public float? tempMax;
+		public float producedHeat = 0;
 
 		public virtual bool Apply(MonoBehaviour sender, ReagentMix reagentMix)
 		{
@@ -66,6 +67,8 @@ namespace Chemistry
 				if (effect != null)
 					effect.Apply(sender, reactionAmount);
 			}
+
+			reagentMix.Temperature += producedHeat * reactionAmount;
 
 			return true;
 		}

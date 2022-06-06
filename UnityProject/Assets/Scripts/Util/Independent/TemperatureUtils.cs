@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum TemeratureUnits
+public enum TemperatureUnits
 {
 	C,
 	K,
@@ -16,7 +16,7 @@ public static class TemperatureUtils
 {
 	public const float ZERO_CELSIUS_IN_KELVIN = 273.15f;
 
-	public static float Transform(float t, TemeratureUnits from, TemeratureUnits to)
+	public static float Transform(float t, TemperatureUnits from, TemperatureUnits to)
 	{
 		if (from == to)
 		{
@@ -25,13 +25,13 @@ public static class TemperatureUtils
 
 		float ret = t;
 		// transform to kelvins
-		if (from != TemeratureUnits.K)
+		if (from != TemperatureUnits.K)
 		{
 			ret = ToKelvin(t, from);
 		}
 
 		// now transform to desired
-		if (to != TemeratureUnits.K)
+		if (to != TemperatureUnits.K)
 		{
 			ret = FromKelvin(t, to);
 		}
@@ -40,30 +40,30 @@ public static class TemperatureUtils
 	}
 
 
-	public static float ToKelvin(float t, TemeratureUnits from)
+	public static float ToKelvin(float t, TemperatureUnits from)
 	{
 		switch (from)
 		{
-			case TemeratureUnits.C:
+			case TemperatureUnits.C:
 				return t + ZERO_CELSIUS_IN_KELVIN;
-			case TemeratureUnits.K:
+			case TemperatureUnits.K:
 				return t;
-			case TemeratureUnits.F:
+			case TemperatureUnits.F:
 				return (t + 459.67f) * (5f / 9f);
 		}
 
 		return t;
 	}
 
-	public static float FromKelvin(float t, TemeratureUnits to)
+	public static float FromKelvin(float t, TemperatureUnits to)
 	{
 		switch (to)
 		{
-			case TemeratureUnits.C:
+			case TemperatureUnits.C:
 				return t - ZERO_CELSIUS_IN_KELVIN;
-			case TemeratureUnits.K:
+			case TemperatureUnits.K:
 				return t;
-			case TemeratureUnits.F:
+			case TemperatureUnits.F:
 				return t * (9f / 5f) - 459.67f;
 		}
 

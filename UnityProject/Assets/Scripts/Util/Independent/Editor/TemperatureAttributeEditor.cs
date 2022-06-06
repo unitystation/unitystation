@@ -9,7 +9,7 @@ using UnityEngine;
 public class TemperatureAttributeEditor : PropertyDrawer
 {
     private const float SelectorSize = 50f;
-    private TemeratureUnits selectedUnit = TemeratureUnits.C;
+    private TemperatureUnits selectedUnit = TemperatureUnits.C;
 
     public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
     {
@@ -23,7 +23,7 @@ public class TemperatureAttributeEditor : PropertyDrawer
 
         var enumRect = new Rect(position.x + position.width - SelectorSize, position.y,
 			SelectorSize, position.height);
-        selectedUnit = (TemeratureUnits)EditorGUI.EnumPopup(enumRect, selectedUnit);
+        selectedUnit = (TemperatureUnits)EditorGUI.EnumPopup(enumRect, selectedUnit);
 
         var tempK = property.floatValue;
 

@@ -5,6 +5,8 @@ using System.Collections.Generic;
 using Mirror;
 using Systems.Explosions;
 using HealthV2;
+using Chemistry;
+using Chemistry.Components;
 
 namespace Chemistry.Effects
 {
@@ -20,6 +22,9 @@ namespace Chemistry.Effects
 		[Tooltip("Explosion type")]
 		[SerializeField] private ExplosionTypes.ExplosionType explosionType = ExplosionTypes.ExplosionType.Regular;
 
+		[Tooltip("Despawn container after reaction?")]
+		[SerializeField] private bool DespawnContainer = true;
+
 		public override void Apply(MonoBehaviour sender, float amount)
 		{
 			// Following function uses the code from the Explosions file.
@@ -29,6 +34,7 @@ namespace Chemistry.Effects
 			RegisterObject registerObject = sender.GetComponent<RegisterObject>();
 			BodyPart bodyPart = sender.GetComponent<BodyPart>();
 			ExplosionNode node = ExplosionTypes.NodeTypes[explosionType];
+			ReagentMix otherReagents = sender.gameObject.GetComponent<ReagentContainer>().CurrentReagentMix; //used by smoke and foam
 
 			bool insideBody = false;
 			if (bodyPart != null && bodyPart.HealthMaster != null)
@@ -68,22 +74,22 @@ namespace Chemistry.Effects
 					//If not, we need to check if the item is a bodypart inside of a player
 					if (insideBody)
 					{
-						Explosion.StartExplosion(bodyPart.HealthMaster.RegisterTile.WorldPosition, strength, node);
+						Explosion.StartExplosion(bodyPart.HealthMaster.RegisterTile.WorldPosition, strength, node, -1, -1, otherReagents);
 					}
 					else
 					{
 						//Otherwise, if it's not inside of a player, we consider it just an item
-						Explosion.StartExplosion(objectBehaviour.registerTile.WorldPosition, strength, node);
+						Explosion.StartExplosion(objectBehaviour.registerTile.WorldPosition, strength, node, -1, -1, otherReagents);
 					}
 				}
 				else
 				{
-					Explosion.StartExplosion(registerObject.WorldPosition, strength, node);
+					Explosion.StartExplosion(registerObject.WorldPosition, strength, node, -1, -1, otherReagents);
 				}
 			}
 
 			// If sender is a pickupable item not inside the body, destroy it.
-			if (picked != null && !insideBody)
+			if (picked != null && !insideBody && DespawnContainer)
 			{
 				Despawn.ServerSingle(sender.gameObject);
 			}

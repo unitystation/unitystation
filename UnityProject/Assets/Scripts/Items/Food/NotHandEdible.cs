@@ -44,7 +44,7 @@ namespace Items
 			itemAttributes = GetComponent<ItemAttributesV2>();
 			stackable = GetComponent<Stackable>();
 
-			FoodContents.Add(new ReagentMix(Nutriment, StartingNutrients, TemperatureUtils.ToKelvin(20f, TemeratureUnits.C)));
+			FoodContents.Add(new ReagentMix(Nutriment, StartingNutrients, TemperatureUtils.ToKelvin(20f, TemperatureUnits.C)));
 
 			if (itemAttributes != null)
 			{
