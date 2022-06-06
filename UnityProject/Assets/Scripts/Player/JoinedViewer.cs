@@ -117,9 +117,8 @@ namespace Player
 			});
 
 			// this validates Userid and Token
-			var isValidPlayer =
-				await PlayerList.Instance.ValidatePlayer(unverifiedClientVersion, unverifiedConnPlayer, unverifiedToken);
-
+			// and does a lot more stuff
+			var isValidPlayer = await PlayerList.Instance.TryLogIn(unverifiedConnPlayer, unverifiedClientVersion, unverifiedToken);
 			if (isValidPlayer == false)
 			{
 				ClearCache();
@@ -145,11 +144,11 @@ namespace Player
 
 			IsValidPlayerAndWaitingOnLoad = true;
 			STUnverifiedClientId = unverifiedClientId;
-			STVerifiedUserid = unverifiedUserid; //Is validated within  PlayerList.Instance.ValidatePlayer(
+			STVerifiedUserid = unverifiedUserid; // Is validated within PlayerList.TryLogIn()
 			STVerifiedConnPlayer = unverifiedConnPlayer;
 			if (string.IsNullOrEmpty(clientCurrentScene) == false)
 			{
-				ServerRequestLoadedScenes(clientCurrentScene );
+				ServerRequestLoadedScenes(clientCurrentScene);
 			}
 		}
 
@@ -213,7 +212,7 @@ namespace Player
 				StartCoroutine(WaitForLoggedOffObserver(loggedOffPlayer.GameObject));
 			}
 
-			PlayerList.Instance.CheckAdminState(STVerifiedConnPlayer, STVerifiedUserid);
+			PlayerList.Instance.CheckAdminState(STVerifiedConnPlayer);
 			PlayerList.Instance.CheckMentorState(STVerifiedConnPlayer, STVerifiedUserid);
 			ClearCache();
 		}

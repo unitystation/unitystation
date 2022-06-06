@@ -1,4 +1,4 @@
-﻿using Messages.Server;
+using Messages.Server;
 using Mirror;
 using Newtonsoft.Json;
 using Player;
@@ -97,9 +97,8 @@ namespace Messages.Client.NewPlayer
 
 		private void AcceptRequest(NetMessage msg)
 		{
-			var characterSettings = JsonConvert.DeserializeObject<CharacterSettings>(msg.JsonCharSettings);
-			var spawnRequest = PlayerSpawnRequest.RequestOccupation(
-					SentByPlayer.ViewerScript, GameManager.Instance.GetRandomFreeOccupation(msg.JobType), characterSettings, SentByPlayer.UserId);
+			var character = JsonConvert.DeserializeObject<CharacterSettings>(msg.JsonCharSettings);
+			var spawnRequest = new PlayerSpawnRequest(SentByPlayer, GameManager.Instance.GetRandomFreeOccupation(msg.JobType), character);
 
 			GameManager.Instance.TrySpawnPlayer(spawnRequest);
 		}

@@ -146,8 +146,7 @@ namespace Managers
 		private void AllocateJobs(IReadOnlyCollection<PlayerInfo> players, Occupation job)
 		{
 			// Update determined players and players left
-			determinedPlayers.AddRange(players.Select(player =>
-				PlayerSpawnRequest.RequestOccupation(player.ViewerScript, job, player.CharacterSettings, player.UserId)));
+			determinedPlayers.AddRange(players.Select(player => new PlayerSpawnRequest(player, job, player.CharacterSettings)));
 			playersLeft.RemoveAll(players.Contains);
 			missedOutPlayers.RemoveAll(players.Contains);
 
