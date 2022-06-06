@@ -29,6 +29,7 @@ namespace Systems.Research.Objects
 
 		private void Start()
 		{
+			diskStorage = GetComponent<ItemStorage>();
 			if (diskStorage == null || diskStorage.GetTopOccupiedIndexedSlot() == null)
 			{
 				Logger.LogError("Research server spawned without a disk to hold data!");
