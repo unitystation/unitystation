@@ -34,6 +34,9 @@ namespace Systems.MobAIs
 			SceneManager.activeSceneChanged += OnRoundRestart;
 			if (CurrentMobs > 20)
 			{
+				var mobError = " mob limit hit with  " + name + " Disabling new mobs";
+				Logger.LogError(mobError);
+				UIManager.Instance.adminChatWindows.adminLogWindow.ServerAddChatRecord(mobError, null);
 				return;
 			}
 
