@@ -5,6 +5,7 @@ using UnityEngine;
 public class MatrixCash
 {
 
+
 	public static Vector3Int[] DIRs = new[]
 	{
 		new Vector3Int(-1, 1, 0),
@@ -84,6 +85,18 @@ public class MatrixCash
 				return GetFromArray(6,DIR);
 			}
 		}
+	}
+
+	public void ResetNewPosition(Vector3 Centrepoint, RegisterTile Inon)
+	{
+		WorldPOS = Centrepoint;
+		for (int i = 0; i < Positions.Length; i++)
+		{
+			Positions[i] = null;
+		}
+
+		Positions[6] = Inon.Matrix.MatrixInfo;
+
 	}
 
 	public void ResetNewPosition(Vector3 Centrepoint)
