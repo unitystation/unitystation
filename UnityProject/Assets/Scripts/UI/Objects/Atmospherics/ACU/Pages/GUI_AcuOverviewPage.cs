@@ -60,7 +60,7 @@ namespace UI.Objects.Atmospherics.Acu
 			if (Acu.AtmosphericAverage.SampleSize > 0)
 			{
 				pressureText = $"{Acu.AtmosphericAverage.Pressure, 0:N3} kPa";
-				temperatureText = $"{TemperatureUtils.FromKelvin(Acu.AtmosphericAverage.Temperature, TemeratureUnits.C), 0:N1} °C";
+				temperatureText = $"{TemperatureUtils.FromKelvin(Acu.AtmosphericAverage.Temperature, TemperatureUnits.C), 0:N1} °C";
 				compositionText = Acu.CompositionStatus.ToString();
 			}
 

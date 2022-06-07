@@ -24,19 +24,21 @@ namespace Systems.Explosions
 			get { return CommonSounds.Instance.Smoke; }
 		}
 
-		public override float DoDamage(Matrix matrix, float DamageDealt, Vector3Int v3int)
+		public override float DoDamage(Matrix matrix, float DamageDealt, Vector3Int pos)
 		{
-			if (matrix.IsAtmosPassableAt(v3int, true))
+			if (matrix.IsAtmosPassableAt(pos, true))
 			{
-				SpawnSmoke(v3int, Reagents);
+				SpawnSmoke(matrix, pos, Reagents);
 			}
 			return 10.0f; //magic number
 		}
 
-		private void SpawnSmoke(Vector3Int pos, ReagentMix usedReagents)
+		private void SpawnSmoke(Matrix matrix, Vector3Int pos, ReagentMix usedReagents)
         {
 			SpawnResult result = Spawn.ServerPrefab(SmokePrefab, pos);
-			result.GameObject.GetComponent<ChemSmoke>().Reagents = usedReagents;
+			ChemSmoke smoke = result.GameObject.GetComponent<ChemSmoke>();
+			smoke.Matrix = matrix;
+			smoke.Reagents = usedReagents;
         }
 	}
 }
