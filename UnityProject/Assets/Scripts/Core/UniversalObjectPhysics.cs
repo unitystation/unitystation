@@ -142,9 +142,9 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 			{
 				if (CashedContainedInContainer == null)
 				{
-					if (NetworkIdentity.spawned.TryGetValue(parentContainer, out var Net))
+					if (NetworkIdentity.spawned.TryGetValue(parentContainer, out var net))
 					{
-						CashedContainedInContainer = Net.GetComponent<ObjectContainer>();
+						CashedContainedInContainer = net.GetComponent<ObjectContainer>();
 					}
 					else
 					{
@@ -155,9 +155,9 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 				{
 					if (CashedContainedInContainer.registerTile.netId != parentContainer)
 					{
-						if (NetworkIdentity.spawned.TryGetValue(parentContainer, out var Net))
+						if (NetworkIdentity.spawned.TryGetValue(parentContainer, out var net))
 						{
-							CashedContainedInContainer = Net.GetComponent<ObjectContainer>();
+							CashedContainedInContainer = net.GetComponent<ObjectContainer>();
 						}
 						else
 						{
@@ -975,18 +975,18 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 		NewtonianPush(WorldDirection, speed, INairTime, INslideTime, inaim, inthrownBy, spinFactor);
 	}
 
-	public void PullSet(UniversalObjectPhysics ToPull, bool ByClient, bool Synced = false)
+	public void PullSet(UniversalObjectPhysics toPull, bool byClient, bool synced = false)
 	{
-		if (ToPull != null && ContainedInContainer != null) return; //Can't pull stuff inside of objects)
+		if (toPull != null && ContainedInContainer != null) return; //Can't pull stuff inside of objects)
 
-		if (isServer && Synced == false)
-			SynchroniseUpdatePulling(ThisPullData, new PullData() {NewPulling = ToPull, WasCausedByClient = ByClient});
+		if (isServer && synced == false)
+			SynchroniseUpdatePulling(ThisPullData, new PullData() {NewPulling = toPull, WasCausedByClient = byClient});
 
-		if (ToPull != null)
+		if (toPull != null)
 		{
 			if (PulledBy.HasComponent)
 			{
-				if (ToPull == PulledBy.Component)
+				if (toPull == PulledBy.Component)
 				{
 					PulledBy.Component.PullSet(null, false);
 				}
@@ -999,9 +999,9 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 				ContextGameObjects[1] = null;
 			}
 
-			Pulling.DirectSetComponent(ToPull);
-			ToPull.PulledBy.DirectSetComponent(this);
-			ContextGameObjects[1] = ToPull.gameObject;
+			Pulling.DirectSetComponent(toPull);
+			toPull.PulledBy.DirectSetComponent(this);
+			ContextGameObjects[1] = toPull.gameObject;
 			if (isLocalPlayer) UIManager.Action.UpdatePullingUI(true);
 		}
 		else
