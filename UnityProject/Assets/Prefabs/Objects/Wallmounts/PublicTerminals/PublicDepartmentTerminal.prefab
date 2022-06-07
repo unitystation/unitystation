@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 61000013231193044}
   - component: {fileID: 114665882604199916}
   - component: {fileID: 114630669365637708}
-  - component: {fileID: 114410258970618456}
   - component: {fileID: 114836004546667558}
   - component: {fileID: 114558640520136156}
   - component: {fileID: 7165447916004987891}
@@ -20,7 +19,7 @@ GameObject:
   - component: {fileID: 114024760286136462}
   - component: {fileID: 351754256073079715}
   - component: {fileID: 2200315574273851713}
-  - component: {fileID: 8636729351206251029}
+  - component: {fileID: 7293479898902626812}
   - component: {fileID: 114748768853426186}
   - component: {fileID: 114241946955262388}
   - component: {fileID: 1528002538667993831}
@@ -45,6 +44,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 4000011952970050}
   m_Father: {fileID: 0}
@@ -91,7 +91,7 @@ MonoBehaviour:
   sceneId: 0
   serverOnly: 0
   visible: 0
-  m_AssetId: e40f8eea191249e4983505e18341cce1
+  m_AssetId: 7bde59de0a1f9764a81d9e25adc68658
   hasSpawned: 0
 --- !u!114 &114630669365637708
 MonoBehaviour:
@@ -109,7 +109,6 @@ MonoBehaviour:
   syncInterval: 0.1
   matrixDebugLogging: 0
   objectType: 1
-  customNetTransform: {fileID: 114410258970618456}
   prefabTracker: {fileID: 2756395701129939998, guid: cd57203a8d3f54f478446e9b0ced6cf9,
     type: 3}
   CurrentsortingGroup: {fileID: 351754256073079715}
@@ -118,22 +117,6 @@ MonoBehaviour:
   initialPassable: 1
   initialCrawlPassable: 1
   passableExclusionsToThis: []
---- !u!114 &114410258970618456
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1000010652479536}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 579884b05ae74e8499329b64997147d3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  snapToGridOnStart: 1
-  IsFixedMatrix: 0
 --- !u!114 &114836004546667558
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -169,6 +152,7 @@ MonoBehaviour:
       m_AssetGUID: 
       m_SubObjectName: 
       m_SubObjectType: 
+      m_EditorAssetChanged: 0
   damageDeflection: 0
   Armor:
     Melee: 0
@@ -182,6 +166,7 @@ MonoBehaviour:
     Magic: 0
     Bio: 0
     DismembermentProtectionChance: 0
+    StunImmunity: 0
   Resistances:
     LavaProof: 0
     FireProof: 0
@@ -216,6 +201,7 @@ MonoBehaviour:
   exportType: 0
   exportName: 
   exportMessage: 
+  initialSize: 3
 --- !u!114 &5672353413972261166
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -228,8 +214,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62cc3ef7cd9082443aaf3c255851d15a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
 --- !u!114 &114024760286136462
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -269,7 +253,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   foreverID: e40f8eea191249e4983505e18341cce1
---- !u!114 &8636729351206251029
+--- !u!114 &7293479898902626812
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -278,27 +262,47 @@ MonoBehaviour:
   m_GameObject: {fileID: 1000010652479536}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c23c49138f42840a1bc22ade283c1694, type: 3}
+  m_Script: {fileID: 11500000, guid: 52a6a264ee47433418b51f654439372f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  DEBUG: 0
+  SnapToGridOnStart: 1
+  LocalTargetPosition: {x: 0, y: 0, z: 0}
+  ChangesDirectionPush: 0
+  Intangible: 0
+  InitialLocationSynchronised: 0
+  tileMoveSpeed: 1
+  isNotPushable: 1
+  newtonianMovement: {x: 0, y: 0}
+  airTime: 0
+  slideTime: 0
+  thrownBy: {fileID: 0}
+  aim: 0
+  spinMagnitude: 0
+  ForcedPushedFrame: 0
+  TryPushedFrame: 0
+  PushedFrame: 0
+  FramePushDecision: 1
+  stickyMovement: 0
+  maximumStickSpeed: 1.5
+  onStationMovementsRound: 0
+  attributes: {fileID: 0}
   registerTile: {fileID: 0}
-  floorDecal: {fileID: 0}
-  isInitiallyNotPushable: 1
-  pushPullSound:
-    SetLoadSetting: 0
-    AssetAddress: null
-    AssetReference:
-      m_AssetGUID: 
-      m_SubObjectName: 
-      m_SubObjectType: 
-  soundDelayTime: 0
-  soundMinimumPitchVariance: 1
-  soundMaximumPitchVariance: 1
-  OnPullingSomethingChangedServer:
-    m_PersistentCalls:
-      m_Calls: []
+  ContextGameObjects:
+  - {fileID: 0}
+  - {fileID: 0}
+  IsCurrentlyFloating: 0
+  LocalDifferenceNeeded: {x: 0, y: 0}
+  CorrectingCourse: 0
+  Pushing: []
+  Hits: []
+  Animating: 0
+  IsFlyingSliding: 0
+  IsMoving: 0
+  MoveIsWalking: 0
+  LastUpdateClientFlying: 0
 --- !u!114 &114748768853426186
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -369,7 +373,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6d7277dcc993463cb6c7f79b663f36fc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  NetTabType: 51
+  NetTabType: 52
   aiInteractable: 1
 --- !u!114 &3022526131367930205
 MonoBehaviour:
@@ -402,11 +406,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  SignalTypeToReceive: 2
+  SignalTypeToReceive: 1
   Frequency: 295
   Emitter: {fileID: 5821576690915111536}
   DelayTime: 3
-  EncryptionData: {fileID: 11400000, guid: b31167195b1974c429b64d75eaf3ca9d, type: 2}
+  PassCode: 0
   ListenToEncryptedData: 0
 --- !u!114 &5821576690915111536
 MonoBehaviour:
@@ -423,8 +427,11 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   signalData: {fileID: 11400000, guid: 57e4f5e7816c64d4c95dab4e932f2378, type: 2}
-  encryptionData: {fileID: 11400000, guid: b31167195b1974c429b64d75eaf3ca9d, type: 2}
+  passCode: 0
   frequency: 295
+  requiresPower: 0
+  isPowered: 1
+  canExamineFrequency: 0
   Terminal: {fileID: 3022526131367930205}
 --- !u!1 &1000013922535428
 GameObject:
@@ -451,9 +458,10 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1000013922535428}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 4000010232269142}
   m_RootOrder: 0

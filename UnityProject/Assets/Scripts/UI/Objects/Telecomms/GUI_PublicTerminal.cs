@@ -79,12 +79,12 @@ namespace UI.Objects.Wallmounts
 			StartCoroutine(WaitForProvider());
 		}
 
-		private void TabClosed(ConnectedPlayer oldPeeper = default)
+		private void TabClosed(PlayerInfo oldPeeper = default)
 		{
 			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, UpdateGUI);
 		}
 
-		private void TabOpened(ConnectedPlayer newPeeper = default)
+		private void TabOpened(PlayerInfo newPeeper = default)
 		{
 			Urgent = UrgentToggle.isOn;
 			UpdateManager.Add(UpdateGUI,5f);
