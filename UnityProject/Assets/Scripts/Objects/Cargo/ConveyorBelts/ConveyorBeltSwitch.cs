@@ -172,6 +172,12 @@ namespace Construction.Conveyors
 			else
 			{
 				UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, UpdateMe);
+				for (int i = 0; i < conveyorBelts.Count; i++)
+				{
+					conveyorBelts[i]?.MoveBelt(0);
+				}
+
+
 			}
 
 			UpdateConveyorStates();
