@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -12,7 +13,11 @@ namespace Chemistry
 {
 	public class ChemSmoke : MonoBehaviour, IServerDespawn
 	{
-		public float InitialLifetime = 5000;
+		public int InitialLifetime = 5000;
+
+		public float UpdateRate = 2.5f;
+
+		public float ReagentMultiplier = 100; //since initial reagents in normal conditions have absurdly small volume, rendering smoke useless
 
 		private ReagentMix reagents;
 
@@ -22,11 +27,12 @@ namespace Chemistry
 			set { if (reagents == null && value != null) reagents = value; SyncReagents(); }
 		}
 
+		[NonSerialized]
 		public Matrix Matrix;
 
 		public void OnDespawnServer(DespawnInfo info)
         {
-			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, DeliverReagents);
+			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, UpdateMe);
         }
 
 		private void SyncReagents()
@@ -36,11 +42,12 @@ namespace Chemistry
 				if (reagents.Total > 0)
 				{
 					gameObject.GetComponent<SpriteRenderer>().color = reagents.MixColor;
-					DespawnAfter(InitialLifetime + reagents.Total * 1000);
+					reagents.Multiply(ReagentMultiplier);
+					DespawnAfter(InitialLifetime + (int)reagents.Total * 1000);
+					UpdateManager.Add(UpdateMe, UpdateRate, offsetUpdate: false);
 					return;
 				}
 			}
-			UpdateManager.Add(CallbackType.PERIODIC_UPDATE, DeliverReagents);
 			DespawnAfter(InitialLifetime);
 		}
 
@@ -57,23 +64,23 @@ namespace Chemistry
 			return false;
 		}
 
-		private void DeliverReagents()
+		private void UpdateMe()
         {
 			var players = Matrix.Get<PlayerScript>(gameObject.GetComponent<Transform>().position.RoundToInt(), true);
 			foreach(PlayerScript player in players)
             {
-				RespiratorySystemBase resp = player.gameObject.GetComponent<RespiratorySystemBase>();
-				CirculatorySystemBase circ = player.gameObject.GetComponent<CirculatorySystemBase>();
-				if (resp.GetInternalGasMix() == null && HasGasMask(player) == false && player.playerHealth.IsDead == false)
+				if (player.gameObject.GetComponent<RespiratorySystemBase>().GetInternalGasMix() == null && HasGasMask(player) == false && player.playerHealth.IsDead == false)
                 {
-					circ.BloodPool.Add(reagents);
-                }
+					player.gameObject.GetComponent<CirculatorySystemBase>().BloodPool.Add(reagents); //yes, we are duping reagents
+					Logger.Log(player.gameObject.GetComponent<CirculatorySystemBase>().BloodPool.ToString());
+
+				}
             }
         }
 
-		public async Task DespawnAfter(float time)
+		public async Task DespawnAfter(int time)
 		{
-			await Task.Delay((int)time);
+			await Task.Delay(time);
 			Despawn.ServerSingle(gameObject);
 		}
 	}

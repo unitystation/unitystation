@@ -50,6 +50,7 @@ MonoBehaviour:
   NetworkThis: 1
   SubCatalogue:
   - {fileID: 11400000, guid: be0b86b9d5d27c748b740652310a0283, type: 2}
+  - {fileID: 11400000, guid: 0ae527064b8cf1e4b818468ed86d38fb, type: 2}
   PresentSpriteSet: {fileID: 11400000, guid: be0b86b9d5d27c748b740652310a0283, type: 2}
   randomInitialSprite: 0
   doReverseAnimation: 0
@@ -137,3 +138,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad6937a67070c6a468c1de8c872e7e6d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  InitialLifetime: 5000
+  UpdateRate: 2.5
+  ReagentMultiplier: 100

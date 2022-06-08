@@ -23,6 +23,7 @@ public class CommonSounds : SingletonScriptableObject<CommonSounds>
    public AddressableAudioSource ExplosionCreak3 = null;
    public AddressableAudioSource Empulse = null;
    public AddressableAudioSource Smoke = null;
+   public AddressableAudioSource Foam = null;
    public AddressableAudioSource Notice1 = null;
    public AddressableAudioSource Notice2 = null;
 
