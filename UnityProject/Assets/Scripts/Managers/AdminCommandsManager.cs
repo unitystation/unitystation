@@ -516,6 +516,7 @@ namespace AdminCommands
 		public void CmdRemoveBounty(int index, bool completeBounty, NetworkConnectionToClient sender = null)
 		{
 			if (IsAdmin(sender, out var admin) == false) return;
+			if (CargoManager.Instance.ActiveBounties.Count - 1 < index) return; 
 			if (completeBounty)
 			{
 				CargoManager.Instance.CompleteBounty(CargoManager.Instance.ActiveBounties[index]);
