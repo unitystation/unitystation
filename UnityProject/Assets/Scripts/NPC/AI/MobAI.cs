@@ -10,7 +10,7 @@ namespace Systems.MobAIs
 	[RequireComponent(typeof(MobFollow))]
 	[RequireComponent(typeof(MobExplore))]
 	[RequireComponent(typeof(MobFlee))]
-	public class MobAI : MonoBehaviour, IServerLifecycle
+	public class MobAI : MobObjective, IServerLifecycle
 	{
 		public string mobName;
 
@@ -77,8 +77,6 @@ namespace Systems.MobAIs
 				simpleAnimal.SetDeadState(false);
 			}
 
-			UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
-			UpdateManager.Add(PeriodicUpdate, 1f);
 			health.applyDamageEvent += AttackReceivedCoolDown;
 			isServer = true;
 
@@ -92,11 +90,6 @@ namespace Systems.MobAIs
 			ResetBehaviours();
 		}
 
-		public void OnDisable()
-		{
-			UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
-			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, PeriodicUpdate);
-		}
 
 		/// <summary>
 		/// Called after the mob is spawned, before the AI comes online
@@ -112,11 +105,13 @@ namespace Systems.MobAIs
 
 		#endregion
 
-		/// <summary>
-		/// Server only update loop. Make sure to call base.UpdateMe() if overriding
-		/// </summary>
-		protected virtual void UpdateMe()
+
+		public override void ContemplatePriority()
 		{
+			if (damageAttempts >= maxDamageAttempts)
+			{
+				damageAttempts = 0;
+			}
 			if (MonitorKnockedDown())
 			{
 				return;
@@ -127,13 +122,6 @@ namespace Systems.MobAIs
 			MonitorFleeingTime();
 		}
 
-		protected void PeriodicUpdate()
-		{
-			if (damageAttempts >= maxDamageAttempts)
-			{
-				damageAttempts = 0;
-			}
-		}
 
 		/// <summary>
 		/// Updates the mob to fall down or stand up where appropriate

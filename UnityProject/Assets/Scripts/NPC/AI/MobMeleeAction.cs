@@ -41,6 +41,8 @@ namespace Systems.MobAIs
 		private bool isActing = false;
 		public bool isOnCooldown = false;
 
+		private BoxCollider2D Collider;
+
 		/// <summary>
 		/// Maximum range that the mob will continue to try to act on the target
 		/// NOTE: Max raycast range is 25 see MatrixManager line 357
@@ -52,6 +54,7 @@ namespace Systems.MobAIs
 			playersLayer = LayerMask.NameToLayer("Players");
 			npcLayer = LayerMask.NameToLayer("NPC");
 			checkMask = LayerMask.GetMask("Players", "NPC", "Objects");
+			Collider = this.GetComponent<BoxCollider2D>();
 		}
 
 		/// <summary>
@@ -129,13 +132,14 @@ namespace Systems.MobAIs
 					//Continue if it still exists and is in range
 					if (FollowTarget != null && TargetDistance() < TetherRange)
 					{
+						Collider.enabled = false;
 						Vector3 dir =
 							(Vector3)(FollowTarget.WorldPositionServer - mobTile.WorldPositionServer).Normalize() /
 							1.5f;
-						var hitInfo = MatrixManager.Linecast(mobTile.WorldPositionServer + dir,
+						var hitInfo = MatrixManager.Linecast(mobTile.WorldPositionServer + (dir*0.1f),
 							LayerTypeSelection.Windows | LayerTypeSelection.Grills, checkMask,
 							FollowTarget.WorldPositionServer);
-
+						Collider.enabled = true;
 						if (hitInfo.ItHit)
 						{
 							return hitInfo;

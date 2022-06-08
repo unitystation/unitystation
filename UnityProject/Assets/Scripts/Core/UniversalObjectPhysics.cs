@@ -142,15 +142,27 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 			{
 				if (CashedContainedInContainer == null)
 				{
-					CashedContainedInContainer =
-						NetworkIdentity.spawned[parentContainer].GetComponent<ObjectContainer>();
+					if (NetworkIdentity.spawned.TryGetValue(parentContainer, out var net))
+					{
+						CashedContainedInContainer = net.GetComponent<ObjectContainer>();
+					}
+					else
+					{
+						CashedContainedInContainer = null;
+					}
 				}
 				else
 				{
 					if (CashedContainedInContainer.registerTile.netId != parentContainer)
 					{
-						CashedContainedInContainer =
-							NetworkIdentity.spawned[parentContainer].GetComponent<ObjectContainer>();
+						if (NetworkIdentity.spawned.TryGetValue(parentContainer, out var net))
+						{
+							CashedContainedInContainer = net.GetComponent<ObjectContainer>();
+						}
+						else
+						{
+							CashedContainedInContainer = null;
+						}
 					}
 				}
 
@@ -179,6 +191,8 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 
 	[PrefabModeOnly] public bool stickyMovement = false;
 	//If this thing likes to grab onto stuff such as like a player
+
+	[PrefabModeOnly] public bool OnThrowEndResetRotation;
 
 	[PrefabModeOnly] public float maximumStickSpeed = 1.5f;
 	//Speed In tiles per second that, The thing would able to be stop itself if it was sticky
@@ -374,6 +388,9 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 			return; //Storing something inside of itself what?
 		}
 
+		PullSet(null,false); //Presume you can't Pulling stuff inside container
+		//TODO Handle non-disappearing containers like Cart riding
+
 		if (NewParent == null)
 		{
 			parentContainer = NetId.Empty;
@@ -405,7 +422,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 		if (isServer) return;
 		if (PlayerManager.LocalPlayerObject == causedByClient) return;
 		if (PulledBy.HasComponent && overridePull == false) return;
-		
+
 		Pushing.Clear();
 		//Logger.LogError("ClientRpc Tile push for " + transform.name + " Direction " + WorldDirection.ToString());
 		SetMatrixCash.ResetNewPosition(transform.position, registerTile);
@@ -701,6 +718,13 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 
 	public void SetMatrix(Matrix movetoMatrix)
 	{
+		if (movetoMatrix == null) return;
+		if (registerTile == null)
+		{
+			Logger.LogError("null Register tile on " + this.name);
+			return;
+		}
+
 		var TransformCash = transform.position;
 		if (isServer)
 		{
@@ -951,16 +975,18 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 		NewtonianPush(WorldDirection, speed, INairTime, INslideTime, inaim, inthrownBy, spinFactor);
 	}
 
-	public void PullSet(UniversalObjectPhysics ToPull, bool ByClient, bool Synced = false)
+	public void PullSet(UniversalObjectPhysics toPull, bool byClient, bool synced = false)
 	{
-		if (isServer && Synced == false)
-			SynchroniseUpdatePulling(ThisPullData, new PullData() {NewPulling = ToPull, WasCausedByClient = ByClient});
+		if (toPull != null && ContainedInContainer != null) return; //Can't pull stuff inside of objects)
 
-		if (ToPull != null)
+		if (isServer && synced == false)
+			SynchroniseUpdatePulling(ThisPullData, new PullData() {NewPulling = toPull, WasCausedByClient = byClient});
+
+		if (toPull != null)
 		{
 			if (PulledBy.HasComponent)
 			{
-				if (ToPull == PulledBy.Component)
+				if (toPull == PulledBy.Component)
 				{
 					PulledBy.Component.PullSet(null, false);
 				}
@@ -973,9 +999,9 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 				ContextGameObjects[1] = null;
 			}
 
-			Pulling.DirectSetComponent(ToPull);
-			ToPull.PulledBy.DirectSetComponent(this);
-			ContextGameObjects[1] = ToPull.gameObject;
+			Pulling.DirectSetComponent(toPull);
+			toPull.PulledBy.DirectSetComponent(this);
+			ContextGameObjects[1] = toPull.gameObject;
 			if (isLocalPlayer) UIManager.Action.UpdatePullingUI(true);
 		}
 		else
@@ -1111,7 +1137,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 			return;
 		}
 
-		if (this == null)
+		if (this == null || transform == null)
 		{
 			MoveIsWalking = false;
 			IsMoving = false;
@@ -1442,6 +1468,11 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 			airTime = 0;
 			slideTime = 0;
 			OnThrowEnd.Invoke(this);
+			if (OnThrowEndResetRotation)
+			{
+				transform.localRotation = Quaternion.Euler(0, 0, 0);
+			}
+
 			UpdateManager.Remove(CallbackType.UPDATE, FlyingUpdateMe);
 		}
 
@@ -1611,6 +1642,8 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 	[Command]
 	public void CmdPullObject(GameObject pullableObject)
 	{
+		if (ContainedInContainer != null) return;//Can't pull stuff inside of objects
+
 		if (pullableObject == null || pullableObject == this.gameObject) return;
 		var pullable = pullableObject.GetComponent<UniversalObjectPhysics>();
 		if (pullable == null || pullable.isNotPushable)

@@ -8,6 +8,8 @@ public class GhostMove : NetworkBehaviour, IPlayerControllable
 {
 	public float MoveSpeed = 8;
 
+	public float GhostSpeedMultiplier = 8f;
+
 	public bool Moving = false;
 
 	public RegisterTile registerTile;
@@ -15,6 +17,8 @@ public class GhostMove : NetworkBehaviour, IPlayerControllable
 	public Rotatable Rotate;
 
 	public Vector3 LocalTargetPosition;
+
+	private bool isFaster = false;
 
 	//TODO Change to vector move towards
 	public void Awake()
@@ -38,6 +42,12 @@ public class GhostMove : NetworkBehaviour, IPlayerControllable
 			transform.localPosition = this.MoveTowards(LocalPOS, LocalTargetPosition,
 				MoveSpeed * Time.deltaTime);
 		}
+
+		if (UIManager.IsInputFocus) return;
+		if (Input.GetKeyDown(KeyCode.LeftShift) == false) return;
+		isFaster = !isFaster;
+		MoveSpeed = isFaster ? MoveSpeed + GhostSpeedMultiplier : MoveSpeed - GhostSpeedMultiplier;
+		Chat.AddExamineMsg(gameObject, isFaster ? "You fly quickly in panic.." : "You slow down and take in the pain and sarrow..");
 	}
 
 	public Vector3 MoveTowards(

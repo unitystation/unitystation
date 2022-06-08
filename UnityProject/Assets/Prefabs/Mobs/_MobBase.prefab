@@ -237,28 +237,30 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  DEBUG: 0
   SnapToGridOnStart: 0
-  Collider: {fileID: 0}
-  TileMoveSpeedOverride: 0
-  floorDecal: {fileID: 0}
   LocalTargetPosition: {x: 0, y: 0, z: 0}
-  rotatable: {fileID: 0}
-  TileMoveSpeed: 8
-  SynchLocalTargetPosition: {x: 0, y: 0, z: 0}
+  ChangesDirectionPush: 0
+  Intangible: 0
+  InitialLocationSynchronised: 0
+  tileMoveSpeed: 1
+  isNotPushable: 0
   newtonianMovement: {x: 0, y: 0}
   airTime: 0
   slideTime: 0
   thrownBy: {fileID: 0}
   aim: 0
   spinMagnitude: 0
+  ForcedPushedFrame: 0
+  TryPushedFrame: 0
+  PushedFrame: 0
+  FramePushDecision: 1
   stickyMovement: 0
+  OnThrowEndResetRotation: 1
   maximumStickSpeed: 1.5
   onStationMovementsRound: 0
   attributes: {fileID: 0}
   registerTile: {fileID: 0}
-  defaultInteractionLayerMask:
-    serializedVersion: 2
-    m_Bits: 0
   ContextGameObjects:
   - {fileID: 0}
   - {fileID: 0}
@@ -267,14 +269,9 @@ MonoBehaviour:
   CorrectingCourse: 0
   Pushing: []
   Hits: []
-  Speed: 1
-  AIR: 3
-  SLIDE: 4
   Animating: 0
-  LastDifference: {x: 0, y: 0, z: 0}
   IsFlyingSliding: 0
   IsMoving: 0
-  IsWalking: 0
   MoveIsWalking: 0
   LastUpdateClientFlying: 0
 --- !u!1 &3951175065346152907
