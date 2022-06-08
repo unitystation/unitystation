@@ -33,11 +33,10 @@ namespace Systems.MobAIs
 
 		#endregion Lifecycle
 
-		protected override void UpdateMe()
+		public override void ContemplatePriority()
 		{
 			if (MatrixManager.IsInitialized == false || health.IsDead || health.IsCrit) return;
-
-			base.UpdateMe();
+			base.ContemplatePriority();
 			MonitorExtras();
 		}
 
