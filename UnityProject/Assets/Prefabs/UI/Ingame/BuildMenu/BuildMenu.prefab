@@ -3485,6 +3485,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 137a7a8415189834c94d786cb8c03cef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  conveyorBeltPrefab:
+    name: 
+    prefab: {fileID: 7144248469089430455, guid: d029ccf2e161c824f931cda8b7404f9a,
+      type: 3}
+    cost: 1
+    buildTime: 1
+    spawnAmount: 1
+    onePerTile: 1
 --- !u!1 &7365842271658246817
 GameObject:
   m_ObjectHideFlags: 0
