@@ -944,7 +944,7 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 	{
 		if (isServer)
 		{
-			if (isLocalPlayer)
+			if (isLocalPlayer && this.playerScript.OrNull()?.Equipment.OrNull()?.ItemStorage != null)
 			{
 				Step = !Step;
 				if (Step)
