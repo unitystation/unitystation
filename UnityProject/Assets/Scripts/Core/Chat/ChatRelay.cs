@@ -64,7 +64,7 @@ public class ChatRelay : NetworkBehaviour
 	[Server]
 	public void PropagateChatToClients(ChatEvent chatEvent)
 	{
-		List<ConnectedPlayer> players = PlayerList.Instance.AllPlayers;
+		List<PlayerInfo> players = PlayerList.Instance.AllPlayers;
 		Loudness loud = chatEvent.VoiceLevel;
 
 		//Local chat range checks:

@@ -18,7 +18,7 @@ namespace UI.Objects.Security
 		private TurretSwitch turretSwitch;
 		private TurretSwitch TurretSwitch => turretSwitch ??= Provider.GetComponent<TurretSwitch>();
 
-		public void OnTabOpenedHandler(ConnectedPlayer connectedPlayer)
+		public void OnTabOpenedHandler(PlayerInfo connectedPlayer)
 		{
 			ChangeStatus();
 

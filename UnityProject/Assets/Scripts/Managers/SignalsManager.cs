@@ -31,28 +31,37 @@ namespace Managers
 			foreach (SignalReceiver receiver in Receivers)
 			{
 				if (receiver.gameObject == null) continue;
+				//So servers don't accidentally send data back to themselves
+				if(emitter.gameObject == receiver.gameObject) continue;
 				if (receiver.SignalTypeToReceive != type) continue;
 
+				//If the signals are not on the same frequency or requires encryption
 				if (receiver.Frequency.IsBetween(signalDataSo.MinMaxFrequancy.x, signalDataSo.MinMaxFrequancy.y) == false) continue;
 				if (receiver.ListenToEncryptedData == false && MatchingEncryption(receiver, emitter) == false) continue;
 
-				if (receiver.SignalTypeToReceive == SignalType.PING && receiver.Emitter == emitter)
+				//Bounced radios always have a limited range. Has no limit on the number of devices it can send a signal to.
+				if (receiver.SignalTypeToReceive == SignalType.BOUNCED && AreOnTheSameFrequancy(receiver, emitter))
 				{
-					if (signalDataSo.UsesRange) { SignalStrengthHandler(receiver, emitter, signalDataSo); break; }
-					receiver.ReceiveSignal(SignalStrength.HEALTHY, emitter, signalMessage);
-					break;
+					SignalStrengthHandler(receiver, emitter, signalDataSo, signalMessage);
+					continue;
 				}
-				//TODO (Max) : Radio signals should be sent to relays and servers.
-				if (receiver.SignalTypeToReceive == SignalType.RADIO && AreOnTheSameFrequancy(receiver, emitter))
+
+				//Radio signals are designed to send and process data and commands back and fourth.
+				if ((receiver.SignalTypeToReceive == SignalType.RADIOCLIENT || receiver.SignalTypeToReceive == SignalType.RADIOSERVER)
+					&& AreOnTheSameFrequancy(receiver, emitter))
 				{
 					if (signalDataSo.UsesRange) { SignalStrengthHandler(receiver, emitter, signalDataSo, signalMessage); continue; }
 					receiver.ReceiveSignal(SignalStrength.HEALTHY, emitter, signalMessage);
 					continue;
 				}
-				//Bounced radios always have a limited range.
-				if (receiver.SignalTypeToReceive == SignalType.BOUNCED && AreOnTheSameFrequancy(receiver, emitter))
+
+				//PING signals are meant for communicating to a single device only
+				//These are meant for admin, special items and map specific cases where other signals cannot interfere with this
+				if (receiver.SignalTypeToReceive == SignalType.PING && receiver.Emitter == emitter)
 				{
-					SignalStrengthHandler(receiver, emitter, signalDataSo, signalMessage);
+					if (signalDataSo.UsesRange) { SignalStrengthHandler(receiver, emitter, signalDataSo); break; }
+					receiver.ReceiveSignal(SignalStrength.HEALTHY, emitter, signalMessage);
+					break;
 				}
 			}
 		}
@@ -132,7 +141,8 @@ namespace Managers
 	public enum SignalType
 	{
 		PING, //Signal is meant for a target object
-		RADIO, //Signal is meant to be connected via a receiver to relay to other devices
+		RADIOSERVER, //Signal from a machine that processes client signals and updates other clients
+		RADIOCLIENT, //Signal from a machine that communicates with another machine
 		BOUNCED //Signal is meant to be sent to all nearby devices without a middle man
 	}
 

@@ -26,7 +26,7 @@ namespace Player
 
 		public string STUnverifiedClientId;
 		public string STVerifiedUserid;
-		public ConnectedPlayer STVerifiedConnPlayer;
+		public PlayerInfo STVerifiedConnPlayer;
 
 		public override void OnStartLocalPlayer()
 		{
@@ -105,7 +105,7 @@ namespace Player
 				unverifiedClientId, unverifiedUsername);
 
 			// Register player to player list (logging code exists in PlayerList so no need for extra logging here)
-			var unverifiedConnPlayer = PlayerList.Instance.AddOrUpdate(new ConnectedPlayer
+			var unverifiedConnPlayer = PlayerList.Instance.AddOrUpdate(new PlayerInfo
 			{
 				Connection = connectionToClient,
 				GameObject = gameObject,
@@ -117,9 +117,8 @@ namespace Player
 			});
 
 			// this validates Userid and Token
-			var isValidPlayer =
-				await PlayerList.Instance.ValidatePlayer(unverifiedClientVersion, unverifiedConnPlayer, unverifiedToken);
-
+			// and does a lot more stuff
+			var isValidPlayer = await PlayerList.Instance.TryLogIn(unverifiedConnPlayer, unverifiedClientVersion, unverifiedToken);
 			if (isValidPlayer == false)
 			{
 				ClearCache();
@@ -145,11 +144,11 @@ namespace Player
 
 			IsValidPlayerAndWaitingOnLoad = true;
 			STUnverifiedClientId = unverifiedClientId;
-			STVerifiedUserid = unverifiedUserid; //Is validated within  PlayerList.Instance.ValidatePlayer(
+			STVerifiedUserid = unverifiedUserid; // Is validated within PlayerList.TryLogIn()
 			STVerifiedConnPlayer = unverifiedConnPlayer;
 			if (string.IsNullOrEmpty(clientCurrentScene) == false)
 			{
-				ServerRequestLoadedScenes(clientCurrentScene );
+				ServerRequestLoadedScenes(clientCurrentScene);
 			}
 		}
 
@@ -213,7 +212,7 @@ namespace Player
 				StartCoroutine(WaitForLoggedOffObserver(loggedOffPlayer.GameObject));
 			}
 
-			PlayerList.Instance.CheckAdminState(STVerifiedConnPlayer, STVerifiedUserid);
+			PlayerList.Instance.CheckAdminState(STVerifiedConnPlayer);
 			PlayerList.Instance.CheckMentorState(STVerifiedConnPlayer, STVerifiedUserid);
 			ClearCache();
 		}
@@ -351,7 +350,7 @@ namespace Player
 		[Command]
 		private void CmdPlayerReady(bool isReady, string jsonCharSettings)
 		{
-			var player = PlayerList.Instance.GetByConnection(connectionToClient);
+			var player = PlayerList.Instance.GetOnline(connectionToClient);
 
 			CharacterSettings charSettings = null;
 			if (isReady)

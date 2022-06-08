@@ -94,7 +94,7 @@ public partial class SubSceneManager : NetworkBehaviour
 		}
 	}
 
-	public static void ProcessObserverRefreshReq(ConnectedPlayer connectedPlayer, Scene sceneContext)
+	public static void ProcessObserverRefreshReq(PlayerInfo connectedPlayer, Scene sceneContext)
 	{
 		if (connectedPlayer.Connection != null)
 		{

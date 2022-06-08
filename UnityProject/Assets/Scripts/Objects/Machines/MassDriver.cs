@@ -147,7 +147,7 @@ namespace Objects
 			Vector3 vector = item.transform.rotation * throwVector;
 			UniversalObjectPhysics itemTransform = item.GetComponent<UniversalObjectPhysics>();
 			if (itemTransform == null) return;
-			itemTransform.NewtonianPush(vector, 1, inaim:BodyPartType.Chest ,inthrownBy : gameObject );
+			itemTransform.NewtonianPush(vector, 1, inAim:BodyPartType.Chest ,inThrownBy : gameObject );
 		}
 
 		private void PushObject(UniversalObjectPhysics entity, Vector3 pushVector)

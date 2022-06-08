@@ -168,7 +168,7 @@ namespace AdminTools
 			});
 		}
 
-		public static void RequestFullUpdate(ConnectedPlayer admin)
+		public static void RequestFullUpdate(PlayerInfo admin)
 		{
 			AdminInfoUpdateMessage.SendFullUpdate(admin.GameObject, Instance.serverInfos);
 		}

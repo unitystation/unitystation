@@ -54,7 +54,7 @@ namespace UI.Core.NetUI
 			}
 		}
 
-		public override void ExecuteServer(ConnectedPlayer subject) { }
+		public override void ExecuteServer(PlayerInfo subject) { }
 
 		/// <summary>
 		/// Server-only method for updating element (i.e. changing label text) from server GUI code

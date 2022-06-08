@@ -27,7 +27,7 @@ namespace Antagonists
 
 		public int StartingSpellCount => startingSpellCount;
 
-		public override void AfterSpawn(ConnectedPlayer player)
+		public override void AfterSpawn(PlayerInfo player)
 		{
 			GiveRandomSpells(player);
 
@@ -44,7 +44,7 @@ namespace Antagonists
 			return $"{wizardFirstNames.GetRandom()} {wizardLastNames.GetRandom()}";
 		}
 
-		public static string GetIdentityPaperText(ConnectedPlayer player)
+		public static string GetIdentityPaperText(PlayerInfo player)
 		{
 			return $"<size=36>CERTIFICATE OF IDENTITY</size>\n\n\n" +
 			       $"This slip is to certify that the bearer,\n" +
@@ -54,7 +54,7 @@ namespace Antagonists
 			       "<size=16>This certificate remains property of the Wizard Federation</size>";
 		}
 
-		private void GiveRandomSpells(ConnectedPlayer player)
+		private void GiveRandomSpells(PlayerInfo player)
 		{
 			if (StartingSpellCount < 1) return;
 
@@ -72,7 +72,7 @@ namespace Antagonists
 			Chat.AddExamineMsgFromServer(player.GameObject, playerMsg.ToString());
 		}
 
-		private void SetPapers(ConnectedPlayer player)
+		private void SetPapers(PlayerInfo player)
 		{
 			IEnumerable<ItemSlot> idSlots = player.Script.DynamicItemStorage.GetNamedItemSlots(NamedSlot.id);
 			foreach (var idSlot in idSlots)

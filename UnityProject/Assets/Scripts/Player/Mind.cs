@@ -227,7 +227,7 @@ public class Mind
 	public bool IsOnline()
 	{
 		NetworkConnection connection = GetCurrentMob().GetComponent<NetworkIdentity>().connectionToClient;
-		return PlayerList.Instance.ContainsConnection(connection);
+		return PlayerList.Instance.Has(connection);
 	}
 
 	/// <summary>

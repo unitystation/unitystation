@@ -18,7 +18,7 @@ public interface IActionGUI
 /// </summary>
 public interface IServerActionGUI : IActionGUI
 {
-	void CallActionServer(ConnectedPlayer SentByPlayer); //Requires validation in this
+	void CallActionServer(PlayerInfo SentByPlayer); //Requires validation in this
 }
 
 
@@ -46,7 +46,7 @@ public class __ExampleIServerActionGUI__ : IServerActionGUI
 		//Remember if its networked do validation
 	}
 
-	public void CallActionServer(ConnectedPlayer SentByPlayer)
+	public void CallActionServer(PlayerInfo SentByPlayer)
 	{
 		//Validation
 		//do Action

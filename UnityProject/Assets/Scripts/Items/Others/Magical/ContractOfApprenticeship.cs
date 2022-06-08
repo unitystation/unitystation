@@ -22,8 +22,8 @@ namespace Items.Magical
 		public event Action OnApprenticeSpawned;
 
 		public MagicSchool SelectedSchool { get; private set; }
-		public ConnectedPlayer BoundTo { get; private set; }
-		public ConnectedPlayer Apprentice { get; private set; }
+		public PlayerInfo BoundTo { get; private set; }
+		public PlayerInfo Apprentice { get; private set; }
 		public bool WasUsed => Apprentice != null;
 
 		private uint createdRoleKey;
@@ -69,7 +69,7 @@ namespace Items.Magical
 			GhostRoleManager.Instance.ServerRemoveRole(createdRoleKey);
 		}
 
-		private void SpawnApprentice(ConnectedPlayer player)
+		private void SpawnApprentice(PlayerInfo player)
 		{
 			player.Script.playerNetworkActions.ServerRespawnPlayerAntag(player, "Wizard Apprentice");
 

@@ -132,20 +132,6 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 8771208538898261867}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1684246463729429163
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8008296850104345303}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6d7277dcc993463cb6c7f79b663f36fc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  NetTabType: 50
-  aiInteractable: 1
 --- !u!114 &2537597061325202176
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -160,10 +146,33 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  defaultTechwebData: {fileID: 11400000, guid: a294711fbf9a67e43a76b580be65200b, type: 2}
-  techWebPath: /GameData/Research/
-  techWebFileName: TechwebData.json
   researchPointsTrickl: 25
   TrickleTime: 60
   AvailableDesigns: []
   conType: 11
+--- !u!114 &9065833264468658804
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8008296850104345303}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fdce8a163088453ca593c0e98f2c5f07, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemStorageStructure: {fileID: 11400000, guid: 263bf834f99424f12bda19d67c3ab5fc,
+    type: 2}
+  itemStorageCapacity: {fileID: 11400000, guid: 411b6b7a74c524a91b9a38a0c692761b,
+    type: 2}
+  itemStoragePopulator: {fileID: 0}
+  forceSpawnContents: 1
+  dropItemsOnDespawn: 1
+  UesAddlistPopulater: 1
+  Populater:
+    SlotContents: []
+    DeprecatedContents:
+    - {fileID: 577098253553543881, guid: 3a892d56aceb2d24d8c917409cce08c5, type: 3}
+  ashPrefab: {fileID: 2957035178188790827, guid: 9ac6968a3f3ed54428662c9aae5a4b32,
+    type: 3}

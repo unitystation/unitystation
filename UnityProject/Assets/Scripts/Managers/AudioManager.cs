@@ -20,6 +20,7 @@ namespace Audio.Containers
         [SerializeField] private AudioMixer audioMixer;
         public AudioMixerGroup MasterMixer;
         public AudioMixerGroup MusicMixer;
+        public AudioMixerGroup JukeboxMixer;
         public AudioMixerGroup SFXMixer;
         public AudioMixerGroup SFXMuffledMixer;
         public AudioMixerGroup AmbientMixer;

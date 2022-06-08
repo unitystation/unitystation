@@ -15,7 +15,7 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IActi
 	public const float interactionDistance = 1.5f;
 
 	public Mind mind;
-	public ConnectedPlayer connectedPlayer;
+	public PlayerInfo PlayerInfo;
 
 	/// <summary>
 	/// Current character settings for this player.
@@ -578,7 +578,7 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IActi
 	public void OnMatrixRotate(MatrixRotationInfo rotationInfo)
 	{
 		//We need to handle lighting stuff for matrix rotations for local player:
-		if (PlayerManager.LocalPlayer == gameObject && rotationInfo.IsClientside)
+		if (PlayerManager.LocalPlayerObject == gameObject && rotationInfo.IsClientside)
 		{
 			if (rotationInfo.IsStarting)
 			{

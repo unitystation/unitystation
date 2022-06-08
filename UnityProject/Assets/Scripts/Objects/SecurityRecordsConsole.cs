@@ -27,7 +27,7 @@ namespace Objects.Security
 			OnConsoleUpdate.Invoke();
 		}
 
-		private ItemSlot GetBestSlot(GameObject item, ConnectedPlayer subject)
+		private ItemSlot GetBestSlot(GameObject item, PlayerInfo subject)
 		{
 			if (subject == null)
 			{
@@ -55,7 +55,7 @@ namespace Objects.Security
 			//Eject existing id card if there is one and put new one in
 			if (itemSlot.Item != null)
 			{
-				ServerRemoveIDCard(interaction.PerformerPlayerScript.connectedPlayer);
+				ServerRemoveIDCard(interaction.PerformerPlayerScript.PlayerInfo);
 			}
 
 			Inventory.ServerTransfer(interaction.HandSlot, itemSlot);
@@ -64,7 +64,7 @@ namespace Objects.Security
 		/// <summary>
 		/// Spits out ID card from console and updates login details.
 		/// </summary>
-		public void ServerRemoveIDCard(ConnectedPlayer player)
+		public void ServerRemoveIDCard(PlayerInfo player)
 		{
 			if (!Inventory.ServerTransfer(itemSlot, GetBestSlot(itemSlot.ItemObject, player)))
 			{

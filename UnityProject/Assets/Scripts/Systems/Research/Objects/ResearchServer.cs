@@ -2,6 +2,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using Communications;
+using Items.Storage.VirtualStorage;
 using Mirror;
 using ScriptableObjects.Research;
 using UnityEngine;
@@ -12,24 +14,39 @@ namespace Systems.Research.Objects
 {
 	public class ResearchServer : NetworkBehaviour, IMultitoolMasterable
 	{
-		//TODO: PLACE HOLDER UNTIL WE GET A TECHWEB EDITOR OF SOME SORT
-		[SerializeField] private DefaultTechwebData defaultTechwebData;
-		//TODO: PLACEHOLDER, TECHWEBS SHOULD BE STORED LOCALLY ON IN-GAME DISKS/CIRCUITS TO BE STOLEN AND MERGED
-		[SyncVar] private Techweb techweb = new Techweb();
-		//TODO : PLACEHOLDER, THIS PATH MUST BE ASSIGNED ON THE CIRCUIT/DISK INSTEAD OF ON THE SERVER PREFAB
-		[SerializeField] private string techWebPath = "/GameData/Research/";
-		[SerializeField] private string techWebFileName = "TechwebData.json";
 		[SerializeField] private int researchPointsTrickl = 25;
 		[SerializeField] private int TrickleTime = 60; //seconds
+
+		private ItemStorage diskStorage;
 
 		public List<string> AvailableDesigns = new List<string>();
 
 		[NonSerialized] public Action<int,List<string>> TechWebUpdateEvent;
+		//Keep a cached reference to the techweb so we dont spam the server with signal requests
+		//Only send signals to the Research Server when issuing commands and changing values, not reading the data everytime we access it.
+		private Techweb techweb = new Techweb();
 
-		private void Awake()
+		private void Start()
 		{
-			if (File.Exists($"{techWebPath}{techWebFileName}") == false) defaultTechwebData.GenerateDefaultData();
-			techweb.LoadTechweb($"{techWebPath}{techWebFileName}");
+			diskStorage = GetComponent<ItemStorage>();
+			if (diskStorage == null || diskStorage.GetTopOccupiedIndexedSlot() == null)
+			{
+				Logger.LogError("Research server spawned without a disk to hold data!");
+				return;
+			}
+
+			if (diskStorage.GetTopOccupiedIndexedSlot().ItemObject.TryGetComponent<HardDriveBase>(out var disk))
+			{
+				var newTechwebFile = new TechwebFiles();
+				newTechwebFile.Techweb = techweb;
+				disk.AddDataToStorage(newTechwebFile);
+			}
+			else
+			{
+				Logger.LogError("Could not find correct disk to hold Techweb data!!");
+				return;
+			}
+
 			StartCoroutine(TrickleResources());
 			UpdateAvailableDesigns();
 		}
@@ -72,7 +89,7 @@ namespace Systems.Research.Objects
 
 			AvailableDesigns = availableDesigns;
 
-			return AvailableDesigns; 
+			return AvailableDesigns;
 		}
 		private IEnumerator TrickleResources()
 		{
@@ -80,6 +97,26 @@ namespace Systems.Research.Objects
 			{
 				yield return WaitFor.Seconds(TrickleTime);
 				techweb.AddResearchPoints(researchPointsTrickl);
+			}
+		}
+
+		private void RemoveHardDisk()
+		{
+			if (diskStorage.GetTopOccupiedIndexedSlot().ItemObject.TryGetComponent<HardDriveBase>(out var disk))
+			{
+				Inventory.ServerDrop(disk.gameObject.PickupableOrNull().ItemSlot);
+				techweb = null;
+			}
+		}
+
+		private void AddHardDisk(ItemSlot disk)
+		{
+			if (disk.ItemObject.TryGetComponent<HardDriveBase>(out var hardDisk) == false) return;
+			if (Inventory.ServerTransfer(disk, diskStorage.GetNextFreeIndexedSlot()))
+			{
+				//the techweb disk will only have one file so its fine if we just get the first ever one.
+				//if for whatever reason it has more; it's going to be a bug thats not possible.
+				if (hardDisk.DataOnStorage[0] is TechwebFiles c) techweb = c.Techweb;
 			}
 		}
 

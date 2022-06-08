@@ -57,11 +57,11 @@ namespace Objects.Drawers
 
 			if (accessRestrictions)
 			{
-				if (accessRestrictions.CheckAccess(PlayerManager.LocalPlayer) == false) return result;
+				if (accessRestrictions.CheckAccess(PlayerManager.LocalPlayerObject) == false) return result;
 			}
 			else if (clearanceCheckable)
 			{
-				if (clearanceCheckable.HasClearance(PlayerManager.LocalPlayer) == false) return result;
+				if (clearanceCheckable.HasClearance(PlayerManager.LocalPlayerObject) == false) return result;
 			}
 
 			var cremateInteraction = ContextMenuApply.ByLocalPlayer(gameObject, null);

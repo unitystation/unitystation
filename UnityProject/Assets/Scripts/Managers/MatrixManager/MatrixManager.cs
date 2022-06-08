@@ -344,7 +344,7 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 	public static CustomPhysicsHit Linecast(Vector3 Worldorigin, LayerTypeSelection layerMask, LayerMask? Layermask2D,
 		Vector3 WorldTo, bool DEBUG = false)
 	{
-		return RayCast(Worldorigin, Vector2.zero, 0, layerMask, Layermask2D, WorldTo, DEBUG :DEBUG);
+		return RayCast(Worldorigin, Vector2.zero, 0, layerMask, Layermask2D, WorldTo, DEBUG: DEBUG);
 	}
 
 	public static CustomPhysicsHit RayCast(Vector3 Worldorigin,
@@ -373,7 +373,8 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 
 		if (distance > 30)
 		{
-			Logger.LogError($" Limit exceeded on raycast, Look at stack trace for What caused it at {distance}"); //Meant to catch up stuff that's been naughty and doing stuff like 900 tile Ray casts
+			Logger.LogError(
+				$" Limit exceeded on raycast, Look at stack trace for What caused it at {distance}"); //Meant to catch up stuff that's been naughty and doing stuff like 900 tile Ray casts
 			return new CustomPhysicsHit();
 		}
 
@@ -894,37 +895,44 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 	///Cross-matrix edition of <see cref="Matrix.IsPassableAt(UnityEngine.Vector3Int,UnityEngine.Vector3Int,bool,GameObject)"/>
 	///<inheritdoc cref="Matrix.IsPassableAt(UnityEngine.Vector3Int,UnityEngine.Vector3Int,bool,GameObject)"/>
 	public static bool IsPassableAtAllMatricesV2(Vector3 worldOrigin, Vector3 worldTarget,
-		MatrixCash MatrixCash, UniversalObjectPhysics Context, List<UniversalObjectPhysics> PushIng, List<IBumpableObject> Bumps, List<UniversalObjectPhysics> Hits = null)
+		MatrixCash MatrixCash, UniversalObjectPhysics Context, List<UniversalObjectPhysics> PushIng,
+		List<IBumpableObject> Bumps, List<UniversalObjectPhysics> Hits = null)
 	{
 		var MatrixOrigin = MatrixCash.GetforDirection(Vector3Int.zero);
+
 		var localPosOrigin = WorldToLocal(worldOrigin, MatrixOrigin);
 		var localPosTarget = WorldToLocal(worldTarget, MatrixOrigin);
 
-		bool IsPassable = MatrixOrigin.Matrix.MetaTileMap.IsPassableAtOneObjectsV2(localPosOrigin.RoundToInt(), localPosTarget.RoundToInt(), Context, PushIng, Bumps,Hits);
+		bool IsPassable = MatrixOrigin.Matrix.MetaTileMap.IsPassableAtOneObjectsV2(localPosOrigin.RoundToInt(),
+			localPosTarget.RoundToInt(), Context, PushIng, Bumps, Hits);
 
 		if (IsPassable == false)
 		{
 			return false;
 		}
+
+
 		// PushIng.Clear();
 		if (Hits != null) Hits.Clear();
 
 		var matrixTarget = MatrixCash.GetforDirection((worldTarget - worldOrigin).RoundToInt());
+
 
 		localPosOrigin = WorldToLocal(worldOrigin, matrixTarget);
 		localPosTarget = WorldToLocal(worldTarget, matrixTarget);
 
 		var intlocalPosOrigin = localPosOrigin.RoundToInt();
 		var intlocalPosTarget = localPosTarget.RoundToInt();
-
+		bool isSpace = matrixTarget.Matrix == MatrixManager.Instance.spaceMatrix;
 
 
 		if (intlocalPosOrigin.x == intlocalPosTarget.x || intlocalPosOrigin.y == intlocalPosTarget.y)
 		{
-			if (matrixTarget.Matrix.MetaTileMap.IsPassableAtOneTileMapV2(intlocalPosOrigin, intlocalPosTarget,
+			if (isSpace || matrixTarget.Matrix.MetaTileMap.IsPassableAtOneTileMapV2(intlocalPosOrigin, intlocalPosTarget,
 				    CollisionType.Player))
 			{
-				if (matrixTarget.Matrix.MetaTileMap.IsPassableAtOneObjectsV2(intlocalPosOrigin, intlocalPosTarget, Context,
+				if (matrixTarget.Matrix.MetaTileMap.IsPassableAtOneObjectsV2(intlocalPosOrigin, intlocalPosTarget,
+					    Context,
 					    PushIng, Bumps, Hits))
 				{
 					return true;
@@ -933,9 +941,11 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 		}
 		else
 		{
-			if (matrixTarget.Matrix.MetaTileMap.IsPassableTileMapHorizontal(intlocalPosOrigin, intlocalPosTarget,CollisionType.Player ))
+			if (isSpace || matrixTarget.Matrix.MetaTileMap.IsPassableTileMapHorizontal(intlocalPosOrigin, intlocalPosTarget,
+				    CollisionType.Player))
 			{
-				if (matrixTarget.Matrix.MetaTileMap.IsPassableObjectsHorizontal(intlocalPosOrigin, intlocalPosTarget, Context,
+				if (matrixTarget.Matrix.MetaTileMap.IsPassableObjectsHorizontal(intlocalPosOrigin,
+					    intlocalPosTarget, Context,
 					    PushIng, Bumps, Hits))
 				{
 					return true;
@@ -946,10 +956,11 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 			Bumps.Clear();
 			PushIng.Clear();
 
-			if (matrixTarget.Matrix.MetaTileMap.IsPassableTileMapVertical(intlocalPosOrigin, intlocalPosTarget,
+			if (isSpace || matrixTarget.Matrix.MetaTileMap.IsPassableTileMapVertical(intlocalPosOrigin, intlocalPosTarget,
 				    CollisionType.Player))
 			{
-				if (matrixTarget.Matrix.MetaTileMap.IsPassableObjectsVertical(intlocalPosOrigin, intlocalPosTarget, Context,
+				if (matrixTarget.Matrix.MetaTileMap.IsPassableObjectsVertical(intlocalPosOrigin, intlocalPosTarget,
+					    Context,
 					    PushIng, Bumps, Hits))
 				{
 					return true;
@@ -1100,6 +1111,7 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 				}
 			}
 		}
+
 		return true;
 	}
 
@@ -1299,7 +1311,8 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 			return worldPos - matrix.Offset;
 		}
 
-		if (matrix.MetaTileMap.worldToLocalMatrix != null) //TODO After fixing Shuttle offset and Change movement to local
+		if (matrix.MetaTileMap.worldToLocalMatrix !=
+		    null) //TODO After fixing Shuttle offset and Change movement to local
 		{
 			return matrix.MetaTileMap.worldToLocalMatrix.Value.MultiplyPoint(worldPos);
 		}

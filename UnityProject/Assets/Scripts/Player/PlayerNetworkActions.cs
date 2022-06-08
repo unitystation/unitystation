@@ -275,11 +275,11 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		Vector2? possibleTarget = null;
 		if (Target != TransformState.HiddenPos)
 		{
-			if (Validations.IsReachableByPositions(PlayerManager.PlayerScript.registerTile.WorldPosition, Target, false))
+			if (Validations.IsReachableByPositions(PlayerManager.LocalPlayerScript.registerTile.WorldPosition, Target, false))
 			{
 				if (MatrixManager.IsPassableAtAllMatricesOneTile(Target.RoundToInt(), CustomNetworkManager.Instance._isServer))
 				{
-					possibleTarget = (Target - PlayerManager.PlayerScript.registerTile.WorldPosition);
+					possibleTarget = (Target - PlayerManager.LocalPlayerScript.registerTile.WorldPosition);
 				}
 			}
 		}
@@ -448,8 +448,8 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	public void CmdRegisterVote(string isFor)
 	{
 		if (VotingManager.Instance == null) return;
-		var connectedPlayer = PlayerList.Instance.Get(gameObject);
-		if (connectedPlayer == ConnectedPlayer.Invalid) return;
+		var connectedPlayer = PlayerList.Instance.GetOnline(gameObject);
+		if (connectedPlayer == PlayerInfo.Invalid) return;
 		VotingManager.Instance.RegisterVote(connectedPlayer.UserId, isFor);
 	}
 
@@ -460,7 +460,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		{
 			if (VotingManager.Instance == null) return;
 
-			VotingManager.Instance.VetoVote(player.ClientId);
+			VotingManager.Instance.VetoVote(player);
 		}
 	}
 
@@ -669,7 +669,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	}
 
 	[Server]
-	public void ServerRespawnPlayerAntag(ConnectedPlayer playerToRespawn, string antagonist)
+	public void ServerRespawnPlayerAntag(PlayerInfo playerToRespawn, string antagonist)
 	{
 		foreach (var antag in SOAdminJobsList.Instance.Antags)
 		{
@@ -1001,7 +1001,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		{
 			if (spell.SpellData.Index == spellIndex)
 			{
-				spell.CallActionServer(PlayerList.Instance.Get(gameObject), clickPosition);
+				spell.CallActionServer(PlayerList.Instance.GetOnline(gameObject), clickPosition);
 				return;
 			}
 		}

@@ -95,7 +95,7 @@ namespace AdminTools
 			}
 		}
 
-		public void ServerAddNewEntry(string incidentTime, PlayerAlertTypes alertType, ConnectedPlayer perp, string message)
+		public void ServerAddNewEntry(string incidentTime, PlayerAlertTypes alertType, PlayerInfo perp, string message)
 		{
 			var netId = NetId.Invalid;
 
@@ -168,7 +168,7 @@ namespace AdminTools
 
 			var playerScript = perp.GetComponent<PlayerScript>();
 			if (playerScript == null || playerScript.IsGhost || playerScript.playerHealth == null) return;
-			ConnectedPlayer perpPlayer = perp.Player();
+			PlayerInfo perpPlayer = perp.Player();
 			UIManager.Instance.adminChatWindows.adminLogWindow.ServerAddChatRecord(
 					$"{admin.Player().Username} BRUTALLY GIBBED player {perpPlayer.Name} ({perpPlayer.Username}) for a " +
 			        $"{alertEntry.playerAlertType.ToString()} incident that happened at roundtime: {alertEntry.roundTime}", adminId);
@@ -187,7 +187,7 @@ namespace AdminTools
 
 			var playerScript = perp.GetComponent<PlayerScript>();
 			if (playerScript == null || playerScript.IsGhost || playerScript.playerHealth == null) return;
-			ConnectedPlayer perpPlayer = perp.Player();
+			PlayerInfo perpPlayer = perp.Player();
 			UIManager.Instance.adminChatWindows.adminLogWindow.ServerAddChatRecord(
 					$"{admin.Player().Username} is talking to or monitoring player {perpPlayer.Name} ({perpPlayer.Username}) for a " +
 			        $"{alertEntry.playerAlertType} incident that happened at roundtime: {alertEntry.roundTime}", adminId);

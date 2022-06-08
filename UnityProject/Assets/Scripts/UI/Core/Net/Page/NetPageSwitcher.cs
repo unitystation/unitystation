@@ -28,7 +28,7 @@ namespace UI.Core.NetUI
 		/// </summary>
 		public PageChangeEvent OnPageChange;
 
-		public override void ExecuteServer(ConnectedPlayer subject) { }
+		public override void ExecuteServer(PlayerInfo subject) { }
 
 		public override string Value {
 			get => CurrentPageIndex.ToString();

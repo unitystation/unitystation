@@ -144,7 +144,7 @@ public static class Validations
 		if (side == NetworkSide.Client)
 		{
 			//we only know our own conscious state, so assume true if it's not our local player
-			if (playerHealth.gameObject != PlayerManager.LocalPlayer) return true;
+			if (playerHealth.gameObject != PlayerManager.LocalPlayerObject) return true;
 		}
 
 		return playerHealth.ConsciousState == ConsciousState.CONSCIOUS ||
@@ -436,7 +436,7 @@ public static class Validations
 
 	private static bool InternalAiActivate(AiActivate toValidate, NetworkSide side, bool lineCast = true)
 	{
-		if (side == NetworkSide.Client && PlayerManager.LocalPlayer != toValidate.Performer) return false;
+		if (side == NetworkSide.Client && PlayerManager.LocalPlayerObject != toValidate.Performer) return false;
 
 		//Performer and target cant be null
 		if (toValidate.Performer == null || toValidate.TargetObject == null) return false;

@@ -88,7 +88,7 @@ public partial class Chat
 	/// <param name="sendByPlayer">The player sending the message. Used for detecting conciousness and occupation.</param>
 	/// <param name="message">The chat message to process.</param>
 	/// <returns>A tuple of the processed chat message and the detected modifiers.</returns>
-	private static (string, ChatModifier) ProcessMessage(ConnectedPlayer sentByPlayer, string message)
+	private static (string, ChatModifier) ProcessMessage(PlayerInfo sentByPlayer, string message)
 	{
 		ChatModifier chatModifiers = ChatModifier.None; // Modifier that will be returned in the end.
 		ConsciousState playerConsciousState = ConsciousState.DEAD;
@@ -540,9 +540,9 @@ public partial class Chat
 
 	private static bool GhostValidationRejection(uint originator, ChatChannel channels)
 	{
-		if (PlayerManager.PlayerScript == null) return false;
-		if (PlayerManager.PlayerScript.IsGhost == false) return false;
-		if (Instance.GhostHearAll && PlayerManager.PlayerScript.IsPlayerSemiGhost == false) return false;
+		if (PlayerManager.LocalPlayerScript == null) return false;
+		if (PlayerManager.LocalPlayerScript.IsGhost == false) return false;
+		if (Instance.GhostHearAll && PlayerManager.LocalPlayerScript.IsPlayerSemiGhost == false) return false;
 
 		if (NetworkIdentity.spawned.ContainsKey(originator))
 		{
@@ -552,14 +552,14 @@ public partial class Chat
 			{
 				LayerMask layerMask = LayerMask.GetMask("Door Closed");
 				if (Vector2.Distance(getOrigin.transform.position,
-					PlayerManager.LocalPlayer.transform.position) > 14f)
+					PlayerManager.LocalPlayerObject.transform.position) > 14f)
 				{
 					return true;
 				}
 				else
 				{
 					if (MatrixManager.RayCast(getOrigin.transform.position, Vector2.zero, 0, LayerTypeSelection.Walls,
-						layerMask, PlayerManager.LocalPlayer.transform.position).ItHit)
+						layerMask, PlayerManager.LocalPlayerObject.transform.position).ItHit)
 					{
 						return true;
 					}

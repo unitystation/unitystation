@@ -38,7 +38,7 @@ namespace Antagonists
 		protected override void Setup()
 		{
 			// Get all ingame players except the one who owns this objective and players who have already been targeted and the ones who cant be targeted
-			List<ConnectedPlayer> playerPool = PlayerList.Instance.InGamePlayers.Where( p =>
+			List<PlayerInfo> playerPool = PlayerList.Instance.InGamePlayers.Where( p =>
 				(p.Script != Owner.body) && !AntagManager.Instance.TargetedPlayers.Contains(p.Script) && p.Script.mind.occupation != null && p.Script.mind.occupation.IsTargeteable
 
 			).ToList();

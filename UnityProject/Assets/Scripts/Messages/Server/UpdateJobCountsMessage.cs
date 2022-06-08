@@ -62,7 +62,7 @@ namespace Messages.Server
 			UIManager.Display.jobSelectWindow.GetComponent<GUI_PlayerJobs>().UpdateJobsList();
 		}
 
-		public static NetMessage SendToPlayer(Dictionary<JobType, int> jobs, ConnectedPlayer toPlayer)
+		public static NetMessage SendToPlayer(Dictionary<JobType, int> jobs, PlayerInfo toPlayer)
 		{
 			var jobTypes = new JobType[jobs.Count];
 			var amounts = new int[jobs.Count];

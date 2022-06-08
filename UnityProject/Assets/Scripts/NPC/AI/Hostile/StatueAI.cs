@@ -13,7 +13,7 @@ namespace Systems.MobAIs
 	[RequireComponent(typeof(ConeOfSight))]
 	public class StatueAI : GenericHostileAI
 	{
-		protected override void UpdateMe()
+		public override void ContemplatePriority()
 		{
 			if (!isServer) return;
 

@@ -72,7 +72,7 @@ namespace UI.Core.NetUI
 		private Graphic element;
 		public Graphic Element => element ??= GetComponent<Graphic>();
 
-		public override void ExecuteServer(ConnectedPlayer subject) { }
+		public override void ExecuteServer(PlayerInfo subject) { }
 
 		/// <summary>
 		/// Server-only method for updating element (i.e. changing label text) from server GUI code

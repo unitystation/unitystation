@@ -8,6 +8,7 @@ using Messages.Server;
 using Mirror;
 using UnityEngine;
 using UI;
+using Strings;
 
 /// <summary>
 /// Controls everything to do with player voting
@@ -193,17 +194,17 @@ public class VotingManager : NetworkBehaviour
 	}
 
 	[Server]
-	public void VetoVote(string adminId)
+	public void VetoVote(PlayerInfo admin)
 	{
 		voteInProgress = false;
 		FinishVote();
 		votes.Clear();
 
-		Chat.AddGameWideSystemMsgToChat("<color=blue>Vote was Vetoed by admin</color>");
+		Chat.AddGameWideSystemMsgToChat($"<color={ChatTemplates.Blue}>Vote was vetoed by an admin.</color>");
 
-		var msg = $"Vote was vetoed by {PlayerList.Instance.GetByUserID(adminId).Username}";
+		var msg = $"Vote was vetoed by {admin.Username}.";
 
-		UIManager.Instance.adminChatWindows.adminLogWindow.ServerAddChatRecord(msg, adminId);
+		UIManager.Instance.adminChatWindows.adminLogWindow.ServerAddChatRecord(msg, admin.UserId);
 		Logger.Log(msg, Category.Admin);
 	}
 

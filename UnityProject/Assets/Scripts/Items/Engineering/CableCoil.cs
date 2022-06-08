@@ -332,7 +332,7 @@ namespace Objects.Electrical
 			}
 			else
 			{
-				Chat.AddExamineMsgFromServer(interaction.PerformerPlayerScript.connectedPlayer,
+				Chat.AddExamineMsgFromServer(interaction.PerformerPlayerScript.PlayerInfo,
 					$"You don't have enough cable to place");
 			}
 		}

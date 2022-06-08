@@ -62,7 +62,7 @@ namespace Objects
 
 		private List<AddressableAudioSource> musics;
 
-		private string guid = "";
+		[SyncVar] private string guid = "";
 
 		/// <summary>
 		/// The current state of the jukebox powered/overpowered/underpowered/no power
@@ -80,6 +80,7 @@ namespace Objects
 		private int currentSongTrackIndex = 0;
 		private float startPlayTime;
 		private bool secondLoadAttempt;
+		[SyncVar] private bool actionNotDone = false;
 
 		public bool IsPlaying { get; set; } = false;
 
@@ -121,7 +122,7 @@ namespace Objects
 			integrity.OnApplyDamage.AddListener(OnDamageReceived);
 
 			audioSourceParameters = new AudioSourceParameters(volume: Volume, spatialBlend: 1, spread: Spread,
-				minDistance: MinSoundDistance, maxDistance: MaxSoundDistance, mixerType: MixerType.Muffled,
+				minDistance: MinSoundDistance, maxDistance: MaxSoundDistance, mixerType: MixerType.JukeBox,
 				volumeRolloffType: VolumeRolloffType.EaseInAndOut);
 		}
 
@@ -170,15 +171,23 @@ namespace Objects
 				// The fun isn't over, we just finished the current track.  We just start playing the next one (or stop if it was the last one).
 				if (NextSong() == false)
 				{
-					Stop();
+					_ = Stop();
 				}
 			}
+		}
+
+		[Server]
+		private async Task WaitForActionToFinish(System.Action action)
+		{
+			actionNotDone = true;
+			await Task.Run(() => action);
+			actionNotDone = false;
 		}
 
 		public async Task Play()
 		{
 			// Too much damage stops the jukebox from being able to play
-			if (integrity.integrity > integrity.initialIntegrity / 2)
+			if (integrity.integrity > integrity.initialIntegrity / 2 || actionNotDone)
 			{
 				SoundManager.StopNetworked(guid);
 				IsPlaying = true;
@@ -189,55 +198,43 @@ namespace Objects
 			}
 		}
 
-		public void Stop()
+		public async Task Stop(bool autoplay = false)
 		{
-			IsPlaying = false;
+			if(autoplay == false) IsPlaying = false;
 
 			if (integrity.integrity >= integrity.initialIntegrity / 2)
 				spriteHandler.SetSpriteSO(SpriteIdle);
 			else
 				spriteHandler.SetSpriteSO(SpriteDamaged);
 
-			SoundManager.StopNetworked(guid);
+			await Task.Run(() => WaitForActionToFinish(() => SoundManager.StopNetworked(guid)));
 
 			UpdateGUI();
 		}
 
 		public void PreviousSong()
 		{
+			_ = Stop(true);
+			if (actionNotDone) return;
 			if (currentSongTrackIndex > 0)
 			{
-				if (IsPlaying)
-				{
-					SoundManager.StopNetworked(guid);
-				}
-
 				currentSongTrackIndex--;
 				UpdateGUI();
 
-				if (IsPlaying)
-				{
-					_ = Play();
-				}
+				if (IsPlaying) _ = Play();
 			}
 		}
 
 		public bool NextSong()
 		{
+			_ = Stop(true);
+			if (actionNotDone) return false;
 			if (currentSongTrackIndex < musics.Count - 1)
 			{
-				if (IsPlaying)
-				{
-					SoundManager.StopNetworked(guid);
-				}
-
 				currentSongTrackIndex++;
 				UpdateGUI();
 
-				if (IsPlaying)
-				{
-					_ = Play();
-				}
+				if (IsPlaying) _ = Play();
 
 				return true;
 			}

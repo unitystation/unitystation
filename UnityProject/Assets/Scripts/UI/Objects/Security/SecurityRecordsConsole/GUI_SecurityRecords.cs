@@ -55,7 +55,7 @@ namespace UI.Objects.Security
 			}
 		}
 
-		public void RemoveId(ConnectedPlayer player)
+		public void RemoveId(PlayerInfo player)
 		{
 			if (console.IdCard)
 			{

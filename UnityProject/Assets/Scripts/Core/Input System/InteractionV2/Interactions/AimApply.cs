@@ -79,25 +79,25 @@ public class AimApply : BodyPartTargetedInteraction
 		}
 
 
-		var InternaltargetPosition = MouseUtils.MouseToWorldPos().ToLocal(PlayerManager.LocalPlayer.RegisterTile().Matrix).To2();
+		var InternaltargetPosition = MouseUtils.MouseToWorldPos().ToLocal(PlayerManager.LocalPlayerObject.RegisterTile().Matrix).To2();
 
 
 		//check for self aim if target vector is sufficiently small so we can avoid raycast
 		var selfAim = false;
 		var targetVector = (Vector2) MouseUtils.MouseToWorldPos() -
-		                   (Vector2) PlayerManager.LocalPlayer.transform.position;
+		                   (Vector2) PlayerManager.LocalPlayerObject.transform.position;
 
 		if (targetVector.magnitude < 0.6)
 		{
 			selfAim = MouseUtils.GetOrderedObjectsUnderMouse(PLAYER_LAYER_MASK,
-				go => go == PlayerManager.LocalPlayer).Any();
+				go => go == PlayerManager.LocalPlayerObject).Any();
 		}
 
-		return new AimApply(PlayerManager.LocalPlayer, PlayerManager.LocalPlayerScript.DynamicItemStorage.GetActiveHandSlot().ItemObject,
+		return new AimApply(PlayerManager.LocalPlayerObject, PlayerManager.LocalPlayerScript.DynamicItemStorage.GetActiveHandSlot().ItemObject,
 			PlayerManager.LocalPlayerScript.DynamicItemStorage.GetActiveHandSlot(),
 			buttonState,
 
-			selfAim ? PlayerManager.LocalPlayer.transform.localPosition.To2() : InternaltargetPosition, UIManager.DamageZone, UIManager.CurrentIntent, PlayerManager.LocalPlayer.transform.localPosition.To2());
+			selfAim ? PlayerManager.LocalPlayerObject.transform.localPosition.To2() : InternaltargetPosition, UIManager.DamageZone, UIManager.CurrentIntent, PlayerManager.LocalPlayerObject.transform.localPosition.To2());
 	}
 
 	/// <summary>

@@ -41,7 +41,7 @@ namespace Messages.Server
 
 			var prepareConnectedPlayers = new List<ClientConnectedPlayer>();
 			var count = 0;
-			foreach (ConnectedPlayer c in PlayerList.Instance.AllPlayers)
+			foreach (PlayerInfo c in PlayerList.Instance.AllPlayers)
 			{
 				var tag = "";
 

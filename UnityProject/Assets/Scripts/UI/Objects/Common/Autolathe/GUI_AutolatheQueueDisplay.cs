@@ -118,7 +118,7 @@ namespace UI.Objects
 			}
 		}
 
-		public override void ExecuteServer(ConnectedPlayer subject)
+		public override void ExecuteServer(PlayerInfo subject)
 		{
 		}
 	}

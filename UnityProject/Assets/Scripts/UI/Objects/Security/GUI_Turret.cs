@@ -27,7 +27,7 @@ namespace UI.Objects.Security
 		private Turret turret;
 		private Turret Turret => turret ??= Provider.GetComponent<Turret>();
 
-		public void OnTabOpenedHandler(ConnectedPlayer connectedPlayer)
+		public void OnTabOpenedHandler(PlayerInfo connectedPlayer)
 		{
 			labelPower.Value = Turret.HasPower ? Turret.CurrentTurretState == Turret.TurretState.Off ? "Off" : "On" : "No Power";
 			labelWeapons.Value = Turret.CheckWeaponAuthorisation ? "Yes" : "No";

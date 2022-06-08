@@ -1041,6 +1041,7 @@ MonoBehaviour:
   ClientSprites: []
   percentAllergies: 30
   commonAllergies: {fileID: 0}
+  convulsionEffect: {fileID: 0}
 --- !u!114 &2708192528502292653
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1368,6 +1369,7 @@ MonoBehaviour:
   MaskToCheck:
     serializedVersion: 2
     m_Bits: 537418752
+  tile: {fileID: 0}
 --- !u!114 &7265610720913237329
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1386,6 +1388,9 @@ MonoBehaviour:
   SnapToGridOnStart: 0
   LocalTargetPosition: {x: 0, y: 0, z: 0}
   ChangesDirectionPush: 1
+  Intangible: 0
+  InitialLocationSynchronised: 0
+  tileMoveSpeed: 1
   isNotPushable: 0
   newtonianMovement: {x: 0, y: 0}
   airTime: 0
@@ -1393,6 +1398,10 @@ MonoBehaviour:
   thrownBy: {fileID: 0}
   aim: 0
   spinMagnitude: 0
+  ForcedPushedFrame: 0
+  TryPushedFrame: 0
+  PushedFrame: 0
+  FramePushDecision: 1
   stickyMovement: 1
   maximumStickSpeed: 10
   onStationMovementsRound: 1
@@ -1406,27 +1415,22 @@ MonoBehaviour:
   CorrectingCourse: 0
   Pushing: []
   Hits: []
-  Speed: 1
-  AIR: 3
-  SLIDE: 4
   Animating: 0
   IsFlyingSliding: 0
   IsMoving: 0
   MoveIsWalking: 0
   LastUpdateClientFlying: 0
   playerScript: {fileID: 0}
-  MoveMaxDelayQueue: 1
   Step: 0
-  intent: 0
+  CanMoveThroughObstructions: 0
   RunSpeed: 0
   WalkSpeed: 0
   CrawlSpeed: 0
-  actionData: {fileID: 0}
+  actionData: {fileID: 11400000, guid: 967a13d2ea206e9448f6c6e2af11a3cf, type: 2}
   IsBumping: 0
   IsPressedCashed: 0
   IsPressedServer: 0
   LastUpdatedFlyingPosition: 0
-  LastProcessMoved: 0
   DEBUGLastMoveMessageProcessed: 0
 --- !u!1 &1147423205297840
 GameObject:
@@ -8073,7 +8077,7 @@ SpriteRenderer:
   m_SortingLayerID: -902452607
   m_SortingLayer: 22
   m_SortingOrder: 20
-  m_Sprite: {fileID: 7660122581263827943, guid: 2adbceb9cc674484cb9a2c58b41d5493,
+  m_Sprite: {fileID: -4549444404219585148, guid: 2adbceb9cc674484cb9a2c58b41d5493,
     type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0

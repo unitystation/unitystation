@@ -19,16 +19,13 @@ namespace Messages.Client.Admin
 
 		private void VerifyAdminStatus(NetMessage msg)
 		{
-			if (IsFromAdmin())
-			{
-				var recipient = PlayerList.Instance.GetAllByUserID(msg.UserToBwoink);
-				foreach (var r in recipient)
-				{
-					AdminBwoinkMessage.Send(r.GameObject, SentByPlayer.UserId, $"<color=red>{msg.Message}</color>");
-					UIManager.Instance.adminChatWindows.adminPlayerChat.ServerAddChatRecord(
-							msg.Message, msg.UserToBwoink, SentByPlayer.UserId);
-				}
-			}
+			if (IsFromAdmin() == false) return;
+			
+			if (PlayerList.Instance.TryGetByUserID(msg.UserToBwoink, out var recipient) == false) return;
+			
+			AdminBwoinkMessage.Send(recipient.GameObject, SentByPlayer.UserId, $"<color=red>{msg.Message}</color>");
+			UIManager.Instance.adminChatWindows.adminPlayerChat.ServerAddChatRecord(
+					msg.Message, msg.UserToBwoink, SentByPlayer.UserId);
 		}
 
 		public static NetMessage Send(string userIDToBwoink, string message)

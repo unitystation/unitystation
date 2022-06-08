@@ -298,7 +298,7 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 			OnCuffChangeServer.Invoke(oldCuffed, this.IsCuffed);
 		}
 
-		if (this.gameObject == PlayerManager.LocalPlayer)
+		if (this.gameObject == PlayerManager.LocalPlayerObject)
 		{
 			PlayerUIHandCuffToggle(this.IsCuffed);
 		}
@@ -330,7 +330,7 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 			}
 		}
 
-		if (PlayerManager.LocalPlayer == gameObject)
+		if (PlayerManager.LocalPlayerObject == gameObject)
 		{
 			UIActionManager.ToggleLocal(this, newBuckledTo != null);
 		}
@@ -689,7 +689,7 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 				var Entry = MoveQueue[0];
 				MoveQueue.RemoveAt(0);
 
-				SetMatrixCash.ResetNewPosition(transform.position);
+				SetMatrixCash.ResetNewPosition(transform.position, registerTile);
 				//Logger.LogError(" Is Animating " +  Animating + " Is floating " +  IsAnimatingFlyingSliding +" move processed at" + transform.localPosition);
 
 				if (IsFlyingSliding)
@@ -702,7 +702,7 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 						transform.localPosition = Entry.LocalPosition;
 						registerTile.ServerSetLocalPosition(Entry.LocalPosition.RoundToInt());
 						registerTile.ClientSetLocalPosition(Entry.LocalPosition.RoundToInt());
-						SetMatrixCash.ResetNewPosition(transform.position);
+						SetMatrixCash.ResetNewPosition(transform.position, registerTile);
 						Fudged = true;
 					}
 					else
@@ -835,7 +835,7 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 							transform.localPosition = Stored;
 							registerTile.ServerSetLocalPosition(Stored.RoundToInt());
 							registerTile.ClientSetLocalPosition(Stored.RoundToInt());
-							SetMatrixCash.ResetNewPosition(transform.position);
+							SetMatrixCash.ResetNewPosition(transform.position, registerTile);
 						}
 
 						ResetLocationOnClients();
@@ -850,7 +850,7 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 						transform.localPosition = Stored;
 						registerTile.ServerSetLocalPosition(Stored.RoundToInt());
 						registerTile.ClientSetLocalPosition(Stored.RoundToInt());
-						SetMatrixCash.ResetNewPosition(transform.position);
+						SetMatrixCash.ResetNewPosition(transform.position, registerTile);
 					}
 
 					ResetLocationOnClients();
@@ -863,14 +863,14 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 
 	public void ReceivePlayerMoveAction(PlayerAction moveActions)
 	{
-		if (CommonInput.GetKeyDown(KeyCode.F7) && gameObject == PlayerManager.LocalPlayer)
+		if (CommonInput.GetKeyDown(KeyCode.F7) && gameObject == PlayerManager.LocalPlayerObject)
 		{
 			PlayerSpawn.ServerSpawnDummy(gameObject.transform);
 		}
 
 
 		if (moveActions.moveActions.Length == 0) return;
-		SetMatrixCash.ResetNewPosition(transform.position);
+		SetMatrixCash.ResetNewPosition(transform.position, registerTile);
 
 		if (CanInPutMove())
 		{
@@ -1041,9 +1041,9 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 
 			//move
 			ForceTilePush(NewMoveData.GlobalMoveDirection.TVectoro().To2Int(), Pushing, ByClient,
-				IsWalk: true, PushedBy: this);
+				isWalk: true, pushedBy: this);
 
-			SetMatrixCash.ResetNewPosition(registerTile.WorldPosition); //Resets the cash
+			SetMatrixCash.ResetNewPosition(registerTile.WorldPosition, registerTile); //Resets the cash
 
 			if (CausesSlipClient)
 			{
