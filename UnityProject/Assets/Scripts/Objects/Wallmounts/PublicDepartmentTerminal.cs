@@ -66,8 +66,10 @@ namespace Objects.Wallmounts
 			if (interaction.HandSlot.Item.TryGetComponent<IDCard>(out var id))
 			{
 				if (terminalGUI != null)
+				{
 					terminalGUI.UpdateGUI();
 					terminalGUI.OpenRequestPage();
+				}
 
 				currentLogin = id;
 
