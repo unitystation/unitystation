@@ -384,7 +384,11 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 			ServerCheckQueueingAndMove();
 		}
 
-		CheckWindOtherPush();
+		if (Intangible == false)
+		{
+			CheckWindOtherPush();
+		}
+
 
 
 		if (isLocalPlayer == false) return;
