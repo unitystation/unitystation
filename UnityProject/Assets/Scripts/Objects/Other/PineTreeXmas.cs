@@ -57,7 +57,7 @@ namespace Objects.Other
 
 			if (DMMath.Prob(10))
 			{
-				_ = SoundManager.PlayNetworkedAtPosAsync(ambientReminder, gameObject.WorldPosServer());
+				_ = SoundManager.PlayNetworkedAtPosAsync(ambientReminder, gameObject.AssumedWorldPosServer());
 			}
 		}
 
@@ -83,7 +83,7 @@ namespace Objects.Other
 			}
 			else
 			{
-				if(giftedPlayers.Contains(interaction.PerformerPlayerScript.connectedPlayer.UserId)) return false;
+				if(giftedPlayers.Contains(interaction.PerformerPlayerScript.PlayerInfo.UserId)) return false;
 			}
 
 			return true;
@@ -97,7 +97,7 @@ namespace Objects.Other
 			Chat.AddActionMsgToChat(interaction.Performer,
 				$"You pick up a gift with your name on it.",
 				$"{interaction.PerformerPlayerScript.visibleName} picks up a gift with {interaction.PerformerPlayerScript.characterSettings.TheirPronoun(interaction.PerformerPlayerScript)} name on it.");
-			giftedPlayers.Add(interaction.PerformerPlayerScript.connectedPlayer.UserId);
+			giftedPlayers.Add(interaction.PerformerPlayerScript.PlayerInfo.UserId);
 		}
 	}
 }

@@ -10,7 +10,7 @@ using Player.Movement;
 /// </summary>
 public class ObserveStorageRelationship : RangeRelationship
 {
-	private readonly PlayerMove observedPlayerMove;
+	private readonly MovementSynchronisation observedPlayerMove;
 	private readonly RegisterPlayer observedRegisterPlayer;
 	private readonly PlayerHealthV2 observedPlayerHealth;
 	public readonly RegisterPlayer ObserverPlayer;
@@ -24,7 +24,7 @@ public class ObserveStorageRelationship : RangeRelationship
 		this.ObserverPlayer = observer;
 		//check if the observed storage is in a player's inventory, and if so, populate the fields / event hooks
 		var rootStorage = observedStorage.ItemStorage.GetRootStorageOrPlayer();
-		this.observedPlayerMove = rootStorage.GetComponent<PlayerMove>();
+		this.observedPlayerMove = rootStorage.GetComponent<MovementSynchronisation>();
 		if (observedPlayerMove != null)
 		{
 			this.observedRegisterPlayer = rootStorage.GetComponent<RegisterPlayer>();

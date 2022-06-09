@@ -55,6 +55,7 @@ namespace Systems.Electricity
 
 			{
 				// LogError Duplicate wires
+				if (matrix  == null ) return;
 				var eConnsAtSearchVec = matrix.GetElectricalConnections(searchVecInt);
 				foreach (var con in eConnsAtSearchVec.List)
 				{
@@ -234,7 +235,7 @@ namespace Systems.Electricity
 					{
 						Current += CurrentItem.Value;
 					}
-					
+
 				}
 			}
 

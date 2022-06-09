@@ -12,7 +12,7 @@ namespace Systems.MobAIs
 	{
 		protected RegisterTile registerTile;
 		protected Matrix matrix => registerTile.Matrix;
-		protected CustomNetTransform cnt;
+		protected UniversalObjectPhysics uop;
 
 		protected Rotatable rotatable;
 		protected LivingHealthBehaviour health;
@@ -54,7 +54,7 @@ namespace Systems.MobAIs
 		private void Awake()
 		{
 			registerTile = GetComponent<RegisterTile>();
-			cnt = GetComponent<CustomNetTransform>();
+			uop = GetComponent<UniversalObjectPhysics>();
 			rotatable = GetComponent<Rotatable>();
 			health = GetComponent<LivingHealthBehaviour>();
 		}
@@ -66,7 +66,7 @@ namespace Systems.MobAIs
 
 			if (CustomNetworkManager.Instance._isServer)
 			{
-				cnt.OnTileReached().AddListener(OnTileReached);
+				uop.OnLocalTileReached.AddListener(OnTileReached);
 				isServer = true;
 			}
 		}
@@ -75,7 +75,7 @@ namespace Systems.MobAIs
 		{
 			if (isServer)
 			{
-				cnt.OnTileReached().RemoveListener(OnTileReached);
+				uop.OnLocalTileReached.RemoveListener(OnTileReached);
 			}
 		}
 
@@ -352,7 +352,7 @@ namespace Systems.MobAIs
 						rotatable.SetFaceDirectionLocalVictor(dir);
 					}
 
-					cnt.Push(dir, context: gameObject);
+					uop.TryTilePush(dir, null);
 					movingToTile = true;
 				}
 				else
@@ -415,7 +415,7 @@ namespace Systems.MobAIs
 		{
 		}
 
-		protected virtual void OnTileReached(Vector3Int tilePos)
+		protected virtual void OnTileReached(Vector3 tilePos)
 		{
 			if (!activated) return;
 

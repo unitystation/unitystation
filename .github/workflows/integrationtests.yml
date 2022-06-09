@@ -18,7 +18,7 @@ on:
       - ".github/workflows/**"
 
 jobs:
-  # Perform play testing
+  # Perform unit testing
   performPlayTest:
     name: Integration testing on ${{ matrix.unityVersion }}
     runs-on: ubuntu-latest
@@ -28,7 +28,7 @@ jobs:
         projectPath:
           - UnityProject
         unityVersion:
-          - 2021.1.14f1
+          - 2021.3.0f1
         targetPlatform:
           - StandaloneWindows64
 
@@ -68,9 +68,9 @@ jobs:
       # Install dotnet
       - name: Installing dotnet
         if: always()
-        uses: actions/setup-dotnet@v1
+        uses: actions/setup-dotnet@v1.9.1
         with:
-          dotnet-version: "2.1.202"
+          dotnet-version: "5.0.405"
 
       # Do the report magic
       - name: Generate .html report
@@ -84,3 +84,4 @@ jobs:
         with:
           name: Test results
           path: ./testReports/${{ matrix.targetPlatform }}
+

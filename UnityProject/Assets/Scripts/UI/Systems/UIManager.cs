@@ -224,7 +224,7 @@ public class UIManager : MonoBehaviour, IInitialise
 			//update the intent of the player on server so server knows we are swappable or not
 			if (PlayerManager.LocalPlayerScript != null)
 			{
-				PlayerManager.LocalPlayerScript.playerMove.CmdSetHelpIntent(currentIntent == global::Intent.Help);
+				PlayerManager.LocalPlayerScript.playerNetworkActions.CmdSetCurrentIntent(currentIntent);
 			}
 		}
 	}
@@ -441,8 +441,8 @@ public class UIManager : MonoBehaviour, IInitialise
 	{
 		//convert to local position so it appears correct on moving matrix
 		//do not use tileworldposition for actual spawn position - bar will appear shifted on moving matrix
-		var targetWorldPosition = PlayerManager.LocalPlayer.transform.position + offsetFromPlayer.To3Int();
-		var targetTilePosition = PlayerManager.LocalPlayer.TileWorldPosition() + offsetFromPlayer;
+		var targetWorldPosition = PlayerManager.LocalPlayerObject.transform.position + offsetFromPlayer.To3Int();
+		var targetTilePosition = PlayerManager.LocalPlayerObject.TileWorldPosition() + offsetFromPlayer;
 		var targetMatrixInfo = MatrixManager.AtPoint(targetTilePosition.To3Int(), true);
 		var targetParent = targetMatrixInfo.Objects;
 		//snap to local position

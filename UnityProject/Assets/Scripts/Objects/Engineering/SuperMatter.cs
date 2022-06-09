@@ -736,7 +736,8 @@ namespace Objects.Engineering
 
 		private void FireNuclearParticle()
 		{
-			CastProjectileMessage.SendToAll(gameObject, nuclearParticlePrefab, VectorExtensions.DegreeToVector2(Random.Range(0, 361)), default);
+			ProjectileManager.InstantiateAndShoot(nuclearParticlePrefab,
+				VectorExtensions.DegreeToVector2(Random.Range(0, 361)), gameObject, null, BodyPartType.None);
 		}
 
 		#endregion
@@ -1096,8 +1097,9 @@ namespace Objects.Engineering
 		}
 
 		//Called when bumped by players or collided with by flying items
-		public void OnBump(GameObject bumpedBy)
+		public void OnBump(GameObject bumpedBy, GameObject Client)
 		{
+			if (isServer == false) return;
 			if(isHugBox) return;
 
 			if (bumpedBy.TryGetComponent<PlayerHealthV2>(out var playerHealth))
@@ -1184,7 +1186,7 @@ namespace Objects.Engineering
 					$"{interaction.Performer.ExpensiveName()} scrapes off a shard from the {gameObject.ExpensiveName()}.",
 					() =>
 					{
-						Spawn.ServerPrefab(superMatterShard, interaction.Performer.WorldPosServer(),
+						Spawn.ServerPrefab(superMatterShard, interaction.Performer.AssumedWorldPosServer(),
 							interaction.Performer.transform.parent);
 						matterPower += 800;
 

@@ -101,11 +101,11 @@ namespace UI
 
 		public void CloseStorageUI()
 		{
-			if (PlayerManager.LocalPlayer != null)
+			if (PlayerManager.LocalPlayerObject != null)
 			{
 				_ = SoundManager.PlayAtPosition(CommonSounds.Instance.Rustle,
-					PlayerManager.LocalPlayer.transform.position,
-					PlayerManager.LocalPlayer);
+					PlayerManager.LocalPlayerObject.transform.position,
+					PlayerManager.LocalPlayerObject);
 			}
 
 			CurrentOpenStorage = null;

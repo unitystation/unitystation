@@ -32,13 +32,13 @@ public class AmbientSoundArea : MonoBehaviour
 	private void ValidatePlayer(GameObject player, bool isEntering)
 	{
 		if (player == null) return;
-		if (player != PlayerManager.LocalPlayer) return;
+		if (player != PlayerManager.LocalPlayerObject) return;
 
 		// Dont change sound when sent to hidden pos, e.g in locker
 		// TODO entering sound still plays when exiting locker, but this at least stops space sound
-		if (player.TryGetComponent<PlayerSync>(out var playerSync))
+		if (player.TryGetComponent<MovementSynchronisation>(out var playerSync))
 		{
-			if (playerSync.TrustedPosition == TransformState.HiddenPos)
+			if (playerSync.registerTile.LocalPosition == TransformState.HiddenPos)
 			{
 				return;
 			}

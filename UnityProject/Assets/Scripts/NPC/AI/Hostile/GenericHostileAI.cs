@@ -81,10 +81,9 @@ namespace Systems.MobAIs
 		}
 
 		#endregion
-
-		protected override void UpdateMe()
+		public override void ContemplatePriority()
 		{
-			base.UpdateMe();
+			base.ContemplatePriority();
 
 			if (!isServer || !MatrixManager.IsInitialized)
 			{
@@ -159,7 +158,6 @@ namespace Systems.MobAIs
 				}
 			}
 		}
-
 		/// <summary>
 		/// Looks around and tries to find players to target
 		/// </summary>
@@ -176,10 +174,10 @@ namespace Systems.MobAIs
 			foreach (var coll in player)
 			{
 				if (MatrixManager.Linecast(
-					gameObject.WorldPosServer(),
+					gameObject.AssumedWorldPosServer(),
 					LayerTypeSelection.Walls,
 					null,
-					coll.gameObject.WorldPosServer()).ItHit == false)
+					coll.gameObject.AssumedWorldPosServer()).ItHit == false)
 				{
 					if(coll.gameObject.TryGetComponent<LivingHealthMasterBase>(out var health) == false ||
 					   health.IsDead) continue;
@@ -263,12 +261,6 @@ namespace Systems.MobAIs
 		protected virtual void HandleSearch()
 		{
 			moveWaitTime += Time.deltaTime;
-			if (moveWaitTime >= movementTickRate)
-			{
-				moveWaitTime = 0f;
-				DoRandomMove();
-			}
-
 			searchWaitTime += Time.deltaTime;
 			if (!(searchWaitTime >= searchTickRate)) return;
 			searchWaitTime = 0f;

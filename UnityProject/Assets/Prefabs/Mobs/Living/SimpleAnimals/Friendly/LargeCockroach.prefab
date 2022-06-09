@@ -29,6 +29,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 2786145059108661523, guid: 9914f83c172606747877a09872724398,
         type: 3}
+    - target: {fileID: 1374483540581099544, guid: 64d782023543d4542b89ce3f9402b084,
+        type: 3}
+      propertyPath: tileMoveSpeed
+      value: 20
+      objectReference: {fileID: 0}
     - target: {fileID: 2166651219293684434, guid: 64d782023543d4542b89ce3f9402b084,
         type: 3}
       propertyPath: mobName
@@ -88,6 +93,21 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 67ce0fdea3a15bb4886b2e9ee56ab1bd,
         type: 2}
+    - target: {fileID: 5880500897755811168, guid: 64d782023543d4542b89ce3f9402b084,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5880500897755811168, guid: 64d782023543d4542b89ce3f9402b084,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5880500897755811168, guid: 64d782023543d4542b89ce3f9402b084,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
     - target: {fileID: 7494601431046934675, guid: 64d782023543d4542b89ce3f9402b084,
         type: 3}
       propertyPath: m_Name

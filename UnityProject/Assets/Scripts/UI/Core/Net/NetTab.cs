@@ -107,7 +107,7 @@ public class NetTab : Tab
 	public Dictionary<string, NetUIElementBase> CachedElements { get; } = new Dictionary<string, NetUIElementBase>();
 
 	// for server
-	public HashSet<ConnectedPlayer> Peepers { get; } = new HashSet<ConnectedPlayer>();
+	public HashSet<PlayerInfo> Peepers { get; } = new HashSet<PlayerInfo>();
 
 	public bool IsUnobserved => Peepers.Count == 0;
 
@@ -145,14 +145,14 @@ public class NetTab : Tab
 	// for server
 	public void AddPlayer(GameObject player)
 	{
-		var newPeeper = PlayerList.Instance.Get(player);
+		var newPeeper = PlayerList.Instance.GetOnline(player);
 		Peepers.Add(newPeeper);
 		OnTabOpened.Invoke(newPeeper);
 	}
 
 	public void RemovePlayer(GameObject player)
 	{
-		var newPeeper = PlayerList.Instance.Get(player);
+		var newPeeper = PlayerList.Instance.GetOnline(player);
 		OnTabClosed.Invoke(newPeeper);
 		Peepers.Remove(newPeeper);
 	}
@@ -305,7 +305,7 @@ public class NetTab : Tab
 		ControlTabs.CloseTab(Type, Provider);
 	}
 
-	public void ServerCloseTabFor(ConnectedPlayer player)
+	public void ServerCloseTabFor(PlayerInfo player)
 	{
 		TabUpdateMessage.Send(player.GameObject, Provider, Type, TabAction.Close);
 	}
@@ -344,4 +344,4 @@ public class NetTab : Tab
 }
 
 [Serializable]
-public class ConnectedPlayerEvent : UnityEvent<ConnectedPlayer> { }
+public class ConnectedPlayerEvent : UnityEvent<PlayerInfo> { }

@@ -93,6 +93,17 @@ PrefabInstance:
       propertyPath: initialDescription
       value: Just like back home, on clown planet! HONK!
       objectReference: {fileID: 0}
+    - target: {fileID: 3199482630336423747, guid: 8777e0247dca5ab41a385d81bc5719ab,
+        type: 3}
+      propertyPath: initialTraits.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 3199482630336423747, guid: 8777e0247dca5ab41a385d81bc5719ab,
+        type: 3}
+      propertyPath: initialTraits.Array.data[2]
+      value: 
+      objectReference: {fileID: 11400000, guid: 3330c75eccadbbe4eb763771104ada57,
+        type: 2}
     - target: {fileID: 4296796864559743113, guid: 8777e0247dca5ab41a385d81bc5719ab,
         type: 3}
       propertyPath: initialReagentMix.reagents.m_keys.Array.size

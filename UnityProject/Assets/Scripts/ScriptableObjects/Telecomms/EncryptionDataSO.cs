@@ -10,7 +10,7 @@ namespace ScriptableObjects.Communications
 		/// <summary>
 		/// The string of characters that is used to encrypt messages
 		/// </summary>
-		public string EncryptionSecret;
+		public int EncryptionCode;
 
 		/// <summary>
 		/// Flaw for the decryption/hacking minigame.

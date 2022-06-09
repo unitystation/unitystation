@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Threading;
-using Mirror;
+﻿using Mirror;
 using NaughtyAttributes;
 
 #if UNITY_EDITOR
@@ -99,6 +95,25 @@ public class Rotatable : NetworkBehaviour, IMatrixRotation
 		}
 	}
 
+	public void OnValidate()
+	{
+		if (Application.isPlaying) return;
+#if UNITY_EDITOR
+		EditorApplication.delayCall += ValidateLate;
+#endif
+
+	}
+
+	public void ValidateLate()
+	{
+		// ValidateLate might be called after this object is already destroyed.
+		if (this == null || Application.isPlaying) return;
+		Awake();
+		CurrentDirection = CurrentDirection;
+		RotateObject(CurrentDirection);
+		ResitOthers();
+	}
+
 	private void SyncServerDirection(OrientationEnum oldDir, OrientationEnum dir)
 	{
 		if (IgnoreServerUpdatesIfLocalPlayer && isLocalPlayer)
@@ -139,33 +154,7 @@ public class Rotatable : NetworkBehaviour, IMatrixRotation
 
 	public void SetFaceDirectionLocalVictor(Vector2Int direction)
 	{
-		var newDir = OrientationEnum.Down_By180;
-		if (direction == Vector2Int.down)
-		{
-			newDir = OrientationEnum.Down_By180;
-		}
-		else if (direction == Vector2Int.left)
-		{
-			newDir = OrientationEnum.Left_By90;
-		}
-		else if (direction == Vector2Int.up)
-		{
-			newDir = OrientationEnum.Up_By0;
-		}
-		else if (direction == Vector2Int.right)
-		{
-			newDir = OrientationEnum.Right_By270;
-		}
-		else if (direction.y == -1)
-		{
-			newDir = OrientationEnum.Down_By180;
-		}
-		else if (direction.y == 1)
-		{
-			newDir = OrientationEnum.Up_By0;
-		}
-
-		SetDirection(newDir);
+		SetDirection(direction.ToOrientationEnum());
 	}
 
 	public void FaceDirection(OrientationEnum newDir)
@@ -187,6 +176,7 @@ public class Rotatable : NetworkBehaviour, IMatrixRotation
 	[NaughtyAttributes.Button()]
 	public void Refresh()
 	{
+		Awake();
 		SetDirection(CurrentDirection);
 		ResitOthers();
 	}
@@ -203,12 +193,12 @@ public class Rotatable : NetworkBehaviour, IMatrixRotation
 
 	private void Awake()
 	{
-		if (spriteRenderers == null)
+		if (spriteRenderers == null || spriteRenderers.Length == 0 )
 		{
 			spriteRenderers = GetComponentsInChildren<SpriteRenderer>();
 		}
 
-		if (spriteHandlers == null)
+		if (spriteHandlers == null || spriteHandlers.Length == 0)
 		{
 			spriteHandlers = GetComponentsInChildren<SpriteHandler>();
 		}
@@ -297,7 +287,7 @@ public class Rotatable : NetworkBehaviour, IMatrixRotation
 		public bool Locked;
 		public OrientationEnum LockedTo;
 	}
-	
+
 	public void ResitOthers()
 	{
 		if (doNotResetOtherSpriteOptions) return;
@@ -352,6 +342,7 @@ public class Rotatable : NetworkBehaviour, IMatrixRotation
 
 				var localRotation = serializedObject.FindProperty("m_LocalRotation");
 				PrefabUtility.RevertPropertyOverride(localRotation, InteractionMode.AutomatedAction);
+				EditorUtility.SetDirty(this);
 			}
 
 			if (MethodRotation != RotationMethod.Sprites)
@@ -361,6 +352,7 @@ public class Rotatable : NetworkBehaviour, IMatrixRotation
 					SerializedObject serializedObject = new UnityEditor.SerializedObject(spriteRenderer.transform);
 					var localRotation = serializedObject.FindProperty("m_LocalRotation");
 					PrefabUtility.RevertPropertyOverride(localRotation, InteractionMode.AutomatedAction);
+					EditorUtility.SetDirty(this);
 				}
 			}
 
@@ -379,6 +371,7 @@ public class Rotatable : NetworkBehaviour, IMatrixRotation
 					SerializedObject serializedSpriteRenderer = new UnityEditor.SerializedObject(SpriteRenderer);
 					var sprite = serializedSpriteRenderer.FindProperty("m_Sprite");
 					PrefabUtility.RevertPropertyOverride(sprite, InteractionMode.AutomatedAction);
+					EditorUtility.SetDirty(this);
 				}
 			}
 		}

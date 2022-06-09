@@ -55,7 +55,7 @@ namespace Items.Botany.Fruit
 				return;
 			}
 
-			if (interaction.UsedObject == null || interaction.UsedObject.Item().Size < ItemSize.Medium)
+			if (interaction.UsedObject == null || interaction.UsedObject.Item().Size < Size.Medium)
 			{
 				var hasObject = interaction.UsedObject ? "a more" : "a";
 				Chat.AddExamineMsg(interaction.Performer,

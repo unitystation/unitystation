@@ -120,7 +120,7 @@ namespace UI.Core.NetUI
 			TabUpdateMessage.SendToPeepers(masterTab.Provider, masterTab.Type, TabAction.Update, new[] { ElementValue });
 		}
 
-		public override void ExecuteServer(ConnectedPlayer subject) { }
+		public override void ExecuteServer(PlayerInfo subject) { }
 
 		public override string ToString()
 		{
@@ -158,7 +158,7 @@ namespace UI.Core.NetUI
 		/// </summary>
 		public abstract void ExecuteClient();
 
-		public abstract void ExecuteServer(ConnectedPlayer subject);
+		public abstract void ExecuteServer(PlayerInfo subject);
 
 		/// <summary>
 		/// Special logic to execute after all tab elements are initialized

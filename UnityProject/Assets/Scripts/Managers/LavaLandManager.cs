@@ -64,9 +64,13 @@ namespace Systems.Scenes
 
 		public void SpawnLavaLand()
 		{
-			if (!CustomNetworkManager.IsServer) return;
+			if (CustomNetworkManager.IsServer == false) return;
 
-			if (MatrixManager.Instance.lavaLandMatrix == null) return;
+			if (MatrixManager.Instance.lavaLandMatrix == null)
+			{
+				Logger.LogError("LavaLandMatrix not found!");
+				return;
+			}
 
 			StartCoroutine(SpawnLavaLandCo());
 		}
@@ -80,11 +84,11 @@ namespace Systems.Scenes
 				script.numR = Random.Range(1, 7);
 				script.DoSim();
 			}
-			yield return null;
+			yield return WaitFor.Seconds(1f);
 			tileChangeManager = MatrixManager.Instance.lavaLandMatrix.transform.parent.GetComponent<TileChangeManager>();
 
 			GenerateStructures();
-			yield return null;
+			yield return WaitFor.Seconds(1f);
 			MatrixManager.Instance.lavaLandMatrix.transform.parent.GetComponent<OreGenerator>().RunOreGenerator();
 
 			SetQuantumPads();
@@ -200,7 +204,7 @@ namespace Systems.Scenes
 
 			var bounds = new BoundsInt(minPosition, maxPosition - minPosition);
 
-			var gameObjectPos = script.gameObject.WorldPosServer().RoundToInt();
+			var gameObjectPos = script.gameObject.AssumedWorldPosServer().RoundToInt();
 
 			foreach (var layer in layers)
 			{

@@ -109,10 +109,10 @@ namespace UI
 		{
 			if (pullImage && pullImage.enabled)
 			{
-				PlayerScript ps = PlayerManager.LocalPlayerScript;
-				if (ps.pushPull != null)
+				var ps = PlayerManager.LocalPlayerScript.GetComponent<UniversalObjectPhysics>();
+				if (ps != null)
 				{
-					ps.pushPull.CmdStopPulling();
+					ps.StopPulling(true);
 				}
 			}
 		}

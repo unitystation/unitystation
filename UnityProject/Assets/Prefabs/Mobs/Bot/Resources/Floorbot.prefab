@@ -10,15 +10,21 @@ GameObject:
   m_Component:
   - component: {fileID: 2610726471904266653}
   - component: {fileID: 6800202439034608447}
-  - component: {fileID: 7717049283727159825}
   - component: {fileID: 326502970272038570}
-  - component: {fileID: 5133121035479701040}
   - component: {fileID: 2008208207829246944}
   - component: {fileID: 7936299240358439476}
   - component: {fileID: 5455455252294224591}
   - component: {fileID: 7304802151653684397}
   - component: {fileID: 9084638841217414174}
   - component: {fileID: 5388507486581408330}
+  - component: {fileID: -2029425211447090120}
+  - component: {fileID: 4293997633313196515}
+  - component: {fileID: -8511346502365311973}
+  - component: {fileID: 1110977282339455271}
+  - component: {fileID: 6059140469206468244}
+  - component: {fileID: 2309442012787761721}
+  - component: {fileID: 7759832341588683767}
+  - component: {fileID: 955671072215266897}
   m_Layer: 12
   m_Name: Floorbot
   m_TagString: Untagged
@@ -36,6 +42,7 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2505666480836295323}
   m_Father: {fileID: 0}
@@ -67,36 +74,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
---- !u!114 &7717049283727159825
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2293724657804988958}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c23c49138f42840a1bc22ade283c1694, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  registerTile: {fileID: 0}
-  floorDecal: {fileID: 0}
-  isInitiallyNotPushable: 0
-  pushPullSound:
-    SetLoadSetting: 0
-    AssetAddress: null
-    AssetReference:
-      m_AssetGUID: 
-      m_SubObjectName: 
-      m_SubObjectType: 
-  soundDelayTime: 0
-  soundMinimumPitchVariance: 1
-  soundMaximumPitchVariance: 1
-  OnPullingSomethingChangedServer:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!114 &326502970272038570
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -113,7 +90,6 @@ MonoBehaviour:
   syncInterval: 0.1
   matrixDebugLogging: 0
   objectType: 0
-  customNetTransform: {fileID: 0}
   prefabTracker: {fileID: 0}
   CurrentsortingGroup: {fileID: 0}
   AtmosPassable: 1
@@ -121,22 +97,6 @@ MonoBehaviour:
   initialPassable: 1
   initialCrawlPassable: 1
   passableExclusionsToThis: []
---- !u!114 &5133121035479701040
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2293724657804988958}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 579884b05ae74e8499329b64997147d3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  snapToGridOnStart: 1
-  IsFixedMatrix: 0
 --- !u!114 &2008208207829246944
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -166,21 +126,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f1b8bd5d209198a459a56b1b6032b5bc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  brain: {fileID: 11400000, guid: ce26c971a96f49243b68ea8a875ac9c5, type: 2}
-  agentParameters:
-    agentCameras: []
-    agentRenderTextures: []
-    maxStep: 0
-    resetOnDone: 1
-    onDemandDecision: 0
-    numberOfActionsBetweenDecisions: 1
-  performingDecision: 0
-  performingAction: 0
-  activated: 1
-  TickDelay: 1
+  UniversalObjectPhysics: {fileID: 0}
+  AllowDead: 0
+  AllowUnconscious: 0
+  Priority: 0
+  visionRange: 10
+  PriorityBalance: 1
   CB_REAGENT: {fileID: 0}
+  HEALING_REAGENT: {fileID: 0}
+  HARMFUL_REAGENT: {fileID: 0}
   target: 2
   actionPerformTime: 3
+  patientMemoryTime: 15
+  visionUpdateInterval: 0.5
+  phraseInterval: 0
   hasFoodPrefereces: 0
   foodPreferences: []
   IsEmagged: 0
@@ -219,6 +178,7 @@ MonoBehaviour:
       m_AssetGUID: 
       m_SubObjectName: 
       m_SubObjectType: 
+      m_EditorAssetChanged: 0
   damageDeflection: 0
   Armor:
     Melee: 0
@@ -232,6 +192,7 @@ MonoBehaviour:
     Magic: 0
     Bio: 0
     DismembermentProtectionChance: 0
+    StunImmunity: 0
   Resistances:
     LavaProof: 0
     FireProof: 0
@@ -244,7 +205,7 @@ MonoBehaviour:
   HeatResistance: 100
   ExplosionsDamage: 100
   doDamageMessage: 1
-  CannotBeAshed: 0
+  Meleeable: {fileID: 0}
 --- !u!114 &9084638841217414174
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -257,8 +218,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62cc3ef7cd9082443aaf3c255851d15a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
 --- !u!114 &5388507486581408330
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -274,6 +233,180 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   spriteHandler: {fileID: 984450164018126074}
+--- !u!114 &-2029425211447090120
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2293724657804988958}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9c86f0d5246b4abe8fd9bb34e7cee0d6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  maxHealth: 100
+  bloodColor: 2
+  BodyParts: []
+  butcherResults: []
+--- !u!114 &4293997633313196515
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2293724657804988958}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5a02af87cf44eaf4b81945b406d2757f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MobObjectives: []
+--- !u!114 &-8511346502365311973
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2293724657804988958}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bd3699f88578c2445b1173a427e8cb9a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  spriteHandler: {fileID: 984450164018126074}
+  spriteRend: {fileID: 4443060873987540845}
+  aliveSpriteIndex: 0
+  deadStateRep: 0
+  deadSpriteIndex: 0
+  deadOrientation: 90
+  knockedDownStateRep: 1
+  knockedDownSpriteIndex: 1
+  knockedDownOrientation: 90
+  burningPrefab: {fileID: 1558421102126524431, guid: 36094128399f8704da2ff54a58c2f4f5,
+    type: 3}
+  electrocutedPrefab: {fileID: 1558421102126524431, guid: 0cea8096a0de31746a1b6ef11b019ab2,
+    type: 3}
+--- !u!114 &1110977282339455271
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2293724657804988958}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e16004dedecb6d54e8bde3e5d6279b4c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  UniversalObjectPhysics: {fileID: 0}
+  AllowDead: 0
+  AllowUnconscious: 0
+  Priority: 0
+  PriorityBalance: 25
+--- !u!114 &6059140469206468244
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2293724657804988958}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e1d7861cc0289714b8989f7181986a18, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fieldOfView: 180
+--- !u!114 &2309442012787761721
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2293724657804988958}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0fade882731d3484cb3c63dfcad2def4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  activated: 0
+  TickDelay: 1
+  status: 0
+  fleeTarget: {fileID: 0}
+--- !u!114 &7759832341588683767
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2293724657804988958}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3e28b1f5f04e4f699099349719baa668, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mobName: 
+  registerObject: {fileID: 0}
+  minTimeBetweenRandomActions: 10
+  maxTimeBetweenRandomActions: 30
+  doRandomActionWhenInTask: 0
+--- !u!114 &955671072215266897
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2293724657804988958}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 52a6a264ee47433418b51f654439372f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  DEBUG: 0
+  SnapToGridOnStart: 0
+  LocalTargetPosition: {x: 0, y: 0, z: 0}
+  ChangesDirectionPush: 0
+  Intangible: 0
+  InitialLocationSynchronised: 0
+  tileMoveSpeed: 1
+  isNotPushable: 0
+  newtonianMovement: {x: 0, y: 0}
+  airTime: 0
+  slideTime: 0
+  thrownBy: {fileID: 0}
+  aim: 0
+  spinMagnitude: 0
+  ForcedPushedFrame: 0
+  TryPushedFrame: 0
+  PushedFrame: 0
+  FramePushDecision: 1
+  stickyMovement: 0
+  maximumStickSpeed: 1.5
+  onStationMovementsRound: 0
+  attributes: {fileID: 0}
+  registerTile: {fileID: 0}
+  ContextGameObjects:
+  - {fileID: 0}
+  - {fileID: 0}
+  IsCurrentlyFloating: 0
+  LocalDifferenceNeeded: {x: 0, y: 0}
+  CorrectingCourse: 0
+  Pushing: []
+  Hits: []
+  Speed: 1
+  AIR: 3
+  SLIDE: 4
+  Animating: 0
+  IsFlyingSliding: 0
+  IsMoving: 0
+  MoveIsWalking: 0
+  LastUpdateClientFlying: 0
 --- !u!1 &4825667868636187068
 GameObject:
   m_ObjectHideFlags: 0
@@ -302,6 +435,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2610726471904266653}
   m_RootOrder: 0
@@ -376,6 +510,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 8d9aaab2d62887741b582f1afa6f5897, type: 2}
   PresentSpriteSet: {fileID: 11400000, guid: 721ecc7a3b346db4886ee0f07f65515c, type: 2}
   randomInitialSprite: 0
+  doReverseAnimation: 0
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
   palette: []

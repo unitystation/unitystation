@@ -53,23 +53,6 @@ public static class RandomUtils
 		return point;
 	}
 
-	public static SpinMode RandomSpin()
-	{
-		var num = Random.Range(0, 3);
-
-		switch (num)
-		{
-			case 0:
-				return SpinMode.None;
-			case 1:
-				return SpinMode.Clockwise;
-			case 2:
-				return SpinMode.CounterClockwise;
-			default:
-				return SpinMode.Clockwise;
-		}
-	}
-
 	public static string CreateRandomBrightColorString()
 	{
 		return ColorUtility.ToHtmlStringRGBA(CreateRandomBrightColor());

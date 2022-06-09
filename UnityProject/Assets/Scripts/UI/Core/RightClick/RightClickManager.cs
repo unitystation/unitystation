@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
+using Tiles;
 using UI;
 using UI.Core.RightClick;
 using UnityEngine;
@@ -241,7 +242,7 @@ public class RightClickManager : SingletonManager<RightClickManager>
 
 	private bool IsUnderFloorTile(GameObject obj)
 	{
-		LayerTile tile = UITileList.GetTileAtPosition(obj.WorldPosClient());
+		LayerTile tile = UITileList.GetTileAtPosition(obj.AssumedWorldPosServer());
 
 		// Layer 22 is the 'Floor' layer
 		return (tile != null && tile.LayerType != LayerType.Base && obj.layer == 22);

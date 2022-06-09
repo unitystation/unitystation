@@ -1,48 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &923101175484867471
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1724179870811488903}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c8724f2eb82049548ce89dde3d83dfa3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  initialContents: {fileID: 0}
-  spawnContentsAtRoundstart: 1
-  randomContentList: []
-  alternativeUnwrapSound:
-    SetLoadSetting: 0
-    AssetAddress: null
-    AssetReference:
-      m_AssetGUID: 
-      m_SubObjectName: 
-      m_SubObjectType: 
-  originatorUnwrapText: You start unwrapping the {0}.
-  othersUnwrapText: '{0} starts unwrapping the {1}.'
-  timeToUnwrap: 2
-  packageType: 0
---- !u!114 &6584571419482073629
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1724179870811488903}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 89bf7311f10246d58a3a3606d45d78f2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  initialNoteText: 
-  paperPrefab: {fileID: 8734328976324889014, guid: d3c71176f32c1274b929f3a88695a795,
-    type: 3}
 --- !u!1001 &1724337224369700413
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -223,3 +180,47 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 1724337224369700413}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &923101175484867471
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1724179870811488903}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c8724f2eb82049548ce89dde3d83dfa3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  initialContents: {fileID: 0}
+  spawnContentsAtRoundstart: 1
+  randomContentList: []
+  alternativeUnwrapSound:
+    SetLoadSetting: 0
+    AssetAddress: null
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
+  originatorUnwrapText: You start unwrapping the {0}.
+  othersUnwrapText: '{0} starts unwrapping the {1}.'
+  timeToUnwrap: 2
+  packageType: 0
+--- !u!114 &6584571419482073629
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1724179870811488903}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 89bf7311f10246d58a3a3606d45d78f2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  initialNoteText: 
+  paperPrefab: {fileID: 8734328976324889014, guid: d3c71176f32c1274b929f3a88695a795,
+    type: 3}

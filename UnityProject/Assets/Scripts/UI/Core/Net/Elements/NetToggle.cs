@@ -34,7 +34,7 @@ namespace UI.Core.NetUI
 		public Toggle Element => element ??= GetComponent<Toggle>();
 		private Toggle element;
 
-		public override void ExecuteServer(ConnectedPlayer subject)
+		public override void ExecuteServer(PlayerInfo subject)
 		{
 			ServerMethod?.Invoke(Element.isOn);
 			ServerMethodWithSubject?.Invoke(Element.isOn, subject);
@@ -52,5 +52,5 @@ namespace UI.Core.NetUI
 	public class BoolEvent : UnityEvent<bool> { }
 
 	[Serializable]
-	public class BoolEventWithSubject : UnityEvent<bool, ConnectedPlayer> { }
+	public class BoolEventWithSubject : UnityEvent<bool, PlayerInfo> { }
 }

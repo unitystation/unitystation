@@ -254,7 +254,7 @@ namespace Systems.Research.Objects
 		}
 
 		private IEnumerator ProcessProduction(string DesignID, float productionTime)
-		{		
+		{
 			Design Designclass = Designs.Globals.InternalIDSearch[DesignID];
 
 			GameObject productObject = networkManager.ForeverIDLookupSpawnablePrefabs[Designclass.ItemID];
@@ -275,7 +275,7 @@ namespace Systems.Research.Objects
 
 		public void DispenseMaterialSheet(int amountOfSheets, ItemTrait materialType)
 		{
-			materialStorageLink.usedStorage.DispenseSheet(amountOfSheets, materialType, gameObject.WorldPosServer());
+			materialStorageLink.usedStorage.DispenseSheet(amountOfSheets, materialType, gameObject.AssumedWorldPosServer());
 			UpdateGUI();
 		}
 
@@ -356,7 +356,7 @@ namespace Systems.Research.Objects
 			server.TechWebUpdateEvent += TechWebUpdate;
 			AddDesigns(server.UpdateAvailableDesigns());
 			researchServer = server;
-			
+
 		}
 
 		public void UnSubscribeFromServerEvent()

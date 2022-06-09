@@ -90,9 +90,9 @@ namespace Items.Cargo.Wrapping
 
 		protected void MakeContentVisible()
 		{
-			var netTransform = GetOrGenerateContent().gameObject.GetComponent<CustomNetTransform>();
+			var netTransform = GetOrGenerateContent().gameObject.GetComponent<UniversalObjectPhysics>();
 			var pos = gameObject.RegisterTile().WorldPositionServer;
-			netTransform.AppearAtPositionServer(pos);
+			netTransform.AppearAtWorldPositionServer(pos);
 		}
 	}
 }

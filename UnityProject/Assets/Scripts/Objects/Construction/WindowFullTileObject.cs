@@ -4,7 +4,7 @@ using Mirror;
 using Random = UnityEngine.Random;
 using AddressableReferences;
 using Messages.Server.SoundMessages;
-
+using Tiles;
 
 namespace Objects.Construction
 {
@@ -14,7 +14,7 @@ namespace Objects.Construction
 	public class WindowFullTileObject : NetworkBehaviour, ICheckedInteractable<HandApply>
 	{
 		private RegisterObject registerObject;
-		private ObjectBehaviour objectBehaviour;
+		private UniversalObjectPhysics objectBehaviour;
 
 		[Header("Tile creation variables")]
 		[Tooltip("Layer tile which this will create when placed.")]
@@ -59,7 +59,7 @@ namespace Objects.Construction
 		{
 			registerObject = GetComponent<RegisterObject>();
 			GetComponent<Integrity>().OnWillDestroyServer.AddListener(OnWillDestroyServer);
-			objectBehaviour = GetComponent<ObjectBehaviour>();
+			objectBehaviour = GetComponent<UniversalObjectPhysics>();
 		}
 
 		private void OnWillDestroyServer(DestructionInfo arg0)
@@ -95,7 +95,7 @@ namespace Objects.Construction
 
 			if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Screwdriver))
 			{
-				if (objectBehaviour.IsPushable)
+				if (objectBehaviour.IsNotPushable == false)
 				{
 					//secure it if there's floor
 					if (MatrixManager.IsSpaceAt(registerObject.WorldPositionServer, true, registerObject.Matrix.MatrixInfo))
@@ -131,7 +131,7 @@ namespace Objects.Construction
 			else if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Wrench))
 			{
 				//disassemble if it's unanchored
-				if (objectBehaviour.IsPushable)
+				if (objectBehaviour.IsNotPushable == false)
 				{
 					ToolUtils.ServerUseToolWithActionMessages(interaction, 4f,
 						"You start to disassemble the window...",

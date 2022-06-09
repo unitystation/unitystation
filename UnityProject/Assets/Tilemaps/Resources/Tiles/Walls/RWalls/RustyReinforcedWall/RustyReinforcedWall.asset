@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: RustyReinforcedWall
   m_EditorClassIdentifier: 
   displayName: rusted reinforced wall
+  description: A strong, composite structure design to resist a good deal of punishment.
   LayerType: 0
   TileType: 1
   RequiredTiles:
@@ -25,6 +26,7 @@ MonoBehaviour:
   passable: 0
   mineable: 0
   miningTime: 5
+  miningHardness: 1
   constructable: 0
   RadiationPassability: 0.7
   ThermalConductivity: 0
@@ -32,17 +34,18 @@ MonoBehaviour:
   doesReflectBullet: 0
   indestructible: 0
   ExplosionImpassable: 0
+  BlocksTileInteractionsUnder: 1
   passableException:
     m_keys: 
     m_values: 
-  maxHealth: 100
-  damageDeflection: 0
+  maxHealth: 400
+  damageDeflection: 11
   armor:
     Melee: 90
     Bullet: 90
     Laser: 90
     Energy: 90
-    Bomb: 90
+    Bomb: 65
     Rad: 100
     Fire: 100
     Acid: 90
@@ -51,6 +54,7 @@ MonoBehaviour:
     DismembermentProtectionChance: 0
   tileInteractions:
   - {fileID: 11400000, guid: 2127efcba89cd014f878b59fb493c5d1, type: 2}
+  tileStepInteractions: []
   spawnOnDeconstruct: {fileID: 0}
   spawnAmountOnDeconstruct: 0
   lootOnDespawn: {fileID: 0}
@@ -65,6 +69,7 @@ MonoBehaviour:
       m_AssetGUID: 
       m_SubObjectName: 
       m_SubObjectType: 
+      m_EditorAssetChanged: 0
   SoundOnDestroy: []
   connectCategory: 0
   connectType: 1

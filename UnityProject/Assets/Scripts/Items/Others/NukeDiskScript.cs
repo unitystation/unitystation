@@ -14,7 +14,7 @@ namespace Items.Command
 		[SerializeField]
 		private float boundRadius = 600;
 		private Pickupable pick;
-		private CustomNetTransform customNetTrans;
+		private UniversalObjectPhysics ObjectPhysics;
 		private RegisterTile registerTile;
 		private BetterBoundsInt bound;
 		private EscapeShuttle escapeShuttle;
@@ -35,7 +35,7 @@ namespace Items.Command
 
 		private void Awake()
 		{
-			customNetTrans = GetComponent<CustomNetTransform>();
+			ObjectPhysics = GetComponent<UniversalObjectPhysics>();
 			registerTile = GetComponent<RegisterTile>();
 			pick = GetComponent<Pickupable>();
 		}
@@ -76,7 +76,7 @@ namespace Items.Command
 
 		private bool DiskLost()
 		{
-			if (((gameObject.AssumedWorldPosServer() - MatrixManager.MainStationMatrix.GameObject.AssumedWorldPosServer())
+			if (((gameObject.AssumedWorldPosServer() - MatrixManager.MainStationMatrix.GameObject.transform.position)
 				.magnitude < boundRadius)) return false;
 
 			if (escapeShuttle != null && escapeShuttle.Status != EscapeShuttleStatus.DockedCentcom)
@@ -106,8 +106,8 @@ namespace Items.Command
 					return true;
 				}
 
-				var checkPlayer = PlayerList.Instance.Get(player.gameObject, true);
-				if (checkPlayer.Equals(ConnectedPlayer.Invalid))
+				var checkPlayer = PlayerList.Instance.Get(player.gameObject);
+				if (checkPlayer.Equals(PlayerInfo.Invalid))
 				{
 					return true;
 				}
@@ -134,7 +134,7 @@ namespace Items.Command
 				Inventory.ServerDrop(pick.ItemSlot);
 				pick.RefreshUISlotImage();
 			}
-			customNetTrans.SetPosition(position);
+			ObjectPhysics.AppearAtWorldPositionServer(position.ToWorld(registerTile.Matrix));
 		}
 	}
 }

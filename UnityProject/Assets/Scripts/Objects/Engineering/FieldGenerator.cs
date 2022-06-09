@@ -5,6 +5,7 @@ using Systems.ElectricalArcs;
 using ScriptableObjects.Gun;
 using UnityEngine;
 using Weapons.Projectiles.Behaviours;
+using Tiles;
 
 namespace Objects.Engineering
 {
@@ -66,7 +67,7 @@ namespace Objects.Engineering
 
 		private Integrity integrity;
 		private RegisterTile registerTile;
-		private PushPull pushPull;
+		private UniversalObjectPhysics objectPhysics;
 
 		[SerializeField]
 		private Vector3 arcOffSet = new Vector3(0 ,0.5f, 0);
@@ -77,7 +78,7 @@ namespace Objects.Engineering
 		{
 			integrity = GetComponent<Integrity>();
 			registerTile = GetComponent<RegisterTile>();
-			pushPull = GetComponent<PushPull>();
+			objectPhysics = GetComponent<UniversalObjectPhysics>();
 		}
 
 		private void OnEnable()
@@ -104,7 +105,7 @@ namespace Objects.Engineering
 			{
 				isWelded = true;
 				isWrenched = true;
-				pushPull.ServerSetPushable(false);
+				objectPhysics.SetIsNotPushable(true);
 			}
 		}
 
@@ -303,7 +304,7 @@ namespace Objects.Engineering
 					{
 						var pos = registerTile.WorldPositionServer + GetCoordFromDirection(generator.Key) * i;
 
-						if (pos == generator.Value.Item1.WorldPosServer())
+						if (pos == generator.Value.Item1.AssumedWorldPosServer())
 						{
 							passCheck = true;
 							break;
@@ -400,7 +401,7 @@ namespace Objects.Engineering
 			{
 				var pos = registerTile.WorldPositionServer + GetCoordFromDirection(direction) * i;
 
-				if (pos == generatorToRemove.WorldPosServer())
+				if (pos == generatorToRemove.AssumedWorldPosServer())
 				{
 					break;
 				}
@@ -633,7 +634,7 @@ namespace Objects.Engineering
 					() =>
 					{
 						isWrenched = false;
-						pushPull.ServerSetPushable(true);
+						objectPhysics.SetIsNotPushable(false);
 						TogglePower(false);
 					});
 			}
@@ -654,7 +655,7 @@ namespace Objects.Engineering
 					() =>
 					{
 						isWrenched = true;
-						pushPull.ServerSetPushable(false);
+						objectPhysics.SetIsNotPushable(true);
 					});
 			}
 		}

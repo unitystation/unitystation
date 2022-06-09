@@ -43,13 +43,13 @@
   <ItemGroup>
      <None Include="Library\PackageCache\com.unity.timeline@1.5.5\DocCodeExamples\DocCodeExamples.asmdef" />
      <Reference Include="UnityEngine">
-     <HintPath>E:/UnityPath/2021.1.14f1/Editor/Data/Managed/UnityEngine/UnityEngine.dll</HintPath>
+     <HintPath>D:/UnityPath/Unity 2021.1.28f1/Editor/Data/Managed/UnityEngine/UnityEngine.dll</HintPath>
      </Reference>
      <Reference Include="UnityEngine.CoreModule">
-     <HintPath>E:/UnityPath/2021.1.14f1/Editor/Data/Managed/UnityEngine/UnityEngine.CoreModule.dll</HintPath>
+     <HintPath>D:/UnityPath/Unity 2021.1.28f1/Editor/Data/Managed/UnityEngine/UnityEngine.CoreModule.dll</HintPath>
      </Reference>
      <Reference Include="UnityEditor">
-     <HintPath>E:/UnityPath/2021.1.14f1/Editor/Data/Managed/UnityEngine/UnityEditor.dll</HintPath>
+     <HintPath>D:/UnityPath/Unity 2021.1.28f1/Editor/Data/Managed/UnityEngine/UnityEditor.dll</HintPath>
      </Reference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

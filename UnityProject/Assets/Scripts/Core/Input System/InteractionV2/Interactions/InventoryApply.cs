@@ -71,7 +71,7 @@ public class InventoryApply : TargetedInteraction
 		{
 			return Invalid;
 		}
-		return new InventoryApply(PlayerManager.LocalPlayer,
+		return new InventoryApply(PlayerManager.LocalPlayerObject,
 			targetObjectSlot, fromSlot, UIManager.CurrentIntent, KeyboardInputManager.IsAltPressed());
 	}
 

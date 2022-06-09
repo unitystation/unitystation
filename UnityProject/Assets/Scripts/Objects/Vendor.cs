@@ -144,7 +144,7 @@ namespace Objects
 			}
 		}
 
-		private bool CanSell(VendorItem itemToSpawn, ConnectedPlayer player)
+		private bool CanSell(VendorItem itemToSpawn, PlayerInfo player)
 		{
 			// check if selected item is valid
 			var isSelectionValid = itemToSpawn != null && itemToSpawn.Stock > 0;
@@ -213,7 +213,7 @@ namespace Objects
 		/// <summary>
 		/// Try spawn vending item and reduce items count in stock
 		/// </summary>
-		public void TryVendItem(VendorItem vendorItem, ConnectedPlayer player = null)
+		public void TryVendItem(VendorItem vendorItem, PlayerInfo player = null)
 		{
 			if (vendorItem == null)
 			{
@@ -242,11 +242,11 @@ namespace Objects
 
 			// Play vending sound
 			AudioSourceParameters audioSourceParameters = new AudioSourceParameters(pitch: Random.Range(.75f, 1.1f));
-			SoundManager.PlayNetworkedAtPos(VendingSound, gameObject.WorldPosServer(), audioSourceParameters, sourceObj: gameObject);
+			SoundManager.PlayNetworkedAtPos(VendingSound, gameObject.AssumedWorldPosServer(), audioSourceParameters, sourceObj: gameObject);
 
 			// Ejecting in direction
 			if (EjectObjects && EjectDirection != EjectDirection.None &&
-				spawnedItem.TryGetComponent<CustomNetTransform>(out var cnt))
+				spawnedItem.TryGetComponent<UniversalObjectPhysics>(out var uop))
 			{
 				Vector3 offset = Vector3.zero;
 				switch (EjectDirection)
@@ -261,14 +261,7 @@ namespace Objects
 						offset = new Vector3(Random.Range(-0.15f, 0.15f), Random.Range(-0.15f, 0.15f), 0);
 						break;
 				}
-				cnt.Throw(new ThrowInfo
-				{
-					ThrownBy = spawnedItem,
-					Aim = BodyPartType.Chest,
-					OriginWorldPos = spawnPos,
-					WorldTrajectory = offset,
-					SpinMode = (EjectDirection == EjectDirection.Random) ? SpinMode.Clockwise : SpinMode.None
-				});
+				uop.NewtonianPush(offset, 1, 0, 0, BodyPartType.Chest, inThrownBy:spawnedItem);
 			}
 
 			OnItemVended.Invoke(vendorItem);

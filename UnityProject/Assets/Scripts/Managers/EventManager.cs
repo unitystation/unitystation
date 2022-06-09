@@ -17,6 +17,7 @@ public enum Event
 	LoggedOut,
 	RoundStarted,
 	PostRoundStarted,
+	SceneUnloading,
 	RoundEnded,
 	DisableInternals,
 	EnableInternals,

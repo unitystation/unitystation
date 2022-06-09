@@ -36,7 +36,8 @@ namespace Objects
 				range = rangeLimited.CurrentDistance;
 			}
 
-			CastProjectileMessage.SendToAll(gameObject, data.BulletObject.GetComponent<Bullet>().PrefabName, rotationToShoot, default, range);
+			ProjectileManager.InstantiateAndShoot(data.BulletObject.GetComponent<Bullet>().PrefabName, rotationToShoot, gameObject,
+				null, BodyPartType.None, range);
 		}
 	}
 }

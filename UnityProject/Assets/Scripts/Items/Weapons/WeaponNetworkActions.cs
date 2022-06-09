@@ -9,6 +9,7 @@ using Items;
 using Messages.Server.SoundMessages;
 using Player.Movement;
 using Systems.Interaction;
+using Tiles;
 
 public class WeaponNetworkActions : NetworkBehaviour
 {
@@ -31,14 +32,14 @@ public class WeaponNetworkActions : NetworkBehaviour
 	private SpriteRenderer spriteRendererSource; // need renderer for shader configuration
 
 	private Vector3 lerpTo;
-	private PlayerMove playerMove;
+	private MovementSynchronisation playerMove;
 	private PlayerScript playerScript;
 	private GameObject spritesObj;
 
 	private void Start()
 	{
 		spritesObj = transform.Find("Sprites").gameObject;
-		playerMove = GetComponent<PlayerMove>();
+		playerMove = GetComponent<MovementSynchronisation>();
 		playerScript = GetComponent<PlayerScript>();
 		spriteRendererSource = null;
 	}
@@ -124,7 +125,7 @@ public class WeaponNetworkActions : NetworkBehaviour
 			if (weaponAttributes != null && weaponAttributes.hitSoundSettings != SoundItemSettings.OnlyItem)
 			{
 				AudioSourceParameters audioSourceParameters = new AudioSourceParameters(pitch: Random.Range(0.9f, 1.1f));
-				SoundManager.PlayNetworkedAtPos(integrity.soundOnHit, gameObject.WorldPosServer(), audioSourceParameters, sourceObj: gameObject);
+				SoundManager.PlayNetworkedAtPos(integrity.soundOnHit, gameObject.AssumedWorldPosServer(), audioSourceParameters, sourceObj: gameObject);
 			}
 
 			integrity.ApplyDamage(damage, AttackType.Melee, damageType);
@@ -239,9 +240,9 @@ public class WeaponNetworkActions : NetworkBehaviour
 				{
 					ResetLerp();
 					spritesObj.transform.localPosition = Vector3.zero;
-					if (PlayerManager.LocalPlayer)
+					if (PlayerManager.LocalPlayerObject)
 					{
-						if (PlayerManager.LocalPlayer == gameObject)
+						if (PlayerManager.LocalPlayerObject == gameObject)
 						{
 							CmdRequestInputActivation(); // Ask server if you can move again after melee attack
 						}

@@ -15,12 +15,14 @@ MonoBehaviour:
   emoteName: cry
   requiresHands: 0
   allowEmoteWhileInCrit: 1
+  isAudibleEmote: 0
   allowEmoteWhileCrawling: 1
   viewText: cries!
   youText: Drowning in tears, you cry.
   failText: Do you even have eyes to cry?
+  mouthBlockedText: You are unable to make a sound!
   critViewText: cries in agony.
+  soundsAreTyped: 0
   defaultSounds: []
-  maleSounds: []
-  femaleSounds: []
+  TypedSounds: []
   pitchRange: {x: 0.7, y: 1}

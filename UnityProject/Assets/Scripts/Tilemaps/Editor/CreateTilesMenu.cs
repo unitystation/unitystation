@@ -1,8 +1,9 @@
-﻿using UnityEditor;
+﻿using Tiles;
+using UnityEditor;
 using UnityEngine;
 
 
-	public class CreateTilesMenu : MonoBehaviour
+public class CreateTilesMenu : MonoBehaviour
 	{
 		[MenuItem("Assets/Create/Tiles/General/Simple Tile", false, 0)]
 		public static void CreateSimpleTile()

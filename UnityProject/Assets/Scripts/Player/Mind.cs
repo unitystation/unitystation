@@ -7,6 +7,7 @@ using Antagonists;
 using Systems.Spells;
 using HealthV2;
 using Items.PDA;
+using Messages.Server;
 using Player;
 using ScriptableObjects.Audio;
 using UI.Action;
@@ -108,6 +109,7 @@ public class Mind
 		ClearOldBody();
 		playerScript.mind = this;
 		body = playerScript;
+		if(antag != null) SetAntag(antag);
 
 		if (playerScript.TryGetComponent<LivingHealthMasterBase>(out var health))
 		{
@@ -134,6 +136,7 @@ public class Mind
 	{
 		if (body)
 		{
+			ClearActionsMessage.SendTo(body.gameObject);
 			body.mind = null;
 		}
 	}
@@ -224,7 +227,7 @@ public class Mind
 	public bool IsOnline()
 	{
 		NetworkConnection connection = GetCurrentMob().GetComponent<NetworkIdentity>().connectionToClient;
-		return PlayerList.Instance.ContainsConnection(connection);
+		return PlayerList.Instance.Has(connection);
 	}
 
 	/// <summary>
@@ -234,10 +237,10 @@ public class Mind
 	{
 		if (IsAntag == false) return;
 		var playerMob = GetCurrentMob();
-		
+
 		//Send Objectives
 		Chat.AddExamineMsgFromServer(playerMob, antag.GetObjectivesForPlayer());
-		
+
 		if (playerMob.TryGetComponent<PlayerScript>(out var body) == false) return;
 		if (antag.Antagonist.AntagJobType == JobType.TRAITOR || antag.Antagonist.AntagJobType == JobType.SYNDICATE)
         {
@@ -247,7 +250,7 @@ public class Mind
         		if (item.IsEmpty) continue;
         		if (item.ItemObject.TryGetComponent<PDALogic>(out var PDA) == false) continue;
         		if(PDA.IsUplinkCapable == false) continue;
-        		
+
         		//Send Uplink code
                 Chat.AddExamineMsgFromServer(playerMob, $"PDA uplink code retrieved: {PDA.UplinkUnlockCode}");
 	        }

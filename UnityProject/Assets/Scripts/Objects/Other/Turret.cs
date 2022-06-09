@@ -194,7 +194,7 @@ namespace Objects.Other
 			SetUpBullet();
 
 			//For some reason couldnt use item storage, would just stay above the turret
-			gun.GetComponent<CustomNetTransform>().DisappearFromWorldServer();
+			gun.GetComponent<UniversalObjectPhysics>().DisappearFromWorld();
 		}
 
 		private void OnEnable()
@@ -307,7 +307,7 @@ namespace Objects.Other
 					//Only target alive mobs
 					if(mobAi.IsDead) continue;
 
-					worldPos = mobAi.Cnt.ServerPosition;
+					worldPos = mobAi.UOP.transform.position;
 				}
 				else
 				{
@@ -432,7 +432,7 @@ namespace Objects.Other
 
 		private void ShootTarget()
 		{
-			var angleToShooter = CalculateAngle(target.WorldPosServer());
+			var angleToShooter = CalculateAngle(target.AssumedWorldPosServer());
 			rotationAngle = angleToShooter;
 
 			ShootAtDirection(angleToShooter);
@@ -450,7 +450,8 @@ namespace Objects.Other
 
 			SoundManager.PlayNetworkedAtPos(bulletSound, registerTile.WorldPosition, sourceObj: gameObject);
 
-			CastProjectileMessage.SendToAll(gameObject, bulletName, rotationToShoot, default);
+			ProjectileManager.InstantiateAndShoot(bulletName,
+				rotationToShoot, gameObject, null, BodyPartType.None);
 		}
 
 		#endregion

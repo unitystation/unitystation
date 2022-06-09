@@ -1,11 +1,12 @@
 using System.Linq;
 using TileManagement;
+using Tiles;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
 
-	[CustomEditor(typeof(LevelBrush))]
+[CustomEditor(typeof(LevelBrush))]
 	public class LevelBrushEditor : UnityEditor.Tilemaps.GridBrushEditor
 	{
 		private TileBase _currentPreviewTile;

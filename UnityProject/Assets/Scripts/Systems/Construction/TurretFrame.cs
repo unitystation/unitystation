@@ -28,14 +28,14 @@ namespace Systems.Construction
 		private ItemSlot gunSlot;
 		private Stateful stateful;
 		private StatefulState CurrentState => stateful.CurrentState;
-		private ObjectBehaviour objectBehaviour;
+		private UniversalObjectPhysics objectBehaviour;
 		private Integrity integrity;
 
 		private void Awake()
 		{
 			gunSlot = GetComponent<ItemStorage>().GetIndexedItemSlot(0);
 			stateful = GetComponent<Stateful>();
-			objectBehaviour = GetComponent<ObjectBehaviour>();
+			objectBehaviour = GetComponent<UniversalObjectPhysics>();
 			integrity = GetComponent<Integrity>();
 		}
 

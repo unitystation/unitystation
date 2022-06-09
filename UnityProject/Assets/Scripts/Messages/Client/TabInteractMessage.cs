@@ -29,7 +29,7 @@ namespace Messages.Client
 			ProcessFurther(SentByPlayer, NetworkObject, msg);
 		}
 
-		private void ProcessFurther(ConnectedPlayer player, GameObject tabProvider, NetMessage msg)
+		private void ProcessFurther(PlayerInfo player, GameObject tabProvider, NetMessage msg)
 		{
 			if (player == null)
 			{
@@ -114,7 +114,7 @@ namespace Messages.Client
 			}
 
 			//Notify all peeping players of the change
-			List<ConnectedPlayer> list = NetworkTabManager.Instance.GetPeepers(tabProvider, msg.NetTabType);
+			List<PlayerInfo> list = NetworkTabManager.Instance.GetPeepers(tabProvider, msg.NetTabType);
 			for (var i = 0; i < list.Count; i++)
 			{
 				var connectedPlayer = list[i];
@@ -128,7 +128,7 @@ namespace Messages.Client
 			}
 		}
 
-		private TabUpdateMessage FailValidation(ConnectedPlayer player, GameObject tabProvider, NetMessage msg, string reason = "")
+		private TabUpdateMessage FailValidation(PlayerInfo player, GameObject tabProvider, NetMessage msg, string reason = "")
 		{
 			Logger.LogWarning($"{player.Name}: Tab interaction w/{tabProvider} denied: {reason}", Category.NetUI);
 			return TabUpdateMessage.Send(player.GameObject, tabProvider, msg.NetTabType, TabAction.Close);

@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+using System;
 
 namespace Antagonists
 {
@@ -15,7 +16,7 @@ namespace Antagonists
 		/// The pool of possible items to steal
 		/// </summary>
 		[SerializeField]
-		private SerializableDictionary<GameObject, int> ItemPool = null;
+		private SerializableDictionary<GameObject, StealData> ItemPool = null;
 
 		/// <summary>
 		/// The item to steal
@@ -47,6 +48,12 @@ namespace Antagonists
 			var possibleItems = ItemPool.Where( itemDict =>
 				!AntagManager.Instance.TargetedItems.Contains(itemDict.Key)).ToList();
 
+			foreach (var item in possibleItems)
+			{
+				if(item.Value.BlacklistedOccupations.Contains(Owner.occupation) == false) continue;
+				possibleItems.Remove(item);
+			}
+
 			if (possibleItems.Count == 0)
 			{
 				Logger.LogWarning("Unable to find any suitable items to steal! Giving free objective", Category.Antags);
@@ -63,6 +70,7 @@ namespace Antagonists
 				                " Definitely a programming bug. ", Category.Antags);
 				return;
 			}
+
 			ItemName = itemEntry.Key.Item().InitialName;
 
 			if (string.IsNullOrEmpty(ItemName))
@@ -72,7 +80,7 @@ namespace Antagonists
 				                $"Item: {itemEntry.Key.Item().gameObject.name}", Category.Antags);
 				return;
 			}
-			Amount = itemEntry.Value;
+			Amount = itemEntry.Value.AmountToSteal;
 			AntagManager.Instance.TargetedItems.Add(itemEntry.Key);
 			// TODO randomise amount based on range/weightings?
 			description = $"Steal {Amount} {ItemName}";
@@ -82,5 +90,12 @@ namespace Antagonists
 		{
 			return CheckStorageFor(ItemName, Amount);
 		}
+	}
+
+	[Serializable]
+	public struct StealData
+	{
+		public int AmountToSteal;
+		public List<Occupation> BlacklistedOccupations;
 	}
 }

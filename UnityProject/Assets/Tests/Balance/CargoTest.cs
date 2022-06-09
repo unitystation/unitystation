@@ -1,53 +1,59 @@
-﻿using System.Text;
-using Systems.Cargo;
+﻿using System.Linq;
 using NUnit.Framework;
-using UnityEditor;
-using UnityEngine;
+using Systems.Cargo;
 
 namespace Tests.Balance
 {
+	internal static class CargoReportExtensions
+	{
+		public static TestReport ExploitHeader(this TestReport report, CargoCategory category, CargoOrderSO order) =>
+			report.AppendLine($"Found possible cargo order exploit in: {category.CategoryName}/{order.OrderName}.");
+
+		public static TestReport ExploitFooter(this TestReport report, CargoOrderSO order, int sellPrice) =>
+			report.AppendLine($"Buy price: {order.CreditCost} Sell price: {sellPrice}")
+				.AppendLine();
+	}
+
+	[Category(nameof(Balance))]
 	public class CargoTest
 	{
 		[Test]
-		public void StonksTest()
+		public void CargoOrdersHaveACrate()
 		{
-			var report = new StringBuilder();
+			var report = new TestReport();
 
-			if (Utils.TryGetScriptableObjectGUID(typeof(CargoData), report, out string guid) == false)
+			foreach (var order in Utils.FindAssetsByType<CargoOrderSO>().Where(order => order.Crate == null))
 			{
-				Assert.Fail(report.ToString());
-				return;
+				report.Fail().AppendLine($"Cargo order {order} is missing a crate to put items in, please fix.");
 			}
 
-			var cargoData = AssetDatabase.LoadAssetAtPath<CargoData>(AssetDatabase.GUIDToAssetPath(guid));
+			report.AssertPassed();
+		}
 
-			foreach (var category in cargoData.Categories)
+		[Test]
+		public void StonksTest()
+		{
+			var report = new TestReport();
+
+			foreach (var category in Utils.GetSingleScriptableObject<CargoData>(report).Categories)
 			{
 				foreach (var order in category.Orders)
 				{
 					var value = order.ContentSellPrice;
-					if (value < order.CreditCost)
-					{
-						//Check for within 10 percent
-						if (value >= order.CreditCost * 0.9f)
-						{
-							report.AppendLine("Found possible cargo order exploit in: ");
-							report.AppendFormat("{0}/{1}.", category.CategoryName, order.OrderName);
-							report.AppendLine("The export cost is within 10% of the sell price, the items might be too cheap!");
-							report.AppendFormat("\nBuy price: {0} Sell price: {1}\n\n", order.CreditCost, value);
-						}
 
-						continue;
-					}
-
-					report.AppendLine("Found possible cargo order exploit in: ");
-					report.AppendFormat("{0}/{1}.", category.CategoryName, order.OrderName);
-					report.AppendFormat("\nBuy price: {0} Sell price: {1}\n\n", order.CreditCost, value);
+					report.Clean()
+						.FailIf(value >= order.CreditCost * 0.9f)
+						.ExploitHeader(category, order)
+						.AppendLine("The export cost is within 10% of the sell price, the items might be too cheap!")
+						.ExploitFooter(order, value)
+						.MarkDirtyIfFailed()
+						.FailIf(value >= order.CreditCost)
+						.ExploitHeader(category, order)
+						.ExploitFooter(order, value);
 				}
 			}
 
-			Logger.Log(report.ToString(), Category.Tests);
-			Assert.IsEmpty(report.ToString());
+			report.Log().AssertPassed();
 		}
 	}
 }

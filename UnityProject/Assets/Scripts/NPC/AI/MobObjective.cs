@@ -8,6 +8,7 @@ namespace Systems.MobAIs
 {
 	public class MobObjective : MonoBehaviour
 	{
+		public UniversalObjectPhysics UniversalObjectPhysics;
 		protected RegisterTile mobTile;
 		protected Rotatable rotatable;
 		protected MobAI mobAI;
@@ -23,6 +24,7 @@ namespace Systems.MobAIs
 			mobTile = GetComponent<RegisterTile>();
 			rotatable = GetComponent<Rotatable>();
 			mobAI = GetComponent<MobAI>();
+			UniversalObjectPhysics = GetComponent<UniversalObjectPhysics>();
 		}
 
 		//The priority that this action should be done next
@@ -51,24 +53,7 @@ namespace Systems.MobAIs
 
 		protected void Move(Vector3Int dirToMove)
 		{
-			var dest = mobTile.LocalPositionServer + dirToMove;
-
-			if (mobTile.customNetTransform.Push(dirToMove.To2Int(), context: gameObject) == false)
-			{
-				//New doors
-				DoorMasterController tryGetDoorMaster = mobTile.Matrix.GetFirst<DoorMasterController>(dest, true);
-				if (tryGetDoorMaster)
-				{
-					tryGetDoorMaster.Bump(gameObject);
-				}
-
-				//Old doors
-				DoorController tryGetDoor = mobTile.Matrix.GetFirst<DoorController>(dest, true);
-				if (tryGetDoor)
-				{
-					tryGetDoor.MobTryOpen(gameObject);
-				}
-			}
+			UniversalObjectPhysics.OrNull()?.TryTilePush(dirToMove.To2Int(), null);
 
 			if (rotatable != null)
 			{

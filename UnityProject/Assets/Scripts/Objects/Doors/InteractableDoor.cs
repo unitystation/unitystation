@@ -3,6 +3,7 @@ using UnityEngine;
 using Mirror;
 using System;
 using Items;
+using Objects;
 
 namespace Doors
 {
@@ -10,7 +11,7 @@ namespace Doors
 	///     Allows a door to be interacted with.
 	///     It also checks for access restrictions on the players ID card
 	/// </summary>
-	public class InteractableDoor : NetworkBehaviour, IPredictedCheckedInteractable<HandApply>
+	public class InteractableDoor : NetworkBehaviour, IPredictedCheckedInteractable<HandApply>, IBumpableObject
 	{
 		private static readonly float weldTime = 5.0f;
 
@@ -44,6 +45,14 @@ namespace Doors
 
 		//nothing to rollback
 		public void ServerRollbackClient(HandApply interaction) { }
+
+		public void OnBump(GameObject byPlayer, GameObject Client)
+		{
+			if (Controller.IsClosed && Controller.IsAutomatic)
+			{
+				TryOpen(byPlayer);
+			}
+		}
 
 		/// <summary>
 		/// Invoke this on server when player bumps into door to try to open it.

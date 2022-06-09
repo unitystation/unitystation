@@ -44,6 +44,8 @@ namespace Managers
 
 		[NonSerialized] public AlertLevel CurrentAlertLevel;
 
+		public bool IsLowPop = false;
+
 		//Server only:
 		public static List<Vector2> asteroidLocations = new List<Vector2>();
 
@@ -80,6 +82,8 @@ namespace Managers
 			asteroidLocations.Clear();
 			ChangeAlertLevel(initialAlertLevel, false);
 			StartCoroutine(WaitToPrepareReport());
+			IsLowPop = false;
+			if(CustomNetworkManager.IsServer) StartCoroutine(LowpopCheck());
 		}
 
 		private IEnumerator WaitToPrepareReport()
@@ -156,6 +160,26 @@ namespace Managers
 
 			yield return WaitFor.Seconds(10);
 			MakeAnnouncement(ChatTemplates.CentcomAnnounce, PlayerUtils.GetGenericReport(), UpdateSound.Announce);
+		}
+
+		private IEnumerator LowpopCheck()
+		{
+			yield return WaitFor.Seconds(Application.isEditor ? 30 : gameManager.LowPopCheckTimeAfterRoundStart);
+			if(PlayerList.Instance.GetAlivePlayers().Count > gameManager.LowPopLimit) yield break;
+			IsLowPop = true;
+			MakeAnnouncement(ChatTemplates.CentcomAnnounce,
+				"Due to the shortage of staff on the station; We have granted additional access to all crew members until further notice."
+				, UpdateSound.Announce);
+
+			var idsSpawned = FindObjectsOfType<IDCard>();
+			foreach (var card in idsSpawned)
+			{
+				if(card.Occupation == null) continue;
+				foreach (var access in card.Occupation.AllowedLowPopAccess)
+				{
+					card.ServerAddAccess(access);
+				}
+			}
 		}
 
 		/// <summary>

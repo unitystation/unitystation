@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc4baa140f472c84284eccd1fdbb429d, type: 3}
+  m_Name: InRangeOfPete
+  m_EditorClassIdentifier: 
+  TipTile: Avoid the horns!
+  TipData:
+    Tip: Do not anger pete by attacking him! He may appear harmless but his horns
+      are much more painful than you might think.
+    TipIcon: {fileID: 21300002, guid: cf8f9f59eeb8cbe4fa338d33d4ddc1d3, type: 3}
+    ShowAnimation: 0
+    MinimumExperienceLevelToTrigger: 0
+    ShowDuration: 15

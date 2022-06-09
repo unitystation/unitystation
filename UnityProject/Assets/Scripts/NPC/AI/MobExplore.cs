@@ -27,7 +27,8 @@ namespace Systems.MobAIs
 			dirtyFloor,
 			missingFloor,
 			injuredPeople,
-			players
+			players,
+			none
 		}
 
 		public float PriorityBalance = 1;
@@ -63,11 +64,13 @@ namespace Systems.MobAIs
 
 		private readonly Random random = new Random();
 
-		private InteractableTiles interactableTiles {
-			get {
+		private InteractableTiles interactableTiles
+		{
+			get
+			{
 				if (_interactableTiles == null)
 				{
-					_interactableTiles = InteractableTiles.GetAt((Vector2Int) mobTile.LocalPositionServer, true);
+					_interactableTiles = InteractableTiles.GetAt((Vector2Int)mobTile.LocalPositionServer, true);
 				}
 
 				return _interactableTiles;
@@ -195,7 +198,7 @@ namespace Systems.MobAIs
 				case Target.dirtyFloor:
 					var matrixInfo = MatrixManager.AtPoint(checkPos, true);
 					var worldPos = MatrixManager.LocalToWorldInt(checkPos, matrixInfo);
-					if (IsEmagged) matrixInfo.MetaDataLayer.ReagentReact(new ReagentMix(CB_REAGENT,5,283.15f),worldPos,checkPos);
+					if (IsEmagged) matrixInfo.MetaDataLayer.ReagentReact(new ReagentMix(CB_REAGENT, 5, 283.15f), worldPos, checkPos);
 					else matrixInfo.MetaDataLayer.Clean(worldPos, checkPos, false);
 					break;
 				case Target.missingFloor:

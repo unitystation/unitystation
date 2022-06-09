@@ -33,7 +33,7 @@ namespace Messages.Client
 
 			if (msg.IsGhost)
 			{
-				if (playerScript.IsGhost && PlayerList.Instance.IsAdmin(playerScript.connectedPlayer.UserId))
+				if (playerScript.IsGhost && PlayerList.Instance.IsAdmin(playerScript.PlayerInfo.UserId))
 				{
 					FinishTransfer();
 				}
@@ -44,7 +44,7 @@ namespace Messages.Client
 
 			if (targetSlot.NamedSlot == NamedSlot.handcuffs)
 			{
-				targetObject.GetComponent<PlayerMove>().TryUnCuff(targetObject, playerObject);
+				targetObject.GetComponent< MovementSynchronisation>().TryUnCuff(targetObject, playerObject);
 				return;
 			}
 

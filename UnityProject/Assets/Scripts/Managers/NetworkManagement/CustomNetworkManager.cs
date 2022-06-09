@@ -114,8 +114,9 @@ public class CustomNetworkManager : NetworkManager, IInitialise
 	{
 		CheckTransport();
 		ApplyConfig();
-		//Automatically host if starting up game *not* from lobby
-		if (SceneManager.GetActiveScene().name != "Lobby")
+
+		var prevEditorScene = SubSceneManager.GetEditorPrevScene();
+		if (prevEditorScene != string.Empty && prevEditorScene != "StartUp" && prevEditorScene != "Lobby")
 		{
 			StartHost();
 		}
@@ -402,6 +403,11 @@ public class CustomNetworkManager : NetworkManager, IInitialise
 			// EventManager.Broadcast(EVENT.RoundStarted);
 			StartCoroutine(DoHeadlessCheck());
 		}
+		else
+		{
+			// must've disconnected, let lobby know (now that scene is loaded)
+			Lobby.LobbyManager.Instance.lobbyDialogue.wasDisconnected = true;
+		}
 	}
 
 	private IEnumerator DoHeadlessCheck()
@@ -435,7 +441,7 @@ public class CustomNetworkManager : NetworkManager, IInitialise
 
 	private IEnumerator TransformWaltz()
 	{
-		CustomNetTransform[] scripts = FindObjectsOfType<CustomNetTransform>();
+		UniversalObjectPhysics[] scripts = FindObjectsOfType<UniversalObjectPhysics>();
 		var sequence = new[]
 		{
 			Vector3.right, Vector3.up, Vector3.left, Vector3.down,
@@ -452,9 +458,9 @@ public class CustomNetworkManager : NetworkManager, IInitialise
 		}
 	}
 
-	private static void NudgeTransform(CustomNetTransform netTransform, Vector3 where)
+	private static void NudgeTransform(UniversalObjectPhysics ObjectPhysics, Vector3 where)
 	{
-		netTransform.SetPosition(netTransform.ServerState.LocalPosition + where);
+		ObjectPhysics.AppearAtWorldPositionServer(ObjectPhysics.OfficialPosition + where);
 	}
 #endif
 }

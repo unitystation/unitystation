@@ -7,6 +7,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1374483540581099544, guid: 64d782023543d4542b89ce3f9402b084,
+        type: 3}
+      propertyPath: tileMoveSpeed
+      value: 4
+      objectReference: {fileID: 0}
     - target: {fileID: 7494601431046934675, guid: 64d782023543d4542b89ce3f9402b084,
         type: 3}
       propertyPath: m_Name
@@ -82,12 +87,6 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 6668068784741760215}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &6440154112111017943 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 426077455456060160, guid: 64d782023543d4542b89ce3f9402b084,
-    type: 3}
-  m_PrefabInstance: {fileID: 6668068784741760215}
-  m_PrefabAsset: {fileID: 0}
 --- !u!114 &811126669682120101
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -120,6 +119,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 857bf8f3709511b4fb9178b76caed382, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  UniversalObjectPhysics: {fileID: 0}
   AllowDead: 0
   AllowUnconscious: 0
   Priority: 0
@@ -129,6 +129,7 @@ MonoBehaviour:
   doLerpOnAction: 0
   spriteHolder: {fileID: 6440154112111017943}
   actionCooldown: 1
+  isOnCooldown: 0
   attackSound:
     SetLoadSetting: 0
     AssetAddress: null
@@ -139,3 +140,9 @@ MonoBehaviour:
       m_EditorAssetChanged: 0
   hitDamage: 30
   attackVerb: 
+--- !u!1 &6440154112111017943 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 426077455456060160, guid: 64d782023543d4542b89ce3f9402b084,
+    type: 3}
+  m_PrefabInstance: {fileID: 6668068784741760215}
+  m_PrefabAsset: {fileID: 0}

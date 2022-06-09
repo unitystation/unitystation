@@ -37,7 +37,7 @@ public class CooldownID
 	/// <returns></returns>
 	public static CooldownID Asset(ICooldown cooldownAsset, NetworkSide side)
 	{
-		return new CooldownID(cooldownAsset, null, side, CooldownType.Asset);
+		return new CooldownID(cooldownAsset, null,side ,CooldownType.Asset);
 	}
 
 	/// <summary>
@@ -52,8 +52,7 @@ public class CooldownID
 	/// <returns></returns>
 	public static CooldownID Interaction<T>(IInteractable<T> interactable, NetworkSide side) where T : Interaction
 	{
-		return new CooldownID(null, interactable.GetType(),
-			side, CooldownType.Interaction);
+		return new CooldownID(null, interactable.GetType(), side , CooldownType.Interaction);
 	}
 
 	protected bool Equals(CooldownID other)

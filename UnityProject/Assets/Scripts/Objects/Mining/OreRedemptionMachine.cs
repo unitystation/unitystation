@@ -26,7 +26,7 @@ namespace Objects.Mining
 
 		public void LoadNearbyOres()
 		{
-			var nearbyObjects = MatrixManager.GetAdjacent<ObjectBehaviour>(registerObject.WorldPosition, true);
+			var nearbyObjects = MatrixManager.GetAdjacent<UniversalObjectPhysics>(registerObject.WorldPosition, true);
 			foreach (var objectBehaviour in nearbyObjects)
 			{
 				var item = objectBehaviour.gameObject;

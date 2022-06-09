@@ -12,6 +12,21 @@ PrefabInstance:
       propertyPath: mobName
       value: xenomorph hunter
       objectReference: {fileID: 0}
+    - target: {fileID: 941816724250882487, guid: cf769d410d94f0e47bab5eee03a3b07d,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 941816724250882487, guid: cf769d410d94f0e47bab5eee03a3b07d,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 941816724250882487, guid: cf769d410d94f0e47bab5eee03a3b07d,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3783638323905235520, guid: cf769d410d94f0e47bab5eee03a3b07d,
         type: 3}
       propertyPath: m_RootOrder
@@ -56,6 +71,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_AssetId
       value: 00a84f751afb412428a586d23cf90b39
+      objectReference: {fileID: 0}
+    - target: {fileID: 5736064494939018447, guid: cf769d410d94f0e47bab5eee03a3b07d,
+        type: 3}
+      propertyPath: tileMoveSpeed
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 6029784556651730588, guid: cf769d410d94f0e47bab5eee03a3b07d,
         type: 3}

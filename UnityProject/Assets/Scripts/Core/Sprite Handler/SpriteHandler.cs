@@ -6,6 +6,7 @@ using Mirror;
 using UnityEngine.Serialization;
 #if UNITY_EDITOR
 using Unity.EditorCoroutines.Editor;
+using UnityEditor;
 #endif
 using UnityEngine.UI;
 
@@ -789,6 +790,7 @@ public class SpriteHandler : MonoBehaviour
 		if (PresentFrame == null)
 		{
 			TryToggleAnimationState(false);
+			return;
 		}
 
 		if (timeElapsed >= PresentFrame.secondDelay)
@@ -938,11 +940,19 @@ public class SpriteHandler : MonoBehaviour
 		}
 		if (this.gameObject.scene.path == null || this.gameObject.scene.path.Contains("Scenes") == false)
 		{
-			variantIndex = initialVariantIndex;
-			PushTexture();
+#if UNITY_EDITOR
+			EditorApplication.delayCall += ValidateLate;
+#endif
+
 		}
 	}
-
+	public void ValidateLate()
+	{
+		// ValidateLate might be called after this object is already destroyed.
+		if (this == null || Application.isPlaying) return;
+		variantIndex = initialVariantIndex;
+		PushTexture();
+	}
 
 	private bool EditorTryToggleAnimationState(bool turnOn)
 	{

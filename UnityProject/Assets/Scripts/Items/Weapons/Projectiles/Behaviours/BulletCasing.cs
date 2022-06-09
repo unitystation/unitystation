@@ -11,11 +11,11 @@ namespace Weapons.Projectiles.Behaviours
 		{
 			if (isServer)
 			{
-				var netTransform = GetComponent<CustomNetTransform>();
+				var netTransform = GetComponent<UniversalObjectPhysics>();
 
 				if(netTransform != null)
 				{
-					netTransform.ForceDrop(netTransform.ServerState.WorldPosition + new Vector3(Random.Range(-0.6f, 0.6f), Random.Range(-0.6f, 0.6f)));
+					netTransform.ForceDrop(netTransform.transform.position + new Vector3(Random.Range(-0.6f, 0.6f), Random.Range(-0.6f, 0.6f)));
 				}
 			}
 

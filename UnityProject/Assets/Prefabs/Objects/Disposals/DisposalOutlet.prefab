@@ -149,12 +149,6 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 1347533324463388387}
   m_PrefabAsset: {fileID: 0}
---- !u!210 &3925827565069146067 stripped
-SortingGroup:
-  m_CorrespondingSourceObject: {fileID: 2650422487074349360, guid: b06b702714bab49b9ad949eab1ca4534,
-    type: 3}
-  m_PrefabInstance: {fileID: 1347533324463388387}
-  m_PrefabAsset: {fileID: 0}
 --- !u!114 &1303169148809576416
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -195,7 +189,9 @@ MonoBehaviour:
   ChangeSprites: 1
   isChangingSO: 0
   CurrentDirection: 3
+  IgnoreServerUpdatesIfLocalPlayer: 0
   IsAtmosphericDevice: 0
+  doNotResetOtherSpriteOptions: 0
 --- !u!114 &8957056455312658134
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -211,3 +207,9 @@ MonoBehaviour:
   spriteMatrixRotationBehavior: 1
   ignoreExtraRotation: []
   RotateParent: {fileID: 0}
+--- !u!210 &3925827565069146067 stripped
+SortingGroup:
+  m_CorrespondingSourceObject: {fileID: 2650422487074349360, guid: b06b702714bab49b9ad949eab1ca4534,
+    type: 3}
+  m_PrefabInstance: {fileID: 1347533324463388387}
+  m_PrefabAsset: {fileID: 0}

@@ -1,4 +1,5 @@
 using System.Collections;
+using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.TestTools;
 
@@ -10,6 +11,7 @@ namespace GameRunTests
 		public IEnumerator NewTestScriptWithEnumeratorPasses()
 		{
 			yield return SceneManager.LoadSceneAsync("OnlineScene");
+
 			if (GameManager.Instance == null)
 			{
 				Logger.LogError("Unable to load OnlineScene Properly returning");
@@ -22,12 +24,11 @@ namespace GameRunTests
 			GameManager.Instance.QuickLoad = false;
 		}
 
-
 		public static void RunRestartRound()
 		{
 			GameManager.Instance.RoundEndTime = 0f;
 			GameManager.Instance.EndRound();
-			PlayerManager.LocalPlayer = null;
+			PlayerManager.LocalPlayerObject = null;
 		}
 
 		// public void RunRestartRound()
@@ -43,5 +44,4 @@ namespace GameRunTests
 		// 	GameManager.Instance.EndRound();
 		// }
 	}
-
 }

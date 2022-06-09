@@ -36,7 +36,7 @@ namespace Systems.CraftingV2.ClientServerLogic
 			);
 		}
 
-		public static void SendTo(ConnectedPlayer connectedPlayer, CraftingRecipe craftingRecipe)
+		public static void SendTo(PlayerInfo connectedPlayer, CraftingRecipe craftingRecipe)
 		{
 			if (craftingRecipe.IndexInSingleton < 0)
 			{

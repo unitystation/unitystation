@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections;
-using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using Mirror;
@@ -10,17 +9,18 @@ using Messages.Server;
 using Messages.Server.SoundMessages;
 using Player;
 using Player.Movement;
+using Systems.StatusesAndEffects.Implementations;
 
 namespace HealthV2
 {
 	public class PlayerHealthV2 : LivingHealthMasterBase, RegisterPlayer.IControlPlayerState
 	{
-		private PlayerMove playerMove;
+		private MovementSynchronisation playerMove;
 		/// <summary>
 		/// Controller for sprite direction and walking into objects
 		/// </summary>
-		public PlayerMove PlayerMove => playerMove;
-		
+		public MovementSynchronisation PlayerMove => playerMove;
+
 		private PlayerNetworkActions playerNetworkActions;
 
 		private RegisterPlayer registerPlayer;
@@ -46,11 +46,14 @@ namespace HealthV2
 		//fixme: not actually set or modified. keep an eye on this!
 		public bool serverPlayerConscious { get; set; } = true; //Only used on the server
 
+		[SerializeField]
+		private Convulsing convulsionEffect;
+
 		public override void Awake()
 		{
 			base.Awake();
 			playerNetworkActions = GetComponent<PlayerNetworkActions>();
-			playerMove = GetComponent<PlayerMove>();
+			playerMove = GetComponent<MovementSynchronisation>();
 			playerSprites = GetComponent<PlayerSprites>();
 			registerPlayer = GetComponent<RegisterPlayer>();
 			dynamicItemStorage = GetComponent<DynamicItemStorage>();
@@ -66,7 +69,7 @@ namespace HealthV2
 			}
 
 			//we stay upright if buckled or conscious
-			registerPlayer.ServerSetIsStanding(newState == ConsciousState.CONSCIOUS || PlayerMove.IsBuckled);
+			registerPlayer.ServerSetIsStanding(newState == ConsciousState.CONSCIOUS || PlayerMove.BuckledObject != null);
 		}
 
 		public override void Gib()
@@ -78,7 +81,7 @@ namespace HealthV2
 			}
 
 			base.Gib();
-			PlayerMove.PlayerScript.pushPull.VisibleState = false;
+			PlayerMove.playerScript.objectPhysics.DisappearFromWorld ();
 			playerNetworkActions.ServerSpawnPlayerGhost();
 		}
 
@@ -102,13 +105,12 @@ namespace HealthV2
 		{
 			if (CustomNetworkManager.Instance._isServer)
 			{
-				ConnectedPlayer player = PlayerList.Instance.Get(gameObject, true);
+				PlayerInfo player = gameObject.Player();
 
 				string killerName = null;
 				if (LastDamagedBy != null)
 				{
-					var lastDamager = PlayerList.Instance.Get(LastDamagedBy, true);
-					if (lastDamager != null)
+					if (LastDamagedBy.TryGetPlayer(out var lastDamager))
 					{
 						killerName = lastDamager.Name;
 						AutoMod.ProcessPlayerKill(lastDamager, player);
@@ -287,6 +289,13 @@ namespace HealthV2
 			Chat.AddExamineMsgFromServer(gameObject, $"The {electrocution.ShockSourceName} gives you a slight tingling sensation...");
 		}
 
+		private void AddConvulsingEffect(int stacks = 1)
+		{
+			var convulsing = Instantiate(convulsionEffect);
+			convulsing.InitialStacks = stacks;
+			playerScript.statusEffectManager.AddStatus(convulsing);
+		}
+
 		protected override void PainfulElectrocution(Electrocution electrocution, float shockPower)
 		{
 			// TODO: Add sparks VFX at shockSourcePos.
@@ -301,6 +310,8 @@ namespace HealthV2
 			string victimChatString = (electrocution.ShockSourceName != null ? $"The {electrocution.ShockSourceName}" : "Something") +
 					" gives you a small electric shock!";
 			Chat.AddExamineMsgFromServer(gameObject, victimChatString);
+
+			AddConvulsingEffect();
 
 			DealElectrocutionDamage(5, electrocutedHand);
 		}
@@ -332,6 +343,8 @@ namespace HealthV2
 			DealElectrocutionDamage(damage * 0.25f, BodyPartType.Chest);
 			DealElectrocutionDamage(damage * 0.175f, BodyPartType.LeftLeg);
 			DealElectrocutionDamage(damage * 0.175f, BodyPartType.RightLeg);
+
+			AddConvulsingEffect(5);
 		}
 
 		private IEnumerator ElectrocutionSequence()

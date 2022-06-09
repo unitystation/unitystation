@@ -14,7 +14,7 @@ using Systems.Atmospherics;
 using Systems.Electricity;
 using Systems.Pipes;
 using Util;
-
+using Tiles;
 
 /// <summary>
 /// Behavior which indicates a matrix - a contiguous grid of tiles.
@@ -57,8 +57,8 @@ public class Matrix : MonoBehaviour
 	public bool IsMainStation;
 	public bool IsLavaLand;
 
-	private CheckedComponent<MatrixMove> checkedMatrixMove = new CheckedComponent<MatrixMove>();
-	public bool IsMovable => checkedMatrixMove.HasComponent;
+	private CheckedComponent<MatrixMove> checkedMatrixMove;
+	public bool IsMovable => checkedMatrixMove?.HasComponent ?? false;
 
 	public MatrixMove MatrixMove => checkedMatrixMove.Component;
 
@@ -99,6 +99,9 @@ public class Matrix : MonoBehaviour
 	public NetworkedMatrix NetworkedMatrix => networkedMatrix;
 
 	[NonSerialized] public bool Initialized;
+
+	//Pretty self-explanatory, TODO gravity generator
+	public bool HasGravity = true;
 
 	private void Awake()
 	{
@@ -263,6 +266,11 @@ public class Matrix : MonoBehaviour
 		return MetaTileMap.HasTile(position, LayerType.Grills);
 	}
 
+	public bool IsFloorAt(Vector3Int position, bool isServer)
+	{
+		return MetaTileMap.HasTile(position, LayerType.Floors);
+	}
+
 	public bool IsEmptyAt(Vector3Int position, bool isServer)
 	{
 		return MetaTileMap.IsEmptyAt(position, isServer);
@@ -274,7 +282,7 @@ public class Matrix : MonoBehaviour
 		return MetaTileMap.IsNoGravityAt(position, isServer);
 	}
 
-	public IEnumerable<RegisterTile> GetRegisterTile(Vector3Int localPosition, bool isServer)
+	public List<RegisterTile> GetRegisterTile(Vector3Int localPosition, bool isServer)
 	{
 		return (isServer ? ServerObjects : ClientObjects).Get(localPosition);
 	}
@@ -403,12 +411,12 @@ public class Matrix : MonoBehaviour
 		return metaTileMap.GetAllTilesByType<Objects.Disposals.DisposalPipe>(position, LayerType.Underfloor);
 	}
 
-	public ElectricalPool.IntrinsicElectronicDataList GetElectricalConnections(Vector3Int position)
+	public ElectricalPool.IntrinsicElectronicDataList GetElectricalConnections(Vector3Int localPosition)
 	{
 		var list = ElectricalPool.GetFPCList();
 		if (ServerObjects != null)
 		{
-			var collection = ServerObjects.Get(position);
+			var collection = ServerObjects.Get(localPosition);
 			for (int i = collection.Count - 1; i >= 0; i--)
 			{
 				if (i < collection.Count && collection[i] != null
@@ -420,9 +428,9 @@ public class Matrix : MonoBehaviour
 			}
 		}
 
-		if (metaDataLayer.Get(position)?.ElectricalData != null)
+		if (metaDataLayer.Get(localPosition)?.ElectricalData != null)
 		{
-			foreach (var electricalMetaData in metaDataLayer.Get(position).ElectricalData)
+			foreach (var electricalMetaData in metaDataLayer.Get(localPosition).ElectricalData)
 			{
 				list.List.Add(electricalMetaData.InData);
 			}

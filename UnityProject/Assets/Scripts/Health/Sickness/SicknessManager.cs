@@ -199,8 +199,11 @@ namespace Health.Sickness
 		{
 			SpawnResult spawnResult = Spawn.ServerPrefab(contagionPrefab, position, null, null, 1, null, true);
 
-			if (spawnResult.Successful)
-				spawnResult.GameObject.GetComponent<Contagion>().Sickness = symptomManifestation.SicknessAffliction.Sickness;
+			if (spawnResult.Successful && spawnResult.GameObject.TryGetComponent<Contagion>(out var contagion))
+			{
+				contagion.Sickness = symptomManifestation.SicknessAffliction.Sickness;
+				contagion.Sickness.SetCure();
+			}
 		}
 
 		// Add this player as a sick player

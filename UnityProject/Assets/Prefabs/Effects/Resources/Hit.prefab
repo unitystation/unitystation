@@ -12,10 +12,10 @@ GameObject:
   - component: {fileID: 1682087833536344853}
   - component: {fileID: 2583848609479432936}
   - component: {fileID: 1460587041863738674}
-  - component: {fileID: 435841801542321328}
   - component: {fileID: -3156721346394010278}
   - component: {fileID: -1301878598643499119}
   - component: {fileID: -9201460293526449076}
+  - component: {fileID: -7829086284908431532}
   m_Layer: 10
   m_Name: Hit
   m_TagString: Untagged
@@ -33,6 +33,7 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: 0.00000014901144, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -106,6 +107,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 5bb19429fda0e584cab3534a4527ed13, type: 2}
   PresentSpriteSet: {fileID: 11400000, guid: 5bb19429fda0e584cab3534a4527ed13, type: 2}
   randomInitialSprite: 0
+  doReverseAnimation: 0
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
   palette: []
@@ -126,22 +128,6 @@ MonoBehaviour:
   visible: 0
   m_AssetId: 1d53c177a1d95a0419ddbee5194f25d3
   hasSpawned: 0
---- !u!114 &435841801542321328
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1558421102126524431}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 579884b05ae74e8499329b64997147d3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  snapToGridOnStart: 1
-  IsFixedMatrix: 0
 --- !u!114 &-3156721346394010278
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -158,7 +144,6 @@ MonoBehaviour:
   syncInterval: 0.1
   matrixDebugLogging: 0
   objectType: 0
-  customNetTransform: {fileID: 0}
   prefabTracker: {fileID: 0}
   CurrentsortingGroup: {fileID: 0}
 --- !u!114 &-1301878598643499119
@@ -173,8 +158,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62cc3ef7cd9082443aaf3c255851d15a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
 --- !u!114 &-9201460293526449076
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -188,3 +171,49 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   time: 0.4
+--- !u!114 &-7829086284908431532
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1558421102126524431}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 52a6a264ee47433418b51f654439372f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  SnapToGridOnStart: 0
+  LocalTargetPosition: {x: 0, y: 0, z: 0}
+  TileMoveSpeed: 1
+  isNotPushable: 0
+  newtonianMovement: {x: 0, y: 0}
+  airTime: 0
+  slideTime: 0
+  thrownBy: {fileID: 0}
+  aim: 0
+  spinMagnitude: 0
+  stickyMovement: 0
+  maximumStickSpeed: 1.5
+  onStationMovementsRound: 0
+  attributes: {fileID: 0}
+  registerTile: {fileID: 0}
+  ContextGameObjects:
+  - {fileID: 0}
+  - {fileID: 0}
+  IsCurrentlyFloating: 0
+  LocalDifferenceNeeded: {x: 0, y: 0}
+  CorrectingCourse: 0
+  Pushing: []
+  Hits: []
+  Speed: 1
+  AIR: 3
+  SLIDE: 4
+  Animating: 0
+  IsFlyingSliding: 0
+  IsMoving: 0
+  IsWalking: 0
+  MoveIsWalking: 0
+  LastUpdateClientFlying: 0

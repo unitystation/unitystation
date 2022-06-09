@@ -8,6 +8,7 @@ using UnityEngine;
 using TileManagement;
 using Objects;
 using Util;
+using Tiles;
 
 namespace MapSaver
 {
@@ -764,7 +765,7 @@ namespace MapSaver
 				var objectContainer = gameObjectComponents[i] as ObjectContainer;
 				if (objectContainer != null)
 				{
-					foreach (var objectBehaviour in objectContainer.GetStoredObjects().Select(obj => obj.GetComponent<ObjectBehaviour>()))
+					foreach (var objectBehaviour in objectContainer.GetStoredObjects().Select(obj => obj.GetComponent<UniversalObjectPhysics>()))
 					{
 						if (CoordinateOverride == null)
 						{

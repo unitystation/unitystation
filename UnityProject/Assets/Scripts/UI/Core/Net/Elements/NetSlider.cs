@@ -24,7 +24,7 @@ namespace UI.Core.NetUI
 		private Slider element;
 		public Slider Element => element ??= GetComponent<Slider>();
 
-		public override void ExecuteServer(ConnectedPlayer subject)
+		public override void ExecuteServer(PlayerInfo subject)
 		{
 			ServerMethod.Invoke(Element.value);
 		}

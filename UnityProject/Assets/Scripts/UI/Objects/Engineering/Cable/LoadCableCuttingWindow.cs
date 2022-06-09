@@ -50,7 +50,7 @@ public class LoadCableCuttingWindow : MonoBehaviour
 	private void OnEnable()
 	{
 		// store reference to player transform
-		localPlayerTransform = PlayerManager.LocalPlayer.transform;
+		localPlayerTransform = PlayerManager.LocalPlayerObject.transform;
 		UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
 	}
 

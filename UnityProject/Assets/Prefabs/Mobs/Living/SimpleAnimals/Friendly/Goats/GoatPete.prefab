@@ -124,10 +124,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   milkReagent: {fileID: 11400000, guid: a1724b1210d8177c097a28325415c0b1, type: 2}
   milkAmount: 25
-  milkTick: 200
-  milkProducePerTick: 10
+  milkTick: 120
+  milkProducePerTick: 25
   maxMilk: 100
-  requiredMood: 60
+  requiredMood: 40
   moodPenalty: 10
   milkMessageYou: You milk {0}.
   milkMessageOthers: '{1} milks {0}'

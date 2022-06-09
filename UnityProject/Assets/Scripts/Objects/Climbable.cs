@@ -10,22 +10,19 @@ namespace Objects
 		{
 			if (interaction.TargetObject == null) return false;
 			if (interaction.UsedObject == null) return false;
-			var targetObjectPos = side == NetworkSide.Server ?
-				interaction.TargetObject.WorldPosServer() : interaction.TargetObject.WorldPosClient();
-			if (interaction.UsedObject.TryGetComponent<PlayerSync>(out var playerSync))
+			var targetObjectPos = interaction.TargetObject.transform.position;
+			if (interaction.UsedObject.TryGetComponent<MovementSynchronisation>(out var playerSync))
 			{
-				if (playerSync.IsMoving || playerSync.playerMove.IsBuckled) return false;
+				if (playerSync.IsMoving || playerSync.IsBuckled) return false;
 				// Do a sanity check to make sure someone isn't dropping the shadow from like 9000 tiles away.
-				float mag = (targetObjectPos - (side == NetworkSide.Server ?
-					playerSync.ServerPosition : playerSync.ClientPosition)).magnitude;
+				float mag = (targetObjectPos - playerSync.registerTile.WorldPosition ).magnitude;
 				return mag <= PlayerScript.interactionDistance;
 			}
 			// Do the same check but for mouse draggable objects this time.
-			if (interaction.UsedObject.TryGetComponent<CustomNetTransform>(out var netTransform))
+			if (interaction.UsedObject.TryGetComponent<UniversalObjectPhysics>(out var UniversalObjectPhysics))
 			{
-				if (netTransform.PushPull.IsNotPushable) return false;
-				float mag = (targetObjectPos - (side == NetworkSide.Server ?
-					netTransform.ServerPosition : netTransform.ClientPosition)).magnitude;
+				if (UniversalObjectPhysics.IsNotPushable) return false;
+				float mag = (targetObjectPos - (UniversalObjectPhysics.transform.position)).magnitude;
 				return mag <= PlayerScript.interactionDistance;
 			}
 			return false;
@@ -39,13 +36,13 @@ namespace Objects
 			{
 				if (interaction.UsedObject.TryGetComponent<PlayerScript>(out var playerScript))
 				{
-					playerScript.PlayerSync.SetPosition(gameObject.WorldPosServer());
+					playerScript.PlayerSync.AppearAtWorldPositionServer(gameObject.AssumedWorldPosServer());
 				}
 				else
 				{
-					if (interaction.UsedObject.TryGetComponent<CustomNetTransform>(out var transformComp))
+					if (interaction.UsedObject.TryGetComponent<UniversalObjectPhysics>(out var UniversalObjectPhysics))
 					{
-						transformComp.AppearAtPositionServer(gameObject.WorldPosServer());
+						UniversalObjectPhysics.AppearAtWorldPositionServer(gameObject.AssumedWorldPosServer());
 					}
 				}
 			}).ServerStartProgress(interaction.UsedObject.RegisterTile(), ClimbTime, interaction.Performer);

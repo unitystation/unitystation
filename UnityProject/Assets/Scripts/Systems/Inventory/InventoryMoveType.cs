@@ -52,11 +52,6 @@ public class InventoryMove
 	public readonly Vector2? WorldTargetVector;
 
 	/// <summary>
-	/// If InventoryRemoveType.Throw, what spin mode to use for the object
-	/// </summary>
-	public readonly SpinMode? ThrowSpinMode;
-
-	/// <summary>
 	/// If fromSlot is a player's top-level inventory, returns that player. Otherwise null.
 	/// </summary>
 	public RegisterPlayer FromPlayer => FromSlot?.Player;
@@ -85,7 +80,7 @@ public class InventoryMove
 	public bool IgnoreConstraints = false;
 
 	public InventoryMove(InventoryMoveType inventoryMoveType, Pickupable movedObject, ItemSlot fromSlot, ItemSlot slot,
-		InventoryRemoveType? removeType = null, BodyPartType? throwAim = null, Vector2? worldTargetVector = null, SpinMode? throwSpinMode = null,
+		InventoryRemoveType? removeType = null, BodyPartType? throwAim = null, Vector2? worldTargetVector = null,
 		ReplacementStrategy replacementStrategy = ReplacementStrategy.Cancel,bool ignoreRestraints = false)
 	{
 		InventoryMoveType = inventoryMoveType;
@@ -95,7 +90,6 @@ public class InventoryMove
 		RemoveType = removeType;
 		ThrowAim = throwAim;
 		WorldTargetVector = worldTargetVector;
-		ThrowSpinMode = throwSpinMode;
 		ReplacementStrategy = replacementStrategy;
 		IgnoreConstraints = ignoreRestraints;
 	}
@@ -192,9 +186,9 @@ public class InventoryMove
 	/// <param name="spinMode"></param>
 	/// <param name="aim">body part to target</param>
 	/// <returns></returns>
-	public static InventoryMove Throw(ItemSlot fromSlot, Vector2 worldTargetVector, SpinMode spinMode = SpinMode.CounterClockwise, BodyPartType aim = BodyPartType.Chest)
+	public static InventoryMove Throw(ItemSlot fromSlot, Vector2 worldTargetVector, BodyPartType aim = BodyPartType.Chest)
 	{
-		return new InventoryMove(InventoryMoveType.Remove, fromSlot.Item, fromSlot, null, InventoryRemoveType.Throw, aim, worldTargetVector, spinMode);
+		return new InventoryMove(InventoryMoveType.Remove, fromSlot.Item, fromSlot, null, InventoryRemoveType.Throw, aim, worldTargetVector);
 	}
 }
 

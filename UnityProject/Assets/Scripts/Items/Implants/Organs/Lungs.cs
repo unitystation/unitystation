@@ -63,7 +63,7 @@ namespace HealthV2
 			if (brain && brain.RelatedPart.TotalModified <= 0.2f)
 				return;
 
-			Vector3Int position = RelatedPart.HealthMaster.ObjectBehaviour.AssumedWorldPositionServer();
+			Vector3Int position = RelatedPart.HealthMaster.ObjectBehaviour.registerTile.WorldPosition;
 			MetaDataNode node = MatrixManager.GetMetaDataAt(position);
 			var TotalModified = 1f;
 			foreach (var modifier in bodyPart.AppliedModifiers)
@@ -127,7 +127,7 @@ namespace HealthV2
 			if (container == null)
 			{
 				// Could be in a container that has an internal gas mix, else use the tile's gas mix.
-				var parentContainer = RelatedPart.HealthMaster.ObjectBehaviour.parentContainer;
+				var parentContainer = RelatedPart.HealthMaster.ObjectBehaviour.ContainedInContainer;
 				if (parentContainer != null && parentContainer.TryGetComponent<GasContainer>(out var gasContainer))
 				{
 					container = gasContainer;

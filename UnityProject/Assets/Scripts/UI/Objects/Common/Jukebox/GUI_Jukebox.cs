@@ -24,7 +24,7 @@ namespace UI.Objects
 		private Jukebox jukebox;
 		private Jukebox Jukebox => jukebox ??= Provider.GetComponent<Jukebox>();
 
-		public void OnTabOpenedHandler(ConnectedPlayer connectedPlayer)
+		public void OnTabOpenedHandler(PlayerInfo connectedPlayer)
 		{
 			labelTrack.Value = Jukebox.TrackPosition;
 			labelSong.Value = Jukebox.SongName;

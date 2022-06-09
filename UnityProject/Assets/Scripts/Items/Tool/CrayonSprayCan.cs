@@ -303,7 +303,7 @@ namespace Items.Tool
 
 			if (isCan)
 			{
-				SoundManager.PlayNetworkedAtPos(spraySound, interaction.Performer.WorldPosServer(),
+				SoundManager.PlayNetworkedAtPos(spraySound, interaction.Performer.AssumedWorldPosServer(),
 					sourceObj: interaction.Performer);
 			}
 

@@ -1,19 +1,13 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using AddressableReferences;
 using UnityEngine;
 using Mirror;
 using Communications;
-using Items.Devices;
 using Managers;
-using Objects;
 using Systems.Explosions;
 using Scripts.Core.Transform;
 using UI.Items;
-using Random = UnityEngine.Random;
 
 namespace Items.Weapons
 {
@@ -36,11 +30,11 @@ namespace Items.Weapons
 		[SerializeField] protected SpriteHandler spriteHandler;
 		[SerializeField] protected ScaleSync scaleSync;
 		protected RegisterItem registerItem;
-		protected ObjectBehaviour objectBehaviour;
+		protected UniversalObjectPhysics objectBehaviour;
 		protected Pickupable pickupable;
 		protected HasNetworkTabItem explosiveGUI;
 		[HideInInspector] public GUI_Explosive GUI;
-		[SyncVar] protected bool isArmed;
+		[SyncVar(hook=nameof(OnArmStateChange))] protected bool isArmed;
 		[SyncVar] protected bool countDownActive = false;
 		protected List<SignalEmitter> emitters = new List<SignalEmitter>();
 
@@ -66,10 +60,10 @@ namespace Items.Weapons
 			if(spriteHandler == null) spriteHandler = GetComponentInChildren<SpriteHandler>();
 			if(scaleSync == null) scaleSync = GetComponent<ScaleSync>();
 			registerItem = GetComponent<RegisterItem>();
-			objectBehaviour = GetComponent<ObjectBehaviour>();
+			objectBehaviour = GetComponent<UniversalObjectPhysics>();
 			pickupable = GetComponent<Pickupable>();
 			explosiveGUI = GetComponent<HasNetworkTabItem>();
-			Frequency = Random.Range(120.00f, 122.99f);
+			RandomizeFreqAndCode();
 		}
 
 		[Server]
@@ -86,9 +80,11 @@ namespace Items.Weapons
 		protected virtual void Detonate()
 		{
 			if(gameObject == null) return;
+
 			// Get data before despawning
-			var worldPos = objectBehaviour.AssumedWorldPositionServer();
+			var worldPos = objectBehaviour.registerTile.WorldPosition;
 			// Despawn the explosive
+			RemoveSelfFromManager();
 			_ = Despawn.ServerSingle(gameObject);
 			Explosion.StartExplosion(worldPos, explosiveStrength);
 		}
@@ -105,13 +101,19 @@ namespace Items.Weapons
 		public override void ReceiveSignal(SignalStrength strength, SignalEmitter responsibleEmitter, ISignalMessage message = null)
 		{
 			if(gameObject == null || countDownActive == true) return;
-			if(emitters.Contains(responsibleEmitter)) return;
+			if(ValidSignal(responsibleEmitter) == false) return;
 			if (detonateImmediatelyOnSignal)
 			{
 				Detonate();
 				return;
 			}
 			StartCoroutine(Countdown());
+		}
+
+		private bool ValidSignal(SignalEmitter responsibleEmitter)
+		{
+			if(PassCode == 0) return true; //0 means that this explosive will accept any signal it passes through it even if it's not on the emitter list.
+			return emitters.Contains(responsibleEmitter) && responsibleEmitter.Passcode == PassCode;
 		}
 
 		protected bool HackEmitter(HandApply interaction)
@@ -121,7 +123,8 @@ namespace Items.Weapons
 			{
 				emitters.Add(emitter);
 				Frequency = emitter.Frequency;
-				Chat.AddLocalMsgToChat($"The {gameObject.ExpensiveName()} copies {Emitter.gameObject.ExpensiveName()}'s " +
+				PassCode = emitter.Passcode;
+				Chat.AddLocalMsgToChat($"The {gameObject.ExpensiveName()} copies {emitter.gameObject.ExpensiveName()}'s " +
 				                       $"codes from {interaction.PerformerPlayerScript.visibleName}'s hands!", interaction.Performer);
 			}
 			var bar = StandardProgressAction.Create(
@@ -132,6 +135,8 @@ namespace Items.Weapons
 			                       $"{emitter.gameObject.ExpensiveName()} over the {gameObject.ExpensiveName()}", interaction.Performer);
 			return true;
 		}
+
+		protected virtual void OnArmStateChange(bool oldState, bool newState) { }
 	}
 
 	public enum ExplosiveType

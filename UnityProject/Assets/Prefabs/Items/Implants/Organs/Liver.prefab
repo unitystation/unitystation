@@ -27,6 +27,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 3413801339879858446}
   m_RootOrder: 1
@@ -248,18 +249,6 @@ PrefabInstance:
     m_RemovedComponents:
     - {fileID: 8095853447068111044, guid: 35ef0ee8523cfc342bc863c12a3ac07c, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 35ef0ee8523cfc342bc863c12a3ac07c, type: 3}
---- !u!1 &3419287765834980474 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 4719944670933102433, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
-    type: 3}
-  m_PrefabInstance: {fileID: 7994835678340444955}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &3413801339879858446 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 4725154019080884757, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
-    type: 3}
-  m_PrefabInstance: {fileID: 7994835678340444955}
-  m_PrefabAsset: {fileID: 0}
 --- !u!114 &3379511010340008362 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 4617654077899113137, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
@@ -272,9 +261,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 579884b05ae74e8499329b64997147d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!210 &8919293330744629812 stripped
-SortingGroup:
-  m_CorrespondingSourceObject: {fileID: 1528108646680144175, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+--- !u!4 &3413801339879858446 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4725154019080884757, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+    type: 3}
+  m_PrefabInstance: {fileID: 7994835678340444955}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &3419287765834980474 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4719944670933102433, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
     type: 3}
   m_PrefabInstance: {fileID: 7994835678340444955}
   m_PrefabAsset: {fileID: 0}
@@ -345,3 +340,9 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 143a0045ccc01b1288106b4252eea6c4, type: 2}
   processAmount: 3
   drunkMultiplier: 2
+--- !u!210 &8919293330744629812 stripped
+SortingGroup:
+  m_CorrespondingSourceObject: {fileID: 1528108646680144175, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+    type: 3}
+  m_PrefabInstance: {fileID: 7994835678340444955}
+  m_PrefabAsset: {fileID: 0}

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,10 +21,17 @@ namespace Systems.Cargo
 		private bool ChangeDirectionAtOffset = false;
 		private Vector3 destination;
 		private List<Vector3Int> availableSpawnSlots = new List<Vector3Int>();
-		//It is actually (cargoZoneWidth - 1) / 2
-		private int shuttleWidth = 2;
-		//It is actually (cargoZoneHeight - 1) / 2
-		private int shuttleHeight = 4;
+		[SerializeField]
+		[Tooltip("width of AREA")]
+		private int shuttleWidth;
+		private int shuttleZoneWidth;
+		[SerializeField]
+		[Tooltip("height of AREA")]
+		private int shuttleHeight;
+		private int shuttleZoneHeight;
+		[SerializeField]
+		[Tooltip("Check if the matrix is exactly in the middle")]
+		private bool heightInMiddle = false; // Only Unreal does this
 		private bool moving;
 
 		private MatrixMove mm;
@@ -41,6 +49,9 @@ namespace Systems.Cargo
 
 			mm = GetComponent<MatrixMove>();
 			mm.SetAccuracy(2);
+
+			shuttleZoneWidth = Convert.ToInt32(Math.Ceiling(Convert.ToDecimal((shuttleWidth - 1) / 2)));
+			shuttleZoneHeight = Convert.ToInt32(Math.Ceiling(Convert.ToDecimal((shuttleHeight - 1) / 2)));
 		}
 
 		private void OnEnable()
@@ -154,7 +165,7 @@ namespace Systems.Cargo
 				if (item == null) continue;
 
 				//need VisibleState check because despawned objects still stick around on their matrix transform
-				if (item.TryGetComponent<ObjectBehaviour>(out var behaviour) && behaviour.VisibleState)
+				if (item.TryGetComponent<UniversalObjectPhysics>(out var behaviour) && behaviour.IsVisible)
 				{
 					if (item.TryGetComponent<Attributes>(out var attributes))
 					{
@@ -249,8 +260,8 @@ namespace Systems.Cargo
 			}
 			else
 			{
-				Logger.LogWarning($"{crate.ExpensiveName()} does not have {nameof(ObjectBehaviour)}. Please fix CargoData" +
-								  $" to ensure that the crate prefab is actually a crate (with {nameof(ObjectBehaviour)} component)." +
+				Logger.LogWarning($"{crate.ExpensiveName()} does not have {nameof(UniversalObjectPhysics)}. Please fix CargoData" +
+								  $" to ensure that the crate prefab is actually a crate (with {nameof(UniversalObjectPhysics)} component)." +
 								  $" This order will be ignored.", Category.Cargo);
 				return true;
 			}
@@ -265,7 +276,7 @@ namespace Systems.Cargo
 			if (obj.TryGetComponent<RandomItemSpot>(out var randomItem))
 			{
 				var registerTile = container.gameObject.RegisterTile();
-				var items = registerTile.Matrix.Get<ObjectBehaviour>(registerTile.LocalPositionServer, ObjectType.Item, true)
+				var items = registerTile.Matrix.Get<UniversalObjectPhysics>(registerTile.LocalPositionServer, ObjectType.Item, true)
 						.Select(ob => ob.gameObject).Where(go => go != obj);
 
 				container.StoreObjects(items);
@@ -283,16 +294,18 @@ namespace Systems.Cargo
 		private void GetAvailablePositions()
 		{
 			Vector3Int pos;
+			int x = 0;
+			if (!heightInMiddle) { x = 1; }
 			availableSpawnSlots = new List<Vector3Int>();
-
-			for (int i = -shuttleHeight; i <= shuttleHeight; i++)
+			for (int i = -shuttleZoneHeight; i <= shuttleZoneHeight - (shuttleHeight%2); i++)
 			{
-				for (int j = -shuttleWidth; j <= shuttleWidth; j++)
+				for (int j = -shuttleZoneWidth; j <= shuttleZoneWidth; j++)
 				{
 					pos = mm.ServerState.Position.RoundToInt();
 					//i + 1 because cargo shuttle center is offseted by 1
-					pos += new Vector3Int(j, i + 1, 0);
-					if (MatrixManager.Instance.GetFirst<ClosetControl>(pos, true) == null)
+					pos += new Vector3Int(j, i + x, 0);
+					if ((MatrixManager.Instance.GetFirst<ClosetControl>(pos, true) == null) &&
+						MatrixManager.IsFloorAt(pos, true))
 					{
 						availableSpawnSlots.Add(pos);
 					}
@@ -309,7 +322,7 @@ namespace Systems.Cargo
 
 			if (availableSpawnSlots.Count > 0)
 			{
-				spawnPos = availableSpawnSlots[Random.Range(0, availableSpawnSlots.Count)];
+				spawnPos = availableSpawnSlots[UnityEngine.Random.Range(0, availableSpawnSlots.Count)];
 				availableSpawnSlots.Remove(spawnPos);
 				return spawnPos;
 			}

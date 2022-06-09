@@ -38,11 +38,8 @@ namespace Core.Chat
 
 		public static void DoEmote(EmoteSO emoteSo, GameObject player)
 		{
-			foreach (var emote in Instance.emoteList.Emotes)
-			{
-				if(emote != emoteSo) continue;
-				emote.Do(player);
-			}
+			if (emoteSo == null) return;
+			emoteSo.Do(player);
 		}
 	}
 }

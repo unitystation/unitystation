@@ -1,117 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &459147627687685513
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4705670883515168300}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d1344cf947a63b044a52d1273b36fb7d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  lowSounds:
-  - SetLoadSetting: 0
-    AssetAddress: Assets/Prefabs/GeigerCounter/Low/low1.prefab
-    AssetReference:
-      m_AssetGUID: 
-      m_SubObjectName: 
-      m_SubObjectType: 
-  - SetLoadSetting: 0
-    AssetAddress: Assets/Prefabs/GeigerCounter/Low/low2.prefab
-    AssetReference:
-      m_AssetGUID: 
-      m_SubObjectName: 
-      m_SubObjectType: 
-  - SetLoadSetting: 0
-    AssetAddress: Assets/Prefabs/GeigerCounter/Low/low3.prefab
-    AssetReference:
-      m_AssetGUID: 
-      m_SubObjectName: 
-      m_SubObjectType: 
-  - SetLoadSetting: 0
-    AssetAddress: Assets/Prefabs/GeigerCounter/Low/low4.prefab
-    AssetReference:
-      m_AssetGUID: 
-      m_SubObjectName: 
-      m_SubObjectType: 
-  medSounds:
-  - SetLoadSetting: 0
-    AssetAddress: Assets/Prefabs/GeigerCounter/Medium/med1.prefab
-    AssetReference:
-      m_AssetGUID: 
-      m_SubObjectName: 
-      m_SubObjectType: 
-  - SetLoadSetting: 0
-    AssetAddress: Assets/Prefabs/GeigerCounter/Medium/med2.prefab
-    AssetReference:
-      m_AssetGUID: 
-      m_SubObjectName: 
-      m_SubObjectType: 
-  - SetLoadSetting: 0
-    AssetAddress: Assets/Prefabs/GeigerCounter/Medium/med3.prefab
-    AssetReference:
-      m_AssetGUID: 
-      m_SubObjectName: 
-      m_SubObjectType: 
-  - SetLoadSetting: 0
-    AssetAddress: Assets/Prefabs/GeigerCounter/Medium/med4.prefab
-    AssetReference:
-      m_AssetGUID: 
-      m_SubObjectName: 
-      m_SubObjectType: 
-  highSounds:
-  - SetLoadSetting: 0
-    AssetAddress: Assets/Prefabs/GeigerCounter/High/high1.prefab
-    AssetReference:
-      m_AssetGUID: 
-      m_SubObjectName: 
-      m_SubObjectType: 
-  - SetLoadSetting: 0
-    AssetAddress: Assets/Prefabs/GeigerCounter/High/high2.prefab
-    AssetReference:
-      m_AssetGUID: 
-      m_SubObjectName: 
-      m_SubObjectType: 
-  - SetLoadSetting: 0
-    AssetAddress: Assets/Prefabs/GeigerCounter/High/high3.prefab
-    AssetReference:
-      m_AssetGUID: 
-      m_SubObjectName: 
-      m_SubObjectType: 
-  - SetLoadSetting: 0
-    AssetAddress: Assets/Prefabs/GeigerCounter/High/high4.prefab
-    AssetReference:
-      m_AssetGUID: 
-      m_SubObjectName: 
-      m_SubObjectType: 
-  extremeSounds:
-  - SetLoadSetting: 0
-    AssetAddress: Assets/Prefabs/GeigerCounter/Extreme!/ext1.prefab
-    AssetReference:
-      m_AssetGUID: 
-      m_SubObjectName: 
-      m_SubObjectType: 
-  - SetLoadSetting: 0
-    AssetAddress: Assets/Prefabs/GeigerCounter/Extreme!/ext2.prefab
-    AssetReference:
-      m_AssetGUID: 
-      m_SubObjectName: 
-      m_SubObjectType: 
-  - SetLoadSetting: 0
-    AssetAddress: Assets/Prefabs/GeigerCounter/Extreme!/ext3.prefab
-    AssetReference:
-      m_AssetGUID: 
-      m_SubObjectName: 
-      m_SubObjectType: 
-  - SetLoadSetting: 0
-    AssetAddress: Assets/Prefabs/GeigerCounter/Extreme!/ext4.prefab
-    AssetReference:
-      m_AssetGUID: 
-      m_SubObjectName: 
-      m_SubObjectType: 
 --- !u!1001 &3904705344237945467
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -260,3 +148,131 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 3904705344237945467}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &459147627687685513
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4705670883515168300}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d1344cf947a63b044a52d1273b36fb7d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lowSounds:
+  - SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/GeigerCounter/Low/low1.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
+  - SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/GeigerCounter/Low/low2.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
+  - SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/GeigerCounter/Low/low3.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
+  - SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/GeigerCounter/Low/low4.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
+  medSounds:
+  - SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/GeigerCounter/Medium/med1.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
+  - SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/GeigerCounter/Medium/med2.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
+  - SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/GeigerCounter/Medium/med3.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
+  - SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/GeigerCounter/Medium/med4.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
+  highSounds:
+  - SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/GeigerCounter/High/high1.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
+  - SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/GeigerCounter/High/high2.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
+  - SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/GeigerCounter/High/high3.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
+  - SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/GeigerCounter/High/high4.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
+  extremeSounds:
+  - SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/GeigerCounter/Extreme!/ext1.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
+  - SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/GeigerCounter/Extreme!/ext2.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
+  - SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/GeigerCounter/Extreme!/ext3.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
+  - SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/GeigerCounter/Extreme!/ext4.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0

@@ -14,7 +14,7 @@ namespace Items.Others
 		private SpriteHandler spriteHandler;
 		private ItemAttributesV2 itemAttributesV2;
 		private Pickupable pickupable;
-		private PlayerMove playerMove;
+		private MovementSynchronisation playerMove;
 		private ItemActionButton actionButton;
 
 		private bool isOn = false;
@@ -105,14 +105,14 @@ namespace Items.Others
 		{
 			itemAttributesV2.AddTrait(CommonTraits.Instance.NoSlip);
 			playerMove.AddModifier(this);
-			playerMove.PlayerScript.pushPull.ServerSetPushable(false);
+			playerMove.playerScript.objectPhysics.SetIsNotPushable(true);
 		}
 
 		private void RemoveEffect()
 		{
 			itemAttributesV2.RemoveTrait(CommonTraits.Instance.NoSlip);
 			playerMove.RemoveModifier(this);
-			playerMove.PlayerScript.pushPull.ServerSetPushable(true);
+			playerMove.playerScript.objectPhysics.SetIsNotPushable(false);
 		}
 	}
 }

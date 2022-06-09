@@ -160,8 +160,12 @@ namespace HealthV2
 		[SerializeField, BoxGroup("PainFeedback")] private EmoteSO screamEmote;
 		private bool canScream = true;
 
-		private ObjectBehaviour objectBehaviour;
-		public ObjectBehaviour ObjectBehaviour => objectBehaviour;
+		private UniversalObjectPhysics objectBehaviour;
+		public UniversalObjectPhysics ObjectBehaviour => objectBehaviour;
+
+		[SerializeField, BoxGroup("FastRegen")] private float fastRegenHeal = 12;
+		[SerializeField, BoxGroup("FastRegen")] private float fastRegenThreshold = 85;
+
 
 		private HealthStateController healthStateController;
 		public HealthStateController HealthStateController => healthStateController;
@@ -248,6 +252,9 @@ namespace HealthV2
 
 		public PlayerScript playerScript;
 
+		public event Action<DamageType> OnTakeDamageType;
+		public event Action OnLowHealth;
+
 		public virtual void Awake()
 		{
 			rootBodyPartController = GetComponent<RootBodyPartController>();
@@ -256,7 +263,7 @@ namespace HealthV2
 			RegisterTile = GetComponent<RegisterTile>();
 			RespiratorySystem = GetComponent<RespiratorySystemBase>();
 			CirculatorySystem = GetComponent<CirculatorySystemBase>();
-			objectBehaviour = GetComponent<ObjectBehaviour>();
+			objectBehaviour = GetComponent<UniversalObjectPhysics>();
 			healthStateController = GetComponent<HealthStateController>();
 			mobSickness = GetComponent<MobSickness>();
 			playerScript = GetComponent<PlayerScript>();
@@ -342,6 +349,7 @@ namespace HealthV2
 			FireStacksDamage();
 			CalculateRadiationDamage();
 			BleedStacksDamage();
+			mobSickness.TriggerCustomSicknessLogic();
 
 			if (IsDead)
 			{
@@ -699,6 +707,14 @@ namespace HealthV2
 			}
 
 			IndicatePain(damage);
+			OnTakeDamageType?.Invoke(damageType);
+			if(HealthIsLow()) OnLowHealth?.Invoke();
+		}
+
+		private bool HealthIsLow()
+		{
+			var percentage = (OverallHealth / maxHealth) * 100;
+			return percentage < 35;
 		}
 
 		/// <summary>
@@ -948,7 +964,7 @@ namespace HealthV2
 
 			//If we are in a container then don't produce miasma
 			//TODO: make this only happen with coffins, body bags and other body containers (morgue, etc)
-			if (objectBehaviour.parentContainer != null) return;
+			if (objectBehaviour.ContainedInContainer != null) return;
 
 			//TODO: check for formaldehyde in body, prevent if more than 15u
 
@@ -1410,6 +1426,22 @@ namespace HealthV2
 			canScream = false;
 			yield return WaitFor.Seconds(painScreamCooldown);
 			canScream = true;
+		}
+
+		public void EnableFastRegen()
+		{
+			if(CustomNetworkManager.IsServer == false) return;
+			UpdateManager.Add(FastRegen, tickRate);
+		}
+
+		private void FastRegen()
+		{
+			playerScript.registerTile.ServerRemoveStun();
+			if(OverallHealth > fastRegenThreshold) return;
+			foreach (var part in BodyPartList)
+			{
+				part.HealDamage(null, fastRegenHeal, DamageType.Brute);
+			}
 		}
 	}
 

@@ -32,6 +32,11 @@ public partial class GameManager : MonoBehaviour, IInitialise
 	public int PlayerLimit { get; set; } = 100;
 
 	/// <summary>
+	/// The minimum amount of players which triggers a lowPop status
+	/// </summary>
+	public int LowPopLimit { get; set; } = 25;
+
+	/// <summary>
 	/// The minimum number of players needed to start the pre-round countdown
 	/// </summary>
 	public int MinPlayersForCountdown { get; set; } = 1;
@@ -94,7 +99,7 @@ public partial class GameManager : MonoBehaviour, IInitialise
 	/// <summary>
 	/// ENABLE ON SERVERS THAT SUPPORT AUTO-RESTARTING ONLY VIA A MANAGER!
 	/// </summary>
-	public bool ServerShutsDownOnRoundEnd { get; set; }
+	public bool ServerShutsDownOnRoundEnd { get; set; } = true;
 
 	/// <summary>
 	/// If true, only admins who put http/https links in OOC will be allowed
@@ -149,6 +154,13 @@ public partial class GameManager : MonoBehaviour, IInitialise
 	[NonSerialized] public int errorCounter;
 	[NonSerialized] public int uniqueErrorCounter;
 
+	public int LowPopCheckTimeAfterRoundStart = 300;
+
+	public int RebootOnAverageFPSOrLower = 35;
+
+	[NonSerialized]
+	public bool DisconnectExpected = false;
+	
 	void IInitialise.Initialise()
 	{
 		// Set up server defaults, needs to be loaded here to ensure gameConfigManager is load.
@@ -199,6 +211,9 @@ public partial class GameManager : MonoBehaviour, IInitialise
 		MalfAIRecieveTheirIntendedObjectiveChance = GameConfigManager.GameConfig.MalfAIRecieveTheirIntendedObjectiveChance;
 		ServerShutsDownOnRoundEnd = GameConfigManager.GameConfig.ServerShutsDownOnRoundEnd;
 		PlayerLimit = GameConfigManager.GameConfig.PlayerLimit;
+		LowPopLimit = GameConfigManager.GameConfig.LowPopLimit;
+		LowPopCheckTimeAfterRoundStart = GameConfigManager.GameConfig.LowPopCheckTimeAfterRoundStart;
+		RebootOnAverageFPSOrLower = GameConfigManager.GameConfig.RebootOnAverageFPSOrLower;
 
 		Physics.autoSimulation = false;
 		Physics2D.simulationMode = SimulationMode2D.Update;
@@ -633,28 +648,27 @@ public partial class GameManager : MonoBehaviour, IInitialise
 	}
 
 	[Server]
-	public void TrySpawnPlayer(PlayerSpawnRequest player)
+	public void TrySpawnPlayer(PlayerSpawnRequest spawnRequest)
 	{
-		if (player == null || player.JoinedViewer == null)
+		if (spawnRequest?.Player?.ViewerScript == null)
 		{
-			return;
-		}
-
-		int slotsTaken = Instance.ClientGetOccupationsCount(player.RequestedOccupation.JobType);
-		int slotsMax = Instance.GetOccupationMaxCount(player.RequestedOccupation.JobType);
-		if (slotsTaken >= slotsMax)
-		{
+			Logger.LogError("Invalid spawn request, player is null.");
 			return;
 		}
 
 		//regardless of their chosen occupation, they might spawn as an antag instead.
 		//If they do, bypass the normal spawn logic.
-		if (Instance.GameMode.TrySpawnAntag(player))
+		if (Instance.GameMode.TrySpawnAntag(spawnRequest)) return;
+
+		int slotsTaken = Instance.ServerGetOccupationsCount(spawnRequest.RequestedOccupation.JobType);
+		int slotsMax = Instance.GetOccupationMaxCount(spawnRequest.RequestedOccupation.JobType);
+		if (slotsTaken >= slotsMax)
 		{
+			Logger.LogError($"Occupation {spawnRequest.RequestedOccupation.JobType} is full. Cannot spawn player.");
 			return;
 		}
 
-		PlayerSpawn.ServerSpawnPlayer(player);
+		PlayerSpawn.ServerSpawnPlayer(spawnRequest);
 	}
 
 	/// <summary>
@@ -799,13 +813,14 @@ public partial class GameManager : MonoBehaviour, IInitialise
 	{
 		string[] args = Environment.GetCommandLineArgs();
 		if ((ServerShutsDownOnRoundEnd == false || args.Contains("-NoReboot"))
-		    && (ServerAverageFPS >= 45 || GetMemeoryUsagePrecentage() <= 75f) ||
+		    && (ServerAverageFPS >= RebootOnAverageFPSOrLower || GetMemeoryUsagePrecentage() <= 75f) ||
 		    args.Contains("-AlwaysReboot") == false)
 		{
 			Logger.Log("Server restarting round now.", Category.Round);
 			Chat.AddGameWideSystemMsgToChat("<b>The round is now restarting...</b>");
 			// Notify all clients that the round has ended
 			EventManager.Broadcast(Event.RoundEnded, true);
+			EventManager.Broadcast(Event.SceneUnloading, true);
 
 			yield return WaitFor.Seconds(0.2f);
 

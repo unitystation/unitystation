@@ -133,6 +133,8 @@ public class MatrixMove : ManagedBehaviour
 	/// </summary>
 	private bool canClientUseRcs = true;
 
+	public bool CanClientUseRcs => canClientUseRcs;
+
 	private bool canServerUseRcs = true;
 
 	/// <summary>
@@ -590,6 +592,8 @@ public class MatrixMove : ManagedBehaviour
 				//rotate instantly
 				transform.rotation = InitialFacing.OffsetTo(clientState.FacingDirection).Quaternion;
 			}
+
+			matrix.MetaTileMap.UpdateTransformMatrix();
 		}
 		else if (IsMovingClient)
 		{
@@ -615,6 +619,7 @@ public class MatrixMove : ManagedBehaviour
 		{
 			// Finishes the job of Lerp and straightens the ship with exact angle value
 			transform.rotation = InitialFacing.OffsetTo(clientState.FacingDirection).Quaternion;
+			matrix.MetaTileMap.UpdateTransformMatrix();
 		}
 
 		//Lerp
@@ -630,8 +635,10 @@ public class MatrixMove : ManagedBehaviour
 			}
 
 
+
 			transform.position = clientState.Position;
 
+			matrix.MetaTileMap.UpdateTransformMatrix();
 
 			//If stopped then lerp to target (snap to grid)
 			if (!clientState.IsMoving)
@@ -651,11 +658,11 @@ public class MatrixMove : ManagedBehaviour
 			matrixPositionFilter.FilterPosition(transform, transform.position, clientState.FlyingDirection);
 		}
 
+
 		lock (matrix.MetaTileMap.matrix)
 		{
 			matrix.MetaTileMap.GlobalCachedBounds = null;
 		}
-
 	}
 
 	/// Serverside movement routine
@@ -1133,17 +1140,21 @@ public class MatrixMove : ManagedBehaviour
 						return OrientationEnum.Up_By0;
 					case OrientationEnum.Up_By0:
 						return OrientationEnum.Down_By180;
+					case OrientationEnum.Right_By270:
+						return OrientationEnum.Left_By90;
+					case OrientationEnum.Left_By90:
+						return OrientationEnum.Right_By270;
 				}
 				break;
 			case OrientationEnum.Right_By270:
 				switch (worldOrientation)
 				{
 					case OrientationEnum.Up_By0:
-						return OrientationEnum.Left_By90;
+						return OrientationEnum.Right_By270;
 					case OrientationEnum.Right_By270:
 						return OrientationEnum.Down_By180;
 					case OrientationEnum.Down_By180:
-						return OrientationEnum.Right_By270;
+						return OrientationEnum.Left_By90;
 					case OrientationEnum.Left_By90:
 						return OrientationEnum.Up_By0;
 				}
@@ -1154,22 +1165,22 @@ public class MatrixMove : ManagedBehaviour
 					case OrientationEnum.Up_By0:
 						return OrientationEnum.Up_By0;
 					case OrientationEnum.Right_By270:
-						return OrientationEnum.Left_By90;
+						return OrientationEnum.Right_By270;
 					case OrientationEnum.Down_By180:
 						return OrientationEnum.Down_By180;
 					case OrientationEnum.Left_By90:
-						return OrientationEnum.Right_By270;
+						return OrientationEnum.Left_By90;
 				}
 				break;
 			case OrientationEnum.Left_By90:
 				switch (worldOrientation)
 				{
 					case OrientationEnum.Up_By0:
-						return OrientationEnum.Right_By270;
+						return OrientationEnum.Left_By90;
 					case OrientationEnum.Right_By270:
 						return OrientationEnum.Up_By0;
 					case OrientationEnum.Down_By180:
-						return OrientationEnum.Left_By90;
+						return OrientationEnum.Right_By270;
 					case OrientationEnum.Left_By90:
 						return OrientationEnum.Down_By180;
 				}

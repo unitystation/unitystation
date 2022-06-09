@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: DisposalPipeMergerA-W
   m_EditorClassIdentifier: 
   displayName: disposal pipe merger
+  description: 
   LayerType: 8
   TileType: 10
   RequiredTiles: []
@@ -31,6 +32,7 @@ MonoBehaviour:
   doesReflectBullet: 0
   indestructible: 0
   ExplosionImpassable: 0
+  BlocksTileInteractionsUnder: 1
   passableException:
     m_keys: 
     m_values: 
@@ -50,6 +52,7 @@ MonoBehaviour:
     DismembermentProtectionChance: 0
   tileInteractions:
   - {fileID: 11400000, guid: 60beb21b338960e459175e414f6016ef, type: 2}
+  tileStepInteractions: []
   spawnOnDeconstruct: {fileID: 2025448082421612283, guid: 2ceef12a70dc74140bd2b888524d0043,
     type: 3}
   spawnAmountOnDeconstruct: 1
@@ -64,6 +67,7 @@ MonoBehaviour:
       m_AssetGUID: 
       m_SubObjectName: 
       m_SubObjectType: 
+      m_EditorAssetChanged: 0
   SoundOnDestroy: []
   PipeType: 2
   DisposalPipeObjectOrientation: 2

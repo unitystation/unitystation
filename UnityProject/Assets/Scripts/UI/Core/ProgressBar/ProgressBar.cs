@@ -91,7 +91,7 @@ public class ProgressBar : MonoBehaviour
 		this.progressAction = progressAction;
 		id = GetInstanceID();
 
-		if (startInfo.Performer != PlayerManager.LocalPlayer)
+		if (startInfo.Performer != PlayerManager.LocalPlayerObject)
 		{
 			//server should not see clients progress bar
 			spriteRenderer.enabled = false;
@@ -192,7 +192,7 @@ public class ProgressBar : MonoBehaviour
 			return;
 		}
 
-		if (registerPlayer != null && registerPlayer.gameObject != PlayerManager.LocalPlayer)
+		if (registerPlayer != null && registerPlayer.gameObject != PlayerManager.LocalPlayerObject)
 		{
 			//this is for server's copy of client's progress bar -
 			//server should not render clients progress bar
@@ -235,7 +235,7 @@ public class ProgressBar : MonoBehaviour
 		//check if progress should continue
 		if (!progressAction.OnServerContinueProgress(new InProgressInfo(progress)))
 		{
-			// Remove from UpdateMe before invoking action, lest action fails and so infinite loop.
+			// Remove from FlyingUpdateMe before invoking action, lest action fails and so infinite loop.
 			ServerCloseProgressBar();
 			progressAction.OnServerEndProgress(new EndProgressInfo(false));
 			Logger.LogTraceFormat("Server progress bar {0} interrupted.", Category.ProgressAction, ID);
@@ -244,7 +244,7 @@ public class ProgressBar : MonoBehaviour
 		//Finished! Invoke the action and close the progress bar for the player
 		if (progress >= timeToFinish)
 		{
-			// Remove from UpdateMe before invoking action, lest action fails and so infinite loop.
+			// Remove from FlyingUpdateMe before invoking action, lest action fails and so infinite loop.
 			ServerCloseProgressBar();
 			progressAction.OnServerEndProgress(new EndProgressInfo(true));
 			Logger.LogTraceFormat("Server progress bar {0} completed.", Category.ProgressAction, ID);
@@ -269,7 +269,7 @@ public class ProgressBar : MonoBehaviour
 	{
 		done = true;
 		//Notify player to turn off progress bar:
-		if (PlayerManager.LocalPlayer == registerPlayer.gameObject)
+		if (PlayerManager.LocalPlayerObject == registerPlayer.gameObject)
 		{
 			//server player's bar, just destroy it
 			DestroyProgressBar();

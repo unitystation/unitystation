@@ -17,11 +17,11 @@ namespace Systems.Spells.Wizard
 
 		public override void CallActionClient()
 		{
-			SetCasterPassable(PlayerManager.LocalPlayer);
+			SetCasterPassable(PlayerManager.LocalPlayerObject);
 			base.CallActionClient();
 		}
 
-		public override bool CastSpellServer(ConnectedPlayer caster)
+		public override bool CastSpellServer(PlayerInfo caster)
 		{
 			GameObject[] obstructions = new GameObject[3];
 			obstructions[0] = Spawn.ServerPrefab(obstructionPrefab, caster.Script.WorldPos).GameObject;

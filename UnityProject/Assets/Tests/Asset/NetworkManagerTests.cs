@@ -1,90 +1,91 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Linq;
 using Mirror;
 using NUnit.Framework;
 using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityEngine;
+using UnityEngine.Pool;
+using UnityEngine.SceneManagement;
 using Util;
 
 namespace Tests.Asset
 {
+	[Category(nameof(Asset))]
 	public class NetworkManagerTests
 	{
 		[Test]
-		public void SpawnableListTest()
+		public void NetworkManagerHasSpawnListManager()
 		{
-			var scenesGUIDs = AssetDatabase.FindAssets("OnlineScene t:Scene", new string[] { "Assets/Scenes" });
-			var scenesPaths = scenesGUIDs.Select(AssetDatabase.GUIDToAssetPath).ToList();
+			var onlineScene = GetOnlineSceneOrThrow();
+			var networkManager = GetNetworkManagerOrThrow(onlineScene);
+			var report = new TestReport();
+			using var idsPool = DictionaryPool<string, PrefabTracker>.Get(out var storedIDs);
+			using var prefabPool = ListPool<GameObject>.Get(out var prefabs);
 
-			if (scenesPaths.Count != 1)
+			prefabs.AddRange(Utils.FindPrefabs(pathFilter: s => s.Contains("NestedManagers") == false));
+
+			foreach (var prefab in prefabs)
 			{
-				Assert.Fail($"Couldn't find OnlineScene, or more than one OnlineScene found");
-				return;
+				report.FailIf(PrefabIsNotInSpawnPrefabs(prefab, networkManager))
+					.Append($"{prefab.name} needs to be in the spawnPrefabs list and has been added. ")
+					.Append("Since the list has been updated you NEED to commit the changed NetworkManager Prefab file")
+					.AppendLine()
+					.FailIfNot(networkManager!.allSpawnablePrefabs.Contains(prefab))
+					.Append($"{prefab.name} needs to be in the allSpawnablePrefabs list and has been added. ")
+					.Append("Since the list has been updated you NEED to commit the changed NetworkManager Prefab file")
+					.AppendLine();
+
+				if (prefab.TryGetComponent<PrefabTracker>(out var prefabTracker) == false) continue;
+
+				var foreverID = prefabTracker.ForeverID;
+				report.FailIf(storedIDs.TryGetValue(foreverID, out var tracker))
+					.AppendLine(
+						$"{prefabTracker.name} or {tracker.OrNull()?.name} NEEDS to be committed with it's new Forever ID.");
+				storedIDs[prefabTracker.ForeverID] = prefabTracker;
 			}
 
-			var openScene = EditorSceneManager.OpenScene(scenesPaths[0]);
-
-			var rootObjects = openScene.GetRootGameObjects();
-
-			var report = new StringBuilder();
-
-			Dictionary<string, PrefabTracker> StoredIDs = new Dictionary<string, PrefabTracker>();
-
-			foreach (var rootObject in rootObjects)
+			if (networkManager!.TryGetComponent<SpawnListMonitor>(out var spawnListMonitor) == false)
 			{
-				if (rootObject.TryGetComponent<CustomNetworkManager>(out var manager))
-				{
-					var failed = false;
-					var networkObjectsGUIDs = AssetDatabase.FindAssets("t:prefab", new string[] {"Assets/Prefabs"});
-					var objectsPaths = networkObjectsGUIDs.Select(AssetDatabase.GUIDToAssetPath);
-					foreach (var objectsPath in objectsPaths)
-					{
-						if (objectsPath.Contains("Assets/Prefabs/SceneConstruction/NestedManagers")) continue;
-
-						var asset = AssetDatabase.LoadAssetAtPath<GameObject>(objectsPath);
-						if(asset == null) continue;
-
-						if (asset.TryGetComponent<NetworkIdentity>(out _) && manager.spawnPrefabs.Contains(asset) == false  && manager.playerPrefab != asset)
-						{
-							failed = true;
-							report.AppendLine($"{asset} needs to be in the spawnPrefabs list and has been added." +
-							            " Since the list has been updated you NEED to commit the changed NetworkManager Prefab file");
-						}
-
-						if (manager.allSpawnablePrefabs.Contains(asset) == false)
-						{
-							failed = true;
-							report.AppendLine($"{asset} needs to be in the allSpawnablePrefabs list and has been added." +
-							                   " Since the list has been updated you NEED to commit the changed NetworkManager Prefab file");
-						}
-
-						if (asset.TryGetComponent<PrefabTracker>(out var prefabTracker))
-						{
-							if (StoredIDs.ContainsKey(prefabTracker.ForeverID))
-							{
-								failed = true;
-								report.AppendLine($"{prefabTracker} or {StoredIDs[prefabTracker.ForeverID]} NEEDS to be committed with it's new Forever ID ");
-							}
-							StoredIDs[prefabTracker.ForeverID] = prefabTracker;
-						}
-					}
-
-					var spawnListMonitor = manager.GetComponent<SpawnListMonitor>();
-					if (spawnListMonitor.GenerateSpawnList())
-					{
-						PrefabUtility.ApplyPrefabInstance(spawnListMonitor.gameObject, InteractionMode.AutomatedAction);
-					}
-
-					if (failed)
-					{
-						Assert.Fail(report.ToString());
-					}
-
-					return;
-				}
+				report.Fail()
+					.AppendLine($"{nameof(CustomNetworkManager)} does not contain a {nameof(SpawnListMonitor)}!")
+					.AssertPassed();
 			}
+
+			if (spawnListMonitor.GenerateSpawnList())
+			{
+				PrefabUtility.ApplyPrefabInstance(spawnListMonitor.gameObject, InteractionMode.AutomatedAction);
+			}
+
+			report.AssertPassed();
 		}
+
+		private Scene GetOnlineSceneOrThrow()
+		{
+			var scenePaths = Utils.GUIDsToPaths(Utils.FindGUIDsOfType("Scene", "Scenes"),
+				s => s.Contains("OnlineScene"))
+				.ToList();
+
+			Assert.That(scenePaths.Count, Is.EqualTo(1),
+				"OnlineScene doesn't exist or more than one scene named OnlineScene exists.");
+
+			return EditorSceneManager.OpenScene(scenePaths.First());
+		}
+
+		private CustomNetworkManager GetNetworkManagerOrThrow(Scene scene)
+		{
+			var networkManager = scene.GetRootGameObjects()
+				.Select(go => go.GetComponent<CustomNetworkManager>())
+				.NotNull()
+				.FirstOrDefault();
+
+			Assert.That(networkManager, Is.Not.Null, $"{scene.name} does not contain a {nameof(CustomNetworkManager)}!");
+
+			return networkManager;
+		}
+
+		private bool PrefabIsNotInSpawnPrefabs(GameObject prefab, CustomNetworkManager networkManager) =>
+			prefab.TryGetComponent<NetworkIdentity>(out _)
+			&& networkManager.spawnPrefabs.Contains(prefab) == false
+			&& networkManager.playerPrefab != prefab;
 	}
 }

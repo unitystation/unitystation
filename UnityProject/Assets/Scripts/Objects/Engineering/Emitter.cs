@@ -7,6 +7,7 @@ using Systems.Clearance;
 using Systems.Electricity;
 using Systems.Electricity.NodeModules;
 using Systems.Interaction;
+using Weapons.Projectiles;
 
 
 namespace Objects.Engineering
@@ -14,7 +15,7 @@ namespace Objects.Engineering
 	public class Emitter : MonoBehaviour, ICheckedInteractable<HandApply>, INodeControl, IExaminable, ICheckedInteractable<AiActivate>
 	{
 		private Rotatable directional;
-		private ObjectBehaviour objectBehaviour;
+		private UniversalObjectPhysics objectBehaviour;
 		private RegisterTile registerTile;
 		private SpriteHandler spriteHandler;
 		private AccessRestrictions accessRestrictions;
@@ -54,7 +55,7 @@ namespace Objects.Engineering
 		private void Awake()
 		{
 			directional = GetComponent<Rotatable>();
-			objectBehaviour = GetComponent<ObjectBehaviour>();
+			objectBehaviour = GetComponent<UniversalObjectPhysics>();
 			registerTile = GetComponent<RegisterTile>();
 			accessRestrictions = GetComponent<AccessRestrictions>();
 			clearanceCheckable = GetComponent<ClearanceCheckable>();
@@ -71,7 +72,7 @@ namespace Objects.Engineering
 				isWelded = true;
 				isWrenched = true;
 				directional.LockDirectionTo(true, directional.CurrentDirection);
-				objectBehaviour.ServerSetPushable(false);
+				objectBehaviour.SetIsNotPushable(true);
 			}
 		}
 
@@ -116,7 +117,7 @@ namespace Objects.Engineering
 
 		public void ShootEmitter()
 		{
-			CastProjectileMessage.SendToAll(gameObject, projectilePrefab, directional.CurrentDirection.ToLocalVector3(), default);
+			ProjectileManager.InstantiateAndShoot( projectilePrefab, directional.CurrentDirection.ToLocalVector3(),gameObject, default);
 
 			SoundManager.PlayNetworkedAtPos(sound, registerTile.WorldPositionServer);
 		}
@@ -315,7 +316,7 @@ namespace Objects.Engineering
 					{
 						isWrenched = false;
 						directional.LockDirectionTo(false, directional.CurrentDirection);
-						objectBehaviour.ServerSetPushable(true);
+						objectBehaviour.SetIsNotPushable(false);
 						TogglePower(false);
 					});
 			}
@@ -337,7 +338,7 @@ namespace Objects.Engineering
 					{
 						isWrenched = true;
 						directional.LockDirectionTo(true, directional.CurrentDirection);
-						objectBehaviour.ServerSetPushable(false);
+						objectBehaviour.SetIsNotPushable(true);
 					});
 			}
 		}

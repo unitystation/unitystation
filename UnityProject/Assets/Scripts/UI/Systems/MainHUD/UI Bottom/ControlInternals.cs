@@ -96,7 +96,7 @@ namespace UI
 		public void OxygenSelect()
 		{
 			if (CurrentState != 4 && CurrentState != 5) return;
-			if (PlayerManager.LocalPlayer == null) return;
+			if (PlayerManager.LocalPlayerObject == null) return;
 			if (PlayerManager.LocalPlayerScript.playerHealth.IsCrit) return;
 
 			_ = SoundManager.Play(CommonSounds.Instance.Click01);

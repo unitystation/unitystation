@@ -162,7 +162,7 @@ namespace UI.Objects.Chemistry
 			CloseCustomPrompt();
 		}
 
-		public void Analyze(Reagent reagent, ConnectedPlayer player)
+		public void Analyze(Reagent reagent, PlayerInfo player)
 		{
 			Chat.AddExamineMsg(player.GameObject, $"This is {reagent.Name}. {reagent.description}");
 		}
@@ -429,7 +429,7 @@ namespace UI.Objects.Chemistry
 		/// Ejects input container from ChemMaster into best slot available
 		/// </summary>
 		/// <param name="player"></param>
-		public void EjectContainer(ConnectedPlayer player)
+		public void EjectContainer(PlayerInfo player)
 		{
 			if (ChemMaster.Container != null)
 			{

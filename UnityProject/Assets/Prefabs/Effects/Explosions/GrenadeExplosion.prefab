@@ -27,6 +27,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -43,11 +44,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b6b8d82cf0e1fe54bb75a283c2a2881e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  unstableRadius: 0
-  damage: 150
+  strength: 300
   radius: 4
-  explosionType: 1
-  shakeDistance: 17
-  minDamage: 10
-  maxEffectDuration: 0.25
-  minEffectDuration: 0.05
+  shaking: 0
+  explosionType: 0

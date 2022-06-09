@@ -485,7 +485,7 @@ namespace Messages.Client.Interaction
 				Logger.LogTraceFormat("Predicting {0} interaction for {1} on {2}", Category.Interaction, typeof(T).Name, interactableComponent.GetType().Name, ((Component) interactableComponent).gameObject.name);
 				predictedInteractable.ClientPredictInteraction(interaction);
 			}
-			if (!interaction.Performer.Equals(PlayerManager.LocalPlayer))
+			if (!interaction.Performer.Equals(PlayerManager.LocalPlayerObject))
 			{
 				Logger.LogError("Client attempting to perform an interaction on behalf of another player." +
 				                " This is not allowed. Client can only perform an interaction as themselves. Message" +
@@ -591,7 +591,7 @@ namespace Messages.Client.Interaction
 				Logger.LogTraceFormat("Predicting TileApply interaction {0}", Category.Interaction, tileApply);
 				tileInteraction.ClientPredictInteraction(tileApply);
 			}
-			if (!tileApply.Performer.Equals(PlayerManager.LocalPlayer))
+			if (!tileApply.Performer.Equals(PlayerManager.LocalPlayerObject))
 			{
 				Logger.LogError("Client attempting to perform an interaction on behalf of another player." +
 				                " This is not allowed. Client can only perform an interaction as themselves. Message" +
@@ -612,7 +612,7 @@ namespace Messages.Client.Interaction
 
 		public static void SendTileMouseDrop(TileMouseDrop mouseDrop, InteractableTiles interactableTiles)
 		{
-			if (!mouseDrop.Performer.Equals(PlayerManager.LocalPlayer))
+			if (!mouseDrop.Performer.Equals(PlayerManager.LocalPlayerObject))
 			{
 				Logger.LogError("Client attempting to perform an interaction on behalf of another player." +
 				                " This is not allowed. Client can only perform an interaction as themselves. Message" +

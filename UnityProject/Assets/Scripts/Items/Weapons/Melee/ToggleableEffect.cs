@@ -161,7 +161,7 @@ namespace Weapons
 				else
 				{
 					TurnOn();
-				}			
+				}
 			}
 			else
 			{

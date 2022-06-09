@@ -7,6 +7,8 @@ using UnityEngine.Events;
 using Random = UnityEngine.Random;
 using Systems.Teleport;
 using Messages.Server.SoundMessages;
+using Player.Movement;
+using Systems.Explosions;
 
 [RequireComponent(typeof(Rotatable))]
 [RequireComponent(typeof(UprightSprites))]
@@ -46,6 +48,7 @@ public class RegisterPlayer : RegisterTile, IServerSpawn, RegisterPlayer.IContro
 	private PlayerScript playerScript;
 	public PlayerScript PlayerScript => playerScript;
 	private Rotatable playerDirectional;
+	public Rotatable PlayerDirectional => playerDirectional;
 	private UprightSprites uprightSprites;
 	[SerializeField] private Util.NetworkedLeanTween networkedLean;
 
@@ -179,7 +182,7 @@ public class RegisterPlayer : RegisterTile, IServerSpawn, RegisterPlayer.IContro
 			{
 				spriteRenderer.sortingLayerName = "Bodies";
 			}
-			playerScript.PlayerSync.SpeedServer = playerScript.playerMove.CrawlSpeed;
+			playerScript.PlayerSync.CurrentMovementType  = MovementType.Crawling;
 			//lock current direction
 			playerDirectional.LockDirectionTo(true, playerDirectional.CurrentDirection );
 		}
@@ -192,7 +195,7 @@ public class RegisterPlayer : RegisterTile, IServerSpawn, RegisterPlayer.IContro
 				spriteRenderer.sortingLayerName = "Players";
 			}
 			playerDirectional.LockDirectionTo(false, playerDirectional.CurrentDirection );
-			playerScript.PlayerSync.SpeedServer = playerScript.playerMove.RunSpeed;
+			playerScript.PlayerSync.CurrentMovementType = MovementType.Running;
 		}
 	}
 
@@ -256,7 +259,7 @@ public class RegisterPlayer : RegisterTile, IServerSpawn, RegisterPlayer.IContro
 		// Don't slip while the players hunger state is Strarving
 		// Don't slip if you got no legs (HealthV2)
 		if (IsSlippingServer
-			|| !slipWhileWalking && playerScript.PlayerSync.SpeedServer <= playerScript.playerMove.WalkSpeed
+			|| !slipWhileWalking && playerScript.PlayerSync.TileMoveSpeed <= playerScript.playerMove.WalkSpeed
             || isLayingDown
 			|| playerScript.playerHealth.IsCrit
 			|| playerScript.playerHealth.IsSoftCrit
@@ -266,11 +269,11 @@ public class RegisterPlayer : RegisterTile, IServerSpawn, RegisterPlayer.IContro
 			return;
 		}
 
-		ServerStun();
+		ServerStun(StopMovement : false);
 		AudioSourceParameters audioSourceParameters = new AudioSourceParameters(pitch: Random.Range(0.9f, 1.1f));
 		SoundManager.PlayNetworkedAtPos(CommonSounds.Instance.Slip, WorldPositionServer, audioSourceParameters, sourceObj: gameObject);
 		// Let go of pulled items.
-		playerScript.pushPull.ServerStopPulling();
+		playerScript.objectPhysics.StopPulling(false);
 	}
 
 	/// <summary>
@@ -279,9 +282,27 @@ public class RegisterPlayer : RegisterTile, IServerSpawn, RegisterPlayer.IContro
 	/// </summary>
 	/// <param name="stunDuration">Time before the stun is removed.</param>
 	/// <param name="dropItem">If items in the hand slots should be dropped on stun.</param>
-	[Server]
-	public void ServerStun(float stunDuration = 4f, bool dropItem = true)
+	public void ServerStun(float stunDuration = 4f, bool dropItem = true, bool checkForArmor = true, bool StopMovement = true, Action stunImmunityFeedback = null)
 	{
+		bool CheckArmorStunImmunity()
+		{
+			foreach (var bodyPart in PlayerScript.playerHealth.SurfaceBodyParts)
+			{
+				if(bodyPart.BodyPartType is not (BodyPartType.Chest or BodyPartType.Custom)) continue;
+				foreach (Armor armor in bodyPart.ClothingArmors)
+				{
+					if (armor.StunImmunity) return true;
+				}
+			}
+			return false;
+		}
+
+		if (checkForArmor && CheckArmorStunImmunity()) 
+		{
+			if(stunImmunityFeedback != null) stunImmunityFeedback();
+			return;
+		}
+
 		var oldVal = IsSlippingServer;
 		IsSlippingServer = true;
 		ServerCheckStandingChange( true);
@@ -298,7 +319,12 @@ public class RegisterPlayer : RegisterTile, IServerSpawn, RegisterPlayer.IContro
 				Inventory.ServerDrop(itemSlot);
 			}
 		}
-		playerScript.playerMove.allowInput = false;
+
+		if (StopMovement)
+		{
+			playerScript.playerMove.allowInput = false;
+		}
+
 
 		this.RestartCoroutine(StunTimer(stunDuration), ref unstunHandle);
 	}
@@ -314,7 +340,7 @@ public class RegisterPlayer : RegisterTile, IServerSpawn, RegisterPlayer.IContro
 		}
 	}
 
-	private void ServerRemoveStun()
+	public void ServerRemoveStun()
 	{
 		var oldVal = IsSlippingServer;
 		IsSlippingServer = false;

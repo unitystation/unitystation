@@ -10,7 +10,7 @@ namespace Systems.MobAIs
 	[RequireComponent(typeof(MobFollow))]
 	[RequireComponent(typeof(MobExplore))]
 	[RequireComponent(typeof(MobFlee))]
-	public class MobAI : MonoBehaviour, IServerLifecycle
+	public class MobAI : MobObjective, IServerLifecycle
 	{
 		public string mobName;
 
@@ -22,8 +22,8 @@ namespace Systems.MobAIs
 		[NonSerialized] public LivingHealthBehaviour health;
 		protected Rotatable rotatable;
 		protected MobSprite mobSprite;
-		protected CustomNetTransform cnt;
-		public CustomNetTransform Cnt => cnt;
+		protected UniversalObjectPhysics uop;
+		public UniversalObjectPhysics UOP => uop;
 
 		public RegisterObject registerObject;
 		protected UprightSprites uprightSprites;
@@ -63,7 +63,7 @@ namespace Systems.MobAIs
 			health = GetComponent<LivingHealthBehaviour>();
 			rotatable = GetComponent<Rotatable>();
 			mobSprite = GetComponent<MobSprite>();
-			cnt = GetComponent<CustomNetTransform>();
+			uop = GetComponent<UniversalObjectPhysics>();
 			registerObject = GetComponent<RegisterObject>();
 			uprightSprites = GetComponent<UprightSprites>();
 		}
@@ -77,8 +77,6 @@ namespace Systems.MobAIs
 				simpleAnimal.SetDeadState(false);
 			}
 
-			UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
-			UpdateManager.Add(PeriodicUpdate, 1f);
 			health.applyDamageEvent += AttackReceivedCoolDown;
 			isServer = true;
 
@@ -92,11 +90,6 @@ namespace Systems.MobAIs
 			ResetBehaviours();
 		}
 
-		public void OnDisable()
-		{
-			UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
-			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, PeriodicUpdate);
-		}
 
 		/// <summary>
 		/// Called after the mob is spawned, before the AI comes online
@@ -112,11 +105,13 @@ namespace Systems.MobAIs
 
 		#endregion
 
-		/// <summary>
-		/// Server only update loop. Make sure to call base.UpdateMe() if overriding
-		/// </summary>
-		protected virtual void UpdateMe()
+
+		public override void ContemplatePriority()
 		{
+			if (damageAttempts >= maxDamageAttempts)
+			{
+				damageAttempts = 0;
+			}
 			if (MonitorKnockedDown())
 			{
 				return;
@@ -127,13 +122,6 @@ namespace Systems.MobAIs
 			MonitorFleeingTime();
 		}
 
-		protected void PeriodicUpdate()
-		{
-			if (damageAttempts >= maxDamageAttempts)
-			{
-				damageAttempts = 0;
-			}
-		}
 
 		/// <summary>
 		/// Updates the mob to fall down or stand up where appropriate
@@ -273,8 +261,12 @@ namespace Systems.MobAIs
 		/// <summary>
 		/// Begins exploring for the target
 		/// </summary>
-		protected void BeginExploring(MobExplore.Target target = MobExplore.Target.food, float exploreDuration = -1f)
+		protected void BeginExploring(MobExplore.Target target = MobExplore.Target.none, float exploreDuration = -1f)
 		{
+			if (target == MobExplore.Target.none)
+            {
+				target = mobExplore.target; //so we don't interfere with existing target in MobExplore if it's set
+            }
 			ResetBehaviours();
 			mobExplore.BeginExploring(target);
 			exploreTimeMax = exploreDuration;
@@ -385,7 +377,7 @@ namespace Systems.MobAIs
 		{
 			if (dir != Vector2Int.zero)
 			{
-				cnt.Push(dir, context: gameObject);
+				uop.TryTilePush(dir, null);
 				rotatable.SetFaceDirectionLocalVictor(dir);
 			}
 		}

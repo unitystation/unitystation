@@ -1,82 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &3289426703443886021
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6989221924687263735}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d408cfa84b1b6714c90e9c97d3f1733c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  isBurningOnSpawn: 0
-  hotspotTemperature: 700
-  changeGasMixTemp: 1
---- !u!114 &4591132913751966026
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6989221924687263735}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 583ecd0d959514254ae71e8e4eace1d9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  welderSprites:
-  - {fileID: 21300000, guid: 978216ab798a7944eb8da548f9e555e5, type: 3}
-  - {fileID: 21300000, guid: f070408b0ac63314490cbe165d5b6c3a, type: 3}
-  - {fileID: 21300000, guid: 204aacae6ca473249a27f34c39929a87, type: 3}
-  - {fileID: 21300000, guid: 5ac9c1e3cc70c5c4b9749c0cf40f7363, type: 3}
-  - {fileID: 21300002, guid: 100128ab6bf01d24a98cae0a1cc0c962, type: 3}
-  flameSprites:
-  - {fileID: 21300000, guid: d1b1a5061af11bd4c9b692d8a2da7c98, type: 3}
-  - {fileID: 21300002, guid: d1b1a5061af11bd4c9b692d8a2da7c98, type: 3}
-  welderRenderer: {fileID: 4282312991069114565}
-  flameRenderer: {fileID: 6120423163433110244}
-  fuel: {fileID: 11400000, guid: f4f9cca4ec6d74752a99cdbf95072489, type: 2}
-  damageOn: 15
---- !u!114 &9051842671118403817
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6989221924687263735}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a6adedb9416d7b647b6c3811ff2f0824, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  maxCapacity: 20
-  reactionSet: {fileID: 11400000, guid: 2d5f766d9268838aa8d819bee2a442a7, type: 2}
-  AdditionalReactions: []
-  canPourOut: 1
-  initialReagentMix:
-    temperature: 0
-    reagents:
-      m_keys:
-      - {fileID: 11400000, guid: f4f9cca4ec6d74752a99cdbf95072489, type: 2}
-      m_values:
-      - 20
-    reagentKeys: []
-  destroyOnEmpty: 0
-  ContentsSet: 0
-  UseStandardExamine: 1
-  ExamineAmount: 1
-  ExamineContent: 0
-  traitWhitelist: []
-  reagentWhitelist:
-  - {fileID: 11400000, guid: f4f9cca4ec6d74752a99cdbf95072489, type: 2}
-  transferMode: 3
-  possibleTransferAmounts: []
-  transferAmount: 100
 --- !u!1 &7095945559787729905
 GameObject:
   m_ObjectHideFlags: 0
@@ -105,6 +28,7 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 6984298448623192707}
   m_RootOrder: 1
@@ -177,6 +101,7 @@ MonoBehaviour:
   SubCatalogue: []
   PresentSpriteSet: {fileID: 11400000, guid: cb9094433cfd404448d8fa567d22508c, type: 2}
   randomInitialSprite: 0
+  doReverseAnimation: 0
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
   palette: []
@@ -208,6 +133,7 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 6984298448623192707}
   m_RootOrder: 2
@@ -280,6 +206,7 @@ MonoBehaviour:
   SubCatalogue: []
   PresentSpriteSet: {fileID: 11400000, guid: 3607c9afef5b0f141b88da690283c96c, type: 2}
   randomInitialSprite: 0
+  doReverseAnimation: 0
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
   palette: []
@@ -541,15 +468,93 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c9c58a9243d494537abcb4ee470efab0, type: 3}
---- !u!1 &6989221924687263735 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 8610225452865205335, guid: c9c58a9243d494537abcb4ee470efab0,
-    type: 3}
-  m_PrefabInstance: {fileID: 1694231013772067744}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &6984298448623192707 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8605860254165158179, guid: c9c58a9243d494537abcb4ee470efab0,
     type: 3}
   m_PrefabInstance: {fileID: 1694231013772067744}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &6989221924687263735 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8610225452865205335, guid: c9c58a9243d494537abcb4ee470efab0,
+    type: 3}
+  m_PrefabInstance: {fileID: 1694231013772067744}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &3289426703443886021
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6989221924687263735}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d408cfa84b1b6714c90e9c97d3f1733c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isBurningOnSpawn: 0
+  hotspotTemperature: 700
+  changeGasMixTemp: 1
+--- !u!114 &4591132913751966026
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6989221924687263735}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 583ecd0d959514254ae71e8e4eace1d9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  welderSprites:
+  - {fileID: 21300000, guid: 978216ab798a7944eb8da548f9e555e5, type: 3}
+  - {fileID: 21300000, guid: f070408b0ac63314490cbe165d5b6c3a, type: 3}
+  - {fileID: 21300000, guid: 204aacae6ca473249a27f34c39929a87, type: 3}
+  - {fileID: 21300000, guid: 5ac9c1e3cc70c5c4b9749c0cf40f7363, type: 3}
+  - {fileID: 21300002, guid: 100128ab6bf01d24a98cae0a1cc0c962, type: 3}
+  flameSprites:
+  - {fileID: 21300000, guid: d1b1a5061af11bd4c9b692d8a2da7c98, type: 3}
+  - {fileID: 21300002, guid: d1b1a5061af11bd4c9b692d8a2da7c98, type: 3}
+  welderRenderer: {fileID: 4282312991069114565}
+  flameRenderer: {fileID: 6120423163433110244}
+  fuel: {fileID: 11400000, guid: f4f9cca4ec6d74752a99cdbf95072489, type: 2}
+  damageOn: 15
+--- !u!114 &9051842671118403817
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6989221924687263735}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a6adedb9416d7b647b6c3811ff2f0824, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxCapacity: 20
+  reactionSet: {fileID: 11400000, guid: 2d5f766d9268838aa8d819bee2a442a7, type: 2}
+  AdditionalReactions: []
+  canPourOut: 1
+  initialReagentMix:
+    temperature: 0
+    reagents:
+      m_keys:
+      - {fileID: 11400000, guid: f4f9cca4ec6d74752a99cdbf95072489, type: 2}
+      m_values:
+      - 20
+    reagentKeys: []
+  destroyOnEmpty: 0
+  ContentsSet: 0
+  menuOptions: 0
+  UseStandardExamine: 1
+  ExamineAmount: 1
+  ExamineContent: 0
+  traitWhitelist: []
+  reagentWhitelist:
+  - {fileID: 11400000, guid: f4f9cca4ec6d74752a99cdbf95072489, type: 2}
+  transferMode: 3
+  possibleTransferAmounts: []
+  transferAmount: 100

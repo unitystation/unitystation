@@ -7,18 +7,18 @@ namespace Items.Tool
 {
 	public class Igniter : MonoBehaviour, ICheckedInteractable<HandActivate>, ITrapComponent
 	{
-		private ObjectBehaviour objectBehaviour;
+		private UniversalObjectPhysics objectBehaviour;
 
 		private void Awake()
 		{
-			objectBehaviour = GetComponent<ObjectBehaviour>();
+			objectBehaviour = GetComponent<UniversalObjectPhysics>();
 		}
 
 		private void Ignite()
 		{
 			SparkUtil.TrySpark(gameObject, expose: false);
 
-			var worldPos = objectBehaviour.AssumedWorldPositionServer();
+			var worldPos = objectBehaviour.registerTile.WorldPosition;
 
 			//Try start fire if possible
 			var reactionManager = MatrixManager.AtPoint(worldPos, true).ReactionManager;

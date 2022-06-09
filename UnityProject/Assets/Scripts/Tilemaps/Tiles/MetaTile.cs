@@ -1,10 +1,11 @@
 ﻿using System.Collections.Generic;
+using Tiles;
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
 
 
-	public class MetaTile : GenericTile
+public class MetaTile : GenericTile
 	{
 		private LayerTile _baseCurrent;
 		private LayerTile _floorCurrent;

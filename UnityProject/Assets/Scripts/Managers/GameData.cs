@@ -256,7 +256,6 @@ public class GameData : MonoBehaviour
 
 		LobbyManager.Instance.lobbyDialogue.serverAddressInput.text = ip;
 		LobbyManager.Instance.lobbyDialogue.serverPortInput.text = port;
-		LobbyManager.Instance.hostToggle.isOn = false;
 
 		GameScreenManager.Instance.serverIP = ip;
 
@@ -305,6 +304,12 @@ public class GameData : MonoBehaviour
 					if (success)
 					{
 						Logger.Log("Signed in successfully with valid token", Category.DatabaseAPI);
+						var prefsCheck = PlayerPrefs.GetString("currentcharacter");
+						if (string.IsNullOrEmpty(prefsCheck))
+						{
+							LobbyManager.Instance.lobbyDialogue.ShowCharacterEditor(OnCharacterScreenCloseFromHubConnect);
+							return;
+						}
 						OnCharacterScreenCloseFromHubConnect();
 					}
 					else

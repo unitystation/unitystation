@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Mirror;
+using Objects;
 using UnityEngine;
 
 namespace Messages.Server
@@ -29,7 +30,7 @@ namespace Messages.Server
 				Logger.LogWarning("PlayParticle NetId invalid, processing stopped", Category.Particles);
 				return;
 			}
-			
+
 			//Dont play particles on headless server
 			if(CustomNetworkManager.IsHeadless) return;
 
@@ -111,11 +112,20 @@ namespace Messages.Server
 			GameObject topContainer = null;
 			try
 			{
-				topContainer = obj.GetComponent<PushPull>().TopContainer.gameObject;
+				var Physics = obj.GetComponent<UniversalObjectPhysics>();
+				if (Physics.ContainedInContainer == null)
+				{
+					topContainer = Physics.gameObject;
+				}
+				else
+				{
+					topContainer = Physics.ContainedInContainer.TopContainer.gameObject;
+				}
+
 			}
 			catch (Exception ignored)
 			{
-				Logger.Log($"PlayParticleMessage threw an exception {ignored} which has been ignored.", Category.Particles);
+				Logger.LogError($"PlayParticleMessage threw an exception {ignored} which has been ignored.", Category.Particles);
 			}
 
 

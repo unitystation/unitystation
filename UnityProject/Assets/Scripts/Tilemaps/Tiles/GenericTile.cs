@@ -1,15 +1,17 @@
 ﻿using UnityEngine;
 using UnityEngine.Tilemaps;
 
-
-public abstract class GenericTile : TileBase
+namespace Tiles
 {
-	public virtual Sprite PreviewSprite { get; set; }
-
-	public override void GetTileData(Vector3Int position, ITilemap tilemap, ref TileData tileData)
+	public abstract class GenericTile : TileBase
 	{
-		tileData.sprite = PreviewSprite;
-		tileData.flags = TileFlags.None;
-		tileData.colliderType = Tile.ColliderType.Grid;
+		public virtual Sprite PreviewSprite { get; set; }
+
+		public override void GetTileData(Vector3Int position, ITilemap tilemap, ref TileData tileData)
+		{
+			tileData.sprite = PreviewSprite;
+			tileData.flags = TileFlags.None;
+			tileData.colliderType = Tile.ColliderType.Grid;
+		}
 	}
 }

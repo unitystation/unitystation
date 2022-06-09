@@ -76,7 +76,7 @@ namespace Objects.Medical
 		{
 			var result = RightClickableResult.Create();
 
-			if (WillInteract(MouseDrop.ByLocalPlayer(gameObject, PlayerManager.LocalPlayer), NetworkSide.Client))
+			if (WillInteract(MouseDrop.ByLocalPlayer(gameObject, PlayerManager.LocalPlayerObject), NetworkSide.Client))
 			{
 				result.AddElement("Fold Up", RightClickInteract);
 			}
@@ -86,7 +86,7 @@ namespace Objects.Medical
 
 		private void RightClickInteract()
 		{
-			InteractionUtils.RequestInteract(MouseDrop.ByLocalPlayer(gameObject, PlayerManager.LocalPlayer), this);
+			InteractionUtils.RequestInteract(MouseDrop.ByLocalPlayer(gameObject, PlayerManager.LocalPlayerObject), this);
 		}
 	}
 }

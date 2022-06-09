@@ -16,7 +16,7 @@ namespace UI.Core.NetUI
 
 		public CharEvent ServerMethod;
 
-		public override void ExecuteServer(ConnectedPlayer subject)
+		public override void ExecuteServer(PlayerInfo subject)
 		{
 			ServerMethod.Invoke(name.ToCharArray()[0]);
 		}

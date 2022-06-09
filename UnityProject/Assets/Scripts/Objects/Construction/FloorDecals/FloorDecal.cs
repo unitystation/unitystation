@@ -10,7 +10,6 @@ namespace Objects.Construction
 	/// janitorial actions. Decal can have random variations in its sprite among other
 	/// capabilities.
 	/// </summary>
-	[RequireComponent(typeof(CustomNetTransform))]
 	public class FloorDecal : NetworkBehaviour
 	{
 		/// <summary>

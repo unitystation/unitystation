@@ -20,28 +20,18 @@ public partial class TestAction
 		public Occupation Occupation;
 		public string SerialisedCharacterSettings;
 
-		public bool Initiate(TestRunSO TestRunSO)
+		public bool Initiate(TestRunSO testRunSO)
 		{
+			CharacterSettings characterSettings = string.IsNullOrEmpty(SerialisedCharacterSettings)
+					? new CharacterSettings()
+					: JsonConvert.DeserializeObject<CharacterSettings>(SerialisedCharacterSettings);
 
-			CharacterSettings characterSettings;
-			if (string.IsNullOrEmpty(SerialisedCharacterSettings))
-			{
-				characterSettings = new CharacterSettings();
-			}
-			else
-			{
-				characterSettings = JsonConvert.DeserializeObject<CharacterSettings>(SerialisedCharacterSettings);
-			}
-
-			var Connectedplayer = PlayerList.Instance.Get(PlayerManager.LocalPlayer);
-
-			var Request = PlayerSpawnRequest.RequestOccupation( PlayerManager.LocalViewerScript, Occupation, characterSettings,
-				Connectedplayer.UserId);
-
-
-			PlayerSpawn.ServerSpawnPlayer(Request, PlayerManager.LocalViewerScript, Occupation, characterSettings,
-				spawnPos : PositionToSpawn.RoundToInt(), existingMind: PlayerManager.LocalPlayerScript.mind,
-				conn: Connectedplayer.Connection );
+			var playerInfo = PlayerList.Instance.Get(PlayerManager.LocalPlayerObject);
+			var spawnRequest = new PlayerSpawnRequest(playerInfo, Occupation, characterSettings);
+			
+			PlayerSpawn.ServerSpawnPlayer(spawnRequest, PlayerManager.LocalViewerScript, Occupation, characterSettings,
+				spawnPos: PositionToSpawn.RoundToInt(), existingMind: PlayerManager.LocalPlayerScript.mind,
+				conn: playerInfo.Connection);
 
 			return true;
 		}

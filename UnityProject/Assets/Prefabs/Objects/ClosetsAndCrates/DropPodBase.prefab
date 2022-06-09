@@ -28,6 +28,7 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2872650522546607787}
   m_RootOrder: 3
@@ -101,6 +102,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: f3e23c8b0ccd0334ca8b9d4b92bdff65, type: 2}
   PresentSpriteSet: {fileID: 11400000, guid: f3e23c8b0ccd0334ca8b9d4b92bdff65, type: 2}
   randomInitialSprite: 0
+  doReverseAnimation: 0
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
   palette: []
@@ -332,6 +334,32 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 3115570867604696953}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &5065649438966261308
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2866542968491397233}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bb8324d02f1bc094abd472d69fa10b43, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  spawnFalling: 1
+  RocketLand:
+    SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/Explosion/Explosion2.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
+  baseSpriteHandler: {fileID: 8659308481253826351}
+  doorSpriteHandler: {fileID: 7320866707655981739}
+  landingSpriteHandler: {fileID: 506294873535275696}
 --- !u!4 &2872650522546607787 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 928039887571597778, guid: 68a3eee06f0a8cf4da5d8ab811ce1c73,
@@ -362,29 +390,3 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &5065649438966261308
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2866542968491397233}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bb8324d02f1bc094abd472d69fa10b43, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  spawnFalling: 1
-  RocketLand:
-    SetLoadSetting: 0
-    AssetAddress: Assets/Prefabs/Explosion/Explosion2.prefab
-    AssetReference:
-      m_AssetGUID: 
-      m_SubObjectName: 
-      m_SubObjectType: 
-      m_EditorAssetChanged: 0
-  baseSpriteHandler: {fileID: 8659308481253826351}
-  doorSpriteHandler: {fileID: 7320866707655981739}
-  landingSpriteHandler: {fileID: 506294873535275696}

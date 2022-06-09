@@ -13,9 +13,8 @@ namespace Items
 	/// well with using prefab variants.
 	/// </summary>
 	[RequireComponent(typeof(Pickupable))] //Inventory interaction
-	[RequireComponent(typeof(ObjectBehaviour))] //pull and Push
 	[RequireComponent(typeof(RegisterItem))] //Registry with subsistence
-	public class ItemAttributesV2 : Attributes, IServerSpawn
+	public class ItemAttributesV2 : Attributes
 	{
 		[Header("Item Info")]
 
@@ -24,28 +23,6 @@ namespace Items
 		private List<ItemTrait> initialTraits = null;
 		public List<ItemTrait> InitialTraits => initialTraits;
 
-		/// <summary>
-		/// Sizes:
-		/// Tiny - pen, coin, pills. Anything you'd easily lose in a couch.
-		/// Small - Pocket-sized items. You could hold a couple in one hand, but ten would be a hassle without a bag. Apple, phone, drinking glass etc.
-		/// Medium - default size. Fairly bulky but stuff you could carry in one hand and stuff into a backpack. Most tools would fit this size.
-		/// Large - particularly long or bulky items that would need a specialised bag to carry them. A shovel, a snowboard etc.
-		/// Huge - Think, like, a fridge. Absolute unit. You aren't stuffing this into anything less than a shipping crate.
-		/// </summary>
-		[Tooltip("Size of this item when spawned. Is medium by default, which you should change if needed.")]
-		[SerializeField]
-		private ItemSize initialSize = ItemSize.Medium;
-
-		/// <summary>
-		/// Current size.
-		/// </summary>
-		[SyncVar(hook = nameof(SyncSize))]
-		private ItemSize size;
-
-		/// <summary>
-		/// Current size
-		/// </summary>
-		public ItemSize Size => size;
 
 		[Header("Item Damage")]
 
@@ -120,7 +97,7 @@ namespace Items
 		/// <summary>
 		/// How many tiles to move per 0.1s when being thrown
 		/// </summary>
-		public float ThrowSpeed => throwSpeed;
+		public float ThrowSpeed => throwSpeed * 4;
 
 		[Tooltip("Max throw distance")]
 		[SerializeField]
@@ -226,14 +203,9 @@ namespace Items
 		public override void OnStartClient()
 		{
 			EnsureInit();
-			SyncSize(size, this.size);
 			base.OnStartClient();
 		}
 
-		public void OnSpawnServer(SpawnInfo info)
-		{
-			size = initialSize;
-		}
 
 		#endregion Lifecycle
 
@@ -288,11 +260,7 @@ namespace Items
 			traits.Add(toAdd);
 		}
 
-		private void SyncSize(ItemSize oldSize, ItemSize newSize)
-		{
-			EnsureInit();
-			size = newSize;
-		}
+
 
 		/// <summary>
 		/// Removes the trait dynamically.
@@ -312,16 +280,6 @@ namespace Items
 
 				default: return "items";
 			}
-		}
-
-		/// <summary>
-		/// Change this item's size and sync it to clients.
-		/// </summary>
-		/// <param name="newSize"></param>
-		[Server]
-		public void ServerSetSize(ItemSize newSize)
-		{
-			SyncSize(size, newSize);
 		}
 
 		/// <summary>

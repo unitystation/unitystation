@@ -154,7 +154,7 @@ namespace Objects
 					$"Serrated tendrils carefully pull {playerHealth.gameObject.ExpensiveName()} to the {gameObject.ExpensiveName()}, absorbing the body and creating it anew.");
 
 				//If dead ashwalker in body respawn without cost
-				SpawnAshwalker(playerHealth.playerScript.connectedPlayer, false);
+				SpawnAshwalker(playerHealth.playerScript.PlayerInfo, false);
 				playerHealth.Gib();
 				return;
 			}
@@ -218,12 +218,12 @@ namespace Objects
 			EventManager.RemoveHandler(Event.LavalandFirstEntered, OnRoundRestart);
 		}
 
-		private void OnSpawnPlayer(ConnectedPlayer player)
+		private void OnSpawnPlayer(PlayerInfo player)
 		{
 			SpawnAshwalker(player);
 		}
 
-		private void SpawnAshwalker(ConnectedPlayer player, bool costEgg = true)
+		private void SpawnAshwalker(PlayerInfo player, bool costEgg = true)
 		{
 			//Since this is being called from an Action<> this could be null.
 			if (this == null || gameObject == null)

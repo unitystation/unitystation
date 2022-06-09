@@ -14,7 +14,7 @@ namespace Objects.Construction
 	public class WindowDirectionalObject : NetworkBehaviour
 	{
 		private RegisterObject registerObject;
-		private ObjectBehaviour objectBehaviour;
+		private UniversalObjectPhysics objectPhysics;
 
 		//PM: Objects below don't have to be shards or rods, but it's more convenient for me to put "shards" and "rods" in the variable names.
 
@@ -46,7 +46,7 @@ namespace Objects.Construction
 		{
 			registerObject = GetComponent<RegisterObject>();
 			GetComponent<Integrity>().OnWillDestroyServer.AddListener(OnWillDestroyServer);
-			objectBehaviour = GetComponent<ObjectBehaviour>();
+			objectPhysics = GetComponent<UniversalObjectPhysics>();
 		}
 
 

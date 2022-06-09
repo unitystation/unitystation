@@ -72,6 +72,21 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2619477922847772913, guid: e481edcb288d49f488b609f15236afbe,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2619477922847772913, guid: e481edcb288d49f488b609f15236afbe,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2619477922847772913, guid: e481edcb288d49f488b609f15236afbe,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
     - target: {fileID: 4854922354611821423, guid: e481edcb288d49f488b609f15236afbe,
         type: 3}
       propertyPath: PresentSpriteSet
@@ -112,6 +127,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: f31b051f2ab5e664791ebb12db90d65f,
         type: 3}
+    - target: {fileID: 7409222229474227593, guid: e481edcb288d49f488b609f15236afbe,
+        type: 3}
+      propertyPath: tileMoveSpeed
+      value: 7
+      objectReference: {fileID: 0}
     - target: {fileID: 8430662705651548275, guid: e481edcb288d49f488b609f15236afbe,
         type: 3}
       propertyPath: PresentSpriteSet

@@ -74,9 +74,9 @@ namespace UI
 		public void Vote(string vote)
 		{
 			_ = SoundManager.Play(CommonSounds.Instance.Click01);
-			if (PlayerManager.PlayerScript != null)
+			if (PlayerManager.LocalPlayerScript != null)
 			{
-				PlayerManager.PlayerScript.playerNetworkActions.CmdRegisterVote(vote);
+				PlayerManager.LocalPlayerScript.playerNetworkActions.CmdRegisterVote(vote);
 			}
 
 			buttonPresses++;
@@ -86,9 +86,9 @@ namespace UI
 		public void AdminVeto()
 		{
 			_ = SoundManager.Play(CommonSounds.Instance.Click01);
-			if (PlayerManager.PlayerScript != null)
+			if (PlayerManager.LocalPlayerScript != null)
 			{
-				PlayerManager.PlayerScript.playerNetworkActions.CmdVetoRestartVote();
+				PlayerManager.LocalPlayerScript.playerNetworkActions.CmdVetoRestartVote();
 			}
 			buttonPresses++;
 		}

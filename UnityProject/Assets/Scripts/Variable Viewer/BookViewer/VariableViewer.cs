@@ -415,8 +415,13 @@ public static class Librarian
 			{
 				if (Properties.GetCustomAttributes(typeof(ObsoleteAttribute), true).Length == 0)
 				{
+					if (Properties.CanRead == false)
+					{
+						continue; //TODO maybe UI indication and then sitting directly idk
+					}
 					Page Page = new Page();
 					Page.VariableName = Properties.Name;
+
 					Page.Variable = Properties.GetValue(Script);
 					Page.VariableType = Properties.PropertyType;
 					Page.PInfo = Properties;

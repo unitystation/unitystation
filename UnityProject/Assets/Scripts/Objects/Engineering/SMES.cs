@@ -19,7 +19,7 @@ namespace Objects.Engineering
 		[Range(1, 20)]
 		private int indicatorUpdatePeriod = 5;
 		private RegisterTile registerTile;
-		private ObjectBehaviour objectBehaviour;
+		private UniversalObjectPhysics objectBehaviour;
 
 		private ElectricalNodeControl electricalNodeControl;
 		private BatterySupplyingModule batterySupplyingModule;
@@ -69,7 +69,7 @@ namespace Objects.Engineering
 			outputEnabledIndicator = transform.GetChild(2).GetComponent<SpriteHandler>();
 			chargeLevelIndicator = transform.GetChild(3).GetComponent<SpriteHandler>();
 			registerTile = GetComponent<RegisterTile>();
-			objectBehaviour = GetComponent<ObjectBehaviour>();
+			objectBehaviour = GetComponent<UniversalObjectPhysics>();
 			machine = GetComponent<Machine>();
 
 			electricalNodeControl = GetComponent<ElectricalNodeControl>();

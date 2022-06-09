@@ -8,6 +8,7 @@ using UnityEngine;
 using Random = UnityEngine.Random;
 using System.Text;
 using Items;
+using Messages.Server;
 
 public static class SweetExtensions
 {
@@ -21,10 +22,16 @@ public static class SweetExtensions
 		return go.OrNull()?.GetComponent<Pickupable>();
 	}
 
-	public static ConnectedPlayer Player(this GameObject go)
+	public static bool TryGetPlayer(this GameObject gameObject, out PlayerInfo player)
+	{
+		player = PlayerList.Instance?.Get(gameObject);
+		return player != null;
+	}
+
+	public static PlayerInfo Player(this GameObject go)
 	{
 		var connectedPlayer = PlayerList.Instance?.Get(go);
-		return connectedPlayer == ConnectedPlayer.Invalid ? null : connectedPlayer;
+		return connectedPlayer == PlayerInfo.Invalid ? null : connectedPlayer;
 	}
 	public static ItemAttributesV2 Item(this GameObject go)
 	{
@@ -121,17 +128,14 @@ public static class SweetExtensions
 	/// Creates garbage! Use very sparsely!
 	public static Vector3 AssumedWorldPosServer(this GameObject go)
 	{
-		return go.GetComponent<ObjectBehaviour>()?.AssumedWorldPositionServer() ?? WorldPosServer(go);
-	}
-	/// Creates garbage! Use very sparsely!
-	public static Vector3 WorldPosServer(this GameObject go)
-	{
-		return go.GetComponent<RegisterTile>()?.WorldPositionServer ?? go.transform.position;
-	}
-	/// Creates garbage! Use very sparsely!
-	public static Vector3 WorldPosClient(this GameObject go)
-	{
-		return go.GetComponent<RegisterTile>()?.WorldPositionClient ?? go.transform.position;
+		if (ComponentManager.TryGetUniversalObjectPhysics(go, out  var UOP))
+		{
+			return UOP.OfficialPosition;
+		}
+		else
+		{
+			return go.transform.position;
+		}
 	}
 
 	/// <summary>
@@ -553,5 +557,57 @@ public static class SweetExtensions
 	public static string GetStack(this Exception source)
 	{
 		return $"{source.Message}\n{source.StackTrace}";
+	}
+
+	/// <summary>
+	/// Enable this component from the server for all clients, including the server.
+	/// </summary>
+	/// <remarks>
+	/// New joins / rejoins won't have synced state with server (good TODO).
+	/// Assumes the component hierarchy on the gameobject is in sync with the server.
+	/// </remarks>
+	/// <param name="component">The component to enable</param>
+	public static void NetEnable(this Behaviour component)
+	{
+		if (component == null) return;
+
+		EnableComponentMessage.Send(component, true);
+
+		component.enabled = true;
+	}
+
+	/// <summary>
+	/// Disable this component from the server for all clients, including the server.
+	/// </summary>
+	/// <remarks>
+	/// New joins / rejoins won't have synced state with server (good TODO).
+	/// Assumes the component hierarchy on the gameobject is in sync with the server.
+	/// </remarks>
+	/// <param name="component">The component to disable</param>
+	public static void NetDisable(this Behaviour component)
+	{
+		if (component == null) return;
+
+		EnableComponentMessage.Send(component, false);
+
+		component.enabled = false;
+	}
+
+	/// <summary>
+	/// Set the active state of this component from the server for all clients, including the server.
+	/// </summary>
+	/// <remarks>
+	/// New joins / rejoins won't have synced state with server (good TODO).
+	/// Assumes the component hierarchy on the gameobject is in sync with the server.
+	/// </remarks>
+	/// <param name="component">The component to change state on</param>
+	/// <param name="value">The component's new active state</param>
+	public static void NetSetActive(this Behaviour component, bool value)
+	{
+		if (component == null) return;
+
+		EnableComponentMessage.Send(component, value);
+
+		component.enabled = value;
 	}
 }

@@ -12,8 +12,13 @@ namespace Lobby
 
 		public void SetData(string ip, int index)
 		{
+
 			serverIPtext.text = ip;
 			indexInHistory = index;
+			if (Application.isEditor)
+			{
+				serverIPtext.text = "localhost";
+			}
 		}
 
 		public void OnJoinButton()

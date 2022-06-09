@@ -90,18 +90,18 @@ public static class PlayerSpawn
 		if (isOk == false)
 		{
 			message += " Please change and resave character.";
-			ValidateFail(request.JoinedViewer, request.UserID, message);
+			ValidateFail(request.Player, message);
 		}
 
 		return isOk;
 	}
 
-	private static void ValidateFail(JoinedViewer joinedViewer, string userId, string message)
+	private static void ValidateFail(PlayerInfo player, string message)
 	{
-		PlayerList.Instance.ServerKickPlayer(userId, message, false, 1, false);
-		if(joinedViewer.isServer || joinedViewer.isLocalPlayer)
+		PlayerList.Instance.ServerKickPlayer(player, message);
+		if (player.ViewerScript.isServer || player.ViewerScript.isLocalPlayer)
 		{
-			joinedViewer.Spectate();
+			player.ViewerScript.Spectate();
 		}
 	}
 
@@ -114,7 +114,7 @@ public static class PlayerSpawn
 	/// <returns>the game object of the spawned player</returns>
 	public static GameObject ServerSpawnPlayer(PlayerSpawnRequest spawnRequest)
 	{
-		return ServerSpawnPlayer(spawnRequest, spawnRequest.JoinedViewer, spawnRequest.RequestedOccupation,
+		return ServerSpawnPlayer(spawnRequest, spawnRequest.Player.ViewerScript, spawnRequest.RequestedOccupation,
 			spawnRequest.CharacterSettings);
 	}
 
@@ -240,7 +240,7 @@ public static class PlayerSpawn
 
 
 		var ps = newPlayer.GetComponent<PlayerScript>();
-		var connectedPlayer = PlayerList.Instance.Get(connection);
+		var connectedPlayer = PlayerList.Instance.GetOnline(connection);
 		connectedPlayer.Name = ps.playerName;
 		connectedPlayer.Job = ps.mind.occupation.JobType;
 		UpdateConnectedPlayersMessage.Send();
@@ -344,8 +344,8 @@ public static class PlayerSpawn
 		}
 
 		Vector3Int spawnPosition = TransformState.HiddenPos;
-		var objBeh = body.GetComponent<ObjectBehaviour>();
-		if (objBeh != null) spawnPosition = objBeh.AssumedWorldPositionServer();
+		var objBeh = body.GetComponent<UniversalObjectPhysics>();
+		if (objBeh != null) spawnPosition = objBeh.registerTile.WorldPosition;
 
 		if (spawnPosition == TransformState.HiddenPos)
 		{
@@ -379,10 +379,10 @@ public static class PlayerSpawn
 			SpawnDestination.At(spawnPosition, parentTransform));
 		Spawn._ServerFireClientServerSpawnHooks(SpawnResult.Single(info, ghost));
 
-		var isAdmin = PlayerList.Instance.IsAdmin(forMind.ghost.connectedPlayer);
+		var isAdmin = forMind.ghost.PlayerInfo.IsAdmin;
 		if (isAdmin)
 		{
-			var adminItemStorage = AdminManager.Instance.GetItemSlotStorage(forMind.ghost.connectedPlayer);
+			var adminItemStorage = AdminManager.Instance.GetItemSlotStorage(forMind.ghost.PlayerInfo);
 			adminItemStorage.ServerAddObserverPlayer(ghost);
 		}
 
@@ -407,7 +407,7 @@ public static class PlayerSpawn
 		Mind.Create(newPlayer);
 		ServerTransferPlayer(joinedViewer.connectionToClient, newPlayer, null, Event.GhostSpawned, characterSettings);
 
-		var isAdmin = PlayerList.Instance.IsAdmin(PlayerList.Instance.Get(joinedViewer.connectionToClient));
+		var isAdmin = PlayerList.Instance.GetOnline(joinedViewer.connectionToClient).IsAdmin;
 		newPlayer.GetComponent<GhostSprites>().SetGhostSprite(isAdmin);
 	}
 
@@ -460,6 +460,8 @@ public static class PlayerSpawn
 		//be upright w.r.t.  localRotation, NOT world rotation
 		var player = UnityEngine.Object.Instantiate(playerPrefab, spawnPosition, parentTransform.rotation,
 			parentTransform);
+		player.GetComponent<UniversalObjectPhysics>().ForceSetLocalPosition(spawnPosition.ToLocal(matrixInfo.Matrix), Vector2.zero, false, matrixInfo.Id,  true, 0);
+
 
 		return player;
 	}
@@ -501,8 +503,8 @@ public static class PlayerSpawn
 			CustomNetworkManager.Instance.OnServerDisconnect(netIdentity.connectionToClient);
 		}
 
-		var connectedPlayer = PlayerList.Instance.Get(conn);
-		if (connectedPlayer == ConnectedPlayer.Invalid) //this isn't an online player
+		var connectedPlayer = PlayerList.Instance.GetOnline(conn);
+		if (connectedPlayer == PlayerInfo.Invalid) //this isn't an online player
 		{
 			PlayerList.Instance.UpdateLoggedOffPlayer(newBody, oldBody);
 			NetworkServer.Spawn(newBody);
@@ -533,10 +535,10 @@ public static class PlayerSpawn
 
 		// If the player is inside a container, send a ClosetHandlerMessage.
 		// The ClosetHandlerMessage will attach the container to the transfered player.
-		var playerObjectBehavior = newBody.GetComponent<ObjectBehaviour>();
-		if (playerObjectBehavior && playerObjectBehavior.parentContainer)
+		var playerObjectBehavior = newBody.GetComponent<UniversalObjectPhysics>();
+		if (playerObjectBehavior && playerObjectBehavior.ContainedInContainer)
 		{
-			FollowCameraMessage.Send(newBody, playerObjectBehavior.parentContainer.gameObject);
+			FollowCameraMessage.Send(newBody, playerObjectBehavior.ContainedInContainer.gameObject);
 		}
 
 		if (characterSettings != null)

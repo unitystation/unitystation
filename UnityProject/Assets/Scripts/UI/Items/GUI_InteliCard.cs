@@ -24,7 +24,7 @@ namespace UI.Items
 		private AiVessel aiVessel;
 		private AiVessel AiVessel => aiVessel ??= Provider.GetComponent<AiVessel>();
 
-		public void OnTabOpenedHandler(ConnectedPlayer connectedPlayer)
+		public void OnTabOpenedHandler(PlayerInfo connectedPlayer)
 		{
 			allowRemoteActionsSlider.SetValueServer(AiVessel.AllowRemoteAction ? (1 * 100).ToString() : "0");
 			allowRadioSlider.SetValueServer(AiVessel.AllowRadio ? (1 * 100).ToString() : "0");

@@ -118,7 +118,7 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour, IHealth, IFireEx
 	private DNAandBloodType DNABloodType;
 	private float tickRate = 1f;
 	private RegisterTile registerTile;
-	private ObjectBehaviour objectBehaviour;
+	private UniversalObjectPhysics objectBehaviour;
 	private ConsciousState consciousState;
 
 	public bool IsCrit => consciousState == ConsciousState.UNCONSCIOUS;
@@ -157,7 +157,7 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour, IHealth, IFireEx
 	{
 		if (registerTile != null) return;
 		registerTile = GetComponent<RegisterTile>();
-		objectBehaviour = GetComponent<ObjectBehaviour>();
+		objectBehaviour = GetComponent<UniversalObjectPhysics>();
 		//Always include blood for living entities:
 	}
 
@@ -627,7 +627,7 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour, IHealth, IFireEx
 		if (node.IsSpace || node.GasMix.Temperature <= Reactions.KOffsetC - 10) return;
 
 		//If we are in a container then don't produce miasma
-		if (objectBehaviour.parentContainer != null) return;
+		if (objectBehaviour.ContainedInContainer != null) return;
 
 		node.GasMix.AddGas(Gas.Miasma, AtmosDefines.MIASMA_CORPSE_MOLES);
 	}

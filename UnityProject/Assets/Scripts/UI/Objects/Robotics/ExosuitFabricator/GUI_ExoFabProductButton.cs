@@ -12,7 +12,7 @@ namespace Objects.Machines
 		[HideInInspector]
 		public string categoryName;
 
-		public override void ExecuteServer(ConnectedPlayer subject)
+		public override void ExecuteServer(PlayerInfo subject)
 		{
 			ServerMethod.Invoke();
 		}

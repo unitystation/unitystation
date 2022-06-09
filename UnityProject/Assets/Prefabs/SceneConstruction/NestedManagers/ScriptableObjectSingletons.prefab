@@ -27,6 +27,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -53,8 +54,6 @@ MonoBehaviour:
   CraftingRecipeSingleton: {fileID: 11400000, guid: 765c45badae45524194aba6f1d297d74,
     type: 2}
   DepartmentList: {fileID: 11400000, guid: 78ed418d17146c04e84a65952c123008, type: 2}
-  GAS2ReagentSingleton: {fileID: 11400000, guid: 844a220c852c97f4cbe9e7df3b56d934,
-    type: 2}
   GasesSingleton: {fileID: 11400000, guid: 72500620ae245c94b8231dbe1eec7b1f, type: 2}
   GasMixesSingleton: {fileID: 11400000, guid: 6d6ec9261e5e348418ccaeceb5c88fb0, type: 2}
   ItemTypeToTraitMapping: {fileID: 11400000, guid: 8fcf7f22b82254402a12b37d29c01f15,
@@ -65,8 +64,6 @@ MonoBehaviour:
     type: 2}
   OccupationList: {fileID: 11400000, guid: 372aeb2f97f7d4617b83a6e8fe6adb92, type: 2}
   PipeTileSingleton: {fileID: 11400000, guid: c0669af0689d8b648a196419302e25f9, type: 2}
-  PlayerTextureDataSOs: {fileID: 11400000, guid: 5e4bdac1bc685ce478dfaeececd16006,
-    type: 2}
   PoolConfig: {fileID: 11400000, guid: ba0cea4a88b2c264fa8969b25b5d57b5, type: 2}
   RaceSOSingleton: {fileID: 11400000, guid: 6de5174ed3838f24bb4d85f3ad4577e1, type: 2}
   AdminJobsList: {fileID: 11400000, guid: 6b15d1e22706d4c4fb81d921267e1910, type: 2}

@@ -4,11 +4,14 @@ using System.Collections.Generic;
 using System.Text;
 using Items;
 using Items.Cargo.Wrapping;
+using Managers;
 using Objects;
 using Objects.Atmospherics;
+using Strings;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.SceneManagement;
+using NaughtyAttributes;
 
 namespace Systems.Cargo
 {
@@ -32,6 +35,7 @@ namespace Systems.Cargo
 		public CargoUpdateEvent OnCreditsUpdate = new CargoUpdateEvent();
 		public CargoUpdateEvent OnTimerUpdate = new CargoUpdateEvent();
 		public CargoUpdateEvent OnBountiesUpdate = new CargoUpdateEvent();
+		public CargoUpdateEvent OnConnectionChangeToCentComm = new CargoUpdateEvent();
 
 		[SerializeField]
 		private CargoData cargoData;
@@ -43,6 +47,15 @@ namespace Systems.Cargo
 
 		public Dictionary<ItemTrait, int> SoldHistory = new Dictionary<ItemTrait, int>();
 
+		public bool CargoOffline = false;
+		public bool RandomBountiesActive = true;
+    private int lastTimeRecorded = 0;
+		private int randomBountyTimeCheck = 0;
+
+		[SerializeField, BoxGroup("Random Bounties")] private float checkForTimeCooldown = 50f;
+		[SerializeField, BoxGroup("Random Bounties")] private Vector2 randomTimeRangeForRandomBounty = new Vector2(320, 690);
+		[SerializeField, BoxGroup("Random Bounties")] private List<CargoBounty> randomBountiesList = new List<CargoBounty>();
+
 		private void Awake()
 		{
 			if (Instance == null)
@@ -53,7 +66,12 @@ namespace Systems.Cargo
 			{
 				Destroy(this);
 			}
+
+			if(CustomNetworkManager.IsServer == false) return;
+			UpdateManager.Add(UpdateMe, checkForTimeCooldown);
+			randomBountyTimeCheck = UnityEngine.Random.Range((int)randomTimeRangeForRandomBounty.x, (int)randomTimeRangeForRandomBounty.y);
 		}
+
 
 		private void OnEnable()
 		{
@@ -97,6 +115,30 @@ namespace Systems.Cargo
 			CentcomMessage = "";
 			Supplies = new List<CargoCategory>(cargoData.Categories);
 			ActiveBounties = new List<CargoBounty>(cargoData.CargoBounties);
+			lastTimeRecorded = 0;
+			randomBountyTimeCheck = UnityEngine.Random.Range((int)randomTimeRangeForRandomBounty.x, (int)randomTimeRangeForRandomBounty.y);
+		}
+
+		void UpdateMe()
+		{
+			if(RandomBountiesActive == false || CargoOffline) return;
+			lastTimeRecorded += (int) checkForTimeCooldown;
+			if(lastTimeRecorded >= randomBountyTimeCheck)
+			{
+				RollRandomBounties();
+				lastTimeRecorded = 0;
+				randomBountyTimeCheck = UnityEngine.Random.Range((int)randomTimeRangeForRandomBounty.x, (int)randomTimeRangeForRandomBounty.y);
+			}
+		}
+
+		private void RollRandomBounties()
+		{
+			var randomBountiesNumber = UnityEngine.Random.Range(1, 3);
+			for (int i = 0; i < randomBountiesNumber; i++)
+			{
+				var randomBounty = randomBountiesList[UnityEngine.Random.Range(0, randomBountiesList.Count)];
+				AddBounty(randomBounty, i == randomBountiesNumber ? true : false);
+			}
 		}
 
 		/// <summary>
@@ -386,7 +428,7 @@ namespace Systems.Cargo
 		{
 			ActiveBounties.Remove(cargoBounty);
 			Credits += cargoBounty.Reward;
-			CentcomMessage += $"+{cargoBounty.Reward.ToString()} credits: {cargoBounty.Description} - completed.\n";
+			CentcomMessage += $"+{cargoBounty.Reward.ToString()} credits: {cargoBounty.TooltipDescription} - completed.\n";
 			OnBountiesUpdate.Invoke();
 		}
 
@@ -473,15 +515,28 @@ namespace Systems.Cargo
 		/// <summary>
 		/// Adds a new bounty to the bounty list. Returns false if it fails.
 		/// </summary>
-		public bool AddBounty(ItemTrait trait, int amount, string description, int reward)
+		public void AddBounty(ItemTrait trait, int amount, string title, string description, int reward, bool announce)
 		{
-			if(amount < 1 || reward < 1) return false;
+			if(amount < 1 || reward < 1) return;
 			CargoBounty newBounty = new CargoBounty();
 			newBounty.Demands.Add(trait, amount);
-			newBounty.Description = description;
+			newBounty.TooltipDescription = description;
+			newBounty.Title = title;
 			newBounty.Reward = reward;
 			ActiveBounties.Add(newBounty);
-			return true;
+			if(announce) AnnounceNewBounty();
+		}
+
+		public void AddBounty(CargoBounty bounty, bool announce)
+		{
+			if(bounty == null) return;
+			ActiveBounties.Add(bounty);
+			if(announce) AnnounceNewBounty();
+		}
+
+		private void AnnounceNewBounty()
+		{
+			CentComm.MakeAnnouncement(ChatTemplates.CentcomAnnounce, "A bounty for cargo has been issued from central communications", CentComm.UpdateSound.Notice);
 		}
 
 		private class ExportedItem
@@ -490,6 +545,14 @@ namespace Systems.Cargo
 			public string ExportName;
 			public int Count;
 			public int TotalValue;
+		}
+
+		public struct BountySyncData
+		{
+			public string Title;
+			public string Desc;
+			public int Reward;
+			public int Index;
 		}
 	}
 

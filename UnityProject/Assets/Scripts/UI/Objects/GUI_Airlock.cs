@@ -24,7 +24,7 @@ namespace UI.Objects
 		private DoorMasterController doorMasterController;
 		private DoorMasterController DoorMasterController => doorMasterController ??= Provider.GetComponent<DoorMasterController>();
 
-		public void OnTabOpenedHandler(ConnectedPlayer connectedPlayer)
+		public void OnTabOpenedHandler(PlayerInfo connectedPlayer)
 		{
 			bool foundBolts = false;
 			labelOpen.Value = DoorMasterController.IsClosed ? "Closed" : "Open";

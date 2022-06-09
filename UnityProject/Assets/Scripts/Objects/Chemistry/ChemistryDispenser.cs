@@ -40,7 +40,7 @@ namespace Chemistry
 		}
 
 
-		private ItemSlot GetBestSlot(GameObject item, ConnectedPlayer subject)
+		private ItemSlot GetBestSlot(GameObject item, PlayerInfo subject)
 		{
 			if (subject == null)
 			{
@@ -51,7 +51,7 @@ namespace Chemistry
 			return playerStorage.GetBestHandOrSlotFor(item);
 		}
 
-		public void EjectContainer(ConnectedPlayer player)
+		public void EjectContainer(PlayerInfo player)
 		{
 			if (!Inventory.ServerTransfer(itemSlot, GetBestSlot(itemSlot.ItemObject, player)))
 			{
@@ -71,6 +71,13 @@ namespace Chemistry
 
 		public void ServerPerformInteraction(HandApply interaction)
 		{
+			//Inserts reagent container
+			if (itemSlot.IsOccupied)
+			{
+				Chat.AddExamineMsgFromServer(interaction.Performer, "The machine already has a beaker in it");
+				return;
+			}
+
 			//put the reagant container inside me
 			Inventory.ServerTransfer(interaction.HandSlot, itemSlot);
 			UpdateGUI();

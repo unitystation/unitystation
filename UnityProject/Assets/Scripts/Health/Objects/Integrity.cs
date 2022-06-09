@@ -22,7 +22,7 @@ using Systems.Interaction;
 /// This stuff is tracked server side only, client is informed only when the effects of integrity
 /// changes occur.
 /// </summary>
-[RequireComponent(typeof(CustomNetTransform))]
+///
 [RequireComponent(typeof(RegisterTile))]
 public class Integrity : NetworkBehaviour, IHealth, IFireExposable, IRightClickable, IServerSpawn, IExaminable, IServerDespawn
 {
@@ -411,12 +411,12 @@ public class Integrity : NetworkBehaviour, IHealth, IFireExposable, IRightClicka
 
 	private void AdminSmash()
 	{
-		PlayerManager.PlayerScript.playerNetworkActions.CmdAdminSmash(gameObject);
+		PlayerManager.LocalPlayerScript.playerNetworkActions.CmdAdminSmash(gameObject);
 	}
 
 	private void AdminMakeHotspot()
 	{
-		PlayerManager.PlayerScript.playerNetworkActions.CmdAdminMakeHotspot(gameObject);
+		PlayerManager.LocalPlayerScript.playerNetworkActions.CmdAdminMakeHotspot(gameObject);
 	}
 
 	public void OnDespawnServer(DespawnInfo info)

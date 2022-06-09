@@ -77,7 +77,7 @@ namespace UI.Core
 
 		public void OnProceedPressed()
 		{
-			if(PlayerManager.LocalPlayer == null) return;
+			if(PlayerManager.LocalPlayerObject == null) return;
 
 			PlayerManager.LocalPlayerScript.playerNetworkActions.CmdFilledDynamicInput(lastOpener, input.text);
 

@@ -151,7 +151,7 @@ namespace Player
 			if (sentByPlayerScript.PlayerState != PlayerScript.PlayerStates.Ghost)
 			{
 				// if distance is too big or is self-examination, send normal examine message
-				if (Vector3.Distance(sentByPlayer.WorldPosServer(), gameObject.WorldPosServer()) >= maxInteractionDistance || sentByPlayer == gameObject)
+				if (Vector3.Distance(sentByPlayer.AssumedWorldPosServer(), gameObject.AssumedWorldPosServer()) >= maxInteractionDistance || sentByPlayer == gameObject)
 				{
 					BasicExamine(sentByPlayer);
 					return;

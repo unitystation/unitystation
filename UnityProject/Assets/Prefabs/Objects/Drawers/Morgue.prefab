@@ -203,24 +203,6 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 2326953878361258396}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &3651780404995418327 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 1361981371736346955, guid: ebb08cf966efc084aa918bd8d9429604,
-    type: 3}
-  m_PrefabInstance: {fileID: 2326953878361258396}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1876053485803257813}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 579884b05ae74e8499329b64997147d3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!210 &3802493308368489317 stripped
-SortingGroup:
-  m_CorrespondingSourceObject: {fileID: 1481169419180323577, guid: ebb08cf966efc084aa918bd8d9429604,
-    type: 3}
-  m_PrefabInstance: {fileID: 2326953878361258396}
-  m_PrefabAsset: {fileID: 0}
 --- !u!114 &-6615711806714216801
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -239,7 +221,9 @@ MonoBehaviour:
   ChangeSprites: 1
   isChangingSO: 0
   CurrentDirection: 3
+  IgnoreServerUpdatesIfLocalPlayer: 0
   IsAtmosphericDevice: 0
+  doNotResetOtherSpriteOptions: 0
 --- !u!114 &-2294396442231436740
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -355,3 +339,21 @@ MonoBehaviour:
       m_SubObjectName: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0
+--- !u!114 &3651780404995418327 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1361981371736346955, guid: ebb08cf966efc084aa918bd8d9429604,
+    type: 3}
+  m_PrefabInstance: {fileID: 2326953878361258396}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1876053485803257813}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 579884b05ae74e8499329b64997147d3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!210 &3802493308368489317 stripped
+SortingGroup:
+  m_CorrespondingSourceObject: {fileID: 1481169419180323577, guid: ebb08cf966efc084aa918bd8d9429604,
+    type: 3}
+  m_PrefabInstance: {fileID: 2326953878361258396}
+  m_PrefabAsset: {fileID: 0}

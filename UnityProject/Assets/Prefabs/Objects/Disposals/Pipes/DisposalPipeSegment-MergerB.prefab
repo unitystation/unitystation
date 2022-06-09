@@ -178,12 +178,6 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 843849146950285694}
   m_PrefabAsset: {fileID: 0}
---- !u!212 &2268664829468498668 stripped
-SpriteRenderer:
-  m_CorrespondingSourceObject: {fileID: 1499169744200704914, guid: b9bb4cf2e55ac1249ae2afe0243cf436,
-    type: 3}
-  m_PrefabInstance: {fileID: 843849146950285694}
-  m_PrefabAsset: {fileID: 0}
 --- !u!114 &-6630368390215117194
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -198,3 +192,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   flippedObject: {fileID: 2025448082421612283, guid: 2ceef12a70dc74140bd2b888524d0043,
     type: 3}
+--- !u!212 &2268664829468498668 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 1499169744200704914, guid: b9bb4cf2e55ac1249ae2afe0243cf436,
+    type: 3}
+  m_PrefabInstance: {fileID: 843849146950285694}
+  m_PrefabAsset: {fileID: 0}

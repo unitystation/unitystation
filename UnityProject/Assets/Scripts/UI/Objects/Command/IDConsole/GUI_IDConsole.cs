@@ -201,7 +201,7 @@ namespace UI.Objects.Command
 			}
 		}
 
-		public void ServerRemoveTargetCard(ConnectedPlayer player)
+		public void ServerRemoveTargetCard(PlayerInfo player)
 		{
 			if (console.TargetCard == null)
 			{
@@ -211,9 +211,9 @@ namespace UI.Objects.Command
 			pageSwitcher.SetActivePage(usercardPage);
 		}
 
-		public void ServerRemoveAccessCard(ConnectedPlayer player)
+		public void ServerRemoveAccessCard(PlayerInfo player)
 		{
-			if (console.AccessCard == null || IsAIInteracting() == false)
+			if (console.AccessCard == null)
 			{
 				return;
 			}
@@ -233,7 +233,7 @@ namespace UI.Objects.Command
 			}
 		}
 
-		public void ServerLogOut(ConnectedPlayer player)
+		public void ServerLogOut(PlayerInfo player)
 		{
 			ServerRemoveTargetCard(player);
 			console.LoggedIn = false;

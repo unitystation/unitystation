@@ -129,4 +129,17 @@
 	/// Allows for chat's log history to be customizable.
 	/// <summary>
 	public static string ChatLogSize = "ChatLogSize";
+
+	/// <summary>
+	/// How loud the radio chatter sounds are
+	/// 0 - 1f
+	/// </summary>
+	public static string RadioVolumeKey = "RadioVolume";
+
+	/// <summary>
+	/// MuteMusic toggle
+	/// 0 = disabled
+	/// 1 = enabled
+	/// </summary>
+	public static string CommonRadioToggleKey = "CommonRadioToggle";
 }

@@ -52,7 +52,7 @@ namespace Messages.Client
 			}
 		}
 
-		private static void setKey(ConnectedPlayer player, GameObject headsetGO, GameObject keyGO)
+		private static void setKey(PlayerInfo player, GameObject headsetGO, GameObject keyGO)
 		{
 			var pna = player.Script.playerNetworkActions;
 			if ( pna.HasItem(keyGO) )
@@ -64,7 +64,7 @@ namespace Messages.Client
 			}
 		}
 
-		private static void detachKey(GameObject headsetGO, ConnectedPlayer player)
+		private static void detachKey(GameObject headsetGO, PlayerInfo player)
 		{
 			Headset headset = headsetGO.GetComponent<Headset>();
 			var encryptionKey =

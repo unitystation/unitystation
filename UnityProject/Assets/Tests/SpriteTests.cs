@@ -8,43 +8,28 @@ namespace Tests
 	public class SpriteTests
 	{
 		[Test]
-		public void SpriteHandlerTest()
+		public void SpriteRenderersDoNotHaveANullSpriteHandlerSpritesSet()
 		{
-			var report = new StringBuilder();
-			var failed = false;
+			var report = new TestReport();
 
-			string[] allPrefabs = SearchAndDestroy.GetAllPrefabs();
-			foreach (string prefab in allPrefabs)
+			foreach (var prefab in Utils.FindPrefabs(false))
 			{
-				Object o = AssetDatabase.LoadMainAssetAtPath(prefab);
-
-				// Check if it's gameobject
-				if (!(o is GameObject))
+				foreach (Transform child in prefab.transform)
 				{
-					Logger.LogFormat("For some reason, prefab {0} won't cast to GameObject", Category.Tests, prefab);
-					continue;
-				}
+					if (child.TryGetComponent<SpriteRenderer>(out var spriteRenderer) == false) continue;
+					if (child.TryGetComponent<SpriteHandler>(out var spriteHandler) == false) continue;
 
-				var gameObject = o as GameObject;
+					var spritesSetName = $"{nameof(SpriteHandler)}.{nameof(SpriteHandler.PresentSpritesSet)}";
 
-				foreach (Transform child in gameObject.transform)
-				{
-					if(child.TryGetComponent<SpriteRenderer>(out var spriteRenderer) == false) continue;
-					if(child.TryGetComponent<SpriteHandler>(out var spriteHandler) == false) continue;
-
-					if (spriteRenderer.sprite != null && spriteHandler.PresentSpritesSet == null)
-					{
-						report.AppendLine($"{gameObject.name} has a null spriteHandler PresentSpriteSet but a not null spriteRender sprite on {child.name}," +
-						                  $" this will lead to an invisible object! Set the PresentSpriteSet on the spriteHandler or remove the spriteRender sprite.");
-						failed = true;
-					}
+					report.FailIf(spriteRenderer.sprite != null && spriteHandler.PresentSpritesSet == null)
+						.Append($"{prefab.name}: The child \"{child.name}\" has a {nameof(SpriteRenderer)} but ")
+						.Append($"{spritesSetName} is null, this will lead to an invisible object!")
+						.Append("Set the PresentSpriteSet on the spriteHandler or remove the spriteRender sprite.")
+						.AppendLine();
 				}
 			}
 
-			if (failed)
-			{
-				Assert.Fail(report.ToString());
-			}
+			report.AssertPassed();
 		}
 	}
 }

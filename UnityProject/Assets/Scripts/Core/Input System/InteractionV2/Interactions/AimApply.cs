@@ -20,7 +20,6 @@ public class AimApply : BodyPartTargetedInteraction
 	private readonly ItemSlot handSlot;
 
 
-/// <summary>Requested local position target.</summary>
 	public Vector2 TargetPosition => targetPosition;
 
 
@@ -34,12 +33,12 @@ public class AimApply : BodyPartTargetedInteraction
 	/// </summary>
 	public MouseButtonState MouseButtonState => mouseButtonState;
 
+
 	/// <summary>Target world position calculated from matrix local position.</summary>
 	public Vector2 WorldPositionTarget => (Vector2)targetPosition.To3().ToWorld(Performer.RegisterTile().Matrix);
 
 	/// <summary>Vector pointing from the performer's position to the target position.</summary>
 	public Vector2 TargetVector => WorldPositionTarget.To3() - Performer.RegisterTile().WorldPosition;
-
 	/// <summary>
 	/// Whether player is aiming at themselves.
 	/// </summary>
@@ -79,23 +78,26 @@ public class AimApply : BodyPartTargetedInteraction
 			PLAYER_LAYER_MASK = LayerMask.GetMask("Players");
 		}
 
-		var InternaltargetPosition = MouseUtils.MouseToWorldPos().ToLocal(PlayerManager.LocalPlayer.RegisterTile().Matrix).To2();
+
+		var InternaltargetPosition = MouseUtils.MouseToWorldPos().ToLocal(PlayerManager.LocalPlayerObject.RegisterTile().Matrix).To2();
+
 
 		//check for self aim if target vector is sufficiently small so we can avoid raycast
 		var selfAim = false;
 		var targetVector = (Vector2) MouseUtils.MouseToWorldPos() -
-		                   (Vector2) PlayerManager.LocalPlayer.transform.position;
+		                   (Vector2) PlayerManager.LocalPlayerObject.transform.position;
 
 		if (targetVector.magnitude < 0.6)
 		{
 			selfAim = MouseUtils.GetOrderedObjectsUnderMouse(PLAYER_LAYER_MASK,
-				go => go == PlayerManager.LocalPlayer).Any();
+				go => go == PlayerManager.LocalPlayerObject).Any();
 		}
 
-		return new AimApply(PlayerManager.LocalPlayer, PlayerManager.LocalPlayerScript.DynamicItemStorage.GetActiveHandSlot().ItemObject,
+		return new AimApply(PlayerManager.LocalPlayerObject, PlayerManager.LocalPlayerScript.DynamicItemStorage.GetActiveHandSlot().ItemObject,
 			PlayerManager.LocalPlayerScript.DynamicItemStorage.GetActiveHandSlot(),
 			buttonState,
-			selfAim ? PlayerManager.LocalPlayer.transform.localPosition.To2() : InternaltargetPosition, UIManager.DamageZone, UIManager.CurrentIntent, PlayerManager.LocalPlayer.transform.localPosition.To2());
+
+			selfAim ? PlayerManager.LocalPlayerObject.transform.localPosition.To2() : InternaltargetPosition, UIManager.DamageZone, UIManager.CurrentIntent, PlayerManager.LocalPlayerObject.transform.localPosition.To2());
 	}
 
 	/// <summary>

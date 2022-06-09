@@ -25,6 +25,12 @@ public class RoundManagerPage : AdminPage
 	private Toggle lavaLandToggle = null;
 
 	[SerializeField]
+	private Toggle cargoToggle = null;
+
+	[SerializeField]
+	private Toggle randomBountyToggle = null;
+
+	[SerializeField]
 	private Dropdown alertLevelDropDown = null;
 
 	private List<string> alertLevelEnumCache = new List<string>();
@@ -179,5 +185,15 @@ public class RoundManagerPage : AdminPage
 				return;
 			}
 		}
+	}
+
+	public void ToggleCargo()
+	{
+		AdminCommandsManager.Instance.CmdChangeCargoConnectionStatus(cargoToggle.isOn);
+	}
+
+	public void ToggleRandomBounties()
+	{
+		AdminCommandsManager.Instance.CmdToggleCargoRandomBounty(randomBountyToggle.isOn);
 	}
 }

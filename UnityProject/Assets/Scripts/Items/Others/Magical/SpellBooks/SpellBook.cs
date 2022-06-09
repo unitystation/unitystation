@@ -17,7 +17,7 @@ namespace Items.Magical
 		[SerializeField]
 		private SpellData spell = default;
 
-		protected override bool TryReading(ConnectedPlayer player)
+		protected override bool TryReading(PlayerInfo player)
 		{
 			if (player.Script.mind.HasSpell(spell))
 			{
@@ -44,7 +44,7 @@ namespace Items.Magical
 			return true;
 		}
 
-		protected override void FinishReading(ConnectedPlayer player)
+		protected override void FinishReading(PlayerInfo player)
 		{
 			LearnSpell(player);
 			base.FinishReading(player);
@@ -55,7 +55,7 @@ namespace Items.Magical
 			}
 		}
 
-		private void LearnSpell(ConnectedPlayer player)
+		private void LearnSpell(PlayerInfo player)
 		{
 			// TODO: Play "Blind" SFX once sound freeze is lifted.
 			Chat.AddChatMsgToChat(player, spell.InvocationMessage, ChatChannel.Local, Loudness.SCREAMING);
@@ -65,7 +65,7 @@ namespace Items.Magical
 			player.Script.mind.AddSpell(learnedSpell);
 		}
 
-		private void Punish(ConnectedPlayer player)
+		private void Punish(PlayerInfo player)
 		{
 			if (gameObject.TryGetComponent<SpellBookPunishment>(out var punishment))
 			{

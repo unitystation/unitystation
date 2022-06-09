@@ -106,9 +106,9 @@ namespace Objects.Disposals
 				Rotatable.FaceDirection(pipeTile.DisposalPipeObjectOrientation);
 			}
 
-			if (spawn.GameObject.TryGetComponent<ObjectBehaviour>(out var behaviour))
+			if (spawn.GameObject.TryGetComponent<UniversalObjectPhysics>(out var behaviour))
 			{
-				behaviour.ServerSetPushable(false);
+				behaviour.SetIsNotPushable(true);
 			}
 		}
 

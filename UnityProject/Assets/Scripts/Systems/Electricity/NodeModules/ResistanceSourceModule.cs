@@ -75,6 +75,7 @@ namespace Systems.Electricity.NodeModules
 
 		public void OnDestroy()
 		{
+			if (ElectricalManager.Instance.OrNull()?.electricalSync.OrNull()?.PoweredDevices == null) return;
 			if (ElectricalManager.Instance.electricalSync.PoweredDevices.Contains(ControllingNode))
 			{
 				ElectricalManager.Instance.electricalSync.PoweredDevices.Remove(ControllingNode);

@@ -1,60 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &4496233817727916202
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6918947953705996213}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 76265263b12ffbbc0ab21ee84affc2ac, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  initialStateIndex: 0
-  states:
-  - ExamineMessage: It is in prying mode.
-    changeMessage: You flick the Jaws of Life into prying mode.
-    changeSound:
-      SetLoadSetting: 0
-      AssetAddress: Assets/Prefabs/Items/ChangeJaws.prefab
-      AssetReference:
-        m_AssetGUID: 
-        m_SubObjectName: 
-        m_SubObjectType: 
-    spriteIndex: 0
-    traits:
-    - {fileID: 11400000, guid: 5524008e9372c468aacfb95c83179a91, type: 2}
-    - {fileID: 11400000, guid: bf45f5f358fa083d281cc05cdfd81580, type: 2}
-    usingSound:
-      SetLoadSetting: 0
-      AssetAddress: Assets/Prefabs/Items/JawsPry.prefab
-      AssetReference:
-        m_AssetGUID: 
-        m_SubObjectName: 
-        m_SubObjectType: 
-  - ExamineMessage: It is in cutting mode.
-    changeMessage: You flick the Jaws of Life into cutting mode.
-    changeSound:
-      SetLoadSetting: 0
-      AssetAddress: Assets/Prefabs/Items/ChangeJaws.prefab
-      AssetReference:
-        m_AssetGUID: 
-        m_SubObjectName: 
-        m_SubObjectType: 
-    spriteIndex: 1
-    traits:
-    - {fileID: 11400000, guid: a78723f619e4a41f3ae170507ca20644, type: 2}
-    usingSound:
-      SetLoadSetting: 0
-      AssetAddress: Assets/Prefabs/Items/JawsCut.prefab
-      AssetReference:
-        m_AssetGUID: 
-        m_SubObjectName: 
-        m_SubObjectType: 
 --- !u!1001 &1691278609676860386
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -373,3 +318,62 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 1691278609676860386}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &4496233817727916202
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6918947953705996213}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 76265263b12ffbbc0ab21ee84affc2ac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  initialStateIndex: 0
+  states:
+  - ExamineMessage: It is in prying mode.
+    changeMessage: You flick the Jaws of Life into prying mode.
+    changeSound:
+      SetLoadSetting: 0
+      AssetAddress: Assets/Prefabs/Items/ChangeJaws.prefab
+      AssetReference:
+        m_AssetGUID: 
+        m_SubObjectName: 
+        m_SubObjectType: 
+        m_EditorAssetChanged: 0
+    spriteIndex: 0
+    traits:
+    - {fileID: 11400000, guid: 5524008e9372c468aacfb95c83179a91, type: 2}
+    - {fileID: 11400000, guid: bf45f5f358fa083d281cc05cdfd81580, type: 2}
+    usingSound:
+      SetLoadSetting: 0
+      AssetAddress: Assets/Prefabs/Items/JawsPry.prefab
+      AssetReference:
+        m_AssetGUID: 
+        m_SubObjectName: 
+        m_SubObjectType: 
+        m_EditorAssetChanged: 0
+  - ExamineMessage: It is in cutting mode.
+    changeMessage: You flick the Jaws of Life into cutting mode.
+    changeSound:
+      SetLoadSetting: 0
+      AssetAddress: Assets/Prefabs/Items/ChangeJaws.prefab
+      AssetReference:
+        m_AssetGUID: 
+        m_SubObjectName: 
+        m_SubObjectType: 
+        m_EditorAssetChanged: 0
+    spriteIndex: 1
+    traits:
+    - {fileID: 11400000, guid: a78723f619e4a41f3ae170507ca20644, type: 2}
+    usingSound:
+      SetLoadSetting: 0
+      AssetAddress: Assets/Prefabs/Items/JawsCut.prefab
+      AssetReference:
+        m_AssetGUID: 
+        m_SubObjectName: 
+        m_SubObjectType: 
+        m_EditorAssetChanged: 0

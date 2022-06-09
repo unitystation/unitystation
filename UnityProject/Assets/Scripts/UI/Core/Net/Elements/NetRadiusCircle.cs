@@ -44,6 +44,6 @@ namespace UI.Core.NetUI
 		private Image element;
 		public Image Element => element ??= GetComponent<Image>();
 
-		public override void ExecuteServer(ConnectedPlayer subject) { }
+		public override void ExecuteServer(PlayerInfo subject) { }
 	}
 }

@@ -12,7 +12,7 @@ namespace UI.Core.NetUI
 	{
 		public UnityEvent ServerMethod;
 
-		public override void ExecuteServer(ConnectedPlayer subject)
+		public override void ExecuteServer(PlayerInfo subject)
 		{
 			ServerMethod.Invoke();
 		}

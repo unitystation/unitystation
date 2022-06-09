@@ -38,7 +38,7 @@ namespace Items.Botany
 		public void ServerPerformInteraction(HandActivate interaction)
 		{
 			_ = Despawn.ServerSingle(gameObject);
-			Spawn.ServerPrefab(result, interaction.Performer.WorldPosServer(), count: finalAmount);
+			Spawn.ServerPrefab(result, interaction.Performer.AssumedWorldPosServer(), count: finalAmount);
 			Chat.AddExamineMsgFromServer(interaction.Performer, "You pull some raw material out of the bundle!");
 		}
 	}

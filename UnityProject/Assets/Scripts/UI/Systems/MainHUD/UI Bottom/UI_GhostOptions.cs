@@ -123,7 +123,7 @@ namespace UI.Systems.Ghost
 		public void AdminGhostInventoryDrop()
 		{
 			_ = SoundManager.Play(CommonSounds.Instance.Click01);
-			if (PlayerManager.PlayerScript != null)
+			if (PlayerManager.LocalPlayerScript != null)
 			{
 				AdminCommandsManager.Instance.CmdAdminGhostDropItem();
 			}
@@ -132,7 +132,7 @@ namespace UI.Systems.Ghost
 		public void AdminGhostInvSmash()
 		{
 			_ = SoundManager.Play(CommonSounds.Instance.Click01);
-			if (PlayerManager.PlayerScript != null)
+			if (PlayerManager.LocalPlayerScript != null)
 			{
 				AdminCommandsManager.Instance.CmdAdminGhostSmashItem();
 			}

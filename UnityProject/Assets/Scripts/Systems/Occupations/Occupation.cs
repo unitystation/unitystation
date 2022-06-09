@@ -63,6 +63,11 @@ public class Occupation : ScriptableObject
 	public List<Access> AllowedAccess => allowedAccess;
 
 	[SerializeField]
+	[Tooltip("Default lowpop access allowed for this occupation.")]
+	private List<Access> allowedLowPopAccess = null;
+	public List<Access> AllowedLowPopAccess => allowedLowPopAccess;
+
+	[SerializeField]
 	[Tooltip("Default clearance issued to this occupation.")]
 	private List<Clearance> issuedClearance = default;
 	public List<Clearance> IssuedClearance

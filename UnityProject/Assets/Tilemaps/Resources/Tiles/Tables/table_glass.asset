@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: table_glass
   m_EditorClassIdentifier: 
   displayName: 
+  description: 
   LayerType: 9
   TileType: 4
   RequiredTiles: []
@@ -31,6 +32,7 @@ MonoBehaviour:
   doesReflectBullet: 0
   indestructible: 0
   ExplosionImpassable: 0
+  BlocksTileInteractionsUnder: 1
   passableException:
     m_keys: 0200000003000000
     m_values: 0101
@@ -52,6 +54,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 60c558a8dfbf4ee4e8225a3484933424, type: 2}
   - {fileID: 11400000, guid: fc968a68963834c05a67838fe15fedec, type: 2}
   - {fileID: 11400000, guid: 3aa4d5af2288ea1449aa0d183fe484a5, type: 2}
+  tileStepInteractions: []
   spawnOnDeconstruct: {fileID: 8579127030982015588, guid: 66a5287d0bf216847a2f4fe34228a0cf,
     type: 3}
   spawnAmountOnDeconstruct: 2
@@ -66,6 +69,7 @@ MonoBehaviour:
       m_AssetGUID: 
       m_SubObjectName: 
       m_SubObjectType: 
+      m_EditorAssetChanged: 0
   SoundOnDestroy: []
   connectCategory: 2
   connectType: 1

@@ -179,6 +179,17 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 4311095301699594361}
   m_PrefabAsset: {fileID: 0}
+--- !u!210 &4155988808594106752
+SortingGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7783574141755662557}
+  m_Enabled: 1
+  m_SortingLayerID: -229502157
+  m_SortingLayer: 21
+  m_SortingOrder: 0
 --- !u!114 &2174550984456762005
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -194,17 +205,6 @@ MonoBehaviour:
   despawnBody: 1
   lootDrop:
   - {fileID: 4132242788693647151, guid: ad527ba4de069794796e314f236794f4, type: 3}
---- !u!210 &4155988808594106752
-SortingGroup:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7783574141755662557}
-  m_Enabled: 1
-  m_SortingLayerID: -229502157
-  m_SortingLayer: 21
-  m_SortingOrder: 0
 --- !u!114 &2243440809546857954
 MonoBehaviour:
   m_ObjectHideFlags: 0
