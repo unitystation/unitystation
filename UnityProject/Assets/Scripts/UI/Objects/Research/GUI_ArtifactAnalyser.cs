@@ -2,6 +2,7 @@ using System.Collections;
 using UnityEngine;
 using UI.Core.NetUI;
 using Systems.Research.Objects;
+using Items.Science;
 
 namespace UI.Objects.Research
 {
@@ -68,7 +69,7 @@ namespace UI.Objects.Research
 			Logger.Log(nameof(WaitForProvider), Category.Research);
 		}
 
-		public void UpdateGUIForPeepers(ConnectedPlayer notUsed)
+		public void UpdateGUIForPeepers(PlayerInfo notUsed)
 		{
 			if (!isUpdating)
 			{
@@ -150,20 +151,17 @@ namespace UI.Objects.Research
 
 			int rp = 0;
 
-			if (!artifactAnalyser.researchServer.researchedSlivers.Contains(artifactSliver.ID))
-			{
-				rp = artifactSliver.RPReward; //Only give us RP if this sliver has not previously been researched for this server.
-				artifactAnalyser.researchServer.researchedSlivers.Add(artifactSliver.ID);
-			}
+			if(artifactAnalyser.researchServer.AddArtifactIDtoTechWeb(artifactSliver.ID)) //Give us an RP reward if this sliver is unique to the server
+				rp = artifactSliver.RPReward;
 
 			completeLabel.SetValueServer("Analysis Complete! +" + rp + "RP!");
 			artifactAnalyser.storedRP += rp;
 			UpdateRPDisplay();
 
-			radLabel.SetValueServer("Radiataion Level:\n" + artifactSliver.radiationlevel + "rad");
-			bluespaceLabel.SetValueServer("Bluespace Signature:\n" + artifactSliver.bluespacesig + "Gy");
-			clownLabel.SetValueServer("Bananium Signature:\n" + artifactSliver.bananiumsig + "mClw");
-			massLabel.SetValueServer("Sample mass:\n" + artifactSliver.mass + "g");
+			radLabel.SetValueServer("Radiataion Level:\n" + artifactSliver.sliverData.radiationlevel + "rad");
+			bluespaceLabel.SetValueServer("Bluespace Signature:\n" + artifactSliver.sliverData.bluespacesig + "Gy");
+			clownLabel.SetValueServer("Bananium Signature:\n" + artifactSliver.sliverData.bananiumsig + "mClw");
+			massLabel.SetValueServer("Sample mass:\n" + artifactSliver.sliverData.mass + "g");
 		}
 
 		public void DeconstructArtifact()
@@ -213,7 +211,7 @@ namespace UI.Objects.Research
 			SwitchToNullPage();
 		}
 
-		public void RemoveId(ConnectedPlayer player)
+		public void RemoveId(PlayerInfo player)
 		{
 			CloseTab();
 		}

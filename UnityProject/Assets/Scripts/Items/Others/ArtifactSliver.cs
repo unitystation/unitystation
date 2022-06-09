@@ -5,73 +5,90 @@ using Systems.Radiation;
 using Weapons;
 using ScriptableObjects.Systems.Research;
 
-public class ArtifactSliver : MonoBehaviour
+namespace Items.Science
 {
-	//Stats
-	public int radiationlevel;
-	public int bluespacesig;
-	public int bananiumsig;
-	public int mass;
-	public string ID;
-
-	public int RPReward;
-
-	public CompositionBase compositionBase = CompositionBase.glass;
-
-	public List<GameObject> Composition;
-
-	private RadiationProducer radProducer;
-	private MeleeEffect meleeEffect;
-
-	[SerializeField]
-	private ArtifactData artifactData;
-
-	private void Awake()
-	{
-		radProducer = GetComponent<RadiationProducer>();
-		meleeEffect = GetComponent<MeleeEffect>();
-
-		Init()
-;	}
-
 	public enum CompositionBase
 	{
 		metal = 1,
 		glass = 2, //TODO: think of more things artifacts could be made of
 	}
 
-	private void Init()
+	public struct ArtifactData
 	{
-		
-		if(bluespacesig >= 100)
+		public ArtifactData(int radlvl, int bluelvl, int bnalvl, int mss,CompositionBase comp)
 		{
-			meleeEffect.enabled = true;
-			meleeEffect.maxTeleportDistance = (int)(bluespacesig / 100);
+			radiationlevel = radlvl;
+			bluespacesig = bluelvl;
+			bananiumsig = bnalvl;
+			mass = mss;
+			compositionBase = comp;
+		}
 
-			for(int i = 0; i < (int)((bluespacesig + 100)/200); i++) //every 200 bluespace sig starting at 100
+		public CompositionBase compositionBase;
+		public int radiationlevel;
+		public int bluespacesig;
+		public int bananiumsig;
+		public int mass;
+	}
+
+	public class ArtifactSliver : MonoBehaviour
+	{
+		public ArtifactData sliverData;
+
+		public string ID;
+
+		public int RPReward;
+
+		public List<GameObject> Composition;
+
+		private RadiationProducer radProducer;
+		private MeleeEffect meleeEffect;
+
+		[SerializeField]
+		private ArtifactDataSO artifactDataSO;
+
+		private void Awake()
+		{
+			radProducer = GetComponent<RadiationProducer>();
+			meleeEffect = GetComponent<MeleeEffect>();
+
+			Init()
+	;
+		}
+
+		private void Init()
+		{
+
+			if (sliverData.bluespacesig >= 100)
 			{
-				Composition.Add(artifactData.compositionData["bluespace"]);
-			}
-		}
-		if(radiationlevel >= 100)
-		{
-			radProducer.enabled = true;
-			radProducer.SetLevel(radiationlevel);
+				meleeEffect.enabled = true;
+				meleeEffect.maxTeleportDistance = (int)(sliverData.bluespacesig / 100);
 
-			for (int i = 0; i < (int)((radiationlevel) / 500); i++) //every 500 rads
+				for (int i = 0; i < (int)((sliverData.bluespacesig + 100) / 200); i++) //every 200 bluespace sig starting at 100
+				{
+					Composition.Add(artifactDataSO.compositionData["bluespace"]);
+				}
+			}
+			if (sliverData.radiationlevel >= 100)
 			{
-				Composition.Add(artifactData.compositionData["uranium"]);
+				radProducer.enabled = true;
+				radProducer.SetLevel(sliverData.radiationlevel);
+
+				for (int i = 0; i < (int)((sliverData.radiationlevel) / 500); i++) //every 500 rads
+				{
+					Composition.Add(artifactDataSO.compositionData["uranium"]);
+				}
 			}
-		}
 
-		for (int i = 0; i < (int)((bananiumsig) / 500); i++) //every 500 mClw (milli clowns)
-		{
-			Composition.Add(artifactData.compositionData["bananium"]);
-		}
+			for (int i = 0; i < (int)((sliverData.bananiumsig) / 500); i++) //every 500 mClw (milli clowns)
+			{
+				Composition.Add(artifactDataSO.compositionData["bananium"]);
+			}
 
-		for (int i = 0; i < (int)((mass) / 250); i++) //every 250g
-		{
-			Composition.Add(artifactData.compositionData[compositionBase.ToString()]);
+			for (int i = 0; i < (int)((sliverData.mass) / 250); i++) //every 250g
+			{
+				Composition.Add(artifactDataSO.compositionData[sliverData.compositionBase.ToString()]);
+			}
 		}
 	}
 }

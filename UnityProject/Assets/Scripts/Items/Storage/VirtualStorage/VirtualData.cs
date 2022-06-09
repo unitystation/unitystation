@@ -1,4 +1,5 @@
 ﻿using Systems.Research;
+using Items.Science;
 
 namespace Items.Storage.VirtualStorage
 {
@@ -20,6 +21,19 @@ namespace Items.Storage.VirtualStorage
 		public void UpdateTechwebSize()
 		{
 			Size = Techweb.researchedTech.Count;
+		}
+	}
+
+	public class ArtifactDataFiles : VirtualData
+	{
+		//Data saved onto disk by console
+		public ArtifactData inputData = new ArtifactData();
+		//Correct Data, used to judge value for export
+		public ArtifactData correctData = new ArtifactData();
+
+		public void UpdateArtifactDataSize()
+		{
+			Size = 30;
 		}
 	}
 }

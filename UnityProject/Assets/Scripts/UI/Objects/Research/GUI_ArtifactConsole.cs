@@ -2,6 +2,7 @@ using System.Collections;
 using UnityEngine;
 using UI.Core.NetUI;
 using Systems.Research.Objects;
+using Items.Science;
 
 namespace UI.Objects.Research
 {
@@ -11,6 +12,11 @@ namespace UI.Objects.Research
 		public NetPageSwitcher mainSwitcher;
 
 		public NetLabel pageLabel;
+
+		[SerializeField]
+		private InputFieldFocus radInput;
+
+		private ArtifactData inputData;
 
 		bool isUpdating;
 
@@ -35,7 +41,7 @@ namespace UI.Objects.Research
 			Logger.Log(nameof(WaitForProvider), Category.Research);
 		}
 
-		public void UpdateGUIForPeepers(ConnectedPlayer notUsed)
+		public void UpdateGUIForPeepers(PlayerInfo notUsed)
 		{
 			if (!isUpdating)
 			{

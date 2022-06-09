@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
 using Systems.ObjectConnection;
+using Items.Science;
 
 namespace Systems.Research.Objects
 {
