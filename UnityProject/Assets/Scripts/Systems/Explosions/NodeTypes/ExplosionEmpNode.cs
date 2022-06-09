@@ -14,6 +14,10 @@ namespace Systems.Explosions
 {
 	public class ExplosionEmpNode : ExplosionNode
 	{
+		public override bool IsBlockedByWalls
+		{
+			get { return false; }
+		}
 		public override string EffectName
 		{
 			get { return "EMPEffect"; }

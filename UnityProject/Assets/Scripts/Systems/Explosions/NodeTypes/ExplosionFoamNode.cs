@@ -21,15 +21,12 @@ namespace Systems.Explosions
 		}
 		public override AddressableAudioSource CustomSound
 		{
-			get { return CommonSounds.Instance.Smoke; }
+			get { return CommonSounds.Instance.Foam; }
 		}
 
 		public override float DoDamage(Matrix matrix, float DamageDealt, Vector3Int pos)
 		{
-			if (matrix.IsAtmosPassableAt(pos, true))
-			{
-				SpawnFoam(matrix, pos, Reagents);
-			}
+			SpawnFoam(matrix, pos, Reagents);
 			return 10.0f; //magic number
 		}
 

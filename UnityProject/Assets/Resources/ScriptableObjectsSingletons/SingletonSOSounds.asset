@@ -100,9 +100,25 @@ MonoBehaviour:
       m_SubObjectName: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0
+  Foam:
+    SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/Effects/Foam.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
+  BeepBeep:
+    SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/Doors/TripleBeep.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
   Notice1:
     SetLoadSetting: 0
-    AssetAddress: Assets/Prefabs/Effects/Notice1.prefab
+    AssetAddress: Assets/Prefabs/Doors/TripleBeep.prefab
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 

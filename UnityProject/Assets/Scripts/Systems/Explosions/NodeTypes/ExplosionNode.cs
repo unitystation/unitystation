@@ -25,6 +25,10 @@ namespace Systems.Explosions
 
 		public List<PipeNode> SavedPipes = new List<PipeNode>();
 
+		public virtual bool IsBlockedByWalls
+        {
+			get { return true; }
+        }
 		public virtual string EffectName
 		{
 			get { return "Fire"; }

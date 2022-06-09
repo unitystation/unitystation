@@ -26,10 +26,7 @@ namespace Systems.Explosions
 
 		public override float DoDamage(Matrix matrix, float DamageDealt, Vector3Int pos)
 		{
-			if (matrix.IsAtmosPassableAt(pos, true))
-			{
-				SpawnSmoke(matrix, pos, Reagents);
-			}
+			SpawnSmoke(matrix, pos, Reagents);
 			return 10.0f; //magic number
 		}
 

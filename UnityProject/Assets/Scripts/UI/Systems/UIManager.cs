@@ -73,6 +73,8 @@ public class UIManager : MonoBehaviour, IInitialise
 
 	public SplittingMenu SplittingMenu;
 
+	public GrenadeTimerMenu GrenadeTimerMenu;
+
 	public static bool PreventChatInput
 	{
 		get { return uiManager.preventChatInput; }

@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Chemistry;
+using Doors;
 
 namespace Systems.Explosions
 {
@@ -77,6 +78,12 @@ namespace Systems.Explosions
 				count++;
 			}
 			return -1;
+		}
+
+		private void debugCross(Vector3 pos)
+		{
+			Debug.DrawLine(new Vector2(pos.x - 0.5f, pos.y - 0.5f), new Vector2(pos.x + 0.5f, pos.y + 0.5f), Color.red, 10);
+			Debug.DrawLine(new Vector2(pos.x - 0.5f, pos.y + 0.5f), new Vector2(pos.x + 0.5f, pos.y - 0.5f), Color.red, 10);
 		}
 
 		public void SetUp(int X0, int Y0, int X1, int Y1, float inExplosionStrength, ExplosionNode nodeType, ReagentMix initialReagents, float reagentAmountMultiplier)
@@ -170,6 +177,13 @@ namespace Systems.Explosions
 				InitialStep = false;
 				Angle = (float) (Math.Atan2(x1 - x0, y1 - y0));
 			}
+
+
+			if (NodeType.IsBlockedByWalls && (Matrix.Matrix.IsWallAt(Local, true) == true || Matrix.Matrix.IsWindowAt(Local, true) == true || Matrix.Matrix.GetFirst<DoorMasterController>(Local, true) != null)) //why not IsPassableAtOneMatrix instead of this long, slow condition? cause we should not consider, people, tables, machines and other similar stuff as obstacles
+			{
+				debugCross(WorldPSos.ToNonInt3());
+				ExplosionStrength = 0;
+			}
 		}
 
 		public void Pool()
@@ -236,7 +250,7 @@ namespace Systems.Explosions
 			var explosionData = new ExplosionData();
 			circleBres(explosionData, WorldPOS.x, WorldPOS.y, Radius);
 			float InitialStrength = strength / explosionData.CircleCircumference.Count;
-			float reagentAmountMultiplier = (float)(1/(Math.PI * (Radius * Radius)));
+			float reagentAmountMultiplier = (float)((Radius - 1) * 4 + 1) + (DMMath.Factorial(Radius) / 2 * DMMath.Factorial(Radius - 2)); //was too lazy to find proper algorithm for bres circle, so this one is bit inaccurate
 
 			foreach (var ToPoint in explosionData.CircleCircumference)
 			{

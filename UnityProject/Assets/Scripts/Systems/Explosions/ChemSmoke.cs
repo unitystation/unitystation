@@ -17,7 +17,7 @@ namespace Chemistry
 
 		public float UpdateRate = 2.5f;
 
-		public float ReagentMultiplier = 100; //since initial reagents in normal conditions have absurdly small volume, rendering smoke useless
+		public float ReagentMultiplier = 1;
 
 		private ReagentMix reagents;
 

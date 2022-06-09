@@ -17,7 +17,7 @@ namespace Chemistry
 
 		public float UpdateRate = 2.5f;
 
-		public float ReagentMultiplier = 100; //since initial reagents in normal conditions have small volume, rendering foam useless
+		public float ReagentMultiplier = 1; //since initial reagents in normal conditions have very small volume, rendering foam useless
 
 		private ReagentMix reagents;
 
@@ -56,12 +56,8 @@ namespace Chemistry
 			var players = Matrix.Get<PlayerScript>(gameObject.GetComponent<Transform>().position.RoundToInt(), true);
 			foreach (PlayerScript player in players)
 			{
-				if (player.playerHealth.IsDead == false)
-				{
-					player.gameObject.GetComponent<CirculatorySystemBase>().BloodPool.Add(reagents); //yes, we are duping reagents
-					Logger.Log(player.gameObject.GetComponent<CirculatorySystemBase>().BloodPool.ToString());
-
-				}
+				player.gameObject.GetComponent<CirculatorySystemBase>().BloodPool.Add(reagents); //yes, we are duping reagents
+				Logger.Log(player.gameObject.GetComponent<CirculatorySystemBase>().BloodPool.ToString());
 			}
 		}
 

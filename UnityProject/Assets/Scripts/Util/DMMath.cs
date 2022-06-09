@@ -38,4 +38,11 @@ public static class DMMath
 
 		return Mathf.Exp(-(Mathf.Pow((x - b), 2) / Mathf.Pow((2 * c), 2)));
 	}
+
+	public static int Factorial(int n)
+    {
+		int f = 1;
+		for (int c = 1; c <= n; c++) { f = f * c; }
+		return f;
+    }
 }
