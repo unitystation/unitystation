@@ -26,7 +26,6 @@ GameObject:
   - component: {fileID: 4435215031572727429}
   - component: {fileID: 3022526131367930205}
   - component: {fileID: 4036323530601520298}
-  - component: {fileID: 5821576690915111536}
   m_Layer: 19
   m_Name: PublicDepartmentTerminal
   m_TagString: Untagged
@@ -286,6 +285,7 @@ MonoBehaviour:
   PushedFrame: 0
   FramePushDecision: 1
   stickyMovement: 0
+  OnThrowEndResetRotation: 0
   maximumStickSpeed: 1.5
   onStationMovementsRound: 0
   attributes: {fileID: 0}
@@ -387,11 +387,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b765ac9b30643c08432e68ddb18dd08, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  signalData: {fileID: 11400000, guid: 57e4f5e7816c64d4c95dab4e932f2378, type: 2}
+  passCode: 0
+  frequency: 295
+  requiresPower: 0
+  isPowered: 0
+  canExamineFrequency: 0
   Department: {fileID: 0}
   terminalRequieredAccess: 0
   isPowered: 0
   terminalGUI: {fileID: 0}
-  Emitter: {fileID: 5821576690915111536}
 --- !u!114 &4036323530601520298
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -406,33 +413,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  SignalTypeToReceive: 1
+  SignalTypeToReceive: 2
   Frequency: 295
-  Emitter: {fileID: 5821576690915111536}
+  Emitter: {fileID: 0}
   DelayTime: 3
   PassCode: 0
   ListenToEncryptedData: 0
---- !u!114 &5821576690915111536
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1000010652479536}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dce0342ad77055a409e2be607a759717, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  signalData: {fileID: 11400000, guid: 57e4f5e7816c64d4c95dab4e932f2378, type: 2}
-  passCode: 0
-  frequency: 295
-  requiresPower: 0
-  isPowered: 1
-  canExamineFrequency: 0
-  Terminal: {fileID: 3022526131367930205}
+  OwnEmitter: {fileID: 3022526131367930205}
 --- !u!1 &1000013922535428
 GameObject:
   m_ObjectHideFlags: 0

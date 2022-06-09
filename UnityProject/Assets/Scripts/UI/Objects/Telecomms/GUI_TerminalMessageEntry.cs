@@ -24,14 +24,14 @@ namespace UI.Objects.Wallmounts
 		public void DeleteEntry()
 		{
 			TerminalMasterTab.masterTerminal.receivedMessageData.Remove(messageData);
-			TerminalMasterTab.messages.Remove(this.gameObject.name);
+			TerminalMasterTab.messages.Remove(this.gameObject.name);	
 		}
 
 		public void ReInit(MessageData message)
 		{
 			messageData = message;
 
-			NameAndCategory.SetValueServer(messageData.Sender.RegisteredName + ", " + messageData.senderDepartment.DisplayName);
+			NameAndCategory.SetValueServer(messageData.Sender + ", " + messageData.senderDepartment);
 
 			if (messageData.isUrgent == false)
 			{

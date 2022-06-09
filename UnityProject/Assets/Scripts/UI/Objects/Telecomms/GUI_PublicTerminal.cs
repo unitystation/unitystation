@@ -1,28 +1,14 @@
 using System.Collections;
-using System.Collections.Generic;
 using System;
 using UnityEngine;
 using UI.Core.NetUI;
 using UnityEngine.UI;
 using Objects.Wallmounts;
 using System.Linq;
+using Mirror;
 
 namespace UI.Objects.Wallmounts
 {
-	public enum StringToDepartmentIndex //String to singleton index for departments
-	{
-		Cargo = 3,
-		Engineering = 6,
-		Service = 1,
-		Medical = 7,
-		Command = 8,
-		Research = 4,
-		Civillian = 0,
-		Entertainment = 2,
-		Security = 5,
-		Synthetic = 9,
-	}
-
 	public class GUI_PublicTerminal : NetTab
 	{
 
@@ -30,8 +16,6 @@ namespace UI.Objects.Wallmounts
 		private NetPageSwitcher mainSwitcher = null;
 
 		public PublicDepartmentTerminal masterTerminal;
-
-		private bool Urgent = false;
 
 		[SerializeField]
 		private NetPage RequestPage = null;
@@ -66,17 +50,23 @@ namespace UI.Objects.Wallmounts
 		[SerializeField]
 		private NetLabel TimerLabel = null;
 
-		protected override void InitServer()
-		{
-			UpdateGUI();
-			
-			OnTabOpened.AddListener(TabOpened);
-			OnTabClosed.AddListener(TabClosed);
-		}
+		string message;
+
+		private bool Urgent = false;
+
+		int targetDep;
 
 		private void Start()
 		{
 			StartCoroutine(WaitForProvider());
+		}
+
+		protected override void InitServer()
+		{
+			UpdateGUI();
+
+			OnTabOpened.AddListener(TabOpened);
+			OnTabClosed.AddListener(TabClosed);
 		}
 
 		private void TabClosed(PlayerInfo oldPeeper = default)
@@ -86,8 +76,9 @@ namespace UI.Objects.Wallmounts
 
 		private void TabOpened(PlayerInfo newPeeper = default)
 		{
+			UpdateGUI();
 			Urgent = UrgentToggle.isOn;
-			UpdateManager.Add(UpdateGUI,5f);
+			UpdateManager.Add(UpdateGUI, 2f);
 		}
 
 		private IEnumerator WaitForProvider()
@@ -98,16 +89,8 @@ namespace UI.Objects.Wallmounts
 			}
 
 			masterTerminal = Provider.GetComponent<PublicDepartmentTerminal>();
-			masterTerminal.terminalGUI = this;
 
-			if (masterTerminal.CurrentLogin == null)
-			{
-				mainSwitcher.SetActivePage(LoginPage);
-			}
-			else
-			{
-				mainSwitcher.SetActivePage(RequestPage);
-			}
+			masterTerminal.terminalGUI = this;
 
 			UpdateGUI();
 
@@ -119,10 +102,22 @@ namespace UI.Objects.Wallmounts
 
 			TitleLabel.SetValueServer("PUBLIC TERMINAL - " + masterTerminal.Department.DisplayName.Capitalize());
 
-			if(masterTerminal.CurrentLogin == null)
+			if (masterTerminal.CurrentLogin == null)
+			{
 				NameLabel.SetValueServer("Not Signed In.");
+				mainSwitcher.SetActivePage(LoginPage);
+			}
 			else
-				NameLabel.SetValueServer("Signed in as: " + masterTerminal.CurrentLogin.RegisteredName);
+			{
+				string playerName = masterTerminal.CurrentLogin.RegisteredName;
+
+				if (playerName == null) NameLabel.SetValueServer("Signed in as: NULL");
+				else
+					NameLabel.SetValueServer("Signed in as: " + masterTerminal.CurrentLogin.RegisteredName);
+
+				if (mainSwitcher.CurrentPage == LoginPage) mainSwitcher.SetActivePage(RequestPage);
+			}
+				
 
 			DateTime stationTimeHolder = GameManager.Instance.stationTime;
 
@@ -135,8 +130,8 @@ namespace UI.Objects.Wallmounts
 		
 		public void LogOut()
 		{
-			mainSwitcher.SetActivePage(LoginPage);
 			masterTerminal.ClearID();
+			UpdateGUI();
 		}
 
 		public void OpenRequestPage()
@@ -145,7 +140,7 @@ namespace UI.Objects.Wallmounts
 			{
 				mainSwitcher.SetActivePage(LoginPage);
 				return;
-			}	
+			}
 
 			mainSwitcher.SetActivePage(RequestPage);
 		}
@@ -157,15 +152,17 @@ namespace UI.Objects.Wallmounts
 
 		public void OpenMessagePage()
 		{
-			if (masterTerminal.CurrentLogin == null)
+			if (CustomNetworkManager.IsServer)
 			{
-				mainSwitcher.SetActivePage(LoginPage);
-				return;
+				if (masterTerminal.CurrentLogin == null)
+				{
+					mainSwitcher.SetActivePage(LoginPage);
+					return;
+				}
+				mainSwitcher.SetActivePage(MessagePage);
 			}
 
-			mainSwitcher.SetActivePage(MessagePage);
-
-			List<MessageData> messageData = masterTerminal.receivedMessageData;
+			SyncList<MessageData> messageData = masterTerminal.receivedMessageData;
 
 			messages.Clear();
 
@@ -182,19 +179,9 @@ namespace UI.Objects.Wallmounts
 			
 		}
 
-		public void GenerateDropDown()
+		public void UpdateDropDown(Dropdown dropdown)
 		{
-			var optionData = new List<Dropdown.OptionData>();
-
-			foreach (var department in DepartmentList.Departments)
-			{
-				optionData.Add(new Dropdown.OptionData
-				{
-					text = department.DisplayName
-				}); 
-			}
-
-			DepartmentDropDown.options = optionData;
+			targetDep = dropdown.value;
 		}
 
 		public void toggleUrgent()
@@ -202,13 +189,19 @@ namespace UI.Objects.Wallmounts
 			Urgent = !Urgent;
 		}
 
+		public void UpdateText(Text _text)
+		{
+			message = _text.text;
+		}
+
 		public void SendRequest()
 		{
-			string message = RequestText.text;
+			UpdateText(RequestText.textComponent);
+			UpdateDropDown(DepartmentDropDown);
 
 			bool isUrgent = Urgent;
 
-			Department targetDepartment = DepartmentList.Departments.ElementAt<Department>(DepartmentDropDown.value);
+			string targetDepartment = DepartmentList.Departments.ElementAt(targetDep).DisplayName;
 
 			masterTerminal.TransmitRequest(targetDepartment, message, isUrgent);			
 		}
