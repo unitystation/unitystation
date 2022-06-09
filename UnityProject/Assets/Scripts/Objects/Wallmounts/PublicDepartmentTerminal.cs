@@ -31,7 +31,6 @@ namespace Objects.Wallmounts
 		public Access terminalRequieredAccess; //only with select access can actually use this
 
 		private float currentVoltage; // for the UI
-		public bool isPowered = false; //To disable the terminal if there is no power detected
 
 		[SyncVar]
 		private IDCard currentLogin; //the currently logged in user, we actually do need to sync this as the requests are being sent from the client so all of them need this.
