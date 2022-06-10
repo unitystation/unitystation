@@ -32,7 +32,7 @@ namespace UI.Objects
 
 			var itemGO = vendorItem.Item;
 			// try get human-readable item name
-			var itemNameStr = TextUtils.UppercaseFirst(itemGO.ExpensiveName());
+			var itemNameStr = TextUtils.UppercaseFirst(item.ItemName);
 
 			itemName.SetValueServer(itemNameStr);
 			itemIcon.SetValueServer(itemGO.name);
