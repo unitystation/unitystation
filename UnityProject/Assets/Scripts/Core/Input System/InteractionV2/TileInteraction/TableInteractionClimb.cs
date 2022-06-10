@@ -23,7 +23,7 @@ public class TableInteractionClimb : TileInteraction
 		UniversalObjectPhysics ObjectPhysics;
 		if(interaction.UsedObject.TryGetComponent(out playerSync))
 		{
-			if (playerSync.IsMoving || playerSync.BuckledObject != null)
+			if (playerSync.IsMoving || playerSync.BuckledToObject != null)
 			{
 				return false;
 			}
