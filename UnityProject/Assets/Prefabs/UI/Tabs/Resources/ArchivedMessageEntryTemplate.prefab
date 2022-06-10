@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 3103468311023766865}
   - component: {fileID: 4487139948100271481}
   m_Layer: 5
-  m_Name: MessageEntryTemplate
+  m_Name: ArchivedMessageEntryTemplate
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -65,7 +65,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   TerminalMasterTab: {fileID: 0}
   departmentList: {fileID: 11400000, guid: 78ed418d17146c04e84a65952c123008, type: 2}
-  IsArchive: 0
+  IsArchive: 1
   NameAndCategory: {fileID: 4023952485440888239}
   UrgencyImage: {fileID: 8474817767777977658}
   UrgencyText: {fileID: 7520172016850181611}
@@ -179,7 +179,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1.5
-  m_Text: Complete
+  m_Text: Delete
 --- !u!1 &1748685685208625813
 GameObject:
   m_ObjectHideFlags: 0
@@ -563,7 +563,7 @@ GameObject:
   - component: {fileID: 5712517467875393244}
   - component: {fileID: 658207395022520265}
   m_Layer: 5
-  m_Name: Complete
+  m_Name: Delete
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

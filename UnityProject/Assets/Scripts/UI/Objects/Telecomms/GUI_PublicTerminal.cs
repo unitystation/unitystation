@@ -17,6 +17,8 @@ namespace UI.Objects.Wallmounts
 
 		public PublicDepartmentTerminal masterTerminal;
 
+		public DepartmentList departmentList;
+
 		[SerializeField]
 		private NetPage RequestPage = null;
 		[SerializeField]
@@ -25,6 +27,8 @@ namespace UI.Objects.Wallmounts
 		private NetPage MessagePage = null;
 		[SerializeField]
 		private NetPage ConstructionPage = null;
+		[SerializeField]
+		private NetPage ArchivePage = null;
 
 		[SerializeField]
 		private Dropdown DepartmentDropDown = null;
@@ -37,6 +41,8 @@ namespace UI.Objects.Wallmounts
 
 		[SerializeField]
 		public EmptyItemList messages = null;
+		[SerializeField]
+		public EmptyItemList archivedMessages = null;
 
 		[SerializeField]
 		private DepartmentList DepartmentList = null;
@@ -100,12 +106,13 @@ namespace UI.Objects.Wallmounts
 		{
 			if (masterTerminal == null) return;
 
-			TitleLabel.SetValueServer("PUBLIC TERMINAL - " + masterTerminal.Department.DisplayName.Capitalize());
+			string displayName = departmentList.Departments.ElementAt<Department>((int)masterTerminal.Department).DisplayName.ToUpper();
+
+			TitleLabel.SetValueServer("PUBLIC TERMINAL - " + displayName);
 
 			if (masterTerminal.CurrentLogin == null)
 			{
 				NameLabel.SetValueServer("Not Signed In.");
-				mainSwitcher.SetActivePage(LoginPage);
 			}
 			else
 			{
@@ -154,11 +161,6 @@ namespace UI.Objects.Wallmounts
 		{
 			if (CustomNetworkManager.IsServer)
 			{
-				if (masterTerminal.CurrentLogin == null)
-				{
-					mainSwitcher.SetActivePage(LoginPage);
-					return;
-				}
 				mainSwitcher.SetActivePage(MessagePage);
 			}
 
@@ -177,6 +179,30 @@ namespace UI.Objects.Wallmounts
 					item.ReInit(messageData[i]);
 			}
 			
+		}
+
+		public void OpenArchivePage()
+		{
+			if (CustomNetworkManager.IsServer)
+			{
+				mainSwitcher.SetActivePage(ArchivePage);
+			}
+
+			SyncList<MessageData> messageData = masterTerminal.archivedMessageData;
+
+			archivedMessages.Clear();
+
+			if (messageData.Count == 0) return;
+
+			archivedMessages.AddItems(messageData.Count);
+
+			for (int i = 0; i < messageData.Count; i++)
+			{
+				GUI_TerminalMessageEntry item = archivedMessages.Entries[i] as GUI_TerminalMessageEntry;
+				item.TerminalMasterTab = this;
+				item.ReInit(messageData[i]);
+			}
+
 		}
 
 		public void UpdateDropDown(Dropdown dropdown)
@@ -201,9 +227,7 @@ namespace UI.Objects.Wallmounts
 
 			bool isUrgent = Urgent;
 
-			string targetDepartment = DepartmentList.Departments.ElementAt(targetDep).DisplayName;
-
-			masterTerminal.TransmitRequest(targetDepartment, message, isUrgent);			
+			masterTerminal.TransmitRequest(targetDep, message, isUrgent);			
 		}
 
 	}

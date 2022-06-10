@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UI.Core.NetUI;
 using Objects.Wallmounts;
+using System.Linq;
 
 namespace UI.Objects.Wallmounts
 {
@@ -8,6 +9,10 @@ namespace UI.Objects.Wallmounts
 	{
 		public GUI_PublicTerminal TerminalMasterTab = null;
 		public MessageData messageData;
+
+		public DepartmentList departmentList;
+
+		public bool IsArchive = false;
 
 		[SerializeField]
 		private NetLabel NameAndCategory = null;
@@ -23,15 +28,26 @@ namespace UI.Objects.Wallmounts
 
 		public void DeleteEntry()
 		{
-			TerminalMasterTab.masterTerminal.receivedMessageData.Remove(messageData);
-			TerminalMasterTab.messages.Remove(this.gameObject.name);	
+			if (IsArchive == false)
+			{
+				TerminalMasterTab.masterTerminal.receivedMessageData.Remove(messageData); //Move from messages to archive
+				TerminalMasterTab.masterTerminal.archivedMessageData.Add(messageData);
+				TerminalMasterTab.messages.Remove(this.gameObject.name);
+			}
+			else
+			{
+				TerminalMasterTab.masterTerminal.archivedMessageData.Remove(messageData); //Remove from Archive
+				TerminalMasterTab.archivedMessages.Remove(this.gameObject.name);
+			}
 		}
 
 		public void ReInit(MessageData message)
 		{
 			messageData = message;
 
-			NameAndCategory.SetValueServer(messageData.Sender + ", " + messageData.senderDepartment);
+			string displayName = departmentList.Departments.ElementAt<Department>(message.senderDepartment).DisplayName;
+
+			NameAndCategory.SetValueServer(message.Sender + ", " + displayName);
 
 			if (messageData.isUrgent == false)
 			{

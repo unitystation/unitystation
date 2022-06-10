@@ -2,14 +2,14 @@
 using Systems.Electricity;
 using UnityEngine;
 using UI.Objects.Wallmounts;
-using System.Collections.Generic;
 using Mirror;
+using System.Collections;
 
 namespace Objects.Wallmounts
 {
 	public struct MessageData
 	{
-		public MessageData(string msg, bool urgent, string name, string target, string sender)
+		public MessageData(string msg, bool urgent, string name, int target, int sender)
 		{
 			message = msg;
 			isUrgent = urgent;
@@ -17,18 +17,39 @@ namespace Objects.Wallmounts
 			senderDepartment = sender;
 			targetDepartment = target;
 		}
-
+		
 		public string message;
 		public bool isUrgent;
 		public string Sender;
-		public string senderDepartment;
-		public string targetDepartment;
+		public int senderDepartment;
+		public int targetDepartment;
 	}
 	
 	public class PublicDepartmentTerminal : SignalEmitter, IAPCPowerable, ICheckedInteractable<HandApply>
 	{
-		public Department Department; //For displaying what the console's department is for
-		public Access terminalRequieredAccess; //only with select access can actually use this
+		bool CanTransmit = true; //For serverside cooldown on broadcasting messages, to prevent players from spamming messages
+
+		public enum DepartmentToInt
+		{
+			Civilian = 0,
+			Service = 1,
+			Entertainment = 2,
+			Cargo = 3,
+			Research = 4,
+			Security = 5,
+			Engineering = 6,
+			Medical = 7,
+			Command = 8,
+			Synthetic = 9,
+		}
+
+		public DepartmentList departmentList;
+
+		public DepartmentToInt Department; //For displaying what the console's department is for
+
+		public bool AccessRestricted;
+
+		public Access terminalRequieredAccess; //Access required to send messages at this terminal, requires terminal to be access restricted to work.
 
 		private float currentVoltage; // for the UI
 
@@ -43,6 +64,9 @@ namespace Objects.Wallmounts
 
 		[HideInInspector]
 		public readonly SyncList<MessageData> receivedMessageData = new SyncList<MessageData>();
+
+		[HideInInspector]
+		public readonly SyncList<MessageData> archivedMessageData = new SyncList<MessageData>();
 
 		public float CurrentVoltage => currentVoltage;
 		public IDCard CurrentLogin => currentLogin;
@@ -66,11 +90,22 @@ namespace Objects.Wallmounts
 		}
 
 		[Command(requiresAuthority = false)]
-		void CmdSetSentData(MessageData newData)
+		void CmdSetSentData(MessageData newData, NetworkConnectionToClient sender = null)
 		{
+			if (CanTransmit == false) return;
+
+			PlayerInfo player = PlayerList.Instance.Get(sender);
+
+			if(player.Script.IsRegisterTileReachable(gameObject.GetComponent<RegisterTile>(), true, 1.5f) == false) return; //Sees if the player is actually next to the terminal. 
+
+			//This trims the strings to be a max of 200 characters, shouldn't be able to happen normally but as Gilles once said "Player Inputs are Evil"
+			newData.message = newData.message.Length <= 200 ? newData.message : newData.message.Substring(0, 200);
+
 			sendMessageData = newData;
 
 			TrySendSignal();
+
+			StartCoroutine(TransmitterCooldown());
 		}
 
 		#endregion
@@ -94,6 +129,13 @@ namespace Objects.Wallmounts
 
 		#endregion
 
+		private IEnumerator TransmitterCooldown()
+		{
+			CanTransmit = false;
+			yield return WaitFor.Seconds(1f);
+			CanTransmit = true;
+		}
+
 		public bool WillInteract(HandApply interaction, NetworkSide side)
 		{
 			if (isPowered == false || DefaultWillInteract.Default(interaction, side) == false)
@@ -107,7 +149,6 @@ namespace Objects.Wallmounts
 		{
 			if (interaction.HandSlot.Item.TryGetComponent<IDCard>(out var id))
 			{
-
 				currentLogin = id;
 
 				var interact = "The console accepts your ID!";
@@ -128,7 +169,6 @@ namespace Objects.Wallmounts
 			}
 		}
 
-		[Command]
 		public void ClearID()
 		{
 			currentLogin = null;
@@ -138,16 +178,16 @@ namespace Objects.Wallmounts
 		{
 			if (CurrentLogin == null) return false;
 
-			if (CurrentLogin.HasAccess(terminalRequieredAccess)) return true;
+			if (AccessRestricted == false) return true;
 
-			ClearID();
+			if (CurrentLogin.HasAccess(terminalRequieredAccess)) return true;
 
 			return false;
 		}
 
-		public void TransmitRequest(string targetDepartment, string message, bool IsUrgent)
+		public void TransmitRequest(int targetDepartment, string message, bool IsUrgent)
 		{
-			MessageData testSendMessageData = new MessageData(message, IsUrgent, CurrentLogin.RegisteredName, targetDepartment, Department.DisplayName);
+			MessageData testSendMessageData = new MessageData(message, IsUrgent, CurrentLogin.RegisteredName, targetDepartment, (int)Department);
 
 			sendMessageData = testSendMessageData;
 
