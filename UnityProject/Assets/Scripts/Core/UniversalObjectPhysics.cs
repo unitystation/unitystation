@@ -26,7 +26,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 	//TODO When throwing rotation Direction needs to be set by server
 	//=============================================== Definitely
 	//TODO Smooth pushing, syncvar well if Statements in force and stuff On process player action,  Smooth resetting if Space wind
-
+	//TODO multi-tile movement
 	public const float DEFAULT_PUSH_SPEED = 6;
 
 	/// <summary>
@@ -177,6 +177,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 
 	[PlayModeOnly] public float slideTime;
 	//Reduced friction during this time, if stickyMovement Just has normal friction vs just grabbing
+	[PlayModeOnly] public bool SetIgnoreSticky = false;
 
 	[PlayModeOnly] public GameObject thrownBy;
 
@@ -192,7 +193,11 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 	[PrefabModeOnly] public bool stickyMovement = false;
 	//If this thing likes to grab onto stuff such as like a player
 
+
+	public bool IsStickyMovement => stickyMovement && SetIgnoreSticky == false;
+
 	[PrefabModeOnly] public bool OnThrowEndResetRotation;
+
 
 	[PrefabModeOnly] public float maximumStickSpeed = 1.5f;
 	//Speed In tiles per second that, The thing would able to be stop itself if it was sticky
@@ -1020,7 +1025,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 	public void NewtonianPush(Vector2 worldDirection, float speed = Single.NaN, float nairTime = Single.NaN,
 		float InSlideTime = Single.NaN, BodyPartType inAim = BodyPartType.Chest, GameObject inThrownBy = null,
 		float spinFactor = 0,
-		GameObject DoNotUpdateThisClient = null) //Collision is just naturally part of Newtonian push
+		GameObject DoNotUpdateThisClient = null, bool IgnoreSticky = false) //Collision is just naturally part of Newtonian push
 	{
 		if (isVisible == false) return;
 		if (isNotPushable) return;
@@ -1068,7 +1073,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 		}
 		else
 		{
-			if (stickyMovement && IsFloating() == false)
+			if (IsStickyMovement && IsFloating() == false)
 			{
 				return;
 			}
@@ -1279,7 +1284,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 				AppliedFriction(DEFAULT_SLIDE_FRICTION);
 			}
 		}
-		else if (stickyMovement)
+		else if (IsStickyMovement)
 		{
 			var Floating = IsFloating();
 			if (Floating == false)
@@ -1315,19 +1320,25 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 
 		if (intposition != intNewposition)
 		{
-			// if (Collider != null) Collider.enabled = false;
-			//
-			// var hit = MatrixManager.Linecast(position,
-			// 	LayerTypeSelection.Walls | LayerTypeSelection.Grills | LayerTypeSelection.Windows,
-			// 	defaultInteractionLayerMask, Newposition, true);
-			// if (hit.ItHit)
-			// {
-			// 	var Offset = (0.1f * hit.Normal);
-			// 	Newposition = hit.HitWorld + Offset.To3();
-			// 	newtonianMovement *= 0;
-			// }
-			// if (Collider != null) Collider.enabled = true;
-			//
+			if ((intposition - intNewposition).magnitude > 1.5f)
+			{
+				if (Collider != null) Collider.enabled = false;
+
+				var hit = MatrixManager.Linecast(position,
+					LayerTypeSelection.Walls | LayerTypeSelection.Grills | LayerTypeSelection.Windows,
+					defaultInteractionLayerMask, Newposition, true);
+				if (hit.ItHit)
+				{
+					newtonianMovement -= 2 * (newtonianMovement * hit.Normal) * hit.Normal;
+					var Offset = (0.1f * hit.Normal);
+					Newposition = hit.HitWorld + Offset.To3();
+					spinMagnitude *= -1;
+				}
+				if (Collider != null) Collider.enabled = true;
+			}
+
+
+
 
 			if (newtonianMovement.magnitude > 0)
 			{
@@ -1544,7 +1555,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 
 	public bool IsFloating()
 	{
-		if (stickyMovement)
+		if (IsStickyMovement)
 		{
 			SetMatrixCash.ResetNewPosition(registerTile.WorldPosition, registerTile);
 			//TODO good way to Implement
