@@ -47,16 +47,7 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 
 	[PrefabModeOnly] public bool CanMoveThroughObstructions = false;
 
-
-	// netid of the game object we are buckled to, NetId.Empty if not buckled
-	[SyncVar(hook = nameof(SyncBuckledObject))]
-	private UniversalObjectPhysics buckledObject = null;
-
 	[SyncVar] private Vector2 PushingData;
-
-	public UniversalObjectPhysics BuckledObject => buckledObject;
-
-	public bool IsBuckled => buckledObject != null;
 
 	//[SyncVar(hook = nameof(SyncRunSpeed))]
 	public float RunSpeed;
