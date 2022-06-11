@@ -16,8 +16,7 @@ using UI.Action;
 using UnityEngine;
 using UnityEngine.Events;
 
-public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllable, ICooldown, IBumpableObject,
-	IActionGUI, ICheckedInteractable<ContextMenuApply>, IRightClickable
+public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllable, IActionGUI ,ICooldown, IBumpableObject, ICheckedInteractable<ContextMenuApply>, IRightClickable
 {
 	public PlayerScript playerScript;
 
@@ -48,15 +47,7 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 
 	[PrefabModeOnly] public bool CanMoveThroughObstructions = false;
 
-	// netid of the game object we are buckled to, NetId.Empty if not buckled
-	[SyncVar(hook = nameof(SyncBuckledObject))]
-	private UniversalObjectPhysics buckledObject = null;
-
 	[SyncVar] private Vector2 PushingData;
-
-	public UniversalObjectPhysics BuckledObject => buckledObject;
-
-	public bool IsBuckled => buckledObject != null;
 
 	//[SyncVar(hook = nameof(SyncRunSpeed))]
 	public float RunSpeed;
@@ -104,17 +95,17 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 				);
 				StandardProgressAction.Create(
 					new StandardProgressActionConfig(StandardProgressActionType.Unbuckle),
-					Unbuckle
+					BuckledToObject.UnbuckleObject
 				).ServerStartProgress(
-					buckledObject.registerTile,
-					buckledObject.GetComponent<BuckleInteract>().ResistTime,
+					BuckledToObject.registerTile,
+					BuckledToObject.GetComponent<BuckleInteract>().ResistTime,
 					playerScript.gameObject
 				);
 			}
 		}
 		else
 		{
-			Unbuckle();
+			BuckledToObject.UnbuckleObject();
 		}
 	}
 
@@ -128,23 +119,14 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 		         playerHealth.ConsciousState == ConsciousState.BARELY_CONSCIOUS);
 	}
 
-	/// <summary>
-	/// Server side logic for unbuckling a player
-	/// </summary>
-	[Server]
-	public void Unbuckle()
+	public override void BuckleToChange(UniversalObjectPhysics newBuckledTo)
 	{
-		buckledObject = null;
+		if (PlayerManager.LocalPlayerObject == gameObject)
+		{
+			UIActionManager.ToggleLocal(this, newBuckledTo != null);
+		}
 	}
 
-	/// <summary>
-	/// Server side logic for buckling a player
-	/// </summary>
-	[Server]
-	public void BuckleTo(UniversalObjectPhysics newBuckledTo)
-	{
-		buckledObject = newBuckledTo;
-	}
 
 	[Server]
 	public void ServerTryEscapeContainer()
@@ -158,7 +140,7 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 				escapable.EntityTryEscape(gameObject, null);
 			}
 		}
-		else if (buckledObject != null)
+		else if (BuckledToObject != null)
 		{
 			CmdUnbuckle();
 		}
@@ -317,45 +299,9 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 	}
 
 
-	// syncvar hook invoked client side when the buckledTo changes
-	private void SyncBuckledObject(UniversalObjectPhysics oldBuckledTo, UniversalObjectPhysics newBuckledTo)
-	{
-		// unsub if we are subbed
-		if (oldBuckledTo != null)
-		{
-			var directionalObject = oldBuckledTo.GetComponent<Rotatable>();
-			if (directionalObject != null)
-			{
-				directionalObject.OnRotationChange.RemoveListener(OnBuckledObjectDirectionChange);
-			}
-		}
 
-		if (PlayerManager.LocalPlayerObject == gameObject)
-		{
-			UIActionManager.ToggleLocal(this, newBuckledTo != null);
-		}
 
-		buckledObject = newBuckledTo;
-		// sub
-		if (buckledObject != null)
-		{
-			var directionalObject = buckledObject.GetComponent<Rotatable>();
-			if (directionalObject != null)
-			{
-				directionalObject.OnRotationChange.AddListener(OnBuckledObjectDirectionChange);
-			}
-		}
-	}
 
-	private void OnBuckledObjectDirectionChange(OrientationEnum newDir)
-	{
-		if (rotatable == null)
-		{
-			rotatable = gameObject.GetComponent<Rotatable>();
-		}
-
-		rotatable.FaceDirection(newDir);
-	}
 
 
 	public override void Awake()
@@ -1099,7 +1045,7 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 
 		if (slideTime > 0) return false;
 		if (allowInput == false) return false;
-		if (buckledObject) return false;
+		if (BuckledToObject) return false;
 		if (isLocalPlayer && UIManager.IsInputFocus) return false;
 		if (IsCuffed && PulledBy.HasComponent) return false;
 		if (ContainedInContainer != null) return false;
@@ -1116,7 +1062,7 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 		//Space movement, normal movement ( Calling running and walking part of this )
 
 	{
-		if (buckledObject == null)
+		if (BuckledToObject == null)
 		{
 			bool Obstruction = true;
 			bool Floating = true;

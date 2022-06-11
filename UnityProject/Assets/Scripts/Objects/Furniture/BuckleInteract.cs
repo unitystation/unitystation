@@ -118,8 +118,7 @@ namespace Objects
 		{
 			SoundManager.PlayNetworkedAtPos(CommonSounds.Instance.Click01, gameObject.AssumedWorldPosServer(), sourceObj: gameObject);
 
-			playerScript.playerMove.BuckleTo(this.GetComponent<UniversalObjectPhysics>());
-
+			this.GetComponent<UniversalObjectPhysics>().BuckleObjectToThis(playerScript.playerMove);
 		}
 
 		public bool WillInteract(HandApply interaction, NetworkSide side)

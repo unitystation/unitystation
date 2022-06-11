@@ -105,7 +105,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		if (!Cooldowns.TryStartServer(playerScript, CommonCooldowns.Instance.Interaction)) return;
 
 		// Handle the movement restricted actions first.
-		if (playerScript.playerMove.BuckledObject != null)
+		if (playerScript.playerMove.BuckledToObject != null)
 		{
 			// Make sure we don't unbuckle if we are currently cuffed.
 			if (!playerScript.playerMove.IsCuffed)
@@ -134,7 +134,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 				}
 			}
 		}
-		else if (playerScript.playerMove.BuckledObject != null || playerScript.playerMove.ContainedInContainer != null) // Check if trapped.
+		else if (playerScript.playerMove.BuckledToObject != null || playerScript.playerMove.ContainedInContainer != null) // Check if trapped.
 		{
 			playerScript.PlayerSync.ServerTryEscapeContainer();
 		}

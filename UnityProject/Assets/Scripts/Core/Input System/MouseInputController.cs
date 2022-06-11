@@ -248,9 +248,9 @@ public class MouseInputController : MonoBehaviour
 
 			// If the topObject has a PlayerMove, we check if he is buckled
 			// The PushPull object we want in this case, is the chair/object on which he is buckled to
-			if (topObject.TryGetComponent<MovementSynchronisation>(out var playerMove) && playerMove.BuckledObject != null)
+			if (topObject.TryGetComponent<MovementSynchronisation>(out var playerMove) && playerMove.BuckledToObject != null)
 			{
-				pushPull = playerMove.BuckledObject.GetComponent<UniversalObjectPhysics>();
+				pushPull = playerMove.BuckledToObject.GetComponent<UniversalObjectPhysics>();
 			}
 			else
 			{
@@ -646,7 +646,7 @@ public class MouseInputController : MonoBehaviour
 
 		if (playerMove != null)
 		{
-			if (!EventSystem.current.IsPointerOverGameObject() && playerMove.allowInput && playerMove.BuckledObject == null )
+			if (!EventSystem.current.IsPointerOverGameObject() && playerMove.allowInput && playerMove.BuckledToObject == null )
 			{
 				playerDirectional.SetFaceDirectionLocalVictor(dir.To2Int());
 			}
