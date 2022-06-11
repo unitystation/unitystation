@@ -87,16 +87,21 @@ namespace UI.Systems.AdminTools
 
 		public void RefreshBountiesList(List<CargoManager.BountySyncData> data)
 		{
-			foreach (Transform child in bountiesList.transform)
-			{
-				Destroy(child.gameObject);
-			}
+			ClearBountiesList();
 
 			foreach (var activeBounty in data)
 			{
 				var newEntry = Instantiate(bountyEntryTemplate, bountiesList.transform);
-				newEntry.GetComponent<AdminBountyManagerListEntry>().Setup(activeBounty.Index, activeBounty.Title, activeBounty.Reward);
+				newEntry.GetComponent<AdminBountyManagerListEntry>().Setup(activeBounty.Index, activeBounty.Title, activeBounty.Reward, this);
 				newEntry.SetActive(true);
+			}
+		}
+
+		public void ClearBountiesList()
+		{
+			foreach (Transform child in bountiesList.transform)
+			{
+				Destroy(child.gameObject);
 			}
 		}
 

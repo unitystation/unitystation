@@ -77,7 +77,11 @@ namespace UI.Objects.Cargo
 		private void SwitchToOfflinePage()
 		{
 			//If the event has been invoked and cargo is online, ignore.
-			if(CargoManager.Instance.CargoOffline == false) return;
+			if (CargoManager.Instance.CargoOffline == false)
+			{
+				OpenTab(pageCart);
+				return;
+			}
 			OpenTab(OfflinePage);
 			ResetId();
 		}

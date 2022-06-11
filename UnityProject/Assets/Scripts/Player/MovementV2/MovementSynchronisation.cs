@@ -5,7 +5,6 @@ using System.Linq;
 using Core.Editor.Attributes;
 using HealthV2;
 using Items;
-using JetBrains.Annotations;
 using Managers;
 using Messages.Client.Interaction;
 using Mirror;
@@ -16,7 +15,6 @@ using ScriptableObjects.Audio;
 using UI.Action;
 using UnityEngine;
 using UnityEngine.Events;
-using UnityEngine.Tilemaps;
 
 public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllable, IActionGUI ,ICooldown, IBumpableObject, ICheckedInteractable<ContextMenuApply>, IRightClickable
 {
@@ -49,6 +47,16 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 
 	[PrefabModeOnly] public bool CanMoveThroughObstructions = false;
 
+
+	// netid of the game object we are buckled to, NetId.Empty if not buckled
+	[SyncVar(hook = nameof(SyncBuckledObject))]
+	private UniversalObjectPhysics buckledObject = null;
+
+	[SyncVar] private Vector2 PushingData;
+
+	public UniversalObjectPhysics BuckledObject => buckledObject;
+
+	public bool IsBuckled => buckledObject != null;
 
 	//[SyncVar(hook = nameof(SyncRunSpeed))]
 	public float RunSpeed;
@@ -331,6 +339,13 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 			ServerCheckQueueingAndMove();
 		}
 
+		if (Intangible == false)
+		{
+			CheckWindOtherPush();
+		}
+
+
+
 		if (isLocalPlayer == false) return;
 		bool inputDetected = KeyboardInputManager.IsMovementPressed(KeyboardInputManager.KeyEventType.Hold);
 		if (inputDetected != IsPressedCashed)
@@ -347,6 +362,50 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 	public void CMDPressedMovementKey(bool IsPressed)
 	{
 		IsPressedServer = IsPressed;
+	}
+
+	public void CheckWindOtherPush()
+	{
+		if (isServer)
+		{
+			var node = registerTile.Matrix.GetMetaDataNode(registerTile.LocalPosition);
+			Vector2 Data = Vector2.zero;
+			foreach (var Push in node.WindData)
+			{
+				Data += Push;
+			}
+
+			if (Data.magnitude > 0.1f)
+			{
+				if (PushingData != Data)
+				{
+					PushingData = Data;
+				}
+			}
+			else
+			{
+				if (PushingData.magnitude != 0)
+				{
+					PushingData = Vector2.zero;
+				}
+			}
+		}
+
+		if (PushingData.magnitude > 0.1f == false)
+		{
+			SetIgnoreSticky = false;
+			return;
+		}
+		SetIgnoreSticky = true;
+
+		if (IsFlyingSliding)
+		{
+			newtonianMovement = Vector2.MoveTowards(newtonianMovement, PushingData, 0.5f);
+		}
+		else
+		{
+			NewtonianPush(PushingData, PushingData.magnitude/2f );
+		}
 	}
 
 
@@ -627,7 +686,18 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 							                " SERVER : " +
 							                transform.position + " Client : " +
 							                Entry.LocalPosition.ToWorld(MatrixManager.Get(Entry.MatrixID)));
-							ResetLocationOnClients();
+
+							if ((transform.position - Entry.LocalPosition.ToWorld(MatrixManager.Get(Entry.MatrixID)))
+							    .magnitude >
+							    3f)
+							{
+								ResetLocationOnClients();
+							}
+							else
+							{
+								ResetLocationOnClients(true);
+							}
+
 							MoveQueue.Clear();
 							return;
 						}
@@ -833,7 +903,7 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 	{
 		if (isServer)
 		{
-			if (isLocalPlayer)
+			if (isLocalPlayer && this.playerScript.OrNull()?.Equipment.OrNull()?.ItemStorage != null)
 			{
 				Step = !Step;
 				if (Step)

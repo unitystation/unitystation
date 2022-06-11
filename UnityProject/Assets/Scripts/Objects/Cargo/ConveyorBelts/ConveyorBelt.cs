@@ -38,6 +38,10 @@ namespace Construction.Conveyors
 
 		private Queue<UniversalObjectPhysics> cntCache = new Queue<UniversalObjectPhysics>();
 
+		private Matrix _lastUpdateMatrix;
+		private Vector3Int _lastLocalUpdatePosition;
+		private float _LastSpeed = 0;
+
 		#region Lifecycle
 
 		private void Awake()
@@ -49,7 +53,7 @@ namespace Construction.Conveyors
 		{
 			if (Application.isPlaying) return;
 #if UNITY_EDITOR
-			EditorApplication.delayCall += RefreshSprites;
+			EditorApplication.delayCall += EditorRefreshSprites;
 #endif
 
 		}
@@ -61,6 +65,20 @@ namespace Construction.Conveyors
 		[Server]
 		public void MoveBelt(float ConveyorBeltSpeed)
 		{
+			if (_lastUpdateMatrix != registerTile.Matrix || _lastLocalUpdatePosition != registerTile.LocalPosition || _LastSpeed != ConveyorBeltSpeed)
+			{
+				if (_lastUpdateMatrix != null)
+				{
+					var node = _lastUpdateMatrix.GetMetaDataNode(_lastLocalUpdatePosition, true);
+					node.WindData[(int) PushType.Conveyor] = Vector2.zero;
+				}
+
+				var Newnode = registerTile.Matrix.GetMetaDataNode(registerTile.LocalPosition, true);
+				Newnode.WindData[(int) PushType.Conveyor] = PushDirectionPosition * (ConveyorBeltSpeed);
+				_lastUpdateMatrix = registerTile.Matrix;
+				_lastLocalUpdatePosition = registerTile.LocalPosition;
+				_LastSpeed = ConveyorBeltSpeed;
+			}
 			DetectItems();
 			MoveEntities(ConveyorBeltSpeed);
 		}
@@ -75,6 +93,7 @@ namespace Construction.Conveyors
 
 			foreach (var item in Matrix.Get<UniversalObjectPhysics>(registerTile.LocalPositionServer, true))
 			{
+				if (item is MovementSynchronisation) continue; //Is handled separately for Prediction
 				if (item.gameObject == gameObject || item.IsNotPushable || item.Intangible) continue;
 
 				cntCache.Enqueue(item);
@@ -93,8 +112,10 @@ namespace Construction.Conveyors
 		[Server]
 		private void Transport(UniversalObjectPhysics item, float ConveyorBeltSpeed)
 		{
-			item.OrNull()?.Pushing?.Clear();
-			item.OrNull()?.ForceTilePush(PushDirectionPosition.To2Int(), item.Pushing, null, ConveyorBeltSpeed);
+			if (item == null) return;
+			if (item.newtonianMovement.magnitude > ConveyorBeltSpeed) return;
+			item.Pushing.Clear();
+			item.NewtonianPush(PushDirectionPosition.To2Int(), ConveyorBeltSpeed - item.newtonianMovement.magnitude, 0.5f);
 		}
 
 		#endregion Belt Operation
@@ -157,9 +178,18 @@ namespace Construction.Conveyors
 			RefreshSprites();
 		}
 
-		private void RefreshSprites()
+		private void EditorRefreshSprites()
 		{
 			if (Application.isPlaying) return;
+			if (this == null) return;
+			spriteHandler.ChangeSprite((int)CurrentStatus);
+			var variant = (int)CurrentDirection;
+
+			spriteHandler.ChangeSpriteVariant(variant);
+		}
+
+		private void RefreshSprites()
+		{
 			if (this == null) return;
 			spriteHandler.ChangeSprite((int)CurrentStatus);
 			var variant = (int)CurrentDirection;

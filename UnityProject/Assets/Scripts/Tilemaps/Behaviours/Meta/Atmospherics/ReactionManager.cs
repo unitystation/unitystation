@@ -136,6 +136,7 @@ namespace Systems.Atmospherics
 
 		private void ProcessWindNodes(MetaDataNode windyNode)
 		{
+			windyNode.WindData[(int) PushType.Wind] = (Vector2) windyNode.WindDirection * (windyNode.WindForce);
 
 			var RegisterTiles = matrix.GetRegisterTile(windyNode.Position, true);
 			for (int i = 0; i < RegisterTiles.Count; i++)
@@ -153,7 +154,7 @@ namespace Systems.Atmospherics
 				correctedForce = Mathf.Clamp(correctedForce, 0, 30);
 
 				pushable.NewtonianPush(transform.rotation * (Vector2)windyNode.WindDirection, Random.Range((float)(correctedForce * 0.8), correctedForce));
-				if (pushable.stickyMovement && windyNode.WindForce > 3)
+				if (pushable.stickyMovement && windyNode.WindForce > 3 && (pushable is MovementSynchronisation) == false)
 				{
 					pushable.TryTilePush((transform.rotation * (Vector2)windyNode.WindDirection).To2Int(), null);
 				}
@@ -165,6 +166,7 @@ namespace Systems.Atmospherics
 				winds.Remove(windyNode);
 				windyNode.WindForce = 0;
 				windyNode.WindDirection = Vector2Int.zero;
+				windyNode.WindData[(int) PushType.Wind] = Vector2.zero;
 			}
 		}
 

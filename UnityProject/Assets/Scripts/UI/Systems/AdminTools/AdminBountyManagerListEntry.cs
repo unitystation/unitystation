@@ -9,12 +9,14 @@ namespace UI.Systems.AdminTools
 		public int BountyIndex;
 		public TMP_Text bountyDesc;
 		public TMP_InputField bountyReward;
+		private AdminBountyManager bountyManagerPage;
 
-		public void Setup(int index, string desc, int reward)
+		public void Setup(int index, string desc, int reward, AdminBountyManager manager)
 		{
 			BountyIndex = index;
 			bountyDesc.text = desc;
 			bountyReward.text = reward.ToString();
+			bountyManagerPage = manager;
 		}
 
 		private void Update()
@@ -29,12 +31,14 @@ namespace UI.Systems.AdminTools
 		public void RemoveBounty()
 		{
 			AdminCommandsManager.Instance.CmdRemoveBounty(BountyIndex, false);
+			bountyManagerPage.ClearBountiesList();
 			AdminCommandsManager.Instance.CmdRequestCargoServerData();
 		}
 
 		public void CompleteBounty()
 		{
 			AdminCommandsManager.Instance.CmdRemoveBounty(BountyIndex, true);
+			bountyManagerPage.ClearBountiesList();
 			AdminCommandsManager.Instance.CmdRequestCargoServerData();
 		}
 	}
