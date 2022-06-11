@@ -8,4 +8,6 @@ public interface IDynamicItemSlotS
 	GameObject GameObject { get; }
 	ItemStorage RelatedStorage { get; }
 	List<BodyPartUISlots.StorageCharacteristics> Storage { get; }
+
+	int InterfaceGetInstanceID { get; }
 }
