@@ -805,6 +805,7 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 
 	public void ReceivePlayerMoveAction(PlayerAction moveActions)
 	{
+		if (UIManager.IsInputFocus) return;
 		if (CommonInput.GetKeyDown(KeyCode.F7) && gameObject == PlayerManager.LocalPlayerObject)
 		{
 			PlayerSpawn.ServerSpawnDummy(gameObject.transform);
