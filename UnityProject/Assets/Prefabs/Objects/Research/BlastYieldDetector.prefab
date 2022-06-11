@@ -1,0 +1,153 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &2734718389971896220
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 41151664025558929, guid: 84ac8abc1d963be42906a209a1b97350,
+        type: 3}
+      propertyPath: MachineParts
+      value: 
+      objectReference: {fileID: 11400000, guid: 324d82cc4a9a3ea4ea63ecbdd80b7412,
+        type: 2}
+    - target: {fileID: 41151664025558929, guid: 84ac8abc1d963be42906a209a1b97350,
+        type: 3}
+      propertyPath: machineBoardPrefab
+      value: 
+      objectReference: {fileID: 6902031389925258434, guid: e023e8b3640ff514f94541a21b927c11,
+        type: 3}
+    - target: {fileID: 2063543918209415952, guid: 84ac8abc1d963be42906a209a1b97350,
+        type: 3}
+      propertyPath: m_Name
+      value: BlastYieldDetector
+      objectReference: {fileID: 0}
+    - target: {fileID: 2069012091219738058, guid: 84ac8abc1d963be42906a209a1b97350,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2069012091219738058, guid: 84ac8abc1d963be42906a209a1b97350,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2069012091219738058, guid: 84ac8abc1d963be42906a209a1b97350,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2069012091219738058, guid: 84ac8abc1d963be42906a209a1b97350,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2069012091219738058, guid: 84ac8abc1d963be42906a209a1b97350,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2069012091219738058, guid: 84ac8abc1d963be42906a209a1b97350,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2069012091219738058, guid: 84ac8abc1d963be42906a209a1b97350,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2069012091219738058, guid: 84ac8abc1d963be42906a209a1b97350,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2069012091219738058, guid: 84ac8abc1d963be42906a209a1b97350,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2069012091219738058, guid: 84ac8abc1d963be42906a209a1b97350,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2069012091219738058, guid: 84ac8abc1d963be42906a209a1b97350,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2288693558633438983, guid: 84ac8abc1d963be42906a209a1b97350,
+        type: 3}
+      propertyPath: m_Size.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2288693558633438983, guid: 84ac8abc1d963be42906a209a1b97350,
+        type: 3}
+      propertyPath: m_Size.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2288693558633438983, guid: 84ac8abc1d963be42906a209a1b97350,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: d45ad8386e4bd14498e9fdf75db71ffd,
+        type: 3}
+    - target: {fileID: 2288693558633438983, guid: 84ac8abc1d963be42906a209a1b97350,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3157804438160328025, guid: 84ac8abc1d963be42906a209a1b97350,
+        type: 3}
+      propertyPath: foreverID
+      value: 338e1ca6026072d418f891940ed7f245
+      objectReference: {fileID: 0}
+    - target: {fileID: 7601794184611008114, guid: 84ac8abc1d963be42906a209a1b97350,
+        type: 3}
+      propertyPath: m_AssetId
+      value: 338e1ca6026072d418f891940ed7f245
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 84ac8abc1d963be42906a209a1b97350, type: 3}
+--- !u!1 &4129947782088424588 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2063543918209415952, guid: 84ac8abc1d963be42906a209a1b97350,
+    type: 3}
+  m_PrefabInstance: {fileID: 2734718389971896220}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &2754291635358447244
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4129947782088424588}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6bbc616eb881dd44aa96df6fc3efbdc3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  researchServer: {fileID: 0}
+  range: 0
+  coneDirection: 0
+  maxPointsValue: 140
+  easyPointsValue: 70
+  blastData: []
+  PoweredState: 0
+--- !u!114 &3033139694172101358
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4129947782088424588}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d7277dcc993463cb6c7f79b663f36fc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  NetTabType: 52
+  aiInteractable: 1
