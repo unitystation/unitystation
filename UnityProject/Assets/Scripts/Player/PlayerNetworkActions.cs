@@ -223,6 +223,8 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		{
 			return;
 		}
+
+		if (playerScript.objectPhysics.Pulling.HasComponent == false) return;
 		var pushPull = playerScript.objectPhysics.Pulling.Component;
 		Vector3Int origin = pushPull.registerTile.WorldPositionServer;
 		Vector2Int dir = (Vector2Int)(destination - origin);
@@ -911,20 +913,6 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		handLabeler.GetComponent<HandLabeler>().SetLabel(label);
 	}
 
-	[Command]
-	public void CmdGhostPerformTeleport(Vector3 s3)
-	{
-		ServerGhostPerformTeleport(s3);
-	}
-
-	[Server]
-	public void ServerGhostPerformTeleport(Vector3 s3)
-	{
-		if (playerScript.IsGhost && Math.Abs(s3.x) <= 20000 && Math.Abs(s3.y) <= 20000)
-		{
-			playerScript.PlayerSync.AppearAtWorldPositionServer(s3, false); //server forces position on player
-		}
-	}
 
 	#region Admin-only
 
