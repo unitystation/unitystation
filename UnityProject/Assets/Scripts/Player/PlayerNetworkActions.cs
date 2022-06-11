@@ -223,6 +223,8 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		{
 			return;
 		}
+
+		if (playerScript.objectPhysics.Pulling.HasComponent == false) return;
 		var pushPull = playerScript.objectPhysics.Pulling.Component;
 		Vector3Int origin = pushPull.registerTile.WorldPositionServer;
 		Vector2Int dir = (Vector2Int)(destination - origin);
