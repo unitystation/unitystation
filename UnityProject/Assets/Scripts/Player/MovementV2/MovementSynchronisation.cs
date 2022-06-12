@@ -330,11 +330,17 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 			ServerCheckQueueingAndMove();
 		}
 
-		if (Intangible == false)
+		if (Intangible == false && CanNotBeWindPushed == false)
 		{
 			CheckWindOtherPush();
 		}
-
+		else
+		{
+			if (PushingData.magnitude != 0)
+			{
+				PushingData = Vector2.zero;
+			}
+		}
 
 
 		if (isLocalPlayer == false) return;
@@ -1165,7 +1171,7 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 		if (IsNotFloatingTileMap())
 		{
 			IsCurrentlyFloating = false;
-			newtonianMovement *= 0;
+			SetNewtonianMovement *= 0;
 			CanPushOff = null;
 			return true;
 		}
@@ -1173,7 +1179,7 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 		if (IsNotFloatingObjects(moveAction, out CanPushOff))
 		{
 			IsCurrentlyFloating = false;
-			newtonianMovement *= 0;
+			SetNewtonianMovement *= 0;
 			return true;
 		}
 

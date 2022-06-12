@@ -56,13 +56,12 @@ public class GhostMove : NetworkBehaviour, IPlayerControllable
 		float maxDistanceDelta)
 	{
 		var magnitude = (current - target).magnitude;
-		if (magnitude > 7f)
+
+
+
+		if (magnitude > 3f)
 		{
-			maxDistanceDelta *= 40;
-		}
-		else if (magnitude > 3f)
-		{
-			maxDistanceDelta *= 10;
+			maxDistanceDelta *= (magnitude / 3);
 		}
 
 		return Vector3.MoveTowards(current, target,

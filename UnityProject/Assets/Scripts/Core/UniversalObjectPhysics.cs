@@ -61,6 +61,8 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 
 	[PrefabModeOnly] public bool Intangible = false;
 
+	[PlayModeOnly] public bool CanNotBeWindPushed = false;
+
 	public Vector3WithData SetLocalTarget
 	{
 		set
@@ -175,6 +177,21 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 	}
 
 	[PlayModeOnly] public Vector2 newtonianMovement; //* attributes.Size -> weight
+
+
+	public Vector2 SetNewtonianMovement
+	{
+		get => newtonianMovement;
+		set
+		{
+			if (value.magnitude > MAX_SPEED)
+			{
+				value *= (MAX_SPEED / value.magnitude);
+			}
+
+			newtonianMovement = value;
+		}
+	}
 
 	[PlayModeOnly] public float airTime; //Cannot grab onto anything so no friction
 
@@ -1060,16 +1077,8 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 		if (float.IsNaN(nairTime) == false || float.IsNaN(InSlideTime) == false)
 		{
 			worldDirection.Normalize();
-			if (newtonianMovement.magnitude > 0)
-			{
-				//Logger.LogError("  momentum boost");
-			}
 
-			newtonianMovement += worldDirection * speed;
-			if (newtonianMovement.magnitude > MAX_SPEED)
-			{
-				newtonianMovement *= (MAX_SPEED / newtonianMovement.magnitude);
-			}
+			SetNewtonianMovement = newtonianMovement + worldDirection * speed;
 
 			if (float.IsNaN(nairTime) == false)
 			{
@@ -1094,16 +1103,8 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 			}
 
 			worldDirection.Normalize();
-			if (newtonianMovement.magnitude > 0)
-			{
-				//Logger.LogError("  momentum boost");
-			}
+			SetNewtonianMovement = newtonianMovement + worldDirection * speed;
 
-			newtonianMovement += worldDirection * speed;
-			if (newtonianMovement.magnitude > MAX_SPEED)
-			{
-				newtonianMovement *= (MAX_SPEED / newtonianMovement.magnitude);
-			}
 		}
 
 		OnThrowStart.Invoke(this);
@@ -1134,11 +1135,11 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 
 		if (NewMagnitude <= 0)
 		{
-			newtonianMovement *= 0;
+			SetNewtonianMovement *= 0;
 		}
 		else
 		{
-			newtonianMovement *= (NewMagnitude / oldMagnitude);
+			SetNewtonianMovement *= (NewMagnitude / oldMagnitude);
 		}
 	}
 
@@ -1200,12 +1201,8 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 
 			if (IsFloating() && PulledBy.HasComponent == false && doNotApplyMomentumOnTarget == false)
 			{
-				if (newtonianMovement.magnitude > 0)
-				{
-					//Logger.LogError("  momentum boost");
-				}
 
-				newtonianMovement += (Vector2) LastDifference.normalized * Cash;
+				SetNewtonianMovement += (Vector2) LastDifference.normalized * Cash;
 				LastDifference = Vector3.zero;
 			}
 
@@ -1372,7 +1369,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 					defaultInteractionLayerMask, Newposition, true);
 				if (hit.ItHit)
 				{
-					newtonianMovement -= 2 * (newtonianMovement * hit.Normal) * hit.Normal;
+					SetNewtonianMovement -= 2 * (newtonianMovement * hit.Normal) * hit.Normal;
 					var Offset = (0.1f * hit.Normal);
 					Newposition = hit.HitWorld + Offset.To3();
 					spinMagnitude *= -1;
@@ -1405,7 +1402,8 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 
 					var Normal = (intposition - intNewposition).ToNonInt3();
 					Newposition = position;
-					newtonianMovement -= 2 * (newtonianMovement * Normal) * Normal;
+					SetNewtonianMovement -= 2 * (newtonianMovement * Normal) * Normal;
+					SetNewtonianMovement *= 0.9f;
 					spinMagnitude *= -1;
 				}
 
@@ -1423,11 +1421,11 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 					Newposition = position;
 					if (CashednewtonianMovement.magnitude < 10)
 					{
-						newtonianMovement -= 2 * (newtonianMovement * Normal) * Normal;
+						SetNewtonianMovement -= 2 * (newtonianMovement * Normal) * Normal;
 						spinMagnitude *= -1;
 					}
 
-					newtonianMovement *= 0.5f;
+					SetNewtonianMovement *= 0.5f;
 				}
 
 				var IAV2 = (attributes as ItemAttributesV2);
