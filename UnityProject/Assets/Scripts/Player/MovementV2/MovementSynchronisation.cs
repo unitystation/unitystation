@@ -334,12 +334,9 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 		{
 			CheckWindOtherPush();
 		}
-		else
+		else if (PushingData.magnitude != 0)
 		{
-			if (PushingData.magnitude != 0)
-			{
-				PushingData = Vector2.zero;
-			}
+			PushingData = Vector2.zero;
 		}
 
 

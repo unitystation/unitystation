@@ -1078,7 +1078,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 		{
 			worldDirection.Normalize();
 
-			SetNewtonianMovement = newtonianMovement + worldDirection * speed;
+			SetNewtonianMovement += worldDirection * speed;
 
 			if (float.IsNaN(nairTime) == false)
 			{
@@ -1103,7 +1103,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 			}
 
 			worldDirection.Normalize();
-			SetNewtonianMovement = newtonianMovement + worldDirection * speed;
+			SetNewtonianMovement += worldDirection * speed;
 
 		}
 
