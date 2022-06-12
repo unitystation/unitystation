@@ -43,7 +43,7 @@ public class GhostMove : NetworkBehaviour, IPlayerControllable
 				MoveSpeed * Time.deltaTime);
 		}
 
-		if (UIManager.IsInputFocus) return;
+		if (UIManager.IsInputFocus || PlayerManager.LocalPlayerScript.IsGhost == false) return;
 		if (Input.GetKeyDown(KeyCode.LeftShift) == false) return;
 		isFaster = !isFaster;
 		MoveSpeed = isFaster ? MoveSpeed + GhostSpeedMultiplier : MoveSpeed - GhostSpeedMultiplier;
