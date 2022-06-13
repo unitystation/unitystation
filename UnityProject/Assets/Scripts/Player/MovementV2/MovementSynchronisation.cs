@@ -330,9 +330,7 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 		{
 			ServerCheckQueueingAndMove();
 		}
-
-		this.GetComponent<TilemapRenderer>()
-
+		
 		if (Intangible == false && CanBeWindPushed)
 		{
 			CheckWindOtherPush();
