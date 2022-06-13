@@ -61,7 +61,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 
 	[PrefabModeOnly] public bool Intangible = false;
 
-	[PlayModeOnly] public bool CanNotBeWindPushed = false;
+	[PlayModeOnly] public bool CanBeWindPushed = true;
 
 	public Vector3WithData SetLocalTarget
 	{

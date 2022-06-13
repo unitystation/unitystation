@@ -105,14 +105,14 @@ namespace Items.Others
 		{
 			itemAttributesV2.AddTrait(CommonTraits.Instance.NoSlip);
 			playerMove.AddModifier(this);
-			playerMove.CanNotBeWindPushed = true;
+			playerMove.CanBeWindPushed = false;
 		}
 
 		private void RemoveEffect()
 		{
 			itemAttributesV2.RemoveTrait(CommonTraits.Instance.NoSlip);
 			playerMove.RemoveModifier(this);
-			playerMove.CanNotBeWindPushed = false;
+			playerMove.CanBeWindPushed = true;
 		}
 	}
 }

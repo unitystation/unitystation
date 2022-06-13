@@ -15,6 +15,7 @@ using ScriptableObjects.Audio;
 using UI.Action;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.Tilemaps;
 
 public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllable, IActionGUI ,ICooldown, IBumpableObject, ICheckedInteractable<ContextMenuApply>, IRightClickable
 {
@@ -330,7 +331,9 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 			ServerCheckQueueingAndMove();
 		}
 
-		if (Intangible == false && CanNotBeWindPushed == false)
+		this.GetComponent<TilemapRenderer>()
+
+		if (Intangible == false && CanBeWindPushed)
 		{
 			CheckWindOtherPush();
 		}
