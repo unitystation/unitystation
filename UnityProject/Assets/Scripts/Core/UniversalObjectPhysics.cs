@@ -176,10 +176,10 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 		}
 	}
 
-	[PlayModeOnly] public Vector2 newtonianMovement; //* attributes.Size -> weight
+	[PlayModeOnly] private Vector2 newtonianMovement; //* attributes.Size -> weight
 
 
-	public Vector2 SetNewtonianMovement
+	public Vector2 NewtonianMovement
 	{
 		get => newtonianMovement;
 		set
@@ -1078,7 +1078,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 		{
 			worldDirection.Normalize();
 
-			SetNewtonianMovement += worldDirection * speed;
+			NewtonianMovement += worldDirection * speed;
 
 			if (float.IsNaN(nairTime) == false)
 			{
@@ -1103,7 +1103,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 			}
 
 			worldDirection.Normalize();
-			SetNewtonianMovement += worldDirection * speed;
+			NewtonianMovement += worldDirection * speed;
 
 		}
 
@@ -1135,11 +1135,11 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 
 		if (NewMagnitude <= 0)
 		{
-			SetNewtonianMovement *= 0;
+			NewtonianMovement *= 0;
 		}
 		else
 		{
-			SetNewtonianMovement *= (NewMagnitude / oldMagnitude);
+			NewtonianMovement *= (NewMagnitude / oldMagnitude);
 		}
 	}
 
@@ -1202,7 +1202,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 			if (IsFloating() && PulledBy.HasComponent == false && doNotApplyMomentumOnTarget == false)
 			{
 
-				SetNewtonianMovement += (Vector2) LastDifference.normalized * Cash;
+				NewtonianMovement += (Vector2) LastDifference.normalized * Cash;
 				LastDifference = Vector3.zero;
 			}
 
@@ -1369,7 +1369,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 					defaultInteractionLayerMask, Newposition, true);
 				if (hit.ItHit)
 				{
-					SetNewtonianMovement -= 2 * (newtonianMovement * hit.Normal) * hit.Normal;
+					NewtonianMovement -= 2 * (newtonianMovement * hit.Normal) * hit.Normal;
 					var Offset = (0.1f * hit.Normal);
 					Newposition = hit.HitWorld + Offset.To3();
 					spinMagnitude *= -1;
@@ -1402,8 +1402,8 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 
 					var Normal = (intposition - intNewposition).ToNonInt3();
 					Newposition = position;
-					SetNewtonianMovement -= 2 * (newtonianMovement * Normal) * Normal;
-					SetNewtonianMovement *= 0.9f;
+					NewtonianMovement -= 2 * (newtonianMovement * Normal) * Normal;
+					NewtonianMovement *= 0.9f;
 					spinMagnitude *= -1;
 				}
 
@@ -1421,11 +1421,11 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 					Newposition = position;
 					if (CashednewtonianMovement.magnitude < 10)
 					{
-						SetNewtonianMovement -= 2 * (newtonianMovement * Normal) * Normal;
+						NewtonianMovement -= 2 * (newtonianMovement * Normal) * Normal;
 						spinMagnitude *= -1;
 					}
 
-					SetNewtonianMovement *= 0.5f;
+					NewtonianMovement *= 0.5f;
 				}
 
 				var IAV2 = (attributes as ItemAttributesV2);

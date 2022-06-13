@@ -394,7 +394,7 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 
 		if (IsFlyingSliding)
 		{
-			newtonianMovement = Vector2.MoveTowards(newtonianMovement, PushingData, 0.5f);
+			NewtonianMovement = Vector2.MoveTowards(NewtonianMovement, PushingData, 0.5f);
 		}
 		else
 		{
@@ -1157,7 +1157,7 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 	{
 		if (stickyMovement)
 		{
-			if (newtonianMovement.magnitude > maximumStickSpeed)
+			if (NewtonianMovement.magnitude > maximumStickSpeed)
 			{
 				IsCurrentlyFloating = true;
 				CanPushOff = null;
@@ -1168,7 +1168,7 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 		if (IsNotFloatingTileMap())
 		{
 			IsCurrentlyFloating = false;
-			SetNewtonianMovement *= 0;
+			NewtonianMovement *= 0;
 			CanPushOff = null;
 			return true;
 		}
@@ -1176,7 +1176,7 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 		if (IsNotFloatingObjects(moveAction, out CanPushOff))
 		{
 			IsCurrentlyFloating = false;
-			SetNewtonianMovement *= 0;
+			NewtonianMovement *= 0;
 			return true;
 		}
 
