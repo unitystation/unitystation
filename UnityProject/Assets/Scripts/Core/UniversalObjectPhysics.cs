@@ -83,9 +83,9 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 			{
 				return ContainedInContainer.registerTile.ObjectPhysics.Component.OfficialPosition;
 			}
-			else if (pickupable != null && pickupable.ItemSlot != null)
+			else if (pickupable.HasComponent && pickupable.Component.ItemSlot != null)
 			{
-				return pickupable.ItemSlot.ItemStorage.gameObject.AssumedWorldPosServer();
+				return pickupable.Component.ItemSlot.ItemStorage.gameObject.AssumedWorldPosServer();
 			}
 			else
 			{
@@ -94,7 +94,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 		}
 	}
 
-	private Pickupable pickupable;
+	public CheckedComponent<Pickupable> pickupable = new CheckedComponent<Pickupable>();
 
 	public bool InitialLocationSynchronised;
 
@@ -207,7 +207,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 
 	[PrefabModeOnly] public bool onStationMovementsRound;
 
-	[HideInInspector] public Attributes attributes;
+	[HideInInspector] public CheckedComponent<Attributes> attributes = new CheckedComponent<Attributes>();
 
 	[HideInInspector] public RegisterTile registerTile;
 
@@ -243,10 +243,10 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 		defaultInteractionLayerMask = LayerMask.GetMask("Furniture", "Walls", "Windows", "Machines", "Players",
 			"Door Closed",
 			"HiddenWalls", "Objects");
-		attributes = GetComponent<Attributes>();
+		attributes.DirectSetComponent(GetComponent<Attributes>());
 		registerTile = GetComponent<RegisterTile>();
 		rotatable = GetComponent<Rotatable>();
-		pickupable = GetComponent<Pickupable>();
+		pickupable.DirectSetComponent(GetComponent<Pickupable>());
 	}
 
 	public Vector3 CalculateLocalPosition()
@@ -297,7 +297,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 
 	public Size GetSize()
 	{
-		return attributes ? attributes.Size : Size.Huge;
+		return attributes.HasComponent ? attributes.Component.Size : Size.Huge;
 	}
 
 	public float GetWeight()
@@ -1430,39 +1430,42 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 					newtonianMovement *= 0.5f;
 				}
 
-				var IAV2 = (attributes as ItemAttributesV2);
-				if (IAV2 != null)
+				if (attributes.HasComponent)
 				{
-					foreach (var hit in Hits)
+					var IAV2 = (attributes.Component as ItemAttributesV2);
+					if (IAV2 != null)
 					{
-						//Integrity
-						//LivingHealthMasterBase
-						//TODO DamageTile( goal,Matrix.Matrix.TilemapsDamage);
-
-						if (hit.gameObject == thrownBy) continue;
-						if (CashednewtonianMovement.magnitude > IAV2.ThrowSpeed * 0.75f)
+						foreach (var hit in Hits)
 						{
-							//Remove cast to int when moving health values to float
-							var damage = (IAV2.ServerThrowDamage);
+							//Integrity
+							//LivingHealthMasterBase
+							//TODO DamageTile( goal,Matrix.Matrix.TilemapsDamage);
 
-
-							if (hit.TryGetComponent<Integrity>(out var Integrity))
+							if (hit.gameObject == thrownBy) continue;
+							if (CashednewtonianMovement.magnitude > IAV2.ThrowSpeed * 0.75f)
 							{
-								Integrity.ApplyDamage(damage, AttackType.Melee, IAV2.ServerDamageType);
-							}
+								//Remove cast to int when moving health values to float
+								var damage = (IAV2.ServerThrowDamage);
 
-							if (hit.TryGetComponent<LivingHealthMasterBase>(out var LivingHealthMasterBase))
-							{
-								var hitZone = aim.Randomize();
-								LivingHealthMasterBase.ApplyDamageToBodyPart(thrownBy, damage, AttackType.Melee,
-									DamageType.Brute,
-									hitZone);
-								Chat.AddThrowHitMsgToChat(gameObject, LivingHealthMasterBase.gameObject, hitZone);
-							}
 
-							AudioSourceParameters audioSourceParameters = new AudioSourceParameters(pitch: 1f);
-							SoundManager.PlayNetworkedAtPos(CommonSounds.Instance.GenericHit, transform.position,
-								audioSourceParameters, sourceObj: gameObject);
+								if (hit.TryGetComponent<Integrity>(out var Integrity))
+								{
+									Integrity.ApplyDamage(damage, AttackType.Melee, IAV2.ServerDamageType);
+								}
+
+								if (hit.TryGetComponent<LivingHealthMasterBase>(out var LivingHealthMasterBase))
+								{
+									var hitZone = aim.Randomize();
+									LivingHealthMasterBase.ApplyDamageToBodyPart(thrownBy, damage, AttackType.Melee,
+										DamageType.Brute,
+										hitZone);
+									Chat.AddThrowHitMsgToChat(gameObject, LivingHealthMasterBase.gameObject, hitZone);
+								}
+
+								AudioSourceParameters audioSourceParameters = new AudioSourceParameters(pitch: 1f);
+								SoundManager.PlayNetworkedAtPos(CommonSounds.Instance.GenericHit, transform.position,
+									audioSourceParameters, sourceObj: gameObject);
+							}
 						}
 					}
 				}

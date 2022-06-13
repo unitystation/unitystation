@@ -417,7 +417,7 @@ public static class Inventory
 
 
 			var Distance = toPerform.WorldTargetVector.Value.magnitude;
-			var IA2 = ((ItemAttributesV2) UOP.attributes);
+			var IA2 = ((ItemAttributesV2) UOP.attributes.Component);
 			if (Distance > IA2.ThrowRange)
 			{
 				Distance = IA2.ThrowRange;
@@ -450,7 +450,7 @@ public static class Inventory
 			// (Mathf.Pow(IA2.ThrowSpeed,2) / 2*UniversalObjectPhysics.DEFAULT_Friction) / A2.ThrowSpeed
 
 			//speedloss  / friction
-			UOP.NewtonianPush( WorldTrajectory,((ItemAttributesV2) UOP.attributes).ThrowSpeed
+			UOP.NewtonianPush( WorldTrajectory,((ItemAttributesV2) UOP.attributes.Component).ThrowSpeed
 				, (Distance / IA2.ThrowSpeed  ) - ((Mathf.Pow(IA2.ThrowSpeed, 2) / (2*UniversalObjectPhysics.DEFAULT_Friction)) / IA2.ThrowSpeed)
 				 , Single.NaN, toPerform.ThrowAim.GetValueOrDefault(BodyPartType.Chest), holder.gameObject, Random.Range(25, 150));
 
