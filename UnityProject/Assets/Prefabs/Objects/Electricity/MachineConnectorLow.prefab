@@ -75,6 +75,7 @@ MonoBehaviour:
   syncInterval: 0.1
   machineConnectorPrefab: {fileID: 783131783223160221, guid: eb3039e757a51bd42aa5d92b0a3711ef,
     type: 3}
+  progressTimeToRemove: 1
   RelatedWire: {fileID: 114008051345712512}
   ApplianceType: 9
 --- !u!114 &114008051345712512
@@ -202,14 +203,22 @@ MonoBehaviour:
   SnapToGridOnStart: 0
   LocalTargetPosition: {x: 0, y: 0, z: 0}
   ChangesDirectionPush: 0
-  isNotPushable: 0
+  Intangible: 0
+  InitialLocationSynchronised: 0
+  tileMoveSpeed: 1
+  isNotPushable: 1
   newtonianMovement: {x: 0, y: 0}
   airTime: 0
   slideTime: 0
   thrownBy: {fileID: 0}
   aim: 0
   spinMagnitude: 0
+  ForcedPushedFrame: 0
+  TryPushedFrame: 0
+  PushedFrame: 0
+  FramePushDecision: 1
   stickyMovement: 0
+  OnThrowEndResetRotation: 0
   maximumStickSpeed: 1.5
   onStationMovementsRound: 0
   attributes: {fileID: 0}
@@ -222,13 +231,9 @@ MonoBehaviour:
   CorrectingCourse: 0
   Pushing: []
   Hits: []
-  Speed: 1
-  AIR: 3
-  SLIDE: 4
   Animating: 0
   IsFlyingSliding: 0
   IsMoving: 0
-  IsWalking: 0
   MoveIsWalking: 0
   LastUpdateClientFlying: 0
 --- !u!1 &1816013858564998

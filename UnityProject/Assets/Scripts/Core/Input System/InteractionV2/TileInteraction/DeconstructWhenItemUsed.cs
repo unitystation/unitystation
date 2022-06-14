@@ -65,13 +65,13 @@ public class DeconstructWhenItemUsed : TileInteraction
 				if (interaction.BasicTile.SpawnOnDeconstruct != null &&
 				    interaction.BasicTile.SpawnAmountOnDeconstruct > 0)
 				{
-					Spawn.ServerPrefab(interaction.BasicTile.SpawnOnDeconstruct, interaction.WorldPositionTarget,
+					Spawn.ServerPrefab(interaction.BasicTile.SpawnOnDeconstruct, interaction.TargetPosition.RoundToInt().ToWorld(interaction.Performer.RegisterTile().Matrix),
 						count: interaction.BasicTile.SpawnAmountOnDeconstruct);
 				}
 
 				if (objectsToSpawn != null)
 				{
-					objectsToSpawn.SpawnAt(SpawnDestination.At(interaction.WorldPositionTarget));
+					objectsToSpawn.SpawnAt(SpawnDestination.At(interaction.TargetPosition.RoundToInt().ToWorld(interaction.Performer.RegisterTile().Matrix)));
 				}
 
 				interaction.TileChangeManager.SubsystemManager.UpdateAt(interaction.TargetCellPos);

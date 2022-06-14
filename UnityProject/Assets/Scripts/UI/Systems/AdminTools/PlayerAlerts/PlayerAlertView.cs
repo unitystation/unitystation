@@ -64,7 +64,8 @@ public class PlayerAlertView : ChatEntryView
 				}
 				else
 				{
-					PlayerManager.LocalPlayerScript.playerNetworkActions.CmdGhostPerformTeleport(target.transform.position);
+					PlayerManager.LocalPlayerObject.GetComponent<GhostMove>()
+						.ForcePositionClient(target.transform.position);
 				}
 			}
 		}
@@ -87,7 +88,7 @@ public class PlayerAlertView : ChatEntryView
 		teleportButton.interactable = true;
 		if (PlayerManager.LocalPlayerScript != null && target != null && PlayerManager.LocalPlayerScript.IsGhost)
 		{
-			PlayerManager.LocalPlayerScript.playerNetworkActions.CmdGhostPerformTeleport(target.transform.position);
+			PlayerManager.LocalPlayerObject.GetComponent<GhostMove>().ForcePositionClient(target.transform.position);
 		}
 	}
 

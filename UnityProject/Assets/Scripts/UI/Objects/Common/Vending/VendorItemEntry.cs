@@ -31,8 +31,19 @@ namespace UI.Objects
 			vendorWindow = correspondingWindow;
 
 			var itemGO = vendorItem.Item;
+
 			// try get human-readable item name
-			var itemNameStr = TextUtils.UppercaseFirst(itemGO.ExpensiveName());
+			string itemNameStr;
+			if (item.ItemName != "")
+			{
+				// Use the override name provided by the VendorItem whenever available.
+				itemNameStr = TextUtils.UppercaseFirst(item.ItemName);
+			}
+			else
+			{
+				// If no override is specified, default to the prefab provided name
+				itemNameStr = TextUtils.UppercaseFirst(itemGO.ExpensiveName());
+			}
 
 			itemName.SetValueServer(itemNameStr);
 			itemIcon.SetValueServer(itemGO.name);

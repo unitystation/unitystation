@@ -43,7 +43,7 @@ public class GhostMove : NetworkBehaviour, IPlayerControllable
 				MoveSpeed * Time.deltaTime);
 		}
 
-		if (UIManager.IsInputFocus) return;
+		if (UIManager.IsInputFocus || PlayerManager.LocalPlayerScript.IsGhost == false) return;
 		if (Input.GetKeyDown(KeyCode.LeftShift) == false) return;
 		isFaster = !isFaster;
 		MoveSpeed = isFaster ? MoveSpeed + GhostSpeedMultiplier : MoveSpeed - GhostSpeedMultiplier;
@@ -106,6 +106,11 @@ public class GhostMove : NetworkBehaviour, IPlayerControllable
 		RPCUpdatePosition(localPosition, MatrixID, Direction, false);
 	}
 
+	public void ForcePositionClient(Vector3 WorldPosition)
+	{
+		var Matrix = MatrixManager.AtPoint(WorldPosition, isServer);
+		ForcePositionClient(WorldPosition.ToLocal(Matrix), Matrix.Id, OrientationEnum.Down_By180);
+	}
 
 	public void ForcePositionClient(Vector3 localPosition, int MatrixID, OrientationEnum Direction)
 	{

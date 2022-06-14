@@ -516,6 +516,7 @@ namespace AdminCommands
 		public void CmdRemoveBounty(int index, bool completeBounty, NetworkConnectionToClient sender = null)
 		{
 			if (IsAdmin(sender, out var admin) == false) return;
+			if (CargoManager.Instance.ActiveBounties.Count <= index) return; 
 			if (completeBounty)
 			{
 				CargoManager.Instance.CompleteBounty(CargoManager.Instance.ActiveBounties[index]);
@@ -572,6 +573,7 @@ namespace AdminCommands
 			if (IsAdmin(sender, out var admin) == false) return;
 			CargoManager.Instance.AddBounty(trait, amount, title, description, reward, announce);
 			CargoManager.Instance.OnBountiesUpdate?.Invoke();
+			LogAdminAction($"{admin.Username} has added a new bounty -> Title : {title} || reward : {reward} || Announce : {announce}");
 		}
 
 		[Command(requiresAuthority = false)]
@@ -580,6 +582,7 @@ namespace AdminCommands
 			if (IsAdmin(sender, out var admin) == false) return;
 			CargoManager.Instance.Credits = budget;
 			CargoManager.Instance.OnCreditsUpdate?.Invoke();
+			LogAdminAction($"{admin.Username} has changed the cargo budget to -> {budget}");
 		}
 
 		[Command(requiresAuthority = false)]
@@ -596,6 +599,8 @@ namespace AdminCommands
 		{
 			if (IsAdmin(sender, out var admin) == false) return;
 			CargoManager.Instance.CargoOffline = state;
+			CargoManager.Instance.OnConnectionChangeToCentComm?.Invoke();
+			LogAdminAction($"{admin.Username} has changed the cargo random bounties status to -> {state}");
 		}
 
 		#endregion

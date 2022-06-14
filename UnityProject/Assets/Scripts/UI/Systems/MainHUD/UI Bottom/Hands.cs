@@ -49,7 +49,7 @@ namespace Player
 			if (Slot == null) return;
 
 			var bodyPartUISlots = gamebodypPart.GetComponent<BodyPartUISlots>();
-			if (UIManager.Instance.UI_SlotManager.BodyPartToSlot.ContainsKey(bodyPartUISlots) == false) return;
+			if (UIManager.Instance.UI_SlotManager.BodyPartToSlot.ContainsKey(bodyPartUISlots.InterfaceGetInstanceID) == false) return;
 
 
 

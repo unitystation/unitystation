@@ -32,6 +32,8 @@ namespace Clothing
 
 		private ItemSlot ActiveInSlot;
 
+		public int InterfaceGetInstanceID => GetInstanceID();
+
 		public void OnInventoryMoveServer(InventoryMove info)
 		{
 			//Wearing

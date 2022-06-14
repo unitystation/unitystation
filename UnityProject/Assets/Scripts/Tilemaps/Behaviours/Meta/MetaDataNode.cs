@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using ScriptableObjects.Atmospherics;
 using Tilemaps.Behaviours.Meta;
@@ -144,6 +145,8 @@ public class MetaDataNode : IGasMixContainer
 	/// </summary>
 	public Vector2Int 	WindDirection 	= Vector2Int.zero;
 	public float		WindForce 		= 0;
+
+	public readonly Vector2[] WindData = new Vector2[(int)Enum.GetValues(typeof(PushType)).Cast<PushType>().Max() +1 ];
 
 	/// <summary>
 	/// Number of neighboring MetaDataNodes
@@ -324,4 +327,11 @@ public class MetaDataNode : IGasMixContainer
 			}
 		}
 	}
+}
+
+
+public enum PushType
+{
+	Wind = 1,
+	Conveyor = 2
 }

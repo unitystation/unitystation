@@ -186,7 +186,7 @@ namespace Systems.Teleport
 		public static void TeleportLocalGhostTo(TeleportInfo teleportInfo)
 		{
 			var latestPosition = teleportInfo.gameObject.transform.position;
-			var playerPosition = PlayerManager.LocalPlayerObject.GetComponent<RegisterTile>().WorldPosition;//Finds current player coords
+			var playerPosition = PlayerManager.LocalPlayerObject.transform.position;//Finds current player coords
 
 			if (latestPosition != playerPosition)//Spam Prevention
 			{
@@ -196,7 +196,8 @@ namespace Systems.Teleport
 
 		public static void TeleportLocalGhostTo(Vector3 vector)
 		{
-			PlayerManager.LocalPlayerScript.playerNetworkActions.CmdGhostPerformTeleport(vector);
+			var Ghost = PlayerManager.LocalPlayerObject.GetComponent<GhostMove>();
+			Ghost.ForcePositionClient(vector);
 		}
 
 		/// <summary>
