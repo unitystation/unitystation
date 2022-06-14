@@ -15,6 +15,7 @@ using ScriptableObjects.Audio;
 using UI.Action;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.Tilemaps;
 
 public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllable, IActionGUI ,ICooldown, IBumpableObject, ICheckedInteractable<ContextMenuApply>, IRightClickable
 {
@@ -329,12 +330,15 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 		{
 			ServerCheckQueueingAndMove();
 		}
-
-		if (Intangible == false)
+		
+		if (Intangible == false && CanBeWindPushed)
 		{
 			CheckWindOtherPush();
 		}
-
+		else if (PushingData.magnitude != 0)
+		{
+			PushingData = Vector2.zero;
+		}
 
 
 		if (isLocalPlayer == false) return;
@@ -391,7 +395,7 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 
 		if (IsFlyingSliding)
 		{
-			newtonianMovement = Vector2.MoveTowards(newtonianMovement, PushingData, 0.5f);
+			NewtonianMovement = Vector2.MoveTowards(NewtonianMovement, PushingData, 0.5f);
 		}
 		else
 		{
@@ -1154,7 +1158,7 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 	{
 		if (stickyMovement)
 		{
-			if (newtonianMovement.magnitude > maximumStickSpeed)
+			if (NewtonianMovement.magnitude > maximumStickSpeed)
 			{
 				IsCurrentlyFloating = true;
 				CanPushOff = null;
@@ -1165,7 +1169,7 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 		if (IsNotFloatingTileMap())
 		{
 			IsCurrentlyFloating = false;
-			newtonianMovement *= 0;
+			NewtonianMovement *= 0;
 			CanPushOff = null;
 			return true;
 		}
@@ -1173,7 +1177,7 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 		if (IsNotFloatingObjects(moveAction, out CanPushOff))
 		{
 			IsCurrentlyFloating = false;
-			newtonianMovement *= 0;
+			NewtonianMovement *= 0;
 			return true;
 		}
 

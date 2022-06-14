@@ -1389,12 +1389,14 @@ MonoBehaviour:
   LocalTargetPosition: {x: 0, y: 0, z: 0}
   ChangesDirectionPush: 1
   Intangible: 0
+  CanNotBeWindPushed: 0
   InitialLocationSynchronised: 0
   tileMoveSpeed: 1
   isNotPushable: 0
   newtonianMovement: {x: 0, y: 0}
   airTime: 0
   slideTime: 0
+  SetIgnoreSticky: 0
   thrownBy: {fileID: 0}
   aim: 0
   spinMagnitude: 0
@@ -1403,6 +1405,7 @@ MonoBehaviour:
   PushedFrame: 0
   FramePushDecision: 1
   stickyMovement: 1
+  OnThrowEndResetRotation: 0
   maximumStickSpeed: 10
   onStationMovementsRound: 1
   attributes: {fileID: 0}
@@ -1420,6 +1423,7 @@ MonoBehaviour:
   IsMoving: 0
   MoveIsWalking: 0
   LastUpdateClientFlying: 0
+  BuckledToObject: {fileID: 0}
   playerScript: {fileID: 0}
   Step: 0
   CanMoveThroughObstructions: 0
@@ -8077,7 +8081,7 @@ SpriteRenderer:
   m_SortingLayerID: -902452607
   m_SortingLayer: 22
   m_SortingOrder: 20
-  m_Sprite: {fileID: -4549444404219585148, guid: 2adbceb9cc674484cb9a2c58b41d5493,
+  m_Sprite: {fileID: 7660122581263827943, guid: 2adbceb9cc674484cb9a2c58b41d5493,
     type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
