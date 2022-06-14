@@ -35,7 +35,7 @@ FlyingUpdateMe Also handles the collisions and bouncing for objects.
 <h2>Notes</h2>
 
 IsStickyMovement changes how The object,
- Catholics if it has gravity, ( it checks all adjacent tiles Instead of just underneath it),
+ Calculates if it has gravity, ( it checks all adjacent tiles Instead of just underneath it),
  And also brings the momentum to a stop when it reaches the threshold of maximumStickSpeed,
 
 <h2>MovementSynchronisation</h2>
