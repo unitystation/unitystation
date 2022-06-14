@@ -21,6 +21,28 @@ namespace IngameDebugConsole
 	public class DebugLogUnitystationCommands : MonoBehaviour
 	{
 
+		[ConsoleMethod("CBTool", "Allows users to quickly build conveyor belts.")]
+		public static void EnableCBTool()
+		{
+			if(PlayerManager.LocalPlayerObject == null || PlayerManager.LocalPlayerScript == null)
+			{
+				Logger.Log("Attempted to open the conveyor belt tool when the player has not joined the round yet.");
+				return;
+			}
+			if (PlayerManager.LocalPlayerScript.IsDeadOrGhost)
+			{
+				Logger.Log("Only alive players can use this.");
+				return;
+			}
+			//TODO : Add a check to see which gamemode the player is on currently once sandbox is in instead of locking this behind for admins only.
+			if (AdminCommands.AdminCommandsManager.IsAdmin(PlayerManager.LocalPlayerScript.PlayerInfo.Connection, out _) == false)
+			{
+				Logger.Log("This function can only be executed by admins.", Category.DebugConsole);
+				return;
+			}
+			UIManager.BuildMenu.ShowConveyorBeltMenu();
+		}
+
 		[ConsoleMethod("CloneSelf", "Allows user to test cloning quickly.")]
 		public static void CloneSelf()
 		{
