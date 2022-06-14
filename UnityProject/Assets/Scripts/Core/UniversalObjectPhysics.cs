@@ -44,7 +44,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 
 	public bool DEBUG = false;
 
-	[PrefabModeOnly] public bool SnapToGridOnStart = false;
+	public bool SnapToGridOnStart = false;
 
 	private BoxCollider2D Collider; //TODO Checked component
 
@@ -216,7 +216,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 
 	[HideInInspector] public GameObject[] ContextGameObjects = new GameObject[2];
 
-	[PlayModeOnly] public bool IsCurrentlyFloating; 
+	[PlayModeOnly] public bool IsCurrentlyFloating;
 
 
 	[PlayModeOnly]
