@@ -7,7 +7,7 @@ There are 2 types of movement
 2. Newtonian movement
 
 
-<h1>Tile movement:</h1>
+<h1>Tile movement</h1>
 
 TryTilePush Is the initial Step into tile pushing, This does all the Checks with can move, 
 And then goes into ForceTilePush, This allows you to do some cheeky stuff like pushing into walls, 
@@ -19,7 +19,7 @@ it has options to apply momentum once it has reached the location
 
 
 
-<h2>Newtonian movement:</h2>
+<h2>Newtonian movement</h2>
 
 newtonianMovement Is the vector2 xy of the current momentum of the object, 
 All the calculations for it are handled in side of FlyingUpdateMe, 
