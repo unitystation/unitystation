@@ -53,15 +53,15 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 
 	private FloorDecal floorDecal; // Used to make sure some objects are not causing gravity
 
-	[PlayModeOnly] public Vector3 LocalTargetPosition;
+	[PlayModeOnly] public Vector3 LocalTargetPosition; //The position that tile Push animations Are targeting
 
 	protected Rotatable rotatable;
 
-	[PrefabModeOnly] public bool ChangesDirectionPush = false;
+	[PrefabModeOnly] public bool ChangesDirectionPush = false;  //Tries to change rotatable direction
 
-	[PrefabModeOnly] public bool Intangible = false;
+	[PrefabModeOnly] public bool Intangible = false; //Doesn't appear on tile and cannot be pushed by wind
 
-	public Vector3WithData SetLocalTarget
+	public Vector3WithData SetLocalTarget //Set networking and stuff
 	{
 		set
 		{
@@ -75,7 +75,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 		}
 	}
 
-	public Vector3 OfficialPosition
+	public Vector3 OfficialPosition //Position taking account of containers
 	{
 		get
 		{
@@ -111,13 +111,13 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 	public Vector3 SynchLocalTargetPosition => synchLocalTargetPosition.Vector3;
 
 	[SyncVar(hook = nameof(SynchronisedoNotApplyMomentumOnTarget))]
-	private bool doNotApplyMomentumOnTarget = false;
+	private bool doNotApplyMomentumOnTarget = false; //Stops momentum being applied once reaching target position
 
 	[SyncVar(hook = nameof(SynchroniseVisibility))]
-	private bool isVisible = true;
+	private bool isVisible = true; //Is that hidden POS
 
 	[SyncVar(hook = nameof(SyncIsNotPushable))]
-	public bool isNotPushable;
+	public bool isNotPushable; //Can be pushed around
 
 	public bool IsNotPushable => isNotPushable;
 
@@ -129,7 +129,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 	[SyncVar(hook = nameof(SynchroniseParent))]
 	private uint parentContainer;
 
-	protected int SetTimestampID = -1;
+	protected int SetTimestampID = -1; //Used to work out if the client has received The most recent push
 
 	private ObjectContainer CashedContainedInContainer;
 
@@ -174,12 +174,13 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 		}
 	}
 
-	[PlayModeOnly] public Vector2 newtonianMovement; //* attributes.Size -> weight
+	[PlayModeOnly] public Vector2 newtonianMovement; //the Movement momentum of the object
 
 	[PlayModeOnly] public float airTime; //Cannot grab onto anything so no friction
 
 	[PlayModeOnly] public float slideTime;
 	//Reduced friction during this time, if stickyMovement Just has normal friction vs just grabbing
+
 	[PlayModeOnly] public bool SetIgnoreSticky = false;
 
 	[PlayModeOnly] public GameObject thrownBy;
@@ -188,7 +189,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 
 	[PlayModeOnly] public float spinMagnitude = 0;
 
-	[PlayModeOnly] public int ForcedPushedFrame = 0;
+	[PlayModeOnly] public int ForcedPushedFrame = 0; //to stop loops
 	[PlayModeOnly] public int TryPushedFrame = 0;
 	[PlayModeOnly] public int PushedFrame = 0;
 	[PlayModeOnly] public bool FramePushDecision = true;
@@ -199,13 +200,13 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 
 	public bool IsStickyMovement => stickyMovement && SetIgnoreSticky == false;
 
-	[PrefabModeOnly] public bool OnThrowEndResetRotation;
+	[PrefabModeOnly] public bool OnThrowEndResetRotation; //Does it become upright once the Throw has ended
 
 
 	[PrefabModeOnly] public float maximumStickSpeed = 1.5f;
 	//Speed In tiles per second that, The thing would able to be stop itself if it was sticky
 
-	[PrefabModeOnly] public bool onStationMovementsRound;
+	[PrefabModeOnly] public bool onStationMovementsRound; //Does it stick to tiles like a player
 
 	[HideInInspector] public Attributes attributes;
 
@@ -215,7 +216,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 
 	[HideInInspector] public GameObject[] ContextGameObjects = new GameObject[2];
 
-	[PlayModeOnly] public bool IsCurrentlyFloating;
+	[PlayModeOnly] public bool IsCurrentlyFloating; 
 
 
 	[PlayModeOnly]
