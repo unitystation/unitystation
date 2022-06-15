@@ -82,13 +82,16 @@ namespace Tests.Scenes
 		{
 			foreach (var RootObject in RootObjects)
 			{
-				var OffsetTransform = RootObject.transform.GetChild(0).localPosition;
-				var Difference = OffsetTransform.RoundToInt() - OffsetTransform;
-
-				if (Mathf.Abs(Difference.x) != 0.5 || Mathf.Abs(Difference.y) != 0.5)
+				if (RootObject.transform.childCount > 0)
 				{
-					Report.Fail()
-						.AppendLine($"{RootObject.name} Does not have a 0.5 offset on {RootObject.transform.GetChild(0).name}.");
+					var OffsetTransform = RootObject.transform.GetChild(0).localPosition;
+					var Difference = OffsetTransform.RoundToInt() - OffsetTransform;
+
+					if (Mathf.Abs(Difference.x) != 0.5 || Mathf.Abs(Difference.y) != 0.5)
+					{
+						Report.Fail()
+							.AppendLine($"{RootObject.name} Does not have a 0.5 offset on {RootObject.transform.GetChild(0).name}.");
+					}
 				}
 			}
 			Report.AssertPassed();
