@@ -133,6 +133,7 @@ public class GhostMove : NetworkBehaviour, IPlayerControllable
 
 	public void ReceivePlayerMoveAction(PlayerAction moveActions)
 	{
+		if (UIManager.IsInputFocus) return;
 		if (moveActions.moveActions.Length == 0) return;
 
 		if (Moving == false)
