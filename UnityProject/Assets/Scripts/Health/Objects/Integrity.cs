@@ -74,7 +74,6 @@ public class Integrity : NetworkBehaviour, IHealth, IFireExposable, IRightClicka
 	/// <summary>
 	/// Armor for this object.
 	/// </summary>
-	[PrefabModeOnly]
 	[Tooltip("Armor for this object.")]
 	public Armor Armor = new Armor();
 
