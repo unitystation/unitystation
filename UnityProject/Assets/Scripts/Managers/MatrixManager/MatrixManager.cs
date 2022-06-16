@@ -924,12 +924,20 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 		var intlocalPosOrigin = localPosOrigin.RoundToInt();
 		var intlocalPosTarget = localPosTarget.RoundToInt();
 		bool isSpace = matrixTarget.Matrix == MatrixManager.Instance.spaceMatrix;
-
+		var CollisionType = global::CollisionType.Player;
+		if (Context.airTime > 0)
+		{
+			CollisionType = CollisionType.Airborne;
+		}
+		else if (Context.pickupable.HasComponent)
+		{
+			CollisionType = CollisionType.Airborne;
+		}
 
 		if (intlocalPosOrigin.x == intlocalPosTarget.x || intlocalPosOrigin.y == intlocalPosTarget.y)
 		{
 			if (isSpace || matrixTarget.Matrix.MetaTileMap.IsPassableAtOneTileMapV2(intlocalPosOrigin, intlocalPosTarget,
-				    CollisionType.Player))
+				    CollisionType))
 			{
 				if (matrixTarget.Matrix.MetaTileMap.IsPassableAtOneObjectsV2(intlocalPosOrigin, intlocalPosTarget,
 					    Context,
@@ -942,7 +950,7 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 		else
 		{
 			if (isSpace || matrixTarget.Matrix.MetaTileMap.IsPassableTileMapHorizontal(intlocalPosOrigin, intlocalPosTarget,
-				    CollisionType.Player))
+				    CollisionType))
 			{
 				if (matrixTarget.Matrix.MetaTileMap.IsPassableObjectsHorizontal(intlocalPosOrigin,
 					    intlocalPosTarget, Context,
@@ -957,7 +965,7 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 			PushIng.Clear();
 
 			if (isSpace || matrixTarget.Matrix.MetaTileMap.IsPassableTileMapVertical(intlocalPosOrigin, intlocalPosTarget,
-				    CollisionType.Player))
+				    CollisionType))
 			{
 				if (matrixTarget.Matrix.MetaTileMap.IsPassableObjectsVertical(intlocalPosOrigin, intlocalPosTarget,
 					    Context,

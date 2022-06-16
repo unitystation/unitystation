@@ -61,7 +61,10 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 
 	[PrefabModeOnly] public bool Intangible = false; //Doesn't appear on tile and cannot be pushed by wind
 
-	public Vector3WithData SetLocalTarget //Set networking and stuff
+	[PlayModeOnly] public bool CanBeWindPushed = true;
+
+	public Vector3WithData SetLocalTarget  //Set networking and stuff
+
 	{
 		set
 		{
@@ -83,9 +86,9 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 			{
 				return ContainedInContainer.registerTile.ObjectPhysics.Component.OfficialPosition;
 			}
-			else if (pickupable != null && pickupable.ItemSlot != null)
+			else if (pickupable.HasComponent && pickupable.Component.ItemSlot != null)
 			{
-				return pickupable.ItemSlot.ItemStorage.gameObject.AssumedWorldPosServer();
+				return pickupable.Component.ItemSlot.ItemStorage.gameObject.AssumedWorldPosServer();
 			}
 			else
 			{
@@ -94,7 +97,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 		}
 	}
 
-	private Pickupable pickupable;
+	public CheckedComponent<Pickupable> pickupable = new CheckedComponent<Pickupable>();
 
 	public bool InitialLocationSynchronised;
 
@@ -174,7 +177,23 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 		}
 	}
 
-	[PlayModeOnly] public Vector2 newtonianMovement; //the Movement momentum of the object
+
+	[PlayModeOnly] private Vector2 newtonianMovement; //the Movement momentum of the object
+
+
+	public Vector2 NewtonianMovement
+	{
+		get => newtonianMovement;
+		set
+		{
+			if (value.magnitude > MAX_SPEED)
+			{
+				value *= (MAX_SPEED / value.magnitude);
+			}
+
+			newtonianMovement = value;
+		}
+	}
 
 	[PlayModeOnly] public float airTime; //Cannot grab onto anything so no friction
 
@@ -208,7 +227,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 
 	[PrefabModeOnly] public bool onStationMovementsRound; //Does it stick to tiles like a player
 
-	[HideInInspector] public Attributes attributes;
+	[HideInInspector] public CheckedComponent<Attributes> attributes = new CheckedComponent<Attributes>();
 
 	[HideInInspector] public RegisterTile registerTile;
 
@@ -244,10 +263,10 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 		defaultInteractionLayerMask = LayerMask.GetMask("Furniture", "Walls", "Windows", "Machines", "Players",
 			"Door Closed",
 			"HiddenWalls", "Objects");
-		attributes = GetComponent<Attributes>();
+		attributes.DirectSetComponent(GetComponent<Attributes>());
 		registerTile = GetComponent<RegisterTile>();
 		rotatable = GetComponent<Rotatable>();
-		pickupable = GetComponent<Pickupable>();
+		pickupable.DirectSetComponent(GetComponent<Pickupable>());
 	}
 
 	public Vector3 CalculateLocalPosition()
@@ -298,7 +317,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 
 	public Size GetSize()
 	{
-		return attributes ? attributes.Size : Size.Huge;
+		return attributes.HasComponent ? attributes.Component.Size : Size.Huge;
 	}
 
 	public float GetWeight()
@@ -1061,16 +1080,8 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 		if (float.IsNaN(nairTime) == false || float.IsNaN(InSlideTime) == false)
 		{
 			worldDirection.Normalize();
-			if (newtonianMovement.magnitude > 0)
-			{
-				//Logger.LogError("  momentum boost");
-			}
 
-			newtonianMovement += worldDirection * speed;
-			if (newtonianMovement.magnitude > MAX_SPEED)
-			{
-				newtonianMovement *= (MAX_SPEED / newtonianMovement.magnitude);
-			}
+			NewtonianMovement += worldDirection * speed;
 
 			if (float.IsNaN(nairTime) == false)
 			{
@@ -1095,16 +1106,8 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 			}
 
 			worldDirection.Normalize();
-			if (newtonianMovement.magnitude > 0)
-			{
-				//Logger.LogError("  momentum boost");
-			}
+			NewtonianMovement += worldDirection * speed;
 
-			newtonianMovement += worldDirection * speed;
-			if (newtonianMovement.magnitude > MAX_SPEED)
-			{
-				newtonianMovement *= (MAX_SPEED / newtonianMovement.magnitude);
-			}
 		}
 
 		OnThrowStart.Invoke(this);
@@ -1135,11 +1138,11 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 
 		if (NewMagnitude <= 0)
 		{
-			newtonianMovement *= 0;
+			NewtonianMovement *= 0;
 		}
 		else
 		{
-			newtonianMovement *= (NewMagnitude / oldMagnitude);
+			NewtonianMovement *= (NewMagnitude / oldMagnitude);
 		}
 	}
 
@@ -1201,12 +1204,8 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 
 			if (IsFloating() && PulledBy.HasComponent == false && doNotApplyMomentumOnTarget == false)
 			{
-				if (newtonianMovement.magnitude > 0)
-				{
-					//Logger.LogError("  momentum boost");
-				}
 
-				newtonianMovement += (Vector2) LastDifference.normalized * Cash;
+				NewtonianMovement += (Vector2) LastDifference.normalized * Cash;
 				LastDifference = Vector3.zero;
 			}
 
@@ -1373,7 +1372,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 					defaultInteractionLayerMask, Newposition, true);
 				if (hit.ItHit)
 				{
-					newtonianMovement -= 2 * (newtonianMovement * hit.Normal) * hit.Normal;
+					NewtonianMovement -= 2 * (newtonianMovement * hit.Normal) * hit.Normal;
 					var Offset = (0.1f * hit.Normal);
 					Newposition = hit.HitWorld + Offset.To3();
 					spinMagnitude *= -1;
@@ -1406,7 +1405,8 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 
 					var Normal = (intposition - intNewposition).ToNonInt3();
 					Newposition = position;
-					newtonianMovement -= 2 * (newtonianMovement * Normal) * Normal;
+					NewtonianMovement -= 2 * (newtonianMovement * Normal) * Normal;
+					NewtonianMovement *= 0.9f;
 					spinMagnitude *= -1;
 				}
 
@@ -1424,46 +1424,49 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 					Newposition = position;
 					if (CashednewtonianMovement.magnitude < 10)
 					{
-						newtonianMovement -= 2 * (newtonianMovement * Normal) * Normal;
+						NewtonianMovement -= 2 * (newtonianMovement * Normal) * Normal;
 						spinMagnitude *= -1;
 					}
 
-					newtonianMovement *= 0.5f;
+					NewtonianMovement *= 0.5f;
 				}
 
-				var IAV2 = (attributes as ItemAttributesV2);
-				if (IAV2 != null)
+				if (attributes.HasComponent)
 				{
-					foreach (var hit in Hits)
+					var IAV2 = (attributes.Component as ItemAttributesV2);
+					if (IAV2 != null)
 					{
-						//Integrity
-						//LivingHealthMasterBase
-						//TODO DamageTile( goal,Matrix.Matrix.TilemapsDamage);
-
-						if (hit.gameObject == thrownBy) continue;
-						if (CashednewtonianMovement.magnitude > IAV2.ThrowSpeed * 0.75f)
+						foreach (var hit in Hits)
 						{
-							//Remove cast to int when moving health values to float
-							var damage = (IAV2.ServerThrowDamage);
+							//Integrity
+							//LivingHealthMasterBase
+							//TODO DamageTile( goal,Matrix.Matrix.TilemapsDamage);
 
-
-							if (hit.TryGetComponent<Integrity>(out var Integrity))
+							if (hit.gameObject == thrownBy) continue;
+							if (CashednewtonianMovement.magnitude > IAV2.ThrowSpeed * 0.75f)
 							{
-								Integrity.ApplyDamage(damage, AttackType.Melee, IAV2.ServerDamageType);
-							}
+								//Remove cast to int when moving health values to float
+								var damage = (IAV2.ServerThrowDamage);
 
-							if (hit.TryGetComponent<LivingHealthMasterBase>(out var LivingHealthMasterBase))
-							{
-								var hitZone = aim.Randomize();
-								LivingHealthMasterBase.ApplyDamageToBodyPart(thrownBy, damage, AttackType.Melee,
-									DamageType.Brute,
-									hitZone);
-								Chat.AddThrowHitMsgToChat(gameObject, LivingHealthMasterBase.gameObject, hitZone);
-							}
 
-							AudioSourceParameters audioSourceParameters = new AudioSourceParameters(pitch: 1f);
-							SoundManager.PlayNetworkedAtPos(CommonSounds.Instance.GenericHit, transform.position,
-								audioSourceParameters, sourceObj: gameObject);
+								if (hit.TryGetComponent<Integrity>(out var Integrity))
+								{
+									Integrity.ApplyDamage(damage, AttackType.Melee, IAV2.ServerDamageType);
+								}
+
+								if (hit.TryGetComponent<LivingHealthMasterBase>(out var LivingHealthMasterBase))
+								{
+									var hitZone = aim.Randomize();
+									LivingHealthMasterBase.ApplyDamageToBodyPart(thrownBy, damage, AttackType.Melee,
+										DamageType.Brute,
+										hitZone);
+									Chat.AddThrowHitMsgToChat(gameObject, LivingHealthMasterBase.gameObject, hitZone);
+								}
+
+								AudioSourceParameters audioSourceParameters = new AudioSourceParameters(pitch: 1f);
+								SoundManager.PlayNetworkedAtPos(CommonSounds.Instance.GenericHit, transform.position,
+									audioSourceParameters, sourceObj: gameObject);
+							}
 						}
 					}
 				}

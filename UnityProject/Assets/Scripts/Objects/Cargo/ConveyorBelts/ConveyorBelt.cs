@@ -113,9 +113,9 @@ namespace Construction.Conveyors
 		private void Transport(UniversalObjectPhysics item, float ConveyorBeltSpeed)
 		{
 			if (item == null) return;
-			if (item.newtonianMovement.magnitude > ConveyorBeltSpeed) return;
+			if (item.NewtonianMovement.magnitude > ConveyorBeltSpeed) return;
 			item.Pushing.Clear();
-			item.NewtonianPush(PushDirectionPosition.To2Int(), ConveyorBeltSpeed - item.newtonianMovement.magnitude, 0.5f);
+			item.NewtonianPush(PushDirectionPosition.To2Int(), ConveyorBeltSpeed - item.NewtonianMovement.magnitude, 0.5f);
 		}
 
 		#endregion Belt Operation

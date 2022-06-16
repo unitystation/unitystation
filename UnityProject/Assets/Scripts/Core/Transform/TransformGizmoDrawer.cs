@@ -42,7 +42,7 @@ public class TransformGizmoDrawer : MonoBehaviour {
 		Gizmos.color = color2;
 		Vector3 ssPos = UOP.OfficialPosition;
 		Gizmos.DrawWireCube( ssPos, size2 );
-		DebugGizmoUtils.DrawArrow( ssPos + Vector3.right / 2, UOP.newtonianMovement );
+		DebugGizmoUtils.DrawArrow( ssPos + Vector3.right / 2, UOP.NewtonianMovement );
 		DebugGizmoUtils.DrawText( UOP.registerTile.Matrix.Id.ToString(), ssPos + Vector3.right / 2 + Vector3.up / 3, 15 );
 
 	}

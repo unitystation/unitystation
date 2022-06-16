@@ -31,7 +31,7 @@ public class MatrixCash
 	{
 		if (Positions[Location] == null)
 		{
-			Positions[Location] = MatrixManager.AtPoint(WorldPOS + DIR, CustomNetworkManager.IsServer);
+			Positions[Location] = MatrixManager.AtPoint(WorldPOS + DIR, CustomNetworkManager.IsServer, Positions[6]);
 		}
 
 		return Positions[Location];

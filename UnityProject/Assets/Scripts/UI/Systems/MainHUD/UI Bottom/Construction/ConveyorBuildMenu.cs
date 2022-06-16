@@ -10,18 +10,32 @@ namespace Construction.Conveyors
 		private BuildingMaterial materials;
 		private BuildList.Entry entry;
 
+		[SerializeField] private BuildList.Entry conveyorBeltPrefab;
+
+		public BuildList.Entry ConveyorBeltPrefab => conveyorBeltPrefab;
+
+		private bool isSandbox = false;
+
 		public void OpenConveyorBuildMenu(BuildList.Entry entry, BuildingMaterial materials)
 		{
+			this.isSandbox = false;
 			this.materials = materials;
 			this.entry = entry;
+			gameObject.SetActive(true);
+		}
+
+		public void OpenConveyorBuildMenu()
+		{
+			//FIXME : Add extra checks here when the sandbox gamemode is fully rolled out to not let people use this unless they're in that gamemode or are admins.
+			this.isSandbox = true;
 			gameObject.SetActive(true);
 		}
 
 		public void TryBuildBelt(int direction)
 		{
 			_ = SoundManager.Play(CommonSounds.Instance.Click01);
-			CloseWindow();
-			RequestConveyorBuildMessage.Send(entry, materials, (ConveyorBelt.ConveyorDirection)direction);
+			if(isSandbox == false) CloseWindow();
+			RequestConveyorBuildMessage.Send(isSandbox ? conveyorBeltPrefab : entry, materials, (ConveyorBelt.ConveyorDirection)direction, isSandbox);
 		}
 
 		public void GoToMainMenu()
