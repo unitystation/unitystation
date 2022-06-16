@@ -60,7 +60,7 @@ namespace Items.Dice
 		private void OnEnable()
 		{
 			ObjectPhysics.OnThrowStart.AddListener(ThrowStart);
-			ObjectPhysics.OnThrowEnd.AddListener(ThrowEnd);
+			ObjectPhysics.OnImpact.AddListener(ThrowEnd);
 
 			if (cookable != null && isRiggable)
 			{
@@ -71,7 +71,7 @@ namespace Items.Dice
 		private void OnDisable()
 		{
 			ObjectPhysics.OnThrowStart.RemoveListener(ThrowStart);
-			ObjectPhysics.OnThrowEnd.RemoveListener(ThrowEnd);
+			ObjectPhysics.OnImpact.RemoveListener(ThrowEnd);
 
 			if (cookable != null)
 			{
@@ -134,9 +134,13 @@ namespace Items.Dice
 			Chat.AddActionMsgToChat(throwInfo.thrownBy, $"You throw the {dieName}...", $"{throwInfo.thrownBy.ExpensiveName()} throws the {dieName}...");
 		}
 
-		private void ThrowEnd(UniversalObjectPhysics throwInfo)
+		private void ThrowEnd(UniversalObjectPhysics throwInfo, Vector2 Force)
 		{
-			this.RestartCoroutine(WaitForSide(), ref waitForSide);
+			if (Force.magnitude > 0.01f)
+			{
+				this.RestartCoroutine(WaitForSide(), ref waitForSide);
+			}
+
 		}
 
 		private IEnumerator WaitForSide()
