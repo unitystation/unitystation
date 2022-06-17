@@ -245,9 +245,11 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 
 	[PlayModeOnly] public ForceEvent OnThrowStart = new ForceEvent();
 
-	[PlayModeOnly] public ForceEvent OnThrowEnd = new ForceEvent();
+	[PlayModeOnly] public ForceEventWithChange OnImpact = new ForceEventWithChange();
 
 	[PlayModeOnly] public Vector3Event OnLocalTileReached = new Vector3Event();
+
+	[PlayModeOnly] public ForceEvent OnThrowEnd = new ForceEvent();
 
 	#endregion
 
@@ -1314,6 +1316,11 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 		if (airTime > 0)
 		{
 			airTime -= Time.deltaTime; //Doesn't matter if it goes under zero
+
+			if (airTime <= 0)
+			{
+				OnImpact.Invoke(this, newtonianMovement);
+			}
 		}
 		else if (slideTime > 0)
 		{
@@ -1369,10 +1376,13 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 					defaultInteractionLayerMask, Newposition, true);
 				if (hit.ItHit)
 				{
+					OnImpact.Invoke(this, newtonianMovement);
 					NewtonianMovement -= 2 * (newtonianMovement * hit.Normal) * hit.Normal;
 					var Offset = (0.1f * hit.Normal);
 					Newposition = hit.HitWorld + Offset.To3();
+					NewtonianMovement *= 0.9f;
 					spinMagnitude *= -1;
+
 				}
 				if (Collider != null) Collider.enabled = true;
 			}
@@ -1402,9 +1412,11 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 
 					var Normal = (intposition - intNewposition).ToNonInt3();
 					Newposition = position;
+					OnImpact.Invoke(this, newtonianMovement);
 					NewtonianMovement -= 2 * (newtonianMovement * Normal) * Normal;
 					NewtonianMovement *= 0.9f;
 					spinMagnitude *= -1;
+
 				}
 
 				if (Pushing.Count > 0)
@@ -1419,12 +1431,9 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 
 					var Normal = (intposition - intNewposition).ToNonInt3();
 					Newposition = position;
-					if (CashednewtonianMovement.magnitude < 10)
-					{
-						NewtonianMovement -= 2 * (newtonianMovement * Normal) * Normal;
-						spinMagnitude *= -1;
-					}
-
+					OnImpact.Invoke(this, newtonianMovement);
+					NewtonianMovement -= 2 * (newtonianMovement * Normal) * Normal;
+					spinMagnitude *= -1;
 					NewtonianMovement *= 0.5f;
 				}
 
@@ -1522,6 +1531,8 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 			airTime = 0;
 			slideTime = 0;
 			OnThrowEnd.Invoke(this);
+			//maybe
+
 			if (OnThrowEndResetRotation)
 			{
 				transform.localRotation = Quaternion.Euler(0, 0, 0);
@@ -1878,6 +1889,10 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 	}
 
 	#endregion
+	public class ForceEventWithChange : UnityEvent<UniversalObjectPhysics, Vector2>
+	{
+	}
+
 	public class ForceEvent : UnityEvent<UniversalObjectPhysics>
 	{
 	}

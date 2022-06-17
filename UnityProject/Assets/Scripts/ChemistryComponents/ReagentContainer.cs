@@ -171,16 +171,7 @@ namespace Chemistry.Components
 			ObjectPhysics = GetComponent<UniversalObjectPhysics>();
 			if (ObjectPhysics)
 			{
-				ObjectPhysics.OnThrowEnd.AddListener(throwInfo =>
-				{
-					//check spill on throw
-					if (!Validations.HasItemTrait(this.gameObject, CommonTraits.Instance.SpillOnThrow) || IsEmpty)
-					{
-						return;
-					}
-
-					SpillAll(thrown: true);
-				});
+				ObjectPhysics.OnImpact.AddListener(OnImpact);
 			}
 
 			// spill all content on destroy
@@ -190,6 +181,20 @@ namespace Chemistry.Components
 				integrity.OnWillDestroyServer.AddListener(info => SpillAll());
 			}
 			//OnReagentMixChanged.AddListener(ReagentsChanged);
+		}
+
+		private void OnImpact(UniversalObjectPhysics UOP, Vector2 Momentum)
+		{
+			if (Momentum.magnitude > 1f)
+			{
+				//check spill on throw
+				if (!Validations.HasItemTrait(this.gameObject, CommonTraits.Instance.SpillOnThrow) || IsEmpty)
+				{
+					return;
+				}
+
+				SpillAll(thrown: true);
+			}
 		}
 
 		private HashSet<Reaction> possibleReactions = new HashSet<Reaction>();

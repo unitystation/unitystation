@@ -307,6 +307,7 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 		LocalPositionServer = value;
 
 		CheckSameMatrixRelationships(); //TODO Might be laggy?
+		OnLocalPositionChangedServer.Invoke(LocalPositionServer);
 	}
 
 	public void ClientSetLocalPosition(Vector3Int value)

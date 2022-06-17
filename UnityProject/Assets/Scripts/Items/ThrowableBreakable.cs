@@ -17,6 +17,8 @@ namespace Items
 		[SerializeField, Range(0, 100)]
 		private int chanceToBreak = 100;
 
+		[SerializeField, Range(0, 30)] private int RequiredImpactSpeed = 3;
+
 		[SerializeField]
 		private bool useCustomSound = false;
 
@@ -32,21 +34,24 @@ namespace Items
 
 		private void OnEnable()
 		{
-			UOP.OnThrowEnd.AddListener(OnThrown);
+			UOP.OnImpact.AddListener(OnThrown);
 		}
 
 		private void OnDisable()
 		{
-			UOP.OnThrowEnd.RemoveListener(OnThrown);
+			UOP.OnImpact.RemoveListener(OnThrown);
 		}
 
-		private void OnThrown(UniversalObjectPhysics info)
+		private void OnThrown(UniversalObjectPhysics info, Vector2 Momentum)
 		{
-			if (DMMath.Prob(chanceToBreak))
+			if (Momentum.magnitude > RequiredImpactSpeed)
 			{
-				Spawn.ServerPrefab(brokenItem, gameObject.AssumedWorldPosServer());
-				SoundManager.PlayNetworkedAtPos(useCustomSound ? customSound : CommonSounds.Instance.GlassBreak01, gameObject.AssumedWorldPosServer());
-				_ = Despawn.ServerSingle(gameObject);
+				if (DMMath.Prob(chanceToBreak))
+				{
+					Spawn.ServerPrefab(brokenItem, gameObject.AssumedWorldPosServer());
+					SoundManager.PlayNetworkedAtPos(useCustomSound ? customSound : CommonSounds.Instance.GlassBreak01, gameObject.AssumedWorldPosServer());
+					_ = Despawn.ServerSingle(gameObject);
+				}
 			}
 		}
 	}
