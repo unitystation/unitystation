@@ -48,6 +48,9 @@ namespace Weapons
 		[FormerlySerializedAs("AmmoType"), Tooltip("The type of ammo this weapon will use")]
 		public AmmoType ammoType;
 
+		[SerializeField, Tooltip("The sound this weapon makes when a magazine is loaded")]
+		public AddressableAudioSource loadMagSound;
+
 		//server-side object indicating the player holding the weapon (null if none)
 		protected GameObject serverHolder;
 		private RegisterTile shooterRegisterTile;
@@ -535,12 +538,13 @@ namespace Weapons
 				// If the item used on the gun is a magazine, check type and reload
 				if (ammoType == magazine.ammoType)
 				{
+					LoadMagSound();
 					return true;
 				}
 
 				if (ammoType != magazine.ammoType)
 				{
-					Chat.AddExamineMsgToClient("You try to load the wrong ammo into your weapon");
+					Chat.AddExamineMsgToClient("You try to load the wrong ammo into your weapon.");
 					return false;
 				}
 			}
@@ -828,6 +832,11 @@ namespace Weapons
 		{
 			SoundManager.PlayNetworkedAtPos(CommonSounds.Instance.GunEmptyAlarm, transform.position,
 				sourceObj: serverHolder);
+		}
+
+		public void LoadMagSound()
+		{
+			SoundManager.PlayNetworkedAtPos(loadMagSound, gameObject.AssumedWorldPosServer());
 		}
 
 		public void PlayEmptySfx()
