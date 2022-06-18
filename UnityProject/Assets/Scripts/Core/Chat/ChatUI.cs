@@ -87,7 +87,7 @@ namespace UI.Chat_UI
 		[BoxGroup("Animation")] public float ChatFadeSpeed = 2f;
 		[BoxGroup("Animation"), Range(0,1)] public float ChatMinimumAlpha = 0.5f;
 
-		private const float FULLY_VISIBLE_ALPHA = 1;
+		private const float FULLY_VISIBLE_ALPHA = 0.95f;
 
 		/// <summary>
 		/// The main channels which shouldn't be active together.
