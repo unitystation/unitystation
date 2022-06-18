@@ -71,6 +71,14 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 		get => _currentMovementType;
 	}
 
+	public enum WindStrength
+	{
+		SOUND_ONLY = 4, //TODO : Add wind noise.
+		WEAK = 8, //Tile changes
+		STRONG = 10, //Garbage room/pipes wind
+		SPACE_VACUUM = 12 //Broken window or open airlock to the vast vacuum of space.
+	}
+
 	public ActionData actionData;
 	ActionData IActionGUI.ActionData => actionData;
 
@@ -372,7 +380,7 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 
 			if (Data.magnitude > 0.1f)
 			{
-				if (PushingData != Data)
+				if (PushingData != Data && Data.magnitude > (int)WindStrength.WEAK)
 				{
 					PushingData = Data;
 				}
