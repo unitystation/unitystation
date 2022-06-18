@@ -105,7 +105,7 @@ namespace Objects
 
 			if (sameSquare == false)
 			{
-				playerScript.objectPhysics.NewtonianPush(dir);
+				playerScript.objectPhysics.AppearAtWorldPositionServer(transform.position);
 			}
 
 			BucklePlayer(playerScript);
@@ -117,6 +117,10 @@ namespace Objects
 		public void BucklePlayer(PlayerScript playerScript)
 		{
 			SoundManager.PlayNetworkedAtPos(CommonSounds.Instance.Click01, gameObject.AssumedWorldPosServer(), sourceObj: gameObject);
+			if (forceLayingDown)
+			{
+				playerScript.registerTile.ServerLayDown();
+			}
 
 			this.GetComponent<UniversalObjectPhysics>().BuckleObjectToThis(playerScript.playerMove);
 		}
