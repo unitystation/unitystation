@@ -46,17 +46,13 @@ namespace DatabaseAPI
 			FireStoreResponse fr = JsonUtility.FromJson<FireStoreResponse>(content);
 			FireStoreCharacter fireStoreChar = fr.fields.character;
 
-			CharacterSettings characterSettings;
+			CharacterSheet characterSettings;
 			var settingsValid = false;
 
 			if (fireStoreChar == null)
 			{
 				// Make a new character since there isn't one in the database
-				characterSettings = new CharacterSettings
-				{
-					Name = StringManager.GetRandomMaleName(),
-					Username = user.DisplayName
-				};
+				characterSettings = CharacterSheet.GenerateRandomCharacter();
 			}
 			else
 			{
@@ -64,14 +60,12 @@ namespace DatabaseAPI
 				Logger.Log(unescapedJson);
 				try
 				{
-					characterSettings = JsonConvert.DeserializeObject<CharacterSettings>(unescapedJson);
+					characterSettings = JsonConvert.DeserializeObject<CharacterSheet>(unescapedJson);
 				}
 				catch
 				{
 					Logger.LogWarning($"Couldn't deserialise saved character settings.");
-					characterSettings = new CharacterSettings();
-					characterSettings.Username = user.DisplayName;
-					characterSettings.Name = StringManager.GetRandomMaleName();
+					characterSettings = CharacterSheet.GenerateRandomCharacter();
 				}
 
 				// Validate and correct settings in case the customization options change

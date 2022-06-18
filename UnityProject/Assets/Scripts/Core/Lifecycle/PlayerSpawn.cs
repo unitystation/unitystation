@@ -31,7 +31,7 @@ public static class PlayerSpawn
 	/// <param name="occupation">occupation to spawn as</param>
 	/// <param name="characterSettings">settings to use for the character</param>
 	/// <returns>the game object of the spawned player</returns>
-	public static GameObject ServerSpawnPlayer(PlayerSpawnRequest request, JoinedViewer joinedViewer, Occupation occupation, CharacterSettings characterSettings, bool showBanner = true, Vector3Int?
+	public static GameObject ServerSpawnPlayer(PlayerSpawnRequest request, JoinedViewer joinedViewer, Occupation occupation, CharacterSheet characterSettings, bool showBanner = true, Vector3Int?
 		spawnPos = null, Mind existingMind = null, NetworkConnectionToClient conn = null)
 	{
 		if(ValidateCharacter(request) == false)
@@ -183,7 +183,7 @@ public static class PlayerSpawn
 	/// thus we shouldn't send any network message which reference's the old body's ID since it won't exist.</param>
 	///
 	/// <returns>the spawned object</returns>
-	private static GameObject ServerSpawnInternal(NetworkConnectionToClient connection, Occupation occupation, CharacterSettings characterSettings,
+	private static GameObject ServerSpawnInternal(NetworkConnectionToClient connection, Occupation occupation, CharacterSheet characterSettings,
 		Mind existingMind, Vector3Int? spawnPos = null, bool spawnItems = true, bool willDestroyOldBody = false, bool showBanner = true)
 	{
 		//determine where to spawn them
@@ -393,7 +393,7 @@ public static class PlayerSpawn
 	/// <summary>
 	/// Spawns as a ghost for spectating the Round
 	/// </summary>
-	public static void ServerSpawnGhost(JoinedViewer joinedViewer, CharacterSettings characterSettings)
+	public static void ServerSpawnGhost(JoinedViewer joinedViewer, CharacterSheet characterSettings)
 	{
 		//Hard coding to assistant
 		Vector3Int spawnPosition = SpawnPoint.GetRandomPointForJob(JobType.ASSISTANT).transform.position.CutToInt();
@@ -416,16 +416,16 @@ public static class PlayerSpawn
 	/// </summary>
 	public static void ServerSpawnDummy(Transform spawnTransform = null)
 	{
-		if(spawnTransform == null)
+		if (spawnTransform == null)
+		{
 			spawnTransform = SpawnPoint.GetRandomPointForJob(JobType.ASSISTANT);
+		}
+		
 		if (spawnTransform != null)
 		{
 			var dummy = ServerCreatePlayer(spawnTransform.position.RoundToInt());
-
-			CharacterSettings randomSettings = CharacterSettings.RandomizeCharacterSettings(RaceSOSingleton.Instance.Races.PickRandom().name);
-
+			CharacterSheet randomSettings = CharacterSheet.GenerateRandomCharacter();
 			ServerTransferPlayer(null, dummy, null, Event.PlayerSpawned, randomSettings);
-
 
 			//fire all hooks
 			var info = SpawnInfo.Player(OccupationList.Instance.Get(JobType.ASSISTANT), randomSettings, CustomNetworkManager.Instance.humanPlayerPrefab,
@@ -467,7 +467,7 @@ public static class PlayerSpawn
 	}
 
 	public static void ServerTransferPlayerToNewBody(NetworkConnectionToClient conn, GameObject newBody, GameObject oldBody,
-		Event eventType, CharacterSettings characterSettings, bool willDestroyOldBody = false)
+		Event eventType, CharacterSheet characterSettings, bool willDestroyOldBody = false)
 	{
 		ServerTransferPlayer(conn, newBody, oldBody, eventType, characterSettings, willDestroyOldBody);
 	}
@@ -483,7 +483,7 @@ public static class PlayerSpawn
 	/// <param name="willDestroyOldBody">if true, indicates the old body is going to be destroyed rather than pooled,
 	/// thus we shouldn't send any network message which reference's the old body's ID since it won't exist.</param>
 	private static void ServerTransferPlayer(NetworkConnectionToClient conn, GameObject newBody, GameObject oldBody,
-		Event eventType, CharacterSettings characterSettings, bool willDestroyOldBody = false)
+		Event eventType, CharacterSheet characterSettings, bool willDestroyOldBody = false)
 	{
 		if (oldBody)
 		{

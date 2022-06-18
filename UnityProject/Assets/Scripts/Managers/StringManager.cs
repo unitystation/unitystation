@@ -1,4 +1,4 @@
-﻿using System.Collections;
+﻿using System;
 using System.Collections.Generic;
 using Initialisation;
 using Managers;
@@ -23,49 +23,46 @@ public class StringManager : SingletonManager<StringManager>, IInitialise
 
 	void IInitialise.Initialise()
 	{
-		for (int i = 0; i < nameTextFiles.Count; i++)
+		string[] lineEndings = { "\r\n", "\r", "\n" };
+		foreach (var nameFile in nameTextFiles)
 		{
-			string[] lines = nameTextFiles[i].text.Split(
-				new [] { "\r\n", "\r", "\n" },
-				System.StringSplitOptions.None);
-			textObjects.Add(nameTextFiles[i].name, new List<string>(lines));
+			var lines = nameFile.text.Split(lineEndings, StringSplitOptions.None);
+			textObjects.Add(nameFile.name, new List<string>(lines));
 		}
 	}
 
-	public static string GetRandomLizardName(Gender gender)
+	public static string GetRandomLizardName(Gender gender = Gender.NonBinary)
 	{
 		//Uses random gendered name if NonBinary
-		if (gender == Gender.NonBinary) gender = Random.value > 0.5f ? Gender.Male : Gender.Female;
+		if (gender == Gender.NonBinary)
+		{
+			gender = DMMath.Prob(50) ? Gender.Male : Gender.Female;
+		}
 
 		//ToLowerInvariant because ToLower has different behaviour based on culture
 		var genderKey = gender.ToString().ToLowerInvariant();
 
-		//Random.Range is max exclusive and as such .Count can be used directly
-		var randomLizard =
-			Instance.textObjects[$"lizard_{genderKey}"][Random.Range(0, Instance.textObjects[$"lizard_{genderKey}"].Count)];
-
-		return randomLizard;
-	}
-
-	public static string GetRandomMaleName()
-	{
-		return GetRandomName(Gender.Male);
-	}
-
-	public static string GetRandomFemaleName()
-	{
-		return GetRandomName(Gender.Female);
+		return Instance.textObjects[$"lizard_{genderKey}"].PickRandom();
 	}
 
 	/// <summary>
-	/// Combines a random first and last name depending on gender, uses both male and female names if gender is NonBinary
+	/// Combines a random first and last name depending on gender.
+	/// Uses both male and female names if gender is NonBinary.
 	/// </summary>
-	public static string GetRandomName(Gender gender)
+	public static string GetRandomName(Gender gender = Gender.NonBinary)
 	{
-		if (gender == Gender.NonBinary) gender = Random.value > 0.5f ? Gender.Male : Gender.Female; //Uses random gendered name if NonBinary
-		var genderKey = gender.ToString().ToLowerInvariant(); //ToLowerInvariant because ToLower has different behaviour based on culture
-		var firstName = Instance.textObjects[$"first_{genderKey}"][Random.Range(0, Instance.textObjects[$"first_{genderKey}"].Count)]; //Random.Range is max exclusive and as such .Count can be used directly
-		var lastName = Instance.textObjects["last"][Random.Range(0, Instance.textObjects["last"].Count)];
+		//Uses random gendered name if NonBinary
+		if (gender == Gender.NonBinary)
+		{
+			gender = DMMath.Prob(50) ? Gender.Male : Gender.Female;
+		}
+
+		//ToLowerInvariant because ToLower has different behaviour based on culture
+		var genderKey = gender.ToString().ToLowerInvariant();
+
+		var firstName = Instance.textObjects[$"first_{genderKey}"].PickRandom();
+		var lastName = Instance.textObjects["last"].PickRandom();
+
 		return $"{firstName} {lastName}";
 	}
 }

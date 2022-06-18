@@ -97,7 +97,7 @@ namespace Messages.Client.NewPlayer
 
 		private void AcceptRequest(NetMessage msg)
 		{
-			var character = JsonConvert.DeserializeObject<CharacterSettings>(msg.JsonCharSettings);
+			var character = JsonConvert.DeserializeObject<CharacterSheet>(msg.JsonCharSettings);
 			var spawnRequest = new PlayerSpawnRequest(SentByPlayer, GameManager.Instance.GetRandomFreeOccupation(msg.JobType), character);
 
 			GameManager.Instance.TrySpawnPlayer(spawnRequest);

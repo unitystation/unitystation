@@ -20,7 +20,7 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IActi
 	/// <summary>
 	/// Current character settings for this player.
 	/// </summary>
-	public CharacterSettings characterSettings = new CharacterSettings();
+	public CharacterSheet characterSettings = new CharacterSheet();
 
 	[HideInInspector, SyncVar(hook = nameof(SyncPlayerName))] public string playerName = " ";
 
@@ -596,9 +596,9 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IActi
 		var stringBuilder = new StringBuilder();
 
 		stringBuilder.AppendLine($"Name: {characterSettings.Name}");
-		stringBuilder.AppendLine($"Acc: {characterSettings.Username}");
+		stringBuilder.AppendLine($"Acc: {PlayerInfo.Username}");
 
-		if(connectionToClient == null)
+		if (connectionToClient == null)
 		{
 			stringBuilder.AppendLine("Has No Soul");
 		}

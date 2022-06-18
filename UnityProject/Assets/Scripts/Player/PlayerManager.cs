@@ -26,7 +26,7 @@ public class PlayerManager : MonoBehaviour
 
 	public static bool HasSpawned { get; private set; }
 
-	public static CharacterSettings CurrentCharacterSettings { get; set; }
+	public static CharacterSheet CurrentCharacterSettings { get; set; }
 
 	private int mobIDcount;
 
@@ -52,8 +52,8 @@ public class PlayerManager : MonoBehaviour
 		}
 		// Load CharacterSettings from PlayerPrefs or create a new one
 		string unescapedJson = Regex.Unescape(PlayerPrefs.GetString("currentcharacter"));
-		var deserialized = JsonConvert.DeserializeObject<CharacterSettings>(unescapedJson);
-		CurrentCharacterSettings = deserialized ?? new CharacterSettings();
+		var deserialized = JsonConvert.DeserializeObject<CharacterSheet>(unescapedJson);
+		CurrentCharacterSettings = deserialized ?? new CharacterSheet();
 	}
 #endif
 

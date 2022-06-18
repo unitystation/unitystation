@@ -59,8 +59,8 @@ namespace UI.CharacterCreator
 		public CharacterDir currentDir;
 
 		[SerializeField] private List<Color> availableSkinColors;
-		private CharacterSettings currentCharacter;
-		public CharacterSettings CurrentCharacter { get { return currentCharacter; } }
+		private CharacterSheet currentCharacter;
+		public CharacterSheet CurrentCharacter { get { return currentCharacter; } }
 
 		public ColorPicker colorPicker;
 
@@ -103,9 +103,9 @@ namespace UI.CharacterCreator
 		[SerializeField] private GameObject CharacterSelectorPage;
 		[SerializeField] private GameObject CharacterCreatorPage;
 
-		public List<CharacterSettings> PlayerCharacters = new List<CharacterSettings>();
+		public List<CharacterSheet> PlayerCharacters = new List<CharacterSheet>();
 
-		private CharacterSettings lastSettings;
+		private CharacterSheet lastSettings;
 		private int currentCharacterIndex = 0;
 
 		private TextInfo textInfo = CultureInfo.CurrentCulture.TextInfo;
@@ -126,7 +126,7 @@ namespace UI.CharacterCreator
 			WindowName.text = "Select your character";
 			LoadSettings(PlayerManager.CurrentCharacterSettings);
 			var copyStr = JsonConvert.SerializeObject(currentCharacter);
-			lastSettings = JsonConvert.DeserializeObject<CharacterSettings>(copyStr);
+			lastSettings = JsonConvert.DeserializeObject<CharacterSheet>(copyStr);
 			colorPicker.gameObject.SetActive(false);
 			colorPicker.onValueChanged.RemoveAllListeners();
 			colorPicker.onValueChanged.AddListener(OnColorChange);
@@ -230,12 +230,11 @@ namespace UI.CharacterCreator
 			{
 				lastSettings = currentCharacter;
 			}
-			CharacterSettings character = new CharacterSettings();
+			CharacterSheet character = new CharacterSheet();
 			PlayerCharacters.Add(character);
 			currentCharacterIndex = PlayerCharacters.Count() - 1;
 			LoadSettings(PlayerCharacters[currentCharacterIndex]);
 			currentCharacter.Species = Race.Human.ToString();
-			currentCharacter.Username = ServerData.Auth.CurrentUser.DisplayName;
 			ShowCharacterCreator();
 			ReturnCharacterPreviewFromTheCharacterSelector();
 			_ = SoundManager.Play(CommonSounds.Instance.Click01);
@@ -359,14 +358,14 @@ namespace UI.CharacterCreator
 			SpriteContainer.transform.localPosition = SpritesContainerOriginalPosition;
 		}
 
-		private void LoadSettings(CharacterSettings inCharacterSettings)
+		private void LoadSettings(CharacterSheet inCharacterSettings)
 		{
 			Cleanup();
 			currentCharacter = inCharacterSettings;
 			//If we are playing locally offline, init character settings if they're null
 			if (currentCharacter == null)
 			{
-				currentCharacter = new CharacterSettings();
+				currentCharacter = new CharacterSheet();
 				PlayerManager.CurrentCharacterSettings = currentCharacter;
 			}
 
@@ -590,13 +589,6 @@ namespace UI.CharacterCreator
 		// First time setting up this character etc?
 		private void DoInitChecks()
 		{
-			if (string.IsNullOrEmpty(currentCharacter.Username))
-			{
-				currentCharacter.Username = ServerData.Auth.CurrentUser.DisplayName;
-				RollRandomCharacter();
-				SaveData();
-			}
-
 			SetAllDropdowns();
 			RefreshAll();
 		}
@@ -664,7 +656,8 @@ namespace UI.CharacterCreator
 
 		public void RollRandomCharacter()
 		{
-			currentCharacter = CharacterSettings.RandomizeCharacterSettings(currentCharacter.Species);
+			// TODO: previously we were putting in a species. Does not doing that still make sense?
+			currentCharacter = CharacterSheet.GenerateRandomCharacter();
 
 			//Randomises player accents. (Italian, Scottish, etc)
 
@@ -981,7 +974,7 @@ namespace UI.CharacterCreator
 				}
 				CharacterPreviews.SetActive(true);
 				NoCharactersError.SetActive(false);
-				var characters = JsonConvert.DeserializeObject<List<CharacterSettings>>(json);
+				var characters = JsonConvert.DeserializeObject<List<CharacterSheet>>(json);
 
 				foreach (var c in characters)
 				{
@@ -1160,19 +1153,9 @@ namespace UI.CharacterCreator
 
 		public void RandomNameBtn()
 		{
-			switch (currentCharacter.BodyType)
-			{
-				case BodyType.Male:
-					currentCharacter.Name = StringManager.GetRandomMaleName();
-					break;
-				case BodyType.Female:
-					currentCharacter.Name = StringManager.GetRandomFemaleName();
-					break;
-				default:
-					currentCharacter.Name = StringManager.GetRandomName(Gender.NonBinary);
-					break;
-			}
-
+			currentCharacter.Name = currentCharacter.Species == "Lizard"
+					? StringManager.GetRandomLizardName(currentCharacter.GetGender())
+					: StringManager.GetRandomName(currentCharacter.GetGender());
 			RefreshName();
 		}
 
@@ -1191,9 +1174,9 @@ namespace UI.CharacterCreator
 		private string TruncateName(string proposedName)
 		{
 			proposedName = textInfo.ToTitleCase(proposedName.ToLower());
-			if (proposedName.Length >= CharacterSettings.MAX_NAME_LENGTH)
+			if (proposedName.Length >= CharacterSheet.MAX_NAME_LENGTH)
 			{
-				return proposedName.Substring(0, CharacterSettings.MAX_NAME_LENGTH);
+				return proposedName.Substring(0, CharacterSheet.MAX_NAME_LENGTH);
 			}
 
 			return proposedName;
@@ -1465,11 +1448,10 @@ namespace UI.CharacterCreator
 
 		public void LoadSerialisedData()
 		{
-			var inCharacter = JsonConvert.DeserializeObject<CharacterSettings>(SerialiseData.text);
+			var inCharacter = JsonConvert.DeserializeObject<CharacterSheet>(SerialiseData.text);
 			if (inCharacter != null)
 			{
 				currentCharacter = inCharacter;
-				currentCharacter.Username = ServerData.Auth.CurrentUser.DisplayName;
 				Cleanup();
 				LoadSettings(currentCharacter);
 			}
@@ -1487,7 +1469,7 @@ namespace UI.CharacterCreator
 	public class ExternalCustomisation
 	{
 		public string Key;
-		public CharacterSettings.CustomisationClass SerialisedValue;
+		public CharacterSheet.CustomisationClass SerialisedValue;
 	}
 
 	public class CustomisationStorage

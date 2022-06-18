@@ -45,7 +45,7 @@ public class PlayerInfo
 	public bool IsAdmin => (PlayerRoles & PlayerRole.Admin) != 0;
 
 	//This is only set when the player presses the ready button? But not if late joining, wtf?????
-	public CharacterSettings CharacterSettings { get; set; }
+	public CharacterSheet CharacterSettings { get; set; }
 
 	/// <summary>The player GameObject. Different GameObject if in lobby vs. in game.</summary>
 	public GameObject GameObject

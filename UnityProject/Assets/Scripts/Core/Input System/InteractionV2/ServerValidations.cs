@@ -117,7 +117,7 @@ public static class ServerValidations
 	/// </summary>
 	/// <param name="settings">The character sheet used to check what race the player is.</param>
 	/// <returns>True if illegal.</returns>
-	public static bool HasIllegalSkinTone(CharacterSettings settings)
+	public static bool HasIllegalSkinTone(CharacterSheet settings)
 	{
 		PlayerHealthData SetRace = null;
 		bool skinToneIsIllegal = false;
