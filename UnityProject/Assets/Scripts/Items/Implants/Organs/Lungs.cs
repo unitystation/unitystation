@@ -284,12 +284,12 @@ namespace HealthV2
 				bloodSaturation = RelatedPart.BloodContainer[RelatedPart.requiredReagent] / bloodCap;
 			}
 
-			if (bloodSaturation >= RelatedPart.HealthMaster.CirculatorySystem.BloodInfo.BLOOD_REAGENT_SATURATION_OKAY)
+			if (bloodSaturation >= RelatedPart.bloodType.BLOOD_REAGENT_SATURATION_OKAY)
 			{
 				currentBreatheCooldown = breatheCooldown; //Slow breathing, we're all good
 				RelatedPart.HealthMaster.HealthStateController.SetSuffocating(false);
 			}
-			else if (bloodSaturation <= RelatedPart.HealthMaster.CirculatorySystem.BloodInfo.BLOOD_REAGENT_SATURATION_BAD)
+			else if (bloodSaturation <= RelatedPart.bloodType.BLOOD_REAGENT_SATURATION_BAD)
 			{
 				RelatedPart.HealthMaster.HealthStateController.SetSuffocating(true);
 				if (DMMath.Prob(20))

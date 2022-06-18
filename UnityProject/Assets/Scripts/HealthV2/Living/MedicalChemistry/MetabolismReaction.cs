@@ -12,6 +12,11 @@ public class MetabolismReaction : Reaction
 	//Should it metabolise faster or slower
 	public float ReagentMetabolismMultiplier = 1;
 
+
+	public List<ItemTrait> AllRequired = new List<ItemTrait>();
+	//public List<ItemTrait> SingleRequired = new List<ItemTrait>(); TODO add ability to Apply to multiple tags
+	public List<ItemTrait> Blacklist  = new List<ItemTrait>();
+
 	public override bool Apply(MonoBehaviour sender, ReagentMix reagentMix)
 	{
 		if (HasIngredients(reagentMix) == false)
@@ -24,7 +29,7 @@ public class MetabolismReaction : Reaction
 			return false;
 		}
 
-		var bodyPart = sender.GetComponent<BodyPart>();
+		var bodyPart = sender.GetComponent<CirculatorySystemBase>();
 		if (bodyPart == null)
 		{
 			return false;
@@ -34,19 +39,12 @@ public class MetabolismReaction : Reaction
 		return false;
 	}
 
-	public void React(BodyPart sender, ReagentMix reagentMix, float inReactionAmount)
+	public void React(List<BodyPart> sender, ReagentMix reagentMix, float ReactionPercentage)
 	{
-		var reactionAmount = GetReactionAmount(reagentMix);
-
-		if ((reactionAmount / reagentMix.Total) < MinimumPercentageThreshold)
-		{
-			return;
-		}
-
-		PossibleReaction(sender, reagentMix, reactionAmount);
+		PossibleReaction(sender, reagentMix, ReactionPercentage);
 	}
 
-	public virtual void PossibleReaction(BodyPart sender, ReagentMix reagentMix, float limitedreactionAmount)
+	public virtual void PossibleReaction(List<BodyPart> senders, ReagentMix reagentMix, float limitedreactionAmount)
 	{
 		foreach (var ingredient in ingredients.m_dict)
 		{
@@ -61,7 +59,11 @@ public class MetabolismReaction : Reaction
 
 		foreach (var effect in effects)
 		{
-			effect.Apply(sender, limitedreactionAmount);
+			foreach (var sender in senders)
+			{
+				effect.Apply(sender, limitedreactionAmount);
+			}
+
 		}
 	}
 }

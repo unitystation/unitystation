@@ -21,15 +21,13 @@ public class BodyHealthEffect : MetabolismReaction
 
 	public bool CanOverdose = true;
 
-	[ShowIf(nameof(CanOverdose))] public float PercentageBloodOverdose = 0.25f;
+	[ShowIf(nameof(CanOverdose))] public float ConcentrationBloodOverdose = 20f;
 	[ShowIf(nameof(CanOverdose))] public float OverdoseDamageMultiplier = 1;
 
 	public bool MultiEffect = false;
 
 	[ShowIf(nameof(MultiEffect))] public List<TypeAndStrength> Effects = new List<TypeAndStrength>();
 
-
-	public const int MagicNumber = 15; // This balance is about right with 1 u ingested 1 * effect it about does one damage
 
 	[System.Serializable]
 	public struct TypeAndStrength
@@ -43,7 +41,7 @@ public class BodyHealthEffect : MetabolismReaction
 
 
 
-	public override void PossibleReaction(BodyPart sender, ReagentMix reagentMix, float LimitedreactionAmount)
+	public override void PossibleReaction(List<BodyPart> senders, ReagentMix reagentMix, float LimitedreactionAmount) //LimitedreactionAmount = 0 to 1
 	{
 		if (CanOverdose)
 		{
@@ -53,26 +51,32 @@ public class BodyHealthEffect : MetabolismReaction
 				TotalIn += reagentMix[reagent.Key];
 			}
 
-			float Percentage = TotalIn / reagentMix.Total;
 
-			if (Percentage > PercentageBloodOverdose)
+			if (TotalIn > ConcentrationBloodOverdose)
 			{
 				if (MultiEffect)
 				{
+					//
 					foreach (var Effect in Effects)
 					{
-						sender.TakeDamage(null, Effect.EffectPerOne * MagicNumber * LimitedreactionAmount * -OverdoseDamageMultiplier, Effect.AttackType,
-							Effect.DamageEffect, DamageSubOrgans: false);
+						foreach (var sender in senders)
+						{
+							ReagentMetabolism * bloodThroughput * TotalModified
+
+							sender.TakeDamage(null, Effect.EffectPerOne  * LimitedreactionAmount * -OverdoseDamageMultiplier, Effect.AttackType,
+								Effect.DamageEffect, DamageSubOrgans: false);
+						}
+
 					}
 
 				}
 				else
 				{
-					sender.TakeDamage(null, AttackBodyPartPerOneU * MagicNumber* LimitedreactionAmount * -OverdoseDamageMultiplier, AttackType,
+					senders.TakeDamage(null, AttackBodyPartPerOneU * LimitedreactionAmount * -OverdoseDamageMultiplier, AttackType,
 						DamageEffect, DamageSubOrgans: false);
 				}
 
-				base.PossibleReaction(sender, reagentMix, LimitedreactionAmount);
+				base.PossibleReaction(senders, reagentMix, LimitedreactionAmount);
 				return;
 			}
 		}
@@ -81,17 +85,17 @@ public class BodyHealthEffect : MetabolismReaction
 		{
 			foreach (var Effect in Effects)
 			{
-				sender.TakeDamage(null, Effect.EffectPerOne * MagicNumber * LimitedreactionAmount , Effect.AttackType,
+				senders.TakeDamage(null, Effect.EffectPerOne  * LimitedreactionAmount , Effect.AttackType,
 					Effect.DamageEffect, DamageSubOrgans: false);
 			}
 
 		}
 		else
 		{
-			sender.TakeDamage(null, AttackBodyPartPerOneU * MagicNumber * LimitedreactionAmount, AttackType,
+			senders.TakeDamage(null, AttackBodyPartPerOneU  * LimitedreactionAmount, AttackType,
 				DamageEffect, DamageSubOrgans: false);
 		}
 
-		base.PossibleReaction(sender, reagentMix, LimitedreactionAmount);
+		base.PossibleReaction(senders, reagentMix, LimitedreactionAmount);
 	}
 }

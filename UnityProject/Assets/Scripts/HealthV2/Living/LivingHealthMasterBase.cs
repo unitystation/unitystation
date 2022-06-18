@@ -345,6 +345,7 @@ namespace HealthV2
 				BodyPartList[i].ImplantPeriodicUpdate();
 			}
 
+			CirculatorySystem.BloodUpdate();
 
 			FireStacksDamage();
 			CalculateRadiationDamage();

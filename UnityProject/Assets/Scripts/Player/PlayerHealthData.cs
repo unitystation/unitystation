@@ -43,6 +43,8 @@ public class RaceHealthData
 	public List<HealthV2.BodyPart> BodyPartsThatShareTheSkinTone = new List<HealthV2.BodyPart>();
 
 	public float NumberOfMinutesBeforeStarving = 30f;
+
+	public float TotalToxinGenerationPerSecond = 0.1f;
 }
 
 

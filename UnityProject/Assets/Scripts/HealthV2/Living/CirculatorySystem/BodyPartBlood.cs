@@ -84,13 +84,6 @@ namespace HealthV2
 		/// </summary>
 		public float BloodThroughput => bloodThroughput;
 
-		public enum RequiredBlood
-		{
-			Large = 100,
-			Medium = 20,
-			Low = 10,
-			Minuscule = 1
-		}
 
 		/// <summary>
 		/// The nutriment reagent that this part consumes in order to perform tasks
@@ -159,10 +152,10 @@ namespace HealthV2
 		protected virtual void BloodUpdate()
 		{
 			if (isBloodCirculated == false) return;
-			ConsumeReagents();
+			ConsumeReagents(); //d
 			if (CanGetHungry)
 			{
-				ConsumeNutriments();
+				ConsumeNutriments(); //d
 			}
 
 			if (HasNaturalToxicity)
@@ -174,7 +167,7 @@ namespace HealthV2
 			BloodContainer.OnReagentMixChanged?.Invoke();
 			BloodContainer.ReagentsChanged();
 			//plz No modify BloodContainer before MetaboliseReactions
-			MetaboliseReactions();
+			MetaboliseReactions(); //TODO
 		}
 
 		protected virtual void NaturalToxicity()
@@ -188,7 +181,7 @@ namespace HealthV2
 			float ReagentsProcessed = (ReagentMetabolism * bloodThroughput * TotalModified);
 			foreach (var Reaction in MetabolismReactions)
 			{
-				Reaction.React(this, BloodContainer.CurrentReagentMix, ReagentsProcessed);
+				//Reaction.React(this, BloodContainer.CurrentReagentMix, ReagentsProcessed);
 			}
 
 			MetabolismReactions.Clear();
@@ -219,7 +212,7 @@ namespace HealthV2
 				BloodContainer.CurrentReagentMix.Add(wasteReagent, consumed );
 			}
 
-			var info = HealthMaster.CirculatorySystem.BloodInfo;
+			var info = bloodType;
 			float damage;
 			if (bloodSaturation < info.BLOOD_REAGENT_SATURATION_BAD)
 			{

@@ -26,6 +26,14 @@ namespace HealthV2
 		///</summary>
 		public float BloodGasCapability;
 
+		[Tooltip("When saturation of blood reagent falls below this point you'll start to feel symptoms, like being light headed.")]
+		public float BLOOD_REAGENT_SATURATION_OKAY = 0.80f;
+
+		[Tooltip("When saturation of blood reagent falls below this point the organism will start taking oxy damage.")]
+		public float BLOOD_REAGENT_SATURATION_BAD = 0.70f;
+
+		[Tooltip("If we reach critical, the organism will very quickly accumalate oxy damage.")]
+		public float BLOOD_REAGENT_SATURATION_CRITICAL = 0.50f;
 
 
 		public float GetGasCapacity(ReagentMix reagentMix, Reagent reagent)
