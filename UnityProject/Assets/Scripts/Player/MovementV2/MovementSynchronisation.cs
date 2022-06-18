@@ -330,7 +330,7 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 		{
 			ServerCheckQueueingAndMove();
 		}
-		
+
 		if (Intangible == false && CanBeWindPushed)
 		{
 			CheckWindOtherPush();
@@ -661,7 +661,7 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 					}
 					else
 					{
-						Logger.LogError(" Fail the Range floating check ");
+						//Logger.LogError(" Fail the Range floating check ");
 						ResetLocationOnClients();
 						MoveQueue.Clear();
 						return;
@@ -675,12 +675,12 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 						    .magnitude >
 						    0.75f) //Resets play location if too far away
 						{
-							Logger.LogError("Reset from distance from actual target" +
-							                (transform.position -
-							                 Entry.LocalPosition.ToWorld(MatrixManager.Get(Entry.MatrixID))).magnitude +
-							                " SERVER : " +
-							                transform.position + " Client : " +
-							                Entry.LocalPosition.ToWorld(MatrixManager.Get(Entry.MatrixID)));
+							// Logger.LogError("Reset from distance from actual target" +
+							//                 (transform.position -
+							//                  Entry.LocalPosition.ToWorld(MatrixManager.Get(Entry.MatrixID))).magnitude +
+							//                 " SERVER : " +
+							//                 transform.position + " Client : " +
+							//                 Entry.LocalPosition.ToWorld(MatrixManager.Get(Entry.MatrixID)));
 
 							if ((transform.position - Entry.LocalPosition.ToWorld(MatrixManager.Get(Entry.MatrixID)))
 							    .magnitude >
@@ -783,7 +783,7 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 					}
 					else
 					{
-						Logger.LogError("Failed TryMove");
+						//Logger.LogError("Failed TryMove");
 						if (Fudged)
 						{
 							transform.localPosition = Stored;
@@ -798,7 +798,7 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 				}
 				else
 				{
-					Logger.LogError("Failed Can input");
+					//Logger.LogError("Failed Can input");
 					if (Fudged)
 					{
 						transform.localPosition = Stored;
@@ -953,7 +953,7 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 			{
 				if (NewMoveData.Bump)
 				{
-					Logger.LogError("NewMoveData.Bump");
+					// Logger.LogError("NewMoveData.Bump");
 					return true;
 				}
 
@@ -1239,8 +1239,8 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 			var Age = NetworkTime.time - InMoveData.Timestamp;
 			if (Age > MoveMaxDelayQueue)
 			{
-				Logger.LogError(
-					$" Move message rejected because it is too old, Consider tweaking if ping is too high or Is being exploited Age {Age}");
+				// Logger.LogError(
+					// $" Move message rejected because it is too old, Consider tweaking if ping is too high or Is being exploited Age {Age}");
 				ResetLocationOnClients();
 				MoveQueue.Clear();
 				return;
