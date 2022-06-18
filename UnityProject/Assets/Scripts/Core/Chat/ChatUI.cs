@@ -419,10 +419,11 @@ namespace UI.Chat_UI
 		{
 			StopCoroutine(AnimateBackgroundHide());
 			Color color = background.color;
-			while(Mathf.Approximately(background.color.a, FULLY_VISIBLE_ALPHA) == false)
+			while(background.color.a < FULLY_VISIBLE_ALPHA)
 			{
 				yield return WaitFor.EndOfFrame;
 				color.a = Mathf.Lerp(color.a, FULLY_VISIBLE_ALPHA, ChatFadeSpeed * Time.deltaTime);
+				if(color.a > FULLY_VISIBLE_ALPHA) color.a = FULLY_VISIBLE_ALPHA;
 				background.color = color;
 			}
 		}
