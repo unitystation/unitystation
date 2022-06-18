@@ -51,6 +51,9 @@ namespace Weapons
 		[SerializeField, Tooltip("The sound this weapon makes when a magazine is loaded")]
 		public AddressableAudioSource loadMagSound;
 
+		[SerializeField, Tooltip("The sound this weapon makes when a magazine is removed")]
+		public AddressableAudioSource unloadMagSound;
+
 		//server-side object indicating the player holding the weapon (null if none)
 		protected GameObject serverHolder;
 		private RegisterTile shooterRegisterTile;
@@ -284,6 +287,7 @@ namespace Weapons
 			//try ejecting the mag if external
 			if (CurrentMagazine != null && allowMagazineRemoval && !MagInternal)
 			{
+				UnloadMagSound();
 				return true;
 			}
 
@@ -796,7 +800,6 @@ namespace Weapons
 			{
 				Logger.LogWarning($"Why is {nameof(CurrentMagazine)} null for {this}?", Category.Firearms);
 			}
-
 			if (MagInternal)
 			{
 				var clip = mag;
@@ -816,12 +819,24 @@ namespace Weapons
 		/// Invoked when server recieves a request to unload the current magazine. Queues up the unload to occur
 		/// when the shot queue is empty.
 		/// </summary>
+
 		public void ServerHandleUnloadRequest()
 		{
-			if (!MagInternal)
+			ItemSlot hand = GetComponent<Pickupable>()?.ItemSlot?.Player.OrNull()?.GetComponent<DynamicItemStorage>()?
+				.GetBestHand();
+
+			if (MagInternal == true)
+			{
+				return;
+			}
+			if (hand != null)
+			{
+				Inventory.ServerTransfer(magSlot, hand);
+			}
+			else
 			{
 				Inventory.ServerDrop(magSlot);
-			}
+			}		
 		}
 
 		#endregion
@@ -855,6 +870,11 @@ namespace Weapons
 		{
 			isSuppressed = newValue;
 		}
+	public void UnloadMagSound()
+	{
+		SoundManager.PlayNetworkedAtPos(unloadMagSound, transform.position,
+			sourceObj: serverHolder);
+	}
 
 		/// <summary>
 		/// Syncs the recoil config.

@@ -450,6 +450,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4614094803234074905, guid: a940a8ef1ee65024fb0a322703040d98,
         type: 3}
+      propertyPath: SmartGun
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4614094803234074905, guid: a940a8ef1ee65024fb0a322703040d98,
+        type: 3}
       propertyPath: ammoType
       value: 9
       objectReference: {fileID: 0}
@@ -576,8 +581,8 @@ PrefabInstance:
     - target: {fileID: 8614656532152377136, guid: a940a8ef1ee65024fb0a322703040d98,
         type: 3}
       propertyPath: initialDescription
-      value: A bullpup two-round burst .45 SMG, designated the 'Stalker'. Has a 'Donk
-        Co.' buttstamp.
+      value: A bullpup two-round burst .45 SMG, designated the 'Stalker'. It automatically
+        ejects it's magazine when it runs dry. Has a 'Donk Co.' buttstamp.
       objectReference: {fileID: 0}
     - target: {fileID: 8614656532152377136, guid: a940a8ef1ee65024fb0a322703040d98,
         type: 3}
