@@ -38,36 +38,40 @@ namespace AdminTools
 			clientAdminPlayerChatLogs.Clear();
 		}
 
-		public void ServerAddChatRecord(string message, string playerId, string adminId = "")
+		public void ServerAddChatRecord(string message, PlayerInfo player, PlayerInfo admin = default)
 		{
-			if (!serverAdminPlayerChatLogs.ContainsKey(playerId))
+			message = admin == null
+				? $"{player.Username}: {message}"
+				: $"{admin.Username}: {message}";
+
+			if (!serverAdminPlayerChatLogs.ContainsKey(player.UserId))
 			{
-				serverAdminPlayerChatLogs.Add(playerId, new List<AdminChatMessage>());
+				serverAdminPlayerChatLogs.Add(player.UserId, new List<AdminChatMessage>());
 			}
 
 			var entry = new AdminChatMessage
 			{
-				fromUserid = playerId,
+				fromUserid = player.UserId,
 				Message = message
 			};
 
-			if (!string.IsNullOrEmpty(adminId))
+			if (admin != null)
 			{
-				entry.fromUserid = adminId;
+				entry.fromUserid = admin.UserId;
 				entry.wasFromAdmin = true;
 			}
-			serverAdminPlayerChatLogs[playerId].Add(entry);
-			AdminPlayerChatUpdateMessage.SendSingleEntryToAdmins(entry, playerId);
-			if (!string.IsNullOrEmpty(adminId))
+			serverAdminPlayerChatLogs[player.UserId].Add(entry);
+			AdminPlayerChatUpdateMessage.SendSingleEntryToAdmins(entry, player.UserId);
+			if (admin != null)
 			{
-				AdminChatNotifications.SendToAll(playerId, AdminChatWindow.AdminPlayerChat, 0, true);
+				AdminChatNotifications.SendToAll(player.UserId, AdminChatWindow.AdminPlayerChat, 0, true);
 			}
 			else
 			{
-				AdminChatNotifications.SendToAll(playerId, AdminChatWindow.AdminPlayerChat, 1);
+				AdminChatNotifications.SendToAll(player.UserId, AdminChatWindow.AdminPlayerChat, 1);
 			}
 
-			ServerMessageRecording(playerId, entry);
+			ServerMessageRecording(player.UserId, entry);
 		}
 
 		private void ServerMessageRecording(string playerId, AdminChatMessage entry)
@@ -185,8 +189,7 @@ namespace AdminTools
 
 		public void OnInputSend(string message)
 		{
-			var msg = $"{ServerData.Auth.CurrentUser.DisplayName}: {message}";
-			RequestAdminBwoink.Send(selectedPlayer.uid, msg);
+			RequestAdminBwoink.Send(selectedPlayer.uid, message);
 		}
 	}
 }

@@ -12,6 +12,7 @@ using Messages.Server;
 using Messages.Client;
 using Messages.Client.NewPlayer;
 using UI;
+using DatabaseAPI;
 
 namespace Player
 {
@@ -42,19 +43,17 @@ namespace Player
 			else
 			{
 				CmdServerSetupPlayer(GetNetworkInfo(),
-					PlayerManager.CurrentCharacterSettings.Username, DatabaseAPI.ServerData.UserID, GameData.BuildNumber,
-					DatabaseAPI.ServerData.IdToken, SceneManager.GetActiveScene().name);
+					ServerData.Auth.CurrentUser.DisplayName, ServerData.UserID, GameData.BuildNumber,
+					ServerData.IdToken, SceneManager.GetActiveScene().name);
 
 			}
 		}
 
-
-
 		private async void HandleServerConnection()
 		{
 			await ServerSetUpPlayer(GetNetworkInfo(),
-				PlayerManager.CurrentCharacterSettings.Username, DatabaseAPI.ServerData.UserID, GameData.BuildNumber,
-				DatabaseAPI.ServerData.IdToken, "");
+				ServerData.Auth.CurrentUser.DisplayName, ServerData.UserID, GameData.BuildNumber,
+				ServerData.IdToken, "");
 			ClientFinishLoading();
 		}
 
@@ -306,7 +305,7 @@ namespace Player
 		[Command]
 		public void CmdSpectate(string jsonCharSettings)
 		{
-			var characterSettings = JsonConvert.DeserializeObject<CharacterSettings>(jsonCharSettings);
+			var characterSettings = JsonConvert.DeserializeObject<CharacterSheet>(jsonCharSettings);
 			PlayerSpawn.ServerSpawnGhost(this, characterSettings);
 		}
 
@@ -352,10 +351,10 @@ namespace Player
 		{
 			var player = PlayerList.Instance.GetOnline(connectionToClient);
 
-			CharacterSettings charSettings = null;
+			CharacterSheet charSettings = null;
 			if (isReady)
 			{
-				charSettings = JsonConvert.DeserializeObject<CharacterSettings>(jsonCharSettings);
+				charSettings = JsonConvert.DeserializeObject<CharacterSheet>(jsonCharSettings);
 			}
 			PlayerList.Instance.SetPlayerReady(player, isReady, charSettings);
 		}

@@ -138,7 +138,7 @@ namespace Objects.Security
 		public SecurityStatus Status;
 		public List<SecurityRecordCrime> Crimes;
 		public Occupation Occupation;
-		public CharacterSettings characterSettings;
+		public CharacterSheet characterSettings;
 
 		public SecurityRecord()
 		{

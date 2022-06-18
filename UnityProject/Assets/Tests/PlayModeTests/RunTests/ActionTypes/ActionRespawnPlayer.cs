@@ -22,9 +22,9 @@ public partial class TestAction
 
 		public bool Initiate(TestRunSO testRunSO)
 		{
-			CharacterSettings characterSettings = string.IsNullOrEmpty(SerialisedCharacterSettings)
-					? new CharacterSettings()
-					: JsonConvert.DeserializeObject<CharacterSettings>(SerialisedCharacterSettings);
+			CharacterSheet characterSettings = string.IsNullOrEmpty(SerialisedCharacterSettings)
+					? new CharacterSheet()
+					: JsonConvert.DeserializeObject<CharacterSheet>(SerialisedCharacterSettings);
 
 			var playerInfo = PlayerList.Instance.Get(PlayerManager.LocalPlayerObject);
 			var spawnRequest = new PlayerSpawnRequest(playerInfo, Occupation, characterSettings);

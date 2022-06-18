@@ -112,8 +112,7 @@ namespace AdminTools
 
 			AddMessageToLogs(selectedPlayer.PlayerData.uid, $"You: {inputField.text}");
 			RefreshChatLog(selectedPlayer.PlayerData.uid);
-			var message = $"{PlayerManager.CurrentCharacterSettings.Username}: {inputField.text}";
-			RequestAdminBwoink.Send(selectedPlayer.PlayerData.uid, message);
+			RequestAdminBwoink.Send(selectedPlayer.PlayerData.uid, inputField.text);
 			inputField.text = "";
 			inputField.ActivateInputField();
 			StartCoroutine(AfterSubmit());

@@ -54,7 +54,7 @@ namespace Player
 		//For character customization
 		public ClothingItem[] characterSprites;
 
-		public CharacterSettings ThisCharacter;
+		public CharacterSheet ThisCharacter;
 
 		//clothes for each clothing slot
 		public readonly Dictionary<NamedSlot, ClothingItem> clothes = new Dictionary<NamedSlot, ClothingItem>();
@@ -432,14 +432,14 @@ namespace Player
 			}
 		}
 
-		public void OnCharacterSettingsChange(CharacterSettings characterSettings)
+		public void OnCharacterSettingsChange(CharacterSheet characterSettings)
 		{
 			if (RootBodyPartsLoaded == false)
 			{
 				RootBodyPartsLoaded = true;
 				if (characterSettings == null)
 				{
-					characterSettings = new CharacterSettings();
+					characterSettings = new CharacterSheet();
 				}
 
 				ThisCharacter = characterSettings;

@@ -133,7 +133,7 @@ namespace Lobby
 				//if there aren't char settings, default
 				if (PlayerManager.CurrentCharacterSettings == null)
 				{
-					PlayerManager.CurrentCharacterSettings = new CharacterSettings();
+					PlayerManager.CurrentCharacterSettings = new CharacterSheet();
 				}
 			}
 		}
@@ -258,7 +258,7 @@ namespace Lobby
 				emailAddressInput.text, AccountCreationSuccess, AccountCreationError);
 		}
 
-		private void AccountCreationSuccess(CharacterSettings charSettings)
+		private void AccountCreationSuccess(CharacterSheet charSettings)
 		{
 			pleaseWaitCreationText.text = $"Success! An email has been sent to {emailAddressInput.text}. " +
 										  $"Please click the link in the email to verify " +

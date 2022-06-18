@@ -181,7 +181,7 @@ namespace Objects.Medical
 		public float toxinDmg;
 		public float bruteDmg;
 		public string uniqueIdentifier;
-		public CharacterSettings characterSettings;
+		public CharacterSheet characterSettings;
 		public int mobID;
 		public Mind mind;
 		public List<BodyPartRecord> surfaceBodyParts = new List<BodyPartRecord>();

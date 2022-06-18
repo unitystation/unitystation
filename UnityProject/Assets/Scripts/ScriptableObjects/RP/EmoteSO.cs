@@ -120,10 +120,11 @@ namespace ScriptableObjects.RP
 		/// </summary>
 		protected List<AddressableAudioSource> GetBodyTypeAudio(GameObject player)
 		{
-			if(player.TryGetComponent<PlayerScript>(out var playerScript) == false) return defaultSounds;
+			if (player.TryGetComponent<PlayerScript>(out var playerScript) == false) return defaultSounds;
 			var bodyType = playerScript.characterSettings.BodyType;
-			//Get the player's species
-			var race = CharacterSettings.GetRaceData(playerScript.characterSettings);
+			// Get the player's species
+			if (!RaceSOSingleton.TryGetRaceByName(playerScript.characterSettings.Species, out var race)) return defaultSounds;
+
 			VoiceType voiceTypeToUse = new VoiceType();
 			foreach (var voice in TypedSounds)
 			{

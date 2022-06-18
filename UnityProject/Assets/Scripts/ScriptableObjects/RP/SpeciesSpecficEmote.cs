@@ -23,9 +23,10 @@ namespace ScriptableObjects.RP
 		public bool IsSameSpecies(GameObject mobToCheck)
 		{
 			if (mobToCheck.TryGetComponent<PlayerScript>(out var playerScript) == false) return false;
-			var race = CharacterSettings.GetRaceData(playerScript.characterSettings);
-			if (race == null || allowedSpecies.Contains(race) == false) return false;
-			return true;
+
+			if (RaceSOSingleton.TryGetRaceByName(playerScript.characterSettings.Species, out var race) == false) return false;
+
+			return allowedSpecies.Contains(race);
 		}
 	}
 }

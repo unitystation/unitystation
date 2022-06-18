@@ -16,7 +16,7 @@ public class BodyPartSprites : MonoBehaviour
 
 	public SpriteRenderer spriteRenderer;
 
-	public CharacterSettings ThisCharacter;
+	public CharacterSheet ThisCharacter;
 
 	public SpriteOrder SpriteOrder;
 

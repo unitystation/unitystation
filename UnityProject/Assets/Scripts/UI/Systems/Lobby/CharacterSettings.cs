@@ -2,14 +2,15 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using UI.CharacterCreator;
 using UnityEngine;
+using UI.CharacterCreator;
+using Random = UnityEngine.Random;
 
 /// <summary>
 /// Class containing all character preferences for a player
 /// Includes appearance, job preferences etc...
 /// </summary>
-public class CharacterSettings
+public class CharacterSheet
 {
 	// TODO: all of the in-game appearance variables should probably be refactored into a separate class which can
 	// then be used in PlayerScript since job preferences are only needed at round start in ConnectedPlayer
@@ -17,7 +18,7 @@ public class CharacterSettings
 	// IMPORTANT: these fields use primitive types (int, string... etc) so they can be sent  over the network with
 	// RPCs and Commands without needing to serialise them to JSON!
 	public const int MAX_NAME_LENGTH = 26; // Arbitrary limit, but 26 is the max the current UI can fit
-	public string Username;
+
 	public string Name = "Cuban Pete";
 	public string AiName = "R.O.B.O.T.";
 	public BodyType BodyType = BodyType.Male;
@@ -43,7 +44,7 @@ public class CharacterSettings
 
 	public override string ToString()
 	{
-		var sb = new StringBuilder($"{Username}'s character settings:\n", 300);
+		var sb = new StringBuilder($"{Name}'s character sheet:\n", 300);
 		sb.AppendLine($"Name: {Name}");
 		sb.AppendLine($"AiName: {AiName}");
 		sb.AppendLine($"ClothingStyle: {ClothingStyle}");
@@ -263,32 +264,55 @@ public class CharacterSettings
 
 	#region StaticCustomizationFunctions
 
-	public static CharacterSettings RandomizeCharacterSettings(string SpeciesName)
+	public static CharacterSheet GenerateRandomCharacter()
 	{
-		CharacterSettings random = new CharacterSettings();
-		random.Species = SpeciesName;
-		// Randomise gender
-		Type gender = typeof(BodyType);
-		Array genders = gender.GetEnumValues();
-		int index = UnityEngine.Random.Range(0,3);
-		random.BodyType = (BodyType)genders.GetValue(index);
+		CharacterSheet character = new CharacterSheet();
 
-		//Randomises player name and age and skin tone.
-		random.Name = RandomizeCharacterName(random);
-		random.Age  = UnityEngine.Random.Range(19, 78);
-		random.SkinTone = RandomizeCharacterSkinToneHtmlString(random);
-		random.SerialisedExternalCustom = GetRandomUnderwearCustomisation(random);
+		character.Species = RaceSOSingleton.Instance.Races.PickRandom().name;
+		character.BodyType = character.BodyType.PickRandom();
+		character.Age = Random.Range(19, 84);
+		character.SkinTone = GetRandomSkinTone(character.Species);
+		character.Name = character.Species == "Lizard" ? StringManager.GetRandomLizardName() : StringManager.GetRandomName();
+		character.Speech = DMMath.Prob(35) ? character.Speech.PickRandom() : Speech.None;
+		character.PlayerPronoun = character.PlayerPronoun.PickRandom();
+		character.ClothingStyle = character.ClothingStyle.PickRandom();
+		character.BagStyle = character.BagStyle.PickRandom();
 
-		//Randomises player accents. (Italian, Scottish, etc)
-		random.Speech = RandomizeCharachterAccent();
+		character.AiName = "R.O.B.O.T."; // TODO: random names.
 
-		return random;
+		character.SerialisedBodyPartCustom = new List<CustomisationStorage>(); // TODO ask bod
+		character.SerialisedExternalCustom = GetRandomUnderwear(character.Species);
+
+		return character;
 	}
 
-	public static List<ExternalCustomisation> GetRandomUnderwearCustomisation(CharacterSettings data)
+	private static Color GetRandomColor()
 	{
-		var RaceData = GetRaceData(data);
-		List<ExternalCustomisation> externalCustomisations = new List<ExternalCustomisation>();
+		return new Color(Random.Range(0.1f, 1f), Random.Range(0.1f, 1f), Random.Range(0.1f, 1f));
+	}
+
+	private static string GetRandomSkinTone(string speciesName = "Human")
+	{
+		if (RaceSOSingleton.TryGetRaceByName(speciesName, out PlayerHealthData race))
+		{
+			List<Color> raceSkinColors = race.Base.SkinColours;
+			if (raceSkinColors.Count > 0)
+			{
+				return $"#{ColorUtility.ToHtmlStringRGB(raceSkinColors.PickRandom())}";
+			}
+		}
+
+		return $"#{ColorUtility.ToHtmlStringRGB(GetRandomColor())}";
+	}
+
+	private static List<ExternalCustomisation> GetRandomUnderwear(string speciesName = "Human")
+	{
+		var externalCustomisations = new List<ExternalCustomisation>();
+
+		if (RaceSOSingleton.TryGetRaceByName(speciesName, out PlayerHealthData race) == false)
+		{
+			return externalCustomisations;
+		}
 
 		void Logic(CustomisationAllowedSetting setting)
 		{
@@ -299,78 +323,22 @@ public class CharacterSettings
 			externalCustomisations.Add(newExternalCustomisation);
 		}
 
-		foreach (CustomisationAllowedSetting customisation in RaceData.Base.CustomisationSettings)
+		foreach (CustomisationAllowedSetting customisation in race.Base.CustomisationSettings)
 		{
 			if (customisation.CustomisationGroup.name == "PlayerUnderShirt") Logic(customisation);
-			if (customisation.CustomisationGroup.name == "PlayerUnderWear")  Logic(customisation);
-			if (customisation.CustomisationGroup.name == "PlayerSocks")      Logic(customisation);
+			if (customisation.CustomisationGroup.name == "PlayerUnderWear") Logic(customisation);
+			if (customisation.CustomisationGroup.name == "PlayerSocks") Logic(customisation);
 		}
 
 		return externalCustomisations;
 	}
 
-	public static CustomisationClass SerialiseCustomizationData(PlayerCustomisationData data)
+	private static CustomisationClass SerialiseCustomizationData(PlayerCustomisationData data)
 	{
 		var newcurrentSetting = new CustomisationClass();
-		newcurrentSetting.Colour = "#" + ColorUtility.ToHtmlStringRGB(new Color(UnityEngine.Random.Range(0.1f, 1f),
-			UnityEngine.Random.Range(0.1f, 1f), UnityEngine.Random.Range(0.1f, 1f), 1f));
+		newcurrentSetting.Colour = $"#{ColorUtility.ToHtmlStringRGB(GetRandomColor())}";
 		newcurrentSetting.SelectedName = data.Name;
 		return newcurrentSetting;
-	}
-
-	public static string RandomizeCharacterSkinToneHtmlString(CharacterSettings data)
-	{
-		var RaceData = GetRaceData(data);
-
-		List<Color> raceSkinColors = RaceData.Base.SkinColours;
-		if (raceSkinColors.Count != 0)
-		{
-			return "#" +
-			       ColorUtility.ToHtmlStringRGB(raceSkinColors[UnityEngine.Random.Range(0, raceSkinColors.Count - 1)]);
-		}
-
-		return "#" + ColorUtility.ToHtmlStringRGBA(new Color(UnityEngine.Random.Range(0.1f, 1f),
-			UnityEngine.Random.Range(0.1f, 1f),
-			UnityEngine.Random.Range(0.1f, 1f), 1f));
-	}
-
-	public static string RandomizeCharacterName(CharacterSettings data, bool isNotPlayerDebug = true)
-	{
-		switch (data.BodyType)
-		{
-			case BodyType.Male:
-				return StringManager.GetRandomMaleName();
-			case BodyType.Female:
-				return StringManager.GetRandomFemaleName();
-			default:
-				if (isNotPlayerDebug) return StringManager.GetRandomName(Gender.NonBinary);
-				else return "Cuban Pete";
-		}
-	}
-
-	public static PlayerHealthData GetRaceData(CharacterSettings data)
-	{
-		foreach (var Race in RaceSOSingleton.Instance.Races)
-		{
-			if (Race.name == data.Species) return Race;
-		}
-
-		Logger.LogError($"Unable to get PlayerHealthData from {data.Name} / {data.Username}");
-		return new PlayerHealthData();
-	}
-
-	public static Speech RandomizeCharachterAccent()
-	{
-		int accentChance = UnityEngine.Random.Range(0, 100);
-		if (accentChance <= 35)
-		{
-			Type accent = typeof(Speech);
-			Array accents = accent.GetEnumValues();
-			int index = UnityEngine.Random.Range(0, 7);
-			return (Speech) accents.GetValue(index);
-		}
-
-		return Speech.None;
 	}
 
 	#endregion
