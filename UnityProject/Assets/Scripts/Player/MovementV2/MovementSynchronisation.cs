@@ -24,7 +24,10 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 
 	public List<MoveData> MoveQueue = new List<MoveData>();
 
-	private float MoveMaxDelayQueue = 4f; //Only matters when low FPS mode
+	/// <summary>
+	/// Only matters when low FPS mode, Says how old the move message can be before getting discarded, on low FPS mode
+	/// </summary>
+	private float MoveMaxDelayQueue = 4f;
 
 	public float DefaultTime { get; } = 0.5f;
 
@@ -330,7 +333,7 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 		{
 			ServerCheckQueueingAndMove();
 		}
-		
+
 		if (Intangible == false && CanBeWindPushed)
 		{
 			CheckWindOtherPush();

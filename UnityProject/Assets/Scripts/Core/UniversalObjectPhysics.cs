@@ -25,8 +25,8 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 	//TODO Make space Movement perfect ( Is pretty much good now )
 	//TODO after thrown not synchronised Properly need to synchronise rotation
 	//TODO When throwing rotation Direction needs to be set by server
+	//TODO When client is running against space when, it's always a bit out of sync, Looking to why?
 	//=============================================== Definitely
-	//TODO Smooth pushing, syncvar well if Statements in force and stuff On process player action,  Smooth resetting if Space wind
 
 	public const float DEFAULT_PUSH_SPEED = 6;
 
@@ -51,15 +51,27 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 	private float TileMoveSpeedOverride = 0;
 
 
-	private FloorDecal floorDecal; // Used to make sure some objects are not causing gravity
+	/// <summary>
+	/// Used to make sure some objects are not causing gravity
+	/// </summary>
+	private FloorDecal floorDecal;
 
-	[PlayModeOnly] public Vector3 LocalTargetPosition; //The position that tile Push animations Are targeting
+	/// <summary>
+	/// The position that tile Push animations Are targeting
+	/// </summary>
+	[PlayModeOnly] public Vector3 LocalTargetPosition;
 
 	protected Rotatable rotatable;
 
-	[PrefabModeOnly] public bool ChangesDirectionPush = false;  //Tries to change rotatable direction
+	/// <summary>
+	/// Tries to change rotatable direction
+	/// </summary>
+	[PrefabModeOnly] public bool ChangesDirectionPush = false;
 
-	[PrefabModeOnly] public bool Intangible = false; //Doesn't appear on tile and cannot be pushed by wind
+	/// <summary>
+	/// Doesn't appear on tile and cannot be pushed by wind
+	/// </summary>
+	[PrefabModeOnly] public bool Intangible = false;
 
 	[PlayModeOnly] public bool CanBeWindPushed = true;
 
@@ -78,7 +90,10 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 		}
 	}
 
-	public Vector3 OfficialPosition //Position taking account of containers
+	/// <summary>
+	/// Position taking account of containers
+	/// </summary>
+	public Vector3 OfficialPosition
 	{
 		get
 		{
@@ -113,14 +128,23 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 
 	public Vector3 SynchLocalTargetPosition => synchLocalTargetPosition.Vector3;
 
+	/// <summary>
+	/// Stops momentum being applied once reaching target position
+	/// </summary>
 	[SyncVar(hook = nameof(SynchronisedoNotApplyMomentumOnTarget))]
-	private bool doNotApplyMomentumOnTarget = false; //Stops momentum being applied once reaching target position
+	private bool doNotApplyMomentumOnTarget = false;
 
+	/// <summary>
+	/// Is at hidden POS
+	/// </summary>
 	[SyncVar(hook = nameof(SynchroniseVisibility))]
-	private bool isVisible = true; //Is that hidden POS
+	private bool isVisible = true;
 
+	/// <summary>
+	/// Can be pushed around
+	/// </summary>
 	[SyncVar(hook = nameof(SyncIsNotPushable))]
-	public bool isNotPushable; //Can be pushed around
+	public bool isNotPushable;
 
 	public bool IsNotPushable => isNotPushable;
 
@@ -132,7 +156,10 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 	[SyncVar(hook = nameof(SynchroniseParent))]
 	private uint parentContainer;
 
-	protected int SetTimestampID = -1; //Used to work out if the client has received The most recent push
+	/// <summary>
+	/// Used to work out if the client has received The most recent push
+	/// </summary>
+	protected int SetTimestampID = -1;
 
 	private ObjectContainer CashedContainedInContainer;
 
