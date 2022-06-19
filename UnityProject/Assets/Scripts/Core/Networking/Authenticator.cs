@@ -37,14 +37,15 @@ namespace Core.Networking
 			public string Token;
 		}
 
-		public struct AuthDisconnectMessage : NetworkMessage
+		public struct AuthResponseMessage : NetworkMessage
 		{
-			public DisconnectReason Reason;
+			public ResponseCode Code;
 			public string Message;
 		}
 
-		public enum DisconnectReason
+		public enum ResponseCode
 		{
+			Success,
 			InvalidClientVersion,
 			InvalidAccountDetails,
 			AccountValidationError,
@@ -91,6 +92,13 @@ namespace Core.Networking
 				AccountId = msg.AccountId,
 				Username = msg.Username,
 			};
+
+			conn.Send(new AuthResponseMessage
+			{
+				Code = ResponseCode.Success,
+				Message = "Authentication successful.",
+			});
+
 			ServerAccept(conn);
 		}
 
@@ -128,7 +136,7 @@ namespace Core.Networking
 			{
 				Logger.LogTrace($"A client tried to connect with a different client version. Version: {clientVersion}.",
 						Category.Connections);
-				DisconnectClient(conn, DisconnectReason.InvalidClientVersion,
+				DisconnectClient(conn, ResponseCode.InvalidClientVersion,
 						$"Invalid Client Version! You need version {GameData.BuildNumber}. This can be acquired through the station hub.");
 				return false;
 			}
@@ -148,7 +156,7 @@ namespace Core.Networking
 						"A user tried to connect with an invalid account ID and/or token."
 						+ $" Account ID: '{accountId}'. IP: '{conn.address}'.",
 						Category.Connections);
-				DisconnectClient(conn, DisconnectReason.InvalidAccountDetails,
+				DisconnectClient(conn, ResponseCode.InvalidAccountDetails,
 						"Account has invalid token. Try restarting the game and relogging into your account.");
 				
 				return false;
@@ -162,7 +170,7 @@ namespace Core.Networking
 				Logger.LogError($"Server error when validating user account token."
 						+ $" Account ID: '{accountId}'. IP: '{conn.address}'.",
 						Category.Connections);
-				DisconnectClient(conn, DisconnectReason.AccountValidationError,
+				DisconnectClient(conn, ResponseCode.AccountValidationError,
 						"Server Error: unknown problem encountered when attempting to validate your account token.");
 				
 				return false;
@@ -173,7 +181,7 @@ namespace Core.Networking
 				Logger.Log("A user tried to authenticate with a bad token. Possible spoof attempt."
 						+ $" Account ID: '{accountId}'. IP: '{conn.address}'.",
 						Category.Connections);
-				DisconnectClient(conn, DisconnectReason.AccountValidationFailed,
+				DisconnectClient(conn, ResponseCode.AccountValidationFailed,
 						"Account token validation failed. Try restarting the game and relogging into your account.");
 
 				return false;
@@ -182,13 +190,13 @@ namespace Core.Networking
 			return true;
 		}
 
-		private void DisconnectClient(NetworkConnection connection, DisconnectReason reason, string message = "")
+		private void DisconnectClient(NetworkConnection connection, ResponseCode reason, string message = "")
 				=> StartCoroutine(_DisconnectClient(connection, reason, message));
-		private IEnumerator _DisconnectClient(NetworkConnection conn, DisconnectReason reason, string message = "")
+		private IEnumerator _DisconnectClient(NetworkConnection conn, ResponseCode reason, string message = "")
 		{
-			var msg = new AuthDisconnectMessage
+			var msg = new AuthResponseMessage
 			{
-				Reason = reason,
+				Code = reason,
 				Message = message,
 			};
 			conn.Send(msg);
@@ -206,7 +214,7 @@ namespace Core.Networking
 
 		public override void OnStartClient()
 		{
-			NetworkClient.RegisterHandler<AuthDisconnectMessage>(OnAuthDisconnectMessage, false);
+			NetworkClient.RegisterHandler<AuthResponseMessage>(OnAuthResponseMessage, false);
 		}
 
 		public override void OnClientAuthenticate()
@@ -223,12 +231,18 @@ namespace Core.Networking
 			NetworkClient.Send(msg);
 		}
 
-		public void OnAuthDisconnectMessage(AuthDisconnectMessage msg)
+		public void OnAuthResponseMessage(AuthResponseMessage msg)
 		{
-			Logger.Log($"Disconnected from server. Reason: {msg.Reason}.");
+			if (msg.Code == ResponseCode.Success)
+			{
+				ClientAccept();
+				return;
+			}
+
+			Logger.Log($"Disconnected from server. Reason: {msg.Code}.");
 			UIManager.InfoWindow.Show(msg.Message, bwoink: false, "Disconnected");
 			ClientReject(); // Gracefully handle rejection by disconnecting.
-			CustomNetworkManager.Instance.StopClient();
+			CustomNetworkManager.Instance.StopClient(); // Then shut down the client to return to the main menu.
 		}
 
 		private string GetPhysicalAddress()
