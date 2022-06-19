@@ -340,16 +340,14 @@ public partial class PlayerList
 
 	#region Login
 
-	public async Task<bool> TryLogIn(PlayerInfo player, int clientVersion, string accountToken)
+	public bool TryLogIn(PlayerInfo player)
 	{
-		if (ValidatePlayerClient(player, clientVersion) == false) return false;
-		if (await ValidatePlayerAccount(player, accountToken) == false) return false;
-
 		// Check if the player is considered a server admin
 		// Admins can bypass certain checks, like player capacity and multikeying
 		if (ValidatePlayerAdminStatus(player))
 		{
 			CheckAdminState(player);
+			Logger.Log($"Admin {player.Username} (user ID '{player.UserId}') logged in successfully.", Category.Admin);
 			return true;
 		}
 
@@ -357,69 +355,6 @@ public partial class PlayerList
 		if (ValidateMultikeying(player) == false) return false;
 
 		Logger.Log($"{player.Username} (user ID '{player.UserId}') logged in successfully.", Category.Admin);
-		return true;
-	}
-
-	private bool ValidatePlayerClient(PlayerInfo player, int clientVersion)
-	{
-		// check the game client is up to date
-		if (clientVersion != GameData.BuildNumber)
-		{
-			ServerKickPlayer(player,
-					$"Invalid Client Version! You need version {GameData.BuildNumber}. This can be acquired through the station hub.");
-			return false;
-		}
-
-		return true;
-	}
-
-	private async Task<bool> ValidatePlayerAccount(PlayerInfo player, string accountToken)
-	{
-		// Allow local offline testing
-		if (GameData.Instance.OfflineMode) return true;
-
-		//Must have token and userId
-		if (string.IsNullOrEmpty(accountToken) || string.IsNullOrEmpty(player.UserId))
-		{
-			ServerKickPlayer(player, $"Account has invalid token. Try logging in again.");
-			Logger.Log($"A user tried to connect with null userid or token value" +
-					   $"Details: Username: {player.Username}, ClientID: {player.ClientId}, IP: {player.ConnectionIP}",
-				Category.Admin);
-			return false;
-		}
-
-		//Must have non-null/empty username
-		if (string.IsNullOrEmpty(player.Username))
-		{
-			RpcShowCharacterCreatorScreenRemotely(player.Connection);
-			ServerKickPlayer(player, $"Server Error: Account has invalid username (Null/Empty). To fix go to character creator then click Serialise and then load");
-			Logger.LogError($"A user tried to connect with null/empty username" +
-							$"Details: Username: {player.Username}, ClientID: {player.ClientId}, IP: {player.ConnectionIP}",
-				Category.Admin);
-			return false;
-		}
-
-		// Validate the provided token against the account details
-		var refresh = new RefreshToken { userID = player.UserId, refreshToken = accountToken };
-		var response = await ServerData.ValidateToken(refresh, true);
-		if (response == null)
-		{
-			ServerKickPlayer(player, $"Server Error: Error when attempting to validate user account token.");
-			Logger.Log($"Server error when validating user account token."
-						+ $" Details: Username: {player.Username}, ClientID: {player.ClientId}, IP: {player.ConnectionIP}",
-				Category.Admin);
-			return false;
-		}
-
-		if (response.errorCode == 1)
-		{
-			ServerKickPlayer(player, $"Account token validation failed. Try logging in again.");
-			Logger.Log($"A possible spoof attempt was recorded. " +
-					   $"Details: Username: {player.Username}, ClientID: {player.ClientId}, IP: {player.ConnectionIP}",
-				Category.Admin);
-			return false;
-		}
-
 		return true;
 	}
 
