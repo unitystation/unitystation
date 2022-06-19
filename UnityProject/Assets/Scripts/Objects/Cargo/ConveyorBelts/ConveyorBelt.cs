@@ -65,20 +65,6 @@ namespace Construction.Conveyors
 		[Server]
 		public void MoveBelt(float ConveyorBeltSpeed)
 		{
-			if (_lastUpdateMatrix != registerTile.Matrix || _lastLocalUpdatePosition != registerTile.LocalPosition || _LastSpeed != ConveyorBeltSpeed)
-			{
-				if (_lastUpdateMatrix != null)
-				{
-					var node = _lastUpdateMatrix.GetMetaDataNode(_lastLocalUpdatePosition, true);
-					node.WindData[(int) PushType.Conveyor] = Vector2.zero;
-				}
-
-				var Newnode = registerTile.Matrix.GetMetaDataNode(registerTile.LocalPosition, true);
-				Newnode.WindData[(int) PushType.Conveyor] = PushDirectionPosition * (ConveyorBeltSpeed);
-				_lastUpdateMatrix = registerTile.Matrix;
-				_lastLocalUpdatePosition = registerTile.LocalPosition;
-				_LastSpeed = ConveyorBeltSpeed;
-			}
 			DetectItems();
 			MoveEntities(ConveyorBeltSpeed);
 		}
@@ -93,9 +79,7 @@ namespace Construction.Conveyors
 
 			foreach (var item in Matrix.Get<UniversalObjectPhysics>(registerTile.LocalPositionServer, true))
 			{
-				if (item is MovementSynchronisation) continue; //Is handled separately for Prediction
-				if (item.gameObject == gameObject || item.IsNotPushable || item.Intangible) continue;
-
+				if (item.gameObject == gameObject || item.IsNotPushable || item.Intangible || item.IsMoving)  continue;
 				cntCache.Enqueue(item);
 			}
 		}
@@ -115,7 +99,16 @@ namespace Construction.Conveyors
 			if (item == null) return;
 			if (item.NewtonianMovement.magnitude > ConveyorBeltSpeed) return;
 			item.Pushing.Clear();
-			item.NewtonianPush(PushDirectionPosition.To2Int(), ConveyorBeltSpeed - item.NewtonianMovement.magnitude, 0.5f);
+
+			if (item.stickyMovement)
+			{
+				item.TryTilePush(PushDirectionPosition.To2Int(), null , ConveyorBeltSpeed);
+			}
+			else
+			{
+				item.NewtonianPush(PushDirectionPosition.To2Int(), ConveyorBeltSpeed - item.NewtonianMovement.magnitude, 0.5f);
+			}
+
 		}
 
 		#endregion Belt Operation

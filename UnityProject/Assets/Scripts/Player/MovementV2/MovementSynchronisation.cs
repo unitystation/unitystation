@@ -48,8 +48,6 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 
 	[PrefabModeOnly] public bool CanMoveThroughObstructions = false;
 
-	[SyncVar] private Vector2 PushingData;
-
 	//[SyncVar(hook = nameof(SyncRunSpeed))]
 	public float RunSpeed;
 
@@ -330,17 +328,7 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 		{
 			ServerCheckQueueingAndMove();
 		}
-
-		if (Intangible == false && CanBeWindPushed)
-		{
-			CheckWindOtherPush();
-		}
-		else if (PushingData.magnitude != 0)
-		{
-			PushingData = Vector2.zero;
-		}
-
-
+		
 		if (isLocalPlayer == false) return;
 		bool inputDetected = KeyboardInputManager.IsMovementPressed(KeyboardInputManager.KeyEventType.Hold);
 		if (inputDetected != IsPressedCashed)
@@ -358,51 +346,6 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 	{
 		IsPressedServer = IsPressed;
 	}
-
-	public void CheckWindOtherPush()
-	{
-		if (isServer)
-		{
-			var node = registerTile.Matrix.GetMetaDataNode(registerTile.LocalPosition);
-			Vector2 Data = Vector2.zero;
-			foreach (var Push in node.WindData)
-			{
-				Data += Push;
-			}
-
-			if (Data.magnitude > 0.1f)
-			{
-				if (PushingData != Data)
-				{
-					PushingData = Data;
-				}
-			}
-			else
-			{
-				if (PushingData.magnitude != 0)
-				{
-					PushingData = Vector2.zero;
-				}
-			}
-		}
-
-		if (PushingData.magnitude > 0.1f == false)
-		{
-			SetIgnoreSticky = false;
-			return;
-		}
-		SetIgnoreSticky = true;
-
-		if (IsFlyingSliding)
-		{
-			NewtonianMovement = Vector2.MoveTowards(NewtonianMovement, PushingData, 0.5f);
-		}
-		else
-		{
-			NewtonianPush(PushingData, PushingData.magnitude/2f );
-		}
-	}
-
 
 	private readonly HashSet<IMovementEffect> movementAffects = new HashSet<IMovementEffect>();
 

@@ -147,7 +147,6 @@ public class MetaDataNode : IGasMixContainer
 	public float		WindForce 		= 0;
 
 	public readonly Vector2[] WindData = new Vector2[(int)Enum.GetValues(typeof(PushType)).Cast<PushType>().Max() +1 ];
-
 	/// <summary>
 	/// Number of neighboring MetaDataNodes
 	/// </summary>
