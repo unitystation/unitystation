@@ -287,7 +287,6 @@ namespace Weapons
 			//try ejecting the mag if external
 			if (CurrentMagazine != null && allowMagazineRemoval && !MagInternal)
 			{
-				UnloadMagSound();
 				return true;
 			}
 
@@ -542,7 +541,6 @@ namespace Weapons
 				// If the item used on the gun is a magazine, check type and reload
 				if (ammoType == magazine.ammoType)
 				{
-					LoadMagSound();
 					return true;
 				}
 
@@ -809,6 +807,7 @@ namespace Weapons
 			}
 			else
 			{
+				LoadMagSound();
 				var magazine = mag;
 				var fromSlot = magazine.GetComponent<Pickupable>().ItemSlot;
 				Inventory.ServerTransfer(fromSlot, magSlot);
@@ -831,10 +830,12 @@ namespace Weapons
 			}
 			if (hand != null)
 			{
+				UnloadMagSound();
 				Inventory.ServerTransfer(magSlot, hand);
 			}
 			else
 			{
+				UnloadMagSound();
 				Inventory.ServerDrop(magSlot);
 			}		
 		}
