@@ -329,15 +329,6 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 			ServerCheckQueueingAndMove();
 		}
 
-		if (Intangible == false && CanBeWindPushed)
-		{
-			CheckWindOtherPush();
-		}
-		else if (PushingData.magnitude != 0)
-		{
-			PushingData = Vector2.zero;
-		}
-
 		if (isLocalPlayer == false) return;
 		bool inputDetected = KeyboardInputManager.IsMovementPressed(KeyboardInputManager.KeyEventType.Hold);
 		if (inputDetected != IsPressedCashed)
