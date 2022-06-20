@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 5032898753073590648}
   - component: {fileID: 752180679074368365}
   - component: {fileID: 1404376226815865619}
+  - component: {fileID: 1670478699794476422}
   m_Layer: 0
   m_Name: NetworkManager
   m_TagString: NetworkManager
@@ -56,7 +57,7 @@ MonoBehaviour:
   transport: {fileID: 752180679074368365}
   networkAddress: localhost
   maxConnections: 100
-  authenticator: {fileID: 0}
+  authenticator: {fileID: 1670478699794476422}
   playerPrefab: {fileID: 2821122072132512938, guid: 70fd2614e91344280b501ff52714aaa4,
     type: 3}
   autoCreatePlayer: 1
@@ -11212,7 +11213,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   port: 7777
   DebugDisplay: 0
-  LogType: 2
+  LogType: 0
   serverBindsAll: 1
   serverBindAddress: 
   serverMaxPeerCapacity: 100
@@ -11239,3 +11240,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2a6f523ec7d18a647835095a8050d74b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1670478699794476422
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2920527550438430692}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db3dd5c41e32754488ab0e94e695f0b7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  OnServerAuthenticated:
+    m_PersistentCalls:
+      m_Calls: []
+  OnClientAuthenticated:
+    m_PersistentCalls:
+      m_Calls: []

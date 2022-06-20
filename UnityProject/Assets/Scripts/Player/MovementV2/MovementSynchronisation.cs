@@ -48,8 +48,6 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 
 	[PrefabModeOnly] public bool CanMoveThroughObstructions = false;
 
-	[SyncVar] private Vector2 PushingData;
-
 	//[SyncVar(hook = nameof(SyncRunSpeed))]
 	public float RunSpeed;
 
@@ -340,7 +338,6 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 			PushingData = Vector2.zero;
 		}
 
-
 		if (isLocalPlayer == false) return;
 		bool inputDetected = KeyboardInputManager.IsMovementPressed(KeyboardInputManager.KeyEventType.Hold);
 		if (inputDetected != IsPressedCashed)
@@ -358,51 +355,6 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 	{
 		IsPressedServer = IsPressed;
 	}
-
-	public void CheckWindOtherPush()
-	{
-		if (isServer)
-		{
-			var node = registerTile.Matrix.GetMetaDataNode(registerTile.LocalPosition);
-			Vector2 Data = Vector2.zero;
-			foreach (var Push in node.WindData)
-			{
-				Data += Push;
-			}
-
-			if (Data.magnitude > 0.1f)
-			{
-				if (PushingData != Data)
-				{
-					PushingData = Data;
-				}
-			}
-			else
-			{
-				if (PushingData.magnitude != 0)
-				{
-					PushingData = Vector2.zero;
-				}
-			}
-		}
-
-		if (PushingData.magnitude > 0.1f == false)
-		{
-			SetIgnoreSticky = false;
-			return;
-		}
-		SetIgnoreSticky = true;
-
-		if (IsFlyingSliding)
-		{
-			NewtonianMovement = Vector2.MoveTowards(NewtonianMovement, PushingData, 0.5f);
-		}
-		else
-		{
-			NewtonianPush(PushingData, PushingData.magnitude/2f );
-		}
-	}
-
 
 	private readonly HashSet<IMovementEffect> movementAffects = new HashSet<IMovementEffect>();
 
@@ -661,7 +613,7 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 					}
 					else
 					{
-						Logger.LogError(" Fail the Range floating check ");
+						//Logger.LogError(" Fail the Range floating check ");
 						ResetLocationOnClients();
 						MoveQueue.Clear();
 						return;
@@ -675,12 +627,12 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 						    .magnitude >
 						    0.75f) //Resets play location if too far away
 						{
-							Logger.LogError("Reset from distance from actual target" +
-							                (transform.position -
-							                 Entry.LocalPosition.ToWorld(MatrixManager.Get(Entry.MatrixID))).magnitude +
-							                " SERVER : " +
-							                transform.position + " Client : " +
-							                Entry.LocalPosition.ToWorld(MatrixManager.Get(Entry.MatrixID)));
+							// Logger.LogError("Reset from distance from actual target" +
+							//                 (transform.position -
+							//                  Entry.LocalPosition.ToWorld(MatrixManager.Get(Entry.MatrixID))).magnitude +
+							//                 " SERVER : " +
+							//                 transform.position + " Client : " +
+							//                 Entry.LocalPosition.ToWorld(MatrixManager.Get(Entry.MatrixID)));
 
 							if ((transform.position - Entry.LocalPosition.ToWorld(MatrixManager.Get(Entry.MatrixID)))
 							    .magnitude >
@@ -783,7 +735,7 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 					}
 					else
 					{
-						Logger.LogError("Failed TryMove");
+						//Logger.LogError("Failed TryMove");
 						if (Fudged)
 						{
 							transform.localPosition = Stored;
@@ -798,7 +750,7 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 				}
 				else
 				{
-					Logger.LogError("Failed Can input");
+					//Logger.LogError("Failed Can input");
 					if (Fudged)
 					{
 						transform.localPosition = Stored;
@@ -953,7 +905,7 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 			{
 				if (NewMoveData.Bump)
 				{
-					Logger.LogError("NewMoveData.Bump");
+					// Logger.LogError("NewMoveData.Bump");
 					return true;
 				}
 
@@ -1240,8 +1192,8 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 			var Age = NetworkTime.time - InMoveData.Timestamp;
 			if (Age > MoveMaxDelayQueue)
 			{
-				Logger.LogError(
-					$" Move message rejected because it is too old, Consider tweaking if ping is too high or Is being exploited Age {Age}");
+				// Logger.LogError(
+					// $" Move message rejected because it is too old, Consider tweaking if ping is too high or Is being exploited Age {Age}");
 				ResetLocationOnClients();
 				MoveQueue.Clear();
 				return;

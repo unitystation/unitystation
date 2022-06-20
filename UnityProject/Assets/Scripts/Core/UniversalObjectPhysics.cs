@@ -450,7 +450,6 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 		if (PulledBy.HasComponent && overridePull == false) return;
 
 		Pushing.Clear();
-		//Logger.LogError("ClientRpc Tile push for " + transform.name + " Direction " + WorldDirection.ToString());
 		SetMatrixCash.ResetNewPosition(transform.position, registerTile);
 		ForceTilePush(worldDirection, Pushing, causedByClient, speed);
 	}
@@ -1037,6 +1036,8 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 				ContextGameObjects[1] = null;
 			}
 
+			if (toPull.IsNotPushable) return;
+
 			Pulling.DirectSetComponent(toPull);
 			toPull.PulledBy.DirectSetComponent(this);
 			ContextGameObjects[1] = toPull.gameObject;
@@ -1117,14 +1118,15 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 			{
 				IsFlyingSliding = true;
 				UpdateManager.Add(CallbackType.UPDATE, FlyingUpdateMe);
-				if (isServer)
-				{
-					LastUpdateClientFlying = NetworkTime.time;
-					UpdateClientMomentum(transform.localPosition, newtonianMovement, airTime, this.slideTime,
-						registerTile.Matrix.Id, spinFactor, true, DoNotUpdateThisClient.NetId());
-				}
 			}
 		}
+		if (isServer)
+		{
+			LastUpdateClientFlying = NetworkTime.time;
+			UpdateClientMomentum(transform.localPosition, newtonianMovement, airTime, this.slideTime,
+				registerTile.Matrix.Id, spinFactor, true, DoNotUpdateThisClient.NetId());
+		}
+
 	}
 
 	public void AppliedFriction(float FrictionCoefficient)
@@ -1714,6 +1716,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 			}
 			else
 			{
+				if (this.isNotPushable) return;
 				initiator.PullSet(this, true);
 				initiator.CmdPullObject(gameObject);
 			}
@@ -1729,7 +1732,6 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 	public void CmdPullObject(GameObject pullableObject)
 	{
 		if (ContainedInContainer != null) return;//Can't pull stuff inside of objects
-
 		if (pullableObject == null || pullableObject == this.gameObject) return;
 		var pullable = pullableObject.GetComponent<UniversalObjectPhysics>();
 		if (pullable == null || pullable.isNotPushable)

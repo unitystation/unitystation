@@ -154,7 +154,7 @@ namespace Systems.Atmospherics
 				correctedForce = Mathf.Clamp(correctedForce, 0, 30);
 
 				pushable.NewtonianPush(transform.rotation * (Vector2)windyNode.WindDirection, Random.Range((float)(correctedForce * 0.8), correctedForce));
-				if (pushable.stickyMovement && windyNode.WindForce > 3 && (pushable is MovementSynchronisation) == false)
+				if (pushable.stickyMovement && windyNode.WindForce > 3)
 				{
 					pushable.TryTilePush((transform.rotation * (Vector2)windyNode.WindDirection).To2Int(), null);
 				}
