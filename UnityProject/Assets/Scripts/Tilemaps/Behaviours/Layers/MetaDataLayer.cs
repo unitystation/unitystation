@@ -27,8 +27,11 @@ public class MetaDataLayer : MonoBehaviour
 	//set current state on clients
 	//Only send the different node
 
+
 	private Dictionary<Vector3Int, MetaDataNode> nodes = new Dictionary<Vector3Int, MetaDataNode>();
 
+
+	public Dictionary<Vector3Int, MetaDataNode> ChangedNodes = new Dictionary<Vector3Int, MetaDataNode>(); //Used for networking
 
 	public List<MetaDataNode> nodesToUpdate = new List<MetaDataNode>();
 
@@ -81,7 +84,7 @@ public class MetaDataLayer : MonoBehaviour
 	[Server]
 	public void UpdateNewPlayer(NetworkConnection requestedBy)
 	{
-		MetaDataLayerMessage.SendTo(gameObject, requestedBy, nodes);
+		MetaDataLayerMessage.SendTo(gameObject, requestedBy, ChangedNodes);
 	}
 
 	private void OnDestroy()
@@ -110,6 +113,7 @@ public class MetaDataLayer : MonoBehaviour
 		if (updateTileOnClient)
 		{
 			nodesToUpdate.Add(node);
+			ChangedNodes[localPosition] = node;
 		}
 
 		return node;
