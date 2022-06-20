@@ -260,25 +260,7 @@ public partial class GameManager : MonoBehaviour, IInitialise
 			minDistanceBetweenSpaceBodies = 200f;
 		}
 
-		//Fills list of Vectors all along shuttle path
-		var beginning = GameManager.Instance.PrimaryEscapeShuttle.stationTeleportLocation;
-		var target = GameManager.Instance.PrimaryEscapeShuttle.stationDockingLocation;
-
-
-		var distance = (int) Vector2.Distance(beginning, target);
-
-		if (!EscapeShuttlePathGenerated) //Only generated once
-		{
-			EscapeShuttlePath.Add(beginning); //Adds original vector
-			for (int i = 0; i < (distance / 50); i++)
-			{
-				beginning = Vector2.MoveTowards(beginning, target, 50); //Vector 50 distance apart from prev vector
-				EscapeShuttlePath.Add(beginning);
-			}
-
-			EscapeShuttlePathGenerated = true;
-		}
-
+		GenerateShuttlePath();
 
 		bool validPos = false;
 		while (!validPos)
@@ -324,6 +306,32 @@ public partial class GameManager : MonoBehaviour, IInitialise
 
 		yield return WaitFor.EndOfFrame;
 		isProcessingSpaceBody = false;
+	}
+
+	private void GenerateShuttlePath()
+	{
+		if (EscapeShuttlePathGenerated) return;
+		if (GameManager.Instance.PrimaryEscapeShuttle == null)
+		{
+			Logger.LogWarning("Cannot generate primary escape shuttle path. Shuttle not found.");
+			return;
+		}
+
+		//Fills list of Vectors all along shuttle path
+		var beginning = GameManager.Instance.PrimaryEscapeShuttle.stationTeleportLocation;
+		var target = GameManager.Instance.PrimaryEscapeShuttle.stationDockingLocation;
+
+
+		var distance = (int)Vector2.Distance(beginning, target);
+
+		EscapeShuttlePath.Add(beginning); //Adds original vector
+		for (int i = 0; i < (distance / 50); i++)
+		{
+			beginning = Vector2.MoveTowards(beginning, target, 50); //Vector 50 distance apart from prev vector
+			EscapeShuttlePath.Add(beginning);
+		}
+
+		EscapeShuttlePathGenerated = true;
 	}
 
 	public Vector3 RandomPositionInSolarSystem()

@@ -1,18 +1,16 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Net.NetworkInformation;
-using System.Threading.Tasks;
-using Systems;
-using Mirror;
 using Newtonsoft.Json;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using Mirror;
+using Core.Networking;
+using Systems;
 using Messages.Server;
 using Messages.Client;
 using Messages.Client.NewPlayer;
 using UI;
-using DatabaseAPI;
 
 namespace Player
 {
@@ -42,27 +40,21 @@ namespace Player
 			}
 			else
 			{
-				CmdServerSetupPlayer(GetNetworkInfo(),
-					ServerData.Auth.CurrentUser.DisplayName, ServerData.UserID, GameData.BuildNumber,
-					ServerData.IdToken, SceneManager.GetActiveScene().name);
-
+				CmdServerSetupPlayer(SceneManager.GetActiveScene().name);
 			}
 		}
 
-		private async void HandleServerConnection()
+		private void HandleServerConnection()
 		{
-			await ServerSetUpPlayer(GetNetworkInfo(),
-				ServerData.Auth.CurrentUser.DisplayName, ServerData.UserID, GameData.BuildNumber,
-				ServerData.IdToken, "");
+			ServerSetUpPlayer(string.Empty);
 			ClientFinishLoading();
 		}
 
 		[Command]
-		private void CmdServerSetupPlayer(string unverifiedClientId, string unverifiedUsername,
-			string unverifiedUserid, int unverifiedClientVersion, string unverifiedToken, string clientCurrentScene)
+		private void CmdServerSetupPlayer(string currentScene)
 		{
 			ClearCache();
-			_ = ServerSetUpPlayer(unverifiedClientId, unverifiedUsername, unverifiedUserid, unverifiedClientVersion, unverifiedToken,clientCurrentScene);
+			ServerSetUpPlayer(currentScene);
 		}
 
 		[Server]
@@ -91,63 +83,64 @@ namespace Player
 		}
 
 		[Server]
-		private async Task ServerSetUpPlayer(
-			string unverifiedClientId,
-			string unverifiedUsername,
-			string unverifiedUserid,
-			int unverifiedClientVersion,
-			string unverifiedToken,
-			string clientCurrentScene)
+		private void ServerSetUpPlayer(string currentScene)
 		{
-			Logger.LogFormat("A joinedviewer called CmdServerSetupPlayer on this server, Unverified ClientId: {0} Unverified Username: {1}",
-				Category.Connections,
-				unverifiedClientId, unverifiedUsername);
+			var authData = (AuthData) connectionToClient.authenticationData;
+
+			// Sanity check in case Mirror does a surprising thing and allows commands from unauthenticated clients.
+			if (connectionToClient.isAuthenticated == false)
+			{
+				Logger.Log($"A client attempted to set up their server player object but they haven't authenticated yet! Address: {connectionToClient.address}.");
+				return;
+			}
+
+			Logger.LogTrace($"{authData.Username}'s {nameof(JoinedViewer)} called CmdServerSetupPlayer. ClientId: {authData.ClientId}.",
+					Category.Connections);
 
 			// Register player to player list (logging code exists in PlayerList so no need for extra logging here)
-			var unverifiedConnPlayer = PlayerList.Instance.AddOrUpdate(new PlayerInfo
+			var player = PlayerList.Instance.AddOrUpdate(new PlayerInfo
 			{
 				Connection = connectionToClient,
 				GameObject = gameObject,
-				Username = unverifiedUsername,
+				Username = authData.Username,
 				Job = JobType.NULL,
-				ClientId = unverifiedClientId,
-				UserId = unverifiedUserid,
+				ClientId = authData.ClientId,
+				UserId = authData.AccountId,
 				ConnectionIP = connectionToClient.address
 			});
 
-			// this validates Userid and Token
-			// and does a lot more stuff
-			var isValidPlayer = await PlayerList.Instance.TryLogIn(unverifiedConnPlayer, unverifiedClientVersion, unverifiedToken);
+			// Check if they're admin / banned etc
+			var isValidPlayer = PlayerList.Instance.TryLogIn(player);
 			if (isValidPlayer == false)
 			{
 				ClearCache();
-				PlayerList.Instance.Remove(unverifiedConnPlayer);
-				Logger.LogWarning($"Set up new player: invalid player. For {unverifiedUsername}", Category.Connections);
+				PlayerList.Instance.Remove(player);
+				Logger.LogWarning($"Set up new player: invalid player. For {authData.Username}", Category.Connections);
 				return;
 			}
 
 			//Add player to the list of current round players
-			PlayerList.Instance.AddToRoundPlayers(unverifiedConnPlayer);
+			PlayerList.Instance.AddToRoundPlayers(player);
 
 			//Send to client their job ban entries
-			var jobBanEntries = PlayerList.Instance.ClientAskingAboutJobBans(unverifiedConnPlayer);
-			PlayerList.ServerSendsJobBanDataMessage.Send(unverifiedConnPlayer.Connection, jobBanEntries);
+			var jobBanEntries = PlayerList.Instance.ClientAskingAboutJobBans(player);
+			PlayerList.ServerSendsJobBanDataMessage.Send(player.Connection, jobBanEntries);
 
 			//Send to client the current crew job counts
 			if (CrewManifestManager.Instance != null)
 			{
-				SetJobCountsMessage.SendToPlayer(CrewManifestManager.Instance.Jobs, unverifiedConnPlayer);
+				SetJobCountsMessage.SendToPlayer(CrewManifestManager.Instance.Jobs, player);
 			}
 
 			UpdateConnectedPlayersMessage.Send();
 
 			IsValidPlayerAndWaitingOnLoad = true;
-			STUnverifiedClientId = unverifiedClientId;
-			STVerifiedUserid = unverifiedUserid; // Is validated within PlayerList.TryLogIn()
-			STVerifiedConnPlayer = unverifiedConnPlayer;
-			if (string.IsNullOrEmpty(clientCurrentScene) == false)
+			STUnverifiedClientId = authData.ClientId;
+			STVerifiedUserid = authData.AccountId;
+			STVerifiedConnPlayer = player;
+			if (string.IsNullOrEmpty(currentScene) == false)
 			{
-				ServerRequestLoadedScenes(clientCurrentScene);
+				ServerRequestLoadedScenes(currentScene);
 			}
 		}
 
@@ -317,20 +310,6 @@ namespace Player
 		{
 			Logger.Log("Syncing countdown!", Category.Round);
 			UIManager.Display.preRoundWindow.GetComponent<GUI_PreRoundWindow>().SyncCountdown(started, endTime);
-		}
-
-		private string GetNetworkInfo()
-		{
-			var nics = NetworkInterface.GetAllNetworkInterfaces();
-			foreach (var n in nics)
-			{
-				if (string.IsNullOrEmpty(n.GetPhysicalAddress().ToString()) == false)
-				{
-					return n.GetPhysicalAddress().ToString();
-				}
-			}
-
-			return "";
 		}
 
 		/// <summary>
