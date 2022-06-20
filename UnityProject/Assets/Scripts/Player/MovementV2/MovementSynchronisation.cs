@@ -330,7 +330,7 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 		{
 			ServerCheckQueueingAndMove();
 		}
-		
+
 		if (Intangible == false && CanBeWindPushed)
 		{
 			CheckWindOtherPush();
@@ -1121,6 +1121,7 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 
 		slippedOn = null;
 		if (slipProtection) return false;
+		if (CurrentMovementType != MovementType.Running) return false;
 
 		var ToMatrix = SetMatrixCash.GetforDirection(moveAction.GlobalMoveDirection.TVectoro().To3Int()).Matrix;
 		var LocalTo = (registerTile.WorldPosition + moveAction.GlobalMoveDirection.TVectoro().To3Int())
