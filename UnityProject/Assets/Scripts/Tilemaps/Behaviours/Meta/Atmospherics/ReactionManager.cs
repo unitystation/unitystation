@@ -34,6 +34,14 @@ namespace Systems.Atmospherics
 		private float timePassed;
 		private int reactionTick;
 
+		public enum WindStrength
+		{
+			SOUND_ONLY = 3, //TODO : Add wind noise.
+			WEAK = 6, //Tile changes
+			STRONG = 9, //Garbage room/pipes wind
+			SPACE_VACUUM = 12 //Broken window or open airlock to the vast vacuum of space.
+		}
+
 		/// <summary>
 		/// reused when applying exposures to lots of tiles to avoid creating GC from
 		/// lambdas.
@@ -156,6 +164,8 @@ namespace Systems.Atmospherics
 				pushable.NewtonianPush(transform.rotation * (Vector2)windyNode.WindDirection, Random.Range((float)(correctedForce * 0.8), correctedForce));
 				if (pushable.stickyMovement && windyNode.WindForce > 3)
 				{
+					Debug.Log(windyNode.WindForce);
+					if (pushable is MovementSynchronisation && windyNode.WindForce < (int)WindStrength.STRONG) return;
 					pushable.TryTilePush((transform.rotation * (Vector2)windyNode.WindDirection).To2Int(), null);
 				}
 			}
