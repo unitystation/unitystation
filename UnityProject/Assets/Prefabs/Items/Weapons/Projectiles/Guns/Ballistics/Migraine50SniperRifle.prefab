@@ -288,6 +288,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4614094803234074905, guid: a940a8ef1ee65024fb0a322703040d98,
         type: 3}
+      propertyPath: loadMagSound.AssetAddress
+      value: Assets/Prefabs/Weapons/Gun/Sniper/SniperMagInsert.prefab
+      objectReference: {fileID: 0}
+    - target: {fileID: 4614094803234074905, guid: a940a8ef1ee65024fb0a322703040d98,
+        type: 3}
       propertyPath: SuppressedSoundA.AssetAddress
       value: Assets/Prefabs/Weapons/Gun/General/GeneralHeavyShotSuppressed.prefab
       objectReference: {fileID: 0}
