@@ -1845,8 +1845,7 @@ namespace TileManagement
 				Maximum = maxPosition + new Vector3(0.5f, 0.5f, 0), Minimum = minPosition + new Vector3(-0.5f, -0.5f, 0)
 			};
 
-			if (matrix.IsMovable == false ||
-			    (CustomNetworkManager.IsServer && matrix.MatrixMove.IsMovingServer == false &&
+			if ((CustomNetworkManager.IsServer && matrix.MatrixMove.IsMovingServer == false &&
 			     matrix.MatrixMove.IsRotatingServer == false) ||
 			    (CustomNetworkManager.IsServer == false && matrix.MatrixMove.IsMovingClient == false &&
 			     matrix.MatrixMove.IsRotatingServer == false))
