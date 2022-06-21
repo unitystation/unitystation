@@ -1844,10 +1844,9 @@ namespace TileManagement
 			{
 				Maximum = maxPosition + new Vector3(0.5f, 0.5f, 0), Minimum = minPosition + new Vector3(-0.5f, -0.5f, 0)
 			};
-
-
-			GlobalCachedBounds = newGlobalBounds;
 			
+			GlobalCachedBounds = newGlobalBounds;
+
 			return newGlobalBounds;
 		}
 
