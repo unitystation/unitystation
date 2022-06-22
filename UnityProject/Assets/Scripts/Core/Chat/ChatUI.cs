@@ -86,6 +86,7 @@ namespace UI.Chat_UI
 
 		[BoxGroup("Animation")] public float ChatFadeSpeed = 2f;
 		[BoxGroup("Animation"), Range(0,1)] public float ChatMinimumAlpha = 0.5f;
+		[BoxGroup("Animation")] public bool SetChatBackgroundToHiddenOnStartup = true;
 
 		private const float FULLY_VISIBLE_ALPHA = 0.95f;
 
@@ -141,7 +142,12 @@ namespace UI.Chat_UI
 
 			// Make sure the window and channel panel start disabled
 			chatInputWindow.SetActive(false);
-			AnimateBackgroundHide();
+			if (SetChatBackgroundToHiddenOnStartup)
+			{
+				Color c = background.color;
+				c.a = 0.01f;
+				background.color = c;
+			}
 			//channelPanel.gameObject.SetActive(false);
 			EventManager.AddHandler(Event.UpdateChatChannels, OnUpdateChatChannels);
 			chatFilter = Chat.Instance.GetComponent<ChatFilter>();
@@ -432,10 +438,11 @@ namespace UI.Chat_UI
 		{
 			StopCoroutine(AnimateBackgroundShow());
 			Color color = background.color;
-			while (Mathf.Approximately(background.color.a, ChatMinimumAlpha) == false)
+			while (background.color.a > 0.05f)
 			{
 				yield return WaitFor.EndOfFrame;
 				color.a = Mathf.Lerp(color.a, ChatMinimumAlpha, ChatFadeSpeed * Time.deltaTime);
+				if (background.color.a < 0.05f) color.a = 0.01f;
 				background.color = color;
 			}
 		}
