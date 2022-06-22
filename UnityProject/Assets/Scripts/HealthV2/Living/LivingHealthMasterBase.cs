@@ -292,6 +292,12 @@ namespace HealthV2
 			}
 		}
 
+		public void BodyPartListChange()
+		{
+			CirculatorySystem.OrNull()?.BodyPartListChange();
+		}
+
+
 		private void OnEnable()
 		{
 			if (CustomNetworkManager.IsServer == false) return;

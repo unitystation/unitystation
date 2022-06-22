@@ -15,8 +15,8 @@ public class BodyHealthEffect : MetabolismReaction
 
 	[FormerlySerializedAs("EffectPerOne")]
 	[Tooltip("How much damage or heals If negative per 1u")]
-	[HideIf("MultiEffect")] public float AttackBodyPartPerOneU = 1;
-
+	[HideIf("MultiEffect")]
+	public float AttackBodyPartPerOneU = 1;
 
 
 	public bool CanOverdose = true;
@@ -40,62 +40,68 @@ public class BodyHealthEffect : MetabolismReaction
 	}
 
 
-
-	public override void PossibleReaction(List<BodyPart> senders, ReagentMix reagentMix, float LimitedreactionAmount) //LimitedreactionAmount = 0 to 1
+	public override void PossibleReaction(List<BodyPart> senders, ReagentMix reagentMix,
+		float limitedReactionAmountPercentage, float BodyReactionAmount) //limitedReactionAmountPercentage = 0 to 1
 	{
-		if (CanOverdose)
+
+		bool Overdose = false;
+		float TotalIn = 0;
+		foreach (var reagent in ingredients.m_dict)
 		{
-			float TotalIn = 0;
-			foreach (var reagent in ingredients.m_dict)
+			TotalIn += reagentMix[reagent.Key];
+		}
+
+		foreach (var bodyPart in senders)
+		{
+			var Individual = bodyPart.ReagentMetabolism * bodyPart.BloodThroughput *
+			                 bodyPart.currentBloodSaturation * Mathf.Max(0.10f, bodyPart.TotalModified);
+			var PercentageOfProcess = Individual / BodyReactionAmount;
+			var TotalChemicalsProcessedByBodyPart =
+				TotalIn * limitedReactionAmountPercentage * PercentageOfProcess;
+
+			if (CanOverdose)
 			{
-				TotalIn += reagentMix[reagent.Key];
+				if (TotalIn > ConcentrationBloodOverdose)
+				{
+					Overdose = true;
+					if (MultiEffect)
+					{
+						foreach (var Effect in Effects)
+						{
+							bodyPart.TakeDamage(null,
+								Effect.EffectPerOne * TotalChemicalsProcessedByBodyPart * -OverdoseDamageMultiplier,
+								Effect.AttackType,
+								Effect.DamageEffect, DamageSubOrgans: false);
+						}
+					}
+					else
+					{
+						bodyPart.TakeDamage(null,
+							AttackBodyPartPerOneU * TotalChemicalsProcessedByBodyPart * -OverdoseDamageMultiplier,
+							AttackType,
+							DamageEffect, DamageSubOrgans: false);
+					}
+				}
 			}
 
-
-			if (TotalIn > ConcentrationBloodOverdose)
+			if (Overdose == false)
 			{
 				if (MultiEffect)
 				{
-					//
 					foreach (var Effect in Effects)
 					{
-						foreach (var sender in senders)
-						{
-							ReagentMetabolism * bloodThroughput * TotalModified
-
-							sender.TakeDamage(null, Effect.EffectPerOne  * LimitedreactionAmount * -OverdoseDamageMultiplier, Effect.AttackType,
-								Effect.DamageEffect, DamageSubOrgans: false);
-						}
-
+						bodyPart.TakeDamage(null, Effect.EffectPerOne * TotalChemicalsProcessedByBodyPart, Effect.AttackType,
+							Effect.DamageEffect, DamageSubOrgans: false);
 					}
-
 				}
 				else
 				{
-					senders.TakeDamage(null, AttackBodyPartPerOneU * LimitedreactionAmount * -OverdoseDamageMultiplier, AttackType,
+					bodyPart.TakeDamage(null, AttackBodyPartPerOneU * TotalChemicalsProcessedByBodyPart, AttackType,
 						DamageEffect, DamageSubOrgans: false);
 				}
-
-				base.PossibleReaction(senders, reagentMix, LimitedreactionAmount);
-				return;
 			}
 		}
 
-		if (MultiEffect)
-		{
-			foreach (var Effect in Effects)
-			{
-				senders.TakeDamage(null, Effect.EffectPerOne  * LimitedreactionAmount , Effect.AttackType,
-					Effect.DamageEffect, DamageSubOrgans: false);
-			}
-
-		}
-		else
-		{
-			senders.TakeDamage(null, AttackBodyPartPerOneU  * LimitedreactionAmount, AttackType,
-				DamageEffect, DamageSubOrgans: false);
-		}
-
-		base.PossibleReaction(senders, reagentMix, LimitedreactionAmount);
+		base.PossibleReaction(senders, reagentMix, limitedReactionAmountPercentage, BodyReactionAmount);
 	}
 }

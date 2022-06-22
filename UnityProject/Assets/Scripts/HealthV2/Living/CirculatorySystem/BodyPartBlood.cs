@@ -73,7 +73,7 @@ namespace HealthV2
 		/// </summary>
 		[Tooltip("What percentage per update of oxygen*(Required reagent) is consumed")]
 		[SerializeField]
-		private float bloodReagentConsumedPercentageb = 0.5f;
+		public float bloodReagentConsumedPercentageb = 0.5f;
 
 		[Tooltip("How much blood reagent does this request per blood pump event?")] [SerializeField]
 		private float bloodThroughput = 5f; //This will need to be reworked when heartrate gets finished
@@ -84,6 +84,8 @@ namespace HealthV2
 		/// </summary>
 		public float BloodThroughput => bloodThroughput;
 
+
+		public float currentBloodSaturation = 0;
 
 		/// <summary>
 		/// The nutriment reagent that this part consumes in order to perform tasks
@@ -151,6 +153,8 @@ namespace HealthV2
 		/// </summary>
 		protected virtual void BloodUpdate()
 		{
+			return;
+
 			if (isBloodCirculated == false) return;
 			ConsumeReagents(); //d
 			if (CanGetHungry)
@@ -199,12 +203,21 @@ namespace HealthV2
 			{
 				bloodSaturation = BloodContainer[requiredReagent] / bloodCap;
 			}
+			else
+			{
+				if (BloodContainer[requiredReagent] > 0.1f)
+				{
+
+				}
+
+
+			}
 
 			// Numbers could use some tweaking, maybe consumption goes down when unconscious?
 			if (!isBloodReagentConsumed) return;
 
 			float consumed =
-				BloodContainer.CurrentReagentMix.Subtract(requiredReagent, bloodReagentConsumedPercentageb * BloodContainer[requiredReagent]);
+				BloodContainer.CurrentReagentMix.Subtract(requiredReagent, bloodReagentConsumedPercentageb * BloodThroughput);
 
 			// Adds waste product (eg CO2) if any, currently always 1:2, could add code to change the ratio
 			if (wasteReagent)

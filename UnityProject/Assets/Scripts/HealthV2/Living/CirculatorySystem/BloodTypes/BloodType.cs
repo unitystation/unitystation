@@ -6,6 +6,8 @@ namespace HealthV2
 	[CreateAssetMenu(fileName = "BloodType", menuName = "ScriptableObjects/Health/BloodType", order = 0)]
 	public class BloodType : Reagent
 	{
+		public float PercentageNeededInBloodFlow = 0.10f;
+
 		[Tooltip("This is the reagent actually metabolised and circulated through this circulatory system.")]
 		public Chemistry.Reagent CirculatedReagent;	//Just one for now feel free to add the code for more if needed
 
@@ -62,6 +64,20 @@ namespace HealthV2
 				return GetSpecialGasCapacity(reagentMix) - reagentMix[CirculatedReagent];
 			}
 			return GetGasCapacity(reagentMix, reagent) - reagentMix[reagent];
+		}
+
+
+		public float CalculatePercentageBloodPresent(ReagentMix reagentMix)
+		{
+			var Percentage = (reagentMix[this] / reagentMix.Total);
+			if (PercentageNeededInBloodFlow > Percentage)
+			{
+				return 1;
+			}
+			else
+			{
+				return (Percentage) / PercentageNeededInBloodFlow;
+			}
 		}
 	}
 }

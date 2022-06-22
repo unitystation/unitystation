@@ -45,6 +45,7 @@ public class RaceHealthData
 	public float NumberOfMinutesBeforeStarving = 30f;
 
 	public float TotalToxinGenerationPerSecond = 0.1f;
+
 }
 
 

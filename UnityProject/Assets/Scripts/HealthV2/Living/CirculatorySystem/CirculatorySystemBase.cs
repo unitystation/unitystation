@@ -70,19 +70,112 @@ namespace HealthV2
 
 		public class ReagentWithBodyParts
 		{
-			public BloodType BloodType;
+			public float Percentage;
 			public float TotalNeeded;
 			public List<BodyPart> RelatedBodyParts = new List<BodyPart>();
-			public Dictionary<Reagent, ReagentWithBodyParts> ReplacesWith;
+			public Dictionary<Reagent, ReagentWithBodyParts> ReplacesWith = new Dictionary<Reagent, ReagentWithBodyParts>();
 		}
 
 		//TODO  Heavy stuff is put on here and Done in bulk, If you want to add custom logic do it within components that inherit from BodyPartFunctionality
 		//If it's laggy and there's a bunch of systems, maybe it might be worth making a generic version of this
+
+		//loop Player chemistry set
+		//Then get by tag
+		//then apply effect
 		public Dictionary<Reagent, ReagentWithBodyParts> NutrimentToConsume = new Dictionary<Reagent, ReagentWithBodyParts>();
 
-		public Dictionary<Reagent, ReagentWithBodyParts> SaturationToConsume = new Dictionary<Reagent, ReagentWithBodyParts>();
+		public Dictionary<BloodType, Dictionary<Reagent,ReagentWithBodyParts>> SaturationToConsume = new Dictionary<BloodType, Dictionary<Reagent,ReagentWithBodyParts>> ();
 
 		public Dictionary<Reagent, ReagentWithBodyParts> Toxicity = new Dictionary<Reagent, ReagentWithBodyParts>();
+
+
+		public void BodyPartListChange()
+		{
+			NutrimentToConsume.Clear();
+			SaturationToConsume.Clear();
+			Toxicity.Clear();
+
+			foreach (var bodyPart in healthMaster.BodyPartList)
+			{
+				if (bodyPart.IsBloodCirculated == false)
+				{
+					continue;
+				}
+
+				{
+					if (SaturationToConsume.ContainsKey(bodyPart.bloodType) == false)
+					{
+						SaturationToConsume[bodyPart.bloodType] = new Dictionary<Reagent, ReagentWithBodyParts>();
+					}
+
+					if (SaturationToConsume[bodyPart.bloodType].ContainsKey(bodyPart.requiredReagent) == false)
+					{
+						SaturationToConsume[bodyPart.bloodType][bodyPart.requiredReagent] = new ReagentWithBodyParts();
+					}
+
+					var requiredReagent = SaturationToConsume[bodyPart.bloodType][bodyPart.requiredReagent];
+					requiredReagent.RelatedBodyParts.Add(bodyPart);
+
+					requiredReagent.TotalNeeded += bodyPart.bloodReagentConsumedPercentageb * bodyPart.BloodThroughput;
+
+					requiredReagent.Percentage += bodyPart.bloodReagentConsumedPercentageb;
+					requiredReagent.Percentage *= 0.5f;
+
+					if (bodyPart.wasteReagent)
+					{
+						if (requiredReagent.ReplacesWith.ContainsKey(bodyPart.wasteReagent) == false)
+						{
+							requiredReagent.ReplacesWith[bodyPart.wasteReagent] = new ReagentWithBodyParts();
+
+						}
+						requiredReagent.ReplacesWith[bodyPart.wasteReagent].TotalNeeded += bodyPart.bloodReagentConsumedPercentageb * bodyPart.BloodThroughput;
+					}
+				}
+
+
+				if (bodyPart.HasNaturalToxicity) //Could be better
+				{
+					if (Toxicity.ContainsKey(bodyPart.NaturalToxinReagent) == false)
+					{
+						Toxicity[bodyPart.NaturalToxinReagent] = new ReagentWithBodyParts();
+					}
+
+					Toxicity[bodyPart.NaturalToxinReagent].RelatedBodyParts.Add(bodyPart);
+					Toxicity[bodyPart.NaturalToxinReagent].TotalNeeded += bodyPart.ToxinGeneration * bodyPart.BloodThroughput;
+				}
+
+				if (bodyPart.CanGetHungry)
+				{
+					if (NutrimentToConsume.ContainsKey(bodyPart.Nutriment) == false)
+					{
+						NutrimentToConsume[bodyPart.Nutriment] = new ReagentWithBodyParts();
+					}
+					NutrimentToConsume[bodyPart.Nutriment].RelatedBodyParts.Add(bodyPart);
+					NutrimentToConsume[bodyPart.Nutriment].TotalNeeded += bodyPart.PassiveConsumptionNutriment;
+				}
+
+
+
+
+			}
+
+
+			foreach (var MR in ALLMetabolismReactions)
+			{
+				foreach (var bodyPart in healthMaster.BodyPartList)
+				{
+					if (bodyPart.ItemAttributes.HasAllTraits(MR.AllRequired) &&
+					    bodyPart.ItemAttributes.HasAnyTrait(MR.Blacklist) == false)
+					{
+						if (PrecalculatedMetabolismReactions.ContainsKey(MR) == false)
+						{
+							PrecalculatedMetabolismReactions[MR] = new List<BodyPart>();
+						}
+						PrecalculatedMetabolismReactions[MR].Add(bodyPart);
+					}
+				}
+			}
+		}
 
 		public void BloodUpdate()
 		{
@@ -95,66 +188,73 @@ namespace HealthV2
 			NutrimentCalculation(HeartEfficiency);
 			BloodSaturationCalculations(HeartEfficiency);
 			MetaboliseReactions();
-			ToxinGeneration();
+			ToxinGeneration(); //Could be better
 
 		}
 
 		public void BloodSaturationCalculations(float HeartEfficiency)
 		{
-			foreach (var KVP in SaturationToConsume)
+
+			foreach (var bloodAndValues in SaturationToConsume)
 			{
-
-				//Heal if blood saturation consumption is fine, otherwise do damage
-				float bloodSaturation = 0;
-				float bloodCap = KVP.Value.BloodType.GetNormalGasCapacity(BloodPool);
-				if (bloodCap > 0)
+				foreach (var KVP in bloodAndValues.Value)
 				{
-					bloodSaturation = BloodPool[KVP.Key] / bloodCap;
-				}
-
-				var Available = Mathf.Min(KVP.Value.TotalNeeded, BloodPool[KVP.Key]) * HeartEfficiency;
-				var PercentageAvailable = (Available / KVP.Value.TotalNeeded);
-				// Numbers could use some tweaking, maybe consumption goes down when unconscious?
-				BloodPool.Subtract(KVP.Key,Available);
-
-				// Adds waste product (eg CO2) if any, currently always 1:2, could add code to change the ratio
-				foreach (var KVP2 in KVP.Value.ReplacesWith)
-				{
-					BloodPool.Add(KVP2.Key, KVP2.Value.TotalNeeded *  PercentageAvailable);
-				}
-
-				var info = KVP.Value.BloodType;
-				float damage;
-				if (bloodSaturation < info.BLOOD_REAGENT_SATURATION_BAD)
-				{
-					//Deals damage that ramps to 1 as blood saturation levels drop, halved if unconscious
-					if (bloodSaturation <= 0)
+					//Heal if blood saturation consumption is fine, otherwise do damage
+					float bloodSaturation = 0;
+					float bloodCap = bloodAndValues.Key.GetGasCapacity(BloodPool, KVP.Key);
+					if (bloodCap > 0)
 					{
-						damage = 1f;
+						bloodSaturation = BloodPool[KVP.Key] / bloodCap;
 					}
-					else if (bloodSaturation < info.BLOOD_REAGENT_SATURATION_CRITICAL)
+
+					bloodSaturation = bloodSaturation * HeartEfficiency * bloodAndValues.Key.CalculatePercentageBloodPresent(BloodPool);
+
+
+					var Available = BloodPool[KVP.Key] * KVP.Value.Percentage * HeartEfficiency; // This is just all -  Stuff nothing to do with saturation!
+
+					// Numbers could use some tweaking, maybe consumption goes down when unconscious?
+					BloodPool.Subtract(KVP.Key,Available);
+
+					// Adds waste product (eg CO2) if any
+					foreach (var KVP2 in KVP.Value.ReplacesWith)
 					{
-						// Arbitrary damage formula, could use anything here
-						damage = 1 * (1 - Mathf.Sqrt(bloodSaturation));
+						BloodPool.Add(KVP2.Key, (KVP2.Value.TotalNeeded / KVP.Value.TotalNeeded) * Available);
+					}
+
+					var info = bloodAndValues.Key;
+					float damage;
+					if (bloodSaturation < info.BLOOD_REAGENT_SATURATION_BAD)
+					{
+						//Deals damage that ramps to 1 as blood saturation levels drop, halved if unconscious
+						if (bloodSaturation <= 0)
+						{
+							damage = 1f;
+						}
+						else if (bloodSaturation < info.BLOOD_REAGENT_SATURATION_CRITICAL)
+						{
+							// Arbitrary damage formula, could use anything here
+							damage = 1 * (1 - Mathf.Sqrt(bloodSaturation));
+						}
+						else
+						{
+							damage = 1;
+						}
 					}
 					else
 					{
-						damage = 1;
-					}
-				}
-				else
-				{
 
-					damage = -1;
-					if (bloodSaturation > info.BLOOD_REAGENT_SATURATION_OKAY)
+						damage = -1;
+						if (bloodSaturation > info.BLOOD_REAGENT_SATURATION_OKAY)
+						{
+							damage = -2;
+						}
+					}
+
+					foreach (var bodyPart in KVP.Value.RelatedBodyParts)
 					{
-						damage = -2;
+						bodyPart.currentBloodSaturation = bloodSaturation;
+						bodyPart.AffectDamage(damage, (int) DamageType.Oxy);
 					}
-				}
-
-				foreach (var bodyPart in KVP.Value.RelatedBodyParts)
-				{
-					bodyPart.AffectDamage(damage, (int) DamageType.Oxy);
 				}
 			}
 		}
@@ -177,8 +277,7 @@ namespace HealthV2
 				}
 
 
-				var available = BloodPool[KVP.Key];
-				var AvailablePercentage = available / Needed;
+				var AvailablePercentage = BloodPool[KVP.Key] / Needed;
 				var Effective = Mathf.Min(HeartEfficiency, AvailablePercentage);
 
 				var Amount = Needed * Effective;
@@ -226,7 +325,7 @@ namespace HealthV2
 		public void MetaboliseReactions()
 		{
 			MetabolismReactions.Clear();
-			//This is going to be a pain
+
 			foreach (var Reaction in PrecalculatedMetabolismReactions)
 			{
 				Reaction.Key.Apply(this, BloodPool);
@@ -237,15 +336,11 @@ namespace HealthV2
 				float ProcessingAmount = 0;
 				foreach (var bodyPart in PrecalculatedMetabolismReactions[Reaction]) //TODO maybe lag? Alternative?
 				{
-					ProcessingAmount += bodyPart.ReagentMetabolism * bodyPart.BloodThroughput * bodyPart.TotalModified;
+					ProcessingAmount += bodyPart.ReagentMetabolism * bodyPart.BloodThroughput * bodyPart.currentBloodSaturation * Mathf.Max(0.10f, bodyPart.TotalModified);
 				}
 
-				Reaction.React(PrecalculatedMetabolismReactions[Reaction], BloodPool,ProcessingAmount)
+				Reaction.React(PrecalculatedMetabolismReactions[Reaction], BloodPool, ProcessingAmount);
 			}
-
-			//loop Player chemistry set
-			//Then get by tag
-			//then apply effect
 		}
 	}
 
