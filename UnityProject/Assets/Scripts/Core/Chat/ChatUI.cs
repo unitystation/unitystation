@@ -429,7 +429,7 @@ namespace UI.Chat_UI
 			{
 				yield return WaitFor.EndOfFrame;
 				color.a = Mathf.Lerp(color.a, FULLY_VISIBLE_ALPHA, ChatFadeSpeed * Time.deltaTime);
-				if(color.a > FULLY_VISIBLE_ALPHA) color.a = FULLY_VISIBLE_ALPHA;
+				color.a = Mathf.Clamp(color.a, 0.1f, FULLY_VISIBLE_ALPHA);
 				background.color = color;
 			}
 		}
@@ -442,7 +442,7 @@ namespace UI.Chat_UI
 			{
 				yield return WaitFor.EndOfFrame;
 				color.a = Mathf.Lerp(color.a, ChatMinimumAlpha, ChatFadeSpeed * Time.deltaTime);
-				if (background.color.a < 0.05f) color.a = 0.01f;
+				color.a = Mathf.Clamp(color.a, 0.1f, FULLY_VISIBLE_ALPHA);
 				background.color = color;
 			}
 		}
