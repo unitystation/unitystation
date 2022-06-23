@@ -22,7 +22,7 @@ namespace TileManagement
 
 		public Vector3Int size => Maximum - Minimum;
 
-		public Vector3Int center => (Minimum + Maximum) / 2;
+		public Vector3 center => (Minimum + Maximum).ToNonInt3() / 2f;
 
 		public bool Contains(Vector3Int Point)
 		{

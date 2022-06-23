@@ -802,14 +802,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 		}
 
 
-		if (IsMoving)
-		{
-			SetMatrixCash.ResetNewPosition(From);
-		}
-		else
-		{
-			SetMatrixCash.ResetNewPosition(From, registerTile);
-		}
+		SetMatrixCash.ResetNewPosition(From, registerTile);
 
 
 		if (MatrixManager.IsPassableAtAllMatricesV2(From,
