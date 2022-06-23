@@ -20,18 +20,13 @@ using Random = UnityEngine.Random;
 public class MetaDataLayer : MonoBehaviour
 {
 
-	//Easiest to synchronise?
-	//Attribute
-	//What needs to be done
-
-	//set current state on clients
-	//Only send the different node
-
-
 	private Dictionary<Vector3Int, MetaDataNode> nodes = new Dictionary<Vector3Int, MetaDataNode>();
 
 
-	public Dictionary<Vector3Int, MetaDataNode> ChangedNodes = new Dictionary<Vector3Int, MetaDataNode>(); //Used for networking
+	/// <summary>
+	/// //Used for networking, Nodes that have changed In terms of network variables
+	/// </summary>
+	public Dictionary<Vector3Int, MetaDataNode> ChangedNodes = new Dictionary<Vector3Int, MetaDataNode>();
 
 	public List<MetaDataNode> nodesToUpdate = new List<MetaDataNode>();
 
@@ -112,11 +107,16 @@ public class MetaDataLayer : MonoBehaviour
 		var node = nodes[localPosition];
 		if (updateTileOnClient)
 		{
-			nodesToUpdate.Add(node);
-			ChangedNodes[localPosition] = node;
+			AddNetworkChange(localPosition, node);
 		}
 
 		return node;
+	}
+
+	public void AddNetworkChange(Vector3Int localPosition, MetaDataNode  node)
+	{
+		nodesToUpdate.Add(node);
+		ChangedNodes[localPosition] = node;
 	}
 
 	public bool IsSpaceAt(Vector3Int position)

@@ -57,6 +57,7 @@ public class MetaDataLayerMessage : ServerMessage<MetaDataLayerMessage.NetMessag
 		}
 	}
 
+
 	public static void Send(GameObject managerSubject, List<MetaDataNode> changeList)
 	{
 		var netID = managerSubject.transform.parent.GetComponent<NetworkedMatrix>().MatrixSync.netId;

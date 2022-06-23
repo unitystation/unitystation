@@ -329,8 +329,7 @@ public class MetaDataNode : IGasMixContainer
 
 	public void ForceUpdateClient()
 	{
-		PositionMatrix.MetaDataLayer.nodesToUpdate.Add(this);
-		PositionMatrix.MetaDataLayer.ChangedNodes[Position] = this;
+		PositionMatrix.MetaDataLayer.AddNetworkChange(Position, this);
 	}
 }
 
