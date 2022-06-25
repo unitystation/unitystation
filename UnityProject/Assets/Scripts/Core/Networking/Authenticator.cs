@@ -68,7 +68,7 @@ namespace Core.Networking
 		{
 			Logger.LogTrace($"A client not yet authenticated is joining. Address: {conn.address}.", Category.Connections);
 		}
-		
+
 		public async void OnAuthRequestMessage(NetworkConnectionToClient conn, AuthRequestMessage msg)
 		{
 			Logger.LogTrace($"A client is requesting authentication. " +
@@ -109,7 +109,7 @@ namespace Core.Networking
 				connectionCooldowns.Add(conn.address, (DateTime.Now, DateTime.MinValue));
 				return false;
 			}
-			
+
 			var connSecondsElapsed = (DateTime.Now - connectionCooldowns[conn.address].Item1).TotalSeconds;
 			var logSecondsElapsed = (DateTime.Now - connectionCooldowns[conn.address].Item2).TotalSeconds;
 			connectionCooldowns[conn.address] = (DateTime.Now, DateTime.MinValue);
@@ -158,10 +158,10 @@ namespace Core.Networking
 						Category.Connections);
 				DisconnectClient(conn, ResponseCode.InvalidAccountDetails,
 						"Account has invalid token. Try restarting the game and relogging into your account.");
-				
+
 				return false;
 			}
-			
+
 			// Validate the provided token against the account details
 			var refresh = new RefreshToken { userID = accountId, refreshToken = accountToken };
 			var response = await ServerData.ValidateToken(refresh, true);
@@ -172,7 +172,7 @@ namespace Core.Networking
 						Category.Connections);
 				DisconnectClient(conn, ResponseCode.AccountValidationError,
 						"Server Error: unknown problem encountered when attempting to validate your account token.");
-				
+
 				return false;
 			}
 
@@ -203,7 +203,7 @@ namespace Core.Networking
 
 			// Force disconnect after giving time for message receipt,
 			// if the client hasn't already disconnected gracefully
-			yield return new WaitForSeconds(1f); 
+			yield return new WaitForSeconds(1f);
 
 			ServerReject(conn);
 		}
@@ -224,10 +224,10 @@ namespace Core.Networking
 				ClientVersion = GameData.BuildNumber,
 				ClientId = GetPhysicalAddress(),
 				AccountId = ServerData.UserID,
-				Username = ServerData.Auth.CurrentUser.DisplayName,
+				Username = ServerData.Auth?.CurrentUser?.DisplayName,
 				Token = ServerData.IdToken,
 			};
-			
+
 			NetworkClient.Send(msg);
 		}
 
