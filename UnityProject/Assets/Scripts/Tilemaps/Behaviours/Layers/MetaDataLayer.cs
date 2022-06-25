@@ -1,22 +1,34 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using Systems.Atmospherics;
 using Chemistry;
 using Chemistry.Components;
 using HealthV2;
 using Items;
+using Messages.Server;
+using Mirror;
 using Newtonsoft.Json;
 using UnityEngine;
 using Objects.Construction;
 using TileManagement;
+using Random = UnityEngine.Random;
 
 /// <summary>
 /// Holds and provides functionality for all the MetaDataTiles for a given matrix.
 /// </summary>
 public class MetaDataLayer : MonoBehaviour
 {
-	private SerializableDictionary<Vector3Int, MetaDataNode> nodes = new SerializableDictionary<Vector3Int, MetaDataNode>();
 
+	private Dictionary<Vector3Int, MetaDataNode> nodes = new Dictionary<Vector3Int, MetaDataNode>();
+
+
+	/// <summary>
+	/// //Used for networking, Nodes that have changed In terms of network variables
+	/// </summary>
+	public Dictionary<Vector3Int, MetaDataNode> ChangedNodes = new Dictionary<Vector3Int, MetaDataNode>();
+
+	public List<MetaDataNode> nodesToUpdate = new List<MetaDataNode>();
 
 	private MetaDataSystem MetaDataSystem;
 
@@ -28,6 +40,23 @@ public class MetaDataLayer : MonoBehaviour
 
 	public Dictionary<GameObject, Vector3> InitialObjects = new Dictionary<GameObject, Vector3>();
 
+
+	public void OnEnable()
+	{
+		if (CustomNetworkManager.IsServer)
+		{
+			UpdateManager.Add(CallbackType.UPDATE, SynchroniseNodeChanges);
+		}
+	}
+
+	public void OnDisable()
+	{
+		if (CustomNetworkManager.IsServer)
+		{
+			UpdateManager.Remove(CallbackType.UPDATE, SynchroniseNodeChanges);
+		}
+	}
+
 	private void Awake()
 	{
 		subsystemManager = GetComponentInParent<SubsystemManager>();
@@ -36,13 +65,30 @@ public class MetaDataLayer : MonoBehaviour
 		MetaDataSystem = subsystemManager.GetComponent<MetaDataSystem>();
 	}
 
+
+	public void SynchroniseNodeChanges()
+	{
+		if (nodesToUpdate.Count > 0)
+		{
+			MetaDataLayerMessage.Send(gameObject, nodesToUpdate);
+			nodesToUpdate.Clear();
+		}
+	}
+
+
+	[Server]
+	public void UpdateNewPlayer(NetworkConnection requestedBy)
+	{
+		MetaDataLayerMessage.SendTo(gameObject, requestedBy, ChangedNodes);
+	}
+
 	private void OnDestroy()
 	{
 		//In the case of the matrix remaining in memory after the round ends, this will ensure the MetaDataNodes are GC
 		nodes.Clear();
 	}
 
-	public MetaDataNode Get(Vector3Int localPosition, bool createIfNotExists = true)
+	public MetaDataNode Get(Vector3Int localPosition, bool createIfNotExists = true, bool updateTileOnClient = false)
 	{
 		localPosition.z = 0; //Z Positions are always on 0
 
@@ -58,7 +104,19 @@ public class MetaDataLayer : MonoBehaviour
 			}
 		}
 
-		return nodes[localPosition];
+		var node = nodes[localPosition];
+		if (updateTileOnClient)
+		{
+			AddNetworkChange(localPosition, node);
+		}
+
+		return node;
+	}
+
+	public void AddNetworkChange(Vector3Int localPosition, MetaDataNode  node)
+	{
+		nodesToUpdate.Add(node);
+		ChangedNodes[localPosition] = node;
 	}
 
 	public bool IsSpaceAt(Vector3Int position)
@@ -93,7 +151,7 @@ public class MetaDataLayer : MonoBehaviour
 
 	public void MakeSlipperyAt(Vector3Int position, bool canDryUp = true)
 	{
-		var tile = Get(position, false);
+		var tile = Get(position, false,true);
 		if (tile == MetaDataNode.None || tile.IsSpace)
 		{
 			return;
@@ -237,7 +295,7 @@ public class MetaDataLayer : MonoBehaviour
 
 	public void Clean(Vector3Int worldPosInt, Vector3Int localPosInt, bool makeSlippery)
 	{
-		Get(localPosInt).IsSlippery = false;
+		Get(localPosInt, updateTileOnClient: true).IsSlippery = false;
 		var floorDecals = MatrixManager.GetAt<FloorDecal>(worldPosInt, isServer: true);
 
 		foreach (var floorDecal in floorDecals)
@@ -280,6 +338,7 @@ public class MetaDataLayer : MonoBehaviour
 		//Blood should take 3 mins to dry (TG STATION)
 		yield return WaitFor.Seconds(180);
 		tile.IsSlippery = false;
+		tile.ForceUpdateClient();
 
 		var floorDecals = matrix.Get<FloorDecal>(tile.Position, isServer: true);
 		foreach (var decal in floorDecals)
@@ -296,7 +355,7 @@ public class MetaDataLayer : MonoBehaviour
 	{
 		yield return WaitFor.Seconds(Random.Range(10,21));
 		tile.IsSlippery = false;
-
+		tile.ForceUpdateClient();
 		var floorDecals = matrix.Get<FloorDecal>(tile.Position, isServer: true);
 		foreach (var decal in floorDecals)
 		{

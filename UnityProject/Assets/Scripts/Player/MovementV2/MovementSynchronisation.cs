@@ -328,7 +328,7 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 		{
 			ServerCheckQueueingAndMove();
 		}
-		
+
 		if (isLocalPlayer == false) return;
 		bool inputDetected = KeyboardInputManager.IsMovementPressed(KeyboardInputManager.KeyEventType.Hold);
 		if (inputDetected != IsPressedCashed)
@@ -1064,6 +1064,7 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 
 		slippedOn = null;
 		if (slipProtection) return false;
+		if (CurrentMovementType != MovementType.Running) return false;
 
 		var ToMatrix = SetMatrixCash.GetforDirection(moveAction.GlobalMoveDirection.TVectoro().To3Int()).Matrix;
 		var LocalTo = (registerTile.WorldPosition + moveAction.GlobalMoveDirection.TVectoro().To3Int())

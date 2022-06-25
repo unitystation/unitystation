@@ -19,7 +19,11 @@ namespace Messages.Client.NewPlayer
 				return;
 			}
 
-			NetworkObject.transform.parent.GetComponent<TileChangeManager>().UpdateNewPlayer(
+			var parent = NetworkObject.transform.parent;
+			parent.GetComponent<TileChangeManager>().UpdateNewPlayer(
+				SentByPlayer.Connection);
+
+			parent.GetComponentInChildren<MetaDataLayer>().UpdateNewPlayer(
 				SentByPlayer.Connection);
 		}
 
