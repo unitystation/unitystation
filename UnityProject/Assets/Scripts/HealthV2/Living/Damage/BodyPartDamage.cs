@@ -402,5 +402,10 @@ namespace HealthV2
 		{
 			UIManager.PlayerHealthUI.SetBodyTypeOverlay(this);
 		}
+
+		public float GetDamage(DamageType damageType)
+		{
+			return Damages[(int) damageType];
+		}
 	}
 }

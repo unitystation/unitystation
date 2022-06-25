@@ -40,32 +40,81 @@ public class BodyHealthEffect : MetabolismReaction
 	}
 
 
-	public override void PossibleReaction(List<BodyPart> senders, ReagentMix reagentMix,
-		float reactionMultiple, float BodyReactionAmount) //limitedReactionAmountPercentage = 0 to 1
-	{
+	public List<BodyPart> DamagedList = new List<BodyPart>(); //Not multithread safe
 
+	public override void PossibleReaction(List<BodyPart> senders, ReagentMix reagentMix,
+		float reactionMultiple, float BodyReactionAmount, float TotalChemicalsProcessed) //limitedReactionAmountPercentage = 0 to 1
+	{
 		bool Overdose = false;
-		float TotalIn = 0;
-		foreach (var reagent in ingredients.m_dict)
+		var TotalAppliedHealing = 0f;
+		DamagedList.Clear();
+		if ((CanOverdose && TotalChemicalsProcessed > ConcentrationBloodOverdose) == false)
 		{
-			TotalIn += reagent.Value * reactionMultiple ;
+			foreach (var bodyPart in senders)
+			{
+				if (MultiEffect)
+				{
+					foreach (var Effect in Effects)
+					{
+						if (bodyPart.GetDamage(Effect.DamageEffect) > 0)
+						{
+							if (DamagedList.Contains(bodyPart) == false)
+							{
+								DamagedList.Add(bodyPart);
+							}
+						}
+					}
+				}
+				else
+				{
+					if (bodyPart.GetDamage(DamageEffect) > 0)
+					{
+						DamagedList.Add(bodyPart);
+					}
+				}
+			}
 		}
 
-		var TotalAppliedHealing = 0f;
-		foreach (var bodyPart in senders)
-		{
+		var Toloop = senders;
 
+		if (DamagedList.Count > 0)
+		{
+			Toloop = DamagedList;
+			float ProcessingAmount = 0;
+			foreach (var bodyPart in Toloop)
+			{
+				ProcessingAmount += bodyPart.ReagentMetabolism * bodyPart.BloodThroughput * bodyPart.currentBloodSaturation * Mathf.Max(0.10f, bodyPart.TotalModified);
+			}
+
+			if (TotalChemicalsProcessed > ProcessingAmount)
+			{
+				reactionMultiple *= (ProcessingAmount / TotalChemicalsProcessed);
+				TotalChemicalsProcessed = 0f;
+				foreach (var ingredient in ingredients.m_dict)
+				{
+					TotalChemicalsProcessed += (ingredient.Value * reactionMultiple);
+				}
+			}
+
+			BodyReactionAmount = ProcessingAmount * ReagentMetabolismMultiplier;
+
+
+
+		}
+
+		foreach (var bodyPart in Toloop)
+		{
 			//TODO Do not waste reagents, Unless they cannot heal anything
 			var Individual = bodyPart.ReagentMetabolism * bodyPart.BloodThroughput *bodyPart.currentBloodSaturation * Mathf.Max(0.10f, bodyPart.TotalModified) * ReagentMetabolismMultiplier;
 
 			var PercentageOfProcess = Individual / BodyReactionAmount;
 
 
-			var TotalChemicalsProcessedByBodyPart = TotalIn * PercentageOfProcess;
+			var TotalChemicalsProcessedByBodyPart = TotalChemicalsProcessed * PercentageOfProcess;
 
 			if (CanOverdose)
 			{
-				if (TotalIn > ConcentrationBloodOverdose)
+				if (TotalChemicalsProcessed > ConcentrationBloodOverdose)
 				{
 					Overdose = true;
 					if (MultiEffect)
@@ -108,6 +157,6 @@ public class BodyHealthEffect : MetabolismReaction
 		}
 
 		Logger.LogError("TotalAppliedHealing > " + TotalAppliedHealing);
-		base.PossibleReaction(senders, reagentMix, reactionMultiple, BodyReactionAmount);
+		base.PossibleReaction(senders, reagentMix, reactionMultiple, BodyReactionAmount, TotalChemicalsProcessed);
 	}
 }

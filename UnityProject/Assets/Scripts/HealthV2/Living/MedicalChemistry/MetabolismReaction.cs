@@ -37,6 +37,7 @@ public class MetabolismReaction : Reaction
 			return false;
 		}
 
+
 		bodyPart.MetabolismReactions.Add(this);
 		return false;
 	}
@@ -50,7 +51,7 @@ public class MetabolismReaction : Reaction
 		var AmountProcessing = 0f;
 		foreach (var ingredient in ingredients.m_dict)
 		{
-			AmountProcessing += (reactionMultiple * ingredient.Value);
+			AmountProcessing += (ingredient.Value * reactionMultiple);
 		}
 
 		if (AmountProcessing > ReactionAmount)
@@ -58,10 +59,10 @@ public class MetabolismReaction : Reaction
 			reactionMultiple *= (ReactionAmount / AmountProcessing);
 		}
 
-		PossibleReaction(sender, reagentMix, reactionMultiple, ReactionAmount);
+		PossibleReaction(sender, reagentMix, reactionMultiple, ReactionAmount, AmountProcessing);
 	}
 
-	public virtual void PossibleReaction(List<BodyPart> senders, ReagentMix reagentMix, float reactionMultiple, float BodyReactionAmount)
+	public virtual void PossibleReaction(List<BodyPart> senders, ReagentMix reagentMix, float reactionMultiple, float BodyReactionAmount, float TotalChemicalsProcessed)
 	{
 		foreach (var ingredient in ingredients.m_dict)
 		{
