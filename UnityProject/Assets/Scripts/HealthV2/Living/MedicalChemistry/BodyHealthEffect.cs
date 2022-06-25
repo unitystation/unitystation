@@ -46,8 +46,7 @@ public class BodyHealthEffect : MetabolismReaction
 		float reactionMultiple, float BodyReactionAmount, float TotalChemicalsProcessed) //limitedReactionAmountPercentage = 0 to 1
 	{
 		bool Overdose = false;
-		var TotalAppliedHealing = 0f;
-		DamagedList.Clear();
+		DamagedList.Clear(); //Why? So healing medicine is never wasted Is a pain in butt though to work out
 		if ((CanOverdose && TotalChemicalsProcessed > ConcentrationBloodOverdose) == false)
 		{
 			foreach (var bodyPart in senders)
@@ -56,7 +55,7 @@ public class BodyHealthEffect : MetabolismReaction
 				{
 					foreach (var Effect in Effects)
 					{
-						if (bodyPart.GetDamage(Effect.DamageEffect) > 0)
+						if (Effect.EffectPerOne < 0 && bodyPart.GetDamage(Effect.DamageEffect) > 0)
 						{
 							if (DamagedList.Contains(bodyPart) == false)
 							{
@@ -67,7 +66,7 @@ public class BodyHealthEffect : MetabolismReaction
 				}
 				else
 				{
-					if (bodyPart.GetDamage(DamageEffect) > 0)
+					if (AttackBodyPartPerOneU < 0 && bodyPart.GetDamage(DamageEffect) > 0)
 					{
 						DamagedList.Add(bodyPart);
 					}
@@ -97,14 +96,10 @@ public class BodyHealthEffect : MetabolismReaction
 			}
 
 			BodyReactionAmount = ProcessingAmount * ReagentMetabolismMultiplier;
-
-
-
 		}
 
 		foreach (var bodyPart in Toloop)
 		{
-			//TODO Do not waste reagents, Unless they cannot heal anything
 			var Individual = bodyPart.ReagentMetabolism * bodyPart.BloodThroughput *bodyPart.currentBloodSaturation * Mathf.Max(0.10f, bodyPart.TotalModified) * ReagentMetabolismMultiplier;
 
 			var PercentageOfProcess = Individual / BodyReactionAmount;
@@ -149,14 +144,12 @@ public class BodyHealthEffect : MetabolismReaction
 				}
 				else
 				{
-					TotalAppliedHealing += AttackBodyPartPerOneU* TotalChemicalsProcessedByBodyPart;
 					bodyPart.TakeDamage(null, AttackBodyPartPerOneU * TotalChemicalsProcessedByBodyPart, AttackType,
 						DamageEffect, DamageSubOrgans: false);
 				}
 			}
 		}
 
-		Logger.LogError("TotalAppliedHealing > " + TotalAppliedHealing);
 		base.PossibleReaction(senders, reagentMix, reactionMultiple, BodyReactionAmount, TotalChemicalsProcessed);
 	}
 }
