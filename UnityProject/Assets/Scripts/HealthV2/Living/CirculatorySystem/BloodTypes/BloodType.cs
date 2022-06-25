@@ -79,5 +79,16 @@ namespace HealthV2
 				return (Percentage) / PercentageNeededInBloodFlow;
 			}
 		}
+
+		public float BloodSaturation(ReagentMix reagentMix, Reagent reagent)
+		{
+			float bloodCap = this.GetGasCapacity(reagentMix, reagent);
+			if (bloodCap > 0)
+			{
+				return reagentMix[reagent] / bloodCap;
+			}
+
+			return 0;
+		}
 	}
 }

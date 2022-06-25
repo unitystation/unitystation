@@ -66,7 +66,7 @@ namespace HealthV2
 			}
 		}
 
-		public override void HealthMasterSet(LivingHealthMasterBase livingHealth)
+		public override void AddedToBody(LivingHealthMasterBase livingHealth)
 		{
 			if (InitialFatSpawned == false)
 			{

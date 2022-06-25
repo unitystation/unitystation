@@ -18,17 +18,19 @@ namespace HealthV2
 		}
 		public override void ImplantPeriodicUpdate()
 		{
-			if (RelatedPart.BloodStoredMax > RelatedPart.BloodContainer.ReagentMixTotal && RelatedPart.BloodContainer[RelatedPart.Nutriment] > 0 &&
-			    RelatedPart.HealthMaster.GetTotalBlood() < RelatedPart.HealthMaster.CirculatorySystem.BloodInfo.BLOOD_NORMAL)
+			var Bloodavailability = GeneratesThis.CalculatePercentageBloodPresent(RelatedPart.HealthMaster.CirculatorySystem.BloodPool);
+
+			if (RelatedPart.HealthMaster.CirculatorySystem.StartingBlood > RelatedPart.HealthMaster.CirculatorySystem.BloodPool.Total  //Assuming this is blood cap max
+			    && Bloodavailability < 1f)
 			{
 				float toConsume = RelatedPart.PassiveConsumptionNutriment * RelatedPart.HealingNutrimentMultiplier;
-				if (toConsume > RelatedPart.BloodContainer[RelatedPart.Nutriment])
+				if (toConsume > RelatedPart.HealthMaster.CirculatorySystem.BloodPool[RelatedPart.Nutriment])
 				{
-					toConsume = RelatedPart.BloodContainer[RelatedPart.Nutriment];
+					toConsume = RelatedPart.HealthMaster.CirculatorySystem.BloodPool[RelatedPart.Nutriment];
 				}
 
-				RelatedPart.BloodContainer.CurrentReagentMix.Remove(RelatedPart.Nutriment, toConsume);
-				RelatedPart.BloodContainer.CurrentReagentMix.Add(GeneratesThis, BloodGeneratedByOneNutriment * toConsume);
+				RelatedPart.HealthMaster.CirculatorySystem.BloodPool.Remove(RelatedPart.Nutriment, toConsume);
+				RelatedPart.HealthMaster.CirculatorySystem.BloodPool.Add(GeneratesThis, BloodGeneratedByOneNutriment * toConsume);
 			}
 		}
 	}

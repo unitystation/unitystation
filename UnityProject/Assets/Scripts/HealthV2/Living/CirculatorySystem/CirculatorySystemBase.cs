@@ -27,7 +27,7 @@ namespace HealthV2
 
 		[SerializeField]
 		[Required("Inital injecton of blood on player spawn")]
-		private int StartingBlood = 500;
+		public int StartingBlood = 500;
 
 		[SerializeField]
 		[Required("Need to know our limits for how much blood we have and what not.")]
@@ -94,6 +94,7 @@ namespace HealthV2
 			NutrimentToConsume.Clear();
 			SaturationToConsume.Clear();
 			Toxicity.Clear();
+			PrecalculatedMetabolismReactions.Clear();
 
 			foreach (var bodyPart in healthMaster.BodyPartList)
 			{
@@ -164,6 +165,8 @@ namespace HealthV2
 			{
 				foreach (var bodyPart in healthMaster.BodyPartList)
 				{
+					if (bodyPart.IsBloodCirculated == false) continue;
+
 					if (bodyPart.ItemAttributes.HasAllTraits(MR.AllRequired) &&
 					    bodyPart.ItemAttributes.HasAnyTrait(MR.Blacklist) == false)
 					{
@@ -249,6 +252,8 @@ namespace HealthV2
 							damage = -2;
 						}
 					}
+
+					bloodSaturation = Mathf.Min(bloodSaturation, 1);
 
 					foreach (var bodyPart in KVP.Value.RelatedBodyParts)
 					{

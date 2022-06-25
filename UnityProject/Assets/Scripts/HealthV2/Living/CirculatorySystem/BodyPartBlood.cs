@@ -60,13 +60,13 @@ namespace HealthV2
 		/// The part's internal working set of the body's blood. This is the limit of the blood that the part can
 		/// interact with at any given time.  It is refreshed by blood pump events
 		/// </summary>
-		[Tooltip("The part's internal blood pool")]
-		public ReagentContainerBody BloodContainer = null;
+		//[Tooltip("The part's internal blood pool")]
+		//public ReagentContainerBody BloodContainer = null;
 
 		/// <summary>
 		/// The maximum size of the Blood Container
 		/// </summary>
-		public float BloodStoredMax => BloodContainer.MaxCapacity;
+		//public float BloodStoredMax => BloodContainer.MaxCapacity;
 
 		/// <summary>
 		/// The amount (in moles) of required reagent (eg oxygen) this body part needs consume each tick.
@@ -127,18 +127,18 @@ namespace HealthV2
 		/// </summary>
 		public void BloodInitialise()
 		{
-			BloodContainer = this.GetComponent<ReagentContainerBody>();
-			if (BloodContainer.ContentsSet == false)
-			{
-				if (isBloodCirculated)
-				{
-					HealthMaster.CirculatorySystem.BloodPool.TransferTo(BloodContainer.CurrentReagentMix,
-						BloodStoredMax);
-					//BloodContainer.CurrentReagentMix.Add(Nutriment, 0.01f);
-				}
-
-				BloodContainer.ContentsSet = true;
-			}
+			// BloodContainer = this.GetComponent<ReagentContainerBody>();
+			// if (BloodContainer.ContentsSet == false)
+			// {
+			// 	if (isBloodCirculated)
+			// 	{
+			// 		HealthMaster.CirculatorySystem.BloodPool.TransferTo(BloodContainer.CurrentReagentMix,
+			// 			BloodStoredMax);
+			// 		//BloodContainer.CurrentReagentMix.Add(Nutriment, 0.01f);
+			// 	}
+			//
+			// 	BloodContainer.ContentsSet = true;
+			// }
 
 			if (bloodType == null)
 			{
@@ -168,8 +168,8 @@ namespace HealthV2
 			}
 
 			//Assuming it's changed in this update since none of them use the Inbuilt functions
-			BloodContainer.OnReagentMixChanged?.Invoke();
-			BloodContainer.ReagentsChanged();
+			// BloodContainer.OnReagentMixChanged?.Invoke();
+			// BloodContainer.ReagentsChanged();
 			//plz No modify BloodContainer before MetaboliseReactions
 			MetaboliseReactions(); //TODO
 		}
@@ -197,66 +197,66 @@ namespace HealthV2
 		protected virtual void ConsumeReagents()
 		{
 			//Heal if blood saturation consumption is fine, otherwise do damage
-			float bloodSaturation = 0;
-			float bloodCap = bloodType.GetNormalGasCapacity(BloodContainer.CurrentReagentMix);
-			if (bloodCap > 0)
-			{
-				bloodSaturation = BloodContainer[requiredReagent] / bloodCap;
-			}
-			else
-			{
-				if (BloodContainer[requiredReagent] > 0.1f)
-				{
-
-				}
-
-
-			}
-
-			// Numbers could use some tweaking, maybe consumption goes down when unconscious?
-			if (!isBloodReagentConsumed) return;
-
-			float consumed =
-				BloodContainer.CurrentReagentMix.Subtract(requiredReagent, bloodReagentConsumedPercentageb * BloodThroughput);
-
-			// Adds waste product (eg CO2) if any, currently always 1:2, could add code to change the ratio
-			if (wasteReagent)
-			{
-				BloodContainer.CurrentReagentMix.Add(wasteReagent, consumed );
-			}
-
-			var info = bloodType;
-			float damage;
-			if (bloodSaturation < info.BLOOD_REAGENT_SATURATION_BAD)
-			{
-				//Deals damage that ramps to 1 as blood saturation levels drop, halved if unconscious
-				if (bloodSaturation <= 0)
-				{
-					damage = 1f;
-				}
-				else if (bloodSaturation < info.BLOOD_REAGENT_SATURATION_CRITICAL)
-				{
-					// Arbitrary damage formula, could use anything here
-					damage = 1 * (1 - Mathf.Sqrt(bloodSaturation));
-				}
-				else
-				{
-					damage = 1;
-				}
-			}
-			else
-			{
-				if (bloodSaturation > info.BLOOD_REAGENT_SATURATION_OKAY)
-				{
-					OxyHeal(BloodContainer.CurrentReagentMix,
-						BloodContainer[requiredReagent] * (bloodSaturation - info.BLOOD_REAGENT_SATURATION_OKAY));
-				}
-
-				//We already consumed some earlier as well
-				damage = -1;
-			}
-
-			AffectDamage(damage, (int) DamageType.Oxy);
+			// float bloodSaturation = 0;
+			// float bloodCap = bloodType.GetNormalGasCapacity(BloodContainer.CurrentReagentMix);
+			// if (bloodCap > 0)
+			// {
+			// 	bloodSaturation = BloodContainer[requiredReagent] / bloodCap;
+			// }
+			// else
+			// {
+			// 	if (BloodContainer[requiredReagent] > 0.1f)
+			// 	{
+			//
+			// 	}
+			//
+			//
+			// }
+			//
+			// // Numbers could use some tweaking, maybe consumption goes down when unconscious?
+			// if (!isBloodReagentConsumed) return;
+			//
+			// float consumed =
+			// 	BloodContainer.CurrentReagentMix.Subtract(requiredReagent, bloodReagentConsumedPercentageb * BloodThroughput);
+			//
+			// // Adds waste product (eg CO2) if any, currently always 1:2, could add code to change the ratio
+			// if (wasteReagent)
+			// {
+			// 	BloodContainer.CurrentReagentMix.Add(wasteReagent, consumed );
+			// }
+			//
+			// var info = bloodType;
+			// float damage;
+			// if (bloodSaturation < info.BLOOD_REAGENT_SATURATION_BAD)
+			// {
+			// 	//Deals damage that ramps to 1 as blood saturation levels drop, halved if unconscious
+			// 	if (bloodSaturation <= 0)
+			// 	{
+			// 		damage = 1f;
+			// 	}
+			// 	else if (bloodSaturation < info.BLOOD_REAGENT_SATURATION_CRITICAL)
+			// 	{
+			// 		// Arbitrary damage formula, could use anything here
+			// 		damage = 1 * (1 - Mathf.Sqrt(bloodSaturation));
+			// 	}
+			// 	else
+			// 	{
+			// 		damage = 1;
+			// 	}
+			// }
+			// else
+			// {
+			// 	if (bloodSaturation > info.BLOOD_REAGENT_SATURATION_OKAY)
+			// 	{
+			// 		OxyHeal(BloodContainer.CurrentReagentMix,
+			// 			BloodContainer[requiredReagent] * (bloodSaturation - info.BLOOD_REAGENT_SATURATION_OKAY));
+			// 	}
+			//
+			// 	//We already consumed some earlier as well
+			// 	damage = -1;
+			// }
+			//
+			// AffectDamage(damage, (int) DamageType.Oxy);
 		}
 
 		/// <summary>
@@ -278,41 +278,41 @@ namespace HealthV2
 		protected virtual void ConsumeNutriments()
 		{
 
-			float availableNutriment = BloodContainer.CurrentReagentMix.Subtract(Nutriment, Single.MaxValue);
-
-			if (availableNutriment > PassiveConsumptionNutriment)
-			{
-				HealthMaster.NutrimentConsumed += PassiveConsumptionNutriment;
-				availableNutriment -= PassiveConsumptionNutriment;
-				if (TotalDamageWithoutOxy > 0)
-				{
-					float toConsume = Mathf.Min(PassiveConsumptionNutriment * HealingNutrimentMultiplier,
-						availableNutriment);
-					availableNutriment -= toConsume;
-					HealthMaster.NutrimentConsumed += toConsume;
-					NutrimentHeal(toConsume);
-				}
-
-
-				if (HungerModifier.Multiplier != 1)
-				{
-					HungerModifier.Multiplier = 1f;
-				}
-
-				if (HungerState == HungerState.Starving)
-				{
-					HungerState = HungerState.Normal;
-				}
-
-
-				BloodContainer.CurrentReagentMix.Add(Nutriment, availableNutriment);
-			}
-			else
-			{
-				HungerModifier.Multiplier = 0.5f;
-				HungerState = HungerState.Starving;
-				// Is Starving
-			}
+			// float availableNutriment = BloodContainer.CurrentReagentMix.Subtract(Nutriment, Single.MaxValue);
+			//
+			// if (availableNutriment > PassiveConsumptionNutriment)
+			// {
+			// 	HealthMaster.NutrimentConsumed += PassiveConsumptionNutriment;
+			// 	availableNutriment -= PassiveConsumptionNutriment;
+			// 	if (TotalDamageWithoutOxy > 0)
+			// 	{
+			// 		float toConsume = Mathf.Min(PassiveConsumptionNutriment * HealingNutrimentMultiplier,
+			// 			availableNutriment);
+			// 		availableNutriment -= toConsume;
+			// 		HealthMaster.NutrimentConsumed += toConsume;
+			// 		NutrimentHeal(toConsume);
+			// 	}
+			//
+			//
+			// 	if (HungerModifier.Multiplier != 1)
+			// 	{
+			// 		HungerModifier.Multiplier = 1f;
+			// 	}
+			//
+			// 	if (HungerState == HungerState.Starving)
+			// 	{
+			// 		HungerState = HungerState.Normal;
+			// 	}
+			//
+			//
+			// 	BloodContainer.CurrentReagentMix.Add(Nutriment, availableNutriment);
+			// }
+			// else
+			// {
+			// 	HungerModifier.Multiplier = 0.5f;
+			// 	HungerState = HungerState.Starving;
+			// 	// Is Starving
+			// }
 		}
 
 		/// <summary>
@@ -339,10 +339,10 @@ namespace HealthV2
 		/// <returns>Whatever is left over from bloodIn</returns>
 		public void BloodPumpedEvent(float ToTransferIn)
 		{
-			BloodContainer.CurrentReagentMix.TransferTo(HealthMaster.CirculatorySystem.BloodPool, 	(BloodContainer.CurrentReagentMix.Total + ToTransferIn ) - BloodThroughput);
-			HealthMaster.CirculatorySystem.BloodPool.TransferTo(BloodContainer.CurrentReagentMix, ToTransferIn);
-
-			BloodWasPumped();
+			// BloodContainer.CurrentReagentMix.TransferTo(HealthMaster.CirculatorySystem.BloodPool, 	(BloodContainer.CurrentReagentMix.Total + ToTransferIn ) - BloodThroughput);
+			// HealthMaster.CirculatorySystem.BloodPool.TransferTo(BloodContainer.CurrentReagentMix, ToTransferIn);
+			//
+			// BloodWasPumped();
 		}
 
 		public virtual void BloodWasPumped()

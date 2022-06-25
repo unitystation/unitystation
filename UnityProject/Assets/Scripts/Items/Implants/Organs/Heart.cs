@@ -52,6 +52,16 @@ namespace HealthV2
 			DoHeartBeat();
 		}
 
+		public override void RemovedFromBody(LivingHealthMasterBase livingHealth)
+		{
+			livingHealth.CirculatorySystem.Hearts.Remove(this);
+		}
+
+		public override void AddedToBody(LivingHealthMasterBase livingHealth)
+		{
+			livingHealth.CirculatorySystem.Hearts.Add(this);
+		}
+
 		public override void InternalDamageLogic()
 		{
 			base.InternalDamageLogic();
@@ -86,8 +96,8 @@ namespace HealthV2
 
 			if (RelatedPart.HealthMaster.IsDead)
 				return; //For some reason the heart will randomly still continue to try and beat after death.
-			if (RelatedPart.BloodContainer.CurrentReagentMix.MajorMixReagent == salt ||
-			    RelatedPart.BloodContainer.AmountOfReagent(salt) * 100 > dangerSaltLevel)
+			if (RelatedPart.HealthMaster.CirculatorySystem.BloodPool.MajorMixReagent == salt ||
+			    RelatedPart.HealthMaster.CirculatorySystem.BloodPool[salt] * 100 > dangerSaltLevel)
 			{
 				Chat.AddActionMsgToChat(RelatedPart.HealthMaster.gameObject,
 					"<color=red>Your body spasms as a jolt of pain surges all over your body then into your heart!</color>",
@@ -113,8 +123,7 @@ namespace HealthV2
 				if (modifier == bodyPart.DamageModifier)
 				{
 					toMultiply = Mathf.Max(0f,
-						Mathf.Max(bodyPart.MaxHealth - bodyPart.TotalDamageWithoutOxyCloneRadStam, 0) /
-						bodyPart.MaxHealth);
+						Mathf.Max(bodyPart.MaxHealth - bodyPart.TotalDamageWithoutOxyCloneRadStam, 0) / bodyPart.MaxHealth);
 				}
 				else if (modifier == bodyPart.HungerModifier)
 				{

@@ -48,14 +48,14 @@ namespace HealthV2
 		private CirculatorySystemBase circ;
 		private StringBuilder debug;
 		private List<Tuple<Reagent, float>> tempArray;
-		private ReagentContainerBody blood;
 
 		public override void SetUpSystems()
 		{
 			circ = bodyPart.HealthMaster.GetComponent<CirculatorySystemBase>();
-			blood = RelatedPart.BloodContainer;
+
 			tempArray = new List<Tuple<Reagent, float>>();
 		}
+
 
 		public override void ImplantPeriodicUpdate()
 		{

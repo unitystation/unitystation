@@ -302,7 +302,7 @@ namespace HealthV2
 
 			foreach (var organ in OrganList)
 			{
-				organ.HealthMasterSet(HealthMaster);
+				organ.AddedToBody(HealthMaster);
 			}
 
 			foreach (var organ in containBodyParts)

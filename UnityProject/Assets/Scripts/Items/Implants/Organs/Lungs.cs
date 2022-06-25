@@ -277,12 +277,7 @@ namespace HealthV2
 
 			// Counterintuitively, in humans respiration is stimulated by pressence of CO2 in the blood, not lack of oxygen
 			// May want to change this code to reflect that in the future so people don't hyperventilate when they are on nitrous oxide
-			float bloodCap = RelatedPart.bloodType.GetNormalGasCapacity(RelatedPart.BloodContainer.CurrentReagentMix);
-			var bloodSaturation = 0f;
-			if (bloodCap > 0)
-			{
-				bloodSaturation = RelatedPart.BloodContainer[RelatedPart.requiredReagent] / bloodCap;
-			}
+			var bloodSaturation = RelatedPart.bloodType.BloodSaturation(RelatedPart.HealthMaster.CirculatorySystem.BloodPool, RelatedPart.bloodType);
 
 			if (bloodSaturation >= RelatedPart.bloodType.BLOOD_REAGENT_SATURATION_OKAY)
 			{

@@ -471,22 +471,9 @@ namespace HealthV2
 		/// </summary>
 		public float GetTotalBlood()
 		{
-			return GetSpareBlood() + GetImplantBlood();
+			return GetSpareBlood();
 		}
 
-		/// <summary>
-		/// Returns the total amount of blood contained within body parts
-		/// </summary>
-		public float GetImplantBlood()
-		{
-			float toReturn = 0;
-			foreach (var implant in BodyPartList)
-			{
-				toReturn += implant.BloodContainer[CirculatorySystem.BloodType];
-			}
-
-			return toReturn;
-		}
 
 		/// <summary>
 		/// Returns the total amount of 'spare' blood outside of the organs

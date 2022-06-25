@@ -12,7 +12,7 @@ namespace HealthV2
 
 		public virtual void ImplantPeriodicUpdate(){}
 		public virtual void RemovedFromBody(LivingHealthMasterBase livingHealth){}
-		public virtual void HealthMasterSet(LivingHealthMasterBase livingHealth){}
+		public virtual void AddedToBody(LivingHealthMasterBase livingHealth){}
 		public virtual void SetUpSystems(){}
 		public virtual void BloodWasPumped(){}
 		public virtual void InternalDamageLogic() {}
