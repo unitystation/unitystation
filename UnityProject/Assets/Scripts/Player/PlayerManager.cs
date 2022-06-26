@@ -26,7 +26,7 @@ public class PlayerManager : MonoBehaviour
 
 	public static bool HasSpawned { get; private set; }
 
-	public static CharacterSheet CurrentCharacterSettings { get; set; }
+	public static CharacterSheet CurrentCharacterSheet { get; set; }
 
 	private int mobIDcount;
 
@@ -46,14 +46,14 @@ public class PlayerManager : MonoBehaviour
 #if UNITY_EDITOR	//Opening the station scene instead of going through the lobby
 	private void Awake()
 	{
-		if (CurrentCharacterSettings != null)
+		if (CurrentCharacterSheet != null)
 		{
 			return;
 		}
 		// Load CharacterSettings from PlayerPrefs or create a new one
 		string unescapedJson = Regex.Unescape(PlayerPrefs.GetString("currentcharacter"));
 		var deserialized = JsonConvert.DeserializeObject<CharacterSheet>(unescapedJson);
-		CurrentCharacterSettings = deserialized ?? new CharacterSheet();
+		CurrentCharacterSheet = deserialized ?? new CharacterSheet();
 	}
 #endif
 

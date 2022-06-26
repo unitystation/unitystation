@@ -124,7 +124,7 @@ namespace UI.CharacterCreator
 			ShowCharacterPreviewOnCharacterSelector();
 			CheckIfCharacterListIsEmpty();
 			WindowName.text = "Select your character";
-			LoadSettings(PlayerManager.CurrentCharacterSettings);
+			LoadSettings(PlayerManager.CurrentCharacterSheet);
 			var copyStr = JsonConvert.SerializeObject(currentCharacter);
 			lastSettings = JsonConvert.DeserializeObject<CharacterSheet>(copyStr);
 			colorPicker.gameObject.SetActive(false);
@@ -288,7 +288,7 @@ namespace UI.CharacterCreator
 		{
 			currentCharacterIndex = newValue;
 			LoadSettings(PlayerCharacters[currentCharacterIndex]);
-			PlayerManager.CurrentCharacterSettings = PlayerCharacters[currentCharacterIndex];
+			PlayerManager.CurrentCharacterSheet = PlayerCharacters[currentCharacterIndex];
 			SaveLastCharacterIndex();
 			RefreshSelectorData();
 			_ = SoundManager.Play(CommonSounds.Instance.Click01);
@@ -366,7 +366,7 @@ namespace UI.CharacterCreator
 			if (currentCharacter == null)
 			{
 				currentCharacter = new CharacterSheet();
-				PlayerManager.CurrentCharacterSettings = currentCharacter;
+				PlayerManager.CurrentCharacterSheet = currentCharacter;
 			}
 
 			PlayerHealthData SetRace = null;
@@ -407,7 +407,7 @@ namespace UI.CharacterCreator
 
 			availableSkinColors = SetRace.Base.SkinColours;
 
-			PlayerManager.CurrentCharacterSettings = currentCharacter;
+			PlayerManager.CurrentCharacterSheet = currentCharacter;
 			SetUpSpeciesBody(SetRace);
 			PopulateAllDropdowns(SetRace);
 			RefreshAll();
@@ -911,7 +911,7 @@ namespace UI.CharacterCreator
 			Logger.Log(JsonConvert.SerializeObject(bodyPartCustomisationStorage), Category.Character);
 			Logger.Log(JsonConvert.SerializeObject(ExternalCustomisationStorage), Category.Character);
 
-			PlayerManager.CurrentCharacterSettings = currentCharacter;
+			PlayerManager.CurrentCharacterSheet = currentCharacter;
 			_ = ServerData.UpdateCharacterProfile(currentCharacter);
 			SaveCharacters();
 		}
@@ -1129,7 +1129,7 @@ namespace UI.CharacterCreator
 
 		public void OnCancelBtn()
 		{
-			PlayerManager.CurrentCharacterSettings = lastSettings;
+			PlayerManager.CurrentCharacterSheet = lastSettings;
 			LoadSettings(lastSettings);
 			RefreshAll();
 			ReturnCharacterPreviewFromTheCharacterSelector();

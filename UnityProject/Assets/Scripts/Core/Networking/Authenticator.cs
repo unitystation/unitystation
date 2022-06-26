@@ -43,6 +43,9 @@ namespace Core.Networking
 			public string Message;
 		}
 
+		public struct ServerClientAuthRequestMessage : NetworkMessage { }
+		public struct ServerClientAuthResponseMessage : NetworkMessage { }
+
 		public enum ResponseCode
 		{
 			Success,
@@ -61,7 +64,8 @@ namespace Core.Networking
 
 		public override void OnStartServer()
 		{
-			NetworkServer.RegisterHandler<AuthRequestMessage>(OnAuthRequestMessage, false);
+			NetworkServer.RegisterHandler<AuthRequestMessage>(OnAuthRequest, false);
+			NetworkServer.RegisterHandler<ServerClientAuthRequestMessage>(OnServerClientAuthRequest, false);
 		}
 
 		public override void OnServerAuthenticate(NetworkConnection conn)
@@ -69,7 +73,27 @@ namespace Core.Networking
 			Logger.LogTrace($"A client not yet authenticated is joining. Address: {conn.address}.", Category.Connections);
 		}
 
-		public async void OnAuthRequestMessage(NetworkConnectionToClient conn, AuthRequestMessage msg)
+		public void OnServerClientAuthRequest(NetworkConnectionToClient conn, ServerClientAuthRequestMessage msg)
+		{
+			// Before proceeding, check for connection spam.
+			if (IsSpamming(conn))
+			{
+				ServerReject(conn);
+				return;
+			}
+
+			if (conn != NetworkServer.localConnection)
+			{
+				ServerReject(conn); // In the unlikely case of a modified client beating the server's client's request.
+				return;
+			}
+
+			NetworkServer.UnregisterHandler<ServerClientAuthRequestMessage>(); // Should only be one of these.
+			conn.Send(new ServerClientAuthResponseMessage());
+			ServerAccept(conn); // A server's local client can automatically authenticate with itself.
+		}
+
+		public async void OnAuthRequest(NetworkConnectionToClient conn, AuthRequestMessage msg)
 		{
 			Logger.LogTrace($"A client is requesting authentication. " +
 					$"Address: {conn.address}. Client Version: {msg.ClientVersion}. Account ID: {msg.AccountId}.",
@@ -176,6 +200,7 @@ namespace Core.Networking
 				return false;
 			}
 
+
 			if (response.errorCode == 1)
 			{
 				Logger.Log("A user tried to authenticate with a bad token. Possible spoof attempt."
@@ -214,24 +239,37 @@ namespace Core.Networking
 
 		public override void OnStartClient()
 		{
-			NetworkClient.RegisterHandler<AuthResponseMessage>(OnAuthResponseMessage, false);
+			Logger.LogTrace("Authenticator: client starting, preparing before sending authentication request.", Category.Connections);
+			NetworkClient.RegisterHandler<AuthResponseMessage>(OnAuthResponse, false);
+			NetworkClient.RegisterHandler<ServerClientAuthResponseMessage>(OnServerClientAuthResponse, false);
 		}
 
 		public override void OnClientAuthenticate()
 		{
+			if (CustomNetworkManager.IsHeadless || GameData.Instance.testServer)
+			{
+				NetworkClient.Send(new ServerClientAuthRequestMessage());
+				return;
+			}
+
 			AuthRequestMessage msg = new()
 			{
 				ClientVersion = GameData.BuildNumber,
 				ClientId = GetPhysicalAddress(),
 				AccountId = ServerData.UserID,
-				Username = ServerData.Auth?.CurrentUser?.DisplayName,
+				Username = ServerData.Auth.CurrentUser.DisplayName,
 				Token = ServerData.IdToken,
 			};
 
 			NetworkClient.Send(msg);
 		}
 
-		public void OnAuthResponseMessage(AuthResponseMessage msg)
+		public void OnServerClientAuthResponse(ServerClientAuthResponseMessage msg)
+		{
+			ClientAccept();
+		}
+
+		public void OnAuthResponse(AuthResponseMessage msg)
 		{
 			if (msg.Code == ResponseCode.Success)
 			{

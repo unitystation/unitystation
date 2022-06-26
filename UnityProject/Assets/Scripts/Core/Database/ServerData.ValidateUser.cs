@@ -88,7 +88,7 @@ namespace DatabaseAPI
 			string jsonChar = JsonConvert.SerializeObject(characterSettings);
 			PlayerPrefs.SetString("currentcharacter", jsonChar);
 
-			PlayerManager.CurrentCharacterSettings = characterSettings;
+			PlayerManager.CurrentCharacterSheet = characterSettings;
 
 			successAction?.Invoke("Login success");
 			PlayerPrefs.SetString("lastLogin", user.Email);
