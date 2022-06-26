@@ -132,6 +132,9 @@ namespace UI.Chat_UI
 
 		public ChatEntryPool entryPool;
 
+		public bool Showing = false;
+		public bool Animating = false;
+
 		public void Start()
 		{
 			// subscribe to input fields update
@@ -145,7 +148,7 @@ namespace UI.Chat_UI
 			if (SetChatBackgroundToHiddenOnStartup)
 			{
 				Color c = background.color;
-				c.a = 0.01f;
+				c.a = 0f;
 				background.color = c;
 			}
 			//channelPanel.gameObject.SetActive(false);
@@ -289,8 +292,8 @@ namespace UI.Chat_UI
 			if ((allEntries.Count - hiddenEntries) < 20)
 			{
 				float fadeTime = coolDownFade ? 3f : 0f;
-				scrollBackground.CrossFadeAlpha(0.01f, fadeTime, false);
-				scrollHandle.CrossFadeAlpha(0.01f, fadeTime, false);
+				scrollBackground.CrossFadeAlpha(0f, fadeTime, false);
+				scrollHandle.CrossFadeAlpha(0f, fadeTime, false);
 			}
 			else
 			{
@@ -368,7 +371,7 @@ namespace UI.Chat_UI
 		/// Opens the chat window to send messages
 		/// </summary>
 		/// <param name="newChannel">The chat channels to select when opening it</param>
-		public void OpenChatWindow(ChatChannel newChannel = ChatChannel.None)
+		public void OpenChatWindow(ChatChannel newChannel = ChatChannel.None, bool inputFocus = true)
 		{
 			//Prevent input spam
 			if (windowCoolDown || UIManager.PreventChatInput) return;
@@ -394,22 +397,40 @@ namespace UI.Chat_UI
 			}
 			// Otherwise use the previously selected channels again
 
+
 			EventManager.Broadcast(Event.ChatFocused);
 			chatInputWindow.SetActive(true);
-			StartCoroutine(AnimateBackgroundShow());
-			UIManager.IsInputFocus = true; // should work implicitly with InputFieldFocus
-			EventSystem.current.SetSelectedGameObject(InputFieldChat.gameObject, null);
-			InputFieldChat.OnPointerClick(new PointerEventData(EventSystem.current));
+			Showing = true;
+			StartCoroutine(AnimateBackground());
+			if (inputFocus)
+			{
+
+				UIManager.IsInputFocus = true; // should work implicitly with InputFieldFocus
+				EventSystem.current.SetSelectedGameObject(InputFieldChat.gameObject, null);
+				InputFieldChat.OnPointerClick(new PointerEventData(EventSystem.current));
+			}
+
 			RefreshChannelPanel();
 		}
 
-		public void CloseChatWindow()
+		public void CloseChatWindow(bool QuickClose = false)
 		{
 			StartWindowCooldown();
 			UIManager.IsInputFocus = false;
 			chatInputWindow.SetActive(false);
-			EventManager.Broadcast(Event.ChatUnfocused);
-			StartCoroutine(AnimateBackgroundHide());
+			if (QuickClose)
+			{
+				EventManager.Broadcast(Event.ChatQuickUnfocus);
+			}
+			else
+			{
+				EventManager.Broadcast(Event.ChatUnfocused);
+			}
+
+			Showing = false;
+			StartCoroutine(AnimateBackground());
+
+
 			UIManager.PreventChatInput = false;
 
 			// if doesn't clear input next opening can be by OOC or other hotkey
@@ -421,30 +442,32 @@ namespace UI.Chat_UI
 		}
 
 		#region ChatAnim
-		private IEnumerator AnimateBackgroundShow()
-		{
-			StopCoroutine(AnimateBackgroundHide());
-			Color color = background.color;
-			while(background.color.a < FULLY_VISIBLE_ALPHA)
-			{
-				yield return WaitFor.EndOfFrame;
-				color.a = Mathf.Lerp(color.a, FULLY_VISIBLE_ALPHA, ChatFadeSpeed * Time.deltaTime);
-				color.a = Mathf.Clamp(color.a, 0.1f, FULLY_VISIBLE_ALPHA);
-				background.color = color;
-			}
-		}
 
-		private IEnumerator AnimateBackgroundHide()
+
+		private IEnumerator AnimateBackground()
 		{
-			StopCoroutine(AnimateBackgroundShow());
+			if (Animating) yield break;
+
+			Animating = true;
+
 			Color color = background.color;
-			while (background.color.a > 0.05f)
+			while((Showing && background.color.a < FULLY_VISIBLE_ALPHA) || (Showing == false && background.color.a > 0.0001f))
 			{
 				yield return WaitFor.EndOfFrame;
-				color.a = Mathf.Lerp(color.a, ChatMinimumAlpha, ChatFadeSpeed * Time.deltaTime);
-				color.a = Mathf.Clamp(color.a, 0.1f, FULLY_VISIBLE_ALPHA);
+				if (Showing)
+				{
+					color.a = Mathf.Lerp(color.a, FULLY_VISIBLE_ALPHA, ChatFadeSpeed * Time.deltaTime);
+				}
+				else
+				{
+					color.a = Mathf.Lerp(color.a, ChatMinimumAlpha, ChatFadeSpeed * Time.deltaTime);
+				}
+
+				color.a = Mathf.Clamp(color.a, 0f, FULLY_VISIBLE_ALPHA);
 				background.color = color;
 			}
+			Animating = false;
+
 		}
 		#endregion
 
@@ -465,13 +488,17 @@ namespace UI.Chat_UI
 		public void OnMouseEnter()
 		{
 			if (UIManager.IsInputFocus) return;
-			StartCoroutine(AnimateBackgroundShow());
+			Showing = true;
+			StartCoroutine(AnimateBackground());
+			OpenChatWindow( inputFocus : false );
 		}
 
 		public void OnMouseExit()
 		{
 			if (UIManager.IsInputFocus) return;
-			StartCoroutine(AnimateBackgroundHide());
+			Showing = false;
+			StartCoroutine(AnimateBackground());
+			CloseChatWindow(true);
 		}
 
 		/// <summary>

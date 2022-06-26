@@ -53,6 +53,8 @@ namespace UI.Chat_UI
 		{
 			EventManager.AddHandler(Event.ChatFocused, OnChatFocused);
 			EventManager.AddHandler(Event.ChatUnfocused, OnChatUnfocused);
+			EventManager.AddHandler(Event.ChatQuickUnfocus, OnQuickChatUnfocused);
+
 			ChatUI.Instance.scrollBarEvent += OnScrollInteract;
 			ChatUI.Instance.checkPositionEvent += CheckPosition;
 			if (IsChatFocused == false)
@@ -65,6 +67,7 @@ namespace UI.Chat_UI
 		{
 			EventManager.RemoveHandler(Event.ChatFocused, OnChatFocused);
 			EventManager.RemoveHandler(Event.ChatUnfocused, OnChatUnfocused);
+			EventManager.RemoveHandler(Event.ChatQuickUnfocus, OnQuickChatUnfocused);
 			if (ChatUI.Instance != null)
 			{
 				ChatUI.Instance.scrollBarEvent -= OnScrollInteract;
@@ -114,6 +117,11 @@ namespace UI.Chat_UI
 		public void OnChatUnfocused()
 		{
 			this.RestartCoroutine(FadeCooldown(), ref fadeCooldownCoroutine);
+		}
+
+		public void OnQuickChatUnfocused()
+		{
+			this.RestartCoroutine(FadeCooldown(true), ref fadeCooldownCoroutine);
 		}
 
 		private void OnScrollInteract(bool isScrolling)
@@ -205,9 +213,13 @@ namespace UI.Chat_UI
 			waitToCheck = null;
 		}
 
-		private IEnumerator FadeCooldown()
+		private IEnumerator FadeCooldown(bool Quick = false)
 		{
-			yield return WaitFor.Seconds(12f);
+			if (Quick == false)
+			{
+				yield return WaitFor.Seconds(12f);
+			}
+
 			bool toggleVisibleState = false;
 
 			// Chat may have become focused during this time. Don't fade away if now focused.
