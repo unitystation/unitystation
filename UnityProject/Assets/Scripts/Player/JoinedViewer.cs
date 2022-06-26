@@ -274,7 +274,7 @@ namespace Player
 
 		public void RequestJob(JobType job)
 		{
-			var jsonCharSettings = JsonConvert.SerializeObject(PlayerManager.CurrentCharacterSettings);
+			var jsonCharSettings = JsonConvert.SerializeObject(PlayerManager.CurrentCharacterSheet);
 
 			if (PlayerList.Instance.ClientJobBanCheck(job) == false)
 			{
@@ -288,7 +288,7 @@ namespace Player
 
 		public void Spectate()
 		{
-			var jsonCharSettings = JsonConvert.SerializeObject(PlayerManager.CurrentCharacterSettings);
+			var jsonCharSettings = JsonConvert.SerializeObject(PlayerManager.CurrentCharacterSheet);
 			CmdSpectate(jsonCharSettings);
 		}
 
@@ -320,7 +320,7 @@ namespace Player
 			var jsonCharSettings = "";
 			if (isReady)
 			{
-				jsonCharSettings = JsonConvert.SerializeObject(PlayerManager.CurrentCharacterSettings);
+				jsonCharSettings = JsonConvert.SerializeObject(PlayerManager.CurrentCharacterSheet);
 			}
 			CmdPlayerReady(isReady, jsonCharSettings);
 		}
