@@ -55,4 +55,9 @@ MonoBehaviour:
       type: 2}
     BodyPartsThatShareTheSkinTone:
     - {fileID: 1644536323247627075, guid: df82693e0cd2bfc4b97bdedcf98469fb, type: 3}
-    NumberOfMinutesBeforeStarving: 75
+    NumberOfMinutesBeforeStarving: 30
+    TotalToxinGenerationPerSecond: 0.1
+    TotalMetabolismPerSecond: 2
+    BodyNutriment: {fileID: 11400000, guid: 068bcb587110477558045ad0cfd78237, type: 2}
+    BodyNaturalToxinReagent: {fileID: 11400000, guid: 6c3a3878e8878972ea633a27c6d0ba12,
+      type: 2}

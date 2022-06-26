@@ -506,27 +506,6 @@ namespace HealthV2
 			return false;
 		}
 
-		public float PerBodyPart;
-
-		//The cause of world hunger
-		public void InitialiseHunger(float numberOfMinutesBeforeHunger)
-		{
-			PerBodyPart= (BodyFat.StartAbsorbedAmount) / 60f / numberOfMinutesBeforeHunger; //TODO all Body parts
-
-			var TotalBloodFlow = 0f;
-
-			foreach (var bodyPart in BodyPartList)
-			{
-				if (bodyPart.IsBloodCirculated == false) continue;
-				TotalBloodFlow += bodyPart.BloodThroughput;
-			}
-
-			foreach (var bodyPart in BodyPartList)
-			{
-				if (bodyPart.IsBloodCirculated == false) continue;
-				bodyPart.PassiveConsumptionNutriment = (bodyPart.BloodThroughput / TotalBloodFlow ) * PerBodyPart;
-			}
-		}
 
 		/// <summary>
 		/// Updates overall health based on damage sustained by body parts thus far.
@@ -1435,6 +1414,41 @@ namespace HealthV2
 			foreach (var part in BodyPartList)
 			{
 				part.HealDamage(null, fastRegenHeal, DamageType.Brute);
+			}
+		}
+
+		public void SetUpCharacter(PlayerHealthData RaceBodyparts)
+		{
+			if (CustomNetworkManager.Instance._isServer)
+			{
+				InstantiateAndSetUp(RaceBodyparts.Base.Head);
+				InstantiateAndSetUp(RaceBodyparts.Base.Torso);
+				InstantiateAndSetUp(RaceBodyparts.Base.ArmLeft);
+				InstantiateAndSetUp(RaceBodyparts.Base.ArmRight);
+				InstantiateAndSetUp(RaceBodyparts.Base.LegLeft);
+				InstantiateAndSetUp(RaceBodyparts.Base.LegRight);
+			}
+		}
+
+		public void InitialiseFromRaceData(PlayerHealthData RaceBodyparts)
+		{
+			CirculatorySystem.SetBloodType(RaceBodyparts.Base.BloodType);
+			CirculatorySystem.InitialiseHunger(RaceBodyparts.Base.NumberOfMinutesBeforeStarving);
+			CirculatorySystem.InitialiseToxGeneration(RaceBodyparts.Base.TotalToxinGenerationPerSecond);
+			CirculatorySystem.InitialiseMetabolism(RaceBodyparts.Base.TotalMetabolismPerSecond);
+			CirculatorySystem.InitialiseDefaults(RaceBodyparts);
+			CirculatorySystem.BodyPartListChange();
+		}
+
+		public void InstantiateAndSetUp(ObjectList ListToSpawn)
+		{
+			if (ListToSpawn != null && ListToSpawn.Elements.Count > 0)
+			{
+				foreach (var ToSpawn in ListToSpawn.Elements)
+				{
+					var bodyPartObject = Spawn.ServerPrefab(ToSpawn).GameObject;
+					BodyPartStorage.ServerTryAdd(bodyPartObject);
+				}
 			}
 		}
 	}

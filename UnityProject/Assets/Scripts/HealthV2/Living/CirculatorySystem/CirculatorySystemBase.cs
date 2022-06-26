@@ -152,12 +152,8 @@ namespace HealthV2
 						NutrimentToConsume[bodyPart.Nutriment] = new ReagentWithBodyParts();
 					}
 					NutrimentToConsume[bodyPart.Nutriment].RelatedBodyParts.Add(bodyPart);
-					NutrimentToConsume[bodyPart.Nutriment].TotalNeeded += bodyPart.PassiveConsumptionNutriment;
+					NutrimentToConsume[bodyPart.Nutriment].TotalNeeded += bodyPart.PassiveConsumptionNutriment * bodyPart.BloodThroughput;
 				}
-
-
-
-
 			}
 
 
@@ -270,14 +266,13 @@ namespace HealthV2
 		{
 			foreach (var KVP in NutrimentToConsume)
 			{
-
 				float Needed = KVP.Value.TotalNeeded;
 				foreach (var bodyPart in KVP.Value.RelatedBodyParts)
 				{
 					if (bodyPart.TotalDamageWithoutOxy > 0)
 					{
-						Needed -= bodyPart.PassiveConsumptionNutriment;
-						Needed += bodyPart.PassiveConsumptionNutriment * bodyPart.HealingNutrimentMultiplier;
+						Needed -= bodyPart.PassiveConsumptionNutriment * bodyPart.BloodThroughput;
+						Needed += bodyPart.PassiveConsumptionNutriment * bodyPart.BloodThroughput * bodyPart.HealingNutrimentMultiplier;
 					}
 				}
 
@@ -300,7 +295,7 @@ namespace HealthV2
 
 						if (bodyPart.TotalDamageWithoutOxy > 0)
 						{
-							var Total = bodyPart.PassiveConsumptionNutriment * bodyPart.HealingNutrimentMultiplier * Effective;
+							var Total = bodyPart.PassiveConsumptionNutriment * bodyPart.BloodThroughput * bodyPart.HealingNutrimentMultiplier * Effective;
 							bodyPart.NutrimentHeal(Total);
 						}
 					}
@@ -347,7 +342,111 @@ namespace HealthV2
 				Reaction.React(PrecalculatedMetabolismReactions[Reaction], BloodPool, ProcessingAmount);
 			}
 		}
+
+		//The cause of world hunger
+		public void InitialiseHunger(float numberOfMinutesBeforeHunger)
+		{
+			var TotalBloodThroughput = 0f;
+
+			foreach (var bodyPart in healthMaster.BodyPartList)
+			{
+				if (bodyPart.IsBloodCirculated == false) continue;
+				if (bodyPart.CanGetHungry == false) continue;
+				TotalBloodThroughput += bodyPart.BloodThroughput;
+			}
+
+			var ConsumptionPerFlowSecond = (1f / 60f) / TotalBloodThroughput;
+
+			foreach (var bodyPart in healthMaster.BodyPartList)
+			{
+				if (bodyPart.IsBloodCirculated == false) continue;
+				if (bodyPart.CanGetHungry == false) continue;
+				bodyPart.PassiveConsumptionNutriment = ConsumptionPerFlowSecond;
+			}
+			//numberOfMinutesBeforeHunger
+			var Stomachs = healthMaster.GetStomachs();;
+
+			var MinutesAvailable = 0f;
+
+			foreach (var Stomach in Stomachs)
+			{
+				foreach (var bodyFat in Stomach.BodyFats)
+				{
+					MinutesAvailable += bodyFat.AbsorbedAmount;
+				}
+			}
+
+			var  Bymultiply = numberOfMinutesBeforeHunger / MinutesAvailable;
+
+
+			foreach (var Stomach in Stomachs)
+			{
+				foreach (var bodyFat in Stomach.BodyFats)
+				{
+					bodyFat.AbsorbedAmount *= Bymultiply;
+				}
+			}
+		}
+
+		public void InitialiseToxGeneration(float TotalToxinGenerationPerSecond)
+		{
+			var TotalBloodThroughput = 0f;
+
+			foreach (var bodyPart in healthMaster.BodyPartList)
+			{
+				if (bodyPart.IsBloodCirculated == false) continue;
+				if (bodyPart.HasNaturalToxicity == false) continue;
+				TotalBloodThroughput += bodyPart.BloodThroughput;
+			}
+
+			var ToxinFlowPerOne = TotalToxinGenerationPerSecond / TotalBloodThroughput;
+
+			foreach (var bodyPart in healthMaster.BodyPartList)
+			{
+				if (bodyPart.IsBloodCirculated == false) continue;
+				if (bodyPart.HasNaturalToxicity == false) continue;
+				bodyPart.ToxinGeneration = ToxinFlowPerOne;
+			}
+		}
+
+		public void InitialiseMetabolism(float TotalMetabolismPerSecond)
+		{
+			var TotalBloodThroughput = 0f;
+
+			foreach (var bodyPart in healthMaster.BodyPartList)
+			{
+				if (bodyPart.IsBloodCirculated == false) continue;
+				TotalBloodThroughput += bodyPart.BloodThroughput;
+			}
+
+			var MetabolismFlowPerOne = TotalMetabolismPerSecond / TotalBloodThroughput;
+
+			foreach (var bodyPart in healthMaster.BodyPartList)
+			{
+				if (bodyPart.IsBloodCirculated == false) continue;
+				if (bodyPart.HasNaturalToxicity == false) continue;
+				bodyPart.ReagentMetabolism = MetabolismFlowPerOne;
+			}
+		}
+
+
+		public void InitialiseDefaults(PlayerHealthData HealthData)
+		{
+			foreach (var bodyPart in healthMaster.BodyPartList)
+			{
+				if (bodyPart.Nutriment == null)
+				{
+					bodyPart.Nutriment = HealthData.Base.BodyNutriment;
+				}
+
+				if (bodyPart.NaturalToxinReagent == null)
+				{
+					bodyPart.NaturalToxinReagent = HealthData.Base.BodyNaturalToxinReagent;
+				}
+			}
+		}
 	}
+
 
 	public enum BleedingState
 	{

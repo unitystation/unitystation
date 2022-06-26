@@ -5,6 +5,7 @@ using UnityEditor;
 using UnityEngine.SceneManagement;
 using System.IO;
 using System;
+using Chemistry;
 using HealthV2;
 
 [CreateAssetMenu(fileName = "PlayerHealthData", menuName = "ScriptableObjects/PlayerHealthData", order = 1)]
@@ -46,6 +47,13 @@ public class RaceHealthData
 
 	public float TotalToxinGenerationPerSecond = 0.1f;
 
+	public float TotalMetabolismPerSecond = 2f;
+
+	[Tooltip("What does this live off?, Sets all the body parts that don't have a set nutriment")]
+	public Reagent BodyNutriment;
+
+	[Tooltip("What reagent does this expel as waste?, Sets all the body parts that don't have a set NaturalToxinReagent")]
+	public Reagent BodyNaturalToxinReagent;
 }
 
 

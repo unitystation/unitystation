@@ -150,18 +150,6 @@ namespace Player
 			}
 		}
 
-		public void SetUpCharacter()
-		{
-			if (CustomNetworkManager.Instance._isServer)
-			{
-				InstantiateAndSetUp(RaceBodyparts.Base.Head);
-				InstantiateAndSetUp(RaceBodyparts.Base.Torso);
-				InstantiateAndSetUp(RaceBodyparts.Base.ArmLeft);
-				InstantiateAndSetUp(RaceBodyparts.Base.ArmRight);
-				InstantiateAndSetUp(RaceBodyparts.Base.LegLeft);
-				InstantiateAndSetUp(RaceBodyparts.Base.LegRight);
-			}
-		}
 
 		public void SubSetBodyPart(BodyPart Body_Part, string path)
 		{
@@ -297,18 +285,6 @@ namespace Player
 
 			SetSurfaceColour();
 			OnDirectionChange(directional.CurrentDirection);
-		}
-
-		public void InstantiateAndSetUp(ObjectList ListToSpawn)
-		{
-			if (ListToSpawn != null && ListToSpawn.Elements.Count > 0)
-			{
-				foreach (var ToSpawn in ListToSpawn.Elements)
-				{
-					var bodyPartObject = Spawn.ServerPrefab(ToSpawn).GameObject;
-					livingHealthMasterBase.BodyPartStorage.ServerTryAdd(bodyPartObject);
-				}
-			}
 		}
 
 		public void SetSurfaceColour()
@@ -452,10 +428,9 @@ namespace Player
 						break;
 					}
 				}
-				SetUpCharacter();
+				livingHealthMasterBase.SetUpCharacter(RaceBodyparts);
 				SetupSprites();
-				livingHealthMasterBase.CirculatorySystem.SetBloodType(RaceBodyparts.Base.BloodType);
-				livingHealthMasterBase.InitialiseHunger(RaceBodyparts.Base.NumberOfMinutesBeforeStarving);
+				livingHealthMasterBase.InitialiseFromRaceData(RaceBodyparts);
 
 			}
 		}
