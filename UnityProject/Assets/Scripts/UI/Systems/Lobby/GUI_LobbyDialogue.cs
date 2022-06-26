@@ -131,9 +131,9 @@ namespace Lobby
 				//skip login
 				ShowMainPanel();
 				//if there aren't char settings, default
-				if (PlayerManager.CurrentCharacterSettings == null)
+				if (PlayerManager.CurrentCharacterSheet == null)
 				{
-					PlayerManager.CurrentCharacterSettings = new CharacterSheet();
+					PlayerManager.CurrentCharacterSheet = new CharacterSheet();
 				}
 			}
 		}
@@ -263,7 +263,7 @@ namespace Lobby
 			pleaseWaitCreationText.text = $"Success! An email has been sent to {emailAddressInput.text}. " +
 										  $"Please click the link in the email to verify " +
 										  $"your account before signing in.";
-			PlayerManager.CurrentCharacterSettings = charSettings;
+			PlayerManager.CurrentCharacterSheet = charSettings;
 			GameData.LoggedInUsername = chosenUsernameInput.text;
 			chosenPasswordInput.text = "";
 			chosenUsernameInput.text = "";
@@ -361,7 +361,7 @@ namespace Lobby
 			dialogueTitle.text = "Hosting Game...";
 
 			// Set and cache player name
-			PlayerPrefs.SetString(UserNamePlayerPref, PlayerManager.CurrentCharacterSettings.Name);
+			PlayerPrefs.SetString(UserNamePlayerPref, PlayerManager.CurrentCharacterSheet.Name);
 
 			LoadingScreenManager.LoadFromLobby(CustomNetworkManager.Instance.StartHost);
 		}
@@ -380,13 +380,14 @@ namespace Lobby
 
 		public void OnStartGameFromHub()
 		{
-			if (PlayerManager.CurrentCharacterSettings != null)
+			if (PlayerManager.CurrentCharacterSheet != null)
 			{
-				PlayerPrefs.SetString(UserNamePlayerPref, PlayerManager.CurrentCharacterSettings.Name);
+				PlayerPrefs.SetString(UserNamePlayerPref, PlayerManager.CurrentCharacterSheet.Name);
 			}
 			
 			ConnectToServer();
-			gameObject.SetActive(false);
+			dialogueTitle.text = "Joining Game...";
+			ShowLoggingInStatus("Joining the game...");
 		}
 
 		public void OnShowInformationPanel()

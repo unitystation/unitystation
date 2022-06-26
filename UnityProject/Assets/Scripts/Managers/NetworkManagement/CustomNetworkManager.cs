@@ -34,11 +34,11 @@ public class CustomNetworkManager : NetworkManager, IInitialise
 	/// List of ALL prefabs in the game which can be spawned, networked or not.
 	/// use spawnPrefabs to get only networked prefabs
 	/// </summary>
-	[HideInInspector] public List<GameObject> allSpawnablePrefabs = new List<GameObject>();
+	[HideInInspector] public List<GameObject> allSpawnablePrefabs = new();
 
-	public Dictionary<GameObject, int> IndexLookupSpawnablePrefabs = new Dictionary<GameObject, int>();
+	public Dictionary<GameObject, int> IndexLookupSpawnablePrefabs = new();
 
-	public Dictionary<string, GameObject> ForeverIDLookupSpawnablePrefabs = new Dictionary<string, GameObject>();
+	public Dictionary<string, GameObject> ForeverIDLookupSpawnablePrefabs = new();
 
 	/// <summary>
 	/// Invoked client side when the player has disconnected from a server.
@@ -319,7 +319,7 @@ public class CustomNetworkManager : NetworkManager, IInitialise
 		{
 			if (conn == NetworkServer.localConnection)
 			{
-				Logger.Log("Prevented headless server from spawning a player", Category.Server);
+				Logger.Log("Prevented headless server from spawning a player", Category.Connections);
 				return;
 			}
 		}

@@ -4,6 +4,7 @@ using System.Net.Http;
 using Firebase.Extensions;
 using Initialisation;
 using UnityEngine;
+using Firebase.Auth;
 
 namespace DatabaseAPI
 {
@@ -31,35 +32,19 @@ namespace DatabaseAPI
 			}
 		}
 
-		public static string UserFirestoreURL
-		{
-			get
-			{
-				return "https://firestore.googleapis.com/v1/projects/" +
-				       $"unitystation-c6a53/databases/(default)/documents/users/{Auth.CurrentUser.UserId}";
-			}
-		}
+		public static string UserFirestoreURL => "https://firestore.googleapis.com/v1/projects/" +
+				$"unitystation-c6a53/databases/(default)/documents/users/{Auth.CurrentUser.UserId}";
 
-		private Firebase.Auth.FirebaseAuth auth;
-		public static Firebase.Auth.FirebaseAuth Auth => Instance.auth;
+		private FirebaseAuth auth;
+		public static FirebaseAuth Auth => Instance.auth;
 
-		private readonly Dictionary<string, Firebase.Auth.FirebaseUser> userByAuth =
-			new Dictionary<string, Firebase.Auth.FirebaseUser>();
+		private readonly Dictionary<string, FirebaseUser> userByAuth = new();
 
-		private Firebase.Auth.FirebaseUser user = null;
+		private FirebaseUser user = null;
 
-		public static string UserID
-		{
-			get
-			{
-				if (Instance.user == null)
-				{
-					return "";
-				}
-
-				return Instance.user.UserId;
-			}
-		}
+		public static string UserID => Instance.user == null
+				? string.Empty
+				: Instance.user.UserId;
 
 		public static Action serverDataLoaded;
 
