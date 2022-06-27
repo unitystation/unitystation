@@ -31,14 +31,13 @@ public class MetabolismReaction : Reaction
 			return false;
 		}
 
-		var bodyPart = sender.GetComponent<CirculatorySystemBase>();
-		if (bodyPart == null)
+		var circulatorySystem = sender.GetComponent<CirculatorySystemBase>();
+		if (circulatorySystem == null)
 		{
 			return false;
 		}
 
-
-		bodyPart.MetabolismReactions.Add(this);
+		circulatorySystem.MetabolismReactions.Add(this);
 		return false;
 	}
 

@@ -181,7 +181,6 @@ namespace HealthV2
 				}
 			}
 
-			BloodUpdate();
 			CalculateRadiationDamage();
 
 			if (IsBleeding)

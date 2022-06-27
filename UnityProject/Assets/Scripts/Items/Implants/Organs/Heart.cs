@@ -140,35 +140,6 @@ namespace HealthV2
 			return TotalModified;
 		}
 
-		public void Heartbeat(float efficiency)
-		{
-			if (efficiency > 1)
-			{
-				efficiency = 1;
-			}
-
-			CirculatorySystemBase circulatorySystem = RelatedPart.HealthMaster.CirculatorySystem;
-			if (circulatorySystem)
-			{
-				float totalWantedBlood = 0;
-				foreach (BodyPart implant in RelatedPart.HealthMaster.BodyPartList)
-				{
-					if (implant.IsBloodCirculated == false) continue;
-					totalWantedBlood += implant.BloodThroughput;
-				}
-
-				float pumpedReagent = Math.Min(totalWantedBlood * efficiency, circulatorySystem.BloodPool.Total);
-
-				foreach (BodyPart implant in RelatedPart.HealthMaster.BodyPartList)
-				{
-					if (implant.IsBloodCirculated == false) continue;
-					implant.BloodPumpedEvent((implant.BloodThroughput / totalWantedBlood) * pumpedReagent);
-				}
-
-
-			}
-		}
-
 		public void DoHeartAttack()
 		{
 			HeartAttack = true;

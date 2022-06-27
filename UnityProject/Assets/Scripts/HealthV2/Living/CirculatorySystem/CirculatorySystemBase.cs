@@ -184,6 +184,13 @@ namespace HealthV2
 				HeartEfficiency += Heart.CalculateHeartbeat();
 			}
 
+			Heartbeat(HeartEfficiency);
+
+		}
+
+
+		public void Heartbeat(float HeartEfficiency)
+		{
 			NutrimentCalculation(HeartEfficiency);
 			BloodSaturationCalculations(HeartEfficiency);
 			MetaboliseReactions();

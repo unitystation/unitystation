@@ -57,18 +57,6 @@ namespace HealthV2
 		public Chemistry.Reagent wasteReagent;
 
 		/// <summary>
-		/// The part's internal working set of the body's blood. This is the limit of the blood that the part can
-		/// interact with at any given time.  It is refreshed by blood pump events
-		/// </summary>
-		//[Tooltip("The part's internal blood pool")]
-		//public ReagentContainerBody BloodContainer = null;
-
-		/// <summary>
-		/// The maximum size of the Blood Container
-		/// </summary>
-		//public float BloodStoredMax => BloodContainer.MaxCapacity;
-
-		/// <summary>
 		/// The amount (in moles) of required reagent (eg oxygen) this body part needs consume each tick.
 		/// </summary>
 		[Tooltip("What percentage per update of oxygen*(Required reagent) is consumed")]
@@ -86,6 +74,8 @@ namespace HealthV2
 
 
 		public float currentBloodSaturation = 0;
+
+		public float CurrentBloodSaturation => currentBloodSaturation;
 
 		/// <summary>
 		/// The nutriment reagent that this part consumes in order to perform tasks
@@ -127,192 +117,12 @@ namespace HealthV2
 		/// </summary>
 		public void BloodInitialise()
 		{
-			// BloodContainer = this.GetComponent<ReagentContainerBody>();
-			// if (BloodContainer.ContentsSet == false)
-			// {
-			// 	if (isBloodCirculated)
-			// 	{
-			// 		HealthMaster.CirculatorySystem.BloodPool.TransferTo(BloodContainer.CurrentReagentMix,
-			// 			BloodStoredMax);
-			// 		//BloodContainer.CurrentReagentMix.Add(Nutriment, 0.01f);
-			// 	}
-			//
-			// 	BloodContainer.ContentsSet = true;
-			// }
-
 			if (bloodType == null)
 			{
 				bloodType = HealthMaster.CirculatorySystem.BloodType;
 			}
 
 			AddModifier(HungerModifier);
-		}
-
-		/// <summary>
-		/// Handles the body part's use of blood for each tick
-		/// </summary>
-		protected virtual void BloodUpdate()
-		{
-			return;
-
-			if (isBloodCirculated == false) return;
-			ConsumeReagents(); //d
-			if (CanGetHungry)
-			{
-				ConsumeNutriments(); //d
-			}
-
-			if (HasNaturalToxicity)
-			{
-				NaturalToxicity();
-			}
-
-			//Assuming it's changed in this update since none of them use the Inbuilt functions
-			// BloodContainer.OnReagentMixChanged?.Invoke();
-			// BloodContainer.ReagentsChanged();
-			//plz No modify BloodContainer before MetaboliseReactions
-			MetaboliseReactions(); //TODO
-		}
-
-		protected virtual void NaturalToxicity()
-		{
-			HealthMaster.CirculatorySystem.BloodPool.Add(NaturalToxinReagent, ToxinGeneration * BloodThroughput);
-		}
-
-		protected virtual void MetaboliseReactions()
-		{
-			if (MetabolismReactions.Count == 0) return;
-			float ReagentsProcessed = (ReagentMetabolism * bloodThroughput * TotalModified);
-			foreach (var Reaction in MetabolismReactions)
-			{
-				//Reaction.React(this, BloodContainer.CurrentReagentMix, ReagentsProcessed);
-			}
-
-			MetabolismReactions.Clear();
-		}
-
-		/// <summary>
-		/// Handles the body part's consumption of required reagents (eg oxygen)
-		/// </summary>
-		protected virtual void ConsumeReagents()
-		{
-			//Heal if blood saturation consumption is fine, otherwise do damage
-			// float bloodSaturation = 0;
-			// float bloodCap = bloodType.GetNormalGasCapacity(BloodContainer.CurrentReagentMix);
-			// if (bloodCap > 0)
-			// {
-			// 	bloodSaturation = BloodContainer[requiredReagent] / bloodCap;
-			// }
-			// else
-			// {
-			// 	if (BloodContainer[requiredReagent] > 0.1f)
-			// 	{
-			//
-			// 	}
-			//
-			//
-			// }
-			//
-			// // Numbers could use some tweaking, maybe consumption goes down when unconscious?
-			// if (!isBloodReagentConsumed) return;
-			//
-			// float consumed =
-			// 	BloodContainer.CurrentReagentMix.Subtract(requiredReagent, bloodReagentConsumedPercentageb * BloodThroughput);
-			//
-			// // Adds waste product (eg CO2) if any, currently always 1:2, could add code to change the ratio
-			// if (wasteReagent)
-			// {
-			// 	BloodContainer.CurrentReagentMix.Add(wasteReagent, consumed );
-			// }
-			//
-			// var info = bloodType;
-			// float damage;
-			// if (bloodSaturation < info.BLOOD_REAGENT_SATURATION_BAD)
-			// {
-			// 	//Deals damage that ramps to 1 as blood saturation levels drop, halved if unconscious
-			// 	if (bloodSaturation <= 0)
-			// 	{
-			// 		damage = 1f;
-			// 	}
-			// 	else if (bloodSaturation < info.BLOOD_REAGENT_SATURATION_CRITICAL)
-			// 	{
-			// 		// Arbitrary damage formula, could use anything here
-			// 		damage = 1 * (1 - Mathf.Sqrt(bloodSaturation));
-			// 	}
-			// 	else
-			// 	{
-			// 		damage = 1;
-			// 	}
-			// }
-			// else
-			// {
-			// 	if (bloodSaturation > info.BLOOD_REAGENT_SATURATION_OKAY)
-			// 	{
-			// 		OxyHeal(BloodContainer.CurrentReagentMix,
-			// 			BloodContainer[requiredReagent] * (bloodSaturation - info.BLOOD_REAGENT_SATURATION_OKAY));
-			// 	}
-			//
-			// 	//We already consumed some earlier as well
-			// 	damage = -1;
-			// }
-			//
-			// AffectDamage(damage, (int) DamageType.Oxy);
-		}
-
-		/// <summary>
-		/// Heals damage caused by lack of blood reagent by consume reagent
-		/// </summary>
-		/// <param name="reagentMix">Reagent mix to consume reagent from</param>
-		/// <param name="amount">Amount to consume</param>
-		public void OxyHeal(ReagentMix reagentMix, float amount)
-		{
-			if (Oxy <= 0) return;
-			var toConsume = Mathf.Min(amount, Oxy * bloodReagentConsumedPercentageb * bloodThroughput);
-			AffectDamage(-reagentMix.Subtract(requiredReagent, toConsume) / bloodReagentConsumedPercentageb * bloodThroughput,
-				(int) DamageType.Oxy);
-		}
-
-		/// <summary>
-		/// Handles the body part's consumption of required nutriments
-		/// </summary>
-		protected virtual void ConsumeNutriments()
-		{
-
-			// float availableNutriment = BloodContainer.CurrentReagentMix.Subtract(Nutriment, Single.MaxValue);
-			//
-			// if (availableNutriment > PassiveConsumptionNutriment)
-			// {
-			// 	HealthMaster.NutrimentConsumed += PassiveConsumptionNutriment;
-			// 	availableNutriment -= PassiveConsumptionNutriment;
-			// 	if (TotalDamageWithoutOxy > 0)
-			// 	{
-			// 		float toConsume = Mathf.Min(PassiveConsumptionNutriment * HealingNutrimentMultiplier,
-			// 			availableNutriment);
-			// 		availableNutriment -= toConsume;
-			// 		HealthMaster.NutrimentConsumed += toConsume;
-			// 		NutrimentHeal(toConsume);
-			// 	}
-			//
-			//
-			// 	if (HungerModifier.Multiplier != 1)
-			// 	{
-			// 		HungerModifier.Multiplier = 1f;
-			// 	}
-			//
-			// 	if (HungerState == HungerState.Starving)
-			// 	{
-			// 		HungerState = HungerState.Normal;
-			// 	}
-			//
-			//
-			// 	BloodContainer.CurrentReagentMix.Add(Nutriment, availableNutriment);
-			// }
-			// else
-			// {
-			// 	HungerModifier.Multiplier = 0.5f;
-			// 	HungerState = HungerState.Starving;
-			// 	// Is Starving
-			// }
 		}
 
 		/// <summary>
@@ -328,42 +138,6 @@ namespace HealthV2
 				if ((int) DamageType.Oxy == i) continue;
 				HealDamage(null, (float) (Damages[i] / DamageMultiplier), i);
 			}
-		}
-
-		/// <summary>
-		/// This is called whenever blood is pumped through the circulatory system by a heartbeat.
-		/// Can happen multiple times if there's multiple hearts. Pushes out old blood and brings
-		/// in new blood, up to the part's capacity.
-		/// </summary>
-		/// <param name="bloodIn">Incoming blood</param>
-		/// <returns>Whatever is left over from bloodIn</returns>
-		public void BloodPumpedEvent(float ToTransferIn)
-		{
-			// BloodContainer.CurrentReagentMix.TransferTo(HealthMaster.CirculatorySystem.BloodPool, 	(BloodContainer.CurrentReagentMix.Total + ToTransferIn ) - BloodThroughput);
-			// HealthMaster.CirculatorySystem.BloodPool.TransferTo(BloodContainer.CurrentReagentMix, ToTransferIn);
-			//
-			// BloodWasPumped();
-		}
-
-		public virtual void BloodWasPumped()
-		{
-			foreach (var organ in OrganList)
-			{
-				organ.BloodWasPumped();
-			}
-		}
-
-		/// <summary>
-		/// Called when the implant receives the wrong reagent in the blood pumped too it.
-		/// Returns the amount of blood reagent that remains after the pump event, in case it uses any of it.
-		/// For example, maybe an organ is damaged by the wrong reagent.
-		/// </summary>
-		/// <param name="bloodReagent"></param>
-		/// <param name="amount"></param>
-		/// <returns></returns>
-		public virtual float HandleWrongBloodReagent(Chemistry.Reagent bloodReagent, float amount)
-		{
-			return amount;
 		}
 	}
 }
