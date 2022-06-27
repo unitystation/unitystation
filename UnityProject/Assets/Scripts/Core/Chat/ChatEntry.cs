@@ -225,7 +225,7 @@ namespace UI.Chat_UI
 			// Chat may have become focused during this time. Don't fade away if now focused.
 			if (IsChatFocused) yield break;
 
-			AnimateFade(0.01f, 3f);
+			AnimateFade(UI.Chat_UI.ChatUI.Instance.ChatContentMinimumAlpha, 3f);
 			if (isHidden == false)
 			{
 				SetHidden(true, true);
@@ -234,9 +234,14 @@ namespace UI.Chat_UI
 
 			yield return WaitFor.Seconds(3f);
 
+
+
 			if (toggleVisibleState)
 			{
-				ToggleUIElements(false);
+				if (UI.Chat_UI.ChatUI.Instance.ChatContentMinimumAlpha < 0.01f)
+				{
+					ToggleUIElements(false);
+				}
 			}
 		}
 

@@ -9,6 +9,7 @@ using TMPro;
 using AdminTools;
 using Managers;
 using Items;
+using UnityEngine.Serialization;
 
 namespace UI.Chat_UI
 {
@@ -85,10 +86,67 @@ namespace UI.Chat_UI
 		public event System.Action OnChatWindowClosed;
 
 		[BoxGroup("Animation")] public float ChatFadeSpeed = 2f;
-		[BoxGroup("Animation"), Range(0,1)] public float ChatMinimumAlpha = 0.5f;
+		[FormerlySerializedAs("ChatMinimumAlpha")] [BoxGroup("Animation"), Range(0,1)] public float ChatMinimumBackgroundAlpha = 0.5f;
 		[BoxGroup("Animation")] public bool SetChatBackgroundToHiddenOnStartup = true;
 
 		private const float FULLY_VISIBLE_ALPHA = 0.95f;
+
+
+		[BoxGroup("Animation"), Range(0,1)] public float ChatContentMinimumAlpha = 0f;
+
+
+		public void SetPreferenceChatContent(float preference)
+		{
+			ChatContentMinimumAlpha = preference;
+			PlayerPrefs.SetFloat(PlayerPrefKeys.ChatContentMinimumAlpha, preference);
+			PlayerPrefs.Save();
+		}
+
+
+		public float GetPreferenceChatContent()
+		{
+			if (PlayerPrefs.HasKey(PlayerPrefKeys.ChatContentMinimumAlpha))
+			{
+				return PlayerPrefs.GetFloat(PlayerPrefKeys.ChatContentMinimumAlpha);
+			}
+			else
+			{
+				PlayerPrefs.SetFloat(PlayerPrefKeys.ChatContentMinimumAlpha, 0);
+				PlayerPrefs.Save();
+				return 0f;
+			}
+
+		}
+
+		public void SetPreferenceChatBackground(float preference)
+		{
+			ChatMinimumBackgroundAlpha = preference;
+			PlayerPrefs.SetFloat(PlayerPrefKeys.ChatBackgroundMinimumAlpha, preference);
+			PlayerPrefs.Save();
+		}
+
+		public float GetPreferenceChatBackground()
+		{
+			if (PlayerPrefs.HasKey(PlayerPrefKeys.ChatBackgroundMinimumAlpha))
+			{
+				return PlayerPrefs.GetFloat(PlayerPrefKeys.ChatBackgroundMinimumAlpha);
+			}
+			else
+			{
+				PlayerPrefs.SetFloat(PlayerPrefKeys.ChatBackgroundMinimumAlpha, 0);
+				PlayerPrefs.Save();
+				return 0f;
+			}
+
+		}
+
+
+		public override void Awake()
+		{
+			base.Awake();
+			ChatMinimumBackgroundAlpha = GetPreferenceChatBackground();
+			ChatContentMinimumAlpha = GetPreferenceChatContent();
+		}
 
 		/// <summary>
 		/// The main channels which shouldn't be active together.
@@ -460,7 +518,7 @@ namespace UI.Chat_UI
 				}
 				else
 				{
-					color.a = Mathf.Lerp(color.a, ChatMinimumAlpha, ChatFadeSpeed * Time.deltaTime);
+					color.a = Mathf.Lerp(color.a, ChatMinimumBackgroundAlpha, ChatFadeSpeed * Time.deltaTime);
 				}
 
 				color.a = Mathf.Clamp(color.a, 0f, FULLY_VISIBLE_ALPHA);
