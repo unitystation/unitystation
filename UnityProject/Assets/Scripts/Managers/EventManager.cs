@@ -32,7 +32,8 @@ public enum Event
 	MatrixManagerInit,
 	BlobSpawned,
 	ScenesLoadedServer,
-	LavalandFirstEntered
+	LavalandFirstEntered,
+	ChatQuickUnfocus
 } // + other events. Add them as you need them
 
 [ExecuteInEditMode]

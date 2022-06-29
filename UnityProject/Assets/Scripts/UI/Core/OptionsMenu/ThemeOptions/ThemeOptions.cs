@@ -46,8 +46,8 @@ namespace Unitystation.Options
 		[SerializeField]
 		private Slider chatAlphaFadeMinimum;
 
-
-		private const string CHAT_ANIM_ALPHA_PREF_NAME = "chatAnimAlphaFade";
+		[SerializeField]
+		private Slider chatContentAlphaFadeMinimum;
 
 		void OnEnable()
 		{
@@ -81,8 +81,9 @@ namespace Unitystation.Options
 
 			mentionSoundDropdown.value = ThemeManager.MentionSoundIndex;
 
-			var chatAlphaPref = PlayerPrefs.GetFloat(CHAT_ANIM_ALPHA_PREF_NAME, 0);
-			chatAlphaFadeMinimum.value = chatAlphaPref;
+			chatAlphaFadeMinimum.value = UI.Chat_UI.ChatUI.Instance.GetPreferenceChatBackground();
+			chatContentAlphaFadeMinimum.value =  UI.Chat_UI.ChatUI.Instance.GetPreferenceChatContent();
+
 		}
 
 		void ConstructChatBubbleOptions()
@@ -168,9 +169,12 @@ namespace Unitystation.Options
 
 		public void OnChatMinimumAlphaColorChange()
 		{
-			UI.Chat_UI.ChatUI.Instance.ChatMinimumAlpha = chatAlphaFadeMinimum.value;
-			PlayerPrefs.SetFloat(CHAT_ANIM_ALPHA_PREF_NAME, chatAlphaFadeMinimum.value);
-			PlayerPrefs.Save();
+			UI.Chat_UI.ChatUI.Instance.SetPreferenceChatBackground(chatAlphaFadeMinimum.value);
+		}
+
+		public void OnChatContentMinimumAlphaColorChange()
+		{
+			UI.Chat_UI.ChatUI.Instance.SetPreferenceChatContent(chatContentAlphaFadeMinimum.value);
 		}
 	}
 }

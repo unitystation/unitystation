@@ -142,4 +142,21 @@
 	/// 1 = enabled
 	/// </summary>
 	public static string CommonRadioToggleKey = "CommonRadioToggle";
+
+
+	/// <summary>
+	/// Chat messages visibility
+	/// 0 = Invisible
+	/// 1 = Fully present at all times
+	/// </summary>
+	public static string ChatContentMinimumAlpha = "ChatContentMinimumAlpha";
+
+
+	/// <summary>
+	/// Chat Background visibility
+	/// 0 = Invisible
+	/// 1 = Fully present at all times
+	/// </summary>
+	public static string ChatBackgroundMinimumAlpha = "ChatBackgroundMinimumAlpha";
+
 }
