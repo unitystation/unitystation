@@ -105,6 +105,12 @@ public class Attributes : NetworkBehaviour, IRightClickable, IExaminable, IServe
 	/// </summary>
 	public string ArticleDescription => articleDescription;
 
+
+	/// <summary>
+	/// For the detectives Scanner
+	/// </summary>
+	public AppliedDetail AppliedDetail;
+
 	public override void OnStartClient()
 	{
 		SyncArticleName(articleName, articleName);
