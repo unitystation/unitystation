@@ -100,6 +100,8 @@ public class Matrix : MonoBehaviour
 
 	[NonSerialized] public bool Initialized;
 
+	public List<RegisterPlayer> PresentPlayers = new List<RegisterPlayer>();
+
 	//Pretty self-explanatory, TODO gravity generator
 	public bool HasGravity = true;
 
