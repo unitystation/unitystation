@@ -22,12 +22,13 @@ public class Detail
 
 public enum DetailType
 {
-	Fibre,
-	Footprints,
-	Fingerprints,
-	Blood,
-	BulletHole,
-	Damage
+	Fibre, //Any interaction????
+	Fingerprints, //Any interaction???? humm,  tries to get clear script of Performer?
+
+	Footprints, //called by Footstep code
+	Blood, //idk Need blood Splats
+	BulletHole, //Applied Decal call
+	Damage //Applied by damage function
 }
 
 //

@@ -379,6 +379,7 @@ namespace Messages.Client.Interaction
 				{
 					//perform
 					interactable.ServerPerformInteraction(interaction);
+
 				}
 				else
 				{
@@ -431,6 +432,7 @@ namespace Messages.Client.Interaction
 					//perform if not on cooldown
 					if (Cooldowns.TryStartServer(interaction, CommonCooldowns.Instance.Interaction))
 					{
+						interaction.PerformerPlayerScript.OnInteract(interaction)
 						interactable.ServerPerformInteraction(interaction);
 					}
 					else

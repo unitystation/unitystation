@@ -575,6 +575,24 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IActi
 		UIManager.SetToolTip = "";
 	}
 
+	public void OnInteract(TargetedInteraction Interaction)
+	{
+		if (Interaction != null)
+		{
+			if (ComponentManager.TryGetUniversalObjectPhysics(Interaction.TargetObject, out var UOP))
+			{
+				var Detail = UOP.attributes.Component.AppliedDetail;
+				//Do hands
+				//do clothing
+				//50% Percent chance of indication of species
+
+				
+			}
+
+		}
+
+	}
+
 	public void OnMatrixRotate(MatrixRotationInfo rotationInfo)
 	{
 		//We need to handle lighting stuff for matrix rotations for local player:
