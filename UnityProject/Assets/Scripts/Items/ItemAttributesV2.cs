@@ -247,7 +247,14 @@ namespace Items
 		/// <returns></returns>
 		public bool HasAllTraits(IEnumerable<ItemTrait> expectedTraits)
 		{
-			return traits.All(expectedTraits.Contains);
+			foreach (var required in expectedTraits)
+			{
+				if (traits.Contains(required) == false)
+				{
+					return false;
+				}
+			}
+			return true;
 		}
 
 		/// <summary>

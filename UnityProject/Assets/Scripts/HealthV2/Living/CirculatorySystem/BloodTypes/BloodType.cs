@@ -6,6 +6,8 @@ namespace HealthV2
 	[CreateAssetMenu(fileName = "BloodType", menuName = "ScriptableObjects/Health/BloodType", order = 0)]
 	public class BloodType : Reagent
 	{
+		public float PercentageNeededInBloodFlow = 0.10f;
+
 		[Tooltip("This is the reagent actually metabolised and circulated through this circulatory system.")]
 		public Chemistry.Reagent CirculatedReagent;	//Just one for now feel free to add the code for more if needed
 
@@ -26,6 +28,14 @@ namespace HealthV2
 		///</summary>
 		public float BloodGasCapability;
 
+		[Tooltip("When saturation of blood reagent falls below this point you'll start to feel symptoms, like being light headed.")]
+		public float BLOOD_REAGENT_SATURATION_OKAY = 0.80f;
+
+		[Tooltip("When saturation of blood reagent falls below this point the organism will start taking oxy damage.")]
+		public float BLOOD_REAGENT_SATURATION_BAD = 0.70f;
+
+		[Tooltip("If we reach critical, the organism will very quickly accumalate oxy damage.")]
+		public float BLOOD_REAGENT_SATURATION_CRITICAL = 0.50f;
 
 
 		public float GetGasCapacity(ReagentMix reagentMix, Reagent reagent)
@@ -54,6 +64,31 @@ namespace HealthV2
 				return GetSpecialGasCapacity(reagentMix) - reagentMix[CirculatedReagent];
 			}
 			return GetGasCapacity(reagentMix, reagent) - reagentMix[reagent];
+		}
+
+
+		public float CalculatePercentageBloodPresent(ReagentMix reagentMix)
+		{
+			var Percentage = (reagentMix[this] / reagentMix.Total);
+			if (PercentageNeededInBloodFlow > Percentage)
+			{
+				return 1;
+			}
+			else
+			{
+				return (Percentage) / PercentageNeededInBloodFlow;
+			}
+		}
+
+		public float BloodSaturation(ReagentMix reagentMix, Reagent reagent)
+		{
+			float bloodCap = this.GetGasCapacity(reagentMix, reagent);
+			if (bloodCap > 0)
+			{
+				return reagentMix[reagent] / bloodCap;
+			}
+
+			return 0;
 		}
 	}
 }

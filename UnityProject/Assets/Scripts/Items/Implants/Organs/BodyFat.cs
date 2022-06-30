@@ -56,7 +56,7 @@ namespace HealthV2
 		{
 			base.ImplantPeriodicUpdate();
 			// Logger.Log("Absorbing >" + Absorbing);
-			float NutrimentPercentage = (RelatedPart.BloodContainer[RelatedPart.Nutriment] / RelatedPart.BloodContainer.ReagentMixTotal);
+			float NutrimentPercentage = (RelatedPart.HealthMaster.CirculatorySystem.BloodPool[RelatedPart.Nutriment] / RelatedPart.HealthMaster.CirculatorySystem.BloodPool.Total);
 			//Logger.Log("NutrimentPercentage >" + NutrimentPercentage);
 			if (NutrimentPercentage < ReleaseNutrimentPercentage)
 			{
@@ -66,20 +66,20 @@ namespace HealthV2
 					ToRelease = AbsorbedAmount;
 				}
 
-				RelatedPart.BloodContainer.CurrentReagentMix.Add(RelatedPart.Nutriment, ToRelease);
+				RelatedPart.HealthMaster.CirculatorySystem.BloodPool.Add(RelatedPart.Nutriment, ToRelease);
 				AbsorbedAmount -= ToRelease;
 				isFreshBlood = false;
 				// Logger.Log("ToRelease >" + ToRelease);
 			}
 			else if (isFreshBlood && NutrimentPercentage > AbsorbNutrimentPercentage && AbsorbedAmount < MinuteStoreMaxAmount)
 			{
-				float ToAbsorb = RelatedPart.BloodContainer[RelatedPart.Nutriment];
+				float ToAbsorb = RelatedPart.HealthMaster.CirculatorySystem.BloodPool[RelatedPart.Nutriment];
 				if (AbsorbedAmount + ToAbsorb > MinuteStoreMaxAmount)
 				{
 					ToAbsorb = ToAbsorb - ((AbsorbedAmount + ToAbsorb) - MinuteStoreMaxAmount);
 				}
 
-				float Absorbing = RelatedPart.BloodContainer.CurrentReagentMix.Remove(RelatedPart.Nutriment, ToAbsorb);
+				float Absorbing = RelatedPart.HealthMaster.CirculatorySystem.BloodPool.Remove(RelatedPart.Nutriment, ToAbsorb);
 				AbsorbedAmount += Absorbing;
 				// Logger.Log("Absorbing >" + Absorbing);
 			}
@@ -130,9 +130,9 @@ namespace HealthV2
 			AbsorbedAmount = 0;
 		}
 
-		public override void HealthMasterSet(LivingHealthMasterBase livingHealth)
+		public override void AddedToBody(LivingHealthMasterBase livingHealth)
 		{
-			base.HealthMasterSet(livingHealth);
+			base.AddedToBody(livingHealth);
 			var playerHealthV2 = RelatedPart.HealthMaster as PlayerHealthV2;
 			if (playerHealthV2 != null)
 			{

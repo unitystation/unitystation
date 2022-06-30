@@ -15,7 +15,7 @@ namespace HealthV2
 		}
 		//Ensure removal of brain
 
-		public override void HealthMasterSet(LivingHealthMasterBase livingHealth)
+		public override void AddedToBody(LivingHealthMasterBase livingHealth)
 		{
 			livingHealth.Setbrain(this);
 		}
