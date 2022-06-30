@@ -9,10 +9,9 @@ namespace Systems.MobAIs
 {
 	public class MobController : MonoBehaviour
 	{
-
 		public RegisterTile RegisterTile;
 
-		public int PlayerMask;
+		private int PlayerMask;
 		public bool Active = false;
 
 		public List<MobObjective> MobObjectives = new List<MobObjective>();
@@ -41,35 +40,34 @@ namespace Systems.MobAIs
 
 		public void UpdateMe()
 		{
-			if (RegisterTile.Matrix.PresentPlayers.Count > 0)
+			if (RegisterTile.Matrix.PresentPlayers.Count == 0) return;
+
+			foreach (var _MobObjective in MobObjectives)
 			{
-				foreach (var _MobObjective in MobObjectives)
+				_MobObjective.ContemplatePriority();
+			}
+
+			MobObjective ChosenObjective = null;
+
+			foreach (var _MobObjective in MobObjectives)
+			{
+				if (ChosenObjective == null)
 				{
-					_MobObjective.ContemplatePriority();
+					ChosenObjective = _MobObjective;
 				}
-
-				MobObjective ChosenObjective = null;
-
-				foreach (var _MobObjective in MobObjectives)
+				else
 				{
-					if (ChosenObjective == null)
+					if (_MobObjective.Priority > ChosenObjective.Priority)
 					{
 						ChosenObjective = _MobObjective;
 					}
-					else
-					{
-						if (_MobObjective.Priority > ChosenObjective.Priority)
-						{
-							ChosenObjective = _MobObjective;
-						}
-					}
 				}
+			}
 
-				if (ChosenObjective != null)
-				{
-					ChosenObjective.TryAction();
-					ChosenObjective.Priority = 0;
-				}
+			if (ChosenObjective != null)
+			{
+				ChosenObjective.TryAction();
+				ChosenObjective.Priority = 0;
 			}
 		}
 	}
