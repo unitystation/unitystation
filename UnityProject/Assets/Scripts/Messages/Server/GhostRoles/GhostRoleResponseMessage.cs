@@ -14,7 +14,7 @@ namespace Messages.Server.GhostRoles
 			public int responseCode;
 		}
 
-		private static readonly Dictionary<GhostRoleResponseCode, string> stringDict = new Dictionary<GhostRoleResponseCode, string>()
+		private static readonly Dictionary<GhostRoleResponseCode, string> stringDict = new()
 		{
 			{ GhostRoleResponseCode.Success, "Successfully queued for this role!" },
 			{ GhostRoleResponseCode.RoleNotFound, "Unable to give you the role. It may have timed out." },
@@ -22,7 +22,7 @@ namespace Messages.Server.GhostRoles
 			{ GhostRoleResponseCode.AlreadyQueued, "You're already queued for a role!" },
 			{ GhostRoleResponseCode.QueueFull, "All positions have been filled for this role! You're too late." },
 			{ GhostRoleResponseCode.Error, "There was a problem giving you the role." },
-			{ GhostRoleResponseCode.JobBanned, "You are job banned from this role" }
+			{ GhostRoleResponseCode.JobBanned, "You are job banned from this role." },
 		};
 
 		// To be run on client

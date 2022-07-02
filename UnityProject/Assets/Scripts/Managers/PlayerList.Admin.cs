@@ -470,21 +470,15 @@ public partial class PlayerList
 
 	#region JobBans
 
-	/// <summary>
-	/// Checks job ban state, FALSE if banned
-	/// </summary>
+	/// <summary>Checks the job ban state of the given player for the given job.</summary>
+	/// <returns>True if banned.</returns>
 	public bool IsJobBanned(string userID, JobType jobType)
 	{
 		//jobbanlist checking:
 		var jobBanEntry = FindPlayerJobBanEntryServer(userID, jobType);
 
-		if (jobBanEntry == null)
-		{
-			//No job ban so allowed
-			return true;
-		}
-
-		return false;
+		// If no entry, then not banned.
+		return jobBanEntry != null;
 	}
 
 	public JobBanEntry FindPlayerJobBanEntryServer(string userID, JobType jobType, bool serverSideCheck = false)
