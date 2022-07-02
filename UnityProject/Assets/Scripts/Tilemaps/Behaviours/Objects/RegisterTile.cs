@@ -425,6 +425,7 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 
 	private void SetMatrix(Matrix value)
 	{
+		MatrixChange(Matrix, value);
 		if (value)
 		{
 			//LogMatrixDebug($"Matrix set from {matrix} to {value}");
@@ -477,6 +478,11 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 				}
 			}
 		}
+	}
+
+	public virtual void MatrixChange(Matrix MatrixOld, Matrix MatrixNew)
+	{
+
 	}
 
 	public void UnregisterClient()
