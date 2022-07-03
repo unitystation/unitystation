@@ -63,6 +63,8 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 
 	[PlayModeOnly] public bool CanBeWindPushed = true;
 
+	[PrefabModeOnly] public bool IsPlayer = false;
+
 	public Vector3WithData SetLocalTarget
 	{
 		set
@@ -1269,7 +1271,29 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 			maxDistanceDelta);
 	}
 
-	[PlayModeOnly] public bool IsFlyingSliding = false; //Is animating with space flying
+	[PlayModeOnly] private float SecondsFlying;
+
+	public bool IsFlyingSliding
+	{
+		get
+		{
+			return false;
+			//Is animating with space flying
+		}
+		set
+		{
+			if (value)
+			{
+				SecondsFlying = 0;
+			}
+			isFlyingSliding = value;
+		}
+	}
+
+
+	[PlayModeOnly, SerializeField]
+	private bool isFlyingSliding;
+
 
 	[PlayModeOnly] public bool IsMoving = false; //Is animating with tile movement
 
@@ -1295,12 +1319,21 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 			return;
 		}
 
-		IsFlyingSliding = true;
+		isFlyingSliding = true;
 		MoveIsWalking = false;
 
 		if (this == null)
 		{
 			UpdateManager.Remove(CallbackType.UPDATE, FlyingUpdateMe);
+		}
+
+		if (IsPlayer == false)
+		{
+			SecondsFlying += Time.deltaTime;
+			if (SecondsFlying > 90) //Stop taking up CPU resources! If you're flying through space for too long
+			{
+				newtonianMovement *= 0;
+			}
 		}
 
 		if (PulledBy.HasComponent)
@@ -1353,7 +1386,13 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 
 
 		var position = this.transform.position;
+
 		var Newposition = position + (newtonianMovement.To3() * Time.deltaTime);
+
+		// if (Newposition.magnitude > 100000)
+		// {
+			// newtonianMovement *= 0;
+		// }
 
 		var intposition = position.RoundToInt();
 		var intNewposition = Newposition.RoundToInt();

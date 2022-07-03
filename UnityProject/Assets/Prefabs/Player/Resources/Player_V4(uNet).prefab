@@ -1037,7 +1037,6 @@ MonoBehaviour:
   playerScript: {fileID: 0}
   CHem: {fileID: 11400000, guid: 6c3a3878e8878972ea633a27c6d0ba12, type: 2}
   NutrimentConsumed: 0
-  PerBodyPart: 0
   ClientSprites: []
   percentAllergies: 30
   commonAllergies: {fileID: 0}
@@ -1412,6 +1411,7 @@ MonoBehaviour:
   ChangesDirectionPush: 1
   Intangible: 0
   CanBeWindPushed: 1
+  IsPlayer: 1
   InitialLocationSynchronised: 0
   tileMoveSpeed: 1
   isNotPushable: 0
@@ -1439,7 +1439,7 @@ MonoBehaviour:
   Pushing: []
   Hits: []
   Animating: 0
-  IsFlyingSliding: 0
+  isFlyingSliding: 0
   IsMoving: 0
   MoveIsWalking: 0
   LastUpdateClientFlying: 0
