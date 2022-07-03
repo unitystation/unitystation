@@ -19,7 +19,7 @@ namespace HealthV2
 
 		[SerializeField] private Reagent salt;
 
-		[SerializeField] private float dangerSaltLevel = 5f; //in %
+		[SerializeField] private float dangerSaltLevel = 20f; //in u
 
 		public override void ImplantPeriodicUpdate()
 		{
@@ -97,7 +97,7 @@ namespace HealthV2
 			if (RelatedPart.HealthMaster.IsDead)
 				return; //For some reason the heart will randomly still continue to try and beat after death.
 			if (RelatedPart.HealthMaster.CirculatorySystem.BloodPool.MajorMixReagent == salt ||
-			    RelatedPart.HealthMaster.CirculatorySystem.BloodPool[salt] * 100 > dangerSaltLevel)
+			    RelatedPart.HealthMaster.CirculatorySystem.BloodPool[salt] > dangerSaltLevel)
 			{
 				Chat.AddActionMsgToChat(RelatedPart.HealthMaster.gameObject,
 					"<color=red>Your body spasms as a jolt of pain surges all over your body then into your heart!</color>",

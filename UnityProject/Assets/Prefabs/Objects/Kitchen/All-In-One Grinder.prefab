@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4000012451825950}
   - component: {fileID: 212000013609381094}
+  - component: {fileID: 266728894703166434}
   m_Layer: 0
   m_Name: Sprite
   m_TagString: Untagged
@@ -84,6 +85,28 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &266728894703166434
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1000011915619018}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  NetworkThis: 1
+  SubCatalogue:
+  - {fileID: 11400000, guid: cb357fbee723e1540af1c5433b05fd28, type: 2}
+  - {fileID: 11400000, guid: 93a06e668317ee440aff5205688df49d, type: 2}
+  PresentSpriteSet: {fileID: 11400000, guid: cb357fbee723e1540af1c5433b05fd28, type: 2}
+  randomInitialSprite: 0
+  doReverseAnimation: 0
+  pushTextureOnStartUp: 1
+  initialVariantIndex: 0
+  palette: []
 --- !u!1 &1000012542722638
 GameObject:
   m_ObjectHideFlags: 0
@@ -174,7 +197,7 @@ MonoBehaviour:
   matrixDebugLogging: 0
   objectType: 1
   prefabTracker: {fileID: 0}
-  CurrentsortingGroup: {fileID: 0}
+  CurrentsortingGroup: {fileID: 818726357445816786}
   AtmosPassable: 1
   ReachableThrough: 1
   initialPassable: 1
@@ -244,6 +267,7 @@ MonoBehaviour:
     Magic: 0
     Bio: 0
     DismembermentProtectionChance: 0
+    StunImmunity: 0
   Resistances:
     LavaProof: 0
     FireProof: 0
@@ -423,20 +447,29 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  DEBUG: 0
   SnapToGridOnStart: 0
   LocalTargetPosition: {x: 0, y: 0, z: 0}
-  TileMoveSpeed: 1
+  ChangesDirectionPush: 0
+  Intangible: 0
+  CanBeWindPushed: 1
+  InitialLocationSynchronised: 0
+  tileMoveSpeed: 1
   isNotPushable: 0
-  newtonianMovement: {x: 0, y: 0}
   airTime: 0
   slideTime: 0
+  SetIgnoreSticky: 0
   thrownBy: {fileID: 0}
   aim: 0
   spinMagnitude: 0
+  ForcedPushedFrame: 0
+  TryPushedFrame: 0
+  PushedFrame: 0
+  FramePushDecision: 1
   stickyMovement: 0
+  OnThrowEndResetRotation: 0
   maximumStickSpeed: 1.5
   onStationMovementsRound: 0
-  attributes: {fileID: 0}
   registerTile: {fileID: 0}
   ContextGameObjects:
   - {fileID: 0}
@@ -446,12 +479,9 @@ MonoBehaviour:
   CorrectingCourse: 0
   Pushing: []
   Hits: []
-  Speed: 1
-  AIR: 3
-  SLIDE: 4
   Animating: 0
   IsFlyingSliding: 0
   IsMoving: 0
-  IsWalking: 0
   MoveIsWalking: 0
   LastUpdateClientFlying: 0
+  BuckledToObject: {fileID: 0}

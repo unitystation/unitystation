@@ -1435,7 +1435,7 @@ namespace HealthV2
 			CirculatorySystem.SetBloodType(RaceBodyparts.Base.BloodType);
 			CirculatorySystem.InitialiseHunger(RaceBodyparts.Base.NumberOfMinutesBeforeStarving);
 			CirculatorySystem.InitialiseToxGeneration(RaceBodyparts.Base.TotalToxinGenerationPerSecond);
-			CirculatorySystem.InitialiseMetabolism(RaceBodyparts.Base.TotalMetabolismPerSecond);
+			CirculatorySystem.InitialiseMetabolism(RaceBodyparts);
 			CirculatorySystem.InitialiseDefaults(RaceBodyparts);
 			CirculatorySystem.BodyPartListChange();
 		}

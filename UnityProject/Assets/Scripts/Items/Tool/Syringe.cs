@@ -25,10 +25,18 @@ public class Syringe : MonoBehaviour, ICheckedInteractable<HandApply>
 		var LHB = interaction.TargetObject.GetComponent<LivingHealthMasterBase>();
 		if (LHB != null)
 		{
-			LHB.CirculatorySystem.BloodPool.Add(LocalContainer.TakeReagents(10f));
-			Chat.AddActionMsgToChat(interaction.Performer, $"You Inject The syringe into {LHB.gameObject.ExpensiveName()}",
-				$"{interaction.Performer.ExpensiveName()} injects a syringe into {LHB.gameObject.ExpensiveName()}");
-
+			if (LocalContainer.ReagentMixTotal > 0)
+			{
+				LHB.CirculatorySystem.BloodPool.Add(LocalContainer.TakeReagents(15f));
+				Chat.AddActionMsgToChat(interaction.Performer, $"You Inject The syringe into {LHB.gameObject.ExpensiveName()}",
+					$"{interaction.Performer.ExpensiveName()} injects a syringe into {LHB.gameObject.ExpensiveName()}");
+			}
+			else
+			{
+				LocalContainer.Add(LHB.CirculatorySystem.BloodPool.Take(15f));
+				Chat.AddActionMsgToChat(interaction.Performer, $"You pull the blood from {LHB.gameObject.ExpensiveName()}",
+					$"{interaction.Performer.ExpensiveName()} pulls the blood from {LHB.gameObject.ExpensiveName()}");
+			}
 		}
 	}
 }
