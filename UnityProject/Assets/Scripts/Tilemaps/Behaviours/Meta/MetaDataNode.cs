@@ -87,6 +87,8 @@ public class MetaDataNode : IGasMixContainer
 	private HashSet<GasSO> gasOverlayData = new HashSet<GasSO>();
 	public HashSet<GasSO> GasOverlayData => gasOverlayData;
 
+	public AppliedDetail AppliedDetail = new AppliedDetail();
+
 	//Conductivity Stuff//
 
 	//Temperature of the solid node

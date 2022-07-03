@@ -22,14 +22,18 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IActi
 	/// </summary>
 	public CharacterSheet characterSettings = new CharacterSheet();
 
-	[HideInInspector, SyncVar(hook = nameof(SyncPlayerName))] public string playerName = " ";
+	[HideInInspector, SyncVar(hook = nameof(SyncPlayerName))]
+	public string playerName = " ";
 
-	[HideInInspector, SyncVar(hook = nameof(SyncVisibleName))] public string visibleName = " ";
+	[HideInInspector, SyncVar(hook = nameof(SyncVisibleName))]
+	public string visibleName = " ";
+
 	public PlayerNetworkActions playerNetworkActions { get; set; }
 
 	public WeaponNetworkActions weaponNetworkActions { get; set; }
 
 	public OrientationEnum CurrentDirection => playerDirectional.CurrentDirection;
+
 	/// <summary>
 	/// Will be null if player is a ghost.
 	/// </summary>
@@ -71,7 +75,7 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IActi
 	/// </summary>
 	public Vector3Int AssumedWorldPos => objectPhysics.registerTile.WorldPosition;
 
-	[SyncVar] public Vector3Int SyncedWorldPos = new Vector3Int(0,0,0);
+	[SyncVar] public Vector3Int SyncedWorldPos = new Vector3Int(0, 0, 0);
 
 	/// <summary>
 	/// World position of the player.
@@ -92,10 +96,8 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IActi
 
 	public float RTT;
 
-	[HideInInspector]
-	public bool RcsMode;
-	[HideInInspector]
-	public MatrixMove RcsMatrixMove;
+	[HideInInspector] public bool RcsMode;
+	[HideInInspector] public MatrixMove RcsMatrixMove;
 
 	private bool isUpdateRTT;
 	private float waitTimeForRTTUpdate = 0f;
@@ -105,8 +107,7 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IActi
 	/// </summary>
 	public bool HasSoul => connectionToClient != null;
 
-	[SerializeField]
-	private PlayerStates playerState = PlayerStates.Normal;
+	[SerializeField] private PlayerStates playerState = PlayerStates.Normal;
 	public PlayerStates PlayerState => playerState;
 
 	public enum PlayerStates
@@ -117,15 +118,13 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IActi
 		Ai
 	}
 
-	[SerializeField]
-	private ActionData actionData = null;
+	[SerializeField] private ActionData actionData = null;
 	public ActionData ActionData => actionData;
 
 	//The object the player will receive chat and send chat from.
 	//E.g. usually same object as this script but for Ai it will be their core object
 	//Serverside only
-	[SerializeField]
-	private GameObject playerChatLocation = null;
+	[SerializeField] private GameObject playerChatLocation = null;
 	public GameObject PlayerChatLocation => playerChatLocation;
 
 	#region Lifecycle
@@ -149,7 +148,6 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IActi
 		playerCrafting = GetComponent<PlayerCrafting>();
 		PlayerSync = GetComponent<MovementSynchronisation>();
 		statusEffectManager = GetComponent<StatusEffectManager>();
-
 	}
 
 	public override void OnStartClient()
@@ -196,7 +194,7 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IActi
 		EventManager.RemoveHandler(Event.GhostSpawned, OnPlayerBecomeGhost);
 		EventManager.RemoveHandler(Event.PlayerRejoined, OnPlayerReturnedToBody);
 
-		if(CustomNetworkManager.IsHeadless) return;
+		if (CustomNetworkManager.IsHeadless) return;
 		UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
 	}
 
@@ -229,6 +227,7 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IActi
 				{
 					UIManager.LinkUISlots(ItemStorageLinkOrigin.adminGhost);
 				}
+
 				// stop the crit notification and change overlay to ghost mode
 				SoundManager.Stop("Critstate");
 				UIManager.PlayerHealthUI.heartMonitor.overlayCrits.SetState(OverlayState.death);
@@ -236,7 +235,6 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IActi
 				var mask = Camera2DFollow.followControl.cam.cullingMask;
 				mask |= 1 << LayerMask.NameToLayer("Ghosts");
 				Camera2DFollow.followControl.cam.cullingMask = mask;
-
 			}
 			//Normal players
 			else if (IsPlayerSemiGhost == false)
@@ -281,30 +279,31 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IActi
 		if (waitTimeForRTTUpdate > 0.5f)
 		{
 			waitTimeForRTTUpdate = 0f;
-			RTT = (float)NetworkTime.rtt;
+			RTT = (float) NetworkTime.rtt;
 			if (playerHealth != null)
 			{
 				playerHealth.RTT = RTT;
 			}
+
 			CmdUpdateRTT(RTT);
 		}
 	}
 
 	private void UpdateStatusTabUI()
 	{
-		if(StatsTab.Instance == null) return;
+		if (StatsTab.Instance == null) return;
 		StatsTab.Instance.UpdateCurrentMap();
 		StatsTab.Instance.UpdateGameMode();
 		StatsTab.Instance.UpdateRoundTime();
 		switch (GameManager.Instance.CurrentRoundState)
 		{
-			case(RoundState.Started):
+			case (RoundState.Started):
 				StatsTab.Instance.UpdateRoundStatus("Started");
 				break;
-			case(RoundState.PreRound):
+			case (RoundState.PreRound):
 				StatsTab.Instance.UpdateRoundStatus("Preround");
 				break;
-			case(RoundState.Ended):
+			case (RoundState.Ended):
 				StatsTab.Instance.UpdateRoundStatus("Ended! Restarting soon..");
 				break;
 			default:
@@ -400,6 +399,7 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IActi
 			{
 				isDeadOrGhost = playerHealth.IsDead;
 			}
+
 			return isDeadOrGhost;
 		}
 	}
@@ -418,7 +418,8 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IActi
 
 	public object Chat { get; internal set; }
 
-	public bool IsGameObjectReachable(GameObject go, bool isServer, float interactDist = interactionDistance, GameObject context=null)
+	public bool IsGameObjectReachable(GameObject go, bool isServer, float interactDist = interactionDistance,
+		GameObject context = null)
 	{
 		var rt = go.RegisterTile();
 		if (rt)
@@ -433,18 +434,24 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IActi
 
 	/// The smart way:
 	///  <inheritdoc cref="IsPositionReachable(Vector3, bool, float, GameObject)"/>
-	public bool IsRegisterTileReachable(RegisterTile otherObject, bool isServer, float interactDist = interactionDistance, GameObject context=null)
+	public bool IsRegisterTileReachable(RegisterTile otherObject, bool isServer,
+		float interactDist = interactionDistance, GameObject context = null)
 	{
-		return Validations.IsReachableByRegisterTiles(registerTile, otherObject, isServer, interactDist, context: context);
+		return Validations.IsReachableByRegisterTiles(registerTile, otherObject, isServer, interactDist,
+			context: context);
 	}
+
 	///     Checks if the player is within reach of something
 	/// <param name="otherPosition">The position of whatever we are trying to reach</param>
 	/// <param name="isServer">True if being executed on server, false otherwise</param>
 	/// <param name="interactDist">Maximum distance of interaction between the player and other objects</param>
 	/// <param name="context">If not null, will ignore collisions caused by this gameobject</param>
-	public bool IsPositionReachable(Vector3 otherPosition, bool isServer, float interactDist = interactionDistance, GameObject context = null)
+	public bool IsPositionReachable(Vector3 otherPosition, bool isServer, float interactDist = interactionDistance,
+		GameObject context = null)
 	{
-		return Validations.IsReachableByPositions(isServer ? registerTile.WorldPositionServer : registerTile.WorldPosition, otherPosition, isServer, interactDist, context: context);
+		return Validations.IsReachableByPositions(
+			isServer ? registerTile.WorldPositionServer : registerTile.WorldPosition, otherPosition, isServer,
+			interactDist, context: context);
 	}
 
 	/// <summary>
@@ -464,27 +471,34 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IActi
 		{
 			ChatChannel ghostTransmitChannels = ChatChannel.Ghost | ChatChannel.OOC;
 			ChatChannel ghostReceiveChannels = ChatChannel.Examine | ChatChannel.System | ChatChannel.Combat |
-				ChatChannel.Binary | ChatChannel.Command | ChatChannel.Common | ChatChannel.Engineering |
-				ChatChannel.Medical | ChatChannel.Science | ChatChannel.Security | ChatChannel.Service
-				| ChatChannel.Supply | ChatChannel.Syndicate;
+			                                   ChatChannel.Binary | ChatChannel.Command | ChatChannel.Common |
+			                                   ChatChannel.Engineering |
+			                                   ChatChannel.Medical | ChatChannel.Science | ChatChannel.Security |
+			                                   ChatChannel.Service
+			                                   | ChatChannel.Supply | ChatChannel.Syndicate;
 
 			if (transmitOnly)
 			{
 				return ghostTransmitChannels;
 			}
+
 			return ghostTransmitChannels | ghostReceiveChannels;
 		}
 
 		if (playerState == PlayerStates.Ai)
 		{
-			ChatChannel aiTransmitChannels = ChatChannel.OOC | ChatChannel.Local | ChatChannel.Binary | ChatChannel.Command
-											 | ChatChannel.Common | ChatChannel.Engineering |
-											 ChatChannel.Medical | ChatChannel.Science | ChatChannel.Security | ChatChannel.Service
-											 | ChatChannel.Supply;
+			ChatChannel aiTransmitChannels = ChatChannel.OOC | ChatChannel.Local | ChatChannel.Binary |
+			                                 ChatChannel.Command
+			                                 | ChatChannel.Common | ChatChannel.Engineering |
+			                                 ChatChannel.Medical | ChatChannel.Science | ChatChannel.Security |
+			                                 ChatChannel.Service
+			                                 | ChatChannel.Supply;
 			ChatChannel aiReceiveChannels = ChatChannel.Examine | ChatChannel.System | ChatChannel.Combat |
-											   ChatChannel.Binary | ChatChannel.Command | ChatChannel.Common | ChatChannel.Engineering |
-											   ChatChannel.Medical | ChatChannel.Science | ChatChannel.Security | ChatChannel.Service
-											   | ChatChannel.Supply;
+			                                ChatChannel.Binary | ChatChannel.Command | ChatChannel.Common |
+			                                ChatChannel.Engineering |
+			                                ChatChannel.Medical | ChatChannel.Science | ChatChannel.Security |
+			                                ChatChannel.Service
+			                                | ChatChannel.Supply;
 
 			if (GetComponent<AiPlayer>().AllowRadio == false)
 			{
@@ -496,6 +510,7 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IActi
 			{
 				return aiTransmitChannels;
 			}
+
 			return aiTransmitChannels | aiReceiveChannels;
 		}
 
@@ -520,9 +535,9 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IActi
 		{
 			foreach (var earSlot in playerStorage.GetNamedItemSlots(NamedSlot.ear))
 			{
-				if(earSlot.IsEmpty) continue;
-				if(earSlot.Item.TryGetComponent<Headset>(out var headset) == false) continue;
-				if(headset.isEMPed) continue;
+				if (earSlot.IsEmpty) continue;
+				if (earSlot.Item.TryGetComponent<Headset>(out var headset) == false) continue;
+				if (headset.isEMPed) continue;
 
 				EncryptionKeyType key = headset.EncryptionKey;
 				transmitChannels = transmitChannels | EncryptionKey.Permissions[key];
@@ -575,6 +590,8 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IActi
 		UIManager.SetToolTip = "";
 	}
 
+	public System.Random RNG = new System.Random();
+
 	public void OnInteract(TargetedInteraction Interaction)
 	{
 		if (Interaction != null)
@@ -582,15 +599,58 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IActi
 			if (ComponentManager.TryGetUniversalObjectPhysics(Interaction.TargetObject, out var UOP))
 			{
 				var Detail = UOP.attributes.Component.AppliedDetail;
-				//Do hands
-				//do clothing
-				//50% Percent chance of indication of species
+				if (RNG.Next(0, 100) > 50)
+				{
+					var Slot = DynamicItemStorage.GetActiveHandSlot();
+					if (Slot.Item != null)
+					{
+						Detail.AddDetail(new Detail()
+						{
+							CausedByInstanceID = Slot.Item.gameObject.GetInstanceID(),
+							Description = $"A fibre from a {Slot.Item.gameObject.ExpensiveName()}",
+							DetailType = DetailType.Fibre
+						});
+					}
+					else
+					{
+						Detail.AddDetail(new Detail()
+						{
+							CausedByInstanceID = Slot.ItemStorage.gameObject.GetInstanceID(),
+							Description = $" A fingerprint ",
+							DetailType = DetailType.Fingerprints
+						});
+					}
+				}
 
-				
+				if (RNG.Next(0, 100) > 50)
+				{
+					var slots = DynamicItemStorage.GetNamedItemSlots(NamedSlot.uniform);
+					if (slots.Count != 0)
+					{
+						var slot = slots.PickRandom();
+						if (slot.Item != null)
+						{
+							Detail.AddDetail(new Detail()
+							{
+								CausedByInstanceID = slot.Item.gameObject.GetInstanceID(),
+								Description = $"A fibre from a {slot.Item.gameObject.ExpensiveName()}",
+								DetailType = DetailType.Fibre
+							});
+						}
+					}
+				}
+
+				if (RNG.Next(0, 100) > 95)
+				{
+					Detail.AddDetail(new Detail()
+					{
+						CausedByInstanceID = this.gameObject.GetInstanceID(),
+						Description = playerSprites.RaceBodyparts.Base.ClueString,
+						DetailType = DetailType.SpeciesIdentify
+					});
+				}
 			}
-
 		}
-
 	}
 
 	public void OnMatrixRotate(MatrixRotationInfo rotationInfo)
@@ -626,7 +686,7 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IActi
 			stringBuilder.AppendLine($"Is Alive: {playerHealth.IsDead == false} Health: {playerHealth.OverallHealth}");
 		}
 
-		if (mind !=null && mind.IsAntag)
+		if (mind != null && mind.IsAntag)
 		{
 			stringBuilder.Insert(0, "<color=yellow>");
 			stringBuilder.AppendLine($"Antag: {mind.GetAntag().Antagonist.AntagJobType}");

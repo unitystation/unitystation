@@ -571,6 +571,7 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 
 	public double DEBUGLastMoveMessageProcessed = 0;
 
+	public System.Random RNG = new System.Random();
 
 	public void ServerCheckQueueingAndMove()
 	{
@@ -699,6 +700,22 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 						{
 							FootstepSounds.PlayerFootstepAtPosition(transform.position, this);
 						}
+
+
+						// if (RNG.Next(0, 100) > 50)
+						// {
+						// 	var Node = registerTile.Matrix.MetaDataLayer.Get(registerTile.LocalPosition);
+						// 	var  feets =  playerScript.DynamicItemStorage.GetNamedItemSlots(NamedSlot.feet).PickRandom();
+						//
+						//
+						// 	Node.AppliedDetail.AddDetail(new Detail()
+						// 	{
+						//
+						// 	})
+						// }
+
+
+
 
 						//TODO this is good but need to clean up movement a bit more Logger.LogError("Delta magnitude " + (transform.position - Entry.LocalPosition.ToWorld(MatrixManager.Get(Entry.MatrixID).Matrix)).magnitude );
 						//do calculation is and set targets and stuff
