@@ -1277,7 +1277,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 	{
 		get
 		{
-			return false;
+			return isFlyingSliding;
 			//Is animating with space flying
 		}
 		set
