@@ -37,9 +37,9 @@ namespace Learning.ProtipObjectTypes
 			foreach (var target in possibleTargets)
 			{
 				if(gameObject == target.gameObject) continue;
-				if (Vector3.Distance(tile.WorldPosition, target.gameObject.RegisterTile().WorldPosition) > SEARCH_LIMIT) continue;
+				if (Vector3.Distance(tile.WorldPosition, target.gameObject.AssumedWorldPosServer()) > SEARCH_LIMIT) continue;
 				if (MatrixManager.Linecast(tile.WorldPosition, LayerTypeSelection.Walls,
-					    MaskToCheck, target.gameObject.RegisterTile().WorldPosition).ItHit) continue;
+					    MaskToCheck, target.gameObject.AssumedWorldPosServer()).ItHit) continue;
 				foreach (var data in ObjectsToCheck)
 				{
 					var prefabTracker = data.GameObjectToCheck.GetComponent<PrefabTracker>();
