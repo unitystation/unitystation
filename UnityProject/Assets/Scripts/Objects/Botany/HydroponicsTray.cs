@@ -119,6 +119,7 @@ namespace Objects.Botany
 		/// </summary>
 		public override void UpdateMe()
 		{
+			if (isServer == false) return;
 			//Only server checks plant status, wild plants do not grow
 			if (isWild) return;
 

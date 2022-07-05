@@ -626,6 +626,7 @@ namespace UI
 
 		public void OpenTabWindow()
 		{
+			if (this.gameObject.activeSelf == false) this.gameObject.SetActive(true);
 			StartCoroutine(AnimTabRoll(true, true));
 		}
 

@@ -346,6 +346,8 @@ namespace HealthV2
 					ProcessingAmount += bodyPart.ReagentMetabolism * bodyPart.BloodThroughput * bodyPart.currentBloodSaturation * Mathf.Max(0.10f, bodyPart.TotalModified);
 				}
 
+				if (ProcessingAmount == 0) continue;
+
 				Reaction.React(PrecalculatedMetabolismReactions[Reaction], BloodPool, ProcessingAmount);
 			}
 		}
@@ -416,22 +418,44 @@ namespace HealthV2
 			}
 		}
 
-		public void InitialiseMetabolism(float TotalMetabolismPerSecond)
+		public void InitialiseMetabolism(PlayerHealthData RaceBodypart)
 		{
-			var TotalBloodThroughput = 0f;
+
+			var InternalTotalBloodThroughput = 0f;
 
 			foreach (var bodyPart in healthMaster.BodyPartList)
 			{
 				if (bodyPart.IsBloodCirculated == false) continue;
-				TotalBloodThroughput += bodyPart.BloodThroughput;
+				if (bodyPart.DamageContributesToOverallHealth) continue;
+				InternalTotalBloodThroughput += bodyPart.BloodThroughput;
 			}
 
-			var MetabolismFlowPerOne = TotalMetabolismPerSecond / TotalBloodThroughput;
+			var InternalMetabolismFlowPerOne = RaceBodypart.Base.InternalMetabolismPerSecond / InternalTotalBloodThroughput;
 
 			foreach (var bodyPart in healthMaster.BodyPartList)
 			{
 				if (bodyPart.IsBloodCirculated == false) continue;
-				if (bodyPart.HasNaturalToxicity == false) continue;
+				if (bodyPart.DamageContributesToOverallHealth) continue;
+				bodyPart.ReagentMetabolism = InternalMetabolismFlowPerOne;
+			}
+
+
+
+			var ExternalTotalBloodThroughput = 0f;
+
+			foreach (var bodyPart in healthMaster.BodyPartList)
+			{
+				if (bodyPart.IsBloodCirculated == false) continue;
+				if (bodyPart.DamageContributesToOverallHealth == false) continue;
+				ExternalTotalBloodThroughput += bodyPart.BloodThroughput;
+			}
+
+			var MetabolismFlowPerOne =  RaceBodypart.Base.ExternalMetabolismPerSecond / ExternalTotalBloodThroughput;
+
+			foreach (var bodyPart in healthMaster.BodyPartList)
+			{
+				if (bodyPart.IsBloodCirculated == false) continue;
+				if (bodyPart.DamageContributesToOverallHealth == false) continue;
 				bodyPart.ReagentMetabolism = MetabolismFlowPerOne;
 			}
 		}

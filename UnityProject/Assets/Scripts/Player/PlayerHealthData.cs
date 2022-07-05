@@ -47,7 +47,12 @@ public class RaceHealthData
 
 	public float TotalToxinGenerationPerSecond = 0.1f;
 
-	public float TotalMetabolismPerSecond = 2f;
+	[Tooltip(" How much does medicine get metabolised by body parts That are internal and don't contribute to  overall health ")]
+	public float InternalMetabolismPerSecond = 1f;
+
+	[Tooltip(" How much does medicine get metabolised by body parts that contribute to overall health ")]
+	public float ExternalMetabolismPerSecond = 2f;
+
 
 	[Tooltip("What does this live off?, Sets all the body parts that don't have a set nutriment")]
 	public Reagent BodyNutriment;

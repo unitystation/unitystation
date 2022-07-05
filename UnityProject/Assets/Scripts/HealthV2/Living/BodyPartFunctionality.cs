@@ -14,7 +14,6 @@ namespace HealthV2
 		public virtual void RemovedFromBody(LivingHealthMasterBase livingHealth){}
 		public virtual void AddedToBody(LivingHealthMasterBase livingHealth){}
 		public virtual void SetUpSystems(){}
-		public virtual void BloodWasPumped(){}
 		public virtual void InternalDamageLogic() {}
 
 		private void Awake()

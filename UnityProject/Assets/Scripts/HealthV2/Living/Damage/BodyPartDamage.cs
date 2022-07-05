@@ -189,6 +189,12 @@ namespace HealthV2
 		public void AffectDamage(float damage, int damageType)
 		{
 			if (damage == 0) return;
+
+			if (float.IsNormal(damage) == false)
+			{
+				Logger.LogError("oh no/..!!!! NAN /Abnormal number as damage > " + damage );
+				return;
+			}
 			float toDamage = Damages[damageType] + damage;
 
 			if (toDamage < 0) toDamage = 0;

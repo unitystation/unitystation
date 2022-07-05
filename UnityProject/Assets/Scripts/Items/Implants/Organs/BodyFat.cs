@@ -54,6 +54,7 @@ namespace HealthV2
 
 		public override void ImplantPeriodicUpdate()
 		{
+			isFreshBlood = true;
 			base.ImplantPeriodicUpdate();
 			// Logger.Log("Absorbing >" + Absorbing);
 			float NutrimentPercentage = (RelatedPart.HealthMaster.CirculatorySystem.BloodPool[RelatedPart.Nutriment] / RelatedPart.HealthMaster.CirculatorySystem.BloodPool.Total);
@@ -117,11 +118,6 @@ namespace HealthV2
 			{
 				RelatedPart.HungerState = HungerState.Normal;
 			}
-		}
-
-		public override void BloodWasPumped()
-		{
-			isFreshBlood = true;
 		}
 
 		[NaughtyAttributes.Button()]
