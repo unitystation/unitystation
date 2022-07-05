@@ -46,7 +46,7 @@ public class MatrixCash
 			{
 				return GetFromArray(2,DIR);
 			}
-			else if (DIR.y > -1)
+			else if (DIR.y < 0)
 			{
 				return GetFromArray(5,DIR);
 			}
@@ -55,13 +55,13 @@ public class MatrixCash
 				return GetFromArray(8,DIR);
 			}
 		}
-		else if (DIR.x > -1)
+		else if (DIR.x < 0)
 		{
 			if (DIR.y > 0)
 			{
 				return GetFromArray(1,DIR);
 			}
-			else if (DIR.y > -1)
+			else if (DIR.y < 0)
 			{
 				return GetFromArray(4,DIR);
 			}
@@ -76,7 +76,7 @@ public class MatrixCash
 			{
 				return GetFromArray(0,DIR);
 			}
-			else if (DIR.y > -1)
+			else if (DIR.y < 0)
 			{
 				return GetFromArray(3,DIR);
 			}
