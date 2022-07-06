@@ -348,7 +348,7 @@ namespace Systems.Cargo
 				{
 					var chargedPrice = randomJunkPrices.PickRandom();
 					Credits -= chargedPrice;
-					export.ExportMessage += $"{chargedPrice} Charged for junk removal for item : {itemAttributes.ArticleName}.";
+					export.ExportMessage += "\n" + $"{chargedPrice} Charged for junk removal for item : {itemAttributes.ArticleName}.";
 				}
 				foreach (var itemTrait in itemAttributes.GetTraits())
 				{
