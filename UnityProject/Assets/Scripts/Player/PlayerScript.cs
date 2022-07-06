@@ -592,37 +592,50 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IActi
 
 	public System.Random RNG = new System.Random();
 
-	public void OnInteract(TargetedInteraction Interaction)
+	public void OnInteract(TargetedInteraction Interaction, Component interactable)
 	{
 		if (Interaction != null)
 		{
-			if (ComponentManager.TryGetUniversalObjectPhysics(Interaction.TargetObject, out var UOP))
+			if (ComponentManager.TryGetUniversalObjectPhysics(interactable.gameObject, out var UOP))
 			{
-				var Detail = UOP.attributes.Component.AppliedDetail;
-				if (RNG.Next(0, 100) > 50)
+				var Detail = UOP.attributes.Component.OrNull()?.AppliedDetail;
+				if (Detail == null) return;
+
+				if (RNG.Next(0, 100) > 55)
 				{
-					var Slot = DynamicItemStorage.GetActiveHandSlot();
-					if (Slot.Item != null)
+
+					bool WearingGloves = false;
+					var slots = DynamicItemStorage.GetNamedItemSlots(NamedSlot.hands);
+					if (slots.Count != 0)
 					{
-						Detail.AddDetail(new Detail()
+						var slot = slots.PickRandom();
+
+						if (slot.Item != null)
 						{
-							CausedByInstanceID = Slot.Item.gameObject.GetInstanceID(),
-							Description = $"A fibre from a {Slot.Item.gameObject.ExpensiveName()}",
-							DetailType = DetailType.Fibre
-						});
+							WearingGloves = true;
+							Detail.AddDetail(new Detail()
+							{
+								CausedByInstanceID = slot.Item.gameObject.GetInstanceID(),
+								Description = $" A fibre from a {slot.Item.gameObject.ExpensiveName()}",
+								DetailType = DetailType.Fibre
+							});
+						}
 					}
-					else
-					{
+
+					if (WearingGloves == false) {
+						var slot = DynamicItemStorage.GetActiveHandSlot();
 						Detail.AddDetail(new Detail()
 						{
-							CausedByInstanceID = Slot.ItemStorage.gameObject.GetInstanceID(),
+							CausedByInstanceID = slot.ItemStorage.gameObject.GetInstanceID(),
 							Description = $" A fingerprint ",
 							DetailType = DetailType.Fingerprints
 						});
 					}
 				}
 
-				if (RNG.Next(0, 100) > 50)
+
+
+				if (RNG.Next(0, 100) > 65)
 				{
 					var slots = DynamicItemStorage.GetNamedItemSlots(NamedSlot.uniform);
 					if (slots.Count != 0)
@@ -633,14 +646,14 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IActi
 							Detail.AddDetail(new Detail()
 							{
 								CausedByInstanceID = slot.Item.gameObject.GetInstanceID(),
-								Description = $"A fibre from a {slot.Item.gameObject.ExpensiveName()}",
+								Description = $" A fibre from a {slot.Item.gameObject.ExpensiveName()}",
 								DetailType = DetailType.Fibre
 							});
 						}
 					}
 				}
 
-				if (RNG.Next(0, 100) > 95)
+				if (RNG.Next(0, 100) > 85)
 				{
 					Detail.AddDetail(new Detail()
 					{

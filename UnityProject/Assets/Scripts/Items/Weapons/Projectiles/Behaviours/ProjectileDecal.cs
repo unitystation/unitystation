@@ -30,7 +30,7 @@ namespace Weapons.Projectiles.Behaviours
 					Node.AppliedDetail.AddDetail(new Detail()
 					{
 						CausedByInstanceID = 0,
-						Description = $"A bullet hole that looks like it was made by a {this.name}",
+						Description = $"A bullet hole that looks like it was made by a {this.gameObject.name}",
 						DetailType = DetailType.BulletHole
 					});
 				}
@@ -41,7 +41,7 @@ namespace Weapons.Projectiles.Behaviours
 				Node.AppliedDetail.AddDetail(new Detail()
 				{
 					CausedByInstanceID = 0,
-					Description = $"A bullet hole that looks like it was made by a {this.name}",
+					Description = $"A bullet hole that looks like it was made by a {this.gameObject.name}",
 					DetailType = DetailType.BulletHole
 				});
 			}

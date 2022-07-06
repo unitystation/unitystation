@@ -109,7 +109,7 @@ public class Attributes : NetworkBehaviour, IRightClickable, IExaminable, IServe
 	/// <summary>
 	/// For the detectives Scanner
 	/// </summary>
-	public AppliedDetail AppliedDetail;
+	public AppliedDetail AppliedDetail = new AppliedDetail();
 
 	public override void OnStartClient()
 	{
