@@ -268,6 +268,7 @@ namespace Systems.Cargo
 				// No one must survive to tell the secrets of Central Command's cargo handling techniques.
 				Chat.AddExamineMsg(obj, "<color=red> You feel a strong force of energy run through your body before everything goes to black in the blink of the eye. </color>");
 				playerScript.playerHealth.Gib();
+				return;
 			}
 
 			if (obj.TryGetComponent<WrappedBase>(out var wrappedObject))
