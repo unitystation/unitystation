@@ -45,6 +45,7 @@ public class BodyHealthEffect : MetabolismReaction
 	public override void PossibleReaction(List<BodyPart> senders, ReagentMix reagentMix,
 		float reactionMultiple, float BodyReactionAmount, float TotalChemicalsProcessed) //limitedReactionAmountPercentage = 0 to 1
 	{
+
 		bool Overdose = false;
 		DamagedList.Clear(); //Why? So healing medicine is never wasted Is a pain in butt though to work out
 		if ((CanOverdose && TotalChemicalsProcessed > ConcentrationBloodOverdose) == false)
@@ -149,7 +150,6 @@ public class BodyHealthEffect : MetabolismReaction
 				}
 			}
 		}
-
 		base.PossibleReaction(senders, reagentMix, reactionMultiple, BodyReactionAmount, TotalChemicalsProcessed);
 	}
 }

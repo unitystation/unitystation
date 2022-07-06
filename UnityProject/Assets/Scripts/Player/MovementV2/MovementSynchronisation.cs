@@ -486,6 +486,9 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 		public bool Bump;
 
 		public int LastPushID;
+
+		//Object that it is pulling
+		public uint Pulling;
 	}
 
 	public enum PlayerMoveDirection
@@ -589,6 +592,24 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 
 				SetMatrixCash.ResetNewPosition(transform.position, registerTile);
 				//Logger.LogError(" Is Animating " +  Animating + " Is floating " +  IsAnimatingFlyingSliding +" move processed at" + transform.localPosition);
+
+				if (Pulling.HasComponent == false && Entry.Pulling != NetId.Empty)
+				{
+					PullSet(null, false);
+					if (ComponentManager.TryGetUniversalObjectPhysics(NetworkIdentity.spawned[Entry.Pulling].gameObject, out var SupposedlyPulling))
+					{
+						SupposedlyPulling.ResetLocationOnClient(connectionToClient);
+					}
+				}
+				else if ( Pulling.HasComponent && Pulling.Component.netId != Entry.Pulling)
+				{
+					PullSet(null, false);
+					if (ComponentManager.TryGetUniversalObjectPhysics(NetworkIdentity.spawned[Entry.Pulling].gameObject, out var SupposedlyPulling))
+					{
+						SupposedlyPulling.ResetLocationOnClient(connectionToClient);
+					}
+				}
+
 
 				if (IsFlyingSliding)
 				{
@@ -797,7 +818,8 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 				GlobalMoveDirection = moveActions.ToPlayerMoveDirection(),
 				CausesSlip = false,
 				Bump = false,
-				LastPushID = SetTimestampID
+				LastPushID = SetTimestampID,
+				Pulling = Pulling.Component?.netId ?? NetId.Empty
 			};
 
 
@@ -1082,6 +1104,8 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 		slippedOn = null;
 		if (slipProtection) return false;
 		if (CurrentMovementType != MovementType.Running) return false;
+		if (isServer == false && isLocalPlayer && UIManager.Instance.intentControl.Running == false) return false;
+
 
 		var ToMatrix = SetMatrixCash.GetforDirection(moveAction.GlobalMoveDirection.TVectoro().To3Int()).Matrix;
 		var LocalTo = (registerTile.WorldPosition + moveAction.GlobalMoveDirection.TVectoro().To3Int())

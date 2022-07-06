@@ -42,8 +42,7 @@ public class RegisterPlayer : RegisterTile, IServerSpawn, RegisterPlayer.IContro
 	/// <summary>
 	/// Invoked on server when slip state is change. Provides old and new value as 1st and 2nd args
 	/// </summary>
-	[NonSerialized]
-	public SlipEvent OnSlipChangeServer = new SlipEvent();
+	[NonSerialized] public SlipEvent OnSlipChangeServer = new SlipEvent();
 
 	private PlayerScript playerScript;
 	public PlayerScript PlayerScript => playerScript;
@@ -57,6 +56,7 @@ public class RegisterPlayer : RegisterTile, IServerSpawn, RegisterPlayer.IContro
 	/// correct server/client side logic based on where this is being called from.
 	/// </summary>
 	public bool IsBlocking => isServer ? IsBlockingServer : IsBlockingClient;
+
 	public bool IsBlockingClient => !playerScript.IsGhost && !IsLayingDown;
 	public bool IsBlockingServer => !playerScript.IsGhost && !IsLayingDown && !IsSlippingServer;
 	private Coroutine unstunHandle;
@@ -81,7 +81,7 @@ public class RegisterPlayer : RegisterTile, IServerSpawn, RegisterPlayer.IContro
 	public override void OnStartClient()
 	{
 		base.OnStartClient();
-		ServerCheckStandingChange( isLayingDown);
+		ServerCheckStandingChange(isLayingDown);
 	}
 
 	public void OnSpawnServer(SpawnInfo info)
@@ -126,7 +126,7 @@ public class RegisterPlayer : RegisterTile, IServerSpawn, RegisterPlayer.IContro
 	[Server]
 	public void ServerStandUp(bool DoBar = false, float Time = 0.5f)
 	{
-		ServerCheckStandingChange(false,DoBar, Time);
+		ServerCheckStandingChange(false, DoBar, Time);
 	}
 
 	/// <summary>
@@ -154,14 +154,29 @@ public class RegisterPlayer : RegisterTile, IServerSpawn, RegisterPlayer.IContro
 
 			if (DoBar)
 			{
-				var bar = StandardProgressAction.Create(new StandardProgressActionConfig(StandardProgressActionType.SelfHeal, false, false, true), ServerStandUp);
-				bar.ServerStartProgress(this, 1.5f,gameObject);
+				var bar = StandardProgressAction.Create(
+					new StandardProgressActionConfig(StandardProgressActionType.SelfHeal, false, false, true),
+					ServerStandUp);
+				bar.ServerStartProgress(this, 1.5f, gameObject);
 			}
 			else
 			{
 				SyncIsLayingDown(isLayingDown, LayingDown);
 			}
 
+		}
+	}
+
+	public override void MatrixChange(Matrix MatrixOld, Matrix MatrixNew)
+	{
+		if (MatrixOld != null && MatrixOld.PresentPlayers.Contains(this))
+		{
+			MatrixOld.PresentPlayers.Remove(this);
+		}
+
+		if (MatrixNew != null && MatrixNew.PresentPlayers.Contains(this) == false)
+		{
+			MatrixNew.PresentPlayers.Add(this);
 		}
 	}
 
@@ -297,7 +312,7 @@ public class RegisterPlayer : RegisterTile, IServerSpawn, RegisterPlayer.IContro
 			return false;
 		}
 
-		if (checkForArmor && CheckArmorStunImmunity()) 
+		if (checkForArmor && CheckArmorStunImmunity())
 		{
 			if(stunImmunityFeedback != null) stunImmunityFeedback();
 			return;

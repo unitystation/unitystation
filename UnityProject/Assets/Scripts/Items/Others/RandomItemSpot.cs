@@ -25,7 +25,9 @@ namespace Items
 
 		public void OnSpawnServer(SpawnInfo info)
 		{
+
 			RollRandomPool(true);
+
 		}
 
 		public void RollRandomPool(bool UnrestrictedAndspawn, bool overrideTrigger = false)
@@ -70,6 +72,12 @@ namespace Items
 
 			if (UnrestrictedAndspawn)
 			{
+				if (this.GetComponent<RuntimeSpawned>() != null)
+				{
+					Destroy(this.gameObject);
+					return;
+				}
+
 				if (RegisterTile.TryGetComponent<UniversalObjectPhysics>(out var ObjectBehaviour))
 				{
 					if (ObjectBehaviour.ContainedInContainer != null)
@@ -82,9 +90,13 @@ namespace Items
 					}
 				}
 
+
+
 				RegisterTile.Matrix.MetaDataLayer.InitialObjects[this.gameObject] = this.transform.localPosition;
 				this.GetComponent<UniversalObjectPhysics>()?.DisappearFromWorld();
 				this.GetComponent<RegisterTile>().UpdatePositionServer();
+
+
 			}
 		}
 

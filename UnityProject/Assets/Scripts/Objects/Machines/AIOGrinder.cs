@@ -24,6 +24,9 @@ namespace Objects.Kitchen
 		private RegisterTile registerTile;
 		private Vector3Int WorldPosition => registerTile.WorldPosition;
 
+
+		private SpriteHandler spriteHandler;
+
 		/// <summary>
 		/// Set up the AudioSource.
 		/// </summary>
@@ -32,6 +35,7 @@ namespace Objects.Kitchen
 			registerTile = GetComponent<RegisterTile>();
 			itemStorage = GetComponent<ItemStorage>();
 			itemSlot = itemStorage.GetIndexedItemSlot(0);
+			spriteHandler = GetComponentInChildren<SpriteHandler>();
 		}
 
 		public void EjectContainer()
@@ -39,6 +43,7 @@ namespace Objects.Kitchen
 			foreach (var slot in itemStorage.GetItemSlots())
 			{
 				Inventory.ServerDrop(itemSlot);
+				spriteHandler.ChangeSprite(1);
 			}
 			return;
 		}
@@ -47,15 +52,21 @@ namespace Objects.Kitchen
 		{
 			if (fromSlot == null || fromSlot.IsEmpty || ((fromSlot.ItemObject.GetComponent<Grindable>() == null && fromSlot.ItemObject.GetComponent<Juiceable>() == null) && !fromSlot.ItemAttributes.HasTrait(CommonTraits.Instance.Beaker))) return;
 
-			
-			if (fromSlot.ItemAttributes.HasTrait(CommonTraits.Instance.Beaker))
+
+			if (itemSlot.IsEmpty)
 			{
-				if(itemSlot.IsEmpty)
+				if (fromSlot.Item.GetComponent<ReagentContainer>().TransferMode == TransferMode.Normal) // put beaker to slot
 				{
+
 					Inventory.ServerTransfer(fromSlot, itemStorage.GetIndexedItemSlot(0));
+					spriteHandler.ChangeSprite(0);
+					return;
 				}
 				return;
 			}
+
+
+
 
 			// If there's a stackable component, add one at a time.
 			Stackable stack = fromSlot.ItemObject.GetComponent<Stackable>();
