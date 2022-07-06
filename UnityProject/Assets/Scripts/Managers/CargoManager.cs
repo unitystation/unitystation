@@ -382,8 +382,6 @@ namespace Systems.Cargo
 				playerScript.playerHealth.Gib();
 			}
 
-			if (attributes == null) return;
-
 			DespawnItem(obj, alreadySold);
 		}
 
