@@ -343,6 +343,13 @@ namespace Systems.Cargo
 
 			if (obj.TryGetComponent<ItemAttributesV2>(out var itemAttributes))
 			{
+				//charge cargo for getting rid of trash through centeral commmunications.
+				if (itemAttributes.HasTrait(CommonTraits.Instance.Trash))
+				{
+					var chargedPrice = randomJunkPrices.PickRandom();
+					Credits -= chargedPrice;
+					export.ExportMessage += $"{chargedPrice} Charged for junk removal for item : {itemAttributes.ArticleName}.";
+				}
 				foreach (var itemTrait in itemAttributes.GetTraits())
 				{
 					if (itemTrait == null)
@@ -378,7 +385,7 @@ namespace Systems.Cargo
 					}
 				}
 
-				export.ExportMessage = stringBuilder.ToString();
+				export.ExportMessage += "\n" + stringBuilder.ToString();
 				OnCreditsUpdate.Invoke();
 			}
 
