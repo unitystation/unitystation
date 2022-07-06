@@ -263,6 +263,13 @@ namespace Systems.Cargo
 
 		public void ProcessCargo(GameObject obj, HashSet<GameObject> alreadySold)
 		{
+			if (obj.TryGetComponent<PlayerScript>(out var playerScript))
+			{
+				// No one must survive to tell the secrets of Central Command's cargo handling techniques.
+				Chat.AddExamineMsg(obj, "<color=red> You feel a strong force of energy run through your body before everything goes to black in the blink of the eye. </color>");
+				playerScript.playerHealth.Gib();
+			}
+
 			if (obj.TryGetComponent<WrappedBase>(out var wrappedObject))
 			{
 				var wrappedContents = wrappedObject.GetOrGenerateContent();
@@ -355,7 +362,7 @@ namespace Systems.Cargo
 			}
 
 			// Add value of mole inside gas container
-			if (obj.TryGetComponent<GasContainer>(out var gasContainer) && gasContainer.IsSealed)
+			if (obj.TryGetComponent<GasContainer>(out var gasContainer) && gasContainer.CargoSealApproved)
 			{
 				var stringBuilder = new StringBuilder(export.ExportMessage);
 
@@ -370,16 +377,8 @@ namespace Systems.Cargo
 					}
 				}
 
-
 				export.ExportMessage = stringBuilder.ToString();
 				OnCreditsUpdate.Invoke();
-			}
-
-			if (obj.TryGetComponent<PlayerScript>(out var playerScript))
-			{
-				// No one must survive to tell the secrets of Central Command's cargo handling techniques.
-				Chat.AddExamineMsg(obj, "<color=red> You feel a strong force of energy run through your body before everything goes to black in the blink of the eye. </color>");
-				playerScript.playerHealth.Gib();
 			}
 
 			DespawnItem(obj, alreadySold);
