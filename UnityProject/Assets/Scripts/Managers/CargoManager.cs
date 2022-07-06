@@ -49,12 +49,14 @@ namespace Systems.Cargo
 
 		public bool CargoOffline = false;
 		public bool RandomBountiesActive = true;
-    private int lastTimeRecorded = 0;
+		private int lastTimeRecorded = 0;
 		private int randomBountyTimeCheck = 0;
 
 		[SerializeField, BoxGroup("Random Bounties")] private float checkForTimeCooldown = 50f;
 		[SerializeField, BoxGroup("Random Bounties")] private Vector2 randomTimeRangeForRandomBounty = new Vector2(320, 690);
 		[SerializeField, BoxGroup("Random Bounties")] private List<CargoBounty> randomBountiesList = new List<CargoBounty>();
+
+		private List<int> randomJunkPrices = new List<int>();
 
 		private void Awake()
 		{
@@ -70,6 +72,10 @@ namespace Systems.Cargo
 			if(CustomNetworkManager.IsServer == false) return;
 			UpdateManager.Add(UpdateMe, checkForTimeCooldown);
 			randomBountyTimeCheck = UnityEngine.Random.Range((int)randomTimeRangeForRandomBounty.x, (int)randomTimeRangeForRandomBounty.y);
+
+			randomJunkPrices.Add(5);
+			randomJunkPrices.Add(10);
+			randomJunkPrices.Add(15);
 		}
 
 
@@ -298,6 +304,7 @@ namespace Systems.Cargo
 
 			// If there is no bounty for the item - we dont destroy it.
 			var credits = Instance.GetSellPrice(obj);
+			if(credits == 0) credits = randomJunkPrices.PickRandom();
 			Credits += credits;
 			OnCreditsUpdate.Invoke();
 
@@ -348,7 +355,7 @@ namespace Systems.Cargo
 			}
 
 			// Add value of mole inside gas container
-			if (obj.TryGetComponent<GasContainer>(out var gasContainer))
+			if (obj.TryGetComponent<GasContainer>(out var gasContainer) && gasContainer.IsSealed)
 			{
 				var stringBuilder = new StringBuilder(export.ExportMessage);
 
@@ -371,11 +378,11 @@ namespace Systems.Cargo
 			if (obj.TryGetComponent<PlayerScript>(out var playerScript))
 			{
 				// No one must survive to tell the secrets of Central Command's cargo handling techniques.
+				Chat.AddExamineMsg(obj, "<color=red> You feel a strong force of energy run through your body before everything goes to black in the blink of the eye. </color>");
 				playerScript.playerHealth.Gib();
 			}
 
-			if (attributes != null && attributes.ExportType != Attributes.CargoExportType.Always
-				&& (Credits == 0 || export.TotalValue == 0)) return;
+			if (attributes != null) return;
 
 			DespawnItem(obj, alreadySold);
 		}
