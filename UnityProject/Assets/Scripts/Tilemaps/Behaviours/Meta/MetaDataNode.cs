@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Detective;
 using UnityEngine;
 using ScriptableObjects.Atmospherics;
 using Tilemaps.Behaviours.Meta;
@@ -87,7 +88,7 @@ public class MetaDataNode : IGasMixContainer
 	private HashSet<GasSO> gasOverlayData = new HashSet<GasSO>();
 	public HashSet<GasSO> GasOverlayData => gasOverlayData;
 
-	public AppliedDetail AppliedDetail = new AppliedDetail();
+	public AppliedDetails AppliedDetails = new AppliedDetails();
 
 	//Conductivity Stuff//
 

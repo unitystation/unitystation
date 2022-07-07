@@ -1,4 +1,5 @@
 using System.Text;
+using Detective;
 using Systems.Ai;
 using UnityEngine;
 using Mirror;
@@ -590,79 +591,80 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IActi
 		UIManager.SetToolTip = "";
 	}
 
-	public System.Random RNG = new System.Random();
+	private System.Random RNG = new System.Random();
+
+	public int ClueHandsImprintInverseChance = 55;
+	public int ClueUniformImprintInverseChance = 65;
+	public int ClueSpeciesImprintInverseChance = 85;
+
 
 	public void OnInteract(TargetedInteraction Interaction, Component interactable)
 	{
-		if (Interaction != null)
+		if (Interaction == null) return;
+		if (!ComponentManager.TryGetUniversalObjectPhysics(interactable.gameObject, out var UOP)) return;
+		var Detail = UOP.attributes.Component.OrNull()?.AppliedDetails;
+		if (Detail == null) return;
+
+		if (RNG.Next(0, 100) > ClueHandsImprintInverseChance)
 		{
-			if (ComponentManager.TryGetUniversalObjectPhysics(interactable.gameObject, out var UOP))
+
+			bool WearingGloves = false;
+			var slots = DynamicItemStorage.GetNamedItemSlots(NamedSlot.hands);
+			if (slots.Count != 0)
 			{
-				var Detail = UOP.attributes.Component.OrNull()?.AppliedDetail;
-				if (Detail == null) return;
+				var slot = slots.PickRandom();
 
-				if (RNG.Next(0, 100) > 55)
+				if (slot.Item != null)
 				{
-
-					bool WearingGloves = false;
-					var slots = DynamicItemStorage.GetNamedItemSlots(NamedSlot.hands);
-					if (slots.Count != 0)
-					{
-						var slot = slots.PickRandom();
-
-						if (slot.Item != null)
-						{
-							WearingGloves = true;
-							Detail.AddDetail(new Detail()
-							{
-								CausedByInstanceID = slot.Item.gameObject.GetInstanceID(),
-								Description = $" A fibre from a {slot.Item.gameObject.ExpensiveName()}",
-								DetailType = DetailType.Fibre
-							});
-						}
-					}
-
-					if (WearingGloves == false) {
-						var slot = DynamicItemStorage.GetActiveHandSlot();
-						Detail.AddDetail(new Detail()
-						{
-							CausedByInstanceID = slot.ItemStorage.gameObject.GetInstanceID(),
-							Description = $" A fingerprint ",
-							DetailType = DetailType.Fingerprints
-						});
-					}
-				}
-
-
-
-				if (RNG.Next(0, 100) > 65)
-				{
-					var slots = DynamicItemStorage.GetNamedItemSlots(NamedSlot.uniform);
-					if (slots.Count != 0)
-					{
-						var slot = slots.PickRandom();
-						if (slot.Item != null)
-						{
-							Detail.AddDetail(new Detail()
-							{
-								CausedByInstanceID = slot.Item.gameObject.GetInstanceID(),
-								Description = $" A fibre from a {slot.Item.gameObject.ExpensiveName()}",
-								DetailType = DetailType.Fibre
-							});
-						}
-					}
-				}
-
-				if (RNG.Next(0, 100) > 85)
-				{
+					WearingGloves = true;
 					Detail.AddDetail(new Detail()
 					{
-						CausedByInstanceID = this.gameObject.GetInstanceID(),
-						Description = playerSprites.RaceBodyparts.Base.ClueString,
-						DetailType = DetailType.SpeciesIdentify
+						CausedByInstanceID = slot.Item.gameObject.GetInstanceID(),
+						Description = $" A fibre from a {slot.Item.gameObject.ExpensiveName()}",
+						DetailType = DetailType.Fibre
 					});
 				}
 			}
+
+			if (WearingGloves == false) {
+				var slot = DynamicItemStorage.GetActiveHandSlot();
+				Detail.AddDetail(new Detail()
+				{
+					CausedByInstanceID = slot.ItemStorage.gameObject.GetInstanceID(),
+					Description = $" A fingerprint ",
+					DetailType = DetailType.Fingerprints
+				});
+			}
+		}
+
+
+
+		if (RNG.Next(0, 100) > ClueUniformImprintInverseChance)
+		{
+			var slots = DynamicItemStorage.GetNamedItemSlots(NamedSlot.uniform);
+			if (slots.Count != 0)
+			{
+				var slot = slots.PickRandom();
+				if (slot.Item != null)
+				{
+					Detail.AddDetail(new Detail()
+					{
+						CausedByInstanceID = slot.Item.gameObject.GetInstanceID(),
+						Description = $" A fibre from a {slot.Item.gameObject.ExpensiveName()}",
+						DetailType = DetailType.Fibre
+					});
+				}
+			}
+		}
+
+		if (RNG.Next(0, 100) > ClueSpeciesImprintInverseChance)
+		{
+			Detail.AddDetail(new Detail()
+			{
+				CausedByInstanceID = this.gameObject.GetInstanceID(),
+				Description = playerSprites.RaceBodyparts.Base.ClueString,
+				DetailType = DetailType.SpeciesIdentify
+			});
 		}
 	}
 

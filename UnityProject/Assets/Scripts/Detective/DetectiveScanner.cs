@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Text;
+using Detective;
 using Mirror;
 using UnityEngine;
 
@@ -23,13 +24,13 @@ public class DetectiveScanner : NetworkBehaviour, ICheckedInteractable<Positiona
 
 	public void ServerPerformInteraction(PositionalHandApply interaction)
 	{
-		AppliedDetail AppliedDetail = null;
+		AppliedDetails appliedDetails = null;
 		string ScanningName = "";
 
 
 		if (interaction.TargetObject.GetComponent<Attributes>() != null)
 		{
-			AppliedDetail = interaction.TargetObject.GetComponent<Attributes>().OrNull()?.AppliedDetail;
+			appliedDetails = interaction.TargetObject.GetComponent<Attributes>().OrNull()?.AppliedDetails;
 			ScanningName = interaction.TargetObject.ExpensiveName() + " \n Clue ID " + interaction.TargetObject.gameObject.GetInstanceID();
 		}
 		else
@@ -38,7 +39,7 @@ public class DetectiveScanner : NetworkBehaviour, ICheckedInteractable<Positiona
 			var matrix = MatrixManager.AtPoint(worldPosition.CutToInt(), true);
 			var localPosition = MatrixManager.WorldToLocal(worldPosition, matrix).CutToInt();
 			var metaDataNode = matrix.MetaDataLayer.Get(localPosition, false);
-			AppliedDetail = metaDataNode.AppliedDetail;
+			appliedDetails = metaDataNode.AppliedDetails;
 			var Tile = matrix.MetaTileMap.GetTile(localPosition);
 			if (Tile == null)
 			{
@@ -52,7 +53,7 @@ public class DetectiveScanner : NetworkBehaviour, ICheckedInteractable<Positiona
 
 		var StringBuilder = new StringBuilder();
 
-		if (AppliedDetail == null || AppliedDetail.Details.Count == 0)
+		if (appliedDetails == null || appliedDetails.Details.Count == 0)
 		{
 			StringBuilder.AppendLine($"The scanner Beeps and Boops, Not finding anything on {ScanningName}");
 		}
@@ -62,12 +63,12 @@ public class DetectiveScanner : NetworkBehaviour, ICheckedInteractable<Positiona
 				$"The scanner Beeps and Boops Finding on {ScanningName} ");
 			for (int i = 0; i < ScannerDetail; i++)
 			{
-				if (i == AppliedDetail.Details.Count)
+				if (i == appliedDetails.Details.Count)
 				{
 					break;
 				}
 
-				StringBuilder.AppendLine($" Finding {AppliedDetail.Details[i].Description} Clue ID {AppliedDetail.Details[i].CausedByInstanceID} ");
+				StringBuilder.AppendLine($" Finding {appliedDetails.Details[i].Description} Clue ID {appliedDetails.Details[i].CausedByInstanceID} ");
 			}
 		}
 
