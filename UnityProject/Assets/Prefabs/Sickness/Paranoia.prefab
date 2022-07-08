@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2077942166868876767}
-  - component: {fileID: 2188193226838465003}
+  - component: {fileID: 8177265969630170377}
   m_Layer: 0
   m_Name: Paranoia
   m_TagString: Untagged
@@ -32,7 +32,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2188193226838465003
+--- !u!114 &8177265969630170377
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -41,27 +41,49 @@ MonoBehaviour:
   m_GameObject: {fileID: 7739616080464268023}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6c0a24338e4bf074095f5275d3fc8a62, type: 3}
+  m_Script: {fileID: 11500000, guid: 094402b30eec455e90bb1fdd7e421030, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   sicknessName: Paranoia
-  contagious: 0
-  sicknessStages:
-  - symptom: 4
-    repeatSymptom: 1
-    repeatMinDelay: 30
-    repeatMaxDelay: 60
-    secondsBeforeNextStage: 600
-    extendedSymptomParametersSerialized: '{"CustomMessages":[{"privateMessage":"You
-      feel like someone wants to hurt you.","publicMessage":null},{"privateMessage":"You
-      think someone is watching you.","publicMessage":null},{"privateMessage":"You
-      glance around nervously.","publicMessage":null}]}'
-  - symptom: 4
-    repeatSymptom: 1
-    repeatMinDelay: 30
-    repeatMaxDelay: 60
-    secondsBeforeNextStage: 0
-    extendedSymptomParametersSerialized: '{"CustomMessages":[{"privateMessage":"They
-      have eyes everywhere.","publicMessage":"%PLAYERNAME% is glancing around uneasily."},{"privateMessage":"They
-      are watching you.","publicMessage":"%PLAYERNAME% is glancing around uneasily."},{"privateMessage":"They
-      will come to get you.","publicMessage":"%PLAYERNAME% is glancing around uneasily."}]}'
+  Contagious: 0
+  ContagiousRadius: 6
+  infectOtherChance: 50
+  NumberOfStages: 6
+  TicksToPogressStages: 320
+  PossibleCures:
+  - {fileID: 11400000, guid: b8a781e1379c635ae89668659280df98, type: 2}
+  - {fileID: 11400000, guid: f65afb6e152474e9b912c3a97d34b97b, type: 2}
+  - {fileID: 11400000, guid: a1724b1210d8177c097a28325415c0b1, type: 2}
+  - {fileID: 11400000, guid: b571d7133905aa4b890beb106c1ca10d, type: 2}
+  - {fileID: 11400000, guid: 82692ea8680693d459ad97993dbda0f3, type: 2}
+  - {fileID: 11400000, guid: dea4682a9f1409dfe8969e8f6a60602a, type: 2}
+  - {fileID: 11400000, guid: 1f3055e745c54ad29bb7480dd5992fff, type: 2}
+  - {fileID: 11400000, guid: 1802a0454e6530d84bd66a47751602f2, type: 2}
+  ImmuneRaces: []
+  CureForSickness: {fileID: 0}
+  CureHints:
+  - {fileID: 11400000, guid: a1724b1210d8177c097a28325415c0b1, type: 2}
+  - {fileID: 11400000, guid: 911271db97b77da51889f97d6688a103, type: 2}
+  - {fileID: 11400000, guid: f79e241e14050be0ead752207c026273, type: 2}
+  emoteFeedback: {fileID: 11400000, guid: c330a7cbe2059774fafd4a32d2eabecc, type: 2}
+  cooldownTime: 10
+  theThoughtsOfSomeoneAboutToRunOverSomeGreenGlowies:
+  - Something moved past the corner of my eye..
+  - What if a meteor hits the station and i die?
+  - Did I leave a stove off before coming here?
+  - Did I heared something whisper my name?
+  - I feel like I'm being watched..
+  - I can't trust anyone..
+  - They're after me, I know it
+  - I thought I saw someone in a red space suit behind me..
+  - Oh god, I'm going to die!
+  - I feel like someone is staring at me..
+  - Why am I even here? I feel like someone or something is working against me..
+  - Need to protect my stuff.. They're out to steal from me!
+  - The colors, what do they mean?
+  - The colors, it's a secret message by people plotting against me!
+  - Everyone.. Harmful..
+  - Let me out of here!
+  - I don't want to die!
+  - Everyone better stay away from me! I'm not afraid to use anything to protect
+    myself!

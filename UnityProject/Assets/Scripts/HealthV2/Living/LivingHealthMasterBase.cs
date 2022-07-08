@@ -255,6 +255,8 @@ namespace HealthV2
 		public event Action<DamageType> OnTakeDamageType;
 		public event Action OnLowHealth;
 
+		public bool CannotRecognizeNames = false;
+
 		public virtual void Awake()
 		{
 			rootBodyPartController = GetComponent<RootBodyPartController>();
