@@ -18,14 +18,14 @@ namespace Health.Sickness
 		[SerializeField]
 		private GameObject contagionPrefab = null;
 
-		private void SpawnContagionSpot(Sickness sicknessToSpawn, Vector3 position)
+		public static void SpawnContagionSpot(Sickness sicknessToSpawn, Vector3 position)
 		{
-			SpawnResult spawnResult = Spawn.ServerPrefab(contagionPrefab, position, null, null, 1, null, true);
+			SpawnResult spawnResult = Spawn.ServerPrefab(Instance.contagionPrefab, position, null, null, 1, null, true);
 
 			if (spawnResult.Successful && spawnResult.GameObject.TryGetComponent<Contagion>(out var contagion))
 			{
 				contagion.Sickness = sicknessToSpawn;
-				contagion.Sickness.SetCure(contagion.Sickness.PossibleCures.PickRandom());
+				if(sicknessToSpawn.CureForSickness == null) contagion.Sickness.SetCure(contagion.Sickness.PossibleCures.PickRandom());
 			}
 		}
 
@@ -46,6 +46,18 @@ namespace Health.Sickness
 			{
 				if (!sickPlayers.Contains(mobSickness))
 					sickPlayers.Remove(mobSickness);
+			}
+		}
+
+		public void HealEveryone()
+		{
+			if(CustomNetworkManager.IsServer == false) return;
+			foreach (var player in sickPlayers)
+			{
+				foreach (var sickness in player.MobHealth.mobSickness.sicknessAfflictions)
+				{
+					sickness.Heal();
+				}
 			}
 		}
 	}

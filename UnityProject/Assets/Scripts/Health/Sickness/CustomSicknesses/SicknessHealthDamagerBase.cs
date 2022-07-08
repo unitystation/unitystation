@@ -31,12 +31,12 @@ namespace Health.Sickness
 				foreach(var part in health.BodyPartList)
 				{
 					if (specficBodyPartsToTarget.Contains(part) == false) continue;
-					part.TakeDamage(null, damageToDo, attackType, damageType);
+					part.TakeDamage(null, damageToDo * CurrentStage, attackType, damageType);
 					return;
 				}
 			}
 			var bodyPart = health.BodyPartList.PickRandom();
-			bodyPart.TakeDamage(null, damageToDo, attackType, damageType);
+			bodyPart.TakeDamage(null, damageToDo * CurrentStage, attackType, damageType);
 		}
 
 		private IEnumerator Cooldown()

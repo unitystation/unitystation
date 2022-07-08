@@ -14,11 +14,10 @@ namespace Health.Sickness
 		[SerializeField]
 		private string sicknessName = "<Unnamed>";
 
-		/// <summary>
-		/// Indicates if the sickness is contagious or not.
-		/// </summary>
-		[SerializeField]
-		private bool contagious = true;
+		[Tooltip(" Indicates if the sickness is contagious or not.")]
+		public bool Contagious = true;
+		[Range(0,12f)] public float ContagiousRadius = 6f;
+		[SerializeField, Range(0,100f)] private float infectOtherChance = 50f;
 
 		[Tooltip("The number of levels a sickness has.")]
 		public int NumberOfStages = 1;
@@ -32,8 +31,8 @@ namespace Health.Sickness
 
 		public List<Chemistry.Reagent> PossibleCures = new List<Chemistry.Reagent>();
 		public List<PlayerHealthData> ImmuneRaces = new List<PlayerHealthData>();
-		private Chemistry.Reagent cureForSickness = null;
-		private List<Chemistry.Reagent> cureHints = new List<Chemistry.Reagent>();
+		public Chemistry.Reagent CureForSickness = null;
+		public List<Chemistry.Reagent> CureHints = new List<Chemistry.Reagent>();
 
 		[SerializeField, Tooltip("basic Symptomp feedback")] protected EmoteSO emoteFeedback;
 
@@ -51,28 +50,24 @@ namespace Health.Sickness
 			}
 		}
 
-		/// <summary>
-		/// Indicates if the sickness is contagious or not.
-		/// </summary>
-		public bool Contagious => contagious;
-
 		public void SetCure()
 		{
-			if (PossibleCures.Count != 0) cureForSickness = PossibleCures.PickRandom();
+			if (PossibleCures.Count != 0) CureForSickness = PossibleCures.PickRandom();
 			FillCureHints();
 		}
 
 		public void SetCure(Chemistry.Reagent cure)
 		{
-			cureForSickness = cure;
+			if (cure == null) return;
+			CureForSickness = cure;
 			FillCureHints();
 		}
 
 		private void FillCureHints()
 		{
-			if (cureForSickness != null && cureForSickness.RelatedReactions.Length > 0)
+			if (CureForSickness != null && CureForSickness.RelatedReactions.Length > 0)
 			{
-				cureHints.AddRange(cureForSickness.RelatedReactions[Random.Range(0, cureForSickness.RelatedReactions.Length)].catalysts.Keys);
+				CureHints.AddRange(CureForSickness.RelatedReactions[Random.Range(0, CureForSickness.RelatedReactions.Length)].catalysts.Keys);
 			}
 		}
 
@@ -85,6 +80,22 @@ namespace Health.Sickness
 				currentTicksSinceLastProgression = 0;
 				currentStage += 1;
 			}
+			if(Contagious) TrySpreading();
+		}
+
+		/// <summary>
+		/// Attempts to spread the virus to nearby mobs.
+		/// </summary>
+		public virtual void TrySpreading()
+		{
+			if(DMMath.Prob(infectOtherChance) == false) return;
+			var result = Physics2D.OverlapCircleAll(gameObject.TileLocalPosition(), ContagiousRadius);
+			foreach (var obj in result)
+			{
+				if (obj.TryGetComponent<LivingHealthMasterBase>(out var healthBase) == false) continue;
+				healthBase.AddSickness(this);
+				return; //Balance note : Only infect one person to avoid mass infection problems that leads to chaos.
+			}
 		}
 
 		public virtual void SymptompFeedback(LivingHealthMasterBase health)
@@ -94,7 +105,7 @@ namespace Health.Sickness
 
 		public virtual bool CheckForCureInHealth(LivingHealthMasterBase health)
 		{
-			if (health.CirculatorySystem.BloodPool.reagentKeys.Contains(cureForSickness) == false) return false;
+			if (health.CirculatorySystem.BloodPool.reagentKeys.Contains(CureForSickness) == false) return false;
 			return true;
 		}
 	}

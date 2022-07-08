@@ -26,7 +26,8 @@ namespace InGameEvents
 		{
 			if (AnnounceEvent)
 			{
-				var text = "Incoming Public Health Report:\nSome people on the station are afflicted by some disease.";
+				var text = "Incoming Public Health Report:\nSome individuals onboard the station may have been afflicted by an unknown disease. " +
+				           "Please remain clam and practice social distancing while visiting the station's virologist for sample collection.";
 
 				CentComm.MakeAnnouncement(ChatTemplates.CentcomAnnounce, text, CentComm.UpdateSound.Alert);
 			}
@@ -59,6 +60,7 @@ namespace InGameEvents
 				if (player.Script != null && player.Script.playerHealth != null)
 				{
 					player.Script.playerHealth.AddSickness(sickness);
+					SicknessManager.SpawnContagionSpot(sickness, player.GameObject.AssumedWorldPosServer());
 				}
 			}
 		}
