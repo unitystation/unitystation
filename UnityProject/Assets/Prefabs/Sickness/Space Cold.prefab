@@ -45,25 +45,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sicknessName: Space Cold
-  contagious: 1
-  sicknessStages:
-  - symptom: 3
-    repeatSymptom: 1
-    repeatMinDelay: 30
-    repeatMaxDelay: 60
-    secondsBeforeNextStage: 300
-    extendedSymptomParametersSerialized: null
-  - symptom: 4
-    repeatSymptom: 1
-    repeatMinDelay: 30
-    repeatMaxDelay: 60
-    secondsBeforeNextStage: 600
-    extendedSymptomParametersSerialized: '{"CustomMessages":[{"privateMessage":"Your
-      nose is stuffy.","publicMessage":null},{"privateMessage":"Your nose is runny.","publicMessage":"%PLAYERNAME%
-      snorts."}]}'
-  - symptom: 0
-    repeatSymptom: 0
-    repeatMinDelay: 0
-    repeatMaxDelay: 0
-    secondsBeforeNextStage: 0
-    extendedSymptomParametersSerialized: null
+  Contagious: 1
+  ContagiousRadius: 6
+  infectOtherChance: 50
+  NumberOfStages: 1
+  TicksToPogressStages: 320
+  PossibleCures: []
+  ImmuneRaces:
+  - {fileID: 11400000, guid: 4c4d0af544e2b6847a3902db71f721fd, type: 2}
+  CureForSickness: {fileID: 0}
+  CureHints: []
+  emoteFeedback: {fileID: 0}

@@ -3,6 +3,7 @@ using HealthV2;
 using ScriptableObjects.RP;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Health.Sickness
 {
@@ -29,7 +30,7 @@ namespace Health.Sickness
 		private int currentStage = 1;
 		public int CurrentStage => currentStage;
 
-		public List<Chemistry.Reagent> PossibleCures = new List<Chemistry.Reagent>();
+		[FormerlySerializedAs("possibleCures")]public List<Chemistry.Reagent> PossibleCures = new List<Chemistry.Reagent>();
 		public List<PlayerHealthData> ImmuneRaces = new List<PlayerHealthData>();
 		public Chemistry.Reagent CureForSickness = null;
 		public List<Chemistry.Reagent> CureHints = new List<Chemistry.Reagent>();
