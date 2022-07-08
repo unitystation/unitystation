@@ -72,10 +72,6 @@ namespace Systems.Cargo
 			if(CustomNetworkManager.IsServer == false) return;
 			UpdateManager.Add(UpdateMe, checkForTimeCooldown);
 			randomBountyTimeCheck = UnityEngine.Random.Range((int)randomTimeRangeForRandomBounty.x, (int)randomTimeRangeForRandomBounty.y);
-
-			randomJunkPrices.Add(5);
-			randomJunkPrices.Add(10);
-			randomJunkPrices.Add(15);
 		}
 
 
