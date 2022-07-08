@@ -19,8 +19,8 @@ namespace Health.Sickness
 			if (isOnCooldown) return;
 			base.SicknessBehavior(health);
 			Chat.AddExamineMsg(health.gameObject, theThoughtsOfSomeoneAboutToRunOverSomeGreenGlowies.PickRandom());
-			if (CurrentStage > 4) health.CannotRecognizeNames = DMMath.Prob(50);
-			if(CurrentStage > 2) health.playerScript.playerNetworkActions.CmdSetCurrentIntent(Intent.Harm);
+			if (CurrentStage >= 4) health.CannotRecognizeNames = DMMath.Prob(50);
+			if(CurrentStage >= 2) health.playerScript.playerNetworkActions.CmdSetCurrentIntent(Intent.Harm);
 			health.StartCoroutine(Cooldown());
 			//TODO : ALLOW PLAYERS TO SEE VISUAL HALLUCINATIONS AS WELL
 		}
