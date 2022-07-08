@@ -51,7 +51,7 @@ public class Attributes : NetworkBehaviour, IRightClickable, IExaminable, IServe
 	}
 
 	[SerializeField, BoxGroup("Cargo")]
-	[Tooltip("If default, will only be considered exportable if the value is not zero and the object is movable.")]
+	[Tooltip("Can this be sold while oboard a cargo shuttle?")]
 	public bool CanBeSoldInCargo = true;
 
 	[Tooltip("Should an alternate name be used when displaying this in the cargo console report?")]
