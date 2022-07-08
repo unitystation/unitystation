@@ -10,7 +10,7 @@ public class Syringe : MonoBehaviour, ICheckedInteractable<HandApply>
 {
 	public ReagentContainer LocalContainer;
 
-	private List<SicknessAffliction> sicknessesInSyringe = new List<SicknessAffliction>();
+	public List<SicknessAffliction> SicknessesInSyringe = new List<SicknessAffliction>();
 
 	public bool WillInteract(HandApply interaction, NetworkSide side)
 	{
@@ -33,14 +33,14 @@ public class Syringe : MonoBehaviour, ICheckedInteractable<HandApply>
 				LHB.CirculatorySystem.BloodPool.Add(LocalContainer.TakeReagents(15f));
 				Chat.AddActionMsgToChat(interaction.Performer, $"You Inject The syringe into {LHB.gameObject.ExpensiveName()}",
 					$"{interaction.Performer.ExpensiveName()} injects a syringe into {LHB.gameObject.ExpensiveName()}");
-				if(sicknessesInSyringe.Count > 0) LHB.AddSickness(sicknessesInSyringe.PickRandom().Sickness);
+				if(SicknessesInSyringe.Count > 0) LHB.AddSickness(SicknessesInSyringe.PickRandom().Sickness);
 			}
 			else
 			{
 				LocalContainer.Add(LHB.CirculatorySystem.BloodPool.Take(15f));
 				Chat.AddActionMsgToChat(interaction.Performer, $"You pull the blood from {LHB.gameObject.ExpensiveName()}",
 					$"{interaction.Performer.ExpensiveName()} pulls the blood from {LHB.gameObject.ExpensiveName()}");
-				if(LHB.mobSickness.sicknessAfflictions.Count > 0) sicknessesInSyringe.AddRange(LHB.mobSickness.sicknessAfflictions);
+				if(LHB.mobSickness.sicknessAfflictions.Count > 0) SicknessesInSyringe.AddRange(LHB.mobSickness.sicknessAfflictions);
 			}
 		}
 	}
