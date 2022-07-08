@@ -22,10 +22,10 @@ namespace Health.Sickness
 		public override void SicknessBehavior(LivingHealthMasterBase health)
 		{
 			if (hasCooldown && isOnCooldown) return;
+			base.SicknessBehavior(health);
 			health.StartCoroutine(Cooldown());
 			if (DMMath.Prob(chanceToDamage) == false) return;
 			health.BodyPartList.Shuffle();
-			EmoteActionManager.DoEmote(emoteFeedback, health.gameObject);
 			if(specficBodyPartsToTarget.Count != 0)
 			{
 				foreach(var part in health.BodyPartList)

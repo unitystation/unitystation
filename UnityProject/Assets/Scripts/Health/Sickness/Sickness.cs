@@ -1,4 +1,5 @@
-﻿using HealthV2;
+﻿using Core.Chat;
+using HealthV2;
 using ScriptableObjects.RP;
 using System.Collections.Generic;
 using UnityEngine;
@@ -19,21 +20,18 @@ namespace Health.Sickness
 		[SerializeField]
 		private bool contagious = true;
 
-		/// <summary>
-		/// List of all the stages of a particular sickness
-		/// </summary>
-		[SerializeField]
-		private List<SicknessStage> sicknessStages = null;
+		[Tooltip("The number of levels a sickness has.")]
+		public int NumberOfStages = 1;
 
-		[SerializeField] private List<Chemistry.Reagent> possibleCures = new List<Chemistry.Reagent>();
+		private int currentStage = 1;
+		public int CurrentStage => currentStage;
+
+		public List<Chemistry.Reagent> PossibleCures = new List<Chemistry.Reagent>();
+		public List<RaceHealthData> ImmuneRaces = new List<RaceHealthData>();
 		private Chemistry.Reagent cureForSickness = null;
+		private List<Chemistry.Reagent> cureHints = new List<Chemistry.Reagent>();
 
-		[SerializeField] protected EmoteSO emoteFeedback;
-
-		public Sickness()
-		{
-			sicknessStages = new List<SicknessStage>();
-		}
+		[SerializeField, Tooltip("basic Symptomp feedback")] protected EmoteSO emoteFeedback;
 
 		/// <summary>
 		/// Name of the sickness
@@ -52,36 +50,37 @@ namespace Health.Sickness
 		/// <summary>
 		/// Indicates if the sickness is contagious or not.
 		/// </summary>
-		public bool Contagious
-		{
-			get
-			{
-				return contagious;
-			}
-		}
-
-		/// <summary>
-		/// List of all the stages of a particular sickness
-		/// </summary>
-		public List<SicknessStage> SicknessStages
-		{
-			get
-			{
-				return sicknessStages;
-			}
-		}
+		public bool Contagious => contagious;
 
 		public void SetCure()
 		{
-			if (possibleCures.Count != 0) cureForSickness = possibleCures.PickRandom();
+			if (PossibleCures.Count != 0) cureForSickness = PossibleCures.PickRandom();
+			FillCureHints();
 		}
 
 		public void SetCure(Chemistry.Reagent cure)
 		{
 			cureForSickness = cure;
+			FillCureHints();
 		}
 
-		public virtual void SicknessBehavior(LivingHealthMasterBase health) { }
+		private void FillCureHints()
+		{
+			if (cureForSickness != null && cureForSickness.RelatedReactions.Length > 0)
+			{
+				cureHints.AddRange(cureForSickness.RelatedReactions[Random.Range(0, cureForSickness.RelatedReactions.Length)].catalysts.Keys);
+			}
+		}
+
+		public virtual void SicknessBehavior(LivingHealthMasterBase health)
+		{
+			SymptompFeedback(health);
+		}
+
+		public virtual void SymptompFeedback(LivingHealthMasterBase health)
+		{
+			EmoteActionManager.DoEmote(emoteFeedback, health.gameObject);
+		}
 
 		public virtual bool CheckForCureInHealth(LivingHealthMasterBase health)
 		{
