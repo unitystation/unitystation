@@ -56,7 +56,7 @@ namespace Systems.Cargo
 		[SerializeField, BoxGroup("Random Bounties")] private Vector2 randomTimeRangeForRandomBounty = new Vector2(320, 690);
 		[SerializeField, BoxGroup("Random Bounties")] private List<CargoBounty> randomBountiesList = new List<CargoBounty>();
 
-		private List<int> randomJunkPrices = new List<int>();
+		private static readonly List<int> randomJunkPrices = new List<int> { 5, 10, 15 };
 
 		private void Awake()
 		{
