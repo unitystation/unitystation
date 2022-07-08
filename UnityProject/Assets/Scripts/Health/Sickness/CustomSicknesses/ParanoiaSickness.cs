@@ -25,6 +25,11 @@ namespace Health.Sickness
 			//TODO : ALLOW PLAYERS TO SEE VISUAL HALLUCINATIONS AS WELL
 		}
 
+		public override void SymptompFeedback(LivingHealthMasterBase health)
+		{
+			if(CurrentStage >= 3) EmoteActionManager.DoEmote(emoteFeedback, health.gameObject);
+		}
+
 		private IEnumerator Cooldown()
 		{
 			isOnCooldown = true;
