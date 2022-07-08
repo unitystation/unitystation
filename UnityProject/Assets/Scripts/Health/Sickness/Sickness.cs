@@ -23,11 +23,15 @@ namespace Health.Sickness
 		[Tooltip("The number of levels a sickness has.")]
 		public int NumberOfStages = 1;
 
+		[Range(0f, 9320), Tooltip("Set it to less than 10 ticks to disable automatic progression.")]
+		public int TicksToPogressStages = 320;
+		private int currentTicksSinceLastProgression = 0;
+
 		private int currentStage = 1;
 		public int CurrentStage => currentStage;
 
 		public List<Chemistry.Reagent> PossibleCures = new List<Chemistry.Reagent>();
-		public List<RaceHealthData> ImmuneRaces = new List<RaceHealthData>();
+		public List<PlayerHealthData> ImmuneRaces = new List<PlayerHealthData>();
 		private Chemistry.Reagent cureForSickness = null;
 		private List<Chemistry.Reagent> cureHints = new List<Chemistry.Reagent>();
 
@@ -75,6 +79,12 @@ namespace Health.Sickness
 		public virtual void SicknessBehavior(LivingHealthMasterBase health)
 		{
 			SymptompFeedback(health);
+			currentTicksSinceLastProgression += 1;
+			if(currentTicksSinceLastProgression >= TicksToPogressStages && NumberOfStages > currentStage)
+			{
+				currentTicksSinceLastProgression = 0;
+				currentStage += 1;
+			}
 		}
 
 		public virtual void SymptompFeedback(LivingHealthMasterBase health)
