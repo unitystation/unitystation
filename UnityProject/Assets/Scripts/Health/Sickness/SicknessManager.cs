@@ -21,11 +21,11 @@ namespace Health.Sickness
 		public static void SpawnContagionSpot(Sickness sicknessToSpawn, Vector3 position)
 		{
 			SpawnResult spawnResult = Spawn.ServerPrefab(Instance.contagionPrefab, position, null, null, 1, null, true);
+			SpawnResult sickNessResult = Spawn.ServerPrefab(sicknessToSpawn.gameObject, position);
 
-			if (spawnResult.Successful && spawnResult.GameObject.TryGetComponent<Contagion>(out var contagion))
+			if (spawnResult.Successful && sickNessResult.Successful && spawnResult.GameObject.TryGetComponent<Contagion>(out var contagion))
 			{
-				contagion.Sickness = sicknessToSpawn;
-				if(sicknessToSpawn.CureForSickness == null) contagion.Sickness.SetCure(contagion.Sickness.PossibleCures.PickRandom());
+				contagion.Setup(sickNessResult.GameObject);
 			}
 		}
 

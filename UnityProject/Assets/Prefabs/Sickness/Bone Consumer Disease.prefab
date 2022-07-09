@@ -56,6 +56,8 @@ MonoBehaviour:
   CureForSickness: {fileID: 0}
   CureHints: []
   emoteFeedback: {fileID: 11400000, guid: 5d61ca3eb68b81946b8226b482703158, type: 2}
+  cooldownTime: 120
+  IsOnCooldown: 0
   damageToDo: 30
   chanceToDamage: 50
   specficBodyPartsToTarget:
@@ -73,5 +75,4 @@ MonoBehaviour:
   - {fileID: 1492507009902718503, guid: 46f519b7b90d0184fb5a88ab276c5c6c, type: 3}
   attackType: 10
   damageType: 0
-  hasCooldown: 1
-  cooldownTime: 120
+  hasCooldown: 0

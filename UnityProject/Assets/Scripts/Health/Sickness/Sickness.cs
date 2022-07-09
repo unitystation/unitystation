@@ -1,10 +1,12 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using Core.Chat;
 using HealthV2;
 using ScriptableObjects.RP;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Serialization;
+using Random = UnityEngine.Random;
 
 namespace Health.Sickness
 {
@@ -53,6 +55,12 @@ namespace Health.Sickness
 
 				return sicknessName;
 			}
+		}
+
+		private void Awake()
+		{
+			if(CustomNetworkManager.IsServer == false) return;
+
 		}
 
 		public void SetCure()
