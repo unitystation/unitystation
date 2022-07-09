@@ -159,6 +159,21 @@ namespace Systems.Cargo
 			Transform objectHolder = SearchForObjectsOnShuttle();
 			//track what we've already sold so it's not sold twice.
 			HashSet<GameObject> alreadySold = new HashSet<GameObject>();
+			var seekingItemTraitsForBounties = new List<ItemTrait>();
+			foreach(var bounty in CargoManager.Instance.ActiveBounties)
+			{
+				seekingItemTraitsForBounties.AddRange(bounty.Demands.Keys);
+			}
+
+			bool hasBountyTrait(Attributes attribute)
+			{
+				if (attribute is ItemAttributesV2 c)
+				{
+					return c.HasAnyTrait(seekingItemTraitsForBounties);
+				}
+				return false;
+			}
+
 			for (int i = 0; i < objectHolder.childCount; i++)
 			{
 				var item = objectHolder.GetChild(i).gameObject;
@@ -169,10 +184,11 @@ namespace Systems.Cargo
 				{
 					if (item.TryGetComponent<Attributes>(out var attributes))
 					{
-						if (attributes.ExportType == Attributes.CargoExportType.Never) continue;
+						// Items that cannot be sold in cargo will be ignored unless they have a trait that is assoicated with a bounty
+						if (attributes.CanBeSoldInCargo == false && hasBountyTrait(attributes) == false) continue;
 
 						// Don't sell secured objects e.g. conveyors.
-						if (attributes.ExportType != Attributes.CargoExportType.Always && behaviour.IsNotPushable) continue;
+						if (attributes.CanBeSoldInCargo && behaviour.IsNotPushable) continue;
 					}
 
 					CargoManager.Instance.ProcessCargo(item, alreadySold);

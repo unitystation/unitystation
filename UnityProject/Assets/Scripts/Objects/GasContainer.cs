@@ -65,6 +65,9 @@ namespace Objects.Atmospherics
 		//Valid serverside only
 		public float FullPercentage => GasMix.Moles / MaximumMoles;
 
+		[Tooltip("If true : Cargo will accept gases found within this container and can be sold.")]
+		public bool CargoSealApproved = false;
+
 		#region Lifecycle
 
 		private void Awake()
