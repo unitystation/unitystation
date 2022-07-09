@@ -853,7 +853,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 			speed = TileMoveSpeed;
 		}
 
-		if (inPushing.Count > 0) //Has to push stuff
+		if (inPushing.Count > 0 && registerTile.IsPassable(isServer) == false) //Has to push stuff
 		{
 			//Push Object
 			foreach (var push in inPushing)
