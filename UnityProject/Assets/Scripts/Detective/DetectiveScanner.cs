@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using Detective;
 using Mirror;
@@ -61,14 +62,10 @@ public class DetectiveScanner : NetworkBehaviour, ICheckedInteractable<Positiona
 		{
 			StringBuilder.AppendLine(
 				$"The scanner Beeps and Boops Finding on {ScanningName} ");
-			for (int i = 0; i < ScannerDetail; i++)
+			
+			foreach (var detail in appliedDetails.Details.Take(ScannerDetail))
 			{
-				if (i == appliedDetails.Details.Count)
-				{
-					break;
-				}
-
-				StringBuilder.AppendLine($" Finding {appliedDetails.Details[i].Description} Clue ID {appliedDetails.Details[i].CausedByInstanceID} ");
+				StringBuilder.AppendLine($" Finding {detail.Description} Clue ID {detail.CausedByInstanceID} ");
 			}
 		}
 
