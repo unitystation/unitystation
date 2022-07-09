@@ -59,6 +59,9 @@ public class RaceHealthData
 
 	[Tooltip("What reagent does this expel as waste?, Sets all the body parts that don't have a set NaturalToxinReagent")]
 	public Reagent BodyNaturalToxinReagent;
+
+	[Tooltip("The text that indicates that it's a clue of what species did an interaction for the detectives scanner")]
+	public string ClueString;
 }
 
 

@@ -2,6 +2,7 @@ using System.Linq;
 using UnityEngine;
 using Mirror;
 using Core.Editor.Attributes;
+using Detective;
 using Messages.Client.Interaction;
 using NaughtyAttributes;
 
@@ -104,6 +105,12 @@ public class Attributes : NetworkBehaviour, IRightClickable, IExaminable, IServe
 	/// Current description
 	/// </summary>
 	public string ArticleDescription => articleDescription;
+
+
+	/// <summary>
+	/// For the detectives Scanner
+	/// </summary>
+	public AppliedDetails AppliedDetails = new AppliedDetails();
 
 	public override void OnStartClient()
 	{
