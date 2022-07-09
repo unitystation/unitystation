@@ -1073,6 +1073,7 @@ namespace HealthV2
 			}
 
 			if ((mobSickness.HasSickness(sickness) == false) && (immunedSickness.Contains(sickness) == false)) mobSickness.Add(sickness, Time.time);
+			sickness.IsOnCooldown = false;
 		}
 
 		/// <summary>

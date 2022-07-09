@@ -39,7 +39,7 @@ namespace Health.Sickness
 		[SerializeField, Tooltip("basic Symptomp feedback")] protected EmoteSO emoteFeedback;
 
 		[SerializeField, Range(10f,60f)] private float cooldownTime = 10f;
-		protected bool isOnCooldown = false;
+		public bool IsOnCooldown = false;
 
 		/// <summary>
 		/// Name of the sickness
@@ -78,7 +78,7 @@ namespace Health.Sickness
 
 		public virtual void SicknessBehavior(LivingHealthMasterBase health)
 		{
-			if(isOnCooldown) return;
+			if(IsOnCooldown) return;
 			SymptompFeedback(health);
 			currentTicksSinceLastProgression += 1;
 			if(currentTicksSinceLastProgression >= TicksToPogressStages && NumberOfStages > currentStage)
@@ -118,9 +118,9 @@ namespace Health.Sickness
 
 		protected virtual IEnumerator Cooldown()
 		{
-			isOnCooldown = true;
+			IsOnCooldown = true;
 			yield return WaitFor.Seconds(cooldownTime);
-			isOnCooldown = false;
+			IsOnCooldown = false;
 		}
 	}
 }
