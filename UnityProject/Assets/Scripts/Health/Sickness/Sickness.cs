@@ -1,4 +1,5 @@
-﻿using Core.Chat;
+﻿using System.Collections;
+using Core.Chat;
 using HealthV2;
 using ScriptableObjects.RP;
 using System.Collections.Generic;
@@ -23,8 +24,8 @@ namespace Health.Sickness
 		[Tooltip("The number of levels a sickness has.")]
 		public int NumberOfStages = 1;
 
-		[Range(0f, 9320), Tooltip("Set it to less than 10 ticks to disable automatic progression.")]
-		public int TicksToPogressStages = 320;
+		[Range(0f, 9320), Tooltip("Set it to less than 2 ticks to disable automatic progression.")]
+		public int TicksToPogressStages = 50;
 		private int currentTicksSinceLastProgression = 0;
 
 		private int currentStage = 1;
@@ -36,6 +37,9 @@ namespace Health.Sickness
 		public List<Chemistry.Reagent> CureHints = new List<Chemistry.Reagent>();
 
 		[SerializeField, Tooltip("basic Symptomp feedback")] protected EmoteSO emoteFeedback;
+
+		[SerializeField, Range(10f,60f)] private float cooldownTime = 10f;
+		protected bool isOnCooldown = false;
 
 		/// <summary>
 		/// Name of the sickness
@@ -74,6 +78,7 @@ namespace Health.Sickness
 
 		public virtual void SicknessBehavior(LivingHealthMasterBase health)
 		{
+			if(isOnCooldown) return;
 			SymptompFeedback(health);
 			currentTicksSinceLastProgression += 1;
 			if(currentTicksSinceLastProgression >= TicksToPogressStages && NumberOfStages > currentStage)
@@ -82,6 +87,7 @@ namespace Health.Sickness
 				currentStage += 1;
 			}
 			if(Contagious) TrySpreading();
+			health.StartCoroutine(Cooldown());
 		}
 
 		/// <summary>
@@ -108,6 +114,13 @@ namespace Health.Sickness
 		{
 			if (health.CirculatorySystem.BloodPool.reagentKeys.Contains(CureForSickness) == false) return false;
 			return true;
+		}
+
+		protected virtual IEnumerator Cooldown()
+		{
+			isOnCooldown = true;
+			yield return WaitFor.Seconds(cooldownTime);
+			isOnCooldown = false;
 		}
 	}
 }

@@ -9,9 +9,6 @@ namespace Health.Sickness
 {
 	public class ParanoiaSickness : Sickness
 	{
-		private bool isOnCooldown = false;
-		[SerializeField, Range(10f,60f)] private float cooldownTime = 10f;
-
 		[SerializeField] private List<string> theThoughtsOfSomeoneAboutToRunOverSomeGreenGlowies = new List<string>();
 
 		public override void SicknessBehavior(LivingHealthMasterBase health)
@@ -28,13 +25,6 @@ namespace Health.Sickness
 		public override void SymptompFeedback(LivingHealthMasterBase health)
 		{
 			if(CurrentStage >= 3) EmoteActionManager.DoEmote(emoteFeedback, health.gameObject);
-		}
-
-		private IEnumerator Cooldown()
-		{
-			isOnCooldown = true;
-			yield return WaitFor.Seconds(cooldownTime);
-			isOnCooldown = false;
 		}
 	}
 }
