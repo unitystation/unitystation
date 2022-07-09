@@ -62,7 +62,7 @@ public class DetectiveScanner : NetworkBehaviour, ICheckedInteractable<Positiona
 		{
 			StringBuilder.AppendLine(
 				$"The scanner Beeps and Boops Finding on {ScanningName} ");
-			
+
 			foreach (var detail in appliedDetails.Details.Take(ScannerDetail))
 			{
 				StringBuilder.AppendLine($" Finding {detail.Description} Clue ID {detail.CausedByInstanceID} ");

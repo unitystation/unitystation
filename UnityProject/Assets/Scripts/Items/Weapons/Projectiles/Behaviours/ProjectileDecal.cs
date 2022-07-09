@@ -33,8 +33,11 @@ namespace Weapons.Projectiles.Behaviours
 			}
 			else
 			{
-				var Node = hit.CollisionHit.GameObject.GetComponent<Attributes>();
-				AppliedDetails = Node.AppliedDetails;
+				var Node = hit.CollisionHit.GameObject.GetComponent<Attributes>().OrNull();
+				if (Node != null)
+				{
+					AppliedDetails = Node.AppliedDetails;
+				}
 			}
 
 			AppliedDetails.AddDetail(new Detail()

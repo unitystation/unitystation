@@ -308,6 +308,8 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 		{
 			SetTransform(transform.position.RoundToInt(), true);
 		}
+
+		OnLocalTileReached.Invoke(transform.localPosition);
 	}
 
 
