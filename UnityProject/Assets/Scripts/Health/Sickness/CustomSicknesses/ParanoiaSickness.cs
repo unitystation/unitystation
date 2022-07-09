@@ -14,11 +14,10 @@ namespace Health.Sickness
 		public override void SicknessBehavior(LivingHealthMasterBase health)
 		{
 			if (isOnCooldown) return;
-			base.SicknessBehavior(health);
 			Chat.AddExamineMsg(health.gameObject, theThoughtsOfSomeoneAboutToRunOverSomeGreenGlowies.PickRandom());
 			if (CurrentStage >= 4) health.CannotRecognizeNames = DMMath.Prob(50);
 			if(CurrentStage >= 2) health.playerScript.playerNetworkActions.CmdSetCurrentIntent(Intent.Harm);
-			health.StartCoroutine(Cooldown());
+			base.SicknessBehavior(health);
 			//TODO : ALLOW PLAYERS TO SEE VISUAL HALLUCINATIONS AS WELL
 		}
 

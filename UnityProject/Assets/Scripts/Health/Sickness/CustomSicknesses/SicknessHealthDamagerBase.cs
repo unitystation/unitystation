@@ -18,7 +18,6 @@ namespace Health.Sickness
 		public override void SicknessBehavior(LivingHealthMasterBase health)
 		{
 			if (hasCooldown && isOnCooldown) return;
-			base.SicknessBehavior(health);
 			if (DMMath.Prob(chanceToDamage) == false) return;
 			health.BodyPartList.Shuffle();
 			if(specficBodyPartsToTarget.Count != 0)
@@ -32,6 +31,7 @@ namespace Health.Sickness
 			}
 			var bodyPart = health.BodyPartList.PickRandom();
 			bodyPart.TakeDamage(null, damageToDo * CurrentStage, attackType, damageType);
+			base.SicknessBehavior(health);
 		}
 	}
 }
