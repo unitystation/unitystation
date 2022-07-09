@@ -246,11 +246,6 @@ public partial class Chat : MonoBehaviour
 							}
 						}
 					}
-
-					if (player.playerHealth.CannotRecognizeNames)
-					{
-						chatEvent.speaker = "<color=red>Unknown</color>";
-					}
 				}
 			}
 		}
