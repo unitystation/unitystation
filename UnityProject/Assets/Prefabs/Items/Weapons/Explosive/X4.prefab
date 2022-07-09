@@ -143,6 +143,7 @@ MonoBehaviour:
     Magic: 0
     Bio: 0
     DismembermentProtectionChance: 0
+    StunImmunity: 0
   Resistances:
     LavaProof: 0
     FireProof: 0
@@ -250,13 +251,14 @@ MonoBehaviour:
   Frequency: 122
   Emitter: {fileID: 0}
   DelayTime: 3
-  EncryptionData: {fileID: 0}
+  PassCode: 0
   ListenToEncryptedData: 0
   explosiveType: 1
   detonateImmediatelyOnSignal: 0
   timeToDetonate: 10
   minimumTimeToDetonate: 1
-  explosiveStrength: 7000
+  explosiveStrength: 3500
+  explosiveRadius: 2
   activeSpriteSO: {fileID: 11400000, guid: 6eedd99a9dc83864f808d929d4e9bd36, type: 2}
   beepSound:
     SetLoadSetting: 0
@@ -294,6 +296,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   NetTabType: 46
+  requiresAltClick: 0
 --- !u!114 &53286352597045704
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -326,17 +329,26 @@ MonoBehaviour:
   SnapToGridOnStart: 0
   LocalTargetPosition: {x: 0, y: 0, z: 0}
   ChangesDirectionPush: 0
+  Intangible: 0
+  CanBeWindPushed: 1
+  IsPlayer: 0
+  InitialLocationSynchronised: 0
+  tileMoveSpeed: 1
   isNotPushable: 0
-  newtonianMovement: {x: 0, y: 0}
   airTime: 0
   slideTime: 0
+  SetIgnoreSticky: 0
   thrownBy: {fileID: 0}
   aim: 0
   spinMagnitude: 0
+  ForcedPushedFrame: 0
+  TryPushedFrame: 0
+  PushedFrame: 0
+  FramePushDecision: 1
   stickyMovement: 0
+  OnThrowEndResetRotation: 0
   maximumStickSpeed: 1.5
   onStationMovementsRound: 0
-  attributes: {fileID: 0}
   registerTile: {fileID: 0}
   ContextGameObjects:
   - {fileID: 0}
@@ -346,15 +358,12 @@ MonoBehaviour:
   CorrectingCourse: 0
   Pushing: []
   Hits: []
-  Speed: 1
-  AIR: 3
-  SLIDE: 4
   Animating: 0
-  IsFlyingSliding: 0
+  isFlyingSliding: 0
   IsMoving: 0
-  IsWalking: 0
   MoveIsWalking: 0
   LastUpdateClientFlying: 0
+  BuckledToObject: {fileID: 0}
 --- !u!1 &3204498178074362964
 GameObject:
   m_ObjectHideFlags: 0

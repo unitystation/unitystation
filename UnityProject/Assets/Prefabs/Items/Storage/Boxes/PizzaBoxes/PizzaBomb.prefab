@@ -34,9 +34,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6176497755123761644, guid: d3025a1bc493cc246a21c87ee6e6bfb6,
         type: 3}
+      propertyPath: explosiveRadius
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 6176497755123761644, guid: d3025a1bc493cc246a21c87ee6e6bfb6,
+        type: 3}
       propertyPath: objectBehaviour
       value: 
-      objectReference: {fileID: 5685423073254728141}
+      objectReference: {fileID: 0}
     - target: {fileID: 6176497755123761644, guid: d3025a1bc493cc246a21c87ee6e6bfb6,
         type: 3}
       propertyPath: explosiveStrength
@@ -143,18 +148,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d3025a1bc493cc246a21c87ee6e6bfb6, type: 3}
---- !u!114 &5685423073254728141 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 6962316566559280959, guid: d3025a1bc493cc246a21c87ee6e6bfb6,
-    type: 3}
-  m_PrefabInstance: {fileID: 3348901509889601266}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5724235118832229837}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c23c49138f42840a1bc22ade283c1694, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &5724235118832229837 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6992156924195287871, guid: d3025a1bc493cc246a21c87ee6e6bfb6,
@@ -174,3 +167,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   NetTabType: 49
+  requiresAltClick: 0
