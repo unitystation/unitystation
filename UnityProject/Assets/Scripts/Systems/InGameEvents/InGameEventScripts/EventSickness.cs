@@ -54,13 +54,16 @@ namespace InGameEvents
 			}
 
 			Sickness sickness = SicknessManager.Instance.Sicknesses[sicknessEventParameters.SicknessIndex];
+			SpawnResult spawnResult = Spawn.ServerPrefab(sickness.gameObject);
+			if(spawnResult.Successful == false || spawnResult.GameObject.TryGetComponent<Sickness>(out var newSick) == false) return;
 
 			foreach (PlayerInfo player in PlayerList.Instance.AllPlayers.PickRandom(sicknessEventParameters.PlayerToInfect).ToList())
 			{
 				if (player.Script != null && player.Script.playerHealth != null)
 				{
-					player.Script.playerHealth.AddSickness(sickness);
-					SicknessManager.SpawnContagionSpot(sickness, player.GameObject.AssumedWorldPosServer());
+					SpawnResult sicknessResult = Spawn.ServerPrefab(sickness.gameObject);
+					sicknessResult.GameObject.GetComponent<Sickness>().SetCure(newSick.CureForSickness);
+					player.Script.playerHealth.AddSickness(sicknessResult.GameObject.GetComponent<Sickness>());
 				}
 			}
 		}
