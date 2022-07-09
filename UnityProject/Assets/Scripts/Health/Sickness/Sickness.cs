@@ -87,7 +87,7 @@ namespace Health.Sickness
 				currentStage += 1;
 			}
 			if(Contagious) TrySpreading();
-			health.StartCoroutine(Cooldown());
+			if(cooldownTime > 2f) health.StartCoroutine(Cooldown());
 		}
 
 		/// <summary>
