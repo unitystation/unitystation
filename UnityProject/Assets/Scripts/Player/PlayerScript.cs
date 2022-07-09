@@ -607,26 +607,21 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IActi
 
 		if (RNG.Next(0, 100) > ClueHandsImprintInverseChance)
 		{
-
 			bool WearingGloves = false;
-			var slots = DynamicItemStorage.GetNamedItemSlots(NamedSlot.hands);
-			if (slots.Count != 0)
+			var slotGlove = DynamicItemStorage.GetNamedItemSlots(NamedSlot.hands).PickRandom();
+			if (slotGlove != null && slotGlove.Item != null)
 			{
-				var slot = slots.PickRandom();
-
-				if (slot.Item != null)
+				WearingGloves = true;
+				Detail.AddDetail(new Detail()
 				{
-					WearingGloves = true;
-					Detail.AddDetail(new Detail()
-					{
-						CausedByInstanceID = slot.Item.gameObject.GetInstanceID(),
-						Description = $" A fibre from a {slot.Item.gameObject.ExpensiveName()}",
-						DetailType = DetailType.Fibre
-					});
-				}
+					CausedByInstanceID = slotGlove.Item.gameObject.GetInstanceID(),
+					Description = $" A fibre from a {slotGlove.Item.gameObject.ExpensiveName()}",
+					DetailType = DetailType.Fibre
+				});
 			}
 
-			if (WearingGloves == false) {
+			if (WearingGloves == false)
+			{
 				var slot = DynamicItemStorage.GetActiveHandSlot();
 				Detail.AddDetail(new Detail()
 				{
@@ -638,22 +633,17 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IActi
 		}
 
 
-
 		if (RNG.Next(0, 100) > ClueUniformImprintInverseChance)
 		{
-			var slots = DynamicItemStorage.GetNamedItemSlots(NamedSlot.uniform);
-			if (slots.Count != 0)
+			var slot = DynamicItemStorage.GetNamedItemSlots(NamedSlot.uniform).PickRandom();
+			if (slot != null && slot.Item != null)
 			{
-				var slot = slots.PickRandom();
-				if (slot.Item != null)
+				Detail.AddDetail(new Detail()
 				{
-					Detail.AddDetail(new Detail()
-					{
-						CausedByInstanceID = slot.Item.gameObject.GetInstanceID(),
-						Description = $" A fibre from a {slot.Item.gameObject.ExpensiveName()}",
-						DetailType = DetailType.Fibre
-					});
-				}
+					CausedByInstanceID = slot.Item.gameObject.GetInstanceID(),
+					Description = $" A fibre from a {slot.Item.gameObject.ExpensiveName()}",
+					DetailType = DetailType.Fibre
+				});
 			}
 		}
 
