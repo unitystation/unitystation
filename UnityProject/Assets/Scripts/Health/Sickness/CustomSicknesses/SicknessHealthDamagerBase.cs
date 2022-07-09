@@ -14,36 +14,24 @@ namespace Health.Sickness
 		[SerializeField] private AttackType attackType = AttackType.Bio;
 		[SerializeField] private DamageType damageType = DamageType.Tox;
 		[SerializeField] private bool hasCooldown = false;
-		[SerializeField] private float cooldownTime = 24f;
-
-		private bool isOnCooldown = false;
-
 
 		public override void SicknessBehavior(LivingHealthMasterBase health)
 		{
-			if (hasCooldown && isOnCooldown) return;
-			health.StartCoroutine(Cooldown());
+			if (hasCooldown && IsOnCooldown) return;
 			if (DMMath.Prob(chanceToDamage) == false) return;
 			health.BodyPartList.Shuffle();
-			EmoteActionManager.DoEmote(emoteFeedback, health.gameObject);
 			if(specficBodyPartsToTarget.Count != 0)
 			{
 				foreach(var part in health.BodyPartList)
 				{
 					if (specficBodyPartsToTarget.Contains(part) == false) continue;
-					part.TakeDamage(null, damageToDo, attackType, damageType);
+					part.TakeDamage(null, damageToDo * CurrentStage, attackType, damageType);
 					return;
 				}
 			}
 			var bodyPart = health.BodyPartList.PickRandom();
-			bodyPart.TakeDamage(null, damageToDo, attackType, damageType);
-		}
-
-		private IEnumerator Cooldown()
-		{
-			isOnCooldown = true;
-			yield return WaitFor.Seconds(cooldownTime);
-			isOnCooldown = false;
+			bodyPart.TakeDamage(null, damageToDo * CurrentStage, attackType, damageType);
+			base.SicknessBehavior(health);
 		}
 	}
 }

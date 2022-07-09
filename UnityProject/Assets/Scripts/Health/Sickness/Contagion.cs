@@ -67,7 +67,18 @@ namespace Health.Sickness
 
 		public void OnPlayerStep(PlayerScript playerScript)
 		{
-			playerScript.playerHealth.AddSickness(Sickness);
+			SpawnResult sickNessResult = Spawn.ServerPrefab(transform.GetChild(0).gameObject, Vector3.zero, playerScript.gameObject.transform);
+			if (sickNessResult.Successful && sickNessResult.GameObject.TryGetComponent<Sickness>(out var sickness))
+			{
+				sickness.SetCure(transform.GetChild(0).GetComponent<Sickness>().CureForSickness);
+				playerScript.playerHealth.AddSickness(sickness);
+			}
+
+		}
+
+		public void Setup(GameObject sicknessObject)
+		{
+			sicknessObject.transform.SetParent(this.transform);
 		}
 	}
 }

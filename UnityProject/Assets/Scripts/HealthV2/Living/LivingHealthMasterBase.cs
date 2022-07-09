@@ -255,6 +255,8 @@ namespace HealthV2
 		public event Action<DamageType> OnTakeDamageType;
 		public event Action OnLowHealth;
 
+		[SyncVar] public bool CannotRecognizeNames = false;
+
 		public virtual void Awake()
 		{
 			rootBodyPartController = GetComponent<RootBodyPartController>();
@@ -1059,11 +1061,19 @@ namespace HealthV2
 		/// <param name="sickness">The sickness to add</param>
 		public void AddSickness(Sickness sickness)
 		{
-			if (IsDead)
-				return;
+			if (IsDead) return;
 
-			if ((!mobSickness.HasSickness(sickness)) && (!immunedSickness.Contains(sickness)))
-				mobSickness.Add(sickness, Time.time);
+			foreach (var Race in RaceSOSingleton.Instance.Races)
+			{
+				if (Race.name == playerScript.characterSettings.Species)
+				{
+					if (sickness.ImmuneRaces.Contains(Race)) return;
+					break;
+				}
+			}
+
+			if ((mobSickness.HasSickness(sickness) == false) && (immunedSickness.Contains(sickness) == false)) mobSickness.Add(sickness, Time.time);
+			sickness.IsOnCooldown = false;
 		}
 
 		/// <summary>

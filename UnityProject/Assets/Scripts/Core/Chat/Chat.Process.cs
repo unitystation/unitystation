@@ -534,6 +534,11 @@ public partial class Chat
 
 		if (GhostValidationRejection(originatorUint, channels)) return;
 
+		if (PlayerManager.LocalPlayerScript != null && PlayerManager.LocalPlayerScript.IsDeadOrGhost == false && PlayerManager.LocalPlayerScript.playerHealth.CannotRecognizeNames)
+		{
+			speaker = "<color=red>Unknown</color>";
+		}
+
 		var msg = ProcessMessageFurther(message, speaker, channels, modifiers, loudness, originatorUint, stripTags);
 		ChatRelay.Instance.UpdateClientChat(msg, channels, isOriginator, recipient, loudness, modifiers);
 	}

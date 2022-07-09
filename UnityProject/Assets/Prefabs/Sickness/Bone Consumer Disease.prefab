@@ -45,14 +45,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sicknessName: Bone Consumer Disease
-  contagious: 1
-  sicknessStages: []
-  possibleCures:
-  - {fileID: 11400000, guid: a1724b1210d8177c097a28325415c0b1, type: 2}
-  - {fileID: 11400000, guid: 0c793b26027c29a1cb5806c738a7a556, type: 2}
-  - {fileID: 11400000, guid: 7b6a18c45b96273d39d6db9ebb2830ac, type: 2}
-  - {fileID: 11400000, guid: 009f1045026b48848b7eeb01060f8c18, type: 2}
+  Contagious: 1
+  ContagiousRadius: 6
+  infectOtherChance: 50
+  NumberOfStages: 1
+  TicksToPogressStages: 320
+  PossibleCures: []
+  ImmuneRaces:
+  - {fileID: 11400000, guid: f0deb843b714e8f4590d893251718804, type: 2}
+  CureForSickness: {fileID: 0}
+  CureHints: []
   emoteFeedback: {fileID: 11400000, guid: 5d61ca3eb68b81946b8226b482703158, type: 2}
+  cooldownTime: 120
+  IsOnCooldown: 0
   damageToDo: 30
   chanceToDamage: 50
   specficBodyPartsToTarget:
@@ -70,5 +75,4 @@ MonoBehaviour:
   - {fileID: 1492507009902718503, guid: 46f519b7b90d0184fb5a88ab276c5c6c, type: 3}
   attackType: 10
   damageType: 0
-  hasCooldown: 1
-  cooldownTime: 120
+  hasCooldown: 0
