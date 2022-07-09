@@ -61,7 +61,7 @@ namespace InGameEvents
 			{
 				if (player.Script != null && player.Script.playerHealth != null)
 				{
-					SpawnResult sicknessResult = Spawn.ServerPrefab(sickness.gameObject);
+					SpawnResult sicknessResult = Spawn.ServerPrefab(sickness.gameObject, Vector3.zero, player.GameObject.transform);
 					sicknessResult.GameObject.GetComponent<Sickness>().SetCure(newSick.CureForSickness);
 					player.Script.playerHealth.AddSickness(sicknessResult.GameObject.GetComponent<Sickness>());
 				}
