@@ -127,6 +127,14 @@ namespace Objects
 			PreviousLocation = NewLocation.RoundToInt();
 			PreviousMatrix = RegisterTile.Matrix;
 		}
+
+		public void OnDestroy()
+		{
+			if (PreviousMatrix != null)
+			{
+				PreviousMatrix.MetaTileMap.ObjectLayer.FloorHazardList.Remove(PreviousLocation);
+			}
+		}
 	}
 }
 

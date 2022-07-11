@@ -133,7 +133,11 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 	[SyncVar(hook = nameof(SynchroniseParent))]
 	private uint parentContainer;
 
+	[SyncVar]
 	protected int SetTimestampID = -1;
+
+	[SyncVar]
+	protected int SetLastResetID = -1;
 
 	private ObjectContainer CashedContainedInContainer;
 
@@ -567,7 +571,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 	}
 
 	public void ForceSetLocalPosition(Vector3 ReSetToLocal, Vector2 Momentum, bool Smooth, int MatrixID,
-		bool UpdateClient = true, float Rotation = 0, NetworkConnection Client = null)
+		bool UpdateClient = true, float Rotation = 0, NetworkConnection Client = null, int ReSetID = -1 )
 	{
 		transform.localRotation = Quaternion.Euler(new Vector3(0, 0, Rotation));
 		if (isServer && UpdateClient)
@@ -575,12 +579,28 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 			isVisible = true;
 			if (Client != null)
 			{
-				RPCForceSetPosition(Client, ReSetToLocal, Momentum, Smooth, MatrixID, Rotation);
+				if (ReSetID == -1)
+				{
+					ReSetID = Time.frameCount;
+					SetLastResetID = ReSetID;
+				}
+
+				RPCForceSetPosition(Client, ReSetToLocal, Momentum, Smooth, MatrixID, Rotation, ReSetID);
 			}
 			else
 			{
-				RPCForceSetPosition(ReSetToLocal, Momentum, Smooth, MatrixID, Rotation);
+				if (ReSetID == -1)
+				{
+					ReSetID = Time.frameCount;
+					SetLastResetID = ReSetID;
+				}
+
+				RPCForceSetPosition(ReSetToLocal, Momentum, Smooth, MatrixID, Rotation, ReSetID);
 			}
+		}
+		else if (isServer == false)
+		{
+			SetLastResetID = ReSetID;
 		}
 
 		SetMatrix(MatrixManager.Get(MatrixID).Matrix);
@@ -593,7 +613,6 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 				newtonianMovement = Momentum;
 				LocalDifferenceNeeded = ReSetToLocal - transform.localPosition;
 				SetRegisterTileLocation(ReSetToLocal.RoundToInt());
-
 				if (CorrectingCourse == false)
 				{
 					CorrectingCourse = true;
@@ -603,6 +622,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 			else
 			{
 				newtonianMovement = Momentum;
+
 				SetLocalTarget = new Vector3WithData()
 				{
 					Vector3 = ReSetToLocal,
@@ -628,7 +648,6 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 			else
 			{
 				newtonianMovement = Momentum;
-
 				SetLocalTarget = new Vector3WithData()
 				{
 					Vector3 = ReSetToLocal,
@@ -641,24 +660,26 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 	}
 
 	[ClientRpc]
-	public void RPCForceSetPosition(Vector3 ReSetToLocal, Vector2 Momentum, bool Smooth, int MatrixID, float Rotation)
+	public void RPCForceSetPosition(Vector3 ReSetToLocal, Vector2 Momentum, bool Smooth, int MatrixID, float Rotation, int ReSetID)
 	{
-		ForceSetLocalPosition(ReSetToLocal, Momentum, Smooth, MatrixID, false, Rotation);
+		ForceSetLocalPosition(ReSetToLocal, Momentum, Smooth, MatrixID, false, Rotation, ReSetID: ReSetID);
 	}
 
 	[TargetRpc]
 	public void RPCForceSetPosition(NetworkConnection target, Vector3 ReSetToLocal, Vector2 Momentum, bool Smooth,
-		int MatrixID, float Rotation)
+		int MatrixID, float Rotation, int ReSetID)
 	{
-		ForceSetLocalPosition(ReSetToLocal, Momentum, Smooth, MatrixID, false, Rotation);
+		ForceSetLocalPosition(ReSetToLocal, Momentum, Smooth, MatrixID, false, Rotation, ReSetID: ReSetID);
 	}
 
 
 	//Warning only update clients!!
 	public void ResetLocationOnClients(bool Smooth = false)
 	{
+
+		SetLastResetID = Time.frameCount;
 		RPCForceSetPosition(transform.localPosition, newtonianMovement, Smooth, registerTile.Matrix.Id,
-			transform.localRotation.eulerAngles.z);
+			transform.localRotation.eulerAngles.z, SetLastResetID);
 
 		if (Pulling.HasComponent)
 		{
@@ -677,9 +698,9 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 	public void ResetLocationOnClient(NetworkConnection Client, bool Smooth = false)
 	{
 		isVisible = true;
-
+		SetLastResetID = Time.frameCount;
 		RPCForceSetPosition(Client, transform.localPosition, newtonianMovement, Smooth, registerTile.Matrix.Id,
-			transform.localRotation.eulerAngles.z);
+			transform.localRotation.eulerAngles.z, SetLastResetID);
 
 		if (Pulling.HasComponent)
 		{
@@ -826,19 +847,19 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 	}
 
 	public void TryTilePush(Vector2Int worldDirection, GameObject byClient, float speed = Single.NaN,
-		UniversalObjectPhysics pushedBy = null, bool overridePull = false)
+		UniversalObjectPhysics pushedBy = null, bool overridePull = false, UniversalObjectPhysics pulledBy = null)
 	{
 		if (isVisible == false) return;
 		if (pushedBy == this) return;
 		if (CanPush(worldDirection))
 		{
-			ForceTilePush(worldDirection, Pushing, byClient, speed, pushedBy: pushedBy, overridePull: overridePull);
+			ForceTilePush(worldDirection, Pushing, byClient, speed, pushedBy: pushedBy, overridePull: overridePull, pulledBy : pulledBy);
 		}
 	}
 
 	public void ForceTilePush(Vector2Int worldDirection, List<UniversalObjectPhysics> inPushing, GameObject byClient,
 		float speed = Single.NaN, bool isWalk = false,
-		UniversalObjectPhysics pushedBy = null, bool overridePull = false) //PushPull TODO Change to physics object
+		UniversalObjectPhysics pushedBy = null, bool overridePull = false, UniversalObjectPhysics pulledBy = null) //PushPull TODO Change to physics object
 	{
 		if (isVisible == false) return;
 		if (ForcedPushedFrame == Time.frameCount)
@@ -849,6 +870,12 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 		ForcedPushedFrame = Time.frameCount;
 		if (CanMove == false) return;
 		//Nothing is pushing this (  mainly because I left it on player And forgot to turn it off ), And it was hard to tell it was on
+
+		if (PulledBy.HasComponent && pulledBy == null) //Something else pushed it/It pushed itself so cancel pull
+		{
+			PulledBy.Component.PullSet(null, false);
+		}
+
 		doNotApplyMomentumOnTarget = false;
 		if (float.IsNaN(speed))
 		{
@@ -941,7 +968,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 			}
 			else
 			{
-				Pulling.Component.TryTilePush(InDirection.NormalizeTo2Int(), byClient, speed, pushedBy);
+				Pulling.Component.TryTilePush(InDirection.NormalizeTo2Int(), byClient, speed, pushedBy,  pulledBy : this);
 			}
 		}
 

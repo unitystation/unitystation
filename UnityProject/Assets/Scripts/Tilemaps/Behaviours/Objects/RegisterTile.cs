@@ -363,6 +363,7 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 	private void SyncNetworkedMatrixNetId(uint oldNetworkMatrixId, uint newNetworkedMatrixNetID)
 	{
 		networkedMatrixNetId = newNetworkedMatrixNetID;
+		if (isLocalPlayer && isServer == false) return;
 		NetworkedMatrix.InvokeWhenInitialized(networkedMatrixNetId, FinishNetworkedMatrixRegistration); //note: we dont actually wait for init here anymore
 	}
 
@@ -414,11 +415,8 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 
 
 		UpdatePositionClient();
+		UpdatePositionServer();
 
-		if (isServer)
-		{
-			UpdatePositionServer();
-		}
 
 		OnParentChangeComplete.Invoke();
 	}
