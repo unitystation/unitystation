@@ -225,6 +225,11 @@ public class IDCard : NetworkBehaviour, IServerInventoryMove, IServerSpawn, IInt
 		return accessSyncList.Contains((int) access);
 	}
 
+	/// <summary>
+	/// Checks if this id card has the indicated access from a list of accesses.
+	/// </summary>
+	/// <param name="access"></param>
+	/// <returns></returns>
 	public bool HasAccess(List<Access> access)
 	{
 		foreach (var accessToCheck in access)
