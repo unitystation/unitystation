@@ -225,6 +225,15 @@ public class IDCard : NetworkBehaviour, IServerInventoryMove, IServerSpawn, IInt
 		return accessSyncList.Contains((int) access);
 	}
 
+	public bool HasAccess(List<Access> access)
+	{
+		foreach (var accessToCheck in access)
+		{
+			if (accessSyncList.Contains((int)accessToCheck)) return true;
+		}
+		return false;
+	}
+
 	public string GetJobTitle()
 	{
 		if (jobTitle.IsNullOrEmpty())
