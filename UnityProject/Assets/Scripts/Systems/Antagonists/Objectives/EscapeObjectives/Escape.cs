@@ -24,10 +24,9 @@ namespace Antagonists
 			ValidShuttles.Add(GameManager.Instance.PrimaryEscapeShuttle);
 		}
 
-		private bool CheckOnShip(RegisterTile antagTile, Matrix shuttleMatrix)
+		private bool CheckOnShip(RegisterPlayer antagTile, Matrix shuttleMatrix)
 		{
-			if (antagTile.Matrix.Id == shuttleMatrix.MatrixInfo.Id) return true;
-			return shuttleMatrix.HasTile(antagTile.gameObject.AssumedWorldPosServer().RoundToInt(), true);
+			return shuttleMatrix.PresentPlayers.Contains(antagTile);
 		}
 
 		/// <summary>
