@@ -25,7 +25,7 @@ namespace Objects
 
 		[SerializeField] private List<Access> validAccess = new List<Access>();
 
-		private List<IDCard> registeredIDs = new List<IDCard>();
+		private HashSet<IDCard> registeredIDs = new HashSet<IDCard>();
 
 		private void Awake()
 		{
