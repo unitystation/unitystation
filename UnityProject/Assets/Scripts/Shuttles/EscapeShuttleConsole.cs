@@ -100,7 +100,7 @@ namespace Objects
 			}
 			registeredIDs.Add(card);
 
-			if (GameManager.Instance.CentComm.CurrentAlertLevel is CentComm.AlertLevel.Red or CentComm.AlertLevel.Delta && registeredIDs.Count >= 2)
+			if (IsHighAlert() && registeredIDs.Count >= 2)
 			{
 				DepartShuttle();
 				return;
@@ -115,11 +115,18 @@ namespace Objects
 			AnnounceRemainingSwipesRequired();
 		}
 
+		private bool IsHighAlert()
+		{
+			return GameManager.Instance.CentComm.CurrentAlertLevel is CentComm.AlertLevel.Red
+				or CentComm.AlertLevel.Delta;
+		}
+
 		private void AnnounceRemainingSwipesRequired()
 		{
-			var swpiesRequired = GameManager.Instance.CentComm.CurrentAlertLevel is CentComm.AlertLevel.Red or CentComm.AlertLevel.Delta ? 2 : 4;
+			var swpiesRequired = IsHighAlert() ? 2 : 4;
 			var remainingSwipes = swpiesRequired - registeredIDs.Count;
-			string announcemnt = $"\n\n<color=#FF151F><size={ChatTemplates.LargeText}><b>Escape Shuttle Emergency Launch has been request! need {remainingSwipes} more votes.</b></size></color>\n\n"
+			string announcemnt =
+				$"\n\n<color=#FF151F><size={ChatTemplates.LargeText}><b>Escape Shuttle Emergency Launch has been request! need {remainingSwipes} more votes.</b></size></color>\n\n";
 			Chat.AddSystemMsgToChat(announcemnt, MatrixManager.MainStationMatrix);
 
 			Chat.AddSystemMsgToChat($"\n\n<color=#FF151F><size={ChatTemplates.LargeText}><b>Escape Shuttle Emergency Launch has been request! need {remainingSwipes} more votes.</b></size></color>\n\n",
