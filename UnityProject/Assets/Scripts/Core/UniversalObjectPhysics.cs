@@ -1445,7 +1445,6 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 					Newposition = hit.HitWorld + Offset.To3();
 					NewtonianMovement *= 0.9f;
 					spinMagnitude *= -1;
-
 				}
 				if (Collider != null) Collider.enabled = true;
 			}
@@ -1472,9 +1471,12 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 						}
 					}
 
-
 					var Normal = (intposition - intNewposition).ToNonInt3();
-					Newposition = position;
+					if (Hits.Count == 0)
+					{
+						Newposition = position;
+					}
+
 					OnImpact.Invoke(this, newtonianMovement);
 					NewtonianMovement -= 2 * (newtonianMovement * Normal) * Normal;
 					NewtonianMovement *= 0.9f;
@@ -1493,7 +1495,12 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 					}
 
 					var Normal = (intposition - intNewposition).ToNonInt3();
-					Newposition = position;
+
+					if (Hits.Count == 0)
+					{
+						Newposition = position;
+					}
+
 					OnImpact.Invoke(this, newtonianMovement);
 					NewtonianMovement -= 2 * (newtonianMovement * Normal) * Normal;
 					spinMagnitude *= -1;
