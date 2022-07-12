@@ -119,8 +119,8 @@ namespace Objects
 		{
 			var swpiesRequired = GameManager.Instance.CentComm.CurrentAlertLevel is CentComm.AlertLevel.Red or CentComm.AlertLevel.Delta ? 2 : 4;
 			var remainingSwipes = swpiesRequired - registeredIDs.Count;
-			Chat.AddSystemMsgToChat($"\n\n<color=#FF151F><size={ChatTemplates.LargeText}><b>Escape Shuttle Emergency Launch has been request! need {remainingSwipes} more votes.</b></size></color>\n\n",
-				MatrixManager.MainStationMatrix);
+			string announcemnt = $"\n\n<color=#FF151F><size={ChatTemplates.LargeText}><b>Escape Shuttle Emergency Launch has been request! need {remainingSwipes} more votes.</b></size></color>\n\n"
+			Chat.AddSystemMsgToChat(announcemnt, MatrixManager.MainStationMatrix);
 
 			Chat.AddSystemMsgToChat($"\n\n<color=#FF151F><size={ChatTemplates.LargeText}><b>Escape Shuttle Emergency Launch has been request! need {remainingSwipes} more votes.</b></size></color>\n\n",
 				GameManager.Instance.PrimaryEscapeShuttle.MatrixInfo);
@@ -131,11 +131,11 @@ namespace Objects
 		{
 			if (GameManager.Instance.ShuttleSent) return;
 			var departTime = beenEmagged ? 5 : 10;
-			Chat.AddSystemMsgToChat($"\n\n<color=#FF151F><size={ChatTemplates.LargeText}><b>Escape Shuttle Emergency Launch Triggered! Launching in {departTime} seconds..</b></size></color>\n\n",
-				MatrixManager.MainStationMatrix);
+			string announcement =
+				$"\n\n<color=#FF151F><size={ChatTemplates.LargeText}><b>Escape Shuttle Emergency Launch Triggered! Launching in {departTime} seconds..</b></size></color>\n\n";
+			Chat.AddSystemMsgToChat(announcement, MatrixManager.MainStationMatrix);
 
-			Chat.AddSystemMsgToChat($"\n\n<color=#FF151F><size={ChatTemplates.LargeText}><b>Escape Shuttle Emergency Launch Triggered! Launching in {departTime} seconds..</b></size></color>\n\n",
-				GameManager.Instance.PrimaryEscapeShuttle.MatrixInfo);
+			Chat.AddSystemMsgToChat(announcement, GameManager.Instance.PrimaryEscapeShuttle.MatrixInfo);
 
 			_ = SoundManager.PlayNetworked(CommonSounds.Instance.Notice1);
 			GameManager.Instance.ForceSendEscapeShuttleFromStation(departTime);
