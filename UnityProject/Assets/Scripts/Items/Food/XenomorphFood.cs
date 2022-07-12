@@ -81,7 +81,7 @@ namespace Items.Food
 
 			GameObject embryo = Spawn.ServerPrefab(larvae, SpawnDestination.At(gameObject), 1).GameObject;
 
-			player.BodyPartList[6].OrganStorage.ServerTryAdd(embryo); //6 is torso
+			player.GetStomachs()[0].RelatedPart.OrganStorage.ServerTryAdd(embryo);
 		}
 	}
 }
