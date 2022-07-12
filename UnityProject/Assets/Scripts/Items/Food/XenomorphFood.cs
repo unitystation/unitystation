@@ -81,6 +81,8 @@ namespace Items.Food
 
 			GameObject embryo = Spawn.ServerPrefab(larvae, SpawnDestination.At(gameObject), 1).GameObject;
 
+			if (player.GetStomachs().Count == 0) return;
+
 			player.GetStomachs()[0].RelatedPart.OrganStorage.ServerTryAdd(embryo);
 		}
 	}

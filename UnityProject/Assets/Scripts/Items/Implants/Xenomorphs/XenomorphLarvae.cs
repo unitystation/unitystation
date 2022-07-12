@@ -31,16 +31,16 @@ namespace HealthV2
 				if (RelatedPart.HealthMaster.IsDead) //Can't hatch is player is dead, shouldn't be getting periodic updates if dead- but just as a double check.
 					return;
 
-				this.GetComponent<BodyPart>().HealthMaster.ApplyDamageToBodyPart(
+				RelatedPart.HealthMaster.ApplyDamageToBodyPart(
 					gameObject,
 					200,
 					AttackType.Internal,
 					DamageType.Brute,
 					BodyPartType.Chest);
 
-				this.GetComponent<BodyPart>().TryRemoveFromBody();
+				RelatedPart.TryRemoveFromBody();
 
-				Spawn.ServerPrefab(SpawnedLarvae, SpawnDestination.At(gameObject), 1);
+				Spawn.ServerPrefab(SpawnedLarvae, RelatedPart.HealthMaster.gameObject.AssumedWorldPosServer());
 
 				Despawn.ServerSingle(gameObject);
 			}		
