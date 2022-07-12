@@ -143,8 +143,7 @@ namespace Objects
 
 		public RightClickableResult GenerateRightClickOptions()
 		{
-			if (AdminCommandsManager.IsAdmin(PlayerManager.LocalPlayerScript.netIdentity.connectionToServer,
-				    out var _) == false) return null;
+			if (CustomNetworkManager.IsServer == false) return null;
 			return RightClickableResult.Create().AddElement("Launch Early", DepartShuttle, Color.red);
 		}
 	}
