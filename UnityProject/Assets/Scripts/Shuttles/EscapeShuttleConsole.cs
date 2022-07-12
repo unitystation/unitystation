@@ -145,8 +145,7 @@ namespace Objects
 		{
 			if (AdminCommandsManager.IsAdmin(PlayerManager.LocalPlayerScript.netIdentity.connectionToServer,
 				    out var _) == false) return null;
-			var result = RightClickableResult.Create().AddElement("Launch Early", DepartShuttle, Color.red);
-			return result;
+			return RightClickableResult.Create().AddElement("Launch Early", DepartShuttle, Color.red);
 		}
 	}
 }
