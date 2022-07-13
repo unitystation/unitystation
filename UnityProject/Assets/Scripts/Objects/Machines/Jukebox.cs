@@ -210,7 +210,7 @@ namespace Objects
 		public async void PreviousSong()
 		{
 			await Stop(true);
-			if (currentSongTrackIndex <= 0) currentSongTrackIndex = musics.Count;
+			if (currentSongTrackIndex <= 0) currentSongTrackIndex = musics.Count - 1;
 			currentSongTrackIndex--;
 			UpdateGUI();
 
