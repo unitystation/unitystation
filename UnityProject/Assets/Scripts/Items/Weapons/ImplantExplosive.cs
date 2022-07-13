@@ -61,7 +61,7 @@ namespace Items.Weapons
 
 			for (int i = 0; i < TimeToDetonate; i++)
 			{
-				SoundManager.PlayNetworkedAtPos(beepSound, GetComponent<RegisterTile>().WorldPositionServer, sourceObj: gameObject.OrNull());
+				SoundManager.PlayNetworkedAtPos(beepSound, bodyPart.HealthMaster.GetComponent<RegisterTile>().WorldPositionServer, sourceObj: gameObject.OrNull());
 				yield return new WaitForSeconds(1); 
 			}
 			

@@ -22,6 +22,8 @@ namespace Items.Weapons
 		{
 			if (explosive == null) return;
 
+			if (RelatedPart.HealthMaster == null) return;
+
 			if(RelatedPart.HealthMaster.IsDead && TriggerOnDeath && hasDetonated == false) //Makes sure bombs dont double detonate
 			{
 				hasDetonated = true;
