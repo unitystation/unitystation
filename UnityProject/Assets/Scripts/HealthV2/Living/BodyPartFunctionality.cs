@@ -18,11 +18,7 @@ namespace HealthV2
 		public virtual void AddedToBody(LivingHealthMasterBase livingHealth){}
 		public virtual void SetUpSystems(){}
 		public virtual void InternalDamageLogic() {}
-
-		public virtual void OnEmp(int strength)
-		{
-			if (isEMPVunerable == false) return;
-		}
+		public virtual void OnEmp(int strength) {}
 
 		private void Awake()
 		{
