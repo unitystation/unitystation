@@ -137,6 +137,26 @@ namespace Items.Weapons
 			return true;
 		}
 
+		protected bool HackEmitter(InventoryApply interaction)
+		{
+			if (interaction.UsedObject == null || interaction.UsedObject.TryGetComponent<SignalEmitter>(out var emitter) == false) return false;
+			void Hack()
+			{
+				emitters.Add(emitter);
+				Frequency = emitter.Frequency;
+				PassCode = emitter.Passcode;
+				Chat.AddLocalMsgToChat($"The {gameObject.ExpensiveName()} copies {emitter.gameObject.ExpensiveName()}'s " +
+									   $"codes from {interaction.PerformerPlayerScript.visibleName}'s hands!", interaction.Performer);
+			}
+			var bar = StandardProgressAction.Create(
+				new StandardProgressActionConfig(StandardProgressActionType.CPR, false, false), Hack);
+			bar.ServerStartProgress(interaction.Performer.RegisterTile(), progressTime, interaction.Performer);
+			SparkUtil.TrySpark(interaction.Performer);
+			Chat.AddLocalMsgToChat($"{interaction.PerformerPlayerScript.visibleName} hovers a " +
+								   $"{emitter.gameObject.ExpensiveName()} over the {gameObject.ExpensiveName()}", interaction.Performer);
+			return true;
+		}
+
 		protected virtual void OnArmStateChange(bool oldState, bool newState) { }
 	}
 
