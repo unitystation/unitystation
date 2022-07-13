@@ -5,11 +5,15 @@ using Chemistry;
 using Objects.Atmospherics;
 using ScriptableObjects.Atmospherics;
 using UnityEngine;
+using NaughtyAttributes;
 
 namespace HealthV2
 {
 	public class Lungs : BodyPartFunctionality
 	{
+		[ShowIf("isEMPVunerable")]
+		public int EMPResistance = 2;
+
 		/// <summary>
 		/// The number of ticks to wait until next breath is attempted
 		/// </summary>
@@ -50,6 +54,16 @@ namespace HealthV2
 		[SerializeField, Range(0, 100)] private float coughChanceWhenInternallyBleeding = 32;
 		[SerializeField] private float internalBleedingCooldown = 4f;
 		private bool onCooldown = false;
+
+		public override void OnEmp(int strength)
+		{
+			if (isEMPVunerable == false) return;
+
+			if (DMMath.Prob(1 / EMPResistance))
+			{
+				RelatedPart.ApplyTraumaDamage(TraumaticDamageTypes.BURN);
+			}
+		}
 
 		public override void ImplantPeriodicUpdate()
 		{

@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Chemistry;
+using NaughtyAttributes;
+using Systems.Explosions;
 
 namespace HealthV2
 {
@@ -11,9 +13,14 @@ namespace HealthV2
 
 		public bool CanTriggerHeartAttack = true;
 
+		public int heartAttackThreshold = -80;
+
 		public int SecondsOfRevivePulse = 30;
 
 		public int CurrentPulse = 0;
+
+		[ShowIf("isEMPVunerable")]
+		public int EMPResistance = 2;
 
 		private bool alarmedForInternalBleeding = false;
 
@@ -21,10 +28,27 @@ namespace HealthV2
 
 		[SerializeField] private float dangerSaltLevel = 20f; //in u
 
+		public override void OnEmp(int strength)
+		{
+			if (isEMPVunerable == false) return;
+
+			if(DMMath.Prob(1/EMPResistance))
+			{
+				if (DMMath.Prob(0.5f))
+				{
+					DoHeartAttack();
+				}
+				else
+				{
+					RelatedPart.ApplyTraumaDamage(TraumaticDamageTypes.BURN);
+				}
+			}
+		}
+
 		public override void ImplantPeriodicUpdate()
 		{
 			base.ImplantPeriodicUpdate();
-			if (RelatedPart.HealthMaster.OverallHealth <= -100)
+			if (RelatedPart.HealthMaster.OverallHealth <= heartAttackThreshold)
 			{
 				if (CanTriggerHeartAttack)
 				{
@@ -43,7 +67,7 @@ namespace HealthV2
 					}
 				}
 			}
-			else if (RelatedPart.HealthMaster.OverallHealth < -50)
+			else if (RelatedPart.HealthMaster.OverallHealth < heartAttackThreshold/2)
 			{
 				CanTriggerHeartAttack = true;
 				CurrentPulse = 0;

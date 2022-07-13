@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1001 &7673087146983204625
+--- !u!1001 &1441624991261802461
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -11,22 +11,22 @@ PrefabInstance:
         type: 3}
       propertyPath: PresentSpriteSet
       value: 
-      objectReference: {fileID: 11400000, guid: b12bf42278e116845b8d25886a048590,
+      objectReference: {fileID: 11400000, guid: 943679674fba2e84aa94f885b5b392d4,
         type: 2}
     - target: {fileID: 1817806423449182988, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
         type: 3}
       propertyPath: foreverID
-      value: a05828ab8602a63449e9b422078fd217
+      value: Rwg@6xa51aeimGt4WvV6
       objectReference: {fileID: 0}
     - target: {fileID: 4617501557389857493, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
         type: 3}
       propertyPath: m_AssetId
-      value: a05828ab8602a63449e9b422078fd217
+      value: bdd61d74d4f4ef14d9435c363e39b397
       objectReference: {fileID: 0}
     - target: {fileID: 4719944670933102433, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
         type: 3}
       propertyPath: m_Name
-      value: Human Heart
+      value: CyborgLungs
       objectReference: {fileID: 0}
     - target: {fileID: 4725154019080884757, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
         type: 3}
@@ -87,7 +87,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 281ded51826ff60438fade5e58403490,
+      objectReference: {fileID: 21300000, guid: 553c85cd0cf131e439bb115ace75f550,
         type: 3}
     - target: {fileID: 4859781159729634365, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
         type: 3}
@@ -103,7 +103,7 @@ PrefabInstance:
         type: 3}
       propertyPath: relatedRecipes.Array.data[0].recipe
       value: 
-      objectReference: {fileID: 11400000, guid: 7bc4854fc802d5b4bb3fda1ba37bb651,
+      objectReference: {fileID: 11400000, guid: 45ba0c2d9027ff041a6f79549826ff12,
         type: 2}
     - target: {fileID: 5047286037071161015, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
         type: 3}
@@ -114,17 +114,17 @@ PrefabInstance:
     - target: {fileID: 5047286037071161015, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
         type: 3}
       propertyPath: relatedRecipes.Array.data[0].ingredientIndex
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5047286037071161015, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
         type: 3}
       propertyPath: relatedRecipes.Array.data[1].ingredientIndex
-      value: 0
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 5146776682568007683, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
         type: 3}
       propertyPath: initialName
-      value: heart
+      value: cybernetic lungs
       objectReference: {fileID: 0}
     - target: {fileID: 5146776682568007683, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
         type: 3}
@@ -134,7 +134,7 @@ PrefabInstance:
     - target: {fileID: 5146776682568007683, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
         type: 3}
       propertyPath: initialDescription
-      value: A heart.
+      value: A pair of lungs covered in blinking lights.
       objectReference: {fileID: 0}
     - target: {fileID: 5146776682568007683, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
         type: 3}
@@ -145,7 +145,7 @@ PrefabInstance:
         type: 3}
       propertyPath: initialTraits.Array.data[1]
       value: 
-      objectReference: {fileID: 11400000, guid: 8e3a656a9a75c0a4d826681427d5d901,
+      objectReference: {fileID: 11400000, guid: cf7011331adb47d4880a8f62edf3259d,
         type: 2}
     - target: {fileID: 8195321311611557117, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
         type: 3}
@@ -154,13 +154,8 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8195321311611557117, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
         type: 3}
-      propertyPath: DeathOnRemoval
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8195321311611557117, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
-        type: 3}
       propertyPath: bloodThroughput
-      value: 0.71428573
+      value: 10.714286
       objectReference: {fileID: 0}
     - target: {fileID: 8195321311611557117, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
         type: 3}
@@ -170,22 +165,17 @@ PrefabInstance:
     - target: {fileID: 8195321311611557117, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
         type: 3}
       propertyPath: BodyPartReadableName
-      value: Heart
+      value: Lungs
       objectReference: {fileID: 0}
     - target: {fileID: 8195321311611557117, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
         type: 3}
-      propertyPath: limbLossBleedingValue
-      value: 5
+      propertyPath: InternalBleedingBloodLoss
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 8195321311611557117, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
         type: 3}
-      propertyPath: MinMaxInternalBleedingValues.x
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8195321311611557117, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
-        type: 3}
-      propertyPath: MinMaxInternalBleedingValues.y
-      value: 4
+      propertyPath: maximumInternalBleedDamage
+      value: 165
       objectReference: {fileID: 0}
     - target: {fileID: 8195321311611557117, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
         type: 3}
@@ -196,36 +186,45 @@ PrefabInstance:
         type: 3}
       propertyPath: OptionalReplacementOrgan.Array.data[0]
       value: 
-      objectReference: {fileID: 2001825109870326764, guid: fff7a4f0870e48b439feb1d43d9f8de6,
+      objectReference: {fileID: 7330187859556018976, guid: cfda4a920ce328d449993498e023ddfc,
         type: 3}
     m_RemovedComponents:
     - {fileID: 0}
     - {fileID: 8095853447068111044, guid: 35ef0ee8523cfc342bc863c12a3ac07c, type: 3}
+    - {fileID: -4791504671035111961, guid: 35ef0ee8523cfc342bc863c12a3ac07c, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 35ef0ee8523cfc342bc863c12a3ac07c, type: 3}
---- !u!1 &3169642092305287280 stripped
+--- !u!1 &6161261707722952892 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 4719944670933102433, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
     type: 3}
-  m_PrefabInstance: {fileID: 7673087146983204625}
+  m_PrefabInstance: {fileID: 1441624991261802461}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &4157872649963469067
+--- !u!114 &62102685253320784
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3169642092305287280}
+  m_GameObject: {fileID: 6161261707722952892}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d907426271c5e5544a1c7131da7c493c, type: 3}
+  m_Script: {fileID: 11500000, guid: 7fae19aae8ddc974c84a11abe4f1279e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isEMPVunerable: 0
-  HeartAttack: 0
-  CanTriggerHeartAttack: 1
-  heartAttackThreshold: -100
-  SecondsOfRevivePulse: 30
-  CurrentPulse: 0
+  isEMPVunerable: 1
   EMPResistance: 2
-  salt: {fileID: 11400000, guid: b9bdb0acb54b8dc40837f92c2e7819a6, type: 2}
-  dangerSaltLevel: 20
+  breatheCooldown: 4
+  pressureSafeMin: 8
+  toxicGases:
+  - GasType: {fileID: 11400000, guid: 2d3c38fe76e3df249ade18fd6fdac274, type: 2}
+    PressureSafeMax: 0.8
+    UnsafeLevelDamage: 6
+    UnsafeLevelDamageType: 2
+  - GasType: {fileID: 11400000, guid: b466ee2bb3ca27941b3c2393555d4fab, type: 2}
+    PressureSafeMax: 18
+    UnsafeLevelDamage: 6
+    UnsafeLevelDamageType: 3
+  requiredGas: {fileID: 11400000, guid: d7d4e6085864f9f4e83593f63d102d08, type: 2}
+  LungSize: 0.5
+  coughChanceWhenInternallyBleeding: 35
+  internalBleedingCooldown: 4
