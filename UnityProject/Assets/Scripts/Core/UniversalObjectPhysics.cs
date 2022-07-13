@@ -716,6 +716,12 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 
 	public void FloatingCourseCorrection()
 	{
+		if (this == null)
+		{
+			UpdateManager.Remove(CallbackType.UPDATE, FloatingCourseCorrection);
+			return;
+		}
+
 		CorrectingCourse = true;
 		var position = transform.localPosition;
 		var NewPosition = this.MoveTowards(position, (position + LocalDifferenceNeeded.To3()),
