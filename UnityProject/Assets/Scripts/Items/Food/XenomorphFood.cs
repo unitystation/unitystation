@@ -12,8 +12,6 @@ namespace Items.Food
 	public class XenomorphFood : Edible
 	{
 		[SerializeField]
-		private int killTime = 400;
-		[SerializeField]
 		private GameObject larvae = null;
 
 		private string Name => itemAttributes.ArticleName;
@@ -71,24 +69,21 @@ namespace Items.Food
 				stomach.StomachContents.Add(FoodContents.CurrentReagentMix.Clone());
 			}
 
-			_ = Pregnancy(eater.playerHealth);
+			Pregnancy(eater.playerHealth);
 			var feederSlot = feeder.DynamicItemStorage.GetActiveHandSlot();
 			Inventory.ServerDespawn(feederSlot);
 		}
 
-		private async Task Pregnancy(PlayerHealthV2 player)
+		private void Pregnancy(PlayerHealthV2 player)
 		{
-			await Task.Delay(TimeSpan.FromSeconds(killTime - (killTime / 8)));
 			Chat.AddActionMsgToChat(player.gameObject, "Your stomach gurgles uncomfortably...",
-				$"A dangerous sounding gurgle emanates from " + player.name + "!");
-			await Task.Delay(TimeSpan.FromSeconds(killTime / 8));
-			player.ApplyDamageToBodyPart(
-				gameObject,
-				200,
-				AttackType.Internal,
-				DamageType.Brute,
-				BodyPartType.Chest);
-			Spawn.ServerPrefab(larvae, player.gameObject.RegisterTile().WorldPositionServer);
+			$"A dangerous sounding gurgle emanates from " + player.name + "!");
+
+			GameObject embryo = Spawn.ServerPrefab(larvae, SpawnDestination.At(gameObject), 1).GameObject;
+
+			if (player.GetStomachs().Count == 0) return;
+
+			player.GetStomachs()[0].RelatedPart.OrganStorage.ServerTryAdd(embryo);
 		}
 	}
 }
