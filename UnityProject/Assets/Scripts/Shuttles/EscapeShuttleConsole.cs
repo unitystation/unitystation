@@ -129,7 +129,7 @@ namespace Objects
 				$"\n\n<color=#FF151F><size={ChatTemplates.LargeText}><b>Escape Shuttle Emergency Launch has been request! need {remainingSwipes} more votes.</b></size></color>\n\n";
 			Chat.AddSystemMsgToChat(announcemnt, MatrixManager.MainStationMatrix);
 
-			Chat.AddSystemMsgToChat($"\n\n<color=#FF151F><size={ChatTemplates.LargeText}><b>Escape Shuttle Emergency Launch has been request! need {remainingSwipes} more votes.</b></size></color>\n\n",
+			Chat.AddSystemMsgToChat(announcemnt,
 				GameManager.Instance.PrimaryEscapeShuttle.MatrixInfo);
 			_ = SoundManager.PlayNetworked(CommonSounds.Instance.Notice1);
 		}
