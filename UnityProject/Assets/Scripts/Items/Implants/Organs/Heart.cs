@@ -31,7 +31,7 @@ namespace HealthV2
 			}
 			else
 			{
-				RelatedPart.ApplyTraumaDamage(TraumaticDamageTypes.BURN);
+				base.EmpResult();
 			}
 		}
 

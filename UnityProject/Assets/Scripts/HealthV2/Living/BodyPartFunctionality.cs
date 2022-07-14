@@ -27,13 +27,7 @@ namespace HealthV2
 		{
 			if (isEMPVunerable == false) return;
 
-			if(EMPResistance == 0)
-			{
-				EmpResult();
-				return;
-			}
-
-			if (DMMath.Prob(1 / EMPResistance))
+			if (EMPResistance == 0 || DMMath.Prob(1 / EMPResistance))
 			{
 				EmpResult();
 			}
