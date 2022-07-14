@@ -207,7 +207,7 @@ namespace Objects.Disposals
 
 		private void UseWrench()
 		{
-			objectPhysics.SetIsNotPushable(objectPhysics.IsNotPushable);
+			objectPhysics.SetIsNotPushable(!objectPhysics.IsNotPushable);
 
 			if (objectPhysics.IsNotPushable == false)
 			{
