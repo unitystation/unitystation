@@ -3,6 +3,7 @@ using UnityEngine;
 using Communications;
 using HealthV2;
 using Managers;
+using System.Threading.Tasks;
 using Mirror;
 
 namespace Items.Weapons
@@ -70,7 +71,7 @@ namespace Items.Weapons
 			Detonate();
 		}
 
-		async void PlayBeepAtPos() //async so doesn't effect how long countdown takes
+		async Task PlayBeepAtPos() //async so doesn't effect how long countdown takes
 		{
 			Vector3 pos;
 
@@ -83,7 +84,7 @@ namespace Items.Weapons
 				pos = gameObject.AssumedWorldPosServer();
 			}
 
-			SoundManager.PlayNetworkedAtPosAsync(beepSound, pos);
+			await SoundManager.PlayNetworkedAtPosAsync(beepSound, pos);
 		}
 		private void OnDisable()
 		{
