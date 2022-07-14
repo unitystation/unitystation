@@ -38,9 +38,9 @@ namespace HealthV2
 					DamageType.Brute,
 					BodyPartType.Chest);
 
-				RelatedPart.TryRemoveFromBody();
-
 				Spawn.ServerPrefab(SpawnedLarvae, RelatedPart.HealthMaster.gameObject.AssumedWorldPosServer());
+
+				RelatedPart.TryRemoveFromBody();
 
 				Despawn.ServerSingle(gameObject);
 			}		

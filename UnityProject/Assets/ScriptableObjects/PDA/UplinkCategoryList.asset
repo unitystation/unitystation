@@ -254,6 +254,21 @@ MonoBehaviour:
         type: 3}
       name: Syndicate Bomb
       isNukeOps: 0
+    - cost: 1
+      item: {fileID: 3349033025192972872, guid: 414ec5b5318df6f4bbd000a4dfb298ca,
+        type: 3}
+      name: Implant Explosive
+      isNukeOps: 0
+    - cost: 2
+      item: {fileID: 7387852776840792558, guid: dc94bc35b5fe6704b851fa3e1f97bfff,
+        type: 3}
+      name: Microbomb Implant
+      isNukeOps: 1
+    - cost: 5
+      item: {fileID: 8932607892331406976, guid: a34b9bd5acaa56348acb4c3a83be928a,
+        type: 3}
+      name: Macrobomb Implant
+      isNukeOps: 1
   - categoryName: Stealthy Weapons
     itemList:
     - cost: 2

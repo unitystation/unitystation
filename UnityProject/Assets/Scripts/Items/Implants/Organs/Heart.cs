@@ -11,6 +11,8 @@ namespace HealthV2
 
 		public bool CanTriggerHeartAttack = true;
 
+		public int heartAttackThreshold = -80;
+
 		public int SecondsOfRevivePulse = 30;
 
 		public int CurrentPulse = 0;
@@ -21,10 +23,22 @@ namespace HealthV2
 
 		[SerializeField] private float dangerSaltLevel = 20f; //in u
 
+		public override void EmpResult()
+		{
+			if (DMMath.Prob(0.5f))
+			{
+				DoHeartAttack();
+			}
+			else
+			{
+				base.EmpResult();
+			}
+		}
+
 		public override void ImplantPeriodicUpdate()
 		{
 			base.ImplantPeriodicUpdate();
-			if (RelatedPart.HealthMaster.OverallHealth <= -100)
+			if (RelatedPart.HealthMaster.OverallHealth <= heartAttackThreshold)
 			{
 				if (CanTriggerHeartAttack)
 				{
@@ -43,7 +57,7 @@ namespace HealthV2
 					}
 				}
 			}
-			else if (RelatedPart.HealthMaster.OverallHealth < -50)
+			else if (RelatedPart.HealthMaster.OverallHealth < heartAttackThreshold/2)
 			{
 				CanTriggerHeartAttack = true;
 				CurrentPulse = 0;

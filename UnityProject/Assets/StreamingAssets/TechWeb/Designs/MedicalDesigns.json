@@ -22,6 +22,52 @@
         "Item_ID": "/obj/item/device/mmi"
     },
     {
+        "Internal_ID": "cyberheart",
+        "Description": "A mechanical heart.",
+        "Category": [
+            "Misc",
+            "Medical Designs"
+        ],
+        "Materials": {
+            "Metal": 1000,
+            "Glass": 500,
+            "Gold": 100
+        },
+        "Machinery_type": [
+            "ProtoLathe",
+            "MechFabricator"
+        ],
+        "Compatible_machinery": [
+            "Medical",
+            "Science"
+        ],
+        "name": "Cybernetic Heart",
+        "Item_ID": "oZ$qFf9Q2zVR!nCaGFkE"
+    },
+    {
+        "Internal_ID": "cyberlung",
+        "Description": "A pair of lungs covered in blinking lights.",
+        "Category": [
+            "Misc",
+            "Medical Designs"
+        ],
+        "Materials": {
+            "Metal": 500,
+            "Glass": 1000,
+            "Gold": 100
+        },
+        "Machinery_type": [
+            "ProtoLathe",
+            "MechFabricator"
+        ],
+        "Compatible_machinery": [
+            "Medical",
+            "Science"
+        ],
+        "name": "Cybernetic Lungs",
+        "Item_ID": "Rwg@6xa51aeimGt4WvV6"
+    },
+    {
         "Internal_ID": "mmi_posi",
         "Description": "The latest in Artificial Intelligences.",
         "Category": [

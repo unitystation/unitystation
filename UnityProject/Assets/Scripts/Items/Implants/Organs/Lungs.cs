@@ -5,6 +5,7 @@ using Chemistry;
 using Objects.Atmospherics;
 using ScriptableObjects.Atmospherics;
 using UnityEngine;
+using NaughtyAttributes;
 
 namespace HealthV2
 {
