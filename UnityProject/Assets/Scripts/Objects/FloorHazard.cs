@@ -26,6 +26,9 @@ namespace Objects
 		[SerializeField, HideIf("ignoresFootwear")] private List<ItemTrait> protectiveItemTraits;
 		[SerializeField] private List<BodyPartType> limbsToHurt;
 
+		private RegisterTile RegisterTile;
+		private UniversalObjectPhysics ObjectPhysics;
+
 		public virtual bool WillAffectPlayer(PlayerScript playerScript)
 		{
 			return playerScript.IsGhost == false;
@@ -91,6 +94,46 @@ namespace Objects
 		protected void ApplyDamageToPartyType(LivingHealthMasterBase health, BodyPartType type)
 		{
 			health.ApplyDamageToBodyPart(gameObject, damageToGive, attackType, damageType, type, armorPentration, traumaChance, traumaType);
+		}
+
+
+		public void Awake()
+		{
+			RegisterTile = GetComponent<RegisterTile>();
+			ObjectPhysics = GetComponent<UniversalObjectPhysics>();
+			this.WaitForNetworkManager(() =>
+			{
+				if (CustomNetworkManager.IsServer)
+				{
+					ObjectPhysics.OnLocalTileReached.RemoveListener(OnLocalPositionChangedServer);
+					ObjectPhysics.OnLocalTileReached.AddListener(OnLocalPositionChangedServer);
+				}
+			});
+		}
+
+		public Matrix PreviousMatrix;
+
+		public Vector3Int PreviousLocation;
+
+		public void OnLocalPositionChangedServer(Vector3 NewLocation)
+		{
+			if (RegisterTile.Matrix.MetaTileMap.ObjectLayer.FloorHazardList == null) return;
+			if (PreviousMatrix != null)
+			{
+				PreviousMatrix.MetaTileMap.ObjectLayer.FloorHazardList.Remove(PreviousLocation);
+			}
+
+			RegisterTile.Matrix.MetaTileMap.ObjectLayer.FloorHazardList.Add(NewLocation.RoundToInt(),this);
+			PreviousLocation = NewLocation.RoundToInt();
+			PreviousMatrix = RegisterTile.Matrix;
+		}
+
+		public void OnDestroy()
+		{
+			if (PreviousMatrix != null)
+			{
+				PreviousMatrix.MetaTileMap.ObjectLayer.FloorHazardList.Remove(PreviousLocation);
+			}
 		}
 	}
 }

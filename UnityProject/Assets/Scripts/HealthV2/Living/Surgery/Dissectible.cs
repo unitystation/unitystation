@@ -331,12 +331,6 @@ namespace HealthV2
 
 				ThisSurgeryStep = SurgeryProcedureBase.SurgerySteps[CurrentStep];
 
-				if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Cautery))
-				{
-					CancelSurgery();
-					return;
-				}
-
 				if (ThisSurgeryStep != null)
 				{
 					if (Validations.HasItemTrait(interaction.HandObject, ThisSurgeryStep.RequiredTrait))
@@ -361,6 +355,15 @@ namespace HealthV2
 						Chat.AddActionMsgToChat(interaction, $" You poke {this.ISon.LivingHealthMasterBase.playerScript.visibleName}'s {RelatedBodyPart.name} with the {interaction.UsedObject.name} ",
 							$"{interaction.PerformerPlayerScript.visibleName} pokes {this.ISon.LivingHealthMasterBase.playerScript.visibleName}'s {RelatedBodyPart.name} with the {interaction.UsedObject.name} ");
 					}
+				}
+
+				if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Cautery))
+				{
+					Chat.AddActionMsgToChat(interaction, $" You use the {interaction.HandObject.ExpensiveName()} to close up {this.ISon.LivingHealthMasterBase.playerScript.visibleName}'s {RelatedBodyPart.name} ",
+						$"{interaction.PerformerPlayerScript.visibleName} uses a {interaction.UsedObject.ExpensiveName()} to close up  {this.ISon.LivingHealthMasterBase.playerScript.visibleName}'s {RelatedBodyPart.name} ");
+
+					CancelSurgery();
+					return;
 				}
 			}
 

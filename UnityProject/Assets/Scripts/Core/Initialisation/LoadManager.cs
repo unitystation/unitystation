@@ -23,6 +23,10 @@ namespace Initialisation
 
 		public List<DelayedAction> ToClear = new List<DelayedAction>();
 
+		public bool IsExecuting = false;
+		public bool IsExecutingGeneric = false;
+		public Action LastInvokedAction {get; private set;}
+
 		public class DelayedAction
 		{
 			public float Frames;
@@ -71,23 +75,27 @@ namespace Initialisation
 		{
 			if (GamesStartInitialiseSystems.Count > 0)
 			{
+				IsExecuting = true;
 				var ToProcess = GamesStartInitialiseSystems[0];
 				GamesStartInitialiseSystems.RemoveAt(0);
 				var InInterface = ToProcess as IInitialise;
 				if (InInterface == null) return;
 				try
 				{
+					LastInvokedAction = InInterface.Initialise;
 					InInterface.Initialise();
 				}
 				catch (Exception e)
 				{
 					Logger.LogError(e.ToString());
 				}
-
+				IsExecuting = false;
 			}
 
 			if (DelayedActions.Count > 0)
 			{
+				IsExecuting = true;
+				IsExecutingGeneric = true;
 				//Logger.Log(QueueInitialise.Count.ToString() + " < in queue ");
 				stopwatch.Start();
 
@@ -103,6 +111,7 @@ namespace Initialisation
 							try
 							{
 								ToClear.Add(delayedAction);
+								LastInvokedAction = delayedAction.Action.Invoke;
 								delayedAction.Action.Invoke();
 							}
 							catch (Exception e)
@@ -121,6 +130,8 @@ namespace Initialisation
 
 				stopwatch.Stop();
 				stopwatch.Reset();
+				IsExecuting = false;
+				IsExecutingGeneric = false;
 				//Logger.Log(stopwatch.ElapsedMilliseconds.ToString() + " < ElapsedMilliseconds ");
 			}
 
@@ -128,6 +139,7 @@ namespace Initialisation
 			{
 				//Logger.Log(QueueInitialise.Count.ToString() + " < in queue ");
 				stopwatch.Start();
+				IsExecuting = true;
 				Action QueueAction = null;
 				while (stopwatch.ElapsedMilliseconds < TargetMSprefFramePreStep)
 				{
@@ -136,6 +148,7 @@ namespace Initialisation
 						QueueAction = QueueInitialise.Dequeue();
 						try
 						{
+							LastInvokedAction = QueueAction.Invoke;
 							QueueAction.Invoke();
 						}
 						catch (Exception e)
@@ -151,6 +164,8 @@ namespace Initialisation
 
 				stopwatch.Stop();
 				stopwatch.Reset();
+				IsExecuting = false;
+				IsExecutingGeneric = false;
 				//Logger.Log(stopwatch.ElapsedMilliseconds.ToString() + " < ElapsedMilliseconds ");
 			}
 

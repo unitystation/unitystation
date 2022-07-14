@@ -149,6 +149,30 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IActi
 		playerCrafting = GetComponent<PlayerCrafting>();
 		PlayerSync = GetComponent<MovementSynchronisation>();
 		statusEffectManager = GetComponent<StatusEffectManager>();
+
+
+		this.WaitForNetworkManager(() =>
+		{
+			if (CustomNetworkManager.IsServer)
+			{
+				objectPhysics.OnLocalTileReached.RemoveListener(OnLocalPositionChangedServer);
+				objectPhysics.OnLocalTileReached.AddListener(OnLocalPositionChangedServer);
+			}
+		});
+	}
+
+	public void OnLocalPositionChangedServer(Vector3 newPosition)
+	{
+		if (registerTile.Matrix.MetaTileMap.ObjectLayer.FloorHazardList == null) return;
+		var loopto = registerTile.Matrix.MetaTileMap.ObjectLayer.FloorHazardList.Get(newPosition.RoundToInt());
+		foreach (var floorHazard in loopto)
+		{
+			if (floorHazard.WillAffectPlayer(this))
+			{
+				floorHazard.OnPlayerStep(this);
+			}
+		}
+
 	}
 
 	public override void OnStartClient()

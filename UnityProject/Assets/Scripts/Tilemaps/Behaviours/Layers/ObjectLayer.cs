@@ -18,6 +18,9 @@ public class ObjectLayer : Layer
 	public TileList ServerObjects => serverObjects ?? (serverObjects = new TileList());
 	public TileList ClientObjects => clientObjects ?? (clientObjects = new TileList());
 
+	private FloorHazardList floorHazardList;
+	public FloorHazardList FloorHazardList => floorHazardList ?? (floorHazardList = new FloorHazardList());
+
 	public TileList GetTileList(bool isServer)
 	{
 		if (isServer)

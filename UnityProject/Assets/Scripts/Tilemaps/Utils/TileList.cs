@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Objects;
 using UnityEngine;
 
 /// <summary>
@@ -112,5 +113,44 @@ public class TileList
 				action.Invoke(TempRegisterTiles[i]);
 			}
 		}
+	}
+}
+
+public class FloorHazardList
+{
+	private readonly Dictionary<Vector3Int, List<FloorHazard>> _objects = new Dictionary<Vector3Int, List<FloorHazard>>();
+
+	private static readonly List<FloorHazard> emptyList = new List<FloorHazard>();
+
+	public void Add(Vector3Int position, FloorHazard obj)
+	{
+		if (!_objects.ContainsKey(position))
+		{
+			_objects[position] = new List<FloorHazard>();
+		}
+		if (!_objects[position].Contains(obj))
+		{
+			_objects[position].Add(obj);
+		}
+	}
+
+	public void Remove(Vector3Int position, FloorHazard obj = null)
+	{
+		if (_objects.TryGetValue(position, out var objectsOut))
+		{
+			if (obj == null)
+			{
+				objectsOut.Clear();
+			}
+			else
+			{
+				objectsOut.Remove(obj);
+			}
+		}
+	}
+
+	public List<FloorHazard> Get(Vector3Int position)
+	{
+		return _objects.TryGetValue(position, out var objectsOut) ? objectsOut : emptyList;
 	}
 }

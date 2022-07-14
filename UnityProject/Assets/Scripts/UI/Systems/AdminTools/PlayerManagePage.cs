@@ -146,7 +146,7 @@ namespace AdminTools
 				null,
 				RequestAdminTeleport.OpperationList.PlayerToAdmin,
 				false,
-				PlayerManager.LocalPlayerScript.PlayerSync.registerTile.WorldPosition
+				PlayerManager.LocalPlayerScript.PlayerSync.OrNull()?.registerTile.OrNull()?.WorldPosition != null ? PlayerManager.LocalPlayerScript.PlayerSync.registerTile.WorldPosition : PlayerManager.LocalPlayerScript.transform.position
 				);
 		}
 

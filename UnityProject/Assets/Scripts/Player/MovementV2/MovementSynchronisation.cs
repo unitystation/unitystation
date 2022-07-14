@@ -489,6 +489,9 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 
 		//Object that it is pulling
 		public uint Pulling;
+
+		//LastReset ID
+		public int LastResetID;
 	}
 
 	public enum PlayerMoveDirection
@@ -590,6 +593,28 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 				var Entry = MoveQueue[0];
 				MoveQueue.RemoveAt(0);
 
+				if (Entry.LastResetID != SetLastResetID) //Client hasn't been reset yet
+				{
+					if (Entry.Pulling != NetId.Empty)
+					{
+						if (ComponentManager.TryGetUniversalObjectPhysics(NetworkIdentity.spawned[Entry.Pulling].gameObject, out var SupposedlyPulling))
+						{
+							SupposedlyPulling.ResetLocationOnClient(connectionToClient);
+						}
+					}
+
+					if (string.IsNullOrEmpty(Entry.PushedIDs) == false)
+					{
+						foreach (var NonMatch in JsonConvert.DeserializeObject<List<uint>>(Entry.PushedIDs))
+						{
+							NetworkIdentity.spawned[NonMatch].GetComponent<UniversalObjectPhysics>()
+								.ResetLocationOnClient(connectionToClient);
+						}
+					}
+					return;
+
+				}
+
 				SetMatrixCash.ResetNewPosition(transform.position, registerTile);
 				//Logger.LogError(" Is Animating " +  Animating + " Is floating " +  IsAnimatingFlyingSliding +" move processed at" + transform.localPosition);
 
@@ -657,8 +682,6 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 							{
 								ResetLocationOnClients(true);
 							}
-
-							MoveQueue.Clear();
 							return;
 						}
 					}
@@ -713,7 +736,6 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 						if (Entry.CausesSlip != Slip)
 						{
 							ResetLocationOnClients();
-							MoveQueue.Clear();
 						}
 
 						Step = !Step;
@@ -774,7 +796,6 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 						}
 
 						ResetLocationOnClients();
-						MoveQueue.Clear();
 					}
 				}
 				else
@@ -789,7 +810,6 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 					}
 
 					ResetLocationOnClients();
-					MoveQueue.Clear();
 				}
 			}
 		}
@@ -819,7 +839,8 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 				CausesSlip = false,
 				Bump = false,
 				LastPushID = SetTimestampID,
-				Pulling = Pulling.Component?.netId ?? NetId.Empty
+				Pulling = Pulling.Component?.netId ?? NetId.Empty,
+				LastResetID = SetLastResetID
 			};
 
 
