@@ -59,9 +59,22 @@ namespace Items.Weapons
 
 			if (GUI != null) GUI.StartCoroutine(GUI.UpdateTimer());
 
+			WaitForSeconds delay = new WaitForSeconds(1); //Should prevent garbage in repeated delay
+
+			for(int i = 0; i < timeToDetonate; i++)
+			{
+				PlayBeepAtPos();
+				yield return delay; 
+			}
+
+			Detonate();
+		}
+
+		async void PlayBeepAtPos() //async so doesn't effect how long countdown takes
+		{
 			Vector3 pos;
 
-			if(bodyPart.HealthMaster != null)
+			if (bodyPart.HealthMaster != null)
 			{
 				pos = bodyPart.HealthMaster.playerScript.AssumedWorldPos;
 			}
@@ -69,16 +82,9 @@ namespace Items.Weapons
 			{
 				pos = gameObject.AssumedWorldPosServer();
 			}
-		
-			for (int i = 0; i < TimeToDetonate; i++)
-			{
-				SoundManager.PlayNetworkedAtPos(beepSound, pos);
-				yield return new WaitForSeconds(1); 
-			}
-			
-			Detonate();
-		}
 
+			SoundManager.PlayNetworkedAtPosAsync(beepSound, pos);
+		}
 		private void OnDisable()
 		{
 			Emitter = null;

@@ -90,11 +90,6 @@ namespace Systems.Explosions
 				if (machine.isEMPResistant) return false;
 			}
 
-			if (thing.TryGetComponent<BodyPartFunctionality>(out var bpf))
-			{
-				if(bpf.isEMPVunerable == false) return false;
-			}
-
 			if (thing.TryGetComponent<ItemAttributesV2>(out var attributes))
 			{
 				if (Validations.HasItemTrait(thing.gameObject, CommonTraits.Instance.EMPResistant)) return false;

@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Chemistry;
-using NaughtyAttributes;
-using Systems.Explosions;
 
 namespace HealthV2
 {
@@ -19,29 +17,21 @@ namespace HealthV2
 
 		public int CurrentPulse = 0;
 
-		[ShowIf("isEMPVunerable")]
-		public int EMPResistance = 2;
-
 		private bool alarmedForInternalBleeding = false;
 
 		[SerializeField] private Reagent salt;
 
 		[SerializeField] private float dangerSaltLevel = 20f; //in u
 
-		public override void OnEmp(int strength)
+		public override void EmpResult()
 		{
-			if (isEMPVunerable == false) return;
-
-			if(DMMath.Prob(1/EMPResistance))
+			if (DMMath.Prob(0.5f))
 			{
-				if (DMMath.Prob(0.5f))
-				{
-					DoHeartAttack();
-				}
-				else
-				{
-					RelatedPart.ApplyTraumaDamage(TraumaticDamageTypes.BURN);
-				}
+				DoHeartAttack();
+			}
+			else
+			{
+				RelatedPart.ApplyTraumaDamage(TraumaticDamageTypes.BURN);
 			}
 		}
 
