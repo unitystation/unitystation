@@ -22,6 +22,15 @@ namespace HealthV2
 		public override void FinnishSurgeryProcedure(BodyPart OnBodyPart, HandApply interaction,
 			Dissectible.PresentProcedure PresentProcedure)
 		{
+			if (PresentProcedure.RelatedBodyPart.ContainedIn != null)
+			{
+				PresentProcedure.ISon.currentlyOn = PresentProcedure.RelatedBodyPart.ContainedIn.gameObject;
+			}
+			else
+			{
+				PresentProcedure.ISon.currentlyOn = null;
+			}
+
 			if (interaction.HandSlot.Item != null && interaction.HandSlot.Item.GetComponent<ItemAttributesV2>().HasTrait(RequiredTrait))
 			{
 				OnBodyPart.HealDamage(interaction.UsedObject,HeelStrength,Affects);
