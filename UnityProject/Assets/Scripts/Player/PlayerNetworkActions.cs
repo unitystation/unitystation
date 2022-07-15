@@ -92,7 +92,12 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	[Command]
 	public void CmdSetCurrentIntent(Intent intent)
 	{
-		playerMove.intent = intent;
+		if (playerScript.OrNull()?.playerMove == null)
+		{
+			Logger.LogError($"null playerScript/playerMove in {this.name} ");
+			return;
+		}
+		playerScript.playerMove.intent = intent;
 	}
 
 
@@ -473,6 +478,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	[Command]
 	public void CmdSwitchPickupMode()
 	{
+		if (itemStorage == null) return;
 		// Switch the pickup mode of the storage in the active hand
 		InteractableStorage storage = null;
 		foreach (var itemSlot in itemStorage.GetNamedItemSlots(NamedSlot.rightHand))

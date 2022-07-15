@@ -1115,11 +1115,6 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 
 			if (float.IsNaN(nairTime) == false)
 			{
-				if (nairTime < 0)
-				{
-					Logger.LogError(nairTime.ToString());
-				}
-
 				airTime = nairTime;
 			}
 
