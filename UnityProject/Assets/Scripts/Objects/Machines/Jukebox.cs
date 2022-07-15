@@ -1,4 +1,5 @@
-﻿using Mirror;
+﻿using System.Collections;
+using Mirror;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
@@ -176,7 +177,7 @@ namespace Objects
 			// Too much damage stops the jukebox from being able to play
 			if (integrity.integrity < integrity.initialIntegrity / 2) return;
 			IsPlaying = true;
-			spriteHandler.SetSpriteSO(SpritePlaying);
+			StartCoroutine(UpdateSprites(SpritePlaying));
 			guid.Add(await SoundManager.PlayNetworkedAtPosAsync(musics[currentSongTrackIndex], registerTile.WorldPositionServer, audioSourceParameters, false, true, sourceObj: gameObject));
 			startPlayTime = Time.time;
 			UpdateGUI();
@@ -187,9 +188,9 @@ namespace Objects
 			if(autoplay == false) IsPlaying = false;
 
 			if (integrity.integrity >= integrity.initialIntegrity / 2)
-				spriteHandler.SetSpriteSO(SpriteIdle);
+				StartCoroutine(UpdateSprites(SpriteIdle));
 			else
-				spriteHandler.SetSpriteSO(SpriteDamaged);
+				StartCoroutine(UpdateSprites(SpriteDamaged));
 
 			if(guid.Count != 0) await Task.Run(() => StopAllGuids());
 
@@ -242,6 +243,12 @@ namespace Objects
 			{
 				Stop();
 			}
+		}
+
+		private IEnumerator UpdateSprites(SpriteDataSO spriteDataSo)
+		{
+			spriteHandler.SetSpriteSO(spriteDataSo);
+			yield return null;
 		}
 
 		private void UpdateGUI()
