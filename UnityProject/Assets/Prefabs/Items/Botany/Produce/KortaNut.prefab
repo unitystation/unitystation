@@ -26,7 +26,7 @@ PrefabInstance:
     - target: {fileID: 95709129899775204, guid: 27208d0fc3f7c3544a8d1a7861253b52,
         type: 3}
       propertyPath: initialReagentMix.reagents.m_values.Array.data[0]
-      value: 2
+      value: 6.6666665
       objectReference: {fileID: 0}
     - target: {fileID: 95709129899775204, guid: 27208d0fc3f7c3544a8d1a7861253b52,
         type: 3}
@@ -108,7 +108,7 @@ PrefabInstance:
         type: 3}
       propertyPath: customNetTransform
       value: 
-      objectReference: {fileID: 6941569476418059181}
+      objectReference: {fileID: 0}
     - target: {fileID: 1337560984964591376, guid: 27208d0fc3f7c3544a8d1a7861253b52,
         type: 3}
       propertyPath: m_Sprite
@@ -161,18 +161,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 27208d0fc3f7c3544a8d1a7861253b52, type: 3}
---- !u!114 &6941569476418059181 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 1291304377019134364, guid: 27208d0fc3f7c3544a8d1a7861253b52,
-    type: 3}
-  m_PrefabInstance: {fileID: 8196211385499535921}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7043849623822079613}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 579884b05ae74e8499329b64997147d3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &7043849623822079613 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1188401911067925580, guid: 27208d0fc3f7c3544a8d1a7861253b52,
