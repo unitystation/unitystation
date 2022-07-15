@@ -18,9 +18,10 @@ namespace Items.Weapons
 			{
 				bodyPart.HealthMaster.ApplyDamageToBodyPart(gameObject, 200, AttackType.Bomb, DamageType.Burn, bodyPart.ContainedIn.BodyPartType); ///This prevents those with bomb proof armour from just tanking an explosion thats supposed to me inside them
 
-				if (explosiveStrength > 1000)
+				if (explosiveStrength >= 750)
 				{
-					bodyPart.HealthMaster.Gib(); //Macrobombs will gib their victim
+					NetworkManager.Destroy(bodyPart.HealthMaster.playerScript.DynamicItemStorage); //Items being on ground ensures destruction by explosion
+					bodyPart.HealthMaster.Gib(); //Macrobombs and microbombs will gib their victim
 				}
 				else if (bodyPart.ContainedIn.BodyPartType == BodyPartType.Head)
 				{
