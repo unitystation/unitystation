@@ -9,6 +9,7 @@ using Player.Movement;
 using UI.Action;
 using Items;
 using Systems.StatusesAndEffects;
+using Tiles;
 
 public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IActionGUI
 {
@@ -173,6 +174,15 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IActi
 			}
 		}
 
+		var tile = registerTile.Matrix.MetaTileMap.GetTile(newPosition.CutToInt(), LayerType.Base);
+		if (tile != null && tile is BasicTile c)
+		{
+			foreach (var interaction in c.TileStepInteractions)
+			{
+				if (interaction.WillAffectPlayer(this) == false) continue;
+				interaction.OnPlayerStep(this);
+			}
+		}
 	}
 
 	public override void OnStartClient()
