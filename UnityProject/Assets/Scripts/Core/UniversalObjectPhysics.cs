@@ -1767,6 +1767,8 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 		}
 		if (Animating) UpdateManager.Remove(CallbackType.UPDATE, AnimationUpdateMe);
 		if (IsFlyingSliding) UpdateManager.Remove(CallbackType.UPDATE, FlyingUpdateMe);
+		if (CorrectingCourse) UpdateManager.Remove(CallbackType.UPDATE, FloatingCourseCorrection);
+
 	}
 
 
