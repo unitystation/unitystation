@@ -1510,6 +1510,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 
 				if (attributes.HasComponent)
 				{
+					OnImpact.Invoke(this, newtonianMovement);
 					var IAV2 = (attributes.Component as ItemAttributesV2);
 					if (IAV2 != null)
 					{
