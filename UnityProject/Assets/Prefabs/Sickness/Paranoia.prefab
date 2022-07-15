@@ -49,7 +49,7 @@ MonoBehaviour:
   ContagiousRadius: 6
   infectOtherChance: 50
   NumberOfStages: 6
-  TicksToPogressStages: 50
+  TicksToPogressStages: 40
   PossibleCures:
   - {fileID: 11400000, guid: 11c84ef42476da24ab6269300e6fb12e, type: 2}
   - {fileID: 11400000, guid: c57863b3f01a344e58e3fb4a55f80d3a, type: 2}
@@ -60,7 +60,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 8514fb705e98ee7bebda14f28e67e95e, type: 2}
   - {fileID: 11400000, guid: 7536c223a16702e289aa3b3f8a3ebc5a, type: 2}
   emoteFeedback: {fileID: 11400000, guid: c330a7cbe2059774fafd4a32d2eabecc, type: 2}
-  cooldownTime: 10
+  cooldownTime: 25
   IsOnCooldown: 0
   PlayerMask:
     serializedVersion: 2
