@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using Core.Lighting;
 using Initialisation;
 using TileManagement;
 using Tiles;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
@@ -143,6 +145,13 @@ public class Layer : MonoBehaviour
 		InternalSetTile(position, tile);
 		tilemap.SetColor(position, color);
 		tilemap.SetTransformMatrix(position, transformMatrix);
+		if (CustomNetworkManager.IsHeadless) return;
+		if (tile is not SimpleTile c) return;
+		if(c.CanBeHighlightedThroughScanners == false || c.HighlightObject == null) return;
+		var spawnHighlight = Spawn.ClientPrefab(c.HighlightObject, MatrixManager.LocalToWorld(position, matrix), this.transform);
+		if(spawnHighlight.Successful == false || spawnHighlight.GameObject.TryGetComponent<HighlightScan>(out var scan) == false) return;
+		c.AssoicatedSpawnedObjects.Add(spawnHighlight.GameObject);
+		scan.Setup(c.sprite);
 	}
 
 	public bool RemoveTile(Vector3Int position)
