@@ -188,10 +188,11 @@ namespace Player
 			}
 
 
-			foreach (var bodyPartOrgan in Body_Part.ContainBodyParts)
+			for (int i = 0; i < Body_Part.ContainBodyParts.Count; i++)
 			{
-				SubSetBodyPart(bodyPartOrgan, path);
+				SubSetBodyPart(Body_Part.ContainBodyParts[i], path);
 			}
+
 		}
 
 		public void SetupSprites()
@@ -220,9 +221,10 @@ namespace Player
 				BodyPartDropDownOrgans.PlayerBodyDeserialise(null, customisationStorage.Data, livingHealthMasterBase);
 			}
 
-			foreach (var bodyPart in livingHealthMasterBase.BodyPartList)
+			foreach (var bodyPart in livingHealthMasterBase.BodyPartStorage.GetIndexedSlots())
 			{
-				SubSetBodyPart(bodyPart, "");
+				if (bodyPart.Item == null) continue;
+				SubSetBodyPart(bodyPart.Item.GetComponent<BodyPart>(), "");
 			}
 
 			PlayerHealthData SetRace = null;
