@@ -322,6 +322,14 @@ public class MouseInputController : MonoBehaviour
 			hit.transform.SendMessageUpwards("OnHover", SendMessageOptions.DontRequireReceiver);
 			transform.SendMessage("OnHover", SendMessageOptions.DontRequireReceiver);
 		}
+		else
+		{
+			if (lastHoveredThing)
+			{
+				lastHoveredThing.transform.SendMessageUpwards("OnHoverEnd", SendMessageOptions.DontRequireReceiver);
+				lastHoveredThing = null;
+			}
+		}
 	}
 
 	private void TrySlide()

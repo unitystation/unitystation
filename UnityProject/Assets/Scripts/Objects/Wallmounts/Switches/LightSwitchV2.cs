@@ -75,8 +75,11 @@ namespace Objects.Lighting
 			if (!DefaultWillInteract.Default(interaction, side)) return false;
 			if (interaction.HandObject != null && interaction.Intent == Intent.Harm) return false;
 
-			if (isInCoolDown) return false;
-			StartCoroutine(SwitchCoolDown());
+			if (side == NetworkSide.Server)
+			{
+				if (isInCoolDown) return false;
+				StartCoroutine(SwitchCoolDown());
+			}
 
 			return true;
 		}
