@@ -27,6 +27,8 @@ namespace Objects
 
 		private HashSet<IDCard> registeredIDs = new HashSet<IDCard>();
 
+		private int requiredSwipesEarlyLaunch => GameManager.Instance.CentComm.CurrentAlertLevel is CentComm.AlertLevel.Red or CentComm.AlertLevel.Delta ? 2 : 4;
+
 		private void Awake()
 		{
 			registerTile = GetComponent<RegisterTile>();
@@ -100,13 +102,7 @@ namespace Objects
 			}
 			registeredIDs.Add(card);
 
-			if (IsHighAlert() && registeredIDs.Count >= 2)
-			{
-				DepartShuttle();
-				return;
-			}
-
-			if (registeredIDs.Count >= 4)
+			if (registeredIDs.Count >= requiredSwipesEarlyLaunch)
 			{
 				DepartShuttle();
 				return;
@@ -115,16 +111,9 @@ namespace Objects
 			AnnounceRemainingSwipesRequired();
 		}
 
-		private bool IsHighAlert()
-		{
-			return GameManager.Instance.CentComm.CurrentAlertLevel is CentComm.AlertLevel.Red
-				or CentComm.AlertLevel.Delta;
-		}
-
 		private void AnnounceRemainingSwipesRequired()
 		{
-			var swpiesRequired = IsHighAlert() ? 2 : 4;
-			var remainingSwipes = swpiesRequired - registeredIDs.Count;
+			var remainingSwipes = requiredSwipesEarlyLaunch - registeredIDs.Count;
 			string announcemnt =
 				$"\n\n<color=#FF151F><size={ChatTemplates.LargeText}><b>Escape Shuttle Emergency Launch has been request! need {remainingSwipes} more votes.</b></size></color>\n\n";
 			Chat.AddSystemMsgToChat(announcemnt, MatrixManager.MainStationMatrix);
