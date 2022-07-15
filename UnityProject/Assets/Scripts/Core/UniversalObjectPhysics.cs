@@ -7,6 +7,7 @@ using Messages.Server.SoundMessages;
 using Mirror;
 using Objects;
 using Objects.Construction;
+using Tiles;
 using UI.Action;
 using UnityEngine;
 using UnityEngine.Events;
@@ -1545,7 +1546,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 									Chat.AddThrowHitMsgToChat(gameObject, LivingHealthMasterBase.gameObject, hitZone);
 								}
 
-								AudioSourceParameters audioSourceParameters = new AudioSourceParameters(pitch: 1f);
+								AudioSourceParameters audioSourceParameters = new AudioSourceParameters(pitch: Random.Range(0.85f, 1f));
 								SoundManager.PlayNetworkedAtPos(CommonSounds.Instance.GenericHit, transform.position,
 									audioSourceParameters, sourceObj: gameObject);
 							}
