@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography;
 using HealthV2;
 using UnityEngine;
 
@@ -132,7 +133,13 @@ public class UI_SlotManager : MonoBehaviour
 			var go = uiSlots[i];
 			var slot = go.OrNull()?.GetComponentInChildren<UI_DynamicItemSlot>();
 
-			if (slot == null || slot._storageCharacteristics != StorageCharacteristics) continue;
+			if (slot == null)
+			{
+				uiSlots.RemoveAt(i);
+				continue;
+			}
+
+			if (slot._storageCharacteristics != StorageCharacteristics) continue;
 
 			OpenSlots.Remove(slot);
 			slot.ReSetSlot();
