@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography;
 using HealthV2;
 using UnityEngine;
 
@@ -120,31 +121,35 @@ public class UI_SlotManager : MonoBehaviour
 	public void RemoveSpecifyedUISlot(int bodyPartUISlots,
 		BodyPartUISlots.StorageCharacteristics StorageCharacteristics)
 	{
-		if (BodyPartToSlot.ContainsKey(bodyPartUISlots) == false)
-			BodyPartToSlot[bodyPartUISlots] = new List<GameObject>();
-
-		for (int i = 0; i < BodyPartToSlot[bodyPartUISlots].Count; i++)
-		{
-			var slot = BodyPartToSlot[bodyPartUISlots][i].OrNull()?.GetComponentInChildren<UI_DynamicItemSlot>();
-
-			if (slot._storageCharacteristics == StorageCharacteristics)
-			{
-				OpenSlots.Remove(BodyPartToSlot[bodyPartUISlots][i].GetComponentInChildren<UI_DynamicItemSlot>());
-				BodyPartToSlot[bodyPartUISlots][i].GetComponentInChildren<UI_DynamicItemSlot>().ReSetSlot();
-				Destroy(BodyPartToSlot[bodyPartUISlots][i]);
-				BodyPartToSlot[bodyPartUISlots].RemoveAt(i);
-			}
-		}
-
-
-		if (BodyPartToSlot[bodyPartUISlots].Count == 0)
-		{
-			BodyPartToSlot.Remove(bodyPartUISlots);
-		}
-
 		if (StorageCharacteristics.SlotArea == SlotArea.Hands)
 		{
 			HandsController.RemoveHand(StorageCharacteristics);
+		}
+
+		if (BodyPartToSlot.TryGetValue(bodyPartUISlots, out var uiSlots) == false) return;
+
+		for (int i = uiSlots.Count - 1; i >= 0; i--)
+		{
+			var go = uiSlots[i];
+			var slot = go.OrNull()?.GetComponentInChildren<UI_DynamicItemSlot>();
+
+			if (slot == null)
+			{
+				uiSlots.RemoveAt(i);
+				continue;
+			}
+
+			if (slot._storageCharacteristics != StorageCharacteristics) continue;
+
+			OpenSlots.Remove(slot);
+			slot.ReSetSlot();
+			Destroy(go);
+			uiSlots.RemoveAt(i);
+		}
+
+		if (uiSlots.Count == 0)
+		{
+			BodyPartToSlot.Remove(bodyPartUISlots);
 		}
 	}
 
