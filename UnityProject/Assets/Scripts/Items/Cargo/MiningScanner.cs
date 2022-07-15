@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace Items.Cargo
 {
-	public class MinningScanner : NetworkBehaviour, IInteractable<HandActivate>
+	public class MiningScanner : NetworkBehaviour, IInteractable<HandActivate>
 	{
 
 		public bool IsAdvanced = false;
