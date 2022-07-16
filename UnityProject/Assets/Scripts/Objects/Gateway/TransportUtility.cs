@@ -11,40 +11,32 @@ namespace Gateway
 	public class TransportUtility : NetworkBehaviour //Would be a regular static class, but Weaver complains if it doesn't inherit NetworkBehaviour
 	{
 		/// <summary>
-		/// <para>Transports a <paramref name="ObjectPhysics"/> to <paramref name="transportTo"/> without lerping.</para>
-		/// <para>Objects pulled by <paramref name="ObjectPhysics"/> are not transported. To transport pulled objects as well, use <seealso cref="TransportObjectAndPulled(UniversalObjectPhysics, Vector3)"/>.</para>
-		/// <para>Supports PlayerSync and CustomNetTransform.</para>
+		/// <para>Transports a <paramref name="objectPhysics"/> to <paramref name="transportTo"/> without lerping.</para>
+		/// <para>Objects pulled by <paramref name="objectPhysics"/> are not transported. To transport pulled objects as well, use <seealso cref="TransportObjectAndPulled(UniversalObjectPhysics, Vector3)"/>.</para>
+		/// <para>Supports UniversalObjectPhysics.</para>
 		/// </summary>
-		/// <param name="ObjectPhysics">Object to transport to <paramref name="transportTo"/>.</param>
-		/// <param name="transportTo">Destination to transport <paramref name="ObjectPhysics"/> to.</param>
+		/// <param name="objectPhysics">Object to transport to <paramref name="transportTo"/>.</param>
+		/// <param name="transportTo">Destination to transport <paramref name="objectPhysics"/> to.</param>
 		[Server]
-		public static void TransportObject(UniversalObjectPhysics ObjectPhysics, Vector3 transportTo)
+		public static void TransportObject(UniversalObjectPhysics objectPhysics, Vector3 transportTo)
 		{
-			if (ObjectPhysics == null)
-				return; //Don't even bother...
+			if (objectPhysics == null) return; //Don't even bother...
 
-			//Handle PlayerSync and CustomNetTransform (No shared base class, so terrible duping time)
-
-			//Object and Item objects get CustomNetTransform
-			if (ObjectPhysics != null)
-			{
-				ObjectPhysics.DisappearFromWorld();
-				ObjectPhysics.AppearAtWorldPositionServer(transportTo);
-			}
+			objectPhysics.DisappearFromWorld();
+			objectPhysics.AppearAtWorldPositionServer(transportTo);
 		}
 
 		/// <summary>
 		/// <para>Transports a <paramref name="objectPhysics"/> to <paramref name="transportTo"/> alongside anything it might be pulling without lerping.</para>
 		/// <para>Objects pulled by <paramref name="objectPhysics"/> are transported. To not transport  pulled objects as well, use <seealso cref="TransportObject(PushPull, Vector3)"/>.</para>
-		/// <para>Supports PlayerSync and CustomNetTransform.</para>
+		/// <para>UniversalObjectPhysics.</para>
 		/// </summary>
 		/// <param name="objectPhysics">Object to transport to <paramref name="transportTo"/>.</param>
 		/// <param name="transportTo">Destination to transport <paramref name="objectPhysics"/> to.</param>
 		[Server]
 		public static void TransportObjectAndPulled(UniversalObjectPhysics objectPhysics, Vector3 transportTo)
 		{
-			if (objectPhysics == null)
-				return; //Don't even bother...
+			if (objectPhysics == null) return; //Don't even bother...
 
 			var linkedList = new LinkedList<UniversalObjectPhysics>();
 

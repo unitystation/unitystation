@@ -12,7 +12,7 @@ using Random = UnityEngine.Random;
 /// that initiated the action only gets sprite index updates. Other players do not receive any updates.
 ///
 /// Due to the pecularities of how it only needs to appear for one player, this doesn't use monobehavior /
-/// registertile / CNT...it is just a regular game object and is updated in response to net messages.
+/// registertile / UniversalObjectPhysics... it is just a regular game object and is updated in response to net messages.
 ///
 /// NOTE: Might want to turn this into a more re-usable system if there are other things that should have
 /// this sort of behavior - known only to one client and the server but still being able to use

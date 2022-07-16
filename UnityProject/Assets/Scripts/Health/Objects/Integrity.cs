@@ -124,20 +124,20 @@ public class Integrity : NetworkBehaviour, IHealth, IFireExposable, IRightClicka
 	private DamageType lastDamageType;
 	private RegisterTile registerTile;
 	public RegisterTile RegisterTile => registerTile;
-	private IPushable pushable;
-	public Meleeable Meleeable;
+	private UniversalObjectPhysics universalObjectPhysics;
+
+	private Meleeable meleeable;
+	public Meleeable Meleeable => meleeable;
 
 	//The current integrity divided by the initial integrity
 	public float PercentageDamaged => integrity.Approx(0) ? 0 : integrity / initialIntegrity;
 
 	//whether this is a large object (meaning we would use the large ash pile and large burning sprite)
 	private bool isLarge;
-
-	public float Resistance => pushable == null ? integrity : integrity * ((int)pushable.Size / 10f);
+	public float Resistance => integrity * ((int)universalObjectPhysics.GetSize() / 10f);
 
 	private void Awake()
 	{
-		Meleeable = GetComponent<Meleeable>();
 		EnsureInit();
 	}
 
@@ -163,8 +163,10 @@ public class Integrity : NetworkBehaviour, IHealth, IFireExposable, IRightClicka
 			SMALL_ASH = TileManager.GetTile(TileType.Effects, "SmallAsh") as OverlayTile;
 			LARGE_ASH = TileManager.GetTile(TileType.Effects, "LargeAsh") as OverlayTile;
 		}
+		meleeable = GetComponent<Meleeable>();
 		registerTile = GetComponent<RegisterTile>();
-		pushable = GetComponent<IPushable>();
+		universalObjectPhysics = GetComponent<UniversalObjectPhysics>();
+
 		//this is just a guess - large items can't be picked up
 		isLarge = GetComponent<Pickupable>() == null;
 		if (Resistances.Flammable)

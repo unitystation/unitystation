@@ -36,7 +36,7 @@ namespace Construction.Conveyors
 
 		public ConveyorBeltSwitch AssignedSwitch { get; private set; }
 
-		private Queue<UniversalObjectPhysics> cntCache = new Queue<UniversalObjectPhysics>();
+		private Queue<UniversalObjectPhysics> objectPhyicsCache = new Queue<UniversalObjectPhysics>();
 
 		private Matrix _lastUpdateMatrix;
 		private Vector3Int _lastLocalUpdatePosition;
@@ -80,15 +80,15 @@ namespace Construction.Conveyors
 			foreach (var item in Matrix.Get<UniversalObjectPhysics>(registerTile.LocalPositionServer, true))
 			{
 				if (item.gameObject == gameObject || item.IsNotPushable || item.Intangible || item.IsMoving)  continue;
-				cntCache.Enqueue(item);
+				objectPhyicsCache.Enqueue(item);
 			}
 		}
 
 		private void MoveEntities(float ConveyorBeltSpeed)
 		{
-			while (cntCache.Count > 0)
+			while (objectPhyicsCache.Count > 0)
 			{
-				Transport(cntCache.Dequeue(), ConveyorBeltSpeed);
+				Transport(objectPhyicsCache.Dequeue(), ConveyorBeltSpeed);
 			}
 		}
 
