@@ -40,15 +40,12 @@ namespace Weapons.Projectiles.Behaviours
 				}
 			}
 
-			if (AppliedDetails != null)
+			AppliedDetails?.AddDetail(new Detail()
 			{
-				AppliedDetails.AddDetail(new Detail()
-				{
-					CausedByInstanceID = 0,
-					Description = $"A bullet hole that looks like it was made by a {this.gameObject.name}",
-					DetailType = DetailType.BulletHole
-				});
-			}
+				CausedByInstanceID = 0,
+				Description = $"A bullet hole that looks like it was made by a {this.gameObject.name}",
+				DetailType = DetailType.BulletHole
+			});
 
 
 			return false;

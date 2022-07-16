@@ -19,6 +19,7 @@ namespace Items
 
 		private Vector3 posCache;
 
+		[Tooltip(" how long it takes before it can start melting After being spawned in")]
 		public float MeltTime = 10f;
 
 		#region Lifecycle
