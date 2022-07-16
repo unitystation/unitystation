@@ -11,15 +11,15 @@ GameObject:
   - component: {fileID: 406365593819970653}
   - component: {fileID: 3984589335700137458}
   - component: {fileID: 6536533875639940645}
-  - component: {fileID: 5809642687452026922}
   - component: {fileID: 4084437145900613279}
   - component: {fileID: 4995588745208452066}
-  - component: {fileID: 799814669979061557}
   - component: {fileID: 2661870228097985241}
   - component: {fileID: 4625435621097251366}
   - component: {fileID: 1944057801525881069}
   - component: {fileID: -7063633880587810702}
   - component: {fileID: 5745720402341052027}
+  - component: {fileID: 53286352597045704}
+  - component: {fileID: -3900943519922293448}
   m_Layer: 0
   m_Name: X4
   m_TagString: Untagged
@@ -37,6 +37,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 3977958541996598942}
   m_Father: {fileID: 0}
@@ -74,36 +75,7 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   pickupAnimSpeed: 0.1
---- !u!114 &5809642687452026922
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 896716891640034833}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c23c49138f42840a1bc22ade283c1694, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  registerTile: {fileID: 0}
-  floorDecal: {fileID: 0}
-  isInitiallyNotPushable: 0
-  pushPullSound:
-    SetLoadSetting: 0
-    AssetAddress: null
-    AssetReference:
-      m_AssetGUID: 
-      m_SubObjectName: 
-      m_SubObjectType: 
-  soundDelayTime: 0
-  soundMinimumPitchVariance: 1
-  soundMaximumPitchVariance: 1
-  OnPullingSomethingChangedServer:
-    m_PersistentCalls:
-      m_Calls: []
+  ItemAttributesV2: {fileID: 0}
 --- !u!114 &4084437145900613279
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -120,7 +92,6 @@ MonoBehaviour:
   syncInterval: 0.1
   matrixDebugLogging: 0
   objectType: 0
-  customNetTransform: {fileID: 799814669979061557}
   prefabTracker: {fileID: 4995588745208452066}
   CurrentsortingGroup: {fileID: -7063633880587810702}
 --- !u!114 &4995588745208452066
@@ -136,22 +107,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   foreverID: faMQUY8Y7EXxqSdBB9h4
---- !u!114 &799814669979061557
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 896716891640034833}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 579884b05ae74e8499329b64997147d3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  snapToGridOnStart: 1
-  IsFixedMatrix: 0
 --- !u!114 &2661870228097985241
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -174,6 +129,7 @@ MonoBehaviour:
       m_AssetGUID: 
       m_SubObjectName: 
       m_SubObjectType: 
+      m_EditorAssetChanged: 0
   damageDeflection: 0
   Armor:
     Melee: 0
@@ -187,6 +143,7 @@ MonoBehaviour:
     Magic: 0
     Bio: 0
     DismembermentProtectionChance: 0
+    StunImmunity: 0
   Resistances:
     LavaProof: 0
     FireProof: 0
@@ -199,6 +156,7 @@ MonoBehaviour:
   HeatResistance: 100
   ExplosionsDamage: 100
   doDamageMessage: 1
+  Meleeable: {fileID: 0}
 --- !u!114 &4625435621097251366
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -220,10 +178,10 @@ MonoBehaviour:
   exportType: 0
   exportName: X4
   exportMessage: Time to oga some bogas.
+  initialSize: 1
   initialTraits:
   - {fileID: 11400000, guid: 5eafba0d7388d428c8e08ed1b5d5d260, type: 2}
   - {fileID: 11400000, guid: ad341a2eb0870e54b97a56ae508f6622, type: 2}
-  initialSize: 1
   hitDamage: 0
   damageType: 0
   throwDamage: 0
@@ -238,7 +196,24 @@ MonoBehaviour:
       m_AssetGUID: 
       m_SubObjectName: 
       m_SubObjectType: 
+      m_EditorAssetChanged: 0
   hitSoundSettings: 0
+  inventoryMoveSound:
+    SetLoadSetting: 0
+    AssetAddress: null
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
+  inventoryRemoveSound:
+    SetLoadSetting: 0
+    AssetAddress: null
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
   canConnectToTank: 0
   isEVACapable: 0
   attackVerbs: []
@@ -272,19 +247,30 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  SignalTypeToReceive: 0
+  SignalTypeToReceive: 2
   Frequency: 122
   Emitter: {fileID: 0}
   DelayTime: 3
+  PassCode: 0
+  ListenToEncryptedData: 0
   explosiveType: 1
   detonateImmediatelyOnSignal: 0
   timeToDetonate: 10
   minimumTimeToDetonate: 1
-  explosionPrefab: {fileID: 2540564744460004555, guid: 8fb8560e73de12548838a05b8ffcfcb1,
-    type: 3}
+  explosiveStrength: 3500
+  explosiveRadius: 2
   activeSpriteSO: {fileID: 11400000, guid: 6eedd99a9dc83864f808d929d4e9bd36, type: 2}
+  beepSound:
+    SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/Machines/Beep.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
   progressTime: 3
   spriteHandler: {fileID: 5258580723283386321}
+  scaleSync: {fileID: 53286352597045704}
   GUI: {fileID: 0}
 --- !u!210 &-7063633880587810702
 SortingGroup:
@@ -310,6 +296,74 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   NetTabType: 46
+  requiresAltClick: 0
+--- !u!114 &53286352597045704
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 896716891640034833}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 14a67aad38c961f45ad1cb44ac3b1f07, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+--- !u!114 &-3900943519922293448
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 896716891640034833}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 52a6a264ee47433418b51f654439372f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  DEBUG: 0
+  SnapToGridOnStart: 0
+  LocalTargetPosition: {x: 0, y: 0, z: 0}
+  ChangesDirectionPush: 0
+  Intangible: 0
+  CanBeWindPushed: 1
+  IsPlayer: 0
+  InitialLocationSynchronised: 0
+  tileMoveSpeed: 1
+  isNotPushable: 0
+  airTime: 0
+  slideTime: 0
+  SetIgnoreSticky: 0
+  thrownBy: {fileID: 0}
+  aim: 0
+  spinMagnitude: 0
+  ForcedPushedFrame: 0
+  TryPushedFrame: 0
+  PushedFrame: 0
+  FramePushDecision: 1
+  stickyMovement: 0
+  OnThrowEndResetRotation: 0
+  maximumStickSpeed: 1.5
+  onStationMovementsRound: 0
+  registerTile: {fileID: 0}
+  ContextGameObjects:
+  - {fileID: 0}
+  - {fileID: 0}
+  IsCurrentlyFloating: 0
+  LocalDifferenceNeeded: {x: 0, y: 0}
+  CorrectingCourse: 0
+  Pushing: []
+  Hits: []
+  Animating: 0
+  isFlyingSliding: 0
+  IsMoving: 0
+  MoveIsWalking: 0
+  LastUpdateClientFlying: 0
+  BuckledToObject: {fileID: 0}
 --- !u!1 &3204498178074362964
 GameObject:
   m_ObjectHideFlags: 0
@@ -338,6 +392,7 @@ RectTransform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 406365593819970653}
   m_RootOrder: 0
@@ -363,6 +418,7 @@ MonoBehaviour:
   SubCatalogue: []
   PresentSpriteSet: {fileID: 11400000, guid: 3da7f1362142e5c43808482f3aa86082, type: 2}
   randomInitialSprite: 0
+  doReverseAnimation: 0
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
   palette: []
@@ -407,7 +463,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 2b756ccaa5662144cb843cd918ba58ba, type: 3}
+  m_Sprite: {fileID: 21300000, guid: f74007dbf4ce0e04fa6b3d90f3dac165, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0

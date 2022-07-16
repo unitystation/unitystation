@@ -77,8 +77,10 @@ namespace Objects.Other
 		//always fire
 		private TurretType turretType = TurretType.Normal;
 
+#pragma warning disable CS0414 // disable unused compiler warning
 		[SyncVar(hook = nameof(SyncOpen))]
 		private bool open;
+#pragma warning restore CS0414
 
 		private enum TurretType
 		{
@@ -192,7 +194,7 @@ namespace Objects.Other
 			SetUpBullet();
 
 			//For some reason couldnt use item storage, would just stay above the turret
-			gun.GetComponent<CustomNetTransform>().DisappearFromWorldServer();
+			gun.GetComponent<UniversalObjectPhysics>().DisappearFromWorld();
 		}
 
 		private void OnEnable()
@@ -297,7 +299,7 @@ namespace Objects.Other
 					//Check if player is allowed, but only if not an Ai turret as those will shoot all targets
 					if(turretType != TurretType.Ai && ValidatePlayer(script)) continue;
 
-					worldPos = script.WorldPos;
+					worldPos = script.objectPhysics.OfficialPosition;
 				}
 				//Test for mob, syndicate and AI will always target mobs, otherwise only on unidentified
 				else if ((turretType != TurretType.Normal || CheckUnidentifiedLifeSigns) && mob.TryGetComponent<MobAI>(out var mobAi))
@@ -305,7 +307,7 @@ namespace Objects.Other
 					//Only target alive mobs
 					if(mobAi.IsDead) continue;
 
-					worldPos = mobAi.Cnt.ServerPosition;
+					worldPos = mobAi.UOP.OfficialPosition;
 				}
 				else
 				{
@@ -430,7 +432,7 @@ namespace Objects.Other
 
 		private void ShootTarget()
 		{
-			var angleToShooter = CalculateAngle(target.WorldPosServer());
+			var angleToShooter = CalculateAngle(target.AssumedWorldPosServer());
 			rotationAngle = angleToShooter;
 
 			ShootAtDirection(angleToShooter);
@@ -448,7 +450,8 @@ namespace Objects.Other
 
 			SoundManager.PlayNetworkedAtPos(bulletSound, registerTile.WorldPosition, sourceObj: gameObject);
 
-			CastProjectileMessage.SendToAll(gameObject, bulletName, rotationToShoot, default);
+			ProjectileManager.InstantiateAndShoot(bulletName,
+				rotationToShoot, gameObject, null, BodyPartType.None);
 		}
 
 		#endregion
@@ -630,8 +633,13 @@ namespace Objects.Other
 					return;
 				}
 
+				//If unlocked then quick to lock, if locked then if unconnected to switch quick to unlock
+				//Else locked and connected so take long to stop rush unlocking to switch turrets off
+				var time = unlocked ? 1f :
+					connectedSwitch != null ? 10f : 1f;
+
 				var bar = StandardProgressAction.Create(new StandardProgressActionConfig(StandardProgressActionType.Construction, false, false, true), Perform);
-				bar.ServerStartProgress(interaction.Performer.RegisterTile(), unlocked ? 5f : 15f, interaction.Performer);
+				bar.ServerStartProgress(interaction.Performer.RegisterTile(), time, interaction.Performer);
 
 				void Perform()
 				{

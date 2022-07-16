@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: RustyRWallSupportRods
   m_EditorClassIdentifier: 
   displayName: rusted reinforced wall
+  description: 
   LayerType: 0
   TileType: 1
   RequiredTiles:
@@ -25,6 +26,7 @@ MonoBehaviour:
   passable: 0
   mineable: 0
   miningTime: 5
+  miningHardness: 1
   constructable: 0
   RadiationPassability: 0.7
   ThermalConductivity: 0
@@ -32,6 +34,7 @@ MonoBehaviour:
   doesReflectBullet: 0
   indestructible: 0
   ExplosionImpassable: 0
+  BlocksTileInteractionsUnder: 1
   passableException:
     m_keys: 
     m_values: 
@@ -42,7 +45,7 @@ MonoBehaviour:
     Bullet: 90
     Laser: 90
     Energy: 90
-    Bomb: 90
+    Bomb: 65
     Rad: 100
     Fire: 100
     Acid: 90
@@ -52,6 +55,7 @@ MonoBehaviour:
   tileInteractions:
   - {fileID: 11400000, guid: 15442a3604fa4e041bbab0330306e7f8, type: 2}
   - {fileID: 11400000, guid: 7605bf5465e7fe84b86c182d60f1d0bf, type: 2}
+  tileStepInteractions: []
   spawnOnDeconstruct: {fileID: 0}
   spawnAmountOnDeconstruct: 1
   lootOnDespawn: {fileID: 0}
@@ -66,5 +70,6 @@ MonoBehaviour:
       m_AssetGUID: 
       m_SubObjectName: 
       m_SubObjectType: 
+      m_EditorAssetChanged: 0
   SoundOnDestroy: []
   sprite: {fileID: 21300000, guid: dae46c4f6e4c93943bfb7b32073880c0, type: 3}

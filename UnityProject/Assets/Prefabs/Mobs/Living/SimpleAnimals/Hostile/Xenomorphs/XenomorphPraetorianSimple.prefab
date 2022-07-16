@@ -67,6 +67,11 @@ PrefabInstance:
       propertyPath: armor.Energy
       value: 35
       objectReference: {fileID: 0}
+    - target: {fileID: 1375062400479919026, guid: 00a84f751afb412428a586d23cf90b39,
+        type: 3}
+      propertyPath: tileMoveSpeed
+      value: 12
+      objectReference: {fileID: 0}
     - target: {fileID: 3008832837752720817, guid: 00a84f751afb412428a586d23cf90b39,
         type: 3}
       propertyPath: maxHealth
@@ -130,26 +135,6 @@ PrefabInstance:
     - target: {fileID: 7497794854410708285, guid: 00a84f751afb412428a586d23cf90b39,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7497794854410708285, guid: 00a84f751afb412428a586d23cf90b39,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7497794854410708285, guid: 00a84f751afb412428a586d23cf90b39,
-        type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7497794854410708285, guid: 00a84f751afb412428a586d23cf90b39,
-        type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7497794854410708285, guid: 00a84f751afb412428a586d23cf90b39,
-        type: 3}
-      propertyPath: m_LocalRotation.z
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7497794854410708285, guid: 00a84f751afb412428a586d23cf90b39,

@@ -1,0 +1,124 @@
+[
+    {
+        "Internal_ID": "drill",
+        "Description": "Yours is the drill that will pierce through the rock walls.",
+        "Category": [
+            "Mining Designs"
+        ],
+        "Materials": {
+            "Metal": 6000,
+            "Glass": 1000
+        },
+        "Machinery_type": [
+            "ProtoLathe"
+        ],
+        "Compatible_machinery": [
+            "Cargo"
+        ],
+        "name": "Mining Drill",
+        "Item_ID": "4d508ff5a5539124bb4e3e4c33ff3dda"
+    },
+    {
+        "Internal_ID": "drill_diamond",
+        "Description": "Yours is the drill that will pierce the heavens!",
+        "Category": [
+            "Mining Designs"
+        ],
+        "Materials": {
+            "Metal": 6000,
+            "Glass": 1000,
+            "Diamond": 2000
+        },
+        "Machinery_type": [
+            "ProtoLathe"
+        ],
+        "Compatible_machinery": [
+            "Cargo"
+        ],
+        "name": "Diamond-Tipped Mining Drill",
+        "Item_ID": "249e10edcbf912247bd1c3d83556b212"
+    },
+    {
+        "Internal_ID": "plasmacutter",
+        "Description": "You could use it to cut limbs off of xenos! Or, you know, mine stuff.",
+        "Category": [
+            "Mining Designs"
+        ],
+        "Materials": {
+            "Metal": 1500,
+            "Glass": 500,
+            "Plasma": 400
+        },
+        "Machinery_type": [
+            "ProtoLathe"
+        ],
+        "Compatible_machinery": [
+            "Cargo"
+        ],
+        "name": "Plasma Cutter",
+        "Item_ID": "a12add7b219842843b678dec171704cb"
+    },
+    {
+        "Internal_ID": "plasmacutter_adv",
+        "Description": "It's an advanced plasma cutter, oh my god.",
+        "Category": [
+            "Mining Designs"
+        ],
+        "Materials": {
+            "Metal": 3000,
+            "Glass": 1000,
+            "Plasma": 2000,
+            "Gold": 500
+        },
+        "Machinery_type": [
+            "ProtoLathe"
+        ],
+        "Compatible_machinery": [
+            "Cargo"
+        ],
+        "name": "Advanced Plasma Cutter",
+        "Item_ID": "68c7b6dad32feca469be42d0964a1446"
+    },
+    {
+        "Internal_ID": "jackhammer",
+        "Description": "Essentially a handheld planet-cracker. Can drill through walls with ease as well.",
+        "Category": [
+            "Mining Designs"
+        ],
+        "Materials": {
+            "Metal": 6000,
+            "Glass": 2000,
+            "Silver": 2000,
+            "Diamond": 6000
+        },
+        "Machinery_type": [
+            "ProtoLathe"
+        ],
+        "Compatible_machinery": [
+            "Cargo"
+        ],
+        "name": "Sonic Jackhammer",
+        "Item_ID": "fa482ab3865ec5d4483cc2d9c5d214fd"
+    },
+    {
+        "Internal_ID": "superresonator",
+        "Description": "An upgraded version of the resonator that allows more fields to be active at once.",
+        "Category": [
+            "Mining Designs"
+        ],
+        "Materials": {
+            "Metal": 4000,
+            "Glass": 1500,
+            "Silver": 1000,
+            "Uranium": 1000
+        },
+        "Machinery_type": [
+            "ProtoLathe"
+        ],
+        "Compatible_machinery": [
+            "Cargo"
+        ],
+        "name": "Upgraded Resonator",
+        "Item_ID": "/obj/item/weapon/resonator/upgraded"
+    }
+]

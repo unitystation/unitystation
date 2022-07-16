@@ -4,11 +4,14 @@ using System.Collections.Generic;
 using System.Linq;
 using Mirror;
 using UnityEngine;
+using Messages.Server;
+using UI;
 
 /// <summary>
 /// Allows an item to be stacked, occupying a single inventory slot.
 /// </summary>
-public class Stackable : NetworkBehaviour, IServerLifecycle, ICheckedInteractable<InventoryApply>, ICheckedInteractable<HandApply>, IExaminable
+public class Stackable : NetworkBehaviour, IServerLifecycle, ICheckedInteractable<InventoryApply>,
+	ICheckedInteractable<HandApply>, IExaminable
 {
 	[Tooltip("Amount initially in the stack when this is spawned.")]
 	[SerializeField]
@@ -44,9 +47,15 @@ public class Stackable : NetworkBehaviour, IServerLifecycle, ICheckedInteractabl
 	private bool amountInit;
 
 	private Pickupable pickupable;
-	private PushPull pushPull;
+	private UniversalObjectPhysics objectPhysics;
 	private RegisterTile registerTile;
 	private GameObject prefab;
+	private SpriteHandler spriteHandler;
+
+	[SerializeField] private List<StackNames> stackNames = new List<StackNames>();
+	[SerializeField] private List<StackSprites> stackSprites = new List<StackSprites>();
+	[SerializeField] private bool autoStackOnSpawn = true;
+	[SerializeField] private bool autoStackOnDrop = true;
 
 
 	private void Awake()
@@ -60,20 +69,20 @@ public class Stackable : NetworkBehaviour, IServerLifecycle, ICheckedInteractabl
 			}
 		});
 	}
-
 	private void EnsureInit()
 	{
 		if (pickupable != null) return;
 		pickupable = GetComponent<Pickupable>();
 		amount = initialAmount;
-		pushPull = GetComponent<PushPull>();
+		objectPhysics = GetComponent<UniversalObjectPhysics>();
 		registerTile = GetComponent<RegisterTile>();
+		spriteHandler = GetComponentInChildren<SpriteHandler>();
 	}
 
 	private void OnLocalPositionChangedServer(Vector3Int newLocalPos)
 	{
 		//if we are being pulled, combine the stacks with any on the ground under us.
-		if (pushPull.IsBeingPulled)
+		if (objectPhysics.PulledBy.HasComponent)
 		{
 			//check for stacking with things on the ground
 			ServerStackOnGround(newLocalPos);
@@ -112,7 +121,7 @@ public class Stackable : NetworkBehaviour, IServerLifecycle, ICheckedInteractabl
 		InitStacksWith();
 		SyncAmount(amount, initialAmount);
 		amountInit = true;
-		ServerStackOnGround(registerTile.LocalPositionServer);
+		if(autoStackOnSpawn) ServerStackOnGround(registerTile.LocalPositionServer);
 	}
 
 	public void OnDespawnServer(DespawnInfo info)
@@ -121,9 +130,9 @@ public class Stackable : NetworkBehaviour, IServerLifecycle, ICheckedInteractabl
 		amountInit = false;
 	}
 
-	private void ServerStackOnGround(Vector3Int localPosition)
+	public void ServerStackOnGround(Vector3Int localPosition)
 	{
-		if (registerTile?.Matrix == null) return;
+		if (autoStackOnDrop == false || registerTile?.Matrix == null) return;
 		//stacks with things on the same tile
 		foreach (var stackable in registerTile.Matrix.Get<Stackable>(localPosition, true))
 		{
@@ -148,7 +157,47 @@ public class Stackable : NetworkBehaviour, IServerLifecycle, ICheckedInteractabl
 		Logger.LogTraceFormat("Amount {0}->{1} for {2}", Category.Objects, amount, newAmount, GetInstanceID());
 		this.amount = newAmount;
 		pickupable.RefreshUISlotImage();
+		if (CustomNetworkManager.Instance._isServer)
+		{
+			UpdateStackName(gameObject.Item());
+			UpdateStackSprites();
+		}
+	}
 
+	private void UpdateStackSprites()
+	{
+		if (stackSprites.Count == 0 || spriteHandler == null) return;
+		if (amount > 1)
+		{
+			foreach (var sprite in stackSprites)
+			{
+				if (sprite.OverAmount <= amount) continue;
+				if (spriteHandler.GetCurrentSpriteSO() != sprite.SpriteSO) spriteHandler.SetSpriteSO(sprite.SpriteSO);
+				break;
+			}
+		}
+		else if(amount == 1)
+		{
+			spriteHandler.SetSpriteSO(stackSprites[0].SpriteSO);
+		}
+	}
+
+	public void UpdateStackName(Attributes attributes)
+	{
+		if (amount > 1 && stackNames.Count > 0)
+		{
+			var correctName = stackNames[0];
+			foreach (var name in stackNames)
+			{
+				if (amount < name.OverAmount) continue;
+				correctName = name;
+			}
+			attributes.ServerSetArticleName(correctName.Name);
+		}
+		else if(amount == 1 && stackNames.Any(item => item.Name == gameObject.ExpensiveName()))
+		{
+			attributes.ServerSetArticleName(attributes.InitialName);
+		}
 	}
 
 	/// <summary>
@@ -160,6 +209,7 @@ public class Stackable : NetworkBehaviour, IServerLifecycle, ICheckedInteractabl
 	[Server]
 	public bool ServerConsume(int consumed)
 	{
+
 		if (consumed > amount)
 		{
 			Logger.LogErrorFormat($"Consumed amount {consumed} is greater than amount in this stack {amount}, will not consume.", Category.Objects);
@@ -293,6 +343,13 @@ public class Stackable : NetworkBehaviour, IServerLifecycle, ICheckedInteractabl
 		//only has logic if this is the target object
 		if (interaction.TargetObject != gameObject) return false;
 
+		//Alt clicking with empty hand calls splitting menu UI
+		if (side == NetworkSide.Client && interaction.IsFromHandSlot && interaction.IsToHandSlot && interaction.FromSlot.IsEmpty && interaction.IsAltClick)
+		{
+			UIManager.Instance.SplittingMenu.Enable();
+			return true;
+		}
+
 		//clicking on it with an empty hand when stack is in another hand to take one from it,
 		//(if there is only one in this stack we will defer to normal inventory transfer logic)
 		if (interaction.IsFromHandSlot && interaction.IsToHandSlot && interaction.FromSlot.IsEmpty && amount > 1) return true;
@@ -306,7 +363,7 @@ public class Stackable : NetworkBehaviour, IServerLifecycle, ICheckedInteractabl
 	public void ServerPerformInteraction(InventoryApply interaction)
 	{
 		//clicking on it with an empty hand when stack is in another hand to take one from it
-		if (interaction.IsFromHandSlot && interaction.IsToHandSlot && interaction.FromSlot.IsEmpty)
+		if (interaction.IsFromHandSlot && interaction.IsToHandSlot && interaction.FromSlot.IsEmpty && !interaction.IsAltClick)
 		{
 			//spawn a new one and put it into the from slot with a stack size of 1
 			var single = Spawn.ServerPrefab(prefab).GameObject;
@@ -345,5 +402,19 @@ public class Stackable : NetworkBehaviour, IServerLifecycle, ICheckedInteractabl
 	public string Examine(Vector3 worldPos)
 	{
 		return $"This {gameObject.ExpensiveName()} contains {Amount} stacks.";
+	}
+
+	[Serializable]
+	private struct StackNames
+	{
+		[SerializeField] public string Name;
+		[SerializeField] public int OverAmount;
+	}
+
+	[Serializable]
+	private struct StackSprites
+	{
+		[SerializeField] public SpriteDataSO SpriteSO;
+		[SerializeField] public int OverAmount;
 	}
 }

@@ -11,6 +11,7 @@ using Player.Movement;
 using Tilemaps.Behaviours.Layers;
 using UI;
 using UI.Action;
+using Tiles;
 
 /// <summary>
 /// Main entry point for handling all input events
@@ -48,8 +49,8 @@ public class MouseInputController : MonoBehaviour
 		new Dictionary<Vector2, Tuple<Color, float>>();
 
 	private readonly List<Vector2> touchesToDitch = new List<Vector2>();
-	private PlayerMove playerMove;
-	private Directional playerDirectional;
+	private MovementSynchronisation playerMove;
+	private Rotatable playerDirectional;
 
 	/// reference to the global lighting system, used to check occlusion
 	private LightingSystem lightingSystem;
@@ -100,8 +101,8 @@ public class MouseInputController : MonoBehaviour
 	public virtual void Start()
 	{
 		//for changing direction on click
-		playerDirectional = gameObject.GetComponent<Directional>();
-		playerMove = GetComponent<PlayerMove>();
+		playerDirectional = gameObject.GetComponent<Rotatable>();
+		playerMove = GetComponent<MovementSynchronisation>();
 		lightingSystem = Camera.main.GetComponent<LightingSystem>();
 	}
 
@@ -239,26 +240,27 @@ public class MouseInputController : MonoBehaviour
 	{
 		//checks if there is anything in reach we can drag
 		var topObject = MouseUtils.GetOrderedObjectsUnderMouse(null,
-			go => go.GetComponent<PushPull>() != null).FirstOrDefault();
+			go => go.GetComponent<UniversalObjectPhysics>() != null).FirstOrDefault();
 
 		if (topObject != null)
 		{
-			PushPull pushPull = null;
+			UniversalObjectPhysics pushPull = null;
 
 			// If the topObject has a PlayerMove, we check if he is buckled
 			// The PushPull object we want in this case, is the chair/object on which he is buckled to
-			if (topObject.TryGetComponent<PlayerMove>(out var playerMove) && playerMove.IsBuckled)
+			if (topObject.TryGetComponent<MovementSynchronisation>(out var playerMove) &&
+			    playerMove.BuckledToObject != null)
 			{
-				pushPull = playerMove.BuckledObject.GetComponent<PushPull>();
+				pushPull = playerMove.BuckledToObject.GetComponent<UniversalObjectPhysics>();
 			}
 			else
 			{
-				pushPull = topObject.GetComponent<PushPull>();
+				pushPull = topObject.GetComponent<UniversalObjectPhysics>();
 			}
 
 			if (pushPull != null)
 			{
-				pushPull.TryPullThis();
+				pushPull.TryTogglePull();
 			}
 		}
 	}
@@ -321,14 +323,19 @@ public class MouseInputController : MonoBehaviour
 			hit.transform.SendMessageUpwards("OnHover", SendMessageOptions.DontRequireReceiver);
 			transform.SendMessage("OnHover", SendMessageOptions.DontRequireReceiver);
 		}
+		else if (lastHoveredThing)
+		{
+			lastHoveredThing.transform.SendMessageUpwards("OnHoverEnd", SendMessageOptions.DontRequireReceiver);
+			lastHoveredThing = null;
+		}
 	}
 
 	private void TrySlide()
 	{
-		if (PlayerManager.PlayerScript.IsGhost ||
-		    PlayerManager.PlayerScript.playerHealth.ConsciousState != ConsciousState.CONSCIOUS)
+		if (PlayerManager.LocalPlayerScript.IsGhost ||
+		    PlayerManager.LocalPlayerScript.playerHealth.ConsciousState != ConsciousState.CONSCIOUS)
 			return;
-		PlayerManager.PlayerScript.playerNetworkActions.CmdSlideItem(Vector3Int.RoundToInt(MouseWorldPosition));
+		PlayerManager.LocalPlayerScript.playerNetworkActions.CmdSlideItem(Vector3Int.RoundToInt(MouseWorldPosition));
 	}
 
 	private bool CheckClick()
@@ -371,7 +378,7 @@ public class MouseInputController : MonoBehaviour
 			}
 
 			// If we're dragging something, try to move it.
-			if (PlayerManager.LocalPlayerScript.pushPull.IsPullingSomethingClient)
+			if (PlayerManager.LocalPlayerScript.objectPhysics.Pulling.HasComponent)
 			{
 				TrySlide();
 				return false;
@@ -536,10 +543,10 @@ public class MouseInputController : MonoBehaviour
 		var clickedObject = MouseUtils.GetOrderedObjectsUnderMouse(null, null).FirstOrDefault();
 		if (!clickedObject)
 			return;
-		if (PlayerManager.PlayerScript.IsGhost ||
-		    PlayerManager.PlayerScript.playerHealth.ConsciousState != ConsciousState.CONSCIOUS)
+		if (PlayerManager.LocalPlayerScript.IsGhost ||
+		    PlayerManager.LocalPlayerScript.playerHealth.ConsciousState != ConsciousState.CONSCIOUS)
 			return;
-		if (Cooldowns.TryStartClient(PlayerManager.PlayerScript, CommonCooldowns.Instance.Interaction) == false)
+		if (Cooldowns.TryStartClient(PlayerManager.LocalPlayerScript, CommonCooldowns.Instance.Interaction) == false)
 			return;
 
 		if (clickedObject.TryGetComponent<NetworkedMatrix>(out var networkedMatrix))
@@ -547,7 +554,7 @@ public class MouseInputController : MonoBehaviour
 			clickedObject = networkedMatrix.MatrixSync.gameObject;
 		}
 
-		PlayerManager.PlayerScript.playerNetworkActions.CmdPoint(clickedObject, MouseWorldPosition);
+		PlayerManager.LocalPlayerScript.playerNetworkActions.CmdPoint(clickedObject, MouseWorldPosition);
 	}
 
 	/// <summary>
@@ -606,7 +613,7 @@ public class MouseInputController : MonoBehaviour
 						$"Forcefully updated atmos at worldPos {position}/ localPos {localPos} of {matrix.Name}");
 				});
 
-				Chat.AddLocalMsgToChat("Ping " + DateTime.Now.ToFileTimeUtc(), PlayerManager.LocalPlayer);
+				Chat.AddLocalMsgToChat("Ping " + DateTime.Now.ToFileTimeUtc(), PlayerManager.LocalPlayerObject);
 			}
 
 			return true;
@@ -620,24 +627,17 @@ public class MouseInputController : MonoBehaviour
 		if (UIManager.IsThrow)
 		{
 			var currentSlot = PlayerManager.LocalPlayerScript.DynamicItemStorage.GetActiveHandSlot();
-			if (currentSlot.Item == null)
+			if (currentSlot.Item != null || PlayerManager.LocalPlayerScript.playerMove.Pulling.HasComponent)
 			{
-				return false;
+				var localTarget = MouseWorldPosition.ToLocal(playerMove.registerTile.Matrix);
+				var vector = MouseWorldPosition - PlayerManager.LocalPlayerScript.transform.position;
+				PlayerManager.LocalPlayerScript.playerNetworkActions.CmdThrow(localTarget, (int) UIManager.DamageZone,
+					vector);
+
+				//Disabling throw button
+				UIManager.Action.Throw();
+				return true;
 			}
-
-			Vector3 targetPosition = MouseWorldPosition;
-			targetPosition.z = 0f;
-
-			//using transform position instead of registered position
-			//so target is still correct when lerping on a matrix (since registered world position is rounded)
-			Vector3 targetVector = targetPosition - PlayerManager.LocalPlayer.transform.position;
-
-			PlayerManager.LocalPlayerScript.playerNetworkActions.CmdThrow(
-				targetVector, (int) UIManager.DamageZone);
-
-			//Disabling throw button
-			UIManager.Action.Throw();
-			return true;
 		}
 
 		return false;
@@ -651,9 +651,20 @@ public class MouseInputController : MonoBehaviour
 
 		Vector2 dir = (MouseWorldPosition - playerPos).normalized;
 
-		if (!EventSystem.current.IsPointerOverGameObject() && playerMove.allowInput && !playerMove.IsBuckled)
+		if (playerMove != null)
 		{
-			playerDirectional.FaceDirection(Orientation.From(dir));
+			if (!EventSystem.current.IsPointerOverGameObject() && playerMove.allowInput &&
+			    playerMove.BuckledToObject == null)
+			{
+				playerDirectional.SetFaceDirectionLocalVictor(dir.To2Int());
+			}
+		}
+		else
+		{
+			if (!EventSystem.current.IsPointerOverGameObject())
+			{
+				playerDirectional.SetFaceDirectionLocalVictor(dir.To2Int());
+			}
 		}
 	}
 

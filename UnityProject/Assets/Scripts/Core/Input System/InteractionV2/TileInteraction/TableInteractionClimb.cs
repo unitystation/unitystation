@@ -19,26 +19,26 @@ public class TableInteractionClimb : TileInteraction
 		if (!DefaultWillInteract.Default(interaction, side)) return false;
 		if (interaction.TileApplyType != TileApply.ApplyType.MouseDrop) return false;
 
-		PlayerSync playerSync;
-		CustomNetTransform netTransform;
+		MovementSynchronisation playerSync;
+		UniversalObjectPhysics ObjectPhysics;
 		if(interaction.UsedObject.TryGetComponent(out playerSync))
 		{
-			if (playerSync.IsMoving || playerSync.playerMove.IsBuckled)
+			if (playerSync.IsMoving || playerSync.BuckledToObject != null)
 			{
 				return false;
 			}
 
 			// Do a sanity check to make sure someone isn't dropping the shadow from like 9000 tiles away.
-			var mag = (playerSync.ServerPosition - interaction.PerformerPlayerScript.PlayerSync.ServerPosition).magnitude;
+			var mag = (playerSync.OfficialPosition - interaction.PerformerPlayerScript.PlayerSync.OfficialPosition).magnitude;
 			if (mag > PlayerScript.interactionDistance)
 			{
 				//interaction.PerformerPlayerScript
 				return false;
 			}
 		}
-		else if(interaction.UsedObject.TryGetComponent(out netTransform)) // Do the same check but for mouse draggable objects this time.
+		else if(interaction.UsedObject.TryGetComponent(out ObjectPhysics)) // Do the same check but for mouse draggable objects this time.
 		{
-			var mag = (netTransform.ServerPosition - interaction.PerformerPlayerScript.PlayerSync.ServerPosition).magnitude;
+			var mag = (ObjectPhysics.OfficialPosition - interaction.PerformerPlayerScript.PlayerSync.OfficialPosition).magnitude;
 			if (mag > PlayerScript.interactionDistance)
 			{
 				return false;
@@ -69,15 +69,15 @@ public class TableInteractionClimb : TileInteraction
 
 				if (playerScript.registerTile.Matrix.IsPassableAtOneMatrixOneTile(interaction.TargetCellPos, true, true, null, excludeTiles))
 				{
-					playerScript.PlayerSync.SetPosition(interaction.WorldPositionTarget);
+					playerScript.PlayerSync.AppearAtWorldPositionServer(interaction.WorldPositionTarget);
 				}
 			}
 			else
 			{
-				var transformComp = interaction.UsedObject.GetComponent<CustomNetTransform>();
+				var transformComp = interaction.UsedObject.GetComponent<UniversalObjectPhysics>();
 				if (transformComp != null)
 				{
-					transformComp.AppearAtPositionServer(interaction.WorldPositionTarget);
+					transformComp.AppearAtWorldPositionServer(interaction.WorldPositionTarget);
 				}
 			}
 			if(canBreakOnClimb == false) return;

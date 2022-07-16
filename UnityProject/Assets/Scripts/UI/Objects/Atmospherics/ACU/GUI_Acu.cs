@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using NaughtyAttributes;
+using UI.Core.NetUI;
 using Objects.Atmospherics;
 
 namespace UI.Objects.Atmospherics.Acu
@@ -119,7 +120,7 @@ namespace UI.Objects.Atmospherics.Acu
 			}
 		}
 
-		private void TabOpened(ConnectedPlayer newPeeper = default)
+		private void TabOpened(PlayerInfo newPeeper = default)
 		{
 			SetPage(ValidatePage(requestedPage));
 
@@ -127,9 +128,10 @@ namespace UI.Objects.Atmospherics.Acu
 			UpdateManager.Add(PeriodicUpdate, 0.5f);
 			Acu.OnStateChanged += OnAcuStateChanged;
 			PeriodicUpdate();
+			if (IsAIInteracting()) Acu.IsLocked = false;
 		}
 
-		private void TabClosed(ConnectedPlayer oldPeeper = default)
+		private void TabClosed(PlayerInfo oldPeeper = default)
 		{
 			// Remove listeners when unobserved (old peeper has not yet been removed).
 			if (Peepers.Count <= 1)
@@ -137,6 +139,7 @@ namespace UI.Objects.Atmospherics.Acu
 				UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, PeriodicUpdate);
 				Acu.OnStateChanged -= OnAcuStateChanged;
 			}
+			if (oldPeeper is { Job: JobType.AI }) Acu.IsLocked = true;
 		}
 
 		#endregion

@@ -138,7 +138,7 @@ namespace Objects.Research
 
 		public void OnInputFilled(string input, PlayerScript player)
 		{
-			if (player.Equipment.ItemStorage.GetActiveHandSlot()?.Item.gameObject != gameObject)
+			if (player.DynamicItemStorage.GetActiveHandSlot()?.Item.gameObject != gameObject)
 			{
 				Chat.AddExamineMsgFromServer(gameObject, $"{gameObject.ExpensiveName()} must be in your hands to use");
 				return;

@@ -1,29 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &4845489334075017082
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 162704264883279580}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2b7223a9d9050db4385529fbdade4a3f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  leavings: {fileID: 0}
-  sound:
-    SetLoadSetting: 0
-    AssetAddress: Assets/Prefabs/Effects/EatFood.prefab
-    AssetReference:
-      m_AssetGUID: 
-      m_SubObjectName: 
-      m_SubObjectType: 
-  StartingNutrients: 165
-  Nutriment: {fileID: 11400000, guid: 068bcb587110477558045ad0cfd78237, type: 2}
-  healBruteDamage: 5
-  healableJobs: 1700000021000000110000002a00000029000000
 --- !u!1001 &1205097671078976283
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -62,7 +38,7 @@ PrefabInstance:
     - target: {fileID: 275102857289942383, guid: eaf8c1f2a0f9374488e16061fd5b4dcd,
         type: 3}
       propertyPath: initialReagentMix.reagents.m_values.Array.data[0]
-      value: 3
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 275102857289942383, guid: eaf8c1f2a0f9374488e16061fd5b4dcd,
         type: 3}
@@ -168,7 +144,7 @@ PrefabInstance:
     - target: {fileID: 1447570747421811365, guid: eaf8c1f2a0f9374488e16061fd5b4dcd,
         type: 3}
       propertyPath: initialTraits.Array.size
-      value: 3
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 1447570747421811365, guid: eaf8c1f2a0f9374488e16061fd5b4dcd,
         type: 3}
@@ -181,6 +157,12 @@ PrefabInstance:
       propertyPath: initialTraits.Array.data[2]
       value: 
       objectReference: {fileID: 11400000, guid: 7b9f470d9aa5545ce87447d3cd3d61ce,
+        type: 2}
+    - target: {fileID: 1447570747421811365, guid: eaf8c1f2a0f9374488e16061fd5b4dcd,
+        type: 3}
+      propertyPath: initialTraits.Array.data[3]
+      value: 
+      objectReference: {fileID: 11400000, guid: 8c284363dd745a9438fe7d78b7ef023e,
         type: 2}
     - target: {fileID: 1447570747421811365, guid: eaf8c1f2a0f9374488e16061fd5b4dcd,
         type: 3}
@@ -213,6 +195,29 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 1205097671078976283}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &4845489334075017082
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 162704264883279580}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2b7223a9d9050db4385529fbdade4a3f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  leavings: {fileID: 0}
+  sound:
+    SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/Effects/EatFood.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
+  healBruteDamage: 5
+  healableJobs: 1700000021000000110000002a00000029000000
 --- !u!210 &6266328658070900882 stripped
 SortingGroup:
   m_CorrespondingSourceObject: {fileID: 5066309082529041289, guid: eaf8c1f2a0f9374488e16061fd5b4dcd,

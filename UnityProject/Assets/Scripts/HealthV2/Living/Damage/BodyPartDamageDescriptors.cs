@@ -1,9 +1,7 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.Text;
 using UnityEngine;
-
+using NaughtyAttributes;
 
 namespace HealthV2
 {
@@ -23,10 +21,12 @@ namespace HealthV2
 		private string pireceDamageDescOnSMALL= "{readableName} suffers from Minor Breakage.";
 		private string pireceDamageDescOnMEDIUM="{readableName} suffers from an Open Puncture.";
 		private string pireceDamageDescOnLARGE= "{readableName} suffers from a Ruptured Cavity.";
-		[SerializeField] private string internalDamageDesc	 = "This {readableName} is suffering from internal damage.";
-		[SerializeField] private string externalBleedingDesc = "This {readableName} is bleeding due to an open wound.";
-		[SerializeField, NaughtyAttributes.EnableIf(nameof(CanBeBroken))] private string BoneFracturedLvlThreeDesc = "This {readableName} is suffering Hairline Fracture.";
-		[SerializeField, NaughtyAttributes.EnableIf(nameof(CanBeBroken))] private string BoneFracturedLvlTwoDesc = "This {readableName} is suffering Compound Fracture. It is completely snapped in half.";
+
+		[SerializeField, EnableIf(nameof(CanBeBroken))]
+		private string BoneFracturedLvlThreeDesc = "This {readableName} is suffering Hairline Fracture.";
+
+		[SerializeField, EnableIf(nameof(CanBeBroken))]
+		private string BoneFracturedLvlTwoDesc = "This {readableName} is suffering Compound Fracture. It is completely snapped in half.";
 
 		public string GetFullBodyPartDamageDescReport()
 		{
@@ -161,4 +161,3 @@ namespace HealthV2
 		}
 	}
 }
-

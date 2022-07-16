@@ -1,9 +1,14 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Messages.Client.Admin;
 using Messages.Server;
 using Mirror;
 using UnityEngine;
 using UI;
+using Strings;
 
 /// <summary>
 /// Controls everything to do with player voting
@@ -12,7 +17,6 @@ public class VotingManager : NetworkBehaviour
 {
 	public static VotingManager Instance;
 
-	public enum VoteType { RestartRound }
 	public enum VotePolicy { MajorityRules }
 
 	private VoteType voteType;
@@ -20,7 +24,7 @@ public class VotingManager : NetworkBehaviour
 	private bool voteInProgress;
 	private float countTime = 0f;
 	private int prevSecond = 0;
-	private Dictionary<string,bool> votes = new Dictionary<string, bool>();
+	private Dictionary<string,string> votes = new Dictionary<string, string>();
 
 	private bool voteRestartSuccess = false;
 
@@ -46,6 +50,19 @@ public class VotingManager : NetworkBehaviour
 	/// </summary>
 	private Coroutine cooldown;
 
+	private List<string> MapList = new List<string>();
+	private List<string> GameModeList = new List<string>();
+	private List<string> yesNoList = new List<string>();
+
+	private List<string> possibleVotes = new List<string>();
+
+	public enum VoteType
+	{
+		RestartRound,
+		NextGameMode,
+		NextMap
+	}
+
 	private void Awake()
 	{
 		if (Instance == null)
@@ -58,16 +75,27 @@ public class VotingManager : NetworkBehaviour
 		}
 	}
 
+	private void Start()
+	{
+		MapList = SubSceneManager.Instance.MainStationList.MainStations;
+		GameModeList = GameManager.Instance.GetAvailableGameModeNames();
+		yesNoList.Add("Yes");
+		yesNoList.Add("No");
+		if (Application.isEditor) RoundStartCooldownTime = 5f;
+	}
+
 	void OnEnable()
 	{
 		EventManager.AddHandler(Event.RoundStarted, OnRoundStarted);
 		EventManager.AddHandler(Event.RoundEnded, OnRoundEnded);
+		UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
 	}
 
 	void OnDisable()
 	{
 		EventManager.RemoveHandler(Event.RoundStarted, OnRoundStarted);
 		EventManager.RemoveHandler(Event.RoundEnded, OnRoundEnded);
+		UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
 	}
 
 	void OnRoundStarted()
@@ -86,32 +114,74 @@ public class VotingManager : NetworkBehaviour
 	[Server]
 	public void TryInitiateRestartVote(GameObject instigator, NetworkConnection sender = null)
 	{
+		SetupVote(VoteType.RestartRound, VotePolicy.MajorityRules, 30, instigator, sender);
+	}
+
+	[Server]
+	public void TryInitiateNextGameModeVote(GameObject instigator, NetworkConnection sender = null)
+	{
+		SetupVote(VoteType.NextGameMode, VotePolicy.MajorityRules, 30, instigator, sender);
+	}
+
+	[Server]
+	public void TryInitiateNextMapVote(GameObject instigator, NetworkConnection sender = null)
+	{
+		SetupVote(VoteType.NextMap, VotePolicy.MajorityRules, 30, instigator, sender);
+	}
+
+	private void SetupVote(VoteType type, VotePolicy policy, int time, GameObject instigator, NetworkConnection sender)
+	{
 		if (voteInProgress || voteRestartSuccess) return;
 
 		if (isCooldownActive)
 		{
-			Chat.AddExamineMsgFromServer(instigator, $"Too soon to trigger a restart vote!");
+			Chat.AddExamineMsgFromServer(instigator, $"Too soon to trigger a vote!");
 			return;
 		}
 
 		votes.Clear();
+		possibleVotes.Clear();
 		countTime = 0f;
 		prevSecond = 0;
-		voteType = VoteType.RestartRound;
-		votePolicy = VotePolicy.MajorityRules;
+		voteType = type;
+		votePolicy = policy;
 		voteInProgress = true;
-		RpcOpenVoteWindow("Vote restart initiated by", instigator.name, CountAmountString(), (30 - prevSecond).ToString());
+		switch (type)
+		{
+			case VoteType.RestartRound:
+				possibleVotes.AddRange(yesNoList);
+				RpcOpenVoteWindow("Voting for round restart initiated by", instigator.name, CountAmountString(), (time - prevSecond).ToString(), yesNoList);
+				break;
+			case VoteType.NextGameMode:
+				possibleVotes.AddRange(GameModeList);
+				RpcOpenVoteWindow("Voting for next Game Mode initiated by", instigator.name, CountAmountString(), (time - prevSecond).ToString(), GameModeList);
+				break;
+			case VoteType.NextMap:
+				possibleVotes.AddRange(MapList);
+				RpcOpenVoteWindow("Voting for next map initiated by", instigator.name, CountAmountString(), (time - prevSecond).ToString(), MapList);
+				break;
+		}
 		RpcVoteCallerDefault(sender);
-		Logger.Log($"Vote restart initiated by {instigator.name}", Category.Admin);
+		Logger.Log($"Vote initiated by {instigator.name}", Category.Admin);
+	}
+
+	/// <summary>
+	/// I only made this a function for the reference
+	/// </summary>
+	private bool CheckForSussyVote(string isFor)
+	{
+		return possibleVotes.Contains(isFor);
 	}
 
 	[Server]
-	public void RegisterVote(string userId, bool isFor)
+	public void RegisterVote(string userId, string isFor)
 	{
+		if(CheckForSussyVote(isFor) == false) return; //User is cheating.
+
 		//If user has vote change vote if different, else add to vote list
 		if (votes.ContainsKey(userId))
 		{
-			votes.TryGetValue(userId, out bool value);
+			votes.TryGetValue(userId, out string value);
 			if (value == isFor) return;
 
 			votes[userId] = isFor;
@@ -124,21 +194,21 @@ public class VotingManager : NetworkBehaviour
 	}
 
 	[Server]
-	public void VetoVote(string adminId)
+	public void VetoVote(PlayerInfo admin)
 	{
 		voteInProgress = false;
 		FinishVote();
 		votes.Clear();
 
-		Chat.AddGameWideSystemMsgToChat("<color=blue>Vote was Vetoed by admin</color>");
+		Chat.AddGameWideSystemMsgToChat($"<color={ChatTemplates.Blue}>Vote was vetoed by an admin.</color>");
 
-		var msg = $"Vote was vetoed by {PlayerList.Instance.GetByUserID(adminId).Username}";
+		var msg = $"Vote was vetoed by {admin.Username}.";
 
-		UIManager.Instance.adminChatWindows.adminToAdminChat.ServerAddChatRecord(msg, adminId);
+		UIManager.Instance.adminChatWindows.adminLogWindow.ServerAddChatRecord(msg, admin.UserId);
 		Logger.Log(msg, Category.Admin);
 	}
 
-	void Update()
+	void UpdateMe()
 	{
 		if (voteInProgress)
 		{
@@ -176,17 +246,34 @@ public class VotingManager : NetworkBehaviour
 
 	private void CheckVoteCriteria()
 	{
-		if (IsSuccess(ForVoteCount(), PlayerList.Instance.AllPlayers.Count))
+		if (IsSuccess(votes.Count, PlayerList.Instance.AllPlayers.Count))
 		{
+			var winner = GetHighestVote();
+			if (winner == "")
+			{
+				Chat.AddGameWideSystemMsgToChat($"<color=blue>Voting failed! vote has somehow passed but no winner was written!</color>");
+				return;
+			}
 			switch (voteType)
 			{
 				case VoteType.RestartRound:
-					if (voteRestartSuccess) return;
+					if (winner == "No")
+					{
+						Chat.AddGameWideSystemMsgToChat($"<color=blue>Voting failed! Not enough people voted to restart");
+						return;
+					}
 					if (GameManager.Instance.CurrentRoundState != RoundState.Started) return;
-						voteRestartSuccess = true;
 					Logger.Log("Vote to restart server was successful. Restarting now.....", Category.Admin);
 					VideoPlayerMessage.Send(VideoType.RestartRound);
 					GameManager.Instance.EndRound();
+					break;
+				case VoteType.NextGameMode:
+					Chat.AddGameWideSystemMsgToChat($"<color=blue>Vote passed! Next GameMode will be {winner}</color>");
+					RequestGameModeUpdate.Send(winner, false);
+					break;
+				case VoteType.NextMap:
+					Chat.AddGameWideSystemMsgToChat($"<color=blue>Vote passed! Next map will be {winner}</color>");
+					SubSceneManager.AdminForcedMainStation = winner;
 					break;
 			}
 
@@ -218,21 +305,31 @@ public class VotingManager : NetworkBehaviour
 
 	private string CountAmountString()
 	{
-		return $"{ForVoteCount()} / {PlayerList.Instance.AllPlayers.Count}";
+		return $"{votes.Count} / {PlayerList.Instance.AllPlayers.Count}";
 	}
 
 	/// <summary>
-	/// Tallies the number of players who have voted 'yes'.
+	/// Gets the highest vote count on the list
 	/// </summary>
-	/// <returns>The number of 'yes' votes.</returns>
-	private int ForVoteCount()
+	/// <returns></returns>
+	private string GetHighestVote()
 	{
-		int count = 0;
-		foreach (bool vote in votes.Values)
+		Dictionary<string, int> count = new Dictionary<string, int>();
+		var highestVote = 0;
+		var winner = "";
+		foreach (var vote in votes)
 		{
-			if (vote) count++;
+			if (count.ContainsKey(vote.Value) == false)
+			{
+				count.Add(vote.Value, 0);
+			}
+			count[vote.Value] += 1;
+			if (count[vote.Value] < highestVote) continue;
+			highestVote = count[vote.Value];
+			winner = vote.Value;
 		}
-		return count;
+
+		return winner;
 	}
 
 	[ClientRpc]
@@ -254,18 +351,19 @@ public class VotingManager : NetworkBehaviour
 	}
 
 	[ClientRpc]
-	private void RpcOpenVoteWindow(string title, string instigator, string count, string time)
+	private void RpcOpenVoteWindow(string title, string instigator, string count, string time, List<string> options)
 	{
 		if (GUI_IngameMenu.Instance == null) return;
 
-		GUI_IngameMenu.Instance.VotePopUp.ShowVotePopUp(title, instigator, count, time);
+		GUI_IngameMenu.Instance.VotePopUp.ShowVotePopUp(title, instigator, count, time, options);
 	}
 
 	[TargetRpc]
-	private void RpcVoteCallerDefault(NetworkConnection target)
+	private async void RpcVoteCallerDefault(NetworkConnection target)
 	{
-		if (GUI_IngameMenu.Instance == null) return;
+		if (GUI_IngameMenu.Instance == null || PlayerList.Instance.AllPlayers.Count == 1) return;
 
+		await Task.Delay(500); //Away for the list to be generated before automatically voting
 		GUI_IngameMenu.Instance.VotePopUp.VoteYes();
 	}
 }

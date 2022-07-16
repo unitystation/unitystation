@@ -51,6 +51,11 @@ public class GUI_DevCloner : MonoBehaviour
 		ToState(State.SELECTING);
 	}
 
+	private void OnEnable()
+	{
+		UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
+	}
+
 	private void CheckAndApplyPalette(ref SpriteRenderer renderer)
 	{
 		bool isPaletted = false;
@@ -139,6 +144,7 @@ public class GUI_DevCloner : MonoBehaviour
 	private void OnDisable()
 	{
 		ToState(State.INACTIVE);
+		UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
 	}
 
 	public void Open()
@@ -146,7 +152,7 @@ public class GUI_DevCloner : MonoBehaviour
 		ToState(State.SELECTING);
 	}
 
-	private void Update()
+	private void UpdateMe()
 	{
 		if (state == State.SELECTING)
 		{
@@ -161,7 +167,7 @@ public class GUI_DevCloner : MonoBehaviour
 			{
 				//NOTE: Avoiding multiple enumeration by converting IEnumerables to lists.
 				var hitGOs = MouseUtils.GetOrderedObjectsUnderMouse(layerMask,
-					go => go.GetComponent<CustomNetTransform>() != null).ToList();
+					go => go.GetComponent<UniversalObjectPhysics>() != null).ToList();
 				//warn about objects which cannot be cloned
 				var nonPooledHits = hitGOs
 					.Where(go => Spawn.DeterminePrefab(go) == null).ToList();

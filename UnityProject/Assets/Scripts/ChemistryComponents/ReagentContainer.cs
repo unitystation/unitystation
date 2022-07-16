@@ -18,6 +18,15 @@ namespace Chemistry.Components
 	public partial class ReagentContainer : MonoBehaviour, IServerSpawn, IRightClickable, ICheckedInteractable<ContextMenuApply>,
 		IEnumerable<KeyValuePair<Reagent, float>>
 	{
+		[Flags]
+		private enum ShowMenuOptions
+		{
+			None = 0,
+			ShowContents = 1 << 0,
+			PourOut = 1 << 1,
+			All = ~None
+		}
+
 		[Header("Container Parameters")]
 
 		[Tooltip("Max container capacity in units")]
@@ -43,8 +52,29 @@ namespace Chemistry.Components
 		[Tooltip("If its unique container and can't be bothered to make SO")]
 		public List<Reaction> AdditionalReactions = new List<Reaction>();
 
-		[Tooltip("Can you empty out its contents?")]
-		public bool canPourOut = true;
+		private HashSet<Reaction> containedAdditionalReactions;
+
+
+		//Includes everything on parents to, if needs to be dynamic can change
+		public HashSet<Reaction> ContainedAdditionalReactions
+		{
+			get
+			{
+				lock (AdditionalReactions)
+				{
+					if (containedAdditionalReactions == null)
+					{
+						containedAdditionalReactions = new HashSet<Reaction>();
+						foreach (var Reaction in AdditionalReactions)
+						{
+							containedAdditionalReactions.Add(Reaction);
+						}
+
+					}
+					return containedAdditionalReactions;
+				}
+			}
+		}
 
 		[Tooltip("Initial mix of reagent inside container")]
 		[FormerlySerializedAs("reagentMix")]
@@ -53,11 +83,15 @@ namespace Chemistry.Components
 		private bool destroyOnEmpty = default;
 
 		private ItemAttributesV2 itemAttributes = default;
-		private CustomNetTransform customNetTransform;
+		private UniversalObjectPhysics ObjectPhysics;
 		private Integrity integrity;
 
 
 		public bool ContentsSet = false;
+
+		[Tooltip("What options should appear on the right click menu.")]
+		[SerializeField]
+		private ShowMenuOptions menuOptions = ShowMenuOptions.All;
 
 		/// <summary>
 		/// Invoked server side when regent container spills all of its contents
@@ -134,19 +168,10 @@ namespace Chemistry.Components
 		private void Awake()
 		{
 			// register spill on throw
-			customNetTransform = GetComponent<CustomNetTransform>();
-			if (customNetTransform)
+			ObjectPhysics = GetComponent<UniversalObjectPhysics>();
+			if (ObjectPhysics)
 			{
-				customNetTransform.OnThrowEnd.AddListener(throwInfo =>
-				{
-					//check spill on throw
-					if (!Validations.HasItemTrait(this.gameObject, CommonTraits.Instance.SpillOnThrow) || IsEmpty)
-					{
-						return;
-					}
-
-					SpillAll(thrown: true);
-				});
+				ObjectPhysics.OnImpact.AddListener(OnImpact);
 			}
 
 			// spill all content on destroy
@@ -158,11 +183,47 @@ namespace Chemistry.Components
 			//OnReagentMixChanged.AddListener(ReagentsChanged);
 		}
 
+		private void OnImpact(UniversalObjectPhysics UOP, Vector2 Momentum)
+		{
+			if (Momentum.magnitude > 1f)
+			{
+				//check spill on throw
+				if (!Validations.HasItemTrait(this.gameObject, CommonTraits.Instance.SpillOnThrow) || IsEmpty)
+				{
+					return;
+				}
+
+				SpillAll(thrown: true);
+			}
+		}
+
+		private HashSet<Reaction> possibleReactions = new HashSet<Reaction>();
+		//Warning main thread only for now
 		public void ReagentsChanged()
 		{
 			if (ReactionSet != null)
 			{
-				ReactionSet.Apply(this, CurrentReagentMix,AdditionalReactions);
+				possibleReactions.Clear();
+				foreach (var Reagents in currentReagentMix.reagents.m_dict)
+				{
+					var Reactions = Reagents.Key.RelatedReactions;
+					int ReactionsCount = Reactions.Length;
+					for (int i = 0; i < ReactionsCount; i++)
+					{
+						var Reaction = Reactions[i];
+						if (ReactionSet.ContainedReactionss.Contains(Reaction))
+						{
+							possibleReactions.Add(Reaction);
+						}
+						else if (AdditionalReactions.Count > 0 && ContainedAdditionalReactions.Contains(Reaction))
+						{
+							possibleReactions.Add(Reaction);
+						}
+					}
+				}
+
+				ReactionSet.Apply(this, CurrentReagentMix, possibleReactions);
+				//ReactionSet.Apply(this, CurrentReagentMix,AdditionalReactions);
 			}
 		}
 
@@ -363,7 +424,7 @@ namespace Chemistry.Components
 			{
 				if (!IsEmpty)
 				{
-					var worldPos = customNetTransform.PushPull.AssumedWorldPositionServer();
+					var worldPos = ObjectPhysics.transform.position.RoundToInt();
 					worldPos.z = 0;
 					SpillAll(worldPos, thrown);
 				}
@@ -397,7 +458,7 @@ namespace Chemistry.Components
 		private void NotifyPlayersOfSpill(Vector3Int worldPos)
 		{
 			var mobs = MatrixManager.GetAt<LivingHealthMasterBase>(worldPos, true);
-			if (mobs.Count > 0)
+			if (mobs is List<LivingHealthMasterBase>)
 			{
 				foreach (var mob in mobs)
 				{
@@ -430,9 +491,14 @@ namespace Chemistry.Components
 		public RightClickableResult GenerateRightClickOptions()
 		{
 			var result = RightClickableResult.Create();
-			result.AddElement("Contents", OnExamineContentsClicked);
+			if (menuOptions.HasFlag(ShowMenuOptions.ShowContents))
+			{
+				result.AddElement("Contents", OnExamineContentsClicked);
+			}
+
+			var pourOutContext = ContextMenuApply.ByLocalPlayer(gameObject, "PourOut");
 			//Pour / add can only be done if in reach
-			if (WillInteract(ContextMenuApply.ByLocalPlayer(gameObject, "PourOut"), NetworkSide.Client) && canPourOut)
+			if (WillInteract(pourOutContext, NetworkSide.Client) && menuOptions.HasFlag(ShowMenuOptions.PourOut))
 			{
 				result.AddElement("PourOut", OnPourOutClicked);
 			}

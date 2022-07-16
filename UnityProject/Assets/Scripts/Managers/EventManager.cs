@@ -17,6 +17,7 @@ public enum Event
 	LoggedOut,
 	RoundStarted,
 	PostRoundStarted,
+	SceneUnloading,
 	RoundEnded,
 	DisableInternals,
 	EnableInternals,
@@ -30,7 +31,9 @@ public enum Event
 	PreRoundStarted,
 	MatrixManagerInit,
 	BlobSpawned,
-	ScenesLoadedServer
+	ScenesLoadedServer,
+	LavalandFirstEntered,
+	ChatQuickUnfocus
 } // + other events. Add them as you need them
 
 [ExecuteInEditMode]

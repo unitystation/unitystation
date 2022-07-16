@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: GrassBase
   m_EditorClassIdentifier: 
   displayName: grass
+  description: A patch of grass.
   LayerType: 4
   TileType: 7
   RequiredTiles: []
@@ -24,6 +25,7 @@ MonoBehaviour:
   passable: 1
   mineable: 0
   miningTime: 5
+  miningHardness: 1
   constructable: 1
   RadiationPassability: 1
   ThermalConductivity: 0.05
@@ -31,6 +33,7 @@ MonoBehaviour:
   doesReflectBullet: 0
   indestructible: 0
   ExplosionImpassable: 0
+  BlocksTileInteractionsUnder: 1
   passableException:
     m_keys: 01000000
     m_values: 00
@@ -49,6 +52,7 @@ MonoBehaviour:
     Bio: 100
     DismembermentProtectionChance: 0
   tileInteractions: []
+  tileStepInteractions: []
   spawnOnDeconstruct: {fileID: 0}
   spawnAmountOnDeconstruct: 0
   lootOnDespawn: {fileID: 0}
@@ -62,5 +66,6 @@ MonoBehaviour:
       m_AssetGUID: 
       m_SubObjectName: 
       m_SubObjectType: 
+      m_EditorAssetChanged: 0
   SoundOnDestroy: []
   sprite: {fileID: 21300000, guid: 6902624dac204bc48ade4e4b317f269c, type: 3}

@@ -35,7 +35,7 @@ namespace Antagonists
 				"- If the fugitive is threatening the station production, neutralize immediately." +
 				"</size>";
 
-		public override void AfterSpawn(ConnectedPlayer player)
+		public override void AfterSpawn(PlayerInfo player)
 		{
 			UpdateChatMessage.Send(player.GameObject, ChatChannel.Local, ChatModifier.Whisper,
 				"I can't believe we managed to break out of a Nanotrasen superjail! Sadly though," +

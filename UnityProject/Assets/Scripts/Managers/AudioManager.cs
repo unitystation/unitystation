@@ -1,14 +1,10 @@
 using System;
-using System.Collections;
-using System.Threading;
 using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.Audio;
-using Messages.Server.SoundMessages;
 using AddressableReferences;
-using Audio.Managers;
-using System.Threading.Tasks;
-using System.Linq;
 using Managers;
 
 namespace Audio.Containers
@@ -20,10 +16,11 @@ namespace Audio.Containers
         /// </summary>
         /// <remarks>Always use GetAddressableAudioSourceFromCache if you want a loaded version</remarks>
         [HideInInspector] public readonly List<AddressableAudioSource> AudioLibrary = new List<AddressableAudioSource>();
-        
+
         [SerializeField] private AudioMixer audioMixer;
         public AudioMixerGroup MasterMixer;
         public AudioMixerGroup MusicMixer;
+        public AudioMixerGroup JukeboxMixer;
         public AudioMixerGroup SFXMixer;
         public AudioMixerGroup SFXMuffledMixer;
         public AudioMixerGroup AmbientMixer;
@@ -32,7 +29,7 @@ namespace Audio.Containers
         private void Start()
         {
             MasterVolume(
-                PlayerPrefs.HasKey(PlayerPrefKeys.MasterVolumeKey) 
+                PlayerPrefs.HasKey(PlayerPrefKeys.MasterVolumeKey)
                     ? PlayerPrefs.GetFloat(PlayerPrefKeys.MasterVolumeKey)
                     : 1f
                 );
@@ -58,7 +55,6 @@ namespace Audio.Containers
                 );
         }
 
-
         /// <summary>
         /// Sets all Sounds volume
         /// </summary>
@@ -71,6 +67,34 @@ namespace Audio.Containers
                 PlayerPrefs.SetFloat(PlayerPrefKeys.MasterVolumeKey, volume);
                 PlayerPrefs.Save();
             }
+        }
+
+
+        /// <summary>
+        /// Sets Ambient Sounds volume
+        /// </summary>
+        /// <param name="volume"></param>
+        public static void RadioChatterVolume(float volume, bool overwritePrefs = true)
+        {
+	        if (overwritePrefs)
+	        {
+		        PlayerPrefs.SetFloat(PlayerPrefKeys.RadioVolumeKey, volume);
+		        PlayerPrefs.Save();
+	        }
+        }
+
+
+        /// <summary>
+        /// Sets Ambient Sounds volume
+        /// </summary>
+        /// <param name="volume"></param>
+        public static void CommonRadioChatter(bool Value, bool overwritePrefs = true)
+        {
+	        if (overwritePrefs)
+	        {
+		        PlayerPrefs.SetInt(PlayerPrefKeys.CommonRadioToggleKey, Value ? 1 : 0);
+		        PlayerPrefs.Save();
+	        }
         }
 
         /// <summary>
@@ -99,7 +123,7 @@ namespace Audio.Containers
                 PlayerPrefs.SetFloat(PlayerPrefKeys.SoundFXVolumeKey, volume);
                 PlayerPrefs.Save();
             }
-            
+
         }
 
         /// <summary>
@@ -153,7 +177,7 @@ namespace Audio.Containers
                 Logger.LogWarning("AudioManager received an addressable with an address set to the string 'null', look at log trace for responsible component", Category.Audio);
                 return null;
             }
-            if(await addressableAudioSource.HasValidAddress() == false) return null;
+            if (await addressableAudioSource.HasValidAddress() == false) return null;
 
             //Try to get the Audio Source from cache, if its not there load it into cache
             AddressableAudioSource addressableAudioSourceFromCache = null;
@@ -205,11 +229,11 @@ namespace Audio.Containers
             addressableAudioSource = await GetAddressableAudioSourceFromCache(addressableAudioSource);
             return addressableAudioSource;
         }
+
         public async Task FadeMixerGroup(string exposedParam, float duration, float targetVolume)
 		{
 			float currentTimeMs = 0;
-			float currentVol;
-			audioMixer.GetFloat(exposedParam, out currentVol);
+			audioMixer.GetFloat(exposedParam, out float currentVol);
 			currentVol = Mathf.Pow(10, currentVol / 20);
 			float targetValue = Mathf.Clamp(targetVolume, 0.0001f, 1);
 			while (currentTimeMs < duration)

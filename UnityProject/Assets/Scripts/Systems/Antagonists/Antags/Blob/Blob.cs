@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using Blob;
+using Player;
 
 namespace Antagonists
 {
@@ -12,7 +13,7 @@ namespace Antagonists
 			return PlayerSpawn.ServerSpawnPlayer(spawnRequest);
 		}
 
-		public override void AfterSpawn(ConnectedPlayer player)
+		public override void AfterSpawn(PlayerInfo player)
 		{
 			//Add blob player to game object
 			player.GameObject.AddComponent<BlobStarter>();

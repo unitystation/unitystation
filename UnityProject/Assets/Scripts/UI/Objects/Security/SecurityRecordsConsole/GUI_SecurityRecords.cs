@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UI.Core.NetUI;
 using Objects.Security;
 
 namespace UI.Objects.Security
@@ -54,11 +55,15 @@ namespace UI.Objects.Security
 			}
 		}
 
-		public void RemoveId(ConnectedPlayer player)
+		public void RemoveId(PlayerInfo player)
 		{
 			if (console.IdCard)
 			{
 				console.ServerRemoveIDCard(player);
+				UpdateScreen();
+			}
+			else if (IsAIInteracting())
+			{
 				UpdateScreen();
 			}
 		}
@@ -68,7 +73,11 @@ namespace UI.Objects.Security
 			var IdCard = console.IdCard;
 			if (IdCard)
 			{
-				labelToSet.SetValueServer($"{IdCard.RegisteredName}, {IdCard.JobType.ToString()}");
+				labelToSet.SetValueServer($"{IdCard.RegisteredName}, {IdCard.GetJobTitle()}");
+			}
+			else if (IsAIInteracting())
+			{
+				labelToSet.SetValueServer("AI Control");
 			}
 			else
 			{
@@ -78,7 +87,7 @@ namespace UI.Objects.Security
 
 		public void LogIn()
 		{
-			if (console.IdCard == null || !console.IdCard.HasAccess(Access.security))
+			if ((console.IdCard == null || console.IdCard.HasAccess(Access.security) == false) && IsAIInteracting() == false)
 			{
 				return;
 			}
@@ -129,7 +138,7 @@ namespace Objects.Security
 		public SecurityStatus Status;
 		public List<SecurityRecordCrime> Crimes;
 		public Occupation Occupation;
-		public CharacterSettings characterSettings;
+		public CharacterSheet characterSettings;
 
 		public SecurityRecord()
 		{

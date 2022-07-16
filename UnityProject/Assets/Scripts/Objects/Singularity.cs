@@ -7,14 +7,20 @@ using Light2D;
 using HealthV2;
 using Systems.Pipes;
 using Systems.Radiation;
+using Systems.Explosions;
 using Objects.Engineering;
 using Weapons.Projectiles.Behaviours;
+using Random = UnityEngine.Random;
+using Tiles;
+using Systems.Explosions;
 
 
 namespace Objects
 {
 	public class Singularity : NetworkBehaviour, IOnHitDetect, IExaminable
 	{
+
+		[SyncVar(hook = nameof(SyncCurrentStage))]
 		private SingularityStages currentStage = SingularityStages.Stage0;
 
 		private readonly float updateFrequency = 0.5f;
@@ -58,7 +64,13 @@ namespace Objects
 		private float maxRadiation = 5000f;
 
 		[SerializeField]
-		private LightSprite light = null;
+		private GameObject WarpEffectFront;
+
+		[SerializeField]
+		private GameObject WarpEffectBack;
+
+		[SerializeField]
+		private new LightSprite light = null;
 
 		[SerializeField]
 		[Tooltip("Allows singularity to be stage 6")]
@@ -80,8 +92,11 @@ namespace Objects
 		private Transform lightTransform;
 		private RegisterTile registerTile;
 		private SpriteHandler spriteHandler;
-		private CustomNetTransform customNetTransform;
+		private UniversalObjectPhysics ObjectPhysics;
 		private int objectId;
+
+		private Material WarpEffectFrontMat;
+		private Material WarpEffectBackMat;
 
 		private int lockTimer;
 		private bool pointLock;
@@ -114,10 +129,14 @@ namespace Objects
 		private void Awake()
 		{
 			registerTile = GetComponent<RegisterTile>();
-			customNetTransform = GetComponent<CustomNetTransform>();
+			ObjectPhysics = GetComponent<UniversalObjectPhysics>();
 			spriteHandler = GetComponentInChildren<SpriteHandler>();
 			lightTransform = light.transform;
 			objectId = GetInstanceID();
+
+			WarpEffectFrontMat = WarpEffectFront.GetComponent<MeshRenderer>().materials[0];
+			WarpEffectBackMat = WarpEffectBack.GetComponent<MeshRenderer>().materials[0];
+
 		}
 
 		private void Start()
@@ -153,6 +172,13 @@ namespace Objects
 			}
 
 			gameObject.transform.LeanScale(newScale, updateFrequency);
+
+		}
+
+		private void SyncCurrentStage(SingularityStages oldStage, SingularityStages newStage)
+		{
+			currentStage = newStage;
+			UpdateWarpFX(currentStage);
 		}
 
 		#endregion
@@ -210,9 +236,18 @@ namespace Objects
 			dynamicScale = GetDynamicScale();
 
 			//Radiation Pulse
-			var strength = Mathf.Max(((float) CurrentStage + 1) / 6 * maxRadiation, 0);
+			var radStrength = Mathf.Max(((float) CurrentStage + 1) / 6 * maxRadiation, 0);
 
-			RadiationManager.Instance.RequestPulse(registerTile.WorldPositionServer, strength, objectId);
+			RadiationManager.Instance.RequestPulse(registerTile.WorldPositionServer, radStrength, objectId);
+
+			if(DMMath.Prob(5))
+			{
+				int EMPStrength = UnityEngine.Random.Range((int)CurrentStage * 100, (int)CurrentStage * 100 + 300);
+				Vector3Int EMPPosition = registerTile.WorldPositionServer;
+				EMPPosition.x += UnityEngine.Random.Range(-3 - (int)CurrentStage, 3 + (int)CurrentStage);
+				EMPPosition.y += UnityEngine.Random.Range(-3 - (int)CurrentStage, 3 + (int)CurrentStage);
+				Explosion.StartExplosion(EMPPosition, EMPStrength, new ExplosionEmpNode());
+			}
 		}
 
 		#region Throw/Push
@@ -250,7 +285,7 @@ namespace Objects
 			{
 				if (DMMath.Prob(50)) continue;
 
-				var objects = MatrixManager.GetAt<PushPull>(tile, true);
+				var objects = MatrixManager.GetAt<UniversalObjectPhysics>(tile, true);
 
 				foreach (var objectToMove in objects)
 				{
@@ -274,26 +309,16 @@ namespace Objects
 			}
 		}
 
-		private void ThrowItem(PushPull item, Vector3 throwVector)
+		private void ThrowItem(UniversalObjectPhysics item, Vector3 throwVector)
 		{
 			Vector3 vector = item.transform.rotation * throwVector;
-			var spin = RandomUtils.RandomSpin();
-			ThrowInfo throwInfo = new ThrowInfo
-			{
-				ThrownBy = gameObject,
-				Aim = BodyPartType.Chest,
-				OriginWorldPos = transform.position,
-				WorldTrajectory = vector,
-				SpinMode = spin
-			};
-
-			CustomNetTransform itemTransform = item.GetComponent<CustomNetTransform>();
+			UniversalObjectPhysics itemTransform = item.GetComponent<UniversalObjectPhysics>();
 			if (itemTransform == null) return;
-			itemTransform.Throw(throwInfo);
+			itemTransform.NewtonianPush(vector,1, 0,0,(BodyPartType) Random.Range(0, 13),  gameObject, 1 );
 			pushRecently.Add(item.gameObject);
 		}
 
-		private void PushObject(PushPull objectToPush, Vector3 pushVector)
+		private void PushObject(UniversalObjectPhysics objectToPush, Vector3 pushVector)
 		{
 			if (CurrentStage == SingularityStages.Stage5 || CurrentStage == SingularityStages.Stage4)
 			{
@@ -306,15 +331,14 @@ namespace Objects
 						$"{objectToPush.gameObject.ExpensiveName()} is knocked down by the singularity");
 				}
 			}
-			else if (objectToPush.IsPushable == false)
+			else if (objectToPush.IsNotPushable)
 			{
 				//Dont push anchored objects unless stage 5 or 4
 				return;
 			}
 
 			//Force Push Twice
-			objectToPush.QueuePush(pushVector.NormalizeTo2Int(), forcePush: true);
-			objectToPush.QueuePush(pushVector.NormalizeTo2Int(), forcePush: true);
+			objectToPush.NewtonianNewtonPush(pushVector.NormalizeTo2Int(), 10);
 		}
 
 		#endregion
@@ -377,9 +401,9 @@ namespace Objects
 					if (objectToMove.ObjectType == ObjectType.Player && objectToMove.TryGetComponent<PlayerHealthV2>(out var health) && health != null)
 					{
 						if (health.RegisterPlayer.PlayerScript != null &&
-						    health.RegisterPlayer.PlayerScript.mind != null &&
-						    health.RegisterPlayer.PlayerScript.mind.occupation != null &&
-						    health.RegisterPlayer.PlayerScript.mind.occupation == OccupationList.Instance.Get(JobType.CLOWN))
+							health.RegisterPlayer.PlayerScript.mind != null &&
+							health.RegisterPlayer.PlayerScript.mind.occupation != null &&
+							health.RegisterPlayer.PlayerScript.mind.occupation == OccupationList.Instance.Get(JobType.CLOWN))
 						{
 							health.Gib();
 							ChangePoints(DMMath.Prob(50) ? -1000 : 1000);
@@ -402,7 +426,7 @@ namespace Objects
 						}
 
 						if (objectToMove.TryGetComponent<FieldGenerator>(out var fieldGenerator)
-						    && fieldGenerator != null)
+							&& fieldGenerator != null)
 						{
 							if (CurrentStage != SingularityStages.Stage4 && CurrentStage != SingularityStages.Stage5 && fieldGenerator.Energy != 0)
 							{
@@ -503,7 +527,7 @@ namespace Objects
 			}
 
 			//Move
-			customNetTransform.SetPosition(coord);
+			ObjectPhysics.AppearAtWorldPositionServer(coord, true);
 		}
 
 		/// <summary>
@@ -614,6 +638,50 @@ namespace Objects
 				UpdateVectors();
 				dynamicScale = Vector3.zero; // keyed value: don't tween; set it to 1x scale immediately
 			}
+
+		}
+		/// <summary>
+		/// Sets the warp effects in accordance with the correct sprite
+		/// </summary>
+		private void UpdateWarpFX(SingularityStages stage)
+		{
+			float scaledRadius = 0f;
+			float scaledEffect = 0f;
+
+			switch (stage)
+			{
+				case SingularityStages.Stage0:
+					scaledRadius = Mathf.Clamp(0.08f * gameObject.transform.localScale.x, 0.08f,0.15f);
+					scaledEffect = 7f;
+					break;
+				case SingularityStages.Stage1:
+					scaledRadius = Mathf.Clamp(0.26f * gameObject.transform.localScale.x, 0.26f,0.35f);
+					scaledEffect = 9f;
+					break;
+				case SingularityStages.Stage2:
+					scaledRadius = Mathf.Clamp(0.35f * gameObject.transform.localScale.x, 0.35f, 0.6f);
+					scaledEffect = 10f;
+					break;
+				case SingularityStages.Stage3:
+					scaledRadius = Mathf.Clamp(0.55f * gameObject.transform.localScale.x, 0.55f, 0.75f);
+					scaledEffect = 12f;
+					break;
+				case SingularityStages.Stage4:
+					scaledRadius = Mathf.Clamp(0.75f * gameObject.transform.localScale.x, 0.75f, 0.8f);
+					scaledEffect = 15f;
+					break;
+				case SingularityStages.Stage5:
+					scaledRadius = Mathf.Clamp(0.8f * gameObject.transform.localScale.x, 0.8f, 1f);
+					scaledEffect = 20f;
+					break;
+				default:
+					break;
+			}
+
+			WarpEffectFrontMat.SetFloat("_EffectRadius", scaledRadius);
+			WarpEffectBackMat.SetFloat("_EffectRadius", scaledRadius);
+			WarpEffectFrontMat.SetFloat("_EffectAngle", scaledEffect);
+			WarpEffectBackMat.SetFloat("_EffectAngle", scaledEffect);
 		}
 
 		private void UpdateVectors()

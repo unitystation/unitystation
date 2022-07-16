@@ -35,7 +35,7 @@ public static class RandomUtils
 		Vector3Int point = default;
 		for (int i = 0; i < 10; i++)
 		{
-			point = stationBounds.GetRandomPoint().CutToInt();
+			point = stationBounds.allPositionsWithin().PickRandom();
 
 			if (avoidSpace && MatrixManager.IsSpaceAt(point, CustomNetworkManager.IsServer, stationMatrix))
 			{
@@ -51,23 +51,6 @@ public static class RandomUtils
 		}
 
 		return point;
-	}
-
-	public static SpinMode RandomSpin()
-	{
-		var num = Random.Range(0, 3);
-
-		switch (num)
-		{
-			case 0:
-				return SpinMode.None;
-			case 1:
-				return SpinMode.Clockwise;
-			case 2:
-				return SpinMode.CounterClockwise;
-			default:
-				return SpinMode.Clockwise;
-		}
 	}
 
 	public static string CreateRandomBrightColorString()

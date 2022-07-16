@@ -1,18 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &2715983244203950774
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6841223995504525407}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bb5ae039c73162b409cc0052a18c09c3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  isGoggles: 1
 --- !u!1001 &8173626261141796950
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -23,14 +10,31 @@ PrefabInstance:
     - target: {fileID: 2888345019966124511, guid: 0c3e7a0b25eff4d33a4f511cfc36b5d9,
         type: 3}
       propertyPath: relatedRecipes.Array.size
-      value: 4
+      value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 2888345019966124511, guid: 0c3e7a0b25eff4d33a4f511cfc36b5d9,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[1].recipe
+      value: 
+      objectReference: {fileID: 11400000, guid: 65b275405a051454ca6e24642c306e0e,
+        type: 2}
+    - target: {fileID: 2888345019966124511, guid: 0c3e7a0b25eff4d33a4f511cfc36b5d9,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[2].recipe
+      value: 
+      objectReference: {fileID: 11400000, guid: fe09abf82e38e4c4ca1d2035d3cc77b7,
+        type: 2}
     - target: {fileID: 2888345019966124511, guid: 0c3e7a0b25eff4d33a4f511cfc36b5d9,
         type: 3}
       propertyPath: relatedRecipes.Array.data[3].recipe
       value: 
       objectReference: {fileID: 11400000, guid: fe09abf82e38e4c4ca1d2035d3cc77b7,
         type: 2}
+    - target: {fileID: 2888345019966124511, guid: 0c3e7a0b25eff4d33a4f511cfc36b5d9,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[2].ingredientIndex
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2987011942256334699, guid: 0c3e7a0b25eff4d33a4f511cfc36b5d9,
         type: 3}
       propertyPath: initialName
@@ -189,3 +193,16 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 8173626261141796950}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &2715983244203950774
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6841223995504525407}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bb5ae039c73162b409cc0052a18c09c3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isGoggles: 1

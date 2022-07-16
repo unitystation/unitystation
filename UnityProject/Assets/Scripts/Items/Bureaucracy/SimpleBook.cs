@@ -31,7 +31,7 @@ namespace Items.Bureaucracy
 		[SerializeField]
 		private List<AddressableAudioSource> pageturnSfx = default;
 
-		private readonly Dictionary<ConnectedPlayer, int> readerProgress = new Dictionary<ConnectedPlayer, int>();
+		private readonly Dictionary<PlayerInfo, int> readerProgress = new Dictionary<PlayerInfo, int>();
 		protected bool hasBeenRead = false;
 
 		protected bool AllowOnlyOneReader => allowOnlyOneReader;
@@ -45,7 +45,7 @@ namespace Items.Bureaucracy
 
 		public void ServerPerformInteraction(HandActivate interaction)
 		{
-			ConnectedPlayer player = interaction.Performer.Player();
+			PlayerInfo player = interaction.Performer.Player();
 
 			if (TryReading(player))
 			{
@@ -57,7 +57,7 @@ namespace Items.Bureaucracy
 		/// Whether it is possible for the reader to read this book.
 		/// </summary>
 		/// <returns></returns>
-		protected virtual bool TryReading(ConnectedPlayer player)
+		protected virtual bool TryReading(PlayerInfo player)
 		{
 			if (canBeReadMultipleTimes == false &&
 					readerProgress.ContainsKey(player) && readerProgress[player] > pagesToRead)
@@ -74,7 +74,7 @@ namespace Items.Bureaucracy
 			return true;
 		}
 
-		private void StartReading(ConnectedPlayer player)
+		private void StartReading(PlayerInfo player)
 		{
 			if (readerProgress.ContainsKey(player) == false)
 			{
@@ -94,7 +94,7 @@ namespace Items.Bureaucracy
 		}
 
 		// Note: this is a recursive method.
-		private void ReadBook(ConnectedPlayer player, int pageToRead = 0)
+		private void ReadBook(PlayerInfo player, int pageToRead = 0)
 		{
 			var playerTile = player.GameObject.RegisterTile();
 			if (pageToRead >= pagesToRead || pageToRead > 10)
@@ -128,7 +128,7 @@ namespace Items.Bureaucracy
 		/// <summary>
 		/// Triggered when the reader has read all of the pages.
 		/// </summary>
-		protected virtual void FinishReading(ConnectedPlayer player)
+		protected virtual void FinishReading(PlayerInfo player)
 		{
 			hasBeenRead = true;
 

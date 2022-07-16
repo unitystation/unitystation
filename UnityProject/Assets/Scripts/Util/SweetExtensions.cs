@@ -8,18 +8,30 @@ using UnityEngine;
 using Random = UnityEngine.Random;
 using System.Text;
 using Items;
+using Messages.Server;
 
 public static class SweetExtensions
 {
 	public static IPushable Pushable(this GameObject go)
 	{
-		return go.GetComponent<IPushable>();
+		return go.OrNull()?.GetComponent<IPushable>();
 	}
 
-	public static ConnectedPlayer Player(this GameObject go)
+	public static Pickupable PickupableOrNull(this GameObject go)
+	{
+		return go.OrNull()?.GetComponent<Pickupable>();
+	}
+
+	public static bool TryGetPlayer(this GameObject gameObject, out PlayerInfo player)
+	{
+		player = PlayerList.Instance?.Get(gameObject);
+		return player != null;
+	}
+
+	public static PlayerInfo Player(this GameObject go)
 	{
 		var connectedPlayer = PlayerList.Instance?.Get(go);
-		return connectedPlayer == ConnectedPlayer.Invalid ? null : connectedPlayer;
+		return connectedPlayer == PlayerInfo.Invalid ? null : connectedPlayer;
 	}
 	public static ItemAttributesV2 Item(this GameObject go)
 	{
@@ -29,6 +41,11 @@ public static class SweetExtensions
 	public static ObjectAttributes Object(this GameObject go)
 	{
 		return go.OrNull()?.GetComponent<ObjectAttributes>();
+	}
+
+	public static bool HasComponent<T>(this GameObject go) where T : Component
+	{
+		return go.TryGetComponent<T>(out _);
 	}
 
 	/// <summary>
@@ -111,17 +128,14 @@ public static class SweetExtensions
 	/// Creates garbage! Use very sparsely!
 	public static Vector3 AssumedWorldPosServer(this GameObject go)
 	{
-		return go.GetComponent<ObjectBehaviour>()?.AssumedWorldPositionServer() ?? WorldPosServer(go);
-	}
-	/// Creates garbage! Use very sparsely!
-	public static Vector3 WorldPosServer(this GameObject go)
-	{
-		return go.GetComponent<RegisterTile>()?.WorldPositionServer ?? go.transform.position;
-	}
-	/// Creates garbage! Use very sparsely!
-	public static Vector3 WorldPosClient(this GameObject go)
-	{
-		return go.GetComponent<RegisterTile>()?.WorldPositionClient ?? go.transform.position;
+		if (ComponentManager.TryGetUniversalObjectPhysics(go, out  var UOP))
+		{
+			return UOP.OfficialPosition;
+		}
+		else
+		{
+			return go.transform.position;
+		}
 	}
 
 	/// <summary>
@@ -364,16 +378,23 @@ public static class SweetExtensions
 		}
 	}
 
-	/// <summary>
-	/// Helped function for enums to get the next value when sorted by their base type
-	/// </summary>
+	/// <summary>Get the next value in the enum. Will loop to the top.</summary>
+	/// <remarks>Generates garbage; use sparingly.</remarks>
 	public static T Next<T>(this T src) where T : Enum
 	{
 		// if (!typeof(T).IsEnum) throw new ArgumentException(String.Format("Argument {0} is not an Enum", typeof(T).FullName));
 
-		T[] Arr = (T[])Enum.GetValues(src.GetType());
-		int j = Array.IndexOf<T>(Arr, src) + 1;
-		return (Arr.Length==j) ? Arr[0] : Arr[j];
+		T[] values = (T[])Enum.GetValues(src.GetType());
+		int j = Array.IndexOf(values, src) + 1;
+		return (values.Length == j) ? values[0] : values[j];
+	}
+
+	/// <summary>Get a random value from the given enum.</summary>
+	/// <remarks>Generates garbage; use sparingly.</remarks>
+	/// <returns>A random value from the enum</returns>
+	public static T PickRandom<T>(this T src) where T : Enum
+	{
+		return ((T[])Enum.GetValues(src.GetType())).PickRandom();
 	}
 
 	/// <summary>
@@ -504,7 +525,7 @@ public static class SweetExtensions
 	{
 		if (string.IsNullOrEmpty(value)) return value;
 		return value.Length <= maxLength ? value : value.Substring(0, maxLength);
-  }
+	}
 
 	/// <summary>
 	/// <para>Get specific type from a list.</para>
@@ -543,5 +564,57 @@ public static class SweetExtensions
 	public static string GetStack(this Exception source)
 	{
 		return $"{source.Message}\n{source.StackTrace}";
+	}
+
+	/// <summary>
+	/// Enable this component from the server for all clients, including the server.
+	/// </summary>
+	/// <remarks>
+	/// New joins / rejoins won't have synced state with server (good TODO).
+	/// Assumes the component hierarchy on the gameobject is in sync with the server.
+	/// </remarks>
+	/// <param name="component">The component to enable</param>
+	public static void NetEnable(this Behaviour component)
+	{
+		if (component == null) return;
+
+		EnableComponentMessage.Send(component, true);
+
+		component.enabled = true;
+	}
+
+	/// <summary>
+	/// Disable this component from the server for all clients, including the server.
+	/// </summary>
+	/// <remarks>
+	/// New joins / rejoins won't have synced state with server (good TODO).
+	/// Assumes the component hierarchy on the gameobject is in sync with the server.
+	/// </remarks>
+	/// <param name="component">The component to disable</param>
+	public static void NetDisable(this Behaviour component)
+	{
+		if (component == null) return;
+
+		EnableComponentMessage.Send(component, false);
+
+		component.enabled = false;
+	}
+
+	/// <summary>
+	/// Set the active state of this component from the server for all clients, including the server.
+	/// </summary>
+	/// <remarks>
+	/// New joins / rejoins won't have synced state with server (good TODO).
+	/// Assumes the component hierarchy on the gameobject is in sync with the server.
+	/// </remarks>
+	/// <param name="component">The component to change state on</param>
+	/// <param name="value">The component's new active state</param>
+	public static void NetSetActive(this Behaviour component, bool value)
+	{
+		if (component == null) return;
+
+		EnableComponentMessage.Send(component, value);
+
+		component.enabled = value;
 	}
 }

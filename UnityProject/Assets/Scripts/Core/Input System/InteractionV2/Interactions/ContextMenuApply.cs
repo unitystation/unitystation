@@ -41,7 +41,7 @@ public class ContextMenuApply : TargetedInteraction
 		if (PlayerManager.LocalPlayerScript.IsGhost) return Invalid;
 
 		return new ContextMenuApply(
-				PlayerManager.LocalPlayer, PlayerManager.LocalPlayerScript.DynamicItemStorage.GetActiveHandSlot()?.ItemObject, targetObject, requestedOption, UIManager.CurrentIntent);
+				PlayerManager.LocalPlayerObject, PlayerManager.LocalPlayerScript.DynamicItemStorage.GetActiveHandSlot()?.ItemObject, targetObject, requestedOption, UIManager.CurrentIntent);
 	}
 
 	/// <summary>

@@ -1,0 +1,180 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &6164539792839046344
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: -1335230176832777347, guid: 414ec5b5318df6f4bbd000a4dfb298ca,
+        type: 3}
+      propertyPath: TriggerOnDeath
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2925014835611581738, guid: 414ec5b5318df6f4bbd000a4dfb298ca,
+        type: 3}
+      propertyPath: exportName
+      value: Macrobomb Implant
+      objectReference: {fileID: 0}
+    - target: {fileID: 2925014835611581738, guid: 414ec5b5318df6f4bbd000a4dfb298ca,
+        type: 3}
+      propertyPath: initialName
+      value: Macrobomb Implant
+      objectReference: {fileID: 0}
+    - target: {fileID: 2925014835611581738, guid: 414ec5b5318df6f4bbd000a4dfb298ca,
+        type: 3}
+      propertyPath: initialSize
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2925014835611581738, guid: 414ec5b5318df6f4bbd000a4dfb298ca,
+        type: 3}
+      propertyPath: initialDescription
+      value: And boom goes the weasel. And everything else nearby.
+      objectReference: {fileID: 0}
+    - target: {fileID: 2925014835611581738, guid: 414ec5b5318df6f4bbd000a4dfb298ca,
+        type: 3}
+      propertyPath: initialTraits.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2925014835611581738, guid: 414ec5b5318df6f4bbd000a4dfb298ca,
+        type: 3}
+      propertyPath: initialTraits.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: 5e9ac88966a35d34a9fd90c34e1ddaa0,
+        type: 2}
+    - target: {fileID: 3209890426476093716, guid: 414ec5b5318df6f4bbd000a4dfb298ca,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: cdc8f1d8e6da1974796be20f42e6d932,
+        type: 3}
+    - target: {fileID: 3344386625987260220, guid: 414ec5b5318df6f4bbd000a4dfb298ca,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3344386625987260220, guid: 414ec5b5318df6f4bbd000a4dfb298ca,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3344386625987260220, guid: 414ec5b5318df6f4bbd000a4dfb298ca,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3344386625987260220, guid: 414ec5b5318df6f4bbd000a4dfb298ca,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3344386625987260220, guid: 414ec5b5318df6f4bbd000a4dfb298ca,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3344386625987260220, guid: 414ec5b5318df6f4bbd000a4dfb298ca,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3344386625987260220, guid: 414ec5b5318df6f4bbd000a4dfb298ca,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3344386625987260220, guid: 414ec5b5318df6f4bbd000a4dfb298ca,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3344386625987260220, guid: 414ec5b5318df6f4bbd000a4dfb298ca,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3344386625987260220, guid: 414ec5b5318df6f4bbd000a4dfb298ca,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3344386625987260220, guid: 414ec5b5318df6f4bbd000a4dfb298ca,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3349033025192972872, guid: 414ec5b5318df6f4bbd000a4dfb298ca,
+        type: 3}
+      propertyPath: m_Name
+      value: MacrobombImplant
+      objectReference: {fileID: 0}
+    - target: {fileID: 3453718111123140604, guid: 414ec5b5318df6f4bbd000a4dfb298ca,
+        type: 3}
+      propertyPath: m_AssetId
+      value: a34b9bd5acaa56348acb4c3a83be928a
+      objectReference: {fileID: 0}
+    - target: {fileID: 7968537685027302571, guid: 414ec5b5318df6f4bbd000a4dfb298ca,
+        type: 3}
+      propertyPath: DelayTime
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7968537685027302571, guid: 414ec5b5318df6f4bbd000a4dfb298ca,
+        type: 3}
+      propertyPath: progressTime
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 7968537685027302571, guid: 414ec5b5318df6f4bbd000a4dfb298ca,
+        type: 3}
+      propertyPath: activeSpriteSO
+      value: 
+      objectReference: {fileID: 11400000, guid: 42e551f18ce052445bc0de801a3cc830,
+        type: 2}
+    - target: {fileID: 7968537685027302571, guid: 414ec5b5318df6f4bbd000a4dfb298ca,
+        type: 3}
+      propertyPath: timeToDetonate
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 7968537685027302571, guid: 414ec5b5318df6f4bbd000a4dfb298ca,
+        type: 3}
+      propertyPath: explosiveRadius
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 7968537685027302571, guid: 414ec5b5318df6f4bbd000a4dfb298ca,
+        type: 3}
+      propertyPath: explosiveStrength
+      value: 11000
+      objectReference: {fileID: 0}
+    - target: {fileID: 7968537685027302571, guid: 414ec5b5318df6f4bbd000a4dfb298ca,
+        type: 3}
+      propertyPath: minimumTimeToDetonate
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 7968537685027302571, guid: 414ec5b5318df6f4bbd000a4dfb298ca,
+        type: 3}
+      propertyPath: detonateImmediatelyOnSignal
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8358811179410753561, guid: 414ec5b5318df6f4bbd000a4dfb298ca,
+        type: 3}
+      propertyPath: BodyPartType
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8358811179410753561, guid: 414ec5b5318df6f4bbd000a4dfb298ca,
+        type: 3}
+      propertyPath: BodyPartReadableName
+      value: Macrobomb Implant
+      objectReference: {fileID: 0}
+    - target: {fileID: 8557013216667262501, guid: 414ec5b5318df6f4bbd000a4dfb298ca,
+        type: 3}
+      propertyPath: foreverID
+      value: macrobomb
+      objectReference: {fileID: 0}
+    - target: {fileID: 8880035226631236047, guid: 414ec5b5318df6f4bbd000a4dfb298ca,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 42e551f18ce052445bc0de801a3cc830,
+        type: 2}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 414ec5b5318df6f4bbd000a4dfb298ca, type: 3}

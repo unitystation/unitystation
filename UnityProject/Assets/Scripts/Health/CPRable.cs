@@ -58,7 +58,7 @@ public class CPRable : MonoBehaviour, ICheckedInteractable<HandApply>
 	private void ServerDoCPR(GameObject performer, GameObject target, BodyPartType TargetBodyPart)
 	{
 		var health = target.GetComponent<LivingHealthMasterBase>();
-		Vector3Int position = health.ObjectBehaviour.AssumedWorldPositionServer();
+		Vector3Int position = health.ObjectBehaviour.registerTile.WorldPosition;
 		MetaDataNode node = MatrixManager.GetMetaDataAt(position);
 
 		bool hasLung = false;
@@ -74,17 +74,13 @@ public class CPRable : MonoBehaviour, ICheckedInteractable<HandApply>
 						lung.TryBreathing(node, 1);
 						hasLung = true;
 					}
-
-					if (organ is Heart heart)
-					{
-						heart.Heartbeat(1);
-						hasHeart = true;
-					}
 				}
 			}
 		}
 
-		if (hasHeart && hasLung)
+		health.CirculatorySystem.Heartbeat(1);
+
+		if (hasLung)
 		{
 			Chat.AddActionMsgToChat(
 				performer,

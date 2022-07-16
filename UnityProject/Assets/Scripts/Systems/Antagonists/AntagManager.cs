@@ -2,14 +2,14 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using System.Text;
 using System.Linq;
 using DiscordWebhook;
-using DatabaseAPI;
 using Messages.Server.LocalGuiMessages;
 using Objects.Command;
 using Strings;
-using UnityEngine.SceneManagement;
+using Player;
 
 namespace Antagonists
 {
@@ -56,24 +56,24 @@ namespace Antagonists
 			}
 		}
 
-		void OnEnable()
+		private void OnEnable()
 		{
 			SceneManager.activeSceneChanged += OnSceneChange;
 			EventManager.AddHandler(Event.RoundEnded, OnRoundEnd);
 		}
 
-		void OnDisable()
+		private void OnDisable()
 		{
 			SceneManager.activeSceneChanged -= OnSceneChange;
 			EventManager.RemoveHandler(Event.RoundEnded, OnRoundEnd);
 		}
 
-		void OnSceneChange(Scene oldScene, Scene newScene)
+		private void OnSceneChange(Scene oldScene, Scene newScene)
 		{
 			SyndiNukeCode = Nuke.CodeGenerator();
 		}
 
-		void OnRoundEnd()
+		private void OnRoundEnd()
 		{
 			ResetAntags();
 		}
@@ -93,12 +93,12 @@ namespace Antagonists
 		public void ServerSpawnAntag(Antagonist chosenAntag, PlayerSpawnRequest spawnRequest)
 		{
 			//spawn the antag using their custom spawn logic
-			ConnectedPlayer spawnedPlayer = chosenAntag.ServerSpawn(spawnRequest).Player();
+			PlayerInfo spawnedPlayer = chosenAntag.ServerSpawn(spawnRequest).Player();
 
 			ServerFinishAntag(chosenAntag, spawnedPlayer);
 		}
 
-		public IEnumerator ServerRespawnAsAntag(ConnectedPlayer connectedPlayer, Antagonist antagonist)
+		public IEnumerator ServerRespawnAsAntag(PlayerInfo connectedPlayer, Antagonist antagonist)
 		{
 			var antagOccupation = antagonist.AntagOccupation;
 
@@ -129,7 +129,7 @@ namespace Antagonists
 			ServerFinishAntag(antagonist, connectedPlayer);
 		}
 
-		private SpawnedAntag SetAntagDetails(Antagonist chosenAntag, ConnectedPlayer connectedPlayer)
+		private SpawnedAntag SetAntagDetails(Antagonist chosenAntag, PlayerInfo connectedPlayer)
 		{
 			// Generate objectives for this antag
 			List<Objective> objectives = antagData.GenerateObjectives(connectedPlayer.Script, chosenAntag);
@@ -139,7 +139,7 @@ namespace Antagonists
 			return spawnedAntag;
 		}
 
-		public void ServerFinishAntag(Antagonist chosenAntag, ConnectedPlayer connectedPlayer)
+		public void ServerFinishAntag(Antagonist chosenAntag, PlayerInfo connectedPlayer)
 		{
 			var spawnedAntag = SetAntagDetails(chosenAntag, connectedPlayer);
 			activeAntags.Add(spawnedAntag);
@@ -156,7 +156,7 @@ namespace Antagonists
 		/// </summary>
 		/// <param name="player">The player that should receive an uplink in the first PDA found on them.</param>
 		/// <param name="tcCount">The amount of telecrystals the uplink should be given.</param>
-		public static void TryInstallPDAUplink(ConnectedPlayer player, int tcCount, bool isNukeOps)
+		public static void TryInstallPDAUplink(PlayerInfo player, int tcCount, bool isNukeOps)
 		{
 			foreach (ItemSlot slot in player.Script.DynamicItemStorage.GetItemSlotTree())
 			{
@@ -173,7 +173,7 @@ namespace Antagonists
 		/// </summary>
 		/// <param name="player">Who</param>
 		/// <param name="antag">What antag data</param>
-		private static void ShowAntagBanner(ConnectedPlayer player, Antagonist antag)
+		private static void ShowAntagBanner(PlayerInfo player, Antagonist antag)
 		{
 			SpawnBannerMessage.Send(
 				player.GameObject,
@@ -248,6 +248,5 @@ namespace Antagonists
 			TargetedPlayers.Clear();
 			TargetedItems.Clear();
 		}
-
 	}
 }

@@ -6,8 +6,11 @@ using System.Net;
 using System.Text.RegularExpressions;
 using DatabaseAPI;
 using System.Collections;
+using System.Threading;
+using System.Threading.Tasks;
 using Managers;
 using Newtonsoft.Json;
+using Object = System.Object;
 
 namespace DiscordWebhook
 {
@@ -37,7 +40,7 @@ namespace DiscordWebhook
 
 		private bool loggedWebKookError = false;
 
-		private void Update()
+		private void UpdateMe()
 		{
 			if (!CustomNetworkManager.IsServer) return;
 
@@ -52,8 +55,7 @@ namespace DiscordWebhook
 				if (!messageSendingInProgress)
 				{
 					messageSendingInProgress = true;
-
-					_ = StartCoroutine(SendQueuedMessagesToWebhooks());
+					ThreadPool.QueueUserWorkItem( SendQueuedMessagesToWebhooks);
 				}
 
 				sendingTimer = 0;
@@ -74,12 +76,14 @@ namespace DiscordWebhook
 		{
 			Application.logMessageReceived += HandleLog;
 			EventManager.AddHandler(Event.PreRoundStarted, ResetHashSet);
+			UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
 		}
 
 		void OnDisable()
 		{
 			Application.logMessageReceived -= HandleLog;
 			EventManager.RemoveHandler(Event.PreRoundStarted, ResetHashSet);
+			UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
 		}
 
 		void ResetHashSet()
@@ -87,7 +91,7 @@ namespace DiscordWebhook
 			ErrorMessageHashSet.Clear();
 		}
 
-		private IEnumerator SendQueuedMessagesToWebhooks()
+		private void SendQueuedMessagesToWebhooks(Object stateInfo)
 		{
 			try
 			{
@@ -107,8 +111,6 @@ namespace DiscordWebhook
 
 
 			messageSendingInProgress = false;
-
-			yield break;
 		}
 
 		private void InitDict()

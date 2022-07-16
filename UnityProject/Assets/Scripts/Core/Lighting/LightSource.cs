@@ -15,23 +15,23 @@ namespace Objects.Lighting
 	/// <summary>
 	/// Component responsible for the behaviour of light tubes / bulbs in particular.
 	/// </summary>
-	public class LightSource : ObjectTrigger, ICheckedInteractable<HandApply>, IAPCPowerable, IServerLifecycle, IMultitoolSlaveable
+	public class LightSource : ObjectTrigger, ICheckedInteractable<HandApply>, IAPCPowerable, IServerLifecycle,
+		IMultitoolSlaveable
 	{
 		public Color ONColour;
 		public Color EmergencyColour;
 
 		public LightSwitchV2 relatedLightSwitch;
 
-		[SerializeField]
-		private LightMountState InitialState = LightMountState.On;
+		[SerializeField] private LightMountState InitialState = LightMountState.On;
 
 		[SyncVar(hook = nameof(SyncLightState))]
 		private LightMountState mState;
 
 		[Header("Generates itself if this is null:")]
 		public GameObject mLightRendererObject;
-		[SerializeField]
-		private bool isWithoutSwitch = true;
+
+		[SerializeField] private bool isWithoutSwitch = true;
 		public bool IsWithoutSwitch => isWithoutSwitch;
 		private bool switchState = true;
 		private PowerState powerState;
@@ -41,7 +41,7 @@ namespace Objects.Lighting
 		private LightSprite lightSprite;
 		[SerializeField] private EmergencyLightAnimator emergencyLightAnimator = default;
 		[SerializeField] private Integrity integrity = default;
-		[SerializeField] private Directional directional;
+		[SerializeField] private Rotatable directional;
 
 		[SerializeField] private BoxCollider2D boxColl = null;
 		[SerializeField] private Vector4 collDownSetting = Vector4.zero;
@@ -50,9 +50,12 @@ namespace Objects.Lighting
 		[SerializeField] private Vector4 collLeftSetting = Vector4.zero;
 		[SerializeField] private SpritesDirectional spritesStateOnEffect = null;
 		[SerializeField] private SOLightMountStatesMachine mountStatesMachine = null;
-		[SerializeField, Range(0,100f)] private float maximumDamageOnTouch = 3f;
+		[SerializeField, Range(0, 100f)] private float maximumDamageOnTouch = 3f;
+
+		[SerializeField] private GameObject sparkObject = null;
+
 		private SOLightMountState currentState;
-		private ObjectBehaviour objectBehaviour;
+		private UniversalObjectPhysics objectPhysics;
 		private LightFixtureConstruction construction;
 
 		private ItemTrait traitRequired;
@@ -64,12 +67,13 @@ namespace Objects.Lighting
 
 		private void Awake()
 		{
-			objectBehaviour = GetComponent<ObjectBehaviour>();
+			objectPhysics = GetComponent<UniversalObjectPhysics>();
 			construction = GetComponent<LightFixtureConstruction>();
 			if (mLightRendererObject == null)
 			{
 				mLightRendererObject = LightSpriteBuilder.BuildDefault(gameObject, new Color(0, 0, 0, 0), 12);
 			}
+
 			lightSprite = mLightRendererObject.GetComponent<LightSprite>();
 			if (isWithoutSwitch == false)
 			{
@@ -78,17 +82,18 @@ namespace Objects.Lighting
 
 			ChangeCurrentState(InitialState);
 			traitRequired = currentState.TraitRequired;
+			RefreshBoxCollider();
 		}
 
 		private void OnEnable()
 		{
-			directional.OnDirectionChange.AddListener(OnDirectionChange);
+			directional.OnRotationChange.AddListener(OnDirectionChange);
 			integrity.OnApplyDamage.AddListener(OnDamageReceived);
 		}
 
 		private void OnDisable()
 		{
-			directional.OnDirectionChange.RemoveListener(OnDirectionChange);
+			directional.OnRotationChange.RemoveListener(OnDirectionChange);
 			if (integrity != null) integrity.OnApplyDamage.RemoveListener(OnDamageReceived);
 
 			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, TrySpark);
@@ -115,11 +120,13 @@ namespace Objects.Lighting
 		MultitoolConnectionType IMultitoolLinkable.ConType => MultitoolConnectionType.LightSwitch;
 		IMultitoolMasterable IMultitoolSlaveable.Master => relatedLightSwitch;
 		bool IMultitoolSlaveable.RequireLink => false;
+
 		bool IMultitoolSlaveable.TrySetMaster(PositionalHandApply interaction, IMultitoolMasterable master)
 		{
 			SetMaster(master);
 			return true;
 		}
+
 		void IMultitoolSlaveable.SetMasterEditor(IMultitoolMasterable master)
 		{
 			SetMaster(master);
@@ -139,7 +146,7 @@ namespace Objects.Lighting
 
 		#endregion
 
-		private void OnDirectionChange(Orientation newDir)
+		private void OnDirectionChange(OrientationEnum newDir)
 		{
 			SetSprites();
 		}
@@ -182,41 +189,26 @@ namespace Objects.Lighting
 
 		public void EditorDirectionChange()
 		{
-			directional = GetComponent<Directional>();
+			directional = GetComponent<Rotatable>();
 			spriteRendererLightOn = GetComponentsInChildren<SpriteRenderer>().Length > 1
-				? GetComponentsInChildren<SpriteRenderer>()[1] : GetComponentsInChildren<SpriteRenderer>()[0];
+				? GetComponentsInChildren<SpriteRenderer>()[1]
+				: GetComponentsInChildren<SpriteRenderer>()[0];
 			var state = mountStatesMachine.LightMountStates[LightMountState.On];
 
-			spriteHandler.SetSpriteSO(state.SpriteData, null, SpritesDirectional.OrientationIndex(directional.CurrentDirection.AsEnum()));
-			spriteRendererLightOn.sprite = spritesStateOnEffect.GetSpriteInDirection(directional.CurrentDirection.AsEnum());
+			spriteHandler.SetSpriteSO(state.SpriteData, null);
+			spriteRendererLightOn.sprite = spritesStateOnEffect.sprites[0];
 			RefreshBoxCollider();
 		}
 
 		public void RefreshBoxCollider()
 		{
-			directional = GetComponent<Directional>();
+			directional = GetComponent<Rotatable>();
 			Vector2 offset = Vector2.zero;
 			Vector2 size = Vector2.zero;
 
-			switch (directional.CurrentDirection.AsEnum())
-			{
-				case OrientationEnum.Down:
-					offset = new Vector2(collDownSetting.x, collDownSetting.y);
-					size = new Vector2(collDownSetting.z, collDownSetting.w);
-					break;
-				case OrientationEnum.Right:
-					offset = new Vector2(collRightSetting.x, collRightSetting.y);
-					size = new Vector2(collRightSetting.z, collRightSetting.w);
-					break;
-				case OrientationEnum.Up:
-					offset = new Vector2(collUpSetting.x, collUpSetting.y);
-					size = new Vector2(collUpSetting.z, collUpSetting.w);
-					break;
-				case OrientationEnum.Left:
-					offset = new Vector2(collLeftSetting.x, collLeftSetting.y);
-					size = new Vector2(collLeftSetting.z, collLeftSetting.w);
-					break;
-			}
+
+			offset = new Vector2(collUpSetting.x, collUpSetting.y);
+			size = new Vector2(collUpSetting.z, collUpSetting.w);
 
 			boxColl.offset = offset;
 			boxColl.size = size;
@@ -224,10 +216,10 @@ namespace Objects.Lighting
 
 		private void SetSprites()
 		{
-			spriteHandler.SetSpriteSO(currentState.SpriteData, null, SpritesDirectional.OrientationIndex(directional.CurrentDirection.AsEnum()));
+			spriteHandler.SetSpriteSO(currentState.SpriteData, null);
 			spriteRendererLightOn.sprite = mState == LightMountState.On
-					? spritesStateOnEffect.GetSpriteInDirection(directional.CurrentDirection.AsEnum())
-					: null;
+				? spritesStateOnEffect.sprites[0]
+				: null;
 
 			itemInMount = currentState.Tube;
 
@@ -253,12 +245,14 @@ namespace Objects.Lighting
 					{
 						emergencyLightAnimator.StartAnimation();
 					}
+
 					break;
 				case LightMountState.On:
 					if (emergencyLightAnimator != null)
 					{
 						emergencyLightAnimator.StopAnimation();
 					}
+
 					lightSprite.Color = ONColour;
 					mLightRendererObject.transform.localScale = Vector3.one * 12.0f;
 					mLightRendererObject.SetActive(true);
@@ -268,6 +262,7 @@ namespace Objects.Lighting
 					{
 						emergencyLightAnimator.StopAnimation();
 					}
+
 					mLightRendererObject.transform.localScale = Vector3.one * 12.0f;
 					mLightRendererObject.SetActive(false);
 					break;
@@ -281,7 +276,9 @@ namespace Objects.Lighting
 			if (!DefaultWillInteract.Default(interaction, side)) return false;
 			if (!construction.IsFullyBuilt()) return false;
 			if (interaction.HandObject != null && interaction.Intent == Intent.Harm) return false;
-			if (interaction.HandObject != null && !Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.LightReplacer) && !Validations.HasItemTrait(interaction.HandObject, traitRequired)) return false;
+			if (interaction.HandObject != null &&
+			    !Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.LightReplacer) &&
+			    !Validations.HasItemTrait(interaction.HandObject, traitRequired)) return false;
 
 			return true;
 		}
@@ -306,11 +303,23 @@ namespace Objects.Lighting
 		{
 			try
 			{
-				var handSlot = interaction.PerformerPlayerScript.DynamicItemStorage.GetActiveHandSlot();
+				//(Gilles)  : the hand that we use to interact and hold items isn't the same entity as the slot where you wear gloves.
+				//(MaxIsJoe): GetActiveHand() retrieves the slot you hold and use items with not the slot that you use to wear gloves.
+				//TODO : According to Gilles this is conceptually wrong and should be dealt with sometime in the future.
+				var handSlots = interaction.PerformerPlayerScript.DynamicItemStorage.GetNamedItemSlots(NamedSlot.hands);
 
-				if (mState == LightMountState.On && (handSlot.IsOccupied == false ||
-				                                     !Validations.HasItemTrait(handSlot.ItemObject,
-					                                     CommonTraits.Instance.BlackGloves)))
+				bool HasGlove()
+				{
+					foreach (var slot in handSlots)
+					{
+						if (slot.IsEmpty) continue;
+						if (Validations.HasItemTrait(slot.ItemObject, CommonTraits.Instance.BlackGloves)) return true;
+					}
+
+					return false;
+				}
+
+				if (mState == LightMountState.On && HasGlove() == false)
 				{
 					float damage = Random.Range(0, maximumDamageOnTouch);
 					var playerHealth = interaction.PerformerPlayerScript.playerHealth;
@@ -325,7 +334,7 @@ namespace Objects.Lighting
 					return;
 				}
 
-				var spawnedItem = Spawn.ServerPrefab(itemInMount, interaction.Performer.WorldPosServer()).GameObject;
+				var spawnedItem = Spawn.ServerPrefab(itemInMount, interaction.Performer.AssumedWorldPosServer()).GameObject;
 				ItemSlot bestHand = interaction.PerformerPlayerScript.DynamicItemStorage.GetBestHand();
 				if (bestHand != null && spawnedItem != null)
 				{
@@ -336,7 +345,9 @@ namespace Objects.Lighting
 			}
 			catch (NullReferenceException exception)
 			{
-				Logger.LogError($"A NRE was caught in LightSource.TryRemoveBulb(): {exception.Message} \n {exception.StackTrace}", Category.Lighting);
+				Logger.LogError(
+					$"A NRE was caught in LightSource.TryRemoveBulb(): {exception.Message} \n {exception.StackTrace}",
+					Category.Lighting);
 			}
 		}
 
@@ -352,8 +363,10 @@ namespace Objects.Lighting
 			{
 				ServerChangeLightState(
 					(switchState && (powerState == PowerState.On))
-					? LightMountState.On : (powerState != PowerState.OverVoltage)
-					? LightMountState.Emergency : LightMountState.Off);
+						? LightMountState.On
+						: (powerState != PowerState.OverVoltage)
+							? LightMountState.Emergency
+							: LightMountState.Off);
 			}
 
 			_ = Despawn.ServerSingle(interaction.HandObject);
@@ -363,7 +376,7 @@ namespace Objects.Lighting
 		{
 			if (mState != LightMountState.MissingBulb)
 			{
-				Spawn.ServerPrefab(itemInMount, interaction.Performer.WorldPosServer());
+				Spawn.ServerPrefab(itemInMount, interaction.Performer.AssumedWorldPosServer());
 				ServerChangeLightState(LightMountState.MissingBulb);
 			}
 		}
@@ -372,14 +385,16 @@ namespace Objects.Lighting
 
 		#region IAPCPowerable
 
-		public void PowerNetworkUpdate(float voltage) { }
+		public void PowerNetworkUpdate(float voltage)
+		{
+		}
 
 		public void StateUpdate(PowerState newPowerState)
 		{
 			if (isServer == false) return;
 			powerState = newPowerState;
 			if (mState == LightMountState.Broken
-			   || mState == LightMountState.MissingBulb) return;
+			    || mState == LightMountState.MissingBulb) return;
 
 			switch (newPowerState)
 			{
@@ -433,7 +448,37 @@ namespace Objects.Lighting
 			//Has to be broken and have power to spark
 			if (mState != LightMountState.Broken || powerState == PowerState.Off) return;
 
-			SparkUtil.TrySpark(gameObject, 50f);
+			InternalSpark(30f);
+		}
+
+		private void InternalSpark(float chanceToSpark)
+		{
+			//Clamp just in case
+			chanceToSpark = Mathf.Clamp(chanceToSpark, 1, 100);
+
+			//E.g will have 25% chance to not spark when chanceToSpark = 75
+			if(DMMath.Prob(100 - chanceToSpark)) return;
+
+			//Try start fire if possible
+			var reactionManager = objectPhysics.registerTile.Matrix.ReactionManager;
+			reactionManager.ExposeHotspot(objectPhysics.registerTile.LocalPositionServer, 1000);
+
+			SoundManager.PlayNetworkedAtPos(CommonSounds.Instance.Sparks,
+				objectPhysics.registerTile.WorldPositionServer,
+				sourceObj: gameObject);
+
+			if (CustomNetworkManager.IsHeadless == false)
+			{
+				sparkObject.SetActive(true);
+			}
+
+			ClientRpcSpark();
+		}
+
+		[ClientRpc]
+		private void ClientRpcSpark()
+		{
+			sparkObject.SetActive(true);
 		}
 
 		#endregion

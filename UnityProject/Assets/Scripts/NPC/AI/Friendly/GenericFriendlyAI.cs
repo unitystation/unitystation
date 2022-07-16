@@ -33,17 +33,16 @@ namespace Systems.MobAIs
 
 		#endregion Lifecycle
 
-		protected override void UpdateMe()
+		public override void ContemplatePriority()
 		{
 			if (MatrixManager.IsInitialized == false || health.IsDead || health.IsCrit) return;
-
-			base.UpdateMe();
+			base.ContemplatePriority();
 			MonitorExtras();
 		}
 
 		protected virtual void MonitorExtras()
 		{
-			if (IsPerformingTask && !doRandomActionWhenInTask)
+			if (!doRandomActionWhenInTask)
 			{
 				return;
 			}
@@ -66,7 +65,7 @@ namespace Systems.MobAIs
 			{
 				for (int spriteDir = 1; spriteDir < 5; spriteDir++)
 				{
-					directional.FaceDirection(directional.CurrentDirection.Rotate(1));
+					rotatable.RotateBy(1);
 					yield return WaitFor.Seconds(0.3f);
 				}
 			}

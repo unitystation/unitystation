@@ -7,6 +7,7 @@ using Systems.Ai;
 using Systems.Interaction;
 using Items;
 using Objects.Wallmounts;
+using Tiles;
 
 
 // TODO: namespace me to Systems.Interaction (have fun)
@@ -19,6 +20,8 @@ using Objects.Wallmounts;
 /// </summary>
 public static class Validations
 {
+	private static readonly List<LayerType> BlockedLayers = new List<LayerType>
+		{LayerType.Walls, LayerType.Windows, LayerType.Grills};
 
 	/// <summary>
 	/// Check if this game object is not null has the specified component
@@ -141,7 +144,7 @@ public static class Validations
 		if (side == NetworkSide.Client)
 		{
 			//we only know our own conscious state, so assume true if it's not our local player
-			if (playerHealth.gameObject != PlayerManager.LocalPlayer) return true;
+			if (playerHealth.gameObject != PlayerManager.LocalPlayerObject) return true;
 		}
 
 		return playerHealth.ConsciousState == ConsciousState.CONSCIOUS ||
@@ -172,13 +175,15 @@ public static class Validations
 		NetworkSide side,
 		bool allowSoftCrit = false,
 		ReachRange reachRange = ReachRange.Standard,
+		Vector2? TargetPosition = null,
 		Vector2? targetVector = null,
 		RegisterTile targetRegisterTile = null
 	)
 	{
 		if (playerScript == null) return false;
 
-		var playerObjBehavior = playerScript.pushPull;
+		var playerObjBehavior = playerScript.objectPhysics;
+
 
 		if (CanInteract(playerScript, side, allowSoftCrit) == false)
 		{
@@ -198,8 +203,8 @@ public static class Validations
 			else
 			{
 				//server checks if player is trying to click the container they are in.
-				var parentObj = playerObjBehavior.parentContainer != null
-					? playerObjBehavior.parentContainer.gameObject
+				var parentObj = playerObjBehavior.ContainedInContainer != null
+					? playerObjBehavior.ContainedInContainer.gameObject
 					: null;
 				return parentObj == target;
 			}
@@ -222,7 +227,7 @@ public static class Validations
 		}
 		else if (reachRange == ReachRange.Standard)
 		{
-			result = IsInReachInternal(playerScript, target, side, targetVector, targetRegisterTile);
+			result = IsInReachInternal(playerScript, target, side, TargetPosition, targetRegisterTile, targetVector: targetVector);
 		}
 		else if (reachRange == ReachRange.ExtendedServer)
 		{
@@ -233,15 +238,15 @@ public static class Validations
 			}
 			else
 			{
-				CustomNetTransform cnt = (target == null) ? null : target.GetComponent<CustomNetTransform>();
+				UniversalObjectPhysics uop = (target == null) ? null : target.GetComponent<UniversalObjectPhysics>();
 
-				if (cnt == null)
+				if (uop == null)
 				{
-					result = IsInReachInternal(playerScript, target, side, targetVector, targetRegisterTile);
+					result = IsInReachInternal(playerScript, target, side, TargetPosition, targetRegisterTile, targetVector: targetVector);
 				}
 				else
 				{
-					result = ServerCanReachExtended(playerScript, cnt.ServerState);
+					result = ServerCanReachExtended(playerScript, uop);
 				}
 			}
 		}
@@ -261,15 +266,10 @@ public static class Validations
 			{
 				targetName = target.name;
 
-				if (target.TryGetComponent(out CustomNetTransform cnt))
+				if (target.TryGetComponent(out UniversalObjectPhysics uop))
 				{
-					worldPosition = cnt.ServerState.WorldPosition;
-					isFloating = cnt.IsFloatingServer;
-				}
-				else if (target.TryGetComponent(out PlayerSync playerSync))
-				{
-					worldPosition = playerSync.ServerState.WorldPosition;
-					isFloating = playerSync.IsWeightlessServer;
+					worldPosition = uop.OfficialPosition;
+					isFloating = uop.IsCurrentlyFloating;
 				}
 			}
 
@@ -292,11 +292,11 @@ public static class Validations
 	/// if you can do so without using GetComponent, this is an optimization so GetComponent call can be avoided to avoid
 	/// creating garbage.</param>
 	/// <returns></returns>
-	private static bool IsInReachInternal(PlayerScript playerScript, GameObject target, NetworkSide side, Vector2? targetVector,
-		RegisterTile targetRegisterTile)
+	private static bool IsInReachInternal(PlayerScript playerScript, GameObject target, NetworkSide side, Vector2? TargetPosition,
+		RegisterTile targetRegisterTile, Vector2? targetVector = null)
 	{
 		bool result;
-		if (targetVector == null)
+		if (TargetPosition == null && targetVector == null )
 		{
 			var regTarget = targetRegisterTile == null ? (target == null ? null : target.RegisterTile()) : targetRegisterTile;
 			//Use the smart range check which works better on moving matrices
@@ -319,7 +319,14 @@ public static class Validations
 		{
 			//use target vector based range check
 			Vector3 playerWorldPos = playerScript.WorldPos;
-			result = IsReachableByPositions(playerWorldPos, playerWorldPos + (Vector3)targetVector, side == NetworkSide.Server, context: target);
+			if (TargetPosition != null)
+			{
+				result = IsReachableByPositions(playerWorldPos, TargetPosition.Value.To3().ToWorld(playerScript.registerTile.Matrix), side == NetworkSide.Server, context: target);
+			}
+			else
+			{
+				result = IsReachableByPositions(playerWorldPos, playerWorldPos + (Vector3)targetVector, side == NetworkSide.Server, context: target);
+			}
 		}
 
 		return result;
@@ -388,7 +395,7 @@ public static class Validations
 
 		bool result = MatrixManager.IsPassableAtAllMatrices(worldPosAInt, worldPosBInt, isServer: isServer, collisionType: CollisionType.Click,
 			context: context, includingPlayers: false, isReach: true,
-			excludeLayers: new List<LayerType> { LayerType.Walls, LayerType.Windows, LayerType.Grills },
+			excludeLayers: BlockedLayers,
 			onlyExcludeLayerOnDestination: true);
 
 		return result;
@@ -412,13 +419,13 @@ public static class Validations
 		}
 		else
 		{
-			return IsReachableByPositions(from.WorldPositionClient, to.WorldPositionClient, isServer, interactDist, context: context);
+			return IsReachableByPositions(from.WorldPosition, to.WorldPosition, isServer, interactDist, context: context);
 		}
 	}
 
-	private static bool ServerCanReachExtended(PlayerScript ps, TransformState state, GameObject context = null)
+	private static bool ServerCanReachExtended(PlayerScript ps, UniversalObjectPhysics state, GameObject context = null)
 	{
-		return ps.IsPositionReachable(state.WorldPosition, true) || ps.IsPositionReachable(state.WorldPosition - (Vector3)state.WorldImpulse, true, 1.75f, context: context);
+		return ps.IsPositionReachable(state.OfficialPosition, true) || ps.IsPositionReachable(state.OfficialPosition - (Vector3)state.NewtonianMovement, true, 1.75f, context: context);
 	}
 
 	//AiActivate Validation
@@ -429,7 +436,7 @@ public static class Validations
 
 	private static bool InternalAiActivate(AiActivate toValidate, NetworkSide side, bool lineCast = true)
 	{
-		if (side == NetworkSide.Client && PlayerManager.LocalPlayer != toValidate.Performer) return false;
+		if (side == NetworkSide.Client && PlayerManager.LocalPlayerObject != toValidate.Performer) return false;
 
 		//Performer and target cant be null
 		if (toValidate.Performer == null || toValidate.TargetObject == null) return false;

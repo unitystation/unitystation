@@ -4,7 +4,7 @@ public static class AtmosConstants
 	/// <summary>
 	/// Minimal pressure difference to occur in order to be registered as Wind
 	/// </summary>
-	public const float MinWindForce = 3f;
+	public const float MinWindForce = 0.25f;
 	/// <summary>
 	/// Minimal force(speed) to push things with when exposed to wind.
 	/// Doesn't push if force is less than that

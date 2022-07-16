@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -8,6 +9,9 @@ namespace Objects.Machines
 {
 	public class MaterialStorage : MonoBehaviour
 	{
+		/// <summary>
+		/// A list of current matterials in this storage, ItemTrait is the material type and int is it's quantity.
+		/// </summary>
 		public Dictionary<ItemTrait, int> MaterialList = new Dictionary<ItemTrait, int>();
 		private int currentResources;
 
@@ -56,16 +60,8 @@ namespace Objects.Machines
 
 		public int TryRemoveSheet(ItemTrait material, int quantity)
 		{
-			if (MaterialList[material] < Cm3PerSheet)
-			{
-				return 0;
-			}
+			quantity = Mathf.Min(quantity, MaterialList[material] / Cm3PerSheet);
 			var Cm3Used = Cm3PerSheet * quantity;
-			if (MaterialList[material] < Cm3Used)
-			{
-				quantity = MaterialList[material] / Cm3PerSheet;
-				Cm3Used = Cm3PerSheet * quantity;
-			}
 			ConsumeMaterial(material, Cm3Used);
 			UpdateGUIs.Invoke();
 			return quantity;
@@ -112,7 +108,7 @@ namespace Objects.Machines
 				var amountToSpawn = MaterialList[material] / Cm3PerSheet;
 				if (amountToSpawn > 0)
 				{
-					Spawn.ServerPrefab(materialToSpawn, gameObject.WorldPosServer(), transform.parent, count: amountToSpawn);
+					Spawn.ServerPrefab(materialToSpawn, gameObject.AssumedWorldPosServer(), transform.parent, count: amountToSpawn);
 				}
 			}
 		}

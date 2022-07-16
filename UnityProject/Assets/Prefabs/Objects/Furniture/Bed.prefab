@@ -1,37 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &5027040430374590435
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1739785981152468424}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 799d5bd9e47a11b4588193b68921813a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  resourcesMadeOf: {fileID: 5770283965274354279, guid: b83b68cfa4a201748aeeece963a989c3,
-    type: 3}
-  howMany: 2
---- !u!114 &6841867470627241666
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1739785981152468424}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5e12f147c494feb4bb0f1d25f7968cf6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  resistTime: 60
-  forceLayingDown: 1
-  allowImpassable: 0
 --- !u!1001 &7790185155478881298
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -179,3 +147,36 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 7790185155478881298}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &5027040430374590435
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1739785981152468424}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 799d5bd9e47a11b4588193b68921813a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  resourcesMadeOf: {fileID: 5770283965274354279, guid: b83b68cfa4a201748aeeece963a989c3,
+    type: 3}
+  howMany: 2
+--- !u!114 &6841867470627241666
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1739785981152468424}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5e12f147c494feb4bb0f1d25f7968cf6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  OccupantPlayerScript: {fileID: 0}
+  resistTime: 60
+  forceLayingDown: 1
+  allowImpassable: 0

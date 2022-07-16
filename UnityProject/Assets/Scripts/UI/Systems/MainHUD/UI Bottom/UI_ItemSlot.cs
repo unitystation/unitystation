@@ -2,15 +2,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.CompilerServices;
 using Items;
-using UnityEditor;
 using UnityEngine;
-using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
 using UnityEngine.Serialization;
 using UnityEngine.UI;
-using AdminCommands;
 using HealthV2;
 using Managers;
 using UI;
@@ -77,6 +73,8 @@ public class UI_ItemSlot : TooltipMonoBehaviour
 	public Image MoreInventoryImage;
 	public HasSubInventory HasSubInventory;
 
+	public Material OverlayMaterial;
+
 	private void Awake()
 	{
 		if (amountText)
@@ -89,7 +87,7 @@ public class UI_ItemSlot : TooltipMonoBehaviour
 			MoreInventoryImage.enabled = false;
 		}
 
-		image = new UI_ItemImage(gameObject);
+		image = new UI_ItemImage(gameObject, OverlayMaterial);
 		hidden = initiallyHidden;
 	}
 
@@ -235,7 +233,7 @@ public class UI_ItemSlot : TooltipMonoBehaviour
 
 		if (!nullItem)
 		{
-			image?.ShowItem(item, color);
+			image?.ShowItem(item,OverlayMaterial,  color);
 			if (placeholderImage)
 				placeholderImage.color = new Color(1, 1, 1, 0);
 
@@ -300,7 +298,7 @@ public class UI_ItemSlot : TooltipMonoBehaviour
 		{
 			placeholderImage.color = Color.white;
 		}
-		
+
 		if (HasSubInventory)
 		{
 			HasSubInventory.itemStorage = null;
@@ -354,23 +352,23 @@ public class UI_ItemSlot : TooltipMonoBehaviour
 		if (isValidPlayer())
 		{
 			var CurrentSlot = PlayerManager.LocalPlayerScript.DynamicItemStorage.GetActiveHandSlot();
-			if (CurrentSlot != itemSlot.itemSlot)
+			if (CurrentSlot != itemSlot.itemSlot) //Check if we're not interacting with our own hand
 			{
-				if (CurrentSlot.Item == null)
+				if (CurrentSlot.Item == null) //check if hand is empty
 				{
-					if (itemSlot.Item != null)
+					if (itemSlot.Item != null) //check if slot is not empty
 					{
+						//if slot is not empty and hand is empty; ask the inventory to give us that item in our hand
 						Inventory.ClientRequestTransfer(itemSlot.ItemSlot, CurrentSlot);
 						return true;
 					}
 				}
 				else
 				{
-					if (itemSlot.Item == null)
-					{
-						Inventory.ClientRequestTransfer(CurrentSlot, itemSlot.ItemSlot);
-						return true;
-					}
+					if (itemSlot.Item != null) return false;
+					//if slot is empty, ask the game to put whatever thats in out hand in it.
+					Inventory.ClientRequestTransfer(CurrentSlot, itemSlot.ItemSlot);
+					return true;
 				}
 			}
 		}
@@ -445,6 +443,7 @@ public class UI_ItemSlot : TooltipMonoBehaviour
 			//check interactables in the active hand (if active hand occupied)
 			if (PlayerManager.LocalPlayerScript.DynamicItemStorage.GetActiveHandSlot().Item != null)
 			{
+				if (combine.IsAltClick && SwapTwoItemsInInventory(combine.FromSlot)) return true;
 				var handInteractables = PlayerManager.LocalPlayerScript.DynamicItemStorage.GetActiveHandSlot().Item
 					.GetComponents<IBaseInteractable<InventoryApply>>()
 					.Where(mb => mb != null && (mb as MonoBehaviour).enabled);
@@ -459,6 +458,14 @@ public class UI_ItemSlot : TooltipMonoBehaviour
 
 		return false;
 	}
+
+	private bool SwapTwoItemsInInventory(ItemSlot CurrentSlot)
+    	{
+    		if (PlayerManager.LocalPlayerScript.playerNetworkActions == null) return false;
+            PlayerManager.LocalPlayerScript.playerNetworkActions.CmdServerReplaceItemInInventory(CurrentSlot.ItemObject,
+    			itemSlot.ItemStorageNetID, itemSlot.NamedSlot.Value);
+            return true;
+    	}
 
 
 	[ContextMenu("Debug Slot")]

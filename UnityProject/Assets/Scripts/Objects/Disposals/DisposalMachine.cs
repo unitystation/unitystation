@@ -26,7 +26,7 @@ namespace Objects.Disposals
 
 		protected RegisterObject registerObject;
 		protected ObjectAttributes objectAttributes;
-		protected ObjectBehaviour objectBehaviour;
+		protected UniversalObjectPhysics objectPhysics;
 		protected ObjectContainer objectContainer;
 		protected GasContainer gasContainer;
 		protected SpriteHandler baseSpriteHandler;
@@ -48,7 +48,7 @@ namespace Objects.Disposals
 		{
 			registerObject = GetComponent<RegisterObject>();
 			objectAttributes = GetComponent<ObjectAttributes>();
-			objectBehaviour = GetComponent<ObjectBehaviour>();
+			objectPhysics = GetComponent<UniversalObjectPhysics>();
 			objectContainer = GetComponent<ObjectContainer>();
 			gasContainer = GetComponent<GasContainer>();
 
@@ -69,7 +69,7 @@ namespace Objects.Disposals
 		protected virtual void SpawnMachineAsInstalled()
 		{
 			SetMachineInstalled();
-			objectBehaviour.ServerSetPushable(false);
+			objectPhysics.SetIsNotPushable(true);
 		}
 
 		#endregion Lifecycle
@@ -207,8 +207,9 @@ namespace Objects.Disposals
 
 		private void UseWrench()
 		{
-			objectBehaviour.ServerSetPushable(objectBehaviour.IsPushable == false);
-			if (objectBehaviour.IsPushable)
+			objectPhysics.SetIsNotPushable(!objectPhysics.IsNotPushable);
+
+			if (objectPhysics.IsNotPushable == false)
 			{
 				SetInstallState(InstallState.Unattached);
 			}

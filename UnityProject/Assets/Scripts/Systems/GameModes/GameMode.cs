@@ -9,6 +9,7 @@ using UnityEngine.Serialization;
 using NaughtyAttributes;
 using Managers;
 using StationObjectives;
+using Player;
 
 namespace GameModes
 {
@@ -230,7 +231,8 @@ namespace GameModes
 			}
 
 			// Has this player enabled any of the possible antags?
-			if (!HasPossibleAntagEnabled(ref spawnRequest.CharacterSettings.AntagPreferences) || !HasPossibleAntagNotBanned(spawnRequest.UserID))
+			if (HasPossibleAntagEnabled(ref spawnRequest.CharacterSettings.AntagPreferences) == false
+					|| HasPossibleAntagNotBanned(spawnRequest.Player.UserId) == false)
 			{
 				return false;
 			}
@@ -272,7 +274,8 @@ namespace GameModes
 			}
 
 			var antagPool = PossibleAntags.Where(a =>
-				HasAntagEnabled(ref playerSpawnRequest.CharacterSettings.AntagPreferences, a) && PlayerList.Instance.CheckJobBanState(playerSpawnRequest.UserID, a.AntagJobType)).ToList();
+					HasAntagEnabled(ref playerSpawnRequest.CharacterSettings.AntagPreferences, a)
+					&& PlayerList.Instance.IsJobBanned(playerSpawnRequest.Player.UserId, a.AntagJobType) == false).ToList();
 
 			if (antagPool.Count < 1)
 			{
@@ -338,7 +341,7 @@ namespace GameModes
 		{
 			foreach (var antag in PossibleAntags)
 			{
-				if (PlayerList.Instance.CheckJobBanState(userID, antag.AntagJobType))
+				if (PlayerList.Instance.IsJobBanned(userID, antag.AntagJobType) == false)
 				{
 					//True if at least one of the antags can be spawned by the player
 					return true;
@@ -365,7 +368,7 @@ namespace GameModes
 				playerSpawnRequests = jobAllocator.DetermineJobs(playerPool);
 				var antagCandidates = playerSpawnRequests.Where(p =>
 					!NonAntagJobTypes.Contains(p.RequestedOccupation.JobType) &&
-					HasPossibleAntagEnabled(ref p.CharacterSettings.AntagPreferences) && HasPossibleAntagNotBanned(p.UserID));
+					HasPossibleAntagEnabled(ref p.CharacterSettings.AntagPreferences) && HasPossibleAntagNotBanned(p.Player.UserId));
 				antagSpawnRequests = antagCandidates.PickRandom(antagsToSpawn).ToList();
 				// Player and antag spawn requests are kept separate to stop players being spawned twice
 				playerSpawnRequests.RemoveAll(antagSpawnRequests.Contains);
@@ -379,8 +382,7 @@ namespace GameModes
 				// Player and antag spawn requests are kept separate to stop players being spawned twice
 				playerPool.RemoveAll(chosenAntags.Contains);
 				playerSpawnRequests = jobAllocator.DetermineJobs(playerPool);
-				antagSpawnRequests = chosenAntags.Select(player =>
-					PlayerSpawnRequest.RequestOccupation(player, null)).ToList();
+				antagSpawnRequests = chosenAntags.Select(player => new PlayerSpawnRequest(player, null)).ToList();
 			}
 
 			// Spawn all players and antags

@@ -4,14 +4,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 using Systems.Atmospherics;
-using Systems.Cargo;
 using Random = UnityEngine.Random;
 using DatabaseAPI;
-using Items;
+using HealthV2;
 using Messages.Client;
 using Messages.Server;
 using Messages.Server.HealthMessages;
 using ScriptableObjects;
+using UI.Action;
 
 namespace IngameDebugConsole
 {
@@ -20,10 +20,69 @@ namespace IngameDebugConsole
 	/// </summary>
 	public class DebugLogUnitystationCommands : MonoBehaviour
 	{
+
+		[ConsoleMethod("CBTool", "Allows users to quickly build conveyor belts.")]
+		public static void EnableCBTool()
+		{
+			if(PlayerManager.LocalPlayerObject == null || PlayerManager.LocalPlayerScript == null)
+			{
+				Logger.Log("Attempted to open the conveyor belt tool when the player has not joined the round yet.");
+				return;
+			}
+			if (PlayerManager.LocalPlayerScript.IsDeadOrGhost)
+			{
+				Logger.Log("Only alive players can use this.");
+				return;
+			}
+			//TODO : Add a check to see which gamemode the player is on currently once sandbox is in instead of locking this behind for admins only.
+			if (AdminCommands.AdminCommandsManager.IsAdmin(PlayerManager.LocalPlayerScript.PlayerInfo.Connection, out _) == false)
+			{
+				Logger.Log("This function can only be executed by admins.", Category.DebugConsole);
+				return;
+			}
+			UIManager.BuildMenu.ShowConveyorBeltMenu();
+		}
+
+		[ConsoleMethod("CloneSelf", "Allows user to test cloning quickly.")]
+		public static void CloneSelf()
+		{
+			if (AdminCommands.AdminCommandsManager.IsAdmin(PlayerManager.LocalPlayerScript.PlayerInfo.Connection, out _) == false)
+			{
+				Logger.Log("This function can only be executed by admins.", Category.DebugConsole);
+				return;
+			}
+
+			var mind = PlayerManager.LocalPlayerScript.mind;
+			var playerBody = PlayerSpawn.ServerClonePlayer(mind, mind.body.gameObject.transform.position.CutToInt()).GetComponent<LivingHealthMasterBase>();
+			playerBody.ApplyDamageAll(null, 2, AttackType.Internal, DamageType.Clone, false);
+		}
+
+		[ConsoleMethod("checkObjectivesStatus", "check the current status of your objectives")]
+		public static void CheckObjectivesStatus()
+		{
+			bool playerSpawned = PlayerManager.LocalPlayerObject != null;
+			if (playerSpawned == false)
+			{
+				Logger.LogError("Player has not spawned yet to be able to check for their objectives!");
+				return;
+			}
+			if (PlayerManager.LocalPlayerScript.mind.IsAntag == false)
+			{
+				Logger.LogError("Player is not an antagonist!");
+				return;
+			}
+
+			Logger.Log("Current player objectives :");
+			foreach (var objective in PlayerManager.LocalPlayerScript.mind.GetAntag().Objectives)
+			{
+				Logger.Log($"{objective.ObjectiveName} -> {objective.IsComplete()}");
+			}
+		}
+
 		[ConsoleMethod("suicide", "kill yo' self")]
 		public static void RunSuicide()
 		{
-			bool playerSpawned = (PlayerManager.LocalPlayer != null);
+			bool playerSpawned = (PlayerManager.LocalPlayerObject != null);
 			if (!playerSpawned)
 			{
 				Logger.Log("Cannot commit suicide. Player has not spawned.", Category.DebugConsole);
@@ -64,15 +123,15 @@ namespace IngameDebugConsole
 				return;
 			}
 
-			bool playerSpawned = (PlayerManager.LocalPlayer != null);
+			bool playerSpawned = (PlayerManager.LocalPlayerObject != null);
 			if (playerSpawned == false)
 			{
 				Logger.Log("Cannot damage player. Player has not spawned.", Category.DebugConsole);
 				return;
 			}
 
-			Logger.Log($"Debugger inflicting {burnDamage} burn damage and {bruteDamage} brute damage on {bodyPart} of {PlayerManager.LocalPlayer.name}", Category.DebugConsole);
-			HealthBodyPartMessage.Send(PlayerManager.LocalPlayer, PlayerManager.LocalPlayer, bodyPart, burnDamage, bruteDamage);
+			Logger.Log($"Debugger inflicting {burnDamage} burn damage and {bruteDamage} brute damage on {bodyPart} of {PlayerManager.LocalPlayerScript.playerName}", Category.DebugConsole);
+			HealthBodyPartMessage.Send(PlayerManager.LocalPlayerObject, PlayerManager.LocalPlayerObject, bodyPart, burnDamage, bruteDamage);
 		}
 
 #if UNITY_EDITOR
@@ -196,9 +255,9 @@ namespace IngameDebugConsole
 #endif
 		private static void PushEveryoneUp()
 		{
-			foreach (ConnectedPlayer player in PlayerList.Instance.InGamePlayers)
+			foreach (PlayerInfo player in PlayerList.Instance.InGamePlayers)
 			{
-				player.GameObject.GetComponent<PlayerScript>().PlayerSync.Push(Vector2Int.up);
+				player.GameObject.GetComponent<PlayerScript>().PlayerSync.TryTilePush(Vector2Int.up, null);
 			}
 		}
 #if UNITY_EDITOR
@@ -206,13 +265,13 @@ namespace IngameDebugConsole
 #endif
 		private static void SpawnMeat()
 		{
-			foreach (ConnectedPlayer player in PlayerList.Instance.InGamePlayers) {
+			foreach (PlayerInfo player in PlayerList.Instance.InGamePlayers) {
 				Vector3 playerPos = player.Script.WorldPos;
 				Vector3 spawnPos = playerPos + new Vector3( 0, 2, 0 );
 				GameObject mealPrefab = CraftingManager.Meals.FindOutputMeal("Meat Steak");
-				var slabs = new List<CustomNetTransform>();
+				var slabs = new List<UniversalObjectPhysics>();
 				for ( int i = 0; i < 5; i++ ) {
-					slabs.Add( Spawn.ServerPrefab(mealPrefab, spawnPos).GameObject.GetComponent<CustomNetTransform>() );
+					slabs.Add( Spawn.ServerPrefab(mealPrefab, spawnPos).GameObject.GetComponent<UniversalObjectPhysics>() );
 				}
 				for ( var i = 0; i < slabs.Count; i++ ) {
 					Vector3 vector3 = i%2 == 0 ? new Vector3(i,-i,0) : new Vector3(-i,i,0);
@@ -226,7 +285,7 @@ namespace IngameDebugConsole
 		private static void PrintPlayerPositions()
 		{
 			//For every player in the connected player list (this list is serverside-only)
-			foreach (ConnectedPlayer player in PlayerList.Instance.InGamePlayers) {
+			foreach (PlayerInfo player in PlayerList.Instance.InGamePlayers) {
 				//Printing this the pretty way, example:
 				//Bob (CAPTAIN) is located at (77,0, 52,0, 0,0)
 				Logger.LogFormat( "{0} ({1)} is located at {2}.", Category.DebugConsole, player.Name, player.Job, player.Script.WorldPos );
@@ -239,6 +298,31 @@ namespace IngameDebugConsole
 		[ConsoleMethod("spawn-dummy", "Spawn dummy player (Server)")]
 		private static void SpawnDummyPlayer() {
 			PlayerSpawn.ServerSpawnDummy();
+		}
+
+#if UNITY_EDITOR
+		[MenuItem("Networking/Spawn 20 dummy players")]
+#endif
+		[ConsoleMethod("spawn-dummy20", "Spawn 20 dummy players (Server)")]
+		private static void SpawnDummyPlayer20()
+		{
+			for (int i = 0; i < 20; i++)
+			{
+				PlayerSpawn.ServerSpawnDummy();
+			}
+		}
+
+
+#if UNITY_EDITOR
+		[MenuItem("Networking/Spawn 100 dummy players")]
+#endif
+		[ConsoleMethod("spawn-dummy100", "Spawn 100 dummy players (Server)")]
+		private static void SpawnDummyPlayer100()
+		{
+			for (int i = 0; i < 100; i++)
+			{
+				PlayerSpawn.ServerSpawnDummy();
+			}
 		}
 
 #if UNITY_EDITOR
@@ -361,7 +445,7 @@ namespace IngameDebugConsole
 		{
 			if (CustomNetworkManager.Instance._isServer)
 			{
-				foreach ( ConnectedPlayer player in PlayerList.Instance.InGamePlayers )
+				foreach ( PlayerInfo player in PlayerList.Instance.InGamePlayers )
 				{
 					foreach (var itemSlot in player.Script.DynamicItemStorage.GetNamedItemSlots(NamedSlot.head))
 					{
@@ -409,7 +493,7 @@ namespace IngameDebugConsole
 		{
 			if (CustomNetworkManager.Instance._isServer)
 			{
-				foreach ( ConnectedPlayer player in PlayerList.Instance.InGamePlayers )
+				foreach ( PlayerInfo player in PlayerList.Instance.InGamePlayers )
 				{
 					foreach (var itemSlot in player.Script.DynamicItemStorage.GetNamedItemSlots(NamedSlot.id))
 					{
@@ -427,7 +511,7 @@ namespace IngameDebugConsole
 		{
 			if (CustomNetworkManager.Instance._isServer)
 			{
-				foreach ( ConnectedPlayer player in PlayerList.Instance.InGamePlayers )
+				foreach ( PlayerInfo player in PlayerList.Instance.InGamePlayers )
 				{
 					foreach (var itemSlot in player.Script.DynamicItemStorage.GetNamedItemSlots(NamedSlot.hands))
 					{
@@ -576,7 +660,7 @@ namespace IngameDebugConsole
 		{
 			if (isSpamming == false) yield break;
 
-			var fakePlayer = ConnectedPlayer.Invalid;
+			var fakePlayer = PlayerInfo.Invalid;
 			fakePlayer.Username = "Huehuehuehue";
 
 			yield return WaitFor.Seconds(Random.Range(0.00001f, 0.01f));

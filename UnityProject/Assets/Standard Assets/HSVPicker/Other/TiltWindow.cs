@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class TiltWindow : MonoBehaviour
@@ -14,7 +15,17 @@ public class TiltWindow : MonoBehaviour
 		mStart = mTrans.localRotation;
 	}
 
-	void Update ()
+	private void OnEnable()
+	{
+		UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
+	}
+
+	private void OnDisable()
+	{
+		UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
+	}
+
+	void UpdateMe()
 	{
 		Vector3 pos = CommonInput.mousePosition;
 

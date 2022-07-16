@@ -6,6 +6,8 @@ using Mirror;
 using Antagonists;
 using Systems.Spells;
 using HealthV2;
+using Items.PDA;
+using Messages.Server;
 using Player;
 using ScriptableObjects.Audio;
 using UI.Action;
@@ -107,6 +109,7 @@ public class Mind
 		ClearOldBody();
 		playerScript.mind = this;
 		body = playerScript;
+		if(antag != null) SetAntag(antag);
 
 		if (playerScript.TryGetComponent<LivingHealthMasterBase>(out var health))
 		{
@@ -133,6 +136,7 @@ public class Mind
 	{
 		if (body)
 		{
+			ClearActionsMessage.SendTo(body.gameObject);
 			body.mind = null;
 		}
 	}
@@ -145,6 +149,15 @@ public class Mind
 		antag = newAntag;
 		ShowObjectives();
 		body.OrNull()?.GetComponent<PlayerOnlySyncValues>().OrNull()?.ServerSetAntag(true);
+	}
+
+	public void AddObjectiveToAntag(Objective objectiveToAdd)
+	{
+		//TODO : Notify the player that a new objective has been added automatically.
+		var list = new List<Objective>();
+		antag.Objectives.CopyTo<Objective>(list);
+		list.Add(objectiveToAdd);
+		antag.Objectives = list;
 	}
 
 	/// <summary>
@@ -214,7 +227,7 @@ public class Mind
 	public bool IsOnline()
 	{
 		NetworkConnection connection = GetCurrentMob().GetComponent<NetworkIdentity>().connectionToClient;
-		return PlayerList.Instance.ContainsConnection(connection);
+		return PlayerList.Instance.Has(connection);
 	}
 
 	/// <summary>
@@ -223,8 +236,26 @@ public class Mind
 	public void ShowObjectives()
 	{
 		if (IsAntag == false) return;
+		var playerMob = GetCurrentMob();
 
-		Chat.AddExamineMsgFromServer(GetCurrentMob(), antag.GetObjectivesForPlayer());
+		//Send Objectives
+		Chat.AddExamineMsgFromServer(playerMob, antag.GetObjectivesForPlayer());
+
+		if (playerMob.TryGetComponent<PlayerScript>(out var body) == false) return;
+		if (antag.Antagonist.AntagJobType == JobType.TRAITOR || antag.Antagonist.AntagJobType == JobType.SYNDICATE)
+        {
+	        if (body.OrNull()?.DynamicItemStorage == null) return;
+        	var playerInventory = body.DynamicItemStorage.GetItemSlots();
+        	foreach (var item in playerInventory)
+        	{
+        		if (item.IsEmpty) continue;
+        		if (item.ItemObject.TryGetComponent<PDALogic>(out var PDA) == false) continue;
+        		if(PDA.IsUplinkCapable == false) continue;
+
+        		//Send Uplink code
+                Chat.AddExamineMsgFromServer(playerMob, $"PDA uplink code retrieved: {PDA.UplinkUnlockCode}");
+	        }
+        }
 	}
 
 	/// <summary>

@@ -33,6 +33,8 @@ namespace HealthV2
 		[SerializeField] [FormerlySerializedAs("Storage")]
 		private List<BodyPartUISlots.StorageCharacteristics> storage;
 
+		public int InterfaceGetInstanceID => GetInstanceID();
+
 		[System.Serializable]
 		public class StorageCharacteristics
 		{
@@ -45,8 +47,7 @@ namespace HealthV2
 			public bool Conditional;
 			[ShowIf(nameof(Conditional))] public Conditional Condition;
 			[NonSerialized] public IDynamicItemSlotS RelatedIDynamicItemSlotS;
-
-
+			[NonSerialized] public int IndexInList = 0;
 		}
 
 

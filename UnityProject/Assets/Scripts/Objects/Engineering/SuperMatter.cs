@@ -7,6 +7,7 @@ using Systems.ElectricalArcs;
 using Systems.Explosions;
 using Systems.Radiation;
 using AddressableReferences;
+using Core.Lighting;
 using HealthV2;
 using Light2D;
 using Messages.Server;
@@ -32,13 +33,7 @@ namespace Objects.Engineering
 		private LightSprite lightSprite;
 
 		[SerializeField]
-		private float pulseSpeed = 0.5f; //here, a value of 0.5f would take 2 seconds and a value of 2f would take half a second
-
-		private const float MAXIntensity = 0.9f; // Max alpha is 1f, but lower so not blinding
-		private const float MINIntensity = 0.1f; // Min alpha is 0f, 0.1f so light doesnt go away completely
-
-		private float targetIntensity = 1f;
-		private float currentIntensity;
+		private LightPulser lightPulser;
 
 		#endregion
 
@@ -157,6 +152,12 @@ namespace Objects.Engineering
 		private ItemTrait superMatterScalpel = null;
 
 		[SerializeField]
+		private ItemTrait superMatterTongs = null;
+
+		[SerializeField]
+		private ItemTrait superMatterSliver = null;
+
+		[SerializeField]
 		private GameObject nuclearParticlePrefab = null;
 
 		private string emitterBulletName;
@@ -262,6 +263,8 @@ namespace Objects.Engineering
 		[SyncVar(hook = nameof(SyncIsDelam))]
 		private bool isDelam;
 
+		[SerializeField] private int explosionStrength = 55000;
+
 		#region LifeCycle
 
 		private void Awake()
@@ -317,13 +320,11 @@ namespace Objects.Engineering
 		private void OnEnable()
 		{
 			UpdateManager.Add(SuperMatterUpdate, updateTime);
-			UpdateManager.Add(CallbackType.UPDATE, SuperMatterLightUpdate);
 		}
 
 		private void OnDisable()
 		{
 			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, SuperMatterUpdate);
-			UpdateManager.Remove(CallbackType.UPDATE, SuperMatterLightUpdate);
 			SoundManager.Stop(loopingSoundGuid);
 		}
 
@@ -338,7 +339,7 @@ namespace Objects.Engineering
 				_ = SoundManager.PlayAtPosition(delamLoopSound, registerTile.WorldPositionServer, gameObject, loopingSoundGuid);
 
 				lightSprite.transform.localScale = new Vector3(9, 9, 9);
-				pulseSpeed = 1f;
+				lightPulser.SetPulseSpeed(1);
 			}
 			else
 			{
@@ -348,7 +349,7 @@ namespace Objects.Engineering
 				_ = SoundManager.PlayAtPosition(normalLoopSound, registerTile.WorldPositionServer, gameObject, loopingSoundGuid);
 
 				lightSprite.transform.localScale = new Vector3(3, 3, 3);
-				pulseSpeed = 0.5f;
+				lightPulser.SetPulseSpeed(0.5f);
 			}
 		}
 
@@ -367,25 +368,6 @@ namespace Objects.Engineering
 			CheckEffects();
 
 			CheckWarnings();
-		}
-
-		private void SuperMatterLightUpdate()
-		{
-			//Looping the light alpha to create a pulsing effect
-			currentIntensity = Mathf.MoveTowards(lightSprite.Color.a, targetIntensity, Time.deltaTime * pulseSpeed);
-
-			if(currentIntensity >= MAXIntensity)
-			{
-				currentIntensity = MAXIntensity;
-				targetIntensity = MINIntensity;
-			}
-			else if(currentIntensity <= MINIntensity)
-			{
-				currentIntensity = MINIntensity;
-				targetIntensity = MAXIntensity;
-			}
-
-			lightSprite.Color.a = currentIntensity;
 		}
 
 		#endregion
@@ -526,7 +508,7 @@ namespace Objects.Engineering
 				{
 					//If there are more then 20 mols, or more then 20% co2
 					powerlossDynamicScaling = Mathf.Clamp(powerlossDynamicScaling +
-					                                        Mathf.Clamp(co2Compositon - powerlossDynamicScaling, -0.02f, 0.02f), 0, 1);
+															Mathf.Clamp(co2Compositon - powerlossDynamicScaling, -0.02f, 0.02f), 0, 1);
 				}
 				else
 				{
@@ -538,7 +520,7 @@ namespace Objects.Engineering
 				powerlossInhibitor =
 					Mathf.Clamp(
 						1 - (powerlossDynamicScaling *
-						     Mathf.Clamp(combinedGas / PowerlossInhibitionMoleBoostThreshold, 1, 1.5f)), 0, 1);
+							 Mathf.Clamp(combinedGas / PowerlossInhibitionMoleBoostThreshold, 1, 1.5f)), 0, 1);
 
 				//Releases stored power into the general pool
 				//We get this by consuming shit or being scalpeled
@@ -629,8 +611,8 @@ namespace Objects.Engineering
 			//Heat and moles account for each other, a lot of hot moles are more damaging then a few
 			//Moles start to have a positive effect on damage after 350
 			superMatterIntegrity -= (Mathf.Max(Mathf.Clamp(removeMix.Moles / 200f, 0.5f, 1f) * removeMix.Temperature -
-			                                   ((273.15f + HeatPenaltyThreshold) * dynamicHeatResistance), 0f)
-				                        * moleHeatPenalty / 150f) * DamageIncreaseMultiplier;
+											   ((273.15f + HeatPenaltyThreshold) * dynamicHeatResistance), 0f)
+										* moleHeatPenalty / 150f) * DamageIncreaseMultiplier;
 
 			//Power only starts affecting damage when it is above 5000
 			superMatterIntegrity -= (Mathf.Max(power - PowerPenaltyThreshold, 0) / 500) * DamageIncreaseMultiplier;
@@ -754,7 +736,8 @@ namespace Objects.Engineering
 
 		private void FireNuclearParticle()
 		{
-			CastProjectileMessage.SendToAll(gameObject, nuclearParticlePrefab, VectorExtensions.DegreeToVector2(Random.Range(0, 361)), default);
+			ProjectileManager.InstantiateAndShoot(nuclearParticlePrefab,
+				VectorExtensions.DegreeToVector2(Random.Range(0, 361)), gameObject, null, BodyPartType.None);
 		}
 
 		#endregion
@@ -894,7 +877,7 @@ namespace Objects.Engineering
 
 			RadiationManager.Instance.RequestPulse( registerTile.LocalPositionServer, detonationRads, GetInstanceID());
 
-			Explosion.StartExplosion(registerTile.WorldPositionServer, 10000);
+			Explosion.StartExplosion(registerTile.WorldPositionServer, explosionStrength);
 
 			_ = Despawn.ServerSingle(gameObject);
 		}
@@ -948,7 +931,7 @@ namespace Objects.Engineering
 			if (teslaCoils.Any())
 			{
 				var groundingRods = teslaCoils.Where(o => o.TryGetComponent<TeslaCoil>(out var teslaCoil) && teslaCoil != null &&
-				                                          teslaCoil.CurrentState == TeslaCoil.TeslaCoilState.Grounding).ToList();
+														  teslaCoil.CurrentState == TeslaCoil.TeslaCoilState.Grounding).ToList();
 
 				if (doTeslaFirst == false)
 				{
@@ -1114,8 +1097,9 @@ namespace Objects.Engineering
 		}
 
 		//Called when bumped by players or collided with by flying items
-		public void OnBump(GameObject bumpedBy)
+		public void OnBump(GameObject bumpedBy, GameObject Client)
 		{
+			if (isServer == false) return;
 			if(isHugBox) return;
 
 			if (bumpedBy.TryGetComponent<PlayerHealthV2>(out var playerHealth))
@@ -1163,6 +1147,9 @@ namespace Objects.Engineering
 			//Dont destroy wrench, it is used to unwrench crystal
 			if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Wrench)) return false;
 
+			//We dont want to vaporize unvaporizible things
+			if (Validations.HasItemTrait(interaction.HandObject, superMatterSliver) || Validations.HasItemTrait(interaction.HandObject, superMatterTongs)) return false;
+
 			return true;
 		}
 
@@ -1192,14 +1179,14 @@ namespace Objects.Engineering
 			//Try removing piece if using supermatter scalpel
 			if (Validations.HasItemTrait(interaction.HandObject, superMatterScalpel))
 			{
-				ToolUtils.ServerUseToolWithActionMessages(interaction, 20,
+				ToolUtils.ServerUseToolWithActionMessages(interaction, 30,
 					$"You carefully begin to scrape the {gameObject.ExpensiveName()} with the {interaction.HandObject.ExpensiveName()}...",
 					$"{interaction.Performer.ExpensiveName()} starts scraping off a part of the {gameObject.ExpensiveName()}...",
 					$"You extract a sliver from the {gameObject.ExpensiveName()}. <color=red>The {gameObject.ExpensiveName()} begins to react violently!</color>",
 					$"{interaction.Performer.ExpensiveName()} scrapes off a shard from the {gameObject.ExpensiveName()}.",
 					() =>
 					{
-						Spawn.ServerPrefab(superMatterShard, interaction.Performer.WorldPosServer(),
+						Spawn.ServerPrefab(superMatterShard, interaction.Performer.AssumedWorldPosServer(),
 							interaction.Performer.transform.parent);
 						matterPower += 800;
 

@@ -76,7 +76,7 @@ namespace Systems.MobAIs
 		private MouseAI AnyMiceNearby()
 		{
 			var hits = coneOfSight.GetObjectsInSight(mobMask, LayerTypeSelection.Walls,
-				directional.CurrentDirection.Vector,
+				rotatable.CurrentDirection.ToLocalVector3(),
 				10f);
 
 			foreach (var coll in hits)
@@ -104,7 +104,7 @@ namespace Systems.MobAIs
 		private void Purr(GameObject purred = null)
 		{
 			AudioSourceParameters audioSourceParameters = new AudioSourceParameters(pitch: Random.Range(.8f, 1.2f));
-			SoundManager.PlayNetworkedAtPos(PurrSFX, gameObject.WorldPosServer(), audioSourceParameters);
+			SoundManager.PlayNetworkedAtPos(PurrSFX, gameObject.AssumedWorldPosServer(), audioSourceParameters);
 
 			if (purred != null)
 			{
@@ -122,7 +122,7 @@ namespace Systems.MobAIs
 		private void Meow(GameObject meowed = null)
 		{
 			AudioSourceParameters audioSourceParameters = new AudioSourceParameters(pitch: Random.Range(.8f, 1.2f));
-			SoundManager.PlayNetworkedAtPos(MeowSFX, gameObject.WorldPosServer(), audioSourceParameters);
+			SoundManager.PlayNetworkedAtPos(MeowSFX, gameObject.AssumedWorldPosServer(), audioSourceParameters);
 
 			if (meowed != null)
 			{
@@ -140,7 +140,7 @@ namespace Systems.MobAIs
 		private void Hiss(GameObject hissed = null)
 		{
 			AudioSourceParameters audioSourceParameters = new AudioSourceParameters(pitch: Random.Range(.9f, 1f));
-			SoundManager.PlayNetworkedAtPos(CatHissSFX, gameObject.WorldPosServer(), audioSourceParameters);
+			SoundManager.PlayNetworkedAtPos(CatHissSFX, gameObject.AssumedWorldPosServer(), audioSourceParameters);
 
 			if (hissed != null)
 			{

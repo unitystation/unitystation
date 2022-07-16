@@ -7,6 +7,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1482850540341849969, guid: 8f0d3c109bc98c24ba17cd032ae79b6c,
+        type: 3}
+      propertyPath: tileMoveSpeed
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 3196767640820971150, guid: 8f0d3c109bc98c24ba17cd032ae79b6c,
         type: 3}
       propertyPath: m_Sprite
@@ -59,26 +64,6 @@ PrefabInstance:
     - target: {fileID: 8037962110785647102, guid: 8f0d3c109bc98c24ba17cd032ae79b6c,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8037962110785647102, guid: 8f0d3c109bc98c24ba17cd032ae79b6c,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8037962110785647102, guid: 8f0d3c109bc98c24ba17cd032ae79b6c,
-        type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8037962110785647102, guid: 8f0d3c109bc98c24ba17cd032ae79b6c,
-        type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8037962110785647102, guid: 8f0d3c109bc98c24ba17cd032ae79b6c,
-        type: 3}
-      propertyPath: m_LocalRotation.z
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8037962110785647102, guid: 8f0d3c109bc98c24ba17cd032ae79b6c,

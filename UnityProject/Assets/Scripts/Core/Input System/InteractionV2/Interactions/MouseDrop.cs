@@ -56,11 +56,11 @@ public class MouseDrop : TargetedInteraction
 		var pu = droppedObject.GetComponent<Pickupable>();
 		if (pu != null)
 		{
-			return new MouseDrop(PlayerManager.LocalPlayer, droppedObject, targetObject, pu.ItemSlot, UIManager.CurrentIntent);
+			return new MouseDrop(PlayerManager.LocalPlayerObject, droppedObject, targetObject, pu.ItemSlot, UIManager.CurrentIntent);
 		}
 		else
 		{
-			return new MouseDrop(PlayerManager.LocalPlayer, droppedObject, targetObject, null, UIManager.CurrentIntent);
+			return new MouseDrop(PlayerManager.LocalPlayerObject, droppedObject, targetObject, null, UIManager.CurrentIntent);
 		}
 	}
 

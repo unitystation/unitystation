@@ -19,17 +19,18 @@ public class ConnectionApply : TargetedInteraction
 
 	private readonly Connection connectionPointA, connectionPointB;
 
-	private readonly Vector2 targetVector;
+	private readonly Vector2 targetPosition;
 
 	/// <summary>
 	/// Targeted world position deduced from target vector and performer position.
 	/// </summary>
-	public Vector2 WorldPositionTarget => (Vector2)Performer.transform.position + targetVector;
+	public Vector2 WorldPositionTarget => (Vector2)targetPosition.To3().ToWorld(Performer.RegisterTile().Matrix);
 
 	/// <summary>
 	/// Vector pointing from the performer to the targeted position. Set to Vector2.zero if aiming at self.
 	/// </summary>
-	public Vector2 TargetVector => targetVector;
+	///
+	public Vector2 TargetPosition => targetPosition;
 
 
 	/// <summary>
@@ -51,11 +52,11 @@ public class ConnectionApply : TargetedInteraction
 	/// <param name="endPoint">cable end connection</param>
 	/// <param name="worldPositionTarget">position of target tile (world space)</param>
 	/// <param name="handSlot">active hand slot that is being used</param>
-	private ConnectionApply(GameObject performer, GameObject handObject, GameObject targetObject, Connection startPoint, Connection endPoint, Vector2 targetVec,
+	private ConnectionApply(GameObject performer, GameObject handObject, GameObject targetObject, Connection startPoint, Connection endPoint, Vector2 targetPosition,
 		ItemSlot handSlot, Intent intent) :
 		base(performer, handObject, targetObject, intent)
 	{
-		this.targetVector = targetVec;
+		this.targetPosition = targetPosition;
 		this.connectionPointA = startPoint;
 		this.connectionPointB = endPoint;
 		this.handSlot = handSlot;
@@ -69,14 +70,24 @@ public class ConnectionApply : TargetedInteraction
 	/// <param name="wireEndB">cable end connection</param>
 	/// <param name="worldPositionTarget">position of target tile (world space)</param>
 	/// <returns></returns>
-	public static ConnectionApply ByLocalPlayer(GameObject targetObject, Connection wireEndA, Connection wireEndB, Vector2? targetVector)
+	public static ConnectionApply ByLocalPlayer(GameObject targetObject, Connection wireEndA, Connection wireEndB, Vector3? IntargetVector)
 	{
 		if (PlayerManager.LocalPlayerScript.IsGhost) return Invalid;
 
-		var targetVec = targetVector ?? MouseUtils.MouseToWorldPos() - PlayerManager.LocalPlayer.transform.position;
+		Vector3 targetVec;
+		if (IntargetVector != null)
+		{
+			targetVec = IntargetVector.Value;
+		}
+		else
+		{
+			targetVec = MouseUtils.MouseToWorldPos().ToLocal(PlayerManager.LocalPlayerObject.RegisterTile().Matrix);
+		}
+
+
 
 		return new ConnectionApply(
-			PlayerManager.LocalPlayer,
+			PlayerManager.LocalPlayerObject,
 			PlayerManager.LocalPlayerScript.DynamicItemStorage.GetActiveHandSlot().ItemObject,
 			targetObject,
 			wireEndA,

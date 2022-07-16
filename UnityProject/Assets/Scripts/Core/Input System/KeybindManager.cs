@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -49,7 +49,9 @@ public enum KeyAction
 	ChatLocal,
 	ChatRadio,
 	ChatOOC,
+	ToggleHelp,
 	ToggleAHelp,
+	ToggleMHelp,
 
 	// Body Part Targeting
 	TargetHead,
@@ -73,7 +75,7 @@ public enum KeyAction
 	PocketOne,
 	PocketTwo,
 	PocketThree,
-	ToggleMHelp,
+	
 	//Interactions that only happen when this key is pressed
 	RadialScrollBackward,
 	RadialScrollForward,
@@ -342,7 +344,9 @@ public class KeybindManager : MonoBehaviour {
 		{ KeyAction.ChatLocal,	new KeybindMetadata("Chat", ActionType.Chat)},
 		{ KeyAction.ChatRadio,	new KeybindMetadata("Radio Chat", ActionType.Chat)},
 		{ KeyAction.ChatOOC,	new KeybindMetadata("OOC Chat", ActionType.Chat)},
-		{ KeyAction.ToggleAHelp,	new KeybindMetadata("Toggle AHelp", ActionType.Chat)},
+		{ KeyAction.ToggleHelp,	new KeybindMetadata("Toggle Help Window", ActionType.Chat)},
+		{ KeyAction.ToggleAHelp,	new KeybindMetadata("Toggle Admin Help", ActionType.Chat)},
+		{ KeyAction.ToggleMHelp,	new KeybindMetadata("Toggle Mentor Help", ActionType.Chat)},
 
 		// Body part selection
 		{ KeyAction.TargetHead,		new KeybindMetadata("Target Head, Eyes and Mouth", ActionType.Targeting)},
@@ -403,8 +407,10 @@ public class KeybindManager : MonoBehaviour {
 		// Chat
 		{ KeyAction.ChatLocal, 		new DualKeyCombo(new KeyCombo(KeyCode.T), new KeyCombo(KeyCode.Return))},
 		{ KeyAction.ChatRadio,		new DualKeyCombo(new KeyCombo(KeyCode.Y), null)},
-		{ KeyAction.ChatOOC,   		new DualKeyCombo(new KeyCombo(KeyCode.U), null)},
-		{ KeyAction.ToggleAHelp,    new DualKeyCombo(new KeyCombo(KeyCode.F1), null)},
+		{ KeyAction.ChatOOC,   		new DualKeyCombo(new KeyCombo(KeyCode.O), null)},
+		{ KeyAction.ToggleHelp,    new DualKeyCombo(new KeyCombo(KeyCode.F1), null)},
+		{ KeyAction.ToggleAHelp,    new DualKeyCombo(new KeyCombo(KeyCode.F2), null)},
+		{ KeyAction.ToggleMHelp,    new DualKeyCombo(new KeyCombo(KeyCode.F3), null)},
 
 		// Body part selection
 		{ KeyAction.TargetHead, 	new DualKeyCombo(new KeyCombo(KeyCode.Keypad8), null)},
@@ -613,7 +619,7 @@ public class KeybindManager : MonoBehaviour {
 			}
 			catch (Exception e)
 			{
-				Logger.LogWarning("Couldn't deserialize userKeybind JSON: " + e, Category.Keybindings);
+				Logger.LogError("Couldn't deserialize userKeybind JSON: " + e, Category.Keybindings);
 				ResetKeybinds();
 				ModalPanelManager.Instance.Inform("Unable to read saved keybinds.\nThey were either corrupt or outdated, so they have been reset.");
 			}
@@ -628,7 +634,7 @@ public class KeybindManager : MonoBehaviour {
 			}
 			catch (Exception e)
 			{
-				Logger.LogWarning("Unable to add new keybind entries" + e, Category.Keybindings);
+				Logger.LogError("Unable to add new keybind entries" + e, Category.Keybindings);
 				ResetKeybinds();
 				ModalPanelManager.Instance.Inform("Unable to read saved keybinds.\nThey were either corrupt or outdated, so they have been reset.");
 			}
@@ -638,7 +644,7 @@ public class KeybindManager : MonoBehaviour {
 			}
 			catch (Exception e)
 			{
-				Logger.LogWarning("Unable to remove old keybind entries" + e, Category.Keybindings);
+				Logger.LogError("Unable to remove old keybind entries" + e, Category.Keybindings);
 				ResetKeybinds();
 				ModalPanelManager.Instance.Inform("Unable to read saved keybinds.\nThey were either corrupt or outdated, so they have been reset.");
 			}

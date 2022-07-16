@@ -5,6 +5,7 @@ using Systems.Atmospherics;
 using Tilemaps.Behaviours.Meta;
 using UnityEngine;
 using Mirror;
+using Tiles;
 
 /// <summary>
 /// Subsystem behavior which manages updating the MetaDataNodes and simulation that affects them for a given matrix.
@@ -117,16 +118,23 @@ public class MetaDataSystem : SubsystemBehaviour
 		}
 
 		SetupNeighbors(node);
-		MetaUtils.AddToNeighbors(node);
+
+
+
+		if (MatrixManager.AtPoint(node.Position.ToWorld(node.PositionMatrix).RoundToInt(),
+			    CustomNetworkManager.IsServer) == node.PositionMatrix.MatrixInfo)
+		{
+			MetaUtils.AddToNeighbors(node);
+		}
 	}
 
 	private void LocateRooms()
 	{
-		BoundsInt bounds = metaTileMap.GetLocalBounds();
+		var bounds = metaTileMap.GetLocalBounds();
 
 		var watch = new Stopwatch();
 		watch.Start();
-		foreach (Vector3Int position in bounds.allPositionsWithin)
+		foreach (Vector3Int position in bounds.allPositionsWithin())
 		{
 			FindRoomAt(position);
 		}
@@ -250,11 +258,11 @@ public class MetaDataSystem : SubsystemBehaviour
 
 			if (metaTileMap.IsSpaceAt(neighbor, true))
 			{
-				// // if current node is a room, but the neighboring is a space tile, this node needs to be checked regularly for changes by other matrices
-				// if (node.IsRoom && !externalNodes.ContainsKey(node) && metaTileMap.IsSpaceAt(node.Position, true) == false)
-				// {
-				// 	externalNodes[node] = node;
-				// }
+				// if current node is a room, but the neighboring is a space tile, this node needs to be checked regularly for changes by other matrices
+				if (node.IsRoom && !externalNodes.ContainsKey(node) && metaTileMap.IsSpaceAt(node.Position, true) == false)
+				{
+					externalNodes[node] = node;
+				}
 
 				// If the node is not space, check other matrices if it has a tile next to this node.
 				if (!node.IsSpace)
@@ -272,8 +280,33 @@ public class MetaDataSystem : SubsystemBehaviour
 							// Check if atmos can pass to the neighboring position
 							Vector3Int neighborlocalPosition = MatrixManager.WorldToLocalInt(neighborWorldPosition, matrixInfo);
 
+							var OppositeNode = matrixInfo.MetaDataLayer.Get(neighborlocalPosition);
+
 							// add node of other matrix to the neighbors of the current node
-							node.AddNeighbor(matrixInfo.MetaDataLayer.Get(neighborlocalPosition), dir);
+							node.AddNeighbor(OppositeNode, dir);
+
+							if (dir == Vector3Int.up)
+							{
+								OppositeNode.AddNeighbor(node, Vector3Int.down);
+							}
+							else if (dir == Vector3Int.down)
+							{
+								OppositeNode.AddNeighbor(node, Vector3Int.up);
+							}
+							else if (dir == Vector3Int.right)
+							{
+								OppositeNode.AddNeighbor(node, Vector3Int.left);
+							}
+							else if (dir == Vector3Int.left)
+							{
+								OppositeNode.AddNeighbor(node, Vector3Int.right);
+							}
+
+							// if current node is a room, but the neighboring is a space tile, this node needs to be checked regularly for changes by other matrices
+							if (OppositeNode.IsRoom && !OppositeNode.MetaDataSystem.externalNodes.ContainsKey(node) && OppositeNode.MetaDataSystem.metaTileMap.IsSpaceAt(OppositeNode.Position, true) == false)
+							{
+								OppositeNode.MetaDataSystem.externalNodes[OppositeNode] = OppositeNode;
+							}
 
 							// skip other checks for neighboring tile on local tilemap, to prevent the space tile to be added as a neighbor
 							continue;
@@ -306,9 +339,12 @@ public class MetaDataSystem : SubsystemBehaviour
 
 	private void ServerUpdateMe()
 	{
-		foreach (MetaDataNode node in externalNodes.Keys)
+		if (matrix.MatrixMove != null && matrix.MatrixMove.IsMovingServer)
 		{
-			subsystemManager.UpdateAt(node.Position);
+			foreach (MetaDataNode node in externalNodes.Keys)
+			{
+				subsystemManager.UpdateAt(node.Position);
+			}
 		}
 	}
 }

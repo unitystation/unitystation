@@ -8,8 +8,13 @@ namespace Objects.Mining
 	public class PickaxeMineable : MonoBehaviour
 	{
 		[SerializeField] private float mineTime = 3;
-		public float MineTime => mineTime;
 
+		[Range(1, 10)]
+		[Tooltip("How hard is this object to mine? Higher means certain tools cannot mine it.")]
+		[SerializeField] private int mineableHardness = 1;
+
+		public float MineTime => mineTime;
+		public int MineableHardness => mineableHardness;
 	
 	}
 }

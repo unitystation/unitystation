@@ -60,18 +60,25 @@ namespace Health.Sickness
 			DebugGizmoUtils.DrawText(Sickness.SicknessName, registerTile.WorldPositionServer);
 		}
 
-		public void OnStep(GameObject eventData)
+		public virtual bool WillAffectPlayer(PlayerScript playerScript)
 		{
-			if (eventData.TryGetComponent(out PlayerHealthV2 playerHealth))
-			{
-				playerHealth.AddSickness(Sickness);
-			}
+			return playerScript.IsGhost == false;
 		}
 
-		public bool WillStep(GameObject eventData)
+		public void OnPlayerStep(PlayerScript playerScript)
 		{
-			if (eventData.TryGetComponent<PlayerHealthV2>(out var _)) return true;
-			return false;
+			SpawnResult sickNessResult = Spawn.ServerPrefab(transform.GetChild(0).gameObject, Vector3.zero, playerScript.gameObject.transform);
+			if (sickNessResult.Successful && sickNessResult.GameObject.TryGetComponent<Sickness>(out var sickness))
+			{
+				sickness.SetCure(transform.GetChild(0).GetComponent<Sickness>().CureForSickness);
+				playerScript.playerHealth.AddSickness(sickness);
+			}
+
+		}
+
+		public void Setup(GameObject sicknessObject)
+		{
+			sicknessObject.transform.SetParent(this.transform);
 		}
 	}
 }

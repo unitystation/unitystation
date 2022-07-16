@@ -37,7 +37,7 @@ PrefabInstance:
     - target: {fileID: 7621659375984970461, guid: a859eb3fcda3a8747aba7894b40cfdb6,
         type: 3}
       propertyPath: initialReagentMix.reagents.m_values.Array.data[0]
-      value: 6
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 7621659375984970461, guid: a859eb3fcda3a8747aba7894b40cfdb6,
         type: 3}
@@ -113,7 +113,7 @@ PrefabInstance:
         type: 3}
       propertyPath: customNetTransform
       value: 
-      objectReference: {fileID: 8352067149620353208}
+      objectReference: {fileID: 0}
     - target: {fileID: 8799590024976822569, guid: a859eb3fcda3a8747aba7894b40cfdb6,
         type: 3}
       propertyPath: m_Sprite
@@ -137,15 +137,3 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a859eb3fcda3a8747aba7894b40cfdb6, type: 3}
---- !u!114 &8352067149620353208 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 8753368599492423589, guid: a859eb3fcda3a8747aba7894b40cfdb6,
-    type: 3}
-  m_PrefabInstance: {fileID: 761872013913061149}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 579884b05ae74e8499329b64997147d3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 

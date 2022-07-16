@@ -41,7 +41,9 @@ namespace Core
 			var get_curVersion = new UnityWebRequest(url);
 			yield return get_curVersion.SendWebRequest();
 
-			if (get_curVersion.isNetworkError | get_curVersion.isHttpError | get_curVersion.downloadHandler.text == "")
+			if (get_curVersion.result == UnityWebRequest.Result.ConnectionError
+					|| get_curVersion.result == UnityWebRequest.Result.ProtocolError
+					|| get_curVersion.downloadHandler.text == "")
 			{
 				errorWindow.SetActive(true);
 			}

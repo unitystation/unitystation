@@ -25,7 +25,7 @@ namespace Objects
 		public bool WillInteract(ContextMenuApply interaction, NetworkSide side)
 		{
 			if (!DefaultWillInteract.Default(interaction, side)) return false;
-			if (TryGetComponent(out ObjectBehaviour behaviour) && !behaviour.IsPushable) return false;
+			if (TryGetComponent(out UniversalObjectPhysics behaviour) && behaviour.IsNotPushable) return false;
 
 			return DefaultWillInteract.Default(interaction, side);
 		}
@@ -48,7 +48,7 @@ namespace Objects
 			SpawnResult flippedObjectSpawn = Spawn.ServerPrefab(flippedObject, gameObject.RegisterTile().WorldPositionServer);
 			if (flippedObjectSpawn.Successful)
 			{
-				if (flippedObjectSpawn.GameObject.TryGetComponent(out Directional directional))
+				if (flippedObjectSpawn.GameObject.TryGetComponent(out Rotatable directional))
 				{
 					var initialOrientation = directional.CurrentDirection;
 					directional.FaceDirection(initialOrientation);

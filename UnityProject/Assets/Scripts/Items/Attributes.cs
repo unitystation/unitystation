@@ -2,12 +2,12 @@ using System.Linq;
 using UnityEngine;
 using Mirror;
 using Core.Editor.Attributes;
+using Detective;
 using Messages.Client.Interaction;
 using NaughtyAttributes;
 
 [RequireComponent(typeof(Integrity))]
-[RequireComponent(typeof(CustomNetTransform))]
-public class Attributes : NetworkBehaviour, IRightClickable, IExaminable
+public class Attributes : NetworkBehaviour, IRightClickable, IExaminable, IServerSpawn
 {
 
 	[Tooltip("Display name of this item when spawned.")]
@@ -51,10 +51,9 @@ public class Attributes : NetworkBehaviour, IRightClickable, IExaminable
 		}
 	}
 
-	[SerializeField, BoxGroup("Cargo"), PrefabModeOnly]
-	[Tooltip("If default, will only be considered exportable if the value is not zero and the object is movable.")]
-	private CargoExportType exportType = CargoExportType.Default;
-	public CargoExportType ExportType => exportType;
+	[SerializeField, BoxGroup("Cargo")]
+	[Tooltip("Can this be sold while oboard a cargo shuttle?")]
+	public bool CanBeSoldInCargo = true;
 
 	[Tooltip("Should an alternate name be used when displaying this in the cargo console report?")]
 	[SerializeField, BoxGroup("Cargo"), PrefabModeOnly]
@@ -75,15 +74,48 @@ public class Attributes : NetworkBehaviour, IRightClickable, IExaminable
 	[SyncVar(hook = nameof(SyncArticleDescription))]
 	private string articleDescription;
 
+
+	/// <summary>
+	/// Sizes:
+	/// Tiny - pen, coin, pills. Anything you'd easily lose in a couch.
+	/// Small - Pocket-sized items. You could hold a couple in one hand, but ten would be a hassle without a bag. Apple, phone, drinking glass etc.
+	/// Medium - default size. Fairly bulky but stuff you could carry in one hand and stuff into a backpack. Most tools would fit this size.
+	/// Large - particularly long or bulky items that would need a specialised bag to carry them. A shovel, a snowboard etc or wall mounts, kitchen appliance.
+	/// Huge - Think, like, a fridge. Absolute unit. You aren't stuffing this into anything less than a shipping crate or plasma generator.
+	/// Massive - Particle accelerator piece, takes up the entire tile.
+	/// Humongous - Multi-block/Sprite stretches across multiple tiles structures such as the gateway
+	/// </summary>
+	[Tooltip("Size of this item when spawned. Is medium by default, which you should change if needed.")]
+	[SerializeField]
+	private Size initialSize = global::Size.Medium;
+
+	/// <summary>
+	/// Current size.
+	/// </summary>
+	[SyncVar(hook = nameof(SyncSize))]
+	private Size size;
+
+	/// <summary>
+	/// Current size
+	/// </summary>
+	public Size Size => size;
+
 	/// <summary>
 	/// Current description
 	/// </summary>
 	public string ArticleDescription => articleDescription;
 
+
+	/// <summary>
+	/// For the detectives Scanner
+	/// </summary>
+	public AppliedDetails AppliedDetails = new AppliedDetails();
+
 	public override void OnStartClient()
 	{
 		SyncArticleName(articleName, articleName);
 		SyncArticleDescription(articleDescription, articleDescription);
+		SyncSize(size, this.size);
 		base.OnStartClient();
 	}
 
@@ -94,6 +126,21 @@ public class Attributes : NetworkBehaviour, IRightClickable, IExaminable
 		base.OnStartServer();
 	}
 
+	private void SyncSize(Size oldSize, Size newSize)
+	{
+		size = newSize;
+	}
+
+	/// <summary>
+	/// Change this item's size and sync it to clients.
+	/// </summary>
+	/// <param name="newSize"></param>
+	[Server]
+	public void ServerSetSize(Size newSize)
+	{
+		SyncSize(size, newSize);
+	}
+
 	private void SyncArticleName(string oldName, string newName)
 	{
 		articleName = newName;
@@ -102,6 +149,11 @@ public class Attributes : NetworkBehaviour, IRightClickable, IExaminable
 	private void SyncArticleDescription(string oldDescription, string newDescription)
 	{
 		articleDescription = newDescription;
+	}
+
+	public void OnSpawnServer(SpawnInfo info)
+	{
+		size = initialSize;
 	}
 
 	/// <summary>
@@ -149,7 +201,12 @@ public class Attributes : NetworkBehaviour, IRightClickable, IExaminable
 
 	private void OnExamine()
 	{
-		RequestExamineMessage.Send(GetComponent<NetworkIdentity>().netId);
+		RequestExamineMessage.Send(netId);
+	}
+
+	private void OnPointTo()
+	{
+		PlayerManager.LocalPlayerScript.playerNetworkActions.CmdPoint(gameObject, gameObject.AssumedWorldPosServer());
 	}
 
 	// Initial implementation of shift examine behaviour
@@ -177,11 +234,17 @@ public class Attributes : NetworkBehaviour, IRightClickable, IExaminable
 	public RightClickableResult GenerateRightClickOptions()
 	{
 		return RightClickableResult.Create()
-			.AddElement("Examine", OnExamine);
+			.AddElement("Examine", OnExamine)
+			.AddElement("PointTo", OnPointTo);
 	}
 
 	public void ServerSetArticleName(string newName)
 	{
+		if (gameObject.TryGetComponent<Stackable>(out var stack))
+		{
+			newName = $"{newName} ({stack.Amount})";
+		}
+		newName = newName.Replace("[item]", $"{initialName}");
 		SyncArticleName(articleName, newName);
 	}
 
@@ -189,13 +252,5 @@ public class Attributes : NetworkBehaviour, IRightClickable, IExaminable
 	public void ServerSetArticleDescription(string desc)
 	{
 		SyncArticleDescription(articleDescription, desc);
-	}
-
-	public enum CargoExportType
-	{
-		/// <summary>Export if value not zero and not secured.</summary>
-		Default = 0,
-		Always = 1,
-		Never = 2,
 	}
 }

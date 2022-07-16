@@ -73,6 +73,7 @@ namespace UI.Items
 			{
 				if (itemSlot.ItemObject != null && itemSlot.ItemObject.TryGetComponent<Pen>(out pen))
 				{
+					break;
 				}
 			}
 

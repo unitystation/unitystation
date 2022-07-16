@@ -1,24 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &3447538617788203121
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7455546943915704510}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2287edb10a0f4d21a75b58f179a7e673, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  mobName: chestburster
-  minTimeBetweenRandomActions: 10
-  maxTimeBetweenRandomActions: 10
-  doRandomActionWhenInTask: 0
-  timeToGrow: 200
-  xenomorph: {fileID: 7495180291926065977, guid: 00a84f751afb412428a586d23cf90b39,
-    type: 3}
 --- !u!1001 &6051990183045278970
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -30,6 +11,21 @@ PrefabInstance:
         type: 3}
       propertyPath: mobName
       value: alien larva
+      objectReference: {fileID: 0}
+    - target: {fileID: 941816724250882487, guid: cf769d410d94f0e47bab5eee03a3b07d,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 941816724250882487, guid: cf769d410d94f0e47bab5eee03a3b07d,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 941816724250882487, guid: cf769d410d94f0e47bab5eee03a3b07d,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 3783638323905235520, guid: cf769d410d94f0e47bab5eee03a3b07d,
         type: 3}
@@ -49,26 +45,6 @@ PrefabInstance:
     - target: {fileID: 3783638323905235520, guid: cf769d410d94f0e47bab5eee03a3b07d,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3783638323905235520, guid: cf769d410d94f0e47bab5eee03a3b07d,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3783638323905235520, guid: cf769d410d94f0e47bab5eee03a3b07d,
-        type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3783638323905235520, guid: cf769d410d94f0e47bab5eee03a3b07d,
-        type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3783638323905235520, guid: cf769d410d94f0e47bab5eee03a3b07d,
-        type: 3}
-      propertyPath: m_LocalRotation.z
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3783638323905235520, guid: cf769d410d94f0e47bab5eee03a3b07d,
@@ -228,3 +204,23 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 6051990183045278970}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &3447538617788203121
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7455546943915704510}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2287edb10a0f4d21a75b58f179a7e673, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mobName: chestburster
+  registerObject: {fileID: 0}
+  minTimeBetweenRandomActions: 10
+  maxTimeBetweenRandomActions: 10
+  doRandomActionWhenInTask: 0
+  timeToGrow: 200
+  xenomorph: {fileID: 7495180291926065977, guid: 00a84f751afb412428a586d23cf90b39,
+    type: 3}

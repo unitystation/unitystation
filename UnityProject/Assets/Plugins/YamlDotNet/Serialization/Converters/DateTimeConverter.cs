@@ -1,23 +1,23 @@
-//  This file is part of YamlDotNet - A .NET library for YAML.
-//  Copyright (c) Antoine Aubry and contributors
-
-//  Permission is hereby granted, free of charge, to any person obtaining a copy of
-//  this software and associated documentation files (the "Software"), to deal in
-//  the Software without restriction, including without limitation the rights to
-//  use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies
-//  of the Software, and to permit persons to whom the Software is furnished to do
-//  so, subject to the following conditions:
-
-//  The above copyright notice and this permission notice shall be included in all
-//  copies or substantial portions of the Software.
-
-//  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-//  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-//  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-//  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-//  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-//  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-//  SOFTWARE.
+﻿// This file is part of YamlDotNet - A .NET library for YAML.
+// Copyright (c) Antoine Aubry and contributors
+//
+// Permission is hereby granted, free of charge, to any person obtaining a copy of
+// this software and associated documentation files (the "Software"), to deal in
+// the Software without restriction, including without limitation the rights to
+// use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies
+// of the Software, and to permit persons to whom the Software is furnished to do
+// so, subject to the following conditions:
+//
+// The above copyright notice and this permission notice shall be included in all
+// copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+// SOFTWARE.
 
 using System;
 using System.Globalization;
@@ -44,7 +44,7 @@ namespace YamlDotNet.Serialization.Converters
         /// <param name="provider"><see cref="IFormatProvider"/> instance. Default value is <see cref="CultureInfo.InvariantCulture"/>.</param>
         /// <param name="formats">List of date/time formats for parsing. Default value is "<c>G</c>".</param>
         /// <remarks>On deserializing, all formats in the list are used for conversion, while on serializing, the first format in the list is used.</remarks>
-        public DateTimeConverter(DateTimeKind kind = DateTimeKind.Utc, IFormatProvider provider = null, params string[] formats)
+        public DateTimeConverter(DateTimeKind kind = DateTimeKind.Utc, IFormatProvider? provider = null, params string[] formats)
         {
             this.kind = kind == DateTimeKind.Unspecified ? DateTimeKind.Utc : kind;
             this.provider = provider ?? CultureInfo.InvariantCulture;
@@ -70,14 +70,11 @@ namespace YamlDotNet.Serialization.Converters
         /// <remarks>On deserializing, all formats in the list are used for conversion.</remarks>
         public object ReadYaml(IParser parser, Type type)
         {
-            var value = ((Scalar)parser.Current).Value;
+            var value = parser.Consume<Scalar>().Value;
             var style = this.kind == DateTimeKind.Local ? DateTimeStyles.AssumeLocal : DateTimeStyles.AssumeUniversal;
 
             var dt = DateTime.ParseExact(value, this.formats, this.provider, style);
             dt = EnsureDateTimeKind(dt, this.kind);
-
-            parser.MoveNext();
-
             return dt;
         }
 
@@ -88,13 +85,13 @@ namespace YamlDotNet.Serialization.Converters
         /// <param name="value">Value to write.</param>
         /// <param name="type"><see cref="Type"/> to convert.</param>
         /// <remarks>On serializing, the first format in the list is used.</remarks>
-        public void WriteYaml(IEmitter emitter, object value, Type type)
+        public void WriteYaml(IEmitter emitter, object? value, Type type)
         {
-            var dt = (DateTime) value;
+            var dt = (DateTime)value!;
             var adjusted = this.kind == DateTimeKind.Local ? dt.ToLocalTime() : dt.ToUniversalTime();
             var formatted = adjusted.ToString(this.formats.First(), this.provider); // Always take the first format of the list.
 
-            emitter.Emit((ParsingEvent)new Scalar((string)null, (string)null, formatted, ScalarStyle.Any, true, false));
+            emitter.Emit(new Scalar(AnchorName.Empty, TagName.Empty, formatted, ScalarStyle.Any, true, false));
         }
 
         private static DateTime EnsureDateTimeKind(DateTime dt, DateTimeKind kind)

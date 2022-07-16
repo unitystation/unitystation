@@ -1,8 +1,7 @@
 ﻿using System.Collections.Generic;
-using Hacking;
-using Messages.Server;
-using Mirror;
 using UnityEngine;
+using Mirror;
+using Systems.Hacking;
 
 namespace Messages.Client
 {

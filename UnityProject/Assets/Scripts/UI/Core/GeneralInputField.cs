@@ -17,7 +17,17 @@ namespace UI.Core
 
 		#region focus Check
 
-		void Update()
+		private void OnEnable()
+		{
+			UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
+		}
+
+		private void OnDisable()
+		{
+			UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
+		}
+
+		void UpdateMe()
 		{
 			if (input.isFocused && focusCheck == false)
 			{
@@ -67,7 +77,7 @@ namespace UI.Core
 
 		public void OnProceedPressed()
 		{
-			if(PlayerManager.LocalPlayer == null) return;
+			if(PlayerManager.LocalPlayerObject == null) return;
 
 			PlayerManager.LocalPlayerScript.playerNetworkActions.CmdFilledDynamicInput(lastOpener, input.text);
 

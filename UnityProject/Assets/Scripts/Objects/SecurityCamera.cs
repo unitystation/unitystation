@@ -169,7 +169,7 @@ namespace Objects
 		[Client]
 		private void SyncStatus(bool oldState, bool newState)
 		{
-			if(PlayerManager.LocalPlayer.OrNull()?.GetComponent<AiPlayer>() == null) return;
+			if(PlayerManager.LocalPlayerObject.OrNull()?.GetComponent<AiPlayer>() == null) return;
 
 			ToggleAiSprite(newState);
 
@@ -199,7 +199,7 @@ namespace Objects
 
 		public void SetUp(PlayerScript player)
 		{
-			if(player.connectedPlayer?.Connection == null) return;
+			if(player.PlayerInfo?.Connection == null) return;
 
 			player.playerNetworkActions.TargetRpcOpenInput(gameObject, "Camera Channel", securityCameraChannel);
 		}
@@ -322,7 +322,7 @@ namespace Objects
 
 						if (result.Successful)
 						{
-							result.GameObject.GetComponent<Directional>().FaceDirection(GetComponent<Directional>().CurrentDirection);
+							result.GameObject.GetComponent<Rotatable>().FaceDirection(GetComponent<Rotatable>().CurrentDirection);
 							result.GameObject.GetComponent<CameraAssembly>().SetState(CameraAssembly.CameraAssemblyState.Unwelded);
 						}
 
@@ -435,7 +435,7 @@ namespace Objects
 					//Only alive mobs can trigger sensor
 					if(mobAi.IsDead) continue;
 
-					worldPos = mobAi.Cnt.ServerPosition;
+					worldPos = mobAi.UOP.transform.position;
 				}
 				else
 				{

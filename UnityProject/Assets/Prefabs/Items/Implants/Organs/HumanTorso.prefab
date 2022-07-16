@@ -1,92 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &4802744573316854368
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8910782054479282841}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fdce8a163088453ca593c0e98f2c5f07, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  itemStorageStructure: {fileID: 11400000, guid: bd4a52d4388d83843b4908e3de0e241b,
-    type: 2}
-  itemStorageCapacity: {fileID: 11400000, guid: 7ecea5325dc0a4af0999d4b7cf5042e6,
-    type: 2}
-  itemStoragePopulator: {fileID: 0}
-  forceSpawnContents: 0
-  dropItemsOnDespawn: 0
-  UesAddlistPopulater: 0
-  Populater:
-    SlotContents: []
-    DeprecatedContents: []
-  ashPrefab: {fileID: 0}
---- !u!114 &7318265604464753162
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8910782054479282841}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe56a83532907c141b7592eead8f0641, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  NamedSlotFlagged: 0
-  relatedStorage: {fileID: 4802744573316854368}
-  storage:
-  - NotPresentOnUI: 0
-    SlotArea: 3
-    namedSlot: 1
-    hoverName: Belt
-    DropContents: 1
-    placeholderSprite: {fileID: 21300000, guid: 0c7fb0b850f05eb4090c0bae5e8cd6d5,
-      type: 3}
-    Conditional: 0
-    Condition:
-      CategoryID: 
-      ConditionalParameter: 0
-      XAmountConditional: 0
-  - NotPresentOnUI: 0
-    SlotArea: 4
-    namedSlot: 6
-    hoverName: Uniform
-    DropContents: 1
-    placeholderSprite: {fileID: 21300000, guid: 33b5f6f0b66bd1a4fab21a4c5fd7416f,
-      type: 3}
-    Conditional: 0
-    Condition:
-      CategoryID: 
-      ConditionalParameter: 0
-      XAmountConditional: 0
-  - NotPresentOnUI: 0
-    SlotArea: 4
-    namedSlot: 0
-    hoverName: Outerwear
-    DropContents: 1
-    placeholderSprite: {fileID: 21300000, guid: 57282e7ef264cde46be223ae6852ce48,
-      type: 3}
-    Conditional: 0
-    Condition:
-      CategoryID: 
-      ConditionalParameter: 0
-      XAmountConditional: 0
-  - NotPresentOnUI: 0
-    SlotArea: 3
-    namedSlot: 10
-    hoverName: Back
-    DropContents: 1
-    placeholderSprite: {fileID: 21300000, guid: 8a3a96e68fc80794ea5b2b0d226951c5,
-      type: 3}
-    Conditional: 0
-    Condition:
-      CategoryID: 
-      ConditionalParameter: 0
-      XAmountConditional: 0
 --- !u!1001 &6676634485609286451
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -149,7 +62,7 @@ PrefabInstance:
     - target: {fileID: 1340275603506720484, guid: e241039a7933eb347bd1a9bb67a9078a,
         type: 3}
       propertyPath: Populater.DeprecatedContents.Array.size
-      value: 7
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 1340275603506720484, guid: e241039a7933eb347bd1a9bb67a9078a,
         type: 3}
@@ -185,7 +98,7 @@ PrefabInstance:
         type: 3}
       propertyPath: Populater.DeprecatedContents.Array.data[5]
       value: 
-      objectReference: {fileID: 7638872791175960119, guid: 445373074652a00409300b4b8a70dcb7,
+      objectReference: {fileID: 4433481285298299169, guid: 5a74cf606128e2d44859b6077c25b06c,
         type: 3}
     - target: {fileID: 1340275603506720484, guid: e241039a7933eb347bd1a9bb67a9078a,
         type: 3}
@@ -505,7 +418,7 @@ PrefabInstance:
         type: 3}
       propertyPath: customNetTransform
       value: 
-      objectReference: {fileID: 8808155015518711625}
+      objectReference: {fileID: 0}
     - target: {fileID: 2780246240171570206, guid: e241039a7933eb347bd1a9bb67a9078a,
         type: 3}
       propertyPath: m_AssetId
@@ -590,15 +503,90 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 6676634485609286451}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &8808155015518711625 stripped
+--- !u!114 &4802744573316854368
 MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 2780112818988131450, guid: e241039a7933eb347bd1a9bb67a9078a,
-    type: 3}
-  m_PrefabInstance: {fileID: 6676634485609286451}
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8910782054479282841}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 579884b05ae74e8499329b64997147d3, type: 3}
+  m_Script: {fileID: 11500000, guid: fdce8a163088453ca593c0e98f2c5f07, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  itemStorageStructure: {fileID: 11400000, guid: bd4a52d4388d83843b4908e3de0e241b,
+    type: 2}
+  itemStorageCapacity: {fileID: 11400000, guid: 7ecea5325dc0a4af0999d4b7cf5042e6,
+    type: 2}
+  itemStoragePopulator: {fileID: 0}
+  forceSpawnContents: 0
+  dropItemsOnDespawn: 0
+  UesAddlistPopulater: 0
+  Populater:
+    SlotContents: []
+    DeprecatedContents: []
+  ashPrefab: {fileID: 0}
+--- !u!114 &7318265604464753162
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8910782054479282841}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe56a83532907c141b7592eead8f0641, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  NamedSlotFlagged: 0
+  relatedStorage: {fileID: 4802744573316854368}
+  storage:
+  - NotPresentOnUI: 0
+    SlotArea: 3
+    namedSlot: 1
+    hoverName: Belt
+    DropContents: 1
+    placeholderSprite: {fileID: 21300000, guid: 0c7fb0b850f05eb4090c0bae5e8cd6d5,
+      type: 3}
+    Conditional: 0
+    Condition:
+      CategoryID: 
+      ConditionalParameter: 0
+      XAmountConditional: 0
+  - NotPresentOnUI: 0
+    SlotArea: 4
+    namedSlot: 6
+    hoverName: Uniform
+    DropContents: 1
+    placeholderSprite: {fileID: 21300000, guid: 33b5f6f0b66bd1a4fab21a4c5fd7416f,
+      type: 3}
+    Conditional: 0
+    Condition:
+      CategoryID: 
+      ConditionalParameter: 0
+      XAmountConditional: 0
+  - NotPresentOnUI: 0
+    SlotArea: 4
+    namedSlot: 0
+    hoverName: Outerwear
+    DropContents: 1
+    placeholderSprite: {fileID: 21300000, guid: 57282e7ef264cde46be223ae6852ce48,
+      type: 3}
+    Conditional: 0
+    Condition:
+      CategoryID: 
+      ConditionalParameter: 0
+      XAmountConditional: 0
+  - NotPresentOnUI: 0
+    SlotArea: 3
+    namedSlot: 10
+    hoverName: Back
+    DropContents: 1
+    placeholderSprite: {fileID: 21300000, guid: 8a3a96e68fc80794ea5b2b0d226951c5,
+      type: 3}
+    Conditional: 0
+    Condition:
+      CategoryID: 
+      ConditionalParameter: 0
+      XAmountConditional: 0

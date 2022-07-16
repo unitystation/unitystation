@@ -10,7 +10,7 @@ namespace Objects.Engineering
 {
 	public class FuelTank : MonoBehaviour
 	{
-		private ObjectBehaviour objectBehaviour;
+		private UniversalObjectPhysics objectBehaviour;
 		private RegisterObject registerObject;
 		private ReagentContainer reagentContainerScript;
 		private Integrity integrity;
@@ -23,7 +23,7 @@ namespace Objects.Engineering
 		private void Awake()
 		{
 			BlewUp = false;
-			objectBehaviour = GetComponent<ObjectBehaviour>();
+			objectBehaviour = GetComponent<UniversalObjectPhysics>();
 			registerObject = GetComponent<RegisterObject>();
 			integrity = GetComponent<Integrity>();
 			reagentContainerScript = GetComponent<ReagentContainer>();

@@ -25,7 +25,17 @@ using UnityEngine.UI;
 			}
 		}
 
-		void Update()
+		private void OnEnable()
+		{
+			UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
+		}
+
+		private void OnDisable()
+		{
+			UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
+		}
+
+		void UpdateMe()
 		{
 			// Update child text color
 			if (inputFieldText != null && initialTextColor != null)

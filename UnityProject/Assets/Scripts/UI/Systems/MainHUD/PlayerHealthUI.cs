@@ -33,6 +33,16 @@ public class PlayerHealthUI : MonoBehaviour
 		DisableAll();
 	}
 
+	private void OnEnable()
+	{
+		UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
+	}
+
+	private void OnDisable()
+	{
+		UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
+	}
+
 	private void DisableAll()
 	{
 		Transform[] childrenList = GetComponentsInChildren<Transform>(true);
@@ -68,9 +78,9 @@ public class PlayerHealthUI : MonoBehaviour
 		}
 	}
 
-	void Update()
+	void UpdateMe()
 	{
-		if (PlayerManager.LocalPlayer == null)
+		if (PlayerManager.LocalPlayerObject == null)
 		{
 			return;
 		}

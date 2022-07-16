@@ -13,12 +13,12 @@ namespace HealthV2
 
 		public List<SurgeryStep> SurgerySteps = new List<SurgeryStep>();
 
-		public virtual void FinnishSurgeryProcedure(BodyPart OnBodyPart, PositionalHandApply interaction,
+		public virtual void FinnishSurgeryProcedure(BodyPart OnBodyPart, HandApply interaction,
 			Dissectible.PresentProcedure PresentProcedure)
 		{
 		}
 
-		public virtual void UnsuccessfulStep(BodyPart OnBodyPart, PositionalHandApply interaction,
+		public virtual void UnsuccessfulStep(BodyPart OnBodyPart, HandApply interaction,
 			Dissectible.PresentProcedure PresentProcedure)
 		{
 		}

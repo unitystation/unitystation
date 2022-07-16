@@ -12,8 +12,13 @@ using UI.CharacterCreator;
 public partial class PlayerList : NetworkBehaviour
 {
 	//ConnectedPlayer list, server only
-	private List<ConnectedPlayer> loggedIn = new List<ConnectedPlayer>();
-	public List<ConnectedPlayer> loggedOff = new List<ConnectedPlayer>();
+	private List<PlayerInfo> loggedIn = new List<PlayerInfo>();
+	public List<PlayerInfo> loggedOff = new List<PlayerInfo>();
+
+	/// <summary>
+	/// The ConnectedPlayers who have been in this current round, clears at round end
+	/// </summary>
+	private HashSet<PlayerInfo> roundPlayers = new HashSet<PlayerInfo>();
 
 	//For client needs: updated via UpdateConnectedPlayersMessage, useless for server
 	public List<ClientConnectedPlayer> ClientConnectedPlayers = new List<ClientConnectedPlayer>();
@@ -23,21 +28,24 @@ public partial class PlayerList : NetworkBehaviour
 	public int OfflineConnCount => loggedOff.Count;
 	public int OnlineAndOfflineConnCount => loggedIn.Count + loggedOff.Count;
 
-	public List<ConnectedPlayer> InGamePlayers => loggedIn.FindAll(player => player.Script != null);
+	/// <summary>
+	/// All players inside this list are online players.
+	/// </summary>
+	public List<PlayerInfo> InGamePlayers => loggedIn.FindAll(player => player.Script != null);
 
-	public List<ConnectedPlayer> NonAntagPlayers =>
+	public List<PlayerInfo> NonAntagPlayers =>
 		loggedIn.FindAll(player => player.Script != null && !player.Script.mind.IsAntag);
 
-	public List<ConnectedPlayer> AntagPlayers =>
+	public List<PlayerInfo> AntagPlayers =>
 		loggedIn.FindAll(player => player.Script != null && player.Script.mind.IsAntag);
 
-	public List<ConnectedPlayer> AllPlayers =>
+	public List<PlayerInfo> AllPlayers =>
 		loggedIn.FindAll(player => (player.Script != null || player.ViewerScript != null));
 
 	/// <summary>
 	/// Players in the pre-round lobby who have clicked the ready button and have up to date CharacterSettings
 	/// </summary>
-	public List<ConnectedPlayer> ReadyPlayers { get; } = new List<ConnectedPlayer>();
+	public List<PlayerInfo> ReadyPlayers { get; } = new List<PlayerInfo>();
 
 	/// <summary>
 	/// Used to track who killed who. Could be used to check that a player actually killed someone themselves.
@@ -64,12 +72,25 @@ public partial class PlayerList : NetworkBehaviour
 
 	void OnEnable()
 	{
-		EventManager.AddHandler(Event.RoundEnded, SetEndOfRoundPlayerCount);
+		EventManager.AddHandler(Event.RoundStarted, OnRoundStart);
+		EventManager.AddHandler(Event.RoundEnded, OnEndOfRound);
 	}
 
 	void OnDisable()
 	{
-		EventManager.RemoveHandler(Event.RoundEnded, SetEndOfRoundPlayerCount);
+		EventManager.RemoveHandler(Event.RoundStarted, OnRoundStart);
+		EventManager.RemoveHandler(Event.RoundEnded, OnEndOfRound);
+	}
+
+	private void OnRoundStart()
+	{
+		PopulateRoundPlayers();
+	}
+
+	private void OnEndOfRound()
+	{
+		SetEndOfRoundPlayerCount();
+		ClearRoundPlayers();
 	}
 
 	private void SetEndOfRoundPlayerCount()
@@ -114,12 +135,22 @@ public partial class PlayerList : NetworkBehaviour
 	/// <summary>
 	/// Get all players currently located on provided matrix
 	/// </summary>
-	public List<ConnectedPlayer> GetPlayersOnMatrix(MatrixInfo matrix)
+	public List<PlayerInfo> GetPlayersOnMatrix(MatrixInfo matrix)
 	{
 		return InGamePlayers.FindAll(p => (p.Script != null) && p.Script.registerTile.Matrix.Id == matrix?.Id);
 	}
 
-	public List<ConnectedPlayer> GetAlivePlayers(List<ConnectedPlayer> players = null)
+	public PlayerInfo GetPlayerByID(string id)
+	{
+		foreach (var player in AllPlayers)
+		{
+			if (player.UserId == id) return player;
+		}
+
+		return null;
+	}
+
+	public List<PlayerInfo> GetAlivePlayers(List<PlayerInfo> players = null)
 	{
 		if (players == null)
 		{
@@ -144,7 +175,7 @@ public partial class PlayerList : NetworkBehaviour
 	[Server]
 	public void UpdatePlayer(NetworkConnection conn, GameObject newGameObject)
 	{
-		ConnectedPlayer connectedPlayer = Get(conn);
+		PlayerInfo connectedPlayer = GetOnline(conn);
 		connectedPlayer.GameObject = newGameObject;
 		CheckRcon();
 	}
@@ -155,43 +186,42 @@ public partial class PlayerList : NetworkBehaviour
 	/// </summary>
 	/// <param name="player"></param>
 	[Server]
-	public ConnectedPlayer AddOrUpdate(ConnectedPlayer player)
+	public PlayerInfo AddOrUpdate(PlayerInfo player)
 	{
-		if (player.Equals(ConnectedPlayer.Invalid))
+		if (player.Equals(PlayerInfo.Invalid))
 		{
 			Logger.Log("Refused to add invalid connected player to this server's player list", Category.Connections);
 			return player;
 		}
 
-		Logger.Log($"Player {player.Username}'s client ID is: {player.ClientId} User ID: {player.UserId}.", Category.Connections);
+		Logger.LogTrace($"Player {player.Username}'s client ID is: {player.ClientId} User ID: {player.UserId}.", Category.Connections);
 
 		var loggedOffClient = GetLoggedOffClient(player.ClientId, player.UserId);
 		if (loggedOffClient != null)
 		{
-			Logger.Log(
-				$"ConnectedPlayer Username({player.Username}) already exists in this server's PlayerList as Character({loggedOffClient.Name}) " +
-				$"Will update existing player instead of adding this new connected player.", Category.Connections);
+			Logger.LogTrace(
+					$"Player with account {player.UserId} already has a player object ({loggedOffClient.Name}). " +
+					$"Will update existing player instead of adding this new connected player.", Category.Connections);
 
 			if (loggedOffClient.GameObject == null)
 			{
-				Logger.LogFormat(
-					$"The existing ConnectedPlayer contains a null GameObject reference. Removing the entry", Category.Connections);
+				Logger.LogWarning(
+						$"The existing ConnectedPlayer contains a null GameObject reference. Removing the entry.", Category.Connections);
 				loggedOff.Remove(loggedOffClient);
 				return player;
 			}
 
-			// Switching over to the old player's character is handled by JoinedViewer so dont need any extra logic.
+			// Switching over to the old player's character is handled by JoinedViewer so don't need any extra logic.
 		}
 
 		loggedIn.Add(player);
-		Logger.LogFormat("Added to this server's PlayerList {0}. Total:{1}; {2}", Category.Connections, player,
-			loggedIn.Count, string.Join(";", loggedIn));
+		Logger.Log($"Player with account {player.UserId} has joined the game. Player count: {loggedIn.Count}.", Category.Connections);
 		CheckRcon();
 		return player;
 	}
 
 	[Server]
-	private void TryMoveClientToOfflineList(ConnectedPlayer player)
+	private void TryMoveClientToOfflineList(PlayerInfo player)
 	{
 		if (!loggedIn.Contains(player))
 		{
@@ -209,13 +239,13 @@ public partial class PlayerList : NetworkBehaviour
 	}
 
 	[Server]
-	public bool ContainsConnection(NetworkConnection connection)
+	public bool Has(NetworkConnection connection)
 	{
-		return !Get(connection).Equals(ConnectedPlayer.Invalid);
+		return !GetOnline(connection).Equals(PlayerInfo.Invalid);
 	}
 
 	[Server]
-	public ConnectedPlayer GetLoggedOffClient(string clientID, string userId)
+	public PlayerInfo GetLoggedOffClient(string clientID, string userId)
 	{
 		var index = loggedOff.FindIndex(x => x.ClientId == clientID || x.UserId == userId);
 		if (index != -1)
@@ -227,85 +257,90 @@ public partial class PlayerList : NetworkBehaviour
 	}
 
 	[Server]
-	public bool ContainsName(string name, string userId, bool includeOffline = false)
+	public bool Has(string characterName, string userId)
 	{
-		var character = Get(name, includeOffline);
-		if (character.Equals(ConnectedPlayer.Invalid)) return false;
+		var character = GetByCharacter(characterName);
+		if (character.Equals(PlayerInfo.Invalid)) return false;
 
 		return character.UserId != userId;
 	}
 
 	[Server]
-	public bool ContainsGameObject(GameObject gameObject)
+	public bool HasOnline(string characterName, string userId)
 	{
-		return !Get(gameObject).Equals(ConnectedPlayer.Invalid);
+		var character = GetOnlineByCharacter(characterName);
+		if (character.Equals(PlayerInfo.Invalid)) return false;
+
+		return character.UserId != userId;
 	}
 
 	[Server]
-	public ConnectedPlayer Get(NetworkConnection byConnection)
+	public bool Has(GameObject gameObject)
 	{
-		return GetInternalLoggedIn(player => player.Connection == byConnection);
+		return !Get(gameObject).Equals(PlayerInfo.Invalid);
 	}
 
 	[Server]
-	public ConnectedPlayer Get(string byName, bool includeOffline = false)
+	public bool HasOnline(GameObject gameObject)
 	{
-		if (includeOffline)
-		{
-			return GetInternalAll(player => player.Name == byName);
-		}
-
-		return GetInternalLoggedIn(player => player.Name == byName);
+		return !GetOnline(gameObject).Equals(PlayerInfo.Invalid);
 	}
 
 	[Server]
-	public ConnectedPlayer Get(GameObject byGameObject, bool includeOffline = false)
+	public PlayerInfo Get(NetworkConnection byConnection)
 	{
-		if (includeOffline)
-		{
-			return GetInternalAll(player => player.GameObject == byGameObject);
-		}
-
-		return GetInternalLoggedIn(player => player.GameObject == byGameObject);
+		return GetInternalAll(player => player.Connection == byConnection);
 	}
 
 	[Server]
-	public bool IsAntag(GameObject playerObj)
+	public PlayerInfo GetOnline(NetworkConnection byConnection)
 	{
-		var conn = Get(playerObj, true);
-		if (conn == null || conn.Script == null || conn.Script.mind == null) return false;
-		return conn.Script.mind.IsAntag;
+		return GetInternalLoggedOn(player => player.Connection == byConnection);
 	}
 
 	[Server]
-	public ConnectedPlayer GetByUserID(string byUserID)
+	public PlayerInfo Get(GameObject byGameObject)
 	{
-		return GetInternalLoggedIn(player => player.UserId == byUserID);
+		return GetInternalAll(player => player.GameObject == byGameObject);
 	}
 
 	[Server]
-	public ConnectedPlayer GetByConnection(NetworkConnection connection)
+	public PlayerInfo GetOnline(GameObject byGameObject)
 	{
-		return GetInternalLoggedIn(player => player.Connection == connection);
+		return GetInternalLoggedOn(player => player.GameObject == byGameObject);
 	}
 
 	[Server]
-	public List<ConnectedPlayer> GetAllByUserID(string byUserID, bool includeOffline = false)
+	public bool TryGetByUserID(string userID, out PlayerInfo player)
 	{
-		var newone = loggedIn.ToList();
-		if (includeOffline)
-		{
-			newone.AddRange(loggedOff);
-		}
+		player = GetInternalAll(player => player.UserId == userID);
+		return player != null && player.Equals(PlayerInfo.Invalid) == false;
+	}
 
- 		return newone.FindAll(player => player.UserId == byUserID);
+	[Server]
+	public bool TryGetOnlineByUserID(string userID, out PlayerInfo player)
+	{
+		player = GetInternalLoggedOn(player => player.UserId == userID);
+		return player != null && player.Equals(PlayerInfo.Invalid) == false;
+	}
+
+	[Server]
+	public PlayerInfo GetByCharacter(string characterName)
+	{
+		return GetInternalAll(player => player.Name == characterName);
+	}
+
+	[Server]
+	public PlayerInfo GetOnlineByCharacter(string characterName)
+	{
+		return GetInternalLoggedOn(player => player.Name == characterName);
 	}
 
 	/// <summary>
 	/// Get all players with specific state, logged in and logged off
 	/// </summary>
 	[Server]
-	public List<ConnectedPlayer> GetAllByPlayersOfState(PlayerScript.PlayerStates state)
+	public List<PlayerInfo> GetAllByPlayersOfState(PlayerScript.PlayerStates state)
 	{
 		return GetAllPlayers().Where(player => player.Script.PlayerState == state).ToList();
 	}
@@ -314,7 +349,7 @@ public partial class PlayerList : NetworkBehaviour
 	/// Get all in game players, logged in and logged off
 	/// </summary>
 	[Server]
-	public List<ConnectedPlayer> GetAllPlayers()
+	public List<PlayerInfo> GetAllPlayers()
 	{
 		var players = InGamePlayers;
 		players.AddRange(loggedOff.FindAll(player => player.Script != null));
@@ -327,11 +362,11 @@ public partial class PlayerList : NetworkBehaviour
 	/// </summary>
 	/// <param name="condition"></param>
 	/// <returns></returns>
-	private ConnectedPlayer GetInternalAll(Func<ConnectedPlayer, bool> condition)
+	private PlayerInfo GetInternalAll(Func<PlayerInfo, bool> condition)
 	{
-		var connectedPlayer = GetInternalLoggedIn(condition);
+		var connectedPlayer = GetInternalLoggedOn(condition);
 
-		if(connectedPlayer.Equals(ConnectedPlayer.Invalid))
+		if(connectedPlayer.Equals(PlayerInfo.Invalid))
 		{
 			connectedPlayer = GetInternalLoggedOff(condition);
 		}
@@ -344,7 +379,7 @@ public partial class PlayerList : NetworkBehaviour
 	/// </summary>
 	/// <param name="condition"></param>
 	/// <returns></returns>
-	private ConnectedPlayer GetInternalLoggedIn(Func<ConnectedPlayer, bool> condition)
+	private PlayerInfo GetInternalLoggedOn(Func<PlayerInfo, bool> condition)
 	{
 		for (var i = 0; i < loggedIn.Count; i++)
 		{
@@ -354,7 +389,7 @@ public partial class PlayerList : NetworkBehaviour
 			}
 		}
 
-		return ConnectedPlayer.Invalid;
+		return PlayerInfo.Invalid;
 	}
 
 	/// <summary>
@@ -362,7 +397,7 @@ public partial class PlayerList : NetworkBehaviour
 	/// </summary>
 	/// <param name="condition"></param>
 	/// <returns></returns>
-	private ConnectedPlayer GetInternalLoggedOff(Func<ConnectedPlayer, bool> condition)
+	private PlayerInfo GetInternalLoggedOff(Func<PlayerInfo, bool> condition)
 	{
 		for (var i = 0; i < loggedOff.Count; i++)
 		{
@@ -372,7 +407,26 @@ public partial class PlayerList : NetworkBehaviour
 			}
 		}
 
-		return ConnectedPlayer.Invalid;
+		return PlayerInfo.Invalid;
+	}
+
+	[Server]
+	public void Remove(PlayerInfo ConnectedPlayer)
+	{
+
+		if (loggedOff.Contains(ConnectedPlayer))
+		{
+			loggedOff.Remove(ConnectedPlayer);
+		}
+
+		if (loggedIn.Contains(ConnectedPlayer))
+		{
+			loggedIn.Remove(ConnectedPlayer);
+		}
+
+		ConnectedPlayer.Connection.Disconnect();
+
+
 	}
 
 	[Server]
@@ -385,8 +439,8 @@ public partial class PlayerList : NetworkBehaviour
 			return;
 		}
 
-		var player = Get(connection);
-		if (player.Equals(ConnectedPlayer.Invalid))
+		var player = GetOnline(connection);
+		if (player.Equals(PlayerInfo.Invalid))
 		{
 			Logger.Log($"Unknown player disconnected: verifying playerlists for integrity - connected player was invalid. " +
 					$"IP: {connection.address}. Name: {connection.identity.name}.", Category.Connections);
@@ -396,6 +450,7 @@ public partial class PlayerList : NetworkBehaviour
 
 		SetPlayerReady(player, false);
 		CheckForLoggedOffAdmin(player.UserId, player.Username);
+		CheckForLoggedOffMentor(player.UserId, player.Username);
 		TryMoveClientToOfflineList(player);
 	}
 
@@ -408,7 +463,7 @@ public partial class PlayerList : NetworkBehaviour
 		//verify loggedIn clients:
 		for (int i = loggedIn.Count - 1; i >= 0; i--)
 		{
-			if (loggedIn[i].Connection == null || loggedIn[i].Equals(ConnectedPlayer.Invalid))
+			if (loggedIn[i].Connection == null || loggedIn[i].Equals(PlayerInfo.Invalid))
 			{
 				TryMoveClientToOfflineList(loggedIn[i]);
 			}
@@ -417,7 +472,7 @@ public partial class PlayerList : NetworkBehaviour
 		//verify loggedOff clients:
 		for (int i = loggedOff.Count - 1; i >= 0; i--)
 		{
-			if (loggedOff[i].Equals(ConnectedPlayer.Invalid))
+			if (loggedOff[i].Equals(PlayerInfo.Invalid))
 			{
 				loggedOff.RemoveAt(i);
 				continue;
@@ -458,7 +513,7 @@ public partial class PlayerList : NetworkBehaviour
 	}
 
 	[Server]
-	public ConnectedPlayer RemovePlayerbyClientId(string clientId, string userId, ConnectedPlayer newPlayer)
+	public PlayerInfo RemovePlayerbyClientId(string clientId, string userId, PlayerInfo newPlayer)
 	{
 		Logger.LogTraceFormat("Searching for players with userId: {0} clientId: {1}", Category.Connections, userId, clientId);
 		foreach (var player in loggedOff)
@@ -473,12 +528,12 @@ public partial class PlayerList : NetworkBehaviour
 		foreach (var player in loggedIn)
 		{
 			if (PlayerManager.LocalViewerScript && PlayerManager.LocalViewerScript.gameObject == player.GameObject ||
-			    PlayerManager.LocalPlayer == player.GameObject)
+			    PlayerManager.LocalPlayerObject == player.GameObject)
 			{
 				continue; //server player
 			}
 
-			if (adminUsers.Contains(player.UserId)) continue; // Allow admins to multikey (local devs connecting multiple clients)
+			if (serverAdmins.Contains(player.UserId)) continue; // Allow admins to multikey (local devs connecting multiple clients)
 
 			if ((player.ClientId == clientId || player.UserId == userId) && newPlayer != player)
 			{
@@ -517,7 +572,7 @@ public partial class PlayerList : NetworkBehaviour
 	/// <summary>
 	/// Makes a player ready/unready for job allocations
 	/// </summary>
-	public void SetPlayerReady(ConnectedPlayer player, bool isReady, CharacterSettings charSettings = null)
+	public void SetPlayerReady(PlayerInfo player, bool isReady, CharacterSheet charSettings = null)
 	{
 		if (isReady)
 		{
@@ -549,13 +604,47 @@ public partial class PlayerList : NetworkBehaviour
 		ReadyPlayers.Clear();
 	}
 
+	/// <summary>
+	/// Clears the list of round players
+	/// </summary>
+	[Server]
+	public void ClearRoundPlayers()
+	{
+		roundPlayers.Clear();
+	}
+
+	[Server]
+	public void AddToRoundPlayers(PlayerInfo newPlayer)
+	{
+		if(roundPlayers.Contains(newPlayer)) return;
+
+		roundPlayers.Add(newPlayer);
+	}
+
+	[Server]
+	public void PopulateRoundPlayers()
+	{
+		foreach (var player in loggedIn)
+		{
+			AddToRoundPlayers(player);
+		}
+	}
+
+	[Server]
+	public bool IsAntag(GameObject playerObj)
+	{
+		var conn = Get(playerObj);
+		if (conn == null || conn.Script == null || conn.Script.mind == null) return false;
+		return conn.Script.mind.IsAntag;
+	}
+
 	public static bool HasAntagEnabled(AntagPrefsDict antagPrefs, Antagonist antag)
 	{
 		return !antag.ShowInPreferences ||
 		       (antagPrefs.ContainsKey(antag.AntagName) && antagPrefs[antag.AntagName]);
 	}
 
-	public static bool HasAntagEnabled(ConnectedPlayer connectedPlayer, Antagonist antag)
+	public static bool HasAntagEnabled(PlayerInfo connectedPlayer, Antagonist antag)
 	{
 		if (connectedPlayer.CharacterSettings == null)
 		{

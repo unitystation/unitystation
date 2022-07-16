@@ -1,124 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &1802137627213019286
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2372823301344523609}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8bcb4d76605debd40aa28d5b8fcfc99a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  registerTile: {fileID: 0}
-  connected: 0
-  Logall: 0
---- !u!114 &6083734570694129782
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2372823301344523609}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f382852d80b4a434f9d53c414fc2d72b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  Node: {fileID: 0}
-  ApplianceType: 19
-  WireEndB: 0
-  WireEndA: 10
-  ListCanConnectTo: 
-  Reactions: []
---- !u!114 &6460706829780667847
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2372823301344523609}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 635c13cf3a579d94ba01e835f0e5d7c9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  spritehandler: {fileID: 0}
-  SpawnOnDeconstruct: {fileID: 0}
-  registerTile: {fileID: 0}
-  pipeData:
-    PipeLayer: 1
-    Connections:
-      Directions:
-      - Bool: 0
-        pipeType: 1
-        PortType: 0
-        flagLogic: 0
-      - Bool: 1
-        pipeType: 1
-        PortType: 0
-        flagLogic: 0
-      - Bool: 0
-        pipeType: 1
-        PortType: 0
-        flagLogic: 0
-      - Bool: 1
-        pipeType: 1
-        PortType: 3
-        flagLogic: 0
-    CustomLogic: 0
-    NetCompatible: 0
-    mixAndVolume:
-      mix:
-        temperature: 273.15
-        reagents:
-          m_keys: []
-          m_values: []
-        reagentKeys: []
-      gasMix:
-        GasData:
-          GasesArray: []
-        Pressure: 0
-        Volume: 2.5
-        Temperature: 0
-    MonoPipe: {fileID: 0}
-  Colour: {r: 1, g: 1, b: 1, a: 1}
-  UnitPerTick: 100
-  PowerPercentage: 100
---- !u!114 &7179003153346352318
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2372823301344523609}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6674578bb1278de4c9af970c45c78d9d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ModuleType: 0
-  ControllingNode: {fileID: 0}
-  resistance:
-    Ohms: 0
-    ResistanceAvailable: 1
-  EditorResistance: 0
-  ReactionTo:
-    ConnectingDevice: 1
-    DirectionReaction: 0
-    ResistanceReaction: 1
-    DirectionReactionA:
-      YouShallNotPass: 0
-    ResistanceReactionA:
-      Resistance:
-        Ohms: 9999
-        ResistanceAvailable: 1
 --- !u!1 &4715366525562586650
 GameObject:
   m_ObjectHideFlags: 0
@@ -147,6 +28,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0.7071068, w: 0.7071068}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2375723513404273539}
   m_RootOrder: 1
@@ -219,6 +101,7 @@ MonoBehaviour:
   SubCatalogue: []
   PresentSpriteSet: {fileID: 11400000, guid: 4b31063689897324b8488fae45d8d9ef, type: 2}
   randomInitialSprite: 0
+  doReverseAnimation: 0
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
   palette: []
@@ -399,6 +282,127 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 1923004834671751952}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1802137627213019286
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2372823301344523609}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8bcb4d76605debd40aa28d5b8fcfc99a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  registerTile: {fileID: 0}
+  connected: 0
+  Logall: 0
+--- !u!114 &6083734570694129782
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2372823301344523609}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f382852d80b4a434f9d53c414fc2d72b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  Node: {fileID: 0}
+  ApplianceType: 19
+  WireEndB: 0
+  WireEndA: 10
+  ListCanConnectTo: 
+  Reactions: []
+--- !u!114 &6460706829780667847
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2372823301344523609}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 635c13cf3a579d94ba01e835f0e5d7c9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spritehandler: {fileID: 0}
+  SpawnOnDeconstruct: {fileID: 0}
+  registerTile: {fileID: 0}
+  pipeData:
+    PipeLayer: 1
+    Connections:
+      Directions:
+      - Bool: 0
+        pipeType: 1
+        PortType: 0
+        flagLogic: 0
+      - Bool: 1
+        pipeType: 1
+        PortType: 0
+        flagLogic: 0
+      - Bool: 0
+        pipeType: 1
+        PortType: 0
+        flagLogic: 0
+      - Bool: 1
+        pipeType: 1
+        PortType: 3
+        flagLogic: 0
+    CustomLogic: 0
+    NetCompatible: 0
+    mixAndVolume:
+      mix:
+        temperature: 273.15
+        reagents:
+          m_keys: []
+          m_values: []
+        reagentKeys: []
+      gasMix:
+        GasData:
+          GasesArray: []
+        Pressure: 0
+        Volume: 2.5
+        Temperature: 0
+    MonoPipe: {fileID: 0}
+  Colour: {r: 1, g: 1, b: 1, a: 1}
+  spawnedFromItem: 0
+  directional: {fileID: 0}
+  UnitPerTick: 100
+  PowerPercentage: 100
+--- !u!114 &7179003153346352318
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2372823301344523609}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6674578bb1278de4c9af970c45c78d9d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ModuleType: 0
+  ControllingNode: {fileID: 0}
+  resistance:
+    Ohms: 0
+    ResistanceAvailable: 1
+  EditorResistance: 0
+  ReactionTo:
+    ConnectingDevice: 1
+    DirectionReaction: 0
+    ResistanceReaction: 1
+    DirectionReactionA:
+      YouShallNotPass: 0
+    ResistanceReactionA:
+      Resistance:
+        Ohms: 9999
+        ResistanceAvailable: 1
 --- !u!4 &2375723513404273539 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4204006106222477459, guid: ebb08cf966efc084aa918bd8d9429604,

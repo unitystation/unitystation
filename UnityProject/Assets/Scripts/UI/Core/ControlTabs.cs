@@ -6,7 +6,7 @@ using UnityEngine.UI;
 using TMPro;
 using Messages.Server;
 using Systems.Interaction;
-
+using Tiles;
 
 namespace UI
 {
@@ -626,6 +626,7 @@ namespace UI
 
 		public void OpenTabWindow()
 		{
+			if (this.gameObject.activeSelf == false) this.gameObject.SetActive(true);
 			StartCoroutine(AnimTabRoll(true, true));
 		}
 

@@ -129,4 +129,34 @@
 	/// Allows for chat's log history to be customizable.
 	/// <summary>
 	public static string ChatLogSize = "ChatLogSize";
+
+	/// <summary>
+	/// How loud the radio chatter sounds are
+	/// 0 - 1f
+	/// </summary>
+	public static string RadioVolumeKey = "RadioVolume";
+
+	/// <summary>
+	/// MuteMusic toggle
+	/// 0 = disabled
+	/// 1 = enabled
+	/// </summary>
+	public static string CommonRadioToggleKey = "CommonRadioToggle";
+
+
+	/// <summary>
+	/// Chat messages visibility
+	/// 0 = Invisible
+	/// 1 = Fully present at all times
+	/// </summary>
+	public static string ChatContentMinimumAlpha = "ChatContentMinimumAlpha";
+
+
+	/// <summary>
+	/// Chat Background visibility
+	/// 0 = Invisible
+	/// 1 = Fully present at all times
+	/// </summary>
+	public static string ChatBackgroundMinimumAlpha = "ChatBackgroundMinimumAlpha";
+
 }

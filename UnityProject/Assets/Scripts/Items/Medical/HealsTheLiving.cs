@@ -34,18 +34,30 @@ public class HealsTheLiving : MonoBehaviour, ICheckedInteractable<HandApply>
 		stackable = GetComponent<Stackable>();
 	}
 
-	public bool WillInteract(HandApply interaction, NetworkSide side)
+	public virtual bool WillInteract(HandApply interaction, NetworkSide side)
 	{
 		if (!DefaultWillInteract.Default(interaction, side)) return false;
 		//can only be applied to LHB
 		if (!Validations.HasComponent<LivingHealthMasterBase>(interaction.TargetObject)) return false;
 
+		if (interaction.TargetObject.GetComponent<Dissectible>().GetBodyPartIsopen && interaction.IsAltClick == false) return false;
+
 		if(interaction.Intent != Intent.Help) return false;
+
+
 		return true;
 	}
 
 	public virtual void ServerPerformInteraction(HandApply interaction)
 	{
+		if (TryGetComponent<HandPreparable>(out var preparable))
+		{
+			if (preparable.IsPrepared == false)
+			{
+				Chat.AddExamineMsg(interaction.Performer, preparable.openingRequirementText);
+				return;
+			}
+		}
 		var LHB = interaction.TargetObject.GetComponent<LivingHealthMasterBase>();
 		if (LHB.ZoneHasDamageOf(interaction.TargetBodyPart,healType))
 		{

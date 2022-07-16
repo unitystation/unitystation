@@ -35,6 +35,8 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour, IHealth, IFireEx
 
 	public float Resistance { get; } = 50;
 
+	private DateTime timeOfDeath;
+	private DateTime TimeOfDeath => timeOfDeath;
 
 	public float OverallHealth { get; private set; } = 100;
 	[NonSerialized]
@@ -116,6 +118,7 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour, IHealth, IFireEx
 	private DNAandBloodType DNABloodType;
 	private float tickRate = 1f;
 	private RegisterTile registerTile;
+	private UniversalObjectPhysics objectBehaviour;
 	private ConsciousState consciousState;
 
 	public bool IsCrit => consciousState == ConsciousState.UNCONSCIOUS;
@@ -154,6 +157,7 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour, IHealth, IFireEx
 	{
 		if (registerTile != null) return;
 		registerTile = GetComponent<RegisterTile>();
+		objectBehaviour = GetComponent<UniversalObjectPhysics>();
 		//Always include blood for living entities:
 	}
 
@@ -202,7 +206,14 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour, IHealth, IFireEx
 		DNABloodType = JsonUtility.FromJson<DNAandBloodType>(updatedDNA);
 	}
 
-
+	/// <summary>
+	/// Adjusts the amount of fire stacks, to a min of 0 (not on fire) and a max of maxFireStacks
+	/// </summary>
+	/// <param name="deltaValue">The amount to adjust the stacks by, negative if reducing positive if increasing</param>
+	public void ChangeFireStacks(float deltaValue)
+	{
+		SyncFireStacks(fireStacks, Mathf.Clamp((fireStacks + deltaValue), 0, maxFireStacks));
+	}
 
 	private void SyncFireStacks(float oldValue, float newValue)
 	{
@@ -438,13 +449,10 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour, IHealth, IFireEx
 	//Handled via UpdateManager
 	private void ServerPeriodicUpdate()
 	{
-		// TODO If becomes dead, why not remove from UpdateManager?
 		if (damageEffectAttempts >= maxDamageEffectAttempts)
 		{
 			damageEffectAttempts = 0;
 		}
-
-		if (IsDead) return;
 
 		if (fireStacks > 0)
 		{
@@ -460,6 +468,12 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour, IHealth, IFireEx
 			}
 
 			registerTile.Matrix.ReactionManager.ExposeHotspotWorldPosition(gameObject.TileWorldPosition(), 700);
+		}
+
+		if (IsDead)
+		{
+			DeathPeriodicUpdate();
+			return;
 		}
 
 		CalculateOverallHealth();
@@ -532,13 +546,12 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour, IHealth, IFireEx
 			return;
 		}
 
+		timeOfDeath = GameManager.Instance.stationTime;
+
 		OnDeathNotifyEvent?.Invoke();
 		afterDeathDamage = 0;
 		ConsciousState = ConsciousState.DEAD;
 		OnDeathActions();
-		//stop burning
-		//TODO: When clothes/limb burning is implemented, probably should keep burning until clothes are burned up
-		SyncFireStacks(fireStacks, 0);
 	}
 
 	private void Crit(bool allowCrawl = false)
@@ -595,6 +608,28 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour, IHealth, IFireEx
 		}
 
 		Death();
+	}
+
+	private void DeathPeriodicUpdate()
+	{
+		MiasmaCreation();
+	}
+
+	//Old health, dont need the TODO's
+	private void MiasmaCreation()
+	{
+		//Don't produce miasma until 2 minutes after death
+		if (GameManager.Instance.stationTime.Subtract(timeOfDeath).TotalMinutes < 2) return;
+
+		MetaDataNode node = registerTile.Matrix.MetaDataLayer.Get(registerTile.LocalPositionClient);
+
+		//Space or below -10 degrees celsius is safe from miasma creation
+		if (node.IsSpace || node.GasMix.Temperature <= Reactions.KOffsetC - 10) return;
+
+		//If we are in a container then don't produce miasma
+		if (objectBehaviour.ContainedInContainer != null) return;
+
+		node.GasMix.AddGas(Gas.Miasma, AtmosDefines.MIASMA_CORPSE_MOLES);
 	}
 
 	private bool NotSuitableForDeath()

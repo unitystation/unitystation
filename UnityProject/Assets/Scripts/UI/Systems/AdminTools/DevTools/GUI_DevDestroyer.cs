@@ -29,30 +29,32 @@ namespace UI.AdminTools
 			cachedLightingState = lightingSystem.enabled;
 			lightingSystem.enabled = false;
 			UIManager.IsMouseInteractionDisabled = true;
+			UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
 		}
 
 		private void OnDisable()
 		{
 			lightingSystem.enabled = cachedLightingState;
 			UIManager.IsMouseInteractionDisabled = false;
+			UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
 		}
 
-		private void Update()
+		private void UpdateMe()
 		{
 			// check which objects we are over, pick the top one to delete
 			if (CommonInput.GetMouseButtonDown(0))
 			{
 				var hits = MouseUtils.GetOrderedObjectsUnderMouse(layerMask,
-					go => go.GetComponent<CustomNetTransform>() != null);
+					go => go.GetComponent<UniversalObjectPhysics>() != null);
 				if (hits.Any())
 				{
 					if (CustomNetworkManager.IsServer)
 					{
-						_ = Despawn.ServerSingle(hits.First().GetComponentInParent<CustomNetTransform>().gameObject);
+						_ = Despawn.ServerSingle(hits.First().GetComponentInParent<UniversalObjectPhysics>().gameObject);
 					}
 					else
 					{
-						DevDestroyMessage.Send(hits.First().GetComponentInParent<CustomNetTransform>().gameObject);
+						DevDestroyMessage.Send(hits.First().GetComponentInParent<UniversalObjectPhysics>().gameObject);
 					}
 				}
 			}

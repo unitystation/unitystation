@@ -27,6 +27,7 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 7056510489356984516}
   m_RootOrder: 1
@@ -240,7 +241,7 @@ PrefabInstance:
     - target: {fileID: 6160299609573986157, guid: b9dc042fb6542ef4baea84b36c24b31a,
         type: 3}
       propertyPath: initialReagentMix.reagents.m_values.Array.data[0]
-      value: 1
+      value: 3.3333333
       objectReference: {fileID: 0}
     - target: {fileID: 6160299609573986157, guid: b9dc042fb6542ef4baea84b36c24b31a,
         type: 3}

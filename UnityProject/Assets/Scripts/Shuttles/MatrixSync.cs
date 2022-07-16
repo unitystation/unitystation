@@ -22,10 +22,6 @@ namespace Shuttles
 			[SyncVar(hook = nameof(SyncPivot))]
 			private Vector3 pivot;
 
-			[SyncVar(hook = nameof(OnRcsActivated))]
-			[HideInInspector]
-			public bool rcsModeActive;
-
 			[SyncVar(hook = nameof(SyncMatrixID))]
 			[HideInInspector]
 			public int matrixID;
@@ -92,12 +88,6 @@ namespace Shuttles
 			{
 				pivot = newPivot;
 				matrixMove.pivot = pivot.RoundToInt();
-			}
-
-			public void OnRcsActivated(bool oldState, bool newState)
-			{
-				rcsModeActive = newState;
-				matrixMove.OnRcsActivated(oldState, newState);
 			}
 
 			public void SyncMatrixID(int oldID, int newID)

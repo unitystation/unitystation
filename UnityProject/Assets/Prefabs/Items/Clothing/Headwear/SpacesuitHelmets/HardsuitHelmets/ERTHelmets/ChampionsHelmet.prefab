@@ -131,5 +131,35 @@ PrefabInstance:
       propertyPath: m_SortingOrder
       value: 41
       objectReference: {fileID: 0}
+    - target: {fileID: 9181246854565573664, guid: b9f24bba431b4954d90487de487848e9,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[0].armor.StunImmunity
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9181246854565573664, guid: b9f24bba431b4954d90487de487848e9,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[1].armor.StunImmunity
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9181246854565573664, guid: b9f24bba431b4954d90487de487848e9,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[2].armor.StunImmunity
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9181246854565573664, guid: b9f24bba431b4954d90487de487848e9,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[0].armor.DismembermentProtectionChance
+      value: 80
+      objectReference: {fileID: 0}
+    - target: {fileID: 9181246854565573664, guid: b9f24bba431b4954d90487de487848e9,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[1].armor.DismembermentProtectionChance
+      value: 80
+      objectReference: {fileID: 0}
+    - target: {fileID: 9181246854565573664, guid: b9f24bba431b4954d90487de487848e9,
+        type: 3}
+      propertyPath: armoredBodyParts.Array.data[2].armor.DismembermentProtectionChance
+      value: 80
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b9f24bba431b4954d90487de487848e9, type: 3}

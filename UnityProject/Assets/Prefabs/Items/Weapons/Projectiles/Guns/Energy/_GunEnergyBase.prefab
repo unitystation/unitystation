@@ -28,6 +28,7 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0.125, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 4450321759764526106}
   m_RootOrder: 3
@@ -100,6 +101,7 @@ MonoBehaviour:
   SubCatalogue: []
   PresentSpriteSet: {fileID: 0}
   randomInitialSprite: 0
+  doReverseAnimation: 0
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
   palette: []
@@ -131,6 +133,7 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0.0625, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 4450321759764526106}
   m_RootOrder: 2
@@ -203,92 +206,10 @@ MonoBehaviour:
   SubCatalogue: []
   PresentSpriteSet: {fileID: 0}
   randomInitialSprite: 0
+  doReverseAnimation: 0
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
   palette: []
---- !u!114 &4206346965545160429
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4454405483554457966}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 088b05d8e3804e948a69579df536c570, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &6648593666208859230
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4454405483554457966}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b65971c5a3836c41e850378c8d413b4c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  ammoPrefab: {fileID: 5999901686547831408, guid: bd07fb3945875634685790190ea8decc,
-    type: 3}
-  casingPrefabOverride: {fileID: 0}
-  allowMagazineRemoval: 0
-  ammoType: 14
-  pinPrefab: {fileID: 6004521592186936485, guid: 0c0328cbf94ffe648a0903cfc375ab91,
-    type: 3}
-  suppressorPrefab: {fileID: 0}
-  SpawnsCasing: 0
-  MagInternal: 0
-  SmartGun: 0
-  FiringSoundA:
-    SetLoadSetting: 0
-    AssetAddress: null
-    AssetReference:
-      m_AssetGUID: 
-      m_SubObjectName: 
-      m_SubObjectType: 
-  SuppressedSoundA:
-    SetLoadSetting: 0
-    AssetAddress: Assets/Prefabs/Weapons/Gun/General/GeneralHeavyShotSuppressed.prefab
-    AssetReference:
-      m_AssetGUID: 
-      m_SubObjectName: 
-      m_SubObjectType: 
-  DryFireSound:
-    SetLoadSetting: 0
-    AssetAddress: Assets/Prefabs/Weapons/Gun/General/GeneralDryFire.prefab
-    AssetReference:
-      m_AssetGUID: 
-      m_SubObjectName: 
-      m_SubObjectType: 
-  FireDelay: 0.5
-  AllowSuicide: 0
-  MaxRecoilVariance: 0
-  ProjectileVelocity: 20
-  CameraRecoilConfig:
-    Distance: 0
-    RecoilDuration: 0
-    RecoveryDuration: 0
-  WeaponType: 0
-  allowPinSwap: 1
-  isSuppressed: 0
-  isSuppressible: 0
-  firemodeProjectiles:
-  - {fileID: 3294328072042417454, guid: 49a8364f6515be34bac52c48c9214d85, type: 3}
-  firemodeFiringSound:
-  - SetLoadSetting: 0
-    AssetAddress: null
-    AssetReference:
-      m_AssetGUID: 
-      m_SubObjectName: 
-      m_SubObjectType: 
-  firemodeName:
-  - Kill
-  firemodeUsage: 3e030000
-  allowScrewdriver: 1
 --- !u!1 &6227234703256324225
 GameObject:
   m_ObjectHideFlags: 0
@@ -317,6 +238,7 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0.1875, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 4450321759764526106}
   m_RootOrder: 4
@@ -389,6 +311,7 @@ MonoBehaviour:
   SubCatalogue: []
   PresentSpriteSet: {fileID: 0}
   randomInitialSprite: 0
+  doReverseAnimation: 0
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
   palette: []
@@ -420,6 +343,7 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 4450321759764526106}
   m_RootOrder: 1
@@ -492,6 +416,7 @@ MonoBehaviour:
   SubCatalogue: []
   PresentSpriteSet: {fileID: 0}
   randomInitialSprite: 0
+  doReverseAnimation: 0
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
   palette: []
@@ -647,15 +572,110 @@ PrefabInstance:
     m_RemovedComponents:
     - {fileID: 4644871529314044369, guid: da85b7a590e7c8444af73629fcb5dd22, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: da85b7a590e7c8444af73629fcb5dd22, type: 3}
---- !u!1 &4454405483554457966 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 8150840225578731674, guid: da85b7a590e7c8444af73629fcb5dd22,
-    type: 3}
-  m_PrefabInstance: {fileID: 5533974169584468468}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &4450321759764526106 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8146475302025016814, guid: da85b7a590e7c8444af73629fcb5dd22,
     type: 3}
   m_PrefabInstance: {fileID: 5533974169584468468}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &4454405483554457966 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8150840225578731674, guid: da85b7a590e7c8444af73629fcb5dd22,
+    type: 3}
+  m_PrefabInstance: {fileID: 5533974169584468468}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &4206346965545160429
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4454405483554457966}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 088b05d8e3804e948a69579df536c570, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &6648593666208859230
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4454405483554457966}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b65971c5a3836c41e850378c8d413b4c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  ammoPrefab: {fileID: 5999901686547831408, guid: bd07fb3945875634685790190ea8decc,
+    type: 3}
+  casingPrefabOverride: {fileID: 0}
+  allowMagazineRemoval: 0
+  ammoType: 14
+  loadMagSound:
+    SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/Weapons/KineticReload.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
+  pinPrefab: {fileID: 6004521592186936485, guid: 0c0328cbf94ffe648a0903cfc375ab91,
+    type: 3}
+  suppressorPrefab: {fileID: 0}
+  SpawnsCasing: 0
+  MagInternal: 0
+  SmartGun: 0
+  FiringSoundA:
+    SetLoadSetting: 0
+    AssetAddress: null
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
+  SuppressedSoundA:
+    SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/Weapons/Gun/General/GeneralHeavyShotSuppressed.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
+  DryFireSound:
+    SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/Weapons/Gun/General/GeneralDryFire.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
+  FireDelay: 0.5
+  AllowSuicide: 0
+  MaxRecoilVariance: 0
+  ProjectileVelocity: 20
+  CameraRecoilConfig:
+    Distance: 0
+    RecoilDuration: 0
+    RecoveryDuration: 0
+  WeaponType: 0
+  allowPinSwap: 1
+  isSuppressed: 0
+  isSuppressible: 0
+  firemodeProjectiles:
+  - {fileID: 3294328072042417454, guid: 49a8364f6515be34bac52c48c9214d85, type: 3}
+  firemodeFiringSound:
+  - SetLoadSetting: 0
+    AssetAddress: null
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
+  firemodeName:
+  - Kill
+  firemodeUsage: 3e030000
+  allowScrewdriver: 1

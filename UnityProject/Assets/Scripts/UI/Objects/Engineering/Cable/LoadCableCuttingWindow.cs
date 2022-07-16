@@ -40,7 +40,7 @@ public class LoadCableCuttingWindow : MonoBehaviour
 	/// </summary>
 	private GameObject itemInHand;
 
-	private void Update()
+	private void UpdateMe()
 	{
 		// check only if window is active to not waste cpu time
 		if (isWindowActive && !CanWindowBeEnabled())
@@ -50,7 +50,13 @@ public class LoadCableCuttingWindow : MonoBehaviour
 	private void OnEnable()
 	{
 		// store reference to player transform
-		localPlayerTransform = PlayerManager.LocalPlayer.transform;
+		localPlayerTransform = PlayerManager.LocalPlayerObject.transform;
+		UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
+	}
+
+	private void OnDisable()
+	{
+		UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
 	}
 
 	/// <summary>

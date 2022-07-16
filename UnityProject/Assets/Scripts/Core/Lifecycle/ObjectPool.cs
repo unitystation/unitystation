@@ -99,9 +99,9 @@ public class ObjectPool
 					pushable.VisibleState = false;
 				}
 
-				if (target.TryGetComponent<CustomNetTransform>(out var cnt))
+				if (target.TryGetComponent<UniversalObjectPhysics>(out var uop))
 				{
-					cnt.DisappearFromWorldServer();
+					uop.DisappearFromWorld();
 				}
 				else
 				{
@@ -114,9 +114,9 @@ public class ObjectPool
 			}
 			else
 			{
-				if (target.TryGetComponent<CustomNetTransform>(out var cnt))
+				if (target.TryGetComponent<UniversalObjectPhysics>(out var uop))
 				{
-					cnt.DisappearFromWorld();
+					uop.DisappearFromWorld();
 				}
 				else
 				{
@@ -186,10 +186,10 @@ public class ObjectPool
 			spawnedObject.transform.localRotation = destination.LocalRotation;
 			spawnedObject.transform.localScale = prefab.transform.localScale;
 			spawnedObject.transform.parent = destination.Parent;
-			if ( spawnedObject.TryGetComponent<CustomNetTransform>(out var cnt) )
+			if ( spawnedObject.TryGetComponent<UniversalObjectPhysics>(out var uop) )
 			{
-				cnt.ReInitServerState();
-				cnt.NotifyPlayers(); //Sending out clientState for already spawned items
+				var Matrix = MatrixManager.AtPoint(spawnedObject.transform.position, CustomNetworkManager.IsServer);
+				uop.ForceSetLocalPosition(spawnedObject.transform.localPosition,Vector2.zero, false, Matrix.Id); //Sending out clientState for already spawned items
 			}
 		}
 		else
@@ -206,7 +206,8 @@ public class ObjectPool
 				return false;
 			}
 			spawnedObject.name = prefab.name;
-			spawnedObject.GetComponent<CustomNetTransform>()?.ReInitServerState();
+			var Matrix = MatrixManager.AtPoint(spawnedObject.transform.position, CustomNetworkManager.IsServer);
+			spawnedObject.GetComponent<UniversalObjectPhysics>()?.ForceSetLocalPosition(spawnedObject.transform.localPosition,Vector2.zero, false, Matrix.Id);
 			// only add pool prefab tracker if the object can be pooled
 			if (IsPoolable(prefab))
 			{
@@ -227,8 +228,8 @@ public class ObjectPool
 			// because there's no clientside pool for networked objects, so
 			// we only need to tell client to spawn it
 			NetworkServer.Spawn(spawnedObject);
-			spawnedObject.GetComponent<CustomNetTransform>()
-				?.NotifyPlayers(); //Sending clientState for newly spawned items
+			spawnedObject.GetComponent<UniversalObjectPhysics>()
+				?.ResetLocationOnClients(); //Sending clientState for newly spawned items
 		}
 
 		return spawnedObject;

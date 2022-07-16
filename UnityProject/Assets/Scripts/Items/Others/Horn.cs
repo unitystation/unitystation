@@ -121,15 +121,15 @@ namespace Items
 			return itemslot != null ? itemslot.ItemStorage.GetRootStorageOrPlayer() : gameObject;
 		}
 
-		public void OnStep(GameObject eventData)
+		public bool WillAffectPlayer(PlayerScript playerScript)
 		{
-			ClassicHonk();
+			//Don't allow ghosts? :(
+			return playerScript.IsGhost == false;
 		}
 
-		public bool WillStep(GameObject eventData)
+		public void OnPlayerStep(PlayerScript playerScript)
 		{
-			if (eventData.TryGetComponent<LivingHealthMasterBase>(out var _)) return true;
-			return false;
+			ClassicHonk();
 		}
 	}
 }

@@ -1,37 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-4698118683307510746
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7537345380150340854}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e7c30ca55ffa4467a421abf7a832a6a1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  initialAmount: 3
-  maxAmount: 6
-  stacksWith: []
---- !u!114 &2762357644075121810
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7537345380150340854}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 515cf3640b8b76a40818c365f7017cdb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  processedProduct: {fileID: 7326701838922847653, guid: 23027896267338d4988f39d2814d8b94,
-    type: 3}
-  productAmount: 1
 --- !u!1001 &4055005699755776652
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -181,55 +149,55 @@ PrefabInstance:
         type: 3}
       propertyPath: relatedRecipes.Array.data[0].recipe
       value: 
-      objectReference: {fileID: 11400000, guid: b6db82cf95cbcc5478ad77223235b2dc,
+      objectReference: {fileID: 11400000, guid: 23f3f7d66ea624b4ab37b329cc49de26,
         type: 2}
     - target: {fileID: 6293589990412074924, guid: 699a33dd843ab594e9b3dbbf5b6305d4,
         type: 3}
       propertyPath: relatedRecipes.Array.data[1].recipe
       value: 
-      objectReference: {fileID: 11400000, guid: 50b34b4129af2c64788ccc6f359eaff0,
+      objectReference: {fileID: 11400000, guid: c6f9d84a4e803b94fa6d4697c23fafae,
         type: 2}
     - target: {fileID: 6293589990412074924, guid: 699a33dd843ab594e9b3dbbf5b6305d4,
         type: 3}
       propertyPath: relatedRecipes.Array.data[2].recipe
       value: 
-      objectReference: {fileID: 11400000, guid: 3ca0e430158e6534d80148580fd6efe8,
+      objectReference: {fileID: 11400000, guid: 124b2d884bd5f4147afa54cef304871e,
         type: 2}
     - target: {fileID: 6293589990412074924, guid: 699a33dd843ab594e9b3dbbf5b6305d4,
         type: 3}
       propertyPath: relatedRecipes.Array.data[3].recipe
       value: 
-      objectReference: {fileID: 11400000, guid: c773937e10483e44f99faf358f2b16e2,
+      objectReference: {fileID: 11400000, guid: 8f4c5cf202f390c4f9bd57d6f376eca6,
         type: 2}
     - target: {fileID: 6293589990412074924, guid: 699a33dd843ab594e9b3dbbf5b6305d4,
         type: 3}
       propertyPath: relatedRecipes.Array.data[4].recipe
       value: 
-      objectReference: {fileID: 11400000, guid: 23f3f7d66ea624b4ab37b329cc49de26,
+      objectReference: {fileID: 11400000, guid: b4cdb8b266eda4641a7e780643ce9d0c,
         type: 2}
     - target: {fileID: 6293589990412074924, guid: 699a33dd843ab594e9b3dbbf5b6305d4,
         type: 3}
       propertyPath: relatedRecipes.Array.data[5].recipe
       value: 
-      objectReference: {fileID: 11400000, guid: b4cdb8b266eda4641a7e780643ce9d0c,
+      objectReference: {fileID: 11400000, guid: b6db82cf95cbcc5478ad77223235b2dc,
         type: 2}
     - target: {fileID: 6293589990412074924, guid: 699a33dd843ab594e9b3dbbf5b6305d4,
         type: 3}
       propertyPath: relatedRecipes.Array.data[6].recipe
       value: 
-      objectReference: {fileID: 11400000, guid: 124b2d884bd5f4147afa54cef304871e,
+      objectReference: {fileID: 11400000, guid: c773937e10483e44f99faf358f2b16e2,
         type: 2}
     - target: {fileID: 6293589990412074924, guid: 699a33dd843ab594e9b3dbbf5b6305d4,
         type: 3}
       propertyPath: relatedRecipes.Array.data[7].recipe
       value: 
-      objectReference: {fileID: 11400000, guid: c6f9d84a4e803b94fa6d4697c23fafae,
+      objectReference: {fileID: 11400000, guid: 3ca0e430158e6534d80148580fd6efe8,
         type: 2}
     - target: {fileID: 6293589990412074924, guid: 699a33dd843ab594e9b3dbbf5b6305d4,
         type: 3}
       propertyPath: relatedRecipes.Array.data[8].recipe
       value: 
-      objectReference: {fileID: 11400000, guid: 8f4c5cf202f390c4f9bd57d6f376eca6,
+      objectReference: {fileID: 11400000, guid: 50b34b4129af2c64788ccc6f359eaff0,
         type: 2}
     - target: {fileID: 6293589990412074924, guid: 699a33dd843ab594e9b3dbbf5b6305d4,
         type: 3}
@@ -254,6 +222,11 @@ PrefabInstance:
     - target: {fileID: 6293589990412074924, guid: 699a33dd843ab594e9b3dbbf5b6305d4,
         type: 3}
       propertyPath: relatedRecipes.Array.data[4].ingredientIndex
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6293589990412074924, guid: 699a33dd843ab594e9b3dbbf5b6305d4,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[5].ingredientIndex
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6293589990412074924, guid: 699a33dd843ab594e9b3dbbf5b6305d4,
@@ -285,3 +258,39 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 4055005699755776652}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &-4698118683307510746
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7537345380150340854}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e7c30ca55ffa4467a421abf7a832a6a1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  initialAmount: 3
+  maxAmount: 6
+  stacksWith: []
+  stackNames: []
+  stackSprites: []
+  autoStackOnSpawn: 1
+  autoStackOnDrop: 1
+--- !u!114 &2762357644075121810
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7537345380150340854}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 515cf3640b8b76a40818c365f7017cdb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  processedProduct: {fileID: 7326701838922847653, guid: 23027896267338d4988f39d2814d8b94,
+    type: 3}
+  productAmount: 1

@@ -1,10 +1,11 @@
 ﻿using System;
-using UnityEngine;
 using System.Collections.Generic;
-using System.Linq;
-using Systems.Clothing;
+using Items;
 using Mirror;
+using UnityEngine;
 using NaughtyAttributes;
+using Player;
+using Systems.Clothing;
 using UI.CharacterCreator;
 
 namespace HealthV2
@@ -136,7 +137,7 @@ namespace HealthV2
 		/// <summary>
 		/// What is this BodyPart's sprite's tone if it shared a skin tone with the player?
 		/// </summary>
-		[HideInInspector] public Color Tone = Color.white;
+		[HideInInspector] public Color? Tone;
 
 		public string SetCustomisationData;
 
@@ -144,8 +145,11 @@ namespace HealthV2
 
 		public IntName intName;
 
+		public ItemAttributesV2 ItemAttributes;
+
 		void Awake()
 		{
+			ItemAttributes = GetComponent<ItemAttributesV2>();
 			OrganStorage = GetComponent<ItemStorage>();
 			OrganStorage.ServerInventoryItemSlotSet += BodyPartTransfer;
 			OrganList.Clear();
@@ -177,7 +181,6 @@ namespace HealthV2
 				}
 			}
 
-			BloodUpdate();
 			CalculateRadiationDamage();
 
 			if (IsBleeding)
@@ -298,13 +301,14 @@ namespace HealthV2
 
 			foreach (var organ in OrganList)
 			{
-				organ.HealthMasterSet(HealthMaster);
+				organ.AddedToBody(HealthMaster);
 			}
 
 			foreach (var organ in containBodyParts)
 			{
 				organ.BodyPartAddHealthMaster(livingHealth);
 			}
+			livingHealth.BodyPartListChange();
 		}
 
 		/// <summary>
@@ -325,6 +329,7 @@ namespace HealthV2
 			RemoveSprites(playerSprites, HealthMaster);
 			HealthMaster.rootBodyPartController.UpdateClients();
 			HealthMaster.BodyPartList.Remove(this);
+			HealthMaster.BodyPartListChange();
 			HealthMaster = null;
 		}
 
@@ -440,13 +445,6 @@ namespace HealthV2
 		/// </summary>
 		private void SetRemovedColor()
 		{
-			if (IsSurface && BodyPartItemInheritsSkinColor && currentBurnDamageLevel != TraumaDamageLevel.CRITICAL)
-			{
-				CharacterSettings settings = HealthMaster.gameObject.Player().Script.characterSettings;
-				ColorUtility.TryParseHtmlString(settings.SkinTone, out Tone);
-				BodyPartItemSprite.OrNull()?.SetColor(Tone);
-			}
-
 			if (currentBurnDamageLevel == TraumaDamageLevel.CRITICAL)
 			{
 				BodyPartItemSprite.OrNull()?.SetColor(bodyPartColorWhenCharred);
@@ -459,13 +457,15 @@ namespace HealthV2
 			for (var i = RelatedPresentSprites.Count - 1; i >= 0; i--)
 			{
 				var bodyPartSprite = RelatedPresentSprites[i];
-				if (IsSurface)
+				if (IsSurface || BodyPartItemInheritsSkinColor)
 				{
 					sprites.SurfaceSprite.Remove(bodyPartSprite);
 				}
 
 				RelatedPresentSprites.Remove(bodyPartSprite);
 				sprites.Addedbodypart.Remove(bodyPartSprite);
+				SpriteHandlerManager.UnRegisterHandler(sprites.GetComponent<NetworkIdentity>(),
+					bodyPartSprite.baseSpriteHandler);
 				Destroy(bodyPartSprite.gameObject);
 			}
 

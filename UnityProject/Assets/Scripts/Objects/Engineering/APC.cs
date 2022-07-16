@@ -12,6 +12,7 @@ using Systems.ObjectConnection;
 using Objects.Lighting;
 using Objects.Construction;
 using Core.Editor.Attributes;
+using CustomInspectors;
 using ScriptableObjects;
 using HealthV2;
 
@@ -19,7 +20,7 @@ namespace Objects.Engineering
 {
 	[RequireComponent(typeof(ElectricalNodeControl))]
 	[RequireComponent(typeof(ResistanceSourceModule))]
-	public class APC : SubscriptionController, INodeControl, ICheckedInteractable<HandApply>, IServerDespawn, IMultitoolMasterable
+	public class APC : ImnterfaceMultitoolGUI, ISubscriptionController, INodeControl, ICheckedInteractable<HandApply>, IServerDespawn, IMultitoolMasterable
 	{
 		// -----------------------------------------------------
 		//					ELECTRICAL THINGS
@@ -50,10 +51,6 @@ namespace Objects.Engineering
 
 		private ElectricalNodeControl electricalNodeControl;
 		private ResistanceSourceModule resistanceSourceModule;
-
-
-		[SerializeField, PrefabModeOnly, FormerlySerializedAs("NetTabType")]
-		private NetTabType netTabType = NetTabType.APC;
 
 		[Tooltip("Sound used when the APC loses all power.")]
 		[SerializeField, PrefabModeOnly]
@@ -93,6 +90,7 @@ namespace Objects.Engineering
 		private void OnEnable()
 		{
 			integrity.OnWillDestroyServer.AddListener(WhenDestroyed);
+			base.OnEnable();
 		}
 
 		private void Start()
@@ -303,7 +301,7 @@ namespace Objects.Engineering
 					screenDisplay.sprite = null;
 					EmergencyState = true;
 					StopRefresh();
-					_ = SoundManager.PlayAtPosition(NoPowerSound, gameObject.WorldPosServer());
+					_ = SoundManager.PlayAtPosition(NoPowerSound, gameObject.AssumedWorldPosServer());
 					break;
 			}
 		}
@@ -489,7 +487,7 @@ namespace Objects.Engineering
 			}
 		}
 
-		public override IEnumerable<GameObject> SubscribeToController(IEnumerable<GameObject> potentialObjects)
+		public IEnumerable<GameObject> SubscribeToController(IEnumerable<GameObject> potentialObjects)
 		{
 			var approvedObjects = new List<GameObject>();
 
@@ -530,7 +528,7 @@ namespace Objects.Engineering
 		public bool WillInteract(HandApply interaction, NetworkSide side)
 		{
 			if (DefaultWillInteract.Default(interaction, side) == false) return false;
-			
+
 			return Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Screwdriver);
 		}
 
@@ -543,9 +541,9 @@ namespace Objects.Engineering
 			}
 
 			float voltage = Voltage*10;
-			Vector3 shockpos = gameObject.WorldPosServer();
+			Vector3 shockpos = gameObject.AssumedWorldPosServer();
 			Electrocution electrocution = new Electrocution(voltage, shockpos, "APC");
-			
+
 			interaction.Performer.GetComponent<PlayerHealthV2>().Electrocute(electrocution);
 
 			ToolUtils.ServerUseToolWithActionMessages(interaction, secondsToScrewdrive,
@@ -576,8 +574,8 @@ namespace Objects.Engineering
 			GameObject frame = frameSpawn.GameObject;
 			frame.GetComponent<APCFrame>().ServerInitFromComputer(this);
 
-			var Directional = frame.GetComponent<Directional>();
-			if (Directional != null) Directional.FaceDirection(gameObject.GetComponent<Directional>().CurrentDirection);
+			var Directional = frame.GetComponent<Rotatable>();
+			if (Directional != null) Directional.FaceDirection(gameObject.GetComponent<Rotatable>().CurrentDirection);
 
 			_ = Despawn.ServerSingle(gameObject);
 

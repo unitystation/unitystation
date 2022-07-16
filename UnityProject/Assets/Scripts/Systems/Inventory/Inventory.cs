@@ -1,7 +1,11 @@
+using System;
 using System.Collections.Generic;
+using Items;
 using Messages.Client;
 using UnityEngine;
+using Systems.Storage;
 using Objects;
+using Random = UnityEngine.Random;
 
 /// <summary>
 /// Main API for modifying inventory. If you need to do something with inventory, check here first.
@@ -81,8 +85,7 @@ public static class Inventory
 		var stackable = fromSlot.ItemObject.GetComponent<Stackable>();
 		if (stackable != null)
 		{
-			stackable.ServerConsume(amountToConsume);
-			return true;
+			return stackable.ServerConsume(amountToConsume);
 		}
 		else
 		{
@@ -165,9 +168,9 @@ public static class Inventory
 	/// <param name="spinMode"></param>
 	/// <param name="aim">body part to target</param>
 	/// <returns>true if successful</returns>
-	public static bool ServerThrow(ItemSlot fromSlot, Vector2 worldTargetVector, SpinMode spinMode = SpinMode.CounterClockwise, BodyPartType aim = BodyPartType.Chest)
+	public static bool ServerThrow(ItemSlot fromSlot, Vector2 worldTargetVector, BodyPartType aim = BodyPartType.Chest)
 	{
-		return ServerPerform(InventoryMove.Throw(fromSlot, worldTargetVector, spinMode, aim));
+		return ServerPerform(InventoryMove.Throw(fromSlot, worldTargetVector, aim));
 	}
 
 	/// <summary>
@@ -347,8 +350,8 @@ public static class Inventory
 		//decide how it should be removed
 		var removeType = toPerform.RemoveType;
 		var holder = fromSlot.GetRootStorageOrPlayer();
-		var holderPushPull = holder?.GetComponent<PushPull>();
-		var parentContainer = holderPushPull == null ? null : holderPushPull.parentContainer;
+		var universalObjectPhysics = holder?.GetComponent<UniversalObjectPhysics>();
+		var parentContainer = universalObjectPhysics == null ? null : universalObjectPhysics.ContainedInContainer;
 		if (parentContainer != null && removeType == InventoryRemoveType.Throw)
 		{
 			Logger.LogTraceFormat("throwing from slot {0} while in container {1}. Will drop instead.", Category.Inventory,
@@ -377,53 +380,84 @@ public static class Inventory
 					Logger.LogWarningFormat("Dropping from slot {0} while in container {1}, but container type was not recognized. " +
 					                      "Currently only ObjectContainer is supported. Please add code to handle this case.", Category.Inventory,
 						fromSlot,
-						holderPushPull.parentContainer.name);
+						universalObjectPhysics.ContainedInContainer.name);
 					return false;
 				}
 				//vanish it and set its parent container
 				ServerVanish(fromSlot);
 				objectContainer.StoreObject(pickupable.gameObject);
-
 				return true;
 			}
 
-			var holderPlayer = holder?.GetComponent<PlayerSync>();
-			var cnt = pickupable.GetComponent<CustomNetTransform>();
+			var holderPlayer = holder.OrNull()?.GetComponent<UniversalObjectPhysics>();
+			var uop = pickupable.GetComponent<UniversalObjectPhysics>();
 			var holderPosition = holder?.gameObject.AssumedWorldPosServer();
 			Vector3 targetWorldPos = holderPosition.GetValueOrDefault(Vector3.zero) + (Vector3)toPerform.WorldTargetVector.GetValueOrDefault(Vector2.zero);
-			if (holderPlayer != null)
+			if (holderPlayer != null && toPerform.WorldTargetVector.GetValueOrDefault(Vector2.zero).magnitude == 0)
 			{
 				// dropping from player
-				// Inertia drop works only if player has external impulse (space floating etc.)
-				cnt.InertiaDrop(targetWorldPos, holderPlayer.SpeedServer,
-					holderPlayer.ServerImpulse);
+				uop.DropAtAndInheritMomentum(holderPlayer);
 			}
 			else
 			{
 				// dropping from not-held storage
-				cnt.AppearAtPositionServer(targetWorldPos);
+				uop.AppearAtWorldPositionServer(targetWorldPos);
 			}
 		}
 		else if (removeType == InventoryRemoveType.Throw)
 		{
 			// throw / eject
 			// determine where it will be thrown from
-			var cnt = pickupable.GetComponent<CustomNetTransform>();
-			var assumedWorldPosServer = holder.gameObject.AssumedWorldPosServer();
-			var throwInfo = new ThrowInfo
-			{
-				ThrownBy = holder.gameObject,
-				Aim = toPerform.ThrowAim.GetValueOrDefault(BodyPartType.Chest),
-				OriginWorldPos = assumedWorldPosServer,
-				WorldTrajectory = toPerform.WorldTargetVector.GetValueOrDefault(Vector2.zero),
-				SpinMode = toPerform.ThrowSpinMode.GetValueOrDefault(SpinMode.Clockwise)
-			};
+			var UOP = pickupable.GetComponent<UniversalObjectPhysics>();
+
+			var WorldTrajectory = toPerform.WorldTargetVector.GetValueOrDefault(Vector2.zero).normalized.To3();
 			// dropping from player
 			// Inertia drop works only if player has external impulse (space floating etc.)
-			cnt.Throw(throwInfo);
+			UOP.DropAtAndInheritMomentum(universalObjectPhysics);
 
+
+			var Distance = toPerform.WorldTargetVector.Value.magnitude;
+			var IA2 = ((ItemAttributesV2) UOP.attributes.Component);
+			if (Distance > IA2.ThrowRange)
+			{
+				Distance = IA2.ThrowRange;
+			}
+
+			//v = u + at
+			// u – initial velocity
+			// v – final velocity
+			// a – acceleration
+			// t – time
+			// s – displacement
+
+			//so
+			//0 = IA2.ThrowSpeed + UniversalObjectPhysics.DEFAULT_Friction * t?
+
+			//t = (IA2.ThrowSpeed) / UniversalObjectPhysics.DEFAULT_Friction
+			//s=1/2*(u+v)*t
+
+			//s=1/2*(IA2.ThrowSpeed)*(IA2.ThrowSpeed / UniversalObjectPhysics.DEFAULT_Friction)
+
+			//s=1/2*(u+v)*(u/f)
+
+			//s= u^2 / 2f
+
+			//Distance / IA2.ThrowSpeed
+
+			//   (u^2 / 2f) / A2.ThrowSpeed
+
+
+			// (Mathf.Pow(IA2.ThrowSpeed,2) / 2*UniversalObjectPhysics.DEFAULT_Friction) / A2.ThrowSpeed
+
+			//speedloss  / friction
+			UOP.NewtonianPush( WorldTrajectory,((ItemAttributesV2) UOP.attributes.Component).ThrowSpeed
+				, (Distance / IA2.ThrowSpeed  ) - ((Mathf.Pow(IA2.ThrowSpeed, 2) / (2*UniversalObjectPhysics.DEFAULT_Friction)) / IA2.ThrowSpeed)
+				 , Single.NaN, toPerform.ThrowAim.GetValueOrDefault(BodyPartType.Chest), holder.gameObject, Random.Range(25, 150));
+
+
+			//
 			// Counter-impulse for players in space
-			holderPushPull.Pushable.NewtonianMove((-throwInfo.WorldTrajectory).NormalizeTo2Int(), speed: (int)cnt.Size + 1);
+			universalObjectPhysics.NewtonianNewtonPush(-WorldTrajectory,UOP.GetWeight() + 1);
 		}
 		// NOTE: vanish doesn't require any extra logic. The item is already at hiddenpos and has
 		// already been removed from the inventory system.
@@ -431,6 +465,12 @@ public static class Inventory
 		foreach (var onMove in pickupable.GetComponents<IServerInventoryMove>())
 		{
 			onMove.OnInventoryMoveServer(toPerform);
+		}
+
+		if (pickupable.gameObject.TryGetComponent<Stackable>(out var stack))
+		{
+			var uop = pickupable.GetComponent<UniversalObjectPhysics>();
+			stack.ServerStackOnGround(uop.transform.localPosition.RoundToInt());
 		}
 
 		return true;
@@ -494,12 +534,8 @@ public static class Inventory
 			return false;
 		}
 
-		// go poof, it's in inventory now.
-		pickupable.GetComponent<CustomNetTransform>().DisappearFromWorldServer(true);
-
 		// no longer inside any PushPull
-		pickupable.GetComponent<ObjectBehaviour>().parentContainer = null;
-		pickupable.GetComponent<RegisterTile>().UpdatePositionServer();
+		pickupable.GetComponent<UniversalObjectPhysics>().DisappearFromWorld();
 
 		// update pickupable's item and slot's item
 		pickupable._SetItemSlot(toSlot);
@@ -530,7 +566,7 @@ public static class Inventory
 	public static void ClientRequestTransfer(ItemSlot from, ItemSlot to)
 	{
 		if (!Validations.CanPutItemToSlot(PlayerManager.LocalPlayerScript, to, from.Item,
-			NetworkSide.Client, PlayerManager.LocalPlayer, examineRecipient: PlayerManager.LocalPlayer))
+			NetworkSide.Client, PlayerManager.LocalPlayerObject, examineRecipient: PlayerManager.LocalPlayerObject))
 		{
 			Logger.LogTraceFormat("Client cannot request transfer from {0} to {1} because" +
 			                      " validation failed.", Category.Inventory,
@@ -581,7 +617,7 @@ public static class Inventory
 	/// <param name="namedSlotPopulatorEntrys"></param>
 	public static void PopulateSubInventory(GameObject gameObject, List<SlotPopulatorEntry> namedSlotPopulatorEntrys)
 	{
-		if (namedSlotPopulatorEntrys.Count == 0)  return;
+		if (namedSlotPopulatorEntrys.Count == 0) return;
 
 		var ItemStorage = gameObject.GetComponent<ItemStorage>();
 		if (ItemStorage == null) return;

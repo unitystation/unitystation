@@ -1,14 +1,16 @@
-using Hacking;
+using UnityEngine;
+using Systems.Hacking;
 using Messages.Server;
 using Messages.Server.SoundMessages;
-using UnityEngine;
+using Systems.Electricity;
+using UI.Core.Net;
 
 namespace Objects.Construction
 {
 	/// <summary>
 	/// Main behavior for computers. Allows them to be deconstructed to frames.
 	/// </summary>
-	public class Computer : MonoBehaviour, ICheckedInteractable<HandApply>
+	public class Computer : MonoBehaviour, ICheckedInteractable<HandApply>, IAPCPowerable, ICanOpenNetTab
 	{
 		[Tooltip("Frame prefab this computer should deconstruct into.")]
 		[SerializeField]
@@ -22,6 +24,8 @@ namespace Objects.Construction
 		/// Prefab of the circuit board that lives inside this computer.
 		/// </summary>
 		public GameObject CircuitBoardPrefab => circuitBoardPrefab;
+
+		public bool hasPower = false;
 
 		[Tooltip("Time taken to screwdrive to deconstruct this.")]
 		[SerializeField]
@@ -126,6 +130,31 @@ namespace Objects.Construction
 			_ = Despawn.ServerSingle(gameObject);
 
 			integrity.OnWillDestroyServer.RemoveListener(WhenDestroyed);
+		}
+
+		public void PowerNetworkUpdate(float voltage) {}
+
+		public void StateUpdate(PowerState state)
+		{
+			if (state == PowerState.Off || state == PowerState.LowVoltage)
+			{
+				hasPower = false;
+			}
+			else
+			{
+				hasPower = true;
+			}
+			GetComponent<ConsoleScreenAnimator>().ToggleOn(hasPower);
+		}
+
+		public bool CanOpenNetTab(GameObject playerObject, NetTabType netTabType)
+		{
+			if (!hasPower)
+			{
+				Chat.AddExamineMsgFromServer(playerObject, $"{gameObject.ExpensiveName()} is unpowered");
+				return false;
+			}
+			return true;
 		}
 	}
 }

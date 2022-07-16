@@ -24,6 +24,20 @@ MonoBehaviour:
     prefab: {fileID: 3580202830580183012, guid: d0665b639a1bfc340afe3b1fde2773dd,
       type: 3}
     cost: 4
-    buildTime: 5
+    buildTime: 6
+    spawnAmount: 1
+    onePerTile: 1
+  - name: Cardborg Suit
+    prefab: {fileID: 3966559010717293117, guid: ed647e1dd8fa2da42aac1905ff1c8e81,
+      type: 3}
+    cost: 4
+    buildTime: 6
+    spawnAmount: 1
+    onePerTile: 1
+  - name: Cardborg Helmet
+    prefab: {fileID: 8518846131667135881, guid: 24b6e0d94ce583c4d84d77f18b8dc8be,
+      type: 3}
+    cost: 1
+    buildTime: 4
     spawnAmount: 1
     onePerTile: 1

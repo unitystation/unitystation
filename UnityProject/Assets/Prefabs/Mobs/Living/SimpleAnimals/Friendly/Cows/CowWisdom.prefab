@@ -17,6 +17,21 @@ PrefabInstance:
       propertyPath: doRandomActionWhenInTask
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 2086947749340407230, guid: 738fd5d21d2b347498cb8cafcdc1d43f,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2086947749340407230, guid: 738fd5d21d2b347498cb8cafcdc1d43f,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2086947749340407230, guid: 738fd5d21d2b347498cb8cafcdc1d43f,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
     - target: {fileID: 2665997096216502993, guid: 738fd5d21d2b347498cb8cafcdc1d43f,
         type: 3}
       propertyPath: m_AssetId
@@ -44,26 +59,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2694979671601159753, guid: 738fd5d21d2b347498cb8cafcdc1d43f,
         type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2694979671601159753, guid: 738fd5d21d2b347498cb8cafcdc1d43f,
-        type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2694979671601159753, guid: 738fd5d21d2b347498cb8cafcdc1d43f,
-        type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2694979671601159753, guid: 738fd5d21d2b347498cb8cafcdc1d43f,
-        type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2694979671601159753, guid: 738fd5d21d2b347498cb8cafcdc1d43f,
-        type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
       value: 0
       objectReference: {fileID: 0}
@@ -82,5 +77,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: CowWisdom
       objectReference: {fileID: 0}
+    - target: {fileID: 3597321348955184804, guid: 738fd5d21d2b347498cb8cafcdc1d43f,
+        type: 3}
+      propertyPath: milkReagent
+      value: 
+      objectReference: {fileID: 11400000, guid: a1724b1210d8177c097a28325415c0b1,
+        type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 738fd5d21d2b347498cb8cafcdc1d43f, type: 3}

@@ -1,5 +1,6 @@
-﻿using Objects.Research;
-using UnityEngine;
+﻿using UnityEngine;
+using UI.Core.NetUI;
+using Objects.Research;
 
 namespace UI.Items
 {
@@ -21,16 +22,9 @@ namespace UI.Items
 		private NetSlider integritySlider = null;
 
 		private AiVessel aiVessel;
-		private AiVessel AiVessel {
-			get {
-				if (aiVessel == null)
-					aiVessel = Provider.GetComponent<AiVessel>();
+		private AiVessel AiVessel => aiVessel ??= Provider.GetComponent<AiVessel>();
 
-				return aiVessel;
-			}
-		}
-
-		public void OnTabOpenedHandler(ConnectedPlayer connectedPlayer)
+		public void OnTabOpenedHandler(PlayerInfo connectedPlayer)
 		{
 			allowRemoteActionsSlider.SetValueServer(AiVessel.AllowRemoteAction ? (1 * 100).ToString() : "0");
 			allowRadioSlider.SetValueServer(AiVessel.AllowRadio ? (1 * 100).ToString() : "0");

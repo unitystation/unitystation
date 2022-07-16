@@ -8,8 +8,8 @@ namespace Objects
 	public struct CollisionInfo
 	{
 		public float Speed;
-		public ItemSize Size;
+		public Size Size;
 		public Vector3Int CollisionTile;
-		public float Damage => Mathf.Clamp(Speed * ((int)Size / 2f) - PushPull.HIGH_SPEED_COLLISION_THRESHOLD, 0f, 500f);
+		public float Damage => Mathf.Clamp(Speed * ((int)Size / 2f) - UniversalObjectPhysics.HIGH_SPEED_COLLISION_THRESHOLD, 0f, 500f);
 	}
 }

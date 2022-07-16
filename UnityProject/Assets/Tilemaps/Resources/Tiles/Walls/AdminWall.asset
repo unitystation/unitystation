@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: AdminWall
   m_EditorClassIdentifier: 
   displayName: wall
+  description: 
   LayerType: 0
   TileType: 1
   RequiredTiles:
@@ -25,13 +26,15 @@ MonoBehaviour:
   passable: 0
   mineable: 0
   miningTime: 5
+  miningHardness: 1
   constructable: 0
-  RadiationPassability: 0.75
+  RadiationPassability: 0
   ThermalConductivity: 0
   HeatCapacity: 312500
   doesReflectBullet: 0
   indestructible: 1
   ExplosionImpassable: 1
+  BlocksTileInteractionsUnder: 1
   passableException:
     m_keys: 
     m_values: 
@@ -50,6 +53,7 @@ MonoBehaviour:
     Bio: 100
     DismembermentProtectionChance: 0
   tileInteractions: []
+  tileStepInteractions: []
   spawnOnDeconstruct: {fileID: 0}
   spawnAmountOnDeconstruct: 0
   lootOnDespawn: {fileID: 0}
@@ -63,6 +67,7 @@ MonoBehaviour:
       m_AssetGUID: 
       m_SubObjectName: 
       m_SubObjectType: 
+      m_EditorAssetChanged: 0
   SoundOnDestroy: []
   connectCategory: 0
   connectType: 1

@@ -105,9 +105,15 @@ namespace Systems
 			record.Occupation = OccupationList.Instance.Get(jobType);
 			record.Sex = script.characterSettings.BodyType.ToString();
 			record.Species = script.characterSettings.Species.ToString();
-			//I don't know what to put in ID and Fingerprints
+			//I don't know what to put in ID
 			record.ID = $"{UnityEngine.Random.Range(111, 999).ToString()}-{UnityEngine.Random.Range(111, 999).ToString()}";
-			record.Fingerprints = UnityEngine.Random.Range(111111, 999999).ToString();
+
+			var Data = "";
+			foreach (var Hand in script.DynamicItemStorage.GetHandSlots())
+			{
+				Data += Hand.ItemStorage.gameObject.GetInstanceID() + " , ";
+			}
+			record.Fingerprints = Data;
 			//Photo stuff
 			record.characterSettings = script.characterSettings;
 

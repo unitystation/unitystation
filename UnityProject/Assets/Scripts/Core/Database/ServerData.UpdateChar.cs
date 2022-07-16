@@ -10,7 +10,7 @@ namespace DatabaseAPI
 {
 	public partial class ServerData
 	{
-		public static async Task<bool> UpdateCharacterProfile(CharacterSettings updateSettings)
+		public static async Task<bool> UpdateCharacterProfile(CharacterSheet updateSettings)
 		{
 			if (FirebaseAuth.DefaultInstance.CurrentUser == null)
 			{

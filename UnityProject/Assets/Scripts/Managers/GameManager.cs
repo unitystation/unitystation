@@ -17,15 +17,34 @@ using Audio.Containers;
 using Managers;
 using Messages.Server;
 using Tilemaps.Behaviours.Layers;
+using UnityEngine.Profiling;
+using Player;
+using Systems.Research;
 
 public partial class GameManager : MonoBehaviour, IInitialise
 {
 	public static GameManager Instance;
 	public bool counting;
+
+	/// <summary>
+	/// The maximum amount of players which can join the server (Excludes admins and players who were already in the current round)
+	/// </summary>
+	public int PlayerLimit { get; set; } = 100;
+
+	/// <summary>
+	/// The minimum amount of players which triggers a lowPop status
+	/// </summary>
+	public int LowPopLimit { get; set; } = 25;
+
 	/// <summary>
 	/// The minimum number of players needed to start the pre-round countdown
 	/// </summary>
 	public int MinPlayersForCountdown { get; set; } = 1;
+
+	/// <summary>
+	/// The minimum number of ready players needed to start the pre-round countdown
+	/// </summary>
+	public int MinReadyPlayersForCountdown { get; set; } = 1;
 
 	/// <summary>
 	/// How long the pre-round stage should last
@@ -46,6 +65,7 @@ public partial class GameManager : MonoBehaviour, IInitialise
 	/// The current time left on the countdown timer
 	/// </summary>
 	public float CountdownTime { get; private set; }
+
 	public double CountdownEndTime { get; private set; }
 
 	/// <summary>
@@ -75,6 +95,11 @@ public partial class GameManager : MonoBehaviour, IInitialise
 	/// How long are character names are allowed to be?
 	/// </summary>
 	public int CharacterNameLimit { get; set; }
+
+	/// <summary>
+	/// ENABLE ON SERVERS THAT SUPPORT AUTO-RESTARTING ONLY VIA A MANAGER!
+	/// </summary>
+	public bool ServerShutsDownOnRoundEnd { get; set; } = true;
 
 	/// <summary>
 	/// If true, only admins who put http/https links in OOC will be allowed
@@ -122,18 +147,20 @@ public partial class GameManager : MonoBehaviour, IInitialise
 
 	public InitialisationSystems Subsystem => InitialisationSystems.GameManager;
 
-	[SerializeField]
-	private AudioClipsArray endOfRoundSounds = null;
+	[SerializeField] private AudioClipsArray endOfRoundSounds = null;
+
+	[NonSerialized] public int ServerCurrentFPS;
+	[NonSerialized] public int ServerAverageFPS;
+	[NonSerialized] public int errorCounter;
+	[NonSerialized] public int uniqueErrorCounter;
+
+	public int LowPopCheckTimeAfterRoundStart = 300;
+
+	public int RebootOnAverageFPSOrLower = 35;
 
 	[NonSerialized]
-	public int ServerCurrentFPS;
-	[NonSerialized]
-	public int ServerAverageFPS;
-	[NonSerialized]
-	public int errorCounter;
-	[NonSerialized]
-	public int uniqueErrorCounter;
-
+	public bool DisconnectExpected = false;
+	
 	void IInitialise.Initialise()
 	{
 		// Set up server defaults, needs to be loaded here to ensure gameConfigManager is load.
@@ -169,6 +196,7 @@ public partial class GameManager : MonoBehaviour, IInitialise
 	private void LoadConfig()
 	{
 		MinPlayersForCountdown = GameConfigManager.GameConfig.MinPlayersForCountdown;
+		MinReadyPlayersForCountdown = GameConfigManager.GameConfig.MinReadyPlayersForCountdown;
 		PreRoundTime = GameConfigManager.GameConfig.PreRoundTime;
 		RoundEndTime = GameConfigManager.GameConfig.RoundEndTime;
 		RoundsPerMap = GameConfigManager.GameConfig.RoundsPerMap;
@@ -181,6 +209,12 @@ public partial class GameManager : MonoBehaviour, IInitialise
 		CharacterNameLimit = GameConfigManager.GameConfig.CharacterNameLimit;
 		AdminOnlyHtml = GameConfigManager.GameConfig.AdminOnlyHtml;
 		MalfAIRecieveTheirIntendedObjectiveChance = GameConfigManager.GameConfig.MalfAIRecieveTheirIntendedObjectiveChance;
+		ServerShutsDownOnRoundEnd = GameConfigManager.GameConfig.ServerShutsDownOnRoundEnd;
+		PlayerLimit = GameConfigManager.GameConfig.PlayerLimit;
+		LowPopLimit = GameConfigManager.GameConfig.LowPopLimit;
+		LowPopCheckTimeAfterRoundStart = GameConfigManager.GameConfig.LowPopCheckTimeAfterRoundStart;
+		RebootOnAverageFPSOrLower = GameConfigManager.GameConfig.RebootOnAverageFPSOrLower;
+
 		Physics.autoSimulation = false;
 		Physics2D.simulationMode = SimulationMode2D.Update;
 	}
@@ -188,11 +222,13 @@ public partial class GameManager : MonoBehaviour, IInitialise
 	private void OnEnable()
 	{
 		SceneManager.activeSceneChanged += OnSceneChange;
+		UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
 	}
 
 	private void OnDisable()
 	{
 		SceneManager.activeSceneChanged -= OnSceneChange;
+		UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
 	}
 
 	///<summary>
@@ -205,7 +241,7 @@ public partial class GameManager : MonoBehaviour, IInitialise
 		if (mm.ServerState.Position == TransformState.HiddenPos)
 		{
 			Logger.LogError("Matrix Move is not initialized! Wait for it to be" +
-				"ready before calling ServerSetSpaceBody ", Category.Server);
+			                "ready before calling ServerSetSpaceBody ", Category.Server);
 			return;
 		}
 
@@ -224,24 +260,7 @@ public partial class GameManager : MonoBehaviour, IInitialise
 			minDistanceBetweenSpaceBodies = 200f;
 		}
 
-		//Fills list of Vectors all along shuttle path
-		var beginning = GameManager.Instance.PrimaryEscapeShuttle.stationTeleportLocation;
-		var target = GameManager.Instance.PrimaryEscapeShuttle.stationDockingLocation;
-
-
-		var distance = (int)Vector2.Distance(beginning, target);
-
-		if (!EscapeShuttlePathGenerated)//Only generated once
-		{
-			EscapeShuttlePath.Add(beginning);//Adds original vector
-			for (int i = 0; i < (distance/50); i++)
-			{
-				beginning = Vector2.MoveTowards(beginning, target, 50);//Vector 50 distance apart from prev vector
-				EscapeShuttlePath.Add(beginning);
-			}
-			EscapeShuttlePathGenerated = true;
-		}
-
+		GenerateShuttlePath();
 
 		bool validPos = false;
 		while (!validPos)
@@ -249,7 +268,8 @@ public partial class GameManager : MonoBehaviour, IInitialise
 			Vector3 proposedPosition = RandomPositionInSolarSystem();
 
 			bool failedChecks =
-				Vector3.Distance(proposedPosition, MatrixManager.Instance.spaceMatrix.transform.parent.transform.position) <
+				Vector3.Distance(proposedPosition,
+					MatrixManager.Instance.spaceMatrix.transform.parent.transform.position) <
 				minDistanceBetweenSpaceBodies;
 
 			//Make sure it is away from the middle of space matrix
@@ -267,7 +287,8 @@ public partial class GameManager : MonoBehaviour, IInitialise
 			//Checks whether the other spacebodies are near
 			for (int i = 0; i < SpaceBodies.Count; i++)
 			{
-				if (Vector3.Distance(proposedPosition, SpaceBodies[i].transform.position) < minDistanceBetweenSpaceBodies)
+				if (Vector3.Distance(proposedPosition, SpaceBodies[i].transform.position) <
+				    minDistanceBetweenSpaceBodies)
 				{
 					failedChecks = true;
 				}
@@ -279,10 +300,38 @@ public partial class GameManager : MonoBehaviour, IInitialise
 				mm.SetPosition(proposedPosition);
 				SpaceBodies.Add(mm);
 			}
+
 			yield return WaitFor.EndOfFrame;
 		}
+
 		yield return WaitFor.EndOfFrame;
 		isProcessingSpaceBody = false;
+	}
+
+	private void GenerateShuttlePath()
+	{
+		if (EscapeShuttlePathGenerated) return;
+		if (GameManager.Instance.PrimaryEscapeShuttle == null)
+		{
+			Logger.LogWarning("Cannot generate primary escape shuttle path. Shuttle not found.");
+			return;
+		}
+
+		//Fills list of Vectors all along shuttle path
+		var beginning = GameManager.Instance.PrimaryEscapeShuttle.stationTeleportLocation;
+		var target = GameManager.Instance.PrimaryEscapeShuttle.stationDockingLocation;
+
+
+		var distance = (int)Vector2.Distance(beginning, target);
+
+		EscapeShuttlePath.Add(beginning); //Adds original vector
+		for (int i = 0; i < (distance / 50); i++)
+		{
+			beginning = Vector2.MoveTowards(beginning, target, 50); //Vector 50 distance apart from prev vector
+			EscapeShuttlePath.Add(beginning);
+		}
+
+		EscapeShuttlePathGenerated = true;
 	}
 
 	public Vector3 RandomPositionInSolarSystem()
@@ -304,6 +353,7 @@ public partial class GameManager : MonoBehaviour, IInitialise
 		{
 			PreRoundStart();
 		}
+
 		ResetStaticsOnNewRound();
 	}
 
@@ -328,7 +378,8 @@ public partial class GameManager : MonoBehaviour, IInitialise
 
 		if (!CustomNetworkManager.Instance._isServer)
 		{
-			stationTime = DateTime.ParseExact(currentTime, "O", CultureInfo.InvariantCulture, DateTimeStyles.RoundtripKind);
+			stationTime = DateTime.ParseExact(currentTime, "O", CultureInfo.InvariantCulture,
+				DateTimeStyles.RoundtripKind);
 			counting = true;
 		}
 	}
@@ -346,7 +397,7 @@ public partial class GameManager : MonoBehaviour, IInitialise
 		UpdateRoundTimeMessage.Send(stationTime.ToString("O"));
 	}
 
-	private void Update()
+	private void UpdateMe()
 	{
 		if (CustomNetworkManager.IsServer == false) return;
 		if (!isProcessingSpaceBody && PendingSpaceBodies.Count > 0)
@@ -360,17 +411,19 @@ public partial class GameManager : MonoBehaviour, IInitialise
 		{
 			if (NetworkTime.time >= CountdownEndTime)
 			{
-				StartRound();
+				if (PlayerList.Instance.ReadyPlayers.Count >= MinReadyPlayersForCountdown)
+				{
+					StartRound();
+				}
 			}
 		}
 		else if (counting)
 		{
 			stationTime = stationTime.AddSeconds(Time.deltaTime);
-			roundTimer.text = stationTime.ToString("HH:mm");
+			roundTimer.text = stationTime.ToString("HH:mm:ss");
 		}
 
-		if(CustomNetworkManager.Instance._isServer == false) return;
-
+		if (CustomNetworkManager.Instance._isServer == false) return;
 	}
 
 	/// <summary>
@@ -451,7 +504,7 @@ public partial class GameManager : MonoBehaviour, IInitialise
 
 		// Tell all clients that the countdown has finished
 		UpdateCountdownMessage.Send(true, 0);
-		EventManager.Broadcast(Event.PostRoundStarted);
+		EventManager.Broadcast(Event.PostRoundStarted, true);
 	}
 
 	/// <summary>
@@ -463,12 +516,12 @@ public partial class GameManager : MonoBehaviour, IInitialise
 
 		foreach (var readyPlayer in PlayerList.Instance.ReadyPlayers)
 		{
-			if(readyPlayer.CharacterSettings?.AntagPreferences == null) continue;
+			if (readyPlayer.CharacterSettings?.AntagPreferences == null) continue;
 
 			foreach (var antagPreference in readyPlayer.CharacterSettings.AntagPreferences)
 			{
 				//Only record enabled antags
-				if(antagPreference.Value == false) continue;
+				if (antagPreference.Value == false) continue;
 
 				if (antagDict.TryGetValue(antagPreference.Key, out var antagNum))
 				{
@@ -489,7 +542,8 @@ public partial class GameManager : MonoBehaviour, IInitialise
 
 		foreach (var antag in antagDict)
 		{
-			antagString.AppendLine($"{antag.Value} players have {antag.Key} enabled, {count - antag.Value} have it disabled");
+			antagString.AppendLine(
+				$"{antag.Value} players have {antag.Key} enabled, {count - antag.Value} have it disabled");
 		}
 
 		DiscordWebhookMessage.Instance.AddWebHookMessageToQueue(DiscordWebhookURLs.DiscordWebhookAdminLogURL,
@@ -546,6 +600,7 @@ public partial class GameManager : MonoBehaviour, IInitialise
 		{
 			yield return WaitFor.EndOfFrame;
 		}
+
 		// Clear the list of ready players so they have to ready up again
 		PlayerList.Instance.ClearReadyPlayers();
 		CheckPlayerCount();
@@ -572,7 +627,8 @@ public partial class GameManager : MonoBehaviour, IInitialise
 
 		string msg = GameManager.Instance.SecretGameMode ? "Secret" : $"{GameManager.Instance.GameMode}";
 
-		string message = $"A new round is starting on {ServerData.ServerConfig.ServerName}.\nThe current gamemode is: {msg}\nThe current map is: {SubSceneManager.ServerChosenMainStation}\n";
+		string message =
+			$"A new round is starting on {ServerData.ServerConfig.ServerName}.\nThe current gamemode is: {msg}\nThe current map is: {SubSceneManager.ServerChosenMainStation}\n";
 
 		var playerNumber = PlayerList.Instance.ConnectionCount > PlayerList.LastRoundPlayerCount
 			? PlayerList.Instance.ConnectionCount
@@ -587,38 +643,40 @@ public partial class GameManager : MonoBehaviour, IInitialise
 			message += $"There are {playerNumber} players online.\n";
 		}
 
-		DiscordWebhookMessage.Instance.AddWebHookMessageToQueue(DiscordWebhookURLs.DiscordWebhookAnnouncementURL, message, "");
+		DiscordWebhookMessage.Instance.AddWebHookMessageToQueue(DiscordWebhookURLs.DiscordWebhookAnnouncementURL,
+			message, "");
 
-		DiscordWebhookMessage.Instance.AddWebHookMessageToQueue(DiscordWebhookURLs.DiscordWebhookOOCURL, "`A new round countdown has started`", "");
+		DiscordWebhookMessage.Instance.AddWebHookMessageToQueue(DiscordWebhookURLs.DiscordWebhookOOCURL,
+			"`A new round countdown has started`", "");
 
-		DiscordWebhookMessage.Instance.AddWebHookMessageToQueue(DiscordWebhookURLs.DiscordWebhookErrorLogURL, "```A new round countdown has started```", "");
+		DiscordWebhookMessage.Instance.AddWebHookMessageToQueue(DiscordWebhookURLs.DiscordWebhookErrorLogURL,
+			"```A new round countdown has started```", "");
 
 		UpdateCountdownMessage.Send(waitForStart, PreRoundTime);
 	}
 
 	[Server]
-	public void TrySpawnPlayer(PlayerSpawnRequest player)
+	public void TrySpawnPlayer(PlayerSpawnRequest spawnRequest)
 	{
-		if (player == null || player.JoinedViewer == null)
+		if (spawnRequest?.Player?.ViewerScript == null)
 		{
-			return;
-		}
-
-		int slotsTaken = Instance.ClientGetOccupationsCount(player.RequestedOccupation.JobType);
-		int slotsMax = Instance.GetOccupationMaxCount(player.RequestedOccupation.JobType);
-		if (slotsTaken >= slotsMax)
-		{
+			Logger.LogError("Invalid spawn request, player is null.");
 			return;
 		}
 
 		//regardless of their chosen occupation, they might spawn as an antag instead.
 		//If they do, bypass the normal spawn logic.
-		if (Instance.GameMode.TrySpawnAntag(player))
+		if (Instance.GameMode.TrySpawnAntag(spawnRequest)) return;
+
+		int slotsTaken = Instance.ServerGetOccupationsCount(spawnRequest.RequestedOccupation.JobType);
+		int slotsMax = Instance.GetOccupationMaxCount(spawnRequest.RequestedOccupation.JobType);
+		if (slotsTaken >= slotsMax)
 		{
+			Logger.LogError($"Occupation {spawnRequest.RequestedOccupation.JobType} is full. Cannot spawn player.");
 			return;
 		}
 
-		PlayerSpawn.ServerSpawnPlayer(player);
+		PlayerSpawn.ServerSpawnPlayer(spawnRequest);
 	}
 
 	/// <summary>
@@ -697,6 +755,7 @@ public partial class GameManager : MonoBehaviour, IInitialise
 		{
 			Logger.Log($"{jobType} count: {count}", Category.Jobs);
 		}
+
 		return count;
 	}
 
@@ -748,22 +807,41 @@ public partial class GameManager : MonoBehaviour, IInitialise
 			Logger.Log("Cannot restart round, round is already restarting!", Category.Round);
 			return;
 		}
+
 		CurrentRoundState = RoundState.Restarting;
 		StartCoroutine(ServerRoundRestart());
 	}
 
+	private float GetMemeoryUsagePrecentage()
+	{
+		return (Profiler.GetTotalAllocatedMemoryLong() / 1048576) / SystemInfo.systemMemorySize * 100;
+	}
+
 	IEnumerator ServerRoundRestart()
 	{
-		Logger.Log("Server restarting round now.", Category.Round);
-		Chat.AddGameWideSystemMsgToChat("<b>The round is now restarting...</b>");
+		string[] args = Environment.GetCommandLineArgs();
+		if ((ServerShutsDownOnRoundEnd == false || args.Contains("-NoReboot"))
+		    && (ServerAverageFPS >= RebootOnAverageFPSOrLower || GetMemeoryUsagePrecentage() <= 75f) ||
+		    args.Contains("-AlwaysReboot") == false)
+		{
+			Logger.Log("Server restarting round now.", Category.Round);
+			Chat.AddGameWideSystemMsgToChat("<b>The round is now restarting...</b>");
+			// Notify all clients that the round has ended
+			EventManager.Broadcast(Event.RoundEnded, true);
+			EventManager.Broadcast(Event.SceneUnloading, true);
 
-		// Notify all clients that the round has ended
-		EventManager.Broadcast(Event.RoundEnded, true);
+			yield return WaitFor.Seconds(0.2f);
 
-		yield return WaitFor.Seconds(0.2f);
+			CustomNetworkManager.Instance.ServerChangeScene("OnlineScene");
 
-		CustomNetworkManager.Instance.ServerChangeScene("OnlineScene");
+			StopAllCoroutines();
+			yield break;
+		}
 
-		StopAllCoroutines();
+		Logger.LogError("Server is rebooting now. If you don't have a way to automatically restart the " +
+		                "Unitystation process such as systemctl the server won't be able to restart!", Category.Round);
+		Chat.AddGameWideSystemMsgToChat("<size=72><b>The server is now restarting!</b></size>");
+		yield return WaitFor.Seconds(2f);
+		Application.Quit();
 	}
 }

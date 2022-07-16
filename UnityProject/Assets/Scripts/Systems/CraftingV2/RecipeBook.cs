@@ -14,13 +14,13 @@ namespace Systems.CraftingV2
 		                                           "when the player have read the book.")]
 		private List<CraftingRecipe> containsRecipes = new List<CraftingRecipe>();
 
-		protected override void FinishReading(ConnectedPlayer player)
+		protected override void FinishReading(PlayerInfo player)
 		{
 			base.FinishReading(player);
 			LearnRecipes(player);
 		}
 
-		private void LearnRecipes(ConnectedPlayer player)
+		private void LearnRecipes(PlayerInfo player)
 		{
 			foreach (CraftingRecipe recipe in containsRecipes)
 			{

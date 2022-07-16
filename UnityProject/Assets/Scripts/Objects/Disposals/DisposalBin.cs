@@ -36,7 +36,7 @@ namespace Objects.Disposals
 		Handle = 3
 	}
 
-	public class DisposalBin : DisposalMachine, IExaminable, ICheckedInteractable<MouseDrop>, IEscapable
+	public class DisposalBin : DisposalMachine, IExaminable, ICheckedInteractable<MouseDrop>, IEscapable, IBumpableObject
 	{
 		private const int CHARGED_PRESSURE = 600; // kPa
 		private const int AUTO_FLUSH_DELAY = 2;
@@ -296,20 +296,24 @@ namespace Objects.Disposals
 		#endregion Interactions
 
 		// gives the probability of an object falling into the bin. Yes, it's like basketball
-		public void OnFlyingObjectHit(GameObject item)
+		public void OnBump(GameObject item, GameObject Client)
 		{
+			if (isServer == false) return;
 			if (MachineSecured == false) return;
 
-			if (DMMath.Prob(25))
+			if (item.GetComponent<UniversalObjectPhysics>().IsFlyingSliding)
 			{
-				Chat.AddLocalMsgToChat($"The {item.ExpensiveName()} bounces off the rim of the {gameObject.ExpensiveName()}!", gameObject);
-				var dunkMissParameters = new AudioSourceParameters(pitch: RandomDunkPitch);
-				SoundManager.PlayNetworkedAtPos(trashDunkMissSound, registerObject.WorldPositionServer, dunkMissParameters);
-				return;
-			}
+				if (DMMath.Prob(25))
+				{
+					Chat.AddLocalMsgToChat($"The {item.ExpensiveName()} bounces off the rim of the {gameObject.ExpensiveName()}!", gameObject);
+					var dunkMissParameters = new AudioSourceParameters(pitch: RandomDunkPitch);
+					SoundManager.PlayNetworkedAtPos(trashDunkMissSound, registerObject.WorldPositionServer, dunkMissParameters);
+					return;
+				}
 
-			Chat.AddLocalMsgToChat($"The {item.ExpensiveName()} goes straight into the {gameObject.ExpensiveName()}! Score!", gameObject);
-			StoreItem(item);
+				Chat.AddLocalMsgToChat($"The {item.ExpensiveName()} goes straight into the {gameObject.ExpensiveName()}! Score!", gameObject);
+				StoreItem(item);
+			}
 		}
 
 		private void StoreItem(GameObject item)
@@ -317,7 +321,7 @@ namespace Objects.Disposals
 			objectContainer.StoreObject(item);
 
 			AudioSourceParameters dunkParameters = new AudioSourceParameters(pitch: RandomDunkPitch);
-			SoundManager.PlayNetworkedAtPos(trashDunkSounds, gameObject.WorldPosServer(), dunkParameters);
+			SoundManager.PlayNetworkedAtPos(trashDunkSounds, gameObject.AssumedWorldPosServer(), dunkParameters);
 
 			this.RestartCoroutine(AutoFlush(), ref autoFlushCoroutine);
 		}
@@ -326,7 +330,7 @@ namespace Objects.Disposals
 		private void StartStoringPlayer(MouseDrop interaction)
 		{
 			Vector3Int targetObjectLocalPosition = interaction.TargetObject.RegisterTile().LocalPosition;
-			Vector3Int targetObjectWorldPos = interaction.TargetObject.WorldPosServer().CutToInt();
+			Vector3Int targetObjectWorldPos = interaction.TargetObject.AssumedWorldPosServer().CutToInt();
 
 			// We check if there's nothing in the way, like another player or a directional window.
 			if (interaction.UsedObject.RegisterTile().Matrix.IsPassableAtOneMatrixOneTile(targetObjectLocalPosition, true, context: gameObject) == false)
@@ -341,15 +345,15 @@ namespace Objects.Disposals
 				{
 					if (playerScript.registerTile.Matrix.IsPassableAtOneMatrixOneTile(targetObjectLocalPosition, true, context: gameObject))
 					{
-						playerScript.PlayerSync.SetPosition(targetObjectWorldPos);
+						playerScript.PlayerSync.AppearAtWorldPositionServer(targetObjectWorldPos, false);
 					}
 				}
 				else
 				{
-					var transformComp = interaction.UsedObject.GetComponent<CustomNetTransform>();
+					var transformComp = interaction.UsedObject.GetComponent<UniversalObjectPhysics>();
 					if (transformComp != null)
 					{
-						transformComp.AppearAtPositionServer(targetObjectWorldPos);
+						transformComp.AppearAtWorldPositionServer(targetObjectWorldPos);
 					}
 				}
 
@@ -454,7 +458,7 @@ namespace Objects.Disposals
 		{
 			MetaDataLayer metadata = registerObject.Matrix.MetaDataLayer;
 			GasMix tileMix = metadata.Get(registerObject.LocalPositionServer, false).GasMix;
-			
+
 			// TODO: add voltage multiplier when bins are powered
 			var molesToTransfer = (tileMix.Moles - (tileMix.Moles * (CHARGED_PRESSURE / gasContainer.GasMix.Pressure))) * -1;
 			molesToTransfer *= 0.5f;

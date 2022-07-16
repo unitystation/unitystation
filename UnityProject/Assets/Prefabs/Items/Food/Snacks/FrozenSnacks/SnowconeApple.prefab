@@ -42,6 +42,11 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 5097874087588536401, guid: d2ef9e5590dc00048833d43a568feb07,
         type: 3}
+      propertyPath: initialReagentMix.reagents.m_values.Array.data[0]
+      value: 3.3333333
+      objectReference: {fileID: 0}
+    - target: {fileID: 5097874087588536401, guid: d2ef9e5590dc00048833d43a568feb07,
+        type: 3}
       propertyPath: initialReagentMix.reagents.m_values.Array.data[1]
       value: 5
       objectReference: {fileID: 0}

@@ -1,20 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-9186940584996682649
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5181558096606861085}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c2e7524718600d74d8b901402a6f6a87, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  DryTime: 10
-  DriedProduct: {fileID: 3594625116439272168, guid: 22393c79daa24284fa0c95a3af36f4a3,
-    type: 3}
 --- !u!1001 &6130455698172156634
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -133,13 +118,13 @@ PrefabInstance:
         type: 3}
       propertyPath: relatedRecipes.Array.data[0].recipe
       value: 
-      objectReference: {fileID: 11400000, guid: 8c860d980a956f0439ab2bb8c596a9cb,
+      objectReference: {fileID: 11400000, guid: cb86ef5729879424c832d65c2e1129b0,
         type: 2}
     - target: {fileID: 1544809558474638353, guid: eaf8c1f2a0f9374488e16061fd5b4dcd,
         type: 3}
       propertyPath: relatedRecipes.Array.data[1].recipe
       value: 
-      objectReference: {fileID: 11400000, guid: cb86ef5729879424c832d65c2e1129b0,
+      objectReference: {fileID: 11400000, guid: 8c860d980a956f0439ab2bb8c596a9cb,
         type: 2}
     - target: {fileID: 5169367590891271744, guid: eaf8c1f2a0f9374488e16061fd5b4dcd,
         type: 3}
@@ -165,12 +150,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: eaf8c1f2a0f9374488e16061fd5b4dcd, type: 3}
---- !u!1 &5181558096606861085 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1367782950990450119, guid: eaf8c1f2a0f9374488e16061fd5b4dcd,
-    type: 3}
-  m_PrefabInstance: {fileID: 6130455698172156634}
-  m_PrefabAsset: {fileID: 0}
 --- !u!114 &5079278499633937101 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 1400329317281931287, guid: eaf8c1f2a0f9374488e16061fd5b4dcd,
@@ -183,3 +162,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 579884b05ae74e8499329b64997147d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &5181558096606861085 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1367782950990450119, guid: eaf8c1f2a0f9374488e16061fd5b4dcd,
+    type: 3}
+  m_PrefabInstance: {fileID: 6130455698172156634}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &-9186940584996682649
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5181558096606861085}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c2e7524718600d74d8b901402a6f6a87, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  DryTime: 10
+  DriedProduct: {fileID: 3594625116439272168, guid: 22393c79daa24284fa0c95a3af36f4a3,
+    type: 3}

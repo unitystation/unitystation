@@ -30,6 +30,16 @@ namespace UI.Core
 		private int currentDigit = 0;
 		private int nextDigit = 0;
 
+		private void OnEnable()
+		{
+			UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
+		}
+
+		private void OnDisable()
+		{
+			UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
+		}
+
 		/// <summary>
 		/// Instantly set the displayed text to the specified digit
 		/// </summary>
@@ -89,7 +99,7 @@ namespace UI.Core
 			}
 		}
 
-		private void Update()
+		private void UpdateMe()
 		{
 			// lerp if we need to
 			if (currentDigit != nextDigit)

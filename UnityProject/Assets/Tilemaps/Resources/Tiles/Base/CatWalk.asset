@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: CatWalk
   m_EditorClassIdentifier: 
   displayName: catwalk
+  description: Flooring that shows its contents underneath. Engineers love it!
   LayerType: 4
   TileType: 7
   RequiredTiles: []
@@ -24,6 +25,7 @@ MonoBehaviour:
   passable: 1
   mineable: 0
   miningTime: 5
+  miningHardness: 1
   constructable: 1
   RadiationPassability: 1
   ThermalConductivity: 0.05
@@ -31,10 +33,11 @@ MonoBehaviour:
   doesReflectBullet: 0
   indestructible: 0
   ExplosionImpassable: 0
+  BlocksTileInteractionsUnder: 1
   passableException:
     m_keys: 01000000
     m_values: 00
-  maxHealth: 50
+  maxHealth: 75
   damageDeflection: 0
   armor:
     Melee: 50
@@ -50,6 +53,7 @@ MonoBehaviour:
     DismembermentProtectionChance: 0
   tileInteractions:
   - {fileID: 11400000, guid: 11143d89174153f41abb63d4ddf11136, type: 2}
+  tileStepInteractions: []
   spawnOnDeconstruct: {fileID: 7198241665461443898, guid: 5dce4d3e01518474bb9bb8085b718980,
     type: 3}
   spawnAmountOnDeconstruct: 1
@@ -65,6 +69,7 @@ MonoBehaviour:
       m_AssetGUID: 
       m_SubObjectName: 
       m_SubObjectType: 
+      m_EditorAssetChanged: 0
   SoundOnDestroy: []
   connectCategory: 3
   connectType: 2

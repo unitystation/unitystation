@@ -14,7 +14,7 @@ namespace Systems.Disposals
 	{
 		readonly Matrix matrix;
 		readonly DisposalVirtualContainer virtualContainer;
-		readonly CustomNetTransform containerTransform;
+		readonly UniversalObjectPhysics ObjectPhysics;
 
 		public bool ReadyToTraverse = false;
 		public bool CurrentlyDelayed = false;
@@ -25,7 +25,7 @@ namespace Systems.Disposals
 		private Vector3Int currentPipeLocalPos;
 		private Orientation currentPipeOutputSide;
 
-		private Vector3Int NextPipeVector => currentPipeOutputSide.VectorInt.To3Int();
+		private Vector3Int NextPipeVector => currentPipeOutputSide.LocalVectorInt.To3Int();
 		private Vector3Int NextPipeLocalPosition => currentPipeLocalPos + NextPipeVector;
 
 		/// <summary>
@@ -40,7 +40,7 @@ namespace Systems.Disposals
 			matrix = registerTile.Matrix;
 			currentPipeLocalPos = registerTile.LocalPositionServer;
 			virtualContainer = container;
-			containerTransform = container.GetComponent<CustomNetTransform>();
+			ObjectPhysics = container.GetComponent<UniversalObjectPhysics>();
 
 			currentPipe = GetPipeAt(currentPipeLocalPos, DisposalPipeType.Terminal);
 			if (currentPipe == null)
@@ -109,10 +109,10 @@ namespace Systems.Disposals
 		{
 			switch (side.AsEnum())
 			{
-				case OrientationEnum.Up: return Orientation.Down;
-				case OrientationEnum.Down: return Orientation.Up;
-				case OrientationEnum.Left: return Orientation.Right;
-				case OrientationEnum.Right: return Orientation.Left;
+				case OrientationEnum.Up_By0: return Orientation.Down;
+				case OrientationEnum.Down_By180: return Orientation.Up;
+				case OrientationEnum.Left_By90: return Orientation.Right;
+				case OrientationEnum.Right_By270: return Orientation.Left;
 			}
 
 			return Orientation.Left;
@@ -147,7 +147,8 @@ namespace Systems.Disposals
 
 		private void TransferContainerToVector(Vector3Int nextPipePosition)
 		{
-			containerTransform.Push(nextPipePosition.To2Int(), ignorePassable: true);
+			ObjectPhysics.Pushing.Clear();
+			ObjectPhysics.ForceTilePush(nextPipePosition.To2Int(), ObjectPhysics.Pushing, null);
 		}
 
 		private void EjectViaPipeEnd()
@@ -156,7 +157,7 @@ namespace Systems.Disposals
 			var worldPos = MatrixManager.LocalToWorld(NextPipeLocalPosition, matrix);
 			SoundManager.PlayNetworkedAtPos(DisposalsManager.Instance.DisposalEjectionHiss, worldPos);
 			TransferContainerToVector(NextPipeVector);
-			virtualContainer.EjectContentsWithVector(currentPipeOutputSide.Vector);
+			virtualContainer.EjectContentsWithVector(currentPipeOutputSide.LocalVector);
 			DespawnContainerAndFinish();
 		}
 

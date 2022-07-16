@@ -26,7 +26,7 @@ public class OreBox : NetworkBehaviour, ICheckedInteractable<HandApply>, IServer
 
 	private void AfterMovement(Vector3Int newLocalPosition)
 	{
-		var tileObjects = MatrixManager.GetAt<ObjectBehaviour>(registerTile.WorldPosition, true);
+		var tileObjects = MatrixManager.GetAt<UniversalObjectPhysics>(registerTile.WorldPosition, true);
 		foreach (var objectBehaviour in tileObjects)
 		{
 			var item = objectBehaviour.gameObject;

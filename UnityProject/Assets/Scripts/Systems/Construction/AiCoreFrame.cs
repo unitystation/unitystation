@@ -24,14 +24,14 @@ namespace Systems.Construction
 
 		private Stateful stateful;
 		private StatefulState CurrentState => stateful.CurrentState;
-		private ObjectBehaviour objectBehaviour;
+		private UniversalObjectPhysics objectBehaviour;
 		private Integrity integrity;
 		private SpriteHandler spriteHandler;
 
 		private void Awake()
 		{
 			stateful = GetComponent<Stateful>();
-			objectBehaviour = GetComponent<ObjectBehaviour>();
+			objectBehaviour = GetComponent<UniversalObjectPhysics>();
 			integrity = GetComponent<Integrity>();
 			spriteHandler = GetComponentInChildren<SpriteHandler>();
 		}

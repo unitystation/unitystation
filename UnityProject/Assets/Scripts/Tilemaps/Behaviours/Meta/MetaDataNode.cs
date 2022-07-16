@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using Detective;
 using UnityEngine;
 using ScriptableObjects.Atmospherics;
 using Tilemaps.Behaviours.Meta;
@@ -20,6 +22,11 @@ public class MetaDataNode : IGasMixContainer
 	public static readonly MetaDataNode None;
 
 	/// <summary>
+	/// MetaDataSystem That is part of
+	/// </summary>
+	public MetaDataSystem MetaDataSystem;
+
+	/// <summary>
 	/// Contains the matrix of the current node
 	/// </summary>
 	public Matrix PositionMatrix = null;
@@ -27,7 +34,7 @@ public class MetaDataNode : IGasMixContainer
 	/// <summary>
 	/// Used for calculating explosion data
 	/// </summary>
-	public ExplosionNode ExplosionNode = null;
+	public ExplosionNode[] ExplosionNodes = new ExplosionNode[5];
 
 	/// <summary>
 	/// Used for storing useful information for the radiation system and The radiation level
@@ -80,6 +87,8 @@ public class MetaDataNode : IGasMixContainer
 	//Which overlays this node has on
 	private HashSet<GasSO> gasOverlayData = new HashSet<GasSO>();
 	public HashSet<GasSO> GasOverlayData => gasOverlayData;
+
+	public AppliedDetails AppliedDetails = new AppliedDetails();
 
 	//Conductivity Stuff//
 
@@ -140,6 +149,7 @@ public class MetaDataNode : IGasMixContainer
 	public Vector2Int 	WindDirection 	= Vector2Int.zero;
 	public float		WindForce 		= 0;
 
+	public readonly Vector2[] WindData = new Vector2[(int)Enum.GetValues(typeof(PushType)).Cast<PushType>().Max() +1 ];
 	/// <summary>
 	/// Number of neighboring MetaDataNodes
 	/// </summary>
@@ -164,8 +174,9 @@ public class MetaDataNode : IGasMixContainer
 	/// Create a new MetaDataNode on the specified local position (within the parent matrix)
 	/// </summary>
 	/// <param name="position">local position (within the matrix) the node exists on</param>
-	public MetaDataNode(Vector3Int position, ReactionManager reactionManager, Matrix matrix)
+	public MetaDataNode(Vector3Int position, ReactionManager reactionManager, Matrix matrix, MetaDataSystem InMetaDataSystem )
 	{
+		MetaDataSystem = InMetaDataSystem;
 		PositionMatrix = matrix;
 		Position = position;
 		neighborList = new List<MetaDataNode>(4);
@@ -179,7 +190,7 @@ public class MetaDataNode : IGasMixContainer
 
 	static MetaDataNode()
 	{
-		None = new MetaDataNode(Vector3Int.one * -1000000, null, null);
+		None = new MetaDataNode(Vector3Int.one * -1000000, null, null, null);
 	}
 
 	/// <summary>
@@ -291,6 +302,15 @@ public class MetaDataNode : IGasMixContainer
 		}
 	}
 
+	public void ChangeGasMix(GasMix newGasMix)
+	{
+		AtmosSimulation.RemovalAllGasOverlays(this);
+
+		GasMix = newGasMix;
+
+		AtmosSimulation.GasVisualEffects(this);
+	}
+
 	public override string ToString()
 	{
 		return Position.ToString();
@@ -309,4 +329,16 @@ public class MetaDataNode : IGasMixContainer
 			}
 		}
 	}
+
+	public void ForceUpdateClient()
+	{
+		PositionMatrix.MetaDataLayer.AddNetworkChange(Position, this);
+	}
+}
+
+
+public enum PushType
+{
+	Wind = 1,
+	Conveyor = 2
 }

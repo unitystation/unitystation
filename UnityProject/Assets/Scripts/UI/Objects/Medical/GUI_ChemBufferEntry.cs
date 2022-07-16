@@ -1,6 +1,6 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
+using UI.Core.NetUI;
 using Chemistry;
 
 namespace UI.Objects.Chemistry
@@ -46,7 +46,7 @@ namespace UI.Objects.Chemistry
 		{
 			Transfer(reagentAmount);
 		}
-		public void Analyze(ConnectedPlayer player)
+		public void Analyze(PlayerInfo player)
 		{
 			chemMasterTab.Analyze(reagent, player);
 		}

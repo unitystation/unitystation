@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Systems.MobAIs;
 using AddressableReferences;
 using HealthV2;
 using NaughtyAttributes;
@@ -10,14 +11,14 @@ using UnityEngine.EventSystems;
 
 namespace Objects
 {
-	public class FloorHazard : MonoBehaviour, IPlayerEntersTile
+	public class FloorHazard : MonoBehaviour, IPlayerEntersTile, IObjectEntersTile
 	{
 		[SerializeField] private AttackType attackType = AttackType.Melee;
 		[SerializeField] private DamageType damageType = DamageType.Brute;
-		[SerializeField, ShowIf("canCauseTrauma")] private TraumaticDamageTypes traumaType = TraumaticDamageTypes.NONE;
+		[SerializeField, ShowIf(nameof(canCauseTrauma))] private TraumaticDamageTypes traumaType = TraumaticDamageTypes.NONE;
 		[SerializeField] protected float damageToGive = 5f;
 		[SerializeField] protected float armorPentration = 0f;
-		[SerializeField, ShowIf("canCauseTrauma")] protected float traumaChance = 0f;
+		[SerializeField, ShowIf(nameof(canCauseTrauma))] protected float traumaChance = 0f;
 		[SerializeField] protected List<AddressableAudioSource> onStepSounds;
 		[SerializeField] protected bool hurtsOneFootOnly;
 		[SerializeField] protected bool ignoresFootwear;
@@ -25,14 +26,35 @@ namespace Objects
 		[SerializeField, HideIf("ignoresFootwear")] private List<ItemTrait> protectiveItemTraits;
 		[SerializeField] private List<BodyPartType> limbsToHurt;
 
-		public virtual void OnStep(GameObject eventData)
+		private RegisterTile RegisterTile;
+		private UniversalObjectPhysics ObjectPhysics;
+
+		public virtual bool WillAffectPlayer(PlayerScript playerScript)
 		{
-			LivingHealthMasterBase health = eventData.GetComponent<LivingHealthMasterBase>();
+			return playerScript.IsGhost == false;
+		}
+
+		public virtual void OnPlayerStep(PlayerScript playerScript)
+		{
+			var health = playerScript.playerHealth;
 			HurtFeet(health); //Moving this to it's own function to keep things clean.
 			//Text and Audio feedback.
 			Chat.AddActionMsgToChat(gameObject, $"You step on the {gameObject.ExpensiveName()}!",
 				$"{health.playerScript.visibleName} steps on the {gameObject.ExpensiveName()}!");
 			PlayStepAudio();
+		}
+
+		public virtual bool WillAffectObject(GameObject eventData)
+		{
+			//Old health
+			return eventData.HasComponent<LivingHealthBehaviour>();
+		}
+
+		public virtual void OnObjectEnter(GameObject eventData)
+		{
+			//Old health
+			eventData.GetComponent<LivingHealthBehaviour>().ApplyDamageToBodyPart(
+				gameObject, damageToGive, attackType, damageType);
 		}
 
 		protected void HurtFeet(LivingHealthMasterBase health)
@@ -74,10 +96,44 @@ namespace Objects
 			health.ApplyDamageToBodyPart(gameObject, damageToGive, attackType, damageType, type, armorPentration, traumaChance, traumaType);
 		}
 
-		public virtual bool WillStep(GameObject eventData)
+
+		public void Awake()
 		{
-			if (eventData.gameObject.GetComponent<LivingHealthMasterBase>() != null) return true;
-			return false;
+			RegisterTile = GetComponent<RegisterTile>();
+			ObjectPhysics = GetComponent<UniversalObjectPhysics>();
+			this.WaitForNetworkManager(() =>
+			{
+				if (CustomNetworkManager.IsServer)
+				{
+					ObjectPhysics.OnLocalTileReached.RemoveListener(OnLocalPositionChangedServer);
+					ObjectPhysics.OnLocalTileReached.AddListener(OnLocalPositionChangedServer);
+				}
+			});
+		}
+
+		public Matrix PreviousMatrix;
+
+		public Vector3Int PreviousLocation;
+
+		public void OnLocalPositionChangedServer(Vector3 NewLocation)
+		{
+			if (RegisterTile.Matrix.MetaTileMap.ObjectLayer.FloorHazardList == null) return;
+			if (PreviousMatrix != null)
+			{
+				PreviousMatrix.MetaTileMap.ObjectLayer.FloorHazardList.Remove(PreviousLocation);
+			}
+
+			RegisterTile.Matrix.MetaTileMap.ObjectLayer.FloorHazardList.Add(NewLocation.RoundToInt(),this);
+			PreviousLocation = NewLocation.RoundToInt();
+			PreviousMatrix = RegisterTile.Matrix;
+		}
+
+		public void OnDestroy()
+		{
+			if (PreviousMatrix != null)
+			{
+				PreviousMatrix.MetaTileMap.ObjectLayer.FloorHazardList.Remove(PreviousLocation);
+			}
 		}
 	}
 }

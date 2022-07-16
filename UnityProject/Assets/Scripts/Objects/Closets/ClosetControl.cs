@@ -36,7 +36,7 @@ namespace Objects
 		}
 
 		private static readonly StandardProgressActionConfig ProgressConfig =
-				new StandardProgressActionConfig(StandardProgressActionType.Escape);
+				new StandardProgressActionConfig(StandardProgressActionType.Escape, true, true, true, true);
 
 		#region Inspector
 
@@ -108,7 +108,7 @@ namespace Objects
 		private ObjectAttributes attributes;
 		private ObjectContainer objectContainer;
 		private GasContainer gasContainer;
-		private PushPull pushPull;
+		private UniversalObjectPhysics objectPhysics;
 		private AccessRestrictions accessRestrictions;
 
 		private static readonly float weldTime = 5.0f;
@@ -133,9 +133,8 @@ namespace Objects
 			attributes = GetComponent<ObjectAttributes>();
 			objectContainer = GetComponent<ObjectContainer>();
 			gasContainer = GetComponent<GasContainer>();
-			pushPull = GetComponent<PushPull>();
 			accessRestrictions = GetComponent<AccessRestrictions>();
-
+			objectPhysics = this.GetComponent<UniversalObjectPhysics>();
 			lockState = isLockable ? Lock.Locked : Lock.NoLock;
 			GetComponent<Integrity>().OnWillDestroyServer.AddListener(OnWillDestroyServer);
 
@@ -257,9 +256,9 @@ namespace Objects
 
 			GameObject sourceobjbehavior = gameObject;
 			RegisterObject sourceregisterobject = registerObject;
-			if (pushPull.parentContainer != null)
+			if (objectPhysics.ContainedInContainer != null)
 			{
-				sourceobjbehavior = pushPull.parentContainer.gameObject;
+				sourceobjbehavior = objectPhysics.ContainedInContainer.gameObject;
 				sourceregisterobject = sourceobjbehavior.GetComponent<RegisterObject>();
 			}
 

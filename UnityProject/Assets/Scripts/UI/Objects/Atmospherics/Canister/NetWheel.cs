@@ -1,8 +1,7 @@
 using System;
 using UnityEngine;
 
-
-namespace UI.Core
+namespace UI.Core.NetUI
 {
 	/// <summary>
 	/// NetUI component for Wheel, handles syncing the value.
@@ -24,7 +23,7 @@ namespace UI.Core
 
 		public FloatEvent ServerMethod;
 
-		public override void ExecuteServer(ConnectedPlayer subject)
+		public override void ExecuteServer(PlayerInfo subject)
 		{
 			ServerMethod.Invoke(Element.KPA);
 		}

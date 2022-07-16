@@ -10,6 +10,7 @@ using HealthV2;
 using Random = UnityEngine.Random;
 using Objects.Electrical;
 using Objects.Engineering;
+using TileManagement;
 
 /// <summary>
 /// Collision-related stuff
@@ -40,7 +41,7 @@ public partial class MatrixManager
 			return;
 		}
 
-		if (matrixInfo?.MatrixMove != null)
+		if (matrixInfo!= null && matrixInfo.IsMovable)
 		{
 			matrixInfo.MatrixMove.MatrixMoveEvents.OnStartMovementServer.AddListener( () =>
 			{
@@ -96,7 +97,7 @@ public partial class MatrixManager
 
 			foreach ( var trackedIntersection in trackedIntersections )
 			{
-				if ( trackedIntersection.Matrix1.BoundsIntersect( trackedIntersection.Matrix2, out Rect hotZone ) )
+				if ( trackedIntersection.Matrix1.BoundsIntersect( trackedIntersection.Matrix2, out var hotZone ) )
 				{ //refresh rect
 					if ( toUpdate == null )
 					{
@@ -169,7 +170,7 @@ public partial class MatrixManager
 			{
 				continue;
 			}
-			if ( matrix.BoundsIntersect( otherMatrix, out Rect hotZone ) )
+			if ( matrix.BoundsIntersect( otherMatrix, out BetterBounds hotZone ) )
 			{
 				if ( intersections == null )
 				{
@@ -187,9 +188,9 @@ public partial class MatrixManager
 		return noIntersections;
 	}
 
-	private void Update()
+	private void UpdateMe()
 	{
-		if (!Application.isPlaying || !CustomNetworkManager.Instance._isServer)
+		if (!CustomNetworkManager.Instance._isServer)
 		{
 			return;
 		}
@@ -218,7 +219,7 @@ public partial class MatrixManager
 		if (i.Matrix1 == null || i.Matrix2 == null) return;
 
 		byte collisions = 0;
-		foreach ( Vector3Int worldPos in i.Rect.ToBoundsInt().allPositionsWithin )
+		foreach ( var worldPos in i.Rect.allPositionsWithin() )
 		{
 
 			Vector3Int cellPos1 = i.Matrix1.MetaTileMap.WorldToCell( worldPos );
@@ -450,12 +451,12 @@ public partial class MatrixManager
 		{
 			if (matrix == null || pushVector == Vector2Int.zero) return;
 
-			foreach ( var pushPull in matrix.Matrix.Get<PushPull>( cellPos, true ) )
+			foreach ( var pushPull in matrix.Matrix.Get<UniversalObjectPhysics>( cellPos, true ) )
 			{
 				byte pushes = (byte) Mathf.Clamp( speed / 4, 1, 4 );
 				for ( int j = 0; j < pushes; j++ )
 				{
-					pushPull.QueuePush( pushVector, speed * Random.Range( 0.8f, 1.1f ) );
+					pushPull.NewtonianPush( pushVector, speed * Random.Range( 0.8f, 1.1f ) );
 				}
 			}
 		}
@@ -505,11 +506,11 @@ public partial class MatrixManager
 		foreach ( var intersection in Instance.TrackedIntersections )
 		{
 			Gizmos.color = Color.red;
-			DebugGizmoUtils.DrawRect( intersection.Matrix1.WorldBounds );
+			DebugGizmoUtils.DrawRect( intersection.Matrix1.WorldBounds.Minimum, intersection.Matrix1.WorldBounds.Maximum );
 			Gizmos.color = Color.blue;
-			DebugGizmoUtils.DrawRect( intersection.Matrix2.WorldBounds );
+			DebugGizmoUtils.DrawRect( intersection.Matrix2.WorldBounds.Minimum,  intersection.Matrix2.WorldBounds.Maximum);
 			Gizmos.color = Color.yellow;
-			DebugGizmoUtils.DrawRect( intersection.Rect );
+			DebugGizmoUtils.DrawRect( intersection.Rect.Minimum, intersection.Rect.Maximum );
 		}
 	}
 }
@@ -522,9 +523,9 @@ public readonly struct MatrixIntersection
 {
 	public readonly MatrixInfo Matrix1;
 	public readonly MatrixInfo Matrix2;
-	public readonly Rect Rect;
+	public readonly BetterBounds Rect;
 
-	public MatrixIntersection(MatrixInfo matrix1, MatrixInfo matrix2, Rect rect)
+	public MatrixIntersection(MatrixInfo matrix1, MatrixInfo matrix2, BetterBounds rect)
 	{
 		Matrix1 = matrix1;
 		Matrix2 = matrix2;
@@ -533,7 +534,7 @@ public readonly struct MatrixIntersection
 
 	public MatrixIntersection Clone() => new MatrixIntersection(Matrix1, Matrix2, Rect);
 
-	public MatrixIntersection Clone(ref Rect rect) => new MatrixIntersection(Matrix1, Matrix2, rect);
+	public MatrixIntersection Clone(ref BetterBounds rect) => new MatrixIntersection(Matrix1, Matrix2, rect);
 
 	public override int GetHashCode()
 	{

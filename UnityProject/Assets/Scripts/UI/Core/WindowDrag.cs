@@ -31,8 +31,12 @@ public class WindowDrag : MonoBehaviour
 		isReady = true;
 	}
 
+	private void OnEnable()
+	{
+		UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
+	}
 
-	public void Update()
+	public void UpdateMe()
 	{
 		if (KeyboardInputManager.Instance.CheckKeyAction(KeyAction.ResetWindowPosition))
 		{
@@ -56,6 +60,7 @@ public class WindowDrag : MonoBehaviour
 			rectTransform.position = new Vector3(	startPositon.x * worldPointResolution.x,
 													startPositon.y * worldPointResolution.y);
 		}
+		UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
 	}
 
 	/// <summary>

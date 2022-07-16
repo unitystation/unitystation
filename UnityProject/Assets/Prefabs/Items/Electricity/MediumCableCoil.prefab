@@ -1,23 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &5425488054116134134
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5680136605834777345}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 49c1dcb3aeedc1446a9e40fc57eb5cd3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  CableType: 0
-  CablePrefab: {fileID: 1042895037894172, guid: e76e1e2174fe48d41bf086955b459b61,
-    type: 3}
-  powerTypeCategory: 1
 --- !u!1001 &6201122676745358930
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -262,7 +244,7 @@ PrefabInstance:
     - target: {fileID: 2258033352175129733, guid: c3138c3e8a46444199668b85070b1a39,
         type: 3}
       propertyPath: relatedRecipes.Array.size
-      value: 2
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 2258033352175129733, guid: c3138c3e8a46444199668b85070b1a39,
         type: 3}
@@ -278,12 +260,45 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 2258033352175129733, guid: c3138c3e8a46444199668b85070b1a39,
         type: 3}
+      propertyPath: relatedRecipes.Array.data[2].recipe
+      value: 
+      objectReference: {fileID: 11400000, guid: b3305fe2a6133d84d855578b5ac409b7,
+        type: 2}
+    - target: {fileID: 2258033352175129733, guid: c3138c3e8a46444199668b85070b1a39,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[3].recipe
+      value: 
+      objectReference: {fileID: 11400000, guid: 80e6b1b7c63ce8d44a8a6204c31f7785,
+        type: 2}
+    - target: {fileID: 2258033352175129733, guid: c3138c3e8a46444199668b85070b1a39,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[4].recipe
+      value: 
+      objectReference: {fileID: 11400000, guid: 6d4fc2a13396cd848a11ffe3d371aa86,
+        type: 2}
+    - target: {fileID: 2258033352175129733, guid: c3138c3e8a46444199668b85070b1a39,
+        type: 3}
       propertyPath: relatedRecipes.Array.data[0].ingredientIndex
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2258033352175129733, guid: c3138c3e8a46444199668b85070b1a39,
         type: 3}
       propertyPath: relatedRecipes.Array.data[1].ingredientIndex
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2258033352175129733, guid: c3138c3e8a46444199668b85070b1a39,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[2].ingredientIndex
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2258033352175129733, guid: c3138c3e8a46444199668b85070b1a39,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[3].ingredientIndex
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2258033352175129733, guid: c3138c3e8a46444199668b85070b1a39,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[4].ingredientIndex
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 4640836244599001406, guid: c3138c3e8a46444199668b85070b1a39,
@@ -305,3 +320,21 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 6201122676745358930}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &5425488054116134134
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5680136605834777345}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 49c1dcb3aeedc1446a9e40fc57eb5cd3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  CableType: 0
+  CablePrefab: {fileID: 1042895037894172, guid: e76e1e2174fe48d41bf086955b459b61,
+    type: 3}
+  powerTypeCategory: 1

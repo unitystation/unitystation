@@ -57,21 +57,22 @@ namespace Systems.MobAIs
 				await Task.Delay((int)(rtt * 500));
 			}
 
-			if (Vector3.Distance(OriginTile.WorldPositionServer, worldPos) < 1.5f)
+			if (Vector3.Distance(mobTile.WorldPositionServer, worldPos) < 1.5f)
 			{
+				var bodyPartTarget = defaultTarget.Randomize();
 				if(targetHealth != null)
 				{
 					targetHealth.ApplyDamageToBodyPart(gameObject, hitDamage, AttackType.Melee, DamageType.Brute,
-						defaultTarget.Randomize());
-					Chat.AddAttackMsgToChat(gameObject, targetHealth.gameObject, defaultTarget, null, attackVerb);
+						bodyPartTarget);
+					Chat.AddAttackMsgToChat(gameObject, targetHealth.gameObject, bodyPartTarget, null, attackVerb);
 				}
 				else
 				{
 					livingHealth.ApplyDamageToBodyPart(gameObject, hitDamage, AttackType.Melee, DamageType.Brute,
-						defaultTarget.Randomize());
-					Chat.AddAttackMsgToChat(gameObject, livingHealth.gameObject, defaultTarget, null, attackVerb);
+						bodyPartTarget);
+					Chat.AddAttackMsgToChat(gameObject, livingHealth.gameObject, bodyPartTarget, null, attackVerb);
 				}
-				SoundManager.PlayNetworkedAtPos(attackSound, OriginTile.WorldPositionServer, sourceObj: gameObject);
+				SoundManager.PlayNetworkedAtPos(attackSound, mobTile.WorldPositionServer, sourceObj: gameObject);
 			}
 		}
 
@@ -79,14 +80,14 @@ namespace Systems.MobAIs
 		{
 			var matrix = MatrixManager.AtPoint(worldPos, true);
 
-			var pos = (worldPos - registerObj.WorldPositionServer).sqrMagnitude;
+			var pos = (worldPos - mobTile.WorldPositionServer).sqrMagnitude;
 
 			//Greater than 4 means more than one tile away
 			if (pos > 4)
 			{
 				//Attack adjacent tiles instead
-				var normalised = (worldPos - registerObj.WorldPositionServer).Normalize();
-				var posShift = registerObj.WorldPositionServer;
+				var normalised = (worldPos - mobTile.WorldPositionServer).Normalize();
+				var posShift = mobTile.WorldPositionServer;
 				var xSuccess = false;
 
 				//x must be either -1, or 1 for us to attack it

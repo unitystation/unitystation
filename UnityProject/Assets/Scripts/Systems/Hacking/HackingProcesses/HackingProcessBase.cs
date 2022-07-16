@@ -1,29 +1,25 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using Initialisation;
-using Messages.Client;
 using UnityEngine;
+using UnityEngine.Events;
 using Mirror;
 using NaughtyAttributes;
+using Initialisation;
+using Messages.Client;
 using Objects.Electrical;
-using UnityEngine.Events;
-using Random = UnityEngine.Random;
+using Systems.Explosions;
 
-namespace Hacking
+namespace Systems.Hacking
 {
-
-
-
 	/// <summary>
 	/// This is a controller for hacking an object. This component being attached to an object means that the object is hackable.
 	/// It will check interactions with the object, and once the goal interactions have been met, it will open a hacking UI prefab.
 	/// e.g. check if interacted with a screw driver, then check if
 	/// </summary>
 	[RequireComponent(typeof(ItemStorage))]
-	public class HackingProcessBase : NetworkBehaviour, IServerDespawn
+	public class HackingProcessBase : NetworkBehaviour, IServerDespawn, IEmpAble
 	{
 		private static Dictionary<Type, Dictionary<MethodInfo, Color>> ColourDictionary = new Dictionary<Type, Dictionary<MethodInfo, Color>>();
 
@@ -90,7 +86,6 @@ namespace Hacking
 			ColourDictionary?.Clear();
 			HasRegisteredForRestart = false;
 		}
-
 
 		public void OnDespawnServer(DespawnInfo info)
 		{
@@ -169,7 +164,6 @@ namespace Hacking
 			return ToReturn;
 		}
 
-
 		public void ImpulsePort(Action action)
 		{
 			if (Connections.ContainsKey(action) == false) return;
@@ -178,7 +172,6 @@ namespace Hacking
 				cable.Impulse();
 			}
 		}
-
 
 		public List<Action> PulsedThisFrame = new  List<Action>();
 
@@ -211,13 +204,11 @@ namespace Hacking
 			return RecordedState[action];
 		}
 
-
 		public void ReceivedPulse(Action action)
 		{
 			if (RecordedState.ContainsKey(action) == false) return;
 			RecordedState[action] = !RecordedState[action];
 		}
-
 
 		/// <summary>
 		/// This handles placing of, cable, signaller and bomb
@@ -280,9 +271,9 @@ namespace Hacking
 
 
 					var Hand = PlayerScript.DynamicItemStorage.GetBestHand(Spawned.GetComponent<Stackable>());
-					if (Hand == null)
+					if (Hand == null || Hand.IsOccupied)
 					{
-						Spawned.GetComponent<CustomNetTransform>().AppearAtPositionServer(PlayerScript.WorldPos - this.GetComponent<RegisterTile>().WorldPositionServer);
+						Spawned.GetComponent<UniversalObjectPhysics>().AppearAtWorldPositionServer(PlayerScript.objectPhysics.registerTile.WorldPosition);
 					}
 					else
 					{
@@ -325,7 +316,7 @@ namespace Hacking
 					foreach (var cable in Cables)
 					{
 						if (LocalPortInput.LocalAction == cable.PanelInput &&
-						    LocalPortOutput.LocalAction == cable.PanelOutput)
+							LocalPortOutput.LocalAction == cable.PanelOutput)
 						{
 							return; //Cable Already at position
 						}
@@ -358,7 +349,7 @@ namespace Hacking
 
 		}
 
-		[NaughtyAttributes.Button("TestRecursiveLoop")]
+		[Button("TestRecursiveLoop")]
 		public void TestRecursiveLoop()
 		{
 			foreach (var StartActions in Connections.Keys)
@@ -374,6 +365,17 @@ namespace Hacking
 					insertCable.PanelOutput = StartActions;
 					Connections[StartActions].Add(insertCable);
 					Cables.Add(insertCable);
+				}
+			}
+		}
+
+		public void OnEmp(int EmpStrength = 0)
+		{
+			foreach(Cable cable in Cables)
+			{
+				if(DMMath.Prob(50))
+				{
+					cable.Impulse();
 				}
 			}
 		}

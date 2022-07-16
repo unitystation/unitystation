@@ -1,4 +1,5 @@
 ﻿using Mirror;
+using Player.Movement;
 using UnityEngine;
 
 namespace Messages.Client
@@ -32,15 +33,20 @@ namespace Messages.Client
 
 			if (msg.IsGhost)
 			{
-				if (playerScript.IsGhost && PlayerList.Instance.IsAdmin(playerScript.connectedPlayer.UserId))
+				if (playerScript.IsGhost && PlayerList.Instance.IsAdmin(playerScript.PlayerInfo.UserId))
 				{
 					FinishTransfer();
 				}
 				return;
 			}
 
-			if (!Validation(playerSlot, targetSlot, playerScript, targetObject, NetworkSide.Server, msg.IsGhost))
+			if (!Validation(playerSlot, targetSlot, playerScript, targetObject, NetworkSide.Server, msg.IsGhost)) return;
+
+			if (targetSlot.NamedSlot == NamedSlot.handcuffs)
+			{
+				targetObject.GetComponent< MovementSynchronisation>().TryUnCuff(targetObject, playerObject);
 				return;
+			}
 
 			int speed;
 			if (!targetSlot.IsEmpty)

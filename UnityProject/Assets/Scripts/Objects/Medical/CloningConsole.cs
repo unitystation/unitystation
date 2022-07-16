@@ -5,6 +5,7 @@ using HealthV2;
 using UnityEngine;
 using UI.Objects.Medical;
 using Random = UnityEngine.Random;
+using Health.Sickness;
 
 namespace Objects.Medical
 {
@@ -180,9 +181,11 @@ namespace Objects.Medical
 		public float toxinDmg;
 		public float bruteDmg;
 		public string uniqueIdentifier;
-		public CharacterSettings characterSettings;
+		public CharacterSheet characterSettings;
 		public int mobID;
 		public Mind mind;
+		public List<BodyPartRecord> surfaceBodyParts = new List<BodyPartRecord>();
+		public List<string> sicknessList = new List<string>();
 
 		public CloningRecord()
 		{
@@ -197,9 +200,54 @@ namespace Objects.Medical
 			characterSettings = playerScript.characterSettings;
 			oxyDmg = livingHealth.GetOxyDamage;
 			burnDmg = livingHealth.GetTotalBurnDamage();
-			toxinDmg = 0;
+			toxinDmg = livingHealth.GetTotalToxDamage();
 			bruteDmg = livingHealth.GetTotalBruteDamage();
 			uniqueIdentifier = "35562Eb18150514630991";
+			foreach(BodyPart part in livingHealth.SurfaceBodyParts)
+            {
+				BodyPartRecord partRecord = new BodyPartRecord();
+				surfaceBodyParts.Add(partRecord.Copy(part));
+            }
+			foreach(SicknessAffliction sickness in livingHealth.mobSickness.sicknessAfflictions)
+            {
+				sicknessList.Add(sickness.Sickness.SicknessName);
+            }
 		}
 	}
+
+	public class BodyPartRecord
+    {
+		public string name;
+		public decimal brute;
+		public decimal burn;
+		public decimal toxin;
+		public decimal oxygen;
+		public bool isBleeding;
+		public BodyPartType type;
+		public DamageSeverity severity;
+		public List<BodyPartRecord> organs = new List<BodyPartRecord>();
+
+		public BodyPartRecord Copy(BodyPart part)
+        {
+			name = part.gameObject.ExpensiveName();
+			brute = Math.Round((decimal)part.Brute, 1);
+			burn = Math.Round((decimal)part.Burn, 1);
+			toxin = Math.Round((decimal)part.Toxin, 1);
+			oxygen = Math.Round((decimal)part.Oxy, 1);
+			isBleeding = part.IsBleeding;
+			type = part.BodyPartType;
+			severity = part.Severity;
+			for (int i = 0; i < part.ContainBodyParts.Count(); i++)
+			{
+				organs.Add(new BodyPartRecord());
+				organs[i].name = part.ContainBodyParts[i].gameObject.ExpensiveName();
+				organs[i].brute = Math.Round((decimal)part.ContainBodyParts[i].Brute, 1);
+				organs[i].burn = Math.Round((decimal)part.ContainBodyParts[i].Burn, 1);
+				organs[i].toxin = Math.Round((decimal)part.ContainBodyParts[i].Toxin, 1);
+				organs[i].oxygen = Math.Round((decimal)part.ContainBodyParts[i].Oxy, 1);
+				organs[i].isBleeding = part.ContainBodyParts[i].IsBleeding;
+			}
+			return this;
+		}
+    }
 }

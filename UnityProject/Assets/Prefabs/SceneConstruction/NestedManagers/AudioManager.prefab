@@ -27,6 +27,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 5839061247966037232}
   - {fileID: 3578368700868708540}
@@ -50,6 +51,8 @@ MonoBehaviour:
   audioMixer: {fileID: 24100000, guid: 94208a0928046438d9b8a00796e7a5a7, type: 2}
   MasterMixer: {fileID: 24300001, guid: 94208a0928046438d9b8a00796e7a5a7, type: 2}
   MusicMixer: {fileID: -4580727899087032196, guid: 94208a0928046438d9b8a00796e7a5a7,
+    type: 2}
+  JukeboxMixer: {fileID: 8650663893695279604, guid: 94208a0928046438d9b8a00796e7a5a7,
     type: 2}
   SFXMixer: {fileID: 4650336978538376734, guid: 94208a0928046438d9b8a00796e7a5a7,
     type: 2}

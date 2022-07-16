@@ -19,6 +19,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: e0d219372d0285e4f98759d7e0e92e14,
         type: 2}
+    - target: {fileID: 3701280433139661901, guid: c7c6619435930be4e91730eea5485a29,
+        type: 3}
+      propertyPath: initialVariantIndex
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4512941224573635495, guid: c7c6619435930be4e91730eea5485a29,
         type: 3}
       propertyPath: foreverID
@@ -68,17 +73,17 @@ PrefabInstance:
     - target: {fileID: 7352139474868009662, guid: c7c6619435930be4e91730eea5485a29,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7352139474868009662, guid: c7c6619435930be4e91730eea5485a29,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7352139474868009662, guid: c7c6619435930be4e91730eea5485a29,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7352139474868009662, guid: c7c6619435930be4e91730eea5485a29,
         type: 3}
@@ -115,6 +120,23 @@ PrefabInstance:
       propertyPath: m_AssetId
       value: 6fb8a3ee14cf583409381e9df82d7c9a
       objectReference: {fileID: 0}
+    - target: {fileID: 7462423640777778774, guid: c7c6619435930be4e91730eea5485a29,
+        type: 3}
+      propertyPath: customNetTransform
+      value: 
+      objectReference: {fileID: 2342896717500042550}
     m_RemovedComponents:
     - {fileID: 7462202553335776702, guid: c7c6619435930be4e91730eea5485a29, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: c7c6619435930be4e91730eea5485a29, type: 3}
+--- !u!114 &2342896717500042550 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7461943992423197210, guid: c7c6619435930be4e91730eea5485a29,
+    type: 3}
+  m_PrefabInstance: {fileID: 5119891976878712620}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 579884b05ae74e8499329b64997147d3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

@@ -1,0 +1,25 @@
+# Runs on every push and pr. Meant to help us to keep the thing cool because we're cool like that.
+
+name: Labelers
+on:
+  pull_request_target:
+    types: [synchronize, opened, edited]
+    branches: [develop]
+
+jobs:
+  labels:
+    runs-on: ubuntu-latest
+    steps:
+      - name: conflicts labeler
+        uses: eps1lon/actions-label-merge-conflict@releases/2.x
+        with:
+          dirtyLabel: "Status: Merge Conflicts"
+          repoToken: "${{ secrets.GITHUB_TOKEN }}"
+          commentOnDirty: "This pull request has conflicts, please resolve those before we can evaluate the pull request."
+          commentOnClean: "Conflicts have been resolved. A maintainer will review the pull request shortly."
+        
+      - name: auto labeler
+        if: ${{github.event.action}} != "synchronize"
+        uses: actions/labeler@v3-preview
+        with:
+          repo-token: "${{ secrets.GITHUB_TOKEN }}"

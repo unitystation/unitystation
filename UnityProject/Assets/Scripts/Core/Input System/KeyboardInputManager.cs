@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -27,12 +28,18 @@ public class KeyboardInputManager : MonoBehaviour
 		}
 	}
 
-	void Update()
+
+	private void OnEnable()
 	{
-		CheckKeyboardInput();
+		UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
 	}
 
-	void CheckKeyboardInput()
+	private void OnDisable()
+	{
+		UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
+	}
+
+	private void UpdateMe()
 	{
 		if (!UIManager.IsInputFocus)
 		{
@@ -220,6 +227,7 @@ public class KeyboardInputManager : MonoBehaviour
 		{ KeyAction.ChatLocal,		() => { ChatUI.Instance.OpenChatWindow(ChatChannel.Local); }},
 		{ KeyAction.ChatRadio,		() => { ChatUI.Instance.OpenChatWindow(ChatChannel.Common); }},
 		{ KeyAction.ChatOOC,		() => { ChatUI.Instance.OpenChatWindow(ChatChannel.OOC); }},
+		{ KeyAction.ToggleHelp,    () => { ChatUI.Instance.OnHelpButton(); }},
 		{ KeyAction.ToggleAHelp,    () => { ChatUI.Instance.OnAdminHelpButton(); }},
 		{ KeyAction.ToggleMHelp,    () => { ChatUI.Instance.OnMentorHelpButton(); }},
 

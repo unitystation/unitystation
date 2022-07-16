@@ -53,6 +53,8 @@ namespace UI.Chat_UI
 		{
 			EventManager.AddHandler(Event.ChatFocused, OnChatFocused);
 			EventManager.AddHandler(Event.ChatUnfocused, OnChatUnfocused);
+			EventManager.AddHandler(Event.ChatQuickUnfocus, OnQuickChatUnfocused);
+
 			ChatUI.Instance.scrollBarEvent += OnScrollInteract;
 			ChatUI.Instance.checkPositionEvent += CheckPosition;
 			if (IsChatFocused == false)
@@ -65,6 +67,7 @@ namespace UI.Chat_UI
 		{
 			EventManager.RemoveHandler(Event.ChatFocused, OnChatFocused);
 			EventManager.RemoveHandler(Event.ChatUnfocused, OnChatUnfocused);
+			EventManager.RemoveHandler(Event.ChatQuickUnfocus, OnQuickChatUnfocused);
 			if (ChatUI.Instance != null)
 			{
 				ChatUI.Instance.scrollBarEvent -= OnScrollInteract;
@@ -114,6 +117,11 @@ namespace UI.Chat_UI
 		public void OnChatUnfocused()
 		{
 			this.RestartCoroutine(FadeCooldown(), ref fadeCooldownCoroutine);
+		}
+
+		public void OnQuickChatUnfocused()
+		{
+			this.RestartCoroutine(FadeCooldown(true), ref fadeCooldownCoroutine);
 		}
 
 		private void OnScrollInteract(bool isScrolling)
@@ -205,15 +213,19 @@ namespace UI.Chat_UI
 			waitToCheck = null;
 		}
 
-		private IEnumerator FadeCooldown()
+		private IEnumerator FadeCooldown(bool Quick = false)
 		{
-			yield return WaitFor.Seconds(12f);
+			if (Quick == false)
+			{
+				yield return WaitFor.Seconds(12f);
+			}
+
 			bool toggleVisibleState = false;
 
 			// Chat may have become focused during this time. Don't fade away if now focused.
 			if (IsChatFocused) yield break;
 
-			AnimateFade(0.01f, 3f);
+			AnimateFade(UI.Chat_UI.ChatUI.Instance.ChatContentMinimumAlpha, 3f);
 			if (isHidden == false)
 			{
 				SetHidden(true, true);
@@ -222,9 +234,14 @@ namespace UI.Chat_UI
 
 			yield return WaitFor.Seconds(3f);
 
+
+
 			if (toggleVisibleState)
 			{
-				ToggleUIElements(false);
+				if (UI.Chat_UI.ChatUI.Instance.ChatContentMinimumAlpha < 0.01f)
+				{
+					ToggleUIElements(false);
+				}
 			}
 		}
 
@@ -254,18 +271,16 @@ namespace UI.Chat_UI
 
 		private void SetStackPos()
 		{
-			if (messageText.textInfo.characterCount - 1 < messageText.textInfo.characterInfo.Length)
-			{
-				var lastCharacter = messageText.textInfo.characterInfo[messageText.textInfo.characterCount - 1];
-				var charWorld = messageText.transform.TransformPoint(lastCharacter.bottomRight);
-				var newWorldPos = stackObject.transform.position;
-				newWorldPos.x = charWorld.x + 3;
-				stackObject.transform.position = newWorldPos;
-			}
-			else
-			{
-				Logger.LogError("Caught an IndexOutOfRange in ChatEntry.SetStackPos() ln 273", Category.Chat);
-			}
+			var count = messageText.textInfo.characterCount - 1;
+
+			if(count < 0) return;
+			if (count >= messageText.textInfo.characterInfo.Length) return;
+
+			var lastCharacter = messageText.textInfo.characterInfo[count];
+			var charWorld = messageText.transform.TransformPoint(lastCharacter.bottomRight);
+			var newWorldPos = stackObject.transform.position;
+			newWorldPos.x = charWorld.x + 3;
+			stackObject.transform.position = newWorldPos;
 		}
 
 		private void AnimateFade(float toAlpha, float time)

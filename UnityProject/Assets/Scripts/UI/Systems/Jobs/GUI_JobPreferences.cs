@@ -197,8 +197,8 @@ namespace UI
 		/// </summary>
 		private void SaveJobPreferences()
 		{
-			PlayerManager.CurrentCharacterSettings.JobPreferences = jobPreferences;
-			_ = ServerData.UpdateCharacterProfile(PlayerManager.CurrentCharacterSettings);
+			PlayerManager.CurrentCharacterSheet.JobPreferences = jobPreferences;
+			_ = ServerData.UpdateCharacterProfile(PlayerManager.CurrentCharacterSheet);
 		}
 
 		/// <summary>
@@ -208,7 +208,7 @@ namespace UI
 		{
 			// Loop through all jobs and set the dropdown to the specified priority.
 			// This will update the local jobPreferences variable using OnPriorityChange.
-			foreach (var jobPref in PlayerManager.CurrentCharacterSettings.JobPreferences.ToList())
+			foreach (var jobPref in PlayerManager.CurrentCharacterSheet.JobPreferences.ToList())
 			{
 				jobEntries[jobPref.Key].SetPriority(jobPref.Value);
 			}

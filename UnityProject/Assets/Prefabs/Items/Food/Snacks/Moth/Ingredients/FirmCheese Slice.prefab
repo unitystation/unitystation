@@ -114,37 +114,37 @@ PrefabInstance:
         type: 3}
       propertyPath: relatedRecipes.Array.data[0].recipe
       value: 
-      objectReference: {fileID: 11400000, guid: d15b6d91bab74654794b2b5d837545e7,
+      objectReference: {fileID: 11400000, guid: 16b8fb19654502748828992a303593f4,
         type: 2}
     - target: {fileID: 3920875217287779134, guid: 22393c79daa24284fa0c95a3af36f4a3,
         type: 3}
       propertyPath: relatedRecipes.Array.data[1].recipe
       value: 
-      objectReference: {fileID: 11400000, guid: e1d711423c264d7489fff25190951c48,
+      objectReference: {fileID: 11400000, guid: d15b6d91bab74654794b2b5d837545e7,
         type: 2}
     - target: {fileID: 3920875217287779134, guid: 22393c79daa24284fa0c95a3af36f4a3,
         type: 3}
       propertyPath: relatedRecipes.Array.data[2].recipe
       value: 
-      objectReference: {fileID: 11400000, guid: 16b8fb19654502748828992a303593f4,
+      objectReference: {fileID: 11400000, guid: 0e11f174435be8f4f8ba699fd2d4c7df,
         type: 2}
     - target: {fileID: 3920875217287779134, guid: 22393c79daa24284fa0c95a3af36f4a3,
         type: 3}
       propertyPath: relatedRecipes.Array.data[3].recipe
       value: 
-      objectReference: {fileID: 11400000, guid: 792e614da7cb1c24e848719f74f47241,
+      objectReference: {fileID: 11400000, guid: b7d95e1f9e884334d830a5de06329848,
         type: 2}
     - target: {fileID: 3920875217287779134, guid: 22393c79daa24284fa0c95a3af36f4a3,
         type: 3}
       propertyPath: relatedRecipes.Array.data[4].recipe
       value: 
-      objectReference: {fileID: 11400000, guid: 0e11f174435be8f4f8ba699fd2d4c7df,
+      objectReference: {fileID: 11400000, guid: e1d711423c264d7489fff25190951c48,
         type: 2}
     - target: {fileID: 3920875217287779134, guid: 22393c79daa24284fa0c95a3af36f4a3,
         type: 3}
       propertyPath: relatedRecipes.Array.data[5].recipe
       value: 
-      objectReference: {fileID: 11400000, guid: b7d95e1f9e884334d830a5de06329848,
+      objectReference: {fileID: 11400000, guid: 792e614da7cb1c24e848719f74f47241,
         type: 2}
     - target: {fileID: 3920875217287779134, guid: 22393c79daa24284fa0c95a3af36f4a3,
         type: 3}
@@ -154,28 +154,33 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 3920875217287779134, guid: 22393c79daa24284fa0c95a3af36f4a3,
         type: 3}
-      propertyPath: relatedRecipes.Array.data[1].ingredientIndex
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 3920875217287779134, guid: 22393c79daa24284fa0c95a3af36f4a3,
-        type: 3}
-      propertyPath: relatedRecipes.Array.data[2].ingredientIndex
+      propertyPath: relatedRecipes.Array.data[0].ingredientIndex
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3920875217287779134, guid: 22393c79daa24284fa0c95a3af36f4a3,
         type: 3}
+      propertyPath: relatedRecipes.Array.data[1].ingredientIndex
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3920875217287779134, guid: 22393c79daa24284fa0c95a3af36f4a3,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[2].ingredientIndex
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3920875217287779134, guid: 22393c79daa24284fa0c95a3af36f4a3,
+        type: 3}
       propertyPath: relatedRecipes.Array.data[3].ingredientIndex
-      value: 3
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 3920875217287779134, guid: 22393c79daa24284fa0c95a3af36f4a3,
         type: 3}
       propertyPath: relatedRecipes.Array.data[4].ingredientIndex
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 3920875217287779134, guid: 22393c79daa24284fa0c95a3af36f4a3,
         type: 3}
       propertyPath: relatedRecipes.Array.data[5].ingredientIndex
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 3920875217287779134, guid: 22393c79daa24284fa0c95a3af36f4a3,
         type: 3}
@@ -192,6 +197,27 @@ PrefabInstance:
       propertyPath: initialDescription
       value: A slice of firm cheese. Perfect for grilling or making into delicious
         pesto.
+      objectReference: {fileID: 0}
+    - target: {fileID: 3967450044638082442, guid: 22393c79daa24284fa0c95a3af36f4a3,
+        type: 3}
+      propertyPath: initialTraits.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 3967450044638082442, guid: 22393c79daa24284fa0c95a3af36f4a3,
+        type: 3}
+      propertyPath: initialTraits.Array.data[2]
+      value: 
+      objectReference: {fileID: 11400000, guid: a9ac8cfeac7f9cc409369a06ea01aa79,
+        type: 2}
+    - target: {fileID: 3967450044638082442, guid: 22393c79daa24284fa0c95a3af36f4a3,
+        type: 3}
+      propertyPath: inventoryMoveSound.AssetAddress
+      value: null
+      objectReference: {fileID: 0}
+    - target: {fileID: 3967450044638082442, guid: 22393c79daa24284fa0c95a3af36f4a3,
+        type: 3}
+      propertyPath: inventoryRemoveSound.AssetAddress
+      value: null
       objectReference: {fileID: 0}
     - target: {fileID: 7252118422562922863, guid: 22393c79daa24284fa0c95a3af36f4a3,
         type: 3}

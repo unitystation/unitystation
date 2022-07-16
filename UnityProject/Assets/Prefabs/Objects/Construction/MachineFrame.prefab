@@ -1,24 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-1857382574510368006
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 260239628808517242}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2921effb2de2dd443a2814a4e5900618, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  initialState: {fileID: 11400000, guid: f1c55d938596898489275b5d67ae8183, type: 2}
-  cablesAddedState: {fileID: 11400000, guid: 0300501e8d77d5c4f9264bf9f87dd62e, type: 2}
-  wrenchedState: {fileID: 11400000, guid: 58f920c5778516c469fd44836715ce0c, type: 2}
-  circuitAddedState: {fileID: 11400000, guid: e0ac3c48fdc6a374b812dcf38f61c86a, type: 2}
-  partsAddedState: {fileID: 11400000, guid: a9770efcfaef8a841bba9179224e0683, type: 2}
 --- !u!1001 &2723274827263646969
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -47,6 +28,11 @@ PrefabInstance:
         type: 3}
       propertyPath: foreverID
       value: c4c22bdc7cdd546479ac1de5589b5617
+      objectReference: {fileID: 0}
+    - target: {fileID: 2647565263449805305, guid: aa11b93feb043fe4e84e2f313cc41f6b,
+        type: 3}
+      propertyPath: isNotPushable
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2681812757184269972, guid: aa11b93feb043fe4e84e2f313cc41f6b,
         type: 3}
@@ -222,3 +208,22 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 2723274827263646969}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &-1857382574510368006
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 260239628808517242}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2921effb2de2dd443a2814a4e5900618, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  initialState: {fileID: 11400000, guid: f1c55d938596898489275b5d67ae8183, type: 2}
+  cablesAddedState: {fileID: 11400000, guid: 0300501e8d77d5c4f9264bf9f87dd62e, type: 2}
+  wrenchedState: {fileID: 11400000, guid: 58f920c5778516c469fd44836715ce0c, type: 2}
+  circuitAddedState: {fileID: 11400000, guid: e0ac3c48fdc6a374b812dcf38f61c86a, type: 2}
+  partsAddedState: {fileID: 11400000, guid: a9770efcfaef8a841bba9179224e0683, type: 2}

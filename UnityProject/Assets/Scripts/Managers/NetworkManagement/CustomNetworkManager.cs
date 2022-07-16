@@ -1,7 +1,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using UnityEngine;
@@ -13,6 +12,7 @@ using IgnoranceTransport;
 using Initialisation;
 using Messages.Server;
 using UnityEditor;
+using Util;
 
 public class CustomNetworkManager : NetworkManager, IInitialise
 {
@@ -34,14 +34,11 @@ public class CustomNetworkManager : NetworkManager, IInitialise
 	/// List of ALL prefabs in the game which can be spawned, networked or not.
 	/// use spawnPrefabs to get only networked prefabs
 	/// </summary>
-	[HideInInspector] public List<GameObject> allSpawnablePrefabs = new List<GameObject>();
+	[HideInInspector] public List<GameObject> allSpawnablePrefabs = new();
 
-	public Dictionary<GameObject, int> IndexLookupSpawnablePrefabs = new Dictionary<GameObject, int>();
+	public Dictionary<GameObject, int> IndexLookupSpawnablePrefabs = new();
 
-	public Dictionary<string, GameObject> ForeverIDLookupSpawnablePrefabs = new Dictionary<string, GameObject>();
-
-	private Dictionary<string, DateTime> connectCoolDown = new Dictionary<string, DateTime>();
-	private const double minCoolDown = 1f;
+	public Dictionary<string, GameObject> ForeverIDLookupSpawnablePrefabs = new();
 
 	/// <summary>
 	/// Invoked client side when the player has disconnected from a server.
@@ -54,7 +51,10 @@ public class CustomNetworkManager : NetworkManager, IInitialise
 		{
 			new Task(SetUpSpawnablePrefabsIndex).Start();
 		}
-
+		if (ForeverIDLookupSpawnablePrefabs.Count == 0)
+		{
+			new Task(SetUpSpawnablePrefabsForEverID).Start();
+		}
 
 		if (Instance == null)
 		{
@@ -68,7 +68,7 @@ public class CustomNetworkManager : NetworkManager, IInitialise
 
 	private int CurrentLocation = 0;
 
-	public void Update()
+	public void UpdateMe()
 	{
 		if (allSpawnablePrefabs.Count > CurrentLocation)
 		{
@@ -101,6 +101,7 @@ public class CustomNetworkManager : NetworkManager, IInitialise
 	{
 		for (int i = 0; i < allSpawnablePrefabs.Count; i++)
 		{
+			ForeverIDLookupSpawnablePrefabs[allSpawnablePrefabs[i].GetComponent<PrefabTracker>().ForeverID] = allSpawnablePrefabs[i];
 		}
 	}
 
@@ -110,8 +111,9 @@ public class CustomNetworkManager : NetworkManager, IInitialise
 	{
 		CheckTransport();
 		ApplyConfig();
-		//Automatically host if starting up game *not* from lobby
-		if (SceneManager.GetActiveScene().name != "Lobby")
+
+		var prevEditorScene = SubSceneManager.GetEditorPrevScene();
+		if (prevEditorScene != string.Empty && prevEditorScene != "StartUp" && prevEditorScene != "Lobby")
 		{
 			StartHost();
 		}
@@ -269,11 +271,13 @@ public class CustomNetworkManager : NetworkManager, IInitialise
 	private void OnEnable()
 	{
 		SceneManager.activeSceneChanged += OnLevelFinishedLoading;
+		UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
 	}
 
 	private void OnDisable()
 	{
 		SceneManager.activeSceneChanged -= OnLevelFinishedLoading;
+		UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
 	}
 
 	public override void OnStartServer()
@@ -309,64 +313,50 @@ public class CustomNetworkManager : NetworkManager, IInitialise
 	}
 
 	//called on server side when player is being added, this is the main entry point for a client connecting to this server
-	public override void OnServerAddPlayer(NetworkConnection conn)
+	public override void OnServerAddPlayer(NetworkConnectionToClient conn)
 	{
 		if (IsHeadless || GameData.Instance.testServer)
 		{
 			if (conn == NetworkServer.localConnection)
 			{
-				Logger.Log("Prevented headless server from spawning a player", Category.Server);
+				Logger.Log("Prevented headless server from spawning a player", Category.Connections);
 				return;
 			}
 		}
 
-		Logger.LogFormat("Client connecting to server {0}", Category.Connections, conn);
+		Logger.LogTrace($"Spawning a GameObject for the client {conn}.", Category.Connections);
 		base.OnServerAddPlayer(conn);
 		SubSceneManager.Instance.AddNewObserverScenePermissions(conn);
 		UpdateRoundTimeMessage.Send(GameManager.Instance.stationTime.ToString("O"));
 	}
 
 	//called on client side when client first connects to the server
-	public override void OnClientConnect(NetworkConnection conn)
+	public override void OnClientConnect()
 	{
-		Logger.LogFormat("We (the client) connected to the server {0}", Category.Connections, conn);
+		Logger.Log($"We (the client) connected to the server {NetworkClient.connection.address}.", Category.Connections);
 		//Does this need to happen all the time? OnClientConnect can be called multiple times
 		NetworkManagerExtensions.RegisterClientHandlers();
 
-		base.OnClientConnect(conn);
+		base.OnClientConnect();
 	}
 
-	public override void OnClientDisconnect(NetworkConnection conn)
+	public override void OnClientDisconnect()
 	{
-		base.OnClientDisconnect(conn);
+		Logger.Log("Client disconnected from the server.");
+		base.OnClientDisconnect();
 		OnClientDisconnected.Invoke();
 	}
 
-	public override void OnServerConnect(NetworkConnection conn)
+	public override void OnServerConnect(NetworkConnectionToClient conn)
 	{
-		if (!connectCoolDown.ContainsKey(conn.address))
-		{
-			connectCoolDown.Add(conn.address, DateTime.Now);
-		}
-		else
-		{
-			var totalSeconds = (DateTime.Now - connectCoolDown[conn.address]).TotalSeconds;
-			if (totalSeconds < minCoolDown)
-			{
-				Logger.Log($"Connect spam alert. Address {conn.address} is trying to spam connections",
-					Category.Connections);
-				conn.Disconnect();
-				return;
-			}
-
-			connectCoolDown[conn.address] = DateTime.Now;
-		}
+		// Connection has been authenticated via Authentication.cs
+		Logger.LogTrace($"A client has been authenticated and has joined. Address: {conn.address}.");
 
 		base.OnServerConnect(conn);
 	}
 
 	/// server actions when client disconnects
-	public override void OnServerDisconnect(NetworkConnection conn)
+	public override void OnServerDisconnect(NetworkConnectionToClient conn)
 	{
 		//register them as removed from our own player list
 		PlayerList.Instance.RemoveByConnection(conn);
@@ -395,6 +385,11 @@ public class CustomNetworkManager : NetworkManager, IInitialise
 			// TODO check if this is needed
 			// EventManager.Broadcast(EVENT.RoundStarted);
 			StartCoroutine(DoHeadlessCheck());
+		}
+		else
+		{
+			// must've disconnected, let lobby know (now that scene is loaded)
+			Lobby.LobbyManager.Instance.lobbyDialogue.wasDisconnected = true;
 		}
 	}
 
@@ -429,7 +424,7 @@ public class CustomNetworkManager : NetworkManager, IInitialise
 
 	private IEnumerator TransformWaltz()
 	{
-		CustomNetTransform[] scripts = FindObjectsOfType<CustomNetTransform>();
+		UniversalObjectPhysics[] scripts = FindObjectsOfType<UniversalObjectPhysics>();
 		var sequence = new[]
 		{
 			Vector3.right, Vector3.up, Vector3.left, Vector3.down,
@@ -446,9 +441,9 @@ public class CustomNetworkManager : NetworkManager, IInitialise
 		}
 	}
 
-	private static void NudgeTransform(CustomNetTransform netTransform, Vector3 where)
+	private static void NudgeTransform(UniversalObjectPhysics ObjectPhysics, Vector3 where)
 	{
-		netTransform.SetPosition(netTransform.ServerState.LocalPosition + where);
+		ObjectPhysics.AppearAtWorldPositionServer(ObjectPhysics.OfficialPosition + where);
 	}
 #endif
 }

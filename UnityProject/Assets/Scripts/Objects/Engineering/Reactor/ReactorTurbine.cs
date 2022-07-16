@@ -89,7 +89,7 @@ namespace Objects.Engineering
 		/// <summary>
 		/// is the function to denote that it will be pooled or destroyed immediately after this function is finished, Used for cleaning up anything that needs to be cleaned up before this happens
 		/// </summary>
-		/// 
+		///
 		//public void OnDespawnServer(DespawnInfo info)
 		//{
 		//	Spawn.ServerPrefab(ConstructMaterial, gameObject.AssumedWorldPosServer(), count: droppedMaterialAmount);

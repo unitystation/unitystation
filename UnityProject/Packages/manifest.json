@@ -1,28 +1,23 @@
 {
   "dependencies": {
-    "com.darrentsung.dtcompiletimetracker": "https://github.com/DarrenTsung/DTCompileTimeTracker.git",
+    "com.cysharp.unitask": "https://github.com/Cysharp/UniTask.git?path=src/UniTask/Assets/Plugins/UniTask",
     "com.dbrizov.naughtyattributes": "https://github.com/dbrizov/NaughtyAttributes.git#upm",
     "com.unity.2d.pixel-perfect": "5.0.1",
-    "com.unity.2d.sprite": "1.0.0",
     "com.unity.2d.tilemap": "1.0.0",
-    "com.unity.addressables": "1.16.19",
-    "com.unity.analytics": "3.5.3",
-    "com.unity.assetbundlebrowser": "1.7.0",
+    "com.unity.2d.tilemap.extras": "2.2.3",
+    "com.unity.addressables": "1.19.19",
     "com.unity.editorcoroutines": "1.0.0",
-    "com.unity.ext.nunit": "1.0.6",
-    "com.unity.ide.rider": "3.0.7",
-    "com.unity.ide.visualstudio": "2.0.11",
-    "com.unity.ide.vscode": "1.2.4",
-    "com.unity.memoryprofiler": "0.4.0-preview.2",
-    "com.unity.multiplayer-hlapi": "1.0.8",
-    "com.unity.test-framework": "1.1.29",
+    "com.unity.ide.rider": "3.0.15",
+    "com.unity.ide.visualstudio": "2.0.16",
+    "com.unity.ide.vscode": "1.2.5",
+    "com.unity.mathematics": "1.2.6",
+    "com.unity.test-framework": "1.1.31",
     "com.unity.textmeshpro": "3.0.6",
-    "com.unity.timeline": "1.5.6",
-    "com.unity.toolchain.win-x86_64-linux-x86_64": "0.1.21-preview",
+    "com.unity.toolchain.win-x86_64-linux-x86_64": "2.0.2",
     "com.unity.ugui": "1.0.0",
     "com.unity.vectorgraphics": "2.0.0-preview.17",
-    "com.unity.xr.legacyinputhelpers": "2.1.8",
-    "com.xeleh.enhancer": "https://github.com/xeleh/enhancer.git",
+    "com.unity.visualscripting": "1.7.8",
+    "org.unitystation.spacemirror": "https://github.com/unitystation/Mirror.git?path=/Assets/Mirror#master",
     "com.unity.modules.ai": "1.0.0",
     "com.unity.modules.androidjni": "1.0.0",
     "com.unity.modules.animation": "1.0.0",
@@ -54,9 +49,5 @@
     "com.unity.modules.vr": "1.0.0",
     "com.unity.modules.wind": "1.0.0",
     "com.unity.modules.xr": "1.0.0"
-  },
-  "testables": [
-    "com.unity.test-framework.performance"
-  ],
-  "scopedRegistries": []
+  }
 }

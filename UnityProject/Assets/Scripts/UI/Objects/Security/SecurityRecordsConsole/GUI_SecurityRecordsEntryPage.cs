@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UI.Core.NetUI;
 using Systems;
 using Objects.Security;
 
@@ -70,7 +71,7 @@ namespace UI.Objects.Security
 			ClosePopup();
 		}
 
-		public void RemoveID(ConnectedPlayer player)
+		public void RemoveID(PlayerInfo player)
 		{
 			securityRecordsTab.RemoveId(player);
 			securityRecordsTab.UpdateIdText(idNameText);

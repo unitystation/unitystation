@@ -122,6 +122,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6675016413124777475, guid: 1488f67a55cb9b84098e095e65e5a2b3,
         type: 3}
+      propertyPath: initialTraits.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 6675016413124777475, guid: 1488f67a55cb9b84098e095e65e5a2b3,
+        type: 3}
       propertyPath: attackVerbs.Array.data[0]
       value: slashed
       objectReference: {fileID: 0}
@@ -145,6 +150,12 @@ PrefabInstance:
       propertyPath: itemSprites.SpriteLeftHand
       value: 
       objectReference: {fileID: 11400000, guid: 37549c49aac602b4e80e1f12a4cdd3cd,
+        type: 2}
+    - target: {fileID: 6675016413124777475, guid: 1488f67a55cb9b84098e095e65e5a2b3,
+        type: 3}
+      propertyPath: initialTraits.Array.data[3]
+      value: 
+      objectReference: {fileID: 11400000, guid: 71b6c4640889d4c4fb1f249f6933fc08,
         type: 2}
     - target: {fileID: 6675016413124777475, guid: 1488f67a55cb9b84098e095e65e5a2b3,
         type: 3}

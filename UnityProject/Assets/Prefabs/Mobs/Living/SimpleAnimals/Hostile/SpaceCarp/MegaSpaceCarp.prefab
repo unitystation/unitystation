@@ -34,26 +34,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 30532920826853367, guid: 6c9f4a005c9a60d4b8dee2e5fdbe767d,
         type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 30532920826853367, guid: 6c9f4a005c9a60d4b8dee2e5fdbe767d,
-        type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 30532920826853367, guid: 6c9f4a005c9a60d4b8dee2e5fdbe767d,
-        type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 30532920826853367, guid: 6c9f4a005c9a60d4b8dee2e5fdbe767d,
-        type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 30532920826853367, guid: 6c9f4a005c9a60d4b8dee2e5fdbe767d,
-        type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
       value: 0
       objectReference: {fileID: 0}
@@ -140,5 +120,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: cb7fe522f5551ce4b93b9c27cf4f3c05,
         type: 2}
+    - target: {fileID: 8895962495251507576, guid: 6c9f4a005c9a60d4b8dee2e5fdbe767d,
+        type: 3}
+      propertyPath: tileMoveSpeed
+      value: 7
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6c9f4a005c9a60d4b8dee2e5fdbe767d, type: 3}

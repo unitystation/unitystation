@@ -86,6 +86,13 @@ namespace Items.Food
 
 			var feeder = feederGO.GetComponent<PlayerScript>();
 
+			// Check if player is wearing clothing that prevents eating or drinking
+			if (eater.Equipment.CanConsume() == false)
+			{
+				Chat.AddExamineMsgFromServer(eater.gameObject, $"Remove items that cover your mouth first!");
+				return;
+			}
+
 			// Show eater message
 			var eaterHungerState = eater.playerHealth.HungerState;
 			ConsumableTextUtils.SendGenericConsumeMessage(feeder, eater, eaterHungerState, Name, "eat");
@@ -180,10 +187,10 @@ namespace Items.Food
 				var leavingsInstance = Spawn.ServerPrefab(leavings).GameObject;
 				var pickupable = leavingsInstance.GetComponent<Pickupable>();
 				bool added = Inventory.ServerAdd(pickupable, feederSlot);
-				if (!added)
+				if (added == false)
 				{
 					//If stackable has leavings and they couldn't go in the same slot, they should be dropped
-					pickupable.CustomNetTransform.SetPosition(feeder.WorldPos);
+					pickupable.UniversalObjectPhysics.DropAtAndInheritMomentum(feeder.GetComponent<UniversalObjectPhysics>());
 				}
 			}
 		}

@@ -2,6 +2,7 @@
 using System.Collections;
 using UnityEngine;
 using AddressableReferences;
+using UI.Core.NetUI;
 using Items.Bureaucracy;
 
 namespace UI.Bureaucracy
@@ -119,6 +120,11 @@ namespace UI.Bureaucracy
 
 		public void Print()
 		{
+			if (Photocopier.InkCartadge == null)
+			{
+				StatusLabel.SetValueServer("NO INK");
+				return;
+			}
 			if (Photocopier.CanPrint())
 			{
 				SoundManager.PlayNetworkedAtPos(Beep, registerObject.WorldPosition);

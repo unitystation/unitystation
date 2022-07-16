@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 using Mirror;
@@ -12,6 +13,8 @@ using HealthV2;
 using AddressableReferences;
 using Messages.Server.SoundMessages;
 using Audio.Containers;
+using Systems.Cargo;
+using UI.Systems.AdminTools;
 
 namespace AdminCommands
 {
@@ -54,10 +57,10 @@ namespace AdminCommands
 		/// </summary>
 		/// <param name="sender">The client which sends the command, this is populated by mirror so doesnt need to be manually
 		/// put in the parameters when calling the commands</param>
-		public static bool IsAdmin(NetworkConnection sender, out ConnectedPlayer player, bool logFailure = true)
+		public static bool IsAdmin(NetworkConnection sender, out PlayerInfo player, bool logFailure = true)
 		{
-			player = PlayerList.Instance.GetByConnection(sender);
-			if (PlayerList.Instance.IsAdmin(player) == false)
+			player = PlayerList.Instance.GetOnline(sender);
+			if (player.IsAdmin == false)
 			{
 				if (logFailure)
 				{
@@ -73,6 +76,25 @@ namespace AdminCommands
 
 			return true;
 		}
+
+		#region Server Settings
+
+		[Command(requiresAuthority = false)]
+		public void CmdChangePlayerLimit(int newLimit, NetworkConnectionToClient sender = null)
+		{
+			if (IsAdmin(sender, out var player) == false) return;
+
+			if (newLimit < 0) return;
+
+			var currentLimit = GameManager.Instance.PlayerLimit;
+			if(currentLimit == newLimit) return;
+
+			LogAdminAction($"{player.Username}: Set PlayerLimit to {newLimit} from {currentLimit}");
+
+			GameManager.Instance.PlayerLimit = newLimit;
+		}
+
+		#endregion
 
 		#region GamemodePage
 
@@ -271,7 +293,7 @@ namespace AdminCommands
 
 		#endregion
 
-		#region PlayerCommands
+		#region Player Commands
 
 		/// <summary>
 		/// Smites the selected user, gibbing him instantly.
@@ -285,17 +307,20 @@ namespace AdminCommands
 		{
 			if (IsAdmin(sender, out var admin) == false) return;
 
-			foreach (ConnectedPlayer player in PlayerList.Instance.GetAllByUserID(userToSmite))
+			if (PlayerList.Instance.TryGetByUserID(userToSmite, out var player) == false)
 			{
-				if (player?.Script == null || player.Script.IsGhost || player.Script.playerHealth == null) continue;
-
-				string message = $"{admin.Username}: Smited Username: {player.Username} ({player.Name})";
-				Logger.Log(message, Category.Admin);
-
-				LogAdminAction(message);
-
-				player.Script.playerHealth.Gib();
+				Logger.LogError($"{admin.Username} tried to smite a player with user ID '{userToSmite}' but they couldn't be found.");
+				return;
 			}
+
+			if (player?.Script == null || player.Script.IsGhost || player.Script.playerHealth == null) return;
+
+			string message = $"{admin.Username}: Smited Username: {player.Username} ({player.Name})";
+			Logger.Log(message, Category.Admin);
+
+			LogAdminAction(message);
+
+			player.Script.playerHealth.Gib();
 		}
 
 		/// <summary>
@@ -310,34 +335,39 @@ namespace AdminCommands
 		{
 			if (IsAdmin(sender, out var admin) == false) return;
 
-			foreach (ConnectedPlayer player in PlayerList.Instance.GetAllByUserID(userToHeal))
+			if (PlayerList.Instance.TryGetByUserID(userToHeal, out var player) == false)
 			{
-				//get player stuff.
-				PlayerScript playerScript = player.Script;
-				Mind playerMind = playerScript.mind;
-				var playerBody = playerMind.body;
-				string message;
-
-				//Does this player have a body that can be healed?
-				if (playerBody != null && playerBody.TryGetComponent<IFullyHealable>(out var healable))
-				{
-					healable.FullyHeal();
-					message = $"{admin.Username}: Healed up Username: {player.Username} ({player.Name})";
-				}
-				else
-				{
-					message = $"{admin.Username}: Attempted healing {player.Username} but they had no body!";
-				}
-				//Log what we did.
-				Logger.Log(message, Category.Admin);
-				LogAdminAction(message);
+				Logger.LogError($"Could not find player with user ID '{userToHeal}'. Unable to heal.", Category.Admin);
+				return;
 			}
+	
+			//get player stuff.
+			PlayerScript playerScript = player.Script;
+			Mind playerMind = playerScript.mind;
+			var playerBody = playerMind.body;
+			string message;
+
+			//Does this player have a body that can be healed?
+			if (playerBody != null && playerBody.TryGetComponent<IFullyHealable>(out var healable))
+			{
+				healable.FullyHeal();
+				message = $"{admin.Username}: Healed up Username: {player.Username} ({player.Name})";
+			}
+			else
+			{
+				message = $"{admin.Username}: Attempted healing {player.Username} but they had no body!";
+			}
+			//Log what we did.
+			Logger.Log(message, Category.Admin);
+			LogAdminAction(message);
 		}
 
 		#endregion
 
 		#region Sound
 
+		//FIXME: DISABLED UNTIL JUSTIN RETURNS WORK ON THIS AND WEAVER ISSUES GET FIXED
+		/*
 		[Command(requiresAuthority = false)]
 		public void CmdPlaySound(AddressableAudioSource addressableAudioSource, NetworkConnectionToClient sender = null)
 		{
@@ -356,6 +386,7 @@ namespace AdminCommands
 			if (IsAdmin(sender, out var admin) == false) return;
 			MusicManager.PlayNetworked(addressableAudioSource);
 		}
+		*/
 
 		#endregion
 
@@ -428,13 +459,148 @@ namespace AdminCommands
 
 		#endregion
 
+		#region Mentor
+
+		[Command(requiresAuthority = false)]
+		public void CmdAddMentor(string userToUpgrade, bool isPermanent, NetworkConnectionToClient sender = null)
+		{
+			if (IsAdmin(sender, out var admin) == false) return;
+
+			if (PlayerList.Instance.IsMentor(userToUpgrade)) return;
+
+			PlayerList.Instance.TryAddMentor(userToUpgrade, isPermanent);
+
+			if (PlayerList.Instance.TryGetByUserID(userToUpgrade, out var player) == false)
+			{
+				Logger.LogWarning($"{admin.Username} has set user with ID '{userToUpgrade}' "
+						+ "as mentor but they could not be found!", Category.Admin);
+				return;
+			}
+
+			LogAdminAction($"{admin.Username}: Gave {player.Username} {(isPermanent ? "permanent" : "temporary")} Mentor");
+		}
+
+		[Command(requiresAuthority = false)]
+		public void CmdRemoveMentor(string userToDowngrade, NetworkConnectionToClient sender = null)
+		{
+			if (IsAdmin(sender, out var admin) == false) return;
+
+			PlayerList.Instance.TryRemoveMentor(userToDowngrade);
+
+			if (PlayerList.Instance.TryGetByUserID(userToDowngrade, out var player) == false)
+			{
+				Logger.LogWarning($"{admin.Username} has unset user with ID '{userToDowngrade}' "
+						+ "as mentor but they could not be found!", Category.Admin);
+				return;
+			}
+
+			LogAdminAction($"{admin.Username}: Removed {player.Username} mentor");
+		}
+
+		#endregion
+
 		#region LogAdminAction
 
 		public static void LogAdminAction(string msg, string userName = "")
 		{
-			UIManager.Instance.adminChatWindows.adminToAdminChat.ServerAddChatRecord(msg, null);
+			UIManager.Instance.adminChatWindows.adminLogWindow.ServerAddChatRecord(msg, null);
 			DiscordWebhookMessage.Instance.AddWebHookMessageToQueue(DiscordWebhookURLs.DiscordWebhookAdminLogURL, msg,
 				userName);
+		}
+
+		#endregion
+
+		#region CargoControlCommands
+
+		[Command(requiresAuthority = false)]
+		public void CmdRemoveBounty(int index, bool completeBounty, NetworkConnectionToClient sender = null)
+		{
+			if (IsAdmin(sender, out var admin) == false) return;
+			if (CargoManager.Instance.ActiveBounties.Count <= index) return; 
+			if (completeBounty)
+			{
+				CargoManager.Instance.CompleteBounty(CargoManager.Instance.ActiveBounties[index]);
+				CargoManager.Instance.OnCreditsUpdate?.Invoke();
+				CargoManager.Instance.OnBountiesUpdate?.Invoke();
+				return;
+			}
+
+			CargoManager.Instance.ActiveBounties.Remove(CargoManager.Instance.ActiveBounties[index]);
+			CargoManager.Instance.OnBountiesUpdate?.Invoke();
+		}
+
+		[Command(requiresAuthority = false)]
+		public void CmdAdjustBountyRewards(int index, int newReward, NetworkConnectionToClient sender = null)
+		{
+			if (IsAdmin(sender, out var admin) == false) return;
+			CargoManager.Instance.ActiveBounties[index].Reward = newReward;
+			CargoManager.Instance.OnBountiesUpdate?.Invoke();
+		}
+
+		[TargetRpc]
+		private void TargetSendCargoData(NetworkConnection target, List<CargoManager.BountySyncData> data)
+		{
+			AdminBountyManager.Instance.RefreshBountiesList(data);
+		}
+
+		[TargetRpc]
+		private void TargetUpdateBudgetForClient(NetworkConnection target, int data)
+		{
+			AdminBountyManager.Instance.budgetInput.text = data.ToString();
+		}
+
+		[Command(requiresAuthority = false)]
+		public void CmdRequestCargoServerData(NetworkConnectionToClient sender = null)
+		{
+			if (IsAdmin(sender, out var admin) == false) return;
+			List<CargoManager.BountySyncData> simpleData = new List<CargoManager.BountySyncData>();
+			for (int i = 0; i < CargoManager.Instance.ActiveBounties.Count; i++)
+			{
+				var foundBounty = new CargoManager.BountySyncData();
+				foundBounty.Title = CargoManager.Instance.ActiveBounties[i].Title;
+				foundBounty.Reward = CargoManager.Instance.ActiveBounties[i].Reward;
+				foundBounty.Desc = CargoManager.Instance.ActiveBounties[i].TooltipDescription;
+				foundBounty.Index = i;
+				simpleData.Add(foundBounty);
+			}
+			TargetSendCargoData(sender, simpleData);
+			TargetUpdateBudgetForClient(sender, CargoManager.Instance.Credits);
+		}
+
+		[Command(requiresAuthority = false)]
+		public void CmdAddBounty(ItemTrait trait, int amount, string title, string description, int reward, bool announce, NetworkConnectionToClient sender = null)
+		{
+			if (IsAdmin(sender, out var admin) == false) return;
+			CargoManager.Instance.AddBounty(trait, amount, title, description, reward, announce);
+			CargoManager.Instance.OnBountiesUpdate?.Invoke();
+			LogAdminAction($"{admin.Username} has added a new bounty -> Title : {title} || reward : {reward} || Announce : {announce}");
+		}
+
+		[Command(requiresAuthority = false)]
+		public void CmdChangeBudget(int budget, NetworkConnectionToClient sender = null)
+		{
+			if (IsAdmin(sender, out var admin) == false) return;
+			CargoManager.Instance.Credits = budget;
+			CargoManager.Instance.OnCreditsUpdate?.Invoke();
+			LogAdminAction($"{admin.Username} has changed the cargo budget to -> {budget}");
+		}
+
+		[Command(requiresAuthority = false)]
+		public void CmdChangeCargoConnectionStatus(bool online, NetworkConnectionToClient sender = null)
+		{
+			if (IsAdmin(sender, out var admin) == false) return;
+			CargoManager.Instance.CargoOffline = online;
+			CargoManager.Instance.OnConnectionChangeToCentComm?.Invoke();
+			LogAdminAction($"{admin.Username} has changed the cargo online status to -> {online}");
+		}
+
+		[Command(requiresAuthority = false)]
+		public void CmdToggleCargoRandomBounty(bool state, NetworkConnectionToClient sender = null)
+		{
+			if (IsAdmin(sender, out var admin) == false) return;
+			CargoManager.Instance.CargoOffline = state;
+			CargoManager.Instance.OnConnectionChangeToCentComm?.Invoke();
+			LogAdminAction($"{admin.Username} has changed the cargo random bounties status to -> {state}");
 		}
 
 		#endregion

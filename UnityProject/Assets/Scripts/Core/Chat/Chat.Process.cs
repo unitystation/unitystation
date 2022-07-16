@@ -6,9 +6,11 @@ using System.Text.RegularExpressions;
 using System.Globalization;
 using System.Linq;
 using System.Text;
+using AddressableReferences;
 using Core.Chat;
 using DatabaseAPI;
 using Mirror;
+using NaughtyAttributes;
 using ScriptableObjects;
 using Strings;
 using Tilemaps.Behaviours.Meta;
@@ -51,6 +53,10 @@ public partial class Chat
 
 	private static bool playedSound;
 
+	[BoxGroup("Sounds")] public AddressableAudioSource commonRadioChannelSound;
+	[BoxGroup("Sounds")] public AddressableAudioSource commonSecurityChannelSound;
+	[BoxGroup("Sounds")] public AddressableAudioSource commonSyndicteChannelSound;
+
 	/// <summary>
 	/// This channels can't be heared as sound by other players (like binary or changeling hivemind)
 	/// </summary>
@@ -82,7 +88,7 @@ public partial class Chat
 	/// <param name="sendByPlayer">The player sending the message. Used for detecting conciousness and occupation.</param>
 	/// <param name="message">The chat message to process.</param>
 	/// <returns>A tuple of the processed chat message and the detected modifiers.</returns>
-	private static (string, ChatModifier) ProcessMessage(ConnectedPlayer sentByPlayer, string message)
+	private static (string, ChatModifier) ProcessMessage(PlayerInfo sentByPlayer, string message)
 	{
 		ChatModifier chatModifiers = ChatModifier.None; // Modifier that will be returned in the end.
 		ConsciousState playerConsciousState = ConsciousState.DEAD;
@@ -324,7 +330,8 @@ public partial class Chat
 			Loudness.QUIET => ChatTemplates.SmallText,
 			Loudness.LOUD => ChatTemplates.LargeText,
 			Loudness.SCREAMING => ChatTemplates.VeryLargeText,
-			Loudness.EARRAPE => ChatTemplates.ExtremelyLargeText,
+			Loudness.MEGAPHONE => ChatTemplates.ExtremelyLargeText,
+			Loudness.EARRAPE => ChatTemplates.AnnoyingText,
 			_ => message.Contains("!!") ? ChatTemplates.LargeText : ChatTemplates.NormalText,
 		};
 
@@ -342,7 +349,7 @@ public partial class Chat
 		return output;
 	}
 
-	private static string StripTags(string input)
+	public static string StripTags(string input)
 	{
 		//Regex - find "<" followed by any number of not ">" and ending in ">". Matches any HTML tags.
 		Regex rx = new Regex("[<][^>]+[>]");
@@ -527,15 +534,20 @@ public partial class Chat
 
 		if (GhostValidationRejection(originatorUint, channels)) return;
 
+		if (PlayerManager.LocalPlayerScript != null && PlayerManager.LocalPlayerScript.IsDeadOrGhost == false && PlayerManager.LocalPlayerScript.playerHealth.CannotRecognizeNames)
+		{
+			speaker = "<color=red>Unknown</color>";
+		}
+
 		var msg = ProcessMessageFurther(message, speaker, channels, modifiers, loudness, originatorUint, stripTags);
-		ChatRelay.Instance.UpdateClientChat(msg, channels, isOriginator, recipient, loudness);
+		ChatRelay.Instance.UpdateClientChat(msg, channels, isOriginator, recipient, loudness, modifiers);
 	}
 
 	private static bool GhostValidationRejection(uint originator, ChatChannel channels)
 	{
-		if (PlayerManager.PlayerScript == null) return false;
-		if (PlayerManager.PlayerScript.IsGhost == false) return false;
-		if (Instance.GhostHearAll && PlayerManager.PlayerScript.IsPlayerSemiGhost == false) return false;
+		if (PlayerManager.LocalPlayerScript == null) return false;
+		if (PlayerManager.LocalPlayerScript.IsGhost == false) return false;
+		if (Instance.GhostHearAll && PlayerManager.LocalPlayerScript.IsPlayerSemiGhost == false) return false;
 
 		if (NetworkIdentity.spawned.ContainsKey(originator))
 		{
@@ -545,14 +557,14 @@ public partial class Chat
 			{
 				LayerMask layerMask = LayerMask.GetMask("Door Closed");
 				if (Vector2.Distance(getOrigin.transform.position,
-					PlayerManager.LocalPlayer.transform.position) > 14f)
+					PlayerManager.LocalPlayerObject.transform.position) > 14f)
 				{
 					return true;
 				}
 				else
 				{
 					if (MatrixManager.RayCast(getOrigin.transform.position, Vector2.zero, 0, LayerTypeSelection.Walls,
-						layerMask, PlayerManager.LocalPlayer.transform.position).ItHit)
+						layerMask, PlayerManager.LocalPlayerObject.transform.position).ItHit)
 					{
 						return true;
 					}
@@ -565,7 +577,7 @@ public partial class Chat
 
 	private static string InTheZone(BodyPartType hitZone)
 	{
-		return hitZone == BodyPartType.None ? "" : $" in the {hitZone.ToString().ToLower().Replace("_", " ")}";
+		return hitZone == BodyPartType.None ? "" : $" in the {hitZone.GetDescription().ToLower().Replace("_", " ")}";
 	}
 
 	private static bool IsServer()

@@ -1,8 +1,8 @@
-﻿using System.Linq;
+﻿using UnityEngine;
+using UnityEngine.UI;
+using UI.Core.NetUI;
 using Doors;
 using Doors.Modules;
-using UnityEngine;
-using UnityEngine.UI;
 
 namespace UI.Objects
 {
@@ -22,23 +22,16 @@ namespace UI.Objects
 		[SerializeField] private Color safetyImageColorWhenNOPOWER;
 
 		private DoorMasterController doorMasterController;
-		private DoorMasterController DoorMasterController {
-			get {
-				if (doorMasterController == null)
-					doorMasterController = Provider.GetComponent<DoorMasterController>();
+		private DoorMasterController DoorMasterController => doorMasterController ??= Provider.GetComponent<DoorMasterController>();
 
-				return doorMasterController;
-			}
-		}
-
-		public void OnTabOpenedHandler(ConnectedPlayer connectedPlayer)
+		public void OnTabOpenedHandler(PlayerInfo connectedPlayer)
 		{
 			bool foundBolts = false;
 			labelOpen.Value = DoorMasterController.IsClosed ? "Closed" : "Open";
 
 			foreach (var module in DoorMasterController.ModulesList)
 			{
-				if(module is BoltsModule bolts)
+				if (module is BoltsModule bolts)
 				{
 					labelBolts.Value = bolts.BoltsDown ? "Bolted" : "Unbolted";
 					foundBolts = true;
@@ -50,12 +43,16 @@ namespace UI.Objects
 				}
 			}
 
-			if(!foundBolts) labelBolts.Value = "No Bolt Module";
+			if (foundBolts == false)
+			{
+				labelBolts.Value = "No Bolt Module";
+			}
 		}
 
 		public void OnToggleAirLockSafety()
 		{
 			if (DoorMasterController.CanAIInteract() == false) return;
+
 			foreach (var module in DoorMasterController.ModulesList)
 			{
 				if (module is ElectrifiedDoorModule electric)
@@ -72,19 +69,14 @@ namespace UI.Objects
 		{
 			//(Max): This is broken for some reason and doesn't work.
 			if (DoorMasterController.CanAIInteract() == false) return;
+
 			if (doorMasterController.HasPower == false)
 			{
 				safetyImage.color = safetyImageColorWhenNOPOWER;
 				return;
 			}
-			if (door.IsElectrecuted)
-			{
-				safetyImage.color = safetyImageColorWhenHARM;
-			}
-			else
-			{
-				safetyImage.color = safetyImageColorWhenSAFE;
-			}
+
+			safetyImage.color = door.IsElectrecuted ? safetyImageColorWhenHARM : safetyImageColorWhenSAFE;
 		}
 
 		public void OnToggleOpenDoor()
@@ -110,7 +102,7 @@ namespace UI.Objects
 
 			foreach (var module in DoorMasterController.ModulesList)
 			{
-				if(module is BoltsModule bolts)
+				if (module is BoltsModule bolts)
 				{
 					//Toggle bolts
 					bolts.PulseToggleBolts();

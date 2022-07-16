@@ -155,7 +155,7 @@ namespace Objects.Kitchen
 
 		private void CheckCooked(float cookTime)
 		{
-			var itemsOnGrill = Matrix.Get<ObjectBehaviour>(registerTile.LocalPositionServer, ObjectType.Item, true)
+			var itemsOnGrill = Matrix.Get<UniversalObjectPhysics>(registerTile.LocalPositionServer, ObjectType.Item, true)
 				.Where(ob => ob != null && ob.gameObject != gameObject);
 			foreach (var onGrill in itemsOnGrill)
 			{
@@ -166,7 +166,18 @@ namespace Objects.Kitchen
 						// Swap item for its cooked version, if applicable.
 						if (slotCooked.CookedProduct == null) return;
 						Spawn.ServerPrefab(slotCooked.CookedProduct, slotCooked.gameObject.transform.position, transform.parent);
-						_ = Despawn.ServerSingle(slotCooked.gameObject);
+						var stackable = slotCooked.GetComponent<Stackable>();
+						if (stackable != null && stackable.Amount > 1)
+						{
+							stackable.ServerConsume(1);
+							slotCooked.ResetTimeCooked();
+						}
+						else
+						{
+							_ = Despawn.ServerSingle(slotCooked.gameObject);
+						}
+
+
 					}
 				}
 			}

@@ -1,4 +1,5 @@
-﻿using Systems.GhostRoles;
+﻿using System.Net.Configuration;
+using Systems.GhostRoles;
 using Mirror;
 
 namespace Messages.Server.GhostRoles
@@ -21,7 +22,7 @@ namespace Messages.Server.GhostRoles
 		// To be run on client
 		public override void Process(NetMessage msg)
 		{
-			if (PlayerManager.LocalPlayer == null) return;
+			if (PlayerManager.LocalPlayerObject == null) return;
 
 			if (MatrixManager.IsInitialized == false) return;
 
@@ -37,7 +38,7 @@ namespace Messages.Server.GhostRoles
 			{
 				GhostRoleServer role = GhostRoleManager.Instance.serverAvailableRoles[key];
 
-				foreach (ConnectedPlayer player in PlayerList.Instance.InGamePlayers)
+				foreach (PlayerInfo player in PlayerList.Instance.InGamePlayers)
 				{
 					if (player?.Script == null)
 					{
@@ -60,9 +61,10 @@ namespace Messages.Server.GhostRoles
 		/// <summary>
 		/// Sends a message to the specific player, informing them about a new ghost role that has become available.
 		/// </summary>
-		public static NetMessage SendTo(ConnectedPlayer player, uint key, GhostRoleServer role)
+		public static NetMessage SendTo(PlayerInfo player, uint key, GhostRoleServer role)
 		{
 			NetMessage msg = GetMessage(key, role);
+			if (PlayerList.Instance.loggedOff.Contains(player)) return msg;
 
 			SendTo(player, msg);
 			return msg;

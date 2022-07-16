@@ -12,7 +12,6 @@ using Items.Food;
 namespace Systems.Botany
 {
 	//Used when spawning the food
-	[RequireComponent(typeof(CustomNetTransform))]
 	[RequireComponent(typeof(ReagentContainer))]
 	[DisallowMultipleComponent]
 	public class GrownFood : NetworkBehaviour

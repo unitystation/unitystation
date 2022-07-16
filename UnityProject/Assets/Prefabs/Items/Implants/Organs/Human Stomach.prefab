@@ -27,6 +27,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2553433226350356333}
   m_RootOrder: 1
@@ -46,7 +47,6 @@ MonoBehaviour:
   maxCapacity: 80
   reactionSet: {fileID: 0}
   AdditionalReactions: []
-  canPourOut: 1
   initialReagentMix:
     temperature: 273.15
     reagents:
@@ -55,6 +55,7 @@ MonoBehaviour:
     reagentKeys: []
   destroyOnEmpty: 0
   ContentsSet: 0
+  menuOptions: -1
   UseStandardExamine: 1
   ExamineAmount: 0
   ExamineContent: 0
@@ -63,25 +64,6 @@ MonoBehaviour:
   transferMode: 0
   possibleTransferAmounts: []
   transferAmount: 20
---- !u!114 &1458293514004664868
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2556953724642564633}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6db4404109ee5304895b5058a7eff177, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  StomachContents: {fileID: 7073899732039749527}
-  DigesterAmountPerSecond: 1
-  BodyFats: []
-  BodyFatToInstantiate: {fileID: 5722168868389364961, guid: 940a7490c94c6b3478f0b4268b2cf2c0,
-    type: 3}
-  InitialFatSpawned: 0
-  Salt: {fileID: 11400000, guid: b9bdb0acb54b8dc40837f92c2e7819a6, type: 2}
 --- !u!1001 &7132720453719274872
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -109,7 +91,7 @@ PrefabInstance:
         type: 3}
       propertyPath: customNetTransform
       value: 
-      objectReference: {fileID: 2515736055736842185}
+      objectReference: {fileID: 0}
     - target: {fileID: 4719944670933102433, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
         type: 3}
       propertyPath: m_Name
@@ -242,30 +224,71 @@ PrefabInstance:
       propertyPath: MinMaxInternalBleedingValues.y
       value: 4
       objectReference: {fileID: 0}
+    - target: {fileID: 8195321311611557117, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      propertyPath: SurgeryProcedureBase.Array.size
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8195321311611557117, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      propertyPath: SurgeryProcedureBase.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 32f04f929f3a7134e8894559e262ec8a,
+        type: 2}
+    - target: {fileID: 8195321311611557117, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      propertyPath: SurgeryProcedureBase.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: 10171eea099bebb4c8fa8ec66c5ed051,
+        type: 2}
+    - target: {fileID: 8195321311611557117, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      propertyPath: SurgeryProcedureBase.Array.data[2]
+      value: 
+      objectReference: {fileID: 11400000, guid: 3bd3c430ab0ee0647bdc059d2bc31329,
+        type: 2}
+    - target: {fileID: 8195321311611557117, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      propertyPath: SurgeryProcedureBase.Array.data[3]
+      value: 
+      objectReference: {fileID: 11400000, guid: b6fd9e69eadae4148bbd6a85d785f16a,
+        type: 2}
+    - target: {fileID: 8195321311611557117, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      propertyPath: SurgeryProcedureBase.Array.data[4]
+      value: 
+      objectReference: {fileID: 11400000, guid: 3a60d21cb4e18b14ba0387530f2dccd5,
+        type: 2}
     m_RemovedComponents:
     - {fileID: 8095853447068111044, guid: 35ef0ee8523cfc342bc863c12a3ac07c, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 35ef0ee8523cfc342bc863c12a3ac07c, type: 3}
---- !u!1 &2556953724642564633 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 4719944670933102433, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
-    type: 3}
-  m_PrefabInstance: {fileID: 7132720453719274872}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &2553433226350356333 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4725154019080884757, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
     type: 3}
   m_PrefabInstance: {fileID: 7132720453719274872}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &2515736055736842185 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 4617654077899113137, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+--- !u!1 &2556953724642564633 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4719944670933102433, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
     type: 3}
   m_PrefabInstance: {fileID: 7132720453719274872}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1458293514004664868
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2556953724642564633}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 579884b05ae74e8499329b64997147d3, type: 3}
+  m_Script: {fileID: 11500000, guid: 6db4404109ee5304895b5058a7eff177, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  StomachContents: {fileID: 7073899732039749527}
+  DigesterAmountPerSecond: 1
+  BodyFats: []
+  BodyFatToInstantiate: {fileID: 5722168868389364961, guid: 940a7490c94c6b3478f0b4268b2cf2c0,
+    type: 3}
+  InitialFatSpawned: 0

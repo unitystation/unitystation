@@ -11,7 +11,7 @@ namespace Messages.Client.Admin
 
 		public override void Process(NetMessage msg)
 		{
-			UIManager.Instance.adminChatWindows.mentorPlayerChat.ServerAddChatRecord(msg.Message, SentByPlayer.UserId);
+			UIManager.Instance.adminChatWindows.mentorPlayerChat.ServerAddChatRecord(msg.Message, SentByPlayer);
 		}
 
 		public static NetMessage Send(string message)

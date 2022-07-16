@@ -35,7 +35,7 @@ public static class PlayerUtils
 	{
 		if (CustomNetworkManager.IsServer == false) return;
 
-		foreach ( ConnectedPlayer player in PlayerList.Instance.InGamePlayers )
+		foreach ( PlayerInfo player in PlayerList.Instance.InGamePlayers )
 		{
 			var ps = player.Script;
 			if (ps.IsDeadOrGhost) continue;
@@ -63,9 +63,9 @@ public static class PlayerUtils
 			}
 			else
 			{
-				if (ps.PlayerSync.IsMovingServer)
+				if (ps.PlayerSync.IsMoving)
 				{
-					var plantPos = ps.WorldPos + ps.CurrentDirection.Vector;
+					var plantPos = ps.WorldPos + ps.CurrentDirection.ToLocalVector3();
 					Spawn.ServerPrefab("Banana peel", plantPos, cancelIfImpassable: true);
 
 				}

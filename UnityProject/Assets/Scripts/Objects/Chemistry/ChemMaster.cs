@@ -170,7 +170,7 @@ namespace Chemistry
 			for (int i = 0; i < numberOfProduct; i++)
 			{
 				//Spawn Object
-				var product = Spawn.ServerPrefab(ChemMasterProducts[productId], gameObject.WorldPosServer(),
+				var product = Spawn.ServerPrefab(ChemMasterProducts[productId], gameObject.AssumedWorldPosServer(),
 					transform.parent).GameObject;
 
 				//Fill Product
@@ -265,7 +265,7 @@ namespace Chemistry
 
 		#region Interactions
 
-		private ItemSlot GetBestSlot(GameObject item, ConnectedPlayer subject)
+		private ItemSlot GetBestSlot(GameObject item, PlayerInfo subject)
 		{
 			if (subject == null)
 			{
@@ -280,7 +280,7 @@ namespace Chemistry
 		/// Ejects input container from ChemMaster into best slot available and clears the buffer
 		/// </summary>
 		/// <param name="subject"></param>
-		public void EjectContainer(ConnectedPlayer subject)
+		public void EjectContainer(PlayerInfo subject)
 		{
 			containerSlot.Item.GetComponent<ReagentContainer>().OnReagentMixChanged.Invoke();
 			var bestSlot = GetBestSlot(containerSlot.ItemObject, subject);
@@ -305,6 +305,13 @@ namespace Chemistry
 
 		public void ServerPerformInteraction(HandApply interaction)
 		{
+
+			if (containerSlot.IsOccupied)
+			{
+				Chat.AddExamineMsgFromServer(interaction.Performer, "The machine already has a beaker in it");
+				return;
+			}
+
 			//Inserts reagent container
 			Inventory.ServerTransfer(interaction.HandSlot, containerSlot);
 			UpdateGui();

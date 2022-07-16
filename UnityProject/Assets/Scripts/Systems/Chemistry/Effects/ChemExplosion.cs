@@ -17,14 +17,18 @@ namespace Chemistry.Effects
 		[Tooltip("Multiplier applied to final strength calculation")]
 		[SerializeField] private float potency = 1;
 
+		[Tooltip("Explosion type")]
+		[SerializeField] private ExplosionTypes.ExplosionType explosionType = ExplosionTypes.ExplosionType.Regular;
+
 		public override void Apply(MonoBehaviour sender, float amount)
 		{
 			// Following function uses the code from the Explosions file.
 
 			// Get data from container before despawning
-			ObjectBehaviour objectBehaviour = sender.GetComponent<ObjectBehaviour>();
+			UniversalObjectPhysics objectBehaviour = sender.GetComponent<UniversalObjectPhysics>();
 			RegisterObject registerObject = sender.GetComponent<RegisterObject>();
 			BodyPart bodyPart = sender.GetComponent<BodyPart>();
+			ExplosionNode node = ExplosionTypes.NodeTypes[explosionType];
 
 			bool insideBody = false;
 			if (bodyPart != null && bodyPart.HealthMaster != null)
@@ -36,37 +40,12 @@ namespace Chemistry.Effects
 
 			// Based on radius calculation in Explosions\Explosion.cs, where an amount of 30u will have an
 			// explosion radius of 1. Strength is determined using a logarthmic formula to cause diminishing returns.
-			var strength = (float)(-463+205*Mathf.Log(amount)+75*Math.PI)*potency;
+			float strength = (float)(-463+205*Mathf.Log(amount)+75*Math.PI)*potency;
 
 
 			if (insideBody && strength > 0)
 			{
-				if (strength >= bodyPart.Health)
-				{
-					float temp = bodyPart.Health; //temporary store to make sure we don't use an updated health when decrementing strength
-					bodyPart.TakeDamage(null, temp, AttackType.Internal, DamageType.Brute);
-					strength -= temp;
-				}
-				else
-				{
-					bodyPart.TakeDamage(null, strength, AttackType.Internal, DamageType.Brute);
-					strength = 0;
-				}
-
-				foreach (BodyPart part in bodyPart.HealthMaster.BodyPartList)
-				{
-					if (strength >= part.Health)
-					{
-						float temp = part.Health; //temporary store to make sure we don't use an updated health when decrementing strength
-						part.TakeDamage(null, temp, AttackType.Internal, DamageType.Brute);
-						strength -= temp;
-					}
-					else
-					{
-						part.TakeDamage(null, strength, AttackType.Internal, DamageType.Brute);
-						strength = 0;
-					}
-				}
+				node.DoInternalDamage(strength, bodyPart);
 			}
 
 			// Explosion here
@@ -76,7 +55,7 @@ namespace Chemistry.Effects
 				//If sender is in an inventory use the position of the inventory.
 				if (picked.ItemSlot != null)
 				{
-					objectBehaviour = picked.ItemSlot.ItemStorage.GetRootStorageOrPlayer().GetComponent<ObjectBehaviour>();
+					objectBehaviour = picked.ItemSlot.ItemStorage.GetRootStorageOrPlayer().GetComponent<UniversalObjectPhysics>();
 					registerObject = picked.ItemSlot.ItemStorage.GetRootStorageOrPlayer().GetComponent<RegisterObject>();
 				}
 			}
@@ -89,17 +68,17 @@ namespace Chemistry.Effects
 					//If not, we need to check if the item is a bodypart inside of a player
 					if (insideBody)
 					{
-						Explosion.StartExplosion(bodyPart.HealthMaster.RegisterTile.WorldPosition, strength);
+						Explosion.StartExplosion(bodyPart.HealthMaster.RegisterTile.WorldPosition, strength, node);
 					}
 					else
 					{
 						//Otherwise, if it's not inside of a player, we consider it just an item
-						Explosion.StartExplosion(objectBehaviour.registerTile.WorldPosition, strength);
+						Explosion.StartExplosion(objectBehaviour.registerTile.WorldPosition, strength, node);
 					}
 				}
 				else
 				{
-					Explosion.StartExplosion(registerObject.WorldPosition, strength);
+					Explosion.StartExplosion(registerObject.WorldPosition, strength, node);
 				}
 			}
 

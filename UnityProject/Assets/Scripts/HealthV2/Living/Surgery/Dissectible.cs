@@ -1,12 +1,12 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using Mirror;
+﻿using System.Collections.Generic;
 using UnityEngine;
+using Mirror;
+using Player;
 
 namespace HealthV2
 {
-	public class Dissectible : NetworkBehaviour, IClientInteractable<PositionalHandApply>,
-		ICheckedInteractable<PositionalHandApply>
+	public class Dissectible : NetworkBehaviour, IClientInteractable<HandApply>,
+		ICheckedInteractable<HandApply>
 	{
 		public LivingHealthMasterBase LivingHealthMasterBase;
 
@@ -16,7 +16,6 @@ namespace HealthV2
 		private bool ProcedureInProgress = false;
 
 		private GameObject InternalcurrentlyOn = null;
-
 
 		public GameObject currentlyOn
 		{
@@ -48,20 +47,17 @@ namespace HealthV2
 		[SyncVar(hook = nameof(SetBodyPartIsOpen))]
 		private bool BodyPartIsopen = false;
 
-
 		public bool GetBodyPartIsopen => BodyPartIsopen;
 
 		[SyncVar(hook = nameof(SetBodyPartID))]
 		private uint BodyPartID;
-
 
 		public PresentProcedure ThisPresentProcedure = new PresentProcedure();
 
 		public List<ItemTrait>
 			InitiateSurgeryItemTraits = new List<ItemTrait>(); //Make sure to include implantable stuff
 
-
-		public bool WillInteract(PositionalHandApply interaction, NetworkSide side)
+		public bool WillInteract(HandApply interaction, NetworkSide side)
 		{
 			if (interaction.Intent != Intent.Help) return false; //TODO problem with surgery in Progress and Trying to use something on help content on them
 			if (DefaultWillInteract.Default(interaction, side) == false) return false;
@@ -73,8 +69,7 @@ namespace HealthV2
 			return (true);
 		}
 
-
-		public void ServerPerformInteraction(PositionalHandApply interaction)
+		public void ServerPerformInteraction(HandApply interaction)
 		{
 			if (ProcedureInProgress)
 			{
@@ -82,7 +77,7 @@ namespace HealthV2
 			}
 		}
 
-		public bool Interact(PositionalHandApply interaction)
+		public bool Interact(HandApply interaction)
 		{
 			if (DefaultWillInteract.Default(interaction, NetworkSide.Client) == false) return false;
 			//**Client**
@@ -169,7 +164,6 @@ namespace HealthV2
 		{
 			BodyPartID = newState;
 		}
-
 
 		public void ServerCheck(SurgeryProcedureBase SurgeryProcedureBase, BodyPart ONBodyPart)
 		{
@@ -265,7 +259,7 @@ namespace HealthV2
 
 		}
 
-		public void SendClientBodyParts(ConnectedPlayer SentByPlayer, BodyPartType inTargetBodyPart = BodyPartType.None)
+		public void SendClientBodyParts(PlayerInfo SentByPlayer, BodyPartType inTargetBodyPart = BodyPartType.None)
 		{
 			if (currentlyOn == null)
 			{
@@ -289,7 +283,6 @@ namespace HealthV2
 				}
 			}
 		}
-
 
 		public void ReceivedSurgery(List<BodyPart> Options)
 		{
@@ -327,11 +320,11 @@ namespace HealthV2
 			public BodyPart PreviousBodyPart;
 
 
-			public PositionalHandApply Stored;
+			public HandApply Stored;
 			public SurgeryStep ThisSurgeryStep;
 
 
-			public void TryTool(PositionalHandApply interaction)
+			public void TryTool(HandApply interaction)
 			{
 				Stored = interaction;
 				ThisSurgeryStep = null;
@@ -357,11 +350,20 @@ namespace HealthV2
 							UnsuccessfulProcedure);
 						return;
 					}
+					else
+					{
+						Chat.AddActionMsgToChat(interaction, $" You poke {this.ISon.LivingHealthMasterBase.playerScript.visibleName}'s {RelatedBodyPart.name} with the {interaction.UsedObject.name} ",
+							$"{interaction.PerformerPlayerScript.visibleName} pokes {this.ISon.LivingHealthMasterBase.playerScript.visibleName}'s {RelatedBodyPart.name} with the {interaction.UsedObject.name} ");
+					}
 				}
 
 				if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Cautery))
 				{
+					Chat.AddActionMsgToChat(interaction, $" You use the {interaction.HandObject.ExpensiveName()} to close up {this.ISon.LivingHealthMasterBase.playerScript.visibleName}'s {RelatedBodyPart.name} ",
+						$"{interaction.PerformerPlayerScript.visibleName} uses a {interaction.UsedObject.ExpensiveName()} to close up  {this.ISon.LivingHealthMasterBase.playerScript.visibleName}'s {RelatedBodyPart.name} ");
+
 					CancelSurgery();
+					return;
 				}
 			}
 
@@ -458,7 +460,6 @@ namespace HealthV2
 				return toReplace;
 			}
 		}
-
 
 
 		public enum ProcedureType

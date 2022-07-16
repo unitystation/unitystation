@@ -1,12 +1,14 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Text;
-using TileManagement;
-using UnityEngine;
 using System.Linq;
 using System.Reflection;
+using System.Text;
+using UnityEngine;
+using TileManagement;
 using Objects;
+using Util;
+using Tiles;
 
 namespace MapSaver
 {
@@ -369,6 +371,8 @@ namespace MapSaver
 						}
 
 
+						if (TileAndLocation.Value?.layerTile == null) continue;
+
 						if (CommonLayerTilesCount.ContainsKey(TileAndLocation.Value.layerTile))
 						{
 							CommonLayerTilesCount[TileAndLocation.Value.layerTile]++;
@@ -473,6 +477,8 @@ namespace MapSaver
 				{
 					foreach (var TileAndLocation in Layer.Value)
 					{
+						if (TileAndLocation.Value?.layerTile == null) continue;
+
 						if (UseBoundary)
 						{
 							if (IsPointWithin(Localboundarie1.Value, Localboundarie2.Value, TileAndLocation.Key) ==
@@ -759,7 +765,7 @@ namespace MapSaver
 				var objectContainer = gameObjectComponents[i] as ObjectContainer;
 				if (objectContainer != null)
 				{
-					foreach (var objectBehaviour in objectContainer.GetStoredObjects().Select(obj => obj.GetComponent<ObjectBehaviour>()))
+					foreach (var objectBehaviour in objectContainer.GetStoredObjects().Select(obj => obj.GetComponent<UniversalObjectPhysics>()))
 					{
 						if (CoordinateOverride == null)
 						{
@@ -933,6 +939,8 @@ namespace MapSaver
 
 				var PrefabDefault = Field.GetValue(PrefabInstance);
 				var MonoSet = Field.GetValue(SpawnedInstance);
+
+				if (MonoSet == null) continue;
 
 				var selfValueComparer = PrefabDefault as IComparable;
 				bool areSame;

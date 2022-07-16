@@ -1,5 +1,6 @@
-﻿using Objects.Other;
-using UnityEngine;
+﻿using UnityEngine;
+using UI.Core.NetUI;
+using Objects.Other;
 
 namespace UI.Objects.Security
 {
@@ -24,16 +25,9 @@ namespace UI.Objects.Security
 		private NetLabel labelLifeSigns = null;
 
 		private Turret turret;
-		private Turret Turret {
-			get {
-				if (turret == null)
-					turret = Provider.GetComponent<Turret>();
+		private Turret Turret => turret ??= Provider.GetComponent<Turret>();
 
-				return turret;
-			}
-		}
-
-		public void OnTabOpenedHandler(ConnectedPlayer connectedPlayer)
+		public void OnTabOpenedHandler(PlayerInfo connectedPlayer)
 		{
 			labelPower.Value = Turret.HasPower ? Turret.CurrentTurretState == Turret.TurretState.Off ? "Off" : "On" : "No Power";
 			labelWeapons.Value = Turret.CheckWeaponAuthorisation ? "Yes" : "No";

@@ -4,6 +4,8 @@ using System.Linq;
 using JetBrains.Annotations;
 using UnityEngine;
 using Messages.Server;
+using Mirror;
+using Objects;
 
 namespace Objects
 {
@@ -31,16 +33,46 @@ namespace Objects
 		[Tooltip("Contents that will be spawned inside when the container spawns.")]
 		private SpawnableList initialContents = default;
 
-		[SerializeField]
-		[Tooltip("Whether the contents will spawn at roundstart or be spawned manually.")]
+		[SerializeField] [Tooltip("Whether the contents will spawn at roundstart or be spawned manually.")]
 		private bool spawnContentsAtRoundstart = true;
 
 		public bool IsEmpty => storedObjects.Count == 0;
 
 		private bool initialContentsSpawned = false;
 
-		private RegisterTile registerTile;
-		private PushPull pushPullObject;
+		public RegisterTile registerTile;
+		private UniversalObjectPhysics ObjectPhysics;
+
+		public List<IEscapable> IEscapables;
+
+		/// <summary>
+		/// Experimental. Top owner object
+		/// </summary>
+		public UniversalObjectPhysics TopContainer {
+			get {
+				if (ObjectPhysics.ContainedInContainer != null)
+				{
+					return ObjectPhysics.ContainedInContainer.TopContainer;
+				}
+
+				if (ObjectPhysics.IsVisible == false)
+				{
+					var pu = GetComponent<Pickupable>();
+					if (pu != null && pu.ItemSlot != null)
+					{
+						//we are in an itemstorage, so report our root item storage object.
+						var UOP = pu.ItemSlot.GetRootStorageOrPlayer().GetComponent<UniversalObjectPhysics>();
+						if (UOP != null)
+						{
+							//our container has a pushpull, so use its parent
+							return UOP;
+						}
+					}
+				}
+				return ObjectPhysics;
+			}
+		}
+
 
 		// stored contents and their positional offsets, if applicable
 		private readonly Dictionary<GameObject, Vector3> storedObjects = new Dictionary<GameObject, Vector3>();
@@ -50,8 +82,9 @@ namespace Objects
 		private void Awake()
 		{
 			registerTile = GetComponent<RegisterTile>();
-			pushPullObject = GetComponent<PushPull>();
+			ObjectPhysics = GetComponent<UniversalObjectPhysics>();
 
+			IEscapables = GetComponents<IEscapable>().ToList();
 			registerTile.OnParentChangeComplete.AddListener(() =>
 			{
 				ReparentStoredObjects(registerTile.NetworkedMatrixNetId);
@@ -100,22 +133,19 @@ namespace Objects
 		{
 			storedObjects.Add(obj, offset);
 
-			if (obj.TryGetComponent<ObjectBehaviour>(out var objBehaviour))
+			if (obj.TryGetComponent<UniversalObjectPhysics>(out var objectPhysics))
 			{
-				objBehaviour.parentContainer = pushPullObject;
-				objBehaviour.VisibleState = false;
+				objectPhysics.StoreTo(this);
 
 				if (obj.TryGetComponent<PlayerScript>(out var playerScript))
 				{
-					playerScript.playerMove.IsTrapped = true;
-
 					// Start tracking container
 					if (playerScript.IsGhost == false)
 					{
 						FollowCameraMessage.Send(obj, gameObject);
 					}
 
-					CheckPlayerCrawlState(objBehaviour);
+					CheckPlayerCrawlState(objectPhysics);
 				}
 			}
 		}
@@ -135,13 +165,13 @@ namespace Objects
 
 		public void GatherObjects()
 		{
-			foreach (var entity in registerTile.Matrix.Get<ObjectBehaviour>(registerTile.LocalPositionServer, true))
+			foreach (var entity in registerTile.Matrix.Get<UniversalObjectPhysics>(registerTile.LocalPositionServer, true))
 			{
 				// Don't add the container to itself...
 				if (entity.gameObject == gameObject) continue;
 
 				// Can't store secured objects (exclude this check on mobs as e.g. magboots set pushable false)
-				if (entity.TryGetComponent<HealthV2.LivingHealthMasterBase>(out _) == false && entity.IsPushable == false) continue;
+				if (entity.IsNotPushable) continue;
 
 				//No Nested ObjectContainer shenanigans
 				if (entity.GetComponent<ObjectContainer>()) continue;
@@ -150,11 +180,11 @@ namespace Objects
 			}
 		}
 
-		public IEnumerable<GameObject> GetStoredObjects()
+		public IEnumerable<GameObject> GetStoredObjects(bool onlyInstantiated = false)
 		{
-			if (initialContentsSpawned == false)
+			if (initialContentsSpawned == false && onlyInstantiated == false)
 			{
-				TrySpawnInitialContents();
+				TrySpawnInitialContents(true);
 			}
 
 			foreach (var obj in storedObjects.Keys)
@@ -166,6 +196,7 @@ namespace Objects
 			}
 		}
 
+		//Only use for items that are being destroyed TODO Probably should cleanup values for nice pooling
 		public void RemoveObject(GameObject obj)
 		{
 			storedObjects.Remove(obj);
@@ -180,32 +211,15 @@ namespace Objects
 			if (obj == null || storedObjects.TryGetValue(obj, out var offset) == false) return;
 			storedObjects.Remove(obj);
 
-			if (obj.TryGetComponent<ObjectBehaviour>(out var objBehaviour))
+			if (obj.TryGetComponent<UniversalObjectPhysics>(out var uop))
 			{
-				objBehaviour.parentContainer = null;
-
-				if (obj.TryGetComponent<CustomNetTransform>(out var cnt))
+				uop.DropAtAndInheritMomentum(ObjectPhysics);
+				uop.StoreTo(null);
+				if (obj.TryGetComponent<PlayerScript>(out var playerScript))
 				{
-					//avoids blinking of premapped items when opening first time in another place:
-					Vector3 pos = worldPosition.GetValueOrDefault(registerTile.WorldPositionServer) + offset;
-					cnt.AppearAtPositionServer(pos);
-					if (pushPullObject.Pushable.IsMovingServer)
-					{
-						cnt.InertiaDrop(pos, pushPullObject.Pushable.SpeedServer, pushPullObject.InheritedImpulse.To2Int());
-					}
-				}
-				else if (obj.TryGetComponent<PlayerScript>(out var playerScript))
-				{
-					playerScript.PlayerSync.AppearAtPositionServer(registerTile.WorldPositionServer);
-					playerScript.playerMove.IsTrapped = false;
-					if (pushPullObject.Pushable.IsMovingServer)
-					{
-						objBehaviour.TryPush(pushPullObject.InheritedImpulse.To2Int(), pushPullObject.Pushable.SpeedServer);
-					}
-
 					// Stop tracking closet
 					FollowCameraMessage.Send(obj, obj);
-					CheckPlayerCrawlState(objBehaviour);
+					//CheckPlayerCrawlState(objBehaviour.GetComponent<UniversalObjectPhysics>());
 				}
 			}
 		}
@@ -233,7 +247,7 @@ namespace Objects
 				if (kvp.Key == null) continue;
 
 				storedObjects[kvp.Key] = kvp.Value;
-				kvp.Key.GetComponent<ObjectBehaviour>().parentContainer = pushPullObject;
+				kvp.Key.GetComponent<UniversalObjectPhysics>().StoreTo( this );
 
 				if (kvp.Key.TryGetComponent<PlayerScript>(out var playerScript))
 				{
@@ -246,7 +260,7 @@ namespace Objects
 			}
 		}
 
-		private void CheckPlayerCrawlState(ObjectBehaviour playerBehaviour)
+		private void CheckPlayerCrawlState(UniversalObjectPhysics playerBehaviour)
 		{
 			var regPlayer = playerBehaviour.GetComponent<RegisterPlayer>();
 			regPlayer.HandleGetupAnimation(!regPlayer.IsLayingDown);
@@ -259,7 +273,7 @@ namespace Objects
 		/// <param name="parentNetId">new parent net ID</param>
 		private void ReparentStoredObjects(uint parentNetId)
 		{
-			foreach (GameObject obj in GetStoredObjects())
+			foreach (GameObject obj in GetStoredObjects(true))
 			{
 				obj.RegisterTile().ServerSetNetworkedMatrixNetID(parentNetId);
 			}
@@ -271,9 +285,9 @@ namespace Objects
 		/// <returns>Returns true if at least one ObjectContainer exists on the same tile.</returns>
 		public bool IsAnotherContainerNear()
 		{
-			foreach (var entity in registerTile.Matrix.Get<ObjectBehaviour>(registerTile.LocalPositionServer, true))
+			foreach (var entity in registerTile.Matrix.Get<UniversalObjectPhysics>(registerTile.LocalPositionServer, true))
 			{
-				if (entity.GetComponent<ObjectContainer>() && entity != pushPullObject)
+				if (entity.GetComponent<ObjectContainer>() && entity != ObjectPhysics)
 				{
 					return true;
 				}

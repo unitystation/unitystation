@@ -18,7 +18,19 @@ namespace Systems.CraftingV2
 		/// <summary>
 		/// 	The ingredient's index in a recipe's required ingredients list.
 		/// </summary>
-		public int IngredientIndex => ingredientIndex;
+		public int IngredientIndex
+		{
+			get
+			{
+				return ingredientIndex;
+			}
+#if UNITY_EDITOR
+			set
+			{
+				ingredientIndex = value;
+			}
+#endif
+		}
 
 		[SerializeField, ReadOnly] [Tooltip("Automated field - don't try to change it manually. " +
 		                                    "The link to a recipe that may this ingredient.")]

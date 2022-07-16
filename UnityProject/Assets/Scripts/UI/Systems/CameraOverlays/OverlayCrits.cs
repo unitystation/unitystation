@@ -22,20 +22,28 @@ using System.Collections;
 
 		public float Epow = 2;
 
+		private float expectedRadius;
+
 		void LateUpdate()
 		{
 			if (MonitorTarget)
 			{
-				if (PlayerManager.LocalPlayer != null)
+				if (PlayerManager.LocalPlayerObject != null)
 				{
 					Vector3 playerPos =
-						Camera.main.WorldToScreenPoint(PlayerManager.LocalPlayer.transform.position);
+						Camera.main.WorldToScreenPoint(PlayerManager.LocalPlayerObject.transform.position);
 					shroud.position = playerPos;
 				}
 			}
 		}
 
-		 public void SetState(OverlayState state)
+		private void Update()
+		{
+			Radius = Mathf.Lerp(Radius, expectedRadius, Time.deltaTime);
+			holeMat.SetFloat("_Radius", Radius);
+		}
+
+		public void SetState(OverlayState state)
 		 {
 			 switch (state)
 			 {
@@ -104,7 +112,7 @@ using System.Collections;
 			if (state < 0.5f)
 			{
 				var PercentagePower = Mathf.Clamp(((state + 0.66f) / (1.16f)), 0f, 1f);
-				Radius = Mathf.Lerp(0f, 1f, Mathf.Pow(PercentagePower,(float)Math.E * Epow));
+				expectedRadius = Mathf.Lerp(0f, 1f, Mathf.Pow(PercentagePower,(float)Math.E * Epow));
 			}
 			else
 			{
@@ -113,7 +121,7 @@ using System.Collections;
 
 
 			holeMat.SetColor("_Color", shroudColor);
-			holeMat.SetFloat("_Radius", Radius);
+			//holeMat.SetFloat("_Radius", Radius);
 			holeMat.SetFloat("_Shape", 1f);
 
 			shroudImg.enabled = true;

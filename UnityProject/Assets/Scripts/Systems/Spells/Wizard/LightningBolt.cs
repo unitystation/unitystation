@@ -1,10 +1,10 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using Systems.ElectricalArcs;
 using Systems.Explosions;
-using Systems.Mob;
 using HealthV2;
 
 namespace Systems.Spells.Wizard
@@ -22,16 +22,16 @@ namespace Systems.Spells.Wizard
 		[SerializeField, Range(0.5f, 10)]
 		private float duration = 2;
 		[SerializeField, Range(0, 20)]
-		[Tooltip("How much damage should each electrical arc apply every arc pulse (0.5 seconds)")]
+		[Tooltip("How much damage each electrical arc should apply every arc pulse (0.5 seconds).")]
 		private float damage = 3;
 		[SerializeField, Range(3, 12)]
 		private int primaryRange = 8;
 		[SerializeField, Range(3, 12)]
 		private int secondaryRange = 4;
 
-		private ConnectedPlayer caster;
+		private PlayerInfo caster;
 
-		public override bool CastSpellServer(ConnectedPlayer caster, Vector3 clickPosition)
+		public override bool CastSpellServer(PlayerInfo caster, Vector3 clickPosition)
 		{
 			this.caster = caster;
 
@@ -43,15 +43,12 @@ namespace Systems.Spells.Wizard
 			}
 
 			GameObject primaryTarget = ZapPrimaryTarget(caster, targetPosition);
-			if (primaryTarget != null)
-			{
-				ZapSecondaryTargets(primaryTarget, targetPosition);
-			}
+			StartCoroutine(ZapSecondaryTargets(primaryTarget, targetPosition));
 
 			return true;
 		}
 
-		private GameObject ZapPrimaryTarget(ConnectedPlayer caster, Vector3 targetPosition)
+		private GameObject ZapPrimaryTarget(PlayerInfo caster, Vector3 targetPosition)
 		{
 			GameObject targetObject = default;
 
@@ -65,46 +62,53 @@ namespace Systems.Spells.Wizard
 				targetObject = TryGetGameObjectAt(targetPosition);
 			}
 
-			Zap(caster.GameObject, targetObject, arcCount, targetObject == null ? targetPosition : default);
+			Zap(arcCount, caster.GameObject, targetObject, endPos: targetPosition);
 
 			return targetObject;
 		}
 
-		private void ZapSecondaryTargets(GameObject originatingObject, Vector3 centrepoint)
+		private IEnumerator ZapSecondaryTargets(GameObject originatingObject, Vector3 centrepoint)
 		{
 			var ignored = new GameObject[2] { caster.GameObject, originatingObject };
 			int i = 0;
 
-			var mobs = GetNearbyEntities(centrepoint, LayerMask.GetMask("Players", "NPC"), ignored);
+			var mobs = GetNearbyEntities(centrepoint, secondaryRange, LayerMask.GetMask("Players", "NPC"), ignored);
 			foreach (Collider2D entity in mobs)
 			{
-				if (i >= arcCount) return;
+				if (i >= arcCount) yield break;
 				if (entity.gameObject == originatingObject) continue;
 
-				Zap(originatingObject, entity.gameObject, 1);
+				yield return WaitFor.Seconds(0.2f);
+				Zap(1, originatingObject, entity.gameObject, startPos: centrepoint);
 				i++;
 			}
 
-			// Not enough mobs around, try zapping nearby machines.
-			var machines = GetNearbyEntities(centrepoint, LayerMask.GetMask("Machines", "WallMounts", "Objects"), ignored);
+			// Not enough mobs around, try zapping nearby machines
+			// "Unshootable Machines" are so bullets pass over them, which doesn't need to apply here, so we target them too.
+			var machines = GetNearbyEntities(centrepoint, secondaryRange,
+					LayerMask.GetMask("Machines", "Unshootable Machines", "WallMounts", "Objects", "Items"), ignored);
 			foreach (Collider2D entity in machines)
 			{
-				if (i >= arcCount) return;
+				if (i >= arcCount) yield break;
 				if (entity.gameObject == originatingObject) continue;
 
-				Zap(originatingObject, entity.gameObject, 1);
+				yield return WaitFor.Seconds(0.2f);
+				Zap(1, originatingObject, entity.gameObject, startPos: centrepoint);
 				i++;
 			}
 		}
 
-		private void Zap(GameObject originatingObject, GameObject targetObject, int arcs, Vector3 targetPosition = default)
+		private void Zap(int arcs, GameObject startObject, GameObject endObject, Vector3 startPos = default, Vector3 endPos = default)
 		{
-			ElectricalArcSettings arcSettings = new ElectricalArcSettings(
-					arcEffect, originatingObject, targetObject, default, targetPosition, arcs, duration);
+			ElectricalArcSettings arcSettings = new(
+					arcEffect, startObject, endObject,
+					startObject ? default : startPos,
+					endObject ? default : endPos,
+					arcs, duration);
 
-			if (targetObject != null)
+			if (endObject != null)
 			{
-				var interfaces = targetObject.GetComponents<IOnLightningHit>();
+				var interfaces = endObject.GetComponents<IOnLightningHit>();
 
 				foreach (var lightningHit in interfaces)
 				{
@@ -123,6 +127,10 @@ namespace Systems.Spells.Wizard
 			{
 				health.ApplyDamageAll(caster.GameObject, damage * arc.Settings.arcCount, AttackType.Magic, DamageType.Burn);
 			}
+			else if (arc.Settings.endObject.TryGetComponent<LivingHealthBehaviour>(out var healthOld))
+			{
+				healthOld.ApplyDamage(caster.GameObject, damage * arc.Settings.arcCount, AttackType.Magic, DamageType.Burn);
+			}
 			else if (arc.Settings.endObject.TryGetComponent<Integrity>(out var integrity))
 			{
 				integrity.ApplyDamage(damage * arc.Settings.arcCount, AttackType.Magic, DamageType.Burn);
@@ -131,17 +139,22 @@ namespace Systems.Spells.Wizard
 
 		#region Helpers
 
-		private T GetFirstAt<T>(Vector3Int position) where T : MonoBehaviour
+		private static T GetFirstAt<T>(Vector3Int position) where T : MonoBehaviour
 		{
 			return MatrixManager.GetAt<T>(position, true).FirstOrDefault();
 		}
 
-		private GameObject TryGetGameObjectAt(Vector3 targetPosition)
+		private static GameObject TryGetGameObjectAt(Vector3 targetPosition)
 		{
 			var mob = GetFirstAt<LivingHealthMasterBase>(targetPosition.CutToInt());
 			if (mob != null)
 			{
 				return mob.gameObject;
+			}
+			var mobOld = GetFirstAt<LivingHealthBehaviour>(targetPosition.CutToInt());
+			if (mobOld != null)
+			{
+				return mobOld.gameObject;
 			}
 
 			var integrity = GetFirstAt<Integrity>(targetPosition.CutToInt());
@@ -153,21 +166,21 @@ namespace Systems.Spells.Wizard
 			return default;
 		}
 
-		private MatrixManager.CustomPhysicsHit RaycastToTarget(Vector3 start, Vector3 end)
+		private static MatrixManager.CustomPhysicsHit RaycastToTarget(Vector3 start, Vector3 end)
 		{
-			return MatrixManager.RayCast(start, default, primaryRange,
+			return MatrixManager.RayCast(start, default, default,
 					LayerTypeSelection.Walls | LayerTypeSelection.Windows, LayerMask.GetMask("Door Closed"),
 					end);
 		}
 
-		private IEnumerable<Collider2D> GetNearbyEntities(Vector3 centrepoint, int mask, GameObject[] ignored = default)
+		private static IEnumerable<Collider2D> GetNearbyEntities(Vector3 point, float radius, int mask, GameObject[] ignored = default)
 		{
-			Collider2D[] entities = Physics2D.OverlapCircleAll(centrepoint, secondaryRange, mask);
+			Collider2D[] entities = Physics2D.OverlapCircleAll(point, radius, mask);
 			foreach (Collider2D coll in entities)
 			{
-				if (ignored.Contains(coll.gameObject)) continue;
+				if (ignored != null && ignored.Contains(coll.gameObject)) continue;
 
-				if (RaycastToTarget(centrepoint, coll.transform.position).ItHit == false)
+				if (RaycastToTarget(point, coll.transform.position).ItHit == false)
 				{
 					yield return coll;
 				}

@@ -1,5 +1,6 @@
-﻿using Objects.Wallmounts.Switches;
-using UnityEngine;
+﻿using UnityEngine;
+using UI.Core.NetUI;
+using Objects.Wallmounts.Switches;
 
 namespace UI.Objects.Security
 {
@@ -15,16 +16,9 @@ namespace UI.Objects.Security
 		private NetSlider stunLethalSwitch = null;
 
 		private TurretSwitch turretSwitch;
-		private TurretSwitch TurretSwitch {
-			get {
-				if (turretSwitch == null)
-					turretSwitch = Provider.GetComponent<TurretSwitch>();
+		private TurretSwitch TurretSwitch => turretSwitch ??= Provider.GetComponent<TurretSwitch>();
 
-				return turretSwitch;
-			}
-		}
-
-		public void OnTabOpenedHandler(ConnectedPlayer connectedPlayer)
+		public void OnTabOpenedHandler(PlayerInfo connectedPlayer)
 		{
 			ChangeStatus();
 
@@ -48,7 +42,7 @@ namespace UI.Objects.Security
 		{
 			//Try get On/Off switch value
 			var onValue = int.Parse(onOffSwitch.Value) / 100;
-			if(onValue == 0 || onValue == 1)
+			if (onValue == 0 || onValue == 1)
 			{
 				TurretSwitch.ChangeOnState(onValue != 0);
 			}
@@ -60,7 +54,7 @@ namespace UI.Objects.Security
 		{
 			//Try get Stun/Lethal Value
 			var stunValue = int.Parse(stunLethalSwitch.Value) / 100;
-			if(stunValue == 0 || stunValue == 1)
+			if (stunValue == 0 || stunValue == 1)
 			{
 				TurretSwitch.ChangeStunState(stunValue == 0);
 			}

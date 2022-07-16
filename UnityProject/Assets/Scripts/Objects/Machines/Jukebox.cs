@@ -1,4 +1,5 @@
-﻿using Mirror;
+﻿using System.Collections;
+using Mirror;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
@@ -62,7 +63,7 @@ namespace Objects
 
 		private List<AddressableAudioSource> musics;
 
-		private string guid = "";
+		private List<string> guid = new List<string>();
 
 		/// <summary>
 		/// The current state of the jukebox powered/overpowered/underpowered/no power
@@ -121,7 +122,7 @@ namespace Objects
 			integrity.OnApplyDamage.AddListener(OnDamageReceived);
 
 			audioSourceParameters = new AudioSourceParameters(volume: Volume, spatialBlend: 1, spread: Spread,
-				minDistance: MinSoundDistance, maxDistance: MaxSoundDistance, mixerType: MixerType.Muffled,
+				minDistance: MinSoundDistance, maxDistance: MaxSoundDistance, mixerType: MixerType.JukeBox,
 				volumeRolloffType: VolumeRolloffType.EaseInAndOut);
 		}
 
@@ -167,82 +168,64 @@ namespace Objects
 			// We didn't use "AudioSource.isPlaying" here because of a racing condition between PlayNetworkAtPos latency and Update.
 			if (IsPlaying && Time.time > startPlayTime + musics[currentSongTrackIndex].AudioSource.clip.length)
 			{
-				// The fun isn't over, we just finished the current track.  We just start playing the next one (or stop if it was the last one).
-				if (NextSong() == false)
-				{
-					Stop();
-				}
+				NextSong();
 			}
 		}
 
 		public async Task Play()
 		{
 			// Too much damage stops the jukebox from being able to play
-			if (integrity.integrity > integrity.initialIntegrity / 2)
-			{
-				SoundManager.StopNetworked(guid);
-				IsPlaying = true;
-				spriteHandler.SetSpriteSO(SpritePlaying);
-				guid  = await SoundManager.PlayNetworkedAtPosAsync(musics[currentSongTrackIndex], registerTile.WorldPositionServer, audioSourceParameters, false, true, sourceObj: gameObject);
-				startPlayTime = Time.time;
-				UpdateGUI();
-			}
+			if (integrity.integrity < integrity.initialIntegrity / 2) return;
+			IsPlaying = true;
+			StartCoroutine(UpdateSprites(SpritePlaying));
+			guid.Add(await SoundManager.PlayNetworkedAtPosAsync(musics[currentSongTrackIndex], registerTile.WorldPositionServer, audioSourceParameters, false, true, sourceObj: gameObject));
+			startPlayTime = Time.time;
+			UpdateGUI();
 		}
 
-		public void Stop()
+		public async Task Stop(bool autoplay = false)
 		{
-			IsPlaying = false;
+			if(autoplay == false) IsPlaying = false;
 
 			if (integrity.integrity >= integrity.initialIntegrity / 2)
-				spriteHandler.SetSpriteSO(SpriteIdle);
+				StartCoroutine(UpdateSprites(SpriteIdle));
 			else
-				spriteHandler.SetSpriteSO(SpriteDamaged);
+				StartCoroutine(UpdateSprites(SpriteDamaged));
 
-			SoundManager.StopNetworked(guid);
+			if(guid.Count != 0) await Task.Run(() => StopAllGuids());
 
 			UpdateGUI();
 		}
 
-		public void PreviousSong()
+		private Task StopAllGuids()
 		{
-			if (currentSongTrackIndex > 0)
+			foreach (var id in guid)
 			{
-				if (IsPlaying)
-				{
-					SoundManager.StopNetworked(guid);
-				}
-
-				currentSongTrackIndex--;
-				UpdateGUI();
-
-				if (IsPlaying)
-				{
-					_ = Play();
-				}
+				SoundManager.StopNetworked(id);
 			}
+			guid.Clear();
+
+			return Task.CompletedTask;
 		}
 
-		public bool NextSong()
+		public async void PreviousSong()
 		{
-			if (currentSongTrackIndex < musics.Count - 1)
-			{
-				if (IsPlaying)
-				{
-					SoundManager.StopNetworked(guid);
-				}
+			await Stop(true);
+			if (currentSongTrackIndex <= 0) currentSongTrackIndex = musics.Count - 1;
+			currentSongTrackIndex--;
+			UpdateGUI();
 
-				currentSongTrackIndex++;
-				UpdateGUI();
+			if (IsPlaying) _ = Play();
+		}
 
-				if (IsPlaying)
-				{
-					_ = Play();
-				}
+		public async void NextSong()
+		{
+			await Stop(true);
+			if (currentSongTrackIndex >= musics.Count - 1) currentSongTrackIndex = -1;
+			currentSongTrackIndex++;
+			UpdateGUI();
 
-				return true;
-			}
-
-			return false;
+			if (IsPlaying) _ = Play();
 		}
 
 		public void VolumeChange(float newVolume)
@@ -251,7 +234,7 @@ namespace Objects
 
 			audioSourceParameters.IsMute = newVolume <= 0;
 
-			ChangeAudioSourceParametersMessage.SendToAll(guid, audioSourceParameters);
+			if(guid.Count != 0) ChangeAudioSourceParametersMessage.SendToAll(guid[0], audioSourceParameters);
 		}
 
 		private void OnDamageReceived(DamageInfo damageInfo)
@@ -260,6 +243,12 @@ namespace Objects
 			{
 				Stop();
 			}
+		}
+
+		private IEnumerator UpdateSprites(SpriteDataSO spriteDataSo)
+		{
+			spriteHandler.SetSpriteSO(spriteDataSo);
+			yield return null;
 		}
 
 		private void UpdateGUI()

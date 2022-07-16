@@ -13,17 +13,19 @@ MonoBehaviour:
   m_Name: Lava1
   m_EditorClassIdentifier: 
   displayName: Lava
+  description: 
   LayerType: 4
   TileType: 7
   RequiredTiles: []
-  floorTileSounds: {fileID: 0}
+  floorTileSounds: {fileID: 11400000, guid: 484d1dd11cee5c244b6a30daa86b2921, type: 2}
   CanSoundOverride: 0
   atmosPassable: 1
   isSealed: 1
   SpawnWithNoAir: 0
-  passable: 0
+  passable: 1
   mineable: 0
   miningTime: 5
+  miningHardness: 1
   constructable: 1
   RadiationPassability: 1
   ThermalConductivity: 0.05
@@ -31,6 +33,7 @@ MonoBehaviour:
   doesReflectBullet: 0
   indestructible: 0
   ExplosionImpassable: 0
+  BlocksTileInteractionsUnder: 1
   passableException:
     m_keys: 
     m_values: 
@@ -48,7 +51,10 @@ MonoBehaviour:
     Magic: 100
     Bio: 100
     DismembermentProtectionChance: 0
+    StunImmunity: 0
   tileInteractions: []
+  tileStepInteractions:
+  - {fileID: 11400000, guid: d6e823d468fafa349a68094e225caa83, type: 2}
   spawnOnDeconstruct: {fileID: 0}
   spawnAmountOnDeconstruct: 1
   lootOnDespawn: {fileID: 0}
@@ -57,11 +63,12 @@ MonoBehaviour:
   damageOverlayList: {fileID: 0}
   soundOnHit:
     SetLoadSetting: 0
-    AssetAddress: 
+    AssetAddress: null
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
       m_SubObjectType: 
+      m_EditorAssetChanged: 0
   SoundOnDestroy: []
   Sprites:
   - {fileID: 21300000, guid: 54da34d787400e541a5283f09927d1e1, type: 3}

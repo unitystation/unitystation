@@ -1,13 +1,6 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Net;
-using System.Net.Http;
-using System.Text.RegularExpressions;
-using System.Threading;
-using System.Threading.Tasks;
 using DatabaseAPI;
-using Firebase;
 using Firebase.Auth;
 using Firebase.Extensions;
 using UnityEngine;
@@ -21,7 +14,7 @@ namespace Lobby
 		public InputField userNameInput;
 		public InputField passwordInput;
 
-		void Start()
+		private void Start()
 		{
 			if (PlayerPrefs.HasKey("lastLogin"))
 			{

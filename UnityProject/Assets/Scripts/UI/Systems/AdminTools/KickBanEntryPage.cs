@@ -107,7 +107,7 @@ namespace AdminTools
 				return;
 			}
 
-			RequestKickMessage.Send(playerToKickCache.uid, kickReasonField.text, announceBan: kickAnnounceToggle.isOn);
+			RequestKickMessage.Send(playerToKickCache.uid, kickReasonField.text, announce: kickAnnounceToggle.isOn);
 
 			ClosePage();
 		}
@@ -126,9 +126,8 @@ namespace AdminTools
 				return;
 			}
 
-			int minutes;
-			int.TryParse(minutesField.text, out minutes);
-			RequestKickMessage.Send(playerToKickCache.uid, banReasonField.text, true, minutes, announceBan: banAnnounceToggle.isOn);
+			int.TryParse(minutesField.text, out var minutes);
+			RequestBanMessage.Send(playerToKickCache.uid, banReasonField.text, banAnnounceToggle.isOn, minutes);
 			ClosePage();
 		}
 
@@ -202,7 +201,7 @@ namespace AdminTools
 			public override void Process(NetMessage msg)
 			{
 				//Server Stuff here
-				if (PlayerList.Instance.IsAdmin(SentByPlayer))
+				if (SentByPlayer.IsAdmin)
 				{
 					var jobBanEntries = PlayerList.Instance.ListOfBanEntries(msg.PlayerID);
 

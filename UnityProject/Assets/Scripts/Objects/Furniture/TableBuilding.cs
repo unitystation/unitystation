@@ -5,7 +5,7 @@ using Messages.Server.SoundMessages;
 using UnityEngine;
 using ScriptableObjects;
 using Random = UnityEngine.Random;
-
+using Tiles;
 
 namespace Objects.Construction
 {
@@ -103,12 +103,12 @@ namespace Objects.Construction
 				$"{interaction.Performer.ExpensiveName()} assembles a {tableType} table.",
 				() => SpawnTable(interaction, layerTile));
 			AudioSourceParameters audioSourceParameters = new AudioSourceParameters(pitch: 1f);
-			SoundManager.PlayNetworkedAtPos(assemblySound, gameObject.WorldPosServer(), audioSourceParameters, sourceObj: gameObject);
+			SoundManager.PlayNetworkedAtPos(assemblySound, gameObject.AssumedWorldPosServer(), audioSourceParameters, sourceObj: gameObject);
 		}
 
 		private void Disassemble()
 		{
-			Spawn.ServerPrefab(CommonPrefabs.Instance.MetalRods, gameObject.WorldPosServer(), count: 2);
+			Spawn.ServerPrefab(CommonPrefabs.Instance.MetalRods, gameObject.AssumedWorldPosServer(), count: 2);
 			_ = Despawn.ServerSingle(gameObject);
 		}
 

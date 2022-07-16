@@ -42,7 +42,20 @@ namespace AdminTools
 			inputField.ActivateInputField();
 		}
 
-		private void Update()
+		public override void OnEnable()
+		{
+			base.OnEnable();
+			UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
+		}
+
+		private void OnDisable()
+		{
+			UIManager.IsInputFocus = false;
+			UIManager.PreventChatInput = false;
+			UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
+		}
+
+		private void UpdateMe()
 		{
 			if (refreshClock)
 			{
@@ -99,8 +112,7 @@ namespace AdminTools
 
 			AddMessageToLogs(selectedPlayer.PlayerData.uid, $"You: {inputField.text}");
 			RefreshChatLog(selectedPlayer.PlayerData.uid);
-			var message = $"{PlayerManager.CurrentCharacterSettings.Username}: {inputField.text}";
-			RequestAdminBwoink.Send(selectedPlayer.PlayerData.uid, message);
+			RequestAdminBwoink.Send(selectedPlayer.PlayerData.uid, inputField.text);
 			inputField.text = "";
 			inputField.ActivateInputField();
 			StartCoroutine(AfterSubmit());
@@ -110,20 +122,6 @@ namespace AdminTools
 		{
 			yield return WaitFor.EndOfFrame;
 			UIManager.IsInputFocus = true;
-		}
-
-		public void GoBack()
-		{
-			refreshClock = false;
-			UIManager.IsInputFocus = false;
-			UIManager.PreventChatInput = false;
-			adminTools.ShowMainPage();
-		}
-
-		private void OnDisable()
-		{
-			UIManager.IsInputFocus = false;
-			UIManager.PreventChatInput = false;
 		}
 	}
 }

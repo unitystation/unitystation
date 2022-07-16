@@ -28,6 +28,7 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 3327308291878936282}
   m_RootOrder: 3
@@ -102,101 +103,10 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 2aa4e176185f75f4c926728760c8fab3, type: 2}
   PresentSpriteSet: {fileID: 0}
   randomInitialSprite: 0
+  doReverseAnimation: 0
   pushTextureOnStartUp: 0
   initialVariantIndex: 0
   palette: []
---- !u!114 &-6176799362412192573
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3330777552754972672}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6d7277dcc993463cb6c7f79b663f36fc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  NetTabType: 10
-  aiInteractable: 0
---- !u!114 &3242550791702936155
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3330777552754972672}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cf6a312c50114272bc561c429cbb4175, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  StoredGasMix:
-    GasData:
-      GasesArray: []
-    Pressure: 0
-    Volume: 2.5
-    Temperature: 293.15
-  MaximumMoles: 1846.242
-  ReleasePressure: 101.325
-  Volume: 1
-  Temperature: 293.15
---- !u!114 &3744673748159336733
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3330777552754972672}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 229b269e3471bff4c9ad9c70bddea31e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  spawnCount: 2
-  timeToSalvage: 2
---- !u!114 &4620245307892029763
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3330777552754972672}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 931d5444a5bf4c9aa3be62ecbf046740, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  gasContainer: {fileID: 3242550791702936155}
-  molesAdded: 15000
---- !u!114 &7067097863662868376
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3330777552754972672}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c9ae6b6bba5c4e3aa4780272577c9bcf, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  ContentsName: Gas
-  UIBGTint: {r: 0.9686275, g: 0.8745099, b: 0.13333334, a: 1}
-  UIInnerPanelTint: {r: 1, g: 0.95294124, b: 0.5176471, a: 1}
-  canisterTier: 0
-  valveIsInitiallyOpen: 0
-  baseSpriteHandler: {fileID: 7811982109262590682}
-  canisterTierOverlay: {fileID: 8321291328493317021}
-  pressureIndicatorOverlay: {fileID: 5292510251321650616}
-  connectorHoseOverlay: {fileID: 9134291535749874632}
-  tankInsertedOverlay: {fileID: 6970499638236400721}
-  openValveOverlay: {fileID: 3794313558254657728}
-  tankValveOpen: 0
 --- !u!1 &4303483376002105739
 GameObject:
   m_ObjectHideFlags: 0
@@ -225,6 +135,7 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 3327308291878936282}
   m_RootOrder: 2
@@ -304,6 +215,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 419196fa4b0786b47b232f1b90ccacef, type: 2}
   PresentSpriteSet: {fileID: 11400000, guid: 419196fa4b0786b47b232f1b90ccacef, type: 2}
   randomInitialSprite: 0
+  doReverseAnimation: 0
   pushTextureOnStartUp: 0
   initialVariantIndex: 0
   palette: []
@@ -335,6 +247,7 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 3327308291878936282}
   m_RootOrder: 4
@@ -408,6 +321,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 28c54210dc4de3d4eb66c05f314554e1, type: 2}
   PresentSpriteSet: {fileID: 0}
   randomInitialSprite: 0
+  doReverseAnimation: 0
   pushTextureOnStartUp: 0
   initialVariantIndex: 0
   palette: []
@@ -439,6 +353,7 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 3327308291878936282}
   m_RootOrder: 5
@@ -512,6 +427,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: ca9478d224a5a1740b087437d7052b6d, type: 2}
   PresentSpriteSet: {fileID: 0}
   randomInitialSprite: 0
+  doReverseAnimation: 0
   pushTextureOnStartUp: 0
   initialVariantIndex: 0
   palette: []
@@ -543,6 +459,7 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 3327308291878936282}
   m_RootOrder: 1
@@ -621,6 +538,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: a630f4c1c7d07544ca2a375985e00775, type: 2}
   PresentSpriteSet: {fileID: 0}
   randomInitialSprite: 0
+  doReverseAnimation: 0
   pushTextureOnStartUp: 0
   initialVariantIndex: 0
   palette: []
@@ -635,6 +553,11 @@ PrefabInstance:
         type: 3}
       propertyPath: foreverID
       value: c0e96760c016b6140ba8c3979e9213f7
+      objectReference: {fileID: 0}
+    - target: {fileID: 3183634417709993560, guid: 5d7892c86699e21499ad5f872fd4d512,
+        type: 3}
+      propertyPath: isNotPushable
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3289657738632450357, guid: 5d7892c86699e21499ad5f872fd4d512,
         type: 3}
@@ -803,9 +726,9 @@ PrefabInstance:
         type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5d7892c86699e21499ad5f872fd4d512, type: 3}
---- !u!1 &3330777552754972672 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 3370674530075112738, guid: 5d7892c86699e21499ad5f872fd4d512,
+--- !u!210 &69088610438818992 stripped
+SortingGroup:
+  m_CorrespondingSourceObject: {fileID: 3155120428695954, guid: 5d7892c86699e21499ad5f872fd4d512,
     type: 3}
   m_PrefabInstance: {fileID: 71571786451086626}
   m_PrefabAsset: {fileID: 0}
@@ -815,12 +738,105 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 71571786451086626}
   m_PrefabAsset: {fileID: 0}
---- !u!210 &69088610438818992 stripped
-SortingGroup:
-  m_CorrespondingSourceObject: {fileID: 3155120428695954, guid: 5d7892c86699e21499ad5f872fd4d512,
+--- !u!1 &3330777552754972672 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3370674530075112738, guid: 5d7892c86699e21499ad5f872fd4d512,
     type: 3}
   m_PrefabInstance: {fileID: 71571786451086626}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &-6176799362412192573
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3330777552754972672}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d7277dcc993463cb6c7f79b663f36fc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  NetTabType: 10
+  aiInteractable: 0
+--- !u!114 &3242550791702936155
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3330777552754972672}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cf6a312c50114272bc561c429cbb4175, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  StoredGasMix:
+    GasData:
+      GasesArray: []
+    Pressure: 0
+    Volume: 2.5
+    Temperature: 293.15
+  MaximumMoles: 1846.242
+  ReleasePressure: 101.325
+  Volume: 1
+  Temperature: 293.15
+  CargoSealApproved: 1
+--- !u!114 &3744673748159336733
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3330777552754972672}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 229b269e3471bff4c9ad9c70bddea31e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spawnCount: 2
+  timeToSalvage: 2
+--- !u!114 &4620245307892029763
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3330777552754972672}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 931d5444a5bf4c9aa3be62ecbf046740, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gasContainer: {fileID: 3242550791702936155}
+  molesAdded: 15000
+--- !u!114 &7067097863662868376
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3330777552754972672}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c9ae6b6bba5c4e3aa4780272577c9bcf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  ContentsName: Gas
+  UIBGTint: {r: 0.9686275, g: 0.8745099, b: 0.13333334, a: 1}
+  UIInnerPanelTint: {r: 1, g: 0.95294124, b: 0.5176471, a: 1}
+  canisterTier: 0
+  valveIsInitiallyOpen: 0
+  baseSpriteHandler: {fileID: 7811982109262590682}
+  canisterTierOverlay: {fileID: 8321291328493317021}
+  pressureIndicatorOverlay: {fileID: 5292510251321650616}
+  connectorHoseOverlay: {fileID: 9134291535749874632}
+  tankInsertedOverlay: {fileID: 6970499638236400721}
+  openValveOverlay: {fileID: 3794313558254657728}
+  tankValveOpen: 0
 --- !u!114 &7811982109262590682 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 7824998303851274232, guid: 5d7892c86699e21499ad5f872fd4d512,
@@ -850,6 +866,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: ca9478d224a5a1740b087437d7052b6d, type: 2}
   PresentSpriteSet: {fileID: 0}
   randomInitialSprite: 0
+  doReverseAnimation: 0
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
   palette: []

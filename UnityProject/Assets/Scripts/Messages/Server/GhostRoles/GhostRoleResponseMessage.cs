@@ -14,7 +14,7 @@ namespace Messages.Server.GhostRoles
 			public int responseCode;
 		}
 
-		private static readonly Dictionary<GhostRoleResponseCode, string> stringDict = new Dictionary<GhostRoleResponseCode, string>()
+		private static readonly Dictionary<GhostRoleResponseCode, string> stringDict = new()
 		{
 			{ GhostRoleResponseCode.Success, "Successfully queued for this role!" },
 			{ GhostRoleResponseCode.RoleNotFound, "Unable to give you the role. It may have timed out." },
@@ -22,13 +22,13 @@ namespace Messages.Server.GhostRoles
 			{ GhostRoleResponseCode.AlreadyQueued, "You're already queued for a role!" },
 			{ GhostRoleResponseCode.QueueFull, "All positions have been filled for this role! You're too late." },
 			{ GhostRoleResponseCode.Error, "There was a problem giving you the role." },
-			{ GhostRoleResponseCode.JobBanned, "You are job banned from this role" }
+			{ GhostRoleResponseCode.JobBanned, "You are job banned from this role." },
 		};
 
 		// To be run on client
 		public override void Process(NetMessage msg)
 		{
-			if (PlayerManager.LocalPlayer == null) return;
+			if (PlayerManager.LocalPlayerObject == null) return;
 
 			if (MatrixManager.IsInitialized == false) return;
 
@@ -38,7 +38,7 @@ namespace Messages.Server.GhostRoles
 		/// <summary>
 		/// Sends a message to the specific player, informing them about the outcome of their request for a ghost role.
 		/// </summary>
-		public static NetMessage SendTo(ConnectedPlayer player, uint key, GhostRoleResponseCode code)
+		public static NetMessage SendTo(PlayerInfo player, uint key, GhostRoleResponseCode code)
 		{
 			NetMessage msg = new NetMessage
 			{
@@ -67,6 +67,7 @@ namespace Messages.Server.GhostRoles
 		AlreadyQueued,
 		QueueFull,
 		Error,
-		JobBanned
+		JobBanned,
+		ClearMessage
 	}
 }

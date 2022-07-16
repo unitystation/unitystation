@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using UnityEngine;
 using Mirror;
 using Systems.Electricity.NodeModules;
@@ -11,14 +12,14 @@ namespace Objects.Engineering
 {
 	[RequireComponent(typeof(ElectricalNodeControl))]
 	[RequireComponent(typeof(BatterySupplyingModule))]
-	public class SMES : NetworkBehaviour, ICheckedInteractable<HandApply>, ICheckedInteractable<AiActivate>, INodeControl, IExaminable
+	public class SMES : NetworkBehaviour, ICheckedInteractable<HandApply>, ICheckedInteractable<AiActivate>, INodeControl, IExaminable, IEmpAble
 	{
 		[Tooltip("How often (in seconds) the SMES's charging status should be updated.")]
 		[SerializeField]
 		[Range(1, 20)]
 		private int indicatorUpdatePeriod = 5;
 		private RegisterTile registerTile;
-		private ObjectBehaviour objectBehaviour;
+		private UniversalObjectPhysics objectBehaviour;
 
 		private ElectricalNodeControl electricalNodeControl;
 		private BatterySupplyingModule batterySupplyingModule;
@@ -35,6 +36,8 @@ namespace Objects.Engineering
 		private float MaxCharge => batterySupplyingModule.CapacityMax;
 		private float CurrentCharge => batterySupplyingModule.CurrentCapacity;
 		private int ChargePercent => Convert.ToInt32(Math.Round(CurrentCharge * 100 / MaxCharge));
+
+		private bool isExploding = false;
 
 
 		private bool outputEnabled = false;
@@ -66,7 +69,7 @@ namespace Objects.Engineering
 			outputEnabledIndicator = transform.GetChild(2).GetComponent<SpriteHandler>();
 			chargeLevelIndicator = transform.GetChild(3).GetComponent<SpriteHandler>();
 			registerTile = GetComponent<RegisterTile>();
-			objectBehaviour = GetComponent<ObjectBehaviour>();
+			objectBehaviour = GetComponent<UniversalObjectPhysics>();
 			machine = GetComponent<Machine>();
 
 			electricalNodeControl = GetComponent<ElectricalNodeControl>();
@@ -118,10 +121,10 @@ namespace Objects.Engineering
 		{
 			UpdateMe();
 			return $"The charge indicator shows a {ChargePercent} percent charge. " +
-			       $"The input level is: {batterySupplyingModule.InputLevel} % The output level is: {batterySupplyingModule.OutputLevel} %. " +
-			       $"The power input/output is " +
-			       $"{(outputEnabled ? $"enabled, and it seems to {(IsCharging ? "be" : "not be")} charging" : "disabled")}. " +
-			       "Use a crowbar to adjust the output level and a wrench to adjust the input level.";
+				   $"The input level is: {batterySupplyingModule.InputLevel} % The output level is: {batterySupplyingModule.OutputLevel} %. " +
+				   $"The power input/output is " +
+				   $"{(outputEnabled ? $"enabled, and it seems to {(IsCharging ? "be" : "not be")} charging" : "disabled")}. " +
+				   "Use a crowbar to adjust the output level and a wrench to adjust the input level.";
 		}
 
 		public bool WillInteract(HandApply interaction, NetworkSide side)
@@ -250,6 +253,24 @@ namespace Objects.Engineering
 		private void TrySpark()
 		{
 			SparkUtil.TrySpark(gameObject);
+		}
+
+		public void OnEmp(int EmpStrength)
+		{
+			if (CurrentCharge > 10000000 && DMMath.Prob(25) && isExploding == false)
+			{
+				isExploding = true;
+				TrySpark();
+				Chat.AddLocalMsgToChat($"<color=red>{gameObject.ExpensiveName()} starts to spit out sparks and smoke! No way this can end good...", gameObject);
+				StartCoroutine(Emp());
+			}
+			batterySupplyingModule.CurrentCapacity -= EmpStrength * 1000;
+		}
+
+		private IEnumerator Emp()
+		{
+			yield return WaitFor.Seconds(3);
+			Explosion.StartExplosion(gameObject.GetComponent<RegisterObject>().WorldPosition,UnityEngine.Random.Range(100,300));
 		}
 	}
 }

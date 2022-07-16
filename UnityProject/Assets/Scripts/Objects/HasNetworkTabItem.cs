@@ -12,6 +12,7 @@ namespace Items
 		///     This mean it can open up NetTabs when the object is activated in the hand
 		/// </summary>
 		[Tooltip("Network tab to display.")] public NetTabType NetTabType = NetTabType.None;
+		[SerializeField] private bool requiresAltClick = false;
 
 		[NonSerialized] private GameObject playerInteracted;
 
@@ -26,6 +27,8 @@ namespace Items
 		{
 			if (!DefaultWillInteract.Default(interaction, side))
 				return false;
+			if ((side == NetworkSide.Client || CustomNetworkManager.IsServer) && requiresAltClick && KeyboardInputManager.IsAltPressed() == false)
+				return false;
 			playerInteracted = interaction.Performer;
 			return true;
 		}
@@ -36,7 +39,19 @@ namespace Items
 			TabUpdateMessage.Send(interaction.Performer, gameObject, NetTabType, TabAction.Open);
 		}
 
+		public void ServerPerformInteraction(HandApply interaction)
+		{
+			playerInteracted = interaction.Performer;
+			TabUpdateMessage.Send(interaction.Performer, gameObject, NetTabType, TabAction.Open);
+		}
+
 		public void ServerPerformInteraction(PositionalHandApply interaction)
+		{
+			playerInteracted = interaction.Performer;
+			TabUpdateMessage.Send(interaction.Performer, gameObject, NetTabType, TabAction.Open);
+		}
+
+		public void ServerPerformInteraction(InventoryApply interaction)
 		{
 			playerInteracted = interaction.Performer;
 			TabUpdateMessage.Send(interaction.Performer, gameObject, NetTabType, TabAction.Open);

@@ -1,11 +1,14 @@
 ﻿using System.Collections;
-using Mirror;
+using System.Text;
 using System.Linq;
+using UnityEngine;
+using TileManagement;
+using Mirror;
 using HealthV2;
 using Messages.Client.Interaction;
-using TileManagement;
-using UnityEngine;
 using Systems.Electricity;
+using Tiles;
+
 
 /// <summary>
 /// Main entry point for Tile Interaction system.
@@ -93,12 +96,12 @@ public class InteractableTiles : MonoBehaviour, IClientInteractable<PositionalHa
 	/// Gets the interactable tiles for the matrix at the indicated world position. Unless there's only space!
 	/// in that case tries to fetch an adjacent matrix, in the case of none, it returns the space matrix
 	/// </summary>
-	public static InteractableTiles TryGetNonSpaceMatrix(Vector3Int worldPos, bool isServer)
+	public static Matrix TryGetNonSpaceMatrix(Vector3Int worldPos, bool isServer)
 	{
 		var matrixInfo = MatrixManager.AtPoint(worldPos, isServer);
 		if (matrixInfo.Matrix.IsSpaceMatrix == false)
 		{
-			return matrixInfo.TileChangeManager.InteractableTiles;
+			return matrixInfo.Matrix;
 		}
 
 		//This is just space! Lets try getting an adjacent matrix
@@ -107,12 +110,12 @@ public class InteractableTiles : MonoBehaviour, IClientInteractable<PositionalHa
 			matrixInfo = MatrixManager.AtPoint(pos, isServer);
 			if (matrixInfo.Matrix.IsSpaceMatrix == false)
 			{
-				return matrixInfo.TileChangeManager.InteractableTiles;
+				return matrixInfo.Matrix;
 			}
 		}
 
 		//we're in space and theres nothing but space all around us, we tried.
-		return MatrixManager.Instance.spaceMatrix.TileChangeManager.InteractableTiles;
+		return MatrixManager.Instance.spaceMatrix;
 	}
 
 	/// <summary>
@@ -131,12 +134,18 @@ public class InteractableTiles : MonoBehaviour, IClientInteractable<PositionalHa
 	/// </summary>
 	/// <param name="worldPos"></param>
 	/// <returns></returns>
-	public LayerTile LayerTileAt(Vector2 worldPos, bool ignoreEffectsLayer = false)
+	public LayerTile LayerTileAt(Vector2 worldPos, bool ignoreEffectsLayer = false, bool excludeNonIntractable = false)
 	{
 		Vector3Int pos = objectLayer.transform.InverseTransformPoint(worldPos).RoundToInt();
 
-		return metaTileMap.GetTile(pos, ignoreEffectsLayer);
+		return metaTileMap.GetTile(pos, ignoreEffectsLayer, excludeNonIntractable: excludeNonIntractable);
 	}
+
+	public LayerTile InteractableLayerTileAt(Vector2 worldPos, bool ignoreEffectsLayer = false)
+	{
+		return LayerTileAt(worldPos, ignoreEffectsLayer, true);
+	}
+
 
 	/// <summary>
 	/// Gets the LayerTile of the tile at the indicated position, null if no tile there (open space).
@@ -206,10 +215,20 @@ public class InteractableTiles : MonoBehaviour, IClientInteractable<PositionalHa
 		{
 			return "Space";
 		}
-		string msg = "This is a " + tile.DisplayName + ".";
-		if (tile is IExaminable) msg += "\n" + (tile as IExaminable).Examine();
 
-		return msg;
+		var desc = (tile.Description ?? string.Empty).Trim();
+		StringBuilder sb = new($"This is a {tile.DisplayName}. {desc}");
+		if (desc != string.Empty && !desc.EndsWith('.') && !desc.EndsWith('!') && !desc.EndsWith('?'))
+		{
+			sb.Append('.');
+		}
+
+		if (tile is IExaminable examinable)
+		{
+			sb.AppendLine(examinable.Examine());
+		}
+
+		return sb.ToString();
 	}
 
 	/// <summary>
@@ -224,7 +243,7 @@ public class InteractableTiles : MonoBehaviour, IClientInteractable<PositionalHa
 		// translate to the tile interaction system
 		Vector3Int localPosition = WorldToCell(interaction.WorldPositionTarget);
 		// pass the interaction down to the basic tile
-		LayerTile tile = LayerTileAt(interaction.WorldPositionTarget, true);
+		LayerTile tile = InteractableLayerTileAt(interaction.WorldPositionTarget, true);
 
 		// If the tile we're looking at is a basic tile...
 		if (tile is BasicTile basicTile)
@@ -254,7 +273,7 @@ public class InteractableTiles : MonoBehaviour, IClientInteractable<PositionalHa
 					else
 					{
 						var underFloorApply = new TileApply(interaction.Performer, interaction.UsedObject, interaction.Intent,
-							(Vector2Int) localPosition, this, underFloorTile, interaction.HandSlot, interaction.TargetVector);
+							(Vector2Int) localPosition, this, underFloorTile, interaction.HandSlot, interaction.TargetPosition);
 
 						if (TryInteractWithTile(underFloorApply)) return true;
 					}
@@ -263,7 +282,7 @@ public class InteractableTiles : MonoBehaviour, IClientInteractable<PositionalHa
 			else
 			{
 				var tileApply = new TileApply(interaction.Performer, interaction.UsedObject, interaction.Intent,
-				(Vector2Int) localPosition, this, basicTile, interaction.HandSlot, interaction.TargetVector);
+				(Vector2Int) localPosition, this, basicTile, interaction.HandSlot, interaction.TargetPosition);
 
 				return TryInteractWithTile(tileApply);
 			}
@@ -356,11 +375,11 @@ public class InteractableTiles : MonoBehaviour, IClientInteractable<PositionalHa
 	}
 
 	//for internal IF2 usages only, does server side logic for processing tileapply
-	public void ServerProcessInteraction(GameObject performer, Vector2 targetVector,  GameObject processorObj,
+	public void ServerProcessInteraction(GameObject performer, Vector2 TargetPosition,  GameObject processorObj,
 			ItemSlot usedSlot, GameObject usedObject, Intent intent, TileApply.ApplyType applyType)
 	{
 		//find the indicated tile interaction
-		var worldPosTarget = (Vector2)performer.transform.position + targetVector;
+		var worldPosTarget = (Vector2)TargetPosition.To3().ToWorld(performer.RegisterTile().Matrix);
 		Vector3Int localPosition = WorldToCell(worldPosTarget);
 		//pass the interaction down to the basic tile
 		LayerTile tile = LayerTileAt(worldPosTarget, true);
@@ -377,7 +396,7 @@ public class InteractableTiles : MonoBehaviour, IClientInteractable<PositionalHa
 				{
 					var underFloorApply = new TileApply(
 							performer, usedObject, intent, (Vector2Int) localPosition,
-							this, underFloorTile, usedSlot, targetVector, applyType);
+							this, underFloorTile, usedSlot, TargetPosition, applyType);
 
 					foreach (var tileInteraction in underFloorTile.TileInteractions)
 					{
@@ -394,7 +413,7 @@ public class InteractableTiles : MonoBehaviour, IClientInteractable<PositionalHa
 			{
 				var tileApply = new TileApply(
 						performer, usedObject, intent, (Vector2Int) localPosition,
-						this, basicTile, usedSlot, targetVector, applyType);
+						this, basicTile, usedSlot, TargetPosition, applyType);
 
 				PerformTileInteract(tileApply);
 			}
@@ -438,8 +457,8 @@ public class InteractableTiles : MonoBehaviour, IClientInteractable<PositionalHa
 
 		if(tile is BasicTile basicTile)
 		{
-			var tileApply = new TileApply(interaction.Performer, interaction.UsedObject, interaction.Intent, (Vector2Int)WorldToCell(interaction.ShadowWorldLocation), this, basicTile, null, -((Vector2)interaction.Performer.transform.position - interaction.ShadowWorldLocation), TileApply.ApplyType.MouseDrop);
-			var tileMouseDrop = new TileMouseDrop(interaction.Performer, interaction.UsedObject, interaction.Intent, (Vector2Int)WorldToCell(interaction.ShadowWorldLocation), this, basicTile, -((Vector2)interaction.Performer.transform.position - interaction.ShadowWorldLocation));
+			var tileApply = new TileApply(interaction.Performer, interaction.UsedObject, interaction.Intent, (Vector2Int)WorldToCell(interaction.ShadowWorldLocation), this, basicTile, null, interaction.ShadowWorldLocation.To3().ToLocal(interaction.Performer.RegisterTile().Matrix), TileApply.ApplyType.MouseDrop);
+			var tileMouseDrop = new TileMouseDrop(interaction.Performer, interaction.UsedObject, interaction.Intent, (Vector2Int)WorldToCell(interaction.ShadowWorldLocation), this, basicTile, interaction.ShadowWorldLocation.To3().ToLocal(interaction.Performer.RegisterTile().Matrix));
 			foreach (var tileInteraction in basicTile.TileInteractions)
 			{
 				if (tileInteraction == null) continue;
@@ -469,18 +488,18 @@ public class InteractableTiles : MonoBehaviour, IClientInteractable<PositionalHa
 		{
 			Vector2 cameraPos = MouseUtils.MouseToWorldPos();
 			var tilePos = cameraPos.RoundToInt();
-			OrientationEnum orientation = OrientationEnum.Down;
+			OrientationEnum orientation = OrientationEnum.Down_By180;
 			Vector3Int PlaceDirection = PlayerManager.LocalPlayerScript.WorldPos - tilePos;
 			bool isWallBlocked = false;
 			if (PlaceDirection.x != 0 && !MatrixManager.IsWallAt(tilePos + new Vector3Int(PlaceDirection.x > 0 ? 1 : -1, 0, 0), true))
 			{
 				if (PlaceDirection.x > 0)
 				{
-					orientation = OrientationEnum.Right;
+					orientation = OrientationEnum.Right_By270;
 				}
 				else
 				{
-					orientation = OrientationEnum.Left;
+					orientation = OrientationEnum.Left_By90;
 				}
 			}
 			else
@@ -489,11 +508,11 @@ public class InteractableTiles : MonoBehaviour, IClientInteractable<PositionalHa
 				{
 					if (PlaceDirection.y > 0)
 					{
-						orientation = OrientationEnum.Up;
+						orientation = OrientationEnum.Up_By0;
 					}
 					else
 					{
-						orientation = OrientationEnum.Down;
+						orientation = OrientationEnum.Down_By180;
 					}
 				}
 				else
@@ -521,17 +540,17 @@ public class InteractableTiles : MonoBehaviour, IClientInteractable<PositionalHa
 			Vector3 spritePos = tilePos;
 			if (wallMount.IsWallProtrusion) //for light bulbs, tubes, cameras, etc. move the sprite towards the floor
 			{
-				if(orientation == OrientationEnum.Right)
+				if(orientation == OrientationEnum.Right_By270)
 				{
 					spritePos.x += 0.5f;
 					Highlight.instance.spriteRenderer.transform.rotation = Quaternion.Euler(0,0,270);
 				}
-				else if(orientation == OrientationEnum.Left)
+				else if(orientation == OrientationEnum.Left_By90)
 				{
 						spritePos.x -= 0.5f;
 						Highlight.instance.spriteRenderer.transform.rotation = Quaternion.Euler(0,0,90);
 				}
-				else if(orientation == OrientationEnum.Up)
+				else if(orientation == OrientationEnum.Up_By0)
 				{
 					spritePos.y += 0.5f;
 					Highlight.instance.spriteRenderer.transform.rotation = Quaternion.Euler(0,0,0);

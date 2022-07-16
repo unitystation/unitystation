@@ -16,7 +16,7 @@ namespace Antagonists
 
         }
 
-        private ConnectedPlayer FindCaptain()
+        private PlayerInfo FindCaptain()
         {
 	        var index = PlayerList.Instance.InGamePlayers.FindIndex(x => x.Job == JobType.CAPTAIN);
 	        if (index != -1)

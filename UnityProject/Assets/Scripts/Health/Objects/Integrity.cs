@@ -11,6 +11,7 @@ using Effects.Overlays;
 using ScriptableObjects;
 using Systems.Atmospherics;
 using Systems.Explosions;
+using Systems.Interaction;
 
 
 /// <summary>
@@ -21,7 +22,7 @@ using Systems.Explosions;
 /// This stuff is tracked server side only, client is informed only when the effects of integrity
 /// changes occur.
 /// </summary>
-[RequireComponent(typeof(CustomNetTransform))]
+///
 [RequireComponent(typeof(RegisterTile))]
 public class Integrity : NetworkBehaviour, IHealth, IFireExposable, IRightClickable, IServerSpawn, IExaminable, IServerDespawn
 {
@@ -73,7 +74,6 @@ public class Integrity : NetworkBehaviour, IHealth, IFireExposable, IRightClicka
 	/// <summary>
 	/// Armor for this object.
 	/// </summary>
-	[PrefabModeOnly]
 	[Tooltip("Armor for this object.")]
 	public Armor Armor = new Armor();
 
@@ -125,6 +125,7 @@ public class Integrity : NetworkBehaviour, IHealth, IFireExposable, IRightClicka
 	private RegisterTile registerTile;
 	public RegisterTile RegisterTile => registerTile;
 	private IPushable pushable;
+	public Meleeable Meleeable;
 
 	//The current integrity divided by the initial integrity
 	public float PercentageDamaged => integrity.Approx(0) ? 0 : integrity / initialIntegrity;
@@ -136,12 +137,13 @@ public class Integrity : NetworkBehaviour, IHealth, IFireExposable, IRightClicka
 
 	private void Awake()
 	{
+		Meleeable = GetComponent<Meleeable>();
 		EnsureInit();
 	}
 
 	private void OnDisable()
 	{
-		if (CustomNetworkManager.IsServer)
+		if (CustomNetworkManager.IsServer && onFire)
 		{
 			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, PeriodicUpdateBurn);
 		}
@@ -260,7 +262,7 @@ public class Integrity : NetworkBehaviour, IHealth, IFireExposable, IRightClicka
 	private void PeriodicUpdateBurn()
 	{
 		//Instantly stop burning if there's no oxygen at this location
-		MetaDataNode node = RegisterTile.Matrix.MetaDataLayer.Get(RegisterTile.LocalPositionClient);
+		MetaDataNode node = RegisterTile.Matrix.MetaDataLayer.Get(RegisterTile.LocalPositionServer);
 		if (node?.GasMix.GetMoles(Gas.Oxygen) < 1)
 		{
 			SyncOnFire(true, false);
@@ -268,6 +270,8 @@ public class Integrity : NetworkBehaviour, IHealth, IFireExposable, IRightClicka
 		}
 
 		ApplyDamage(BURNING_DAMAGE, AttackType.Fire, DamageType.Burn);
+
+		node?.GasMix.AddGas(Gas.Smoke, BURNING_DAMAGE * 100);
 	}
 
 	private void SyncOnFire(bool wasOnFire, bool onFire)
@@ -302,10 +306,8 @@ public class Integrity : NetworkBehaviour, IHealth, IFireExposable, IRightClicka
 	{
 		if (!destroyed && integrity <= 0)
 		{
-			Profiler.BeginSample("IntegrityOnWillDestroy");
 			var destructInfo = new DestructionInfo(lastDamageType, this);
 			OnWillDestroyServer.Invoke(destructInfo);
-			Profiler.EndSample();
 
 			if (onFire)
 			{
@@ -408,12 +410,12 @@ public class Integrity : NetworkBehaviour, IHealth, IFireExposable, IRightClicka
 
 	private void AdminSmash()
 	{
-		PlayerManager.PlayerScript.playerNetworkActions.CmdAdminSmash(gameObject);
+		PlayerManager.LocalPlayerScript.playerNetworkActions.CmdAdminSmash(gameObject);
 	}
 
 	private void AdminMakeHotspot()
 	{
-		PlayerManager.PlayerScript.playerNetworkActions.CmdAdminMakeHotspot(gameObject);
+		PlayerManager.LocalPlayerScript.playerNetworkActions.CmdAdminMakeHotspot(gameObject);
 	}
 
 	public void OnDespawnServer(DespawnInfo info)

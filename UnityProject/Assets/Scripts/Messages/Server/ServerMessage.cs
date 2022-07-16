@@ -14,7 +14,7 @@ namespace Messages.Server
 	{
 		public static void SendToAll(T msg, int channel = 0)
 		{
-			NetworkServer.SendToAll(msg, channel);
+			NetworkServer.SendToAll(msg, channel, sendToReadyOnly: true);
 			Logger.LogTraceFormat("SentToAll {0}", Category.Server, msg.GetType());
 		}
 
@@ -54,7 +54,7 @@ namespace Messages.Server
 			}
 
 			//only send to players that are currently controlled by a client
-			if (PlayerList.Instance.ContainsConnection(connection))
+			if (PlayerList.Instance.Has(connection))
 			{
 				connection.Send(msg, channel);
 				Logger.LogTraceFormat("SentTo {0}: {1}", category, recipient.name, msg.GetType());
@@ -65,7 +65,7 @@ namespace Messages.Server
 			}
 		}
 
-		public static void SendTo(ConnectedPlayer recipient, T msg, int channel = 0)
+		public static void SendTo(PlayerInfo recipient, T msg, int channel = 0)
 		{
 			if (recipient == null) return;
 			SendTo(recipient.Connection, msg, channel);
@@ -81,7 +81,7 @@ namespace Messages.Server
 		/// Sends the network message only to players who are visible from the
 		/// worldPosition
 		/// </summary>
-		public static void SendToVisiblePlayers(Vector2 worldPosition, T msg, int channel = 0)
+		public static void SendToVisiblePlayers(Vector2 worldPosition, T msg, int channel = 0, bool DoLinecast = true)
 		{
 			//Player script is not null for these players
 			var players = PlayerList.Instance.InGamePlayers;
@@ -97,21 +97,24 @@ namespace Messages.Server
 					continue;
 				}
 
+				if (DoLinecast == false) continue;
 				//within range, but check if they are in another room or hiding behind a wall
 				if (MatrixManager.Linecast(worldPosition, LayerTypeSelection.Walls, layerMask,
-					players[i].Script.PlayerChatLocation.AssumedWorldPosServer()).ItHit)
+					    players[i].Script.PlayerChatLocation.AssumedWorldPosServer()).ItHit)
 				{
 					//if it hit a wall remove that player
 					players.Remove(players[i]);
 				}
+
+
 			}
 
 			//Sends the message only to visible players:
-			foreach (ConnectedPlayer player in players)
+			foreach (PlayerInfo player in players)
 			{
 				if (player.Script.netIdentity == null) continue;
 
-				if (PlayerList.Instance.ContainsConnection(player.Connection))
+				if (PlayerList.Instance.Has(player.Connection))
 				{
 					player.Connection.Send(msg, channel);
 				}
@@ -120,30 +123,17 @@ namespace Messages.Server
 
 		/// <summary>
 		/// Sends the network message only to players who are within a 15 tile radius
-		/// of the worldPostion. This method disregards if the player is visible or not
+		/// of the worldPosition. This method disregards if the player is visible or not
 		/// </summary>
 		public static void SendToNearbyPlayers(Vector2 worldPosition, T msg, int channel = 0)
 		{
-			var players = PlayerList.Instance.AllPlayers;
+			var players = PlayerList.Instance.InGamePlayers;
 
-			for (int i = players.Count - 1; i > 0; i--)
+			for (int i = players.Count - 1; i >= 0; i--)
 			{
-				if (Vector2.Distance(worldPosition,
-					players[i].GameObject.transform.position) > 15f)
-				{
-					//Player in the list is too far away for this message, remove them:
-					players.Remove(players[i]);
-				}
-			}
+				if (Vector2.Distance(worldPosition, players[i].GameObject.transform.position) > 15f) continue;
 
-			foreach (ConnectedPlayer player in players)
-			{
-				if (player.Script == null) continue;
-
-				if (PlayerList.Instance.ContainsConnection(player.Connection))
-				{
-					player.Connection.Send(msg, channel);
-				}
+				players[i].Connection.Send(msg, channel);
 			}
 		}
 
@@ -153,7 +143,7 @@ namespace Messages.Server
 
 			foreach (var admin in admins)
 			{
-				if (PlayerList.Instance.ContainsConnection(admin.Connection))
+				if (PlayerList.Instance.Has(admin.Connection))
 				{
 					admin.Connection.Send(msg, channel);
 				}
@@ -166,7 +156,7 @@ namespace Messages.Server
 
 			foreach (var mentor in mentors)
 			{
-				if (PlayerList.Instance.ContainsConnection(mentor.Connection))
+				if (PlayerList.Instance.Has(mentor.Connection))
 				{
 					mentor.Connection.Send(msg, channel);
 				}
@@ -175,7 +165,7 @@ namespace Messages.Server
 
 			foreach (var admin in admins)
 			{
-				if (PlayerList.Instance.ContainsConnection(admin.Connection))
+				if (PlayerList.Instance.Has(admin.Connection))
 				{
 					admin.Connection.Send(msg, channel);
 				}

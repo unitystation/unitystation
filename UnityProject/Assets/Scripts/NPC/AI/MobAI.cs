@@ -10,7 +10,7 @@ namespace Systems.MobAIs
 	[RequireComponent(typeof(MobFollow))]
 	[RequireComponent(typeof(MobExplore))]
 	[RequireComponent(typeof(MobFlee))]
-	public class MobAI : MonoBehaviour, IServerLifecycle
+	public class MobAI : MobObjective, IServerLifecycle
 	{
 		public string mobName;
 
@@ -20,10 +20,10 @@ namespace Systems.MobAIs
 		protected MobExplore mobExplore;
 		protected MobFlee mobFlee;
 		[NonSerialized] public LivingHealthBehaviour health;
-		protected Directional directional;
+		protected Rotatable rotatable;
 		protected MobSprite mobSprite;
-		protected CustomNetTransform cnt;
-		public CustomNetTransform Cnt => cnt;
+		protected UniversalObjectPhysics uop;
+		public UniversalObjectPhysics UOP => uop;
 
 		public RegisterObject registerObject;
 		protected UprightSprites uprightSprites;
@@ -46,15 +46,6 @@ namespace Systems.MobAIs
 		protected UnityEvent exploringStopped = new UnityEvent();
 		protected UnityEvent fleeingStopped = new UnityEvent();
 
-		/// <summary>
-		/// Is MobAI currently performing an AI task like following or exploring
-		/// </summary>
-		public bool IsPerformingTask {
-			get {
-				return (mobExplore.activated || mobFollow.activated || mobFlee.activated);
-			}
-		}
-
 		public bool IsDead => health.IsDead;
 
 		public bool IsUnconscious => health.IsCrit;
@@ -70,9 +61,9 @@ namespace Systems.MobAIs
 			mobExplore = GetComponent<MobExplore>();
 			mobFlee = GetComponent<MobFlee>();
 			health = GetComponent<LivingHealthBehaviour>();
-			directional = GetComponent<Directional>();
+			rotatable = GetComponent<Rotatable>();
 			mobSprite = GetComponent<MobSprite>();
-			cnt = GetComponent<CustomNetTransform>();
+			uop = GetComponent<UniversalObjectPhysics>();
 			registerObject = GetComponent<RegisterObject>();
 			uprightSprites = GetComponent<UprightSprites>();
 		}
@@ -86,8 +77,6 @@ namespace Systems.MobAIs
 				simpleAnimal.SetDeadState(false);
 			}
 
-			UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
-			UpdateManager.Add(PeriodicUpdate, 1f);
 			health.applyDamageEvent += AttackReceivedCoolDown;
 			isServer = true;
 
@@ -101,11 +90,6 @@ namespace Systems.MobAIs
 			ResetBehaviours();
 		}
 
-		public void OnDisable()
-		{
-			UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
-			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, PeriodicUpdate);
-		}
 
 		/// <summary>
 		/// Called after the mob is spawned, before the AI comes online
@@ -121,11 +105,13 @@ namespace Systems.MobAIs
 
 		#endregion
 
-		/// <summary>
-		/// Server only update loop. Make sure to call base.UpdateMe() if overriding
-		/// </summary>
-		protected virtual void UpdateMe()
+
+		public override void ContemplatePriority()
 		{
+			if (damageAttempts >= maxDamageAttempts)
+			{
+				damageAttempts = 0;
+			}
 			if (MonitorKnockedDown())
 			{
 				return;
@@ -136,13 +122,6 @@ namespace Systems.MobAIs
 			MonitorFleeingTime();
 		}
 
-		protected void PeriodicUpdate()
-		{
-			if (damageAttempts >= maxDamageAttempts)
-			{
-				damageAttempts = 0;
-			}
-		}
 
 		/// <summary>
 		/// Updates the mob to fall down or stand up where appropriate
@@ -197,7 +176,7 @@ namespace Systems.MobAIs
 
 		private void MonitorFollowingTime()
 		{
-			if (mobFollow.activated && followTimeMax > 0)
+			if (mobFollow.Priority < 25 && followTimeMax > 0)
 			{
 				followingTime += Time.deltaTime;
 				if (followingTime > followTimeMax)
@@ -209,7 +188,7 @@ namespace Systems.MobAIs
 
 		private void MonitorExploreTime()
 		{
-			if (mobExplore.activated && exploreTimeMax > 0)
+			if (mobExplore.Priority < 25 && exploreTimeMax > 0)
 			{
 				exploringTime += Time.deltaTime;
 				if (exploringTime > exploreTimeMax)
@@ -273,7 +252,7 @@ namespace Systems.MobAIs
 		/// </summary>
 		protected void StopFollowing()
 		{
-			mobFollow.Deactivate();
+			mobFollow.FollowTarget = null;
 			followTimeMax = -1f;
 			followingTime = 0f;
 			followingStopped.Invoke();
@@ -282,8 +261,12 @@ namespace Systems.MobAIs
 		/// <summary>
 		/// Begins exploring for the target
 		/// </summary>
-		protected void BeginExploring(MobExplore.Target target = MobExplore.Target.food, float exploreDuration = -1f)
+		protected void BeginExploring(MobExplore.Target target = MobExplore.Target.none, float exploreDuration = -1f)
 		{
+			if (target == MobExplore.Target.none)
+            {
+				target = mobExplore.target; //so we don't interfere with existing target in MobExplore if it's set
+            }
 			ResetBehaviours();
 			mobExplore.BeginExploring(target);
 			exploreTimeMax = exploreDuration;
@@ -295,7 +278,6 @@ namespace Systems.MobAIs
 		/// </summary>
 		protected void StopExploring()
 		{
-			mobExplore.Deactivate();
 			exploreTimeMax = -1f;
 			exploringTime = 0f;
 			exploringStopped.Invoke();
@@ -395,8 +377,8 @@ namespace Systems.MobAIs
 		{
 			if (dir != Vector2Int.zero)
 			{
-				cnt.Push(dir, context: gameObject);
-				directional.FaceDirection(Orientation.From(dir));
+				uop.TryTilePush(dir, null);
+				rotatable.SetFaceDirectionLocalVictor(dir);
 			}
 		}
 
@@ -433,16 +415,6 @@ namespace Systems.MobAIs
 				mobFlee.Deactivate();
 			}
 
-			if (mobFollow.activated)
-			{
-				mobFollow.Deactivate();
-			}
-
-			if (mobExplore.activated)
-			{
-				mobExplore.Deactivate();
-			}
-
 			fleeTimeMax = -1f;
 			fleeingTime = 0f;
 			exploreTimeMax = -1f;
@@ -459,7 +431,7 @@ namespace Systems.MobAIs
 		{
 			// face performer
 			var dir = (performer.transform.position - transform.position).normalized;
-			directional.FaceDirection(Orientation.From(dir));
+			rotatable.SetFaceDirectionLocalVictor(dir.To2Int());
 			PettedEvent?.Invoke();
 		}
 

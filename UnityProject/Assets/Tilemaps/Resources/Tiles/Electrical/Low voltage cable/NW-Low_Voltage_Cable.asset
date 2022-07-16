@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8b1bfcb29a2677e48add641bd21c8ade, type: 3}
   m_Name: NW-Low_Voltage_Cable
   m_EditorClassIdentifier: 
-  displayName: 
+  displayName: low voltage cable
+  description: 
   LayerType: 8
   TileType: 11
   RequiredTiles: []
@@ -31,6 +32,7 @@ MonoBehaviour:
   doesReflectBullet: 0
   indestructible: 0
   ExplosionImpassable: 0
+  BlocksTileInteractionsUnder: 1
   passableException:
     m_keys: 
     m_values: 
@@ -50,6 +52,7 @@ MonoBehaviour:
     DismembermentProtectionChance: 0
   tileInteractions:
   - {fileID: 11400000, guid: 162b6f27da2d03440bee7ac6b55830bb, type: 2}
+  tileStepInteractions: []
   spawnOnDeconstruct: {fileID: 4433336198165141055, guid: 827dad187b7a6e449b5b73aa0e691a38,
     type: 3}
   spawnAmountOnDeconstruct: 2
@@ -64,6 +67,7 @@ MonoBehaviour:
       m_AssetGUID: 
       m_SubObjectName: 
       m_SubObjectType: 
+      m_EditorAssetChanged: 0
   SoundOnDestroy: []
   CanConnectTo: 09000000080000000f0000000e00000010000000140000000500000015000000
   PowerType: 8

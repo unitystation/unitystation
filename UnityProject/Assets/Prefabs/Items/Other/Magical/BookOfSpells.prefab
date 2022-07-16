@@ -1,49 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &924555636312245943
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3946093906104289823}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fd72cce9b56eb76439664823576f11c8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  learningSound:
-    SetLoadSetting: 0
-    AssetAddress: Assets/Prefabs/Magic/Blind.prefab
-    AssetReference:
-      m_AssetGUID: 
-      m_SubObjectName: 
-      m_SubObjectType: 
-  summonItemSound:
-    SetLoadSetting: 0
-    AssetAddress: Assets/Prefabs/Magic/SummonItemsGeneric.prefab
-    AssetReference:
-      m_AssetGUID: 
-      m_SubObjectName: 
-      m_SubObjectType: 
-  isForWizardsOnly: 0
-  points: 10
-  data: {fileID: 11400000, guid: 096052722a2601d4a891d88cb8f61971, type: 2}
-  dropPodPrefab: {fileID: 2866542968491397233, guid: 3b78df7a6bcb5d043a184b848eddfa74,
-    type: 3}
---- !u!114 &1344152117582449476
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3946093906104289823}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a69951b025439433aaae48b3e8c4017b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  NetTabType: 30
 --- !u!1001 &3945364812942210725
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -76,6 +32,11 @@ PrefabInstance:
       propertyPath: m_AssetId
       value: 1a29d7430eef409409b622cc8278453e
       objectReference: {fileID: 0}
+    - target: {fileID: 114776788309089574, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      propertyPath: customNetTransform
+      value: 
+      objectReference: {fileID: 3987648025967634383}
     - target: {fileID: 212340400423555046, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
       propertyPath: m_Sprite
@@ -123,6 +84,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 4439fa005fc519a4f827481d3d182edf,
         type: 2}
+    - target: {fileID: 6144467708197095229, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      propertyPath: doReverseAnimation
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6393191727481188567, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
       propertyPath: foreverID
@@ -136,3 +102,61 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 3945364812942210725}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &924555636312245943
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3946093906104289823}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fd72cce9b56eb76439664823576f11c8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  learningSound:
+    SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/Magic/Blind.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
+  summonItemSound:
+    SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/Magic/SummonItemsGeneric.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
+  isForWizardsOnly: 0
+  points: 10
+  data: {fileID: 11400000, guid: 096052722a2601d4a891d88cb8f61971, type: 2}
+  dropPodPrefab: {fileID: 2866542968491397233, guid: 3b78df7a6bcb5d043a184b848eddfa74,
+    type: 3}
+--- !u!114 &1344152117582449476
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3946093906104289823}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a69951b025439433aaae48b3e8c4017b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  NetTabType: 30
+--- !u!114 &3987648025967634383 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 114341119007412586, guid: a7abba22164ce49f0bf9b9b219f39298,
+    type: 3}
+  m_PrefabInstance: {fileID: 3945364812942210725}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3946093906104289823}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 579884b05ae74e8499329b64997147d3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

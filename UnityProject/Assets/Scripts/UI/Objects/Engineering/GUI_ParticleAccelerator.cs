@@ -1,6 +1,6 @@
-﻿using Objects;
+﻿using UnityEngine;
+using UI.Core.NetUI;
 using Objects.Engineering;
-using UnityEngine;
 
 namespace UI.Objects.Engineering
 {
@@ -16,16 +16,10 @@ namespace UI.Objects.Engineering
 		private NetSlider OnOffSwitch = null;
 
 		private ParticleAcceleratorControl particleAccelerator;
-		private ParticleAcceleratorControl ParticleAccelerator {
-			get {
-				if (particleAccelerator == null)
-					particleAccelerator = Provider.GetComponent<ParticleAcceleratorControl>();
+		private ParticleAcceleratorControl ParticleAccelerator =>
+				particleAccelerator ??= Provider.GetComponent<ParticleAcceleratorControl>();
 
-				return particleAccelerator;
-			}
-		}
-
-		public void OnTabOpenedHandler(ConnectedPlayer connectedPlayer)
+		public void OnTabOpenedHandler(PlayerInfo connectedPlayer)
 		{
 			powerSetting.Value = ParticleAccelerator.Status;
 			powerUse.Value = ParticleAccelerator.PowerUsage + " volts";

@@ -6,11 +6,12 @@ using UnityEngine;
 using Systems.Electricity;
 using Systems.Interaction;
 using Systems.ObjectConnection;
+using CustomInspectors;
 
 
 namespace Objects.Lighting
 {
-	public class LightSwitchV2 : SubscriptionController, ICheckedInteractable<HandApply>, IAPCPowerable, IMultitoolMasterable, ICheckedInteractable<AiActivate>
+	public class LightSwitchV2 : ImnterfaceMultitoolGUI, ISubscriptionController, ICheckedInteractable<HandApply>, IAPCPowerable, IMultitoolMasterable, ICheckedInteractable<AiActivate>
 	{
 		public List<LightSource> listOfLights;
 
@@ -74,8 +75,11 @@ namespace Objects.Lighting
 			if (!DefaultWillInteract.Default(interaction, side)) return false;
 			if (interaction.HandObject != null && interaction.Intent == Intent.Harm) return false;
 
-			if (isInCoolDown) return false;
-			StartCoroutine(SwitchCoolDown());
+			if (side == NetworkSide.Server)
+			{
+				if (isInCoolDown) return false;
+				StartCoroutine(SwitchCoolDown());
+			}
 
 			return true;
 		}
@@ -165,7 +169,7 @@ namespace Objects.Lighting
 
 		#region Editor
 
-		public override IEnumerable<GameObject> SubscribeToController(IEnumerable<GameObject> potentialObjects)
+		public IEnumerable<GameObject> SubscribeToController(IEnumerable<GameObject> potentialObjects)
 		{
 			var approvedObjects = new List<GameObject>();
 

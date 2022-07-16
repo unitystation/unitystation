@@ -1,0 +1,135 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &5487510762017629566
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 1544594378003915950, guid: 2e6f2ff9beb985749940d242877d84f0,
+        type: 3}
+      propertyPath: DismembermentChance
+      value: 0.25
+      objectReference: {fileID: 0}
+    - target: {fileID: 1544594378003915950, guid: 2e6f2ff9beb985749940d242877d84f0,
+        type: 3}
+      propertyPath: baseTraumaDamageMultiplier
+      value: 1.25
+      objectReference: {fileID: 0}
+    - target: {fileID: 1544594378003915950, guid: 2e6f2ff9beb985749940d242877d84f0,
+        type: 3}
+      propertyPath: bodyPartAshesAboveThisDamage
+      value: 145
+      objectReference: {fileID: 0}
+    - target: {fileID: 1544594378003915950, guid: 2e6f2ff9beb985749940d242877d84f0,
+        type: 3}
+      propertyPath: SubOrganBodyPartArmour.DismembermentProtectionChance
+      value: 35
+      objectReference: {fileID: 0}
+    - target: {fileID: 1544594378003915950, guid: 2e6f2ff9beb985749940d242877d84f0,
+        type: 3}
+      propertyPath: BodyTypesSprites.BodyTypes.Array.data[0].Sprites.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 8cda47cca77fdd844aff26e911f13f31,
+        type: 2}
+    - target: {fileID: 2574131780916113488, guid: 2e6f2ff9beb985749940d242877d84f0,
+        type: 3}
+      propertyPath: initialName
+      value: lizard left leg
+      objectReference: {fileID: 0}
+    - target: {fileID: 2574131780916113488, guid: 2e6f2ff9beb985749940d242877d84f0,
+        type: 3}
+      propertyPath: hitSound.AssetAddress
+      value: Assets/Prefabs/Effects/Tap.prefab
+      objectReference: {fileID: 0}
+    - target: {fileID: 2648266232423228038, guid: 2e6f2ff9beb985749940d242877d84f0,
+        type: 3}
+      propertyPath: m_AssetId
+      value: 5cfb33daa98005f40ab7166bbbb9994e
+      objectReference: {fileID: 0}
+    - target: {fileID: 2686185674081952326, guid: 2e6f2ff9beb985749940d242877d84f0,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2686185674081952326, guid: 2e6f2ff9beb985749940d242877d84f0,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2686185674081952326, guid: 2e6f2ff9beb985749940d242877d84f0,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2686185674081952326, guid: 2e6f2ff9beb985749940d242877d84f0,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2686185674081952326, guid: 2e6f2ff9beb985749940d242877d84f0,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2686185674081952326, guid: 2e6f2ff9beb985749940d242877d84f0,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2686185674081952326, guid: 2e6f2ff9beb985749940d242877d84f0,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2686185674081952326, guid: 2e6f2ff9beb985749940d242877d84f0,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2686185674081952326, guid: 2e6f2ff9beb985749940d242877d84f0,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2686185674081952326, guid: 2e6f2ff9beb985749940d242877d84f0,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2686185674081952326, guid: 2e6f2ff9beb985749940d242877d84f0,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2689983249500970802, guid: 2e6f2ff9beb985749940d242877d84f0,
+        type: 3}
+      propertyPath: m_Name
+      value: LizardLeftLeg
+      objectReference: {fileID: 0}
+    - target: {fileID: 2856768839702850670, guid: 2e6f2ff9beb985749940d242877d84f0,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: eab17b0ca1243e0499a1a050b0d84de3,
+        type: 3}
+    - target: {fileID: 5123827499010467942, guid: 2e6f2ff9beb985749940d242877d84f0,
+        type: 3}
+      propertyPath: BodyTypesSprites.BodyTypes.Array.data[0].Sprites.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 8cda47cca77fdd844aff26e911f13f31,
+        type: 2}
+    - target: {fileID: 8075695979122336949, guid: 2e6f2ff9beb985749940d242877d84f0,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 8cda47cca77fdd844aff26e911f13f31,
+        type: 2}
+    - target: {fileID: 9074195140769878879, guid: 2e6f2ff9beb985749940d242877d84f0,
+        type: 3}
+      propertyPath: foreverID
+      value: 5cfb33daa98005f40ab7166bbbb9994e
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 2e6f2ff9beb985749940d242877d84f0, type: 3}

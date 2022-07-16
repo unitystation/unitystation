@@ -9,7 +9,7 @@ namespace Items.Magical
 		[SerializeField]
 		private AddressableAudioSource punishSfx = default;
 
-		public override void Punish(ConnectedPlayer player)
+		public override void Punish(PlayerInfo player)
 		{
 			SoundManager.PlayNetworkedAtPos(punishSfx, player.Script.WorldPos, sourceObj: player.GameObject);
 			Chat.AddActionMsgToChat(player.GameObject,

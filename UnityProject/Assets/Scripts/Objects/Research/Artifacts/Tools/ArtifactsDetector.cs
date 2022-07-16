@@ -51,7 +51,7 @@ public class ArtifactsDetector : MonoBehaviour, ICheckedInteractable<HandActivat
 
 	private string GenerateReport()
 	{
-		var strBuilder = new StringBuilder(); 
+		var strBuilder = new StringBuilder();
 
 		// print user position
 		var detectorPos = gameObject.AssumedWorldPosServer().To2Int();

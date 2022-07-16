@@ -34,7 +34,7 @@ namespace Objects.Wallmounts
 			}
 		}
 
-		public void Awake()
+		protected virtual void Awake()
 		{
 			spriteRenderer = GetComponent<SpriteRenderer>();
 			wallmountBehavior = GetComponentInParent<WallmountBehavior>();
@@ -44,7 +44,7 @@ namespace Objects.Wallmounts
 		public void OnWillRenderObject()
 		{
 			// don't run check until player is created
-			if (PlayerManager.LocalPlayer == null || wallmountBehavior == null)
+			if (PlayerManager.LocalPlayerObject == null || wallmountBehavior == null)
 			{
 				return;
 			}
@@ -58,6 +58,7 @@ namespace Objects.Wallmounts
 			else
 			{
 				// recalculate if it is facing the player
+				if (Camera2DFollow.followControl.target == null) return;
 				visible = wallmountBehavior.IsFacingPosition(Camera2DFollow.followControl.target.position);
 			}
 			SetAlpha(visible ? 1 : 0);

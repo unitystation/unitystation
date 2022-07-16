@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: Iron Ore
   m_EditorClassIdentifier: 
   displayName: 
+  description: 
   LayerType: 0
   TileType: 1
   RequiredTiles: []
@@ -31,6 +32,7 @@ MonoBehaviour:
   doesReflectBullet: 0
   indestructible: 0
   ExplosionImpassable: 1
+  BlocksTileInteractionsUnder: 1
   passableException:
     m_keys: 
     m_values: 
@@ -49,6 +51,7 @@ MonoBehaviour:
     Bio: 100
     DismembermentProtectionChance: 0
   tileInteractions: []
+  tileStepInteractions: []
   spawnOnDeconstruct: {fileID: 8086189346554243681, guid: 30c1980ca0250624a893b6e4f398f2a9,
     type: 3}
   spawnAmountOnDeconstruct: 4
@@ -63,5 +66,6 @@ MonoBehaviour:
       m_AssetGUID: 
       m_SubObjectName: 
       m_SubObjectType: 
+      m_EditorAssetChanged: 0
   SoundOnDestroy: []
   sprite: {fileID: 21300000, guid: a9d8f27a5eb052c4a88ae45d1bbc2acf, type: 3}

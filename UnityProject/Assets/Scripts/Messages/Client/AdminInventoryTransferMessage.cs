@@ -22,8 +22,7 @@ namespace Messages.Client
 			var fromSlot = ItemSlot.Get(NetworkObjects[0].GetComponent<ItemStorage>(), msg.FromNamedSlot, msg.FromSlotIndex);
 			var toSlot = ItemSlot.Get(NetworkObjects[1].GetComponent<ItemStorage>(), msg.ToNamedSlot, msg.ToSlotIndex);
 
-			var playerScript = SentByPlayer.Script;
-			if(PlayerList.Instance.IsAdmin(playerScript.connectedPlayer.UserId))
+			if (SentByPlayer.IsAdmin)
 			{
 				Inventory.ServerTransfer(fromSlot, toSlot);
 			}

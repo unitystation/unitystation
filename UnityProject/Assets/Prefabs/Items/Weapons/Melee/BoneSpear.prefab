@@ -27,7 +27,7 @@ PrefabInstance:
     - target: {fileID: 5356397431624771952, guid: 6d093d86932670348bbbc367f3c19267,
         type: 3}
       propertyPath: hitDamage
-      value: 12
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 5356397431624771952, guid: 6d093d86932670348bbbc367f3c19267,
         type: 3}
@@ -47,9 +47,20 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5356397431624771952, guid: 6d093d86932670348bbbc367f3c19267,
         type: 3}
+      propertyPath: initialTraits.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5356397431624771952, guid: 6d093d86932670348bbbc367f3c19267,
+        type: 3}
       propertyPath: itemSprites.SpriteLeftHand
       value: 
       objectReference: {fileID: 11400000, guid: c3690b802e056ae4b8d8e22411949020,
+        type: 2}
+    - target: {fileID: 5356397431624771952, guid: 6d093d86932670348bbbc367f3c19267,
+        type: 3}
+      propertyPath: initialTraits.Array.data[2]
+      value: 
+      objectReference: {fileID: 11400000, guid: 71b6c4640889d4c4fb1f249f6933fc08,
         type: 2}
     - target: {fileID: 5356397431624771952, guid: 6d093d86932670348bbbc367f3c19267,
         type: 3}
@@ -128,5 +139,51 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: fb8bd68a0a2af4246a1a64c0127e5604,
         type: 3}
+    - target: {fileID: 6376517519037724322, guid: 6d093d86932670348bbbc367f3c19267,
+        type: 3}
+      propertyPath: damageWielded
+      value: 18
+      objectReference: {fileID: 0}
+    - target: {fileID: 6376517519037724322, guid: 6d093d86932670348bbbc367f3c19267,
+        type: 3}
+      propertyPath: damageUnwielded
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 6376517519037724322, guid: 6d093d86932670348bbbc367f3c19267,
+        type: 3}
+      propertyPath: Wielded.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 7e5a6a3e922781c49933af1dbc7e54ed,
+        type: 2}
+    - target: {fileID: 6376517519037724322, guid: 6d093d86932670348bbbc367f3c19267,
+        type: 3}
+      propertyPath: Wielded.SpriteRightHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 6425ea86b5d935c4893f03b80e2ef305,
+        type: 2}
+    - target: {fileID: 6376517519037724322, guid: 6d093d86932670348bbbc367f3c19267,
+        type: 3}
+      propertyPath: Unwielded.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 11400000, guid: c3690b802e056ae4b8d8e22411949020,
+        type: 2}
+    - target: {fileID: 6376517519037724322, guid: 6d093d86932670348bbbc367f3c19267,
+        type: 3}
+      propertyPath: Unwielded.SpriteRightHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 09b0a5479a15ec4449925ef6842f4558,
+        type: 2}
+    - target: {fileID: 6376517519037724322, guid: 6d093d86932670348bbbc367f3c19267,
+        type: 3}
+      propertyPath: Wielded.SpriteInventoryIcon
+      value: 
+      objectReference: {fileID: 11400000, guid: de5eae4dbe96c3a46a0dae17dd8c3b6f,
+        type: 2}
+    - target: {fileID: 6376517519037724322, guid: 6d093d86932670348bbbc367f3c19267,
+        type: 3}
+      propertyPath: Unwielded.SpriteInventoryIcon
+      value: 
+      objectReference: {fileID: 11400000, guid: 2e491f05d9c22db43a478bb92907b122,
+        type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6d093d86932670348bbbc367f3c19267, type: 3}

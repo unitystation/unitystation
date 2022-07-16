@@ -7,6 +7,7 @@ using Items;
 using Mirror;
 using UnityEngine;
 using UI.Objects.Cargo;
+using Systems.Cargo;
 
 namespace Objects.Cargo
 {
@@ -21,6 +22,9 @@ namespace Objects.Cargo
 		private List<JobType> allowedTypes = null;
 
 		[SerializeField] private AddressableAudioSource creditArrivalSound;
+		private bool soundIsOnCooldown = false;
+
+		[SerializeField] private string offlineMessage = "The console flashes red as an error message appears and says that access is denied.";
 
 		public bool WillInteract(HandApply interaction, NetworkSide side)
 		{
@@ -44,8 +48,10 @@ namespace Objects.Cargo
 
 		public void ServerPerformInteraction(HandApply interaction)
 		{
+			if(CargoOfflineCheck()) return;
 			if (interaction.HandSlot.Item.TryGetComponent<IDCard>(out var id))
 			{
+
 				CheckID(id.JobType, interaction.Performer);
 				return;
 			}
@@ -62,8 +68,8 @@ namespace Objects.Cargo
 		[Server]
 		private void CheckID(JobType usedID, GameObject playeref)
 		{
-			if (cargoGUI == null)
-				return;
+			if (cargoGUI == null) return;
+
 			foreach (var aJob in allowedTypes.Where(aJob => usedID == aJob))
 			{
 				CorrectID = true;
@@ -83,7 +89,27 @@ namespace Objects.Cargo
 
 		public void PlayBudgetUpdateSound()
 		{
-			_ = SoundManager.PlayNetworkedAtPosAsync(creditArrivalSound, gameObject.WorldPosServer());
+			if(soundIsOnCooldown) return;
+			_ = SoundManager.PlayNetworkedAtPosAsync(creditArrivalSound, gameObject.AssumedWorldPosServer());
+			StartCoroutine(SoundCooldown());
+		}
+
+		public bool CargoOfflineCheck()
+		{
+			if(CargoManager.Instance.CargoOffline)
+			{
+				Chat.AddActionMsgToChat(gameObject, offlineMessage, offlineMessage);
+				return true;
+			}
+
+			return false;
+		}
+
+		private IEnumerator SoundCooldown()
+		{
+			soundIsOnCooldown = true;
+			yield return WaitFor.Seconds(2f);
+			soundIsOnCooldown = false;
 		}
 	}
 }

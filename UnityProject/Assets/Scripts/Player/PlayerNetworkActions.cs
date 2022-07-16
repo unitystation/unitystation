@@ -21,7 +21,9 @@ using Player.Movement;
 using Shuttles;
 using UI.Core;
 using UI.Items;
-
+using Doors;
+using Tiles;
+using Random = UnityEngine.Random;
 
 public partial class PlayerNetworkActions : NetworkBehaviour
 {
@@ -37,7 +39,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 
 	private Equipment equipment = null;
 
-	private PlayerMove playerMove;
+	private MovementSynchronisation playerMove;
 	private PlayerScript playerScript;
 	public DynamicItemStorage itemStorage => playerScript.DynamicItemStorage;
 	public Transform chatBubbleTarget;
@@ -46,7 +48,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 
 	private void Awake()
 	{
-		playerMove = GetComponent<PlayerMove>();
+		playerMove = GetComponent<MovementSynchronisation>();
 		playerScript = GetComponent<PlayerScript>();
 	}
 
@@ -87,6 +89,18 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		equipment.SetReference((int) enumA, Item);
 	}
 
+	[Command]
+	public void CmdSetCurrentIntent(Intent intent)
+	{
+		if (playerScript.OrNull()?.playerMove == null)
+		{
+			Logger.LogError($"null playerScript/playerMove in {this.name} ");
+			return;
+		}
+		playerScript.playerMove.intent = intent;
+	}
+
+
 	/// <summary>
 	/// Server handling of the request to perform a resist action.
 	/// </summary>
@@ -96,7 +110,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		if (!Cooldowns.TryStartServer(playerScript, CommonCooldowns.Instance.Interaction)) return;
 
 		// Handle the movement restricted actions first.
-		if (playerScript.playerMove.IsBuckled)
+		if (playerScript.playerMove.BuckledToObject != null)
 		{
 			// Make sure we don't unbuckle if we are currently cuffed.
 			if (!playerScript.playerMove.IsCuffed)
@@ -116,16 +130,16 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		else if (playerScript.playerMove.IsCuffed) // Check if cuffed.
 		{
 			if (playerScript.playerSprites != null &&
-			    playerScript.playerSprites.clothes.TryGetValue(NamedSlot.handcuffs, out var cuffsClothingItem))
+				playerScript.playerSprites.clothes.TryGetValue(NamedSlot.handcuffs, out var cuffsClothingItem))
 			{
 				if (cuffsClothingItem != null &&
-				    cuffsClothingItem.TryGetComponent<RestraintOverlay>(out var restraintOverlay))
+					cuffsClothingItem.TryGetComponent<RestraintOverlay>(out var restraintOverlay))
 				{
 					restraintOverlay.ServerBeginUnCuffAttempt();
 				}
 			}
 		}
-		else if (playerScript.playerMove.IsTrapped) // Check if trapped.
+		else if (playerScript.playerMove.BuckledToObject != null || playerScript.playerMove.ContainedInContainer != null) // Check if trapped.
 		{
 			playerScript.PlayerSync.ServerTryEscapeContainer();
 		}
@@ -179,9 +193,9 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 			playerScript.playerHealth.ChangeFireStacks(-0.5f);
 
 			// Find the next in the roll sequence. Also unlock the facing direction temporarily since laying down locks it.
-			playerScript.playerDirectional.LockDirection = false;
-			playerScript.playerDirectional.FaceDirection(playerScript.playerDirectional.CurrentDirection.Rotate(RotationOffset.Right));
-			playerScript.playerDirectional.LockDirection = true;
+			playerScript.playerDirectional.LockDirectionTo(false, playerScript.playerDirectional.CurrentDirection);
+			playerScript.playerDirectional.RotateBy(2);
+			playerScript.playerDirectional.LockDirectionTo(true, playerScript.playerDirectional.CurrentDirection);
 
 			yield return WaitFor.Seconds(0.2f);
 		}
@@ -208,16 +222,18 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	public void CmdSlideItem(Vector3Int destination)
 	{
 		if (playerScript.IsPositionReachable(destination, true) == false
-			|| playerScript.pushPull.PulledObjectServer == null
+			|| playerScript.objectPhysics.Pulling.HasComponent == null
 			|| playerScript.IsGhost
 			|| playerScript.playerHealth.ConsciousState != ConsciousState.CONSCIOUS)
 		{
 			return;
 		}
-		PushPull pushPull = playerScript.pushPull.PulledObjectServer;
+
+		if (playerScript.objectPhysics.Pulling.HasComponent == false) return;
+		var pushPull = playerScript.objectPhysics.Pulling.Component;
 		Vector3Int origin = pushPull.registerTile.WorldPositionServer;
 		Vector2Int dir = (Vector2Int)(destination - origin);
-		pushPull.TryPush(dir);
+		pushPull.TryTilePush(dir, null, overridePull: true);
 	}
 
 	/// <summary>
@@ -266,11 +282,11 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		Vector2? possibleTarget = null;
 		if (Target != TransformState.HiddenPos)
 		{
-			if (Validations.IsReachableByPositions(PlayerManager.PlayerScript.registerTile.WorldPosition, Target, false))
+			if (Validations.IsReachableByPositions(PlayerManager.LocalPlayerScript.registerTile.WorldPosition, Target, false))
 			{
 				if (MatrixManager.IsPassableAtAllMatricesOneTile(Target.RoundToInt(), CustomNetworkManager.Instance._isServer))
 				{
-					possibleTarget = (Target - PlayerManager.PlayerScript.registerTile.WorldPosition);
+					possibleTarget = (Target - PlayerManager.LocalPlayerScript.registerTile.WorldPosition);
 				}
 			}
 		}
@@ -279,6 +295,33 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		{
 			Inventory.ServerDrop(item, possibleTarget);
 		}
+	}
+
+	/// <summary>
+	/// Transfers x amount of items from one hand to another. For stackable items only
+	/// </summary>
+	[Command]
+	public void CmdSplitStack(uint fromSlotID, NamedSlot fromSlot, int amountToTransfer)
+	{
+		if (fromSlot != NamedSlot.leftHand && fromSlot != NamedSlot.rightHand) return; //Only allowed to transfer from one hand to another
+		if (!Validations.CanInteract(playerScript, NetworkSide.Server, allowCuffed: false)) return; //Not allowed to transfer while cuffed
+		if (!Cooldowns.TryStartServer(playerScript, CommonCooldowns.Instance.Interaction)) return;
+
+		ItemSlot emptySlot = playerScript.DynamicItemStorage.GetActiveHandSlot(); //Were assuming that slot to which player wants to transfer stuff is always active hand
+
+		if(NetworkIdentity.spawned.TryGetValue(fromSlotID, out var objFS) == false) return;
+		var stackSlot = itemStorage.GetNamedItemSlot(objFS.gameObject, fromSlot);
+
+		if (stackSlot.ServerIsObservedBy(gameObject) == false || emptySlot.ServerIsObservedBy(gameObject) == false) return; //Checking if we can observe our hands
+
+		if (stackSlot.ItemObject == null || emptySlot.ItemObject != null) return;
+		if (stackSlot.ItemObject.TryGetComponent<Stackable>(out var stackSlotStackable) == false) return;
+		if (stackSlotStackable.Amount < amountToTransfer || amountToTransfer <= 0) return;
+
+		var multiple = Spawn.ServerPrefab(Spawn.DeterminePrefab(stackSlot.ItemObject)).GameObject;
+		multiple.GetComponent<Stackable>().ServerSetAmount(amountToTransfer);
+		Inventory.ServerAdd(multiple, emptySlot);
+		stackSlotStackable.ServerConsume(amountToTransfer);
 	}
 
 	/// <summary>
@@ -329,15 +372,46 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	/// Server handling of the request to throw an item from a client
 	/// </summary>
 	[Command]
-	public void CmdThrow( Vector3 worldTargetVector, int aim)
+	public void CmdThrow( Vector3 TargetLocalPosition, int aim, Vector3 ClientWorldOfDifference)
 	{
 		//only allowed to throw from hands
 		if (!Validations.CanInteract(playerScript, NetworkSide.Server)) return;
 
 		if (!Cooldowns.TryStartServer(playerScript, CommonCooldowns.Instance.Interaction)) return;
 		var slot = itemStorage.GetActiveHandSlot();
-		Inventory.ServerThrow(slot, worldTargetVector,
-			slot.NamedSlot == NamedSlot.leftHand ? SpinMode.Clockwise : SpinMode.CounterClockwise, (BodyPartType) aim);
+		Vector3 targetVector = TargetLocalPosition.ToWorld(playerMove.registerTile.Matrix) - playerMove.transform.position;
+		if (slot.Item != null)
+		{
+			Inventory.ServerThrow(slot, targetVector, (BodyPartType) aim);
+		}
+		else if (playerMove.Pulling.HasComponent)
+		{
+			if ((playerMove.Pulling.Component as MovementSynchronisation) == null)
+			{
+				if (playerMove.Pulling.Component.attributes.Component.OrNull()?.Size != null && playerMove.Pulling.Component.attributes.Component.Size >= Size.Large)
+				{
+					return;
+				}
+			};
+			var Distance = targetVector.magnitude;
+
+			if (Distance > 6)
+			{
+				Distance = 6;
+			}
+
+			var Pulling = playerMove.Pulling.Component;
+			playerMove.StopPulling(false);
+			//speedloss  / friction
+			var speed = 8;
+
+			Pulling.NewtonianPush( targetVector,speed
+				, (Distance / speed ) - ((Mathf.Pow(speed, 2) / (2*UniversalObjectPhysics.DEFAULT_Friction)) / speed)
+				, Single.NaN, (BodyPartType) aim, this.gameObject, Random.Range(25, 150));
+		}
+
+
+
 	}
 
 	[Command]
@@ -346,10 +420,10 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		if (!Cooldowns.TryStartServer(playerScript, CommonCooldowns.Instance.Interaction)) return;
 
 		if (playerScript.playerSprites != null &&
-		    playerScript.playerSprites.clothes.TryGetValue(NamedSlot.handcuffs, out var cuffsClothingItem))
+			playerScript.playerSprites.clothes.TryGetValue(NamedSlot.handcuffs, out var cuffsClothingItem))
 		{
 			if (cuffsClothingItem != null &&
-			    cuffsClothingItem.TryGetComponent<RestraintOverlay>(out var restraintOverlay))
+				cuffsClothingItem.TryGetComponent<RestraintOverlay>(out var restraintOverlay))
 			{
 				restraintOverlay.ServerBeginUnCuffAttempt();
 			}
@@ -364,11 +438,25 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	}
 
 	[Command]
-	public void CmdRegisterVote(bool isFor)
+	public void CmdInitiateGameModeVote()
 	{
 		if (VotingManager.Instance == null) return;
-		var connectedPlayer = PlayerList.Instance.Get(gameObject);
-		if (connectedPlayer == ConnectedPlayer.Invalid) return;
+		VotingManager.Instance.TryInitiateNextGameModeVote(gameObject, connectionToClient);
+	}
+
+	[Command]
+	public void CmdInitiateMapVote()
+	{
+		if (VotingManager.Instance == null) return;
+		VotingManager.Instance.TryInitiateNextMapVote(gameObject, connectionToClient);
+	}
+
+	[Command]
+	public void CmdRegisterVote(string isFor)
+	{
+		if (VotingManager.Instance == null) return;
+		var connectedPlayer = PlayerList.Instance.GetOnline(gameObject);
+		if (connectedPlayer == PlayerInfo.Invalid) return;
 		VotingManager.Instance.RegisterVote(connectedPlayer.UserId, isFor);
 	}
 
@@ -379,7 +467,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		{
 			if (VotingManager.Instance == null) return;
 
-			VotingManager.Instance.VetoVote(player.ClientId);
+			VotingManager.Instance.VetoVote(player);
 		}
 	}
 
@@ -390,6 +478,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	[Command]
 	public void CmdSwitchPickupMode()
 	{
+		if (itemStorage == null) return;
 		// Switch the pickup mode of the storage in the active hand
 		InteractableStorage storage = null;
 		foreach (var itemSlot in itemStorage.GetNamedItemSlots(NamedSlot.rightHand))
@@ -441,7 +530,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	private void UpdateInventorySlots()
 	{
 		if (this == null || itemStorage == null || playerScript == null
-		    || playerScript.mind == null || playerScript.mind.body == null)
+			|| playerScript.mind == null || playerScript.mind.body == null)
 		{
 			return;
 		}
@@ -468,7 +557,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		{
 			case ConsciousState.CONSCIOUS:
 				playerMove.allowInput = true;
-				playerScript.PlayerSync.SpeedServer = playerMove.RunSpeed;
+				playerMove.CurrentMovementType = MovementType.Running;
 				break;
 			case ConsciousState.BARELY_CONSCIOUS:
 				//Drop hand items when unconscious
@@ -477,7 +566,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 					Inventory.ServerDrop(itemSlot);
 				}
 				playerMove.allowInput = true;
-				playerScript.PlayerSync.SpeedServer = playerMove.CrawlSpeed;
+				playerMove.CurrentMovementType = MovementType.Running;
 				if (oldState == ConsciousState.CONSCIOUS)
 				{
 					//only play the sound if we are falling
@@ -501,14 +590,14 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 				break;
 		}
 
-		playerScript.pushPull.ServerStopPulling();
+		playerScript.objectPhysics.StopPulling(false);
 	}
 
 	[Server]
 	public void ServerToggleChatIcon(bool turnOn, string message, ChatChannel chatChannel, ChatModifier chatModifier)
 	{
-		if (!playerScript.pushPull.VisibleState || (playerScript.mind.occupation.JobType == JobType.NULL
-		                                        || playerScript.playerHealth.IsDead || playerScript.playerHealth.IsCrit))
+		if (!playerScript.objectPhysics.IsVisible || (playerScript.mind.occupation.JobType == JobType.NULL
+												|| playerScript.playerHealth.IsDead || playerScript.playerHealth.IsCrit))
 		{
 			//Don't do anything with chat icon if player is invisible or not spawned in
 			//This will also prevent clients from snooping other players local chat messages that aren't visible to them
@@ -568,7 +657,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	}
 
 	[Server]
-	public void ServerRespawnPlayerSpecial(string occupation = null)
+	public void ServerRespawnPlayerSpecial(string occupation = null, Vector3Int? spawnPos = null)
 	{
 		if (occupation != null)
 		{
@@ -584,11 +673,11 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 			}
 		}
 
-		PlayerSpawn.ServerRespawnPlayer(playerScript.mind);
+		PlayerSpawn.ServerRespawnPlayer(playerScript.mind, spawnPos);
 	}
 
 	[Server]
-	public void ServerRespawnPlayerAntag(ConnectedPlayer playerToRespawn, string antagonist)
+	public void ServerRespawnPlayerAntag(PlayerInfo playerToRespawn, string antagonist)
 	{
 		foreach (var antag in SOAdminJobsList.Instance.Antags)
 		{
@@ -634,7 +723,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		//Only force to ghost if the mind belongs in to that body
 		var currentMobID = GetComponent<LivingHealthMasterBase>().mobID;
 		if (GetComponent<LivingHealthMasterBase>().IsDead && !playerScript.IsGhost && playerScript.mind != null &&
-		    playerScript.mind.bodyMobID == currentMobID)
+			playerScript.mind.bodyMobID == currentMobID)
 		{
 			PlayerSpawn.ServerSpawnGhost(playerScript.mind);
 		}
@@ -667,7 +756,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		}
 
 		//body might be in a container, reentering should still be allowed in that case
-		if (body.pushPull != null && body.pushPull.parentContainer == null && body.WorldPos == TransformState.HiddenPos)
+		if (body.objectPhysics != null && body.objectPhysics.ContainedInContainer == null && body.WorldPos == TransformState.HiddenPos)
 		{
 			Logger.LogFormat("There's nothing left of {0}'s body, not entering it", Category.Ghosts, body);
 			return;
@@ -716,6 +805,8 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 			return;
 		if (playerScript.IsGhost || playerScript.playerHealth.ConsciousState != ConsciousState.CONSCIOUS)
 			return;
+
+		if(pointTarget == null) return;
 
 		//If we are trying to find matrix get matrix instead
 		if (pointTarget.TryGetComponent<MatrixSync>(out var matrixSync))
@@ -828,20 +919,6 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		handLabeler.GetComponent<HandLabeler>().SetLabel(label);
 	}
 
-	[Command]
-	public void CmdGhostPerformTeleport(Vector3 s3)
-	{
-		ServerGhostPerformTeleport(s3);
-	}
-
-	[Server]
-	public void ServerGhostPerformTeleport(Vector3 s3)
-	{
-		if (playerScript.IsGhost && Math.Abs(s3.x) <= 20000 && Math.Abs(s3.y) <= 20000)
-		{
-			playerScript.PlayerSync.SetPosition(s3); //server forces position on player
-		}
-	}
 
 	#region Admin-only
 
@@ -918,7 +995,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		{
 			if (spell.SpellData.Index == spellIndex)
 			{
-				spell.CallActionServer(PlayerList.Instance.Get(gameObject), clickPosition);
+				spell.CallActionServer(PlayerList.Instance.GetOnline(gameObject), clickPosition);
 				return;
 			}
 		}
@@ -964,7 +1041,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		//though this is only gonna hurt this player so isnt really hackable lol
 		if(storage == null) return;
 		if(storage.TryGetComponent<InteractableStorage>(out var interactableStorage) == false) return;
-		
+
 		var slots = interactableStorage.ItemStorage;
 
 		foreach (var slot in slots.GetItemSlots())
@@ -972,8 +1049,40 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 			if(slot.IsEmpty) continue;
 			if (slot.ItemObject.TryGetComponent<MouseTrap>(out var trap))
 			{
-				if(trap.IsArmed) trap.TriggerTrapFromContainer(playerScript.playerHealth);
+				if (trap.IsArmed)
+				{
+					trap.TriggerTrap(playerScript.playerHealth);
+					interactableStorage.PreventUIShowingAfterTrapTrigger = true;
+					return;
+				}
 			}
+		}
+	}
+
+	[Command]
+	public void CmdSetPaintJob(int paintJobIndex)
+	{
+		var handObject = GetActiveHandItem();
+
+		if (handObject == null || handObject.TryGetComponent<AirlockPainter>(out var painter) == false) return;
+
+		painter.CurrentPaintJobIndex = paintJobIndex;
+	}
+
+	[Command]
+	public void CmdServerReplaceItemInInventory(GameObject gameObject, uint id, NamedSlot namedSlot)
+	{
+		if (NetworkIdentity.spawned.ContainsKey(id) == false) return;
+		var Object = NetworkIdentity.spawned[id].gameObject;
+		var slot = itemStorage.GetNamedItemSlot(Object,namedSlot);
+		if (slot == null) return;
+
+		if (gameObject.PickupableOrNull()?.ItemSlot == null) return;
+		var fromslot = gameObject.PickupableOrNull()?.ItemSlot;
+		if (fromslot == null) return;
+		if (fromslot.ItemStorage.ServerIsObserver(playerMove.gameObject))
+		{
+			Inventory.ServerTransfer(gameObject.PickupableOrNull().ItemSlot, slot, ReplacementStrategy.DropOther);
 		}
 	}
 }

@@ -11,7 +11,7 @@ namespace Systems.Radiation
 		public float OutPuttingRadiation = 0;
 		public Color color = new Color(93f / 255f, 202 / 255f, 49 / 255f, 0);
 		private GameObject mLightRendererObject;
-		private ObjectBehaviour objectBehaviour;
+		private UniversalObjectPhysics objectBehaviour;
 		private RegisterObject registerObject;
 		[NonSerialized] public int ObjectID = 0;
 		private LightSprite lightSprite;
@@ -36,7 +36,7 @@ namespace Systems.Radiation
 			//yeah dam Unity initial Conditions  is not updating
 			color = new Color(93f / 255f, 202 / 255f, 49 / 255f, 0);
 
-			objectBehaviour = this.GetComponent<ObjectBehaviour>();
+			objectBehaviour = this.GetComponent<UniversalObjectPhysics>();
 			ObjectID = this.GetInstanceID();
 
 			mLightRendererObject = LightSpriteBuilder.BuildDefault(gameObject, color, 7);
@@ -79,24 +79,20 @@ namespace Systems.Radiation
 
 		private void UpdateValues(float Invalue)
 		{
-			try
+			if (this == null)
 			{
-				OutPuttingRadiation = Invalue;
-				float LightPower = OutPuttingRadiation / 24000;
-				if (LightPower > 1)
-				{
-					mLightRendererObject.transform.localScale = Vector3.one * 7 * LightPower;
-					LightPower = 1;
-				}
+				Logger.LogError(" The radioactive object has been destroyed but you're still trying to Produce radiation ", Category.Radiation);
+				return;
+			}
+			OutPuttingRadiation = Invalue;
+			float LightPower = OutPuttingRadiation / 24000;
+			if (LightPower > 1)
+			{
+				mLightRendererObject.transform.localScale = Vector3.one * (7 * LightPower);
+				LightPower = 1;
+			}
 
-				lightSprite.Color.a = LightPower;
-			}
-			catch (NullReferenceException exception)
-			{
-				Logger.LogError(
-					$"Caught NRE with RadiationProducer UpdateValues {exception.Message} \n {exception.StackTrace}",
-					Category.Electrical);
-			}
+			lightSprite.Color.a = LightPower;
 		}
 
 		private void RequestPulse()
@@ -105,11 +101,13 @@ namespace Systems.Radiation
 			{
 				if (registerObject == null)
 				{
-					RadiationManager.Instance.RequestPulse(objectBehaviour.registerTile.WorldPositionServer, OutPuttingRadiation, ObjectID);
+					RadiationManager.Instance.RequestPulse(objectBehaviour.registerTile.WorldPositionServer,
+						OutPuttingRadiation, ObjectID);
 				}
 				else
 				{
-					RadiationManager.Instance.RequestPulse(registerObject.WorldPositionServer, OutPuttingRadiation, ObjectID);
+					RadiationManager.Instance.RequestPulse(registerObject.WorldPositionServer, OutPuttingRadiation,
+						ObjectID);
 				}
 			}
 

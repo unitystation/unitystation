@@ -1,17 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &2715970608158328261
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8166096417663405829}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6cfbcaa815337604f8ba167a1e7e3693, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &5714445596966887162
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -32,7 +20,7 @@ PrefabInstance:
     - target: {fileID: 4103797577536159389, guid: 201d4b5714989d64d86b11da761ecb15,
         type: 3}
       propertyPath: initialTraits.Array.size
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 4103797577536159389, guid: 201d4b5714989d64d86b11da761ecb15,
         type: 3}
@@ -40,6 +28,38 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 762b8291a28f4ff4f92faa16e4b537b6,
         type: 2}
+    - target: {fileID: 4103797577536159389, guid: 201d4b5714989d64d86b11da761ecb15,
+        type: 3}
+      propertyPath: initialTraits.Array.data[2]
+      value: 
+      objectReference: {fileID: 11400000, guid: a9ac8cfeac7f9cc409369a06ea01aa79,
+        type: 2}
+    - target: {fileID: 4103797577536159389, guid: 201d4b5714989d64d86b11da761ecb15,
+        type: 3}
+      propertyPath: inventoryMoveSound.AssetAddress
+      value: null
+      objectReference: {fileID: 0}
+    - target: {fileID: 4103797577536159389, guid: 201d4b5714989d64d86b11da761ecb15,
+        type: 3}
+      propertyPath: inventoryRemoveSound.AssetAddress
+      value: null
+      objectReference: {fileID: 0}
+    - target: {fileID: 4149248815674038313, guid: 201d4b5714989d64d86b11da761ecb15,
+        type: 3}
+      propertyPath: relatedRecipes.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4149248815674038313, guid: 201d4b5714989d64d86b11da761ecb15,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[0].recipe
+      value: 
+      objectReference: {fileID: 11400000, guid: b3305fe2a6133d84d855578b5ac409b7,
+        type: 2}
+    - target: {fileID: 4149248815674038313, guid: 201d4b5714989d64d86b11da761ecb15,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[0].ingredientIndex
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 4390993211494916771, guid: 201d4b5714989d64d86b11da761ecb15,
         type: 3}
       propertyPath: m_Sprite
@@ -116,6 +136,11 @@ PrefabInstance:
       propertyPath: m_AssetId
       value: 0e933e4f965c9bf4082015f5e176ac73
       objectReference: {fileID: 0}
+    - target: {fileID: 4578568276478799971, guid: 201d4b5714989d64d86b11da761ecb15,
+        type: 3}
+      propertyPath: customNetTransform
+      value: 
+      objectReference: {fileID: 8126290525445841621}
     - target: {fileID: 7396244808014028178, guid: 201d4b5714989d64d86b11da761ecb15,
         type: 3}
       propertyPath: foreverID
@@ -129,9 +154,33 @@ PrefabInstance:
         type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 201d4b5714989d64d86b11da761ecb15, type: 3}
+--- !u!114 &8126290525445841621 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4578942373061721135, guid: 201d4b5714989d64d86b11da761ecb15,
+    type: 3}
+  m_PrefabInstance: {fileID: 5714445596966887162}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8166096417663405829}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 579884b05ae74e8499329b64997147d3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8166096417663405829 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 4476020110803030527, guid: 201d4b5714989d64d86b11da761ecb15,
     type: 3}
   m_PrefabInstance: {fileID: 5714445596966887162}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &2715970608158328261
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8166096417663405829}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6cfbcaa815337604f8ba167a1e7e3693, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

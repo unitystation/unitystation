@@ -44,6 +44,13 @@ public class DevSpawnerListItemController : MonoBehaviour
 	{
 		escapeKeyTarget = GetComponent<EscapeKeyTarget>();
 		lightingSystem = Camera.main.GetComponent<LightingSystem>();
+		UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
+	}
+
+	private void OnDisable()
+	{
+		OnEscape();
+		UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
 	}
 
 	/// <summary>
@@ -65,7 +72,7 @@ public class DevSpawnerListItemController : MonoBehaviour
 		titleText.text = resultDoc.Prefab.name;
 	}
 
-	private void Update()
+	private void UpdateMe()
 	{
 		if (selectedItem == this)
 		{
@@ -80,11 +87,6 @@ public class DevSpawnerListItemController : MonoBehaviour
 				TrySpawn();
 			}
 		}
-	}
-
-	private void OnDisable()
-	{
-		OnEscape();
 	}
 
 	public void OnEscape()
@@ -182,8 +184,8 @@ public class DevSpawnerListItemController : MonoBehaviour
 		if (CustomNetworkManager.IsServer)
 		{
 			Spawn.ServerPrefab(prefab, position);
-			var player = PlayerManager.LocalPlayer.Player();
-			UIManager.Instance.adminChatWindows.adminToAdminChat.ServerAddChatRecord(
+			var player = PlayerManager.LocalPlayerObject.Player();
+			UIManager.Instance.adminChatWindows.adminLogWindow.ServerAddChatRecord(
 					$"{player.Username} spawned a {prefab.name} at {position}", player.UserId);
 		}
 		else

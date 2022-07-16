@@ -4,6 +4,7 @@ using Mirror;
 using ScriptableObjects;
 using Doors;
 using TileManagement;
+using Tiles;
 
 namespace Objects.Construction
 {
@@ -15,7 +16,7 @@ namespace Objects.Construction
 		private TileChangeManager tileChangeManager;
 		private MetaTileMap metaTileMap;
 		private RegisterObject registerObject;
-		private ObjectBehaviour objectBehaviour;
+		private UniversalObjectPhysics objectBehaviour;
 
 		public GameObject FalseWall;
 		public GameObject FalseReinforcedWall;
@@ -39,7 +40,7 @@ namespace Objects.Construction
 			tileChangeManager = GetComponentInParent<TileChangeManager>();
 			registerObject = GetComponent<RegisterObject>();
 			GetComponent<Integrity>().OnWillDestroyServer.AddListener(OnWillDestroyServer);
-			objectBehaviour = GetComponent<ObjectBehaviour>();
+			objectBehaviour = GetComponent<UniversalObjectPhysics>();
 		}
 
 		private void OnWillDestroyServer(DestructionInfo arg0)
@@ -71,7 +72,7 @@ namespace Objects.Construction
 
 			if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.MetalSheet))
 			{
-				if (objectBehaviour.IsPushable)
+				if (objectBehaviour.IsNotPushable == false)
 				{
 					if (Validations.HasAtLeast(interaction.HandObject, 2) == false)
 					{
@@ -102,7 +103,7 @@ namespace Objects.Construction
 			}
 			else if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.PlasteelSheet))
 			{
-				if (objectBehaviour.IsPushable)
+				if (objectBehaviour.IsNotPushable == false)
 				{
 					if (Validations.HasAtLeast(interaction.HandObject, 2) == false)
 					{
@@ -129,7 +130,7 @@ namespace Objects.Construction
 			}
 			else if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Wrench))
 			{
-				if (objectBehaviour.IsPushable)
+				if (objectBehaviour.IsNotPushable == false)
 				{
 					// secure it if there's floor
 					if (MatrixManager.IsSpaceAt(registerObject.WorldPositionServer, true, registerObject.Matrix.MatrixInfo))
@@ -163,7 +164,7 @@ namespace Objects.Construction
 			else if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Screwdriver))
 			{
 				// disassemble if it's unanchored
-				if (objectBehaviour.IsPushable)
+				if (objectBehaviour.IsNotPushable == false)
 				{
 					ToolUtils.ServerUseToolWithActionMessages(interaction, 4f,
 						"You start to disassemble the girder...",
@@ -181,7 +182,7 @@ namespace Objects.Construction
 
 		public string Examine(Vector3 worldPos)
 		{
-			return (objectBehaviour.IsPushable ? "Use a wrench to secure to the floor, or a screwdriver to disassemble it."
+			return (objectBehaviour.IsNotPushable == false ? "Use a wrench to secure to the floor, or a screwdriver to disassemble it."
 					: "Apply metal sheets to finalize the plating, or plasteel to reinforce the structure. Use a wrench to unsecure the girder.");
 		}
 
@@ -189,7 +190,7 @@ namespace Objects.Construction
 		private void Disassemble(HandApply interaction)
 		{
 			Spawn.ServerPrefab(CommonPrefabs.Instance.Metal, registerObject.WorldPositionServer, count: 2);
-			GetComponent<CustomNetTransform>().DisappearFromWorldServer();
+			GetComponent<UniversalObjectPhysics>().DisappearFromWorld();
 		}
 
 		[Server]

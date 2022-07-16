@@ -172,7 +172,7 @@ namespace Systems.GhostRoles
 		/// </summary>
 		/// <param name="player">The player to be assigned to the role.</param>
 		/// <param name="key">The unique key the ghost role instance is associated with.</param>
-		public void ServerGhostRequestRole(ConnectedPlayer player, uint key)
+		public void ServerGhostRequestRole(PlayerInfo player, uint key)
 		{
 			ServerTryAddPlayerToRole(player, key);
 		}
@@ -194,8 +194,9 @@ namespace Systems.GhostRoles
 			serverAvailableRoles.Remove(key);
 		}
 
-		private bool ServerPlayerIsQueued(ConnectedPlayer player)
+		private bool ServerPlayerIsQueued(PlayerInfo player)
 		{
+			RemoveOfflineWaitingPlayers();
 			foreach (KeyValuePair<uint, GhostRoleServer> kvp in serverAvailableRoles)
 			{
 				if (kvp.Value.WaitingPlayers.Contains(player)) return true;
@@ -204,8 +205,10 @@ namespace Systems.GhostRoles
 			return false;
 		}
 
-		private GhostRoleResponseCode VerifyPlayerCanQueue(ConnectedPlayer player, uint key)
+		private GhostRoleResponseCode VerifyPlayerCanQueue(PlayerInfo player, uint key)
 		{
+			if (PlayerList.Instance.loggedOff.Contains(player)) return GhostRoleResponseCode.Error;
+
 			if (player.Script.IsDeadOrGhost == false)
 			{
 				return GhostRoleResponseCode.Error;
@@ -218,12 +221,12 @@ namespace Systems.GhostRoles
 
 			GhostRoleServer role = serverAvailableRoles[key];
 
-			if (role.RoleData.TargetOccupation != null && PlayerList.Instance.CheckJobBanState(player.UserId, role.RoleData.TargetOccupation.JobType) == false)
+			if (role.RoleData.TargetOccupation != null && PlayerList.Instance.IsJobBanned(player.UserId, role.RoleData.TargetOccupation.JobType))
 			{
 				return GhostRoleResponseCode.JobBanned;
 			}
 
-			if (role.RoleData.TargetAntagonist != null && PlayerList.Instance.CheckJobBanState(player.UserId, role.RoleData.TargetAntagonist.AntagJobType) == false)
+			if (role.RoleData.TargetAntagonist != null && PlayerList.Instance.IsJobBanned(player.UserId, role.RoleData.TargetAntagonist.AntagJobType))
 			{
 				return GhostRoleResponseCode.JobBanned;
 			}
@@ -252,10 +255,10 @@ namespace Systems.GhostRoles
 			return currentKeyIndex;
 		}
 
-		private void ServerTryAddPlayerToRole(ConnectedPlayer player, uint key)
+		private void ServerTryAddPlayerToRole(PlayerInfo player, uint key)
 		{
+			RemoveOfflineWaitingPlayers();
 			GhostRoleResponseCode responseCode = VerifyPlayerCanQueue(player, key);
-
 			if (responseCode == GhostRoleResponseCode.Success)
 			{
 				var role = serverAvailableRoles[key];
@@ -273,6 +276,44 @@ namespace Systems.GhostRoles
 			}
 
 			GhostRoleResponseMessage.SendTo(player, key, responseCode);
+		}
+
+		/// <summary>
+		/// Remove player from waiting for a role
+		/// </summary>
+		public void ServerRemoveWaitingPlayer(uint key, PlayerInfo player)
+		{
+			var role = serverAvailableRoles[key];
+			role.WaitingPlayers.Remove(player);
+			RemoveOfflineWaitingPlayers();
+
+			GhostRoleResponseMessage.SendTo(player, key, GhostRoleResponseCode.ClearMessage);
+		}
+
+		public void RemoveOfflineWaitingPlayers()
+		{
+			foreach (var ghostRoleQueue in serverAvailableRoles.Values)
+			{
+				for (int i = ghostRoleQueue.WaitingPlayers.Count - 1; i >= 0; i--)
+				{
+					if(PlayerList.Instance.loggedOff.Contains(ghostRoleQueue.WaitingPlayers[i]) == false) continue;
+					ghostRoleQueue.WaitingPlayers.Remove(ghostRoleQueue.WaitingPlayers[i]);
+				}
+			}
+		}
+
+		/// <summary>
+		/// Remove player from all waiting roles
+		/// </summary>
+		public void ServerRemoveWaitingPlayer(PlayerInfo player)
+		{
+			foreach (var role in serverAvailableRoles)
+			{
+				if (role.Value.WaitingPlayers.Contains(player) == false) continue;
+				role.Value.WaitingPlayers.Remove(player);
+				GhostRoleResponseMessage.SendTo(player, role.Key, GhostRoleResponseCode.ClearMessage);
+			}
+			RemoveOfflineWaitingPlayers();
 		}
 	}
 }

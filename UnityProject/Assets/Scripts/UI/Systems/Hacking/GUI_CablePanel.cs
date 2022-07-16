@@ -1,10 +1,9 @@
-using System.Collections;
 using System.Collections.Generic;
-using Messages.Client;
-using NetElements;
 using UnityEngine;
+using UI.Core.NetUI;
+using Messages.Client;
 
-namespace Hacking
+namespace UI.Hacking
 {
 	public class GUI_CablePanel : NetListButBetter<GUI_CablePanel.CableData>
 	{

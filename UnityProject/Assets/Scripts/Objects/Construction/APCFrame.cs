@@ -21,7 +21,7 @@ namespace Objects.Construction
 		[SerializeField] private StatefulState powerCellAddedState = null;
 		[SerializeField] private StatefulState wrenchedState = null;
 
-		private ObjectBehaviour objectBehaviour;
+		private UniversalObjectPhysics objectBehaviour;
 		private Integrity integrity;
 		private SpriteHandler spriteHandler;
 
@@ -41,7 +41,7 @@ namespace Objects.Construction
 			powerControlSlot = GetComponent<ItemStorage>().GetIndexedItemSlot(0);
 			powerCellSlot = GetComponent<ItemStorage>().GetIndexedItemSlot(1);
 			stateful = GetComponent<Stateful>();
-			objectBehaviour = GetComponent<ObjectBehaviour>();
+			objectBehaviour = GetComponent<UniversalObjectPhysics>();
 
 			if (!CustomNetworkManager.IsServer) return;
 
@@ -286,23 +286,26 @@ namespace Objects.Construction
 					$"{interaction.Performer.ExpensiveName()} secures the electronics to the APC.");
 				ToolUtils.ServerPlayToolSound(interaction);
 
-				MatrixInfo matrix = MatrixManager.AtPoint(gameObject.GetComponent<CustomNetTransform>().ServerPosition, true);
+				MatrixInfo matrix = MatrixManager.AtPoint(gameObject.AssumedWorldPosServer(), true);
 
-				var localPosInt = MatrixManager.WorldToLocalInt(gameObject.GetComponent<CustomNetTransform>().ServerPosition, matrix);
+				var localPosInt = MatrixManager.WorldToLocalInt(gameObject.AssumedWorldPosServer(), matrix);
+
 				var econs = interaction.Performer.GetComponentInParent<Matrix>().GetElectricalConnections(localPosInt);
-				foreach (var Connection in econs)
+				foreach (var Connection in econs.List)
 				{
 					if (Connection.Categorytype == PowerTypeCategory.APC)
 					{
-						econs.Clear();
-						ElectricalPool.PooledFPCList.Add(econs);
+						econs.Pool();
 						return;
 					}
 				}
-				GameObject WallMount = Spawn.ServerPrefab(APCObject, gameObject.GetComponent<CustomNetTransform>().ServerPosition, interaction.Performer.transform.parent, spawnItems: false).GameObject;
 
-				var Directional = WallMount.GetComponent<Directional>();
-				if (Directional != null) Directional.FaceDirection(gameObject.GetComponent<Directional>().CurrentDirection);
+				econs.Pool();
+
+				GameObject WallMount = Spawn.ServerPrefab(APCObject, gameObject.AssumedWorldPosServer(), interaction.Performer.transform.parent, spawnItems: false).GameObject;
+
+				var Directional = WallMount.GetComponent<Rotatable>();
+				if (Directional != null) Directional.FaceDirection(gameObject.GetComponent<Rotatable>().CurrentDirection);
 
 				ItemSlot apcPowerControlSlot = WallMount.GetComponent<ItemStorage>().GetIndexedItemSlot(0);
 				ItemSlot apcPowerCellSlot = WallMount.GetComponent<ItemStorage>().GetIndexedItemSlot(1);
@@ -378,7 +381,7 @@ namespace Objects.Construction
 			spriteHandler.ChangeSprite((int)SpriteStates.FrameWrenched);
 
 			// Set initial state
-			objectBehaviour.ServerSetPushable(false);
+			objectBehaviour.SetIsNotPushable(true);
 			stateful.ServerChangeState(wrenchedState);
 		}
 

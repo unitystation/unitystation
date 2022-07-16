@@ -76,7 +76,7 @@ namespace Objects.Electrical
 					CB.Present.GetComponent<CableInheritance>()?.Smoke.Stop();
 				}
 			}
-			GetComponent<CustomNetTransform>().DisappearFromWorldServer();
+			GetComponent<UniversalObjectPhysics>().DisappearFromWorld();
 			SelfDestruct = true;
 			//gameObject.GetComponentInChildren<SpriteRenderer>().enabled = false;
 			//ElectricalSynchronisation.StructureChange = true;
@@ -258,12 +258,11 @@ namespace Objects.Electrical
 				List<IntrinsicElectronicData> Econns = new List<IntrinsicElectronicData>();
 
 				var IEnumerableEconns = wireConnect.Matrix.GetElectricalConnections(wireConnect.registerTile.LocalPositionServer);
-				foreach (var T in IEnumerableEconns)
+				foreach (var T in IEnumerableEconns.List)
 				{
 					Econns.Add(T);
 				}
-				IEnumerableEconns.Clear();
-				ElectricalPool.PooledFPCList.Add(IEnumerableEconns);
+				IEnumerableEconns.Pool();
 
 				for (int i = 0; i < Econns.Count; i++)
 				{

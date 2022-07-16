@@ -1,12 +1,11 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using Hacking;
+﻿using System.Collections.Generic;
 using UnityEngine;
+using ScriptableObjects;
+using Systems.Hacking;
 using Objects.Construction;
 using Machines;
 using Messages.Server;
 using Messages.Server.SoundMessages;
-using ScriptableObjects;
 
 namespace Objects.Machines
 {
@@ -39,6 +38,11 @@ namespace Objects.Machines
 		/// Can this machine not be deconstructed?
 		/// </summary>
 		public bool canNotBeDeconstructed;
+
+		///<summary>
+		/// Is this machine resistant to EMPs?
+		///</summary>
+		public bool isEMPResistant = false;
 
 		/// <summary>
 		/// Does this machine need to be able to move before allowing deconstruction?
@@ -118,7 +122,7 @@ namespace Objects.Machines
 				return;
 			}
 
-			if (mustBeUnanchored && gameObject.GetComponent<PushPull>()?.IsPushable == false)
+			if (mustBeUnanchored && gameObject.GetComponent<UniversalObjectPhysics>().OrNull()?.IsNotPushable == true)
 			{
 				Chat.AddExamineMsgFromServer(interaction.Performer,
 					$"The {gameObject.ExpensiveName()} needs to be unanchored first.");

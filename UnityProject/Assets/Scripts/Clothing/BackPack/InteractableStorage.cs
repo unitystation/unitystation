@@ -60,6 +60,9 @@ public class InteractableStorage : MonoBehaviour, IClientInteractable<HandActiva
 	[SerializeField] [Tooltip("Can you empty out all items by activating this item?")]
 	private bool canQuickEmpty = false;
 
+	[SerializeField][Tooltip("Does it require alt click When in top-level inventory")]
+	private bool TopLevelAlt = false;
+
 	/// <summary>
 	/// The current pickup mode used when clicking
 	/// </summary>
@@ -70,6 +73,14 @@ public class InteractableStorage : MonoBehaviour, IClientInteractable<HandActiva
 
 	[SerializeField] private ActionData actionData = null;
 	public ActionData ActionData => actionData;
+
+	private bool preventUIShowingAfterTrapTrigger = false;
+
+	public bool PreventUIShowingAfterTrapTrigger
+	{
+		get => preventUIShowingAfterTrapTrigger;
+		set => preventUIShowingAfterTrapTrigger = value;
+	}
 
 	/// <summary>
 	/// Used on the server to switch the pickup mode of this InteractableStorage
@@ -115,12 +126,16 @@ public class InteractableStorage : MonoBehaviour, IClientInteractable<HandActiva
 		allowedToInteract = true;
 	}
 
-	private bool IsFull(GameObject usedObject, GameObject player)
+	private bool IsFull(GameObject usedObject, GameObject player, bool noMessage = false)
 	{
 		if(itemStorage.GetNextFreeIndexedSlot() == null && usedObject != null)
 		{
-			Chat.AddExamineMsg(player,
-				$"<color=red>The {usedObject.ExpensiveName()} won't fit in the {itemStorage.gameObject.ExpensiveName()}. Make some space!</color>");
+			if (noMessage == false)
+			{
+				Chat.AddExamineMsg(player,
+					$"<color=red>The {usedObject.ExpensiveName()} won't fit in the {itemStorage.gameObject.ExpensiveName()}. Make some space!</color>");
+			}
+
 			return true;
 		}
 		return false;
@@ -136,7 +151,7 @@ public class InteractableStorage : MonoBehaviour, IClientInteractable<HandActiva
 		}
 
 		// can only be opened if it's in the player's top level inventory or player is alt-clicking
-		if (PlayerManager.PlayerScript.DynamicItemStorage.ClientTotal.Contains(interaction.TargetSlot) || interaction.IsAltClick)
+		if ((PlayerManager.LocalPlayerScript.DynamicItemStorage.ClientTotal.Contains(interaction.TargetSlot) && TopLevelAlt == false) || interaction.IsAltClick)
 		{
 			if (interaction.UsedObject == null)
 			{
@@ -184,13 +199,21 @@ public class InteractableStorage : MonoBehaviour, IClientInteractable<HandActiva
 		if (allowedToInteract == false) return false;
 		// Use default interaction checks
 		if (DefaultWillInteract.Default(interaction, side) == false) return false;
-		if (IsFull(interaction.UsedObject, interaction.Performer)) return false;
+		if (IsFull(interaction.UsedObject, interaction.Performer, interaction.IsHighlight)) return false;
 		// See which item needs to be stored
 		if (Validations.IsTarget(gameObject, interaction))
 		{
 			// We're the target
-			// If player's hands are empty and alt-click let them open the bag
-			if (interaction.HandObject == null && interaction.IsAltClick) return true;
+			if (interaction.HandObject == null)
+			{
+				// If player's hands are empty and alt-click let them open the bag
+				if (interaction.IsAltClick) return true;
+			}
+			else
+			{
+				//We have something in our hand, try to put it in
+				return true;
+			}
 		}
 
 		return false;
@@ -202,8 +225,23 @@ public class InteractableStorage : MonoBehaviour, IClientInteractable<HandActiva
 	/// </summary>
 	public void ServerPerformInteraction(HandApply interaction)
 	{
+		if (interaction.HandObject == null)
+		{
+			// Reusing mouse drop logic for efficiency
+			ServerPerformInteraction(
+				MouseDrop.ByClient(interaction.Performer,
+					interaction.TargetObject,
+					interaction.Performer,
+					interaction.Intent));
+			return;
+		}
+
 		// Reusing mouse drop logic for efficiency
-		ServerPerformInteraction(MouseDrop.ByClient(interaction.Performer, interaction.TargetObject, interaction.Performer, interaction.Intent));
+		ServerPerformInteraction(
+			MouseDrop.ByClient(interaction.Performer,
+				interaction.UsedObject,
+				interaction.TargetObject,
+				interaction.Intent));
 	}
 
 	/// <summary>
@@ -341,7 +379,7 @@ public class InteractableStorage : MonoBehaviour, IClientInteractable<HandActiva
 					var itemsOnTileSame =
 						MatrixManager.GetAt<ItemAttributesV2>(interaction.WorldPositionTarget.To2Int().To3Int(), true);
 
-					if (itemsOnTileSame.Count == 0)
+					if (itemsOnTileSame is List<ItemAttributesV2> == false)
 					{
 						Chat.AddExamineMsgFromServer(interaction.Performer, "There's nothing to pickup!");
 						return;
@@ -378,7 +416,7 @@ public class InteractableStorage : MonoBehaviour, IClientInteractable<HandActiva
 					var itemsOnTileAll =
 						MatrixManager.GetAt<ItemAttributesV2>(interaction.WorldPositionTarget.To2Int().To3Int(), true);
 
-					if (itemsOnTileAll.Count == 0)
+					if (itemsOnTileAll is List<ItemAttributesV2> == false)
 					{
 						Chat.AddExamineMsgFromServer(interaction.Performer, "There's nothing to pickup!");
 						return;
@@ -426,13 +464,13 @@ public class InteractableStorage : MonoBehaviour, IClientInteractable<HandActiva
 
 							return;
 						}
-						if (PlayerManager.PlayerScript == null) return;
-						if (Validations.IsInReachDistanceByPositions(PlayerManager.PlayerScript.registerTile.WorldPosition ,interaction.WorldPositionTarget) == false) return;
-						if (MatrixManager.IsPassableAtAllMatricesOneTile( interaction.WorldPositionTarget.RoundToInt(), CustomNetworkManager.Instance._isServer) == false) return;
+						if (PlayerManager.LocalPlayerScript == null) return;
+						if (Validations.IsInReachDistanceByPositions(PlayerManager.LocalPlayerScript.registerTile.WorldPosition, interaction.WorldPositionTarget) == false) return;
+						if (MatrixManager.IsPassableAtAllMatricesOneTile(interaction.WorldPositionTarget.RoundToInt(), CustomNetworkManager.Instance._isServer) == false) return;
 
-							PlayerManager.PlayerScript.playerNetworkActions.CmdDropAllItems(itemStorage.GetIndexedItemSlot(0)
+							PlayerManager.LocalPlayerScript.playerNetworkActions.CmdDropAllItems(itemStorage.GetIndexedItemSlot(0)
 							.ItemStorageNetID, interaction.WorldPositionTarget);
-
+						
 
 						Chat.AddExamineMsgFromServer(interaction.Performer, $"You start dumping out the {gameObject.ExpensiveName()}.");
 
@@ -462,9 +500,9 @@ public class InteractableStorage : MonoBehaviour, IClientInteractable<HandActiva
 				return false;
 			}
 
-			if (PlayerManager.PlayerScript == null) return false;
+			if (PlayerManager.LocalPlayerScript == null) return false;
 
-			PlayerManager.PlayerScript.playerNetworkActions.CmdDropAllItems(itemStorage.GetIndexedItemSlot(0)
+			PlayerManager.LocalPlayerScript.playerNetworkActions.CmdDropAllItems(itemStorage.GetIndexedItemSlot(0)
 				.ItemStorageNetID, TransformState.HiddenPos);
 
 			if (CustomNetworkManager.Instance._isServer == false)
@@ -475,7 +513,15 @@ public class InteractableStorage : MonoBehaviour, IClientInteractable<HandActiva
 			return true;
 		}
 
-		interaction.PerformerPlayerScript.playerNetworkActions.CmdTriggerStorageTrap(gameObject);
+		if (interaction.Intent != Intent.Disarm)
+		{
+			interaction.PerformerPlayerScript.playerNetworkActions.CmdTriggerStorageTrap(gameObject);
+			if (PreventUIShowingAfterTrapTrigger)
+			{
+				preventUIShowingAfterTrapTrigger = false;
+				return false;
+			}
+		}
 
 		// open / close the backpack on activate
 		if (UIManager.StorageHandler.CurrentOpenStorage != itemStorage)
@@ -494,30 +540,30 @@ public class InteractableStorage : MonoBehaviour, IClientInteractable<HandActiva
 	{
 		if (allowedToInteract == false) return false;
 		if (DefaultWillInteract.Default(interaction, side) == false) return false;
-		// can't drag / view ourselves
+
+		//Can't drag / view ourselves
 		if (interaction.Performer == interaction.DroppedObject) return false;
-		// can only drag and drop the object to ourselves,
-		// or from our inventory to this object
+
+		//Can only drag and drop the object to ourselves, or from our inventory to this object
 		if (interaction.IsFromInventory && interaction.TargetObject == gameObject)
 		{
-			// trying to add an item from inventory slot to this storage sitting in the world
+			//Trying to add an item from inventory slot to this storage sitting in the world
 			return Validations.CanPutItemToStorage(interaction.Performer.GetComponent<PlayerScript>(),
 				itemStorage, interaction.DroppedObject.GetComponent<Pickupable>(), side,
 				examineRecipient: interaction.Performer);
 		}
-		else
-		{
-			// trying to view this storage, can only drop on ourselves to view it
-			if (interaction.Performer != interaction.TargetObject) return false;
-			// if we're dragging another player to us, it's only allowed if the other player is downed
-			if (Validations.HasComponent<PlayerScript>(interaction.DroppedObject))
-			{
-				// dragging a player, can only do this if they are down / dead
-				return Validations.IsStrippable(interaction.DroppedObject, side);
-			}
 
-			return true;
+		//Trying to view this storage, can only drop on ourselves to view it
+		if (interaction.Performer != interaction.TargetObject) return false;
+
+		//If we're dragging another player to us, it's only allowed if the other player is downed
+		if (Validations.HasComponent<PlayerScript>(interaction.DroppedObject))
+		{
+			//Dragging a player, can only do this if they are down / dead
+			return Validations.IsStrippable(interaction.DroppedObject, side);
 		}
+
+		return true;
 	}
 
 	public void ServerPerformInteraction(MouseDrop interaction)
@@ -626,6 +672,6 @@ public class InteractableStorage : MonoBehaviour, IClientInteractable<HandActiva
 
 	public void CallActionClient()
 	{
-		PlayerManager.PlayerScript.playerNetworkActions.CmdSwitchPickupMode();
+		PlayerManager.LocalPlayerScript.playerNetworkActions.CmdSwitchPickupMode();
 	}
 }

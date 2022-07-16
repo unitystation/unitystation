@@ -19,8 +19,8 @@ namespace Items.Atmospherics
 
 		public void ServerPerformInteraction(HandActivate interaction)
 		{
-			if (interaction.PerformerPlayerScript.pushPull.parentContainer != null &&
-			    interaction.PerformerPlayerScript.pushPull.parentContainer.TryGetComponent<GasContainer>(
+			if (interaction.PerformerPlayerScript.objectPhysics.ContainedInContainer != null &&
+			    interaction.PerformerPlayerScript.objectPhysics.ContainedInContainer.TryGetComponent<GasContainer>(
 				    out var container))
 			{
 				Chat.AddExamineMsgFromServer(interaction.Performer, GetGasMixInfo(container.GasMix));
@@ -106,7 +106,7 @@ namespace Items.Atmospherics
 				$"Temperature: {gasMix.Temperature:0.##} K ({gasMix.Temperature - Reactions.KOffsetC:0.##} °C)\n");
 			// You want Fahrenheit? HAHAHAHA
 
-			lock (gasMix.GasesArray)
+			lock (gasMix.GasesArray) //no Double lock
 			{
 				foreach (var gas in gasMix.GasesArray) //doesn't appear to modify list while iterating
 				{

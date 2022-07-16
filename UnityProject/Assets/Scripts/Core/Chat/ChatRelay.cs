@@ -5,8 +5,12 @@ using Mirror;
 using UnityEngine;
 using Systems.MobAIs;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 using Systems.Ai;
 using Messages.Server;
+using Messages.Server.SoundMessages;
+using Objects.Telecomms;
+using Systems.Communications;
 using UI.Chat_UI;
 
 /// <summary>
@@ -20,6 +24,10 @@ public class ChatRelay : NetworkBehaviour
 	private ChatChannel namelessChannels;
 	private LayerMask layerMask;
 	private LayerMask npcMask;
+	private LayerMask itemsMask;
+
+	private bool radioCheckIsOnCooldown = false;
+	[SerializeField] private float radioCheckRadius = 4f;
 
 	private RconManager rconManager;
 
@@ -45,9 +53,10 @@ public class ChatRelay : NetworkBehaviour
 	public void Start()
 	{
 		namelessChannels = ChatChannel.Examine | ChatChannel.Local | ChatChannel.None | ChatChannel.System |
-						   ChatChannel.Combat;
-		layerMask = LayerMask.GetMask( "Door Closed");
+		                   ChatChannel.Combat;
+		layerMask = LayerMask.GetMask("Door Closed");
 		npcMask = LayerMask.GetMask("NPC");
+		itemsMask = LayerMask.GetMask("Items");
 
 		rconManager = RconManager.Instance;
 	}
@@ -55,13 +64,13 @@ public class ChatRelay : NetworkBehaviour
 	[Server]
 	public void PropagateChatToClients(ChatEvent chatEvent)
 	{
-		List<ConnectedPlayer> players = PlayerList.Instance.AllPlayers;
+		List<PlayerInfo> players = PlayerList.Instance.AllPlayers;
 		Loudness loud = chatEvent.VoiceLevel;
 
 		//Local chat range checks:
 		if (chatEvent.channels.HasFlag(ChatChannel.Local)
-				|| chatEvent.channels.HasFlag(ChatChannel.Combat)
-				|| chatEvent.channels.HasFlag(ChatChannel.Action))
+		    || chatEvent.channels.HasFlag(ChatChannel.Combat)
+		    || chatEvent.channels.HasFlag(ChatChannel.Action))
 		{
 			for (int i = players.Count - 1; i >= 0; i--)
 			{
@@ -92,7 +101,7 @@ public class ChatRelay : NetworkBehaviour
 
 				//Send chat to PlayerChatLocation pos, usually just the player object but for AI is its vessel
 				var playerPosition = players[i].Script.PlayerChatLocation.OrNull()?.AssumedWorldPosServer()
-					?? players[i].Script.gameObject.AssumedWorldPosServer();
+				                     ?? players[i].Script.gameObject.AssumedWorldPosServer();
 
 				//Do player position to originator distance check
 				if (DistanceCheck(playerPosition) == false)
@@ -140,21 +149,28 @@ public class ChatRelay : NetworkBehaviour
 				}
 			}
 
-			//Get NPCs in vicinity
-			var npcs = Physics2D.OverlapCircleAll(chatEvent.position, 14f, npcMask);
-			foreach (Collider2D coll in npcs)
+
+
+			if (chatEvent.originator != null)
 			{
-				var npcPosition = coll.gameObject.AssumedWorldPosServer();
-				if (MatrixManager.Linecast(chatEvent.position,LayerTypeSelection.Walls,
-					 layerMask,npcPosition).ItHit ==false)
+				//Get NPCs in vicinity
+				var npcs = Physics2D.OverlapCircleAll(chatEvent.position, 14f, npcMask);
+				foreach (Collider2D coll in npcs)
 				{
-					//NPC is in hearing range, pass the message on:
-					var mobAi = coll.GetComponent<MobAI>();
-					if (mobAi != null)
+					var npcPosition = coll.gameObject.AssumedWorldPosServer();
+					if (MatrixManager.Linecast(chatEvent.position, LayerTypeSelection.Walls,
+						layerMask, npcPosition).ItHit == false)
 					{
-						mobAi.LocalChatReceived(chatEvent);
+						//NPC is in hearing range, pass the message on: Physics2D.OverlapCircleAll(chatEvent.originator.AssumedWorldPosServer(), 8f, itemsMask);
+						var mobAi = coll.GetComponent<MobAI>();
+						if (mobAi != null)
+						{
+							mobAi.LocalChatReceived(chatEvent);
+						}
 					}
 				}
+
+				if (radioCheckIsOnCooldown == false) chatEvent = CheckForRadios(chatEvent);
 			}
 		}
 
@@ -163,13 +179,15 @@ public class ChatRelay : NetworkBehaviour
 			ChatChannel channels = chatEvent.channels;
 
 			if (channels.HasFlag(ChatChannel.Combat) || channels.HasFlag(ChatChannel.Local) ||
-				channels.HasFlag(ChatChannel.System) || channels.HasFlag(ChatChannel.Examine) ||
-				channels.HasFlag(ChatChannel.Action))
+			    channels.HasFlag(ChatChannel.System) || channels.HasFlag(ChatChannel.Examine) ||
+			    channels.HasFlag(ChatChannel.Action))
 			{
 				//Binary check here to avoid speaking in local when speaking on binary
-				if (!channels.HasFlag(ChatChannel.Binary) || (players[i].Script.IsGhost && players[i].Script.IsPlayerSemiGhost == false))
+				if (!channels.HasFlag(ChatChannel.Binary) ||
+				    (players[i].Script.IsGhost && players[i].Script.IsPlayerSemiGhost == false))
 				{
-					UpdateChatMessage.Send(players[i].GameObject, channels, chatEvent.modifiers, chatEvent.message, loud, chatEvent.messageOthers,
+					UpdateChatMessage.Send(players[i].GameObject, channels, chatEvent.modifiers, chatEvent.message,
+						loud, chatEvent.messageOthers,
 						chatEvent.originator, chatEvent.speaker, chatEvent.stripTags);
 
 					continue;
@@ -188,7 +206,8 @@ public class ChatRelay : NetworkBehaviour
 			//if the mask ends up being a big fat 0 then don't do anything
 			if (channels != ChatChannel.None)
 			{
-				UpdateChatMessage.Send(players[i].GameObject, channels, chatEvent.modifiers, chatEvent.message, loud, chatEvent.messageOthers,
+				UpdateChatMessage.Send(players[i].GameObject, channels, chatEvent.modifiers, chatEvent.message, loud,
+					chatEvent.messageOthers,
 					chatEvent.originator, chatEvent.speaker, chatEvent.stripTags);
 			}
 		}
@@ -203,6 +222,40 @@ public class ChatRelay : NetworkBehaviour
 
 			RconManager.AddChatLog(message);
 		}
+	}
+
+	private ChatEvent CheckForRadios(ChatEvent chatEvent)
+	{
+		HandleRadioCheckCooldown();
+		var SBRSpamCheck = false;
+		// Only spoken messages should be forwarded
+		if (chatEvent.channels.HasFlag(ChatChannel.Local) == false)
+		{
+			return chatEvent;
+		}
+
+		//Check for chat three tiles around the player
+		foreach (Collider2D coll in Physics2D.OverlapCircleAll(chatEvent.position,
+			radioCheckRadius, itemsMask))
+		{
+			if (chatEvent.originator == coll.gameObject) continue;
+			if (coll.gameObject.TryGetComponent<IChatInfluencer>(out var listener) == false || listener.WillInfluenceChat() == false) continue;
+			var radioPos = coll.gameObject.AssumedWorldPosServer();
+			if (MatrixManager.Linecast(chatEvent.position, LayerTypeSelection.Walls,
+				layerMask, radioPos).ItHit == false)
+			{
+				return listener.InfluenceChat(chatEvent);
+			}
+		}
+
+		return chatEvent;
+	}
+
+	private async void HandleRadioCheckCooldown()
+	{
+		radioCheckIsOnCooldown = true;
+		await Task.Delay(500).ConfigureAwait(false);
+		radioCheckIsOnCooldown = false;
 	}
 
 
@@ -223,7 +276,8 @@ public class ChatRelay : NetworkBehaviour
 	}
 
 	[Client]
-	public void UpdateClientChat(string message, ChatChannel channels, bool isOriginator, GameObject recipient, Loudness loudness)
+	public void UpdateClientChat(string message, ChatChannel channels, bool isOriginator, GameObject recipient,
+		Loudness loudness, ChatModifier modifiers)
 	{
 		if (string.IsNullOrEmpty(message)) return;
 
@@ -237,9 +291,10 @@ public class ChatRelay : NetworkBehaviour
 		if (channels != ChatChannel.None)
 		{
 			// replace action messages with chat bubble
-			if(channels.HasFlag(ChatChannel.Combat) || channels.HasFlag(ChatChannel.Action) || channels.HasFlag(ChatChannel.Examine))
+			if (channels.HasFlag(ChatChannel.Combat) || channels.HasFlag(ChatChannel.Action) ||
+			    channels.HasFlag(ChatChannel.Examine) || modifiers.HasFlag(ChatModifier.Emote))
 			{
-				if(isOriginator)
+				if (isOriginator)
 				{
 					ChatBubbleManager.Instance.ShowAction(Regex.Replace(message, "<.*?>", string.Empty), recipient);
 				}
@@ -247,6 +302,35 @@ public class ChatRelay : NetworkBehaviour
 
 			ChatUI.Instance.AddChatEntry(message);
 		}
+		AudioSourceParameters audioSourceParameters = new AudioSourceParameters();
+		switch (channels)
+		{
+			case ChatChannel.Syndicate:
+				audioSourceParameters.Volume = PlayerPrefs.GetFloat(PlayerPrefKeys.RadioVolumeKey);
+				_ = SoundManager.Play(Chat.Instance.commonSyndicteChannelSound,audioSourceParameters: audioSourceParameters);
+				break;
+			case ChatChannel.Security:
+
+				audioSourceParameters.Volume = PlayerPrefs.GetFloat(PlayerPrefKeys.RadioVolumeKey);
+				_ = SoundManager.Play(Chat.Instance.commonSecurityChannelSound, audioSourceParameters:audioSourceParameters);
+				break;
+			case ChatChannel.Binary:
+			case ChatChannel.Medical:
+			case ChatChannel.Command:
+			case ChatChannel.Supply:
+			case ChatChannel.CentComm:
+			case ChatChannel.Science:
+			case ChatChannel.Engineering:
+			case ChatChannel.Common:
+				if (PlayerPrefs.GetInt(PlayerPrefKeys.CommonRadioToggleKey) == 1)
+				{
+					audioSourceParameters.Volume = PlayerPrefs.GetFloat(PlayerPrefKeys.RadioVolumeKey);
+					_ = SoundManager.Play(Chat.Instance.commonRadioChannelSound, audioSourceParameters:audioSourceParameters);
+				}
+
+				break;
+		}
+
 	}
 
 	/// <summary>

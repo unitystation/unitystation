@@ -1,5 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Items;
+using Tiles;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
@@ -33,6 +35,9 @@ namespace Systems.Scenes
 
 		private TileChangeManager tileChangeManager;
 
+		[SerializeField]
+		private RandomItemSpot mobPools = null;
+
 		private void Start()
 		{
 			LavaLandManager.Instance.randomGenScripts.Add(this);
@@ -59,21 +64,55 @@ namespace Systems.Scenes
 				terrainMap = GenTilePos(terrainMap);
 			}
 
+			var itemSpots = new List<GameObject>();
+
 			for (int x = 0; x < width; x++)
 			{
 				for (int y = 0; y < height; y++)
 				{
+					var pos = new Vector3Int(-x + width / 2, -y + height / 2, 0) + gameObjectPos;
+
 					if (terrainMap[x, y] != 1)
 					{
-						var pos = new Vector3Int(-x + width / 2, -y + height / 2, 0) + gameObjectPos;
+
 						tileChangeManager.MetaTileMap.SetTile(pos, wallTile);
+
+						//Commented out below sets bottom tile, but we don't need to for lavaland
 						//botMap.SetTile(new Vector3Int(-x + width / 2, -y + height / 2, 0), botTile);
+					}
+
+					else if (DMMath.Prob(2) && mobPools != null)
+					{
+						if (tileChangeManager.MetaTileMap.matrix.IsPassableAtOneMatrixOneTile(pos, true) == false) continue;
+						itemSpots.Add(Spawn.ServerPrefab(mobPools.gameObject, tileChangeManager.MetaTileMap.LocalToWorld(pos), tileChangeManager.MetaTileMap.ObjectLayer.transform).GameObject);
 					}
 				}
 			}
+
+			StartCoroutine(SpawnMobs(itemSpots));
 		}
 
-		public void InitPos()
+		private IEnumerator SpawnMobs(List<GameObject> itemSpots)
+		{
+			yield return WaitFor.Seconds(30);
+
+			foreach (var itemSpot in itemSpots)
+			{
+				if(itemSpot.TryGetComponent<RandomItemSpot>(out var spot) == false) continue;
+
+				var tile = spot.GetComponent<RegisterTile>();
+
+				if (tile.Matrix.IsPassableAtOneMatrixOneTile(tile.LocalPositionServer, true) == false)
+				{
+					_ = Despawn.ServerSingle(itemSpot);
+					continue;
+				}
+
+				spot.RollRandomPool(true, true);
+			}
+		}
+
+		private void InitPos()
 		{
 			for (int x = 0; x < width; x++)
 			{
@@ -85,7 +124,7 @@ namespace Systems.Scenes
 		}
 
 
-		public int[,] GenTilePos(int[,] oldMap)
+		private int[,] GenTilePos(int[,] oldMap)
 		{
 			int[,] newMap = new int[width, height];
 			int neighb;

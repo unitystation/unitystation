@@ -270,7 +270,7 @@ namespace Systems.Ai
 			if(newCore == null) return;
 
 			//Something weird with headless and local host triggering the sync even though its set to owner
-			if (CustomNetworkManager.IsHeadless || PlayerManager.LocalPlayer != gameObject) return;
+			if (CustomNetworkManager.IsHeadless || PlayerManager.LocalPlayerObject != gameObject) return;
 
 			Init();
 			aiUi.OrNull()?.SetUp(this);
@@ -294,7 +294,7 @@ namespace Systems.Ai
 		{
 			hasPower = newState;
 
-			if (CustomNetworkManager.IsHeadless || PlayerManager.LocalPlayer != gameObject) return;
+			if (CustomNetworkManager.IsHeadless || PlayerManager.LocalPlayerObject != gameObject) return;
 
 			Init();
 
@@ -308,7 +308,7 @@ namespace Systems.Ai
 		{
 			power = newValue;
 
-			if (CustomNetworkManager.IsHeadless || PlayerManager.LocalPlayer != gameObject) return;
+			if (CustomNetworkManager.IsHeadless || PlayerManager.LocalPlayerObject != gameObject) return;
 
 			Init();
 
@@ -320,7 +320,7 @@ namespace Systems.Ai
 		{
 			integrity = newValue;
 
-			if (CustomNetworkManager.IsHeadless || PlayerManager.LocalPlayer != gameObject) return;
+			if (CustomNetworkManager.IsHeadless || PlayerManager.LocalPlayerObject != gameObject) return;
 
 			Init();
 
@@ -332,7 +332,7 @@ namespace Systems.Ai
 		{
 			numberOfCameras = newValue;
 
-			if (CustomNetworkManager.IsHeadless || PlayerManager.LocalPlayer != gameObject) return;
+			if (CustomNetworkManager.IsHeadless || PlayerManager.LocalPlayerObject != gameObject) return;
 
 			Init();
 
@@ -370,7 +370,7 @@ namespace Systems.Ai
 
 				//This is to move the player object so we can see the Ai Eye sprite underneath us
 				//TODO for some reason this isnt always working the sprite sometimes stays on the core, or last position
-				playerScript.PlayerSync.SetPosition(cameraLocation.gameObject.WorldPosServer(), true);
+				playerScript.PlayerSync.AppearAtWorldPositionServer(cameraLocation.gameObject.AssumedWorldPosServer(), false);
 			}
 			else
 			{
@@ -475,7 +475,7 @@ namespace Systems.Ai
 			if (hasPower && cameraLocation != null)
 			{
 				var validCameras = GetValidCameras().OrderBy(c =>
-					Vector3.Distance(cameraLocation.position, c.gameObject.WorldPosServer())).ToArray();
+					Vector3.Distance(cameraLocation.position, c.gameObject.AssumedWorldPosServer())).ToArray();
 
 				if (validCameras.Any())
 				{
@@ -690,11 +690,11 @@ namespace Systems.Ai
 			}
 
 			var chosenCameras = new List<SecurityCamera>();
-			var aiPlayerCameraLocation = cameraLocation.position;
+			var aiPlayerCameraLocation = cameraLocation == null ? vesselObject.AssumedWorldPosServer() : cameraLocation.position;
 
 			foreach (var securityCamera in GetValidCameras())
 			{
-				var securityCameraLocation = securityCamera.gameObject.WorldPosClient();
+				var securityCameraLocation = securityCamera.gameObject.AssumedWorldPosServer();
 
 				var direction = securityCameraLocation - aiPlayerCameraLocation;
 				var angle = (Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg) - 45;
@@ -714,7 +714,7 @@ namespace Systems.Ai
 			if(chosenCameras.Count == 0) return;
 
 			var sortedCameras = chosenCameras.OrderBy(c =>
-				Vector3.Distance(aiPlayerCameraLocation, c.gameObject.WorldPosClient()));
+				Vector3.Distance(aiPlayerCameraLocation, c.gameObject.AssumedWorldPosServer()));
 
 			//Move to nearest camera
 			CmdTeleportToCamera(sortedCameras.First().gameObject, false);
@@ -810,13 +810,13 @@ namespace Systems.Ai
 				return;
 			}
 
-			if(vesselObject == null || vesselObject.TryGetComponent<ObjectBehaviour>(out var objectBehaviour) == false) return;
+			if(vesselObject == null || vesselObject.TryGetComponent<UniversalObjectPhysics>(out var objectBehaviour) == false) return;
 
-			var newState = objectBehaviour.IsNotPushable;
+			var newState = !objectBehaviour.IsNotPushable;
 
 			Chat.AddActionMsgToChat(gameObject, $"You {(newState ? "disengage" : "engage")} your core floor bolts",
 				$"{vesselObject.ExpensiveName()} {(newState ? "disengages" : "engages")} its floor bolts");
-			objectBehaviour.ServerSetPushable(newState);
+			objectBehaviour.SetIsNotPushable(newState);
 		}
 
 		[Server]
@@ -1133,6 +1133,9 @@ namespace Systems.Ai
 				return;
 			}
 
+			//Remove tags
+			reason = Chat.StripTags(reason);
+
 			if (reason.Trim().Length < 10)
 			{
 				Chat.AddExamineMsgFromServer(gameObject, "You must provide a longer reason when calling the shuttle");
@@ -1167,7 +1170,8 @@ namespace Systems.Ai
 
 			while (a > 0.1)
 			{
-				lineRenderer.SetColors(colour, colour);
+				lineRenderer.startColor = colour;
+				lineRenderer.endColor = colour;
 				yield return WaitFor.Seconds(0.1f);
 				a -= 0.1f;
 				a = Mathf.Clamp(a, 0f, 1f);

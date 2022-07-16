@@ -1,18 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-759032363489711994
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2915179160587070810}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6c90bcd903792fa459451cefa210a434, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  currentAccess: 49
 --- !u!1001 &1750086305945895620
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -87,8 +74,23 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3949894974439047420, guid: 1196c3867e61e9e49973dcb106b0a977,
         type: 3}
+      propertyPath: exportCost
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 3949894974439047420, guid: 1196c3867e61e9e49973dcb106b0a977,
+        type: 3}
+      propertyPath: exportName
+      value: airlock electronics
+      objectReference: {fileID: 0}
+    - target: {fileID: 3949894974439047420, guid: 1196c3867e61e9e49973dcb106b0a977,
+        type: 3}
       propertyPath: initialName
       value: airlock electronics
+      objectReference: {fileID: 0}
+    - target: {fileID: 3949894974439047420, guid: 1196c3867e61e9e49973dcb106b0a977,
+        type: 3}
+      propertyPath: initialDescription
+      value: Looks like a circuit. Probably is.
       objectReference: {fileID: 0}
     - target: {fileID: 3949894974439047420, guid: 1196c3867e61e9e49973dcb106b0a977,
         type: 3}
@@ -114,3 +116,16 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 1750086305945895620}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &-759032363489711994
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2915179160587070810}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6c90bcd903792fa459451cefa210a434, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentAccess: 49

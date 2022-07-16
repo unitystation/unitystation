@@ -1,8 +1,8 @@
 ﻿using System.Text;
 using UnityEngine;
+using UI.Core.NetUI;
 using Systems.Electricity;
 using Objects.Atmospherics;
-
 
 namespace UI.Objects.Atmospherics
 {
@@ -15,16 +15,9 @@ namespace UI.Objects.Atmospherics
 		private NetSlider onOffSwitch = null;
 
 		private HeaterFreezer heaterFreezer;
-		private HeaterFreezer HeaterFreezer {
-			get {
-				if (heaterFreezer == null)
-					heaterFreezer = Provider.GetComponent<HeaterFreezer>();
+		private HeaterFreezer HeaterFreezer => heaterFreezer ??= Provider.GetComponent<HeaterFreezer>();
 
-				return heaterFreezer;
-			}
-		}
-
-		public void OnTabOpenedHandler(ConnectedPlayer connectedPlayer)
+		public void OnTabOpenedHandler(PlayerInfo connectedPlayer)
 		{
 			var state = HeaterFreezer.ApcPoweredDevice.State == PowerState.Off ? "No Power" :
 				HeaterFreezer.IsOn ? "On" : "Off";

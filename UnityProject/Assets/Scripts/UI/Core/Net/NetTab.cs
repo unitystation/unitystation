@@ -10,6 +10,7 @@ using Systems.Interaction;
 using UI;
 using Objects.Wallmounts;
 
+using UI.Core.NetUI;
 
 public enum NetTabType
 {
@@ -62,9 +63,14 @@ public enum NetTabType
 	ACU = 45,
 	Explosive = 46,
 	AirlockElectronics = 47,
-	TeleporterConsole = 48,
-	Handteleporter = 49
-
+	FrequencyChanger = 48,
+	PizzaBomb = 49,
+	TechWeb = 50,
+	RDProductionMachine = 51,
+	PublicTerminal = 52,
+	TeleporterConsole = 53,
+	Handteleporter = 54
+	
 	// add new entres to the bottom
 	// the enum name must match that of the prefab except the prefab has the word tab infront of the enum name
 	// i.e TabJukeBox
@@ -102,7 +108,7 @@ public class NetTab : Tab
 	public Dictionary<string, NetUIElementBase> CachedElements { get; } = new Dictionary<string, NetUIElementBase>();
 
 	// for server
-	public HashSet<ConnectedPlayer> Peepers { get; } = new HashSet<ConnectedPlayer>();
+	public HashSet<PlayerInfo> Peepers { get; } = new HashSet<PlayerInfo>();
 
 	public bool IsUnobserved => Peepers.Count == 0;
 
@@ -140,14 +146,14 @@ public class NetTab : Tab
 	// for server
 	public void AddPlayer(GameObject player)
 	{
-		var newPeeper = PlayerList.Instance.Get(player);
+		var newPeeper = PlayerList.Instance.GetOnline(player);
 		Peepers.Add(newPeeper);
 		OnTabOpened.Invoke(newPeeper);
 	}
 
 	public void RemovePlayer(GameObject player)
 	{
-		var newPeeper = PlayerList.Instance.Get(player);
+		var newPeeper = PlayerList.Instance.GetOnline(player);
 		OnTabClosed.Invoke(newPeeper);
 		Peepers.Remove(newPeeper);
 	}
@@ -285,12 +291,22 @@ public class NetTab : Tab
 		}
 	}
 
+	public bool IsAIInteracting()
+	{
+		foreach(var peep in Peepers)
+		{
+			if (peep.Job != JobType.AI) continue;
+			return true;
+		}
+		return false;
+	}
+
 	public void CloseTab()
 	{
 		ControlTabs.CloseTab(Type, Provider);
 	}
 
-	public void ServerCloseTabFor(ConnectedPlayer player)
+	public void ServerCloseTabFor(PlayerInfo player)
 	{
 		TabUpdateMessage.Send(player.GameObject, Provider, Type, TabAction.Close);
 	}
@@ -313,7 +329,20 @@ public class NetTab : Tab
 
 		SoundManager.PlayNetworkedAtPos(sound, position);
 	}
+
+
+	/// <summary>
+	/// Will only play sounds for players observing this NetTab
+	/// </summary>
+	/// <param name="audioSource"></param>
+	protected void PlaySoundsForPeepers(AddressableAudioSource audioSource)
+	{
+		foreach (var peeper in Peepers)
+		{
+			SoundManager.PlayNetworkedForPlayer(peeper.Script.gameObject, audioSource);
+		}
+	}
 }
 
 [Serializable]
-public class ConnectedPlayerEvent : UnityEvent<ConnectedPlayer> { }
+public class ConnectedPlayerEvent : UnityEvent<PlayerInfo> { }

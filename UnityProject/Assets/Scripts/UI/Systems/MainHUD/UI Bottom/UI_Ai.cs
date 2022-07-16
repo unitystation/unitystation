@@ -69,9 +69,21 @@ namespace UI.Systems.MainHUD.UI_Bottom
 
 		private bool focusCheck;
 
-		#region focus Check
+		private void OnEnable()
+		{
+			teleportWindow.onTeleportRequested += OnTeleportButtonPress;
+			UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
+		}
 
-		void Update()
+		private void OnDisable()
+		{
+			teleportWindow.onTeleportRequested += OnTeleportButtonPress;
+			UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
+
+		}
+
+		#region focus Check
+		void UpdateMe()
 		{
 			if (callReasonInputField.isFocused && focusCheck == false)
 			{
@@ -97,16 +109,6 @@ namespace UI.Systems.MainHUD.UI_Bottom
 		}
 
 		#endregion
-
-		private void OnEnable()
-		{
-			teleportWindow.onTeleportRequested += OnTeleportButtonPress;
-		}
-
-		private void OnDisable()
-		{
-			teleportWindow.onTeleportRequested += OnTeleportButtonPress;
-		}
 
 		public void SetUp(AiPlayer player)
 		{
@@ -185,7 +187,7 @@ namespace UI.Systems.MainHUD.UI_Bottom
 		{
 			if (aiPlayer == null)
 			{
-				aiPlayer = PlayerManager.LocalPlayer.OrNull()?.GetComponent<AiPlayer>();
+				aiPlayer = PlayerManager.LocalPlayerObject.OrNull()?.GetComponent<AiPlayer>();
 			}
 
 			if (aiPlayer == null)

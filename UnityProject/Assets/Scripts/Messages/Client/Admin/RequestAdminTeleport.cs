@@ -53,9 +53,9 @@ namespace Messages.Client.Admin
 
 			var coord = new Vector3 {x = msg.vectorX, y = msg.vectorY, z = msg.vectorZ };
 
-			userToTeleport.PlayerSync.SetPosition(coord, true);
+			userToTeleport.PlayerSync.AppearAtWorldPositionServer(coord, false);
 
-			UIManager.Instance.adminChatWindows.adminToAdminChat.ServerAddChatRecord(
+			UIManager.Instance.adminChatWindows.adminLogWindow.ServerAddChatRecord(
 					$"{SentByPlayer.Username} teleported {userToTeleport.playerName} to themselves", SentByPlayer.UserId);
 		}
 
@@ -81,7 +81,16 @@ namespace Messages.Client.Admin
 
 			if (playerScript == null) return;
 
-			playerScript.PlayerSync.SetPosition(userToTeleportTo.gameObject.AssumedWorldPosServer(), true);
+			if (playerScript.PlayerSync != null)
+			{
+				playerScript.PlayerSync.AppearAtWorldPositionServer(userToTeleportTo.gameObject.AssumedWorldPosServer(), false);
+			}
+			else
+			{
+				playerScript.GetComponent<GhostMove>().ForcePositionClient(userToTeleportTo.gameObject.AssumedWorldPosServer());
+			}
+
+
 
 			string message;
 
@@ -94,7 +103,7 @@ namespace Messages.Client.Admin
 				message = $"{SentByPlayer.Username} teleported to {userToTeleportTo.playerName} as a player";
 			}
 
-			UIManager.Instance.adminChatWindows.adminToAdminChat.ServerAddChatRecord(message, SentByPlayer.UserId);
+			UIManager.Instance.adminChatWindows.adminLogWindow.ServerAddChatRecord(message, SentByPlayer.UserId);
 		}
 
 		private void DoAllPlayersToPlayerTeleport(NetMessage msg)
@@ -125,7 +134,7 @@ namespace Messages.Client.Admin
 				{
 					var coord = new Vector3 { x = msg.vectorX, y = msg.vectorY, z = msg.vectorZ };
 
-					userToTeleport.PlayerSync.SetPosition(coord, true);
+					userToTeleport.PlayerSync.AppearAtWorldPositionServer(coord, false);
 				}
 				else if (destinationPlayer.IsGhost)
 				{
@@ -136,13 +145,13 @@ namespace Messages.Client.Admin
 				}
 				else
 				{
-					userToTeleport.PlayerSync.SetPosition(destinationPlayer.gameObject.AssumedWorldPosServer(), true);
+					userToTeleport.PlayerSync.AppearAtWorldPositionServer(destinationPlayer.gameObject.AssumedWorldPosServer(), false);
 				}
 			}
 
 			var stringMsg = $"{SentByPlayer.Username} teleported all players to {destinationPlayer.playerName}";
 
-			UIManager.Instance.adminChatWindows.adminToAdminChat.ServerAddChatRecord(stringMsg, SentByPlayer.UserId);
+			UIManager.Instance.adminChatWindows.adminLogWindow.ServerAddChatRecord(stringMsg, SentByPlayer.UserId);
 		}
 
 		public static NetMessage Send(string userToTeleport, string userToTelportTo, OpperationList opperation, bool isAghost, Vector3 Coord)

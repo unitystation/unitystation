@@ -24,15 +24,34 @@ namespace Antagonists
 			ValidShuttles.Add(GameManager.Instance.PrimaryEscapeShuttle);
 		}
 
+		private bool CheckOnShip(RegisterPlayer antagTile, Matrix shuttleMatrix)
+		{
+			return shuttleMatrix.PresentPlayers.Contains(antagTile);
+		}
+
 		/// <summary>
 		/// Complete if the player is alive and on one of the escape shuttles and shuttle has
 		/// at least one working engine
 		/// </summary>
 		protected override bool CheckCompletion()
 		{
+
+			DynamicItemStorage dynamicItemStorage = Owner.body.GetComponent<DynamicItemStorage>();
+
+			//for whatever reason this is null, give the guy the greentext
+			if (dynamicItemStorage == null) return true;
+
+			foreach (var handCuffs in dynamicItemStorage.GetNamedItemSlots(NamedSlot.handcuffs))
+			{
+				if (handCuffs.IsEmpty) continue;
+
+				//If any hands are cuff then we fail
+				return false;
+			}
+
 			return !Owner.body.playerHealth.IsDead &&
 				ValidShuttles.Any( shuttle => shuttle.MatrixInfo != null
-					&& Owner.body.registerTile.Matrix.Id == shuttle.MatrixInfo.Id && shuttle.HasWorkingThrusters);
+					&& (CheckOnShip(Owner.body.registerTile, shuttle.MatrixInfo.Matrix)) && shuttle.HasWorkingThrusters);
 		}
 	}
 }

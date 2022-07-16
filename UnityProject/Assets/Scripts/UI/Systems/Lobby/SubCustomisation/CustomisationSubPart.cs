@@ -53,9 +53,9 @@ namespace UI.CharacterCreator
 			Dropdown.onValueChanged.AddListener(ItemChange);
 		}
 
-		public CharacterSettings.CustomisationClass Serialise()
+		public CharacterSheet.CustomisationClass Serialise()
 		{
-			var newcurrentSetting = new CharacterSettings.CustomisationClass();
+			var newcurrentSetting = new CharacterSheet.CustomisationClass();
 			// if (thisCustomisations.CanColour)
 			// {
 			newcurrentSetting.Colour = "#" + ColorUtility.ToHtmlStringRGB(color);
@@ -77,7 +77,7 @@ namespace UI.CharacterCreator
 			Refresh();
 		}
 
-		public void SetDropdownValue(CharacterSettings.CustomisationClass currentSetting)
+		public void SetDropdownValue(CharacterSheet.CustomisationClass currentSetting)
 		{
 			// Find the index of the setting in the dropdown list which matches the currentSetting
 			int settingIndex = Dropdown.options.FindIndex(option => option.text == currentSetting.SelectedName);

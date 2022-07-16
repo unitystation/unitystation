@@ -1,6 +1,8 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using Doors;
 using UnityEngine;
 using Mirror;
 using ScriptableObjects.Systems.Spells;
@@ -48,7 +50,7 @@ namespace Systems.Spells
 			PlayerManager.LocalPlayerScript.playerNetworkActions.CmdRequestSpell(SpellData.Index, action.LastClickPosition);
 		}
 
-		public void CallActionServer(ConnectedPlayer SentByPlayer, Vector3 clickPosition)
+		public void CallActionServer(PlayerInfo SentByPlayer, Vector3 clickPosition)
 		{
 			if (ValidateCast(SentByPlayer) &&
 				CastSpellServer(SentByPlayer, clickPosition))
@@ -57,7 +59,7 @@ namespace Systems.Spells
 			}
 		}
 
-		private void AfterCast(ConnectedPlayer sentByPlayer)
+		private void AfterCast(PlayerInfo sentByPlayer)
 		{
 			Cooldowns.TryStartServer(sentByPlayer.Script, SpellData, CooldownTime);
 
@@ -99,13 +101,13 @@ namespace Systems.Spells
 			}
 		}
 
-		public virtual bool CastSpellServer(ConnectedPlayer caster, Vector3 clickPosition)
+		public virtual bool CastSpellServer(PlayerInfo caster, Vector3 clickPosition)
 		{
 			return CastSpellServer(caster);
 		}
 
 		/// <returns>false if it was aborted for some reason</returns>
-		public virtual bool CastSpellServer(ConnectedPlayer caster)
+		public virtual bool CastSpellServer(PlayerInfo caster)
 		{
 			if (SpellData.SummonType == SpellSummonType.None)
 			{ //don't want to summon anything physical and that's alright
@@ -125,7 +127,7 @@ namespace Systems.Spells
 					{
 						break;
 					}
-					castPosition = casterPosition + caster.Script.CurrentDirection.VectorInt.To3Int();
+					castPosition = casterPosition + caster.Script.CurrentDirection.ToLocalVector3().RoundToInt();
 					break;
 				case SpellSummonPosition.Custom:
 					castPosition = GetWorldSummonPosition(caster);
@@ -165,6 +167,12 @@ namespace Systems.Spells
 					var matrixInfo = MatrixManager.AtPoint(castPosition, true);
 					var localPos = MatrixManager.WorldToLocalInt(castPosition, matrixInfo);
 
+					if (matrixInfo.Matrix.Get<DoorMasterController>(localPos, true).Any(door => door.IsClosed))
+					{
+						//This stops tile based spells from being cast ontop of closed doors
+						Chat.AddExamineMsg(caster.GameObject, "You cannot cast this spell while a door is in the way.");
+						return false;
+					}
 					if (matrixInfo.MetaTileMap.HasTile(localPos, tileToSummon.LayerType)
 					&& !SpellData.ReplaceExisting)
 					{
@@ -192,12 +200,12 @@ namespace Systems.Spells
 		/// <summary>
 		/// Override this in your subclass for custom logic
 		/// </summary>
-		public virtual Vector3Int GetWorldSummonPosition(ConnectedPlayer caster)
+		public virtual Vector3Int GetWorldSummonPosition(PlayerInfo caster)
 		{
 			return TransformState.HiddenPos;
 		}
 
-		public virtual bool ValidateCast(ConnectedPlayer caster)
+		public virtual bool ValidateCast(PlayerInfo caster)
 		{
 			if (SpellData == null)
 			{
@@ -262,17 +270,17 @@ namespace Systems.Spells
 			return true;
 		}
 
-		protected virtual string FormatInvocationMessage(ConnectedPlayer caster, string modPrefix)
+		protected virtual string FormatInvocationMessage(PlayerInfo caster, string modPrefix)
 		{
 			return modPrefix + SpellData.InvocationMessage;
 		}
 
-		protected virtual string FormatInvocationMessageSelf(ConnectedPlayer caster)
+		protected virtual string FormatInvocationMessageSelf(PlayerInfo caster)
 		{
 			return SpellData.InvocationMessageSelf;
 		}
 
-		protected virtual string FormatStillRechargingMessage(ConnectedPlayer caster)
+		protected virtual string FormatStillRechargingMessage(PlayerInfo caster)
 		{
 			return SpellData.StillRechargingMessage;
 		}

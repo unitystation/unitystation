@@ -1,13 +1,13 @@
-﻿using System;
-using System.Collections;
+﻿using Managers;
+using NaughtyAttributes;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using NaughtyAttributes;
 using UnityEngine;
 
 namespace Initialisation
 {
-	public class LoadManager : MonoBehaviourSingleton<LoadManager>
+	public class LoadManager : SingletonManager<LoadManager>
 	{
 		[ReorderableList] public List<MonoBehaviour> GamesStartInitialiseSystems = new List<MonoBehaviour>();
 
@@ -22,6 +22,10 @@ namespace Initialisation
 		public static List<DelayedAction> DelayedActions = new List<DelayedAction>();
 
 		public List<DelayedAction> ToClear = new List<DelayedAction>();
+
+		public bool IsExecuting = false;
+		public bool IsExecutingGeneric = false;
+		public Action LastInvokedAction {get; private set;}
 
 		public class DelayedAction
 		{
@@ -57,27 +61,41 @@ namespace Initialisation
 			DelayedActions.Add(ToADD);
 		}
 
-		public void Update()
+		private void OnEnable()
+		{
+			UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
+		}
+
+		private void OnDisable()
+		{
+			UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
+		}
+
+		public void UpdateMe()
 		{
 			if (GamesStartInitialiseSystems.Count > 0)
 			{
+				IsExecuting = true;
 				var ToProcess = GamesStartInitialiseSystems[0];
 				GamesStartInitialiseSystems.RemoveAt(0);
 				var InInterface = ToProcess as IInitialise;
 				if (InInterface == null) return;
 				try
 				{
+					LastInvokedAction = InInterface.Initialise;
 					InInterface.Initialise();
 				}
 				catch (Exception e)
 				{
 					Logger.LogError(e.ToString());
 				}
-
+				IsExecuting = false;
 			}
 
 			if (DelayedActions.Count > 0)
 			{
+				IsExecuting = true;
+				IsExecutingGeneric = true;
 				//Logger.Log(QueueInitialise.Count.ToString() + " < in queue ");
 				stopwatch.Start();
 
@@ -93,6 +111,7 @@ namespace Initialisation
 							try
 							{
 								ToClear.Add(delayedAction);
+								LastInvokedAction = delayedAction.Action.Invoke;
 								delayedAction.Action.Invoke();
 							}
 							catch (Exception e)
@@ -111,6 +130,8 @@ namespace Initialisation
 
 				stopwatch.Stop();
 				stopwatch.Reset();
+				IsExecuting = false;
+				IsExecutingGeneric = false;
 				//Logger.Log(stopwatch.ElapsedMilliseconds.ToString() + " < ElapsedMilliseconds ");
 			}
 
@@ -118,6 +139,7 @@ namespace Initialisation
 			{
 				//Logger.Log(QueueInitialise.Count.ToString() + " < in queue ");
 				stopwatch.Start();
+				IsExecuting = true;
 				Action QueueAction = null;
 				while (stopwatch.ElapsedMilliseconds < TargetMSprefFramePreStep)
 				{
@@ -126,6 +148,7 @@ namespace Initialisation
 						QueueAction = QueueInitialise.Dequeue();
 						try
 						{
+							LastInvokedAction = QueueAction.Invoke;
 							QueueAction.Invoke();
 						}
 						catch (Exception e)
@@ -141,6 +164,8 @@ namespace Initialisation
 
 				stopwatch.Stop();
 				stopwatch.Reset();
+				IsExecuting = false;
+				IsExecutingGeneric = false;
 				//Logger.Log(stopwatch.ElapsedMilliseconds.ToString() + " < ElapsedMilliseconds ");
 			}
 

@@ -1,40 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &3228995760124267570
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1841330422084692628}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7f63dff2eb7946b4f951c81a4c86425b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  sides: 20
-  isRiggable: 1
-  specialFaces:
-  - It is certain
-  - It is decidedly so
-  - Without a doubt
-  - Yes, definitely
-  - You may rely on it
-  - As I see it, yes
-  - Most likely
-  - Outlook good
-  - Yes
-  - Signs point to yes
-  - Hazy, try again
-  - Ask again later
-  - Better not tell you now
-  - Cannot predict now
-  - Concentrate and ask again
-  - Don't count on it
-  - My reply is no
-  - My sources say no
-  - Outlook not so good
-  - Very doubtful
 --- !u!1001 &6946876510372756847
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -169,3 +134,38 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 6946876510372756847}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &3228995760124267570
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1841330422084692628}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7f63dff2eb7946b4f951c81a4c86425b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sides: 20
+  isRiggable: 1
+  specialFaces:
+  - It is certain
+  - It is decidedly so
+  - Without a doubt
+  - Yes, definitely
+  - You may rely on it
+  - As I see it, yes
+  - Most likely
+  - Outlook good
+  - Yes
+  - Signs point to yes
+  - Hazy, try again
+  - Ask again later
+  - Better not tell you now
+  - Cannot predict now
+  - Concentrate and ask again
+  - Don't count on it
+  - My reply is no
+  - My sources say no
+  - Outlook not so good
+  - Very doubtful

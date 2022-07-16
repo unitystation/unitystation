@@ -1,20 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-5771745461331304457
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6062953987052555307}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 515cf3640b8b76a40818c365f7017cdb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  processedProduct: {fileID: 8058325044013834992, guid: c922b01496840a04e87ee46fba6bf4bb,
-    type: 3}
-  productAmount: 3
 --- !u!1001 &7514383050559662366
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -76,6 +61,11 @@ PrefabInstance:
         type: 3}
       propertyPath: attackVerbs.Array.data[3]
       value: whacked
+      objectReference: {fileID: 0}
+    - target: {fileID: 4314607143740255459, guid: 983b718a497883e46bb1b4c8927f9961,
+        type: 3}
+      propertyPath: hasSimpleRelatedRecipe
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4314607143740255459, guid: 983b718a497883e46bb1b4c8927f9961,
         type: 3}
@@ -189,3 +179,18 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 7514383050559662366}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &-5771745461331304457
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6062953987052555307}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 515cf3640b8b76a40818c365f7017cdb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  processedProduct: {fileID: 8058325044013834992, guid: c922b01496840a04e87ee46fba6bf4bb,
+    type: 3}
+  productAmount: 3

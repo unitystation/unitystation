@@ -1,9 +1,10 @@
 ﻿using System.Collections;
 using UnityEngine;
 using NaughtyAttributes;
+using UI.Core.NetUI;
 using Items.Magical;
 
-namespace UI
+namespace UI.Items
 {
 	/// <summary>
 	/// UI for the <see cref="ContractOfApprenticeship"/>.

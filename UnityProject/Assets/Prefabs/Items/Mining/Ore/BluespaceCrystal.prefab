@@ -1,21 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &4133356673671004469
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6211075373097523109}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8688576ed720a4f40b3583f62adeeb23, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  groundReagents:
-    m_keys:
-    - {fileID: 11400000, guid: c8b0a877670e84d8aa73864eb8152aa5, type: 2}
-    m_values: 14000000
 --- !u!1001 &7939504328078399671
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -121,6 +105,22 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 5454ae301f8f02a43ae7496ed16f70bc,
         type: 2}
+    - target: {fileID: 4582402145700071108, guid: fdb2f97a13e5b31468c170e6847a8d15,
+        type: 3}
+      propertyPath: relatedRecipes.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4582402145700071108, guid: fdb2f97a13e5b31468c170e6847a8d15,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[0].recipe
+      value: 
+      objectReference: {fileID: 11400000, guid: 80e6b1b7c63ce8d44a8a6204c31f7785,
+        type: 2}
+    - target: {fileID: 4582402145700071108, guid: fdb2f97a13e5b31468c170e6847a8d15,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[0].ingredientIndex
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 6964355983317795711, guid: fdb2f97a13e5b31468c170e6847a8d15,
         type: 3}
       propertyPath: foreverID
@@ -140,3 +140,19 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 7939504328078399671}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &4133356673671004469
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6211075373097523109}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8688576ed720a4f40b3583f62adeeb23, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  groundReagents:
+    m_keys:
+    - {fileID: 11400000, guid: c8b0a877670e84d8aa73864eb8152aa5, type: 2}
+    m_values: 14000000

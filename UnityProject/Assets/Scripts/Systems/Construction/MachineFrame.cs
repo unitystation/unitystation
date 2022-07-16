@@ -39,7 +39,7 @@ namespace Objects.Construction
 		[SerializeField] private StatefulState circuitAddedState = null;
 		[SerializeField] private StatefulState partsAddedState = null;
 
-		private ObjectBehaviour objectBehaviour;
+		private UniversalObjectPhysics objectBehaviour;
 		private Integrity integrity;
 		private SpriteHandler spriteHandler;
 
@@ -66,7 +66,7 @@ namespace Objects.Construction
 		{
 			circuitBoardSlot = GetComponent<ItemStorage>().GetIndexedItemSlot(0);
 			stateful = GetComponent<Stateful>();
-			objectBehaviour = GetComponent<ObjectBehaviour>();
+			objectBehaviour = GetComponent<UniversalObjectPhysics>();
 
 			if (!CustomNetworkManager.IsServer) return;
 
@@ -537,7 +537,7 @@ namespace Objects.Construction
 					newObject.GetComponent<Stackable>().ServerIncrease(amount);
 				}
 
-				newObject.GetComponent<CustomNetTransform>().DisappearFromWorldServer();
+				newObject.GetComponent<UniversalObjectPhysics>().DisappearFromWorld();
 
 				if (newObject.transform.parent != gameObject.transform.parent)
 				{
@@ -549,7 +549,7 @@ namespace Objects.Construction
 			// If not stackable send to hidden pos
 			else
 			{
-				usedObject.GetComponent<CustomNetTransform>().DisappearFromWorldServer();
+				usedObject.GetComponent<UniversalObjectPhysics>().DisappearFromWorld();
 
 				if (usedObject.transform.parent != gameObject.transform.parent)
 				{
@@ -704,7 +704,7 @@ namespace Objects.Construction
 			Inventory.ServerAdd(board, circuitBoardSlot);
 
 			// Set initial state
-			objectBehaviour.ServerSetPushable(false);
+			objectBehaviour.SetIsNotPushable(true);
 			stateful.ServerChangeState(partsAddedState);
 			putBoardInManually = false;
 		}
@@ -758,7 +758,7 @@ namespace Objects.Construction
 				foreach (var part in machineParts.machineParts)
 				{
 					//Spawn the part
-					var partObj = Spawn.ServerPrefab(part.basicItem, gameObject.WorldPosServer(), gameObject.transform.parent, count: part.amountOfThisPart).GameObject;
+					var partObj = Spawn.ServerPrefab(part.basicItem, gameObject.AssumedWorldPosServer(), gameObject.transform.parent, count: part.amountOfThisPart).GameObject;
 
 					//Transfer vendor content if possible
 					var restock = partObj.GetComponent<VendingRestock>();
@@ -778,9 +778,9 @@ namespace Objects.Construction
 						continue;
 					}
 
-					var pos = gameObject.GetComponent<CustomNetTransform>().ServerPosition;
+					var pos = gameObject.AssumedWorldPosServer();
 
-					item.Key.GetComponent<CustomNetTransform>().AppearAtPositionServer(pos);
+					item.Key.GetComponent<UniversalObjectPhysics>().AppearAtWorldPositionServer(pos);
 				}
 			}
 

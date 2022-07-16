@@ -28,6 +28,7 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1925386106379506438}
   m_RootOrder: 0
@@ -99,12 +100,13 @@ MonoBehaviour:
   NetworkThis: 1
   SubCatalogue:
   - {fileID: 11400000, guid: b76152e634978fa468aa2f1870fdfccf, type: 2}
-  - {fileID: 11400000, guid: 28f81cfb5e6696c49ae986e31646c495, type: 2}
   - {fileID: 11400000, guid: e13c71d185e78764cba01b9bdc37027e, type: 2}
+  - {fileID: 11400000, guid: 28f81cfb5e6696c49ae986e31646c495, type: 2}
   - {fileID: 11400000, guid: 0c47d65ee8ed0a640820cb0e813bcc59, type: 2}
   - {fileID: 11400000, guid: bba5a1a4e6330304ea49014d4a382e8c, type: 2}
   PresentSpriteSet: {fileID: 11400000, guid: b76152e634978fa468aa2f1870fdfccf, type: 2}
   randomInitialSprite: 0
+  doReverseAnimation: 0
   pushTextureOnStartUp: 0
   initialVariantIndex: 0
   palette: []
@@ -118,7 +120,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1925386106379506438}
   - component: {fileID: 8819730959757270550}
-  - component: {fileID: 799095722577257379}
   - component: {fileID: 74958767906644875}
   - component: {fileID: 2611605342679031968}
   - component: {fileID: 1835757013911865864}
@@ -126,6 +127,7 @@ GameObject:
   - component: {fileID: 7106149064385931371}
   - component: {fileID: 7393164251923224906}
   - component: {fileID: -2830540189932370351}
+  - component: {fileID: 5936009273672087664}
   m_Layer: 23
   m_Name: ConveyorBelt
   m_TagString: Untagged
@@ -143,6 +145,7 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 4963249456697642776}
   m_Father: {fileID: 0}
@@ -174,22 +177,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.91, y: 0.7}
   m_EdgeRadius: 0
---- !u!114 &799095722577257379
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7144248469089430455}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 579884b05ae74e8499329b64997147d3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  snapToGridOnStart: 1
-  IsFixedMatrix: 0
 --- !u!114 &74958767906644875
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -206,7 +193,6 @@ MonoBehaviour:
   syncInterval: 0.1
   matrixDebugLogging: 0
   objectType: 1
-  customNetTransform: {fileID: 0}
   prefabTracker: {fileID: 0}
   CurrentsortingGroup: {fileID: 0}
   AtmosPassable: 1
@@ -249,6 +235,7 @@ MonoBehaviour:
       m_AssetGUID: 
       m_SubObjectName: 
       m_SubObjectType: 
+      m_EditorAssetChanged: 0
   damageDeflection: 0
   Armor:
     Melee: 0
@@ -262,6 +249,7 @@ MonoBehaviour:
     Magic: 0
     Bio: 0
     DismembermentProtectionChance: 0
+    StunImmunity: 0
   Resistances:
     LavaProof: 0
     FireProof: 0
@@ -274,7 +262,7 @@ MonoBehaviour:
   HeatResistance: 100
   ExplosionsDamage: 100
   doDamageMessage: 1
-  CannotBeAshed: 0
+  Meleeable: {fileID: 0}
 --- !u!114 &3348285834374005981
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -310,8 +298,10 @@ MonoBehaviour:
   initialDescription: Moves items along itself.
   willHighlight: 1
   exportCost: 0
+  exportType: 0
   exportName: 
   exportMessage: 
+  initialSize: 3
 --- !u!114 &7393164251923224906
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -324,8 +314,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1103378e85c7b314eb3d801a596fe183, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
   CurrentDirection: 0
   CurrentStatus: 0
   spriteHandler: {fileID: 3569393190955387615}
@@ -341,5 +329,51 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62cc3ef7cd9082443aaf3c255851d15a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &5936009273672087664
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7144248469089430455}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 52a6a264ee47433418b51f654439372f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  DEBUG: 0
+  SnapToGridOnStart: 0
+  LocalTargetPosition: {x: 0, y: 0, z: 0}
+  ChangesDirectionPush: 0
+  InitialLocationSynchronised: 0
+  tileMoveSpeed: 1
+  isNotPushable: 1
+  newtonianMovement: {x: 0, y: 0}
+  airTime: 0
+  slideTime: 0
+  thrownBy: {fileID: 0}
+  aim: 0
+  spinMagnitude: 0
+  stickyMovement: 0
+  maximumStickSpeed: 1.5
+  onStationMovementsRound: 0
+  attributes: {fileID: 0}
+  registerTile: {fileID: 0}
+  ContextGameObjects:
+  - {fileID: 0}
+  - {fileID: 0}
+  IsCurrentlyFloating: 0
+  LocalDifferenceNeeded: {x: 0, y: 0}
+  CorrectingCourse: 0
+  Pushing: []
+  Hits: []
+  Speed: 1
+  AIR: 3
+  SLIDE: 4
+  Animating: 0
+  IsFlyingSliding: 0
+  IsMoving: 0
+  MoveIsWalking: 0
+  LastUpdateClientFlying: 0

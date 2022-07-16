@@ -27,6 +27,7 @@ RectTransform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1581827510003495535}
   m_RootOrder: 1
@@ -75,6 +76,7 @@ RectTransform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1581827510003495535}
   m_RootOrder: 0
@@ -96,83 +98,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a65193c7116581f42a70e5eac144e923, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &-8653197631355161607
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3357068366710454748}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a6adedb9416d7b647b6c3811ff2f0824, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  maxCapacity: 5
-  reactionSet: {fileID: 11400000, guid: 78dc34557bff844439a0566ce5c7096f, type: 2}
-  AdditionalReactions: []
-  canPourOut: 0
-  initialReagentMix:
-    temperature: 273.15
-    reagents:
-      m_keys: []
-      m_values: []
-    reagentKeys: []
-  destroyOnEmpty: 0
-  ContentsSet: 0
-  UseStandardExamine: 1
-  ExamineAmount: 2
-  ExamineContent: 0
-  traitWhitelist: []
-  reagentWhitelist:
-  - {fileID: 11400000, guid: 18370f5b191505c479752168b29c2f07, type: 2}
-  transferMode: 3
-  possibleTransferAmounts: []
-  transferAmount: 5
---- !u!114 &3318242476442790104
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3357068366710454748}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2af49bcf7f85b1a418b05072c76800d9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  tableRegion: {fileID: 4715101199645221224}
-  powerRegion: {fileID: 5127339835332416984}
---- !u!114 &3503557380829932379
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3357068366710454748}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1b922befd65a2654a8ab039eb5ca5307, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  startSfx:
-    SetLoadSetting: 0
-    AssetAddress: Assets/Prefabs/Machines/ClickOnOff.prefab
-    AssetReference:
-      m_AssetGUID: 
-      m_SubObjectName: 
-      m_SubObjectType: 
-  RunningAudio:
-    SetLoadSetting: 0
-    AssetAddress: Assets/Prefabs/Machines/GrillSizzle.prefab
-    AssetReference:
-      m_AssetGUID: 
-      m_SubObjectName: 
-      m_SubObjectType: 
-  circuitWattage: 5
-  magnetronWattage: 850
 --- !u!1001 &4038616001234091104
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -323,12 +248,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b69bfc56f39849d4ba9139d2d51bedb6, type: 3}
---- !u!1 &3357068366710454748 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1628816798482564540, guid: b69bfc56f39849d4ba9139d2d51bedb6,
-    type: 3}
-  m_PrefabInstance: {fileID: 4038616001234091104}
-  m_PrefabAsset: {fileID: 0}
 --- !u!114 &446452015244930782 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 4485046902360527550, guid: b69bfc56f39849d4ba9139d2d51bedb6,
@@ -347,3 +266,89 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 4038616001234091104}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &3357068366710454748 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1628816798482564540, guid: b69bfc56f39849d4ba9139d2d51bedb6,
+    type: 3}
+  m_PrefabInstance: {fileID: 4038616001234091104}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &-8653197631355161607
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3357068366710454748}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a6adedb9416d7b647b6c3811ff2f0824, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxCapacity: 5
+  reactionSet: {fileID: 11400000, guid: 78dc34557bff844439a0566ce5c7096f, type: 2}
+  AdditionalReactions: []
+  canPourOut: 0
+  initialReagentMix:
+    temperature: 273.15
+    reagents:
+      m_keys: []
+      m_values: []
+    reagentKeys: []
+  destroyOnEmpty: 0
+  ContentsSet: 0
+  menuOptions: 1
+  UseStandardExamine: 1
+  ExamineAmount: 2
+  ExamineContent: 0
+  traitWhitelist: []
+  reagentWhitelist:
+  - {fileID: 11400000, guid: 18370f5b191505c479752168b29c2f07, type: 2}
+  transferMode: 3
+  possibleTransferAmounts: []
+  transferAmount: 5
+--- !u!114 &3318242476442790104
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3357068366710454748}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2af49bcf7f85b1a418b05072c76800d9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tableRegion: {fileID: 4715101199645221224}
+  powerRegion: {fileID: 5127339835332416984}
+--- !u!114 &3503557380829932379
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3357068366710454748}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1b922befd65a2654a8ab039eb5ca5307, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  startSfx:
+    SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/Machines/ClickOnOff.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
+  RunningAudio:
+    SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/Machines/GrillSizzle.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
+  circuitWattage: 5
+  magnetronWattage: 850

@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
 using Systems.ObjectConnection;
+using CustomInspectors;
 
 namespace Objects.Wallmounts
 {
-	public class GeneralSwitch : SubscriptionController, ICheckedInteractable<HandApply>, IMultitoolMasterable
+	public class GeneralSwitch : ImnterfaceMultitoolGUI, ISubscriptionController, ICheckedInteractable<HandApply>, IMultitoolMasterable
 	{
 		private SpriteRenderer spriteRenderer;
 		public Sprite greenSprite;
@@ -162,7 +163,7 @@ namespace Objects.Wallmounts
 			}
 		}
 
-		public override IEnumerable<GameObject> SubscribeToController(IEnumerable<GameObject> potentialObjects)
+		public IEnumerable<GameObject> SubscribeToController(IEnumerable<GameObject> potentialObjects)
 		{
 			var approvedObjects = new List<GameObject>();
 

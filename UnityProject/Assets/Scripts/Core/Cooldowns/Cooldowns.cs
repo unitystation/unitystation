@@ -13,9 +13,9 @@ public static class Cooldowns
 	/// <param name="side">indicates which side's cooldown should be started</param>
 	/// <param name="secondsOverride">custom cooldown time in seconds</param>
 	/// <returns>true if cooldown was successfully started, false if cooldown was already on.</returns>
-	public static bool TryStart(PlayerScript player, ICooldown cooldown, NetworkSide side, float secondsOverride=float.NaN)
+	public static bool TryStart(PlayerScript player, ICooldown cooldown,  NetworkSide side, float secondsOverride=float.NaN)
 	{
-		return player.Cooldowns.TryStart(cooldown, side, secondsOverride);
+		return player.Cooldowns.TryStart(cooldown,side,  secondsOverride);
 	}
 
 	/// <summary>
@@ -35,7 +35,7 @@ public static class Cooldowns
 	/// </summary>
 	public static bool TryStartClient(PlayerScript player, ICooldown cooldown, float secondsOverride=float.NaN)
 	{
-		return TryStart(player, cooldown, NetworkSide.Client, secondsOverride);
+		return TryStart(player, cooldown, NetworkSide.Client,secondsOverride);
 	}
 
 
@@ -52,7 +52,7 @@ public static class Cooldowns
 	/// </summary>
 	public static bool TryStartServer(PlayerScript player, ICooldown cooldown, float secondsOverride=float.NaN)
 	{
-		return TryStart(player, cooldown, NetworkSide.Server, secondsOverride);
+		return TryStart(player, cooldown, NetworkSide.Server ,secondsOverride);
 	}
 
 	/// <summary>

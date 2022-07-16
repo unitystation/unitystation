@@ -23,15 +23,15 @@ public class NetworkTabManager : SingletonManager<NetworkTabManager>
 
 	private readonly Dictionary<NetTabDescriptor, NetTab> openTabs = new Dictionary<NetTabDescriptor, NetTab>();
 
-	public List<ConnectedPlayer> GetPeepers(GameObject provider, NetTabType type)
+	public List<PlayerInfo> GetPeepers(GameObject provider, NetTabType type)
 	{
 		var descriptor = Tab( provider, type );
 		if ( !openTabs.ContainsKey( descriptor ) ) {
-			return new List<ConnectedPlayer>();
+			return new List<PlayerInfo>();
 		}
 		var info = openTabs[descriptor];
 		if ( info.IsUnobserved ) {
-			return new List<ConnectedPlayer>();
+			return new List<PlayerInfo>();
 		}
 		return info.Peepers.ToList();
 	}

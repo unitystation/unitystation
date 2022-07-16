@@ -17,6 +17,7 @@ using UI.Jobs;
 using UI.UI_Bottom;
 using UI.Windows;
 using Systems.CraftingV2.GUI;
+using UI.Core.RightClick;
 
 public class UIManager : MonoBehaviour, IInitialise
 {
@@ -69,6 +70,8 @@ public class UIManager : MonoBehaviour, IInitialise
 	public GeneralInputField GeneralInputField;
 
 	public CraftingMenu CraftingMenu;
+
+	public SplittingMenu SplittingMenu;
 
 	public static bool PreventChatInput
 	{
@@ -188,6 +191,7 @@ public class UIManager : MonoBehaviour, IInitialise
 	}
 
 	public static BuildMenu BuildMenu => Instance.buildMenu;
+
 	public static ZoneSelector ZoneSelector => Instance.zoneSelector;
 
 	public static GUI_Info InfoWindow => Instance.infoWindow;
@@ -220,7 +224,7 @@ public class UIManager : MonoBehaviour, IInitialise
 			//update the intent of the player on server so server knows we are swappable or not
 			if (PlayerManager.LocalPlayerScript != null)
 			{
-				PlayerManager.LocalPlayerScript.playerMove.CmdSetHelpIntent(currentIntent == global::Intent.Help);
+				PlayerManager.LocalPlayerScript.playerNetworkActions.CmdSetCurrentIntent(currentIntent);
 			}
 		}
 	}
@@ -293,11 +297,13 @@ public class UIManager : MonoBehaviour, IInitialise
 	private void OnEnable()
 	{
 		SceneManager.activeSceneChanged += OnSceneChange;
+		UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
 	}
 
 	private void OnDisable()
 	{
 		SceneManager.activeSceneChanged -= OnSceneChange;
+		UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
 	}
 
 	void OnSceneChange(Scene oldScene, Scene newScene)
@@ -324,7 +330,7 @@ public class UIManager : MonoBehaviour, IInitialise
 		Application.targetFrameRate = targetFrameRate;
 	}
 
-	private void Update()
+	private void UpdateMe()
 	{
 		//Read out of ping in toolTip
 		pingUpdate += Time.deltaTime;
@@ -337,42 +343,45 @@ public class UIManager : MonoBehaviour, IInitialise
 
 	public static void UpdateKeybindText(KeyAction keyAction, KeybindManager.KeyCombo keyCombo)
 	{
-		switch (keyAction)
-		{
-			case KeyAction.OpenBackpack:
-				Instance.panelHudBottomController.SetBackPackKeybindText(
-					FormatKeybind(keyCombo.MainKey)
-				);
-				break;
-			case KeyAction.OpenPDA:
-				Instance.panelHudBottomController.SetPDAKeybindText(
-					FormatKeybind(keyCombo.MainKey)
-				);
-				break;
-			case KeyAction.OpenBelt:
-				Instance.panelHudBottomController.SetBeltKeybindText(
-					FormatKeybind(keyCombo.MainKey)
-				);
-				break;
-			case KeyAction.PocketOne:
-				Instance.panelHudBottomController.SetPocketOneKeybindText(
-					FormatKeybind(keyCombo.MainKey)
-				);
-				break;
-			case KeyAction.PocketTwo:
-				Instance.panelHudBottomController.SetPocketTwoKeybindText(
-					FormatKeybind(keyCombo.MainKey)
-				);
-				break;
-			case KeyAction.PocketThree:
-				Instance.panelHudBottomController.SetPocketThreeKeybindText(
-					FormatKeybind(keyCombo.MainKey)
-				);
-				break;
-			default:
-				Logger.LogWarning($"There is no keybind text for KeyAction {keyAction}", Category.Keybindings);
-				break;
-		}
+		return;
+		//TODO needs to be re-implemented with dynamic UI issue #7948
+
+		// switch (keyAction)
+		// {
+		// 	case KeyAction.OpenBackpack:
+		// 		Instance.panelHudBottomController.SetBackPackKeybindText(
+		// 			FormatKeybind(keyCombo.MainKey)
+		// 		);
+		// 		break;
+		// 	case KeyAction.OpenPDA:
+		// 		Instance.panelHudBottomController.SetPDAKeybindText(
+		// 			FormatKeybind(keyCombo.MainKey)
+		// 		);
+		// 		break;
+		// 	case KeyAction.OpenBelt:
+		// 		Instance.panelHudBottomController.SetBeltKeybindText(
+		// 			FormatKeybind(keyCombo.MainKey)
+		// 		);
+		// 		break;
+		// 	case KeyAction.PocketOne:
+		// 		Instance.panelHudBottomController.SetPocketOneKeybindText(
+		// 			FormatKeybind(keyCombo.MainKey)
+		// 		);
+		// 		break;
+		// 	case KeyAction.PocketTwo:
+		// 		Instance.panelHudBottomController.SetPocketTwoKeybindText(
+		// 			FormatKeybind(keyCombo.MainKey)
+		// 		);
+		// 		break;
+		// 	case KeyAction.PocketThree:
+		// 		Instance.panelHudBottomController.SetPocketThreeKeybindText(
+		// 			FormatKeybind(keyCombo.MainKey)
+		// 		);
+		// 		break;
+		// 	default:
+		// 		Logger.LogWarning($"There is no keybind text for KeyAction {keyAction}", Category.Keybindings);
+		// 		break;
+		// }
 	}
 
 	private static string FormatKeybind(KeyCode key)
@@ -432,8 +441,8 @@ public class UIManager : MonoBehaviour, IInitialise
 	{
 		//convert to local position so it appears correct on moving matrix
 		//do not use tileworldposition for actual spawn position - bar will appear shifted on moving matrix
-		var targetWorldPosition = PlayerManager.LocalPlayer.transform.position + offsetFromPlayer.To3Int();
-		var targetTilePosition = PlayerManager.LocalPlayer.TileWorldPosition() + offsetFromPlayer;
+		var targetWorldPosition = PlayerManager.LocalPlayerObject.transform.position + offsetFromPlayer.To3Int();
+		var targetTilePosition = PlayerManager.LocalPlayerObject.TileWorldPosition() + offsetFromPlayer;
 		var targetMatrixInfo = MatrixManager.AtPoint(targetTilePosition.To3Int(), true);
 		var targetParent = targetMatrixInfo.Objects;
 		//snap to local position

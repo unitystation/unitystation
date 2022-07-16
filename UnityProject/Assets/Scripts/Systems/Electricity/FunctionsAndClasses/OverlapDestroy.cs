@@ -24,38 +24,6 @@ namespace Systems.Electricity
 				{
 					ElectricalManager = FindObjectOfType<ElectricalManager>();
 				}
-
-				if (ElectricalManager.DOCheck)
-				{
-					//Logger.Log("Seting cables!");
-					var thing = GetComponent<CableInheritance>();
-					thing.ConvertToTile(true);
-					//ElectricalManager.DOCheck = false;
-					/*Logger.Log("Cleaning cables!");
-					var ElectricalOI = this.GetComponent<ElectricalOIinheritance>();
-					if (bigDict.ContainsKey(this.transform.localPosition))
-					{
-
-						foreach (var con in bigDict[this.transform.localPosition])
-						{
-							if (ElectricalOI != con)
-							{
-								if ((ElectricalOI.InData.WireEndA == con.InData.WireEndA && ElectricalOI.InData.WireEndB == con.InData.WireEndB) ||
-									(ElectricalOI.InData.WireEndA == con.InData.WireEndB && ElectricalOI.InData.WireEndB == con.InData.WireEndA))
-								{
-									DestroyImmediate(gameObject);
-									return;
-								}
-
-							}
-						}
-						bigDict[this.transform.localPosition].Add(ElectricalOI);
-					}
-					else {
-						bigDict[this.transform.localPosition] = new HashSet<ElectricalOIinheritance>();
-						bigDict[this.transform.localPosition].Add(ElectricalOI);
-					}*/
-				}
 			}
 		}
 #endif

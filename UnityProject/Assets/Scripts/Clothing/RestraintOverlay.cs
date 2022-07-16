@@ -17,7 +17,6 @@ namespace UI.Items
 
 		[SerializeField] private SpriteRenderer spriteRend = null;
 		private IEnumerator uncuffCoroutine;
-		private float healthCache;
 		private Vector3Int positionCache;
 
 		[SerializeField]
@@ -49,7 +48,7 @@ namespace UI.Items
 
 		private void DetermineAlertUI()
 		{
-			if (thisPlayerScript != PlayerManager.PlayerScript) return;
+			if (thisPlayerScript != PlayerManager.LocalPlayerScript) return;
 
 			UIActionManager.ToggleLocal(this, GameObjectReference != null);
 		}
@@ -60,7 +59,6 @@ namespace UI.Items
 				StopCoroutine(uncuffCoroutine);
 
 			float resistTime = GameObjectReference.GetComponent<Restraint>().ResistTime;
-			healthCache = thisPlayerScript.playerHealth.OverallHealth;
 			positionCache = thisPlayerScript.registerTile.LocalPositionServer;
 			if (!CanUncuff()) return;
 
@@ -89,7 +87,6 @@ namespace UI.Items
 			if (playerHealth == null ||
 				playerHealth.ConsciousState == ConsciousState.DEAD ||
 				playerHealth.ConsciousState == ConsciousState.UNCONSCIOUS ||
-				playerHealth.OverallHealth != healthCache ||
 				thisPlayerScript.registerTile.IsSlippingServer ||
 				positionCache != thisPlayerScript.registerTile.LocalPositionServer)
 			{
@@ -101,7 +98,7 @@ namespace UI.Items
 
 		public void CallActionClient()
 		{
-			PlayerManager.PlayerScript.playerNetworkActions.CmdTryUncuff();
+			PlayerManager.LocalPlayerScript.playerNetworkActions.CmdTryUncuff();
 		}
 	}
 }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Systems.CraftingV2;
 using Systems.CraftingV2.ClientServerLogic;
+using Systems.CraftingV2.GUI;
 using Chemistry;
 using Chemistry.Components;
 using Items;
@@ -121,7 +122,7 @@ namespace Player
 				// ...then we'll handle the recipe learning on the "client" side,
 				// so we won't have duplicates in the known recipes list
 				// (because the server and the client have one known recipes list for two)
-				SendLearnedCraftingRecipe.SendTo(playerScript.connectedPlayer, recipe);
+				SendLearnedCraftingRecipe.SendTo(playerScript.PlayerInfo, recipe);
 				return;
 			}
 
@@ -130,7 +131,7 @@ namespace Player
 				return;
 			}
 
-			SendLearnedCraftingRecipe.SendTo(playerScript.connectedPlayer, recipe);
+			SendLearnedCraftingRecipe.SendTo(playerScript.PlayerInfo, recipe);
 		}
 
 		/// <summary>
@@ -176,7 +177,52 @@ namespace Player
 		public void ForgetRecipe(CraftingRecipe recipe)
 		{
 			GetKnownRecipesInCategory(recipe.Category).Remove(recipe);
-			SendForgottenCraftingRecipe.SendTo(playerScript.connectedPlayer, recipe);
+
+			//Prevent message being sent twice when local host
+			if (playerScript == PlayerManager.LocalPlayerScript)
+			{
+				if (CraftingMenu.Instance == null) return;
+
+				//Remove button from crafting Ui for local host
+				CraftingMenu.Instance.OnPlayerForgotRecipe(recipe);
+				return;
+			}
+
+			SendForgottenCraftingRecipe.SendTo(playerScript.PlayerInfo, recipe);
+		}
+
+		[Server]
+		public void ForgetAllRecipes()
+		{
+			ClearKnownRecipes();
+
+			//Prevent message being sent twice when local host
+			if(connectionToClient == null || playerScript == PlayerManager.LocalPlayerScript) return;
+
+			TargetRpcForgetAllRecipes();
+		}
+
+		[TargetRpc]
+		private void TargetRpcForgetAllRecipes()
+		{
+			ClearKnownRecipes();
+		}
+
+		private void ClearKnownRecipes()
+		{
+			foreach (var recipeCategory in knownRecipesByCategory)
+			{
+				recipeCategory.Clear();
+			}
+
+			//Only run on client player, no need for headless to run
+			if (CustomNetworkManager.IsHeadless) return;
+
+			//Crafting menu might not be ready, will init correctly without recipes on first load instead
+			if (CraftingMenu.Instance == null) return;
+
+			//The crafting menu is already initiated, so it's safe to remove buttons from it
+			CraftingMenu.Instance.OnPlayerForgetAllRecipes();
 		}
 
 		#endregion
@@ -286,11 +332,11 @@ namespace Player
 		public List<CraftingIngredient> GetPossibleIngredients(NetworkSide networkSide)
 		{
 			List<CraftingIngredient> possibleIngredients = MatrixManager.GetReachableAdjacent<CraftingIngredient>(
-				playerScript.PlayerSync.ClientPosition, networkSide == NetworkSide.Server
+				playerScript.PlayerSync.registerTile.WorldPosition, networkSide == NetworkSide.Server
 			);
 
 			possibleIngredients.AddRange(MatrixManager.GetAt<CraftingIngredient>(
-				playerScript.PlayerSync.ClientPosition, networkSide == NetworkSide.Server
+				playerScript.PlayerSync.registerTile.WorldPosition, networkSide == NetworkSide.Server
 			));
 
 			foreach (ItemSlot handSlot in playerScript.DynamicItemStorage.GetHandSlots())
@@ -326,11 +372,11 @@ namespace Player
 		public List<ItemAttributesV2> GetPossibleTools(NetworkSide networkSide)
 		{
 			List<ItemAttributesV2> possibleTools = MatrixManager.GetReachableAdjacent<ItemAttributesV2>(
-				playerScript.PlayerSync.ClientPosition, networkSide == NetworkSide.Server
+				playerScript.PlayerSync.registerTile.WorldPosition, networkSide == NetworkSide.Server
 			);
 
 			possibleTools.AddRange(MatrixManager.GetAt<ItemAttributesV2>(
-				playerScript.PlayerSync.ClientPosition, networkSide == NetworkSide.Server
+				playerScript.PlayerSync.registerTile.WorldPosition, networkSide == NetworkSide.Server
 			));
 
 			foreach (ItemSlot handSlot in playerScript.DynamicItemStorage.GetHandSlots())
@@ -367,11 +413,11 @@ namespace Player
 		public List<ReagentContainer> GetReagentContainers()
 		{
 			List<ReagentContainer> reagentContainers = MatrixManager.GetReachableAdjacent<ReagentContainer>(
-				playerScript.PlayerSync.ClientPosition, true
+				playerScript.PlayerSync.registerTile.WorldPosition, true
 			);
 
 			reagentContainers.AddRange(MatrixManager.GetAt<ReagentContainer>(
-				PlayerScript.PlayerSync.ClientPosition,
+				PlayerScript.PlayerSync.registerTile.WorldPosition,
 				true
 			));
 

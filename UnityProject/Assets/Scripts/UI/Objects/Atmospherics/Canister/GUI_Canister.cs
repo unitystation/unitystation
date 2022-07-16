@@ -5,8 +5,8 @@ using UnityEngine;
 using UnityEngine.UI;
 using AdminTools;
 using UI.Core;
+using UI.Core.NetUI;
 using Objects.Atmospherics;
-
 
 namespace UI.Objects.Atmospherics
 {
@@ -156,11 +156,13 @@ namespace UI.Objects.Atmospherics
 		{
 			base.OnEnable();
 			StartCoroutine(ClientWaitForProvider());
+			UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
 		}
 
 		private void OnDisable()
 		{
 			hiss.Stop();
+			UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
 		}
 
 		#endregion Lifecycle
@@ -260,7 +262,7 @@ namespace UI.Objects.Atmospherics
 			}
 		}
 
-		private void Update()
+		private void UpdateMe()
 		{
 			//if the red LED is lit up, it needs to flash.
 			//This toggles the red LED on / off based on the elapsed time

@@ -4,7 +4,6 @@ using Chemistry.Components;
 using NaughtyAttributes;
 using UnityEngine;
 using UnityEngine.Events;
-using UnityEngine.EventSystems;
 
 namespace NPC.Mood
 {
@@ -25,12 +24,12 @@ namespace NPC.Mood
 		[BoxGroup("Reagent")]
 		[SerializeField]
 		[Tooltip("The update frequency this mob will use for milk production.")]
-		private float milkTick = 200;
+		private float milkTick = 120;
 
 		[BoxGroup("Reagent")]
 		[SerializeField]
 		[Tooltip("The amount of milk the mob can produce each update period.")]
-		private float milkProducePerTick = 10;
+		private float milkProducePerTick = 25;
 
 		[BoxGroup("Reagent")]
 		[SerializeField]
@@ -40,7 +39,7 @@ namespace NPC.Mood
 		[BoxGroup("Mood")]
 		[SerializeField]
 		[Tooltip("Amount of mood required to produce milk")]
-		private int requiredMood = 60;
+		private int requiredMood = 40;
 
 		[BoxGroup("Mood")]
 		[SerializeField]

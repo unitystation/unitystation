@@ -18,15 +18,15 @@ public class RangeRelationship : BaseSpatialRelationship
 	private readonly float maxRange;
 	private readonly Action<RangeRelationship> onRangeExceeded;
 
-	private readonly PushPull pushPull1;
-	private readonly PushPull pushPull2;
+	private readonly UniversalObjectPhysics pushPull1;
+	private readonly UniversalObjectPhysics pushPull2;
 
 	protected RangeRelationship(RegisterTile obj1, RegisterTile obj2, float maxRange, Action<RangeRelationship> onRangeExceeded) : base(obj1, obj2)
 	{
 		this.maxRange = maxRange;
 		this.onRangeExceeded = onRangeExceeded;
-		pushPull1 = obj1.GetComponent<PushPull>();
-		pushPull2 = obj2.GetComponent<PushPull>();
+		pushPull1 = obj1.GetComponent<UniversalObjectPhysics>();
+		pushPull2 = obj2.GetComponent<UniversalObjectPhysics>();
 	}
 
 	/// <summary>
@@ -75,8 +75,8 @@ public class RangeRelationship : BaseSpatialRelationship
 	protected bool IsStillInRange()
 	{
 		//if an object is pulling the other, they are always in range
-		if ((pushPull1 != null && pushPull1.PulledObjectServer == pushPull2) ||
-		    (pushPull2 != null && pushPull2.PulledObjectServer == pushPull1))
+		if ((pushPull1 != null && pushPull1.PulledBy.Component == pushPull2) ||
+		    (pushPull2 != null && pushPull2.PulledBy.Component  == pushPull1))
 		{
 			return true;
 		}

@@ -12,12 +12,15 @@ namespace Objects.Drawers
 	/// <summary>
 	/// A generic drawer component designed for multi-tile drawer objects.
 	/// </summary>
-	[RequireComponent(typeof(ObjectBehaviour))] // For setting held items' containers to the drawer.
 	[ExecuteInEditMode]
 	public class Drawer : NetworkBehaviour, IServerLifecycle, ICheckedInteractable<HandApply>, IEscapable
 	{
 	[SerializeField] private AddressableAudioSource BinOpenSFX = null;
 	[SerializeField] private AddressableAudioSource BinCloseSFX = null;
+	/// <summary>
+	/// How long does it take before players can escape from this drawer? (Put it to 0 to disable it)
+	/// </summary>
+	[SerializeField] protected float escapeTime = 8f;
 
 		protected enum DrawerState
 		{
@@ -34,8 +37,8 @@ namespace Objects.Drawers
 		}
 
 		protected RegisterObject registerObject;
-		protected Directional directional;
-		protected PushPull drawerPushPull;
+		protected Rotatable rotatable;
+		protected UniversalObjectPhysics drawerPushPull;
 		protected SpriteHandler drawerSpriteHandler;
 
 		protected Matrix Matrix => registerObject.Matrix;
@@ -45,8 +48,8 @@ namespace Objects.Drawers
 		protected Vector3Int TrayLocalPosition => ((Vector3)TrayWorldPosition).ToLocalInt(Matrix);
 
 		protected GameObject tray;
-		protected CustomNetTransform trayTransform;
-		protected ObjectBehaviour trayBehaviour;
+		protected UniversalObjectPhysics ObjectPhysics;
+		protected UniversalObjectPhysics trayBehaviour;
 		protected ObjectContainer container;
 		protected SpriteHandler traySpriteHandler;
 
@@ -64,8 +67,8 @@ namespace Objects.Drawers
 		protected virtual void Awake()
 		{
 			registerObject = GetComponent<RegisterObject>();
-			directional = GetComponent<Directional>();
-			drawerPushPull = GetComponent<PushPull>();
+			rotatable = GetComponent<Rotatable>();
+			drawerPushPull = GetComponent<UniversalObjectPhysics>();
 			container = GetComponent<ObjectContainer>();
 			drawerSpriteHandler = GetComponentInChildren<SpriteHandler>();
 		}
@@ -74,7 +77,12 @@ namespace Objects.Drawers
 		{
 			registerObject = GetComponent<RegisterObject>();
 			ServerInit();
-			directional.OnDirectionChange.AddListener(OnDirectionChanged);
+			rotatable.OnRotationChange.AddListener(OnDirectionChanged);
+		}
+
+		private void OnDisable()
+		{
+			rotatable.OnRotationChange.RemoveListener(OnDirectionChanged);
 		}
 
 		private void ServerInit()
@@ -90,10 +98,9 @@ namespace Objects.Drawers
 
 			tray.GetComponent<InteractableDrawerTray>().parentDrawer = this;
 			traySpriteHandler = tray.GetComponentInChildren<SpriteHandler>();
-			trayTransform = tray.GetComponent<CustomNetTransform>();
-			trayBehaviour = tray.GetComponent<ObjectBehaviour>();
-			trayBehaviour.parentContainer = drawerPushPull;
-			trayBehaviour.VisibleState = false;
+			ObjectPhysics = tray.GetComponent<UniversalObjectPhysics>();
+			trayBehaviour = ObjectPhysics;
+			trayBehaviour.StoreTo(container);
 
 			UpdateSpriteState();
 			UpdateSpriteOrientation();
@@ -113,7 +120,7 @@ namespace Objects.Drawers
 
 		#region Sprite
 
-		private void OnDirectionChanged(Orientation newDirection)
+		private void OnDirectionChanged(OrientationEnum newDirection)
 		{
 			UpdateSpriteOrientation();
 		}
@@ -151,12 +158,12 @@ namespace Objects.Drawers
 
 		private SpriteOrientation GetSpriteDirection()
 		{
-			switch (directional.CurrentDirection.AsEnum())
+			switch (rotatable.CurrentDirection)
 			{
-				case OrientationEnum.Up: return SpriteOrientation.North;
-				case OrientationEnum.Down: return SpriteOrientation.South;
-				case OrientationEnum.Left: return SpriteOrientation.West;
-				case OrientationEnum.Right: return SpriteOrientation.East;
+				case OrientationEnum.Up_By0: return SpriteOrientation.North;
+				case OrientationEnum.Down_By180: return SpriteOrientation.South;
+				case OrientationEnum.Left_By90: return SpriteOrientation.West;
+				case OrientationEnum.Right_By270: return SpriteOrientation.East;
 				default: return SpriteOrientation.South;
 			}
 		}
@@ -188,15 +195,16 @@ namespace Objects.Drawers
 		/// <returns>The tray position</returns>
 		protected Vector3Int GetTrayPosition(Vector3Int drawerPosition)
 		{
-			return (drawerPosition + directional.CurrentDirection.Vector).CutToInt();
+			return (drawerPosition + rotatable.CurrentDirection.ToLocalVector3()).CutToInt();
 		}
 
 		#region Server Only
 
 		public virtual void OpenDrawer()
 		{
-			trayBehaviour.parentContainer = null;
-			trayTransform.SetPosition(TrayWorldPosition);
+			if(drawerState == DrawerState.Open) return;
+			trayBehaviour.StoreTo(null);
+			ObjectPhysics.AppearAtWorldPositionServer(TrayWorldPosition);
 
 			container.RetrieveObjects(TrayWorldPosition);
 
@@ -207,9 +215,7 @@ namespace Objects.Drawers
 
 		public virtual void CloseDrawer()
 		{
-			trayBehaviour.parentContainer = drawerPushPull;
-			trayBehaviour.VisibleState = false;
-
+			trayBehaviour.StoreTo(container);
 			GatherObjects();
 			AudioSourceParameters audioSourceParameters = new AudioSourceParameters(pitch: Random.Range(0.8f, 1.2f));
 			SoundManager.PlayNetworkedAtPos(BinCloseSFX, DrawerWorldPosition, audioSourceParameters, sourceObj: gameObject);
@@ -218,9 +224,12 @@ namespace Objects.Drawers
 
 		protected virtual void GatherObjects()
 		{
-			var items = Matrix.Get<ObjectBehaviour>(TrayLocalPosition, true);
-			foreach (ObjectBehaviour item in items)
+			var items = Matrix.Get<UniversalObjectPhysics>(TrayLocalPosition, true);
+			foreach (var item in items)
 			{
+				//Prevents stuff like cameras ending up inside (check for health in case player wearing mag boots)
+				if(item.IsNotPushable && item.TryGetComponent<HealthV2.LivingHealthMasterBase>(out _) == false) continue;
+
 				if (storePlayers == false && item.TryGetComponent<PlayerScript>(out _)) continue;
 
 				// Other position fields such as registerObject.WorldPosition seem to give tile integers.
@@ -231,10 +240,18 @@ namespace Objects.Drawers
 
 		public void EntityTryEscape(GameObject entity,Action ifCompleted)
 		{
-			if (entity.Player() != null)
+			if(entity.Player() == null) return;
+			if (escapeTime <= 0.1f)
 			{
 				OpenDrawer();
+				return;
 			}
+			var bar = StandardProgressAction.Create(new StandardProgressActionConfig(StandardProgressActionType.Escape,
+				true, false, true, true), OpenDrawer);
+			bar.ServerStartProgress(gameObject.RegisterTile(), escapeTime, entity);
+			Chat.AddActionMsgToChat(entity,
+				$"You begin breaking out of the {gameObject.ExpensiveName()}...",
+				$"You hear noises coming from the {gameObject.ExpensiveName()}... Something must be trying to break out!");
 		}
 
 		#endregion Server Only

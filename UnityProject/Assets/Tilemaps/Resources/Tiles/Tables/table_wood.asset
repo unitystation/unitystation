@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: table_wood
   m_EditorClassIdentifier: 
   displayName: 
+  description: 
   LayerType: 9
   TileType: 4
   RequiredTiles: []
@@ -31,6 +32,7 @@ MonoBehaviour:
   doesReflectBullet: 0
   indestructible: 0
   ExplosionImpassable: 0
+  BlocksTileInteractionsUnder: 1
   passableException:
     m_keys: 0200000003000000
     m_values: 0101
@@ -52,6 +54,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 60c558a8dfbf4ee4e8225a3484933424, type: 2}
   - {fileID: 11400000, guid: fc968a68963834c05a67838fe15fedec, type: 2}
   - {fileID: 11400000, guid: d27fd166098cf084abd6ebb4f8b2dd25, type: 2}
+  tileStepInteractions: []
   spawnOnDeconstruct: {fileID: 2663802320431471963, guid: 9ae38f6aa43b5cd4ba608cd31b462b24,
     type: 3}
   spawnAmountOnDeconstruct: 2
@@ -66,6 +69,7 @@ MonoBehaviour:
       m_AssetGUID: 
       m_SubObjectName: 
       m_SubObjectType: 
+      m_EditorAssetChanged: 0
   SoundOnDestroy: []
   connectCategory: 2
   connectType: 1

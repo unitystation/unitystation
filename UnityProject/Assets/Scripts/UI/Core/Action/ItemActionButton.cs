@@ -55,7 +55,7 @@ namespace UI.Action
 			}
 		}
 
-		public void CallActionServer(ConnectedPlayer SentByPlayer)
+		public void CallActionServer(PlayerInfo SentByPlayer)
 		{
 			if (Validations.CanInteract(SentByPlayer.Script , NetworkSide.Server, true))
 			{

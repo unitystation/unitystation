@@ -27,6 +27,8 @@ public class Armor
 
 	[Range(0,100)] public int DismembermentProtectionChance;
 
+	public bool StunImmunity = false;
+
 	/// <summary>
 	/// Calculates how much damage would be done based on armor resistance and armor penetration.
 	/// </summary>

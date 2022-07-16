@@ -39,26 +39,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 966414532031153757, guid: 2937fbb42f33c07428faabfd58578633,
         type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 966414532031153757, guid: 2937fbb42f33c07428faabfd58578633,
-        type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 966414532031153757, guid: 2937fbb42f33c07428faabfd58578633,
-        type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 966414532031153757, guid: 2937fbb42f33c07428faabfd58578633,
-        type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 966414532031153757, guid: 2937fbb42f33c07428faabfd58578633,
-        type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
       value: 0
       objectReference: {fileID: 0}
@@ -244,6 +224,11 @@ PrefabInstance:
         type: 3}
       propertyPath: armor.Energy
       value: 35
+      objectReference: {fileID: 0}
+    - target: {fileID: 8534835468762683602, guid: 2937fbb42f33c07428faabfd58578633,
+        type: 3}
+      propertyPath: tileMoveSpeed
+      value: 6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2937fbb42f33c07428faabfd58578633, type: 3}

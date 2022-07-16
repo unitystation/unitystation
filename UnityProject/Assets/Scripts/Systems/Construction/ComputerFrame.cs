@@ -18,14 +18,14 @@ namespace Objects.Construction
 		private ItemSlot circuitBoardSlot;
 		private Stateful stateful;
 		private StatefulState CurrentState => stateful.CurrentState;
-		private ObjectBehaviour objectBehaviour;
+		private UniversalObjectPhysics objectBehaviour;
 		private Integrity integrity;
 
 		private void Awake()
 		{
 			circuitBoardSlot = GetComponent<ItemStorage>().GetIndexedItemSlot(0);
 			stateful = GetComponent<Stateful>();
-			objectBehaviour = GetComponent<ObjectBehaviour>();
+			objectBehaviour = GetComponent<UniversalObjectPhysics>();
 
 			if (!CustomNetworkManager.IsServer) return;
 
@@ -43,7 +43,7 @@ namespace Objects.Construction
 			//different logic depending on state
 			if (CurrentState == initialState)
 			{
-				if (objectBehaviour.IsPushable)
+				if (objectBehaviour.IsNotPushable == false)
 				{
 					//wrench in place or deconstruct
 					return Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Wrench) ||
@@ -83,7 +83,7 @@ namespace Objects.Construction
 		{
 			if (CurrentState == initialState)
 			{
-				if (objectBehaviour.IsPushable)
+				if (objectBehaviour.IsNotPushable == false)
 				{
 					if (Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Wrench))
 					{
@@ -240,7 +240,7 @@ namespace Objects.Construction
 			string msg = "";
 			if (CurrentState == initialState)
 			{
-				if (objectBehaviour.IsPushable)
+				if (objectBehaviour.IsNotPushable == false)
 				{
 					msg = "Use a wrench to secure the frame to the floor, or a welder to deconstruct it.";
 				}
@@ -290,7 +290,7 @@ namespace Objects.Construction
 			Inventory.ServerAdd(board.GameObject, circuitBoardSlot);
 
 			//set initial state
-			objectBehaviour.ServerSetPushable(false);
+			objectBehaviour.SetIsNotPushable(true);
 			stateful.ServerChangeState(glassAddedState);
 		}
 

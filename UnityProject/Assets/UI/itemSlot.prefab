@@ -30,6 +30,7 @@ RectTransform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -68,6 +69,7 @@ MonoBehaviour:
   amountText: {fileID: 0}
   MoreInventoryImage: {fileID: 0}
   HasSubInventory: {fileID: 0}
+  OverlayMaterial: {fileID: 2100000, guid: 0a968fd8e26129845b1d5e4fc47031b0, type: 2}
 --- !u!114 &114019074556478302
 MonoBehaviour:
   m_ObjectHideFlags: 0

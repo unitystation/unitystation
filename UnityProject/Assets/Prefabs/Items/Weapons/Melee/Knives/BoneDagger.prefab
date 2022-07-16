@@ -40,9 +40,20 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4824296599455833752, guid: 80bdfbc6ac7f8614abbfa237f98bf72d,
         type: 3}
+      propertyPath: initialTraits.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4824296599455833752, guid: 80bdfbc6ac7f8614abbfa237f98bf72d,
+        type: 3}
       propertyPath: itemSprites.SpriteLeftHand
       value: 
       objectReference: {fileID: 11400000, guid: adb202eebc9ebfd4796d74c1a04f5472,
+        type: 2}
+    - target: {fileID: 4824296599455833752, guid: 80bdfbc6ac7f8614abbfa237f98bf72d,
+        type: 3}
+      propertyPath: initialTraits.Array.data[2]
+      value: 
+      objectReference: {fileID: 11400000, guid: 71b6c4640889d4c4fb1f249f6933fc08,
         type: 2}
     - target: {fileID: 4824296599455833752, guid: 80bdfbc6ac7f8614abbfa237f98bf72d,
         type: 3}
@@ -50,6 +61,16 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: c394d651d52cd8344aa3ee2dc4fe17df,
         type: 2}
+    - target: {fileID: 4824296599455833752, guid: 80bdfbc6ac7f8614abbfa237f98bf72d,
+        type: 3}
+      propertyPath: inventoryMoveSound.AssetAddress
+      value: null
+      objectReference: {fileID: 0}
+    - target: {fileID: 4824296599455833752, guid: 80bdfbc6ac7f8614abbfa237f98bf72d,
+        type: 3}
+      propertyPath: inventoryRemoveSound.AssetAddress
+      value: null
+      objectReference: {fileID: 0}
     - target: {fileID: 4903646652920302734, guid: 80bdfbc6ac7f8614abbfa237f98bf72d,
         type: 3}
       propertyPath: m_RootOrder

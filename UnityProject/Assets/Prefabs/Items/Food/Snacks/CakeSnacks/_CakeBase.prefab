@@ -22,6 +22,23 @@ PrefabInstance:
       propertyPath: StartingNutrients
       value: 938
       objectReference: {fileID: 0}
+    - target: {fileID: 4866064635820705867, guid: 15c2e5750e27b0c4b8faf56ad3e06f46,
+        type: 3}
+      propertyPath: initialTraits.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 4866064635820705867, guid: 15c2e5750e27b0c4b8faf56ad3e06f46,
+        type: 3}
+      propertyPath: initialTraits.Array.data[2]
+      value: 
+      objectReference: {fileID: 11400000, guid: fa6234bd32db894498d15774d2ff1489,
+        type: 2}
+    - target: {fileID: 4866064635820705867, guid: 15c2e5750e27b0c4b8faf56ad3e06f46,
+        type: 3}
+      propertyPath: initialTraits.Array.data[3]
+      value: 
+      objectReference: {fileID: 11400000, guid: 8c284363dd745a9438fe7d78b7ef023e,
+        type: 2}
     - target: {fileID: 4971432123339430557, guid: 15c2e5750e27b0c4b8faf56ad3e06f46,
         type: 3}
       propertyPath: m_AssetId
@@ -117,7 +134,7 @@ PrefabInstance:
     - target: {fileID: 6070902302758907777, guid: 15c2e5750e27b0c4b8faf56ad3e06f46,
         type: 3}
       propertyPath: initialReagentMix.reagents.m_values.Array.data[0]
-      value: 20
+      value: 66.666664
       objectReference: {fileID: 0}
     - target: {fileID: 6070902302758907777, guid: 15c2e5750e27b0c4b8faf56ad3e06f46,
         type: 3}

@@ -91,6 +91,8 @@ namespace Objects.Kitchen
 		[SyncVar(hook = nameof(OnSyncOvenGlow))]
 		private bool ovenGlowEnabled = false;
 
+		[SerializeField] private ParticleSystem particles;
+
 		public bool IsOperating => CurrentState is OvenRunning;
 
 		public IEnumerable<ItemSlot> Slots => storage.GetItemSlots();
@@ -282,10 +284,12 @@ namespace Objects.Kitchen
 			if (newState)
 			{
 				StartCoroutine(DelayOvenRunningSfx());
+				particles.Play();
 			}
 			else
 			{
 				SoundManager.Stop(runLoopGUID);
+				particles.Stop();
 			}
 		}
 

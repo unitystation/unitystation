@@ -62,11 +62,6 @@ public struct PlayerState : IEquatable<PlayerState>
 	/// Direction of flying in local position coordinates
 	/// </summary>
 	/// <param name="forPlayer">player for which the local impulse should be calculated</param>
-	public Vector2 LocalImpulse(PlayerSync forPlayer)
-	{
-		if (forPlayer.transform.parent == null) return Vector2.zero;
-		return Quaternion.Inverse(forPlayer.transform.parent.rotation) * WorldImpulse;
-	}
 
 	///Flag for clients to reset their queue when received
 	public bool ResetClientQueue;

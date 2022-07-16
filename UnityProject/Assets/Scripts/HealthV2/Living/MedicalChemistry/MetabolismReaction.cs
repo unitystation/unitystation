@@ -12,6 +12,13 @@ public class MetabolismReaction : Reaction
 	//Should it metabolise faster or slower
 	public float ReagentMetabolismMultiplier = 1;
 
+	//Reaction.metabolismspeedmultiplier
+
+
+	public List<ItemTrait> AllRequired = new List<ItemTrait>();
+	//public List<ItemTrait> SingleRequired = new List<ItemTrait>(); TODO add ability to Apply to multiple tags
+	public List<ItemTrait> Blacklist  = new List<ItemTrait>();
+
 	public override bool Apply(MonoBehaviour sender, ReagentMix reagentMix)
 	{
 		if (HasIngredients(reagentMix) == false)
@@ -24,54 +31,56 @@ public class MetabolismReaction : Reaction
 			return false;
 		}
 
-		var bodyPart = sender.GetComponent<BodyPart>();
-		if (bodyPart == null)
+		var circulatorySystem = sender.GetComponent<CirculatorySystemBase>();
+		if (circulatorySystem == null)
 		{
 			return false;
 		}
 
-		bodyPart.MetabolismReactions.Add(this);
+		circulatorySystem.MetabolismReactions.Add(this);
 		return false;
 	}
 
-	public void React(BodyPart sender, ReagentMix reagentMix, float inReactionAmount)
+	public void React(List<BodyPart> sender, ReagentMix reagentMix, float ReactionAmount)
 	{
-		if (HasIngredients(reagentMix) == false)
+		var reactionMultiple = GetReactionAmount(reagentMix);
+
+		ReactionAmount *=  ReagentMetabolismMultiplier;
+
+		var AmountProcessing = 0f;
+		foreach (var ingredient in ingredients.m_dict)
 		{
-			return;
+			AmountProcessing += (ingredient.Value * reactionMultiple);
 		}
 
-		var reactionAmount = GetReactionAmount(reagentMix);
-
-		if (reactionAmount / reagentMix.Total < MinimumPercentageThreshold)
+		if (AmountProcessing > ReactionAmount)
 		{
-			return;
+			reactionMultiple *= (ReactionAmount / AmountProcessing);
 		}
 
-		if (CanReactionHappen(reagentMix, reactionAmount) == false)
-		{
-			return;
-		}
-
-		PossibleReaction(sender, reagentMix, reactionAmount);
+		PossibleReaction(sender, reagentMix, reactionMultiple, ReactionAmount, AmountProcessing);
 	}
 
-	public virtual void PossibleReaction(BodyPart sender, ReagentMix reagentMix, float limitedreactionAmount)
+	public virtual void PossibleReaction(List<BodyPart> senders, ReagentMix reagentMix, float reactionMultiple, float BodyReactionAmount, float TotalChemicalsProcessed)
 	{
 		foreach (var ingredient in ingredients.m_dict)
 		{
-			reagentMix.Subtract(ingredient.Key, limitedreactionAmount * ingredient.Value);
+			reagentMix.Subtract(ingredient.Key, reactionMultiple * ingredient.Value);
 		}
 
 		foreach (var result in results.m_dict)
 		{
-			var reactionResult = limitedreactionAmount * result.Value;
+			var reactionResult = reactionMultiple * result.Value;
 			reagentMix.Add(result.Key, reactionResult);
 		}
 
 		foreach (var effect in effects)
 		{
-			effect.Apply(sender, limitedreactionAmount);
+			foreach (var sender in senders)
+			{
+				effect.Apply(sender, reactionMultiple);
+			}
+
 		}
 	}
 }

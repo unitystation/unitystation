@@ -2,9 +2,9 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
+using UI.Core.NetUI;
 using Messages.Server;
 using Systems.Interaction;
-
 
 namespace Messages.Client
 {
@@ -29,7 +29,7 @@ namespace Messages.Client
 			ProcessFurther(SentByPlayer, NetworkObject, msg);
 		}
 
-		private void ProcessFurther(ConnectedPlayer player, GameObject tabProvider, NetMessage msg)
+		private void ProcessFurther(PlayerInfo player, GameObject tabProvider, NetMessage msg)
 		{
 			if (player == null)
 			{
@@ -53,19 +53,28 @@ namespace Messages.Client
 			}
 			else
 			{
+				validate = Validations.CanApply(playerScript, tabProvider, NetworkSide.Server);
+
 				try
 				{
-					validate = Validations.CanApply(player.Script, tabProvider, NetworkSide.Server)
-					           || playerScript.DynamicItemStorage.GetActiveHandSlot().ItemObject == tabProvider;
+					if (validate == false)
+					{
+						//Allow if in hand
+						var hand = playerScript.DynamicItemStorage.OrNull()?.GetActiveHandSlot();
+						if (hand != null)
+						{
+							validate = hand.ItemObject == tabProvider;
+						}
+					}
 				}
 				catch (NullReferenceException exception)
 				{
-					Logger.LogError($"Caught NRE in TabInteractMessage.Process: {exception.Message} \n {exception.StackTrace}", Category.Interaction);
+					Logger.LogError($"Caught NRE in TabInteractMessage.Process: Tab: {tabProvider.OrNull().ExpensiveName()} {exception.Message} \n {exception.StackTrace}", Category.Interaction);
 					return;
 				}
 			}
 
-			if (!validate)
+			if (validate == false)
 			{
 				FailValidation(player, tabProvider, msg,"Can't interact/reach");
 				return;
@@ -105,7 +114,7 @@ namespace Messages.Client
 			}
 
 			//Notify all peeping players of the change
-			List<ConnectedPlayer> list = NetworkTabManager.Instance.GetPeepers(tabProvider, msg.NetTabType);
+			List<PlayerInfo> list = NetworkTabManager.Instance.GetPeepers(tabProvider, msg.NetTabType);
 			for (var i = 0; i < list.Count; i++)
 			{
 				var connectedPlayer = list[i];
@@ -119,7 +128,7 @@ namespace Messages.Client
 			}
 		}
 
-		private TabUpdateMessage FailValidation(ConnectedPlayer player, GameObject tabProvider, NetMessage msg, string reason = "")
+		private TabUpdateMessage FailValidation(PlayerInfo player, GameObject tabProvider, NetMessage msg, string reason = "")
 		{
 			Logger.LogWarning($"{player.Name}: Tab interaction w/{tabProvider} denied: {reason}", Category.NetUI);
 			return TabUpdateMessage.Send(player.GameObject, tabProvider, msg.NetTabType, TabAction.Close);

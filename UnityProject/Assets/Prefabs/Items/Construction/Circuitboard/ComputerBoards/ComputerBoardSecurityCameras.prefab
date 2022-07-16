@@ -29,6 +29,16 @@ PrefabInstance:
       propertyPath: initialName
       value: Security Cameras (Computer Board)
       objectReference: {fileID: 0}
+    - target: {fileID: 8817709132636593449, guid: e7e1f76c9d673354f923f7906532be5b,
+        type: 3}
+      propertyPath: inventoryMoveSound.AssetAddress
+      value: null
+      objectReference: {fileID: 0}
+    - target: {fileID: 8817709132636593449, guid: e7e1f76c9d673354f923f7906532be5b,
+        type: 3}
+      propertyPath: inventoryRemoveSound.AssetAddress
+      value: null
+      objectReference: {fileID: 0}
     - target: {fileID: 8980409829913530175, guid: e7e1f76c9d673354f923f7906532be5b,
         type: 3}
       propertyPath: m_RootOrder

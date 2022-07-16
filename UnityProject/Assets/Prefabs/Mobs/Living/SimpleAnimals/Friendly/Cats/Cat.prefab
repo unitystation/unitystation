@@ -1,83 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &2103681918909080673
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2144788095502372098}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8e4b4c6fc6efb9f42af4b869972cd4be, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  mobName: cat
-  registerObject: {fileID: 0}
-  minTimeBetweenRandomActions: 15
-  maxTimeBetweenRandomActions: 30
-  doRandomActionWhenInTask: 0
-  PurrSFX:
-    SetLoadSetting: 0
-    AssetAddress: Assets/Prefabs/NPC/Purr.prefab
-    AssetReference:
-      m_AssetGUID: 
-      m_SubObjectName: 
-      m_SubObjectType: 
-  MeowSFX:
-    SetLoadSetting: 0
-    AssetAddress: Assets/Prefabs/NPC/Meow01.prefab
-    AssetReference:
-      m_AssetGUID: 
-      m_SubObjectName: 
-      m_SubObjectType: 
-  CatHissSFX:
-    SetLoadSetting: 0
-    AssetAddress: Assets/Prefabs/NPC/CatHiss.prefab
-    AssetReference:
-      m_AssetGUID: 
-      m_SubObjectName: 
-      m_SubObjectType: 
---- !u!114 &2433723279685620094
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2144788095502372098}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 857bf8f3709511b4fb9178b76caed382, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  brain: {fileID: 11400000, guid: ee57f96de53d4b0489799717352da07e, type: 2}
-  agentParameters:
-    agentCameras: []
-    agentRenderTextures: []
-    maxStep: 0
-    resetOnDone: 1
-    onDemandDecision: 1
-    numberOfActionsBetweenDecisions: 1
-  performingDecision: 0
-  performingAction: 0
-  activated: 0
-  TickDelay: 1
-  FollowTarget: {fileID: 0}
-  targetOtherPlayersWhoGetInWay: 0
-  onlyActOnTarget: 0
-  doLerpOnAction: 0
-  spriteHolder: {fileID: 8081786582678036113}
-  actionCooldown: 1
-  mobAI: {fileID: 7768851117682908995}
-  attackSound:
-    SetLoadSetting: 0
-    AssetAddress: Assets/Prefabs/NPC/bite.prefab
-    AssetReference:
-      m_AssetGUID: 
-      m_SubObjectName: 
-      m_SubObjectType: 
-  hitDamage: 5
-  attackVerb: swiped
 --- !u!1001 &8459564455701055161
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -91,6 +13,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 639fe71c8579b98479fe7f032db1bb85,
         type: 2}
+    - target: {fileID: 1419954747890742064, guid: f74cbb9054020dd4f8c9dcdedd7398eb,
+        type: 3}
+      propertyPath: tileMoveSpeed
+      value: 7
+      objectReference: {fileID: 0}
     - target: {fileID: 1714471794134156218, guid: f74cbb9054020dd4f8c9dcdedd7398eb,
         type: 3}
       propertyPath: m_RootOrder
@@ -186,26 +113,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7542410175053245887, guid: f74cbb9054020dd4f8c9dcdedd7398eb,
         type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7542410175053245887, guid: f74cbb9054020dd4f8c9dcdedd7398eb,
-        type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7542410175053245887, guid: f74cbb9054020dd4f8c9dcdedd7398eb,
-        type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7542410175053245887, guid: f74cbb9054020dd4f8c9dcdedd7398eb,
-        type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7542410175053245887, guid: f74cbb9054020dd4f8c9dcdedd7398eb,
-        type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
       value: 0
       objectReference: {fileID: 0}
@@ -244,18 +151,80 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 8459564455701055161}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &7768851117682908995 stripped
+--- !u!114 &2103681918909080673
 MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 2213213429927762426, guid: f74cbb9054020dd4f8c9dcdedd7398eb,
-    type: 3}
-  m_PrefabInstance: {fileID: 8459564455701055161}
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2144788095502372098}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cfeb6401c1a57b4489160d9ef2571ef4, type: 3}
+  m_Script: {fileID: 11500000, guid: 8e4b4c6fc6efb9f42af4b869972cd4be, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mobName: cat
+  registerObject: {fileID: 0}
+  minTimeBetweenRandomActions: 15
+  maxTimeBetweenRandomActions: 30
+  doRandomActionWhenInTask: 0
+  PurrSFX:
+    SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/NPC/Purr.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
+  MeowSFX:
+    SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/NPC/Meow01.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
+  CatHissSFX:
+    SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/NPC/CatHiss.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
+--- !u!114 &2433723279685620094
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2144788095502372098}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 857bf8f3709511b4fb9178b76caed382, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  UniversalObjectPhysics: {fileID: 0}
+  AllowDead: 0
+  AllowUnconscious: 0
+  Priority: 0
+  PriorityBalance: 25
+  targetOtherPlayersWhoGetInWay: 0
+  onlyActOnTarget: 0
+  doLerpOnAction: 0
+  spriteHolder: {fileID: 8081786582678036113}
+  actionCooldown: 1
+  isOnCooldown: 0
+  attackSound:
+    SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/NPC/bite.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
+  hitDamage: 5
+  attackVerb: swiped
 --- !u!1 &8081786582678036113 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 382294827147974696, guid: f74cbb9054020dd4f8c9dcdedd7398eb,

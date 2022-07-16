@@ -1,5 +1,5 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using UI.Core.NetUI;
 using UnityEngine;
 
 namespace Objects.Machines
@@ -12,7 +12,7 @@ namespace Objects.Machines
 		[HideInInspector]
 		public string categoryName;
 
-		public override void ExecuteServer(ConnectedPlayer subject)
+		public override void ExecuteServer(PlayerInfo subject)
 		{
 			ServerMethod.Invoke();
 		}

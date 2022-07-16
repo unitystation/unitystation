@@ -28,6 +28,7 @@ RectTransform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 224919019639980534}
   m_RootOrder: 0
@@ -105,6 +106,7 @@ RectTransform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1.307, y: 1.307, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1484968697188522328}
   - {fileID: 224919019639980534}
@@ -209,6 +211,7 @@ RectTransform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 224275137868236406}
   m_Father: {fileID: 224260014393631488}
@@ -278,6 +281,7 @@ MonoBehaviour:
   amountText: {fileID: 3614130826295839780}
   MoreInventoryImage: {fileID: 927948408797094197}
   HasSubInventory: {fileID: 5946663002225764041}
+  OverlayMaterial: {fileID: 2100000, guid: 0a968fd8e26129845b1d5e4fc47031b0, type: 2}
 --- !u!1 &3323282838034118039
 GameObject:
   m_ObjectHideFlags: 0
@@ -307,6 +311,7 @@ RectTransform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: -0.000030517578}
   m_LocalScale: {x: 1.30781, y: 1.30781, z: 1.30781}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 224260014393631488}
   m_RootOrder: 3
@@ -401,6 +406,7 @@ RectTransform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 224260014393631488}
   m_RootOrder: 0
@@ -477,6 +483,7 @@ RectTransform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: -0}
   m_LocalScale: {x: 1.30781, y: 1.30781, z: 1.30781}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 224260014393631488}
   m_RootOrder: 2

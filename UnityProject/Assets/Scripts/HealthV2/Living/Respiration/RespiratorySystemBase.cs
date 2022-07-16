@@ -2,6 +2,7 @@
 using Chemistry;
 using Systems.Atmospherics;
 using Objects.Atmospherics;
+using ScriptableObjects.Atmospherics;
 
 namespace HealthV2
 {
@@ -11,7 +12,7 @@ namespace HealthV2
 	{
 		private LivingHealthMasterBase healthMaster;
 		private PlayerScript playerScript;
-		private ObjectBehaviour objectBehaviour;
+		private UniversalObjectPhysics objectBehaviour;
 		private HealthStateController healthStateController;
 
 		[Tooltip("If this is turned on, the organism can breathe anywhere and wont affect atmospherics.")]
@@ -32,7 +33,7 @@ namespace HealthV2
 		{
 			healthMaster = GetComponent<LivingHealthMasterBase>();
 			playerScript = GetComponent<PlayerScript>();
-			objectBehaviour = GetComponent<ObjectBehaviour>();
+			objectBehaviour = GetComponent<UniversalObjectPhysics>();
 			healthStateController = GetComponent<HealthStateController>();
 		}
 
@@ -72,15 +73,15 @@ namespace HealthV2
 			}
 
 			GasMix ambientGasMix;
-			if (objectBehaviour.parentContainer != null &&
-					objectBehaviour.parentContainer.TryGetComponent<GasContainer>(out var gasContainer))
+			if (objectBehaviour.ContainedInContainer != null &&
+					objectBehaviour.ContainedInContainer.TryGetComponent<GasContainer>(out var gasContainer))
 			{
 				ambientGasMix = gasContainer.GasMix;
 			}
 			else
 			{
 				var matrix = healthMaster.RegisterTile.Matrix;
-				Vector3Int localPosition = MatrixManager.WorldToLocalInt(objectBehaviour.AssumedWorldPositionServer(), matrix);
+				Vector3Int localPosition = MatrixManager.WorldToLocalInt(objectBehaviour.registerTile.WorldPosition, matrix);
 				ambientGasMix = matrix.MetaDataLayer.Get(localPosition).GasMix;
 			}
 
@@ -94,11 +95,13 @@ namespace HealthV2
 		/// </summary>
 		public void GasExchangeFromBlood(GasMix atmos, ReagentMix blood, ReagentMix toProcess)
 		{
-			foreach (var Reagent in toProcess.reagents.m_dict)
+			foreach (var reagent in toProcess.reagents.m_dict)
 			{
-				blood.Remove(Reagent.Key, float.MaxValue);
-				if (!canBreathAnywhere)
-					atmos.AddGas(GAS2ReagentSingleton.Instance.GetReagentToGas(Reagent.Key), Reagent.Value);
+				blood.Remove(reagent.Key, float.MaxValue);
+
+				if (canBreathAnywhere || Gas.ReagentToGas.TryGetValue(reagent.Key, out var gas) == false) continue;
+
+				atmos.AddGas(gas, reagent.Value);
 			}
 		}
 

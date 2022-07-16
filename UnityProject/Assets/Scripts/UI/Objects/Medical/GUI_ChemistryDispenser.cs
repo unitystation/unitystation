@@ -1,9 +1,9 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using Chemistry;
 using UnityEngine;
 using UnityEngine.Serialization;
+using UI.Core.NetUI;
+using Chemistry;
 using Systems.Electricity;
 
 namespace UI.Objects.Chemistry
@@ -23,44 +23,24 @@ namespace UI.Objects.Chemistry
 		[SerializeField] private Reagent[] dispensableReagents = null;
 
 		private List<string> DispenseAmounts = new List<string>()
-	{
-		// Some security bizz
-		"5",
-		"10",
-		"15",
-		"20",
-		"25",
-		"30",
-		"50",
-		"100",
-	};
+		{
+			// Some security bizz
+			"5",
+			"10",
+			"15",
+			"20",
+			"25",
+			"30",
+			"50",
+			"100",
+		};
 
 		private NetUIElement<string> listOfReagents;
-
-		private NetUIElement<string> ListOfReagents {
-			get {
-				if (!listOfReagents)
-				{
-					listOfReagents = (NetUIElement<string>)this["IngredientList"];
-				}
-
-				return listOfReagents;
-			}
-		}
+		private NetUIElement<string> ListOfReagents => listOfReagents ??= (NetUIElement<string>)this["IngredientList"];
 
 		// The thing that says 100U @ 10c
 		private NetUIElement<string> totalAndTemperature;
-
-		private NetUIElement<string> TotalAndTemperature {
-			get {
-				if (!totalAndTemperature)
-				{
-					totalAndTemperature = (NetUIElement<string>)this["AmountAndTemperature"];
-				}
-
-				return totalAndTemperature;
-			}
-		}
+		private NetUIElement<string> TotalAndTemperature => totalAndTemperature ??= (NetUIElement<string>)this["AmountAndTemperature"];
 
 		private void Start()
 		{
@@ -140,7 +120,7 @@ namespace UI.Objects.Chemistry
 			UpdateAll();
 		}
 
-		public void EjectContainer(ConnectedPlayer player)
+		public void EjectContainer(PlayerInfo player)
 		{
 			if (ChemistryDispenser.Container != null)
 			{

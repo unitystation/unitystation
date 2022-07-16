@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Mirror;
+using Objects;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -19,13 +20,20 @@ namespace Items
 
 		private const int MaxAmountRolls = 5;
 
+		[SerializeField]
+		private bool triggerManually = false;
+
 		public void OnSpawnServer(SpawnInfo info)
 		{
+
 			RollRandomPool(true);
+
 		}
 
-		public void RollRandomPool(bool UnrestrictedAndspawn)
+		public void RollRandomPool(bool UnrestrictedAndspawn, bool overrideTrigger = false)
 		{
+			if(overrideTrigger == false && triggerManually) return;
+
 			var RegisterTile = this.GetComponent<RegisterTile>();
 			for (int i = 0; i < lootCount; i++)
 			{
@@ -64,9 +72,31 @@ namespace Items
 
 			if (UnrestrictedAndspawn)
 			{
+				if (this.GetComponent<RuntimeSpawned>() != null)
+				{
+					Destroy(this.gameObject);
+					return;
+				}
+
+				if (RegisterTile.TryGetComponent<UniversalObjectPhysics>(out var ObjectBehaviour))
+				{
+					if (ObjectBehaviour.ContainedInContainer != null)
+					{
+						//TODO Do item storage
+						if (ObjectBehaviour.ContainedInContainer.TryGetComponent<ObjectContainer>(out var ObjectContainer))
+						{
+							ObjectContainer.RetrieveObject(this.gameObject);
+						}
+					}
+				}
+
+
+
 				RegisterTile.Matrix.MetaDataLayer.InitialObjects[this.gameObject] = this.transform.localPosition;
-				this.GetComponent<CustomNetTransform>().DisappearFromWorldServer(true);
+				this.GetComponent<UniversalObjectPhysics>()?.DisappearFromWorld();
 				this.GetComponent<RegisterTile>().UpdatePositionServer();
+
+
 			}
 		}
 
@@ -96,7 +126,7 @@ namespace Items
 			if (spawn == false) return;
 
 			var worldPos = gameObject.AssumedWorldPosServer();
-			var pushPull = GetComponent<PushPull>();
+			var pushPull = GetComponent<UniversalObjectPhysics>();
 			Spawn.ServerPrefab(item.Prefab, worldPos, count: maxAmt, scatterRadius: spread, sharePosition: pushPull);
 		}
 	}

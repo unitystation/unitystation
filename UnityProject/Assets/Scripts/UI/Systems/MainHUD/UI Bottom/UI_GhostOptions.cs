@@ -46,11 +46,18 @@ namespace UI.Systems.Ghost
 		public void JumpToMob()
 		{
 			TeleportWindow.SetWindowTitle("Jump To Mob");
+			TeleportWindow.OrbitOnTeleport = false;
 			TeleportWindow.gameObject.SetActive(true);
 			TeleportWindow.GenerateButtons(TeleportUtils.GetMobDestinations());
 		}
 
-		public void Orbit() { }
+		public void Orbit()
+		{
+			TeleportWindow.SetWindowTitle("Orbit a Mob");
+			TeleportWindow.OrbitOnTeleport = true;
+			TeleportWindow.gameObject.SetActive(true);
+			TeleportWindow.GenerateButtons(TeleportUtils.GetMobDestinations());
+		}
 
 		public void ReenterCorpse()
 		{
@@ -116,7 +123,7 @@ namespace UI.Systems.Ghost
 		public void AdminGhostInventoryDrop()
 		{
 			_ = SoundManager.Play(CommonSounds.Instance.Click01);
-			if (PlayerManager.PlayerScript != null)
+			if (PlayerManager.LocalPlayerScript != null)
 			{
 				AdminCommandsManager.Instance.CmdAdminGhostDropItem();
 			}
@@ -125,7 +132,7 @@ namespace UI.Systems.Ghost
 		public void AdminGhostInvSmash()
 		{
 			_ = SoundManager.Play(CommonSounds.Instance.Click01);
-			if (PlayerManager.PlayerScript != null)
+			if (PlayerManager.LocalPlayerScript != null)
 			{
 				AdminCommandsManager.Instance.CmdAdminGhostSmashItem();
 			}
