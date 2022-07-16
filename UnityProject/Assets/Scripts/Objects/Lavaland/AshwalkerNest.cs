@@ -88,6 +88,8 @@ namespace Objects
 
 		private void PeriodicUpdate()
 		{
+			if(CustomNetworkManager.IsServer == false) return;
+
 			if (eatingTimer > 0)
 			{
 				eatingTimer--;

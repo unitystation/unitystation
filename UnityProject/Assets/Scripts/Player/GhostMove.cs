@@ -43,29 +43,23 @@ public class GhostMove : NetworkBehaviour, IPlayerControllable
 				MoveSpeed * Time.deltaTime);
 		}
 
-		if (UIManager.IsInputFocus || PlayerManager.LocalPlayerScript.IsGhost == false) return;
+		if (UIManager.IsInputFocus || PlayerManager.LocalPlayerScript.OrNull()?.IsGhost == false) return;
 		if (Input.GetKeyDown(KeyCode.LeftShift) == false) return;
 		isFaster = !isFaster;
 		MoveSpeed = isFaster ? MoveSpeed + GhostSpeedMultiplier : MoveSpeed - GhostSpeedMultiplier;
-		Chat.AddExamineMsg(gameObject, isFaster ? "You fly quickly in panic.." : "You slow down and take in the pain and sarrow..");
+		Chat.AddExamineMsg(gameObject, isFaster ? "You fly quickly in panic.." : "You slow down and take in the pain and sorrow..");
 	}
 
-	public Vector3 MoveTowards(
-		Vector3 current,
-		Vector3 target,
-		float maxDistanceDelta)
+	public Vector3 MoveTowards(Vector3 current, Vector3 target, float maxDistanceDelta)
 	{
 		var magnitude = (current - target).magnitude;
-
-
 
 		if (magnitude > 3f)
 		{
 			maxDistanceDelta *= (magnitude / 3);
 		}
 
-		return Vector3.MoveTowards(current, target,
-			maxDistanceDelta);
+		return Vector3.MoveTowards(current, target, maxDistanceDelta);
 	}
 
 	[ClientRpc]

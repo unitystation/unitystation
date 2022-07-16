@@ -35,6 +35,9 @@ public class ComponentManager : SingletonManager<ComponentManager>
 				UOP = gameObject.GetComponentInParent<UniversalObjectPhysics>(); //No try get components in parent : ( : P
 				if (UOP == null)
 				{
+					//Don't need to log for ghosts they dont have UOP
+					if(gameObject.TryGetComponent<GhostMove>(out _)) return false;
+
 					Logger.LogError($"Unable to find UniversalObjectPhysics on {gameObject.name}");
 					return false;
 				}
