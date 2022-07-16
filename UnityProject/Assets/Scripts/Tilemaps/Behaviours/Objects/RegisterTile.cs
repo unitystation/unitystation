@@ -115,6 +115,12 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 			{
 				objectPhysics.ResetComponent(gameObject);
 			}
+
+			if (objectPhysics.HasComponent == false)
+			{
+				return gameObject.AssumedWorldPosServer().RoundToInt();
+			}
+
 			return objectPhysics.Component.OfficialPosition.RoundToInt();
 		}
 	}

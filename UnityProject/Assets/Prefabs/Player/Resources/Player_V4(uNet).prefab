@@ -538,6 +538,9 @@ MonoBehaviour:
   playerState: 0
   actionData: {fileID: 11400000, guid: 288088e3bb7768d41a2fe1b2c170fbce, type: 2}
   playerChatLocation: {fileID: 1133514949248654}
+  ClueHandsImprintInverseChance: 55
+  ClueUniformImprintInverseChance: 65
+  ClueSpeciesImprintInverseChance: 85
 --- !u!114 &1334142152360663673
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1035,12 +1038,13 @@ MonoBehaviour:
   fastRegenThreshold: 85
   rootBodyPartController: {fileID: 0}
   playerScript: {fileID: 0}
+  CannotRecognizeNames: 0
   CHem: {fileID: 11400000, guid: 6c3a3878e8878972ea633a27c6d0ba12, type: 2}
   NutrimentConsumed: 0
   ClientSprites: []
   percentAllergies: 30
   commonAllergies: {fileID: 0}
-  convulsionEffect: {fileID: 0}
+  convulsionEffect: {fileID: 11400000, guid: 7c57d67ca22c5694e88b9c2aa85e9fc6, type: 2}
 --- !u!114 &2708192528502292653
 MonoBehaviour:
   m_ObjectHideFlags: 0

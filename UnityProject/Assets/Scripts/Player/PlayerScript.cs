@@ -703,7 +703,7 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IActi
 		var stringBuilder = new StringBuilder();
 
 		stringBuilder.AppendLine($"Name: {characterSettings.Name}");
-		stringBuilder.AppendLine($"Acc: {PlayerInfo.Username}");
+		stringBuilder.AppendLine($"Acc: {PlayerInfo?.Username}");
 
 		if (connectionToClient == null)
 		{

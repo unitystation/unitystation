@@ -1115,11 +1115,6 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 
 			if (float.IsNaN(nairTime) == false)
 			{
-				if (nairTime < 0)
-				{
-					Logger.LogError(nairTime.ToString());
-				}
-
 				airTime = nairTime;
 			}
 
@@ -1515,6 +1510,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 
 				if (attributes.HasComponent)
 				{
+					OnImpact.Invoke(this, newtonianMovement);
 					var IAV2 = (attributes.Component as ItemAttributesV2);
 					if (IAV2 != null)
 					{
@@ -1772,6 +1768,8 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 		}
 		if (Animating) UpdateManager.Remove(CallbackType.UPDATE, AnimationUpdateMe);
 		if (IsFlyingSliding) UpdateManager.Remove(CallbackType.UPDATE, FlyingUpdateMe);
+		if (CorrectingCourse) UpdateManager.Remove(CallbackType.UPDATE, FloatingCourseCorrection);
+
 	}
 
 
