@@ -22,7 +22,7 @@ namespace Items
 
 		private SpriteHandler spriteHandler;
 		private ItemAttributesV2 itemAttributesV2;
-		private ObjectBehaviour objectBehaviour;
+		private UniversalObjectPhysics objectBehaviour;
 		private Integrity integrity;
 
 		//Static so we dont need to stick it on a manager, shouldn't have any issues as beacons are removed on disable
@@ -35,7 +35,7 @@ namespace Items
 		{
 			spriteHandler = GetComponentInChildren<SpriteHandler>();
 			itemAttributesV2 = GetComponent<ItemAttributesV2>();
-			objectBehaviour = GetComponent<ObjectBehaviour>();
+			objectBehaviour = GetComponent<UniversalObjectPhysics>();
 			integrity = GetComponent<Integrity>();
 		}
 
@@ -147,7 +147,7 @@ namespace Items
 		[Server]
 		public Vector3 CurrentBeaconPosition()
 		{
-			return objectBehaviour.AssumedWorldPositionServer();
+			return objectBehaviour.OfficialPosition;
 		}
 
 		public bool WillInteract(InventoryApply interaction, NetworkSide side)

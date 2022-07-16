@@ -16,7 +16,7 @@ namespace Gateway
 		/// <para>Supports PlayerSync and CustomNetTransform.</para>
 		/// </summary>
 		/// <param name="ObjectPhysics">Object to transport to <paramref name="transportTo"/>.</param>
-		/// <param name="transportTo">Destination to transport <paramref name="ObjectPhysics"/> to.</param>
+		/// <param name="transportTo">Destination to transport <paramref name="ObjectPhysics"/> to (worldPos).</param>
 		[Server]
 		public static void TransportObject(UniversalObjectPhysics ObjectPhysics, Vector3 transportTo)
 		{
@@ -39,7 +39,7 @@ namespace Gateway
 		/// <para>Supports PlayerSync and CustomNetTransform.</para>
 		/// </summary>
 		/// <param name="objectPhysics">Object to transport to <paramref name="transportTo"/>.</param>
-		/// <param name="transportTo">Destination to transport <paramref name="objectPhysics"/> to.</param>
+		/// <param name="transportTo">Destination to transport <paramref name="objectPhysics"/> to (worldPos).</param>
 		[Server]
 		public static void TransportObjectAndPulled(UniversalObjectPhysics objectPhysics, Vector3 transportTo)
 		{

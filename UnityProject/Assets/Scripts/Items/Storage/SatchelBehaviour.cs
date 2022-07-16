@@ -18,10 +18,12 @@ public class SatchelBehaviour : MonoBehaviour, IServerInventoryMove
 	//player currently holding this satchel (if any)
 	private PlayerScript holderPlayer;
 	private ItemStorage storage;
+	private RegisterTile registerTile;
 
 	void Awake()
 	{
 		storage = GetComponent<ItemStorage>();
+		registerTile = GetComponent<RegisterTile>();
 	}
 
 	public void OnInventoryMoveServer(InventoryMove info)
@@ -29,7 +31,7 @@ public class SatchelBehaviour : MonoBehaviour, IServerInventoryMove
 		//was it transferred from a player's visible inventory?
 		if (info.FromPlayer != null && holderPlayer != null)
 		{
-			holderPlayer.PlayerSync.OnTileReached().RemoveListener(TileReachedServer);
+			holderPlayer.PlayerSync.OnLocalTileReached.RemoveListener(TileReachedServer);
 			holderPlayer = null;
 		}
 
@@ -37,14 +39,14 @@ public class SatchelBehaviour : MonoBehaviour, IServerInventoryMove
 		{
 			if (compatibleSlots.Contains(info.ToSlot.NamedSlot.GetValueOrDefault(NamedSlot.none)))
 			{
-				info.ToPlayer.PlayerScript.PlayerSync.OnTileReached().AddListener(TileReachedServer);
+				info.ToPlayer.PlayerScript.PlayerSync.OnLocalTileReached.AddListener(TileReachedServer);
 			}
 		}
 	}
 
-	private void TileReachedServer(Vector3Int worldPos)
+	private void TileReachedServer(Vector3 localPos)
 	{
-		var crossedItems = MatrixManager.GetAt<Pickupable>(worldPos, true);
+		var crossedItems = MatrixManager.GetAt<Pickupable>(localPos.ToWorldInt(registerTile.Matrix), true);
 		foreach (var item in crossedItems)
 		{
 			Inventory.ServerAdd(item, storage.GetBestSlotFor(item));

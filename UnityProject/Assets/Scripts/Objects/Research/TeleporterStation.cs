@@ -1,3 +1,4 @@
+using System.Linq;
 using Systems.Electricity;
 using Systems.ObjectConnection;
 using Gateway;
@@ -53,9 +54,10 @@ namespace Objects.Research
 				var stuff = MatrixManager.GetAt<TeleporterHub>
 					((registerTile.WorldPositionServer + CardinalDirections[i]), true);
 
-				if (stuff.Count > 0)
+				var teleporterHubs = stuff as TeleporterHub[] ?? stuff.ToArray();
+				if (teleporterHubs.Any())
 				{
-					hub = stuff[0];
+					hub = teleporterHubs[0];
 					break;
 				}
 			}
@@ -67,9 +69,10 @@ namespace Objects.Research
 				var stuff = MatrixManager.GetAt<TeleporterControl>
 					((registerTile.WorldPositionServer + CardinalDirections[i]), true);
 
-				if (stuff.Count > 0)
+				var teleporterControls = stuff as TeleporterControl[] ?? stuff.ToArray();
+				if (teleporterControls.Any())
 				{
-					control = stuff[0];
+					control = teleporterControls[0];
 					break;
 				}
 			}

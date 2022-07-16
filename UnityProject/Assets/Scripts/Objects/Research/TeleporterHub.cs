@@ -17,22 +17,22 @@ namespace Objects.Research
 	{
 		private bool calibrated;
 
-		public void OnStep(GameObject eventData)
+		public void OnPlayerStep(PlayerScript playerScript)
+		{
+			TryTeleport(playerScript.gameObject);
+		}
+
+		public void OnObjectEnter(GameObject eventData)
 		{
 			TryTeleport(eventData);
 		}
 
-		public void OnEnter(GameObject eventData)
-		{
-			TryTeleport(eventData);
-		}
-
-		public bool WillStep(GameObject eventData)
+		public bool WillAffectPlayer(PlayerScript playerScript)
 		{
 			return true;
 		}
 
-		public bool CanEnter(GameObject eventData)
+		public bool WillAffectObject(GameObject eventData)
 		{
 			return true;
 		}
@@ -69,8 +69,20 @@ namespace Objects.Research
 				reaction.OnTeleportStart();
 			}
 
-			//Transport object
-			TransportUtility.TransportObjectAndPulled(objectToTeleport, linkedBeacon.CurrentBeaconPosition());
+			var newWorldPosition = linkedBeacon.CurrentBeaconPosition();
+			var isGhost = false;
+
+			if (objectToTeleport.TryGetComponent<UniversalObjectPhysics>(out var uop))
+			{
+				//Transport objects and players
+				TransportUtility.TransportObjectAndPulled(uop, newWorldPosition);
+			}
+			//Ghosts dont have uop so check for ghost move
+			else if (objectToTeleport.TryGetComponent<GhostMove>(out var ghost))
+			{
+				isGhost = true;
+				ghost.ForcePositionClient(newWorldPosition);
+			}
 
 			if (calibrated == false && hasQuantum)
 			{
@@ -78,7 +90,7 @@ namespace Objects.Research
 			}
 
 			//Dont spark for ghosts :(
-			if (objectToTeleport.TryGetComponent(out PlayerScript playerScript) && playerScript.IsGhost) return;
+			if (isGhost) return;
 
 			SparkUtil.TrySpark(objectToTeleport, expose: false);
 		}
@@ -106,10 +118,10 @@ namespace Objects.Research
 				range = rangeLimited.CurrentDistance;
 			}
 
-			CastProjectileMessage.SendToAll(linkedBeacon.gameObject, data.BulletObject.GetComponent<Bullet>().PrefabName,
-				data.BulletShootDirection, default, range);
+			ProjectileManager.InstantiateAndShoot(data.BulletObject.GetComponent<Bullet>().PrefabName,
+				data.BulletShootDirection, linkedBeacon.gameObject, null, BodyPartType.None, range);
 
-			Chat.AddLocalMsgToChat($"The {data.BulletName} enters the portal!", gameObject);
+			Chat.AddLocalMsgToChat($"The {data.BulletName} enters through the active portal!", gameObject);
 
 			return false;
 		}
