@@ -19,7 +19,7 @@ namespace Learning.ProtipObjectTypes
 		private void Start()
 		{
 			if(CustomNetworkManager.IsHeadless) return;
-			if (gameObject == PlayerManager.LocalPlayerScript.gameObject) playerSearching = true;
+			if (gameObject == PlayerManager.LocalPlayerScript.OrNull()?.gameObject) playerSearching = true;
 			if(ProtipManager.Instance.PlayerExperienceLevel == ProtipManager.ExperienceLevel.Robust) return;
 			tile = gameObject.RegisterTile();
 			UpdateManager.Add(CheckForNearbyItems, SearchCooldown);
