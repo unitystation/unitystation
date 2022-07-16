@@ -59,6 +59,7 @@ namespace Messages.Server.AdminTools
 
 			//Server Setting
 			pageData.playerLimit = GameManager.Instance.PlayerLimit;
+			pageData.maxFrameRate = Application.targetFrameRate;
 
 			var data = JsonUtility.ToJson(pageData);
 
