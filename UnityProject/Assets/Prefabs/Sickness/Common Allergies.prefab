@@ -50,8 +50,15 @@ MonoBehaviour:
   infectOtherChance: 50
   NumberOfStages: 1
   TicksToPogressStages: 320
-  PossibleCures: []
+  PossibleCures:
+  - {fileID: 11400000, guid: fbdda32fdf6f0f548a0d7511eac67423, type: 2}
+  - {fileID: 11400000, guid: 5037ee8bb69f44d928cd02c2b6f90668, type: 2}
   ImmuneRaces: []
   CureForSickness: {fileID: 0}
   CureHints: []
   emoteFeedback: {fileID: 11400000, guid: fb8b997c55238654087b9aa99d5be1a1, type: 2}
+  cooldownTime: 10
+  IsOnCooldown: 0
+  PlayerMask:
+    serializedVersion: 2
+    m_Bits: 0

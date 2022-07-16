@@ -358,13 +358,14 @@ namespace HealthV2
 			FireStacksDamage();
 			CalculateRadiationDamage();
 			BleedStacksDamage();
-			mobSickness.TriggerCustomSicknessLogic();
 
 			if (IsDead)
 			{
 				DeathPeriodicUpdate();
 				return;
 			}
+			//Sickness logic should not be triggered if the player is dead.
+			mobSickness.TriggerCustomSicknessLogic();
 
 			CalculateOverallHealth();
 		}

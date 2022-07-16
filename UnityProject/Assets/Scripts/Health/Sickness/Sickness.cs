@@ -4,6 +4,8 @@ using Core.Chat;
 using HealthV2;
 using ScriptableObjects.RP;
 using System.Collections.Generic;
+using System.Linq;
+using Chemistry;
 using UnityEngine;
 using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
@@ -33,15 +35,20 @@ namespace Health.Sickness
 		private int currentStage = 1;
 		public int CurrentStage => currentStage;
 
-		[FormerlySerializedAs("possibleCures")]public List<Chemistry.Reagent> PossibleCures = new List<Chemistry.Reagent>();
+		[FormerlySerializedAs("possibleCures")]public List<Reaction> PossibleCures = new List<Reaction>();
 		public List<PlayerHealthData> ImmuneRaces = new List<PlayerHealthData>();
-		public Chemistry.Reagent CureForSickness = null;
-		public List<Chemistry.Reagent> CureHints = new List<Chemistry.Reagent>();
+		public Reagent CureForSickness = null;
+		public List<Reagent> CureHints = new List<Chemistry.Reagent>();
 
 		[SerializeField, Tooltip("basic Symptomp feedback")] protected EmoteSO emoteFeedback;
 
 		[SerializeField, Range(10f,60f)] private float cooldownTime = 10f;
 		public bool IsOnCooldown = false;
+
+		public LayerMask PlayerMask;
+
+		private int cureIndex = 0;
+		public int CureIndex => cureIndex;
 
 		/// <summary>
 		/// Name of the sickness
@@ -59,17 +66,19 @@ namespace Health.Sickness
 
 		private void Awake()
 		{
-			if(CustomNetworkManager.IsServer == false) return;
-
+			PlayerMask = LayerMask.NameToLayer("Players");
+			SetCure();
 		}
 
 		public void SetCure()
 		{
-			if (PossibleCures.Count != 0) CureForSickness = PossibleCures.PickRandom();
+			if (PossibleCures.Count == 0) return;
+			cureIndex = Random.Range(0, PossibleCures.Count - 1);
+			CureForSickness = PossibleCures[cureIndex].ingredients.PickRandom().Key;
 			FillCureHints();
 		}
 
-		public void SetCure(Chemistry.Reagent cure)
+		public void SetCure(Reagent cure)
 		{
 			if (cure == null) return;
 			CureForSickness = cure;
@@ -78,10 +87,7 @@ namespace Health.Sickness
 
 		private void FillCureHints()
 		{
-			if (CureForSickness != null && CureForSickness.RelatedReactions.Length > 0)
-			{
-				CureHints.AddRange(CureForSickness.RelatedReactions[Random.Range(0, CureForSickness.RelatedReactions.Length)].catalysts.Keys);
-			}
+			CureHints.AddRange(PossibleCures[cureIndex].ingredients.Keys);
 		}
 
 		public virtual void SicknessBehavior(LivingHealthMasterBase health)
@@ -104,7 +110,7 @@ namespace Health.Sickness
 		public virtual void TrySpreading()
 		{
 			if(DMMath.Prob(infectOtherChance) == false) return;
-			var result = Physics2D.OverlapCircleAll(gameObject.TileLocalPosition(), ContagiousRadius);
+			var result = Physics2D.OverlapCircleAll(gameObject.TileLocalPosition(), ContagiousRadius, PlayerMask);
 			foreach (var obj in result)
 			{
 				if (obj.TryGetComponent<LivingHealthMasterBase>(out var healthBase) == false) continue;
@@ -120,8 +126,7 @@ namespace Health.Sickness
 
 		public virtual bool CheckForCureInHealth(LivingHealthMasterBase health)
 		{
-			if (health.CirculatorySystem.BloodPool.reagentKeys.Contains(CureForSickness) == false) return false;
-			return true;
+			return health.CirculatorySystem.BloodPool.reagentKeys.Contains(CureForSickness) || health.CirculatorySystem.NutrimentToConsume.ContainsKey(CureForSickness);
 		}
 
 		protected virtual IEnumerator Cooldown()
