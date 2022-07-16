@@ -94,12 +94,15 @@ namespace AdminCommands
 			GameManager.Instance.PlayerLimit = newLimit;
 		}
 
+		//Limit to 5 fps minimum
+		public const int MINIUM_SERVER_FRAMERATE = 5;
+
 		[Command(requiresAuthority = false)]
 		public void CmdChangeFrameRate(int newLimit, NetworkConnectionToClient sender = null)
 		{
 			if (IsAdmin(sender, out var player) == false) return;
 
-			if (newLimit < 5) return;
+			if (newLimit < MINIUM_SERVER_FRAMERATE) return;
 
 			var currentLimit = Application.targetFrameRate;
 			if(currentLimit == newLimit) return;

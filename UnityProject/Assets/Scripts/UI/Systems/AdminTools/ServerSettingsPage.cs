@@ -37,10 +37,9 @@ namespace AdminTools
 		{
 			if (int.TryParse(serverMaxFrameRate.text, out var value))
 			{
-				//Limit to 5 fps minimum
-				if (value < 5)
+				if (value < AdminCommandsManager.MINIUM_SERVER_FRAMERATE)
 				{
-					value = 5;
+					value = AdminCommandsManager.MINIUM_SERVER_FRAMERATE;
 				}
 
 				AdminCommandsManager.Instance.CmdChangeFrameRate(value);
