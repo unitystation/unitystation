@@ -164,16 +164,6 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IActi
 
 	public void OnLocalPositionChangedServer(Vector3 newPosition)
 	{
-		if (registerTile.Matrix.MetaTileMap.ObjectLayer.FloorHazardList == null) return;
-		var loopto = registerTile.Matrix.MetaTileMap.ObjectLayer.FloorHazardList.Get(newPosition.RoundToInt());
-		foreach (var floorHazard in loopto)
-		{
-			if (floorHazard.WillAffectPlayer(this))
-			{
-				floorHazard.OnPlayerStep(this);
-			}
-		}
-
 		var tile = registerTile.Matrix.MetaTileMap.GetTile(newPosition.CutToInt(), LayerType.Base);
 		if (tile != null && tile is BasicTile c)
 		{
@@ -181,6 +171,16 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IActi
 			{
 				if (interaction.WillAffectPlayer(this) == false) continue;
 				interaction.OnPlayerStep(this);
+			}
+		}
+		//Check for tiles before objects because of this list
+		if (registerTile.Matrix.MetaTileMap.ObjectLayer.FloorHazardList == null) return;
+		var loopto = registerTile.Matrix.MetaTileMap.ObjectLayer.FloorHazardList.Get(newPosition.RoundToInt());
+		foreach (var floorHazard in loopto)
+		{
+			if (floorHazard.WillAffectPlayer(this))
+			{
+				floorHazard.OnPlayerStep(this);
 			}
 		}
 	}
