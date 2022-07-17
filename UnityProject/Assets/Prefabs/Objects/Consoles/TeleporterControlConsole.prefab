@@ -1,18 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &1540507996971235209
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5013683540817782200}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4d09492e6bfe4aa4b0635f0ddfadb7d6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  spriteHandler: {fileID: 1939264505622795277}
 --- !u!1001 &3331438892782618049
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -34,11 +21,16 @@ PrefabInstance:
         type: 3}
       propertyPath: customNetTransform
       value: 
-      objectReference: {fileID: 7867930143069500090}
+      objectReference: {fileID: 0}
     - target: {fileID: 2193914177532499227, guid: b46887a995abc224aab70e21b9e53697,
         type: 3}
       propertyPath: m_AssetId
       value: d57aad4098e577c499c3e86b6abfe1d9
+      objectReference: {fileID: 0}
+    - target: {fileID: 3509344053301837447, guid: b46887a995abc224aab70e21b9e53697,
+        type: 3}
+      propertyPath: NetTabType
+      value: 53
       objectReference: {fileID: 0}
     - target: {fileID: 3806105522999988684, guid: b46887a995abc224aab70e21b9e53697,
         type: 3}
@@ -169,24 +161,6 @@ PrefabInstance:
         type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b46887a995abc224aab70e21b9e53697, type: 3}
---- !u!1 &5013683540817782200 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 7759570870767460473, guid: b46887a995abc224aab70e21b9e53697,
-    type: 3}
-  m_PrefabInstance: {fileID: 3331438892782618049}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &7867930143069500090 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 4830997643641780091, guid: b46887a995abc224aab70e21b9e53697,
-    type: 3}
-  m_PrefabInstance: {fileID: 3331438892782618049}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5013683540817782200}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 579884b05ae74e8499329b64997147d3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &1939264505622795277 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 3806105522999988684, guid: b46887a995abc224aab70e21b9e53697,
@@ -199,3 +173,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &5013683540817782200 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7759570870767460473, guid: b46887a995abc224aab70e21b9e53697,
+    type: 3}
+  m_PrefabInstance: {fileID: 3331438892782618049}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1540507996971235209
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5013683540817782200}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4d09492e6bfe4aa4b0635f0ddfadb7d6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spriteHandler: {fileID: 1939264505622795277}

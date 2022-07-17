@@ -12,6 +12,18 @@ PrefabInstance:
       propertyPath: wattusage
       value: 50
       objectReference: {fileID: 0}
+    - target: {fileID: 768889878625444157, guid: b69bfc56f39849d4ba9139d2d51bedb6,
+        type: 3}
+      propertyPath: MachineParts
+      value: 
+      objectReference: {fileID: 11400000, guid: 9d7f36fda196e5345ba8b9955733f607,
+        type: 2}
+    - target: {fileID: 768889878625444157, guid: b69bfc56f39849d4ba9139d2d51bedb6,
+        type: 3}
+      propertyPath: machineBoardPrefab
+      value: 
+      objectReference: {fileID: 1937052857493900316, guid: 250838ae93bfa9a42ac1a1743621150c,
+        type: 3}
     - target: {fileID: 1583724279418462635, guid: b69bfc56f39849d4ba9139d2d51bedb6,
         type: 3}
       propertyPath: m_Size.x
