@@ -45,9 +45,12 @@ namespace Objects.Research
 
 		private void Reconnect()
 		{
+			Chat.AddLocalMsgToChat("Connecting to local devices...", gameObject);
+
 			SetStation(this);
 
 			TeleporterHub hub = null;
+			var foundHub = false;
 
 			for (int i = 0; i < CardinalDirections.Length; i++)
 			{
@@ -58,11 +61,13 @@ namespace Objects.Research
 				if (teleporterHubs.Any())
 				{
 					hub = teleporterHubs[0];
+					foundHub = true;
 					break;
 				}
 			}
 
 			TeleporterControl control = null;
+			var foundControl = false;
 
 			for (int i = 0; i < CardinalDirections.Length; i++)
 			{
@@ -73,13 +78,14 @@ namespace Objects.Research
 				if (teleporterControls.Any())
 				{
 					control = teleporterControls[0];
+					foundControl = true;
 					break;
 				}
 			}
 
 			var test = false;
 
-			if (hub != null)
+			if (foundHub)
 			{
 				hub.SetStation(this);
 
@@ -95,7 +101,7 @@ namespace Objects.Research
 				test = true;
 			}
 
-			if (control != null)
+			if (foundControl)
 			{
 				control.SetStation(this);
 
@@ -112,6 +118,12 @@ namespace Objects.Research
 			{
 				test = false;
 			}
+
+			Chat.AddLocalMsgToChat(foundHub ? "Teleporter Hub found and connected..." : "Teleporter Hub not found!", gameObject);
+
+			Chat.AddLocalMsgToChat(foundControl ? "Teleporter Console found and connected..." : "Teleporter Console not found!", gameObject);
+
+			Chat.AddLocalMsgToChat(test ? "All devices found!" : "Not all devices found!", gameObject);
 
 			SetActive(test);
 		}

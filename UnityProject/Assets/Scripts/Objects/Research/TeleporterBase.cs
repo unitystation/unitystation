@@ -78,8 +78,7 @@ namespace Objects.Research
 		private void UpdateSprite()
 		{
 			// 0 is unpowered, 1 is off, 2 is on
-			spriteHandler.ChangeSprite(
-				powered ?
+			spriteHandler.ChangeSprite(powered ?
 					active ? 2 : 1
 					: 0);
 		}
