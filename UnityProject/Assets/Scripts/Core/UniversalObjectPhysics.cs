@@ -341,7 +341,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 	{
 	}
 
-	public struct PullData
+	public struct PullData : IEquatable<PullData>
 	{
 		public UniversalObjectPhysics NewPulling;
 		public bool WasCausedByClient;
@@ -363,7 +363,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 	}
 
 
-	public struct Vector3WithData
+	public struct Vector3WithData : IEquatable<Vector3WithData>
 	{
 		public Vector3 Vector3;
 		public uint ByClient;
