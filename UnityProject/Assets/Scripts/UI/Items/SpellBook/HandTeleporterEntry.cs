@@ -18,7 +18,7 @@ namespace UI.SpellBook
 
 		public void OnBeaconSetButtonPressed(PlayerInfo player)
 		{
-			if (trackingBeacon == null || handTeleporter == null) return;
+			if (handTeleporter == null) return;
 
 			handTeleporter.OnTeleporterEntryButtonPressed(trackingBeacon, player);
 		}

@@ -40,6 +40,8 @@ namespace Objects.Research
 		{
 			if(AllowTeleport() == false) return;
 
+			SparkUtil.TrySpark(gameObject, expose: false);
+
 			TransportUtility.TeleportToObject(eventData, linkedBeacon.gameObject,
 				linkedBeacon.CurrentBeaconPosition(), calibrated);
 		}
@@ -83,6 +85,7 @@ namespace Objects.Research
 
 			Chat.AddLocalMsgToChat($"The {data.BulletName} enters through the active portal!", gameObject);
 
+			SparkUtil.TrySpark(gameObject, expose: false);
 			SparkUtil.TrySpark(linkedBeacon.gameObject, expose: false);
 
 			return false;

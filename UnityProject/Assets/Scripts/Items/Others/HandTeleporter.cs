@@ -93,6 +93,8 @@ namespace Items.Others
 
 			entrancePortal.SetNewPortal(exitPortal, emergency ? 30 : 300);
 			exitPortal.SetNewPortal(entrancePortal, emergency ? 30 : 300);
+
+			exitPortal.SetOrange();
 		}
 
 		public bool WillInteract(HandApply interaction, NetworkSide side)

@@ -1,12 +1,15 @@
 ﻿using System.Collections.Generic;
 using Gateway;
 using Items;
+using Light2D;
 using Systems.Explosions;
 using UnityEngine;
+using Weapons.Projectiles;
+using Weapons.Projectiles.Behaviours;
 
 namespace Objects.Research
 {
-	public class Portal : EnterTileBase
+	public class Portal : EnterTileBase, IOnPreHitDetect
 	{
 		private Portal connectedPortal;
 		public Portal ConnectedPortal => connectedPortal;
@@ -15,6 +18,17 @@ namespace Objects.Research
 		public static HashSet<Portal> PortalPairs => portalPairs;
 
 		public UniversalObjectPhysics ObjectPhysics => objectPhysics;
+
+		private SpriteHandler spriteHandler;
+		private LightSprite lightSprite;
+
+		protected override void Awake()
+		{
+			base.Awake();
+
+			spriteHandler = GetComponentInChildren<SpriteHandler>();
+			lightSprite = GetComponentInChildren<LightSprite>();
+		}
 
 		protected override void OnDisable()
 		{
@@ -27,6 +41,20 @@ namespace Objects.Research
 		private static void StaticClear()
 		{
 			portalPairs.Clear();
+		}
+
+		public void SetBlue()
+		{
+			spriteHandler.ChangeSprite(0);
+			ColorUtility.TryParseHtmlString("#0099FF", out var color);
+			lightSprite.Color = color;
+		}
+
+		public void SetOrange()
+		{
+			spriteHandler.ChangeSprite(1);
+			ColorUtility.TryParseHtmlString("#CC3300", out var color);
+			lightSprite.Color = color;
 		}
 
 		public void PortalDeath()
@@ -79,7 +107,29 @@ namespace Objects.Research
 			SparkUtil.TrySpark(gameObject, expose: false);
 
 			TransportUtility.TeleportToObject(eventData, connectedPortal.gameObject,
-				ObjectPhysics.OfficialPosition);
+				connectedPortal.ObjectPhysics.OfficialPosition);
+		}
+
+		public bool OnPreHitDetect(OnHitDetectData data)
+		{
+			if(connectedPortal == null) return true;
+
+			var range = -1f;
+
+			if (data.BulletObject.TryGetComponent<ProjectileRangeLimited>(out var rangeLimited))
+			{
+				range = rangeLimited.CurrentDistance;
+			}
+
+			ProjectileManager.InstantiateAndShoot(data.BulletObject.GetComponent<Bullet>().PrefabName,
+				data.BulletShootDirection, connectedPortal.gameObject, null, BodyPartType.None, range);
+
+			Chat.AddLocalMsgToChat($"The {data.BulletName} enters through the portal!", gameObject);
+
+			SparkUtil.TrySpark(gameObject, expose: false);
+			SparkUtil.TrySpark(connectedPortal.gameObject, expose: false);
+
+			return false;
 		}
 	}
 }
