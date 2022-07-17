@@ -270,6 +270,8 @@ public class NetTab : Tab
 	/// </summary>
 	public void ValidatePeepers()
 	{
+		if(Peepers.Count == 0) return;
+		
 		foreach (var peeper in Peepers.ToArray())
 		{
 			bool canApply = Validations.CanApply(peeper.Script, Provider, NetworkSide.Server);

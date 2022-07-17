@@ -38,9 +38,7 @@ public class GUI_TeleporterConsole : NetTab
 
 		teleporterControl = Provider.GetComponent<TeleporterControl>();
 
-		if(teleporterControl != null) yield break;
-
-		Logger.LogError("Failed to find TeleporterControl");
+		PlayerJoinsTab();
 	}
 
 	private void PlayerJoinsTab(PlayerInfo newPeeper = default)
@@ -68,5 +66,7 @@ public class GUI_TeleporterConsole : NetTab
 		teleporterControl.SetNewBeacon(trackingBeacon);
 
 		PlayClick();
+
+		PlayerJoinsTab();
 	}
 }

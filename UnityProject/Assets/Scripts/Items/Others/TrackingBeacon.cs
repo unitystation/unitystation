@@ -59,6 +59,12 @@ namespace Items
 			DeactivateBeacon(true);
 		}
 
+		[RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
+		private static void StaticClear()
+		{
+			activeBeacons.Clear();
+		}
+
 		#endregion
 
 		[Server]
