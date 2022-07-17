@@ -27,7 +27,7 @@ public class PlayerInfo
 
 	/// <summary>Username for the player's account.</summary>
 	public string Username { get; set; }
-	
+
 	/// <summary>The player script for the player while in the game.</summary>
 	public PlayerScript Script { get; private set; }
 	/// <summary>The player script for the player while in the lobby.</summary>
@@ -43,6 +43,8 @@ public class PlayerInfo
 	public PlayerRole PlayerRoles { get; set; }
 
 	public bool IsAdmin => (PlayerRoles & PlayerRole.Admin) != 0;
+
+	public bool IsOOCMuted = false;
 
 	//This is only set when the player presses the ready button? But not if late joining, wtf?????
 	public CharacterSheet CharacterSettings { get; set; }
