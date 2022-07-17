@@ -42,7 +42,7 @@ public class WorldSpaceCamera : EditorWindow
 		}
 	}
 
-	void TakeSnapshot()
+	async Task TakeSnapshot()
 	{
 		GameObject camObj = Instantiate(SnapshotCam);
 		Camera cam = camObj.GetComponent<Camera>();
