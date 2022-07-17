@@ -14,7 +14,7 @@ using UnityEngine.Events;
 using Util;
 using Random = UnityEngine.Random;
 
-public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
+public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegisterTileInitialised
 {
 	//TODO parentContainer Need to test
 	//TODO Maybe work on conveyor belts and players a bit more
@@ -313,8 +313,11 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 		{
 			SetTransform(transform.position.RoundToInt(), true);
 		}
+	}
 
-		OnLocalTileReached.Invoke(transform.localPosition);
+	public void OnRegisterTileInitialised(RegisterTile registerTile)
+	{
+		InternalTriggerOnLocalTileReached(transform.localPosition);
 	}
 
 
@@ -1226,7 +1229,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 			TileMoveSpeedOverride = 0;
 			Animating = false;
 
-			OnLocalTileReached.Invoke(transform.localPosition);
+			InternalTriggerOnLocalTileReached(transform.localPosition);
 			MoveIsWalking = false;
 
 			if (IsFloating() && PulledBy.HasComponent == false && doNotApplyMomentumOnTarget == false)
@@ -1589,7 +1592,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 				ByClient = NetId.Empty
 			};
 
-			OnLocalTileReached.Invoke(localPosition);
+			InternalTriggerOnLocalTileReached(localPosition);
 			if (onStationMovementsRound)
 			{
 				doNotApplyMomentumOnTarget = true;
@@ -1733,6 +1736,39 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 		}
 	}
 
+	private void InternalTriggerOnLocalTileReached(Vector3 localPos)
+	{
+		OnLocalTileReached.Invoke(localPos);
+
+		if (isServer == false) return;
+
+		LocalTileReached(localPos);
+	}
+
+	public virtual void LocalTileReached(Vector3 localPos)
+	{
+		var matrix = registerTile.Matrix;
+		if(matrix == null) return;
+
+		var tile = matrix.MetaTileMap.GetTile(localPos.CutToInt(), LayerType.Base);
+		if (tile != null && tile is BasicTile c)
+		{
+			foreach (var interaction in c.TileStepInteractions)
+			{
+				if (interaction.WillAffectObject(gameObject) == false) continue;
+				interaction.OnObjectEnter(gameObject);
+			}
+		}
+
+		//Check for tiles before objects because of this list
+		if (matrix.MetaTileMap.ObjectLayer.EnterTileBaseList == null) return;
+		var loopto = matrix.MetaTileMap.ObjectLayer.EnterTileBaseList.Get(localPos.RoundToInt());
+		foreach (var enterTileBase in loopto)
+		{
+			if (enterTileBase.WillAffectObject(gameObject) == false) continue;
+			enterTileBase.WillAffectObject(gameObject);
+		}
+	}
 
 	public RightClickableResult GenerateRightClickOptions()
 	{

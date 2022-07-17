@@ -122,7 +122,7 @@ namespace Systems.Interaction
 		//Player enter tile interaction//
 		public override bool WillAffectPlayer(PlayerScript playerScript)
 		{
-			return true;
+			return playerScript.PlayerState == PlayerScript.PlayerStates.Normal;
 		}
 
 		public override void OnPlayerStep(PlayerScript playerScript)

@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace Objects.Research
 {
-	public class TeleporterBase : MonoBehaviour, IAPCPowerable, IExaminable
+	public class TeleporterBase : EnterTileBase, IAPCPowerable, IExaminable
 	{
 		protected bool active;
 		protected bool powered;
@@ -25,8 +25,10 @@ namespace Objects.Research
 		protected TeleporterStation connectedStation;
 		protected TeleporterControl connectedControl;
 
-		private void Awake()
+		protected override void Awake()
 		{
+			base.Awake();
+
 			if (spriteHandler == null)
 			{
 				spriteHandler = GetComponentInChildren<SpriteHandler>();
@@ -143,6 +145,16 @@ namespace Objects.Research
 			stringBuilder.AppendLine($"Station{(connectedStation != null ? " " :  " not ")}connected");
 
 			return stringBuilder.ToString();
+		}
+
+		public override bool WillAffectObject(GameObject eventData)
+		{
+			return false;
+		}
+
+		public override bool WillAffectPlayer(PlayerScript playerScript)
+		{
+			return false;
 		}
 	}
 }

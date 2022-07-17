@@ -121,7 +121,7 @@ namespace Items
 				case TrackingBeaconTypes.All:
 					var station3 = new List<TrackingBeacon>();
 
-					// -1 so we dont get all
+					// -1 so we dont get All enum
 					for (int i = 0; i < Enum.GetNames(typeof(TrackingBeaconTypes)).Length - 1; i++)
 					{
 						station3.AddRange(GetType((TrackingBeaconTypes) i));

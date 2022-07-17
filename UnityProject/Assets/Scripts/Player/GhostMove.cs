@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Mirror;
+using Tiles;
 using UnityEngine;
 
 public class GhostMove : NetworkBehaviour, IPlayerControllable
@@ -12,9 +13,11 @@ public class GhostMove : NetworkBehaviour, IPlayerControllable
 
 	public bool Moving = false;
 
-	public RegisterTile registerTile;
+	private RegisterTile registerTile;
 
-	public Rotatable Rotate;
+	private PlayerScript playerScript;
+
+	private Rotatable rotatable;
 
 	public Vector3 LocalTargetPosition;
 
@@ -24,7 +27,8 @@ public class GhostMove : NetworkBehaviour, IPlayerControllable
 	public void Awake()
 	{
 		registerTile = GetComponent<RegisterTile>();
-		Rotate = GetComponent<Rotatable>();
+		playerScript = GetComponent<PlayerScript>();
+		rotatable = GetComponent<Rotatable>();
 	}
 
 	public void OnEnable()
@@ -34,12 +38,12 @@ public class GhostMove : NetworkBehaviour, IPlayerControllable
 
 	public void Update()
 	{
-		var LocalPOS = transform.localPosition;
+		var localPos = transform.localPosition;
 
-		Moving = LocalPOS != LocalTargetPosition;
+		Moving = localPos != LocalTargetPosition;
 		if (Moving)
 		{
-			transform.localPosition = this.MoveTowards(LocalPOS, LocalTargetPosition,
+			transform.localPosition = this.MoveTowards(localPos, LocalTargetPosition,
 				MoveSpeed * Time.deltaTime);
 		}
 
@@ -78,34 +82,25 @@ public class GhostMove : NetworkBehaviour, IPlayerControllable
 		LocalTargetPosition = NewPosition;
 		if (Direction != OrientationEnum.Default)
 		{
-			Rotate.FaceDirection(Direction);
+			rotatable.FaceDirection(Direction);
 		}
 	}
 
 	[Command]
 	public void CMDSetServerPosition(Vector3 localPosition, int MatrixID, OrientationEnum Direction)
 	{
-		localPosition.z = 0;
-		if (MatrixID != registerTile.Matrix.Id)
-		{
-			var Position = transform.position;
-			registerTile.FinishNetworkedMatrixRegistration(MatrixManager.Get(MatrixID).Matrix.NetworkedMatrix);
-			transform.position = Position;
-		}
-		registerTile.ServerSetLocalPosition(localPosition.RoundToInt());
-		registerTile.ClientSetLocalPosition(localPosition.RoundToInt());
-		LocalTargetPosition = localPosition;
-		Rotate.FaceDirection(Direction);
-		RPCUpdatePosition(localPosition, MatrixID, Direction, false);
+		ForcePositionClient(localPosition, MatrixID, Direction, false);
 	}
 
+	[Server]
 	public void ForcePositionClient(Vector3 WorldPosition)
 	{
 		var Matrix = MatrixManager.AtPoint(WorldPosition, isServer);
 		ForcePositionClient(WorldPosition.ToLocal(Matrix), Matrix.Id, OrientationEnum.Down_By180);
 	}
 
-	public void ForcePositionClient(Vector3 localPosition, int MatrixID, OrientationEnum Direction)
+	[Server]
+	public void ForcePositionClient(Vector3 localPosition, int MatrixID, OrientationEnum Direction, bool doOverride = true)
 	{
 		localPosition.z = 0;
 		if (MatrixID != registerTile.Matrix.Id)
@@ -114,15 +109,19 @@ public class GhostMove : NetworkBehaviour, IPlayerControllable
 			registerTile.FinishNetworkedMatrixRegistration(MatrixManager.Get(MatrixID).Matrix.NetworkedMatrix);
 			transform.position = Position;
 		}
-		registerTile.ServerSetLocalPosition(localPosition.RoundToInt());
-		registerTile.ClientSetLocalPosition(localPosition.RoundToInt());
+
+		var rounded = localPosition.RoundToInt();
+		registerTile.ServerSetLocalPosition(rounded);
+		registerTile.ClientSetLocalPosition(rounded);
 		LocalTargetPosition = localPosition;
 		if (Direction != OrientationEnum.Default)
 		{
-			Rotate.FaceDirection(Direction);
+			rotatable.FaceDirection(Direction);
 		}
 
-		RPCUpdatePosition(localPosition, MatrixID, Direction, true);
+		RPCUpdatePosition(localPosition, MatrixID, Direction, doOverride);
+
+		LocalTileReached(rounded);
 	}
 
 	public void ReceivePlayerMoveAction(PlayerAction moveActions)
@@ -137,7 +136,7 @@ public class GhostMove : NetworkBehaviour, IPlayerControllable
 
 			var Orientation = moveActions.ToPlayerMoveDirection().TVectoro().To2Int().ToOrientationEnum();
 
-			Rotate.FaceDirection(Orientation);
+			rotatable.FaceDirection(Orientation);
 
 			var movetoMatrix = MatrixManager.AtPoint(NewWorldPosition, isServer).Matrix;
 
@@ -156,6 +155,28 @@ public class GhostMove : NetworkBehaviour, IPlayerControllable
 			registerTile.ServerSetLocalPosition(LocalPosition.RoundToInt());
 			registerTile.ClientSetLocalPosition(LocalPosition.RoundToInt());
 			CMDSetServerPosition(LocalPosition, movetoMatrix.Id, Orientation);
+		}
+	}
+
+	public void LocalTileReached(Vector3Int localPos)
+	{
+		var tile = registerTile.Matrix.MetaTileMap.GetTile(localPos, LayerType.Base);
+		if (tile != null && tile is BasicTile c)
+		{
+			foreach (var interaction in c.TileStepInteractions)
+			{
+				if (interaction.WillAffectPlayer(playerScript) == false) continue;
+				interaction.OnPlayerStep(playerScript);
+			}
+		}
+
+		//Check for tiles before objects because of this list
+		if (registerTile.Matrix.MetaTileMap.ObjectLayer.EnterTileBaseList == null) return;
+		var loopto = registerTile.Matrix.MetaTileMap.ObjectLayer.EnterTileBaseList.Get(localPos);
+		foreach (var enterTileBase in loopto)
+		{
+			if (enterTileBase.WillAffectPlayer(playerScript) == false) continue;
+			enterTileBase.OnPlayerStep(playerScript);
 		}
 	}
 }

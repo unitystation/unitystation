@@ -1,9 +1,6 @@
-using System.Collections.Generic;
-using Systems.Electricity;
 using Systems.Explosions;
 using Gateway;
 using Items;
-using Messages.Server;
 using UnityEngine;
 using Weapons.Projectiles;
 using Weapons.Projectiles.Behaviours;
@@ -13,26 +10,26 @@ namespace Objects.Research
 	/// <summary>
 	/// Teleporter gateway
 	/// </summary>
-	public class TeleporterHub : TeleporterBase, IPlayerEntersTile, IObjectEntersTile, IServerSpawn, IOnPreHitDetect
+	public class TeleporterHub : TeleporterBase, IServerSpawn, IOnPreHitDetect
 	{
 		private bool calibrated;
 
-		public void OnPlayerStep(PlayerScript playerScript)
+		public override void OnPlayerStep(PlayerScript playerScript)
 		{
 			TryTeleport(playerScript.gameObject);
 		}
 
-		public void OnObjectEnter(GameObject eventData)
+		public override bool WillAffectPlayer(PlayerScript playerScript)
+		{
+			return playerScript.PlayerState == PlayerScript.PlayerStates.Normal;
+		}
+
+		public override void OnObjectEnter(GameObject eventData)
 		{
 			TryTeleport(eventData);
 		}
 
-		public bool WillAffectPlayer(PlayerScript playerScript)
-		{
-			return true;
-		}
-
-		public bool WillAffectObject(GameObject eventData)
+		public override bool WillAffectObject(GameObject eventData)
 		{
 			return true;
 		}
@@ -92,7 +89,7 @@ namespace Objects.Research
 			//Dont spark for ghosts :(
 			if (isGhost) return;
 
-			SparkUtil.TrySpark(objectToTeleport, expose: false);
+			SparkUtil.TrySpark(linkedBeacon.gameObject, expose: false);
 		}
 
 		public override void SetBeacon(TrackingBeacon newBeacon)
@@ -122,6 +119,8 @@ namespace Objects.Research
 				data.BulletShootDirection, linkedBeacon.gameObject, null, BodyPartType.None, range);
 
 			Chat.AddLocalMsgToChat($"The {data.BulletName} enters through the active portal!", gameObject);
+
+			SparkUtil.TrySpark(linkedBeacon.gameObject, expose: false);
 
 			return false;
 		}

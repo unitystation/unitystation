@@ -6,6 +6,7 @@ using static UnityEngine.EventSystems.EventTrigger;
 namespace Objects
 {
 	/// <summary>
+	/// USE BASE CLASS EnterTileBase NOT THIS INTERFACE FOR OBJECTS
 	/// Allows to trigger an event when a player enter the tile of this object.
 	/// Does trigger for ghosts, so check in OnStep
 	/// ServerSide Only
@@ -27,6 +28,7 @@ namespace Objects
 	}
 
 	/// <summary>
+	/// USE BASE CLASS EnterTileBase NOT THIS INTERFACE FOR OBJECTS
 	/// Allows to trigger an event when a object (includes mobs, objects and items) enter the tile of this object.
 	/// ServerSide Only
 	/// </summary>
