@@ -257,6 +257,21 @@ namespace HealthV2
 
 		[SyncVar] public bool CannotRecognizeNames = false;
 
+
+		public Dictionary<BodyPartType, ReagentMix> SurfaceReagents = new Dictionary<BodyPartType, ReagentMix>()
+		{
+			{BodyPartType.Head, new ReagentMix()},
+			{BodyPartType.LeftArm, new ReagentMix()},
+			{BodyPartType.RightArm, new ReagentMix()},
+			{BodyPartType.LeftLeg, new ReagentMix()},
+			{BodyPartType.RightLeg, new ReagentMix()},
+			{BodyPartType.Chest, new ReagentMix()},
+			//Maybe add feet for blood on boots?
+
+		};
+
+
+
 		public virtual void Awake()
 		{
 			rootBodyPartController = GetComponent<RootBodyPartController>();
@@ -271,6 +286,9 @@ namespace HealthV2
 			playerScript = GetComponent<PlayerScript>();
 			BodyPartStorage.ServerInventoryItemSlotSet += BodyPartTransfer;
 		}
+
+
+
 
 		//TODO: confusing, make it not depend from the inventory storage Action
 		/// <summary>
@@ -297,6 +315,7 @@ namespace HealthV2
 		public void BodyPartListChange()
 		{
 			CirculatorySystem.OrNull()?.BodyPartListChange();
+			//
 		}
 
 

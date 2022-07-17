@@ -163,8 +163,8 @@ namespace HealthV2
 				{
 					if (bodyPart.IsBloodCirculated == false) continue;
 
-					if (bodyPart.ItemAttributes.HasAllTraits(MR.AllRequired) &&
-					    bodyPart.ItemAttributes.HasAnyTrait(MR.Blacklist) == false)
+					if (bodyPart.ItemAttributes.HasAllTraits(MR.InternalAllRequired) &&
+					    bodyPart.ItemAttributes.HasAnyTrait(MR.InternalBlacklist) == false)
 					{
 						if (PrecalculatedMetabolismReactions.ContainsKey(MR) == false)
 						{
