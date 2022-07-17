@@ -140,9 +140,9 @@ namespace Objects.Research
 		{
 			var stringBuilder = new StringBuilder();
 
-			stringBuilder.AppendLine($"Control console{(connectedControl != null ? " " :  " not ")}connected");
-			stringBuilder.AppendLine($"Hub{(connectedHub != null ? " " :  " not ")}connected");
-			stringBuilder.AppendLine($"Station{(connectedStation != null ? " " :  " not ")}connected");
+			stringBuilder.AppendLine($"Control console {(connectedControl != null ? "" : "not")} connected");
+			stringBuilder.AppendLine($"Hub {(connectedHub != null ? "" : "not")} connected");
+			stringBuilder.AppendLine($"Station {(connectedStation != null ? "" : "not")} connected");
 
 			return stringBuilder.ToString();
 		}

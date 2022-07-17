@@ -76,7 +76,7 @@ namespace Systems.Interaction
 				return;
 			}
 
-			if (objectToBurn.TryGetComponent<Integrity>(out var integrity))
+			if (objectToBurn.TryGetComponent<Integrity>(out var integrity) && integrity.Resistances.LavaProof == false)
 			{
 				integrity.ApplyDamage(objectFireDamage, AttackType.Fire, DamageType.Burn);
 			}

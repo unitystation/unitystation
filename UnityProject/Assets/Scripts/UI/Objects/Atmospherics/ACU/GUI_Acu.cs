@@ -227,16 +227,6 @@ namespace UI.Objects.Atmospherics.Acu
 			return $"<color=#{GetHtmlColorByStatus(status)}>{text}</color>";
 		}
 
-		public void PlayClick()
-		{
-			PlaySound(CommonSounds.Instance.Click01);
-		}
-
-		public void PlayTap()
-		{
-			PlaySound(CommonSounds.Instance.Tap);
-		}
-
 		#endregion
 	}
 }

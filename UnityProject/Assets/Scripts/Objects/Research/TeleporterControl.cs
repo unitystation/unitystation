@@ -6,27 +6,22 @@ namespace Objects.Research
 	/// <summary>
 	/// Teleporter console
 	/// </summary>
-	public class TeleporterControl : TeleporterBase, IServerSpawn, ICheckedInteractable<HandApply>
+	public class TeleporterControl : TeleporterBase, IServerSpawn
 	{
+		[SerializeField]
+		private TrackingBeacon.TrackingBeaconTypes trackingBeaconType = TrackingBeacon.TrackingBeaconTypes.Station;
+		public TrackingBeacon.TrackingBeaconTypes TrackingBeaconType => trackingBeaconType;
+
 		public void OnSpawnServer(SpawnInfo info)
 		{
 			SetControl(this);
 		}
 
-		public bool WillInteract(HandApply interaction, NetworkSide side)
-		{
-			if (DefaultWillInteract.Default(interaction, side) == false) return false;
-
-			if (interaction.HandObject != null) return false;
-
-			return true;
-		}
-
-		public void ServerPerformInteraction(HandApply interaction)
+		public void SetNewBeacon(TrackingBeacon newBeacon)
 		{
 			if(connectedHub == null) return;
 
-			connectedHub.SetBeacon(TrackingBeacon.GetAllBeaconOfType(TrackingBeacon.TrackingBeaconTypes.All).PickRandom());
+			connectedHub.SetBeacon(newBeacon);
 		}
 	}
 }

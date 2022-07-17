@@ -70,7 +70,7 @@ public enum NetTabType
 	PublicTerminal = 52,
 	TeleporterConsole = 53,
 	Handteleporter = 54
-	
+
 	// add new entres to the bottom
 	// the enum name must match that of the prefab except the prefab has the word tab infront of the enum name
 	// i.e TabJukeBox
@@ -341,6 +341,17 @@ public class NetTab : Tab
 		{
 			SoundManager.PlayNetworkedForPlayer(peeper.Script.gameObject, audioSource);
 		}
+	}
+
+	//Common sounds for nettabs
+	public void PlayClick()
+	{
+		PlaySound(CommonSounds.Instance.Click01);
+	}
+
+	public void PlayTap()
+	{
+		PlaySound(CommonSounds.Instance.Tap);
 	}
 }
 

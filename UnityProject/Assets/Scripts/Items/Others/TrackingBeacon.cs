@@ -22,6 +22,8 @@ namespace Items
 
 		private SpriteHandler spriteHandler;
 		private ItemAttributesV2 itemAttributesV2;
+		public ItemAttributesV2 ItemAttributesV2 => itemAttributesV2;
+
 		private UniversalObjectPhysics objectBehaviour;
 		private Integrity integrity;
 

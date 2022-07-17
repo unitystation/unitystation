@@ -80,7 +80,7 @@ public class Integrity : NetworkBehaviour, IHealth, IFireExposable, IRightClicka
 	/// <summary>
 	/// resistances for this object.
 	/// </summary>
-	[PrefabModeOnly]
+	//[PrefabModeOnly] Commented out as it doesnt work correctly
 	[Tooltip("Resistances of this object.")]
 	public Resistances Resistances = new Resistances();
 

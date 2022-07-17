@@ -40,7 +40,8 @@ namespace Objects.Research
 		{
 			if(AllowTeleport() == false) return;
 
-			InternalTeleport(eventData);
+			TransportUtility.TeleportToObject(eventData, linkedBeacon.gameObject,
+				linkedBeacon.CurrentBeaconPosition(), calibrated);
 		}
 
 		private bool AllowTeleport()
@@ -52,46 +53,6 @@ namespace Objects.Research
 			if (linkedBeacon == null) return false;
 
 			return true;
-		}
-
-		private void InternalTeleport(GameObject objectToTeleport)
-		{
-			//TODO more uncalibrated accidents, e.g turn into fly people, mutate animals? (See IQuantumReaction)
-
-			//Prevent teleporting loops from teleporting connected tracking device
-			if (objectToTeleport == linkedBeacon.gameObject) return;
-
-			var hasQuantum = objectToTeleport.TryGetComponent(out IQuantumReaction reaction);
-
-			if (calibrated == false && hasQuantum)
-			{
-				reaction.OnTeleportStart();
-			}
-
-			var newWorldPosition = linkedBeacon.CurrentBeaconPosition();
-			var isGhost = false;
-
-			if (objectToTeleport.TryGetComponent<UniversalObjectPhysics>(out var uop))
-			{
-				//Transport objects and players
-				TransportUtility.TransportObjectAndPulled(uop, newWorldPosition);
-			}
-			//Ghosts dont have uop so check for ghost move
-			else if (objectToTeleport.TryGetComponent<GhostMove>(out var ghost))
-			{
-				isGhost = true;
-				ghost.ForcePositionClient(newWorldPosition);
-			}
-
-			if (calibrated == false && hasQuantum)
-			{
-				reaction.OnTeleportEnd();
-			}
-
-			//Dont spark for ghosts :(
-			if (isGhost) return;
-
-			SparkUtil.TrySpark(linkedBeacon.gameObject, expose: false);
 		}
 
 		public override void SetBeacon(TrackingBeacon newBeacon)

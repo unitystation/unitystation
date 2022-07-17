@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Objects;
+using Systems.Explosions;
 
 namespace Gateway
 {
@@ -75,6 +76,46 @@ namespace Gateway
 				//TODO: Find a way to make the teleporter the teleport not all be on the same tile.
 			}
 		}
-	}
 
+		public static void TeleportToObject(GameObject objectToTeleport, GameObject objectTeleportedTo, Vector3? worldPos = null, bool calibrated = true)
+		{
+			//TODO more uncalibrated accidents, e.g turn into fly people, mutate animals? (See IQuantumReaction)
+
+			//Prevent teleporting loops from teleporting connected tracking device
+			if (objectToTeleport == objectTeleportedTo) return;
+
+			var hasQuantum = objectToTeleport.TryGetComponent(out IQuantumReaction reaction);
+
+			if (calibrated == false && hasQuantum)
+			{
+				reaction.OnTeleportStart();
+			}
+
+			var newWorldPosition = worldPos ?? objectTeleportedTo.AssumedWorldPosServer();
+			var isGhost = false;
+
+			if (objectToTeleport.TryGetComponent<UniversalObjectPhysics>(out var uop))
+			{
+				//Transport objects and players
+				TransportUtility.TransportObjectAndPulled(uop, newWorldPosition);
+			}
+
+			//Ghosts dont have uop so check for ghost move
+			else if (objectToTeleport.TryGetComponent<GhostMove>(out var ghost))
+			{
+				isGhost = true;
+				ghost.ForcePositionClient(newWorldPosition);
+			}
+
+			if (calibrated == false && hasQuantum)
+			{
+				reaction.OnTeleportEnd();
+			}
+
+			//Dont spark for ghosts :(
+			if (isGhost) return;
+
+			SparkUtil.TrySpark(objectTeleportedTo, expose: false);
+		}
+	}
 }
