@@ -1,35 +1,32 @@
-using System.Collections;
-using System.Collections.Generic;
 using Items;
 using UI.Core.NetUI;
-using UI.Objects;
 using UnityEngine;
 
-public class TeleporterEntry : MonoBehaviour
+public class TeleporterEntry : DynamicEntry
 {
-	private GUI_TeleporterConsole teleporterConsole;
-
 	[SerializeField]
 	private NetLabel beaconNameLabel = null;
 	[SerializeField]
 	private NetLabel beaconSetButtonLabel = null;
 
-	public TeleporterBeaconData teleporterBeaconData;
+	private TrackingBeacon trackingBeacon;
+	private GUI_TeleporterConsole teleporterConsole;
 
 	public void OnBeaconSetButtonPressed(PlayerInfo player)
 	{
-		if (teleporterBeaconData == null || teleporterConsole == null) return;
+		if (trackingBeacon == null || teleporterConsole == null) return;
 
-		teleporterConsole.OnTeleporterEntryButtonPressed(teleporterBeaconData, player);
+		teleporterConsole.OnTeleporterEntryButtonPressed(trackingBeacon, player);
 	}
 
-	[System.Serializable]
-	public class TeleporterBeaconData : DynamicEntry
+	public void SetValues(GUI_TeleporterConsole teleporterConsole, TrackingBeacon trackingBeacon)
 	{
-		//Server Only
-		public TrackingBeacon TrackingBeacon;
+		this.teleporterConsole = teleporterConsole;
+		this.trackingBeacon = trackingBeacon;
 
-		//For Clients
-		public string BeaconName;
+		beaconNameLabel.SetValueServer(trackingBeacon.ItemAttributesV2.ArticleName);
+
+		beaconSetButtonLabel.SetValueServer(teleporterConsole.TeleporterControl.LinkedBeacon == trackingBeacon ?
+			"Currently Set" : "Set");
 	}
 }

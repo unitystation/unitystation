@@ -13,6 +13,7 @@ namespace Objects.Research
 		protected bool powered;
 
 		protected TrackingBeacon linkedBeacon;
+		public TrackingBeacon LinkedBeacon => linkedBeacon;
 
 		[SerializeField]
 		private SpriteHandler spriteHandler;
