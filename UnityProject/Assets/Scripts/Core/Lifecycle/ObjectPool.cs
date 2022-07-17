@@ -84,20 +84,14 @@ public class ObjectPool
 			if (isNetworked)
 			{
 				// failsafe - we should be able to assume we are server if this code path is reached
-				if (!CustomNetworkManager.IsServer)
+				if (CustomNetworkManager.IsServer == false)
 				{
 					Logger.LogErrorFormat("Coding error! Tried to add networked object {0} to pool but we " +
 					                      "are not server.", Category.Objects, target);
 				}
+
 				//destroy for all clients, keep only in the server pool
 				NetworkServer.UnSpawn(target);
-
-				//transform.VisibleState seems to be valid only on server side, so we make it invisible
-				//here when we're going to add it to the pool, but we don't do that on clientside.
-				if (target.TryGetComponent<IPushable>(out var pushable))
-				{
-					pushable.VisibleState = false;
-				}
 
 				if (target.TryGetComponent<UniversalObjectPhysics>(out var uop))
 				{
@@ -105,12 +99,10 @@ public class ObjectPool
 				}
 				else
 				{
-					// no CNT - this is typically the case for non-networked objects.
+					// no UOP - this is typically the case for non-networked objects.
 					// in this case we just manually move it to hiddenpos.
 					target.transform.position = TransformState.HiddenPos;
 				}
-
-
 			}
 			else
 			{
@@ -120,7 +112,7 @@ public class ObjectPool
 				}
 				else
 				{
-					// no CNT - this is typically the case for non-networked objects.
+					// no UOP - this is typically the case for non-networked objects.
 					// in this case we just manually move it to hiddenpos.
 					target.transform.position = TransformState.HiddenPos;
 				}

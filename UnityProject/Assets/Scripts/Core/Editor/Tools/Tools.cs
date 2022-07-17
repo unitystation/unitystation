@@ -416,13 +416,13 @@ namespace Core.Editor.Tools
 			int count = 0;
 			foreach (GameObject gameObject in SceneManager.GetActiveScene().GetRootGameObjects())
 			{
-				foreach (var cnt in gameObject.GetComponentsInChildren<UniversalObjectPhysics>())
+				foreach (var objectPhysics in gameObject.GetComponentsInChildren<UniversalObjectPhysics>())
 				{
-					if (cnt.SnapToGridOnStart == false) continue;
+					if (objectPhysics.SnapToGridOnStart == false) continue;
 
-					var initialPosition = cnt.transform.position;
-					cnt.transform.position = cnt.transform.position.RoundToInt();
-					if (cnt.transform.position != initialPosition)
+					var initialPosition = objectPhysics.transform.position;
+					objectPhysics.transform.position = objectPhysics.transform.position.RoundToInt();
+					if (objectPhysics.transform.position != initialPosition)
 					{
 						count++;
 					}

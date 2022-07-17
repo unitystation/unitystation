@@ -73,10 +73,10 @@ public static class Despawn
 
 		_ServerFireDespawnHooks(DespawnResult.Single(info));
 
-		var cnt = info.GameObject.GetComponent<UniversalObjectPhysics>();
-		if (cnt != null)
+		var objectPhysics = info.GameObject.GetComponent<UniversalObjectPhysics>();
+		if (objectPhysics != null)
 		{
-			cnt.DisappearFromWorld();
+			objectPhysics.DisappearFromWorld();
 		}
 
 		await Task.Delay(10);

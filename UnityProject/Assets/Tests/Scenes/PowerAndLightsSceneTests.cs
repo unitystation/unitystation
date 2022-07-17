@@ -26,14 +26,19 @@ namespace Tests.Scenes
 			{
 				if (device.IsSelfPowered) continue;
 
-				var position = device.transform.position;
-				Report.FailIf(device.RelatedAPC, Is.Null)
-					.AppendLine($"{Scene.name}: \"{device.name}\" at {position} has a missing APC reference")
-					.MarkDirtyIfFailed()
-					.FailIf(device.RelatedAPC.OrNull()?.ConnectedDevices.Contains(device) == false)
-					.Append($"{Scene.name}: \"{device.name}\" at {position} has a connected APC reference, ")
-					.Append("but the APC doesn't have this device.")
-					.AppendLine();
+				var deviceLocation = device.transform.NameAndPosition();
+				var relatedAPC = device.RelatedAPC;
+
+				if (relatedAPC == null)
+				{
+					Report.Fail().AppendLine($"{Scene.name}: {deviceLocation} has a missing APC reference");
+					continue;
+				}
+
+				var apcLocation = relatedAPC.transform.NameAndPosition("APC");
+				Report.FailIf(relatedAPC.ConnectedDevices.Contains(device) == false)
+					.AppendLine($"{Scene.name}: {deviceLocation} is connected to ")
+					.AppendLine($"{apcLocation} but the APC doesn't have this device.");
 			}
 
 			Report.AssertPassed();
@@ -51,18 +56,35 @@ namespace Tests.Scenes
 			var sceneName = Scene.name;
 			foreach (var apc in RootObjects.ComponentsInChildren<APC>().NotNull())
 			{
-				foreach (var connectedDevice in apc.ConnectedDevices)
+				var apcTransform = apc.transform;
+
+				foreach (var (connectedDevice, index) in apc.ConnectedDevices.WithIndex())
 				{
+					var apcLocation = apcTransform.NameAndPosition("APC");
+
 					if (connectedDevice == null)
 					{
 						Report.Fail()
-							.AppendLine($"{sceneName}: APC at \"{apc.transform.HierarchyName()}\" has a null value in the list.");
+							.AppendLine($"{sceneName}: {apcLocation} has a null value in the list at index {index}.");
 						continue;
 					}
 
-					Report.FailIfNot(connectedDevice.RelatedAPC, Is.EqualTo(apc))
-						.Append($"{sceneName}: Device at \"{connectedDevice.transform.HierarchyName()}\" ")
-						.Append($"is not assigned to connected devices in APC at \"{apc.transform.HierarchyName()}\".")
+					var relatedAPC = connectedDevice.RelatedAPC;
+
+					Report.FailIfNot(relatedAPC, Is.EqualTo(apc))
+						.Append($"{sceneName}: {connectedDevice.transform.NameAndPosition("Device")} ")
+						.Append($"is not connected to {apcLocation}.")
+						.AppendLine();
+
+					var currentAPC = "nothing";
+
+					if (relatedAPC != null)
+					{
+						currentAPC = $"{relatedAPC.transform.NameAndPosition()}";
+						Report.Append("The APC's devices list may unintentionally contain this device. ");
+					}
+
+					Report.Append($"The device is currently connected to {currentAPC}.")
 						.AppendLine();
 				}
 			}

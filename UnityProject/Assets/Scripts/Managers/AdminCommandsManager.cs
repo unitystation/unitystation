@@ -94,6 +94,24 @@ namespace AdminCommands
 			GameManager.Instance.PlayerLimit = newLimit;
 		}
 
+		//Limit to 5 fps minimum
+		public const int MINIUM_SERVER_FRAMERATE = 5;
+
+		[Command(requiresAuthority = false)]
+		public void CmdChangeFrameRate(int newLimit, NetworkConnectionToClient sender = null)
+		{
+			if (IsAdmin(sender, out var player) == false) return;
+
+			if (newLimit < MINIUM_SERVER_FRAMERATE) return;
+
+			var currentLimit = Application.targetFrameRate;
+			if(currentLimit == newLimit) return;
+
+			LogAdminAction($"{player.Username}: Set MaxServerFrameRate to {newLimit} from {currentLimit}");
+
+			Application.targetFrameRate = newLimit;
+		}
+
 		#endregion
 
 		#region GamemodePage
@@ -340,7 +358,7 @@ namespace AdminCommands
 				Logger.LogError($"Could not find player with user ID '{userToHeal}'. Unable to heal.", Category.Admin);
 				return;
 			}
-	
+
 			//get player stuff.
 			PlayerScript playerScript = player.Script;
 			Mind playerMind = playerScript.mind;
@@ -516,7 +534,7 @@ namespace AdminCommands
 		public void CmdRemoveBounty(int index, bool completeBounty, NetworkConnectionToClient sender = null)
 		{
 			if (IsAdmin(sender, out var admin) == false) return;
-			if (CargoManager.Instance.ActiveBounties.Count <= index) return; 
+			if (CargoManager.Instance.ActiveBounties.Count <= index) return;
 			if (completeBounty)
 			{
 				CargoManager.Instance.CompleteBounty(CargoManager.Instance.ActiveBounties[index]);
