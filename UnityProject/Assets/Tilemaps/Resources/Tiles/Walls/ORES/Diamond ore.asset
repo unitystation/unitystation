@@ -25,6 +25,7 @@ MonoBehaviour:
   passable: 0
   mineable: 1
   miningTime: 5
+  miningHardness: 1
   constructable: 0
   RadiationPassability: 1
   ThermalConductivity: 0
@@ -50,6 +51,7 @@ MonoBehaviour:
     Magic: 0
     Bio: 100
     DismembermentProtectionChance: 0
+    StunImmunity: 0
   tileInteractions: []
   tileStepInteractions: []
   spawnOnDeconstruct: {fileID: 3847547868569572698, guid: 329682eedacc925409e4d48e76912be0,
@@ -69,3 +71,7 @@ MonoBehaviour:
       m_EditorAssetChanged: 0
   SoundOnDestroy: []
   sprite: {fileID: 21300000, guid: a9d8f27a5eb052c4a88ae45d1bbc2acf, type: 3}
+  CanBeHighlightedThroughScanners: 1
+  AssoicatedSpawnedObjects: []
+  HighlightObject: {fileID: 7029668430360334507, guid: bc9d1b1b93ab1b0409cc354d1b3595c3,
+    type: 3}
