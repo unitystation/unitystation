@@ -25,6 +25,8 @@ namespace Items
 		public ItemAttributesV2 ItemAttributesV2 => itemAttributesV2;
 
 		private UniversalObjectPhysics objectBehaviour;
+		public UniversalObjectPhysics ObjectBehaviour => objectBehaviour;
+
 		private Integrity integrity;
 
 		//Static so we dont need to stick it on a manager, shouldn't have any issues as beacons are removed on disable

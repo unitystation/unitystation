@@ -1,24 +1,52 @@
-﻿using Gateway;
+﻿using System.Collections.Generic;
+using Gateway;
 using Items;
+using Systems.Explosions;
 using UnityEngine;
 
 namespace Objects.Research
 {
 	public class Portal : EnterTileBase
 	{
-		private PortalTypes portalType;
-		public PortalTypes PortalType => portalType;
-
 		private Portal connectedPortal;
 		public Portal ConnectedPortal => connectedPortal;
 
-		private Vector3 worldCoord;
+		private static HashSet<Portal> portalPairs = new HashSet<Portal>();
+		public static HashSet<Portal> PortalPairs => portalPairs;
 
 		public UniversalObjectPhysics ObjectPhysics => objectPhysics;
 
-		public void SetNewPortal()
+		protected override void OnDisable()
 		{
+			base.OnDisable();
+			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, PortalDeath);
+			portalPairs.Remove(this);
+		}
 
+		[RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
+		private static void StaticClear()
+		{
+			portalPairs.Clear();
+		}
+
+		public void PortalDeath()
+		{
+			if(CustomNetworkManager.IsServer == false) return;
+
+			Chat.AddLocalMsgToChat("The portal fizzles out into nothing", gameObject);
+
+			//Despawn after time is up
+			portalPairs.Remove(this);
+			_ = Despawn.ServerSingle(gameObject);
+		}
+
+		public void SetNewPortal(Portal connectedPortal, int time = 300)
+		{
+			this.connectedPortal = connectedPortal;
+
+			UpdateManager.Add(PortalDeath, time, false);
+
+			portalPairs.Add(this);
 		}
 
 		public override bool WillAffectPlayer(PlayerScript playerScript)
@@ -46,15 +74,12 @@ namespace Objects.Research
 
 		private void Teleport(GameObject eventData)
 		{
+			if(connectedPortal == null) return;
+
+			SparkUtil.TrySpark(gameObject, expose: false);
+
 			TransportUtility.TeleportToObject(eventData, connectedPortal.gameObject,
 				ObjectPhysics.OfficialPosition);
-		}
-
-		public enum PortalTypes
-		{
-			Entrance,
-			Exit,
-			ToCoord
 		}
 	}
 }

@@ -69,7 +69,7 @@ public enum NetTabType
 	RDProductionMachine = 51,
 	PublicTerminal = 52,
 	TeleporterConsole = 53,
-	Handteleporter = 54
+	HandTeleporter = 54
 
 	// add new entres to the bottom
 	// the enum name must match that of the prefab except the prefab has the word tab infront of the enum name
@@ -271,7 +271,7 @@ public class NetTab : Tab
 	public void ValidatePeepers()
 	{
 		if(Peepers.Count == 0) return;
-		
+
 		foreach (var peeper in Peepers.ToArray())
 		{
 			bool canApply = Validations.CanApply(peeper.Script, Provider, NetworkSide.Server);
