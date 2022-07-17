@@ -27,15 +27,15 @@ namespace HealthV2
 		{
 			if (isEMPVunerable == false) return;
 
-			if (EMPResistance == 0 || DMMath.Prob(1 / EMPResistance))
+			if (EMPResistance == 0 || DMMath.Prob(100 / EMPResistance))
 			{
-				EmpResult();
+				EmpResult(strength);
 			}
 		}
 
-		public virtual void EmpResult()
+		public virtual void EmpResult(int strength)
 		{
-			RelatedPart.ApplyTraumaDamage(TraumaticDamageTypes.BURN);
+			RelatedPart.TakeDamage(this.gameObject,(int)(5f * strength / (EMPResistance + 1)), AttackType.Internal, DamageType.Burn, false, false, 0, (int)(100/EMPResistance + 1), TraumaticDamageTypes.BURN);
 		}
 
 		private void Awake()

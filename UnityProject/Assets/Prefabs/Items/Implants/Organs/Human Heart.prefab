@@ -190,7 +190,7 @@ PrefabInstance:
     - target: {fileID: 8195321311611557117, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
         type: 3}
       propertyPath: OptionalReplacementOrgan.Array.size
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8195321311611557117, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
         type: 3}
@@ -221,11 +221,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isEMPVunerable: 0
+  EMPResistance: 2
   HeartAttack: 0
   CanTriggerHeartAttack: 1
   heartAttackThreshold: -100
   SecondsOfRevivePulse: 30
   CurrentPulse: 0
-  EMPResistance: 2
   salt: {fileID: 11400000, guid: b9bdb0acb54b8dc40837f92c2e7819a6, type: 2}
   dangerSaltLevel: 20
