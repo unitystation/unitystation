@@ -32,7 +32,7 @@ namespace CustomInspectors
 
 		private IMultitoolSlaveable thisDevice;
 
-		private float closestMasterDistance = -2;
+		private float closestMasterDistance = -1;
 
 		private void OnEnable()
 		{
