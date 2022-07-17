@@ -1,19 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &3600653380793084586
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7963671536453267304}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9ce4eda473d008b4297d609c26600dbd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  trackingBeaconType: 0
-  active: 1
 --- !u!1001 &7964390495575036882
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -78,7 +64,7 @@ PrefabInstance:
         type: 3}
       propertyPath: customNetTransform
       value: 
-      objectReference: {fileID: 8003189356637913784}
+      objectReference: {fileID: 0}
     - target: {fileID: 212340400423555046, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
       propertyPath: m_Sprite
@@ -153,15 +139,17 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 7964390495575036882}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &8003189356637913784 stripped
+--- !u!114 &3600653380793084586
 MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 114341119007412586, guid: a7abba22164ce49f0bf9b9b219f39298,
-    type: 3}
-  m_PrefabInstance: {fileID: 7964390495575036882}
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7963671536453267304}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 579884b05ae74e8499329b64997147d3, type: 3}
+  m_Script: {fileID: 11500000, guid: 9ce4eda473d008b4297d609c26600dbd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  trackingBeaconType: 0
+  active: 1
