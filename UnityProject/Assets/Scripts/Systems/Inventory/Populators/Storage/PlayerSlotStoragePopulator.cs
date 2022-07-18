@@ -116,7 +116,7 @@ namespace Systems.Storage
 			foreach (var namedSlotPopulatorEntry in namedSlotPopulatorEntrys)
 			{
 				ItemSlot ItemSlot;
-				if (namedSlotPopulatorEntry.UesIndex)
+				if (namedSlotPopulatorEntry.UseIndex)
 				{
 					ItemSlot = ItemStorage.GetIndexedItemSlot(namedSlotPopulatorEntry.IndexSlot);
 					if (ItemSlot.Item != null && namedSlotPopulatorEntry.IfOccupiedFindEmptyIndexSlot)
@@ -172,7 +172,7 @@ namespace Systems.Storage
 
 		public bool IfOccupiedFindEmptyIndexSlot = true;
 
-		public bool UesIndex = false;
+		public bool UseIndex = false;
 
 		[Tooltip("Named slot being populated. A NamedSlot should not appear" +
 		         " more than once in these entries.")]

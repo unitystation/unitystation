@@ -675,7 +675,7 @@ public static class Inventory
 		foreach (var namedSlotPopulatorEntry in namedSlotPopulatorEntrys)
 		{
 			ItemSlot ItemSlot;
-			if (namedSlotPopulatorEntry.UesIndex)
+			if (namedSlotPopulatorEntry.UseIndex)
 			{
 				ItemSlot = itemStorage.GetIndexedItemSlot(namedSlotPopulatorEntry.IndexSlot);
 			}
