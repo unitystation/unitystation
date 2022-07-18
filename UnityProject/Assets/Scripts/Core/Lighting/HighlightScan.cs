@@ -27,7 +27,7 @@ namespace Core.Lighting
 
 		private void OnDisable()
 		{
-			HighlightScanManager.Instance.HighlightScans.Remove(this);
+			HighlightScanManager.Instance.OrNull()?.HighlightScans.Remove(this);
 		}
 
 		public void Setup(Sprite sprite)

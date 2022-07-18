@@ -116,17 +116,17 @@ public class TileList
 	}
 }
 
-public class FloorHazardList
+public class EnterTileBaseList
 {
-	private readonly Dictionary<Vector3Int, List<FloorHazard>> _objects = new Dictionary<Vector3Int, List<FloorHazard>>();
+	private readonly Dictionary<Vector3Int, List<EnterTileBase>> _objects = new Dictionary<Vector3Int, List<EnterTileBase>>();
 
-	private static readonly List<FloorHazard> emptyList = new List<FloorHazard>();
+	private static readonly List<EnterTileBase> emptyList = new List<EnterTileBase>();
 
-	public void Add(Vector3Int position, FloorHazard obj)
+	public void Add(Vector3Int position, EnterTileBase obj)
 	{
 		if (!_objects.ContainsKey(position))
 		{
-			_objects[position] = new List<FloorHazard>();
+			_objects[position] = new List<EnterTileBase>();
 		}
 		if (!_objects[position].Contains(obj))
 		{
@@ -134,7 +134,7 @@ public class FloorHazardList
 		}
 	}
 
-	public void Remove(Vector3Int position, FloorHazard obj = null)
+	public void Remove(Vector3Int position, EnterTileBase obj = null)
 	{
 		if (_objects.TryGetValue(position, out var objectsOut))
 		{
@@ -149,7 +149,7 @@ public class FloorHazardList
 		}
 	}
 
-	public List<FloorHazard> Get(Vector3Int position)
+	public List<EnterTileBase> Get(Vector3Int position)
 	{
 		return _objects.TryGetValue(position, out var objectsOut) ? objectsOut : emptyList;
 	}

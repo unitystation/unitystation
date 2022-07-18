@@ -11,7 +11,7 @@ using UnityEngine.EventSystems;
 
 namespace Objects
 {
-	public class FloorHazard : MonoBehaviour, IPlayerEntersTile, IObjectEntersTile
+	public class FloorHazard : EnterTileBase, IPlayerEntersTile, IObjectEntersTile
 	{
 		[SerializeField] private AttackType attackType = AttackType.Melee;
 		[SerializeField] private DamageType damageType = DamageType.Brute;
@@ -26,15 +26,12 @@ namespace Objects
 		[SerializeField, HideIf("ignoresFootwear")] private List<ItemTrait> protectiveItemTraits;
 		[SerializeField] private List<BodyPartType> limbsToHurt;
 
-		private RegisterTile RegisterTile;
-		private UniversalObjectPhysics ObjectPhysics;
-
-		public virtual bool WillAffectPlayer(PlayerScript playerScript)
+		public override bool WillAffectPlayer(PlayerScript playerScript)
 		{
 			return playerScript.IsGhost == false;
 		}
 
-		public virtual void OnPlayerStep(PlayerScript playerScript)
+		public override void OnPlayerStep(PlayerScript playerScript)
 		{
 			var health = playerScript.playerHealth;
 			HurtFeet(health); //Moving this to it's own function to keep things clean.
@@ -44,13 +41,13 @@ namespace Objects
 			PlayStepAudio();
 		}
 
-		public virtual bool WillAffectObject(GameObject eventData)
+		public override bool WillAffectObject(GameObject eventData)
 		{
 			//Old health
 			return eventData.HasComponent<LivingHealthBehaviour>();
 		}
 
-		public virtual void OnObjectEnter(GameObject eventData)
+		public override void OnObjectEnter(GameObject eventData)
 		{
 			//Old health
 			eventData.GetComponent<LivingHealthBehaviour>().ApplyDamageToBodyPart(
@@ -94,46 +91,6 @@ namespace Objects
 		protected void ApplyDamageToPartyType(LivingHealthMasterBase health, BodyPartType type)
 		{
 			health.ApplyDamageToBodyPart(gameObject, damageToGive, attackType, damageType, type, armorPentration, traumaChance, traumaType);
-		}
-
-
-		public void Awake()
-		{
-			RegisterTile = GetComponent<RegisterTile>();
-			ObjectPhysics = GetComponent<UniversalObjectPhysics>();
-			this.WaitForNetworkManager(() =>
-			{
-				if (CustomNetworkManager.IsServer)
-				{
-					ObjectPhysics.OnLocalTileReached.RemoveListener(OnLocalPositionChangedServer);
-					ObjectPhysics.OnLocalTileReached.AddListener(OnLocalPositionChangedServer);
-				}
-			});
-		}
-
-		public Matrix PreviousMatrix;
-
-		public Vector3Int PreviousLocation;
-
-		public void OnLocalPositionChangedServer(Vector3 NewLocation)
-		{
-			if (RegisterTile.Matrix.MetaTileMap.ObjectLayer.FloorHazardList == null) return;
-			if (PreviousMatrix != null)
-			{
-				PreviousMatrix.MetaTileMap.ObjectLayer.FloorHazardList.Remove(PreviousLocation);
-			}
-
-			RegisterTile.Matrix.MetaTileMap.ObjectLayer.FloorHazardList.Add(NewLocation.RoundToInt(),this);
-			PreviousLocation = NewLocation.RoundToInt();
-			PreviousMatrix = RegisterTile.Matrix;
-		}
-
-		public void OnDestroy()
-		{
-			if (PreviousMatrix != null)
-			{
-				PreviousMatrix.MetaTileMap.ObjectLayer.FloorHazardList.Remove(PreviousLocation);
-			}
 		}
 	}
 }
