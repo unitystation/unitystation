@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Blob;
+using UnityEngine;
 
 namespace Systems.MobAIs
 {
@@ -8,16 +9,26 @@ namespace Systems.MobAIs
 		public Vector3? worldTargetPosition;
 
 		private BlobRally blobRally;
+		private BlobStructure blobStructure;
+		public BlobStructure BlobStructure => blobStructure;
+
+		[ContextMenu("Log world target")]
+		public void LogTarget()
+		{
+			Logger.LogError(worldTargetPosition.ToString());
+		}
 
 		protected override void Awake()
 		{
 			base.Awake();
 
 			blobRally = GetComponent<BlobRally>();
+			blobStructure = GetComponent<BlobStructure>();
 		}
 
 		public void SetTarget(Vector3 worldPos)
 		{
+			ResetBehaviours();
 			blobRally.Deactivate();
 			worldTargetPosition = worldPos;
 		}

@@ -9,8 +9,10 @@ namespace Systems.MobAIs
 
 		private BlobAI blobAI;
 
-		private void Awake()
+		public override void Awake()
 		{
+			base.Awake();
+
 			blobAI = GetComponent<BlobAI>();
 		}
 
@@ -46,8 +48,8 @@ namespace Systems.MobAIs
 		{
 			base.OnTileReached(tilePos);
 
-			// Three tiles around the point
-			if((tilePos - localTargetPosition).sqrMagnitude > 9) return;
+			// Get to two tiles around the point before completion
+			if((tilePos - localTargetPosition).sqrMagnitude > 4) return;
 
 			FollowCompleted();
 		}

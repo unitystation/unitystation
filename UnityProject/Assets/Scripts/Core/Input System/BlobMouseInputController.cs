@@ -38,6 +38,13 @@ public class BlobMouseInputController : MouseInputController
 			return;
 		}
 
+		if (KeyboardInputManager.IsMiddleMouseButtonPressed())
+		{
+			//Rally blobs
+			blobPlayer.CmdRally(MouseUtils.MouseToWorldPos().RoundToInt());
+			return;
+		}
+
 		if (CommonInput.GetMouseButtonDown(0))
 		{
 

@@ -179,6 +179,8 @@ namespace Blob
 		//stores the client linerenderer gameobjects
 		private HashSet<GameObject> clientLinerenderers = new HashSet<GameObject>();
 
+		private Collider2D[] sporesArray = new Collider2D[200];
+
 		/// <summary>
 		/// The start function of the script called from BlobStarter when player turns into blob, sets up core.
 		/// </summary>
@@ -2100,20 +2102,21 @@ namespace Blob
 		public void CmdRally(Vector3Int worldPos)
 		{
 			var count = 0;
-			foreach (var factoryBlob in factoryBlobs)
+
+			//15 tile radius
+			var amount = Physics2D.OverlapCircleNonAlloc(worldPos.To2(), 15, sporesArray);
+
+			for (int i = 0; i < amount; i++)
 			{
-				if (factoryBlob.Key == null) continue;
+				var spore = sporesArray[i];
+				if (spore == null) continue;
+				if (spore.TryGetComponent<BlobAI>(out var blobAI) == false) continue;
 
-				foreach (var spore in factoryBlob.Value)
-				{
-					if(spore.TryGetComponent<BlobAI>(out var blobAI) == false) continue;
+				//Only command our spores
+				if(blobAI.BlobStructure.overmindName != overmindName) continue;
 
-					//Get all blob ai stuff in 10 tiles around clicked position
-					if((blobAI.UniversalObjectPhysics.OfficialPosition - worldPos).sqrMagnitude > 100) continue;
-
-					blobAI.SetTarget(worldPos);
-					count++;
-				}
+				blobAI.SetTarget(worldPos);
+				count++;
 			}
 
 			Chat.AddExamineMsgFromServer(gameObject, $"You command {count} of your underlings to move!");

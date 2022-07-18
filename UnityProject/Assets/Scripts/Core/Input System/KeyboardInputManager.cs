@@ -177,6 +177,14 @@ public class KeyboardInputManager : MonoBehaviour
 		return CommonInput.GetKey(KeyCode.LeftAlt) || CommonInput.GetKey(KeyCode.RightAlt);
 	}
 
+	/// <summary>
+	/// Checks if the middle mouse button has been pressed
+	/// </summary>
+	public static bool IsMiddleMouseButtonPressed()
+	{
+		return CommonInput.GetKeyDown(KeyCode.Mouse2);
+	}
+
 	private bool CheckComboEvent(KeyCombo keyCombo, KeyEventType keyEventType = KeyEventType.Down)
 	{
 		if (keyCombo.ModKey1 != KeyCode.None && !CommonInput.GetKey(keyCombo.ModKey1))
