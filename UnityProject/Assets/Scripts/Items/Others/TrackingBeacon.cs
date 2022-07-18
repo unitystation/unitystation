@@ -87,7 +87,7 @@ namespace Items
 			}
 
 			//Otherwise add type too
-			activeBeacons.Add(trackingBeaconType, new HashSet<TrackingBeacon>(){this});
+			activeBeacons.Add(trackingBeaconType, new HashSet<TrackingBeacon>{this});
 		}
 
 		[Server]

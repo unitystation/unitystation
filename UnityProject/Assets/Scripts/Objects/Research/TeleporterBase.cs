@@ -128,7 +128,10 @@ namespace Objects.Research
 			SetActive(false);
 		}
 
-		public void PowerNetworkUpdate(float voltage) {}
+		public void PowerNetworkUpdate(float voltage)
+		{
+			//Actual voltage irrelevant
+		}
 
 		public void StateUpdate(PowerState state)
 		{
