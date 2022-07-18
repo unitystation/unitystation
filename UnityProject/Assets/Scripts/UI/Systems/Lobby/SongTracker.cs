@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using Managers;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -144,7 +145,7 @@ namespace Audio.Containers
 		private async Task PlayRandomTrack()
 		{
 			if (CustomNetworkManager.IsHeadless) return;
-
+			if (SimpleAudioManager.Instance.IsPlayingGlobally) return;
 			var songInfo = await MusicManager.Instance.PlayRandomTrack();
 
 			if(songInfo != null){

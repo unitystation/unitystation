@@ -1,12 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections;
 using System.Threading.Tasks;
 using AddressableReferences;
 using UnityEngine;
-using Random = UnityEngine.Random;
 using Messages.Server.SoundMessages;
-using UnityEngine.Audio;
 
 namespace Audio.Containers
 {
@@ -109,7 +106,7 @@ namespace Audio.Containers
 				return null;
 
 			addressableAudioSource = await AudioManager.GetAddressableAudioSourceFromCache(addressableAudioSource);
-		
+
 			if (isMusicPlaying())
 			{
 				await AudioManager.Instance.FadeMixerGroup("Music_Volume", 1000f, 0f);
