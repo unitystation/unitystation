@@ -23,13 +23,13 @@ namespace AdminTools
 		/// <summary>
 		/// All messages sent and recieved from players to admins
 		/// </summary>
-		private readonly Dictionary<string, List<AdminChatMessage>> serverAdminPlayerChatLogs
+		public readonly Dictionary<string, List<AdminChatMessage>> serverAdminPlayerChatLogs
 				= new Dictionary<string, List<AdminChatMessage>>();
 
 		/// <summary>
 		/// The admins client local cache for admin to player chat
 		/// </summary>
-		private readonly Dictionary<string, List<AdminChatMessage>> clientAdminPlayerChatLogs
+		public readonly Dictionary<string, List<AdminChatMessage>> clientAdminPlayerChatLogs
 				= new Dictionary<string, List<AdminChatMessage>>();
 
 		public void ClearLogs()
@@ -38,7 +38,7 @@ namespace AdminTools
 			clientAdminPlayerChatLogs.Clear();
 		}
 
-		public void ServerAddChatRecord(string message, PlayerInfo player, PlayerInfo admin = default)
+		public virtual void ServerAddChatRecord(string message, PlayerInfo player, PlayerInfo admin = default)
 		{
 			message = admin == null
 				? $"{player.Username}: {message}"
@@ -74,7 +74,7 @@ namespace AdminTools
 			ServerMessageRecording(player.UserId, entry);
 		}
 
-		private void ServerMessageRecording(string playerId, AdminChatMessage entry)
+		public void ServerMessageRecording(string playerId, AdminChatMessage entry)
 		{
 			if (PlayerList.Instance.TryGetByUserID(playerId, out var player) == false)
 			{

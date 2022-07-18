@@ -8,7 +8,7 @@ using Systems.Clothing;
 namespace Items.Others
 {
 	[RequireComponent(typeof(ItemLightControl))]
-	public class Candle : NetworkBehaviour, ICheckedInteractable<HandApply>, IServerDespawn
+	public class Candle : NetworkBehaviour, ICheckedInteractable<HandApply>, ICheckedInteractable<InventoryApply>, IServerDespawn
 	{
 		[SerializeField]
 		private ItemLightControl lightControl;
@@ -38,17 +38,47 @@ namespace Items.Others
 
 		public bool WillInteract(HandApply interaction, NetworkSide side)
 		{
-			if (DefaultWillInteract.Default(interaction, side) == false || DecayStage >= 4)
-			{
-				return false;
-			}
-
-			return CheckInteraction(interaction, side);
+			return CheckInteract(interaction, side);
 		}
 
 		public void ServerPerformInteraction(HandApply interaction)
 		{
-			if (interaction.UsedObject == null)
+			PerformInteraction(interaction);
+		}
+
+		public bool WillInteract(InventoryApply interaction, NetworkSide side)
+		{
+			return CheckInteract(interaction, side);
+		}
+
+		public void ServerPerformInteraction(InventoryApply interaction)
+		{
+			PerformInteraction(interaction);
+		}
+
+		bool CheckInteract(TargetedInteraction interaction, NetworkSide side)
+		{
+
+			if (DefaultWillInteract.Default(interaction, side) == false || DecayStage >= 4)
+			{
+				return false;
+			}
+			if (interaction.UsedObject != null && IsOn == false && interaction.UsedObject.TryGetComponent<FireSource>(out var fire))
+			{
+				return fire != null;
+			}
+			else if (interaction.UsedObject == null && IsOn)
+			{
+				return true;
+			}
+
+			return false;
+		}
+
+		[Server]
+		void PerformInteraction(TargetedInteraction interaction)
+		{
+			if (interaction.UsedObject == null && interaction.Intent != Intent.Help)
 			{
 				ToggleLight(false);
 				Chat.AddActionMsgToChat(interaction.Performer,
@@ -67,30 +97,16 @@ namespace Items.Others
 			}
 		}
 
-		private bool CheckInteraction(Interaction interaction, NetworkSide side)
-		{
-			if (interaction.UsedObject != null && IsOn == false && interaction.UsedObject.TryGetComponent<FireSource>(out var fire))
-			{
-				return fire != null;
-			}
-			else if(interaction.UsedObject == null && IsOn)
-			{
-				return true;
-			}
-
-			return false;
-		}
-
 		#endregion Interaction
 
 		private bool TryLightByObject(GameObject usedObject)
 		{
 			if (!IsOn)
 			{
-				// check if player tries to lit candle with something
+				// check if player tries to light candle with something
 				if (usedObject != null)
 				{
-					// check if it's something like lighter or candle
+					// check if it's something like lighter or another candle
 					var fireSource = usedObject.GetComponent<FireSource>();
 					if (fireSource  != null && fireSource.IsBurning)
 					{
@@ -127,14 +143,7 @@ namespace Items.Others
 		{
 			LifeSpan--;
 			DecayStage = 4 - Mathf.CeilToInt((LifeSpan / 30f));
-			if (DecayStage == 4)
-			{
-				lightControl.Toggle(false);
-				if (TryGetComponent<FireSource>(out var fire))
-				{
-					fire.IsBurning = IsOn;
-				}
-			}
+			if (DecayStage == 4) ToggleLight(false);
 			UpdateSprite();
 		}
 
