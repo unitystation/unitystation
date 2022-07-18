@@ -221,15 +221,11 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	[Command]
 	public void CmdSlideItem(Vector3Int destination)
 	{
-		if (playerScript.IsPositionReachable(destination, true) == false
-			|| playerScript.objectPhysics.Pulling.HasComponent == null
-			|| playerScript.IsGhost
-			|| playerScript.playerHealth.ConsciousState != ConsciousState.CONSCIOUS)
-		{
-			return;
-		}
-
 		if (playerScript.objectPhysics.Pulling.HasComponent == false) return;
+		if (playerScript.IsGhost) return;
+		if (playerScript.playerHealth.ConsciousState != ConsciousState.CONSCIOUS) return;
+		if (playerScript.IsPositionReachable(destination, true) == false) return;
+
 		var pushPull = playerScript.objectPhysics.Pulling.Component;
 		Vector3Int origin = pushPull.registerTile.WorldPositionServer;
 		Vector2Int dir = (Vector2Int)(destination - origin);
@@ -248,12 +244,9 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		//allowed to drop from hands while cuffed
 		if (!Validations.CanInteract(playerScript, NetworkSide.Server, allowCuffed: true)) return;
 		if (!Cooldowns.TryStartServer(playerScript, CommonCooldowns.Instance.Interaction)) return;
-		if (NetworkIdentity.spawned.ContainsKey(NetID) == false) return;
-		var Object = NetworkIdentity.spawned[NetID].gameObject;
+		if (NetworkServer.spawned.TryGetValue(NetID, out var objectToDrop) == false) return;
 
-
-
-		var slot = itemStorage.GetNamedItemSlot(Object,equipSlot);
+		var slot = itemStorage.GetNamedItemSlot(objectToDrop.gameObject, equipSlot);
 		if (slot == null) return;
 		Inventory.ServerDrop(slot);
 	}
@@ -266,16 +259,16 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	[Command]
 	public void CmdDropAllItems(uint itemSlotID, Vector3 Target)
 	{
-		var netInstance = NetworkIdentity.spawned[itemSlotID];
+		var netInstance = NetworkServer.spawned[itemSlotID];
 		if (netInstance == null) return;
 
-		var itemStorage = netInstance.GetComponent<ItemStorage>();
+		var storage = netInstance.GetComponent<ItemStorage>();
 		if (this.itemStorage == null) return;
 
-		var slots = itemStorage.GetItemSlots();
+		var slots = storage.GetItemSlots();
 		if (slots == null) return;
 
-		var validateSlot = itemStorage.GetIndexedItemSlot(0);
+		var validateSlot = storage.GetIndexedItemSlot(0);
 		if (validateSlot.RootPlayer() != playerScript.registerTile) return;
 
 
@@ -309,7 +302,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 
 		ItemSlot emptySlot = playerScript.DynamicItemStorage.GetActiveHandSlot(); //Were assuming that slot to which player wants to transfer stuff is always active hand
 
-		if(NetworkIdentity.spawned.TryGetValue(fromSlotID, out var objFS) == false) return;
+		if(NetworkServer.spawned.TryGetValue(fromSlotID, out var objFS) == false) return;
 		var stackSlot = itemStorage.GetNamedItemSlot(objFS.gameObject, fromSlot);
 
 		if (stackSlot.ServerIsObservedBy(gameObject) == false || emptySlot.ServerIsObservedBy(gameObject) == false) return; //Checking if we can observe our hands
@@ -780,15 +773,16 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	[Command]
 	public void CmdSetActiveHand(uint handID, NamedSlot NamedSlot)
 	{
-		if (handID != 0 && NetworkIdentity.spawned.ContainsKey(handID) == false) return;
+		NetworkIdentity hand = null;
+		if (handID != 0 && NetworkServer.spawned.TryGetValue(handID, out hand) == false) return;
 		if (NamedSlot != NamedSlot.leftHand && NamedSlot != NamedSlot.rightHand && NamedSlot != NamedSlot.none) return;
 		if (playerScript.IsGhost) return; // Because Ghosts don't have dynamic item storage
 
-		if (handID != 0)
+		if (handID != 0 && hand != null)
 		{
-			var slot = playerScript.DynamicItemStorage.GetNamedItemSlot(NetworkIdentity.spawned[handID].gameObject, NamedSlot);
+			var slot = playerScript.DynamicItemStorage.GetNamedItemSlot(hand.gameObject, NamedSlot);
 			if (slot == null) return;
-			activeHand = NetworkIdentity.spawned[handID].gameObject;
+			activeHand = hand.gameObject;
 		}
 		else
 		{
@@ -1072,19 +1066,18 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	}
 
 	[Command]
-	public void CmdServerReplaceItemInInventory(GameObject gameObject, uint id, NamedSlot namedSlot)
+	public void CmdServerReplaceItemInInventory(GameObject gameObjectSent, uint id, NamedSlot namedSlot)
 	{
-		if (NetworkIdentity.spawned.ContainsKey(id) == false) return;
-		var Object = NetworkIdentity.spawned[id].gameObject;
-		var slot = itemStorage.GetNamedItemSlot(Object,namedSlot);
+		if (NetworkServer.spawned.TryGetValue(id, out var replaceItem) == false) return;
+		var slot = itemStorage.GetNamedItemSlot(replaceItem.gameObject, namedSlot);
 		if (slot == null) return;
 
-		if (gameObject.PickupableOrNull()?.ItemSlot == null) return;
-		var fromslot = gameObject.PickupableOrNull()?.ItemSlot;
-		if (fromslot == null) return;
-		if (fromslot.ItemStorage.ServerIsObserver(playerMove.gameObject))
+		if (gameObjectSent.PickupableOrNull()?.ItemSlot == null) return;
+		var fromSlot = gameObjectSent.PickupableOrNull()?.ItemSlot;
+		if (fromSlot == null) return;
+		if (fromSlot.ItemStorage.ServerIsObserver(playerMove.gameObject))
 		{
-			Inventory.ServerTransfer(gameObject.PickupableOrNull().ItemSlot, slot, ReplacementStrategy.DropOther);
+			Inventory.ServerTransfer(gameObjectSent.PickupableOrNull().ItemSlot, slot, ReplacementStrategy.DropOther);
 		}
 	}
 }

@@ -195,7 +195,6 @@ namespace HealthV2
 			BloodSaturationCalculations(HeartEfficiency);
 			MetaboliseReactions();
 			ToxinGeneration(); //Could be better
-
 		}
 
 		public void BloodSaturationCalculations(float HeartEfficiency)

@@ -20,10 +20,7 @@ namespace Systems.MobAIs
 		protected MobExplore mobExplore;
 		protected MobFlee mobFlee;
 		[NonSerialized] public LivingHealthBehaviour health;
-		protected Rotatable rotatable;
 		protected MobSprite mobSprite;
-		protected UniversalObjectPhysics uop;
-		public UniversalObjectPhysics UOP => uop;
 
 		public RegisterObject registerObject;
 		protected UprightSprites uprightSprites;
@@ -56,14 +53,14 @@ namespace Systems.MobAIs
 
 		protected virtual void Awake()
 		{
+			base.Awake();
+
 			simpleAnimal = GetComponent<SimpleAnimal>();
 			mobFollow = GetComponent<MobFollow>();
 			mobExplore = GetComponent<MobExplore>();
 			mobFlee = GetComponent<MobFlee>();
 			health = GetComponent<LivingHealthBehaviour>();
-			rotatable = GetComponent<Rotatable>();
 			mobSprite = GetComponent<MobSprite>();
-			uop = GetComponent<UniversalObjectPhysics>();
 			registerObject = GetComponent<RegisterObject>();
 			uprightSprites = GetComponent<UprightSprites>();
 		}
@@ -377,7 +374,7 @@ namespace Systems.MobAIs
 		{
 			if (dir != Vector2Int.zero)
 			{
-				uop.TryTilePush(dir, null);
+				objectPhysics.TryTilePush(dir, null);
 				rotatable.SetFaceDirectionLocalVictor(dir);
 			}
 		}

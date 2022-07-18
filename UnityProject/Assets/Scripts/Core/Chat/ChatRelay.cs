@@ -226,7 +226,7 @@ public class ChatRelay : NetworkBehaviour
 	private ChatEvent CheckForRadios(ChatEvent chatEvent)
 	{
 		HandleRadioCheckCooldown();
-		var SBRSpamCheck = false;
+
 		// Only spoken messages should be forwarded
 		if (chatEvent.channels.HasFlag(ChatChannel.Local) == false)
 		{

@@ -143,13 +143,13 @@ namespace AdminTools
 				return;
 			}
 
-			if (!NetworkIdentity.spawned.ContainsKey(perpId))
+			if (NetworkServer.spawned.ContainsKey(perpId) == false)
 			{
 				Logger.Log($"Perp id {perpId} not found in Spawnlist", Category.Admin);
 				return;
 			}
 
-			var perp = NetworkIdentity.spawned[perpId];
+			var perp = NetworkServer.spawned[perpId];
 
 			switch (actionRequest)
 			{

@@ -175,6 +175,18 @@ public class CustomNetworkManager : NetworkManager, IInitialise
 		}
 	}
 
+	[ContextMenu("Print network server")]
+	public void PrintNetworkServer()
+	{
+		Logger.LogError(NetworkServer.spawned.Count.ToString());
+	}
+
+	[ContextMenu("Print network client")]
+	public void PrintNetworkClient()
+	{
+		Logger.LogError(NetworkClient.spawned.Count.ToString());
+	}
+
 	public void SetSpawnableList()
 	{
 #if UNITY_EDITOR

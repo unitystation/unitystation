@@ -23,8 +23,9 @@ namespace Managers
         public static bool gameMessageProcessing;
         public static string lastGameMessage;
 
-        private void Start()
+        public override void Start()
         {
+	        base.Start();
 	        thread = new Thread (OverwatchMainThread);
 	        thread.Start();
 	        Directory.CreateDirectory("Logs");
