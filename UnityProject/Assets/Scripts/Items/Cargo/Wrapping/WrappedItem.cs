@@ -79,8 +79,10 @@ namespace Items.Cargo.Wrapping
 		}
 		#endregion
 
-		public void OnSpawnServer(SpawnInfo info)
+		public override void OnSpawnServer(SpawnInfo info)
 		{
+			base.OnSpawnServer(info);
+
 			if (info.SpawnType != SpawnType.Mapped) return;
 
 			SetSprite(packageType);

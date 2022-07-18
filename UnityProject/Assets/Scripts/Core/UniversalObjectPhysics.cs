@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Core.Editor.Attributes;
 using HealthV2;
 using Items;
+using JetBrains.Annotations;
 using Messages.Server.SoundMessages;
 using Mirror;
 using Objects;
@@ -346,7 +347,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 		public UniversalObjectPhysics NewPulling;
 		public bool WasCausedByClient;
 
-		public override bool Equals(object? obj)
+		public override bool Equals(object obj)
 		{
 			return obj is PullData other && Equals(other);
 		}
@@ -371,7 +372,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 
 		public bool Equals(Vector3WithData other) => Equals(Vector3, other.Vector3) && ByClient == other.ByClient;
 
-		public override bool Equals(object? obj)
+		public override bool Equals(object obj)
 		{
 			return obj is Vector3WithData other && Equals(other);
 		}
@@ -1734,7 +1735,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable
 	}
 
 
-	public RightClickableResult GenerateRightClickOptions()
+	public virtual RightClickableResult GenerateRightClickOptions()
 	{
 		//check if our local player can reach this
 		var initiator = PlayerManager.LocalPlayerScript.GetComponent<UniversalObjectPhysics>();

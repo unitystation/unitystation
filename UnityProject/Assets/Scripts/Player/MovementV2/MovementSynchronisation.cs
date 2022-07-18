@@ -17,7 +17,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.Tilemaps;
 
-public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllable, IActionGUI ,ICooldown, IBumpableObject, ICheckedInteractable<ContextMenuApply>, IRightClickable
+public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllable, IActionGUI ,ICooldown, IBumpableObject, ICheckedInteractable<ContextMenuApply>
 {
 	public PlayerScript playerScript;
 
@@ -151,7 +151,7 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 	/// Anything with PlayerMove can be cuffed and uncuffed. Might make sense to seperate that into its own behaviour
 	/// </summary>
 	/// <returns>The menu including the uncuff action if applicable, otherwise null</returns>
-	public RightClickableResult GenerateRightClickOptions()
+	public override RightClickableResult GenerateRightClickOptions()
 	{
 		var result = base.GenerateRightClickOptions();
 

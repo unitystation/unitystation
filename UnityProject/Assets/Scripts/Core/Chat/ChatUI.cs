@@ -226,8 +226,9 @@ namespace UI.Chat_UI
 			UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
 		}
 
-		private void OnDestroy()
+		public override void OnDestroy()
 		{
+			base.OnDestroy();
 			EventManager.RemoveHandler(Event.UpdateChatChannels, OnUpdateChatChannels);
 		}
 

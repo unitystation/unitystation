@@ -307,7 +307,7 @@ namespace Objects.Other
 					//Only target alive mobs
 					if(mobAi.IsDead) continue;
 
-					worldPos = mobAi.UOP.OfficialPosition;
+					worldPos = mobAi.ObjectPhysics.OfficialPosition;
 				}
 				else
 				{
