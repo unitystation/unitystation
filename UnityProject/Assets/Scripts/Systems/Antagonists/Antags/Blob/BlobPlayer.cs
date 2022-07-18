@@ -12,6 +12,7 @@ using EpPathFinding.cs;
 using HealthV2;
 using Managers;
 using Strings;
+using Systems.MobAIs;
 using UnityEngine.Profiling;
 
 namespace Blob
@@ -2093,6 +2094,33 @@ namespace Blob
 
 		#endregion
 
+		#region Rally
+
+		[Command]
+		public void CmdRally(Vector3Int worldPos)
+		{
+			var count = 0;
+			foreach (var factoryBlob in factoryBlobs)
+			{
+				if (factoryBlob.Key == null) continue;
+
+				foreach (var spore in factoryBlob.Value)
+				{
+					if(spore.TryGetComponent<BlobAI>(out var blobAI) == false) continue;
+
+					//Get all blob ai stuff in 10 tiles around clicked position
+					if((blobAI.UniversalObjectPhysics.OfficialPosition - worldPos).sqrMagnitude > 100) continue;
+
+					blobAI.SetTarget(worldPos);
+					count++;
+				}
+			}
+
+			Chat.AddExamineMsgFromServer(gameObject, $"You command {count} of your underlings to move!");
+		}
+
+		#endregion
+
 		public string AdminInfoString()
 		{
 			var adminInfo = new StringBuilder();
@@ -2113,6 +2141,7 @@ namespace Blob
 		Factory,
 		Strong,
 		Reflective,
-		Normal
+		Normal,
+		Rally
 	}
 }

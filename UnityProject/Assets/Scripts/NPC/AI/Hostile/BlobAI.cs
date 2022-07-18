@@ -5,8 +5,7 @@ namespace Systems.MobAIs
 	public class BlobAI : GenericHostileAI
 	{
 		//Null if no rally point set
-		private Vector3? localTargetPosition;
-		public Vector3? LocalTargetPosition => localTargetPosition;
+		public Vector3? worldTargetPosition;
 
 		private BlobRally blobRally;
 
@@ -17,13 +16,71 @@ namespace Systems.MobAIs
 			blobRally = GetComponent<BlobRally>();
 		}
 
-		public void PathToRally(Vector3 worldPos)
+		public void SetTarget(Vector3 worldPos)
 		{
-			localTargetPosition = worldPos;
-			if(blobRally.activated || localTargetPosition == null) return;
+			blobRally.Deactivate();
+			worldTargetPosition = worldPos;
+		}
+
+		private void PathToRally()
+		{
+			if(blobRally.activated || worldTargetPosition == null) return;
 
 			blobRally.Activate();
-			blobRally.PathToRally(localTargetPosition.Value);
+			blobRally.PathToRally(worldTargetPosition.Value);
+		}
+
+		public override void ContemplatePriority()
+		{
+			if (isServer == false) return;
+
+			if (IsDead || IsUnconscious)
+			{
+				HandleDeathOrUnconscious();
+				blobRally.Deactivate();
+				worldTargetPosition = null;
+			}
+
+			StatusLoop();
+		}
+
+		private void StatusLoop()
+		{
+			if (currentStatus == MobStatus.None || currentStatus == MobStatus.Attacking)
+			{
+				if (worldTargetPosition != null)
+				{
+					PathToRally();
+					return;
+				}
+
+				MonitorIdleness();
+				return;
+			}
+
+			if (currentStatus == MobStatus.Searching)
+			{
+				moveWaitTime += Time.deltaTime;
+				if (moveWaitTime >= movementTickRate)
+				{
+					moveWaitTime = 0f;
+				}
+
+				searchWaitTime += Time.deltaTime;
+				if (searchWaitTime >= searchTickRate)
+				{
+					searchWaitTime = 0f;
+					var findTarget = SearchForTarget();
+					if (findTarget != null)
+					{
+						BeginAttack(findTarget);
+					}
+					else
+					{
+						BeginSearch();
+					}
+				}
+			}
 		}
 	}
 }

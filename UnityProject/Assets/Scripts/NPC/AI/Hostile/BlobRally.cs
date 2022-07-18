@@ -5,16 +5,13 @@ namespace Systems.MobAIs
 	public class BlobRally : MobPathFinder
 	{
 		//Null if no rally point set
-		private Vector3? localTargetPosition;
-		public Vector3? LocalTargetPosition => localTargetPosition;
+		private Vector3 localTargetPosition;
 
-		private int attempts = 0;
-
-		private MobPathFinder mobPathFinder;
+		private BlobAI blobAI;
 
 		private void Awake()
 		{
-			mobPathFinder = GetComponent<MobPathFinder>();
+			blobAI = GetComponent<BlobAI>();
 		}
 
 		public void PathToRally(Vector3 worldPos)
@@ -22,18 +19,20 @@ namespace Systems.MobAIs
 			localTargetPosition =
 				MatrixManager.WorldToLocal(worldPos, MatrixManager.AtPoint(worldPos, true, registerTile.Matrix.MatrixInfo));
 
-			var path =
-				mobPathFinder.FindNewPath(
-					MatrixManager.WorldToLocal(uop.OfficialPosition, registerTile.Matrix).To2Int(),
-					localTargetPosition.Value.To2Int());
+			var path = FindNewPath(
+				MatrixManager.WorldToLocal(uop.OfficialPosition, registerTile.Matrix).To2Int(),
+					localTargetPosition.To2Int());
 
 			if (path != null)
 			{
 				if (path.Count != 0)
 				{
 					FollowPath(path);
+					return;
 				}
 			}
+
+			Deactivate();
 		}
 
 		protected override void FollowCompleted()
@@ -41,6 +40,22 @@ namespace Systems.MobAIs
 			base.FollowCompleted();
 
 			Deactivate();
+		}
+
+		protected override void OnTileReached(Vector3 tilePos)
+		{
+			base.OnTileReached(tilePos);
+
+			// Three tiles around the point
+			if((tilePos - localTargetPosition).sqrMagnitude > 9) return;
+
+			FollowCompleted();
+		}
+
+		public override void Deactivate()
+		{
+			base.Deactivate();
+			blobAI.worldTargetPosition = null;
 		}
 	}
 }

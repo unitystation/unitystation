@@ -8,6 +8,7 @@ namespace Systems.MobAIs
 {
 	public class MobObjective : MonoBehaviour
 	{
+		[NonSerialized]
 		public UniversalObjectPhysics UniversalObjectPhysics;
 		protected RegisterTile mobTile;
 		protected Rotatable rotatable;
