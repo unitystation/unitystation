@@ -69,8 +69,7 @@ namespace Systems.Cargo
 				Destroy(this);
 			}
 
-			if(CustomNetworkManager.IsServer == false) return;
-			UpdateManager.Add(UpdateMe, checkForTimeCooldown);
+
 			randomBountyTimeCheck = UnityEngine.Random.Range((int)randomTimeRangeForRandomBounty.x, (int)randomTimeRangeForRandomBounty.y);
 		}
 
@@ -78,11 +77,13 @@ namespace Systems.Cargo
 		private void OnEnable()
 		{
 			SceneManager.activeSceneChanged += OnRoundRestart;
+			UpdateManager.Add(UpdateMe, checkForTimeCooldown);
 		}
 
 		private void OnDisable()
 		{
 			SceneManager.activeSceneChanged -= OnRoundRestart;
+			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, UpdateMe);
 		}
 
 		/// <summary>
@@ -123,6 +124,8 @@ namespace Systems.Cargo
 
 		void UpdateMe()
 		{
+			if(CustomNetworkManager.IsServer == false) return;
+			
 			if(RandomBountiesActive == false || CargoOffline) return;
 			lastTimeRecorded += (int) checkForTimeCooldown;
 			if(lastTimeRecorded >= randomBountyTimeCheck)
