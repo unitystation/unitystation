@@ -316,7 +316,6 @@ public class Rotatable : NetworkBehaviour, IMatrixRotation
 
 		if (ChangeSprites == false && IsAtmosphericDevice == false)
 		{
-			int SpriteVariant = 0;
 			foreach (var spriteHandler in spriteHandlers)
 			{
 				if (isChangingSO)

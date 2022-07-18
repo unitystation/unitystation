@@ -25,15 +25,14 @@ namespace HealthV2
 				{
 					return InternalcurrentlyOn;
 				}
-				else
-				{
-					if (NetworkIdentity.spawned.ContainsKey(BodyPartID) && NetworkIdentity.spawned[BodyPartID] != null)
-					{
-						return NetworkIdentity.spawned[BodyPartID].gameObject;
-					}
 
-					return null;
+				var spawned = CustomNetworkManager.IsServer ? NetworkServer.spawned : NetworkClient.spawned;
+				if (spawned.TryGetValue(BodyPartID, out var bodyPart) && bodyPart != null)
+				{
+					return bodyPart.gameObject;
 				}
+
+				return null;
 			}
 			set
 			{

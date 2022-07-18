@@ -44,7 +44,7 @@ public class TelepaticArtifactEffect : ArtifactEffect
 		{
 			playerColl.TryGetComponent<PlayerScript>(out var player);
 
-			if (player == null || player.IsDeadOrGhost) continue;
+			if (player == null || player.IsDeadOrGhost || player.IsNormal == false) continue;
 
 			Indocrinate(player.gameObject);
 		}

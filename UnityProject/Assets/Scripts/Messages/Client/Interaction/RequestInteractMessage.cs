@@ -541,10 +541,11 @@ namespace Messages.Client.Interaction
 			else if (typeof(T) == typeof(InventoryApply))
 			{
 				var casted = interaction as InventoryApply;
+				var spawned = CustomNetworkManager.IsServer ? NetworkServer.spawned : NetworkClient.spawned;
 
 				//StorageIndexOnGameObject
 				msg.StorageIndexOnGameObject = 0;
-				foreach (var itemStorage in NetworkIdentity.spawned[casted.TargetSlot.ItemStorageNetID].GetComponents<ItemStorage>())
+				foreach (var itemStorage in spawned[casted.TargetSlot.ItemStorageNetID].GetComponents<ItemStorage>())
 				{
 					if (itemStorage == casted.TargetSlot.ItemStorage)
 					{
