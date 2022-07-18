@@ -40,12 +40,12 @@ namespace InGameEvents
 		public override void Awake()
 		{
 			base.Awake();
-
 			EnumListCache = Enum.GetNames(typeof(InGameEventType)).ToList();
 		}
 
-		public void Start()
+		public override void Start()
 		{
+			base.Start();
 			RandomEventsAllowed = GameConfigManager.GameConfig.RandomEventsAllowed;
 		}
 

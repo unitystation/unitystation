@@ -193,8 +193,10 @@ namespace UI.Chat_UI
 		public bool Showing = false;
 		public bool Animating = false;
 
-		public void Start()
+		public override void Start()
 		{
+			base.Start();
+
 			// subscribe to input fields update
 			InputFieldChat.onValueChanged.AddListener(OnInputFieldChatValueChanged);
 

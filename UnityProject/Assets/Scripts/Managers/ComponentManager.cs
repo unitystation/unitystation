@@ -10,12 +10,6 @@ public class ComponentManager : SingletonManager<ComponentManager>
 	public static Dictionary<GameObject, UniversalObjectPhysics> ObjectToPhysics = new Dictionary<GameObject, UniversalObjectPhysics>();
 	//TODO in future maybe reference a Component that is on every prefab that handles all Components on it
 
-	public override void Awake()
-	{
-		base.Awake();
-
-	}
-
 	public static bool TryGetUniversalObjectPhysics(GameObject gameObject, out UniversalObjectPhysics UOP)
 	{
 
