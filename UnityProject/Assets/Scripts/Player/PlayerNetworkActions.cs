@@ -748,7 +748,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 
 		if (playerScript.mind.ghostLocked) return;
 
-		if (!playerScript.IsGhost)
+		if (playerScript.IsGhost == false)
 		{
 			Logger.LogWarningFormat("Either player {0} is not dead or not currently a ghost, ignoring EnterBody",
 				Category.Ghosts, body);
@@ -803,7 +803,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	{
 		if (Cooldowns.TryStartServer(playerScript, CommonCooldowns.Instance.Interaction) == false)
 			return;
-		if (playerScript.IsGhost || playerScript.playerHealth.ConsciousState != ConsciousState.CONSCIOUS)
+		if (playerScript.IsNormal == false || playerScript.playerHealth.ConsciousState != ConsciousState.CONSCIOUS)
 			return;
 
 		if(pointTarget == null) return;
@@ -934,14 +934,16 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	[Server]
 	public void ServerAGhost()
 	{
-		if (!playerScript.IsGhost || playerScript.IsPlayerSemiGhost)//admin turns into ghost
+		if (playerScript.IsGhost == false)
 		{
+			//Admin turns into ghost
 			PlayerSpawn.ServerSpawnGhost(playerScript.mind);
 		}
-		else if (playerScript.IsGhost) //back to player
+		else if (playerScript.IsGhost)
 		{
 			if (playerScript.mind.IsSpectator) return;
 
+			//Back to player
 			GhostEnterBody();
 		}
 	}

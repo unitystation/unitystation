@@ -62,7 +62,7 @@ namespace Health.Sickness
 
 		public virtual bool WillAffectPlayer(PlayerScript playerScript)
 		{
-			return playerScript.IsGhost == false;
+			return playerScript.IsNormal;
 		}
 
 		public void OnPlayerStep(PlayerScript playerScript)

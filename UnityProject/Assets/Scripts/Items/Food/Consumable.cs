@@ -68,7 +68,7 @@ public abstract class Consumable : MonoBehaviour, ICheckedInteractable<HandApply
 	{
 		//todo: support npc force feeding
 		var targetPlayer = eater.GetComponent<PlayerScript>();
-		if (targetPlayer == null || targetPlayer.IsDeadOrGhost)
+		if (targetPlayer == null || targetPlayer.IsDeadOrGhost || targetPlayer.IsNormal == false)
 		{
 			return false;
 		}

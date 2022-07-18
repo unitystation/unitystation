@@ -107,13 +107,8 @@ public class Camera2DFollow : MonoBehaviour
 
 	private void UpdateMe()
 	{
-		if(!PlayerManager.LocalPlayerScript){
-			return;
-		}
-		//Really should sort out the load order and then we can remove this check:
-		if(!PlayerManager.LocalPlayerScript.IsGhost && !PlayerManager.LocalPlayerScript.weaponNetworkActions){
-			return;
-		}
+		if(PlayerManager.LocalPlayerScript == false) return;
+
 		if (target != null && !isShaking)
 		{
 			if ( (int)target.position.z == -100 )

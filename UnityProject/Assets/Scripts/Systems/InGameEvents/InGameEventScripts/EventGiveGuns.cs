@@ -32,7 +32,7 @@ namespace InGameEvents
 
 			foreach (PlayerInfo player in PlayerList.Instance.InGamePlayers)
 			{
-				if (player.Script.IsDeadOrGhost) continue;
+				if (player.Script.IsDeadOrGhost || player.Script.IsNormal == false) continue;
 
 				HandlePlayer(player);
 			}
