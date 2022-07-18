@@ -16,6 +16,8 @@ namespace AdminTools
 		[SerializeField] private Text mentorButtonText = null;
 		[SerializeField] private AdminRespawnPage adminRespawnPage = default;
 
+		[SerializeField] private Text oocMuteButtonText = null;
+
 
 		public AdminPlayerEntry PlayerEntry { get; private set; }
 
@@ -25,6 +27,8 @@ namespace AdminTools
 
 			mentorButtonText.text = entry.PlayerData.isMentor ? "REMOVE MENTOR" : "MAKE MENTOR";
 			mentorToggle.gameObject.SetActive(entry.PlayerData.isMentor == false);
+
+			oocMuteButtonText.text = entry.PlayerData.isOOCMuted ? "Unmute OOC" : "Mute OOC";
 		}
 
 		public void OnKickBtn()
@@ -222,6 +226,12 @@ namespace AdminTools
 				return;
 			}
 			adminTools.ShowGiveItemPagePage();
+		}
+
+		public void OnOOCMuteBtn()
+		{
+			AdminCommandsManager.Instance.CmdOOCMutePlayer(PlayerEntry.PlayerData.uid);
+			RefreshPage();
 		}
 	}
 }

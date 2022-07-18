@@ -76,6 +76,7 @@ namespace AdminTools
 		public bool isAdmin;
 		public bool isMentor;
 		public bool isOnline;
+		public bool isOOCMuted;
 		public string ipAddress;
 	}
 
