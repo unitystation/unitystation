@@ -208,7 +208,7 @@ public partial class Chat : MonoBehaviour
 		{
 			if (player.playerHealth != null)
 			{
-				if (!player.IsDeadOrGhost && player.mind.IsMiming && !processedMessage.chatModifiers.HasFlag(ChatModifier.Emote))
+				if (player.IsDeadOrGhost == false && player.mind.IsMiming && !processedMessage.chatModifiers.HasFlag(ChatModifier.Emote))
 				{
 					AddWarningMsgFromServer(sentByPlayer.GameObject, "You can't talk because you made a vow of silence.");
 					return;
@@ -216,16 +216,16 @@ public partial class Chat : MonoBehaviour
 
 				if (player.playerHealth.IsCrit)
 				{
-					if (!player.playerHealth.IsDead)
+					if (player.playerHealth.IsDead == false)
 					{
+						//Crit players can't talk
 						return;
 					}
-					else
-					{
-						chatEvent.channels = ChatChannel.Ghost;
-					}
+
+					//Crit and dead ghost in body then only ghost channel
+					chatEvent.channels = ChatChannel.Ghost;
 				}
-				else if (!player.playerHealth.IsDead && !player.IsGhost)
+				else if (player.playerHealth.IsDead == false && player.IsGhost == false)
 				{
 					//Control the chat bubble
 					player.playerNetworkActions.ServerToggleChatIcon(true, processedMessage.message, channels, processedMessage.chatModifiers);

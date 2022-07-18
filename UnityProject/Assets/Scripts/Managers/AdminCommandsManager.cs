@@ -331,6 +331,7 @@ namespace AdminCommands
 				return;
 			}
 
+			//TODO make gib interface and put on Ai, and blob (remove this health check)
 			if (player?.Script == null || player.Script.IsGhost || player.Script.playerHealth == null) return;
 
 			string message = $"{admin.Username}: Smited Username: {player.Username} ({player.Name})";
@@ -338,6 +339,7 @@ namespace AdminCommands
 
 			LogAdminAction(message);
 
+			//TODO make gib interface and put on Ai, and blob
 			player.Script.playerHealth.Gib();
 		}
 

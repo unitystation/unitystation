@@ -41,10 +41,7 @@ public class PositionalHandApply : HandApply
 	/// <returns></returns>
 	public static PositionalHandApply ByLocalPlayer(GameObject targetObject, Vector2? IntargePosition = null)
 	{
-		if (PlayerManager.LocalPlayerScript.IsGhost)
-		{
-			return Invalid;
-		}
+		if (PlayerManager.LocalPlayerScript.IsNormal == false) return Invalid;
 
 		var targePosition = IntargePosition ?? MouseUtils.MouseToWorldPos().ToLocal(PlayerManager.LocalPlayerObject.RegisterTile().Matrix);
 
