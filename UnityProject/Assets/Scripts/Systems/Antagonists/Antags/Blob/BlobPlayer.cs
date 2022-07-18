@@ -175,11 +175,12 @@ namespace Blob
 		private bool pathSearch;
 
 		private LayerMask layerMask;
+		private LayerMask sporeLayerMask;
 
 		//stores the client linerenderer gameobjects
 		private HashSet<GameObject> clientLinerenderers = new HashSet<GameObject>();
 
-		private Collider2D[] sporesArray = new Collider2D[200];
+		private Collider2D[] sporesArray = new Collider2D[40];
 
 		/// <summary>
 		/// The start function of the script called from BlobStarter when player turns into blob, sets up core.
@@ -261,6 +262,7 @@ namespace Blob
 			playerScript = GetComponent<PlayerScript>();
 
 			layerMask = LayerMask.GetMask("Objects", "Players", "NPC", "Machines", "Windows", "Door Closed");
+			sporeLayerMask = LayerMask.GetMask("NPC");
 		}
 
 		private void PeriodicUpdate()
@@ -2104,7 +2106,7 @@ namespace Blob
 			var count = 0;
 
 			//15 tile radius
-			var amount = Physics2D.OverlapCircleNonAlloc(worldPos.To2(), 15, sporesArray);
+			var amount = Physics2D.OverlapCircleNonAlloc(worldPos.To2(), 15, sporesArray, sporeLayerMask);
 
 			for (int i = 0; i < amount; i++)
 			{
