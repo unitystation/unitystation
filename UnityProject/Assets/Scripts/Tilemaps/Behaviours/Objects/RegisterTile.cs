@@ -297,9 +297,9 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 	#endregion
 
 
-	public void ServerSetLocalPosition(Vector3Int value)
+	public void ServerSetLocalPosition(Vector3Int value, bool OverRideCheck = false)
 	{
-		if (LocalPositionServer == value)
+		if (LocalPositionServer == value && OverRideCheck == false)
 			return;
 		if (objectLayer)
 		{
@@ -316,9 +316,9 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 		OnLocalPositionChangedServer.Invoke(LocalPositionServer);
 	}
 
-	public void ClientSetLocalPosition(Vector3Int value)
+	public void ClientSetLocalPosition(Vector3Int value, bool OverRideCheck = false)
 	{
-		if (LocalPositionClient == value)
+		if (LocalPositionClient == value && OverRideCheck == false)
 			return;
 		bool appeared = LocalPositionClient == TransformState.HiddenPos && value != TransformState.HiddenPos;
 		bool disappeared = LocalPositionClient != TransformState.HiddenPos && value == TransformState.HiddenPos;
@@ -504,7 +504,7 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 	public void UpdatePositionServer()
 	{
 		var prevPosition = LocalPositionServer;
-		ServerSetLocalPosition(transform.localPosition.RoundToInt());
+		ServerSetLocalPosition(transform.localPosition.RoundToInt(), true);
 		if (prevPosition != LocalPositionServer)
 		{
 			OnLocalPositionChangedServer.Invoke(LocalPositionServer);
@@ -515,7 +515,7 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 	public void UpdatePositionClient()
 	{
 
-		ClientSetLocalPosition(transform.localPosition.RoundToInt());
+		ClientSetLocalPosition(transform.localPosition.RoundToInt(), true);
 
 		CheckSameMatrixRelationships();
 	}
