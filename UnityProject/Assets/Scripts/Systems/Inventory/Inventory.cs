@@ -613,32 +613,80 @@ public static class Inventory
 	/// Used to populate an inventory within an inventory within an inventory within an inventory within an inventory within an inventory within an inventory within an inventory,
 	/// Recursively far down as specified in namedSlotPopulatorEntrys
 	/// </summary>
-	/// <param name="gameObject"></param>
-	/// <param name="namedSlotPopulatorEntrys"></param>
 	public static void PopulateSubInventory(GameObject gameObject, List<SlotPopulatorEntry> namedSlotPopulatorEntrys)
 	{
 		if (namedSlotPopulatorEntrys.Count == 0) return;
 
-		var ItemStorage = gameObject.GetComponent<ItemStorage>();
-		if (ItemStorage == null) return;
+		var itemStorage = gameObject.GetComponent<ItemStorage>();
+		if (itemStorage == null) return;
 
+		PopulateSubInventory(itemStorage, namedSlotPopulatorEntrys);
+	}
+
+	/// <summary>
+	/// Used to populate an inventory within an inventory within an inventory within an inventory within an inventory within an inventory within an inventory within an inventory,
+	/// Recursively far down as specified in namedSlotPopulatorEntrys
+	/// </summary>
+	public static void PopulateSubInventory(ItemStorage itemStorage, List<SlotPopulatorEntry> namedSlotPopulatorEntrys)
+	{
+		if (namedSlotPopulatorEntrys.Count == 0) return;
 
 		foreach (var namedSlotPopulatorEntry in namedSlotPopulatorEntrys)
 		{
 			ItemSlot ItemSlot;
 			if (namedSlotPopulatorEntry.UesIndex)
 			{
-				ItemSlot = ItemStorage.GetIndexedItemSlot(namedSlotPopulatorEntry.IndexSlot);
+				ItemSlot = itemStorage.GetIndexedItemSlot(namedSlotPopulatorEntry.IndexSlot);
 			}
 			else
 			{
-				ItemSlot = ItemStorage.GetNamedItemSlot(namedSlotPopulatorEntry.NamedSlot);
+				ItemSlot = itemStorage.GetNamedItemSlot(namedSlotPopulatorEntry.NamedSlot);
 			}
 			if (ItemSlot == null) continue;
 
-			var spawn = Spawn.ServerPrefab(namedSlotPopulatorEntry.Prefab);
-			Inventory.ServerAdd(spawn.GameObject, ItemSlot,namedSlotPopulatorEntry.ReplacementStrategy, true );
-			PopulateSubInventory(spawn.GameObject, namedSlotPopulatorEntry.namedSlotPopulatorEntrys);
+			var spawn = Spawn.ServerPrefab(namedSlotPopulatorEntry.Prefab, PrePickRandom: true);
+			ServerAdd(spawn.GameObject, ItemSlot,namedSlotPopulatorEntry.ReplacementStrategy, true );
+			PopulateSubInventoryRecursive(spawn.GameObject, namedSlotPopulatorEntry.namedSlotPopulatorEntrys);
+		}
+	}
+
+	/// <summary>
+	/// Used to populate an inventory within an inventory within an inventory within an inventory within an inventory within an inventory within an inventory within an inventory,
+	/// Recursively far down as specified in SlotPopulatorEntryRecursive
+	/// </summary>
+	public static void PopulateSubInventoryRecursive(GameObject gameObject, List<SlotPopulatorEntryRecursive> namedSlotPopulatorEntrys)
+	{
+		if (namedSlotPopulatorEntrys.Count == 0) return;
+
+		var itemStorage = gameObject.GetComponent<ItemStorage>();
+		if (itemStorage == null) return;
+
+		PopulateSubInventoryRecursive(itemStorage, namedSlotPopulatorEntrys);
+	}
+
+	/// <summary>
+	/// Used to populate an inventory within an inventory within an inventory within an inventory within an inventory within an inventory within an inventory within an inventory,
+	/// Recursively far down as specified in SlotPopulatorEntryRecursive
+	/// </summary>
+	public static void PopulateSubInventoryRecursive(ItemStorage itemStorage, List<SlotPopulatorEntryRecursive> namedSlotPopulatorEntrys)
+	{
+		if (namedSlotPopulatorEntrys.Count == 0) return;
+
+		foreach (var namedSlotPopulatorEntry in namedSlotPopulatorEntrys)
+		{
+			ItemSlot ItemSlot;
+			if (namedSlotPopulatorEntry.UesIndex)
+			{
+				ItemSlot = itemStorage.GetIndexedItemSlot(namedSlotPopulatorEntry.IndexSlot);
+			}
+			else
+			{
+				ItemSlot = itemStorage.GetNamedItemSlot(namedSlotPopulatorEntry.NamedSlot);
+			}
+			if (ItemSlot == null) continue;
+
+			var spawn = Spawn.ServerPrefab(namedSlotPopulatorEntry.Prefab, PrePickRandom: true);
+			ServerAdd(spawn.GameObject, ItemSlot,namedSlotPopulatorEntry.ReplacementStrategy, true);
 		}
 	}
 }

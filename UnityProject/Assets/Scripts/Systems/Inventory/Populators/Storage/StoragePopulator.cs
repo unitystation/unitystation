@@ -32,27 +32,7 @@ namespace Systems.Storage
 				Inventory.ServerAdd(spawn.GameObject, ItemSlot, IgnoreRestraints: true);
 			}
 
-			if (SlotContents.Count == 0) return;
-
-			//Look through the specified slots, and tries to find it on the storage and populates if so,
-			//and then attempts recursion
-			foreach (var namedSlotPopulatorEntry in SlotContents)
-			{
-				ItemSlot ItemSlot;
-				if (namedSlotPopulatorEntry.UesIndex)
-				{
-					ItemSlot = ItemStorage.GetIndexedItemSlot(namedSlotPopulatorEntry.IndexSlot);
-				}
-				else
-				{
-					ItemSlot = ItemStorage.GetNamedItemSlot(namedSlotPopulatorEntry.NamedSlot);
-				}
-				if (ItemSlot == null) continue;
-
-				var spawn = Spawn.ServerPrefab(namedSlotPopulatorEntry.Prefab, PrePickRandom: true);
-				Inventory.ServerAdd(spawn.GameObject, ItemSlot, namedSlotPopulatorEntry.ReplacementStrategy, true);
-				Inventory.PopulateSubInventory(spawn.GameObject, namedSlotPopulatorEntry.namedSlotPopulatorEntrys);
-			}
+			Inventory.PopulateSubInventory(ItemStorage, SlotContents);
 		}
 	}
 
@@ -78,25 +58,7 @@ namespace Systems.Storage
 				Inventory.ServerAdd(spawn.GameObject, ItemSlot, IgnoreRestraints: true);
 			}
 
-			if (SlotContents.Count == 0) return;
-
-			foreach (var namedSlotPopulatorEntry in SlotContents)
-			{
-				ItemSlot ItemSlot;
-				if (namedSlotPopulatorEntry.UesIndex)
-				{
-					ItemSlot = ItemStorage.GetIndexedItemSlot(namedSlotPopulatorEntry.IndexSlot);
-				}
-				else
-				{
-					ItemSlot = ItemStorage.GetNamedItemSlot(namedSlotPopulatorEntry.NamedSlot);
-				}
-				if (ItemSlot == null) continue;
-
-				var spawn = Spawn.ServerPrefab(namedSlotPopulatorEntry.Prefab, PrePickRandom: true);
-				Inventory.ServerAdd(spawn.GameObject, ItemSlot, namedSlotPopulatorEntry.ReplacementStrategy, true);
-				Inventory.PopulateSubInventory(spawn.GameObject, namedSlotPopulatorEntry.namedSlotPopulatorEntrys);
-			}
+			Inventory.PopulateSubInventory(ItemStorage, SlotContents);
 		}
 	}
 }

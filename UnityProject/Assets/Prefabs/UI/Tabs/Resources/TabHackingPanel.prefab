@@ -995,9 +995,9 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 9155997247415610150}
-        m_TargetAssemblyTypeName: 
-        m_MethodName: ServerOnClosed
-        m_Mode: 0
+        m_TargetAssemblyTypeName: NetTab, Assets
+        m_MethodName: 
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -1011,8 +1011,8 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 9155997247415610150}
         m_TargetAssemblyTypeName: 
-        m_MethodName: ServerOnOpened
-        m_Mode: 0
+        m_MethodName: 
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -1023,7 +1023,7 @@ MonoBehaviour:
         m_CallState: 2
   Wirecut:
     SetLoadSetting: 0
-    AssetAddress: 
+    AssetAddress: Assets/Prefabs/Effects/wiring/Wirecut1.prefab
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 

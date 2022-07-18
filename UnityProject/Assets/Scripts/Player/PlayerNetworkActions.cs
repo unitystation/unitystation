@@ -221,15 +221,11 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	[Command]
 	public void CmdSlideItem(Vector3Int destination)
 	{
-		if (playerScript.IsPositionReachable(destination, true) == false
-			|| playerScript.objectPhysics.Pulling.HasComponent == null
-			|| playerScript.IsGhost
-			|| playerScript.playerHealth.ConsciousState != ConsciousState.CONSCIOUS)
-		{
-			return;
-		}
-
 		if (playerScript.objectPhysics.Pulling.HasComponent == false) return;
+		if (playerScript.IsGhost) return;
+		if (playerScript.playerHealth.ConsciousState != ConsciousState.CONSCIOUS) return;
+		if (playerScript.IsPositionReachable(destination, true) == false) return;
+
 		var pushPull = playerScript.objectPhysics.Pulling.Component;
 		Vector3Int origin = pushPull.registerTile.WorldPositionServer;
 		Vector2Int dir = (Vector2Int)(destination - origin);
