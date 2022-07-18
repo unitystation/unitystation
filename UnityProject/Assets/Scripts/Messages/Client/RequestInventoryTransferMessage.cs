@@ -101,7 +101,7 @@ namespace Messages.Client
 
 			//If there's multiple ItemStorage On one game object it can find the correct one by index
 			msg.StorageIndexOnGameObjectFrom = 0;
-			foreach (var itemStorage in NetworkIdentity.spawned[fromSlot.ItemStorageNetID].GetComponents<ItemStorage>())
+			foreach (var itemStorage in NetworkClient.spawned[fromSlot.ItemStorageNetID].GetComponents<ItemStorage>())
 			{
 				if (itemStorage == fromSlot.ItemStorage)
 				{
@@ -112,7 +112,7 @@ namespace Messages.Client
 			}
 
 			msg.StorageIndexOnGameObjectTo = 0;
-			foreach (var itemStorage in NetworkIdentity.spawned[toSlot.ItemStorageNetID].GetComponents<ItemStorage>())
+			foreach (var itemStorage in NetworkClient.spawned[toSlot.ItemStorageNetID].GetComponents<ItemStorage>())
 			{
 				if (itemStorage == toSlot.ItemStorage)
 				{

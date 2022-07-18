@@ -544,7 +544,7 @@ namespace Messages.Client.Interaction
 
 				//StorageIndexOnGameObject
 				msg.StorageIndexOnGameObject = 0;
-				foreach (var itemStorage in NetworkIdentity.spawned[casted.TargetSlot.ItemStorageNetID].GetComponents<ItemStorage>())
+				foreach (var itemStorage in NetworkClient.spawned[casted.TargetSlot.ItemStorageNetID].GetComponents<ItemStorage>())
 				{
 					if (itemStorage == casted.TargetSlot.ItemStorage)
 					{

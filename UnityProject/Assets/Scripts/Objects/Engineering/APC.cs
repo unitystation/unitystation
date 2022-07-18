@@ -89,7 +89,7 @@ namespace Objects.Engineering
 
 			connectedDevices.RemoveAndSerialize(this, gameObject.scene, device => device == null);
 		}
-		private void OnEnable()
+		public override void OnEnable()
 		{
 			integrity.OnWillDestroyServer.AddListener(WhenDestroyed);
 			base.OnEnable();

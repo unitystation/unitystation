@@ -27,9 +27,9 @@ namespace HealthV2
 				}
 				else
 				{
-					if (NetworkIdentity.spawned.ContainsKey(BodyPartID) && NetworkIdentity.spawned[BodyPartID] != null)
+					if (NetworkClient.spawned.ContainsKey(BodyPartID) && NetworkClient.spawned[BodyPartID] != null)
 					{
-						return NetworkIdentity.spawned[BodyPartID].gameObject;
+						return NetworkClient.spawned[BodyPartID].gameObject;
 					}
 
 					return null;

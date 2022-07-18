@@ -39,11 +39,10 @@ namespace Messages.Server.SpritesMessages
 
 		private bool ProcessEntry(SpriteUpdateEntry spriteUpdateEntry)
 		{
-			if (NetworkIdentity.spawned.ContainsKey(spriteUpdateEntry.id) == false)
-				return false;
-			var networkIdentity = NetworkIdentity.spawned[spriteUpdateEntry.id];
-			if (networkIdentity == null)
-				return false;
+			if (NetworkClient.spawned.ContainsKey(spriteUpdateEntry.id) == false) return false;
+
+			var networkIdentity = NetworkClient.spawned[spriteUpdateEntry.id];
+			if (networkIdentity == null) return false;
 
 			if (SpriteHandlerManager.PresentSprites.ContainsKey(networkIdentity) == false ||
 			    SpriteHandlerManager.PresentSprites[networkIdentity].ContainsKey(spriteUpdateEntry.name) == false)
@@ -197,16 +196,16 @@ namespace Messages.Server.SpritesMessages
 					break;
 				}
 
-				if (NetworkIdentity.spawned.ContainsKey(NetID) == false || NetworkIdentity.spawned[NetID] == null)
+				if (NetworkClient.spawned.ContainsKey(NetID) == false || NetworkClient.spawned[NetID] == null)
 				{
 					ProcessSection = false;
 				}
 
 				string Name = reader.ReadString();
 				if (ProcessSection == false ||
-				    NetworkIdentity.spawned.ContainsKey(NetID) == false ||
-				    SpriteHandlerManager.PresentSprites.ContainsKey(NetworkIdentity.spawned[NetID]) == false ||
-				    SpriteHandlerManager.PresentSprites[NetworkIdentity.spawned[NetID]].ContainsKey(Name) == false)
+				    NetworkClient.spawned.ContainsKey(NetID) == false ||
+				    SpriteHandlerManager.PresentSprites.ContainsKey(NetworkClient.spawned[NetID]) == false ||
+				    SpriteHandlerManager.PresentSprites[NetworkClient.spawned[NetID]].ContainsKey(Name) == false)
 				{
 					ProcessSection = false;
 				}
@@ -219,7 +218,7 @@ namespace Messages.Server.SpritesMessages
 				}
 
 				SpriteHandler SP = null;
-				if (ProcessSection) SP = SpriteHandlerManager.PresentSprites[NetworkIdentity.spawned[NetID]][Name];
+				if (ProcessSection) SP = SpriteHandlerManager.PresentSprites[NetworkClient.spawned[NetID]][Name];
 
 				while (true)
 				{

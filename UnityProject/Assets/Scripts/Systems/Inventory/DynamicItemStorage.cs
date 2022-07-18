@@ -766,7 +766,7 @@ public class DynamicItemStorage : NetworkBehaviour
 		var incomingList = JsonConvert.DeserializeObject<List<InternalData>>(NewST);
 		foreach (var IntIn in incomingList)
 		{
-			if (NetworkIdentity.spawned.TryGetValue(IntIn.ID, out var spawned) == false)
+			if (NetworkClient.spawned.TryGetValue(IntIn.ID, out var spawned) == false)
 			{
 				void TempFunction()
 				{
@@ -817,7 +817,7 @@ public class DynamicItemStorage : NetworkBehaviour
 			IDynamicItemSlotS Inspawned = null;
 			if (ClientCash.ContainsKey(addInt.ID) == false)
 			{
-				if (NetworkIdentity.spawned.TryGetValue(addInt.ID, out var spawned) == false) //TODO Cash!
+				if (NetworkClient.spawned.TryGetValue(addInt.ID, out var spawned) == false) //TODO Cash!
 				{
 					Logger.LogError(
 						$"Failed to find object in spawned objects, might have not spawned yet? netId: {addInt}");
@@ -841,7 +841,7 @@ public class DynamicItemStorage : NetworkBehaviour
 
 		foreach (var addInt in added)
 		{
-			if (NetworkIdentity.spawned.TryGetValue(addInt.ID, out var spawned) == false)
+			if (NetworkClient.spawned.TryGetValue(addInt.ID, out var spawned) == false)
 			{
 				Logger.LogError(
 					$"Failed to find object in spawned objects, might have not spawned yet? netId: {addInt}");

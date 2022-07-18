@@ -523,22 +523,19 @@ public class SoundManager : MonoBehaviour
 
 		if (netId != NetId.Empty)
 		{
-			if (NetworkIdentity.spawned.ContainsKey(netId))
+			var spawned = CustomNetworkManager.IsServer ? NetworkServer.spawned : NetworkClient.spawned;
+			if (spawned.TryGetValue(netId, out var objectToPlayAt))
 			{
-				soundSpawn.transform.parent = NetworkIdentity.spawned[netId].transform;
+				soundSpawn.transform.parent = objectToPlayAt.transform;
 				soundSpawn.transform.localPosition = Vector3.zero;
-			}
-			else
-			{
-				soundSpawn.transform.parent = Instance.transform;
-				soundSpawn.transform.position = worldPos;
+
+				Instance.PlaySource(soundSpawn, polyphonic, isGlobal, audioSourceParameters.MixerType);
+				return;
 			}
 		}
-		else
-		{
-			soundSpawn.transform.parent = Instance.transform;
-			soundSpawn.transform.position = worldPos;
-		}
+
+		soundSpawn.transform.parent = Instance.transform;
+		soundSpawn.transform.position = worldPos;
 
 		Instance.PlaySource(soundSpawn, polyphonic, isGlobal, audioSourceParameters.MixerType);
 	}

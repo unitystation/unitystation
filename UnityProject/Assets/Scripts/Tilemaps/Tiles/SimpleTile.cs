@@ -14,7 +14,6 @@ namespace Tiles
 
 		public bool CanBeHighlightedThroughScanners = false;
 
-		public event Action OnDestroyed;
 		[HideInInspector] public List<GameObject> AssoicatedSpawnedObjects;
 
 		[ShowIf(nameof(CanBeHighlightedThroughScanners))]

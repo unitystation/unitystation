@@ -139,7 +139,7 @@ namespace AdminTools
 		{
 			if (!Instance.IsOn) return;
 
-			var obj = NetworkIdentity.spawned[entry.netId];
+			var obj = NetworkClient.spawned[entry.netId];
 			var panel = Instance.GetPanelFromPool();
 			panel.SetAdminOverlayPanel(entry.infos, Instance, obj.transform, entry.offset);
 		}

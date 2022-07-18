@@ -120,7 +120,7 @@ namespace Messages.Client
 			};
 
 			msg.StorageIndexOnPlayer = 0;
-			foreach (var itemStorage in NetworkIdentity.spawned[playerSlot.ItemStorageNetID].GetComponents<ItemStorage>())
+			foreach (var itemStorage in NetworkClient.spawned[playerSlot.ItemStorageNetID].GetComponents<ItemStorage>())
 			{
 				if (itemStorage == playerSlot.ItemStorage)
 				{
@@ -131,7 +131,7 @@ namespace Messages.Client
 			}
 
 			msg.StorageIndexOnGameObject = 0;
-			foreach (var itemStorage in NetworkIdentity.spawned[targetSlot.ItemStorageNetID].GetComponents<ItemStorage>())
+			foreach (var itemStorage in NetworkClient.spawned[targetSlot.ItemStorageNetID].GetComponents<ItemStorage>())
 			{
 				if (itemStorage == targetSlot.ItemStorage)
 				{
