@@ -98,10 +98,11 @@ namespace Messages.Client
 				ToNamedSlot = toSlot.SlotIdentifier.NamedSlot.GetValueOrDefault(NamedSlot.back)
 			};
 
+			var spawned = CustomNetworkManager.IsServer ? NetworkServer.spawned : NetworkClient.spawned;
 
 			//If there's multiple ItemStorage On one game object it can find the correct one by index
 			msg.StorageIndexOnGameObjectFrom = 0;
-			foreach (var itemStorage in NetworkClient.spawned[fromSlot.ItemStorageNetID].GetComponents<ItemStorage>())
+			foreach (var itemStorage in spawned[fromSlot.ItemStorageNetID].GetComponents<ItemStorage>())
 			{
 				if (itemStorage == fromSlot.ItemStorage)
 				{
@@ -112,7 +113,7 @@ namespace Messages.Client
 			}
 
 			msg.StorageIndexOnGameObjectTo = 0;
-			foreach (var itemStorage in NetworkClient.spawned[toSlot.ItemStorageNetID].GetComponents<ItemStorage>())
+			foreach (var itemStorage in spawned[toSlot.ItemStorageNetID].GetComponents<ItemStorage>())
 			{
 				if (itemStorage == toSlot.ItemStorage)
 				{

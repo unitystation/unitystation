@@ -39,9 +39,8 @@ namespace Messages.Server.SpritesMessages
 
 		private bool ProcessEntry(SpriteUpdateEntry spriteUpdateEntry)
 		{
-			if (NetworkClient.spawned.ContainsKey(spriteUpdateEntry.id) == false) return false;
-
-			var networkIdentity = NetworkClient.spawned[spriteUpdateEntry.id];
+			var spawned = CustomNetworkManager.IsServer ? NetworkServer.spawned : NetworkClient.spawned;
+			if (spawned.TryGetValue(spriteUpdateEntry.id, out var networkIdentity) == false) return false;
 			if (networkIdentity == null) return false;
 
 			if (SpriteHandlerManager.PresentSprites.ContainsKey(networkIdentity) == false ||
@@ -184,6 +183,7 @@ namespace Messages.Server.SpritesMessages
 	{
 		public static SpriteUpdateMessage.NetMessage Deserialize(this NetworkReader reader)
 		{
+			var spawned = CustomNetworkManager.IsServer ? NetworkServer.spawned : NetworkClient.spawned;
 			var message = new SpriteUpdateMessage.NetMessage();
 			SpriteUpdateMessage.SpriteUpdateEntry UnprocessedData = null;
 			while (true)
@@ -196,16 +196,16 @@ namespace Messages.Server.SpritesMessages
 					break;
 				}
 
-				if (NetworkClient.spawned.ContainsKey(NetID) == false || NetworkClient.spawned[NetID] == null)
+				if (spawned.ContainsKey(NetID) == false || spawned[NetID] == null)
 				{
 					ProcessSection = false;
 				}
 
 				string Name = reader.ReadString();
 				if (ProcessSection == false ||
-				    NetworkClient.spawned.ContainsKey(NetID) == false ||
-				    SpriteHandlerManager.PresentSprites.ContainsKey(NetworkClient.spawned[NetID]) == false ||
-				    SpriteHandlerManager.PresentSprites[NetworkClient.spawned[NetID]].ContainsKey(Name) == false)
+				    spawned.ContainsKey(NetID) == false ||
+				    SpriteHandlerManager.PresentSprites.ContainsKey(spawned[NetID]) == false ||
+				    SpriteHandlerManager.PresentSprites[spawned[NetID]].ContainsKey(Name) == false)
 				{
 					ProcessSection = false;
 				}
@@ -218,7 +218,7 @@ namespace Messages.Server.SpritesMessages
 				}
 
 				SpriteHandler SP = null;
-				if (ProcessSection) SP = SpriteHandlerManager.PresentSprites[NetworkClient.spawned[NetID]][Name];
+				if (ProcessSection) SP = SpriteHandlerManager.PresentSprites[spawned[NetID]][Name];
 
 				while (true)
 				{
