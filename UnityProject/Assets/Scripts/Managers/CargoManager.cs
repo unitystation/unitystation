@@ -125,7 +125,7 @@ namespace Systems.Cargo
 		void UpdateMe()
 		{
 			if(CustomNetworkManager.IsServer == false) return;
-			
+
 			if(RandomBountiesActive == false || CargoOffline) return;
 			lastTimeRecorded += (int) checkForTimeCooldown;
 			if(lastTimeRecorded >= randomBountyTimeCheck)
