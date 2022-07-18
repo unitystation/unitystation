@@ -115,8 +115,9 @@ public partial class Chat : MonoBehaviour
 		// The exact words that leave the player's mouth (or that are narrated). Already includes HONKs, stutters, etc.
 		// This step is skipped when speaking in the OOC channel.
 		(string message, ChatModifier chatModifiers) processedMessage = (string.Empty, ChatModifier.None); // Placeholder values
+
 		bool isOOC = channels.HasFlag(ChatChannel.OOC);
-		if (!isOOC)
+		if (isOOC == false)
 		{
 			processedMessage = ProcessMessage(sentByPlayer, message);
 
@@ -140,75 +141,20 @@ public partial class Chat : MonoBehaviour
 			CheckVoiceLevel(sentByPlayer.Script, chatEvent.channels);
 		}
 
-
-		if (channels.HasFlag(ChatChannel.OOC))
+		//Handle OOC messages
+		if (isOOC)
 		{
-			chatEvent.speaker = StripAll(sentByPlayer.Username);
-
-			var isAdmin = PlayerList.Instance.IsAdmin(sentByPlayer.UserId);
-
-			if (isAdmin)
-			{
-				chatEvent.speaker = "<color=red>[A]</color> " + chatEvent.speaker;
-			}
-			else if(PlayerList.Instance.IsMentor(sentByPlayer.UserId))
-			{
-				chatEvent.speaker = "<color=#6400ff>[M]</color> " + chatEvent.speaker;
-			}
-
-			if (Instance.OOCMute && !isAdmin) return;
-
-			//http/https links in OOC chat
-			if (isAdmin || !GameManager.Instance.AdminOnlyHtml)
-			{
-				if (htmlRegex.IsMatch(chatEvent.message))
-				{
-					var messageParts = chatEvent.message.Split(' ');
-
-					var builder = new StringBuilder();
-
-					foreach (var part in messageParts)
-					{
-						if (!htmlRegex.IsMatch(part))
-						{
-							builder.Append(part);
-							builder.Append(" ");
-							continue;
-						}
-
-						builder.Append($"<link={part}><color=blue>{part}</color></link> ");
-					}
-
-					chatEvent.message = builder.ToString();
-
-					//TODO have a config file available to whitelist/blacklist links if all players are allowed to post links
-					//disables client side tag protection to allow <link=></link> tag
-					chatEvent.stripTags = false;
-				}
-			}
-
-			ChatRelay.Instance.PropagateChatToClients(chatEvent);
-
-			var strippedSpeaker = StripTags(chatEvent.speaker);
-
-			//Sends OOC message to a discord webhook
-			DiscordWebhookMessage.Instance.AddWebHookMessageToQueue(DiscordWebhookURLs.DiscordWebhookOOCURL, message, strippedSpeaker, ServerData.ServerConfig.DiscordWebhookOOCMentionsID);
-
-			if (!ServerData.ServerConfig.DiscordWebhookSendOOCToAllChat) return;
-
-			//Send it to All chat
-			DiscordWebhookMessage.Instance.AddWebHookMessageToQueue(DiscordWebhookURLs.DiscordWebhookAllChatURL, $"[{ChatChannel.OOC}]  {message}\n", strippedSpeaker);
-
+			AddOOCChatMessage(sentByPlayer, message, chatEvent);
 			return;
 		}
 
-		// TODO the following code uses player.playerHealth, but ConciousState would be more appropriate.
+		// TODO the following code uses player.playerHealth, but ConsciousState would be more appropriate.
 		// Check if the player is allowed to talk:
 		if (player != null)
 		{
 			if (player.playerHealth != null)
 			{
-				if (!player.IsDeadOrGhost && player.mind.IsMiming && !processedMessage.chatModifiers.HasFlag(ChatModifier.Emote))
+				if (player.IsDeadOrGhost == false && player.mind.IsMiming && !processedMessage.chatModifiers.HasFlag(ChatModifier.Emote))
 				{
 					AddWarningMsgFromServer(sentByPlayer.GameObject, "You can't talk because you made a vow of silence.");
 					return;
@@ -216,16 +162,16 @@ public partial class Chat : MonoBehaviour
 
 				if (player.playerHealth.IsCrit)
 				{
-					if (!player.playerHealth.IsDead)
+					if (player.playerHealth.IsDead == false)
 					{
+						//Crit players can't talk
 						return;
 					}
-					else
-					{
-						chatEvent.channels = ChatChannel.Ghost;
-					}
+
+					//Crit and dead ghost in body then only ghost channel
+					chatEvent.channels = ChatChannel.Ghost;
 				}
-				else if (!player.playerHealth.IsDead && !player.IsGhost)
+				else if (player.playerHealth.IsDead == false && player.IsGhost == false)
 				{
 					//Control the chat bubble
 					player.playerNetworkActions.ServerToggleChatIcon(true, processedMessage.message, channels, processedMessage.chatModifiers);
@@ -251,6 +197,75 @@ public partial class Chat : MonoBehaviour
 		}
 
 		InvokeChatEvent(chatEvent);
+	}
+
+	private static void AddOOCChatMessage(PlayerInfo sentByPlayer, string message, ChatEvent chatEvent)
+	{
+		//Check to see if this player has been OOC muted
+		if (sentByPlayer.IsOOCMuted)
+		{
+			Chat.AddWarningMsgFromServer(sentByPlayer.GameObject, "You are OOC muted!");
+			return;
+		}
+
+		chatEvent.speaker = StripAll(sentByPlayer.Username);
+
+		var isAdmin = PlayerList.Instance.IsAdmin(sentByPlayer.UserId);
+
+		if (isAdmin)
+		{
+			chatEvent.speaker = "<color=red>[A]</color> " + chatEvent.speaker;
+		}
+		else if (PlayerList.Instance.IsMentor(sentByPlayer.UserId))
+		{
+			chatEvent.speaker = "<color=#6400ff>[M]</color> " + chatEvent.speaker;
+		}
+
+		//If global OOCMute don't allow anyone but admins to talk on OOC
+		if (Instance.OOCMute && isAdmin == false) return;
+
+		//http/https links in OOC chat
+		if (isAdmin || GameManager.Instance.AdminOnlyHtml == false)
+		{
+			if (htmlRegex.IsMatch(chatEvent.message))
+			{
+				var messageParts = chatEvent.message.Split(' ');
+
+				var builder = new StringBuilder();
+
+				foreach (var part in messageParts)
+				{
+					if (!htmlRegex.IsMatch(part))
+					{
+						builder.Append(part);
+						builder.Append(" ");
+						continue;
+					}
+
+					builder.Append($"<link={part}><color=blue>{part}</color></link> ");
+				}
+
+				chatEvent.message = builder.ToString();
+
+				//TODO have a config file available to whitelist/blacklist links if all players are allowed to post links
+				//disables client side tag protection to allow <link=></link> tag
+				chatEvent.stripTags = false;
+			}
+		}
+
+		ChatRelay.Instance.PropagateChatToClients(chatEvent);
+
+		var strippedSpeaker = StripTags(chatEvent.speaker);
+
+		//Sends OOC message to a discord webhook
+		DiscordWebhookMessage.Instance.AddWebHookMessageToQueue(DiscordWebhookURLs.DiscordWebhookOOCURL, message,
+			strippedSpeaker, ServerData.ServerConfig.DiscordWebhookOOCMentionsID);
+
+		if (ServerData.ServerConfig.DiscordWebhookSendOOCToAllChat == false) return;
+
+		//Send it to All chat
+		DiscordWebhookMessage.Instance.AddWebHookMessageToQueue(DiscordWebhookURLs.DiscordWebhookAllChatURL,
+			$"[{ChatChannel.OOC}]  {message}\n", strippedSpeaker);
 	}
 
 	private static Loudness CheckVoiceLevel(PlayerScript script, ChatChannel channels)

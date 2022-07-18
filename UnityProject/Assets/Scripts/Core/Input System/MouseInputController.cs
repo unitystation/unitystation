@@ -332,7 +332,7 @@ public class MouseInputController : MonoBehaviour
 
 	private void TrySlide()
 	{
-		if (PlayerManager.LocalPlayerScript.IsGhost ||
+		if (PlayerManager.LocalPlayerScript.IsNormal == false ||
 		    PlayerManager.LocalPlayerScript.playerHealth.ConsciousState != ConsciousState.CONSCIOUS)
 			return;
 		PlayerManager.LocalPlayerScript.playerNetworkActions.CmdSlideItem(Vector3Int.RoundToInt(MouseWorldPosition));

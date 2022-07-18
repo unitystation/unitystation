@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Core.Editor.Attributes;
 using HealthV2;
 using Items;
+using JetBrains.Annotations;
 using Messages.Server.SoundMessages;
 using Mirror;
 using Objects;
@@ -140,7 +141,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 	[SyncVar]
 	protected int SetLastResetID = -1;
 
-	private ObjectContainer CashedContainedInContainer;
+	private ObjectContainer CachedContainedInContainer;
 
 	public ObjectContainer ContainedInContainer
 	{
@@ -150,36 +151,38 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 			{
 				return null;
 			}
-			else
+
+			if (CachedContainedInContainer == null)
 			{
-				if (CashedContainedInContainer == null)
+				var spawned =
+					CustomNetworkManager.IsServer ? NetworkServer.spawned : NetworkClient.spawned;
+				if (spawned.TryGetValue(parentContainer, out var net))
 				{
-					if (NetworkIdentity.spawned.TryGetValue(parentContainer, out var net))
-					{
-						CashedContainedInContainer = net.GetComponent<ObjectContainer>();
-					}
-					else
-					{
-						CashedContainedInContainer = null;
-					}
+					CachedContainedInContainer = net.GetComponent<ObjectContainer>();
 				}
 				else
 				{
-					if (CashedContainedInContainer.registerTile.netId != parentContainer)
+					CachedContainedInContainer = null;
+				}
+			}
+			else
+			{
+				if (CachedContainedInContainer.registerTile.netId != parentContainer)
+				{
+					var spawned =
+						CustomNetworkManager.IsServer ? NetworkServer.spawned : NetworkClient.spawned;
+					if (spawned.TryGetValue(parentContainer, out var net))
 					{
-						if (NetworkIdentity.spawned.TryGetValue(parentContainer, out var net))
-						{
-							CashedContainedInContainer = net.GetComponent<ObjectContainer>();
-						}
-						else
-						{
-							CashedContainedInContainer = null;
-						}
+						CachedContainedInContainer = net.GetComponent<ObjectContainer>();
+					}
+					else
+					{
+						CachedContainedInContainer = null;
 					}
 				}
-
-				return CashedContainedInContainer;
 			}
+
+			return CachedContainedInContainer;
 		}
 	}
 
@@ -349,7 +352,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 		public UniversalObjectPhysics NewPulling;
 		public bool WasCausedByClient;
 
-		public override bool Equals(object? obj)
+		public override bool Equals(object obj)
 		{
 			return obj is PullData other && Equals(other);
 		}
@@ -374,7 +377,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 
 		public bool Equals(Vector3WithData other) => Equals(Vector3, other.Vector3) && ByClient == other.ByClient;
 
-		public override bool Equals(object? obj)
+		public override bool Equals(object obj)
 		{
 			return obj is Vector3WithData other && Equals(other);
 		}
@@ -397,9 +400,11 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 		if (isServer) return;
 		if (LocalTargetPosition == NewLocalTarget.Vector3) return;
 		if (isLocalPlayer || PulledBy.HasComponent) return;
+
+		var spawned = CustomNetworkManager.IsServer ? NetworkServer.spawned : NetworkClient.spawned;
 		if (NewLocalTarget.ByClient != NetId.Empty && NewLocalTarget.ByClient != NetId.Invalid
-				&& NetworkIdentity.spawned.ContainsKey(NewLocalTarget.ByClient)
-				&& NetworkIdentity.spawned[NewLocalTarget.ByClient].gameObject == PlayerManager.LocalPlayerObject) return;
+				&& spawned.TryGetValue(NewLocalTarget.ByClient, out var local)
+				&& local.gameObject == PlayerManager.LocalPlayerObject) return;
 
 		SetLocalTarget = NewLocalTarget;
 
@@ -438,7 +443,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 			parentContainer = NewParent.registerTile.netId;
 		}
 
-		CashedContainedInContainer = NewParent;
+		CachedContainedInContainer = NewParent;
 		if (NewParent == null)
 		{
 			SynchroniseVisibility(isVisible, true);
@@ -472,9 +477,11 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 		int MatrixID, float InspinFactor, bool ForceOverride, uint DoNotUpdateThisClient)
 	{
 		if (isServer) return;
+
+		var spawned = CustomNetworkManager.IsServer ? NetworkServer.spawned : NetworkClient.spawned;
 		if (DoNotUpdateThisClient != NetId.Empty && DoNotUpdateThisClient != NetId.Invalid
-			&& NetworkIdentity.spawned.ContainsKey(DoNotUpdateThisClient)
-			&& NetworkIdentity.spawned[DoNotUpdateThisClient].gameObject == PlayerManager.LocalPlayerObject) return;
+			&& spawned.TryGetValue(DoNotUpdateThisClient, out var local)
+			&& local.gameObject == PlayerManager.LocalPlayerObject) return;
 
 
 		//if (isLocalPlayer) return; //We are updating other Objects than the player on the client //TODO Also block if being pulled by local player //Why we need this?
@@ -1770,7 +1777,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 		}
 	}
 
-	public RightClickableResult GenerateRightClickOptions()
+	public virtual RightClickableResult GenerateRightClickOptions()
 	{
 		//check if our local player can reach this
 		var initiator = PlayerManager.LocalPlayerScript.GetComponent<UniversalObjectPhysics>();

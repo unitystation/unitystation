@@ -13,7 +13,7 @@ namespace Managers
 
 		public HashSet<SignalReceiver> Receivers = new HashSet<SignalReceiver>();
 
-		private void Start()
+		public override void Start()
 		{
 			base.Start();
 			EventManager.AddHandler(Event.SceneUnloading, () => Receivers.Clear());

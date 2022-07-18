@@ -269,20 +269,18 @@ namespace UI.Objects.Medical
 
 		public void LimbInspection(int limbType)
         {
-			if (limbType != null)
-			{
-				foreach (BodyPartRecord limbs in specificRecord.surfaceBodyParts)
-				{
-					if ((BodyPartType)limbType == limbs.type)
-					{
-						LimbRecord(limbs);
-						OrganRecord(limbs);
-						return;
-					}
-				}
-				LimbRecord(null);
-				OrganRecord(null);
-			}
+	        foreach (BodyPartRecord limbs in specificRecord.surfaceBodyParts)
+	        {
+		        if ((BodyPartType)limbType == limbs.type)
+		        {
+			        LimbRecord(limbs);
+			        OrganRecord(limbs);
+			        return;
+		        }
+	        }
+
+	        LimbRecord(null);
+	        OrganRecord(null);
         }
 
 		public void DisplayAilments()

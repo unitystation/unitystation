@@ -106,18 +106,17 @@ namespace Systems.Storage
 			}
 		}
 
-		public void PopulateSubInventory(GameObject gameObject, List<SlotPopulatorEntry> namedSlotPopulatorEntrys)
+		public void PopulateSubInventory(GameObject gameObject, List<SlotPopulatorEntryRecursive> namedSlotPopulatorEntrys)
 		{
 			if (namedSlotPopulatorEntrys.Count == 0) return;
 
 			var ItemStorage = gameObject.GetComponent<ItemStorage>();
 			if (ItemStorage == null) return;
 
-
 			foreach (var namedSlotPopulatorEntry in namedSlotPopulatorEntrys)
 			{
 				ItemSlot ItemSlot;
-				if (namedSlotPopulatorEntry.UesIndex)
+				if (namedSlotPopulatorEntry.UseIndex)
 				{
 					ItemSlot = ItemStorage.GetIndexedItemSlot(namedSlotPopulatorEntry.IndexSlot);
 					if (ItemSlot.Item != null && namedSlotPopulatorEntry.IfOccupiedFindEmptyIndexSlot)
@@ -133,7 +132,6 @@ namespace Systems.Storage
 
 				var spawn = Spawn.ServerPrefab(namedSlotPopulatorEntry.Prefab, PrePickRandom: true);
 				Inventory.ServerAdd(spawn.GameObject, ItemSlot, namedSlotPopulatorEntry.ReplacementStrategy, true);
-				Inventory.PopulateSubInventory(spawn.GameObject, namedSlotPopulatorEntry.namedSlotPopulatorEntrys);
 			}
 		}
 	}
@@ -160,6 +158,29 @@ namespace Systems.Storage
 
 		public ReplacementStrategy ReplacementStrategy = ReplacementStrategy.DropOther;
 
-		public List<SlotPopulatorEntry> namedSlotPopulatorEntrys = new List<SlotPopulatorEntry>();
+		public List<SlotPopulatorEntryRecursive> namedSlotPopulatorEntrys = new List<SlotPopulatorEntryRecursive>();
+	}
+
+	/// <summary>
+	/// Used for populating a specified index lot or inventory slot, then can specify what should be populated in the inventory of what was populated in the inventory Slot that was specified
+	/// </summary>
+	[Serializable]
+	public class SlotPopulatorEntryRecursive
+	{
+		[Tooltip("Indexed only works for sub Inventory")]
+		public int IndexSlot = 0;
+
+		public bool IfOccupiedFindEmptyIndexSlot = true;
+
+		public bool UseIndex = false;
+
+		[Tooltip("Named slot being populated. A NamedSlot should not appear" +
+		         " more than once in these entries.")]
+		public NamedSlot NamedSlot = NamedSlot.none;
+
+		[Tooltip("Prefab to spawn in this slot. Takes precedence over slot populator.")]
+		public GameObject Prefab;
+
+		public ReplacementStrategy ReplacementStrategy = ReplacementStrategy.DropOther;
 	}
 }

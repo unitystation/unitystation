@@ -67,7 +67,7 @@ namespace Health.Sickness
 
 		public override bool WillAffectPlayer(PlayerScript playerScript)
 		{
-			return playerScript.PlayerState == PlayerScript.PlayerStates.Normal;
+			return playerScript.IsNormal;
 		}
 
 		public override void OnPlayerStep(PlayerScript playerScript)

@@ -382,9 +382,14 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IActi
 	public bool IsHidden => PlayerSync.IsVisible == false;
 
 	/// <summary>
-	/// True if this player is a ghost, meaning they exist in the ghost layer
+	/// True if this player is a ghost
 	/// </summary>
-	public bool IsGhost => (PlayerState == PlayerStates.Normal) == false;
+	public bool IsGhost => PlayerState == PlayerStates.Ghost;
+
+	/// <summary>
+	/// True if this player is a normal player prefab (not ghost, Ai, blob, etc)
+	/// </summary>
+	public bool IsNormal => PlayerState == PlayerStates.Normal;
 
 	/// <summary>
 	/// Same as is ghost, but also true when player inside his dead body
@@ -564,7 +569,7 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IActi
 	{
 		string newVisibleName;
 
-		if (IsGhost || Equipment.IsIdentityObscured() == false)
+		if (IsNormal == false || Equipment.IsIdentityObscured() == false)
 		{
 			newVisibleName = playerName; // can see face so real identity is known
 		}

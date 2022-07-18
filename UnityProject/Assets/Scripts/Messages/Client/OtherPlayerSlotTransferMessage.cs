@@ -119,8 +119,10 @@ namespace Messages.Client
 				IsGhost = isGhost
 			};
 
+			var spawned = CustomNetworkManager.IsServer ? NetworkServer.spawned : NetworkClient.spawned;
+
 			msg.StorageIndexOnPlayer = 0;
-			foreach (var itemStorage in NetworkIdentity.spawned[playerSlot.ItemStorageNetID].GetComponents<ItemStorage>())
+			foreach (var itemStorage in spawned[playerSlot.ItemStorageNetID].GetComponents<ItemStorage>())
 			{
 				if (itemStorage == playerSlot.ItemStorage)
 				{
@@ -131,7 +133,7 @@ namespace Messages.Client
 			}
 
 			msg.StorageIndexOnGameObject = 0;
-			foreach (var itemStorage in NetworkIdentity.spawned[targetSlot.ItemStorageNetID].GetComponents<ItemStorage>())
+			foreach (var itemStorage in spawned[targetSlot.ItemStorageNetID].GetComponents<ItemStorage>())
 			{
 				if (itemStorage == targetSlot.ItemStorage)
 				{

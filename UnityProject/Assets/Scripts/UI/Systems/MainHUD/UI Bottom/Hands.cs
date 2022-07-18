@@ -204,7 +204,7 @@ namespace Player
 
 			// TODO tidy up this if statement once it's working correctly
 			if (!PlayerManager.LocalPlayerScript.playerMove.allowInput ||
-					PlayerManager.LocalPlayerScript.IsGhost)
+					PlayerManager.LocalPlayerScript.IsNormal == false)
 			{
 				Logger.Log("Invalid player, cannot perform action!", Category.Interaction);
 				return false;
