@@ -992,7 +992,7 @@ public class DynamicItemStorage : NetworkBehaviour
 		}
 	}
 
-	#region check conditionals
+	#region Check Conditionals
 
 	public Tuple<bool, IDynamicItemSlotS, BodyPartUISlots.StorageCharacteristics> CheckConditionalRemove(
 		IDynamicItemSlotS bodyPartUISlots,
@@ -1032,12 +1032,12 @@ public class DynamicItemStorage : NetworkBehaviour
 							Conditionals[storageCharacteristicse.Condition.CategoryID][
 								storageCharacteristicse.Condition.XAmountConditional - 1].ItemSlot);
 
-						return new Tuple<bool, IDynamicItemSlotS, BodyPartUISlots.StorageCharacteristics?>(false, null,
+						return new Tuple<bool, IDynamicItemSlotS, BodyPartUISlots.StorageCharacteristics>(false, null,
 							null);
 					}
 					else
 					{
-						return new Tuple<bool, IDynamicItemSlotS, BodyPartUISlots.StorageCharacteristics?>(true, null,
+						return new Tuple<bool, IDynamicItemSlotS, BodyPartUISlots.StorageCharacteristics>(true, null,
 							null);
 					}
 				}
@@ -1046,7 +1046,7 @@ public class DynamicItemStorage : NetworkBehaviour
 					var Active = GetActiveConditionals(false);
 					if (Active.ContainsKey(storageCharacteristicse.Condition.CategoryID))
 					{
-						var tuple = new Tuple<bool, IDynamicItemSlotS, BodyPartUISlots.StorageCharacteristics?>(true,
+						var tuple = new Tuple<bool, IDynamicItemSlotS, BodyPartUISlots.StorageCharacteristics>(true,
 							Active[storageCharacteristicse.Condition.CategoryID].BodyPartUISlots,
 							Active[storageCharacteristicse.Condition.CategoryID].StorageCharacteristics);
 						Active.Remove(storageCharacteristicse.Condition.CategoryID);
@@ -1054,7 +1054,7 @@ public class DynamicItemStorage : NetworkBehaviour
 					}
 					else
 					{
-						return new Tuple<bool, IDynamicItemSlotS, BodyPartUISlots.StorageCharacteristics?>(true, null,
+						return new Tuple<bool, IDynamicItemSlotS, BodyPartUISlots.StorageCharacteristics>(true, null,
 							null);
 					}
 				}
@@ -1087,12 +1087,12 @@ public class DynamicItemStorage : NetworkBehaviour
 									[0].StorageCharacteristics);
 						}
 
-						return new Tuple<bool, IDynamicItemSlotS, BodyPartUISlots.StorageCharacteristics?>(false, null,
+						return new Tuple<bool, IDynamicItemSlotS, BodyPartUISlots.StorageCharacteristics>(false, null,
 							null);
 					}
 					else
 					{
-						return new Tuple<bool, IDynamicItemSlotS, BodyPartUISlots.StorageCharacteristics?>(true, null,
+						return new Tuple<bool, IDynamicItemSlotS, BodyPartUISlots.StorageCharacteristics>(true, null,
 							null);
 					}
 				}
@@ -1101,7 +1101,7 @@ public class DynamicItemStorage : NetworkBehaviour
 					var Active = GetActiveConditionals();
 					if (Active.ContainsKey(storageCharacteristicse.Condition.CategoryID))
 					{
-						var tuple = new Tuple<bool, IDynamicItemSlotS, BodyPartUISlots.StorageCharacteristics?>(true,
+						var tuple = new Tuple<bool, IDynamicItemSlotS, BodyPartUISlots.StorageCharacteristics>(true,
 							Active[storageCharacteristicse.Condition.CategoryID].BodyPartUISlots,
 							Active[storageCharacteristicse.Condition.CategoryID].StorageCharacteristics);
 						Active.Remove(storageCharacteristicse.Condition.CategoryID);
@@ -1109,14 +1109,14 @@ public class DynamicItemStorage : NetworkBehaviour
 					}
 					else
 					{
-						return new Tuple<bool, IDynamicItemSlotS, BodyPartUISlots.StorageCharacteristics?>(true, null,
+						return new Tuple<bool, IDynamicItemSlotS, BodyPartUISlots.StorageCharacteristics>(true, null,
 							null);
 					}
 				}
 			}
 		}
 
-		return new Tuple<bool, IDynamicItemSlotS, BodyPartUISlots.StorageCharacteristics?>(false, null,
+		return new Tuple<bool, IDynamicItemSlotS, BodyPartUISlots.StorageCharacteristics>(false, null,
 			null);
 	}
 
