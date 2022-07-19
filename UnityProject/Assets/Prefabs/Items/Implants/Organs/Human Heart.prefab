@@ -187,6 +187,17 @@ PrefabInstance:
       propertyPath: MinMaxInternalBleedingValues.y
       value: 4
       objectReference: {fileID: 0}
+    - target: {fileID: 8195321311611557117, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      propertyPath: OptionalReplacementOrgan.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8195321311611557117, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      propertyPath: OptionalReplacementOrgan.Array.data[0]
+      value: 
+      objectReference: {fileID: 2001825109870326764, guid: fff7a4f0870e48b439feb1d43d9f8de6,
+        type: 3}
     m_RemovedComponents:
     - {fileID: 0}
     - {fileID: 8095853447068111044, guid: 35ef0ee8523cfc342bc863c12a3ac07c, type: 3}
@@ -209,9 +220,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d907426271c5e5544a1c7131da7c493c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isEMPVunerable: 0
+  EMPResistance: 2
   HeartAttack: 0
   CanTriggerHeartAttack: 1
+  heartAttackThreshold: -100
   SecondsOfRevivePulse: 30
   CurrentPulse: 0
   salt: {fileID: 11400000, guid: b9bdb0acb54b8dc40837f92c2e7819a6, type: 2}
-  dangerSaltLevel: 5
+  dangerSaltLevel: 20

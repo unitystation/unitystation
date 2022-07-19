@@ -40,6 +40,8 @@ namespace Chemistry.Components
 		[FormerlySerializedAs("TransferMode")]
 		[SerializeField] private TransferMode transferMode = TransferMode.Normal;
 
+		public TransferMode TransferMode => transferMode;
+
 		[FormerlySerializedAs("PossibleTransferAmounts")]
 		[SerializeField] private List<float> possibleTransferAmounts = new List<float>();
 

@@ -425,7 +425,7 @@ public static class Validations
 
 	private static bool ServerCanReachExtended(PlayerScript ps, UniversalObjectPhysics state, GameObject context = null)
 	{
-		return ps.IsPositionReachable(state.OfficialPosition, true) || ps.IsPositionReachable(state.OfficialPosition - (Vector3)state.newtonianMovement, true, 1.75f, context: context);
+		return ps.IsPositionReachable(state.OfficialPosition, true) || ps.IsPositionReachable(state.OfficialPosition - (Vector3)state.NewtonianMovement, true, 1.75f, context: context);
 	}
 
 	//AiActivate Validation

@@ -8,7 +8,9 @@ namespace Systems.MobAIs
 {
 	public class MobObjective : MonoBehaviour
 	{
-		public UniversalObjectPhysics UniversalObjectPhysics;
+		[NonSerialized]
+		protected UniversalObjectPhysics objectPhysics;
+		public UniversalObjectPhysics ObjectPhysics => objectPhysics;
 		protected RegisterTile mobTile;
 		protected Rotatable rotatable;
 		protected MobAI mobAI;
@@ -24,7 +26,7 @@ namespace Systems.MobAIs
 			mobTile = GetComponent<RegisterTile>();
 			rotatable = GetComponent<Rotatable>();
 			mobAI = GetComponent<MobAI>();
-			UniversalObjectPhysics = GetComponent<UniversalObjectPhysics>();
+			objectPhysics = GetComponent<UniversalObjectPhysics>();
 		}
 
 		//The priority that this action should be done next
@@ -53,7 +55,7 @@ namespace Systems.MobAIs
 
 		protected void Move(Vector3Int dirToMove)
 		{
-			UniversalObjectPhysics.OrNull()?.TryTilePush(dirToMove.To2Int(), null);
+			objectPhysics.OrNull()?.TryTilePush(dirToMove.To2Int(), null);
 
 			if (rotatable != null)
 			{

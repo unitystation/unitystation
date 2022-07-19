@@ -18,8 +18,10 @@ namespace Learning
 			Robust = 3 //Nothing will get triggered on this level.
 		}
 
-		private void Awake() 
+		public override void Awake()
 		{
+			base.Awake();
+
 			var experience = PlayerPrefs.GetInt("Learning/ExperienceLevel", -1);
 			if(experience == -1)
 			{

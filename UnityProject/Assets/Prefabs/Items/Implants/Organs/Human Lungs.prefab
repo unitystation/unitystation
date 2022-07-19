@@ -193,11 +193,11 @@ MonoBehaviour:
   toxicGases:
   - GasType: {fileID: 11400000, guid: 2d3c38fe76e3df249ade18fd6fdac274, type: 2}
     PressureSafeMax: 0.4
-    UnsafeLevelDamage: 10
+    UnsafeLevelDamage: 0.2
     UnsafeLevelDamageType: 2
   - GasType: {fileID: 11400000, guid: b466ee2bb3ca27941b3c2393555d4fab, type: 2}
     PressureSafeMax: 10
-    UnsafeLevelDamage: 10
+    UnsafeLevelDamage: 1
     UnsafeLevelDamageType: 3
   requiredGas: {fileID: 11400000, guid: d7d4e6085864f9f4e83593f63d102d08, type: 2}
   LungSize: 0.3

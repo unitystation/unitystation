@@ -25,15 +25,14 @@ namespace HealthV2
 				{
 					return InternalcurrentlyOn;
 				}
-				else
-				{
-					if (NetworkIdentity.spawned.ContainsKey(BodyPartID) && NetworkIdentity.spawned[BodyPartID] != null)
-					{
-						return NetworkIdentity.spawned[BodyPartID].gameObject;
-					}
 
-					return null;
+				var spawned = CustomNetworkManager.IsServer ? NetworkServer.spawned : NetworkClient.spawned;
+				if (spawned.TryGetValue(BodyPartID, out var bodyPart) && bodyPart != null)
+				{
+					return bodyPart.gameObject;
 				}
+
+				return null;
 			}
 			set
 			{
@@ -350,11 +349,20 @@ namespace HealthV2
 							UnsuccessfulProcedure);
 						return;
 					}
+					else
+					{
+						Chat.AddActionMsgToChat(interaction, $" You poke {this.ISon.LivingHealthMasterBase.playerScript.visibleName}'s {RelatedBodyPart.name} with the {interaction.UsedObject.name} ",
+							$"{interaction.PerformerPlayerScript.visibleName} pokes {this.ISon.LivingHealthMasterBase.playerScript.visibleName}'s {RelatedBodyPart.name} with the {interaction.UsedObject.name} ");
+					}
 				}
 
 				if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Cautery))
 				{
+					Chat.AddActionMsgToChat(interaction, $" You use the {interaction.HandObject.ExpensiveName()} to close up {this.ISon.LivingHealthMasterBase.playerScript.visibleName}'s {RelatedBodyPart.name} ",
+						$"{interaction.PerformerPlayerScript.visibleName} uses a {interaction.UsedObject.ExpensiveName()} to close up  {this.ISon.LivingHealthMasterBase.playerScript.visibleName}'s {RelatedBodyPart.name} ");
+
 					CancelSurgery();
+					return;
 				}
 			}
 

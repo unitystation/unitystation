@@ -34,14 +34,11 @@ public class CustomNetworkManager : NetworkManager, IInitialise
 	/// List of ALL prefabs in the game which can be spawned, networked or not.
 	/// use spawnPrefabs to get only networked prefabs
 	/// </summary>
-	[HideInInspector] public List<GameObject> allSpawnablePrefabs = new List<GameObject>();
+	[HideInInspector] public List<GameObject> allSpawnablePrefabs = new();
 
-	public Dictionary<GameObject, int> IndexLookupSpawnablePrefabs = new Dictionary<GameObject, int>();
+	public Dictionary<GameObject, int> IndexLookupSpawnablePrefabs = new();
 
-	public Dictionary<string, GameObject> ForeverIDLookupSpawnablePrefabs = new Dictionary<string, GameObject>();
-
-	private Dictionary<string, DateTime> connectCoolDown = new Dictionary<string, DateTime>();
-	private const double minCoolDown = 1f;
+	public Dictionary<string, GameObject> ForeverIDLookupSpawnablePrefabs = new();
 
 	/// <summary>
 	/// Invoked client side when the player has disconnected from a server.
@@ -176,6 +173,18 @@ public class CustomNetworkManager : NetworkManager, IInitialise
 				ignorance.port = (ushort) config.ServerPort;
 			}
 		}
+	}
+
+	[ContextMenu("Print network server")]
+	public void PrintNetworkServer()
+	{
+		Logger.LogError(NetworkServer.spawned.Count.ToString());
+	}
+
+	[ContextMenu("Print network client")]
+	public void PrintNetworkClient()
+	{
+		Logger.LogError(NetworkClient.spawned.Count.ToString());
 	}
 
 	public void SetSpawnableList()
@@ -322,12 +331,12 @@ public class CustomNetworkManager : NetworkManager, IInitialise
 		{
 			if (conn == NetworkServer.localConnection)
 			{
-				Logger.Log("Prevented headless server from spawning a player", Category.Server);
+				Logger.Log("Prevented headless server from spawning a player", Category.Connections);
 				return;
 			}
 		}
 
-		Logger.LogFormat("Client connecting to server {0}", Category.Connections, conn);
+		Logger.LogTrace($"Spawning a GameObject for the client {conn}.", Category.Connections);
 		base.OnServerAddPlayer(conn);
 		SubSceneManager.Instance.AddNewObserverScenePermissions(conn);
 		UpdateRoundTimeMessage.Send(GameManager.Instance.stationTime.ToString("O"));
@@ -336,7 +345,7 @@ public class CustomNetworkManager : NetworkManager, IInitialise
 	//called on client side when client first connects to the server
 	public override void OnClientConnect()
 	{
-		Logger.Log($"We (the client) connected to the server {NetworkClient.connection}", Category.Connections);
+		Logger.Log($"We (the client) connected to the server {NetworkClient.connection.address}.", Category.Connections);
 		//Does this need to happen all the time? OnClientConnect can be called multiple times
 		NetworkManagerExtensions.RegisterClientHandlers();
 
@@ -345,29 +354,15 @@ public class CustomNetworkManager : NetworkManager, IInitialise
 
 	public override void OnClientDisconnect()
 	{
+		Logger.Log("Client disconnected from the server.");
 		base.OnClientDisconnect();
 		OnClientDisconnected.Invoke();
 	}
 
 	public override void OnServerConnect(NetworkConnectionToClient conn)
 	{
-		if (!connectCoolDown.ContainsKey(conn.address))
-		{
-			connectCoolDown.Add(conn.address, DateTime.Now);
-		}
-		else
-		{
-			var totalSeconds = (DateTime.Now - connectCoolDown[conn.address]).TotalSeconds;
-			if (totalSeconds < minCoolDown)
-			{
-				Logger.Log($"Connect spam alert. Address {conn.address} is trying to spam connections",
-					Category.Connections);
-				conn.Disconnect();
-				return;
-			}
-
-			connectCoolDown[conn.address] = DateTime.Now;
-		}
+		// Connection has been authenticated via Authentication.cs
+		Logger.LogTrace($"A client has been authenticated and has joined. Address: {conn.address}.");
 
 		base.OnServerConnect(conn);
 	}

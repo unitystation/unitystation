@@ -100,7 +100,7 @@ public class CreateRequiredComponentWindow : EditorWindow
 		if (string.IsNullOrEmpty(componentTypeName))
 		{
 			EditorUtility.DisplayDialog("Unable to create required components",
-				"Please enter a component type name (such as CustomNetTransform, RegisterTile, etc...).", "Close");
+				"Please enter a component type name (such as UniversalObjectPhysics, RegisterTile, etc...).", "Close");
 			return;
 		}
 

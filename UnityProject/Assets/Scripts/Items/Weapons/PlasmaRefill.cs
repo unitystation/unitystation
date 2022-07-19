@@ -16,7 +16,7 @@ namespace Weapons
 		private MagazineBehaviour magazineBehaviour;
 		private ElectricalMagazine electricalMagazine;
 		private Battery battery;
-
+		
 		private void Start()
 		{
 			magazineBehaviour = GetComponent<Gun>().CurrentMagazine;
@@ -131,6 +131,7 @@ namespace Weapons
 			// fuel is being used
 			if (Validations.HasItemTrait(interaction.UsedObject, CommonTraits.Instance.SolidPlasma))
 			{
+				GetComponent<Gun>().LoadMagSound();
 				refilledAmmo = sheetEff;
 			}
 			else if (Validations.HasItemTrait(interaction.UsedObject, CommonTraits.Instance.OrePlasma))

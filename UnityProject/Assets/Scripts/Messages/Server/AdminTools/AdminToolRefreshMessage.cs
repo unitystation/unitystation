@@ -59,6 +59,7 @@ namespace Messages.Server.AdminTools
 
 			//Server Setting
 			pageData.playerLimit = GameManager.Instance.PlayerLimit;
+			pageData.maxFrameRate = Application.targetFrameRate;
 
 			var data = JsonUtility.ToJson(pageData);
 
@@ -102,6 +103,7 @@ namespace Messages.Server.AdminTools
 				entry.isAdmin = PlayerList.Instance.IsAdmin(player.UserId);
 				entry.isMentor = PlayerList.Instance.IsMentor(player.UserId);
 				entry.isOnline = player.Connection != null;
+				entry.isOOCMuted = player.IsOOCMuted;
 
 				playerList.Add(entry);
 			}

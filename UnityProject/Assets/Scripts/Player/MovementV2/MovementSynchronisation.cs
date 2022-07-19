@@ -5,7 +5,6 @@ using System.Linq;
 using Core.Editor.Attributes;
 using HealthV2;
 using Items;
-using JetBrains.Annotations;
 using Managers;
 using Messages.Client.Interaction;
 using Mirror;
@@ -13,16 +12,15 @@ using Newtonsoft.Json;
 using Objects;
 using Player.Movement;
 using ScriptableObjects.Audio;
+using Tiles;
 using UI.Action;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.Tilemaps;
 
-public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllable, ICooldown, IBumpableObject,
-	IActionGUI, ICheckedInteractable<ContextMenuApply>, IRightClickable
+public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllable, IActionGUI ,ICooldown, IBumpableObject, ICheckedInteractable<ContextMenuApply>
 {
 	public PlayerScript playerScript;
-
 
 	public List<MoveData> MoveQueue = new List<MoveData>();
 
@@ -49,14 +47,6 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 	public bool IsTrapped => IsCuffed || ContainedInContainer != null;
 
 	[PrefabModeOnly] public bool CanMoveThroughObstructions = false;
-
-	// netid of the game object we are buckled to, NetId.Empty if not buckled
-	[SyncVar(hook = nameof(SyncBuckledObject))]
-	private UniversalObjectPhysics buckledObject = null;
-
-	public UniversalObjectPhysics BuckledObject => buckledObject;
-
-	public bool IsBuckled => buckledObject != null;
 
 	//[SyncVar(hook = nameof(SyncRunSpeed))]
 	public float RunSpeed;
@@ -104,17 +94,17 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 				);
 				StandardProgressAction.Create(
 					new StandardProgressActionConfig(StandardProgressActionType.Unbuckle),
-					Unbuckle
+					BuckledToObject.UnbuckleObject
 				).ServerStartProgress(
-					buckledObject.registerTile,
-					buckledObject.GetComponent<BuckleInteract>().ResistTime,
+					BuckledToObject.registerTile,
+					BuckledToObject.GetComponent<BuckleInteract>().ResistTime,
 					playerScript.gameObject
 				);
 			}
 		}
 		else
 		{
-			Unbuckle();
+			BuckledToObject.UnbuckleObject();
 		}
 	}
 
@@ -128,23 +118,14 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 		         playerHealth.ConsciousState == ConsciousState.BARELY_CONSCIOUS);
 	}
 
-	/// <summary>
-	/// Server side logic for unbuckling a player
-	/// </summary>
-	[Server]
-	public void Unbuckle()
+	public override void BuckleToChange(UniversalObjectPhysics newBuckledTo)
 	{
-		buckledObject = null;
+		if (PlayerManager.LocalPlayerObject == gameObject)
+		{
+			UIActionManager.ToggleLocal(this, newBuckledTo != null);
+		}
 	}
 
-	/// <summary>
-	/// Server side logic for buckling a player
-	/// </summary>
-	[Server]
-	public void BuckleTo(UniversalObjectPhysics newBuckledTo)
-	{
-		buckledObject = newBuckledTo;
-	}
 
 	[Server]
 	public void ServerTryEscapeContainer()
@@ -158,7 +139,7 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 				escapable.EntityTryEscape(gameObject, null);
 			}
 		}
-		else if (buckledObject != null)
+		else if (BuckledToObject != null)
 		{
 			CmdUnbuckle();
 		}
@@ -170,7 +151,7 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 	/// Anything with PlayerMove can be cuffed and uncuffed. Might make sense to seperate that into its own behaviour
 	/// </summary>
 	/// <returns>The menu including the uncuff action if applicable, otherwise null</returns>
-	public RightClickableResult GenerateRightClickOptions()
+	public override RightClickableResult GenerateRightClickOptions()
 	{
 		var result = base.GenerateRightClickOptions();
 
@@ -317,45 +298,9 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 	}
 
 
-	// syncvar hook invoked client side when the buckledTo changes
-	private void SyncBuckledObject(UniversalObjectPhysics oldBuckledTo, UniversalObjectPhysics newBuckledTo)
-	{
-		// unsub if we are subbed
-		if (oldBuckledTo != null)
-		{
-			var directionalObject = oldBuckledTo.GetComponent<Rotatable>();
-			if (directionalObject != null)
-			{
-				directionalObject.OnRotationChange.RemoveListener(OnBuckledObjectDirectionChange);
-			}
-		}
 
-		if (PlayerManager.LocalPlayerObject == gameObject)
-		{
-			UIActionManager.ToggleLocal(this, newBuckledTo != null);
-		}
 
-		buckledObject = newBuckledTo;
-		// sub
-		if (buckledObject != null)
-		{
-			var directionalObject = buckledObject.GetComponent<Rotatable>();
-			if (directionalObject != null)
-			{
-				directionalObject.OnRotationChange.AddListener(OnBuckledObjectDirectionChange);
-			}
-		}
-	}
 
-	private void OnBuckledObjectDirectionChange(OrientationEnum newDir)
-	{
-		if (rotatable == null)
-		{
-			rotatable = gameObject.GetComponent<Rotatable>();
-		}
-
-		rotatable.FaceDirection(newDir);
-	}
 
 
 	public override void Awake()
@@ -401,7 +346,6 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 	{
 		IsPressedServer = IsPressed;
 	}
-
 
 	private readonly HashSet<IMovementEffect> movementAffects = new HashSet<IMovementEffect>();
 
@@ -542,6 +486,12 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 		public bool Bump;
 
 		public int LastPushID;
+
+		//Object that it is pulling
+		public uint Pulling;
+
+		//LastReset ID
+		public int LastResetID;
 	}
 
 	public enum PlayerMoveDirection
@@ -627,6 +577,7 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 
 	public double DEBUGLastMoveMessageProcessed = 0;
 
+	public System.Random RNG = new System.Random();
 
 	public void ServerCheckQueueingAndMove()
 	{
@@ -638,12 +589,54 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 			{
 				bool Fudged = false;
 				Vector3 Stored = Vector3.zero;
+				var spawned = CustomNetworkManager.IsServer ? NetworkServer.spawned : NetworkClient.spawned;
 
 				var Entry = MoveQueue[0];
 				MoveQueue.RemoveAt(0);
 
+				if (Entry.LastResetID != SetLastResetID) //Client hasn't been reset yet
+				{
+					if (Entry.Pulling != NetId.Empty)
+					{
+
+						if (ComponentManager.TryGetUniversalObjectPhysics(spawned[Entry.Pulling].gameObject, out var SupposedlyPulling))
+						{
+							SupposedlyPulling.ResetLocationOnClient(connectionToClient);
+						}
+					}
+
+					if (string.IsNullOrEmpty(Entry.PushedIDs) == false)
+					{
+						foreach (var NonMatch in JsonConvert.DeserializeObject<List<uint>>(Entry.PushedIDs))
+						{
+							spawned[NonMatch].GetComponent<UniversalObjectPhysics>()
+								.ResetLocationOnClient(connectionToClient);
+						}
+					}
+					return;
+
+				}
+
 				SetMatrixCash.ResetNewPosition(transform.position, registerTile);
 				//Logger.LogError(" Is Animating " +  Animating + " Is floating " +  IsAnimatingFlyingSliding +" move processed at" + transform.localPosition);
+
+				if (Pulling.HasComponent == false && Entry.Pulling != NetId.Empty)
+				{
+					PullSet(null, false);
+					if (ComponentManager.TryGetUniversalObjectPhysics(spawned[Entry.Pulling].gameObject, out var SupposedlyPulling))
+					{
+						SupposedlyPulling.ResetLocationOnClient(connectionToClient);
+					}
+				}
+				else if ( Pulling.HasComponent && Pulling.Component.netId != Entry.Pulling)
+				{
+					PullSet(null, false);
+					if (ComponentManager.TryGetUniversalObjectPhysics(spawned[Entry.Pulling].gameObject, out var SupposedlyPulling))
+					{
+						SupposedlyPulling.ResetLocationOnClient(connectionToClient);
+					}
+				}
+
 
 				if (IsFlyingSliding)
 				{
@@ -660,7 +653,7 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 					}
 					else
 					{
-						Logger.LogError(" Fail the Range floating check ");
+						//Logger.LogError(" Fail the Range floating check ");
 						ResetLocationOnClients();
 						MoveQueue.Clear();
 						return;
@@ -674,14 +667,23 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 						    .magnitude >
 						    0.75f) //Resets play location if too far away
 						{
-							Logger.LogError("Reset from distance from actual target" +
-							                (transform.position -
-							                 Entry.LocalPosition.ToWorld(MatrixManager.Get(Entry.MatrixID))).magnitude +
-							                " SERVER : " +
-							                transform.position + " Client : " +
-							                Entry.LocalPosition.ToWorld(MatrixManager.Get(Entry.MatrixID)));
-							ResetLocationOnClients();
-							MoveQueue.Clear();
+							// Logger.LogError("Reset from distance from actual target" +
+							//                 (transform.position -
+							//                  Entry.LocalPosition.ToWorld(MatrixManager.Get(Entry.MatrixID))).magnitude +
+							//                 " SERVER : " +
+							//                 transform.position + " Client : " +
+							//                 Entry.LocalPosition.ToWorld(MatrixManager.Get(Entry.MatrixID)));
+
+							if ((transform.position - Entry.LocalPosition.ToWorld(MatrixManager.Get(Entry.MatrixID)))
+							    .magnitude >
+							    3f)
+							{
+								ResetLocationOnClients();
+							}
+							else
+							{
+								ResetLocationOnClients(true);
+							}
 							return;
 						}
 					}
@@ -725,10 +727,9 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 								}
 							}
 
-
 							foreach (var NonMatch in Nonmatching)
 							{
-								NetworkIdentity.spawned[NonMatch].GetComponent<UniversalObjectPhysics>()
+								spawned[NonMatch].GetComponent<UniversalObjectPhysics>()
 									.ResetLocationOnClient(connectionToClient);
 							}
 						}
@@ -736,7 +737,6 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 						if (Entry.CausesSlip != Slip)
 						{
 							ResetLocationOnClients();
-							MoveQueue.Clear();
 						}
 
 						Step = !Step;
@@ -744,6 +744,22 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 						{
 							FootstepSounds.PlayerFootstepAtPosition(transform.position, this);
 						}
+
+
+						// if (RNG.Next(0, 100) > 50)
+						// {
+						// 	var Node = registerTile.Matrix.MetaDataLayer.Get(registerTile.LocalPosition);
+						// 	var  feets =  playerScript.DynamicItemStorage.GetNamedItemSlots(NamedSlot.feet).PickRandom();
+						//
+						//
+						// 	Node.AppliedDetail.AddDetail(new Detail()
+						// 	{
+						//
+						// 	})
+						// }
+
+
+
 
 						//TODO this is good but need to clean up movement a bit more Logger.LogError("Delta magnitude " + (transform.position - Entry.LocalPosition.ToWorld(MatrixManager.Get(Entry.MatrixID).Matrix)).magnitude );
 						//do calculation is and set targets and stuff
@@ -771,7 +787,7 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 					}
 					else
 					{
-						Logger.LogError("Failed TryMove");
+						//Logger.LogError("Failed TryMove");
 						if (Fudged)
 						{
 							transform.localPosition = Stored;
@@ -781,12 +797,11 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 						}
 
 						ResetLocationOnClients();
-						MoveQueue.Clear();
 					}
 				}
 				else
 				{
-					Logger.LogError("Failed Can input");
+					//Logger.LogError("Failed Can input");
 					if (Fudged)
 					{
 						transform.localPosition = Stored;
@@ -796,7 +811,6 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 					}
 
 					ResetLocationOnClients();
-					MoveQueue.Clear();
 				}
 			}
 		}
@@ -805,6 +819,7 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 
 	public void ReceivePlayerMoveAction(PlayerAction moveActions)
 	{
+		if (UIManager.IsInputFocus) return;
 		if (CommonInput.GetKeyDown(KeyCode.F7) && gameObject == PlayerManager.LocalPlayerObject)
 		{
 			PlayerSpawn.ServerSpawnDummy(gameObject.transform);
@@ -824,7 +839,9 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 				GlobalMoveDirection = moveActions.ToPlayerMoveDirection(),
 				CausesSlip = false,
 				Bump = false,
-				LastPushID = SetTimestampID
+				LastPushID = SetTimestampID,
+				Pulling = Pulling.Component?.netId ?? NetId.Empty,
+				LastResetID = SetLastResetID
 			};
 
 
@@ -886,7 +903,7 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 	{
 		if (isServer)
 		{
-			if (isLocalPlayer)
+			if (isLocalPlayer && this.playerScript.OrNull()?.Equipment.OrNull()?.ItemStorage != null)
 			{
 				Step = !Step;
 				if (Step)
@@ -940,7 +957,7 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 			{
 				if (NewMoveData.Bump)
 				{
-					Logger.LogError("NewMoveData.Bump");
+					// Logger.LogError("NewMoveData.Bump");
 					return true;
 				}
 
@@ -1036,7 +1053,7 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 
 		if (slideTime > 0) return false;
 		if (allowInput == false) return false;
-		if (buckledObject) return false;
+		if (BuckledToObject) return false;
 		if (isLocalPlayer && UIManager.IsInputFocus) return false;
 		if (IsCuffed && PulledBy.HasComponent) return false;
 		if (ContainedInContainer != null) return false;
@@ -1053,7 +1070,7 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 		//Space movement, normal movement ( Calling running and walking part of this )
 
 	{
-		if (buckledObject == null)
+		if (BuckledToObject == null)
 		{
 			bool Obstruction = true;
 			bool Floating = true;
@@ -1108,6 +1125,9 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 
 		slippedOn = null;
 		if (slipProtection) return false;
+		if (CurrentMovementType != MovementType.Running) return false;
+		if (isServer == false && isLocalPlayer && UIManager.Instance.intentControl.Running == false) return false;
+
 
 		var ToMatrix = SetMatrixCash.GetforDirection(moveAction.GlobalMoveDirection.TVectoro().To3Int()).Matrix;
 		var LocalTo = (registerTile.WorldPosition + moveAction.GlobalMoveDirection.TVectoro().To3Int())
@@ -1145,7 +1165,7 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 	{
 		if (stickyMovement)
 		{
-			if (newtonianMovement.magnitude > maximumStickSpeed)
+			if (NewtonianMovement.magnitude > maximumStickSpeed)
 			{
 				IsCurrentlyFloating = true;
 				CanPushOff = null;
@@ -1156,7 +1176,7 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 		if (IsNotFloatingTileMap())
 		{
 			IsCurrentlyFloating = false;
-			newtonianMovement *= 0;
+			NewtonianMovement *= 0;
 			CanPushOff = null;
 			return true;
 		}
@@ -1164,7 +1184,7 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 		if (IsNotFloatingObjects(moveAction, out CanPushOff))
 		{
 			IsCurrentlyFloating = false;
-			newtonianMovement *= 0;
+			NewtonianMovement *= 0;
 			return true;
 		}
 
@@ -1226,8 +1246,8 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 			var Age = NetworkTime.time - InMoveData.Timestamp;
 			if (Age > MoveMaxDelayQueue)
 			{
-				Logger.LogError(
-					$" Move message rejected because it is too old, Consider tweaking if ping is too high or Is being exploited Age {Age}");
+				// Logger.LogError(
+					// $" Move message rejected because it is too old, Consider tweaking if ping is too high or Is being exploited Age {Age}");
 				ResetLocationOnClients();
 				MoveQueue.Clear();
 				return;
@@ -1246,6 +1266,28 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 				VectorToPlayerMoveDirection((AddedGlobalPosition - transform.position).To2Int());
 			//Logger.LogError(" Received move at  " + InMoveData.LocalPosition.ToString() + "  Currently at " + transform.localPosition );
 			MoveQueue.Add(InMoveData);
+		}
+	}
+
+	public override void LocalTileReached(Vector3 localPos)
+	{
+		var tile = registerTile.Matrix.MetaTileMap.GetTile(localPos.CutToInt(), LayerType.Base);
+		if (tile != null && tile is BasicTile c)
+		{
+			foreach (var interaction in c.TileStepInteractions)
+			{
+				if (interaction.WillAffectPlayer(playerScript) == false) continue;
+				interaction.OnPlayerStep(playerScript);
+			}
+		}
+
+		//Check for tiles before objects because of this list
+		if (registerTile.Matrix.MetaTileMap.ObjectLayer.EnterTileBaseList == null) return;
+		var loopto = registerTile.Matrix.MetaTileMap.ObjectLayer.EnterTileBaseList.Get(localPos.RoundToInt());
+		foreach (var enterTileBase in loopto)
+		{
+			if (enterTileBase.WillAffectPlayer(playerScript) == false) continue;
+			enterTileBase.OnPlayerStep(playerScript);
 		}
 	}
 }

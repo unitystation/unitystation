@@ -52,6 +52,7 @@ namespace UI.CharacterCreator
 			{
 				Newvalue = 0;
 			}
+
 			Dropdown.value = Newvalue;
 		}
 
@@ -63,14 +64,19 @@ namespace UI.CharacterCreator
 		public static void OnPlayerBodyDeserialise(BodyPart bodyPart, string InData)
 		{
 			var PreviousOptions = JsonConvert.DeserializeObject<int>(InData);
-			if (PreviousOptions >= bodyPart.OptionalReplacementOrgan.Count + 1)
+			if (PreviousOptions >= bodyPart.OptionalReplacementOrgan.Count + 1 || PreviousOptions == 0) //0 == Default
 			{
 				return;
 			}
-			var spawned = Spawn.ServerPrefab(bodyPart.OptionalReplacementOrgan[PreviousOptions].gameObject);
 
-			bodyPart.HealthMaster.BodyPartStorage.ServerTryAdd(spawned.GameObject);
-			bodyPart.HealthMaster.BodyPartStorage.ServerTryRemove(bodyPart.gameObject);
+			var ActualIndex = PreviousOptions - 1;
+
+			var spawned = Spawn.ServerPrefab(bodyPart.OptionalReplacementOrgan[ActualIndex].gameObject);
+
+			var Storage = bodyPart.ContainedIn;
+
+			Storage.OrganStorage.ServerTryAdd(spawned.GameObject);
+			Storage.OrganStorage.ServerTryRemove(bodyPart.gameObject);
 		}
 
 		public void SetDropdownValue(string currentSetting)
@@ -131,29 +137,23 @@ namespace UI.CharacterCreator
 		{
 			base.Refresh();
 
-			if (Dropdown.value == 0)
+			if (Dropdown.value == 0) //Going to 0
 			{
-				if (CurrentBodyPart != null)
-				{
-					characterCustomization.RemoveBodyPart(CurrentBodyPart);
-				}
-
+				characterCustomization.RemoveBodyPart(CurrentBodyPart);
 				characterCustomization.ParentDictionary[ParentBodyPart].Add(RelatedBodyPart);
 				characterCustomization.SetUpBodyPart(RelatedBodyPart, false);
 				CurrentBodyPart = RelatedBodyPart;
 			}
 			else
 			{
-				if (CurrentBodyPart != null)
+
+				if (CurrentBodyPart == RelatedBodyPart) //Don't delete the customisations of this
 				{
-					if (CurrentBodyPart == RelatedBodyPart)
-					{
-						characterCustomization.RemoveBodyPart(CurrentBodyPart, false);
-					}
-					else
-					{
-						characterCustomization.RemoveBodyPart(CurrentBodyPart);
-					}
+					characterCustomization.RemoveBodyPart(CurrentBodyPart, false);
+				}
+				else
+				{
+					characterCustomization.RemoveBodyPart(CurrentBodyPart);
 				}
 
 				var ChosenOption = Dropdown.options[Dropdown.value].text;

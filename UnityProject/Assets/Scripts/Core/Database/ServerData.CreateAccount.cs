@@ -9,7 +9,7 @@ namespace DatabaseAPI
 		///Tries to create an account for the user in player accounts (now using firebase as of nov '19)
 		///</summary>
 		public async static void TryCreateAccount(string proposedName, string _password, string emailAcc,
-			Action<CharacterSettings> callBack, Action<string> errorCallBack)
+			Action<CharacterSheet> callBack, Action<string> errorCallBack)
 		{
 			try
 			{
@@ -28,11 +28,7 @@ namespace DatabaseAPI
 				Logger.LogFormat($"Firebase user created successfully: {proposedName}",
 					Category.DatabaseAPI);
 
-				var newCharacter = new CharacterSettings
-				{
-					Name = StringManager.GetRandomMaleName(),
-					Username = proposedName
-				};
+				var newCharacter = CharacterSheet.GenerateRandomCharacter();
 
 				callBack.Invoke(newCharacter);
 			}

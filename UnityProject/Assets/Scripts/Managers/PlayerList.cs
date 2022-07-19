@@ -194,29 +194,28 @@ public partial class PlayerList : NetworkBehaviour
 			return player;
 		}
 
-		Logger.Log($"Player {player.Username}'s client ID is: {player.ClientId} User ID: {player.UserId}.", Category.Connections);
+		Logger.LogTrace($"Player {player.Username}'s client ID is: {player.ClientId} User ID: {player.UserId}.", Category.Connections);
 
 		var loggedOffClient = GetLoggedOffClient(player.ClientId, player.UserId);
 		if (loggedOffClient != null)
 		{
-			Logger.Log(
-				$"ConnectedPlayer Username({player.Username}) already exists in this server's PlayerList as Character({loggedOffClient.Name}) " +
-				$"Will update existing player instead of adding this new connected player.", Category.Connections);
+			Logger.LogTrace(
+					$"Player with account {player.UserId} already has a player object ({loggedOffClient.Name}). " +
+					$"Will update existing player instead of adding this new connected player.", Category.Connections);
 
 			if (loggedOffClient.GameObject == null)
 			{
-				Logger.LogFormat(
-					$"The existing ConnectedPlayer contains a null GameObject reference. Removing the entry", Category.Connections);
+				Logger.LogWarning(
+						$"The existing ConnectedPlayer contains a null GameObject reference. Removing the entry.", Category.Connections);
 				loggedOff.Remove(loggedOffClient);
 				return player;
 			}
 
-			// Switching over to the old player's character is handled by JoinedViewer so dont need any extra logic.
+			// Switching over to the old player's character is handled by JoinedViewer so don't need any extra logic.
 		}
 
 		loggedIn.Add(player);
-		Logger.LogFormat("Added to this server's PlayerList {0}. Total:{1}; {2}", Category.Connections, player,
-			loggedIn.Count, string.Join(";", loggedIn));
+		Logger.Log($"Player with account {player.UserId} has joined the game. Player count: {loggedIn.Count}.", Category.Connections);
 		CheckRcon();
 		return player;
 	}
@@ -573,7 +572,7 @@ public partial class PlayerList : NetworkBehaviour
 	/// <summary>
 	/// Makes a player ready/unready for job allocations
 	/// </summary>
-	public void SetPlayerReady(PlayerInfo player, bool isReady, CharacterSettings charSettings = null)
+	public void SetPlayerReady(PlayerInfo player, bool isReady, CharacterSheet charSettings = null)
 	{
 		if (isReady)
 		{

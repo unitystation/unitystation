@@ -11,7 +11,7 @@ namespace UI
 	{
 		private static UITileList uiTileList;
 
-		private List<GameObject> listedObjects;
+		private List<GameObject> listedObjects = new List<GameObject>();
 		private LayerTile listedTile;
 		private Vector3 listedTilePosition;
 		public GameObject tileItemPanel;
@@ -188,6 +188,7 @@ namespace UI
 		/// </summary>
 		public static void ClearItemPanel()
 		{
+
 			foreach (GameObject gameObject in Instance.listedObjects)
 			{
 				Destroy(gameObject);

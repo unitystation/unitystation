@@ -1730,7 +1730,7 @@ MonoBehaviour:
   adminChatButtons: {fileID: 4827786959436423629}
   mentorChatButtons: {fileID: 1430545640760140982}
   adminChatWindows: {fileID: 7202757496456318431}
-  profileScrollView: {fileID: 0}
+  profileScrollView: {fileID: 2288168229597811352}
   playerAlerts: {fileID: 7969094656009152741}
   spawnBanner: {fileID: 9112774073186637723}
   PhoneZoomFactor: 1.6
@@ -2282,6 +2282,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e3bdbdc8a0b9a7e498a0e499adeed00b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &2288168229597811352 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2163162925866867500, guid: 9f0e0bdfe1253d44baf682fff5dd5156,
+    type: 3}
+  m_PrefabInstance: {fileID: 127277103599438260}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4171ccc2ad2c9f640bf8431bb825f303, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &2960842255512989225 stripped

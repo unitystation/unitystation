@@ -5,6 +5,7 @@ using Chemistry;
 using Objects.Atmospherics;
 using ScriptableObjects.Atmospherics;
 using UnityEngine;
+using NaughtyAttributes;
 
 namespace HealthV2
 {
@@ -277,19 +278,14 @@ namespace HealthV2
 
 			// Counterintuitively, in humans respiration is stimulated by pressence of CO2 in the blood, not lack of oxygen
 			// May want to change this code to reflect that in the future so people don't hyperventilate when they are on nitrous oxide
-			float bloodCap = RelatedPart.bloodType.GetNormalGasCapacity(RelatedPart.BloodContainer.CurrentReagentMix);
-			var bloodSaturation = 0f;
-			if (bloodCap > 0)
-			{
-				bloodSaturation = RelatedPart.BloodContainer[RelatedPart.requiredReagent] / bloodCap;
-			}
 
-			if (bloodSaturation >= RelatedPart.HealthMaster.CirculatorySystem.BloodInfo.BLOOD_REAGENT_SATURATION_OKAY)
+
+			if (bodyPart.currentBloodSaturation >= RelatedPart.bloodType.BLOOD_REAGENT_SATURATION_OKAY)
 			{
 				currentBreatheCooldown = breatheCooldown; //Slow breathing, we're all good
 				RelatedPart.HealthMaster.HealthStateController.SetSuffocating(false);
 			}
-			else if (bloodSaturation <= RelatedPart.HealthMaster.CirculatorySystem.BloodInfo.BLOOD_REAGENT_SATURATION_BAD)
+			else if (bodyPart.currentBloodSaturation <= RelatedPart.bloodType.BLOOD_REAGENT_SATURATION_BAD)
 			{
 				RelatedPart.HealthMaster.HealthStateController.SetSuffocating(true);
 				if (DMMath.Prob(20))

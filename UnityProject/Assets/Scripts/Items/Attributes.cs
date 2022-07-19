@@ -2,6 +2,7 @@ using System.Linq;
 using UnityEngine;
 using Mirror;
 using Core.Editor.Attributes;
+using Detective;
 using Messages.Client.Interaction;
 using NaughtyAttributes;
 
@@ -50,10 +51,9 @@ public class Attributes : NetworkBehaviour, IRightClickable, IExaminable, IServe
 		}
 	}
 
-	[SerializeField, BoxGroup("Cargo"), PrefabModeOnly]
-	[Tooltip("If default, will only be considered exportable if the value is not zero and the object is movable.")]
-	private CargoExportType exportType = CargoExportType.Default;
-	public CargoExportType ExportType => exportType;
+	[SerializeField, BoxGroup("Cargo")]
+	[Tooltip("Can this be sold while oboard a cargo shuttle?")]
+	public bool CanBeSoldInCargo = true;
 
 	[Tooltip("Should an alternate name be used when displaying this in the cargo console report?")]
 	[SerializeField, BoxGroup("Cargo"), PrefabModeOnly]
@@ -104,6 +104,12 @@ public class Attributes : NetworkBehaviour, IRightClickable, IExaminable, IServe
 	/// Current description
 	/// </summary>
 	public string ArticleDescription => articleDescription;
+
+
+	/// <summary>
+	/// For the detectives Scanner
+	/// </summary>
+	public AppliedDetails AppliedDetails = new AppliedDetails();
 
 	public override void OnStartClient()
 	{
@@ -246,13 +252,5 @@ public class Attributes : NetworkBehaviour, IRightClickable, IExaminable, IServe
 	public void ServerSetArticleDescription(string desc)
 	{
 		SyncArticleDescription(articleDescription, desc);
-	}
-
-	public enum CargoExportType
-	{
-		/// <summary>Export if value not zero and not secured.</summary>
-		Default = 0,
-		Always = 1,
-		Never = 2,
 	}
 }

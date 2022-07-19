@@ -26,7 +26,8 @@ namespace InGameEvents
 		{
 			if (AnnounceEvent)
 			{
-				var text = "Incoming Public Health Report:\nSome people on the station are afflicted by some disease.";
+				var text = "Incoming Public Health Report:\nSome individuals onboard the station may have been afflicted by an unknown disease. " +
+				           "Please remain clam and practice social distancing while visiting the station's virologist for sample collection.";
 
 				CentComm.MakeAnnouncement(ChatTemplates.CentcomAnnounce, text, CentComm.UpdateSound.Alert);
 			}
@@ -53,12 +54,16 @@ namespace InGameEvents
 			}
 
 			Sickness sickness = SicknessManager.Instance.Sicknesses[sicknessEventParameters.SicknessIndex];
+			SpawnResult spawnResult = Spawn.ServerPrefab(sickness.gameObject);
+			if(spawnResult.Successful == false || spawnResult.GameObject.TryGetComponent<Sickness>(out var newSick) == false) return;
 
 			foreach (PlayerInfo player in PlayerList.Instance.AllPlayers.PickRandom(sicknessEventParameters.PlayerToInfect).ToList())
 			{
 				if (player.Script != null && player.Script.playerHealth != null)
 				{
-					player.Script.playerHealth.AddSickness(sickness);
+					SpawnResult sicknessResult = Spawn.ServerPrefab(sickness.gameObject, Vector3.zero, player.GameObject.transform);
+					sicknessResult.GameObject.GetComponent<Sickness>().SetCure(newSick.CureForSickness);
+					player.Script.playerHealth.AddSickness(sicknessResult.GameObject.GetComponent<Sickness>());
 				}
 			}
 		}

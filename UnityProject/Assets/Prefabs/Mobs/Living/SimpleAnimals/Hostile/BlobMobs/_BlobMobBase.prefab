@@ -10,17 +10,22 @@ PrefabInstance:
     - target: {fileID: 941816724250882487, guid: cf769d410d94f0e47bab5eee03a3b07d,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 941816724250882487, guid: cf769d410d94f0e47bab5eee03a3b07d,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 941816724250882487, guid: cf769d410d94f0e47bab5eee03a3b07d,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3560083802713417254, guid: cf769d410d94f0e47bab5eee03a3b07d,
+        type: 3}
+      propertyPath: target
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 3783638323905235520, guid: cf769d410d94f0e47bab5eee03a3b07d,
         type: 3}
@@ -87,7 +92,9 @@ PrefabInstance:
       propertyPath: canBreatheAnywhere
       value: 1
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 7017895921186973579, guid: cf769d410d94f0e47bab5eee03a3b07d, type: 3}
+    - {fileID: 811126669682120101, guid: cf769d410d94f0e47bab5eee03a3b07d, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: cf769d410d94f0e47bab5eee03a3b07d, type: 3}
 --- !u!1 &5194550138725232449 stripped
 GameObject:
@@ -95,6 +102,29 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 8979384515036480261}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &313349335644084946
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5194550138725232449}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 21cb8cb3c08b4ddbad3190d2ce5aa6ac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  AllowDead: 0
+  AllowUnconscious: 0
+  Priority: 1
+  mobName: 
+  registerObject: {fileID: 0}
+  deathSounds: []
+  randomSounds: []
+  playRandomSoundTimer: 3
+  randomSoundProbability: 20
+  searchTickRate: 0.5
+  currentStatus: 0
 --- !u!114 &6844387211904348062
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -158,3 +188,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   passableExclusions:
   - {fileID: 11400000, guid: 27254faedab24ec4daecc9dbd770765e, type: 2}
+--- !u!114 &7962185598990548661
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5194550138725232449}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 998b2b5bd6804d10ac7a64f5b7a9f4ed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  activated: 0
+  TickDelay: 1
+  status: 0

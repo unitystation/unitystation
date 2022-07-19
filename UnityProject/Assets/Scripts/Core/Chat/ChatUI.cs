@@ -9,6 +9,7 @@ using TMPro;
 using AdminTools;
 using Managers;
 using Items;
+using UnityEngine.Serialization;
 
 namespace UI.Chat_UI
 {
@@ -20,7 +21,7 @@ namespace UI.Chat_UI
 		public int maxLogLength = 90;
 		[SerializeField] private TMP_Text chatInputLabel = null;
 		[SerializeField] private GameObject channelToggleTemplate = null;
-		[SerializeField] private GameObject background = null;
+		[SerializeField] private Image background = null;
 		[SerializeField] private TMP_InputField InputFieldChat = null;
 		[SerializeField] private RectTransform viewportTransform = null;
 
@@ -84,6 +85,69 @@ namespace UI.Chat_UI
 		/// </summary>
 		public event System.Action OnChatWindowClosed;
 
+		[BoxGroup("Animation")] public float ChatFadeSpeed = 2f;
+		[FormerlySerializedAs("ChatMinimumAlpha")] [BoxGroup("Animation"), Range(0,1)] public float ChatMinimumBackgroundAlpha = 0.5f;
+		[BoxGroup("Animation")] public bool SetChatBackgroundToHiddenOnStartup = true;
+
+		private const float FULLY_VISIBLE_ALPHA = 0.95f;
+
+
+		[BoxGroup("Animation"), Range(0,1)] public float ChatContentMinimumAlpha = 0f;
+
+
+		public void SetPreferenceChatContent(float preference)
+		{
+			ChatContentMinimumAlpha = preference;
+			PlayerPrefs.SetFloat(PlayerPrefKeys.ChatContentMinimumAlpha, preference);
+			PlayerPrefs.Save();
+		}
+
+
+		public float GetPreferenceChatContent()
+		{
+			if (PlayerPrefs.HasKey(PlayerPrefKeys.ChatContentMinimumAlpha))
+			{
+				return PlayerPrefs.GetFloat(PlayerPrefKeys.ChatContentMinimumAlpha);
+			}
+			else
+			{
+				PlayerPrefs.SetFloat(PlayerPrefKeys.ChatContentMinimumAlpha, 0);
+				PlayerPrefs.Save();
+				return 0f;
+			}
+
+		}
+
+		public void SetPreferenceChatBackground(float preference)
+		{
+			ChatMinimumBackgroundAlpha = preference;
+			PlayerPrefs.SetFloat(PlayerPrefKeys.ChatBackgroundMinimumAlpha, preference);
+			PlayerPrefs.Save();
+		}
+
+		public float GetPreferenceChatBackground()
+		{
+			if (PlayerPrefs.HasKey(PlayerPrefKeys.ChatBackgroundMinimumAlpha))
+			{
+				return PlayerPrefs.GetFloat(PlayerPrefKeys.ChatBackgroundMinimumAlpha);
+			}
+			else
+			{
+				PlayerPrefs.SetFloat(PlayerPrefKeys.ChatBackgroundMinimumAlpha, 0);
+				PlayerPrefs.Save();
+				return 0f;
+			}
+
+		}
+
+
+		public override void Awake()
+		{
+			base.Awake();
+			ChatMinimumBackgroundAlpha = GetPreferenceChatBackground();
+			ChatContentMinimumAlpha = GetPreferenceChatContent();
+		}
+
 		/// <summary>
 		/// The main channels which shouldn't be active together.
 		/// Local, Ghost and OOC.
@@ -126,8 +190,13 @@ namespace UI.Chat_UI
 
 		public ChatEntryPool entryPool;
 
-		public void Start()
+		public bool Showing = false;
+		public bool Animating = false;
+
+		public override void Start()
 		{
+			base.Start();
+
 			// subscribe to input fields update
 			InputFieldChat.onValueChanged.AddListener(OnInputFieldChatValueChanged);
 
@@ -136,7 +205,12 @@ namespace UI.Chat_UI
 
 			// Make sure the window and channel panel start disabled
 			chatInputWindow.SetActive(false);
-			background.SetActive(false);
+			if (SetChatBackgroundToHiddenOnStartup)
+			{
+				Color c = background.color;
+				c.a = 0f;
+				background.color = c;
+			}
 			//channelPanel.gameObject.SetActive(false);
 			EventManager.AddHandler(Event.UpdateChatChannels, OnUpdateChatChannels);
 			chatFilter = Chat.Instance.GetComponent<ChatFilter>();
@@ -152,8 +226,9 @@ namespace UI.Chat_UI
 			UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
 		}
 
-		private void OnDestroy()
+		public override void OnDestroy()
 		{
+			base.OnDestroy();
 			EventManager.RemoveHandler(Event.UpdateChatChannels, OnUpdateChatChannels);
 		}
 
@@ -278,8 +353,8 @@ namespace UI.Chat_UI
 			if ((allEntries.Count - hiddenEntries) < 20)
 			{
 				float fadeTime = coolDownFade ? 3f : 0f;
-				scrollBackground.CrossFadeAlpha(0.01f, fadeTime, false);
-				scrollHandle.CrossFadeAlpha(0.01f, fadeTime, false);
+				scrollBackground.CrossFadeAlpha(0f, fadeTime, false);
+				scrollHandle.CrossFadeAlpha(0f, fadeTime, false);
 			}
 			else
 			{
@@ -357,7 +432,7 @@ namespace UI.Chat_UI
 		/// Opens the chat window to send messages
 		/// </summary>
 		/// <param name="newChannel">The chat channels to select when opening it</param>
-		public void OpenChatWindow(ChatChannel newChannel = ChatChannel.None)
+		public void OpenChatWindow(ChatChannel newChannel = ChatChannel.None, bool inputFocus = true)
 		{
 			//Prevent input spam
 			if (windowCoolDown || UIManager.PreventChatInput) return;
@@ -383,22 +458,40 @@ namespace UI.Chat_UI
 			}
 			// Otherwise use the previously selected channels again
 
+
 			EventManager.Broadcast(Event.ChatFocused);
 			chatInputWindow.SetActive(true);
-			background.SetActive(true);
-			UIManager.IsInputFocus = true; // should work implicitly with InputFieldFocus
-			EventSystem.current.SetSelectedGameObject(InputFieldChat.gameObject, null);
-			InputFieldChat.OnPointerClick(new PointerEventData(EventSystem.current));
+			Showing = true;
+			StartCoroutine(AnimateBackground());
+			if (inputFocus)
+			{
+
+				UIManager.IsInputFocus = true; // should work implicitly with InputFieldFocus
+				EventSystem.current.SetSelectedGameObject(InputFieldChat.gameObject, null);
+				InputFieldChat.OnPointerClick(new PointerEventData(EventSystem.current));
+			}
+
 			RefreshChannelPanel();
 		}
 
-		public void CloseChatWindow()
+		public void CloseChatWindow(bool QuickClose = false)
 		{
 			StartWindowCooldown();
 			UIManager.IsInputFocus = false;
 			chatInputWindow.SetActive(false);
-			EventManager.Broadcast(Event.ChatUnfocused);
-			background.SetActive(false);
+			if (QuickClose)
+			{
+				EventManager.Broadcast(Event.ChatQuickUnfocus);
+			}
+			else
+			{
+				EventManager.Broadcast(Event.ChatUnfocused);
+			}
+
+			Showing = false;
+			StartCoroutine(AnimateBackground());
+
+
 			UIManager.PreventChatInput = false;
 
 			// if doesn't clear input next opening can be by OOC or other hotkey
@@ -408,6 +501,36 @@ namespace UI.Chat_UI
 
 			OnChatWindowClosed?.Invoke();
 		}
+
+		#region ChatAnim
+
+
+		private IEnumerator AnimateBackground()
+		{
+			if (Animating) yield break;
+
+			Animating = true;
+
+			Color color = background.color;
+			while((Showing && background.color.a < FULLY_VISIBLE_ALPHA) || (Showing == false && background.color.a > 0.0001f))
+			{
+				yield return WaitFor.EndOfFrame;
+				if (Showing)
+				{
+					color.a = Mathf.Lerp(color.a, FULLY_VISIBLE_ALPHA, ChatFadeSpeed * Time.deltaTime);
+				}
+				else
+				{
+					color.a = Mathf.Lerp(color.a, ChatMinimumBackgroundAlpha, ChatFadeSpeed * Time.deltaTime);
+				}
+
+				color.a = Mathf.Clamp(color.a, 0f, FULLY_VISIBLE_ALPHA);
+				background.color = color;
+			}
+			Animating = false;
+
+		}
+		#endregion
 
 		public void StartWindowCooldown()
 		{
@@ -421,6 +544,22 @@ namespace UI.Chat_UI
 		{
 			yield return WaitFor.EndOfFrame;
 			windowCoolDown = false;
+		}
+
+		public void OnMouseEnter()
+		{
+			if (UIManager.IsInputFocus) return;
+			Showing = true;
+			StartCoroutine(AnimateBackground());
+			OpenChatWindow( inputFocus : false );
+		}
+
+		public void OnMouseExit()
+		{
+			if (UIManager.IsInputFocus) return;
+			Showing = false;
+			StartCoroutine(AnimateBackground());
+			CloseChatWindow(true);
 		}
 
 		/// <summary>

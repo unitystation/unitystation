@@ -45,27 +45,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sicknessName: Space Flu
-  contagious: 1
-  sicknessStages:
-  - symptom: 2
-    repeatSymptom: 1
-    repeatMinDelay: 40
-    repeatMaxDelay: 80
-    secondsBeforeNextStage: 300
-    extendedSymptomParametersSerialized: null
-  - symptom: 4
-    repeatSymptom: 1
-    repeatMinDelay: 40
-    repeatMaxDelay: 80
-    secondsBeforeNextStage: 300
-    extendedSymptomParametersSerialized: '{"CustomMessages":[{"privateMessage":"You
-      don''t feel well.","publicMessage":"%PLAYERNAME% looks pale."},{"privateMessage":"Your
-      body aches all over.","publicMessage":"%PLAYERNAME% doesn''t look to feel well."},{"privateMessage":"You
-      have difficulties breathing.","publicMessage":"%PLAYERNAME% breathing looks
-      painful."}]}'
-  - symptom: 1
-    repeatSymptom: 0
-    repeatMinDelay: 5
-    repeatMaxDelay: 60
-    secondsBeforeNextStage: 0
-    extendedSymptomParametersSerialized: null
+  Contagious: 1
+  ContagiousRadius: 6
+  infectOtherChance: 50
+  NumberOfStages: 1
+  TicksToPogressStages: 320
+  PossibleCures:
+  - {fileID: 11400000, guid: eaf7834e0fd95d04d8ae050b94f68c34, type: 2}
+  ImmuneRaces:
+  - {fileID: 11400000, guid: 4c4d0af544e2b6847a3902db71f721fd, type: 2}
+  - {fileID: 11400000, guid: 078513666ca7a3540bf3c90b08eb66da, type: 2}
+  CureForSickness: {fileID: 0}
+  CureHints: []
+  emoteFeedback: {fileID: 11400000, guid: fb8b997c55238654087b9aa99d5be1a1, type: 2}
+  cooldownTime: 10
+  IsOnCooldown: 0
+  PlayerMask:
+    serializedVersion: 2
+    m_Bits: 0

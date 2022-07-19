@@ -37,13 +37,13 @@ public class FlipCoin : MonoBehaviour, IExaminable, ICheckedInteractable<HandAct
 	private void OnEnable()
 	{
 		universalObjectPhysics.OnThrowStart.AddListener(ThrowStart);
-		universalObjectPhysics.OnThrowEnd.AddListener(ThrowEnd);
+		universalObjectPhysics.OnImpact.AddListener(ThrowEnd);
 	}
 
 	private void OnDisable()
 	{
 		universalObjectPhysics.OnThrowStart.RemoveListener(ThrowStart);
-		universalObjectPhysics.OnThrowEnd.RemoveListener(ThrowEnd);
+		universalObjectPhysics.OnImpact.RemoveListener(ThrowEnd);
 	}
 
 	#endregion Lifecycle
@@ -83,12 +83,19 @@ public class FlipCoin : MonoBehaviour, IExaminable, ICheckedInteractable<HandAct
 
 	private void ThrowStart(UniversalObjectPhysics throwInfo)
 	{
-		Chat.AddActionMsgToChat(throwInfo.thrownBy, $"You throw the coin...", $"{throwInfo.thrownBy} throws the coin...");
+		if (throwInfo.thrownBy != null)
+		{
+			Chat.AddActionMsgToChat(throwInfo.thrownBy, $"You throw the coin...", $"{throwInfo.thrownBy} throws the coin...");
+		}
 	}
 
-	private void ThrowEnd(UniversalObjectPhysics throwInfo)
+	private void ThrowEnd(UniversalObjectPhysics throwInfo, Vector2 Force)
 	{
-		StartCoroutine(Flip());
+		if (Force.magnitude > 0.5f)
+		{
+			StartCoroutine(Flip());
+		}
+
 	}
 
 	private IEnumerator Flip()

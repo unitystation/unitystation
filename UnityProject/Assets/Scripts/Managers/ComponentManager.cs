@@ -10,12 +10,6 @@ public class ComponentManager : SingletonManager<ComponentManager>
 	public static Dictionary<GameObject, UniversalObjectPhysics> ObjectToPhysics = new Dictionary<GameObject, UniversalObjectPhysics>();
 	//TODO in future maybe reference a Component that is on every prefab that handles all Components on it
 
-	public override void Awake()
-	{
-		base.Awake();
-
-	}
-
 	public static bool TryGetUniversalObjectPhysics(GameObject gameObject, out UniversalObjectPhysics UOP)
 	{
 
@@ -23,27 +17,26 @@ public class ComponentManager : SingletonManager<ComponentManager>
 		{
 			return true;
 		}
-		else
+
+		if (gameObject.TryGetComponent<UniversalObjectPhysics>(out UOP))
 		{
 
-			if ( gameObject.TryGetComponent<UniversalObjectPhysics>(out UOP))
-			{
+		}
+		else
+		{
+			//Don't need to search if ghost as they dont have UOP
+			if(gameObject.TryGetComponent<GhostMove>(out _)) return false;
 
-			}
-			else
+			UOP = gameObject.GetComponentInParent<UniversalObjectPhysics>(); //No try get components in parent : ( : P
+			if (UOP == null)
 			{
-				UOP = gameObject.GetComponentInParent<UniversalObjectPhysics>(); //No try get components in parent : ( : P
-				if (UOP == null)
-				{
-					Logger.LogError($"Unable to find UniversalObjectPhysics on {gameObject.name}");
-					return false;
-				}
+				Logger.LogError($"Unable to find UniversalObjectPhysics on {gameObject.name}");
+				return false;
 			}
-
-			ObjectToPhysics[gameObject] = UOP;
-			return true;
 		}
 
+		ObjectToPhysics[gameObject] = UOP;
+		return true;
 	}
 
 	private void OnEnable()

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Items;
 using Mirror;
 using UnityEngine;
 using NaughtyAttributes;
@@ -144,8 +145,11 @@ namespace HealthV2
 
 		public IntName intName;
 
+		public ItemAttributesV2 ItemAttributes;
+
 		void Awake()
 		{
+			ItemAttributes = GetComponent<ItemAttributesV2>();
 			OrganStorage = GetComponent<ItemStorage>();
 			OrganStorage.ServerInventoryItemSlotSet += BodyPartTransfer;
 			OrganList.Clear();
@@ -177,7 +181,6 @@ namespace HealthV2
 				}
 			}
 
-			BloodUpdate();
 			CalculateRadiationDamage();
 
 			if (IsBleeding)
@@ -298,13 +301,14 @@ namespace HealthV2
 
 			foreach (var organ in OrganList)
 			{
-				organ.HealthMasterSet(HealthMaster);
+				organ.AddedToBody(HealthMaster);
 			}
 
 			foreach (var organ in containBodyParts)
 			{
 				organ.BodyPartAddHealthMaster(livingHealth);
 			}
+			livingHealth.BodyPartListChange();
 		}
 
 		/// <summary>
@@ -325,6 +329,7 @@ namespace HealthV2
 			RemoveSprites(playerSprites, HealthMaster);
 			HealthMaster.rootBodyPartController.UpdateClients();
 			HealthMaster.BodyPartList.Remove(this);
+			HealthMaster.BodyPartListChange();
 			HealthMaster = null;
 		}
 

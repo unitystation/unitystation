@@ -81,7 +81,16 @@ namespace Messages.Client.Admin
 
 			if (playerScript == null) return;
 
-			playerScript.PlayerSync.AppearAtWorldPositionServer(userToTeleportTo.gameObject.AssumedWorldPosServer(), false);
+			if (playerScript.PlayerSync != null)
+			{
+				playerScript.PlayerSync.AppearAtWorldPositionServer(userToTeleportTo.gameObject.AssumedWorldPosServer(), false);
+			}
+			else
+			{
+				playerScript.GetComponent<GhostMove>().ForcePositionClient(userToTeleportTo.gameObject.AssumedWorldPosServer());
+			}
+
+
 
 			string message;
 
@@ -125,7 +134,7 @@ namespace Messages.Client.Admin
 				{
 					var coord = new Vector3 { x = msg.vectorX, y = msg.vectorY, z = msg.vectorZ };
 
-					userToTeleport.PlayerSync.AppearAtWorldPositionServer(coord, false);
+					userToTeleport.OrNull()?.PlayerSync.OrNull()?.AppearAtWorldPositionServer(coord, false);
 				}
 				else if (destinationPlayer.IsGhost)
 				{
@@ -136,7 +145,7 @@ namespace Messages.Client.Admin
 				}
 				else
 				{
-					userToTeleport.PlayerSync.AppearAtWorldPositionServer(destinationPlayer.gameObject.AssumedWorldPosServer(), false);
+					userToTeleport.OrNull()?.PlayerSync.OrNull()?.AppearAtWorldPositionServer(destinationPlayer.gameObject.AssumedWorldPosServer(), false);
 				}
 			}
 

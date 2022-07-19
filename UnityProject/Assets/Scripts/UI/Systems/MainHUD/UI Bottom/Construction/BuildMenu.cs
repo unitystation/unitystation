@@ -18,6 +18,8 @@ namespace UI.UI_Bottom
 
 		[SerializeField] private ConveyorBuildMenu conveyorBuildMenu = null;
 
+		public ConveyorBuildMenu ConveyorBuildMenu => conveyorBuildMenu;
+
 		// current object whose menu is being shown
 		private BuildingMaterial currentBuildingMaterial;
 
@@ -49,6 +51,12 @@ namespace UI.UI_Bottom
 		{
 			CloseBuildMenu();
 			conveyorBuildMenu.OpenConveyorBuildMenu(entry, buildingMaterial);
+		}
+
+		public void ShowConveyorBeltMenu()
+		{
+			CloseBuildMenu();
+			conveyorBuildMenu.OpenConveyorBuildMenu();
 		}
 
 		public void CloseBuildMenu()

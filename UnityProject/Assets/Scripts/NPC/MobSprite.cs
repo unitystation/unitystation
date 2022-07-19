@@ -81,7 +81,10 @@ namespace Systems.Mob
 			health = GetComponent<LivingHealthBehaviour>();
 			rotatable = GetComponent<Rotatable>();
 
-			rotatable.OnRotationChange.AddListener(OnDirectionChange);
+			if (rotatable != null)
+			{
+				rotatable.OnRotationChange.AddListener(OnDirectionChange);
+			}
 		}
 
 		public override void OnStartServer()

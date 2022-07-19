@@ -33,11 +33,14 @@ MonoBehaviour:
   effects: []
   MinimumPercentageThreshold: 0
   ReagentMetabolismMultiplier: 1
+  AllRequired:
+  - {fileID: 11400000, guid: d859938ed34564a4a932f3beb902e34c, type: 2}
+  Blacklist: []
   DamageEffect: 6
   AttackType: 9
   AttackBodyPartPerOneU: -0.1
   CanOverdose: 0
-  PercentageBloodOverdose: 0.5
+  ConcentrationBloodOverdose: 20
   OverdoseDamageMultiplier: 2
   MultiEffect: 0
   Effects: []

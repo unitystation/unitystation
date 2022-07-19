@@ -54,7 +54,7 @@ namespace Player
 		//For character customization
 		public ClothingItem[] characterSprites;
 
-		public CharacterSettings ThisCharacter;
+		public CharacterSheet ThisCharacter;
 
 		//clothes for each clothing slot
 		public readonly Dictionary<NamedSlot, ClothingItem> clothes = new Dictionary<NamedSlot, ClothingItem>();
@@ -150,18 +150,6 @@ namespace Player
 			}
 		}
 
-		public void SetUpCharacter()
-		{
-			if (CustomNetworkManager.Instance._isServer)
-			{
-				InstantiateAndSetUp(RaceBodyparts.Base.Head);
-				InstantiateAndSetUp(RaceBodyparts.Base.Torso);
-				InstantiateAndSetUp(RaceBodyparts.Base.ArmLeft);
-				InstantiateAndSetUp(RaceBodyparts.Base.ArmRight);
-				InstantiateAndSetUp(RaceBodyparts.Base.LegLeft);
-				InstantiateAndSetUp(RaceBodyparts.Base.LegRight);
-			}
-		}
 
 		public void SubSetBodyPart(BodyPart Body_Part, string path)
 		{
@@ -200,10 +188,11 @@ namespace Player
 			}
 
 
-			foreach (var bodyPartOrgan in Body_Part.ContainBodyParts)
+			for (int i = 0; i < Body_Part.ContainBodyParts.Count; i++)
 			{
-				SubSetBodyPart(bodyPartOrgan, path);
+				SubSetBodyPart(Body_Part.ContainBodyParts[i], path);
 			}
+
 		}
 
 		public void SetupSprites()
@@ -232,9 +221,10 @@ namespace Player
 				BodyPartDropDownOrgans.PlayerBodyDeserialise(null, customisationStorage.Data, livingHealthMasterBase);
 			}
 
-			foreach (var bodyPart in livingHealthMasterBase.BodyPartList)
+			foreach (var bodyPart in livingHealthMasterBase.BodyPartStorage.GetIndexedSlots())
 			{
-				SubSetBodyPart(bodyPart, "");
+				if (bodyPart.Item == null) continue;
+				SubSetBodyPart(bodyPart.Item.GetComponent<BodyPart>(), "");
 			}
 
 			PlayerHealthData SetRace = null;
@@ -297,18 +287,6 @@ namespace Player
 
 			SetSurfaceColour();
 			OnDirectionChange(directional.CurrentDirection);
-		}
-
-		public void InstantiateAndSetUp(ObjectList ListToSpawn)
-		{
-			if (ListToSpawn != null && ListToSpawn.Elements.Count > 0)
-			{
-				foreach (var ToSpawn in ListToSpawn.Elements)
-				{
-					var bodyPartObject = Spawn.ServerPrefab(ToSpawn).GameObject;
-					livingHealthMasterBase.BodyPartStorage.ServerTryAdd(bodyPartObject);
-				}
-			}
 		}
 
 		public void SetSurfaceColour()
@@ -432,14 +410,14 @@ namespace Player
 			}
 		}
 
-		public void OnCharacterSettingsChange(CharacterSettings characterSettings)
+		public void OnCharacterSettingsChange(CharacterSheet characterSettings)
 		{
 			if (RootBodyPartsLoaded == false)
 			{
 				RootBodyPartsLoaded = true;
 				if (characterSettings == null)
 				{
-					characterSettings = new CharacterSettings();
+					characterSettings = new CharacterSheet();
 				}
 
 				ThisCharacter = characterSettings;
@@ -452,10 +430,9 @@ namespace Player
 						break;
 					}
 				}
-				SetUpCharacter();
+				livingHealthMasterBase.SetUpCharacter(RaceBodyparts);
 				SetupSprites();
-				livingHealthMasterBase.CirculatorySystem.SetBloodType(RaceBodyparts.Base.BloodType);
-				livingHealthMasterBase.InitialiseHunger(RaceBodyparts.Base.NumberOfMinutesBeforeStarving);
+				livingHealthMasterBase.InitialiseFromRaceData(RaceBodyparts);
 
 			}
 		}

@@ -416,13 +416,13 @@ namespace Core.Editor.Tools
 			int count = 0;
 			foreach (GameObject gameObject in SceneManager.GetActiveScene().GetRootGameObjects())
 			{
-				foreach (var cnt in gameObject.GetComponentsInChildren<UniversalObjectPhysics>())
+				foreach (var objectPhysics in gameObject.GetComponentsInChildren<UniversalObjectPhysics>())
 				{
-					if (cnt.SnapToGridOnStart == false) continue;
+					if (objectPhysics.SnapToGridOnStart == false) continue;
 
-					var initialPosition = cnt.transform.position;
-					cnt.transform.position = cnt.transform.position.RoundToInt();
-					if (cnt.transform.position != initialPosition)
+					var initialPosition = objectPhysics.transform.position;
+					objectPhysics.transform.position = objectPhysics.transform.position.RoundToInt();
+					if (objectPhysics.transform.position != initialPosition)
 					{
 						count++;
 					}
@@ -467,7 +467,6 @@ namespace Core.Editor.Tools
 		/// Courtesy of <see cref="https://answers.unity.com/questions/15225/how-do-i-remove-null-components-ie-missingmono-scr.html?childToView=1614734#answer-1614734"/>
 		private static void RemoveMissingScripts()
 		{
-			int compCount = 0;
 			int goCount = 0;
 
 			foreach (var o in LoadAllPrefabsOfType("Assets"))

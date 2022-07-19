@@ -33,6 +33,8 @@ namespace HealthV2
 		[SerializeField] [FormerlySerializedAs("Storage")]
 		private List<BodyPartUISlots.StorageCharacteristics> storage;
 
+		public int InterfaceGetInstanceID => GetInstanceID();
+
 		[System.Serializable]
 		public class StorageCharacteristics
 		{

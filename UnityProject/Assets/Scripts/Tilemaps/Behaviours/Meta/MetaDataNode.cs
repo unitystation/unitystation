@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using Detective;
 using UnityEngine;
 using ScriptableObjects.Atmospherics;
 using Tilemaps.Behaviours.Meta;
@@ -86,6 +88,8 @@ public class MetaDataNode : IGasMixContainer
 	private HashSet<GasSO> gasOverlayData = new HashSet<GasSO>();
 	public HashSet<GasSO> GasOverlayData => gasOverlayData;
 
+	public AppliedDetails AppliedDetails = new AppliedDetails();
+
 	//Conductivity Stuff//
 
 	//Temperature of the solid node
@@ -145,6 +149,7 @@ public class MetaDataNode : IGasMixContainer
 	public Vector2Int 	WindDirection 	= Vector2Int.zero;
 	public float		WindForce 		= 0;
 
+	public readonly Vector2[] WindData = new Vector2[(int)Enum.GetValues(typeof(PushType)).Cast<PushType>().Max() +1 ];
 	/// <summary>
 	/// Number of neighboring MetaDataNodes
 	/// </summary>
@@ -324,4 +329,16 @@ public class MetaDataNode : IGasMixContainer
 			}
 		}
 	}
+
+	public void ForceUpdateClient()
+	{
+		PositionMatrix.MetaDataLayer.AddNetworkChange(Position, this);
+	}
+}
+
+
+public enum PushType
+{
+	Wind = 1,
+	Conveyor = 2
 }

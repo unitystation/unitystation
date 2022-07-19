@@ -66,4 +66,11 @@ MonoBehaviour:
     RootImplantProcedure: {fileID: 11400000, guid: 3de247ed9ca572941975e45430051197,
       type: 2}
     BodyPartsThatShareTheSkinTone: []
-    NumberOfMinutesBeforeStarving: 75
+    NumberOfMinutesBeforeStarving: 30
+    TotalToxinGenerationPerSecond: 0.1
+    InternalMetabolismPerSecond: 1
+    ExternalMetabolismPerSecond: 2
+    BodyNutriment: {fileID: 11400000, guid: 068bcb587110477558045ad0cfd78237, type: 2}
+    BodyNaturalToxinReagent: {fileID: 11400000, guid: 6c3a3878e8878972ea633a27c6d0ba12,
+      type: 2}
+    ClueString: a long piece of hair

@@ -34,7 +34,7 @@ namespace HealthV2
 
 		private PlayerHealthV2 playerHealth;
 
-		public override void HealthMasterSet(LivingHealthMasterBase livingHealth)
+		public override void AddedToBody(LivingHealthMasterBase livingHealth)
 		{
 			bodyPart = GetComponent<BodyPart>();
 			playerHealth = bodyPart.HealthMaster as PlayerHealthV2;

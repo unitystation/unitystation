@@ -16,9 +16,20 @@ namespace UI
 		{
 			base.Awake();
 			content.SetActive(false);
+		}
+
+		public void OnEnable()
+		{
 			EventManager.AddHandler(Event.PlayerRejoined, Rejoin);
 			EventManager.AddHandler(Event.LoggedOut, Hide);
 			EventManager.AddHandler(Event.RoundEnded, Hide);
+		}
+
+		public void OnDisable()
+		{
+			EventManager.RemoveHandler(Event.PlayerRejoined, Rejoin);
+			EventManager.RemoveHandler(Event.LoggedOut, Hide);
+			EventManager.RemoveHandler(Event.RoundEnded, Hide);
 		}
 
 		private void UpdateTimer()

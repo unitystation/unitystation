@@ -139,7 +139,8 @@ namespace AdminTools
 		{
 			if (!Instance.IsOn) return;
 
-			var obj = NetworkIdentity.spawned[entry.netId];
+			var spawned = CustomNetworkManager.IsServer ? NetworkServer.spawned : NetworkClient.spawned;
+			var obj = spawned[entry.netId];
 			var panel = Instance.GetPanelFromPool();
 			panel.SetAdminOverlayPanel(entry.infos, Instance, obj.transform, entry.offset);
 		}

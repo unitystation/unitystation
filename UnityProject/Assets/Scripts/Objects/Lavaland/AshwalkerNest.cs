@@ -88,6 +88,8 @@ namespace Objects
 
 		private void PeriodicUpdate()
 		{
+			if(CustomNetworkManager.IsServer == false) return;
+
 			if (eatingTimer > 0)
 			{
 				eatingTimer--;
@@ -238,7 +240,7 @@ namespace Objects
 
 			if (characterSettings == null)
 			{
-				characterSettings = new CharacterSettings();
+				characterSettings = new CharacterSheet();
 			}
 
 			//TODO this replaces their old race, character settings needs a refactor to have them per body

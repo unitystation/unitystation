@@ -67,8 +67,9 @@ public enum NetTabType
 	PizzaBomb = 49,
 	TechWeb = 50,
 	RDProductionMachine = 51,
-	ArtifactConsole = 52,
-	ArtifactAnalyser = 53,
+	PublicTerminal = 52,
+	TeleporterConsole = 53,
+	HandTeleporter = 54
 
 	// add new entres to the bottom
 	// the enum name must match that of the prefab except the prefab has the word tab infront of the enum name
@@ -269,6 +270,8 @@ public class NetTab : Tab
 	/// </summary>
 	public void ValidatePeepers()
 	{
+		if(Peepers.Count == 0) return;
+
 		foreach (var peeper in Peepers.ToArray())
 		{
 			bool canApply = Validations.CanApply(peeper.Script, Provider, NetworkSide.Server);
@@ -340,6 +343,17 @@ public class NetTab : Tab
 		{
 			SoundManager.PlayNetworkedForPlayer(peeper.Script.gameObject, audioSource);
 		}
+	}
+
+	//Common sounds for nettabs
+	public void PlayClick()
+	{
+		PlaySound(CommonSounds.Instance.Click01);
+	}
+
+	public void PlayTap()
+	{
+		PlaySound(CommonSounds.Instance.Tap);
 	}
 }
 

@@ -19,6 +19,9 @@ namespace Items
 
 		private Vector3 posCache;
 
+		[Tooltip(" how long it takes before it can start melting After being spawned in")]
+		public float MeltTime = 10f;
+
 		#region Lifecycle
 
 		private void Awake()
@@ -32,7 +35,7 @@ namespace Items
 		{
 			if (CustomNetworkManager.IsServer)
 			{
-				UpdateManager.Add(ServerUpdateCycle, 1f);
+				StartCoroutine(StartCooldown());
 			}
 		}
 
@@ -42,6 +45,14 @@ namespace Items
 			{
 				UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, ServerUpdateCycle);
 			}
+		}
+
+
+
+		private IEnumerator StartCooldown()
+		{
+			yield return WaitFor.Seconds(MeltTime);
+			UpdateManager.Add(ServerUpdateCycle, 1f);
 		}
 
 		private void ServerUpdateCycle()

@@ -35,7 +35,7 @@ namespace Managers
 		/// <summary>
 		/// If you override this then make sure you call base.OnDestroy() somewhere in your OnDestroy code.
 		/// </summary>
-		protected void OnDestroy()
+		public virtual void OnDestroy()
 		{
 			if (Instance == this)
 			{

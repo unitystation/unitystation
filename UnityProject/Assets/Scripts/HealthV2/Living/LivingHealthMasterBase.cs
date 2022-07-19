@@ -255,6 +255,8 @@ namespace HealthV2
 		public event Action<DamageType> OnTakeDamageType;
 		public event Action OnLowHealth;
 
+		[SyncVar] public bool CannotRecognizeNames = false;
+
 		public virtual void Awake()
 		{
 			rootBodyPartController = GetComponent<RootBodyPartController>();
@@ -291,6 +293,12 @@ namespace HealthV2
 				}
 			}
 		}
+
+		public void BodyPartListChange()
+		{
+			CirculatorySystem.OrNull()?.BodyPartListChange();
+		}
+
 
 		private void OnEnable()
 		{
@@ -345,17 +353,19 @@ namespace HealthV2
 				BodyPartList[i].ImplantPeriodicUpdate();
 			}
 
+			CirculatorySystem.BloodUpdate();
 
 			FireStacksDamage();
 			CalculateRadiationDamage();
 			BleedStacksDamage();
-			mobSickness.TriggerCustomSicknessLogic();
 
 			if (IsDead)
 			{
 				DeathPeriodicUpdate();
 				return;
 			}
+			//Sickness logic should not be triggered if the player is dead.
+			mobSickness.TriggerCustomSicknessLogic();
 
 			CalculateOverallHealth();
 		}
@@ -464,22 +474,9 @@ namespace HealthV2
 		/// </summary>
 		public float GetTotalBlood()
 		{
-			return GetSpareBlood() + GetImplantBlood();
+			return GetSpareBlood();
 		}
 
-		/// <summary>
-		/// Returns the total amount of blood contained within body parts
-		/// </summary>
-		public float GetImplantBlood()
-		{
-			float toReturn = 0;
-			foreach (var implant in BodyPartList)
-			{
-				toReturn += implant.BloodContainer[CirculatorySystem.BloodType];
-			}
-
-			return toReturn;
-		}
 
 		/// <summary>
 		/// Returns the total amount of 'spare' blood outside of the organs
@@ -512,27 +509,6 @@ namespace HealthV2
 			return false;
 		}
 
-		public float PerBodyPart;
-
-		//The cause of world hunger
-		public void InitialiseHunger(float numberOfMinutesBeforeHunger)
-		{
-			PerBodyPart= (BodyFat.StartAbsorbedAmount) / 60f / numberOfMinutesBeforeHunger; //TODO all Body parts
-
-			var TotalBloodFlow = 0f;
-
-			foreach (var bodyPart in BodyPartList)
-			{
-				if (bodyPart.IsBloodCirculated == false) continue;
-				TotalBloodFlow += bodyPart.BloodThroughput;
-			}
-
-			foreach (var bodyPart in BodyPartList)
-			{
-				if (bodyPart.IsBloodCirculated == false) continue;
-				bodyPart.PassiveConsumptionNutriment = (bodyPart.BloodThroughput / TotalBloodFlow ) * PerBodyPart;
-			}
-		}
 
 		/// <summary>
 		/// Updates overall health based on damage sustained by body parts thus far.
@@ -1086,11 +1062,19 @@ namespace HealthV2
 		/// <param name="sickness">The sickness to add</param>
 		public void AddSickness(Sickness sickness)
 		{
-			if (IsDead)
-				return;
+			if (IsDead) return;
 
-			if ((!mobSickness.HasSickness(sickness)) && (!immunedSickness.Contains(sickness)))
-				mobSickness.Add(sickness, Time.time);
+			foreach (var Race in RaceSOSingleton.Instance.Races)
+			{
+				if (Race.name == playerScript.characterSettings.Species)
+				{
+					if (sickness.ImmuneRaces.Contains(Race)) return;
+					break;
+				}
+			}
+
+			if ((mobSickness.HasSickness(sickness) == false) && (immunedSickness.Contains(sickness) == false)) mobSickness.Add(sickness, Time.time);
+			sickness.IsOnCooldown = false;
 		}
 
 		/// <summary>
@@ -1441,6 +1425,41 @@ namespace HealthV2
 			foreach (var part in BodyPartList)
 			{
 				part.HealDamage(null, fastRegenHeal, DamageType.Brute);
+			}
+		}
+
+		public void SetUpCharacter(PlayerHealthData RaceBodyparts)
+		{
+			if (CustomNetworkManager.Instance._isServer)
+			{
+				InstantiateAndSetUp(RaceBodyparts.Base.Head);
+				InstantiateAndSetUp(RaceBodyparts.Base.Torso);
+				InstantiateAndSetUp(RaceBodyparts.Base.ArmLeft);
+				InstantiateAndSetUp(RaceBodyparts.Base.ArmRight);
+				InstantiateAndSetUp(RaceBodyparts.Base.LegLeft);
+				InstantiateAndSetUp(RaceBodyparts.Base.LegRight);
+			}
+		}
+
+		public void InitialiseFromRaceData(PlayerHealthData RaceBodyparts)
+		{
+			CirculatorySystem.SetBloodType(RaceBodyparts.Base.BloodType);
+			CirculatorySystem.InitialiseHunger(RaceBodyparts.Base.NumberOfMinutesBeforeStarving);
+			CirculatorySystem.InitialiseToxGeneration(RaceBodyparts.Base.TotalToxinGenerationPerSecond);
+			CirculatorySystem.InitialiseMetabolism(RaceBodyparts);
+			CirculatorySystem.InitialiseDefaults(RaceBodyparts);
+			CirculatorySystem.BodyPartListChange();
+		}
+
+		public void InstantiateAndSetUp(ObjectList ListToSpawn)
+		{
+			if (ListToSpawn != null && ListToSpawn.Elements.Count > 0)
+			{
+				foreach (var ToSpawn in ListToSpawn.Elements)
+				{
+					var bodyPartObject = Spawn.ServerPrefab(ToSpawn).GameObject;
+					BodyPartStorage.ServerTryAdd(bodyPartObject);
+				}
 			}
 		}
 	}

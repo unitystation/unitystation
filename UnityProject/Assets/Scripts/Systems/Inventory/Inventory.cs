@@ -417,7 +417,7 @@ public static class Inventory
 
 
 			var Distance = toPerform.WorldTargetVector.Value.magnitude;
-			var IA2 = ((ItemAttributesV2) UOP.attributes);
+			var IA2 = ((ItemAttributesV2) UOP.attributes.Component);
 			if (Distance > IA2.ThrowRange)
 			{
 				Distance = IA2.ThrowRange;
@@ -450,7 +450,7 @@ public static class Inventory
 			// (Mathf.Pow(IA2.ThrowSpeed,2) / 2*UniversalObjectPhysics.DEFAULT_Friction) / A2.ThrowSpeed
 
 			//speedloss  / friction
-			UOP.NewtonianPush( WorldTrajectory,((ItemAttributesV2) UOP.attributes).ThrowSpeed
+			UOP.NewtonianPush( WorldTrajectory,((ItemAttributesV2) UOP.attributes.Component).ThrowSpeed
 				, (Distance / IA2.ThrowSpeed  ) - ((Mathf.Pow(IA2.ThrowSpeed, 2) / (2*UniversalObjectPhysics.DEFAULT_Friction)) / IA2.ThrowSpeed)
 				 , Single.NaN, toPerform.ThrowAim.GetValueOrDefault(BodyPartType.Chest), holder.gameObject, Random.Range(25, 150));
 
@@ -613,32 +613,80 @@ public static class Inventory
 	/// Used to populate an inventory within an inventory within an inventory within an inventory within an inventory within an inventory within an inventory within an inventory,
 	/// Recursively far down as specified in namedSlotPopulatorEntrys
 	/// </summary>
-	/// <param name="gameObject"></param>
-	/// <param name="namedSlotPopulatorEntrys"></param>
 	public static void PopulateSubInventory(GameObject gameObject, List<SlotPopulatorEntry> namedSlotPopulatorEntrys)
 	{
 		if (namedSlotPopulatorEntrys.Count == 0) return;
 
-		var ItemStorage = gameObject.GetComponent<ItemStorage>();
-		if (ItemStorage == null) return;
+		var itemStorage = gameObject.GetComponent<ItemStorage>();
+		if (itemStorage == null) return;
 
+		PopulateSubInventory(itemStorage, namedSlotPopulatorEntrys);
+	}
+
+	/// <summary>
+	/// Used to populate an inventory within an inventory within an inventory within an inventory within an inventory within an inventory within an inventory within an inventory,
+	/// Recursively far down as specified in namedSlotPopulatorEntrys
+	/// </summary>
+	public static void PopulateSubInventory(ItemStorage itemStorage, List<SlotPopulatorEntry> namedSlotPopulatorEntrys)
+	{
+		if (namedSlotPopulatorEntrys.Count == 0) return;
 
 		foreach (var namedSlotPopulatorEntry in namedSlotPopulatorEntrys)
 		{
 			ItemSlot ItemSlot;
 			if (namedSlotPopulatorEntry.UesIndex)
 			{
-				ItemSlot = ItemStorage.GetIndexedItemSlot(namedSlotPopulatorEntry.IndexSlot);
+				ItemSlot = itemStorage.GetIndexedItemSlot(namedSlotPopulatorEntry.IndexSlot);
 			}
 			else
 			{
-				ItemSlot = ItemStorage.GetNamedItemSlot(namedSlotPopulatorEntry.NamedSlot);
+				ItemSlot = itemStorage.GetNamedItemSlot(namedSlotPopulatorEntry.NamedSlot);
 			}
 			if (ItemSlot == null) continue;
 
-			var spawn = Spawn.ServerPrefab(namedSlotPopulatorEntry.Prefab);
-			Inventory.ServerAdd(spawn.GameObject, ItemSlot,namedSlotPopulatorEntry.ReplacementStrategy, true );
-			PopulateSubInventory(spawn.GameObject, namedSlotPopulatorEntry.namedSlotPopulatorEntrys);
+			var spawn = Spawn.ServerPrefab(namedSlotPopulatorEntry.Prefab, PrePickRandom: true);
+			ServerAdd(spawn.GameObject, ItemSlot,namedSlotPopulatorEntry.ReplacementStrategy, true );
+			PopulateSubInventoryRecursive(spawn.GameObject, namedSlotPopulatorEntry.namedSlotPopulatorEntrys);
+		}
+	}
+
+	/// <summary>
+	/// Used to populate an inventory within an inventory within an inventory within an inventory within an inventory within an inventory within an inventory within an inventory,
+	/// Recursively far down as specified in SlotPopulatorEntryRecursive
+	/// </summary>
+	public static void PopulateSubInventoryRecursive(GameObject gameObject, List<SlotPopulatorEntryRecursive> namedSlotPopulatorEntrys)
+	{
+		if (namedSlotPopulatorEntrys.Count == 0) return;
+
+		var itemStorage = gameObject.GetComponent<ItemStorage>();
+		if (itemStorage == null) return;
+
+		PopulateSubInventoryRecursive(itemStorage, namedSlotPopulatorEntrys);
+	}
+
+	/// <summary>
+	/// Used to populate an inventory within an inventory within an inventory within an inventory within an inventory within an inventory within an inventory within an inventory,
+	/// Recursively far down as specified in SlotPopulatorEntryRecursive
+	/// </summary>
+	public static void PopulateSubInventoryRecursive(ItemStorage itemStorage, List<SlotPopulatorEntryRecursive> namedSlotPopulatorEntrys)
+	{
+		if (namedSlotPopulatorEntrys.Count == 0) return;
+
+		foreach (var namedSlotPopulatorEntry in namedSlotPopulatorEntrys)
+		{
+			ItemSlot ItemSlot;
+			if (namedSlotPopulatorEntry.UseIndex)
+			{
+				ItemSlot = itemStorage.GetIndexedItemSlot(namedSlotPopulatorEntry.IndexSlot);
+			}
+			else
+			{
+				ItemSlot = itemStorage.GetNamedItemSlot(namedSlotPopulatorEntry.NamedSlot);
+			}
+			if (ItemSlot == null) continue;
+
+			var spawn = Spawn.ServerPrefab(namedSlotPopulatorEntry.Prefab, PrePickRandom: true);
+			ServerAdd(spawn.GameObject, ItemSlot,namedSlotPopulatorEntry.ReplacementStrategy, true);
 		}
 	}
 }

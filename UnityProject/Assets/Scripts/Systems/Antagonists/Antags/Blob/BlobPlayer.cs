@@ -12,6 +12,7 @@ using EpPathFinding.cs;
 using HealthV2;
 using Managers;
 using Strings;
+using Systems.MobAIs;
 using UnityEngine.Profiling;
 
 namespace Blob
@@ -174,9 +175,12 @@ namespace Blob
 		private bool pathSearch;
 
 		private LayerMask layerMask;
+		private LayerMask sporeLayerMask;
 
 		//stores the client linerenderer gameobjects
 		private HashSet<GameObject> clientLinerenderers = new HashSet<GameObject>();
+
+		private Collider2D[] sporesArray = new Collider2D[40];
 
 		/// <summary>
 		/// The start function of the script called from BlobStarter when player turns into blob, sets up core.
@@ -258,6 +262,7 @@ namespace Blob
 			playerScript = GetComponent<PlayerScript>();
 
 			layerMask = LayerMask.GetMask("Objects", "Players", "NPC", "Machines", "Windows", "Door Closed");
+			sporeLayerMask = LayerMask.GetMask("NPC");
 		}
 
 		private void PeriodicUpdate()
@@ -2093,6 +2098,34 @@ namespace Blob
 
 		#endregion
 
+		#region Rally
+
+		[Command]
+		public void CmdRally(Vector3Int worldPos)
+		{
+			var count = 0;
+
+			//15 tile radius
+			var amount = Physics2D.OverlapCircleNonAlloc(worldPos.To2(), 15, sporesArray, sporeLayerMask);
+
+			for (int i = 0; i < amount; i++)
+			{
+				var spore = sporesArray[i];
+				if (spore == null) continue;
+				if (spore.TryGetComponent<BlobAI>(out var blobAI) == false) continue;
+
+				//Only command our spores
+				if(blobAI.BlobStructure.overmindName != overmindName) continue;
+
+				blobAI.SetTarget(worldPos);
+				count++;
+			}
+
+			Chat.AddExamineMsgFromServer(gameObject, $"You command {count} of your underlings to move!");
+		}
+
+		#endregion
+
 		public string AdminInfoString()
 		{
 			var adminInfo = new StringBuilder();
@@ -2113,6 +2146,7 @@ namespace Blob
 		Factory,
 		Strong,
 		Reflective,
-		Normal
+		Normal,
+		Rally
 	}
 }

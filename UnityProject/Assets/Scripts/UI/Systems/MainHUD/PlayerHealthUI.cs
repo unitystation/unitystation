@@ -85,17 +85,18 @@ public class PlayerHealthUI : MonoBehaviour
 			return;
 		}
 
-		if (PlayerManager.LocalPlayerScript.IsGhost)
+		if (PlayerManager.LocalPlayerScript.IsNormal == false)
 		{
 			if (humanUI)
 			{
 				DisableAll();
 			}
+
 			return;
 		}
 
 
-		if (!PlayerManager.LocalPlayerScript.IsGhost && !humanUI)
+		if (PlayerManager.LocalPlayerScript.IsNormal && !humanUI)
 		{
 			EnableAlwaysVisible();
 		}

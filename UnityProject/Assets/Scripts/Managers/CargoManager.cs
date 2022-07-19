@@ -49,12 +49,14 @@ namespace Systems.Cargo
 
 		public bool CargoOffline = false;
 		public bool RandomBountiesActive = true;
-    private int lastTimeRecorded = 0;
+		private int lastTimeRecorded = 0;
 		private int randomBountyTimeCheck = 0;
 
 		[SerializeField, BoxGroup("Random Bounties")] private float checkForTimeCooldown = 50f;
 		[SerializeField, BoxGroup("Random Bounties")] private Vector2 randomTimeRangeForRandomBounty = new Vector2(320, 690);
 		[SerializeField, BoxGroup("Random Bounties")] private List<CargoBounty> randomBountiesList = new List<CargoBounty>();
+
+		private static readonly List<int> randomJunkPrices = new List<int> { 5, 10, 15 };
 
 		private void Awake()
 		{
@@ -67,8 +69,7 @@ namespace Systems.Cargo
 				Destroy(this);
 			}
 
-			if(CustomNetworkManager.IsServer == false) return;
-			UpdateManager.Add(UpdateMe, checkForTimeCooldown);
+
 			randomBountyTimeCheck = UnityEngine.Random.Range((int)randomTimeRangeForRandomBounty.x, (int)randomTimeRangeForRandomBounty.y);
 		}
 
@@ -76,11 +77,13 @@ namespace Systems.Cargo
 		private void OnEnable()
 		{
 			SceneManager.activeSceneChanged += OnRoundRestart;
+			UpdateManager.Add(UpdateMe, checkForTimeCooldown);
 		}
 
 		private void OnDisable()
 		{
 			SceneManager.activeSceneChanged -= OnRoundRestart;
+			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, UpdateMe);
 		}
 
 		/// <summary>
@@ -121,6 +124,8 @@ namespace Systems.Cargo
 
 		void UpdateMe()
 		{
+			if(CustomNetworkManager.IsServer == false) return;
+
 			if(RandomBountiesActive == false || CargoOffline) return;
 			lastTimeRecorded += (int) checkForTimeCooldown;
 			if(lastTimeRecorded >= randomBountyTimeCheck)
@@ -257,6 +262,14 @@ namespace Systems.Cargo
 
 		public void ProcessCargo(GameObject obj, HashSet<GameObject> alreadySold)
 		{
+			if (obj.TryGetComponent<PlayerScript>(out var playerScript))
+			{
+				// No one must survive to tell the secrets of Central Command's cargo handling techniques.
+				Chat.AddExamineMsg(obj, "<color=red> You feel a strong force of energy run through your body before everything goes to black in the blink of the eye. </color>");
+				playerScript.playerHealth.Gib();
+				return;
+			}
+
 			if (obj.TryGetComponent<WrappedBase>(out var wrappedObject))
 			{
 				var wrappedContents = wrappedObject.GetOrGenerateContent();
@@ -298,6 +311,7 @@ namespace Systems.Cargo
 
 			// If there is no bounty for the item - we dont destroy it.
 			var credits = Instance.GetSellPrice(obj);
+			if(credits == 0) credits = randomJunkPrices.PickRandom();
 			Credits += credits;
 			OnCreditsUpdate.Invoke();
 
@@ -328,6 +342,13 @@ namespace Systems.Cargo
 
 			if (obj.TryGetComponent<ItemAttributesV2>(out var itemAttributes))
 			{
+				//charge cargo for getting rid of trash through centeral commmunications.
+				if (itemAttributes.HasTrait(CommonTraits.Instance.Trash))
+				{
+					var chargedPrice = randomJunkPrices.PickRandom();
+					Credits -= chargedPrice;
+					export.ExportMessage += "\n" + $"{chargedPrice} Charged for junk removal for item : {itemAttributes.ArticleName}.";
+				}
 				foreach (var itemTrait in itemAttributes.GetTraits())
 				{
 					if (itemTrait == null)
@@ -348,7 +369,7 @@ namespace Systems.Cargo
 			}
 
 			// Add value of mole inside gas container
-			if (obj.TryGetComponent<GasContainer>(out var gasContainer))
+			if (obj.TryGetComponent<GasContainer>(out var gasContainer) && gasContainer.CargoSealApproved)
 			{
 				var stringBuilder = new StringBuilder(export.ExportMessage);
 
@@ -363,19 +384,9 @@ namespace Systems.Cargo
 					}
 				}
 
-
-				export.ExportMessage = stringBuilder.ToString();
+				export.ExportMessage += "\n" + stringBuilder.ToString();
 				OnCreditsUpdate.Invoke();
 			}
-
-			if (obj.TryGetComponent<PlayerScript>(out var playerScript))
-			{
-				// No one must survive to tell the secrets of Central Command's cargo handling techniques.
-				playerScript.playerHealth.Gib();
-			}
-
-			if (attributes != null && attributes.ExportType != Attributes.CargoExportType.Always
-				&& (Credits == 0 || export.TotalValue == 0)) return;
 
 			DespawnItem(obj, alreadySold);
 		}

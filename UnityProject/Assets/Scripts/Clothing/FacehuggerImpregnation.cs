@@ -18,13 +18,10 @@ namespace Clothing
 		[Tooltip("Time it takes to successfully insert the larvae inside the victim")] [SerializeField]
 		private float coitusTime = 10;
 
-		[Tooltip("Time it takes for the larvae to 'birth'")] [SerializeField]
-		private int pregnancyTime = 300;
-
 		[Tooltip("Reference to facehugger gameObject so we can spawn it")] [SerializeField]
 		private GameObject facehugger = null;
 
-		[Tooltip("Reference to larvae gameObject so we can spawn it")] [SerializeField]
+		[Tooltip("Reference to larvae organ gameObject so we can spawn it")] [SerializeField]
 		private GameObject larvae = null;
 
 		private bool isAlive = true;
@@ -98,16 +95,12 @@ namespace Clothing
 		private async Task Pregnancy(PlayerHealthV2 player)
 		{
 			KillHugger();
-			await Task.Delay(TimeSpan.FromSeconds(pregnancyTime));
-			//TODO check if the larvae was removed from stomach
-			player.ApplyDamageToBodyPart(
-				gameObject,
-				200,
-				AttackType.Internal,
-				DamageType.Brute,
-				BodyPartType.Chest);
 
-			Spawn.ServerPrefab(larvae, player.gameObject.RegisterTile().WorldPositionServer);
+			GameObject embryo = Spawn.ServerPrefab(larvae, SpawnDestination.At(gameObject), 1).GameObject;
+
+			if (player.GetStomachs().Count == 0) return;
+
+			player.GetStomachs()[0].RelatedPart.OrganStorage.ServerTryAdd(embryo);
 		}
 
 		private IEnumerator Release()

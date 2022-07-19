@@ -2,6 +2,7 @@
 using System.IO;
 using System.Text;
 using System.Threading;
+using Initialisation;
 using Mirror.RemoteCalls;
 using Debug = UnityEngine.Debug;
 
@@ -22,8 +23,9 @@ namespace Managers
         public static bool gameMessageProcessing;
         public static string lastGameMessage;
 
-        private void Start()
+        public override void Start()
         {
+	        base.Start();
 	        thread = new Thread (OverwatchMainThread);
 	        thread.Start();
 	        Directory.CreateDirectory("Logs");
@@ -84,9 +86,46 @@ namespace Managers
 	        //update manager checkpoints
 	        if (UpdateManager.Instance.MidInvokeCalls)
 	        {
-		        var className = UpdateManager.Instance.LastInvokedAction.Method.ReflectedType.ToString();
-		        var methodName = UpdateManager.Instance.LastInvokedAction.Method.Name;
-		        stringBuilder.AppendLine($" - UpdateManager invoke - class: {className} - method: {methodName}");
+		        if (LoadManager.Instance.IsExecuting)
+		        {
+			        if (LoadManager.Instance.IsExecutingGeneric)
+			        {
+				        var className = (LoadManager.Instance.LastInvokedAction.Target as Action).Method.ReflectedType.ToString();
+				        var methodName = (LoadManager.Instance.LastInvokedAction.Target as Action).Method.Name;
+				        stringBuilder.AppendLine($" - LoadManager invoke - class: {className} - method: {methodName}");
+			        }
+			        else
+			        {
+				        var className = LoadManager.Instance.LastInvokedAction.Method.ReflectedType.ToString();
+				        var methodName = LoadManager.Instance.LastInvokedAction.Method.Name;
+				        stringBuilder.AppendLine($" - LoadManager invoke - class: {className} - method: {methodName}");
+			        }
+		        }
+		        else
+		        {
+			        var className = UpdateManager.Instance.LastInvokedAction.Method.ReflectedType.ToString();
+			        var methodName = UpdateManager.Instance.LastInvokedAction.Method.Name;
+			        stringBuilder.AppendLine($" - UpdateManager invoke - class: {className} - method: {methodName}");
+		        }
+
+
+	        }
+
+	        //Something within load manager
+	        if (LoadManager.Instance.IsExecuting)
+	        {
+		        if (LoadManager.Instance.IsExecutingGeneric)
+		        {
+			        var className = (LoadManager.Instance.LastInvokedAction.Target as Action).Method.ReflectedType.ToString();
+			        var methodName = (LoadManager.Instance.LastInvokedAction.Target as Action).Method.Name;
+			        stringBuilder.AppendLine($" - LoadManager invoke - class: {className} - method: {methodName}");
+		        }
+		        else
+		        {
+			        var className = LoadManager.Instance.LastInvokedAction.Method.ReflectedType.ToString();
+			        var methodName = LoadManager.Instance.LastInvokedAction.Method.Name;
+			        stringBuilder.AppendLine($" - LoadManager invoke - class: {className} - method: {methodName}");
+		        }
 	        }
 
 	        //cmd and rcp checkpoints

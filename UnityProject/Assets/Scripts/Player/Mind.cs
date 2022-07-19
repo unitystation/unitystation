@@ -244,6 +244,7 @@ public class Mind
 		if (playerMob.TryGetComponent<PlayerScript>(out var body) == false) return;
 		if (antag.Antagonist.AntagJobType == JobType.TRAITOR || antag.Antagonist.AntagJobType == JobType.SYNDICATE)
         {
+	        if (body.OrNull()?.DynamicItemStorage == null) return;
         	var playerInventory = body.DynamicItemStorage.GetItemSlots();
         	foreach (var item in playerInventory)
         	{

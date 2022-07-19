@@ -49,4 +49,11 @@ MonoBehaviour:
     - {fileID: 1644536323247627075, guid: f145adb7bc76bfc4a86a8612714230d1, type: 3}
     - {fileID: 3601734041678046290, guid: 2e6e8409def4d76428e3e72233ab61c6, type: 3}
     - {fileID: 1723238164438836345, guid: 6c6b9b73c0bb8d14c9329b24820e0a9a, type: 3}
-    NumberOfMinutesBeforeStarving: 60
+    NumberOfMinutesBeforeStarving: 30
+    TotalToxinGenerationPerSecond: 0.1
+    InternalMetabolismPerSecond: 1
+    ExternalMetabolismPerSecond: 2
+    BodyNutriment: {fileID: 11400000, guid: 068bcb587110477558045ad0cfd78237, type: 2}
+    BodyNaturalToxinReagent: {fileID: 11400000, guid: 6c3a3878e8878972ea633a27c6d0ba12,
+      type: 2}
+    ClueString: a scale

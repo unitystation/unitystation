@@ -12,11 +12,6 @@ using Messages.Server;
 
 public static class SweetExtensions
 {
-	public static IPushable Pushable(this GameObject go)
-	{
-		return go.OrNull()?.GetComponent<IPushable>();
-	}
-
 	public static Pickupable PickupableOrNull(this GameObject go)
 	{
 		return go.OrNull()?.GetComponent<Pickupable>();
@@ -378,16 +373,23 @@ public static class SweetExtensions
 		}
 	}
 
-	/// <summary>
-	/// Helped function for enums to get the next value when sorted by their base type
-	/// </summary>
+	/// <summary>Get the next value in the enum. Will loop to the top.</summary>
+	/// <remarks>Generates garbage; use sparingly.</remarks>
 	public static T Next<T>(this T src) where T : Enum
 	{
 		// if (!typeof(T).IsEnum) throw new ArgumentException(String.Format("Argument {0} is not an Enum", typeof(T).FullName));
 
-		T[] Arr = (T[])Enum.GetValues(src.GetType());
-		int j = Array.IndexOf<T>(Arr, src) + 1;
-		return (Arr.Length==j) ? Arr[0] : Arr[j];
+		T[] values = (T[])Enum.GetValues(src.GetType());
+		int j = Array.IndexOf(values, src) + 1;
+		return (values.Length == j) ? values[0] : values[j];
+	}
+
+	/// <summary>Get a random value from the given enum.</summary>
+	/// <remarks>Generates garbage; use sparingly.</remarks>
+	/// <returns>A random value from the enum</returns>
+	public static T PickRandom<T>(this T src) where T : Enum
+	{
+		return ((T[])Enum.GetValues(src.GetType())).PickRandom();
 	}
 
 	/// <summary>

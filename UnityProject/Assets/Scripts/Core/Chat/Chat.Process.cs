@@ -534,6 +534,11 @@ public partial class Chat
 
 		if (GhostValidationRejection(originatorUint, channels)) return;
 
+		if (PlayerManager.LocalPlayerScript != null && PlayerManager.LocalPlayerScript.IsDeadOrGhost == false && PlayerManager.LocalPlayerScript.playerHealth.CannotRecognizeNames)
+		{
+			speaker = "<color=red>Unknown</color>";
+		}
+
 		var msg = ProcessMessageFurther(message, speaker, channels, modifiers, loudness, originatorUint, stripTags);
 		ChatRelay.Instance.UpdateClientChat(msg, channels, isOriginator, recipient, loudness, modifiers);
 	}
@@ -544,9 +549,10 @@ public partial class Chat
 		if (PlayerManager.LocalPlayerScript.IsGhost == false) return false;
 		if (Instance.GhostHearAll && PlayerManager.LocalPlayerScript.IsPlayerSemiGhost == false) return false;
 
-		if (NetworkIdentity.spawned.ContainsKey(originator))
+		var spawned = CustomNetworkManager.IsServer ? NetworkServer.spawned : NetworkClient.spawned;
+
+		if (spawned.TryGetValue(originator, out var getOrigin))
 		{
-			var getOrigin = NetworkIdentity.spawned[originator];
 			if (channels == ChatChannel.Local || channels == ChatChannel.Combat
 			                                  || channels == ChatChannel.Action)
 			{

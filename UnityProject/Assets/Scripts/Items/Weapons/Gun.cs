@@ -48,6 +48,12 @@ namespace Weapons
 		[FormerlySerializedAs("AmmoType"), Tooltip("The type of ammo this weapon will use")]
 		public AmmoType ammoType;
 
+		[SerializeField, Tooltip("The sound this weapon makes when a magazine is loaded")]
+		public AddressableAudioSource loadMagSound;
+
+		[SerializeField, Tooltip("The sound this weapon makes when a magazine is removed")]
+		public AddressableAudioSource unloadMagSound;
+
 		//server-side object indicating the player holding the weapon (null if none)
 		protected GameObject serverHolder;
 		private RegisterTile shooterRegisterTile;
@@ -540,7 +546,7 @@ namespace Weapons
 
 				if (ammoType != magazine.ammoType)
 				{
-					Chat.AddExamineMsgToClient("You try to load the wrong ammo into your weapon");
+					Chat.AddExamineMsgToClient("You try to load the wrong ammo into your weapon.");
 					return false;
 				}
 			}
@@ -590,7 +596,7 @@ namespace Weapons
 			// check if we can still shoot
 			MovementSynchronisation shooter = shotBy.GetComponent<MovementSynchronisation>();
 			PlayerScript shooterScript = shotBy.GetComponent<PlayerScript>();
-			if (!shooter.allowInput || shooterScript.IsGhost)
+			if (shooter.allowInput == false || shooterScript.IsNormal == false)
 			{
 				Logger.Log("A player tried to shoot when not allowed or when they were a ghost.", Category.Exploits);
 				Logger.LogWarning("A shot was attempted when shooter is a ghost or is not allowed to shoot.",
@@ -792,7 +798,6 @@ namespace Weapons
 			{
 				Logger.LogWarning($"Why is {nameof(CurrentMagazine)} null for {this}?", Category.Firearms);
 			}
-
 			if (MagInternal)
 			{
 				var clip = mag;
@@ -802,6 +807,7 @@ namespace Weapons
 			}
 			else
 			{
+				LoadMagSound();
 				var magazine = mag;
 				var fromSlot = magazine.GetComponent<Pickupable>().ItemSlot;
 				Inventory.ServerTransfer(fromSlot, magSlot);
@@ -812,10 +818,24 @@ namespace Weapons
 		/// Invoked when server recieves a request to unload the current magazine. Queues up the unload to occur
 		/// when the shot queue is empty.
 		/// </summary>
+
 		public void ServerHandleUnloadRequest()
 		{
-			if (!MagInternal)
+			ItemSlot hand = GetComponent<Pickupable>()?.ItemSlot?.Player.OrNull()?.GetComponent<DynamicItemStorage>()?
+				.GetBestHand();
+
+			if (MagInternal == true)
 			{
+				return;
+			}
+			if (hand != null)
+			{
+				UnloadMagSound();
+				Inventory.ServerTransfer(magSlot, hand);
+			}
+			else
+			{
+				UnloadMagSound();
 				Inventory.ServerDrop(magSlot);
 			}
 		}
@@ -828,6 +848,11 @@ namespace Weapons
 		{
 			SoundManager.PlayNetworkedAtPos(CommonSounds.Instance.GunEmptyAlarm, transform.position,
 				sourceObj: serverHolder);
+		}
+
+		public void LoadMagSound()
+		{
+			SoundManager.PlayNetworkedAtPos(loadMagSound, gameObject.AssumedWorldPosServer());
 		}
 
 		public void PlayEmptySfx()
@@ -846,6 +871,11 @@ namespace Weapons
 		{
 			isSuppressed = newValue;
 		}
+	public void UnloadMagSound()
+	{
+		SoundManager.PlayNetworkedAtPos(unloadMagSound, transform.position,
+			sourceObj: serverHolder);
+	}
 
 		/// <summary>
 		/// Syncs the recoil config.

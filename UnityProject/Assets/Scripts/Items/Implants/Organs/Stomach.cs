@@ -66,14 +66,21 @@ namespace HealthV2
 			}
 		}
 
-		public override void HealthMasterSet(LivingHealthMasterBase livingHealth)
+		public override void AddedToBody(LivingHealthMasterBase livingHealth)
 		{
+			StartCoroutine(AddFat());
+		}
+
+		public IEnumerator AddFat()
+		{
+			yield return null;
 			if (InitialFatSpawned == false)
 			{
+				InitialFatSpawned = true;
 				var Added = Spawn.ServerPrefab(BodyFatToInstantiate.gameObject).GameObject.GetComponent<BodyFat>();
 				BodyFats.Add(Added);
 				Added.RelatedStomach = this;
-				RelatedPart.OrganStorage.ServerTryAdd(Added.gameObject);
+				RelatedPart.ContainedIn.OrganStorage.ServerTryAdd(Added.gameObject);
 			}
 		}
 

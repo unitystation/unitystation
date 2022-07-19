@@ -55,7 +55,7 @@ public class SpawnInfo
 	/// If SpawnType.Player, character settings the player is being spawned with.
 	/// </summary>
 	/// <returns></returns>
-	public readonly CharacterSettings CharacterSettings;
+	public readonly CharacterSheet CharacterSettings;
 
 	/// <summary>
 	/// The gear or items that spawn on creation will be enabled or not. ex: equipment on characters.
@@ -69,7 +69,7 @@ public class SpawnInfo
 
 	private SpawnInfo(SpawnType spawnType, ISpawnable spawnable, SpawnDestination spawnDestination, float? scatterRadius, int count, Occupation occupation,
 		GameObject clonedFrom = null,
-		CharacterSettings characterSettings = null, bool spawnItems = true, bool mapspawn = false)
+		CharacterSheet characterSettings = null, bool spawnItems = true, bool mapspawn = false)
 	{
 		SpawnType = spawnType;
 		SpawnableToSpawn = spawnable;
@@ -93,7 +93,7 @@ public class SpawnInfo
 	/// <param name="spawnItems">whether player should spawn naked or with their default loadout</param>
 	/// <returns>the newly created GameObject</returns>
 	/// <returns></returns>
-	public static SpawnInfo Player(Occupation occupation, CharacterSettings characterSettings, GameObject playerPrefab, SpawnDestination spawnDestination,
+	public static SpawnInfo Player(Occupation occupation, CharacterSheet characterSettings, GameObject playerPrefab, SpawnDestination spawnDestination,
 		bool spawnItems = false)
 	{
 		return new SpawnInfo(SpawnType.Player, SpawnablePrefab.For(playerPrefab), spawnDestination, null, 1, occupation, characterSettings: characterSettings, spawnItems: spawnItems);
@@ -108,7 +108,7 @@ public class SpawnInfo
 	/// <param name="spawnDestination">destinaton to spawn at</param>
 	/// <returns>the newly created GameObject</returns>
 	/// <returns></returns>
-	public static SpawnInfo Ghost(Occupation occupation, CharacterSettings characterSettings, GameObject ghostPrefab,
+	public static SpawnInfo Ghost(Occupation occupation, CharacterSheet characterSettings, GameObject ghostPrefab,
 		SpawnDestination spawnDestination)
 	{
 		return new SpawnInfo(SpawnType.Ghost, SpawnablePrefab.For(ghostPrefab), spawnDestination,

@@ -94,6 +94,24 @@ namespace AdminCommands
 			GameManager.Instance.PlayerLimit = newLimit;
 		}
 
+		//Limit to 5 fps minimum
+		public const int MINIUM_SERVER_FRAMERATE = 5;
+
+		[Command(requiresAuthority = false)]
+		public void CmdChangeFrameRate(int newLimit, NetworkConnectionToClient sender = null)
+		{
+			if (IsAdmin(sender, out var player) == false) return;
+
+			if (newLimit < MINIUM_SERVER_FRAMERATE) return;
+
+			var currentLimit = Application.targetFrameRate;
+			if(currentLimit == newLimit) return;
+
+			LogAdminAction($"{player.Username}: Set MaxServerFrameRate to {newLimit} from {currentLimit}");
+
+			Application.targetFrameRate = newLimit;
+		}
+
 		#endregion
 
 		#region GamemodePage
@@ -313,6 +331,7 @@ namespace AdminCommands
 				return;
 			}
 
+			//TODO make gib interface and put on Ai, and blob (remove this health check)
 			if (player?.Script == null || player.Script.IsGhost || player.Script.playerHealth == null) return;
 
 			string message = $"{admin.Username}: Smited Username: {player.Username} ({player.Name})";
@@ -320,16 +339,13 @@ namespace AdminCommands
 
 			LogAdminAction(message);
 
+			//TODO make gib interface and put on Ai, and blob
 			player.Script.playerHealth.Gib();
 		}
 
 		/// <summary>
 		/// Heals a player up
 		/// </summary>
-		/// <param name="adminId"></param>
-		/// <param name="adminToken"></param>
-		/// <param name="userToHeal"></param>
-		/// <param name="sender"></param>
 		[Command(requiresAuthority = false)]
 		public void CmdHealUpPlayer(string userToHeal, NetworkConnectionToClient sender = null)
 		{
@@ -340,7 +356,7 @@ namespace AdminCommands
 				Logger.LogError($"Could not find player with user ID '{userToHeal}'. Unable to heal.", Category.Admin);
 				return;
 			}
-	
+
 			//get player stuff.
 			PlayerScript playerScript = player.Script;
 			Mind playerMind = playerScript.mind;
@@ -357,6 +373,29 @@ namespace AdminCommands
 			{
 				message = $"{admin.Username}: Attempted healing {player.Username} but they had no body!";
 			}
+			//Log what we did.
+			Logger.Log(message, Category.Admin);
+			LogAdminAction(message);
+		}
+
+		/// <summary>
+		/// OOC mute / unmute a player
+		/// </summary>
+		[Command(requiresAuthority = false)]
+		public void CmdOOCMutePlayer(string userToMute, NetworkConnectionToClient sender = null)
+		{
+			if (IsAdmin(sender, out var admin) == false) return;
+
+			if (PlayerList.Instance.TryGetByUserID(userToMute, out var player) == false)
+			{
+				Logger.LogError($"Could not find player with user ID '{userToMute}'. Unable to OOC mute.", Category.Admin);
+				return;
+			}
+
+			player.IsOOCMuted = !player.IsOOCMuted;
+
+			var message = $"{admin.Username}: OOC {(player.IsOOCMuted ? "Muted" : "Unmuted")} {player.Username}";
+
 			//Log what we did.
 			Logger.Log(message, Category.Admin);
 			LogAdminAction(message);
@@ -516,6 +555,7 @@ namespace AdminCommands
 		public void CmdRemoveBounty(int index, bool completeBounty, NetworkConnectionToClient sender = null)
 		{
 			if (IsAdmin(sender, out var admin) == false) return;
+			if (CargoManager.Instance.ActiveBounties.Count <= index) return;
 			if (completeBounty)
 			{
 				CargoManager.Instance.CompleteBounty(CargoManager.Instance.ActiveBounties[index]);
@@ -572,6 +612,7 @@ namespace AdminCommands
 			if (IsAdmin(sender, out var admin) == false) return;
 			CargoManager.Instance.AddBounty(trait, amount, title, description, reward, announce);
 			CargoManager.Instance.OnBountiesUpdate?.Invoke();
+			LogAdminAction($"{admin.Username} has added a new bounty -> Title : {title} || reward : {reward} || Announce : {announce}");
 		}
 
 		[Command(requiresAuthority = false)]
@@ -580,6 +621,7 @@ namespace AdminCommands
 			if (IsAdmin(sender, out var admin) == false) return;
 			CargoManager.Instance.Credits = budget;
 			CargoManager.Instance.OnCreditsUpdate?.Invoke();
+			LogAdminAction($"{admin.Username} has changed the cargo budget to -> {budget}");
 		}
 
 		[Command(requiresAuthority = false)]
@@ -596,6 +638,8 @@ namespace AdminCommands
 		{
 			if (IsAdmin(sender, out var admin) == false) return;
 			CargoManager.Instance.CargoOffline = state;
+			CargoManager.Instance.OnConnectionChangeToCentComm?.Invoke();
+			LogAdminAction($"{admin.Username} has changed the cargo random bounties status to -> {state}");
 		}
 
 		#endregion

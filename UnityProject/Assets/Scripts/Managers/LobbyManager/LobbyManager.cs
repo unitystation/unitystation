@@ -31,20 +31,9 @@ namespace Lobby
 			EventManager.AddHandler(Event.LoggedOut, SetOnLogOut);
 		}
 
-		private void OnEnable()
-		{
-			CustomNetworkManager.Instance.OnClientDisconnected.AddListener(OnClientDisconnect);
-		}
-
 		private void OnDisable()
 		{
 			EventManager.RemoveHandler(Event.LoggedOut, SetOnLogOut);
-			CustomNetworkManager.Instance?.OnClientDisconnected?.RemoveListener(OnClientDisconnect);
-		}
-
-		public void OnClientDisconnect()
-		{
-			lobbyDialogue.OnClientDisconnect();
 		}
 
 		private void DetermineUIScale()

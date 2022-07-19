@@ -294,12 +294,12 @@ namespace Objects.Other
 				if (mob.TryGetComponent<PlayerScript>(out var script))
 				{
 					//Only target normal players and alive players
-					if(script.PlayerState != PlayerScript.PlayerStates.Normal || script.IsDeadOrGhost) continue;
+					if(script.IsNormal == false || script.IsDeadOrGhost) continue;
 
 					//Check if player is allowed, but only if not an Ai turret as those will shoot all targets
 					if(turretType != TurretType.Ai && ValidatePlayer(script)) continue;
 
-					worldPos = script.WorldPos;
+					worldPos = script.objectPhysics.OfficialPosition;
 				}
 				//Test for mob, syndicate and AI will always target mobs, otherwise only on unidentified
 				else if ((turretType != TurretType.Normal || CheckUnidentifiedLifeSigns) && mob.TryGetComponent<MobAI>(out var mobAi))
@@ -307,7 +307,7 @@ namespace Objects.Other
 					//Only target alive mobs
 					if(mobAi.IsDead) continue;
 
-					worldPos = mobAi.UOP.transform.position;
+					worldPos = mobAi.ObjectPhysics.OfficialPosition;
 				}
 				else
 				{

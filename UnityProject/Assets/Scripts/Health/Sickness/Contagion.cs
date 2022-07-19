@@ -5,7 +5,7 @@ using UnityEngine.EventSystems;
 
 namespace Health.Sickness
 {
-	public class Contagion: MonoBehaviour, IPlayerEntersTile
+	public class Contagion: EnterTileBase
 	{
 		public Sickness Sickness;
 
@@ -17,8 +17,9 @@ namespace Health.Sickness
 
 		private RegisterTile registerTile;
 
-		public void Awake()
+		protected override void Awake()
 		{
+			base.Awake();
 			registerTile = GetComponent<RegisterTile>();
 		}
 
@@ -27,15 +28,19 @@ namespace Health.Sickness
 			spawnedTime = Time.time;
 		}
 
-		private void OnEnable()
+		protected override void OnEnable()
 		{
+			base.OnEnable();
+
 			if(CustomNetworkManager.IsServer == false) return;
 
 			UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
 		}
 
-		private void OnDisable()
+		protected override void OnDisable()
 		{
+			base.OnDisable();
+
 			if(CustomNetworkManager.IsServer == false) return;
 
 			UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
@@ -60,14 +65,24 @@ namespace Health.Sickness
 			DebugGizmoUtils.DrawText(Sickness.SicknessName, registerTile.WorldPositionServer);
 		}
 
-		public virtual bool WillAffectPlayer(PlayerScript playerScript)
+		public override bool WillAffectPlayer(PlayerScript playerScript)
 		{
-			return playerScript.IsGhost == false;
+			return playerScript.IsNormal;
 		}
 
-		public void OnPlayerStep(PlayerScript playerScript)
+		public override void OnPlayerStep(PlayerScript playerScript)
 		{
-			playerScript.playerHealth.AddSickness(Sickness);
+			SpawnResult sickNessResult = Spawn.ServerPrefab(transform.GetChild(0).gameObject, Vector3.zero, playerScript.gameObject.transform);
+			if (sickNessResult.Successful && sickNessResult.GameObject.TryGetComponent<Sickness>(out var sickness))
+			{
+				sickness.SetCure(transform.GetChild(0).GetComponent<Sickness>().CureForSickness);
+				playerScript.playerHealth.AddSickness(sickness);
+			}
+		}
+
+		public void Setup(GameObject sicknessObject)
+		{
+			sicknessObject.transform.SetParent(this.transform);
 		}
 	}
 }

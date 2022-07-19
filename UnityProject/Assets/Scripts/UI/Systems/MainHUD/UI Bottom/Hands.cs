@@ -49,7 +49,7 @@ namespace Player
 			if (Slot == null) return;
 
 			var bodyPartUISlots = gamebodypPart.GetComponent<BodyPartUISlots>();
-			if (UIManager.Instance.UI_SlotManager.BodyPartToSlot.ContainsKey(bodyPartUISlots) == false) return;
+			if (UIManager.Instance.UI_SlotManager.BodyPartToSlot.ContainsKey(bodyPartUISlots.InterfaceGetInstanceID) == false) return;
 
 
 
@@ -204,7 +204,7 @@ namespace Player
 
 			// TODO tidy up this if statement once it's working correctly
 			if (!PlayerManager.LocalPlayerScript.playerMove.allowInput ||
-					PlayerManager.LocalPlayerScript.IsGhost)
+					PlayerManager.LocalPlayerScript.IsNormal == false)
 			{
 				Logger.Log("Invalid player, cannot perform action!", Category.Interaction);
 				return false;

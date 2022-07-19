@@ -21,9 +21,9 @@ namespace Player
 		/// <summary>
 		/// Character the viewer is attempting to spawn with.
 		/// </summary>
-		public readonly CharacterSettings CharacterSettings;
+		public readonly CharacterSheet CharacterSettings;
 
-		public PlayerSpawnRequest(PlayerInfo player, Occupation requestedOccupation, CharacterSettings character = default)
+		public PlayerSpawnRequest(PlayerInfo player, Occupation requestedOccupation, CharacterSheet character = default)
 		{
 			Player = player;
 			RequestedOccupation = requestedOccupation;

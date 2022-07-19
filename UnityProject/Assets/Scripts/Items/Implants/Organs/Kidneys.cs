@@ -30,7 +30,7 @@ namespace HealthV2
 			base.ImplantPeriodicUpdate();
 			ContainedBADReagents.Clear();
 
-			foreach (var Reagent in RelatedPart.BloodContainer)
+			foreach (var Reagent in RelatedPart.HealthMaster.CirculatorySystem.BloodPool.reagents.m_dict)
 			{
 				if (WhiteListReagents.Contains(Reagent.Key) == false && Reagent.Key is BloodType == false)
 				{
@@ -41,7 +41,7 @@ namespace HealthV2
 
 			foreach (var Reagents in ContainedBADReagents)
 			{
-				RelatedPart.BloodContainer.CurrentReagentMix.Remove(Reagents.Key, Reagents.Value);
+				RelatedPart.HealthMaster.CirculatorySystem.BloodPool.Remove(Reagents.Key, Reagents.Value);
 			}
 			//Debug.Log("Kidney: " + BloodContainer[requiredReagent]/bloodType.GetGasCapacity(BloodContainer.CurrentReagentMix));
 		}

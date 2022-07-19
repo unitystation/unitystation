@@ -543,10 +543,6 @@ namespace Doors
 		[SerializeField]
 		private MultitoolConnectionType conType = MultitoolConnectionType.DoorButton;
 
-		[SerializeField]
-		[Tooltip("Whether this door type requires a linked door button (e.g. shutters).")]
-		private bool requireLink = false;
-
 		MultitoolConnectionType IMultitoolLinkable.ConType => conType;
 		IMultitoolMasterable IMultitoolSlaveable.Master => doorMaster;
 		bool IMultitoolSlaveable.RequireLink => false;

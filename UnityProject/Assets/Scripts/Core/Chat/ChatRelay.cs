@@ -87,7 +87,7 @@ public class ChatRelay : NetworkBehaviour
 					continue;
 				}
 
-				if (players[i].Script.IsGhost && players[i].Script.IsPlayerSemiGhost == false)
+				if (players[i].Script.IsGhost)
 				{
 					//send all to ghosts
 					continue;
@@ -183,8 +183,7 @@ public class ChatRelay : NetworkBehaviour
 			    channels.HasFlag(ChatChannel.Action))
 			{
 				//Binary check here to avoid speaking in local when speaking on binary
-				if (!channels.HasFlag(ChatChannel.Binary) ||
-				    (players[i].Script.IsGhost && players[i].Script.IsPlayerSemiGhost == false))
+				if (!channels.HasFlag(ChatChannel.Binary) || players[i].Script.IsGhost)
 				{
 					UpdateChatMessage.Send(players[i].GameObject, channels, chatEvent.modifiers, chatEvent.message,
 						loud, chatEvent.messageOthers,
@@ -227,7 +226,7 @@ public class ChatRelay : NetworkBehaviour
 	private ChatEvent CheckForRadios(ChatEvent chatEvent)
 	{
 		HandleRadioCheckCooldown();
-		var SBRSpamCheck = false;
+
 		// Only spoken messages should be forwarded
 		if (chatEvent.channels.HasFlag(ChatChannel.Local) == false)
 		{

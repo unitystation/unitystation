@@ -23,8 +23,9 @@ public class RconManager : SingletonManager<RconManager>
 
 	float monitorUpdate = 0f;
 
-	void Start()
+	public override void Start()
 	{
+		base.Start();
 		Instance.Init();
 	}
 

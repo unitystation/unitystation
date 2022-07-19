@@ -130,7 +130,7 @@ PrefabInstance:
         type: 3}
       propertyPath: customNetTransform
       value: 
-      objectReference: {fileID: 7149363110457713772}
+      objectReference: {fileID: 0}
     - target: {fileID: 4390651576208513511, guid: b3d41585e23dd2045892c06de579cb7f,
         type: 3}
       propertyPath: hitSound
@@ -216,15 +216,3 @@ PrefabInstance:
         type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b3d41585e23dd2045892c06de579cb7f, type: 3}
---- !u!114 &7149363110457713772 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 4293777263945554773, guid: b3d41585e23dd2045892c06de579cb7f,
-    type: 3}
-  m_PrefabInstance: {fileID: 6386434617595051833}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 579884b05ae74e8499329b64997147d3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 

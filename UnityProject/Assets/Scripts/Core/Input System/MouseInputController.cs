@@ -248,9 +248,10 @@ public class MouseInputController : MonoBehaviour
 
 			// If the topObject has a PlayerMove, we check if he is buckled
 			// The PushPull object we want in this case, is the chair/object on which he is buckled to
-			if (topObject.TryGetComponent<MovementSynchronisation>(out var playerMove) && playerMove.BuckledObject != null)
+			if (topObject.TryGetComponent<MovementSynchronisation>(out var playerMove) &&
+			    playerMove.BuckledToObject != null)
 			{
-				pushPull = playerMove.BuckledObject.GetComponent<UniversalObjectPhysics>();
+				pushPull = playerMove.BuckledToObject.GetComponent<UniversalObjectPhysics>();
 			}
 			else
 			{
@@ -322,11 +323,16 @@ public class MouseInputController : MonoBehaviour
 			hit.transform.SendMessageUpwards("OnHover", SendMessageOptions.DontRequireReceiver);
 			transform.SendMessage("OnHover", SendMessageOptions.DontRequireReceiver);
 		}
+		else if (lastHoveredThing)
+		{
+			lastHoveredThing.transform.SendMessageUpwards("OnHoverEnd", SendMessageOptions.DontRequireReceiver);
+			lastHoveredThing = null;
+		}
 	}
 
 	private void TrySlide()
 	{
-		if (PlayerManager.LocalPlayerScript.IsGhost ||
+		if (PlayerManager.LocalPlayerScript.IsNormal == false ||
 		    PlayerManager.LocalPlayerScript.playerHealth.ConsciousState != ConsciousState.CONSCIOUS)
 			return;
 		PlayerManager.LocalPlayerScript.playerNetworkActions.CmdSlideItem(Vector3Int.RoundToInt(MouseWorldPosition));
@@ -625,7 +631,8 @@ public class MouseInputController : MonoBehaviour
 			{
 				var localTarget = MouseWorldPosition.ToLocal(playerMove.registerTile.Matrix);
 				var vector = MouseWorldPosition - PlayerManager.LocalPlayerScript.transform.position;
-				PlayerManager.LocalPlayerScript.playerNetworkActions.CmdThrow(localTarget, (int) UIManager.DamageZone, vector);
+				PlayerManager.LocalPlayerScript.playerNetworkActions.CmdThrow(localTarget, (int) UIManager.DamageZone,
+					vector);
 
 				//Disabling throw button
 				UIManager.Action.Throw();
@@ -646,7 +653,8 @@ public class MouseInputController : MonoBehaviour
 
 		if (playerMove != null)
 		{
-			if (!EventSystem.current.IsPointerOverGameObject() && playerMove.allowInput && playerMove.BuckledObject == null )
+			if (!EventSystem.current.IsPointerOverGameObject() && playerMove.allowInput &&
+			    playerMove.BuckledToObject == null)
 			{
 				playerDirectional.SetFaceDirectionLocalVictor(dir.To2Int());
 			}
@@ -658,8 +666,6 @@ public class MouseInputController : MonoBehaviour
 				playerDirectional.SetFaceDirectionLocalVictor(dir.To2Int());
 			}
 		}
-
-
 	}
 
 	#region Cursor Textures

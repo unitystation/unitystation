@@ -43,6 +43,12 @@ namespace Unitystation.Options
 		[SerializeField]
 		private TMP_Dropdown mentionSoundDropdown = null;
 
+		[SerializeField]
+		private Slider chatAlphaFadeMinimum;
+
+		[SerializeField]
+		private Slider chatContentAlphaFadeMinimum;
+
 		void OnEnable()
 		{
 			Refresh();
@@ -74,6 +80,10 @@ namespace Unitystation.Options
 			mentionSoundDropdown.options = newOptions;
 
 			mentionSoundDropdown.value = ThemeManager.MentionSoundIndex;
+
+			chatAlphaFadeMinimum.value = UI.Chat_UI.ChatUI.Instance.GetPreferenceChatBackground();
+			chatContentAlphaFadeMinimum.value =  UI.Chat_UI.ChatUI.Instance.GetPreferenceChatContent();
+
 		}
 
 		void ConstructChatBubbleOptions()
@@ -155,6 +165,16 @@ namespace Unitystation.Options
 		public void OnChatBubbleClownColourChange()
 		{
 			DisplaySettings.Instance.ChatBubbleClownColour = chatBubbleClownColourToggle.isOn ? 1 : 0;
+		}
+
+		public void OnChatMinimumAlphaColorChange()
+		{
+			UI.Chat_UI.ChatUI.Instance.SetPreferenceChatBackground(chatAlphaFadeMinimum.value);
+		}
+
+		public void OnChatContentMinimumAlphaColorChange()
+		{
+			UI.Chat_UI.ChatUI.Instance.SetPreferenceChatContent(chatContentAlphaFadeMinimum.value);
 		}
 	}
 }

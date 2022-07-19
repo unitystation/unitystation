@@ -49,24 +49,25 @@ public class PlayerAlertView : ChatEntryView
 
 	public void TeleportTo()
 	{
-		if (PlayerManager.LocalPlayerScript != null)
-		{
-			var target = NetworkIdentity.spawned[playerAlertData.playerNetId];
-			if (target != null)
-			{
-				if (!PlayerManager.LocalPlayerScript.IsGhost)
-				{
-					teleportButton.interactable = false;
-					PlayerManager.LocalPlayerScript.playerNetworkActions.CmdAGhost();
-					cancelSource = new CancellationTokenSource();
-					StartCoroutine(GhostWait(target.gameObject, cancelSource.Token));
+		if (PlayerManager.LocalPlayerScript == null) return;
 
-				}
-				else
-				{
-					PlayerManager.LocalPlayerScript.playerNetworkActions.CmdGhostPerformTeleport(target.transform.position);
-				}
-			}
+		var spawned =
+			CustomNetworkManager.IsServer ? NetworkServer.spawned : NetworkClient.spawned;
+
+		var target = spawned[playerAlertData.playerNetId];
+		if (target == null) return;
+
+		if (PlayerManager.LocalPlayerScript.IsGhost == false)
+		{
+			teleportButton.interactable = false;
+			PlayerManager.LocalPlayerScript.playerNetworkActions.CmdAGhost();
+			cancelSource = new CancellationTokenSource();
+			StartCoroutine(GhostWait(target.gameObject, cancelSource.Token));
+		}
+		else
+		{
+			PlayerManager.LocalPlayerObject.GetComponent<GhostMove>()
+				.ForcePositionClient(target.transform.position);
 		}
 	}
 
@@ -87,7 +88,7 @@ public class PlayerAlertView : ChatEntryView
 		teleportButton.interactable = true;
 		if (PlayerManager.LocalPlayerScript != null && target != null && PlayerManager.LocalPlayerScript.IsGhost)
 		{
-			PlayerManager.LocalPlayerScript.playerNetworkActions.CmdGhostPerformTeleport(target.transform.position);
+			PlayerManager.LocalPlayerObject.GetComponent<GhostMove>().ForcePositionClient(target.transform.position);
 		}
 	}
 

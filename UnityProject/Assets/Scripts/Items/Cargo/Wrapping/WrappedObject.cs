@@ -57,8 +57,10 @@ namespace Items.Cargo.Wrapping
 			spriteHandler.ChangeSprite((int) type);
 		}
 
-		public void OnSpawnServer(SpawnInfo info)
+		public override void OnSpawnServer(SpawnInfo info)
 		{
+			base.OnSpawnServer(info);
+
 			if (info.SpawnType != SpawnType.Mapped) return;
 			SetContainerTypeSprite(typeSprite);
 		}

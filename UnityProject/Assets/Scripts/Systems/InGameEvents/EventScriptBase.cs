@@ -75,7 +75,7 @@ namespace InGameEvents
 
 		private void OnDestroy()
 		{
-			InGameEventsManager.Instance.RemoveEventFromList(this, EventType);
+			InGameEventsManager.Instance.OrNull()?.RemoveEventFromList(this, EventType);
 			CancelInvoke();
 		}
 

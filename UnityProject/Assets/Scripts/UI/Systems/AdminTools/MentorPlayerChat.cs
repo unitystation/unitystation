@@ -38,36 +38,40 @@ namespace AdminTools
 			clientMentorPlayerChatLogs.Clear();
 		}
 
-		public void ServerAddChatRecord(string message, string playerId, string mentorId = "")
+		public void ServerAddChatRecord(string message, PlayerInfo player, PlayerInfo mentor = default)
 		{
-			if (!serverMentorPlayerChatLogs.ContainsKey(playerId))
+			message = mentor == null
+				? $"{player.Username}: {message}"
+				: $"{mentor.Username}: {message}";
+
+			if (!serverMentorPlayerChatLogs.ContainsKey(player.UserId))
 			{
-				serverMentorPlayerChatLogs.Add(playerId, new List<AdminChatMessage>());
+				serverMentorPlayerChatLogs.Add(player.UserId, new List<AdminChatMessage>());
 			}
 
 			var entry = new AdminChatMessage
 			{
-				fromUserid = playerId,
+				fromUserid = player.UserId,
 				Message = message
 			};
 
-			if (!string.IsNullOrEmpty(mentorId))
+			if (mentor != null)
 			{
-				entry.fromUserid = mentorId;
+				entry.fromUserid = mentor.UserId;
 				entry.wasFromAdmin = true;
 			}
-			serverMentorPlayerChatLogs[playerId].Add(entry);
-			MentorPlayerChatUpdateMessage.SendSingleEntryToMentors(entry, playerId);
-			if (!string.IsNullOrEmpty(mentorId))
+			serverMentorPlayerChatLogs[player.UserId].Add(entry);
+			MentorPlayerChatUpdateMessage.SendSingleEntryToMentors(entry, player.UserId);
+			if (mentor != null)
 			{
-				AdminChatNotifications.SendToAll(playerId, AdminChatWindow.MentorPlayerChat, 0, true);
+				AdminChatNotifications.SendToAll(player.UserId, AdminChatWindow.MentorPlayerChat, 0, true);
 			}
 			else
 			{
-				AdminChatNotifications.SendToAll(playerId, AdminChatWindow.MentorPlayerChat, 1);
+				AdminChatNotifications.SendToAll(player.UserId, AdminChatWindow.MentorPlayerChat, 1);
 			}
 
-			ServerMessageRecording(playerId, entry);
+			ServerMessageRecording(player.UserId, entry);
 		}
 
 		private void ServerMessageRecording(string playerId, AdminChatMessage entry)
@@ -184,7 +188,7 @@ namespace AdminTools
 
 		public void OnInputSend(string message)
 		{
-			RequestMentorBwoink.Send(selectedPlayer.uid, $"{ServerData.Auth.CurrentUser.DisplayName}: {message}");
+			RequestMentorBwoink.Send(selectedPlayer.uid, message);
 		}
 	}
 }

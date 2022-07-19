@@ -47,17 +47,6 @@ namespace Items.Storage
 			set => detonateByTimer = value;
 			get => detonateByTimer;
 		}
-		public float TimeToDetonate
-		{
-			set => timeToDetonate = (int)value;
-			get => timeToDetonate;
-		}
-
-		public bool IsArmed
-		{
-			set => isArmed = value;
-			get => isArmed;
-		}
 
 		private void Start()
 		{
@@ -99,13 +88,13 @@ namespace Items.Storage
 			pizzaSprites.SetActive(true);
 			if(writtenNote != "") writingSprites.SetActive(true);
 			UpdatePizzaSprites();
-			
+
 			if (isArmed && detonateByTimer == false)
 			{
 				Detonate();
 				return;
 			}
-			
+
 			if (isArmed && detonateByTimer)
 			{
 				StartCoroutine(Countdown());
@@ -230,8 +219,10 @@ namespace Items.Storage
 			Detonate();
 		}
 
-		public void OnSpawnServer(SpawnInfo info)
+		public override void OnSpawnServer(SpawnInfo info)
 		{
+			base.OnSpawnServer(info);
+
 			IsArmed = isBomb && isArmedOnSpawn;
 		}
 

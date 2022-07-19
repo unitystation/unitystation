@@ -14,7 +14,7 @@ namespace Messages.Server
 	{
 		public static void SendToAll(T msg, int channel = 0)
 		{
-			NetworkServer.SendToAll(msg, channel);
+			NetworkServer.SendToAll(msg, channel, sendToReadyOnly: true);
 			Logger.LogTraceFormat("SentToAll {0}", Category.Server, msg.GetType());
 		}
 

@@ -61,6 +61,7 @@ namespace AdminTools
 
 		//Server Settings
 		public int playerLimit;
+		public int maxFrameRate;
 	}
 
 	[Serializable]
@@ -75,6 +76,7 @@ namespace AdminTools
 		public bool isAdmin;
 		public bool isMentor;
 		public bool isOnline;
+		public bool isOOCMuted;
 		public string ipAddress;
 	}
 

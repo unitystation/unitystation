@@ -20,6 +20,11 @@ public enum ObjectType
 	Wire
 }
 
+public interface IRegisterTileInitialised
+{
+	public void OnRegisterTileInitialised(RegisterTile registerTile);
+}
+
 /// <summary>
 /// Holds various behavior which affects the tile the object is currently on.
 /// A given tile in the ObjectLayer (which represents an individual square in the game world)
@@ -115,6 +120,12 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 			{
 				objectPhysics.ResetComponent(gameObject);
 			}
+
+			if (objectPhysics.HasComponent == false)
+			{
+				return gameObject.AssumedWorldPosServer().RoundToInt();
+			}
+
 			return objectPhysics.Component.OfficialPosition.RoundToInt();
 		}
 	}
@@ -239,6 +250,16 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 	public void Initialize(Matrix matrix)
 	{
 		Matrix = matrix;
+
+		//Prevent interface running more than once
+		if (Initialized == false)
+		{
+			foreach (var registerTileInitialised in GetComponents<IRegisterTileInitialised>())
+			{
+				registerTileInitialised.OnRegisterTileInitialised(this);
+			}
+		}
+
 		Initialized = true;
 		var networkedMatrix = Matrix.transform.parent.GetComponent<NetworkedMatrix>();
 		if (isServer)
@@ -305,6 +326,9 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 		}
 
 		LocalPositionServer = value;
+
+		CheckSameMatrixRelationships(); //TODO Might be laggy?
+		OnLocalPositionChangedServer.Invoke(LocalPositionServer);
 	}
 
 	public void ClientSetLocalPosition(Vector3Int value)
@@ -360,6 +384,7 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 	private void SyncNetworkedMatrixNetId(uint oldNetworkMatrixId, uint newNetworkedMatrixNetID)
 	{
 		networkedMatrixNetId = newNetworkedMatrixNetID;
+		if (isLocalPlayer && isServer == false) return;
 		NetworkedMatrix.InvokeWhenInitialized(networkedMatrixNetId, FinishNetworkedMatrixRegistration); //note: we dont actually wait for init here anymore
 	}
 
@@ -369,7 +394,6 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 		//if we had any spin rotation, preserve it,
 		//otherwise all objects should always have upright local rotation
 		var rotation = transform.rotation;
-		//only customNetTransform can have spin rotation
 		bool hadSpinRotation = Quaternion.Angle(transform.localRotation, Quaternion.identity) > 5;
 
 		var newObjectLayer = networkedMatrix.GetComponentInChildren<ObjectLayer>();
@@ -396,32 +420,23 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 			transform.localRotation = Quaternion.identity;
 		}
 
-
-
 		//this will fire parent change hooks so we do it last
 		SetMatrix(networkedMatrix.GetComponentInChildren<Matrix>());
-
-
 
 		if (objectPhysics.HasComponent)
 		{
 			transform.localPosition =  objectPhysics.Component.CalculateLocalPosition();
 		}
 
-
-
 		UpdatePositionClient();
-
-		if (isServer)
-		{
-			UpdatePositionServer();
-		}
+		UpdatePositionServer();
 
 		OnParentChangeComplete.Invoke();
 	}
 
 	private void SetMatrix(Matrix value)
 	{
+		MatrixChange(Matrix, value);
 		if (value)
 		{
 			//LogMatrixDebug($"Matrix set from {matrix} to {value}");
@@ -474,6 +489,11 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 				}
 			}
 		}
+	}
+
+	public virtual void MatrixChange(Matrix MatrixOld, Matrix MatrixNew)
+	{
+
 	}
 
 	public void UnregisterClient()

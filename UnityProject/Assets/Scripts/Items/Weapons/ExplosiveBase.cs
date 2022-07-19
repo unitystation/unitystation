@@ -23,6 +23,7 @@ namespace Items.Weapons
 		[SerializeField] protected int timeToDetonate = 10;
 		[SerializeField] protected int minimumTimeToDetonate = 10;
 		[SerializeField] protected float explosiveStrength = 150f;
+		[SerializeField, Range(0,150)] protected int explosiveRadius = 150;
 		[SerializeField] protected SpriteDataSO activeSpriteSO;
 		[SerializeField] protected AddressableAudioSource beepSound;
 		[SerializeField] protected float progressTime = 3f;
@@ -86,7 +87,7 @@ namespace Items.Weapons
 			// Despawn the explosive
 			RemoveSelfFromManager();
 			_ = Despawn.ServerSingle(gameObject);
-			Explosion.StartExplosion(worldPos, explosiveStrength);
+			Explosion.StartExplosion(worldPos, explosiveStrength, null, explosiveRadius);
 		}
 
 		/// <summary>
@@ -116,23 +117,23 @@ namespace Items.Weapons
 			return emitters.Contains(responsibleEmitter) && responsibleEmitter.Passcode == PassCode;
 		}
 
-		protected bool HackEmitter(HandApply interaction)
+		protected bool HackEmitter(TargetedInteraction interaction)
 		{
-			if(interaction.UsedObject == null || interaction.UsedObject.TryGetComponent<SignalEmitter>(out var emitter) == false) return false;
+			if (interaction.UsedObject == null || interaction.UsedObject.TryGetComponent<SignalEmitter>(out var emitter) == false) return false;
 			void Hack()
 			{
 				emitters.Add(emitter);
 				Frequency = emitter.Frequency;
 				PassCode = emitter.Passcode;
 				Chat.AddLocalMsgToChat($"The {gameObject.ExpensiveName()} copies {emitter.gameObject.ExpensiveName()}'s " +
-				                       $"codes from {interaction.PerformerPlayerScript.visibleName}'s hands!", interaction.Performer);
+									   $"codes from {interaction.PerformerPlayerScript.visibleName}'s hands!", interaction.Performer);
 			}
 			var bar = StandardProgressAction.Create(
 				new StandardProgressActionConfig(StandardProgressActionType.CPR, false, false), Hack);
 			bar.ServerStartProgress(interaction.Performer.RegisterTile(), progressTime, interaction.Performer);
 			SparkUtil.TrySpark(interaction.Performer);
 			Chat.AddLocalMsgToChat($"{interaction.PerformerPlayerScript.visibleName} hovers a " +
-			                       $"{emitter.gameObject.ExpensiveName()} over the {gameObject.ExpensiveName()}", interaction.Performer);
+								   $"{emitter.gameObject.ExpensiveName()} over the {gameObject.ExpensiveName()}", interaction.Performer);
 			return true;
 		}
 

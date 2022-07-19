@@ -45,17 +45,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sicknessName: Common Allergies
-  contagious: 0
-  sicknessStages:
-  - symptom: 3
-    repeatSymptom: 1
-    repeatMinDelay: 40
-    repeatMaxDelay: 80
-    secondsBeforeNextStage: 0
-    extendedSymptomParametersSerialized: null
-  - symptom: 2
-    repeatSymptom: 1
-    repeatMinDelay: 40
-    repeatMaxDelay: 80
-    secondsBeforeNextStage: 0
-    extendedSymptomParametersSerialized: null
+  Contagious: 1
+  ContagiousRadius: 6
+  infectOtherChance: 50
+  NumberOfStages: 1
+  TicksToPogressStages: 320
+  PossibleCures:
+  - {fileID: 11400000, guid: fbdda32fdf6f0f548a0d7511eac67423, type: 2}
+  - {fileID: 11400000, guid: 5037ee8bb69f44d928cd02c2b6f90668, type: 2}
+  ImmuneRaces: []
+  CureForSickness: {fileID: 0}
+  CureHints: []
+  emoteFeedback: {fileID: 11400000, guid: fb8b997c55238654087b9aa99d5be1a1, type: 2}
+  cooldownTime: 10
+  IsOnCooldown: 0
+  PlayerMask:
+    serializedVersion: 2
+    m_Bits: 0

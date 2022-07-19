@@ -32,7 +32,7 @@ namespace AdminTools
 
 		void OnInputReceived(string message)
 		{
-			MentorReplyMessage.Send($"{PlayerManager.CurrentCharacterSettings.Username} replied: " + message);
+			MentorReplyMessage.Send(message);
 		}
 	}
 }

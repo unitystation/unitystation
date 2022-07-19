@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using AdminCommands;
+using Managers;
 using UnityEngine;
 using Strings;
 
@@ -9,7 +11,7 @@ namespace Objects
 	/// <summary>
 	/// Escape shuttle logic
 	/// </summary>
-	public class EscapeShuttleConsole : MonoBehaviour, ICheckedInteractable<HandApply>
+	public class EscapeShuttleConsole : MonoBehaviour, ICheckedInteractable<HandApply>, IRightClickable
 	{
 		[SerializeField]
 		private float timeToHack = 20f;
@@ -21,6 +23,12 @@ namespace Objects
 
 		private RegisterTile registerTile;
 
+		[SerializeField] private List<Access> validAccess = new List<Access>();
+
+		private HashSet<IDCard> registeredIDs = new HashSet<IDCard>();
+
+		private int requiredSwipesEarlyLaunch => GameManager.Instance.CentComm.CurrentAlertLevel is CentComm.AlertLevel.Red or CentComm.AlertLevel.Delta ? 2 : 4;
+
 		private void Awake()
 		{
 			registerTile = GetComponent<RegisterTile>();
@@ -30,11 +38,16 @@ namespace Objects
 		{
 			if (DefaultWillInteract.Default(interaction, side) == false) return false;
 
-			return Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Emag);
+			return Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Emag) || Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Id);
 		}
 
 		public void ServerPerformInteraction(HandApply interaction)
 		{
+			if (interaction.HandObject.TryGetComponent<IDCard>(out var card))
+			{
+				if(card.HasAccess(validAccess)) RegisterEarlyShuttleLaunch(card, interaction.PerformerPlayerScript);
+				return;
+			}
 			TryEmagConsole(interaction);
 		}
 
@@ -72,17 +85,62 @@ namespace Objects
 
 			beenEmagged = true;
 
-			if (GameManager.Instance.ShuttleSent) return;
+			DepartShuttle();
+		}
 
-			Chat.AddSystemMsgToChat($"\n\n<color=#FF151F><size={ChatTemplates.LargeText}><b>Escape Shuttle Emergency Launch Triggered!</b></size></color>\n\n",
-				MatrixManager.MainStationMatrix);
+		private void RegisterEarlyShuttleLaunch(IDCard card, PlayerScript performer)
+		{
+			if (GameManager.Instance.ShuttleSent)
+			{
+				Chat.AddExamineMsg(performer.gameObject, "The shuttle is already moving!");
+				return;
+			}
+			if (registeredIDs.Contains(card))
+			{
+				Chat.AddExamineMsg(performer.gameObject, "You've already done this!");
+				return;
+			}
+			registeredIDs.Add(card);
 
-			Chat.AddSystemMsgToChat($"\n\n<color=#FF151F><size={ChatTemplates.LargeText}><b>Escape Shuttle Emergency Launch Triggered!</b></size></color>\n\n",
+			if (registeredIDs.Count >= requiredSwipesEarlyLaunch)
+			{
+				DepartShuttle();
+				return;
+			}
+
+			AnnounceRemainingSwipesRequired();
+		}
+
+		private void AnnounceRemainingSwipesRequired()
+		{
+			var remainingSwipes = requiredSwipesEarlyLaunch - registeredIDs.Count;
+			string announcemnt =
+				$"\n\n<color=#FF151F><size={ChatTemplates.LargeText}><b>Escape Shuttle Emergency Launch has been request! need {remainingSwipes} more votes.</b></size></color>\n\n";
+			Chat.AddSystemMsgToChat(announcemnt, MatrixManager.MainStationMatrix);
+
+			Chat.AddSystemMsgToChat(announcemnt,
 				GameManager.Instance.PrimaryEscapeShuttle.MatrixInfo);
+			_ = SoundManager.PlayNetworked(CommonSounds.Instance.Notice1);
+		}
+
+		private void DepartShuttle()
+		{
+			if (GameManager.Instance.ShuttleSent) return;
+			var departTime = beenEmagged ? 5 : 10;
+			string announcement =
+				$"\n\n<color=#FF151F><size={ChatTemplates.LargeText}><b>Escape Shuttle Emergency Launch Triggered! Launching in {departTime} seconds..</b></size></color>\n\n";
+			Chat.AddSystemMsgToChat(announcement, MatrixManager.MainStationMatrix);
+
+			Chat.AddSystemMsgToChat(announcement, GameManager.Instance.PrimaryEscapeShuttle.MatrixInfo);
 
 			_ = SoundManager.PlayNetworked(CommonSounds.Instance.Notice1);
+			GameManager.Instance.ForceSendEscapeShuttleFromStation(departTime);
+		}
 
-			GameManager.Instance.ForceSendEscapeShuttleFromStation(10);
+		public RightClickableResult GenerateRightClickOptions()
+		{
+			if (CustomNetworkManager.IsServer == false) return null;
+			return RightClickableResult.Create().AddElement("Launch Early", DepartShuttle, Color.red);
 		}
 	}
 }

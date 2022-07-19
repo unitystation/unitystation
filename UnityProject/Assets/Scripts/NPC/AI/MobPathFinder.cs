@@ -51,7 +51,7 @@ namespace Systems.MobAIs
 
 		private bool isComplete = false;
 
-		private void Awake()
+		public virtual void Awake()
 		{
 			registerTile = GetComponent<RegisterTile>();
 			uop = GetComponent<UniversalObjectPhysics>();
