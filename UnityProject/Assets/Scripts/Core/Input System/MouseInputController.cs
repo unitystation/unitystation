@@ -582,7 +582,7 @@ public class MouseInputController : MonoBehaviour
 
 	private bool CheckAltClick()
 	{
-		if (KeyboardInputManager.IsAltPressed())
+		if (KeyboardInputManager.IsAltActionKeyPressed())
 		{
 			//Check for items on the clicked position, and display them in the Item List Tab, if they're in reach
 			//and not FOV occluded

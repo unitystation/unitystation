@@ -51,7 +51,7 @@ public class HandApply : BodyPartTargetedInteraction
 			UIManager.DamageZone,
 			PlayerManager.LocalPlayerScript.DynamicItemStorage.GetActiveHandSlot(),
 			UIManager.CurrentIntent,
-			KeyboardInputManager.IsAltPressed());
+			KeyboardInputManager.IsAltActionKeyPressed());
 	}
 
 	/// <summary>

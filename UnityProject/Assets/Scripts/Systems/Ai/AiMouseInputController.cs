@@ -62,7 +62,7 @@ namespace Systems.Ai
 					return;
 				}
 
-				if (KeyboardInputManager.IsAltPressed())
+				if (KeyboardInputManager.IsAltActionKeyPressed())
 				{
 					CheckForInteractions(AiActivate.ClickTypes.AltClick);
 					return;

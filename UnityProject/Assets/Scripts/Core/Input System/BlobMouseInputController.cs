@@ -65,7 +65,7 @@ public class BlobMouseInputController : MouseInputController
 				return;
 			}
 
-			if (KeyboardInputManager.IsAltPressed())
+			if (KeyboardInputManager.IsAltActionKeyPressed())
 			{
 				//Remove blob
 				blobPlayer.CmdRemoveBlob(MouseUtils.MouseToWorldPos().RoundToInt());
