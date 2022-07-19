@@ -4,6 +4,8 @@ using UnityEngine;
 using Systems.Radiation;
 using Weapons;
 using ScriptableObjects.Systems.Research;
+using Objects.Research;
+using Systems.Research;
 
 namespace Items.Science
 {
@@ -15,13 +17,15 @@ namespace Items.Science
 
 	public struct ArtifactData
 	{
-		public ArtifactData(int radlvl, int bluelvl, int bnalvl, int mss,CompositionBase comp)
+		public ArtifactData(int radlvl, int bluelvl, int bnalvl, int mss,CompositionBase comp, AreaArtifactEffect areaEffect, FeedArtifactEffect feedEffect)
 		{
 			radiationlevel = radlvl;
 			bluespacesig = bluelvl;
 			bananiumsig = bnalvl;
 			mass = mss;
 			compositionBase = comp;
+			AreaEffect = areaEffect;
+			FeedEffect = feedEffect;
 		}
 
 		public CompositionBase compositionBase;
@@ -29,6 +33,8 @@ namespace Items.Science
 		public int bluespacesig;
 		public int bananiumsig;
 		public int mass;
+		public AreaArtifactEffect AreaEffect;
+		public FeedArtifactEffect FeedEffect;
 	}
 
 	public class ArtifactSliver : MonoBehaviour

@@ -7,6 +7,11 @@ namespace Items.Science
 {
 	public class ArtifactDataDisk : HardDriveBase
 	{
+		public void Awake()
+		{
+			DataOnStorage.Add(new ArtifactDataFiles());
+		}
+
 		public void CalculateExportCost()
 		{
 			int cost = 0;

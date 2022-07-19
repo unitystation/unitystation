@@ -3,6 +3,8 @@ using UnityEngine;
 using UI.Core.NetUI;
 using Systems.Research.Objects;
 using Items.Science;
+using Objects.Research;
+using Items.Storage.VirtualStorage;
 
 namespace UI.Objects.Research
 {
@@ -45,12 +47,20 @@ namespace UI.Objects.Research
 
 		public void WriteData()
 		{
+			if (console.dataDisk == null || console.connectedArtifact == null) return;
 
+			foreach(ArtifactDataFiles data in console.dataDisk.DataOnStorage)
+			{
+				data.inputData = inputData;
+				data.correctData = console.connectedArtifact.artifactData;
+			}
+			console.dataDisk.CalculateExportCost();
 		}
+
 
 		public void EjectDisk()
 		{
-
+			console.GetComponent<ItemStorage>().ServerDropAll();
 		}
 
 	}

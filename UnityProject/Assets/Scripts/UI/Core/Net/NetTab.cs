@@ -69,7 +69,9 @@ public enum NetTabType
 	RDProductionMachine = 51,
 	PublicTerminal = 52,
 	TeleporterConsole = 53,
-	HandTeleporter = 54
+	HandTeleporter = 54,
+	ArtifactAnalyser = 55,
+	ArtifactConsole = 56,
 
 	// add new entres to the bottom
 	// the enum name must match that of the prefab except the prefab has the word tab infront of the enum name

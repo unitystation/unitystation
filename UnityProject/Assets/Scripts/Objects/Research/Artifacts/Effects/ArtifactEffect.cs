@@ -2,38 +2,27 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using ScriptableObjects;
+using ScriptableObjects.Systems.Research;
 
 /// <summary>
 /// Base class for artifact effect
 /// </summary>
-public class ArtifactEffect : NetworkBehaviour
+namespace Systems.Research
 {
-	/// <summary>
-	/// Called when artifact was touched by player in any intent.
-	/// Usually effect will be applied to this player.
-	/// </summary>
-	/// <param name="touchSource">Player GameObject that touched artifact</param>
-	public virtual void DoEffectTouch(HandApply touchSource)
+	public enum ArtifactClass
 	{
-
+		Uranium = 0,
+		Bluespace = 1,
+		Bananium = 2,
 	}
 
-	/// <summary>
-	/// Called if artifact just emits aura.
-	/// Usually effect will be applied to all actors in radius.
-	/// </summary>
-	public virtual void DoEffectAura()
+	public class ArtifactEffect : ScriptableObject
 	{
+		[Tooltip("The likelyhood and strength of this effect is dependent on the composition of this material in the artifact")]
+		public ArtifactClass ArtifactClass;
 
-	}
-
-	/// <summary>
-	/// Called if artifact was activated by some trigger.
-	/// It can be heat, emiters beam or something else.
-	/// </summary>
-	/// <param name="pulseSource">Object that activated artifact. Might be null.</param>
-	public virtual void DoEffectPulse(GameObject pulseSource)
-	{
-
+		[SerializeField]
+		protected ArtifactDataSO ArtifactDataSO = null;
 	}
 }
