@@ -99,6 +99,10 @@ public class MetaDataSystem : SubsystemBehaviour
 				node.ThermalConductivity = AtmosDefines.SPACE_THERMAL_CONDUCTIVITY;
 				node.HeatCapacity =  AtmosDefines.SPACE_HEAT_CAPACITY;
 			}
+			else
+			{
+				node.OccupiedType = DetectOccupiedType(localPosition);
+			}
 		}
 		//Then must be fully blocked e.g wall or closed door
 		else
@@ -191,14 +195,10 @@ public class MetaDataSystem : SubsystemBehaviour
 		{
 			if (freePositions.TryDequeue(out Vector3Int position) == false) continue;
 
-			roomPositions.Add(position, NodeOccupiedType.None);
+			roomPositions.Add(position, DetectOccupiedType(position));
 
 			Vector3Int[] neighbors = MetaUtils.GetNeighbors(position, null);
 			if(neighbors.Length == 0) continue;
-
-			//If it isnt atmos passable between positions then it might be a windoor or directional window!
-			//See if we need to set NodeOccupiedType so we block atmos from doing gas exchange
-			DetectOccupiedType(position, roomPositions);
 
 			for (var i = 0; i < neighbors.Length; i++)
 			{
@@ -238,10 +238,16 @@ public class MetaDataSystem : SubsystemBehaviour
 		SetupNeighbors(roomPositions);
 	}
 
-	private void DetectOccupiedType(Vector3Int position, Dictionary<Vector3Int, NodeOccupiedType> roomPositions)
+	/// <summary>
+	/// Might have a windoor or DirectionalPassables (e.g directional window)
+	/// See if we need to set NodeOccupiedType so we block atmos from doing gas exchange in that direction
+	/// </summary>
+	private NodeOccupiedType DetectOccupiedType(Vector3Int position)
 	{
 		var freePositionDoors = matrix.GetAs<RegisterDoor>(position, true).ToArray();
 		var freePositionDirectionalPassable = matrix.GetAs<DirectionalPassable>(position, true).ToArray();
+
+		var occupiedType = NodeOccupiedType.None;
 
 		//Check windoor
 		for (int i = 0; i < freePositionDoors.Length; i++)
@@ -251,12 +257,6 @@ public class MetaDataSystem : SubsystemBehaviour
 			//Check to see if windoor
 			if (windoor.OneDirectionRestricted == false || windoor.IsClosed == false) continue;
 			if (windoor.RotatableChecked.HasComponent == false) continue;
-
-			if (roomPositions.TryGetValue(position, out var occupiedType) == false)
-			{
-				Logger.LogError("Failed to find room position in dict, this shouldn't happen!!");
-				continue;
-			}
 
 			var directionEnum = windoor.RotatableChecked.Component.CurrentDirection;
 
@@ -268,9 +268,6 @@ public class MetaDataSystem : SubsystemBehaviour
 			{
 				occupiedType |= NodeOccupiedUtil.DirectionEnumToOccupied(directionEnum);
 			}
-
-			//Enum value type have to set it back to dict
-			roomPositions[position] = occupiedType;
 		}
 
 		//Check other DirectionalPassables
@@ -283,12 +280,6 @@ public class MetaDataSystem : SubsystemBehaviour
 
 			foreach (var directionEnum in blockedOrientations)
 			{
-				if (roomPositions.TryGetValue(position, out var occupiedType) == false)
-				{
-					Logger.LogError("Failed to find room position in dict, this shouldn't happen!!");
-					continue;
-				}
-
 				if (occupiedType == NodeOccupiedType.None)
 				{
 					occupiedType = NodeOccupiedUtil.DirectionEnumToOccupied(directionEnum);
@@ -297,11 +288,10 @@ public class MetaDataSystem : SubsystemBehaviour
 				{
 					occupiedType |= NodeOccupiedUtil.DirectionEnumToOccupied(directionEnum);
 				}
-
-				//Enum value type have to set it back to dict
-				roomPositions[position] = occupiedType;
 			}
 		}
+
+		return occupiedType;
 	}
 
 	private void AssignType(Dictionary<Vector3Int, NodeOccupiedType> positions, NodeType nodeType)
