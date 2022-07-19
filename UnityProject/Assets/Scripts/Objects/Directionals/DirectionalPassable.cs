@@ -255,16 +255,16 @@ namespace Core.Directionals
 					if (sides.Right == false) enums.Add(OrientationEnum.Right_By270);
 					break;
 				case OrientationEnum.Left_By90:
-					if (sides.Left == false) enums.Add(OrientationEnum.Down_By180);
-					if (sides.Right == false) enums.Add(OrientationEnum.Up_By0);
-					if (sides.Down == false) enums.Add(OrientationEnum.Right_By270);
-					if (sides.Up == false) enums.Add(OrientationEnum.Left_By90);
+					if (sides.Left == false) enums.Add(OrientationEnum.Up_By0);
+					if (sides.Right == false) enums.Add(OrientationEnum.Down_By180);
+					if (sides.Down == false) enums.Add(OrientationEnum.Left_By90);
+					if (sides.Up == false) enums.Add(OrientationEnum.Right_By270);
 					break;
 				case OrientationEnum.Right_By270:
-					if (sides.Right == false) enums.Add(OrientationEnum.Down_By180);
-					if (sides.Left == false) enums.Add(OrientationEnum.Up_By0);
-					if (sides.Up == false) enums.Add(OrientationEnum.Right_By270);
-					if (sides.Down == false) enums.Add(OrientationEnum.Left_By90);
+					if (sides.Right == false) enums.Add(OrientationEnum.Up_By0);
+					if (sides.Left == false) enums.Add(OrientationEnum.Down_By180);
+					if (sides.Up == false) enums.Add(OrientationEnum.Left_By90);
+					if (sides.Down == false) enums.Add(OrientationEnum.Right_By270);
 					break;
 				default:
 					Logger.LogWarning("Unknown orientation. Returning false.", Category.Directionals);
@@ -279,7 +279,7 @@ namespace Core.Directionals
 			base.OnDespawnServer(info);
 
 			if (Matrix == null) return;
-			
+
 			Matrix.MatrixInfo.SubsystemManager.UpdateAt(LocalPositionServer);
 		}
 
