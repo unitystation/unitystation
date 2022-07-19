@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Text;
 using UnityEngine;
 using Mirror;
 using DiscordWebhook;
@@ -130,6 +131,29 @@ namespace AdminCommands
 			DiscordWebhookMessage.Instance.AddWebHookMessageToQueue(DiscordWebhookURLs.DiscordWebhookOOCURL, msg, "");
 
 			LogAdminAction($"{player.Username}: {(Chat.Instance.OOCMute ? "Muted" : "Unmuted")} OOC");
+		}
+
+		[Command(requiresAuthority = false)]
+		public void CmdChangeGameMode(string nextGameMode, bool isSecret, NetworkConnectionToClient sender = null)
+		{
+			if (IsAdmin(sender, out var player) == false) return;
+
+			var message = new StringBuilder();
+
+			if (GameManager.Instance.NextGameMode != nextGameMode)
+			{
+				message.AppendLine($"{player.Username}: Updated the next game mode with {nextGameMode}");
+				GameManager.Instance.NextGameMode = nextGameMode;
+			}
+
+			if (GameManager.Instance.SecretGameMode != isSecret)
+			{
+				message.AppendLine($"{player.Username}: Set the IsSecret GameMode flag to {isSecret}");
+				GameManager.Instance.SecretGameMode = isSecret;
+			}
+
+			if(message.Length == 0) return;
+			LogAdminAction(message.ToString());
 		}
 
 		#endregion
