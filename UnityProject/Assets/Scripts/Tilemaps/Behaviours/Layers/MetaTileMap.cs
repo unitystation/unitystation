@@ -1116,7 +1116,7 @@ namespace TileManagement
 
 
 		/// <summary>
-		/// Checks if tile is empty of objects (only solid by default)
+		/// Checks if tile is empty of Tiles (only solid by default)
 		/// </summary>
 		public bool IsEmptyAt(Vector3Int position, bool isServer)
 		{
