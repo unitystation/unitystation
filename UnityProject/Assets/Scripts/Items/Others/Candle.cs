@@ -116,6 +116,7 @@ namespace Items.Others
 
 		void Degrade()
 		{
+			if (LifeSpan == -1) return;
 			LifeSpan--;
 			DecayStage = 4 - Mathf.CeilToInt((LifeSpan / 30f));
 			if (DecayStage == 4) ToggleLight(false);

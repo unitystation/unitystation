@@ -28,7 +28,7 @@ namespace Messages.Server.AdminTools
 				PlayerId = playerId
 			};
 
-			SendToMentors(msg);
+			SendToAdmins(msg);
 			return msg;
 		}
 
