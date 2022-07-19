@@ -16,6 +16,16 @@ public static class ConverterExtensions
 		return new Vector3(other.x, other.y, 0);
 	}
 
+	public static Vector2 To2(this Vector3Int other)
+	{
+		return new Vector2(other.x, other.y);
+	}
+
+	public static Vector3 To3(this Vector2Int other)
+	{
+		return new Vector3(other.x, other.y, 0);
+	}
+
 
 
 	public static Vector3 ToNonInt3(this Vector3Int other)

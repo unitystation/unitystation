@@ -15,8 +15,6 @@ public class RequestForceSpriteUpdate : ClientMessage<RequestForceSpriteUpdate.N
 		public string Data;
 	}
 
-
-
 	public override void Process(NetMessage msg)
 	{
 		//TODO Need some safeguards
@@ -27,10 +25,10 @@ public class RequestForceSpriteUpdate : ClientMessage<RequestForceSpriteUpdate.N
 		var spriteHandlerManager = NetworkObject.GetComponent<SpriteHandlerManager>();
 		if (spriteHandlerManager == null) return;
 
-		List<SpriteHandlerIdentifier> Received = null;
+		List<SpriteHandlerIdentifier> received = null;
 		try
 		{
-			Received = JsonConvert.DeserializeObject<List<SpriteHandlerIdentifier>>(msg.Data);
+			received = JsonConvert.DeserializeObject<List<SpriteHandlerIdentifier>>(msg.Data);
 		}
 		catch (Exception e)
 		{
@@ -38,42 +36,42 @@ public class RequestForceSpriteUpdate : ClientMessage<RequestForceSpriteUpdate.N
 			return;
 		}
 
-		if (Received != null)
+		if (received != null)
 		{
-			var ToRequestSH = new List<SpriteHandler>();
-			foreach (var TOC in Received)
+			var toRequestSH = new List<SpriteHandler>();
+			foreach (var toc in received)
 			{
-				if (NetworkIdentity.spawned.ContainsKey(TOC.ID))
+				if (NetworkServer.spawned.ContainsKey(toc.ID))
 				{
-					var NETID = NetworkIdentity.spawned[TOC.ID];
-					if (SpriteHandlerManager.PresentSprites.ContainsKey(NETID))
+					var netId = NetworkServer.spawned[toc.ID];
+					if (SpriteHandlerManager.PresentSprites.ContainsKey(netId))
 					{
-						if (SpriteHandlerManager.PresentSprites[NETID].ContainsKey(TOC.Name))
+						if (SpriteHandlerManager.PresentSprites[netId].ContainsKey(toc.Name))
 						{
-							ToRequestSH.Add(SpriteHandlerManager.PresentSprites[NETID][TOC.Name]);
+							toRequestSH.Add(SpriteHandlerManager.PresentSprites[netId][toc.Name]);
 						}
 					}
 				}
 			}
 
-			if (ToRequestSH.Count == 0) return;
-			spriteHandlerManager.ClientRequestForceUpdate(ToRequestSH, SentByPlayer.Connection);
+			if (toRequestSH.Count == 0) return;
+			spriteHandlerManager.ClientRequestForceUpdate(toRequestSH, SentByPlayer.Connection);
 		}
 	}
 
-	public static NetMessage Send(SpriteHandlerManager spriteHandlerManager, List<SpriteHandler> ToUpdate)
+	public static NetMessage Send(SpriteHandlerManager spriteHandlerManager, List<SpriteHandler> toUpdate)
 	{
 		if (CustomNetworkManager.Instance._isServer == true) return new NetMessage();
-		var TOSend = new List<SpriteHandlerIdentifier>();
-		foreach (var SH in ToUpdate)
+		var toSend = new List<SpriteHandlerIdentifier>();
+		foreach (var sh in toUpdate)
 		{
-			TOSend.Add(new SpriteHandlerIdentifier(SH.GetMasterNetID().netId, SH.name));
+			toSend.Add(new SpriteHandlerIdentifier(sh.GetMasterNetID().netId, sh.name));
 		}
 
 		var msg = new NetMessage()
 		{
 			SpriteHandlerManager = spriteHandlerManager.GetComponent<NetworkIdentity>().netId,
-			Data = JsonConvert.SerializeObject(TOSend)
+			Data = JsonConvert.SerializeObject(toSend)
 		};
 		Send(msg);
 		return msg;

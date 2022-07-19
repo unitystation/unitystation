@@ -123,7 +123,8 @@ namespace UI
 
 		public void InventoryChange()
 		{
-			if (PlayerManager.LocalPlayerScript.IsGhost) return;
+			if (PlayerManager.LocalPlayerScript.IsNormal == false) return;
+
 			if (Mask == null)
 			{
 				foreach (var maskItemSlot in PlayerManager.LocalPlayerScript.DynamicItemStorage.GetNamedItemSlots(NamedSlot.mask))

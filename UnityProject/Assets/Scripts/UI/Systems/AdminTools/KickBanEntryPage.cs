@@ -79,8 +79,9 @@ namespace AdminTools
 			gameObject.SetActive(true);
 		}
 
-		private void Start()
+		public override void Start()
 		{
+			base.Start();
 			//generate job list
 
 			var jobs = Enum.GetNames(typeof(JobType)).ToList();

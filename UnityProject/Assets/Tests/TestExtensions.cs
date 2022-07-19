@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEditor;
+using UnityEngine;
 using UnityEngine.Pool;
 
 namespace Tests
@@ -26,6 +28,14 @@ namespace Tests
 
 			names.Reverse();
 			return string.Join(separator, names);
+		}
+
+		public static string NameAndPosition(this Transform transform, string prefix = null)
+		{
+			if (transform == null) return string.Empty;
+
+			prefix = prefix is null ? string.Empty : $"{prefix} ";
+			return $"{prefix}\"{transform.HierarchyName()}\" at {transform.localPosition}";
 		}
 	}
 }

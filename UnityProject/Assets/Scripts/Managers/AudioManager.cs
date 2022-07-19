@@ -26,8 +26,10 @@ namespace Audio.Containers
         public AudioMixerGroup AmbientMixer;
         public AudioMixerGroup TTSMixer;
 
-        private void Start()
+        public override void Start()
         {
+	        base.Start();
+
             MasterVolume(
                 PlayerPrefs.HasKey(PlayerPrefKeys.MasterVolumeKey)
                     ? PlayerPrefs.GetFloat(PlayerPrefKeys.MasterVolumeKey)

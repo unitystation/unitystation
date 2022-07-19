@@ -12,15 +12,15 @@ using Newtonsoft.Json;
 using Objects;
 using Player.Movement;
 using ScriptableObjects.Audio;
+using Tiles;
 using UI.Action;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.Tilemaps;
 
-public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllable, IActionGUI ,ICooldown, IBumpableObject, ICheckedInteractable<ContextMenuApply>, IRightClickable
+public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllable, IActionGUI ,ICooldown, IBumpableObject, ICheckedInteractable<ContextMenuApply>
 {
 	public PlayerScript playerScript;
-
 
 	public List<MoveData> MoveQueue = new List<MoveData>();
 
@@ -151,7 +151,7 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 	/// Anything with PlayerMove can be cuffed and uncuffed. Might make sense to seperate that into its own behaviour
 	/// </summary>
 	/// <returns>The menu including the uncuff action if applicable, otherwise null</returns>
-	public RightClickableResult GenerateRightClickOptions()
+	public override RightClickableResult GenerateRightClickOptions()
 	{
 		var result = base.GenerateRightClickOptions();
 
@@ -589,6 +589,7 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 			{
 				bool Fudged = false;
 				Vector3 Stored = Vector3.zero;
+				var spawned = CustomNetworkManager.IsServer ? NetworkServer.spawned : NetworkClient.spawned;
 
 				var Entry = MoveQueue[0];
 				MoveQueue.RemoveAt(0);
@@ -597,7 +598,8 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 				{
 					if (Entry.Pulling != NetId.Empty)
 					{
-						if (ComponentManager.TryGetUniversalObjectPhysics(NetworkIdentity.spawned[Entry.Pulling].gameObject, out var SupposedlyPulling))
+
+						if (ComponentManager.TryGetUniversalObjectPhysics(spawned[Entry.Pulling].gameObject, out var SupposedlyPulling))
 						{
 							SupposedlyPulling.ResetLocationOnClient(connectionToClient);
 						}
@@ -607,7 +609,7 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 					{
 						foreach (var NonMatch in JsonConvert.DeserializeObject<List<uint>>(Entry.PushedIDs))
 						{
-							NetworkIdentity.spawned[NonMatch].GetComponent<UniversalObjectPhysics>()
+							spawned[NonMatch].GetComponent<UniversalObjectPhysics>()
 								.ResetLocationOnClient(connectionToClient);
 						}
 					}
@@ -621,7 +623,7 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 				if (Pulling.HasComponent == false && Entry.Pulling != NetId.Empty)
 				{
 					PullSet(null, false);
-					if (ComponentManager.TryGetUniversalObjectPhysics(NetworkIdentity.spawned[Entry.Pulling].gameObject, out var SupposedlyPulling))
+					if (ComponentManager.TryGetUniversalObjectPhysics(spawned[Entry.Pulling].gameObject, out var SupposedlyPulling))
 					{
 						SupposedlyPulling.ResetLocationOnClient(connectionToClient);
 					}
@@ -629,7 +631,7 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 				else if ( Pulling.HasComponent && Pulling.Component.netId != Entry.Pulling)
 				{
 					PullSet(null, false);
-					if (ComponentManager.TryGetUniversalObjectPhysics(NetworkIdentity.spawned[Entry.Pulling].gameObject, out var SupposedlyPulling))
+					if (ComponentManager.TryGetUniversalObjectPhysics(spawned[Entry.Pulling].gameObject, out var SupposedlyPulling))
 					{
 						SupposedlyPulling.ResetLocationOnClient(connectionToClient);
 					}
@@ -725,10 +727,9 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 								}
 							}
 
-
 							foreach (var NonMatch in Nonmatching)
 							{
-								NetworkIdentity.spawned[NonMatch].GetComponent<UniversalObjectPhysics>()
+								spawned[NonMatch].GetComponent<UniversalObjectPhysics>()
 									.ResetLocationOnClient(connectionToClient);
 							}
 						}
@@ -1265,6 +1266,28 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 				VectorToPlayerMoveDirection((AddedGlobalPosition - transform.position).To2Int());
 			//Logger.LogError(" Received move at  " + InMoveData.LocalPosition.ToString() + "  Currently at " + transform.localPosition );
 			MoveQueue.Add(InMoveData);
+		}
+	}
+
+	public override void LocalTileReached(Vector3 localPos)
+	{
+		var tile = registerTile.Matrix.MetaTileMap.GetTile(localPos.CutToInt(), LayerType.Base);
+		if (tile != null && tile is BasicTile c)
+		{
+			foreach (var interaction in c.TileStepInteractions)
+			{
+				if (interaction.WillAffectPlayer(playerScript) == false) continue;
+				interaction.OnPlayerStep(playerScript);
+			}
+		}
+
+		//Check for tiles before objects because of this list
+		if (registerTile.Matrix.MetaTileMap.ObjectLayer.EnterTileBaseList == null) return;
+		var loopto = registerTile.Matrix.MetaTileMap.ObjectLayer.EnterTileBaseList.Get(localPos.RoundToInt());
+		foreach (var enterTileBase in loopto)
+		{
+			if (enterTileBase.WillAffectPlayer(playerScript) == false) continue;
+			enterTileBase.OnPlayerStep(playerScript);
 		}
 	}
 }

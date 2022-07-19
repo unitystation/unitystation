@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using Core.Lighting;
 using Initialisation;
 using TileManagement;
 using Tiles;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
@@ -143,6 +145,14 @@ public class Layer : MonoBehaviour
 		InternalSetTile(position, tile);
 		tilemap.SetColor(position, color);
 		tilemap.SetTransformMatrix(position, transformMatrix);
+		//Client stuff, never spawn this on the server. (IsServer is technically a client in some cases so only return this on headless)
+		if (CustomNetworkManager.IsHeadless) return;
+		if (tile is not SimpleTile c) return; //Not a tile that has the data we need
+		if(c.CanBeHighlightedThroughScanners == false || c.HighlightObject == null) return;
+		var spawnHighlight = Spawn.ClientPrefab(c.HighlightObject, MatrixManager.LocalToWorld(position, matrix), this.transform); //Spawn highlight object ontop of tile
+		if(spawnHighlight.Successful == false || spawnHighlight.GameObject.TryGetComponent<HighlightScan>(out var scan) == false) return; //If this fails for whatever reason, return
+		c.AssoicatedSpawnedObjects.Add(spawnHighlight.GameObject); //Add it to a list that the tile will keep track off for when OnDestroy() happens
+		scan.Setup(c.sprite); //setup the highlight sprite rendere
 	}
 
 	public bool RemoveTile(Vector3Int position)

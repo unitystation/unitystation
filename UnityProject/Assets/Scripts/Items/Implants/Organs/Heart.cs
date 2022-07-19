@@ -23,7 +23,7 @@ namespace HealthV2
 
 		[SerializeField] private float dangerSaltLevel = 20f; //in u
 
-		public override void EmpResult()
+		public override void EmpResult(int strength)
 		{
 			if (DMMath.Prob(0.5f))
 			{
@@ -31,7 +31,7 @@ namespace HealthV2
 			}
 			else
 			{
-				base.EmpResult();
+				base.EmpResult(strength);
 			}
 		}
 

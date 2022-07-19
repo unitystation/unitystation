@@ -57,8 +57,9 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 
 	public static MatrixInfo MainStationMatrix => Get(Instance.mainStationMatrix);
 
-	private void Start()
+	public override void Start()
 	{
+		base.Start();
 		if (Application.isPlaying)
 		{
 			UpdateManager.Add(CallbackType.UPDATE, UpdateMe);

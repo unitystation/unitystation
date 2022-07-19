@@ -19,23 +19,21 @@ public static class NetworkUtils
 		{
 			return null;
 		}
-		else
-		{
 
-			if (NetworkIdentity.spawned.TryGetValue(netId, out var networkIdentity))
+		var spawned = CustomNetworkManager.IsServer ? NetworkServer.spawned : NetworkClient.spawned;
+
+		if (spawned.TryGetValue(netId, out var networkIdentity))
+		{
+			if (networkIdentity == null)
 			{
-				if (networkIdentity == null)
-				{
-					Logger.LogWarningFormat("NetworkIdentity.spawned.TryGetValue was true but networkIdentity var is null.", Category.Server);
-					return null;
-				}
-				return networkIdentity.gameObject;
-			}
-			else
-			{
-				Logger.LogWarningFormat("Unable to find object with id {0}.", Category.Server, netId);
+				Logger.LogWarningFormat("Network(Server/Client).spawned.TryGetValue was true but networkIdentity var is null.", Category.Server);
 				return null;
 			}
+
+			return networkIdentity.gameObject;
 		}
+
+		Logger.LogWarningFormat("Unable to find object with id {0}.", Category.Server, netId);
+		return null;
 	}
 }

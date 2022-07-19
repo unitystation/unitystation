@@ -294,7 +294,7 @@ namespace Objects.Other
 				if (mob.TryGetComponent<PlayerScript>(out var script))
 				{
 					//Only target normal players and alive players
-					if(script.PlayerState != PlayerScript.PlayerStates.Normal || script.IsDeadOrGhost) continue;
+					if(script.IsNormal == false || script.IsDeadOrGhost) continue;
 
 					//Check if player is allowed, but only if not an Ai turret as those will shoot all targets
 					if(turretType != TurretType.Ai && ValidatePlayer(script)) continue;
@@ -307,7 +307,7 @@ namespace Objects.Other
 					//Only target alive mobs
 					if(mobAi.IsDead) continue;
 
-					worldPos = mobAi.UOP.OfficialPosition;
+					worldPos = mobAi.ObjectPhysics.OfficialPosition;
 				}
 				else
 				{

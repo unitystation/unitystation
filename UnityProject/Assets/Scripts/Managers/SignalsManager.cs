@@ -13,7 +13,7 @@ namespace Managers
 
 		public HashSet<SignalReceiver> Receivers = new HashSet<SignalReceiver>();
 
-		private void Start()
+		public override void Start()
 		{
 			base.Start();
 			EventManager.AddHandler(Event.SceneUnloading, () => Receivers.Clear());
@@ -21,7 +21,7 @@ namespace Managers
 
 		/// <summary>
 		/// Called from the server as the Receivers list is only available for the host and to avoid clients from cheating.
-		/// Loops through all receivers and sends the signal if they match the signal type and/or frequancy
+		/// Loops through all receivers and sends the signal if they match the signal type and/or frequency
 		/// </summary>
 		[Server]
 		public void SendSignal(SignalEmitter emitter, SignalType type, SignalDataSO signalDataSo, ISignalMessage signalMessage = null)
@@ -103,7 +103,7 @@ namespace Managers
 		private IEnumerator DelayedSignalRecevie(float waitTime, SignalReceiver receiver, SignalEmitter emitter, SignalStrength strength, ISignalMessage signalMessage = null)
 		{
 			yield return WaitFor.Seconds(waitTime);
-			if (receiver.gameObject == null)
+			if (receiver.OrNull()?.gameObject == null)
 			{
 				//In case the object despawns before the signal reaches it
 				yield break;

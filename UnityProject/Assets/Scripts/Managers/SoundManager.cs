@@ -9,6 +9,7 @@ using UnityEngine;
 using UnityEngine.Audio;
 using UnityEngine.SceneManagement;
 using Audio.Containers;
+using Util;
 
 /// <summary>
 /// Manager that allows to play sounds.
@@ -36,18 +37,7 @@ public class SoundManager : MonoBehaviour
 	/// </summary>
 	public Dictionary<string, List<SoundSpawn>> NonplayingSounds = new Dictionary<string, List<SoundSpawn>>();
 
-	public static SoundManager Instance
-	{
-		get
-		{
-			if (!soundManager)
-			{
-				soundManager = FindObjectOfType<SoundManager>();
-			}
-
-			return soundManager;
-		}
-	}
+	public static SoundManager Instance => FindUtils.LazyFindObject(ref soundManager);
 
 	#region Lifecycle
 
@@ -523,22 +513,19 @@ public class SoundManager : MonoBehaviour
 
 		if (netId != NetId.Empty)
 		{
-			if (NetworkIdentity.spawned.ContainsKey(netId))
+			var spawned = CustomNetworkManager.IsServer ? NetworkServer.spawned : NetworkClient.spawned;
+			if (spawned.TryGetValue(netId, out var objectToPlayAt))
 			{
-				soundSpawn.transform.parent = NetworkIdentity.spawned[netId].transform;
+				soundSpawn.transform.parent = objectToPlayAt.transform;
 				soundSpawn.transform.localPosition = Vector3.zero;
-			}
-			else
-			{
-				soundSpawn.transform.parent = Instance.transform;
-				soundSpawn.transform.position = worldPos;
+
+				Instance.PlaySource(soundSpawn, polyphonic, isGlobal, audioSourceParameters.MixerType);
+				return;
 			}
 		}
-		else
-		{
-			soundSpawn.transform.parent = Instance.transform;
-			soundSpawn.transform.position = worldPos;
-		}
+
+		soundSpawn.transform.parent = Instance.transform;
+		soundSpawn.transform.position = worldPos;
 
 		Instance.PlaySource(soundSpawn, polyphonic, isGlobal, audioSourceParameters.MixerType);
 	}

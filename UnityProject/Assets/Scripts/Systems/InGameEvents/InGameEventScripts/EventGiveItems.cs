@@ -29,6 +29,7 @@ namespace InGameEvents
 			foreach (var player in PlayerList.Instance.InGamePlayers)
 			{
 				if (player.Script.IsDeadOrGhost) continue;
+				if (player.Script.IsNormal == false) continue;
 
 				var slot = player.Script.Equipment.ItemStorage.GetActiveHandSlot();
 

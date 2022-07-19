@@ -15,6 +15,7 @@ using Messages.Server.SoundMessages;
 using Audio.Containers;
 using Systems.Cargo;
 using UI.Systems.AdminTools;
+using Util;
 
 namespace AdminCommands
 {
@@ -331,6 +332,7 @@ namespace AdminCommands
 				return;
 			}
 
+			//TODO make gib interface and put on Ai, and blob (remove this health check)
 			if (player?.Script == null || player.Script.IsGhost || player.Script.playerHealth == null) return;
 
 			string message = $"{admin.Username}: Smited Username: {player.Username} ({player.Name})";
@@ -338,16 +340,13 @@ namespace AdminCommands
 
 			LogAdminAction(message);
 
+			//TODO make gib interface and put on Ai, and blob
 			player.Script.playerHealth.Gib();
 		}
 
 		/// <summary>
 		/// Heals a player up
 		/// </summary>
-		/// <param name="adminId"></param>
-		/// <param name="adminToken"></param>
-		/// <param name="userToHeal"></param>
-		/// <param name="sender"></param>
 		[Command(requiresAuthority = false)]
 		public void CmdHealUpPlayer(string userToHeal, NetworkConnectionToClient sender = null)
 		{
@@ -375,6 +374,29 @@ namespace AdminCommands
 			{
 				message = $"{admin.Username}: Attempted healing {player.Username} but they had no body!";
 			}
+			//Log what we did.
+			Logger.Log(message, Category.Admin);
+			LogAdminAction(message);
+		}
+
+		/// <summary>
+		/// OOC mute / unmute a player
+		/// </summary>
+		[Command(requiresAuthority = false)]
+		public void CmdOOCMutePlayer(string userToMute, NetworkConnectionToClient sender = null)
+		{
+			if (IsAdmin(sender, out var admin) == false) return;
+
+			if (PlayerList.Instance.TryGetByUserID(userToMute, out var player) == false)
+			{
+				Logger.LogError($"Could not find player with user ID '{userToMute}'. Unable to OOC mute.", Category.Admin);
+				return;
+			}
+
+			player.IsOOCMuted = !player.IsOOCMuted;
+
+			var message = $"{admin.Username}: OOC {(player.IsOOCMuted ? "Muted" : "Unmuted")} {player.Username}";
+
 			//Log what we did.
 			Logger.Log(message, Category.Admin);
 			LogAdminAction(message);

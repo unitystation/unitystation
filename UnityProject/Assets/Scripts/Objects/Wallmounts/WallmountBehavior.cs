@@ -22,12 +22,16 @@ namespace Objects.Wallmounts
 		private Transform child;
 		private Vector3 upVectorForRotation;
 
-		private void Start()
+		private void Awake()
 		{
 			upVectorForRotation = transform.up;
 			child = transform.GetChild(0);
 			directional = GetComponent<Rotatable>();
 			spriteRenderers = GetComponentsInChildren<SpriteRenderer>();
+		}
+
+		private void Start()
+		{
 			foreach (SpriteRenderer renderer in spriteRenderers)
 			{
 				//don't add it if it already exists

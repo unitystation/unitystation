@@ -4,6 +4,7 @@ using System.Linq;
 using JetBrains.Annotations;
 using Messages.Server;
 using UnityEngine;
+using Util;
 
 namespace UI.Action
 {
@@ -21,16 +22,7 @@ namespace UI.Action
 		private ActionTooltip tooltipInstance;
 
 		private static UIActionManager uIActionManager;
-		public static UIActionManager Instance {
-			get {
-				if (!uIActionManager)
-				{
-					uIActionManager = FindObjectOfType<UIActionManager>();
-				}
-
-				return uIActionManager;
-			}
-		}
+		public static UIActionManager Instance => FindUtils.LazyFindObject(ref uIActionManager);
 
 		/// <summary>
 		/// Returns true if an action that is aimable is active.

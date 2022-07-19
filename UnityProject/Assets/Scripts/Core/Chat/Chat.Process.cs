@@ -549,9 +549,10 @@ public partial class Chat
 		if (PlayerManager.LocalPlayerScript.IsGhost == false) return false;
 		if (Instance.GhostHearAll && PlayerManager.LocalPlayerScript.IsPlayerSemiGhost == false) return false;
 
-		if (NetworkIdentity.spawned.ContainsKey(originator))
+		var spawned = CustomNetworkManager.IsServer ? NetworkServer.spawned : NetworkClient.spawned;
+
+		if (spawned.TryGetValue(originator, out var getOrigin))
 		{
-			var getOrigin = NetworkIdentity.spawned[originator];
 			if (channels == ChatChannel.Local || channels == ChatChannel.Combat
 			                                  || channels == ChatChannel.Action)
 			{

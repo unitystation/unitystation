@@ -86,31 +86,13 @@ namespace Objects.Engineering
 			electricalNodeControl = GetComponent<ElectricalNodeControl>();
 			resistanceSourceModule = GetComponent<ResistanceSourceModule>();
 			integrity = GetComponent<Integrity>();
+
+			connectedDevices.RemoveAndSerialize(this, gameObject.scene, device => device == null);
 		}
-		private void OnEnable()
+		public override void OnEnable()
 		{
 			integrity.OnWillDestroyServer.AddListener(WhenDestroyed);
 			base.OnEnable();
-		}
-
-		private void Start()
-		{
-			CheckListOfDevicesForNulls();
-		}
-
-		private void CheckListOfDevicesForNulls()
-		{
-			if (connectedDevices.Count == 0) return;
-			for (int i = connectedDevices.Count - 1; i >= 0; i--)
-			{
-				if (connectedDevices[i] != null)
-				{
-					continue;
-				}
-
-				Logger.Log($"{name} has a null value in {i}.", Category.Electrical);
-				connectedDevices.RemoveAt(i);
-			}
 		}
 
 		private void OnDisable()

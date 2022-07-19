@@ -467,7 +467,6 @@ namespace Core.Editor.Tools
 		/// Courtesy of <see cref="https://answers.unity.com/questions/15225/how-do-i-remove-null-components-ie-missingmono-scr.html?childToView=1614734#answer-1614734"/>
 		private static void RemoveMissingScripts()
 		{
-			int compCount = 0;
 			int goCount = 0;
 
 			foreach (var o in LoadAllPrefabsOfType("Assets"))

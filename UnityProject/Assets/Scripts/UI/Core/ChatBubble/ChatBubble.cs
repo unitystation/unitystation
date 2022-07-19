@@ -141,12 +141,12 @@ public class ChatBubble : MonoBehaviour
 	private void OnEnable()
 	{
 		cam = Camera.main;
-		UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
+		UpdateManager.Add(CallbackType.LATE_UPDATE, UpdateMe);
 	}
 
 	private void OnDisable()
 	{
-		UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
+		UpdateManager.Remove(CallbackType.LATE_UPDATE, UpdateMe);
 	}
 
 	public void AppendToBubble(string newMessage, ChatModifier chatModifier = ChatModifier.None)
@@ -342,10 +342,36 @@ public class ChatBubble : MonoBehaviour
     {
 	    if (target != null)
 	    {
-		    Vector3 viewPos = cam.WorldToScreenPoint(target.position);
+		    Vector3 viewPos = manualWorldToScreenPoint(target.position);
 		    transform.position = viewPos;
 	    }
     }
+
+	Vector3 manualWorldToScreenPoint(Vector3 wp) {
+		// calculate view-projection matrix
+
+		var worldToCameraMatrix  = Matrix4x4.Inverse(Matrix4x4.TRS(
+			cam.transform.position,
+			cam.transform.rotation,
+			new Vector3(1, 1, -1)
+		) );
+
+		Matrix4x4 mat = cam.projectionMatrix * worldToCameraMatrix;
+
+		// multiply world point by VP matrix
+		Vector4 temp = mat * new Vector4(wp.x, wp.y, wp.z, 1f);
+
+		if (temp.w == 0f) {
+			// point is exactly on camera focus point, screen point is undefined
+			// unity handles this by returning 0,0,0
+			return Vector3.zero;
+		} else {
+			// convert x and y from clip space to window coordinates
+			temp.x = (temp.x/temp.w + 1f)*.5f * cam.pixelWidth;
+			temp.y = (temp.y/temp.w + 1f)*.5f * cam.pixelHeight;
+			return new Vector3(temp.x, temp.y, wp.z);
+		}
+	}
 
     /// <summary>
     /// Sets the text, style and size of the bubble to match the message's modifier.
