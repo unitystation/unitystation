@@ -342,7 +342,7 @@ public class MetaDataNode : IGasMixContainer
 
 	public bool IsOccupiedBlocked(MetaDataNode neighbourNode)
 	{
-		var direction = Position - neighbourNode.Position;
+		var direction =  neighbourNode.Position - Position;
 
 		var orientationEnum = Orientation.FromAsEnum(direction.To2());
 

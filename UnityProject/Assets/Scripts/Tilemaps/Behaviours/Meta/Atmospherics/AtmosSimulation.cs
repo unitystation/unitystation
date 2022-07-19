@@ -85,7 +85,7 @@ namespace Systems.Atmospherics
 				{
 					node.ReactionManager.AddWindEvent(node, windDirection, windForce);
 
-					Equalize(node);
+					Equalize();
 
 					for (int i = 1; i < nodes.Count; i++)
 					{
@@ -110,13 +110,13 @@ namespace Systems.Atmospherics
 		/// <summary>
 		/// The thing that actually equalises the tiles
 		/// </summary>
-		private void Equalize(MetaDataNode centerNode)
+		private void Equalize()
 		{
 			// If there is just one isolated tile, it's not necessary to calculate the mean. Speeds up things a bit.
 			if (nodes.Count <= 1)  return;
 
 			//Calculate the average gas from adding up all the adjacent tiles and dividing by the number of tiles
-			CalcMeanGasMix(centerNode);
+			CalcMeanGasMix();
 
 			//Then equalise the open gas mixes
 			for (var i = 0; i < nodes.Count; i++)
@@ -144,7 +144,7 @@ namespace Systems.Atmospherics
 		/// Calculate the average Gas tile if you averaged all the adjacent ones and itself
 		/// </summary>
 		/// <returns>The mean gas mix.</returns>
-		private void CalcMeanGasMix(MetaDataNode centerNode)
+		private void CalcMeanGasMix()
 		{
 			meanGasMix.Clear();
 
@@ -156,7 +156,7 @@ namespace Systems.Atmospherics
 				if (node == null) continue;
 
 				//Block transfer if wall / closed door or windoor / directional passable
-				if(doEqualise == false)
+				if(doEqualise)
 				{
 					meanGasMix.Volume += node.GasMix.Volume;
 					GasMix.TransferGas(meanGasMix, node.GasMix, node.GasMix.Moles, true);
