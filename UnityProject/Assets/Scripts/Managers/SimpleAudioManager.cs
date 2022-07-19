@@ -30,8 +30,9 @@ namespace Managers
 
 		public bool IsPlayingGlobally = false;
 
-		public void Awake()
+		private void Awake()
 		{
+			base.Awake();
 			Instance = this;
 			pathToFiles = Application.persistentDataPath + "\\Server\\DownloadedData\\Audio";
 			pathToListJson = Application.persistentDataPath + "\\Server";
