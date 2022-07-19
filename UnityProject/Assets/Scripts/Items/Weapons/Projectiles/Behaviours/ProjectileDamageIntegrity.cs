@@ -35,6 +35,21 @@ namespace Weapons.Projectiles.Behaviours
 
 			var thisGameObject = gameObject;
 
+			var data = new OnHitDetectData(damageData, thisGameObject.name, direction, hit.Normal, thisGameObject);
+
+			var allowDamage = true;
+
+			foreach (var hitDetect in coll.GetComponents<IOnPreHitDetect>())
+			{
+				var result = hitDetect.OnPreHitDetect(data);
+
+				//If one blocks damage then always block it
+				if (result == false) allowDamage = false;
+			}
+
+			//Return true if we are blocking damage so we despawn
+			if (allowDamage == false) return true;
+
 			integrity.ApplyDamage(damageData.Damage, damageData.AttackType, damageData.DamageType);
 
 			if (integrity.DoDamageMessage)
@@ -44,8 +59,6 @@ namespace Weapons.Projectiles.Behaviours
 
 			Logger.LogTraceFormat("Hit {0} for {1} with Integrity! bullet absorbed", Category.Firearms,
 				integrity.gameObject.name, damageData.Damage);
-
-			var data = new OnHitDetectData(damageData, thisGameObject.name, direction, hit.Normal, thisGameObject);
 
 			foreach (var hitDetect in coll.GetComponents<IOnHitDetect>())
 			{

@@ -20,6 +20,11 @@ public enum ObjectType
 	Wire
 }
 
+public interface IRegisterTileInitialised
+{
+	public void OnRegisterTileInitialised(RegisterTile registerTile);
+}
+
 /// <summary>
 /// Holds various behavior which affects the tile the object is currently on.
 /// A given tile in the ObjectLayer (which represents an individual square in the game world)
@@ -245,6 +250,16 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 	public void Initialize(Matrix matrix)
 	{
 		Matrix = matrix;
+
+		//Prevent interface running more than once
+		if (Initialized == false)
+		{
+			foreach (var registerTileInitialised in GetComponents<IRegisterTileInitialised>())
+			{
+				registerTileInitialised.OnRegisterTileInitialised(this);
+			}
+		}
+
 		Initialized = true;
 		var networkedMatrix = Matrix.transform.parent.GetComponent<NetworkedMatrix>();
 		if (isServer)

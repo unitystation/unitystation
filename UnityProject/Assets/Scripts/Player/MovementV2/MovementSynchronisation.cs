@@ -12,6 +12,7 @@ using Newtonsoft.Json;
 using Objects;
 using Player.Movement;
 using ScriptableObjects.Audio;
+using Tiles;
 using UI.Action;
 using UnityEngine;
 using UnityEngine.Events;
@@ -20,7 +21,6 @@ using UnityEngine.Tilemaps;
 public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllable, IActionGUI ,ICooldown, IBumpableObject, ICheckedInteractable<ContextMenuApply>
 {
 	public PlayerScript playerScript;
-
 
 	public List<MoveData> MoveQueue = new List<MoveData>();
 
@@ -1266,6 +1266,28 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 				VectorToPlayerMoveDirection((AddedGlobalPosition - transform.position).To2Int());
 			//Logger.LogError(" Received move at  " + InMoveData.LocalPosition.ToString() + "  Currently at " + transform.localPosition );
 			MoveQueue.Add(InMoveData);
+		}
+	}
+
+	public override void LocalTileReached(Vector3 localPos)
+	{
+		var tile = registerTile.Matrix.MetaTileMap.GetTile(localPos.CutToInt(), LayerType.Base);
+		if (tile != null && tile is BasicTile c)
+		{
+			foreach (var interaction in c.TileStepInteractions)
+			{
+				if (interaction.WillAffectPlayer(playerScript) == false) continue;
+				interaction.OnPlayerStep(playerScript);
+			}
+		}
+
+		//Check for tiles before objects because of this list
+		if (registerTile.Matrix.MetaTileMap.ObjectLayer.EnterTileBaseList == null) return;
+		var loopto = registerTile.Matrix.MetaTileMap.ObjectLayer.EnterTileBaseList.Get(localPos.RoundToInt());
+		foreach (var enterTileBase in loopto)
+		{
+			if (enterTileBase.WillAffectPlayer(playerScript) == false) continue;
+			enterTileBase.OnPlayerStep(playerScript);
 		}
 	}
 }

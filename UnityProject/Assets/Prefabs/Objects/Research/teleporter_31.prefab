@@ -101,6 +101,7 @@ GameObject:
   - component: {fileID: 114271200380045912}
   - component: {fileID: -8881836668373676160}
   - component: {fileID: 576515445534061084}
+  - component: {fileID: -5211881444522640019}
   m_Layer: 11
   m_Name: teleporter_31
   m_TagString: Untagged
@@ -237,6 +238,7 @@ MonoBehaviour:
     Magic: 0
     Bio: 0
     DismembermentProtectionChance: 0
+    StunImmunity: 0
   Resistances:
     LavaProof: 0
     FireProof: 0
@@ -249,7 +251,6 @@ MonoBehaviour:
   HeatResistance: 100
   ExplosionsDamage: 100
   doDamageMessage: 1
-  Meleeable: {fileID: 0}
 --- !u!114 &114271200380045912
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -294,20 +295,29 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   DEBUG: 0
-  SnapToGridOnStart: 0
+  SnapToGridOnStart: 1
   LocalTargetPosition: {x: 0, y: 0, z: 0}
   ChangesDirectionPush: 0
+  Intangible: 0
+  CanBeWindPushed: 1
+  IsPlayer: 0
+  InitialLocationSynchronised: 0
+  tileMoveSpeed: 1
   isNotPushable: 0
-  newtonianMovement: {x: 0, y: 0}
   airTime: 0
   slideTime: 0
+  SetIgnoreSticky: 0
   thrownBy: {fileID: 0}
   aim: 0
   spinMagnitude: 0
+  ForcedPushedFrame: 0
+  TryPushedFrame: 0
+  PushedFrame: 0
+  FramePushDecision: 1
   stickyMovement: 0
+  OnThrowEndResetRotation: 0
   maximumStickSpeed: 1.5
   onStationMovementsRound: 0
-  attributes: {fileID: 0}
   registerTile: {fileID: 0}
   ContextGameObjects:
   - {fileID: 0}
@@ -317,12 +327,21 @@ MonoBehaviour:
   CorrectingCourse: 0
   Pushing: []
   Hits: []
-  Speed: 1
-  AIR: 3
-  SLIDE: 4
   Animating: 0
-  IsFlyingSliding: 0
+  isFlyingSliding: 0
   IsMoving: 0
-  IsWalking: 0
   MoveIsWalking: 0
   LastUpdateClientFlying: 0
+  BuckledToObject: {fileID: 0}
+--- !u!114 &-5211881444522640019
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1740722113301756}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 951b14c699444c518d5cdfc2e667b1b9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
