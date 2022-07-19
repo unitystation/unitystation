@@ -17,5 +17,9 @@ MonoBehaviour:
   description: Steal the nuke disk by hitting it with your sword
   aiCanHave: 0
   ItemPool:
-    m_keys: []
-    m_values: []
+    m_keys:
+    - {fileID: 100328150011014054, guid: b998cf4e42b95ec4fbbb893c889010e8, type: 3}
+    m_values:
+    - AmountToSteal: 1
+      BlacklistedOccupations: []
+  uniqueTargets: 0
