@@ -16,8 +16,10 @@ namespace Managers
 		[SerializeField] private AudioSource globalSoundPlayer;
 
 		public List<SimpleAudioData> LoadDataFromServer;
-		private Dictionary<int, string> sharedData = new Dictionary<int, string>();
+		private Dictionary<int, SimpleAudioReference> sharedData = new Dictionary<int, SimpleAudioReference>();
 		private Dictionary<int, string> lobbyMusic = new Dictionary<int, string>();
+
+		public Dictionary<int, SimpleAudioReference> SharedData => sharedData;
 
 		private string pathToFiles;
 		private string pathToListJson;
@@ -46,13 +48,12 @@ namespace Managers
 		private void Update()
 		{
 			if (IsPlayingGlobally == false || (Time.time > clip.length + clipPlayStartTime) == false) return;
-			clip = null;
-			IsPlayingGlobally = false;
+			StopGlobalPlayer();
 		}
 
 		private IEnumerator LoadAudioIntoMemory(int id)
 		{
-			WWW request = new WWW(sharedData[id]);
+			WWW request = new WWW(sharedData[id].FilePath);
 			yield return request;
 			clip = request.GetAudioClip();
 		}
@@ -81,7 +82,10 @@ namespace Managers
 				var filePath = Path.Combine(pathToFiles, fileName);
 				Debug.Log(filePath);
 				File.WriteAllBytes(filePath, bytes);
-				sharedData.Add(audioLink.ID, filePath);
+				SimpleAudioReference reference = new SimpleAudioReference();
+				reference.FilePath = filePath;
+				reference.Data = audioLink;
+				sharedData.Add(audioLink.ID, reference);
 				if(audioLink.PlaysInLobby) lobbyMusic.Add(audioLink.ID, filePath);
 			}
 
@@ -108,6 +112,11 @@ namespace Managers
 			return true;
 		}
 
+		public static void PlayGlobally(int soundID)
+		{
+			Instance.StartCoroutine(Instance.Play(soundID));
+		}
+
 		/// <summary>
 		/// Plays a sound globally for all players. Uses the SimpleMusicPlayer object.
 		/// </summary>
@@ -115,6 +124,7 @@ namespace Managers
 		/// <returns></returns>
 		private IEnumerator Play(int idToPlay)
 		{
+			StopGlobalPlayer();
 			yield return LoadAudioIntoMemory(idToPlay);
 			if (clip == null)
 			{
@@ -139,7 +149,9 @@ namespace Managers
 
 		public void StopGlobalPlayer()
 		{
+			IsPlayingGlobally = false;
 			globalSoundPlayer.Stop();
+			clip = null;
 		}
 
 		/// <summary>
@@ -165,7 +177,7 @@ namespace Managers
 			if(localJson == null || localJson.Count == 0) return;
 			foreach (var data in localJson)
 			{
-				if (!string.IsNullOrEmpty(data.LinkToFile) && !string.IsNullOrEmpty(data.FileTitle) &&
+				if (string.IsNullOrEmpty(data.LinkToFile) == false && string.IsNullOrEmpty(data.FileTitle) == false &&
 				    data.ID > 0) continue;
 				Logger.LogError("[SimpleAudioManager] - One of the entries in the audio json for the server is not set up properly! Not going to update the list..");
 				return;
@@ -207,7 +219,7 @@ namespace Managers
 		{
 			LoadDataFromServer.Add(newData);
 			var file = JsonConvert.SerializeObject(LoadDataFromServer);
-			using StreamWriter fileWriter = new(jsonFilePath, append: true);
+			using StreamWriter fileWriter = new(jsonFilePath, append: false);
 			fileWriter.Write(file);
 			ServerSimpleAudioManagerListMessage.Send();
 		}
@@ -219,6 +231,12 @@ namespace Managers
 			public int ID; //The ID that is used to tell all clients what song to play
 			public bool IsMusic; //Is this music or sound effects? For admin tools. False for SFX, True for music.
 			public bool PlaysInLobby; //Will this automatically be played in the lobby?
+		}
+
+		public struct SimpleAudioReference
+		{
+			public SimpleAudioData Data;
+			public string FilePath;
 		}
 	}
 }

@@ -6,6 +6,7 @@ using DatabaseAPI;
 using Audio.Containers;
 using System.Threading.Tasks;
 using AddressableReferences;
+using Managers;
 
 
 namespace AdminTools
@@ -17,10 +18,7 @@ namespace AdminTools
 	{
 		public override void PlayAudio(int index) //send music to audio manager
 		{
-			if (index < audioList.Count)
-			{
-				//AdminCommandsManager.Instance.CmdPlayMusic(audioList[index]);
-			}
+			SimpleAudioManager.PlayGlobally(index);
 		}
 	}
 }

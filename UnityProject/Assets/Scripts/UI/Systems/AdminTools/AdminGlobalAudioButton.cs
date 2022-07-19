@@ -12,21 +12,17 @@ namespace AdminTools
 	{
 		public Text myText;
 		private int _index;
+		private AdminGlobalAudio adminGlobalAudio = null;
 
-		public void SetText(string textString)
+		public void Setup(AdminGlobalAudio admin, string textString, int index)
 		{
 			myText.text = textString;
-		}
-
-		public void SetIndex(int index)
-		{
 			_index = index;
+			adminGlobalAudio = admin;
 		}
 
 		public void Onclick()
 		{
-			var adminGlobalAudio = GetComponentInParent<AdminGlobalAudio>();
-
 			adminGlobalAudio.PlayAudio(_index); // Gives text to function to play audio.
 		}
 	}

@@ -1,8 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
 using Audio.Containers;
 using AddressableReferences;
+using Managers;
 
 namespace AdminTools
 {
@@ -12,61 +14,54 @@ namespace AdminTools
 	public class AdminGlobalAudio : MonoBehaviour
 	{
 		[SerializeField] private GameObject buttonTemplate = null;
+		[SerializeField] private Transform buttonList = null;
 		private AdminGlobalAudioSearchBar SearchBar;
 		public List<GameObject> audioButtons = new List<GameObject>();
 
-		[SerializeField] private AudioClipsArray audioAddressables = null;
-
-		public List<AddressableAudioSource> audioList;
+		public List<SimpleAudioManager.SimpleAudioReference> simpleAudioList = new List<SimpleAudioManager.SimpleAudioReference>();
 
 		private void Awake()
 		{
 			SearchBar = GetComponentInChildren<AdminGlobalAudioSearchBar>();
-			
-			DoLoadAudio(audioAddressables);
 		}
 
-		private void DoLoadAudio(AudioClipsArray audioAddressables)
+		private void OnEnable()
 		{
-			audioList = new List<AddressableAudioSource>();
+			LoadCustomMusic();
+		}
 
-			async Task LoadAudio()
+		private void LoadCustomMusic()
+		{
+			simpleAudioList.Clear();
+			foreach (var data in SimpleAudioManager.Instance.SharedData)
 			{
-				foreach (var audioSource in audioAddressables.AddressableAudioSource)
-				{
-					var audio = await AudioManager.GetAddressableAudioSourceFromCache(audioSource);
-					audioList.Add(audio);
-				}
-				LoadButtons();
+				simpleAudioList.Add(data.Value);
 			}
-			
-			_ = LoadAudio();
+			LoadButtons();
 		}
 
 		/// <summary>
-		/// Generates buttons for the audio list
+		/// Generates buttons for the audio list. Makes sure it's always up to date.
 		/// </summary>
 		private void LoadButtons()
 		{
+			foreach (var btn in audioButtons)
+			{
+				Destroy(btn);
+			}
 			if (SearchBar != null)
 			{
 				SearchBar.Resettext();
 			}
 
-			int index = 0;
-			foreach (AddressableAudioSource audio in audioList)
+			foreach (var audio in simpleAudioList)
 			{
-				AudioSource source = audio.AudioSource;
-				if (!source.loop)
-				{
-					GameObject button = Instantiate(buttonTemplate) as GameObject; //creates new button
-					button.SetActive(true);
-					AdminGlobalAudioButton buttonScript = button.GetComponent<AdminGlobalAudioButton>();
-					buttonScript.SetText(source.clip.name);
-					buttonScript.SetIndex(index++);
-					audioButtons.Add(button);
-					button.transform.SetParent(buttonTemplate.transform.parent, false);
-				}
+				GameObject button = Instantiate(buttonTemplate) as GameObject; //creates new button
+				button.SetActive(true);
+				AdminGlobalAudioButton buttonScript = button.GetComponent<AdminGlobalAudioButton>();
+				buttonScript.Setup(this, audio.Data.FileTitle, audio.Data.ID);
+				audioButtons.Add(button);
+				button.transform.SetParent(buttonList, false);
 			}
 		}
 
