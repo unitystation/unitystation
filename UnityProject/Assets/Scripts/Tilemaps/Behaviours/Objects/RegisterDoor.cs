@@ -17,6 +17,7 @@ using Util;
 		private TileChangeManager tileChangeManager;
 
 		private CheckedComponent<Rotatable> rotatableChecked = new CheckedComponent<Rotatable>();
+		public CheckedComponent<Rotatable> RotatableChecked => rotatableChecked;
 
 		[NonSerialized]
 		public InteractableDoor InteractableDoor;
@@ -77,7 +78,7 @@ using Util;
 		{
 			if (OneDirectionRestricted)
 			{
-				return DirectionCheck(reachingFrom, isServer, out _);
+				return DirectionCheck(reachingFrom, isServer);
 			}
 
 			return true;
@@ -87,17 +88,15 @@ using Util;
 		{
 			if (isClosed && OneDirectionRestricted)
 			{
-				return DirectionCheck(leavingTo, isServer, out _);
+				return DirectionCheck(leavingTo, isServer);
 			}
 
 			return true; //Should be able to walk out of closed doors
 		}
 
-		bool CheckViaDirectional(Rotatable directional, Vector3Int dir, out OrientationEnum directionEnum)
+		bool CheckViaDirectional(Rotatable directional, Vector3Int dir)
 		{
 			var dir2Int = dir.To2Int();
-
-			directionEnum = directional.CurrentDirection;
 
 			switch (directional.CurrentDirection)
 			{
@@ -115,7 +114,6 @@ using Util;
 					return true;
 			}
 
-			directionEnum = OrientationEnum.Default;
 			return true;
 		}
 
@@ -123,7 +121,7 @@ using Util;
 		{
 			if (isClosed && OneDirectionRestricted)
 			{
-				return DirectionCheck(from, isServer, out _);
+				return DirectionCheck(from, isServer);
 			}
 
 			return !isClosed;
@@ -138,7 +136,7 @@ using Util;
 		{
 			if (isClosed && OneDirectionRestricted)
 			{
-				return DirectionCheck(from, isServer, out _);
+				return DirectionCheck(from, isServer);
 			}
 
 			return !isClosed;
@@ -147,7 +145,7 @@ using Util;
 		/// <summary>
 		/// DirectionEnum only valid for objects with rotatable
 		/// </summary>
-		public bool DirectionCheck(Vector3Int from, bool isServer, out OrientationEnum directionEnum)
+		public bool DirectionCheck(Vector3Int from, bool isServer)
 		{
 			//Returns false if player is bumping door from the restricted direction
 			var position = isServer ? LocalPositionServer : LocalPositionClient;
@@ -156,10 +154,8 @@ using Util;
 			//Use Directional component if it exists
 			if (rotatableChecked.HasComponent)
 			{
-				return CheckViaDirectional(rotatableChecked.Component, direction, out directionEnum);
+				return CheckViaDirectional(rotatableChecked.Component, direction);
 			}
-
-			directionEnum = OrientationEnum.Default;
 
 			//OneDirectionRestricted is hardcoded to only be from the negative y position
 			Vector3Int v = Vector3Int.RoundToInt(transform.localRotation * Vector3.down);

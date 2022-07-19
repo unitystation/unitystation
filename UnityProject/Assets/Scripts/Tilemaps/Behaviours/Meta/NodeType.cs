@@ -30,6 +30,9 @@ public enum NodeOccupiedType : byte
 	Right = 1 << 1,
 	Down = 1 << 2,
 	Left = 1 << 3,
+
+	//Atmos blocked on all sides (is an isolated node e.g closed door)
+	Full = Up | Right | Down | Left
 }
 
 public static class NodeOccupiedUtil

@@ -1,6 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using NaughtyAttributes;
+using Util;
 
 namespace Core.Directionals
 {
@@ -28,7 +31,8 @@ namespace Core.Directionals
 		[SerializeField]
 		private PassableSides atmosphericPassableSides = default;
 
-		public Rotatable Rotatable { get; private set; }
+		private CheckedComponent<Rotatable> rotatableChecked = new CheckedComponent<Rotatable>();
+		public CheckedComponent<Rotatable> RotatableChecked => rotatableChecked;
 
 		public bool IsLeavableOnAll => isLeavableOnAll;
 		public bool IsEnterableOnAll => isEnterableOnAll;
@@ -46,9 +50,9 @@ namespace Core.Directionals
 
 		private void EnsureInit()
 		{
-			if (Rotatable != null) return;
+			if (rotatableChecked.HasComponent) return;
 
-			Rotatable = GetComponent<Rotatable>();
+			rotatableChecked.ResetComponent(this);
 		}
 
 		public override bool IsPassable(bool isServer, GameObject context = null)
@@ -68,7 +72,7 @@ namespace Core.Directionals
 			if (IsEnterableOnAll) return true;
 			if (Passable == false) return false;
 
-			return IsPassableAtSide(GetSideFromVector(enteringFrom), enterableSides, out _);
+			return IsPassableAtSide(GetSideFromVector(enteringFrom), enterableSides);
 		}
 
 		public override bool IsPassableFromInside(Vector3Int leavingTo, bool isServer, GameObject context = null)
@@ -77,7 +81,7 @@ namespace Core.Directionals
 			if (IsLeavableOnAll) return true;
 			if (Passable == false) return true;
 
-			return IsPassableAtSide(GetSideFromVector(leavingTo), leavableSides, out _);
+			return IsPassableAtSide(GetSideFromVector(leavingTo), leavableSides);
 		}
 
 		public override bool DoesNotBlockClick(Vector3Int reachingFrom, bool isServer)
@@ -85,7 +89,7 @@ namespace Core.Directionals
 			if (IsLeavableOnAll) return true;
 			if (Passable == false) return true;
 
-			return IsPassableAtSide(GetSideFromVector(reachingFrom), leavableSides, out _);
+			return IsPassableAtSide(GetSideFromVector(reachingFrom), leavableSides);
 		}
 
 		public override bool IsAtmosPassable(Vector3Int enteringFrom, bool isServer)
@@ -93,7 +97,7 @@ namespace Core.Directionals
 			if (IsAtmosPassableOnAll) return true;
 			if (AtmosPassable == false) return false;
 
-			return IsPassableAtSide(GetSideFromVector(enteringFrom), atmosphericPassableSides, out _);
+			return IsPassableAtSide(GetSideFromVector(enteringFrom), atmosphericPassableSides);
 		}
 
 		#endregion RegisterObject Overrides
@@ -178,28 +182,19 @@ namespace Core.Directionals
 			return (vector - LocalPosition).To2Int();
 		}
 
-		public bool IsPassableAtSide(Vector2Int localFromPos, PassableSides sides, out OrientationEnum orientationEnum)
-        {
-        IsPassableAtSide
-        }
-
-		private bool IsPassableAtSide(Vector2Int sideToCross, PassableSides sides, out OrientationEnum orientationEnum)
+		private bool IsPassableAtSide(Vector2Int sideToCross, PassableSides sides)
 		{
 			EnsureInit();
-			if (Rotatable == null)
+			if (rotatableChecked.HasComponent == false)
 			{
 				Logger.LogError($"No {nameof(Rotatable)} component found on {this}?", Category.Directionals);
-				orientationEnum = OrientationEnum.Default;
 				return false;
 			}
 
-			orientationEnum = OrientationEnum.Default;
 			if (sideToCross == Vector2Int.zero) return true;
 
-			orientationEnum = Rotatable.CurrentDirection;
-
 			// TODO: figure out a better way or at least use some data structure.
-			switch (Rotatable.CurrentDirection)
+			switch (rotatableChecked.Component.CurrentDirection)
 			{
 				case OrientationEnum.Up_By0:
 					if (sideToCross == Vector2Int.up) return sides.Down;
@@ -230,8 +225,53 @@ namespace Core.Directionals
 					break;
 			}
 
-			orientationEnum = OrientationEnum.Default;
 			return false;
+		}
+
+		public IEnumerable<OrientationEnum> GetOrientationsBlocked(PassableSides sides)
+		{
+			EnsureInit();
+			if (rotatableChecked.HasComponent == false)
+			{
+				Logger.LogError($"No {nameof(Rotatable)} component found on {this}?", Category.Directionals);
+				return Enumerable.Empty<OrientationEnum>();
+			}
+
+			var enums = new List<OrientationEnum>(4);
+
+			// TODO: figure out a better way or at least use some data structure.
+			switch (rotatableChecked.Component.CurrentDirection)
+			{
+				case OrientationEnum.Up_By0:
+					if (sides.Down) enums.Add(OrientationEnum.Down_By180);
+					if (sides.Up) enums.Add(OrientationEnum.Up_By0);
+					if (sides.Right) enums.Add(OrientationEnum.Right_By270);
+					if (sides.Left) enums.Add(OrientationEnum.Left_By90);
+					break;
+				case OrientationEnum.Down_By180:
+					if (sides.Up) enums.Add(OrientationEnum.Down_By180);
+					if (sides.Down) enums.Add(OrientationEnum.Up_By0);
+					if (sides.Left) enums.Add(OrientationEnum.Right_By270);
+					if (sides.Right) enums.Add(OrientationEnum.Left_By90);
+					break;
+				case OrientationEnum.Left_By90:
+					if (sides.Left) enums.Add(OrientationEnum.Up_By0);
+					if (sides.Right) enums.Add(OrientationEnum.Down_By180);
+					if (sides.Down) enums.Add(OrientationEnum.Left_By90);
+					if (sides.Up) enums.Add(OrientationEnum.Right_By270);
+					break;
+				case OrientationEnum.Right_By270:
+					if (sides.Right) enums.Add(OrientationEnum.Up_By0);
+					if (sides.Left) enums.Add(OrientationEnum.Down_By180);
+					if (sides.Up) enums.Add(OrientationEnum.Left_By90);
+					if (sides.Down) enums.Add(OrientationEnum.Right_By270);
+					break;
+				default:
+					Logger.LogWarning("Unknown orientation. Returning false.", Category.Directionals);
+					break;
+			}
+
+			return enums;
 		}
 
 		[Serializable]

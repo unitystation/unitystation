@@ -85,7 +85,7 @@ namespace Objects.Disposals
 
 		private void UpdateSpriteOrientation()
 		{
-			switch (directionalPassable.Rotatable.CurrentDirection)
+			switch (directionalPassable.RotatableChecked.Component.CurrentDirection)
 			{
 				case OrientationEnum.Up_By0:
 					baseSpriteHandler.ChangeSpriteVariant(1);

@@ -212,7 +212,7 @@ public class MetaDataNode : IGasMixContainer
 	/// Does this tile contain a closed airlock/shutters? Prevents gas exchange to adjacent tiles
 	/// (used for gas freezing)
 	/// </summary>
-	public bool IsIsolatedNode { get; set; }
+	public bool IsIsolatedNode => OccupiedType == NodeOccupiedType.Full;
 
 	/// <summary>
 	/// Is this tile occupied by something impassable (airtight!)
