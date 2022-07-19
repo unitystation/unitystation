@@ -27,7 +27,7 @@ namespace Items
 		{
 			if (!DefaultWillInteract.Default(interaction, side))
 				return false;
-			if ((side == NetworkSide.Client || CustomNetworkManager.IsServer) && requiresAltClick && KeyboardInputManager.IsAltPressed() == false)
+			if ((side == NetworkSide.Client || CustomNetworkManager.IsServer) && requiresAltClick && KeyboardInputManager.IsAltActionKeyPressed() == false)
 				return false;
 			playerInteracted = interaction.Performer;
 			return true;

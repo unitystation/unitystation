@@ -53,7 +53,7 @@ public class PositionalHandApply : HandApply
 				PlayerManager.LocalPlayerScript.DynamicItemStorage.GetActiveHandSlot(),
 				UIManager.CurrentIntent,
 				UIManager.DamageZone,
-				KeyboardInputManager.IsAltPressed());
+				KeyboardInputManager.IsAltActionKeyPressed());
 	}
 
 	/// <summary>
