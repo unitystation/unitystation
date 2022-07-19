@@ -223,16 +223,16 @@ public class MetaDataNode : IGasMixContainer
 
 	public bool Exists => this != None;
 
-	public void AddNeighborsToList(ref List<MetaDataNode> list)
+	public void AddNeighborsToList(ref List<(MetaDataNode, bool)> list)
 	{
 		lock (neighborList)
 		{
 			foreach (MetaDataNode neighbor in neighborList)
 			{
-				if (neighbor != null && neighbor.Exists)
-				{
-					list.Add(neighbor);
-				}
+				if (neighbor == null || neighbor.Exists == false) continue;
+
+				//Bool means to block gas equalise, e.g for when closed windoor/directional passable
+				list.Add((neighbor, IsOccupiedBlocked(neighbor) == false));
 			}
 		}
 	}
@@ -338,6 +338,16 @@ public class MetaDataNode : IGasMixContainer
 	public void ForceUpdateClient()
 	{
 		PositionMatrix.MetaDataLayer.AddNetworkChange(Position, this);
+	}
+
+	public bool IsOccupiedBlocked(MetaDataNode neighbourNode)
+	{
+		var direction = Position - neighbourNode.Position;
+
+		var orientationEnum = Orientation.FromAsEnum(direction.To2());
+
+		//Note HasFlag might not be the best way to check, could be slower than making If statement ourselves
+		return OccupiedType.HasFlag(NodeOccupiedUtil.DirectionEnumToOccupied(orientationEnum));
 	}
 }
 

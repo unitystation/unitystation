@@ -14,24 +14,19 @@ public enum NodeType : byte
 	/// <summary>
 	/// Node occupied by something such that is not passable or atmos passable (e.g closed door, walls)
 	/// </summary>
-	Occupied,
-
-	/// <summary>
-	/// Node occupied by something such that is not fully passable or atmos passable (e.g windoor, directional window...)
-	/// </summary>
-	SemiOccupied
+	Occupied
 }
 
 [Flags]
-public enum NodeOccupiedType : byte
+public enum NodeOccupiedType
 {
 	None = 0,
-	Up = 1 << 0,
-	Right = 1 << 1,
-	Down = 1 << 2,
-	Left = 1 << 3,
+	Right = 1 << 0,
+	Up = 1 << 1,
+	Left = 1 << 2,
+	Down = 1 << 3,
 
-	//Atmos blocked on all sides (is an isolated node e.g closed door)
+	//Atmos blocked on all sides (is an isolated node e.g closed door), but atmos still runs on tile (reactions)
 	Full = Up | Right | Down | Left
 }
 
