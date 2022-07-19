@@ -232,7 +232,10 @@ public class MetaDataNode : IGasMixContainer
 				if (neighbor == null || neighbor.Exists == false) continue;
 
 				//Bool means to block gas equalise, e.g for when closed windoor/directional passable
-				list.Add((neighbor, IsOccupiedBlocked(neighbor) == false));
+				//Have to do IsOccupiedBlocked from both tiles perspective
+				var equalise = neighbor.IsOccupied == false && neighbor.IsIsolatedNode == false
+						&& IsOccupiedBlocked(neighbor) == false && neighbor.IsOccupiedBlocked(this) == false;
+				list.Add((neighbor, equalise));
 			}
 		}
 	}
@@ -342,12 +345,18 @@ public class MetaDataNode : IGasMixContainer
 
 	public bool IsOccupiedBlocked(MetaDataNode neighbourNode)
 	{
-		var direction =  neighbourNode.Position - Position;
+		if (OccupiedType == NodeOccupiedType.None) return false;
+		if (OccupiedType == NodeOccupiedType.Full) return true;
 
+		var direction =  neighbourNode.Position - Position;
 		var orientationEnum = Orientation.FromAsEnum(direction.To2());
 
+		var occupied = NodeOccupiedUtil.DirectionEnumToOccupied(orientationEnum);
+
+		var result = OccupiedType.HasFlag(occupied);
+
 		//Note HasFlag might not be the best way to check, could be slower than making If statement ourselves
-		return OccupiedType.HasFlag(NodeOccupiedUtil.DirectionEnumToOccupied(orientationEnum));
+		return result;
 	}
 }
 

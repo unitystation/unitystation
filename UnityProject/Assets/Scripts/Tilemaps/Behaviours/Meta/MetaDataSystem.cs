@@ -274,7 +274,7 @@ public class MetaDataSystem : SubsystemBehaviour
 		for (int i = 0; i < freePositionDirectionalPassable.Length; i++)
 		{
 			var directionalPassable = freePositionDirectionalPassable[i];
-			if (directionalPassable.IsAtmosPassableOnAll || directionalPassable.AtmosPassable) continue;
+			if (directionalPassable.IsAtmosPassableOnAll) continue;
 
 			var blockedOrientations = directionalPassable.GetOrientationsBlocked(directionalPassable.AtmosphericPassableSides);
 
