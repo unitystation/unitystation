@@ -110,7 +110,7 @@ namespace Systems.Atmospherics
 		{
 			if (toSetRoom.ContainsKey(room))
 			{
-				Logger.LogError($"Room number: {room} was already added, cant add {toAdd.gameObject.ExpensiveName()}");
+				Logger.LogError($"Room number: {room} was already added, cant add {toAdd.gameObject.ExpensiveName()}, localPos: {toAdd.RegisterTile.LocalPosition}, matrix: {toAdd.RegisterTile.Matrix}");
 				return;
 			}
 
