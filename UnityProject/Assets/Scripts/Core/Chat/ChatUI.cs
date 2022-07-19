@@ -29,9 +29,9 @@ namespace UI.Chat_UI
 		[SerializeField, BoxGroup("Scroll Bar")] private Image scrollBackground = null;
 
 		[SerializeField] private AdminHelpChat adminHelpChat = null;
-		[SerializeField] private MentorHelpChat mentorHelpChat = null;
+		[SerializeField] private AdminHelpChat mentorHelpChat = null;
+		[SerializeField] private AdminHelpChat playerPrayerWindow = null;
 
-		[SerializeField] private PlayerPrayerWindow playerPrayerWindow = null;
 		[SerializeField] private GameObject helpSelectionPanel = null;
 		[SerializeField] private RectTransform chatUITransform = default;
 

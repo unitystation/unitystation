@@ -691,6 +691,11 @@ public partial class Chat : MonoBehaviour
 		ChatRelay.Instance.AddAdminPrivMessageToClient(message);
 	}
 
+	public static void AddPrayerPrivMsg(string message)
+	{
+		ChatRelay.Instance.AddPrayerPrivMessageToClient(message);
+	}
+
 	public static void AddMentorPrivMsg(string message)
 	{
 		ChatRelay.Instance.AddMentorPrivMessageToClient(message);

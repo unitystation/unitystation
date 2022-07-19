@@ -232,6 +232,14 @@ namespace AdminTools
 						prayerNotification?.RemoveNotification(notificationKey);
 						if (amt == 0) return;
 					}
+					if (adminChatWindows.SelectedWindow == AdminChatWindow.PrayerWindow)
+					{
+						if (adminChatWindows.playerPrayerWindow?.SelectedPlayer != null
+							&& adminChatWindows.playerPrayerWindow?.SelectedPlayer.uid == notificationKey)
+						{
+							break;
+						}
+					}
 					prayerNotification?.AddNotification(notificationKey, amt);
 					break;
 				case AdminChatWindow.AdminLogWindow:

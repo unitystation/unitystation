@@ -53,6 +53,7 @@ public class UIManager : MonoBehaviour, IInitialise
 	public AnimationCurve strandedZoomOutCurve;
 	public AdminChatButtons adminChatButtons;
 	public AdminChatButtons mentorChatButtons;
+	public AdminChatButtons prayerChatButtons;
 	public AdminChatWindows adminChatWindows;
 	public ProfileScrollView profileScrollView;
 	public PlayerAlerts playerAlerts;
@@ -267,6 +268,7 @@ public class UIManager : MonoBehaviour, IInitialise
 
 		adminChatButtons.transform.parent.gameObject.SetActive(false);
 		mentorChatButtons.transform.parent.gameObject.SetActive(false);
+		prayerChatButtons.transform.parent.gameObject.SetActive(false);
 		SetVersionDisplay = $"Work In Progress {GameData.BuildNumber}";
 	}
 
@@ -310,6 +312,7 @@ public class UIManager : MonoBehaviour, IInitialise
 	{
 		adminChatButtons.ClearAllNotifications();
 		mentorChatButtons.ClearAllNotifications();
+		prayerChatButtons.ClearAllNotifications();
 		adminChatWindows.ResetAll();
 		playerAlerts.ClearLogs();
 	}

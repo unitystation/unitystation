@@ -267,6 +267,14 @@ public class ChatRelay : NetworkBehaviour
 	}
 
 	[Client]
+	public void AddPrayerPrivMessageToClient(string message)
+	{
+		trySendingTTS(message);
+
+		ChatUI.Instance.AddChatEntry(message);
+	}
+
+	[Client]
 	public void AddMentorPrivMessageToClient(string message)
 	{
 		trySendingTTS(message);
