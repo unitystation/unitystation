@@ -30,7 +30,7 @@ namespace Managers
 
 		public bool IsPlayingGlobally = false;
 
-		private void Awake()
+		public override void Awake()
 		{
 			base.Awake();
 			Instance = this;
