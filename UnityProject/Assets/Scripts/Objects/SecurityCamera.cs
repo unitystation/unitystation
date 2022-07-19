@@ -425,7 +425,7 @@ namespace Objects
 				if (mob.TryGetComponent<PlayerScript>(out var script))
 				{
 					//Only target normal players and alive players can trigger sensor
-					if(script.PlayerState != PlayerScript.PlayerStates.Normal || script.IsDeadOrGhost) continue;
+					if(script.IsNormal == false || script.IsDeadOrGhost) continue;
 
 					worldPos = script.WorldPos;
 				}
@@ -435,7 +435,7 @@ namespace Objects
 					//Only alive mobs can trigger sensor
 					if(mobAi.IsDead) continue;
 
-					worldPos = mobAi.UOP.transform.position;
+					worldPos = mobAi.ObjectPhysics.transform.position;
 				}
 				else
 				{

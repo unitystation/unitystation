@@ -91,7 +91,7 @@ namespace Objects
 			});
 		}
 
-		public void OnSpawnServer(SpawnInfo info)
+		public virtual void OnSpawnServer(SpawnInfo info)
 		{
 			if (spawnContentsAtRoundstart)
 			{
@@ -99,7 +99,7 @@ namespace Objects
 			}
 		}
 
-		public void OnDespawnServer(DespawnInfo info)
+		public virtual void OnDespawnServer(DespawnInfo info)
 		{
 			RetrieveObjects();
 		}

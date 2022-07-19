@@ -17,7 +17,7 @@ namespace Communications
 		public bool ListenToEncryptedData = false; //For devices that are designed for spying and hacking
 
 
-		public void OnSpawnServer(SpawnInfo info)
+		public virtual void OnSpawnServer(SpawnInfo info)
 		{
 			SignalsManager.Instance.Receivers.Add(this);
 		}

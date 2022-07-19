@@ -71,8 +71,11 @@ namespace UI.Core.NetUI
 				yield break;
 			}
 
+			var spawned =
+				CustomNetworkManager.IsServer ? NetworkServer.spawned : NetworkClient.spawned;
+
 			int tries = 0;
-			while (!NetworkIdentity.spawned.ContainsKey(id))
+			while (spawned.ContainsKey(id) == false)
 			{
 				if (tries++ > 10)
 				{
@@ -83,7 +86,7 @@ namespace UI.Core.NetUI
 				yield return WaitFor.EndOfFrame;
 			}
 
-			ResolvedObject = NetworkIdentity.spawned[id].gameObject;
+			ResolvedObject = spawned[id].gameObject;
 		}
 
 		public override void ExecuteServer(PlayerInfo subject) { }

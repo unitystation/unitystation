@@ -93,9 +93,6 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IActi
 	private static bool verified;
 	private static ulong SteamID;
 
-	private Vector3IntEvent onTileReached = new Vector3IntEvent();
-	public Vector3IntEvent OnTileReached() => onTileReached;
-
 	public float RTT;
 
 	[HideInInspector] public bool RcsMode;
@@ -150,39 +147,6 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IActi
 		playerCrafting = GetComponent<PlayerCrafting>();
 		PlayerSync = GetComponent<MovementSynchronisation>();
 		statusEffectManager = GetComponent<StatusEffectManager>();
-
-
-		this.WaitForNetworkManager(() =>
-		{
-			if (CustomNetworkManager.IsServer)
-			{
-				objectPhysics.OnLocalTileReached.RemoveListener(OnLocalPositionChangedServer);
-				objectPhysics.OnLocalTileReached.AddListener(OnLocalPositionChangedServer);
-			}
-		});
-	}
-
-	public void OnLocalPositionChangedServer(Vector3 newPosition)
-	{
-		var tile = registerTile.Matrix.MetaTileMap.GetTile(newPosition.CutToInt(), LayerType.Base);
-		if (tile != null && tile is BasicTile c)
-		{
-			foreach (var interaction in c.TileStepInteractions)
-			{
-				if (interaction.WillAffectPlayer(this) == false) continue;
-				interaction.OnPlayerStep(this);
-			}
-		}
-		//Check for tiles before objects because of this list
-		if (registerTile.Matrix.MetaTileMap.ObjectLayer.FloorHazardList == null) return;
-		var loopto = registerTile.Matrix.MetaTileMap.ObjectLayer.FloorHazardList.Get(newPosition.RoundToInt());
-		foreach (var floorHazard in loopto)
-		{
-			if (floorHazard.WillAffectPlayer(this))
-			{
-				floorHazard.OnPlayerStep(this);
-			}
-		}
 	}
 
 	public override void OnStartClient()
@@ -418,9 +382,14 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IActi
 	public bool IsHidden => PlayerSync.IsVisible == false;
 
 	/// <summary>
-	/// True if this player is a ghost, meaning they exist in the ghost layer
+	/// True if this player is a ghost
 	/// </summary>
-	public bool IsGhost => (PlayerState == PlayerStates.Normal) == false;
+	public bool IsGhost => PlayerState == PlayerStates.Ghost;
+
+	/// <summary>
+	/// True if this player is a normal player prefab (not ghost, Ai, blob, etc)
+	/// </summary>
+	public bool IsNormal => PlayerState == PlayerStates.Normal;
 
 	/// <summary>
 	/// Same as is ghost, but also true when player inside his dead body
@@ -600,7 +569,7 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IActi
 	{
 		string newVisibleName;
 
-		if (IsGhost || Equipment.IsIdentityObscured() == false)
+		if (IsNormal == false || Equipment.IsIdentityObscured() == false)
 		{
 			newVisibleName = playerName; // can see face so real identity is known
 		}

@@ -24,10 +24,7 @@ namespace UI
 		/// </summary>
 		public void Resist()
 		{
-			if (PlayerManager.LocalPlayerScript.IsGhost)
-			{
-				return;
-			}
+			if (PlayerManager.LocalPlayerScript.IsNormal == false) return;
 
 			PlayerManager.LocalPlayerScript.playerNetworkActions.CmdResist();
 
@@ -44,15 +41,9 @@ namespace UI
 
 			var currentSlot = PlayerManager.LocalPlayerScript.DynamicItemStorage.GetActiveHandSlot();
 
-			if (PlayerManager.LocalPlayerScript.IsGhost)
-			{
-				return;
-			}
+			if (PlayerManager.LocalPlayerScript.IsNormal == false) return;
 
-			if (currentSlot.Item == null)
-			{
-				return;
-			}
+			if (currentSlot.Item == null) return;
 
 			if (UIManager.IsThrow)
 			{

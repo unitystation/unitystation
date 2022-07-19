@@ -6,7 +6,7 @@ namespace Core.Lighting
 {
 	public class HighlightScan : MonoBehaviour
 	{
-		private SpriteRenderer renderer;
+		private SpriteRenderer spriteRenderer;
 
 		private void Awake()
 		{
@@ -17,39 +17,39 @@ namespace Core.Lighting
 				return;
 			}
 
-			renderer = GetComponentInChildren<SpriteRenderer>();
-			Color alphaZero = renderer.color;
+			spriteRenderer = GetComponentInChildren<SpriteRenderer>();
+			Color alphaZero = spriteRenderer.color;
 			alphaZero.a = 0;
-			renderer.color = alphaZero;
+			spriteRenderer.color = alphaZero;
 
 			HighlightScanManager.Instance.HighlightScans.Add(this);
 		}
 
 		private void OnDisable()
 		{
-			HighlightScanManager.Instance.HighlightScans.Remove(this);
+			HighlightScanManager.Instance.OrNull()?.HighlightScans.Remove(this);
 		}
 
 		public void Setup(Sprite sprite)
 		{
-			renderer.sprite = sprite;
+			spriteRenderer.sprite = sprite;
 		}
 
 		public IEnumerator Highlight()
 		{
-			Color noAlpha = renderer.color;
-			Color alpha = renderer.color;
+			Color noAlpha = spriteRenderer.color;
+			Color alpha = spriteRenderer.color;
 			alpha.a = 0.99f;
-			renderer.color = alpha;
-			while (renderer.color.a > 0.1f)
+			spriteRenderer.color = alpha;
+			while (spriteRenderer.color.a > 0.1f)
 			{
 				yield return WaitFor.EndOfFrame;
 				alpha = Color.Lerp(alpha, noAlpha, 0.5f * Time.deltaTime);
-				renderer.color = alpha;
+				spriteRenderer.color = alpha;
 			}
 
 			alpha.a = 0;
-			renderer.color = alpha;
+			spriteRenderer.color = alpha;
 		}
 	}
 }

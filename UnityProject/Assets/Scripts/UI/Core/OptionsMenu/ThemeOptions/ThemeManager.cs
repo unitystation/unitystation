@@ -6,6 +6,7 @@ using System.Linq;
 using AddressableReferences;
 using Initialisation;
 using UnityEngine;
+using Util;
 using YamlDotNet.RepresentationModel;
 
 namespace Unitystation.Options
@@ -17,17 +18,7 @@ namespace Unitystation.Options
     public class ThemeManager : MonoBehaviour, IInitialise
     {
         private static ThemeManager themeManager;
-        public static ThemeManager Instance
-        {
-            get
-            {
-                if (themeManager == null)
-                {
-                    themeManager = FindObjectOfType<ThemeManager>();
-                }
-                return themeManager;
-            }
-        }
+        public static ThemeManager Instance => FindUtils.LazyFindObject(ref themeManager);
 
         [SerializeField]
         private List<AddressableAudioSource> mentionSounds = new List<AddressableAudioSource>();

@@ -21,8 +21,10 @@ namespace Objects.Other
 		private bool trapInSnare;
 		public bool IsArmed => isArmed;
 
-		public void Awake()
+		protected override void Awake()
 		{
+			base.Awake();
+
 			if (trapPreview == null)
 			{
 				Logger.LogError($"{gameObject} spawned with a null trapPreview. We can't get it on awake due to the existence of two SpriteHandlers!");
@@ -101,7 +103,7 @@ namespace Objects.Other
 
 		public override bool WillAffectPlayer(PlayerScript playerScript)
 		{
-			return playerScript.IsGhost == false;
+			return playerScript.PlayerState == PlayerScript.PlayerStates.Normal;
 		}
 
 		public override void OnPlayerStep(PlayerScript playerScript)

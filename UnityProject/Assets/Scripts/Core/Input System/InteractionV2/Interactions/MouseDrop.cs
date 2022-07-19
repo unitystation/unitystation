@@ -49,10 +49,8 @@ public class MouseDrop : TargetedInteraction
 	/// <returns></returns>
 	public static MouseDrop ByLocalPlayer(GameObject droppedObject, GameObject targetObject)
 	{
-		if (PlayerManager.LocalPlayerScript.IsGhost)
-		{
-			return Invalid;
-		}
+		if (PlayerManager.LocalPlayerScript.IsNormal == false) return Invalid;
+
 		var pu = droppedObject.GetComponent<Pickupable>();
 		if (pu != null)
 		{

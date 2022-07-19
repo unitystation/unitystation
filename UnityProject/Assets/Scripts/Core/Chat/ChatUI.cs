@@ -193,8 +193,10 @@ namespace UI.Chat_UI
 		public bool Showing = false;
 		public bool Animating = false;
 
-		public void Start()
+		public override void Start()
 		{
+			base.Start();
+
 			// subscribe to input fields update
 			InputFieldChat.onValueChanged.AddListener(OnInputFieldChatValueChanged);
 
@@ -224,8 +226,9 @@ namespace UI.Chat_UI
 			UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
 		}
 
-		private void OnDestroy()
+		public override void OnDestroy()
 		{
+			base.OnDestroy();
 			EventManager.RemoveHandler(Event.UpdateChatChannels, OnUpdateChatChannels);
 		}
 

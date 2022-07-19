@@ -50,4 +50,9 @@ public class OverlayTile : LayerTile
 		}
 		return false;
 	}
+
+	public override int GetHashCode()
+	{
+		return base.GetHashCode();
+	}
 }

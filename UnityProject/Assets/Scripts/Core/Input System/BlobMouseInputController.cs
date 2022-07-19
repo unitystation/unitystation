@@ -38,6 +38,13 @@ public class BlobMouseInputController : MouseInputController
 			return;
 		}
 
+		if (KeyboardInputManager.IsMiddleMouseButtonPressed())
+		{
+			//Rally blobs
+			blobPlayer.CmdRally(MouseUtils.MouseToWorldPos().RoundToInt());
+			return;
+		}
+
 		if (CommonInput.GetMouseButtonDown(0))
 		{
 
@@ -98,6 +105,9 @@ public class BlobMouseInputController : MouseInputController
 					break;
 				case BlobConstructs.Reflective:
 					blobPlayer.CmdTryPlaceStrongReflective(MouseUtils.MouseToWorldPos().RoundToInt());
+					break;
+				case BlobConstructs.Rally:
+					blobPlayer.CmdRally(MouseUtils.MouseToWorldPos().RoundToInt());
 					break;
 				default:
 					Logger.LogError("Switch has no correct case for blob click!", Category.Blob);

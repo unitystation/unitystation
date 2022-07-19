@@ -115,10 +115,6 @@ namespace Blob
 
 		public void RallySpores()
 		{
-			Chat.AddExamineMsgToClient("The blob has yet to evolve to command these.");
-
-			return;
-
 			if (rally)
 			{
 				overlayRally.SetActive(false);
@@ -130,6 +126,8 @@ namespace Blob
 			ClearBools();
 			rally = true;
 
+			controller.placeOther = !controller.placeOther;
+			controller.blobConstructs = BlobConstructs.Rally;
 			ClearOutline();
 			overlayRally.SetActive(controller.placeOther);
 		}

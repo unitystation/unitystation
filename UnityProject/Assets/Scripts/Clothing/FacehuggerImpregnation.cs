@@ -18,9 +18,6 @@ namespace Clothing
 		[Tooltip("Time it takes to successfully insert the larvae inside the victim")] [SerializeField]
 		private float coitusTime = 10;
 
-		[Tooltip("Time it takes for the larvae to 'birth'")] [SerializeField]
-		private int pregnancyTime = 300;
-
 		[Tooltip("Reference to facehugger gameObject so we can spawn it")] [SerializeField]
 		private GameObject facehugger = null;
 

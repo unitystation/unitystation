@@ -4,6 +4,7 @@ using Initialisation;
 using Managers.SettingsManager;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using Util;
 
 /// <summary>
 /// Handles ChatBubbles and displays them in ScreenSpace
@@ -12,18 +13,7 @@ public class ChatBubbleManager : MonoBehaviour, IInitialise
 {
 	private static ChatBubbleManager chatBubbleManager;
 
-	public static ChatBubbleManager Instance
-	{
-		get
-		{
-			if (chatBubbleManager == null)
-			{
-				chatBubbleManager = FindObjectOfType<ChatBubbleManager>();
-			}
-
-			return chatBubbleManager;
-		}
-	}
+	public static ChatBubbleManager Instance => FindUtils.LazyFindObject(ref chatBubbleManager);
 
 	private List<ChatBubble> chatBubblePool = new List<ChatBubble>();
 	private List<ActionText> actionPool = new List<ActionText>();

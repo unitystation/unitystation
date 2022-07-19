@@ -76,7 +76,7 @@ public partial class SubSceneManager
 		yield return WaitFor.EndOfFrame;
 
 		var objCount = 0;
-		var netIds = NetworkIdentity.spawned.Values.ToList();
+		var netIds = NetworkServer.spawned.Values.ToList();
 		foreach (var n in netIds)
 		{
 			if (n == null) continue;

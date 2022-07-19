@@ -9,7 +9,7 @@ namespace Items
 	/// <summary>
 	/// Indicates an object that emits sound upon activation (bike horn/air horn...)
 	/// </summary>
-	public class Horn : MonoBehaviour, ICheckedInteractable<HandActivate>, ICheckedInteractable<PositionalHandApply>, IPlayerEntersTile
+	public class Horn : EnterTileBase, ICheckedInteractable<HandActivate>, ICheckedInteractable<PositionalHandApply>
 	{
 		[SerializeField]
 		private float Cooldown = 0.2f;
@@ -121,13 +121,13 @@ namespace Items
 			return itemslot != null ? itemslot.ItemStorage.GetRootStorageOrPlayer() : gameObject;
 		}
 
-		public bool WillAffectPlayer(PlayerScript playerScript)
+		public override bool WillAffectPlayer(PlayerScript playerScript)
 		{
 			//Don't allow ghosts? :(
-			return playerScript.IsGhost == false;
+			return playerScript.PlayerState == PlayerScript.PlayerStates.Normal;
 		}
 
-		public void OnPlayerStep(PlayerScript playerScript)
+		public override void OnPlayerStep(PlayerScript playerScript)
 		{
 			ClassicHonk();
 		}
