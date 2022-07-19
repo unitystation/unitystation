@@ -12,6 +12,7 @@ using Core.Chat;
 using Messages.Server;
 using Items;
 using Tiles;
+using Util;
 
 /// <summary>
 /// The Chat API
@@ -22,18 +23,8 @@ public partial class Chat : MonoBehaviour
 {
 	private static Chat chat;
 
-	public static Chat Instance
-	{
-		get
-		{
-			if (chat == null)
-			{
-				chat = FindObjectOfType<Chat>();
-			}
+	public static Chat Instance => FindUtils.LazyFindObject(ref chat);
 
-			return chat;
-		}
-	}
 	//Does the ghost hear everyone or just local
 	public bool GhostHearAll { get; set; } = true;
 

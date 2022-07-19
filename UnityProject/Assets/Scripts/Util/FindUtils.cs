@@ -6,6 +6,7 @@ using UnityEditor;
 #endif
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using Object = UnityEngine.Object;
 
 namespace Util
 {
@@ -103,6 +104,16 @@ namespace Util
 			}
 #endif
 			return parentsAndChilds;
+		}
+
+		/// <summary>
+		/// Returns the reference if it isn't null or finds an object of that type, sets the reference, and returns it.
+		/// This uses the slow FindObjectOfType method, consider alternative ways to get the object.
+		/// </summary>
+		public static T LazyFindObject<T>(ref T obj, bool includeInactive = false) where T : Object
+		{
+			if (obj == null) obj = Object.FindObjectOfType<T>(includeInactive);
+			return obj;
 		}
 	}
 }
