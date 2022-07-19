@@ -72,6 +72,11 @@ public class MetaDataNode : IGasMixContainer
 	public NodeType Type;
 
 	/// <summary>
+	/// Occupied Type of this node.
+	/// </summary>
+	public NodeOccupiedType OccupiedType;
+
+	/// <summary>
 	/// The mixture of gases currently on this node.
 	/// </summary>
 	public GasMix GasMix { get; set; }

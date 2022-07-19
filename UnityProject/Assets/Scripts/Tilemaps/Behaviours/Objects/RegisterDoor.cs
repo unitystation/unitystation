@@ -77,7 +77,7 @@ using Util;
 		{
 			if (OneDirectionRestricted)
 			{
-				return DirectionCheck(reachingFrom, isServer);
+				return DirectionCheck(reachingFrom, isServer, out _);
 			}
 
 			return true;
@@ -87,15 +87,18 @@ using Util;
 		{
 			if (isClosed && OneDirectionRestricted)
 			{
-				return DirectionCheck(leavingTo, isServer);
+				return DirectionCheck(leavingTo, isServer, out _);
 			}
 
 			return true; //Should be able to walk out of closed doors
 		}
 
-		bool CheckViaDirectional(Rotatable directional, Vector3Int dir)
+		bool CheckViaDirectional(Rotatable directional, Vector3Int dir, out OrientationEnum directionEnum)
 		{
 			var dir2Int = dir.To2Int();
+
+			directionEnum = directional.CurrentDirection;
+
 			switch (directional.CurrentDirection)
 			{
 				case OrientationEnum.Down_By180:
@@ -112,6 +115,7 @@ using Util;
 					return true;
 			}
 
+			directionEnum = OrientationEnum.Default;
 			return true;
 		}
 
@@ -119,7 +123,7 @@ using Util;
 		{
 			if (isClosed && OneDirectionRestricted)
 			{
-				return DirectionCheck(from, isServer);
+				return DirectionCheck(from, isServer, out _);
 			}
 
 			return !isClosed;
@@ -134,26 +138,31 @@ using Util;
 		{
 			if (isClosed && OneDirectionRestricted)
 			{
-				return DirectionCheck(from, isServer);
+				return DirectionCheck(from, isServer, out _);
 			}
 
 			return !isClosed;
 		}
 
-		private bool DirectionCheck(Vector3Int from, bool isServer)
+		/// <summary>
+		/// DirectionEnum only valid for objects with rotatable
+		/// </summary>
+		public bool DirectionCheck(Vector3Int from, bool isServer, out OrientationEnum directionEnum)
 		{
-			// OneDirectionRestricted is hardcoded to only be from the negative y position
-			Vector3Int v = Vector3Int.RoundToInt(transform.localRotation * Vector3.down);
-
-			// Returns false if player is bumping door from the restricted direction
-			var position = isServer? LocalPositionServer : LocalPositionClient;
+			//Returns false if player is bumping door from the restricted direction
+			var position = isServer ? LocalPositionServer : LocalPositionClient;
 			var direction = from - position;
 
 			//Use Directional component if it exists
 			if (rotatableChecked.HasComponent)
 			{
-				return CheckViaDirectional(rotatableChecked.Component, direction);
+				return CheckViaDirectional(rotatableChecked.Component, direction, out directionEnum);
 			}
+
+			directionEnum = OrientationEnum.Default;
+
+			//OneDirectionRestricted is hardcoded to only be from the negative y position
+			Vector3Int v = Vector3Int.RoundToInt(transform.localRotation * Vector3.down);
 
 			return !direction.y.Equals(v.y) || !direction.x.Equals(v.x);
 		}

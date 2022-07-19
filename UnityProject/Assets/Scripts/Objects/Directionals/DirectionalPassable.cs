@@ -34,6 +34,8 @@ namespace Core.Directionals
 		public bool IsEnterableOnAll => isEnterableOnAll;
 		public bool IsAtmosPassableOnAll => isAtmosPassableOnAll;
 
+		public PassableSides AtmosphericPassableSides => atmosphericPassableSides;
+
 		#region RegisterObject Overrides
 
 		protected override void Awake()
@@ -66,7 +68,7 @@ namespace Core.Directionals
 			if (IsEnterableOnAll) return true;
 			if (Passable == false) return false;
 
-			return IsPassableAtSide(GetSideFromVector(enteringFrom), enterableSides);
+			return IsPassableAtSide(GetSideFromVector(enteringFrom), enterableSides, out _);
 		}
 
 		public override bool IsPassableFromInside(Vector3Int leavingTo, bool isServer, GameObject context = null)
@@ -75,7 +77,7 @@ namespace Core.Directionals
 			if (IsLeavableOnAll) return true;
 			if (Passable == false) return true;
 
-			return IsPassableAtSide(GetSideFromVector(leavingTo), leavableSides);
+			return IsPassableAtSide(GetSideFromVector(leavingTo), leavableSides, out _);
 		}
 
 		public override bool DoesNotBlockClick(Vector3Int reachingFrom, bool isServer)
@@ -83,7 +85,7 @@ namespace Core.Directionals
 			if (IsLeavableOnAll) return true;
 			if (Passable == false) return true;
 
-			return IsPassableAtSide(GetSideFromVector(reachingFrom), leavableSides);
+			return IsPassableAtSide(GetSideFromVector(reachingFrom), leavableSides, out _);
 		}
 
 		public override bool IsAtmosPassable(Vector3Int enteringFrom, bool isServer)
@@ -91,7 +93,7 @@ namespace Core.Directionals
 			if (IsAtmosPassableOnAll) return true;
 			if (AtmosPassable == false) return false;
 
-			return IsPassableAtSide(GetSideFromVector(enteringFrom), atmosphericPassableSides);
+			return IsPassableAtSide(GetSideFromVector(enteringFrom), atmosphericPassableSides, out _);
 		}
 
 		#endregion RegisterObject Overrides
@@ -176,16 +178,25 @@ namespace Core.Directionals
 			return (vector - LocalPosition).To2Int();
 		}
 
-		private bool IsPassableAtSide(Vector2Int sideToCross, PassableSides sides)
+		public bool IsPassableAtSide(Vector2Int localFromPos, PassableSides sides, out OrientationEnum orientationEnum)
+        {
+        IsPassableAtSide
+        }
+
+		private bool IsPassableAtSide(Vector2Int sideToCross, PassableSides sides, out OrientationEnum orientationEnum)
 		{
 			EnsureInit();
 			if (Rotatable == null)
 			{
 				Logger.LogError($"No {nameof(Rotatable)} component found on {this}?", Category.Directionals);
+				orientationEnum = OrientationEnum.Default;
 				return false;
 			}
 
+			orientationEnum = OrientationEnum.Default;
 			if (sideToCross == Vector2Int.zero) return true;
+
+			orientationEnum = Rotatable.CurrentDirection;
 
 			// TODO: figure out a better way or at least use some data structure.
 			switch (Rotatable.CurrentDirection)
@@ -219,6 +230,7 @@ namespace Core.Directionals
 					break;
 			}
 
+			orientationEnum = OrientationEnum.Default;
 			return false;
 		}
 
