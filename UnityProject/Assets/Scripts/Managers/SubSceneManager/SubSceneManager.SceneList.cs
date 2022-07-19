@@ -231,7 +231,7 @@ public partial class SubSceneManager
 			loadedScenesList.Add(new SceneInfo
 			{
 				SceneName = serverChosenAwaySite,
-				SceneType = SceneType.AwaySite
+				SceneType = SceneType.HiddenScene
 			});
 			netIdentity.isDirty = true;
 		}
