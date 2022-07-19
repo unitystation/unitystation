@@ -14,8 +14,8 @@ namespace AdminTools
 {
 	public class AdminPlayerChat : MonoBehaviour
 	{
-		[SerializeField] private ChatScroll chatScroll = null;
-		private AdminPlayerEntryData selectedPlayer;
+		[SerializeField] protected ChatScroll chatScroll = null;
+		protected AdminPlayerEntryData selectedPlayer;
 		public AdminPlayerEntryData SelectedPlayer
 		{
 			get { return selectedPlayer; }
@@ -23,13 +23,13 @@ namespace AdminTools
 		/// <summary>
 		/// All messages sent and recieved from players to admins
 		/// </summary>
-		public readonly Dictionary<string, List<AdminChatMessage>> serverAdminPlayerChatLogs
+		protected readonly Dictionary<string, List<AdminChatMessage>> serverAdminPlayerChatLogs
 				= new Dictionary<string, List<AdminChatMessage>>();
 
 		/// <summary>
 		/// The admins client local cache for admin to player chat
 		/// </summary>
-		public readonly Dictionary<string, List<AdminChatMessage>> clientAdminPlayerChatLogs
+		protected readonly Dictionary<string, List<AdminChatMessage>> clientAdminPlayerChatLogs
 				= new Dictionary<string, List<AdminChatMessage>>();
 
 		public void ClearLogs()
@@ -133,7 +133,7 @@ namespace AdminTools
 			AdminPlayerChatUpdateMessage.SendLogUpdateToAdmin(requestee, update, playerId);
 		}
 
-		private void ClientGetUnreadAdminPlayerMessages(string playerId)
+		protected void ClientGetUnreadAdminPlayerMessages(string playerId)
 		{
 			if (!clientAdminPlayerChatLogs.ContainsKey(playerId))
 			{
@@ -173,7 +173,7 @@ namespace AdminTools
 			chatScroll.LoadChatEntries(clientAdminPlayerChatLogs[playerData.uid].Cast<ChatEntryData>().ToList());
 		}
 
-		private void OnEnable()
+		protected void OnEnable()
 		{
 			chatScroll.OnInputFieldSubmit += OnInputSend;
 			if (selectedPlayer != null)
@@ -182,12 +182,12 @@ namespace AdminTools
 			}
 		}
 
-		private void OnDisable()
+		protected void OnDisable()
 		{
 			chatScroll.OnInputFieldSubmit -= OnInputSend;
 		}
 
-		public void OnInputSend(string message)
+		public virtual void OnInputSend(string message)
 		{
 			RequestAdminBwoink.Send(selectedPlayer.uid, message);
 		}

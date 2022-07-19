@@ -17,7 +17,7 @@ namespace Messages.Server.AdminTools
 			UIManager.Instance.adminChatWindows.playerPrayerWindow.ClientUpdateChatLog(msg.JsonData, msg.PlayerId);
 		}
 
-		public static NetMessage SendSingleEntryToAdmins(AdminChatMessage chatMessage, string playerId)
+		public static NetMessage SendSinglePrayerEntryToAdmins(AdminChatMessage chatMessage, string playerId)
 		{
 			AdminChatUpdate update = new AdminChatUpdate();
 			update.messages.Add(chatMessage);
@@ -32,7 +32,7 @@ namespace Messages.Server.AdminTools
 			return msg;
 		}
 
-		public static NetMessage SendLogUpdateToAdmin(NetworkConnection requestee, AdminChatUpdate update, string playerId)
+		public static NetMessage SendPrayerLogUpdateToAdmin(NetworkConnection requestee, AdminChatUpdate update, string playerId)
 		{
 			NetMessage msg = new NetMessage
 			{

@@ -1926,6 +1926,21 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.x
       value: -0.020004272
       objectReference: {fileID: 0}
+    - target: {fileID: 2706689862474878363, guid: 9f0e0bdfe1253d44baf682fff5dd5156,
+        type: 3}
+      propertyPath: OnSelectPlayer.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 21162189701207067}
+    - target: {fileID: 2706689862474878363, guid: 9f0e0bdfe1253d44baf682fff5dd5156,
+        type: 3}
+      propertyPath: OnSelectPlayer.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OnPlayerSelect
+      objectReference: {fileID: 0}
+    - target: {fileID: 2706689862474878363, guid: 9f0e0bdfe1253d44baf682fff5dd5156,
+        type: 3}
+      propertyPath: OnSelectPlayer.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: AdminTools.AdminPlayerChat, Assets
+      objectReference: {fileID: 0}
     - target: {fileID: 2945138124308607424, guid: 9f0e0bdfe1253d44baf682fff5dd5156,
         type: 3}
       propertyPath: m_AnchorMax.y
