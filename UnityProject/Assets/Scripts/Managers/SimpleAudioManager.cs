@@ -114,7 +114,7 @@ namespace Managers
 
 		public static void PlayGlobally(int soundID)
 		{
-			Instance.StartCoroutine(Instance.Play(soundID));
+			ServerSimpleAudioPlayMessage.Send(soundID);
 		}
 
 		/// <summary>
@@ -122,7 +122,7 @@ namespace Managers
 		/// </summary>
 		/// <param name="idToPlay"></param>
 		/// <returns></returns>
-		private IEnumerator Play(int idToPlay)
+		public IEnumerator Play(int idToPlay)
 		{
 			StopGlobalPlayer();
 			yield return LoadAudioIntoMemory(idToPlay);
