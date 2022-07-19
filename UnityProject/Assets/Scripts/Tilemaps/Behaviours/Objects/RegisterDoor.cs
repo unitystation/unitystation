@@ -50,7 +50,7 @@ using Util;
 			//Doors/airlocks aren't supposed to switch matrices
 			tileChangeManager = GetComponentInParent<TileChangeManager>();
 			InteractableDoor = this.GetComponent<InteractableDoor>();
-			rotatableChecked.ResetComponent(GetComponent<Rotatable>());
+			rotatableChecked.ResetComponent(this);
 		}
 
 		public override void OnDespawnServer(DespawnInfo info)
