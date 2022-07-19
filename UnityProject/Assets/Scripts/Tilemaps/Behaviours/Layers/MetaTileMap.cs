@@ -286,11 +286,6 @@ namespace TileManagement
 
 		private void MainThreadRemoveTile(TileLocation tileLocation)
 		{
-			if (tileLocation.layer.LayerType == LayerType.Floors || tileLocation.layer.LayerType == LayerType.Base)
-			{
-				tileLocation.layer.TilemapDamage.SwitchObjectsMatrixAt(tileLocation.position);
-			}
-
 			//Remove before setting
 			if (tileLocation.layer.LayerType == LayerType.Underfloor) //TODO Tile map upgrade
 			{
@@ -341,8 +336,13 @@ namespace TileManagement
 				RemoveTileMessage.Send(matrix.NetworkedMatrix.MatrixSync.netId, tileLocation.position,
 					tileLocation.layer.LayerType);
 			}
+			if (tileLocation.layer.LayerType == LayerType.Floors || tileLocation.layer.LayerType == LayerType.Base)
+			{
+				tileLocation.layer.TilemapDamage.SwitchObjectsMatrixAt(tileLocation.position);
+			}
 
 			tileLocation.Clean();
+
 		}
 
 		private void MainThreadSetTile(TileLocation tileLocation)
@@ -1116,7 +1116,7 @@ namespace TileManagement
 
 
 		/// <summary>
-		/// Checks if tile is empty of objects (only solid by default)
+		/// Checks if tile is empty of Tiles (only solid by default)
 		/// </summary>
 		public bool IsEmptyAt(Vector3Int position, bool isServer)
 		{
@@ -1126,19 +1126,6 @@ namespace TileManagement
 				if (layer.LayerType != LayerType.Objects && HasTile(position, layer))
 				{
 					return false;
-				}
-
-				if (layer.LayerType == LayerType.Objects)
-				{
-					foreach (RegisterTile o in isServer
-						         ? ((ObjectLayer) LayersValues[index]).ServerObjects.Get(position)
-						         : ((ObjectLayer) LayersValues[index]).ClientObjects.Get(position))
-					{
-						if (o.IsPassable(isServer) == false)
-						{
-							return false;
-						}
-					}
 				}
 			}
 
@@ -1844,7 +1831,7 @@ namespace TileManagement
 			{
 				Maximum = maxPosition + new Vector3(0.5f, 0.5f, 0), Minimum = minPosition + new Vector3(-0.5f, -0.5f, 0)
 			};
-			
+
 			GlobalCachedBounds = newGlobalBounds;
 
 			return newGlobalBounds;

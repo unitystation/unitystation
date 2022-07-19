@@ -1039,7 +1039,9 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 			MatrixManager.AtPoint(transform.position, true, registerTile.Matrix.MatrixInfo);
 		if (registerTile.Matrix.Id != newMatrix.Id)
 		{
+			var worldPOS = transform.position;
 			SetMatrix(newMatrix.Matrix);
+			SetRegisterTileLocation(worldPOS.ToLocal(newMatrix.Matrix).RoundToInt());
 			ResetLocationOnClients();
 		}
 	}

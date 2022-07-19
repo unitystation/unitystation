@@ -178,12 +178,15 @@ namespace Player
 				}
 				else
 				{
-					if (Body_Part.LobbyCustomisation == null)
+					if (Body_Part.LobbyCustomisation != null)
 					{
-						Logger.Log($"[PlayerSprites] - Could not find {Body_Part.name}'s characterCustomization script. Returns -> {Body_Part.LobbyCustomisation.characterCustomization}", Category.Character);
-						return;
+						Body_Part.LobbyCustomisation.OnPlayerBodyDeserialise(Body_Part, data, livingHealthMasterBase);
+
 					}
-					Body_Part.LobbyCustomisation.OnPlayerBodyDeserialise(Body_Part, data, livingHealthMasterBase);
+					else
+					{
+						Logger.Log($"[PlayerSprites] - Could not find {Body_Part.name}'s characterCustomization script. Returns -> {Body_Part.OrNull()?.LobbyCustomisation.OrNull()?.characterCustomization}", Category.Character);
+					}
 				}
 			}
 
