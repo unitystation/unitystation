@@ -6,24 +6,14 @@ using AddressableReferences;
 using Audio.Containers;
 using Initialisation;
 using Messages.Server.SoundMessages;
+using Util;
 
 namespace Audio.Managers
 {
 	public class SoundAmbientManager : MonoBehaviour, IInitialise
 	{
 		private static SoundAmbientManager soundAmbientManager;
-		public static SoundAmbientManager Instance
-		{
-			get
-			{
-				if (soundAmbientManager == null)
-				{
-					soundAmbientManager = FindObjectOfType<SoundAmbientManager>();
-				}
-
-				return soundAmbientManager;
-			}
-		}
+		public static SoundAmbientManager Instance => FindUtils.LazyFindObject(ref soundAmbientManager);
 
 		/// <summary>
 		/// Cache of audioSources on the Manager

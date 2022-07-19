@@ -5,21 +5,12 @@ using System.IO;
 using Messages.Server.AdminTools;
 using UnityEngine.Profiling;
 using UnityEngine.Profiling.Memory.Experimental;
+using Util;
 
 public class ProfileManager : MonoBehaviour
 {
 	private static ProfileManager profileManager;
-	public static ProfileManager Instance
-	{
-		get
-		{
-			if (!profileManager)
-			{
-				profileManager = FindObjectOfType<ProfileManager>();
-			}
-			return profileManager;
-		}
-	}
+	public static ProfileManager Instance => FindUtils.LazyFindObject(ref profileManager);
 
 	private void Awake()
 	{

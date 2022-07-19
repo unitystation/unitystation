@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using Initialisation;
 using UnityEngine;
+using Util;
 //using Telepathy;
 using Debug = UnityEngine.Debug;
 
@@ -18,18 +19,7 @@ namespace AdminTools
 	{
 		private static AutoMod autoMod;
 
-		public static AutoMod Instance
-		{
-			get
-			{
-				if (autoMod == null)
-				{
-					autoMod = FindObjectOfType<AutoMod>();
-				}
-
-				return autoMod;
-			}
-		}
+		public static AutoMod Instance => FindUtils.LazyFindObject(ref autoMod);
 
 		public InitialisationSystems Subsystem => InitialisationSystems.AutoMod;
 

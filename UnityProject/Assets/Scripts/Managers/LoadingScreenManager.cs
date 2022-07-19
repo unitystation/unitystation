@@ -2,6 +2,7 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using Util;
 
 /// <summary>
 /// Controls loading screens (except for start up scene)
@@ -10,18 +11,7 @@ public class LoadingScreenManager : MonoBehaviour
 {
 	private static LoadingScreenManager _loadingScreenManager;
 
-	public static LoadingScreenManager Instance
-	{
-		get
-		{
-			if (_loadingScreenManager == null)
-			{
-				_loadingScreenManager = FindObjectOfType<LoadingScreenManager>();
-			}
-
-			return _loadingScreenManager;
-		}
-	}
+	public static LoadingScreenManager Instance => FindUtils.LazyFindObject(ref _loadingScreenManager);
 
 	[SerializeField] private LoadingScreen loadingScreen = null;
 

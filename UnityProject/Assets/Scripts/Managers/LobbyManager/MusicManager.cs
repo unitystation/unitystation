@@ -7,24 +7,14 @@ using UnityEngine;
 using Random = UnityEngine.Random;
 using Messages.Server.SoundMessages;
 using UnityEngine.Audio;
+using Util;
 
 namespace Audio.Containers
 {
 	public class MusicManager : MonoBehaviour
 	{
 		private static MusicManager musicManager;
-		public static MusicManager Instance
-		{
-			get
-			{
-				if (musicManager == null)
-				{
-					musicManager = FindObjectOfType<MusicManager>();
-				}
-
-				return musicManager;
-			}
-		}
+		public static MusicManager Instance => FindUtils.LazyFindObject(ref musicManager);
 
 		public string currentNetworkedSong = "";
 

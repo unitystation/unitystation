@@ -7,6 +7,7 @@ using TMPro;
 using Messages.Server;
 using Systems.Interaction;
 using Tiles;
+using Util;
 
 namespace UI
 {
@@ -29,15 +30,7 @@ namespace UI
 		private Tab[] tabsCache;
 		private Tab[] popoutTabsCache;
 
-		public static ControlTabs Instance {
-			get {
-				if (controlTabs == null)
-				{
-					controlTabs = FindObjectOfType<ControlTabs>();
-				}
-				return controlTabs;
-			}
-		}
+		public static ControlTabs Instance => FindUtils.LazyFindObject(ref controlTabs);
 
 		private bool itemListTabExists => ClientTabs.ContainsKey(ClientTabType.ItemList) && !ClientTabs[ClientTabType.ItemList].Hidden;
 
