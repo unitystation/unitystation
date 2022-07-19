@@ -33,7 +33,7 @@ namespace Items.Others
 			if (DefaultWillInteract.Default(interaction, side) == false) return false;
 
 			//Don't allow alt click so that the nettab can be opened
-			if((side == NetworkSide.Client || CustomNetworkManager.IsServer) && KeyboardInputManager.IsAltPressed()) return false;
+			if((side == NetworkSide.Client || CustomNetworkManager.IsServer) && KeyboardInputManager.IsAltActionKeyPressed()) return false;
 
 			return true;
 		}
