@@ -44,7 +44,7 @@ namespace Items.Others
 			{
 				return fire != null;
 			}
-			else if (interaction.UsedObject == null && IsOn && interaction.Intent != Intent.Help)
+			else if (interaction.UsedObject == null && IsOn)
 			{
 				return true;
 			}
