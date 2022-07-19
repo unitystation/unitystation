@@ -21,7 +21,7 @@ namespace UI.Systems.AdminTools
 			errorText.text = "";
 		}
 
-		private void OnClick()
+		public void OnClick()
 		{
 			var parsedInt = int.Parse(idText.text);
 			if (SimpleAudioManager.Instance.SharedData.ContainsKey(parsedInt))
@@ -37,6 +37,7 @@ namespace UI.Systems.AdminTools
 			newData.IsMusic = isMusicToggle.isOn;
 			newData.PlaysInLobby = isLobbyToggle.isOn;
 			AdminCommandsManager.Instance.CmdAddNewSoundToSimpleSoundList(newData);
+			this.SetActive(false);
 		}
 	}
 }

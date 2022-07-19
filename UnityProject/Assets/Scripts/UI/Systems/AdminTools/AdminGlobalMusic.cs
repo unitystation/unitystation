@@ -16,9 +16,16 @@ namespace AdminTools
 	/// </summary>
 	public class AdminGlobalMusic : AdminGlobalAudio
 	{
+		[SerializeField] private GameObject newSoundUI;
 		public override void PlayAudio(int index) //send music to audio manager
 		{
 			SimpleAudioManager.PlayGlobally(index);
+		}
+
+		public void OnClickAddSound()
+		{
+			newSoundUI.SetActive(true);
+			this.SetActive(false);
 		}
 	}
 }
