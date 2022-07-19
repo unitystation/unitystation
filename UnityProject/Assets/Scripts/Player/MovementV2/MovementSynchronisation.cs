@@ -821,6 +821,13 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 
 
 		if (moveActions.moveActions.Length == 0) return;
+
+		if (KeyboardInputManager.IsControlPressed())
+		{
+			rotatable.SetFaceDirectionLocalVector(moveActions.Direction());
+			return;
+		}
+
 		SetMatrixCache.ResetNewPosition(transform.position, registerTile);
 
 		if (CanInPutMove())
@@ -910,7 +917,7 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 		}
 
 		var addedLocalPosition =
-			(transform.position + NewMoveData.GlobalMoveDirection.TVectoro().To3())
+			(transform.position + NewMoveData.GlobalMoveDirection.ToVector().To3())
 			.ToLocal(MatrixManager.Get(NewMoveData.MatrixID));
 
 		NewMoveData.LocalMoveDirection = VectorToPlayerMoveDirection(
@@ -962,11 +969,11 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 
 			if (pushesOff) //space walking
 			{
-				if (pushesOff.TryGetComponent<UniversalObjectPhysics>(out var PhysicsObject))
+				if (pushesOff.TryGetComponent<UniversalObjectPhysics>(out var objectPhysics))
 				{
-					var move = newMoveData.GlobalMoveDirection.TVectoro();
+					var move = newMoveData.GlobalMoveDirection.ToVector();
 					move.Normalize();
-					PhysicsObject.TryTilePush((move * -1).RoundToInt().To2Int(), byClient, TileMoveSpeed);
+					objectPhysics.TryTilePush(move * -1, byClient, TileMoveSpeed);
 				}
 				//Pushes off object for example pushing the object the other way
 			}
@@ -994,14 +1001,14 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 			}
 
 			//move
-			ForceTilePush(newMoveData.GlobalMoveDirection.TVectoro().To2Int(), Pushing, byClient,
+			ForceTilePush(newMoveData.GlobalMoveDirection.ToVector(), Pushing, byClient,
 				isWalk: true, pushedBy: this);
 
 			SetMatrixCache.ResetNewPosition(registerTile.WorldPosition, registerTile); //Resets the cash
 
 			if (causesSlipClient)
 			{
-				NewtonianPush(newMoveData.GlobalMoveDirection.TVectoro().To2Int(), TileMoveSpeed, Single.NaN, 4,
+				NewtonianPush(newMoveData.GlobalMoveDirection.ToVector(), TileMoveSpeed, Single.NaN, 4,
 					spinFactor: 35, doNotUpdateThisClient: byClient);
 
 				var player = registerTile as RegisterPlayer;
@@ -1088,6 +1095,8 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 				else
 				{
 					//if (isServer) Logger.LogError("failed is obstructed");
+
+					rotatable.SetFaceDirectionLocalVector(moveAction.GlobalMoveDirection.ToVector());
 				}
 			}
 			else
@@ -1124,8 +1133,8 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 		if (isServer == false && isLocalPlayer && UIManager.Instance.intentControl.Running == false) return false;
 
 
-		var toMatrix = SetMatrixCache.GetforDirection(moveAction.GlobalMoveDirection.TVectoro().To3Int()).Matrix;
-		var localTo = (registerTile.WorldPosition + moveAction.GlobalMoveDirection.TVectoro().To3Int())
+		var toMatrix = SetMatrixCache.GetforDirection(moveAction.GlobalMoveDirection.ToVector().To3Int()).Matrix;
+		var localTo = (registerTile.WorldPosition + moveAction.GlobalMoveDirection.ToVector().To3Int())
 			.ToLocal(toMatrix)
 			.RoundToInt();
 		if (toMatrix.MetaDataLayer.IsSlipperyAt(localTo))
@@ -1150,7 +1159,7 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 	{
 		var transform1 = transform.position;
 		return MatrixManager.IsPassableAtAllMatricesV2(transform1,
-			transform1 + moveAction.GlobalMoveDirection.TVectoro().To3Int(), SetMatrixCache, this,
+			transform1 + moveAction.GlobalMoveDirection.ToVector().To3Int(), SetMatrixCache, this,
 			pushing, bumps);
 	}
 
@@ -1255,7 +1264,7 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 			//TODO Might be funny with changing to diagonal not too sure though
 			var addedGlobalPosition =
 				(transform.position.ToLocal(MatrixManager.Get(inMoveData.MatrixID)) +
-				 inMoveData.LocalMoveDirection.TVectoro().To3()).ToWorld(MatrixManager.Get(inMoveData.MatrixID));
+				 inMoveData.LocalMoveDirection.ToVector().To3()).ToWorld(MatrixManager.Get(inMoveData.MatrixID));
 
 			inMoveData.GlobalMoveDirection =
 				VectorToPlayerMoveDirection((addedGlobalPosition - transform.position).To2Int());

@@ -90,7 +90,7 @@ public class PlayerManager : MonoBehaviour
 			var move = GetMovementActions();
 			if (move.moveActions.Length > 0)
 			{
-				ShuttleConsole.CmdMove(Orientation.From(GetMovementActions().ToPlayerMoveDirection().TVectoro()));
+				ShuttleConsole.CmdMove(Orientation.From(GetMovementActions().ToPlayerMoveDirection().ToVector()));
 				return;
 			}
 		}

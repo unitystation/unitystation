@@ -935,7 +935,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 
 		if (ChangesDirectionPush)
 		{
-			rotatable.OrNull()?.SetFaceDirectionLocalVictor(worldDirection);
+			rotatable.OrNull()?.SetFaceDirectionLocalVector(worldDirection);
 		}
 
 
@@ -1092,7 +1092,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 
 	public void NewtonianPush(Vector2 worldDirection, float speed = Single.NaN, float nairTime = Single.NaN,
 		float inSlideTime = Single.NaN, BodyPartType inAim = BodyPartType.Chest, GameObject inThrownBy = null,
-		float spinFactor = 0, GameObject doNotUpdateThisClient = null, 
+		float spinFactor = 0, GameObject doNotUpdateThisClient = null,
 		bool ignoreSticky = false) //Collision is just naturally part of Newtonian push
 	{
 

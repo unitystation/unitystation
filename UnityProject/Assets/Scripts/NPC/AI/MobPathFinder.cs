@@ -349,7 +349,7 @@ namespace Systems.MobAIs
 
 					if (rotatable != null)
 					{
-						rotatable.SetFaceDirectionLocalVictor(dir);
+						rotatable.SetFaceDirectionLocalVector(dir);
 					}
 
 					uop.TryTilePush(dir, null);

@@ -131,10 +131,10 @@ public class GhostMove : NetworkBehaviour, IPlayerControllable
 
 		if (Moving == false)
 		{
-			var worldDifference = moveActions.ToPlayerMoveDirection().TVectoro().To3Int();
+			var worldDifference = moveActions.ToPlayerMoveDirection().ToVector().To3Int();
 			var newWorldPosition = transform.position + worldDifference;
 
-			var orientation = moveActions.ToPlayerMoveDirection().TVectoro().To2Int().ToOrientationEnum();
+			var orientation = moveActions.ToPlayerMoveDirection().ToVector().ToOrientationEnum();
 
 			rotatable.FaceDirection(orientation);
 
