@@ -297,9 +297,9 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 	#endregion
 
 
-	public void ServerSetLocalPosition(Vector3Int value, bool OverRideCheck = false)
+	public void ServerSetLocalPosition(Vector3Int value, bool overRideCheck = false)
 	{
-		if (LocalPositionServer == value && OverRideCheck == false)
+		if (LocalPositionServer == value && overRideCheck == false)
 			return;
 		if (objectLayer)
 		{
@@ -316,9 +316,9 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 		OnLocalPositionChangedServer.Invoke(LocalPositionServer);
 	}
 
-	public void ClientSetLocalPosition(Vector3Int value, bool OverRideCheck = false)
+	public void ClientSetLocalPosition(Vector3Int value, bool overRideCheck = false)
 	{
-		if (LocalPositionClient == value && OverRideCheck == false)
+		if (LocalPositionClient == value && overRideCheck == false)
 			return;
 		bool appeared = LocalPositionClient == TransformState.HiddenPos && value != TransformState.HiddenPos;
 		bool disappeared = LocalPositionClient != TransformState.HiddenPos && value == TransformState.HiddenPos;
