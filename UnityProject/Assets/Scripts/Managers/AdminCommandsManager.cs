@@ -622,5 +622,12 @@ namespace AdminCommands
 		}
 
 		#endregion
+
+		[Command(requiresAuthority = false)]
+		public void CmdAddNewSoundToSimpleSoundList(SimpleAudioManager.SimpleAudioData newData, NetworkConnectionToClient sender = null)
+		{
+			if (IsAdmin(sender, out var admin) == false) return;
+			SimpleAudioManager.Instance.ServerAddNewSound(newData);
+		}
 	}
 }
