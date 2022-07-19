@@ -60,6 +60,10 @@ namespace AdminTools
 					Chat.AddPrayerPrivMsg("You pray to the gods.");
 					CloseWindow();
 					break;
+				default:
+					AdminReplyMessage.Send(message);
+					break;
+
 			}
 		}
 	}

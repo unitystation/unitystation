@@ -8,9 +8,8 @@ using Systems.Clothing;
 namespace Items.Others
 {
 	[RequireComponent(typeof(ItemLightControl))]
-	public class Candle : NetworkBehaviour, ICheckedInteractable<HandApply>, ICheckedInteractable<InventoryApply>, IServerDespawn
+	public class Candle : NetworkBehaviour, ICheckedInteractable<InventoryApply>, IServerDespawn
 	{
-		[SerializeField]
 		private ItemLightControl lightControl;
 
 		[SerializeField]
@@ -19,13 +18,12 @@ namespace Items.Others
 		[SyncVar] public int LifeSpan = 120; //10 minutes
 		[SyncVar] public int DecayStage = 0;
 		[SyncVar] private bool IsOn = false;
-		protected int SpriteIndex => IsOn ? 1 : 0;
-		
-		private ItemTrait lighterTrait;
 
-		private void Awake()
+		protected int SpriteIndex => IsOn ? 1 : 0;
+
+		public void Awake()
 		{
-			lighterTrait = CommonTraits.Instance.everyTraitOutThere[313];
+			lightControl = GetComponent<ItemLightControl>();
 		}
 
 		public void OnDespawnServer(DespawnInfo info)
@@ -36,29 +34,8 @@ namespace Items.Others
 
 		#region Interaction
 
-		public bool WillInteract(HandApply interaction, NetworkSide side)
-		{
-			return CheckInteract(interaction, side);
-		}
-
-		public void ServerPerformInteraction(HandApply interaction)
-		{
-			PerformInteraction(interaction);
-		}
-
 		public bool WillInteract(InventoryApply interaction, NetworkSide side)
 		{
-			return CheckInteract(interaction, side);
-		}
-
-		public void ServerPerformInteraction(InventoryApply interaction)
-		{
-			PerformInteraction(interaction);
-		}
-
-		bool CheckInteract(TargetedInteraction interaction, NetworkSide side)
-		{
-
 			if (DefaultWillInteract.Default(interaction, side) == false || DecayStage >= 4)
 			{
 				return false;
@@ -67,7 +44,7 @@ namespace Items.Others
 			{
 				return fire != null;
 			}
-			else if (interaction.UsedObject == null && IsOn)
+			else if (interaction.UsedObject == null && IsOn && interaction.Intent != Intent.Help)
 			{
 				return true;
 			}
@@ -75,10 +52,9 @@ namespace Items.Others
 			return false;
 		}
 
-		[Server]
-		void PerformInteraction(TargetedInteraction interaction)
+		public void ServerPerformInteraction(InventoryApply interaction)
 		{
-			if (interaction.UsedObject == null && interaction.Intent != Intent.Help)
+			if (interaction.UsedObject == null)
 			{
 				ToggleLight(false);
 				Chat.AddActionMsgToChat(interaction.Performer,
@@ -95,7 +71,7 @@ namespace Items.Others
 						$"{interaction.Performer.name} lights the {gameObject.ExpensiveName()}!");
 				}
 			}
-		}
+		} 
 
 		#endregion Interaction
 
@@ -122,7 +98,6 @@ namespace Items.Others
 		{
 			IsOn = lit;
 			lightControl.Toggle(lit);
-
 			UpdateSprite();
 
 			if (TryGetComponent<FireSource>(out var fire))
