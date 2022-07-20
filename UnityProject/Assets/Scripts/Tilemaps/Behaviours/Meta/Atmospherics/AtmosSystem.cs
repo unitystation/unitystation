@@ -13,12 +13,20 @@ namespace Systems.Atmospherics
 		[SerializeField]
 		private GasMixesSO defaultRoomGasMixOverride = null;
 
+		[SerializeField]
+		private bool overriderTileSpawnWithNoAir;
+
 		private Dictionary<int, RoomGasSetter> toSetRoom = new Dictionary<int, RoomGasSetter>();
 
 		private Dictionary<Vector3Int, RoomGasSetter> toSetOccupied = new Dictionary<Vector3Int, RoomGasSetter>();
 
-		[Server]
 		public override void Initialize()
+		{
+			//FillRoomGas not called from here as the room setting up is now a coroutine
+		}
+
+		[Server]
+		public void FillRoomGas()
 		{
 			//We have bool to stop null checks on every pos
 			var hasCustomMix = defaultRoomGasMixOverride != null;
@@ -36,7 +44,7 @@ namespace Systems.Atmospherics
 				bool spawnWithNoAir = false;
 
 				var topTile = metaTileMap.GetTile(position, LayerTypeSelection.Effects | LayerTypeSelection.Underfloor);
-				if (topTile is BasicTile tile)
+				if (overriderTileSpawnWithNoAir == false && topTile is BasicTile tile)
 				{
 					spawnWithNoAir = tile.SpawnWithNoAir;
 				}

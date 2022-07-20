@@ -33,6 +33,8 @@ public class MetaDataSystem : SubsystemBehaviour
 	/// </summary>
 	private Matrix matrix;
 
+	private AtmosSystem atmosSystem;
+
 	private int roomCounter = 0;
 
 	private HashSet<Vector3Int> tested;
@@ -45,6 +47,7 @@ public class MetaDataSystem : SubsystemBehaviour
 
 		matrix = GetComponentInChildren<Matrix>(true);
 		externalNodes = new ConcurrentDictionary<MetaDataNode, MetaDataNode>();
+		atmosSystem = GetComponent<AtmosSystem>();
 	}
 
 	private void OnEnable()
@@ -152,7 +155,7 @@ public class MetaDataSystem : SubsystemBehaviour
 		var positions = bounds.allPositionsWithin();
 		tested = new HashSet<Vector3Int>(positions.Count);
 
-		Logger.LogFormat($"{matrixName}: {positions.Count} need to be set up for atmos.", Category.TileMaps);
+		Logger.LogFormat($"{matrixName}: {positions.Count} tiles need to be set up for atmos.", Category.TileMaps);
 
 		frameWatch.Start();
 
@@ -161,8 +164,8 @@ public class MetaDataSystem : SubsystemBehaviour
 			if(tested.Contains(position)) continue;
 			count++;
 
-			//Every 500 tiles wait till next frame to continue
-			if (count % 500 == 0)
+			//Every 1000 tiles wait till next frame to continue
+			if (count % 1000 == 0)
 			{
 				Logger.LogFormat($"{matrixName}: Created some rooms in {frameWatch.ElapsedMilliseconds}ms", Category.TileMaps);
 
@@ -177,6 +180,12 @@ public class MetaDataSystem : SubsystemBehaviour
 		setUpDone = true;
 
 		Logger.LogFormat($"{matrixName}: Created rooms in a total of {overallWatch.ElapsedMilliseconds}ms", Category.TileMaps);
+		overallWatch.Reset();
+		overallWatch.Restart();
+
+		atmosSystem.FillRoomGas();
+
+		Logger.LogFormat($"{matrixName}: Filled rooms with gas in {overallWatch.ElapsedMilliseconds}ms", Category.TileMaps);
 	}
 
 	private void FindRoomAt(Vector3Int position)
