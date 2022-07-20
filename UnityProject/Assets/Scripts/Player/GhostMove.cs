@@ -47,6 +47,7 @@ public class GhostMove : NetworkBehaviour, IPlayerControllable
 				MoveSpeed * Time.deltaTime);
 		}
 
+		if(isLocalPlayer == false) return;
 		if (UIManager.IsInputFocus || PlayerManager.LocalPlayerScript.OrNull()?.IsGhost == false) return;
 		if (Input.GetKeyDown(KeyCode.LeftShift) == false) return;
 		isFaster = !isFaster;
