@@ -13,6 +13,7 @@ using Objects;
 using Player.Movement;
 using ScriptableObjects.Audio;
 using Tiles;
+using UI;
 using UI.Action;
 using UnityEngine;
 using UnityEngine.Events;
@@ -1293,6 +1294,12 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 			if (enterTileBase.WillAffectPlayer(playerScript) == false) continue;
 			enterTileBase.OnPlayerStep(playerScript);
 		}
+
+		if (isLocalPlayer == false) return;
+
+		//Client side check for invalid tabs still open
+		//(Don't need to do this server side as the interactions are validated)
+		ControlTabs.CheckTabClose();
 	}
 }
 

@@ -103,7 +103,8 @@ namespace UI.Objects.Command
 		private void ProcessIdChange(IDCard newId = null)
 		{
 			UpdateIdTexts();
-			if (newId != null || IsAIInteracting() == true)
+
+			if (newId != null || IsAIInteracting())
 			{
 				LogIn();
 			}
@@ -259,19 +260,20 @@ namespace UI.Objects.Command
 
 		public void UpdateIdTexts()
 		{
-			var IdCard = console.IdCard;
-			if (IdCard)
+			var idCard = console.IdCard;
+			if (idCard != null)
 			{
-				idLabel.SetValueServer($"{IdCard.RegisteredName}, {IdCard.GetJobTitle()}");
+				idLabel.SetValueServer($"{idCard.RegisteredName}, {idCard.GetJobTitle()}");
+				return;
 			}
+
 			if (IsAIInteracting())
 			{
 				idLabel.SetValueServer("AI Control");
+				return;
 			}
-			else
-			{
-				idLabel.SetValueServer("<No ID inserted>");
-			}
+
+			idLabel.SetValueServer("<No ID inserted>");
 		}
 
 		public void LogIn()

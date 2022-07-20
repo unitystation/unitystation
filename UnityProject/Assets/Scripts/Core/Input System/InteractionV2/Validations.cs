@@ -128,13 +128,15 @@ public static class Validations
 	{
 		if (playerScript == null) return false;
 
-		if ((allowCuffed == false && playerScript.playerMove.IsCuffed) ||
-		    playerScript.IsGhost ||
-		    playerScript.playerMove.allowInput == false||
-		    CanInteractByConsciousState(playerScript.playerHealth, allowSoftCrit, side) == false)
-		{
-			return false;
-		}
+		//Ghost can't interact
+		if (playerScript.IsGhost) return false;
+
+		//Can't interact cuffed
+		if (allowCuffed == false && playerScript.playerMove.IsCuffed) return false;
+
+		if (playerScript.playerMove.allowInput == false) return false;
+
+		if (CanInteractByConsciousState(playerScript.playerHealth, allowSoftCrit, side) == false) return false;
 
 		return true;
 	}

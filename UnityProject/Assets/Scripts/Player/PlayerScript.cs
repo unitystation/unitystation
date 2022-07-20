@@ -604,18 +604,19 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IActi
 	public void OnInteract(TargetedInteraction Interaction, Component interactable)
 	{
 		if (Interaction == null) return;
-		if (!ComponentManager.TryGetUniversalObjectPhysics(interactable.gameObject, out var UOP)) return;
-		var Detail = UOP.attributes.Component.OrNull()?.AppliedDetails;
-		if (Detail == null) return;
+		if (IsNormal == false) return;
+		if (!ComponentManager.TryGetUniversalObjectPhysics(interactable.gameObject, out var uop)) return;
+		var details = uop.attributes.Component.OrNull()?.AppliedDetails;
+		if (details == null) return;
 
 		if (RNG.Next(0, 100) > ClueHandsImprintInverseChance)
 		{
-			bool WearingGloves = false;
+			bool wearingGloves = false;
 			var slotGlove = DynamicItemStorage.GetNamedItemSlots(NamedSlot.hands).PickRandom();
 			if (slotGlove != null && slotGlove.Item != null)
 			{
-				WearingGloves = true;
-				Detail.AddDetail(new Detail()
+				wearingGloves = true;
+				details.AddDetail(new Detail
 				{
 					CausedByInstanceID = slotGlove.Item.gameObject.GetInstanceID(),
 					Description = $" A fibre from a {slotGlove.Item.gameObject.ExpensiveName()}",
@@ -623,10 +624,10 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IActi
 				});
 			}
 
-			if (WearingGloves == false)
+			if (wearingGloves == false)
 			{
 				var slot = DynamicItemStorage.GetActiveHandSlot();
-				Detail.AddDetail(new Detail()
+				details.AddDetail(new Detail
 				{
 					CausedByInstanceID = slot.ItemStorage.gameObject.GetInstanceID(),
 					Description = $" A fingerprint ",
@@ -641,7 +642,7 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IActi
 			var slot = DynamicItemStorage.GetNamedItemSlots(NamedSlot.uniform).PickRandom();
 			if (slot != null && slot.Item != null)
 			{
-				Detail.AddDetail(new Detail()
+				details.AddDetail(new Detail
 				{
 					CausedByInstanceID = slot.Item.gameObject.GetInstanceID(),
 					Description = $" A fibre from a {slot.Item.gameObject.ExpensiveName()}",
@@ -652,7 +653,7 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IActi
 
 		if (RNG.Next(0, 100) > ClueSpeciesImprintInverseChance)
 		{
-			Detail.AddDetail(new Detail()
+			details.AddDetail(new Detail
 			{
 				CausedByInstanceID = this.gameObject.GetInstanceID(),
 				Description = playerSprites.RaceBodyparts.Base.ClueString,

@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Security.Cryptography;
 using Mirror;
 using UnityEngine;
 using Random = UnityEngine.Random;
@@ -514,12 +515,11 @@ public static class SweetExtensions
 			   Mathf.Approximately(a.r, b.r) &&
 		       Mathf.Approximately(a.g, b.g);
 	}
-
-
 	public static string Truncate(this string value, int maxLength)
 	{
 		if (string.IsNullOrEmpty(value)) return value;
-		return value.Length <= maxLength ? value : value.Substring(0, maxLength);
+
+		return value.Substring(0, Math.Min(value.Length, maxLength));
 	}
 
 	/// <summary>
@@ -611,5 +611,20 @@ public static class SweetExtensions
 		EnableComponentMessage.Send(component, value);
 
 		component.enabled = value;
+	}
+
+	public static string GetHashString(this string inputString)
+	{
+		StringBuilder sb = new StringBuilder();
+		foreach (byte b in GetHash(inputString))
+			sb.Append(b.ToString("X2"));
+
+		return sb.ToString();
+	}
+
+	public static byte[] GetHash(string inputString)
+	{
+		using (HashAlgorithm algorithm = SHA256.Create())
+			return algorithm.ComputeHash(Encoding.UTF8.GetBytes(inputString));
 	}
 }
