@@ -534,7 +534,10 @@ public partial class Chat
 
 		if (GhostValidationRejection(originatorUint, channels)) return;
 
-		if (PlayerManager.LocalPlayerScript != null && PlayerManager.LocalPlayerScript.IsDeadOrGhost == false && PlayerManager.LocalPlayerScript.playerHealth.CannotRecognizeNames)
+		if (PlayerManager.LocalPlayerScript != null
+		    && PlayerManager.LocalPlayerScript.IsDeadOrGhost == false
+		    && PlayerManager.LocalPlayerScript.playerHealth != null
+		    && PlayerManager.LocalPlayerScript.playerHealth.CannotRecognizeNames)
 		{
 			speaker = "<color=red>Unknown</color>";
 		}
