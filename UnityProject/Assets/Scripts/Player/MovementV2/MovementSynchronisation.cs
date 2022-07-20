@@ -432,7 +432,7 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 	{
 		Pushing.Clear();
 		Bumps.Clear();
-		if (intent != Intent.Help || CurrentMovementType == MovementType.Crawling) return;
+		if (intent == Intent.Help && CurrentMovementType == MovementType.Crawling) return;
 		if (bumpedBy.TryGetComponent<MovementSynchronisation>(out var move))
 		{
 			if (MatrixManager.IsPassableAtAllMatricesV2(bumpedBy.AssumedWorldPosServer(),
