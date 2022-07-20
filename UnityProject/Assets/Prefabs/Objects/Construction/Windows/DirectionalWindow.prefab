@@ -176,7 +176,7 @@ PrefabInstance:
     - target: {fileID: 8561688399768036000, guid: a7af28adb717b4c44b8b2002b27670bd,
         type: 3}
       propertyPath: isNotPushable
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8599771746108915149, guid: a7af28adb717b4c44b8b2002b27670bd,
         type: 3}
@@ -268,13 +268,24 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  shardsOnDestroy: {fileID: 2265521501557685915, guid: 82677ff961fa72944936cc923625a1bc,
-    type: 3}
-  minCountOfShardsOnDestroy: 0
-  maxCountOfShardsOnDestroy: 1
-  rodsOnDestroy: {fileID: 0}
-  minCountOfRodsOnDestroy: 0
-  maxCountOfRodsOnDestroy: 0
+  layerTile: {fileID: 0}
+  onDeconstruct:
+  - prefab: {fileID: 8579127030982015588, guid: 66a5287d0bf216847a2f4fe34228a0cf,
+      type: 3}
+    count: 1
+  soundOnDeconstruct:
+    SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/Effects/Wrench.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
+  onDestroy:
+  - prefab: {fileID: 2265521501557685915, guid: 82677ff961fa72944936cc923625a1bc,
+      type: 3}
+    minCountOnDestroy: 1
+    maxCountOnDestroy: 2
   soundOnDestroy:
     SetLoadSetting: 0
     AssetAddress: Assets/Prefabs/Effects/GlassBreak01.prefab

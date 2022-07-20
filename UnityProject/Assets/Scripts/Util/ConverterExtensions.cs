@@ -49,6 +49,12 @@ public static class ConverterExtensions
 		return Vector3Int.RoundToInt((Vector2) other);
 	}
 
+	/// <summary>Cast (Truncate) to int while cutting z-axis</summary>
+	public static Vector3Int TruncateToInt(this Vector3 other)
+	{
+		return new Vector3Int((int) other.x, (int) other.y);
+	}
+
 	/// <summary>Round to int</summary>
 	public static Vector2Int To2Int(this Vector2 other)
 	{
@@ -231,6 +237,11 @@ public static class ConverterExtensions
 	{
 		return MatrixManager.WorldToLocal(worldPos,
 			MatrixManager.AtPoint(Vector3Int.RoundToInt(worldPos), CustomNetworkManager.Instance._isServer));
+	}
+
+	public static Vector3Int ToWorldInt(this Vector3Int worldPos, Matrix matrix)
+	{
+		return MatrixManager.WorldToLocal(worldPos, MatrixManager.Get(matrix)).RoundToInt();
 	}
 
 	public static bool IsDiagonal(this MovementSynchronisation.PlayerMoveDirection Direction)

@@ -100,6 +100,8 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 		}
 	}
 
+	private Vector3Int oldLocalTilePosition;
+
 	public CheckedComponent<Pickupable> pickupable = new CheckedComponent<Pickupable>();
 
 	public bool InitialLocationSynchronised;
@@ -259,7 +261,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 
 	[PlayModeOnly] public ForceEventWithChange OnImpact = new ForceEventWithChange();
 
-	[PlayModeOnly] public Vector3Event OnLocalTileReached = new Vector3Event();
+	[PlayModeOnly] public DualVector3IntEvent OnLocalTileReached = new DualVector3IntEvent();
 
 	[PlayModeOnly] public ForceEvent OnThrowEnd = new ForceEvent();
 
@@ -322,7 +324,9 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 
 	public void OnRegisterTileInitialised(RegisterTile registerTile)
 	{
-		InternalTriggerOnLocalTileReached(transform.localPosition);
+		//Set old pos here so it is somewhat more valid than default vector value
+		oldLocalTilePosition = transform.localPosition.RoundToInt();
+		InternalTriggerOnLocalTileReached(oldLocalTilePosition);
 	}
 
 	public Size GetSize()
@@ -761,6 +765,9 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 	public void SetIsNotPushable(bool newState)
 	{
 		isNotPushable = newState;
+
+		//Force update atmos
+		registerTile.Matrix.TileChangeManager.SubsystemManager.UpdateAt(OfficialPosition.ToLocalInt(registerTile.Matrix));
 	}
 
 	private void SyncIsNotPushable(bool wasNotPushable, bool isNowNotPushable)
@@ -1421,33 +1428,33 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 
 		var position = this.transform.position;
 
-		var newposition = position + (newtonianMovement.To3() * Time.deltaTime);
+		var newPosition = position + (newtonianMovement.To3() * Time.deltaTime);
 
 		// if (Newposition.magnitude > 100000)
 		// {
 			// newtonianMovement *= 0;
 		// }
 
-		var intposition = position.RoundToInt();
-		var intNewposition = newposition.RoundToInt();
+		var intPosition = position.RoundToInt();
+		var intNewPosition = newPosition.RoundToInt();
 
 		transform.Rotate(new Vector3(0, 0, spinMagnitude * newtonianMovement.magnitude * Time.deltaTime));
 
-		if (intposition != intNewposition)
+		if (intPosition != intNewPosition)
 		{
-			if ((intposition - intNewposition).magnitude > 1.5f)
+			if ((intPosition - intNewPosition).magnitude > 1.5f)
 			{
 				if (Collider != null) Collider.enabled = false;
 
 				var hit = MatrixManager.Linecast(position,
 					LayerTypeSelection.Walls | LayerTypeSelection.Grills | LayerTypeSelection.Windows,
-					defaultInteractionLayerMask, newposition, true);
+					defaultInteractionLayerMask, newPosition, true);
 				if (hit.ItHit)
 				{
 					OnImpact.Invoke(this, newtonianMovement);
 					NewtonianMovement -= 2 * (newtonianMovement * hit.Normal) * hit.Normal;
 					var offset = (0.1f * hit.Normal);
-					newposition = hit.HitWorld + offset.To3();
+					newPosition = hit.HitWorld + offset.To3();
 					NewtonianMovement *= 0.9f;
 					spinMagnitude *= -1;
 				}
@@ -1460,12 +1467,12 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 			if (newtonianMovement.magnitude > 0)
 			{
 				var cashedNewtonianMovement = newtonianMovement;
-				SetMatrixCache.ResetNewPosition(intposition, registerTile);
+				SetMatrixCache.ResetNewPosition(intPosition, registerTile);
 				Pushing.Clear();
 				Bumps.Clear();
 				Hits.Clear();
-				if (MatrixManager.IsPassableAtAllMatricesV2(intposition,
-					    intNewposition, SetMatrixCache, this,
+				if (MatrixManager.IsPassableAtAllMatricesV2(intPosition,
+					    intNewPosition, SetMatrixCache, this,
 					    Pushing, Bumps, Hits) == false)
 				{
 					foreach (var bump in Bumps) //Bump Whatever we Bumped into
@@ -1476,10 +1483,10 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 						}
 					}
 
-					var normal = (intposition - intNewposition).ToNonInt3();
+					var normal = (intPosition - intNewPosition).ToNonInt3();
 					if (Hits.Count == 0)
 					{
-						newposition = position;
+						newPosition = position;
 					}
 
 					OnImpact.Invoke(this, newtonianMovement);
@@ -1499,11 +1506,11 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 							Single.NaN, Single.NaN, aim, thrownBy, spinMagnitude);
 					}
 
-					var normal = (intposition - intNewposition).ToNonInt3();
+					var normal = (intPosition - intNewPosition).ToNonInt3();
 
 					if (Hits.Count == 0)
 					{
-						newposition = position;
+						newPosition = position;
 					}
 
 					OnImpact.Invoke(this, newtonianMovement);
@@ -1557,18 +1564,18 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 
 		if (isVisible == false) return;
 
-		var movetoMatrix = MatrixManager.AtPoint(newposition.RoundToInt(), isServer).Matrix;
+		var movetoMatrix = MatrixManager.AtPoint(newPosition.RoundToInt(), isServer).Matrix;
 
 		var cachedPosition = this.transform.position;
 
-		SetTransform(newposition, true);
+		SetTransform(newPosition, true);
 
 		if (registerTile.Matrix != movetoMatrix)
 		{
 			SetMatrix(movetoMatrix);
 		}
 
-		var localPosition = newposition.ToLocal(movetoMatrix);
+		var localPosition = newPosition.ToLocal(movetoMatrix);
 
 		SetRegisterTileLocation(localPosition.RoundToInt());
 
@@ -1628,7 +1635,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 			}
 			else
 			{
-				Pulling.Component.ProcessNewtonianPull(newtonianMovement, newposition);
+				Pulling.Component.ProcessNewtonianPull(newtonianMovement, newPosition);
 			}
 		}
 
@@ -1642,7 +1649,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 			}
 			else
 			{
-				ObjectIsBucklingChecked.Component.Pulling.Component.ProcessNewtonianPull(newtonianMovement, newposition);
+				ObjectIsBucklingChecked.Component.Pulling.Component.ProcessNewtonianPull(newtonianMovement, newPosition);
 			}
 		}
 	}
@@ -1738,19 +1745,24 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 
 	private void InternalTriggerOnLocalTileReached(Vector3 localPos)
 	{
-		OnLocalTileReached.Invoke(localPos);
+		//Can truncate as the localPos should be near enough to the int value
+		var rounded = localPos.TruncateToInt();
+
+		OnLocalTileReached.Invoke(oldLocalTilePosition, rounded);
+
+		oldLocalTilePosition = rounded;
 
 		if (isServer == false) return;
 
-		LocalTileReached(localPos);
+		LocalTileReached(rounded);
 	}
 
-	public virtual void LocalTileReached(Vector3 localPos)
+	public virtual void LocalTileReached(Vector3Int localPos)
 	{
 		var matrix = registerTile.Matrix;
 		if(matrix == null) return;
 
-		var tile = matrix.MetaTileMap.GetTile(localPos.CutToInt(), LayerType.Base);
+		var tile = matrix.MetaTileMap.GetTile(localPos, LayerType.Base);
 		if (tile != null && tile is BasicTile c)
 		{
 			foreach (var interaction in c.TileStepInteractions)
@@ -1762,7 +1774,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 
 		//Check for tiles before objects because of this list
 		if (matrix.MetaTileMap.ObjectLayer.EnterTileBaseList == null) return;
-		var loopTo = matrix.MetaTileMap.ObjectLayer.EnterTileBaseList.Get(localPos.RoundToInt());
+		var loopTo = matrix.MetaTileMap.ObjectLayer.EnterTileBaseList.Get(localPos);
 		foreach (var enterTileBase in loopTo)
 		{
 			if (enterTileBase.WillAffectObject(gameObject) == false) continue;

@@ -39,7 +39,7 @@ namespace Objects
 			objectPhysics.OnLocalTileReached.RemoveListener(OnLocalPositionChangedServer);
 		}
 
-		public void OnLocalPositionChangedServer(Vector3 NewLocation)
+		public void OnLocalPositionChangedServer(Vector3Int oldLocalPos, Vector3Int newLocalPos)
 		{
 			if (objectPhysics.registerTile.Matrix.MetaTileMap.ObjectLayer.EnterTileBaseList == null) return;
 			if (previousMatrix != null)
@@ -47,8 +47,8 @@ namespace Objects
 				previousMatrix.MetaTileMap.ObjectLayer.EnterTileBaseList.Remove(previousLocation, this);
 			}
 
-			objectPhysics.registerTile.Matrix.MetaTileMap.ObjectLayer.EnterTileBaseList.Add(NewLocation.RoundToInt(),this);
-			previousLocation = NewLocation.RoundToInt();
+			objectPhysics.registerTile.Matrix.MetaTileMap.ObjectLayer.EnterTileBaseList.Add(newLocalPos,this);
+			previousLocation = newLocalPos;
 			previousMatrix = objectPhysics.registerTile.Matrix;
 		}
 

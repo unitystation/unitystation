@@ -29,7 +29,7 @@ public class InvisibleBox : Pickupable
 				boxSpriteColor.SetColorServer(semiTransparent);
 			}
 
-			ObjectPhysics.OnLocalTileReached.AddListener(pos =>
+			ObjectPhysics.OnLocalTileReached.AddListener((_, _) =>
 			{
 				if (boxSpriteColor)
 				{

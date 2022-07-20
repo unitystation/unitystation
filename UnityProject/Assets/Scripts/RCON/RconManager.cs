@@ -166,6 +166,8 @@ public class RconManager : SingletonManager<RconManager>
 
 	public static void AddChatLog(string msg)
 	{
+		if(Instance.chatHost == null) return;
+
 		msg = $"{DateTime.UtcNow}:    {msg}<br>";
 		AmendChatLog(msg);
 		Instance.chatHost.Sessions.Broadcast(msg);
@@ -184,6 +186,7 @@ public class RconManager : SingletonManager<RconManager>
 
 	public static void UpdatePlayerListRcon()
 	{
+		if(Instance.playerListHost == null) return;
 		var json = JsonUtility.ToJson(new Players());
 		BroadcastToSessions(json, Instance.playerListHost.Sessions.Sessions);
 	}

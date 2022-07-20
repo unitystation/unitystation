@@ -18,6 +18,18 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 3508732299770147791, guid: f610372b0de613b499d0e53b49c4e605,
         type: 3}
+    - target: {fileID: -5694877607498037915, guid: 157fcff274a3644448d1ff3bdc019619,
+        type: 3}
+      propertyPath: onDestroy.Array.data[0].prefab
+      value: 
+      objectReference: {fileID: 3508732299770147791, guid: f610372b0de613b499d0e53b49c4e605,
+        type: 3}
+    - target: {fileID: -5694877607498037915, guid: 157fcff274a3644448d1ff3bdc019619,
+        type: 3}
+      propertyPath: onDeconstruct.Array.data[0].prefab
+      value: 
+      objectReference: {fileID: 1151981523841236988, guid: dfe30ea3b0c7a1a48ab584f1f6776309,
+        type: 3}
     - target: {fileID: 1946156532474512604, guid: 157fcff274a3644448d1ff3bdc019619,
         type: 3}
       propertyPath: PresentSpriteSet

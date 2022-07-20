@@ -42,6 +42,18 @@ namespace Core.Directionals
 			EnsureInit();
 		}
 
+		private void OnEnable()
+		{
+			if(ObjectPhysics.HasComponent == false) return;
+			ObjectPhysics.Component.OnLocalTileReached.AddListener(OnLocalTileChange);
+		}
+
+		private void OnDisable()
+		{
+			if(ObjectPhysics.HasComponent == false) return;
+			ObjectPhysics.Component.OnLocalTileReached.RemoveListener(OnLocalTileChange);
+		}
+
 		private void EnsureInit()
 		{
 			if (Rotatable != null) return;
@@ -95,6 +107,28 @@ namespace Core.Directionals
 		}
 
 		#endregion RegisterObject Overrides
+
+		private void OnLocalTileChange(Vector3Int oldLocalPos, Vector3Int newLocalPos)
+		{
+			//We have moved from old spot so redo atmos blocks for new and old positions
+			UpdateSubsystemsAt(oldLocalPos);
+
+			if(oldLocalPos == newLocalPos) return;
+
+			UpdateSubsystemsAt(newLocalPos);
+		}
+
+		private void UpdateSubsystems()
+		{
+			if(ObjectPhysics.HasComponent == false) return;
+			Matrix.TileChangeManager.SubsystemManager.UpdateAt(ObjectPhysics.Component.OfficialPosition.ToLocalInt(Matrix));
+		}
+
+		private void UpdateSubsystemsAt(Vector3Int localPos)
+		{
+			if(ObjectPhysics.HasComponent == false) return;
+			Matrix.TileChangeManager.SubsystemManager.UpdateAt(ObjectPhysics.Component.OfficialPosition.ToLocalInt(Matrix));
+		}
 
 		/// <summary>
 		/// Sets all sides for this object as passable for the given pass type.

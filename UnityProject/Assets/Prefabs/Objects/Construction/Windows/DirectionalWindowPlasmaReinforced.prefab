@@ -62,6 +62,11 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 4207410744649580896, guid: 7020b235ecf8ece4ca00af70a60258f8,
         type: 3}
+      propertyPath: onDestroy.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4207410744649580896, guid: 7020b235ecf8ece4ca00af70a60258f8,
+        type: 3}
       propertyPath: maxCountOfRodsOnDestroy
       value: 2
       objectReference: {fileID: 0}
@@ -69,6 +74,28 @@ PrefabInstance:
         type: 3}
       propertyPath: minCountOfRodsOnDestroy
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4207410744649580896, guid: 7020b235ecf8ece4ca00af70a60258f8,
+        type: 3}
+      propertyPath: onDestroy.Array.data[1].prefab
+      value: 
+      objectReference: {fileID: 7198241665461443898, guid: 5dce4d3e01518474bb9bb8085b718980,
+        type: 3}
+    - target: {fileID: 4207410744649580896, guid: 7020b235ecf8ece4ca00af70a60258f8,
+        type: 3}
+      propertyPath: onDeconstruct.Array.data[0].prefab
+      value: 
+      objectReference: {fileID: 77673353444578627, guid: b6a0d928019a24a4f9cee04a1d06b3b1,
+        type: 3}
+    - target: {fileID: 4207410744649580896, guid: 7020b235ecf8ece4ca00af70a60258f8,
+        type: 3}
+      propertyPath: onDestroy.Array.data[1].maxCountOnDestroy
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4207410744649580896, guid: 7020b235ecf8ece4ca00af70a60258f8,
+        type: 3}
+      propertyPath: onDestroy.Array.data[1].minCountOnDestroy
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5811591870276980244, guid: 7020b235ecf8ece4ca00af70a60258f8,
         type: 3}
