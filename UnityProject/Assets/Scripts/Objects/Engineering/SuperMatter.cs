@@ -1111,7 +1111,7 @@ namespace Objects.Engineering
 					$"You slam into the {gameObject.ExpensiveName()} as your ears are filled with unearthly ringing. Your last thought is 'Oh, fuck.'",
 					$"The {(job != null ? job.JobType.JobString() : "person")} slams into the {gameObject.ExpensiveName()} inducing a resonance... {bumpedBy.ExpensiveName()} body starts to glow and burst into flames before flashing into dust!");
 
-				playerHealth.Gib();
+				playerHealth.OnGib();
 				matterPower += 100;
 			}
 			else if (bumpedBy.TryGetComponent<LivingHealthMasterBase>(out var health))
@@ -1121,7 +1121,7 @@ namespace Objects.Engineering
 					$"The {bumpedBy.ExpensiveName()} slams into the {gameObject.ExpensiveName()} inducing a resonance... its body starts to glow and burst into flames before flashing into dust!",
 					bumpedBy);
 
-				health.ApplyDamageAll(gameObject, 1000, AttackType.Internal, DamageType.Brute);
+				health.OnGib();
 			}
 			else if(bumpedBy.TryGetComponent<Integrity>(out var integrity))
 			{
@@ -1171,7 +1171,7 @@ namespace Objects.Engineering
 					$"You reach out and touch {gameObject.ExpensiveName()}. Everything starts burning and all you can hear is ringing. Your last thought is 'That was not a wise decision'",
 					$"{interaction.Performer.ExpensiveName()} reaches out and touches {gameObject.ExpensiveName()}, inducing a resonance... {interaction.Performer.ExpensiveName()} body starts to glow and burst into flames before flashing into dust!");
 
-				interaction.Performer.GetComponent<PlayerHealthV2>().Gib();
+				interaction.Performer.GetComponent<PlayerHealthV2>().OnGib();
 				matterPower += 200;
 				return;
 			}

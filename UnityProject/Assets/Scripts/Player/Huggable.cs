@@ -112,7 +112,7 @@ namespace Player
     		if (DMMath.Prob(tailPullJudgementChance))
     		{
     			Chat.AddExamineMsg(puller.gameObject, $"<color=red><size=+24>You have been judged for your lust..</size></color>");
-    			puller.Gib();
+    			puller.OnGib();
     		}
     	}
 

@@ -57,7 +57,7 @@ namespace Items
 						$"You reach for the {gameObject.ExpensiveName()} with your hands. That was dumb.",
 						$"{player.visibleName} touches {gameObject.ExpensiveName()} with bare hands. His body bursts into flames and flashes to dust after few moments.");
 
-					player.playerHealth.Gib();
+					player.playerHealth.OnGib();
 				}
 			}
 		}

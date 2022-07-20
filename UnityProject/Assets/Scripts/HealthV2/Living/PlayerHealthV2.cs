@@ -72,15 +72,12 @@ namespace HealthV2
 			registerPlayer.ServerSetIsStanding(newState == ConsciousState.CONSCIOUS || PlayerMove.BuckledToObject != null);
 		}
 
-		public override void Gib()
+		public override void OnGib()
 		{
-			//drop everything
-			foreach (var slot in dynamicItemStorage.GetItemSlots().ToList())
-			{
-				Inventory.ServerDrop(slot);
-			}
+			//Drop everything			
+			Inventory.ServerDropAll(dynamicItemStorage);
 
-			base.Gib();
+			base.OnGib();
 			PlayerMove.playerScript.objectPhysics.DisappearFromWorld ();
 			playerNetworkActions.ServerSpawnPlayerGhost();
 		}

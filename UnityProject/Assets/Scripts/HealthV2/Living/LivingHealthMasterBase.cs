@@ -25,7 +25,7 @@ namespace HealthV2
 	/// </Summary>
 	[RequireComponent(typeof(HealthStateController))]
 	[RequireComponent(typeof(MobSickness))]
-	public abstract class LivingHealthMasterBase : NetworkBehaviour, IFireExposable, IExaminable, IFullyHealable
+	public abstract class LivingHealthMasterBase : NetworkBehaviour, IFireExposable, IExaminable, IFullyHealable, IGib
 	{
 		/// <summary>
 		/// Server side, each mob has a different one and never it never changes
@@ -836,7 +836,7 @@ namespace HealthV2
 		}
 
 		[Server]
-		public virtual void Gib()
+		public virtual void OnGib()
 		{
 			_ = SoundManager.PlayAtPosition(CommonSounds.Instance.Slip, gameObject.transform.position,
 				gameObject); //TODO: replace with gibbing noise

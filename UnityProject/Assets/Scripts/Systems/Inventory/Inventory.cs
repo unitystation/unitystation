@@ -122,6 +122,24 @@ public static class Inventory
 	}
 
 	/// <summary>
+	/// Drops all the items in the slots of the player
+	/// </summary>
+	/// <param name="playerStorage">players dynamic storage</param>
+	/// <param name="worldTargetVector">world space vector pointing from origin to targeted position to throw, leave null
+	/// to drop at holder's position</param>
+	/// <returns>true if successful</returns>
+	public static void ServerDropAll(DynamicItemStorage playerStorage, Vector2? worldTargetVector = null)
+	{
+		var playerItems = playerStorage.GetItemSlots();
+
+		foreach (var playerItemSlot in playerItems)
+		{
+			if(playerItemSlot.IsEmpty) continue;
+			ServerPerform(InventoryMove.Drop(playerItemSlot, worldTargetVector));
+		}
+	}
+
+	/// <summary>
 	/// NOTE: This should RARELY be used, and this method may even be removed later!
 	/// It's only here as a last resort / stopgap in case you can't figure out
 	/// a better alternative. If you need to store an object for your component, use an ItemStorage
