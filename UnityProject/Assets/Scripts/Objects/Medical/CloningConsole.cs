@@ -212,7 +212,7 @@ namespace Objects.Medical
 			burnDmg = livingHealth.GetTotalBurnDamage();
 			toxinDmg = livingHealth.GetTotalToxDamage();
 			bruteDmg = livingHealth.GetTotalBruteDamage();
-			uniqueIdentifier = $"{livingHealth.mobID}{playerScript.playerName}".GetHashString().Truncate(21);
+			uniqueIdentifier = $"{livingHealth.mobID}{playerScript.playerName}".ToHexString();
 			foreach(BodyPart part in livingHealth.SurfaceBodyParts)
             {
 				BodyPartRecord partRecord = new BodyPartRecord();

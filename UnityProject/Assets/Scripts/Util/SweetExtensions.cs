@@ -613,18 +613,16 @@ public static class SweetExtensions
 		component.enabled = value;
 	}
 
-	public static string GetHashString(this string inputString)
+	public static string ToHexString(this string str)
 	{
-		StringBuilder sb = new StringBuilder();
-		foreach (byte b in GetHash(inputString))
-			sb.Append(b.ToString("X2"));
+		var sb = new StringBuilder();
+
+		var bytes = Encoding.Unicode.GetBytes(str);
+		foreach (var t in bytes)
+		{
+			sb.Append(t.ToString("X2"));
+		}
 
 		return sb.ToString();
-	}
-
-	public static byte[] GetHash(string inputString)
-	{
-		using (HashAlgorithm algorithm = SHA256.Create())
-			return algorithm.ComputeHash(Encoding.UTF8.GetBytes(inputString));
 	}
 }
