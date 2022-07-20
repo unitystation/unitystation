@@ -79,7 +79,7 @@ namespace Systems.Atmospherics
 
 			if (doEqualise)
 			{
-				bool isPressureChanged = IsPressureChanged(node, out var windDirection, out var windForce);
+				bool isPressureChanged = TryPressureChanged(node, out var windDirection, out var windForce);
 
 				if (isPressureChanged)
 				{
@@ -187,7 +187,7 @@ namespace Systems.Atmospherics
 			}
 		}
 
-		public bool IsPressureChanged(MetaDataNode node, out Vector2Int windDirection, out float windForce)
+		public bool TryPressureChanged(MetaDataNode node, out Vector2Int windDirection, out float windForce)
 		{
 			windDirection = Vector2Int.zero;
 			Vector3Int clampVector = Vector3Int.zero;
