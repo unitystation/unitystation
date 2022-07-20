@@ -44,8 +44,12 @@ namespace Messages.Server
 				if (slot.ItemObject)
 				{
 					var previouslyInSlot = slot.ItemObject.GetComponent<Pickupable>();
-					//was removed from slot
+
+					//Set the pickupable slot reference to null
 					previouslyInSlot._SetItemSlot(null);
+					//Set the item in the slot to null
+					slot._ServerSetItem(null);
+
 					var moveInfo = ClientInventoryMove.OfType(ClientInventoryMoveType.Removed);
 					var hooks = previouslyInSlot.GetComponents<IClientInventoryMove>();
 					foreach (var hook in hooks)
