@@ -62,11 +62,11 @@ namespace InGameEvents
 
 		private void UpdateMe()
 		{
-			timer += Time.deltaTime;
 			if (CustomNetworkManager.IsServer == false) return;
 			if (GameManager.Instance.CurrentRoundState == RoundState.PreRound ||
 			   PlayerList.Instance.InGamePlayers.Count < minPlayersForRandomEventsToHappen) return;
 
+			timer += Time.deltaTime;
 			if (timer > triggerEventInterval == false || RandomEventsAllowed == false) return;
 			var isFake = Random.Range(0,100) < chanceItIsFake;
 			StartRandomEvent(GetRandomEventList(), isFake: isFake, serverTriggered: true);
