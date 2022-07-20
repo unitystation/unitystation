@@ -17,7 +17,7 @@ namespace Items.Science
 
 	public struct ArtifactData
 	{
-		public ArtifactData(int radlvl, int bluelvl, int bnalvl, int mss,CompositionBase comp, AreaArtifactEffect areaEffect, FeedArtifactEffect feedEffect)
+		public ArtifactData(int radlvl = 0, int bluelvl = 0, int bnalvl = 0, int mss = 0, CompositionBase comp = CompositionBase.metal, AreaArtifactEffect areaEffect = null, FeedArtifactEffect feedEffect = null)
 		{
 			radiationlevel = radlvl;
 			bluespacesig = bluelvl;

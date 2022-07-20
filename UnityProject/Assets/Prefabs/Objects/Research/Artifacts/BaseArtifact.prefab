@@ -176,8 +176,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spriteHandler: {fileID: 8622725775991219861}
-  ForceTrigger: 0
-  ForcedTrigger: 0
   RandomSprites:
   - idleSprite: {fileID: 11400000, guid: 4fd7ffaa181da5040a099d1f3a9865f2, type: 2}
     activeSprite: {fileID: 11400000, guid: a1998de86083ce34e87a187643bcbc92, type: 2}
@@ -207,7 +205,26 @@ MonoBehaviour:
     activeSprite: {fileID: 11400000, guid: 6cc4be570eb4d4c4c916defc77843b0f, type: 2}
   - idleSprite: {fileID: 11400000, guid: bf7612bb6306db0498d4180064eb762d, type: 2}
     activeSprite: {fileID: 11400000, guid: aa9f51003be09f94898f2c42788a2c6a, type: 2}
-  EffectTimeout: 10
+  TouchEffectTimeout: 10
+  ArtifactDataSO: {fileID: 11400000, guid: 7f5b0e0976c03ac4eb7ac2fb43a724d7, type: 2}
+--- !u!114 &6751607752946846962
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3889671606360607823}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ff9632be38569c1479a5e962ace88b8c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  OutPuttingRadiation: 0
+  color: {r: 0.3647059, g: 0.7921569, b: 0.19215687, a: 0}
+  DotSprite: {fileID: 21300000, guid: 7d4ab37af9168d243a3eead2ef5b5758, type: 3}
+  SynchroniseStrength: 0
 --- !u!114 &8622725775991219861 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 5212070883374448474, guid: b06b702714bab49b9ad949eab1ca4534,

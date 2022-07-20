@@ -7,6 +7,8 @@ namespace Systems.Research
 	{
 		public EffectShapeType effectShapeType = EffectShapeType.Square;
 
+		public int coolDown = 10;
+
 		[Tooltip("How far this artifact will effect players from")]
 		public int AuraRadius = 10;
 

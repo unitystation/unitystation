@@ -36,6 +36,7 @@ namespace Systems.Research
 				return;
 			}
 
+			CorrectEffect(interaction);
 		}
 
 		protected virtual void BareHandEffect(HandApply interaction)
@@ -69,21 +70,7 @@ namespace Systems.Research
 			}
 
 			Chat.AddExamineMsgFromServer(interaction.Performer, acceptedItemMessages.PickRandom());
-
-			Timer timer = new Timer(delayOnSuccess);
 		}
 	}
 }
 
-public class Timer : MonoBehaviour
-{
-	public Timer(int delay)
-	{
-		StartCoroutine(Wait(delay));
-	}
-
-	private IEnumerator Wait(int delay)
-	{
-		yield return WaitFor.Seconds(delay);
-	}
-}
