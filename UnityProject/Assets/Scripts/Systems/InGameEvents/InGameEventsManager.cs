@@ -61,23 +61,16 @@ namespace InGameEvents
 
 		private void UpdateMe()
 		{
-			if (!CustomNetworkManager.IsServer) return;
-
-			if (!RandomEventsAllowed) return;
-
-			if(GameManager.Instance.CurrentRoundState != RoundState.Started) return;
-
-			if(PlayerList.Instance.InGamePlayers.Count < minPlayersForRandomEventsToHappen) return;
-
 			timer += Time.deltaTime;
-			if (timer > triggerEventInterval)
-			{
-				var isFake = Random.Range(0,100) < chanceItIsFake;
+			if (CustomNetworkManager.IsServer == false) return;
+			if (GameManager.Instance.CurrentRoundState != RoundState.Started ||
+			   PlayerList.Instance.InGamePlayers.Count < minPlayersForRandomEventsToHappen) return;
 
-				StartRandomEvent(GetRandomEventList(), isFake: isFake, serverTriggered: true);
-
-				timer -= triggerEventInterval;
-			}
+			if (timer > triggerEventInterval == false || RandomEventsAllowed == false) return;
+			var isFake = Random.Range(0,100) < chanceItIsFake;
+			StartRandomEvent(GetRandomEventList(), isFake: isFake, serverTriggered: true);
+			timer += triggerEventInterval;
+			Debug.Log($"Time until next event -> {timer - triggerEventInterval}");
 		}
 
 		private List<EventScriptBase> listOfFunEventScripts = new List<EventScriptBase>();
