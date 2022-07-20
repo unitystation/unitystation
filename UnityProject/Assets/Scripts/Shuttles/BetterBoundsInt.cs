@@ -46,20 +46,20 @@ namespace TileManagement
 
 		public List<Vector3Int> allPositionsWithin()
 		{
-			List<Vector3Int> Returning = new List<Vector3Int>();
-
 			var stop = Mathf.RoundToInt(Maximum.x);
 			var stop2 = Mathf.RoundToInt(Maximum.y);
+
+			List<Vector3Int> returning = new List<Vector3Int>(stop * stop2);
 
 			for (int x = Mathf.RoundToInt(Minimum.x); x <= stop; x++)
 			{
 				for (int y = Mathf.RoundToInt(Minimum.y); y <= stop2; y++)
 				{
-					Returning.Add(new Vector3Int(x, y, 0));
+					returning.Add(new Vector3Int(x, y, 0));
 				}
 			}
 
-			return Returning;
+			return returning;
 		}
 
 		public bool Equals(BetterBoundsInt other)

@@ -56,6 +56,9 @@ namespace Systems.Atmospherics
 			{
 				if (updateList.TryDequeue(out MetaDataNode node))
 				{
+					//Wait for initial room set up as it is spread out over multiple frames
+					if(node.MetaDataSystem.SetUpDone == false) continue;
+
 					Update(node);
 				}
 			}

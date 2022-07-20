@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -32,7 +33,13 @@ public class MetaDataSystem : SubsystemBehaviour
 	/// </summary>
 	private Matrix matrix;
 
+	private AtmosSystem atmosSystem;
+
 	private int roomCounter = 0;
+
+	private HashSet<Vector3Int> tested;
+	private bool setUpDone;
+	public bool SetUpDone => setUpDone;
 
 	public override void Awake()
 	{
@@ -40,6 +47,7 @@ public class MetaDataSystem : SubsystemBehaviour
 
 		matrix = GetComponentInChildren<Matrix>(true);
 		externalNodes = new ConcurrentDictionary<MetaDataNode, MetaDataNode>();
+		atmosSystem = GetComponent<AtmosSystem>();
 	}
 
 	private void OnEnable()
@@ -66,7 +74,7 @@ public class MetaDataSystem : SubsystemBehaviour
 
 		if (MatrixManager.IsInitialized)
 		{
-			LocateRooms();
+			StartCoroutine(LocateRooms());
 			Stopwatch Dsw = new Stopwatch();
 			Dsw.Start();
 			matrix.MetaTileMap.InitialiseUnderFloorUtilities(CustomNetworkManager.IsServer);
@@ -134,17 +142,50 @@ public class MetaDataSystem : SubsystemBehaviour
 		}
 	}
 
-	private void LocateRooms()
+	private IEnumerator LocateRooms()
 	{
 		var bounds = metaTileMap.GetLocalBounds();
 
-		var watch = new Stopwatch();
-		watch.Start();
-		foreach (Vector3Int position in bounds.allPositionsWithin())
+		var overallWatch = new Stopwatch();
+		var frameWatch = new Stopwatch();
+		overallWatch.Start();
+
+		var count = 0;
+		var matrixName = gameObject.name;
+		var positions = bounds.allPositionsWithin();
+		tested = new HashSet<Vector3Int>(positions.Count);
+
+		Logger.LogFormat($"{matrixName}: {positions.Count} tiles need to be set up for atmos.", Category.TileMaps);
+
+		frameWatch.Start();
+
+		foreach (Vector3Int position in positions)
 		{
+			if(tested.Contains(position)) continue;
+			count++;
+
+			//Every 1000 tiles wait till next frame to continue
+			if (count % 1000 == 0)
+			{
+				Logger.LogFormat($"{matrixName}: Created some rooms in {frameWatch.ElapsedMilliseconds}ms", Category.TileMaps);
+
+				frameWatch.Reset();
+				yield return WaitFor.EndOfFrame;
+				frameWatch.Restart();
+			}
+
 			FindRoomAt(position);
 		}
-		Logger.LogFormat("Created rooms in {0}ms", Category.TileMaps, watch.ElapsedMilliseconds);
+
+		setUpDone = true;
+
+		Logger.LogFormat($"{matrixName}: Created rooms in a total of {overallWatch.ElapsedMilliseconds}ms", Category.TileMaps);
+		overallWatch.Reset();
+		overallWatch.Restart();
+
+		atmosSystem.FillRoomGas();
+
+		Logger.LogFormat($"{matrixName}: Filled rooms with gas in {overallWatch.ElapsedMilliseconds}ms", Category.TileMaps);
 	}
 
 	private void FindRoomAt(Vector3Int position)
@@ -153,6 +194,7 @@ public class MetaDataSystem : SubsystemBehaviour
 		if (metaTileMap.IsAtmosPassableAt(position, true) == false)
 		{
 			MetaDataNode node = metaDataLayer.Get(position);
+
 			node.Type = NodeType.Occupied;
 
 			//Full doors, not windoors
@@ -183,6 +225,7 @@ public class MetaDataSystem : SubsystemBehaviour
 		{
 			return;
 		}
+
 		var roomPositions = new Dictionary<Vector3Int, NodeOccupiedType>();
 		var freePositions = new UniqueQueue<Vector3Int>();
 
@@ -275,7 +318,7 @@ public class MetaDataSystem : SubsystemBehaviour
 		{
 			var directionalPassable = freePositionDirectionalPassable[i];
 			if (directionalPassable.IsAtmosPassableOnAll) continue;
-			
+
 			//Only allow atmos to be blocked by anchored objects
 			if(directionalPassable.ObjectPhysics.HasComponent
 			   && directionalPassable.ObjectPhysics.Component.isNotPushable == false) continue;
@@ -304,6 +347,7 @@ public class MetaDataSystem : SubsystemBehaviour
 		foreach (var position in positions)
 		{
 			MetaDataNode node = metaDataLayer.Get(position.Key);
+			if(setUpDone == false) tested.Add(position.Key);
 
 			node.Type = nodeType;
 			node.OccupiedType = position.Value;
@@ -358,32 +402,32 @@ public class MetaDataSystem : SubsystemBehaviour
 							// Check if atmos can pass to the neighboring position
 							Vector3Int neighborlocalPosition = MatrixManager.WorldToLocalInt(neighborWorldPosition, matrixInfo);
 
-							var OppositeNode = matrixInfo.MetaDataLayer.Get(neighborlocalPosition);
+							var oppositeNode = matrixInfo.MetaDataLayer.Get(neighborlocalPosition);
 
 							// add node of other matrix to the neighbors of the current node
-							node.AddNeighbor(OppositeNode, dir);
+							node.AddNeighbor(oppositeNode, dir);
 
 							if (dir == Vector3Int.up)
 							{
-								OppositeNode.AddNeighbor(node, Vector3Int.down);
+								oppositeNode.AddNeighbor(node, Vector3Int.down);
 							}
 							else if (dir == Vector3Int.down)
 							{
-								OppositeNode.AddNeighbor(node, Vector3Int.up);
+								oppositeNode.AddNeighbor(node, Vector3Int.up);
 							}
 							else if (dir == Vector3Int.right)
 							{
-								OppositeNode.AddNeighbor(node, Vector3Int.left);
+								oppositeNode.AddNeighbor(node, Vector3Int.left);
 							}
 							else if (dir == Vector3Int.left)
 							{
-								OppositeNode.AddNeighbor(node, Vector3Int.right);
+								oppositeNode.AddNeighbor(node, Vector3Int.right);
 							}
 
 							// if current node is a room, but the neighboring is a space tile, this node needs to be checked regularly for changes by other matrices
-							if (OppositeNode.IsRoom && !OppositeNode.MetaDataSystem.externalNodes.ContainsKey(node) && OppositeNode.MetaDataSystem.metaTileMap.IsSpaceAt(OppositeNode.Position, true) == false)
+							if (oppositeNode.IsRoom && !oppositeNode.MetaDataSystem.externalNodes.ContainsKey(node) && oppositeNode.MetaDataSystem.metaTileMap.IsSpaceAt(oppositeNode.Position, true) == false)
 							{
-								OppositeNode.MetaDataSystem.externalNodes[OppositeNode] = OppositeNode;
+								oppositeNode.MetaDataSystem.externalNodes[oppositeNode] = oppositeNode;
 							}
 
 							// skip other checks for neighboring tile on local tilemap, to prevent the space tile to be added as a neighbor
