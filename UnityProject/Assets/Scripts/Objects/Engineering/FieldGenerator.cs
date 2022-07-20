@@ -9,7 +9,7 @@ using Tiles;
 
 namespace Objects.Engineering
 {
-	public class FieldGenerator : MonoBehaviour, ICheckedInteractable<HandApply>, IOnHitDetect, IExaminable
+	public class FieldGenerator : MonoBehaviour, ICheckedInteractable<HandApply>, IOnHitDetect, IExaminable, IServerSpawn
 	{
 		[SerializeField]
 		private SpriteHandler topSpriteHandler = null;
@@ -97,16 +97,13 @@ namespace Objects.Engineering
 			integrity.OnWillDestroyServer.RemoveListener(OnDestroySelf);
 		}
 
-		private void Start()
+		public void OnSpawnServer(SpawnInfo info)
 		{
-			if(CustomNetworkManager.IsServer == false) return;
+			if (startSetUp == false) return;
 
-			if (startSetUp)
-			{
-				isWelded = true;
-				isWrenched = true;
-				objectPhysics.SetIsNotPushable(true);
-			}
+			isWelded = true;
+			isWrenched = true;
+			objectPhysics.SetIsNotPushable(true);
 		}
 
 		#endregion
