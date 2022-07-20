@@ -129,12 +129,6 @@ namespace Objects.Medical
 
 		private void UpdateInoperableStatus()
 		{
-			if (scanner == null)
-			{
-				scanner.statusString = "No scanner connected!";
-				return;
-			}
-
 			if (scanner.RelatedAPC == null)
 			{
 				scanner.statusString = "Scanner not connected to APC!";

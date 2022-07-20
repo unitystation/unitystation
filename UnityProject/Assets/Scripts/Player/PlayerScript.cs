@@ -616,7 +616,7 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IActi
 			if (slotGlove != null && slotGlove.Item != null)
 			{
 				wearingGloves = true;
-				details.AddDetail(new Detail()
+				details.AddDetail(new Detail
 				{
 					CausedByInstanceID = slotGlove.Item.gameObject.GetInstanceID(),
 					Description = $" A fibre from a {slotGlove.Item.gameObject.ExpensiveName()}",
@@ -627,7 +627,7 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IActi
 			if (wearingGloves == false)
 			{
 				var slot = DynamicItemStorage.GetActiveHandSlot();
-				details.AddDetail(new Detail()
+				details.AddDetail(new Detail
 				{
 					CausedByInstanceID = slot.ItemStorage.gameObject.GetInstanceID(),
 					Description = $" A fingerprint ",
@@ -642,7 +642,7 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IActi
 			var slot = DynamicItemStorage.GetNamedItemSlots(NamedSlot.uniform).PickRandom();
 			if (slot != null && slot.Item != null)
 			{
-				details.AddDetail(new Detail()
+				details.AddDetail(new Detail
 				{
 					CausedByInstanceID = slot.Item.gameObject.GetInstanceID(),
 					Description = $" A fibre from a {slot.Item.gameObject.ExpensiveName()}",
@@ -653,7 +653,7 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IActi
 
 		if (RNG.Next(0, 100) > ClueSpeciesImprintInverseChance)
 		{
-			details.AddDetail(new Detail()
+			details.AddDetail(new Detail
 			{
 				CausedByInstanceID = this.gameObject.GetInstanceID(),
 				Description = playerSprites.RaceBodyparts.Base.ClueString,
