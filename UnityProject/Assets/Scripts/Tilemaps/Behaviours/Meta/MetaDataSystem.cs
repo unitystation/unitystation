@@ -1,6 +1,9 @@
-﻿using System.Collections.Concurrent;
+﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
+using Core.Directionals;
 using Systems.Atmospherics;
 using Tilemaps.Behaviours.Meta;
 using UnityEngine;
@@ -83,7 +86,7 @@ public class MetaDataSystem : SubsystemBehaviour
 		MetaUtils.RemoveFromNeighbors(node);
 		externalNodes.TryRemove(node, out MetaDataNode nothing);
 
-		node.IsIsolatedNode = false;
+		node.OccupiedType = NodeOccupiedType.None;
 
 		// If the node is atmos passable (i.e. space or room), we need to setup its neighbors again, otherwise it's occupied and does need a neighbor check
 		if (metaTileMap.IsAtmosPassableAt(localPosition, true))
@@ -96,13 +99,18 @@ public class MetaDataSystem : SubsystemBehaviour
 				node.ThermalConductivity = AtmosDefines.SPACE_THERMAL_CONDUCTIVITY;
 				node.HeatCapacity =  AtmosDefines.SPACE_HEAT_CAPACITY;
 			}
+			else
+			{
+				node.OccupiedType = DetectOccupiedType(localPosition);
+			}
 		}
+		//Then must be fully blocked e.g wall or closed door
 		else
 		{
 			node.Type = NodeType.Occupied;
 			if (matrix.GetFirst<RegisterDoor>(localPosition, true))
 			{
-				node.IsIsolatedNode = true;
+				node.OccupiedType = NodeOccupiedType.Full;
 
 				//TODO hard coded these values, might be better to put them in register door?
 				node.ThermalConductivity = 0.001f;
@@ -118,8 +126,6 @@ public class MetaDataSystem : SubsystemBehaviour
 		}
 
 		SetupNeighbors(node);
-
-
 
 		if (MatrixManager.AtPoint(node.Position.ToWorld(node.PositionMatrix).RoundToInt(),
 			    CustomNetworkManager.IsServer) == node.PositionMatrix.MatrixInfo)
@@ -143,14 +149,16 @@ public class MetaDataSystem : SubsystemBehaviour
 
 	private void FindRoomAt(Vector3Int position)
 	{
-		if (!metaTileMap.IsAtmosPassableAt(position, true))
+		//First try for full tile atmos blocks, e.g walls, closed doors and set them to occupied
+		if (metaTileMap.IsAtmosPassableAt(position, true) == false)
 		{
 			MetaDataNode node = metaDataLayer.Get(position);
 			node.Type = NodeType.Occupied;
 
+			//Full doors, not windoors
 			if (matrix.GetFirst<RegisterDoor>(position, true))
 			{
-				node.IsIsolatedNode = true;
+				node.OccupiedType = NodeOccupiedType.Full;
 				node.ThermalConductivity = 0.0001f;
 				node.HeatCapacity =  10000f;
 			}
@@ -162,6 +170,7 @@ public class MetaDataSystem : SubsystemBehaviour
 
 			SetupNeighbors(node);
 		}
+		//Then we try to find the room at this position, if its not space or already in a room
 		else if (!metaTileMap.IsSpaceAt(position, true) && !metaDataLayer.IsRoomAt(position) && !metaDataLayer.IsSpaceAt(position))
 		{
 			CreateRoom(position);
@@ -174,43 +183,51 @@ public class MetaDataSystem : SubsystemBehaviour
 		{
 			return;
 		}
-		var roomPositions = new HashSet<Vector3Int>();
+		var roomPositions = new Dictionary<Vector3Int, NodeOccupiedType>();
 		var freePositions = new UniqueQueue<Vector3Int>();
 
 		freePositions.Enqueue(origin);
 
 		var isSpace = false;
 
-		// breadth-first search of the connected tiles that are not occupied
-		while (!freePositions.IsEmpty)
+		// Breadth-first search of the connected tiles that are not occupied
+		while (freePositions.IsEmpty == false)
 		{
-			if (freePositions.TryDequeue(out Vector3Int position))
+			if (freePositions.TryDequeue(out Vector3Int position) == false) continue;
+
+			roomPositions.Add(position, DetectOccupiedType(position));
+
+			Vector3Int[] neighbors = MetaUtils.GetNeighbors(position, null);
+			if(neighbors.Length == 0) continue;
+
+			for (var i = 0; i < neighbors.Length; i++)
 			{
-				roomPositions.Add(position);
+				Vector3Int neighbor = neighbors[i];
 
-				Vector3Int[] neighbors = MetaUtils.GetNeighbors(position, null);
-				for (var i = 0; i < neighbors.Length; i++)
+				//If this position is space on our matrix, test to see if space on other matrixes to work out if room should be space
+				if (metaTileMap.IsSpaceAt(neighbor, true))
 				{
-					Vector3Int neighbor = neighbors[i];
-					if (metaTileMap.IsSpaceAt(neighbor, true))
-					{
-						Vector3Int worldPosition = MatrixManager.LocalToWorldInt(neighbor, MatrixManager.Get(matrix.Id));
+					Vector3Int worldPosition = MatrixManager.LocalToWorldInt(neighbor, MatrixManager.Get(matrix.Id));
 
-						// If matrix manager says, the neighboring positions is space, the whole room is connected to space.
-						// Otherwise there is another matrix, blocking off the connection to space.
-						if (MatrixManager.IsSpaceAt(worldPosition, true, matrix.MatrixInfo))
-						{
-							isSpace = true;
-						}
-					}
-					else if (metaTileMap.IsAtmosPassableAt(position, neighbor, true))
+					// If matrix manager says, the neighboring positions is space, the whole room is connected to space.
+					// Otherwise there is another matrix, blocking off the connection to space.
+					if (MatrixManager.IsSpaceAt(worldPosition, true, matrix.MatrixInfo))
 					{
-						// if neighbor position is not yet a room in the meta data layer and not in the room positions list,
-						// add it to the positions that need be checked
-						if (!roomPositions.Contains(neighbor) && !metaDataLayer.IsRoomAt(neighbor))
-						{
-							freePositions.Enqueue(neighbor);
-						}
+						isSpace = true;
+					}
+
+					continue;
+				}
+
+				//Now check to see if it is atmos passable between the free position and its neighbour
+				//If it is then its in the same room
+				if (metaTileMap.IsAtmosPassableAt(position, neighbor, true))
+				{
+					// if neighbor position is not yet a room in the meta data layer and not in the room positions list,
+					// add it to the positions that need be checked
+					if (!roomPositions.ContainsKey(neighbor) && !metaDataLayer.IsRoomAt(neighbor))
+					{
+						freePositions.Enqueue(neighbor);
 					}
 				}
 			}
@@ -221,14 +238,75 @@ public class MetaDataSystem : SubsystemBehaviour
 		SetupNeighbors(roomPositions);
 	}
 
-	private void AssignType(IEnumerable<Vector3Int> positions, NodeType nodeType)
+	/// <summary>
+	/// Might have a windoor or DirectionalPassables (e.g directional window)
+	/// See if we need to set NodeOccupiedType so we block atmos from doing gas exchange in that direction
+	/// </summary>
+	private NodeOccupiedType DetectOccupiedType(Vector3Int position)
+	{
+		var freePositionDoors = matrix.GetAs<RegisterDoor>(position, true).ToArray();
+		var freePositionDirectionalPassable = matrix.GetAs<DirectionalPassable>(position, true).ToArray();
+
+		var occupiedType = NodeOccupiedType.None;
+
+		//Check windoor
+		for (int i = 0; i < freePositionDoors.Length; i++)
+		{
+			var windoor = freePositionDoors[i];
+
+			//Check to see if windoor
+			if (windoor.OneDirectionRestricted == false || windoor.IsClosed == false) continue;
+			if (windoor.RotatableChecked.HasComponent == false) continue;
+
+			var directionEnum = windoor.RotatableChecked.Component.CurrentDirection;
+
+			if (occupiedType == NodeOccupiedType.None)
+			{
+				occupiedType = NodeOccupiedUtil.DirectionEnumToOccupied(directionEnum);
+			}
+			else
+			{
+				occupiedType |= NodeOccupiedUtil.DirectionEnumToOccupied(directionEnum);
+			}
+		}
+
+		//Check other DirectionalPassables
+		for (int i = 0; i < freePositionDirectionalPassable.Length; i++)
+		{
+			var directionalPassable = freePositionDirectionalPassable[i];
+			if (directionalPassable.IsAtmosPassableOnAll) continue;
+			
+			//Only allow atmos to be blocked by anchored objects
+			if(directionalPassable.ObjectPhysics.HasComponent
+			   && directionalPassable.ObjectPhysics.Component.isNotPushable == false) continue;
+
+			var blockedOrientations = directionalPassable.GetOrientationsBlocked(directionalPassable.AtmosphericPassableSides);
+
+			foreach (var directionEnum in blockedOrientations)
+			{
+				if (occupiedType == NodeOccupiedType.None)
+				{
+					occupiedType = NodeOccupiedUtil.DirectionEnumToOccupied(directionEnum);
+				}
+				else
+				{
+					occupiedType |= NodeOccupiedUtil.DirectionEnumToOccupied(directionEnum);
+				}
+			}
+		}
+
+		return occupiedType;
+	}
+
+	private void AssignType(Dictionary<Vector3Int, NodeOccupiedType> positions, NodeType nodeType)
 	{
 		// Bulk assign type to nodes at given positions
-		foreach (Vector3Int position in positions)
+		foreach (var position in positions)
 		{
-			MetaDataNode node = metaDataLayer.Get(position);
+			MetaDataNode node = metaDataLayer.Get(position.Key);
 
 			node.Type = nodeType;
+			node.OccupiedType = position.Value;
 
 			// assign room number, if type is room
 			node.RoomNumber = nodeType == NodeType.Room ? roomCounter : -1;
@@ -241,11 +319,11 @@ public class MetaDataSystem : SubsystemBehaviour
 		}
 	}
 
-	private void SetupNeighbors(IEnumerable<Vector3Int> positions)
+	private void SetupNeighbors(Dictionary<Vector3Int, NodeOccupiedType> positions)
 	{
-		foreach (Vector3Int position in positions)
+		foreach (var position in positions)
 		{
-			SetupNeighbors(metaDataLayer.Get(position));
+			SetupNeighbors(metaDataLayer.Get(position.Key));
 		}
 	}
 

@@ -1,6 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using NaughtyAttributes;
+using Util;
 
 namespace Core.Directionals
 {
@@ -28,11 +31,14 @@ namespace Core.Directionals
 		[SerializeField]
 		private PassableSides atmosphericPassableSides = default;
 
-		public Rotatable Rotatable { get; private set; }
+		private CheckedComponent<Rotatable> rotatableChecked = new CheckedComponent<Rotatable>();
+		public CheckedComponent<Rotatable> RotatableChecked => rotatableChecked;
 
 		public bool IsLeavableOnAll => isLeavableOnAll;
 		public bool IsEnterableOnAll => isEnterableOnAll;
 		public bool IsAtmosPassableOnAll => isAtmosPassableOnAll;
+
+		public PassableSides AtmosphericPassableSides => atmosphericPassableSides;
 
 		#region RegisterObject Overrides
 
@@ -56,9 +62,9 @@ namespace Core.Directionals
 
 		private void EnsureInit()
 		{
-			if (Rotatable != null) return;
+			if (rotatableChecked.HasComponent) return;
 
-			Rotatable = GetComponent<Rotatable>();
+			rotatableChecked.ResetComponent(this);
 		}
 
 		public override bool IsPassable(bool isServer, GameObject context = null)
@@ -213,7 +219,7 @@ namespace Core.Directionals
 		private bool IsPassableAtSide(Vector2Int sideToCross, PassableSides sides)
 		{
 			EnsureInit();
-			if (Rotatable == null)
+			if (rotatableChecked.HasComponent == false)
 			{
 				Logger.LogError($"No {nameof(Rotatable)} component found on {this}?", Category.Directionals);
 				return false;
@@ -222,7 +228,7 @@ namespace Core.Directionals
 			if (sideToCross == Vector2Int.zero) return true;
 
 			// TODO: figure out a better way or at least use some data structure.
-			switch (Rotatable.CurrentDirection)
+			switch (rotatableChecked.Component.CurrentDirection)
 			{
 				case OrientationEnum.Up_By0:
 					if (sideToCross == Vector2Int.up) return sides.Down;
@@ -254,6 +260,61 @@ namespace Core.Directionals
 			}
 
 			return false;
+		}
+
+		public IEnumerable<OrientationEnum> GetOrientationsBlocked(PassableSides sides)
+		{
+			EnsureInit();
+			if (rotatableChecked.HasComponent == false)
+			{
+				Logger.LogError($"No {nameof(Rotatable)} component found on {this}?", Category.Directionals);
+				return Enumerable.Empty<OrientationEnum>();
+			}
+
+			var enums = new List<OrientationEnum>(4);
+
+			// TODO: figure out a better way or at least use some data structure.
+			switch (rotatableChecked.Component.CurrentDirection)
+			{
+				case OrientationEnum.Up_By0:
+					if (sides.Down == false) enums.Add(OrientationEnum.Up_By0);
+					if (sides.Up == false) enums.Add(OrientationEnum.Down_By180);
+					if (sides.Right == false) enums.Add(OrientationEnum.Left_By90);
+					if (sides.Left == false) enums.Add(OrientationEnum.Right_By270);
+					break;
+				case OrientationEnum.Down_By180:
+					if (sides.Up == false) enums.Add(OrientationEnum.Up_By0);
+					if (sides.Down == false) enums.Add(OrientationEnum.Down_By180);
+					if (sides.Left == false) enums.Add(OrientationEnum.Left_By90);
+					if (sides.Right == false) enums.Add(OrientationEnum.Right_By270);
+					break;
+				case OrientationEnum.Left_By90:
+					if (sides.Left == false) enums.Add(OrientationEnum.Up_By0);
+					if (sides.Right == false) enums.Add(OrientationEnum.Down_By180);
+					if (sides.Down == false) enums.Add(OrientationEnum.Left_By90);
+					if (sides.Up == false) enums.Add(OrientationEnum.Right_By270);
+					break;
+				case OrientationEnum.Right_By270:
+					if (sides.Right == false) enums.Add(OrientationEnum.Up_By0);
+					if (sides.Left == false) enums.Add(OrientationEnum.Down_By180);
+					if (sides.Up == false) enums.Add(OrientationEnum.Left_By90);
+					if (sides.Down == false) enums.Add(OrientationEnum.Right_By270);
+					break;
+				default:
+					Logger.LogWarning("Unknown orientation. Returning false.", Category.Directionals);
+					break;
+			}
+
+			return enums;
+		}
+
+		public override void OnDespawnServer(DespawnInfo info)
+		{
+			base.OnDespawnServer(info);
+
+			if (Matrix == null) return;
+
+			Matrix.MatrixInfo.SubsystemManager.UpdateAt(LocalPositionServer);
 		}
 
 		[Serializable]

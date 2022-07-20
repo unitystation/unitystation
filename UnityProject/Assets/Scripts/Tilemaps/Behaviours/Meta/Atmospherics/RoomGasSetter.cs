@@ -11,6 +11,7 @@ namespace Systems.Atmospherics
 		public GasMix GasMixToSpawn => gasMixToSpawn.BaseGasMix;
 
 		private RegisterTile registerTile;
+		public RegisterTile RegisterTile => registerTile;
 
 		private void Awake()
 		{

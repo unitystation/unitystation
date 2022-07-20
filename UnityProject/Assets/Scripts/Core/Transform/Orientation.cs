@@ -189,6 +189,17 @@ public struct Orientation : IEquatable<Orientation>
 		return GetOrientation(degree);
 	}
 
+	/// <summary>
+	/// OrientationEnum pointing the same direction as the specified vector.
+	/// For example if vector is right (1,0), this will return OrientationEnum.Right_By270
+	/// </summary>
+	/// <returns>OrientationEnum pointing in same direction as vector</returns>
+	public static OrientationEnum FromAsEnum( Vector2 direction )
+	{
+		float degree = AngleFromUp(direction);
+		return GetOrientation(degree).AsEnum();
+	}
+
 	public static Orientation GetOrientation(float degree)
 	{
 		if (degree >= 135f && degree < 225f)

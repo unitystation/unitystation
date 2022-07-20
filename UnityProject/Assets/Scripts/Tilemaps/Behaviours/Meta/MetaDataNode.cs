@@ -72,6 +72,11 @@ public class MetaDataNode : IGasMixContainer
 	public NodeType Type;
 
 	/// <summary>
+	/// Occupied Type of this node.
+	/// </summary>
+	public NodeOccupiedType OccupiedType;
+
+	/// <summary>
 	/// The mixture of gases currently on this node.
 	/// </summary>
 	public GasMix GasMix { get; set; }
@@ -207,7 +212,7 @@ public class MetaDataNode : IGasMixContainer
 	/// Does this tile contain a closed airlock/shutters? Prevents gas exchange to adjacent tiles
 	/// (used for gas freezing)
 	/// </summary>
-	public bool IsIsolatedNode { get; set; }
+	public bool IsIsolatedNode => OccupiedType == NodeOccupiedType.Full;
 
 	/// <summary>
 	/// Is this tile occupied by something impassable (airtight!)
@@ -218,16 +223,19 @@ public class MetaDataNode : IGasMixContainer
 
 	public bool Exists => this != None;
 
-	public void AddNeighborsToList(ref List<MetaDataNode> list)
+	public void AddNeighborsToList(ref List<(MetaDataNode, bool)> list)
 	{
 		lock (neighborList)
 		{
 			foreach (MetaDataNode neighbor in neighborList)
 			{
-				if (neighbor != null && neighbor.Exists)
-				{
-					list.Add(neighbor);
-				}
+				if (neighbor == null || neighbor.Exists == false) continue;
+
+				//Bool means to block gas equalise, e.g for when closed windoor/directional passable
+				//Have to do IsOccupiedBlocked from both tiles perspective
+				var equalise = neighbor.IsOccupied == false && neighbor.IsIsolatedNode == false
+						&& IsOccupiedBlocked(neighbor) == false && neighbor.IsOccupiedBlocked(this) == false;
+				list.Add((neighbor, equalise));
 			}
 		}
 	}
@@ -333,6 +341,22 @@ public class MetaDataNode : IGasMixContainer
 	public void ForceUpdateClient()
 	{
 		PositionMatrix.MetaDataLayer.AddNetworkChange(Position, this);
+	}
+
+	public bool IsOccupiedBlocked(MetaDataNode neighbourNode)
+	{
+		if (OccupiedType == NodeOccupiedType.None) return false;
+		if (OccupiedType == NodeOccupiedType.Full) return true;
+
+		var direction =  neighbourNode.Position - Position;
+		var orientationEnum = Orientation.FromAsEnum(direction.To2());
+
+		var occupied = NodeOccupiedUtil.DirectionEnumToOccupied(orientationEnum);
+
+		var result = OccupiedType.HasFlag(occupied);
+
+		//Note HasFlag might not be the best way to check, could be slower than making If statement ourselves
+		return result;
 	}
 }
 
