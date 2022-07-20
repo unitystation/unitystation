@@ -765,6 +765,9 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 	public void SetIsNotPushable(bool newState)
 	{
 		isNotPushable = newState;
+
+		//Force update atmos
+		registerTile.Matrix.TileChangeManager.SubsystemManager.UpdateAt(OfficialPosition.ToLocalInt(registerTile.Matrix));
 	}
 
 	private void SyncIsNotPushable(bool wasNotPushable, bool isNowNotPushable)
