@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
 using Random = UnityEngine.Random;
@@ -14,7 +15,7 @@ namespace Objects.Construction
 	public class WindowFullTileObject : NetworkBehaviour, ICheckedInteractable<HandApply>
 	{
 		private RegisterObject registerObject;
-		private UniversalObjectPhysics objectBehaviour;
+		private UniversalObjectPhysics objectPhysics;
 
 		[Header("Tile creation variables")]
 		[Tooltip("Layer tile which this will create when placed.")]
@@ -22,13 +23,12 @@ namespace Objects.Construction
 
 		[Header("Deconstruction variables")]
 		[Tooltip("Items to drop when deconstructed.")]
-
 		public GameObject matsOnDeconstruct;
+
 		[Tooltip("Quantity of mats when deconstructed.")]
-
 		public int countOfMatsOnDissasemle;
-		[Tooltip("Sound on deconstruction.")]
 
+		[Tooltip("Sound on deconstruction.")]
 		public AddressableAudioSource soundOnDeconstruct;
 
 		//PM: Objects below don't have to be shards or rods, but it's more convenient for me to put "shards" and "rods" in the variable names.
@@ -55,11 +55,20 @@ namespace Objects.Construction
 		[Tooltip("Sound when destroyed.")]
 		[SerializeField] private AddressableAudioSource soundOnDestroy = null;
 
-		private void Start()
+		private void Awake()
 		{
 			registerObject = GetComponent<RegisterObject>();
+			objectPhysics = GetComponent<UniversalObjectPhysics>();
+		}
+
+		private void OnEnable()
+		{
 			GetComponent<Integrity>().OnWillDestroyServer.AddListener(OnWillDestroyServer);
-			objectBehaviour = GetComponent<UniversalObjectPhysics>();
+		}
+
+		private void OnDisable()
+		{
+			GetComponent<Integrity>().OnWillDestroyServer.RemoveListener(OnWillDestroyServer);
 		}
 
 		private void OnWillDestroyServer(DestructionInfo arg0)
@@ -95,7 +104,7 @@ namespace Objects.Construction
 
 			if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Screwdriver))
 			{
-				if (objectBehaviour.IsNotPushable == false)
+				if (objectPhysics.IsNotPushable == false)
 				{
 					//secure it if there's floor
 					if (MatrixManager.IsSpaceAt(registerObject.WorldPositionServer, true, registerObject.Matrix.MatrixInfo))
@@ -120,18 +129,18 @@ namespace Objects.Construction
 				{
 					//unsecure it
 					ToolUtils.ServerUseToolWithActionMessages(interaction, 4f,
-						"You start unsecuring the girder...",
+						"You start unsecuring the window...",
 						$"{interaction.Performer.ExpensiveName()} starts unsecuring the window...",
 						"You unsecure the window.",
 						$"{interaction.Performer.ExpensiveName()} unsecures the window.",
-						() => objectBehaviour.ServerSetAnchored(false, interaction.Performer));
+						() => objectPhysics.ServerSetAnchored(false, interaction.Performer));
 				}
 
 			}
 			else if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Wrench))
 			{
 				//disassemble if it's unanchored
-				if (objectBehaviour.IsNotPushable == false)
+				if (objectPhysics.IsNotPushable == false)
 				{
 					ToolUtils.ServerUseToolWithActionMessages(interaction, 4f,
 						"You start to disassemble the window...",

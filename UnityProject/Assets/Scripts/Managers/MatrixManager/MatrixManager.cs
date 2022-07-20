@@ -1262,6 +1262,13 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 		return Vector3Int.RoundToInt(LocalToWorld(localPos, matrix, state));
 	}
 
+	/// <inheritdoc cref="LocalToWorldInt(Vector3, Matrix)"/>
+	public static Vector3Int LocalToWorldInt(Vector3Int localPos, MatrixInfo matrix,
+		MatrixState state = default(MatrixState))
+	{
+		return Vector3Int.RoundToInt(LocalToWorld(localPos, matrix, state));
+	}
+
 	/// <summary>
 	/// Convert local matrix coordinates to world position. Keeps offsets in mind (+ rotation and pivot if MatrixMove is present)
 	/// </summary>

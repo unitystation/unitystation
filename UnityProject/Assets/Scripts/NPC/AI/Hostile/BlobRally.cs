@@ -44,12 +44,12 @@ namespace Systems.MobAIs
 			Deactivate();
 		}
 
-		protected override void OnTileReached(Vector3 tilePos)
+		protected override void OnTileReached(Vector3Int oldLocalPos, Vector3Int newLocalPos)
 		{
-			base.OnTileReached(tilePos);
+			base.OnTileReached(oldLocalPos, newLocalPos);
 
 			// Get to two tiles around the point before completion
-			if((tilePos - localTargetPosition).sqrMagnitude > 4) return;
+			if((newLocalPos - localTargetPosition).sqrMagnitude > 4) return;
 
 			FollowCompleted();
 		}

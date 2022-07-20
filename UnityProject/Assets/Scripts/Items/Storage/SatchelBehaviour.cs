@@ -44,7 +44,7 @@ public class SatchelBehaviour : MonoBehaviour, IServerInventoryMove
 		}
 	}
 
-	private void TileReachedServer(Vector3 localPos)
+	private void TileReachedServer(Vector3Int oldLocalPos, Vector3Int localPos)
 	{
 		var crossedItems = MatrixManager.GetAt<Pickupable>(localPos.ToWorldInt(registerTile.Matrix), true);
 		foreach (var item in crossedItems)

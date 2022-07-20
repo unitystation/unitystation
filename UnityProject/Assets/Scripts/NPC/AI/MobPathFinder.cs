@@ -415,7 +415,7 @@ namespace Systems.MobAIs
 		{
 		}
 
-		protected virtual void OnTileReached(Vector3 tilePos)
+		protected virtual void OnTileReached(Vector3Int oldLocalPos, Vector3Int newLocalPos)
 		{
 			if (!activated) return;
 

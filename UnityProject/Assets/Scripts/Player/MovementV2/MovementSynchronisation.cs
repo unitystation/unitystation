@@ -1273,9 +1273,9 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 		}
 	}
 
-	public override void LocalTileReached(Vector3 localPos)
+	public override void LocalTileReached(Vector3Int localPos)
 	{
-		var tile = registerTile.Matrix.MetaTileMap.GetTile(localPos.CutToInt(), LayerType.Base);
+		var tile = registerTile.Matrix.MetaTileMap.GetTile(localPos, LayerType.Base);
 		if (tile != null && tile is BasicTile c)
 		{
 			foreach (var interaction in c.TileStepInteractions)
@@ -1287,7 +1287,7 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 
 		//Check for tiles before objects because of this list
 		if (registerTile.Matrix.MetaTileMap.ObjectLayer.EnterTileBaseList == null) return;
-		var loopto = registerTile.Matrix.MetaTileMap.ObjectLayer.EnterTileBaseList.Get(localPos.RoundToInt());
+		var loopto = registerTile.Matrix.MetaTileMap.ObjectLayer.EnterTileBaseList.Get(localPos);
 		foreach (var enterTileBase in loopto)
 		{
 			if (enterTileBase.WillAffectPlayer(playerScript) == false) continue;
