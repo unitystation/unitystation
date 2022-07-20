@@ -74,11 +74,8 @@ namespace HealthV2
 
 		public override void OnGib()
 		{
-			//Drop everything
-			foreach (var slot in dynamicItemStorage.GetItemSlots().ToList())
-			{
-				Inventory.ServerDrop(slot);
-			}
+			//Drop everything			
+			Inventory.ServerDropAll(dynamicItemStorage);
 
 			base.OnGib();
 			PlayerMove.playerScript.objectPhysics.DisappearFromWorld ();
