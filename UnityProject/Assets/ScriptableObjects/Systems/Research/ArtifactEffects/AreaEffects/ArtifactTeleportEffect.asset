@@ -15,8 +15,11 @@ MonoBehaviour:
   ArtifactClass: 1
   ArtifactDataSO: {fileID: 11400000, guid: 7f5b0e0976c03ac4eb7ac2fb43a724d7, type: 2}
   effectShapeType: 0
+  coolDown: 10
   AuraRadius: 10
   resistanceTrait: {fileID: 0}
   AllowBodySplitting: 0
   MinDistance: 3
   MaxDistance: 6
+  AvoidSpace: 0
+  AvoidImpassable: 1

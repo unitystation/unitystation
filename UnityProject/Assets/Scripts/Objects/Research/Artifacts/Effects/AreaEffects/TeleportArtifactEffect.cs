@@ -1,3 +1,4 @@
+using HealthV2;
 using Systems.Teleport;
 using UnityEngine;
 
@@ -12,9 +13,19 @@ namespace Systems.Research
 		public bool AvoidSpace = false;
 		public bool AvoidImpassable = false;
 
-		public override void OnEffect(PlayerScript player)
+		public override void OnEffect(PlayerScript player, BodyPart part = null)
 		{
-			TeleportUtils.ServerTeleportRandom(player.gameObject, MinDistance, MaxDistance, AvoidSpace, AvoidImpassable);
+			if (part != null)
+			{
+				player.playerHealth.DismemberBodyPart(part);
+				TeleportUtils.ServerTeleportRandom(part.gameObject, MinDistance, MaxDistance, AvoidSpace, AvoidImpassable);
+				return;
+			}
+			else
+			{
+				TeleportUtils.ServerTeleportRandom(player.gameObject, MinDistance, MaxDistance, AvoidSpace, AvoidImpassable);
+				return;
+			}
 		}
 	}
 }

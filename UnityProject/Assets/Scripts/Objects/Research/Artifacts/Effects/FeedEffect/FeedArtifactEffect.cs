@@ -8,7 +8,7 @@ namespace Systems.Research
 	[CreateAssetMenu(fileName = "FeedEffect", menuName = "ScriptableObjects/Systems/Artifacts/FeedEffect")]
 	public class FeedArtifactEffect : ArtifactEffect
 	{
-		public ItemTrait[] acceptedItems;
+		public ItemTrait acceptedItems;
 
 		public string[] acceptedItemMessages;
 		public string[] emptyHandMessages;
@@ -30,7 +30,7 @@ namespace Systems.Research
 			}
 
 			//Check for right itemtrait
-			if (!Validations.HasAnyTrait(interaction.HandObject, acceptedItems))
+			if (!Validations.HasItemTrait(interaction.HandObject, acceptedItems))
 			{
 				WrongEffect(interaction);
 				return;

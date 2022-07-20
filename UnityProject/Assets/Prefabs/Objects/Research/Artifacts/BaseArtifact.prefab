@@ -175,6 +175,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d14f2399e95b0e149a487e09e08b9686, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
   spriteHandler: {fileID: 8622725775991219861}
   RandomSprites:
   - idleSprite: {fileID: 11400000, guid: 4fd7ffaa181da5040a099d1f3a9865f2, type: 2}
@@ -206,7 +208,10 @@ MonoBehaviour:
   - idleSprite: {fileID: 11400000, guid: bf7612bb6306db0498d4180064eb762d, type: 2}
     activeSprite: {fileID: 11400000, guid: aa9f51003be09f94898f2c42788a2c6a, type: 2}
   TouchEffectTimeout: 10
+  isDormant: 1
+  DormantTrigger: {fileID: 11400000, guid: 66d1cd8016198e74c92a755f9b2bdeb0, type: 2}
   ArtifactDataSO: {fileID: 11400000, guid: 7f5b0e0976c03ac4eb7ac2fb43a724d7, type: 2}
+  ID: T376
 --- !u!114 &6751607752946846962
 MonoBehaviour:
   m_ObjectHideFlags: 0

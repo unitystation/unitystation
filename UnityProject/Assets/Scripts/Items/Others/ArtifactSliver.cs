@@ -15,28 +15,6 @@ namespace Items.Science
 		glass = 2, //TODO: think of more things artifacts could be made of
 	}
 
-	public struct ArtifactData
-	{
-		public ArtifactData(int radlvl = 0, int bluelvl = 0, int bnalvl = 0, int mss = 0, CompositionBase comp = CompositionBase.metal, AreaArtifactEffect areaEffect = null, FeedArtifactEffect feedEffect = null)
-		{
-			radiationlevel = radlvl;
-			bluespacesig = bluelvl;
-			bananiumsig = bnalvl;
-			mass = mss;
-			compositionBase = comp;
-			AreaEffect = areaEffect;
-			FeedEffect = feedEffect;
-		}
-
-		public CompositionBase compositionBase;
-		public int radiationlevel;
-		public int bluespacesig;
-		public int bananiumsig;
-		public int mass;
-		public AreaArtifactEffect AreaEffect;
-		public FeedArtifactEffect FeedEffect;
-	}
-
 	public class ArtifactSliver : MonoBehaviour
 	{
 		public ArtifactData sliverData;

@@ -1,5 +1,5 @@
 ﻿using Systems.Research;
-using Items.Science;
+using Objects.Research;
 
 namespace Items.Storage.VirtualStorage
 {

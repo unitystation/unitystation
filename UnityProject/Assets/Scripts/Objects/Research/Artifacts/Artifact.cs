@@ -5,6 +5,7 @@ using Items.Science;
 using Systems.Research;
 using ScriptableObjects.Systems.Research;
 using Systems.Radiation;
+using Mirror;
 
 [System.Serializable]
 public class ArtifactSprite
@@ -15,7 +16,40 @@ public class ArtifactSprite
 
 namespace Objects.Research
 {
-	public class Artifact : MonoBehaviour, IServerSpawn, IServerDespawn, ICheckedInteractable<HandApply>
+	public struct EffectIndex
+	{
+		public EffectIndex(int Index = 0, ArtifactClass AClass = ArtifactClass.Uranium)
+		{
+			index = Index;
+			aClass = AClass;
+		}
+		public int index;
+		public ArtifactClass aClass;
+	}
+
+	public struct ArtifactData
+	{
+		public ArtifactData(int radlvl = 0, int bluelvl = 0, int bnalvl = 0, int mss = 0, CompositionBase comp = CompositionBase.metal, EffectIndex areaEffect = default, EffectIndex feedEffect = default)
+		{
+			radiationlevel = radlvl;
+			bluespacesig = bluelvl;
+			bananiumsig = bnalvl;
+			mass = mss;
+			compositionBase = comp;
+			AreaEffect = areaEffect;
+			FeedEffect = feedEffect;
+		}
+
+		public CompositionBase compositionBase;
+		public int radiationlevel;
+		public int bluespacesig;
+		public int bananiumsig;
+		public int mass;
+		public EffectIndex AreaEffect;
+		public EffectIndex FeedEffect;
+	}
+
+	public class Artifact : NetworkBehaviour, IServerSpawn, IServerDespawn, ICheckedInteractable<HandApply>
 	{
 		/// <summary>
 		/// Set of all artifacts on scenes. Useful to get list of all existing artifacts.
@@ -33,11 +67,21 @@ namespace Objects.Research
 		public float TouchEffectTimeout = 10f;
 		private float lastActivationTime;
 
+		public bool isDormant = true;
+		public ItemTrait DormantTrigger;
+
 		private Coroutine animationCoroutine = null;
 
-		public ArtifactData artifactData = new ArtifactData();
+		[SyncVar] public ArtifactData artifactData = new ArtifactData();
 
 		public ArtifactDataSO ArtifactDataSO;
+
+		//Indexes and structs are used as opposed to the classes themselves due to Mirror and Garbage purposes
+		public AreaArtifactEffect AreaEffect => ArtifactDataSO.AreaEffects[(int)artifactData.AreaEffect.aClass].AreaArtifactEffectList[artifactData.AreaEffect.index];
+		public FeedArtifactEffect FeedEffect => ArtifactDataSO.FeedEffects[(int)artifactData.FeedEffect.aClass].FeedArtifactEffectList[artifactData.FeedEffect.index];
+
+
+		[SyncVar] public string ID = "T376";
 
 		public bool UnderTimeout
 		{
@@ -53,16 +97,38 @@ namespace Objects.Research
 		private void Awake()
 		{
 			radiationProducer = GetComponent<RadiationProducer>();
+		}
+
+		private void OnEnable()
+		{
+			if (isDormant) return;
+			UpdateManager.Add(UpdateMe, AreaEffect.coolDown);
+		}
+
+		private void OnDisable()
+		{
+			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, UpdateMe);
+		}
+
+		public void OnSpawnServer(SpawnInfo info)
+		{
+			// select random sprite
+			ServerSelectRandomSprite();
+
+			// add it to spawned artifacts registry for artifact detector
+			if (!ServerSpawnedArtifacts.Contains(this))
+				ServerSpawnedArtifacts.Add(this);
+
 
 			ArtifactClass Compostion;
-			for (int i = 0; i < Random.Range(1,5); i++)
+			for (int i = 0; i < Random.Range(1, 5); i++)
 			{
 				Compostion = (ArtifactClass)Random.Range(0, 3);
 
 				switch (Compostion)
 				{
 					case ArtifactClass.Uranium:
-						artifactData.radiationlevel += Random.Range(100, 500);
+						artifactData.radiationlevel += Random.Range(1000, 5000);
 						break;
 					case ArtifactClass.Bluespace:
 						artifactData.bluespacesig += Random.Range(50, 150);
@@ -75,37 +141,22 @@ namespace Objects.Research
 						break;
 
 				}
+
+				int num = Random.Range(0, 26); 
+				ID = $"{(char)('a' + num)}{Random.Range(0,1000).ToString("000")}"; //Generates a random ID in the form: Letter-Digit-Digit-Digit
+				ID = ID.ToUpper();
+
+				GetComponent<ObjectAttributes>().ServerSetArticleName("Artifact - " + ID);
 			}
 
-			artifactData.AreaEffect = ChooseAreaEffect(ArtifactDataSO.AreaEffects);
-			artifactData.FeedEffect = ChooseFeedEffect(ArtifactDataSO.FeedEffects);
+			artifactData.AreaEffect = ChooseAreaEffect();
+			artifactData.FeedEffect = ChooseFeedEffect();
 
-			if(artifactData.radiationlevel > 0)
+			if (artifactData.radiationlevel > 0)
 			{
 				radiationProducer.enabled = true;
 				radiationProducer.SetLevel(artifactData.radiationlevel);
 			}
-		}
-
-		private void OnEnable()
-		{
-			UpdateManager.Add(UpdateMe, artifactData.AreaEffect.coolDown);
-		}
-
-		private void OnDisable()
-		{
-			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, UpdateMe);
-		}
-
-		public void OnSpawnServer(SpawnInfo info)
-		{
-
-			// select random sprite
-			ServerSelectRandomSprite();
-
-			// add it to spawned artifacts registry for artifact detector
-			if (!ServerSpawnedArtifacts.Contains(this))
-				ServerSpawnedArtifacts.Add(this);
 		}
 
 		public void OnDespawnServer(DespawnInfo info)
@@ -131,7 +182,8 @@ namespace Objects.Research
 				return;
 			}
 
-			AuraEffect();
+			if(isDormant) UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, UpdateMe);
+			else AuraEffect();
 		}
 
 		#region Interactions
@@ -143,8 +195,15 @@ namespace Objects.Research
 		public void ServerPerformInteraction(HandApply interaction)
 		{
 			// check if player tried touch artifact
-			if (interaction.Intent != Intent.Harm)
+			if (interaction.Intent != Intent.Harm && isDormant == false)
 			{
+				TryActivateByTouch(interaction);
+			}
+			if (isDormant && interaction.Intent != Intent.Harm && Validations.HasItemTrait(interaction.UsedObject, DormantTrigger))
+			{
+				isDormant = false;
+				UpdateManager.Add(UpdateMe, AreaEffect.coolDown);
+				Chat.AddCommMsgByMachineToChat(this.gameObject, $"{gameObject.ExpensiveName()} begins to humm quietly", ChatChannel.Local, Loudness.NORMAL);
 				TryActivateByTouch(interaction);
 			}
 		}
@@ -160,7 +219,7 @@ namespace Objects.Research
 				}
 				else
 				{
-					artifactData.FeedEffect.DoEffectTouch(interaction);
+					FeedEffect.DoEffectTouch(interaction);
 				}
 				PlayActivationAnimation();
 
@@ -170,7 +229,7 @@ namespace Objects.Research
 
 		private void AuraEffect()
 		{
-			artifactData.AreaEffect.DoEffectAura(this.gameObject);
+			AreaEffect.DoEffectAura(this.gameObject);
 			PlayActivationAnimation();
 		}
 
@@ -202,41 +261,41 @@ namespace Objects.Research
 
 		#region EffectRandomisation
 
-		AreaArtifactEffect ChooseAreaEffect(List<ArtifactAreaEffectList> list)
+		EffectIndex ChooseAreaEffect()
 		{
-			int total = artifactData.radiationlevel / 2 + artifactData.bluespacesig + artifactData.bananiumsig / 2;
+			int total = artifactData.radiationlevel / 20 + artifactData.bluespacesig + artifactData.bananiumsig / 2;
 			int choice = Random.Range(0, total + 1);
 
 			if (choice < (artifactData.radiationlevel / 2))
 			{
-				return list[(int)ArtifactClass.Uranium].AreaArtifactEffectList.PickRandom();
+				return new EffectIndex(Random.Range(0, ArtifactDataSO.AreaEffects[(int)ArtifactClass.Uranium].AreaArtifactEffectList.Count), ArtifactClass.Uranium);
 			}
-			if (choice >= (artifactData.radiationlevel / 2) && choice < (artifactData.bluespacesig + artifactData.radiationlevel / 2))
+			if (choice >= (artifactData.radiationlevel / 20) && choice < (artifactData.bluespacesig + artifactData.radiationlevel / 20))
 			{
-				return list[(int)ArtifactClass.Bluespace].AreaArtifactEffectList.PickRandom();
+				return new EffectIndex(Random.Range(0, ArtifactDataSO.AreaEffects[(int)ArtifactClass.Bluespace].AreaArtifactEffectList.Count), ArtifactClass.Bluespace);
 			}
 			else
 			{
-				return list[(int)ArtifactClass.Bananium].AreaArtifactEffectList.PickRandom();
+				return new EffectIndex(Random.Range(0, ArtifactDataSO.AreaEffects[(int)ArtifactClass.Bananium].AreaArtifactEffectList.Count), ArtifactClass.Bananium);
 			}
 		}
 
-		FeedArtifactEffect ChooseFeedEffect(List<ArtifactFeedEffectList> list)
+		EffectIndex ChooseFeedEffect()
 		{
-			int total = artifactData.radiationlevel / 2 + artifactData.bluespacesig + artifactData.bananiumsig / 2;
+			int total = artifactData.radiationlevel / 20 + artifactData.bluespacesig + artifactData.bananiumsig / 2;
 			int choice = Random.Range(0, total + 1);
 
 			if (choice < (artifactData.radiationlevel / 2))
 			{
-				return list[(int)ArtifactClass.Uranium].FeedArtifactEffectList.PickRandom();
+				return new EffectIndex(Random.Range(0, ArtifactDataSO.FeedEffects[(int)ArtifactClass.Uranium].FeedArtifactEffectList.Count), ArtifactClass.Uranium);
 			}
-			if (choice >= (artifactData.radiationlevel / 2) && choice < (artifactData.bluespacesig + artifactData.radiationlevel / 2))
+			if (choice >= (artifactData.radiationlevel / 20) && choice < (artifactData.bluespacesig + artifactData.radiationlevel / 20))
 			{
-				return list[(int)ArtifactClass.Bluespace].FeedArtifactEffectList.PickRandom();
+				return new EffectIndex(Random.Range(0, ArtifactDataSO.FeedEffects[(int)ArtifactClass.Bluespace].FeedArtifactEffectList.Count), ArtifactClass.Bluespace);
 			}
 			else
 			{
-				return list[(int)ArtifactClass.Bananium].FeedArtifactEffectList.PickRandom();
+				return new EffectIndex(Random.Range(0, ArtifactDataSO.FeedEffects[(int)ArtifactClass.Bananium].FeedArtifactEffectList.Count), ArtifactClass.Bananium);
 			}
 		}
 
