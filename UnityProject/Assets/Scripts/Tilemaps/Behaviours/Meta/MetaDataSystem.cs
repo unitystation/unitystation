@@ -275,6 +275,10 @@ public class MetaDataSystem : SubsystemBehaviour
 		{
 			var directionalPassable = freePositionDirectionalPassable[i];
 			if (directionalPassable.IsAtmosPassableOnAll) continue;
+			
+			//Only allow atmos to be blocked by anchored objects
+			if(directionalPassable.ObjectPhysics.HasComponent
+			   && directionalPassable.ObjectPhysics.Component.isNotPushable == false) continue;
 
 			var blockedOrientations = directionalPassable.GetOrientationsBlocked(directionalPassable.AtmosphericPassableSides);
 
