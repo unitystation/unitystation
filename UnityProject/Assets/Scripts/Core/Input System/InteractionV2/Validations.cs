@@ -128,8 +128,8 @@ public static class Validations
 	{
 		if (playerScript == null) return false;
 
-		//Ghost can't interact
-		if (playerScript.IsGhost) return false;
+		//Only normal players interact this way (not ghosts, Ai)
+		if (playerScript.IsNormal == false) return false;
 
 		//Can't interact cuffed
 		if (allowCuffed == false && playerScript.playerMove.IsCuffed) return false;

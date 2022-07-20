@@ -161,7 +161,7 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IActi
 		Init();
 		waitTimeForRTTUpdate = 0f;
 
-		if (IsGhost == false)
+		if (IsNormal)
 		{
 			UIManager.Internals.SetupListeners();
 			UIManager.Instance.panelHudBottomController.SetupListeners();
