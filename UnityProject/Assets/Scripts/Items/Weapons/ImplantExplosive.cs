@@ -16,18 +16,22 @@ namespace Items.Weapons
 		{
 			if (bodyPart.ContainedIn != null)
 			{
-				bodyPart.HealthMaster.ApplyDamageToBodyPart(gameObject, 200, AttackType.Bomb, DamageType.Burn, bodyPart.ContainedIn.BodyPartType); ///This prevents those with bomb proof armour from just tanking an explosion thats supposed to me inside them
+				//This prevents those with bomb proof armour from just tanking an explosion thats supposed to me inside them
+				bodyPart.HealthMaster.ApplyDamageToBodyPart(gameObject, 200, AttackType.Bomb, DamageType.Burn, bodyPart.ContainedIn.BodyPartType);
 
 				if (explosiveStrength >= 750)
 				{
-					NetworkManager.Destroy(bodyPart.HealthMaster.playerScript.DynamicItemStorage); //Items being on ground ensures destruction by explosion
-					bodyPart.HealthMaster.Gib(); //Macrobombs and microbombs will gib their victim
+					//Drop all the players stuff so that the explosion can destroy and trigger destruction events
+					Inventory.ServerDropAll(bodyPart.HealthMaster.playerScript.DynamicItemStorage);
+
+					//Macrobombs and microbombs will gib their victim
+					bodyPart.HealthMaster.OnGib();
 				}
 				else if (bodyPart.ContainedIn.BodyPartType == BodyPartType.Head)
 				{
+					//Decapitates if explosive in head
 					bodyPart.HealthMaster.DismemberBodyPart(bodyPart.ContainedIn);
-				} //Decaptiates if explosive in head
-				
+				}
 			}
 
 			base.Detonate();
@@ -66,7 +70,7 @@ namespace Items.Weapons
 			for(int i = 0; i < timeToDetonate; i++)
 			{
 				PlayBeepAtPos();
-				yield return delay; 
+				yield return delay;
 			}
 
 			Detonate();

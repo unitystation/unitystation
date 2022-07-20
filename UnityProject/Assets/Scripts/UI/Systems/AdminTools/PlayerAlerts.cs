@@ -173,7 +173,7 @@ namespace AdminTools
 					$"{admin.Player().Username} BRUTALLY GIBBED player {perpPlayer.Name} ({perpPlayer.Username}) for a " +
 			        $"{alertEntry.playerAlertType.ToString()} incident that happened at roundtime: {alertEntry.roundTime}", adminId);
 
-			playerScript.playerHealth.Gib();
+			playerScript.playerHealth.OnGib();
 
 			alertEntry.gibbed = true;
 			ServerSendEntryToAllAdmins(alertEntry);

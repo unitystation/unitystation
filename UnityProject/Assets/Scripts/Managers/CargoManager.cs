@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Text;
+using HealthV2;
 using Items;
 using Items.Cargo.Wrapping;
 using Managers;
@@ -262,11 +263,11 @@ namespace Systems.Cargo
 
 		public void ProcessCargo(GameObject obj, HashSet<GameObject> alreadySold)
 		{
-			if (obj.TryGetComponent<PlayerScript>(out var playerScript))
+			if (obj.TryGetComponent<IGib>(out var iGib))
 			{
 				// No one must survive to tell the secrets of Central Command's cargo handling techniques.
 				Chat.AddExamineMsg(obj, "<color=red> You feel a strong force of energy run through your body before everything goes to black in the blink of the eye. </color>");
-				playerScript.playerHealth.Gib();
+				iGib.OnGib();
 				return;
 			}
 

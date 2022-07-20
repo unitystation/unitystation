@@ -22,7 +22,7 @@ namespace Systems.Ai
 	/// This isn't the class which is on the AiCore or InteliCard that is AiVessel
 	/// Sync vars in this class only get sync'd to the object owner
 	/// </summary>
-	public class AiPlayer : NetworkBehaviour, IAdminInfo, IFullyHealable
+	public class AiPlayer : NetworkBehaviour, IAdminInfo, IFullyHealable, IGib
 	{
 		[SerializeField]
 		private GameObject corePrefab = null;
@@ -1274,6 +1274,11 @@ namespace Systems.Ai
 		private void PurgeLoop()
 		{
 			ChangeIntegrity(-1);
+		}
+
+		public void OnGib()
+		{
+			Death();
 		}
 
 		#endregion

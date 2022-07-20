@@ -370,7 +370,7 @@ namespace HealthV2
 
 			if (gibsEntireBodyOnRemoval && beingGibbed == false)
 			{
-				HealthMaster.Gib();
+				HealthMaster.OnGib();
 			}
 
 			if (ContainedIn != null)

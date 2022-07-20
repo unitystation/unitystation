@@ -356,16 +356,16 @@ namespace AdminCommands
 				return;
 			}
 
-			//TODO make gib interface and put on Ai, and blob (remove this health check)
-			if (player?.Script == null || player.Script.IsGhost || player.Script.playerHealth == null) return;
+			if (player?.Script == null || player.Script.IsGhost) return;
 
 			string message = $"{admin.Username}: Smited Username: {player.Username} ({player.Name})";
 			Logger.Log(message, Category.Admin);
 
 			LogAdminAction(message);
 
-			//TODO make gib interface and put on Ai, and blob
-			player.Script.playerHealth.Gib();
+			player.Script.GetComponent<IGib>()?.OnGib();
+
+			Chat.AddExamineMsgFromServer(player.Script.gameObject, "You are struck down by a mysterious force!");
 		}
 
 		/// <summary>
