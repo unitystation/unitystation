@@ -62,7 +62,7 @@ public class IdConsole : MonoBehaviour, ICheckedInteractable<HandApply>
 			Inventory.ServerTransfer(interaction.HandSlot, AccessSlot);
 		}
 	}
-	
+
 	/// <summary>
 	/// Return an empty hand slot if available
 	/// </summary>
@@ -87,11 +87,19 @@ public class IdConsole : MonoBehaviour, ICheckedInteractable<HandApply>
 	public void EjectCard(IDCard cardToEject, PlayerInfo subject)
 	{
 		var slot = cardToEject.GetComponent<Pickupable>().ItemSlot;
+
+		if (subject == null || subject.Script.IsNormal == false)
+		{
+			Inventory.ServerDrop(slot);
+			return;
+		}
+
 		var bestSlot = GetBestSlot(slot.Item.gameObject, subject);
-		if (!Inventory.ServerTransfer(slot, bestSlot))
+		if (Inventory.ServerTransfer(slot, bestSlot) == false)
 		{
 			Inventory.ServerDrop(slot);
 		}
+
 		Inventory.ServerDrop(slot);
 	}
 }

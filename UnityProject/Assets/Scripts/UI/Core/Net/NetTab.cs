@@ -298,8 +298,10 @@ public class NetTab : Tab
 		foreach(var peep in Peepers)
 		{
 			if (peep.Job != JobType.AI) continue;
+
 			return true;
 		}
+
 		return false;
 	}
 
