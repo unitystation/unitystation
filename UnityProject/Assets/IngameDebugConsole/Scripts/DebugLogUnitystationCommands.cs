@@ -21,6 +21,9 @@ namespace IngameDebugConsole
 	public class DebugLogUnitystationCommands : MonoBehaviour
 	{
 
+#if UNITY_EDITOR
+		[MenuItem("Tool/ConveyorBeltTool")]
+#endif
 		[ConsoleMethod("CBTool", "Allows users to quickly build conveyor belts.")]
 		public static void EnableCBTool()
 		{
