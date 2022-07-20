@@ -432,10 +432,11 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 	{
 		Pushing.Clear();
 		Bumps.Clear();
-		if (intent == Intent.Help && CurrentMovementType == MovementType.Crawling) return;
+		if(intent != Intent.Help) return;
 		if (bumpedBy.TryGetComponent<MovementSynchronisation>(out var move))
 		{
-			if (move.intent != Intent.Help || MatrixManager.IsPassableAtAllMatricesV2(bumpedBy.AssumedWorldPosServer(),
+			if (move.CurrentMovementType == MovementType.Crawling) return;
+			if (MatrixManager.IsPassableAtAllMatricesV2(bumpedBy.AssumedWorldPosServer(),
 				    this.gameObject.AssumedWorldPosServer(), SetMatrixCache, this, Pushing, Bumps) == false) return;
 			var pushVector = (bumpedBy.transform.position - this.transform.position).RoundToInt().To2Int();
 			ForceTilePush(pushVector, Pushing, client, move.TileMoveSpeed);
