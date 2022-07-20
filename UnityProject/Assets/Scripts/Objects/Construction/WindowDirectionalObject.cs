@@ -42,13 +42,17 @@ namespace Objects.Construction
 
 		[Header("Deconstruction variables")]
 		[Tooltip("Items to drop when deconstructed.")]
-		public GameObject matsOnDeconstruct;
-
-		[Tooltip("Quantity of mats when deconstructed.")]
-		public int countOfMatsOnDissasemle;
+		public List<DeconstructionData> matsOnDeconstruct;
 
 		[Tooltip("Sound on deconstruction.")]
 		public AddressableAudioSource soundOnDeconstruct;
+
+		[Serializable]
+		public struct DeconstructionData
+		{
+			public GameObject prefab;
+			public int count;
+		}
 
 		private void Awake()
 		{
@@ -184,7 +188,11 @@ namespace Objects.Construction
 		[Server]
 		private void Disassemble(HandApply interaction)
 		{
-			Spawn.ServerPrefab(matsOnDeconstruct, registerObject.WorldPositionServer, count: countOfMatsOnDissasemle);
+			foreach (var mat in matsOnDeconstruct)
+			{
+				Spawn.ServerPrefab(mat.prefab, registerObject.WorldPositionServer, count: mat.count);
+			}
+
 			AudioSourceParameters audioSourceParameters = new AudioSourceParameters(pitch: 1f);
 			SoundManager.PlayNetworkedAtPos(soundOnDeconstruct, gameObject.TileWorldPosition().To3Int(), audioSourceParameters, sourceObj: gameObject);
 			_ = Despawn.ServerSingle(gameObject);
