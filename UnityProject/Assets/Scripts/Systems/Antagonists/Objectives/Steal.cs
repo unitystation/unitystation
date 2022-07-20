@@ -59,9 +59,16 @@ namespace Antagonists
 			var possibleItems = uniqueTargets ? ItemPool.Where( itemDict =>
 				!AntagManager.Instance.TargetedItems.Contains(itemDict.Key)).ToList() : ItemPool.ToList();
 
+			var itemsToRemove = new List<KeyValuePair<GameObject, StealData>>();
+
 			foreach (var item in possibleItems)
 			{
 				if(item.Value.BlacklistedOccupations.Contains(Owner.occupation) == false) continue;
+				itemsToRemove.Add(item);
+			}
+
+			foreach (var item in itemsToRemove)
+			{
 				possibleItems.Remove(item);
 			}
 
