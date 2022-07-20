@@ -69,13 +69,13 @@ public static class ConverterExtensions
 	/// <summary>Convert V3Int to V2Int</summary>
 	public static Vector2Int To2Int(this Vector3Int other)
 	{
-		return Vector2Int.RoundToInt((Vector3) other);
+		return new Vector2Int(other.x, other.y);
 	}
 
 	/// <summary>Convert V2Int to V3Int</summary>
 	public static Vector3Int To3Int(this Vector2Int other)
 	{
-		return Vector3Int.RoundToInt((Vector2) other);
+		return new Vector3Int(other.x, other.y, 0);
 	}
 
 	/// <summary>
@@ -265,30 +265,30 @@ public static class ConverterExtensions
 		}
 	}
 
-	public static Vector2 TVectoro(this MovementSynchronisation.PlayerMoveDirection Direction)
+	public static Vector2Int ToVector(this MovementSynchronisation.PlayerMoveDirection Direction)
 	{
 		switch (Direction)
 		{
 			case MovementSynchronisation.PlayerMoveDirection.Up_Left:
-				return new Vector2(-1, 1);
+				return new Vector2Int(-1, 1);
 			case MovementSynchronisation.PlayerMoveDirection.Up:
-				return new Vector2(0, 1);
+				return new Vector2Int(0, 1);
 			case MovementSynchronisation.PlayerMoveDirection.Up_Right:
-				return new Vector2(1, 1);
+				return new Vector2Int(1, 1);
 
 			case MovementSynchronisation.PlayerMoveDirection.Left:
-				return new Vector2(-1, 0);
+				return new Vector2Int(-1, 0);
 			case MovementSynchronisation.PlayerMoveDirection.Right:
-				return new Vector2(1, 0);
+				return new Vector2Int(1, 0);
 
 			case MovementSynchronisation.PlayerMoveDirection.Down_Left:
-				return new Vector2(-1, -1);
+				return new Vector2Int(-1, -1);
 			case MovementSynchronisation.PlayerMoveDirection.Down:
-				return new Vector2(0, -1);
+				return new Vector2Int(0, -1);
 			case MovementSynchronisation.PlayerMoveDirection.Down_Right:
-				return new Vector2(1, -1);
+				return new Vector2Int(1, -1);
 		}
-		return Vector2.zero;
+		return Vector2Int.zero;
 	}
 
 	//======== | Cool serialisation stuff | =========

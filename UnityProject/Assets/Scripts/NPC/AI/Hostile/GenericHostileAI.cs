@@ -318,7 +318,7 @@ namespace Systems.MobAIs
 
 			//face towards the origin:
 			var dir = (chatEvent.originator.transform.position - transform.position).normalized;
-			rotatable.SetFaceDirectionLocalVictor(dir.To2Int());
+			rotatable.SetFaceDirectionLocalVector(dir.To2Int());
 
 			//Then scan to see if anyone is there:
 			var findTarget = SearchForTarget();

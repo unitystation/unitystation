@@ -152,7 +152,7 @@ public class Rotatable : NetworkBehaviour, IMatrixRotation
 		}
 	}
 
-	public void SetFaceDirectionLocalVictor(Vector2Int direction)
+	public void SetFaceDirectionLocalVector(Vector2Int direction)
 	{
 		SetDirection(direction.ToOrientationEnum());
 	}

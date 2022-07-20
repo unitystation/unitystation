@@ -656,14 +656,14 @@ public class MouseInputController : MonoBehaviour
 			if (!EventSystem.current.IsPointerOverGameObject() && playerMove.allowInput &&
 			    playerMove.BuckledToObject == null)
 			{
-				playerDirectional.SetFaceDirectionLocalVictor(dir.To2Int());
+				playerDirectional.SetFaceDirectionLocalVector(dir.To2Int());
 			}
 		}
 		else
 		{
 			if (!EventSystem.current.IsPointerOverGameObject())
 			{
-				playerDirectional.SetFaceDirectionLocalVictor(dir.To2Int());
+				playerDirectional.SetFaceDirectionLocalVector(dir.To2Int());
 			}
 		}
 	}

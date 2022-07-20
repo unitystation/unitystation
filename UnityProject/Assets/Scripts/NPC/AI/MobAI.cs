@@ -375,7 +375,7 @@ namespace Systems.MobAIs
 			if (dir != Vector2Int.zero)
 			{
 				objectPhysics.TryTilePush(dir, null);
-				rotatable.SetFaceDirectionLocalVictor(dir);
+				rotatable.SetFaceDirectionLocalVector(dir);
 			}
 		}
 
@@ -428,7 +428,7 @@ namespace Systems.MobAIs
 		{
 			// face performer
 			var dir = (performer.transform.position - transform.position).normalized;
-			rotatable.SetFaceDirectionLocalVictor(dir.To2Int());
+			rotatable.SetFaceDirectionLocalVector(dir.To2Int());
 			PettedEvent?.Invoke();
 		}
 

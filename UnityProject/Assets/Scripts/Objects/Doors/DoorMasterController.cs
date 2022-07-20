@@ -219,7 +219,7 @@ namespace Doors
 		/// <summary>
 		/// Invoke this on server when player bumps into door to try to open it.
 		/// </summary>
-		public void OnBump(GameObject inbyPlayer, GameObject Client)
+		public void OnBump(GameObject inbyPlayer, GameObject client)
 		{
 			byPlayer = inbyPlayer;
 			HackingProcessBase.ImpulsePort(TryBump);

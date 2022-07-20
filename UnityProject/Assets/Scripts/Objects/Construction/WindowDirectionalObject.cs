@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using AddressableReferences;
 using Messages.Server.SoundMessages;
@@ -13,9 +14,6 @@ namespace Objects.Construction
 	/// </summary>
 	public class WindowDirectionalObject : NetworkBehaviour
 	{
-		private RegisterObject registerObject;
-		private UniversalObjectPhysics objectPhysics;
-
 		//PM: Objects below don't have to be shards or rods, but it's more convenient for me to put "shards" and "rods" in the variable names.
 
 		[Header("Destroyed variables.")]
@@ -40,15 +38,15 @@ namespace Objects.Construction
 		[Tooltip("Sound when destroyed.")]
 		public AddressableAudioSource soundOnDestroy;
 
-
-
-		private void Start()
+		private void OnEnable()
 		{
-			registerObject = GetComponent<RegisterObject>();
 			GetComponent<Integrity>().OnWillDestroyServer.AddListener(OnWillDestroyServer);
-			objectPhysics = GetComponent<UniversalObjectPhysics>();
 		}
 
+		private void OnDisable()
+		{
+			GetComponent<Integrity>().OnWillDestroyServer.RemoveListener(OnWillDestroyServer);
+		}
 
 		private void OnWillDestroyServer(DestructionInfo arg0)
 		{

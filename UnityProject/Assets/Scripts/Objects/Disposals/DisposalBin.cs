@@ -296,7 +296,7 @@ namespace Objects.Disposals
 		#endregion Interactions
 
 		// gives the probability of an object falling into the bin. Yes, it's like basketball
-		public void OnBump(GameObject item, GameObject Client)
+		public void OnBump(GameObject item, GameObject client)
 		{
 			if (isServer == false) return;
 			if (MachineSecured == false) return;
