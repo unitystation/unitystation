@@ -79,11 +79,20 @@ namespace Messages.Client
 			//build and consume
 			void ProgressComplete()
 			{
-				if (entry.ServerBuild(SpawnDestination.At(playerScript.registerTile), hasConstructionMenu))
-				{
-					Chat.AddActionMsgToChat(playerObject, $"You finish building the {entry.Name}.",
-						$"{playerObject.ExpensiveName()} finishes building the {entry.Name}.");
-				}
+				var builtObject =
+					entry.ServerBuild(SpawnDestination.At(playerScript.registerTile), hasConstructionMenu);
+
+				if(builtObject == null) return;
+
+				Chat.AddActionMsgToChat(playerObject, $"You finish building the {entry.Name}.",
+					$"{playerObject.ExpensiveName()} finishes building the {entry.Name}.");
+
+				if(entry.FacePlayerDirectionOnConstruction == false) return;
+				if (builtObject.TryGetComponent<Rotatable>(out var rotatable) == false) return;
+				if (playerScript.TryGetComponent<Rotatable>(out var playerRotatable) == false) return;
+
+				//Face players direction
+				rotatable.FaceDirection(playerRotatable.CurrentDirection);
 			}
 
 			Chat.AddActionMsgToChat(playerObject, $"You begin building the {entry.Name}...",

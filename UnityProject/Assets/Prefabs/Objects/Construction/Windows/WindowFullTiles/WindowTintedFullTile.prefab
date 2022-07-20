@@ -134,6 +134,21 @@ PrefabInstance:
       propertyPath: foreverID
       value: 97d300458cd6a164ca2538236e935896
       objectReference: {fileID: 0}
+    - target: {fileID: 7929334050815191457, guid: f2a16f12167ad5442a606bc9c87fd9fe,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7929334050815191457, guid: f2a16f12167ad5442a606bc9c87fd9fe,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7929334050815191457, guid: f2a16f12167ad5442a606bc9c87fd9fe,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 7102296633336902387, guid: f2a16f12167ad5442a606bc9c87fd9fe, type: 3}
     - {fileID: 6678957760347667284, guid: f2a16f12167ad5442a606bc9c87fd9fe, type: 3}
@@ -171,7 +186,6 @@ MonoBehaviour:
   syncInterval: 0.1
   matrixDebugLogging: 0
   objectType: 1
-  customNetTransform: {fileID: 0}
   prefabTracker: {fileID: 0}
   CurrentsortingGroup: {fileID: 682450690834360611}
   AtmosPassable: 1
@@ -194,9 +208,10 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   layerTile: {fileID: 11400000, guid: 7926cc707a64f6b4ba7c4120747829c8, type: 2}
-  matsOnDeconstruct: {fileID: 3024028113330201771, guid: d2f2400aac0da54468da76680579c29b,
-    type: 3}
-  countOfMatsOnDissasemle: 2
+  onDeconstruct:
+  - prefab: {fileID: 3024028113330201771, guid: d2f2400aac0da54468da76680579c29b,
+      type: 3}
+    count: 2
   soundOnDeconstruct:
     SetLoadSetting: 0
     AssetAddress: Assets/Prefabs/Effects/Wrench.prefab
@@ -205,14 +220,15 @@ MonoBehaviour:
       m_SubObjectName: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0
-  shardsOnDestroy: {fileID: 2265521501557685915, guid: 82677ff961fa72944936cc923625a1bc,
-    type: 3}
-  minCountOfShardsOnDestroy: 1
-  maxCountOfShardsOnDestroy: 2
-  rodsOnDestroy: {fileID: 7198241665461443898, guid: 5dce4d3e01518474bb9bb8085b718980,
-    type: 3}
-  minCountOfRodsOnDestroy: 1
-  maxCountOfRodsOnDestroy: 4
+  onDestroy:
+  - prefab: {fileID: 2265521501557685915, guid: 82677ff961fa72944936cc923625a1bc,
+      type: 3}
+    minCountOnDestroy: 1
+    maxCountOnDestroy: 2
+  - prefab: {fileID: 7198241665461443898, guid: 5dce4d3e01518474bb9bb8085b718980,
+      type: 3}
+    minCountOnDestroy: 0
+    maxCountOnDestroy: 1
   soundOnDestroy:
     SetLoadSetting: 0
     AssetAddress: Assets/Prefabs/Effects/GlassBreak01.prefab

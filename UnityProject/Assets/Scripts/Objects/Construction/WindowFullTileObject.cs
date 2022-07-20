@@ -14,43 +14,38 @@ namespace Objects.Construction
 	/// </summary>
 	public class WindowFullTileObject : NetworkBehaviour, ICheckedInteractable<HandApply>
 	{
-		private RegisterObject registerObject;
-		private UniversalObjectPhysics objectPhysics;
+		protected RegisterObject registerObject;
+		protected UniversalObjectPhysics objectPhysics;
 
 		[Header("Tile creation variables")]
 		[Tooltip("Layer tile which this will create when placed.")]
 		public LayerTile layerTile;
 
-		[Header("Deconstruction variables")]
-		[Tooltip("Items to drop when deconstructed.")]
-		public GameObject matsOnDeconstruct;
+		[Header("Deconstruct variables.")]
+		[Tooltip("Drops this when deconstructed.")]
+		public List<DeconstructionData> onDeconstruct;
 
-		[Tooltip("Quantity of mats when deconstructed.")]
-		public int countOfMatsOnDissasemle;
+		[Serializable]
+		public struct DeconstructionData
+		{
+			public GameObject prefab;
+			public int count;
+		}
 
 		[Tooltip("Sound on deconstruction.")]
 		public AddressableAudioSource soundOnDeconstruct;
 
-		//PM: Objects below don't have to be shards or rods, but it's more convenient for me to put "shards" and "rods" in the variable names.
+		[Serializable]
+		public struct DestroyData
+		{
+			public GameObject prefab;
+			public int minCountOnDestroy;
+			public int maxCountOnDestroy;
+		}
 
 		[Header("Destroyed variables.")]
 		[Tooltip("Drops this when broken with force.")]
-		public GameObject shardsOnDestroy;
-
-		[Tooltip("Drops this count when destroyed.")]
-		public int minCountOfShardsOnDestroy;
-
-		[Tooltip("Drops this count when destroyed.")]
-		public int maxCountOfShardsOnDestroy;
-
-		[Tooltip("Drops this when broken with force.")]
-		public GameObject rodsOnDestroy;
-
-		[Tooltip("Drops this count when destroyed.")]
-		public int minCountOfRodsOnDestroy;
-
-		[Tooltip("Drops this count when destroyed.")]
-		public int maxCountOfRodsOnDestroy;
+		public List<DestroyData> onDestroy;
 
 		[Tooltip("Sound when destroyed.")]
 		[SerializeField] private AddressableAudioSource soundOnDestroy = null;
@@ -61,23 +56,23 @@ namespace Objects.Construction
 			objectPhysics = GetComponent<UniversalObjectPhysics>();
 		}
 
-		private void OnEnable()
+		protected virtual void OnEnable()
 		{
 			GetComponent<Integrity>().OnWillDestroyServer.AddListener(OnWillDestroyServer);
 		}
 
-		private void OnDisable()
+		protected virtual void OnDisable()
 		{
 			GetComponent<Integrity>().OnWillDestroyServer.RemoveListener(OnWillDestroyServer);
 		}
 
 		private void OnWillDestroyServer(DestructionInfo arg0)
 		{
-			Spawn.ServerPrefab(shardsOnDestroy, gameObject.TileWorldPosition().To3Int(), transform.parent, count: Random.Range(minCountOfShardsOnDestroy, maxCountOfShardsOnDestroy + 1),
-				scatterRadius: Random.Range(0, 3), cancelIfImpassable: true);
-
-			Spawn.ServerPrefab(rodsOnDestroy, gameObject.TileWorldPosition().To3Int(), transform.parent, count: Random.Range(minCountOfRodsOnDestroy, maxCountOfRodsOnDestroy + 1),
-				scatterRadius: Random.Range(0, 3), cancelIfImpassable: true);
+			foreach (var mat in onDestroy)
+			{
+				Spawn.ServerPrefab(mat.prefab, gameObject.TileWorldPosition().To3Int(), transform.parent, count: Random.Range(mat.minCountOnDestroy, mat.maxCountOnDestroy + 1),
+					scatterRadius: Random.Range(0, 3), cancelIfImpassable: true);
+			}
 
 			AudioSourceParameters audioSourceParameters = new AudioSourceParameters(pitch: 1f);
 			SoundManager.PlayNetworkedAtPos(soundOnDestroy, gameObject.TileWorldPosition().To3Int(), audioSourceParameters, sourceObj: gameObject);
@@ -121,7 +116,7 @@ namespace Objects.Construction
 							$"{interaction.Performer.ExpensiveName()} starts securing the window...",
 							"You secure the window.",
 							$"{interaction.Performer.ExpensiveName()} secures the window.",
-							() => ScrewToFloor(interaction));
+							() => ChangeAnchorStatus(interaction, true));
 						return;
 					}
 				}
@@ -133,7 +128,7 @@ namespace Objects.Construction
 						$"{interaction.Performer.ExpensiveName()} starts unsecuring the window...",
 						"You unsecure the window.",
 						$"{interaction.Performer.ExpensiveName()} unsecures the window.",
-						() => objectPhysics.ServerSetAnchored(false, interaction.Performer));
+						() => ChangeAnchorStatus(interaction, false));
 				}
 
 			}
@@ -159,7 +154,7 @@ namespace Objects.Construction
 		}
 
 		[Server]
-		private void ScrewToFloor(HandApply interaction)
+		protected virtual void ChangeAnchorStatus(HandApply interaction, bool newState)
 		{
 			var interactableTiles = InteractableTiles.GetAt(interaction.TargetObject.TileWorldPosition(), true);
 			Vector3Int cellPos = interactableTiles.WorldToCell(interaction.TargetObject.TileWorldPosition());
@@ -167,10 +162,15 @@ namespace Objects.Construction
 			interactableTiles.TileChangeManager.SubsystemManager.UpdateAt(cellPos);
 			_ = Despawn.ServerSingle(gameObject);
 		}
+
 		[Server]
-		private void Disassemble(HandApply interaction)
+		protected virtual void Disassemble(HandApply interaction)
 		{
-			Spawn.ServerPrefab(matsOnDeconstruct, registerObject.WorldPositionServer, count: countOfMatsOnDissasemle);
+			foreach (var mat in onDeconstruct)
+			{
+				Spawn.ServerPrefab(mat.prefab, registerObject.WorldPositionServer, count: mat.count);
+			}
+
 			AudioSourceParameters audioSourceParameters = new AudioSourceParameters(pitch: 1f);
 			SoundManager.PlayNetworkedAtPos(soundOnDeconstruct, gameObject.TileWorldPosition().To3Int(), audioSourceParameters, sourceObj: gameObject);
 			_ = Despawn.ServerSingle(gameObject);

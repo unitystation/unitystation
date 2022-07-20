@@ -20,3 +20,12 @@ MonoBehaviour:
     buildTime: 2
     spawnAmount: 1
     onePerTile: 1
+    facePlayerDirectionOnConstruction: 0
+  - name: Directional Plasma Window
+    prefab: {fileID: 6036742058309347843, guid: 7020b235ecf8ece4ca00af70a60258f8,
+      type: 3}
+    cost: 1
+    buildTime: 2
+    spawnAmount: 1
+    onePerTile: 0
+    facePlayerDirectionOnConstruction: 1

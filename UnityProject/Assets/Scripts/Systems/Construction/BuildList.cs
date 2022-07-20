@@ -78,6 +78,11 @@ namespace Construction
 			/// </summary>
 			public bool OnePerTile => onePerTile;
 
+			[SerializeField]
+			[Tooltip("When constructed will face the player")]
+			private bool facePlayerDirectionOnConstruction = false;
+			public bool FacePlayerDirectionOnConstruction => facePlayerDirectionOnConstruction;
+
 			/// <summary>
 			/// build this at the indicated location.
 			/// </summary>
