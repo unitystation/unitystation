@@ -263,11 +263,11 @@ namespace Systems.Cargo
 
 		public void ProcessCargo(GameObject obj, HashSet<GameObject> alreadySold)
 		{
-			if (obj.TryGetComponent<IGib>(out var iGib))
+			if (obj.TryGetComponent<PlayerScript>(out var playerScript))
 			{
 				// No one must survive to tell the secrets of Central Command's cargo handling techniques.
 				Chat.AddExamineMsg(obj, "<color=red> You feel a strong force of energy run through your body before everything goes to black in the blink of the eye. </color>");
-				iGib.OnGib();
+				playerScript.playerHealth.OnGib();
 				return;
 			}
 
