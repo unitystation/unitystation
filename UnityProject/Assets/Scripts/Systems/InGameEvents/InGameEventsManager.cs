@@ -41,6 +41,7 @@ namespace InGameEvents
 		{
 			base.Awake();
 			EnumListCache = Enum.GetNames(typeof(InGameEventType)).ToList();
+			if (Application.isEditor) minPlayersForRandomEventsToHappen = 0;
 		}
 
 		public override void Start()
@@ -63,14 +64,13 @@ namespace InGameEvents
 		{
 			timer += Time.deltaTime;
 			if (CustomNetworkManager.IsServer == false) return;
-			if (GameManager.Instance.CurrentRoundState != RoundState.Started ||
+			if (GameManager.Instance.CurrentRoundState == RoundState.PreRound ||
 			   PlayerList.Instance.InGamePlayers.Count < minPlayersForRandomEventsToHappen) return;
 
 			if (timer > triggerEventInterval == false || RandomEventsAllowed == false) return;
 			var isFake = Random.Range(0,100) < chanceItIsFake;
 			StartRandomEvent(GetRandomEventList(), isFake: isFake, serverTriggered: true);
-			timer += triggerEventInterval;
-			Debug.Log($"Time until next event -> {timer - triggerEventInterval}");
+			timer = 0;
 		}
 
 		private List<EventScriptBase> listOfFunEventScripts = new List<EventScriptBase>();
