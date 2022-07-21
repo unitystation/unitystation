@@ -37,9 +37,9 @@ namespace Systems.Atmospherics
 
 		private HashSet<MetaDataNode> windParticleSpots = new HashSet<MetaDataNode>(30);
 
-		private HashSet<MetaDataNode> windSpotToRemove = new HashSet<MetaDataNode>(30);
+		private HashSet<MetaDataNode> windParticleToRemove = new HashSet<MetaDataNode>(30);
 
-		private const float WindSpotBlockTime = 3f;
+		private const float WindParticleBlockTime = 3f;
 
 
 		public enum WindStrength
@@ -93,17 +93,17 @@ namespace Systems.Atmospherics
 
 		private void UpdateMe()
 		{
-			Profiler.BeginSample("Wind Spot Time");
+			Profiler.BeginSample("Wind Particle Time Check");
 
-			windSpotToRemove.Clear();
+			windParticleToRemove.Clear();
 			foreach (var metaDataNode in windParticleSpots)
 			{
-				metaDataNode.windSpotTime -= Time.deltaTime;
-				if(metaDataNode.windSpotTime > 0) continue;
-				windSpotToRemove.Add(metaDataNode);
+				metaDataNode.windParticleTime -= Time.deltaTime;
+				if(metaDataNode.windParticleTime > 0) continue;
+				windParticleToRemove.Add(metaDataNode);
 			}
 
-			foreach (var metaDataNode in windSpotToRemove)
+			foreach (var metaDataNode in windParticleToRemove)
 			{
 				windParticleSpots.Remove(metaDataNode);
 			}
@@ -205,7 +205,7 @@ namespace Systems.Atmospherics
 			}
 
 			if(windParticleSpots.Contains(windyNode)) return;
-			windyNode.windSpotTime = WindSpotBlockTime;
+			windyNode.windParticleTime = WindParticleBlockTime;
 			windParticleSpots.Add(windyNode);
 
 			PlayWindEffect.SendToAll(windyNode.PositionMatrix, windyNode.Position, windyNode.WindDirection);
