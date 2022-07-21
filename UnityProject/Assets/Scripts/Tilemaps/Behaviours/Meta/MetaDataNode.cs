@@ -109,6 +109,10 @@ public class MetaDataNode : IGasMixContainer
 	//If this node is allowed to share temperature to surrounding nodes
 	public bool AllowedToSuperConduct;
 
+	//How long since the last wind spot particle was spawned
+	//This is here as dictionaries are a pain and for performance but costs more memory
+	public float windSpotTime = 0;
+
 	public void AddGasOverlay(GasSO gas)
 	{
 		gasOverlayData.Add(gas);
