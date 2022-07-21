@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Chemistry;
 using HealthV2;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class MetabolismReaction : Reaction
 {
@@ -15,9 +16,12 @@ public class MetabolismReaction : Reaction
 	//Reaction.metabolismspeedmultiplier
 
 
-	public List<ItemTrait> AllRequired = new List<ItemTrait>();
+	[FormerlySerializedAs("AllRequired")] public List<ItemTrait> InternalAllRequired = new List<ItemTrait>();
 	//public List<ItemTrait> SingleRequired = new List<ItemTrait>(); TODO add ability to Apply to multiple tags
-	public List<ItemTrait> Blacklist  = new List<ItemTrait>();
+	[FormerlySerializedAs("Blacklist")] public List<ItemTrait> InternalBlacklist  = new List<ItemTrait>();
+
+
+
 
 	public override bool Apply(MonoBehaviour sender, ReagentMix reagentMix)
 	{

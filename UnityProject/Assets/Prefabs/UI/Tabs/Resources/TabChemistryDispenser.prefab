@@ -6381,7 +6381,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0.00023078918, y: 0.000024795532}
+  m_AnchoredPosition: {x: 0.00023269653, y: 0.000024795532}
   m_SizeDelta: {x: 0.00029755, y: 0}
   m_Pivot: {x: 0.5, y: 0}
 --- !u!222 &222296281577023134
@@ -6425,7 +6425,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 20
+  m_Text: 293
 --- !u!1 &1529485880344886
 GameObject:
   m_ObjectHideFlags: 0
@@ -7208,10 +7208,7 @@ MonoBehaviour:
   OnTabOpened:
     m_PersistentCalls:
       m_Calls: []
-  HeaterTemperatureCelsius: 0
-  DispensedTemperatureCelsius: 30
   DispensedNumber: 20
-  HeaterOn: 0
   ChemistryDispenser: {fileID: 0}
   dispensableReagents:
   - {fileID: 11400000, guid: 0b8ae0a034025c1afb82d9b40b73b7dc, type: 2}
@@ -9457,7 +9454,7 @@ MonoBehaviour:
   m_CaretColor: {r: 1, g: 1, b: 1, a: 1}
   m_CustomCaretColor: 1
   m_SelectionColor: {r: 0.65882355, g: 0.80784315, b: 1, a: 0.7529412}
-  m_Text: 20
+  m_Text: 293
   m_CaretBlinkRate: 0.85
   m_CaretWidth: 1
   m_ReadOnly: 0
