@@ -39,69 +39,7 @@ namespace Messages.Server
 			GameObject particleObject = NetworkObjects[0];
 			GameObject parentObject = NetworkObjects[1];
 
-			if (particleObject == null)
-			{
-				Logger.LogError("Failed to load particle in PlayParticleMessage", Category.Particles);
-				return;
-			}
-
-			if ( !particleObject.activeInHierarchy )
-			{
-				Logger.LogFormat("PlayParticle request ignored because gameobject {0} is inactive", Category.Particles, particleObject);
-				return;
-			}
-
-
-			ParticleSystem particleSystem = particleObject.GetComponentInChildren<ParticleSystem>();
-
-			var reclaimer = particleObject.GetComponent<ParentReclaimer>();
-
-			if (particleSystem == null && reclaimer != null)
-			{ //if it's already parented to something else
-				reclaimer.ReclaimNow();
-				particleSystem = particleObject.GetComponentInChildren<ParticleSystem>();
-			}
-
-			if ( particleSystem == null )
-			{
-				Logger.LogWarningFormat("ParticleSystem not found for gameobject {0}, PlayParticle request ignored", Category.Particles, particleObject);
-				return;
-			}
-
-			var renderer = particleSystem.GetComponent<ParticleSystemRenderer>();
-			renderer.enabled = true;
-
-			if ( msg.TargetVector != Vector2.zero)
-			{
-				var angle = Orientation.AngleFromUp(msg.TargetVector);
-				particleSystem.transform.rotation = Quaternion.Euler(0, 0, -angle+90);
-			}
-
-			if (parentObject != null)
-			{
-				//temporary change of parent, but setting it back after playback ends!
-				if (reclaimer == null)
-				{
-					reclaimer = particleObject.AddComponent<ParentReclaimer>();
-				}
-
-				reclaimer.ReclaimWithDelay(particleSystem.main.duration, particleSystem, particleObject.transform);
-
-				particleSystem.transform.SetParent(parentObject.transform, false);
-			}
-
-			particleSystem.transform.localPosition = Vector3.zero;
-
-			var customEffectBehaviour = particleSystem.GetComponent<CustomEffectBehaviour>();
-			if (customEffectBehaviour)
-			{
-				customEffectBehaviour.RunEffect(msg.TargetVector);
-			}
-			else
-			{
-				//only needs to run on the clients other than the shooter
-				particleSystem.Play();
-			}
+			Effect.ClientPlayParticle(particleObject, parentObject, msg.TargetVector);
 		}
 
 		/// <summary>
