@@ -314,8 +314,8 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 
 	public void ServerSetLocalPosition(Vector3Int value, bool overRideCheck = false)
 	{
-		if (LocalPositionServer == value && overRideCheck == false)
-			return;
+		if (LocalPositionServer == value && overRideCheck == false) return;
+
 		if (objectLayer)
 		{
 			objectLayer.ServerObjects.Remove(LocalPositionServer, this);

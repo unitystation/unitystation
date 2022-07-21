@@ -19,7 +19,8 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.Tilemaps;
 
-public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllable, IActionGUI ,ICooldown, IBumpableObject, ICheckedInteractable<ContextMenuApply>
+public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllable, IActionGUI, ICooldown,
+	IBumpableObject, ICheckedInteractable<ContextMenuApply>
 {
 	public PlayerScript playerScript;
 

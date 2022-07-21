@@ -341,7 +341,12 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 
 	public virtual void OnEnable() { }
 
-	public virtual void OnDisable() { }
+	public virtual void OnDisable()
+	{
+		UpdateManager.Remove(CallbackType.UPDATE, FlyingUpdateMe);
+		UpdateManager.Remove(CallbackType.UPDATE, AnimationUpdateMe);
+		UpdateManager.Remove(CallbackType.UPDATE, FloatingCourseCorrection);
+	}
 
 	public struct PullData : IEquatable<PullData>
 	{
