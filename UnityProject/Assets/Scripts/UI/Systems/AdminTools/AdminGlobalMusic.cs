@@ -6,6 +6,7 @@ using DatabaseAPI;
 using Audio.Containers;
 using System.Threading.Tasks;
 using AddressableReferences;
+using Managers;
 
 
 namespace AdminTools
@@ -15,12 +16,16 @@ namespace AdminTools
 	/// </summary>
 	public class AdminGlobalMusic : AdminGlobalAudio
 	{
+		[SerializeField] private GameObject newSoundUI;
 		public override void PlayAudio(int index) //send music to audio manager
 		{
-			if (index < audioList.Count)
-			{
-				//AdminCommandsManager.Instance.CmdPlayMusic(audioList[index]);
-			}
+			SimpleAudioManager.PlayGlobally(index);
+		}
+
+		public void OnClickAddSound()
+		{
+			newSoundUI.SetActive(true);
+			this.SetActive(false);
 		}
 	}
 }
