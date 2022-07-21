@@ -207,6 +207,8 @@ namespace UI
 		{
 			ResetUI(); // Make sure UI is back to default for next play
 			UIManager.PlayerHealthUI.gameObject.SetActive(false);
+			SoundAmbientManager.StopAllAudio();
+			MusicManager.SongTracker.StartPlayingRandomPlaylist();
 			ToggleCurrentHud(false);
 			panelRight.gameObject.SetActive(false);
 			rightClickManager.SetActive(false);
@@ -222,6 +224,8 @@ namespace UI
 		{
 			ResetUI(); // Make sure UI is back to default for next play
 			UIManager.PlayerHealthUI.gameObject.SetActive(false);
+			SoundAmbientManager.StopAllAudio();
+			MusicManager.SongTracker.StartPlayingRandomPlaylist();
 			ToggleCurrentHud(false);
 			panelRight.gameObject.SetActive(false);
 			rightClickManager.SetActive(false);
