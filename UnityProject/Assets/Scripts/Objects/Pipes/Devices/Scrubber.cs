@@ -189,7 +189,7 @@ namespace Objects.Atmospherics
 
 		private void ModeSiphon()
 		{
-			float moles = metaNode.GasMix.Moles * (IsExpandedRange ? 0.40f : 0.05f) * Effectiveness; // siphon a portion
+			float moles = metaNode.GasMix.Moles * (IsExpandedRange ? 0.40f : 0.10f) * Effectiveness; // siphon a portion
 			moles = moles.Clamp(0, nominalMolesTransferCap);
 
 			if (moles.Approx(0)) return;
