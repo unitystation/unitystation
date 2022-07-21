@@ -12,7 +12,7 @@ public partial class SubSceneManager
 	private bool KillClientLoadingCoroutine = false;
 
 	private bool clientIsLoadingSubscene = false;
-	private List<SceneInfo> clientLoadedSubScenes = new List<SceneInfo>();
+	private HashSet<SceneInfo> clientLoadedSubScenes = new HashSet<SceneInfo>();
 
 	private float waitTime = 0f;
 	private readonly float tickRate = 1f;
@@ -22,16 +22,17 @@ public partial class SubSceneManager
 		if (isServer || clientIsLoadingSubscene || AddressableCatalogueManager.FinishLoaded == false) return;
 
 		waitTime += Time.deltaTime;
-		if (waitTime >= tickRate)
+		if (waitTime < tickRate) return;
+		waitTime = 0f;
+
+		for (int i = 0; i < loadedScenesList.Count; i++)
 		{
-			waitTime = 0f;
-			if (clientLoadedSubScenes.Count < loadedScenesList.Count)
-			{
-				clientIsLoadingSubscene = true;
-				var sceneToLoad = loadedScenesList[clientLoadedSubScenes.Count];
-				clientLoadedSubScenes.Add(sceneToLoad);
-				StartCoroutine(LoadClientSubScene(sceneToLoad));
-			}
+			var sceneToCheck = loadedScenesList[i];
+			if(clientLoadedSubScenes.Contains(sceneToCheck)) continue;
+
+			clientIsLoadingSubscene = true;
+			clientLoadedSubScenes.Add(sceneToCheck);
+			StartCoroutine(LoadClientSubScene(sceneToCheck));
 		}
 	}
 
