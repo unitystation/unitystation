@@ -101,6 +101,9 @@ namespace HealthV2
 
 				if (canBreathAnywhere || Gas.ReagentToGas.TryGetValue(reagent.Key, out var gas) == false) continue;
 
+				//For now block breathing out water vapour as it will just fill a room
+				if(gas == Gas.WaterVapor) continue;
+
 				atmos.AddGas(gas, reagent.Value);
 			}
 		}
