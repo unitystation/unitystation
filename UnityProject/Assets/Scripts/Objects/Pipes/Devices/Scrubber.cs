@@ -147,15 +147,19 @@ namespace Objects.Atmospherics
 			// Scrub out a portion of each specified gas.
 			// If all these gases exceed transfer amount, reduce each gas scrub mole count proportionally.
 
+			var percentageRemoved = (IsExpandedRange ? 0.10f : 0.20f) * Effectiveness;
+
 			float scrubbableMolesAvailable = 0;
+
 			lock (metaNode.GasMix.GasesArray) //no Double lock
 			{
 				foreach (GasValues gas in metaNode.GasMix.GasesArray) //doesn't appear to modify list while iterating
 				{
 					if (FilteredGases.Contains(gas.GasSO))
 					{
-						scrubbingGasMoles[gas.GasSO] = gas.Moles * (IsExpandedRange ? 0.05f : 0.20f) * Effectiveness;
-						scrubbableMolesAvailable += scrubbingGasMoles[gas.GasSO];
+						var molesRemoved = gas.Moles * percentageRemoved;
+						scrubbingGasMoles[gas.GasSO] = molesRemoved;
+						scrubbableMolesAvailable += molesRemoved;
 					}
 				}
 			}
@@ -179,6 +183,7 @@ namespace Objects.Atmospherics
 					pipeMix.AddGas(gas, transferAmount);
 				}
 			}
+
 			Array.Clear(scrubbingGasMoles, 0, scrubbingGasMoles.Length);
 		}
 
