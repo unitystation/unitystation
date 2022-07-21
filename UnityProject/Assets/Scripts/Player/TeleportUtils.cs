@@ -49,17 +49,22 @@ namespace Systems.Teleport
 
 				string status;
 				//Gets Status of Player
+				//TODO better way to do this
 				if (player.IsGhost)
 				{
 					status = "(Ghost)";
 				}
-				else if (!player.IsGhost & player.playerHealth.IsDead)
+				else if (player.IsNormal)
 				{
-					status = "(Dead)";
+					status = player.playerHealth.IsDead ? "(Dead)" : "(Alive)";
 				}
-				else if (!player.IsGhost)
+				else if (player.PlayerState == PlayerScript.PlayerStates.Ai)
 				{
-					status = "(Alive)";
+					status = "(Ai)";
+				}
+				else if (player.PlayerState == PlayerScript.PlayerStates.Blob)
+				{
+					status = "(Blob)";
 				}
 				else
 				{
