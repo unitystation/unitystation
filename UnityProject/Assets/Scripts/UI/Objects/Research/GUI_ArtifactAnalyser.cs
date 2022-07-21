@@ -151,8 +151,11 @@ namespace UI.Objects.Research
 
 			int rp = 0;
 
-			if(artifactAnalyser.researchServer.AddArtifactIDtoTechWeb(artifactSliver.ID)) //Give us an RP reward if this sliver is unique to the server
-				rp = artifactSliver.RPReward;
+			if (artifactAnalyser.researchServer != null)
+			{
+				if (artifactAnalyser.researchServer.AddArtifactIDtoTechWeb(artifactSliver.ID)) //Give us an RP reward if this sliver is unique to the server
+					rp = artifactSliver.RPReward;
+			}
 
 			completeLabel.SetValueServer("Analysis Complete! +" + rp + "RP!");
 			artifactAnalyser.storedRP += rp;

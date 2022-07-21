@@ -5,6 +5,7 @@ using Items.Science;
 using Systems.Research;
 using ScriptableObjects.Systems.Research;
 using Systems.Radiation;
+using Systems.ObjectConnection;
 using Mirror;
 
 [System.Serializable]
@@ -16,7 +17,14 @@ public class ArtifactSprite
 
 namespace Objects.Research
 {
-	public struct EffectIndex
+	public enum ArtifactType //This determines the sprites the artifact can use, what tool is used to take samples from it and what materials it gives when dismantled.
+	{
+		Geological = 0,
+		Mechanical = 1,
+		Organic = 2,
+	}
+
+	public struct EffectIndex //Effect index tells the script how to find an artifact in the ArtifactDataSO
 	{
 		public EffectIndex(int Index = 0, ArtifactClass AClass = ArtifactClass.Uranium)
 		{
@@ -25,22 +33,22 @@ namespace Objects.Research
 		}
 		public int index;
 		public ArtifactClass aClass;
-	}
+	} 
 
-	public struct ArtifactData
+	public struct ArtifactData //Artifact Data contains all properties of the artifact that will be transferred to samples and/or guessed by the research console, placed in a struct to make data transfer easier.
 	{
-		public ArtifactData(int radlvl = 0, int bluelvl = 0, int bnalvl = 0, int mss = 0, CompositionBase comp = CompositionBase.metal, EffectIndex areaEffect = default, EffectIndex feedEffect = default)
+		public ArtifactData(int radlvl = 0, int bluelvl = 0, int bnalvl = 0, int mss = 0, ArtifactType type = ArtifactType.Geological, EffectIndex areaEffect = default, EffectIndex feedEffect = default)
 		{
 			radiationlevel = radlvl;
 			bluespacesig = bluelvl;
 			bananiumsig = bnalvl;
 			mass = mss;
-			compositionBase = comp;
+			Type = type;
 			AreaEffect = areaEffect;
 			FeedEffect = feedEffect;
 		}
 
-		public CompositionBase compositionBase;
+		public ArtifactType Type;
 		public int radiationlevel;
 		public int bluespacesig;
 		public int bananiumsig;
@@ -49,7 +57,7 @@ namespace Objects.Research
 		public EffectIndex FeedEffect;
 	}
 
-	public class Artifact : NetworkBehaviour, IServerSpawn, IServerDespawn, ICheckedInteractable<HandApply>
+	public class Artifact : NetworkBehaviour, IServerSpawn, IServerDespawn, ICheckedInteractable<HandApply>, IMultitoolMasterable
 	{
 		/// <summary>
 		/// Set of all artifacts on scenes. Useful to get list of all existing artifacts.
@@ -57,11 +65,13 @@ namespace Objects.Research
 		public readonly static HashSet<Artifact> ServerSpawnedArtifacts = new HashSet<Artifact>();
 
 		[SerializeField]
+		private GameObject SliverPrefab = null;
+
+		[SerializeField]
 		private SpriteHandler spriteHandler = null;
 
 		private RadiationProducer radiationProducer = null;
 
-		public ArtifactSprite[] RandomSprites;
 		private ArtifactSprite currentSprite;
 
 		public float TouchEffectTimeout = 10f;
@@ -69,6 +79,9 @@ namespace Objects.Research
 
 		public bool isDormant = true;
 		public ItemTrait DormantTrigger;
+
+		int maxSamples = 3;
+		int samplesTaken = 0;
 
 		private Coroutine animationCoroutine = null;
 
@@ -112,13 +125,15 @@ namespace Objects.Research
 
 		public void OnSpawnServer(SpawnInfo info)
 		{
+			maxSamples = Random.Range(1, 6);
+			artifactData.Type = (ArtifactType)Random.Range(0, 3);
+
 			// select random sprite
 			ServerSelectRandomSprite();
 
 			// add it to spawned artifacts registry for artifact detector
 			if (!ServerSpawnedArtifacts.Contains(this))
 				ServerSpawnedArtifacts.Add(this);
-
 
 			ArtifactClass Compostion;
 			for (int i = 0; i < Random.Range(1, 5); i++)
@@ -194,11 +209,43 @@ namespace Objects.Research
 
 		public void ServerPerformInteraction(HandApply interaction)
 		{
-			// check if player tried touch artifact
+			switch (artifactData.Type) // Try Take Sample
+			{
+				case ArtifactType.Organic:
+					if(Validations.HasItemTrait(interaction.UsedObject, ArtifactDataSO.OrganicSampleTrait))
+					{
+						TakeSample(interaction);
+						return;
+					}
+					break;
+				case ArtifactType.Mechanical:
+					if (Validations.HasUsedActiveWelder(interaction))
+					{
+						 TakeSample(interaction);
+						 return;
+					}
+					break;
+				case ArtifactType.Geological:
+					if (Validations.HasItemTrait(interaction.UsedObject, ArtifactDataSO.GeologicalSampleTrait))
+					{
+						TakeSample(interaction);
+						return;
+					}
+					break;
+				default:
+					if (Validations.HasItemTrait(interaction.UsedObject, ArtifactDataSO.GeologicalSampleTrait))
+					{
+						TakeSample(interaction);
+						return;
+					}
+					break;
+			}
+
 			if (interaction.Intent != Intent.Harm && isDormant == false)
 			{
 				TryActivateByTouch(interaction);
 			}
+
 			if (isDormant && interaction.Intent != Intent.Harm && Validations.HasItemTrait(interaction.UsedObject, DormantTrigger))
 			{
 				isDormant = false;
@@ -208,6 +255,27 @@ namespace Objects.Research
 			}
 		}
 		#endregion
+
+		private void TakeSample(HandApply interaction)
+		{
+			ToolUtils.ServerUseToolWithActionMessages(interaction, 5f,
+				$"You begin extracting a sample from {gameObject.ExpensiveName()}...",
+				$"{interaction.Performer.ExpensiveName()} begins extracting a sample from {gameObject.ExpensiveName()}...",
+				$"You extract a sample from {gameObject.ExpensiveName()}.",
+				$"{interaction.Performer.ExpensiveName()} extracts a sample from {gameObject.ExpensiveName()}.",
+				() =>
+				{
+					GameObject sliver = Spawn.ServerPrefab(SliverPrefab, gameObject.AssumedWorldPosServer()).GameObject;
+					if(sliver.TryGetComponent<ArtifactSliver>(out var sliverComponent)) sliverComponent.SetUpValues(artifactData,ID + $":{(char)('a' + samplesTaken)}");
+
+					DamageEffect();
+				});
+		}
+
+		public void DamageEffect()
+		{
+			
+		}
 
 		public void TryActivateByTouch(HandApply interaction)
 		{
@@ -235,7 +303,21 @@ namespace Objects.Research
 
 		public void ServerSelectRandomSprite()
 		{
-			currentSprite = RandomSprites.PickRandom();
+			switch(artifactData.Type)
+			{
+				case ArtifactType.Geological:
+					currentSprite = ArtifactDataSO.GeologicalSprites.PickRandom();
+					break;
+				case ArtifactType.Mechanical:
+					currentSprite = ArtifactDataSO.MechanicalSprites.PickRandom();
+					break;
+				case ArtifactType.Organic:
+					currentSprite = ArtifactDataSO.OrganicSprites.PickRandom();
+					break;
+				default:
+					currentSprite = ArtifactDataSO.GeologicalSprites.PickRandom();
+					break;
+			}
 			spriteHandler?.SetSpriteSO(currentSprite.idleSprite);
 		}
 
@@ -298,6 +380,17 @@ namespace Objects.Research
 				return new EffectIndex(Random.Range(0, ArtifactDataSO.FeedEffects[(int)ArtifactClass.Bananium].FeedArtifactEffectList.Count), ArtifactClass.Bananium);
 			}
 		}
+
+		#endregion
+
+		#region MultitoolInteraction
+
+		[SerializeField]
+		private MultitoolConnectionType conType = MultitoolConnectionType.Artifact;
+		public MultitoolConnectionType ConType => conType;
+
+		public bool MultiMaster => true;
+		int IMultitoolMasterable.MaxDistance => int.MaxValue;
 
 		#endregion
 	}

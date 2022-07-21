@@ -3,16 +3,23 @@ using System.Collections.Generic;
 using UnityEngine;
 using Items.Science;
 using Objects.Research;
+using Mirror;
+using Systems.ObjectConnection;
 
 namespace Objects.Research
 {
-	public class ArtifactConsole : MonoBehaviour, ICheckedInteractable<HandApply>
+	public class ArtifactConsole : NetworkBehaviour, ICheckedInteractable<HandApply>, IMultitoolSlaveable
 	{
 		private RegisterObject registerObject;
 		public ItemStorage itemStorage;
 
 		public Artifact connectedArtifact;
 		public ArtifactDataDisk dataDisk;
+
+		[SyncVar] public ArtifactData inputData = new ArtifactData();
+
+		public delegate void StateChange();
+		public static event StateChange stateChange;
 
 		private void Awake()
 		{
@@ -38,6 +45,8 @@ namespace Objects.Research
 
 				Chat.AddActionMsgToChat(interaction.Performer, "You insert the drive into the console.",
 					interaction.Performer.ExpensiveName() + " inserts the dirve into the console.");
+
+				UpdateGUI();
 			}
 			else
 			{
@@ -45,5 +54,63 @@ namespace Objects.Research
 			}
 
 		}
+
+		public void DropDisk()
+		{
+			itemStorage.ServerDropAll();
+			dataDisk = null;
+		}
+		private void UpdateGUI()
+		{
+			// Delegate calls method in all subscribers when material is changed
+			if (stateChange != null)
+			{
+				stateChange();
+			}
+		}
+
+		#region Multitool Interaction
+
+		MultitoolConnectionType IMultitoolLinkable.ConType => MultitoolConnectionType.Artifact;
+		IMultitoolMasterable IMultitoolSlaveable.Master => connectedArtifact;
+		bool IMultitoolSlaveable.RequireLink => false;
+
+		bool IMultitoolSlaveable.TrySetMaster(PositionalHandApply interaction, IMultitoolMasterable master)
+		{
+			SetMaster(master);
+			return true;
+		}
+
+		void IMultitoolSlaveable.SetMasterEditor(IMultitoolMasterable master)
+		{
+			SetMaster(master);
+		}
+
+		private void SetMaster(IMultitoolMasterable master)
+		{
+			if (master is Artifact arti && arti != connectedArtifact)
+			{
+				SubscribeToServerEvent(arti);
+			}
+			else if (connectedArtifact != null)
+			{
+				UnSubscribeFromServerEvent();
+			}
+			UpdateGUI();
+		}
+
+		public void SubscribeToServerEvent(Artifact arti)
+		{
+			UnSubscribeFromServerEvent();
+			connectedArtifact = arti;
+
+		}
+
+		public void UnSubscribeFromServerEvent()
+		{
+			if (connectedArtifact == null) return;
+			connectedArtifact = null;
+		}
+		#endregion
 	}
 }

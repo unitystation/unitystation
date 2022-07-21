@@ -160,7 +160,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Hidden: 0
   isPopOut: 1
-  Type: 52
+  Type: 56
   OnTabClosed:
     m_PersistentCalls:
       m_Calls: []
@@ -168,6 +168,11 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   radInput: {fileID: 2848603945758724796}
+  appearanceDropdown: {fileID: 1210167712716775887}
+  NameLabel: {fileID: 945692457309416449}
+  LogLabel: {fileID: 355521145404089398}
+  OutputLabel: {fileID: 4509476553301533626}
+  ImageObject: {fileID: 2028537498189033064}
 --- !u!1 &1571967781877764
 GameObject:
   m_ObjectHideFlags: 0
@@ -419,7 +424,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1748648272995425194}
   m_HandleRect: {fileID: 8188281592895546576}
   m_Direction: 2
-  m_Value: 0
+  m_Value: 1
   m_Size: 0.70731705
   m_NumberOfSteps: 0
   m_OnValueChanged:
@@ -1647,15 +1652,27 @@ MonoBehaviour:
   m_Value: 0
   m_Options:
     m_Options:
+    - m_Text: Geological
+      m_Image: {fileID: 0}
+    - m_Text: Mechanical
+      m_Image: {fileID: 0}
     - m_Text: Organic
-      m_Image: {fileID: 0}
-    - m_Text: Crystalline
-      m_Image: {fileID: 0}
-    - m_Text: Metallic
       m_Image: {fileID: 0}
   m_OnValueChanged:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1221021113508915055}
+        m_TargetAssemblyTypeName: UI.Objects.Research.GUI_ArtifactConsole, Assets
+        m_MethodName: UpdateData
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   m_AlphaFadeSpeed: 0.15
 --- !u!1 &1286931092223251389
 GameObject:
@@ -1904,7 +1921,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1221021113508915055}
         m_TargetAssemblyTypeName: UI.Objects.Research.GUI_ArtifactConsole, Assets
-        m_MethodName: EjectDisk
+        m_MethodName: WriteData
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2009,7 +2026,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1.2
-  m_Text: Data write successful.
+  m_Text: Please insert disk.
 --- !u!114 &4509476553301533626
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3837,7 +3854,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Organic
+  m_Text: Geological
 --- !u!1 &3349547039002665442
 GameObject:
   m_ObjectHideFlags: 0
@@ -4757,7 +4774,7 @@ GameObject:
   - component: {fileID: 2230119218603253395}
   - component: {fileID: 5972494167575959895}
   - component: {fileID: 5242822138960645048}
-  - component: {fileID: 1672675851880785038}
+  - component: {fileID: 2028537498189033064}
   m_Layer: 5
   m_Name: DiskSprite
   m_TagString: Untagged
@@ -4813,7 +4830,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: c504f2c52e2280d40bd4a6be6ff6a843, type: 3}
+  m_Sprite: {fileID: 21300002, guid: b3b4232cd1b66804f8f1127db9d4fb16, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -4823,7 +4840,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &1672675851880785038
+--- !u!114 &2028537498189033064
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -4832,9 +4849,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 4552948765711333454}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ea513a57707b421f8f2880e64ddbfd96, type: 3}
+  m_Script: {fileID: 11500000, guid: 1bd4b313639849d2bad90a2330df0214, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  sprites:
+  - {fileID: 21300000, guid: c504f2c52e2280d40bd4a6be6ff6a843, type: 3}
+  - {fileID: 21300000, guid: c3fd932f54dbc104c8aae0fb5e3f9eeb, type: 3}
 --- !u!1 &4673761201746422165
 GameObject:
   m_ObjectHideFlags: 0
@@ -5350,7 +5370,19 @@ MonoBehaviour:
       m_Calls: []
   m_OnValueChanged:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1221021113508915055}
+        m_TargetAssemblyTypeName: UI.Objects.Research.GUI_ArtifactConsole, Assets
+        m_MethodName: UpdateData
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   m_CaretColor: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
   m_CustomCaretColor: 0
   m_SelectionColor: {r: 0.65882355, g: 0.80784315, b: 1, a: 0.7529412}
@@ -6564,7 +6596,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8278237228466518704}
-  - component: {fileID: 7735421939598056928}
   - component: {fileID: 4269706067342381421}
   - component: {fileID: 9193638705177761977}
   m_Layer: 5
@@ -6601,26 +6632,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &7735421939598056928
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6492214020278835121}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e76313d6806f46c283fd55cffe3fa04b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Pages:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  DefaultPage: {fileID: 0}
-  OnPageChange:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!222 &4269706067342381421
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -6969,7 +6980,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 240}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &1693850740618410492
@@ -9671,8 +9682,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: -10, y: -168}
-  m_SizeDelta: {x: 450, y: 300}
+  m_AnchoredPosition: {x: -10, y: -140}
+  m_SizeDelta: {x: 450, y: 250}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &614533835145570627
 CanvasRenderer:
@@ -9715,18 +9726,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1.2
-  m_Text: 'Disk sucessfully found in console
-
-
-
-    Data for artifact T378 already
-    exists on disk... overriding
-
-
-
-    Writing data for artifact T378
-
-'
+  m_Text: No disk in console!
 --- !u!114 &355521145404089398
 MonoBehaviour:
   m_ObjectHideFlags: 0

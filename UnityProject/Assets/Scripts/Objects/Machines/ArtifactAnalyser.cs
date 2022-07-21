@@ -41,7 +41,7 @@ namespace Systems.Research.Objects
 		{
 			foreach(GameObject obj in artifactSliver.Composition)
 			{
-				Spawn.ServerPrefab(obj, registerObject.WorldPositionServer, transform.parent, count: 1);
+				Spawn.ServerPrefab(obj, gameObject.AssumedWorldPosServer());
 			}
 			Inventory.ServerDespawn(itemStorage.GetIndexedItemSlot(0));
 			artifactSliver = null;

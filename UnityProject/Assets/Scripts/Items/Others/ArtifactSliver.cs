@@ -5,19 +5,14 @@ using Systems.Radiation;
 using Weapons;
 using ScriptableObjects.Systems.Research;
 using Objects.Research;
-using Systems.Research;
+using Mirror;
 
 namespace Items.Science
 {
-	public enum CompositionBase
-	{
-		metal = 1,
-		glass = 2, //TODO: think of more things artifacts could be made of
-	}
 
-	public class ArtifactSliver : MonoBehaviour
+	public class ArtifactSliver : NetworkBehaviour
 	{
-		public ArtifactData sliverData;
+		[SyncVar] public ArtifactData sliverData;
 
 		public string ID;
 
@@ -35,14 +30,22 @@ namespace Items.Science
 		{
 			radProducer = GetComponent<RadiationProducer>();
 			meleeEffect = GetComponent<MeleeEffect>();
-
-			Init()
 	;
+		}
+
+		public void SetUpValues(ArtifactData parentData, string Id)
+		{
+			ID = Id;
+			sliverData = parentData;
+			sliverData.mass = sliverData.radiationlevel / 20 + sliverData.bluespacesig + sliverData.bananiumsig / 2;
+
+			GetComponent<ItemAttributesV2>().ServerSetArticleName("Artifact Sliver - " + ID);
+		
+			Init();
 		}
 
 		private void Init()
 		{
-
 			if (sliverData.bluespacesig >= 100)
 			{
 				meleeEffect.enabled = true;
@@ -58,7 +61,7 @@ namespace Items.Science
 				radProducer.enabled = true;
 				radProducer.SetLevel(sliverData.radiationlevel);
 
-				for (int i = 0; i < (int)((sliverData.radiationlevel) / 500); i++) //every 500 rads
+				for (int i = 0; i < (int)((sliverData.radiationlevel) / 2500); i++) //every 2500 rads
 				{
 					Composition.Add(artifactDataSO.compositionData["uranium"]);
 				}
@@ -71,7 +74,7 @@ namespace Items.Science
 
 			for (int i = 0; i < (int)((sliverData.mass) / 250); i++) //every 250g
 			{
-				Composition.Add(artifactDataSO.compositionData[sliverData.compositionBase.ToString()]);
+				Composition.Add(artifactDataSO.compositionData[sliverData.Type.ToString()]);
 			}
 		}
 	}

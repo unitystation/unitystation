@@ -22,6 +22,8 @@ namespace Items.Science
 				cost += Mathf.Clamp(50 - 2*Mathf.Abs(file.inputData.bluespacesig - file.correctData.bluespacesig), 0, 50);
 				cost += Mathf.Clamp(50 - Mathf.Abs(file.inputData.bananiumsig- file.correctData.bananiumsig), 0, 50);
 			}
+
+			GetComponent<ItemAttributesV2>().SetExportCost(cost);
 		}
 	}
 }

@@ -1,10 +1,14 @@
 using System.Collections;
 using UnityEngine;
 using UI.Core.NetUI;
+using System;
 using Systems.Research.Objects;
 using Items.Science;
 using Objects.Research;
 using Items.Storage.VirtualStorage;
+using Mirror;
+using UnityEngine.UI;
+
 
 namespace UI.Objects.Research
 {
@@ -12,12 +16,22 @@ namespace UI.Objects.Research
 	{
 		[SerializeField]
 		private InputFieldFocus radInput;
+		[SerializeField]
+		private Dropdown appearanceDropdown;
 
-		private ArtifactData inputData;
+		private ArtifactData inputData = new ArtifactData();
+
+		private ConsoleState consoleState;
 
 		bool isUpdating;
 
 		private ArtifactConsole console;
+
+		public NetLabel NameLabel = null;
+		public NetLabel LogLabel = null;
+		public NetLabel OutputLabel = null;
+
+		public NetSpriteImage ImageObject = null;
 
 		protected override void InitServer()
 		{
@@ -36,32 +50,133 @@ namespace UI.Objects.Research
 			}
 
 			console = Provider.GetComponent<ArtifactConsole>();
+			inputData = console.inputData;
+
+			UpdateGUI();
+
+			consoleState = ConsoleState.Idle;
+
+			ArtifactConsole.stateChange += UpdateGUI;
+
+			OnTabOpened.AddListener(UpdateGUIForPeepers);
 
 			Logger.Log(nameof(WaitForProvider), Category.Research);
 		}
 
+		public void UpdateGUIForPeepers(PlayerInfo notUsed)
+		{
+			if (!isUpdating)
+			{
+				isUpdating = true;
+				StartCoroutine(WaitForClient());
+			}
+		}
+
+		private IEnumerator WaitForClient()
+		{
+			yield return new WaitForSeconds(0.2f);
+			UpdateGUI();
+			isUpdating = false;
+		}
+
 		public void UpdateGUI()
 		{
-			
+
+			bool hidden = console.dataDisk == null;
+
+			if (hidden) ImageObject.SetSprite(1);
+			else ImageObject.SetSprite(0);
+
+			if(console.connectedArtifact != null) NameLabel.SetValueServer(console.connectedArtifact.ID);
+			else NameLabel.SetValueServer("NULL");
+
+			if(LogLabel.Value == "No disk in console!" && console.dataDisk != null)
+			{
+				LogLabel.SetValueServer("Disk inserted!");
+				OutputLabel.SetValueServer("");
+			}
+			radInput.text = inputData.radiationlevel.ToString();
+			appearanceDropdown.value = (int)inputData.Type;
+			inputData = console.inputData;
 		}
 
 		public void WriteData()
 		{
-			if (console.dataDisk == null || console.connectedArtifact == null) return;
+			consoleState = ConsoleState.Writing;
 
-			foreach(ArtifactDataFiles data in console.dataDisk.DataOnStorage)
+			if (console.dataDisk == null)
+			{
+				LogLabel.SetValueServer("No disk in console!");
+				OutputLabel.SetValueServer("Data write unsuccessful.");
+				return;
+			}
+			if (console.connectedArtifact == null)
+			{
+				LogLabel.SetValueServer("No artifact connected to console!!");
+				OutputLabel.SetValueServer("Data write unsuccessful.");
+				return;
+			}
+			 
+			LogLabel.SetValueServer($"Disk sucessfully found in console" +
+				$"\n\nData for artifact {console.connectedArtifact.ID} already exists on disk... " +
+				$"overriding\n\nWriting data for artifact {console.connectedArtifact.ID}");
+
+			OutputLabel.SetValueServer("Data write successful.");
+
+			foreach (ArtifactDataFiles data in console.dataDisk.DataOnStorage)
 			{
 				data.inputData = inputData;
 				data.correctData = console.connectedArtifact.artifactData;
 			}
 			console.dataDisk.CalculateExportCost();
+
+			consoleState = ConsoleState.Idle;
+
+			UpdateGUI();
+
 		}
 
 
 		public void EjectDisk()
 		{
-			console.GetComponent<ItemStorage>().ServerDropAll();
+			if (consoleState != ConsoleState.Idle) return;
+			if (console.dataDisk != null)
+			{
+				console.DropDisk();
+				LogLabel.SetValueServer($"Disk ejected from console.");
+			}
+			else
+			{
+				LogLabel.SetValueServer($"No disk in console to eject.");
+			}
+
+			OutputLabel.SetValueServer("Please insert disk.");
+			UpdateGUI();
 		}
 
+		public void UpdateData()
+		{
+			console = Provider.GetComponent<ArtifactConsole>();
+
+			Int32.TryParse(radInput.text, out int A);
+			inputData.radiationlevel = A;
+			inputData.Type = (ArtifactType)appearanceDropdown.value;
+
+			console.inputData = inputData;
+
+			UpdateGUI();
+		}
+
+
+		private void OnDestroy()
+		{
+			ArtifactConsole.stateChange -= UpdateGUI;
+		}
+
+		public enum ConsoleState
+		{
+			Writing = 0,
+			Idle = 1,
+		}
 	}
 }
