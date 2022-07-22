@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 76ca5856609249ee94d90235cd87c604, type: 3}
+  m_Name: Larva1
+  m_EditorClassIdentifier: 
+  AlienType: 0
+  Speed: 10
+  Normal: {fileID: 11400000, guid: f6b6c2543755ec441856d4954f0e79e9, type: 2}
+  Dead: {fileID: 11400000, guid: 867cc281725ed184d8edd294064d2031, type: 2}
+  Pounce: {fileID: 0}
+  Sleep: {fileID: 11400000, guid: a114ae7f9a5ba9f41946d8a3e7026987, type: 2}
+  Unconcious: {fileID: 11400000, guid: 66a68b80f9f42da4bb619b9b05f2e390, type: 2}
+  Running: {fileID: 0}
+  Front: {fileID: 0}
+  Back: {fileID: 0}
+  Spells: []

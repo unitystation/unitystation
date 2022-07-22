@@ -8,7 +8,7 @@ using System;
 using Chemistry;
 using HealthV2;
 
-[CreateAssetMenu(fileName = "PlayerHealthData", menuName = "ScriptableObjects/PlayerHealthData", order = 1)]
+[CreateAssetMenu(fileName = "PlayerHealthData", menuName = "ScriptableObjects/Health/PlayerHealthData", order = 1)]
 public class PlayerHealthData : ScriptableObject
 {
 	public RaceHealthData Base;

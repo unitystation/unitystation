@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 76ca5856609249ee94d90235cd87c604, type: 3}
+  m_Name: Sentinel
+  m_EditorClassIdentifier: 
+  AlienType: 4
+  Speed: 5
+  Normal: {fileID: 11400000, guid: 8c078db1944edd84680957df8e4d681c, type: 2}
+  Dead: {fileID: 11400000, guid: 7b9894c99e9cec045884ca5fcabe8d36, type: 2}
+  Pounce: {fileID: 11400000, guid: b7e2adbe0064cf145b9ad5a700a2357c, type: 2}
+  Sleep: {fileID: 11400000, guid: aff2b9843f5af7446ad2d0b5371b48e1, type: 2}
+  Unconcious: {fileID: 11400000, guid: c51d6b895fcc9a54dabb885b38a23461, type: 2}
+  Running: {fileID: 0}
+  Front: {fileID: 11400000, guid: a403e47addaf6634db9edcb16fb20021, type: 2}
+  Back: {fileID: 11400000, guid: 4023fcb16c79f144991fe824940e793b, type: 2}
+  Spells: []
