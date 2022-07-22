@@ -5,6 +5,7 @@ using System;
 using Systems.Research.Objects;
 using Items.Science;
 using Objects.Research;
+using ScriptableObjects.Systems.Research;
 using Items.Storage.VirtualStorage;
 using Mirror;
 using UnityEngine.UI;
@@ -23,6 +24,17 @@ namespace UI.Objects.Research
 		[SerializeField]
 		private InputFieldFocus bananiumInput;
 
+		[SerializeField]
+		private Dropdown contactEffectDropdown;
+		[SerializeField]
+		private Dropdown areaEffectDropdown;
+		[SerializeField]
+		private Dropdown damageEffectDropdown;
+		[SerializeField]
+		private Dropdown solidEffectDropdown;
+		[SerializeField]
+		private Dropdown gasEffectDropdown;
+
 		private ArtifactData inputData = new ArtifactData();
 
 		private ConsoleState consoleState;
@@ -30,6 +42,7 @@ namespace UI.Objects.Research
 		bool isUpdating;
 
 		private ArtifactConsole console;
+		public ArtifactConsoleDataSO consoleData;
 
 		public NetLabel NameLabel = null;
 		public NetLabel LogLabel = null;
@@ -104,6 +117,12 @@ namespace UI.Objects.Research
 			bluespaceInput.text = inputData.bluespacesig.ToString();
 			bananiumInput.text = inputData.bananiumsig.ToString();
 
+			areaEffectDropdown.value = console.AreaDropDownChoice;
+			contactEffectDropdown.value = console.ContactDropDownChoice;
+			damageEffectDropdown.value = console.DamageDropDownChoice;
+			solidEffectDropdown.value = console.SolidDropDownChoice;
+			gasEffectDropdown.value = console.GasDropDownChoice;
+
 			appearanceDropdown.value = (int)inputData.Type;
 			inputData = console.inputData;
 		}
@@ -111,6 +130,16 @@ namespace UI.Objects.Research
 		public void WriteData()
 		{
 			consoleState = ConsoleState.Writing;
+
+			inputData = console.inputData;
+
+			inputData.AreaEffect = consoleData.AreaEffects[areaEffectDropdown.value];
+			inputData.FeedEffect = consoleData.FeedEffects[solidEffectDropdown.value];
+			inputData.ContactEffect = consoleData.ContactEffects[contactEffectDropdown.value];
+			inputData.GasEffect = consoleData.GasReactEffects[gasEffectDropdown.value];
+			inputData.DamageEffect = consoleData.DamageEffects[damageEffectDropdown.value];
+
+			console.inputData = inputData;
 
 			if (console.dataDisk == null)
 			{
@@ -136,6 +165,7 @@ namespace UI.Objects.Research
 				data.inputData = inputData;
 				data.correctData = console.connectedArtifact.artifactData;
 			}
+
 			console.dataDisk.CalculateExportCost();
 
 			consoleState = ConsoleState.Idle;
@@ -177,11 +207,16 @@ namespace UI.Objects.Research
 
 			inputData.Type = (ArtifactType)appearanceDropdown.value;
 
+			console.AreaDropDownChoice = areaEffectDropdown.value;
+			console.ContactDropDownChoice = contactEffectDropdown.value;
+			console.DamageDropDownChoice = damageEffectDropdown.value;
+			console.SolidDropDownChoice = solidEffectDropdown.value;
+			console.GasDropDownChoice = gasEffectDropdown.value;
+
 			console.inputData = inputData;
 
 			UpdateGUI();
 		}
-
 
 		private void OnDestroy()
 		{

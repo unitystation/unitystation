@@ -24,39 +24,6 @@ namespace Objects.Research
 		Organic = 2,
 	}
 
-	public struct EffectIndex //Effect index tells the script how to find an artifact in the ArtifactDataSO
-	{
-		public EffectIndex(int Index = 0, ArtifactClass AClass = ArtifactClass.Uranium)
-		{
-			index = Index;
-			aClass = AClass;
-		}
-		public int index;
-		public ArtifactClass aClass;
-	} 
-
-	public struct ArtifactData //Artifact Data contains all properties of the artifact that will be transferred to samples and/or guessed by the research console, placed in a struct to make data transfer easier.
-	{
-		public ArtifactData(int radlvl = 0, int bluelvl = 0, int bnalvl = 0, int mss = 0, ArtifactType type = ArtifactType.Geological, EffectIndex areaEffect = default, EffectIndex feedEffect = default)
-		{
-			radiationlevel = radlvl;
-			bluespacesig = bluelvl;
-			bananiumsig = bnalvl;
-			mass = mss;
-			Type = type;
-			AreaEffect = areaEffect;
-			FeedEffect = feedEffect;
-		}
-
-		public ArtifactType Type;
-		public int radiationlevel;
-		public int bluespacesig;
-		public int bananiumsig;
-		public int mass;
-		public EffectIndex AreaEffect;
-		public EffectIndex FeedEffect;
-	}
-
 	public class Artifact : NetworkBehaviour, IServerSpawn, IServerDespawn, ICheckedInteractable<HandApply>, IMultitoolMasterable
 	{
 		/// <summary>
@@ -394,4 +361,48 @@ namespace Objects.Research
 
 		#endregion
 	}
+
+	[System.Serializable]
+	public class EffectIndex //Effect index tells the script how to find an artifact in the ArtifactDataSO
+	{
+		public EffectIndex(int Index, ArtifactClass AClass)
+		{
+			index = Index;
+			aClass = AClass;
+		}
+		public EffectIndex() { }
+
+		public int index;
+		public string name = "";
+		public ArtifactClass aClass;
+	}
+	
+	public struct ArtifactData //Artifact Data contains all properties of the artifact that will be transferred to samples and/or guessed by the research console, placed in a struct to make data transfer easier.
+	{
+		public ArtifactData(int radlvl = 0, int bluelvl = 0, int bnalvl = 0, int mss = 0, ArtifactType type = ArtifactType.Geological, EffectIndex areaEffect = default, EffectIndex feedEffect = default, EffectIndex damageEffect = default, EffectIndex contactEffect = default, EffectIndex gasEffect = default)
+		{
+			radiationlevel = radlvl;
+			bluespacesig = bluelvl;
+			bananiumsig = bnalvl;
+			mass = mss;
+			Type = type;
+			AreaEffect = areaEffect;
+			FeedEffect = feedEffect;
+			DamageEffect = damageEffect;
+			ContactEffect = contactEffect;
+			GasEffect = gasEffect;
+		}
+
+		public ArtifactType Type;
+		public int radiationlevel;
+		public int bluespacesig;
+		public int bananiumsig;
+		public int mass;
+		public EffectIndex AreaEffect;
+		public EffectIndex FeedEffect;
+		public EffectIndex DamageEffect;
+		public EffectIndex GasEffect;
+		public EffectIndex ContactEffect;
+	}
+
 }

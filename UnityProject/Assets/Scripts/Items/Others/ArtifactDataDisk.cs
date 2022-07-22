@@ -7,6 +7,8 @@ namespace Items.Science
 {
 	public class ArtifactDataDisk : HardDriveBase
 	{
+		public int SellPrice = 10000;
+
 		public void Awake()
 		{
 			DataOnStorage.Add(new ArtifactDataFiles());
@@ -18,10 +20,18 @@ namespace Items.Science
 
 			foreach(ArtifactDataFiles file in DataOnStorage)
 			{
-				cost += Mathf.Clamp(50 - Mathf.Abs(file.inputData.radiationlevel - file.correctData.radiationlevel), 0, 50);
-				cost += Mathf.Clamp(50 - 2*Mathf.Abs(file.inputData.bluespacesig - file.correctData.bluespacesig), 0, 50);
-				cost += Mathf.Clamp(50 - Mathf.Abs(file.inputData.bananiumsig- file.correctData.bananiumsig), 0, 50);
+				cost += Mathf.Clamp(1000 - (2*Mathf.Abs(file.inputData.radiationlevel - file.correctData.radiationlevel)), 0, 1000);
+				cost += Mathf.Clamp(1000 - (20*Mathf.Abs(file.inputData.bluespacesig - file.correctData.bluespacesig)), 0, 1000);
+				cost += Mathf.Clamp(1000 - (5*Mathf.Abs(file.inputData.bananiumsig- file.correctData.bananiumsig)), 0, 1000);
+				//if (file.inputData.ContactEffect.name == file.correctData.ContactEffect.name) cost += 1200;
+				//if (file.inputData.DamageEffect.name == file.correctData.DamageEffect.name) cost += 1200;
+				if (file.inputData.FeedEffect.name == file.correctData.FeedEffect.name) cost += 1200;
+				//if (file.inputData.GasEffect.name == file.correctData.GasEffect.name) cost += 1200;
+				if (file.inputData.AreaEffect.name == file.correctData.AreaEffect.name) cost += 1200;
+				if (file.inputData.Type == file.correctData.Type) cost += 1000;
 			}
+
+			cost *= (SellPrice / 10000);
 
 			GetComponent<ItemAttributesV2>().SetExportCost(cost);
 		}

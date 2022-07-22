@@ -38,9 +38,9 @@ namespace Items.Science
 			ID = Id;
 			sliverData = parentData;
 
-			sliverData.radiationlevel += (int)(sliverData.radiationlevel * Random.Range(-0.05f, 0.05f)); // +- 5% accuracy
-			sliverData.bluespacesig += (int)(sliverData.bluespacesig * Random.Range(-0.05f, 0.05f)); // +- 5% accuracy
-			sliverData.bluespacesig += (int)(sliverData.bluespacesig * Random.Range(-0.05f, 0.05f)); // +- 5% accuracy
+			sliverData.radiationlevel += (int)(sliverData.radiationlevel * Random.Range(-0.20f, 0.20f)); // +- 20% accuracy
+			sliverData.bluespacesig += (int)(sliverData.bluespacesig * Random.Range(-0.20f, 0.20f)); // +- 20% accuracy
+			sliverData.bluespacesig += (int)(sliverData.bluespacesig * Random.Range(-0.20f, 0.20f)); // +- 20% accuracy
 
 			sliverData.mass = sliverData.radiationlevel / 20 + sliverData.bluespacesig + sliverData.bananiumsig / 2;
 

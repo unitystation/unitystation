@@ -18,6 +18,12 @@ namespace Objects.Research
 
 		[SyncVar] public ArtifactData inputData = new ArtifactData();
 
+		[SyncVar, HideInInspector] public int AreaDropDownChoice = 0; //Used to sync the dropdowns between client and server
+		[SyncVar, HideInInspector] public int ContactDropDownChoice = 0;
+		[SyncVar, HideInInspector] public int SolidDropDownChoice = 0;
+		[SyncVar, HideInInspector] public int GasDropDownChoice = 0;
+		[SyncVar, HideInInspector] public int DamageDropDownChoice = 0;
+
 		public delegate void StateChange();
 		public static event StateChange stateChange;
 
