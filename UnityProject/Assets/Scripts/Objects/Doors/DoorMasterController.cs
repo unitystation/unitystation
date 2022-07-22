@@ -697,10 +697,9 @@ namespace Doors
 
 		private void ResetWaiting()
 		{
-			if (maxTimeOpen == -1)
-			{
-				return;
-			}
+			if (maxTimeOpen.Approx(-1)) return;
+
+			if (CustomNetworkManager.IsServer == false) return;
 
 			if (coWaitOpened != null)
 			{
@@ -716,13 +715,17 @@ namespace Doors
 		{
 			// After the door opens, wait until it's supposed to close.
 			yield return WaitFor.Seconds(maxTimeOpen);
-			if (CustomNetworkManager.IsServer &&
-			    !blockAutoClose &&
-			    isAutomatic &&
-			    HasPower)
-			{
-				PulseTryClose();
-			}
+
+			if(blockAutoClose == false) yield break;
+
+			if(isAutomatic == false) yield break;
+
+			if(HasPower == false) yield break;
+
+			//If we are already closed don't need to pulse
+			if(IsClosed) yield break;
+
+			PulseTryClose();
 		}
 
 		public void ToggleBlockAutoClose(bool newState)
