@@ -416,7 +416,6 @@ GameObject:
   - component: {fileID: 114617133355526680}
   - component: {fileID: 1334142152360663673}
   - component: {fileID: 114285118255153820}
-  - component: {fileID: 114413669770135258}
   - component: {fileID: 114390575568471296}
   - component: {fileID: 114644792539986700}
   - component: {fileID: 114285504268110804}
@@ -459,6 +458,7 @@ GameObject:
   - component: {fileID: 7265610720913237329}
   - component: {fileID: 3901833431230868314}
   - component: {fileID: 3087290366095840219}
+  - component: {fileID: 8980569866541390091}
   m_Layer: 8
   m_Name: Alien
   m_TagString: Untagged
@@ -598,23 +598,6 @@ MonoBehaviour:
   BodySprites: {fileID: 193028258071297994}
   RootBodyPartsLoaded: 0
   OverlaySprites: {fileID: 9164488584065593561}
---- !u!114 &114413669770135258
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1133514949248654}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f1d9cf66ac5f9524193eaaacb77505a6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  MaxClickDuration: 1
-  MouseDragDeadzone: 0.2
-  AimApplyInterval: 0.01
-  examineCursor: {fileID: 0}
-  cursorOffset: {x: 0, y: 0}
 --- !u!114 &114390575568471296
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1438,6 +1421,23 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 7bfb934b0c743de4a8957aa08a97cd15, type: 2}
   - {fileID: 11400000, guid: 62556709952f6b246a7146db8ffc2c08, type: 2}
   - {fileID: 11400000, guid: e4546df833c34fd438f1c9a244c5aa20, type: 2}
+--- !u!114 &8980569866541390091
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1133514949248654}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 039d6b4e225343388dbf698df3150e4b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MaxClickDuration: 1
+  MouseDragDeadzone: 0.2
+  AimApplyInterval: 0.01
+  examineCursor: {fileID: 0}
+  cursorOffset: {x: 0, y: 0}
 --- !u!1 &1147423205297840
 GameObject:
   m_ObjectHideFlags: 0
@@ -8083,7 +8083,7 @@ SpriteRenderer:
   m_SortingLayerID: -902452607
   m_SortingLayer: 22
   m_SortingOrder: 10
-  m_Sprite: {fileID: 21300000, guid: 50b6832cc0356dd48be7f69c661271d0, type: 3}
+  m_Sprite: {fileID: 21300008, guid: 50b6832cc0356dd48be7f69c661271d0, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -8188,7 +8188,7 @@ SpriteRenderer:
   m_SortingLayerID: -902452607
   m_SortingLayer: 22
   m_SortingOrder: 20
-  m_Sprite: {fileID: 7660122581263827943, guid: 2adbceb9cc674484cb9a2c58b41d5493,
+  m_Sprite: {fileID: 8165807964432903219, guid: 2adbceb9cc674484cb9a2c58b41d5493,
     type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0

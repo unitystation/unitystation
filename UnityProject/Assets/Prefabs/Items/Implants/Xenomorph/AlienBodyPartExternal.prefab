@@ -10,7 +10,7 @@ PrefabInstance:
     - target: {fileID: 1163316686972202776, guid: 1162a9966a460f940a18b4d183b04c30,
         type: 3}
       propertyPath: m_Name
-      value: Implant
+      value: AlienBodyPartExternal
       objectReference: {fileID: 0}
     - target: {fileID: 1168521912962732652, guid: 1162a9966a460f940a18b4d183b04c30,
         type: 3}
@@ -66,6 +66,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1274760333973328556, guid: 1162a9966a460f940a18b4d183b04c30,
+        type: 3}
+      propertyPath: m_AssetId
+      value: 5f6c7ed590416bc4180be8fe9159a533
+      objectReference: {fileID: 0}
+    - target: {fileID: 5232716269704749941, guid: 1162a9966a460f940a18b4d183b04c30,
+        type: 3}
+      propertyPath: foreverID
+      value: 5f6c7ed590416bc4180be8fe9159a533
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1162a9966a460f940a18b4d183b04c30, type: 3}

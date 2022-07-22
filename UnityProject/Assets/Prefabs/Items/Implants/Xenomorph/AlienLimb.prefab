@@ -7,10 +7,15 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 13557722183478190, guid: 5f6c7ed590416bc4180be8fe9159a533,
+        type: 3}
+      propertyPath: foreverID
+      value: 1f74ff76597345148a3687fa9467b3ab
+      objectReference: {fileID: 0}
     - target: {fileID: 6380073764081510339, guid: 5f6c7ed590416bc4180be8fe9159a533,
         type: 3}
       propertyPath: m_Name
-      value: AlienBodyPartExternal
+      value: AlienLimb
       objectReference: {fileID: 0}
     - target: {fileID: 6384153089762024119, guid: 5f6c7ed590416bc4180be8fe9159a533,
         type: 3}
@@ -66,6 +71,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6421753535735536247, guid: 5f6c7ed590416bc4180be8fe9159a533,
+        type: 3}
+      propertyPath: m_AssetId
+      value: 1f74ff76597345148a3687fa9467b3ab
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5f6c7ed590416bc4180be8fe9159a533, type: 3}
