@@ -114,7 +114,8 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IActi
 		Normal,
 		Ghost,
 		Blob,
-		Ai
+		Ai,
+		Alien
 	}
 
 	[SerializeField] private ActionData actionData = null;

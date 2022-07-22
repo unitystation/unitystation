@@ -66,6 +66,10 @@ namespace Systems.Teleport
 				{
 					status = "(Blob)";
 				}
+				else if (player.PlayerState == PlayerScript.PlayerStates.Alien)
+				{
+					status = $"(Alien) {(player.playerHealth.IsDead ? "(Dead)" : "(Alive)")}";
+				}
 				else
 				{
 					status = "(Cant tell if Dead/Alive or Ghost)";
