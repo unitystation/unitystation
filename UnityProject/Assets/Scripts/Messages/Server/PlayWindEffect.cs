@@ -29,7 +29,10 @@ namespace Messages.Server
 
 			var matrix = matrixSync.NetworkedMatrix.matrix;
 
-			var distance = localPlayer.objectPhysics.OfficialPosition - msg.LocalPosition.ToWorld(matrix);
+			var distance =
+				(localPlayer.objectPhysics != null ?
+					localPlayer.objectPhysics.OfficialPosition : localPlayer.transform.position)
+				- msg.LocalPosition.ToWorld(matrix);
 
 			//Be in 20 tile radius?
 			if (distance.sqrMagnitude > 400) return;
