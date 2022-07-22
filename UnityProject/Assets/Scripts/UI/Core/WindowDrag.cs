@@ -47,11 +47,15 @@ public class WindowDrag : MonoBehaviour
 	/// <summary>
 	/// Resets the window to its start position relative to the screen size.
 	/// </summary>
-	private void OnDisable () {
+	private void OnDisable ()
+	{
+		UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
+
 		if (Camera.main == null || !isReady)
 		{
 			return;
 		}
+
 		var cameraHeight = Camera.main.orthographicSize * 2.0f;
 		var cameraWidth = cameraHeight * Camera.main.aspect;
 		var worldPointResolution = new Vector3(cameraWidth, cameraHeight);
@@ -60,7 +64,6 @@ public class WindowDrag : MonoBehaviour
 			rectTransform.position = new Vector3(	startPositon.x * worldPointResolution.x,
 													startPositon.y * worldPointResolution.y);
 		}
-		UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
 	}
 
 	/// <summary>

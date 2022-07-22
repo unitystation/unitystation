@@ -19,8 +19,14 @@ namespace Doors.Modules
 
 		private string soundGuid = "";
 
+		private string doorName;
 
+		protected override void Awake()
+		{
+			base.Awake();
 
+			doorName = transform.parent.gameObject.ExpensiveName();
+		}
 
 		public override ModuleSignal OpenInteraction(HandApply interaction, HashSet<DoorProcessingStates> States)
 		{
@@ -35,8 +41,8 @@ namespace Doors.Modules
 				}
 
 				ToolUtils.ServerUseToolWithActionMessages(interaction, pryTime,
-					"You start closing the door...",
-					$"{interaction.Performer.ExpensiveName()} starts closing the door...",
+					$"You start closing the {doorName}...",
+					$"{interaction.Performer.ExpensiveName()} starts closing the {doorName}...",
 					$"",
 					$"",
 					() => TryPry(interaction));
@@ -71,8 +77,8 @@ namespace Doors.Modules
 
 				//allows the jaws of life to pry open doors
 				ToolUtils.ServerUseToolWithActionMessages(interaction, pryTime,
-					"You start prying open the door...",
-					$"{interaction.Performer.ExpensiveName()} starts prying open the door...",
+					$"You start prying open the {doorName}...",
+					$"{interaction.Performer.ExpensiveName()} starts prying open the {doorName}...",
 					$"",
 					$"",
 					() => TryPry(interaction), onFailComplete: OnFailPry, playSound: false);
@@ -94,14 +100,14 @@ namespace Doors.Modules
 			{
 				if (master.TryForceOpen())
 				{
-					Chat.AddActionMsgToChat(interaction.Performer, $"You force the door open with your {interaction.HandObject.ExpensiveName()}!",
-						$"{interaction.Performer.ExpensiveName()} forces the door open!");
+					Chat.AddActionMsgToChat(interaction.Performer, $"You force the {doorName} open with your {interaction.HandObject.ExpensiveName()}!",
+						$"{interaction.Performer.ExpensiveName()} forces the {doorName} open!");
 
 				}
 				else
 				{
-					Chat.AddActionMsgToChat(interaction.Performer, $"The door does not budge at all!",
-						$"{interaction.Performer.ExpensiveName()} Tries to force the door open failing!");
+					Chat.AddActionMsgToChat(interaction.Performer, $"The {doorName} does not budge at all!",
+						$"{interaction.Performer.ExpensiveName()} Tries to force the {doorName} open failing!");
 				}
 			}
 			else if (!master.IsClosed && !master.IsPerformingAction)

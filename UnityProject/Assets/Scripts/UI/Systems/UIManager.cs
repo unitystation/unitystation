@@ -223,7 +223,7 @@ public class UIManager : MonoBehaviour, IInitialise
 			currentIntent = value;
 
 			//update the intent of the player on server so server knows we are swappable or not
-			if (PlayerManager.LocalPlayerScript != null)
+			if (PlayerManager.LocalPlayerScript != null && PlayerManager.LocalPlayerScript.IsNormal)
 			{
 				PlayerManager.LocalPlayerScript.playerNetworkActions.CmdSetCurrentIntent(currentIntent);
 			}

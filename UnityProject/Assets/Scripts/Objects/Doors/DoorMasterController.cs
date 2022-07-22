@@ -109,6 +109,8 @@ namespace Doors
 
 		public ConstructibleDoor ConstructibleDoor;
 
+		private bool isFireLock;
+
 		private void Awake()
 		{
 			if (isWindowedDoor == false)
@@ -119,7 +121,19 @@ namespace Doors
 			{
 				closedLayer = LayerMask.NameToLayer("Windows");
 			}
+
 			closedSortingLayer = SortingLayer.NameToID("Doors Closed");
+
+			openLayer = LayerMask.NameToLayer("Door Open");
+			openSortingLayer = SortingLayer.NameToID("Doors Open");
+
+			if (TryGetComponent<FireLock>(out _))
+			{
+				isFireLock = true;
+				closedSortingLayer = SortingLayer.NameToID("WallObject");
+				openSortingLayer = SortingLayer.NameToID("Machines");
+			}
+
 			openLayer = LayerMask.NameToLayer("Door Open");
 			openSortingLayer = SortingLayer.NameToID("Doors Open");
 			spriteRenderer = GetComponentInChildren<SpriteRenderer>();
@@ -362,8 +376,12 @@ namespace Doors
 
 		public void TryOpen(GameObject originator, bool blockClosing = false)
 		{
-			var firelock = matrix.GetFirst<FireLock>(registerTile.LocalPositionServer, true);
-			if (firelock != null && firelock.fireAlarm.activated) return;
+			if (isFireLock == false)
+			{
+				var fireLock = matrix.GetFirst<FireLock>(registerTile.LocalPositionServer, true);
+				if (fireLock != null && fireLock.fireAlarm.activated) return;
+			}
+
 			if(IsClosed == false || isPerformingAction) return;
 
 			if(HasPower == false)
@@ -518,8 +536,11 @@ namespace Doors
 
 		public void Open(bool blockClosing = false)
 		{
-			var firelock = matrix.GetFirst<FireLock>(registerTile.LocalPositionServer, true);
-			if (firelock != null && firelock.fireAlarm.activated) return;
+			if (isFireLock)
+			{
+				var fireLock = matrix.GetFirst<FireLock>(registerTile.LocalPositionServer, true);
+				if (fireLock != null && fireLock.fireAlarm.activated) return;
+			}
 
 			if (!this || !gameObject) return; // probably destroyed by a shuttle crash
 
@@ -550,6 +571,7 @@ namespace Doors
 			IsClosed = true;
 			SetLayer(closedLayer);
 			spriteRenderer.sortingLayerID = closedSortingLayer;
+			registerTile.SetNewSortingOrder(closedSortingLayer);
 		}
 
 		public void BoxCollToggleOff()
@@ -557,6 +579,7 @@ namespace Doors
 			IsClosed = false;
 			SetLayer(openLayer);
 			spriteRenderer.sortingLayerID = openSortingLayer;
+			registerTile.SetNewSortingOrder(openSortingLayer);
 		}
 
 		private void SetLayer(int layer)
@@ -678,10 +701,9 @@ namespace Doors
 
 		private void ResetWaiting()
 		{
-			if (maxTimeOpen == -1)
-			{
-				return;
-			}
+			if (maxTimeOpen.Approx(-1)) return;
+
+			if (CustomNetworkManager.IsServer == false) return;
 
 			if (coWaitOpened != null)
 			{
@@ -697,13 +719,17 @@ namespace Doors
 		{
 			// After the door opens, wait until it's supposed to close.
 			yield return WaitFor.Seconds(maxTimeOpen);
-			if (CustomNetworkManager.IsServer &&
-			    !blockAutoClose &&
-			    isAutomatic &&
-			    HasPower)
-			{
-				PulseTryClose();
-			}
+
+			if(blockAutoClose) yield break;
+
+			if(isAutomatic == false) yield break;
+
+			if(HasPower == false) yield break;
+
+			//If we are already closed don't need to pulse
+			if(IsClosed) yield break;
+
+			PulseTryClose();
 		}
 
 		public void ToggleBlockAutoClose(bool newState)

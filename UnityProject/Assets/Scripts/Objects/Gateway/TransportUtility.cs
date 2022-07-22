@@ -104,7 +104,8 @@ namespace Gateway
 			else if (objectToTeleport.TryGetComponent<GhostMove>(out var ghost))
 			{
 				isGhost = true;
-				ghost.ForcePositionClient(newWorldPosition);
+				//TriggerStepInterface is false to stop looping teleports on things like portals
+				ghost.ForcePositionClient(newWorldPosition, false);
 			}
 
 			if (calibrated == false && hasQuantum)
