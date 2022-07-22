@@ -28,6 +28,8 @@ namespace Objects.Wallmounts
 		public bool coverOpen;
 		public bool hasCables = true;
 
+		private RegisterTile registerTile;
+
 		[SerializeField]
 		private AddressableAudioSource FireAlarmSFX = null;
 
@@ -39,22 +41,27 @@ namespace Objects.Wallmounts
 			OpenCabledSprite
 		};
 
+		private void Awake()
+		{
+			registerTile = GetComponent<RegisterTile>();
+		}
+
 
 		public void SendCloseAlerts()
 		{
-			if (!hasCables)
-				return;
-			if (!activated && !isInCooldown)
+			if (hasCables == false) return;
+
+			if(activated || isInCooldown) return;
+			activated = true;
+
+			SyncSprite(FireAlarmState.TopLightSpriteAlert);
+			SoundManager.PlayNetworkedAtPos(FireAlarmSFX, registerTile.ObjectPhysics.Component.OfficialPosition);
+			StartCoroutine(SwitchCoolDown());
+
+			foreach (var firelock in FireLockList)
 			{
-				activated = true;
-				SyncSprite(FireAlarmState.TopLightSpriteAlert);
-				SoundManager.PlayNetworkedAtPos(FireAlarmSFX, metaNode.Position);
-				StartCoroutine(SwitchCoolDown());
-				foreach (var firelock in FireLockList)
-				{
-					if (firelock == null) continue;
-					firelock.ReceiveAlert();
-				}
+				if (firelock == null) continue;
+				firelock.ReceiveAlert();
 			}
 		}
 
@@ -62,7 +69,6 @@ namespace Objects.Wallmounts
 		{
 			var integrity = GetComponent<Integrity>();
 			integrity.OnExposedEvent.AddListener(SendCloseAlerts);
-			RegisterTile registerTile = GetComponent<RegisterTile>();
 			MetaDataLayer metaDataLayer = MatrixManager.AtPoint(registerTile.WorldPositionServer, true).MetaDataLayer;
 			var wallMount = GetComponent<WallmountBehavior>();
 			var direction = wallMount.CalculateFacing().CutToInt();
