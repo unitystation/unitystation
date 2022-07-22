@@ -219,7 +219,7 @@ namespace Objects.Wallmounts
 				case FireAlarmState.TopLightSpriteAlert:
 					baseSpriteHandler.ChangeSprite(0);
 					topLightSpriteHandler.ChangeSprite(1);
-					bottomLightSpriteHandler.ChangeSprite(1);
+					bottomLightSpriteHandler.ChangeSprite(2);
 					break;
 				case FireAlarmState.OpenEmptySprite:
 					baseSpriteHandler.ChangeSprite(2);
