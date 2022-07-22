@@ -109,6 +109,8 @@ namespace Doors
 
 		public ConstructibleDoor ConstructibleDoor;
 
+		private bool isFireLock;
+
 		private void Awake()
 		{
 			if (isWindowedDoor == false)
@@ -119,7 +121,15 @@ namespace Doors
 			{
 				closedLayer = LayerMask.NameToLayer("Windows");
 			}
+
 			closedSortingLayer = SortingLayer.NameToID("Doors Closed");
+
+			if (TryGetComponent<FireLock>(out _))
+			{
+				isFireLock = true;
+				closedSortingLayer = SortingLayer.NameToID("WallObject");
+			}
+
 			openLayer = LayerMask.NameToLayer("Door Open");
 			openSortingLayer = SortingLayer.NameToID("Doors Open");
 			spriteRenderer = GetComponentInChildren<SpriteRenderer>();
@@ -362,8 +372,12 @@ namespace Doors
 
 		public void TryOpen(GameObject originator, bool blockClosing = false)
 		{
-			var firelock = matrix.GetFirst<FireLock>(registerTile.LocalPositionServer, true);
-			if (firelock != null && firelock.fireAlarm.activated) return;
+			if (isFireLock == false)
+			{
+				var fireLock = matrix.GetFirst<FireLock>(registerTile.LocalPositionServer, true);
+				if (fireLock != null && fireLock.fireAlarm.activated) return;
+			}
+
 			if(IsClosed == false || isPerformingAction) return;
 
 			if(HasPower == false)
@@ -518,8 +532,11 @@ namespace Doors
 
 		public void Open(bool blockClosing = false)
 		{
-			var firelock = matrix.GetFirst<FireLock>(registerTile.LocalPositionServer, true);
-			if (firelock != null && firelock.fireAlarm.activated) return;
+			if (isFireLock)
+			{
+				var fireLock = matrix.GetFirst<FireLock>(registerTile.LocalPositionServer, true);
+				if (fireLock != null && fireLock.fireAlarm.activated) return;
+			}
 
 			if (!this || !gameObject) return; // probably destroyed by a shuttle crash
 
@@ -550,6 +567,7 @@ namespace Doors
 			IsClosed = true;
 			SetLayer(closedLayer);
 			spriteRenderer.sortingLayerID = closedSortingLayer;
+			registerTile.SetNewSortingOrder(closedSortingLayer);
 		}
 
 		public void BoxCollToggleOff()
@@ -557,6 +575,7 @@ namespace Doors
 			IsClosed = false;
 			SetLayer(openLayer);
 			spriteRenderer.sortingLayerID = openSortingLayer;
+			registerTile.SetNewSortingOrder(openSortingLayer);
 		}
 
 		private void SetLayer(int layer)

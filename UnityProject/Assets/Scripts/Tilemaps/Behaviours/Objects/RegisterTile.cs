@@ -819,4 +819,18 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 			fireExposable.OnExposed(exposure);
 		}
 	}
+
+	public void SetNewSortingOrder(int newLayerId)
+	{
+		CurrentsortingGroup.sortingLayerID = newLayerId;
+		ReorderSorting();
+	}
+
+	private void ReorderSorting()
+	{
+		objectLayer.ClientObjects.ReorderObjects(LocalPositionClient);
+
+		if(CustomNetworkManager.IsServer == false) return;
+		objectLayer.ServerObjects.ReorderObjects(LocalPositionServer);
+	}
 }

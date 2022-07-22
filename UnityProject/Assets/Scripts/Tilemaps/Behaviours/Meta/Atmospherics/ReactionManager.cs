@@ -310,6 +310,7 @@ namespace Systems.Atmospherics
 		private void InternalTryAddHotspot(Vector3Int localPosition, float exposeTemperature = -1f)
 		{
 			MetaDataNode node = metaDataLayer.Get(localPosition, false);
+			if(node.Exists == false) return;
 
 			if(IsAllowedHotSpot(node, exposeTemperature) == false) return;
 
