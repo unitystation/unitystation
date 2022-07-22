@@ -77,9 +77,22 @@ namespace Items.Others
 			var worldPosEntrance = objectPhysics.OfficialPosition;
 
 			//Go to selected tracked beacon or open portal in random 10 x 10 coord
-			var worldPosExit = emergency == false ?
-				linkedBeacon.ObjectBehaviour.OfficialPosition :
-				worldPosEntrance + new Vector3(Random.Range(1, 11), Random.Range(1, 11));
+			Vector3 worldPosExit;
+
+			if (emergency)
+			{
+				//Get random x from -10 to 10
+				var xCoord = Random.Range(0, 11) * (DMMath.Prob(50) ? -1 : 1);
+				
+				//Get random y from -10 to 10 but not 0 if x is 0 so to not spawn two portals on player
+				var yCoord = Random.Range((xCoord == 0 ? 1 : 0), 11) * (DMMath.Prob(50) ? -1 : 1);
+
+				worldPosExit = worldPosEntrance + new Vector3(xCoord, yCoord);
+			}
+			else
+			{
+				worldPosExit = linkedBeacon.ObjectBehaviour.OfficialPosition;
+			}
 
 			//TODO maybe coroutine this for better effect??
 
