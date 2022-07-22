@@ -15,9 +15,13 @@ namespace UI.Objects.Research
 	public class GUI_ArtifactConsole : NetTab
 	{
 		[SerializeField]
+		private Dropdown appearanceDropdown;
+		[SerializeField]
 		private InputFieldFocus radInput;
 		[SerializeField]
-		private Dropdown appearanceDropdown;
+		private InputFieldFocus bluespaceInput;
+		[SerializeField]
+		private InputFieldFocus bananiumInput;
 
 		private ArtifactData inputData = new ArtifactData();
 
@@ -95,7 +99,11 @@ namespace UI.Objects.Research
 				LogLabel.SetValueServer("Disk inserted!");
 				OutputLabel.SetValueServer("");
 			}
+
 			radInput.text = inputData.radiationlevel.ToString();
+			bluespaceInput.text = inputData.bluespacesig.ToString();
+			bananiumInput.text = inputData.bananiumsig.ToString();
+
 			appearanceDropdown.value = (int)inputData.Type;
 			inputData = console.inputData;
 		}
@@ -160,6 +168,13 @@ namespace UI.Objects.Research
 
 			Int32.TryParse(radInput.text, out int A);
 			inputData.radiationlevel = A;
+
+			Int32.TryParse(bluespaceInput.text, out int B);
+			inputData.bluespacesig = B;
+
+			Int32.TryParse(bananiumInput.text, out int C);
+			inputData.bananiumsig = C;
+
 			inputData.Type = (ArtifactType)appearanceDropdown.value;
 
 			console.inputData = inputData;
