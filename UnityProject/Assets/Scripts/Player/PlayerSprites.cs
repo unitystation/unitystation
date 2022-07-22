@@ -126,7 +126,7 @@ namespace Player
 		/// </summary>
 		private void AddOverlayGameObjects()
 		{
-			if (engulfedBurningOverlay == null)
+			if (engulfedBurningOverlay == null && OverlaySprites != null)
 			{
 				engulfedBurningOverlay =
 					Instantiate(engulfedBurningPrefab, OverlaySprites.transform).GetComponent<PlayerDirectionalOverlay>();
@@ -134,7 +134,7 @@ namespace Player
 				engulfedBurningOverlay.StopOverlay();
 			}
 
-			if (partialBurningOverlay == null)
+			if (partialBurningOverlay == null && OverlaySprites != null)
 			{
 				partialBurningOverlay =
 					Instantiate(partialBurningPrefab, OverlaySprites.transform).GetComponent<PlayerDirectionalOverlay>();
@@ -142,7 +142,7 @@ namespace Player
 				partialBurningOverlay.StopOverlay();
 			}
 
-			if (electrocutedOverlay == null)
+			if (electrocutedOverlay == null && OverlaySprites != null)
 			{
 				electrocutedOverlay = Instantiate(electrocutedPrefab, OverlaySprites.transform).GetComponent<PlayerDirectionalOverlay>();
 				electrocutedOverlay.enabled = true;
