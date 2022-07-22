@@ -148,12 +148,18 @@ namespace UI
 			}
 
 			timer.text = TimeSpan.FromSeconds(countdownEndTime - NetworkTime.time).ToString(@"mm\:ss");
+
+			if (GameManager.Instance.QuickLoad && mapLoadingPanel.activeSelf == false)
+			{
+				if (startedAlready == true || this.isActiveAndEnabled == false) return;
+				startedAlready = true;
+				StartCoroutine(WaitForInitialisation());
+			}
 		}
 
 		private IEnumerator WaitForInitialisation()
 		{
 			yield return null;
-			SetReady(true);
 			StartNowButton();
 		}
 
