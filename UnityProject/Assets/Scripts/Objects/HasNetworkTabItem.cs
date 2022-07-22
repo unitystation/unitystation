@@ -28,7 +28,7 @@ namespace Items
 		{
 			if (DefaultWillInteract.Default(interaction, side) == false) return false;
 
-			if (requiresAltClick && interaction.IsAltClick) return false;
+			if (requiresAltClick && interaction.IsAltClick == false) return false;
 
 			playerInteracted = interaction.Performer;
 			return true;
