@@ -146,7 +146,7 @@ namespace UI
 				notEnoughReady.SetActive(true);
 				return;
 			}
-			
+
 			timer.text = TimeSpan.FromSeconds(countdownEndTime - NetworkTime.time).ToString(@"mm\:ss");
 		}
 
