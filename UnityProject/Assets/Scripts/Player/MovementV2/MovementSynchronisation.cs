@@ -344,11 +344,20 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 	}
 
 	private readonly HashSet<IMovementEffect> movementAffects = new HashSet<IMovementEffect>();
+	private readonly HashSet<IMovementEffect> legs = new HashSet<IMovementEffect>();
+	public bool HasALeg => legs.Count != 0;
 
 	[Server]
 	public void AddModifier(IMovementEffect modifier)
 	{
 		movementAffects.Add(modifier);
+		UpdateSpeeds();
+	}
+
+	[Server]
+	public void AddLeg(IMovementEffect newLeg)
+	{
+		legs.Add(newLeg);
 		UpdateSpeeds();
 	}
 
@@ -359,11 +368,34 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 		UpdateSpeeds();
 	}
 
+	[Server]
+	public void RemoveLeg(IMovementEffect oldLeg)
+	{
+		legs.Remove(oldLeg);
+		if (legs.Count == 0)
+		{
+			RequestRest.Send(true);
+		}
+		UpdateSpeeds();
+	}
+
 	public void UpdateSpeeds()
 	{
 		float newRunSpeed = 0;
 		float newWalkSpeed = 0;
 		float newCrawlSpeed = 0;
+		if (legs.Count == 0)
+		{
+			RunSpeed = 0;
+			WalkSpeed = 0;
+			foreach (var movementAffect in movementAffects)
+			{
+				newCrawlSpeed += movementAffect.CrawlingSpeedModifier;
+			}
+			CrawlSpeed = newCrawlSpeed;
+			UpdateMovementSpeed();
+			return;
+		}
 		foreach (var movementAffect in movementAffects)
 		{
 			newRunSpeed += movementAffect.RunningSpeedModifier;

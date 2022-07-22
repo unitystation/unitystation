@@ -34,12 +34,21 @@ namespace HealthV2
 
 		private PlayerHealthV2 playerHealth;
 
+		public bool IsLeg = false;
+
 		public override void AddedToBody(LivingHealthMasterBase livingHealth)
 		{
 			bodyPart = GetComponent<BodyPart>();
 			playerHealth = bodyPart.HealthMaster as PlayerHealthV2;
 			bodyPart.ModifierChange += ModifierChanged;
 			playerHealth.OrNull()?.PlayerMove.AddModifier(this);
+			if(IsLeg) playerHealth.OrNull()?.PlayerMove.AddLeg(this);
+		}
+
+		public override void RemovedFromBody(LivingHealthMasterBase livingHealth)
+		{
+			base.RemovedFromBody(livingHealth);
+			if(IsLeg) playerHealth.OrNull()?.PlayerMove.RemoveLeg(this);
 		}
 
 		public float RunningSpeedModifier => runningSpeed * legEfficiency * bodyPart.TotalModified;
