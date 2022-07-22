@@ -143,32 +143,31 @@ namespace HealthV2
 
 		public GasContainer GetInternalGasMix()
 		{
-			if (playerScript != null)
+			if (playerScript == null || playerScript.Equipment == null) return null;
+
+			// Check if internals exist
+			var hasMask = false;
+
+			foreach (var itemSlot in playerScript.DynamicItemStorage.GetNamedItemSlots(NamedSlot.mask))
 			{
-				// Check if internals exist
-				bool HasMask = false;
-
-				foreach (var itemSlot in playerScript.DynamicItemStorage.GetNamedItemSlots(NamedSlot.mask))
+				if (itemSlot.Item == null) continue;
+				if (itemSlot.ItemAttributes.CanConnectToTank)
 				{
-					if (itemSlot.Item == null) continue;
-					if (itemSlot.ItemAttributes.CanConnectToTank)
-					{
-						HasMask = true;
-						break;
-					}
+					hasMask = true;
+					break;
 				}
+			}
 
-				bool internalsEnabled = playerScript.Equipment.IsInternalsEnabled; //TPODPPPP
-				if (HasMask && internalsEnabled)
+			var internalsEnabled = playerScript.Equipment.IsInternalsEnabled; //TPODPPPP
+			if (hasMask && internalsEnabled)
+			{
+				foreach (var gasSlot in playerScript.DynamicItemStorage.GetGasSlots())
 				{
-					foreach (var gasSlot in playerScript.DynamicItemStorage.GetGasSlots())
+					if (gasSlot.Item == null) continue;
+					var gasContainer = gasSlot.Item.GetComponent<GasContainer>();
+					if (gasContainer)
 					{
-						if (gasSlot.Item == null) continue;
-						var gasContainer = gasSlot.Item.GetComponent<GasContainer>();
-						if (gasContainer)
-						{
-							return gasContainer;
-						}
+						return gasContainer;
 					}
 				}
 			}

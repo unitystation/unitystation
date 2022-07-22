@@ -74,7 +74,7 @@ namespace HealthV2
 
 		public override void OnGib()
 		{
-			//Drop everything			
+			//Drop everything
 			Inventory.ServerDropAll(dynamicItemStorage);
 
 			base.OnGib();
@@ -100,79 +100,76 @@ namespace HealthV2
 		/// </summary>
 		protected override void OnDeathActions()
 		{
-			if (CustomNetworkManager.Instance._isServer)
+			if (CustomNetworkManager.Instance._isServer == false) return;
+
+			PlayerInfo player = gameObject.Player();
+
+			string killerName = null;
+			if (LastDamagedBy != null)
 			{
-				PlayerInfo player = gameObject.Player();
-
-				string killerName = null;
-				if (LastDamagedBy != null)
+				if (LastDamagedBy.TryGetPlayer(out var lastDamager))
 				{
-					if (LastDamagedBy.TryGetPlayer(out var lastDamager))
-					{
-						killerName = lastDamager.Name;
-						AutoMod.ProcessPlayerKill(lastDamager, player);
-					}
+					killerName = lastDamager.Name;
+					AutoMod.ProcessPlayerKill(lastDamager, player);
 				}
-
-				if (killerName == null)
-				{
-					killerName = "stressful work";
-				}
-
-				string playerName = player?.Name ?? "dummy";
-				if (killerName == playerName)
-				{
-					Chat.AddActionMsgToChat(gameObject, "You committed suicide, what a waste.", $"{playerName} committed suicide.");
-				}
-				else if (killerName.EndsWith(playerName))
-				{
-					string themself = null;
-					if (player != null)
-					{
-						themself = player.CharacterSettings?.ThemselfPronoun(player.Script);
-					}
-					if (themself == null)
-					{
-						themself = "themself";
-					}
-					//chain reactions
-					Chat.AddActionMsgToChat(gameObject, $"You screwed yourself up with some help from {killerName}",
-						$"{playerName} screwed {themself} up with some help from {killerName}");
-				}
-				else
-				{
-					PlayerList.Instance.TrackKill(LastDamagedBy, gameObject);
-				}
-
-				//drop items in hand
-				if (dynamicItemStorage != null)
-				{
-					foreach (var itemSlot in dynamicItemStorage.GetHandSlots())
-					{
-						Inventory.ServerDrop(itemSlot);
-					}
-				}
-
-				if (isServer)
-				{
-					//TODO: Re - impliment this using the new reagent- first code introduced in PR #6810
-					//EffectsFactory.BloodSplat(RegisterTile.WorldPositionServer);
-					string their = null;
-					if (player != null)
-					{
-						their = player.CharacterSettings?.TheirPronoun(player.Script);
-					}
-
-					if (their == null)
-					{
-						their = "their";
-					}
-
-					Chat.AddLocalMsgToChat($"<b>{player.Name}</b> seizes up and falls limp, {their} eyes dead and lifeless...", gameObject);
-				}
-
-				TriggerEventMessage.SendTo(gameObject, Event.PlayerDied);
 			}
+
+			if (killerName == null)
+			{
+				killerName = "stressful work";
+			}
+
+			string playerName = player?.Name ?? "dummy";
+			if (killerName == playerName)
+			{
+				Chat.AddActionMsgToChat(gameObject, "You committed suicide, what a waste.", $"{playerName} committed suicide.");
+			}
+			else if (killerName.EndsWith(playerName))
+			{
+				string themself = null;
+				if (player != null)
+				{
+					themself = player.CharacterSettings?.ThemselfPronoun(player.Script);
+				}
+				if (themself == null)
+				{
+					themself = "themself";
+				}
+
+				//chain reactions
+				Chat.AddActionMsgToChat(gameObject, $"You screwed yourself up with some help from {killerName}",
+					$"{playerName} screwed {themself} up with some help from {killerName}");
+			}
+			else
+			{
+				PlayerList.Instance.TrackKill(LastDamagedBy, gameObject);
+			}
+
+			//drop items in hand
+			if (dynamicItemStorage != null)
+			{
+				foreach (var itemSlot in dynamicItemStorage.GetHandSlots())
+				{
+					Inventory.ServerDrop(itemSlot);
+				}
+			}
+
+			//TODO: Re - impliment this using the new reagent- first code introduced in PR #6810
+			//EffectsFactory.BloodSplat(RegisterTile.WorldPositionServer);
+			string their = null;
+			if (player != null)
+			{
+				their = player.CharacterSettings?.TheirPronoun(player.Script);
+			}
+
+			if (their == null)
+			{
+				their = "their";
+			}
+
+			Chat.AddLocalMsgToChat($"<b>{player.Name}</b> seizes up and falls limp, {their} eyes dead and lifeless...", gameObject);
+
+			TriggerEventMessage.SendTo(gameObject, Event.PlayerDied);
 		}
 
 		#region Sickness
