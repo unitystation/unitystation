@@ -156,6 +156,12 @@ namespace Objects.Construction
 		[Server]
 		protected virtual void ChangeAnchorStatus(HandApply interaction, bool newState)
 		{
+			if (newState == false)
+			{
+				objectPhysics.ServerSetAnchored(false, interaction.Performer);
+				return;
+			}
+			
 			var interactableTiles = InteractableTiles.GetAt(interaction.TargetObject.TileWorldPosition(), true);
 			Vector3Int cellPos = interactableTiles.WorldToCell(interaction.TargetObject.TileWorldPosition());
 			interactableTiles.TileChangeManager.MetaTileMap.SetTile(cellPos, layerTile);
