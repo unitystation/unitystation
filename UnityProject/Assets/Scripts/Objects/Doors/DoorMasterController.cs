@@ -124,10 +124,14 @@ namespace Doors
 
 			closedSortingLayer = SortingLayer.NameToID("Doors Closed");
 
+			openLayer = LayerMask.NameToLayer("Door Open");
+			openSortingLayer = SortingLayer.NameToID("Doors Open");
+
 			if (TryGetComponent<FireLock>(out _))
 			{
 				isFireLock = true;
 				closedSortingLayer = SortingLayer.NameToID("WallObject");
+				openSortingLayer = SortingLayer.NameToID("Machines");
 			}
 
 			openLayer = LayerMask.NameToLayer("Door Open");
@@ -716,7 +720,7 @@ namespace Doors
 			// After the door opens, wait until it's supposed to close.
 			yield return WaitFor.Seconds(maxTimeOpen);
 
-			if(blockAutoClose == false) yield break;
+			if(blockAutoClose) yield break;
 
 			if(isAutomatic == false) yield break;
 
