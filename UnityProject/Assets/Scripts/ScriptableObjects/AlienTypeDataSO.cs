@@ -2,6 +2,7 @@
 using Systems.Antagonists;
 using Systems.Spells;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace ScriptableObjects
 {
@@ -11,11 +12,13 @@ namespace ScriptableObjects
 		public AlienPlayer.AlienTypes AlienType;
 		public float Speed;
 
+		public int MaxPlasma = 100;
+
 		public SpriteDataSO Normal;
 		public SpriteDataSO Dead;
 		public SpriteDataSO Pounce;
 		public SpriteDataSO Sleep;
-		public SpriteDataSO Unconcious;
+		[FormerlySerializedAs("Unconcious")] public SpriteDataSO Unconscious;
 		public SpriteDataSO Running;
 		public SpriteDataSO Front;
 		public SpriteDataSO Back;
