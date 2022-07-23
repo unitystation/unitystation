@@ -32,6 +32,12 @@ public class ChatInputContext : IChatInputContext
 				return ChatChannel.Blob;
 			}
 
+			// Player is alien?
+			if (PlayerManager.LocalPlayerScript.PlayerState == PlayerScript.PlayerStates.Alien)
+			{
+				return ChatChannel.Alien;
+			}
+
 			// Player is some spooky ghost?
 			if (PlayerManager.LocalPlayerScript.IsDeadOrGhost)
 			{

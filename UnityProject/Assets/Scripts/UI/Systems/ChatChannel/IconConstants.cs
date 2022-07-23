@@ -21,7 +21,8 @@ namespace UI
 				{ChatChannel.Syndicate, ""}, //fa-bomb
 				{ChatChannel.Security, ""}, //fa-crosshairs
 				{ChatChannel.Ghost, ""}, //fa-snapchat-ghost
-				{ChatChannel.Blob, ""} //fa-snapchat-ghost
+				{ChatChannel.Blob, ""}, //fa-bullseye (TODO: not sure how to actually add these? just using ghost for now)
+				{ChatChannel.Alien, ""} //fa-podcast
 			};
 	}
 }

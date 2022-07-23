@@ -176,17 +176,35 @@ public class ChatRelay : NetworkBehaviour
 
 		for (var i = 0; i < players.Count; i++)
 		{
-			ChatChannel channels = chatEvent.channels;
+			ChatChannel channel = chatEvent.channels;
 
-			if (channels.HasFlag(ChatChannel.Combat) || channels.HasFlag(ChatChannel.Local) ||
-			    channels.HasFlag(ChatChannel.System) || channels.HasFlag(ChatChannel.Examine) ||
-			    channels.HasFlag(ChatChannel.Action))
+			if (channel.HasFlag(ChatChannel.Combat) || channel.HasFlag(ChatChannel.Local) ||
+			    channel.HasFlag(ChatChannel.System) || channel.HasFlag(ChatChannel.Examine) ||
+			    channel.HasFlag(ChatChannel.Action))
 			{
 
-				//Binary check here to avoid speaking in local when speaking on binary
-				if (channels.HasFlag(ChatChannel.Binary) && players[i].Script.IsGhost == false) continue;
+				//Check here to avoid speaking in local when speaking on non verbal channels
+				//If local chat check for any Chat.NonVerbalChannels in all the channels sent and don't do local
+				var doNotDoLocal = channel.HasFlag(ChatChannel.Local) &&
+				                (chatEvent.allChannels & Chat.NonVerbalChannels) != 0;
 
-				UpdateChatMessage.Send(players[i].GameObject, channels, chatEvent.modifiers, chatEvent.message,
+
+				if (doNotDoLocal)
+				{
+					//Basically if we shouldn't do local due to channels containing binary or some other nonverbal (see above)
+					//Then AND in all SpeechChannels, remove local if there none then it means we don't need to be verbal
+					//As a channel such as command wont be there
+					//This whole system allows for e.g Ai to speak to command and binary (and so do local), but if only binary
+					//then no local (Yes it's complicated just for that)
+					var channelsCleaned = chatEvent.allChannels;
+					channelsCleaned &= Chat.SpeechChannels;
+					channelsCleaned ^= ChatChannel.Local;
+					doNotDoLocal = channelsCleaned == ChatChannel.None;
+
+					if(doNotDoLocal) continue;
+				}
+
+				UpdateChatMessage.Send(players[i].GameObject, channel, chatEvent.modifiers, chatEvent.message,
 					loud, chatEvent.messageOthers,
 					chatEvent.originator, chatEvent.speaker, chatEvent.stripTags);
 
@@ -195,17 +213,17 @@ public class ChatRelay : NetworkBehaviour
 
 			if (players[i].Script == null)
 			{
-				channels &= ChatChannel.OOC;
+				channel &= ChatChannel.OOC;
 			}
 			else
 			{
-				channels &= players[i].Script.GetAvailableChannelsMask(false);
+				channel &= players[i].Script.GetAvailableChannelsMask(false);
 			}
 
 			//if the mask ends up being a big fat 0 then don't do anything
-			if (channels != ChatChannel.None)
+			if (channel != ChatChannel.None)
 			{
-				UpdateChatMessage.Send(players[i].GameObject, channels, chatEvent.modifiers, chatEvent.message, loud,
+				UpdateChatMessage.Send(players[i].GameObject, channel, chatEvent.modifiers, chatEvent.message, loud,
 					chatEvent.messageOthers,
 					chatEvent.originator, chatEvent.speaker, chatEvent.stripTags);
 			}

@@ -93,6 +93,7 @@ public enum Loudness
 public class ChatEvent
 {
 	public ChatChannel channels;
+	public ChatChannel allChannels;
 	public string message;
 	public string messageOthers;
 	public ChatModifier modifiers = ChatModifier.None;

@@ -39,6 +39,8 @@ public partial class Chat : MonoBehaviour
 		var channels = chatEvent.channels;
 		StringBuilder discordMessageBuilder = new StringBuilder();
 
+		chatEvent.allChannels = channels;
+
 		// There could be multiple channels we need to send a message for each.
 		// We do this on the server side so that local chans can be validated correctly
 		foreach (ChatChannel channel in channels.GetFlags())

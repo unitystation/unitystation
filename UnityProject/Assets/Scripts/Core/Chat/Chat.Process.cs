@@ -49,6 +49,7 @@ public partial class Chat
 	public Color combatColor;
 	public Color warningColor;
 	public Color blobColor;
+	public Color alienColor;
 	public Color defaultColor;
 
 	private static bool playedSound;
@@ -60,7 +61,7 @@ public partial class Chat
 	/// <summary>
 	/// This channels can't be heared as sound by other players (like binary or changeling hivemind)
 	/// </summary>
-	public static readonly ChatChannel NonVerbalChannels = ChatChannel.Binary | ChatChannel.Ghost | ChatChannel.Blob;
+	public static readonly ChatChannel NonVerbalChannels = ChatChannel.Binary | ChatChannel.Ghost | ChatChannel.Blob | ChatChannel.Alien;
 
 	/// <summary>
 	/// This channels are OOC or service messages and shouldn't affect IC communications
@@ -73,6 +74,15 @@ public partial class Chat
 	/// This channels are either non verbal communication (Ghost, Binary) or some serivice channel (OOC, Action)
 	/// </summary>
 	public static readonly ChatChannel NonSpeechChannels = NonVerbalChannels | ServiceChannels;
+
+	/// <summary>
+	/// This channels that are verbal
+	/// </summary>
+	public static readonly ChatChannel SpeechChannels = ChatChannel.Local | ChatChannel.Command | ChatChannel.CentComm
+	                                                    | ChatChannel.Supply | ChatChannel.Engineering | ChatChannel.Medical |
+	                                                    ChatChannel.Science | ChatChannel.Security | ChatChannel.Service
+	                                                    | ChatChannel.Syndicate | ChatChannel.Engineering | ChatChannel.Medical |
+	                                                    ChatChannel.Science;
 
 	/// <summary>
 	/// Processes a message to be used in the chat log and chat bubbles.
@@ -614,6 +624,7 @@ public partial class Chat
 		if (channel.HasFlag(ChatChannel.Combat)) return ColorUtility.ToHtmlStringRGBA(Instance.combatColor);
 		if (channel.HasFlag(ChatChannel.Warning)) return ColorUtility.ToHtmlStringRGBA(Instance.warningColor);
 		if (channel.HasFlag(ChatChannel.Blob)) return ColorUtility.ToHtmlStringRGBA(Instance.blobColor);
+		if (channel.HasFlag(ChatChannel.Alien)) return ColorUtility.ToHtmlStringRGBA(Instance.alienColor);
 		return ColorUtility.ToHtmlStringRGBA(Instance.defaultColor);
 	}
 
@@ -634,7 +645,7 @@ public partial class Chat
 	/// All tags for a radio msg that goes after '.' or ':'
 	/// For example ':e' sends message to engineering channel
 	/// </summary>
-	public readonly static Dictionary<char, ChatChannel> ChanelsTags = new Dictionary<char, ChatChannel>()
+	public readonly static Dictionary<char, ChatChannel> ChannelsTags = new Dictionary<char, ChatChannel>()
 	{
 		{'b', ChatChannel.Binary},
 		{'u', ChatChannel.Supply},
@@ -646,7 +657,8 @@ public partial class Chat
 		{'s', ChatChannel.Security},
 		{'v', ChatChannel.Service},
 		{'t', ChatChannel.Syndicate},
-		{'g', ChatChannel.Ghost}
+		{'g', ChatChannel.Ghost},
+		{'a', ChatChannel.Alien}
 	};
 
 	/// <summary>
@@ -681,9 +693,9 @@ public partial class Chat
 			{
 				var secondLetter = char.ToLower(playerInput[1]);
 				// let's try find desired chanel
-				if (ChanelsTags.ContainsKey(secondLetter))
+				if (ChannelsTags.ContainsKey(secondLetter))
 				{
-					extractedChanel = ChanelsTags[secondLetter];
+					extractedChanel = ChannelsTags[secondLetter];
 					specialCharCount = 2;
 				}
 				else if (secondLetter == 'h')
