@@ -61,47 +61,52 @@ namespace Alien
 				return;
 			}
 
-			var count = 0;
-			while (count != expandCoords.Count)
+			var didTryExpand = false;
+
+			foreach (var coordToTry in expandCoords.Shuffle())
 			{
-				count++;
+				if(ValidateCoord(coordToTry) == false) continue;
+				didTryExpand = true;
 
-				foreach (var coordToTry in expandCoords.Shuffle())
+				expandCoords.Remove(coordToTry);
+
+				var matrixAtPoint = MatrixManager.AtPoint(objectPhysics.OfficialPosition + coordToTry.To3(), true, registerTile.Matrix.MatrixInfo);
+
+				var localPos = coordToTry.To3Int();
+
+				//This currently doesnt allow directional windows to block the spread, the logic would get more
+				//Complicated as we remove the tested tile
+				if(matrixAtPoint.Matrix.IsPassableAtOneMatrixOneTile(localPos, true, false,
+					   ignoreObjects: true) == false) continue;
+
+				//Try put it above normal floor?
+				localPos.z = 1;
+
+				var tileThere = matrixAtPoint.MetaTileMap.GetTile(localPos, true, true);
+
+				if (tileThere != null)
 				{
-					if(ValidateCoord(coordToTry) == false) continue;
-
-					expandCoords.Remove(coordToTry);
-
-					var matrixAtPoint = MatrixManager.AtPoint(objectPhysics.OfficialPosition + coordToTry.To3(), true, registerTile.Matrix.MatrixInfo);
-
-					var localPos = registerTile.LocalPositionServer + coordToTry.To3Int();
-
-					//This currently doesnt allow directional windows to block the spread, the logic would get more
-					//Complicated as we remove the tested tile
-					if(matrixAtPoint.Matrix.IsPassableAtOneMatrixOneTile(localPos, true, false,
-						   ignoreObjects: true) == false) continue;
-
-					//Try put it above normal floor?
-					localPos.z = 1;
-
-					var tileThere = matrixAtPoint.MetaTileMap.GetTile(localPos, true, true);
-
-					if (tileThere != null)
+					foreach (var weedTile in weedTiles)
 					{
-						foreach (var weedTile in weedTiles)
-						{
-							if (weedTile != tileThere) continue;
+						if (weedTile != tileThere) continue;
 
-							coordsDone.Add(coordToTry);
-							return;
-						}
+						coordsDone.Add(coordToTry);
+						return;
 					}
-
-					matrixAtPoint.MetaTileMap.SetTile(localPos, weedTiles.PickRandom());
-
-					coordsDone.Add(coordToTry);
 				}
+
+				matrixAtPoint.MetaTileMap.SetTile(localPos, weedTiles.PickRandom());
+
+				coordsDone.Add(coordToTry);
+
+				//Only do one tile per growth
+				return;
 			}
+
+			if(didTryExpand) return;
+
+			//No reachable places left to expand so stop
+			Stop();
 		}
 
 		private void Stop()
@@ -119,7 +124,7 @@ namespace Alien
 		{
 			foreach (var done in coordsDone)
 			{
-				if((done - localPosition).magnitude.Approx(1) == false) continue;
+				if(((done + registerTile.LocalPositionServer.To2Int()) - localPosition).magnitude.Approx(1) == false) continue;
 
 				return true;
 			}
