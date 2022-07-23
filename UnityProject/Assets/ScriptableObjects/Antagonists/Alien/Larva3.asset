@@ -12,13 +12,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 76ca5856609249ee94d90235cd87c604, type: 3}
   m_Name: Larva3
   m_EditorClassIdentifier: 
+  Name: Mature Larva
   AlienType: 2
   Speed: 10
+  MaxPlasma: 100
   Normal: {fileID: 11400000, guid: 6422a97f2d25fc9419b49f5d247e2ad2, type: 2}
   Dead: {fileID: 11400000, guid: e48aadfcb71af394b8e6f787866fb7fb, type: 2}
   Pounce: {fileID: 0}
   Sleep: {fileID: 11400000, guid: 25f4e246f0d37344986e86d5f2500106, type: 2}
-  Unconcious: {fileID: 11400000, guid: f025bd4f5a9af8b408523c05b12ada58, type: 2}
+  Unconscious: {fileID: 11400000, guid: f025bd4f5a9af8b408523c05b12ada58, type: 2}
   Running: {fileID: 0}
   Front: {fileID: 0}
   Back: {fileID: 0}

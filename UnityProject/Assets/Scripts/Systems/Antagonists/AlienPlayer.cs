@@ -19,6 +19,9 @@ namespace Systems.Antagonists
 		[SerializeField]
 		private List<AlienTypeDataSO> typesToChoose = new List<AlienTypeDataSO>();
 
+		[SerializeField]
+		private AlienTypes startingAlienType = AlienTypes.Larva1;
+
 		//Used to generate names
 		private static int alienCount;
 
@@ -62,6 +65,11 @@ namespace Systems.Antagonists
 			rotatable.OnRotationChange.RemoveListener(OnRotation);
 		}
 
+		private void Start()
+		{
+			SetNewPlayer(startingAlienType);
+		}
+
 		#endregion
 
 		#region Setup
@@ -76,12 +84,12 @@ namespace Systems.Antagonists
 			if (currentData.AlienType == AlienTypes.Queen)
 			{
 				queenCount++;
-				playerScript.playerName = $"{currentData.AlienType.ToString()} {queenCount:D3}";
+				playerScript.playerName = $"{currentData.Name} {queenCount:D3}";
 				return;
 			}
 
 			alienCount++;
-			playerScript.playerName = $"{currentData.AlienType.ToString()} {alienCount:D3}";
+			playerScript.playerName = $"{currentData.Name} {alienCount:D3}";
 		}
 
 		[ContextMenu("To Queen")]

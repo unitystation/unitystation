@@ -22,41 +22,41 @@ namespace Blob
 		[Tooltip("Used for inactive or damaged sprites")]
 		public SpriteDataSO inactiveSprite = null;
 
-		[HideInInspector]
+		[NonSerialized]
 		public Integrity integrity;
 
-		[HideInInspector]
+		[NonSerialized]
 		public List<Vector2Int> expandCoords = new List<Vector2Int>();
 
-		[HideInInspector]
+		[NonSerialized]
 		public List<Vector2Int> healthPulseCoords = new List<Vector2Int>();
 
-		[HideInInspector]
+		[NonSerialized]
 		public bool nodeDepleted;
 
-		[HideInInspector]
+		[NonSerialized]
 		public Vector3Int location;
 
 		public string overmindName;
 
-		[HideInInspector]
+		[NonSerialized]
 		public Armor initialArmor;
 
-		[HideInInspector]
+		[NonSerialized]
 		public Resistances initialResistances;
 
 		private bool initialSet;
 
-		[HideInInspector]
+		[NonSerialized]
 		public bool connectedToBlobNet;
 
-		[HideInInspector]
+		[NonSerialized]
 		public BlobStructure connectedNode;
 
-		[HideInInspector]
+		[NonSerialized]
 		public List<Vector3Int> connectedPath = new List<Vector3Int>();
 
-		[HideInInspector]
+		[NonSerialized]
 		public LineRenderer lineRenderer;
 
 		private void Awake()

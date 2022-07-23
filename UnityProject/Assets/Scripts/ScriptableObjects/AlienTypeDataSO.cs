@@ -9,6 +9,7 @@ namespace ScriptableObjects
 	[CreateAssetMenu(fileName = "AlienTypeData", menuName = "ScriptableObjects/Antagonist/AlienTypeData")]
 	public class AlienTypeDataSO : ScriptableObject
 	{
+		public string Name;
 		public AlienPlayer.AlienTypes AlienType;
 		public float Speed;
 

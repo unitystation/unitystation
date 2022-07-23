@@ -155,7 +155,7 @@ Transform:
   - {fileID: 6973244498870489173}
   - {fileID: 1953996124316780056}
   m_Father: {fileID: 4102488425209486}
-  m_RootOrder: 2
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1054941989428260
 GameObject:
@@ -480,9 +480,9 @@ Transform:
   m_Children:
   - {fileID: 4027748146393864}
   - {fileID: 4304794156734570639}
-  - {fileID: 4962232741225816}
   - {fileID: 269730388917842939}
   - {fileID: 8980916704783218141}
+  - {fileID: 4962232741225816}
   - {fileID: 8022112743560827165}
   - {fileID: 6041869919515743495}
   m_Father: {fileID: 0}
@@ -568,7 +568,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6b405755a3db467098b2349af2167119, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  RaceBodyparts: {fileID: 11400000, guid: f8cc40dce57da8d4aa283decb92b4507, type: 2}
+  RaceBodyparts: {fileID: 11400000, guid: 60f6168d2ada0a34ea579eb77f1fd6b0, type: 2}
   partialBurningPrefab: {fileID: 1558421102126524431, guid: 36094128399f8704da2ff54a58c2f4f5,
     type: 3}
   engulfedBurningPrefab: {fileID: 1558421102126524431, guid: 7a0d54e0877507a4eba1a70784ea9085,
@@ -576,22 +576,9 @@ MonoBehaviour:
   electrocutedPrefab: {fileID: 1558421102126524431, guid: 0cea8096a0de31746a1b6ef11b019ab2,
     type: 3}
   muzzleFlash: {fileID: 114824170203619628}
+  raceOverride: Alien
   livingHealthMasterBase: {fileID: 1354417930896543338}
-  characterSprites:
-  - {fileID: 5811805431220600328}
-  - {fileID: 114998611308440448}
-  - {fileID: 114600225155881128}
-  - {fileID: 114857622421506280}
-  - {fileID: 114176283518884694}
-  - {fileID: 114280887415014694}
-  - {fileID: 114186826461219604}
-  - {fileID: 114150458415481364}
-  - {fileID: 114686590975304092}
-  - {fileID: 114133756563624140}
-  - {fileID: 114352699279829420}
-  - {fileID: 114292210339441364}
-  - {fileID: 114572444233789018}
-  - {fileID: 114683599938915282}
+  characterSprites: []
   ToInstantiateSpriteCustomisation: {fileID: 7987984179268195915, guid: 8e0d016d897a86947a17dcc45971c4c1,
     type: 3}
   CustomisationSprites: {fileID: 975496025995574624}
@@ -1233,7 +1220,7 @@ MonoBehaviour:
   syncInterval: 0.1
   playerNetworkActions: {fileID: 0}
   registerPlayer: {fileID: 0}
-  StandardPopulator: {fileID: 11400000, guid: e9fa91afc36164817bc3c3c26eb54266, type: 2}
+  StandardPopulator: {fileID: 0}
 --- !u!114 &3160124018402396833
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8040,7 +8027,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 4102488425209486}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &259398905212514923
 SpriteRenderer:
@@ -8083,7 +8070,7 @@ SpriteRenderer:
   m_SortingLayerID: -902452607
   m_SortingLayer: 22
   m_SortingOrder: 10
-  m_Sprite: {fileID: 21300008, guid: 50b6832cc0356dd48be7f69c661271d0, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 50b6832cc0356dd48be7f69c661271d0, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -8188,7 +8175,7 @@ SpriteRenderer:
   m_SortingLayerID: -902452607
   m_SortingLayer: 22
   m_SortingOrder: 20
-  m_Sprite: {fileID: 8165807964432903219, guid: 2adbceb9cc674484cb9a2c58b41d5493,
+  m_Sprite: {fileID: 7660122581263827943, guid: 2adbceb9cc674484cb9a2c58b41d5493,
     type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -8487,7 +8474,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 4102488425209486}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &8689618426287489898
 SpriteRenderer:

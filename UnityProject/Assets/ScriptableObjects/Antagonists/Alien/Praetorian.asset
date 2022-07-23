@@ -12,13 +12,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 76ca5856609249ee94d90235cd87c604, type: 3}
   m_Name: Praetorian
   m_EditorClassIdentifier: 
+  Name: Praetorian
   AlienType: 5
   Speed: 5
+  MaxPlasma: 100
   Normal: {fileID: 11400000, guid: 6b5e9a502852e304387d5c6ddac2d221, type: 2}
   Dead: {fileID: 11400000, guid: 8ef039b21f34aa34a989e358ea73d763, type: 2}
   Pounce: {fileID: 0}
   Sleep: {fileID: 11400000, guid: 7dffedd3bb326ae41ae00cbd27c52592, type: 2}
-  Unconcious: {fileID: 11400000, guid: 5924e87240ef11b42ab4f0f017ae228b, type: 2}
+  Unconscious: {fileID: 11400000, guid: 5924e87240ef11b42ab4f0f017ae228b, type: 2}
   Running: {fileID: 0}
   Front: {fileID: 11400000, guid: b781aa2828bb62a449749eb0328fc9b5, type: 2}
   Back: {fileID: 11400000, guid: 9cc2e2c65fcde254eb52c8a6eb80091c, type: 2}

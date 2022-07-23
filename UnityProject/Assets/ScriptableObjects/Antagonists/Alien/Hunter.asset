@@ -12,13 +12,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 76ca5856609249ee94d90235cd87c604, type: 3}
   m_Name: Hunter
   m_EditorClassIdentifier: 
+  Name: Hunter
   AlienType: 3
   Speed: 10
+  MaxPlasma: 100
   Normal: {fileID: 0}
   Dead: {fileID: 0}
   Pounce: {fileID: 0}
   Sleep: {fileID: 0}
-  Unconcious: {fileID: 0}
+  Unconscious: {fileID: 0}
   Running: {fileID: 0}
   Front: {fileID: 0}
   Back: {fileID: 0}
