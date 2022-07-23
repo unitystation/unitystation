@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using HealthV2;
 using Mirror;
+using Player.Movement;
 using ScriptableObjects;
 using Tiles;
 using UnityEngine;
@@ -71,6 +72,8 @@ namespace Systems.Antagonists
 			UpdateManager.Add(OnUpdate, 1f);
 			livingHealthMasterBase.OnConsciousStateChangeServer.AddListener(OnConsciousHealthChange);
 			rotatable.OnRotationChange.AddListener(OnRotation);
+			playerScript.registerTile.OnLyingDownChangeEvent.AddListener(OnLyingDownChange);
+			playerScript.PlayerSync.MovementStateEventServer.AddListener(OnMovementTypeChange);
 		}
 
 		private void OnDisable()
@@ -78,6 +81,8 @@ namespace Systems.Antagonists
 			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, OnUpdate);
 			livingHealthMasterBase.OnConsciousStateChangeServer.RemoveListener(OnConsciousHealthChange);
 			rotatable.OnRotationChange.RemoveListener(OnRotation);
+			playerScript.registerTile.OnLyingDownChangeEvent.RemoveListener(OnLyingDownChange);
+			playerScript.PlayerSync.MovementStateEventServer.RemoveListener(OnMovementTypeChange);
 		}
 
 		private void Start()
@@ -180,9 +185,7 @@ namespace Systems.Antagonists
 
 			currentData = typeFound[0];
 
-			currentAlienMode = AlienMode.Normal;
-
-			ChangeAlienSprite(currentAlienMode);
+			ChangeAlienState(AlienMode.Normal);
 		}
 
 		#endregion
@@ -238,7 +241,43 @@ namespace Systems.Antagonists
 			if(isDead) return;
 			isDead = true;
 
+			ChangeAlienState(AlienMode.Dead);
+
 			//TODO say on alien chat they've died!
+		}
+
+		#endregion
+
+		#region Sleep
+
+		private void OnLyingDownChange(bool isLyingDown)
+		{
+			if(CustomNetworkManager.IsServer == false) return;
+
+			if(livingHealthMasterBase.IsDead) return;
+
+			if (isLyingDown)
+			{
+				ChangeAlienState(AlienMode.Sleep);
+				return;
+			}
+
+			OnMovementTypeChange(playerScript.PlayerSync.CurrentMovementType == MovementType.Running);
+		}
+
+		#endregion
+
+		#region Movement
+
+		private void OnMovementTypeChange(bool isRunning)
+		{
+			if(CustomNetworkManager.IsServer == false) return;
+
+			if(livingHealthMasterBase.IsDead) return;
+
+			if (playerScript.registerTile.IsLayingDown) return;
+
+			ChangeAlienState(isRunning ? AlienMode.Running : AlienMode.Normal);
 		}
 
 		#endregion
@@ -312,6 +351,16 @@ namespace Systems.Antagonists
 
 			mainSpriteHandler.ChangeSpriteVariant(spriteVariant, false);
 			mainBackSpriteHandler.ChangeSpriteVariant(spriteVariant, false);
+		}
+
+		#endregion
+
+		#region Misc
+
+		private void ChangeAlienState(AlienMode newState)
+		{
+			currentAlienMode = newState;
+			ChangeAlienSprite(currentAlienMode);
 		}
 
 		#endregion

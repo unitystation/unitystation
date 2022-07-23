@@ -643,7 +643,7 @@ public class MouseInputController : MonoBehaviour
 		return false;
 	}
 
-	private void ChangeDirection()
+	protected void ChangeDirection()
 	{
 		Vector3 playerPos;
 

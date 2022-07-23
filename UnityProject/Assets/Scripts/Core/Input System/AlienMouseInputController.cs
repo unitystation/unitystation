@@ -28,7 +28,9 @@ public class AlienMouseInputController : MouseInputController
 
 		if (CommonInput.GetMouseButtonDown(0))
 		{
+			//TODO attack interaction
 
+			ChangeDirection();
 		}
 		else
 		{

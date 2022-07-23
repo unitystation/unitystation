@@ -76,6 +76,12 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 
 	public bool IsBumping = false;
 
+	/// <summary>
+	/// Event which fires when movement type changes (run/walk)
+	/// </summary>
+	[NonSerialized]
+	public MovementStateEvent MovementStateEventServer = new MovementStateEvent();
+
 	public void CallActionClient()
 	{
 		CmdUnbuckle();
@@ -398,6 +404,7 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 	{
 		if (CurrentMovementType == MovementType.Crawling) return;
 		CurrentMovementType = isRunning ? MovementType.Running : MovementType.Walking;
+		MovementStateEventServer?.Invoke(isRunning);
 	}
 
 	public override void OnEnable()
@@ -1307,6 +1314,9 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 /// <summary>
 /// Cuff state changed, provides old state and new state as 1st and 2nd args
 /// </summary>
-public class CuffEvent : UnityEvent<bool, bool>
-{
-}
+public class CuffEvent : UnityEvent<bool, bool> { }
+
+/// <summary>
+/// Event which fires when movement type changes (run/walk)
+/// </summary>
+public class MovementStateEvent : UnityEvent<bool> { }
