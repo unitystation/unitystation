@@ -15,6 +15,9 @@ namespace ScriptableObjects
 
 		public int MaxPlasma = 100;
 
+		//Per second
+		public int PlasmaGainRate = 3;
+
 		public SpriteDataSO Normal;
 		public SpriteDataSO Dead;
 		public SpriteDataSO Pounce;

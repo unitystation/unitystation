@@ -4,6 +4,7 @@ using System.Linq;
 using HealthV2;
 using Mirror;
 using ScriptableObjects;
+using Tiles;
 using UnityEngine;
 
 namespace Systems.Antagonists
@@ -21,6 +22,9 @@ namespace Systems.Antagonists
 
 		[SerializeField]
 		private AlienTypes startingAlienType = AlienTypes.Larva1;
+
+		[SerializeField]
+		private List<LayerTile> weedTiles = new List<LayerTile>();
 
 		//Used to generate names
 		private static int alienCount;
@@ -41,6 +45,8 @@ namespace Systems.Antagonists
 		private PlayerScript playerScript;
 		private LivingHealthMasterBase livingHealthMasterBase;
 		private Rotatable rotatable;
+
+		private RegisterPlayer registerPlayer => playerScript.registerTile;
 
 		#region LifeCycle
 
@@ -111,6 +117,8 @@ namespace Systems.Antagonists
 			//Dead...
 			if(livingHealthMasterBase.IsDead) return;
 
+			PlasmaCheck();
+
 			LarvaUpdate();
 		}
 
@@ -166,6 +174,37 @@ namespace Systems.Antagonists
 			currentAlienMode = AlienMode.Normal;
 
 			ChangeAlienSprite(currentAlienMode);
+		}
+
+		#endregion
+
+		#region Plasma
+
+		private void PlasmaCheck()
+		{
+			//Don't need to check if full
+			if(currentPlasma == currentData.MaxPlasma) return;
+
+			var tileThere = registerPlayer.Matrix.MetaTileMap.GetTile(registerPlayer.LocalPositionServer, true, true);
+
+			if(tileThere == null) return;
+
+			var onWeedTile = false;
+			foreach (var weedTile in weedTiles)
+			{
+				if (weedTile != tileThere) continue;
+
+				onWeedTile = true;
+				break;
+			}
+
+			if(onWeedTile == false) return;
+
+			var change = currentPlasma + currentData.PlasmaGainRate;
+
+			change = Mathf.Clamp(change, 0, currentData.MaxPlasma);
+
+			currentPlasma = change;
 		}
 
 		#endregion

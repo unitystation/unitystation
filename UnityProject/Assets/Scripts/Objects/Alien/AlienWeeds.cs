@@ -95,10 +95,7 @@ namespace Alien
 
 		private void ChangeTile(Vector3Int localPos, Vector2Int coordToTry, MatrixInfo matrixAtPoint)
 		{
-			//Try put it above normal floor?
-			localPos.z = 1;
-
-			var tileThere = matrixAtPoint.MetaTileMap.GetTile(localPos, true, true);
+			var tileThere = matrixAtPoint.MetaTileMap.GetTile(localPos, true);
 
 			if (tileThere != null)
 			{
