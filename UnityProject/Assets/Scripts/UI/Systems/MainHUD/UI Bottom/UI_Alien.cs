@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Systems.Antagonists;
+using TMPro;
 using UI.Core.Animations;
 using UnityEngine;
 using UnityEngine.UI;
@@ -27,6 +28,10 @@ namespace UI.Systems.MainHUD.UI_Bottom
 		[SerializeField]
 		private List<SpriteDataSO> queenFinderSprites = new List<SpriteDataSO>();
 
+
+		[SerializeField]
+		private TMP_Text plasmaText = null;
+
 		public void SetUp(AlienPlayer player)
 		{
 			alienPlayer = player;
@@ -51,6 +56,8 @@ namespace UI.Systems.MainHUD.UI_Bottom
 			HealthCheck();
 
 			QueenCheck();
+
+			PlasmaCheck();
 		}
 
 		private void HealthCheck()
@@ -157,6 +164,11 @@ namespace UI.Systems.MainHUD.UI_Bottom
 					Logger.LogError($"Angle was: {angle} degrees, no case for it!");
 					return;
 			}
+		}
+
+		private void PlasmaCheck()
+		{
+			plasmaText.text = $"{alienPlayer.CurrentPlasmaPercentage}%";
 		}
 	}
 }

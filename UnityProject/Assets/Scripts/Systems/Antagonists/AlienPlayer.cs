@@ -43,6 +43,7 @@ namespace Systems.Antagonists
 		[SyncVar]
 		private int currentPlasma;
 		public int CurrentPlasma => currentPlasma;
+		public float CurrentPlasmaPercentage => currentPlasma / (float)currentData.MaxPlasma;
 
 		private LivingHealthMasterBase livingHealthMasterBase;
 		public LivingHealthMasterBase LivingHealthMasterBase => livingHealthMasterBase;
