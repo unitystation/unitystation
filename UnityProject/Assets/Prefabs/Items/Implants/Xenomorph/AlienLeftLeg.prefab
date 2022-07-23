@@ -94,3 +94,28 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1f74ff76597345148a3687fa9467b3ab, type: 3}
+--- !u!1 &278567592626375938 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3440516173299570378, guid: 1f74ff76597345148a3687fa9467b3ab,
+    type: 3}
+  m_PrefabInstance: {fileID: 3198259993131326408}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &4144385843272780
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 278567592626375938}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4ac414987522b024e895aac3e21193d0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isEMPVunerable: 0
+  EMPResistance: 2
+  walkingSpeed: 1.5
+  runningSpeed: 3
+  crawlingSpeed: 0.1
+  armEfficiency: 0.1
+  legEfficiency: 1

@@ -42,6 +42,10 @@ namespace Player
 		[SerializeField]
 		private LightSprite muzzleFlash = default;
 
+		[Tooltip("Override the race of the character sheet")]
+		[SerializeField]
+		private string raceOverride = "";
+
 		#endregion Inspector fields
 
 		public LivingHealthMasterBase livingHealthMasterBase;
@@ -418,9 +422,15 @@ namespace Player
 			if (RootBodyPartsLoaded == false)
 			{
 				RootBodyPartsLoaded = true;
-				if (characterSettings == null)
+				var overrideSheet = string.IsNullOrEmpty(raceOverride) == false;
+				if (characterSettings == null || overrideSheet)
 				{
 					characterSettings = new CharacterSheet();
+				}
+
+				if (overrideSheet)
+				{
+					characterSettings.Species = raceOverride;
 				}
 
 				ThisCharacter = characterSettings;
@@ -433,6 +443,12 @@ namespace Player
 						break;
 					}
 				}
+
+				if (RaceBodyparts == null)
+				{
+					Logger.LogError($"Failed to find race for {gameObject.ExpensiveName()} with race: {characterSettings.Species}");
+				}
+
 				livingHealthMasterBase.SetUpCharacter(RaceBodyparts);
 				SetupSprites();
 				livingHealthMasterBase.InitialiseFromRaceData(RaceBodyparts);
