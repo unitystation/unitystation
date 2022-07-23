@@ -162,6 +162,10 @@ MonoBehaviour:
   TrickleTime: 60
   AvailableDesigns: []
   conType: 11
+  easyBlastYieldDetectorTarget: 0
+  hardBlastYieldDetectorTarget: 0
+  yieldTargetRangeMinimum: 1000
+  yieldTargetRangeMaximum: 19000
 --- !u!114 &9065833264468658804
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -188,7 +192,3 @@ MonoBehaviour:
     - {fileID: 577098253553543881, guid: 3a892d56aceb2d24d8c917409cce08c5, type: 3}
   ashPrefab: {fileID: 2957035178188790827, guid: 9ac6968a3f3ed54428662c9aae5a4b32,
     type: 3}
-  easyBlastYieldDetectorTarget: 0
-  hardBlastYieldDetectorTarget: 0
-  yieldTargetRangeMinimum: 1000
-  yieldTargetRangeMaximum: 19000

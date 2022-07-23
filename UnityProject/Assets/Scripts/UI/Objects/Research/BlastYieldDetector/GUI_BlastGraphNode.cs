@@ -5,10 +5,15 @@ namespace UI.Objects.Research
 {
 	public class GUI_BlastGraphNode : DynamicEntry
 	{
+		private GUI_BlastYieldDetector blastGUI;
+		public void Awake()
+		{
+			blastGUI = MasterTab.gameObject.GetComponent<GUI_BlastYieldDetector>();
+		}
+
 		public void SetData()
 		{
-			transform.parent.parent.parent.parent.
-				GetComponent<GUI_BlastYieldDetector>().SetData(transform.GetSiblingIndex());
+			blastGUI.SetCurrentShownData(transform.GetSiblingIndex());
 		}
 	}
 }

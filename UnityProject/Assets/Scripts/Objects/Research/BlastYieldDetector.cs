@@ -1,19 +1,19 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Items.Weapons;
 using Systems.Electricity;
 using Systems.ObjectConnection;
-using Systems.Research;
 using Systems.Research.Objects;
+using UI.Core.Net;
 using UnityEngine;
 
 namespace Research
 {
-	public class BlastYieldDetector : MonoBehaviour, IAPCPowerable, IMultitoolSlaveable
+	public class BlastYieldDetector : MonoBehaviour, IAPCPowerable, IMultitoolSlaveable, ICanOpenNetTab
 	{
 		public ResearchServer researchServer;
-		private Techweb techWeb;
 
 		public float range;
 		[SerializeField] public OrientationEnum coneDirection;
@@ -38,7 +38,10 @@ namespace Research
 		/// </summary>
 		public int easyPointsValue;
 
-		public Vector2[] blastData;
+		/// <summary>
+		/// Data structure for blast data, sorted so that scrolling through the graph makes sense
+		/// </summary>
+		public SortedList<float,float> blastData;
 
 		protected RegisterObject registerObject;
 
@@ -50,7 +53,7 @@ namespace Research
 
 		private void UpdateGui()
 		{
-			// Change event runs updateAll in GUI_ChemMaster
+			// Change event runs UpdateNodes in GUI_BlastYieldDetector
 			if (changeEvent != null)
 			{
 				changeEvent();
@@ -61,9 +64,9 @@ namespace Research
 		{
 			registerObject = GetComponent<RegisterObject>();
 
-			GetYieldTargets();
-
 			ExplosiveBase.ExplosionEvent.AddListener(DetectBlast);
+			blastData = new SortedList<float, float>();
+			GetYieldTargets();
 		}
 
 		/// <summary>
@@ -71,11 +74,9 @@ namespace Research
 		/// </summary>
 		private void GetYieldTargets()
 		{
-			if (maxPointYieldTarget == 0 || easyPointYieldTarget == 0)
-			{
-				maxPointYieldTarget = researchServer.hardBlastYieldDetectorTarget;
-				easyPointYieldTarget = researchServer.easyBlastYieldDetectorTarget;
-			}
+			researchServer.SetBlastYieldTargets();
+			maxPointYieldTarget = researchServer.hardBlastYieldDetectorTarget;
+			easyPointYieldTarget = researchServer.easyBlastYieldDetectorTarget;
 		}
 
 		/// <summary>
@@ -89,7 +90,7 @@ namespace Research
 			Vector2 thisMachine = registerObject.WorldPosition.To2Int();
 
 			float distance = Vector2.Distance(pos.To2Int(), thisMachine);
-			//Distance is checked first to potentially avoid trig calculations.
+			//Distance is checked first to potentially avoid calculations.
 			if (distance > range) return;
 
 			//Math to check for if our explosion falls within a certain angle away from the center of the cone
@@ -105,10 +106,9 @@ namespace Research
 
 			if (angle <= 45)
 			{
+				blastData.Add(explosiveStrength, points);
 				AwardResearchPoints(points);
 			}
-
-			blastData.Append(new Vector2(explosiveStrength, points));
 
 			UpdateGui();
 		}
@@ -171,11 +171,11 @@ namespace Research
 
 		private void SetMaster(IMultitoolMasterable master)
 		{
-			if (master is ResearchServer server && server.techweb != techWeb)
+			if (master is ResearchServer server)
 			{
 				SubscribeToServerEvent(server);
 			}
-			else if (techWeb != null)
+			else if (researchServer != null)
 			{
 				UnSubscribeFromServerEvent();
 			}
@@ -186,21 +186,21 @@ namespace Research
 			UnSubscribeFromServerEvent();
 			ExplosiveBase.ExplosionEvent.AddListener(DetectBlast);
 			researchServer = server;
-			techWeb = server.techweb;
 			GetYieldTargets();
 		}
 
 		private void UnSubscribeFromServerEvent()
 		{
-			if (techWeb == null) return;
+			if (researchServer == null) return;
 			ExplosiveBase.ExplosionEvent.RemoveListener(DetectBlast);
 			researchServer = null;
-			techWeb = null;
+			easyPointYieldTarget = 0;
+			maxPointYieldTarget = 0;
 		}
 
 		#endregion
 
-		#region IAPCPowerable
+		#region IAPCPowerable, ICanOpenNetTab
 
 		public PowerState PoweredState;
 
@@ -217,6 +217,16 @@ namespace Research
 			}
 
 			PoweredState = state;
+		}
+
+		public bool CanOpenNetTab(GameObject playerObject, NetTabType netTabType)
+		{
+			if (PoweredState == PowerState.Off)
+			{
+				Chat.AddExamineMsgFromServer(playerObject, $"{gameObject.ExpensiveName()} is unpowered");
+				return false;
+			}
+			return true;
 		}
 
 		#endregion

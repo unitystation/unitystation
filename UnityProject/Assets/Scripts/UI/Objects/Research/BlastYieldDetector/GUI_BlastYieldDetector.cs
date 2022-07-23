@@ -1,4 +1,8 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
+using Messages.Server;
 using UI.Core.NetUI;
 using UnityEngine;
 using Research;
@@ -7,7 +11,23 @@ namespace UI.Objects.Research
 {
 	public class GUI_BlastYieldDetector : NetTab
 	{
-		public BlastYieldDetector BlastYieldDetector;
+		public BlastYieldDetector blastYieldDetector
+		{
+			get
+			{
+				if (!_blastYieldDetector)
+				{
+					_blastYieldDetector = Provider.GetComponentInChildren<BlastYieldDetector>();
+				}
+
+				return _blastYieldDetector;
+			}
+		}
+
+		private BlastYieldDetector _blastYieldDetector;
+
+		private GUI_BlastYieldDetector clientGUI;
+		private Transform clientGUIGraphTransform;
 
 		#region Serializefields
 		[SerializeField]
@@ -20,7 +40,7 @@ namespace UI.Objects.Research
 		private NetLabel yieldMax;
 
 		[SerializeField]
-		private EmptyItemList graphContainer;
+		public EmptyItemList graphContainer;
 
 		[SerializeField]
 		private NetLabel blastYieldLabel;
@@ -41,109 +61,128 @@ namespace UI.Objects.Research
 		#endregion
 
 		#region Initialization
-		protected override void InitServer()
-		{
-			StartCoroutine(WaitForProvider());
-		}
 
-		private IEnumerator WaitForProvider()
+		//protected override void InitServer()
+		//{
+		//	StartCoroutine(WaitForProvider());
+		//}
+
+		//private IEnumerator WaitForProvider()
+		//{
+		//	while (Provider == null)
+		//	{
+		//		yield return WaitFor.EndOfFrame;
+		//	}
+		//	blastYieldDetector = Provider.GetComponentInChildren<BlastYieldDetector>();
+		private void Start()
 		{
-			while (Provider == null)
-			{
-				yield return WaitFor.EndOfFrame;
-			}
-			// Makes sure it connects with the machine
-			BlastYieldDetector = Provider.GetComponentInChildren<BlastYieldDetector>();
-			// Subscribe to change event from ChemMaster.cs
-			BlastYieldDetector.changeEvent += UpdateAll;
-			UpdateAll();
-			pointsMax.SetValueServer(BlastYieldDetector.maxPointsValue.ToString());
-			yieldMin.SetValueServer(BlastYieldDetector.researchServer.yieldTargetRangeMinimum.ToString());
-			yieldMax.SetValueServer(BlastYieldDetector.researchServer.yieldTargetRangeMaximum.ToString());
+			clientGUI = UIManager.Instance.transform.GetChild(0).GetComponentInChildren<GUI_BlastYieldDetector>();
+			clientGUIGraphTransform = clientGUI.graphContainer.transform;
+			BlastYieldDetector.changeEvent += UpdateNodes;
+			UpdateNodes();
+			pointsMax.SetValueServer(blastYieldDetector.maxPointsValue.ToString());
+			yieldMin.SetValueServer(blastYieldDetector.researchServer.yieldTargetRangeMinimum.ToString());
+			yieldMax.SetValueServer(blastYieldDetector.researchServer.yieldTargetRangeMaximum.ToString());
 		}
 		#endregion
 
-		public void UpdateAll()
+		public void UpdateNodes()
 		{
-			for (;graphContainer.Entries.Length < BlastYieldDetector.blastData.Length;)
+			if (blastYieldDetector != null)
 			{
-				DynamicEntry dot = graphContainer.AddItem();
+				if (blastYieldDetector.blastData.Count == 0)
+					return;
+				graphContainer.SetItems(blastYieldDetector.blastData.Count);
 
-				//blast yield axis position
-				float yield = BlastYieldDetector.blastData[graphContainer.Entries.Length + 1].x;
-				float difference = BlastYieldDetector.researchServer.yieldTargetRangeMaximum -
-				                   BlastYieldDetector.researchServer.yieldTargetRangeMinimum;
-				float dotPosX =
-					(yield *graphContainer.GetComponent<RectTransform>().rect.width) / difference;
-
-
-				//points axis position
-				float points = BlastYieldDetector.blastData[graphContainer.Entries.Length + 1].y;
-				float dotPosY =
-					(points *graphContainer.GetComponent<RectTransform>().rect.height) / BlastYieldDetector.maxPointsValue;
-
-				//position 2d
-				Vector3 dotPosition = new Vector3(dotPosX,dotPosY);
-
-				dot.GetComponent<RectTransform>().position = dotPosition;
+				for(int i = 0;i<blastYieldDetector.blastData.Count;i++)
+				{
+					if(i < clientGUIGraphTransform.childCount)
+						clientGUIGraphTransform.GetChild(i).GetComponent<RectTransform>().anchoredPosition
+						= GetNodePosition(blastYieldDetector.blastData.Keys[i],blastYieldDetector.blastData.Values[i]);
+				}
 			}
 		}
 
-		private int DataShown;
+		public Vector2 GetNodePosition(float yield, float points)
+		{
+			//blast yield axis position
+			float difference = blastYieldDetector.researchServer.yieldTargetRangeMaximum -
+			                   blastYieldDetector.researchServer.yieldTargetRangeMinimum;
+			float yieldClamp = Math.Min(yield,blastYieldDetector.researchServer.yieldTargetRangeMaximum);
+
+			float dotPosX =
+				yieldClamp * graphContainer.GetComponent<RectTransform>().rect.width / difference;
+
+			//points axis position
+			float dotPosY = points * graphContainer.GetComponent<RectTransform>().rect.height
+			                / blastYieldDetector.maxPointsValue;
+
+			//position 2d, third axis isn't important
+			Vector2 dotPosition = new Vector2(dotPosX, dotPosY);
+			return dotPosition;
+		}
+
+		private int dataShown = 0;
 		public void DataLeft()
 		{
-			if (BlastYieldDetector.blastData.Length == 0) return;
-			if (DataShown - 1 < 0)
+			if (blastYieldDetector.blastData.Count == 0) return;
+			if (dataShown - 1 < 0)
 			{
-				DataShown = BlastYieldDetector.blastData.Length;
+				dataShown = blastYieldDetector.blastData.Count-1;
 			}
 			else
 			{
-				DataShown--;
+				dataShown--;
 			}
 
-			UpdateData();
+			UpdateDataDisplay();
 		}
 
 		public void DataRight()
 		{
-			if (BlastYieldDetector.blastData.Length == 0) return;
-			if (DataShown + 1 > BlastYieldDetector.blastData.Length)
+			if (blastYieldDetector.blastData.Count == 0) return;
+			if (dataShown + 1 > blastYieldDetector.blastData.Count-1)
 			{
-				DataShown = 0;
+				dataShown = 0;
 			}
 			else
 			{
-				DataShown++;
+				dataShown++;
 			}
 
-			UpdateData();
+			UpdateDataDisplay();
 		}
 
-		public void SetData(int pos)
+		public void SetCurrentShownData(int pos)
 		{
-			DataShown = pos;
-			UpdateData();
+			dataShown = pos;
+			UpdateDataDisplay();
 		}
-		public void UpdateData()
-		{
-			float yield = BlastYieldDetector.blastData[DataShown].x;
-			float points = BlastYieldDetector.blastData[DataShown].y;
 
-			blastYieldLabel.Value = yield.ToString();
-			pointsLabel.Value = points.ToString();
+		/// <summary>
+		/// Moves highlight lines to current node, and updates labels
+		/// </summary>
+		public void UpdateDataDisplay()
+		{
+			float yield = blastYieldDetector.blastData.Keys[dataShown];
+			float points = blastYieldDetector.blastData.Values[dataShown];
+			Vector2 dataShownPos = GetNodePosition(yield, points);
+
+			blastYieldLabel.SetValueServer(yield.ToString());
+			pointsLabel.SetValueServer(points.ToString());
 
 			Vector3 yieldNewY = yieldNodeHighlight.anchoredPosition;
-			yieldNewY.y = points + rectOffset;
-			yieldNodeHighlight.SetPositionAndRotation(yieldNewY, Quaternion.Euler(Vector3.zero));
+			yieldNewY.y = dataShownPos.y + rectOffset;
+			clientGUI.yieldNodeHighlight.anchoredPosition = yieldNewY;
 
 			Vector3 pointNewX = pointNodeHighlight.anchoredPosition;
-			pointNewX.x = yield + rectOffset;
-			pointNodeHighlight.SetPositionAndRotation(pointNewX, Quaternion.Euler(Vector3.zero));
+			pointNewX.x = dataShownPos.x + rectOffset;
+			clientGUI.pointNodeHighlight.anchoredPosition = pointNewX;
 		}
+
 		public void OnDestroy()
 		{
-			BlastYieldDetector.changeEvent -= UpdateAll;
+			BlastYieldDetector.changeEvent -= UpdateNodes;
 		}
 	}
 }

@@ -391,7 +391,7 @@ GameObject:
   - component: {fileID: 8248919835205351014}
   - component: {fileID: 5514106633101737278}
   m_Layer: 5
-  m_Name: Data
+  m_Name: PointsData
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -864,7 +864,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1767166853519254789}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 4372199341962709596}
+        m_TargetAssemblyTypeName: UI.Core.NetUI.NetUIElement`1[[System.String, mscorlib
+        m_MethodName: ExecuteClient
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &4372199341962709596
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -879,7 +891,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ServerMethod:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 9188945776536452310}
+        m_TargetAssemblyTypeName: UI.Objects.Research.GUI_BlastYieldDetector, Assets
+        m_MethodName: DataRight
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!222 &3652587977497892174
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1078,7 +1102,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 8939384849003421987}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 808747435514476124}
+        m_TargetAssemblyTypeName: UI.Core.NetUI.NetUIElement`1[[System.String, mscorlib
+        m_MethodName: ExecuteClient
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &808747435514476124
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1093,7 +1129,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ServerMethod:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 9188945776536452310}
+        m_TargetAssemblyTypeName: UI.Objects.Research.GUI_BlastYieldDetector, Assets
+        m_MethodName: DataLeft
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!222 &2065091201900017247
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -2456,7 +2504,7 @@ GameObject:
   - component: {fileID: 1296504941464466195}
   - component: {fileID: 5850914726902285252}
   m_Layer: 5
-  m_Name: Data
+  m_Name: YieldData
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

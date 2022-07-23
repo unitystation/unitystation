@@ -1,11 +1,8 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.IO;
-using Communications;
 using Items.Storage.VirtualStorage;
 using Mirror;
-using ScriptableObjects.Research;
 using UnityEngine;
 using Systems.Research.Data;
 using Systems.ObjectConnection;
@@ -15,13 +12,6 @@ namespace Systems.Research.Objects
 {
 	public class ResearchServer : NetworkBehaviour, IMultitoolMasterable
 	{
-		//TODO: PLACE HOLDER UNTIL WE GET A TECHWEB EDITOR OF SOME SORT
-		[SerializeField] private DefaultTechwebData defaultTechwebData;
-		//TODO: PLACEHOLDER, TECHWEBS SHOULD BE STORED LOCALLY ON IN-GAME DISKS/CIRCUITS TO BE STOLEN AND MERGED
-		[SyncVar] public Techweb techweb = new Techweb();
-		//TODO : PLACEHOLDER, THIS PATH MUST BE ASSIGNED ON THE CIRCUIT/DISK INSTEAD OF ON THE SERVER PREFAB
-		[SerializeField] private string techWebPath = "/GameData/Research/";
-		[SerializeField] private string techWebFileName = "TechwebData.json";
 		[SerializeField] private int researchPointsTrickl = 25;
 		[SerializeField] private int TrickleTime = 60; //seconds
 
@@ -55,9 +45,6 @@ namespace Systems.Research.Objects
 				return;
 			}
 
-			SetYieldTargets();
-			if (File.Exists($"{techWebPath}{techWebFileName}") == false) defaultTechwebData.GenerateDefaultData();
-			techweb.LoadTechweb($"{techWebPath}{techWebFileName}");
 			StartCoroutine(TrickleResources());
 			UpdateAvailableDesigns();
 		}
@@ -129,7 +116,8 @@ namespace Systems.Research.Objects
 				//if for whatever reason it has more; it's going to be a bug thats not possible.
 				if (hardDisk.DataOnStorage[0] is TechwebFiles c) techweb = c.Techweb;
 			}
-			
+		}
+
 		public void AddResearchPoints(int points)
 		{
 			techweb.AddResearchPoints(points);
@@ -151,11 +139,11 @@ namespace Systems.Research.Objects
 		/// <summary>
 		/// Target ExplosionStrength required to award easy point amount
 		/// </summary>
-		public int easyBlastYieldDetectorTarget;
+		public int easyBlastYieldDetectorTarget = 0;
 		/// <summary>
 		/// Target ExplosionStrength required to award hard point amount, max amount
 		/// </summary>
-		public int hardBlastYieldDetectorTarget;
+		public int hardBlastYieldDetectorTarget = 0;
 
 		/// <summary>
 		/// ExplosionBase ExplosionStrength threshold to be considered a significant enough
@@ -174,7 +162,7 @@ namespace Systems.Research.Objects
 		/// Sets yield targets to randomised values set between 1000 and 19000, modelled after values for
 		/// ExplosionBase ExplosionStrengths
 		/// </summary>
-		private void SetYieldTargets()
+		public void SetBlastYieldTargets()
 		{
 			if (hardBlastYieldDetectorTarget == 0 || easyBlastYieldDetectorTarget == 0)
 			{
