@@ -73,6 +73,8 @@ namespace Objects
 		[NonSerialized]
 		public UnityEvent<bool> OnStateChange = new UnityEvent<bool>();
 
+		private Vector3 previousDetectPosition;
+
 		private void Awake()
 		{
 			apcPoweredDevice = GetComponent<APCPoweredDevice>();
@@ -449,7 +451,13 @@ namespace Objects
 				//Check to see if we hit a wall or closed door
 				if(linecast.ItHit) continue;
 
+				//Don't spam the detect if the player hasn't moved
+				if(previousDetectPosition == worldPos) continue;
+				previousDetectPosition = worldPos;
+
 				SendAlert(orderedMobs, cameraPos);
+
+				//Only need to detect once
 				break;
 			}
 		}
@@ -463,6 +471,7 @@ namespace Objects
 				Chat.AddExamineMsgFromServer(player, $"ALERT: {gameObject.name} motion sensor activated");
 			}
 
+			//Send message to nearby players seeing the camera detect them
 			foreach (var mob in colliders)
 			{
 				if(mob.TryGetComponent<PlayerScript>(out var script) == false) continue;

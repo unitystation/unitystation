@@ -12,17 +12,24 @@ namespace Doors
 	{
 		public FireAlarm fireAlarm;
 
+		private RegisterTile registerTile;
+
 		private DoorMasterController doorMasterController;
 		public DoorMasterController DoorMasterController => doorMasterController;
 
 		private void Awake()
 		{
 			doorMasterController = GetComponent<DoorMasterController>();
+			registerTile = GetComponent<RegisterTile>();
 		}
 
 		public void ReceiveAlert()
 		{
-			doorMasterController.TryClose();
+			doorMasterController.TryForceClose();
+
+			if(doorMasterController.IsClosed == false) return;
+
+			//registerTile.SetNewSortingOrder(SortingLayer.NameToID("Door Closed"));
 		}
 
 		#region Multitool Interaction

@@ -58,7 +58,21 @@ namespace UI.Items
 			if (uncuffCoroutine != null)
 				StopCoroutine(uncuffCoroutine);
 
-			float resistTime = GameObjectReference.GetComponent<Restraint>().ResistTime;
+			float resistTime = 0;
+
+			if (GameObjectReference == null)
+			{
+				Logger.LogError($"{thisPlayerScript.playerName} cuffed but no GameObjectReference to the cuffs, so uncuffing time set to 30");
+
+				//Default to 30 seconds
+				resistTime = 30;
+			}
+			else
+			{
+				resistTime = GameObjectReference.GetComponent<Restraint>().ResistTime;
+			}
+
+
 			positionCache = thisPlayerScript.registerTile.LocalPositionServer;
 			if (!CanUncuff()) return;
 
