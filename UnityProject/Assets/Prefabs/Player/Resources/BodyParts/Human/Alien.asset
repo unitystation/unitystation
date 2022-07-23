@@ -14,28 +14,35 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Base:
     Head:
-      Elements: []
+      Elements:
+      - {fileID: 5090303986049672628, guid: 7ef2e5135a5194647a916f53cd8636a6, type: 3}
     Torso:
-      Elements: []
+      Elements:
+      - {fileID: 1913803608538927147, guid: 91200f794e99e8147ab4e9b5ab32b66e, type: 3}
     ArmRight:
-      Elements: []
+      Elements:
+      - {fileID: 6929745943876400093, guid: 5159970d6532f3e46b8b6e57997e115e, type: 3}
     ArmLeft:
-      Elements: []
+      Elements:
+      - {fileID: 4765282443109851668, guid: 75e18304c88acf4419ebf1405ea10783, type: 3}
     LegRight:
-      Elements: []
+      Elements:
+      - {fileID: 8373094838245108935, guid: 809bc801943bfb34dbc81b0cd43b9f5f, type: 3}
     LegLeft:
-      Elements: []
+      Elements:
+      - {fileID: 278567592626375938, guid: 44e3ea029dd328a469544bc9cdfde403, type: 3}
     CustomisationSettings: []
     bodyTypeSettings:
       AvailableBodyTypes: []
     SkinColours: []
-    BloodType: {fileID: 0}
+    BloodType: {fileID: 11400000, guid: af0b3c550afbc3a428e581f7c1de2b49, type: 2}
     RootImplantProcedure: {fileID: 0}
     BodyPartsThatShareTheSkinTone: []
     NumberOfMinutesBeforeStarving: 30
     TotalToxinGenerationPerSecond: 0.1
     InternalMetabolismPerSecond: 1
     ExternalMetabolismPerSecond: 2
-    BodyNutriment: {fileID: 0}
-    BodyNaturalToxinReagent: {fileID: 0}
-    ClueString: 
+    BodyNutriment: {fileID: 11400000, guid: 068bcb587110477558045ad0cfd78237, type: 2}
+    BodyNaturalToxinReagent: {fileID: 11400000, guid: 6c3a3878e8878972ea633a27c6d0ba12,
+      type: 2}
+    ClueString: saliva?

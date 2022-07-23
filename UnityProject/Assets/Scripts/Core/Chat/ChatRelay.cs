@@ -182,15 +182,15 @@ public class ChatRelay : NetworkBehaviour
 			    channels.HasFlag(ChatChannel.System) || channels.HasFlag(ChatChannel.Examine) ||
 			    channels.HasFlag(ChatChannel.Action))
 			{
-				//Binary check here to avoid speaking in local when speaking on binary
-				if (!channels.HasFlag(ChatChannel.Binary) || players[i].Script.IsGhost)
-				{
-					UpdateChatMessage.Send(players[i].GameObject, channels, chatEvent.modifiers, chatEvent.message,
-						loud, chatEvent.messageOthers,
-						chatEvent.originator, chatEvent.speaker, chatEvent.stripTags);
 
-					continue;
-				}
+				//Binary check here to avoid speaking in local when speaking on binary
+				if (channels.HasFlag(ChatChannel.Binary) && players[i].Script.IsGhost == false) continue;
+
+				UpdateChatMessage.Send(players[i].GameObject, channels, chatEvent.modifiers, chatEvent.message,
+					loud, chatEvent.messageOthers,
+					chatEvent.originator, chatEvent.speaker, chatEvent.stripTags);
+
+				continue;
 			}
 
 			if (players[i].Script == null)

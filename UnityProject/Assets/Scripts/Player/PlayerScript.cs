@@ -472,7 +472,7 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IActi
 
 	public ChatChannel GetAvailableChannelsMask(bool transmitOnly = true)
 	{
-		if (IsDeadOrGhost && !IsPlayerSemiGhost)
+		if (IsDeadOrGhost)
 		{
 			ChatChannel ghostTransmitChannels = ChatChannel.Ghost | ChatChannel.OOC;
 			ChatChannel ghostReceiveChannels = ChatChannel.Examine | ChatChannel.System | ChatChannel.Combat |
@@ -507,8 +507,8 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IActi
 
 			if (GetComponent<AiPlayer>().AllowRadio == false)
 			{
-				aiTransmitChannels = ChatChannel.OOC | ChatChannel.Local;
-				aiReceiveChannels = ChatChannel.Examine | ChatChannel.System | ChatChannel.Combat;
+				aiTransmitChannels = ChatChannel.Binary | ChatChannel.OOC | ChatChannel.Local;
+				aiReceiveChannels = ChatChannel.Binary | ChatChannel.Examine | ChatChannel.System | ChatChannel.Combat;
 			}
 
 			if (transmitOnly)
@@ -522,7 +522,7 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IActi
 		if (playerState == PlayerStates.Blob)
 		{
 			ChatChannel blobTransmitChannels = ChatChannel.Blob | ChatChannel.OOC;
-			ChatChannel blobReceiveChannels = ChatChannel.Examine | ChatChannel.System | ChatChannel.Combat;
+			ChatChannel blobReceiveChannels = ChatChannel.Blob | ChatChannel.Examine | ChatChannel.System | ChatChannel.Combat;
 
 			if (transmitOnly)
 			{
@@ -530,6 +530,19 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IActi
 			}
 
 			return blobTransmitChannels | blobReceiveChannels;
+		}
+
+		if (playerState == PlayerStates.Alien)
+		{
+			ChatChannel alienTransmitChannels = ChatChannel.Alien | ChatChannel.Local | ChatChannel.OOC;
+			ChatChannel alienReceiveChannels = ChatChannel.Alien | ChatChannel.Examine | ChatChannel.System | ChatChannel.Combat;
+
+			if (transmitOnly)
+			{
+				return alienTransmitChannels;
+			}
+
+			return alienTransmitChannels | alienReceiveChannels;
 		}
 
 		//TODO: Checks if player can speak (is not gagged, unconcious, has no mouth)
@@ -545,7 +558,7 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IActi
 				if (headset.isEMPed) continue;
 
 				EncryptionKeyType key = headset.EncryptionKey;
-				transmitChannels = transmitChannels | EncryptionKey.Permissions[key];
+				transmitChannels |= EncryptionKey.Permissions[key];
 			}
 		}
 
