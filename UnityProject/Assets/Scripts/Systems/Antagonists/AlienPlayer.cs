@@ -34,19 +34,27 @@ namespace Systems.Antagonists
 
 		//Current alien data SO
 		private AlienTypeDataSO currentData;
-		private AlienTypes CurrentAlienType => currentData.AlienType;
 
+		[SyncVar]
 		private AlienMode currentAlienMode;
+		public AlienTypes CurrentAlienType => currentData.AlienType;
 
 		//Plasma value (increase by being on weeds)
+		[SyncVar]
 		private int currentPlasma;
 		public int CurrentPlasma => currentPlasma;
 
-		private PlayerScript playerScript;
 		private LivingHealthMasterBase livingHealthMasterBase;
+		public LivingHealthMasterBase LivingHealthMasterBase => livingHealthMasterBase;
+
+		private PlayerScript playerScript;
 		private Rotatable rotatable;
 
-		private RegisterPlayer registerPlayer => playerScript.registerTile;
+		public RegisterPlayer RegisterPlayer => playerScript.registerTile;
+
+		[SyncVar]
+		private bool isDead;
+		public bool IsDead => isDead;
 
 		#region LifeCycle
 
@@ -185,7 +193,7 @@ namespace Systems.Antagonists
 			//Don't need to check if full
 			if(currentPlasma == currentData.MaxPlasma) return;
 
-			var tileThere = registerPlayer.Matrix.MetaTileMap.GetTile(registerPlayer.LocalPositionServer, true, true);
+			var tileThere = RegisterPlayer.Matrix.MetaTileMap.GetTile(RegisterPlayer.LocalPositionServer, true, true);
 
 			if(tileThere == null) return;
 
@@ -226,7 +234,10 @@ namespace Systems.Antagonists
 
 		private void OnDeath()
 		{
+			if(isDead) return;
+			isDead = true;
 
+			//TODO say on alien chat they've died!
 		}
 
 		#endregion

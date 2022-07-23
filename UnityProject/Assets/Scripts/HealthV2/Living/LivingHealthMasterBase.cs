@@ -708,8 +708,12 @@ namespace HealthV2
 
 		private bool HealthIsLow()
 		{
-			var percentage = (OverallHealth / maxHealth) * 100;
-			return percentage < 35;
+			return HealthPercentage() < 35;
+		}
+
+		public float HealthPercentage()
+		{
+			return (OverallHealth / maxHealth) * 100;
 		}
 
 		/// <summary>
