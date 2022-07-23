@@ -104,7 +104,27 @@ public class MetaDataLayer : MonoBehaviour
 			}
 		}
 
-		var node = nodes[localPosition];
+		MetaDataNode node;
+		try
+		{
+			node = nodes[localPosition];
+		}
+		catch (Exception e)
+		{
+			Logger.LogError("THIS REALLY SHOULDN'T HAPPEN!");
+			Logger.LogError(e.ToString());
+
+			if (createIfNotExists)
+			{
+				nodes[localPosition] = new MetaDataNode(localPosition, reactionManager, matrix, MetaDataSystem);
+				node = nodes[localPosition];
+			}
+			else
+			{
+				return MetaDataNode.None;
+			}
+		}
+		
 		if (updateTileOnClient)
 		{
 			AddNetworkChange(localPosition, node);
