@@ -9,10 +9,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c576ac449c2d45d99890dcfa21598645, type: 3}
+  m_Script: {fileID: 11500000, guid: c6d3f0204e1f482bbeb86bf9bede04b9, type: 3}
   m_Name: weeds1
   m_EditorClassIdentifier: 
-  displayName: resin floor
+  displayName: resin Floor
   description: 
   LayerType: 3
   TileType: 3
@@ -63,21 +63,50 @@ MonoBehaviour:
   damageOverlayList: {fileID: 0}
   soundOnHit:
     SetLoadSetting: 0
-    AssetAddress: 
-    AssetReference:
-      m_AssetGUID: 
-      m_SubObjectName: 
-      m_SubObjectType: 
-      m_EditorAssetChanged: 0
-  SoundOnDestroy:
-  - SetLoadSetting: 0
     AssetAddress: Assets/Prefabs/NPC/squish.prefab
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0
-  sprite: {fileID: 21300000, guid: 9f77ba20cf2fb0d4b9a4fec7f4a51486, type: 3}
-  CanBeHighlightedThroughScanners: 0
-  AssoicatedSpawnedObjects: []
-  HighlightObject: {fileID: 0}
+  SoundOnDestroy: []
+  connectCategory: 0
+  connectType: 3
+  spriteSheet:
+    Texture: {fileID: 0}
+    Sprites: []
+    EquippedData: {fileID: 0}
+  texturePath: 
+  connectionData:
+  - Direction: 0
+    Sprite: {fileID: 1907728177, guid: 3fbfd1bad814e5b4f8d54855c186fa32, type: 3}
+  - Direction: 1
+    Sprite: {fileID: -1761510145, guid: 3fbfd1bad814e5b4f8d54855c186fa32, type: 3}
+  - Direction: 5
+    Sprite: {fileID: 1450357980, guid: 3fbfd1bad814e5b4f8d54855c186fa32, type: 3}
+  - Direction: 65
+    Sprite: {fileID: 1391493482, guid: 3fbfd1bad814e5b4f8d54855c186fa32, type: 3}
+  - Direction: 17
+    Sprite: {fileID: -570954466, guid: 3fbfd1bad814e5b4f8d54855c186fa32, type: 3}
+  - Direction: 81
+    Sprite: {fileID: -1952572086, guid: 3fbfd1bad814e5b4f8d54855c186fa32, type: 3}
+  - Direction: 69
+    Sprite: {fileID: -1975185533, guid: 3fbfd1bad814e5b4f8d54855c186fa32, type: 3}
+  - Direction: 21
+    Sprite: {fileID: -770950353, guid: 3fbfd1bad814e5b4f8d54855c186fa32, type: 3}
+  - Direction: 85
+    Sprite: {fileID: -1441450138, guid: 3fbfd1bad814e5b4f8d54855c186fa32, type: 3}
+  - Direction: 4
+    Sprite: {fileID: 126543113, guid: 3fbfd1bad814e5b4f8d54855c186fa32, type: 3}
+  - Direction: 68
+    Sprite: {fileID: 1507784189, guid: 3fbfd1bad814e5b4f8d54855c186fa32, type: 3}
+  - Direction: 20
+    Sprite: {fileID: 1800364377, guid: 3fbfd1bad814e5b4f8d54855c186fa32, type: 3}
+  - Direction: 84
+    Sprite: {fileID: 1950064474, guid: 3fbfd1bad814e5b4f8d54855c186fa32, type: 3}
+  - Direction: 16
+    Sprite: {fileID: -270117495, guid: 3fbfd1bad814e5b4f8d54855c186fa32, type: 3}
+  - Direction: 80
+    Sprite: {fileID: -707329610, guid: 3fbfd1bad814e5b4f8d54855c186fa32, type: 3}
+  - Direction: 64
+    Sprite: {fileID: -287855424, guid: 3fbfd1bad814e5b4f8d54855c186fa32, type: 3}

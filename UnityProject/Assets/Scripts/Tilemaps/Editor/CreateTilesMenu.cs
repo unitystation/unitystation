@@ -17,6 +17,12 @@ public class CreateTilesMenu : MonoBehaviour
 			TileBuilder.CreateTile<ConnectedTile>(LayerType.None, "ConnectedTile");
 		}
 
+		[MenuItem("Assets/Create/Tiles/General/Connected Tile V2", false, 0)]
+		public static void CreateConnectedTileV2()
+		{
+			TileBuilder.CreateTile<ConnectedTileV2>(LayerType.None, "ConnectedTileV2");
+		}
+
 		[MenuItem("Assets/Create/Tiles/General/Animated Tile", false, 0)]
 		public static void CreateAnimatedTile()
 		{
