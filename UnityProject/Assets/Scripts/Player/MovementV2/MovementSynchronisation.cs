@@ -206,7 +206,7 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 			var restraint = handcuffSlot.Item.GetComponent<Restraint>();
 			if (restraint == null) continue;
 
-			var progressConfig = new StandardProgressActionConfig(StandardProgressActionType.Uncuff);
+			var progressConfig = new StandardProgressActionConfig(StandardProgressActionType.Uncuff, allowTurning: true);
 			StandardProgressAction.Create(progressConfig, Uncuff)
 				.ServerStartProgress(targetObject.RegisterTile(),
 					restraint.RemoveTime * (handcuffSlots.Count / 2f), performer);
