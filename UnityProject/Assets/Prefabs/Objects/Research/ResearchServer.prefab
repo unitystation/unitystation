@@ -9,9 +9,21 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 768889878625444157, guid: b69bfc56f39849d4ba9139d2d51bedb6,
         type: 3}
+      propertyPath: MachineParts
+      value: 
+      objectReference: {fileID: 11400000, guid: 63b35100874dc2f4dafa57fe5192d79a,
+        type: 2}
+    - target: {fileID: 768889878625444157, guid: b69bfc56f39849d4ba9139d2d51bedb6,
+        type: 3}
       propertyPath: isEMPResistant
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 768889878625444157, guid: b69bfc56f39849d4ba9139d2d51bedb6,
+        type: 3}
+      propertyPath: machineBoardPrefab
+      value: 
+      objectReference: {fileID: 8852467527036082685, guid: 7b4b4dd016f81724ab8f6bc2a62008e1,
+        type: 3}
     - target: {fileID: 768889878625444157, guid: b69bfc56f39849d4ba9139d2d51bedb6,
         type: 3}
       propertyPath: canNotBeDeconstructed
@@ -150,6 +162,10 @@ MonoBehaviour:
   TrickleTime: 60
   AvailableDesigns: []
   conType: 11
+  easyBlastYieldDetectorTarget: 0
+  hardBlastYieldDetectorTarget: 0
+  yieldTargetRangeMinimum: 1000
+  yieldTargetRangeMaximum: 19000
 --- !u!114 &9065833264468658804
 MonoBehaviour:
   m_ObjectHideFlags: 0
