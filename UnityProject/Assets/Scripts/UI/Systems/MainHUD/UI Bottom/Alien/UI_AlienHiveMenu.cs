@@ -27,7 +27,7 @@ namespace UI.Systems.MainHUD.UI_Bottom
 
 		public void Refresh()
 		{
-			var aliens = FindObjectsOfType<AlienPlayer>().Where(x => x.IsDead == false).ToArray();
+			var aliens = FindObjectsOfType<AlienPlayer>().Where(x => x.IsDead == false).OrderByDescending(x => x.CurrentData.AlienType).ToArray();
 
 			hiveMembersText.text = $"There {(aliens.Length == 1 ? "is" : "are")} {aliens.Length} hive sister{(aliens.Length > 1 ? "s" : "")}";
 

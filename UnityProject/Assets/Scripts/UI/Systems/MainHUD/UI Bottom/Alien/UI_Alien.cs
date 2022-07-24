@@ -51,14 +51,46 @@ namespace UI.Systems.MainHUD.UI_Bottom
 			controller = alienPlayer.GetComponent<AlienMouseInputController>();
 		}
 
+		private bool focusCheck;
+
+		#region focus Check
+		void UpdateMe()
+		{
+			if (queenAnnounceText.isFocused && focusCheck == false)
+			{
+				InputFocus();
+			}
+			else if (queenAnnounceText.isFocused == false && focusCheck)
+			{
+				InputUnfocus();
+			}
+		}
+
+		private void InputFocus()
+		{
+			focusCheck = true;
+			//disable keyboard commands while input is focused
+			UIManager.IsInputFocus = true;
+		}
+		private void InputUnfocus()
+		{
+			focusCheck = false;
+			//disable keyboard commands while input is focused
+			UIManager.IsInputFocus = false;
+		}
+
+		#endregion
+
 		private void OnEnable()
 		{
+			UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
 			UpdateManager.Add(OnUpdate, 1);
 		}
 
 		private void OnDisable()
 		{
 			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, OnUpdate);
+			UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
 		}
 
 		private void OnUpdate()

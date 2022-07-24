@@ -685,10 +685,10 @@ namespace Systems.Antagonists
 
 		private void RemoveOldActions()
 		{
-			if(currentData == null) return;
+			if(actionData == null) return;
 			if(isLocalPlayer == false) return;
 
-			foreach (var action in currentData.ActionData)
+			foreach (var action in actionData)
 			{
 				UIActionManager.Hide(this, action);
 			}
@@ -696,7 +696,7 @@ namespace Systems.Antagonists
 
 		private void AddNewActions()
 		{
-			if(actionData == null) return;
+			if(currentData == null) return;
 			if(isLocalPlayer == false) return;
 
 			foreach (var action in currentData.ActionData)
