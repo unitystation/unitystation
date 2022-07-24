@@ -26,6 +26,8 @@ namespace ScriptableObjects.Audio
 		{
 			if (playerSync.playerScript.registerTile.IsLayingDown == false)
 			{
+				if(playerSync.playerScript.mind == null) return;
+
 				var stepType = GetFootStepType(playerSync);
 
 				FootstepAtPosition(

@@ -32,7 +32,7 @@ namespace UI.Systems.MainHUD.UI_Bottom
 			if (entryPool.Count < alienEvolutions.Length)
 			{
 				var missing = alienEvolutions.Length - entryPool.Count;
-				for (int i = 0; i <= missing; i++)
+				for (int i = 0; i < missing; i++)
 				{
 					AddEntry();
 				}
@@ -41,7 +41,7 @@ namespace UI.Systems.MainHUD.UI_Bottom
 			if (entryPool.Count > alienEvolutions.Length)
 			{
 				var missing = entryPool.Count - alienEvolutions.Length;
-				for (int i = 0; i <= missing; i++)
+				for (int i = 0; i < missing; i++)
 				{
 					RemoveEntry();
 				}
@@ -57,7 +57,9 @@ namespace UI.Systems.MainHUD.UI_Bottom
 
 		private void AddEntry()
 		{
+			entryPrefab.SetActive(true);
 			var newEntry = Instantiate(entryPrefab, contentArea.transform).GetComponent<EvolveMenuEntry>();
+			entryPrefab.SetActive(false);
 			entryPool.Add(newEntry);
 		}
 

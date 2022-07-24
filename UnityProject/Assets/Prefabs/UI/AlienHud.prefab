@@ -887,6 +887,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   entryPrefab: {fileID: 8833028200641220576}
   contentArea: {fileID: 8186280832406263140}
+  hiveMembersText: {fileID: 6330721295917694443}
 --- !u!1 &1678079878795113405
 GameObject:
   m_ObjectHideFlags: 0
@@ -2024,7 +2025,6 @@ MonoBehaviour:
   - {fileID: 11400000, guid: a78074c8fdec0a545bdf0c54a16ae6c8, type: 2}
   - {fileID: 11400000, guid: a9c49bc7b07c1ce4a9a6a1b7ba5defcb, type: 2}
   plasmaText: {fileID: 7070938846388989243}
-  hiveMembersText: {fileID: 6330721295917694443}
   evolveMenu: {fileID: 3398976150329668575}
   hiveMenu: {fileID: 1587118058250110619}
   queenAnnounceText: {fileID: 2560084808576013930}
@@ -3592,9 +3592,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 3398976150329668575}
-        m_TargetAssemblyTypeName: UI.Systems.MainHUD.UI_Bottom.UI_Alien, Assets
-        m_MethodName: 
+      - m_Target: {fileID: 6643700549219943362}
+        m_TargetAssemblyTypeName: UI.Systems.MainHUD.UI_Bottom.EvolveMenuEntry, Assets
+        m_MethodName: OnEvolve
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

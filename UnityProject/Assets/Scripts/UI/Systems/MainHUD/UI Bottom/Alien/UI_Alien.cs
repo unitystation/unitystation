@@ -34,9 +34,6 @@ namespace UI.Systems.MainHUD.UI_Bottom
 		private TMP_Text plasmaText = null;
 
 		[SerializeField]
-		private TMP_Text hiveMembersText = null;
-
-		[SerializeField]
 		private GameObject evolveMenu = null;
 
 		[SerializeField]
@@ -206,6 +203,8 @@ namespace UI.Systems.MainHUD.UI_Bottom
 		public void OnQueenAnnounce()
 		{
 			alienPlayer.CmdQueenAnnounce(queenAnnounceText.text);
+
+			queenAnnounceMenu.SetActive(false);
 		}
 
 		public void OnEvolve(AlienPlayer.AlienTypes evolveTo)
@@ -219,6 +218,8 @@ namespace UI.Systems.MainHUD.UI_Bottom
 			//TODO maybe check for growth here on client too?
 
 			alienPlayer.CmdEvolve(evolveTo);
+
+			evolveMenu.SetActive(false);
 		}
 	}
 }
