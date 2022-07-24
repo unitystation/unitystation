@@ -167,6 +167,8 @@ namespace Player
 				return;
 			}
 
+			if(this.script.PlayerState == PlayerStates.Alien) return;
+
 			// start itemslot observation
 			this.GetComponent<DynamicItemStorage>().ServerAddObserverPlayer(sentByPlayer, true);
 			// send message to enable examination window
@@ -187,6 +189,11 @@ namespace Player
 
 		private void BasicExamine(GameObject sentByPlayer)
 		{
+			if (Equipment == null)
+			{
+				return;
+			}
+
 			Chat.AddExamineMsg(sentByPlayer,
 				$"This is <b>{VisibleName}</b>.\n" +
 				$"{Equipment.Examine()}" +

@@ -243,6 +243,8 @@ namespace Systems.Antagonists
 
 			playerScript.weaponNetworkActions.SetNewDamageValues(currentData.AttackSpeed,
 				currentData.AttackDamage, currentData.DamageType, currentData.ChanceToHit);
+
+			Chat.AddExamineMsgFromServer(gameObject, $"You evolve into a {currentData.Name}!");
 		}
 
 		#endregion
