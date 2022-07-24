@@ -30,8 +30,6 @@ public partial class Chat : MonoBehaviour
 
 	public bool OOCMute = false;
 
-	public EmoteActionManager emoteActionManager;
-
 	private static Regex htmlRegex = new Regex(@"^(http|https)://.*$");
 
 	public static void  InvokeChatEvent(ChatEvent chatEvent)

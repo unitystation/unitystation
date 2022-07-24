@@ -171,5 +171,10 @@ namespace UI.Systems.MainHUD.UI_Bottom
 		{
 			plasmaText.text = $"{alienPlayer.CurrentPlasmaPercentage}%";
 		}
+
+		public void DoHissClient()
+		{
+			alienPlayer.CmdHiss();
+		}
 	}
 }

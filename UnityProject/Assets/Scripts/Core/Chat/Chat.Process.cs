@@ -131,9 +131,9 @@ public partial class Chat
 			message = message.Replace("/me", ""); // note that there is no space here as compared to the above if
 			message = message.Substring(1); // so that this substring can properly cut off both * and the space
 
-			if(CheckForEmoteAction(message, Instance.emoteActionManager))
+			if(CheckForEmoteAction(message))
 			{
-				DoEmoteAction(message, sentByPlayer.GameObject, Instance.emoteActionManager);
+				DoEmoteAction(message, sentByPlayer.GameObject);
 
 				//Message is done in DoEmoteAction()
 				message = "";
@@ -746,12 +746,12 @@ public partial class Chat
 		{Speech.Scotsman, ChatModifier.Scotsman}
 	};
 
-	private static bool CheckForEmoteAction(string emote, EmoteActionManager data)
+	private static bool CheckForEmoteAction(string emote)
 	{
-		return EmoteActionManager.HasEmote(emote, data);
+		return EmoteActionManager.HasEmote(emote);
 	}
-	private static void DoEmoteAction(string emoteName, GameObject player, EmoteActionManager data)
+	private static void DoEmoteAction(string emoteName, GameObject player)
 	{
-		EmoteActionManager.DoEmote(emoteName, player, data);
+		EmoteActionManager.DoEmote(emoteName, player);
 	}
 }

@@ -64,6 +64,10 @@ namespace ScriptableObjects.RP
 		[SerializeField]
 		private Vector2 pitchRange = new Vector2(0.7f, 1f);
 
+		[Tooltip("Which player states are allowed to use this emote")]
+		[SerializeField]
+		private PlayerStates allowedPlayerStates = PlayerStates.Normal;
+
 		protected enum FailType
 		{
 			Normal,
@@ -205,6 +209,13 @@ namespace ScriptableObjects.RP
 
 		protected bool CheckAllBaseConditions(GameObject player)
 		{
+			if (player.TryGetComponent<PlayerScript>(out var playerScript)
+			    && allowedPlayerStates.HasFlag(playerScript.PlayerState) == false)
+			{
+				FailText(player, FailType.Normal);
+				return false;
+			}
+
 			if (allowEmoteWhileInCrit == false && CheckPlayerCritState(player))
 			{
 				FailText(player, FailType.Critical);

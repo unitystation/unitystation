@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Core.Chat;
 using HealthV2;
 using Mirror;
 using Player.Movement;
@@ -425,6 +426,22 @@ namespace Systems.Antagonists
 		{
 			alienCount = 0;
 			queenCount = 0;
+		}
+
+		#endregion
+
+		#region Hiss
+
+		[Command]
+		public void CmdHiss()
+		{
+			Hiss();
+		}
+
+		[Server]
+		private void Hiss()
+		{
+			EmoteActionManager.DoEmote("hiss", gameObject);
 		}
 
 		#endregion
