@@ -106,9 +106,12 @@ MonoBehaviour:
   RTT: 0
   RcsMode: 0
   RcsMatrixMove: {fileID: 0}
-  playerState: 1
+  playerState: 2
   actionData: {fileID: 0}
   playerChatLocation: {fileID: 4390267312333422610}
+  ClueHandsImprintInverseChance: 55
+  ClueUniformImprintInverseChance: 65
+  ClueSpeciesImprintInverseChance: 85
 --- !u!114 &3553771700973194240
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -297,9 +300,8 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   MoveSpeed: 8
+  GhostSpeedMultiplier: 8
   Moving: 0
-  registerTile: {fileID: 0}
-  Rotate: {fileID: 0}
   LocalTargetPosition: {x: 0, y: 0, z: 0}
 --- !u!1 &7320126117105815585
 GameObject:

@@ -536,7 +536,7 @@ MonoBehaviour:
   RTT: 0
   RcsMode: 0
   RcsMatrixMove: {fileID: 0}
-  playerState: 0
+  playerState: 1
   actionData: {fileID: 11400000, guid: 288088e3bb7768d41a2fe1b2c170fbce, type: 2}
   playerChatLocation: {fileID: 1133514949248654}
   ClueHandsImprintInverseChance: 55
@@ -577,6 +577,7 @@ MonoBehaviour:
   electrocutedPrefab: {fileID: 1558421102126524431, guid: 0cea8096a0de31746a1b6ef11b019ab2,
     type: 3}
   muzzleFlash: {fileID: 114824170203619628}
+  raceOverride: 
   livingHealthMasterBase: {fileID: 1354417930896543338}
   characterSprites:
   - {fileID: 5811805431220600328}
@@ -8118,7 +8119,7 @@ SpriteRenderer:
   m_SortingLayerID: -902452607
   m_SortingLayer: 22
   m_SortingOrder: 20
-  m_Sprite: {fileID: 7660122581263827943, guid: 2adbceb9cc674484cb9a2c58b41d5493,
+  m_Sprite: {fileID: -4549444404219585148, guid: 2adbceb9cc674484cb9a2c58b41d5493,
     type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
