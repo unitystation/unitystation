@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: Larva2
   m_EditorClassIdentifier: 
   Name: Young
+  Description: 
   AlienType: 2
   Speed: 10
   AttackSpeed: 7
@@ -33,4 +34,5 @@ MonoBehaviour:
   Back: {fileID: 0}
   MaxGrowth: 100
   EvolvedFrom: 4
-  ActionData: []
+  ActionData:
+  - {fileID: 11400000, guid: 6b465360fb919c243b763597b4759a63, type: 2}

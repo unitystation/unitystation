@@ -13,7 +13,7 @@ using UnityEngine;
 
 namespace Systems.Antagonists
 {
-	public class AlienPlayer : NetworkBehaviour, IServerActionGUIMulti
+	public class AlienPlayer : NetworkBehaviour, IServerActionGUIMulti, ICooldown
 	{
 		[Header("Sprite Stuff")]
 		[SerializeField]
@@ -25,6 +25,7 @@ namespace Systems.Antagonists
 		[Header("Alien ScriptableObjects")]
 		[SerializeField]
 		private List<AlienTypeDataSO> typesToChoose = new List<AlienTypeDataSO>();
+		public List<AlienTypeDataSO> TypesToChoose => typesToChoose;
 
 		[SerializeField]
 		private AlienTypes startingAlienType = AlienTypes.Larva1;
@@ -48,6 +49,12 @@ namespace Systems.Antagonists
 		[SerializeField]
 		private ActionData hissAction = null;
 
+		[SerializeField]
+		private ActionData hiveAction = null;
+
+		[SerializeField]
+		private ActionData queenAnnounceAction = null;
+
 		#endregion
 
 		#region Prefabs
@@ -67,6 +74,7 @@ namespace Systems.Antagonists
 
 		#endregion
 
+		//TODO should probably reset on round start?
 		//Used to generate names
 		private static int alienCount;
 
@@ -75,6 +83,7 @@ namespace Systems.Antagonists
 
 		//Current alien data SO
 		private AlienTypeDataSO currentData;
+		public AlienTypeDataSO CurrentData => currentData;
 
 		[SyncVar]
 		private AlienMode currentAlienMode;
@@ -94,6 +103,7 @@ namespace Systems.Antagonists
 
 		private PlayerScript playerScript;
 		private Rotatable rotatable;
+		private HasCooldowns cooldowns;
 
 		public RegisterPlayer RegisterPlayer => playerScript.registerTile;
 
@@ -103,6 +113,10 @@ namespace Systems.Antagonists
 
 		private bool onWeeds;
 
+		private int nameNumber = -1;
+
+		public float DefaultTime => 5f;
+
 		#region LifeCycle
 
 		private void Awake()
@@ -110,6 +124,7 @@ namespace Systems.Antagonists
 			playerScript = GetComponent<PlayerScript>();
 			livingHealthMasterBase = GetComponent<LivingHealthMasterBase>();
 			rotatable = GetComponent<Rotatable>();
+			cooldowns = GetComponent<HasCooldowns>();
 		}
 
 		private void OnEnable()
@@ -151,19 +166,22 @@ namespace Systems.Antagonists
 		{
 			if(isServer == false) return;
 
-			Evolve(newAlien);
+			Evolve(newAlien, false);
 
 			currentPlasma = 100;
 
 			if (currentData.AlienType == AlienTypes.Queen)
 			{
 				queenCount++;
-				playerScript.playerName = $"{currentData.Name} {queenCount:D3}";
-				return;
+				nameNumber = queenCount;
+				playerScript.playerName = $"{currentData.Name} {queenCount}";
 			}
-
-			alienCount++;
-			playerScript.playerName = $"{currentData.Name} {alienCount:D3}";
+			else
+			{
+				alienCount++;
+				nameNumber = alienCount;
+				playerScript.playerName = $"{currentData.Name} {alienCount:D3}";
+			}
 		}
 
 		[ContextMenu("To Queen")]
@@ -220,9 +238,27 @@ namespace Systems.Antagonists
 
 		#endregion
 
+		#region Queen
+
+		[Command]
+		public void CmdQueenAnnounce(string message)
+		{
+			if(OnCoolDown(NetworkSide.Server)) return;
+			StartCoolDown(NetworkSide.Server);
+
+			//Remove tags
+			message = Chat.StripTags(message);
+
+			//TODO play sound for all aliens
+
+			Chat.AddChatMsgToChat(playerScript.PlayerInfo, message, ChatChannel.Alien, Loudness.MEGAPHONE);
+		}
+
+		#endregion
+
 		#region Evolution
 
-		private void Evolve(AlienTypes newAlien)
+		private void Evolve(AlienTypes newAlien, bool changeName = true)
 		{
 			if (livingHealthMasterBase.IsDead)
 			{
@@ -256,6 +292,19 @@ namespace Systems.Antagonists
 				currentData.AttackDamage, currentData.DamageType, currentData.ChanceToHit);
 
 			Chat.AddExamineMsgFromServer(gameObject, $"You evolve into a {currentData.Name}!");
+
+			//TODO display spawn banner?
+
+			if(changeName == false) return;
+
+			//Set new name
+			if (currentData.AlienType == AlienTypes.Queen)
+			{
+				playerScript.playerName = $"{currentData.Name} {nameNumber}";
+				return;
+			}
+
+			playerScript.playerName = $"{currentData.Name} {nameNumber:D3}";
 		}
 
 		[Command]
@@ -585,7 +634,24 @@ namespace Systems.Antagonists
 			//Hiss
 			if (data == hissAction)
 			{
+				if(OnCoolDown(NetworkSide.Client)) return;
+				StartCoolDown(NetworkSide.Client);
+
 				CmdHiss();
+				return;
+			}
+
+			//Hive
+			if (data == hiveAction)
+			{
+				UIManager.Instance.panelHudBottomController.AlienUI.OpenHiveMenu();
+				return;
+			}
+
+			//Queen Announce
+			if (data == queenAnnounceAction)
+			{
+				UIManager.Instance.panelHudBottomController.AlienUI.OpenQueenAnnounceMenu();
 				return;
 			}
 		}
@@ -753,6 +819,16 @@ namespace Systems.Antagonists
 			queenCount = 0;
 		}
 
+		public bool OnCoolDown(NetworkSide side)
+		{
+			return cooldowns.IsOn(CooldownID.Asset(this, side));
+		}
+
+		public void StartCoolDown(NetworkSide side)
+		{
+			cooldowns.TryStart(this, side);
+		}
+
 		#endregion
 
 		#region Hiss
@@ -760,6 +836,9 @@ namespace Systems.Antagonists
 		[Command]
 		public void CmdHiss()
 		{
+			if(OnCoolDown(NetworkSide.Server)) return;
+			StartCoolDown(NetworkSide.Server);
+
 			Hiss();
 		}
 

@@ -460,7 +460,7 @@ GameObject:
   - component: {fileID: 3087290366095840219}
   - component: {fileID: 8980569866541390091}
   m_Layer: 8
-  m_Name: Alien
+  m_Name: AlienLarva
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1391,9 +1391,14 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 7bfb934b0c743de4a8957aa08a97cd15, type: 2}
   - {fileID: 11400000, guid: 62556709952f6b246a7146db8ffc2c08, type: 2}
   - {fileID: 11400000, guid: e4546df833c34fd438f1c9a244c5aa20, type: 2}
-  startingAlienType: 0
+  startingAlienType: 1
   plantWeeds: {fileID: 11400000, guid: e469aa52bc0cbb949a56796230469fd2, type: 2}
   layEggs: {fileID: 11400000, guid: dcad35ade3a509943ae3062115f0f2bf, type: 2}
+  evolveAction: {fileID: 11400000, guid: a8bdbaab2b5d5e342ae7fde7073c3dc8, type: 2}
+  hissAction: {fileID: 11400000, guid: 7d8643ea055bed44c8e9e7dc0b5d7f36, type: 2}
+  hiveAction: {fileID: 11400000, guid: 6b465360fb919c243b763597b4759a63, type: 2}
+  queenAnnounceAction: {fileID: 11400000, guid: 3c1a03071ac0a2844a057040f946b74e,
+    type: 2}
   weedTiles:
   - {fileID: 11400000, guid: 6cf98c49e8db1c6499dfb5d832fefc13, type: 2}
   eggPrefab: {fileID: 5322418909914265045, guid: 9473c17e4e7f2f24d99f2d788030cd9f,

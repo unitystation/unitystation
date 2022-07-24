@@ -11,9 +11,10 @@ namespace UI.Systems.MainHUD.UI_Bottom
 {
 	public class UI_Alien : MonoBehaviour
 	{
-		private AlienPlayer alienPlayer = null;
+		private AlienPlayer alienPlayer;
+		public AlienPlayer AlienPlayer => alienPlayer;
 
-		private AlienMouseInputController controller = null;
+		private AlienMouseInputController controller;
 
 		[SerializeField]
 		private List<SpriteDataSO> healthSprites = new List<SpriteDataSO>();
@@ -31,6 +32,21 @@ namespace UI.Systems.MainHUD.UI_Bottom
 
 		[SerializeField]
 		private TMP_Text plasmaText = null;
+
+		[SerializeField]
+		private TMP_Text hiveMembersText = null;
+
+		[SerializeField]
+		private GameObject evolveMenu = null;
+
+		[SerializeField]
+		private GameObject hiveMenu = null;
+
+		[SerializeField]
+		private TMP_InputField queenAnnounceText = null;
+
+		[SerializeField]
+		private GameObject queenAnnounceMenu = null;
 
 		public void SetUp(AlienPlayer player)
 		{
@@ -174,7 +190,35 @@ namespace UI.Systems.MainHUD.UI_Bottom
 
 		public void OpenEvolveMenu()
 		{
+			evolveMenu.SetActive(true);
+		}
 
+		public void OpenHiveMenu()
+		{
+			hiveMenu.SetActive(true);
+		}
+
+		public void OpenQueenAnnounceMenu()
+		{
+			queenAnnounceMenu.SetActive(true);
+		}
+
+		public void OnQueenAnnounce()
+		{
+			alienPlayer.CmdQueenAnnounce(queenAnnounceText.text);
+		}
+
+		public void OnEvolve(AlienPlayer.AlienTypes evolveTo)
+		{
+			if (alienPlayer.CurrentPlasmaPercentage.Approx(100) == false)
+			{
+				Chat.AddExamineMsgToClient("Not enough plasma to evolve!");
+				return;
+			}
+
+			//TODO maybe check for growth here on client too?
+
+			alienPlayer.CmdEvolve(evolveTo);
 		}
 	}
 }

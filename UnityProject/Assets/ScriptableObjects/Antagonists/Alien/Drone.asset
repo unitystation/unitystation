@@ -13,6 +13,10 @@ MonoBehaviour:
   m_Name: Drone
   m_EditorClassIdentifier: 
   Name: Drone
+  Description: An important type of xenomorph, second only to the Queen, Drones are
+    the builders of the xenomorphs. They can construct resin walls to block pathways,
+    resin nests to keep prey secured, and other such structures. Drones are also
+    the only adult xenomorph capable of further evolution, into a Praetorian.
   AlienType: 64
   Speed: 5
   AttackSpeed: 7
@@ -37,3 +41,4 @@ MonoBehaviour:
   - {fileID: 11400000, guid: e469aa52bc0cbb949a56796230469fd2, type: 2}
   - {fileID: 11400000, guid: a8bdbaab2b5d5e342ae7fde7073c3dc8, type: 2}
   - {fileID: 11400000, guid: 7d8643ea055bed44c8e9e7dc0b5d7f36, type: 2}
+  - {fileID: 11400000, guid: 6b465360fb919c243b763597b4759a63, type: 2}

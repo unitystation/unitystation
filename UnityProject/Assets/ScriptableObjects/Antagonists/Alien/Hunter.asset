@@ -13,6 +13,8 @@ MonoBehaviour:
   m_Name: Hunter
   m_EditorClassIdentifier: 
   Name: Hunter
+  Description: 'The offensive backbone of the xenos, Hunters move at blistering speed
+    and can tackle down their unlucky opponents for quick stuns. '
   AlienType: 8
   Speed: 10
   AttackSpeed: 4
@@ -35,3 +37,5 @@ MonoBehaviour:
   EvolvedFrom: 4
   ActionData:
   - {fileID: 11400000, guid: 7d8643ea055bed44c8e9e7dc0b5d7f36, type: 2}
+  - {fileID: 11400000, guid: 6b465360fb919c243b763597b4759a63, type: 2}
+  - {fileID: 11400000, guid: e469aa52bc0cbb949a56796230469fd2, type: 2}

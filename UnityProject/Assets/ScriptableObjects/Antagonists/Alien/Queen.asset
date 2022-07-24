@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: Queen
   m_EditorClassIdentifier: 
   Name: Queen
+  Description: The mother of the hive. Lays the eggs which allows the hive to grow.
   AlienType: 128
   Speed: 5
   AttackSpeed: 5
@@ -32,8 +33,10 @@ MonoBehaviour:
   Front: {fileID: 0}
   Back: {fileID: 0}
   MaxGrowth: 100
-  EvolvedFrom: 4
+  EvolvedFrom: 96
   ActionData:
   - {fileID: 11400000, guid: dcad35ade3a509943ae3062115f0f2bf, type: 2}
   - {fileID: 11400000, guid: e469aa52bc0cbb949a56796230469fd2, type: 2}
   - {fileID: 11400000, guid: 7d8643ea055bed44c8e9e7dc0b5d7f36, type: 2}
+  - {fileID: 11400000, guid: 3c1a03071ac0a2844a057040f946b74e, type: 2}
+  - {fileID: 11400000, guid: 6b465360fb919c243b763597b4759a63, type: 2}

@@ -10,6 +10,10 @@ namespace ScriptableObjects
 	public class AlienTypeDataSO : ScriptableObject
 	{
 		public string Name;
+
+		[TextArea(10, 20)]
+		public string Description;
+
 		public AlienPlayer.AlienTypes AlienType;
 		public float Speed;
 

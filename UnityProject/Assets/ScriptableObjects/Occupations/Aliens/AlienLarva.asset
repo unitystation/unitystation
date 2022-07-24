@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c58d5c5a6190436e9d4ae8e32a26ee6a, type: 3}
-  m_Name: AlienQueen
+  m_Name: AlienLarva
   m_EditorClassIdentifier: 
   jobType: 0
   isCrewmember: 0
@@ -24,13 +24,15 @@ MonoBehaviour:
   issuedClearance: 
   issuedLowPopClearance: 
   spells: []
-  progress: 50
-  choiceColor: {r: 0.101960786, g: 1, b: 0, a: 1}
+  progress: 20
+  choiceColor: {r: 0.10196079, g: 1, b: 0, a: 1}
   previewSprite: {fileID: 0}
-  displayName: Alien Queen
-  difficulty: 4
-  descriptionShort: Lay eggs and get a bigger hive!
-  descriptionLong: Lay eggs and get a bigger hive!
+  displayName: Alien Larva
+  difficulty: 3
+  descriptionShort: Choose "drone" if you are the first larva. Capture or kill everyone
+    on sight.
+  descriptionLong: Choose "drone" if you are the first larva. Capture or kill everyone
+    on sight.
   customProperties:
     m_keys: []
     m_values: 
@@ -44,7 +46,7 @@ MonoBehaviour:
       m_SubObjectName: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0
-  textColor: {r: 0.101960786, g: 1, b: 0, a: 1}
+  textColor: {r: 0.10101485, g: 1, b: 0, a: 1}
   backgroundColor: {r: 0, g: 0, b: 0, a: 1}
-  specialPlayerPrefab: {fileID: 3051469897714981895, guid: ecea10b4f1f8c1d41b5064bea9b885a9,
+  specialPlayerPrefab: {fileID: 1133514949248654, guid: d1bc864a55af6cb4cad058680cba977a,
     type: 3}

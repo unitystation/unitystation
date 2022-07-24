@@ -13,6 +13,8 @@ MonoBehaviour:
   m_Name: Praetorian
   m_EditorClassIdentifier: 
   Name: Praetorian
+  Description: Slow, moving behemoths second only to the Queen. Can evolve into a
+    Queen if needed.
   AlienType: 32
   Speed: 5
   AttackSpeed: 8
@@ -32,6 +34,8 @@ MonoBehaviour:
   Front: {fileID: 11400000, guid: b781aa2828bb62a449749eb0328fc9b5, type: 2}
   Back: {fileID: 11400000, guid: 9cc2e2c65fcde254eb52c8a6eb80091c, type: 2}
   MaxGrowth: 100
-  EvolvedFrom: 4
+  EvolvedFrom: 64
   ActionData:
   - {fileID: 11400000, guid: 7d8643ea055bed44c8e9e7dc0b5d7f36, type: 2}
+  - {fileID: 11400000, guid: 6b465360fb919c243b763597b4759a63, type: 2}
+  - {fileID: 11400000, guid: e469aa52bc0cbb949a56796230469fd2, type: 2}
