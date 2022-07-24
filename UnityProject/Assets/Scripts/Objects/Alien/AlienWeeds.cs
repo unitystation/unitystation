@@ -65,19 +65,18 @@ namespace Alien
 
 			foreach (var coordToTry in expandCoords.Shuffle())
 			{
-				if(ValidateCoord(coordToTry) == false) continue;
+				var (isValid, coordAdjacent) = ValidateCoord(coordToTry);
+				if(isValid == false) continue;
+
 				didTryExpand = true;
 
-				expandCoords.Remove(coordToTry);
-
-				var matrixAtPoint = MatrixManager.AtPoint(objectPhysics.OfficialPosition + coordToTry.To3(), true, registerTile.Matrix.MatrixInfo);
-
 				var localPos = coordToTry.To3Int();
+				var matrixAtPoint = MatrixManager.AtPoint(objectPhysics.OfficialPosition + localPos, true, registerTile.Matrix.MatrixInfo);
 
-				//This currently doesnt allow directional windows to block the spread, the logic would get more
-				//Complicated as we remove the tested tile
-				if(matrixAtPoint.Matrix.IsPassableAtOneMatrixOneTile(localPos, true, false,
+				if(matrixAtPoint.Matrix.IsPassableAtOneMatrix(coordAdjacent.To3Int(), localPos, true, includingPlayers: false,
 					   ignoreObjects: true) == false) continue;
+
+				expandCoords.Remove(coordToTry);
 
 				ChangeTile(localPos, coordToTry, matrixAtPoint);
 
@@ -126,16 +125,16 @@ namespace Alien
 			ChangeTile(registerTile.LocalPositionServer, Vector2Int.zero, registerTile.Matrix.MatrixInfo);
 		}
 
-		private bool ValidateCoord(Vector2Int localPosition)
+		private (bool isValid, Vector2Int coordAdjacent) ValidateCoord(Vector2Int localPosition)
 		{
 			foreach (var done in coordsDone)
 			{
 				if((done - localPosition).magnitude.Approx(1) == false) continue;
 
-				return true;
+				return (true, done);
 			}
 
-			return false;
+			return (false, Vector2Int.zero);
 		}
 
 		private List<Vector2Int> GenerateCoords(Vector2Int localPosition)
