@@ -46,7 +46,7 @@ namespace Messages.Client
 
 			//First Validations is for objects in the world (computers, etc), second check is for items in active hand (null rod, PADs).
 			bool validate;
-			if (playerScript.PlayerState == PlayerScript.PlayerStates.Ai)
+			if (playerScript.PlayerState == PlayerStates.Ai)
 			{
 				validate = Validations.CanApply(new AiActivate(player.GameObject, null,
 					tabProvider, Intent.Help, AiActivate.ClickTypes.NormalClick), NetworkSide.Server);

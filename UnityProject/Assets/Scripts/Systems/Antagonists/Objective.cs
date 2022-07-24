@@ -56,7 +56,7 @@ namespace Antagonists
 		/// </summary>
 		public bool IsPossible(PlayerScript candidate)
 		{
-			if (aiCanHave == false && candidate.PlayerState == PlayerScript.PlayerStates.Ai)
+			if (aiCanHave == false && candidate.PlayerState == PlayerStates.Ai)
 			{
 				return false;
 			}

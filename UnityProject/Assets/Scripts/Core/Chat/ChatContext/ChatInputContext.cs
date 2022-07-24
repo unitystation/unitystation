@@ -21,19 +21,19 @@ public class ChatInputContext : IChatInputContext
 			}
 
 			// Player is Ai?
-			if (PlayerManager.LocalPlayerScript.PlayerState == PlayerScript.PlayerStates.Ai)
+			if (PlayerManager.LocalPlayerScript.PlayerState == PlayerStates.Ai)
 			{
 				return ChatChannel.Binary;
 			}
 
 			// Player is blob?
-			if (PlayerManager.LocalPlayerScript.PlayerState == PlayerScript.PlayerStates.Blob)
+			if (PlayerManager.LocalPlayerScript.PlayerState == PlayerStates.Blob)
 			{
 				return ChatChannel.Blob;
 			}
 
 			// Player is alien?
-			if (PlayerManager.LocalPlayerScript.PlayerState == PlayerScript.PlayerStates.Alien)
+			if (PlayerManager.LocalPlayerScript.PlayerState == PlayerStates.Alien)
 			{
 				return ChatChannel.Alien;
 			}

@@ -1,3 +1,4 @@
+using System;
 using System.Text;
 using Detective;
 using Systems.Ai;
@@ -108,15 +109,6 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IActi
 
 	[SerializeField] private PlayerStates playerState = PlayerStates.Normal;
 	public PlayerStates PlayerState => playerState;
-
-	public enum PlayerStates
-	{
-		Normal,
-		Ghost,
-		Blob,
-		Ai,
-		Alien
-	}
 
 	[SerializeField] private ActionData actionData = null;
 	public ActionData ActionData => actionData;
@@ -728,4 +720,15 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IActi
 	{
 		UIActionManager.ToggleLocal(this, state);
 	}
+}
+
+[Flags]
+public enum PlayerStates
+{
+	None = 0,
+	Normal = 1 << 0,
+	Ghost = 1 << 1,
+	Blob = 1 << 2,
+	Ai = 1 << 3,
+	Alien = 1 << 4
 }

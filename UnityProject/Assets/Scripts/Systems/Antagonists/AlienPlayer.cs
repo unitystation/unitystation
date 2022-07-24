@@ -90,6 +90,13 @@ namespace Systems.Antagonists
 			SetNewPlayer(startingAlienType);
 		}
 
+		public override void OnStartLocalPlayer()
+		{
+			if(isLocalPlayer == false) return;
+
+			UIManager.Instance.panelHudBottomController.AlienUI.SetUp(this);
+		}
+
 		#endregion
 
 		#region Setup

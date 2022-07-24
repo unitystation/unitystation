@@ -123,13 +123,16 @@ public static class Validations
 	/// <param name="side">side of the network the check is being performed on</param>
 	/// <param name="allowSoftCrit">whether interaction should be allowed if in soft crit</param>
 	/// <param name="allowCuffed">whether interaction should be allowed if cuffed</param>
+	/// <param name="allowedPlayerStates">the allowed playerstates for this interaction, defaults to normal players</param>
 	/// <returns></returns>
-	public static bool CanInteract(PlayerScript playerScript, NetworkSide side, bool allowSoftCrit = false, bool allowCuffed = false)
+	public static bool CanInteract(PlayerScript playerScript, NetworkSide side, bool allowSoftCrit = false, bool allowCuffed = false,
+		PlayerStates allowedPlayerStates = PlayerStates.Normal)
 	{
 		if (playerScript == null) return false;
 
-		//Only normal players interact this way (not ghosts, Ai)
-		if (playerScript.IsNormal == false) return false;
+		//Only allow players interact this way if contained in allowedPlayerStates (usually only normal players not ghost etc)
+		//Note that Ai has AiActivate as that has additional validations
+		if (allowedPlayerStates.HasFlag(playerScript.PlayerState) == false) return false;
 
 		//Can't interact cuffed
 		if (allowCuffed == false && playerScript.playerMove.IsCuffed) return false;
@@ -165,11 +168,13 @@ public static class Validations
 	/// <param name="side">side of the network this is being checked on</param>
 	/// <param name="allowSoftCrit">whether to allow interaction while in soft crit</param>
 	/// <param name="reachRange">range to allow</param>
+	/// <param name="targetPosition"></param>
 	/// <param name="targetVector">target vector pointing from performer to the position they are trying to click,
 	/// if specified will use this to determine if in range rather than target object position.</param>
 	/// <param name="targetRegisterTile">target's register tile component. If you specify this it avoids garbage. Please provide this
 	/// if you can do so without using GetComponent, this is an optimization so GetComponent call can be avoided to avoid
 	/// creating garbage.</param>
+	/// <param name="allowedPlayerStates">the allowed playerstates for this interaction, defaults to normal players</param>
 	/// <returns></returns>
 	public static bool CanApply(
 		PlayerScript playerScript,
@@ -177,9 +182,10 @@ public static class Validations
 		NetworkSide side,
 		bool allowSoftCrit = false,
 		ReachRange reachRange = ReachRange.Standard,
-		Vector2? TargetPosition = null,
+		Vector2? targetPosition = null,
 		Vector2? targetVector = null,
-		RegisterTile targetRegisterTile = null
+		RegisterTile targetRegisterTile = null,
+		PlayerStates allowedPlayerStates = PlayerStates.Normal
 	)
 	{
 		if (playerScript == null) return false;
@@ -187,7 +193,7 @@ public static class Validations
 		var playerObjBehavior = playerScript.objectPhysics;
 
 
-		if (CanInteract(playerScript, side, allowSoftCrit) == false)
+		if (CanInteract(playerScript, side, allowSoftCrit, allowedPlayerStates: allowedPlayerStates) == false)
 		{
 			return false;
 		}
@@ -229,7 +235,7 @@ public static class Validations
 		}
 		else if (reachRange == ReachRange.Standard)
 		{
-			result = IsInReachInternal(playerScript, target, side, TargetPosition, targetRegisterTile, targetVector: targetVector);
+			result = IsInReachInternal(playerScript, target, side, targetPosition, targetRegisterTile, targetVector: targetVector);
 		}
 		else if (reachRange == ReachRange.ExtendedServer)
 		{
@@ -244,7 +250,7 @@ public static class Validations
 
 				if (uop == null)
 				{
-					result = IsInReachInternal(playerScript, target, side, TargetPosition, targetRegisterTile, targetVector: targetVector);
+					result = IsInReachInternal(playerScript, target, side, targetPosition, targetRegisterTile, targetVector: targetVector);
 				}
 				else
 				{

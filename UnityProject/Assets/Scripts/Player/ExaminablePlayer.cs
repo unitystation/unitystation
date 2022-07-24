@@ -148,7 +148,7 @@ namespace Player
 		{
 			if(sentByPlayer.TryGetComponent<PlayerScript>(out var sentByPlayerScript) == false) return;
 
-			if (sentByPlayerScript.PlayerState != PlayerScript.PlayerStates.Ghost)
+			if (sentByPlayerScript.PlayerState != PlayerStates.Ghost)
 			{
 				// if distance is too big or is self-examination, send normal examine message
 				if (Vector3.Distance(sentByPlayer.AssumedWorldPosServer(), gameObject.AssumedWorldPosServer()) >= maxInteractionDistance || sentByPlayer == gameObject)
@@ -160,8 +160,8 @@ namespace Player
 
 			//If youre not normal or ghost then only allow basic examination
 			//TODO maybe in future have this be a separate setting for each player type?
-			if (sentByPlayerScript.PlayerState != PlayerScript.PlayerStates.Normal &&
-			    sentByPlayerScript.PlayerState != PlayerScript.PlayerStates.Ghost)
+			if (sentByPlayerScript.PlayerState != PlayerStates.Normal &&
+			    sentByPlayerScript.PlayerState != PlayerStates.Ghost)
 			{
 				BasicExamine(sentByPlayer);
 				return;
@@ -173,7 +173,7 @@ namespace Player
 			PlayerExaminationMessage.Send(sentByPlayer, this, true);
 
 			//Allow ghosts to keep the screen open even if player moves away
-			if(sentByPlayerScript.PlayerState == PlayerScript.PlayerStates.Ghost) return;
+			if(sentByPlayerScript.PlayerState == PlayerStates.Ghost) return;
 
 			//stop observing when target player is too far away
 			var relationship = RangeRelationship.Between(

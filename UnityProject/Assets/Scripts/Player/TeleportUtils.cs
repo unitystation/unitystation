@@ -58,15 +58,15 @@ namespace Systems.Teleport
 				{
 					status = player.playerHealth.IsDead ? "(Dead)" : "(Alive)";
 				}
-				else if (player.PlayerState == PlayerScript.PlayerStates.Ai)
+				else if (player.PlayerState == PlayerStates.Ai)
 				{
 					status = "(Ai)";
 				}
-				else if (player.PlayerState == PlayerScript.PlayerStates.Blob)
+				else if (player.PlayerState == PlayerStates.Blob)
 				{
 					status = "(Blob)";
 				}
-				else if (player.PlayerState == PlayerScript.PlayerStates.Alien)
+				else if (player.PlayerState == PlayerStates.Alien)
 				{
 					status = $"(Alien) {(player.playerHealth.IsDead ? "(Dead)" : "(Alive)")}";
 				}

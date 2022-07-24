@@ -807,7 +807,7 @@ namespace Doors
 
 		public bool CanOpenNetTab(GameObject playerObject, NetTabType netTabType)
 		{
-			bool isAi = playerObject.GetComponent<PlayerScript>().PlayerState == PlayerScript.PlayerStates.Ai;
+			bool isAi = playerObject.GetComponent<PlayerScript>().PlayerState == PlayerStates.Ai;
 			if (netTabType == NetTabType.HackingPanel)
 			{
 			    //Block Ai from hacking UI but allow normal player

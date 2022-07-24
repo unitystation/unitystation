@@ -179,7 +179,7 @@ namespace Objects
 					? accessRestrictions.CheckAccess(player.GameObject)
 					: clearanceCheckable.HasClearance(player.GameObject);
 
-				if (hasAccess == false && player.Script.PlayerState != PlayerScript.PlayerStates.Ai)
+				if (hasAccess == false && player.Script.PlayerState != PlayerStates.Ai)
 				{
 					Chat.AddWarningMsgFromServer(player.GameObject, noAccessMessage);
 					return false;
@@ -188,7 +188,7 @@ namespace Objects
 
 			if (itemToSpawn.Price > 0)
 			{
-				if (player.Script.PlayerState == PlayerScript.PlayerStates.Ai)
+				if (player.Script.PlayerState == PlayerStates.Ai)
 				{
 					Chat.AddWarningMsgFromServer(player.GameObject, "Unable to pay cost to vend item, meatbag needed.");
 					return false;

@@ -32,6 +32,7 @@ namespace UI
 		public UI_GhostOptions hudBottomGhost;
 		public GameObject hudBottomBlob;
 		public GameObject hudBottomAi;
+		public GameObject hudAlien;
 		public GameObject currentHud;
 
 		public GameObject jobSelectWindow;
@@ -83,12 +84,12 @@ namespace UI
 		private void DetermineUI()
 		{
 			// TODO: make better system for handling lots of different UIs
-			if (PlayerManager.LocalPlayerScript.PlayerState == PlayerScript.PlayerStates.Blob)
+			if (PlayerManager.LocalPlayerScript.PlayerState == PlayerStates.Blob)
 			{
 				SetUi(hudBottomBlob);
 				PlayerManager.LocalPlayerScript.GetComponent<BlobPlayer>()?.TurnOnClientLight();
 			}
-			else if (PlayerManager.LocalPlayerScript.PlayerState == PlayerScript.PlayerStates.Ai)
+			else if (PlayerManager.LocalPlayerScript.PlayerState == PlayerStates.Ai)
 			{
 				SetUi(hudBottomAi);
 			}

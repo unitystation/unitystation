@@ -420,7 +420,7 @@ public static class PlayerSpawn
 		{
 			spawnTransform = SpawnPoint.GetRandomPointForJob(JobType.ASSISTANT);
 		}
-		
+
 		if (spawnTransform != null)
 		{
 			var dummy = ServerCreatePlayer(spawnTransform.position.RoundToInt());
@@ -545,7 +545,7 @@ public static class PlayerSpawn
 		{
 			var playerScript = newBody.GetComponent<PlayerScript>();
 			playerScript.characterSettings = characterSettings;
-			playerScript.playerName = playerScript.PlayerState != PlayerScript.PlayerStates.Ai ? characterSettings.Name : characterSettings.AiName;
+			playerScript.playerName = playerScript.PlayerState != PlayerStates.Ai ? characterSettings.Name : characterSettings.AiName;
 			newBody.name = playerScript.playerName;
 			var playerSprites = newBody.GetComponent<PlayerSprites>();
 			if (playerSprites)

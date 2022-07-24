@@ -737,7 +737,7 @@ namespace Objects.Other
 
 		public bool CanOpenNetTab(GameObject playerObject, NetTabType netTabType)
 		{
-			if (turretType != TurretType.Ai && unlocked == false && playerObject.GetComponent<PlayerScript>().PlayerState != PlayerScript.PlayerStates.Ai)
+			if (turretType != TurretType.Ai && unlocked == false && playerObject.GetComponent<PlayerScript>().PlayerState != PlayerStates.Ai)
 			{
 				Chat.AddExamineMsgFromServer(playerObject, "Turret is locked");
 				return false;

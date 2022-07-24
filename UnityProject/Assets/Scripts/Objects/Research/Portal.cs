@@ -80,8 +80,8 @@ namespace Objects.Research
 		public override bool WillAffectPlayer(PlayerScript playerScript)
 		{
 			//Allow players or ghosts to enter
-			return playerScript.PlayerState == PlayerScript.PlayerStates.Normal ||
-			       playerScript.PlayerState == PlayerScript.PlayerStates.Ghost;
+			return playerScript.PlayerState == PlayerStates.Normal ||
+			       playerScript.PlayerState == PlayerStates.Ghost;
 		}
 
 		public override void OnPlayerStep(PlayerScript playerScript)
