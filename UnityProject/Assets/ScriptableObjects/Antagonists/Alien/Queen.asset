@@ -15,7 +15,12 @@ MonoBehaviour:
   Name: Queen
   AlienType: 7
   Speed: 5
+  AttackSpeed: 5
+  AttackDamage: 25
+  DamageType: 0
+  ChanceToHit: 50
   MaxPlasma: 100
+  PlasmaGainRate: 3
   Normal: {fileID: 11400000, guid: 887dcdfd6df7edc4490c6f047ad3c8b7, type: 2}
   Dead: {fileID: 11400000, guid: 69ab4592eaf82ca47902b08e156411e9, type: 2}
   Pounce: {fileID: 0}

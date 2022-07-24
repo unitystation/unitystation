@@ -13,10 +13,17 @@ namespace ScriptableObjects
 		public AlienPlayer.AlienTypes AlienType;
 		public float Speed;
 
-		public int MaxPlasma = 100;
+		public float AttackSpeed = 7;
+		public float AttackDamage = 5;
+		public DamageType DamageType = DamageType.Brute;
+		public uint ChanceToHit = 50;
 
+		public int MaxPlasma = 100;
 		//Per second
 		public int PlasmaGainRate = 3;
+
+		public float HealAmount = 5;
+		public int HealPlasmaCost = 5;
 
 		public SpriteDataSO Normal;
 		public SpriteDataSO Dead;

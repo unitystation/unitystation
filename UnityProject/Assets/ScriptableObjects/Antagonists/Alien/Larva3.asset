@@ -15,7 +15,12 @@ MonoBehaviour:
   Name: Mature Larva
   AlienType: 2
   Speed: 10
+  AttackSpeed: 7
+  AttackDamage: 5
+  DamageType: 0
+  ChanceToHit: 30
   MaxPlasma: 100
+  PlasmaGainRate: 3
   Normal: {fileID: 11400000, guid: 6422a97f2d25fc9419b49f5d247e2ad2, type: 2}
   Dead: {fileID: 11400000, guid: e48aadfcb71af394b8e6f787866fb7fb, type: 2}
   Pounce: {fileID: 0}

@@ -58,6 +58,8 @@ namespace Systems.Antagonists
 		private bool isDead;
 		public bool IsDead => isDead;
 
+		private bool onWeeds;
+
 		#region LifeCycle
 
 		private void Awake()
@@ -138,7 +140,11 @@ namespace Systems.Antagonists
 			//Dead...
 			if(livingHealthMasterBase.IsDead) return;
 
+			WeedCheck();
+
 			PlasmaCheck();
+
+			TryHeal();
 
 			LarvaUpdate();
 		}
@@ -193,6 +199,9 @@ namespace Systems.Antagonists
 			currentData = typeFound[0];
 
 			ChangeAlienState(AlienMode.Normal);
+
+			playerScript.weaponNetworkActions.SetNewDamageValues(currentData.AttackSpeed,
+				currentData.AttackDamage, currentData.DamageType, currentData.ChanceToHit);
 		}
 
 		#endregion
@@ -204,20 +213,8 @@ namespace Systems.Antagonists
 			//Don't need to check if full
 			if(currentPlasma == currentData.MaxPlasma) return;
 
-			var tileThere = RegisterPlayer.Matrix.MetaTileMap.GetTile(RegisterPlayer.LocalPositionServer, true, true);
-
-			if(tileThere == null) return;
-
-			var onWeedTile = false;
-			foreach (var weedTile in weedTiles)
-			{
-				if (weedTile != tileThere) continue;
-
-				onWeedTile = true;
-				break;
-			}
-
-			if(onWeedTile == false) return;
+			//Need to be on weeds
+			if(onWeeds == false) return;
 
 			var change = currentPlasma + currentData.PlasmaGainRate;
 
@@ -237,6 +234,25 @@ namespace Systems.Antagonists
 				OnDeath();
 				return;
 			}
+
+			if(newState == ConsciousState.UNCONSCIOUS) return;
+
+			ChangeAlienState(AlienMode.Unconscious);
+		}
+
+		private void TryHeal()
+		{
+			if(livingHealthMasterBase.HealthPercentage().Approx(100)) return;
+
+			//Sleeping heals twice as fast, but costs twice as much
+			var healCost = currentData.HealPlasmaCost * (currentAlienMode == AlienMode.Sleep ? 2 : 1);
+
+			if(currentPlasma < healCost) return;
+			currentPlasma -= healCost;
+
+			var healAmount = currentData.HealAmount * (currentAlienMode == AlienMode.Sleep ? 2 : 1);
+
+			livingHealthMasterBase.HealDamageOnAll(null, healAmount, DamageType.Brute);
 		}
 
 		#endregion
@@ -251,6 +267,8 @@ namespace Systems.Antagonists
 			ChangeAlienState(AlienMode.Dead);
 
 			//TODO say on alien chat they've died!
+
+			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, OnUpdate);
 		}
 
 		#endregion
@@ -285,6 +303,38 @@ namespace Systems.Antagonists
 			if (playerScript.registerTile.IsLayingDown) return;
 
 			ChangeAlienState(isRunning ? AlienMode.Running : AlienMode.Normal);
+		}
+
+		#endregion
+
+		#region Weeds
+
+		private void WeedCheck()
+		{
+			onWeeds = IsOnWeeds();
+		}
+
+		private bool IsOnWeeds()
+		{
+			var tileThere = RegisterPlayer.Matrix.MetaTileMap.GetAllTilesByType<ConnectedTileV2>(RegisterPlayer.LocalPositionServer, LayerType.Floors).ToList();
+
+			if(tileThere.Count == 0) return false;
+
+			var onWeedTile = false;
+			foreach (var tileOn in tileThere)
+			{
+				foreach (var weedTile in weedTiles)
+				{
+					if (weedTile != tileOn) continue;
+
+					onWeedTile = true;
+					break;
+				}
+
+				if(onWeedTile) break;
+			}
+
+			return onWeedTile;
 		}
 
 		#endregion
@@ -368,6 +418,13 @@ namespace Systems.Antagonists
 		{
 			currentAlienMode = newState;
 			ChangeAlienSprite(currentAlienMode);
+		}
+
+		[RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
+		private static void ClearStatics()
+		{
+			alienCount = 0;
+			queenCount = 0;
 		}
 
 		#endregion

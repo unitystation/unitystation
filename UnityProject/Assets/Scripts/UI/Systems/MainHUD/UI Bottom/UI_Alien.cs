@@ -81,7 +81,8 @@ namespace UI.Systems.MainHUD.UI_Bottom
 		{
 			var queens =
 				FindObjectsOfType<AlienPlayer>().Where(x =>
-					x.IsDead == false && x.CurrentAlienType == AlienPlayer.AlienTypes.Queen).ToArray();
+					x.IsDead == false && x.CurrentAlienType == AlienPlayer.AlienTypes.Queen
+					&& x.gameObject != alienPlayer.gameObject).ToArray();
 
 			if (queens.Length == 0)
 			{

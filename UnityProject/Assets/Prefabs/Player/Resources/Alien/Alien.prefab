@@ -616,33 +616,14 @@ MonoBehaviour:
   syncInterval: 0.1
   meleeSounds:
   - SetLoadSetting: 0
-    AssetAddress: Assets/Prefabs/Effects/Punch1.prefab
+    AssetAddress: Assets/Prefabs/Effects/BladeSlice.prefab
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0
-  - SetLoadSetting: 0
-    AssetAddress: Assets/Prefabs/Effects/Punch2.prefab
-    AssetReference:
-      m_AssetGUID: 
-      m_SubObjectName: 
-      m_SubObjectType: 
-      m_EditorAssetChanged: 0
-  - SetLoadSetting: 0
-    AssetAddress: Assets/Prefabs/Effects/Punch3.prefab
-    AssetReference:
-      m_AssetGUID: 
-      m_SubObjectName: 
-      m_SubObjectType: 
-      m_EditorAssetChanged: 0
-  - SetLoadSetting: 0
-    AssetAddress: Assets/Prefabs/Effects/Punch4.prefab
-    AssetReference:
-      m_AssetGUID: 
-      m_SubObjectName: 
-      m_SubObjectType: 
-      m_EditorAssetChanged: 0
+  speed: 7
+  fistDamage: 5
 --- !u!114 &114285504268110804
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -846,7 +846,7 @@ namespace HealthV2
 		/// <param name="damageType">The Type of Damage To Heal</param>
 		/// <param name="bodyPartAim">Body Part to heal</param>
 		[Server]
-		public void HealDamage(GameObject healingItem, int healAmt,
+		public void HealDamage(GameObject healingItem, float healAmt,
 			DamageType damageTypeToHeal, BodyPartType bodyPartAim)
 		{
 			foreach (var bodyPart in SurfaceBodyParts)
@@ -855,6 +855,21 @@ namespace HealthV2
 				{
 					bodyPart.HealDamage(healingItem, healAmt, damageTypeToHeal);
 				}
+			}
+		}
+
+		/// <summary>
+		/// Apply healing to the creature on all body parts. Server Only
+		/// </summary>
+		/// <param name="healingItem">the item used for healing (bruise pack etc). Null if there is none</param>
+		/// <param name="healAmt">Amount of healing to add</param>
+		/// <param name="damageType">The Type of Damage To Heal</param>
+		[Server]
+		public void HealDamageOnAll(GameObject healingItem, float healAmt, DamageType damageTypeToHeal)
+		{
+			foreach (var bodyPart in SurfaceBodyParts)
+			{
+				bodyPart.HealDamage(healingItem, healAmt, damageTypeToHeal);
 			}
 		}
 
@@ -1445,10 +1460,8 @@ namespace HealthV2
 		{
 			playerScript.registerTile.ServerRemoveStun();
 			if(OverallHealth > fastRegenThreshold) return;
-			foreach (var part in BodyPartList)
-			{
-				part.HealDamage(null, fastRegenHeal, DamageType.Brute);
-			}
+
+			HealDamageOnAll(null, fastRegenHeal, DamageType.Brute);
 		}
 
 		public void SetUpCharacter(PlayerHealthData RaceBodyparts)

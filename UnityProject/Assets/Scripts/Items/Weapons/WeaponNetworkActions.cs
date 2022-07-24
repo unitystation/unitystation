@@ -16,8 +16,17 @@ public class WeaponNetworkActions : NetworkBehaviour
 	[SerializeField]
 	private List<AddressableAudioSource> meleeSounds = default;
 
-	private readonly float speed = 7f;
-	private readonly float fistDamage = 5;
+	[SerializeField]
+	private float attackSpeed = 7f;
+
+	[SerializeField]
+	private float handDamage = 5;
+
+	[SerializeField]
+	private uint chanceToHit = 90;
+
+	[SerializeField]
+	private DamageType damageType = DamageType.Brute;
 
 	private float traumaDamageChance = 0;
 	private TraumaticDamageTypes tramuticDamageType;
@@ -54,6 +63,15 @@ public class WeaponNetworkActions : NetworkBehaviour
 		UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
 	}
 
+	[Server]
+	public void SetNewDamageValues(float newAttackSpeed, float newAttackDamage, DamageType newDamageType, uint newChanceToHit)
+	{
+		attackSpeed = newAttackSpeed;
+		handDamage = newAttackDamage;
+		damageType = newDamageType;
+		chanceToHit = newChanceToHit;
+	}
+
 	/// <summary>
 	/// Perform a melee attack to be performed using the object in the player's active hand. Will be validated and performed if valid. Also handles punching
 	/// if weapon is null.
@@ -75,16 +93,18 @@ public class WeaponNetworkActions : NetworkBehaviour
 		if (victim.TryGetComponent<InteractableTiles>(out var tiles))
 		{
 			// validate based on position of target vector
-			if (Validations.CanApply(playerScript, victim, NetworkSide.Server, targetVector: attackDirection) == false) return;
+			if (Validations.CanApply(playerScript, victim, NetworkSide.Server, targetVector: attackDirection,
+				    allowedPlayerStates: PlayerStates.Normal | PlayerStates.Alien) == false) return;
 		}
 		else
 		{
 			// validate based on position of target object
-			if (Validations.CanApply(playerScript, victim, NetworkSide.Server) == false) return;
+			if (Validations.CanApply(playerScript, victim, NetworkSide.Server,
+				    allowedPlayerStates: PlayerStates.Normal | PlayerStates.Alien) == false) return;
 		}
 
-		float damage = fistDamage;
-		DamageType damageType = DamageType.Brute;
+		float damage = handDamage;
+		DamageType currentDamageType = damageType;
 		AddressableAudioSource weaponSound = meleeSounds.PickRandom();
 		GameObject weapon = playerScript.playerNetworkActions.GetActiveHandItem();
 		ItemAttributesV2 weaponAttributes = weapon == null ? null : weapon.GetComponent<ItemAttributesV2>();
@@ -92,7 +112,7 @@ public class WeaponNetworkActions : NetworkBehaviour
 		if (weaponAttributes != null)
 		{
 			damage = weaponAttributes.ServerHitDamage;
-			damageType = weaponAttributes.ServerDamageType;
+			currentDamageType = weaponAttributes.ServerDamageType;
 			weaponSound = weaponAttributes.hitSoundSettings == SoundItemSettings.OnlyObject ? null : weaponAttributes.ServerHitSound;
 			tramuticDamageType = weaponAttributes.TraumaticDamageType;
 			traumaDamageChance = weaponAttributes.TraumaDamageChance;
@@ -128,7 +148,7 @@ public class WeaponNetworkActions : NetworkBehaviour
 				SoundManager.PlayNetworkedAtPos(integrity.soundOnHit, gameObject.AssumedWorldPosServer(), audioSourceParameters, sourceObj: gameObject);
 			}
 
-			integrity.ApplyDamage(damage, AttackType.Melee, damageType);
+			integrity.ApplyDamage(damage, AttackType.Melee, currentDamageType);
 			didHit = true;
 		}
 		// must be a living thing
@@ -136,22 +156,25 @@ public class WeaponNetworkActions : NetworkBehaviour
 		{
 			// This is based off the alien/humanoid/attack_hand punch code of TGStation's codebase.
 			// Punches have 90% chance to hit, otherwise it is a miss.
-			if (DMMath.Prob(90))
+			if (DMMath.Prob(chanceToHit))
 			{
 				// The attack hit.
 				if (victim.TryGetComponent<LivingHealthMasterBase>(out var victimHealth))
 				{
-					victimHealth.ApplyDamageToBodyPart(gameObject, damage, AttackType.Melee, damageType, damageZone, traumaDamageChance: traumaDamageChance, tramuticDamageType: tramuticDamageType);
+					victimHealth.ApplyDamageToBodyPart(gameObject, damage, AttackType.Melee, currentDamageType, damageZone, traumaDamageChance: traumaDamageChance, tramuticDamageType: tramuticDamageType);
 					didHit = true;
 				}
 				else if (victim.TryGetComponent<LivingHealthBehaviour>(out var victimHealthOld))
 				{
-					victimHealthOld.ApplyDamageToBodyPart(gameObject, damage, AttackType.Melee, damageType, damageZone);
+					victimHealthOld.ApplyDamageToBodyPart(gameObject, damage, AttackType.Melee, currentDamageType, damageZone);
 					didHit = true;
 				}
 			}
 			else
 			{
+				//TODO hard coding this for now, not sure whats the best way to make this a generic message?
+				if(playerScript.PlayerState == PlayerStates.Alien) return;
+
 				// The punch missed.
 				string victimName = victim.ExpensiveName();
 				SoundManager.PlayNetworkedAtPos(CommonSounds.Instance.PunchMiss, transform.position, sourceObj: gameObject);
@@ -233,7 +256,7 @@ public class WeaponNetworkActions : NetworkBehaviour
 		if (lerping)
 		{
 			lerpProgress += Time.deltaTime;
-			spritesObj.transform.localPosition = Vector3.Lerp(lerpFrom, lerpTo, lerpProgress * speed);
+			spritesObj.transform.localPosition = Vector3.Lerp(lerpFrom, lerpTo, lerpProgress * attackSpeed);
 			if (spritesObj.transform.localPosition == lerpTo || lerpProgress > 2f)
 			{
 				if (!isForLerpBack)
