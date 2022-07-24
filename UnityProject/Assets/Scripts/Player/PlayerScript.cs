@@ -526,7 +526,7 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IActi
 
 		if (playerState == PlayerStates.Alien)
 		{
-			ChatChannel alienTransmitChannels = ChatChannel.Alien | ChatChannel.Local | ChatChannel.OOC;
+			ChatChannel alienTransmitChannels = ChatChannel.Alien | ChatChannel.OOC;
 			ChatChannel alienReceiveChannels = ChatChannel.Alien | ChatChannel.Examine | ChatChannel.System | ChatChannel.Combat;
 
 			if (transmitOnly)
