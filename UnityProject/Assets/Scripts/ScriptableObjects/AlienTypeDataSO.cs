@@ -34,6 +34,6 @@ namespace ScriptableObjects
 		public SpriteDataSO Front;
 		public SpriteDataSO Back;
 
-		public List<Spell> Spells = new List<Spell>();
+		public List<ActionData> ActionData = new List<ActionData>();
 	}
 }

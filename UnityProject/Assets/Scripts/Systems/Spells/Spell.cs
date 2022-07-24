@@ -46,7 +46,7 @@ namespace Systems.Spells
 
 		public virtual void CallActionClient()
 		{
-			UIAction action = UIActionManager.Instance.DicIActionGUI[this];
+			UIAction action = UIActionManager.Instance.DicIActionGUI[this][0];
 			PlayerManager.LocalPlayerScript.playerNetworkActions.CmdRequestSpell(SpellData.Index, action.LastClickPosition);
 		}
 

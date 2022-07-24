@@ -4,11 +4,27 @@ using UnityEngine;
 using Mirror;
 
 [CreateAssetMenu(fileName = "UIActionScriptableObject", menuName = "ScriptableObjects/UIActionSO")]
-public class UIActionScriptableObject : ScriptableObject, IServerActionGUI
+public class UIActionScriptableObject : ScriptableObject, IServerActionGUI, IServerActionGUIMulti
 {
 	[SerializeField]
 	private ActionData actionData = null;
+
+	private List<ActionData> actionData1;
 	public ActionData ActionData => actionData;
+
+	public void CallActionClient(ActionData data)
+	{
+		Logger.Log("CallActionClient SO", Category.UserInput);
+		//Do whatever you want
+		//Remember if its networked do validationNot just
+	}
+
+	public void CallActionServer(ActionData data, PlayerInfo sentByPlayer)
+	{
+		Logger.Log("CallActionServer SO", Category.UserInput);
+		//Validation
+		//do Action
+	}
 
 	public virtual void CallActionClient()
 	{
@@ -47,4 +63,6 @@ public class UIActionScriptableObject : ScriptableObject, IServerActionGUI
 		}
 #endif
 	}
+
+	List<ActionData> IActionGUIMulti.ActionData => actionData1;
 }

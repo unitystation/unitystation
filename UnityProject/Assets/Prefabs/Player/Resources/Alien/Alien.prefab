@@ -622,8 +622,10 @@ MonoBehaviour:
       m_SubObjectName: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0
-  speed: 7
-  fistDamage: 5
+  attackSpeed: 7
+  handDamage: 5
+  chanceToHit: 90
+  damageType: 0
 --- !u!114 &114285504268110804
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1390,8 +1392,15 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 62556709952f6b246a7146db8ffc2c08, type: 2}
   - {fileID: 11400000, guid: e4546df833c34fd438f1c9a244c5aa20, type: 2}
   startingAlienType: 0
+  plantWeeds: {fileID: 11400000, guid: e469aa52bc0cbb949a56796230469fd2, type: 2}
+  layEggs: {fileID: 11400000, guid: dcad35ade3a509943ae3062115f0f2bf, type: 2}
   weedTiles:
   - {fileID: 11400000, guid: 6cf98c49e8db1c6499dfb5d832fefc13, type: 2}
+  eggPrefab: {fileID: 5322418909914265045, guid: 9473c17e4e7f2f24d99f2d788030cd9f,
+    type: 3}
+  weedPrefab: {fileID: 8974651586570386479, guid: 40fa2f5358b02784793d98f455bdac17,
+    type: 3}
+  spitProjectilePrefab: {fileID: 0}
 --- !u!114 &8980569866541390091
 MonoBehaviour:
   m_ObjectHideFlags: 0

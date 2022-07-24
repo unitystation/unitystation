@@ -94,6 +94,8 @@ namespace Alien
 
 		private void ChangeTile(Vector3Int localPos, Vector2Int coordToTry, MatrixInfo matrixAtPoint)
 		{
+			//TODO set to 1 so that its the first floor tile on alien player weeds check not the other floor tile
+			localPos.z = 1;
 			var tileThere = matrixAtPoint.MetaTileMap.GetTile(localPos, true);
 
 			if (tileThere != null)

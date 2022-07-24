@@ -15,13 +15,21 @@ MonoBehaviour:
   Name: Drone
   AlienType: 6
   Speed: 5
+  AttackSpeed: 7
+  AttackDamage: 5
+  DamageType: 0
+  ChanceToHit: 50
   MaxPlasma: 100
-  Normal: {fileID: 0}
-  Dead: {fileID: 0}
-  Pounce: {fileID: 0}
-  Sleep: {fileID: 0}
-  Unconscious: {fileID: 0}
+  PlasmaGainRate: 3
+  HealAmount: 5
+  HealPlasmaCost: 5
+  Normal: {fileID: 11400000, guid: 97d70460f61813e4dbf90294f5b33e80, type: 2}
+  Dead: {fileID: 11400000, guid: 7e0540f000ef2ac459a76ae5b37c1fcf, type: 2}
+  Pounce: {fileID: 11400000, guid: d3480d51eb277b3498d7686aecfe942f, type: 2}
+  Sleep: {fileID: 11400000, guid: 19c5b4e7f65389c45a7b599af372d7d9, type: 2}
+  Unconscious: {fileID: 11400000, guid: 7dee7a074103f634aab90ab4fc6cc1e7, type: 2}
   Running: {fileID: 0}
-  Front: {fileID: 0}
-  Back: {fileID: 0}
-  Spells: []
+  Front: {fileID: 11400000, guid: 8ee8029d6a8a12b49aff3d819a439212, type: 2}
+  Back: {fileID: 11400000, guid: 34af8596d4b85fa4f87a4b9d68cd713a, type: 2}
+  ActionData:
+  - {fileID: 11400000, guid: e469aa52bc0cbb949a56796230469fd2, type: 2}

@@ -21,6 +21,8 @@ MonoBehaviour:
   ChanceToHit: 50
   MaxPlasma: 100
   PlasmaGainRate: 3
+  HealAmount: 5
+  HealPlasmaCost: 5
   Normal: {fileID: 11400000, guid: 887dcdfd6df7edc4490c6f047ad3c8b7, type: 2}
   Dead: {fileID: 11400000, guid: 69ab4592eaf82ca47902b08e156411e9, type: 2}
   Pounce: {fileID: 0}
@@ -29,4 +31,6 @@ MonoBehaviour:
   Running: {fileID: 11400000, guid: 39080b57421922d448e1eb10d909201a, type: 2}
   Front: {fileID: 0}
   Back: {fileID: 0}
-  Spells: []
+  ActionData:
+  - {fileID: 11400000, guid: dcad35ade3a509943ae3062115f0f2bf, type: 2}
+  - {fileID: 11400000, guid: e469aa52bc0cbb949a56796230469fd2, type: 2}

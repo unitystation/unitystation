@@ -1,32 +1,65 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Alien;
 using Core.Chat;
 using HealthV2;
 using Mirror;
 using Player.Movement;
 using ScriptableObjects;
 using Tiles;
+using UI.Action;
 using UnityEngine;
 
 namespace Systems.Antagonists
 {
-	public class AlienPlayer : NetworkBehaviour
+	public class AlienPlayer : NetworkBehaviour, IServerActionGUIMulti
 	{
+		[Header("Sprite Stuff")]
 		[SerializeField]
 		private SpriteHandler mainSpriteHandler;
 
 		[SerializeField]
 		private SpriteHandler mainBackSpriteHandler;
 
+		[Header("Alien ScriptableObjects")]
 		[SerializeField]
 		private List<AlienTypeDataSO> typesToChoose = new List<AlienTypeDataSO>();
 
 		[SerializeField]
 		private AlienTypes startingAlienType = AlienTypes.Larva1;
 
+		private List<ActionData> actionData = new List<ActionData>();
+
+		public List<ActionData> ActionData => actionData;
+
+		#region ActionData
+
+		[Header("Action Data")]
+		[SerializeField]
+		private ActionData plantWeeds = null;
+
+		[SerializeField]
+		private ActionData layEggs = null;
+
+		#endregion
+
+		#region Prefabs
+
+		[Header("Prefab and Tiles")]
 		[SerializeField]
 		private List<LayerTile> weedTiles = new List<LayerTile>();
+
+		[SerializeField]
+		private GameObject eggPrefab = null;
+
+		[SerializeField]
+		private GameObject weedPrefab = null;
+
+		[SerializeField]
+		private GameObject spitProjectilePrefab = null;
+
+		#endregion
 
 		//Used to generate names
 		private static int alienCount;
@@ -39,7 +72,10 @@ namespace Systems.Antagonists
 
 		[SyncVar]
 		private AlienMode currentAlienMode;
-		public AlienTypes CurrentAlienType => currentData.AlienType;
+
+		[SyncVar(hook = nameof(SyncAlienType))]
+		private AlienTypes currentAlienType;
+		public AlienTypes CurrentAlienType => currentAlienType;
 
 		//Plasma value (increase by being on weeds)
 		[SyncVar]
@@ -108,6 +144,8 @@ namespace Systems.Antagonists
 		public void SetNewPlayer(AlienTypes newAlien)
 		{
 			if(isServer == false) return;
+
+			currentPlasma = 100;
 
 			Evolve(newAlien);
 
@@ -198,8 +236,10 @@ namespace Systems.Antagonists
 			}
 
 			currentData = typeFound[0];
+			actionData = currentData.ActionData;
+			currentAlienType = currentData.AlienType;
 
-			ChangeAlienState(AlienMode.Normal);
+			ChangeAlienMode(AlienMode.Normal);
 
 			playerScript.weaponNetworkActions.SetNewDamageValues(currentData.AttackSpeed,
 				currentData.AttackDamage, currentData.DamageType, currentData.ChanceToHit);
@@ -224,6 +264,21 @@ namespace Systems.Antagonists
 			currentPlasma = change;
 		}
 
+		private bool TryRemovePlasma(int toRemove, bool doMessage = true)
+		{
+			if (currentPlasma < toRemove)
+			{
+				if (doMessage)
+				{
+					Chat.AddExamineMsgFromServer(gameObject, $"Not enough plasma! You are missing {toRemove - currentPlasma}");
+				}
+
+				return false;
+			}
+
+			return true;
+		}
+
 		#endregion
 
 		#region Healh
@@ -238,7 +293,7 @@ namespace Systems.Antagonists
 
 			if(newState == ConsciousState.UNCONSCIOUS) return;
 
-			ChangeAlienState(AlienMode.Unconscious);
+			ChangeAlienMode(AlienMode.Unconscious);
 		}
 
 		private void TryHeal()
@@ -265,7 +320,9 @@ namespace Systems.Antagonists
 			if(isDead) return;
 			isDead = true;
 
-			ChangeAlienState(AlienMode.Dead);
+			RpcRemoveActions();
+
+			ChangeAlienMode(AlienMode.Dead);
 
 			//TODO say on alien chat they've died!
 
@@ -284,7 +341,7 @@ namespace Systems.Antagonists
 
 			if (isLyingDown)
 			{
-				ChangeAlienState(AlienMode.Sleep);
+				ChangeAlienMode(AlienMode.Sleep);
 				return;
 			}
 
@@ -303,7 +360,7 @@ namespace Systems.Antagonists
 
 			if (playerScript.registerTile.IsLayingDown) return;
 
-			ChangeAlienState(isRunning ? AlienMode.Running : AlienMode.Normal);
+			ChangeAlienMode(isRunning ? AlienMode.Running : AlienMode.Normal);
 		}
 
 		#endregion
@@ -317,7 +374,12 @@ namespace Systems.Antagonists
 
 		private bool IsOnWeeds()
 		{
-			var tileThere = RegisterPlayer.Matrix.MetaTileMap.GetAllTilesByType<ConnectedTileV2>(RegisterPlayer.LocalPositionServer, LayerType.Floors).ToList();
+			var localPos = RegisterPlayer.LocalPositionServer;
+
+			//TODO set to 1 so that its the first floor tile on alien player weeds check not the other floor tile
+			localPos.z = 1;
+
+			var tileThere = RegisterPlayer.Matrix.MetaTileMap.GetAllTilesByType<ConnectedTileV2>(localPos, LayerType.Floors).ToList();
 
 			if(tileThere.Count == 0) return false;
 
@@ -336,6 +398,58 @@ namespace Systems.Antagonists
 			}
 
 			return onWeedTile;
+		}
+
+		private const int WeedPlasmaCost = 25;
+
+		private void PlantWeeds()
+		{
+			if (RegisterPlayer.ObjectPhysics.Component.ContainedInContainer != null)
+			{
+				Chat.AddExamineMsgFromServer(gameObject, "You cannot plant weeds from in here!");
+				return;
+			}
+
+			if(TryRemovePlasma(WeedPlasmaCost) == false) return;
+
+			var localPos = RegisterPlayer.LocalPositionServer;
+
+			//TODO set to 1 so that its the first floor tile on alien player weeds check not the other floor tile
+			localPos.z = 1;
+
+			var weeds = RegisterPlayer.Matrix.GetFirst<AlienWeeds>(localPos, true);
+
+			if (weeds != null)
+			{
+				Chat.AddExamineMsgFromServer(gameObject, "There is already a weed node growing here, try somewhere else!");
+				return;
+			}
+
+			Chat.AddActionMsgToChat(gameObject, $"You start to plant weeds",
+				$"{gameObject.ExpensiveName()} starts planting weeds");
+
+			var cfg = new StandardProgressActionConfig(StandardProgressActionType.Construction);
+
+			StandardProgressAction.Create(
+				cfg,
+				() => FinishPlantWeeds()
+			).ServerStartProgress(ActionTarget.Object(RegisterPlayer), 5, gameObject);
+		}
+
+		private void FinishPlantWeeds()
+		{
+			if (RegisterPlayer.ObjectPhysics.Component.ContainedInContainer != null)
+			{
+				Chat.AddExamineMsgFromServer(gameObject, "You cannot plant weeds from in here!");
+				return;
+			}
+
+			var spawn = Spawn.ServerPrefab(weedPrefab, RegisterPlayer.ObjectPhysics.Component.OfficialPosition);
+
+			if(spawn.Successful == false) return;
+
+			Chat.AddActionMsgToChat(gameObject, $"You plant new weeds",
+				$"{gameObject.ExpensiveName()} plants weeds");
 		}
 
 		#endregion
@@ -413,13 +527,161 @@ namespace Systems.Antagonists
 
 		#endregion
 
-		#region Misc
+		#region Action Button Interactions
 
-		private void ChangeAlienState(AlienMode newState)
+		public void CallActionClient(ActionData data)
+		{
+			if(HasActionData(data) == false) return;
+
+			//Any clientside stuff??
+		}
+
+		public void CallActionServer(ActionData data, PlayerInfo sentByPlayer)
+		{
+			if(HasActionData(data) == false) return;
+
+			if (data == plantWeeds)
+			{
+				PlantWeeds();
+				return;
+			}
+
+			if (data == layEggs)
+			{
+				LayEggs();
+				return;
+			}
+		}
+
+		private bool HasActionData(ActionData data)
+		{
+			if (actionData == null) return false;
+
+			return actionData.Contains(data);
+		}
+
+		#endregion
+
+		#region Alien Mode
+
+		private void ChangeAlienMode(AlienMode newState)
 		{
 			currentAlienMode = newState;
 			ChangeAlienSprite(currentAlienMode);
 		}
+
+		#endregion
+
+		#region Alien Type
+
+		//Client and server
+		private void SyncAlienType(AlienTypes oldType, AlienTypes newType)
+		{
+			currentAlienType = newType;
+
+			var typeFound = typesToChoose.Where(a => a.AlienType == newType).ToArray();
+			if (typeFound.Length <= 0)
+			{
+				Chat.AddExamineMsgFromServer(gameObject, $"Unable to evolve to {newType.ToString()}");
+				Logger.LogError($"Could not find alien type: {newType.ToString()} in data list!");
+				return;
+			}
+
+			currentData = typeFound[0];
+
+			RemoveOldActions();
+
+			actionData = currentData.ActionData;
+
+			AddNewActions();
+		}
+
+		private void RemoveOldActions()
+		{
+			if(currentData == null) return;
+
+			foreach (var action in currentData.ActionData)
+			{
+				UIActionManager.Hide(this, action);
+			}
+		}
+
+		private void AddNewActions()
+		{
+			if(actionData == null) return;
+
+			foreach (var action in currentData.ActionData)
+			{
+				UIActionManager.Show(this, action);
+			}
+		}
+
+		[TargetRpc]
+		private void RpcRemoveActions()
+		{
+			RemoveOldActions();
+		}
+
+		#endregion
+
+		#region Lay Eggs
+
+		private const int EggPlasmaCost = 20;
+
+		private void LayEggs()
+		{
+			if (onWeeds == false)
+			{
+				Chat.AddExamineMsgFromServer(gameObject, "Eggs will need a soft resin floor!");
+				return;
+			}
+
+			if(TryRemovePlasma(EggPlasmaCost) == false) return;
+
+			if (RegisterPlayer.ObjectPhysics.Component.ContainedInContainer != null)
+			{
+				Chat.AddExamineMsgFromServer(gameObject, "You cannot lay an egg in here!");
+				return;
+			}
+
+			var eggs = RegisterPlayer.Matrix.GetFirst<AlienEggCycle>(RegisterPlayer.LocalPositionServer, true);
+
+			if (eggs != null)
+			{
+				Chat.AddExamineMsgFromServer(gameObject, "There is already an egg here, try somewhere else!");
+				return;
+			}
+
+			Chat.AddActionMsgToChat(gameObject, $"You start to lay an egg",
+				$"{gameObject.ExpensiveName()} starts laying an egg!");
+
+			var cfg = new StandardProgressActionConfig(StandardProgressActionType.Construction);
+
+			StandardProgressAction.Create(
+				cfg,
+				() => FinishLayingEggs()
+			).ServerStartProgress(ActionTarget.Object(RegisterPlayer), 6, gameObject);
+		}
+
+		private void FinishLayingEggs()
+		{
+			if (RegisterPlayer.ObjectPhysics.Component.ContainedInContainer != null)
+			{
+				Chat.AddExamineMsgFromServer(gameObject, "You cannot lay an egg in here!");
+				return;
+			}
+
+			var spawn = Spawn.ServerPrefab(eggPrefab, RegisterPlayer.ObjectPhysics.Component.OfficialPosition);
+
+			if(spawn.Successful == false) return;
+
+			Chat.AddActionMsgToChat(gameObject, $"You lay a new egg",
+				$"{gameObject.ExpensiveName()} lays an egg!");
+		}
+
+		#endregion
+
+		#region Misc
 
 		[RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
 		private static void ClearStatics()
