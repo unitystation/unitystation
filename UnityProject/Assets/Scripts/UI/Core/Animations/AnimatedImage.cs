@@ -25,11 +25,24 @@ namespace UI.Core.Animations
 
 		private void Update()
 		{
+			if(frame.Count == 0) return;
+
+			if (frame.Count == 1)
+			{
+				image.sprite = frame[0].sprite;
+				return;
+			}
+
 			if((timer+=Time.deltaTime) >= (frame[index].secondDelay / frame.Count))
 			{
 				timer = 0;
 				image.sprite = frame[index].sprite;
-				index = (index + 1) % frame.Count;
+				index++;
+
+				if (index >= frame.Count)
+				{
+					index = 0;
+				}
 			}
 		}
 

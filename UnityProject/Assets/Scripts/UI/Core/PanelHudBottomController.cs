@@ -18,10 +18,6 @@ namespace UI
 		[FormerlySerializedAs("pocketThreeItemSlot")]
 		public UI_ItemSlot suitStorageSlot = default;
 
-		[SerializeField]
-		private UI_Alien alienUI = null;
-		public UI_Alien AlienUI => alienUI;
-
 		private bool _isWearingUniform;
 
 		private ItemSlot OXsuit;
@@ -111,6 +107,11 @@ namespace UI
 		private string emptyHandNPocketMessage = "There's nothing in that pocket";
 
 		[SerializeField] private string fullHandNPocketMessage = "My pockets are full";
+
+		[Header("Misc")]
+		[SerializeField]
+		private UI_Alien alienUI = null;
+		public UI_Alien AlienUI => alienUI;
 
 		#region /=== KEYBINDS ===\
 

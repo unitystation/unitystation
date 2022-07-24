@@ -64,17 +64,17 @@ namespace UI.Systems.MainHUD.UI_Bottom
 		{
 			if (alienPlayer.LivingHealthMasterBase.IsDead)
 			{
-				healthSpriteRender.SetSprite(healthSprites[8]);
+				healthSpriteRender.SetSprite(healthSprites[7]);
 				return;
 			}
 
 			if (alienPlayer.LivingHealthMasterBase.IsCrit)
 			{
-				healthSpriteRender.SetSprite(healthSprites[7]);
+				healthSpriteRender.SetSprite(healthSprites[6]);
 				return;
 			}
 
-			healthSpriteRender.SetSprite(healthSprites[Mathf.RoundToInt(alienPlayer.LivingHealthMasterBase.HealthPercentage() / 16.7f)]);
+			healthSpriteRender.SetSprite(healthSprites[Mathf.RoundToInt(Mathf.Clamp((alienPlayer.LivingHealthMasterBase.HealthPercentage() / 16.7f) - 1, 0, 5))]);
 		}
 
 		private void QueenCheck()
