@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Queen
   m_EditorClassIdentifier: 
   Name: Queen
-  AlienType: 7
+  AlienType: 128
   Speed: 5
   AttackSpeed: 5
   AttackDamage: 25
@@ -31,6 +31,9 @@ MonoBehaviour:
   Running: {fileID: 11400000, guid: 39080b57421922d448e1eb10d909201a, type: 2}
   Front: {fileID: 0}
   Back: {fileID: 0}
+  MaxGrowth: 100
+  EvolvedFrom: 4
   ActionData:
   - {fileID: 11400000, guid: dcad35ade3a509943ae3062115f0f2bf, type: 2}
   - {fileID: 11400000, guid: e469aa52bc0cbb949a56796230469fd2, type: 2}
+  - {fileID: 11400000, guid: 7d8643ea055bed44c8e9e7dc0b5d7f36, type: 2}

@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Hunter
   m_EditorClassIdentifier: 
   Name: Hunter
-  AlienType: 3
+  AlienType: 8
   Speed: 10
   AttackSpeed: 4
   AttackDamage: 10
@@ -31,4 +31,7 @@ MonoBehaviour:
   Running: {fileID: 0}
   Front: {fileID: 11400000, guid: 54a778906870cc244a922af7e8dabdfb, type: 2}
   Back: {fileID: 11400000, guid: 1f71da5220eaa1147a0c2c8442af4f32, type: 2}
-  ActionData: []
+  MaxGrowth: 100
+  EvolvedFrom: 4
+  ActionData:
+  - {fileID: 11400000, guid: 7d8643ea055bed44c8e9e7dc0b5d7f36, type: 2}

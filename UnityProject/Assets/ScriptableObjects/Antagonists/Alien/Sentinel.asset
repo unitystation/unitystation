@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Sentinel
   m_EditorClassIdentifier: 
   Name: Sentinel
-  AlienType: 4
+  AlienType: 16
   Speed: 5
   AttackSpeed: 7
   AttackDamage: 10
@@ -21,6 +21,8 @@ MonoBehaviour:
   ChanceToHit: 50
   MaxPlasma: 100
   PlasmaGainRate: 3
+  HealAmount: 5
+  HealPlasmaCost: 5
   Normal: {fileID: 11400000, guid: 8c078db1944edd84680957df8e4d681c, type: 2}
   Dead: {fileID: 11400000, guid: 7b9894c99e9cec045884ca5fcabe8d36, type: 2}
   Pounce: {fileID: 11400000, guid: b7e2adbe0064cf145b9ad5a700a2357c, type: 2}
@@ -29,4 +31,7 @@ MonoBehaviour:
   Running: {fileID: 0}
   Front: {fileID: 11400000, guid: a403e47addaf6634db9edcb16fb20021, type: 2}
   Back: {fileID: 11400000, guid: 4023fcb16c79f144991fe824940e793b, type: 2}
-  Spells: []
+  MaxGrowth: 100
+  EvolvedFrom: 4
+  ActionData:
+  - {fileID: 11400000, guid: 7d8643ea055bed44c8e9e7dc0b5d7f36, type: 2}

@@ -42,6 +42,12 @@ namespace Systems.Antagonists
 		[SerializeField]
 		private ActionData layEggs = null;
 
+		[SerializeField]
+		private ActionData evolveAction = null;
+
+		[SerializeField]
+		private ActionData hissAction = null;
+
 		#endregion
 
 		#region Prefabs
@@ -145,9 +151,9 @@ namespace Systems.Antagonists
 		{
 			if(isServer == false) return;
 
-			currentPlasma = 100;
-
 			Evolve(newAlien);
+
+			currentPlasma = 100;
 
 			if (currentData.AlienType == AlienTypes.Queen)
 			{
@@ -192,21 +198,24 @@ namespace Systems.Antagonists
 
 		#region Larva
 
+		[SyncVar]
 		private int growth;
 
 		private void LarvaUpdate()
 		{
-			if (CurrentAlienType != AlienTypes.Larva1 && CurrentAlienType != AlienTypes.Larva2) return;
-
 			if(currentPlasma <= 0) return;
 
-			//If we are larva 1 or two then we need to continue growing to mature
-			growth++;
+			if (growth < currentData.MaxGrowth)
+			{
+				growth++;
+				return;
+			}
 
-			if(growth <= 100) return;
-			growth = 0;
-
-			Evolve(CurrentAlienType == AlienTypes.Larva1 ? AlienTypes.Larva2 : AlienTypes.Larva3);
+			//At max growth (100) is early larva then auto evolve, otherwise add Action Button
+			if (CurrentAlienType is AlienTypes.Larva1 or AlienTypes.Larva2)
+			{
+				Evolve(CurrentAlienType == AlienTypes.Larva1 ? AlienTypes.Larva2 : AlienTypes.Larva3);
+			}
 		}
 
 		#endregion
@@ -238,6 +247,8 @@ namespace Systems.Antagonists
 			currentData = typeFound[0];
 			actionData = currentData.ActionData;
 			currentAlienType = currentData.AlienType;
+			growth = 0;
+			currentPlasma = 0;
 
 			ChangeAlienMode(AlienMode.Normal);
 
@@ -245,6 +256,34 @@ namespace Systems.Antagonists
 				currentData.AttackDamage, currentData.DamageType, currentData.ChanceToHit);
 
 			Chat.AddExamineMsgFromServer(gameObject, $"You evolve into a {currentData.Name}!");
+		}
+
+		[Command]
+		public void CmdEvolve(AlienTypes newType)
+		{
+			if (growth < currentData.MaxGrowth)
+			{
+				Chat.AddExamineMsgFromServer(gameObject, "You need to mature more!");
+				return;
+			}
+
+			var typeFound = typesToChoose.Where(a => a.AlienType == newType).ToArray();
+			if (typeFound.Length <= 0)
+			{
+				Chat.AddExamineMsgFromServer(gameObject, $"Unable to evolve to {newType.ToString()}");
+				Logger.LogError($"Could not find alien type: {newType.ToString()} in data list!");
+				return;
+			}
+
+			var newData = typeFound[0];
+
+			if (newData.EvolvedFrom.HasFlag(currentAlienType) == false)
+			{
+				Chat.AddExamineMsgFromServer(gameObject, "You cannot evolve into that alien type!");
+				return;
+			}
+
+			Evolve(newData.AlienType);
 		}
 
 		#endregion
@@ -527,21 +566,43 @@ namespace Systems.Antagonists
 
 		public void CallActionClient(ActionData data)
 		{
+			//CLIENT SIDE//
 			if(HasActionData(data) == false) return;
 
-			//Any clientside stuff??
+			//Open evolve window
+			if (data == evolveAction)
+			{
+				if (growth < currentData.MaxGrowth)
+				{
+					Chat.AddExamineMsgToClient("You need to mature more first!");
+					return;
+				}
+
+				UIManager.Instance.panelHudBottomController.AlienUI.OpenEvolveMenu();
+				return;
+			}
+
+			//Hiss
+			if (data == hissAction)
+			{
+				CmdHiss();
+				return;
+			}
 		}
 
 		public void CallActionServer(ActionData data, PlayerInfo sentByPlayer)
 		{
+			//SERVER SIDE//
 			if(HasActionData(data) == false) return;
 
+			//Plant weeds
 			if (data == plantWeeds)
 			{
 				PlantWeeds();
 				return;
 			}
 
+			//Lay eggs
 			if (data == layEggs)
 			{
 				LayEggs();
@@ -721,20 +782,22 @@ namespace Systems.Antagonists
 			Crawling
 		}
 
+		[Flags]
 		public enum AlienTypes
 		{
+			None = 0,
 			//Three larva stages
-			Larva1,
-			Larva2,
-			Larva3,
+			Larva1 = 1 << 0,
+			Larva2 = 1 << 1,
+			Larva3 = 1 << 2,
 
-			Hunter,
-			Sentinel,
-			Praetorian,
-			Drone,
+			Hunter = 1 << 3,
+			Sentinel = 1 << 4,
+			Praetorian = 1 << 5,
+			Drone = 1 << 6,
 
 			//God Save the Queen!
-			Queen
+			Queen = 1 << 7
 		}
 	}
 }

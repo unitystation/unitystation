@@ -34,6 +34,10 @@ namespace ScriptableObjects
 		public SpriteDataSO Front;
 		public SpriteDataSO Back;
 
+		public int MaxGrowth = 100;
+
+		public AlienPlayer.AlienTypes EvolvedFrom = AlienPlayer.AlienTypes.Larva3;
+
 		public List<ActionData> ActionData = new List<ActionData>();
 	}
 }

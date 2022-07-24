@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Larva2
   m_EditorClassIdentifier: 
   Name: Young
-  AlienType: 1
+  AlienType: 2
   Speed: 10
   AttackSpeed: 7
   AttackDamage: 5
@@ -21,6 +21,8 @@ MonoBehaviour:
   ChanceToHit: 30
   MaxPlasma: 100
   PlasmaGainRate: 3
+  HealAmount: 5
+  HealPlasmaCost: 5
   Normal: {fileID: 11400000, guid: f6e87af1b598e4f4ca0c8baafc15bd42, type: 2}
   Dead: {fileID: 11400000, guid: 1b4a0efb7f40a074f9bca96702fbf8cf, type: 2}
   Pounce: {fileID: 0}
@@ -29,4 +31,6 @@ MonoBehaviour:
   Running: {fileID: 0}
   Front: {fileID: 0}
   Back: {fileID: 0}
-  Spells: []
+  MaxGrowth: 100
+  EvolvedFrom: 4
+  ActionData: []

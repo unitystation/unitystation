@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Praetorian
   m_EditorClassIdentifier: 
   Name: Praetorian
-  AlienType: 5
+  AlienType: 32
   Speed: 5
   AttackSpeed: 8
   AttackDamage: 20
@@ -21,6 +21,8 @@ MonoBehaviour:
   ChanceToHit: 50
   MaxPlasma: 100
   PlasmaGainRate: 3
+  HealAmount: 5
+  HealPlasmaCost: 5
   Normal: {fileID: 11400000, guid: 6b5e9a502852e304387d5c6ddac2d221, type: 2}
   Dead: {fileID: 11400000, guid: 8ef039b21f34aa34a989e358ea73d763, type: 2}
   Pounce: {fileID: 0}
@@ -29,4 +31,7 @@ MonoBehaviour:
   Running: {fileID: 0}
   Front: {fileID: 11400000, guid: b781aa2828bb62a449749eb0328fc9b5, type: 2}
   Back: {fileID: 11400000, guid: 9cc2e2c65fcde254eb52c8a6eb80091c, type: 2}
-  Spells: []
+  MaxGrowth: 100
+  EvolvedFrom: 4
+  ActionData:
+  - {fileID: 11400000, guid: 7d8643ea055bed44c8e9e7dc0b5d7f36, type: 2}
