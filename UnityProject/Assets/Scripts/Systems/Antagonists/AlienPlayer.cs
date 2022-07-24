@@ -276,6 +276,8 @@ namespace Systems.Antagonists
 				return false;
 			}
 
+			currentPlasma -= toRemove;
+
 			return true;
 		}
 
@@ -376,9 +378,6 @@ namespace Systems.Antagonists
 		{
 			var localPos = RegisterPlayer.LocalPositionServer;
 
-			//TODO set to 1 so that its the first floor tile on alien player weeds check not the other floor tile
-			localPos.z = 1;
-
 			var tileThere = RegisterPlayer.Matrix.MetaTileMap.GetAllTilesByType<ConnectedTileV2>(localPos, LayerType.Floors).ToList();
 
 			if(tileThere.Count == 0) return false;
@@ -412,12 +411,7 @@ namespace Systems.Antagonists
 
 			if(TryRemovePlasma(WeedPlasmaCost) == false) return;
 
-			var localPos = RegisterPlayer.LocalPositionServer;
-
-			//TODO set to 1 so that its the first floor tile on alien player weeds check not the other floor tile
-			localPos.z = 1;
-
-			var weeds = RegisterPlayer.Matrix.GetFirst<AlienWeeds>(localPos, true);
+			var weeds = RegisterPlayer.Matrix.GetFirst<AlienWeeds>(RegisterPlayer.LocalPositionServer, true);
 
 			if (weeds != null)
 			{
@@ -560,6 +554,34 @@ namespace Systems.Antagonists
 			return actionData.Contains(data);
 		}
 
+		private void RemoveOldActions()
+		{
+			if(currentData == null) return;
+			if(isLocalPlayer == false) return;
+
+			foreach (var action in currentData.ActionData)
+			{
+				UIActionManager.Hide(this, action);
+			}
+		}
+
+		private void AddNewActions()
+		{
+			if(actionData == null) return;
+			if(isLocalPlayer == false) return;
+
+			foreach (var action in currentData.ActionData)
+			{
+				UIActionManager.Show(this, action);
+			}
+		}
+
+		[TargetRpc]
+		private void RpcRemoveActions()
+		{
+			RemoveOldActions();
+		}
+
 		#endregion
 
 		#region Alien Mode
@@ -582,7 +604,11 @@ namespace Systems.Antagonists
 			var typeFound = typesToChoose.Where(a => a.AlienType == newType).ToArray();
 			if (typeFound.Length <= 0)
 			{
-				Chat.AddExamineMsgFromServer(gameObject, $"Unable to evolve to {newType.ToString()}");
+				if (isLocalPlayer)
+				{
+					Chat.AddExamineMsgFromServer(gameObject, $"Unable to evolve to {newType.ToString()}");
+				}
+
 				Logger.LogError($"Could not find alien type: {newType.ToString()} in data list!");
 				return;
 			}
@@ -594,32 +620,6 @@ namespace Systems.Antagonists
 			actionData = currentData.ActionData;
 
 			AddNewActions();
-		}
-
-		private void RemoveOldActions()
-		{
-			if(currentData == null) return;
-
-			foreach (var action in currentData.ActionData)
-			{
-				UIActionManager.Hide(this, action);
-			}
-		}
-
-		private void AddNewActions()
-		{
-			if(actionData == null) return;
-
-			foreach (var action in currentData.ActionData)
-			{
-				UIActionManager.Show(this, action);
-			}
-		}
-
-		[TargetRpc]
-		private void RpcRemoveActions()
-		{
-			RemoveOldActions();
 		}
 
 		#endregion

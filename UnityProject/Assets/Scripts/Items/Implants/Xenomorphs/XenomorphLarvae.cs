@@ -26,24 +26,38 @@ namespace HealthV2
 		{
 			currentTime++;
 
-			if (currentTime >= incubationTime)
+			if (currentTime < incubationTime) return;
+
+			//Can't hatch is player is dead, shouldn't be getting periodic updates if dead- but just as a double check.
+			if (RelatedPart.HealthMaster.IsDead) return;
+
+			RelatedPart.HealthMaster.ApplyDamageToBodyPart(
+				gameObject,
+				200,
+				AttackType.Internal,
+				DamageType.Brute,
+				BodyPartType.Chest);
+
+			var spawned = Spawn.ServerPrefab(SpawnedLarvae, RelatedPart.HealthMaster.gameObject.AssumedWorldPosServer());
+
+			if (spawned.Successful == false)
 			{
-				if (RelatedPart.HealthMaster.IsDead) //Can't hatch is player is dead, shouldn't be getting periodic updates if dead- but just as a double check.
-					return;
+				return;
+			}
 
-				RelatedPart.HealthMaster.ApplyDamageToBodyPart(
-					gameObject,
-					200,
-					AttackType.Internal,
-					DamageType.Brute,
-					BodyPartType.Chest);
+			if (RelatedPart.HealthMaster.TryGetComponent<PlayerScript>(out var playerScript) && playerScript.mind != null)
+			{
+				spawned.GameObject.GetComponent<PlayerScript>().mind = playerScript.mind;
 
-				Spawn.ServerPrefab(SpawnedLarvae, RelatedPart.HealthMaster.gameObject.AssumedWorldPosServer());
+				var connection = playerScript.connectionToClient;
+				PlayerSpawn.ServerTransferPlayerToNewBody(connection, spawned.GameObject, playerScript.mind.GetCurrentMob(), Event.PlayerSpawned, playerScript.characterSettings);
 
-				RelatedPart.TryRemoveFromBody();
+				playerScript.mind = null;
+			}
 
-				Despawn.ServerSingle(gameObject);
-			}		
+			RelatedPart.TryRemoveFromBody();
+
+			Despawn.ServerSingle(gameObject);
 		}
 	}
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using HealthV2;
 using UnityEngine;
 
 namespace Systems.MobAIs
@@ -40,6 +41,39 @@ namespace Systems.MobAIs
 			{
 				currentQueensAmt++;
 			}
+		}
+
+		/// <summary>
+		/// Looks around and tries to find players to target
+		/// </summary>
+		/// <returns>Gameobject of the first player it found</returns>
+		protected override GameObject SearchForTarget()
+		{
+			var player = Physics2D.OverlapCircleAll(registerObject.WorldPositionServer.To2Int(), 20f, hitMask);
+			//var hits = coneOfSight.GetObjectsInSight(hitMask, LayerTypeSelection.Walls, dirSprites.CurrentFacingDirection, 10f, 20);
+			if (player.Length == 0)
+			{
+				return null;
+			}
+
+			foreach (var coll in player)
+			{
+				if (MatrixManager.Linecast(
+					    gameObject.AssumedWorldPosServer(),
+					    LayerTypeSelection.Walls,
+					    null,
+					    coll.gameObject.AssumedWorldPosServer()).ItHit == false)
+				{
+					if(coll.gameObject.TryGetComponent<LivingHealthMasterBase>(out var healthMasterBase) == false || healthMasterBase.IsDead) continue;
+
+					if(healthMasterBase.playerScript.PlayerState == PlayerStates.Alien) continue;
+
+					return coll.gameObject;
+				}
+
+			}
+
+			return null;
 		}
 
 		protected override void OnAIStart()

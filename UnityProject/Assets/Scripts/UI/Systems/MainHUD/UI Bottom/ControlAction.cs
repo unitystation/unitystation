@@ -41,7 +41,7 @@ namespace UI
 
 			var currentSlot = PlayerManager.LocalPlayerScript.DynamicItemStorage.GetActiveHandSlot();
 
-			if (PlayerManager.LocalPlayerScript.IsNormal == false) return;
+			if (PlayerManager.LocalPlayerScript.IsNormal == false && PlayerManager.LocalPlayerScript.PlayerState != PlayerStates.Alien) return;
 
 			if (currentSlot.Item == null) return;
 
@@ -73,7 +73,8 @@ namespace UI
 			if (throwImage.sprite == throwSprites[0] && UIManager.IsThrow == false)
 			{
 				// Check if player can throw
-				if (!Validations.CanInteract(PlayerManager.LocalPlayerScript, NetworkSide.Client))
+				if (!Validations.CanInteract(PlayerManager.LocalPlayerScript, NetworkSide.Client, allowedPlayerStates:
+					    PlayerStates.Normal | PlayerStates.Alien))
 				{
 					return;
 				}

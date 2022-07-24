@@ -30,12 +30,13 @@ namespace Systems.MobAIs
 		}
 		private void TryFacehug(Vector3 dir, LivingHealthMasterBase livingHealth)
 		{
-			var playerInventory = livingHealth.gameObject.GetComponent<PlayerScript>()?.Equipment;
+			if (livingHealth.gameObject.TryGetComponent<PlayerScript>(out var playerScript) == false) return;
 
-			if (playerInventory == null)
-			{
-				return;
-			}
+			if(playerScript.PlayerState == PlayerStates.Alien) return;
+
+			var playerInventory = playerScript.Equipment;
+
+			if (playerInventory == null) return;
 
 			string verb;
 			bool success;

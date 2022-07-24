@@ -152,6 +152,9 @@ namespace Clothing
 				return;
 			}
 
+			//Aliens don't go into crit
+			if(playerScript.PlayerState == PlayerStates.Alien) return;
+
 			if (info.ClientInventoryMoveType == ClientInventoryMoveType.Added
 				&& playerScript.DynamicItemStorage.InventoryHasObjectInCategory(gameObject, NamedSlot.mask))
 			{

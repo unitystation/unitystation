@@ -242,7 +242,9 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		if (equipSlot != NamedSlot.leftHand && equipSlot != NamedSlot.rightHand) return;
 
 		//allowed to drop from hands while cuffed
-		if (!Validations.CanInteract(playerScript, NetworkSide.Server, allowCuffed: true)) return;
+		if (!Validations.CanInteract(playerScript, NetworkSide.Server, allowCuffed: true,
+			    allowedPlayerStates: PlayerStates.Normal | PlayerStates.Alien)) return;
+
 		if (!Cooldowns.TryStartServer(playerScript, CommonCooldowns.Instance.Interaction)) return;
 		if (NetworkServer.spawned.TryGetValue(NetID, out var objectToDrop) == false) return;
 
@@ -368,7 +370,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	public void CmdThrow( Vector3 TargetLocalPosition, int aim, Vector3 ClientWorldOfDifference)
 	{
 		//only allowed to throw from hands
-		if (!Validations.CanInteract(playerScript, NetworkSide.Server)) return;
+		if (!Validations.CanInteract(playerScript, NetworkSide.Server, allowedPlayerStates: PlayerStates.Normal | PlayerStates.Alien)) return;
 
 		if (!Cooldowns.TryStartServer(playerScript, CommonCooldowns.Instance.Interaction)) return;
 		var slot = itemStorage.GetActiveHandSlot();

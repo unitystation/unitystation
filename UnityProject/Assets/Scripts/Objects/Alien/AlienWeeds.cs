@@ -73,8 +73,8 @@ namespace Alien
 				var localPos = coordToTry.To3Int();
 				var matrixAtPoint = MatrixManager.AtPoint(objectPhysics.OfficialPosition + localPos, true, registerTile.Matrix.MatrixInfo);
 
-				if(matrixAtPoint.Matrix.IsPassableAtOneMatrix(coordAdjacent.To3Int(), localPos, true, includingPlayers: false,
-					   ignoreObjects: true) == false) continue;
+				if(matrixAtPoint.Matrix.IsPassableAtOneMatrix(coordAdjacent.To3Int(), localPos,
+					   true, includingPlayers: false) == false) continue;
 
 				expandCoords.Remove(coordToTry);
 
@@ -94,22 +94,23 @@ namespace Alien
 
 		private void ChangeTile(Vector3Int localPos, Vector2Int coordToTry, MatrixInfo matrixAtPoint)
 		{
-			//TODO set to 1 so that its the first floor tile on alien player weeds check not the other floor tile
-			localPos.z = 1;
-			var tileThere = matrixAtPoint.MetaTileMap.GetTile(localPos, true);
+			var tileThere = matrixAtPoint.MetaTileMap.GetAllTilesByType<ConnectedTileV2>(localPos, LayerType.Floors);
 
-			if (tileThere != null)
+			foreach (var tile in tileThere)
 			{
 				foreach (var weedTile in weedTiles)
 				{
-					if (weedTile != tileThere) continue;
+					if (weedTile != tile) continue;
 
 					coordsDone.Add(coordToTry);
 					return;
 				}
 			}
 
-			matrixAtPoint.MetaTileMap.SetTile(localPos, weedTiles.PickRandom());
+			//TODO after tilemap upgrade remove this (need this as floors doesnt have multilayer and thus weed tile detection is broken)
+			matrixAtPoint.MetaTileMap.RemoveTileWithlayer(localPos, LayerType.Floors);
+
+			//matrixAtPoint.MetaTileMap.SetTile(localPos, weedTiles.PickRandom());
 		}
 
 		private void Stop()
