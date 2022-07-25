@@ -45,6 +45,8 @@ namespace ScriptableObjects.Audio
 
 		private static StepType GetFootStepType(MovementSynchronisation playerSync)
 		{
+			if(playerSync.playerScript.Equipment == null) return StepType.Barefoot;
+
 			foreach (var itemSlot in playerSync.playerScript.Equipment.ItemStorage.GetNamedItemSlots(NamedSlot.feet))
 			{
 				if (itemSlot.Item != null)

@@ -20,6 +20,22 @@ public interface IOnPlayerRejoin
 }
 
 /// <summary>
+/// This interface will be called when a player is transferred into a new body (but not on rejoin, use above instead)
+/// </summary>
+public interface IOnPlayerTransfer
+{
+	public void OnPlayerTransfer();
+}
+
+/// <summary>
+/// This interface will be called when a player is transferred out of their body
+/// </summary>
+public interface IOnPlayerLeaveBody
+{
+	public void OnPlayerLeaveBody();
+}
+
+/// <summary>
 /// Main API for dealing with spawning players and related things.
 /// For spawning of non-player things, see Spawn.
 /// </summary>
@@ -311,7 +327,8 @@ public static class PlayerSpawn
 	{
 		var ps = body.GetComponent<PlayerScript>();
 		var settings = ps.characterSettings;
-		ServerTransferPlayer(viewer.connectionToClient, body, viewer.gameObject, Event.PlayerRejoined, settings);
+		ServerTransferPlayer(viewer.connectionToClient, body, viewer.gameObject, Event.PlayerRejoined,
+			settings, isRejoin: true);
 		ps = body.GetComponent<PlayerScript>();
 		ps.playerNetworkActions.ReenterBodyUpdates();
 		ps.mind.ResendSpellActions();
@@ -496,8 +513,9 @@ public static class PlayerSpawn
 	/// <param name="characterSettings">settings, ignored if transferring to an existing player body</param>
 	/// <param name="willDestroyOldBody">if true, indicates the old body is going to be destroyed rather than pooled,
 	/// thus we shouldn't send any network message which reference's the old body's ID since it won't exist.</param>
+	/// <param name="isRejoin">is the player rejoining the server</param>
 	private static void ServerTransferPlayer(NetworkConnectionToClient conn, GameObject newBody, GameObject oldBody,
-		Event eventType, CharacterSheet characterSettings, bool willDestroyOldBody = false)
+		Event eventType, CharacterSheet characterSettings, bool willDestroyOldBody = false, bool isRejoin = false)
 	{
 		if (oldBody)
 		{
@@ -509,6 +527,12 @@ public static class PlayerSpawn
 
 			//no longer can observe their inventory
 			oldBody.GetComponent<DynamicItemStorage>()?.ServerRemoveObserverPlayer(oldBody);
+
+			var leaveInterfaces = oldBody.GetComponents<IOnPlayerLeaveBody>();
+			foreach (var leaveInterface in leaveInterfaces)
+			{
+				leaveInterface.OnPlayerLeaveBody();
+			}
 		}
 
 		var netIdentity = newBody.GetComponent<NetworkIdentity>();
@@ -566,6 +590,12 @@ public static class PlayerSpawn
 			{
 				playerSprites.OnCharacterSettingsChange(characterSettings);
 			}
+		}
+
+		var transfers = newBody.GetComponents<IOnPlayerTransfer>();
+		foreach (var transfer in transfers)
+		{
+			transfer.OnPlayerTransfer();
 		}
 	}
 }

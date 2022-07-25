@@ -15,7 +15,7 @@ using Weapons.Projectiles;
 
 namespace Systems.Antagonists
 {
-	public class AlienPlayer : NetworkBehaviour, IServerActionGUIMulti, ICooldown, IOnPlayerRejoin
+	public class AlienPlayer : NetworkBehaviour, IServerActionGUIMulti, ICooldown, IOnPlayerRejoin, IOnPlayerTransfer, IOnPlayerLeaveBody
 	{
 		[Header("Sprite Stuff")]
 		[SerializeField]
@@ -1028,6 +1028,18 @@ namespace Systems.Antagonists
 		{
 			//Resend infected player stuff
 			XenomorphLarvae.Rejoined(connectionToClient);
+		}
+
+		public void OnPlayerTransfer()
+		{
+			//Resend infected player stuff as they've transferred into this body from a different one
+			XenomorphLarvae.Rejoined(connectionToClient);
+		}
+
+		public void OnPlayerLeaveBody()
+		{
+			//Player left this body so remove all infected stuff
+			XenomorphLarvae.LeftBody(connectionToClient);
 		}
 
 		#endregion

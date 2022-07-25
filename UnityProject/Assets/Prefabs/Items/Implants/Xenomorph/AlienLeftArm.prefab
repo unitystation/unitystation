@@ -100,25 +100,6 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 7898896040612738270}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &8348383316619104062
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4765282443109851668}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4ac414987522b024e895aac3e21193d0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  isEMPVunerable: 0
-  EMPResistance: 2
-  walkingSpeed: 1
-  runningSpeed: 1
-  crawlingSpeed: 0.5
-  armEfficiency: 1
-  legEfficiency: 0.4
 --- !u!114 &2288932229244256589
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -170,3 +151,22 @@ MonoBehaviour:
     SlotContents: []
     DeprecatedContents: []
   ashPrefab: {fileID: 0}
+--- !u!114 &8348383316619104062
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4765282443109851668}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4ac414987522b024e895aac3e21193d0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isEMPVunerable: 0
+  EMPResistance: 2
+  walkingSpeed: 1
+  runningSpeed: 1
+  crawlingSpeed: 0.5
+  armEfficiency: 1
+  legEfficiency: 0.4

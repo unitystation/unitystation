@@ -29,6 +29,10 @@ public class SpriteHandler : MonoBehaviour
 	[Tooltip("If checked, a random sprite SO will be selected during initialization from the catalogue of sprite SOs.")]
 	[SerializeField] private bool randomInitialSprite = false;
 
+
+	[Tooltip("Whether the spriteRenderer should be disabled until manually enabled")]
+	[SerializeField] private bool spriteRendererDisabledOnStart = false;
+
 	private SpriteRenderer spriteRenderer;
 
 	public SpriteRenderer SpriteRenderer => spriteRenderer;
@@ -154,6 +158,12 @@ public class SpriteHandler : MonoBehaviour
 		{
 			return CurrentSprite == null || gameObject.activeInHierarchy == false;
 		}
+	}
+
+	private void Start()
+	{
+		if(spriteRenderer == null) return;
+		spriteRenderer.enabled = spriteRendererDisabledOnStart == false;
 	}
 
 	public NetworkIdentity GetMasterNetID()
@@ -701,7 +711,6 @@ public class SpriteHandler : MonoBehaviour
 
 		if (spriteRenderer != null)
 		{
-			spriteRenderer.enabled = true;
 			spriteRenderer.sprite = value;
 
 			if (isPaletteSet == false)

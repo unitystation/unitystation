@@ -58,7 +58,7 @@ namespace HealthV2
 
 				checkPlayerScript.Component.playerSprites.InfectedSpriteHandler
 					.ChangeSprite(
-						Mathf.RoundToInt(Mathf.Clamp(((currentTime / (float) incubationTime * 100) / 16.7f) - 1, 0, 5)));
+						Mathf.RoundToInt(Mathf.Clamp(((currentTime / (float) incubationTime * 100) / 20f) - 1, 0, 4)));
 
 				return;
 			}
@@ -82,7 +82,7 @@ namespace HealthV2
 
 			if (checkPlayerScript.HasComponent)
 			{
-				RemoveFromInfected(checkPlayerScript.Component);
+				checkPlayerScript.Component.playerSprites.InfectedSpriteHandler.ChangeSprite(5);
 			}
 
 			if (checkPlayerScript.HasComponent && checkPlayerScript.Component.mind != null)
@@ -110,7 +110,7 @@ namespace HealthV2
 
 			if (CustomNetworkManager.IsHeadless == false) return;
 
-			newPlayer.playerSprites.InfectedSpriteHandler.gameObject.SetActive(true);
+			newPlayer.playerSprites.InfectedSpriteHandler.SpriteRenderer.enabled = true;
 		}
 
 		private static void RemoveFromInfected(PlayerScript oldPlayer)
@@ -121,7 +121,7 @@ namespace HealthV2
 
 			if(CustomNetworkManager.IsHeadless == false) return;
 
-			oldPlayer.playerSprites.InfectedSpriteHandler.gameObject.SetActive(false);
+			oldPlayer.playerSprites.InfectedSpriteHandler.SpriteRenderer.enabled = false;
 		}
 
 		public static void Rejoined(NetworkConnectionToClient conn)
@@ -129,6 +129,14 @@ namespace HealthV2
 			foreach (var player in infectedPlayers)
 			{
 				InfectedMessage.SendTo(conn, player, true);
+			}
+		}
+
+		public static void LeftBody(NetworkConnectionToClient conn)
+		{
+			foreach (var player in infectedPlayers)
+			{
+				InfectedMessage.SendTo(conn, player, false);
 			}
 		}
 
@@ -153,7 +161,7 @@ namespace HealthV2
 			if(NetworkObject == null) return;
 			if(NetworkObject.TryGetComponent<PlayerScript>(out var playerScript) == false) return;
 
-			playerScript.playerSprites.InfectedSpriteHandler.gameObject.SetActive(msg.IsInfected);
+			playerScript.playerSprites.InfectedSpriteHandler.SpriteRenderer.enabled = msg.IsInfected;
 		}
 
 		public static void Send(PlayerScript infectedPlayer, bool isInfected)

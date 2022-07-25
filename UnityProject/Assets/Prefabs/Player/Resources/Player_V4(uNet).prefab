@@ -119,6 +119,7 @@ MonoBehaviour:
   SubCatalogue: []
   PresentSpriteSet: {fileID: 0}
   randomInitialSprite: 0
+  spriteRendererDisabledOnStart: 0
   doReverseAnimation: 0
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
@@ -276,6 +277,7 @@ MonoBehaviour:
   SubCatalogue: []
   PresentSpriteSet: {fileID: 0}
   randomInitialSprite: 0
+  spriteRendererDisabledOnStart: 0
   doReverseAnimation: 0
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
@@ -399,6 +401,7 @@ MonoBehaviour:
   SubCatalogue: []
   PresentSpriteSet: {fileID: 0}
   randomInitialSprite: 0
+  spriteRendererDisabledOnStart: 0
   doReverseAnimation: 0
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
@@ -1571,6 +1574,7 @@ MonoBehaviour:
   SubCatalogue: []
   PresentSpriteSet: {fileID: 0}
   randomInitialSprite: 0
+  spriteRendererDisabledOnStart: 0
   doReverseAnimation: 0
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
@@ -1694,6 +1698,7 @@ MonoBehaviour:
   SubCatalogue: []
   PresentSpriteSet: {fileID: 0}
   randomInitialSprite: 0
+  spriteRendererDisabledOnStart: 0
   doReverseAnimation: 0
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
@@ -1817,6 +1822,7 @@ MonoBehaviour:
   SubCatalogue: []
   PresentSpriteSet: {fileID: 0}
   randomInitialSprite: 0
+  spriteRendererDisabledOnStart: 0
   doReverseAnimation: 0
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
@@ -1940,6 +1946,7 @@ MonoBehaviour:
   SubCatalogue: []
   PresentSpriteSet: {fileID: 0}
   randomInitialSprite: 0
+  spriteRendererDisabledOnStart: 0
   doReverseAnimation: 0
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
@@ -2063,6 +2070,7 @@ MonoBehaviour:
   SubCatalogue: []
   PresentSpriteSet: {fileID: 0}
   randomInitialSprite: 0
+  spriteRendererDisabledOnStart: 0
   doReverseAnimation: 0
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
@@ -2186,6 +2194,7 @@ MonoBehaviour:
   SubCatalogue: []
   PresentSpriteSet: {fileID: 0}
   randomInitialSprite: 0
+  spriteRendererDisabledOnStart: 0
   doReverseAnimation: 0
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
@@ -2309,6 +2318,7 @@ MonoBehaviour:
   SubCatalogue: []
   PresentSpriteSet: {fileID: 0}
   randomInitialSprite: 0
+  spriteRendererDisabledOnStart: 0
   doReverseAnimation: 0
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
@@ -2432,6 +2442,7 @@ MonoBehaviour:
   SubCatalogue: []
   PresentSpriteSet: {fileID: 0}
   randomInitialSprite: 0
+  spriteRendererDisabledOnStart: 0
   doReverseAnimation: 0
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
@@ -2555,6 +2566,7 @@ MonoBehaviour:
   SubCatalogue: []
   PresentSpriteSet: {fileID: 0}
   randomInitialSprite: 0
+  spriteRendererDisabledOnStart: 0
   doReverseAnimation: 0
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
@@ -2678,6 +2690,7 @@ MonoBehaviour:
   SubCatalogue: []
   PresentSpriteSet: {fileID: 0}
   randomInitialSprite: 0
+  spriteRendererDisabledOnStart: 0
   doReverseAnimation: 0
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
@@ -3052,7 +3065,7 @@ SpriteRenderer:
   m_SortingLayerID: -932335445
   m_SortingLayer: 23
   m_SortingOrder: 1
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300000, guid: d096fbaea7291064983952ba64e6d724, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -3060,7 +3073,7 @@ SpriteRenderer:
   m_Size: {x: 1, y: 1}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 0
+  m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!114 &7962154314580008223
@@ -3076,9 +3089,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   NetworkThis: 1
-  SubCatalogue: []
-  PresentSpriteSet: {fileID: 0}
+  SubCatalogue:
+  - {fileID: 11400000, guid: 9f05c0ed25910cb45854ecdc2de3d76f, type: 2}
+  - {fileID: 11400000, guid: 1e0748c521766ef4087512268045c8d2, type: 2}
+  - {fileID: 11400000, guid: b9f29b610f8c36a409e4ac1823d8fc0d, type: 2}
+  - {fileID: 11400000, guid: 2da0979a6c42f5d47808c3a63c976742, type: 2}
+  - {fileID: 11400000, guid: 6cc276bb7bbb6ed498e792511484622f, type: 2}
+  - {fileID: 11400000, guid: 5258734285a19ac41838dbc1bbc67d32, type: 2}
+  PresentSpriteSet: {fileID: 11400000, guid: 9f05c0ed25910cb45854ecdc2de3d76f, type: 2}
   randomInitialSprite: 0
+  spriteRendererDisabledOnStart: 1
   doReverseAnimation: 0
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
@@ -8234,6 +8254,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 3cc58aaaccdf34c499544ffeac4e7a56, type: 2}
   PresentSpriteSet: {fileID: 11400000, guid: 0ae7d83d6d2e07041a08b251e147d876, type: 2}
   randomInitialSprite: 0
+  spriteRendererDisabledOnStart: 0
   doReverseAnimation: 0
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
@@ -8357,6 +8378,7 @@ MonoBehaviour:
   SubCatalogue: []
   PresentSpriteSet: {fileID: 0}
   randomInitialSprite: 0
+  spriteRendererDisabledOnStart: 0
   doReverseAnimation: 0
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
