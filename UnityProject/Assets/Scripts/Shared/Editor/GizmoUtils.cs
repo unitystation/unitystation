@@ -1,6 +1,7 @@
+#if UNITY_EDITOR
 using System.Collections.Generic;
-using UnityEditor;
 using UnityEngine;
+using UnityEditor;
 
 namespace Shared.Editor
 {
@@ -169,3 +170,4 @@ namespace Shared.Editor
 		}
 	}
 }
+#endif

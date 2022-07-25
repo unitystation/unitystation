@@ -1,13 +1,12 @@
-﻿using System.Collections.Generic;
+﻿#if UNITY_EDITOR
+using System.Collections.Generic;
 using System.Linq;
-using UnityEditor;
-using UnityEditor.SceneManagement;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Shared.Systems.ObjectConnection;
 using Shared.Util;
-
-#if UNITY_EDITOR
+using UnityEditor;
+using UnityEditor.SceneManagement;
 
 namespace Shared.Editor
 {
