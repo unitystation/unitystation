@@ -81,6 +81,8 @@ namespace UI.Systems.MainHUD.UI_Bottom
 
 		#endregion
 
+		#region Lifecycle
+
 		private void OnEnable()
 		{
 			UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
@@ -93,6 +95,10 @@ namespace UI.Systems.MainHUD.UI_Bottom
 			UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
 		}
 
+		#endregion
+
+		#region OnUpdate
+
 		private void OnUpdate()
 		{
 			if(alienPlayer == null) return;
@@ -104,6 +110,10 @@ namespace UI.Systems.MainHUD.UI_Bottom
 
 			PlasmaCheck();
 		}
+
+		#endregion
+
+		#region Health Check
 
 		private void HealthCheck()
 		{
@@ -212,6 +222,8 @@ namespace UI.Systems.MainHUD.UI_Bottom
 			}
 		}
 
+		#endregion
+
 		private void PlasmaCheck()
 		{
 			plasmaText.text = $"{alienPlayer.CurrentPlasmaPercentage}%";
@@ -234,6 +246,13 @@ namespace UI.Systems.MainHUD.UI_Bottom
 
 		public void OnQueenAnnounce()
 		{
+			if (alienPlayer.OnCoolDown(NetworkSide.Client, alienPlayer.QueenAnnounceCooldown))
+			{
+				Chat.AddExamineMsgToClient("You telepathy nerves need recharging!");
+				return;
+			}
+			alienPlayer.StartCoolDown(NetworkSide.Client, alienPlayer.QueenAnnounceCooldown);
+
 			alienPlayer.CmdQueenAnnounce(queenAnnounceText.text);
 
 			queenAnnounceMenu.SetActive(false);

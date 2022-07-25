@@ -24,6 +24,16 @@ MonoBehaviour:
   PlasmaGainRate: 3
   HealAmount: 5
   HealPlasmaCost: 5
+  MaxGrowth: 100
+  AcidSpitCost: 5
+  NeurotoxinSpitCost: 10
+  EvolvedFrom: 4
+  ActionData:
+  - {fileID: 11400000, guid: 7d8643ea055bed44c8e9e7dc0b5d7f36, type: 2}
+  - {fileID: 11400000, guid: 6b465360fb919c243b763597b4759a63, type: 2}
+  - {fileID: 11400000, guid: e469aa52bc0cbb949a56796230469fd2, type: 2}
+  - {fileID: 11400000, guid: a4f68dc8a010041499928c3cf209a10f, type: 2}
+  - {fileID: 11400000, guid: 3685abbf207a2c54087d845649fb87a5, type: 2}
   Normal: {fileID: 11400000, guid: 8c078db1944edd84680957df8e4d681c, type: 2}
   Dead: {fileID: 11400000, guid: 7b9894c99e9cec045884ca5fcabe8d36, type: 2}
   Pounce: {fileID: 11400000, guid: b7e2adbe0064cf145b9ad5a700a2357c, type: 2}
@@ -32,9 +42,3 @@ MonoBehaviour:
   Running: {fileID: 0}
   Front: {fileID: 11400000, guid: a403e47addaf6634db9edcb16fb20021, type: 2}
   Back: {fileID: 11400000, guid: 4023fcb16c79f144991fe824940e793b, type: 2}
-  MaxGrowth: 100
-  EvolvedFrom: 4
-  ActionData:
-  - {fileID: 11400000, guid: 7d8643ea055bed44c8e9e7dc0b5d7f36, type: 2}
-  - {fileID: 11400000, guid: 6b465360fb919c243b763597b4759a63, type: 2}
-  - {fileID: 11400000, guid: e469aa52bc0cbb949a56796230469fd2, type: 2}

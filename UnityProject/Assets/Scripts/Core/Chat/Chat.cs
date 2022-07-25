@@ -190,6 +190,37 @@ public partial class Chat : MonoBehaviour
 		InvokeChatEvent(chatEvent);
 	}
 
+	public static void AddChatMsgToChat(string message, ChatChannel channels, Loudness loudness = Loudness.NORMAL)
+	{
+		if (channels == ChatChannel.None) return;
+
+		// The exact words that leave the player's mouth (or that are narrated). Already includes HONKs, stutters, etc.
+		// This step is skipped when speaking in the OOC channel.
+		(string message, ChatModifier chatModifiers) processedMessage = (string.Empty, ChatModifier.None); // Placeholder values
+
+		bool isOOC = channels.HasFlag(ChatChannel.OOC);
+
+		var chatEvent = new ChatEvent
+		{
+			message = isOOC ? message : processedMessage.message,
+			modifiers = ChatModifier.None,
+			speaker = "",
+			position = TransformState.HiddenPos,
+			channels = channels,
+			originator = null,
+			VoiceLevel = loudness
+		};
+
+		//Handle OOC messages
+		if (isOOC)
+		{
+			ChatRelay.Instance.PropagateChatToClients(chatEvent);
+			return;
+		}
+
+		InvokeChatEvent(chatEvent);
+	}
+
 	private static void AddOOCChatMessage(PlayerInfo sentByPlayer, string message, ChatEvent chatEvent)
 	{
 		//Check to see if this player has been OOC muted

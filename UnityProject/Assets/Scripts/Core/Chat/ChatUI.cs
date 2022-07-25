@@ -161,7 +161,7 @@ namespace UI.Chat_UI
 			ChatChannel.Blob,
 			//Alien only has access to Alien so can be default
 			ChatChannel.Alien,
-			
+
 			ChatChannel.Ghost,
 			ChatChannel.OOC
 		};

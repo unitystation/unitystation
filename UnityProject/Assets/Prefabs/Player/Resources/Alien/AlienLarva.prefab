@@ -1399,13 +1399,19 @@ MonoBehaviour:
   hiveAction: {fileID: 11400000, guid: 6b465360fb919c243b763597b4759a63, type: 2}
   queenAnnounceAction: {fileID: 11400000, guid: 3c1a03071ac0a2844a057040f946b74e,
     type: 2}
+  acidSpitAction: {fileID: 11400000, guid: a4f68dc8a010041499928c3cf209a10f, type: 2}
+  neurotoxinSpitAction: {fileID: 11400000, guid: 3685abbf207a2c54087d845649fb87a5,
+    type: 2}
   weedTiles:
   - {fileID: 11400000, guid: 6cf98c49e8db1c6499dfb5d832fefc13, type: 2}
   eggPrefab: {fileID: 5322418909914265045, guid: 9473c17e4e7f2f24d99f2d788030cd9f,
     type: 3}
   weedPrefab: {fileID: 8974651586570386479, guid: 40fa2f5358b02784793d98f455bdac17,
     type: 3}
-  spitProjectilePrefab: {fileID: 0}
+  acidSpitProjectilePrefab: {fileID: 2393780574223579426, guid: f3ca4389d5306d443866dc4481780256,
+    type: 3}
+  neurotoxicSpitProjectilePrefab: {fileID: 4470397135652523633, guid: 7a522247614f57346afd5c48e3f0060c,
+    type: 3}
 --- !u!114 &8980569866541390091
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1413,7 +1419,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1133514949248654}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 039d6b4e225343388dbf698df3150e4b, type: 3}
   m_Name: 

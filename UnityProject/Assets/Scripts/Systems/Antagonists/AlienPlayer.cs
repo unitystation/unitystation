@@ -10,6 +10,7 @@ using ScriptableObjects;
 using Tiles;
 using UI.Action;
 using UnityEngine;
+using Weapons.Projectiles;
 
 namespace Systems.Antagonists
 {
@@ -55,6 +56,12 @@ namespace Systems.Antagonists
 		[SerializeField]
 		private ActionData queenAnnounceAction = null;
 
+		[SerializeField]
+		private ActionData acidSpitAction = null;
+
+		[SerializeField]
+		private ActionData neurotoxinSpitAction = null;
+
 		#endregion
 
 		#region Prefabs
@@ -70,7 +77,10 @@ namespace Systems.Antagonists
 		private GameObject weedPrefab = null;
 
 		[SerializeField]
-		private GameObject spitProjectilePrefab = null;
+		private GameObject acidSpitProjectilePrefab = null;
+
+		[SerializeField]
+		private GameObject neurotoxicSpitProjectilePrefab = null;
 
 		#endregion
 
@@ -81,12 +91,16 @@ namespace Systems.Antagonists
 		//Used to generate Queen names
 		private static int queenCount;
 
+		//Only one alive queen allowed
+		private static bool queenInHive;
+
 		//Current alien data SO
 		private AlienTypeDataSO currentData;
 		public AlienTypeDataSO CurrentData => currentData;
 
 		[SyncVar]
 		private AlienMode currentAlienMode;
+		public AlienMode CurrentAlienMode => currentAlienMode;
 
 		[SyncVar(hook = nameof(SyncAlienType))]
 		private AlienTypes currentAlienType;
@@ -117,6 +131,19 @@ namespace Systems.Antagonists
 
 		public float DefaultTime => 5f;
 
+		private AlienCooldown hissCooldown;
+		public AlienCooldown HissCooldown => hissCooldown;
+
+		private AlienCooldown projectileCooldown;
+		public AlienCooldown ProjectileCooldown => projectileCooldown;
+
+		private AlienCooldown queenAnnounceCooldown;
+		public AlienCooldown QueenAnnounceCooldown => queenAnnounceCooldown;
+
+		private AlienMouseInputController mouseInputController;
+
+		private List<ActionData> toggles = new List<ActionData>();
+
 		#region LifeCycle
 
 		private void Awake()
@@ -125,6 +152,22 @@ namespace Systems.Antagonists
 			livingHealthMasterBase = GetComponent<LivingHealthMasterBase>();
 			rotatable = GetComponent<Rotatable>();
 			cooldowns = GetComponent<HasCooldowns>();
+			mouseInputController = GetComponent<AlienMouseInputController>();
+
+			hissCooldown = new AlienCooldown
+			{
+				defaultTime = 5f
+			};
+
+			projectileCooldown = new AlienCooldown
+			{
+				defaultTime = 5f
+			};
+
+			queenAnnounceCooldown = new AlienCooldown
+			{
+				defaultTime = 3f
+			};
 		}
 
 		private void OnEnable()
@@ -168,13 +211,14 @@ namespace Systems.Antagonists
 
 			Evolve(newAlien, false);
 
-			currentPlasma = 100;
+			currentPlasma = currentData.InitialPlasma;
 
 			if (currentData.AlienType == AlienTypes.Queen)
 			{
 				queenCount++;
 				nameNumber = queenCount;
 				playerScript.playerName = $"{currentData.Name} {queenCount}";
+				queenInHive = true;
 			}
 			else
 			{
@@ -209,17 +253,17 @@ namespace Systems.Antagonists
 
 			TryHeal();
 
-			LarvaUpdate();
+			GrowthUpdate();
 		}
 
 		#endregion
 
-		#region Larva
+		#region Growth
 
 		[SyncVar]
 		private int growth;
 
-		private void LarvaUpdate()
+		private void GrowthUpdate()
 		{
 			if(currentPlasma <= 0) return;
 
@@ -243,8 +287,8 @@ namespace Systems.Antagonists
 		[Command]
 		public void CmdQueenAnnounce(string message)
 		{
-			if(OnCoolDown(NetworkSide.Server)) return;
-			StartCoolDown(NetworkSide.Server);
+			if(OnCoolDown(NetworkSide.Server, queenAnnounceCooldown)) return;
+			StartCoolDown(NetworkSide.Server, queenAnnounceCooldown);
 
 			//Remove tags
 			message = Chat.StripTags(message);
@@ -332,6 +376,12 @@ namespace Systems.Antagonists
 				return;
 			}
 
+			if (newData.AlienType == AlienTypes.Queen && queenInHive)
+			{
+				Chat.AddExamineMsgFromServer(gameObject, "There is already a queen in the hive!");
+				return;
+			}
+
 			Evolve(newData.AlienType);
 		}
 
@@ -354,6 +404,7 @@ namespace Systems.Antagonists
 			currentPlasma = change;
 		}
 
+		[Server]
 		private bool TryRemovePlasma(int toRemove, bool doMessage = true)
 		{
 			if (currentPlasma < toRemove)
@@ -367,6 +418,22 @@ namespace Systems.Antagonists
 			}
 
 			currentPlasma -= toRemove;
+
+			return true;
+		}
+
+		[Client]
+		private bool TryRemovePlasmaClient(int toRemove, bool doMessage = true)
+		{
+			if (currentPlasma < toRemove)
+			{
+				if (doMessage)
+				{
+					Chat.AddExamineMsgToClient($"Not enough plasma! You are missing {toRemove - currentPlasma}");
+				}
+
+				return false;
+			}
 
 			return true;
 		}
@@ -392,13 +459,23 @@ namespace Systems.Antagonists
 		{
 			if(livingHealthMasterBase.HealthPercentage().Approx(100)) return;
 
+			if (currentPlasma == 0) return;
+
 			//Sleeping heals twice as fast, but costs twice as much
 			var healCost = currentData.HealPlasmaCost * (currentAlienMode == AlienMode.Sleep ? 2 : 1);
 
-			if(currentPlasma < healCost) return;
-			currentPlasma -= healCost;
-
 			var healAmount = currentData.HealAmount * (currentAlienMode == AlienMode.Sleep ? 2 : 1);
+
+			if (currentPlasma < healCost)
+			{
+				//If less than needed just do the percentage available
+				healAmount *= (currentPlasma / (float)healCost);
+				currentPlasma = 0;
+			}
+			else
+			{
+				currentPlasma -= healCost;
+			}
 
 			livingHealthMasterBase.HealDamageOnAll(null, healAmount, DamageType.Brute);
 		}
@@ -416,9 +493,30 @@ namespace Systems.Antagonists
 
 			ChangeAlienMode(AlienMode.Dead);
 
-			//TODO say on alien chat they've died!
+			if (currentAlienType == AlienTypes.Queen)
+			{
+				OnQueenDeath();
+			}
+			else
+			{
+				Chat.AddChatMsgToChat($"{gameObject.ExpensiveName()} has died!", ChatChannel.Alien, Loudness.MEGAPHONE);
+			}
 
 			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, OnUpdate);
+		}
+
+		private void OnQueenDeath()
+		{
+			var queens = FindObjectsOfType<AlienPlayer>().Where(x => x.isDead == false &&
+			                                                         x.currentAlienType == AlienTypes.Queen).ToArray();
+
+			queenInHive = queens.Any();
+
+			var queenString = queenInHive ? "\nBut we have a new leader!" : "\nWe need a new queen or the hive will surely perish!";
+
+			Chat.AddChatMsgToChat($"{gameObject.ExpensiveName()} has died!{queenString}", ChatChannel.Alien, Loudness.MEGAPHONE);
+
+			//TODO play scream for all xenos?
 		}
 
 		#endregion
@@ -489,7 +587,7 @@ namespace Systems.Antagonists
 			return onWeedTile;
 		}
 
-		private const int WeedPlasmaCost = 25;
+		private const int WeedPlasmaCost = 50;
 
 		private void PlantWeeds()
 		{
@@ -618,6 +716,40 @@ namespace Systems.Antagonists
 			//CLIENT SIDE//
 			if(HasActionData(data) == false) return;
 
+			//Acid Spit
+			if (data == acidSpitAction)
+			{
+				var active = UIActionManager.Instance.ActiveAction;
+				if (active != null && active.ActionData == data)
+				{
+					//Toggled On
+					mouseInputController.SetClickType(AlienMouseInputController.AlienClicks.AcidSpit);
+					UnToggleOthers(data);
+					return;
+				}
+
+				//Toggle Off
+				mouseInputController.SetClickType(AlienMouseInputController.AlienClicks.None);
+				return;
+			}
+
+			//Neurotoxin Spit
+			if (data == neurotoxinSpitAction)
+			{
+				var active = UIActionManager.Instance.ActiveAction;
+				if (active != null && active.ActionData == data)
+				{
+					//Toggled On
+					mouseInputController.SetClickType(AlienMouseInputController.AlienClicks.NeurotoxinSpit);
+					UnToggleOthers(data);
+					return;
+				}
+
+				//Toggle Off
+				mouseInputController.SetClickType(AlienMouseInputController.AlienClicks.None);
+				return;
+			}
+
 			//Open evolve window
 			if (data == evolveAction)
 			{
@@ -634,8 +766,8 @@ namespace Systems.Antagonists
 			//Hiss
 			if (data == hissAction)
 			{
-				if(OnCoolDown(NetworkSide.Client)) return;
-				StartCoolDown(NetworkSide.Client);
+				if(OnCoolDown(NetworkSide.Client, hissCooldown)) return;
+				StartCoolDown(NetworkSide.Client, hissCooldown);
 
 				CmdHiss();
 				return;
@@ -686,6 +818,9 @@ namespace Systems.Antagonists
 		private void RemoveOldActions()
 		{
 			if(actionData == null) return;
+
+			toggles = new List<ActionData>();
+
 			if(isLocalPlayer == false) return;
 
 			foreach (var action in actionData)
@@ -697,11 +832,31 @@ namespace Systems.Antagonists
 		private void AddNewActions()
 		{
 			if(currentData == null) return;
+
+			foreach (var action in currentData.ActionData)
+			{
+				if(action.IsToggle == false) continue;
+
+				toggles.Add(action);
+			}
+
 			if(isLocalPlayer == false) return;
 
 			foreach (var action in currentData.ActionData)
 			{
 				UIActionManager.Show(this, action);
+			}
+		}
+
+		[Client]
+		//Note this assumes all toggles are mutually exclusive on this alien
+		private void UnToggleOthers(ActionData keep)
+		{
+			foreach (var toggle in toggles)
+			{
+				if(toggle == keep) continue;
+
+				UIActionManager.ToggleLocal(this, toggle, false);
 			}
 		}
 
@@ -755,7 +910,7 @@ namespace Systems.Antagonists
 
 		#region Lay Eggs
 
-		private const int EggPlasmaCost = 20;
+		private const int EggPlasmaCost = 75;
 
 		private void LayEggs()
 		{
@@ -817,16 +972,23 @@ namespace Systems.Antagonists
 		{
 			alienCount = 0;
 			queenCount = 0;
+			queenInHive = false;
 		}
 
-		public bool OnCoolDown(NetworkSide side)
+		public bool OnCoolDown(NetworkSide side, AlienCooldown cooldown)
 		{
-			return cooldowns.IsOn(CooldownID.Asset(this, side));
+			return cooldowns.IsOn(CooldownID.Asset(cooldown, side));
 		}
 
-		public void StartCoolDown(NetworkSide side)
+		public void StartCoolDown(NetworkSide side, AlienCooldown cooldown)
 		{
-			cooldowns.TryStart(this, side);
+			cooldowns.TryStart(cooldown, side);
+		}
+
+		public class AlienCooldown : ICooldown
+		{
+			public float defaultTime;
+			public float DefaultTime => defaultTime;
 		}
 
 		#endregion
@@ -836,8 +998,8 @@ namespace Systems.Antagonists
 		[Command]
 		public void CmdHiss()
 		{
-			if(OnCoolDown(NetworkSide.Server)) return;
-			StartCoolDown(NetworkSide.Server);
+			if(OnCoolDown(NetworkSide.Server, hissCooldown)) return;
+			StartCoolDown(NetworkSide.Server, hissCooldown);
 
 			Hiss();
 		}
@@ -846,6 +1008,81 @@ namespace Systems.Antagonists
 		private void Hiss()
 		{
 			EmoteActionManager.DoEmote("hiss", gameObject);
+		}
+
+		#endregion
+
+		#region Projectiles
+
+		[Client]
+		public void ClientTryAcidSpit(AimApply aimApply)
+		{
+			if(TryRemovePlasmaClient(currentData.AcidSpitCost) == false) return;
+
+			CmdShootAcidSpit(aimApply.TargetVector, aimApply.TargetBodyPart);
+		}
+
+		[Command]
+		public void CmdShootAcidSpit(Vector2 targetVector, BodyPartType targetZone)
+		{
+			if(TryRemovePlasma(currentData.AcidSpitCost) == false) return;
+
+			if(ValidateProjectile() == false) return;
+
+			if(OnCoolDown(NetworkSide.Server, projectileCooldown)) return;
+			StartCoolDown(NetworkSide.Server, projectileCooldown);
+
+			//TODO sound effect
+
+			ProjectileManager.InstantiateAndShoot(acidSpitProjectilePrefab, targetVector, gameObject,
+				null, targetZone);
+		}
+
+		[Client]
+		public void ClientTryNeurotoxinSpit(AimApply aimApply)
+		{
+			if(TryRemovePlasmaClient(currentData.NeurotoxinSpitCost) == false) return;
+
+			CmdShootNeurotoxinSpit(aimApply.TargetVector, aimApply.TargetBodyPart);
+		}
+
+		[Command]
+		private void CmdShootNeurotoxinSpit(Vector2 targetVector, BodyPartType targetZone)
+		{
+			if(TryRemovePlasma(currentData.NeurotoxinSpitCost) == false) return;
+
+			if(ValidateProjectile() == false) return;
+
+			if(OnCoolDown(NetworkSide.Server, projectileCooldown)) return;
+			StartCoolDown(NetworkSide.Server, projectileCooldown);
+
+			//TODO sound effect
+
+			ProjectileManager.InstantiateAndShoot(neurotoxicSpitProjectilePrefab, targetVector, gameObject,
+				null, targetZone);
+		}
+
+		public bool ValidateProjectile()
+		{
+			if (currentAlienMode == AlienMode.Sleep)
+			{
+				Chat.AddExamineMsg(gameObject, "You cannot spit, you are asleep!");
+				return false;
+			}
+
+			if (currentAlienMode == AlienMode.Dead)
+			{
+				Chat.AddExamineMsg(gameObject, "You cannot spit, you are dead!");
+				return false;
+			}
+
+			if (currentAlienMode == AlienMode.Unconscious)
+			{
+				Chat.AddExamineMsg(gameObject, "You cannot spit, you are unconscious");
+				return false;
+			}
+
+			return true;
 		}
 
 		#endregion

@@ -25,16 +25,16 @@ public class MouseInputController : MonoBehaviour
 	public float MaxClickDuration = 1f;
 
 	//tracks how long we've had the button down
-	private float clickDuration;
+	protected float clickDuration;
 
 	[Tooltip("Distance to travel from initial click position before a drag (of a MouseDraggable) is initiated.")]
 	public float MouseDragDeadzone = 0.2f;
 
 	//tracks the start position (vector which points from the center of currentDraggable) to compare with above
-	private Vector2 dragStartOffset;
+	protected Vector2 dragStartOffset;
 
 	//when we click down on a draggable, stores it so we can check if we should click interact or drag interact
-	private MouseDraggable potentialDraggable;
+	protected MouseDraggable potentialDraggable;
 
 	[Tooltip("Seconds to wait before trying to trigger an aim apply while mouse is being held. There is" +
 	         " no need to re-trigger aim apply every frame and sometimes those triggers can be expensive, so" +
@@ -43,7 +43,7 @@ public class MouseInputController : MonoBehaviour
 	public float AimApplyInterval = 0.01f;
 
 	//value used to check against the above while mouse is being held down.
-	private float secondsSinceLastAimApplyTrigger;
+	protected float secondsSinceLastAimApplyTrigger;
 
 	private readonly Dictionary<Vector2, Tuple<Color, float>> RecentTouches =
 		new Dictionary<Vector2, Tuple<Color, float>>();
@@ -57,14 +57,14 @@ public class MouseInputController : MonoBehaviour
 
 	public static readonly Vector3 sz = new Vector3(0.05f, 0.05f, 0.05f);
 
-	private static Vector3 MouseWorldPosition => Camera.main.ScreenToWorldPoint(CommonInput.mousePosition);
+	protected static Vector3 MouseWorldPosition => Camera.main.ScreenToWorldPoint(CommonInput.mousePosition);
 
 	/// <summary>
 	/// currently triggering aimapply interactable - when mouse is clicked down this is set to the
 	/// interactable that was triggered, then it is re-triggered continuously while the button is held,
 	/// then set back to null when the button is released.
 	/// </summary>
-	private IBaseInteractable<AimApply> triggeredAimApply;
+	protected IBaseInteractable<AimApply> triggeredAimApply;
 
 	private void OnDrawGizmos()
 	{
@@ -236,7 +236,7 @@ public class MouseInputController : MonoBehaviour
 		}
 	}
 
-	private void CheckInitiatePull()
+	protected void CheckInitiatePull()
 	{
 		//checks if there is anything in reach we can drag
 		var topObject = MouseUtils.GetOrderedObjectsUnderMouse(null,
@@ -452,7 +452,7 @@ public class MouseInputController : MonoBehaviour
 		targetHandAppliable.ClientCheckAndTrigger(handApply);
 	}
 
-	private bool CheckAimApply(MouseButtonState buttonState)
+	protected bool CheckAimApply(MouseButtonState buttonState)
 	{
 		ChangeDirection();
 		//currently there is nothing for ghosts to interact with, they only can change facing
@@ -515,7 +515,7 @@ public class MouseInputController : MonoBehaviour
 	/// the drag.
 	/// </summary>
 	/// <returns>draggable found, null if none found</returns>
-	private MouseDraggable GetDraggable()
+	protected MouseDraggable GetDraggable()
 	{
 		//currently there is nothing for ghosts to interact with, they only can change facing
 		if (PlayerManager.LocalPlayerScript.IsGhost)
@@ -580,7 +580,7 @@ public class MouseInputController : MonoBehaviour
 		RequestExamineMessage.Send(clickedObject.GetComponent<NetworkIdentity>().netId, MouseWorldPosition);
 	}
 
-	private bool CheckAltClick()
+	protected bool CheckAltClick()
 	{
 		if (KeyboardInputManager.IsAltActionKeyPressed())
 		{
@@ -622,7 +622,7 @@ public class MouseInputController : MonoBehaviour
 		return false;
 	}
 
-	private bool CheckThrow()
+	protected bool CheckThrow()
 	{
 		if (UIManager.IsThrow)
 		{
