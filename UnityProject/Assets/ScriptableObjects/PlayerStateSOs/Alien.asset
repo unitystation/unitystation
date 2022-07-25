@@ -14,7 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerState: 16
   canBeCuffed: 0
-  canMelee: 1
   canCraft: 0
   canRest: 1
   canDropItems: 1
@@ -26,3 +25,8 @@ MonoBehaviour:
   receiveChannels: 2179076
   defaultChannel: 2097152
   checkForRadios: 0
+  canMelee: 1
+  emptyMeleeAttackData:
+  - attackVerb: slice
+    hitSound: []
+    missSound: []

@@ -180,7 +180,7 @@ public static class Validations
 	/// <param name="targetRegisterTile">target's register tile component. If you specify this it avoids garbage. Please provide this
 	/// if you can do so without using GetComponent, this is an optimization so GetComponent call can be avoided to avoid
 	/// creating garbage.</param>
-	/// <param name="allowedPlayerStates">the allowed playerstates for this interaction, defaults to normal players</param>
+	/// <param name="aPS"> allowedPlayerStates the allowed playerstates for this interaction, defaults to normal players</param>
 	/// <returns></returns>
 	public static bool CanApply(
 		PlayerScript playerScript,
@@ -191,7 +191,7 @@ public static class Validations
 		Vector2? targetPosition = null,
 		Vector2? targetVector = null,
 		RegisterTile targetRegisterTile = null,
-		PlayerStates allowedPlayerStates = PlayerStates.Normal
+		PlayerStates aPS = PlayerStates.Normal
 	)
 	{
 		if (playerScript == null) return false;
@@ -199,7 +199,7 @@ public static class Validations
 		var playerObjBehavior = playerScript.objectPhysics;
 
 
-		if (CanInteract(playerScript, side, allowSoftCrit, aPS: allowedPlayerStates) == false)
+		if (CanInteract(playerScript, side, allowSoftCrit, aPS: aPS) == false)
 		{
 			return false;
 		}

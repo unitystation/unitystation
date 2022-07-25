@@ -1,4 +1,5 @@
-﻿using NaughtyAttributes;
+﻿using System.Collections.Generic;
+using NaughtyAttributes;
 using UnityEngine;
 
 namespace ScriptableObjects
@@ -15,10 +16,6 @@ namespace ScriptableObjects
 		[SerializeField]
 		private bool canBeCuffed = false;
 		public bool CanBeCuffed => canBeCuffed;
-
-		[SerializeField]
-		private bool canMelee = false;
-		public bool CanMelee => canMelee;
 
 		[SerializeField]
 		private bool canCraft = false;
@@ -69,5 +66,15 @@ namespace ScriptableObjects
 		[SerializeField]
 		private bool checkForRadios = false;
 		public bool CheckForRadios => checkForRadios;
+
+		[HorizontalLine]
+		[Header("Melee")]
+		[SerializeField]
+		private bool canMelee = false;
+		public bool CanMelee => canMelee;
+
+		[SerializeField]
+		private List<WeaponNetworkActions.MeleeData> emptyMeleeAttackData = new List<WeaponNetworkActions.MeleeData>();
+		public List<WeaponNetworkActions.MeleeData> EmptyMeleeAttackData => emptyMeleeAttackData;
 	}
 }

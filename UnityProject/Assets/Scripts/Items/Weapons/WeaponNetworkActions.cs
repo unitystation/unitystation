@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TileManagement;
@@ -10,12 +11,10 @@ using Messages.Server.SoundMessages;
 using Player.Movement;
 using Systems.Interaction;
 using Tiles;
+using Random = UnityEngine.Random;
 
 public class WeaponNetworkActions : NetworkBehaviour
 {
-	[SerializeField]
-	private List<AddressableAudioSource> meleeSounds = default;
-
 	[SerializeField]
 	private float attackSpeed = 7f;
 
@@ -87,27 +86,30 @@ public class WeaponNetworkActions : NetworkBehaviour
 		if (victim == null) return;
 		if (Cooldowns.IsOnServer(playerScript, CommonCooldowns.Instance.Melee)) return;
 		if (playerMove.allowInput == false) return;
-		if (playerScript.IsGhost) return;
+		if (playerScript.PlayerStateSettings.CanMelee == false) return;
 		if (playerScript.playerHealth.serverPlayerConscious == false) return;
 
 		if (victim.TryGetComponent<InteractableTiles>(out var tiles))
 		{
 			// validate based on position of target vector
 			if (Validations.CanApply(playerScript, victim, NetworkSide.Server, targetVector: attackDirection,
-				    allowedPlayerStates: PlayerStates.Normal | PlayerStates.Alien) == false) return;
+				    aPS: Validations.CheckState(x => x.CanMelee)) == false) return;
 		}
 		else
 		{
 			// validate based on position of target object
 			if (Validations.CanApply(playerScript, victim, NetworkSide.Server,
-				    allowedPlayerStates: PlayerStates.Normal | PlayerStates.Alien) == false) return;
+				    aPS: Validations.CheckState(x => x.CanMelee)) == false) return;
 		}
 
 		float damage = handDamage;
 		DamageType currentDamageType = damageType;
-		AddressableAudioSource weaponSound = meleeSounds.PickRandom();
 		GameObject weapon = playerScript.playerNetworkActions.GetActiveHandItem();
 		ItemAttributesV2 weaponAttributes = weapon == null ? null : weapon.GetComponent<ItemAttributesV2>();
+		var miss = playerScript.PlayerStateSettings.EmptyMeleeAttackData.PickRandom();
+
+		var attackVerb = weapon == null ? miss.attackVerb : weaponAttributes.ServerAttackVerbs.PickRandom();
+		AddressableAudioSource weaponSound = miss.hitSound.PickRandom();
 
 		if (weaponAttributes != null)
 		{
@@ -172,14 +174,16 @@ public class WeaponNetworkActions : NetworkBehaviour
 			}
 			else
 			{
-				//TODO hard coding this for now, not sure whats the best way to make this a generic message?
-				if(playerScript.PlayerState == PlayerStates.Alien) return;
-
 				// The punch missed.
 				string victimName = victim.ExpensiveName();
-				SoundManager.PlayNetworkedAtPos(CommonSounds.Instance.PunchMiss, transform.position, sourceObj: gameObject);
-				Chat.AddCombatMsgToChat(gameObject, $"You attempted to punch {victimName} but missed!",
-					$"{gameObject.ExpensiveName()} has attempted to punch {victimName}!");
+
+				if (miss.missSound.Count > 0)
+				{
+					SoundManager.PlayNetworkedAtPos(miss.missSound.PickRandom(), transform.position, sourceObj: gameObject);
+				}
+
+				Chat.AddCombatMsgToChat(gameObject, $"You attempted to {attackVerb} {victimName} but missed!",
+					$"{gameObject.ExpensiveName()} has attempted to {attackVerb} {victimName}!");
 			}
 		}
 
@@ -193,8 +197,10 @@ public class WeaponNetworkActions : NetworkBehaviour
 
 			if (damage > 0)
 			{
-				Chat.AddAttackMsgToChat(gameObject, victim, damageZone, weapon, attackedTile: attackedTile);
+				Chat.AddAttackMsgToChat(gameObject, victim, damageZone, weapon,
+					attackedTile: attackedTile, customAttackVerb: weaponAttributes == null ? attackVerb : null);
 			}
+
 			if (victim != gameObject)
 			{
 				RpcMeleeAttackLerp(attackDirection, weapon);
@@ -289,5 +295,13 @@ public class WeaponNetworkActions : NetworkBehaviour
 		lerping = false;
 		isForLerpBack = false;
 		spriteRendererSource = null;
+	}
+
+	[Serializable]
+	public class MeleeData
+	{
+		public string attackVerb;
+		public List<AddressableAudioSource> hitSound = new List<AddressableAudioSource>();
+		public List<AddressableAudioSource> missSound = new List<AddressableAudioSource>();
 	}
 }

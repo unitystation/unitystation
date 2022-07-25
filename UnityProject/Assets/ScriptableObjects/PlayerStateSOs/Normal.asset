@@ -14,7 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerState: 1
   canBeCuffed: 1
-  canMelee: 1
   canCraft: 1
   canRest: 1
   canDropItems: 1
@@ -26,3 +25,43 @@ MonoBehaviour:
   receiveChannels: 81927
   defaultChannel: 2
   checkForRadios: 1
+  canMelee: 1
+  emptyMeleeAttackData:
+  - attackVerb: punch
+    hitSound:
+    - SetLoadSetting: 0
+      AssetAddress: Assets/Prefabs/Effects/Punch1.prefab
+      AssetReference:
+        m_AssetGUID: 
+        m_SubObjectName: 
+        m_SubObjectType: 
+        m_EditorAssetChanged: 0
+    - SetLoadSetting: 0
+      AssetAddress: Assets/Prefabs/Effects/Punch2.prefab
+      AssetReference:
+        m_AssetGUID: 
+        m_SubObjectName: 
+        m_SubObjectType: 
+        m_EditorAssetChanged: 0
+    - SetLoadSetting: 0
+      AssetAddress: Assets/Prefabs/Effects/Punch3.prefab
+      AssetReference:
+        m_AssetGUID: 
+        m_SubObjectName: 
+        m_SubObjectType: 
+        m_EditorAssetChanged: 0
+    - SetLoadSetting: 0
+      AssetAddress: Assets/Prefabs/Effects/Punch4.prefab
+      AssetReference:
+        m_AssetGUID: 
+        m_SubObjectName: 
+        m_SubObjectType: 
+        m_EditorAssetChanged: 0
+    missSound:
+    - SetLoadSetting: 0
+      AssetAddress: Assets/Prefabs/Effects/PunchMiss.prefab
+      AssetReference:
+        m_AssetGUID: 
+        m_SubObjectName: 
+        m_SubObjectType: 
+        m_EditorAssetChanged: 0
