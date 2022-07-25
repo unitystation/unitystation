@@ -1,14 +1,12 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-#if UNITY_EDITOR
 using UnityEditor;
-#endif
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Object = UnityEngine.Object;
 
-namespace Util
+namespace Shared.Util
 {
 	/// <summary>
 	/// Utils related to finding stuff

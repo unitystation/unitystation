@@ -6,7 +6,7 @@ using Mirror;
 using AddressableReferences;
 using ScriptableObjects;
 using Systems.Interaction;
-using Systems.ObjectConnection;
+using Shared.Systems.ObjectConnection;
 using CustomInspectors;
 using Doors;
 

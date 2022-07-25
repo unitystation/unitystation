@@ -41,7 +41,7 @@ namespace Systems.Explosions
 			{
 				//Try start fire if possible
 				var reactionManager = MatrixManager.AtPoint(worldPos.RoundToInt(), true).ReactionManager;
-				reactionManager.ExposeHotspotWorldPosition(worldPos.To2Int(), 1000);
+				reactionManager.ExposeHotspotWorldPosition(worldPos.RoundTo2Int(), 1000);
 			}
 
 			SoundManager.PlayNetworkedAtPos(CommonSounds.Instance.Sparks, worldPos,

@@ -8,13 +8,12 @@ using Mirror;
 using AddressableReferences;
 using Systems.Electricity;
 using Systems.Electricity.NodeModules;
-using Systems.ObjectConnection;
 using Objects.Lighting;
 using Objects.Construction;
 using Core.Editor.Attributes;
 using CustomInspectors;
-using ScriptableObjects;
 using HealthV2;
+using Shared.Systems.ObjectConnection;
 
 namespace Objects.Engineering
 {

@@ -19,7 +19,7 @@ public static class VariableViewer
 {
 	public static void ProcessTile(Vector3 Location, GameObject WhoBy)
 	{
-		Vector3Int worldPosInt = Location.To2Int().To3Int();
+		Vector3Int worldPosInt = Location.RoundTo2Int().To3Int();
 		Matrix matrix = MatrixManager.AtPoint(worldPosInt, true).Matrix;
 
 		Location = matrix.transform.InverseTransformPoint(Location);

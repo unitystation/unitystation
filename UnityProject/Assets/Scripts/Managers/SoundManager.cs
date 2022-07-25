@@ -9,6 +9,7 @@ using UnityEngine;
 using UnityEngine.Audio;
 using UnityEngine.SceneManagement;
 using Audio.Containers;
+using Shared.Util;
 using Util;
 
 /// <summary>
@@ -401,14 +402,14 @@ public class SoundManager : MonoBehaviour
 	{
 		if (global == false && PlayerManager.LocalPlayerObject != null)
 		{
-			if ( ((PlayerManager.LocalPlayerObject.TileWorldPosition().To3Int() - source.transform.position.To2Int().To3Int()).magnitude > 20 ))
+			if ( ((PlayerManager.LocalPlayerObject.TileWorldPosition().To3Int() - source.transform.position.RoundTo2Int().To3Int()).magnitude > 20 ))
 			{
 				source.AudioSource.outputAudioMixerGroup = AudioManager.Instance.SFXMuffledMixer; //Maybe just not play?
 			}
 			else
 			{
 				if (MatrixManager.Linecast(PlayerManager.LocalPlayerObject.TileWorldPosition().To3Int(),
-						LayerTypeSelection.Walls, layerMask, source.transform.position.To2Int().To3Int())
+						LayerTypeSelection.Walls, layerMask, source.transform.position.RoundTo2Int().To3Int())
 					.ItHit)
 				{
 					source.AudioSource.outputAudioMixerGroup = AudioManager.Instance.SFXMuffledMixer;

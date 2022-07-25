@@ -917,7 +917,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 					pushedBy = this;
 				}
 
-				var pushDirection = -1 * (this.transform.position - push.transform.position).To2Int();
+				var pushDirection = -1 * (this.transform.position - push.transform.position).RoundTo2Int();
 				if (pushDirection == Vector2Int.zero)
 				{
 					pushDirection = worldDirection;
@@ -1488,7 +1488,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 						}
 					}
 
-					var normal = (intPosition - intNewPosition).ToNonInt3();
+					var normal = (intPosition - intNewPosition).To3();
 					if (Hits.Count == 0)
 					{
 						newPosition = position;
@@ -1511,7 +1511,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 							Single.NaN, Single.NaN, aim, thrownBy, spinMagnitude);
 					}
 
-					var normal = (intPosition - intNewPosition).ToNonInt3();
+					var normal = (intPosition - intNewPosition).To3();
 
 					if (Hits.Count == 0)
 					{

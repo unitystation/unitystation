@@ -1,15 +1,15 @@
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEditor;
 using UnityEditor.SceneManagement;
-using Systems.ObjectConnection;
-using Util;
+using UnityEngine;
+using UnityEngine.SceneManagement;
+using Shared.Systems.ObjectConnection;
+using Shared.Util;
 
+#if UNITY_EDITOR
 
-namespace Core.Editor.Tools.Mapping
+namespace Shared.Editor
 {
 	/// <summary>
 	/// An editor window to assist in quickly connecting slave devices to their masters while scene editing.
@@ -140,7 +140,7 @@ namespace Core.Editor.Tools.Mapping
 			{
 				var slaveUnderReview = Tab.DistantSlaves[Tab.ReviewDistantSlaveIndex];
 
-				if (EditorUIUtils.BigAssButton("Retry"))
+				if (EditorUIUtils.BigButton("Retry"))
 				{
 					Tab.ReviewDistantSlaveNewDistance = DeviceLinker.TryLinkSlaveToClosestMaster(slaveUnderReview);
 					EditorUtility.SetDirty((Component)slaveUnderReview);
@@ -177,8 +177,6 @@ namespace Core.Editor.Tools.Mapping
 				}
 
 
-				if (slave.Master != null && relinkConnected == false) return false;
-
 				float distance = DeviceLinker.TryLinkSlaveToClosestMaster(slave);
 				if (distance > DeviceLinker.Masters[0].MaxDistance)
 				{
@@ -209,8 +207,8 @@ namespace Core.Editor.Tools.Mapping
 			public int ReviewDistantSlaveIndex = -1;
 			public float ReviewDistantSlaveNewDistance = -1;
 
-			public readonly List<IMultitoolSlaveable> IgnoredSlaves = new List<IMultitoolSlaveable>();
-			public readonly List<IMultitoolSlaveable> DistantSlaves = new List<IMultitoolSlaveable>();
+			public readonly List<IMultitoolSlaveable> IgnoredSlaves = new();
+			public readonly List<IMultitoolSlaveable> DistantSlaves = new();
 
 			public WindowTab(string name, MultitoolConnectionType type)
 			{
@@ -226,8 +224,8 @@ namespace Core.Editor.Tools.Mapping
 	/// </summary>
 	public static class DeviceLinker
 	{
-		private static Dictionary<MultitoolConnectionType, List<IMultitoolMasterable>> masters= new Dictionary<MultitoolConnectionType, List<IMultitoolMasterable>>();
-		private static Dictionary<MultitoolConnectionType, List<IMultitoolSlaveable>> slaves = new Dictionary<MultitoolConnectionType, List<IMultitoolSlaveable>>();
+		private static Dictionary<MultitoolConnectionType, List<IMultitoolMasterable>> masters= new();
+		private static Dictionary<MultitoolConnectionType, List<IMultitoolSlaveable>> slaves = new();
 		private static MultitoolConnectionType currentConType;
 
 		/// <summary>
@@ -290,6 +288,10 @@ namespace Core.Editor.Tools.Mapping
 
 			float distance = Vector3.Distance(slave.gameObject.transform.position, Masters[0].gameObject.transform.position);
 			slave.SetMasterEditor(distance > Masters[0].MaxDistance ? null : Masters[0]);
+			if (Masters.Count > 0)
+			{
+				EditorUtility.SetDirty((Component)Masters[0]);
+			}
 
 			return distance;
 		}
@@ -322,3 +324,4 @@ namespace Core.Editor.Tools.Mapping
 		}
 	}
 }
+#endif

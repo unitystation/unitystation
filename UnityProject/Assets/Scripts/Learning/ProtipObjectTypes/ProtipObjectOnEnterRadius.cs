@@ -33,7 +33,7 @@ namespace Learning.ProtipObjectTypes
 		private void CheckForNearbyItems()
 		{
 			if (tile == null) return;
-			var possibleTargets = Physics2D.OverlapCircleAll(tile.WorldPosition.ToNonInt3(), SearchRadius, MaskToCheck);
+			var possibleTargets = Physics2D.OverlapCircleAll(tile.WorldPosition.To3(), SearchRadius, MaskToCheck);
 			foreach (var target in possibleTargets)
 			{
 				if(gameObject == target.gameObject) continue;

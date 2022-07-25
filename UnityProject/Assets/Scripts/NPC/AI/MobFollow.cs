@@ -56,7 +56,7 @@ namespace Systems.MobAIs
 		public override void DoAction()
 		{
 			if (FollowTarget == null) return;
-			var moveToRelative = (FollowTarget.WorldPositionServer - mobTile.WorldPositionServer).ToNonInt3();
+			var moveToRelative = (FollowTarget.WorldPositionServer - mobTile.WorldPositionServer).To3();
 			moveToRelative.Normalize();
 			var stepDirectionWorld = ChooseDominantDirection(moveToRelative);
 			var moveTo = mobTile.WorldPositionServer + stepDirectionWorld;

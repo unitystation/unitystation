@@ -5,10 +5,10 @@ using UnityEngine;
 using Messages.Server;
 using Systems.Electricity;
 using Systems.Interaction;
-using Systems.ObjectConnection;
 using CustomInspectors;
 using UI.Core.Net;
 using Objects.Other;
+using Shared.Systems.ObjectConnection;
 
 
 namespace Objects.Wallmounts.Switches

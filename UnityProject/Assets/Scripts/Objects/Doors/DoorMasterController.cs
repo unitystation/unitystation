@@ -11,12 +11,11 @@ using Messages.Server;
 using Systems.Electricity;
 using Systems.Hacking;
 using Systems.Interaction;
-using Systems.ObjectConnection;
-using Systems.Explosions;
 using Doors.Modules;
 using HealthV2;
 using Objects;
 using Objects.Wallmounts;
+using Shared.Systems.ObjectConnection;
 
 namespace Doors
 {
@@ -887,7 +886,7 @@ namespace Doors
 		bool IMultitoolSlaveable.RequireLink => false;
 		// TODO: should be requireLink but hardcoded to false for now,
 		// doors don't know about links, only the switches
-		bool IMultitoolSlaveable.TrySetMaster(PositionalHandApply interaction, IMultitoolMasterable master)
+		bool IMultitoolSlaveable.TrySetMaster(GameObject performer, IMultitoolMasterable master)
 		{
 			SetMaster(master);
 			return true;
