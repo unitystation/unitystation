@@ -7,6 +7,8 @@ namespace UI
 		public static readonly Dictionary<ChatChannel, string> ChatPanelIcons
 			= new Dictionary<ChatChannel, string>
 			{
+				//To add new glyphs go to https://fontawesome.com/icons then copy the glyph you want
+
 				{ChatChannel.Local, ""}, //fa-comments
 				{ChatChannel.OOC, ""}, //fa-comments-o
 				{ChatChannel.Binary, ""}, //fa-microchip
@@ -21,8 +23,8 @@ namespace UI
 				{ChatChannel.Syndicate, ""}, //fa-bomb
 				{ChatChannel.Security, ""}, //fa-crosshairs
 				{ChatChannel.Ghost, ""}, //fa-snapchat-ghost
-				{ChatChannel.Blob, ""}, //fa-bullseye (TODO: not sure how to actually add these? just using ghost for now)
-				{ChatChannel.Alien, ""} //fa-podcast
+				{ChatChannel.Blob, ""}, //fa-bullseye
+				{ChatChannel.Alien, ""} //fa-user-alien
 			};
 	}
 }
