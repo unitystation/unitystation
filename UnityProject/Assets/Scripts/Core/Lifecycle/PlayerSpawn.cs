@@ -12,6 +12,14 @@ using UI.CharacterCreator;
 using Player;
 
 /// <summary>
+/// This interface will be called after the client has rejoined and has all scenes loaded!
+/// </summary>
+public interface IOnPlayerRejoin
+{
+	public void OnPlayerRejoin();
+}
+
+/// <summary>
 /// Main API for dealing with spawning players and related things.
 /// For spawning of non-player things, see Spawn.
 /// </summary>
@@ -307,6 +315,12 @@ public static class PlayerSpawn
 		ps = body.GetComponent<PlayerScript>();
 		ps.playerNetworkActions.ReenterBodyUpdates();
 		ps.mind.ResendSpellActions();
+
+		var rejoins = body.GetComponents<IOnPlayerRejoin>();
+		foreach (var rejoin in rejoins)
+		{
+			rejoin.OnPlayerRejoin();
+		}
 	}
 
 	/// <summary>

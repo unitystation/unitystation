@@ -4,7 +4,11 @@ using System.Globalization;
 using System.Linq;
 using System.Text;
 using CameraEffects;
+using Messages.Server;
+using Mirror;
+using Systems.Antagonists;
 using UnityEngine;
+using Util;
 
 namespace HealthV2
 {
@@ -22,11 +26,42 @@ namespace HealthV2
 
 		private int currentTime = 0;
 
+		private CheckedComponent<PlayerScript> checkPlayerScript = new CheckedComponent<PlayerScript>();
+
+		private static List<PlayerScript> infectedPlayers = new List<PlayerScript>();
+
+		public override void AddedToBody(LivingHealthMasterBase livingHealth)
+		{
+			if(livingHealth.TryGetComponent<PlayerScript>(out var playerScript) == false) return;
+
+			checkPlayerScript.DirectSetComponent(playerScript);
+
+			AddToInfected(playerScript);
+		}
+
+		public override void RemovedFromBody(LivingHealthMasterBase livingHealth)
+		{
+			if(checkPlayerScript.HasComponent == false) return;
+
+			RemoveFromInfected(checkPlayerScript.Component);
+
+			checkPlayerScript.SetToNull();
+		}
+
 		public override void ImplantPeriodicUpdate()
 		{
 			currentTime++;
 
-			if (currentTime < incubationTime) return;
+			if (currentTime < incubationTime)
+			{
+				if(checkPlayerScript.HasComponent == false) return;
+
+				checkPlayerScript.Component.playerSprites.InfectedSpriteHandler
+					.ChangeSprite(
+						Mathf.RoundToInt(Mathf.Clamp(((currentTime / (float) incubationTime * 100) / 16.7f) - 1, 0, 5)));
+
+				return;
+			}
 
 			//Can't hatch is player is dead, shouldn't be getting periodic updates if dead- but just as a double check.
 			if (RelatedPart.HealthMaster.IsDead) return;
@@ -45,19 +80,109 @@ namespace HealthV2
 				return;
 			}
 
-			if (RelatedPart.HealthMaster.TryGetComponent<PlayerScript>(out var playerScript) && playerScript.mind != null)
+			if (checkPlayerScript.HasComponent)
 			{
-				spawned.GameObject.GetComponent<PlayerScript>().mind = playerScript.mind;
+				RemoveFromInfected(checkPlayerScript.Component);
+			}
 
-				var connection = playerScript.connectionToClient;
-				PlayerSpawn.ServerTransferPlayerToNewBody(connection, spawned.GameObject, playerScript.mind.GetCurrentMob(), Event.PlayerSpawned, playerScript.characterSettings);
+			if (checkPlayerScript.HasComponent && checkPlayerScript.Component.mind != null)
+			{
+				spawned.GameObject.GetComponent<PlayerScript>().mind = checkPlayerScript.Component.mind;
 
-				playerScript.mind = null;
+				var connection = checkPlayerScript.Component.connectionToClient;
+				PlayerSpawn.ServerTransferPlayerToNewBody(connection, spawned.GameObject,
+					checkPlayerScript.Component.mind.GetCurrentMob(), Event.PlayerSpawned,
+					checkPlayerScript.Component.characterSettings);
+
+				checkPlayerScript.Component.mind = null;
 			}
 
 			RelatedPart.TryRemoveFromBody();
 
-			Despawn.ServerSingle(gameObject);
+			_ = Despawn.ServerSingle(gameObject);
+		}
+
+		private static void AddToInfected(PlayerScript newPlayer)
+		{
+			infectedPlayers.Add(newPlayer);
+
+			InfectedMessage.Send(newPlayer, true);
+
+			if (CustomNetworkManager.IsHeadless == false) return;
+
+			newPlayer.playerSprites.InfectedSpriteHandler.gameObject.SetActive(true);
+		}
+
+		private static void RemoveFromInfected(PlayerScript oldPlayer)
+		{
+			infectedPlayers.Remove(oldPlayer);
+
+			InfectedMessage.Send(oldPlayer, false);
+
+			if(CustomNetworkManager.IsHeadless == false) return;
+
+			oldPlayer.playerSprites.InfectedSpriteHandler.gameObject.SetActive(false);
+		}
+
+		public static void Rejoined(NetworkConnectionToClient conn)
+		{
+			foreach (var player in infectedPlayers)
+			{
+				InfectedMessage.SendTo(conn, player, true);
+			}
+		}
+
+		[RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
+		private static void ClearStatics()
+		{
+			infectedPlayers = new List<PlayerScript>();
+		}
+	}
+
+	public class InfectedMessage : ServerMessage<InfectedMessage.NetMessage>
+	{
+		public struct NetMessage : NetworkMessage
+		{
+			public uint netId;
+			public bool IsInfected;
+		}
+
+		public override void Process(NetMessage msg)
+		{
+			LoadNetworkObject(msg.netId);
+			if(NetworkObject == null) return;
+			if(NetworkObject.TryGetComponent<PlayerScript>(out var playerScript) == false) return;
+
+			playerScript.playerSprites.InfectedSpriteHandler.gameObject.SetActive(msg.IsInfected);
+		}
+
+		public static void Send(PlayerScript infectedPlayer, bool isInfected)
+		{
+			//Send to aliens and ghosts
+			var players = PlayerList.Instance.InGamePlayers.Where(x =>
+				x.Script.PlayerState is PlayerStates.Alien or PlayerStates.Ghost);
+
+			var msg = new NetMessage()
+			{
+				netId = infectedPlayer.netId,
+				IsInfected = isInfected
+			};
+
+			foreach (var player in players)
+			{
+				SendTo(player, msg);
+			}
+		}
+
+		public static void SendTo(NetworkConnectionToClient conn, PlayerScript infectedPlayer, bool isInfected)
+		{
+			var msg = new NetMessage()
+			{
+				netId = infectedPlayer.netId,
+				IsInfected = isInfected
+			};
+
+			SendTo(conn, msg);
 		}
 	}
 }

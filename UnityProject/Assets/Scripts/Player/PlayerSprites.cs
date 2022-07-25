@@ -38,6 +38,11 @@ namespace Player
 		[SerializeField]
 		private GameObject electrocutedPrefab = default;
 
+		[Tooltip("Assign the SpriteHandler responsible for the infected overlay.")]
+		[SerializeField]
+		private SpriteHandler infectedSpriteHandler = default;
+		public SpriteHandler InfectedSpriteHandler => infectedSpriteHandler;
+
 		[Tooltip("Muzzle flash, should be on a child of the player gameobject")]
 		[SerializeField]
 		private LightSprite muzzleFlash = default;

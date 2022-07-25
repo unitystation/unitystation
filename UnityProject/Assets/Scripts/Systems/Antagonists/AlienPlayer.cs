@@ -4,6 +4,7 @@ using System.Linq;
 using Alien;
 using Core.Chat;
 using HealthV2;
+using Messages.Server.LocalGuiMessages;
 using Mirror;
 using Player.Movement;
 using ScriptableObjects;
@@ -14,7 +15,7 @@ using Weapons.Projectiles;
 
 namespace Systems.Antagonists
 {
-	public class AlienPlayer : NetworkBehaviour, IServerActionGUIMulti, ICooldown
+	public class AlienPlayer : NetworkBehaviour, IServerActionGUIMulti, ICooldown, IOnPlayerRejoin
 	{
 		[Header("Sprite Stuff")]
 		[SerializeField]
@@ -144,6 +145,8 @@ namespace Systems.Antagonists
 
 		private List<ActionData> toggles = new List<ActionData>();
 
+		public bool IsLarva => currentData.AlienType is AlienTypes.Larva1 or AlienTypes.Larva2 or AlienTypes.Larva3;
+
 		#region LifeCycle
 
 		private void Awake()
@@ -161,7 +164,7 @@ namespace Systems.Antagonists
 
 			projectileCooldown = new AlienCooldown
 			{
-				defaultTime = 5f
+				defaultTime = 4f
 			};
 
 			queenAnnounceCooldown = new AlienCooldown
@@ -217,15 +220,15 @@ namespace Systems.Antagonists
 			{
 				queenCount++;
 				nameNumber = queenCount;
-				playerScript.playerName = $"{currentData.Name} {queenCount}";
 				queenInHive = true;
 			}
 			else
 			{
 				alienCount++;
 				nameNumber = alienCount;
-				playerScript.playerName = $"{currentData.Name} {alienCount:D3}";
 			}
+
+			SetName(true, currentData);
 		}
 
 		[ContextMenu("To Queen")]
@@ -324,6 +327,7 @@ namespace Systems.Antagonists
 				return;
 			}
 
+			var old = currentData;
 			currentData = typeFound[0];
 			actionData = currentData.ActionData;
 			currentAlienType = currentData.AlienType;
@@ -337,18 +341,40 @@ namespace Systems.Antagonists
 
 			Chat.AddExamineMsgFromServer(gameObject, $"You evolve into a {currentData.Name}!");
 
-			//TODO display spawn banner?
-
 			if(changeName == false) return;
+
+			SetName(false, old);
+		}
+
+		private void SetName(bool newlyJoined, AlienTypeDataSO old)
+		{
+			if (newlyJoined == false)
+			{
+				SpawnBannerMessage.Send(gameObject, currentData.Name, null, Color.green, Color.black, false);
+			}
 
 			//Set new name
 			if (currentData.AlienType == AlienTypes.Queen)
 			{
 				playerScript.playerName = $"{currentData.Name} {nameNumber}";
-				return;
+				Chat.AddChatMsgToChat($"A new queen: {playerScript.playerName} has joined the hive, rejoice!",
+					ChatChannel.Alien, Loudness.MEGAPHONE);
 			}
-
-			playerScript.playerName = $"{currentData.Name} {nameNumber:D3}";
+			else
+			{
+				if (newlyJoined)
+				{
+					playerScript.playerName = $"{currentData.Name} {nameNumber:D3}";
+					Chat.AddChatMsgToChat($"{playerScript.playerName} has joined the hive, rejoice!",
+						ChatChannel.Alien, Loudness.SCREAMING);
+				}
+				else
+				{
+					playerScript.playerName = $"{currentData.Name} {nameNumber:D3}";
+					Chat.AddChatMsgToChat($"{old.Name} {nameNumber:D3} has evolved into a {currentData.Name}!",
+						ChatChannel.Alien, Loudness.SCREAMING);
+				}
+			}
 		}
 
 		[Command]
@@ -719,34 +745,36 @@ namespace Systems.Antagonists
 			//Acid Spit
 			if (data == acidSpitAction)
 			{
-				var active = UIActionManager.Instance.ActiveAction;
-				if (active != null && active.ActionData == data)
+				if (mouseInputController.CurrentClick == AlienMouseInputController.AlienClicks.AcidSpit)
 				{
-					//Toggled On
-					mouseInputController.SetClickType(AlienMouseInputController.AlienClicks.AcidSpit);
-					UnToggleOthers(data);
+					//Toggle Off
+					mouseInputController.SetClickType(AlienMouseInputController.AlienClicks.None);
+					UpdateButtonSprite(data, 0);
 					return;
 				}
 
-				//Toggle Off
-				mouseInputController.SetClickType(AlienMouseInputController.AlienClicks.None);
+				//Toggled On
+				mouseInputController.SetClickType(AlienMouseInputController.AlienClicks.AcidSpit);
+				UpdateButtonSprite(data, 1);
+				UnToggleOthers(data);
 				return;
 			}
 
 			//Neurotoxin Spit
 			if (data == neurotoxinSpitAction)
 			{
-				var active = UIActionManager.Instance.ActiveAction;
-				if (active != null && active.ActionData == data)
+				if (mouseInputController.CurrentClick == AlienMouseInputController.AlienClicks.NeurotoxinSpit)
 				{
-					//Toggled On
-					mouseInputController.SetClickType(AlienMouseInputController.AlienClicks.NeurotoxinSpit);
-					UnToggleOthers(data);
+					//Toggle Off
+					mouseInputController.SetClickType(AlienMouseInputController.AlienClicks.None);
+					UpdateButtonSprite(data, 0);
 					return;
 				}
 
-				//Toggle Off
-				mouseInputController.SetClickType(AlienMouseInputController.AlienClicks.None);
+				//Toggled On
+				mouseInputController.SetClickType(AlienMouseInputController.AlienClicks.NeurotoxinSpit);
+				UpdateButtonSprite(data, 1);
+				UnToggleOthers(data);
 				return;
 			}
 
@@ -864,6 +892,11 @@ namespace Systems.Antagonists
 		private void RpcRemoveActions()
 		{
 			RemoveOldActions();
+		}
+
+		private void UpdateButtonSprite(ActionData actionDataForSprite, int location)
+		{
+			UIActionManager.SetSprite(this, actionDataForSprite, location);
 		}
 
 		#endregion
@@ -991,6 +1024,12 @@ namespace Systems.Antagonists
 			public float DefaultTime => defaultTime;
 		}
 
+		public void OnPlayerRejoin()
+		{
+			//Resend infected player stuff
+			XenomorphLarvae.Rejoined(connectionToClient);
+		}
+
 		#endregion
 
 		#region Hiss
@@ -1019,6 +1058,13 @@ namespace Systems.Antagonists
 		{
 			if(TryRemovePlasmaClient(currentData.AcidSpitCost) == false) return;
 
+			if (OnCoolDown(NetworkSide.Client, ProjectileCooldown))
+			{
+				Chat.AddExamineMsgToClient("Your spit glands need recharging!");
+				return;
+			}
+			StartCoolDown(NetworkSide.Client, ProjectileCooldown);
+
 			CmdShootAcidSpit(aimApply.TargetVector, aimApply.TargetBodyPart);
 		}
 
@@ -1042,6 +1088,13 @@ namespace Systems.Antagonists
 		public void ClientTryNeurotoxinSpit(AimApply aimApply)
 		{
 			if(TryRemovePlasmaClient(currentData.NeurotoxinSpitCost) == false) return;
+
+			if (OnCoolDown(NetworkSide.Client, ProjectileCooldown))
+			{
+				Chat.AddExamineMsgToClient("Your neurotoxin glands need recharging!");
+				return;
+			}
+			StartCoolDown(NetworkSide.Client, ProjectileCooldown);
 
 			CmdShootNeurotoxinSpit(aimApply.TargetVector, aimApply.TargetBodyPart);
 		}
@@ -1086,6 +1139,8 @@ namespace Systems.Antagonists
 		}
 
 		#endregion
+
+
 
 		public enum AlienMode
 		{

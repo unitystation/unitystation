@@ -10,6 +10,7 @@ public class AlienMouseInputController : MouseInputController
 	private UI_Alien alienUi;
 
 	private AlienClicks currentClick = AlienClicks.None;
+	public AlienClicks CurrentClick => currentClick;
 
 	public enum AlienClicks
 	{
@@ -151,14 +152,6 @@ public class AlienMouseInputController : MouseInputController
 		if (currentClick == AlienClicks.None) return false;
 
 		if (alienPlayer.ValidateProjectile() == false) return false;
-
-		if (alienPlayer.OnCoolDown(NetworkSide.Client, alienPlayer.ProjectileCooldown))
-		{
-			Chat.AddExamineMsgToClient("Your spit glands need recharging!");
-			return false;
-		}
-
-		alienPlayer.StartCoolDown(NetworkSide.Client, alienPlayer.ProjectileCooldown);
 
 		var aimApplyInfo = AimApply.ByLocalPlayer(MouseButtonState.PRESS);
 
