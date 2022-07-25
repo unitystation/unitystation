@@ -28,5 +28,12 @@ MonoBehaviour:
   canMelee: 1
   emptyMeleeAttackData:
   - attackVerb: slice
-    hitSound: []
+    hitSound:
+    - SetLoadSetting: 0
+      AssetAddress: Assets/Prefabs/Effects/BladeSlice.prefab
+      AssetReference:
+        m_AssetGUID: 
+        m_SubObjectName: 
+        m_SubObjectType: 
+        m_EditorAssetChanged: 0
     missSound: []
