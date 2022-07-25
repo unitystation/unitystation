@@ -13,17 +13,29 @@ MonoBehaviour:
   m_Name: Queen
   m_EditorClassIdentifier: 
   Name: Queen
-  Description: The mother of the hive. Lays the eggs which allows the hive to grow.
   AlienType: 128
+  Description: The mother of the hive. Lays the eggs which allows the hive to grow.
   Speed: 5
   AttackSpeed: 5
   AttackDamage: 25
   DamageType: 0
   ChanceToHit: 50
-  MaxPlasma: 100
-  PlasmaGainRate: 3
-  HealAmount: 5
-  HealPlasmaCost: 5
+  MaxPlasma: 500
+  InitialPlasma: 200
+  PlasmaGainRate: 10
+  HealAmount: 3
+  HealPlasmaCost: 3
+  MaxGrowth: 100
+  AcidSpitCost: 10
+  NeurotoxinSpitCost: 50
+  EvolvedFrom: 96
+  ActionData:
+  - {fileID: 11400000, guid: dcad35ade3a509943ae3062115f0f2bf, type: 2}
+  - {fileID: 11400000, guid: e469aa52bc0cbb949a56796230469fd2, type: 2}
+  - {fileID: 11400000, guid: 7d8643ea055bed44c8e9e7dc0b5d7f36, type: 2}
+  - {fileID: 11400000, guid: 3c1a03071ac0a2844a057040f946b74e, type: 2}
+  - {fileID: 11400000, guid: 6b465360fb919c243b763597b4759a63, type: 2}
+  - {fileID: 11400000, guid: 3685abbf207a2c54087d845649fb87a5, type: 2}
   Normal: {fileID: 11400000, guid: 887dcdfd6df7edc4490c6f047ad3c8b7, type: 2}
   Dead: {fileID: 11400000, guid: 69ab4592eaf82ca47902b08e156411e9, type: 2}
   Pounce: {fileID: 0}
@@ -32,11 +44,3 @@ MonoBehaviour:
   Running: {fileID: 11400000, guid: 39080b57421922d448e1eb10d909201a, type: 2}
   Front: {fileID: 0}
   Back: {fileID: 0}
-  MaxGrowth: 100
-  EvolvedFrom: 96
-  ActionData:
-  - {fileID: 11400000, guid: dcad35ade3a509943ae3062115f0f2bf, type: 2}
-  - {fileID: 11400000, guid: e469aa52bc0cbb949a56796230469fd2, type: 2}
-  - {fileID: 11400000, guid: 7d8643ea055bed44c8e9e7dc0b5d7f36, type: 2}
-  - {fileID: 11400000, guid: 3c1a03071ac0a2844a057040f946b74e, type: 2}
-  - {fileID: 11400000, guid: 6b465360fb919c243b763597b4759a63, type: 2}

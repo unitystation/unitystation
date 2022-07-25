@@ -9,6 +9,7 @@ using Player;
 using Player.Movement;
 using UI.Action;
 using Items;
+using ScriptableObjects;
 using Systems.StatusesAndEffects;
 using Tiles;
 
@@ -19,6 +20,11 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IActi
 
 	public Mind mind;
 	public PlayerInfo PlayerInfo;
+
+	[SerializeField]
+	private PlayerStateSettings playerStateSettings = null;
+	public PlayerStateSettings PlayerStateSettings => playerStateSettings;
+	public PlayerStates PlayerState => playerStateSettings.PlayerState;
 
 	/// <summary>
 	/// Current character settings for this player.
@@ -106,9 +112,6 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IActi
 	/// Whether a player is connected in the game object this script is on, valid serverside only
 	/// </summary>
 	public bool HasSoul => connectionToClient != null;
-
-	[SerializeField] private PlayerStates playerState = PlayerStates.Normal;
-	public PlayerStates PlayerState => playerState;
 
 	[SerializeField] private ActionData actionData = null;
 	public ActionData ActionData => actionData;
@@ -213,7 +216,7 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IActi
 
 			PlayerManager.SetPlayerForControl(gameObject, input);
 
-			if (playerState == PlayerStates.Ghost)
+			if (PlayerState == PlayerStates.Ghost)
 			{
 				if (PlayerList.Instance.IsClientAdmin)
 				{
@@ -402,7 +405,7 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IActi
 	}
 
 	// If the player acts like a ghost but is still playing ingame, used for blobs and in the future maybe AI.
-	public bool IsPlayerSemiGhost => playerState == PlayerStates.Blob || playerState == PlayerStates.Ai;
+	public bool IsPlayerSemiGhost => PlayerState == PlayerStates.Blob || PlayerState == PlayerStates.Ai;
 
 	public void ReturnGhostToBody()
 	{
@@ -464,97 +467,49 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IActi
 
 	public ChatChannel GetAvailableChannelsMask(bool transmitOnly = true)
 	{
-		if (IsDeadOrGhost)
+		ChatChannel transmitChannels = playerStateSettings.TransmitChannels;
+		ChatChannel receiveChannels = playerStateSettings.ReceiveChannels;
+
+		//Can't move this to PlayerStateSettings as we need this for when in body and dead
+		if (playerHealth != null && playerHealth.IsDead)
 		{
-			ChatChannel ghostTransmitChannels = ChatChannel.Ghost | ChatChannel.OOC;
-			ChatChannel ghostReceiveChannels = ChatChannel.Examine | ChatChannel.System | ChatChannel.Combat |
-			                                   ChatChannel.Binary | ChatChannel.Command | ChatChannel.Common |
-			                                   ChatChannel.Engineering |
-			                                   ChatChannel.Medical | ChatChannel.Science | ChatChannel.Security |
-			                                   ChatChannel.Service
-			                                   | ChatChannel.Supply | ChatChannel.Syndicate;
+			transmitChannels = ChatChannel.Ghost | ChatChannel.OOC;
+			receiveChannels = ChatChannel.Examine | ChatChannel.System | ChatChannel.Combat |
+			                  ChatChannel.Binary | ChatChannel.Command | ChatChannel.Common |
+			                  ChatChannel.Engineering | ChatChannel.Medical | ChatChannel.Science |
+			                  ChatChannel.Security | ChatChannel.Service | ChatChannel.Supply |
+			                  ChatChannel.Syndicate | ChatChannel.Alien | ChatChannel.Blob;
 
-			if (transmitOnly)
-			{
-				return ghostTransmitChannels;
-			}
-
-			return ghostTransmitChannels | ghostReceiveChannels;
 		}
 
-		if (playerState == PlayerStates.Ai)
+		//Ai channels limited when not allowed to use radio
+		if (PlayerState == PlayerStates.Ai)
 		{
-			ChatChannel aiTransmitChannels = ChatChannel.OOC | ChatChannel.Local | ChatChannel.Binary |
-			                                 ChatChannel.Command
-			                                 | ChatChannel.Common | ChatChannel.Engineering |
-			                                 ChatChannel.Medical | ChatChannel.Science | ChatChannel.Security |
-			                                 ChatChannel.Service
-			                                 | ChatChannel.Supply;
-			ChatChannel aiReceiveChannels = ChatChannel.Examine | ChatChannel.System | ChatChannel.Combat |
-			                                ChatChannel.Binary | ChatChannel.Command | ChatChannel.Common |
-			                                ChatChannel.Engineering |
-			                                ChatChannel.Medical | ChatChannel.Science | ChatChannel.Security |
-			                                ChatChannel.Service
-			                                | ChatChannel.Supply;
-
 			if (GetComponent<AiPlayer>().AllowRadio == false)
 			{
-				aiTransmitChannels = ChatChannel.Binary | ChatChannel.OOC | ChatChannel.Local;
-				aiReceiveChannels = ChatChannel.Binary | ChatChannel.Examine | ChatChannel.System | ChatChannel.Combat;
+				transmitChannels = ChatChannel.Binary | ChatChannel.OOC | ChatChannel.Local;
+				receiveChannels = ChatChannel.Binary | ChatChannel.Local | ChatChannel.Examine |
+				                  ChatChannel.System | ChatChannel.Combat;
 			}
-
-			if (transmitOnly)
-			{
-				return aiTransmitChannels;
-			}
-
-			return aiTransmitChannels | aiReceiveChannels;
-		}
-
-		if (playerState == PlayerStates.Blob)
-		{
-			ChatChannel blobTransmitChannels = ChatChannel.Blob | ChatChannel.OOC;
-			ChatChannel blobReceiveChannels = ChatChannel.Blob | ChatChannel.Examine | ChatChannel.System | ChatChannel.Combat;
-
-			if (transmitOnly)
-			{
-				return blobTransmitChannels;
-			}
-
-			return blobTransmitChannels | blobReceiveChannels;
-		}
-
-		if (playerState == PlayerStates.Alien)
-		{
-			ChatChannel alienTransmitChannels = ChatChannel.Alien | ChatChannel.OOC;
-			ChatChannel alienReceiveChannels = ChatChannel.Alien | ChatChannel.Examine | ChatChannel.System | ChatChannel.Combat;
-
-			if (transmitOnly)
-			{
-				return alienTransmitChannels;
-			}
-
-			return alienTransmitChannels | alienReceiveChannels;
 		}
 
 		//TODO: Checks if player can speak (is not gagged, unconcious, has no mouth)
-		ChatChannel transmitChannels = ChatChannel.OOC | ChatChannel.Local;
-
-		var playerStorage = gameObject.GetComponent<DynamicItemStorage>();
-		if (playerStorage != null)
+		if (playerStateSettings.CheckForRadios)
 		{
-			foreach (var earSlot in playerStorage.GetNamedItemSlots(NamedSlot.ear))
+			var playerStorage = gameObject.GetComponent<DynamicItemStorage>();
+			if (playerStorage != null)
 			{
-				if (earSlot.IsEmpty) continue;
-				if (earSlot.Item.TryGetComponent<Headset>(out var headset) == false) continue;
-				if (headset.isEMPed) continue;
+				foreach (var earSlot in playerStorage.GetNamedItemSlots(NamedSlot.ear))
+				{
+					if (earSlot.IsEmpty) continue;
+					if (earSlot.Item.TryGetComponent<Headset>(out var headset) == false) continue;
+					if (headset.isEMPed) continue;
 
-				EncryptionKeyType key = headset.EncryptionKey;
-				transmitChannels |= EncryptionKey.Permissions[key];
+					EncryptionKeyType key = headset.EncryptionKey;
+					transmitChannels |= EncryptionKey.Permissions[key];
+				}
 			}
 		}
-
-		ChatChannel receiveChannels = ChatChannel.Examine | ChatChannel.System | ChatChannel.Combat;
 
 		if (transmitOnly)
 		{

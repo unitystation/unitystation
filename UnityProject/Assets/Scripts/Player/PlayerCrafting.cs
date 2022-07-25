@@ -488,9 +488,14 @@ namespace Player
 		public void TryToStartCrafting(
 			CraftingRecipe recipe,
 			NetworkSide networkSide,
-			CraftingActionParameters craftingActionParameters
-		)
+			CraftingActionParameters craftingActionParameters)
 		{
+			if (playerScript.PlayerStateSettings.CanCraft == false)
+			{
+				Chat.AddExamineMsg(gameObject, "You are not allowed to craft!");
+				return;
+			}
+
 			if (networkSide == NetworkSide.Client)
 			{
 				CraftingStatus craftingStatus = CanClientCraft(

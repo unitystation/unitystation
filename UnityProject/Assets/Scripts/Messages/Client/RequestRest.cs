@@ -17,6 +17,8 @@ public class RequestRest : ClientMessage<RequestRest.NetMessage>
 	{
 		if (msg.LayDown)
 		{
+			if(SentByPlayer.Script.PlayerStateSettings.CanRest == false) return;
+
 			SentByPlayer.Script.registerTile.ServerLayDown();
 		}
 		else

@@ -107,7 +107,9 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	[Command]
 	public void CmdResist()
 	{
-		if (!Cooldowns.TryStartServer(playerScript, CommonCooldowns.Instance.Interaction)) return;
+		if (Cooldowns.TryStartServer(playerScript, CommonCooldowns.Instance.Interaction) == false) return;
+
+		if(playerScript.PlayerStateSettings.CanResist == false) return;
 
 		// Handle the movement restricted actions first.
 		if (playerScript.playerMove.BuckledToObject != null)
@@ -242,8 +244,8 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		if (equipSlot != NamedSlot.leftHand && equipSlot != NamedSlot.rightHand) return;
 
 		//allowed to drop from hands while cuffed
-		if (!Validations.CanInteract(playerScript, NetworkSide.Server, allowCuffed: true,
-			    allowedPlayerStates: PlayerStates.Normal | PlayerStates.Alien)) return;
+		if (Validations.CanInteract(playerScript, NetworkSide.Server, allowCuffed: true,
+			    aPS: Validations.CheckState(x => x.CanDropItems)) == false) return;
 
 		if (!Cooldowns.TryStartServer(playerScript, CommonCooldowns.Instance.Interaction)) return;
 		if (NetworkServer.spawned.TryGetValue(NetID, out var objectToDrop) == false) return;
@@ -367,14 +369,16 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	/// Server handling of the request to throw an item from a client
 	/// </summary>
 	[Command]
-	public void CmdThrow( Vector3 TargetLocalPosition, int aim, Vector3 ClientWorldOfDifference)
+	public void CmdThrow(Vector3 targetLocalPosition, int aim, Vector3 clientWorldOfDifference)
 	{
 		//only allowed to throw from hands
-		if (!Validations.CanInteract(playerScript, NetworkSide.Server, allowedPlayerStates: PlayerStates.Normal | PlayerStates.Alien)) return;
+		if (Validations.CanInteract(playerScript, NetworkSide.Server,
+			    aPS: Validations.CheckState(x => x.CanThrowItems)) == false) return;
 
-		if (!Cooldowns.TryStartServer(playerScript, CommonCooldowns.Instance.Interaction)) return;
+		if (Cooldowns.TryStartServer(playerScript, CommonCooldowns.Instance.Interaction) == false) return;
+
 		var slot = itemStorage.GetActiveHandSlot();
-		Vector3 targetVector = TargetLocalPosition.ToWorld(playerMove.registerTile.Matrix) - playerMove.transform.position;
+		Vector3 targetVector = targetLocalPosition.ToWorld(playerMove.registerTile.Matrix) - playerMove.transform.position;
 		if (slot.Item != null)
 		{
 			Inventory.ServerThrow(slot, targetVector, (BodyPartType) aim);
@@ -387,22 +391,25 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 				{
 					return;
 				}
-			};
-			var Distance = targetVector.magnitude;
-
-			if (Distance > 6)
-			{
-				Distance = 6;
 			}
 
-			var Pulling = playerMove.Pulling.Component;
+			var distance = targetVector.magnitude;
+
+			if (distance > 6)
+			{
+				distance = 6;
+			}
+
+			var pulling = playerMove.Pulling.Component;
+
 			playerMove.StopPulling(false);
-			//speedloss  / friction
+
+			//TODO speedloss  / friction
 			var speed = 8;
 
-			Pulling.NewtonianPush( targetVector,speed
-				, (Distance / speed ) - ((Mathf.Pow(speed, 2) / (2*UniversalObjectPhysics.DEFAULT_Friction)) / speed)
-				, Single.NaN, (BodyPartType) aim, this.gameObject, Random.Range(25, 150));
+			pulling.NewtonianPush( targetVector,speed,
+				(distance / speed ) - ((Mathf.Pow(speed, 2) / (2*UniversalObjectPhysics.DEFAULT_Friction)) / speed),
+				Single.NaN, (BodyPartType) aim, this.gameObject, Random.Range(25, 150));
 		}
 
 

@@ -13,18 +13,19 @@ MonoBehaviour:
   m_Name: Hunter
   m_EditorClassIdentifier: 
   Name: Hunter
+  AlienType: 8
   Description: 'The offensive backbone of the xenos, Hunters move at blistering speed
     and can tackle down their unlucky opponents for quick stuns. '
-  AlienType: 8
   Speed: 10
   AttackSpeed: 4
   AttackDamage: 10
   DamageType: 0
   ChanceToHit: 50
-  MaxPlasma: 100
+  MaxPlasma: 150
+  InitialPlasma: 100
   PlasmaGainRate: 3
-  HealAmount: 5
-  HealPlasmaCost: 5
+  HealAmount: 3
+  HealPlasmaCost: 3
   MaxGrowth: 100
   AcidSpitCost: 5
   NeurotoxinSpitCost: 10

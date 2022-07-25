@@ -7,6 +7,7 @@ using Systems.Ai;
 using Systems.Interaction;
 using Items;
 using Objects.Wallmounts;
+using ScriptableObjects;
 using Tiles;
 
 
@@ -32,6 +33,11 @@ public static class Validations
 	public static bool HasComponent<T>(GameObject toCheck) where T : Component
 	{
 		return toCheck != null && toCheck.GetComponent(typeof(T)) != null;
+	}
+
+	public static PlayerStates CheckState(Predicate<PlayerStateSettings> toCheck)
+	{
+		return PlayerStatesSingleton.Instance.DoCheck(toCheck);
 	}
 
 	/// <summary>
@@ -123,16 +129,16 @@ public static class Validations
 	/// <param name="side">side of the network the check is being performed on</param>
 	/// <param name="allowSoftCrit">whether interaction should be allowed if in soft crit</param>
 	/// <param name="allowCuffed">whether interaction should be allowed if cuffed</param>
-	/// <param name="allowedPlayerStates">the allowed playerstates for this interaction, defaults to normal players</param>
+	/// <param name="aPS"> allowedPlayerStatesthe allowed playerstates for this interaction, defaults to normal players</param>
 	/// <returns></returns>
 	public static bool CanInteract(PlayerScript playerScript, NetworkSide side, bool allowSoftCrit = false, bool allowCuffed = false,
-		PlayerStates allowedPlayerStates = PlayerStates.Normal)
+		PlayerStates aPS = PlayerStates.Normal)
 	{
 		if (playerScript == null) return false;
 
 		//Only allow players interact this way if contained in allowedPlayerStates (usually only normal players not ghost etc)
 		//Note that Ai has AiActivate as that has additional validations
-		if (allowedPlayerStates.HasFlag(playerScript.PlayerState) == false) return false;
+		if (aPS.HasFlag(playerScript.PlayerState) == false) return false;
 
 		//Can't interact cuffed
 		if (allowCuffed == false && playerScript.playerMove.IsCuffed) return false;
@@ -193,7 +199,7 @@ public static class Validations
 		var playerObjBehavior = playerScript.objectPhysics;
 
 
-		if (CanInteract(playerScript, side, allowSoftCrit, allowedPlayerStates: allowedPlayerStates) == false)
+		if (CanInteract(playerScript, side, allowSoftCrit, aPS: allowedPlayerStates) == false)
 		{
 			return false;
 		}

@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 960e142aa5224260865bd62048f99bde, type: 3}
+  m_Name: Ghost
+  m_EditorClassIdentifier: 
+  playerState: 2
+  canBeCuffed: 0
+  canMelee: 0
+  canCraft: 0
+  canRest: 0
+  canDropItems: 0
+  canThrowItems: 0
+  canResist: 0
+  canBeExamined: 0
+  canExamineOthers: 12
+  transmitChannels: 32772
+  receiveChannels: 3276799
+  defaultChannel: 32768
+  checkForRadios: 0

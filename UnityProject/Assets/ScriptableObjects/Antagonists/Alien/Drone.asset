@@ -13,20 +13,30 @@ MonoBehaviour:
   m_Name: Drone
   m_EditorClassIdentifier: 
   Name: Drone
+  AlienType: 64
   Description: An important type of xenomorph, second only to the Queen, Drones are
     the builders of the xenomorphs. They can construct resin walls to block pathways,
     resin nests to keep prey secured, and other such structures. Drones are also
     the only adult xenomorph capable of further evolution, into a Praetorian.
-  AlienType: 64
   Speed: 5
   AttackSpeed: 7
   AttackDamage: 5
   DamageType: 0
   ChanceToHit: 50
-  MaxPlasma: 100
-  PlasmaGainRate: 3
-  HealAmount: 5
-  HealPlasmaCost: 5
+  MaxPlasma: 500
+  InitialPlasma: 200
+  PlasmaGainRate: 8
+  HealAmount: 3
+  HealPlasmaCost: 3
+  MaxGrowth: 100
+  AcidSpitCost: 10
+  NeurotoxinSpitCost: 50
+  EvolvedFrom: 4
+  ActionData:
+  - {fileID: 11400000, guid: e469aa52bc0cbb949a56796230469fd2, type: 2}
+  - {fileID: 11400000, guid: a8bdbaab2b5d5e342ae7fde7073c3dc8, type: 2}
+  - {fileID: 11400000, guid: 7d8643ea055bed44c8e9e7dc0b5d7f36, type: 2}
+  - {fileID: 11400000, guid: 6b465360fb919c243b763597b4759a63, type: 2}
   Normal: {fileID: 11400000, guid: 97d70460f61813e4dbf90294f5b33e80, type: 2}
   Dead: {fileID: 11400000, guid: 7e0540f000ef2ac459a76ae5b37c1fcf, type: 2}
   Pounce: {fileID: 11400000, guid: d3480d51eb277b3498d7686aecfe942f, type: 2}
@@ -35,10 +45,3 @@ MonoBehaviour:
   Running: {fileID: 0}
   Front: {fileID: 11400000, guid: 8ee8029d6a8a12b49aff3d819a439212, type: 2}
   Back: {fileID: 11400000, guid: 34af8596d4b85fa4f87a4b9d68cd713a, type: 2}
-  MaxGrowth: 100
-  EvolvedFrom: 4
-  ActionData:
-  - {fileID: 11400000, guid: e469aa52bc0cbb949a56796230469fd2, type: 2}
-  - {fileID: 11400000, guid: a8bdbaab2b5d5e342ae7fde7073c3dc8, type: 2}
-  - {fileID: 11400000, guid: 7d8643ea055bed44c8e9e7dc0b5d7f36, type: 2}
-  - {fileID: 11400000, guid: 6b465360fb919c243b763597b4759a63, type: 2}

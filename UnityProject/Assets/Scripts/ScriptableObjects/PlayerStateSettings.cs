@@ -1,0 +1,73 @@
+﻿using NaughtyAttributes;
+using UnityEngine;
+
+namespace ScriptableObjects
+{
+	[CreateAssetMenu(fileName = "PlayerStateSettings", menuName = "ScriptableObjects/Player/PlayerStateSettings")]
+	public class PlayerStateSettings : ScriptableObject
+	{
+		[Header("Player State, only choose one!")]
+		[SerializeField]
+		private PlayerStates playerState = PlayerStates.Normal;
+		public PlayerStates PlayerState => playerState;
+
+		[HorizontalLine]
+		[SerializeField]
+		private bool canBeCuffed = false;
+		public bool CanBeCuffed => canBeCuffed;
+
+		[SerializeField]
+		private bool canMelee = false;
+		public bool CanMelee => canMelee;
+
+		[SerializeField]
+		private bool canCraft = false;
+		public bool CanCraft => canCraft;
+
+		[SerializeField]
+		private bool canRest = false;
+		public bool CanRest => canRest;
+
+		[HorizontalLine]
+		[Header("UI Actions buttons")]
+		[SerializeField]
+		private bool canDropItems = false;
+		public bool CanDropItems => canDropItems;
+
+		[SerializeField]
+		private bool canThrowItems = false;
+		public bool CanThrowItems => canThrowItems;
+
+		[SerializeField]
+		private bool canResist = false;
+		public bool CanResist => canResist;
+
+		[HorizontalLine]
+		[Header("Examine")]
+		[SerializeField]
+		private ExamineType canBeExamined = ExamineType.None;
+		public ExamineType CanBeExamined => canBeExamined;
+
+		[SerializeField]
+		private ExamineType canExamineOthers = ExamineType.None;
+		public ExamineType CanExamineOthers => canExamineOthers;
+
+		[HorizontalLine]
+		[Header("Chat")]
+		[SerializeField]
+		private ChatChannel transmitChannels = ChatChannel.None;
+		public ChatChannel TransmitChannels => transmitChannels;
+
+		[SerializeField]
+		private ChatChannel receiveChannels = ChatChannel.None;
+		public ChatChannel ReceiveChannels => receiveChannels;
+
+		[SerializeField]
+		private ChatChannel defaultChannel = ChatChannel.None;
+		public ChatChannel DefaultChannel => defaultChannel;
+
+		[SerializeField]
+		private bool checkForRadios = false;
+		public bool CheckForRadios => checkForRadios;
+	}
+}

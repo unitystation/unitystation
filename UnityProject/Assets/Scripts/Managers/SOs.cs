@@ -46,6 +46,7 @@ namespace ScriptableObjects
 		public UIActionSOSingleton UIActionSOSingleton;
 		public UplinkCategoryList UplinkCategoryList;
 		public UplinkPasswordList UplinkPasswordList;
+		public PlayerStatesSingleton PlayerStatesSingleton;
 
 		private Dictionary<Type, ScriptableObject> typeSOMap;
 
@@ -79,6 +80,7 @@ namespace ScriptableObjects
 				{ typeof(UIActionSOSingleton), UIActionSOSingleton },
 				{ typeof(UplinkCategoryList), UplinkCategoryList },
 				{ typeof(UplinkPasswordList), UplinkPasswordList },
+				{ typeof(PlayerStatesSingleton), PlayerStatesSingleton },
 			};
 		}
 

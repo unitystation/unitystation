@@ -31,18 +31,15 @@ public static class DefaultWillInteract
 		}
 		if (typeof(T) == typeof(MouseDrop))
 		{
-			return Validations.CanInteract(interaction.PerformerPlayerScript, side,
-				allowedPlayerStates: allowedPlayerStates);
+			return Validations.CanInteract(interaction.PerformerPlayerScript, side, aPS: allowedPlayerStates);
 		}
 		if (typeof(T) == typeof(HandActivate))
 		{
-			return Validations.CanInteract(interaction.PerformerPlayerScript, side,
-				allowedPlayerStates: allowedPlayerStates);
+			return Validations.CanInteract(interaction.PerformerPlayerScript, side, aPS: allowedPlayerStates);
 		}
 		if (typeof(T) == typeof(InventoryApply))
 		{
-			return Validations.CanInteract(interaction.PerformerPlayerScript, side,
-				allowedPlayerStates: allowedPlayerStates);
+			return Validations.CanInteract(interaction.PerformerPlayerScript, side, aPS: allowedPlayerStates);
 		}
 		if (typeof(T) == typeof(TileApply))
 		{
@@ -74,8 +71,7 @@ public static class DefaultWillInteract
 	private static bool AimApply(AimApply interaction, NetworkSide side,
 		PlayerStates allowedPlayerStates = PlayerStates.Normal)
 	{
-		if (Validations.CanInteract(interaction.PerformerPlayerScript, side,
-			    allowedPlayerStates: allowedPlayerStates) == false)
+		if (Validations.CanInteract(interaction.PerformerPlayerScript, side, aPS: allowedPlayerStates) == false)
 		{
 			return false;
 		}

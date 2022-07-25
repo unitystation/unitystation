@@ -99,6 +99,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  playerStateSettings: {fileID: 11400000, guid: f3010aaf40d515547b1fbd815268ca20,
+    type: 2}
   playerName: ' '
   visibleName: ' '
   PlayerSync: {fileID: 0}
@@ -106,7 +108,6 @@ MonoBehaviour:
   RTT: 0
   RcsMode: 0
   RcsMatrixMove: {fileID: 0}
-  playerState: 2
   actionData: {fileID: 0}
   playerChatLocation: {fileID: 4390267312333422610}
   ClueHandsImprintInverseChance: 55
