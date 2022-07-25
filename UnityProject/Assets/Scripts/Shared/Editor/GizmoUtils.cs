@@ -6,7 +6,7 @@ namespace Shared.Editor
 {
 	public static class GizmoUtils
 	{
-		public static Vector3 HalfOne = new(0.5f, 0.5f, 0);
+		public static readonly Vector3 HalfOne = new(0.5f, 0.5f, 0);
 
 		public static void DrawGizmos<S>(S source, List<Check<S>> checks, bool local = true) where S : MonoBehaviour
 		{
@@ -117,7 +117,6 @@ namespace Shared.Editor
 			Vector3 left = lookRotation * Quaternion.Euler(-arrowHeadAngle, 0, 0) * Vector3.back;
 			Vector3 up = lookRotation * Quaternion.Euler(0, arrowHeadAngle, 0) * Vector3.back;
 			Vector3 down = lookRotation * Quaternion.Euler(0, -arrowHeadAngle, 0) * Vector3.back;
-			Gizmos.color = Gizmos.color;
 			var rayFrom = pos + direction;
 			Gizmos.DrawRay(rayFrom, right * arrowHeadLength);
 			Gizmos.DrawRay(rayFrom, left * arrowHeadLength);
