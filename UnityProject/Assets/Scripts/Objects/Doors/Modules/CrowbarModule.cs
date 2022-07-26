@@ -105,6 +105,11 @@ namespace Doors.Modules
 				return;
 			}
 
+			var handName = interaction.PerformerPlayerScript.PlayerStateSettings.PryHandName;
+
+			Chat.AddActionMsgToChat(interaction.Performer, $"You start prying open the {doorName}...",
+				$"{interaction.Performer.ExpensiveName()} starts prying open the {doorName} with its {handName}...");
+
 			var cfg = new StandardProgressActionConfig(StandardProgressActionType.Construction);
 
 			StandardProgressAction.Create(

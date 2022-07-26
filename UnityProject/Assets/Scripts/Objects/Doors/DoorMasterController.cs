@@ -64,7 +64,7 @@ namespace Doors
 		private DoorAnimatorV2 doorAnimator;
 		public DoorAnimatorV2 DoorAnimator => doorAnimator;
 
-		private const float INPUT_COOLDOWN = 1f;
+		private const float INPUT_COOLDOWN = 0.25f;
 
 		#endregion
 
