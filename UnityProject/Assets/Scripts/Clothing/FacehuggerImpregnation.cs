@@ -207,17 +207,17 @@ namespace Clothing
 			//Alien clicking on layer with face hugger in hand
 			if (interaction.TargetObject.TryGetComponent<PlayerScript>(out var playerScript) == false) return;
 
-			//If not laying down small chance to hug
-			if (playerScript.registerTile.IsLayingDown == false && DMMath.Prob(80))
-			{
-				Chat.AddExamineMsgFromServer(interaction.Performer, "The facehugger failed to attach!");
-				return;
-			}
-
 			string verb;
 			bool success;
 
-			if (FaceHugAction.HasAntihuggerItem(playerScript.Equipment))
+			//If not laying down small chance to hug
+			if (playerScript.registerTile.IsLayingDown == false && DMMath.Prob(80))
+			{
+				verb = "tried to attach a face hugger";
+				success = false;
+			}
+			//Check for anti hugger items
+			else if (FaceHugAction.HasAntihuggerItem(playerScript.Equipment))
 			{
 				verb = "tried to attach a face hugger";
 				success = false;
