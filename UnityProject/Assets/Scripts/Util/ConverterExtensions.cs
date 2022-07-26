@@ -158,6 +158,9 @@ public static class ConverterExtensions
 		return ToLocalVector3(@in).RoundTo2Int();
 	}
 
+	/// <summary>
+	/// Takes an <see cref="OrientationEnum"/> and returns a unit <see cref="Vector3"/> direction.
+	/// </summary>
 	public static Vector3 ToLocalVector3(this OrientationEnum @in) =>
 		@in switch
 		{
@@ -168,11 +171,13 @@ public static class ConverterExtensions
 			_ => Vector3.zero
 		};
 
+	/// <summary>
+	/// Takes a unit <see cref="Vector2Int"/> direction with a single axis set to 1 or -1 and returns the equivalent
+	/// <see cref="OrientationEnum"/>.
+	/// </summary>
 	public static OrientationEnum ToOrientationEnum(this Vector2Int direction) =>
 		direction switch
 		{
-			// Based on what was checked and returned before. These are very specific and don't account for anything
-			// greater than one or one direction greater than another for example. Is it supposed to be that way?
 			{ y: -1 } => OrientationEnum.Down_By180,
 			{ x: -1 } => OrientationEnum.Left_By90,
 			{ y: 1 } => OrientationEnum.Up_By0,
