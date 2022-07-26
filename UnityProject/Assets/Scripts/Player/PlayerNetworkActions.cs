@@ -750,6 +750,8 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	{
 		PlayerScript body = playerScript.mind.body;
 
+		if(body == null) return;
+
 		if (playerScript.mind.IsSpectator) return;
 
 		if (playerScript.mind.ghostLocked) return;

@@ -292,7 +292,8 @@ namespace Blob
 			spawnResult.GameObject.GetComponent<PlayerScript>().mind = playerScript.mind;
 
 			var connection = GetComponent<NetworkIdentity>().connectionToClient;
-			PlayerSpawn.ServerTransferPlayerToNewBody(connection, spawnResult.GameObject, playerScript.mind.GetCurrentMob(), Event.BlobSpawned, playerScript.characterSettings);
+			PlayerSpawn.ServerTransferPlayerToNewBody(connection, playerScript.mind, spawnResult.GameObject,
+				Event.BlobSpawned, playerScript.characterSettings);
 
 			playerScript.mind = null;
 

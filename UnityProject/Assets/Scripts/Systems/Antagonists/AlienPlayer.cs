@@ -9,6 +9,7 @@ using Mirror;
 using Objects;
 using Player.Movement;
 using ScriptableObjects;
+using Systems.GhostRoles;
 using Tiles;
 using UI.Action;
 using UnityEngine;
@@ -16,7 +17,8 @@ using Weapons.Projectiles;
 
 namespace Systems.Antagonists
 {
-	public class AlienPlayer : NetworkBehaviour, IServerActionGUIMulti, ICooldown
+	public class AlienPlayer : NetworkBehaviour, IServerActionGUIMulti, ICooldown, IServerDespawn, IOnPlayerTransfer,
+		IOnPlayerRejoin
 	{
 		[Header("Sprite Stuff")]
 		[SerializeField]
@@ -168,6 +170,11 @@ namespace Systems.Antagonists
 
 		public bool IsLarva => currentData.AlienType is AlienTypes.Larva1 or AlienTypes.Larva2 or AlienTypes.Larva3;
 
+		//0 if theres a player in body
+		private uint createdRoleKey;
+
+		private float disconnectTime;
+
 		#region LifeCycle
 
 		private void Awake()
@@ -285,6 +292,8 @@ namespace Systems.Antagonists
 			TryHeal();
 
 			GrowthUpdate();
+
+			DisconnectCheck();
 		}
 
 		#endregion
@@ -610,6 +619,8 @@ namespace Systems.Antagonists
 			if(isDead) return;
 			isDead = true;
 
+			RemoveGhostRole();
+
 			RpcRemoveActions();
 
 			ChangeAlienMode(AlienMode.Dead);
@@ -624,6 +635,12 @@ namespace Systems.Antagonists
 			}
 
 			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, OnUpdate);
+
+			//Force player into ghost
+			PlayerSpawn.ServerSpawnGhost(playerScript.mind);
+
+			//Set to null so can't reenter
+			playerScript.mind.body = null;
 		}
 
 		private void OnQueenDeath()
@@ -1353,6 +1370,108 @@ namespace Systems.Antagonists
 			}
 
 			return true;
+		}
+
+		#endregion
+
+		#region GhostRole / Disconnect
+
+		//Make ghost role after after 120 seconds after disconnect
+		private const float DisconnectMaxTime = 10f;
+
+		private PlayerInfo playerTookOver;
+
+		private void DisconnectCheck()
+		{
+			if (connectionToClient != null)
+			{
+				disconnectTime = 0;
+				return;
+			}
+
+			//Not 0 means ghost role already set up
+			if(createdRoleKey != 0) return;
+
+			disconnectTime += 1;
+			if (disconnectTime < DisconnectMaxTime) return;
+			disconnectTime = 0;
+
+			SetUpGhostRole();
+		}
+
+		private void SetUpGhostRole()
+		{
+			if (createdRoleKey != 0)
+			{
+				GhostRoleManager.Instance.ServerRemoveRole(createdRoleKey);
+			}
+
+			//Remove current player
+			if (playerScript.mind != null)
+			{
+				if (playerScript.mind.GetCurrentMob().OrNull()?.GetComponent<PlayerScript>().IsGhost == false)
+				{
+					//Force player current into ghost
+					PlayerSpawn.ServerSpawnGhost(playerScript.mind);
+				}
+			}
+
+			createdRoleKey = GhostRoleManager.Instance.ServerCreateRole(currentData.GhostRoleData);
+			var role = GhostRoleManager.Instance.serverAvailableRoles[createdRoleKey];
+			role.OnPlayerAdded += OnSpawnFromGhostRole;
+		}
+
+		private void RemoveGhostRole()
+		{
+			if(createdRoleKey == 0) return;
+
+			var role = GhostRoleManager.Instance.serverAvailableRoles[createdRoleKey];
+			role.OnPlayerAdded -= OnSpawnFromGhostRole;
+
+			GhostRoleManager.Instance.ServerRemoveRole(createdRoleKey);
+
+			createdRoleKey = 0;
+		}
+
+		public void OnDespawnServer(DespawnInfo info)
+		{
+			RemoveGhostRole();
+		}
+
+		private void OnSpawnFromGhostRole(PlayerInfo player)
+		{
+			//Sanity check
+			if(createdRoleKey == 0) return;
+
+			playerTookOver = player;
+
+			//Transfer player chosen into body
+			PlayerSpawn.ServerTransferPlayerToNewBody(player.Connection, player.Script.mind, gameObject,
+				Event.PlayerSpawned, player.CharacterSettings, true);
+
+			//Remove the player so they can join again once they die
+			GhostRoleManager.Instance.ServerRemoveWaitingPlayer(createdRoleKey, player);
+
+			//GhostRoleManager will remove role don't need to call RemoveGhostRole();
+			createdRoleKey = 0;
+
+			//PlayerTookOver only needs to be set for ServerTransferPlayerToNewBody as OnPlayerTransfer is triggered
+			//During it
+			playerTookOver = null;
+		}
+
+		public void OnPlayerTransfer()
+		{
+			//Block role remove if this transfered player was the one how got the ghost role
+			//OnPlayerTransfer is still needed due to admin A ghosting which should remove the role on transfer
+			if(playerTookOver != null && playerTookOver == playerScript.PlayerInfo) return;
+
+			RemoveGhostRole();
+		}
+
+		public void OnPlayerRejoin()
+		{
+			RemoveGhostRole();
 		}
 
 		#endregion

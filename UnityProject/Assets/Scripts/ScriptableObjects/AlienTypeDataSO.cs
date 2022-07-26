@@ -15,6 +15,8 @@ namespace ScriptableObjects
 
 		public AlienPlayer.AlienTypes AlienType;
 
+		public GhostRoleData GhostRoleData;
+
 		[TextArea(10, 20)]
 		public string Description;
 

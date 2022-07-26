@@ -13,17 +13,25 @@ MonoBehaviour:
   m_Name: Larva2
   m_EditorClassIdentifier: 
   Name: Young
-  Description: 
   AlienType: 2
+  GhostRoleData: {fileID: 11400000, guid: 8b90f9100b145be41b3ab898efe7db14, type: 2}
+  Description: 
   Speed: 10
   AttackSpeed: 7
   AttackDamage: 5
   DamageType: 0
   ChanceToHit: 30
   MaxPlasma: 100
+  InitialPlasma: 100
   PlasmaGainRate: 3
   HealAmount: 5
   HealPlasmaCost: 5
+  MaxGrowth: 100
+  AcidSpitCost: 10
+  NeurotoxinSpitCost: 50
+  EvolvedFrom: 1
+  ActionData:
+  - {fileID: 11400000, guid: 6b465360fb919c243b763597b4759a63, type: 2}
   Normal: {fileID: 11400000, guid: f6e87af1b598e4f4ca0c8baafc15bd42, type: 2}
   Dead: {fileID: 11400000, guid: 1b4a0efb7f40a074f9bca96702fbf8cf, type: 2}
   Pounce: {fileID: 0}
@@ -32,7 +40,3 @@ MonoBehaviour:
   Running: {fileID: 0}
   Front: {fileID: 0}
   Back: {fileID: 0}
-  MaxGrowth: 100
-  EvolvedFrom: 1
-  ActionData:
-  - {fileID: 11400000, guid: 6b465360fb919c243b763597b4759a63, type: 2}

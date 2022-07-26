@@ -8,6 +8,7 @@ using Managers;
 using Messages.Server;
 using Messages.Server.LocalGuiMessages;
 using Newtonsoft.Json;
+using Objects.Research;
 using UI.CharacterCreator;
 using Player;
 
@@ -308,6 +309,13 @@ public static class PlayerSpawn
 		var mind = ps.mind;
 		var occupation = mind.occupation;
 		var settings = ps.characterSettings;
+
+		if (ps.connectionToClient != null)
+		{
+			Logger.LogError($"There was already a connection in {body.ExpensiveName()} for {forMind.ghost.gameObject.ExpensiveName()}!");
+			return;
+		}
+
 		ServerTransferPlayer(forConnection, body, fromObject, Event.PlayerSpawned, settings, oldGhost != null);
 		body.GetComponent<PlayerScript>().playerNetworkActions.ReenterBodyUpdates();
 
@@ -404,7 +412,6 @@ public static class PlayerSpawn
 
 		ServerTransferPlayer(connection, ghost, body, Event.GhostSpawned, settings);
 
-
 		//fire all hooks
 		var info = SpawnInfo.Ghost(forMind.occupation, settings, CustomNetworkManager.Instance.ghostPrefab,
 			SpawnDestination.At(spawnPosition, parentTransform));
@@ -497,10 +504,24 @@ public static class PlayerSpawn
 		return player;
 	}
 
-	public static void ServerTransferPlayerToNewBody(NetworkConnectionToClient conn, GameObject newBody, GameObject oldBody,
-		Event eventType, CharacterSheet characterSettings, bool willDestroyOldBody = false)
+	public static void ServerTransferPlayerToNewBody(NetworkConnectionToClient conn, Mind mind, GameObject newBody, Event eventType,
+		CharacterSheet characterSettings, bool willDestroyOldBody = false)
 	{
+		//get the old body if they have one.
+		var oldBody = mind.GetCurrentMob();
+
 		ServerTransferPlayer(conn, newBody, oldBody, eventType, characterSettings, willDestroyOldBody);
+
+		var newPlayerScript = newBody.GetComponent<PlayerScript>();
+
+		//transfer the mind to the new body
+		mind.SetNewBody(newPlayerScript);
+
+		oldBody.GetComponent<PlayerScript>().mind = null;
+
+		if(willDestroyOldBody == false) return;
+
+		_ = Despawn.ServerSingle(oldBody);
 	}
 
 	/// <summary>
@@ -551,14 +572,7 @@ public static class PlayerSpawn
 		{
 			PlayerList.Instance.UpdatePlayer(conn, newBody);
 			NetworkServer.ReplacePlayerForConnection(conn, newBody);
-			//NOTE: With mirror upgrade 04 Feb 2020, it appears we no longer need to do what has been
-			//commented out below. Below appears to have been an attempt to give authority back to server
-			//But it's implicitly given such authority by the ReplacePlayerForConnection call - that call
-			//now removes authority for the player's old object
-			// if (oldBody)
-			// {
-			// 	NetworkServer.ReplacePlayerForConnection(new NetworkConnectionToClient(0), oldBody);
-			// }
+
 			TriggerEventMessage.SendTo(newBody, eventType);
 
 			//can observe their new inventory

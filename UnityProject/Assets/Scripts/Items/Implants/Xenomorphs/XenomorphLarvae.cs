@@ -90,11 +90,8 @@ namespace HealthV2
 				spawned.GameObject.GetComponent<PlayerScript>().mind = checkPlayerScript.Component.mind;
 
 				var connection = checkPlayerScript.Component.connectionToClient;
-				PlayerSpawn.ServerTransferPlayerToNewBody(connection, spawned.GameObject,
-					checkPlayerScript.Component.mind.GetCurrentMob(), Event.PlayerSpawned,
-					checkPlayerScript.Component.characterSettings);
-
-				checkPlayerScript.Component.mind = null;
+				PlayerSpawn.ServerTransferPlayerToNewBody(connection, checkPlayerScript.Component.mind,
+					spawned.GameObject, Event.PlayerSpawned, checkPlayerScript.Component.characterSettings);
 			}
 
 			RelatedPart.TryRemoveFromBody();

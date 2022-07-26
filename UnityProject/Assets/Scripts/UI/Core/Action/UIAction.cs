@@ -43,7 +43,7 @@ namespace UI.Action
 				IconFront.SetCatalogue(actionData.Sprites, 0, networked: false);
 
 				//Turn off raycasting if we have a background so the tooltip will show if mouse over IconFront
-				IconFront.GetComponent<Image>().raycastTarget = actionData.Backgrounds.Count == 0;
+				GetComponent<Image>().raycastTarget = actionData.Backgrounds.Count == 0;
 			}
 			if (actionData.Backgrounds.Count > 0)
 			{
