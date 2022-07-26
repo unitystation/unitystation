@@ -153,7 +153,7 @@ namespace Objects
 		private void PushObject(UniversalObjectPhysics entity, Vector3 pushVector)
 		{
 			//Push Twice
-			entity.NewtonianPush(pushVector.NormalizeTo2Int(), 10);
+			entity.NewtonianPush(pushVector.NormalizeTo2Int(), 30);
 		}
 
 		private void PushPlayer(UniversalObjectPhysics player, Vector3 pushVector)
@@ -161,7 +161,7 @@ namespace Objects
 			player.GetComponent<RegisterPlayer>()?.ServerStun();
 
 			//Push Twice
-			player.NewtonianPush(pushVector.NormalizeTo2Int(), 10);
+			player.NewtonianPush(pushVector.NormalizeTo2Int(), 30);
 		}
 
 		#region WrenchChangeDirection
