@@ -179,6 +179,12 @@ namespace Systems.Atmospherics
 		public static void TransferGas(GasMix target, GasMix source, float molesToTransfer,
 			bool doNotTouchOriginalMix = false)
 		{
+			if (target == source)
+			{
+				Logger.LogError("oh god You're transferring a gas mixture itself!!!");
+				return;
+			}
+
 			var sourceStartMoles = source.Moles;
 			molesToTransfer = molesToTransfer.Clamp(0, sourceStartMoles);
 			if (CodeUtilities.IsEqual(molesToTransfer, 0) || CodeUtilities.IsEqual(sourceStartMoles, 0))
