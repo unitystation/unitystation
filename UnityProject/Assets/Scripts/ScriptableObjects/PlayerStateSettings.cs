@@ -25,6 +25,20 @@ namespace ScriptableObjects
 		private bool canBuckleOthers = false;
 		public bool CanBuckleOthers => canBuckleOthers;
 
+		[SerializeField]
+		private bool canConsumeFromFloor = false;
+		public bool CanConsumeFromFloor => canConsumeFromFloor;
+
+		[HorizontalLine]
+		[Header("Door Interaction")]
+		[SerializeField]
+		private bool canInteractWithDoors = false;
+		public bool CanInteractWithDoors => canInteractWithDoors;
+
+		[SerializeField]
+		private bool canPryDoorsWithHands = false;
+		public bool CanPryDoorsWithHands => canPryDoorsWithHands;
+
 		[HorizontalLine]
 		[Header("UI Actions buttons")]
 		[SerializeField]

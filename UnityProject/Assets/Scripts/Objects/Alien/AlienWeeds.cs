@@ -71,14 +71,19 @@ namespace Alien
 				didTryExpand = true;
 
 				var localPos = coordToTry.To3Int();
-				var matrixAtPoint = MatrixManager.AtPoint(objectPhysics.OfficialPosition + localPos, true, registerTile.Matrix.MatrixInfo);
+				var matrixAtPoint = MatrixManager.AtPoint(localPos.ToWorld(registerTile.Matrix), true, registerTile.Matrix.MatrixInfo);
 
-				if(matrixAtPoint.Matrix.IsPassableAtOneMatrix(coordAdjacent.To3Int(), localPos,
-					   true, includingPlayers: false) == false) continue;
+				var worldPosInt = objectPhysics.OfficialPosition.RoundToInt();
+
+				var passable = MatrixManager.IsPassableAtAllMatrices(worldPosInt,
+					worldPosInt + localPos, true, includingPlayers: false,
+					matrixOrigin: registerTile.Matrix.MatrixInfo, matrixTarget: matrixAtPoint);
+
+				if(passable == false) continue;
 
 				expandCoords.Remove(coordToTry);
 
-				ChangeTile(localPos, coordToTry, matrixAtPoint);
+				ChangeTile(localPos, matrixAtPoint);
 
 				coordsDone.Add(coordToTry);
 
@@ -92,25 +97,24 @@ namespace Alien
 			Stop();
 		}
 
-		private void ChangeTile(Vector3Int localPos, Vector2Int coordToTry, MatrixInfo matrixAtPoint)
+		private void ChangeTile(Vector3Int localPos, MatrixInfo matrixAtPoint)
 		{
 			var tileThere = matrixAtPoint.MetaTileMap.GetAllTilesByType<ConnectedTileV2>(localPos, LayerType.Floors);
 
-			foreach (var tile in tileThere)
-			{
-				foreach (var weedTile in weedTiles)
-				{
-					if (weedTile != tile) continue;
-
-					coordsDone.Add(coordToTry);
-					return;
-				}
-			}
+			 foreach (var tile in tileThere)
+			 {
+			 	foreach (var weedTile in weedTiles)
+			 	{
+			 		if (weedTile == tile) return;
+			 	}
+			 }
 
 			//TODO after tilemap upgrade remove this (need this as floors doesnt have multilayer and thus weed tile detection is broken)
 			matrixAtPoint.MetaTileMap.RemoveTileWithlayer(localPos, LayerType.Floors);
 
-			//matrixAtPoint.MetaTileMap.SetTile(localPos, weedTiles.PickRandom());
+			matrixAtPoint.MetaTileMap.SetTile(localPos, weedTiles.PickRandom());
+
+			matrixAtPoint.TileChangeManager.SubsystemManager.UpdateAt(localPos);
 		}
 
 		private void Stop()
@@ -125,7 +129,7 @@ namespace Alien
 			coordsDone.Add(localPosInt);
 
 			//Add tile to out spawn pos
-			ChangeTile(registerTile.LocalPositionServer, Vector2Int.zero, registerTile.Matrix.MatrixInfo);
+			ChangeTile(registerTile.LocalPositionServer, registerTile.Matrix.MatrixInfo);
 		}
 
 		private (bool isValid, Vector2Int coordAdjacent) ValidateCoord(Vector2Int localPosition)

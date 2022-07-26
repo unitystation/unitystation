@@ -60,6 +60,13 @@ namespace Doors.Modules
 		{
 			if (interaction == null) return ModuleSignal.Continue;
 
+			if (interaction.HandObject == null
+			    && interaction.PerformerPlayerScript.PlayerStateSettings.CanPryDoorsWithHands)
+			{
+				PryDoor(interaction);
+				return ModuleSignal.Break;
+			}
+
 			if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.CanPryDoor) ||
 			    Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Crowbar))
 			{
@@ -67,26 +74,31 @@ namespace Doors.Modules
 				{
 					return ModuleSignal.Continue;
 				}
-				if (soundGuid != "")
-				{
-					SoundManager.StopNetworked(soundGuid);
-				}
 
-				soundGuid = Guid.NewGuid().ToString();
-				SoundManager.PlayAtPositionAttached(prySound, master.RegisterTile.WorldPositionServer, gameObject, soundGuid);
-
-				//allows the jaws of life to pry open doors
-				ToolUtils.ServerUseToolWithActionMessages(interaction, pryTime,
-					$"You start prying open the {doorName}...",
-					$"{interaction.Performer.ExpensiveName()} starts prying open the {doorName}...",
-					$"",
-					$"",
-					() => TryPry(interaction), onFailComplete: OnFailPry, playSound: false);
-
+				PryDoor(interaction);
 				return ModuleSignal.Break;
 			}
 
 			return ModuleSignal.Continue;
+		}
+
+		private void PryDoor(HandApply interaction)
+		{
+			if (soundGuid != "")
+			{
+				SoundManager.StopNetworked(soundGuid);
+			}
+
+			soundGuid = Guid.NewGuid().ToString();
+			SoundManager.PlayAtPositionAttached(prySound, master.RegisterTile.WorldPositionServer, gameObject, soundGuid);
+
+			//allows the jaws of life to pry open doors
+			ToolUtils.ServerUseToolWithActionMessages(interaction, pryTime,
+				$"You start prying open the {doorName}...",
+				$"{interaction.Performer.ExpensiveName()} starts prying open the {doorName}...",
+				$"",
+				$"",
+				() => TryPry(interaction), onFailComplete: OnFailPry, playSound: false);
 		}
 
 		public override ModuleSignal BumpingInteraction(GameObject byPlayer, HashSet<DoorProcessingStates> States)

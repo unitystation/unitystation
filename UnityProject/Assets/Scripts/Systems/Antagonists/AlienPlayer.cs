@@ -451,11 +451,7 @@ namespace Systems.Antagonists
 			//Need to be on weeds
 			if(onWeeds == false) return;
 
-			var change = currentPlasma + currentData.PlasmaGainRate;
-
-			change = Mathf.Clamp(change, 0, currentData.MaxPlasma);
-
-			currentPlasma = change;
+			TryAddPlasma(currentPlasma + currentData.PlasmaGainRate);
 		}
 
 		[Server]
@@ -519,7 +515,7 @@ namespace Systems.Antagonists
 				.Where(x => x.gameObject.GetComponent<AlienPlayer>() != null).ToArray();
 
 			//Greater than one as we need more than ourself
-			if (alienInRange.Length > 1)
+			if (alienInRange.Length <= 1)
 			{
 				Chat.AddExamineMsgFromServer(gameObject, "No sisters in range!");
 				return;
