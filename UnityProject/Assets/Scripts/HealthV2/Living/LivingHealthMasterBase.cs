@@ -10,11 +10,13 @@ using Systems.Atmospherics;
 using Chemistry;
 using Core.Chat;
 using Health.Sickness;
+using HealthV2.Living.CirculatorySystem;
 using JetBrains.Annotations;
 using NaughtyAttributes;
 using Player;
 using Newtonsoft.Json;
 using ScriptableObjects.RP;
+using UnityEngine.Serialization;
 
 namespace HealthV2
 {
@@ -193,6 +195,9 @@ namespace HealthV2
 
 		public RootBodyPartController rootBodyPartController;
 
+
+		public float BodyPartSurfaceVolume = 5;
+
 		/// <summary>
 		/// The current hunger state of the creature, currently always returns normal
 		/// </summary>
@@ -328,25 +333,25 @@ namespace HealthV2
 		public void SurfaceBodyPartChanges()
 		{
 			PrecalculatedMetabolismReactions.Clear();
-			foreach (var MR in ALLExternalMetabolismReactions)
+			foreach (var externalReaction in allExternalMetabolismReactions)
 			{
 				foreach (var bodyPart in SurfaceBodyParts)
 				{
-					if (bodyPart.ItemAttributes.HasAllTraits(MR.ExternalAllRequired) &&
-					    bodyPart.ItemAttributes.HasAnyTrait(MR.ExternalBlacklist) == false)
+					if (bodyPart.ItemAttributes.HasAllTraits(externalReaction.ExternalAllRequired) &&
+					    bodyPart.ItemAttributes.HasAnyTrait(externalReaction.ExternalBlacklist) == false)
 					{
-						if (PrecalculatedMetabolismReactions.ContainsKey(MR) == false)
+						if (PrecalculatedMetabolismReactions.ContainsKey(externalReaction) == false)
 						{
-							PrecalculatedMetabolismReactions[MR] = new List<BodyPart>();
+							PrecalculatedMetabolismReactions[externalReaction] = new List<BodyPart>();
 						}
 
-						PrecalculatedMetabolismReactions[MR].Add(bodyPart);
+						PrecalculatedMetabolismReactions[externalReaction].Add(bodyPart);
 					}
 				}
 			}
 		}
 
-		public List<BodyPart> UseList = new List<BodyPart>();
+		private List<BodyPart> TMPUseList = new List<BodyPart>();
 
 		public void ExternalMetaboliseReactions()
 		{
@@ -354,42 +359,54 @@ namespace HealthV2
 			{
 				if (storage.Value.Total == 0) continue;
 
-				metabolismReactions.Clear();
+				MetabolismReactions.Clear();
 
 				foreach (var Reaction in PrecalculatedMetabolismReactions)
 				{
-					Reaction.Key.Apply(this, storage.Value);
+					var HasBodyPart = false;
+					foreach (var bodyPart in PrecalculatedMetabolismReactions[Reaction.Key])
+					{
+						if (bodyPart.BodyPartType == storage.Key)
+						{
+							HasBodyPart = true;
+							break;
+						}
+					}
+
+					if (HasBodyPart)
+					{
+						Reaction.Key.Apply(this, storage.Value);
+					}
 				}
 
-				foreach (var Reaction in metabolismReactions)
+				foreach (var Reaction in MetabolismReactions)
 				{
-					UseList.Clear();
+					TMPUseList.Clear();
 					float ProcessingAmount = 0;
 					foreach (var bodyPart in PrecalculatedMetabolismReactions[Reaction])
 					{
 						if (bodyPart.BodyPartType == storage.Key)
 						{
-							UseList.Add(bodyPart);
+							TMPUseList.Add(bodyPart);
 							ProcessingAmount += 1;
 						}
 					}
 
 					if (ProcessingAmount == 0) continue;
 
-					Reaction.React(UseList, storage.Value, ProcessingAmount);
+					Reaction.React(TMPUseList, storage.Value, ProcessingAmount);
 				}
 
 				storage.Value.Take(0.2f); //Evaporation
 			}
 		}
 
-		public List<ExternalBodyHealthEffect>
-			ALLExternalMetabolismReactions = new List<ExternalBodyHealthEffect>(); //TOOD Move somewhere static maybe
+		[FormerlySerializedAs("AllExternalMetabolismReactions")] [FormerlySerializedAs("ALLExternalMetabolismReactions")] public List<ExternalBodyHealthEffect>
+			allExternalMetabolismReactions = new List<ExternalBodyHealthEffect>(); //TOOD Move somewhere static maybe
 
-		public List<MetabolismReaction> metabolismReactions = new List<MetabolismReaction>();
-		public List<MetabolismReaction> MetabolismReactions => metabolismReactions;
+		public List<MetabolismReaction> MetabolismReactions { get; } = new();
 
-		public  Dictionary<MetabolismReaction, List<BodyPart>> PrecalculatedMetabolismReactions =
+		private Dictionary<MetabolismReaction, List<BodyPart>> PrecalculatedMetabolismReactions =
 			new Dictionary<MetabolismReaction, List<BodyPart>>();
 
 		private void OnEnable()
@@ -931,10 +948,9 @@ namespace HealthV2
 		}
 
 		[Server]
-		public void ApplyReagentsToSurface(ReagentMix Chemicals, BodyPartType bodyPartAim)
+		public void ApplyReagentsToSurface(ReagentMix Chemicals, BodyPartType bodyPartAim) //is n(o) operation
 		{
-
-			foreach (var reaction in ALLExternalMetabolismReactions)
+			foreach (var reaction in allExternalMetabolismReactions)
 			{
 				if (reaction.HasInitialTouchCharacteristics)
 				{
@@ -953,9 +969,9 @@ namespace HealthV2
 
 			SurfaceReagents[bodyPartAim].Add(Chemicals);
 
-			if (SurfaceReagents[bodyPartAim].Total  > 5)
+			if (SurfaceReagents[bodyPartAim].Total  > BodyPartSurfaceVolume)
 			{
-				SurfaceReagents[bodyPartAim].Multiply( 5f /  SurfaceReagents[bodyPartAim].Total);
+				SurfaceReagents[bodyPartAim].Multiply( BodyPartSurfaceVolume /  SurfaceReagents[bodyPartAim].Total);
 			}
 
 

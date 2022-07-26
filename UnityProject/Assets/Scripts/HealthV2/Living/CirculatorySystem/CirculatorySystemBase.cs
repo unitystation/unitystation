@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Chemistry;
 using Chemistry.Components;
+using HealthV2.Living.CirculatorySystem;
 using NaughtyAttributes;
 
 namespace HealthV2
@@ -12,9 +13,7 @@ namespace HealthV2
 	public class CirculatorySystemBase : MonoBehaviour, IAreaReactionBase
 	{
 		public List<MetabolismReaction> ALLMetabolismReactions = new List<MetabolismReaction>(); //TOOD Move somewhere static maybe
-
-		public List<MetabolismReaction> metabolismReactions = new List<MetabolismReaction>();
-		public List<MetabolismReaction> MetabolismReactions => metabolismReactions;
+		public List<MetabolismReaction> MetabolismReactions { get; } = new();
 
 		public Dictionary<MetabolismReaction, List<BodyPart>> PrecalculatedMetabolismReactions = new  Dictionary<MetabolismReaction, List<BodyPart>>();
 
@@ -330,14 +329,14 @@ namespace HealthV2
 
 		public void MetaboliseReactions()
 		{
-			metabolismReactions.Clear();
+			MetabolismReactions.Clear();
 
 			foreach (var Reaction in PrecalculatedMetabolismReactions)
 			{
 				Reaction.Key.Apply(this, BloodPool);
 			}
 
-			foreach (var Reaction in metabolismReactions)
+			foreach (var Reaction in MetabolismReactions)
 			{
 				float ProcessingAmount = 0;
 				foreach (var bodyPart in PrecalculatedMetabolismReactions[Reaction]) //TODO maybe lag? Alternative?
