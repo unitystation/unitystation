@@ -151,16 +151,16 @@ namespace Systems.Antagonists
 
 		public float DefaultTime => 5f;
 
-		private AlienCooldown hissCooldown;
-		public AlienCooldown HissCooldown => hissCooldown;
+		private CooldownInstance hissCooldown;
+		public CooldownInstance HissCooldown => hissCooldown;
 
-		private AlienCooldown projectileCooldown;
-		public AlienCooldown ProjectileCooldown => projectileCooldown;
+		private CooldownInstance projectileCooldown;
+		public CooldownInstance ProjectileCooldown => projectileCooldown;
 
-		private AlienCooldown queenAnnounceCooldown;
-		public AlienCooldown QueenAnnounceCooldown => queenAnnounceCooldown;
+		private CooldownInstance queenAnnounceCooldown;
+		public CooldownInstance QueenAnnounceCooldown => queenAnnounceCooldown;
 
-		private AlienCooldown sharePlasmaCooldown;
+		private CooldownInstance sharePlasmaCooldown;
 
 		private AlienMouseInputController mouseInputController;
 
@@ -180,22 +180,22 @@ namespace Systems.Antagonists
 
 			playerMask = LayerMask.GetMask("Players");
 
-			hissCooldown = new AlienCooldown
+			hissCooldown = new CooldownInstance
 			{
 				defaultTime = 5f
 			};
 
-			projectileCooldown = new AlienCooldown
+			projectileCooldown = new CooldownInstance
 			{
 				defaultTime = 4f
 			};
 
-			queenAnnounceCooldown = new AlienCooldown
+			queenAnnounceCooldown = new CooldownInstance
 			{
 				defaultTime = 3f
 			};
 
-			sharePlasmaCooldown = new AlienCooldown
+			sharePlasmaCooldown = new CooldownInstance
 			{
 				defaultTime = 3f
 			};
@@ -1208,20 +1208,14 @@ namespace Systems.Antagonists
 			queenInHive = false;
 		}
 
-		public bool OnCoolDown(NetworkSide side, AlienCooldown cooldown)
+		public bool OnCoolDown(NetworkSide side, CooldownInstance cooldown)
 		{
 			return cooldowns.IsOn(CooldownID.Asset(cooldown, side));
 		}
 
-		public void StartCoolDown(NetworkSide side, AlienCooldown cooldown)
+		public void StartCoolDown(NetworkSide side, CooldownInstance cooldown)
 		{
 			cooldowns.TryStart(cooldown, side);
-		}
-
-		public class AlienCooldown : ICooldown
-		{
-			public float defaultTime;
-			public float DefaultTime => defaultTime;
 		}
 
 		private bool ValidateBuild(string action)

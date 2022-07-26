@@ -28,6 +28,7 @@ namespace Systems.MobAIs
 		{
 			TryFacehug(dir, livingHealth);
 		}
+
 		private void TryFacehug(Vector3 dir, LivingHealthMasterBase livingHealth)
 		{
 			if (livingHealth.gameObject.TryGetComponent<PlayerScript>(out var playerScript) == false) return;
@@ -96,11 +97,12 @@ namespace Systems.MobAIs
 		/// </summary>
 		/// <param name="equipment"></param>
 		/// <returns>True if the player is protected against huggers, false it not</returns>
-		private bool HasAntihuggerItem(Equipment equipment)
+		public static bool HasAntihuggerItem(Equipment equipment)
 		{
 			bool antiHugger = false;
-			bool DoubleBreak = false;
-			foreach (var slot in faceSlots)
+			bool doubleBreak = false;
+
+			foreach (var slot in FaceSlots)
 			{
 				foreach (var itemSlot in equipment.ItemStorage.GetNamedItemSlots(slot))
 				{
@@ -123,13 +125,13 @@ namespace Systems.MobAIs
 							integrity.ApplyDamage(7.5f, AttackType.Melee, DamageType.Brute);
 						}
 
-						DoubleBreak = true;
+						doubleBreak = true;
 						antiHugger = true;
 						break;
 					}
 				}
 
-				if (DoubleBreak)
+				if (doubleBreak)
 				{
 					break;
 				}
@@ -137,7 +139,8 @@ namespace Systems.MobAIs
 			}
 			return antiHugger;
 		}
-		private readonly List<NamedSlot> faceSlots = new List<NamedSlot>()
+
+		private static readonly List<NamedSlot> FaceSlots = new List<NamedSlot>()
 		{
 			NamedSlot.head,
 			NamedSlot.eyes,
