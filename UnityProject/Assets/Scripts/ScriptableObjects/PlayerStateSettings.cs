@@ -25,10 +25,6 @@ namespace ScriptableObjects
 		private bool canBuckleOthers = false;
 		public bool CanBuckleOthers => canBuckleOthers;
 
-		[SerializeField]
-		private bool canConsumeFromFloor = false;
-		public bool CanConsumeFromFloor => canConsumeFromFloor;
-
 		[HorizontalLine]
 		[Header("Door Interaction")]
 		[SerializeField]
@@ -38,6 +34,11 @@ namespace ScriptableObjects
 		[SerializeField]
 		private bool canPryDoorsWithHands = false;
 		public bool CanPryDoorsWithHands => canPryDoorsWithHands;
+
+		[SerializeField]
+		//TODO this should really be from body part instead
+		private string pryHandName = "";
+		public string PryHandName => pryHandName;
 
 		[HorizontalLine]
 		[Header("UI Actions buttons")]

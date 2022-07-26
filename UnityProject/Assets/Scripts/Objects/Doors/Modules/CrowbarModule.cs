@@ -63,7 +63,7 @@ namespace Doors.Modules
 			if (interaction.HandObject == null
 			    && interaction.PerformerPlayerScript.PlayerStateSettings.CanPryDoorsWithHands)
 			{
-				PryDoor(interaction);
+				PryDoor(interaction, false);
 				return ModuleSignal.Break;
 			}
 
@@ -82,7 +82,7 @@ namespace Doors.Modules
 			return ModuleSignal.Continue;
 		}
 
-		private void PryDoor(HandApply interaction)
+		private void PryDoor(HandApply interaction, bool useTool = true)
 		{
 			if (soundGuid != "")
 			{
@@ -92,13 +92,25 @@ namespace Doors.Modules
 			soundGuid = Guid.NewGuid().ToString();
 			SoundManager.PlayAtPositionAttached(prySound, master.RegisterTile.WorldPositionServer, gameObject, soundGuid);
 
-			//allows the jaws of life to pry open doors
-			ToolUtils.ServerUseToolWithActionMessages(interaction, pryTime,
-				$"You start prying open the {doorName}...",
-				$"{interaction.Performer.ExpensiveName()} starts prying open the {doorName}...",
-				$"",
-				$"",
-				() => TryPry(interaction), onFailComplete: OnFailPry, playSound: false);
+			if (useTool)
+			{
+				//allows the jaws of life to pry open doors
+				ToolUtils.ServerUseToolWithActionMessages(interaction, pryTime,
+					$"You start prying open the {doorName}...",
+					$"{interaction.Performer.ExpensiveName()} starts prying open the {doorName}...",
+					$"",
+					$"",
+					() => TryPry(interaction), onFailComplete: OnFailPry, playSound: false);
+
+				return;
+			}
+
+			var cfg = new StandardProgressActionConfig(StandardProgressActionType.Construction);
+
+			StandardProgressAction.Create(
+				cfg,
+				() => TryPryHand(interaction)
+			).ServerStartProgress(master.RegisterTile, pryTime, interaction.Performer);
 		}
 
 		public override ModuleSignal BumpingInteraction(GameObject byPlayer, HashSet<DoorProcessingStates> States)
@@ -125,6 +137,31 @@ namespace Doors.Modules
 			else if (!master.IsClosed && !master.IsPerformingAction)
 			{
 				master.PulseTryClose(inforce: true);
+			}
+		}
+
+		private void TryPryHand(HandApply interaction)
+		{
+			if (master.IsClosed == false && master.IsPerformingAction == false)
+			{
+				master.PulseTryClose(inforce: true);
+				return;
+			}
+
+			if (master.IsClosed == false || master.IsPerformingAction) return;
+
+			var handName = interaction.PerformerPlayerScript.PlayerStateSettings.PryHandName;
+
+			if (master.TryForceOpen())
+			{
+				Chat.AddActionMsgToChat(interaction.Performer, $"You force the {doorName} open with your {handName}!",
+					$"{interaction.Performer.ExpensiveName()} forces the {doorName} open with its {handName}!");
+
+			}
+			else
+			{
+				Chat.AddActionMsgToChat(interaction.Performer, $"The {doorName} does not budge at all!",
+					$"{interaction.Performer.ExpensiveName()} Tries to force the {doorName} open failing!");
 			}
 		}
 

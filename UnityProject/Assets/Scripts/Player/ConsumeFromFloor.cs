@@ -15,8 +15,8 @@ namespace Player
 
 			if (interaction.TargetObject.GetComponent<Consumable>() == null) return false;
 
-			if (DefaultWillInteract.Default(interaction, side,
-				    Validations.CheckState(x => x.CanConsumeFromFloor)) == false) return false;
+			//Default check and allow any player if they have this script to do this
+			if (DefaultWillInteract.Default(interaction, side, interaction.PerformerPlayerScript.PlayerState) == false) return false;
 
 			return true;
 		}
