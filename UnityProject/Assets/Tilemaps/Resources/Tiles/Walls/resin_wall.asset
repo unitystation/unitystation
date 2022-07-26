@@ -26,6 +26,7 @@ MonoBehaviour:
   passable: 0
   mineable: 0
   miningTime: 5
+  miningHardness: 1
   constructable: 0
   RadiationPassability: 0.75
   ThermalConductivity: 0
@@ -51,7 +52,9 @@ MonoBehaviour:
     Magic: 0
     Bio: 100
     DismembermentProtectionChance: 0
-  tileInteractions: []
+    StunImmunity: 0
+  tileInteractions:
+  - {fileID: 11400000, guid: 73b6e68b53987b14ba279e88a021fb21, type: 2}
   tileStepInteractions: []
   spawnOnDeconstruct: {fileID: 0}
   spawnAmountOnDeconstruct: 1

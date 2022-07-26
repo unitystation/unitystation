@@ -359,6 +359,22 @@ public static class ConverterExtensions
 		return Vector3.zero;
 	}
 
+	public static Vector3Int ToLocalVector3Int(this OrientationEnum In)
+	{
+		switch (In)
+		{
+			case OrientationEnum.Up_By0:
+				return Vector3Int.up;
+			case OrientationEnum.Right_By270:
+				return Vector3Int.right;
+			case OrientationEnum.Down_By180:
+				return Vector3Int.down;
+			case OrientationEnum.Left_By90:
+				return Vector3Int.left;
+
+		}
+		return Vector3Int.zero;
+	}
 
 	public static OrientationEnum ToOrientationEnum(this Vector2Int direction)
 	{

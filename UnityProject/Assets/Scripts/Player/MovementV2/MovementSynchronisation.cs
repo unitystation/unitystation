@@ -91,39 +91,14 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 	[Command]
 	public void CmdUnbuckle()
 	{
-		if (IsCuffed)
+		var buckleInteract = BuckledToObject.GetComponent<BuckleInteract>();
+		if (buckleInteract == null)
 		{
-			if (CanUnBuckleSelf())
-			{
-				Chat.AddActionMsgToChat(
-					playerScript.gameObject,
-					"You're trying to unbuckle yourself from the chair! (this will take some time...)",
-					playerScript.name + " is trying to unbuckle themself from the chair!"
-				);
-				StandardProgressAction.Create(
-					new StandardProgressActionConfig(StandardProgressActionType.Unbuckle),
-					BuckledToObject.UnbuckleObject
-				).ServerStartProgress(
-					BuckledToObject.registerTile,
-					BuckledToObject.GetComponent<BuckleInteract>().ResistTime,
-					playerScript.gameObject
-				);
-			}
+			Logger.LogError($"{BuckledToObject.gameObject.ExpensiveName()} has no BuckleInteract!");
+			return;
 		}
-		else
-		{
-			BuckledToObject.UnbuckleObject();
-		}
-	}
 
-	private bool CanUnBuckleSelf()
-	{
-		PlayerHealthV2 playerHealth = playerScript.playerHealth;
-
-		return !(playerHealth == null ||
-		         playerHealth.ConsciousState == ConsciousState.DEAD ||
-		         playerHealth.ConsciousState == ConsciousState.UNCONSCIOUS ||
-		         playerHealth.ConsciousState == ConsciousState.BARELY_CONSCIOUS);
+		buckleInteract.TryUnbuckle(playerScript);
 	}
 
 	public override void BuckleToChange(UniversalObjectPhysics newBuckledTo)

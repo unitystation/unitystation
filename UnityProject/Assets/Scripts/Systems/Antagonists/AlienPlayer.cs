@@ -6,6 +6,7 @@ using Core.Chat;
 using HealthV2;
 using Messages.Server.LocalGuiMessages;
 using Mirror;
+using Objects;
 using Player.Movement;
 using ScriptableObjects;
 using Tiles;
@@ -63,6 +64,16 @@ namespace Systems.Antagonists
 		[SerializeField]
 		private ActionData neurotoxinSpitAction = null;
 
+		[SerializeField]
+		private ActionData sharePlasmaAction = null;
+
+		//TODO combine these somehow?
+		[SerializeField]
+		private ActionData resinWallAction = null;
+
+		[SerializeField]
+		private ActionData nestAction = null;
+
 		#endregion
 
 		#region Prefabs
@@ -72,10 +83,16 @@ namespace Systems.Antagonists
 		private List<LayerTile> weedTiles = new List<LayerTile>();
 
 		[SerializeField]
+		private LayerTile resinWallTile = null;
+
+		[SerializeField]
 		private GameObject eggPrefab = null;
 
 		[SerializeField]
 		private GameObject weedPrefab = null;
+
+		[SerializeField]
+		private GameObject nestPrefab = null;
 
 		[SerializeField]
 		private GameObject acidSpitProjectilePrefab = null;
@@ -120,6 +137,8 @@ namespace Systems.Antagonists
 		private Rotatable rotatable;
 		private HasCooldowns cooldowns;
 
+		private LayerMask playerMask;
+
 		public RegisterPlayer RegisterPlayer => playerScript.registerTile;
 
 		[SyncVar]
@@ -141,6 +160,8 @@ namespace Systems.Antagonists
 		private AlienCooldown queenAnnounceCooldown;
 		public AlienCooldown QueenAnnounceCooldown => queenAnnounceCooldown;
 
+		private AlienCooldown sharePlasmaCooldown;
+
 		private AlienMouseInputController mouseInputController;
 
 		private List<ActionData> toggles = new List<ActionData>();
@@ -157,6 +178,8 @@ namespace Systems.Antagonists
 			cooldowns = GetComponent<HasCooldowns>();
 			mouseInputController = GetComponent<AlienMouseInputController>();
 
+			playerMask = LayerMask.GetMask("Players");
+
 			hissCooldown = new AlienCooldown
 			{
 				defaultTime = 5f
@@ -168,6 +191,11 @@ namespace Systems.Antagonists
 			};
 
 			queenAnnounceCooldown = new AlienCooldown
+			{
+				defaultTime = 3f
+			};
+
+			sharePlasmaCooldown = new AlienCooldown
 			{
 				defaultTime = 3f
 			};
@@ -464,6 +492,77 @@ namespace Systems.Antagonists
 			return true;
 		}
 
+		[Server]
+		private void TryAddPlasma(int toAdd)
+		{
+			if (currentPlasma + toAdd > currentData.MaxPlasma)
+			{
+				currentPlasma = currentData.MaxPlasma;
+				return;
+			}
+
+			currentPlasma += toAdd;
+		}
+
+		private void SharePlasma()
+		{
+			if (OnCoolDown(NetworkSide.Server, sharePlasmaCooldown))
+			{
+				Chat.AddExamineMsgFromServer(gameObject, "You are still recovering from the last plasma share!");
+				return;
+			}
+
+			StartCoolDown(NetworkSide.Server, sharePlasmaCooldown);
+
+			var alienInRange = Physics2D.OverlapCircleAll(
+				RegisterPlayer.ObjectPhysics.Component.OfficialPosition, 3f, playerMask)
+				.Where(x => x.gameObject.GetComponent<AlienPlayer>() != null).ToArray();
+
+			//Greater than one as we need more than ourself
+			if (alienInRange.Length > 1)
+			{
+				Chat.AddExamineMsgFromServer(gameObject, "No sisters in range!");
+				return;
+			}
+
+			if (currentPlasma == 0)
+			{
+				Chat.AddExamineMsgFromServer(gameObject, "No plasma to share!");
+				return;
+			}
+
+			//Radius of 3 only... do we need to do a wall check?
+
+			//Divide plasma up
+			var plasmaToShare = (int)Mathf.Ceil(currentPlasma / (float) alienInRange.Length);
+
+			if (plasmaToShare == 0)
+			{
+				Chat.AddExamineMsgFromServer(gameObject, $"Not enough plasma to share between {alienInRange.Length - 1} sisters!");
+				return;
+			}
+
+			var message = $"{playerScript.playerName} shared {plasmaToShare} plasma with you!";
+
+			foreach (var alienCollider in alienInRange)
+			{
+				if(alienCollider.gameObject.TryGetComponent<AlienPlayer>(out var alien) == false) continue;
+
+				//Dont add to ourself
+				if(alien == this) continue;
+
+				//Add the share to the alien
+				alien.TryAddPlasma(plasmaToShare);
+
+				Chat.AddExamineMsgFromServer(alien.gameObject, message);
+			}
+
+			//Set ours to the remaining share
+			currentPlasma = plasmaToShare;
+
+			Chat.AddExamineMsgFromServer(gameObject, $"You shared {plasmaToShare} to {alienInRange.Length - 1} sisters!");
+		}
+
 		#endregion
 
 		#region Healh
@@ -617,13 +716,9 @@ namespace Systems.Antagonists
 
 		private void PlantWeeds()
 		{
-			if (RegisterPlayer.ObjectPhysics.Component.ContainedInContainer != null)
-			{
-				Chat.AddExamineMsgFromServer(gameObject, "You cannot plant weeds from in here!");
-				return;
-			}
-
 			if(TryRemovePlasma(WeedPlasmaCost) == false) return;
+
+			if(ValidateBuild("plant weeds") == false) return;
 
 			var weeds = RegisterPlayer.Matrix.GetFirst<AlienWeeds>(RegisterPlayer.LocalPositionServer, true);
 
@@ -646,11 +741,7 @@ namespace Systems.Antagonists
 
 		private void FinishPlantWeeds()
 		{
-			if (RegisterPlayer.ObjectPhysics.Component.ContainedInContainer != null)
-			{
-				Chat.AddExamineMsgFromServer(gameObject, "You cannot plant weeds from in here!");
-				return;
-			}
+			if(ValidateBuild("plant weeds") == false) return;
 
 			var spawn = Spawn.ServerPrefab(weedPrefab, RegisterPlayer.ObjectPhysics.Component.OfficialPosition);
 
@@ -834,6 +925,27 @@ namespace Systems.Antagonists
 				LayEggs();
 				return;
 			}
+
+			//Resin wall
+			if (data == resinWallAction)
+			{
+				BuildWall();
+				return;
+			}
+
+			//Nest
+			if (data == nestAction)
+			{
+				BuildNest();
+				return;
+			}
+
+			//Share plasma
+			if (data == sharePlasmaAction)
+			{
+				SharePlasma();
+				return;
+			}
 		}
 
 		private bool HasActionData(ActionData data)
@@ -947,17 +1059,13 @@ namespace Systems.Antagonists
 
 		private void LayEggs()
 		{
+			if(TryRemovePlasma(EggPlasmaCost) == false) return;
+
+			if(ValidateBuild("lay an egg") == false) return;
+
 			if (onWeeds == false)
 			{
 				Chat.AddExamineMsgFromServer(gameObject, "Eggs will need a soft resin floor!");
-				return;
-			}
-
-			if(TryRemovePlasma(EggPlasmaCost) == false) return;
-
-			if (RegisterPlayer.ObjectPhysics.Component.ContainedInContainer != null)
-			{
-				Chat.AddExamineMsgFromServer(gameObject, "You cannot lay an egg in here!");
 				return;
 			}
 
@@ -982,11 +1090,7 @@ namespace Systems.Antagonists
 
 		private void FinishLayingEggs()
 		{
-			if (RegisterPlayer.ObjectPhysics.Component.ContainedInContainer != null)
-			{
-				Chat.AddExamineMsgFromServer(gameObject, "You cannot lay an egg in here!");
-				return;
-			}
+			if(ValidateBuild("lay an egg") == false) return;
 
 			var spawn = Spawn.ServerPrefab(eggPrefab, RegisterPlayer.ObjectPhysics.Component.OfficialPosition);
 
@@ -994,6 +1098,106 @@ namespace Systems.Antagonists
 
 			Chat.AddActionMsgToChat(gameObject, $"You lay a new egg",
 				$"{gameObject.ExpensiveName()} lays an egg!");
+		}
+
+		#endregion
+
+		#region Wall and Nest
+
+		private const int ResinWallCost = 25;
+
+		private const int NestCost = 25;
+
+		private void BuildWall()
+		{
+			if(ValidateBuild("secrete resin") == false) return;
+
+			if(WallValidate(out _, out _) == false) return;
+
+			if(TryRemovePlasma(ResinWallCost) == false) return;
+
+			Chat.AddActionMsgToChat(gameObject, $"You start to secrete out resin",
+				$"{gameObject.ExpensiveName()} starts to secrete out resin!");
+
+			var cfg = new StandardProgressActionConfig(StandardProgressActionType.Construction);
+
+			StandardProgressAction.Create(
+				cfg,
+				() => FinishBuildingWall()
+			).ServerStartProgress(ActionTarget.Object(RegisterPlayer), 6, gameObject);
+		}
+
+		private bool WallValidate(out Vector3Int directionFacing, out MatrixInfo matrixThere)
+		{
+			//Build wall in the direction we are facing
+			directionFacing = rotatable.CurrentDirection.ToLocalVector3Int();
+
+			//Convert both coords to locals of the
+			var worldOrigin = RegisterPlayer.ObjectPhysics.Component.OfficialPosition.RoundToInt();
+			var worldTarget = directionFacing + worldOrigin;
+
+			matrixThere = MatrixManager.AtPoint(worldTarget, true, RegisterPlayer.Matrix.MatrixInfo);
+
+			var passable = MatrixManager.IsPassableAtAllMatrices(worldOrigin, worldTarget, true, includingPlayers: false,
+				matrixOrigin: RegisterPlayer.Matrix.MatrixInfo, matrixTarget: matrixThere);
+
+			if (passable == false)
+			{
+				Chat.AddExamineMsgFromServer(gameObject, "The area is too crowded to secrete resin there!");
+				return false;
+			}
+
+			return true;
+		}
+
+		private void FinishBuildingWall()
+		{
+			if(ValidateBuild("secrete resin") == false) return;
+
+			if(WallValidate(out Vector3Int directionFacing, out MatrixInfo matrixThere) == false) return;
+
+			Chat.AddActionMsgToChat(gameObject, $"You secrete out a resin wall",
+				$"{gameObject.ExpensiveName()} secretes out a resin wall!");
+
+			//Add resin wall
+			matrixThere.MetaTileMap.SetTile(directionFacing + RegisterPlayer.LocalPositionServer, resinWallTile);
+		}
+
+		private void BuildNest()
+		{
+			if(ValidateBuild("secrete resin") == false) return;
+
+			if(TryRemovePlasma(NestCost) == false) return;
+
+			var nests = RegisterPlayer.Matrix.GetFirst<BuckleInteract>(RegisterPlayer.LocalPositionServer, true);
+
+			if (nests != null)
+			{
+				Chat.AddExamineMsgFromServer(gameObject, "There is already a nest here, try somewhere else!");
+				return;
+			}
+
+			Chat.AddActionMsgToChat(gameObject, $"You start to secrete out resin",
+				$"{gameObject.ExpensiveName()} starts to secrete out resin!");
+
+			var cfg = new StandardProgressActionConfig(StandardProgressActionType.Construction);
+
+			StandardProgressAction.Create(
+				cfg,
+				() => FinishBuildingNest()
+			).ServerStartProgress(ActionTarget.Object(RegisterPlayer), 6, gameObject);
+		}
+
+		private void FinishBuildingNest()
+		{
+			if(ValidateBuild("secrete resin") == false) return;
+
+			var spawn = Spawn.ServerPrefab(nestPrefab, RegisterPlayer.ObjectPhysics.Component.OfficialPosition);
+
+			if(spawn.Successful == false) return;
+
+			Chat.AddActionMsgToChat(gameObject, $"You secrete out a resin nest",
+				$"{gameObject.ExpensiveName()} secretes out a resin nest!");
 		}
 
 		#endregion
@@ -1022,6 +1226,35 @@ namespace Systems.Antagonists
 		{
 			public float defaultTime;
 			public float DefaultTime => defaultTime;
+		}
+
+		private bool ValidateBuild(string action)
+		{
+			if (currentAlienMode == AlienMode.Sleep)
+			{
+				Chat.AddExamineMsg(gameObject, $"You cannot {action}, you are asleep!");
+				return false;
+			}
+
+			if (currentAlienMode == AlienMode.Dead)
+			{
+				Chat.AddExamineMsg(gameObject, $"You cannot {action}, you are dead!");
+				return false;
+			}
+
+			if (currentAlienMode == AlienMode.Unconscious)
+			{
+				Chat.AddExamineMsg(gameObject, $"You cannot {action}, you are unconscious");
+				return false;
+			}
+
+			if (playerScript.PlayerSync.ContainedInContainer != null)
+			{
+				Chat.AddExamineMsgFromServer(gameObject, $"Cannot {action} in here!");
+				return false;
+			}
+
+			return true;
 		}
 
 		#endregion

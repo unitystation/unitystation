@@ -1400,11 +1400,17 @@ MonoBehaviour:
   acidSpitAction: {fileID: 11400000, guid: a4f68dc8a010041499928c3cf209a10f, type: 2}
   neurotoxinSpitAction: {fileID: 11400000, guid: 3685abbf207a2c54087d845649fb87a5,
     type: 2}
+  sharePlasmaAction: {fileID: 11400000, guid: 9c620f045a30f7745a1fb4763bcd5729, type: 2}
+  resinWallAction: {fileID: 11400000, guid: 80f5fbafa80e9a54a97ddec5944cb363, type: 2}
+  nestAction: {fileID: 11400000, guid: 1f1fce539126fa242a051e6292334c71, type: 2}
   weedTiles:
   - {fileID: 11400000, guid: 6cf98c49e8db1c6499dfb5d832fefc13, type: 2}
+  resinWallTile: {fileID: 11400000, guid: 2b55386c030f24193bc289cd227a621e, type: 2}
   eggPrefab: {fileID: 5322418909914265045, guid: 9473c17e4e7f2f24d99f2d788030cd9f,
     type: 3}
   weedPrefab: {fileID: 8974651586570386479, guid: 40fa2f5358b02784793d98f455bdac17,
+    type: 3}
+  nestPrefab: {fileID: 8639152028794570630, guid: bc92e5db2a932b94890543aa2bc6a8b2,
     type: 3}
   acidSpitProjectilePrefab: {fileID: 2393780574223579426, guid: f3ca4389d5306d443866dc4481780256,
     type: 3}

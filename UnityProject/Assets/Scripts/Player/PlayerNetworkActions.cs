@@ -22,6 +22,7 @@ using Shuttles;
 using UI.Core;
 using UI.Items;
 using Doors;
+using Objects;
 using Tiles;
 using Random = UnityEngine.Random;
 
@@ -114,34 +115,37 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		// Handle the movement restricted actions first.
 		if (playerScript.playerMove.BuckledToObject != null)
 		{
-			// Make sure we don't unbuckle if we are currently cuffed.
-			if (!playerScript.playerMove.IsCuffed)
-			{
-				playerScript.playerMove.Unbuckle();
-			}
+			//If we are buckled we need to unbuckle first before removing hand cuffs
+			playerScript.playerMove.BuckledToObject.GetComponent<BuckleInteract>().TryUnbuckle(playerScript);
+			return;
 		}
-		else if (playerScript.playerHealth.FireStacks > 0
-		) // Check if we are on fire. If we are perform a stop-drop-roll animation and reduce the fire stacks.
+		// Check if we are on fire. If we are perform a stop-drop-roll animation and reduce the fire stacks.
+		if (playerScript.playerHealth.FireStacks > 0)
 		{
 			Chat.AddActionMsgToChat(
 				playerScript.gameObject,
 				"You drop to the ground and frantically try to put yourself out!",
 				$"{playerScript.playerName} is trying to extinguish themself!");
 			StartCoroutine(Roll());
+			return;
 		}
-		else if (playerScript.playerMove.IsCuffed) // Check if cuffed.
+
+		// Check if cuffed.
+		if (playerScript.playerMove.IsCuffed)
 		{
 			if (playerScript.playerSprites != null &&
-				playerScript.playerSprites.clothes.TryGetValue(NamedSlot.handcuffs, out var cuffsClothingItem))
+			    playerScript.playerSprites.clothes.TryGetValue(NamedSlot.handcuffs, out var cuffsClothingItem))
 			{
-				if (cuffsClothingItem != null &&
-					cuffsClothingItem.TryGetComponent<RestraintOverlay>(out var restraintOverlay))
+				if (cuffsClothingItem != null && cuffsClothingItem.TryGetComponent<RestraintOverlay>(out var restraintOverlay))
 				{
 					restraintOverlay.ServerBeginUnCuffAttempt();
 				}
 			}
+			return;
 		}
-		else if (playerScript.playerMove.BuckledToObject != null || playerScript.playerMove.ContainedInContainer != null) // Check if trapped.
+
+		// Check if trapped.
+		if (playerScript.playerMove.BuckledToObject != null || playerScript.playerMove.ContainedInContainer != null)
 		{
 			playerScript.PlayerSync.ServerTryEscapeContainer();
 		}

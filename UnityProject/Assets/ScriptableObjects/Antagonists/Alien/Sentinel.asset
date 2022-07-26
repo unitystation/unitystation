@@ -13,14 +13,15 @@ MonoBehaviour:
   m_Name: Sentinel
   m_EditorClassIdentifier: 
   Name: Sentinel
-  Description: Guards the hive from any intruders.
   AlienType: 16
+  Description: Guards the hive from any intruders.
   Speed: 5
   AttackSpeed: 7
   AttackDamage: 10
   DamageType: 0
   ChanceToHit: 50
   MaxPlasma: 100
+  InitialPlasma: 100
   PlasmaGainRate: 3
   HealAmount: 5
   HealPlasmaCost: 5
@@ -34,6 +35,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: e469aa52bc0cbb949a56796230469fd2, type: 2}
   - {fileID: 11400000, guid: a4f68dc8a010041499928c3cf209a10f, type: 2}
   - {fileID: 11400000, guid: 3685abbf207a2c54087d845649fb87a5, type: 2}
+  - {fileID: 11400000, guid: 9c620f045a30f7745a1fb4763bcd5729, type: 2}
   Normal: {fileID: 11400000, guid: 8c078db1944edd84680957df8e4d681c, type: 2}
   Dead: {fileID: 11400000, guid: 7b9894c99e9cec045884ca5fcabe8d36, type: 2}
   Pounce: {fileID: 11400000, guid: b7e2adbe0064cf145b9ad5a700a2357c, type: 2}

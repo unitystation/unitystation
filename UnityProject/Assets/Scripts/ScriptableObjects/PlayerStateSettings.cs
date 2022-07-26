@@ -22,8 +22,8 @@ namespace ScriptableObjects
 		public bool CanCraft => canCraft;
 
 		[SerializeField]
-		private bool canRest = false;
-		public bool CanRest => canRest;
+		private bool canBuckleOthers = false;
+		public bool CanBuckleOthers => canBuckleOthers;
 
 		[HorizontalLine]
 		[Header("UI Actions buttons")]
@@ -38,6 +38,10 @@ namespace ScriptableObjects
 		[SerializeField]
 		private bool canResist = false;
 		public bool CanResist => canResist;
+
+		[SerializeField]
+		private bool canRest = false;
+		public bool CanRest => canRest;
 
 		[HorizontalLine]
 		[Header("Examine")]
