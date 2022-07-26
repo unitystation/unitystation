@@ -147,13 +147,13 @@ namespace Objects
 			Vector3 vector = item.transform.rotation * throwVector;
 			UniversalObjectPhysics itemTransform = item.GetComponent<UniversalObjectPhysics>();
 			if (itemTransform == null) return;
-			itemTransform.NewtonianPush(vector, 1, inAim:BodyPartType.Chest ,inThrownBy : gameObject );
+			itemTransform.NewtonianPush(vector, 30, inAim:BodyPartType.Chest ,inThrownBy : gameObject );
 		}
 
 		private void PushObject(UniversalObjectPhysics entity, Vector3 pushVector)
 		{
 			//Push Twice
-			entity.NewtonianPush(pushVector.NormalizeTo2Int(), 10);
+			entity.NewtonianPush(pushVector.NormalizeTo2Int(), 30);
 		}
 
 		private void PushPlayer(UniversalObjectPhysics player, Vector3 pushVector)
@@ -161,7 +161,7 @@ namespace Objects
 			player.GetComponent<RegisterPlayer>()?.ServerStun();
 
 			//Push Twice
-			player.NewtonianPush(pushVector.NormalizeTo2Int(), 10);
+			player.NewtonianPush(pushVector.NormalizeTo2Int(), 30);
 		}
 
 		#region WrenchChangeDirection
