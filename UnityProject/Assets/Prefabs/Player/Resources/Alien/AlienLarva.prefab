@@ -119,6 +119,7 @@ MonoBehaviour:
   SubCatalogue: []
   PresentSpriteSet: {fileID: 0}
   randomInitialSprite: 0
+  spriteRendererDisabledOnStart: 0
   doReverseAnimation: 0
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
@@ -276,6 +277,7 @@ MonoBehaviour:
   SubCatalogue: []
   PresentSpriteSet: {fileID: 0}
   randomInitialSprite: 0
+  spriteRendererDisabledOnStart: 0
   doReverseAnimation: 0
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
@@ -399,6 +401,7 @@ MonoBehaviour:
   SubCatalogue: []
   PresentSpriteSet: {fileID: 0}
   randomInitialSprite: 0
+  spriteRendererDisabledOnStart: 0
   doReverseAnimation: 0
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
@@ -459,6 +462,7 @@ GameObject:
   - component: {fileID: 3901833431230868314}
   - component: {fileID: 3087290366095840219}
   - component: {fileID: 8980569866541390091}
+  - component: {fileID: 2690378354521890256}
   m_Layer: 8
   m_Name: AlienLarva
   m_TagString: Untagged
@@ -576,6 +580,7 @@ MonoBehaviour:
     type: 3}
   electrocutedPrefab: {fileID: 1558421102126524431, guid: 0cea8096a0de31746a1b6ef11b019ab2,
     type: 3}
+  infectedSpriteHandler: {fileID: 0}
   muzzleFlash: {fileID: 114824170203619628}
   raceOverride: Alien
   livingHealthMasterBase: {fileID: 1354417930896543338}
@@ -615,14 +620,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  meleeSounds:
-  - SetLoadSetting: 0
-    AssetAddress: Assets/Prefabs/Effects/BladeSlice.prefab
-    AssetReference:
-      m_AssetGUID: 
-      m_SubObjectName: 
-      m_SubObjectType: 
-      m_EditorAssetChanged: 0
   attackSpeed: 7
   handDamage: 5
   chanceToHit: 90
@@ -1430,6 +1427,20 @@ MonoBehaviour:
   AimApplyInterval: 0.01
   examineCursor: {fileID: 0}
   cursorOffset: {x: 0, y: 0}
+--- !u!114 &2690378354521890256
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1133514949248654}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c918846612a844a8a3c91a1ddb280a87, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
 --- !u!1 &1147423205297840
 GameObject:
   m_ObjectHideFlags: 0
@@ -1549,6 +1560,7 @@ MonoBehaviour:
   SubCatalogue: []
   PresentSpriteSet: {fileID: 0}
   randomInitialSprite: 0
+  spriteRendererDisabledOnStart: 0
   doReverseAnimation: 0
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
@@ -1672,6 +1684,7 @@ MonoBehaviour:
   SubCatalogue: []
   PresentSpriteSet: {fileID: 0}
   randomInitialSprite: 0
+  spriteRendererDisabledOnStart: 0
   doReverseAnimation: 0
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
@@ -1795,6 +1808,7 @@ MonoBehaviour:
   SubCatalogue: []
   PresentSpriteSet: {fileID: 0}
   randomInitialSprite: 0
+  spriteRendererDisabledOnStart: 0
   doReverseAnimation: 0
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
@@ -1918,6 +1932,7 @@ MonoBehaviour:
   SubCatalogue: []
   PresentSpriteSet: {fileID: 0}
   randomInitialSprite: 0
+  spriteRendererDisabledOnStart: 0
   doReverseAnimation: 0
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
@@ -2041,6 +2056,7 @@ MonoBehaviour:
   SubCatalogue: []
   PresentSpriteSet: {fileID: 0}
   randomInitialSprite: 0
+  spriteRendererDisabledOnStart: 0
   doReverseAnimation: 0
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
@@ -2164,6 +2180,7 @@ MonoBehaviour:
   SubCatalogue: []
   PresentSpriteSet: {fileID: 0}
   randomInitialSprite: 0
+  spriteRendererDisabledOnStart: 0
   doReverseAnimation: 0
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
@@ -2287,6 +2304,7 @@ MonoBehaviour:
   SubCatalogue: []
   PresentSpriteSet: {fileID: 0}
   randomInitialSprite: 0
+  spriteRendererDisabledOnStart: 0
   doReverseAnimation: 0
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
@@ -2410,6 +2428,7 @@ MonoBehaviour:
   SubCatalogue: []
   PresentSpriteSet: {fileID: 0}
   randomInitialSprite: 0
+  spriteRendererDisabledOnStart: 0
   doReverseAnimation: 0
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
@@ -2533,6 +2552,7 @@ MonoBehaviour:
   SubCatalogue: []
   PresentSpriteSet: {fileID: 0}
   randomInitialSprite: 0
+  spriteRendererDisabledOnStart: 0
   doReverseAnimation: 0
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
@@ -2656,6 +2676,7 @@ MonoBehaviour:
   SubCatalogue: []
   PresentSpriteSet: {fileID: 0}
   randomInitialSprite: 0
+  spriteRendererDisabledOnStart: 0
   doReverseAnimation: 0
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
@@ -8102,6 +8123,7 @@ MonoBehaviour:
   SubCatalogue: []
   PresentSpriteSet: {fileID: 11400000, guid: f6b6c2543755ec441856d4954f0e79e9, type: 2}
   randomInitialSprite: 0
+  spriteRendererDisabledOnStart: 0
   doReverseAnimation: 0
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
@@ -8212,6 +8234,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 3cc58aaaccdf34c499544ffeac4e7a56, type: 2}
   PresentSpriteSet: {fileID: 11400000, guid: 0ae7d83d6d2e07041a08b251e147d876, type: 2}
   randomInitialSprite: 0
+  spriteRendererDisabledOnStart: 0
   doReverseAnimation: 0
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
@@ -8335,6 +8358,7 @@ MonoBehaviour:
   SubCatalogue: []
   PresentSpriteSet: {fileID: 0}
   randomInitialSprite: 0
+  spriteRendererDisabledOnStart: 0
   doReverseAnimation: 0
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
@@ -8549,6 +8573,7 @@ MonoBehaviour:
   SubCatalogue: []
   PresentSpriteSet: {fileID: 0}
   randomInitialSprite: 0
+  spriteRendererDisabledOnStart: 0
   doReverseAnimation: 0
   pushTextureOnStartUp: 1
   initialVariantIndex: 0

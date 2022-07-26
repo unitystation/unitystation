@@ -4,11 +4,11 @@ using UnityEngine;
 
 namespace Player
 {
-	public class GhostLogic : NetworkBehaviour, IOnPlayerRejoin, IOnPlayerTransfer, IOnPlayerLeaveBody
+	public class AlienInfectionViewer : NetworkBehaviour, IOnPlayerRejoin, IOnPlayerTransfer, IOnPlayerLeaveBody
 	{
 		public void OnPlayerRejoin()
 		{
-			//Resend infected player stuff to ghost
+			//Resend infected player stuff to player
 			XenomorphLarvae.Rejoined(connectionToClient);
 		}
 
