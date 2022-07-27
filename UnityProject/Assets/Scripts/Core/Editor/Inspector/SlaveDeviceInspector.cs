@@ -1,18 +1,15 @@
 using System.Collections.Generic;
 using UnityEditor;
-using UnityEditor.Experimental.SceneManagement;
 using UnityEditor.SceneManagement;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using Core.Editor;
-using Core.Editor.Tools.Mapping;
-using Systems.ObjectConnection;
-
 using Doors;
 using Objects.Atmospherics;
 using Objects.Engineering;
 using Objects.Lighting;
 using Objects.Other;
+using Shared.Editor;
+using Shared.Systems.ObjectConnection;
 using Systems.Electricity;
 
 

@@ -190,7 +190,7 @@ namespace Systems.Atmospherics
 				if (pushable.stickyMovement && windyNode.WindForce > 3)
 				{
 					if (pushable is MovementSynchronisation && windyNode.WindForce < (int)WindStrength.STRONG) continue;
-					pushable.TryTilePush((transform.rotation * (Vector2)windyNode.WindDirection).To2Int(), null);
+					pushable.TryTilePush((transform.rotation * (Vector2)windyNode.WindDirection).RoundTo2Int(), null);
 				}
 			}
 

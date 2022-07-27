@@ -1,8 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-
-namespace Systems.ObjectConnection
+namespace Shared.Systems.ObjectConnection
 {
 	public enum MultitoolConnectionType
 	{
@@ -50,14 +49,14 @@ namespace Systems.ObjectConnection
 		IMultitoolMasterable Master { get; }
 
 		/// <summary>
-		/// Try to set the master of the device in-game, via e.g. a multitool. Provides the initial interaction
+		/// Try to set the master of the device in-game, via e.g. a multitool. Provides the performer
 		/// responsible for the link request.
 		/// </summary>
 		/// <remarks>Master should never be null and it will always be of the relevant connection type.</remarks>
-		/// <param name="interaction">Linking interaction</param>
+		/// <param name="performer">The performer of the interaction</param>
 		/// <param name="master">Requested master to link with</param>
 		/// <returns></returns>
-		bool TrySetMaster(PositionalHandApply interaction, IMultitoolMasterable master);
+		bool TrySetMaster(GameObject performer, IMultitoolMasterable master);
 
 		/// <summary>Set the master of the device from an editor environment.</summary>
 		/// <remarks>The master can be null to indicate an unlinked state.</remarks>

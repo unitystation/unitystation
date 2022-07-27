@@ -8,7 +8,7 @@ using Mirror;
 using ScriptableObjects.Research;
 using UnityEngine;
 using Systems.Research.Data;
-using Systems.ObjectConnection;
+using Shared.Systems.ObjectConnection;
 
 namespace Systems.Research.Objects
 {

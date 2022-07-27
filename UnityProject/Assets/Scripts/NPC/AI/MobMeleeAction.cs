@@ -302,7 +302,7 @@ namespace Systems.MobAIs
 
 		public virtual void ServerDoLerpAnimation(Vector2 dir)
 		{
-			rotatable.SetFaceDirectionLocalVector(dir.To2Int());
+			rotatable.SetFaceDirectionLocalVector(dir.RoundTo2Int());
 
 			isActing = true;
 			MobMeleeLerpMessage.Send(gameObject, dir);

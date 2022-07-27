@@ -22,8 +22,8 @@ namespace Systems.MobAIs
 				MatrixManager.WorldToLocal(worldPos, MatrixManager.AtPoint(worldPos, true, registerTile.Matrix.MatrixInfo));
 
 			var path = FindNewPath(
-				MatrixManager.WorldToLocal(uop.OfficialPosition, registerTile.Matrix).To2Int(),
-					localTargetPosition.To2Int());
+				MatrixManager.WorldToLocal(uop.OfficialPosition, registerTile.Matrix).RoundTo2Int(),
+					localTargetPosition.RoundTo2Int());
 
 			if (path != null)
 			{

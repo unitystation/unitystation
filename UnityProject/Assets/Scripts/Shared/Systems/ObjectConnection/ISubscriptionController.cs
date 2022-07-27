@@ -1,8 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
-using Mirror;
 
-namespace Systems.ObjectConnection
+namespace Shared.Systems.ObjectConnection
 {
 	/// <summary>
 	/// Used for editor scripts.

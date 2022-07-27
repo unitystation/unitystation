@@ -243,7 +243,7 @@ namespace Systems.Teleport
 
 			for (int i = 0; i < 8; i++)
 			{
-				randomVector = (Vector3Int) RandomUtils.RandomAnnulusPoint(minRadius, maxRadius).To2Int();
+				randomVector = (Vector3Int) RandomUtils.RandomAnnulusPoint(minRadius, maxRadius).RoundTo2Int();
 				newPosition = centrePoint + randomVector;
 
 				if (avoidSpace && MatrixManager.IsSpaceAt(newPosition, CustomNetworkManager.IsServer, possibleMatrix))

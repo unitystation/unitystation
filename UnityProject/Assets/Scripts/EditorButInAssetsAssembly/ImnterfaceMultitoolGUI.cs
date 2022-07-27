@@ -1,11 +1,11 @@
 ﻿using System;
-using Systems.ObjectConnection;
 using Mirror;
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
 using UnityEngine;
 using System.Collections.Generic;
+using Shared.Systems.ObjectConnection;
 
 namespace CustomInspectors
 {

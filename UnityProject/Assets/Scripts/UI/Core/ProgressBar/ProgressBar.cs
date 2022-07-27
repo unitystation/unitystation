@@ -107,7 +107,7 @@ public class ProgressBar : MonoBehaviour
 		//Start the progress for the player:
 		//note: using transform position for the offset, because progress bar has no register tile and
 		//otherwise it would give an incorrect offset if player is on moving matrix
-		ProgressBarMessage.SendCreate(startInfo.Performer, 0, (transform.position - startInfo.Performer.transform.position).To2Int(), id);
+		ProgressBarMessage.SendCreate(startInfo.Performer, 0, (transform.position - startInfo.Performer.transform.position).RoundTo2Int(), id);
 	}
 
 	private void OnEnable()

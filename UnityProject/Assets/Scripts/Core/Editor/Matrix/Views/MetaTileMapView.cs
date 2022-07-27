@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Shared.Editor;
 using TileManagement;
 using UnityEditor;
 using UnityEngine;
@@ -25,15 +26,14 @@ public class MetaTileMapView : BasicView
 
 	public override void DrawContent()
 	{
-		for (int i = 0; i < localChecks.Count; i++)
-		{
-			Check<MetaTileMap> check = localChecks[i];
-			check.Active = GUILayout.Toggle(check.Active, check.Label);
-		}
+		DrawToggles(localChecks);
+		DrawToggles(globalChecks);
+	}
 
-		for (int i = 0; i < globalChecks.Count; i++)
+	private static void DrawToggles<S>(List<Check<S>> checks)
+	{
+		foreach (var check in checks)
 		{
-			Check<MatrixManager> check = globalChecks[i];
 			check.Active = GUILayout.Toggle(check.Active, check.Label);
 		}
 	}
