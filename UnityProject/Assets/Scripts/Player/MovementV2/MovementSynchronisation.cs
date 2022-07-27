@@ -187,7 +187,7 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 			var restraint = handcuffSlot.Item.GetComponent<Restraint>();
 			if (restraint == null) continue;
 
-			var progressConfig = new StandardProgressActionConfig(StandardProgressActionType.Uncuff);
+			var progressConfig = new StandardProgressActionConfig(StandardProgressActionType.Uncuff, allowTurning: true);
 			StandardProgressAction.Create(progressConfig, Uncuff)
 				.ServerStartProgress(targetObject.RegisterTile(),
 					restraint.RemoveTime * (handcuffSlots.Count / 2f), performer);
@@ -325,11 +325,20 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 	}
 
 	private readonly HashSet<IMovementEffect> movementAffects = new HashSet<IMovementEffect>();
+	private readonly HashSet<IMovementEffect> legs = new HashSet<IMovementEffect>();
+	public bool HasALeg => legs.Count != 0;
 
 	[Server]
 	public void AddModifier(IMovementEffect modifier)
 	{
 		movementAffects.Add(modifier);
+		UpdateSpeeds();
+	}
+
+	[Server]
+	public void AddLeg(IMovementEffect newLeg)
+	{
+		legs.Add(newLeg);
 		UpdateSpeeds();
 	}
 
@@ -340,11 +349,34 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 		UpdateSpeeds();
 	}
 
+	[Server]
+	public void RemoveLeg(IMovementEffect oldLeg)
+	{
+		legs.Remove(oldLeg);
+		if (legs.Count == 0)
+		{
+			RequestRest.Send(true);
+		}
+		UpdateSpeeds();
+	}
+
 	public void UpdateSpeeds()
 	{
 		float newRunSpeed = 0;
 		float newWalkSpeed = 0;
 		float newCrawlSpeed = 0;
+		if (legs.Count == 0)
+		{
+			RunSpeed = 0;
+			WalkSpeed = 0;
+			foreach (var movementAffect in movementAffects)
+			{
+				newCrawlSpeed += movementAffect.CrawlingSpeedModifier;
+			}
+			CrawlSpeed = newCrawlSpeed;
+			UpdateMovementSpeed();
+			return;
+		}
 		foreach (var movementAffect in movementAffects)
 		{
 			newRunSpeed += movementAffect.RunningSpeedModifier;
@@ -416,26 +448,18 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 	{
 		Pushing.Clear();
 		Bumps.Clear();
-		if (intent == Intent.Help)
+		if(intent != Intent.Help) return;
+		if (bumpedBy.TryGetComponent<MovementSynchronisation>(out var move))
 		{
-			if (bumpedBy.TryGetComponent<MovementSynchronisation>(out var move))
-			{
-				if (move.intent == Intent.Help)
-				{
-					if (MatrixManager.IsPassableAtAllMatricesV2(bumpedBy.AssumedWorldPosServer(),
-						    this.gameObject.AssumedWorldPosServer(), SetMatrixCache, this, Pushing, Bumps))
-					{
-						var pushVector = (bumpedBy.transform.position - this.transform.position).RoundToInt().To2Int();
-						ForceTilePush(pushVector, Pushing, client, move.TileMoveSpeed);
+			if (move.CurrentMovementType == MovementType.Crawling) return;
+			if (MatrixManager.IsPassableAtAllMatricesV2(bumpedBy.AssumedWorldPosServer(),
+				    this.gameObject.AssumedWorldPosServer(), SetMatrixCache, this, Pushing, Bumps) == false) return;
+			var pushVector = (bumpedBy.transform.position - this.transform.position).RoundToInt().To2Int();
+			ForceTilePush(pushVector, Pushing, client, move.TileMoveSpeed);
 
-						if (move.IsBumping)
-						{
-							pushVector *= -1;
-							move.ForceTilePush(pushVector, Pushing, client, move.TileMoveSpeed);
-						}
-					}
-				}
-			}
+			if (move.IsBumping == false) return;
+			pushVector *= -1;
+			move.ForceTilePush(pushVector, Pushing, client, move.TileMoveSpeed);
 		}
 	}
 
