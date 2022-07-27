@@ -239,6 +239,9 @@ namespace Systems.Antagonists
 		public void OnSpawnServer(SpawnInfo info)
 		{
 			SetNewPlayer(startingAlienType);
+
+			//This triggers the spawning of the alien body parts
+			playerScript.playerSprites.OnCharacterSettingsChange(null);
 		}
 
 		public override void OnStartLocalPlayer()

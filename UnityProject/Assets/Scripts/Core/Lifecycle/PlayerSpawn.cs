@@ -615,6 +615,8 @@ public static class PlayerSpawn
 			var playerSprites = newBody.GetComponent<PlayerSprites>();
 			if (playerSprites)
 			{
+				// This causes body parts to be made for the race, will cause death if body parts are needed and
+				// CharacterSettings is null
 				playerSprites.OnCharacterSettingsChange(characterSettings);
 			}
 		}
