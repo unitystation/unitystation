@@ -136,7 +136,7 @@ namespace Doors.Modules
 				else
 				{
 					Chat.AddActionMsgToChat(interaction.Performer, $"The {doorName} does not budge at all!",
-						$"{interaction.Performer.ExpensiveName()} Tries to force the {doorName} open failing!");
+						$"{interaction.Performer.ExpensiveName()} tries to force the {doorName} open, and fails!");
 				}
 			}
 			else if (!master.IsClosed && !master.IsPerformingAction)
@@ -166,7 +166,7 @@ namespace Doors.Modules
 			else
 			{
 				Chat.AddActionMsgToChat(interaction.Performer, $"The {doorName} does not budge at all!",
-					$"{interaction.Performer.ExpensiveName()} Tries to force the {doorName} open failing!");
+					$"{interaction.Performer.ExpensiveName()} tries to force the {doorName} open and fails!");
 			}
 		}
 
