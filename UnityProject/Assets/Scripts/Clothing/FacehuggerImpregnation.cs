@@ -33,11 +33,14 @@ namespace Clothing
 
 		private CooldownInstance alienTryHuggerCooldown;
 
+		private Pickupable pickupable;
+
 		private void Awake()
 		{
 			clothingV2 = GetComponent<ClothingV2>();
 			itemAttributesV2 = GetComponent<ItemAttributesV2>();
 			spriteHandler = GetComponentInChildren<SpriteHandler>();
+			pickupable = GetComponent<Pickupable>();
 
 			alienTryHuggerCooldown = new CooldownInstance()
 			{
@@ -182,6 +185,8 @@ namespace Clothing
 
 			if (interaction.TargetObject == null) return false;
 
+			if (interaction.TargetObject == interaction.Performer) return false;
+
 			if (interaction.TargetObject.TryGetComponent<PlayerScript>(out var playerScript) == false) return false;
 
 			if (playerScript.PlayerState != PlayerStates.Normal) return false;
@@ -207,36 +212,32 @@ namespace Clothing
 			//Alien clicking on layer with face hugger in hand
 			if (interaction.TargetObject.TryGetComponent<PlayerScript>(out var playerScript) == false) return;
 
-			string verb;
-			bool success;
+			var success = true;
 
 			//If not laying down small chance to hug
 			if (playerScript.registerTile.IsLayingDown == false && DMMath.Prob(80))
 			{
-				verb = "tried to attach a face hugger";
 				success = false;
 			}
 			//Check for anti hugger items
 			else if (FaceHugAction.HasAntihuggerItem(playerScript.Equipment))
 			{
-				verb = "tried to attach a face hugger";
 				success = false;
-			}
-			else
-			{
-				verb = "attached a face hugger";
-				success = true;
 			}
 
 			interaction.PerformerPlayerScript.weaponNetworkActions.RpcMeleeAttackLerp(interaction.TargetVector, gameObject);
 
-			Chat.AddAttackMsgToChat(interaction.Performer, playerScript.gameObject, BodyPartType.Head, null, verb);
+			Chat.AddActionMsgToChat(interaction.Performer, success ? 
+				$"You fail to attach the {gameObject.ExpensiveName()} to {playerScript.visibleName}"
+				: $"You attach the {gameObject.ExpensiveName()} to {playerScript.visibleName}",
+				success ? $"{interaction.Performer.ExpensiveName()} attempted to attach a {gameObject.ExpensiveName()} to {playerScript.visibleName} but failed!"
+					: $"{interaction.Performer.ExpensiveName()} attaches a {gameObject.ExpensiveName()} to {playerScript.visibleName}!");
 
 			if(success == false) return;
 
 			foreach (var itemSlot in playerScript.Equipment.ItemStorage.GetNamedItemSlots(NamedSlot.mask))
 			{
-				Inventory.ServerAdd(gameObject, itemSlot, ReplacementStrategy.DespawnOther);
+				Inventory.ServerTransfer(pickupable.ItemSlot, itemSlot, ReplacementStrategy.DropOther);
 				break;
 			}
 		}

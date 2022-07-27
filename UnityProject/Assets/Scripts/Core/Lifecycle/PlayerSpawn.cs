@@ -249,8 +249,10 @@ public static class PlayerSpawn
 		//get the old body if they have one.
 		var oldBody = existingMind?.GetCurrentMob();
 
+		var toUseCharacterSettings = occupation.UseCharacterSettings ? characterSettings : null;
+
 		//transfer control to the player object
-		ServerTransferPlayer(connection, newPlayer, oldBody, Event.PlayerSpawned, characterSettings, willDestroyOldBody);
+		ServerTransferPlayer(connection, newPlayer, oldBody, Event.PlayerSpawned, toUseCharacterSettings, willDestroyOldBody);
 
 		if (existingMind == null)
 		{
@@ -335,8 +337,13 @@ public static class PlayerSpawn
 	{
 		var ps = body.GetComponent<PlayerScript>();
 		var settings = ps.characterSettings;
-		ServerTransferPlayer(viewer.connectionToClient, body, viewer.gameObject, Event.PlayerRejoined,
-			settings, isRejoin: true);
+
+		if (ps.mind?.occupation != null && ps.mind.occupation.UseCharacterSettings == false)
+		{
+			settings = null;
+		}
+
+		ServerTransferPlayer(viewer.connectionToClient, body, viewer.gameObject, Event.PlayerRejoined, settings);
 		ps = body.GetComponent<PlayerScript>();
 		ps.playerNetworkActions.ReenterBodyUpdates();
 		ps.mind.ResendSpellActions();
@@ -510,6 +517,11 @@ public static class PlayerSpawn
 		//get the old body if they have one.
 		var oldBody = mind.GetCurrentMob();
 
+		if (mind.occupation != null && mind.occupation.UseCharacterSettings == false)
+		{
+			characterSettings = null;
+		}
+
 		ServerTransferPlayer(conn, newBody, oldBody, eventType, characterSettings, willDestroyOldBody);
 
 		var newPlayerScript = newBody.GetComponent<PlayerScript>();
@@ -534,9 +546,9 @@ public static class PlayerSpawn
 	/// <param name="characterSettings">settings, ignored if transferring to an existing player body</param>
 	/// <param name="willDestroyOldBody">if true, indicates the old body is going to be destroyed rather than pooled,
 	/// thus we shouldn't send any network message which reference's the old body's ID since it won't exist.</param>
-	/// <param name="isRejoin">is the player rejoining the server</param>
+	/// <param name="useCharacterSettings">whether to use the character settings</param>
 	private static void ServerTransferPlayer(NetworkConnectionToClient conn, GameObject newBody, GameObject oldBody,
-		Event eventType, CharacterSheet characterSettings, bool willDestroyOldBody = false, bool isRejoin = false)
+		Event eventType, CharacterSheet characterSettings, bool willDestroyOldBody = false)
 	{
 		if (oldBody)
 		{
@@ -593,9 +605,10 @@ public static class PlayerSpawn
 			FollowCameraMessage.Send(newBody, playerObjectBehavior.ContainedInContainer.gameObject);
 		}
 
+		var playerScript = newBody.GetComponent<PlayerScript>();
+
 		if (characterSettings != null)
 		{
-			var playerScript = newBody.GetComponent<PlayerScript>();
 			playerScript.characterSettings = characterSettings;
 			playerScript.playerName = playerScript.PlayerState != PlayerStates.Ai ? characterSettings.Name : characterSettings.AiName;
 			newBody.name = playerScript.playerName;

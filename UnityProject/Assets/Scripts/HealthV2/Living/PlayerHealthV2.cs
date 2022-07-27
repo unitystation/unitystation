@@ -119,7 +119,7 @@ namespace HealthV2
 				killerName = "stressful work";
 			}
 
-			string playerName = player?.Name ?? "dummy";
+			string playerName = playerScript.visibleName ?? "dummy";
 			if (killerName == playerName)
 			{
 				Chat.AddActionMsgToChat(gameObject, "You committed suicide, what a waste.", $"{playerName} committed suicide.");
@@ -167,7 +167,7 @@ namespace HealthV2
 				their = "their";
 			}
 
-			Chat.AddLocalMsgToChat($"<b>{player.Name}</b> seizes up and falls limp, {their} eyes dead and lifeless...", gameObject);
+			Chat.AddLocalMsgToChat($"<b>{playerScript.visibleName}</b> seizes up and falls limp, {their} eyes dead and lifeless...", gameObject);
 
 			TriggerEventMessage.SendTo(gameObject, Event.PlayerDied);
 		}

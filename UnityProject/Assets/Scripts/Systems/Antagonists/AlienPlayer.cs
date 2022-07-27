@@ -266,8 +266,6 @@ namespace Systems.Antagonists
 
 			Evolve(newAlien, false);
 
-			currentPlasma = currentData.InitialPlasma;
-
 			if (currentData.AlienType == AlienTypes.Queen)
 			{
 				queenCount++;
@@ -397,7 +395,7 @@ namespace Systems.Antagonists
 			actionData = currentData.ActionData;
 			currentAlienType = currentData.AlienType;
 			growth = 0;
-			currentPlasma = 0;
+			currentPlasma = currentData.InitialPlasma;
 
 			SetUpNewHealthValues();
 
@@ -433,13 +431,13 @@ namespace Systems.Antagonists
 				{
 					playerScript.playerName = $"{currentData.Name} {nameNumber:D3}";
 					Chat.AddChatMsgToChat($"{playerScript.playerName} has joined the hive, rejoice!",
-						ChatChannel.Alien, Loudness.SCREAMING);
+						ChatChannel.Alien, Loudness.LOUD);
 				}
 				else
 				{
 					playerScript.playerName = $"{currentData.Name} {nameNumber:D3}";
 					Chat.AddChatMsgToChat($"{old.Name} {nameNumber:D3} has evolved into a {currentData.Name}!",
-						ChatChannel.Alien, Loudness.SCREAMING);
+						ChatChannel.Alien, Loudness.LOUD);
 				}
 			}
 		}
@@ -1166,7 +1164,7 @@ namespace Systems.Antagonists
 
 		#endregion
 
-		#region Wall and Nest
+		#region Wall, Nest, Acid Pool
 
 		private const int ResinWallCost = 25;
 
@@ -1319,7 +1317,7 @@ namespace Systems.Antagonists
 				return;
 			}
 
-			var spawn = Spawn.ServerPrefab(acidPoolPrefab, RegisterPlayer.ObjectPhysics.Component.OfficialPosition);
+			var spawn = Spawn.ServerPrefab(acidPoolPrefab, worldTarget);
 
 			if(spawn.Successful == false) return;
 
@@ -1561,7 +1559,7 @@ namespace Systems.Antagonists
 
 			//Transfer player chosen into body
 			PlayerSpawn.ServerTransferPlayerToNewBody(player.Connection, player.Script.mind, gameObject,
-				Event.PlayerSpawned, player.CharacterSettings, true);
+				Event.PlayerSpawned, null, true);
 
 			//Remove the player so they can join again once they die
 			GhostRoleManager.Instance.ServerRemoveWaitingPlayer(createdRoleKey, player);

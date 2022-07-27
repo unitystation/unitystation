@@ -184,7 +184,7 @@ namespace UI.Systems.MainHUD.UI_Bottom
 
 			switch (angle)
 			{
-				case var n when n.IsBetween(337.5f, 22.5f):
+				case var n when n.IsBetween(337.5f, 360f) || n.IsBetween(0f, 22.5f):
 					//North
 					queenFinder.SetVariant(1);
 					return;

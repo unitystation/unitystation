@@ -91,7 +91,7 @@ namespace HealthV2
 
 				var connection = checkPlayerScript.Component.connectionToClient;
 				PlayerSpawn.ServerTransferPlayerToNewBody(connection, checkPlayerScript.Component.mind,
-					spawned.GameObject, Event.PlayerSpawned, checkPlayerScript.Component.characterSettings);
+					spawned.GameObject, Event.PlayerSpawned, null);
 			}
 
 			var alienPlayer = spawned.GameObject.GetComponent<AlienPlayer>();
@@ -145,6 +145,13 @@ namespace HealthV2
 		private static void ClearStatics()
 		{
 			infectedPlayers = new List<PlayerScript>();
+		}
+
+		private void OnDisable()
+		{
+			if(checkPlayerScript.HasComponent == false) return;
+
+			RemoveFromInfected(checkPlayerScript.Component);
 		}
 	}
 

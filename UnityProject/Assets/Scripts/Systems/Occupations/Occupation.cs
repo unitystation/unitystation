@@ -44,6 +44,11 @@ public class Occupation : ScriptableObject
 	private bool useStandardPopulator = true;
 	public bool UseStandardPopulator => useStandardPopulator;
 
+	[SerializeField]
+	[Tooltip("Whether to use the players character settings during spawn (sets player name and race)")]
+	private bool useCharacterSettings = true;
+	public bool UseCharacterSettings => useCharacterSettings;
+
 	[FormerlySerializedAs("Limit")]
 	[SerializeField]
 	[Tooltip("Maximum simultaneous players with this occupation. Set to -1 for unlimited")]

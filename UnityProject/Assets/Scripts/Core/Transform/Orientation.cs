@@ -42,7 +42,6 @@ public struct Orientation : IEquatable<Orientation>
 
 	}
 
-
 	public OrientationEnum AsEnum()
 	{
 		if (this == Up)
