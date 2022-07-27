@@ -22,8 +22,8 @@ namespace Objects.Research
 		public override bool WillAffectPlayer(PlayerScript playerScript)
 		{
 			//Allow players or ghosts to enter
-			return playerScript.PlayerState == PlayerStates.Normal ||
-			       playerScript.PlayerState == PlayerStates.Ghost;
+			return playerScript.PlayerType == PlayerTypes.Normal ||
+			       playerScript.PlayerType == PlayerTypes.Ghost;
 		}
 
 		public override void OnObjectEnter(GameObject eventData)

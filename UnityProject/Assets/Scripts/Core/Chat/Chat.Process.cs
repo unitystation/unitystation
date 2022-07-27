@@ -170,7 +170,7 @@ public partial class Chat
 		// Question
 		else if (message.EndsWith("?"))
 		{
-			chatModifiers |= sentByPlayer.Script.PlayerState == PlayerStates.Ai ?
+			chatModifiers |= sentByPlayer.Script.PlayerType == PlayerTypes.Ai ?
 				ChatModifier.Query : ChatModifier.Question;
 		}
 		// Exclaim
@@ -179,7 +179,7 @@ public partial class Chat
 			chatModifiers |= ChatModifier.Exclaim;
 		}
 		//Ai state message
-		else if (sentByPlayer.Script.PlayerState == PlayerStates.Ai)
+		else if (sentByPlayer.Script.PlayerType == PlayerTypes.Ai)
 		{
 			chatModifiers |= ChatModifier.State;
 		}

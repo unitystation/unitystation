@@ -373,7 +373,7 @@ namespace Objects
 		{
 			foreach (var player in PlayerList.Instance.GetAllPlayers())
 			{
-				if(player.Script.PlayerState != PlayerStates.Ai) continue;
+				if(player.Script.PlayerType != PlayerTypes.Ai) continue;
 
 				if (player.Script.TryGetComponent<AiPlayer>(out var aiPlayer) == false) continue;
 
@@ -466,7 +466,7 @@ namespace Objects
 		{
 			foreach (var player in PlayerList.Instance.GetAllPlayers())
 			{
-				if(player.Script.PlayerState != PlayerStates.Ai) continue;
+				if(player.Script.PlayerType != PlayerTypes.Ai) continue;
 
 				Chat.AddExamineMsgFromServer(player, $"ALERT: {gameObject.name} motion sensor activated");
 			}
@@ -477,7 +477,7 @@ namespace Objects
 				if(mob.TryGetComponent<PlayerScript>(out var script) == false) continue;
 
 				//Only target normal players and alive players
-				if(script.PlayerState != PlayerStates.Normal || script.IsDeadOrGhost) continue;
+				if(script.PlayerType != PlayerTypes.Normal || script.IsDeadOrGhost) continue;
 
 				var linecast = MatrixManager.Linecast(cameraPos,
 					LayerTypeSelection.Walls, LayerMask.GetMask("Door Closed", "Walls"), script.WorldPos);

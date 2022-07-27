@@ -10,6 +10,7 @@ using Systems.CraftingV2;
 using Items.PDA;
 using Machines;
 using Objects.Atmospherics;
+using UnityEngine.Serialization;
 
 namespace ScriptableObjects
 {
@@ -46,7 +47,9 @@ namespace ScriptableObjects
 		public UIActionSOSingleton UIActionSOSingleton;
 		public UplinkCategoryList UplinkCategoryList;
 		public UplinkPasswordList UplinkPasswordList;
-		public PlayerStatesSingleton PlayerStatesSingleton;
+
+		[FormerlySerializedAs("PlayerStatesSingleton")]
+		public PlayerTypeSingleton playerTypeSingleton;
 
 		private Dictionary<Type, ScriptableObject> typeSOMap;
 
@@ -80,7 +83,7 @@ namespace ScriptableObjects
 				{ typeof(UIActionSOSingleton), UIActionSOSingleton },
 				{ typeof(UplinkCategoryList), UplinkCategoryList },
 				{ typeof(UplinkPasswordList), UplinkPasswordList },
-				{ typeof(PlayerStatesSingleton), PlayerStatesSingleton },
+				{ typeof(PlayerTypeSingleton), playerTypeSingleton },
 			};
 		}
 

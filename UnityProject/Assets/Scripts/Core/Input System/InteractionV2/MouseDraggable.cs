@@ -42,7 +42,7 @@ public class MouseDraggable : MonoBehaviour
 	private IBaseInteractable<MouseDrop>[] mouseDrops;
 
 	[SerializeField]
-	private PlayerStates allowedToMouseDrag = PlayerStates.Normal;
+	private PlayerTypes allowedToMouseDrag = PlayerTypes.Normal;
 
 	void Start()
 	{
@@ -130,6 +130,6 @@ public class MouseDraggable : MonoBehaviour
 	public bool CanBeginDrag(PlayerScript dragger)
 	{
 		return Validations.CanApply(dragger, gameObject, NetworkSide.Client, allowDragWhileSoftCrit,
-			draggerMustBeAdjacent ? ReachRange.Standard : ReachRange.Unlimited, aPS: allowedToMouseDrag);
+			draggerMustBeAdjacent ? ReachRange.Standard : ReachRange.Unlimited, aps: allowedToMouseDrag);
 	}
 }

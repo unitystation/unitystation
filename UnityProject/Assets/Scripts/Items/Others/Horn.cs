@@ -124,7 +124,7 @@ namespace Items
 		public override bool WillAffectPlayer(PlayerScript playerScript)
 		{
 			//Don't allow ghosts? :(
-			return playerScript.PlayerState == PlayerStates.Normal;
+			return playerScript.PlayerType == PlayerTypes.Normal;
 		}
 
 		public override void OnPlayerStep(PlayerScript playerScript)

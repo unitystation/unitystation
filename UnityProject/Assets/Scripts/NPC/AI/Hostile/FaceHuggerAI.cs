@@ -53,7 +53,7 @@ namespace Systems.MobAIs
 
 				if(coll.gameObject.TryGetComponent<PlayerScript>(out var playerScript) == false) continue;
 
-				if(playerScript.PlayerState == PlayerStates.Alien) continue;
+				if(playerScript.PlayerType == PlayerTypes.Alien) continue;
 
 				return coll;
 			}
@@ -76,7 +76,7 @@ namespace Systems.MobAIs
 
 		public bool WillInteract(HandApply interaction, NetworkSide side)
 		{
-			if (DefaultWillInteract.Default(interaction, side, PlayerStates.Normal | PlayerStates.Alien) == false) return false;
+			if (DefaultWillInteract.Default(interaction, side, PlayerTypes.Normal | PlayerTypes.Alien) == false) return false;
 
 			if(interaction.HandObject != null) return false;
 

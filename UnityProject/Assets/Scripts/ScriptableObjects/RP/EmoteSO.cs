@@ -5,6 +5,7 @@ using HealthV2;
 using Messages.Server.SoundMessages;
 using NaughtyAttributes;
 using UnityEngine;
+using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
 
 namespace ScriptableObjects.RP
@@ -64,9 +65,10 @@ namespace ScriptableObjects.RP
 		[SerializeField]
 		private Vector2 pitchRange = new Vector2(0.7f, 1f);
 
+		[FormerlySerializedAs("allowedPlayerStates")]
 		[Tooltip("Which player states are allowed to use this emote")]
 		[SerializeField]
-		private PlayerStates allowedPlayerStates = PlayerStates.Normal;
+		private PlayerTypes allowedPlayerTypes = PlayerTypes.Normal;
 
 		protected enum FailType
 		{
@@ -210,7 +212,7 @@ namespace ScriptableObjects.RP
 		protected bool CheckAllBaseConditions(GameObject player)
 		{
 			if (player.TryGetComponent<PlayerScript>(out var playerScript)
-			    && allowedPlayerStates.HasFlag(playerScript.PlayerState) == false)
+			    && allowedPlayerTypes.HasFlag(playerScript.PlayerType) == false)
 			{
 				FailText(player, FailType.Normal);
 				return false;

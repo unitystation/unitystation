@@ -12,6 +12,7 @@ using Items;
 using ScriptableObjects;
 using Systems.StatusesAndEffects;
 using Tiles;
+using UnityEngine.Serialization;
 
 public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IActionGUI
 {
@@ -21,10 +22,10 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IActi
 	public Mind mind;
 	public PlayerInfo PlayerInfo;
 
-	[SerializeField]
-	private PlayerStateSettings playerStateSettings = null;
-	public PlayerStateSettings PlayerStateSettings => playerStateSettings;
-	public PlayerStates PlayerState => playerStateSettings.PlayerState;
+	[FormerlySerializedAs("playerStateSettings")] [SerializeField]
+	private PlayerTypeSettings playerTypeSettings = null;
+	public PlayerTypeSettings PlayerTypeSettings => playerTypeSettings;
+	public PlayerTypes PlayerType => playerTypeSettings.PlayerType;
 
 	/// <summary>
 	/// Current character settings for this player.
@@ -216,7 +217,7 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IActi
 
 			PlayerManager.SetPlayerForControl(gameObject, input);
 
-			if (PlayerState == PlayerStates.Ghost)
+			if (PlayerType == PlayerTypes.Ghost)
 			{
 				if (PlayerList.Instance.IsClientAdmin)
 				{
@@ -380,12 +381,12 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IActi
 	/// <summary>
 	/// True if this player is a ghost
 	/// </summary>
-	public bool IsGhost => PlayerState == PlayerStates.Ghost;
+	public bool IsGhost => PlayerType == PlayerTypes.Ghost;
 
 	/// <summary>
 	/// True if this player is a normal player prefab (not ghost, Ai, blob, etc)
 	/// </summary>
-	public bool IsNormal => PlayerState == PlayerStates.Normal;
+	public bool IsNormal => PlayerType == PlayerTypes.Normal;
 
 	/// <summary>
 	/// Same as is ghost, but also true when player inside his dead body
@@ -405,7 +406,7 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IActi
 	}
 
 	// If the player acts like a ghost but is still playing ingame, used for blobs and in the future maybe AI.
-	public bool IsPlayerSemiGhost => PlayerState == PlayerStates.Blob || PlayerState == PlayerStates.Ai;
+	public bool IsPlayerSemiGhost => PlayerType == PlayerTypes.Blob || PlayerType == PlayerTypes.Ai;
 
 	public void ReturnGhostToBody()
 	{
@@ -467,8 +468,8 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IActi
 
 	public ChatChannel GetAvailableChannelsMask(bool transmitOnly = true)
 	{
-		ChatChannel transmitChannels = playerStateSettings.TransmitChannels;
-		ChatChannel receiveChannels = playerStateSettings.ReceiveChannels;
+		ChatChannel transmitChannels = playerTypeSettings.TransmitChannels;
+		ChatChannel receiveChannels = playerTypeSettings.ReceiveChannels;
 
 		//Can't move this to PlayerStateSettings as we need this for when in body and dead
 		if (playerHealth != null && playerHealth.IsDead)
@@ -483,7 +484,7 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IActi
 		}
 
 		//Ai channels limited when not allowed to use radio
-		if (PlayerState == PlayerStates.Ai)
+		if (PlayerType == PlayerTypes.Ai)
 		{
 			if (GetComponent<AiPlayer>().AllowRadio == false)
 			{
@@ -494,7 +495,7 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IActi
 		}
 
 		//TODO: Checks if player can speak (is not gagged, unconcious, has no mouth)
-		if (playerStateSettings.CheckForRadios)
+		if (playerTypeSettings.CheckForRadios)
 		{
 			var playerStorage = gameObject.GetComponent<DynamicItemStorage>();
 			if (playerStorage != null)
@@ -678,7 +679,7 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IActi
 }
 
 [Flags]
-public enum PlayerStates
+public enum PlayerTypes
 {
 	None = 0,
 	Normal = 1 << 0,

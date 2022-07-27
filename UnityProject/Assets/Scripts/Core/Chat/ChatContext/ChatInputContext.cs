@@ -28,16 +28,16 @@ public class ChatInputContext : IChatInputContext
 
 			// Is not normal and not radio get default
 			if (PlayerManager.LocalPlayerScript.IsNormal == false
-			    && PlayerManager.LocalPlayerScript.PlayerStateSettings.CheckForRadios == false)
+			    && PlayerManager.LocalPlayerScript.PlayerTypeSettings.CheckForRadios == false)
 			{
-				return PlayerManager.LocalPlayerScript.PlayerStateSettings.DefaultChannel;
+				return PlayerManager.LocalPlayerScript.PlayerTypeSettings.DefaultChannel;
 			}
 
 			// Player has some headset?
 			var playerHeadset = GetPlayerHeadset();
 			if (playerHeadset == null)
 			{
-				return PlayerManager.LocalPlayerScript.PlayerStateSettings.DefaultChannel;
+				return PlayerManager.LocalPlayerScript.PlayerTypeSettings.DefaultChannel;
 			}
 
 			// Find default key for this channel
@@ -45,7 +45,7 @@ public class ChatInputContext : IChatInputContext
 			if (EncryptionKey.DefaultChannel.ContainsKey(key) == false)
 			{
 				Logger.LogError($"Can't find default channel for a {key}", Category.Chat);
-				return PlayerManager.LocalPlayerScript.PlayerStateSettings.DefaultChannel;
+				return PlayerManager.LocalPlayerScript.PlayerTypeSettings.DefaultChannel;
 			}
 
 			return EncryptionKey.DefaultChannel[key];

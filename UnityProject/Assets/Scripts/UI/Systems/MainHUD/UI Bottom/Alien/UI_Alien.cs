@@ -248,7 +248,7 @@ namespace UI.Systems.MainHUD.UI_Bottom
 		{
 			if (alienPlayer.OnCoolDown(NetworkSide.Client, alienPlayer.QueenAnnounceCooldown))
 			{
-				Chat.AddExamineMsgToClient("You telepathy nerves need recharging!");
+				Chat.AddExamineMsgToClient("Your telepathy nerves need recharging!");
 				return;
 			}
 			alienPlayer.StartCoolDown(NetworkSide.Client, alienPlayer.QueenAnnounceCooldown);

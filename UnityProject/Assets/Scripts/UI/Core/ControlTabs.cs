@@ -543,7 +543,7 @@ namespace UI
 				if (Validations.CanApply(playerScript, tab.Provider, NetworkSide.Client, reachRange: reach) == false)
 				{
 					//Validate for AI reach
-					if (playerScript != null && playerScript.PlayerState == PlayerStates.Ai)
+					if (playerScript != null && playerScript.PlayerType == PlayerTypes.Ai)
 					{
 						if (Validations.CanApply(new AiActivate(playerScript.gameObject, null,
 							tab.Provider, Intent.Help, AiActivate.ClickTypes.NormalClick), NetworkSide.Client))

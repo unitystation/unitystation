@@ -490,7 +490,7 @@ namespace Player
 			NetworkSide networkSide,
 			CraftingActionParameters craftingActionParameters)
 		{
-			if (playerScript.PlayerStateSettings.CanCraft == false)
+			if (playerScript.PlayerTypeSettings.CanCraft == false)
 			{
 				Chat.AddExamineMsg(gameObject, "You are not allowed to craft!");
 				return;

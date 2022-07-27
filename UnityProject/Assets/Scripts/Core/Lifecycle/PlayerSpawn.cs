@@ -610,7 +610,7 @@ public static class PlayerSpawn
 		if (characterSettings != null)
 		{
 			playerScript.characterSettings = characterSettings;
-			playerScript.playerName = playerScript.PlayerState != PlayerStates.Ai ? characterSettings.Name : characterSettings.AiName;
+			playerScript.playerName = playerScript.PlayerType != PlayerTypes.Ai ? characterSettings.Name : characterSettings.AiName;
 			newBody.name = playerScript.playerName;
 			var playerSprites = newBody.GetComponent<PlayerSprites>();
 			if (playerSprites)

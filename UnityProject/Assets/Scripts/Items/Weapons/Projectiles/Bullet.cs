@@ -29,7 +29,7 @@ namespace Weapons.Projectiles
 		public LayerMaskData MaskData => maskData;
 
 		[SerializeField]
-		private PlayerStates playerThatCanBeHit = PlayerStates.Normal | PlayerStates.Alien;
+		private PlayerTypes playerThatCanBeHit = PlayerTypes.Normal | PlayerTypes.Alien;
 
 		private GameObject shooter;
 
@@ -128,7 +128,7 @@ namespace Weapons.Projectiles
 			if (hit.CollisionHit.GameObject == shooter && WillHurtShooter == false) return false;
 
 			if (hit.CollisionHit.GameObject.TryGetComponent<PlayerScript>(out var playerScript) &&
-			    playerThatCanBeHit.HasFlag(playerScript.PlayerState) == false)
+			    playerThatCanBeHit.HasFlag(playerScript.PlayerType) == false)
 			{
 				return false;
 			}

@@ -25,7 +25,7 @@ namespace UI
 		/// </summary>
 		public void Resist()
 		{
-			if(PlayerManager.LocalPlayerScript.PlayerStateSettings.CanResist == false) return;
+			if(PlayerManager.LocalPlayerScript.PlayerTypeSettings.CanResist == false) return;
 
 			PlayerManager.LocalPlayerScript.playerNetworkActions.CmdResist();
 
@@ -39,7 +39,7 @@ namespace UI
 		public void Drop()
 		{
 			if (Validations.CanInteract(PlayerManager.LocalPlayerScript,
-				    NetworkSide.Client, allowCuffed: true, aPS: Validations.CheckState(x => x.CanDropItems)) == false) return;
+				    NetworkSide.Client, allowCuffed: true, aps: Validations.CheckState(x => x.CanDropItems)) == false) return;
 
 			if (PlayerManager.LocalPlayerScript.DynamicItemStorage == null)
 			{
@@ -79,7 +79,7 @@ namespace UI
 			if (throwImage.sprite == throwSprites[0] && UIManager.IsThrow == false)
 			{
 				// Check if player can throw
-				if (Validations.CanInteract(PlayerManager.LocalPlayerScript, NetworkSide.Client, aPS:
+				if (Validations.CanInteract(PlayerManager.LocalPlayerScript, NetworkSide.Client, aps:
 					    Validations.CheckState(x => x.CanThrowItems)) == false) return;
 
 				// Enable throw

@@ -187,7 +187,7 @@ namespace HealthV2
 		{
 			//Send to aliens and ghosts
 			var players = PlayerList.Instance.InGamePlayers.Where(x =>
-				x.Script.PlayerState is PlayerStates.Alien or PlayerStates.Ghost);
+				x.Script.PlayerType is PlayerTypes.Alien or PlayerTypes.Ghost);
 
 			var msg = new NetMessage
 			{

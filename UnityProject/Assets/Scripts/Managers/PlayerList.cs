@@ -340,9 +340,9 @@ public partial class PlayerList : NetworkBehaviour
 	/// Get all players with specific state, logged in and logged off
 	/// </summary>
 	[Server]
-	public List<PlayerInfo> GetAllByPlayersOfState(PlayerStates state)
+	public List<PlayerInfo> GetAllByPlayersOfState(PlayerTypes type)
 	{
-		return GetAllPlayers().Where(player => player.Script.PlayerState == state).ToList();
+		return GetAllPlayers().Where(player => player.Script.PlayerType == type).ToList();
 	}
 
 	/// <summary>

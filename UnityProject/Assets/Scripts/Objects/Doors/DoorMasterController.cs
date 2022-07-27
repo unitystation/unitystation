@@ -626,7 +626,7 @@ namespace Doors
 			//TODO add pins here//TODO check if clicking on pins region
 
 			if (interaction.HandObject == null &&
-			    interaction.PerformerPlayerScript.PlayerStateSettings.CanPryDoorsWithHands)
+			    interaction.PerformerPlayerScript.PlayerTypeSettings.CanPryDoorsWithHands)
 			{
 				return true;
 			}
@@ -811,7 +811,7 @@ namespace Doors
 
 		public bool CanOpenNetTab(GameObject playerObject, NetTabType netTabType)
 		{
-			bool isAi = playerObject.GetComponent<PlayerScript>().PlayerState == PlayerStates.Ai;
+			bool isAi = playerObject.GetComponent<PlayerScript>().PlayerType == PlayerTypes.Ai;
 			if (netTabType == NetTabType.HackingPanel)
 			{
 			    //Block Ai from hacking UI but allow normal player

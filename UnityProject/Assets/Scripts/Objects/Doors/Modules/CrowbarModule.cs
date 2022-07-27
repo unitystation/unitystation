@@ -61,7 +61,7 @@ namespace Doors.Modules
 			if (interaction == null) return ModuleSignal.Continue;
 
 			if (interaction.HandObject == null
-			    && interaction.PerformerPlayerScript.PlayerStateSettings.CanPryDoorsWithHands)
+			    && interaction.PerformerPlayerScript.PlayerTypeSettings.CanPryDoorsWithHands)
 			{
 				PryDoor(interaction, false);
 				return ModuleSignal.Break;
@@ -105,7 +105,7 @@ namespace Doors.Modules
 				return;
 			}
 
-			var handName = interaction.PerformerPlayerScript.PlayerStateSettings.PryHandName;
+			var handName = interaction.PerformerPlayerScript.PlayerTypeSettings.PryHandName;
 
 			Chat.AddActionMsgToChat(interaction.Performer, $"You start prying open the {doorName}...",
 				$"{interaction.Performer.ExpensiveName()} starts prying open the {doorName} with its {handName}...");
@@ -155,7 +155,7 @@ namespace Doors.Modules
 
 			if (master.IsClosed == false || master.IsPerformingAction) return;
 
-			var handName = interaction.PerformerPlayerScript.PlayerStateSettings.PryHandName;
+			var handName = interaction.PerformerPlayerScript.PlayerTypeSettings.PryHandName;
 
 			if (master.TryForceOpen())
 			{

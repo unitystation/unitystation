@@ -149,7 +149,7 @@ namespace Player
 		{
 			if(sentByPlayer.TryGetComponent<PlayerScript>(out var sentByPlayerScript) == false) return;
 
-			var settings = sentByPlayerScript.PlayerStateSettings;
+			var settings = sentByPlayerScript.PlayerTypeSettings;
 			if (settings.CanExamineOthers == ExamineType.None) return;
 
 			if (settings.CanExamineOthers != ExamineType.AlwaysAdvanced && settings.CanExamineOthers.HasFlag(ExamineType.Basic))
@@ -177,7 +177,7 @@ namespace Player
 			PlayerExaminationMessage.Send(sentByPlayer, this, true);
 
 			//Allow ghosts to keep the screen open even if player moves away
-			if(sentByPlayerScript.PlayerState == PlayerStates.Ghost) return;
+			if(sentByPlayerScript.PlayerType == PlayerTypes.Ghost) return;
 
 			//stop observing when target player is too far away
 			var relationship = RangeRelationship.Between(

@@ -165,7 +165,7 @@ namespace Clothing
 			}
 
 			//Aliens don't go into crit
-			if(playerScript.PlayerState == PlayerStates.Alien) return;
+			if(playerScript.PlayerType == PlayerTypes.Alien) return;
 
 			if (info.ClientInventoryMoveType == ClientInventoryMoveType.Added
 				&& playerScript.DynamicItemStorage.InventoryHasObjectInCategory(gameObject, NamedSlot.mask))
@@ -189,9 +189,9 @@ namespace Clothing
 
 			if (interaction.TargetObject.TryGetComponent<PlayerScript>(out var playerScript) == false) return false;
 
-			if (playerScript.PlayerState != PlayerStates.Normal) return false;
+			if (playerScript.PlayerType != PlayerTypes.Normal) return false;
 
-			if (DefaultWillInteract.Default(interaction, side, PlayerStates.Alien) == false) return false;
+			if (DefaultWillInteract.Default(interaction, side, PlayerTypes.Alien) == false) return false;
 
 			if (side == NetworkSide.Client)
 			{

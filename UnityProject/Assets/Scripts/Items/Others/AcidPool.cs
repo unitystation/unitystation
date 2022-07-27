@@ -100,7 +100,7 @@ namespace Items.Others
 		{
 			if (interaction.HandObject != null) return false;
 
-			if (DefaultWillInteract.Default(interaction, side, PlayerStates.Alien) == false) return false;
+			if (DefaultWillInteract.Default(interaction, side, PlayerTypes.Alien) == false) return false;
 
 			return true;
 		}

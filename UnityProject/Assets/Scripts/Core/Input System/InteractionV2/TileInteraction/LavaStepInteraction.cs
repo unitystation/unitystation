@@ -29,7 +29,7 @@ namespace Systems.Interaction
 		private Dictionary<GameObject, BasicTile> stuffToLightOnFire = new Dictionary<GameObject, BasicTile>();
 
 		[SerializeField]
-		private PlayerStates playersEffected = PlayerStates.Normal;
+		private PlayerTypes playersEffected = PlayerTypes.Normal;
 
 		private void TryLightOnFire()
 		{
@@ -125,7 +125,7 @@ namespace Systems.Interaction
 		//Player enter tile interaction//
 		public override bool WillAffectPlayer(PlayerScript playerScript)
 		{
-			return playersEffected.HasFlag(playerScript.PlayerState);
+			return playersEffected.HasFlag(playerScript.PlayerType);
 		}
 
 		public override void OnPlayerStep(PlayerScript playerScript)

@@ -16,7 +16,7 @@ namespace Player
 			if (interaction.TargetObject.GetComponent<Consumable>() == null) return false;
 
 			//Default check and allow any player if they have this script to do this
-			if (DefaultWillInteract.Default(interaction, side, interaction.PerformerPlayerScript.PlayerState) == false) return false;
+			if (DefaultWillInteract.Default(interaction, side, interaction.PerformerPlayerScript.PlayerType) == false) return false;
 
 			return true;
 		}

@@ -84,12 +84,12 @@ namespace UI
 		private void DetermineUI()
 		{
 			// TODO: make better system for handling lots of different UIs
-			if (PlayerManager.LocalPlayerScript.PlayerState == PlayerStates.Blob)
+			if (PlayerManager.LocalPlayerScript.PlayerType == PlayerTypes.Blob)
 			{
 				SetUi(hudBottomBlob);
 				PlayerManager.LocalPlayerScript.GetComponent<BlobPlayer>()?.TurnOnClientLight();
 			}
-			else if (PlayerManager.LocalPlayerScript.PlayerState == PlayerStates.Ai)
+			else if (PlayerManager.LocalPlayerScript.PlayerType == PlayerTypes.Ai)
 			{
 				SetUi(hudBottomAi);
 			}

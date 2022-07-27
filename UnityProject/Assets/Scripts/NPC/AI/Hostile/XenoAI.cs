@@ -50,7 +50,7 @@ namespace Systems.MobAIs
 				{
 					if(coll.gameObject.TryGetComponent<LivingHealthMasterBase>(out var healthMasterBase) == false || healthMasterBase.IsDead) continue;
 
-					if(healthMasterBase.playerScript.PlayerState == PlayerStates.Alien) continue;
+					if(healthMasterBase.playerScript.PlayerType == PlayerTypes.Alien) continue;
 
 					return coll.gameObject;
 				}

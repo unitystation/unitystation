@@ -86,27 +86,27 @@ public class WeaponNetworkActions : NetworkBehaviour
 		if (victim == null) return;
 		if (Cooldowns.IsOnServer(playerScript, CommonCooldowns.Instance.Melee)) return;
 		if (playerMove.allowInput == false) return;
-		if (playerScript.PlayerStateSettings.CanMelee == false) return;
+		if (playerScript.PlayerTypeSettings.CanMelee == false) return;
 		if (playerScript.playerHealth.serverPlayerConscious == false) return;
 
 		if (victim.TryGetComponent<InteractableTiles>(out var tiles))
 		{
 			// validate based on position of target vector
 			if (Validations.CanApply(playerScript, victim, NetworkSide.Server, targetVector: attackDirection,
-				    aPS: Validations.CheckState(x => x.CanMelee)) == false) return;
+				    aps: Validations.CheckState(x => x.CanMelee)) == false) return;
 		}
 		else
 		{
 			// validate based on position of target object
 			if (Validations.CanApply(playerScript, victim, NetworkSide.Server,
-				    aPS: Validations.CheckState(x => x.CanMelee)) == false) return;
+				    aps: Validations.CheckState(x => x.CanMelee)) == false) return;
 		}
 
 		float damage = handDamage;
 		DamageType currentDamageType = damageType;
 		GameObject weapon = playerScript.playerNetworkActions.GetActiveHandItem();
 		ItemAttributesV2 weaponAttributes = weapon == null ? null : weapon.GetComponent<ItemAttributesV2>();
-		var miss = playerScript.PlayerStateSettings.EmptyMeleeAttackData.PickRandom();
+		var miss = playerScript.PlayerTypeSettings.EmptyMeleeAttackData.PickRandom();
 
 		var attackVerb = weapon == null ? miss.attackVerb : weaponAttributes.ServerAttackVerbs.PickRandom();
 		AddressableAudioSource weaponSound = miss.hitSound.PickRandom();

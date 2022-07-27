@@ -157,7 +157,7 @@ namespace UI
 				return;
 			}
 
-			alienUI.gameObject.SetActive(PlayerManager.LocalPlayerScript.PlayerState == PlayerStates.Alien);
+			alienUI.gameObject.SetActive(PlayerManager.LocalPlayerScript.PlayerType == PlayerTypes.Alien);
 		}
 
 		private void OnDisable()

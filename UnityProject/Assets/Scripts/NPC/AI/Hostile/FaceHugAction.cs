@@ -33,7 +33,7 @@ namespace Systems.MobAIs
 		{
 			if (livingHealth.gameObject.TryGetComponent<PlayerScript>(out var playerScript) == false) return;
 
-			if(playerScript.PlayerState == PlayerStates.Alien) return;
+			if(playerScript.PlayerType == PlayerTypes.Alien) return;
 
 			var playerInventory = playerScript.Equipment;
 

@@ -1,16 +1,18 @@
 ﻿using System.Collections.Generic;
 using NaughtyAttributes;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace ScriptableObjects
 {
 	[CreateAssetMenu(fileName = "PlayerStateSettings", menuName = "ScriptableObjects/Player/PlayerStateSettings")]
-	public class PlayerStateSettings : ScriptableObject
+	public class PlayerTypeSettings : ScriptableObject
 	{
-		[Header("Player State, only choose one!")]
+		[FormerlySerializedAs("playerState")]
+		[Header("Player Type, only choose one!")]
 		[SerializeField]
-		private PlayerStates playerState = PlayerStates.Normal;
-		public PlayerStates PlayerState => playerState;
+		private PlayerTypes playerType = PlayerTypes.Normal;
+		public PlayerTypes PlayerType => playerType;
 
 		[HorizontalLine]
 		[SerializeField]
