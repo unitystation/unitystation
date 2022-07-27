@@ -127,7 +127,8 @@ namespace Weapons.Projectiles
 			if (hit.ItHit == false) return false;
 			if (hit.CollisionHit.GameObject == shooter && WillHurtShooter == false) return false;
 
-			if (hit.CollisionHit.GameObject.TryGetComponent<PlayerScript>(out var playerScript) &&
+			if (hit.CollisionHit.GameObject != null &&
+			    hit.CollisionHit.GameObject.TryGetComponent<PlayerScript>(out var playerScript) &&
 			    playerThatCanBeHit.HasFlag(playerScript.PlayerType) == false)
 			{
 				return false;
