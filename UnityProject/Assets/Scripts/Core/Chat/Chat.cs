@@ -76,7 +76,7 @@ public partial class Chat : MonoBehaviour
 	/// Send a Chat Msg from a player to the selected Chat Channels
 	/// Server only
 	/// </summary>
-	public static void AddChatMsgToChat(PlayerInfo sentByPlayer, string message, ChatChannel channels, Loudness loudness = Loudness.NORMAL)
+	public static void AddChatMsgToChatServer(PlayerInfo sentByPlayer, string message, ChatChannel channels, Loudness loudness = Loudness.NORMAL)
 	{
 		message = AutoMod.ProcessChatServer(sentByPlayer, message);
 		if (string.IsNullOrWhiteSpace(message)) return;
@@ -195,7 +195,7 @@ public partial class Chat : MonoBehaviour
 	/// ServerSide Only, note there is no validation of message contents here for this type, normal player messages do no go this route
 	/// Chat modifiers do not work here
 	/// </summary>
-	public static void AddChatMsgToChat(string message, ChatChannel channels, Loudness loudness = Loudness.NORMAL)
+	public static void AddChatMsgToChatServer(string message, ChatChannel channels, Loudness loudness = Loudness.NORMAL)
 	{
 		if (channels == ChatChannel.None) return;
 

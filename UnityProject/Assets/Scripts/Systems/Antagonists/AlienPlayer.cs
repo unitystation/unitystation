@@ -358,7 +358,7 @@ namespace Systems.Antagonists
 
 			//TODO play sound for all aliens
 
-			Chat.AddChatMsgToChat(playerScript.PlayerInfo, message, ChatChannel.Alien, Loudness.MEGAPHONE);
+			Chat.AddChatMsgToChatServer(playerScript.PlayerInfo, message, ChatChannel.Alien, Loudness.MEGAPHONE);
 		}
 
 		#endregion
@@ -422,7 +422,7 @@ namespace Systems.Antagonists
 			if (currentData.AlienType == AlienTypes.Queen)
 			{
 				playerScript.playerName = $"{currentData.Name} {nameNumber}";
-				Chat.AddChatMsgToChat($"A new queen: {playerScript.playerName} has joined the hive, rejoice!",
+				Chat.AddChatMsgToChatServer($"A new queen: {playerScript.playerName} has joined the hive, rejoice!",
 					ChatChannel.Alien, Loudness.SCREAMING);
 			}
 			else
@@ -430,13 +430,13 @@ namespace Systems.Antagonists
 				if (newlyJoined)
 				{
 					playerScript.playerName = $"{currentData.Name} {nameNumber:D3}";
-					Chat.AddChatMsgToChat($"{playerScript.playerName} has joined the hive, rejoice!",
+					Chat.AddChatMsgToChatServer($"{playerScript.playerName} has joined the hive, rejoice!",
 						ChatChannel.Alien, Loudness.LOUD);
 				}
 				else
 				{
 					playerScript.playerName = $"{currentData.Name} {nameNumber:D3}";
-					Chat.AddChatMsgToChat($"{old.Name} {nameNumber:D3} has evolved into a {currentData.Name}!",
+					Chat.AddChatMsgToChatServer($"{old.Name} {nameNumber:D3} has evolved into a {currentData.Name}!",
 						ChatChannel.Alien, Loudness.LOUD);
 				}
 			}
@@ -674,7 +674,7 @@ namespace Systems.Antagonists
 			}
 			else
 			{
-				Chat.AddChatMsgToChat($"{gameObject.ExpensiveName()} has died!", ChatChannel.Alien, Loudness.MEGAPHONE);
+				Chat.AddChatMsgToChatServer($"{gameObject.ExpensiveName()} has died!", ChatChannel.Alien, Loudness.MEGAPHONE);
 			}
 
 			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, OnUpdate);
@@ -695,7 +695,7 @@ namespace Systems.Antagonists
 
 			var queenString = queenInHive ? "\nBut we have a new leader!" : "\nWe need a new queen or the hive will surely perish!";
 
-			Chat.AddChatMsgToChat($"{gameObject.ExpensiveName()} has died!{queenString}", ChatChannel.Alien, Loudness.MEGAPHONE);
+			Chat.AddChatMsgToChatServer($"{gameObject.ExpensiveName()} has died!{queenString}", ChatChannel.Alien, Loudness.MEGAPHONE);
 
 			//TODO play scream for all xenos?
 		}
