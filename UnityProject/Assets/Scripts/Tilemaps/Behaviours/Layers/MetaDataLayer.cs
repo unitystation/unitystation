@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Systems.Atmospherics;
 using Chemistry;
 using Chemistry.Components;
@@ -124,7 +125,7 @@ public class MetaDataLayer : MonoBehaviour
 				return MetaDataNode.None;
 			}
 		}
-		
+
 		if (updateTileOnClient)
 		{
 			AddNetworkChange(localPosition, node);
@@ -194,13 +195,10 @@ public class MetaDataLayer : MonoBehaviour
 	public void ReagentReact(ReagentMix reagents, Vector3Int worldPosInt, Vector3Int localPosInt)
 	{
 		var mobs = MatrixManager.GetAt<LivingHealthMasterBase>(worldPosInt, true);
-		if (mobs is List<LivingHealthMasterBase>)
+		reagents.Divide(mobs.Count() + 1);
+		foreach (var mob in mobs)
 		{
-			reagents.Divide((mobs as List<LivingHealthMasterBase>).Count + 1);
-			foreach (var mob in mobs)
-			{
-				mob.ApplyReagentsToSurface(reagents, BodyPartType.None);
-			}
+			mob.ApplyReagentsToSurface(reagents, BodyPartType.None);
 		}
 
 		if (MatrixManager.IsTotallyImpassable(worldPosInt, true)) return;
