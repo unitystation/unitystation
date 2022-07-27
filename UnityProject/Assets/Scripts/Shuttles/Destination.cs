@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Core;
 using UnityEngine;
 
 /// <summary>
@@ -16,7 +17,7 @@ public struct Destination
 	public static Destination Invalid = new Destination
 	{
 		Position = TransformState.HiddenPos,
-		Orientation = Orientation.Up
+		Orientation = new Orientation()
 	};
 
 	#region generated shit

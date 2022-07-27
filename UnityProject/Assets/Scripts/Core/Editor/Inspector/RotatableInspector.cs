@@ -1,4 +1,5 @@
-﻿using UnityEditor;
+﻿using Core;
+using UnityEditor;
 using UnityEditor.Experimental.SceneManagement;
 using UnityEditor.SceneManagement;
 using UnityEngine;

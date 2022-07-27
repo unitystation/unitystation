@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Core;
 using Detective;
 using UnityEngine;
 using ScriptableObjects.Atmospherics;
