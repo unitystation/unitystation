@@ -37,6 +37,10 @@ namespace Tiles
 		[SerializeField]
 		private List<ConnectionData> connectionData = new List<ConnectionData>();
 
+		[SerializeField]
+		//This is needed for the build
+		private Texture2D wholeSpriteTexture = null;
+
 		public override void GetTileData(Vector3Int position, ITilemap tilemap, ref TileData tileData)
 		{
 			//find our offset by checking our parent layer
