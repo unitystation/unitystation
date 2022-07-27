@@ -218,10 +218,10 @@ namespace Clothing
 
 			interaction.PerformerPlayerScript.weaponNetworkActions.RpcMeleeAttackLerp(interaction.TargetVector, gameObject);
 
-			Chat.AddActionMsgToChat(interaction.Performer, success ?
+			Chat.AddActionMsgToChat(interaction.Performer, success == false ?
 					$"You fail to attach the {gameObject.ExpensiveName()} to {playerScript.visibleName}"
 					: $"You attach the {gameObject.ExpensiveName()} to {playerScript.visibleName}",
-				success ? $"{interaction.Performer.ExpensiveName()} attempted to attach a {gameObject.ExpensiveName()} to {playerScript.visibleName} but failed!"
+				success == false ? $"{interaction.Performer.ExpensiveName()} attempted to attach a {gameObject.ExpensiveName()} to {playerScript.visibleName} but failed!"
 					: $"{interaction.Performer.ExpensiveName()} attaches a {gameObject.ExpensiveName()} to {playerScript.visibleName}!");
 
 			if(success == false) return;
