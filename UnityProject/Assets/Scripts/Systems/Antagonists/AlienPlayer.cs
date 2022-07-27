@@ -17,7 +17,7 @@ using Weapons.Projectiles;
 
 namespace Systems.Antagonists
 {
-	public class AlienPlayer : NetworkBehaviour, IServerActionGUIMulti, ICooldown, IServerDespawn, IOnPlayerTransfer,
+	public class AlienPlayer : NetworkBehaviour, IServerActionGUIMulti, ICooldown, IServerLifecycle, IOnPlayerTransfer,
 		IOnPlayerRejoin
 	{
 		[Header("Sprite Stuff")]
@@ -226,7 +226,7 @@ namespace Systems.Antagonists
 			playerScript.PlayerSync.MovementStateEventServer.RemoveListener(OnMovementTypeChange);
 		}
 
-		private void Start()
+		public void OnSpawnServer(SpawnInfo info)
 		{
 			SetNewPlayer(startingAlienType);
 		}
@@ -1377,7 +1377,7 @@ namespace Systems.Antagonists
 		#region GhostRole / Disconnect
 
 		//Make ghost role after after 120 seconds after disconnect
-		private const float DisconnectMaxTime = 10f;
+		private const float DisconnectMaxTime = 120f;
 
 		private PlayerInfo playerTookOver;
 
@@ -1472,6 +1472,16 @@ namespace Systems.Antagonists
 		public void OnPlayerRejoin()
 		{
 			RemoveGhostRole();
+		}
+
+		//Called after larva spawned, in case it was a disconnected player
+		public void DoConnectCheck()
+		{
+			if(connectionToClient != null) return;
+
+			if(createdRoleKey != 0) return;
+
+			SetUpGhostRole();
 		}
 
 		#endregion

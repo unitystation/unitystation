@@ -94,6 +94,10 @@ namespace HealthV2
 					spawned.GameObject, Event.PlayerSpawned, checkPlayerScript.Component.characterSettings);
 			}
 
+			var alienPlayer = spawned.GameObject.GetComponent<AlienPlayer>();
+
+			alienPlayer.DoConnectCheck();
+
 			RelatedPart.TryRemoveFromBody();
 
 			_ = Despawn.ServerSingle(gameObject);

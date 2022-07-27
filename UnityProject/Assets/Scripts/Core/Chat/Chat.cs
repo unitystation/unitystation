@@ -190,6 +190,10 @@ public partial class Chat : MonoBehaviour
 		InvokeChatEvent(chatEvent);
 	}
 
+	/// <summary>
+	/// ServerSide Only, note there is no validation of message contents here for this type, normal player messages do no go this route
+	/// Chat modifiers do not work here
+	/// </summary>
 	public static void AddChatMsgToChat(string message, ChatChannel channels, Loudness loudness = Loudness.NORMAL)
 	{
 		if (channels == ChatChannel.None) return;
@@ -197,6 +201,8 @@ public partial class Chat : MonoBehaviour
 		// The exact words that leave the player's mouth (or that are narrated). Already includes HONKs, stutters, etc.
 		// This step is skipped when speaking in the OOC channel.
 		(string message, ChatModifier chatModifiers) processedMessage = (string.Empty, ChatModifier.None); // Placeholder values
+
+		processedMessage.message = message;
 
 		bool isOOC = channels.HasFlag(ChatChannel.OOC);
 
