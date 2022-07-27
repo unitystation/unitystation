@@ -72,7 +72,7 @@ public class FireExtinguisher : NetworkBehaviour,
 
 
 		Vector2 startPos = gameObject.AssumedWorldPosServer();
-		Vector2 targetPos = interaction.WorldPositionTarget.To2Int();
+		Vector2 targetPos = interaction.WorldPositionTarget.RoundTo2Int();
 		List<Vector3Int> positionList = CheckPassableTiles(startPos, targetPos);
 		StartCoroutine(Fire(positionList));
 

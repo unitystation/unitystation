@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEditor;
 using UnityEditor.SceneManagement;
-using Systems.ObjectConnection;
+using Shared.Systems.ObjectConnection;
 
 namespace CustomInspectors
 {

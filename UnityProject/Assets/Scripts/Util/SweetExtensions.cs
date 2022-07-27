@@ -139,8 +139,8 @@ public static class SweetExtensions
 	/// </summary>
 	public static bool IsAdjacentTo(this Vector3 one, Vector3 two)
 	{
-		var oneInt = one.To2Int();
-		var twoInt = two.To2Int();
+		var oneInt = one.RoundTo2Int();
+		var twoInt = two.RoundTo2Int();
 		return Mathf.Abs(oneInt.x - twoInt.x) == 1 ||
 			Mathf.Abs(oneInt.y - twoInt.y) == 1;
 	}
@@ -150,7 +150,7 @@ public static class SweetExtensions
 	/// </summary>
 	public static bool IsAdjacentToOrSameAs(this Vector3 one, Vector3 two)
 	{
-		return one.To2Int() == two.To2Int() || one.IsAdjacentTo(two);
+		return one.RoundTo2Int() == two.RoundTo2Int() || one.IsAdjacentTo(two);
 	}
 	/// Creates garbage! Use very sparsely!
 	public static RegisterTile RegisterTile(this GameObject go)

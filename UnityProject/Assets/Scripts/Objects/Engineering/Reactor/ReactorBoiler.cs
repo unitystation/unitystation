@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using Systems.Atmospherics;
 using UnityEngine;
 using ScriptableObjects;
-using Systems.ObjectConnection;
 using Objects.Atmospherics;
+using Shared.Systems.ObjectConnection;
 
 
 namespace Objects.Engineering
@@ -77,7 +77,7 @@ namespace Objects.Engineering
 
 
 				ReactorPipe.pipeData.mixAndVolume.InternalEnergy = ExpectedInternalEnergy;
-				
+
 
 				OutputEnergy = CurrentPressureInput * Efficiency; //Only half of the energy is converted into useful energy
 			}

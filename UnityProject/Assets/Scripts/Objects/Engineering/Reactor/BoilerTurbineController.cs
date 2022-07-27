@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
+using Shared.Systems.ObjectConnection;
 using UnityEngine;
-using Systems.ObjectConnection;
-
 
 namespace Objects.Engineering
 {
@@ -22,7 +21,7 @@ namespace Objects.Engineering
 		MultitoolConnectionType IMultitoolLinkable.ConType => MultitoolConnectionType.BoilerTurbine;
 		IMultitoolMasterable IMultitoolSlaveable.Master => linkedMaster;
 		bool IMultitoolSlaveable.RequireLink => true;
-		bool IMultitoolSlaveable.TrySetMaster(PositionalHandApply interaction, IMultitoolMasterable master)
+		bool IMultitoolSlaveable.TrySetMaster(GameObject performer, IMultitoolMasterable master)
 		{
 			SetMaster(master);
 			return true;

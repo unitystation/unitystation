@@ -2,180 +2,10 @@
 using System.Text;
 using UnityEngine;
 using Random = System.Random;
-
+using PlayerMoveDirection = MovementSynchronisation.PlayerMoveDirection;
 
 public static class ConverterExtensions
 {
-	public static Vector2 To2(this Vector3 other)
-	{
-		return new Vector2(other.x, other.y);
-	}
-
-	public static Vector3 To3(this Vector2 other)
-	{
-		return new Vector3(other.x, other.y, 0);
-	}
-
-	public static Vector2 To2(this Vector3Int other)
-	{
-		return new Vector2(other.x, other.y);
-	}
-
-	public static Vector3 To3(this Vector2Int other)
-	{
-		return new Vector3(other.x, other.y, 0);
-	}
-
-
-
-	public static Vector3 ToNonInt3(this Vector3Int other)
-	{
-		return new Vector3(other.x, other.y, other.z);
-	}
-
-	public static Vector3Int RoundToInt(this Vector3 other)
-	{
-		return Vector3Int.RoundToInt(other);
-	}
-
-	public static Vector3Int RoundToInt(this Vector2 other)
-	{
-		return Vector3Int.RoundToInt(other);
-	}
-
-	/// <summary>Round to int while cutting z-axis</summary>
-	public static Vector3Int CutToInt(this Vector3 other)
-	{
-		return Vector3Int.RoundToInt((Vector2) other);
-	}
-
-	/// <summary>Cast (Truncate) to int while cutting z-axis</summary>
-	public static Vector3Int TruncateToInt(this Vector3 other)
-	{
-		return new Vector3Int((int) other.x, (int) other.y);
-	}
-
-	/// <summary>Round to int</summary>
-	public static Vector2Int To2Int(this Vector2 other)
-	{
-		return Vector2Int.RoundToInt(other);
-	}
-
-	public static Vector3Int To3Int(this Vector2 other)
-	{
-		return new Vector3Int(Mathf.RoundToInt(other.x) , Mathf.RoundToInt(other.y), 0);
-	}
-
-	/// <summary>Round to int while cutting z-axis</summary>
-	public static Vector2Int To2Int(this Vector3 other)
-	{
-		return Vector2Int.RoundToInt(other);
-	}
-
-	/// <summary>Convert V3Int to V2Int</summary>
-	public static Vector2Int To2Int(this Vector3Int other)
-	{
-		return new Vector2Int(other.x, other.y);
-	}
-
-	/// <summary>Convert V2Int to V3Int</summary>
-	public static Vector3Int To3Int(this Vector2Int other)
-	{
-		return new Vector3Int(other.x, other.y, 0);
-	}
-
-	/// <summary>
-	/// Clamp vector so it's either -1, 0, or 1 on X and Y axes.
-	/// </summary>
-	/// <param name="other"></param>
-	/// <returns></returns>
-	public static Vector2Int Normalize(this Vector2Int other)
-	{
-		return new Vector2Int(Mathf.Clamp(other.x, -1, 1), Mathf.Clamp(other.y, -1, 1));
-	}
-
-	/// <summary>
-	/// Clamp vector so it's either -1, 0, or 1 on X and Y axes.
-	/// Z is always 0!
-	/// </summary>
-	/// <param name="other"></param>
-	/// <returns></returns>
-	public static Vector2Int NormalizeToInt(this Vector2 other)
-	{
-		return new Vector2Int(Mathf.Clamp(Mathf.RoundToInt(other.x), -1, 1),
-			Mathf.Clamp(Mathf.RoundToInt(other.y), -1, 1));
-	}
-
-	/// <summary>
-	/// Clamp vector so it's either -1, 0, or 1 on X and Y axes.
-	/// </summary>
-	/// <param name="other"></param>
-	/// <returns></returns>
-	public static Vector2Int NormalizeTo2Int(this Vector3Int other)
-	{
-		return new Vector2Int(Mathf.Clamp(other.x, -1, 1), Mathf.Clamp(other.y, -1, 1));
-	}
-
-	/// <summary>
-	/// Clamp vector so it's either -1, 0, or 1 on X and Y axes.
-	/// </summary>
-	/// <param name="other"></param>
-	/// <returns></returns>
-	public static Vector2Int NormalizeTo2Int(this Vector3 other)
-	{
-		return new Vector2Int(Mathf.Clamp(Mathf.RoundToInt(other.x), -1, 1),
-			Mathf.Clamp(Mathf.RoundToInt(other.y), -1, 1));
-	}
-
-	/// <summary>
-	/// Clamp vector so it's either -1, 0, or 1 on X and Y axes.
-	/// Z is always 0!
-	/// </summary>
-	/// <param name="other"></param>
-	/// <returns></returns>
-	public static Vector3Int Normalize(this Vector3Int other)
-	{
-		return new Vector3Int(Mathf.Clamp(other.x, -1, 1), Mathf.Clamp(other.y, -1, 1), 0);
-	}
-
-
-	/// <summary>
-	/// Clamp vector so it's either -1, 0, or 1 on X and Y axes.
-	/// Z is always 0!
-	/// </summary>
-	/// <param name="other"></param>
-	/// <returns></returns>
-	public static Vector3Int NormalizeToInt(this Vector3 other)
-	{
-		return new Vector3Int(Mathf.Clamp(Mathf.RoundToInt(other.x), -1, 1),
-			Mathf.Clamp(Mathf.RoundToInt(other.y), -1, 1),
-			0);
-	}
-
-	/// <summary>
-	/// Clamp vector so it's either -1, 0, or 1 on X and Y axes.
-	/// Z is always 0!
-	/// </summary>
-	/// <param name="other"></param>
-	/// <returns></returns>
-	public static Vector3Int NormalizeTo3Int(this Vector2 other)
-	{
-		return new Vector3Int(Mathf.Clamp(Mathf.RoundToInt(other.x), -1, 1),
-			Mathf.Clamp(Mathf.RoundToInt(other.y), -1, 1),
-			0);
-	}
-
-	/// <summary>
-	/// Clamp vector so it's either -1, 0, or 1 on X and Y axes.
-	/// Z is always 0!
-	/// </summary>
-	/// <param name="other"></param>
-	/// <returns></returns>
-	public static Vector3Int NormalizeTo3Int(this Vector2Int other)
-	{
-		return new Vector3Int(Mathf.Clamp(other.x, -1, 1), Mathf.Clamp(other.y, -1, 1), 0);
-	}
-
 	public static Vector3 ToLocal(this Vector3 worldPos, Matrix matrix)
 	{
 		return MatrixManager.WorldToLocal(worldPos, MatrixManager.Get(matrix));
@@ -244,63 +74,49 @@ public static class ConverterExtensions
 		return MatrixManager.WorldToLocal(worldPos, MatrixManager.Get(matrix)).RoundToInt();
 	}
 
-	public static bool IsDiagonal(this MovementSynchronisation.PlayerMoveDirection Direction)
-	{
-		switch (Direction)
+	public static bool IsDiagonal(this PlayerMoveDirection direction) =>
+		direction switch
 		{
-			case MovementSynchronisation.PlayerMoveDirection.Down:
-			case MovementSynchronisation.PlayerMoveDirection.Up:
-			case MovementSynchronisation.PlayerMoveDirection.Left:
-			case MovementSynchronisation.PlayerMoveDirection.Right:
-				return false;
-			default:
-				return true;
-		}
-	}
+			PlayerMoveDirection.Down => false,
+			PlayerMoveDirection.Up => false,
+			PlayerMoveDirection.Left => false,
+			PlayerMoveDirection.Right => false,
+			_ => true
+		};
 
-	public static MovementSynchronisation.PlayerMoveDirection ToNonDiagonal(this MovementSynchronisation.PlayerMoveDirection Direction, bool First)
-	{
-		switch (Direction)
+	/// <summary>
+	/// Converts an ordinal direction into a cardinal direction.
+	/// </summary>
+	/// <param name="direction">The direction to convert.</param>
+	/// <param name="vertical">Should it return the vertical direction.</param>
+	public static PlayerMoveDirection ToNonDiagonal(this PlayerMoveDirection direction, bool vertical) =>
+		direction switch
 		{
-			case MovementSynchronisation.PlayerMoveDirection.Down_Left:
-				return First ? MovementSynchronisation.PlayerMoveDirection.Down : MovementSynchronisation.PlayerMoveDirection.Left;
-			case MovementSynchronisation.PlayerMoveDirection.Down_Right:
-				return First ? MovementSynchronisation.PlayerMoveDirection.Down : MovementSynchronisation.PlayerMoveDirection.Right;
-			case MovementSynchronisation.PlayerMoveDirection.Up_Left:
-				return First ? MovementSynchronisation.PlayerMoveDirection.Up : MovementSynchronisation.PlayerMoveDirection.Left;
-			case MovementSynchronisation.PlayerMoveDirection.Up_Right:
-				return First ? MovementSynchronisation.PlayerMoveDirection.Up : MovementSynchronisation.PlayerMoveDirection.Right;
-			default:
-				return MovementSynchronisation.PlayerMoveDirection.Down;
+			PlayerMoveDirection.Down_Left => vertical ? PlayerMoveDirection.Down : PlayerMoveDirection.Left,
+			PlayerMoveDirection.Down_Right => vertical ? PlayerMoveDirection.Down : PlayerMoveDirection.Right,
+			PlayerMoveDirection.Up_Left => vertical ? PlayerMoveDirection.Up : PlayerMoveDirection.Left,
+			PlayerMoveDirection.Up_Right => vertical ? PlayerMoveDirection.Up : PlayerMoveDirection.Right,
+			_ => PlayerMoveDirection.Down
+		};
 
-		}
-	}
-
-	public static Vector2Int ToVector(this MovementSynchronisation.PlayerMoveDirection Direction)
-	{
-		switch (Direction)
+	/// <summary>
+	/// Converts a direction enum to its Vector2Int equivalent.
+	/// </summary>
+	public static Vector2Int ToVector(this PlayerMoveDirection direction) =>
+		direction switch
 		{
-			case MovementSynchronisation.PlayerMoveDirection.Up_Left:
-				return new Vector2Int(-1, 1);
-			case MovementSynchronisation.PlayerMoveDirection.Up:
-				return new Vector2Int(0, 1);
-			case MovementSynchronisation.PlayerMoveDirection.Up_Right:
-				return new Vector2Int(1, 1);
+			PlayerMoveDirection.Up_Left => new Vector2Int(-1, 1),
+			PlayerMoveDirection.Up => Vector2Int.up,
+			PlayerMoveDirection.Up_Right => Vector2Int.one,
 
-			case MovementSynchronisation.PlayerMoveDirection.Left:
-				return new Vector2Int(-1, 0);
-			case MovementSynchronisation.PlayerMoveDirection.Right:
-				return new Vector2Int(1, 0);
+			PlayerMoveDirection.Left => Vector2Int.left,
+			PlayerMoveDirection.Right => Vector2Int.right,
 
-			case MovementSynchronisation.PlayerMoveDirection.Down_Left:
-				return new Vector2Int(-1, -1);
-			case MovementSynchronisation.PlayerMoveDirection.Down:
-				return new Vector2Int(0, -1);
-			case MovementSynchronisation.PlayerMoveDirection.Down_Right:
-				return new Vector2Int(1, -1);
-		}
-		return Vector2Int.zero;
-	}
+			PlayerMoveDirection.Down_Left => new Vector2Int(-1, -1),
+			PlayerMoveDirection.Down => Vector2Int.down,
+			PlayerMoveDirection.Down_Right => new Vector2Int(1, -1),
+			_ => Vector2Int.zero
+		};
 
 	//======== | Cool serialisation stuff | =========
 
@@ -337,74 +153,35 @@ public static class ConverterExtensions
 		       GetRandomNumber(minimum, maximum); //the * Minus number will do the other side Making it full 360
 	}
 
-	public static Vector2Int ToLocalVector2Int(this OrientationEnum In)
+	public static Vector2Int ToLocalVector2Int(this OrientationEnum @in)
 	{
-		return ToLocalVector3(In).To2Int();
+		return ToLocalVector3(@in).RoundTo2Int();
 	}
 
-	public static Vector3 ToLocalVector3(this OrientationEnum In)
-	{
-		switch (In)
+	/// <summary>
+	/// Takes an <see cref="OrientationEnum"/> and returns a unit <see cref="Vector3"/> direction.
+	/// </summary>
+	public static Vector3 ToLocalVector3(this OrientationEnum @in) =>
+		@in switch
 		{
-			case OrientationEnum.Up_By0:
-				return Vector3.up;
-			case OrientationEnum.Right_By270:
-				return Vector3.right;
-			case OrientationEnum.Down_By180:
-				return Vector3.down;
-			case OrientationEnum.Left_By90:
-				return Vector3.left;
+			OrientationEnum.Up_By0 => Vector3.up,
+			OrientationEnum.Right_By270 => Vector3.right,
+			OrientationEnum.Down_By180 => Vector3.down,
+			OrientationEnum.Left_By90 => Vector3.left,
+			_ => Vector3.zero
+		};
 
-		}
-		return Vector3.zero;
-	}
-
-	public static Vector3Int ToLocalVector3Int(this OrientationEnum In)
-	{
-		switch (In)
+	/// <summary>
+	/// Takes a unit <see cref="Vector2Int"/> direction with a single axis set to 1 or -1 and returns the equivalent
+	/// <see cref="OrientationEnum"/>.
+	/// </summary>
+	public static OrientationEnum ToOrientationEnum(this Vector2Int direction) =>
+		direction switch
 		{
-			case OrientationEnum.Up_By0:
-				return Vector3Int.up;
-			case OrientationEnum.Right_By270:
-				return Vector3Int.right;
-			case OrientationEnum.Down_By180:
-				return Vector3Int.down;
-			case OrientationEnum.Left_By90:
-				return Vector3Int.left;
-
-		}
-		return Vector3Int.zero;
-	}
-
-	public static OrientationEnum ToOrientationEnum(this Vector2Int direction)
-	{
-		if (direction == Vector2Int.down)
-		{
-			return OrientationEnum.Down_By180;
-		}
-		else if (direction == Vector2Int.left)
-		{
-			return OrientationEnum.Left_By90;
-		}
-		else if (direction == Vector2Int.up)
-		{
-			return OrientationEnum.Up_By0;
-		}
-		else if (direction == Vector2Int.right)
-		{
-			return OrientationEnum.Right_By270;
-		}
-		else if (direction.y == -1)
-		{
-			return OrientationEnum.Down_By180;
-		}
-		else if (direction.y == 1)
-		{
-			return OrientationEnum.Up_By0;
-		}
-
-		return OrientationEnum.Down_By180;
-	}
-
-
+			{ y: -1 } => OrientationEnum.Down_By180,
+			{ x: -1 } => OrientationEnum.Left_By90,
+			{ y: 1 } => OrientationEnum.Up_By0,
+			{ x: 1 } => OrientationEnum.Right_By270,
+			_ => OrientationEnum.Down_By180
+		};
 }

@@ -929,7 +929,7 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 			.ToLocal(MatrixManager.Get(NewMoveData.MatrixID));
 
 		NewMoveData.LocalMoveDirection = VectorToPlayerMoveDirection(
-			(addedLocalPosition - transform.position.ToLocal(MatrixManager.Get(NewMoveData.MatrixID))).To2Int());
+			(addedLocalPosition - transform.position.ToLocal(MatrixManager.Get(NewMoveData.MatrixID))).RoundTo2Int());
 		//Because shuttle could be rotated   enough to make Global  Direction invalid As compared to server
 
 		if (Pushing.Count > 0)
@@ -1275,7 +1275,7 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 				 inMoveData.LocalMoveDirection.ToVector().To3()).ToWorld(MatrixManager.Get(inMoveData.MatrixID));
 
 			inMoveData.GlobalMoveDirection =
-				VectorToPlayerMoveDirection((addedGlobalPosition - transform.position).To2Int());
+				VectorToPlayerMoveDirection((addedGlobalPosition - transform.position).RoundTo2Int());
 			//Logger.LogError(" Received move at  " + InMoveData.LocalPosition.ToString() + "  Currently at " + transform.localPosition );
 			MoveQueue.Add(inMoveData);
 		}

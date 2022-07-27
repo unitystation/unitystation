@@ -7,6 +7,7 @@ using UnityEditor;
 using UnityEditor.Build.Reporting;
 using NaughtyAttributes;
 using NaughtyAttributes.Editor;
+using Shared.Editor;
 
 namespace Core.Editor
 {
@@ -126,7 +127,7 @@ namespace Core.Editor
 
 			GUILayout.Space(20);
 
-			if (EditorUIUtils.BigAssButton("Build"))
+			if (EditorUIUtils.BigButton("Build"))
 			{
 				Build();
 			}

@@ -39,7 +39,7 @@ namespace Messages.Client.DevSpawner
 
 				if (NetworkObject == null) return;
 
-				Vector2Int worldPos = NetworkObject.transform.position.To2Int();
+				Vector2Int worldPos = NetworkObject.transform.position.RoundTo2Int();
 				UIManager.Instance.adminChatWindows.adminLogWindow.ServerAddChatRecord(
 					$"{SentByPlayer.Username} destroyed a {NetworkObject} at {worldPos}", SentByPlayer.UserId);
 				_ = Despawn.ServerSingle(NetworkObject);

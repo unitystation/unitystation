@@ -5,8 +5,7 @@ using Mirror;
 using ScriptableObjects;
 using Light2D;
 using Systems.Electricity;
-using Systems.Explosions;
-using Systems.ObjectConnection;
+using Shared.Systems.ObjectConnection;
 using Objects.Construction;
 
 
@@ -121,7 +120,7 @@ namespace Objects.Lighting
 		IMultitoolMasterable IMultitoolSlaveable.Master => relatedLightSwitch;
 		bool IMultitoolSlaveable.RequireLink => false;
 
-		bool IMultitoolSlaveable.TrySetMaster(PositionalHandApply interaction, IMultitoolMasterable master)
+		bool IMultitoolSlaveable.TrySetMaster(GameObject performer, IMultitoolMasterable master)
 		{
 			SetMaster(master);
 			return true;

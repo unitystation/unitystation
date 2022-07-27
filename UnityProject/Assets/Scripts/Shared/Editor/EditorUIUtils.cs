@@ -2,27 +2,30 @@
 using UnityEditor;
 using UnityEngine;
 
-namespace Core.Editor
+namespace Shared.Editor
 {
 	/// <summary>
 	/// An assortment of useful, generic methods for Unity editor tool construction
 	/// </summary>
 	public static class EditorUIUtils
 	{
-		/// <summary>A label style with rich-text and word-wrap enabled.</summary>
+		/// <summary>
+		/// A label style with rich-text and word-wrap enabled.
+		/// </summary>
 		public static GUIStyle LabelStyle {
 			get {
+				if (labelStyle != null) return labelStyle;
 
-				if (labelStyle == null)
+				labelStyle = new GUIStyle(GUI.skin.label)
 				{
-					labelStyle = new GUIStyle(GUI.skin.label);
-					labelStyle.richText = true;
-					labelStyle.wordWrap = true;
-				}
+					richText = true,
+					wordWrap = true
+				};
 
 				return labelStyle;
 			}
 		}
+
 		private static GUIStyle labelStyle;
 
 		/// <summary>
@@ -30,16 +33,19 @@ namespace Core.Editor
 		/// </summary>
 		/// <param name="name">The name this button should be labeled with</param>
 		/// <returns>True if the button was clicked</returns>
-		public static bool BigAssButton(string name)
+		public static bool BigButton(string name)
 		{
-			GUIStyle buildBtnStyle = new GUIStyle(GUI.skin.button);
-			buildBtnStyle.padding = new RectOffset(30, 30, 8, 8);
+			var skin = GUI.skin;
+			var buildBtnStyle = new GUIStyle(skin.button)
+			{
+				padding = new RectOffset(30, 30, 8, 8)
+			};
 
-			GUIContent btnTxt = new GUIContent(name);
-			Rect rect = GUILayoutUtility.GetRect(btnTxt, buildBtnStyle, GUILayout.ExpandWidth(false));
+			var btnTxt = new GUIContent(name);
+			var rect = GUILayoutUtility.GetRect(btnTxt, buildBtnStyle, GUILayout.ExpandWidth(false));
 			rect.center = new Vector2(EditorGUIUtility.currentViewWidth / 2, rect.center.y);
 
-			return GUI.Button(rect, btnTxt, GUI.skin.button);
+			return GUI.Button(rect, btnTxt, skin.button);
 		}
 	}
 }

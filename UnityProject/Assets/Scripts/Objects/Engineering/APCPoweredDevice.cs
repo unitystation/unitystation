@@ -6,7 +6,7 @@ using UnityEngine.Events;
 using UnityEngine.Serialization;
 using Mirror;
 using Core.Editor.Attributes;
-using Systems.ObjectConnection;
+using Shared.Systems.ObjectConnection;
 using Systems.Explosions;
 using ScriptableObjects;
 using Objects.Engineering;
@@ -179,11 +179,11 @@ namespace Systems.Electricity
 		IMultitoolMasterable IMultitoolSlaveable.Master => RelatedAPC;
 		bool IMultitoolSlaveable.RequireLink => isSelfPowered == false;
 
-		bool IMultitoolSlaveable.TrySetMaster(PositionalHandApply interaction, IMultitoolMasterable master)
+		bool IMultitoolSlaveable.TrySetMaster(GameObject performer, IMultitoolMasterable master)
 		{
 			if (blockApcChange)
 			{
-				Chat.AddExamineMsgFromServer(interaction.Performer,
+				Chat.AddExamineMsgFromServer(performer,
 						$"You try to set the {gameObject.ExpensiveName()}'s APC connection but it seems to be locked!");
 				return false;
 			}
@@ -260,7 +260,7 @@ namespace Systems.Electricity
 			EnsureInit();
 			if (oldVoltage != newVoltage)
 			{
-				Logger.LogTraceFormat("{0}({1}) state changing {2} to {3}", Category.Electrical, name, transform.position.To2Int(), oldVoltage, newVoltage);
+				Logger.LogTraceFormat("{0}({1}) state changing {2} to {3}", Category.Electrical, name, transform.position.RoundTo2Int(), oldVoltage, newVoltage);
 			}
 
 			recordedVoltage = newVoltage;
@@ -273,11 +273,11 @@ namespace Systems.Electricity
 			{
 				if (isSelfPowered)
 				{
-					Powered?.PowerNetworkUpdate(expectedRunningVoltage);
+					Powered.PowerNetworkUpdate(expectedRunningVoltage);
 				}
 				else
 				{
-					Powered?.PowerNetworkUpdate(newVoltage);
+					Powered.PowerNetworkUpdate(newVoltage);
 				}
 			}
 		}
@@ -301,7 +301,7 @@ namespace Systems.Electricity
 			{
 				if (newState != state)
 				{
-					Logger.LogTraceFormat("{0}({1}) state changing {2} to {3}", Category.Electrical, name, transform.position.To2Int(), this.state, newState);
+					Logger.LogTraceFormat("{0}({1}) state changing {2} to {3}", Category.Electrical, name, transform.position.RoundTo2Int(), this.state, newState);
 				}
 
 				state = newState;

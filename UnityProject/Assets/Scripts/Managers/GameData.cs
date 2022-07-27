@@ -9,6 +9,7 @@ using Firebase.Auth;
 using Firebase.Extensions;
 using Lobby;
 using Managers;
+using Shared.Util;
 using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.Rendering;
