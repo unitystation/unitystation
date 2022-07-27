@@ -9,6 +9,7 @@ using UI.Windows;
 using Systems.Teleport;
 using AdminCommands;
 using Effects;
+using Messages.Client.GhostRoles;
 using Strings;
 
 
@@ -35,6 +36,7 @@ namespace UI.Systems.Ghost
 			TeleportWindow.onTeleportRequested += TeleportUtils.TeleportLocalGhostTo;
 			TeleportWindow.onTeleportToVector += TeleportUtils.TeleportLocalGhostTo;
 			DetermineGhostHearText();
+			RequestAvailableGhostRolesMessage.SendMessage();
 		}
 
 		private void OnDisable()

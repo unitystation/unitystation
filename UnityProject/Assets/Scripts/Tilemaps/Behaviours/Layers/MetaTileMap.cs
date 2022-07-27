@@ -2219,6 +2219,8 @@ namespace TileManagement
 						PresentTiles[layer].TryGetValue(position, out tileLocation);
 					}
 
+					if (tileLocation == null) return tiles;
+
 					var tile = tileLocation.layerTile;
 					if (tile is T) tiles.Add(tile as T);
 				}

@@ -31,7 +31,8 @@ public enum ChatChannel
 	[Description("")]	Warning		= 1 << 17,
 	[Description("")]	Action		= 1 << 18,
 	[Description("")]	Admin		= 1 << 19,
-	[Description("")]	Blob		= 1 << 20
+	[Description("")]	Blob		= 1 << 20,
+	[Description(":a")]	Alien		= 1 << 21
 }
 
 public static class Channels
@@ -92,6 +93,7 @@ public enum Loudness
 public class ChatEvent
 {
 	public ChatChannel channels;
+	public ChatChannel allChannels;
 	public string message;
 	public string messageOthers;
 	public ChatModifier modifiers = ChatModifier.None;

@@ -60,6 +60,13 @@ namespace Doors.Modules
 		{
 			if (interaction == null) return ModuleSignal.Continue;
 
+			if (interaction.HandObject == null
+			    && interaction.PerformerPlayerScript.PlayerTypeSettings.CanPryDoorsWithHands)
+			{
+				PryDoor(interaction, false);
+				return ModuleSignal.Break;
+			}
+
 			if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.CanPryDoor) ||
 			    Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Crowbar))
 			{
@@ -67,14 +74,26 @@ namespace Doors.Modules
 				{
 					return ModuleSignal.Continue;
 				}
-				if (soundGuid != "")
-				{
-					SoundManager.StopNetworked(soundGuid);
-				}
 
-				soundGuid = Guid.NewGuid().ToString();
-				SoundManager.PlayAtPositionAttached(prySound, master.RegisterTile.WorldPositionServer, gameObject, soundGuid);
+				PryDoor(interaction);
+				return ModuleSignal.Break;
+			}
 
+			return ModuleSignal.Continue;
+		}
+
+		private void PryDoor(HandApply interaction, bool useTool = true)
+		{
+			if (soundGuid != "")
+			{
+				SoundManager.StopNetworked(soundGuid);
+			}
+
+			soundGuid = Guid.NewGuid().ToString();
+			SoundManager.PlayAtPositionAttached(prySound, master.RegisterTile.WorldPositionServer, gameObject, soundGuid);
+
+			if (useTool)
+			{
 				//allows the jaws of life to pry open doors
 				ToolUtils.ServerUseToolWithActionMessages(interaction, pryTime,
 					$"You start prying open the {doorName}...",
@@ -83,10 +102,20 @@ namespace Doors.Modules
 					$"",
 					() => TryPry(interaction), onFailComplete: OnFailPry, playSound: false);
 
-				return ModuleSignal.Break;
+				return;
 			}
 
-			return ModuleSignal.Continue;
+			var handName = interaction.PerformerPlayerScript.PlayerTypeSettings.PryHandName;
+
+			Chat.AddActionMsgToChat(interaction.Performer, $"You start prying open the {doorName}...",
+				$"{interaction.Performer.ExpensiveName()} starts prying open the {doorName} with its {handName}...");
+
+			var cfg = new StandardProgressActionConfig(StandardProgressActionType.Construction);
+
+			StandardProgressAction.Create(
+				cfg,
+				() => TryPryHand(interaction)
+			).ServerStartProgress(master.RegisterTile, pryTime, interaction.Performer);
 		}
 
 		public override ModuleSignal BumpingInteraction(GameObject byPlayer, HashSet<DoorProcessingStates> States)
@@ -107,12 +136,37 @@ namespace Doors.Modules
 				else
 				{
 					Chat.AddActionMsgToChat(interaction.Performer, $"The {doorName} does not budge at all!",
-						$"{interaction.Performer.ExpensiveName()} Tries to force the {doorName} open failing!");
+						$"{interaction.Performer.ExpensiveName()} tries to force the {doorName} open, and fails!");
 				}
 			}
 			else if (!master.IsClosed && !master.IsPerformingAction)
 			{
 				master.PulseTryClose(inforce: true);
+			}
+		}
+
+		private void TryPryHand(HandApply interaction)
+		{
+			if (master.IsClosed == false && master.IsPerformingAction == false)
+			{
+				master.PulseTryClose(inforce: true);
+				return;
+			}
+
+			if (master.IsClosed == false || master.IsPerformingAction) return;
+
+			var handName = interaction.PerformerPlayerScript.PlayerTypeSettings.PryHandName;
+
+			if (master.TryForceOpen())
+			{
+				Chat.AddActionMsgToChat(interaction.Performer, $"You force the {doorName} open with your {handName}!",
+					$"{interaction.Performer.ExpensiveName()} forces the {doorName} open with its {handName}!");
+
+			}
+			else
+			{
+				Chat.AddActionMsgToChat(interaction.Performer, $"The {doorName} does not budge at all!",
+					$"{interaction.Performer.ExpensiveName()} tries to force the {doorName} open and fails!");
 			}
 		}
 

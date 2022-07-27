@@ -82,7 +82,7 @@ namespace Items.Magical
 			points -= spellEntry.Cost;
 
 			SoundManager.PlayNetworkedAtPos(learningSound, player.Script.WorldPos, sourceObj: player.GameObject);
-			Chat.AddChatMsgToChat(player, spellEntry.Incantation, ChatChannel.Local, Loudness.SCREAMING);
+			Chat.AddChatMsgToChatServer(player, spellEntry.Incantation, ChatChannel.Local, Loudness.SCREAMING);
 
 			Spell spellInstance = player.Script.mind.GetSpellInstance(spellEntry.Spell);
 
@@ -129,7 +129,7 @@ namespace Items.Magical
 
 			if (ritualEntry.InvocationMessage != default)
 			{
-				Chat.AddChatMsgToChat(player, ritualEntry.InvocationMessage, ChatChannel.Local, Loudness.LOUD);
+				Chat.AddChatMsgToChatServer(player, ritualEntry.InvocationMessage, ChatChannel.Local, Loudness.LOUD);
 			}
 
 			if (ritualEntry.CastSound != default)

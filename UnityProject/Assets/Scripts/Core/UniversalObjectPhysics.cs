@@ -1996,15 +1996,9 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 	/// Server side logic for unbuckling a player
 	/// </summary>
 	[Server]
-	public void UnbuckleObject()
-	{
-		ObjectIsBuckling = null;
-	}
-
-	[Server]
 	public void Unbuckle()
 	{
-		BuckledToObject.UnbuckleObject();
+		ObjectIsBuckling = null;
 	}
 
 	/// <summary>

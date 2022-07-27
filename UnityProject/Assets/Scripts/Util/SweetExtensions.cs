@@ -625,4 +625,16 @@ public static class SweetExtensions
 
 		return sb.ToString();
 	}
+
+	public static Vector3Int ToLocalVector3Int(this OrientationEnum @in)
+	{
+		return @in switch
+		{
+			OrientationEnum.Up_By0 => Vector3Int.up,
+			OrientationEnum.Right_By270 => Vector3Int.right,
+			OrientationEnum.Down_By180 => Vector3Int.down,
+			OrientationEnum.Left_By90 => Vector3Int.left,
+			_ => Vector3Int.zero
+		};
+	}
 }

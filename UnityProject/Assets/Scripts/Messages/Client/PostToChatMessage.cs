@@ -18,7 +18,7 @@ namespace Messages.Client
 		{
 			if (SentByPlayer != PlayerInfo.Invalid)
 			{
-				Chat.AddChatMsgToChat(SentByPlayer, msg.ChatMessageText, msg.Channels, msg.Loudness);
+				Chat.AddChatMsgToChatServer(SentByPlayer, msg.ChatMessageText, msg.Channels, msg.Loudness);
 			}
 		}
 

@@ -76,6 +76,12 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 
 	public bool IsBumping = false;
 
+	/// <summary>
+	/// Event which fires when movement type changes (run/walk)
+	/// </summary>
+	[NonSerialized]
+	public MovementStateEvent MovementStateEventServer = new MovementStateEvent();
+
 	public void CallActionClient()
 	{
 		CmdUnbuckle();
@@ -85,39 +91,14 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 	[Command]
 	public void CmdUnbuckle()
 	{
-		if (IsCuffed)
+		var buckleInteract = BuckledToObject.GetComponent<BuckleInteract>();
+		if (buckleInteract == null)
 		{
-			if (CanUnBuckleSelf())
-			{
-				Chat.AddActionMsgToChat(
-					playerScript.gameObject,
-					"You're trying to unbuckle yourself from the chair! (this will take some time...)",
-					playerScript.name + " is trying to unbuckle themself from the chair!"
-				);
-				StandardProgressAction.Create(
-					new StandardProgressActionConfig(StandardProgressActionType.Unbuckle),
-					BuckledToObject.UnbuckleObject
-				).ServerStartProgress(
-					BuckledToObject.registerTile,
-					BuckledToObject.GetComponent<BuckleInteract>().ResistTime,
-					playerScript.gameObject
-				);
-			}
+			Logger.LogError($"{BuckledToObject.gameObject.ExpensiveName()} has no BuckleInteract!");
+			return;
 		}
-		else
-		{
-			BuckledToObject.UnbuckleObject();
-		}
-	}
 
-	private bool CanUnBuckleSelf()
-	{
-		PlayerHealthV2 playerHealth = playerScript.playerHealth;
-
-		return !(playerHealth == null ||
-		         playerHealth.ConsciousState == ConsciousState.DEAD ||
-		         playerHealth.ConsciousState == ConsciousState.UNCONSCIOUS ||
-		         playerHealth.ConsciousState == ConsciousState.BARELY_CONSCIOUS);
+		buckleInteract.TryUnbuckle(playerScript);
 	}
 
 	public override void BuckleToChange(UniversalObjectPhysics newBuckledTo)
@@ -430,6 +411,7 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 	{
 		if (CurrentMovementType == MovementType.Crawling) return;
 		CurrentMovementType = isRunning ? MovementType.Running : MovementType.Walking;
+		MovementStateEventServer?.Invoke(isRunning);
 	}
 
 	public override void OnEnable()
@@ -1331,6 +1313,9 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 /// <summary>
 /// Cuff state changed, provides old state and new state as 1st and 2nd args
 /// </summary>
-public class CuffEvent : UnityEvent<bool, bool>
-{
-}
+public class CuffEvent : UnityEvent<bool, bool> { }
+
+/// <summary>
+/// Event which fires when movement type changes (run/walk)
+/// </summary>
+public class MovementStateEvent : UnityEvent<bool> { }

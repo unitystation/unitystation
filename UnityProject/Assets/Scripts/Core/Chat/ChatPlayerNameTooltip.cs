@@ -57,6 +57,10 @@ public class ChatPlayerNameTooltip : TooltipMonoBehaviour
 				return ChatChannel.Combat.ToString();
 			if (colorString == ColorUtility.ToHtmlStringRGBA(chatInstance.warningColor))
 				return ChatChannel.Warning.ToString();
+			if (colorString == ColorUtility.ToHtmlStringRGBA(chatInstance.alienColor))
+				return ChatChannel.Alien.ToString();
+			if (colorString == ColorUtility.ToHtmlStringRGBA(chatInstance.blobColor))
+				return ChatChannel.Blob.ToString();
 
 			return string.Empty;
 		}

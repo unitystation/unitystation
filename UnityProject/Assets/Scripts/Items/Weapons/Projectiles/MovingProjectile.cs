@@ -1,5 +1,5 @@
 using Mirror;
-﻿using System;
+ using System;
 using ScriptableObjects.Gun;
 using UnityEngine;
 

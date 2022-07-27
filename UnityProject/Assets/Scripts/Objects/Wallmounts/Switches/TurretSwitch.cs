@@ -189,7 +189,7 @@ namespace Objects.Wallmounts.Switches
 			if (accessRestrictions != null && restricted)
 			{
 				//Ai always allowed through, check other players access
-				if (playerObject.GetComponent<PlayerScript>().PlayerState != PlayerScript.PlayerStates.Ai &&
+				if (playerObject.GetComponent<PlayerScript>().PlayerType != PlayerTypes.Ai &&
 				    accessRestrictions.CheckAccess(playerObject) == false)
 				{
 					Chat.AddExamineMsgFromServer(playerObject, "Higher Access Level Needed");

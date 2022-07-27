@@ -1,0 +1,66 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 76ca5856609249ee94d90235cd87c604, type: 3}
+  m_Name: Queen
+  m_EditorClassIdentifier: 
+  Name: Queen
+  AlienType: 128
+  GhostRoleData: {fileID: 11400000, guid: bcc11465965efb145a6bc4cc3acb0fbf, type: 2}
+  Description: The mother of the hive. Lays the eggs which allows the hive to grow.
+  RunningLegSpeed: 2
+  WalkingLegSpeed: 1.5
+  AttackSpeed: 5
+  AttackDamage: 25
+  DamageType: 0
+  ChanceToHit: 50
+  MaxPlasma: 500
+  InitialPlasma: 200
+  PlasmaGainRate: 10
+  HealAmount: 3
+  HealPlasmaCost: 3
+  MaxBodyPartHealth: 400
+  BodyPartArmor:
+    Melee: 25
+    Bullet: 25
+    Laser: 0
+    Energy: 0
+    Bomb: 25
+    Rad: 0
+    Fire: 0
+    Acid: 0
+    Magic: 0
+    Bio: 0
+    DismembermentProtectionChance: 0
+    StunImmunity: 0
+  MaxGrowth: 100
+  AcidSpitCost: 10
+  NeurotoxinSpitCost: 50
+  EvolvedFrom: 96
+  ActionData:
+  - {fileID: 11400000, guid: dcad35ade3a509943ae3062115f0f2bf, type: 2}
+  - {fileID: 11400000, guid: e469aa52bc0cbb949a56796230469fd2, type: 2}
+  - {fileID: 11400000, guid: 7d8643ea055bed44c8e9e7dc0b5d7f36, type: 2}
+  - {fileID: 11400000, guid: 3c1a03071ac0a2844a057040f946b74e, type: 2}
+  - {fileID: 11400000, guid: 6b465360fb919c243b763597b4759a63, type: 2}
+  - {fileID: 11400000, guid: 3685abbf207a2c54087d845649fb87a5, type: 2}
+  - {fileID: 11400000, guid: 9c620f045a30f7745a1fb4763bcd5729, type: 2}
+  - {fileID: 11400000, guid: 80f5fbafa80e9a54a97ddec5944cb363, type: 2}
+  - {fileID: 11400000, guid: 1f1fce539126fa242a051e6292334c71, type: 2}
+  - {fileID: 11400000, guid: bcd70f7d964908b43a9b72396f8f34fa, type: 2}
+  Normal: {fileID: 11400000, guid: 887dcdfd6df7edc4490c6f047ad3c8b7, type: 2}
+  Dead: {fileID: 11400000, guid: 69ab4592eaf82ca47902b08e156411e9, type: 2}
+  Pounce: {fileID: 0}
+  Sleep: {fileID: 11400000, guid: 2b209c3d3e6dc924e9d572e03cf83249, type: 2}
+  Unconscious: {fileID: 11400000, guid: 95b47db093e33d3448c2951ed087b77d, type: 2}
+  Running: {fileID: 11400000, guid: 39080b57421922d448e1eb10d909201a, type: 2}
+  Front: {fileID: 0}
+  Back: {fileID: 0}

@@ -1,0 +1,43 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 960e142aa5224260865bd62048f99bde, type: 3}
+  m_Name: Alien
+  m_EditorClassIdentifier: 
+  playerState: 16
+  canBeCuffed: 0
+  canCraft: 0
+  canBuckleOthers: 1
+  canInteractWithDoors: 1
+  canPryDoorsWithHands: 1
+  pryHandName: claws
+  canDropItems: 1
+  canThrowItems: 1
+  canResist: 1
+  canRest: 1
+  canBeExamined: 0
+  canExamineOthers: 0
+  transmitChannels: 2097156
+  receiveChannels: 2179076
+  defaultChannel: 2097152
+  checkForRadios: 0
+  canMelee: 1
+  emptyMeleeAttackData:
+  - attackVerb: slice
+    hitSound:
+    - SetLoadSetting: 0
+      AssetAddress: Assets/Prefabs/Effects/BladeSlice.prefab
+      AssetReference:
+        m_AssetGUID: 
+        m_SubObjectName: 
+        m_SubObjectType: 
+        m_EditorAssetChanged: 0
+    missSound: []
