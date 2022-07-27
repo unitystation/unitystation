@@ -1,285 +1,236 @@
 using System;
-using System.Collections.Generic;
 using UnityEngine;
 
-/// <summary>
-/// Represents an absolute facing. Can only be in 4 cardinal directions.
-///
-/// Defined in terms of euler angle (rotation about the z axis, right is 0 and up is 90).
-/// </summary>
-public struct Orientation : IEquatable<Orientation>
+
+namespace Core.Transform
 {
-	public static readonly Orientation Right = new Orientation(0);
-	public static readonly Orientation Up = new Orientation(90);
-	public static readonly Orientation Left = new Orientation(180);
-	public static readonly Orientation Down = new Orientation(270);
-
-	private static readonly Orientation[] clockwiseOrientation = {Right, Down, Left, Up};
-
 	/// <summary>
-	/// Euler angle (rotation about the z axis, right is 0 and up is 90).
+	/// Represents an absolute facing. Can only be in 4 cardinal directions.
+	///
+	/// Defined in terms of euler angle (rotation about the z axis, right is 0 and up is 90).
 	/// </summary>
-	public readonly int Degrees;
-
-	public Orientation(int degree)
+	public struct Orientation : IEquatable<Orientation>
 	{
-		Degrees = degree;
-	}
+		public static readonly Orientation Right = new(0);
+		public static readonly Orientation Up = new(90);
+		public static readonly Orientation Left = new(180);
+		public static readonly Orientation Down = new(270);
 
-	public static Orientation FromEnum(OrientationEnum from)
-	{
-		switch (from)
+		private static readonly Orientation[] clockwiseOrientation = { Right, Down, Left, Up };
+
+		/// <summary>
+		///     Euler angle (rotation about the z axis, right is 0 and up is 90).
+		/// </summary>
+		public readonly int Degrees;
+
+		public Orientation(int degree)
 		{
-			case OrientationEnum.Up_By0:
-				return Orientation.Up;
-			case OrientationEnum.Right_By270:
-				return Orientation.Right;
-			case OrientationEnum.Left_By90:
-				return Orientation.Left;
-			default:
-				return Orientation.Down;
+			Degrees = degree;
 		}
 
-	}
-
-
-	public OrientationEnum AsEnum()
-	{
-		if (this == Up)
+		public static Orientation FromEnum(OrientationEnum from)
 		{
-			return OrientationEnum.Up_By0;
-		}
-		else if (this == Right)
-		{
-			return OrientationEnum.Right_By270;
-		}
-		else if (this == Left)
-		{
-			return OrientationEnum.Left_By90;
-		}
-		else
-		{
-			return OrientationEnum.Down_By180;
-		}
-	}
-
-	/// <summary>
-	/// Index of this rotation in the clockwiseOrientation array
-	/// </summary>
-	private int OrientationIndex
-	{
-		get
-		{
-			switch (Degrees)
+			switch (from)
 			{
-				case 0:
-					return 0;
-				case 90:
-					return 3;
-				case 180:
-					return 2;
+				case OrientationEnum.Up_By0:
+					return Up;
+				case OrientationEnum.Right_By270:
+					return Right;
+				case OrientationEnum.Left_By90:
+					return Left;
 				default:
-					return 1;
+					return Down;
 			}
 		}
-	}
-
-	/// <summary>
-	/// Vector3 pointing in the same direction as the orientation.
-	/// </summary>
-	public Vector3 LocalVector => (Vector2)LocalVectorInt;
-
-	/// <summary>
-	/// Vector2Int pointing in the same direction as the orientation.
-	/// </summary>
-	public Vector2Int LocalVectorInt => (Quaternion.Euler(0,0, Degrees) * Vector3Int.right).To2Int();
-
-	/// <summary>
-	/// Return the orientation that would be reached by rotating clockwise 90 degrees the given number of turns
-	/// </summary>
-	/// <param name="steps">number of times to rotate 90 degrees, negative for counter-clockwise</param>
-	/// <returns>the orientation that would be reached by rotating 90 degrees the given number of turns</returns>
-	public Orientation Rotate(int turns)
-	{
-		var newIndex = ((OrientationIndex + turns) % clockwiseOrientation.Length + clockwiseOrientation.Length) % clockwiseOrientation.Length;
-		return clockwiseOrientation[newIndex];
-	}
-
-	/// <summary>
-	/// Return the rotation that would be reached by rotating according to the specified offset.
-	///
-	/// For example, if Orientation is Right and offset is Backwards, will return Orientation.Left
-	/// </summary>
-	/// <param name="offset">offset to rotate by</param>
-	/// <returns>the rotation that would be reached by rotating according to the specified offset.</returns>
-	public Orientation Rotate(RotationOffset offset)
-	{
-		return Rotate(offset.Degree / 90);
-	}
 
 
-	public override string ToString()
-	{
-		if (this == Left)
+		public OrientationEnum AsEnum()
 		{
-			return "Left";
+			if (this == Up)
+				return OrientationEnum.Up_By0;
+			if (this == Right)
+				return OrientationEnum.Right_By270;
+			if (this == Left)
+				return OrientationEnum.Left_By90;
+			return OrientationEnum.Down_By180;
 		}
-		else if (this == Right)
+
+		/// <summary>
+		///     Index of this rotation in the clockwiseOrientation array
+		/// </summary>
+		private int OrientationIndex
 		{
-			return "Right";
+			get
+			{
+				switch (Degrees)
+				{
+					case 0:
+						return 0;
+					case 90:
+						return 3;
+					case 180:
+						return 2;
+					default:
+						return 1;
+				}
+			}
 		}
-		else if (this == Up)
+
+		/// <summary>
+		///     Vector3 pointing in the same direction as the orientation.
+		/// </summary>
+		public Vector3 LocalVector => (Vector2)LocalVectorInt;
+
+		/// <summary>
+		///     Vector2Int pointing in the same direction as the orientation.
+		/// </summary>
+		public Vector2Int LocalVectorInt => (Quaternion.Euler(0, 0, Degrees) * Vector3Int.right).To2Int();
+
+		/// <summary>
+		///     Return the orientation that would be reached by rotating clockwise 90 degrees the given number of turns
+		/// </summary>
+		/// <param name="steps">number of times to rotate 90 degrees, negative for counter-clockwise</param>
+		/// <returns>the orientation that would be reached by rotating 90 degrees the given number of turns</returns>
+		public Orientation Rotate(int turns)
 		{
-			return "Up";
+			var newIndex = ((OrientationIndex + turns) % clockwiseOrientation.Length + clockwiseOrientation.Length) %
+			               clockwiseOrientation.Length;
+			return clockwiseOrientation[newIndex];
 		}
-		else
+
+		/// <summary>
+		///     Return the rotation that would be reached by rotating according to the specified offset.
+		///     For example, if Orientation is Right and offset is Backwards, will return Orientation.Left
+		/// </summary>
+		/// <param name="offset">offset to rotate by</param>
+		/// <returns>the rotation that would be reached by rotating according to the specified offset.</returns>
+		public Orientation Rotate(RotationOffset offset)
 		{
+			return Rotate(offset.Degree / 90);
+		}
+
+
+		public override string ToString()
+		{
+			if (this == Left)
+				return "Left";
+			if (this == Right)
+				return "Right";
+			if (this == Up)
+				return "Up";
 			return "Down";
 		}
-	}
 
-	/// <summary>
-	/// Gets the Rotationoffset that would offset this orientation to reach toOrientation.
-	///
-	/// For example if this is Up and toOrientation is Down, returns RotationOffset.Backwards
-	/// </summary>
-	/// <param name="toOrientation">orientation to which the offset should be determined</param>
-	/// <returns>the rotationoffset</returns>
-	public RotationOffset OffsetTo(Orientation toOrientation)
-	{
-		if (this == toOrientation)
+		/// <summary>
+		///     Gets the Rotationoffset that would offset this orientation to reach toOrientation.
+		///     For example if this is Up and toOrientation is Down, returns RotationOffset.Backwards
+		/// </summary>
+		/// <param name="toOrientation">orientation to which the offset should be determined</param>
+		/// <returns>the rotationoffset</returns>
+		public RotationOffset OffsetTo(Orientation toOrientation)
 		{
-			return RotationOffset.Same;
-		}
-		if (Rotate(1) == toOrientation)
-		{
-			return RotationOffset.Right;
-		}
-		else if (Rotate(2) == toOrientation)
-		{
-			return RotationOffset.Backwards;
-		}
-		else
-		{
+			if (this == toOrientation) return RotationOffset.Same;
+			if (Rotate(1) == toOrientation)
+				return RotationOffset.Right;
+			if (Rotate(2) == toOrientation)
+				return RotationOffset.Backwards;
 			return RotationOffset.Left;
 		}
-	}
 
-	public static float AngleFromUp(Vector2 dir)
-	{
-		float angle = Vector2.Angle(Vector2.up, dir);
-
-		if (dir.x < 0)
+		public static float AngleFromUp(Vector2 dir)
 		{
-			angle = 360 - angle;
+			var angle = Vector2.Angle(Vector2.up, dir);
+
+			if (dir.x < 0) angle = 360 - angle;
+
+			return angle;
 		}
 
-		return angle;
-	}
-
-	/// <summary>
-	/// Orientation pointing the same direction as the specified vector.
-	/// For example if vector is right (1,0), this will return Orientation.Right
-	/// </summary>
-	/// <param name="direction">direction</param>
-	/// <returns>orientation pointing in same direction as vector</returns>
-	public static Orientation From( Vector2 direction )
-	{
-		float degree = AngleFromUp(direction);
-		return GetOrientation(degree);
-	}
-
-	/// <summary>
-	/// OrientationEnum pointing the same direction as the specified vector.
-	/// For example if vector is right (1,0), this will return OrientationEnum.Right_By270
-	/// </summary>
-	/// <returns>OrientationEnum pointing in same direction as vector</returns>
-	public static OrientationEnum FromAsEnum( Vector2 direction )
-	{
-		float degree = AngleFromUp(direction);
-		return GetOrientation(degree).AsEnum();
-	}
-
-	public static Orientation GetOrientation(float degree)
-	{
-		if (degree >= 135f && degree < 225f)
+		/// <summary>
+		///     Orientation pointing the same direction as the specified vector.
+		///     For example if vector is right (1,0), this will return Orientation.Right
+		/// </summary>
+		/// <param name="direction">direction</param>
+		/// <returns>orientation pointing in same direction as vector</returns>
+		public static Orientation From(Vector2 direction)
 		{
-			return Down;
+			var degree = AngleFromUp(direction);
+			return GetOrientation(degree);
 		}
-		else if (degree >= 45f && degree < 135f)
+
+		/// <summary>
+		///     OrientationEnum pointing the same direction as the specified vector.
+		///     For example if vector is right (1,0), this will return OrientationEnum.Right_By270
+		/// </summary>
+		/// <returns>OrientationEnum pointing in same direction as vector</returns>
+		public static OrientationEnum FromAsEnum(Vector2 direction)
 		{
-			return Right;
+			var degree = AngleFromUp(direction);
+			return GetOrientation(degree).AsEnum();
 		}
-		else if (degree >= 225 && degree < 315f)
+
+		public static Orientation GetOrientation(float degree)
 		{
-			return Left;
-		}
-		else
-		{
+			if (degree >= 135f && degree < 225f)
+				return Down;
+			if (degree >= 45f && degree < 135f)
+				return Right;
+			if (degree >= 225 && degree < 315f)
+				return Left;
 			return Up;
 		}
+
+		/// <summary>
+		///     Gets an int representing how many 90 degree rotations would be needed to get from
+		///     this orientation to target taking the shortest rotation path possible. Negative return indicates counter clockwise
+		/// </summary>
+		/// <param name="target">target orientation</param>
+		/// <returns>number of 90 degree clockwise rotations to reach target, negative indicating counter clockwise</returns>
+		public int RotationsTo(Orientation target)
+		{
+			if (this == target) return 0;
+			if (this == target.Rotate(1))
+				return 1;
+			if (this == target.Rotate(2))
+				return 2;
+			return -1;
+		}
+
+		public static bool operator ==(Orientation obj1, Orientation obj2)
+		{
+			return obj1.Equals(obj2);
+		}
+
+		public static bool operator !=(Orientation obj1, Orientation obj2)
+		{
+			return !obj1.Equals(obj2);
+		}
+
+		public override bool Equals(object obj)
+		{
+			return obj is Orientation other && Equals(other);
+		}
+
+		public bool Equals(Orientation other)
+		{
+			return Degrees == other.Degrees;
+		}
+
+		public override int GetHashCode()
+		{
+			return Mathf.RoundToInt(Degrees);
+		}
 	}
 
 	/// <summary>
-	/// Gets an int representing how many 90 degree rotations would be needed to get from
-	/// this orientation to target taking the shortest rotation path possible. Negative return indicates counter clockwise
+	///     Only for allowing setting an orientation in editor
 	/// </summary>
-	/// <param name="target">target orientation</param>
-	/// <returns>number of 90 degree clockwise rotations to reach target, negative indicating counter clockwise</returns>
-	public int RotationsTo(Orientation target)
+	public enum OrientationEnum
 	{
-		if (this == target)
-		{
-			return 0;
-		}
-		if (this == target.Rotate(1))
-		{
-			return 1;
-		}
-		else if (this == target.Rotate(2))
-		{
-			return 2;
-		}
-		else
-		{
-			return -1;
-		}
+		Default = -1,
+		Right_By270 = 0,
+		Up_By0 = 1,
+		Left_By90 = 2,
+		Down_By180 = 3
 	}
-
-	public static bool operator ==(Orientation obj1, Orientation obj2)
-	{
-		return obj1.Equals(obj2);
-	}
-
-	public static bool operator !=(Orientation obj1, Orientation obj2)
-	{
-		return !obj1.Equals(obj2);
-	}
-
-	public override bool Equals(object obj)
-	{
-		return obj is Orientation other && Equals(other);
-	}
-
-	public bool Equals(Orientation other)
-	{
-		return Degrees == other.Degrees;
-	}
-
-	public override int GetHashCode()
-	{
-		return Mathf.RoundToInt(Degrees);
-	}
-}
-
-/// <summary>
-/// Only for allowing setting an orientation in editor
-/// </summary>
-public enum OrientationEnum
-{
-	Default = -1,
-	Right_By270 = 0,
-	Up_By0 = 1,
-	Left_By90 = 2,
-	Down_By180 = 3
 }
