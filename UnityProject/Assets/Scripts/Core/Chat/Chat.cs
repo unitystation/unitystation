@@ -181,10 +181,10 @@ public partial class Chat : MonoBehaviour
 					}
 				}
 			}
-		}
 
-		//Do chat bubble for nearby players
-		player.playerNetworkActions.ServerToggleChatIcon(processedMessage.message, processedMessage.chatModifiers);
+			//Do chat bubble for nearby players
+			player.playerNetworkActions.ServerToggleChatIcon(processedMessage.message, processedMessage.chatModifiers);
+		}
 
 		InvokeChatEvent(chatEvent);
 	}
