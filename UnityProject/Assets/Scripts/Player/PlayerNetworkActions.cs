@@ -24,6 +24,7 @@ using UI.Items;
 using Doors;
 using Objects;
 using Tiles;
+using Util;
 using Random = UnityEngine.Random;
 
 public partial class PlayerNetworkActions : NetworkBehaviour
@@ -610,7 +611,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		// Cancel right away if the player cannot speak.
 		if ((chatModifier & ChatModifier.Mute) == ChatModifier.Mute) return;
 
-		var visiblePlayers = RandomUtils.GetVisiblePlayers(gameObject.transform.position);
+		var visiblePlayers = OtherUtil.GetVisiblePlayers(gameObject.transform.position);
 
 		foreach (var player in visiblePlayers)
 		{
