@@ -24,32 +24,32 @@ namespace ScriptableObjects
 		public float RunningLegSpeed;
 		public float WalkingLegSpeed;
 
-		[HorizontalLine()]
+		[HorizontalLine]
 		public float AttackSpeed = 7;
 		public float AttackDamage = 5;
 		public DamageType DamageType = DamageType.Brute;
 		public uint ChanceToHit = 50;
 
-		[HorizontalLine()]
+		[HorizontalLine]
 		public int MaxPlasma = 100;
 		public int InitialPlasma = 100;
 		public int PlasmaGainRate = 3; //Per second
 
-		[HorizontalLine()]
+		[HorizontalLine]
 		public float HealAmount = 5; //Per second
 		public int HealPlasmaCost = 5;
 
 		public float MaxBodyPartHealth = 100;
 		public Armor BodyPartArmor = new Armor();
 
-		[HorizontalLine()]
+		[HorizontalLine]
 		public int MaxGrowth = 100;
 
-		[HorizontalLine()]
+		[HorizontalLine]
 		public int AcidSpitCost = 10;
 		public int NeurotoxinSpitCost = 50;
 
-		[HorizontalLine()]
+		[HorizontalLine]
 		public AlienPlayer.AlienTypes EvolvedFrom = AlienPlayer.AlienTypes.Larva3;
 
 		[Header("ActionData")]

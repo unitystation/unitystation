@@ -105,7 +105,7 @@ public class AlienMouseInputController : MouseInputController
 			//If we are possibly dragging and have exceeded the drag distance, initiate the drag
 			if (potentialDraggable != null)
 			{
-				if (!(UIManager.CurrentIntent == Intent.Harm) && !(UIManager.CurrentIntent == Intent.Disarm))
+				if (UIManager.CurrentIntent != Intent.Harm && UIManager.CurrentIntent != Intent.Disarm)
 				{
 					var currentOffset = MouseWorldPosition - potentialDraggable.transform.position;
 					if (((Vector2) currentOffset - dragStartOffset).magnitude > MouseDragDeadzone)
@@ -163,6 +163,9 @@ public class AlienMouseInputController : MouseInputController
 			case AlienClicks.NeurotoxinSpit:
 				alienPlayer.ClientTryNeurotoxinSpit(aimApplyInfo);
 				return true;
+			default:
+				Logger.LogError($"Unexpected case: {currentClick.ToString()}");
+				return false;
 		}
 
 		return false;

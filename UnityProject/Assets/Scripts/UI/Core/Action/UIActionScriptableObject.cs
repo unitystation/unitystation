@@ -9,7 +9,8 @@ public class UIActionScriptableObject : ScriptableObject, IServerActionGUI, ISer
 	[SerializeField]
 	private ActionData actionData = null;
 
-	private List<ActionData> actionData1;
+	[SerializeField]
+	private List<ActionData> multiActionData = new List<ActionData>();
 	public ActionData ActionData => actionData;
 
 	public void CallActionClient(ActionData data)
@@ -19,7 +20,7 @@ public class UIActionScriptableObject : ScriptableObject, IServerActionGUI, ISer
 		//Remember if its networked do validationNot just
 	}
 
-	public void CallActionServer(ActionData data, PlayerInfo sentByPlayer)
+	public void CallActionServer(ActionData data, PlayerInfo playerInfo)
 	{
 		Logger.Log("CallActionServer SO", Category.UserInput);
 		//Validation
@@ -33,7 +34,7 @@ public class UIActionScriptableObject : ScriptableObject, IServerActionGUI, ISer
 		//Remember if its networked do validationNot just
 	}
 
-	public virtual void CallActionServer(PlayerInfo SentByPlayer)
+	public virtual void CallActionServer(PlayerInfo playerInfo)
 	{
 		Logger.Log("CallActionServer SO", Category.UserInput);
 		//Validation
@@ -64,5 +65,5 @@ public class UIActionScriptableObject : ScriptableObject, IServerActionGUI, ISer
 #endif
 	}
 
-	List<ActionData> IActionGUIMulti.ActionData => actionData1;
+	List<ActionData> IActionGUIMulti.ActionData => multiActionData;
 }

@@ -645,7 +645,7 @@ public partial class Chat
 	/// All tags for a radio msg that goes after '.' or ':'
 	/// For example ':e' sends message to engineering channel
 	/// </summary>
-	public readonly static Dictionary<char, ChatChannel> ChannelsTags = new Dictionary<char, ChatChannel>()
+	public static readonly Dictionary<char, ChatChannel> ChannelsTags = new Dictionary<char, ChatChannel>
 	{
 		{'b', ChatChannel.Binary},
 		{'u', ChatChannel.Supply},

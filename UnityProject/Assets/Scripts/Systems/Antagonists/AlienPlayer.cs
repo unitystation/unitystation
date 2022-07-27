@@ -838,6 +838,9 @@ namespace Systems.Antagonists
 				case AlienMode.Crawling:
 					SetSpriteSO(currentData.Front, true);
 					return;
+				default:
+					Logger.LogError($"Unexpected case: {newSprite.ToString()}");
+					return;
 			}
 		}
 
@@ -874,6 +877,9 @@ namespace Systems.Antagonists
 				case OrientationEnum.Left_By90:
 					spriteVariant = 3;
 					break;
+				default:
+					Logger.LogError($"Unexpected case: {newRotation.ToString()}");
+					return;
 			}
 
 			mainSpriteHandler.ChangeSpriteVariant(spriteVariant, false);
@@ -959,11 +965,10 @@ namespace Systems.Antagonists
 			if (data == queenAnnounceAction)
 			{
 				UIManager.Instance.panelHudBottomController.AlienUI.OpenQueenAnnounceMenu();
-				return;
 			}
 		}
 
-		public void CallActionServer(ActionData data, PlayerInfo sentByPlayer)
+		public void CallActionServer(ActionData data, PlayerInfo playerInfo)
 		{
 			//SERVER SIDE//
 			if(HasActionData(data) == false) return;
@@ -1564,7 +1569,7 @@ namespace Systems.Antagonists
 			//Remove the player so they can join again once they die
 			GhostRoleManager.Instance.ServerRemoveWaitingPlayer(createdRoleKey, player);
 
-			//GhostRoleManager will remove role don't need to call RemoveGhostRole();
+			//GhostRoleManager will remove role don't need to call RemoveGhostRole;
 			createdRoleKey = 0;
 
 			//PlayerTookOver only needs to be set for ServerTransferPlayerToNewBody as OnPlayerTransfer is triggered

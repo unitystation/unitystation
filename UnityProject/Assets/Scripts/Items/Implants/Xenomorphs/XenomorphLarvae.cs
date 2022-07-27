@@ -178,7 +178,7 @@ namespace HealthV2
 			var players = PlayerList.Instance.InGamePlayers.Where(x =>
 				x.Script.PlayerState is PlayerStates.Alien or PlayerStates.Ghost);
 
-			var msg = new NetMessage()
+			var msg = new NetMessage
 			{
 				netId = infectedPlayer.netId,
 				IsInfected = isInfected
@@ -192,7 +192,7 @@ namespace HealthV2
 
 		public static void SendTo(NetworkConnectionToClient conn, PlayerScript infectedPlayer, bool isInfected)
 		{
-			var msg = new NetMessage()
+			var msg = new NetMessage
 			{
 				netId = infectedPlayer.netId,
 				IsInfected = isInfected

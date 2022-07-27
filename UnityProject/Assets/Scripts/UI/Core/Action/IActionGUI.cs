@@ -22,7 +22,7 @@ public interface IActionGUI : IAction
 /// </summary>
 public interface IServerActionGUI : IActionGUI
 {
-	void CallActionServer(PlayerInfo SentByPlayer); //Requires validation in this
+	void CallActionServer(PlayerInfo playerInfo); //Requires validation in this
 }
 
 
@@ -50,7 +50,7 @@ public class __ExampleIServerActionGUI__ : IServerActionGUI
 		//Remember if its networked do validation
 	}
 
-	public void CallActionServer(PlayerInfo sentByPlayer)
+	public void CallActionServer(PlayerInfo playerInfo)
 	{
 		//Validation
 		//do Action
@@ -73,5 +73,5 @@ public interface IActionGUIMulti : IAction
 /// </summary>
 public interface IServerActionGUIMulti : IActionGUIMulti
 {
-	void CallActionServer(ActionData data, PlayerInfo sentByPlayer); //Requires validation in this
+	void CallActionServer(ActionData data, PlayerInfo playerInfo); //Requires validation in this
 }

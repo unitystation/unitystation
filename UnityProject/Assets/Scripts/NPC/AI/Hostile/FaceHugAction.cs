@@ -140,7 +140,7 @@ namespace Systems.MobAIs
 			return antiHugger;
 		}
 
-		private static readonly List<NamedSlot> FaceSlots = new List<NamedSlot>()
+		private static readonly List<NamedSlot> FaceSlots = new List<NamedSlot>
 		{
 			NamedSlot.head,
 			NamedSlot.eyes,

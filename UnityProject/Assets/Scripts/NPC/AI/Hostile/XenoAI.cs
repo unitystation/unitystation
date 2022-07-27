@@ -35,7 +35,6 @@ namespace Systems.MobAIs
 		protected override GameObject SearchForTarget()
 		{
 			var player = Physics2D.OverlapCircleAll(registerObject.WorldPositionServer.To2Int(), 20f, hitMask);
-			//var hits = coneOfSight.GetObjectsInSight(hitMask, LayerTypeSelection.Walls, dirSprites.CurrentFacingDirection, 10f, 20);
 			if (player.Length == 0)
 			{
 				return null;

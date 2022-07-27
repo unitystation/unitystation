@@ -62,12 +62,12 @@ namespace Tests.Chemistry
 
 			if (List.Count != count)
 			{
-				Assert.Fail("ChemistryReagentsSO Is missing some reagents\n" + newStringBuilder.ToString());
+				Assert.Fail("ChemistryReagentsSO Is missing some reagents\n" + newStringBuilder);
 			}
 
 			if (AllReagents.Count != count2)
 			{
-				Assert.Fail("ChemistryReagentsSOEditor failed to find Reagents\n" + newStringBuilder.ToString());
+				Assert.Fail("ChemistryReagentsSOEditor failed to find Reagents\n" + newStringBuilder);
 			}
 		}
 

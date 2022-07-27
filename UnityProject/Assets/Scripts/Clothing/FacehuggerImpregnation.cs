@@ -42,7 +42,7 @@ namespace Clothing
 			spriteHandler = GetComponentInChildren<SpriteHandler>();
 			pickupable = GetComponent<Pickupable>();
 
-			alienTryHuggerCooldown = new CooldownInstance()
+			alienTryHuggerCooldown = new CooldownInstance
 			{
 				defaultTime = 2f
 			};
@@ -212,24 +212,15 @@ namespace Clothing
 			//Alien clicking on layer with face hugger in hand
 			if (interaction.TargetObject.TryGetComponent<PlayerScript>(out var playerScript) == false) return;
 
-			var success = true;
-
-			//If not laying down small chance to hug
-			if (playerScript.registerTile.IsLayingDown == false && DMMath.Prob(80))
-			{
-				success = false;
-			}
-			//Check for anti hugger items
-			else if (FaceHugAction.HasAntihuggerItem(playerScript.Equipment))
-			{
-				success = false;
-			}
+			//If not laying down small chance to hug and check for anti hugger items
+			bool success = (playerScript.registerTile.IsLayingDown == false && DMMath.Prob(80)
+			                || FaceHugAction.HasAntihuggerItem(playerScript.Equipment)) == false;
 
 			interaction.PerformerPlayerScript.weaponNetworkActions.RpcMeleeAttackLerp(interaction.TargetVector, gameObject);
 
-			Chat.AddActionMsgToChat(interaction.Performer, success ? 
-				$"You fail to attach the {gameObject.ExpensiveName()} to {playerScript.visibleName}"
-				: $"You attach the {gameObject.ExpensiveName()} to {playerScript.visibleName}",
+			Chat.AddActionMsgToChat(interaction.Performer, success ?
+					$"You fail to attach the {gameObject.ExpensiveName()} to {playerScript.visibleName}"
+					: $"You attach the {gameObject.ExpensiveName()} to {playerScript.visibleName}",
 				success ? $"{interaction.Performer.ExpensiveName()} attempted to attach a {gameObject.ExpensiveName()} to {playerScript.visibleName} but failed!"
 					: $"{interaction.Performer.ExpensiveName()} attaches a {gameObject.ExpensiveName()} to {playerScript.visibleName}!");
 

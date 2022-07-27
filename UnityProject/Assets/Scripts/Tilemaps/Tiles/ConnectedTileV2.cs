@@ -50,7 +50,6 @@ namespace Tiles
 			{
 				//I dont really get the need for this since
 				//to make a rotation makes sense you would have to rotate The tile positionally
-				//rotation = layer.RotationOffset.QuaternionInverted;
 				rotation = Quaternion.identity;
 			}
 			else
@@ -145,10 +144,10 @@ namespace Tiles
 				tileData.sprite = data.Sprite;
 
 				tileData.flags = TileFlags.None;
+
 				// create collider for tiles, None, Sprite or Grid
 				tileData.colliderType = Tile.ColliderType.Grid;
 				tileData.transform = Matrix4x4.Rotate(rotation);
-				//tileData.flags = TileFlags.LockTransform;
 
 				return true;
 			}
