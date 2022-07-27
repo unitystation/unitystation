@@ -3030,7 +3030,7 @@ SpriteRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1221126624336005246}
-  m_Enabled: 0
+  m_Enabled: 1
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_DynamicOccludee: 1
@@ -3064,7 +3064,7 @@ SpriteRenderer:
   m_SortingLayerID: -932335445
   m_SortingLayer: 23
   m_SortingOrder: 1
-  m_Sprite: {fileID: 21300000, guid: d096fbaea7291064983952ba64e6d724, type: 3}
+  m_Sprite: {fileID: 21300000, guid: c3fd932f54dbc104c8aae0fb5e3f9eeb, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -3089,13 +3089,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   NetworkThis: 1
   SubCatalogue:
+  - {fileID: 11400000, guid: 7d2de9c440cedfa4a855277fac47f8d0, type: 2}
   - {fileID: 11400000, guid: 9f05c0ed25910cb45854ecdc2de3d76f, type: 2}
   - {fileID: 11400000, guid: 1e0748c521766ef4087512268045c8d2, type: 2}
   - {fileID: 11400000, guid: b9f29b610f8c36a409e4ac1823d8fc0d, type: 2}
   - {fileID: 11400000, guid: 2da0979a6c42f5d47808c3a63c976742, type: 2}
   - {fileID: 11400000, guid: 6cc276bb7bbb6ed498e792511484622f, type: 2}
   - {fileID: 11400000, guid: 5258734285a19ac41838dbc1bbc67d32, type: 2}
-  PresentSpriteSet: {fileID: 11400000, guid: 9f05c0ed25910cb45854ecdc2de3d76f, type: 2}
+  PresentSpriteSet: {fileID: 11400000, guid: 7d2de9c440cedfa4a855277fac47f8d0, type: 2}
   randomInitialSprite: 0
   spriteRendererDisabledOnStart: 1
   doReverseAnimation: 0
@@ -8221,7 +8222,7 @@ SpriteRenderer:
   m_SortingLayerID: -902452607
   m_SortingLayer: 22
   m_SortingOrder: 20
-  m_Sprite: {fileID: 8165807964432903219, guid: 2adbceb9cc674484cb9a2c58b41d5493,
+  m_Sprite: {fileID: 7660122581263827943, guid: 2adbceb9cc674484cb9a2c58b41d5493,
     type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0

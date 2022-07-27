@@ -28,7 +28,9 @@ namespace HealthV2
 
 		private CheckedComponent<PlayerScript> checkPlayerScript = new CheckedComponent<PlayerScript>();
 
-		private static List<PlayerScript> infectedPlayers = new List<PlayerScript>();
+		private static Dictionary<PlayerScript, short> infectedPlayers = new Dictionary<PlayerScript, short>();
+
+		private short lastIndex;
 
 		public override void AddedToBody(LivingHealthMasterBase livingHealth)
 		{
@@ -56,10 +58,8 @@ namespace HealthV2
 			{
 				if(checkPlayerScript.HasComponent == false) return;
 
-				checkPlayerScript.Component.playerSprites.InfectedSpriteHandler
-					.ChangeSprite(
-						Mathf.RoundToInt(Mathf.Clamp(((currentTime / (float) incubationTime * 100) / 20f) - 1, 0, 4)));
-
+				//Update the sprite based off of currentTime
+				UpdateSprite();
 				return;
 			}
 
@@ -82,7 +82,8 @@ namespace HealthV2
 
 			if (checkPlayerScript.HasComponent)
 			{
-				checkPlayerScript.Component.playerSprites.InfectedSpriteHandler.ChangeSprite(5);
+				//6 bursted sprite
+				SetSprite(6);
 			}
 
 			if (checkPlayerScript.HasComponent && checkPlayerScript.Component.mind != null)
@@ -105,31 +106,41 @@ namespace HealthV2
 
 		private static void AddToInfected(PlayerScript newPlayer)
 		{
-			infectedPlayers.Add(newPlayer);
+			infectedPlayers.Add(newPlayer, 1);
 
-			InfectedMessage.Send(newPlayer, true);
-
-			if (CustomNetworkManager.IsHeadless == false) return;
-
-			newPlayer.playerSprites.InfectedSpriteHandler.SpriteRenderer.enabled = true;
+			InfectedMessage.Send(newPlayer, 1);
 		}
 
 		private static void RemoveFromInfected(PlayerScript oldPlayer)
 		{
 			infectedPlayers.Remove(oldPlayer);
 
-			InfectedMessage.Send(oldPlayer, false);
+			InfectedMessage.Send(oldPlayer, 0);
+		}
 
-			if(CustomNetworkManager.IsHeadless == false) return;
+		private void UpdateSprite()
+		{
+			if(checkPlayerScript.HasComponent == false) return;
 
-			oldPlayer.playerSprites.InfectedSpriteHandler.SpriteRenderer.enabled = false;
+			//Sprites are between index 1-5 (0 is blank and 6 is fully bursted)
+			var newIndex = Mathf.RoundToInt(Mathf.Clamp(((currentTime / (float)incubationTime * 100) / 20f), 1, 5));
+
+			if(newIndex == lastIndex) return;
+			SetSprite((short)newIndex);
+		}
+
+		private void SetSprite(short newIndex)
+		{
+			lastIndex = newIndex;
+			infectedPlayers[checkPlayerScript.Component] = newIndex;
+			InfectedMessage.Send(checkPlayerScript.Component, lastIndex);
 		}
 
 		public static void Rejoined(NetworkConnectionToClient conn)
 		{
 			foreach (var player in infectedPlayers)
 			{
-				InfectedMessage.SendTo(conn, player, true);
+				InfectedMessage.SendTo(conn, player.Key, player.Value);
 			}
 		}
 
@@ -137,14 +148,14 @@ namespace HealthV2
 		{
 			foreach (var player in infectedPlayers)
 			{
-				InfectedMessage.SendTo(conn, player, false);
+				InfectedMessage.SendTo(conn, player.Key, 0);
 			}
 		}
 
 		[RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
 		private static void ClearStatics()
 		{
-			infectedPlayers = new List<PlayerScript>();
+			infectedPlayers = new Dictionary<PlayerScript, short>();
 		}
 
 		private void OnDisable()
@@ -160,7 +171,7 @@ namespace HealthV2
 		public struct NetMessage : NetworkMessage
 		{
 			public uint netId;
-			public bool IsInfected;
+			public short SpriteIndex;
 		}
 
 		public override void Process(NetMessage msg)
@@ -169,10 +180,10 @@ namespace HealthV2
 			if(NetworkObject == null) return;
 			if(NetworkObject.TryGetComponent<PlayerScript>(out var playerScript) == false) return;
 
-			playerScript.playerSprites.InfectedSpriteHandler.SpriteRenderer.enabled = msg.IsInfected;
+			playerScript.playerSprites.InfectedSpriteHandler.ChangeSprite(msg.SpriteIndex);
 		}
 
-		public static void Send(PlayerScript infectedPlayer, bool isInfected)
+		public static void Send(PlayerScript infectedPlayer, short spriteIndex)
 		{
 			//Send to aliens and ghosts
 			var players = PlayerList.Instance.InGamePlayers.Where(x =>
@@ -181,7 +192,7 @@ namespace HealthV2
 			var msg = new NetMessage
 			{
 				netId = infectedPlayer.netId,
-				IsInfected = isInfected
+				SpriteIndex = spriteIndex
 			};
 
 			foreach (var player in players)
@@ -190,12 +201,12 @@ namespace HealthV2
 			}
 		}
 
-		public static void SendTo(NetworkConnectionToClient conn, PlayerScript infectedPlayer, bool isInfected)
+		public static void SendTo(NetworkConnectionToClient conn, PlayerScript infectedPlayer, short spriteIndex)
 		{
 			var msg = new NetMessage
 			{
 				netId = infectedPlayer.netId,
-				IsInfected = isInfected
+				SpriteIndex = spriteIndex
 			};
 
 			SendTo(conn, msg);
