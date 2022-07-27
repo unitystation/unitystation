@@ -205,8 +205,8 @@ namespace Systems.Teleport
 
 		public static void TeleportLocalGhostTo(Vector3 vector)
 		{
-			var Ghost = PlayerManager.LocalPlayerObject.GetComponent<GhostMove>();
-			Ghost.ForcePositionClient(vector);
+			var ghost = PlayerManager.LocalPlayerObject.GetComponent<GhostMove>();
+			ghost.CMDSetServerPosition(vector);
 		}
 
 		/// <summary>
