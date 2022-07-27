@@ -143,7 +143,7 @@ namespace Systems.GhostRoles
 			role.UpdateRole(minPlayers, maxPlayers, timeRemaining, playerCount);
 
 			// Will be exactly -1 if timeout is set as indefinite.
-			if (timeRemaining <= 0 && timeRemaining != -1 || timeRemaining == -2)
+			if (timeRemaining <= 0 && timeRemaining != -1)
 			{
 				UIManager.GhostRoleWindow.RemoveEntry(key);
 				clientAvailableRoles.Remove(key);
