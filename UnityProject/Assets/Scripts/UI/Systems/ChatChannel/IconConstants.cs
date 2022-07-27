@@ -24,7 +24,7 @@ namespace UI
 				{ChatChannel.Security, ""}, //fa-crosshairs
 				{ChatChannel.Ghost, ""}, //fa-snapchat-ghost
 				{ChatChannel.Blob, ""}, //fa-bullseye
-				{ChatChannel.Alien, ""} //fa-user-alien
+				{ChatChannel.Alien, ""} //fa-sitemap
 			};
 	}
 }
