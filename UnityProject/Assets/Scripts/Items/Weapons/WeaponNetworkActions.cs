@@ -93,13 +93,13 @@ public class WeaponNetworkActions : NetworkBehaviour
 		{
 			// validate based on position of target vector
 			if (Validations.CanApply(playerScript, victim, NetworkSide.Server, targetVector: attackDirection,
-				    aps: Validations.CheckState(x => x.CanMelee)) == false) return;
+				    apt: Validations.CheckState(x => x.CanMelee)) == false) return;
 		}
 		else
 		{
 			// validate based on position of target object
 			if (Validations.CanApply(playerScript, victim, NetworkSide.Server,
-				    aps: Validations.CheckState(x => x.CanMelee)) == false) return;
+				    apt: Validations.CheckState(x => x.CanMelee)) == false) return;
 		}
 
 		float damage = handDamage;

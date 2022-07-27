@@ -130,6 +130,6 @@ public class MouseDraggable : MonoBehaviour
 	public bool CanBeginDrag(PlayerScript dragger)
 	{
 		return Validations.CanApply(dragger, gameObject, NetworkSide.Client, allowDragWhileSoftCrit,
-			draggerMustBeAdjacent ? ReachRange.Standard : ReachRange.Unlimited, aps: allowedToMouseDrag);
+			draggerMustBeAdjacent ? ReachRange.Standard : ReachRange.Unlimited, apt: allowedToMouseDrag);
 	}
 }

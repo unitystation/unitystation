@@ -39,7 +39,7 @@ namespace UI
 		public void Drop()
 		{
 			if (Validations.CanInteract(PlayerManager.LocalPlayerScript,
-				    NetworkSide.Client, allowCuffed: true, aps: Validations.CheckState(x => x.CanDropItems)) == false) return;
+				    NetworkSide.Client, allowCuffed: true, apt: Validations.CheckState(x => x.CanDropItems)) == false) return;
 
 			if (PlayerManager.LocalPlayerScript.DynamicItemStorage == null)
 			{
@@ -79,7 +79,7 @@ namespace UI
 			if (throwImage.sprite == throwSprites[0] && UIManager.IsThrow == false)
 			{
 				// Check if player can throw
-				if (Validations.CanInteract(PlayerManager.LocalPlayerScript, NetworkSide.Client, aps:
+				if (Validations.CanInteract(PlayerManager.LocalPlayerScript, NetworkSide.Client, apt:
 					    Validations.CheckState(x => x.CanThrowItems)) == false) return;
 
 				// Enable throw

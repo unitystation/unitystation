@@ -129,16 +129,16 @@ public static class Validations
 	/// <param name="side">side of the network the check is being performed on</param>
 	/// <param name="allowSoftCrit">whether interaction should be allowed if in soft crit</param>
 	/// <param name="allowCuffed">whether interaction should be allowed if cuffed</param>
-	/// <param name="aps"> allowedPlayerStatesthe allowed playerstates for this interaction, defaults to normal players</param>
+	/// <param name="apt"> the allowed PlayerTypes for this interaction, defaults to normal players</param>
 	/// <returns></returns>
 	public static bool CanInteract(PlayerScript playerScript, NetworkSide side, bool allowSoftCrit = false, bool allowCuffed = false,
-		PlayerTypes aps = PlayerTypes.Normal)
+		PlayerTypes apt = PlayerTypes.Normal)
 	{
 		if (playerScript == null) return false;
 
 		//Only allow players interact this way if contained in allowedPlayerStates (usually only normal players not ghost etc)
 		//Note that Ai has AiActivate as that has additional validations
-		if (aps.HasFlag(playerScript.PlayerType) == false) return false;
+		if (apt.HasFlag(playerScript.PlayerType) == false) return false;
 
 		//Can't interact cuffed
 		if (allowCuffed == false && playerScript.playerMove.IsCuffed) return false;
@@ -180,7 +180,7 @@ public static class Validations
 	/// <param name="targetRegisterTile">target's register tile component. If you specify this it avoids garbage. Please provide this
 	/// if you can do so without using GetComponent, this is an optimization so GetComponent call can be avoided to avoid
 	/// creating garbage.</param>
-	/// <param name="aps"> allowedPlayerStates the allowed playerstates for this interaction, defaults to normal players</param>
+	/// <param name="apt"> allowedPlayerTypes the allowed PlayerTypes for this interaction, defaults to normal players</param>
 	/// <returns></returns>
 	public static bool CanApply(
 		PlayerScript playerScript,
@@ -191,7 +191,7 @@ public static class Validations
 		Vector2? targetPosition = null,
 		Vector2? targetVector = null,
 		RegisterTile targetRegisterTile = null,
-		PlayerTypes aps = PlayerTypes.Normal
+		PlayerTypes apt = PlayerTypes.Normal
 	)
 	{
 		if (playerScript == null) return false;
@@ -199,7 +199,7 @@ public static class Validations
 		var playerObjBehavior = playerScript.objectPhysics;
 
 
-		if (CanInteract(playerScript, side, allowSoftCrit, aps: aps) == false)
+		if (CanInteract(playerScript, side, allowSoftCrit, apt: apt) == false)
 		{
 			return false;
 		}

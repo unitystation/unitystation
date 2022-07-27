@@ -249,7 +249,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 
 		//allowed to drop from hands while cuffed
 		if (Validations.CanInteract(playerScript, NetworkSide.Server, allowCuffed: true,
-			    aps: Validations.CheckState(x => x.CanDropItems)) == false) return;
+			    apt: Validations.CheckState(x => x.CanDropItems)) == false) return;
 
 		if (!Cooldowns.TryStartServer(playerScript, CommonCooldowns.Instance.Interaction)) return;
 		if (NetworkServer.spawned.TryGetValue(NetID, out var objectToDrop) == false) return;
@@ -377,7 +377,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	{
 		//only allowed to throw from hands
 		if (Validations.CanInteract(playerScript, NetworkSide.Server,
-			    aps: Validations.CheckState(x => x.CanThrowItems)) == false) return;
+			    apt: Validations.CheckState(x => x.CanThrowItems)) == false) return;
 
 		if (Cooldowns.TryStartServer(playerScript, CommonCooldowns.Instance.Interaction) == false) return;
 
