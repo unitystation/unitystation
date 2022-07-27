@@ -1,4 +1,5 @@
-﻿using Mirror;
+﻿using Core;
+using Mirror;
 using NaughtyAttributes;
 
 #if UNITY_EDITOR

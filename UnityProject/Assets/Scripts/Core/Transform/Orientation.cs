@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 
 
-namespace Core.Transform
+namespace Core
 {
 	/// <summary>
 	/// Represents an absolute facing. Can only be in 4 cardinal directions.
