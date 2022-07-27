@@ -4,6 +4,7 @@ using System.Linq;
 using Alien;
 using Core.Chat;
 using HealthV2;
+using Items.Others;
 using Messages.Server.LocalGuiMessages;
 using Mirror;
 using Objects;
@@ -26,6 +27,9 @@ namespace Systems.Antagonists
 
 		[SerializeField]
 		private SpriteHandler mainBackSpriteHandler;
+
+		[SerializeField]
+		private GameObject alienLight;
 
 		[Header("Alien ScriptableObjects")]
 		[SerializeField]
@@ -67,6 +71,9 @@ namespace Systems.Antagonists
 		private ActionData neurotoxinSpitAction = null;
 
 		[SerializeField]
+		private ActionData acidPoolAction = null;
+
+		[SerializeField]
 		private ActionData sharePlasmaAction = null;
 
 		//TODO combine these somehow?
@@ -101,6 +108,9 @@ namespace Systems.Antagonists
 
 		[SerializeField]
 		private GameObject neurotoxicSpitProjectilePrefab = null;
+
+		[SerializeField]
+		private GameObject acidPoolPrefab = null;
 
 		#endregion
 
@@ -236,6 +246,13 @@ namespace Systems.Antagonists
 			if(isLocalPlayer == false) return;
 
 			UIManager.Instance.panelHudBottomController.AlienUI.SetUp(this);
+
+			alienLight.SetActive(true);
+		}
+
+		public override void OnStopLocalPlayer()
+		{
+			alienLight.SetActive(false);
 		}
 
 		#endregion
@@ -264,6 +281,14 @@ namespace Systems.Antagonists
 			}
 
 			SetName(true, currentData);
+
+			if (CurrentAlienType is AlienTypes.Larva1 or AlienTypes.Larva2 or AlienTypes.Larva3)
+			{
+				Chat.AddExamineMsgFromServer(gameObject, "You are an alien larva. Hide from danger until you can evolve. Use :a to communicate with the hivemind.");
+				return;
+			}
+
+			Chat.AddExamineMsgFromServer(gameObject, $"You are a {currentAlienType.ToString()}. Use :a to communicate with the hivemind.");
 		}
 
 		[ContextMenu("To Queen")]
@@ -364,12 +389,17 @@ namespace Systems.Antagonists
 				return;
 			}
 
+			Chat.AddActionMsgToChat(gameObject, "You begin to evolve!",
+				$"{playerScript.playerName} begins to twist and contort!");
+
 			var old = currentData;
 			currentData = typeFound[0];
 			actionData = currentData.ActionData;
 			currentAlienType = currentData.AlienType;
 			growth = 0;
 			currentPlasma = 0;
+
+			SetUpNewHealthValues();
 
 			ChangeAlienMode(AlienMode.Normal);
 
@@ -395,7 +425,7 @@ namespace Systems.Antagonists
 			{
 				playerScript.playerName = $"{currentData.Name} {nameNumber}";
 				Chat.AddChatMsgToChat($"A new queen: {playerScript.playerName} has joined the hive, rejoice!",
-					ChatChannel.Alien, Loudness.MEGAPHONE);
+					ChatChannel.Alien, Loudness.SCREAMING);
 			}
 			else
 			{
@@ -608,6 +638,21 @@ namespace Systems.Antagonists
 			}
 
 			livingHealthMasterBase.HealDamageOnAll(null, healAmount, DamageType.Brute);
+		}
+
+		private void SetUpNewHealthValues()
+		{
+			var bodyParts = livingHealthMasterBase.SurfaceBodyParts;
+
+			foreach (var bodyPart in bodyParts)
+			{
+				bodyPart.SelfArmor = currentData.BodyPartArmor;
+
+				//TODO when limb is separated out into Arm and Leg redo this
+				if(bodyPart.TryGetComponent<Limb>(out var limb) == false) continue;
+
+				limb.SetNewSpeeds(currentData.RunningLegSpeed, currentData.WalkingLegSpeed, limb.CrawlingSpeed);
+			}
 		}
 
 		#endregion
@@ -959,6 +1004,12 @@ namespace Systems.Antagonists
 				SharePlasma();
 				return;
 			}
+
+			//Acid pool
+			if (data == acidPoolAction)
+			{
+				MakeAcidPool();
+			}
 		}
 
 		private bool HasActionData(ActionData data)
@@ -1121,6 +1172,8 @@ namespace Systems.Antagonists
 
 		private const int NestCost = 25;
 
+		private const int AcidPoolCost = 25;
+
 		private void BuildWall()
 		{
 			if(ValidateBuild("secrete resin") == false) return;
@@ -1211,6 +1264,67 @@ namespace Systems.Antagonists
 
 			Chat.AddActionMsgToChat(gameObject, $"You secrete out a resin nest",
 				$"{gameObject.ExpensiveName()} secretes out a resin nest!");
+		}
+
+		private void MakeAcidPool()
+		{
+			if(ValidateBuild("acid pool") == false) return;
+
+			if(TryRemovePlasma(AcidPoolCost) == false) return;
+
+			var directionFacing = rotatable.CurrentDirection.ToLocalVector3Int();
+
+			//Convert both coords to locals of the
+			var worldOrigin = RegisterPlayer.ObjectPhysics.Component.OfficialPosition.RoundToInt();
+			var worldTarget = directionFacing + worldOrigin;
+
+			var matrixThere = MatrixManager.AtPoint(worldTarget, true, RegisterPlayer.Matrix.MatrixInfo);
+
+			var acidPools = matrixThere.Matrix.GetFirst<AcidPool>(RegisterPlayer.LocalPositionServer + directionFacing, true);
+
+			if (acidPools != null)
+			{
+				Chat.AddExamineMsgFromServer(gameObject, "There is already an acid pool here, try somewhere else!");
+				return;
+			}
+
+			Chat.AddActionMsgToChat(gameObject, $"You start to throw up acid",
+				$"{gameObject.ExpensiveName()} starts throw up acid!");
+
+			var cfg = new StandardProgressActionConfig(StandardProgressActionType.Construction);
+
+			StandardProgressAction.Create(
+				cfg,
+				() => FinishAcidPool()
+			).ServerStartProgress(ActionTarget.Object(RegisterPlayer), 5, gameObject);
+		}
+
+		private void FinishAcidPool()
+		{
+			if(ValidateBuild("secrete resin") == false) return;
+
+			var directionFacing = rotatable.CurrentDirection.ToLocalVector3Int();
+
+			//Convert both coords to locals of the
+			var worldOrigin = RegisterPlayer.ObjectPhysics.Component.OfficialPosition.RoundToInt();
+			var worldTarget = directionFacing + worldOrigin;
+
+			var matrixThere = MatrixManager.AtPoint(worldTarget, true, RegisterPlayer.Matrix.MatrixInfo);
+
+			var acidPools = matrixThere.Matrix.GetFirst<AcidPool>(RegisterPlayer.LocalPositionServer + directionFacing, true);
+
+			if (acidPools != null)
+			{
+				Chat.AddExamineMsgFromServer(gameObject, "There is already an acid pool here, try somewhere else!");
+				return;
+			}
+
+			var spawn = Spawn.ServerPrefab(acidPoolPrefab, RegisterPlayer.ObjectPhysics.Component.OfficialPosition);
+
+			if(spawn.Successful == false) return;
+
+			Chat.AddActionMsgToChat(gameObject, $"You throw up a pool of acid",
+				$"{gameObject.ExpensiveName()} throws up a pool of acid!");
 		}
 
 		#endregion

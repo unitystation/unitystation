@@ -17,7 +17,8 @@ MonoBehaviour:
   GhostRoleData: {fileID: 11400000, guid: f0aa309705e7cc14f8765cf637a7fb99, type: 2}
   Description: 'The offensive backbone of the xenos, Hunters move at blistering speed
     and can tackle down their unlucky opponents for quick stuns. '
-  Speed: 10
+  RunningLegSpeed: 4
+  WalkingLegSpeed: 1.5
   AttackSpeed: 4
   AttackDamage: 10
   DamageType: 0
@@ -27,6 +28,20 @@ MonoBehaviour:
   PlasmaGainRate: 3
   HealAmount: 3
   HealPlasmaCost: 3
+  MaxBodyPartHealth: 125
+  BodyPartArmor:
+    Melee: 25
+    Bullet: 0
+    Laser: 0
+    Energy: 0
+    Bomb: 0
+    Rad: 0
+    Fire: 0
+    Acid: 0
+    Magic: 0
+    Bio: 0
+    DismembermentProtectionChance: 0
+    StunImmunity: 0
   MaxGrowth: 100
   AcidSpitCost: 5
   NeurotoxinSpitCost: 10
@@ -37,6 +52,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: e469aa52bc0cbb949a56796230469fd2, type: 2}
   - {fileID: 11400000, guid: 3685abbf207a2c54087d845649fb87a5, type: 2}
   - {fileID: 11400000, guid: 9c620f045a30f7745a1fb4763bcd5729, type: 2}
+  - {fileID: 11400000, guid: bcd70f7d964908b43a9b72396f8f34fa, type: 2}
   Normal: {fileID: 11400000, guid: 168b86a8105cfe24e9d8e8355fc1630b, type: 2}
   Dead: {fileID: 11400000, guid: 89bf18cf883b5694787c1667470999e3, type: 2}
   Pounce: {fileID: 11400000, guid: 72940d58d2228744981b6f41b69bf301, type: 2}

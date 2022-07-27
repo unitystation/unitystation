@@ -16,7 +16,8 @@ MonoBehaviour:
   AlienType: 4
   GhostRoleData: {fileID: 11400000, guid: 8b90f9100b145be41b3ab898efe7db14, type: 2}
   Description: 
-  Speed: 10
+  RunningLegSpeed: 4
+  WalkingLegSpeed: 2
   AttackSpeed: 7
   AttackDamage: 5
   DamageType: 0
@@ -26,6 +27,20 @@ MonoBehaviour:
   PlasmaGainRate: 3
   HealAmount: 5
   HealPlasmaCost: 5
+  MaxBodyPartHealth: 25
+  BodyPartArmor:
+    Melee: 25
+    Bullet: 0
+    Laser: 0
+    Energy: 0
+    Bomb: 0
+    Rad: 0
+    Fire: 0
+    Acid: 0
+    Magic: 0
+    Bio: 0
+    DismembermentProtectionChance: 0
+    StunImmunity: 0
   MaxGrowth: 100
   AcidSpitCost: 10
   NeurotoxinSpitCost: 50

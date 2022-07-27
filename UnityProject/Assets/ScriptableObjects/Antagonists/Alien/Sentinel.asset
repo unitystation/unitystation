@@ -16,16 +16,31 @@ MonoBehaviour:
   AlienType: 16
   GhostRoleData: {fileID: 11400000, guid: c3e1e5993e7e13e48922c97c1f46a150, type: 2}
   Description: Guards the hive from any intruders.
-  Speed: 5
+  RunningLegSpeed: 2
+  WalkingLegSpeed: 1.5
   AttackSpeed: 7
   AttackDamage: 10
   DamageType: 0
   ChanceToHit: 50
-  MaxPlasma: 100
+  MaxPlasma: 250
   InitialPlasma: 100
-  PlasmaGainRate: 3
-  HealAmount: 5
-  HealPlasmaCost: 5
+  PlasmaGainRate: 5
+  HealAmount: 3
+  HealPlasmaCost: 3
+  MaxBodyPartHealth: 150
+  BodyPartArmor:
+    Melee: 25
+    Bullet: 0
+    Laser: 0
+    Energy: 0
+    Bomb: 0
+    Rad: 0
+    Fire: 0
+    Acid: 0
+    Magic: 0
+    Bio: 0
+    DismembermentProtectionChance: 0
+    StunImmunity: 0
   MaxGrowth: 100
   AcidSpitCost: 5
   NeurotoxinSpitCost: 10
@@ -37,6 +52,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: a4f68dc8a010041499928c3cf209a10f, type: 2}
   - {fileID: 11400000, guid: 3685abbf207a2c54087d845649fb87a5, type: 2}
   - {fileID: 11400000, guid: 9c620f045a30f7745a1fb4763bcd5729, type: 2}
+  - {fileID: 11400000, guid: bcd70f7d964908b43a9b72396f8f34fa, type: 2}
   Normal: {fileID: 11400000, guid: 8c078db1944edd84680957df8e4d681c, type: 2}
   Dead: {fileID: 11400000, guid: 7b9894c99e9cec045884ca5fcabe8d36, type: 2}
   Pounce: {fileID: 11400000, guid: b7e2adbe0064cf145b9ad5a700a2357c, type: 2}

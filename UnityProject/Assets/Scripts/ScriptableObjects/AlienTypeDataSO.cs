@@ -21,7 +21,8 @@ namespace ScriptableObjects
 		public string Description;
 
 		[Header("Variables")]
-		public float Speed;
+		public float RunningLegSpeed;
+		public float WalkingLegSpeed;
 
 		[HorizontalLine()]
 		public float AttackSpeed = 7;
@@ -37,6 +38,9 @@ namespace ScriptableObjects
 		[HorizontalLine()]
 		public float HealAmount = 5; //Per second
 		public int HealPlasmaCost = 5;
+
+		public float MaxBodyPartHealth = 100;
+		public Armor BodyPartArmor = new Armor();
 
 		[HorizontalLine()]
 		public int MaxGrowth = 100;
