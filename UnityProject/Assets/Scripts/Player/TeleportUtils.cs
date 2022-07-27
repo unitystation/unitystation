@@ -206,8 +206,7 @@ namespace Systems.Teleport
 		public static void TeleportLocalGhostTo(Vector3 vector)
 		{
 			var ghost = PlayerManager.LocalPlayerObject.GetComponent<GhostMove>();
-			var matrix = MatrixManager.AtPoint(vector, false);
-			ghost.CMDSetServerPosition(vector, matrix.Id, PlayerManager.LocalPlayerScript.GetComponent<Rotatable>().CurrentDirection);
+			ghost.CMDSetServerPosition(vector);
 		}
 
 		/// <summary>
