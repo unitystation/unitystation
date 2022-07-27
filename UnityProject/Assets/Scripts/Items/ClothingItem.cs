@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
+using Core;
 using Systems.Clothing;
 using Items;
 

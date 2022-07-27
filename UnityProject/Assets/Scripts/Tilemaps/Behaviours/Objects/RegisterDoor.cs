@@ -1,4 +1,5 @@
 ﻿using System;
+using Core;
 using UnityEngine;
 using Core.Editor.Attributes;
 using Doors;

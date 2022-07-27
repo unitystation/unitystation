@@ -1,4 +1,5 @@
 using System;
+using Core;
 
 public enum NodeType : byte
 {

@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using Core;
 
 namespace Systems.Spells.Wizard
 {
