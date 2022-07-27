@@ -1877,7 +1877,8 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 		}
 
 		PlayerInfo clientWhoAsked = PlayerList.Instance.Get(gameObject);
-		if (Validations.CanApply(clientWhoAsked.Script, gameObject, NetworkSide.Server) == false)
+		if (Validations.CanApply(clientWhoAsked.Script, gameObject, NetworkSide.Server
+			    , apt: Validations.CheckState(x => x.CanPull)) == false)
 		{
 			return;
 		}

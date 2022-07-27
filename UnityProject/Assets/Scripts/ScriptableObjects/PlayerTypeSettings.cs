@@ -27,6 +27,10 @@ namespace ScriptableObjects
 		private bool canBuckleOthers = false;
 		public bool CanBuckleOthers => canBuckleOthers;
 
+		[SerializeField]
+		private bool canPull = false;
+		public bool CanPull => canPull;
+
 		[HorizontalLine]
 		[Header("Door Interaction")]
 		[SerializeField]
@@ -87,6 +91,14 @@ namespace ScriptableObjects
 		[SerializeField]
 		private bool checkForRadios = false;
 		public bool CheckForRadios => checkForRadios;
+
+		[SerializeField]
+		private PlayerTypes sendSpeechBubbleTo = PlayerTypes.Ghost;
+		public PlayerTypes SendSpeechBubbleTo => sendSpeechBubbleTo;
+
+		[SerializeField]
+		private PlayerTypes receiveSpeechBubbleFrom = PlayerTypes.Normal;
+		public PlayerTypes ReceiveSpeechBubbleFrom => receiveSpeechBubbleFrom;
 
 		[HorizontalLine]
 		[Header("Melee")]

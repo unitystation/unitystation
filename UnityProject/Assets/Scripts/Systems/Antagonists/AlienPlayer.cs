@@ -185,6 +185,8 @@ namespace Systems.Antagonists
 
 		private float disconnectTime;
 
+		private CharacterSheet characterSheet;
+
 		#region LifeCycle
 
 		private void Awake()
@@ -216,6 +218,11 @@ namespace Systems.Antagonists
 			{
 				defaultTime = 3f
 			};
+
+			characterSheet = new CharacterSheet()
+			{
+				PlayerPronoun = PlayerPronoun.They_them
+			};
 		}
 
 		private void OnEnable()
@@ -241,7 +248,7 @@ namespace Systems.Antagonists
 			SetNewPlayer(startingAlienType);
 
 			//This triggers the spawning of the alien body parts
-			playerScript.playerSprites.OnCharacterSettingsChange(null);
+			playerScript.playerSprites.OnCharacterSettingsChange(characterSheet);
 		}
 
 		public override void OnStartLocalPlayer()
@@ -251,11 +258,15 @@ namespace Systems.Antagonists
 			UIManager.Instance.panelHudBottomController.AlienUI.SetUp(this);
 
 			alienLight.SetActive(true);
+
+			ResetActions();
 		}
 
 		public override void OnStopLocalPlayer()
 		{
 			alienLight.SetActive(false);
+
+			RemoveOldActions();
 		}
 
 		#endregion
@@ -339,11 +350,23 @@ namespace Systems.Antagonists
 				return;
 			}
 
+			Chat.AddExamineMsgFromServer(gameObject, "You are fully grown!");
+
 			//At max growth (100) is early larva then auto evolve, otherwise add Action Button
 			if (CurrentAlienType is AlienTypes.Larva1 or AlienTypes.Larva2)
 			{
 				Evolve(CurrentAlienType == AlienTypes.Larva1 ? AlienTypes.Larva2 : AlienTypes.Larva3);
 			}
+
+			if (CurrentAlienType != AlienTypes.Larva3 && connectionToClient != null) return;
+
+			RpcOpenEvolveMenu();
+		}
+
+		[TargetRpc]
+		private void RpcOpenEvolveMenu()
+		{
+			UIManager.Instance.panelHudBottomController.AlienUI.OpenEvolveMenu();
 		}
 
 		#endregion
@@ -1023,6 +1046,12 @@ namespace Systems.Antagonists
 			if (actionData == null) return false;
 
 			return actionData.Contains(data);
+		}
+
+		private void ResetActions()
+		{
+			RemoveOldActions();
+			AddNewActions();
 		}
 
 		private void RemoveOldActions()

@@ -12,12 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 960e142aa5224260865bd62048f99bde, type: 3}
   m_Name: Normal
   m_EditorClassIdentifier: 
-  playerState: 1
+  playerType: 1
   canBeCuffed: 1
   canCraft: 1
   canBuckleOthers: 1
+  canPull: 1
   canInteractWithDoors: 1
   canPryDoorsWithHands: 0
+  pryHandName: 
   canDropItems: 1
   canThrowItems: 1
   canResist: 1
@@ -28,6 +30,8 @@ MonoBehaviour:
   receiveChannels: 81927
   defaultChannel: 2
   checkForRadios: 1
+  sendSpeechBubbleTo: 26
+  receiveSpeechBubbleFrom: 9
   canMelee: 1
   emptyMeleeAttackData:
   - attackVerb: punch
