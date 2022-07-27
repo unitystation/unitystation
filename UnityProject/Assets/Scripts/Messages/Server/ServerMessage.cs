@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using Mirror;
 using UnityEngine;
+using Util;
 
 namespace Messages.Server
 {
@@ -83,7 +84,7 @@ namespace Messages.Server
 		/// </summary>
 		public static void SendToVisiblePlayers(Vector2 worldPosition, T msg, int channel = 0, bool doLinecast = true)
 		{
-			var players = RandomUtils.GetVisiblePlayers(worldPosition, doLinecast);
+			var players = OtherUtil.GetVisiblePlayers(worldPosition, doLinecast);
 
 			//Sends the message only to visible players:
 			foreach (PlayerInfo player in players)
