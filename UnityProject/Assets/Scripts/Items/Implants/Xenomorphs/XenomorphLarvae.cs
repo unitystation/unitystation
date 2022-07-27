@@ -180,7 +180,7 @@ namespace HealthV2
 			if(NetworkObject == null) return;
 			if(NetworkObject.TryGetComponent<PlayerScript>(out var playerScript) == false) return;
 
-			playerScript.playerSprites.InfectedSpriteHandler.ChangeSprite(msg.SpriteIndex);
+			playerScript.playerSprites.InfectedSpriteHandler.ChangeSprite(msg.SpriteIndex, false);
 		}
 
 		public static void Send(PlayerScript infectedPlayer, short spriteIndex)
