@@ -545,21 +545,7 @@ namespace UI.Action
 
 		public static void Show(IActionGUIMulti iActionGUIMulti, ActionData actionData)
 		{
-			foreach (var actionButton in Instance.DicIActionGUI)
-			{
-				//Remove old button from list. Don't spawn the same button if it already exists!
-				if (actionButton.Key is IActionGUIMulti keyI && keyI == iActionGUIMulti)
-				{
-					foreach (var action in keyI.ActionData)
-					{
-						if(actionData != action) continue;
-
-						Hide(keyI, actionData);
-					}
-
-					break;
-				}
-			}
+			Hide(iActionGUIMulti, actionData);
 
 			UIAction _UIAction;
 			if (Instance.PooledUIAction.Count > 0)
@@ -586,6 +572,7 @@ namespace UI.Action
 		{
 			if (Instance.DicIActionGUI.ContainsKey(iActionGUIMulti))
 			{
+				var toRemove = new List<IAction>();
 				foreach (var actionButton in Instance.DicIActionGUI)
 				{
 					//Remove old button from list. Don't spawn the same button if it already exists!
@@ -603,9 +590,14 @@ namespace UI.Action
 
 						if (count == actionButton.Value.Count)
 						{
-							Instance.DicIActionGUI.Remove(iActionGUIMulti);
+							toRemove.Add(iActionGUIMulti);
 						}
 					}
+				}
+
+				foreach (var remove in toRemove)
+				{
+					Instance.DicIActionGUI.Remove(remove);
 				}
 			}
 			else
