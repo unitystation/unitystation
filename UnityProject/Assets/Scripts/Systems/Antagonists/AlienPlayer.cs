@@ -4,6 +4,7 @@ using System.Linq;
 using Alien;
 using Core.Chat;
 using HealthV2;
+using HealthV2.Limbs;
 using Items.Others;
 using Messages.Server.LocalGuiMessages;
 using Mirror;
@@ -651,8 +652,8 @@ namespace Systems.Antagonists
 
 				//TODO when limb is separated out into Arm and Leg redo this
 				if(bodyPart.TryGetComponent<Limb>(out var limb) == false) continue;
-
-				limb.SetNewSpeeds(currentData.RunningLegSpeed, currentData.WalkingLegSpeed, limb.CrawlingSpeed);
+				if(limb is HumanoidLeg c) c.SetNewSpeeds(currentData.RunningLegSpeed, currentData.WalkingLegSpeed);
+				if(limb is Arm a) a.SetNewSpeeds(a.CrawlingSpeedModifier);
 			}
 		}
 
