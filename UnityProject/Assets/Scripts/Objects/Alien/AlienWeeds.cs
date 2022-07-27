@@ -76,7 +76,7 @@ namespace Alien
 				var worldPosInt = objectPhysics.OfficialPosition.RoundToInt();
 
 				var passable = MatrixManager.IsPassableAtAllMatrices(worldPosInt,
-					worldPosInt + localPos, true, includingPlayers: false,
+					localPos.ToWorldInt(matrixAtPoint.Matrix), true, includingPlayers: false,
 					matrixOrigin: registerTile.Matrix.MatrixInfo, matrixTarget: matrixAtPoint);
 
 				if(passable == false) continue;

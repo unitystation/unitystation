@@ -1569,7 +1569,7 @@ namespace Systems.Antagonists
 			//Remove the player so they can join again once they die
 			GhostRoleManager.Instance.ServerRemoveWaitingPlayer(createdRoleKey, player);
 
-			//GhostRoleManager will remove role don't need to call RemoveGhostRole;
+			//GhostRoleManager will remove role don't need to call RemoveGhostRole
 			createdRoleKey = 0;
 
 			//PlayerTookOver only needs to be set for ServerTransferPlayerToNewBody as OnPlayerTransfer is triggered
