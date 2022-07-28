@@ -4,19 +4,18 @@ using System.Collections.Generic;
 using UnityEngine;
 using Chemistry;
 using Chemistry.Components;
+using HealthV2.Living.CirculatorySystem;
 using NaughtyAttributes;
 
 namespace HealthV2
 {
 	[RequireComponent(typeof(LivingHealthMasterBase))]
-	public class CirculatorySystemBase : MonoBehaviour
+	public class CirculatorySystemBase : MonoBehaviour, IAreaReactionBase
 	{
 		public List<MetabolismReaction> ALLMetabolismReactions = new List<MetabolismReaction>(); //TOOD Move somewhere static maybe
+		public List<MetabolismReaction> MetabolismReactions { get; } = new();
 
-		public List<MetabolismReaction> MetabolismReactions = new List<MetabolismReaction>();
-
-
-		public Dictionary<MetabolismReaction, List<BodyPart>> PrecalculatedMetabolismReactions = new  Dictionary<MetabolismReaction, List<BodyPart>>(); //TODO calculate on body add/ removal
+		public Dictionary<MetabolismReaction, List<BodyPart>> PrecalculatedMetabolismReactions = new  Dictionary<MetabolismReaction, List<BodyPart>>();
 
 		[SerializeField]
 		[Required("Must have a blood type in a circulatory system.")]
@@ -84,7 +83,7 @@ namespace HealthV2
 		//then apply effect
 		public Dictionary<Reagent, ReagentWithBodyParts> NutrimentToConsume = new Dictionary<Reagent, ReagentWithBodyParts>();
 
-		public Dictionary<BloodType, Dictionary<Reagent,ReagentWithBodyParts>> SaturationToConsume = new Dictionary<BloodType, Dictionary<Reagent,ReagentWithBodyParts>> ();
+		public Dictionary<BloodType, Dictionary<Reagent,ReagentWithBodyParts>> SaturationToConsume = new Dictionary<BloodType, Dictionary<Reagent,ReagentWithBodyParts>>();
 
 		public Dictionary<Reagent, ReagentWithBodyParts> Toxicity = new Dictionary<Reagent, ReagentWithBodyParts>();
 
@@ -475,6 +474,8 @@ namespace HealthV2
 				}
 			}
 		}
+
+
 	}
 
 

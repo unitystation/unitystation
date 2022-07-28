@@ -1021,6 +1021,12 @@ MonoBehaviour:
   rootBodyPartController: {fileID: 0}
   playerScript: {fileID: 0}
   CannotRecognizeNames: 0
+  UseList: []
+  ALLExternalMetabolismReactions:
+  - {fileID: 11400000, guid: 305eafe3e2fbc9e4283aee243b3edb51, type: 2}
+  - {fileID: 11400000, guid: c0ceb2d6f23ad014bbab88285b3815e3, type: 2}
+  - {fileID: 11400000, guid: 1c50065647d14e04f8952396dc2e055b, type: 2}
+  metabolismReactions: []
   CHem: {fileID: 11400000, guid: 6c3a3878e8878972ea633a27c6d0ba12, type: 2}
   NutrimentConsumed: 0
   ClientSprites: []
@@ -1059,7 +1065,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 85b402a852ad1ad49b64886cd42e93ce, type: 2}
   - {fileID: 11400000, guid: 3ea6d21ecff38954a9e1b05795f3f45e, type: 2}
   - {fileID: 11400000, guid: b7d0a552223af4d4d9f3eb3217df9183, type: 2}
-  MetabolismReactions: []
+  metabolismReactions: []
   bloodType: {fileID: 11400000, guid: efcde740e9b85074485bcd68a7a21816, type: 2}
   BloodPool:
     temperature: 0
