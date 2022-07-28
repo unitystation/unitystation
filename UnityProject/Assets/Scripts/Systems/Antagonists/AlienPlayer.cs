@@ -219,7 +219,7 @@ namespace Systems.Antagonists
 				defaultTime = 3f
 			};
 
-			characterSheet = new CharacterSheet()
+			characterSheet = new CharacterSheet
 			{
 				PlayerPronoun = PlayerPronoun.They_them
 			};
