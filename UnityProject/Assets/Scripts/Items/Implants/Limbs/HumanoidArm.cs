@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace HealthV2.Limbs
 {
-	public class Arm : Limb, IMovementEffect
+	public class HumanoidArm : Limb, IMovementEffect
 	{
 		[SerializeField]
 		[Tooltip("A generalized number representing how efficient an arm this limb is.\n" +

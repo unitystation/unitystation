@@ -653,7 +653,7 @@ namespace Systems.Antagonists
 				//TODO when limb is separated out into Arm and Leg redo this
 				if(bodyPart.TryGetComponent<Limb>(out var limb) == false) continue;
 				if(limb is HumanoidLeg c) c.SetNewSpeeds(currentData.RunningLegSpeed, currentData.WalkingLegSpeed);
-				if(limb is Arm a) a.SetNewSpeeds(a.CrawlingSpeedModifier);
+				if(limb is HumanoidArm a) a.SetNewSpeeds(a.CrawlingSpeedModifier);
 			}
 		}
 
