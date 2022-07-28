@@ -2,6 +2,7 @@
 using AddressableReferences;
 using UnityEngine;
 using System.Collections.Generic;
+using Systems.Antagonists;
 
 namespace Doors.Modules
 {
@@ -60,8 +61,10 @@ namespace Doors.Modules
 		{
 			if (interaction == null) return ModuleSignal.Continue;
 
+			//TODO card coded not larva, maybe when moved to body parts larva has their doesnt have this ability on theirs
 			if (interaction.HandObject == null
-			    && interaction.PerformerPlayerScript.PlayerTypeSettings.CanPryDoorsWithHands)
+			    && interaction.PerformerPlayerScript.PlayerTypeSettings.CanPryDoorsWithHands &&
+			    (interaction.PerformerPlayerScript.TryGetComponent<AlienPlayer>(out var alienPlayer) == false || alienPlayer.IsLarva == false))
 			{
 				PryDoor(interaction, false);
 				return ModuleSignal.Break;

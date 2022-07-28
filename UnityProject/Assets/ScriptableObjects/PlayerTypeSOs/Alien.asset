@@ -12,10 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 960e142aa5224260865bd62048f99bde, type: 3}
   m_Name: Alien
   m_EditorClassIdentifier: 
-  playerState: 16
+  playerType: 16
   canBeCuffed: 0
   canCraft: 0
   canBuckleOthers: 1
+  canPull: 1
   canInteractWithDoors: 1
   canPryDoorsWithHands: 1
   pryHandName: claws
@@ -29,6 +30,8 @@ MonoBehaviour:
   receiveChannels: 2179076
   defaultChannel: 2097152
   checkForRadios: 0
+  sendSpeechBubbleTo: 18
+  receiveSpeechBubbleFrom: 8
   canMelee: 1
   emptyMeleeAttackData:
   - attackVerb: slice

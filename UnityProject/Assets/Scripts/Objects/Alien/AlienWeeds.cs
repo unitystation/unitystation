@@ -71,12 +71,13 @@ namespace Alien
 				didTryExpand = true;
 
 				var localPos = coordToTry.To3Int();
-				var matrixAtPoint = MatrixManager.AtPoint(localPos.ToWorld(registerTile.Matrix), true, registerTile.Matrix.MatrixInfo);
+				var worldTargetPos = localPos.ToWorld(registerTile.Matrix);
+				var matrixAtPoint = MatrixManager.AtPoint(worldTargetPos, true, registerTile.Matrix.MatrixInfo);
 
-				var worldPosInt = objectPhysics.OfficialPosition.RoundToInt();
+				var worldPosInt = coordAdjacent.ToWorldInt(registerTile.Matrix);
 
 				var passable = MatrixManager.IsPassableAtAllMatrices(worldPosInt,
-					localPos.ToWorldInt(matrixAtPoint.Matrix), true, includingPlayers: false,
+					worldTargetPos.RoundToInt(), true, includingPlayers: false,
 					matrixOrigin: registerTile.Matrix.MatrixInfo, matrixTarget: matrixAtPoint);
 
 				if(passable == false) continue;
@@ -132,16 +133,16 @@ namespace Alien
 			ChangeTile(registerTile.LocalPositionServer, registerTile.Matrix.MatrixInfo);
 		}
 
-		private (bool isValid, Vector2Int coordAdjacent) ValidateCoord(Vector2Int localPosition)
+		private (bool isValid, Vector3Int coordAdjacent) ValidateCoord(Vector2Int localPosition)
 		{
 			foreach (var done in coordsDone)
 			{
 				if((done - localPosition).magnitude.Approx(1) == false) continue;
 
-				return (true, done);
+				return (true, new Vector3Int(done.x, done.y, 0));
 			}
 
-			return (false, Vector2Int.zero);
+			return (false, Vector3Int.zero);
 		}
 
 		private List<Vector2Int> GenerateCoords(Vector2Int localPosition)

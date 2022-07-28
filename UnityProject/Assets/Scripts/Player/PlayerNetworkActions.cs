@@ -24,6 +24,7 @@ using UI.Items;
 using Doors;
 using Objects;
 using Tiles;
+using Util;
 using Random = UnityEngine.Random;
 
 public partial class PlayerNetworkActions : NetworkBehaviour
@@ -600,23 +601,28 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	}
 
 	[Server]
-	public void ServerToggleChatIcon(bool turnOn, string message, ChatChannel chatChannel, ChatModifier chatModifier)
+	public void ServerToggleChatIcon(string message, ChatModifier chatModifier)
 	{
-		if (!playerScript.objectPhysics.IsVisible || (playerScript.mind.occupation.JobType == JobType.NULL
-												|| playerScript.playerHealth.IsDead || playerScript.playerHealth.IsCrit))
-		{
-			//Don't do anything with chat icon if player is invisible or not spawned in
-			//This will also prevent clients from snooping other players local chat messages that aren't visible to them
-			return;
-		}
+		//Don't do anything with chat icon if player is invisible or not spawned in
+		if(playerScript.objectPhysics.IsVisible == false) return;
+		if(playerScript.playerHealth != null &&
+		   (playerScript.playerHealth.IsDead || playerScript.playerHealth.IsCrit)) return;
 
 		// Cancel right away if the player cannot speak.
-		if ((chatModifier & ChatModifier.Mute) == ChatModifier.Mute)
-		{
-			return;
-		}
+		if ((chatModifier & ChatModifier.Mute) == ChatModifier.Mute) return;
 
-		ShowChatBubbleMessage.SendToNearby(gameObject, message, true, chatModifier);
+		var visiblePlayers = OtherUtil.GetVisiblePlayers(gameObject.transform.position);
+
+		foreach (var player in visiblePlayers)
+		{
+			//See if they can receive our speech bubbles
+			if(player.Script.PlayerTypeSettings.ReceiveSpeechBubbleFrom.HasFlag(playerScript.PlayerType) == false) continue;
+
+			//See if they we can send our speech bubbles
+			if(playerScript.PlayerTypeSettings.SendSpeechBubbleTo.HasFlag(player.Script.PlayerType) == false) continue;
+
+			ShowChatBubbleMessage.SendTo(player.Connection, gameObject, message, true);
+		}
 	}
 
 	[Command]

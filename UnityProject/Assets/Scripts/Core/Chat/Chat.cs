@@ -163,11 +163,6 @@ public partial class Chat : MonoBehaviour
 					//Crit and dead ghost in body then only ghost channel
 					chatEvent.channels = ChatChannel.Ghost;
 				}
-				else if (player.playerHealth.IsDead == false && player.IsGhost == false)
-				{
-					//Control the chat bubble
-					player.playerNetworkActions.ServerToggleChatIcon(true, processedMessage.message, channels, processedMessage.chatModifiers);
-				}
 
 				if (player.IsDeadOrGhost == false)
 				{
@@ -186,6 +181,9 @@ public partial class Chat : MonoBehaviour
 					}
 				}
 			}
+
+			//Do chat bubble for nearby players
+			player.playerNetworkActions.ServerToggleChatIcon(processedMessage.message, processedMessage.chatModifiers);
 		}
 
 		InvokeChatEvent(chatEvent);
