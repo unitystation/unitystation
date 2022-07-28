@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace HealthV2
 {
-	public class Limb : BodyPartFunctionality, IMovementEffect
+	public class Limb : BodyPartFunctionality
 	{
 		protected PlayerHealthV2 playerHealth;
 
@@ -14,17 +14,12 @@ namespace HealthV2
 			bodyPart = GetComponent<BodyPart>();
 			playerHealth = bodyPart.HealthMaster as PlayerHealthV2;
 			bodyPart.ModifierChange += ModifierChanged;
-			playerHealth.OrNull()?.PlayerMove.AddModifier(this);
 		}
 
 		public void ModifierChanged()
 		{
 			playerHealth.PlayerMove.UpdateSpeeds();
 		}
-
-		public float RunningSpeedModifier { get; }
-		public float WalkingSpeedModifier { get; }
-		public float CrawlingSpeedModifier { get; }
 	}
 
 }
