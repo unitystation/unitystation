@@ -8,7 +8,7 @@ using UnityEngine.SceneManagement;
 using UnityEditor;
 using UnityEditor.SceneManagement;
 using Objects.Atmospherics;
-
+using Shared.Editor;
 
 namespace Core.Editor.Tools.Mapping
 {
@@ -163,7 +163,7 @@ namespace Core.Editor.Tools.Mapping
 				}
 
 				EditorGUILayout.Space(10);
-				if (modifiedObjects.Count > 0 && EditorUIUtils.BigAssButton("Save All"))
+				if (modifiedObjects.Count > 0 && EditorUIUtils.BigButton("Save All"))
 				{
 					foreach (var gameObject in modifiedObjects)
 					{

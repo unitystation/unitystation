@@ -156,13 +156,19 @@ PrefabInstance:
     - target: {fileID: 8040391005062056419, guid: 05a135eab68164d34bb02b82fff3cde0,
         type: 3}
       propertyPath: initialTraits.Array.size
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 8040391005062056419, guid: 05a135eab68164d34bb02b82fff3cde0,
         type: 3}
       propertyPath: initialTraits.Array.data[1]
       value: 
       objectReference: {fileID: 11400000, guid: ba923436cf6803a4f99a5ed73f885d61,
+        type: 2}
+    - target: {fileID: 8040391005062056419, guid: 05a135eab68164d34bb02b82fff3cde0,
+        type: 3}
+      propertyPath: initialTraits.Array.data[2]
+      value: 
+      objectReference: {fileID: 11400000, guid: 47ca66de1b3472542a4b5fe877dbed3d,
         type: 2}
     - target: {fileID: 8797898182386189490, guid: 05a135eab68164d34bb02b82fff3cde0,
         type: 3}
@@ -206,7 +212,6 @@ MonoBehaviour:
   syncInterval: 0.1
   isToy: 0
   coitusTime: 10
-  pregnancyTime: 300
   facehugger: {fileID: 3580619421430961846, guid: 28f0f699598b8074389bd2fecadaaf7a,
     type: 3}
   larvae: {fileID: 2515321529866027611, guid: cd0a7f50aede9e84599a86e571f388bb, type: 3}

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Text;
 using Systems;
 using HealthV2;
@@ -148,7 +149,10 @@ namespace Player
 		{
 			if(sentByPlayer.TryGetComponent<PlayerScript>(out var sentByPlayerScript) == false) return;
 
-			if (sentByPlayerScript.PlayerState != PlayerScript.PlayerStates.Ghost)
+			var settings = sentByPlayerScript.PlayerTypeSettings;
+			if (settings.CanExamineOthers == ExamineType.None) return;
+
+			if (settings.CanExamineOthers != ExamineType.AlwaysAdvanced && settings.CanExamineOthers.HasFlag(ExamineType.Basic))
 			{
 				// if distance is too big or is self-examination, send normal examine message
 				if (Vector3.Distance(sentByPlayer.AssumedWorldPosServer(), gameObject.AssumedWorldPosServer()) >= maxInteractionDistance || sentByPlayer == gameObject)
@@ -158,14 +162,14 @@ namespace Player
 				}
 			}
 
-			//If youre not normal or ghost then only allow basic examination
-			//TODO maybe in future have this be a separate setting for each player type?
-			if (sentByPlayerScript.PlayerState != PlayerScript.PlayerStates.Normal &&
-			    sentByPlayerScript.PlayerState != PlayerScript.PlayerStates.Ghost)
+			//If only allow basic examination
+			if (settings.CanExamineOthers == ExamineType.AlwaysBasic)
 			{
 				BasicExamine(sentByPlayer);
 				return;
 			}
+
+			if(settings.CanExamineOthers.HasFlag(ExamineType.Advanced) == false) return;
 
 			// start itemslot observation
 			this.GetComponent<DynamicItemStorage>().ServerAddObserverPlayer(sentByPlayer, true);
@@ -173,7 +177,7 @@ namespace Player
 			PlayerExaminationMessage.Send(sentByPlayer, this, true);
 
 			//Allow ghosts to keep the screen open even if player moves away
-			if(sentByPlayerScript.PlayerState == PlayerScript.PlayerStates.Ghost) return;
+			if(sentByPlayerScript.PlayerType == PlayerTypes.Ghost) return;
 
 			//stop observing when target player is too far away
 			var relationship = RangeRelationship.Between(
@@ -187,6 +191,11 @@ namespace Player
 
 		private void BasicExamine(GameObject sentByPlayer)
 		{
+			if (Equipment == null)
+			{
+				return;
+			}
+
 			Chat.AddExamineMsg(sentByPlayer,
 				$"This is <b>{VisibleName}</b>.\n" +
 				$"{Equipment.Examine()}" +

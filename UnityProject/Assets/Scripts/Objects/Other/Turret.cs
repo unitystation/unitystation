@@ -7,12 +7,12 @@ using Systems;
 using Systems.Construction;
 using Systems.Electricity;
 using Systems.MobAIs;
-using Systems.ObjectConnection;
 using AddressableReferences;
 using Messages.Server;
 using Mirror;
 using Objects.Security;
 using Objects.Wallmounts.Switches;
+using Shared.Systems.ObjectConnection;
 using UI.Core.Net;
 using UnityEngine;
 using Weapons;
@@ -737,7 +737,7 @@ namespace Objects.Other
 
 		public bool CanOpenNetTab(GameObject playerObject, NetTabType netTabType)
 		{
-			if (turretType != TurretType.Ai && unlocked == false && playerObject.GetComponent<PlayerScript>().PlayerState != PlayerScript.PlayerStates.Ai)
+			if (turretType != TurretType.Ai && unlocked == false && playerObject.GetComponent<PlayerScript>().PlayerType != PlayerTypes.Ai)
 			{
 				Chat.AddExamineMsgFromServer(playerObject, "Turret is locked");
 				return false;
@@ -752,11 +752,11 @@ namespace Objects.Other
 		MultitoolConnectionType IMultitoolLinkable.ConType => MultitoolConnectionType.Turret;
 		IMultitoolMasterable IMultitoolSlaveable.Master => connectedSwitch;
 		bool IMultitoolSlaveable.RequireLink => false; // TODO: set to false to ignore false positive; currently links are serialized on the switch
-		bool IMultitoolSlaveable.TrySetMaster(PositionalHandApply interaction, IMultitoolMasterable master)
+		bool IMultitoolSlaveable.TrySetMaster(GameObject performer, IMultitoolMasterable master)
 		{
 			if (unlocked == false)
 			{
-				Chat.AddExamineMsgFromServer(interaction.Performer, "You try to link the controller but the turret interface is locked!");
+				Chat.AddExamineMsgFromServer(performer, "You try to link the controller but the turret interface is locked!");
 				return false;
 			}
 

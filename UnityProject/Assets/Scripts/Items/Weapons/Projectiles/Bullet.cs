@@ -28,6 +28,9 @@ namespace Weapons.Projectiles
 
 		public LayerMaskData MaskData => maskData;
 
+		[SerializeField]
+		private PlayerTypes playerThatCanBeHit = PlayerTypes.Normal | PlayerTypes.Alien;
+
 		private GameObject shooter;
 
 		private bool destroyed;
@@ -122,8 +125,15 @@ namespace Weapons.Projectiles
 		private bool IsHitValid(MatrixManager.CustomPhysicsHit  hit)
 		{
 			if (hit.ItHit == false) return false;
-			if (WillHurtShooter) return true;
-			if (hit.CollisionHit.GameObject == shooter) return false;
+			if (hit.CollisionHit.GameObject == shooter && WillHurtShooter == false) return false;
+
+			if (hit.CollisionHit.GameObject != null &&
+			    hit.CollisionHit.GameObject.TryGetComponent<PlayerScript>(out var playerScript) &&
+			    playerThatCanBeHit.HasFlag(playerScript.PlayerType) == false)
+			{
+				return false;
+			}
+
 			return true;
 		}
 

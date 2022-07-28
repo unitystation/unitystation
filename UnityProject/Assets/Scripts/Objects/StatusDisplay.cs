@@ -8,9 +8,9 @@ using UnityEngine.UI;
 using Mirror;
 using ScriptableObjects;
 using Systems.Interaction;
-using Systems.ObjectConnection;
 using Managers;
 using Doors;
+using Shared.Systems.ObjectConnection;
 
 
 namespace Objects.Wallmounts

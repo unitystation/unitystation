@@ -10,6 +10,7 @@ using Systems.CraftingV2;
 using Items.PDA;
 using Machines;
 using Objects.Atmospherics;
+using UnityEngine.Serialization;
 
 namespace ScriptableObjects
 {
@@ -47,6 +48,9 @@ namespace ScriptableObjects
 		public UplinkCategoryList UplinkCategoryList;
 		public UplinkPasswordList UplinkPasswordList;
 
+		[FormerlySerializedAs("PlayerStatesSingleton")]
+		public PlayerTypeSingleton playerTypeSingleton;
+
 		private Dictionary<Type, ScriptableObject> typeSOMap;
 
 		public override void Awake()
@@ -79,6 +83,7 @@ namespace ScriptableObjects
 				{ typeof(UIActionSOSingleton), UIActionSOSingleton },
 				{ typeof(UplinkCategoryList), UplinkCategoryList },
 				{ typeof(UplinkPasswordList), UplinkPasswordList },
+				{ typeof(PlayerTypeSingleton), playerTypeSingleton },
 			};
 		}
 

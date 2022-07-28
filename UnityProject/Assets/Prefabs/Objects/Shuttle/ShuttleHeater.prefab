@@ -166,7 +166,6 @@ MonoBehaviour:
   HeatResistance: 100
   ExplosionsDamage: 100
   doDamageMessage: 1
-  Meleeable: {fileID: 0}
 --- !u!114 &3905972319176629353
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -262,7 +261,7 @@ MonoBehaviour:
   IsPlayer: 0
   InitialLocationSynchronised: 0
   tileMoveSpeed: 1
-  isNotPushable: 0
+  isNotPushable: 1
   airTime: 0
   slideTime: 0
   SetIgnoreSticky: 0

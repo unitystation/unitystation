@@ -17,9 +17,8 @@ public class BlobMouseInputController : MouseInputController
 
 	public BlobConstructs blobConstructs;
 
-	public override void Start()
+	private void Awake()
 	{
-		base.Start();
 		blobPlayer = GetComponent<BlobPlayer>();
 	}
 

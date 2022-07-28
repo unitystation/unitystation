@@ -1335,7 +1335,7 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 
 
 		var state = matrix.MatrixMove.ClientState;
-		var pivot = matrix.MatrixMove.Pivot.ToNonInt3();
+		var pivot = matrix.MatrixMove.Pivot.To3();
 
 		return (state.FacingOffsetFromInitial(matrix.MatrixMove).QuaternionInverted *
 		        (worldPos - pivot - matrix.GetOffset(state))) + pivot;

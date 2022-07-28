@@ -44,8 +44,8 @@ namespace Objects.Disposals
 		public void EjectContents()
 		{
 			objectContainer.RetrieveObjects();
-			gasContainer.IsSealed = false;
 			gasContainer.ReleaseContentsInstantly();
+			gasContainer.IsSealed = false;
 		}
 
 		/// <summary>
@@ -70,8 +70,8 @@ namespace Objects.Disposals
 				}
 			}
 
-			gasContainer.IsSealed = false;
 			gasContainer.ReleaseContentsInstantly();
+			gasContainer.IsSealed = false;
 		}
 
 		#endregion EjectContents

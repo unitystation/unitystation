@@ -1,3 +1,4 @@
+using ScriptableObjects;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -24,7 +25,7 @@ namespace UI
 		/// </summary>
 		public void Resist()
 		{
-			if (PlayerManager.LocalPlayerScript.IsNormal == false) return;
+			if(PlayerManager.LocalPlayerScript.PlayerTypeSettings.CanResist == false) return;
 
 			PlayerManager.LocalPlayerScript.playerNetworkActions.CmdResist();
 
@@ -37,11 +38,16 @@ namespace UI
 		/// </summary>
 		public void Drop()
 		{
-			// if (!Validations.CanInteract(PlayerManager.LocalPlayerScript, NetworkSide.Client, allowCuffed: true)); Commented out because it does... nothing?
+			if (Validations.CanInteract(PlayerManager.LocalPlayerScript,
+				    NetworkSide.Client, allowCuffed: true, apt: Validations.CheckState(x => x.CanDropItems)) == false) return;
+
+			if (PlayerManager.LocalPlayerScript.DynamicItemStorage == null)
+			{
+				Logger.LogError("Tried to drop, but has no DynamicItemStorage");
+				return;
+			}
 
 			var currentSlot = PlayerManager.LocalPlayerScript.DynamicItemStorage.GetActiveHandSlot();
-
-			if (PlayerManager.LocalPlayerScript.IsNormal == false) return;
 
 			if (currentSlot.Item == null) return;
 
@@ -73,10 +79,8 @@ namespace UI
 			if (throwImage.sprite == throwSprites[0] && UIManager.IsThrow == false)
 			{
 				// Check if player can throw
-				if (!Validations.CanInteract(PlayerManager.LocalPlayerScript, NetworkSide.Client))
-				{
-					return;
-				}
+				if (Validations.CanInteract(PlayerManager.LocalPlayerScript, NetworkSide.Client, apt:
+					    Validations.CheckState(x => x.CanThrowItems)) == false) return;
 
 				// Enable throw
 				Logger.Log("Throw Button Enabled", Category.UserInput);

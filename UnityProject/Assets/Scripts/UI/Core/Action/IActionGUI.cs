@@ -1,14 +1,18 @@
-﻿using Mirror;
+﻿using System.Collections.Generic;
+using Mirror;
 using UnityEngine;
+
+public interface IAction { }
+
+///Using both IActionGUI and IActionGUIMULTI on a script will not work!!!, USE ONLY ONE OF THE Interface Types!!!///
+
 /// <summary>
 /// Simply implement this to Implement your Screen action
 /// </summary>
-public interface IActionGUI
+public interface IActionGUI : IAction
 {
-	ActionData ActionData
-	{
-		get;
-	}
+	ActionData ActionData { get; }
+
 	void CallActionClient();
 }
 
@@ -18,7 +22,7 @@ public interface IActionGUI
 /// </summary>
 public interface IServerActionGUI : IActionGUI
 {
-	void CallActionServer(PlayerInfo SentByPlayer); //Requires validation in this
+	void CallActionServer(PlayerInfo playerInfo); //Requires validation in this
 }
 
 
@@ -46,9 +50,28 @@ public class __ExampleIServerActionGUI__ : IServerActionGUI
 		//Remember if its networked do validation
 	}
 
-	public void CallActionServer(PlayerInfo SentByPlayer)
+	public void CallActionServer(PlayerInfo playerInfo)
 	{
 		//Validation
 		//do Action
 	}
+}
+
+/// <summary>
+/// Simply implement this to Implement your Screen action
+/// </summary>
+public interface IActionGUIMulti : IAction
+{
+	List<ActionData> ActionData { get; }
+
+	void CallActionClient(ActionData data);
+}
+
+
+/// <summary>
+/// Simply implement this to Implement your Networked screen action
+/// </summary>
+public interface IServerActionGUIMulti : IActionGUIMulti
+{
+	void CallActionServer(ActionData data, PlayerInfo playerInfo); //Requires validation in this
 }

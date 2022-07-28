@@ -1,0 +1,122 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &3198259993131326408
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 2270965261034941782, guid: 1f74ff76597345148a3687fa9467b3ab,
+        type: 3}
+      propertyPath: BodyPartType
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2977637531942402472, guid: 1f74ff76597345148a3687fa9467b3ab,
+        type: 3}
+      propertyPath: initialName
+      value: alien Left Leg
+      objectReference: {fileID: 0}
+    - target: {fileID: 2977637531942402472, guid: 1f74ff76597345148a3687fa9467b3ab,
+        type: 3}
+      propertyPath: initialDescription
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 3326786436010601342, guid: 1f74ff76597345148a3687fa9467b3ab,
+        type: 3}
+      propertyPath: m_AssetId
+      value: 44e3ea029dd328a469544bc9cdfde403
+      objectReference: {fileID: 0}
+    - target: {fileID: 3435306550273878974, guid: 1f74ff76597345148a3687fa9467b3ab,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3435306550273878974, guid: 1f74ff76597345148a3687fa9467b3ab,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3435306550273878974, guid: 1f74ff76597345148a3687fa9467b3ab,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3435306550273878974, guid: 1f74ff76597345148a3687fa9467b3ab,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3435306550273878974, guid: 1f74ff76597345148a3687fa9467b3ab,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3435306550273878974, guid: 1f74ff76597345148a3687fa9467b3ab,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3435306550273878974, guid: 1f74ff76597345148a3687fa9467b3ab,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3435306550273878974, guid: 1f74ff76597345148a3687fa9467b3ab,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3435306550273878974, guid: 1f74ff76597345148a3687fa9467b3ab,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3435306550273878974, guid: 1f74ff76597345148a3687fa9467b3ab,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3435306550273878974, guid: 1f74ff76597345148a3687fa9467b3ab,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3440516173299570378, guid: 1f74ff76597345148a3687fa9467b3ab,
+        type: 3}
+      propertyPath: m_Name
+      value: AlienLeftLeg
+      objectReference: {fileID: 0}
+    - target: {fileID: 8576422551938030247, guid: 1f74ff76597345148a3687fa9467b3ab,
+        type: 3}
+      propertyPath: foreverID
+      value: 44e3ea029dd328a469544bc9cdfde403
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 1f74ff76597345148a3687fa9467b3ab, type: 3}
+--- !u!1 &278567592626375938 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3440516173299570378, guid: 1f74ff76597345148a3687fa9467b3ab,
+    type: 3}
+  m_PrefabInstance: {fileID: 3198259993131326408}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &8973668786470349245
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 278567592626375938}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4ac414987522b024e895aac3e21193d0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isEMPVunerable: 0
+  EMPResistance: 2
+  walkingSpeed: 1.5
+  runningSpeed: 3
+  crawlingSpeed: 0.1
+  armEfficiency: 0.1
+  legEfficiency: 1
+  IsLeg: 1

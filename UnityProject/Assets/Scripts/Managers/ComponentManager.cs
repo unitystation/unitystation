@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Managers;
 using Messages.Server.SpritesMessages;
+using Tilemaps.Behaviours.Layers;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -12,7 +13,6 @@ public class ComponentManager : SingletonManager<ComponentManager>
 
 	public static bool TryGetUniversalObjectPhysics(GameObject gameObject, out UniversalObjectPhysics UOP)
 	{
-
 		if (ObjectToPhysics.TryGetValue(gameObject, out UOP))
 		{
 			return true;
@@ -26,6 +26,9 @@ public class ComponentManager : SingletonManager<ComponentManager>
 		{
 			//Don't need to search if ghost as they dont have UOP
 			if(gameObject.TryGetComponent<GhostMove>(out _)) return false;
+
+			//Don't need to search if NetworkedMatrix as they dont have UOP
+			if(gameObject.TryGetComponent<NetworkedMatrix>(out _)) return false;
 
 			UOP = gameObject.GetComponentInParent<UniversalObjectPhysics>(); //No try get components in parent : ( : P
 			if (UOP == null)

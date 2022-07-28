@@ -313,6 +313,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  playerStateSettings: {fileID: 11400000, guid: 6dc4c671f3201dd4eb28d0718eb4d193,
+    type: 2}
   playerName: ' '
   visibleName: ' '
   PlayerSync: {fileID: 0}
@@ -320,9 +322,11 @@ MonoBehaviour:
   RTT: 0
   RcsMode: 0
   RcsMatrixMove: {fileID: 0}
-  playerState: 3
   actionData: {fileID: 11400000, guid: 288088e3bb7768d41a2fe1b2c170fbce, type: 2}
   playerChatLocation: {fileID: 7971638957329120905}
+  ClueHandsImprintInverseChance: 55
+  ClueUniformImprintInverseChance: 65
+  ClueSpeciesImprintInverseChance: 85
 --- !u!114 &3036929827166855199
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -506,19 +510,25 @@ MonoBehaviour:
   LocalTargetPosition: {x: 0, y: 0, z: 0}
   ChangesDirectionPush: 0
   Intangible: 1
+  CanBeWindPushed: 1
+  IsPlayer: 0
   InitialLocationSynchronised: 0
   tileMoveSpeed: 8
   isNotPushable: 0
-  newtonianMovement: {x: 0, y: 0}
   airTime: 0
   slideTime: 0
+  SetIgnoreSticky: 0
   thrownBy: {fileID: 0}
   aim: 0
   spinMagnitude: 0
+  ForcedPushedFrame: 0
+  TryPushedFrame: 0
+  PushedFrame: 0
+  FramePushDecision: 1
   stickyMovement: 1
+  OnThrowEndResetRotation: 0
   maximumStickSpeed: 20
   onStationMovementsRound: 0
-  attributes: {fileID: 0}
   registerTile: {fileID: 0}
   ContextGameObjects:
   - {fileID: 0}
@@ -528,18 +538,14 @@ MonoBehaviour:
   CorrectingCourse: 0
   Pushing: []
   Hits: []
-  Speed: 1
-  AIR: 3
-  SLIDE: 4
   Animating: 0
-  IsFlyingSliding: 0
+  isFlyingSliding: 0
   IsMoving: 0
   MoveIsWalking: 0
   LastUpdateClientFlying: 0
+  BuckledToObject: {fileID: 0}
   playerScript: {fileID: 0}
-  MoveMaxDelayQueue: 4
   Step: 0
-  intent: 0
   CanMoveThroughObstructions: 1
   RunSpeed: 0
   WalkSpeed: 0
@@ -549,5 +555,4 @@ MonoBehaviour:
   IsPressedCashed: 0
   IsPressedServer: 0
   LastUpdatedFlyingPosition: 15
-  LastProcessMoved: 15
   DEBUGLastMoveMessageProcessed: 15

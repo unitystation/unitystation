@@ -1,10 +1,6 @@
-using System;
 using Objects.Wallmounts;
-using Systems.ObjectConnection;
-using Messages.Server;
-using Mirror;
+using Shared.Systems.ObjectConnection;
 using UnityEngine;
-using UnityEngine.Rendering;
 
 namespace Doors
 {
@@ -37,7 +33,7 @@ namespace Doors
 		MultitoolConnectionType IMultitoolLinkable.ConType => MultitoolConnectionType.FireAlarm;
 		IMultitoolMasterable IMultitoolSlaveable.Master => fireAlarm;
 		bool IMultitoolSlaveable.RequireLink => true;
-		bool IMultitoolSlaveable.TrySetMaster(PositionalHandApply interaction, IMultitoolMasterable master)
+		bool IMultitoolSlaveable.TrySetMaster(GameObject performer, IMultitoolMasterable master)
 		{
 			SetMaster(master);
 			return true;

@@ -11,19 +11,19 @@ using Messages.Server;
 using Systems.Electricity;
 using Systems.Hacking;
 using Systems.Interaction;
-using Systems.ObjectConnection;
-using Systems.Explosions;
 using Doors.Modules;
 using HealthV2;
 using Objects;
 using Objects.Wallmounts;
+using Shared.Systems.ObjectConnection;
 
 namespace Doors
 {
 	/// <summary>
 	/// This is the master 'controller' for the door. It handles interactions by players and passes any interactions it need to to its components.
 	/// </summary>
-	public class DoorMasterController : NetworkBehaviour, ICheckedInteractable<HandApply>, ICheckedInteractable<AiActivate>, ICanOpenNetTab, IMultitoolSlaveable, IServerSpawn, IBumpableObject
+	public class DoorMasterController : NetworkBehaviour, ICheckedInteractable<HandApply>,
+		ICheckedInteractable<AiActivate>, ICanOpenNetTab, IMultitoolSlaveable, IServerSpawn, IBumpableObject
 	{
 		#region inspector
 		[SerializeField, PrefabModeOnly]
@@ -63,7 +63,7 @@ namespace Doors
 		private DoorAnimatorV2 doorAnimator;
 		public DoorAnimatorV2 DoorAnimator => doorAnimator;
 
-		private const float INPUT_COOLDOWN = 1f;
+		private const float INPUT_COOLDOWN = 0.25f;
 
 		#endregion
 
@@ -263,7 +263,7 @@ namespace Doors
 			//When a player interacts with the door, we must first check with each module on what to do.
 			//For instance, if one of the modules has locked the door, that module will want to prevent us from
 			//opening the door.
-			if (!IsClosed)
+			if (IsClosed == false)
 			{
 				OpenInteraction(interaction);
 			}
@@ -593,12 +593,10 @@ namespace Doors
 
 		public bool WillInteract(HandApply interaction, NetworkSide side)
 		{
-			if (!allowInput ||
-			    !DefaultWillInteract.Default(interaction, side) ||
-			    interaction.TargetObject != gameObject)
-			{
-				return false;
-			}
+			if (allowInput == false) return false;
+			if (interaction.TargetObject != gameObject) return false;
+			if (DefaultWillInteract.Default(interaction, side,
+				    Validations.CheckState(x => x.CanInteractWithDoors)) == false) return false;
 
 			//jaws of life
 			if (interaction.HandObject != null &&
@@ -626,6 +624,12 @@ namespace Doors
 			}
 
 			//TODO add pins here//TODO check if clicking on pins region
+
+			if (interaction.HandObject == null &&
+			    interaction.PerformerPlayerScript.PlayerTypeSettings.CanPryDoorsWithHands)
+			{
+				return true;
+			}
 
 			if (interaction.HandObject && interaction.Intent == Intent.Harm)
 			{
@@ -807,7 +811,7 @@ namespace Doors
 
 		public bool CanOpenNetTab(GameObject playerObject, NetTabType netTabType)
 		{
-			bool isAi = playerObject.GetComponent<PlayerScript>().PlayerState == PlayerScript.PlayerStates.Ai;
+			bool isAi = playerObject.GetComponent<PlayerScript>().PlayerType == PlayerTypes.Ai;
 			if (netTabType == NetTabType.HackingPanel)
 			{
 			    //Block Ai from hacking UI but allow normal player
@@ -887,7 +891,7 @@ namespace Doors
 		bool IMultitoolSlaveable.RequireLink => false;
 		// TODO: should be requireLink but hardcoded to false for now,
 		// doors don't know about links, only the switches
-		bool IMultitoolSlaveable.TrySetMaster(PositionalHandApply interaction, IMultitoolMasterable master)
+		bool IMultitoolSlaveable.TrySetMaster(GameObject performer, IMultitoolMasterable master)
 		{
 			SetMaster(master);
 			return true;

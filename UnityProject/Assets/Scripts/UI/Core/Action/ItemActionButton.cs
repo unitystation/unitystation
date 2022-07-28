@@ -55,9 +55,9 @@ namespace UI.Action
 			}
 		}
 
-		public void CallActionServer(PlayerInfo SentByPlayer)
+		public void CallActionServer(PlayerInfo playerInfo)
 		{
-			if (Validations.CanInteract(SentByPlayer.Script , NetworkSide.Server, true))
+			if (Validations.CanInteract(playerInfo.Script , NetworkSide.Server, true))
 			{
 				ServerActionClicked?.Invoke();
 				UpdateButtonSprite(true);

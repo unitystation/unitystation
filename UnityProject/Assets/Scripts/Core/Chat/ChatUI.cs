@@ -156,6 +156,12 @@ namespace UI.Chat_UI
 		private static readonly List<ChatChannel> MainChannels = new List<ChatChannel>
 		{
 			ChatChannel.Local,
+
+			//Blob only has access to blob so can be default
+			ChatChannel.Blob,
+			//Alien only has access to Alien so can be default
+			ChatChannel.Alien,
+
 			ChatChannel.Ghost,
 			ChatChannel.OOC
 		};
@@ -166,7 +172,6 @@ namespace UI.Chat_UI
 		private static readonly List<ChatChannel> RadioChannels = new List<ChatChannel>
 		{
 			ChatChannel.Common,
-			ChatChannel.Binary,
 			ChatChannel.Supply,
 			ChatChannel.CentComm,
 			ChatChannel.Command,
@@ -176,6 +181,16 @@ namespace UI.Chat_UI
 			ChatChannel.Security,
 			ChatChannel.Service,
 			ChatChannel.Syndicate
+		};
+
+		/// <summary>
+		/// OtherChannels which don't broadcast to local
+		/// </summary>
+		private static readonly List<ChatChannel> OtherChannels = new List<ChatChannel>
+		{
+			ChatChannel.Binary,
+			ChatChannel.Blob,
+			ChatChannel.Alien
 		};
 
 		/// <summary>
@@ -651,6 +666,11 @@ namespace UI.Chat_UI
 			}
 
 			foreach (ChatChannel channel in RadioChannels)
+			{
+				CreateToggle(channel);
+			}
+
+			foreach (ChatChannel channel in OtherChannels)
 			{
 				CreateToggle(channel);
 			}

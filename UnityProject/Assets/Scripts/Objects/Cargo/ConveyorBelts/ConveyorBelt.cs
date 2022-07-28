@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
 using ScriptableObjects;
-using Systems.ObjectConnection;
+using Shared.Systems.ObjectConnection;
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
@@ -102,11 +102,11 @@ namespace Construction.Conveyors
 
 			if (item.stickyMovement)
 			{
-				item.TryTilePush(PushDirectionPosition.To2Int(), null , ConveyorBeltSpeed);
+				item.TryTilePush(PushDirectionPosition.RoundTo2Int(), null , ConveyorBeltSpeed);
 			}
 			else
 			{
-				item.NewtonianPush(PushDirectionPosition.To2Int(), ConveyorBeltSpeed - item.NewtonianMovement.magnitude, 0.5f);
+				item.NewtonianPush(PushDirectionPosition.RoundTo2Int(), ConveyorBeltSpeed - item.NewtonianMovement.magnitude, 0.5f);
 			}
 
 		}
