@@ -39,6 +39,25 @@ public class BodyHealthEffect : MetabolismReaction
 		[Tooltip("How much damage or heals If negative per 1u")]
 		public float EffectPerOne;
 	}
+	
+	#region Emotes
+
+	public List<EmoteTypeAndChance> EmoteEffects = new List<EmoteTypeAndChance>();
+
+	[System.Serializable]
+	public struct EmoteTypeAndChance
+	{
+		public bool CustomEmote;
+		[Tooltip("the message only the person doing the emote can see")]
+		[ShowIf(nameof(CustomEmote))] [AllowNesting] public string CustomEmoterMessage;
+		[Tooltip("the emote those who are watching can see")]
+		[ShowIf(nameof(CustomEmote))] [AllowNesting] public string CustomShownMessage;
+		[HideIf("CustomEmote")] [AllowNesting] public EmoteSO Emote;
+		[Tooltip("Chance this action will happen every tick, first in the list rolls first")]
+		[Range(0,100)] [AllowNesting] public int ChancePerTick;
+		public bool StopIfOverdosed;
+	}
+	#endregion
 
 	[ShowNonSerializedField]
 	public List<BodyPart> DamagedList = new List<BodyPart>(); //Not multithread safe
@@ -176,22 +195,4 @@ public class BodyHealthEffect : MetabolismReaction
 			}
 		}
 	}
-	#region Emotes
-
-	public List<EmoteTypeAndChance> EmoteEffects = new List<EmoteTypeAndChance>();
-
-	[System.Serializable]
-	public struct EmoteTypeAndChance
-	{
-		public bool CustomEmote;
-		[Tooltip("the message only the person doing the emote can see")]
-		[ShowIf(nameof(CustomEmote))] [AllowNesting] public string CustomEmoterMessage;
-		[Tooltip("the emote those who are watching can see")]
-		[ShowIf(nameof(CustomEmote))] [AllowNesting] public string CustomShownMessage;
-		[HideIf("CustomEmote")] [AllowNesting] public EmoteSO Emote;
-		[Tooltip("Chance this action will happen every tick, first in the list rolls first")]
-		[Range(0,100)] [AllowNesting] public int ChancePerTick;
-		public bool StopIfOverdosed;
-	}
-	#endregion
 }
