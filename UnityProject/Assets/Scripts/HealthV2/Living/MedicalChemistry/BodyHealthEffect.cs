@@ -5,6 +5,7 @@ using HealthV2;
 using NaughtyAttributes;
 using UnityEngine;
 using UnityEngine.Serialization;
+using ScriptableObjects.RP;
 
 [CreateAssetMenu(fileName = "BodyHealthEffect",
 	menuName = "ScriptableObjects/Chemistry/Reactions/BodyHealthEffect")]
@@ -39,7 +40,7 @@ public class BodyHealthEffect : MetabolismReaction
 		public float EffectPerOne;
 	}
 
-
+	[ShowNonSerializedField]
 	public List<BodyPart> DamagedList = new List<BodyPart>(); //Not multithread safe
 
 	public override void PossibleReaction(List<BodyPart> senders, ReagentMix reagentMix,
@@ -101,7 +102,7 @@ public class BodyHealthEffect : MetabolismReaction
 
 		foreach (var bodyPart in Toloop)
 		{
-			var Individual = bodyPart.ReagentMetabolism * bodyPart.BloodThroughput *bodyPart.CurrentBloodSaturation * Mathf.Max(0.10f, bodyPart.TotalModified) * ReagentMetabolismMultiplier;
+			var Individual = bodyPart.ReagentMetabolism * bodyPart.BloodThroughput * bodyPart.CurrentBloodSaturation * Mathf.Max(0.10f, bodyPart.TotalModified) * ReagentMetabolismMultiplier;
 
 			var PercentageOfProcess = Individual / BodyReactionAmount;
 
@@ -151,5 +152,46 @@ public class BodyHealthEffect : MetabolismReaction
 			}
 		}
 		base.PossibleReaction(senders, reagentMix, reactionMultiple, BodyReactionAmount, TotalChemicalsProcessed);
+
+		foreach(EmoteTypeAndChance emote in EmoteEffects)
+		{
+			//Check if there are organs to act on
+			if (senders.Count == 0) { break; }
+			GameObject player = senders[0].HealthMaster.gameObject;
+			if (emote.StopIfOverdosed == true && Overdose == true) { continue; }
+
+			if (Random.Range(0, 100) <= emote.ChancePerTick )
+			{
+				if(emote.CustomEmote == true)
+				{
+					Chat.AddActionMsgToChat(senders[0].HealthMaster.gameObject, "You " + emote.CustomEmoterMessage,
+						player.GetComponent<PlayerScript>().playerName + " " + emote.CustomShownMessage);
+					break;
+				}
+				else if(emote.Emote != null)
+				{
+					emote.Emote.Do(player);
+					break;
+				}
+			}
+		}
 	}
+	#region Emotes
+
+	public List<EmoteTypeAndChance> EmoteEffects = new List<EmoteTypeAndChance>();
+
+	[System.Serializable]
+	public struct EmoteTypeAndChance
+	{
+		public bool CustomEmote;
+		[Tooltip("the message only the person doing the emote can see")]
+		[ShowIf(nameof(CustomEmote))] [AllowNesting] public string CustomEmoterMessage;
+		[Tooltip("the emote those who are watching can see")]
+		[ShowIf(nameof(CustomEmote))] [AllowNesting] public string CustomShownMessage;
+		[HideIf("CustomEmote")] [AllowNesting] public EmoteSO Emote;
+		[Tooltip("Chance this action will happen every tick, first in the list rolls first")]
+		[Range(0,100)] [AllowNesting] public int ChancePerTick;
+		public bool StopIfOverdosed;
+	}
+	#endregion
 }
