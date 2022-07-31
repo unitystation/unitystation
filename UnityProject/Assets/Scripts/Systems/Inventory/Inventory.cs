@@ -133,10 +133,10 @@ public static class Inventory
 	{
 		var playerItems = playerStorage.GetItemSlots().ToList();
 
-		for (int i = 0; i < playerItems.Count - 1 ; i++)
+		foreach (var playerItemSlot in playerItems.NotNull())
 		{
-			if(playerItems[i] == null || playerItems[i].IsEmpty) continue;
-			ServerPerform(InventoryMove.Drop(playerItems[i], worldTargetVector));
+			if(playerItemSlot.IsEmpty) continue;
+			ServerPerform(InventoryMove.Drop(playerItemSlot, worldTargetVector));
 		}
 	}
 
