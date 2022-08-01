@@ -43,9 +43,9 @@ public class BodyHealthEffect : MetabolismReaction
 	public List<BodyPart> DamagedList = new List<BodyPart>(); //Not multithread safe
 
 	public override void PossibleReaction(List<BodyPart> senders, ReagentMix reagentMix,
-		float reactionMultiple, float BodyReactionAmount, float TotalChemicalsProcessed, out bool Overdose) //limitedReactionAmountPercentage = 0 to 1
+		float reactionMultiple, float BodyReactionAmount, float TotalChemicalsProcessed, out bool overdose) //limitedReactionAmountPercentage = 0 to 1
 	{
-		Overdose = false;
+		overdose = false;
 		DamagedList.Clear(); //Why? So healing medicine is never wasted Is a pain in butt though to work out
 		if ((CanOverdose && TotalChemicalsProcessed > ConcentrationBloodOverdose) == false)
 		{
@@ -111,7 +111,7 @@ public class BodyHealthEffect : MetabolismReaction
 			{
 				if (TotalChemicalsProcessed > ConcentrationBloodOverdose)
 				{
-					Overdose = true;
+					overdose = true;
 					if (MultiEffect)
 					{
 						foreach (var Effect in Effects)
@@ -132,7 +132,7 @@ public class BodyHealthEffect : MetabolismReaction
 				}
 			}
 
-			if (Overdose == false)
+			if (overdose == false)
 			{
 				if (MultiEffect)
 				{
@@ -149,6 +149,6 @@ public class BodyHealthEffect : MetabolismReaction
 				}
 			}
 		}
-		base.PossibleReaction(senders, reagentMix, reactionMultiple, BodyReactionAmount, TotalChemicalsProcessed, out Overdose);
+		base.PossibleReaction(senders, reagentMix, reactionMultiple, BodyReactionAmount, TotalChemicalsProcessed, out overdose);
 	}
 }
