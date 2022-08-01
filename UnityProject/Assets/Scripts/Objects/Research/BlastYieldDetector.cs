@@ -148,7 +148,7 @@ namespace Systems.Research.Objects
 			Vector2 coneCenterVector = coneDirection.CurrentDirection.ToLocalVector2Int();
 			coneCenterVector.Normalize();
 
-			float angle = Math.Abs((Mathf.Acos(Vector2.Dot(coneToQuery, coneCenterVector)) * 180) / Mathf.PI);
+			float angle = Vector2.Angle(coneCenterVector, coneToQuery);
 
 			int points = calculateResearchPoints(explosiveStrength);
 
@@ -258,22 +258,21 @@ namespace Systems.Research.Objects
 
 		public void ServerPerformInteraction(HandApply interaction)
 		{
-			if (stateSync == BlastYieldDetectorState.Connected)
-			{
-				if (Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Wrench))
+			if (stateSync != BlastYieldDetectorState.Connected) return;
+			if (!Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Wrench)) return;
+
+			ToolUtils.ServerUseToolWithActionMessages(interaction, 2,
+				$"You start to rotate the array of the {gameObject.ExpensiveName()}...",
+				$"{interaction.Performer.ExpensiveName()} starts to rotate the array of the {gameObject.ExpensiveName()}...",
+				$"You rotated the array of the {gameObject.ExpensiveName()}.",
+				$"{interaction.Performer.ExpensiveName()} rotates the array of the {gameObject.ExpensiveName()}.",
+				() =>
 				{
-					ToolUtils.ServerUseToolWithActionMessages(interaction, 2,
-						$"You start to rotate the array of the {gameObject.ExpensiveName()}...",
-						$"{interaction.Performer.ExpensiveName()} starts to rotate the array of the {gameObject.ExpensiveName()}...",
-						$"You rotated the array of the {gameObject.ExpensiveName()}.",
-						$"{interaction.Performer.ExpensiveName()} rotates the array of the {gameObject.ExpensiveName()}.",
-						() =>
-						{
-							coneDirection.RotateBy(1);
-						},
-						playSound:true);
-				}
-			}
+					coneDirection.RotateBy(1);
+				},
+				playSound:true);
+
+
 		}
 
 		public override string Examine(Vector3 worldPos = default)
