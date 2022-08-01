@@ -10,7 +10,7 @@ namespace Systems.Research.Objects
 		public ResearchServer researchServer;
 
 		/// <summary>
-		/// Add points based on difference, as per AddResearchPointsDifference on the ResearchServer.
+		/// Add points based on difference beyond the tracked total of a given source, as per AddResearchPointsDifference on the ResearchServer.
 		/// </summary>
 		/// <param name="source">The machine that is adding points.</param>
 		/// <param name="points">The Amount to attempt to add.</param>

@@ -223,6 +223,7 @@ namespace Systems.Research.Objects
 				stateSync = BlastYieldDetectorState.Broken;
 			}
 
+			blastData.Clear();
 			easyPointYieldTarget = 0;
 			maxPointYieldTarget = 0;
 			serverConnEvent(false);
