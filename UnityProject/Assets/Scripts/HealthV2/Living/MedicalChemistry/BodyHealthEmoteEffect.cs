@@ -29,17 +29,17 @@ public class BodyHealthEmoteEffect : BodyHealthEffect
 	}
 
 	public override void PossibleReaction(List<BodyPart> senders, ReagentMix reagentMix,
-		float reactionMultiple, float BodyReactionAmount, float TotalChemicalsProcessed, out bool Overdose) //limitedReactionAmountPercentage = 0 to 1
+		float reactionMultiple, float BodyReactionAmount, float TotalChemicalsProcessed, out bool overdose) //limitedReactionAmountPercentage = 0 to 1
 	{
 
-		base.PossibleReaction(senders, reagentMix, reactionMultiple, BodyReactionAmount, TotalChemicalsProcessed, out Overdose);
+		base.PossibleReaction(senders, reagentMix, reactionMultiple, BodyReactionAmount, TotalChemicalsProcessed, out overdose);
 
 		foreach (EmoteTypeAndChance emote in EmoteEffects)
 		{
 					//Check if there are organs to act on
 					if (senders.Count == 0) { break; }
 			GameObject player = senders[0].HealthMaster.gameObject;
-			if (emote.StopIfOverdosed == true && Overdose == true) { continue; }
+			if (emote.StopIfOverdosed == true && overdose == true) { continue; }
 
 			if (Random.Range(0, 100) <= emote.ChancePerTick)
 			{
