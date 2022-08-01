@@ -1,11 +1,7 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using Messages.Server;
 using UI.Core.NetUI;
 using UnityEngine;
-using Research;
+using Systems.Research.Objects;
 
 namespace UI.Objects.Research
 {
@@ -61,28 +57,14 @@ namespace UI.Objects.Research
 		#endregion
 
 		#region Initialization
-
-		//protected override void InitServer()
-		//{
-		//	StartCoroutine(WaitForProvider());
-		//}
-
-		//private IEnumerator WaitForProvider()
-		//{
-		//	while (Provider == null)
-		//	{
-		//		yield return WaitFor.EndOfFrame;
-		//	}
-		//	blastYieldDetector = Provider.GetComponentInChildren<BlastYieldDetector>();
 		private void Start()
 		{
 			clientGUI = UIManager.Instance.transform.GetChild(0).GetComponentInChildren<GUI_BlastYieldDetector>();
 			clientGUIGraphTransform = clientGUI.graphContainer.transform;
-			BlastYieldDetector.changeEvent += UpdateNodes;
+			BlastYieldDetector.blastEvent += UpdateNodes;
+			BlastYieldDetector.serverConnEvent += UpdateServerConnData;
 			UpdateNodes();
-			pointsMax.SetValueServer(blastYieldDetector.maxPointsValue.ToString());
-			yieldMin.SetValueServer(blastYieldDetector.researchServer.yieldTargetRangeMinimum.ToString());
-			yieldMax.SetValueServer(blastYieldDetector.researchServer.yieldTargetRangeMaximum.ToString());
+			UpdateServerConnData(blastYieldDetector.researchServer != null);
 		}
 		#endregion
 
@@ -101,6 +83,24 @@ namespace UI.Objects.Research
 						= GetNodePosition(blastYieldDetector.blastData.Keys[i],blastYieldDetector.blastData.Values[i]);
 				}
 			}
+		}
+
+		public void UpdateServerConnData(bool connected)
+		{
+			if (connected)
+			{
+				pointsMax.SetValueServer(blastYieldDetector.maxPointsValue.ToString());
+				yieldMin.SetValueServer(blastYieldDetector.researchServer.yieldTargetRangeMinimum.ToString());
+				yieldMax.SetValueServer(blastYieldDetector.researchServer.yieldTargetRangeMaximum.ToString());
+			}
+			else
+			{
+				pointsMax.SetValueServer("No Server!");
+				yieldMin.SetValueServer("No Server!");
+				yieldMax.SetValueServer("No Server!");
+			}
+
+
 		}
 
 		public Vector2 GetNodePosition(float yield, float points)
@@ -182,7 +182,8 @@ namespace UI.Objects.Research
 
 		public void OnDestroy()
 		{
-			BlastYieldDetector.changeEvent -= UpdateNodes;
+			BlastYieldDetector.blastEvent -= UpdateNodes;
+			BlastYieldDetector.serverConnEvent -= UpdateServerConnData;
 		}
 	}
 }

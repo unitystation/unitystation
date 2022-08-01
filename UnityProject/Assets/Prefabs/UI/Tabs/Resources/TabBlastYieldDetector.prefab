@@ -104,7 +104,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 140
+  m_text: No Server!
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 026e5ac2497f33242a3cc41e20fea0cc, type: 2}
   m_sharedMaterial: {fileID: 6790726965082636186, guid: 026e5ac2497f33242a3cc41e20fea0cc,
@@ -148,7 +148,7 @@ MonoBehaviour:
   m_lineSpacingMax: 0
   m_paragraphSpacing: 0
   m_charWidthMaxAdj: 0
-  m_enableWordWrapping: 1
+  m_enableWordWrapping: 0
   m_wordWrappingRatios: 0.4
   m_overflowMode: 0
   m_linkedTextComponent: {fileID: 0}
@@ -1472,7 +1472,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 1000
+  m_text: No server!
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 026e5ac2497f33242a3cc41e20fea0cc, type: 2}
   m_sharedMaterial: {fileID: 6790726965082636186, guid: 026e5ac2497f33242a3cc41e20fea0cc,
@@ -1516,7 +1516,7 @@ MonoBehaviour:
   m_lineSpacingMax: 0
   m_paragraphSpacing: 0
   m_charWidthMaxAdj: 0
-  m_enableWordWrapping: 1
+  m_enableWordWrapping: 0
   m_wordWrappingRatios: 0.4
   m_overflowMode: 0
   m_linkedTextComponent: {fileID: 0}
@@ -1621,7 +1621,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Shfifty Five
+  m_text: No Server!
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 026e5ac2497f33242a3cc41e20fea0cc, type: 2}
   m_sharedMaterial: {fileID: 6790726965082636186, guid: 026e5ac2497f33242a3cc41e20fea0cc,
@@ -2051,14 +2051,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Hidden: 0
   isPopOut: 1
-  Type: 52
+  Type: 55
   OnTabClosed:
     m_PersistentCalls:
       m_Calls: []
   OnTabOpened:
     m_PersistentCalls:
       m_Calls: []
-  BlastYieldDetector: {fileID: 0}
   pointsMax: {fileID: 5713679678611498250}
   yieldMin: {fileID: 6303145273033728492}
   yieldMax: {fileID: 2975865762930193953}

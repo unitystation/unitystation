@@ -1,22 +1,26 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
+using System.Text;
+using Core.Editor.Attributes;
 using Items.Weapons;
+using Mirror;
 using Systems.Electricity;
-using Systems.ObjectConnection;
-using Systems.Research.Objects;
 using UI.Core.Net;
 using UnityEngine;
 
-namespace Research
+namespace Systems.Research.Objects
 {
-	public class BlastYieldDetector : MonoBehaviour, IAPCPowerable, IMultitoolSlaveable, ICanOpenNetTab
+	public class BlastYieldDetector : ResearchPointMachine, ICanOpenNetTab, ICheckedInteractable<HandApply>
 	{
-		public ResearchServer researchServer;
-
+		/// <summary>
+		/// Distance the machine will detect blasts from.
+		/// </summary>
 		public float range;
-		[SerializeField] public OrientationEnum coneDirection;
+
+		/// <summary>
+		/// Direction the machine will detect blasts from.
+		/// </summary>
+		private Rotatable coneDirection;
 
 		/// <summary>
 		/// Randomized blast yield target for awarding maximum points, initialized from research server
@@ -45,28 +49,70 @@ namespace Research
 
 		protected RegisterObject registerObject;
 
-		public static int highestExplosionPointValueCurrent;
+		public delegate void BlastEvent();
 
-		public delegate void ChangeEvent();
+		public delegate void ServerConnEvent(bool connected);
 
-		public static event ChangeEvent changeEvent;
+		public static event BlastEvent blastEvent;
+		public static event ServerConnEvent serverConnEvent;
+
+		[PrefabModeOnly]
+		private SpriteHandler spriteHandler;
+
+		public enum BlastYieldDetectorState
+		{
+			Off = 0,
+			Connected = 1,
+			Broken = 2
+		}
+
+		[SyncVar(hook = nameof(SyncSprite))]
+		private BlastYieldDetectorState stateSync;
+
+		private void SyncSprite(BlastYieldDetectorState oldState, BlastYieldDetectorState newState)
+		{
+			stateSync = newState;
+			spriteHandler.ChangeSprite((int)newState);
+		}
 
 		private void UpdateGui()
 		{
 			// Change event runs UpdateNodes in GUI_BlastYieldDetector
-			if (changeEvent != null)
+			if (blastEvent != null)
 			{
-				changeEvent();
+				blastEvent();
 			}
 		}
 
 		private void Awake()
 		{
 			registerObject = GetComponent<RegisterObject>();
+			coneDirection = GetComponent<Rotatable>();
+			spriteHandler = GetComponentInChildren<SpriteHandler>();
 
 			ExplosiveBase.ExplosionEvent.AddListener(DetectBlast);
 			blastData = new SortedList<float, float>();
 			GetYieldTargets();
+			AffirmState();
+		}
+
+		private void AffirmState()
+		{
+			if (PoweredState == PowerState.Off)
+			{
+				stateSync = BlastYieldDetectorState.Off;
+			}
+			else
+			{
+				if (researchServer == null)
+				{
+					stateSync = BlastYieldDetectorState.Broken;
+				}
+				else
+				{
+					stateSync = BlastYieldDetectorState.Connected;
+				}
+			}
 		}
 
 		/// <summary>
@@ -74,9 +120,11 @@ namespace Research
 		/// </summary>
 		private void GetYieldTargets()
 		{
+			if (researchServer == null) return;
 			researchServer.SetBlastYieldTargets();
 			maxPointYieldTarget = researchServer.hardBlastYieldDetectorTarget;
 			easyPointYieldTarget = researchServer.easyBlastYieldDetectorTarget;
+			Chat.AddLocalMsgToChat("Yield targets acquired",gameObject);
 		}
 
 		/// <summary>
@@ -97,7 +145,7 @@ namespace Research
 			Vector2 coneToQuery = pos.To2Int() - thisMachine;
 			coneToQuery.Normalize();
 
-			Vector2 coneCenterVector = coneDirection.ToLocalVector2Int();
+			Vector2 coneCenterVector = coneDirection.CurrentDirection.ToLocalVector2Int();
 			coneCenterVector.Normalize();
 
 			float angle = Math.Abs((Mathf.Acos(Vector2.Dot(coneToQuery, coneCenterVector)) * 180) / Mathf.PI);
@@ -107,32 +155,32 @@ namespace Research
 			if (angle <= 45)
 			{
 				blastData.Add(explosiveStrength, points);
-				AwardResearchPoints(points);
+				AwardResearchPoints(this, points);
 			}
 
 			UpdateGui();
 		}
 
 		/// <summary>
-		/// Awards points by how much higher current explosion points are than the current highest. E.G. if current
-		/// highest is 35 and a new explosion reaches 40 points, then 5 points are awarded. This puts an effective cap on
-		/// possible points gained from ordnance, based on points put in from the formula in calculateResearchPoints().
+		/// Awards points by difference (this is handled by the ResearchServer).
+		/// Total possible points are capped by the formula in calculateResearchPoints().
 		/// </summary>
+		/// <param name="source"></param>
 		/// <param name="points"></param>
-		private void AwardResearchPoints(int points)
+		public override int AwardResearchPoints(ResearchPointMachine source,int points)
 		{
-			if (points > highestExplosionPointValueCurrent)
+			int awarded = base.AwardResearchPoints(source, points);
+			if (awarded> 0)
 			{
-				Chat.AddLocalMsgToChat($"Research points awarded: {points.ToString()}", gameObject);
-				researchServer.AddResearchPoints(points - highestExplosionPointValueCurrent);
-				highestExplosionPointValueCurrent = points;
+				Chat.AddLocalMsgToChat($"Research points awarded: {awarded.ToString()}. New Total for Ordnance is {points.ToString()}", gameObject);
 			}
 			else
 			{
-				Chat.AddLocalMsgToChat(
-					$"Explosion strength not close enough to yield target to award additional research.",
-					gameObject);
+				Chat.AddLocalMsgToChat("Explosion strength not close enough to yield " +
+				                       "target to award additional research.",gameObject);
 			}
+
+			return awarded;
 		}
 
 		/// <summary>
@@ -152,72 +200,37 @@ namespace Research
 			return (int)Mathf.Max(term1, term2);
 		}
 
-		#region Multitool Interaction
+		#region Multitool Interaction Overrides
 
-		MultitoolConnectionType IMultitoolLinkable.ConType => MultitoolConnectionType.ResearchServer;
-		IMultitoolMasterable IMultitoolSlaveable.Master => researchServer;
-		bool IMultitoolSlaveable.RequireLink => false;
-
-		bool IMultitoolSlaveable.TrySetMaster(PositionalHandApply interaction, IMultitoolMasterable master)
+		public override void SubscribeToServerEvent(ResearchServer server)
 		{
-			SetMaster(master);
-			return true;
-		}
-
-		void IMultitoolSlaveable.SetMasterEditor(IMultitoolMasterable master)
-		{
-			SetMaster(master);
-		}
-
-		private void SetMaster(IMultitoolMasterable master)
-		{
-			if (master is ResearchServer server)
-			{
-				SubscribeToServerEvent(server);
-			}
-			else if (researchServer != null)
-			{
-				UnSubscribeFromServerEvent();
-			}
-		}
-
-		private void SubscribeToServerEvent(ResearchServer server)
-		{
-			UnSubscribeFromServerEvent();
+			base.SubscribeToServerEvent(server);
 			ExplosiveBase.ExplosionEvent.AddListener(DetectBlast);
-			researchServer = server;
+			Chat.AddLocalMsgToChat("Server connection found: Monitoring.",gameObject);
+			stateSync = BlastYieldDetectorState.Connected;
 			GetYieldTargets();
+			serverConnEvent(true);
 		}
 
-		private void UnSubscribeFromServerEvent()
+		public override void UnSubscribeFromServerEvent()
 		{
-			if (researchServer == null) return;
+			base.UnSubscribeFromServerEvent();
 			ExplosiveBase.ExplosionEvent.RemoveListener(DetectBlast);
-			researchServer = null;
+
+			if (PoweredState != PowerState.Off)
+			{
+				Chat.AddLocalMsgToChat("Lost server connection.", gameObject);
+				stateSync = BlastYieldDetectorState.Broken;
+			}
+
 			easyPointYieldTarget = 0;
 			maxPointYieldTarget = 0;
+			serverConnEvent(false);
 		}
 
-		#endregion
+		#endregion Multitool Interaction Overrides
 
-		#region IAPCPowerable, ICanOpenNetTab
-
-		public PowerState PoweredState;
-
-		public void PowerNetworkUpdate(float voltage)
-		{
-		}
-
-		public void StateUpdate(PowerState state)
-		{
-			if (state == PowerState.Off)
-			{
-				//Machine loses connection to server on power loss
-				UnSubscribeFromServerEvent();
-			}
-
-			PoweredState = state;
-		}
+		#region ICanOpenNetTab
 
 		public bool CanOpenNetTab(GameObject playerObject, NetTabType netTabType)
 		{
@@ -229,7 +242,83 @@ namespace Research
 			return true;
 		}
 
-		#endregion
+		#endregion ICanOpenNetTab
+
+		#region Interactions
+
+		public bool WillInteract(HandApply interaction, NetworkSide side)
+		{
+			if (Validations.HasItemTrait(interaction.UsedObject, CommonTraits.Instance.Wrench))
+			{
+				return interaction.Intent != Intent.Harm;
+			}
+			return false;
+		}
+
+		public void ServerPerformInteraction(HandApply interaction)
+		{
+			if (stateSync == BlastYieldDetectorState.Connected)
+			{
+				if (Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Wrench))
+				{
+					ToolUtils.ServerUseToolWithActionMessages(interaction, 2,
+						$"You start to rotate the array of the {gameObject.ExpensiveName()}...",
+						$"{interaction.Performer.ExpensiveName()} starts to rotate the array of the {gameObject.ExpensiveName()}...",
+						$"You rotated the array of the {gameObject.ExpensiveName()}.",
+						$"{interaction.Performer.ExpensiveName()} rotates the array of the {gameObject.ExpensiveName()}.",
+						() =>
+						{
+							coneDirection.RotateBy(1);
+						},
+						playSound:true);
+				}
+			}
+		}
+
+		public override string Examine(Vector3 worldPos = default)
+		{
+			StringBuilder examineMessage = new StringBuilder();
+			examineMessage.Append(base.Examine(worldPos));
+			examineMessage.Append("Array is point");
+
+			switch (coneDirection.CurrentDirection)
+			{
+				case OrientationEnum.Default:
+					examineMessage.Append("less. ");
+					break;
+				case OrientationEnum.Up_By0:
+					examineMessage.Append("ed station north. ");
+					break;
+				case OrientationEnum.Right_By270:
+					examineMessage.Append("ed station east. ");
+					break;
+				case OrientationEnum.Down_By180:
+					examineMessage.Append("ed station south. ");
+					break;
+				case OrientationEnum.Left_By90:
+					examineMessage.Append("ed station west. ");
+					break;
+			}
+
+			return examineMessage.ToString();
+		}
+		#endregion Interactions
+
+		#region IAPCPowerable
+
+		public override void StateUpdate(PowerState state)
+		{
+			base.StateUpdate(state);
+			if (PoweredState == PowerState.Off)
+			{
+				stateSync = BlastYieldDetectorState.Off;
+			}
+			else if(PoweredState == PowerState.On)
+			{
+				stateSync = BlastYieldDetectorState.Connected;
+			}
+		}
+		#endregion IAPCPowerable
 
 	}
 }

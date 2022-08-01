@@ -93,6 +93,17 @@ PrefabInstance:
       propertyPath: initialDescription
       value: A tiny device capable of filtering and converting super-intense radiowaves.
       objectReference: {fileID: 0}
+    - target: {fileID: 4340463169029930800, guid: aa2175a532ddc614fbd4cebc49ab22fb,
+        type: 3}
+      propertyPath: initialTraits.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4340463169029930800, guid: aa2175a532ddc614fbd4cebc49ab22fb,
+        type: 3}
+      propertyPath: initialTraits.Array.data[2]
+      value: 
+      objectReference: {fileID: 11400000, guid: cae7936a1d9b4c64fa6ab932e9d9bbf6,
+        type: 2}
     - target: {fileID: 7091848973800414271, guid: aa2175a532ddc614fbd4cebc49ab22fb,
         type: 3}
       propertyPath: foreverID
