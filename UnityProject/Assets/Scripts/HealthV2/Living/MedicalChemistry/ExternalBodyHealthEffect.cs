@@ -35,10 +35,10 @@ public class ExternalBodyHealthEffect : MetabolismReaction
 
 	public override void PossibleReaction(List<BodyPart> senders, ReagentMix reagentMix,
 		float reactionMultiple, float BodyReactionAmount,
-		float TotalChemicalsProcessed, out bool Overdose) //limitedReactionAmountPercentage = 0 to 1
+		float TotalChemicalsProcessed, out bool overdose) //limitedReactionAmountPercentage = 0 to 1
 	{
 
-	base.PossibleReaction(senders, reagentMix, reactionMultiple, BodyReactionAmount, TotalChemicalsProcessed, out Overdose);
+	base.PossibleReaction(senders, reagentMix, reactionMultiple, BodyReactionAmount, TotalChemicalsProcessed, out overdose);
 
 		foreach (var bodyPart in senders)
 		{
@@ -66,7 +66,7 @@ public class ExternalBodyHealthEffect : MetabolismReaction
 				}
 			}
 
-			if (Overdose == false)
+			if (overdose == false)
 			{
 				if (MultiEffect)
 				{
