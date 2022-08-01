@@ -63,15 +63,15 @@ public class MetabolismReaction : Reaction
 		{
 			reactionMultiple *= (ReactionAmount / AmountProcessing);
 		}
-		//out must be asigned to something, Overdose is never used here
-		bool Overdose;
-		PossibleReaction(sender, reagentMix, reactionMultiple, ReactionAmount, AmountProcessing, out Overdose);
+		//out must be asigned to something, overdose is never used here
+		bool overdose;
+		PossibleReaction(sender, reagentMix, reactionMultiple, ReactionAmount, AmountProcessing, out overdose);
 	}
 
-	public virtual void PossibleReaction(List<BodyPart> senders, ReagentMix reagentMix, float reactionMultiple, float BodyReactionAmount, float TotalChemicalsProcessed, out bool Overdose)
+	public virtual void PossibleReaction(List<BodyPart> senders, ReagentMix reagentMix, float reactionMultiple, float BodyReactionAmount, float TotalChemicalsProcessed, out bool overdose)
 	{
-		//out must be asigned to something, Overdose is never used here.
-		Overdose = false;
+		//out must be asigned to something, overdose is never used here.
+		overdose = false;
 		foreach (var ingredient in ingredients.m_dict)
 		{
 			reagentMix.Subtract(ingredient.Key, reactionMultiple * ingredient.Value);
