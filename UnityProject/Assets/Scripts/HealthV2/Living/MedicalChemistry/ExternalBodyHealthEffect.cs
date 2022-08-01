@@ -29,23 +29,23 @@ public class ExternalBodyHealthEffect : MetabolismReaction
 	[ShowIf(nameof(MultiEffect))]
 	public List<BodyHealthEffect.TypeAndStrength> Effects = new List<BodyHealthEffect.TypeAndStrength>();
 
-	public bool HasInitialTouchCharacteristics;
+	public bool HasInitialTouchCharacteristics = false;
 
 	[ShowIf(nameof(HasInitialTouchCharacteristics))] public List<BodyHealthEffect.TypeAndStrength> InitialTouchCharacteristics = new List<BodyHealthEffect.TypeAndStrength>();
 
 	public override void PossibleReaction(List<BodyPart> senders, ReagentMix reagentMix,
 		float reactionMultiple, float BodyReactionAmount,
-		float TotalChemicalsProcessed) //limitedReactionAmountPercentage = 0 to 1
+		float TotalChemicalsProcessed, out bool Overdose) //limitedReactionAmountPercentage = 0 to 1
 	{
 
-		bool Overdose = false;
+	base.PossibleReaction(senders, reagentMix, reactionMultiple, BodyReactionAmount, TotalChemicalsProcessed, out Overdose);
+
 		foreach (var bodyPart in senders)
 		{
 			if (CanOverdose)
 			{
 				if (TotalChemicalsProcessed > ConcentrationOverdose)
 				{
-					Overdose = true;
 					if (MultiEffect)
 					{
 						foreach (var Effect in Effects)
@@ -84,6 +84,5 @@ public class ExternalBodyHealthEffect : MetabolismReaction
 			}
 		}
 
-		base.PossibleReaction(senders, reagentMix, reactionMultiple, BodyReactionAmount, TotalChemicalsProcessed);
 	}
 }

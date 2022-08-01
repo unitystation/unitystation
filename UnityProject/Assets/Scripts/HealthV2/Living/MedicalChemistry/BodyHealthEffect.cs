@@ -5,7 +5,6 @@ using HealthV2;
 using NaughtyAttributes;
 using UnityEngine;
 using UnityEngine.Serialization;
-using ScriptableObjects.RP;
 
 [CreateAssetMenu(fileName = "BodyHealthEffect",
 	menuName = "ScriptableObjects/Chemistry/Reactions/BodyHealthEffect")]
@@ -27,7 +26,7 @@ public class BodyHealthEffect : MetabolismReaction
 
 	public bool MultiEffect = false;
 
-	[ShowIf(nameof(MultiEffect))] public List<TypeAndStrength> Effects = new List<TypeAndStrength>();
+	[ShowIf(nameof(MultiEffect))]public List<TypeAndStrength> Effects = new List<TypeAndStrength>();
 
 
 	[System.Serializable]
@@ -39,34 +38,14 @@ public class BodyHealthEffect : MetabolismReaction
 		[Tooltip("How much damage or heals If negative per 1u")]
 		public float EffectPerOne;
 	}
-	
-	#region Emotes
 
-	public List<EmoteTypeAndChance> EmoteEffects = new List<EmoteTypeAndChance>();
-
-	[System.Serializable]
-	public struct EmoteTypeAndChance
-	{
-		public bool CustomEmote;
-		[Tooltip("the message only the person doing the emote can see")]
-		[ShowIf(nameof(CustomEmote))] [AllowNesting] public string CustomEmoterMessage;
-		[Tooltip("the emote those who are watching can see")]
-		[ShowIf(nameof(CustomEmote))] [AllowNesting] public string CustomShownMessage;
-		[HideIf("CustomEmote")] [AllowNesting] public EmoteSO Emote;
-		[Tooltip("Chance this action will happen every tick, first in the list rolls first")]
-		[Range(0,100)] [AllowNesting] public int ChancePerTick;
-		public bool StopIfOverdosed;
-	}
-	#endregion
-
-	[ShowNonSerializedField]
+	[System.NonSerialized]
 	public List<BodyPart> DamagedList = new List<BodyPart>(); //Not multithread safe
 
 	public override void PossibleReaction(List<BodyPart> senders, ReagentMix reagentMix,
-		float reactionMultiple, float BodyReactionAmount, float TotalChemicalsProcessed) //limitedReactionAmountPercentage = 0 to 1
+		float reactionMultiple, float BodyReactionAmount, float TotalChemicalsProcessed, out bool Overdose) //limitedReactionAmountPercentage = 0 to 1
 	{
-
-		bool Overdose = false;
+		Overdose = false;
 		DamagedList.Clear(); //Why? So healing medicine is never wasted Is a pain in butt though to work out
 		if ((CanOverdose && TotalChemicalsProcessed > ConcentrationBloodOverdose) == false)
 		{
@@ -170,29 +149,6 @@ public class BodyHealthEffect : MetabolismReaction
 				}
 			}
 		}
-		base.PossibleReaction(senders, reagentMix, reactionMultiple, BodyReactionAmount, TotalChemicalsProcessed);
-
-		foreach(EmoteTypeAndChance emote in EmoteEffects)
-		{
-			//Check if there are organs to act on
-			if (senders.Count == 0) { break; }
-			GameObject player = senders[0].HealthMaster.gameObject;
-			if (emote.StopIfOverdosed == true && Overdose == true) { continue; }
-
-			if (Random.Range(0, 100) <= emote.ChancePerTick )
-			{
-				if(emote.CustomEmote == true)
-				{
-					Chat.AddActionMsgToChat(senders[0].HealthMaster.gameObject, "You " + emote.CustomEmoterMessage,
-						player.GetComponent<PlayerScript>().playerName + " " + emote.CustomShownMessage);
-					break;
-				}
-				else if(emote.Emote != null)
-				{
-					emote.Emote.Do(player);
-					break;
-				}
-			}
-		}
+		base.PossibleReaction(senders, reagentMix, reactionMultiple, BodyReactionAmount, TotalChemicalsProcessed, out Overdose);
 	}
 }
