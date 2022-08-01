@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Items;
 using Messages.Client;
 using UnityEngine;
@@ -130,9 +131,9 @@ public static class Inventory
 	/// <returns>true if successful</returns>
 	public static void ServerDropAll(DynamicItemStorage playerStorage, Vector2? worldTargetVector = null)
 	{
-		var playerItems = playerStorage.GetItemSlots();
+		var playerItems = playerStorage.GetItemSlots().ToList();
 
-		foreach (var playerItemSlot in playerItems)
+		foreach (var playerItemSlot in playerItems.NotNull())
 		{
 			if(playerItemSlot.IsEmpty) continue;
 			ServerPerform(InventoryMove.Drop(playerItemSlot, worldTargetVector));
