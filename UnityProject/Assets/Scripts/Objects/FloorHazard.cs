@@ -96,7 +96,7 @@ namespace Objects
 
 		public void OnInventoryMoveServer(InventoryMove info)
 		{
-			OnLocalPositionChangedServer(info.FromPlayer != null ? info.FromPlayer.LocalPosition : Vector3Int.zero,
+			OnLocalPositionChangedServer(info.FromPlayer.OrNull()?.LocalPosition ?? Vector3Int.zero,
 				objectPhysics.registerTile.LocalPosition);
 		}
 	}
