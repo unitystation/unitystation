@@ -88,6 +88,11 @@ PrefabInstance:
       propertyPath: m_WasSpriteAssigned
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 3744166961359211538, guid: 6ca88a64b87d2bf4abed2f9f8922d47d,
+        type: 3}
+      propertyPath: foreverID
+      value: 056e3e6b6f40fd04090b504404da5957
+      objectReference: {fileID: 0}
     - target: {fileID: 4603075189618637288, guid: 6ca88a64b87d2bf4abed2f9f8922d47d,
         type: 3}
       propertyPath: m_LocalRotation.x
@@ -167,27 +172,6 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 4514812997829719968}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &8568977517177708063
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4189414895862531579}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 819809cff2481914d883a6e1fefb4edd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  MethodRotation: 0
-  ChangeSprites: 0
-  isChangingSO: 0
-  CurrentDirection: 0
-  IgnoreServerUpdatesIfLocalPlayer: 0
-  IsAtmosphericDevice: 0
-  doNotResetOtherSpriteOptions: 0
 --- !u!114 &7356593902058856338
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -229,3 +213,24 @@ MonoBehaviour:
     Down: 0
     Left: 0
     Right: 0
+--- !u!114 &8568977517177708063
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4189414895862531579}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 819809cff2481914d883a6e1fefb4edd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  MethodRotation: 0
+  ChangeSprites: 0
+  isChangingSO: 0
+  CurrentDirection: 0
+  IgnoreServerUpdatesIfLocalPlayer: 0
+  IsAtmosphericDevice: 0
+  doNotResetOtherSpriteOptions: 0

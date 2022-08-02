@@ -7,6 +7,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3442741923849517114, guid: c9c58a9243d494537abcb4ee470efab0,
+        type: 3}
+      propertyPath: foreverID
+      value: 0d452d035c46dad46a96790f0c346d17
+      objectReference: {fileID: 0}
     - target: {fileID: 8183094236644858677, guid: c9c58a9243d494537abcb4ee470efab0,
         type: 3}
       propertyPath: itemSprites.SpriteLeftHand
@@ -104,6 +109,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b19b8b0f1ef848458a7b34108e5ae0d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  holosignPrefab: {fileID: 0}
+  holosignPrefabs: []
   maxHolosigns: 3
   timeToPlace: 3
