@@ -15,7 +15,7 @@ namespace AdminTools
 		[SerializeField]
 		GUI_AdminTools adminTools;
 
-		public override void ServerAddChatRecord(string message, PlayerInfo player, PlayerInfo admin = default) 
+		public override void ServerAddChatRecord(string message, PlayerInfo player, PlayerInfo admin = default)
 		{
 			message = admin != null ? $"<i><color=yellow>{admin.Username}: {message}</color></i>" : $"{player.Username} ({player.Name}) prays to the gods: {message}";
 
@@ -48,7 +48,7 @@ namespace AdminTools
 			}
 
 			ServerMessageRecording(player.UserId, entry);
-			
+
 		}
 
 		public void OnHealUpButton()
@@ -60,15 +60,8 @@ namespace AdminTools
 		{
 			adminTools.gameObject.SetActive(true);
 
-			adminTools.giveItemPage.selectedPlayer = null;
+			adminTools.giveItemPage.selectedPlayerId = selectedPlayer.uid;
 
-			adminTools.giveItemPage.selectedPlayer = PlayerList.Instance.GetPlayerByID(selectedPlayer.uid).GameObject;
-
-			if (adminTools.giveItemPage.selectedPlayer == null)
-			{
-				Logger.LogWarning("Unable to find player to give item to! Are you sure that they joined the game?");
-				return;
-			}
 			adminTools.ShowGiveItemPagePage();
 		}
 

@@ -426,6 +426,52 @@ namespace AdminCommands
 			LogAdminAction(message);
 		}
 
+		/// <summary>
+		/// Gives item to player
+		/// </summary>
+		[Command(requiresAuthority = false)]
+		public void CmdGivePlayerItem(string userToGiveItem, string itemPrefabName, int count, string customMessage, NetworkConnectionToClient sender = null)
+		{
+			if (IsAdmin(sender, out var admin) == false) return;
+
+			if (PlayerList.Instance.TryGetByUserID(userToGiveItem, out var player) == false)
+			{
+				Logger.LogError($"Could not find player with user ID '{userToGiveItem}'. Unable to give item.", Category.Admin);
+				return;
+			}
+
+			if (player.Script.OrNull()?.DynamicItemStorage == null)
+			{
+				Logger.LogError($"No DynamicItemStorage on '{player.Name}'. Unable to give item.", Category.Admin);
+				return;
+			}
+
+			var item = Spawn.ServerPrefab(itemPrefabName, player.Script.mind.body.gameObject.AssumedWorldPosServer());
+			var slot = player.Script.DynamicItemStorage.GetBestHandOrSlotFor(item.GameObject);
+			if (item.GameObject.TryGetComponent<Stackable>(out var stackable) && stackable.MaxAmount <= count)
+			{
+				stackable.ServerSetAmount(count);
+			}
+
+			if (slot != null)
+			{
+				Inventory.ServerAdd(item.GameObject, slot);
+			}
+
+			if (string.IsNullOrEmpty(customMessage) == false)
+			{
+				Chat.AddExamineMsg(player.GameObject, customMessage);
+			}
+
+			Chat.AddExamineMsg(admin.GameObject, $"You have given {player.Script.visibleName} : {item.GameObject.ExpensiveName()}");
+
+			var message = $"{admin.Username}: gave {player.Username} {count} {item.GameObject.ExpensiveName()}";
+
+			//Log what we did.
+			Logger.Log(message, Category.Admin);
+			LogAdminAction(message);
+		}
+
 		#endregion
 
 		#region Sound
