@@ -60,9 +60,8 @@ namespace AdminTools
 		{
 			adminTools.gameObject.SetActive(true);
 
-			adminTools.giveItemPage.selectedPlayer = null;
-
-			adminTools.giveItemPage.selectedPlayer = PlayerList.Instance.GetPlayerByID(selectedPlayer.uid).GameObject;
+			if(CustomNetworkManager.Instance._isServer) adminTools.giveItemPage.selectedPlayer = PlayerList.Instance.GetPlayerByID(selectedPlayer.uid).GameObject;
+			else adminTools.giveItemPage.selectedPlayer = PlayerList.Instance.CmdGetPlayerByID(selectedPlayer.uid).GameObject;
 
 			if (adminTools.giveItemPage.selectedPlayer == null)
 			{

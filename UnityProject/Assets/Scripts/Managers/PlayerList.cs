@@ -150,6 +150,12 @@ public partial class PlayerList : NetworkBehaviour
 		return null;
 	}
 
+	[ServerCallback]
+	public PlayerInfo CmdGetPlayerByID(string id)
+	{
+		return GetPlayerByID(id);
+	}
+
 	public List<PlayerInfo> GetAlivePlayers(List<PlayerInfo> players = null)
 	{
 		if (players == null)

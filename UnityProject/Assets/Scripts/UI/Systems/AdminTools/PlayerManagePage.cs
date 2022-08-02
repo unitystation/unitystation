@@ -212,9 +212,8 @@ namespace AdminTools
 
 		public void GiveItemToPlayerButton()
 		{
-			adminTools.giveItemPage.selectedPlayer = null;
-
-			adminTools.giveItemPage.selectedPlayer = PlayerList.Instance.GetPlayerByID(PlayerEntry.PlayerData.uid).GameObject;
+			if(CustomNetworkManager.Instance._isServer) adminTools.giveItemPage.selectedPlayer = PlayerList.Instance.GetPlayerByID(PlayerEntry.PlayerData.uid).GameObject;
+			else adminTools.giveItemPage.selectedPlayer = PlayerList.Instance.CmdGetPlayerByID(PlayerEntry.PlayerData.uid).GameObject;
 
 			if (adminTools.giveItemPage.selectedPlayer == null)
 			{
