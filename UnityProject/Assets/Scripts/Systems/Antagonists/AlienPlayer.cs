@@ -19,7 +19,7 @@ using Weapons.Projectiles;
 
 namespace Systems.Antagonists
 {
-	public class AlienPlayer : NetworkBehaviour, IServerActionGUIMulti, ICooldown, IServerLifecycle, IOnPlayerTransfer,
+	public class AlienPlayer : NetworkBehaviour, IServerActionGUIMulti, ICooldown, IServerDespawn, IOnPlayerTransfer,
 		IOnPlayerRejoin
 	{
 		[Header("Sprite Stuff")]
@@ -129,13 +129,13 @@ namespace Systems.Antagonists
 		private AlienTypeDataSO currentData;
 		public AlienTypeDataSO CurrentData => currentData;
 
-		[SyncVar]
-		private AlienMode currentAlienMode;
-		public AlienMode CurrentAlienMode => currentAlienMode;
-
 		[SyncVar(hook = nameof(SyncAlienType))]
 		private AlienTypes currentAlienType;
 		public AlienTypes CurrentAlienType => currentAlienType;
+
+		[SyncVar]
+		private AlienMode currentAlienMode;
+		public AlienMode CurrentAlienMode => currentAlienMode;
 
 		//Plasma value (increase by being on weeds)
 		[SyncVar]
@@ -187,6 +187,8 @@ namespace Systems.Antagonists
 		private float disconnectTime;
 
 		private CharacterSheet characterSheet;
+
+		private bool firstTimeSetup;
 
 		#region LifeCycle
 
@@ -244,14 +246,6 @@ namespace Systems.Antagonists
 			playerScript.PlayerSync.MovementStateEventServer.RemoveListener(OnMovementTypeChange);
 		}
 
-		public void OnSpawnServer(SpawnInfo info)
-		{
-			SetNewPlayer(startingAlienType);
-
-			//This triggers the spawning of the alien body parts
-			playerScript.playerSprites.OnCharacterSettingsChange(characterSheet);
-		}
-
 		public override void OnStartLocalPlayer()
 		{
 			if(isLocalPlayer == false) return;
@@ -277,9 +271,18 @@ namespace Systems.Antagonists
 		[Server]
 		public void SetNewPlayer(AlienTypes newAlien)
 		{
-			if(isServer == false) return;
+			if(isServer == false || firstTimeSetup == false) return;
+			firstTimeSetup = true;
 
-			Evolve(newAlien, false);
+			var typeFound = typesToChoose.Where(a => a.AlienType == newAlien).ToArray();
+			if (typeFound.Length <= 0)
+			{
+				Chat.AddExamineMsgFromServer(gameObject, $"Unable to evolve to {newAlien.ToString()}");
+				Logger.LogError($"Could not find alien type: {newAlien.ToString()} in data list!");
+				return;
+			}
+
+			currentData = typeFound[0];
 
 			if (currentData.AlienType == AlienTypes.Queen)
 			{
@@ -293,7 +296,7 @@ namespace Systems.Antagonists
 				nameNumber = alienCount;
 			}
 
-			SetName(true, currentData);
+			SetUpFromPrefab(null, true);
 
 			if (CurrentAlienType is AlienTypes.Larva1 or AlienTypes.Larva2 or AlienTypes.Larva3)
 			{
@@ -301,7 +304,7 @@ namespace Systems.Antagonists
 				return;
 			}
 
-			Chat.AddExamineMsgFromServer(gameObject, $"You are a {currentAlienType.ToString()}. Use :a to communicate with the hivemind.");
+			Chat.AddExamineMsgFromServer(gameObject, $"You are a {CurrentAlienType.ToString()}. Use :a to communicate with the hivemind.");
 		}
 
 		[ContextMenu("To Queen")]
@@ -414,13 +417,58 @@ namespace Systems.Antagonists
 				return;
 			}
 
+			var newAlienData = typeFound[0];
+
+			if (newAlienData == currentData)
+			{
+				Chat.AddExamineMsgFromServer(gameObject, $"You are already an {newAlien.ToString()}");
+				return;
+			}
+
 			Chat.AddActionMsgToChat(gameObject, "You begin to evolve!",
 				$"{playerScript.playerName} begins to twist and contort!");
 
-			var old = currentData;
+			var spawnResult = Spawn.ServerPrefab(newAlienData.AlienPrefab, playerScript.objectPhysics.OfficialPosition);
+			if (spawnResult.Successful == false)
+			{
+				Logger.LogError($"Failed to spawn alien type: {newAlien.ToString()}!");
+				return;
+			}
+
+			Chat.AddExamineMsgFromServer(gameObject, $"You evolve into a {currentData.Name}!");
+
+			var newAlienPlayer = spawnResult.GameObject.GetComponent<AlienPlayer>();
+
+			newAlienPlayer.SetUpFromPrefab(currentData, changeName);
+
+			if (playerScript.mind != null)
+			{
+				var connection = connectionToClient;
+				PlayerSpawn.ServerTransferPlayerToNewBody(connection, playerScript.mind,
+					newAlienPlayer.gameObject, Event.PlayerSpawned, null);
+			}
+
+			newAlienPlayer.DoConnectCheck();
+
+			_ = Despawn.ServerSingle(gameObject);
+		}
+
+		private void SetUpFromPrefab(AlienTypeDataSO old, bool changeName = false)
+		{
+			firstTimeSetup = true;
+
+			var typeFound = typesToChoose.Where(a => a.AlienType == startingAlienType).ToArray();
+			if (typeFound.Length <= 0)
+			{
+				Chat.AddExamineMsgFromServer(gameObject, $"Unable to evolve to {startingAlienType.ToString()}");
+				Logger.LogError($"Could not find alien type: {startingAlienType.ToString()} in data list!");
+				return;
+			}
+
 			currentData = typeFound[0];
 			actionData = currentData.ActionData;
 			currentAlienType = currentData.AlienType;
+
 			growth = 0;
 			currentPlasma = currentData.InitialPlasma;
 
@@ -431,16 +479,12 @@ namespace Systems.Antagonists
 			playerScript.weaponNetworkActions.SetNewDamageValues(currentData.AttackSpeed,
 				currentData.AttackDamage, currentData.DamageType, currentData.ChanceToHit);
 
-			Chat.AddExamineMsgFromServer(gameObject, $"You evolve into a {currentData.Name}!");
-
-			if(changeName == false) return;
-
-			SetName(false, old);
+			SetName(changeName, old);
 		}
 
-		private void SetName(bool newlyJoined, AlienTypeDataSO old)
+		private void SetName(bool changeName, AlienTypeDataSO old)
 		{
-			if (newlyJoined == false)
+			if (changeName == false)
 			{
 				SpawnBannerMessage.Send(gameObject, currentData.Name, null, Color.green, Color.black, false);
 			}
@@ -454,7 +498,7 @@ namespace Systems.Antagonists
 			}
 			else
 			{
-				if (newlyJoined)
+				if (changeName)
 				{
 					playerScript.playerName = $"{currentData.Name} {nameNumber:D3}";
 					Chat.AddChatMsgToChatServer($"{playerScript.playerName} has joined the hive, rejoice!",
@@ -488,7 +532,7 @@ namespace Systems.Antagonists
 
 			var newData = typeFound[0];
 
-			if (newData.EvolvedFrom.HasFlag(currentAlienType) == false)
+			if (newData.EvolvedFrom.HasFlag(CurrentAlienType) == false)
 			{
 				Chat.AddExamineMsgFromServer(gameObject, "You cannot evolve into that alien type!");
 				return;
@@ -695,7 +739,7 @@ namespace Systems.Antagonists
 
 			ChangeAlienMode(AlienMode.Dead);
 
-			if (currentAlienType == AlienTypes.Queen)
+			if (CurrentAlienType == AlienTypes.Queen)
 			{
 				OnQueenDeath();
 			}
@@ -716,7 +760,7 @@ namespace Systems.Antagonists
 		private void OnQueenDeath()
 		{
 			var queens = FindObjectsOfType<AlienPlayer>().Where(x => x.isDead == false &&
-			                                                         x.currentAlienType == AlienTypes.Queen).ToArray();
+			                                                         x.CurrentAlienType == AlienTypes.Queen).ToArray();
 
 			queenInHive = queens.Any();
 
@@ -1123,36 +1167,6 @@ namespace Systems.Antagonists
 
 		#endregion
 
-		#region Alien Type
-
-		//Client and server
-		private void SyncAlienType(AlienTypes oldType, AlienTypes newType)
-		{
-			currentAlienType = newType;
-
-			var typeFound = typesToChoose.Where(a => a.AlienType == newType).ToArray();
-			if (typeFound.Length <= 0)
-			{
-				if (isLocalPlayer)
-				{
-					Chat.AddExamineMsgFromServer(gameObject, $"Unable to evolve to {newType.ToString()}");
-				}
-
-				Logger.LogError($"Could not find alien type: {newType.ToString()} in data list!");
-				return;
-			}
-
-			currentData = typeFound[0];
-
-			RemoveOldActions();
-
-			actionData = currentData.ActionData;
-
-			AddNewActions();
-		}
-
-		#endregion
-
 		#region Lay Eggs
 
 		private const int EggPlasmaCost = 75;
@@ -1524,6 +1538,36 @@ namespace Systems.Antagonists
 
 		#endregion
 
+		#region Alien Type
+
+		//Client and server
+		private void SyncAlienType(AlienTypes oldType, AlienTypes newType)
+		{
+			currentAlienType = newType;
+
+			var typeFound = typesToChoose.Where(a => a.AlienType == newType).ToArray();
+			if (typeFound.Length <= 0)
+			{
+				if (isLocalPlayer)
+				{
+					Chat.AddExamineMsgFromServer(gameObject, $"Unable to evolve to {newType.ToString()}");
+				}
+
+				Logger.LogError($"Could not find alien type: {newType.ToString()} in data list!");
+				return;
+			}
+
+			currentData = typeFound[0];
+
+			RemoveOldActions();
+
+			actionData = currentData.ActionData;
+
+			AddNewActions();
+		}
+
+		#endregion
+
 		#region GhostRole / Disconnect
 
 		//Make ghost role after after 120 seconds after disconnect
@@ -1612,6 +1656,9 @@ namespace Systems.Antagonists
 
 		public void OnPlayerTransfer()
 		{
+			//This will call after an admin respawn to set up a new player
+			SetNewPlayer(startingAlienType);
+
 			//Block role remove if this transfered player was the one how got the ghost role
 			//OnPlayerTransfer is still needed due to admin A ghosting which should remove the role on transfer
 			if(playerTookOver != null && playerTookOver == playerScript.PlayerInfo) return;

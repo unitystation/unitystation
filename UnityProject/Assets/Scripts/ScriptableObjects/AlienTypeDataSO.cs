@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using NaughtyAttributes;
 using Systems.Antagonists;
-using Systems.Spells;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -14,6 +13,8 @@ namespace ScriptableObjects
 		public string Name;
 
 		public AlienPlayer.AlienTypes AlienType;
+
+		public GameObject AlienPrefab;
 
 		public GhostRoleData GhostRoleData;
 

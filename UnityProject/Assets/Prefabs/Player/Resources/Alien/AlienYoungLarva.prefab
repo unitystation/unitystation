@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1001 &4463241480741725687
+--- !u!1001 &588481893658604434
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -9,7 +9,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1133514949248654, guid: d1bc864a55af6cb4cad058680cba977a, type: 3}
       propertyPath: m_Name
-      value: AlienHunter
+      value: AlienYoungLarva
       objectReference: {fileID: 0}
     - target: {fileID: 4102488425209486, guid: d1bc864a55af6cb4cad058680cba977a, type: 3}
       propertyPath: m_RootOrder
@@ -58,49 +58,23 @@ PrefabInstance:
     - target: {fileID: 114279031792796038, guid: d1bc864a55af6cb4cad058680cba977a,
         type: 3}
       propertyPath: m_AssetId
-      value: 7a7cffef4f7dc23458a5b921308f898a
+      value: 1077e08bc76742f4e8b5a3cfa10a7192
       objectReference: {fileID: 0}
     - target: {fileID: 259398905212514923, guid: d1bc864a55af6cb4cad058680cba977a,
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 27136b33862b18d4ba78141b64b98d1f,
+      objectReference: {fileID: 21300000, guid: 50b6832cc0356dd48be7f69c661271d0,
         type: 3}
-    - target: {fileID: 259398905212514923, guid: d1bc864a55af6cb4cad058680cba977a,
-        type: 3}
-      propertyPath: m_SortingLayer
-      value: 22
-      objectReference: {fileID: 0}
-    - target: {fileID: 259398905212514923, guid: d1bc864a55af6cb4cad058680cba977a,
-        type: 3}
-      propertyPath: m_SortingLayerID
-      value: -902452607
-      objectReference: {fileID: 0}
     - target: {fileID: 3087290366095840219, guid: d1bc864a55af6cb4cad058680cba977a,
         type: 3}
       propertyPath: startingAlienType
-      value: 8
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 4951365732200208794, guid: d1bc864a55af6cb4cad058680cba977a,
         type: 3}
       propertyPath: foreverID
-      value: 7a7cffef4f7dc23458a5b921308f898a
-      objectReference: {fileID: 0}
-    - target: {fileID: 7002000775466164718, guid: d1bc864a55af6cb4cad058680cba977a,
-        type: 3}
-      propertyPath: PresentSpriteSet
-      value: 
-      objectReference: {fileID: 11400000, guid: 168b86a8105cfe24e9d8e8355fc1630b,
-        type: 2}
-    - target: {fileID: 8689618426287489898, guid: d1bc864a55af6cb4cad058680cba977a,
-        type: 3}
-      propertyPath: m_SortingLayer
-      value: 22
-      objectReference: {fileID: 0}
-    - target: {fileID: 8689618426287489898, guid: d1bc864a55af6cb4cad058680cba977a,
-        type: 3}
-      propertyPath: m_SortingLayerID
-      value: -902452607
+      value: 1077e08bc76742f4e8b5a3cfa10a7192
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d1bc864a55af6cb4cad058680cba977a, type: 3}

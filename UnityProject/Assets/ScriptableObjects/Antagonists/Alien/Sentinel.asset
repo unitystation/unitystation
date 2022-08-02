@@ -14,6 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Name: Sentinel
   AlienType: 16
+  AlienPrefab: {fileID: 4377833895356946592, guid: fe9e2a7a1144a90409f84f72064851d6,
+    type: 3}
   GhostRoleData: {fileID: 11400000, guid: c3e1e5993e7e13e48922c97c1f46a150, type: 2}
   Description: Guards the hive from any intruders.
   RunningLegSpeed: 2
