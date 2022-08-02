@@ -5,6 +5,7 @@ using Firebase.Extensions;
 using Initialisation;
 using UnityEngine;
 using Firebase.Auth;
+using Shared.Util;
 using Util;
 
 namespace DatabaseAPI

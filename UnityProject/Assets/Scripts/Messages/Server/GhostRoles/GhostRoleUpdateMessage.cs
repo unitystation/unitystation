@@ -36,7 +36,11 @@ namespace Messages.Server.GhostRoles
 		{
 			if (GhostRoleManager.Instance != null)
 			{
-				GhostRoleServer role = GhostRoleManager.Instance.serverAvailableRoles[key];
+				if (GhostRoleManager.Instance.serverAvailableRoles.TryGetValue(key, out var role) == false)
+				{
+					Logger.LogError($"Failed to find ghost role key: {key}");
+					return new NetMessage();
+				}
 
 				foreach (PlayerInfo player in PlayerList.Instance.InGamePlayers)
 				{
@@ -45,7 +49,9 @@ namespace Messages.Server.GhostRoles
 						Logger.LogError("SendToDead, player?.Script == null", Category.Ghosts);
 						continue;
 					}
+
 					if (player.Script.IsDeadOrGhost == false) continue;
+
 					SendTo(player, key, role);
 				}
 				return GetMessage(key, role);

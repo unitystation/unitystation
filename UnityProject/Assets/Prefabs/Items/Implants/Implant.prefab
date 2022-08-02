@@ -64,7 +64,7 @@ PrefabInstance:
         type: 3}
       propertyPath: customNetTransform
       value: 
-      objectReference: {fileID: 1274871764999701192}
+      objectReference: {fileID: 0}
     - target: {fileID: 114776788309089574, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
       propertyPath: CurrentsortingGroup
@@ -140,6 +140,7 @@ MonoBehaviour:
   DeathOnRemoval: 0
   ClothingHide: 0
   SetCustomisationData: 
+  ItemAttributes: {fileID: 0}
   TotalModified: 1
   SurgeryProcedureBase:
   - {fileID: 11400000, guid: b6fd9e69eadae4148bbd6a85d785f16a, type: 2}
@@ -151,9 +152,9 @@ MonoBehaviour:
   isBloodReagentConsumed: 1
   requiredReagent: {fileID: 11400000, guid: 72991f100b5704f5fb63c9629fcdeb6c, type: 2}
   wasteReagent: {fileID: 11400000, guid: 2a39c514112f198858f2c7407b75d8c4, type: 2}
-  BloodContainer: {fileID: 8113072997116454967}
   bloodReagentConsumedPercentageb: 0.5
   bloodThroughput: 1.7857143
+  currentBloodSaturation: 0
   Nutriment: {fileID: 11400000, guid: 068bcb587110477558045ad0cfd78237, type: 2}
   HealingNutrimentMultiplier: 2
   ReagentMetabolism: 0.2
@@ -173,6 +174,7 @@ MonoBehaviour:
     Magic: 0
     Bio: 0
     DismembermentProtectionChance: 0
+    StunImmunity: 0
   SubOrganBodyPartArmour:
     Melee: 100
     Bullet: 90
@@ -185,6 +187,7 @@ MonoBehaviour:
     Magic: 100
     Bio: 0
     DismembermentProtectionChance: 0
+    StunImmunity: 0
   SubOrganDamageIncreasePoint: 80
   DamageContributesToOverallHealth: 1
   DamageEfficiencyMultiplier: 1
@@ -243,7 +246,6 @@ MonoBehaviour:
   maxCapacity: 30
   reactionSet: {fileID: 11400000, guid: 9635f48a9fe17f742aee13832a4ed6c2, type: 2}
   AdditionalReactions: []
-  canPourOut: 1
   initialReagentMix:
     temperature: 273.15
     reagents:
@@ -252,6 +254,7 @@ MonoBehaviour:
     reagentKeys: []
   destroyOnEmpty: 0
   ContentsSet: 0
+  menuOptions: -1
   UseStandardExamine: 1
   ExamineAmount: 0
   ExamineContent: 0
@@ -260,18 +263,6 @@ MonoBehaviour:
   transferMode: 0
   possibleTransferAmounts: []
   transferAmount: 20
---- !u!114 &1274871764999701192 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 114341119007412586, guid: a7abba22164ce49f0bf9b9b219f39298,
-    type: 3}
-  m_PrefabInstance: {fileID: 1164032867585741730}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1163316686972202776}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 579884b05ae74e8499329b64997147d3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!210 &4940620596253206870 stripped
 SortingGroup:
   m_CorrespondingSourceObject: {fileID: 6104600676241079028, guid: a7abba22164ce49f0bf9b9b219f39298,

@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using HealthV2;
 using Player.Movement;
 using UnityEngine;
 
@@ -9,13 +10,19 @@ namespace Objects
 	/// them when the object is hand-applied to.
 	/// </summary>
 	public class BuckleInteract : MonoBehaviour, ICheckedInteractable<MouseDrop>, ICheckedInteractable<HandApply>,
-		IServerLifecycle
+		IServerDespawn
 	{
-		//may be null
-		private OccupiableDirectionalSprite occupiableDirectionalSprite;
+		//may be null, catalogue index 0 is the occupied sprite
+		[SerializeField]
+		private SpriteHandler occupiedSpriteHandler;
 		private Integrity integrity;
 
-		public PlayerScript OccupantPlayerScript;
+		/// <summary>
+		/// Do the resist even if uncuffed, e.g alien nest
+		/// </summary>
+		[SerializeField]
+		private bool doResistUncuffed = false;
+		public bool DoResistUncuffed => doResistUncuffed;
 
 		/// <summary>
 		/// The time that a mob will spend trying to unbuckle himself from a chair when he is handcuffed.
@@ -30,9 +37,13 @@ namespace Objects
 		[Tooltip("Whether the object you can trying to buckle to is impassable, therefore should bypass the push check")]
 		private bool allowImpassable;
 
-		private void Start()
+		private RegisterTile registerTile;
+		private UniversalObjectPhysics objectPhysics;
+
+		private void Awake()
 		{
-			occupiableDirectionalSprite = GetComponent<OccupiableDirectionalSprite>();
+			registerTile = GetComponent<RegisterTile>();
+			objectPhysics = GetComponent<UniversalObjectPhysics>();
 		}
 
 		private bool IsPushEnough(MouseDrop interaction, NetworkSide side, PlayerScript playerScript, out bool sameSquare, out Vector2Int dir)
@@ -64,21 +75,20 @@ namespace Objects
 
 		public bool WillInteract(MouseDrop interaction, NetworkSide side)
 		{
-			if (DefaultWillInteract.Default(interaction, side) == false) return false;
+			if (DefaultWillInteract.Default(interaction, side,
+				    Validations.CheckState(x => x.CanBuckleOthers)) == false) return false;
+
 			if (Validations.HasComponent<MovementSynchronisation>(interaction.DroppedObject) == false) return false;
 
 			var playerMove = interaction.DroppedObject.GetComponent<MovementSynchronisation>();
 			var registerPlayer = playerMove.GetComponent<RegisterPlayer>();
-			// Determine if a push into the tile would be necessary or insufficient.
 
+			// Determine if a push into the tile would be necessary or insufficient.
 			if (allowImpassable == false && IsPushEnough(interaction, side, registerPlayer.PlayerScript, out _, out _) == false) return false;
 
 			//if there are any restrained players already here, we can't restrain another one here
 			if (MatrixManager.GetAt<MovementSynchronisation>(interaction.TargetObject, side)
-				.Any(pm => pm.IsBuckled))
-			{
-				return false;
-			}
+				.Any(pm => pm.IsBuckled)) return false;
 
 			//can't buckle during movement
 			var playerSync = interaction.DroppedObject.GetComponent<MovementSynchronisation>();
@@ -122,12 +132,13 @@ namespace Objects
 				playerScript.registerTile.ServerLayDown();
 			}
 
-			this.GetComponent<UniversalObjectPhysics>().BuckleObjectToThis(playerScript.playerMove);
+			objectPhysics.BuckleObjectToThis(playerScript.playerMove);
+			occupiedSpriteHandler.OrNull()?.ChangeSprite(0);
 		}
 
 		public bool WillInteract(HandApply interaction, NetworkSide side)
 		{
-			if (DefaultWillInteract.Default(interaction, side) == false) return false;
+			if (DefaultWillInteract.Default(interaction, side, Validations.CheckState(x => x.CanBuckleOthers)) == false) return false;
 			if (interaction.TargetObject != gameObject) return false;
 			//can only do this empty handed
 			if (interaction.HandObject != null) return false;
@@ -141,39 +152,78 @@ namespace Objects
 		{
 			SoundManager.PlayNetworkedAtPos(CommonSounds.Instance.Click01, interaction.TargetObject.AssumedWorldPosServer(), sourceObj: gameObject);
 
-			Unbuckle();
+			UnbuckleAll();
 		}
 
 		/// <summary>
 		/// Eject whoever is buckled to this
 		/// </summary>
-		public void Unbuckle()
+		public void UnbuckleAll()
 		{
-			if (CustomNetworkManager.IsServer == false)
-			{
-				return;
-			}
+			if (CustomNetworkManager.IsServer == false) return;
+
 			foreach (var playerMove in MatrixManager.GetAt<MovementSynchronisation>(gameObject, NetworkSide.Server))
 			{
 				if (playerMove.IsBuckled)
 				{
-					playerMove.Unbuckle();
+					UnBuckle(playerMove.playerScript);
 					return;
 				}
 			}
 		}
 
-		//delegate invoked from playerMove when they are unrestrained from this
-		private void OnUnbuckle()
-		{
-			occupiableDirectionalSprite?.SetOccupant(NetId.Empty);
-		}
-
-		public void OnSpawnServer(SpawnInfo info) { }
-
 		public void OnDespawnServer(DespawnInfo info)
 		{
-			Unbuckle();
+			UnbuckleAll();
+		}
+
+		public void TryUnbuckle(PlayerScript playerScript)
+		{
+			if (playerScript.PlayerSync.IsCuffed || doResistUncuffed)
+			{
+				if (CanUnBuckleSelf(playerScript))
+				{
+					Chat.AddActionMsgToChat(
+						playerScript.gameObject,
+						$"You start trying to unbuckle yourself from the {gameObject.ExpensiveName()}! (this will take some time...)",
+						$"{playerScript.visibleName} is trying to unbuckle themself from the {gameObject.ExpensiveName()}!"
+					);
+
+					StandardProgressAction.Create(
+						new StandardProgressActionConfig(StandardProgressActionType.Unbuckle),
+						() =>
+						{
+							UnBuckle(playerScript);
+						}).ServerStartProgress(registerTile, resistTime, playerScript.gameObject);
+
+				}
+			}
+			else
+			{
+				UnBuckle(playerScript);
+			}
+		}
+
+		private void UnBuckle(PlayerScript playerScript)
+		{
+			playerScript.PlayerSync.Unbuckle();
+			objectPhysics.Unbuckle();
+			occupiedSpriteHandler.OrNull()?.PushClear();
+		}
+
+		private bool CanUnBuckleSelf(PlayerScript playerScript)
+		{
+			PlayerHealthV2 playerHealth = playerScript.playerHealth;
+
+			if (playerHealth == null) return false;
+
+			if (playerHealth.ConsciousState == ConsciousState.DEAD) return false;
+
+			if (playerHealth.ConsciousState == ConsciousState.UNCONSCIOUS) return false;
+
+			if (playerHealth.ConsciousState == ConsciousState.BARELY_CONSCIOUS) return false;
+
+			return true;
 		}
 	}
 }

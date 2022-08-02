@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using Systems.Explosions;
-using Systems.ObjectConnection;
 using Systems.Radiation;
 using Items.Engineering;
 using Objects.Atmospherics;
+using Shared.Systems.ObjectConnection;
 
 
 namespace Objects.Engineering

@@ -20,37 +20,32 @@ public class ChatInputContext : IChatInputContext
 				return ChatChannel.None;
 			}
 
-			// Player is Ai?
-			if (PlayerManager.LocalPlayerScript.PlayerState == PlayerScript.PlayerStates.Ai)
-			{
-				return ChatChannel.Binary;
-			}
-
-			// Player is blob?
-			if (PlayerManager.LocalPlayerScript.PlayerState == PlayerScript.PlayerStates.Blob)
-			{
-				return ChatChannel.Blob;
-			}
-
 			// Player is some spooky ghost?
 			if (PlayerManager.LocalPlayerScript.IsDeadOrGhost)
 			{
 				return ChatChannel.Ghost;
 			}
 
+			// Is not normal and not radio get default
+			if (PlayerManager.LocalPlayerScript.IsNormal == false
+			    && PlayerManager.LocalPlayerScript.PlayerTypeSettings.CheckForRadios == false)
+			{
+				return PlayerManager.LocalPlayerScript.PlayerTypeSettings.DefaultChannel;
+			}
+
 			// Player has some headset?
 			var playerHeadset = GetPlayerHeadset();
-			if (!playerHeadset)
+			if (playerHeadset == null)
 			{
-				return ChatChannel.None;
+				return PlayerManager.LocalPlayerScript.PlayerTypeSettings.DefaultChannel;
 			}
 
 			// Find default key for this channel
 			var key = playerHeadset.EncryptionKey;
-			if (!EncryptionKey.DefaultChannel.ContainsKey(key))
+			if (EncryptionKey.DefaultChannel.ContainsKey(key) == false)
 			{
 				Logger.LogError($"Can't find default channel for a {key}", Category.Chat);
-				return ChatChannel.None;
+				return PlayerManager.LocalPlayerScript.PlayerTypeSettings.DefaultChannel;
 			}
 
 			return EncryptionKey.DefaultChannel[key];

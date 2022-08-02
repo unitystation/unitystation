@@ -17,3 +17,9 @@ public class Cooldown : ScriptableObject, ICooldown
 	/// </summary>
 	public float DefaultTime => defaultTime;
 }
+
+public class CooldownInstance : ICooldown
+{
+	public float defaultTime;
+	public float DefaultTime => defaultTime;
+}

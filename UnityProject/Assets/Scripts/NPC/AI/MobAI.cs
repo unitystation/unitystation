@@ -428,7 +428,7 @@ namespace Systems.MobAIs
 		{
 			// face performer
 			var dir = (performer.transform.position - transform.position).normalized;
-			rotatable.SetFaceDirectionLocalVector(dir.To2Int());
+			rotatable.SetFaceDirectionLocalVector(dir.RoundTo2Int());
 			PettedEvent?.Invoke();
 		}
 

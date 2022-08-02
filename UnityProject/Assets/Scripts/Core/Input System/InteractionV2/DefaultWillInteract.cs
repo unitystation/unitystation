@@ -9,49 +9,55 @@ public static class DefaultWillInteract
 	/// </summary>
 	/// <param name="interaction">interaction to check</param>
 	/// <param name="side">side of the network this is being checked on</param>
+	/// <param name="apt">The allowed PlayerTypes of this interaction defaults to PlayerTypes.Normal</param>
 	/// <typeparam name="T">type of interaction</typeparam>
-	public static bool Default<T>(T interaction, NetworkSide side) where T : Interaction
+	public static bool Default<T>(T interaction, NetworkSide side, PlayerTypes apt = PlayerTypes.Normal) where T : Interaction
 	{
 		if (typeof(T) == typeof(PositionalHandApply))
 		{
 			var positionalHandApply = interaction as PositionalHandApply;
-			return Validations.CanApply(positionalHandApply.PerformerPlayerScript, positionalHandApply.TargetObject, side, TargetPosition: positionalHandApply.TargetPosition);
+			return Validations.CanApply(positionalHandApply.PerformerPlayerScript, positionalHandApply.TargetObject,
+				side, targetPosition: positionalHandApply.TargetPosition, apt: apt);
 		}
 		if (typeof(T) == typeof(HandApply))
 		{
 			var handApply = interaction as HandApply;
-			return Validations.CanApply(handApply.PerformerPlayerScript, handApply.TargetObject, side);
+			return Validations.CanApply(handApply.PerformerPlayerScript, handApply.TargetObject, side,
+				apt: apt);
 		}
 		if (typeof(T) == typeof(AimApply))
 		{
-			return AimApply(interaction as AimApply, side);
+			return AimApply(interaction as AimApply, side, apt);
 		}
 		if (typeof(T) == typeof(MouseDrop))
 		{
-			return Validations.CanInteract(interaction.PerformerPlayerScript, side);
+			return Validations.CanInteract(interaction.PerformerPlayerScript, side, apt: apt);
 		}
 		if (typeof(T) == typeof(HandActivate))
 		{
-			return Validations.CanInteract(interaction.PerformerPlayerScript, side);
+			return Validations.CanInteract(interaction.PerformerPlayerScript, side, apt: apt);
 		}
 		if (typeof(T) == typeof(InventoryApply))
 		{
-			return Validations.CanInteract(interaction.PerformerPlayerScript, side);
+			return Validations.CanInteract(interaction.PerformerPlayerScript, side, apt: apt);
 		}
 		if (typeof(T) == typeof(TileApply))
 		{
 			var tileApply = interaction as TileApply;
-			return Validations.CanApply(tileApply.PerformerPlayerScript, tileApply.TargetInteractableTiles.gameObject, side, TargetPosition: tileApply.TargetPosition);
+			return Validations.CanApply(tileApply.PerformerPlayerScript, tileApply.TargetInteractableTiles.gameObject,
+				side, targetPosition: tileApply.TargetPosition, apt: apt);
 		}
 		if (typeof(T) == typeof(ConnectionApply))
 		{
 			var connectionApply = interaction as ConnectionApply;
-			return Validations.CanApply(connectionApply.PerformerPlayerScript, connectionApply.TargetObject, side, TargetPosition: connectionApply.TargetPosition);
+			return Validations.CanApply(connectionApply.PerformerPlayerScript, connectionApply.TargetObject,
+				side, targetPosition: connectionApply.TargetPosition, apt: apt);
 		}
 		if (typeof(T) == typeof(ContextMenuApply))
 		{
 			var contextMenuApply = interaction as ContextMenuApply;
-			return Validations.CanApply(contextMenuApply.PerformerPlayerScript, contextMenuApply.TargetObject, side);
+			return Validations.CanApply(contextMenuApply.PerformerPlayerScript, contextMenuApply.TargetObject, side,
+				apt: apt);
 		}
 		if (typeof(T) == typeof(AiActivate))
 		{
@@ -62,9 +68,10 @@ public static class DefaultWillInteract
 		return false;
 	}
 
-	public static bool AimApply(AimApply interaction, NetworkSide side)
+	private static bool AimApply(AimApply interaction, NetworkSide side,
+		PlayerTypes allowedPlayerTypes = PlayerTypes.Normal)
 	{
-		if ( !Validations.CanInteract(interaction.PerformerPlayerScript, side) )
+		if (Validations.CanInteract(interaction.PerformerPlayerScript, side, apt: allowedPlayerTypes) == false)
 		{
 			return false;
 		}

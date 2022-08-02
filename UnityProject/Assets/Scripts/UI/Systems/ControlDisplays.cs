@@ -32,6 +32,7 @@ namespace UI
 		public UI_GhostOptions hudBottomGhost;
 		public GameObject hudBottomBlob;
 		public GameObject hudBottomAi;
+		public GameObject hudAlien;
 		public GameObject currentHud;
 
 		public GameObject jobSelectWindow;
@@ -83,12 +84,12 @@ namespace UI
 		private void DetermineUI()
 		{
 			// TODO: make better system for handling lots of different UIs
-			if (PlayerManager.LocalPlayerScript.PlayerState == PlayerScript.PlayerStates.Blob)
+			if (PlayerManager.LocalPlayerScript.PlayerType == PlayerTypes.Blob)
 			{
 				SetUi(hudBottomBlob);
 				PlayerManager.LocalPlayerScript.GetComponent<BlobPlayer>()?.TurnOnClientLight();
 			}
-			else if (PlayerManager.LocalPlayerScript.PlayerState == PlayerScript.PlayerStates.Ai)
+			else if (PlayerManager.LocalPlayerScript.PlayerType == PlayerTypes.Ai)
 			{
 				SetUi(hudBottomAi);
 			}
@@ -207,6 +208,8 @@ namespace UI
 		{
 			ResetUI(); // Make sure UI is back to default for next play
 			UIManager.PlayerHealthUI.gameObject.SetActive(false);
+			SoundAmbientManager.StopAllAudio();
+			MusicManager.SongTracker.StartPlayingRandomPlaylist();
 			ToggleCurrentHud(false);
 			panelRight.gameObject.SetActive(false);
 			rightClickManager.SetActive(false);
@@ -222,6 +225,8 @@ namespace UI
 		{
 			ResetUI(); // Make sure UI is back to default for next play
 			UIManager.PlayerHealthUI.gameObject.SetActive(false);
+			SoundAmbientManager.StopAllAudio();
+			MusicManager.SongTracker.StartPlayingRandomPlaylist();
 			ToggleCurrentHud(false);
 			panelRight.gameObject.SetActive(false);
 			rightClickManager.SetActive(false);

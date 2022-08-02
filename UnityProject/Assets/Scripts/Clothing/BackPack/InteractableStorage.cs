@@ -377,7 +377,7 @@ public class InteractableStorage : MonoBehaviour, IClientInteractable<HandActiva
 
 					// Get all items of the same type on the tile and try to store them
 					var itemsOnTileSame =
-						MatrixManager.GetAt<ItemAttributesV2>(interaction.WorldPositionTarget.To2Int().To3Int(), true);
+						MatrixManager.GetAt<ItemAttributesV2>(interaction.WorldPositionTarget.RoundTo2Int().To3Int(), true);
 
 					if (itemsOnTileSame is List<ItemAttributesV2> == false)
 					{
@@ -414,7 +414,7 @@ public class InteractableStorage : MonoBehaviour, IClientInteractable<HandActiva
 				case PickupMode.All:
 					// Get all items on the tile and try to store them
 					var itemsOnTileAll =
-						MatrixManager.GetAt<ItemAttributesV2>(interaction.WorldPositionTarget.To2Int().To3Int(), true);
+						MatrixManager.GetAt<ItemAttributesV2>(interaction.WorldPositionTarget.RoundTo2Int().To3Int(), true);
 
 					if (itemsOnTileAll is List<ItemAttributesV2> == false)
 					{

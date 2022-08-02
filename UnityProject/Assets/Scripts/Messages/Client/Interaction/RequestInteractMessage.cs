@@ -234,7 +234,7 @@ namespace Messages.Client.Interaction
 				var clientStorage = SentByPlayer.Script.DynamicItemStorage;
 				var usedSlot = clientStorage.GetActiveHandSlot();
 				var usedObject = clientStorage.GetActiveHandSlot().ItemObject;
-				var interaction = HandActivate.ByClient(performer, usedObject, usedSlot, Intent);
+				var interaction = HandActivate.ByClient(performer, usedObject, usedSlot, Intent, IsAltUsed);
 				ProcessInteraction(interaction, processorObj, ComponentType);
 			}
 			else if (InteractionType == typeof(InventoryApply))
@@ -510,6 +510,7 @@ namespace Messages.Client.Interaction
 				ProcessorObject = comp == null ? NetId.Invalid : GetNetId(comp.gameObject),
 				Intent = interaction.Intent
 			};
+
 			if (typeof(T) == typeof(PositionalHandApply))
 			{
 				var casted = interaction as PositionalHandApply;
@@ -579,6 +580,11 @@ namespace Messages.Client.Interaction
 				var casted = interaction as AiActivate;
 				msg.TargetObject = GetNetId(casted.TargetObject);
 				msg.ClickTypes = casted.ClickType;
+			}
+			else if (typeof(T) == typeof(HandActivate))
+			{
+				var casted = interaction as HandActivate;
+				msg.IsAltUsed = casted.IsAltClick;
 			}
 
 			Send(msg);
@@ -758,6 +764,10 @@ namespace Messages.Client.Interaction
 				message.TargetObject = reader.ReadUInt();
 				message.ClickTypes = (AiActivate.ClickTypes)reader.ReadByte();
 			}
+			else if (message.InteractionType == typeof(HandActivate))
+			{
+				message.IsAltUsed = reader.ReadBool();
+			}
 
 			return message;
 		}
@@ -840,6 +850,10 @@ namespace Messages.Client.Interaction
 			{
 				writer.WriteUInt(message.TargetObject);
 				writer.WriteByte((byte)message.ClickTypes);
+			}
+			else if (message.InteractionType == typeof(HandActivate))
+			{
+				writer.WriteBool(message.IsAltUsed);
 			}
 		}
 	}

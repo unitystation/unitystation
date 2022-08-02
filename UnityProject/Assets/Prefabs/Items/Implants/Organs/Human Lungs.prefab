@@ -136,6 +136,17 @@ PrefabInstance:
       propertyPath: initialDescription
       value: A pair of lungs... Rather spongey.
       objectReference: {fileID: 0}
+    - target: {fileID: 5146776682568007683, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      propertyPath: initialTraits.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5146776682568007683, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      propertyPath: initialTraits.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: cf7011331adb47d4880a8f62edf3259d,
+        type: 2}
     - target: {fileID: 8195321311611557117, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
         type: 3}
       propertyPath: BodyPartType
@@ -188,6 +199,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7fae19aae8ddc974c84a11abe4f1279e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isEMPVunerable: 0
+  EMPResistance: 2
   breatheCooldown: 4
   pressureSafeMin: 16
   toxicGases:

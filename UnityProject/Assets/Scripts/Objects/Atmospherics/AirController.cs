@@ -6,8 +6,8 @@ using NaughtyAttributes;
 using ScriptableObjects.Atmospherics;
 using Systems.Atmospherics;
 using Systems.Electricity;
-using Systems.ObjectConnection;
 using Objects.Wallmounts;
+using Shared.Systems.ObjectConnection;
 using UI.Objects.Atmospherics.Acu;
 
 

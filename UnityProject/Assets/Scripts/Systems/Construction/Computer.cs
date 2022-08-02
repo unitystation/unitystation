@@ -31,6 +31,12 @@ namespace Objects.Construction
 		[SerializeField]
 		private float secondsToScrewdrive = 2f;
 
+		/// <summary>
+		/// Can this console not be deconstructed?
+		/// </summary>
+		[SerializeField]
+		private bool canNotBeDeconstructed;
+
 		private Integrity integrity;
 
 		private bool panelopen = false;
@@ -103,6 +109,12 @@ namespace Objects.Construction
 			//unsecure
 			if (Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Crowbar) && panelopen)
 			{
+				if (canNotBeDeconstructed)
+				{
+					Chat.AddExamineMsgFromServer(interaction.Performer, "This console cannot be deconstructed!");
+					return;
+				}
+
 				ToolUtils.ServerUseToolWithActionMessages(interaction, secondsToScrewdrive,
 					"You start to disconnect the monitor...",
 					$"{interaction.Performer.ExpensiveName()} starts to disconnect the monitor...",

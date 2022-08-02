@@ -2,7 +2,7 @@
 using System.Text;
 using UnityEngine;
 using Systems.Electricity;
-using Systems.ObjectConnection;
+using Shared.Systems.ObjectConnection;
 
 
 namespace Items.Engineering
@@ -60,7 +60,7 @@ namespace Items.Engineering
 					switch (multitoolBase)
 					{
 						case IMultitoolSlaveable slave:
-							if (slave.TrySetMaster(interaction, Buffer))
+							if (slave.TrySetMaster(interaction.Performer, Buffer))
 							{
 								Chat.AddExamineMsgFromServer(
 								interaction.Performer,
@@ -88,7 +88,7 @@ namespace Items.Engineering
 
 		public void PrintElectricalThings(PositionalHandApply interaction)
 		{
-			Vector3Int worldPosInt = interaction.WorldPositionTarget.To2Int().To3Int();
+			Vector3Int worldPosInt = interaction.WorldPositionTarget.RoundTo2Int().To3Int();
 			MatrixInfo matrixinfo = MatrixManager.AtPoint(worldPosInt, true);
 			var localPosInt = MatrixManager.WorldToLocalInt(worldPosInt, matrixinfo);
 			var matrix = interaction.Performer.RegisterTile().Matrix;

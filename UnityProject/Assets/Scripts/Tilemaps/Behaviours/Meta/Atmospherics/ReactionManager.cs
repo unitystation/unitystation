@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using Messages.Server;
 using UnityEngine;
 using UnityEngine.Profiling;
 using Random = UnityEngine.Random;
@@ -33,6 +34,12 @@ namespace Systems.Atmospherics
 
 		private float timePassed;
 		private int reactionTick;
+
+		private HashSet<MetaDataNode> windParticleSpots = new HashSet<MetaDataNode>(30);
+
+		private HashSet<MetaDataNode> windParticleToRemove = new HashSet<MetaDataNode>(30);
+
+		private const float WindParticleBlockTime = 3f;
 
 
 		public enum WindStrength
@@ -86,6 +93,23 @@ namespace Systems.Atmospherics
 
 		private void UpdateMe()
 		{
+			Profiler.BeginSample("Wind Particle Time Check");
+
+			windParticleToRemove.Clear();
+			foreach (var metaDataNode in windParticleSpots)
+			{
+				metaDataNode.windParticleTime -= Time.deltaTime;
+				if(metaDataNode.windParticleTime > 0) continue;
+				windParticleToRemove.Add(metaDataNode);
+			}
+
+			foreach (var metaDataNode in windParticleToRemove)
+			{
+				windParticleSpots.Remove(metaDataNode);
+			}
+
+			Profiler.EndSample();
+
 			Profiler.BeginSample("Wind");
 			winds.Iterate(windsNodeDelegator);
 			Profiler.EndSample();
@@ -147,10 +171,10 @@ namespace Systems.Atmospherics
 		{
 			windyNode.WindData[(int) PushType.Wind] = (Vector2) windyNode.WindDirection * (windyNode.WindForce);
 
-			var RegisterTiles = matrix.GetRegisterTile(windyNode.Position, true);
-			for (int i = 0; i < RegisterTiles.Count; i++)
+			var registerTiles = matrix.GetRegisterTile(windyNode.Position, true);
+			for (int i = 0; i < registerTiles.Count; i++)
 			{
-				var registerTile = RegisterTiles[i];
+				var registerTile = registerTiles[i];
 				//Quicker to get all RegisterTiles and grab the cached PushPull component from it than to get it manually using Get<>
 				if (registerTile.ObjectPhysics.HasComponent == false) continue;
 
@@ -162,11 +186,11 @@ namespace Systems.Atmospherics
 
 				correctedForce = Mathf.Clamp(correctedForce, 0, 30);
 
-				pushable.NewtonianPush(transform.rotation * (Vector2)windyNode.WindDirection, Random.Range((float)(correctedForce * 0.8), correctedForce),  spinFactor: Random.Range(1, 150));
+				pushable.NewtonianPush(registerTile.transform.rotation * (Vector2)windyNode.WindDirection, Random.Range((float)(correctedForce * 0.8), correctedForce),  spinFactor: Random.Range(1, 150));
 				if (pushable.stickyMovement && windyNode.WindForce > 3)
 				{
-					if (pushable is MovementSynchronisation && windyNode.WindForce < (int)WindStrength.STRONG) return;
-					pushable.TryTilePush((transform.rotation * (Vector2)windyNode.WindDirection).To2Int(), null);
+					if (pushable is MovementSynchronisation && windyNode.WindForce < (int)WindStrength.STRONG) continue;
+					pushable.TryTilePush((transform.rotation * (Vector2)windyNode.WindDirection).RoundTo2Int(), null);
 				}
 			}
 
@@ -177,7 +201,14 @@ namespace Systems.Atmospherics
 				windyNode.WindForce = 0;
 				windyNode.WindDirection = Vector2Int.zero;
 				windyNode.WindData[(int) PushType.Wind] = Vector2.zero;
+				return;
 			}
+
+			if(windParticleSpots.Contains(windyNode)) return;
+			windyNode.windParticleTime = WindParticleBlockTime;
+			windParticleSpots.Add(windyNode);
+
+			PlayWindEffect.SendToAll(windyNode.PositionMatrix, windyNode.Position, windyNode.WindDirection);
 		}
 
 		public void DoTick()
@@ -279,6 +310,7 @@ namespace Systems.Atmospherics
 		private void InternalTryAddHotspot(Vector3Int localPosition, float exposeTemperature = -1f)
 		{
 			MetaDataNode node = metaDataLayer.Get(localPosition, false);
+			if(node.Exists == false) return;
 
 			if(IsAllowedHotSpot(node, exposeTemperature) == false) return;
 

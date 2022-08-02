@@ -314,8 +314,8 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 
 	public void ServerSetLocalPosition(Vector3Int value, bool overRideCheck = false)
 	{
-		if (LocalPositionServer == value && overRideCheck == false)
-			return;
+		if (LocalPositionServer == value && overRideCheck == false) return;
+
 		if (objectLayer)
 		{
 			objectLayer.ServerObjects.Remove(LocalPositionServer, this);
@@ -818,5 +818,19 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 		{
 			fireExposable.OnExposed(exposure);
 		}
+	}
+
+	public void SetNewSortingOrder(int newLayerId)
+	{
+		CurrentsortingGroup.sortingLayerID = newLayerId;
+		ReorderSorting();
+	}
+
+	private void ReorderSorting()
+	{
+		objectLayer.ClientObjects.ReorderObjects(LocalPositionClient);
+
+		if(CustomNetworkManager.IsServer == false) return;
+		objectLayer.ServerObjects.ReorderObjects(LocalPositionServer);
 	}
 }

@@ -5,9 +5,9 @@ using UnityEngine;
 using Mirror;
 using NaughtyAttributes;
 using Systems.Interaction;
-using Systems.ObjectConnection;
 using Doors;
 using CustomInspectors;
+using Shared.Systems.ObjectConnection;
 
 namespace Objects.Wallmounts
 {

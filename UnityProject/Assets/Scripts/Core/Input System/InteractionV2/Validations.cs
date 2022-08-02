@@ -7,6 +7,7 @@ using Systems.Ai;
 using Systems.Interaction;
 using Items;
 using Objects.Wallmounts;
+using ScriptableObjects;
 using Tiles;
 
 
@@ -32,6 +33,11 @@ public static class Validations
 	public static bool HasComponent<T>(GameObject toCheck) where T : Component
 	{
 		return toCheck != null && toCheck.GetComponent(typeof(T)) != null;
+	}
+
+	public static PlayerTypes CheckState(Predicate<PlayerTypeSettings> toCheck)
+	{
+		return PlayerTypeSingleton.Instance.DoCheck(toCheck);
 	}
 
 	/// <summary>
@@ -123,13 +129,16 @@ public static class Validations
 	/// <param name="side">side of the network the check is being performed on</param>
 	/// <param name="allowSoftCrit">whether interaction should be allowed if in soft crit</param>
 	/// <param name="allowCuffed">whether interaction should be allowed if cuffed</param>
+	/// <param name="apt"> the allowed PlayerTypes for this interaction, defaults to normal players</param>
 	/// <returns></returns>
-	public static bool CanInteract(PlayerScript playerScript, NetworkSide side, bool allowSoftCrit = false, bool allowCuffed = false)
+	public static bool CanInteract(PlayerScript playerScript, NetworkSide side, bool allowSoftCrit = false, bool allowCuffed = false,
+		PlayerTypes apt = PlayerTypes.Normal)
 	{
 		if (playerScript == null) return false;
 
-		//Only normal players interact this way (not ghosts, Ai)
-		if (playerScript.IsNormal == false) return false;
+		//Only allow players interact this way if contained in allowedPlayerStates (usually only normal players not ghost etc)
+		//Note that Ai has AiActivate as that has additional validations
+		if (apt.HasFlag(playerScript.PlayerType) == false) return false;
 
 		//Can't interact cuffed
 		if (allowCuffed == false && playerScript.playerMove.IsCuffed) return false;
@@ -165,11 +174,13 @@ public static class Validations
 	/// <param name="side">side of the network this is being checked on</param>
 	/// <param name="allowSoftCrit">whether to allow interaction while in soft crit</param>
 	/// <param name="reachRange">range to allow</param>
+	/// <param name="targetPosition"></param>
 	/// <param name="targetVector">target vector pointing from performer to the position they are trying to click,
 	/// if specified will use this to determine if in range rather than target object position.</param>
 	/// <param name="targetRegisterTile">target's register tile component. If you specify this it avoids garbage. Please provide this
 	/// if you can do so without using GetComponent, this is an optimization so GetComponent call can be avoided to avoid
 	/// creating garbage.</param>
+	/// <param name="apt"> allowedPlayerTypes the allowed PlayerTypes for this interaction, defaults to normal players</param>
 	/// <returns></returns>
 	public static bool CanApply(
 		PlayerScript playerScript,
@@ -177,9 +188,10 @@ public static class Validations
 		NetworkSide side,
 		bool allowSoftCrit = false,
 		ReachRange reachRange = ReachRange.Standard,
-		Vector2? TargetPosition = null,
+		Vector2? targetPosition = null,
 		Vector2? targetVector = null,
-		RegisterTile targetRegisterTile = null
+		RegisterTile targetRegisterTile = null,
+		PlayerTypes apt = PlayerTypes.Normal
 	)
 	{
 		if (playerScript == null) return false;
@@ -187,7 +199,7 @@ public static class Validations
 		var playerObjBehavior = playerScript.objectPhysics;
 
 
-		if (CanInteract(playerScript, side, allowSoftCrit) == false)
+		if (CanInteract(playerScript, side, allowSoftCrit, apt: apt) == false)
 		{
 			return false;
 		}
@@ -229,7 +241,7 @@ public static class Validations
 		}
 		else if (reachRange == ReachRange.Standard)
 		{
-			result = IsInReachInternal(playerScript, target, side, TargetPosition, targetRegisterTile, targetVector: targetVector);
+			result = IsInReachInternal(playerScript, target, side, targetPosition, targetRegisterTile, targetVector: targetVector);
 		}
 		else if (reachRange == ReachRange.ExtendedServer)
 		{
@@ -244,7 +256,7 @@ public static class Validations
 
 				if (uop == null)
 				{
-					result = IsInReachInternal(playerScript, target, side, TargetPosition, targetRegisterTile, targetVector: targetVector);
+					result = IsInReachInternal(playerScript, target, side, targetPosition, targetRegisterTile, targetVector: targetVector);
 				}
 				else
 				{

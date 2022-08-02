@@ -71,7 +71,7 @@ namespace Items.Others
 						$"{interaction.Performer.name} lights the {gameObject.ExpensiveName()}!");
 				}
 			}
-		} 
+		}
 
 		#endregion Interaction
 
@@ -117,9 +117,11 @@ namespace Items.Others
 		void Degrade()
 		{
 			if (LifeSpan == -1) return;
+
 			LifeSpan--;
 			DecayStage = 4 - Mathf.CeilToInt((LifeSpan / 30f));
-			if (DecayStage == 4) ToggleLight(false);
+			DecayStage = Mathf.Max(3, DecayStage);
+			if (DecayStage == 3) ToggleLight(false);
 			UpdateSprite();
 		}
 
@@ -129,6 +131,7 @@ namespace Items.Others
 			{
 				clothing.ChangeSprite(lightControl.IsOn ? 1 + (DecayStage * 2) : 0 + (DecayStage * 2));
 			}
+
 			spriteHandler.ChangeSprite(SpriteIndex + (DecayStage * 2));
 		}
 	}

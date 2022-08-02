@@ -60,6 +60,7 @@ public class PlayerInfo
 			{
 				Script.PlayerInfo = null;
 			}
+
 			if (gameObject != null)
 			{
 				// If player is in lobby, their controlled GameObject is JoinedViewer (which has JoinedViewer component).

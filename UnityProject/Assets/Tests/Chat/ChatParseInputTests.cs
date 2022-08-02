@@ -52,7 +52,7 @@ namespace Tests
 		[Test]
 		public void TestAllChannelsTag()
 		{
-			foreach (var pair in Chat.ChanelsTags)
+			foreach (var pair in Chat.ChannelsTags)
 			{
 				var msg = string.Format(":{0} Testing!", pair.Key);
 				CheckChannelAndClearMessage(msg, pair.Value, "Testing!");

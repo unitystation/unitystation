@@ -73,6 +73,8 @@ namespace Objects
 		[NonSerialized]
 		public UnityEvent<bool> OnStateChange = new UnityEvent<bool>();
 
+		private Vector3 previousDetectPosition;
+
 		private void Awake()
 		{
 			apcPoweredDevice = GetComponent<APCPoweredDevice>();
@@ -371,7 +373,7 @@ namespace Objects
 		{
 			foreach (var player in PlayerList.Instance.GetAllPlayers())
 			{
-				if(player.Script.PlayerState != PlayerScript.PlayerStates.Ai) continue;
+				if(player.Script.PlayerType != PlayerTypes.Ai) continue;
 
 				if (player.Script.TryGetComponent<AiPlayer>(out var aiPlayer) == false) continue;
 
@@ -449,7 +451,13 @@ namespace Objects
 				//Check to see if we hit a wall or closed door
 				if(linecast.ItHit) continue;
 
+				//Don't spam the detect if the player hasn't moved
+				if(previousDetectPosition == worldPos) continue;
+				previousDetectPosition = worldPos;
+
 				SendAlert(orderedMobs, cameraPos);
+
+				//Only need to detect once
 				break;
 			}
 		}
@@ -458,17 +466,18 @@ namespace Objects
 		{
 			foreach (var player in PlayerList.Instance.GetAllPlayers())
 			{
-				if(player.Script.PlayerState != PlayerScript.PlayerStates.Ai) continue;
+				if(player.Script.PlayerType != PlayerTypes.Ai) continue;
 
 				Chat.AddExamineMsgFromServer(player, $"ALERT: {gameObject.name} motion sensor activated");
 			}
 
+			//Send message to nearby players seeing the camera detect them
 			foreach (var mob in colliders)
 			{
 				if(mob.TryGetComponent<PlayerScript>(out var script) == false) continue;
 
 				//Only target normal players and alive players
-				if(script.PlayerState != PlayerScript.PlayerStates.Normal || script.IsDeadOrGhost) continue;
+				if(script.PlayerType != PlayerTypes.Normal || script.IsDeadOrGhost) continue;
 
 				var linecast = MatrixManager.Linecast(cameraPos,
 					LayerTypeSelection.Walls, LayerMask.GetMask("Door Closed", "Walls"), script.WorldPos);

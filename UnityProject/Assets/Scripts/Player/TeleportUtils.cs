@@ -49,17 +49,26 @@ namespace Systems.Teleport
 
 				string status;
 				//Gets Status of Player
+				//TODO better way to do this
 				if (player.IsGhost)
 				{
 					status = "(Ghost)";
 				}
-				else if (!player.IsGhost & player.playerHealth.IsDead)
+				else if (player.IsNormal)
 				{
-					status = "(Dead)";
+					status = player.playerHealth.IsDead ? "(Dead)" : "(Alive)";
 				}
-				else if (!player.IsGhost)
+				else if (player.PlayerType == PlayerTypes.Ai)
 				{
-					status = "(Alive)";
+					status = "(Ai)";
+				}
+				else if (player.PlayerType == PlayerTypes.Blob)
+				{
+					status = "(Blob)";
+				}
+				else if (player.PlayerType == PlayerTypes.Alien)
+				{
+					status = $"(Alien) {(player.playerHealth.IsDead ? "(Dead)" : "(Alive)")}";
 				}
 				else
 				{
@@ -196,8 +205,8 @@ namespace Systems.Teleport
 
 		public static void TeleportLocalGhostTo(Vector3 vector)
 		{
-			var Ghost = PlayerManager.LocalPlayerObject.GetComponent<GhostMove>();
-			Ghost.ForcePositionClient(vector);
+			var ghost = PlayerManager.LocalPlayerObject.GetComponent<GhostMove>();
+			ghost.CMDSetServerPosition(vector);
 		}
 
 		/// <summary>
@@ -238,7 +247,7 @@ namespace Systems.Teleport
 
 			for (int i = 0; i < 8; i++)
 			{
-				randomVector = (Vector3Int) RandomUtils.RandomAnnulusPoint(minRadius, maxRadius).To2Int();
+				randomVector = (Vector3Int) RandomUtils.RandomAnnulusPoint(minRadius, maxRadius).RoundTo2Int();
 				newPosition = centrePoint + randomVector;
 
 				if (avoidSpace && MatrixManager.IsSpaceAt(newPosition, CustomNetworkManager.IsServer, possibleMatrix))

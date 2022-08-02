@@ -19,7 +19,8 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.Tilemaps;
 
-public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllable, IActionGUI ,ICooldown, IBumpableObject, ICheckedInteractable<ContextMenuApply>
+public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllable, IActionGUI, ICooldown,
+	IBumpableObject, ICheckedInteractable<ContextMenuApply>
 {
 	public PlayerScript playerScript;
 
@@ -75,6 +76,12 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 
 	public bool IsBumping = false;
 
+	/// <summary>
+	/// Event which fires when movement type changes (run/walk)
+	/// </summary>
+	[NonSerialized]
+	public MovementStateEvent MovementStateEventServer = new MovementStateEvent();
+
 	public void CallActionClient()
 	{
 		CmdUnbuckle();
@@ -84,39 +91,14 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 	[Command]
 	public void CmdUnbuckle()
 	{
-		if (IsCuffed)
+		var buckleInteract = BuckledToObject.GetComponent<BuckleInteract>();
+		if (buckleInteract == null)
 		{
-			if (CanUnBuckleSelf())
-			{
-				Chat.AddActionMsgToChat(
-					playerScript.gameObject,
-					"You're trying to unbuckle yourself from the chair! (this will take some time...)",
-					playerScript.name + " is trying to unbuckle themself from the chair!"
-				);
-				StandardProgressAction.Create(
-					new StandardProgressActionConfig(StandardProgressActionType.Unbuckle),
-					BuckledToObject.UnbuckleObject
-				).ServerStartProgress(
-					BuckledToObject.registerTile,
-					BuckledToObject.GetComponent<BuckleInteract>().ResistTime,
-					playerScript.gameObject
-				);
-			}
+			Logger.LogError($"{BuckledToObject.gameObject.ExpensiveName()} has no BuckleInteract!");
+			return;
 		}
-		else
-		{
-			BuckledToObject.UnbuckleObject();
-		}
-	}
 
-	private bool CanUnBuckleSelf()
-	{
-		PlayerHealthV2 playerHealth = playerScript.playerHealth;
-
-		return !(playerHealth == null ||
-		         playerHealth.ConsciousState == ConsciousState.DEAD ||
-		         playerHealth.ConsciousState == ConsciousState.UNCONSCIOUS ||
-		         playerHealth.ConsciousState == ConsciousState.BARELY_CONSCIOUS);
+		buckleInteract.TryUnbuckle(playerScript);
 	}
 
 	public override void BuckleToChange(UniversalObjectPhysics newBuckledTo)
@@ -205,7 +187,7 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 			var restraint = handcuffSlot.Item.GetComponent<Restraint>();
 			if (restraint == null) continue;
 
-			var progressConfig = new StandardProgressActionConfig(StandardProgressActionType.Uncuff);
+			var progressConfig = new StandardProgressActionConfig(StandardProgressActionType.Uncuff, allowTurning: true);
 			StandardProgressAction.Create(progressConfig, Uncuff)
 				.ServerStartProgress(targetObject.RegisterTile(),
 					restraint.RemoveTime * (handcuffSlots.Count / 2f), performer);
@@ -343,11 +325,20 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 	}
 
 	private readonly HashSet<IMovementEffect> movementAffects = new HashSet<IMovementEffect>();
+	private readonly HashSet<IMovementEffect> legs = new HashSet<IMovementEffect>();
+	public bool HasALeg => legs.Count != 0;
 
 	[Server]
 	public void AddModifier(IMovementEffect modifier)
 	{
 		movementAffects.Add(modifier);
+		UpdateSpeeds();
+	}
+
+	[Server]
+	public void AddLeg(IMovementEffect newLeg)
+	{
+		legs.Add(newLeg);
 		UpdateSpeeds();
 	}
 
@@ -358,11 +349,34 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 		UpdateSpeeds();
 	}
 
+	[Server]
+	public void RemoveLeg(IMovementEffect oldLeg)
+	{
+		legs.Remove(oldLeg);
+		if (legs.Count == 0)
+		{
+			RequestRest.Send(true);
+		}
+		UpdateSpeeds();
+	}
+
 	public void UpdateSpeeds()
 	{
 		float newRunSpeed = 0;
 		float newWalkSpeed = 0;
 		float newCrawlSpeed = 0;
+		if (legs.Count == 0)
+		{
+			RunSpeed = 0;
+			WalkSpeed = 0;
+			foreach (var movementAffect in movementAffects)
+			{
+				newCrawlSpeed += movementAffect.CrawlingSpeedModifier;
+			}
+			CrawlSpeed = newCrawlSpeed;
+			UpdateMovementSpeed();
+			return;
+		}
 		foreach (var movementAffect in movementAffects)
 		{
 			newRunSpeed += movementAffect.RunningSpeedModifier;
@@ -397,6 +411,7 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 	{
 		if (CurrentMovementType == MovementType.Crawling) return;
 		CurrentMovementType = isRunning ? MovementType.Running : MovementType.Walking;
+		MovementStateEventServer?.Invoke(isRunning);
 	}
 
 	public override void OnEnable()
@@ -433,26 +448,18 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 	{
 		Pushing.Clear();
 		Bumps.Clear();
-		if (intent == Intent.Help)
+		if(intent != Intent.Help) return;
+		if (bumpedBy.TryGetComponent<MovementSynchronisation>(out var move))
 		{
-			if (bumpedBy.TryGetComponent<MovementSynchronisation>(out var move))
-			{
-				if (move.intent == Intent.Help)
-				{
-					if (MatrixManager.IsPassableAtAllMatricesV2(bumpedBy.AssumedWorldPosServer(),
-						    this.gameObject.AssumedWorldPosServer(), SetMatrixCache, this, Pushing, Bumps))
-					{
-						var pushVector = (bumpedBy.transform.position - this.transform.position).RoundToInt().To2Int();
-						ForceTilePush(pushVector, Pushing, client, move.TileMoveSpeed);
+			if (move.CurrentMovementType == MovementType.Crawling) return;
+			if (MatrixManager.IsPassableAtAllMatricesV2(bumpedBy.AssumedWorldPosServer(),
+				    this.gameObject.AssumedWorldPosServer(), SetMatrixCache, this, Pushing, Bumps) == false) return;
+			var pushVector = (bumpedBy.transform.position - this.transform.position).RoundToInt().To2Int();
+			ForceTilePush(pushVector, Pushing, client, move.TileMoveSpeed);
 
-						if (move.IsBumping)
-						{
-							pushVector *= -1;
-							move.ForceTilePush(pushVector, Pushing, client, move.TileMoveSpeed);
-						}
-					}
-				}
-			}
+			if (move.IsBumping == false) return;
+			pushVector *= -1;
+			move.ForceTilePush(pushVector, Pushing, client, move.TileMoveSpeed);
 		}
 	}
 
@@ -922,7 +929,7 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 			.ToLocal(MatrixManager.Get(NewMoveData.MatrixID));
 
 		NewMoveData.LocalMoveDirection = VectorToPlayerMoveDirection(
-			(addedLocalPosition - transform.position.ToLocal(MatrixManager.Get(NewMoveData.MatrixID))).To2Int());
+			(addedLocalPosition - transform.position.ToLocal(MatrixManager.Get(NewMoveData.MatrixID))).RoundTo2Int());
 		//Because shuttle could be rotated   enough to make Global  Direction invalid As compared to server
 
 		if (Pushing.Count > 0)
@@ -1268,7 +1275,7 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 				 inMoveData.LocalMoveDirection.ToVector().To3()).ToWorld(MatrixManager.Get(inMoveData.MatrixID));
 
 			inMoveData.GlobalMoveDirection =
-				VectorToPlayerMoveDirection((addedGlobalPosition - transform.position).To2Int());
+				VectorToPlayerMoveDirection((addedGlobalPosition - transform.position).RoundTo2Int());
 			//Logger.LogError(" Received move at  " + InMoveData.LocalPosition.ToString() + "  Currently at " + transform.localPosition );
 			MoveQueue.Add(inMoveData);
 		}
@@ -1306,6 +1313,9 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 /// <summary>
 /// Cuff state changed, provides old state and new state as 1st and 2nd args
 /// </summary>
-public class CuffEvent : UnityEvent<bool, bool>
-{
-}
+public class CuffEvent : UnityEvent<bool, bool> { }
+
+/// <summary>
+/// Event which fires when movement type changes (run/walk)
+/// </summary>
+public class MovementStateEvent : UnityEvent<bool> { }

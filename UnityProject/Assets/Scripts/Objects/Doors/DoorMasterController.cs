@@ -11,19 +11,19 @@ using Messages.Server;
 using Systems.Electricity;
 using Systems.Hacking;
 using Systems.Interaction;
-using Systems.ObjectConnection;
-using Systems.Explosions;
 using Doors.Modules;
 using HealthV2;
 using Objects;
 using Objects.Wallmounts;
+using Shared.Systems.ObjectConnection;
 
 namespace Doors
 {
 	/// <summary>
 	/// This is the master 'controller' for the door. It handles interactions by players and passes any interactions it need to to its components.
 	/// </summary>
-	public class DoorMasterController : NetworkBehaviour, ICheckedInteractable<HandApply>, ICheckedInteractable<AiActivate>, ICanOpenNetTab, IMultitoolSlaveable, IServerSpawn, IBumpableObject
+	public class DoorMasterController : NetworkBehaviour, ICheckedInteractable<HandApply>,
+		ICheckedInteractable<AiActivate>, ICanOpenNetTab, IMultitoolSlaveable, IServerSpawn, IBumpableObject
 	{
 		#region inspector
 		[SerializeField, PrefabModeOnly]
@@ -63,7 +63,7 @@ namespace Doors
 		private DoorAnimatorV2 doorAnimator;
 		public DoorAnimatorV2 DoorAnimator => doorAnimator;
 
-		private const float INPUT_COOLDOWN = 1f;
+		private const float INPUT_COOLDOWN = 0.25f;
 
 		#endregion
 
@@ -109,6 +109,8 @@ namespace Doors
 
 		public ConstructibleDoor ConstructibleDoor;
 
+		private bool isFireLock;
+
 		private void Awake()
 		{
 			if (isWindowedDoor == false)
@@ -119,7 +121,19 @@ namespace Doors
 			{
 				closedLayer = LayerMask.NameToLayer("Windows");
 			}
+
 			closedSortingLayer = SortingLayer.NameToID("Doors Closed");
+
+			openLayer = LayerMask.NameToLayer("Door Open");
+			openSortingLayer = SortingLayer.NameToID("Doors Open");
+
+			if (TryGetComponent<FireLock>(out _))
+			{
+				isFireLock = true;
+				closedSortingLayer = SortingLayer.NameToID("WallObject");
+				openSortingLayer = SortingLayer.NameToID("Machines");
+			}
+
 			openLayer = LayerMask.NameToLayer("Door Open");
 			openSortingLayer = SortingLayer.NameToID("Doors Open");
 			spriteRenderer = GetComponentInChildren<SpriteRenderer>();
@@ -249,7 +263,7 @@ namespace Doors
 			//When a player interacts with the door, we must first check with each module on what to do.
 			//For instance, if one of the modules has locked the door, that module will want to prevent us from
 			//opening the door.
-			if (!IsClosed)
+			if (IsClosed == false)
 			{
 				OpenInteraction(interaction);
 			}
@@ -362,8 +376,12 @@ namespace Doors
 
 		public void TryOpen(GameObject originator, bool blockClosing = false)
 		{
-			var firelock = matrix.GetFirst<FireLock>(registerTile.LocalPositionServer, true);
-			if (firelock != null && firelock.fireAlarm.activated) return;
+			if (isFireLock == false)
+			{
+				var fireLock = matrix.GetFirst<FireLock>(registerTile.LocalPositionServer, true);
+				if (fireLock != null && fireLock.fireAlarm.activated) return;
+			}
+
 			if(IsClosed == false || isPerformingAction) return;
 
 			if(HasPower == false)
@@ -518,8 +536,11 @@ namespace Doors
 
 		public void Open(bool blockClosing = false)
 		{
-			var firelock = matrix.GetFirst<FireLock>(registerTile.LocalPositionServer, true);
-			if (firelock != null && firelock.fireAlarm.activated) return;
+			if (isFireLock)
+			{
+				var fireLock = matrix.GetFirst<FireLock>(registerTile.LocalPositionServer, true);
+				if (fireLock != null && fireLock.fireAlarm.activated) return;
+			}
 
 			if (!this || !gameObject) return; // probably destroyed by a shuttle crash
 
@@ -550,6 +571,7 @@ namespace Doors
 			IsClosed = true;
 			SetLayer(closedLayer);
 			spriteRenderer.sortingLayerID = closedSortingLayer;
+			registerTile.SetNewSortingOrder(closedSortingLayer);
 		}
 
 		public void BoxCollToggleOff()
@@ -557,6 +579,7 @@ namespace Doors
 			IsClosed = false;
 			SetLayer(openLayer);
 			spriteRenderer.sortingLayerID = openSortingLayer;
+			registerTile.SetNewSortingOrder(openSortingLayer);
 		}
 
 		private void SetLayer(int layer)
@@ -570,12 +593,10 @@ namespace Doors
 
 		public bool WillInteract(HandApply interaction, NetworkSide side)
 		{
-			if (!allowInput ||
-			    !DefaultWillInteract.Default(interaction, side) ||
-			    interaction.TargetObject != gameObject)
-			{
-				return false;
-			}
+			if (allowInput == false) return false;
+			if (interaction.TargetObject != gameObject) return false;
+			if (DefaultWillInteract.Default(interaction, side,
+				    Validations.CheckState(x => x.CanInteractWithDoors)) == false) return false;
 
 			//jaws of life
 			if (interaction.HandObject != null &&
@@ -603,6 +624,12 @@ namespace Doors
 			}
 
 			//TODO add pins here//TODO check if clicking on pins region
+
+			if (interaction.HandObject == null &&
+			    interaction.PerformerPlayerScript.PlayerTypeSettings.CanPryDoorsWithHands)
+			{
+				return true;
+			}
 
 			if (interaction.HandObject && interaction.Intent == Intent.Harm)
 			{
@@ -678,10 +705,9 @@ namespace Doors
 
 		private void ResetWaiting()
 		{
-			if (maxTimeOpen == -1)
-			{
-				return;
-			}
+			if (maxTimeOpen.Approx(-1)) return;
+
+			if (CustomNetworkManager.IsServer == false) return;
 
 			if (coWaitOpened != null)
 			{
@@ -697,13 +723,17 @@ namespace Doors
 		{
 			// After the door opens, wait until it's supposed to close.
 			yield return WaitFor.Seconds(maxTimeOpen);
-			if (CustomNetworkManager.IsServer &&
-			    !blockAutoClose &&
-			    isAutomatic &&
-			    HasPower)
-			{
-				PulseTryClose();
-			}
+
+			if(blockAutoClose) yield break;
+
+			if(isAutomatic == false) yield break;
+
+			if(HasPower == false) yield break;
+
+			//If we are already closed don't need to pulse
+			if(IsClosed) yield break;
+
+			PulseTryClose();
 		}
 
 		public void ToggleBlockAutoClose(bool newState)
@@ -781,7 +811,7 @@ namespace Doors
 
 		public bool CanOpenNetTab(GameObject playerObject, NetTabType netTabType)
 		{
-			bool isAi = playerObject.GetComponent<PlayerScript>().PlayerState == PlayerScript.PlayerStates.Ai;
+			bool isAi = playerObject.GetComponent<PlayerScript>().PlayerType == PlayerTypes.Ai;
 			if (netTabType == NetTabType.HackingPanel)
 			{
 			    //Block Ai from hacking UI but allow normal player
@@ -861,7 +891,7 @@ namespace Doors
 		bool IMultitoolSlaveable.RequireLink => false;
 		// TODO: should be requireLink but hardcoded to false for now,
 		// doors don't know about links, only the switches
-		bool IMultitoolSlaveable.TrySetMaster(PositionalHandApply interaction, IMultitoolMasterable master)
+		bool IMultitoolSlaveable.TrySetMaster(GameObject performer, IMultitoolMasterable master)
 		{
 			SetMaster(master);
 			return true;

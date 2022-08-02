@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Systems.Atmospherics;
 using Chemistry;
 using Chemistry.Components;
@@ -104,7 +105,27 @@ public class MetaDataLayer : MonoBehaviour
 			}
 		}
 
-		var node = nodes[localPosition];
+		MetaDataNode node;
+		try
+		{
+			node = nodes[localPosition];
+		}
+		catch (Exception e)
+		{
+			Logger.LogError("THIS REALLY SHOULDN'T HAPPEN!");
+			Logger.LogError(e.ToString());
+
+			if (createIfNotExists)
+			{
+				nodes[localPosition] = new MetaDataNode(localPosition, reactionManager, matrix, MetaDataSystem);
+				node = nodes[localPosition];
+			}
+			else
+			{
+				return MetaDataNode.None;
+			}
+		}
+
 		if (updateTileOnClient)
 		{
 			AddNetworkChange(localPosition, node);
@@ -173,6 +194,13 @@ public class MetaDataLayer : MonoBehaviour
 	/// </summary>
 	public void ReagentReact(ReagentMix reagents, Vector3Int worldPosInt, Vector3Int localPosInt)
 	{
+		var mobs = MatrixManager.GetAt<LivingHealthMasterBase>(worldPosInt, true);
+		reagents.Divide(mobs.Count() + 1);
+		foreach (var mob in mobs)
+		{
+			mob.ApplyReagentsToSurface(reagents, BodyPartType.None);
+		}
+
 		if (MatrixManager.IsTotallyImpassable(worldPosInt, true)) return;
 
 		bool didSplat = false;

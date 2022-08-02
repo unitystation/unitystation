@@ -5,10 +5,10 @@ using UnityEngine;
 using Messages.Server;
 using Systems.Electricity;
 using Systems.Interaction;
-using Systems.ObjectConnection;
 using CustomInspectors;
 using UI.Core.Net;
 using Objects.Other;
+using Shared.Systems.ObjectConnection;
 
 
 namespace Objects.Wallmounts.Switches
@@ -189,7 +189,7 @@ namespace Objects.Wallmounts.Switches
 			if (accessRestrictions != null && restricted)
 			{
 				//Ai always allowed through, check other players access
-				if (playerObject.GetComponent<PlayerScript>().PlayerState != PlayerScript.PlayerStates.Ai &&
+				if (playerObject.GetComponent<PlayerScript>().PlayerType != PlayerTypes.Ai &&
 				    accessRestrictions.CheckAccess(playerObject) == false)
 				{
 					Chat.AddExamineMsgFromServer(playerObject, "Higher Access Level Needed");

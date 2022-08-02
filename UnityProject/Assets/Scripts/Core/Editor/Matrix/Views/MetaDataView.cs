@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Shared.Editor;
 using Systems.Atmospherics;
 using UnityEditor;
 using UnityEngine;
@@ -41,9 +42,8 @@ public class MetaDataView : BasicView
 
 	public override void DrawContent()
 	{
-		for (var i = 0; i < localChecks.Count; i++)
+		foreach (var check in localChecks)
 		{
-			Check<MetaDataLayer> check = localChecks[i];
 			check.Active = GUILayout.Toggle(check.Active, check.Label);
 		}
 	}
