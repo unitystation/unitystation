@@ -8,7 +8,7 @@ namespace Player.Language
 	public class MobLanguages : MonoBehaviour
 	{
 		[SerializeField]
-		private DefaultLanguageHolderSO defaultLanguages = null;
+		private DefaultLanguageGroupSO defaultLanguages = null;
 
 		[SerializeField]
 		private bool omniTongue = false;

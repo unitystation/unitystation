@@ -3,8 +3,8 @@ using UnityEngine;
 
 namespace Player.Language
 {
-	[CreateAssetMenu(fileName = "DefaultLanguageHolderSO", menuName = "ScriptableObjects/Player/DefaultLanguageHolderSO")]
-	public class DefaultLanguageHolderSO : ScriptableObject
+	[CreateAssetMenu(fileName = "DefaultLanguageGroupSO", menuName = "ScriptableObjects/Player/DefaultLanguageGroupSO")]
+	public class DefaultLanguageGroupSO : ScriptableObject
 	{
 		[SerializeField]
 		[Tooltip("The languages that can be understood")]

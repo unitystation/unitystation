@@ -1,0 +1,37 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2dd0f7f114fd41d9802a9e350cd8a2ea, type: 3}
+  m_Name: Aphasia
+  m_EditorClassIdentifier: 
+  languageName: Gibbering
+  desc: It is theorized that any sufficiently brain-damaged person can speak this
+    language.
+  key: i
+  syllables:
+  - m
+  - n
+  - gh
+  - h
+  - l
+  - s
+  - r
+  - a
+  - e
+  - i
+  - o
+  - u
+  sentenceChance: 5
+  spaceChance: 20
+  priority: 10
+  sprite: {fileID: 21300000, guid: d1aaebd40896f1d448602df887c80eb7, type: 3}
+  flags: 2
+  syllablesString: '"m","n","gh","h","l","s","r","a","e","i","o","u"'

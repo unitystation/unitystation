@@ -1,0 +1,207 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8645d1f4d637444382e62787f12d5218, type: 3}
+  m_Name: Narsian
+  m_EditorClassIdentifier: 
+  languageName: Nar'Sian
+  desc: The ancient, blood-soaked, impossibly complex language of Nar'Sian cultists.
+  key: n
+  sentenceChance: 8
+  spaceChance: 95
+  priority: 10
+  sprite: {fileID: 21300000, guid: de04478b5e1b9c14895da690c0084afd, type: 3}
+  flags: 0
+  syllables: []
+  syllablesString: 
+  baseSyllables:
+  - h
+  - v
+  - c
+  - e
+  - g
+  - d
+  - r
+  - n
+  - h
+  - o
+  - p
+  - ra
+  - so
+  - at
+  - il
+  - ta
+  - gh
+  - sh
+  - ya
+  - te
+  - sh
+  - ol
+  - ma
+  - om
+  - ig
+  - ni
+  - in
+  - sha
+  - mir
+  - sas
+  - mah
+  - zar
+  - tok
+  - lyr
+  - nqa
+  - nap
+  - olt
+  - val
+  - qha
+  - fwe
+  - ath
+  - yro
+  - eth
+  - gal
+  - gib
+  - bar
+  - jin
+  - kla
+  - atu
+  - kal
+  - lig
+  - yoka
+  - drak
+  - loso
+  - arta
+  - weyh
+  - ines
+  - toth
+  - fara
+  - amar
+  - nyag
+  - eske
+  - reth
+  - dedo
+  - btoh
+  - nikt
+  - neth
+  - kanas
+  - garis
+  - uloft
+  - tarat
+  - khari
+  - thnor
+  - rekka
+  - ragga
+  - rfikk
+  - harfr
+  - andid
+  - ethra
+  - dedol
+  - totum
+  - ntrath
+  - keriam
+  fullSyllables:
+  - sha
+  - mir
+  - sas
+  - mah
+  - hra
+  - zar
+  - tok
+  - lyr
+  - nqa
+  - nap
+  - olt
+  - val
+  - yam
+  - qha
+  - fel
+  - det
+  - fwe
+  - mah
+  - erl
+  - ath
+  - yro
+  - eth
+  - gal
+  - mud
+  - gib
+  - bar
+  - tea
+  - fuu
+  - jin
+  - kla
+  - atu
+  - kal
+  - lig
+  - yoka
+  - drak
+  - loso
+  - arta
+  - weyh
+  - ines
+  - toth
+  - fara
+  - amar
+  - nyag
+  - eske
+  - reth
+  - dedo
+  - btoh
+  - nikt
+  - neth
+  - abis
+  - kanas
+  - garis
+  - uloft
+  - tarat
+  - khari
+  - thnor
+  - rekka
+  - ragga
+  - rfikk
+  - harfr
+  - andid
+  - ethra
+  - dedol
+  - totum
+  - verbot
+  - pleggh
+  - ntrath
+  - barhah
+  - pasnar
+  - keriam
+  - usinar
+  - savrae
+  - amutan
+  - tannin
+  - remium
+  - barada
+  - forbici
+  syllablesBaseString: "\"h\", \"v\", \"c\", \"e\", \"g\", \"d\", \"r\", \"n\", \"h\",
+    \"o\", \"p\",\r\n\t\t\"ra\", \"so\", \"at\", \"il\", \"ta\", \"gh\", \"sh\",
+    \"ya\", \"te\", \"sh\", \"ol\", \"ma\", \"om\", \"ig\", \"ni\", \"in\",\r\n\t\t\"sha\",
+    \"mir\", \"sas\", \"mah\", \"zar\", \"tok\", \"lyr\", \"nqa\", \"nap\", \"olt\",
+    \"val\", \"qha\",\r\n\t\t\"fwe\", \"ath\", \"yro\", \"eth\", \"gal\", \"gib\",
+    \"bar\", \"jin\", \"kla\", \"atu\", \"kal\", \"lig\",\r\n\t\t\"yoka\", \"drak\",
+    \"loso\", \"arta\", \"weyh\", \"ines\", \"toth\", \"fara\", \"amar\", \"nyag\",
+    \"eske\", \"reth\", \"dedo\", \"btoh\", \"nikt\", \"neth\",\r\n\t\t\"kanas\",
+    \"garis\", \"uloft\", \"tarat\", \"khari\", \"thnor\", \"rekka\", \"ragga\",
+    \"rfikk\", \"harfr\", \"andid\", \"ethra\", \"dedol\", \"totum\",\r\n\t\t\"ntrath\",
+    \"keriam\""
+  syllablesFullString: "\"sha\", \"mir\", \"sas\", \"mah\", \"hra\", \"zar\", \"tok\",
+    \"lyr\", \"nqa\", \"nap\", \"olt\", \"val\",\r\n\t\t\"yam\", \"qha\", \"fel\",
+    \"det\", \"fwe\", \"mah\", \"erl\", \"ath\", \"yro\", \"eth\", \"gal\", \"mud\",\r\n\t\t\"gib\",
+    \"bar\", \"tea\", \"fuu\", \"jin\", \"kla\", \"atu\", \"kal\", \"lig\",\r\n\t\t\"yoka\",
+    \"drak\", \"loso\", \"arta\", \"weyh\", \"ines\", \"toth\", \"fara\", \"amar\",
+    \"nyag\", \"eske\", \"reth\", \"dedo\", \"btoh\", \"nikt\", \"neth\", \"abis\",\r\n\t\t\"kanas\",
+    \"garis\", \"uloft\", \"tarat\", \"khari\", \"thnor\", \"rekka\", \"ragga\",
+    \"rfikk\", \"harfr\", \"andid\", \"ethra\", \"dedol\", \"totum\",\r\n\t\t\"verbot\",
+    \"pleggh\", \"ntrath\", \"barhah\", \"pasnar\", \"keriam\", \"usinar\", \"savrae\",
+    \"amutan\", \"tannin\", \"remium\", \"barada\",\r\n\t\t\"forbici\""
