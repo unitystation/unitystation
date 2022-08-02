@@ -93,7 +93,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 70e0e0f1e28abaa489c3f1754e9e66f2,
+      objectReference: {fileID: 21300000, guid: c3a76188ae658fd40a63d8629f4f04e6,
         type: 3}
     - target: {fileID: 2288693558633438983, guid: 84ac8abc1d963be42906a209a1b97350,
         type: 3}
@@ -109,7 +109,7 @@ PrefabInstance:
         type: 3}
       propertyPath: PresentSpriteSet
       value: 
-      objectReference: {fileID: 11400000, guid: 3405fad0b81b1b64c97c07f7b0e339dd,
+      objectReference: {fileID: 11400000, guid: 73c178cf8e99aeb42933f26e2a62801c,
         type: 2}
     - target: {fileID: 7601794184611008114, guid: 84ac8abc1d963be42906a209a1b97350,
         type: 3}
@@ -120,6 +120,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_AssetId
       value: 18be1932a50b0d34db1dc7a681a6249f
+      objectReference: {fileID: 0}
+    - target: {fileID: 8648832905409176608, guid: 84ac8abc1d963be42906a209a1b97350,
+        type: 3}
+      propertyPath: initialName
+      value: artifact analyzer
+      objectReference: {fileID: 0}
+    - target: {fileID: 8648832905409176608, guid: 84ac8abc1d963be42906a209a1b97350,
+        type: 3}
+      propertyPath: initialDescription
+      value: Can be used to study or decontruct anomaly samples
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 84ac8abc1d963be42906a209a1b97350, type: 3}

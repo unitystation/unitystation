@@ -61,12 +61,13 @@ PrefabInstance:
     - target: {fileID: 1083807778969337673, guid: b46887a995abc224aab70e21b9e53697,
         type: 3}
       propertyPath: initialName
-      value: supply console
+      value: artifact research console
       objectReference: {fileID: 0}
     - target: {fileID: 1083807778969337673, guid: b46887a995abc224aab70e21b9e53697,
         type: 3}
       propertyPath: initialDescription
-      value: Used to order supplies, approve requests, and control the shuttle.
+      value: Used to record information about artifacts to create valuable datadisks
+        that can be sold by cargo
       objectReference: {fileID: 0}
     - target: {fileID: 1401220419065593905, guid: b46887a995abc224aab70e21b9e53697,
         type: 3}
@@ -277,7 +278,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1e020ea2fef82584ea539f53ea8292dc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
   itemStorage: {fileID: 0}
+  connectedArtifact: {fileID: 0}
+  dataDisk: {fileID: 0}
+  AreaDropDownChoice: 0
+  ContactDropDownChoice: 0
+  SolidDropDownChoice: 0
+  GasDropDownChoice: 0
+  DamageDropDownChoice: 0
 --- !u!114 &4087141291922530776
 MonoBehaviour:
   m_ObjectHideFlags: 0
