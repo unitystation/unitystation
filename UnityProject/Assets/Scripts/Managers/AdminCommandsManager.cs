@@ -463,9 +463,9 @@ namespace AdminCommands
 				Chat.AddExamineMsg(player.GameObject, customMessage);
 			}
 
-			Chat.AddExamineMsg(admin.GameObject, $"You have given {player.Script.visibleName} : {item.GameObject.ExpensiveName()}");
+			Chat.AddExamineMsg(admin.GameObject, $"You have given {player.Script.playerName} : {item.GameObject.ExpensiveName()}");
 
-			var message = $"{admin.Username}: gave {player.Username} {count} {item.GameObject.ExpensiveName()}";
+			var message = $"{admin.Username}: gave {player.Script.playerName} {count} {item.GameObject.ExpensiveName()}";
 
 			//Log what we did.
 			Logger.Log(message, Category.Admin);
