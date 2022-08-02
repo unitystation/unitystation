@@ -50,6 +50,7 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 
 	[PrefabModeOnly] public bool CanMoveThroughObstructions = false;
 
+	//Sync vars commented out as only the current speed is sync'd
 	//[SyncVar(hook = nameof(SyncRunSpeed))]
 	public float RunSpeed;
 
@@ -59,6 +60,14 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 	//[SyncVar(hook = nameof(SyncCrawlingSpeed))]
 	public float CrawlSpeed;
 
+	private PassableExclusionHolder holder;
+
+	[SerializeField]
+	private PassableExclusionTrait needsWalking = null;
+	[SerializeField]
+	private PassableExclusionTrait needsRunning = null;
+
+	[SyncVar(hook = nameof(SyncMovementType))]
 	private MovementType _currentMovementType;
 
 	public MovementType CurrentMovementType
@@ -66,7 +75,13 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 		set
 		{
 			_currentMovementType = value;
-			UpdateMovementSpeed();
+
+			if (isServer)
+			{
+				UpdateMovementSpeed();
+			}
+
+			UpdatePassables();
 		}
 		get => _currentMovementType;
 	}
@@ -283,6 +298,7 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 	public override void Awake()
 	{
 		playerScript = GetComponent<PlayerScript>();
+		holder = GetComponent<PassableExclusionHolder>();
 		OnThrowEnd.AddListener(ThrowEnding);
 		base.Awake();
 	}
@@ -1307,6 +1323,29 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 		//Client side check for invalid tabs still open
 		//(Don't need to do this server side as the interactions are validated)
 		ControlTabs.CheckTabClose();
+	}
+
+	private void SyncMovementType(MovementType oldType, MovementType newType)
+	{
+		CurrentMovementType = newType;
+	}
+
+	private void UpdatePassables()
+	{
+		holder.passableExclusions.Remove(needsWalking);
+		holder.passableExclusions.Remove(needsRunning);
+
+		switch (CurrentMovementType)
+		{
+			case MovementType.Running:
+				holder.passableExclusions.Add(needsRunning);
+				break;
+			case MovementType.Walking:
+				holder.passableExclusions.Add(needsWalking);
+				break;
+			default:
+				return;
+		}
 	}
 }
 
