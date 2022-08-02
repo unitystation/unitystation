@@ -20,6 +20,8 @@ namespace UI.Chat_UI
 		private TMP_Text messageText = default;
 		[SerializeField, BoxGroup("Entry Object")]
 		private ContentSizeFitter messageContentFitter = default;
+		[SerializeField, BoxGroup("Entry Object")]
+		private Image languageImage = default;
 
 		[SerializeField, BoxGroup("Stack Object")]
 		private GameObject stackObject = default;
@@ -147,10 +149,17 @@ namespace UI.Chat_UI
 
 		#endregion
 
-		public void SetText(string message)
+		public void SetText(string message, Sprite languageSprite)
 		{
 			messageText.text = message;
 			ToggleUIElements(true);
+
+			languageImage.sprite = languageSprite;
+			if (languageSprite == null)
+			{
+				languageImage.enabled = false;
+			}
+
 			StartCoroutine(UpdateEntryHeight());
 
 			if (message.Contains("</link>"))
@@ -188,6 +197,7 @@ namespace UI.Chat_UI
 			messageText.enabled = enabled;
 			stackText.enabled = enabled;
 			stackImage.enabled = enabled;
+			languageImage.enabled = enabled;
 		}
 
 		private IEnumerator UpdateEntryHeight()

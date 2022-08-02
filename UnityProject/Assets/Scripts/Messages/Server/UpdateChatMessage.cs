@@ -24,6 +24,7 @@ namespace Messages.Server
 			public string Speaker;
 			public bool StripTags;
 			public Loudness Loudness;
+			public ushort LanguageId;
 		}
 
 		public override void Process(NetMessage msg)
@@ -31,7 +32,8 @@ namespace Messages.Server
 			LoadNetworkObject(msg.Recipient);
 			var recipientObject = NetworkObject;
 			Chat.ProcessUpdateChatMessage(msg.Recipient, msg.Originator,
-				msg.Message, msg.OthersMessage, msg.Channels, msg.ChatModifiers, msg.Speaker, recipientObject, msg.Loudness, msg.StripTags);
+				msg.Message, msg.OthersMessage, msg.Channels, msg.ChatModifiers, msg.Speaker, recipientObject,
+				msg.Loudness, msg.StripTags, msg.LanguageId);
 		}
 
 		/// <summary>
@@ -41,7 +43,7 @@ namespace Messages.Server
 		/// </summary>
 		public static NetMessage Send(GameObject recipient, ChatChannel channels, ChatModifier chatMods, string chatMessage,
 			Loudness loudness = Loudness.NORMAL, string othersMsg = "",
-			GameObject originator = null, string speaker = "", bool stripTags = true)
+			GameObject originator = null, string speaker = "", bool stripTags = true, ushort languageId = 0)
 		{
 			uint origin = NetId.Empty;
 			if (originator != null)
@@ -58,7 +60,8 @@ namespace Messages.Server
 					Originator = origin,
 					Speaker = speaker,
 					StripTags = stripTags,
-					Loudness = loudness
+					Loudness = loudness,
+					LanguageId = languageId
 				};
 
 			SendTo(recipient, msg, Category.Chat, 2);

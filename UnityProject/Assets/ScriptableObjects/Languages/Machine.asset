@@ -12,13 +12,37 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2dd0f7f114fd41d9802a9e350cd8a2ea, type: 3}
   m_Name: Machine
   m_EditorClassIdentifier: 
-  languageName: 
-  desc: 
-  key: 
+  languageName: Encoded Audio Language
+  desc: An efficient language of encoded tones developed by synthetics and cyborgs.
+  key: 6
   sentenceChance: 5
-  spaceChance: 55
-  priority: 0
-  sprite: {fileID: 0}
+  spaceChance: 10
+  priority: 90
+  sprite: {fileID: 21300000, guid: a909962fb91028d4e82e13dcdb1e362b, type: 3}
   flags: 0
-  syllables: []
-  syllablesString: 
+  syllables:
+  - beep
+  - beep
+  - beep
+  - beep
+  - beep
+  - boop
+  - boop
+  - boop
+  - bop
+  - bop
+  - dee
+  - dee
+  - doo
+  - doo
+  - hiss
+  - hss
+  - buzz
+  - buzz
+  - bzz
+  - ksssh
+  - keey
+  - wurr
+  - wahh
+  - tzzz
+  syllablesString: '"beep","beep","beep","beep","beep","boop","boop","boop","bop","bop","dee","dee","doo","doo","hiss","hss","buzz","buzz","bzz","ksssh","keey","wurr","wahh","tzzz"'

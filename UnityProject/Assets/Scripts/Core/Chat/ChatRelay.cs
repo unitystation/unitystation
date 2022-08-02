@@ -6,10 +6,12 @@ using UnityEngine;
 using Systems.MobAIs;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using Managers;
 using Systems.Ai;
 using Messages.Server;
 using Messages.Server.SoundMessages;
 using Objects.Telecomms;
+using Player.Language;
 using Systems.Communications;
 using UI.Chat_UI;
 
@@ -65,7 +67,13 @@ public class ChatRelay : NetworkBehaviour
 	public void PropagateChatToClients(ChatEvent chatEvent)
 	{
 		List<PlayerInfo> players = PlayerList.Instance.AllPlayers;
-		Loudness loud = chatEvent.VoiceLevel;
+
+		LanguageSO originatorLanguage = null;
+
+		if (chatEvent.originator != null && chatEvent.originator.TryGetComponent<MobLanguages>(out var mobLanguages))
+		{
+			originatorLanguage = mobLanguages.CurrentLanguage;
+		}
 
 		//Local chat range checks:
 		if (chatEvent.channels.HasFlag(ChatChannel.Local)
@@ -204,10 +212,7 @@ public class ChatRelay : NetworkBehaviour
 					if(doNotDoLocal) continue;
 				}
 
-				UpdateChatMessage.Send(players[i].GameObject, channel, chatEvent.modifiers, chatEvent.message,
-					loud, chatEvent.messageOthers,
-					chatEvent.originator, chatEvent.speaker, chatEvent.stripTags);
-
+				SendMessage(chatEvent, players[i].Script, originatorLanguage, channel);
 				continue;
 			}
 
@@ -223,9 +228,7 @@ public class ChatRelay : NetworkBehaviour
 			//if the mask ends up being a big fat 0 then don't do anything
 			if (channel != ChatChannel.None)
 			{
-				UpdateChatMessage.Send(players[i].GameObject, channel, chatEvent.modifiers, chatEvent.message, loud,
-					chatEvent.messageOthers,
-					chatEvent.originator, chatEvent.speaker, chatEvent.stripTags);
+				SendMessage(chatEvent, players[i].Script, originatorLanguage, channel);
 			}
 		}
 
@@ -239,6 +242,24 @@ public class ChatRelay : NetworkBehaviour
 
 			RconManager.AddChatLog(message);
 		}
+	}
+
+	private static void SendMessage(ChatEvent chatEvent, PlayerScript playerToSend, LanguageSO language, ChatChannel channel)
+	{
+		var copiedString = chatEvent.message;
+		ushort languageId = 0;
+
+		//Check to see if the target player can understand the language!
+		if (language != null)
+		{
+			languageId = language.LanguageUniqueId;
+
+			copiedString = LanguageManager.Scramble(language, playerToSend, string.Copy(chatEvent.message));
+		}
+
+		UpdateChatMessage.Send(playerToSend.gameObject, channel, chatEvent.modifiers, copiedString, chatEvent.VoiceLevel,
+			chatEvent.messageOthers,
+			chatEvent.originator, chatEvent.speaker, chatEvent.stripTags, languageId);
 	}
 
 	private ChatEvent CheckForRadios(ChatEvent chatEvent)
@@ -302,7 +323,7 @@ public class ChatRelay : NetworkBehaviour
 
 	[Client]
 	public void UpdateClientChat(string message, ChatChannel channels, bool isOriginator, GameObject recipient,
-		Loudness loudness, ChatModifier modifiers)
+		Loudness loudness, ChatModifier modifiers, ushort languageId = 0)
 	{
 		if (string.IsNullOrEmpty(message)) return;
 
@@ -325,8 +346,10 @@ public class ChatRelay : NetworkBehaviour
 				}
 			}
 
-			ChatUI.Instance.AddChatEntry(message);
+			var languageSprite = LanguageManager.Instance.GetLanguageSprite(languageId);
+			ChatUI.Instance.AddChatEntry(message, languageSprite);
 		}
+
 		AudioSourceParameters audioSourceParameters = new AudioSourceParameters();
 		switch (channels)
 		{

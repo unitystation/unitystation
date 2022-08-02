@@ -9,6 +9,7 @@ using Player;
 using Player.Movement;
 using UI.Action;
 using Items;
+using Player.Language;
 using ScriptableObjects;
 using Systems.StatusesAndEffects;
 using Tiles;
@@ -72,6 +73,8 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IActi
 	public PlayerOnlySyncValues PlayerOnlySyncValues { get; private set; }
 
 	public HasCooldowns Cooldowns { get; set; }
+
+	public MobLanguages MobLanguages { get; private set; }
 
 	public MouseInputController mouseInputController { get; set; }
 
@@ -144,6 +147,7 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IActi
 		playerCrafting = GetComponent<PlayerCrafting>();
 		PlayerSync = GetComponent<MovementSynchronisation>();
 		statusEffectManager = GetComponent<StatusEffectManager>();
+		MobLanguages = GetComponent<MobLanguages>();
 	}
 
 	public override void OnStartClient()

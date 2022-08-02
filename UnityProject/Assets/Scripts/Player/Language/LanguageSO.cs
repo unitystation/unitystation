@@ -14,6 +14,10 @@ namespace Player.Language
 		public string LanguageName => languageName;
 
 		[SerializeField]
+		private ushort languageUniqueId = 0;
+		public ushort LanguageUniqueId => languageUniqueId;
+
+		[SerializeField]
 		[TextArea(10, 10)]
 		private string desc = "";
 		public string Desc => desc;
@@ -51,6 +55,11 @@ namespace Player.Language
 		[SerializeField]
 		protected List<string> syllables = new List<string>();
 		public List<string> Syllables => syllables;
+
+		public string RandomSyllable()
+		{
+			return syllables.PickRandom();
+		}
 
 #if UNITY_EDITOR
 

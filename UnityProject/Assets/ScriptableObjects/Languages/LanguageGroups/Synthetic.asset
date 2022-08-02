@@ -10,10 +10,16 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: cbbf412d9a9d41db97ffcaa5ae98f5d8, type: 3}
-  m_Name: Human
+  m_Name: Synthetic
   m_EditorClassIdentifier: 
   understoodLanguages:
   - {fileID: 11400000, guid: 90699dd78f8cfad4e983185c4f67ae72, type: 2}
+  - {fileID: 11400000, guid: 47efbe39a7009d9419eb48769a2409c3, type: 2}
+  - {fileID: 11400000, guid: d977ff50fc504174184be8ce72f7f230, type: 2}
+  - {fileID: 11400000, guid: a30f17a97077b7f4497cc01711f2e105, type: 2}
   spokenLanguages:
   - {fileID: 11400000, guid: 90699dd78f8cfad4e983185c4f67ae72, type: 2}
+  - {fileID: 11400000, guid: 47efbe39a7009d9419eb48769a2409c3, type: 2}
+  - {fileID: 11400000, guid: d977ff50fc504174184be8ce72f7f230, type: 2}
+  - {fileID: 11400000, guid: a30f17a97077b7f4497cc01711f2e105, type: 2}
   blockedLanguages: []

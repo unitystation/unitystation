@@ -286,7 +286,7 @@ namespace UI.Chat_UI
 		/// <summary>
 		/// Only to be used via chat relay!
 		/// </summary>
-		public void AddChatEntry(string message)
+		public void AddChatEntry(string message, Sprite languageSprite = null)
 		{
 			// Check for chat entry duplication
 			if (allEntries.Count > 0 && message.Equals(allEntries[allEntries.Count - 1].Message))
@@ -298,7 +298,7 @@ namespace UI.Chat_UI
 			GameObject entry = entryPool.GetChatEntry();
 			var chatEntry = entry.GetComponent<ChatEntry>();
 			chatEntry.ViewportTransform = viewportTransform;
-			chatEntry.SetText(message);
+			chatEntry.SetText(message, languageSprite);
 			allEntries.Add(chatEntry);
 			SetEntryTransform(entry);
 			CheckLengthOfChatLog();

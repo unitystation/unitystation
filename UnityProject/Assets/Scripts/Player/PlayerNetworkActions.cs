@@ -22,6 +22,7 @@ using Shuttles;
 using UI.Core;
 using UI.Items;
 using Doors;
+using Managers;
 using Objects;
 using Tiles;
 using Util;
@@ -621,7 +622,11 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 			//See if they we can send our speech bubbles
 			if(playerScript.PlayerTypeSettings.SendSpeechBubbleTo.HasFlag(player.Script.PlayerType) == false) continue;
 
-			ShowChatBubbleMessage.SendTo(player.Connection, gameObject, message, true);
+			//See if we need to scramble the message
+			var copiedString = LanguageManager.Scramble(playerScript.MobLanguages.CurrentLanguage,
+				player.Script, string.Copy(message));
+
+			ShowChatBubbleMessage.SendTo(player.Connection, gameObject, copiedString, true);
 		}
 	}
 
