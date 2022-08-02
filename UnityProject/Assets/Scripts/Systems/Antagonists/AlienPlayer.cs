@@ -19,7 +19,7 @@ using Weapons.Projectiles;
 
 namespace Systems.Antagonists
 {
-	public class AlienPlayer : NetworkBehaviour, IServerActionGUIMulti, ICooldown, IServerDespawn, IOnPlayerTransfer,
+	public class AlienPlayer : NetworkBehaviour, IServerActionGUIMulti, ICooldown, IServerLifecycle, IOnPlayerTransfer,
 		IOnPlayerRejoin, IOnPlayerLeaveBody
 	{
 		[Header("Sprite Stuff")]
@@ -152,7 +152,7 @@ namespace Systems.Antagonists
 
 		private bool onWeeds;
 
-		private int nameNumber = -1;
+		private int nameNumber = 0;
 
 		public float DefaultTime => 5f;
 
@@ -244,6 +244,7 @@ namespace Systems.Antagonists
 
 			AddNewActions();
 
+			UIManager.Instance.panelHudBottomController.AlienUI.SetActive(true);
 			UIManager.Instance.panelHudBottomController.AlienUI.SetUp(this);
 
 			alienLight.SetActive(true);
@@ -254,6 +255,14 @@ namespace Systems.Antagonists
 			alienLight.SetActive(false);
 
 			RemoveOldActions();
+
+			UIManager.Instance.panelHudBottomController.AlienUI.TurnOff();
+		}
+
+		public void OnSpawnServer(SpawnInfo info)
+		{
+			//This triggers the spawning of the alien body parts
+			playerScript.playerSprites.OnCharacterSettingsChange(characterSheet);
 		}
 
 		#endregion
@@ -327,6 +336,7 @@ namespace Systems.Antagonists
 		private int growth;
 
 		private bool didMessage;
+		private bool openedEvolveMenu;
 
 		private void GrowthUpdate()
 		{
@@ -336,6 +346,7 @@ namespace Systems.Antagonists
 			{
 				growth++;
 				didMessage = false;
+				openedEvolveMenu = false;
 				return;
 			}
 
@@ -348,10 +359,14 @@ namespace Systems.Antagonists
 			//At max growth (100) is early larva then auto evolve, otherwise add Action Button
 			if (CurrentAlienType is AlienTypes.Larva1 or AlienTypes.Larva2)
 			{
-				Evolve(CurrentAlienType == AlienTypes.Larva1 ? AlienTypes.Larva2 : AlienTypes.Larva3);
+				Evolve(CurrentAlienType == AlienTypes.Larva1 ? AlienTypes.Larva2 : AlienTypes.Larva3, false);
+				return;
 			}
 
-			if (CurrentAlienType != AlienTypes.Larva3 && connectionToClient != null) return;
+			if (CurrentAlienType != AlienTypes.Larva3 || connectionToClient != null) return;
+
+			if(openedEvolveMenu) return;
+			openedEvolveMenu = true;
 
 			RpcOpenEvolveMenu();
 		}
@@ -360,6 +375,12 @@ namespace Systems.Antagonists
 		private void RpcOpenEvolveMenu()
 		{
 			UIManager.Instance.panelHudBottomController.AlienUI.OpenEvolveMenu();
+		}
+
+		[ContextMenu("Set growth 100%")]
+		private void SetGrowthFull()
+		{
+			growth = AlienType.MaxGrowth;
 		}
 
 		#endregion
@@ -428,7 +449,7 @@ namespace Systems.Antagonists
 
 			var newAlienPlayer = spawnResult.GameObject.GetComponent<AlienPlayer>();
 
-			newAlienPlayer.SetUpFromPrefab(alienType, changeName);
+			newAlienPlayer.SetUpFromPrefab(alienType, changeName, nameNumber);
 
 			if (playerScript.mind != null)
 			{
@@ -442,9 +463,14 @@ namespace Systems.Antagonists
 			_ = Despawn.ServerSingle(gameObject);
 		}
 
-		private void SetUpFromPrefab(AlienTypeDataSO old, bool changeName = false)
+		private void SetUpFromPrefab(AlienTypeDataSO old, bool changeName = false, int oldNameNumber = -1)
 		{
 			firstTimeSetup = true;
+
+			if (changeName == false)
+			{
+				nameNumber = oldNameNumber;
+			}
 
 			growth = 0;
 			currentPlasma = alienType.InitialPlasma;
@@ -521,7 +547,7 @@ namespace Systems.Antagonists
 				return;
 			}
 
-			Evolve(newData.AlienType);
+			Evolve(newData.AlienType, false);
 		}
 
 		#endregion
