@@ -23,11 +23,11 @@ namespace Items.Science
 				cost += Mathf.Clamp(1000 - (2*Mathf.Abs(file.inputData.radiationlevel - file.correctData.radiationlevel)), 0, 1000);
 				cost += Mathf.Clamp(1000 - (20*Mathf.Abs(file.inputData.bluespacesig - file.correctData.bluespacesig)), 0, 1000);
 				cost += Mathf.Clamp(1000 - (5*Mathf.Abs(file.inputData.bananiumsig- file.correctData.bananiumsig)), 0, 1000);
-				//if (file.inputData.ContactEffect.name == file.correctData.ContactEffect.name) cost += 1200;
-				//if (file.inputData.DamageEffect.name == file.correctData.DamageEffect.name) cost += 1200;
-				if (file.inputData.FeedEffect.name == file.correctData.FeedEffect.name) cost += 1200;
-				//if (file.inputData.GasEffect.name == file.correctData.GasEffect.name) cost += 1200;
-				if (file.inputData.AreaEffect.name == file.correctData.AreaEffect.name) cost += 1200;
+
+				if (file.inputData.DamageEffectValue == file.correctData.DamageEffectValue) cost += 2000;
+				if (file.inputData.InteractEffectValue == file.correctData.InteractEffectValue) cost += 2000;
+				if (file.inputData.AreaEffectValue == file.correctData.AreaEffectValue) cost += 2000;
+				
 				if (file.inputData.Type == file.correctData.Type) cost += 1000;
 			}
 

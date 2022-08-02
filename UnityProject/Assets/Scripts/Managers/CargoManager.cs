@@ -12,6 +12,8 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.SceneManagement;
 using NaughtyAttributes;
+using Items.Science;
+using Items.Storage.VirtualStorage;
 
 namespace Systems.Cargo
 {
@@ -57,6 +59,8 @@ namespace Systems.Cargo
 		[SerializeField, BoxGroup("Random Bounties")] private List<CargoBounty> randomBountiesList = new List<CargoBounty>();
 
 		private static readonly List<int> randomJunkPrices = new List<int> { 5, 10, 15 };
+
+		public static List<string> researchedArtifacts;
 
 		private void Awake()
 		{
@@ -311,9 +315,7 @@ namespace Systems.Cargo
 
 			// If there is no bounty for the item - we dont destroy it.
 			var credits = Instance.GetSellPrice(obj);
-			if(credits == 0) credits = randomJunkPrices.PickRandom();
-			Credits += credits;
-			OnCreditsUpdate.Invoke();
+			if (credits == 0) credits = randomJunkPrices.PickRandom();
 
 			string exportName;
 			if (obj.TryGetComponent<Attributes>(out var attributes))
@@ -334,6 +336,26 @@ namespace Systems.Cargo
 				};
 				exportedItems.Add(exportName, export);
 			}
+
+			if (obj.TryGetComponent<ArtifactDataDisk>(out var disk))
+			{
+				foreach (ArtifactDataFiles file in disk.DataOnStorage)
+				{
+					if (researchedArtifacts.Contains(file.correctData.ID) == false)
+					{
+						researchedArtifacts.Add(file.correctData.ID);
+					}
+					else
+					{
+						credits = 0;
+						export.ExportMessage = "Artifact already researched! No additional reward!";
+					}
+				}
+
+			}
+
+			Credits += credits;
+			OnCreditsUpdate.Invoke();
 
 			var count = obj.TryGetComponent<Stackable>(out var stackable) ? stackable.Amount : 1;
 

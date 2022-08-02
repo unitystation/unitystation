@@ -21,7 +21,8 @@ namespace ScriptableObjects.Systems.Research
 
 
 		public List<ArtifactAreaEffectList> AreaEffects = new List<ArtifactAreaEffectList>();
-		public List<ArtifactFeedEffectList> FeedEffects = new List<ArtifactFeedEffectList>();
+		public List<ArtifactInteractEffectList> InteractEffects = new List<ArtifactInteractEffectList>();
+		public List<ArtifactDamageEffectList> DamageEffect = new List<ArtifactDamageEffectList>();
 	}
 
 	[System.Serializable]
@@ -31,8 +32,14 @@ namespace ScriptableObjects.Systems.Research
 	}
 
 	[System.Serializable]
-	public class ArtifactFeedEffectList
+	public class ArtifactInteractEffectList
 	{
-		public List<FeedArtifactEffect> FeedArtifactEffectList;
+		public List<InteractArtifactEffect> InteractArtifactEffectList;
+	}
+
+	[System.Serializable]
+	public class ArtifactDamageEffectList
+	{
+		public List<ArtifactEffect> DamageArtifactEffectList;
 	}
 }

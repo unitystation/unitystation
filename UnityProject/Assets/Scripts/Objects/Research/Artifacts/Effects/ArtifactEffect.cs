@@ -1,9 +1,4 @@
-﻿using Mirror;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using ScriptableObjects;
-using ScriptableObjects.Systems.Research;
+﻿using UnityEngine;
 
 /// <summary>
 /// Base class for artifact effect
@@ -19,10 +14,11 @@ namespace Systems.Research
 
 	public class ArtifactEffect : ScriptableObject
 	{
-		[Tooltip("The likelyhood and strength of this effect is dependent on the composition of this material in the artifact")]
-		public ArtifactClass ArtifactClass;
+		//Is it the first in the dropdown? second? etc.
+		//More than one effect can have the same index
+		[Tooltip("The index of the console option that relates to this")]
+		public int GuessIndex = 0;
 
-		[SerializeField]
-		protected ArtifactDataSO ArtifactDataSO = null;
+		public virtual void DoEffect() { }
 	}
 }
