@@ -23,7 +23,7 @@ MonoBehaviour:
   AttackSpeed: 7
   AttackDamage: 10
   DamageType: 0
-  ChanceToHit: 50
+  ChanceToHit: 80
   MaxPlasma: 250
   InitialPlasma: 100
   PlasmaGainRate: 5
@@ -38,7 +38,7 @@ MonoBehaviour:
     Bomb: 0
     Rad: 0
     Fire: 0
-    Acid: 0
+    Acid: 100
     Magic: 0
     Bio: 0
     DismembermentProtectionChance: 0
