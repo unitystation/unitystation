@@ -137,6 +137,11 @@ PrefabInstance:
       propertyPath: initialIntegrity
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 5663293249459889938, guid: bdc0bbe82126ea747b3fc1d25464d588,
+        type: 3}
+      propertyPath: soundOnHit.AssetAddress
+      value: Assets/Prefabs/Effects/EGloves.prefab
+      objectReference: {fileID: 0}
     - target: {fileID: 5895563674239530943, guid: bdc0bbe82126ea747b3fc1d25464d588,
         type: 3}
       propertyPath: initialName

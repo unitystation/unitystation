@@ -6,7 +6,7 @@ using UnityEngine;
 namespace Items.Others
 {
 	public class HolosignProjector : MonoBehaviour, IServerDespawn, ICheckedInteractable<TileApply>,
-		ICheckedInteractable<HandActivate>, IExaminable
+		ICheckedInteractable<HandActivate>, ICheckedInteractable<HandApply>, IExaminable
 	{
 		[SerializeField]
 		private List<GameObject> holosignPrefabs = new List<GameObject>();
@@ -129,6 +129,25 @@ namespace Items.Others
 
 				_ = Despawn.ServerSingle(holosign);
 			}
+		}
+
+		public bool WillInteract(HandApply interaction, NetworkSide side)
+		{
+			if(DefaultWillInteract.Default(interaction, side) == false) return false;
+
+			if (interaction.HandObject != gameObject) return false;
+
+			if (interaction.TargetObject.OrNull()?.GetComponent<Holosign>() == null) return false;
+
+			return true;
+		}
+
+		public void ServerPerformInteraction(HandApply interaction)
+		{
+			Chat.AddActionMsgToChat(interaction.Performer, $"You clear the {interaction.TargetObject.ExpensiveName()}",
+				$"{interaction.Performer.ExpensiveName()} clears the {interaction.TargetObject.ExpensiveName()}");
+
+			interaction.TargetObject.GetComponent<Holosign>().DestroyHolosign();
 		}
 
 		public string Examine(Vector3 worldPos = default(Vector3))

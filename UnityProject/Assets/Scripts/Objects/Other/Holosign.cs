@@ -27,18 +27,21 @@ namespace Objects.Other
 			integrity.OnWillDestroyServer.AddListener(OnDestruction);
 		}
 
-		private void OnDestruction(DestructionInfo info)
+		public void DestroyHolosign()
 		{
 			if(projector == null) return;
 
 			projector.RemoveHolosign(this);
 		}
 
+		private void OnDestruction(DestructionInfo info)
+		{
+			DestroyHolosign();
+		}
+
 		public void OnDespawnServer(DespawnInfo info)
 		{
-			if(projector == null) return;
-
-			projector.RemoveHolosign(this);
+			DestroyHolosign();
 		}
 	}
 }
