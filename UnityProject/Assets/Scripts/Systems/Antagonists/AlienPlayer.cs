@@ -20,7 +20,7 @@ using Weapons.Projectiles;
 namespace Systems.Antagonists
 {
 	public class AlienPlayer : NetworkBehaviour, IServerActionGUIMulti, ICooldown, IServerDespawn, IOnPlayerTransfer,
-		IOnPlayerRejoin
+		IOnPlayerRejoin, IOnPlayerLeaveBody
 	{
 		[Header("Sprite Stuff")]
 		[SerializeField]
@@ -36,10 +36,6 @@ namespace Systems.Antagonists
 		[SerializeField]
 		private List<AlienTypeDataSO> typesToChoose = new List<AlienTypeDataSO>();
 		public List<AlienTypeDataSO> TypesToChoose => typesToChoose;
-
-		private List<ActionData> actionData = new List<ActionData>();
-
-		public List<ActionData> ActionData => actionData;
 
 		#region ActionData
 
@@ -127,6 +123,7 @@ namespace Systems.Antagonists
 		private AlienTypeDataSO alienType;
 		public AlienTypeDataSO AlienType => alienType;
 		public AlienTypes CurrentAlienType => alienType.AlienType;
+		public List<ActionData> ActionData => alienType.ActionData;
 
 		[SyncVar]
 		private AlienMode currentAlienMode;
@@ -245,10 +242,6 @@ namespace Systems.Antagonists
 		{
 			if(isLocalPlayer == false) return;
 
-			RemoveOldActions();
-
-			actionData = alienType.ActionData;
-
 			AddNewActions();
 
 			UIManager.Instance.panelHudBottomController.AlienUI.SetUp(this);
@@ -333,6 +326,8 @@ namespace Systems.Antagonists
 		[SyncVar]
 		private int growth;
 
+		private bool didMessage;
+
 		private void GrowthUpdate()
 		{
 			if(currentPlasma <= 0) return;
@@ -340,10 +335,15 @@ namespace Systems.Antagonists
 			if (growth < alienType.MaxGrowth)
 			{
 				growth++;
+				didMessage = false;
 				return;
 			}
 
-			Chat.AddExamineMsgFromServer(gameObject, "You are fully grown!");
+			if (didMessage)
+			{
+				didMessage = true;
+				Chat.AddExamineMsgFromServer(gameObject, "You are fully grown!");
+			}
 
 			//At max growth (100) is early larva then auto evolve, otherwise add Action Button
 			if (CurrentAlienType is AlienTypes.Larva1 or AlienTypes.Larva2)
@@ -445,8 +445,6 @@ namespace Systems.Antagonists
 		private void SetUpFromPrefab(AlienTypeDataSO old, bool changeName = false)
 		{
 			firstTimeSetup = true;
-
-			actionData = alienType.ActionData;
 
 			growth = 0;
 			currentPlasma = alienType.InitialPlasma;
@@ -1067,9 +1065,7 @@ namespace Systems.Antagonists
 
 		private bool HasActionData(ActionData data)
 		{
-			if (actionData == null) return false;
-
-			return actionData.Contains(data);
+			return ActionData.Contains(data);
 		}
 
 		private void ResetActions()
@@ -1080,13 +1076,11 @@ namespace Systems.Antagonists
 
 		private void RemoveOldActions()
 		{
-			if(actionData == null) return;
-
 			toggles = new List<ActionData>();
 
 			if(isLocalPlayer == false) return;
 
-			foreach (var action in actionData)
+			foreach (var action in ActionData)
 			{
 				UIActionManager.Hide(this, action);
 			}
@@ -1618,6 +1612,11 @@ namespace Systems.Antagonists
 		public void OnPlayerRejoin()
 		{
 			RemoveGhostRole();
+		}
+
+		public void OnPlayerLeaveBody()
+		{
+			RpcRemoveActions();
 		}
 
 		//Called after larva spawned, in case it was a disconnected player
