@@ -24,6 +24,7 @@ using UI.Items;
 using Doors;
 using Managers;
 using Objects;
+using Player.Language;
 using Tiles;
 using Util;
 using Random = UnityEngine.Random;
@@ -602,7 +603,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	}
 
 	[Server]
-	public void ServerToggleChatIcon(string message, ChatModifier chatModifier)
+	public void ServerToggleChatIcon(string message, ChatModifier chatModifier, LanguageSO language)
 	{
 		//Don't do anything with chat icon if player is invisible or not spawned in
 		if(playerScript.objectPhysics.IsVisible == false) return;
@@ -611,6 +612,9 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 
 		// Cancel right away if the player cannot speak.
 		if ((chatModifier & ChatModifier.Mute) == ChatModifier.Mute) return;
+
+		//See if we can even send any bubbles
+		if(playerScript.PlayerTypeSettings.SendSpeechBubbleTo == PlayerTypes.None) return;
 
 		var visiblePlayers = OtherUtil.GetVisiblePlayers(gameObject.transform.position);
 
@@ -623,8 +627,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 			if(playerScript.PlayerTypeSettings.SendSpeechBubbleTo.HasFlag(player.Script.PlayerType) == false) continue;
 
 			//See if we need to scramble the message
-			var copiedString = LanguageManager.Scramble(playerScript.MobLanguages.CurrentLanguage,
-				player.Script, string.Copy(message));
+			var copiedString = LanguageManager.Scramble(language, player.Script, string.Copy(message));
 
 			ShowChatBubbleMessage.SendTo(player.Connection, gameObject, copiedString, true);
 		}

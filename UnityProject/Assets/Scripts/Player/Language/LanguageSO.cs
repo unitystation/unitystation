@@ -1,8 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text.RegularExpressions;
+using Managers;
 using NaughtyAttributes;
+using TMPro;
+using UnityEditor;
 using UnityEngine;
+using Util;
 
 namespace Player.Language
 {
@@ -24,8 +29,8 @@ namespace Player.Language
 
 		[SerializeField]
 		[Tooltip("The keycode for language use in the chat system")]
-		private string key = "";
-		public string Key => key;
+		private char key;
+		public char Key => key;
 
 		[SerializeField]
 		[Tooltip("Chance of making a new sentence after each syllable")]
@@ -48,6 +53,11 @@ namespace Player.Language
 		public Sprite Sprite => sprite;
 
 		[SerializeField]
+		[Tooltip("Sprite icon for chat for this language")]
+		private TMP_SpriteAsset chatSprite = null;
+		public TMP_SpriteAsset ChatSprite => chatSprite;
+
+		[SerializeField]
 		[Tooltip("Flags for this language")]
 		private LanguageFlags flags = LanguageFlags.None;
 		public LanguageFlags Flags => flags;
@@ -62,6 +72,37 @@ namespace Player.Language
 		}
 
 #if UNITY_EDITOR
+
+		[Button]
+		public void GiveUniqueId()
+		{
+			ushort id = 1;
+
+			var manager = OtherUtil.GetManager<LanguageManager>("LanguageManager");
+
+			while (manager.AllLanguages.Any(x => x.LanguageUniqueId == id && x != this))
+			{
+				id++;
+			}
+
+			languageUniqueId = id;
+
+			EditorUtility.SetDirty(this);
+			AssetDatabase.SaveAssets();
+			AssetDatabase.Refresh();
+		}
+
+		[Button]
+		public void AddToLanguageManagerList()
+		{
+			var manager = OtherUtil.GetManager<LanguageManager>("LanguageManager");
+
+			manager.AddToList(this);
+
+			EditorUtility.SetDirty(manager);
+			AssetDatabase.SaveAssets();
+			AssetDatabase.Refresh();
+		}
 
 		[SerializeField]
 		[TextArea(10, 10)]
@@ -93,6 +134,7 @@ namespace Player.Language
 	public enum LanguageFlags
 	{
 		None = 0,
+
 		//Hide the icon in the chat if understood
 		HideIconIfUnderstood = 1 << 0,
 

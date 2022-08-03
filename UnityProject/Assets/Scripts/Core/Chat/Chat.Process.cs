@@ -678,9 +678,11 @@ public partial class Chat
 
 		var extractedChanel = CheckRadio(playerInput, context, out var specialCharCount);
 
+		var languageId = CheckLanguage(playerInput, ref specialCharCount);
+
 		// delete all special chars
 		var clearMsg = playerInput.Substring(specialCharCount).TrimStart(' ');
-		return new ParsedChatInput(playerInput, clearMsg, extractedChanel);
+		return new ParsedChatInput(playerInput, clearMsg, extractedChanel, languageId);
 	}
 
 	private static ChatChannel CheckRadio(string playerInput, IChatInputContext context, out int specialCharCount)
@@ -732,7 +734,7 @@ public partial class Chat
 
 	private static ushort CheckLanguage(string playerInput, ref int specialCharCount)
 	{
-		if (specialCharCount > 0 && playerInput.Length < 4)
+		if (playerInput.Length - specialCharCount < 2)
 		{
 			//Radio channels go first the language channels so if they exists and the input length is too short
 			//dont check for languages
@@ -742,9 +744,9 @@ public partial class Chat
 		var firstLetter = playerInput[specialCharCount];
 		if (firstLetter == ',')
 		{
-			var secondLetter = char.ToLower(playerInput[1]);
+			var secondLetter = char.ToLower(playerInput[specialCharCount + 1]);
 
-			var language = LanguageManager.Instance.GetLanguage(secondLetter);
+			var language = LanguageManager.Instance.GetLanguageByKey(secondLetter);
 			if (language == null) return 0;
 
 			specialCharCount += 2;

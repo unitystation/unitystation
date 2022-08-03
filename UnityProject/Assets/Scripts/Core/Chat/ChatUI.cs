@@ -263,7 +263,7 @@ namespace UI.Chat_UI
 					parsedInput = Chat.ParsePlayerInput(InputFieldChat.text, chatContext);
 					if (Chat.IsValidToSend(parsedInput.ClearMessage))
 					{
-						PlayerSendChat(parsedInput.ClearMessage);
+						PlayerSendChat(parsedInput);
 					}
 
 					CloseChatWindow();
@@ -286,7 +286,7 @@ namespace UI.Chat_UI
 		/// <summary>
 		/// Only to be used via chat relay!
 		/// </summary>
-		public void AddChatEntry(string message, Sprite languageSprite = null)
+		public void AddChatEntry(string message, TMP_SpriteAsset languageSprite = null)
 		{
 			// Check for chat entry duplication
 			if (allEntries.Count > 0 && message.Equals(allEntries[allEntries.Count - 1].Message))
@@ -414,22 +414,22 @@ namespace UI.Chat_UI
 			if (Chat.IsValidToSend(parsedInput.ClearMessage))
 			{
 				_ = SoundManager.Play(CommonSounds.Instance.Click01);
-				PlayerSendChat(parsedInput.ClearMessage);
+				PlayerSendChat(parsedInput);
 			}
 
 			CloseChatWindow();
 		}
 
-		private void PlayerSendChat(string sendMessage)
+		private void PlayerSendChat(ParsedChatInput parsedChat)
 		{
-			sendMessage = sendMessage.Replace("\n", " ").Replace("\r", " ");  // We don't want users to spam chat vertically
+			parsedChat.ClearMessage = parsedChat.ClearMessage.Replace("\n", " ").Replace("\r", " ");  // We don't want users to spam chat vertically
 			if (selectedVoiceLevel == -1)
-				sendMessage = "#" + sendMessage;
+				parsedChat.ClearMessage = "#" + parsedChat.ClearMessage;
 			if (selectedVoiceLevel == 1)
-				sendMessage = sendMessage.ToUpper();
+				parsedChat.ClearMessage = parsedChat.ClearMessage.ToUpper();
 
 			// Selected channels already masks all unavailable channels in it's get method
-			chatFilter.Send(sendMessage, SelectedChannels);
+			chatFilter.Send(parsedChat, SelectedChannels);
 			// The filter can be skipped / replaced by calling the following method instead:
 			// PostToChatMessage.Send(sendMessage, SelectedChannels);
 			InputFieldChat.text = "";

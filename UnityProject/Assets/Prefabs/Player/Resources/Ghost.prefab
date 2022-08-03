@@ -24,6 +24,7 @@ GameObject:
   - component: {fileID: 1852173234745760124}
   - component: {fileID: 1532227210967981965}
   - component: {fileID: 93686595326039348}
+  - component: {fileID: 6864494279927618229}
   m_Layer: 31
   m_Name: Ghost
   m_TagString: Untagged
@@ -100,8 +101,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  playerStateSettings: {fileID: 11400000, guid: f3010aaf40d515547b1fbd815268ca20,
-    type: 2}
+  playerTypeSettings: {fileID: 11400000, guid: f3010aaf40d515547b1fbd815268ca20, type: 2}
   playerName: ' '
   visibleName: ' '
   PlayerSync: {fileID: 0}
@@ -257,6 +257,7 @@ MonoBehaviour:
   shadow: {fileID: 0}
   draggerMustBeAdjacent: 1
   allowDragWhileSoftCrit: 1
+  allowedToMouseDrag: 1
 --- !u!114 &3816408273032552164
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -319,6 +320,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+--- !u!114 &6864494279927618229
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4390267312333422610}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bd4fccae344a4981a0739eaa263d1b9a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  defaultLanguages: {fileID: 0}
+  omniTongue: 1
 --- !u!1 &7320126117105815585
 GameObject:
   m_ObjectHideFlags: 0
@@ -421,7 +438,6 @@ MonoBehaviour:
   SubCatalogue: []
   PresentSpriteSet: {fileID: 11400000, guid: 920c286f89116144f9dc93553e3c8282, type: 2}
   randomInitialSprite: 0
-  spriteRendererDisabledOnStart: 0
   doReverseAnimation: 0
   pushTextureOnStartUp: 1
   initialVariantIndex: 0

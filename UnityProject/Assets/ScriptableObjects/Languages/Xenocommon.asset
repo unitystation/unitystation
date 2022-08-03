@@ -13,15 +13,16 @@ MonoBehaviour:
   m_Name: Xenocommon
   m_EditorClassIdentifier: 
   languageName: Xenomorph
+  languageUniqueId: 8
   desc: The common tongue of the xenomorphs.
-  key: 4
-  syllables:
-  - sss
-  - sSs
-  - SSS
+  key: 52
   sentenceChance: 5
   spaceChance: 55
   priority: 50
   sprite: {fileID: 21300000, guid: b652bfcfd5724eb42853ab324466361f, type: 3}
   flags: 0
+  syllables:
+  - sss
+  - sSs
+  - SSS
   syllablesString: '"sss","sSs","SSS"'

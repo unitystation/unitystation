@@ -11,21 +11,18 @@ namespace Managers
 	{
 		[SerializeField]
 		private List<LanguageSO> allLanguages = new List<LanguageSO>();
+		public List<LanguageSO> AllLanguages => allLanguages;
 
 		private Dictionary<LanguageSO, Dictionary<string, string>> stringCache =
 			new Dictionary<LanguageSO, Dictionary<string, string>>(10);
 
 		private const int CacheCapacity = 50;
 
-		private readonly List<char> endings = new List<char>(){'!', '?', '.'};
+		private readonly List<char> endings = new List<char>{'!', '?', '.'};
 
 		public static string Scramble(LanguageSO languageToTranslate, PlayerScript targetPlayer, string message)
 		{
-			if (languageToTranslate == null)
-			{
-				Logger.LogError("Was given null language!");
-				return message;
-			}
+			if (languageToTranslate == null) return message;
 
 			if (targetPlayer.MobLanguages.CanUnderstandLanguage(languageToTranslate))
 			{
@@ -114,8 +111,13 @@ namespace Managers
 			return finishedMessage;
 		}
 
-		public LanguageSO GetLanguage(ushort languageId)
+		public LanguageSO GetLanguageById(ushort languageId)
 		{
+			if (languageId == 0)
+			{
+				return null;
+			}
+
 			foreach (var language in allLanguages)
 			{
 				if(languageId != language.LanguageUniqueId) continue;
@@ -126,8 +128,13 @@ namespace Managers
 			return null;
 		}
 
-		public LanguageSO GetLanguage(string key)
+		public LanguageSO GetLanguageByKey(char key)
 		{
+			if (key == default)
+			{
+				return null;
+			}
+
 			foreach (var language in allLanguages)
 			{
 				if(key != language.Key) continue;
@@ -138,9 +145,36 @@ namespace Managers
 			return null;
 		}
 
+		/// <summary>
+		/// Gets the language by its name (not the language file name!)
+		/// </summary>
+		public LanguageSO GetLanguageByName(string languageName)
+		{
+			if (string.IsNullOrEmpty(languageName))
+			{
+				return null;
+			}
+
+			foreach (var language in allLanguages)
+			{
+				if(languageName != language.LanguageName) continue;
+
+				return language;
+			}
+
+			return null;
+		}
+
 		public Sprite GetLanguageSprite(ushort languageId)
 		{
-			return GetLanguage(languageId).OrNull()?.Sprite;
+			return GetLanguageById(languageId).OrNull()?.Sprite;
+		}
+
+		public void AddToList(LanguageSO languageSo)
+		{
+			if(allLanguages.Contains(languageSo)) return;
+
+			allLanguages.Add(languageSo);
 		}
 	}
 }

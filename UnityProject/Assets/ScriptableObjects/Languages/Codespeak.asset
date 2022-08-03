@@ -13,9 +13,15 @@ MonoBehaviour:
   m_Name: Codespeak
   m_EditorClassIdentifier: 
   languageName: Codespeak
+  languageUniqueId: 4
   desc: Syndicate operatives can use a series of codewords to convey complex information,
     while sounding like random concepts and drinks to anyone listening in.
-  key: t
+  key: 116
+  sentenceChance: 5
+  spaceChance: 55
+  priority: 0
+  sprite: {fileID: 21300000, guid: 29a7c82ff5a763047a106649636a0ab8, type: 3}
+  flags: 6
   syllables:
   - Ai Chamber
   - Ai Satellite Antechamber
@@ -675,11 +681,6 @@ MonoBehaviour:
   - Tunnel Snakes
   - Cortical Borers
   - Megafauna
-  sentenceChance: 5
-  spaceChance: 55
-  priority: 0
-  sprite: {fileID: 21300000, guid: 29a7c82ff5a763047a106649636a0ab8, type: 3}
-  flags: 6
   syllablesString: "\"Ai Chamber\",\r\n        \"Ai Satellite Antechamber\",\r\n       
     \"Ai Satellite Exterior\",\r\n        \"Ai Upload Chamber\",\r\n        \"Aft
     Maintenance\",\r\n        \"Aft Primary Hallway\",\r\n        \"Armory\",\r\n       

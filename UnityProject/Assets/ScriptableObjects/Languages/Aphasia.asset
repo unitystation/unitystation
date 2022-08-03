@@ -13,9 +13,15 @@ MonoBehaviour:
   m_Name: Aphasia
   m_EditorClassIdentifier: 
   languageName: Gibbering
+  languageUniqueId: 5
   desc: It is theorized that any sufficiently brain-damaged person can speak this
     language.
-  key: i
+  key: 105
+  sentenceChance: 5
+  spaceChance: 20
+  priority: 10
+  sprite: {fileID: 21300000, guid: d1aaebd40896f1d448602df887c80eb7, type: 3}
+  flags: 2
   syllables:
   - m
   - n
@@ -29,9 +35,4 @@ MonoBehaviour:
   - i
   - o
   - u
-  sentenceChance: 5
-  spaceChance: 20
-  priority: 10
-  sprite: {fileID: 21300000, guid: d1aaebd40896f1d448602df887c80eb7, type: 3}
-  flags: 2
   syllablesString: '"m","n","gh","h","l","s","r","a","e","i","o","u"'

@@ -42,10 +42,10 @@ namespace Player.Language
 
 			foreach (var newLanguage in addedLanguages)
 			{
-				var language = LanguageManager.Instance.GetLanguage(newLanguage.languageId);
+				var language = LanguageManager.Instance.GetLanguageById(newLanguage.languageId);
 				if(language == null) continue;
 
-				LearnLanguage(language, newLanguage.canSpeak);
+				LearnLanguageClient(language, newLanguage.canSpeak);
 			}
 		}
 
@@ -54,7 +54,7 @@ namespace Player.Language
 			addedLanguages.Callback -= OnLanguageListChange;
 		}
 
-		public void SetupFromGroup(DefaultLanguageGroupSO newGroup)
+		private void SetupFromGroup(DefaultLanguageGroupSO newGroup)
 		{
 			//Copy the newGroup lists to this script lists so we can add to it during runtime without adding to the SO
 			UnderstoodLanguages = newGroup.UnderstoodLanguages.ToList();
@@ -99,7 +99,8 @@ namespace Player.Language
 			Chat.AddExamineMsg(gameObject, $"You will now speak in {languageToChangeTo.OrNull()?.LanguageName}");
 		}
 
-		private void LearnLanguage(LanguageSO languageToLearn, bool canSpeak = false, bool overrideBlocked = false)
+		[Server]
+		public void LearnLanguage(LanguageSO languageToLearn, bool canSpeak = false, bool overrideBlocked = false)
 		{
 			if (overrideBlocked == false && IsBlockedLanguage(languageToLearn))
 			{
@@ -124,13 +125,25 @@ namespace Player.Language
 				addedSpeak = true;
 			}
 
-			if(isServer == false || (addedUnderstand == false && addedSpeak == false)) return;
+			if(addedUnderstand == false && addedSpeak == false) return;
 
 			addedLanguages.Add(new NetworkLanguage {languageId = languageToLearn.LanguageUniqueId, canUnderstand = addedUnderstand,
 				canSpeak = addedSpeak});
 		}
 
-		private void RemoveLanguage(LanguageSO languageToRemove, bool noLongerUnderstand = false)
+		[Client]
+		private void LearnLanguageClient(LanguageSO languageToLearn, bool canSpeak = false)
+		{
+			UnderstoodLanguages.Add(languageToLearn);
+
+			if (canSpeak)
+			{
+				SpokenLanguages.Add(languageToLearn);
+			}
+		}
+
+		[Server]
+		public void RemoveLanguage(LanguageSO languageToRemove, bool noLongerUnderstand = false)
 		{
 			SpokenLanguages.Remove(languageToRemove);
 
@@ -163,6 +176,16 @@ namespace Player.Language
 			}
 		}
 
+		[Client]
+		private void RemoveLanguageClient(LanguageSO languageToRemove, bool noLongerUnderstand = false)
+		{
+			SpokenLanguages.Remove(languageToRemove);
+
+			if (noLongerUnderstand == false) return;
+
+			UnderstoodLanguages.Remove(languageToRemove);
+		}
+
 		private void ResetCurrentLanguage()
 		{
 			if (SpokenLanguages.Count == 0)
@@ -181,47 +204,50 @@ namespace Player.Language
 		void OnLanguageListChange(SyncList<NetworkLanguage>.Operation op, int index, NetworkLanguage oldItem,
 			NetworkLanguage newItem)
 		{
+			if(CustomNetworkManager.IsServer) return;
+
 			switch (op)
 			{
 				case SyncList<NetworkLanguage>.Operation.OP_ADD:
 				case SyncList<NetworkLanguage>.Operation.OP_INSERT:
-					var newLanguage = LanguageManager.Instance.GetLanguage(newItem.languageId);
+					var newLanguage = LanguageManager.Instance.GetLanguageById(newItem.languageId);
 					if(newLanguage == null) break;
 
-					LearnLanguage(newLanguage, newItem.canSpeak);
+					LearnLanguageClient(newLanguage, newItem.canSpeak);
 					break;
 				case SyncList<NetworkLanguage>.Operation.OP_REMOVEAT:
 					// index is where it was removed from the list
 					// oldItem is the item that was removed
-					var oldLanguage = LanguageManager.Instance.GetLanguage(oldItem.languageId);
+					var oldLanguage = LanguageManager.Instance.GetLanguageById(oldItem.languageId);
 					if(oldLanguage == null) break;
 
-					RemoveLanguage(oldLanguage, true);
+					RemoveLanguageClient(oldLanguage, true);
 					break;
 				case SyncList<NetworkLanguage>.Operation.OP_SET:
 					// index is of the item that was changed
 					// oldItem is the previous value for the item at the index
 					// newItem is the new value for the item at the index
-					oldLanguage = LanguageManager.Instance.GetLanguage(oldItem.languageId);
-					RemoveLanguage(oldLanguage, true);
+					oldLanguage = LanguageManager.Instance.GetLanguageById(oldItem.languageId);
+					RemoveLanguageClient(oldLanguage, true);
 
-					newLanguage = LanguageManager.Instance.GetLanguage(newItem.languageId);
-					LearnLanguage(newLanguage, newItem.canSpeak);
+					newLanguage = LanguageManager.Instance.GetLanguageById(newItem.languageId);
+					LearnLanguageClient(newLanguage, newItem.canSpeak);
 					break;
 				case SyncList<NetworkLanguage>.Operation.OP_CLEAR:
-					RemoveAddedLanguages();
+					RemoveAddedLanguagesClient();
 					break;
 			}
 		}
 
-		private void RemoveAddedLanguages()
+		[Client]
+		private void RemoveAddedLanguagesClient()
 		{
 			foreach (var newLanguage in addedLanguages)
 			{
-				var language = LanguageManager.Instance.GetLanguage(newLanguage.languageId);
+				var language = LanguageManager.Instance.GetLanguageById(newLanguage.languageId);
 				if(language == null) continue;
 
-				RemoveLanguage(language, true);
+				RemoveLanguageClient(language, true);
 			}
 		}
 

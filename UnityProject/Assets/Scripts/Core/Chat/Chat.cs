@@ -11,6 +11,8 @@ using Systems.MobAIs;
 using Core.Chat;
 using Messages.Server;
 using Items;
+using Managers;
+using Player.Language;
 using Shared.Util;
 using Tiles;
 using Util;
@@ -76,7 +78,8 @@ public partial class Chat : MonoBehaviour
 	/// Send a Chat Msg from a player to the selected Chat Channels
 	/// Server only
 	/// </summary>
-	public static void AddChatMsgToChatServer(PlayerInfo sentByPlayer, string message, ChatChannel channels, Loudness loudness = Loudness.NORMAL)
+	public static void AddChatMsgToChatServer(PlayerInfo sentByPlayer, string message, ChatChannel channels,
+		Loudness loudness = Loudness.NORMAL, ushort languageId = 0)
 	{
 		message = AutoMod.ProcessChatServer(sentByPlayer, message);
 		if (string.IsNullOrWhiteSpace(message)) return;
@@ -123,7 +126,7 @@ public partial class Chat : MonoBehaviour
 			speaker = (player == null) ? sentByPlayer.Username : player.playerName,
 			position = (player == null) ? TransformState.HiddenPos : player.PlayerChatLocation.AssumedWorldPosServer(),
 			channels = channels,
-			originator = (player == null) ? sentByPlayer.GameObject : player.PlayerChatLocation,
+			originator = sentByPlayer.GameObject,
 			VoiceLevel = loudness
 		};
 
@@ -139,6 +142,10 @@ public partial class Chat : MonoBehaviour
 			AddOOCChatMessage(sentByPlayer, message, chatEvent);
 			return;
 		}
+
+		//Try find the language
+		if (GetLanguage(languageId, player, out var languageToUse) == false) return;
+		chatEvent.language = languageToUse;
 
 		// TODO the following code uses player.playerHealth, but ConsciousState would be more appropriate.
 		// Check if the player is allowed to talk:
@@ -183,17 +190,45 @@ public partial class Chat : MonoBehaviour
 			}
 
 			//Do chat bubble for nearby players
-			player.playerNetworkActions.ServerToggleChatIcon(processedMessage.message, processedMessage.chatModifiers);
+			player.playerNetworkActions.ServerToggleChatIcon(processedMessage.message, processedMessage.chatModifiers, languageToUse);
 		}
 
 		InvokeChatEvent(chatEvent);
+	}
+
+	private static bool GetLanguage(ushort languageId, PlayerScript player, out LanguageSO languageToUse)
+	{
+		var playerLanguages = player.MobLanguages.OrNull();
+
+		//If the player sent a custom language in chat use that if allowed, or default to the current set language
+		languageToUse = null;
+		if (playerLanguages != null)
+		{
+			if (languageId != 0)
+			{
+				languageToUse = LanguageManager.Instance.GetLanguageById(languageId);
+			}
+
+			if (playerLanguages.CanSpeakLanguage(languageToUse) == false && playerLanguages.OmniTongue == false)
+			{
+				languageToUse = playerLanguages.CurrentLanguage;
+
+				if (languageToUse == null)
+				{
+					AddExamineMsgFromServer(player.gameObject, "You have no selected language!");
+					return false;
+				}
+			}
+		}
+
+		return true;
 	}
 
 	/// <summary>
 	/// ServerSide Only, note there is no validation of message contents here for this type, normal player messages do no go this route
 	/// Chat modifiers do not work here
 	/// </summary>
-	public static void AddChatMsgToChatServer(string message, ChatChannel channels, Loudness loudness = Loudness.NORMAL)
+	public static void AddChatMsgToChatServer(string message, ChatChannel channels, LanguageSO language, Loudness loudness = Loudness.NORMAL)
 	{
 		if (channels == ChatChannel.None) return;
 
@@ -213,7 +248,8 @@ public partial class Chat : MonoBehaviour
 			position = TransformState.HiddenPos,
 			channels = channels,
 			originator = null,
-			VoiceLevel = loudness
+			VoiceLevel = loudness,
+			language = language
 		};
 
 		//Handle OOC messages

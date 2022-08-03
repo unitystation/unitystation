@@ -462,6 +462,7 @@ GameObject:
   - component: {fileID: 7153920685726011974}
   - component: {fileID: 7265610720913237329}
   - component: {fileID: 3901833431230868314}
+  - component: {fileID: 3844190322150875557}
   m_Layer: 8
   m_Name: Player_V4(uNet)
   m_TagString: Untagged
@@ -1455,6 +1456,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 30e9b773a824f6c4880afa8950869c4c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &3844190322150875557
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1133514949248654}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bd4fccae344a4981a0739eaa263d1b9a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  defaultLanguages: {fileID: 11400000, guid: 35923031bcd51b94caeed8eb3cd05075, type: 2}
+  omniTongue: 0
 --- !u!1 &1147423205297840
 GameObject:
   m_ObjectHideFlags: 0

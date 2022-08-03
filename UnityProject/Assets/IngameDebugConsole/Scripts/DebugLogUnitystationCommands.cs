@@ -673,7 +673,7 @@ namespace IngameDebugConsole
 					Chat.AddExamineMsgToClient($"Examination: {DateTime.Now.ToFileTimeUtc()}");
 					break;
 				case 2:
-					Chat.AddChatMsgToChatServer(fakePlayer, DateTime.Now.ToFileTimeUtc().ToString(), ChatChannel.OOC, Loudness.NORMAL);
+					Chat.AddChatMsgToChatServer(fakePlayer, DateTime.Now.ToFileTimeUtc().ToString(), ChatChannel.OOC, Loudness.NORMAL, 1);
 					break;
 				default:
 					Chat.AddLocalMsgToChat($"Local Message: {DateTime.Now.ToFileTimeUtc()}", new Vector2(Random.value*100,Random.value*100), null);

@@ -22,6 +22,7 @@ GameObject:
   - component: {fileID: 1205907779006116383}
   - component: {fileID: 376142281930293820}
   - component: {fileID: 728878296905371439}
+  - component: {fileID: 5350788108117734105}
   m_Layer: 31
   m_Name: Blob
   m_TagString: Untagged
@@ -60,8 +61,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  playerStateSettings: {fileID: 11400000, guid: 95bee1ba46efefc4db81c32c0e396606,
-    type: 2}
+  playerTypeSettings: {fileID: 11400000, guid: 95bee1ba46efefc4db81c32c0e396606, type: 2}
   playerName: ' '
   visibleName: ' '
   PlayerSync: {fileID: 0}
@@ -370,6 +370,22 @@ MonoBehaviour:
   IsPressedServer: 0
   LastUpdatedFlyingPosition: 0
   DEBUGLastMoveMessageProcessed: 0
+--- !u!114 &5350788108117734105
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4390267312333422610}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bd4fccae344a4981a0739eaa263d1b9a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  defaultLanguages: {fileID: 0}
+  omniTongue: 0
 --- !u!1 &6777920429691229453
 GameObject:
   m_ObjectHideFlags: 0
