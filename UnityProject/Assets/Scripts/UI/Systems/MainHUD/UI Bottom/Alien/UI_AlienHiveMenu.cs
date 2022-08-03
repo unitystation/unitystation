@@ -27,7 +27,7 @@ namespace UI.Systems.MainHUD.UI_Bottom
 
 		public void Refresh()
 		{
-			var aliens = FindObjectsOfType<AlienPlayer>().Where(x => x.IsDead == false).OrderByDescending(x => x.CurrentData.AlienType).ToArray();
+			var aliens = FindObjectsOfType<AlienPlayer>().Where(x => x.IsDead == false).OrderByDescending(x => x.AlienType.AlienType).ToArray();
 
 			hiveMembersText.text = $"There {(aliens.Length == 1 ? "is" : "are")} {aliens.Length} hive sister{(aliens.Length > 1 ? "s" : "")}";
 
@@ -52,7 +52,7 @@ namespace UI.Systems.MainHUD.UI_Bottom
 			for (int i = 0; i < aliens.Length; i++)
 			{
 				var alien = aliens[i];
-				entryPool[i].SetUp(alien.RegisterPlayer.PlayerScript.playerName, alien.CurrentData.Normal.Variance[0].Frames[0].sprite);
+				entryPool[i].SetUp(alien.RegisterPlayer.PlayerScript.playerName, alien.AlienType.Normal.Variance[0].Frames[0].sprite);
 			}
 		}
 

@@ -51,6 +51,14 @@ namespace UI.Systems.MainHUD.UI_Bottom
 			controller = alienPlayer.GetComponent<AlienMouseInputController>();
 		}
 
+		public void TurnOff()
+		{
+			evolveMenu.SetActive(false);
+			hiveMenu.SetActive(false);
+			queenAnnounceMenu.SetActive(false);
+			gameObject.SetActive(false);
+		}
+
 		private bool focusCheck;
 
 		#region focus Check
