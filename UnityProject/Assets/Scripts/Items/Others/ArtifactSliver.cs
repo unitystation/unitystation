@@ -48,7 +48,7 @@ namespace Items.Science
 
 			spriteHandler.ChangeSprite((int)sliverData.Type);
 
-			GetComponent<ItemAttributesV2>().ServerSetArticleName("Artifact Sliver - " + ID);
+			GetComponent<ItemAttributesV2>().ServerSetArticleName("Artifact Sample - " + ID);
 		
 			Init();
 		}

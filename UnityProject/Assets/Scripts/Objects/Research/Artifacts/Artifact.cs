@@ -20,13 +20,6 @@ public class ArtifactSprite
 
 namespace Objects.Research
 {
-	public enum ArtifactType //This determines the sprites the artifact can use, what tool is used to take samples from it and what materials it gives when dismantled.
-	{
-		Geological = 0,
-		Mechanical = 1,
-		Organic = 2,
-	}
-
 	public class Artifact : ImnterfaceMultitoolGUI, IServerSpawn, IServerDespawn, ICheckedInteractable<HandApply>, IMultitoolMasterable
 	{
 		/// <summary>
@@ -203,6 +196,7 @@ namespace Objects.Research
 		}
 
 		#region Interactions
+
 		public bool WillInteract(HandApply interaction, NetworkSide side)
 		{
 			return interaction.Intent != Intent.Harm && DefaultWillInteract.Default(interaction, side);
@@ -251,6 +245,22 @@ namespace Objects.Research
 			TryActivateByTouch(interaction);
 			
 		}
+		private void TakeSample(HandApply interaction)
+		{
+			ToolUtils.ServerUseToolWithActionMessages(interaction, 5f,
+				$"You begin extracting a sample from {gameObject.ExpensiveName()}...",
+				$"{interaction.Performer.ExpensiveName()} begins extracting a sample from {gameObject.ExpensiveName()}...",
+				$"You extract a sample from {gameObject.ExpensiveName()}.",
+				$"{interaction.Performer.ExpensiveName()} extracts a sample from {gameObject.ExpensiveName()}.",
+				() =>
+				{
+					GameObject sliver = Spawn.ServerPrefab(SliverPrefab, gameObject.AssumedWorldPosServer()).GameObject;
+					if (sliver.TryGetComponent<ArtifactSliver>(out var sliverComponent)) sliverComponent.SetUpValues(artifactData, ID + $":{(char)('a' + samplesTaken)}");
+
+					DoDamageEffect();
+				});
+		}
+
 		#endregion
 
 		private void ToggleDormancy(bool _isDormant)
@@ -264,21 +274,6 @@ namespace Objects.Research
 			{
 				spriteHandler.SetColor(spriteHandler.Palette[0]);
 			}
-		}
-		private void TakeSample(HandApply interaction)
-		{
-			ToolUtils.ServerUseToolWithActionMessages(interaction, 5f,
-				$"You begin extracting a sample from {gameObject.ExpensiveName()}...",
-				$"{interaction.Performer.ExpensiveName()} begins extracting a sample from {gameObject.ExpensiveName()}...",
-				$"You extract a sample from {gameObject.ExpensiveName()}.",
-				$"{interaction.Performer.ExpensiveName()} extracts a sample from {gameObject.ExpensiveName()}.",
-				() =>
-				{
-					GameObject sliver = Spawn.ServerPrefab(SliverPrefab, gameObject.AssumedWorldPosServer()).GameObject;
-					if(sliver.TryGetComponent<ArtifactSliver>(out var sliverComponent)) sliverComponent.SetUpValues(artifactData,ID + $":{(char)('a' + samplesTaken)}");
-
-					DoDamageEffect();
-				});
 		}
 
 		void DoDamageEffect(DamageInfo damageInfo = null)
@@ -297,6 +292,7 @@ namespace Objects.Research
 			}
 			if (isDormant == false)
 			{
+				PlayActivationAnimation();
 				DamageEffect.DoEffect();
 			}
 		}
@@ -340,7 +336,9 @@ namespace Objects.Research
 			GasMix ambientGasMix = matrix.MetaDataLayer.Get(localPosition).GasMix;
 
 			ambientGasMix.GasData.GetGasMoles(gastype, out var moles);
-			moles -= 10;
+
+			moles *= 5;
+
 			if (moles > 0 && DMMath.Prob(Mathf.Clamp(moles, 0, 100)))
 			{
 				ToggleDormancy(true);
@@ -430,7 +428,14 @@ namespace Objects.Research
 
 		#endregion
 	}
-	
+
+	public enum ArtifactType //This determines the sprites the artifact can use, what tool is used to take samples from it, what samples it gives, and what materials it gives when dismantled.
+	{
+		Geological = 0,
+		Mechanical = 1,
+		Organic = 2,
+	}
+
 	public struct ArtifactData //Artifact Data contains all properties of the artifact that will be transferred to samples and/or guessed by the research console, placed in a struct to make data transfer easier.
 	{
 		public ArtifactData(int radlvl = 0, int bluelvl = 0, int bnalvl = 0, int mss = 0, ArtifactType type = ArtifactType.Geological, int areaEffectValue = 0, int interactEffectValue = 0, int damageEffectValue = 0, string iD = "")
