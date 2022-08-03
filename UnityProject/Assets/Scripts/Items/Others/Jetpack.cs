@@ -66,12 +66,7 @@ namespace Items.Others
 			if (gasContainer.GasMix.Moles <= 0) return;
 			if (player.PlayerSync.IsPressedServer)//Is movement pressed?
 			{
-				if (player.objectPhysics.CanPush(player.CurrentDirection.ToLocalVector2Int()))
-				{
-					player.objectPhysics.NewtonianPush(player.CurrentDirection.ToLocalVector2Int(),1f);
-					var domGas = gasContainer.GasMix.GetBiggestGasSOInMix();
-					if (domGas != null) gasContainer.GasMix.RemoveGas(domGas, gasReleaseOnUse);
-				}
+				PushPlayerInFacedDirection(player, gasContainer, gasReleaseOnUse);
 			}
 		}
 
@@ -86,6 +81,14 @@ namespace Items.Others
 				return;
 			}
 			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, PushUpdate);
+		}
+
+		public static void PushPlayerInFacedDirection(PlayerScript playerScript, GasContainer gasContainer, float gasRelease = 10)
+		{
+			if (playerScript.objectPhysics.CanPush(playerScript.CurrentDirection.ToLocalVector2Int()) == false) return;
+			playerScript.objectPhysics.NewtonianPush(playerScript.CurrentDirection.ToLocalVector2Int(),1f);
+			var domGas = gasContainer.GasMix.GetBiggestGasSOInMix();
+			if (domGas != null) gasContainer.GasMix.RemoveGas(domGas, gasRelease);
 		}
 	}
 }
