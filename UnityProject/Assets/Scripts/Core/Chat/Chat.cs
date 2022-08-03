@@ -144,7 +144,7 @@ public partial class Chat : MonoBehaviour
 		}
 
 		//Try find the language
-		if (GetLanguage(languageId, player, out var languageToUse) == false) return;
+		if (TryGetLanguage(languageId, player, out var languageToUse) == false) return;
 		chatEvent.language = languageToUse;
 
 		// TODO the following code uses player.playerHealth, but ConsciousState would be more appropriate.
@@ -196,7 +196,7 @@ public partial class Chat : MonoBehaviour
 		InvokeChatEvent(chatEvent);
 	}
 
-	private static bool GetLanguage(ushort languageId, PlayerScript player, out LanguageSO languageToUse)
+	private static bool TryGetLanguage(ushort languageId, PlayerScript player, out LanguageSO languageToUse)
 	{
 		var playerLanguages = player.MobLanguages.OrNull();
 

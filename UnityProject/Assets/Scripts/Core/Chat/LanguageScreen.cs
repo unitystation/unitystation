@@ -24,6 +24,11 @@ namespace Core.Chat
 			Refresh();
 		}
 
+		private void OnDisable()
+		{
+			Refresh();
+		}
+
 		public void Refresh()
 		{
 			var player = PlayerManager.LocalPlayerScript;
@@ -75,6 +80,8 @@ namespace Core.Chat
 
 		private void RemoveEntry()
 		{
+			Destroy(entryPool[^1]);
+
 			entryPool.RemoveAt(entryPool.Count - 1);
 		}
 
