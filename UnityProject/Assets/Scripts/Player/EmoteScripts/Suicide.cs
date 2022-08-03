@@ -21,7 +21,7 @@ namespace Player.EmoteScripts
 			if(activeHandSlot == null || activeHandSlot.IsEmpty) return; //Assuming we have no hand or no item in hand
 			if(activeHandSlot.ItemObject.TryGetComponent<ISuicide>(out var suicideObject) == false) return;
 			if(suicideObject.CanSuicide(player) == false) return;
-			suicideObject.OnSuicide(player);
+			playerScript.StartCoroutine(suicideObject.OnSuicide(player));
 		}
 	}
 }
