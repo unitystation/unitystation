@@ -9,6 +9,7 @@ using Systems.ObjectConnection;
 using Mirror;
 using Systems.Atmospherics;
 using ScriptableObjects.Atmospherics;
+using CustomInspectors;
 
 [System.Serializable]
 public class ArtifactSprite
@@ -26,7 +27,7 @@ namespace Objects.Research
 		Organic = 2,
 	}
 
-	public class Artifact : NetworkBehaviour, IServerSpawn, IServerDespawn, ICheckedInteractable<HandApply>, IMultitoolMasterable
+	public class Artifact : ImnterfaceMultitoolGUI, IServerSpawn, IServerDespawn, ICheckedInteractable<HandApply>, IMultitoolMasterable
 	{
 		/// <summary>
 		/// Set of all artifacts on scenes. Useful to get list of all existing artifacts.
@@ -155,6 +156,8 @@ namespace Objects.Research
 			artifactData = new ArtifactData();
 			artifactData = temp;
 
+			ToggleDormancy(isDormant); //Doesn't change dormant value but updates sprite
+
 			//Initalises Radiation for artifacts with uranium composition.
 			if (artifactData.radiationlevel > 0)
 			{
@@ -241,8 +244,8 @@ namespace Objects.Research
 
 			if (isDormant && Validations.HasItemTrait(interaction.UsedObject, DormantTrigger))
 			{
-				isDormant = false;
-				Chat.AddActionMsgToChat(this.gameObject, "", $"{gameObject.ExpensiveName()} begins to humm quietly");
+				ToggleDormancy(false);
+				Chat.AddActionMsgToChat(this.gameObject, "Placeholder", $"{gameObject.ExpensiveName()} begins to humm quietly");
 			}
 
 			TryActivateByTouch(interaction);
@@ -250,6 +253,18 @@ namespace Objects.Research
 		}
 		#endregion
 
+		private void ToggleDormancy(bool _isDormant)
+		{
+			isDormant = _isDormant;
+			if(isDormant)
+			{
+				spriteHandler.SetColor(spriteHandler.Palette[1]);
+			}
+			else
+			{
+				spriteHandler.SetColor(spriteHandler.Palette[0]);
+			}
+		}
 		private void TakeSample(HandApply interaction)
 		{
 			ToolUtils.ServerUseToolWithActionMessages(interaction, 5f,
@@ -272,12 +287,12 @@ namespace Objects.Research
 			{
 				if(DMMath.Prob(50))
 				{
-					Chat.AddActionMsgToChat(this.gameObject, "", "Wake up damage message");
-					isDormant = false;
+					Chat.AddActionMsgToChat(this.gameObject, "Placeholder", "Wake up damage message");
+					ToggleDormancy(false);
 				}
 				else
 				{
-					Chat.AddActionMsgToChat(this.gameObject, "", "The anomaly quivers and seems to crack a little");
+					Chat.AddActionMsgToChat(this.gameObject, "Placeholder", "The anomaly quivers and seems to crack a little");
 				}
 			}
 			if (isDormant == false)
@@ -294,7 +309,7 @@ namespace Objects.Research
 				{
 					Chat.AddActionMsgToChat(interaction.Performer, "Message for waking up artifact",
 						$"{interaction.Performer.ExpensiveName()} Message for waking up artifact");
-					isDormant = false;
+					ToggleDormancy(false);
 				}
 				else
 				{
@@ -328,7 +343,7 @@ namespace Objects.Research
 			moles -= 10;
 			if (moles > 0 && DMMath.Prob(Mathf.Clamp(moles, 0, 100)))
 			{
-				isDormant = true;
+				ToggleDormancy(true);
 				Chat.AddActionMsgToChat(this.gameObject, "", "The anomaly falls dormant...");
 			}
 		}

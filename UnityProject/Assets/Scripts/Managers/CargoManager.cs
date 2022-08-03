@@ -60,7 +60,7 @@ namespace Systems.Cargo
 
 		private static readonly List<int> randomJunkPrices = new List<int> { 5, 10, 15 };
 
-		public static List<string> researchedArtifacts;
+		public static List<string> researchedArtifacts = new List<string>();
 
 		private void Awake()
 		{
@@ -347,8 +347,8 @@ namespace Systems.Cargo
 					}
 					else
 					{
-						credits = 0;
-						export.ExportMessage = "Artifact already researched! No additional reward!";
+						credits = randomJunkPrices.PickRandom();
+						exportedItems[exportName].ExportMessage = "Artifact already researched! No additional reward!";
 					}
 				}
 

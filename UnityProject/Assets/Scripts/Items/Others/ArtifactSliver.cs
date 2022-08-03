@@ -24,13 +24,15 @@ namespace Items.Science
 		private MeleeEffect meleeEffect;
 
 		[SerializeField]
+		private SpriteHandler spriteHandler;
+
+		[SerializeField]
 		private ArtifactDataSO artifactDataSO;
 
 		private void Awake()
 		{
 			radProducer = GetComponent<RadiationProducer>();
 			meleeEffect = GetComponent<MeleeEffect>();
-	;
 		}
 
 		public void SetUpValues(ArtifactData parentData, string Id)
@@ -43,6 +45,8 @@ namespace Items.Science
 			sliverData.bluespacesig += (int)(sliverData.bluespacesig * Random.Range(-0.20f, 0.20f)); // +- 20% accuracy
 
 			sliverData.mass = sliverData.radiationlevel / 20 + sliverData.bluespacesig + sliverData.bananiumsig / 2;
+
+			spriteHandler.ChangeSprite((int)sliverData.Type);
 
 			GetComponent<ItemAttributesV2>().ServerSetArticleName("Artifact Sliver - " + ID);
 		

@@ -1,0 +1,215 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &1472711411200896245
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 3486338153467046959, guid: e46ba34aab52d654787ef10d896b0874,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: c47633829dfac9c498561703f95e7929,
+        type: 3}
+    - target: {fileID: 3639895484745261575, guid: e46ba34aab52d654787ef10d896b0874,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3639895484745261575, guid: e46ba34aab52d654787ef10d896b0874,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3639895484745261575, guid: e46ba34aab52d654787ef10d896b0874,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3639895484745261575, guid: e46ba34aab52d654787ef10d896b0874,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3639895484745261575, guid: e46ba34aab52d654787ef10d896b0874,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3639895484745261575, guid: e46ba34aab52d654787ef10d896b0874,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3639895484745261575, guid: e46ba34aab52d654787ef10d896b0874,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3639895484745261575, guid: e46ba34aab52d654787ef10d896b0874,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3639895484745261575, guid: e46ba34aab52d654787ef10d896b0874,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3639895484745261575, guid: e46ba34aab52d654787ef10d896b0874,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3639895484745261575, guid: e46ba34aab52d654787ef10d896b0874,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3643415983708594035, guid: e46ba34aab52d654787ef10d896b0874,
+        type: 3}
+      propertyPath: m_Name
+      value: SampleContainer
+      objectReference: {fileID: 0}
+    - target: {fileID: 3676122640429376199, guid: e46ba34aab52d654787ef10d896b0874,
+        type: 3}
+      propertyPath: m_AssetId
+      value: 074b1758187370b4d85403178d7bb090
+      objectReference: {fileID: 0}
+    - target: {fileID: 3678228788835208839, guid: e46ba34aab52d654787ef10d896b0874,
+        type: 3}
+      propertyPath: Armor.Bio
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 3678228788835208839, guid: e46ba34aab52d654787ef10d896b0874,
+        type: 3}
+      propertyPath: Armor.Rad
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 3678228788835208839, guid: e46ba34aab52d654787ef10d896b0874,
+        type: 3}
+      propertyPath: Armor.Acid
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 3678228788835208839, guid: e46ba34aab52d654787ef10d896b0874,
+        type: 3}
+      propertyPath: Armor.Bomb
+      value: 80
+      objectReference: {fileID: 0}
+    - target: {fileID: 3678228788835208839, guid: e46ba34aab52d654787ef10d896b0874,
+        type: 3}
+      propertyPath: Armor.Fire
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 3678228788835208839, guid: e46ba34aab52d654787ef10d896b0874,
+        type: 3}
+      propertyPath: Armor.Laser
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 3678228788835208839, guid: e46ba34aab52d654787ef10d896b0874,
+        type: 3}
+      propertyPath: Armor.Magic
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 3678228788835208839, guid: e46ba34aab52d654787ef10d896b0874,
+        type: 3}
+      propertyPath: Armor.Melee
+      value: 70
+      objectReference: {fileID: 0}
+    - target: {fileID: 3678228788835208839, guid: e46ba34aab52d654787ef10d896b0874,
+        type: 3}
+      propertyPath: Armor.Bullet
+      value: 60
+      objectReference: {fileID: 0}
+    - target: {fileID: 3678228788835208839, guid: e46ba34aab52d654787ef10d896b0874,
+        type: 3}
+      propertyPath: Armor.Energy
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 3678228788835208839, guid: e46ba34aab52d654787ef10d896b0874,
+        type: 3}
+      propertyPath: Armor.Anomaly
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 3678228788835208839, guid: e46ba34aab52d654787ef10d896b0874,
+        type: 3}
+      propertyPath: initialIntegrity
+      value: 350
+      objectReference: {fileID: 0}
+    - target: {fileID: 3678228788835208839, guid: e46ba34aab52d654787ef10d896b0874,
+        type: 3}
+      propertyPath: Resistances.AcidProof
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3678228788835208839, guid: e46ba34aab52d654787ef10d896b0874,
+        type: 3}
+      propertyPath: Resistances.FireProof
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3678228788835208839, guid: e46ba34aab52d654787ef10d896b0874,
+        type: 3}
+      propertyPath: Resistances.LavaProof
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3678228788835208839, guid: e46ba34aab52d654787ef10d896b0874,
+        type: 3}
+      propertyPath: Resistances.FreezeProof
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3678228788835208839, guid: e46ba34aab52d654787ef10d896b0874,
+        type: 3}
+      propertyPath: Resistances.LightningDamageProof
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3782347747540316177, guid: e46ba34aab52d654787ef10d896b0874,
+        type: 3}
+      propertyPath: initialName
+      value: sample container
+      objectReference: {fileID: 0}
+    - target: {fileID: 3782347747540316177, guid: e46ba34aab52d654787ef10d896b0874,
+        type: 3}
+      propertyPath: initialSize
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3782347747540316177, guid: e46ba34aab52d654787ef10d896b0874,
+        type: 3}
+      propertyPath: initialDescription
+      value: Highly reinforced container for storing valuable samples.
+      objectReference: {fileID: 0}
+    - target: {fileID: 4421781600494999209, guid: e46ba34aab52d654787ef10d896b0874,
+        type: 3}
+      propertyPath: itemStorageCapacity
+      value: 
+      objectReference: {fileID: 11400000, guid: 305f2bdfaa6a5914ca12cba2f0591ec6,
+        type: 2}
+    - target: {fileID: 4421781600494999209, guid: e46ba34aab52d654787ef10d896b0874,
+        type: 3}
+      propertyPath: itemStorageStructure
+      value: 
+      objectReference: {fileID: 11400000, guid: ee76ba24a0cd443b1a308dd04cdb3678,
+        type: 2}
+    - target: {fileID: 6900997446700812531, guid: e46ba34aab52d654787ef10d896b0874,
+        type: 3}
+      propertyPath: canClickPickup
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6900997446700812531, guid: e46ba34aab52d654787ef10d896b0874,
+        type: 3}
+      propertyPath: denyStorageOfStorageItems
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7482199438493803764, guid: e46ba34aab52d654787ef10d896b0874,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 7a961c1a7758f8b43a30655c1660269f,
+        type: 2}
+    - target: {fileID: 7650131893140443934, guid: e46ba34aab52d654787ef10d896b0874,
+        type: 3}
+      propertyPath: foreverID
+      value: iKNN8B2RpF9kLZjYhO2C
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: e46ba34aab52d654787ef10d896b0874, type: 3}
