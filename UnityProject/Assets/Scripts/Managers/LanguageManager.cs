@@ -16,6 +16,10 @@ namespace Managers
 		private Dictionary<LanguageSO, Dictionary<string, string>> stringCache =
 			new Dictionary<LanguageSO, Dictionary<string, string>>(10);
 
+		[SerializeField]
+		private LanguageSO common = null;
+		public LanguageSO Common => common;
+
 		private const int CacheCapacity = 50;
 
 		private readonly List<char> endings = new List<char>{'!', '?', '.'};
