@@ -86,7 +86,7 @@ namespace Managers
 				convertedMessage.Remove(convertedMessage.Length - 1, 1);
 			}
 
-			var lastInput = message[message.Length];
+			var lastInput = message[^1];
 
 			//Add the ending of the input message if needed
 			foreach (var ending in endings)

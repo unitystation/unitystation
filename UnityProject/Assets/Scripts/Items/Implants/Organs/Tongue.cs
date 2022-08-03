@@ -14,7 +14,9 @@ namespace HealthV2
 		public override void AddedToBody(LivingHealthMasterBase livingHealth)
 		{
 			bodyPart = GetComponent<BodyPart>();
-			mobLanguages = GetComponent<MobLanguages>();
+			mobLanguages = livingHealth.GetComponent<MobLanguages>();
+
+			if(CustomNetworkManager.IsServer == false) return;
 
 			foreach (var language in languages)
 			{
@@ -24,6 +26,8 @@ namespace HealthV2
 
 		public override void RemovedFromBody(LivingHealthMasterBase livingHealth)
 		{
+			if(CustomNetworkManager.IsServer == false) return;
+
 			foreach (var language in languages)
 			{
 				//Don't remove the language if it is in the default list
