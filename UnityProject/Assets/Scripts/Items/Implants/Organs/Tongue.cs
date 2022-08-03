@@ -26,6 +26,9 @@ namespace HealthV2
 		{
 			foreach (var language in languages)
 			{
+				//Don't remove the language if it is in the default list
+				if(mobLanguages.DefaultLanguages != null && mobLanguages.DefaultLanguages.UnderstoodLanguages.Contains(language)) continue;
+
 				mobLanguages.RemoveLanguage(language, true);
 			}
 		}

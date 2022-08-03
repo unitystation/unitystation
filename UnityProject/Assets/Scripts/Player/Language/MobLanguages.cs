@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Managers;
 using Mirror;
+using UI.Chat_UI;
 using UnityEngine;
 
 namespace Player.Language
@@ -11,6 +12,7 @@ namespace Player.Language
 	{
 		[SerializeField]
 		private DefaultLanguageGroupSO defaultLanguages = null;
+		public DefaultLanguageGroupSO DefaultLanguages => defaultLanguages;
 
 		[SerializeField]
 		private bool omniTongue = false;
@@ -22,7 +24,10 @@ namespace Player.Language
 
 		public List<LanguageSO> BlockedLanguages { get; private set; } = new List<LanguageSO>();
 
-		//Language we are currently speaking
+		[SyncVar(hook = nameof(SyncCurrentLanguage))]
+		private ushort currentLanguageId = 0;
+
+		//Language we are currently speaking (valid server and client)
 		public LanguageSO CurrentLanguage { get; private set; }
 
 		//Only valid on owner player
@@ -84,6 +89,7 @@ namespace Player.Language
 			if (languageToChangeTo == null)
 			{
 				CurrentLanguage = languageToChangeTo;
+				currentLanguageId = 0;
 				Chat.AddExamineMsg(gameObject, "You are not speaking a language!");
 				return;
 			}
@@ -95,6 +101,7 @@ namespace Player.Language
 			}
 
 			CurrentLanguage = languageToChangeTo;
+			currentLanguageId = languageToChangeTo.LanguageUniqueId;
 
 			Chat.AddExamineMsg(gameObject, $"You will now speak in {languageToChangeTo.OrNull()?.LanguageName}");
 		}
@@ -129,6 +136,9 @@ namespace Player.Language
 
 			addedLanguages.Add(new NetworkLanguage {languageId = languageToLearn.LanguageUniqueId, canUnderstand = addedUnderstand,
 				canSpeak = addedSpeak});
+			netIdentity.isDirty = true;
+
+			ResetCurrentLanguage();
 		}
 
 		[Client]
@@ -147,6 +157,8 @@ namespace Player.Language
 		{
 			SpokenLanguages.Remove(languageToRemove);
 
+			ResetCurrentLanguage();
+
 			if (noLongerUnderstand == false)
 			{
 				if (isServer == false) return;
@@ -157,6 +169,7 @@ namespace Player.Language
 					if(language.languageId != languageToRemove.LanguageUniqueId) continue;
 
 					addedLanguages[i] = new NetworkLanguage { languageId = language.languageId, canUnderstand = true};
+					netIdentity.isDirty = true;
 					return;
 				}
 
@@ -173,6 +186,7 @@ namespace Player.Language
 				if(language.languageId != languageToRemove.LanguageUniqueId) continue;
 
 				addedLanguages.RemoveAt(i);
+				netIdentity.isDirty = true;
 			}
 		}
 
@@ -204,7 +218,7 @@ namespace Player.Language
 		void OnLanguageListChange(SyncList<NetworkLanguage>.Operation op, int index, NetworkLanguage oldItem,
 			NetworkLanguage newItem)
 		{
-			if(CustomNetworkManager.IsServer) return;
+			if(isLocalPlayer == false) return;
 
 			switch (op)
 			{
@@ -249,6 +263,30 @@ namespace Player.Language
 
 				RemoveLanguageClient(language, true);
 			}
+		}
+
+		private void SyncCurrentLanguage(ushort oldLanguage, ushort newLanguage)
+		{
+			if(isLocalPlayer == false) return;
+
+			currentLanguageId = newLanguage;
+
+			CurrentLanguage = LanguageManager.Instance.GetLanguageById(newLanguage);
+
+			ChatUI.Instance.LanguagePanel.Refresh();
+		}
+
+		[Command]
+		public void CmdChangeLanguage(ushort languageId)
+		{
+			var language = LanguageManager.Instance.GetLanguageById(languageId);
+			if (language == null || CanSpeakLanguage(language) == false)
+			{
+				Chat.AddExamineMsgFromServer(gameObject, "You do not know that language!");
+				return;
+			}
+
+			SetCurrentLanguage(language);
 		}
 
 		#endregion
