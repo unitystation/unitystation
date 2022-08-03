@@ -176,5 +176,16 @@ namespace Managers
 
 			allLanguages.Add(languageSo);
 		}
+
+#if UNITY_EDITOR
+
+		public string TestScramble(LanguageSO languageToTranslate, string message)
+		{
+			if (languageToTranslate == null) return message;
+
+			return InternalScramble(languageToTranslate, message);
+		}
+
+#endif
 	}
 }

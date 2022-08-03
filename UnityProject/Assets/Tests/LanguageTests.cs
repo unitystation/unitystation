@@ -54,5 +54,34 @@ namespace Tests
 
 			report.Log().AssertPassed();
 		}
+
+		[Test]
+		public void CheckLanguageScramble()
+		{
+			var report = new TestReport();
+
+			var languageManager = Utils.GetManager<LanguageManager>("LanguageManager");
+
+			if (languageManager == null)
+			{
+				report.Fail().Append("Failed to find LanguageManager!").Log().AssertPassed();
+				return;
+			}
+
+			var languages = Utils.FindAssetsByType<LanguageSO>().ToList();
+
+			var testing = "Hello, hello, this is a testing string";
+
+			foreach (var language in languages)
+			{
+				var scrambled = languageManager.TestScramble(language, string.Copy(testing));
+
+				if(scrambled != testing) continue;
+
+				report.Fail().Append($"Failed to scramble with {language.LanguageName}");
+			}
+
+			report.Log().AssertPassed();
+		}
 	}
 }
