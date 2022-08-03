@@ -33,7 +33,7 @@ namespace Objects
 
 		public override void OnPlayerStep(PlayerScript playerScript)
 		{
-			if(objectPhysics.registerTile.LocalPosition == Vector3Int.zero) return;
+			if(objectPhysics.registerTile.LocalPosition == TransformState.HiddenPos) return;
 			var health = playerScript.playerHealth;
 			HurtFeet(health); //Moving this to it's own function to keep things clean.
 			//Text and Audio feedback.
@@ -96,7 +96,7 @@ namespace Objects
 
 		public void OnInventoryMoveServer(InventoryMove info)
 		{
-			OnLocalPositionChangedServer(info.FromPlayer.OrNull()?.LocalPosition ?? Vector3Int.zero,
+			OnLocalPositionChangedServer(info.FromPlayer != null ? info.FromPlayer.LocalPosition : TransformState.HiddenPos,
 				objectPhysics.registerTile.LocalPosition);
 		}
 	}
