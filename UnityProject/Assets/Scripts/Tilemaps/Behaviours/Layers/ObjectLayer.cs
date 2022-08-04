@@ -143,6 +143,8 @@ public class ObjectLayer : Layer
 		{
 			foreach (var objectOnTile in matrix.Get<UniversalObjectPhysics>(originalTo, CustomNetworkManager.IsServer))
 			{
+				if(objectOnTile.Intangible) continue;
+
 				var bumpAbles = objectOnTile.GetComponents<IBumpableObject>();
 				foreach (var bump in bumpAbles)
 				{
