@@ -81,7 +81,7 @@ namespace Items.Devices
 			switch (currentState)
 			{
 				case AccessRemoteState.Open:
-					TryOpenDoor(doorController, accessModule);
+					TryOpenDoor(doorController, accessModule, interaction.Performer);
 					break;
 				case AccessRemoteState.Emergency:
 					if (accessModule == null)
