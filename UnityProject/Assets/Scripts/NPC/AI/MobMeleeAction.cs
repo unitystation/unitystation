@@ -314,7 +314,7 @@ namespace Systems.MobAIs
 			float timeElapsed = 0f;
 			while (isActing)
 			{
-				timeElapsed += MobController.UpdateTimeInterval;
+				timeElapsed += Time.deltaTime;;
 
 				if (timeElapsed > 3f)
 				{
@@ -365,7 +365,7 @@ namespace Systems.MobAIs
 				return;
 			}
 
-			lerpProgress += MobController.UpdateTimeInterval;
+			lerpProgress += Time.deltaTime;
 			spriteHolder.transform.localPosition = Vector3.Lerp(lerpFrom, lerpTo, lerpProgress * 7f);
 
 			if (spriteHolder.transform.localPosition != lerpTo && !(lerpProgress >= 1f))
