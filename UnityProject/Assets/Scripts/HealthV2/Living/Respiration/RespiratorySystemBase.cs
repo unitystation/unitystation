@@ -191,7 +191,7 @@ namespace HealthV2
 			}
 		}
 
-		private bool IsEVACompatible()
+		public bool IsEVACompatible()
 		{
 			if (playerScript == null)
 			{

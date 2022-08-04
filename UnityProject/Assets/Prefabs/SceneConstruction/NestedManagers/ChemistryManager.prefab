@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 719554624970346387}
   - component: {fileID: 8323392269443942647}
+  - component: {fileID: 6220009131274328809}
   m_Layer: 0
   m_Name: ChemistryManager
   m_TagString: Untagged
@@ -44,3 +45,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5b71d459e24ddb6498c6c75ce8c928db, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &6220009131274328809
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8246848079952268435}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d217af5fe3fe22c419fea825a6e1976a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  WallFoam: {fileID: 11400000, guid: e572dbae862787047b70b6f7786d2a6c, type: 2}
+  BaseFoam: {fileID: 11400000, guid: be81f0862c600cf4facb4c7084a85922, type: 2}
+  OverlayTileFoam: {fileID: 11400000, guid: 12a5d5199062c2e448ecb45dda1b6fa6, type: 2}

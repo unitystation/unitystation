@@ -38,6 +38,7 @@ public class MetaDataView : BasicView
 		localChecks.Add(new RadiationLevel());
 		localChecks.Add(new ElectricityVision());
 		localChecks.Add(new AtmosIsOccupied());
+		localChecks.Add(new HasSmoke());
 	}
 
 	public override void DrawContent()
@@ -502,6 +503,22 @@ public class MetaDataView : BasicView
 			{
 				Vector3 p = LocalToWorld(source, position);
 				GizmoUtils.DrawText($"{node.RoomNumber}", p, false);
+			}
+		}
+	}
+
+
+	private class HasSmoke : Check<MetaDataLayer>
+	{
+		public override string Label { get; } = "Smoke";
+
+		public override void DrawLabel(MetaDataLayer source, Vector3Int position)
+		{
+			MetaDataNode node = source.Get(position, false);
+
+			if (node.SmokeNode.IsActive)
+			{
+				GizmoUtils.DrawCube(position, Color.gray);
 			}
 		}
 	}
