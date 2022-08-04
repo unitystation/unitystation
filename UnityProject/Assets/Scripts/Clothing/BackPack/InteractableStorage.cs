@@ -70,6 +70,7 @@ public class InteractableStorage : MonoBehaviour, IClientInteractable<HandActiva
 
 	private bool allowedToInteract = false;
 
+	private CooldownInstance cooldown;
 
 	[SerializeField] private ActionData actionData = null;
 	public ActionData ActionData => actionData;
@@ -80,6 +81,11 @@ public class InteractableStorage : MonoBehaviour, IClientInteractable<HandActiva
 	{
 		get => preventUIShowingAfterTrapTrigger;
 		set => preventUIShowingAfterTrapTrigger = value;
+	}
+
+	private void Awake()
+	{
+		cooldown = new CooldownInstance { defaultTime = 0.5f };
 	}
 
 	/// <summary>
@@ -128,6 +134,7 @@ public class InteractableStorage : MonoBehaviour, IClientInteractable<HandActiva
 
 	private bool IsFull(GameObject usedObject, GameObject player, bool noMessage = false)
 	{
+		//NOTE: this wont fail on client if the storage they are checking is not being observered by them
 		if(itemStorage.GetNextFreeIndexedSlot() == null && usedObject != null)
 		{
 			if (noMessage == false)
@@ -169,7 +176,15 @@ public class InteractableStorage : MonoBehaviour, IClientInteractable<HandActiva
 		// we need to be the target - something is put inside us
 		if (interaction.TargetObject != gameObject) return false;
 		if (DefaultWillInteract.Default(interaction, side) == false) return false;
-		if (IsFull(interaction.UsedObject, interaction.Performer)) return false;
+
+		if (Cooldowns.IsOn(interaction, cooldown, side)) return false;
+
+		if (IsFull(interaction.UsedObject, interaction.Performer))
+		{
+			if (Cooldowns.TryStart(interaction, cooldown, side) == false) return false;
+
+			return false;
+		}
 		// item must be able to fit
 		// note: since this is in local player's inventory, we are safe to check this stuff on client side
 		if (!Validations.CanPutItemToStorage(interaction.Performer.GetComponent<PlayerScript>(),
@@ -199,7 +214,16 @@ public class InteractableStorage : MonoBehaviour, IClientInteractable<HandActiva
 		if (allowedToInteract == false) return false;
 		// Use default interaction checks
 		if (DefaultWillInteract.Default(interaction, side) == false) return false;
-		if (IsFull(interaction.UsedObject, interaction.Performer, interaction.IsHighlight)) return false;
+
+		if (interaction.IsHighlight == false && Cooldowns.IsOn(interaction, cooldown, side)) return false;
+
+		if (IsFull(interaction.UsedObject, interaction.Performer, interaction.IsHighlight))
+		{
+			if (interaction.IsHighlight == false &&
+			    Cooldowns.TryStart(interaction, cooldown, side) == false) return false;
+
+			return false;
+		}
 		// See which item needs to be stored
 		if (Validations.IsTarget(gameObject, interaction))
 		{
@@ -207,11 +231,14 @@ public class InteractableStorage : MonoBehaviour, IClientInteractable<HandActiva
 			if (interaction.HandObject == null)
 			{
 				// If player's hands are empty and alt-click let them open the bag
-				if (interaction.IsAltClick) return true;
+				if (interaction.IsAltClick)
+				{
+					return true;
+				}
 			}
 			else
 			{
-				//We have something in our hand, try to put it in
+				//We have something in our hand, try to put it in;
 				return true;
 			}
 		}
@@ -470,7 +497,7 @@ public class InteractableStorage : MonoBehaviour, IClientInteractable<HandActiva
 
 							PlayerManager.LocalPlayerScript.playerNetworkActions.CmdDropAllItems(itemStorage.GetIndexedItemSlot(0)
 							.ItemStorageNetID, interaction.WorldPositionTarget);
-						
+
 
 						Chat.AddExamineMsgFromServer(interaction.Performer, $"You start dumping out the {gameObject.ExpensiveName()}.");
 
