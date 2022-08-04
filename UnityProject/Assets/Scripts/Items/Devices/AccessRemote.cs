@@ -77,11 +77,16 @@ namespace Items.Devices
 			if(doorController == null) return;
 			AccessModule accessModule = interaction.TargetObject.GetComponentInChildren<AccessModule>();
 			Chat.AddExamineMsg(interaction.Performer, $"You use access remote on: {doorController.gameObject.ExpensiveName()}");
+			if (accessModule != null && accessModule.ProcessCheckAccess(access) == false)
+			{
+				Chat.AddExamineMsg(interaction.Performer, "This remote does not contain the required access.");
+				return;
+			}
 
 			switch (currentState)
 			{
 				case AccessRemoteState.Open:
-					TryOpenDoor(doorController, accessModule, interaction.Performer);
+					TryOpenDoor(doorController, interaction.Performer);
 					break;
 				case AccessRemoteState.Emergency:
 					if (accessModule == null)
@@ -101,7 +106,7 @@ namespace Items.Devices
 					boltsModule.ToggleBolts();
 					break;
 				default:
-					TryOpenDoor(doorController, accessModule, interaction.Performer);
+					TryOpenDoor(doorController, interaction.Performer);
 					break;
 			}
 		}
@@ -112,9 +117,8 @@ namespace Items.Devices
 			currentState = newState;
 		}
 
-		private void TryOpenDoor(DoorMasterController controller, AccessModule module, GameObject performer)
+		private void TryOpenDoor(DoorMasterController controller, GameObject performer)
 		{
-			if (module != null && module.ProcessCheckAccess(access) == false) return;
 			if (controller.IsClosed)
 			{
 				controller.TryOpen(performer);
