@@ -218,14 +218,16 @@ public class InteractableStorage : MonoBehaviour, IClientInteractable<HandActiva
 				// If player's hands are empty and alt-click let them open the bag
 				if (interaction.IsAltClick)
 				{
-					if (Cooldowns.TryStart(interaction, cooldown, side) == false) return false;
+					if (interaction.IsHighlight == false &&
+					    Cooldowns.TryStart(interaction, cooldown, side) == false) return false;
 					return true;
 				}
 			}
 			else
 			{
 				//We have something in our hand, try to put it in
-				if (Cooldowns.TryStart(interaction, cooldown, side) == false) return false;
+				if (interaction.IsHighlight == false &&
+				    Cooldowns.TryStart(interaction, cooldown, side) == false) return false;
 				return true;
 			}
 		}
