@@ -1,6 +1,5 @@
 ﻿using HealthV2;
 using Mirror;
-using UnityEngine;
 
 namespace Player
 {

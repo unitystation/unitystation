@@ -910,6 +910,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 			{
 				if (push == this) continue;
 				if (push == pushedBy) continue;
+				if (push.Intangible) continue;
 				if (Pulling.HasComponent && Pulling.Component == push) continue;
 				if (PulledBy.HasComponent && PulledBy.Component == push) continue;
 				if (pushedBy == null)
@@ -1783,7 +1784,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 		foreach (var enterTileBase in loopTo)
 		{
 			if (enterTileBase.WillAffectObject(gameObject) == false) continue;
-			enterTileBase.WillAffectObject(gameObject);
+			enterTileBase.OnObjectEnter(gameObject);
 		}
 	}
 

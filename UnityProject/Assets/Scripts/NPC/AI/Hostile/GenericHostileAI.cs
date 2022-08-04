@@ -150,7 +150,7 @@ namespace Systems.MobAIs
 			//We have target but not acting, so force do something
 			else
 			{
-				forceActionWaitTime += Time.deltaTime;
+				forceActionWaitTime += MobController.UpdateTimeInterval;
 				if (forceActionWaitTime >= forceActionTickRate)
 				{
 					forceActionWaitTime = 0f;
@@ -260,8 +260,8 @@ namespace Systems.MobAIs
 		/// </summary>
 		protected virtual void HandleSearch()
 		{
-			moveWaitTime += Time.deltaTime;
-			searchWaitTime += Time.deltaTime;
+			moveWaitTime += MobController.UpdateTimeInterval;
+			searchWaitTime += MobController.UpdateTimeInterval;
 			if (!(searchWaitTime >= searchTickRate)) return;
 			searchWaitTime = 0f;
 			var findTarget = SearchForTarget();
