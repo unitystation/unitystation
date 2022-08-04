@@ -101,7 +101,7 @@ namespace Items.Devices
 					boltsModule.ToggleBolts();
 					break;
 				default:
-					TryOpenDoor(doorController, accessModule);
+					TryOpenDoor(doorController, accessModule, interaction.Performer);
 					break;
 			}
 		}
@@ -112,12 +112,12 @@ namespace Items.Devices
 			currentState = newState;
 		}
 
-		private void TryOpenDoor(DoorMasterController controller, AccessModule module)
+		private void TryOpenDoor(DoorMasterController controller, AccessModule module, GameObject performer)
 		{
 			if (module != null && module.ProcessCheckAccess(access) == false) return;
 			if (controller.IsClosed)
 			{
-				controller.TryForceOpen();
+				controller.TryOpen(performer);
 				return;
 			}
 			controller.TryClose();
