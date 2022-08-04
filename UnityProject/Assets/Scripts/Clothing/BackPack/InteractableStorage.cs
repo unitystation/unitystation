@@ -70,6 +70,7 @@ public class InteractableStorage : MonoBehaviour, IClientInteractable<HandActiva
 
 	private bool allowedToInteract = false;
 
+	private CooldownInstance cooldown;
 
 	[SerializeField] private ActionData actionData = null;
 	public ActionData ActionData => actionData;
@@ -80,6 +81,11 @@ public class InteractableStorage : MonoBehaviour, IClientInteractable<HandActiva
 	{
 		get => preventUIShowingAfterTrapTrigger;
 		set => preventUIShowingAfterTrapTrigger = value;
+	}
+
+	private void Awake()
+	{
+		cooldown = new CooldownInstance() { defaultTime = 1f };
 	}
 
 	/// <summary>
@@ -128,6 +134,7 @@ public class InteractableStorage : MonoBehaviour, IClientInteractable<HandActiva
 
 	private bool IsFull(GameObject usedObject, GameObject player, bool noMessage = false)
 	{
+		//NOTE: this wont fail on client if the storage they are checking is not being observered by them
 		if(itemStorage.GetNextFreeIndexedSlot() == null && usedObject != null)
 		{
 			if (noMessage == false)
@@ -175,6 +182,8 @@ public class InteractableStorage : MonoBehaviour, IClientInteractable<HandActiva
 		if (!Validations.CanPutItemToStorage(interaction.Performer.GetComponent<PlayerScript>(),
 			itemStorage, interaction.UsedObject, side, examineRecipient: interaction.Performer)) return false;
 
+		if (Cooldowns.TryStart(interaction, cooldown, side) == false) return false;
+
 		return true;
 	}
 
@@ -207,11 +216,16 @@ public class InteractableStorage : MonoBehaviour, IClientInteractable<HandActiva
 			if (interaction.HandObject == null)
 			{
 				// If player's hands are empty and alt-click let them open the bag
-				if (interaction.IsAltClick) return true;
+				if (interaction.IsAltClick)
+				{
+					if (Cooldowns.TryStart(interaction, cooldown, side) == false) return false;
+					return true;
+				}
 			}
 			else
 			{
 				//We have something in our hand, try to put it in
+				if (Cooldowns.TryStart(interaction, cooldown, side) == false) return false;
 				return true;
 			}
 		}
@@ -470,7 +484,7 @@ public class InteractableStorage : MonoBehaviour, IClientInteractable<HandActiva
 
 							PlayerManager.LocalPlayerScript.playerNetworkActions.CmdDropAllItems(itemStorage.GetIndexedItemSlot(0)
 							.ItemStorageNetID, interaction.WorldPositionTarget);
-						
+
 
 						Chat.AddExamineMsgFromServer(interaction.Performer, $"You start dumping out the {gameObject.ExpensiveName()}.");
 
