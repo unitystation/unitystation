@@ -1784,7 +1784,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 		foreach (var enterTileBase in loopTo)
 		{
 			if (enterTileBase.WillAffectObject(gameObject) == false) continue;
-			enterTileBase.WillAffectObject(gameObject);
+			enterTileBase.OnObjectEnter(gameObject);
 		}
 	}
 
