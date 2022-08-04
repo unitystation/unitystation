@@ -131,3 +131,4 @@ namespace Items.Devices
 /// This should use the signal manager one day ///
 /// But it seems like I need to rework signals to use interfaces ///
 /// Because changing the base class of componenets doesn't sound fun ///
+/// Why can't C# let you have more than one class inherited at the same time?? ///
