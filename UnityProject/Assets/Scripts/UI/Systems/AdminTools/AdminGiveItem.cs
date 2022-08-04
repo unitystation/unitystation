@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using AdminCommands;
 using AdminTools;
 using TMPro;
 using UnityEngine;
@@ -11,7 +12,7 @@ namespace UI.Systems.AdminTools
 	public class AdminGiveItem : MonoBehaviour
 	{
 		private SpawnerSearch spawnerSearch;
-		public GameObject selectedPlayer;
+		public string selectedPlayerId;
 
 		[SerializeField] private List<GameObject> recommendedGameObjects;
 
@@ -89,20 +90,8 @@ namespace UI.Systems.AdminTools
 
 		public void GiveItem(DevSpawnerDocument selectedPrefab)
 		{
-			if(selectedPlayer == null || selectedPlayer.TryGetComponent<PlayerScript>(out var script) == false) return;
 			var count = Convert.ToInt32(countInput.text);
-			var item = Spawn.ServerPrefab(selectedPrefab.Prefab, script.mind.body.gameObject.AssumedWorldPosServer());
-			var slot = script.DynamicItemStorage.GetBestHandOrSlotFor(item.GameObject);
-			if (item.GameObject.TryGetComponent<Stackable>(out var stackable) && stackable.MaxAmount <= count)
-			{
-				stackable.ServerSetAmount(count);
-			}
-			if (slot != null)
-			{
-				Inventory.ServerAdd(item.GameObject, slot);
-			}
-			if(string.IsNullOrEmpty(messageInput.text) == false) Chat.AddExamineMsg(selectedPlayer, messageInput.text);
-			Chat.AddExamineMsg(PlayerManager.LocalPlayerObject, $"You have given {script.visibleName} : {item.GameObject.ExpensiveName()}");
+			AdminCommandsManager.Instance.CmdGivePlayerItem(selectedPlayerId, selectedPrefab.Prefab.name, count, messageInput.text);
 		}
 
 		public void GoBack()

@@ -100,7 +100,7 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 3198259993131326408}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &8973668786470349245
+--- !u!114 &2598835286978359831
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -109,14 +109,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 278567592626375938}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4ac414987522b024e895aac3e21193d0, type: 3}
+  m_Script: {fileID: 11500000, guid: 73c8a0e70c3343fd9c7d764c28769377, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   isEMPVunerable: 0
   EMPResistance: 2
   walkingSpeed: 1.5
   runningSpeed: 3
-  crawlingSpeed: 0.1
-  armEfficiency: 0.1
   legEfficiency: 1
-  IsLeg: 1

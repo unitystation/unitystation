@@ -280,6 +280,7 @@ public partial class Chat
 			string[] _ghostVerbs = {"cries", "moans"};
 			return AddMsgColor(channels, $"[dead] <b>{speaker}</b> {_ghostVerbs.PickRandom()}: {message}");
 		}
+
 		string verb = "says,";
 
 		if ((modifiers & ChatModifier.Mute) == ChatModifier.Mute)
@@ -321,6 +322,11 @@ public partial class Chat
 		else if ((modifiers & ChatModifier.Question) == ChatModifier.Question)
 		{
 			verb = "asks,";
+		}
+
+		if (string.IsNullOrEmpty(speaker))
+		{
+			verb = "";
 		}
 
 		var chan = $"[{channels.ToString().ToLower().Substring(0, 3)}] ";
