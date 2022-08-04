@@ -867,7 +867,7 @@ namespace Doors
 
 				if (module is ElectrifiedDoorModule electric)
 				{
-					valuesToSend.Add(new ElementValue() { Id = "ShockStateLabel", Value = Encoding.UTF8.GetBytes(electric.IsElectrecuted ? "DANGER" : "SAFE") });
+					valuesToSend.Add(new ElementValue() { Id = "ShockStateLabel", Value = Encoding.UTF8.GetBytes(electric.IsElectrified ? "DANGER" : "SAFE") });
 				}
 			}
 

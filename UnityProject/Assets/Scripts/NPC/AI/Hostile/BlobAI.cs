@@ -71,13 +71,13 @@ namespace Systems.MobAIs
 
 			if (currentStatus == MobStatus.Searching)
 			{
-				moveWaitTime += Time.deltaTime;
+				moveWaitTime += MobController.UpdateTimeInterval;
 				if (moveWaitTime >= movementTickRate)
 				{
 					moveWaitTime = 0f;
 				}
 
-				searchWaitTime += Time.deltaTime;
+				searchWaitTime += MobController.UpdateTimeInterval;
 				if (searchWaitTime >= searchTickRate)
 				{
 					searchWaitTime = 0f;

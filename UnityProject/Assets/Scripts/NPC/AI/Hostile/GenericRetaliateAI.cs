@@ -17,7 +17,7 @@ namespace Systems.MobAIs
 
 		protected override void HandleSearch()
 		{
-			moveWaitTime += Time.deltaTime;
+			moveWaitTime += MobController.UpdateTimeInterval;
 			if (moveWaitTime <= movementTickRate)
 			{
 				return;

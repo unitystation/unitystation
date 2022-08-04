@@ -637,4 +637,9 @@ public static class SweetExtensions
 			_ => Vector3Int.zero
 		};
 	}
+
+	public static string RemovePunctuation(this string input)
+	{
+		return new string(input.Where(c => !char.IsPunctuation(c)).ToArray());
+	}
 }

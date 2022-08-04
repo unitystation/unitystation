@@ -16,7 +16,7 @@ namespace Objects.Command
 	/// <summary>
 	/// Main component for nuke.
 	/// </summary>
-	public class Nuke : NetworkBehaviour, ICheckedInteractable<HandApply>, IAdminInfo, IServerSpawn
+	public class Nuke : NetworkBehaviour, ICheckedInteractable<HandApply>, IAdminInfo, IServerLifecycle
 	{
 		public NukeTimerEvent OnTimerUpdate = new NukeTimerEvent();
 
@@ -88,6 +88,18 @@ namespace Objects.Command
 			{
 				nukeCode = CodeGenerator();
 			}
+		}
+
+		private void OnDisable()
+		{
+			//Stop nuke detonating after round end or if its been destroyed!
+			StopAllCoroutines();
+		}
+
+		public void OnDespawnServer(DespawnInfo info)
+		{
+			//Stop nuke detonating after round end or if its been destroyed!
+			StopAllCoroutines();
 		}
 
 		public static int CodeGenerator()

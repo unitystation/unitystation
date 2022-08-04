@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using AddressableReferences;
+using HealthV2;
 using Messages.Server.SoundMessages;
 
 namespace Weapons
@@ -60,6 +61,21 @@ namespace Weapons
 				SoundManager.PlayNetworkedAtPos(rechargeSound, gameObject.AssumedWorldPosServer(), sourceObj: serverHolder);
 			}
 			allowRecharge = true;
+		}
+
+		protected override IEnumerator SuicideAction(GameObject performer)
+		{
+			var playerHealth = performer.GetComponent<PlayerHealthV2>();
+			foreach (var bodyPart in playerHealth.SurfaceBodyParts)
+			{
+				if(bodyPart.BodyPartType != BodyPartType.Head) continue;
+				playerHealth.DismemberBodyPart(bodyPart);
+				break;
+			}
+			playerHealth.Death(); //Just incase
+			string suicideMessage = $"{playerHealth.playerScript.visibleName} puts the gun to his mouth before blowing off his head completely.";
+			Chat.AddActionMsgToChat(performer, suicideMessage, suicideMessage);
+			yield return null;
 		}
 	}
 }

@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using Mirror;
+using Player;
 
 namespace Messages.Server
 {
@@ -7,13 +8,13 @@ namespace Messages.Server
 	{
 		public struct NetMessage : NetworkMessage
 		{
-			public uint netId;
+			public uint NetId;
 			public short SpriteIndex;
 		}
 
 		public override void Process(NetMessage msg)
 		{
-			LoadNetworkObject(msg.netId);
+			LoadNetworkObject(msg.NetId);
 			if(NetworkObject == null) return;
 			if(NetworkObject.TryGetComponent<PlayerScript>(out var playerScript) == false) return;
 
@@ -22,13 +23,13 @@ namespace Messages.Server
 
 		public static void Send(PlayerScript infectedPlayer, short spriteIndex)
 		{
-			//Send to aliens and ghosts
+			//Send to all who have AlienInfectionViewer
 			var players = PlayerList.Instance.InGamePlayers.Where(x =>
-				x.Script.PlayerType is PlayerTypes.Alien or PlayerTypes.Ghost);
+				x.Script.GetComponent<AlienInfectionViewer>() != null);
 
 			var msg = new NetMessage
 			{
-				netId = infectedPlayer.netId,
+				NetId = infectedPlayer.netId,
 				SpriteIndex = spriteIndex
 			};
 
@@ -42,7 +43,7 @@ namespace Messages.Server
 		{
 			var msg = new NetMessage
 			{
-				netId = infectedPlayer.netId,
+				NetId = infectedPlayer.netId,
 				SpriteIndex = spriteIndex
 			};
 
