@@ -176,13 +176,19 @@ public class InteractableStorage : MonoBehaviour, IClientInteractable<HandActiva
 		// we need to be the target - something is put inside us
 		if (interaction.TargetObject != gameObject) return false;
 		if (DefaultWillInteract.Default(interaction, side) == false) return false;
-		if (IsFull(interaction.UsedObject, interaction.Performer)) return false;
+
+		if (Cooldowns.IsOn(interaction, cooldown, side)) return false;
+
+		if (IsFull(interaction.UsedObject, interaction.Performer))
+		{
+			if (Cooldowns.TryStart(interaction, cooldown, side) == false) return false;
+
+			return false;
+		}
 		// item must be able to fit
 		// note: since this is in local player's inventory, we are safe to check this stuff on client side
 		if (!Validations.CanPutItemToStorage(interaction.Performer.GetComponent<PlayerScript>(),
 			itemStorage, interaction.UsedObject, side, examineRecipient: interaction.Performer)) return false;
-
-		if (Cooldowns.TryStart(interaction, cooldown, side) == false) return false;
 
 		return true;
 	}
@@ -208,7 +214,16 @@ public class InteractableStorage : MonoBehaviour, IClientInteractable<HandActiva
 		if (allowedToInteract == false) return false;
 		// Use default interaction checks
 		if (DefaultWillInteract.Default(interaction, side) == false) return false;
-		if (IsFull(interaction.UsedObject, interaction.Performer, interaction.IsHighlight)) return false;
+
+		if (interaction.IsHighlight == false && Cooldowns.IsOn(interaction, cooldown, side)) return false;
+
+		if (IsFull(interaction.UsedObject, interaction.Performer, interaction.IsHighlight))
+		{
+			if (interaction.IsHighlight == false &&
+			    Cooldowns.TryStart(interaction, cooldown, side) == false) return false;
+
+			return false;
+		}
 		// See which item needs to be stored
 		if (Validations.IsTarget(gameObject, interaction))
 		{
@@ -218,16 +233,12 @@ public class InteractableStorage : MonoBehaviour, IClientInteractable<HandActiva
 				// If player's hands are empty and alt-click let them open the bag
 				if (interaction.IsAltClick)
 				{
-					if (interaction.IsHighlight == false &&
-					    Cooldowns.TryStart(interaction, cooldown, side) == false) return false;
 					return true;
 				}
 			}
 			else
 			{
-				//We have something in our hand, try to put it in
-				if (interaction.IsHighlight == false &&
-				    Cooldowns.TryStart(interaction, cooldown, side) == false) return false;
+				//We have something in our hand, try to put it in;
 				return true;
 			}
 		}
