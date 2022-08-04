@@ -20,7 +20,7 @@ using Weapons.Projectiles;
 namespace Systems.Antagonists
 {
 	public class AlienPlayer : NetworkBehaviour, IServerActionGUIMulti, ICooldown, IServerLifecycle, IOnPlayerTransfer,
-		IOnPlayerRejoin
+		IOnPlayerRejoin, IOnPlayerLeaveBody
 	{
 		[Header("Sprite Stuff")]
 		[SerializeField]
@@ -36,13 +36,6 @@ namespace Systems.Antagonists
 		[SerializeField]
 		private List<AlienTypeDataSO> typesToChoose = new List<AlienTypeDataSO>();
 		public List<AlienTypeDataSO> TypesToChoose => typesToChoose;
-
-		[SerializeField]
-		private AlienTypes startingAlienType = AlienTypes.Larva1;
-
-		private List<ActionData> actionData = new List<ActionData>();
-
-		public List<ActionData> ActionData => actionData;
 
 		#region ActionData
 
@@ -126,22 +119,21 @@ namespace Systems.Antagonists
 		private static bool queenInHive;
 
 		//Current alien data SO
-		private AlienTypeDataSO currentData;
-		public AlienTypeDataSO CurrentData => currentData;
+		[SerializeField]
+		private AlienTypeDataSO alienType;
+		public AlienTypeDataSO AlienType => alienType;
+		public AlienTypes CurrentAlienType => alienType.AlienType;
+		public List<ActionData> ActionData => alienType.ActionData;
 
 		[SyncVar]
 		private AlienMode currentAlienMode;
 		public AlienMode CurrentAlienMode => currentAlienMode;
 
-		[SyncVar(hook = nameof(SyncAlienType))]
-		private AlienTypes currentAlienType;
-		public AlienTypes CurrentAlienType => currentAlienType;
-
 		//Plasma value (increase by being on weeds)
 		[SyncVar]
 		private int currentPlasma;
 		public int CurrentPlasma => currentPlasma;
-		public float CurrentPlasmaPercentage => (currentPlasma / (float)currentData.MaxPlasma) * 100;
+		public float CurrentPlasmaPercentage => (currentPlasma / (float)alienType.MaxPlasma) * 100;
 
 		private LivingHealthMasterBase livingHealthMasterBase;
 		public LivingHealthMasterBase LivingHealthMasterBase => livingHealthMasterBase;
@@ -160,7 +152,7 @@ namespace Systems.Antagonists
 
 		private bool onWeeds;
 
-		private int nameNumber = -1;
+		private int nameNumber = 0;
 
 		public float DefaultTime => 5f;
 
@@ -179,7 +171,7 @@ namespace Systems.Antagonists
 
 		private List<ActionData> toggles = new List<ActionData>();
 
-		public bool IsLarva => currentData.AlienType is AlienTypes.Larva1 or AlienTypes.Larva2 or AlienTypes.Larva3;
+		public bool IsLarva => alienType.AlienType is AlienTypes.Larva1 or AlienTypes.Larva2 or AlienTypes.Larva3;
 
 		//0 if theres a player in body
 		private uint createdRoleKey;
@@ -187,6 +179,8 @@ namespace Systems.Antagonists
 		private float disconnectTime;
 
 		private CharacterSheet characterSheet;
+
+		private bool firstTimeSetup;
 
 		#region LifeCycle
 
@@ -244,23 +238,16 @@ namespace Systems.Antagonists
 			playerScript.PlayerSync.MovementStateEventServer.RemoveListener(OnMovementTypeChange);
 		}
 
-		public void OnSpawnServer(SpawnInfo info)
-		{
-			SetNewPlayer(startingAlienType);
-
-			//This triggers the spawning of the alien body parts
-			playerScript.playerSprites.OnCharacterSettingsChange(characterSheet);
-		}
-
 		public override void OnStartLocalPlayer()
 		{
 			if(isLocalPlayer == false) return;
 
+			AddNewActions();
+
+			UIManager.Instance.panelHudBottomController.AlienUI.SetActive(true);
 			UIManager.Instance.panelHudBottomController.AlienUI.SetUp(this);
 
 			alienLight.SetActive(true);
-
-			ResetActions();
 		}
 
 		public override void OnStopLocalPlayer()
@@ -268,6 +255,14 @@ namespace Systems.Antagonists
 			alienLight.SetActive(false);
 
 			RemoveOldActions();
+
+			UIManager.Instance.panelHudBottomController.AlienUI.TurnOff();
+		}
+
+		public void OnSpawnServer(SpawnInfo info)
+		{
+			//This triggers the spawning of the alien body parts
+			playerScript.playerSprites.OnCharacterSettingsChange(characterSheet);
 		}
 
 		#endregion
@@ -275,13 +270,12 @@ namespace Systems.Antagonists
 		#region Setup
 
 		[Server]
-		public void SetNewPlayer(AlienTypes newAlien)
+		public void SetNewPlayer()
 		{
-			if(isServer == false) return;
+			if(isServer == false || firstTimeSetup) return;
+			firstTimeSetup = true;
 
-			Evolve(newAlien, false);
-
-			if (currentData.AlienType == AlienTypes.Queen)
+			if (alienType.AlienType == AlienTypes.Queen)
 			{
 				queenCount++;
 				nameNumber = queenCount;
@@ -293,7 +287,7 @@ namespace Systems.Antagonists
 				nameNumber = alienCount;
 			}
 
-			SetName(true, currentData);
+			SetUpFromPrefab(null, true);
 
 			if (CurrentAlienType is AlienTypes.Larva1 or AlienTypes.Larva2 or AlienTypes.Larva3)
 			{
@@ -301,13 +295,13 @@ namespace Systems.Antagonists
 				return;
 			}
 
-			Chat.AddExamineMsgFromServer(gameObject, $"You are a {currentAlienType.ToString()}. Use :a to communicate with the hivemind.");
+			Chat.AddExamineMsgFromServer(gameObject, $"You are a {CurrentAlienType.ToString()}. Use :a to communicate with the hivemind.");
 		}
 
 		[ContextMenu("To Queen")]
 		public void ToQueen()
 		{
-			SetNewPlayer(AlienTypes.Queen);
+			Evolve(AlienTypes.Queen);
 		}
 
 		#endregion
@@ -318,7 +312,7 @@ namespace Systems.Antagonists
 		{
 			if(CustomNetworkManager.IsServer == false) return;
 
-			if(currentData == null) return;
+			if(alienType == null) return;
 
 			//Dead...
 			if(livingHealthMasterBase.IsDead) return;
@@ -341,25 +335,38 @@ namespace Systems.Antagonists
 		[SyncVar]
 		private int growth;
 
+		private bool didMessage;
+		private bool openedEvolveMenu;
+
 		private void GrowthUpdate()
 		{
 			if(currentPlasma <= 0) return;
 
-			if (growth < currentData.MaxGrowth)
+			if (growth < alienType.MaxGrowth)
 			{
 				growth++;
+				didMessage = false;
+				openedEvolveMenu = false;
 				return;
 			}
 
-			Chat.AddExamineMsgFromServer(gameObject, "You are fully grown!");
+			if (didMessage)
+			{
+				didMessage = true;
+				Chat.AddExamineMsgFromServer(gameObject, "You are fully grown!");
+			}
 
 			//At max growth (100) is early larva then auto evolve, otherwise add Action Button
 			if (CurrentAlienType is AlienTypes.Larva1 or AlienTypes.Larva2)
 			{
-				Evolve(CurrentAlienType == AlienTypes.Larva1 ? AlienTypes.Larva2 : AlienTypes.Larva3);
+				Evolve(CurrentAlienType == AlienTypes.Larva1 ? AlienTypes.Larva2 : AlienTypes.Larva3, false);
+				return;
 			}
 
-			if (CurrentAlienType != AlienTypes.Larva3 && connectionToClient != null) return;
+			if (CurrentAlienType != AlienTypes.Larva3 || connectionToClient != null) return;
+
+			if(openedEvolveMenu) return;
+			openedEvolveMenu = true;
 
 			RpcOpenEvolveMenu();
 		}
@@ -368,6 +375,12 @@ namespace Systems.Antagonists
 		private void RpcOpenEvolveMenu()
 		{
 			UIManager.Instance.panelHudBottomController.AlienUI.OpenEvolveMenu();
+		}
+
+		[ContextMenu("Set growth 100%")]
+		private void SetGrowthFull()
+		{
+			growth = AlienType.MaxGrowth;
 		}
 
 		#endregion
@@ -414,56 +427,90 @@ namespace Systems.Antagonists
 				return;
 			}
 
+			var newAlienData = typeFound[0];
+
+			if (newAlienData == alienType)
+			{
+				Chat.AddExamineMsgFromServer(gameObject, $"You are already an {newAlien.ToString()}");
+				return;
+			}
+
 			Chat.AddActionMsgToChat(gameObject, "You begin to evolve!",
 				$"{playerScript.playerName} begins to twist and contort!");
 
-			var old = currentData;
-			currentData = typeFound[0];
-			actionData = currentData.ActionData;
-			currentAlienType = currentData.AlienType;
+			var spawnResult = Spawn.ServerPrefab(newAlienData.AlienPrefab, playerScript.objectPhysics.OfficialPosition);
+			if (spawnResult.Successful == false)
+			{
+				Logger.LogError($"Failed to spawn alien type: {newAlien.ToString()}!");
+				return;
+			}
+
+			Chat.AddExamineMsgFromServer(gameObject, $"You evolve into a {alienType.Name}!");
+
+			var newAlienPlayer = spawnResult.GameObject.GetComponent<AlienPlayer>();
+
+			newAlienPlayer.SetUpFromPrefab(alienType, changeName, nameNumber);
+
+			if (playerScript.mind != null)
+			{
+				var connection = connectionToClient;
+				PlayerSpawn.ServerTransferPlayerToNewBody(connection, playerScript.mind,
+					newAlienPlayer.gameObject, Event.PlayerSpawned, null);
+			}
+
+			newAlienPlayer.DoConnectCheck();
+
+			_ = Despawn.ServerSingle(gameObject);
+		}
+
+		private void SetUpFromPrefab(AlienTypeDataSO old, bool changeName = false, int oldNameNumber = -1)
+		{
+			firstTimeSetup = true;
+
+			if (changeName == false)
+			{
+				nameNumber = oldNameNumber;
+			}
+
 			growth = 0;
-			currentPlasma = currentData.InitialPlasma;
+			currentPlasma = alienType.InitialPlasma;
 
 			SetUpNewHealthValues();
 
 			ChangeAlienMode(AlienMode.Normal);
 
-			playerScript.weaponNetworkActions.SetNewDamageValues(currentData.AttackSpeed,
-				currentData.AttackDamage, currentData.DamageType, currentData.ChanceToHit);
+			playerScript.weaponNetworkActions.SetNewDamageValues(alienType.AttackSpeed,
+				alienType.AttackDamage, alienType.DamageType, alienType.ChanceToHit);
 
-			Chat.AddExamineMsgFromServer(gameObject, $"You evolve into a {currentData.Name}!");
-
-			if(changeName == false) return;
-
-			SetName(false, old);
+			SetName(changeName, old);
 		}
 
-		private void SetName(bool newlyJoined, AlienTypeDataSO old)
+		private void SetName(bool changeName, AlienTypeDataSO old)
 		{
-			if (newlyJoined == false)
+			if (changeName == false)
 			{
-				SpawnBannerMessage.Send(gameObject, currentData.Name, null, Color.green, Color.black, false);
+				SpawnBannerMessage.Send(gameObject, alienType.Name, null, Color.green, Color.black, false);
 			}
 
 			//Set new name
-			if (currentData.AlienType == AlienTypes.Queen)
+			if (alienType.AlienType == AlienTypes.Queen)
 			{
-				playerScript.playerName = $"{currentData.Name} {nameNumber}";
+				playerScript.playerName = $"{alienType.Name} {nameNumber}";
 				Chat.AddChatMsgToChatServer($"A new queen: {playerScript.playerName} has joined the hive, rejoice!",
 					ChatChannel.Alien, Loudness.SCREAMING);
 			}
 			else
 			{
-				if (newlyJoined)
+				if (changeName)
 				{
-					playerScript.playerName = $"{currentData.Name} {nameNumber:D3}";
+					playerScript.playerName = $"{alienType.Name} {nameNumber:D3}";
 					Chat.AddChatMsgToChatServer($"{playerScript.playerName} has joined the hive, rejoice!",
 						ChatChannel.Alien, Loudness.LOUD);
 				}
 				else
 				{
-					playerScript.playerName = $"{currentData.Name} {nameNumber:D3}";
-					Chat.AddChatMsgToChatServer($"{old.Name} {nameNumber:D3} has evolved into a {currentData.Name}!",
+					playerScript.playerName = $"{alienType.Name} {nameNumber:D3}";
+					Chat.AddChatMsgToChatServer($"{old.Name} {nameNumber:D3} has evolved into a {alienType.Name}!",
 						ChatChannel.Alien, Loudness.LOUD);
 				}
 			}
@@ -472,7 +519,7 @@ namespace Systems.Antagonists
 		[Command]
 		public void CmdEvolve(AlienTypes newType)
 		{
-			if (growth < currentData.MaxGrowth)
+			if (growth < alienType.MaxGrowth)
 			{
 				Chat.AddExamineMsgFromServer(gameObject, "You need to mature more!");
 				return;
@@ -488,7 +535,7 @@ namespace Systems.Antagonists
 
 			var newData = typeFound[0];
 
-			if (newData.EvolvedFrom.HasFlag(currentAlienType) == false)
+			if (newData.EvolvedFrom.HasFlag(CurrentAlienType) == false)
 			{
 				Chat.AddExamineMsgFromServer(gameObject, "You cannot evolve into that alien type!");
 				return;
@@ -500,7 +547,7 @@ namespace Systems.Antagonists
 				return;
 			}
 
-			Evolve(newData.AlienType);
+			Evolve(newData.AlienType, false);
 		}
 
 		#endregion
@@ -510,12 +557,12 @@ namespace Systems.Antagonists
 		private void PlasmaCheck()
 		{
 			//Don't need to check if full
-			if(currentPlasma == currentData.MaxPlasma) return;
+			if(currentPlasma == alienType.MaxPlasma) return;
 
 			//Need to be on weeds
 			if(onWeeds == false) return;
 
-			TryAddPlasma(currentPlasma + currentData.PlasmaGainRate);
+			TryAddPlasma(currentPlasma + alienType.PlasmaGainRate);
 		}
 
 		[Server]
@@ -555,9 +602,9 @@ namespace Systems.Antagonists
 		[Server]
 		private void TryAddPlasma(int toAdd)
 		{
-			if (currentPlasma + toAdd > currentData.MaxPlasma)
+			if (currentPlasma + toAdd > alienType.MaxPlasma)
 			{
-				currentPlasma = currentData.MaxPlasma;
+				currentPlasma = alienType.MaxPlasma;
 				return;
 			}
 
@@ -647,9 +694,9 @@ namespace Systems.Antagonists
 			if (currentPlasma == 0) return;
 
 			//Sleeping heals twice as fast, but costs twice as much
-			var healCost = currentData.HealPlasmaCost * (currentAlienMode == AlienMode.Sleep ? 2 : 1);
+			var healCost = alienType.HealPlasmaCost * (currentAlienMode == AlienMode.Sleep ? 2 : 1);
 
-			var healAmount = currentData.HealAmount * (currentAlienMode == AlienMode.Sleep ? 2 : 1);
+			var healAmount = alienType.HealAmount * (currentAlienMode == AlienMode.Sleep ? 2 : 1);
 
 			if (currentPlasma < healCost)
 			{
@@ -671,11 +718,11 @@ namespace Systems.Antagonists
 
 			foreach (var bodyPart in bodyParts)
 			{
-				bodyPart.SelfArmor = currentData.BodyPartArmor;
+				bodyPart.SelfArmor = alienType.BodyPartArmor;
 
 				//TODO when limb is separated out into Arm and Leg redo this
 				if(bodyPart.TryGetComponent<Limb>(out var limb) == false) continue;
-				if(limb is HumanoidLeg c) c.SetNewSpeeds(currentData.RunningLegSpeed, currentData.WalkingLegSpeed);
+				if(limb is HumanoidLeg c) c.SetNewSpeeds(alienType.RunningLegSpeed, alienType.WalkingLegSpeed);
 				if(limb is HumanoidArm a) a.SetNewSpeeds(a.CrawlingSpeedModifier);
 			}
 		}
@@ -695,7 +742,7 @@ namespace Systems.Antagonists
 
 			ChangeAlienMode(AlienMode.Dead);
 
-			if (currentAlienType == AlienTypes.Queen)
+			if (CurrentAlienType == AlienTypes.Queen)
 			{
 				OnQueenDeath();
 			}
@@ -716,7 +763,7 @@ namespace Systems.Antagonists
 		private void OnQueenDeath()
 		{
 			var queens = FindObjectsOfType<AlienPlayer>().Where(x => x.isDead == false &&
-			                                                         x.currentAlienType == AlienTypes.Queen).ToArray();
+			                                                         x.CurrentAlienType == AlienTypes.Queen).ToArray();
 
 			queenInHive = queens.Any();
 
@@ -845,25 +892,25 @@ namespace Systems.Antagonists
 			switch (newSprite)
 			{
 				case AlienMode.Normal:
-					SetSpriteSO(currentData.Normal);
+					SetSpriteSO(alienType.Normal);
 					return;
 				case AlienMode.Dead:
-					SetSpriteSO(currentData.Dead);
+					SetSpriteSO(alienType.Dead);
 					return;
 				case AlienMode.Pounce:
-					SetSpriteSO(currentData.Pounce);
+					SetSpriteSO(alienType.Pounce);
 					return;
 				case AlienMode.Sleep:
-					SetSpriteSO(currentData.Sleep);
+					SetSpriteSO(alienType.Sleep);
 					return;
 				case AlienMode.Unconscious:
-					SetSpriteSO(currentData.Unconscious);
+					SetSpriteSO(alienType.Unconscious);
 					return;
 				case AlienMode.Running:
-					SetSpriteSO(currentData.Running);
+					SetSpriteSO(alienType.Running);
 					return;
 				case AlienMode.Crawling:
-					SetSpriteSO(currentData.Front, true);
+					SetSpriteSO(alienType.Front, true);
 					return;
 				default:
 					Logger.LogError($"Unexpected case: {newSprite.ToString()}");
@@ -876,7 +923,7 @@ namespace Systems.Antagonists
 			if (newSprite == null)
 			{
 				//Don't have custom sprite just use normal
-				mainSpriteHandler.SetSpriteSO(currentData.Normal);
+				mainSpriteHandler.SetSpriteSO(alienType.Normal);
 				return;
 			}
 
@@ -884,7 +931,7 @@ namespace Systems.Antagonists
 
 			if(doBack == false) return;
 
-			mainBackSpriteHandler.SetSpriteSO(currentData.Back);
+			mainBackSpriteHandler.SetSpriteSO(alienType.Back);
 		}
 
 		private void OnRotation(OrientationEnum newRotation)
@@ -961,7 +1008,7 @@ namespace Systems.Antagonists
 			//Open evolve window
 			if (data == evolveAction)
 			{
-				if (growth < currentData.MaxGrowth)
+				if (growth < alienType.MaxGrowth)
 				{
 					Chat.AddExamineMsgToClient("You need to mature more first!");
 					return;
@@ -1044,9 +1091,7 @@ namespace Systems.Antagonists
 
 		private bool HasActionData(ActionData data)
 		{
-			if (actionData == null) return false;
-
-			return actionData.Contains(data);
+			return ActionData.Contains(data);
 		}
 
 		private void ResetActions()
@@ -1057,13 +1102,11 @@ namespace Systems.Antagonists
 
 		private void RemoveOldActions()
 		{
-			if(actionData == null) return;
-
 			toggles = new List<ActionData>();
 
 			if(isLocalPlayer == false) return;
 
-			foreach (var action in actionData)
+			foreach (var action in ActionData)
 			{
 				UIActionManager.Hide(this, action);
 			}
@@ -1071,9 +1114,9 @@ namespace Systems.Antagonists
 
 		private void AddNewActions()
 		{
-			if(currentData == null) return;
+			if(alienType == null) return;
 
-			foreach (var action in currentData.ActionData)
+			foreach (var action in alienType.ActionData)
 			{
 				if(action.IsToggle == false) continue;
 
@@ -1082,7 +1125,7 @@ namespace Systems.Antagonists
 
 			if(isLocalPlayer == false) return;
 
-			foreach (var action in currentData.ActionData)
+			foreach (var action in alienType.ActionData)
 			{
 				UIActionManager.Show(this, action);
 			}
@@ -1119,36 +1162,6 @@ namespace Systems.Antagonists
 		{
 			currentAlienMode = newState;
 			ChangeAlienSprite(currentAlienMode);
-		}
-
-		#endregion
-
-		#region Alien Type
-
-		//Client and server
-		private void SyncAlienType(AlienTypes oldType, AlienTypes newType)
-		{
-			currentAlienType = newType;
-
-			var typeFound = typesToChoose.Where(a => a.AlienType == newType).ToArray();
-			if (typeFound.Length <= 0)
-			{
-				if (isLocalPlayer)
-				{
-					Chat.AddExamineMsgFromServer(gameObject, $"Unable to evolve to {newType.ToString()}");
-				}
-
-				Logger.LogError($"Could not find alien type: {newType.ToString()} in data list!");
-				return;
-			}
-
-			currentData = typeFound[0];
-
-			RemoveOldActions();
-
-			actionData = currentData.ActionData;
-
-			AddNewActions();
 		}
 
 		#endregion
@@ -1440,7 +1453,7 @@ namespace Systems.Antagonists
 		[Client]
 		public void ClientTryAcidSpit(AimApply aimApply)
 		{
-			if(TryRemovePlasmaClient(currentData.AcidSpitCost) == false) return;
+			if(TryRemovePlasmaClient(alienType.AcidSpitCost) == false) return;
 
 			if (OnCoolDown(NetworkSide.Client, ProjectileCooldown))
 			{
@@ -1455,7 +1468,7 @@ namespace Systems.Antagonists
 		[Command]
 		public void CmdShootAcidSpit(Vector2 targetVector, BodyPartType targetZone)
 		{
-			if(TryRemovePlasma(currentData.AcidSpitCost) == false) return;
+			if(TryRemovePlasma(alienType.AcidSpitCost) == false) return;
 
 			if(ValidateProjectile() == false) return;
 
@@ -1471,7 +1484,7 @@ namespace Systems.Antagonists
 		[Client]
 		public void ClientTryNeurotoxinSpit(AimApply aimApply)
 		{
-			if(TryRemovePlasmaClient(currentData.NeurotoxinSpitCost) == false) return;
+			if(TryRemovePlasmaClient(alienType.NeurotoxinSpitCost) == false) return;
 
 			if (OnCoolDown(NetworkSide.Client, ProjectileCooldown))
 			{
@@ -1486,7 +1499,7 @@ namespace Systems.Antagonists
 		[Command]
 		private void CmdShootNeurotoxinSpit(Vector2 targetVector, BodyPartType targetZone)
 		{
-			if(TryRemovePlasma(currentData.NeurotoxinSpitCost) == false) return;
+			if(TryRemovePlasma(alienType.NeurotoxinSpitCost) == false) return;
 
 			if(ValidateProjectile() == false) return;
 
@@ -1566,7 +1579,7 @@ namespace Systems.Antagonists
 				}
 			}
 
-			createdRoleKey = GhostRoleManager.Instance.ServerCreateRole(currentData.GhostRoleData);
+			createdRoleKey = GhostRoleManager.Instance.ServerCreateRole(alienType.GhostRoleData);
 			var role = GhostRoleManager.Instance.serverAvailableRoles[createdRoleKey];
 			role.OnPlayerAdded += OnSpawnFromGhostRole;
 		}
@@ -1612,6 +1625,9 @@ namespace Systems.Antagonists
 
 		public void OnPlayerTransfer()
 		{
+			//This will call after an admin respawn to set up a new player
+			SetNewPlayer();
+
 			//Block role remove if this transfered player was the one how got the ghost role
 			//OnPlayerTransfer is still needed due to admin A ghosting which should remove the role on transfer
 			if(playerTookOver != null && playerTookOver == playerScript.PlayerInfo) return;
@@ -1622,6 +1638,11 @@ namespace Systems.Antagonists
 		public void OnPlayerRejoin()
 		{
 			RemoveGhostRole();
+		}
+
+		public void OnPlayerLeaveBody()
+		{
+			RpcRemoveActions();
 		}
 
 		//Called after larva spawned, in case it was a disconnected player
@@ -1635,8 +1656,6 @@ namespace Systems.Antagonists
 		}
 
 		#endregion
-
-
 
 		public enum AlienMode
 		{

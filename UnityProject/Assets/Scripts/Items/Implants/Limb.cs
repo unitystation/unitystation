@@ -21,5 +21,4 @@ namespace HealthV2
 			playerHealth.PlayerMove.UpdateSpeeds();
 		}
 	}
-
 }

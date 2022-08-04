@@ -464,7 +464,7 @@ GameObject:
   - component: {fileID: 2690378354521890256}
   - component: {fileID: 8305622356435420699}
   m_Layer: 8
-  m_Name: AlienLarva
+  m_Name: AlienNewbornLarva
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -944,8 +944,10 @@ MonoBehaviour:
   fastRegenHeal: 12
   fastRegenThreshold: 85
   rootBodyPartController: {fileID: 0}
+  BodyPartSurfaceVolume: 5
   playerScript: {fileID: 0}
   CannotRecognizeNames: 0
+  allExternalMetabolismReactions: []
   CHem: {fileID: 11400000, guid: 6c3a3878e8878972ea633a27c6d0ba12, type: 2}
   NutrimentConsumed: 0
   ClientSprites: []
@@ -984,7 +986,6 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 85b402a852ad1ad49b64886cd42e93ce, type: 2}
   - {fileID: 11400000, guid: 3ea6d21ecff38954a9e1b05795f3f45e, type: 2}
   - {fileID: 11400000, guid: b7d0a552223af4d4d9f3eb3217df9183, type: 2}
-  MetabolismReactions: []
   bloodType: {fileID: 11400000, guid: af0b3c550afbc3a428e581f7c1de2b49, type: 2}
   BloodPool:
     temperature: 0
@@ -1389,7 +1390,6 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 7bfb934b0c743de4a8957aa08a97cd15, type: 2}
   - {fileID: 11400000, guid: 62556709952f6b246a7146db8ffc2c08, type: 2}
   - {fileID: 11400000, guid: e4546df833c34fd438f1c9a244c5aa20, type: 2}
-  startingAlienType: 1
   plantWeeds: {fileID: 11400000, guid: e469aa52bc0cbb949a56796230469fd2, type: 2}
   layEggs: {fileID: 11400000, guid: dcad35ade3a509943ae3062115f0f2bf, type: 2}
   evolveAction: {fileID: 11400000, guid: a8bdbaab2b5d5e342ae7fde7073c3dc8, type: 2}
@@ -1419,6 +1419,7 @@ MonoBehaviour:
     type: 3}
   acidPoolPrefab: {fileID: 8446190144610017984, guid: 7c77da9b6b42e6b48a37ca8ad5ece4f1,
     type: 3}
+  alienType: {fileID: 11400000, guid: 72751a4d6400be24ab485a8dc97d1b0a, type: 2}
 --- !u!114 &8980569866541390091
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8058,7 +8059,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2546233629804005518}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -8104,8 +8105,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: -902452607
-  m_SortingLayer: 22
+  m_SortingLayerID: -24161425
+  m_SortingLayer: 8
   m_SortingOrder: 10
   m_Sprite: {fileID: 21300000, guid: 50b6832cc0356dd48be7f69c661271d0, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -8505,7 +8506,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4848218411621007371}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -1, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -8551,8 +8552,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: -902452607
-  m_SortingLayer: 22
+  m_SortingLayerID: -24161425
+  m_SortingLayer: 8
   m_SortingOrder: 10
   m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}

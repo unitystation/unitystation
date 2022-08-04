@@ -40,6 +40,13 @@ namespace Messages.Client.DevSpawner
 				if (NetworkObject == null) return;
 
 				Vector2Int worldPos = NetworkObject.transform.position.RoundTo2Int();
+				if (NetworkObject.TryGetComponent<PlayerScript>(out var victim))
+				{
+					victim.playerHealth.OnGib();
+					UIManager.Instance.adminChatWindows.adminLogWindow.ServerAddChatRecord(
+						$"{SentByPlayer.Username} gibbed {victim.playerName} at {worldPos} using the dev destroyer tool.", SentByPlayer.UserId);
+					return;
+				}
 				UIManager.Instance.adminChatWindows.adminLogWindow.ServerAddChatRecord(
 					$"{SentByPlayer.Username} destroyed a {NetworkObject} at {worldPos}", SentByPlayer.UserId);
 				_ = Despawn.ServerSingle(NetworkObject);
