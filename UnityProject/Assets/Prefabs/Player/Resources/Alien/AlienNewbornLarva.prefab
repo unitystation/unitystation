@@ -1171,7 +1171,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 10f279de1bb7a3a43b7226749419ca2c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  passableExclusions: []
+  passableExclusions:
+  - {fileID: 11400000, guid: 0ebbef9032fb18e478082548ef82414a, type: 2}
 --- !u!114 &1952996692186363365
 MonoBehaviour:
   m_ObjectHideFlags: 0

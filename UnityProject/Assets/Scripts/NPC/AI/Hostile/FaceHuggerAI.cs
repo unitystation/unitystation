@@ -49,7 +49,7 @@ namespace Systems.MobAIs
 
 			foreach (var coll in hits)
 			{
-				if (coll.layer == playersLayer) continue;
+				if (coll.layer != playersLayer) continue;
 
 				if(coll.gameObject.TryGetComponent<PlayerScript>(out var playerScript) == false) continue;
 

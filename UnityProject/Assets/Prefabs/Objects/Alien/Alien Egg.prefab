@@ -108,6 +108,17 @@ PrefabInstance:
       propertyPath: Resistances.FreezeProof
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 4800765294880679425, guid: ebb08cf966efc084aa918bd8d9429604,
+        type: 3}
+      propertyPath: passableExclusionsToThis.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4800765294880679425, guid: ebb08cf966efc084aa918bd8d9429604,
+        type: 3}
+      propertyPath: passableExclusionsToThis.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 0ebbef9032fb18e478082548ef82414a,
+        type: 2}
     - target: {fileID: 5737521361753715499, guid: ebb08cf966efc084aa918bd8d9429604,
         type: 3}
       propertyPath: isDirty

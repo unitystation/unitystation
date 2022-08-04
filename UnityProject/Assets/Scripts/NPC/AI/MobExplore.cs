@@ -225,7 +225,7 @@ namespace Systems.MobAIs
 
 		protected void OnPerformAction()
 		{
-			actionPerformTimer += Time.deltaTime;
+			actionPerformTimer += MobController.UpdateTimeInterval;
 
 			if ((actionPerformTime == 0) || (actionPerformTimer >= actionPerformTime))
 			{

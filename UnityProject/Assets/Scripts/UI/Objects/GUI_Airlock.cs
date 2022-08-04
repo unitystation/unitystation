@@ -38,7 +38,7 @@ namespace UI.Objects
 				}
 				if (module is ElectrifiedDoorModule electric)
 				{
-					labelSafety.Value = electric.IsElectrecuted ? "DANGER" : "SAFE";
+					labelSafety.Value = electric.IsElectrified ? "DANGER" : "SAFE";
 					UpdateSafetyStatusUI(electric);
 				}
 			}
@@ -76,7 +76,7 @@ namespace UI.Objects
 				return;
 			}
 
-			safetyImage.color = door.IsElectrecuted ? safetyImageColorWhenHARM : safetyImageColorWhenSAFE;
+			safetyImage.color = door.IsElectrified ? safetyImageColorWhenHARM : safetyImageColorWhenSAFE;
 		}
 
 		public void OnToggleOpenDoor()
