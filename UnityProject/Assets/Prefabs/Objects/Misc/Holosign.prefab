@@ -150,7 +150,12 @@ PrefabInstance:
     - target: {fileID: 5895563674239530943, guid: bdc0bbe82126ea747b3fc1d25464d588,
         type: 3}
       propertyPath: initialName
-      value: holo sign
+      value: holosign
+      objectReference: {fileID: 0}
+    - target: {fileID: 5895563674239530943, guid: bdc0bbe82126ea747b3fc1d25464d588,
+        type: 3}
+      propertyPath: CanBeSoldInCargo
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6767106572327651703, guid: bdc0bbe82126ea747b3fc1d25464d588,
         type: 3}

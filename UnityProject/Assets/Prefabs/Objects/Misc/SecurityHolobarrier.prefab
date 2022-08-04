@@ -99,6 +99,16 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: e22a60a85df18eb4195545f443bb2656,
         type: 2}
+    - target: {fileID: 6927065987115953515, guid: 6ca88a64b87d2bf4abed2f9f8922d47d,
+        type: 3}
+      propertyPath: initialName
+      value: security Holosign
+      objectReference: {fileID: 0}
+    - target: {fileID: 6927065987115953515, guid: 6ca88a64b87d2bf4abed2f9f8922d47d,
+        type: 3}
+      propertyPath: initialDescription
+      value: Caution! Restrictions in place! Walk to Pass
+      objectReference: {fileID: 0}
     - target: {fileID: 7789338044214006691, guid: 6ca88a64b87d2bf4abed2f9f8922d47d,
         type: 3}
       propertyPath: isMeleeable
