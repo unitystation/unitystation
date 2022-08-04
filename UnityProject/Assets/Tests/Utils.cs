@@ -118,7 +118,7 @@ namespace Tests
 		/// </summary>
 		public static T GetManager<T>(string managerName) where T : SingletonManager<T>
 		{
-			var managerPrefabGUID = AssetDatabase.FindAssets($"{managerName} t:prefab", new string[] {MANAGER_PATH});
+			var managerPrefabGUID = AssetDatabase.FindAssets($"{managerName} t:prefab", new [] {MANAGER_PATH});
 			var managerPrefabPaths = managerPrefabGUID.Select(AssetDatabase.GUIDToAssetPath).ToList();
 
 			if (managerPrefabPaths.Count != 1)
@@ -131,6 +131,7 @@ namespace Tests
 			if (gameManagerPrefab == null)
 			{
 				Assert.Fail($"Couldn't find {managerName} prefab in specified path: {MANAGER_PATH}");
+				return null;
 			}
 
 			if (gameManagerPrefab.TryGetComponent<T>(out var singletonManager) == false)

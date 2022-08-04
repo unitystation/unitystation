@@ -250,6 +250,9 @@ namespace Player.Language
 				case SyncList<NetworkLanguage>.Operation.OP_CLEAR:
 					RemoveAddedLanguagesClient();
 					break;
+				default:
+					Logger.LogError($"Failed to find case: {op}");
+					return;
 			}
 		}
 
