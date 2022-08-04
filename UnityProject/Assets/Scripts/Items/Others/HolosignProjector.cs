@@ -78,8 +78,10 @@ namespace Items.Others
 
 			if (interaction.HandObject != gameObject) return false;
 
+			//If clicking on holo sign allow it so we can clear
 			if (interaction.TargetObject.OrNull()?.GetComponent<Holosign>() != null) return true;
 
+			//Otherwise we are trying to place so see if we are at max capacity
 			if (side == NetworkSide.Server && holosigns.Count >= maxHolosigns)
 			{
 				Chat.AddExamineMsgFromServer(interaction.Performer, "Projector at max holosign capacity!");

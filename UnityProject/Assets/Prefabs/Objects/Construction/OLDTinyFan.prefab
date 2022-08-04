@@ -25,7 +25,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2239508276124512771}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -116,7 +116,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1925386106379506438}
   - component: {fileID: 8819730959757270550}
-  - component: {fileID: 74958767906644875}
   - component: {fileID: 4216241947996897747}
   - component: {fileID: 2611605342679031968}
   - component: {fileID: 1835757013911865864}
@@ -124,8 +123,12 @@ GameObject:
   - component: {fileID: 7106149064385931371}
   - component: {fileID: -2313173395134174117}
   - component: {fileID: -2229525277787619316}
+  - component: {fileID: 3493002496610856192}
+  - component: {fileID: 4639892602121662209}
+  - component: {fileID: 8047209190687624875}
+  - component: {fileID: 1482755916756694355}
   m_Layer: 23
-  m_Name: TinyFan
+  m_Name: OLDTinyFan
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -138,7 +141,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7144248469089430455}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -173,29 +176,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.91, y: 0.7}
   m_EdgeRadius: 0
---- !u!114 &74958767906644875
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7144248469089430455}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9a459a0316cc4d5b87d046f28dc136c8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  matrixDebugLogging: 0
-  objectType: 1
-  prefabTracker: {fileID: 0}
-  CurrentsortingGroup: {fileID: 0}
-  AtmosPassable: 0
-  ReachableThrough: 1
-  initialPassable: 1
-  initialCrawlPassable: 1
-  passableExclusionsToThis: []
 --- !u!114 &4216241947996897747
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -273,7 +253,6 @@ MonoBehaviour:
   HeatResistance: 100
   ExplosionsDamage: 100
   doDamageMessage: 1
-  Meleeable: {fileID: 0}
 --- !u!114 &3348285834374005981
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -309,7 +288,7 @@ MonoBehaviour:
   initialDescription: Prevents atmospheric loss.
   willHighlight: 1
   exportCost: 0
-  exportType: 0
+  CanBeSoldInCargo: 1
   exportName: 
   exportMessage: 
   initialSize: 3
@@ -344,21 +323,25 @@ MonoBehaviour:
   LocalTargetPosition: {x: 0, y: 0, z: 0}
   ChangesDirectionPush: 0
   Intangible: 0
+  CanBeWindPushed: 1
+  IsPlayer: 0
   InitialLocationSynchronised: 0
   tileMoveSpeed: 1
   isNotPushable: 1
-  newtonianMovement: {x: 0, y: 0}
   airTime: 0
   slideTime: 0
+  SetIgnoreSticky: 0
   thrownBy: {fileID: 0}
   aim: 0
   spinMagnitude: 0
+  ForcedPushedFrame: 0
+  TryPushedFrame: 0
   PushedFrame: 0
   FramePushDecision: 1
   stickyMovement: 0
+  OnThrowEndResetRotation: 0
   maximumStickSpeed: 1.5
   onStationMovementsRound: 0
-  attributes: {fileID: 0}
   registerTile: {fileID: 0}
   ContextGameObjects:
   - {fileID: 0}
@@ -368,11 +351,95 @@ MonoBehaviour:
   CorrectingCourse: 0
   Pushing: []
   Hits: []
-  Speed: 1
-  AIR: 3
-  SLIDE: 4
   Animating: 0
-  IsFlyingSliding: 0
+  isFlyingSliding: 0
   IsMoving: 0
   MoveIsWalking: 0
   LastUpdateClientFlying: 0
+  BuckledToObject: {fileID: 0}
+--- !u!114 &3493002496610856192
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7144248469089430455}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 819809cff2481914d883a6e1fefb4edd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  MethodRotation: 0
+  ChangeSprites: 0
+  isChangingSO: 0
+  CurrentDirection: 0
+  IgnoreServerUpdatesIfLocalPlayer: 0
+  IsAtmosphericDevice: 0
+  doNotResetOtherSpriteOptions: 0
+--- !u!114 &4639892602121662209
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7144248469089430455}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 813ab4b5d9bc9fb488ddec0397a19373, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  matrixDebugLogging: 0
+  objectType: 1
+  prefabTracker: {fileID: 8047209190687624875}
+  CurrentsortingGroup: {fileID: 1482755916756694355}
+  AtmosPassable: 1
+  ReachableThrough: 1
+  initialPassable: 1
+  initialCrawlPassable: 1
+  passableExclusionsToThis: []
+  isLeavableOnAll: 1
+  isEnterableOnAll: 1
+  isAtmosPassableOnAll: 0
+  leavableSides:
+    Up: 0
+    Down: 0
+    Left: 0
+    Right: 0
+  enterableSides:
+    Up: 0
+    Down: 0
+    Left: 0
+    Right: 0
+  atmosphericPassableSides:
+    Up: 0
+    Down: 0
+    Left: 0
+    Right: 0
+--- !u!114 &8047209190687624875
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7144248469089430455}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3f4629d03e356d64eb509d18a7450082, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  foreverID: D5HSt1g3T6!AAkxZAWhF
+--- !u!210 &1482755916756694355
+SortingGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7144248469089430455}
+  m_Enabled: 1
+  m_SortingLayerID: 1724189913
+  m_SortingLayer: 6
+  m_SortingOrder: 10
