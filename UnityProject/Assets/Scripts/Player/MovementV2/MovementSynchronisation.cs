@@ -991,6 +991,8 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 			{
 				foreach (var toPush in Pushing)
 				{
+					if(toPush.Intangible) continue;
+
 					var player = toPush as MovementSynchronisation;
 					if (player != null)
 					{

@@ -910,6 +910,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 			{
 				if (push == this) continue;
 				if (push == pushedBy) continue;
+				if (push.Intangible) continue;
 				if (Pulling.HasComponent && Pulling.Component == push) continue;
 				if (PulledBy.HasComponent && PulledBy.Component == push) continue;
 				if (pushedBy == null)
