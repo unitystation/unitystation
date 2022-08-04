@@ -314,7 +314,7 @@ namespace Systems.MobAIs
 			float timeElapsed = 0f;
 			while (isActing)
 			{
-				timeElapsed += Time.deltaTime;;
+				timeElapsed += Time.deltaTime;
 
 				if (timeElapsed > 3f)
 				{

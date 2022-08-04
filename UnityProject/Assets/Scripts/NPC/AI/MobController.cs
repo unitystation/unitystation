@@ -16,7 +16,7 @@ namespace Systems.MobAIs
 
 		public List<MobObjective> MobObjectives = new List<MobObjective>();
 
-		public const float UpdateTimeInterval = 0.85f;
+		public static readonly float UpdateTimeInterval = 0.85f;
 
 
 		public void Awake()
