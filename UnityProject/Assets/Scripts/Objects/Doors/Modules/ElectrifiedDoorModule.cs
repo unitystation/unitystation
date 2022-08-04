@@ -181,7 +181,7 @@ namespace Doors.Modules
 
 		public void NewSpriteState(bool state)
 		{
-			spriteHandler.ChangeSprite(state ? 1 : 0);
+			spriteHandler.ChangeSprite(state ? 1 : 0, false);
 		}
 
 		public static void Rejoined(NetworkConnectionToClient conn)
