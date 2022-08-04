@@ -7,12 +7,14 @@ using UnityEngine.Serialization;
 using Mirror;
 using Items;
 using AddressableReferences;
+using HealthV2;
 using Messages.Server;
 using Messages.Server.SoundMessages;
 using Weapons.Projectiles;
 using NaughtyAttributes;
 using Player;
 using Player.Movement;
+using UnityEngine.ResourceManagement.ResourceProviders.Simulation;
 
 namespace Weapons
 {
@@ -22,7 +24,7 @@ namespace Weapons
 	[RequireComponent(typeof(Pickupable))]
 	[RequireComponent(typeof(ItemStorage))]
 	public class Gun : NetworkBehaviour, ICheckedInteractable<AimApply>, ICheckedInteractable<HandActivate>,
-		ICheckedInteractable<InventoryApply>, IServerInventoryMove, IServerSpawn, IExaminable
+		ICheckedInteractable<InventoryApply>, IServerInventoryMove, IServerSpawn, IExaminable, ISuicide
 	{
 		/// <summary>
 		/// Prefab to be spawned within on roundstart
@@ -922,6 +924,27 @@ namespace Weapons
 		}
 
 		#endregion
+
+		public bool CanSuicide(GameObject performer)
+		{
+			return CurrentMagazine != null && CurrentMagazine.ServerAmmoRemains != 0;
+		}
+
+		public IEnumerator OnSuicide(GameObject performer)
+		{
+			yield return SuicideAction(performer);
+		}
+
+		/// <summary>
+		/// Because each gun can have it's own functionality related to death (example : russian roulette with a revolver)
+		/// this functionality is split in a virtual function that all scripts that inherit from the gun class can modify.
+		/// </summary>
+		protected virtual IEnumerator SuicideAction(GameObject performer)
+		{
+			DequeueAndProcessServerShot(performer, performer.RegisterTile().LocalPosition.ToLocal(), BodyPartType.Head, true);
+			performer.GetComponent<LivingHealthBehaviour>().Death();
+			yield return null;
+		}
 	}
 
 	/// <summary>

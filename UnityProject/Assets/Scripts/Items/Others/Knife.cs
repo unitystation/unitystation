@@ -1,5 +1,7 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using HealthV2;
 using Items;
 using UnityEngine;
 
@@ -7,9 +9,8 @@ using UnityEngine;
 /// Marks an item as a knife, letting it cut up items on the players other hand based on the recipe list in CraftingManager.Cuts.
 /// </summary>
 [RequireComponent(typeof(Pickupable))]
-public class Knife : MonoBehaviour, ICheckedInteractable<InventoryApply>,  ICheckedInteractable<HandApply>
+public class Knife : MonoBehaviour, ICheckedInteractable<InventoryApply>,  ICheckedInteractable<HandApply>, ISuicide
 {
-
 	public bool WillInteract(HandApply interaction, NetworkSide side)
 	{
 		//can the player act at all?
@@ -123,5 +124,19 @@ public class Knife : MonoBehaviour, ICheckedInteractable<InventoryApply>,  IChec
 		SpawnResult spwn = Spawn.ServerPrefab(CraftingManager.Cuts.FindOutputMeal(cut.name),
 			SpawnDestination.At(WodPOS), 1);
 
+	}
+
+	public bool CanSuicide(GameObject performer)
+	{
+		return true;
+	}
+
+	public IEnumerator OnSuicide(GameObject performer)
+	{
+		if (performer.TryGetComponent<LivingHealthMasterBase>(out var player) == false) yield break;
+		string suicideMessage = $"{player.playerScript.visibleName} slits their own throat, ending their life.";
+		player.ApplyDamageToBodyPart(performer, 500f, AttackType.Melee, DamageType.Brute, BodyPartType.Head);
+		player.Death();
+		Chat.AddActionMsgToChat(performer, suicideMessage, suicideMessage);
 	}
 }
