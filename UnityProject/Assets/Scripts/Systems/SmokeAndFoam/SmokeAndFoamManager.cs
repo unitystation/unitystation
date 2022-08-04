@@ -12,7 +12,7 @@ public class SmokeAndFoamManager : SingletonManager<SmokeAndFoamManager>
 	public LayerTile BaseFoam;
 
 	public OverlayTile OverlayTileFoam;
-
+	public OverlayTile OverlayTileSmoke;
 	public void OnEnable()
 	{
 		UpdateManager.Add(UpdateMe, 1);

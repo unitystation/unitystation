@@ -2394,6 +2394,7 @@ namespace TileManagement
 		Ash,
 		EMP,
 		EMPCenter,
-		Foam
+		Foam,
+		Smoke
 	}
 }

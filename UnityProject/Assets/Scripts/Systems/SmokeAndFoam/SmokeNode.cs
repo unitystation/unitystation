@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TileManagement;
 using UnityEngine;
 
 public class SmokeNode : SpreadNode
@@ -60,6 +61,35 @@ public class SmokeNode : SpreadNode
 			}
 		}
 	}
+
+	public override void DistributeToTile(SourceReservoir sourceReservoir)
+	{
+		base.DistributeToTile(sourceReservoir);
+		var Colour = Present.MixColor;
+		if (Present.MixColor == Color.clear)
+		{
+			Colour = Color.white;
+		}
+
+		OnMetaDataNode.PositionMatrix.MetaTileMap.AddOverlay(OnMetaDataNode.Position, SmokeAndFoamManager.Instance.OverlayTileSmoke, Matrix4x4.identity, Colour);
+
+	}
+
+	public override void Update()
+	{
+		//TODO apply reagents to people and stuff??
+		//but lag?
+		//but Applying to items
+		//not yet
+
+		PresentTimeCount += 1;
+		if (PresentTimeCount > MaxTimePresent)
+		{
+			OnMetaDataNode.PositionMatrix.MetaTileMap.RemoveOverlaysOfType(OnMetaDataNode.Position, LayerType.Effects,OverlayType.Smoke);
+			SourceReservoir.RemoveTile(this);
+		}
+	}
+
 }
 
 public class SmokeSourceReservoir : SourceReservoir
