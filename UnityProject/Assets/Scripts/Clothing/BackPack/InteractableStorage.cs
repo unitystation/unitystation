@@ -85,7 +85,7 @@ public class InteractableStorage : MonoBehaviour, IClientInteractable<HandActiva
 
 	private void Awake()
 	{
-		cooldown = new CooldownInstance() { defaultTime = 1f };
+		cooldown = new CooldownInstance { defaultTime = 1f };
 	}
 
 	/// <summary>
