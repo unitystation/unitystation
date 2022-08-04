@@ -10,10 +10,9 @@ namespace Items.Devices
 	/// <summary>
 	/// An item that controls department doors remotely.
 	/// </summary>
-	public class AccessRemote : NetworkBehaviour, IInteractable<HandActivate>, ICheckedInteractable<HandApply>
+	public class AccessRemote : NetworkBehaviour, ICheckedInteractable<HandActivate>, ICheckedInteractable<HandApply>
 	{
-		[SyncVar(hook = nameof(SyncCurrentRemoteState))]
-		private AccessRemoteState currentState;
+		[SyncVar] private AccessRemoteState currentState;
 
 		private SpriteHandler spriteHandler;
 
@@ -44,18 +43,23 @@ namespace Items.Devices
 			Emergency
 		}
 
+		public bool WillInteract(HandActivate interaction, NetworkSide side)
+		{
+			return DefaultWillInteract.Default(interaction, side);
+		}
+
 		public void ServerPerformInteraction(HandActivate interaction)
 		{
 			switch (currentState)
 			{
 				case AccessRemoteState.Open:
-					SyncCurrentRemoteState(currentState, AccessRemoteState.Bolts);
+					currentState = AccessRemoteState.Bolts;
 					break;
 				case AccessRemoteState.Bolts:
-					SyncCurrentRemoteState(currentState, AccessRemoteState.Emergency);
+					currentState = AccessRemoteState.Emergency;
 					break;
 				case AccessRemoteState.Emergency:
-					SyncCurrentRemoteState(currentState, AccessRemoteState.Open);
+					currentState = AccessRemoteState.Open;
 					break;
 			}
 			Chat.AddExamineMsg(interaction.Performer, $"Remote mode is set to: {currentState.ToString()}.");
@@ -63,12 +67,12 @@ namespace Items.Devices
 
 		public bool WillInteract(HandApply interaction, NetworkSide side)
 		{
-			if (interaction.IsHighlight || interaction.IsAltClick)
-				return false;
-			if (Validations.HasComponent<DoorMasterController>(interaction.TargetObject) == false)
-				return false;
+			if (side == NetworkSide.Client)
+			{
+				if (interaction.IsHighlight || interaction.IsAltClick) return false;
+			}
 
-			return true;
+			return Validations.HasComponent<DoorMasterController>(interaction.TargetObject);
 		}
 
 		public void ServerPerformInteraction(HandApply interaction)
@@ -109,12 +113,6 @@ namespace Items.Devices
 					TryOpenDoor(doorController, interaction.Performer);
 					break;
 			}
-		}
-
-		private void SyncCurrentRemoteState(AccessRemoteState oldState, AccessRemoteState newState)
-		{
-			//(Max) - Why do we need to keep track of the old state?
-			currentState = newState;
 		}
 
 		private void TryOpenDoor(DoorMasterController controller, GameObject performer)
