@@ -17,9 +17,6 @@ namespace Items.Storage
 		private SpriteHandler spriteHandler;
 
 		[SerializeField]
-		private Access allowedAccess;
-
-		[SerializeField]
 		private Clearance allowedClearance;
 		[SerializeField]
 		private SpriteDataSO lockedSprite;
