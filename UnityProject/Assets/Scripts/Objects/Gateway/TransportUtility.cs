@@ -18,13 +18,14 @@ namespace Gateway
 		/// </summary>
 		/// <param name="objectPhysics">Object to transport to <paramref name="transportTo"/>.</param>
 		/// <param name="transportTo">Destination to transport <paramref name="objectPhysics"/> to.</param>
+		/// <param name="doTileStep">Whether step interactions should trigger on teleport</param>
 		[Server]
-		public static void TransportObject(UniversalObjectPhysics objectPhysics, Vector3 transportTo)
+		public static void TransportObject(UniversalObjectPhysics objectPhysics, Vector3 transportTo, bool doTileStep = true)
 		{
 			if (objectPhysics == null) return; //Don't even bother...
 
 			objectPhysics.DisappearFromWorld();
-			objectPhysics.AppearAtWorldPositionServer(transportTo);
+			objectPhysics.AppearAtWorldPositionServer(transportTo, doStepInteractions: doTileStep);
 		}
 
 		/// <summary>
@@ -34,8 +35,10 @@ namespace Gateway
 		/// </summary>
 		/// <param name="objectPhysics">Object to transport to <paramref name="transportTo"/>.</param>
 		/// <param name="transportTo">Destination to transport <paramref name="objectPhysics"/> to (worldPos).</param>
+		/// <param name="doTileStep">Whether step interactions should trigger on teleport</param>
 		[Server]
-		public static void TransportObjectAndPulled(UniversalObjectPhysics objectPhysics, Vector3 transportTo)
+		public static void TransportObjectAndPulled(UniversalObjectPhysics objectPhysics, Vector3 transportTo,
+			bool doTileStep = true)
 		{
 			if (objectPhysics == null) return; //Don't even bother...
 
@@ -64,7 +67,7 @@ namespace Gateway
 				currentObj.PullSet(null, false); //TODO Test without
 
 				//Transport current
-				TransportObject(currentObj, transportTo);
+				TransportObject(currentObj, transportTo, doTileStep);
 
 				if (previous != null && currentObj.gameObject != null)
 				{
@@ -77,7 +80,8 @@ namespace Gateway
 			}
 		}
 
-		public static void TeleportToObject(GameObject objectToTeleport, GameObject objectTeleportedTo, Vector3? worldPos = null, bool calibrated = true)
+		public static void TeleportToObject(GameObject objectToTeleport, GameObject objectTeleportedTo,
+			Vector3? worldPos = null, bool calibrated = true, bool doTileStep = true)
 		{
 			//TODO more uncalibrated accidents, e.g turn into fly people, mutate animals? (See IQuantumReaction)
 
@@ -94,10 +98,10 @@ namespace Gateway
 			var newWorldPosition = worldPos ?? objectTeleportedTo.AssumedWorldPosServer();
 			var isGhost = false;
 
-			if (objectToTeleport.TryGetComponent<UniversalObjectPhysics>(out var uop))
+			if (objectToTeleport.TryGetComponent<UniversalObjectPhysics>(out var uop) && uop.Intangible == false)
 			{
 				//Transport objects and players
-				TransportUtility.TransportObjectAndPulled(uop, newWorldPosition);
+				TransportUtility.TransportObjectAndPulled(uop, newWorldPosition, doTileStep);
 			}
 
 			//Ghosts dont have uop so check for ghost move

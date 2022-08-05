@@ -107,7 +107,7 @@ namespace Objects.Research
 			SparkUtil.TrySpark(gameObject, expose: false);
 
 			TransportUtility.TeleportToObject(eventData, connectedPortal.gameObject,
-				connectedPortal.ObjectPhysics.OfficialPosition);
+				connectedPortal.ObjectPhysics.OfficialPosition, true, false);
 		}
 
 		public bool OnPreHitDetect(OnHitDetectData data)

@@ -1301,6 +1301,8 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 
 	public override void LocalTileReached(Vector3Int localPos)
 	{
+		if(doStepInteractions == false) return;
+
 		var tile = registerTile.Matrix.MetaTileMap.GetTile(localPos, LayerType.Base);
 		if (tile != null && tile is BasicTile c)
 		{

@@ -43,7 +43,7 @@ namespace Objects.Research
 			SparkUtil.TrySpark(gameObject, expose: false);
 
 			TransportUtility.TeleportToObject(eventData, linkedBeacon.gameObject,
-				linkedBeacon.CurrentBeaconPosition(), calibrated);
+				linkedBeacon.CurrentBeaconPosition(), calibrated, false);
 		}
 
 		private bool AllowTeleport()
