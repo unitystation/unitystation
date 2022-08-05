@@ -149,7 +149,7 @@ public partial class Chat : MonoBehaviour
 			//Handle OOC messages
 			if (isOOC)
 			{
-				//Add mentor tag for non-admins mentors for OOC
+				//Add mentor tag for non-admin mentors for OOC
 				if (isAdmin == false && PlayerList.Instance.IsMentor(sentByPlayer.UserId))
 				{
 					chatEvent.speaker = "<color=#6400ff>[M]</color> " + chatEvent.speaker;
