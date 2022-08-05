@@ -297,6 +297,9 @@ public class MetaDataSystem : SubsystemBehaviour
 		{
 			var windoor = freePositionDoors[i];
 
+			//See if its has just been despawned as the UpdateAt has been called during IServerDespawn
+			if (windoor.Active == false) continue;
+
 			//Check to see if windoor
 			if (windoor.OneDirectionRestricted == false || windoor.IsClosed == false) continue;
 			if (windoor.RotatableChecked.HasComponent == false) continue;
@@ -317,6 +320,10 @@ public class MetaDataSystem : SubsystemBehaviour
 		for (int i = 0; i < freePositionDirectionalPassable.Length; i++)
 		{
 			var directionalPassable = freePositionDirectionalPassable[i];
+
+			//See if its has just been despawned as the UpdateAt has been called during IServerDespawn
+			if (directionalPassable.Active == false) continue;
+
 			if (directionalPassable.IsAtmosPassableOnAll) continue;
 
 			//Only allow atmos to be blocked by anchored objects

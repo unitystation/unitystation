@@ -116,6 +116,9 @@ public class RegisterObject : RegisterTile
 
 	public override bool IsAtmosPassable(Vector3Int enteringFrom, bool isServer)
 	{
+		//If despawning then always be atmos passable
+		if (Active == false) return true;
+
 		return AtmosPassable || (isServer ? LocalPositionServer == TransformState.HiddenPos : LocalPositionClient == TransformState.HiddenPos );
 	}
 

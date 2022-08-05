@@ -187,6 +187,8 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 
 	private bool Initialized;
 
+	public bool Active { get; private set; } = true;
+
 	#region Lifecycle
 
 	protected virtual void Awake()
@@ -307,6 +309,11 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 		}
 
 		OnDespawnedServer.Invoke();
+	}
+
+	public void ChangeActiveState(bool newState)
+	{
+		Active = newState;
 	}
 
 	#endregion

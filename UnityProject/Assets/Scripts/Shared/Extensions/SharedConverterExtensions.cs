@@ -31,6 +31,10 @@ public static class SharedConverterExtensions
 	[MethodImpl(MethodImplOptions.AggressiveInlining)]
 	public static Vector3Int To3Int(this Vector2Int other) => new(other.x, other.y, 0);
 
+	/// <summary>Convert <see cref="Vector2"/> to <see cref="Vector3Int"/> with z-axis set to 0.</summary>
+	[MethodImpl(MethodImplOptions.AggressiveInlining)]
+	public static Vector3Int To3Int(this Vector2 other) => RoundToInt(other);
+
 	/// <summary>Cast (Truncate) <see cref="Vector3"/> to <see cref="Vector3Int"/> while cutting z-axis</summary>
 	[MethodImpl(MethodImplOptions.AggressiveInlining)]
 	public static Vector3Int TruncateToInt(this Vector3 other) => new((int) other.x, (int) other.y);
