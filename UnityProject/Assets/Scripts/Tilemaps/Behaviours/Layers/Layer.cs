@@ -61,6 +61,7 @@ public class Layer : MonoBehaviour
 	//Used to make sure two overlays dont conflict before being set, cleared on the update
 	public HashSet<Vector3> overlayStore = new HashSet<Vector3>();
 
+	[NonSerialized]
 	public MetaTileMap metaTileMap;
 
 	public void Awake()
