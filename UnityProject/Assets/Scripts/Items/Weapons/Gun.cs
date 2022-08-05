@@ -13,8 +13,6 @@ using Messages.Server.SoundMessages;
 using Weapons.Projectiles;
 using NaughtyAttributes;
 using Player;
-using Player.Movement;
-using UnityEngine.ResourceManagement.ResourceProviders.Simulation;
 
 namespace Weapons
 {
