@@ -221,6 +221,7 @@ public class IDCard : NetworkBehaviour, IServerInventoryMove, IServerSpawn, IInt
 		return clearanceSyncList;
 	}
 
+	//TODO Move over to use ClearanceCheckable to do this check
 	/// <summary>
 	/// Checks if this id card has the indicated clearance.
 	/// </summary>
@@ -231,6 +232,7 @@ public class IDCard : NetworkBehaviour, IServerInventoryMove, IServerSpawn, IInt
 		return clearanceSyncList.Contains(access);
 	}
 
+	//TODO Move over to use ClearanceCheckable to do this che
 	/// <summary>
 	/// Checks if this id card has the indicated access from a list of clearances.
 	/// </summary>
@@ -255,7 +257,7 @@ public class IDCard : NetworkBehaviour, IServerInventoryMove, IServerSpawn, IInt
 
 		return jobTitle;
 	}
-
+	
 	/// <summary>
 	/// Removes the indicated clearance from this IDCard
 	/// </summary>
