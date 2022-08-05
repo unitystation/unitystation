@@ -55,22 +55,30 @@ public class UnderFloorLayer : Layer
 		foreach (var coord in tilemap.cellBounds.allPositionsWithin)
 		{
 			var tile = tilemap.GetTile(coord);
+			var tileColour = tilemap.GetColor(coord);
+			var tileMatrix = tilemap.GetTransformMatrix(coord);
 
 			if (tile is ElectricalCableTile electrical)
 			{
 				ElectricalLayer.Tilemap.SetTile(coord, electrical);
+				ElectricalLayer.Tilemap.SetColor(coord, tileColour);
+				ElectricalLayer.Tilemap.SetTransformMatrix(coord, tileMatrix);
 				continue;
 			}
 
 			if (tile is PipeTile pipeTile)
 			{
 				PipeLayer.Tilemap.SetTile(coord, pipeTile);
+				PipeLayer.Tilemap.SetColor(coord, tileColour);
+				PipeLayer.Tilemap.SetTransformMatrix(coord, tileMatrix);
 				continue;
 			}
 
 			if (tile is DisposalPipe disposalPipe)
 			{
 				DisposalsLayer.Tilemap.SetTile(coord, disposalPipe);
+				DisposalsLayer.Tilemap.SetColor(coord, tileColour);
+				DisposalsLayer.Tilemap.SetTransformMatrix(coord, tileMatrix);
 			}
 		}
 
