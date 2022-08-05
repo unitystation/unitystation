@@ -1,4 +1,5 @@
 using System;
+using Systems.Clearance;
 using UnityEngine;
 using UnityEngine.UI;
 using UI.Core.NetUI;
@@ -21,6 +22,10 @@ namespace UI.Objects.Command
 		[Tooltip("If access, access this button will grant")]
 		[SerializeField]
 		private Access access = Access.maint_tunnels;
+
+		[Tooltip("If access, access this button will grant")]
+        [SerializeField]
+        private Clearance clearance = Clearance.MaintTunnels;
 
 		[Tooltip("Color settings to apply when it's on")]
 		[SerializeField]
@@ -47,7 +52,7 @@ namespace UI.Objects.Command
 		/// <summary>
 		/// If IsAccess, access this entry controls
 		/// </summary>
-		public Access Access => access;
+		public Clearance Clearance => clearance;
 		/// <summary>
 		/// If IsOccupation, occupation this entry controls
 		/// </summary>
@@ -90,7 +95,7 @@ namespace UI.Objects.Command
 			}
 			else if (!isOccupation)
 			{
-				console.ServerModifyAccess(access, isToggled);
+				console.ServerModifyAccess(clearance, isToggled);
 			}
 		}
 
@@ -126,7 +131,7 @@ namespace UI.Objects.Command
 			}
 			else
 			{
-				var hasAccess = TargetCard.HasAccess(access);
+				var hasAccess = TargetCard.HasAccess(clearance);
 				if (hasAccess && !toggle.isOn)
 				{
 					netToggle.SetValueServer("1");

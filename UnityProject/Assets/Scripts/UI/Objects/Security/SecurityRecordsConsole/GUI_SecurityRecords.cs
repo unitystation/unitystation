@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UI.Core.NetUI;
 using Objects.Security;
+using Systems.Clearance;
 
 namespace UI.Objects.Security
 {
@@ -87,7 +88,7 @@ namespace UI.Objects.Security
 
 		public void LogIn()
 		{
-			if ((console.IdCard == null || console.IdCard.HasAccess(Access.security) == false) && IsAIInteracting() == false)
+			if ((console.IdCard == null || console.IdCard.HasAccess(Clearance.Security) == false) && IsAIInteracting() == false)
 			{
 				return;
 			}

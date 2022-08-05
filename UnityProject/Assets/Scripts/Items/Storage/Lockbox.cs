@@ -1,6 +1,7 @@
 ﻿using System;
 using Mirror;
 using NaughtyAttributes;
+using Systems.Clearance;
 using Systems.Explosions;
 using UnityEngine;
 
@@ -15,9 +16,15 @@ namespace Items.Storage
 		private InteractableStorage interactableStorage;
 		private SpriteHandler spriteHandler;
 
-		[SerializeField] private Access allowedAccess;
-		[SerializeField] private SpriteDataSO lockedSprite;
-		[SerializeField] private SpriteDataSO unlockedSprite;
+		[SerializeField]
+		private Access allowedAccess;
+
+		[SerializeField]
+		private Clearance allowedClearance;
+		[SerializeField]
+		private SpriteDataSO lockedSprite;
+		[SerializeField]
+		private SpriteDataSO unlockedSprite;
 
 		private void Awake()
 		{
@@ -44,7 +51,7 @@ namespace Items.Storage
 		{
 			if(interaction.UsedObject.TryGetComponent<IDCard>(out var card) == false ||
 			   interaction.UsedObject.TryGetComponent<Emag>(out var mag)) return;
-			if (card != null && card.HasAccess(allowedAccess) == false)
+			if (card != null && card.HasAccess(allowedClearance) == false)
 			{
 				Chat.AddExamineMsg(interaction.Performer, $"The {gameObject.ExpensiveName()} beeps as it refuses access from this card.");
 				return;
@@ -67,12 +74,12 @@ namespace Items.Storage
 		{
 			if (interaction.UsedObject != null)
 			{
-				if (interaction.UsedObject.TryGetComponent<IDCard>(out var card) && card.HasAccess(allowedAccess) == false)
+				if (interaction.UsedObject.TryGetComponent<IDCard>(out var card) && card.HasAccess(allowedClearance) == false)
 				{
 					Chat.AddExamineMsg(interaction.Performer, $"The {gameObject.ExpensiveName()} beeps as it refuses access from this card.");
 					return;
 				}
-				if(card != null && card.HasAccess(allowedAccess))
+				if(card != null && card.HasAccess(allowedClearance))
 				{
 					isLocked = !isLocked;
 					spriteHandler.SetSpriteSO(isLocked ? lockedSprite : unlockedSprite);

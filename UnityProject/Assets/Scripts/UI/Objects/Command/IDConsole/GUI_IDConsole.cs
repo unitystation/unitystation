@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Systems.Clearance;
 using UnityEngine;
 using UI.Core.NetUI;
 
@@ -29,7 +30,7 @@ namespace UI.Objects.Command
 		private NetLabel loginCardName = null;
 
 		//cached mapping from access to its corresponding entry for fast lookup
-		private Dictionary<Access, GUI_IDConsoleEntry> accessToEntry = new Dictionary<Access, GUI_IDConsoleEntry>();
+		private Dictionary<Clearance, GUI_IDConsoleEntry> accessToEntry = new Dictionary<Clearance, GUI_IDConsoleEntry>();
 		private Dictionary<Occupation, GUI_IDConsoleEntry> occupationToEntry = new Dictionary<Occupation, GUI_IDConsoleEntry>();
 
 		/// <summary>
@@ -45,7 +46,7 @@ namespace UI.Objects.Command
 			{
 				if (entry.IsAccess)
 				{
-					accessToEntry.Add(entry.Access, entry);
+					accessToEntry.Add(entry.Clearance, entry);
 				}
 				else
 				{
@@ -178,7 +179,7 @@ namespace UI.Objects.Command
 		/// </summary>
 		/// <param name="accessToModify"></param>
 		/// <param name="grant">if true, grants access, otherwise removes it</param>
-		public void ServerModifyAccess(Access accessToModify, bool grant)
+		public void ServerModifyAccess(Clearance accessToModify, bool grant)
 		{
 			var alreadyHasAccess = console.TargetCard.HasAccess(accessToModify);
 			if (!grant && alreadyHasAccess)
@@ -225,7 +226,7 @@ namespace UI.Objects.Command
 		public void ServerLogin()
 		{
 			if (console.AccessCard != null &&
-				console.AccessCard.HasAccess(Access.change_ids) || IsAIInteracting() == true)
+				console.AccessCard.HasAccess(Clearance.ChangeIds) || IsAIInteracting() == true)
 			{
 				console.LoggedIn = true;
 				pageSwitcher.SetActivePage(usercardPage);

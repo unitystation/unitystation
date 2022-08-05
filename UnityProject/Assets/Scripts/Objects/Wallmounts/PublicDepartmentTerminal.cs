@@ -4,6 +4,7 @@ using UnityEngine;
 using UI.Objects.Wallmounts;
 using Mirror;
 using System.Collections;
+using Systems.Clearance;
 
 namespace Objects.Wallmounts
 {
@@ -17,14 +18,14 @@ namespace Objects.Wallmounts
 			senderDepartment = sender;
 			targetDepartment = target;
 		}
-		
+
 		public string message;
 		public bool isUrgent;
 		public string Sender;
 		public int senderDepartment;
 		public int targetDepartment;
 	}
-	
+
 	public class PublicDepartmentTerminal : SignalEmitter, IAPCPowerable, ICheckedInteractable<HandApply>
 	{
 		bool CanTransmit = true; //For serverside cooldown on broadcasting messages, to prevent players from spamming messages
@@ -50,6 +51,8 @@ namespace Objects.Wallmounts
 		public bool AccessRestricted;
 
 		public Access terminalRequieredAccess; //Access required to send messages at this terminal, requires terminal to be access restricted to work.
+
+		public Clearance terminalRequiredClearance;
 
 		private float currentVoltage; // for the UI
 
@@ -81,7 +84,7 @@ namespace Objects.Wallmounts
 		public override void SignalFailed()
 		{
 			if (isPowered == false) return;
-			if (CurrentLogin == null || CurrentLogin.HasAccess(terminalRequieredAccess) == false)
+			if (CurrentLogin == null || CurrentLogin.HasAccess(terminalRequiredClearance) == false)
 			{
 				Chat.AddLocalMsgToChat("A huge red X appears on the terminal's screen as it says 'access denied'", gameObject);
 				return;
@@ -96,7 +99,7 @@ namespace Objects.Wallmounts
 
 			PlayerInfo player = PlayerList.Instance.Get(sender);
 
-			if(player.Script.IsRegisterTileReachable(gameObject.GetComponent<RegisterTile>(), true, 1.5f) == false) return; //Sees if the player is actually next to the terminal. 
+			if(player.Script.IsRegisterTileReachable(gameObject.GetComponent<RegisterTile>(), true, 1.5f) == false) return; //Sees if the player is actually next to the terminal.
 
 			//This trims the strings to be a max of 200 characters, shouldn't be able to happen normally but as Gilles once said "Player Inputs are Evil"
 			newData.message = newData.message.Length <= 200 ? newData.message : newData.message.Substring(0, 200);
@@ -180,7 +183,7 @@ namespace Objects.Wallmounts
 
 			if (AccessRestricted == false) return true;
 
-			if (CurrentLogin.HasAccess(terminalRequieredAccess)) return true;
+			if (CurrentLogin.HasAccess(terminalRequiredClearance)) return true;
 
 			return false;
 		}
