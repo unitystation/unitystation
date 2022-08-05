@@ -50,13 +50,33 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1556497627002869219, guid: 12b87bdcedcba4b409b2cc945c27cbe7,
         type: 3}
+      propertyPath: authorisedClearance.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1556497627002869219, guid: 12b87bdcedcba4b409b2cc945c27cbe7,
+        type: 3}
       propertyPath: weaponAuthorisation.Array.size
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1556497627002869219, guid: 12b87bdcedcba4b409b2cc945c27cbe7,
         type: 3}
+      propertyPath: authorisedClearance.Array.data[0]
+      value: 73
+      objectReference: {fileID: 0}
+    - target: {fileID: 1556497627002869219, guid: 12b87bdcedcba4b409b2cc945c27cbe7,
+        type: 3}
       propertyPath: weaponAuthorisation.Array.data[0]
       value: 71
+      objectReference: {fileID: 0}
+    - target: {fileID: 1556497627002869219, guid: 12b87bdcedcba4b409b2cc945c27cbe7,
+        type: 3}
+      propertyPath: weaponAuthorisationClearance.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1556497627002869219, guid: 12b87bdcedcba4b409b2cc945c27cbe7,
+        type: 3}
+      propertyPath: weaponAuthorisationClearance.Array.data[0]
+      value: 73
       objectReference: {fileID: 0}
     - target: {fileID: 1563371231989850582, guid: 12b87bdcedcba4b409b2cc945c27cbe7,
         type: 3}
