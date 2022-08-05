@@ -43,8 +43,16 @@ namespace Player.Language
 
 		public override void OnStartLocalPlayer()
 		{
+			if(isServer) return;
+
 			addedLanguages.Callback += OnLanguageListChange;
 
+			TryAdd();
+		}
+
+		[ContextMenu("Try add languages")]
+		private void TryAdd()
+		{
 			foreach (var newLanguage in addedLanguages)
 			{
 				var language = LanguageManager.Instance.GetLanguageById(newLanguage.languageId);
