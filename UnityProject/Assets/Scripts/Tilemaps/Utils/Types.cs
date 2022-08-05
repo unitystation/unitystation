@@ -108,8 +108,9 @@ public static class LTSUtil
 				return LayerTypeSelection.Disposals;
 			default:
 				Logger.LogError($"Failed to have case for: {Layer}");
-				return LayerTypeSelection.Base;;
+				break;
 		}
+
 		return LayerTypeSelection.Base;
 	}
 }
