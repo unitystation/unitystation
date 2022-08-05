@@ -15,21 +15,15 @@ using UnityEditor;
 [ExecuteInEditMode]
 public class UnderFloorLayer : Layer
 {
-	[SerializeField]
-	[InfoBox("These are used to convert the UnderfloorLayer into Electrical, Pipe and Disposal layers, you need to set them before clicking convert")]
-	private ElectricalLayer electricalLayer;
-
-	[SerializeField]
-	private PipeLayer pipeLayer;
-
-	[SerializeField]
-	private DisposalsLayer disposalsLayer;
-
 #if UNITY_EDITOR
 
 	[Button]
 	public void Convert()
 	{
+		var electricalLayer = transform.parent.GetComponentInChildren<ElectricalLayer>();
+		var pipeLayer = transform.parent.GetComponentInChildren<PipeLayer>();
+		var disposalsLayer = transform.parent.GetComponentInChildren<DisposalsLayer>();
+
 		if (electricalLayer == null)
 		{
 			Logger.LogError($"Missing electrical layer!");
@@ -86,16 +80,11 @@ public class UnderFloorLayer : Layer
 		EditorUtility.SetDirty(electricalLayer);
 		EditorUtility.SetDirty(pipeLayer);
 		EditorUtility.SetDirty(disposalsLayer);
-		EditorSceneManager.MarkSceneDirty(gameObject.scene);
-		EditorSceneManager.SaveScene(gameObject.scene);
-	}
 
-	[Button]
-	private void ClearLayer()
-	{
+		//Clear underfloor layer
 		tilemap.ClearAllTiles();
-
 		EditorUtility.SetDirty(this);
+
 		EditorSceneManager.MarkSceneDirty(gameObject.scene);
 		EditorSceneManager.SaveScene(gameObject.scene);
 	}
