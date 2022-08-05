@@ -66,7 +66,7 @@ namespace Systems.MobAIs
 		private void DoRandomWireChew()
 		{
 			var metaTileMap = registerObject.TileChangeManager.MetaTileMap;
-			var matrix = metaTileMap.Layers[LayerType.Underfloor].matrix;
+			var matrix = metaTileMap.Layers[LayerType.Underfloor].Matrix;
 
 			// Check if the floor plating is exposed.
 			if (metaTileMap.HasTile(registerObject.LocalPosition, LayerType.Floors)) return;

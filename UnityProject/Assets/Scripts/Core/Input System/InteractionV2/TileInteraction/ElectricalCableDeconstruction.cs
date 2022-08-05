@@ -49,7 +49,7 @@ namespace Tiles.Electrical
 			var ElectricalCable = interaction.BasicTile as ElectricalCableTile;
 			if (ElectricalCable == null) return;
 
-			var matrix = interaction.TileChangeManager.MetaTileMap.Layers[LayerType.Underfloor].matrix;
+			var matrix = interaction.TileChangeManager.MetaTileMap.Layers[LayerType.Underfloor].Matrix;
 			var metaDataNode = matrix.GetMetaDataNode(interaction.TargetCellPos);
 
 			foreach (var ElectricalData in metaDataNode.ElectricalData)

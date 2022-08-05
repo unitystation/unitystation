@@ -43,7 +43,7 @@ namespace Tiles.Pipes
 			if (interaction.BasicTile.LayerType != LayerType.Underfloor) return;
 
 			var pipeTile = interaction.BasicTile as PipeTile;
-			var matrix = interaction.TileChangeManager.MetaTileMap.Layers[LayerType.Underfloor].matrix;
+			var matrix = interaction.TileChangeManager.MetaTileMap.Layers[LayerType.Underfloor].Matrix;
 			var metaDataNode = matrix.GetMetaDataNode(interaction.TargetCellPos);
 
 			for (var i = 0; i < metaDataNode.PipeData.Count; i++)

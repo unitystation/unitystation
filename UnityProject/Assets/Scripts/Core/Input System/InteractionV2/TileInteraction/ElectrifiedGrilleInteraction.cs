@@ -45,7 +45,7 @@ namespace Tiles
 			// This means attack interactions would be incorrectly ignored.
 			if (!othersWillInteract && (interaction.Intent == Intent.Harm || interaction.HandObject != null))
 			{
-				var matrix = interaction.TileChangeManager.MetaTileMap.Layers[LayerType.Grills].matrix;
+				var matrix = interaction.TileChangeManager.MetaTileMap.Layers[LayerType.Grills].Matrix;
 				var weaponNA = interaction.Performer.GetComponent<WeaponNetworkActions>();
 				weaponNA.ServerPerformMeleeAttack(
 						matrix.transform.parent.gameObject, interaction.TargetVector, BodyPartType.None, interaction.BasicTile.LayerType);
@@ -76,7 +76,7 @@ namespace Tiles
 		{
 			Vector3Int targetCellPos = interaction.TargetCellPos;
 			MetaTileMap metaTileMap = interaction.TileChangeManager.MetaTileMap;
-			Matrix matrix = metaTileMap.Layers[LayerType.Underfloor].matrix;
+			Matrix matrix = metaTileMap.Layers[LayerType.Underfloor].Matrix;
 
 			// Check if the floor plating is exposed.
 			if (metaTileMap.HasTile(targetCellPos, LayerType.Floors)) return 0;

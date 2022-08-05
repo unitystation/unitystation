@@ -13,7 +13,7 @@ using UnityEngine.Tilemaps;
 [ExecuteInEditMode]
 public class Layer : MonoBehaviour
 {
-	public SubsystemManager subsystemManager;
+	public SubsystemManager SubsystemManager { get; private set; }
 
 	public LayerType LayerType;
 	protected Tilemap tilemap;
@@ -50,7 +50,7 @@ public class Layer : MonoBehaviour
 	/// </summary>
 	private MatrixMove matrixMove;
 
-	public Matrix matrix;
+	public Matrix Matrix { get; private set; }
 
 	public Vector3Int WorldToCell(Vector3 pos) => tilemap.WorldToCell(pos);
 	public Vector3Int LocalToCell(Vector3 pos) => tilemap.LocalToCell(pos);
@@ -65,10 +65,10 @@ public class Layer : MonoBehaviour
 
 	public void Awake()
 	{
-		matrix = GetComponentInParent<Matrix>();
+		Matrix = GetComponentInParent<Matrix>();
 		tilemap = GetComponent<Tilemap>();
 		TilemapDamage = GetComponent<TilemapDamage>();
-		subsystemManager = GetComponentInParent<SubsystemManager>();
+		SubsystemManager = GetComponentInParent<SubsystemManager>();
 		RecalculateBounds();
 	}
 
@@ -149,7 +149,7 @@ public class Layer : MonoBehaviour
 		if (CustomNetworkManager.IsHeadless) return;
 		if (tile is not SimpleTile c) return; //Not a tile that has the data we need
 		if(c.CanBeHighlightedThroughScanners == false || c.HighlightObject == null) return;
-		var spawnHighlight = Spawn.ClientPrefab(c.HighlightObject, MatrixManager.LocalToWorld(position, matrix), this.transform); //Spawn highlight object ontop of tile
+		var spawnHighlight = Spawn.ClientPrefab(c.HighlightObject, MatrixManager.LocalToWorld(position, Matrix), this.transform); //Spawn highlight object ontop of tile
 		if(spawnHighlight.Successful == false || spawnHighlight.GameObject.TryGetComponent<HighlightScan>(out var scan) == false) return; //If this fails for whatever reason, return
 		c.AssoicatedSpawnedObjects.Add(spawnHighlight.GameObject); //Add it to a list that the tile will keep track off for when OnDestroy() happens
 		scan.Setup(c.sprite); //setup the highlight sprite rendere

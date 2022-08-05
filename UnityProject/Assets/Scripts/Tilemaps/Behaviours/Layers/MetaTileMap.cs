@@ -314,7 +314,7 @@ namespace TileManagement
 			//TODO note Boundaries only recap later when tiles are added outside of it, so therefore it can only increase in size
 			// remember update transforms and position and colour when removing On tile map I'm assuming It doesn't clear it?
 			// Maybe it sets it to the correct ones when you set a tile idk
-			tileLocation.layer.subsystemManager.UpdateAt(tileLocation.position);
+			tileLocation.layer.SubsystemManager.UpdateAt(tileLocation.position);
 			lock (PooledTileLocation)
 			{
 				PooledTileLocation.Push(tileLocation);
@@ -349,7 +349,7 @@ namespace TileManagement
 		{
 			tileLocation.layer.SetTile(tileLocation.position, tileLocation.layerTile,
 				tileLocation.transformMatrix, tileLocation.Colour);
-			tileLocation.layer.subsystemManager.UpdateAt(tileLocation.position);
+			tileLocation.layer.SubsystemManager.UpdateAt(tileLocation.position);
 			if (LocalCachedBounds != null)
 			{
 				if (LocalCachedBounds.Value.Contains(tileLocation.position) == false)
@@ -2101,21 +2101,21 @@ namespace TileManagement
 									var electricalCableTile = getTile as ElectricalCableTile;
 									if (electricalCableTile != null)
 									{
-										layer.matrix.AddElectricalNode(new Vector3Int(n, p, localPlace.z),
+										layer.Matrix.AddElectricalNode(new Vector3Int(n, p, localPlace.z),
 											electricalCableTile);
 									}
 
 									var disposalPipeTile = getTile as Objects.Disposals.DisposalPipe;
 									if (disposalPipeTile != null)
 									{
-										disposalPipeTile.InitialiseNode(localPlace, layer.matrix);
+										disposalPipeTile.InitialiseNode(localPlace, layer.Matrix);
 									}
 
 									var pipeTile = getTile as Objects.Atmospherics.PipeTile;
 									if (pipeTile != null)
 									{
 										var matrixStruct =
-											layer.matrix.UnderFloorLayer.Tilemap.GetTransformMatrix(localPlace);
+											layer.Matrix.UnderFloorLayer.Tilemap.GetTransformMatrix(localPlace);
 										var connection = PipeTile.GetRotatedConnection(pipeTile, matrixStruct);
 										var pipeDir = connection.Directions;
 										var canInitializePipe = true;
@@ -2127,7 +2127,7 @@ namespace TileManagement
 												{
 													canInitializePipe = false;
 													Logger.LogWarning(
-														$"A pipe is overlapping its connection at ({n}, {p}) in {layer.matrix.gameObject.scene.name} - {layer.matrix.name} with another pipe, removing one",
+														$"A pipe is overlapping its connection at ({n}, {p}) in {layer.Matrix.gameObject.scene.name} - {layer.Matrix.name} with another pipe, removing one",
 														Category.Pipes);
 													layer.Tilemap.SetTile(localPlace, null);
 													break;
@@ -2139,7 +2139,7 @@ namespace TileManagement
 
 										if (canInitializePipe)
 										{
-											pipeTile.InitialiseNode(localPlace, layer.matrix);
+											pipeTile.InitialiseNode(localPlace, layer.Matrix);
 										}
 									}
 								}

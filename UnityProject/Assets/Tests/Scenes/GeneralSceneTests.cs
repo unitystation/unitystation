@@ -120,8 +120,8 @@ namespace Tests.Scenes
 						layers.Add(layerType);
 					}
 
-					Report.FailIf(layer.matrix != matrix)
-						.AppendLine($"{layer.name} is located in \"{matrix.name}\" but is bound to \"{layer.matrix.name}\".")
+					Report.FailIf(layer.Matrix != matrix)
+						.AppendLine($"{layer.name} is located in \"{matrix.name}\" but is bound to \"{layer.Matrix.name}\".")
 						.FailIf(layer.transform.parent != matrix.transform)
 						.Append($"{layer.name} is not a direct child of the \"{matrix.name}\" matrix. ")
 						.Append($"Currently located at: {layer.transform.HierarchyName()}.")
@@ -171,7 +171,7 @@ namespace Tests.Scenes
 				{
 					for (var y = bounds.yMin; y < bounds.yMax; y++)
 					{
-						CheckPipeAndCableTiles(layer.matrix, tilemap, x, y);
+						CheckPipeAndCableTiles(layer.Matrix, tilemap, x, y);
 					}
 				}
 			}

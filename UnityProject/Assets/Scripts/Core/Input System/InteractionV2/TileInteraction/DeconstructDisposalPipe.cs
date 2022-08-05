@@ -36,7 +36,7 @@ namespace Objects.Disposals
 
 		private bool VerboseDisposalMachineExists(TileApply interaction)
 		{
-			Matrix matrix = interaction.TileChangeManager.MetaTileMap.Layers[LayerType.Underfloor].matrix;
+			Matrix matrix = interaction.TileChangeManager.MetaTileMap.Layers[LayerType.Underfloor].Matrix;
 
 			if ((interaction.BasicTile as DisposalPipe).PipeType == DisposalPipeType.Terminal)
 			{
