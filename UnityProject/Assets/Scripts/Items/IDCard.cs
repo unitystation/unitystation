@@ -12,7 +12,7 @@ using WebSocketSharp;
 /// <summary>
 ///     ID card properties
 /// </summary>
-public class IDCard : NetworkBehaviour, IServerInventoryMove, IServerSpawn, IInteractable<HandActivate>, IExaminable
+public class IDCard : NetworkBehaviour, IServerInventoryMove, IServerSpawn, IInteractable<HandActivate>, IExaminable, IClearanceProvider
 {
 
 	[Tooltip("Sprite to use when the card is a normal card")]
@@ -62,7 +62,7 @@ public class IDCard : NetworkBehaviour, IServerInventoryMove, IServerSpawn, IInt
 	public int[] currencies = new int[(int)CurrencyType.Total];
 
 	//The actual list of access allowed set via the server and synced to all clients
-	private readonly SyncList<int> accessSyncList = new SyncList<int>();
+	private readonly SyncListClearance clearanceSyncList = new SyncListClearance();
 
 	//To switch the card sprites when the type changes
 	private SpriteRenderer spriteRenderer;
@@ -216,6 +216,11 @@ public class IDCard : NetworkBehaviour, IServerInventoryMove, IServerSpawn, IInt
 		pickupable.RefreshUISlotImage();
 	}
 
+	public IEnumerable<Clearance> GetClearance()
+	{
+		return clearanceSyncList;
+	}
+
 	/// <summary>
 	/// Checks if this id card has the indicated clearance.
 	/// </summary>
@@ -223,7 +228,7 @@ public class IDCard : NetworkBehaviour, IServerInventoryMove, IServerSpawn, IInt
 	/// <returns></returns>
 	public bool HasAccess(Clearance access)
 	{
-		return accessSyncList.Contains((int) access);
+		return clearanceSyncList.Contains(access);
 	}
 
 	/// <summary>
@@ -235,7 +240,7 @@ public class IDCard : NetworkBehaviour, IServerInventoryMove, IServerSpawn, IInt
 	{
 		foreach (var accessToCheck in access)
 		{
-			if (accessSyncList.Contains((int)accessToCheck)) return true;
+			if (clearanceSyncList.Contains(accessToCheck)) return true;
 		}
 		return false;
 	}
@@ -258,7 +263,7 @@ public class IDCard : NetworkBehaviour, IServerInventoryMove, IServerSpawn, IInt
 	public void ServerRemoveAccess(Clearance access)
 	{
 		if (!HasAccess(access)) return;
-		accessSyncList.Remove((int)access);
+		clearanceSyncList.Remove(access);
 		netIdentity.isDirty = true;
 	}
 
@@ -269,7 +274,7 @@ public class IDCard : NetworkBehaviour, IServerInventoryMove, IServerSpawn, IInt
 	public void ServerAddAccess(Clearance access)
 	{
 		if (HasAccess(access)) return;
-		accessSyncList.Add((int)access);
+		clearanceSyncList.Add(access);
 		netIdentity.isDirty = true;
 	}
 
@@ -322,7 +327,7 @@ public class IDCard : NetworkBehaviour, IServerInventoryMove, IServerSpawn, IInt
 
 		if (clear)
 		{
-			accessSyncList.Clear();
+			clearanceSyncList.Clear();
 			netIdentity.isDirty = true;
 		}
 
