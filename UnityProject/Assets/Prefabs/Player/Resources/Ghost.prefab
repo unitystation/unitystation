@@ -24,6 +24,7 @@ GameObject:
   - component: {fileID: 1852173234745760124}
   - component: {fileID: 1532227210967981965}
   - component: {fileID: 93686595326039348}
+  - component: {fileID: 9073641150364035070}
   - component: {fileID: 8744048983066700626}
   m_Layer: 31
   m_Name: Ghost
@@ -317,6 +318,20 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c918846612a844a8a3c91a1ddb280a87, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+--- !u!114 &9073641150364035070
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4390267312333422610}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 45a69f256a574520a759ff5c8c603402, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   syncMode: 0
@@ -647,7 +662,7 @@ SpriteRenderer:
   m_SortingLayerID: -902452607
   m_SortingLayer: 22
   m_SortingOrder: 20
-  m_Sprite: {fileID: -1841058614580174146, guid: 2adbceb9cc674484cb9a2c58b41d5493,
+  m_Sprite: {fileID: 7660122581263827943, guid: 2adbceb9cc674484cb9a2c58b41d5493,
     type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
