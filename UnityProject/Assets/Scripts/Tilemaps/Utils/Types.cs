@@ -15,7 +15,6 @@ public enum TileType
 	WindowDamaged,
 	Effects,
 	UnderFloor,
-	ElectricalCable,
 	Electrical,
 	Pipe,
 	Disposals
