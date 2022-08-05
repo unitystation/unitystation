@@ -255,6 +255,8 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 	// TODO: Bod this is not what CheckedComponent is for as the reference is not on the same object as this script - Dan
 	public CheckedComponent<UniversalObjectPhysics> PulledBy = new CheckedComponent<UniversalObjectPhysics>();
 
+	protected bool doStepInteractions = true;
+
 	#region Events
 
 	[PlayModeOnly] public ForceEvent OnThrowStart = new ForceEvent();
@@ -563,11 +565,15 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 		PullSet(newPulling.NewPulling, false, true);
 	}
 
-	public void AppearAtWorldPositionServer(Vector3 worldPos, bool smooth = false)
+	public void AppearAtWorldPositionServer(Vector3 worldPos, bool smooth = false, bool doStepInteractions = true)
 	{
+		this.doStepInteractions = doStepInteractions;
+
 		SynchroniseVisibility(isVisible, true);
 		var matrix = MatrixManager.AtPoint(worldPos, isServer);
 		ForceSetLocalPosition(worldPos.ToLocal(matrix), Vector2.zero, smooth, matrix.Id);
+
+		this.doStepInteractions = true;
 	}
 
 	public void DropAtAndInheritMomentum(UniversalObjectPhysics droppedFrom)
@@ -1765,6 +1771,8 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 
 	public virtual void LocalTileReached(Vector3Int localPos)
 	{
+		if(doStepInteractions == false) return;
+
 		var matrix = registerTile.Matrix;
 		if(matrix == null) return;
 

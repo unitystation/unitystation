@@ -143,7 +143,7 @@ namespace Items.Others
 		{
 			if(ValidatePosition(interaction) == false) return;
 
-			var newHolosign = Spawn.ServerPrefab(holosignPrefabs[index], interaction.WorldPositionTarget);
+			var newHolosign = Spawn.ServerPrefab(holosignPrefabs[index], interaction.WorldPositionTarget.RoundToInt());
 			if (newHolosign.Successful == false)
 			{
 				Logger.LogError("Failed to spawn holosign!");
