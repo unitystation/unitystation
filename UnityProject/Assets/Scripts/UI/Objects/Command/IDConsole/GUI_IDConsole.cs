@@ -30,8 +30,8 @@ namespace UI.Objects.Command
 		private NetLabel loginCardName = null;
 
 		//cached mapping from access to its corresponding entry for fast lookup
-		private Dictionary<Clearance, GUI_IDConsoleEntry> accessToEntry = new Dictionary<Clearance, GUI_IDConsoleEntry>();
-		private Dictionary<Occupation, GUI_IDConsoleEntry> occupationToEntry = new Dictionary<Occupation, GUI_IDConsoleEntry>();
+		private Dictionary<GUI_IDConsoleEntry, Clearance> accessToEntry = new Dictionary<GUI_IDConsoleEntry, Clearance>();
+		private Dictionary<GUI_IDConsoleEntry, Occupation> occupationToEntry = new Dictionary<GUI_IDConsoleEntry, Occupation>();
 
 		/// <summary>
 		/// Card currently targeted for security modifications. Null if none inserted
@@ -46,11 +46,11 @@ namespace UI.Objects.Command
 			{
 				if (entry.IsAccess)
 				{
-					accessToEntry.Add(entry.Clearance, entry);
+					accessToEntry.Add(entry, entry.Clearance);
 				}
 				else
 				{
-					occupationToEntry.Add(entry.Occupation, entry);
+					occupationToEntry.Add(entry, entry.Occupation);
 				}
 			}
 			mainPage.SetActive(false);
@@ -101,7 +101,12 @@ namespace UI.Objects.Command
 		/// </summary>
 		private void ServerRefreshEntries()
 		{
-			foreach (var entry in accessToEntry.Values.Concat(occupationToEntry.Values))
+			foreach (var entry in accessToEntry.Keys)
+			{
+				entry.ServerRefreshFromTargetCard();
+			}
+
+			foreach (var entry in occupationToEntry.Keys)
 			{
 				entry.ServerRefreshFromTargetCard();
 			}
