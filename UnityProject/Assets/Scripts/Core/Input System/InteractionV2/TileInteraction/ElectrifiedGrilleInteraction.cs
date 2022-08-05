@@ -76,7 +76,7 @@ namespace Tiles
 		{
 			Vector3Int targetCellPos = interaction.TargetCellPos;
 			MetaTileMap metaTileMap = interaction.TileChangeManager.MetaTileMap;
-			Matrix matrix = metaTileMap.Layers[LayerType.Underfloor].Matrix;
+			Matrix matrix = metaTileMap.Layers[LayerType.Electrical].Matrix;
 
 			// Check if the floor plating is exposed.
 			if (metaTileMap.HasTile(targetCellPos, LayerType.Floors)) return 0;

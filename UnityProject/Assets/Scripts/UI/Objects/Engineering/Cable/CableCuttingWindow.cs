@@ -98,7 +98,7 @@ public class CableCuttingWindow : MonoBehaviour
 
 
 		// loop trough all layers searching for electrical cable tiles
-		foreach (var CableTile in matrix.MetaTileMap.GetAllTilesByType<ElectricalCableTile>(cellPos, LayerType.Underfloor))
+		foreach (var CableTile in matrix.MetaTileMap.GetAllTilesByType<ElectricalCableTile>(cellPos, LayerType.Electrical))
 		{
 			ElectricalCableTileData data = new ElectricalCableTileData
 			{
