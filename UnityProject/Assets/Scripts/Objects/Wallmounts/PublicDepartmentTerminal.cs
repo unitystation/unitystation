@@ -46,18 +46,20 @@ namespace Objects.Wallmounts
 
 		public DepartmentList departmentList;
 
-		public DepartmentToInt Department; //For displaying what the console's department is for
+		//For displaying what the console's department is for
+		public DepartmentToInt Department;
 
 		public bool AccessRestricted;
 
-		public Access terminalRequieredAccess; //Access required to send messages at this terminal, requires terminal to be access restricted to work.
-
+		//Access required to send messages at this terminal, requires terminal to be access restricted to work.
 		public Clearance terminalRequiredClearance;
 
-		private float currentVoltage; // for the UI
+		// for the UI
+		private float currentVoltage;
 
 		[SyncVar]
-		private IDCard currentLogin; //the currently logged in user, we actually do need to sync this as the requests are being sent from the client so all of them need this.
+		//the currently logged in user, we actually do need to sync this as the requests are being sent from the client so all of them need this.
+		private IDCard currentLogin;
 
 		[HideInInspector]
 		public GUI_PublicTerminal terminalGUI;

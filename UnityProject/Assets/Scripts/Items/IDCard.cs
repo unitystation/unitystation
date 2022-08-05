@@ -27,11 +27,6 @@ public class IDCard : NetworkBehaviour, IServerInventoryMove, IServerSpawn, IInt
 	[SerializeField]
 	private Sprite commandSprite = null;
 
-	[Tooltip("This is used to place ID cards via map editor and then setting their initial access type")]
-	[FormerlySerializedAs("ManuallyAddedAccess")]
-	[SerializeField]
-	private List<Access> manuallyAddedAccess = new List<Access>();
-
 	[Tooltip("This is used to place ID cards via map editor and then setting their initial clearance type")]
 	[SerializeField]
 	private List<Clearance> manuallyAddedClearance = new List<Clearance>();

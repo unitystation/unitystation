@@ -9,9 +9,8 @@ public class AccessRestrictions : MonoBehaviour
 {
 	public Access restriction;
 
+	//TODO Move doors over to use ClearanceRestrictions
 	public Clearance clearanceRestriction = 0;
-
-	//TODO changing all doors to use new clearance will be a pain as it needs to be done per scene, need to make tool
 
 	public bool CheckAccess(GameObject player)
 	{

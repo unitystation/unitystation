@@ -104,7 +104,7 @@ namespace Items.PDA
 		private ItemSlot CartridgeSlot = default;
 
 		//The actual list of access allowed set via the server and synced to all clients
-		private readonly SyncList<int> accessSyncList = new SyncList<int>();
+		private readonly SyncList<int> clearanceSyncList = new SyncList<int>();
 
 		#region Lifecycle
 
@@ -539,31 +539,33 @@ namespace Items.PDA
 
 
 		[Server]
-		public bool HasAccess(Access access)
+		public bool HasAccess(Clearance clearance)
 		{
-			return accessSyncList.Contains((int)access);
+			return clearanceSyncList.Contains((int)clearance);
 		}
 
 		[Server]
 		public SyncList<int> AccessList()
 		{
-			return accessSyncList;
+			return clearanceSyncList;
 		}
 
 		// Removes the indicated access from this IDCard
 		[Server]
-		public void ServerRemoveAccess(Access access)
+		public void ServerRemoveAccess(Clearance clearance)
 		{
-			if (!HasAccess(access)) return;
-			accessSyncList.Remove((int)access);
+			if (!HasAccess(clearance)) return;
+			clearanceSyncList.Remove((int)clearance);
+			netIdentity.isDirty = true;
 		}
 
 		// Adds the indicated access to this IDCard
 		[Server]
-		public void ServerAddAccess(Access access)
+		public void ServerAddAccess(Clearance clearance)
 		{
-			if (HasAccess(access)) return;
-			accessSyncList.Add((int)access);
+			if (HasAccess(clearance)) return;
+			clearanceSyncList.Add((int)clearance);
+			netIdentity.isDirty = true;
 		}
 
 		// All the methods above will be obsolete as soon as we migrate
