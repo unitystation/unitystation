@@ -71,7 +71,7 @@ namespace Systems.Clearance
 			{
 				if (slot.ItemObject != null && slot.ItemObject.TryGetComponent<IClearanceProvider>(out var idObject))
 				{
-					return HasClearance(idObject.GetClearance());
+					return HasClearance(idObject.GetClearance);
 				}
 			}
 
@@ -79,7 +79,7 @@ namespace Systems.Clearance
 			var activeHandObject = playerStorage.GetActiveHandSlot().ItemObject;
 			if (activeHandObject != null && activeHandObject.TryGetComponent<IClearanceProvider>(out var handObject))
 			{
-				return HasClearance(handObject.GetClearance());
+				return HasClearance(handObject.GetClearance);
 			}
 
 			return false;
