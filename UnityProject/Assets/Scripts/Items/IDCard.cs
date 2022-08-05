@@ -70,6 +70,8 @@ public class IDCard : NetworkBehaviour, IServerInventoryMove, IServerSpawn, IInt
 
 	private ItemAttributesV2 itemAttributes;
 
+	public IEnumerable<Clearance> GetClearance => clearanceSyncList;
+
 	private void Awake()
 	{
 		spriteRenderer = GetComponentInChildren<SpriteRenderer>();
@@ -216,11 +218,6 @@ public class IDCard : NetworkBehaviour, IServerInventoryMove, IServerSpawn, IInt
 		pickupable.RefreshUISlotImage();
 	}
 
-	public IEnumerable<Clearance> GetClearance()
-	{
-		return clearanceSyncList;
-	}
-
 	//TODO Move over to use ClearanceCheckable to do this check
 	/// <summary>
 	/// Checks if this id card has the indicated clearance.
@@ -257,7 +254,7 @@ public class IDCard : NetworkBehaviour, IServerInventoryMove, IServerSpawn, IInt
 
 		return jobTitle;
 	}
-	
+
 	/// <summary>
 	/// Removes the indicated clearance from this IDCard
 	/// </summary>
