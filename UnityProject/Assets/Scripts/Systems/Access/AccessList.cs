@@ -10,10 +10,6 @@ using UnityEngine;
 public class AccessList : ScriptableObject
 {
 	[SerializeField]
-	private List<Access> accesses = null;
-	public List<Access> Accesses => accesses;
-
-	[SerializeField]
 	private List<Clearance> clearances = null;
 	public List<Clearance> Clearances => clearances;
 }
