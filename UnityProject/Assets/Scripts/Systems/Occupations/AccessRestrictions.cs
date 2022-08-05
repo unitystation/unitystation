@@ -1,4 +1,5 @@
-﻿using Items.PDA;
+﻿using System;
+using Items.PDA;
 using Systems.Clearance;
 using Systems.Clearance.Utils;
 using UnityEngine;
@@ -10,6 +11,7 @@ public class AccessRestrictions : MonoBehaviour
 	public Access restriction;
 
 	//TODO Move doors over to use ClearanceRestrictions
+	[NonSerialized]
 	public Clearance clearanceRestriction = 0;
 
 	public bool CheckAccess(GameObject player)
