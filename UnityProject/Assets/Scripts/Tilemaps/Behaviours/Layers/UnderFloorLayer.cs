@@ -77,6 +77,11 @@ public class UnderFloorLayer : Layer
 			}
 		}
 
+		var currentPos = gameObject.transform.localPosition;
+		electricalLayer.gameObject.transform.localPosition = currentPos;
+		pipeLayer.gameObject.transform.localPosition = currentPos;
+		disposalsLayer.gameObject.transform.localPosition = currentPos;
+
 		EditorUtility.SetDirty(electricalLayer);
 		EditorUtility.SetDirty(pipeLayer);
 		EditorUtility.SetDirty(disposalsLayer);
