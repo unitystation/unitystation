@@ -67,6 +67,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: AirlockCentCom
       objectReference: {fileID: 0}
+    - target: {fileID: 3591826009072354990, guid: 1f10fce737097ce44affadeeb9bea4da,
+        type: 3}
+      propertyPath: requiredClearance.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3591826009072354990, guid: 1f10fce737097ce44affadeeb9bea4da,
+        type: 3}
+      propertyPath: requiredClearance.Array.data[0]
+      value: 19
+      objectReference: {fileID: 0}
     - target: {fileID: 4190507433779757317, guid: 1f10fce737097ce44affadeeb9bea4da,
         type: 3}
       propertyPath: foreverID

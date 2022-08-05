@@ -110,8 +110,8 @@ namespace Core.Editor.Doors
 
 			foreach (var file in files)
 			{
-				var relPath = prefabsFolder.Replace(Application.dataPath, "Assets");
-				var s = $"{relPath}{Path.DirectorySeparatorChar}{file.Name}";
+				var split = prefabsFolder.Split($"{Path.DirectorySeparatorChar}Assets");
+				var s = $"Assets{Path.DirectorySeparatorChar}{split[1]}{Path.DirectorySeparatorChar}{file.Name}";
 				AddToLog($"Trying to load {file.Name} on {s}");
 				var pgo = AssetDatabase.LoadAssetAtPath(s, typeof(GameObject)) as GameObject;
 
