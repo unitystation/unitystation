@@ -18,11 +18,11 @@ namespace Player.Language
 		private bool omniTongue = false;
 		public bool OmniTongue => omniTongue;
 
-		public List<LanguageSO> UnderstoodLanguages { get; private set; } = new List<LanguageSO>();
+		public HashSet<LanguageSO> UnderstoodLanguages { get; private set; } = new HashSet<LanguageSO>();
 
-		public List<LanguageSO> SpokenLanguages { get; private set; } = new List<LanguageSO>();
+		public HashSet<LanguageSO> SpokenLanguages { get; private set; } = new HashSet<LanguageSO>();
 
-		public List<LanguageSO> BlockedLanguages { get; private set; } = new List<LanguageSO>();
+		public HashSet<LanguageSO> BlockedLanguages { get; private set; } = new HashSet<LanguageSO>();
 
 		[SyncVar(hook = nameof(SyncCurrentLanguage))]
 		private ushort currentLanguageId = 0;
@@ -70,9 +70,9 @@ namespace Player.Language
 		private void SetupFromGroup(DefaultLanguageGroupSO newGroup)
 		{
 			//Copy the newGroup lists to this script lists so we can add to it during runtime without adding to the SO
-			UnderstoodLanguages = newGroup.UnderstoodLanguages.ToList();
-			SpokenLanguages = newGroup.SpokenLanguages.ToList();
-			BlockedLanguages = newGroup.BlockedLanguages.ToList();
+			UnderstoodLanguages = newGroup.UnderstoodLanguages.ToHashSet();
+			SpokenLanguages = newGroup.SpokenLanguages.ToHashSet();
+			BlockedLanguages = newGroup.BlockedLanguages.ToHashSet();
 
 			ResetCurrentLanguage();
 		}
