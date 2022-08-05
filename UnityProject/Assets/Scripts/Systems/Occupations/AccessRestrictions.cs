@@ -9,17 +9,27 @@ public class AccessRestrictions : MonoBehaviour
 {
 	public Access restriction;
 
-	public Clearance clearanceRestriction;
+	public Clearance clearanceRestriction = 0;
 
 	//TODO changing all doors to use new clearance will be a pain as it needs to be done per scene, need to make tool
 
 	public bool CheckAccess(GameObject player)
 	{
+		if (clearanceRestriction != 0)
+		{
+			return CheckAccess(player, clearanceRestriction);
+		}
+
 		return CheckAccess(player, MigrationData.Translation[restriction]);
 	}
 
 	public bool CheckAccessCard(GameObject idCardObj)
 	{
+		if (clearanceRestriction != 0)
+		{
+			return CheckAccessCard(idCardObj, clearanceRestriction);
+		}
+
 		return CheckAccessCard(idCardObj, MigrationData.Translation[restriction]);
 	}
 

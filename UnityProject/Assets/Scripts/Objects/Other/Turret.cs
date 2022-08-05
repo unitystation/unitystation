@@ -95,9 +95,6 @@ namespace Objects.Other
 		[Tooltip("Neutralize people who have a weapon out but are not Heads or Security staff")]
 		public bool CheckWeaponAuthorisation;
 		[SerializeField]
-		private List<Access> weaponAuthorisation = new List<Access>();
-
-		[SerializeField]
 		private List<Clearance> weaponAuthorisationClearance = new List<Clearance>();
 
 		//Check Security Records:
@@ -114,8 +111,6 @@ namespace Objects.Other
 		//No/Yes - self explanatory.
 		[Tooltip("Neutralize All Non-Security and Non-Command Personnel")]
 		public bool CheckUnauthorisedPersonnel;
-		[SerializeField]
-		private List<Access> authorisedAccess = new List<Access>();
 
 		[SerializeField]
 		private List<Clearance> authorisedClearance = new List<Clearance>();

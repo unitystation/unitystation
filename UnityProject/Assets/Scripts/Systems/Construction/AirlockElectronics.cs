@@ -1,5 +1,6 @@
 using UnityEngine;
 using Messages.Server;
+using Systems.Clearance;
 
 namespace Items.Construction
 {
@@ -7,12 +8,12 @@ namespace Items.Construction
 	{
 		[SerializeField]
 		[Tooltip("Current airlock access.")]
-		private Access currentAccess;
+		private Clearance currentClearance = Clearance.MaintTunnels;
 
-		public Access CurrentAccess
+		public Clearance CurrentClearance
 		{
-			get => currentAccess;
-			set => currentAccess = value;
+			get => currentClearance;
+			set => currentClearance = value;
 		}
 
 		public void ServerPerformInteraction(HandActivate interaction)

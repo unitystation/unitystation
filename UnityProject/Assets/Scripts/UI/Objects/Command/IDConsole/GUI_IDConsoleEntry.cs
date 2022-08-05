@@ -19,11 +19,8 @@ namespace UI.Objects.Command
 		[Tooltip("If assignment, occupation this button will grant.")]
 		[SerializeField]
 		private Occupation occupation = null;
-		[Tooltip("If access, access this button will grant")]
-		[SerializeField]
-		private Access access = Access.maint_tunnels;
 
-		[Tooltip("If access, access this button will grant")]
+		[Tooltip("If clearance, clearance this button will grant")]
         [SerializeField]
         private Clearance clearance = Clearance.MaintTunnels;
 

@@ -3,6 +3,7 @@ using Messages.Server;
 using Messages.Server.SoundMessages;
 using UnityEngine;
 using Objects.Construction;
+using Systems.Clearance.Utils;
 using Systems.Interaction;
 
 namespace Doors
@@ -166,7 +167,9 @@ namespace Doors
 			if (doorAssembly != null && AirlockElectronicsPrefab != null && airlockAccess != null &&
 			    doorAssembly.TryGetComponent<AirlockAssembly>(out var assembly))
 			{
-				assembly.ServerInitFromComputer(AirlockElectronicsPrefab, airlockAccess.restriction, doorMasterController.isWindowedDoor);
+				assembly.ServerInitFromComputer(AirlockElectronicsPrefab,
+					airlockAccess.clearanceRestriction != 0 ? airlockAccess.clearanceRestriction :
+						MigrationData.Translation[airlockAccess.restriction], doorMasterController.isWindowedDoor);
 			}
 
 			_ = Despawn.ServerSingle(gameObject);
