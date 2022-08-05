@@ -174,42 +174,46 @@ public class ChatRelay : NetworkBehaviour
 			}
 		}
 
-		for (var i = 0; i < players.Count; i++)
+		ChatChannel channel = chatEvent.channels;
+
+		if (channel.HasFlag(ChatChannel.Combat) || channel.HasFlag(ChatChannel.Local) ||
+		    channel.HasFlag(ChatChannel.System) || channel.HasFlag(ChatChannel.Examine) ||
+		    channel.HasFlag(ChatChannel.Action))
 		{
-			ChatChannel channel = chatEvent.channels;
 
-			if (channel.HasFlag(ChatChannel.Combat) || channel.HasFlag(ChatChannel.Local) ||
-			    channel.HasFlag(ChatChannel.System) || channel.HasFlag(ChatChannel.Examine) ||
-			    channel.HasFlag(ChatChannel.Action))
+			//Check here to avoid speaking in local when speaking on non verbal channels
+			//If local chat check for any Chat.NonVerbalChannels in all the channels sent and don't do local
+			var doNotDoLocal = channel.HasFlag(ChatChannel.Local) &&
+			                   (chatEvent.allChannels & Chat.NonVerbalChannels) != 0;
+
+			if (doNotDoLocal)
 			{
+				//Basically if we shouldn't do local due to channels containing binary or some other nonverbal (see above)
+				//Then AND in all SpeechChannels, remove local if there none then it means we don't need to be verbal
+				//As a channel such as command wont be there
+				//This whole system allows for e.g Ai to speak to command and binary (and so do local), but if only binary
+				//then no local (Yes it's complicated just for that)
+				var channelsCleaned = chatEvent.allChannels;
+				channelsCleaned &= Chat.SpeechChannels;
+				channelsCleaned ^= ChatChannel.Local;
+				doNotDoLocal = channelsCleaned == ChatChannel.None;
 
-				//Check here to avoid speaking in local when speaking on non verbal channels
-				//If local chat check for any Chat.NonVerbalChannels in all the channels sent and don't do local
-				var doNotDoLocal = channel.HasFlag(ChatChannel.Local) &&
-				                (chatEvent.allChannels & Chat.NonVerbalChannels) != 0;
+				if(doNotDoLocal) return;
+			}
 
-
-				if (doNotDoLocal)
-				{
-					//Basically if we shouldn't do local due to channels containing binary or some other nonverbal (see above)
-					//Then AND in all SpeechChannels, remove local if there none then it means we don't need to be verbal
-					//As a channel such as command wont be there
-					//This whole system allows for e.g Ai to speak to command and binary (and so do local), but if only binary
-					//then no local (Yes it's complicated just for that)
-					var channelsCleaned = chatEvent.allChannels;
-					channelsCleaned &= Chat.SpeechChannels;
-					channelsCleaned ^= ChatChannel.Local;
-					doNotDoLocal = channelsCleaned == ChatChannel.None;
-
-					if(doNotDoLocal) continue;
-				}
-
+			for (int i = 0; i < players.Count; i++)
+			{
 				UpdateChatMessage.Send(players[i].GameObject, channel, chatEvent.modifiers, chatEvent.message,
 					loud, chatEvent.messageOthers,
 					chatEvent.originator, chatEvent.speaker, chatEvent.stripTags);
-
-				continue;
 			}
+
+			return;
+		}
+
+		for (var i = 0; i < players.Count; i++)
+		{
+			channel = chatEvent.channels;
 
 			if (players[i].Script == null)
 			{
