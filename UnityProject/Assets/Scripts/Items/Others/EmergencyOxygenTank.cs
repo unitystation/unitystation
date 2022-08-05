@@ -18,7 +18,8 @@ namespace Items.Others
 
 		public void ServerPerformInteraction(HandActivate interaction)
 		{
-			return;
+			if(container.FullPercentage <= 1f) return;
+			Jetpack.PushPlayerInFacedDirection(interaction.PerformerPlayerScript, container, gasReleaseOnPush);
 		}
 
 		public void ClientPredictInteraction(HandActivate interaction)
