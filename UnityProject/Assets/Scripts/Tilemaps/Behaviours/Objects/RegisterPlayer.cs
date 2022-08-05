@@ -291,11 +291,32 @@ public class RegisterPlayer : RegisterTile, IServerSpawn, RegisterPlayer.IContro
 			return;
 		}
 
-		ServerStun(StopMovement : false);
+		ServerSlip();
 		AudioSourceParameters audioSourceParameters = new AudioSourceParameters(pitch: Random.Range(0.9f, 1.1f));
 		SoundManager.PlayNetworkedAtPos(CommonSounds.Instance.Slip, WorldPositionServer, audioSourceParameters, sourceObj: gameObject);
 		// Let go of pulled items.
 		playerScript.objectPhysics.StopPulling(false);
+	}
+
+	private void ServerSlip()
+	{
+		ServerCheckStandingChange(true);
+		OnSlipChangeServer.Invoke(IsSlippingServer, true);
+		ServerDropItemsInHand();
+	}
+
+	[Server]
+	public void ServerDropItemsInHand()
+	{
+		foreach (var itemSlot in playerScript.DynamicItemStorage.GetNamedItemSlots(NamedSlot.leftHand))
+		{
+			Inventory.ServerDrop(itemSlot);
+		}
+
+		foreach (var itemSlot in playerScript.DynamicItemStorage.GetNamedItemSlots(NamedSlot.rightHand))
+		{
+			Inventory.ServerDrop(itemSlot);
+		}
 	}
 
 	/// <summary>
@@ -331,15 +352,7 @@ public class RegisterPlayer : RegisterTile, IServerSpawn, RegisterPlayer.IContro
 		OnSlipChangeServer.Invoke(oldVal, IsSlippingServer);
 		if (dropItem)
 		{
-			foreach (var itemSlot in playerScript.DynamicItemStorage.GetNamedItemSlots(NamedSlot.leftHand))
-			{
-				Inventory.ServerDrop(itemSlot);
-			}
-
-			foreach (var itemSlot in playerScript.DynamicItemStorage.GetNamedItemSlots(NamedSlot.rightHand))
-			{
-				Inventory.ServerDrop(itemSlot);
-			}
+			ServerDropItemsInHand();
 		}
 
 		if (StopMovement)
