@@ -15,6 +15,7 @@ using Systems.Electricity;
 using Systems.Pipes;
 using Util;
 using Tiles;
+using PipeLayer = Tilemaps.Behaviours.Layers.PipeLayer;
 
 /// <summary>
 /// Behavior which indicates a matrix - a contiguous grid of tiles.
@@ -42,16 +43,15 @@ public class Matrix : MonoBehaviour
 	                                  (clientObjects = ((ObjectLayer) MetaTileMap.Layers[LayerType.Objects])
 		                                  .ClientObjects);
 
-	private Vector3Int initialOffset;
-	public Vector3Int InitialOffset => initialOffset;
-	private ReactionManager reactionManager;
-	public ReactionManager ReactionManager => reactionManager;
-	public int Id { get; set; } = 0;
-	public MetaDataLayer MetaDataLayer => metaDataLayer;
-	private MetaDataLayer metaDataLayer;
 
-	public UnderFloorLayer UnderFloorLayer => underFloorLayer;
-	private UnderFloorLayer underFloorLayer;
+	public int Id { get; set; } = 0;
+	public Vector3Int InitialOffset { get; private set; }
+	public ReactionManager ReactionManager { get; private set; }
+	public MetaDataLayer MetaDataLayer { get; private set; }
+	public UnderFloorLayer UnderFloorLayer { get; private set; }
+	public ElectricalLayer ElectricalLayer { get; private set; }
+	public PipeLayer PipeLayer { get; private set; }
+	public DisposalsLayer DisposalsLayer { get; private set; }
 
 	public bool IsSpaceMatrix;
 	public bool IsMainStation;
@@ -114,12 +114,15 @@ public class Matrix : MonoBehaviour
 		}
 
 		networkedMatrix = transform.parent.GetComponent<NetworkedMatrix>();
-		initialOffset = Vector3Int.CeilToInt(gameObject.transform.position);
-		reactionManager = GetComponent<ReactionManager>();
-		metaDataLayer = GetComponent<MetaDataLayer>();
+		InitialOffset = Vector3Int.CeilToInt(gameObject.transform.position);
+		ReactionManager = GetComponent<ReactionManager>();
+		MetaDataLayer = GetComponent<MetaDataLayer>();
 		checkedMatrixMove = new CheckedComponent<MatrixMove>(GetComponentInParent<MatrixMove>());
 		tileChangeManager = GetComponentInParent<TileChangeManager>();
-		underFloorLayer = GetComponentInChildren<UnderFloorLayer>();
+		UnderFloorLayer = GetComponentInChildren<UnderFloorLayer>();
+		ElectricalLayer = GetComponentInChildren<ElectricalLayer>();
+		PipeLayer = GetComponentInChildren<PipeLayer>();
+		DisposalsLayer = GetComponentInChildren<DisposalsLayer>();
 		tilemapsDamage = GetComponentsInChildren<TilemapDamage>().ToList();
 
 		if (MatrixManager.Instance.InitializingMatrixes.ContainsKey(gameObject.scene) == false)
@@ -410,7 +413,7 @@ public class Matrix : MonoBehaviour
 	public IEnumerable<Objects.Disposals.DisposalPipe> GetDisposalPipesAt(Vector3Int position)
 	{
 		// Return a list, because we may allow disposal pipes to overlap each other - NS with EW e.g.
-		return metaTileMap.GetAllTilesByType<Objects.Disposals.DisposalPipe>(position, LayerType.Underfloor);
+		return metaTileMap.GetAllTilesByType<Objects.Disposals.DisposalPipe>(position, LayerType.Disposals);
 	}
 
 	public ElectricalPool.IntrinsicElectronicDataList GetElectricalConnections(Vector3Int localPosition)
@@ -430,9 +433,9 @@ public class Matrix : MonoBehaviour
 			}
 		}
 
-		if (metaDataLayer.Get(localPosition)?.ElectricalData != null)
+		if (MetaDataLayer.Get(localPosition)?.ElectricalData != null)
 		{
-			foreach (var electricalMetaData in metaDataLayer.Get(localPosition).ElectricalData)
+			foreach (var electricalMetaData in MetaDataLayer.Get(localPosition).ElectricalData)
 			{
 				list.List.Add(electricalMetaData.InData);
 			}
@@ -455,7 +458,7 @@ public class Matrix : MonoBehaviour
 			}
 		}
 
-		var pipes =  metaDataLayer.Get(position).PipeData;
+		var pipes =  MetaDataLayer.Get(position).PipeData;
 		foreach (var PipeNode in pipes)
 		{
 			list.Add(PipeNode.pipeData);
@@ -467,7 +470,7 @@ public class Matrix : MonoBehaviour
 
 	public void AddElectricalNode(Vector3Int position, WireConnect wireConnect)
 	{
-		var metaData = metaDataLayer.Get(position, true);
+		var metaData = MetaDataLayer.Get(position, true);
 		var newdata = new ElectricalMetaData();
 		newdata.Initialise(wireConnect, metaData, position, this);
 		metaData.ElectricalData.Add(newdata);
@@ -480,7 +483,7 @@ public class Matrix : MonoBehaviour
 	{
 		var checkPos = position;
 		checkPos.z = 0;
-		var metaData = metaDataLayer.Get(checkPos, true);
+		var metaData = MetaDataLayer.Get(checkPos, true);
 		if (AddTile)
 		{
 			if (electricalCableTile != null)
@@ -518,17 +521,17 @@ public class Matrix : MonoBehaviour
 
 	public MetaDataNode GetMetaDataNode(Vector3Int localPosition, bool createIfNotExists = true)
 	{
-		return (metaDataLayer.Get(localPosition, createIfNotExists));
+		return (MetaDataLayer.Get(localPosition, createIfNotExists));
 	}
 
 	public MetaDataNode GetMetaDataNode(Vector2Int localPosition, bool createIfNotExists = true)
 	{
-		return (metaDataLayer.Get(new Vector3Int(localPosition.x, localPosition.y, 0), createIfNotExists));
+		return (MetaDataLayer.Get(new Vector3Int(localPosition.x, localPosition.y, 0), createIfNotExists));
 	}
 
 	public float GetRadiationLevel(Vector3Int localPosition)
 	{
-		var Node = metaDataLayer.Get(localPosition);
+		var Node = MetaDataLayer.Get(localPosition);
 		if (Node != null)
 		{
 			return (Node.RadiationNode.RadiationLevel);

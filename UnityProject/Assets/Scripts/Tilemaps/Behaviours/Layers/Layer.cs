@@ -5,7 +5,6 @@ using Core.Lighting;
 using Initialisation;
 using TileManagement;
 using Tiles;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
@@ -199,5 +198,6 @@ public class Layer : MonoBehaviour
 	{
 		tilemap.ClearAllEditorPreviewTiles();
 	}
+
 #endif
 }

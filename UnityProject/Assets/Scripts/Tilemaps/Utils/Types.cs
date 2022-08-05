@@ -39,6 +39,14 @@ public enum LayerType
 	[Order(12)] Base = 4
 }
 
+public static class LayerUtil
+{
+	public static bool IsUnderFloor(this LayerType layerType)
+	{
+		return layerType is LayerType.Underfloor or LayerType.Electrical or LayerType.Pipe or LayerType.Disposals;
+	}
+}
+
 [Flags]
 public enum LayerTypeSelection
 {

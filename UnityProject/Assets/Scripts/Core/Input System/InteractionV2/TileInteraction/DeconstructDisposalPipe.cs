@@ -36,7 +36,7 @@ namespace Objects.Disposals
 
 		private bool VerboseDisposalMachineExists(TileApply interaction)
 		{
-			Matrix matrix = interaction.TileChangeManager.MetaTileMap.Layers[LayerType.Underfloor].Matrix;
+			Matrix matrix = interaction.TileChangeManager.MetaTileMap.Layers[LayerType.Disposals].Matrix;
 
 			if ((interaction.BasicTile as DisposalPipe).PipeType == DisposalPipeType.Terminal)
 			{
@@ -93,7 +93,8 @@ namespace Objects.Disposals
 					Category.Pipes);
 				return;
 			}
-			matrix.TileChangeManager.MetaTileMap.RemoveTileWithlayer(disPipeNode.NodeLocation, LayerType.Underfloor);
+
+			matrix.TileChangeManager.MetaTileMap.RemoveTileWithlayer(disPipeNode.NodeLocation, LayerType.Disposals);
 
 			// Spawn pipe GameObject
 			if (interaction.BasicTile.SpawnOnDeconstruct == null) return;

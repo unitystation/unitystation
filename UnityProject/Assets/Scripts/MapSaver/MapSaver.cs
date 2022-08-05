@@ -358,7 +358,8 @@ namespace MapSaver
 			{
 				foreach (var Layer in PresentTiles)
 				{
-					if (Layer.Key.LayerType == LayerType.Underfloor) continue;
+					if (Layer.Key.LayerType.IsUnderFloor()) continue;
+
 					foreach (var TileAndLocation in Layer.Value)
 					{
 						if (UseBoundary)

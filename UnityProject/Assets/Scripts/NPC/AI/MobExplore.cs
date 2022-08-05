@@ -111,7 +111,7 @@ namespace Systems.MobAIs
 					if (IsEmagged == false)
 					{
 						return (interactableTiles.MetaTileMap.GetTile(checkPos)?.LayerType == LayerType.Base
-					                                || interactableTiles.MetaTileMap.GetTile(checkPos)?.LayerType is LayerType.Electrical or LayerType.Pipe or LayerType.Disposals);
+					                                || interactableTiles.MetaTileMap.GetTile(checkPos)?.LayerType.IsUnderFloor() != null);
 
 					}
 

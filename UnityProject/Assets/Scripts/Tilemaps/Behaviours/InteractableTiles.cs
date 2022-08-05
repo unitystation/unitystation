@@ -251,33 +251,22 @@ public class InteractableTiles : MonoBehaviour, IClientInteractable<PositionalHa
 			// If the the tile is something that's supposed to be underneath floors...
 			if (basicTile.LayerType == LayerType.Underfloor)
 			{
-				// Then we loop through each under floor layer in the matrix until we
-				// can find an interaction.
-				foreach (BasicTile underFloorTile in matrix.MetaTileMap.GetAllTilesByType<BasicTile>(localPosition, LayerType.Underfloor))
-				{
-					// If pointing at electrical cable tile and player is holding
-					// Wirecutter in hand, we enable the cutting window and return false
-					// to indicate that we will not be interacting with anything... yet.
-					// TODO: Check how many cables we have first. Only open the cable
-					//       cutting window when the number of cables exceeds 2.
-					if (underFloorTile is ElectricalCableTile &&
-						Validations.HasItemTrait(PlayerManager.LocalPlayerScript.DynamicItemStorage.GetActiveHandSlot().ItemObject, CommonTraits.Instance.Wirecutter))
-					{
-						// open cable cutting ui window instead of cutting cable
-						EnableCableCuttingWindow();
-						// return false to not cut the cable
-						return false;
-					}
-					// Else, we attempt to interact with the tile with whatever is in our
-					// at the target.
-					else
-					{
-						var underFloorApply = new TileApply(interaction.Performer, interaction.UsedObject, interaction.Intent,
-							(Vector2Int) localPosition, this, underFloorTile, interaction.HandSlot, interaction.TargetPosition);
-
-						if (TryInteractWithTile(underFloorApply)) return true;
-					}
-				}
+				if (FindLayerInteraction(interaction, localPosition, LayerType.Underfloor)) return true;
+			}
+			// If the the tile is something that's supposed to be Electrical...
+			else if (basicTile.LayerType == LayerType.Electrical)
+			{
+				if (FindLayerInteraction(interaction, localPosition, LayerType.Electrical)) return true;
+			}
+			// If the the tile is something that's supposed to be Pipe...
+			else if (basicTile.LayerType == LayerType.Pipe)
+			{
+				if (FindLayerInteraction(interaction, localPosition, LayerType.Pipe)) return true;
+			}
+			// If the the tile is something that's supposed to be Disposals...
+			else if (basicTile.LayerType == LayerType.Disposals)
+			{
+				if (FindLayerInteraction(interaction, localPosition, LayerType.Disposals)) return true;
 			}
 			else
 			{
@@ -287,6 +276,45 @@ public class InteractableTiles : MonoBehaviour, IClientInteractable<PositionalHa
 				return TryInteractWithTile(tileApply);
 			}
 		}
+		return false;
+	}
+
+	private bool FindLayerInteraction(PositionalHandApply interaction, Vector3Int localPosition, LayerType layer)
+	{
+		// Then we loop through each under floor layer in the matrix until we
+		// can find an interaction.
+		foreach (BasicTile underFloorTile in matrix.MetaTileMap.GetAllTilesByType<BasicTile>(localPosition,
+			         layer))
+		{
+			// If pointing at electrical cable tile and player is holding
+			// Wirecutter in hand, we enable the cutting window and return false
+			// to indicate that we will not be interacting with anything... yet.
+			// TODO: Check how many cables we have first. Only open the cable
+			//       cutting window when the number of cables exceeds 2.
+			if (underFloorTile is ElectricalCableTile &&
+			    Validations.HasItemTrait(PlayerManager.LocalPlayerScript.DynamicItemStorage.GetActiveHandSlot().ItemObject,
+				    CommonTraits.Instance.Wirecutter))
+			{
+				// open cable cutting ui window instead of cutting cable
+				EnableCableCuttingWindow();
+
+				// return false to not cut the cable
+				return false;
+			}
+			// Else, we attempt to interact with the tile with whatever is in our
+			// at the target.
+			else
+			{
+				var underFloorApply = new TileApply(interaction.Performer, interaction.UsedObject, interaction.Intent,
+					(Vector2Int)localPosition, this, underFloorTile, interaction.HandSlot, interaction.TargetPosition);
+
+				if (TryInteractWithTile(underFloorApply))
+				{
+					return true;
+				}
+			}
+		}
+
 		return false;
 	}
 
@@ -392,22 +420,23 @@ public class InteractableTiles : MonoBehaviour, IClientInteractable<PositionalHa
 
 			if (basicTile.LayerType == LayerType.Underfloor)
 			{
-				foreach (var underFloorTile in matrix.MetaTileMap.GetAllTilesByType<BasicTile>(localPosition, LayerType.Underfloor))
-				{
-					var underFloorApply = new TileApply(
-							performer, usedObject, intent, (Vector2Int) localPosition,
-							this, underFloorTile, usedSlot, TargetPosition, applyType);
-
-					foreach (var tileInteraction in underFloorTile.TileInteractions)
-					{
-						if (tileInteraction == null) continue;
-						if (tileInteraction.WillInteract(underFloorApply, NetworkSide.Server))
-						{
-							PerformTileInteract(underFloorApply);
-							break;
-						}
-					}
-				}
+				TryLayerInteraction(performer, TargetPosition, usedSlot, usedObject, intent, applyType, localPosition,
+					LayerType.Underfloor);
+			}
+			else if (basicTile.LayerType == LayerType.Electrical)
+			{
+				TryLayerInteraction(performer, TargetPosition, usedSlot, usedObject, intent, applyType, localPosition,
+					LayerType.Electrical);
+			}
+			else if (basicTile.LayerType == LayerType.Pipe)
+			{
+				TryLayerInteraction(performer, TargetPosition, usedSlot, usedObject, intent, applyType, localPosition,
+					LayerType.Pipe);
+			}
+			else if (basicTile.LayerType == LayerType.Disposals)
+			{
+				TryLayerInteraction(performer, TargetPosition, usedSlot, usedObject, intent, applyType, localPosition,
+					LayerType.Disposals);
 			}
 			else
 			{
@@ -416,6 +445,27 @@ public class InteractableTiles : MonoBehaviour, IClientInteractable<PositionalHa
 						this, basicTile, usedSlot, TargetPosition, applyType);
 
 				PerformTileInteract(tileApply);
+			}
+		}
+	}
+
+	private void TryLayerInteraction(GameObject performer, Vector2 TargetPosition, ItemSlot usedSlot, GameObject usedObject,
+		Intent intent, TileApply.ApplyType applyType, Vector3Int localPosition, LayerType layer)
+	{
+		foreach (var underFloorTile in matrix.MetaTileMap.GetAllTilesByType<BasicTile>(localPosition, layer))
+		{
+			var underFloorApply = new TileApply(
+				performer, usedObject, intent, (Vector2Int)localPosition,
+				this, underFloorTile, usedSlot, TargetPosition, applyType);
+
+			foreach (var tileInteraction in underFloorTile.TileInteractions)
+			{
+				if (tileInteraction == null) continue;
+				if (tileInteraction.WillInteract(underFloorApply, NetworkSide.Server))
+				{
+					PerformTileInteract(underFloorApply);
+					break;
+				}
 			}
 		}
 	}

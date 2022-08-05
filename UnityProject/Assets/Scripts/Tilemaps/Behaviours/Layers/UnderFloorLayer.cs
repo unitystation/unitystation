@@ -1,14 +1,11 @@
-using System;
-using System.Collections.Generic;
 using NaughtyAttributes;
 using UnityEngine;
 using Objects.Atmospherics;
 using Tilemaps.Behaviours.Layers;
 using UnityEditor.SceneManagement;
+using Objects.Disposals;
 
 #if UNITY_EDITOR
-using Objects.Disposals;
-using Tiles;
 using UnityEditor;
 #endif
 
@@ -18,39 +15,43 @@ using UnityEditor;
 [ExecuteInEditMode]
 public class UnderFloorLayer : Layer
 {
-	public ElectricalLayer ElectricalLayer;
+	[SerializeField]
+	[InfoBox("These are used to convert the UnderfloorLayer into Electrical, Pipe and Disposal layers, you need to set them before clicking convert")]
+	private ElectricalLayer electricalLayer;
 
-	public PipeLayer PipeLayer;
+	[SerializeField]
+	private PipeLayer pipeLayer;
 
-	public DisposalsLayer DisposalsLayer;
+	[SerializeField]
+	private DisposalsLayer disposalsLayer;
 
 #if UNITY_EDITOR
 
 	[Button]
 	public void Convert()
 	{
-		if (ElectricalLayer == null)
+		if (electricalLayer == null)
 		{
 			Logger.LogError($"Missing electrical layer!");
 			return;
 		}
 
-		if (PipeLayer == null)
+		if (pipeLayer == null)
 		{
 			Logger.LogError($"Missing pipe layer!");
 			return;
 		}
 
-		if (DisposalsLayer == null)
+		if (disposalsLayer == null)
 		{
 			Logger.LogError($"Missing disposals layer!");
 			return;
 		}
 
 		//Clear them first?
-		ElectricalLayer.Tilemap.ClearAllTiles();
-		PipeLayer.Tilemap.ClearAllTiles();
-		DisposalsLayer.Tilemap.ClearAllTiles();
+		electricalLayer.Tilemap.ClearAllTiles();
+		pipeLayer.Tilemap.ClearAllTiles();
+		disposalsLayer.Tilemap.ClearAllTiles();
 
 		foreach (var coord in tilemap.cellBounds.allPositionsWithin)
 		{
@@ -60,31 +61,41 @@ public class UnderFloorLayer : Layer
 
 			if (tile is ElectricalCableTile electrical)
 			{
-				ElectricalLayer.Tilemap.SetTile(coord, electrical);
-				ElectricalLayer.Tilemap.SetColor(coord, tileColour);
-				ElectricalLayer.Tilemap.SetTransformMatrix(coord, tileMatrix);
+				electricalLayer.Tilemap.SetTile(coord, electrical);
+				electricalLayer.Tilemap.SetColor(coord, tileColour);
+				electricalLayer.Tilemap.SetTransformMatrix(coord, tileMatrix);
 				continue;
 			}
 
 			if (tile is PipeTile pipeTile)
 			{
-				PipeLayer.Tilemap.SetTile(coord, pipeTile);
-				PipeLayer.Tilemap.SetColor(coord, tileColour);
-				PipeLayer.Tilemap.SetTransformMatrix(coord, tileMatrix);
+				pipeLayer.Tilemap.SetTile(coord, pipeTile);
+				pipeLayer.Tilemap.SetColor(coord, tileColour);
+				pipeLayer.Tilemap.SetTransformMatrix(coord, tileMatrix);
 				continue;
 			}
 
 			if (tile is DisposalPipe disposalPipe)
 			{
-				DisposalsLayer.Tilemap.SetTile(coord, disposalPipe);
-				DisposalsLayer.Tilemap.SetColor(coord, tileColour);
-				DisposalsLayer.Tilemap.SetTransformMatrix(coord, tileMatrix);
+				disposalsLayer.Tilemap.SetTile(coord, disposalPipe);
+				disposalsLayer.Tilemap.SetColor(coord, tileColour);
+				disposalsLayer.Tilemap.SetTransformMatrix(coord, tileMatrix);
 			}
 		}
 
-		EditorUtility.SetDirty(ElectricalLayer);
-		EditorUtility.SetDirty(PipeLayer);
-		EditorUtility.SetDirty(DisposalsLayer);
+		EditorUtility.SetDirty(electricalLayer);
+		EditorUtility.SetDirty(pipeLayer);
+		EditorUtility.SetDirty(disposalsLayer);
+		EditorSceneManager.MarkSceneDirty(gameObject.scene);
+		EditorSceneManager.SaveScene(gameObject.scene);
+	}
+
+	[Button]
+	private void ClearLayer()
+	{
+		tilemap.ClearAllTiles();
+
+		EditorUtility.SetDirty(this);
 		EditorSceneManager.MarkSceneDirty(gameObject.scene);
 		EditorSceneManager.SaveScene(gameObject.scene);
 	}

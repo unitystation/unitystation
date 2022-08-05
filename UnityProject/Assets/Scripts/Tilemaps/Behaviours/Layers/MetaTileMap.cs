@@ -142,7 +142,7 @@ namespace TileManagement
 					Minimum = Vector3Int.zero
 				};
 
-				if (layer.LayerType != LayerType.Underfloor)
+				if (layer.LayerType.IsUnderFloor() == false)
 				{
 					var ToInsertDictionary = new Dictionary<Vector3Int, TileLocation>();
 					BoundsInt bounds = layer.Tilemap.cellBounds;
@@ -287,7 +287,7 @@ namespace TileManagement
 		private void MainThreadRemoveTile(TileLocation tileLocation)
 		{
 			//Remove before setting
-			if (tileLocation.layer.LayerType == LayerType.Underfloor) //TODO Tile map upgrade
+			if (tileLocation.layer.LayerType.IsUnderFloor()) //TODO Tile map upgrade
 			{
 				lock (MultilayerPresentTiles)
 				{
@@ -322,7 +322,7 @@ namespace TileManagement
 
 			if (CustomNetworkManager.IsServer)
 			{
-				if (tileLocation.layer.LayerType == LayerType.Underfloor) //TODO Tilemap upgrade
+				if (tileLocation.layer.LayerType.IsUnderFloor()) //TODO Tilemap upgrade
 				{
 					matrix.TileChangeManager.AddToChangeList(tileLocation.position, tileLocation.layer.LayerType,
 						tileLocation.layer, null, true, true);
@@ -367,7 +367,7 @@ namespace TileManagement
 
 			if (CustomNetworkManager.IsServer)
 			{
-				if (tileLocation.layerTile.LayerType == LayerType.Underfloor) //TODO Tilemap upgrade
+				if (tileLocation.layerTile.LayerType.IsUnderFloor()) //TODO Tilemap upgrade
 				{
 					matrix.TileChangeManager.AddToChangeList(tileLocation.position,
 						tileLocation.layerTile.LayerType, tileLocation.layer, tileLocation, true, false);
@@ -705,7 +705,7 @@ namespace TileManagement
 			foreach (var layer in LayersValues)
 			{
 				if (layer.LayerType == LayerType.Objects) continue;
-				if (layer.LayerType == LayerType.Underfloor) continue;
+				if (layer.LayerType.IsUnderFloor()) continue;
 				if (layer.LayerType == LayerType.Tables) continue;
 				if (layer.LayerType == LayerType.Effects) continue;
 
@@ -726,7 +726,7 @@ namespace TileManagement
 			bool UseExactForMultilayer = false)
 		{
 			TileLocation tileLocation = null;
-			if (layer.LayerType == LayerType.Underfloor) //TODO Tile map upgrade
+			if (layer.LayerType.IsUnderFloor()) //TODO Tile map upgrade
 			{
 				if (UseExactForMultilayer)
 				{
@@ -780,7 +780,7 @@ namespace TileManagement
 			{
 				if (isPlaying == false) //is the game playing or is this the levelbrush?
 				{
-					if (tile.LayerType == LayerType.Underfloor) //TODO Tile map upgrade
+					if (tile.LayerType.IsUnderFloor()) //TODO Tile map upgrade
 					{
 						for (int i = 0; i < 50; i++)
 						{
@@ -812,7 +812,7 @@ namespace TileManagement
 
 				TileLocation tileLocation = null;
 
-				if (tile.LayerType == LayerType.Underfloor) //TODO Tile map upgrade
+				if (tile.LayerType.IsUnderFloor()) //TODO Tile map upgrade
 				{
 					lock (MultilayerPresentTiles)
 					{
@@ -1323,7 +1323,7 @@ namespace TileManagement
 
 			if (Layers.TryGetValue(layerType, out var layer))
 			{
-				if (layer.LayerType == LayerType.Underfloor)
+				if (layer.LayerType.IsUnderFloor())
 				{
 					return layer.HasTile(position);
 				}
@@ -1660,7 +1660,7 @@ namespace TileManagement
 
 				if (Application.isPlaying == false)
 				{
-					if (layer.LayerType == LayerType.Underfloor)
+					if (layer.LayerType.IsUnderFloor())
 					{
 						//TODO Tile map upgrade , xyz z = is the z The level so We need one more xyzw w = what w Coordinate on the z Coordinate on the layer the tile is
 						//so, Upgrade messages and the entire system to use vector4int
@@ -1687,7 +1687,7 @@ namespace TileManagement
 					continue;
 				}
 
-				if (layer.LayerType == LayerType.Underfloor) //TODO Tile map upgrade
+				if (layer.LayerType.IsUnderFloor()) //TODO Tile map upgrade
 				{
 					tileLocation = GetTileExactLocationMultilayer(position, layer);
 				}
@@ -1722,7 +1722,7 @@ namespace TileManagement
 			{
 				TileLocation tileLocation = null;
 
-				if (layer.LayerType == LayerType.Underfloor) //TODO Tile map upgrade
+				if (layer.LayerType.IsUnderFloor()) //TODO Tile map upgrade
 				{
 					tileLocation = GetTileExactLocationMultilayer(position, layer);
 				}
@@ -2069,125 +2069,145 @@ namespace TileManagement
 		{
 			if (Layers.TryGetValue(LayerType.Underfloor, out var layer))
 			{
-				var ToInsertDictionary = new Dictionary<Vector3Int, List<TileLocation>>();
-				BoundsInt bounds = layer.Tilemap.cellBounds;
-				TileLocation Tile = null;
-				for (int n = bounds.xMin; n < bounds.xMax; n++)
-				{
-					for (int p = bounds.yMin; p < bounds.yMax; p++)
-					{
-						Vector3Int localPlace = (new Vector3Int(n, p, 0));
-						bool[] PipeDirCheck = new bool[4];
+				InitialiseLayer(isServer, layer);
+			}
 
-						for (int i = 0; i < 50; i++)
-						{
-							localPlace.z = 1 - i;
-							var getTile = layer.Tilemap.GetTile(localPlace) as LayerTile;
-							Tile = null;
-							var localPlacezzero = localPlace;
-							localPlacezzero.z = 0;
-							if (getTile != null)
-							{
-								Tile = GetPooledTile();
-								Tile.position = localPlace;
-								Tile.metaTileMap = this;
-								Tile.layer = layer;
-								Tile.layerTile = getTile;
-								Tile.Colour = layer.Tilemap.GetColor(localPlace);
-								Tile.transformMatrix = layer.Tilemap.GetTransformMatrix(localPlace);
+			if (Layers.TryGetValue(LayerType.Electrical, out var electricalLayer))
+			{
+				InitialiseLayer(isServer, electricalLayer);
+			}
 
-								if (isServer)
-								{
-									var electricalCableTile = getTile as ElectricalCableTile;
-									if (electricalCableTile != null)
-									{
-										layer.Matrix.AddElectricalNode(new Vector3Int(n, p, localPlace.z),
-											electricalCableTile);
-									}
+			if (Layers.TryGetValue(LayerType.Pipe, out var pipeLayer))
+			{
+				InitialiseLayer(isServer, pipeLayer);
+			}
 
-									var disposalPipeTile = getTile as Objects.Disposals.DisposalPipe;
-									if (disposalPipeTile != null)
-									{
-										disposalPipeTile.InitialiseNode(localPlace, layer.Matrix);
-									}
-
-									var pipeTile = getTile as Objects.Atmospherics.PipeTile;
-									if (pipeTile != null)
-									{
-										var matrixStruct =
-											layer.Matrix.UnderFloorLayer.Tilemap.GetTransformMatrix(localPlace);
-										var connection = PipeTile.GetRotatedConnection(pipeTile, matrixStruct);
-										var pipeDir = connection.Directions;
-										var canInitializePipe = true;
-										for (var d = 0; d < pipeDir.Length; d++)
-										{
-											if (pipeDir[d].Bool)
-											{
-												if (PipeDirCheck[d])
-												{
-													canInitializePipe = false;
-													Logger.LogWarning(
-														$"A pipe is overlapping its connection at ({n}, {p}) in {layer.Matrix.gameObject.scene.name} - {layer.Matrix.name} with another pipe, removing one",
-														Category.Pipes);
-													layer.Tilemap.SetTile(localPlace, null);
-													break;
-												}
-
-												PipeDirCheck[d] = true;
-											}
-										}
-
-										if (canInitializePipe)
-										{
-											pipeTile.InitialiseNode(localPlace, layer.Matrix);
-										}
-									}
-								}
-							}
-
-							if (!ToInsertDictionary.ContainsKey(localPlacezzero))
-							{
-								ToInsertDictionary[localPlacezzero] = new List<TileLocation>();
-							}
-
-							ToInsertDictionary[localPlacezzero].Add(Tile);
-						}
-
-						var AlocalPlacezzero = localPlace;
-						AlocalPlacezzero.z = 0;
-						bool remove = true;
-						int LastIndex = 0;
-						int L = 0;
-						foreach (var TL in ToInsertDictionary[AlocalPlacezzero])
-						{
-							if (TL != null)
-							{
-								remove = false;
-								LastIndex = L;
-							}
-
-							L++;
-						}
-
-						if (remove)
-						{
-							ToInsertDictionary.Remove(AlocalPlacezzero);
-						}
-						else
-						{
-							ToInsertDictionary[AlocalPlacezzero].RemoveRange(LastIndex + 1,
-								ToInsertDictionary[AlocalPlacezzero].Count - (LastIndex + 1));
-						}
-					}
-				}
-
-				lock (MultilayerPresentTiles)
-				{
-					MultilayerPresentTiles[layer] = ToInsertDictionary;
-				}
+			if (Layers.TryGetValue(LayerType.Disposals, out var disposals))
+			{
+				InitialiseLayer(isServer, disposals);
 			}
 
 			UnderFloorUtilitiesInitialised = true;
+		}
+
+		private void InitialiseLayer(bool isServer, Layer layer)
+		{
+			var ToInsertDictionary = new Dictionary<Vector3Int, List<TileLocation>>();
+			BoundsInt bounds = layer.Tilemap.cellBounds;
+			TileLocation Tile = null;
+			for (int n = bounds.xMin; n < bounds.xMax; n++)
+			{
+				for (int p = bounds.yMin; p < bounds.yMax; p++)
+				{
+					Vector3Int localPlace = (new Vector3Int(n, p, 0));
+					bool[] PipeDirCheck = new bool[4];
+
+					for (int i = 0; i < 50; i++)
+					{
+						localPlace.z = 1 - i;
+						var getTile = layer.Tilemap.GetTile(localPlace) as LayerTile;
+						Tile = null;
+						var localPlacezzero = localPlace;
+						localPlacezzero.z = 0;
+						if (getTile != null)
+						{
+							Tile = GetPooledTile();
+							Tile.position = localPlace;
+							Tile.metaTileMap = this;
+							Tile.layer = layer;
+							Tile.layerTile = getTile;
+							Tile.Colour = layer.Tilemap.GetColor(localPlace);
+							Tile.transformMatrix = layer.Tilemap.GetTransformMatrix(localPlace);
+
+							if (isServer)
+							{
+								var electricalCableTile = getTile as ElectricalCableTile;
+								if (electricalCableTile != null)
+								{
+									layer.Matrix.AddElectricalNode(new Vector3Int(n, p, localPlace.z),
+										electricalCableTile);
+								}
+
+								var disposalPipeTile = getTile as Objects.Disposals.DisposalPipe;
+								if (disposalPipeTile != null)
+								{
+									disposalPipeTile.InitialiseNode(localPlace, layer.Matrix);
+								}
+
+								var pipeTile = getTile as Objects.Atmospherics.PipeTile;
+								if (pipeTile != null)
+								{
+									var matrixStruct =
+										layer.Matrix.PipeLayer.Tilemap.GetTransformMatrix(localPlace);
+									var connection = PipeTile.GetRotatedConnection(pipeTile, matrixStruct);
+									var pipeDir = connection.Directions;
+									var canInitializePipe = true;
+									for (var d = 0; d < pipeDir.Length; d++)
+									{
+										if (pipeDir[d].Bool)
+										{
+											if (PipeDirCheck[d])
+											{
+												canInitializePipe = false;
+												Logger.LogWarning(
+													$"A pipe is overlapping its connection at ({n}, {p}) in {layer.Matrix.gameObject.scene.name} - {layer.Matrix.name} with another pipe, removing one",
+													Category.Pipes);
+												layer.Tilemap.SetTile(localPlace, null);
+												break;
+											}
+
+											PipeDirCheck[d] = true;
+										}
+									}
+
+									if (canInitializePipe)
+									{
+										pipeTile.InitialiseNode(localPlace, layer.Matrix);
+									}
+								}
+							}
+						}
+
+						if (!ToInsertDictionary.ContainsKey(localPlacezzero))
+						{
+							ToInsertDictionary[localPlacezzero] = new List<TileLocation>();
+						}
+
+						ToInsertDictionary[localPlacezzero].Add(Tile);
+					}
+
+					var AlocalPlacezzero = localPlace;
+					AlocalPlacezzero.z = 0;
+					bool remove = true;
+					int LastIndex = 0;
+					int L = 0;
+					foreach (var TL in ToInsertDictionary[AlocalPlacezzero])
+					{
+						if (TL != null)
+						{
+							remove = false;
+							LastIndex = L;
+						}
+
+						L++;
+					}
+
+					if (remove)
+					{
+						ToInsertDictionary.Remove(AlocalPlacezzero);
+					}
+					else
+					{
+						ToInsertDictionary[AlocalPlacezzero].RemoveRange(LastIndex + 1,
+							ToInsertDictionary[AlocalPlacezzero].Count - (LastIndex + 1));
+					}
+				}
+			}
+
+			lock (MultilayerPresentTiles)
+			{
+				MultilayerPresentTiles[layer] = ToInsertDictionary;
+			}
 		}
 
 		public IEnumerable<T> GetAllTilesByType<T>(Vector3Int position, LayerType LayerType) where T : LayerTile
@@ -2196,7 +2216,7 @@ namespace TileManagement
 
 			if (Layers.TryGetValue(LayerType, out var layer))
 			{
-				if (layer.LayerType == LayerType.Underfloor)
+				if (layer.LayerType.IsUnderFloor())
 				{
 					lock (MultilayerPresentTiles)
 					{
