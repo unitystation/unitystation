@@ -136,11 +136,31 @@ public partial class Chat : MonoBehaviour
 			CheckVoiceLevel(sentByPlayer.Script, chatEvent.channels);
 		}
 
-		//Handle OOC messages
-		if (isOOC)
+		//If OOC or Ghost then show the Admin and Mentor tags
+		if (isOOC || chatEvent.channels == ChatChannel.Ghost)
 		{
-			AddOOCChatMessage(sentByPlayer, message, chatEvent);
-			return;
+			chatEvent.speaker = StripAll(sentByPlayer.Username);
+
+			//Show admin tag for ghosts
+			var isAdmin = PlayerList.Instance.IsAdmin(sentByPlayer.UserId);
+			if (isAdmin)
+			{
+				chatEvent.speaker = "<color=red>[A]</color> " + chatEvent.speaker;
+				chatEvent.VoiceLevel = Loudness.LOUD;
+			}
+
+			//Handle OOC messages
+			if (isOOC)
+			{
+				//Add mentor tag for non-admin mentors for OOC
+				if (isAdmin == false && PlayerList.Instance.IsMentor(sentByPlayer.UserId))
+				{
+					chatEvent.speaker = "<color=#6400ff>[M]</color> " + chatEvent.speaker;
+				}
+
+				AddOOCChatMessage(sentByPlayer, message, chatEvent);
+				return;
+			}
 		}
 
 		//Try find the language
@@ -271,18 +291,7 @@ public partial class Chat : MonoBehaviour
 			return;
 		}
 
-		chatEvent.speaker = StripAll(sentByPlayer.Username);
-
 		var isAdmin = PlayerList.Instance.IsAdmin(sentByPlayer.UserId);
-
-		if (isAdmin)
-		{
-			chatEvent.speaker = "<color=red>[A]</color> " + chatEvent.speaker;
-		}
-		else if (PlayerList.Instance.IsMentor(sentByPlayer.UserId))
-		{
-			chatEvent.speaker = "<color=#6400ff>[M]</color> " + chatEvent.speaker;
-		}
 
 		//If global OOCMute don't allow anyone but admins to talk on OOC
 		if (Instance.OOCMute && isAdmin == false) return;

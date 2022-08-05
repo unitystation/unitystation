@@ -606,7 +606,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	public void ServerToggleChatIcon(string message, ChatModifier chatModifier, LanguageSO language)
 	{
 		//Don't do anything with chat icon if player is invisible or not spawned in
-		if(playerScript.objectPhysics.IsVisible == false) return;
+		if(playerScript.objectPhysics != null && playerScript.objectPhysics.IsVisible == false) return;
 		if(playerScript.playerHealth != null &&
 		   (playerScript.playerHealth.IsDead || playerScript.playerHealth.IsCrit)) return;
 
