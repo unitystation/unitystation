@@ -22,8 +22,7 @@ namespace Objects.Research
 		public override bool WillAffectPlayer(PlayerScript playerScript)
 		{
 			//Allow players or ghosts to enter
-			return playerScript.PlayerType == PlayerTypes.Normal ||
-			       playerScript.PlayerType == PlayerTypes.Ghost;
+			return playerScript.PlayerTypeSettings.CanEnterPortals;
 		}
 
 		public override void OnObjectEnter(GameObject eventData)
@@ -33,6 +32,12 @@ namespace Objects.Research
 
 		public override bool WillAffectObject(GameObject eventData)
 		{
+			//Don't allow intangible stuff, like sparks as that will cause loop crashes
+			if (eventData.TryGetComponent<UniversalObjectPhysics>(out var uop) && uop.Intangible)
+			{
+				return false;
+			}
+
 			return true;
 		}
 

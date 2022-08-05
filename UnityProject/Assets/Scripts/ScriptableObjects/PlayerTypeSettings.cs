@@ -31,6 +31,10 @@ namespace ScriptableObjects
 		private bool canPull = false;
 		public bool CanPull => canPull;
 
+		[SerializeField]
+		private bool canEnterPortals = false;
+		public bool CanEnterPortals => canEnterPortals;
+
 		[HorizontalLine]
 		[Header("Door Interaction")]
 		[SerializeField]
