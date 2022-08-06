@@ -46,7 +46,7 @@ public class MainStationListSO : ScriptableObject
 			var maps = JsonUtility.FromJson<MapList>(File.ReadAllText(Path.Combine(Application.streamingAssetsPath,
 				"maps.json")));
 
-			return maps.highPopMaps.Concat(maps.medPopMaps).Concat(maps.lowPopMaps).ToList();
+			return maps.highPopMaps.Union(maps.medPopMaps).Union(maps.lowPopMaps).ToList();
 		}
 
 		return MainStations;
