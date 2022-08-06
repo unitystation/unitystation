@@ -217,6 +217,7 @@ namespace DatabaseAPI
 		public string RconPass;
 		public int RconPort;
 		public int ServerPort;
+		public string BindAddress;
 		//CertKey needed in the future for SSL Rcon
 		public string certKey;
 		public string HubUser;
