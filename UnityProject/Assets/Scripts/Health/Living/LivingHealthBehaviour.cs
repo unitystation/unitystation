@@ -745,7 +745,7 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour, IHealth, IFireEx
 	{
 		// Assume animal
 		string theyPronoun = gameObject.GetTheyPronoun();
-		string theirPronoun = gameObject.GetTheirPronoun();
+		//string theirPronoun = gameObject.GetTheirPronoun()
 
 		var healthString = $"{theyPronoun} is ";
 		if (IsDead)
