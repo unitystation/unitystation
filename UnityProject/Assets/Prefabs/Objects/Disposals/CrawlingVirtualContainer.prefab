@@ -7,6 +7,21 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 643326484729671418, guid: db8a2e4c2c7146b48abcc5b32a5ccd26,
+        type: 3}
+      propertyPath: tileMoveSpeed
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 643326484729671418, guid: db8a2e4c2c7146b48abcc5b32a5ccd26,
+        type: 3}
+      propertyPath: stickyMovement
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 643326484729671418, guid: db8a2e4c2c7146b48abcc5b32a5ccd26,
+        type: 3}
+      propertyPath: maximumStickSpeed
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 721717256067945856, guid: db8a2e4c2c7146b48abcc5b32a5ccd26,
         type: 3}
       propertyPath: m_Name
@@ -67,6 +82,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4428698834604649417, guid: db8a2e4c2c7146b48abcc5b32a5ccd26,
+        type: 3}
+      propertyPath: foreverID
+      value: 5d4af384590c62640ab752c59b27d13c
+      objectReference: {fileID: 0}
     - target: {fileID: 9212640593017544930, guid: db8a2e4c2c7146b48abcc5b32a5ccd26,
         type: 3}
       propertyPath: m_AssetId
@@ -93,6 +113,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 98c398f1c91a442083de0b054d51641f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
   ClangSound:
     SetLoadSetting: 0
     AssetAddress: Assets/Prefabs/Effects/Clang.prefab

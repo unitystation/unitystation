@@ -91,6 +91,8 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 
 	public bool IsBumping = false;
 
+	private CooldownInstance moveCooldown = new CooldownInstance { defaultTime = 0.1f };
+
 	/// <summary>
 	/// Event which fires when movement type changes (run/walk)
 	/// </summary>
@@ -909,6 +911,8 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 		//Check to see if in container
 		if (ContainedInContainer != null)
 		{
+			if(Cooldowns.TryStartClient(playerScript, moveCooldown) == false) return;
+
 			CMDTryEscapeContainer(PlayerAction.GetMoveAction(moveActions.Direction()));
 		}
 	}
@@ -918,6 +922,8 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 	{
 		if (allowInput == false) return;
 		if (ContainedInContainer == null) return;
+
+		if(Cooldowns.TryStartServer(playerScript, moveCooldown) == false) return;
 
 		foreach (var Escape in ContainedInContainer.IEscapables)
 		{

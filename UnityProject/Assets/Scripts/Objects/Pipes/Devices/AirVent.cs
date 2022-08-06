@@ -158,7 +158,8 @@ namespace Objects.Atmospherics
 
 		public override bool WillInteract(HandApply interaction, NetworkSide side)
 		{
-			if (base.WillInteract(interaction, side) == false) return false;
+			if (DefaultWillInteract.Default(interaction, side, PlayerTypes.Normal | PlayerTypes.Alien) == false) return false;
+			if (interaction.TargetObject != gameObject) return false;
 
 			if (Validations.HasUsedActiveWelder(interaction)) return true;
 
