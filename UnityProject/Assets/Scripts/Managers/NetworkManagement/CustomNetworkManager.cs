@@ -171,6 +171,10 @@ public class CustomNetworkManager : NetworkManager, IInitialise
 			if (ignorance != null)
 			{
 				ignorance.port = (ushort) config.ServerPort;
+				if(config.BindAddress != string.Empty){
+					ignorance.serverBindsAll = false;
+					ignorance.serverBindAddress = config.BindAddress;
+				}
 			}
 		}
 	}
