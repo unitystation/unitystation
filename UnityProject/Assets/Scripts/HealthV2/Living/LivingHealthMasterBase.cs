@@ -1010,6 +1010,7 @@ namespace HealthV2
 				}
 			}
 
+			//Does not trigger when bodyPartAim is none, intended or should be random?
 			if(SurfaceReagents.TryGetValue(bodyPartAim, out var mix) == false) return;
 
 			mix.Add(Chemicals);
