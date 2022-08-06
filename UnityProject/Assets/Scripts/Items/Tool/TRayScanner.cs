@@ -8,7 +8,7 @@ using UnityEngine.Tilemaps;
 namespace Items.Tool
 {
 	public class TRayScanner : NetworkBehaviour, ICheckedInteractable<HandActivate>, ISuicide, IExaminable,
-		IServerInventoryMove
+		IServerInventoryMove, IOnPlayerRejoin, IOnPlayerTransfer, IOnPlayerLeaveBody
 	{
 		[SyncVar(hook = nameof(SyncMode))] private Mode currentMode = Mode.Off;
 
@@ -147,6 +147,27 @@ namespace Items.Tool
 				tilemapRenderer.sortingLayerName = newMode == Mode.Off ? "UnderFloor" : "Walls";
 				tilemapRenderer.sortingOrder = newMode == Mode.Off ? 0 : 1;
 			}
+		}
+
+		public void OnPlayerRejoin()
+		{
+			if(pickupable.ItemSlot?.Player == null) return;
+
+			DoRpc(pickupable.ItemSlot.Player, currentMode != Mode.Off);
+		}
+
+		public void OnPlayerTransfer()
+		{
+			if(pickupable.ItemSlot?.Player == null) return;
+
+			DoRpc(pickupable.ItemSlot.Player, currentMode != Mode.Off);
+		}
+
+		public void OnPlayerLeaveBody()
+		{
+			if(pickupable.ItemSlot?.Player == null) return;
+
+			DoRpc(pickupable.ItemSlot.Player, false);
 		}
 
 		private enum Mode
