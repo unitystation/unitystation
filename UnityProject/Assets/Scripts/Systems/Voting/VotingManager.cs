@@ -77,7 +77,7 @@ public class VotingManager : NetworkBehaviour
 
 	private void Start()
 	{
-		MapList = SubSceneManager.Instance.MainStationList.MainStations;
+		MapList = SubSceneManager.Instance.MainStationList.GetMaps();
 		GameModeList = GameManager.Instance.GetAvailableGameModeNames();
 		yesNoList.Add("Yes");
 		yesNoList.Add("No");

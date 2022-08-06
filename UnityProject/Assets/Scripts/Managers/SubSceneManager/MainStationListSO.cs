@@ -33,8 +33,23 @@ public class MainStationListSO : ScriptableObject
 		{
 			Logger.LogError("No valid maps found! Make sure theres a map inside the MainStationList that is also in the build settings");
 		}
-		
+
 		return mapSoList.PickRandom();
+	}
+
+	public List<string> GetMaps()
+	{
+		var mapConfigPath = Path.Combine(Application.streamingAssetsPath, "maps.json");
+
+		if (File.Exists(mapConfigPath))
+		{
+			var maps = JsonUtility.FromJson<MapList>(File.ReadAllText(Path.Combine(Application.streamingAssetsPath,
+				"maps.json")));
+
+			return maps.highPopMaps.Concat(maps.medPopMaps).Concat(maps.lowPopMaps).ToList();
+		}
+
+		return MainStations;
 	}
 
 	public bool Contains(string sceneName)
