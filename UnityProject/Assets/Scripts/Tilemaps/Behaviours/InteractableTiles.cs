@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
 using System.Text;
 using System.Linq;
 using UnityEngine;
@@ -62,6 +63,11 @@ public class InteractableTiles : MonoBehaviour, IClientInteractable<PositionalHa
 	[Tooltip("Use {performer} for performer name. Action message to others when the performer begins cable cutting interaction.")]
 	[SerializeField]
 	private string othersStartActionMessage = null;
+
+	private static readonly List<LayerType> UnderFloorsLayers = new List<LayerType>
+	{
+		LayerType.Underfloor, LayerType.Electrical, LayerType.Pipe, LayerType.Disposals
+	};
 
 	private void Start()
 	{
@@ -248,34 +254,21 @@ public class InteractableTiles : MonoBehaviour, IClientInteractable<PositionalHa
 		// If the tile we're looking at is a basic tile...
 		if (tile is BasicTile basicTile)
 		{
-			// If the the tile is something that's supposed to be underneath floors...
-			if (basicTile.LayerType == LayerType.Underfloor)
+			foreach (var layerType in UnderFloorsLayers)
 			{
-				if (FindLayerInteraction(interaction, localPosition, LayerType.Underfloor)) return true;
+				if(tile.LayerType != layerType) continue;
+
+				// If the the tile is something that's supposed to be underneath floors...
+				if (FindLayerInteraction(interaction, localPosition, layerType)) return true;
+				break;
 			}
-			// If the the tile is something that's supposed to be Electrical...
-			else if (basicTile.LayerType == LayerType.Electrical)
-			{
-				if (FindLayerInteraction(interaction, localPosition, LayerType.Electrical)) return true;
-			}
-			// If the the tile is something that's supposed to be Pipe...
-			else if (basicTile.LayerType == LayerType.Pipe)
-			{
-				if (FindLayerInteraction(interaction, localPosition, LayerType.Pipe)) return true;
-			}
-			// If the the tile is something that's supposed to be Disposals...
-			else if (basicTile.LayerType == LayerType.Disposals)
-			{
-				if (FindLayerInteraction(interaction, localPosition, LayerType.Disposals)) return true;
-			}
-			else
-			{
-				var tileApply = new TileApply(interaction.Performer, interaction.UsedObject, interaction.Intent,
+
+			var tileApply = new TileApply(interaction.Performer, interaction.UsedObject, interaction.Intent,
 				(Vector2Int) localPosition, this, basicTile, interaction.HandSlot, interaction.TargetPosition);
 
-				return TryInteractWithTile(tileApply);
-			}
+			return TryInteractWithTile(tileApply);
 		}
+
 		return false;
 	}
 
@@ -418,33 +411,32 @@ public class InteractableTiles : MonoBehaviour, IClientInteractable<PositionalHa
 					"Server checking which tile interaction to trigger for TileApply on tile {0} at worldPos {1}",
 					Category.Interaction, tile.name, worldPosTarget);
 
-			if (basicTile.LayerType == LayerType.Underfloor)
+			switch (basicTile.LayerType)
 			{
-				TryLayerInteraction(performer, TargetPosition, usedSlot, usedObject, intent, applyType, localPosition,
-					LayerType.Underfloor);
-			}
-			else if (basicTile.LayerType == LayerType.Electrical)
-			{
-				TryLayerInteraction(performer, TargetPosition, usedSlot, usedObject, intent, applyType, localPosition,
-					LayerType.Electrical);
-			}
-			else if (basicTile.LayerType == LayerType.Pipe)
-			{
-				TryLayerInteraction(performer, TargetPosition, usedSlot, usedObject, intent, applyType, localPosition,
-					LayerType.Pipe);
-			}
-			else if (basicTile.LayerType == LayerType.Disposals)
-			{
-				TryLayerInteraction(performer, TargetPosition, usedSlot, usedObject, intent, applyType, localPosition,
-					LayerType.Disposals);
-			}
-			else
-			{
-				var tileApply = new TileApply(
-						performer, usedObject, intent, (Vector2Int) localPosition,
+				case LayerType.Underfloor:
+					TryLayerInteraction(performer, TargetPosition, usedSlot, usedObject, intent, applyType, localPosition,
+						LayerType.Underfloor);
+					break;
+				case LayerType.Electrical:
+					TryLayerInteraction(performer, TargetPosition, usedSlot, usedObject, intent, applyType, localPosition,
+						LayerType.Electrical);
+					break;
+				case LayerType.Pipe:
+					TryLayerInteraction(performer, TargetPosition, usedSlot, usedObject, intent, applyType, localPosition,
+						LayerType.Pipe);
+					break;
+				case LayerType.Disposals:
+					TryLayerInteraction(performer, TargetPosition, usedSlot, usedObject, intent, applyType, localPosition,
+						LayerType.Disposals);
+					break;
+				default:
+				{
+					var tileApply = new TileApply(performer, usedObject, intent, (Vector2Int) localPosition,
 						this, basicTile, usedSlot, TargetPosition, applyType);
 
-				PerformTileInteract(tileApply);
+					PerformTileInteract(tileApply);
+					break;
+				}
 			}
 		}
 	}
