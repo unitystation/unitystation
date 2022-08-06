@@ -382,11 +382,10 @@ public static class Spawn
 	/// <param name="result"></param>
 	public static void _ServerFireClientServerSpawnHooks(SpawnResult result)
 	{
-		result.GameObject.GetComponent<RegisterTile>().OrNull()?.ChangeActiveState(true);
-
 		//fire server hooks
 		foreach (var spawnedObject in result.GameObjects)
 		{
+			spawnedObject.GetComponent<RegisterTile>().OrNull()?.ChangeActiveState(true);
 			var comps = spawnedObject.GetComponentsInChildren<IServerSpawn>();
 			foreach (var comp in comps)
 			{
