@@ -72,7 +72,7 @@ namespace Items.Devices
 				if (interaction.IsHighlight || interaction.IsAltClick) return false;
 			}
 
-			return Validations.HasComponent<DoorMasterController>(interaction.TargetObject) && Validations.CanApply(interaction.PerformerPlayerScript, interaction.TargetObject, side, false, ReachRange.Unlimited);;
+			return Validations.HasComponent<DoorMasterController>(interaction.TargetObject) && Validations.CanApply(interaction.PerformerPlayerScript, interaction.TargetObject, side, false, ReachRange.Unlimited);
 		}
 
 		public void ServerPerformInteraction(HandApply interaction)
