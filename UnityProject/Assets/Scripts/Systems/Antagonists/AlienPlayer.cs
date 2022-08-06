@@ -227,6 +227,7 @@ namespace Systems.Antagonists
 			rotatable.OnRotationChange.AddListener(OnRotation);
 			playerScript.registerTile.OnLyingDownChangeEvent.AddListener(OnLyingDownChange);
 			playerScript.PlayerSync.MovementStateEventServer.AddListener(OnMovementTypeChange);
+			EventManager.AddHandler(Event.RoundStarted, ClearStatics);
 		}
 
 		private void OnDisable()
@@ -236,6 +237,7 @@ namespace Systems.Antagonists
 			rotatable.OnRotationChange.RemoveListener(OnRotation);
 			playerScript.registerTile.OnLyingDownChangeEvent.RemoveListener(OnLyingDownChange);
 			playerScript.PlayerSync.MovementStateEventServer.RemoveListener(OnMovementTypeChange);
+			EventManager.RemoveHandler(Event.RoundStarted, ClearStatics);
 		}
 
 		public override void OnStartLocalPlayer()
