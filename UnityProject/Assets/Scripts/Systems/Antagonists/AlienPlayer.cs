@@ -1631,6 +1631,8 @@ namespace Systems.Antagonists
 			//This will call after an admin respawn to set up a new player
 			SetNewPlayer();
 
+			playerScript.playerName = $"{alienType.Name} {nameNumber}";
+
 			//Block role remove if this transfered player was the one how got the ghost role
 			//OnPlayerTransfer is still needed due to admin A ghosting which should remove the role on transfer
 			if(playerTookOver != null && playerTookOver == playerScript.PlayerInfo) return;
@@ -1641,6 +1643,8 @@ namespace Systems.Antagonists
 		public void OnPlayerRejoin()
 		{
 			RemoveGhostRole();
+
+			playerScript.playerName = $"{alienType.Name} {nameNumber}";
 		}
 
 		public void OnPlayerLeaveBody()
