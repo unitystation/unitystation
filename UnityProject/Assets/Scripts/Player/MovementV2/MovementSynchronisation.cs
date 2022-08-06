@@ -134,7 +134,7 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 
 			foreach (var escapable in parentContainer.GetComponents<IEscapable>())
 			{
-				escapable.EntityTryEscape(gameObject, null);
+				escapable.EntityTryEscape(gameObject, null, MoveAction.NoMove);
 			}
 		}
 		else if (BuckledToObject != null)
@@ -909,19 +909,19 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 		//Check to see if in container
 		if (ContainedInContainer != null)
 		{
-			CMDTryEscapeContainer();
+			CMDTryEscapeContainer(PlayerAction.GetMoveAction(moveActions.Direction()));
 		}
 	}
 
 	[Command]
-	public void CMDTryEscapeContainer()
+	public void CMDTryEscapeContainer(MoveAction moveAction)
 	{
 		if (allowInput == false) return;
 		if (ContainedInContainer == null) return;
 
 		foreach (var Escape in ContainedInContainer.IEscapables)
 		{
-			Escape.EntityTryEscape(gameObject, null);
+			Escape.EntityTryEscape(gameObject, null, moveAction);
 		}
 	}
 

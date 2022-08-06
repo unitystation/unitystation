@@ -83,7 +83,7 @@ namespace Items.Others
 			{
 				//Get random x from -10 to 10
 				var xCoord = Random.Range(0, 11) * (DMMath.Prob(50) ? -1 : 1);
-				
+
 				//Get random y from -10 to 10 but not 0 if x is 0 so to not spawn two portals on player
 				var yCoord = Random.Range((xCoord == 0 ? 1 : 0), 11) * (DMMath.Prob(50) ? -1 : 1);
 

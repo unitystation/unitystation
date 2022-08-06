@@ -65,7 +65,7 @@ namespace Items.Cargo.Wrapping
 			SetContainerTypeSprite(typeSprite);
 		}
 
-		public void EntityTryEscape(GameObject entity, Action ifCompleted)
+		public void EntityTryEscape(GameObject entity, Action ifCompleted, MoveAction moveAction)
 		{
 			var container = GetOrGenerateContent();
 			container.GetComponent<IEscapable>().EntityTryEscape(entity, () =>
@@ -77,7 +77,7 @@ namespace Items.Cargo.Wrapping
 
 				//A successful escape assumes the container is now open, thus items must be released.
 				container.GetComponent<ObjectContainer>().RetrieveObjects();
-			});
+			}, moveAction);
 		}
 	}
 
