@@ -17,6 +17,7 @@ MonoBehaviour:
   canCraft: 0
   canBuckleOthers: 1
   canPull: 1
+  canEnterPortals: 1
   canInteractWithDoors: 1
   canPryDoorsWithHands: 1
   pryHandName: claws
@@ -31,7 +32,7 @@ MonoBehaviour:
   defaultChannel: 2097152
   checkForRadios: 0
   sendSpeechBubbleTo: 18
-  receiveSpeechBubbleFrom: 25
+  receiveSpeechBubbleFrom: 17
   canMelee: 1
   emptyMeleeAttackData:
   - attackVerb: slice
