@@ -96,9 +96,20 @@ namespace DatabaseAPI
 				{
 					string s = req.GetResponseHeader("set-cookie");
 					hubCookie = s.Split(';') [0];
-					req = UnityWebRequest.Get("http://ipinfo.io/ip");
-					yield return req.SendWebRequest();
-					publicIP = Regex.Replace(req.downloadHandler.text, @"\t|\n|\r", "");
+					if (string.IsNullOrEmpty(config.PublicAddress) == false)
+					{
+						publicIP = config.PublicAddress;
+					} 
+					else if (string.IsNullOrEmpty(config.BindAddress) == false)
+					{
+						publicIP = config.BindAddress;
+					}
+					else
+					{
+						req = UnityWebRequest.Get("http://ipinfo.io/ip");
+						yield return req.SendWebRequest();
+						publicIP = Regex.Replace(req.downloadHandler.text, @"\t|\n|\r", "");
+					}
 				}
 				else if (response.errorCode == 901)
 				{
@@ -218,6 +229,7 @@ namespace DatabaseAPI
 		public int RconPort;
 		public int ServerPort;
 		public string BindAddress;
+		public string PublicAddress;
 		//CertKey needed in the future for SSL Rcon
 		public string certKey;
 		public string HubUser;
