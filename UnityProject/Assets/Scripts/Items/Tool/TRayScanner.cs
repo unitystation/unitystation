@@ -96,6 +96,19 @@ namespace Items.Tool
 		{
 			if(player.connectionToClient == null) return;
 
+			if(CustomNetworkManager.IsServer && CustomNetworkManager.IsHeadless == false)
+			{
+				//Target RPC not working on local host?
+				if (newState)
+				{
+					DoState(currentMode);
+					return;
+				}
+
+				DoState(Mode.Off);
+				return;
+			}
+
 			RpcChangeState(player.connectionToClient, newState);
 		}
 
@@ -131,7 +144,7 @@ namespace Items.Tool
 			foreach (var matrixInfo in matrixInfos)
 			{
 				var tilemapRenderer = matrixInfo.Matrix.UnderFloorLayer.GetComponent<TilemapRenderer>();
-				tilemapRenderer.sortingLayerName = newMode == Mode.Off ? "UnderFloor" : "Floors";
+				tilemapRenderer.sortingLayerName = newMode == Mode.Off ? "UnderFloor" : "Walls";
 				tilemapRenderer.sortingOrder = newMode == Mode.Off ? 0 : 1;
 			}
 		}
