@@ -642,4 +642,44 @@ public static class SweetExtensions
 	{
 		return new string(input.Where(c => !char.IsPunctuation(c)).ToArray());
 	}
+
+	public static string GetTheyPronoun(this GameObject gameObject)
+	{
+		if (gameObject.TryGetComponent<PlayerScript>(out var playerScript) && playerScript.characterSettings != null)
+		{
+			return playerScript.characterSettings.TheyPronoun(playerScript).Capitalize();
+		}
+
+		return "It";
+	}
+
+	public static string GetTheirPronoun(this GameObject gameObject)
+	{
+		if (gameObject.TryGetComponent<PlayerScript>(out var playerScript) && playerScript.characterSettings != null)
+		{
+			return playerScript.characterSettings.TheirPronoun(playerScript).Capitalize();
+		}
+
+		return "Its";
+	}
+
+	public static string GetThemPronoun(this GameObject gameObject)
+	{
+		if (gameObject.TryGetComponent<PlayerScript>(out var playerScript) && playerScript.characterSettings != null)
+		{
+			return playerScript.characterSettings.ThemPronoun(playerScript).Capitalize();
+		}
+
+		return "It";
+	}
+
+	public static string GetTheyrePronoun(this GameObject gameObject)
+	{
+		if (gameObject.TryGetComponent<PlayerScript>(out var playerScript) && playerScript.characterSettings != null)
+		{
+			return playerScript.characterSettings.TheyrePronoun(playerScript).Capitalize();
+		}
+
+		return "Its";
+	}
 }
