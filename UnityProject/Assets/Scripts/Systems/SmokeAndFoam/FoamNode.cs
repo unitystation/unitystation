@@ -111,6 +111,7 @@ public class FoamNode : SpreadNode
 	{
 		base.Clean();
 		OnMetaDataNode.IsSlippery = false;
+		OnMetaDataNode.ForceUpdateClient();
 	}
 
 
@@ -118,7 +119,7 @@ public class FoamNode : SpreadNode
 	{
 		base.DistributeToTile(sourceReservoir);
 		OnMetaDataNode.IsSlippery = true;
-
+		OnMetaDataNode.ForceUpdateClient();
 		var Colour = Present.MixColor;
 		if (Present.MixColor == Color.clear)
 		{
