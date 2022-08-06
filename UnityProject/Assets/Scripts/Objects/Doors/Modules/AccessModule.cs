@@ -103,6 +103,7 @@ namespace Doors.Modules
 			{
 				if (Random.value < lowVoltageOpenChance)
 				{
+					Chat.AddExamineMsg(gameObject, "The airlock's control panel flickers a dim light for a moment...");
 					return true;
 				}
 			}
