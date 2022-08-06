@@ -80,8 +80,7 @@ namespace Objects.Research
 		public override bool WillAffectPlayer(PlayerScript playerScript)
 		{
 			//Allow players or ghosts to enter
-			return playerScript.PlayerType == PlayerTypes.Normal ||
-			       playerScript.PlayerType == PlayerTypes.Ghost;
+			return playerScript.PlayerTypeSettings.CanEnterPortals;
 		}
 
 		public override void OnPlayerStep(PlayerScript playerScript)
@@ -91,8 +90,14 @@ namespace Objects.Research
 
 		public override bool WillAffectObject(GameObject eventData)
 		{
+			//Don't allow intangible stuff, like sparks as that will cause loop crashes
+			if (eventData.TryGetComponent<UniversalObjectPhysics>(out var uop) && uop.Intangible)
+			{
+				return false;
+			}
+
 			//Don't teleport tracking beacons as we open on them (might not be an issue but just incase)
-			return eventData.GetComponent<TrackingBeacon>() == false;
+			return eventData.GetComponent<TrackingBeacon>() == null;
 		}
 
 		public override void OnObjectEnter(GameObject eventData)
@@ -107,7 +112,7 @@ namespace Objects.Research
 			SparkUtil.TrySpark(gameObject, expose: false);
 
 			TransportUtility.TeleportToObject(eventData, connectedPortal.gameObject,
-				connectedPortal.ObjectPhysics.OfficialPosition);
+				connectedPortal.ObjectPhysics.OfficialPosition, true, false);
 		}
 
 		public bool OnPreHitDetect(OnHitDetectData data)

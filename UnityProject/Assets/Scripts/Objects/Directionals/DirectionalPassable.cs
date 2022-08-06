@@ -106,6 +106,9 @@ namespace Core.Directionals
 
 		public override bool IsAtmosPassable(Vector3Int enteringFrom, bool isServer)
 		{
+			//If despawning then always be atmos passable
+			if (Active == false) return true;
+
 			if (IsAtmosPassableOnAll) return true;
 			if (AtmosPassable == false) return false;
 

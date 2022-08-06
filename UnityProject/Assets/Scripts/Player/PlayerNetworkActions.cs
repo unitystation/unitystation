@@ -604,7 +604,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	public void ServerToggleChatIcon(string message, ChatModifier chatModifier)
 	{
 		//Don't do anything with chat icon if player is invisible or not spawned in
-		if(playerScript.objectPhysics.IsVisible == false) return;
+		if(playerScript.objectPhysics != null && playerScript.objectPhysics.IsVisible == false) return;
 		if(playerScript.playerHealth != null &&
 		   (playerScript.playerHealth.IsDead || playerScript.playerHealth.IsCrit)) return;
 
@@ -792,16 +792,18 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	}
 
 	[Command]
-	public void CmdSetActiveHand(uint handID, NamedSlot NamedSlot)
+	public void CmdSetActiveHand(uint handID, NamedSlot namedSlot)
 	{
 		NetworkIdentity hand = null;
 		if (handID != 0 && NetworkServer.spawned.TryGetValue(handID, out hand) == false) return;
-		if (NamedSlot != NamedSlot.leftHand && NamedSlot != NamedSlot.rightHand && NamedSlot != NamedSlot.none) return;
-		if (playerScript.IsGhost) return; // Because Ghosts don't have dynamic item storage
+		if (namedSlot != NamedSlot.leftHand && namedSlot != NamedSlot.rightHand && namedSlot != NamedSlot.none) return;
+
+		// Because Ghosts don't have dynamic item storage
+		if (playerScript.DynamicItemStorage == null) return;
 
 		if (handID != 0 && hand != null)
 		{
-			var slot = playerScript.DynamicItemStorage.GetNamedItemSlot(hand.gameObject, NamedSlot);
+			var slot = playerScript.DynamicItemStorage.GetNamedItemSlot(hand.gameObject, namedSlot);
 			if (slot == null) return;
 			activeHand = hand.gameObject;
 		}
@@ -809,7 +811,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		{
 			activeHand = null;
 		}
-		CurrentActiveHand = NamedSlot;
+		CurrentActiveHand = namedSlot;
 
 	}
 

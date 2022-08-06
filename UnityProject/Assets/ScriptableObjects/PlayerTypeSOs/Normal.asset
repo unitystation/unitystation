@@ -17,6 +17,7 @@ MonoBehaviour:
   canCraft: 1
   canBuckleOthers: 1
   canPull: 1
+  canEnterPortals: 1
   canInteractWithDoors: 1
   canPryDoorsWithHands: 0
   pryHandName: 
@@ -30,7 +31,7 @@ MonoBehaviour:
   receiveChannels: 81927
   defaultChannel: 2
   checkForRadios: 1
-  sendSpeechBubbleTo: 26
+  sendSpeechBubbleTo: 27
   receiveSpeechBubbleFrom: 9
   canMelee: 1
   emptyMeleeAttackData:

@@ -136,6 +136,8 @@ public static class Despawn
 	/// <param name="result"></param>
 	public static void _ServerFireDespawnHooks(DespawnResult result)
 	{
+		result.GameObject.GetComponent<RegisterTile>().OrNull()?.ChangeActiveState(false);
+
 		//fire server hooks
 		var comps = result.GameObject.GetComponents<IServerDespawn>();
 		if (comps != null)

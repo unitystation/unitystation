@@ -123,6 +123,14 @@ public static class Cooldowns
 	}
 
 	/// <summary>
+	/// Checks if the indicated cooldown is on (currently counting down) for the performer of the interaction.
+	/// </summary>
+	public static bool IsOn(Interaction interaction, ICooldown cooldown, NetworkSide side)
+	{
+		return side == NetworkSide.Client ? IsOnClient(interaction, cooldown) : IsOnServer(interaction, cooldown);
+	}
+
+	/// <summary>
 	/// Same as IsOn for for indicated clientside Cooldown
 	/// </summary>
 	public static bool IsOnClient(PlayerScript player, ICooldown cooldown)
