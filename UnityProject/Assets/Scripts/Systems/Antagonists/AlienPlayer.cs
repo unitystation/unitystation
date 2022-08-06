@@ -738,7 +738,10 @@ namespace Systems.Antagonists
 
 			RemoveGhostRole();
 
-			RpcRemoveActions();
+			if (connectionToClient != null)
+			{
+				RpcRemoveActions();
+			}
 
 			ChangeAlienMode(AlienMode.Dead);
 
@@ -1642,6 +1645,7 @@ namespace Systems.Antagonists
 
 		public void OnPlayerLeaveBody()
 		{
+			if(connectionToClient == null) return;
 			RpcRemoveActions();
 		}
 
