@@ -483,6 +483,8 @@ namespace Systems.Antagonists
 				alienType.AttackDamage, alienType.DamageType, alienType.ChanceToHit);
 
 			SetName(changeName, old);
+
+			QueenCheck();
 		}
 
 		private void SetName(bool changeName, AlienTypeDataSO old)
@@ -736,6 +738,8 @@ namespace Systems.Antagonists
 			if(isDead) return;
 			isDead = true;
 
+			QueenCheck();
+
 			RemoveGhostRole();
 
 			if (connectionToClient != null)
@@ -775,6 +779,14 @@ namespace Systems.Antagonists
 			Chat.AddChatMsgToChatServer($"{gameObject.ExpensiveName()} has died!{queenString}", ChatChannel.Alien, Loudness.MEGAPHONE);
 
 			//TODO play scream for all xenos?
+		}
+
+		private void QueenCheck()
+		{
+			var queens = FindObjectsOfType<AlienPlayer>().Where(x => x.isDead == false &&
+			                                                         x.CurrentAlienType == AlienTypes.Queen).ToArray();
+
+			queenInHive = queens.Any();
 		}
 
 		#endregion
@@ -1602,6 +1614,10 @@ namespace Systems.Antagonists
 		public void OnDespawnServer(DespawnInfo info)
 		{
 			RemoveGhostRole();
+
+			if(alienType.AlienType != AlienTypes.Queen) return;
+
+			QueenCheck();
 		}
 
 		private void OnSpawnFromGhostRole(PlayerInfo player)
