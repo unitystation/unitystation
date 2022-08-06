@@ -1010,14 +1010,14 @@ namespace HealthV2
 				}
 			}
 
-			SurfaceReagents[bodyPartAim].Add(Chemicals);
+			if(SurfaceReagents.TryGetValue(bodyPartAim, out var mix) == false) return;
 
-			if (SurfaceReagents[bodyPartAim].Total  > BodyPartSurfaceVolume)
+			mix.Add(Chemicals);
+
+			if (mix.Total  > BodyPartSurfaceVolume)
 			{
-				SurfaceReagents[bodyPartAim].Multiply( BodyPartSurfaceVolume /  SurfaceReagents[bodyPartAim].Total);
+				mix.Multiply( BodyPartSurfaceVolume /  mix.Total);
 			}
-
-
 		}
 
 
