@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UI.Core.NetUI;
 using Items.Construction;
+using Systems.Clearance;
 
 namespace UI.Items
 {
@@ -42,27 +43,27 @@ namespace UI.Items
 
 		private void OpenCategory(AccessList category)
 		{
-			List<Access> categoryAccesses = category.Accesses;
-			int numberOfAccesses = categoryAccesses.Count;
+			List<Clearance> categoryClearances = category.Clearances;
+			int numberOfAccesses = categoryClearances.Count;
 
 			CategoryContent.Clear();
 			CategoryContent.AddItems(numberOfAccesses);
 			int i = 0;
-			foreach (var access in categoryAccesses)
+			foreach (var clearance in categoryClearances)
 			{
 				var accessButton = (GUI_AirlockElectronicsEntry)CategoryContent.Entries[i];
-				accessButton.SetValues(access, this);
+				accessButton.SetValues(clearance, this);
 				i++;
 			}
 		}
-		public void ServerSetAccess(Access accessToSet)
+		public void ServerSetAccess(Clearance clearanceToSet)
 		{
-			airlockElectronics.CurrentAccess = accessToSet;
+			airlockElectronics.CurrentClearance = clearanceToSet;
 			UpdateCurrentAcceessText();
 		}
 		private void UpdateCurrentAcceessText()
 		{
-			CurrentAcceessText.SetValueServer(airlockElectronics.CurrentAccess.ToString());
+			CurrentAcceessText.SetValueServer(airlockElectronics.CurrentClearance.ToString());
 		}
 
 		#region Buttons

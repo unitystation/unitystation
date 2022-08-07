@@ -61,17 +61,6 @@ public class Occupation : ScriptableObject
 	private int priority = 0;
 	public int Priority => priority;
 
-	[FormerlySerializedAs("AllowedAccess")]
-	[SerializeField]
-	[Tooltip("Default access allowed for this occupation.")]
-	private List<Access> allowedAccess = null;
-	public List<Access> AllowedAccess => allowedAccess;
-
-	[SerializeField]
-	[Tooltip("Default lowpop access allowed for this occupation.")]
-	private List<Access> allowedLowPopAccess = null;
-	public List<Access> AllowedLowPopAccess => allowedLowPopAccess;
-
 	[SerializeField]
 	[Tooltip("Default clearance issued to this occupation.")]
 	private List<Clearance> issuedClearance = default;

@@ -175,7 +175,7 @@ namespace Managers
 			foreach (var card in idsSpawned)
 			{
 				if(card.Occupation == null) continue;
-				foreach (var access in card.Occupation.AllowedLowPopAccess)
+				foreach (var access in card.Occupation.IssuedLowPopClearance)
 				{
 					card.ServerAddAccess(access);
 				}
