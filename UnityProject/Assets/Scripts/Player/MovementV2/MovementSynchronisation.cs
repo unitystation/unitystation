@@ -91,7 +91,7 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 
 	public bool IsBumping = false;
 
-	private CooldownInstance moveCooldown = new CooldownInstance { defaultTime = 0.1f };
+	private CooldownInstance moveCooldown = new CooldownInstance (0.1f);
 
 	/// <summary>
 	/// Event which fires when movement type changes (run/walk)
