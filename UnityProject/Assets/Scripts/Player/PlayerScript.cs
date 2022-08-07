@@ -120,8 +120,14 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IActi
 	//The object the player will receive chat and send chat from.
 	//E.g. usually same object as this script but for Ai it will be their core object
 	//Serverside only
-	[SerializeField] private GameObject playerChatLocation = null;
+	[SerializeField]
+	private GameObject playerChatLocation = null;
 	public GameObject PlayerChatLocation => playerChatLocation;
+
+	[SerializeField]
+	//TODO move this to somewhere else?
+	private bool canVentCrawl = false;
+	public bool CanVentCrawl => canVentCrawl;
 
 	#region Lifecycle
 

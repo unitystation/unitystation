@@ -174,6 +174,13 @@ namespace Objects.Medical
 			UpdateSprites();
 		}
 
+		public void EntityTryEscape(GameObject entity, Action ifCompleted, MoveAction moveAction)
+		{
+			occupant = null;
+			closet.SetDoor(ClosetControl.Door.Opened);
+			UpdateSprites();
+		}
+
 		#region IAPCPowerable
 
 		public void PowerNetworkUpdate(float voltage) { }
@@ -193,13 +200,6 @@ namespace Objects.Medical
 			{
 				powerInit = true;
 			}
-		}
-
-		public void EntityTryEscape(GameObject entity, Action ifCompleted)
-		{
-			occupant = null;
-			closet.SetDoor(ClosetControl.Door.Opened);
-			UpdateSprites();
 		}
 
 		#endregion

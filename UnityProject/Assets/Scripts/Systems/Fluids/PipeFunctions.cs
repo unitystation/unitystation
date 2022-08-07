@@ -32,48 +32,63 @@ namespace Systems.Pipes
 			return (0);
 		}
 
-		public static List<PipeData> GetConnectedPipes(List<PipeData> ToPutInto, PipeData pipeData, Vector3Int Location,
-			Matrix LocatedOn)
+		public static List<PipeData> GetConnectedPipes(List<PipeData> toPutInto, PipeData pipeData, Vector3Int location,
+			Matrix locatedOn)
 		{
 			for (var i = 0; i < pipeData.Connections.Directions.Length; i++)
 			{
 				if (pipeData.Connections.Directions[i].Bool)
 				{
-					Vector3Int SearchVector = Vector3Int.zero;
+					Vector3Int searchVector = Vector3Int.zero;
 					switch (i)
 					{
 						case (int) PipeDirection.North:
-							SearchVector = Vector3Int.up;
+							searchVector = Vector3Int.up;
 							break;
 
 						case (int) PipeDirection.East:
-							SearchVector = Vector3Int.right;
+							searchVector = Vector3Int.right;
 							break;
 
 						case (int) PipeDirection.South:
-							SearchVector = Vector3Int.down;
+							searchVector = Vector3Int.down;
 							break;
 
 						case (int) PipeDirection.West:
-							SearchVector = Vector3Int.left;
+							searchVector = Vector3Int.left;
 							break;
 					}
 
-					SearchVector = Location + SearchVector;
-					SearchVector.z = 0;
-					var PipesOnTile = LocatedOn.GetPipeConnections(SearchVector);
-					foreach (var pipe in PipesOnTile)
+					searchVector = location + searchVector;
+					searchVector.z = 0;
+					var pipesOnTile = locatedOn.GetPipeConnections(searchVector);
+					foreach (var pipe in pipesOnTile)
 					{
 						if (ArePipeCompatible(pipeData, i, pipe, out var pipe1ConnectAndType))
 						{
 							pipe1ConnectAndType.Connected = pipe;
-							ToPutInto.Add(pipe);
+							toPutInto.Add(pipe);
 						}
 					}
 				}
 			}
 
-			return (ToPutInto);
+			return (toPutInto);
+		}
+
+		public static PipeData GetPipeFromDirection(PipeData pipeData, Vector3Int location, PipeDirection direction, Matrix locatedOn)
+		{
+			location.z = 0;
+			var pipesOnTile = locatedOn.GetPipeConnections(location);
+			foreach (var pipe in pipesOnTile)
+			{
+				if (ArePipeCompatible(pipeData, (int)direction, pipe, out var _))
+				{
+					return pipe;
+				}
+			}
+
+			return null;
 		}
 
 		public static bool ArePipeCompatible(PipeData pipe1, int Direction, PipeData pipe2,
@@ -122,21 +137,30 @@ namespace Systems.Pipes
 
 		public static PipeDirection PipesToDirections(PipeData pipe1, PipeData pipe2)
 		{
-			var VectorDifference = pipe2.MatrixPos - pipe1.MatrixPos;
-			VectorDifference.z = 0; //TODO Tile map upgrade
-			if (VectorDifference == Vector3Int.up)
+			var vectorDifference = pipe2.MatrixPos - pipe1.MatrixPos;
+			vectorDifference.z = 0; //TODO Tile map upgrade
+
+			return VectorIntToPipeDirection(vectorDifference);
+		}
+
+		public static PipeDirection VectorIntToPipeDirection(Vector3Int vector3Int)
+		{
+			if (vector3Int == Vector3Int.up)
 			{
 				return PipeDirection.North;
 			}
-			else if (VectorDifference == Vector3Int.right)
+
+			if (vector3Int == Vector3Int.right)
 			{
 				return PipeDirection.East;
 			}
-			else if (VectorDifference == Vector3Int.down)
+
+			if (vector3Int == Vector3Int.down)
 			{
 				return PipeDirection.South;
 			}
-			else if (VectorDifference == Vector3Int.left)
+
+			if (vector3Int == Vector3Int.left)
 			{
 				return PipeDirection.West;
 			}
