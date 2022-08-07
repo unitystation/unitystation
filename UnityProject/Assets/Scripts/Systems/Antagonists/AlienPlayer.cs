@@ -158,16 +158,13 @@ namespace Systems.Antagonists
 
 		public float DefaultTime => 5f;
 
-		private CooldownInstance hissCooldown;
-		public CooldownInstance HissCooldown => hissCooldown;
+		private CooldownInstance HissCooldown { get; } = new CooldownInstance(5f);
 
-		private CooldownInstance projectileCooldown;
-		public CooldownInstance ProjectileCooldown => projectileCooldown;
+		private CooldownInstance ProjectileCooldown { get; } = new CooldownInstance(4f);
 
-		private CooldownInstance queenAnnounceCooldown;
-		public CooldownInstance QueenAnnounceCooldown => queenAnnounceCooldown;
+		public CooldownInstance QueenAnnounceCooldown { get; } = new CooldownInstance(3f);
 
-		private CooldownInstance sharePlasmaCooldown;
+		private CooldownInstance SharePlasmaCooldown { get; } = new CooldownInstance(3f);
 
 		private AlienMouseInputController mouseInputController;
 
@@ -200,26 +197,6 @@ namespace Systems.Antagonists
 			alienLanguage = LanguageManager.Instance.GetLanguageByName("Alien");
 
 			playerMask = LayerMask.GetMask("Players");
-
-			hissCooldown = new CooldownInstance
-			{
-				defaultTime = 5f
-			};
-
-			projectileCooldown = new CooldownInstance
-			{
-				defaultTime = 4f
-			};
-
-			queenAnnounceCooldown = new CooldownInstance
-			{
-				defaultTime = 3f
-			};
-
-			sharePlasmaCooldown = new CooldownInstance
-			{
-				defaultTime = 3f
-			};
 
 			characterSheet = new CharacterSheet
 			{
@@ -399,8 +376,8 @@ namespace Systems.Antagonists
 		[Command]
 		public void CmdQueenAnnounce(string message)
 		{
-			if(OnCoolDown(NetworkSide.Server, queenAnnounceCooldown)) return;
-			StartCoolDown(NetworkSide.Server, queenAnnounceCooldown);
+			if(OnCoolDown(NetworkSide.Server, QueenAnnounceCooldown)) return;
+			StartCoolDown(NetworkSide.Server, QueenAnnounceCooldown);
 
 			//Remove tags
 			message = Chat.StripTags(message);
@@ -624,13 +601,13 @@ namespace Systems.Antagonists
 
 		private void SharePlasma()
 		{
-			if (OnCoolDown(NetworkSide.Server, sharePlasmaCooldown))
+			if (OnCoolDown(NetworkSide.Server, SharePlasmaCooldown))
 			{
 				Chat.AddExamineMsgFromServer(gameObject, "You are still recovering from the last plasma share!");
 				return;
 			}
 
-			StartCoolDown(NetworkSide.Server, sharePlasmaCooldown);
+			StartCoolDown(NetworkSide.Server, SharePlasmaCooldown);
 
 			var alienInRange = Physics2D.OverlapCircleAll(
 				RegisterPlayer.ObjectPhysics.Component.OfficialPosition, 3f, playerMask)
@@ -1047,8 +1024,8 @@ namespace Systems.Antagonists
 			//Hiss
 			if (data == hissAction)
 			{
-				if(OnCoolDown(NetworkSide.Client, hissCooldown)) return;
-				StartCoolDown(NetworkSide.Client, hissCooldown);
+				if(OnCoolDown(NetworkSide.Client, HissCooldown)) return;
+				StartCoolDown(NetworkSide.Client, HissCooldown);
 
 				CmdHiss();
 				return;
@@ -1460,8 +1437,8 @@ namespace Systems.Antagonists
 		[Command]
 		public void CmdHiss()
 		{
-			if(OnCoolDown(NetworkSide.Server, hissCooldown)) return;
-			StartCoolDown(NetworkSide.Server, hissCooldown);
+			if(OnCoolDown(NetworkSide.Server, HissCooldown)) return;
+			StartCoolDown(NetworkSide.Server, HissCooldown);
 
 			Hiss();
 		}
@@ -1498,8 +1475,8 @@ namespace Systems.Antagonists
 
 			if(ValidateProjectile() == false) return;
 
-			if(OnCoolDown(NetworkSide.Server, projectileCooldown)) return;
-			StartCoolDown(NetworkSide.Server, projectileCooldown);
+			if(OnCoolDown(NetworkSide.Server, ProjectileCooldown)) return;
+			StartCoolDown(NetworkSide.Server, ProjectileCooldown);
 
 			//TODO sound effect
 
@@ -1529,8 +1506,8 @@ namespace Systems.Antagonists
 
 			if(ValidateProjectile() == false) return;
 
-			if(OnCoolDown(NetworkSide.Server, projectileCooldown)) return;
-			StartCoolDown(NetworkSide.Server, projectileCooldown);
+			if(OnCoolDown(NetworkSide.Server, ProjectileCooldown)) return;
+			StartCoolDown(NetworkSide.Server, ProjectileCooldown);
 
 			//TODO sound effect
 

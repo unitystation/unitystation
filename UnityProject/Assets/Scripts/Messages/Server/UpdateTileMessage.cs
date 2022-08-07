@@ -42,7 +42,7 @@ namespace Messages.Server
 			{
 				Position = TileChangeEntry.position;
 				layerType = TileChangeEntry.LayerType;
-				if (TileChangeEntry.RelatedTileLocation == null)
+				if (TileChangeEntry.RelatedTileLocation?.layerTile == null)
 				{
 					TileType = TileType.None;
 					Colour = Color.white;

@@ -91,7 +91,7 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 
 	public bool IsBumping = false;
 
-	private CooldownInstance moveCooldown = new CooldownInstance { defaultTime = 0.1f };
+	private CooldownInstance moveCooldown = new CooldownInstance (0.1f);
 
 	/// <summary>
 	/// Event which fires when movement type changes (run/walk)
@@ -1060,9 +1060,12 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 			bool bumpedSomething = false;
 			if (Cooldowns.TryStart(playerScript, this, NetworkSide.Server))
 			{
-				foreach (var bump in Bumps)
+				var count = Bumps.Count;
+				for (int i = count - 1; i >= 0; i--)
 				{
-					bump.OnBump(this.gameObject, byClient);
+					if(i >= Bumps.Count) continue;
+
+					Bumps[i].OnBump(this.gameObject, byClient);
 					bumpedSomething = true;
 				}
 			}

@@ -31,7 +31,7 @@ namespace Clothing
 		private ItemAttributesV2 itemAttributesV2;
 		private SpriteHandler spriteHandler;
 
-		private CooldownInstance alienTryHuggerCooldown;
+		private CooldownInstance alienTryHuggerCooldown = new CooldownInstance(2f);
 
 		private Pickupable pickupable;
 
@@ -41,11 +41,6 @@ namespace Clothing
 			itemAttributesV2 = GetComponent<ItemAttributesV2>();
 			spriteHandler = GetComponentInChildren<SpriteHandler>();
 			pickupable = GetComponent<Pickupable>();
-
-			alienTryHuggerCooldown = new CooldownInstance
-			{
-				defaultTime = 2f
-			};
 		}
 
 		public override void OnStartServer()
