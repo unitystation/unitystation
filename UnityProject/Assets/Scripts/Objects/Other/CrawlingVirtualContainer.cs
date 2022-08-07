@@ -65,7 +65,8 @@ namespace Objects.Other
 		{
 			SoundManager.PlayNetworkedAtPos(ClangSound, ContainerWorldPosition);
 
-			if (pipeData == null)
+			//The pipe we're in no longer exists
+			if (pipeData == null || pipeData.Destroyed)
 			{
 				EjectContents(entity, null);
 				return;
@@ -75,7 +76,7 @@ namespace Objects.Other
 
 			if (connections.Count == 0)
 			{
-				EjectContents(entity, null);
+				EjectContents(entity, pipeData.MonoPipe.OrNull()?.gameObject);
 				return;
 			}
 

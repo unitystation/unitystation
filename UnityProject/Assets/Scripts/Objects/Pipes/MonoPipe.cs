@@ -185,12 +185,6 @@ namespace Objects.Atmospherics
 
 		protected void DoVentCrawl(HandApply interaction, GasMix pipeMix)
 		{
-			if (pipeData.ConnectedPipes.Count == 0)
-			{
-				Chat.AddExamineMsgFromServer(interaction.Performer, $"There is no pipe connected to this {gameObject.ExpensiveName()} theres no reason to enter");
-				return;
-			}
-
 			Chat.AddActionMsgToChat(gameObject, $"You start to enter the {gameObject.ExpensiveName()}",
 				$"{interaction.Performer.ExpensiveName()} starts to enter the {gameObject.ExpensiveName()}!");
 
@@ -204,20 +198,7 @@ namespace Objects.Atmospherics
 
 		private void FinishEnteringPipe(HandApply interaction, GasMix pipeMix)
 		{
-			if (pipeData.ConnectedPipes.Count == 0)
-			{
-				Chat.AddExamineMsgFromServer(interaction.Performer, $"There is no pipe connected to this {gameObject.ExpensiveName()} theres no reason to enter");
-				return;
-			}
-
-			var pipeConnected = pipeData.ConnectedPipes[0];
-			if (pipeConnected == null)
-			{
-				Logger.LogError("Pipe data was Null!");
-				return;
-			}
-
-			var container = Spawn.ServerPrefab(DisposalsManager.Instance.CrawlingVirtualContainerPrefab, pipeConnected.MatrixPos.ToWorld(registerTile.Matrix));
+			var container = Spawn.ServerPrefab(DisposalsManager.Instance.CrawlingVirtualContainerPrefab, registerTile.ObjectPhysics.Component.OfficialPosition);
 			if (container.Successful == false)
 			{
 				Logger.LogError("Failed to spawn crawling container!");
@@ -230,7 +211,7 @@ namespace Objects.Atmospherics
 				return;
 			}
 
-			virtualContainer.Setup(pipeConnected, interaction.PerformerPlayerScript.registerTile);
+			virtualContainer.Setup(pipeData, interaction.PerformerPlayerScript.registerTile);
 
 			// Transfer contents
 			if (container.GameObject.TryGetComponent<ObjectContainer>(out var objectContainer))

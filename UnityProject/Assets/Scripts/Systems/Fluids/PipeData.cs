@@ -43,6 +43,8 @@ namespace Systems.Pipes
 		public PipeNode pipeNode;
 		public MonoPipe MonoPipe;
 
+		public bool Destroyed { get; private set; }
+
 		public Vector3Int MatrixPos
 		{
 			get
@@ -85,6 +87,8 @@ namespace Systems.Pipes
 			{
 				PipeAction.pipeData = this;
 			}
+
+			Destroyed = false;
 
 			AtmosManager.Instance.AddPipe(this);
 			ConnectedPipes =
@@ -140,6 +144,7 @@ namespace Systems.Pipes
 		public virtual void OnDisable()
 		{
 			AtmosManager.Instance.RemovePipe(this);
+			Destroyed = true;
 			foreach (var Pipe in ConnectedPipes)
 			{
 				if(Pipe == null) continue;
