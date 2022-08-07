@@ -1054,12 +1054,14 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 			bool bumpedSomething = false;
 			if (Cooldowns.TryStart(playerScript, this, NetworkSide.Server))
 			{
-				for (int i = Bumps.Count - 1; i >= 0; i--)
+				var count = Bumps.Count;
+				for (int i = count - 1; i >= 0; i--)
 				{
+					if(i >= Bumps.Count) continue;
+
 					Bumps[i].OnBump(this.gameObject, byClient);
 					bumpedSomething = true;
 				}
-
 			}
 
 			IsBumping = false;
