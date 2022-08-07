@@ -1,0 +1,140 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &4570584102701329220
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 2263569844241571716, guid: 370e44bf0f4127a4194e5d791bca7989,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 96b0ac71a57e8504a96ced923cd9a8fb,
+        type: 2}
+    - target: {fileID: 4052071025910899382, guid: 370e44bf0f4127a4194e5d791bca7989,
+        type: 3}
+      propertyPath: maxCharges
+      value: -1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4052071025910899382, guid: 370e44bf0f4127a4194e5d791bca7989,
+        type: 3}
+      propertyPath: flavourText
+      value: suddenly the drone chittering makes sense
+      objectReference: {fileID: 0}
+    - target: {fileID: 4052071025910899382, guid: 370e44bf0f4127a4194e5d791bca7989,
+        type: 3}
+      propertyPath: languageToLearn
+      value: 
+      objectReference: {fileID: 11400000, guid: 063875855fb4fdf458ecaa4a572c0ba8,
+        type: 2}
+    - target: {fileID: 5250698454179092319, guid: 370e44bf0f4127a4194e5d791bca7989,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: b99a1b39ff677564fb3d3c46e5742e8a,
+        type: 3}
+    - target: {fileID: 5345719914184090627, guid: 370e44bf0f4127a4194e5d791bca7989,
+        type: 3}
+      propertyPath: m_Name
+      value: DroneBook
+      objectReference: {fileID: 0}
+    - target: {fileID: 5349236015163300215, guid: 370e44bf0f4127a4194e5d791bca7989,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5349236015163300215, guid: 370e44bf0f4127a4194e5d791bca7989,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5349236015163300215, guid: 370e44bf0f4127a4194e5d791bca7989,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5349236015163300215, guid: 370e44bf0f4127a4194e5d791bca7989,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5349236015163300215, guid: 370e44bf0f4127a4194e5d791bca7989,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5349236015163300215, guid: 370e44bf0f4127a4194e5d791bca7989,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5349236015163300215, guid: 370e44bf0f4127a4194e5d791bca7989,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5349236015163300215, guid: 370e44bf0f4127a4194e5d791bca7989,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5349236015163300215, guid: 370e44bf0f4127a4194e5d791bca7989,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5349236015163300215, guid: 370e44bf0f4127a4194e5d791bca7989,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5349236015163300215, guid: 370e44bf0f4127a4194e5d791bca7989,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5457230700116875703, guid: 370e44bf0f4127a4194e5d791bca7989,
+        type: 3}
+      propertyPath: m_AssetId
+      value: 994ac71deb95e8d4692c29566e20d528
+      objectReference: {fileID: 0}
+    - target: {fileID: 5531077044678511457, guid: 370e44bf0f4127a4194e5d791bca7989,
+        type: 3}
+      propertyPath: initialName
+      value: dronespeak Manuel
+      objectReference: {fileID: 0}
+    - target: {fileID: 5531077044678511457, guid: 370e44bf0f4127a4194e5d791bca7989,
+        type: 3}
+      propertyPath: initialDescription
+      value: 'The book''s cover reads: \"Understanding Dronespeak - An exercise in
+        futility.\" The book is written entirely in binary, non-silicons probably
+        won''t understand it.'
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 4052071025910899382, guid: 370e44bf0f4127a4194e5d791bca7989, type: 3}
+  m_SourcePrefab: {fileID: 100100000, guid: 370e44bf0f4127a4194e5d791bca7989, type: 3}
+--- !u!1 &8449375185473359687 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5345719914184090627, guid: 370e44bf0f4127a4194e5d791bca7989,
+    type: 3}
+  m_PrefabInstance: {fileID: 4570584102701329220}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &4568388314815096112
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8449375185473359687}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6dab208d40e64d9c86707819eb9c17ee, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  languageToLearn: {fileID: 11400000, guid: 063875855fb4fdf458ecaa4a572c0ba8, type: 2}
+  randomBook: {fileID: 11400000, guid: 524d99af624223642a764c5a6f224361, type: 2}
+  maxCharges: -1
+  flavourText: suddenly the drone chittering makes sense
+  overrideRequirements: 0

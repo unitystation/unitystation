@@ -1,0 +1,111 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &6913744608311685584
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 1461827644208326759, guid: 8332fa075a02a824eaf1162a1650b259,
+        type: 3}
+      propertyPath: m_AssetId
+      value: 370e44bf0f4127a4194e5d791bca7989
+      objectReference: {fileID: 0}
+    - target: {fileID: 1571408580567394471, guid: 8332fa075a02a824eaf1162a1650b259,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1571408580567394471, guid: 8332fa075a02a824eaf1162a1650b259,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1571408580567394471, guid: 8332fa075a02a824eaf1162a1650b259,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1571408580567394471, guid: 8332fa075a02a824eaf1162a1650b259,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1571408580567394471, guid: 8332fa075a02a824eaf1162a1650b259,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1571408580567394471, guid: 8332fa075a02a824eaf1162a1650b259,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1571408580567394471, guid: 8332fa075a02a824eaf1162a1650b259,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1571408580567394471, guid: 8332fa075a02a824eaf1162a1650b259,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1571408580567394471, guid: 8332fa075a02a824eaf1162a1650b259,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1571408580567394471, guid: 8332fa075a02a824eaf1162a1650b259,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1571408580567394471, guid: 8332fa075a02a824eaf1162a1650b259,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1575487906646857171, guid: 8332fa075a02a824eaf1162a1650b259,
+        type: 3}
+      propertyPath: m_Name
+      value: _Base_LanguageBook
+      objectReference: {fileID: 0}
+    - target: {fileID: 1669908004607698575, guid: 8332fa075a02a824eaf1162a1650b259,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: c61aa24565f144d4183e6cdacdee4e15,
+        type: 3}
+    - target: {fileID: 4655418891499908692, guid: 8332fa075a02a824eaf1162a1650b259,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: b7882565d43e89b43a3c85ab76ca7b46,
+        type: 2}
+    m_RemovedComponents:
+    - {fileID: 6541784096974092951, guid: 8332fa075a02a824eaf1162a1650b259, type: 3}
+  m_SourcePrefab: {fileID: 100100000, guid: 8332fa075a02a824eaf1162a1650b259, type: 3}
+--- !u!1 &5345719914184090627 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1575487906646857171, guid: 8332fa075a02a824eaf1162a1650b259,
+    type: 3}
+  m_PrefabInstance: {fileID: 6913744608311685584}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &4052071025910899382
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5345719914184090627}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 66d26ac5501548c7a24f4b5d0723ec0f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  languageToLearn: {fileID: 11400000, guid: 90699dd78f8cfad4e983185c4f67ae72, type: 2}
+  randomBook: {fileID: 11400000, guid: 524d99af624223642a764c5a6f224361, type: 2}
+  maxCharges: 1
+  flavourText: suddenly your mind is filled with codewords and responses
