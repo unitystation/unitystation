@@ -139,14 +139,41 @@ namespace Items.Tool
 		{
 			var matrixInfos = MatrixManager.Instance.ActiveMatricesList;
 
-			//TODO update for layer PR
-
 			foreach (var matrixInfo in matrixInfos)
 			{
-				var tilemapRenderer = matrixInfo.Matrix.UnderFloorLayer.GetComponent<TilemapRenderer>();
-				tilemapRenderer.sortingLayerName = newMode == Mode.Off ? "UnderFloor" : "Walls";
-				tilemapRenderer.sortingOrder = newMode == Mode.Off ? 0 : 1;
+				var electricalRenderer = matrixInfo.Matrix.ElectricalLayer.GetComponent<TilemapRenderer>();
+				var pipeRenderer = matrixInfo.Matrix.PipeLayer.GetComponent<TilemapRenderer>();
+				var disposalsRenderer = matrixInfo.Matrix.DisposalsLayer.GetComponent<TilemapRenderer>();
+
+				//Turn them all off
+				ChangeState(electricalRenderer, false, 2);
+				ChangeState(pipeRenderer, false, 1);
+				ChangeState(disposalsRenderer, false);
+
+				switch (newMode)
+				{
+					case Mode.Off:
+						continue;
+					case Mode.Wires:
+						ChangeState(electricalRenderer, true);
+						continue;
+					case Mode.Pipes:
+						ChangeState(pipeRenderer, true);
+						continue;
+					case Mode.Disposals:
+						ChangeState(disposalsRenderer, true);
+						continue;
+					default:
+						Logger.LogError($"Found no case for {newMode}");
+						continue;
+				}
 			}
+		}
+
+		private void ChangeState(TilemapRenderer tileRenderer, bool state, int oldLayerOrder = 0)
+		{
+			tileRenderer.sortingLayerName = state ? "Walls" : "UnderFloor";
+			tileRenderer.sortingOrder = state ? 100 : oldLayerOrder;
 		}
 
 		public void OnPlayerRejoin()
