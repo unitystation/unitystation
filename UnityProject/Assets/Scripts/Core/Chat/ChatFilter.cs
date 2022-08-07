@@ -98,9 +98,9 @@ public class ChatFilter : MonoBehaviour
 	/// The message is shortened if the player has send too many characters recently.
 	/// In either case the player will see a warning in their chat log.
 	/// </summary>
-	/// <param name="message">The player's message.</param>
+	/// <param name="parsedChat">The player's message.</param>
 	/// <param name="selectedChannels">The selected channels, which are simply passed along.</param>
-	public void Send(string message, ChatChannel selectedChannels)
+	public void Send(ParsedChatInput parsedChat, ChatChannel selectedChannels)
 	{
 		DecayFiltersOverTime(); // Decrease cpm and messages since last having spoken
 
@@ -120,7 +120,7 @@ public class ChatFilter : MonoBehaviour
 
 		// Users message will (at least partiall) be spoken, so count it.
 		numMessages++;
-		cpm += message.Length;
+		cpm += parsedChat.ClearMessage.Length;
 
 		// Limit characters per minute
 		int numCharsOverLimit = 0;
@@ -131,14 +131,14 @@ public class ChatFilter : MonoBehaviour
 			cpm = cpmMax; // Characters will be removed, so cpm must be lowered again.
 			numCharsOverLimit = (int)Math.Floor(cpmOver);
 
-			message = message.Remove(message.Length - numCharsOverLimit) + "...";
+			parsedChat.ClearMessage = parsedChat.ClearMessage.Remove(parsedChat.ClearMessage.Length - numCharsOverLimit) + "...";
 		}
 
 		// Don't send message if it got shortened below the limit.
 		if (0 < numCharsOverLimit && numCharsOverLimit < cpmMinCharacters) return;
 
 		// Send message, which might have been shortened because of the character limit per minute.
-		PostToChatMessage.Send(message, selectedChannels);
+		PostToChatMessage.Send(parsedChat.ClearMessage, selectedChannels, languageId: parsedChat.LanguageId);
 
 		// Notify player that their message got cut short.
 		if (numCharsOverLimit > 0)

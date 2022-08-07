@@ -1,0 +1,50 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2dd0f7f114fd41d9802a9e350cd8a2ea, type: 3}
+  m_Name: Machine
+  m_EditorClassIdentifier: 
+  languageName: Encoded Audio Language
+  languageUniqueId: 3
+  desc: An efficient language of encoded tones developed by synthetics and cyborgs.
+  key: 54
+  sentenceChance: 5
+  spaceChance: 10
+  priority: 90
+  sprite: {fileID: 21300000, guid: a909962fb91028d4e82e13dcdb1e362b, type: 3}
+  chatSprite: {fileID: 11400000, guid: 8e220ac43da860849824376c305aa93c, type: 2}
+  flags: 0
+  syllables:
+  - beep
+  - beep
+  - beep
+  - beep
+  - beep
+  - boop
+  - boop
+  - boop
+  - bop
+  - bop
+  - dee
+  - dee
+  - doo
+  - doo
+  - hiss
+  - hss
+  - buzz
+  - buzz
+  - bzz
+  - ksssh
+  - keey
+  - wurr
+  - wahh
+  - tzzz
+  syllablesString: '"beep","beep","beep","beep","beep","boop","boop","boop","bop","bop","dee","dee","doo","doo","hiss","hss","buzz","buzz","bzz","ksssh","keey","wurr","wahh","tzzz"'

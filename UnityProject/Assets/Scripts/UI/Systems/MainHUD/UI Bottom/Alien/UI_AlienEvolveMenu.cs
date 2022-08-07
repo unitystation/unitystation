@@ -65,6 +65,8 @@ namespace UI.Systems.MainHUD.UI_Bottom
 
 		private void RemoveEntry()
 		{
+			Destroy(entryPool[^1]);
+
 			entryPool.RemoveAt(entryPool.Count - 1);
 		}
 	}

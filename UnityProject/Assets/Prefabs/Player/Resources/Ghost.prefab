@@ -26,6 +26,7 @@ GameObject:
   - component: {fileID: 93686595326039348}
   - component: {fileID: 9073641150364035070}
   - component: {fileID: 8744048983066700626}
+  - component: {fileID: 8577256020621858143}
   m_Layer: 31
   m_Name: Ghost
   m_TagString: Untagged
@@ -351,6 +352,22 @@ MonoBehaviour:
   spriteHandler: {fileID: 5540939544705737117}
   IconTimeout: 3
   TypingTimeout: 20
+--- !u!114 &8577256020621858143
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4390267312333422610}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bd4fccae344a4981a0739eaa263d1b9a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 1
+  syncInterval: 0.1
+  defaultLanguages: {fileID: 0}
+  omniTongue: 1
 --- !u!1 &7113893953078827476
 GameObject:
   m_ObjectHideFlags: 0
