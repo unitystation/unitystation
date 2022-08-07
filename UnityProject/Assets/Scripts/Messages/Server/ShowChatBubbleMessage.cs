@@ -29,6 +29,8 @@ namespace Messages.Server
 			if (msg.IsPlayerChatBubble)
 			{
 				target = target.GetComponent<PlayerNetworkActions>().chatBubbleTarget;
+
+				if(target == null) return;
 			}
 
 			var message = msg.Message;

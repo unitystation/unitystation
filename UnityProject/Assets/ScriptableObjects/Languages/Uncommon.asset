@@ -1,0 +1,93 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2dd0f7f114fd41d9802a9e350cd8a2ea, type: 3}
+  m_Name: Uncommon
+  m_EditorClassIdentifier: 
+  languageName: Galactic Uncommon
+  languageUniqueId: 2
+  desc: The second-most spoken Human language.
+  key: 33
+  sentenceChance: 5
+  spaceChance: 50
+  priority: 90
+  sprite: {fileID: 0}
+  flags: 4
+  syllables:
+  - ba
+  - be
+  - bo
+  - ca
+  - ce
+  - co
+  - da
+  - de
+  - do
+  - fa
+  - fe
+  - fo
+  - ga
+  - ge
+  - go
+  - ha
+  - he
+  - ho
+  - ja
+  - je
+  - jo
+  - ka
+  - ke
+  - ko
+  - la
+  - le
+  - lo
+  - ma
+  - me
+  - mo
+  - na
+  - ne
+  - no
+  - ra
+  - re
+  - ro
+  - sa
+  - se
+  - so
+  - ta
+  - te
+  - to
+  - va
+  - ve
+  - vo
+  - xa
+  - xe
+  - xo
+  - ya
+  - ye
+  - yo
+  - za
+  - ze
+  - zo
+  syllablesString: '"ba", "be", "bo", "ca", "ce", "co", "da", "de", "do",
+
+    "fa",
+    "fe", "fo", "ga", "ge", "go", "ha", "he", "ho",
+
+    "ja", "je", "jo", "ka",
+    "ke", "ko", "la", "le", "lo",
+
+    "ma", "me", "mo", "na", "ne", "no", "ra",
+    "re", "ro",
+
+    "sa", "se", "so", "ta", "te", "to", "va", "ve", "vo",
+
+    "xa",
+    "xe", "xo", "ya", "ye", "yo", "za", "ze", "zo"'
