@@ -16,7 +16,7 @@ namespace Objects.Shuttles
 	public class ShuttleConsole : NetworkBehaviour, ICheckedInteractable<HandApply>, IServerSpawn
 	{
 		public MatrixMove ShuttleMatrixMove;
-		private RegisterTile registerTile;
+		public RegisterTile registerTile;
 		private HasNetworkTab hasNetworkTab;
 
 		[SerializeField] private AddressableAudioSource radarDetectionSound;
