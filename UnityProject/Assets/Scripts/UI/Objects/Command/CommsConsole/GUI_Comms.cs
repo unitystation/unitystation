@@ -24,23 +24,23 @@ namespace UI.Objects.Command
 		private NetPage captainAccessPage = null;
 
 		[SerializeField]
-		private NetLabel idLabel = null;
+		private NetText_label idLabel = null;
 		[SerializeField]
-		private NetLabel shuttleStatusLabel = null;
+		private NetText_label shuttleStatusLabel = null;
 		[SerializeField]
-		private NetLabel shuttleTimerLabel = null;
+		private NetText_label shuttleTimerLabel = null;
 		[SerializeField]
-		private NetLabel shuttleCallResultLabel = null;
+		private NetText_label shuttleCallResultLabel = null;
 		[SerializeField]
-		private NetLabel shuttleCallButtonLabel = null;
+		private NetText_label shuttleCallButtonLabel = null;
 		[SerializeField]
 		private NetSpriteImage statusImage = null;
 		[SerializeField]
-		private NetLabel CurrentAlertLevelLabel = null;
+		private NetText_label CurrentAlertLevelLabel = null;
 		[SerializeField]
-		private NetLabel NewAlertLevelLabel = null;
+		private NetText_label NewAlertLevelLabel = null;
 		[SerializeField]
-		private NetLabel AlertErrorLabel = null;
+		private NetText_label AlertErrorLabel = null;
 
 		private CommsConsole console;
 		private EscapeShuttle shuttle;

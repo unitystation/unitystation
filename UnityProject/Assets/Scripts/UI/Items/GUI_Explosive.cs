@@ -16,8 +16,8 @@ namespace UI.Items
 	{
 		private ExplosiveBase explosiveDevice;
 
-		[SerializeField] private NetLabel status;
-		[SerializeField] private NetLabel timer;
+		[SerializeField] private NetText_label status;
+		[SerializeField] private NetText_label timer;
 		[SerializeField] private NetToggle armToggleButton;
 		[SerializeField] private NetToggle sbArmToggleButton;
 		[SerializeField] private GameObject sbButtons;

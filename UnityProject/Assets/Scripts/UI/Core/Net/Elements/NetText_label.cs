@@ -6,9 +6,9 @@ using TMPro;
 namespace UI.Core.NetUI
 {
 	///Text label, not modifiable by clients directly
-	[RequireComponent(typeof(TMP_Text))]
+	//[RequireComponent(typeof(TMP_Text))]
 	[Serializable]
-	public class NetLabel : NetUIStringElement
+	public class NetText_label : NetUIStringElement
 	{
 		/// <summary>
 		/// Invoked when the value synced between client / server is updated.

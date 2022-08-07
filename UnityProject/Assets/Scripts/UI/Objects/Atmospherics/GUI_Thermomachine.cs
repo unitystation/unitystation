@@ -9,7 +9,7 @@ namespace UI.Objects.Atmospherics
 	public class GUI_Thermomachine : NetTab
 	{
 		[SerializeField]
-		private NetLabel temperatureData = null;
+		private NetText_label temperatureData = null;
 
 		[SerializeField]
 		private NetSlider onOffSwitch = null;

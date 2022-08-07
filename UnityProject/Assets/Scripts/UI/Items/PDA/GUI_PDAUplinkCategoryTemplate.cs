@@ -7,7 +7,7 @@ namespace UI.Items.PDA
 	public class GUI_PDAUplinkCategoryTemplate : DynamicEntry
 	{
 		[SerializeField]
-		private NetLabel categoryName = null;
+		private NetText_label categoryName = null;
 
 		private GUI_PDAUplinkCategory categoryPage;
 		private UplinkCategory category;

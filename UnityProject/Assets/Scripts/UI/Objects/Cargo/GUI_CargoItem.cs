@@ -9,8 +9,8 @@ namespace UI.Objects.Cargo
 	{
 		private CargoOrderSO Order;
 
-		[SerializeField] private NetLabel supplyNameLabel;
-		[SerializeField] private NetLabel priceLabel;
+		[SerializeField] private NetText_label supplyNameLabel;
+		[SerializeField] private NetText_label priceLabel;
 
 		public void AddToCart()
 		{

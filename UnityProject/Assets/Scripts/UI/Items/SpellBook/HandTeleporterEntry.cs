@@ -8,10 +8,10 @@ namespace UI.SpellBook
 	public class HandTeleporterEntry : DynamicEntry
 	{
 		[SerializeField]
-		private NetLabel beaconNameLabel = null;
+		private NetText_label beaconNameLabel = null;
 
 		[SerializeField]
-		private NetLabel beaconSetButtonLabel = null;
+		private NetText_label beaconSetButtonLabel = null;
 
 		private TrackingBeacon trackingBeacon;
 		private GUI_HandTeleporter handTeleporter;

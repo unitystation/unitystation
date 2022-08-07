@@ -20,7 +20,7 @@ namespace UI.Items
 		public AccessList SupplyCategory;
 		public AccessList CommandCategory;
 
-		public NetLabel CurrentAcceessText;
+		public NetText_label CurrentAcceessText;
 
 		private AirlockElectronics airlockElectronics;
 

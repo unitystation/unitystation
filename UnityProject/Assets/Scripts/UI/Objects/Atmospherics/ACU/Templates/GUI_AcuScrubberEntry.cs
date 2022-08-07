@@ -15,7 +15,7 @@ namespace UI.Objects.Atmospherics.Acu
 	public class GUI_AcuScrubberEntry : DynamicEntry
 	{
 		[SerializeField]
-		private NetLabel label = default;
+		private NetText_label label = default;
 
 		private static readonly string m = "<mark=#00FF0040>";
 		private static readonly string um = "</mark>";

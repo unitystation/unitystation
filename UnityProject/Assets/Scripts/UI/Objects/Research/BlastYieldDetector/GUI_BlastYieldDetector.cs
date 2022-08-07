@@ -27,22 +27,22 @@ namespace UI.Objects.Research
 
 		#region Serializefields
 		[SerializeField]
-		private NetLabel pointsMax;
+		private NetText_label pointsMax;
 
 		[SerializeField]
-		private NetLabel yieldMin;
+		private NetText_label yieldMin;
 
 		[SerializeField]
-		private NetLabel yieldMax;
+		private NetText_label yieldMax;
 
 		[SerializeField]
 		public EmptyItemList graphContainer;
 
 		[SerializeField]
-		private NetLabel blastYieldLabel;
+		private NetText_label blastYieldLabel;
 
 		[SerializeField]
-		private NetLabel pointsLabel;
+		private NetText_label pointsLabel;
 
 		/// <summary>
 		/// Offset to position highlight line UI properly

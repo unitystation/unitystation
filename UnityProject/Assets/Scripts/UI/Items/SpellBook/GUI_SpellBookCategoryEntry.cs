@@ -7,9 +7,9 @@ namespace UI.SpellBook
 	public class GUI_SpellBookCategoryEntry : DynamicEntry
 	{
 		[SerializeField]
-		private NetLabel nameLabel = default;
+		private NetText_label nameLabel = default;
 		[SerializeField]
-		private NetLabel descriptionLabel = default;
+		private NetText_label descriptionLabel = default;
 
 		private GUI_SpellBook spellBook;
 		private SpellBookCategory category;

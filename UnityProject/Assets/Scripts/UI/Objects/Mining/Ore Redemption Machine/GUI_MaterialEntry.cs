@@ -10,8 +10,8 @@ namespace UI.Objects.Cargo
 
 		private ItemTrait materialType;
 
-		public NetLabel labelName;
-		public NetLabel labelAmount;
+		public NetText_label labelName;
+		public NetText_label labelAmount;
 
 		public void DispenseMaterial(int amount)
 		{
