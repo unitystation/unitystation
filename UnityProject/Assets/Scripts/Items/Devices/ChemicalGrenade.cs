@@ -25,16 +25,19 @@ public class ChemicalGrenade : NetworkBehaviour, IPredictedCheckedInteractable<H
 
 	[SyncVar] public bool ScrewedClosed = false;
 
+
+	public int DEBUG_Amount = 50;
+
 	[RightClickMethod()]
 	public void DoSmartFoam()
 	{
-		SmokeAndFoamManager.StartFoamAt(transform.position, new ReagentMix(), 50, true, true);
+		SmokeAndFoamManager.StartFoamAt(transform.position, new ReagentMix(), DEBUG_Amount, true, true);
 	}
 
 	[RightClickMethod()]
 	public void DoFoam()
 	{
-		SmokeAndFoamManager.StartFoamAt(transform.position, new ReagentMix(), 50, true, false);
+		SmokeAndFoamManager.StartFoamAt(transform.position, new ReagentMix(), DEBUG_Amount, true, false);
 	}
 
 

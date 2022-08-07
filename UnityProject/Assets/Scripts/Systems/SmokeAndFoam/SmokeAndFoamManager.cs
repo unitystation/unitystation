@@ -43,6 +43,11 @@ public class SmokeAndFoamManager : SingletonManager<SmokeAndFoamManager>
 		SourceReservoir.StacksLeft = AmountOfSmoke;
 
 		var Matrix = MatrixManager.AtPoint(PositionWorld, true);
+		if (Matrix == MatrixManager.Instance.spaceMatrix.MatrixInfo)
+		{
+			Matrix = MatrixManager.MainStationMatrix; //TODO Maybe change to proximity thing
+		}
+
 		var Node =  Matrix.MetaDataLayer.Get(PositionWorld.ToLocal(Matrix).RoundToInt(), true, true);
 
 		SourceReservoir.SpreadToNode(null, Node.SmokeNode);
@@ -61,6 +66,11 @@ public class SmokeAndFoamManager : SingletonManager<SmokeAndFoamManager>
 		SourceReservoir.WallFoam = WallFoam;
 
 		var Matrix = MatrixManager.AtPoint(PositionWorld, true);
+		if (Matrix == MatrixManager.Instance.spaceMatrix.MatrixInfo)
+		{
+			Matrix = MatrixManager.MainStationMatrix; //TODO Maybe change to proximity thing
+		}
+
 		var Node =  Matrix.MetaDataLayer.Get(PositionWorld.ToLocal(Matrix).RoundToInt(), true, true);
 
 		SourceReservoir.SpreadToNode(null, Node.FoamNode);
