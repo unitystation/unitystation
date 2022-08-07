@@ -11,7 +11,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using Systems.Storage;
 
-public class DynamicItemStorage : NetworkBehaviour
+public class DynamicItemStorage : NetworkBehaviour, IOnPlayerRejoin, IOnPlayerTransfer, IOnPlayerLeaveBody
 {
 	public PlayerNetworkActions playerNetworkActions;
 	public RegisterPlayer registerPlayer;
@@ -1271,6 +1271,51 @@ public class DynamicItemStorage : NetworkBehaviour
 		}
 
 		return false;
+	}
+
+	public void OnPlayerRejoin()
+	{
+		//Trigger IOnPlayerRejoin for all items in top level player inventory
+		foreach (var itemSlot in GetItemSlots())
+		{
+			if(itemSlot.IsEmpty) continue;
+
+			var playerRejoins = itemSlot.ItemObject.GetComponents<IOnPlayerRejoin>();
+			foreach (var playerRejoin in playerRejoins)
+			{
+				playerRejoin.OnPlayerRejoin();
+			}
+		}
+	}
+
+	public void OnPlayerTransfer()
+	{
+		//Trigger IOnPlayerTransfer for all items in top level player inventory
+		foreach (var itemSlot in GetItemSlots())
+		{
+			if(itemSlot.IsEmpty) continue;
+
+			var playerTransfers = itemSlot.ItemObject.GetComponents<IOnPlayerTransfer>();
+			foreach (var playerTransfer in playerTransfers)
+			{
+				playerTransfer.OnPlayerTransfer();
+			}
+		}
+	}
+
+	public void OnPlayerLeaveBody()
+	{
+		//Trigger IOnPlayerLeaveBody for all items in top level player inventory
+		foreach (var itemSlot in GetItemSlots())
+		{
+			if(itemSlot.IsEmpty) continue;
+
+			var playerLeaveBodies = itemSlot.ItemObject.GetComponents<IOnPlayerLeaveBody>();
+			foreach (var playerLeaveBody in playerLeaveBodies)
+			{
+				playerLeaveBody.OnPlayerLeaveBody();
+			}
+		}
 	}
 
 
