@@ -2393,6 +2393,8 @@ namespace TileManagement
 		FireRainbow,
 		Ash,
 		EMP,
-		EMPCenter
+		EMPCenter,
+		Foam,
+		Smoke
 	}
 }

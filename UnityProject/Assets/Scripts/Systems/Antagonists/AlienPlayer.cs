@@ -234,6 +234,7 @@ namespace Systems.Antagonists
 			rotatable.OnRotationChange.AddListener(OnRotation);
 			playerScript.registerTile.OnLyingDownChangeEvent.AddListener(OnLyingDownChange);
 			playerScript.PlayerSync.MovementStateEventServer.AddListener(OnMovementTypeChange);
+			EventManager.AddHandler(Event.RoundStarted, ClearStatics);
 		}
 
 		private void OnDisable()
@@ -243,6 +244,7 @@ namespace Systems.Antagonists
 			rotatable.OnRotationChange.RemoveListener(OnRotation);
 			playerScript.registerTile.OnLyingDownChangeEvent.RemoveListener(OnLyingDownChange);
 			playerScript.PlayerSync.MovementStateEventServer.RemoveListener(OnMovementTypeChange);
+			EventManager.RemoveHandler(Event.RoundStarted, ClearStatics);
 		}
 
 		public override void OnStartLocalPlayer()
@@ -490,6 +492,8 @@ namespace Systems.Antagonists
 				alienType.AttackDamage, alienType.DamageType, alienType.ChanceToHit);
 
 			SetName(changeName, old);
+
+			QueenCheck();
 		}
 
 		private void SetName(bool changeName, AlienTypeDataSO old)
@@ -743,9 +747,14 @@ namespace Systems.Antagonists
 			if(isDead) return;
 			isDead = true;
 
+			QueenCheck();
+
 			RemoveGhostRole();
 
-			RpcRemoveActions();
+			if (connectionToClient != null)
+			{
+				RpcRemoveActions();
+			}
 
 			ChangeAlienMode(AlienMode.Dead);
 
@@ -781,6 +790,14 @@ namespace Systems.Antagonists
 				ChatChannel.Alien, alienLanguage, Loudness.MEGAPHONE);
 
 			//TODO play scream for all xenos?
+		}
+
+		private void QueenCheck()
+		{
+			var queens = FindObjectsOfType<AlienPlayer>().Where(x => x.isDead == false &&
+			                                                         x.CurrentAlienType == AlienTypes.Queen).ToArray();
+
+			queenInHive = queens.Any();
 		}
 
 		#endregion
@@ -1608,6 +1625,10 @@ namespace Systems.Antagonists
 		public void OnDespawnServer(DespawnInfo info)
 		{
 			RemoveGhostRole();
+
+			if(alienType.AlienType != AlienTypes.Queen) return;
+
+			QueenCheck();
 		}
 
 		private void OnSpawnFromGhostRole(PlayerInfo player)
@@ -1637,6 +1658,8 @@ namespace Systems.Antagonists
 			//This will call after an admin respawn to set up a new player
 			SetNewPlayer();
 
+			playerScript.playerName = $"{alienType.Name} {nameNumber}";
+
 			//Block role remove if this transfered player was the one how got the ghost role
 			//OnPlayerTransfer is still needed due to admin A ghosting which should remove the role on transfer
 			if(playerTookOver != null && playerTookOver == playerScript.PlayerInfo) return;
@@ -1647,10 +1670,13 @@ namespace Systems.Antagonists
 		public void OnPlayerRejoin()
 		{
 			RemoveGhostRole();
+
+			playerScript.playerName = $"{alienType.Name} {nameNumber}";
 		}
 
 		public void OnPlayerLeaveBody()
 		{
+			if(connectionToClient == null) return;
 			RpcRemoveActions();
 		}
 

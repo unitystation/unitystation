@@ -355,6 +355,30 @@ namespace HealthV2
 
 		public void ExternalMetaboliseReactions()
 		{
+			var  node = RegisterTile.Matrix.MetaDataLayer.Get(transform.localPosition.RoundToInt());
+
+			if (node != null && node.SmokeNode.IsActive)
+			{
+				if (RespiratorySystem == null || RespiratorySystem.IsEVACompatible() == false)
+				{
+					foreach (var SurfaceReagent in SurfaceReagents)
+					{
+						ApplyReagentsToSurface(node.SmokeNode.Present.Clone(), SurfaceReagent.Key);
+					}
+				}
+			}
+
+			if (node != null && node.FoamNode.IsActive)
+			{
+				if (RespiratorySystem == null || RespiratorySystem.IsEVACompatible() == false)
+				{
+					foreach (var SurfaceReagent in SurfaceReagents)
+					{
+						ApplyReagentsToSurface(node.SmokeNode.Present.Clone(), SurfaceReagent.Key);
+					}
+				}
+			}
+
 			foreach (var  storage in SurfaceReagents)
 			{
 				if (storage.Value.Total == 0) continue;

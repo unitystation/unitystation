@@ -122,6 +122,8 @@ namespace HealthV2
 				return false; //No point breathing if we dont have blood.
 			}
 
+			bool InternalGasMix = true;
+
 			// Try to get internal breathing if possible, otherwise get from the surroundings
 			IGasMixContainer container = RelatedPart.HealthMaster.RespiratorySystem.GetInternalGasMix();
 			var gasMixSink = node.GasMix; // Where to dump lung exhaust
@@ -136,6 +138,7 @@ namespace HealthV2
 				}
 				else
 				{
+					InternalGasMix = false;
 					container = node;
 				}
 			}
@@ -148,6 +151,16 @@ namespace HealthV2
 			ReagentMix AvailableBlood =
 				RelatedPart.HealthMaster.CirculatorySystem.BloodPool.Take(
 					(RelatedPart.HealthMaster.CirculatorySystem.BloodPool.Total * efficiency) / 2f);
+
+			if (InternalGasMix == false)
+			{
+				var Innode = RelatedPart.HealthMaster.RegisterTile.Matrix.MetaDataLayer.Get(RelatedPart.HealthMaster.transform.localPosition.RoundToInt());
+				if (Innode != null && Innode.SmokeNode.IsActive)
+				{
+					AvailableBlood.Add(Innode.SmokeNode.Present.Clone());
+				}
+			}
+
 			bool tryExhale = BreatheOut(gasMixSink, AvailableBlood);
 			bool tryInhale = BreatheIn(container.GasMix, AvailableBlood, efficiency);
 			RelatedPart.HealthMaster.CirculatorySystem.BloodPool.Add(AvailableBlood);
