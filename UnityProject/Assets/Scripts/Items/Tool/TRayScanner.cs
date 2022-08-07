@@ -182,10 +182,10 @@ namespace Items.Tool
 		{
 			if (currentMode == Mode.Off)
 			{
-				return $"The {gameObject.ExpensiveName()} is off!";
+				return $"The {gameObject.ExpensiveName()} is off!\n A label reads, \"do not point at living tissue\"";
 			}
 
-			return $"The {gameObject.ExpensiveName()} is currently detecting {currentMode.ToString()}";
+			return $"The {gameObject.ExpensiveName()} is currently detecting {currentMode.ToString()}.\n A label reads, \"do not point at living tissue\"";
 		}
 
 		#region Suicide
@@ -199,8 +199,11 @@ namespace Items.Tool
 		{
 			if (performer.TryGetComponent<LivingHealthMasterBase>(out var player) == false) yield break;
 
-			Chat.AddActionMsgToChat(performer, $"You begins to emit terahertz-rays into your brain with the {gameObject.ExpensiveName()}!",
+			Chat.AddActionMsgToChat(performer, $"You begin to emit terahertz-rays into your brain with the {gameObject.ExpensiveName()}!",
 				$"{performer.ExpensiveName()} begins to emit terahertz-rays into {performer.GetTheirPronoun()} brain with the {gameObject.ExpensiveName()}! It looks like {performer.GetTheyrePronoun()} trying to commit suicide!");
+
+			yield return WaitFor.Seconds(2);
+			if(player == null) yield break;
 
 			player.ApplyDamageToBodyPart(performer, 500f, AttackType.Bio, DamageType.Radiation, BodyPartType.Head);
 			player.Death();
