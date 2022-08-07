@@ -63,7 +63,10 @@ namespace Objects.Other
 
 		public void EntityTryEscape(GameObject entity, Action ifCompleted, MoveAction moveAction)
 		{
-			SoundManager.PlayNetworkedAtPos(ClangSound, ContainerWorldPosition);
+			if (DMMath.Prob(25))
+			{
+				SoundManager.PlayNetworkedAtPos(ClangSound, ContainerWorldPosition);
+			}
 
 			//The pipe we're in no longer exists
 			if (pipeData == null || pipeData.Destroyed)
