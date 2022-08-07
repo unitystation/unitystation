@@ -6,6 +6,7 @@ using HealthV2;
 using Items;
 using UnityEngine;
 using NaughtyAttributes;
+using Player;
 
 
 /// <summary>
@@ -16,6 +17,13 @@ public abstract class Consumable : MonoBehaviour, ICheckedInteractable<HandApply
 {
 	public void ServerPerformInteraction(HandApply interaction)
 	{
+		if (interaction.HandObject == null && interaction.Performer.GetComponent<ConsumeFromFloor>() != null)
+		{
+			//If consume from floor just try to consume
+			TryConsume(interaction.Performer);
+			return;
+		}
+
 		if (gameObject.TryGetComponent<HandPreparable>(out var preparable))
 		{
 			if (preparable.IsPrepared == false)
@@ -43,6 +51,12 @@ public abstract class Consumable : MonoBehaviour, ICheckedInteractable<HandApply
 
 	public bool WillInteract(HandApply interaction, NetworkSide side)
 	{
+		if (interaction.HandObject == null && interaction.Performer.GetComponent<ConsumeFromFloor>() != null)
+		{
+			//Default check and allow any player if they have this script to do this
+			if (DefaultWillInteract.Default(interaction, side, interaction.PerformerPlayerScript.PlayerType)) return true;
+		}
+
 		//this item shouldn't be a target
 		if (Validations.IsTarget(gameObject, interaction)) return false;
 		var Dissectible = interaction?.TargetObject.OrNull()?.GetComponent<Dissectible>();

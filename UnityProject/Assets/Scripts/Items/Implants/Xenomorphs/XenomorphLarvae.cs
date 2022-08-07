@@ -68,7 +68,7 @@ namespace HealthV2
 
 			RelatedPart.HealthMaster.ApplyDamageToBodyPart(
 				gameObject,
-				200,
+				500,
 				AttackType.Internal,
 				DamageType.Brute,
 				BodyPartType.Chest);
@@ -97,6 +97,7 @@ namespace HealthV2
 
 			var alienPlayer = spawned.GameObject.GetComponent<AlienPlayer>();
 
+			alienPlayer.SetNewPlayer();
 			alienPlayer.DoConnectCheck();
 
 			RelatedPart.TryRemoveFromBody();
