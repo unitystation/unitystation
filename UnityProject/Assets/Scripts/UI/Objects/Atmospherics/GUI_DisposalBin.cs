@@ -9,7 +9,7 @@ namespace UI.Objects.Disposals
 {
 	public class GUI_DisposalBin : NetTab
 	{
-		[SerializeField] private NetLabel LabelBinStatus = default;
+		[SerializeField] private NetText_label LabelBinStatus = default;
 		[SerializeField] private NetInteractiveButton ButtonBinPower = default;
 		[SerializeField] private NetInteractiveButton ButtonFlushContents = default;
 		[SerializeField] private NetInteractiveButton ButtonEjectContents = default;

@@ -37,31 +37,31 @@ namespace UI.Objects.Chemistry
 		[SerializeField]
 		private NetPage noCustomPromptPage;
 		[SerializeField]
-		private NetLabel customAmountLabel;
+		private NetText_label customAmountLabel;
 		[SerializeField]
-		private NetLabel customAmountReagentLabel;
+		private NetText_label customAmountReagentLabel;
 		[SerializeField]
-		private NetLabel productReagentList;
+		private NetText_label productReagentList;
 		[SerializeField]
-		private NetLabel productAmountToDispense;
+		private NetText_label productAmountToDispense;
 		[SerializeField]
-		private NetLabel productAmountsList;
+		private NetText_label productAmountsList;
 		[SerializeField]
 		private Scrollbar containerScrollbar;
 		[SerializeField]
 		private Scrollbar bufferScrollbar;
 		[SerializeField]
-		private NetLabel containerNoReagent;
+		private NetText_label containerNoReagent;
 		[SerializeField]
-		private NetLabel bufferNoReagent;
+		private NetText_label bufferNoReagent;
 		[SerializeField]
-		private NetLabel transferModeButtonLabel;
+		private NetText_label transferModeButtonLabel;
 		[SerializeField]
 		private EmptyItemList productList;
 		[SerializeField]
-		private NetLabel productTypeChoice;
+		private NetText_label productTypeChoice;
 		[SerializeField]
-		private NetLabel productMaxAmount;
+		private NetText_label productMaxAmount;
 		[SerializeField]
 		private TMP_InputField productNameInputField;
 		[SerializeField]

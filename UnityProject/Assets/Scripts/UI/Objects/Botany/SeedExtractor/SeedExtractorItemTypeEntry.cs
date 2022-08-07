@@ -13,9 +13,9 @@ namespace UI.Objects.Botany
 		[SerializeField]
 		private GUI_SeedExtractor seedExtractorWindow;
 		[SerializeField]
-		private NetLabel itemName = null;
+		private NetText_label itemName = null;
 		[SerializeField]
-		private NetLabel itemCount = null;
+		private NetText_label itemCount = null;
 		[SerializeField]
 		private NetPrefabImage itemIcon = null;
 		[SerializeField]

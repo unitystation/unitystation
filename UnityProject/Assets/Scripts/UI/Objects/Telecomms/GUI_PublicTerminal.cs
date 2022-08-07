@@ -48,13 +48,13 @@ namespace UI.Objects.Wallmounts
 		private DepartmentList DepartmentList = null;
 
 		[SerializeField]
-		private NetLabel TitleLabel = null;
+		private NetText_label TitleLabel = null;
 		[SerializeField]
-		private NetLabel NameLabel = null;
+		private NetText_label NameLabel = null;
 		[SerializeField]
-		private NetLabel VoltageLabel = null;
+		private NetText_label VoltageLabel = null;
 		[SerializeField]
-		private NetLabel TimerLabel = null;
+		private NetText_label TimerLabel = null;
 
 		string message;
 

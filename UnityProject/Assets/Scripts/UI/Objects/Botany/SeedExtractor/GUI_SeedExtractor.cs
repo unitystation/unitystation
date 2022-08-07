@@ -24,7 +24,7 @@ namespace UI.Objects.Botany
 		[SerializeField]
 		private NetButton backButton = null;
 		[SerializeField]
-		private NetLabel title = null;
+		private NetText_label title = null;
 		[SerializeField]
 		private NetPrefabImage icon = null;
 		[SerializeField]

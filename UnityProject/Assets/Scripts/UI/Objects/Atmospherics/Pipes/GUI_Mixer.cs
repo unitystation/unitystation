@@ -18,8 +18,8 @@ namespace UI.Objects.Atmospherics
 
 		public NetWheel NetWheel;
 
-		public NetLabel ToTakeFromInputOne;
-		public NetLabel ToTakeFromInputTwo;
+		public NetText_label ToTakeFromInputOne;
+		public NetText_label ToTakeFromInputTwo;
 
 		public void Set()
 		{

@@ -13,7 +13,7 @@ namespace UI.Objects.Atmospherics.Acu
 	public class GUI_AcuDevicesPage : GUI_AcuPage
 	{
 		[SerializeField]
-		private NetLabel tabLabel = default;
+		private NetText_label tabLabel = default;
 
 		[SerializeField]
 		private NetPageSwitcher pageSwitcher = default;

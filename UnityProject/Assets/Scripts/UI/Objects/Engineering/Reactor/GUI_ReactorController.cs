@@ -21,7 +21,7 @@ namespace UI.Objects.Engineering
 		[SerializeField] private NetSliderDial CoreKValue = null;
 		[SerializeField] private NetSliderDial CoreKValue0_1 = null;
 		[SerializeField] private NetSliderDial CoreKValue0_01 = null;
-		[SerializeField] private NetLabel RodDepth = null;
+		[SerializeField] private NetText_label RodDepth = null;
 		private decimal PreviousRADlevel = 0;
 		public decimal PercentageChange = 0;
 

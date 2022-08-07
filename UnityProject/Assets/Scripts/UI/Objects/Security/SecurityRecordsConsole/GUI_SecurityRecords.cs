@@ -16,7 +16,7 @@ namespace UI.Objects.Security
 		[SerializeField]
 		private GUI_SecurityRecordsEntryPage entryPage = null;
 		[SerializeField]
-		private NetLabel idText = null;
+		private NetText_label idText = null;
 		private SecurityRecordsConsole console;
 
 		public override void OnEnable()
@@ -69,7 +69,7 @@ namespace UI.Objects.Security
 			}
 		}
 
-		public void UpdateIdText(NetLabel labelToSet)
+		public void UpdateIdText(NetText_label labelToSet)
 		{
 			var IdCard = console.IdCard;
 			if (IdCard)

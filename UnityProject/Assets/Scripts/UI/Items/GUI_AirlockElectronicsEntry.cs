@@ -5,7 +5,7 @@ namespace UI.Items
 {
 	public class GUI_AirlockElectronicsEntry : DynamicEntry
 	{
-		public NetLabel AccessName;
+		public NetText_label AccessName;
 
 		private Clearance clearance;
 

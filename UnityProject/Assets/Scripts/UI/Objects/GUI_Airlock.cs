@@ -9,12 +9,12 @@ namespace UI.Objects
 	public class GUI_Airlock : NetTab
 	{
 		[SerializeField]
-		private NetLabel labelOpen = null;
+		private NetText_label labelOpen = null;
 
 		[SerializeField]
-		private NetLabel labelBolts = null;
+		private NetText_label labelBolts = null;
 
-		[SerializeField] private NetLabel labelSafety = null;
+		[SerializeField] private NetText_label labelSafety = null;
 
 		[SerializeField] private Image safetyImage;
 		[SerializeField] private Color safetyImageColorWhenSAFE;

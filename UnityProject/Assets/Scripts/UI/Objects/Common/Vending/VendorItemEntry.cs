@@ -15,15 +15,15 @@ namespace UI.Objects
 		public VendorItem vendorItem;
 		private GUI_Vendor vendorWindow;
 		[SerializeField]
-		private NetLabel itemName = null;
+		private NetText_label itemName = null;
 		[SerializeField]
-		private NetLabel itemCount = null;
+		private NetText_label itemCount = null;
 		[SerializeField]
 		private NetPrefabImage itemIcon = null;
 		[SerializeField]
 		private NetColorChanger itemBackground = null;
 		[SerializeField]
-		private NetLabel priceTag;
+		private NetText_label priceTag;
 
 		public void SetItem(VendorItem item, GUI_Vendor correspondingWindow)
 		{

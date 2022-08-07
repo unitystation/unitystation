@@ -8,9 +8,9 @@ namespace UI.Objects.Cargo
 	public class GUI_CargoPageCart : GUI_CargoPage
 	{
 		[SerializeField]
-		private NetLabel confirmButtonText;
+		private NetText_label confirmButtonText;
 		[SerializeField]
-		private NetLabel totalPriceText;
+		private NetText_label totalPriceText;
 		[SerializeField]
 		private EmptyItemList orderList;
 

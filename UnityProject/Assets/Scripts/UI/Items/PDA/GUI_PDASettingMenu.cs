@@ -9,7 +9,7 @@ namespace UI.Items.PDA
 	{
 		[SerializeField] private GUI_PDA controller = null;
 
-		[SerializeField] public NetLabel input;
+		[SerializeField] public NetText_label input;
 
 		private bool clickedRecently; // a simple variable to make sure the PDA asks the player to confirm the reset
 

@@ -10,7 +10,7 @@ namespace UI.Scroll
 	public class GUI_TeleportScroll : NetTab
 	{
 		[SerializeField]
-		private NetLabel chargesLabel = default;
+		private NetText_label chargesLabel = default;
 		[SerializeField]
 		private EmptyItemList dynamicList = null;
 

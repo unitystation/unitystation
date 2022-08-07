@@ -63,7 +63,7 @@ namespace UI.Objects.Shuttles
 			matrixMove.RegisterShuttleGuiScript(this);
 			shuttleFuelSystem = matrixMove.ShuttleFuelSystem;
 			radarList = this["EntryList"] as RadarList;
-
+			CoordReadout.SetCoords(shuttleConsole.registerTile.Matrix.MatrixMove.transform.position);
 			//Not doing this for clients
 			if (IsServer)
 			{
@@ -93,7 +93,7 @@ namespace UI.Objects.Shuttles
 		private void UpdateMe()
 		{
 			radarList.RefreshTrackedPos();
-
+			CoordReadout.SetCoords(shuttleConsole.registerTile.Matrix.MatrixMove.transform.position);
 
 			var fuelGauge = (NetUIElement<string>)this["FuelGauge"];
 			if (shuttleFuelSystem == null)

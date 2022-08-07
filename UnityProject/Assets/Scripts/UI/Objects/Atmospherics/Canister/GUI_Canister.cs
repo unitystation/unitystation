@@ -26,14 +26,14 @@ namespace UI.Objects.Atmospherics
 
 		public GameObject EditReleasePressurePopup;
 		public Image XButton;
-		public NetLabel ConnectionStatus;
+		public NetText_label ConnectionStatus;
 		//release lever to open canister internals
 		public NetToggle PrimaryReleaseLever;
 		//release lever to switch between the main valve an the external tank
 		public NetToggle SecondaryReleaseLever;
 
 		//external tank
-		public NetLabel externalTankStatus;
+		public NetText_label externalTankStatus;
 		public NetSpriteImage externalTankImage;
 
 		//LED stuff

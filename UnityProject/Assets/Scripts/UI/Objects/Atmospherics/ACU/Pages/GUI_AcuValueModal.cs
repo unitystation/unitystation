@@ -13,7 +13,7 @@ namespace UI.Objects.Atmospherics.Acu
 		private NetPageSwitcher modalSwitcher = default;
 
 		[SerializeField]
-		private NetLabel placeholderLabel = default;
+		private NetText_label placeholderLabel = default;
 		[SerializeField]
 		private NetTMPSubmitButton submitButton = default;
 

@@ -7,7 +7,7 @@ namespace UI.Objects.Security
 	public class GUI_TurretController : NetTab
 	{
 		[SerializeField]
-		private NetLabel powerSetting = null;
+		private NetText_label powerSetting = null;
 
 		[SerializeField]
 		private NetSlider onOffSwitch = null;
