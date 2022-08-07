@@ -281,7 +281,7 @@ namespace Objects.Disposals
 			return baseString;
 		}
 
-		public void EntityTryEscape(GameObject entity, Action ifCompleted)
+		public void EntityTryEscape(GameObject entity, Action ifCompleted, MoveAction moveAction)
 		{
 			if (BinFlushing)
 			{

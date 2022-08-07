@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Systems.Clearance;
 using UnityEngine;
 
 /// <summary>
@@ -9,6 +10,6 @@ using UnityEngine;
 public class AccessList : ScriptableObject
 {
 	[SerializeField]
-	private List<Access> accesses = null;
-	public List<Access> Accesses => accesses;
+	private List<Clearance> clearances = null;
+	public List<Clearance> Clearances => clearances;
 }

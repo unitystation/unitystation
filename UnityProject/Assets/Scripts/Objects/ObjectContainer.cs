@@ -20,7 +20,8 @@ namespace Objects
 		/// <remarks>The mob could be a player, bot, animal etc.</remarks>
 		/// <param name="entity">The <c>GameObject</c> of the mob attempting to escape.</param>
 		/// <param name="ifCompleted">An <c>Action</c> to carry out if escape is successful. </param>
-		void EntityTryEscape(GameObject entity, [CanBeNull] Action ifCompleted);
+		/// <param name="moveAction">The move direction for this escape try</param>
+		void EntityTryEscape(GameObject entity, [CanBeNull] Action ifCompleted, MoveAction moveAction);
 	}
 
 	/// <summary>

@@ -463,6 +463,7 @@ GameObject:
   - component: {fileID: 8980569866541390091}
   - component: {fileID: 2690378354521890256}
   - component: {fileID: 8305622356435420699}
+  - component: {fileID: 3151898299137416185}
   m_Layer: 8
   m_Name: AlienNewbornLarva
   m_TagString: Untagged
@@ -541,6 +542,7 @@ MonoBehaviour:
   RcsMatrixMove: {fileID: 0}
   actionData: {fileID: 11400000, guid: 288088e3bb7768d41a2fe1b2c170fbce, type: 2}
   playerChatLocation: {fileID: 1133514949248654}
+  canVentCrawl: 1
   ClueHandsImprintInverseChance: 55
   ClueUniformImprintInverseChance: 65
   ClueSpeciesImprintInverseChance: 85
@@ -1466,6 +1468,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 69ce3a9a00194c0ab84ae801741c4b0f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &3151898299137416185
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1133514949248654}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bd4fccae344a4981a0739eaa263d1b9a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 1
+  syncInterval: 0.1
+  defaultLanguages: {fileID: 11400000, guid: 3bcae86c58aaeee46ac55ef5aa74ef38, type: 2}
+  omniTongue: 0
 --- !u!1 &1147423205297840
 GameObject:
   m_ObjectHideFlags: 0
@@ -8111,7 +8129,7 @@ SpriteRenderer:
   m_SortingLayerID: -24161425
   m_SortingLayer: 8
   m_SortingOrder: 10
-  m_Sprite: {fileID: 21300040, guid: 50b6832cc0356dd48be7f69c661271d0, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 50b6832cc0356dd48be7f69c661271d0, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -8216,7 +8234,7 @@ SpriteRenderer:
   m_SortingLayerID: -902452607
   m_SortingLayer: 22
   m_SortingOrder: 20
-  m_Sprite: {fileID: -1841058614580174146, guid: 2adbceb9cc674484cb9a2c58b41d5493,
+  m_Sprite: {fileID: 7660122581263827943, guid: 2adbceb9cc674484cb9a2c58b41d5493,
     type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0

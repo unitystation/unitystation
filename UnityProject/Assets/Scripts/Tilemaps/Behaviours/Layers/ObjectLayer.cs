@@ -141,7 +141,7 @@ public class ObjectLayer : Layer
 		}
 		else
 		{
-			foreach (var objectOnTile in matrix.Get<UniversalObjectPhysics>(originalTo, CustomNetworkManager.IsServer))
+			foreach (var objectOnTile in Matrix.Get<UniversalObjectPhysics>(originalTo, CustomNetworkManager.IsServer))
 			{
 				if(objectOnTile.Intangible) continue;
 

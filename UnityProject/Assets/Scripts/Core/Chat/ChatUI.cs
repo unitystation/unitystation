@@ -7,6 +7,7 @@ using UnityEngine.UI;
 using NaughtyAttributes;
 using TMPro;
 using AdminTools;
+using Core.Chat;
 using Managers;
 using Items;
 using UnityEngine.Serialization;
@@ -19,21 +20,38 @@ namespace UI.Chat_UI
 		public Transform content = default;
 		public GameObject chatEntryPrefab = default;
 		public int maxLogLength = 90;
-		[SerializeField] private TMP_Text chatInputLabel = null;
-		[SerializeField] private GameObject channelToggleTemplate = null;
-		[SerializeField] private Image background = null;
-		[SerializeField] private TMP_InputField InputFieldChat = null;
-		[SerializeField] private RectTransform viewportTransform = null;
 
-		[SerializeField, BoxGroup("Scroll Bar")] private Image scrollHandle = null;
-		[SerializeField, BoxGroup("Scroll Bar")] private Image scrollBackground = null;
+		[SerializeField]
+		private TMP_Text chatInputLabel = null;
+		[SerializeField]
+		private GameObject channelToggleTemplate = null;
+		[SerializeField]
+		private Image background = null;
+		[SerializeField]
+		private TMP_InputField InputFieldChat = null;
+		[SerializeField]
+		private RectTransform viewportTransform = null;
 
-		[SerializeField] private AdminHelpChat adminHelpChat = null;
-		[SerializeField] private AdminHelpChat mentorHelpChat = null;
-		[SerializeField] private AdminHelpChat playerPrayerWindow = null;
+		[SerializeField, BoxGroup("Scroll Bar")]
+		private Image scrollHandle = null;
+		[SerializeField, BoxGroup("Scroll Bar")]
+		private Image scrollBackground = null;
 
-		[SerializeField] private GameObject helpSelectionPanel = null;
-		[SerializeField] private RectTransform chatUITransform = default;
+		[SerializeField]
+		private AdminHelpChat adminHelpChat = null;
+		[SerializeField]
+		private AdminHelpChat mentorHelpChat = null;
+		[SerializeField]
+		private AdminHelpChat playerPrayerWindow = null;
+
+		[SerializeField]
+		private GameObject helpSelectionPanel = null;
+		[SerializeField]
+		private RectTransform chatUITransform = default;
+
+		[SerializeField]
+		private LanguageScreen languagePanel = null;
+		public LanguageScreen LanguagePanel => languagePanel;
 
 		/// <summary>The root transform for the chat UI.</summary>
 		public RectTransform ChatUITransform => chatUITransform;
@@ -263,7 +281,7 @@ namespace UI.Chat_UI
 					parsedInput = Chat.ParsePlayerInput(InputFieldChat.text, chatContext);
 					if (Chat.IsValidToSend(parsedInput.ClearMessage))
 					{
-						PlayerSendChat(parsedInput.ClearMessage);
+						PlayerSendChat(parsedInput);
 					}
 
 					CloseChatWindow();
@@ -286,7 +304,7 @@ namespace UI.Chat_UI
 		/// <summary>
 		/// Only to be used via chat relay!
 		/// </summary>
-		public void AddChatEntry(string message)
+		public void AddChatEntry(string message, TMP_SpriteAsset languageSprite = null)
 		{
 			// Check for chat entry duplication
 			if (allEntries.Count > 0 && message.Equals(allEntries[allEntries.Count - 1].Message))
@@ -298,7 +316,7 @@ namespace UI.Chat_UI
 			GameObject entry = entryPool.GetChatEntry();
 			var chatEntry = entry.GetComponent<ChatEntry>();
 			chatEntry.ViewportTransform = viewportTransform;
-			chatEntry.SetText(message);
+			chatEntry.SetText(message, languageSprite);
 			allEntries.Add(chatEntry);
 			SetEntryTransform(entry);
 			CheckLengthOfChatLog();
@@ -414,22 +432,22 @@ namespace UI.Chat_UI
 			if (Chat.IsValidToSend(parsedInput.ClearMessage))
 			{
 				_ = SoundManager.Play(CommonSounds.Instance.Click01);
-				PlayerSendChat(parsedInput.ClearMessage);
+				PlayerSendChat(parsedInput);
 			}
 
 			CloseChatWindow();
 		}
 
-		private void PlayerSendChat(string sendMessage)
+		private void PlayerSendChat(ParsedChatInput parsedChat)
 		{
-			sendMessage = sendMessage.Replace("\n", " ").Replace("\r", " ");  // We don't want users to spam chat vertically
+			parsedChat.ClearMessage = parsedChat.ClearMessage.Replace("\n", " ").Replace("\r", " ");  // We don't want users to spam chat vertically
 			if (selectedVoiceLevel == -1)
-				sendMessage = "#" + sendMessage;
+				parsedChat.ClearMessage = "#" + parsedChat.ClearMessage;
 			if (selectedVoiceLevel == 1)
-				sendMessage = sendMessage.ToUpper();
+				parsedChat.ClearMessage = parsedChat.ClearMessage.ToUpper();
 
 			// Selected channels already masks all unavailable channels in it's get method
-			chatFilter.Send(sendMessage, SelectedChannels);
+			chatFilter.Send(parsedChat, SelectedChannels);
 			// The filter can be skipped / replaced by calling the following method instead:
 			// PostToChatMessage.Send(sendMessage, SelectedChannels);
 			InputFieldChat.text = "";
@@ -494,6 +512,8 @@ namespace UI.Chat_UI
 			StartWindowCooldown();
 			UIManager.IsInputFocus = false;
 			chatInputWindow.SetActive(false);
+			languagePanel.gameObject.SetActive(false);
+
 			if (QuickClose)
 			{
 				EventManager.Broadcast(Event.ChatQuickUnfocus);
@@ -505,7 +525,6 @@ namespace UI.Chat_UI
 
 			Showing = false;
 			StartCoroutine(AnimateBackground());
-
 
 			UIManager.PreventChatInput = false;
 
@@ -961,6 +980,13 @@ namespace UI.Chat_UI
 					helpSelectionPanel.gameObject.SetActive(false);
 				}
 			}
+		}
+
+		public void OnLanguageButton()
+		{
+			if(PlayerManager.LocalPlayerScript == null) return;
+
+			languagePanel.gameObject.SetActive(true);
 		}
 	}
 }

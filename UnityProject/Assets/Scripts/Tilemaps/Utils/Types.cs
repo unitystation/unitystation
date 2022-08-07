@@ -15,7 +15,9 @@ public enum TileType
 	WindowDamaged,
 	Effects,
 	UnderFloor,
-	ElectricalCable
+	Electrical,
+	Pipe,
+	Disposals
 }
 
 //If you change numbers, scene layers will mess up
@@ -31,7 +33,18 @@ public enum LayerType
 	[Order(6)] Objects = 2,
 	[Order(7)] Floors = 3,
 	[Order(8)] Underfloor = 8,
-	[Order(9)] Base = 4
+	[Order(9)] Electrical = 10,
+	[Order(10)] Pipe = 11,
+	[Order(11)] Disposals = 12,
+	[Order(12)] Base = 4
+}
+
+public static class LayerUtil
+{
+	public static bool IsUnderFloor(this LayerType layerType)
+	{
+		return layerType is LayerType.Underfloor or LayerType.Electrical or LayerType.Pipe or LayerType.Disposals;
+	}
 }
 
 [Flags]
@@ -47,8 +60,10 @@ public enum LayerTypeSelection
 	Underfloor = 1 << 6,
 	Base = 1 << 7,
 	Tables = 1 << 8,
+	Electrical = 1 << 9,
+	Pipe = 1 << 10,
+	Disposals = 1 << 11,
 	All = ~None
-
 }
 
 /// <summary>
@@ -85,7 +100,17 @@ public static class LTSUtil
 				return LayerTypeSelection.Base;
 			case LayerType.Tables:
 				return LayerTypeSelection.Tables;
+			case LayerType.Electrical:
+				return LayerTypeSelection.Electrical;
+			case LayerType.Pipe:
+				return LayerTypeSelection.Pipe;
+			case LayerType.Disposals:
+				return LayerTypeSelection.Disposals;
+			default:
+				Logger.LogError($"Failed to have case for: {Layer}");
+				break;
 		}
+
 		return LayerTypeSelection.Base;
 	}
 }

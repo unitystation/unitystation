@@ -1,3 +1,4 @@
+using Systems.Clearance;
 using UI.Core.NetUI;
 
 namespace UI.Items
@@ -6,19 +7,19 @@ namespace UI.Items
 	{
 		public NetLabel AccessName;
 
-		private Access access;
+		private Clearance clearance;
 
 		private GUI_AirlockElectronics gUI;
 
-		public void SetValues(Access accessToSet, GUI_AirlockElectronics guiToSet)
+		public void SetValues(Clearance clearanceToSet, GUI_AirlockElectronics guiToSet)
 		{
-			access = accessToSet;
+			clearance = clearanceToSet;
 			gUI = guiToSet;
-			AccessName.SetValueServer(access.ToString());
+			AccessName.SetValueServer(clearance.ToString());
 		}
 		public void ChangeAccess()
 		{
-			gUI.ServerSetAccess(access);
+			gUI.ServerSetAccess(clearance);
 		}
 	}
 }

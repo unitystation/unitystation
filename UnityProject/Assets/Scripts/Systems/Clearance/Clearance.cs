@@ -91,7 +91,7 @@
 
 		/*BEGIN CENTCOM ACCESS
 		Should leave plenty of room if we need to add more access levels.
-		ostly for admin fun times.
+		mostly for admin fun times.
 		General facilities. CentCom ferry.*/
 
 		CentGeneral = 64,

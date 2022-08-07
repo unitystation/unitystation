@@ -98,7 +98,7 @@ namespace Objects.Drawers
 			if (container.GetStoredObjects().Contains(interaction.Performer))
 			{
 				Chat.AddExamineMsg(interaction.Performer, "<color=red>I can't reach the controls from the inside!</color>");
-				EntityTryEscape(interaction.Performer, null);
+				EntityTryEscape(interaction.Performer, null, MoveAction.NoMove);
 				return;
 			}
 			if (interaction.IsAltClick && drawerState != DrawerState.Open)
@@ -174,7 +174,7 @@ namespace Objects.Drawers
 				{
 					if(healthBehaviour.ConsciousState == ConsciousState.CONSCIOUS ||
 					   healthBehaviour.ConsciousState == ConsciousState.BARELY_CONSCIOUS)
-						EntityTryEscape(player, null);
+						EntityTryEscape(player, null, MoveAction.NoMove);
 					// TODO: This is an incredibly brutal SFX... it also needs chopping up.
 					// (Max): We should use the scream emote from the emote system when sounds are added for them
 					// codacy ignore this ->SoundManager.PlayNetworkedAtPos("ShyguyScream", DrawerWorldPosition, sourceObj: gameObject);

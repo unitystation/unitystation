@@ -4,6 +4,7 @@ using Doors;
 using Items.Construction;
 using ScriptableObjects;
 using Core.Editor.Attributes;
+using Systems.Clearance;
 
 namespace Objects.Construction
 {
@@ -315,7 +316,7 @@ namespace Objects.Construction
 				AccessRestrictions airlockAccess = airlock.GetComponentInChildren<AccessRestrictions>();
 				GameObject airlockElectronics = airlockElectronicsSlot.ItemObject;
 				AirlockElectronics electronics = airlockElectronics.GetComponent<AirlockElectronics>();
-				airlockAccess.restriction = electronics.CurrentAccess;
+				airlockAccess.clearanceRestriction = electronics.CurrentClearance;
 			}
 		}
 
@@ -377,13 +378,13 @@ namespace Objects.Construction
 		/// Creating an airlock assembly from a deconstructed airlock.
 		/// </summary>
 		/// <param name="airlockElectronicsPrefab">prefab to create airlock electronics</param>
-		/// <param name="airlockAccess">access for installation in the airlock electronics</param>
+		/// <param name="airlockClearance">clearance for installation in the airlock electronics</param>
 		/// <param name="isWindowed">add glass or not</param>
-		public void ServerInitFromComputer(GameObject airlockElectronicsPrefab, Access airlockAccess, bool isWindowed)
+		public void ServerInitFromComputer(GameObject airlockElectronicsPrefab, Clearance airlockClearance, bool isWindowed)
 		{
 			//create the airlock electronics
 			var airlockElectronics = Spawn.ServerPrefab(airlockElectronicsPrefab, SpawnDestination.At(gameObject)).GameObject;
-			airlockElectronics.GetComponent<AirlockElectronics>().CurrentAccess = airlockAccess;
+			airlockElectronics.GetComponent<AirlockElectronics>().CurrentClearance = airlockClearance;
 
 			objectBehaviour.SetIsNotPushable(true);
 			stateful.ServerChangeState(cablesAddedState);

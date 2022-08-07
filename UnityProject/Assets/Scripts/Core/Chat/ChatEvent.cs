@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Text.RegularExpressions;
+using Player.Language;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -103,6 +104,7 @@ public class ChatEvent
 	public GameObject originator;
 	public bool stripTags = true;
 	public Loudness VoiceLevel = Loudness.NORMAL;
+	public LanguageSO language;
 
 	/// <summary>
 	/// Send chat message only to those on this matrix

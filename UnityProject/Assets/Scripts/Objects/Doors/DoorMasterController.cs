@@ -536,7 +536,7 @@ namespace Doors
 
 		public void Open(bool blockClosing = false)
 		{
-			if (isFireLock)
+			if (isFireLock == false)
 			{
 				var fireLock = matrix.GetFirst<FireLock>(registerTile.LocalPositionServer, true);
 				if (fireLock != null && fireLock.fireAlarm.activated) return;

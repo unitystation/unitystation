@@ -8,6 +8,6 @@ namespace Systems.Clearance
 		/// Public interface to get current issued clearance on this object.
 		/// </summary>
 		/// <returns>list with all clearances</returns>
-		IEnumerable<Clearance> GetClearance();
+		IEnumerable<Clearance> GetClearance { get;}
 	}
 }

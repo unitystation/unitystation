@@ -6,9 +6,11 @@ using Core.Chat;
 using HealthV2;
 using HealthV2.Limbs;
 using Items.Others;
+using Managers;
 using Messages.Server.LocalGuiMessages;
 using Mirror;
 using Objects;
+using Player.Language;
 using Player.Movement;
 using ScriptableObjects;
 using Systems.GhostRoles;
@@ -177,7 +179,10 @@ namespace Systems.Antagonists
 
 		private CharacterSheet characterSheet;
 
+		private LanguageSO alienLanguage;
+
 		private bool firstTimeSetup;
+
 
 		#region LifeCycle
 
@@ -188,6 +193,8 @@ namespace Systems.Antagonists
 			rotatable = GetComponent<Rotatable>();
 			cooldowns = GetComponent<HasCooldowns>();
 			mouseInputController = GetComponent<AlienMouseInputController>();
+
+			alienLanguage = LanguageManager.Instance.GetLanguageByName("Alien");
 
 			playerMask = LayerMask.GetMask("Players");
 
@@ -204,6 +211,7 @@ namespace Systems.Antagonists
 			rotatable.OnRotationChange.AddListener(OnRotation);
 			playerScript.registerTile.OnLyingDownChangeEvent.AddListener(OnLyingDownChange);
 			playerScript.PlayerSync.MovementStateEventServer.AddListener(OnMovementTypeChange);
+			EventManager.AddHandler(Event.RoundStarted, ClearStatics);
 		}
 
 		private void OnDisable()
@@ -213,6 +221,7 @@ namespace Systems.Antagonists
 			rotatable.OnRotationChange.RemoveListener(OnRotation);
 			playerScript.registerTile.OnLyingDownChangeEvent.RemoveListener(OnLyingDownChange);
 			playerScript.PlayerSync.MovementStateEventServer.RemoveListener(OnMovementTypeChange);
+			EventManager.RemoveHandler(Event.RoundStarted, ClearStatics);
 		}
 
 		public override void OnStartLocalPlayer()
@@ -460,6 +469,8 @@ namespace Systems.Antagonists
 				alienType.AttackDamage, alienType.DamageType, alienType.ChanceToHit);
 
 			SetName(changeName, old);
+
+			QueenCheck();
 		}
 
 		private void SetName(bool changeName, AlienTypeDataSO old)
@@ -474,7 +485,7 @@ namespace Systems.Antagonists
 			{
 				playerScript.playerName = $"{alienType.Name} {nameNumber}";
 				Chat.AddChatMsgToChatServer($"A new queen: {playerScript.playerName} has joined the hive, rejoice!",
-					ChatChannel.Alien, Loudness.SCREAMING);
+					ChatChannel.Alien, alienLanguage, Loudness.SCREAMING);
 			}
 			else
 			{
@@ -482,13 +493,13 @@ namespace Systems.Antagonists
 				{
 					playerScript.playerName = $"{alienType.Name} {nameNumber:D3}";
 					Chat.AddChatMsgToChatServer($"{playerScript.playerName} has joined the hive, rejoice!",
-						ChatChannel.Alien, Loudness.LOUD);
+						ChatChannel.Alien, alienLanguage, Loudness.LOUD);
 				}
 				else
 				{
 					playerScript.playerName = $"{alienType.Name} {nameNumber:D3}";
 					Chat.AddChatMsgToChatServer($"{old.Name} {nameNumber:D3} has evolved into a {alienType.Name}!",
-						ChatChannel.Alien, Loudness.LOUD);
+						ChatChannel.Alien, alienLanguage, Loudness.LOUD);
 				}
 			}
 		}
@@ -713,6 +724,8 @@ namespace Systems.Antagonists
 			if(isDead) return;
 			isDead = true;
 
+			QueenCheck();
+
 			RemoveGhostRole();
 
 			if (connectionToClient != null)
@@ -728,7 +741,8 @@ namespace Systems.Antagonists
 			}
 			else
 			{
-				Chat.AddChatMsgToChatServer($"{gameObject.ExpensiveName()} has died!", ChatChannel.Alien, Loudness.MEGAPHONE);
+				Chat.AddChatMsgToChatServer($"{gameObject.ExpensiveName()} has died!", ChatChannel.Alien,
+					alienLanguage, Loudness.MEGAPHONE);
 			}
 
 			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, OnUpdate);
@@ -749,9 +763,18 @@ namespace Systems.Antagonists
 
 			var queenString = queenInHive ? "\nBut we have a new leader!" : "\nWe need a new queen or the hive will surely perish!";
 
-			Chat.AddChatMsgToChatServer($"{gameObject.ExpensiveName()} has died!{queenString}", ChatChannel.Alien, Loudness.MEGAPHONE);
+			Chat.AddChatMsgToChatServer($"{gameObject.ExpensiveName()} has died!{queenString}",
+				ChatChannel.Alien, alienLanguage, Loudness.MEGAPHONE);
 
 			//TODO play scream for all xenos?
+		}
+
+		private void QueenCheck()
+		{
+			var queens = FindObjectsOfType<AlienPlayer>().Where(x => x.isDead == false &&
+			                                                         x.CurrentAlienType == AlienTypes.Queen).ToArray();
+
+			queenInHive = queens.Any();
 		}
 
 		#endregion
@@ -1579,6 +1602,10 @@ namespace Systems.Antagonists
 		public void OnDespawnServer(DespawnInfo info)
 		{
 			RemoveGhostRole();
+
+			if(alienType.AlienType != AlienTypes.Queen) return;
+
+			QueenCheck();
 		}
 
 		private void OnSpawnFromGhostRole(PlayerInfo player)
@@ -1608,6 +1635,8 @@ namespace Systems.Antagonists
 			//This will call after an admin respawn to set up a new player
 			SetNewPlayer();
 
+			playerScript.playerName = $"{alienType.Name} {nameNumber}";
+
 			//Block role remove if this transfered player was the one how got the ghost role
 			//OnPlayerTransfer is still needed due to admin A ghosting which should remove the role on transfer
 			if(playerTookOver != null && playerTookOver == playerScript.PlayerInfo) return;
@@ -1618,6 +1647,8 @@ namespace Systems.Antagonists
 		public void OnPlayerRejoin()
 		{
 			RemoveGhostRole();
+
+			playerScript.playerName = $"{alienType.Name} {nameNumber}";
 		}
 
 		public void OnPlayerLeaveBody()

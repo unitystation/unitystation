@@ -24,11 +24,8 @@ namespace Systems.Clearance
 		private readonly SyncList<Clearance> syncedClearance = new SyncListClearance();
 		private readonly SyncList<Clearance> syncedLowpopClearance = new SyncListClearance();
 
-		public IEnumerable<Clearance> GetClearance()
-		{
-			//TODO add a way to check for lowpop and return that instead
-			return clearance;
-		}
+		//TODO add a way to check for lowpop and return that instead
+		public IEnumerable<Clearance> GetClearance => clearance;
 
 		private void Start()
 		{

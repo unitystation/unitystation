@@ -76,7 +76,7 @@ namespace Objects.Disposals
 
 		#endregion EjectContents
 
-		public void EntityTryEscape(GameObject entity, Action ifCompleted)
+		public void EntityTryEscape(GameObject entity, Action ifCompleted, MoveAction moveAction)
 		{
 			SoundManager.PlayNetworkedAtPos(ClangSound, ContainerWorldPosition);
 		}

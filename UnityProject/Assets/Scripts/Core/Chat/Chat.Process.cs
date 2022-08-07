@@ -9,6 +9,7 @@ using System.Text;
 using AddressableReferences;
 using Core.Chat;
 using DatabaseAPI;
+using Managers;
 using Mirror;
 using NaughtyAttributes;
 using ScriptableObjects;
@@ -533,7 +534,8 @@ public partial class Chat
 	/// on the client. Do not use for anything else!
 	/// </summary>
 	public static void ProcessUpdateChatMessage(uint recipientUint, uint originatorUint, string message,
-		string messageOthers, ChatChannel channels, ChatModifier modifiers, string speaker, GameObject recipient, Loudness loudness, bool stripTags = true)
+		string messageOthers, ChatChannel channels, ChatModifier modifiers, string speaker, GameObject recipient,
+		Loudness loudness, bool stripTags = true, ushort languageId = 0)
 	{
 
 		var isOriginator = true;
@@ -559,7 +561,7 @@ public partial class Chat
 		}
 
 		var msg = ProcessMessageFurther(message, speaker, channels, modifiers, loudness, originatorUint, stripTags);
-		ChatRelay.Instance.UpdateClientChat(msg, channels, isOriginator, recipient, loudness, modifiers);
+		ChatRelay.Instance.UpdateClientChat(msg, channels, isOriginator, recipient, loudness, modifiers, languageId);
 	}
 
 	private static bool GhostValidationRejection(uint originator, ChatChannel channels)
@@ -678,12 +680,23 @@ public partial class Chat
 	{
 		// check if message is valid
 		if (string.IsNullOrEmpty(playerInput))
-			return new ParsedChatInput(playerInput, playerInput, ChatChannel.None);
+			return new ParsedChatInput(playerInput, playerInput, ChatChannel.None, 0);
 
+		var extractedChanel = CheckRadio(playerInput, context, out var specialCharCount);
+
+		var languageId = CheckLanguage(playerInput, ref specialCharCount);
+
+		// delete all special chars
+		var clearMsg = playerInput.Substring(specialCharCount).TrimStart(' ');
+		return new ParsedChatInput(playerInput, clearMsg, extractedChanel, languageId);
+	}
+
+	private static ChatChannel CheckRadio(string playerInput, IChatInputContext context, out int specialCharCount)
+	{
 		// all extracted channels from special chars
 		ChatChannel extractedChanel = ChatChannel.None;
 		// how many special chars we need to delete
-		int specialCharCount = 0;
+		specialCharCount = 0;
 
 		var firstLetter = playerInput.First();
 		if (firstLetter == ';')
@@ -722,9 +735,34 @@ public partial class Chat
 			}
 		}
 
-		// delete all special chars
-		var clearMsg = playerInput.Substring(specialCharCount).TrimStart(' ');
-		return new ParsedChatInput(playerInput, clearMsg, extractedChanel);
+		return extractedChanel;
+	}
+
+	private static ushort CheckLanguage(string playerInput, ref int specialCharCount)
+	{
+		if (playerInput.Length - specialCharCount < 2)
+		{
+			//Radio channels go first the language channels so if they exists and the input length is too short
+			//dont check for languages
+			return 0;
+		}
+
+		var firstLetter = playerInput[specialCharCount];
+		if (firstLetter == ',')
+		{
+			var secondLetter = char.ToLower(playerInput[specialCharCount + 1]);
+
+			var language = LanguageManager.Instance.GetLanguageByKey(secondLetter);
+			if (language == null) return 0;
+
+			specialCharCount += 2;
+
+			var canUse = PlayerManager.LocalPlayerScript.MobLanguages.CanSpeakLanguage(language);
+
+			return canUse ? language.LanguageUniqueId : (ushort) 0;
+		}
+
+		return 0;
 	}
 
 	/// <summary>
