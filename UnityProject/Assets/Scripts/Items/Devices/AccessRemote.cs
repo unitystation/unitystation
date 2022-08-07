@@ -61,6 +61,9 @@ namespace Items.Devices
 				case AccessRemoteState.Emergency:
 					currentState = AccessRemoteState.Open;
 					break;
+				default:
+					currentState = AccessRemoteState.Open;
+					break;
 			}
 			Chat.AddExamineMsg(interaction.Performer, $"Remote mode is set to: {currentState.ToString()}.");
 		}
