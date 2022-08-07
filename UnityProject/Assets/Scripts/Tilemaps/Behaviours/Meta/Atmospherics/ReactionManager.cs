@@ -192,11 +192,8 @@ namespace Systems.Atmospherics
 				}
 
 
-				if (pushable.stickyMovement && windyNode.WindForce > 3)
+				if (pushable.stickyMovement && windyNode.WindForce > (int)WindStrength.STRONG && pushable.CanBeWindPushed )
 				{
-					var Playermove = pushable as MovementSynchronisation;
-					if ( windyNode.WindForce < (int)WindStrength.STRONG && Playermove == null) continue;
-					if (Playermove.CanBeWindPushed == false) continue;
 					pushable.TryTilePush((transform.rotation * (Vector2)windyNode.WindDirection).RoundTo2Int(), null);
 				}
 			}
