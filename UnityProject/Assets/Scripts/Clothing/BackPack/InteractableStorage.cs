@@ -70,7 +70,7 @@ public class InteractableStorage : MonoBehaviour, IClientInteractable<HandActiva
 
 	private bool allowedToInteract = false;
 
-	private CooldownInstance cooldown;
+	private CooldownInstance cooldown = new CooldownInstance(0.5f);
 
 	[SerializeField] private ActionData actionData = null;
 	public ActionData ActionData => actionData;
@@ -81,11 +81,6 @@ public class InteractableStorage : MonoBehaviour, IClientInteractable<HandActiva
 	{
 		get => preventUIShowingAfterTrapTrigger;
 		set => preventUIShowingAfterTrapTrigger = value;
-	}
-
-	private void Awake()
-	{
-		cooldown = new CooldownInstance { defaultTime = 0.5f };
 	}
 
 	/// <summary>

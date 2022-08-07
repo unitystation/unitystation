@@ -1010,14 +1010,29 @@ namespace HealthV2
 				}
 			}
 
-			//Does not trigger when bodyPartAim is none, intended or should be random?
-			if(SurfaceReagents.TryGetValue(bodyPartAim, out var mix) == false) return;
+			if (bodyPartAim == BodyPartType.None)
+			{
+				Chemicals.Divide(SurfaceReagents.Count);
+				foreach (var surfaceReagent in SurfaceReagents)
+				{
+					AddToSurface(Chemicals, surfaceReagent.Value);
+				}
 
+				return;
+			}
+
+			if (SurfaceReagents.TryGetValue(bodyPartAim, out var mix) == false) return;
+
+			AddToSurface(Chemicals, mix);
+		}
+
+		private void AddToSurface(ReagentMix Chemicals, ReagentMix mix)
+		{
 			mix.Add(Chemicals);
 
-			if (mix.Total  > BodyPartSurfaceVolume)
+			if (mix.Total > BodyPartSurfaceVolume)
 			{
-				mix.Multiply( BodyPartSurfaceVolume /  mix.Total);
+				mix.Multiply(BodyPartSurfaceVolume / mix.Total);
 			}
 		}
 

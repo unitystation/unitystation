@@ -69,7 +69,7 @@ namespace UI.Systems.MainHUD.UI_Bottom
 
 		private bool focusCheck;
 
-		private CooldownInstance stateCooldown = new CooldownInstance { defaultTime = 5f };
+		private CooldownInstance stateCooldown = new CooldownInstance (5f);
 
 		private void OnEnable()
 		{
