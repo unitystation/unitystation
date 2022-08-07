@@ -10,7 +10,7 @@ namespace UI.Objects.Cargo
 		[SerializeField]
 		private EmptyItemList orderList;
 		[SerializeField]
-		private NetLabel categoryText;
+		private NetText_label categoryText;
 
 		public CargoCategory cargoCategory;
 

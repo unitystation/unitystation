@@ -11,7 +11,7 @@ namespace UI.Objects.Robotics
 		private ItemTrait materialType;
 		private int currentAmount;
 
-		private NetLabel amountLabel;
+		private NetText_label amountLabel;
 
 		private NetInteractiveButton buttonOne;
 		private NetInteractiveButton buttonTen;
@@ -44,7 +44,7 @@ namespace UI.Objects.Robotics
 
 					case "MaterialAmount":
 						((NetUIElement<string>)element).SetValueServer(currentAmount + " cm3");
-						amountLabel = element as NetLabel;
+						amountLabel = element as NetText_label;
 						break;
 
 					case "OneSheetButton":

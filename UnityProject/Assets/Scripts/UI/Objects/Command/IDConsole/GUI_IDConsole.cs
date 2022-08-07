@@ -23,11 +23,11 @@ namespace UI.Objects.Command
 		[SerializeField]
 		private NetPage mainPage = null;
 		[SerializeField]
-		private NetLabel targetCardName = null;
+		private NetText_label targetCardName = null;
 		[SerializeField]
-		private NetLabel accessCardName = null;
+		private NetText_label accessCardName = null;
 		[SerializeField]
-		private NetLabel loginCardName = null;
+		private NetText_label loginCardName = null;
 
 		//cached mapping from access to its corresponding entry for fast lookup
 		private Dictionary<GUI_IDConsoleEntry, Clearance> accessToEntry = new Dictionary<GUI_IDConsoleEntry, Clearance>();

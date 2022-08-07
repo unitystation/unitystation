@@ -8,8 +8,8 @@ namespace UI.Objects.Cargo
 {
 	public class GUI_Cargo : NetTab
 	{
-		public NetLabel СreditsText;
-		public NetLabel DirectoryText;
+		public NetText_label СreditsText;
+		public NetText_label DirectoryText;
 		public NetPageSwitcher NestedSwitcher;
 
 		public CargoConsole cargoConsole;

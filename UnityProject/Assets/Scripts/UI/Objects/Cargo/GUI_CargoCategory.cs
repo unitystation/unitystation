@@ -9,7 +9,7 @@ namespace UI.Objects.Cargo
 	{
 		private CargoCategory category;
 
-		[SerializeField] private NetLabel CategoryName;
+		[SerializeField] private NetText_label CategoryName;
 
 		public GUI_Cargo cargoGUI;
 

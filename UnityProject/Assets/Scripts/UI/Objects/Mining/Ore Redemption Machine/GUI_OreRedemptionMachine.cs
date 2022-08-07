@@ -14,7 +14,7 @@ namespace UI.Objects.Cargo
 		private OreRedemptionMachine oreRedemptionMachine;
 		private bool loadOresCooldown;
 
-		public NetLabel laborPointsLabel;
+		public NetText_label laborPointsLabel;
 		protected override void InitServer()
 		{
 			StartCoroutine(WaitForProvider());

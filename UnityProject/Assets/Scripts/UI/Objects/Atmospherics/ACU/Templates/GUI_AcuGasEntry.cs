@@ -10,7 +10,7 @@ namespace UI.Objects.Atmospherics.Acu
 	public class GUI_AcuGasEntry : DynamicEntry
 	{
 		[SerializeField]
-		private NetLabel label = default;
+		private NetText_label label = default;
 
 		public void SetValues(string metricName, float ratio, float moles, AcuStatus molStatus)
 		{

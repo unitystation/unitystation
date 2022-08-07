@@ -15,16 +15,16 @@ namespace UI.Objects.Wallmounts
 		public bool IsArchive = false;
 
 		[SerializeField]
-		private NetLabel NameAndCategory = null;
+		private NetText_label NameAndCategory = null;
 
 		[SerializeField]
 		private NetColorChanger UrgencyImage = null;
 
 		[SerializeField]
-		private NetLabel UrgencyText = null;
+		private NetText_label UrgencyText = null;
 
 		[SerializeField]
-		private NetLabel MessageText = null;
+		private NetText_label MessageText = null;
 
 		public void DeleteEntry()
 		{

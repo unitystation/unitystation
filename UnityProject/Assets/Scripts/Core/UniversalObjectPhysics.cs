@@ -63,7 +63,10 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 
 	[PrefabModeOnly] public bool Intangible = false;
 
-	[PlayModeOnly] public bool CanBeWindPushed = true;
+	public bool CanBeWindPushed = true;
+
+
+
 
 	[PrefabModeOnly] public bool IsPlayer = false;
 
@@ -142,6 +145,9 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 
 	[SyncVar]
 	protected int SetLastResetID = -1;
+
+	[SyncVar]
+	public bool HasOwnGravity = false;
 
 	private ObjectContainer CachedContainedInContainer;
 
@@ -1741,7 +1747,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 		}
 		else
 		{
-			if (registerTile.Matrix.HasGravity) //Presuming Register tile has the correct matrix
+			if (registerTile.Matrix.HasGravity || HasOwnGravity) //Presuming Register tile has the correct matrix
 			{
 				if (registerTile.Matrix.MetaTileMap.IsEmptyTileMap(registerTile.LocalPosition) == false)
 				{

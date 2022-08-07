@@ -186,10 +186,14 @@ namespace Systems.Atmospherics
 
 				correctedForce = Mathf.Clamp(correctedForce, 0, 30);
 
-				pushable.NewtonianPush(registerTile.transform.rotation * (Vector2)windyNode.WindDirection, Random.Range((float)(correctedForce * 0.8), correctedForce),  spinFactor: Random.Range(1, 150));
-				if (pushable.stickyMovement && windyNode.WindForce > 3)
+				if (pushable.CanBeWindPushed)
 				{
-					if (pushable is MovementSynchronisation && windyNode.WindForce < (int)WindStrength.STRONG) continue;
+					pushable.NewtonianPush(registerTile.transform.rotation * (Vector2)windyNode.WindDirection, Random.Range((float)(correctedForce * 0.8), correctedForce),  spinFactor: Random.Range(1, 150));
+				}
+
+
+				if (pushable.stickyMovement && windyNode.WindForce > (int)WindStrength.STRONG && pushable.CanBeWindPushed )
+				{
 					pushable.TryTilePush((transform.rotation * (Vector2)windyNode.WindDirection).RoundTo2Int(), null);
 				}
 			}
