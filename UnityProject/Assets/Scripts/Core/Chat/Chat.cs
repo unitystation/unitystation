@@ -67,7 +67,7 @@ public partial class Chat : MonoBehaviour
 			discordMessageBuilder.Append($"[{channel}] ");
 		}
 
-		discordMessageBuilder.Append($"\n```css\n{chatEvent.speaker}: {chatEvent.message}\n```\n");
+		discordMessageBuilder.Append($"{(chatEvent.language != null ? $"[{chatEvent.language.LanguageName}]" : "")}\n```css\n{chatEvent.speaker}: {chatEvent.message}\n```\n");
 
 		string discordMessage = discordMessageBuilder.ToString();
 		//Sends All Chat messages to a discord webhook
@@ -229,7 +229,8 @@ public partial class Chat : MonoBehaviour
 				languageToUse = LanguageManager.Instance.GetLanguageById(languageId);
 			}
 
-			if (playerLanguages.CanSpeakLanguage(languageToUse) == false && playerLanguages.OmniTongue == false)
+			//Check to make sure we can speak that language, if not get the default language
+			if (playerLanguages.CanSpeakLanguage(languageToUse) == false)
 			{
 				languageToUse = playerLanguages.CurrentLanguage;
 

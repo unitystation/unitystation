@@ -389,12 +389,11 @@ public class ChatRelay : NetworkBehaviour
 		{
 			var canUnderstand = playerLanguages.CanUnderstandLanguage(language);
 
-			if ((playerLanguages.OmniTongue || canUnderstand) && language.Flags.HasFlag(LanguageFlags.HideIconIfUnderstood))
+			if (canUnderstand && language.Flags.HasFlag(LanguageFlags.HideIconIfUnderstood))
 			{
 				return null;
 			}
-			else if (playerLanguages.OmniTongue == false && canUnderstand == false &&
-			         language.Flags.HasFlag(LanguageFlags.HideIconIfNotUnderstood))
+			else if (canUnderstand == false && language.Flags.HasFlag(LanguageFlags.HideIconIfNotUnderstood))
 			{
 				return null;
 			}

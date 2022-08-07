@@ -43,6 +43,12 @@ namespace Core.Chat
 			var understoodLanguages = player.MobLanguages.UnderstoodLanguages.OrderByDescending(x => x.Priority).ToArray();
 			var spokenLanguages = player.MobLanguages.SpokenLanguages;
 
+			if (player.MobLanguages.OmniTongue)
+			{
+				understoodLanguages = LanguageManager.Instance.AllLanguages.ToArray();
+				spokenLanguages = LanguageManager.Instance.AllLanguages.ToHashSet();
+			}
+
 			if (entryPool.Count < understoodLanguages.Length)
 			{
 				var missing = understoodLanguages.Length - entryPool.Count;
