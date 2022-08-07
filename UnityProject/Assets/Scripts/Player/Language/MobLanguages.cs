@@ -79,11 +79,15 @@ namespace Player.Language
 
 		public bool CanUnderstandLanguage(LanguageSO languageToTest)
 		{
+			if (omniTongue) return true;
+
 			return UnderstoodLanguages.Contains(languageToTest);
 		}
 
 		public bool CanSpeakLanguage(LanguageSO languageToTest)
 		{
+			if (omniTongue) return true;
+
 			return SpokenLanguages.Contains(languageToTest);
 		}
 

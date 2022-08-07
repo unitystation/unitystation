@@ -229,7 +229,8 @@ public partial class Chat : MonoBehaviour
 				languageToUse = LanguageManager.Instance.GetLanguageById(languageId);
 			}
 
-			if (playerLanguages.CanSpeakLanguage(languageToUse) == false && playerLanguages.OmniTongue == false)
+			//Check to make sure we can speak that language, if not get the default language
+			if (playerLanguages.CanSpeakLanguage(languageToUse) == false)
 			{
 				languageToUse = playerLanguages.CurrentLanguage;
 
