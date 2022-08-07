@@ -2,11 +2,11 @@ using NaughtyAttributes;
 using UnityEngine;
 using Objects.Atmospherics;
 using Tilemaps.Behaviours.Layers;
-using UnityEditor.SceneManagement;
 using Objects.Disposals;
 
 #if UNITY_EDITOR
 using UnityEditor;
+using UnityEditor.SceneManagement;
 #endif
 
 /// <summary>
