@@ -22,7 +22,7 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - _MainTex:
-        m_Texture: {fileID: 2800000, guid: 284c425b5ab67c847b8767ed4df7aafb, type: 3}
+        m_Texture: {fileID: 2800000, guid: 0b76b60fdf88f034f9b171a1a88c461b, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Ints: []
@@ -48,7 +48,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 84a92b25f83d49b9bc132d206b370281, type: 3}
-  m_Name: language_nekomimetic
+  m_Name: language_golem
   m_EditorClassIdentifier: 
   hashCode: -1836805472
   material: {fileID: 2103686}
@@ -75,7 +75,7 @@ MonoBehaviour:
     m_StrikethroughOffset: 0
     m_StrikethroughThickness: 0
     m_TabWidth: 0
-  spriteSheet: {fileID: 2800000, guid: 284c425b5ab67c847b8767ed4df7aafb, type: 3}
+  spriteSheet: {fileID: 2800000, guid: 0b76b60fdf88f034f9b171a1a88c461b, type: 3}
   m_SpriteCharacterTable:
   - m_ElementType: 2
     m_Unicode: 65534
