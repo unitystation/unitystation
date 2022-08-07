@@ -157,6 +157,16 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: a1f2dfcd91b5b694e9979908c6453456,
         type: 2}
+    - target: {fileID: 8156181419223539779, guid: 2bb2787c427eb384ba89c9fd13ec823b,
+        type: 3}
+      propertyPath: requiredClearance.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8156181419223539779, guid: 2bb2787c427eb384ba89c9fd13ec823b,
+        type: 3}
+      propertyPath: requiredClearance.Array.data[0]
+      value: 18
+      objectReference: {fileID: 0}
     - target: {fileID: 8258713075763236537, guid: 2bb2787c427eb384ba89c9fd13ec823b,
         type: 3}
       propertyPath: m_Sprite

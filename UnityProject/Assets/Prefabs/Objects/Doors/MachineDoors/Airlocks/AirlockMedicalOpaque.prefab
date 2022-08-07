@@ -57,6 +57,16 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 17
       objectReference: {fileID: 0}
+    - target: {fileID: 4959693848780770516, guid: 9f6a082ba93c5684b808b09619c08044,
+        type: 3}
+      propertyPath: requiredClearance.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4959693848780770516, guid: 9f6a082ba93c5684b808b09619c08044,
+        type: 3}
+      propertyPath: requiredClearance.Array.data[0]
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 5149896168163811886, guid: 9f6a082ba93c5684b808b09619c08044,
         type: 3}
       propertyPath: m_Sprite

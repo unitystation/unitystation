@@ -1,5 +1,11 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
+using Managers;
 using UnityEngine;
+
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 
 namespace Util
 {
@@ -34,5 +40,39 @@ namespace Util
 
 			return players;
 		}
+
+		#if UNITY_EDITOR
+
+		private const string MANAGER_PATH = "Assets/Prefabs/SceneConstruction/NestedManagers";
+
+		/// <summary>
+		/// Get singleton manager prefab
+		/// </summary>
+		public static T GetManager<T>(string managerName) where T : SingletonManager<T>
+		{
+			var managerPrefabGUID = AssetDatabase.FindAssets($"{managerName} t:prefab", new string[] {MANAGER_PATH});
+			var managerPrefabPaths = managerPrefabGUID.Select(AssetDatabase.GUIDToAssetPath).ToList();
+
+			if (managerPrefabPaths.Count != 1)
+			{
+				Logger.LogError($"Couldn't find {managerName} prefab in specified path, or more than one {managerName} found at: {MANAGER_PATH}");
+				return null;
+			}
+
+			var gameManagerPrefab = AssetDatabase.LoadAssetAtPath<GameObject>(managerPrefabPaths.First());
+			if (gameManagerPrefab == null)
+			{
+				Logger.LogError($"Couldn't find {managerName} prefab in specified path: {MANAGER_PATH}");
+			}
+
+			if (gameManagerPrefab.TryGetComponent<T>(out var singletonManager) == false)
+			{
+				Logger.LogError($"Couldn't get the component from the specified prefab: {MANAGER_PATH}");
+			}
+
+			return singletonManager;
+		}
+
+		#endif
 	}
 }

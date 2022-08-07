@@ -1,4 +1,7 @@
-﻿using Items.PDA;
+﻿using System;
+using Items.PDA;
+using Systems.Clearance;
+using Systems.Clearance.Utils;
 using UnityEngine;
 
 
@@ -7,26 +10,40 @@ public class AccessRestrictions : MonoBehaviour
 {
 	public Access restriction;
 
-	public bool CheckAccess(GameObject Player)
+	//TODO Move doors over to use ClearanceRestrictions
+	[NonSerialized]
+	public Clearance clearanceRestriction = 0;
+
+	public bool CheckAccess(GameObject player)
 	{
-		return CheckAccess(Player, restriction);
+		if (clearanceRestriction != 0)
+		{
+			return CheckAccess(player, clearanceRestriction);
+		}
+
+		return CheckAccess(player, MigrationData.Translation[restriction]);
 	}
 
 	public bool CheckAccessCard(GameObject idCardObj)
 	{
-		return CheckAccessCard(idCardObj, restriction);
+		if (clearanceRestriction != 0)
+		{
+			return CheckAccessCard(idCardObj, clearanceRestriction);
+		}
+
+		return CheckAccessCard(idCardObj, MigrationData.Translation[restriction]);
 	}
 
-	public static bool CheckAccess(GameObject Player, Access restriction)
+	public static bool CheckAccess(GameObject player, Clearance restriction)
 	{
 		// If there isn't any restriction, grant access right away
 		if ((int) restriction == 0) return true;
 
 		//There is no player object being checked, default to false.
-		if (Player == null) return false;
+		if (player == null) return false;
 
 
-		var playerStorage = Player.GetComponent<DynamicItemStorage>();
+		var playerStorage = player.GetComponent<DynamicItemStorage>();
 		//this isn't a player. It could be an npc. No NPC access logic at the moment
 		if (playerStorage == null) return false;
 
@@ -40,7 +57,7 @@ public class AccessRestrictions : MonoBehaviour
 		return CheckAccessCard(playerStorage.GetActiveHandSlot()?.ItemObject, restriction);
 	}
 
-	public static bool CheckAccessCard(GameObject idCardObj, Access restriction)
+	public static bool CheckAccessCard(GameObject idCardObj, Clearance restriction)
 	{
 		if (idCardObj == null)
 			return false;

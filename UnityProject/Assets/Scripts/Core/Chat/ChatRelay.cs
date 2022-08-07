@@ -6,11 +6,14 @@ using UnityEngine;
 using Systems.MobAIs;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using Managers;
 using Systems.Ai;
 using Messages.Server;
 using Messages.Server.SoundMessages;
 using Objects.Telecomms;
+using Player.Language;
 using Systems.Communications;
+using TMPro;
 using UI.Chat_UI;
 
 /// <summary>
@@ -65,7 +68,6 @@ public class ChatRelay : NetworkBehaviour
 	public void PropagateChatToClients(ChatEvent chatEvent)
 	{
 		List<PlayerInfo> players = PlayerList.Instance.AllPlayers;
-		Loudness loud = chatEvent.VoiceLevel;
 
 		//Local chat range checks:
 		if (chatEvent.channels.HasFlag(ChatChannel.Local)
@@ -203,9 +205,7 @@ public class ChatRelay : NetworkBehaviour
 
 			for (int i = 0; i < players.Count; i++)
 			{
-				UpdateChatMessage.Send(players[i].GameObject, channel, chatEvent.modifiers, chatEvent.message,
-					loud, chatEvent.messageOthers,
-					chatEvent.originator, chatEvent.speaker, chatEvent.stripTags);
+				SendMessage(chatEvent, players[i].GameObject, channel);
 			}
 
 			return;
@@ -227,9 +227,7 @@ public class ChatRelay : NetworkBehaviour
 			//if the mask ends up being a big fat 0 then don't do anything
 			if (channel != ChatChannel.None)
 			{
-				UpdateChatMessage.Send(players[i].GameObject, channel, chatEvent.modifiers, chatEvent.message, loud,
-					chatEvent.messageOthers,
-					chatEvent.originator, chatEvent.speaker, chatEvent.stripTags);
+				SendMessage(chatEvent, players[i].GameObject, channel);
 			}
 		}
 
@@ -243,6 +241,23 @@ public class ChatRelay : NetworkBehaviour
 
 			RconManager.AddChatLog(message);
 		}
+	}
+
+	private static void SendMessage(ChatEvent chatEvent, GameObject playerToSend, ChatChannel channel)
+	{
+		var copiedString = chatEvent.message;
+		ushort languageId = 0;
+
+		//Check to see if the target player can understand the language!
+		if (chatEvent.language != null && playerToSend.TryGetComponent<PlayerScript>(out var playerScript))
+		{
+			languageId = chatEvent.language.LanguageUniqueId;
+
+			copiedString = LanguageManager.Scramble(chatEvent.language, playerScript, string.Copy(chatEvent.message));
+		}
+
+		UpdateChatMessage.Send(playerToSend, channel, chatEvent.modifiers, copiedString, chatEvent.VoiceLevel,
+			chatEvent.messageOthers, chatEvent.originator, chatEvent.speaker, chatEvent.stripTags, languageId);
 	}
 
 	private ChatEvent CheckForRadios(ChatEvent chatEvent)
@@ -306,7 +321,7 @@ public class ChatRelay : NetworkBehaviour
 
 	[Client]
 	public void UpdateClientChat(string message, ChatChannel channels, bool isOriginator, GameObject recipient,
-		Loudness loudness, ChatModifier modifiers)
+		Loudness loudness, ChatModifier modifiers, ushort languageId = 0)
 	{
 		if (string.IsNullOrEmpty(message)) return;
 
@@ -329,8 +344,11 @@ public class ChatRelay : NetworkBehaviour
 				}
 			}
 
-			ChatUI.Instance.AddChatEntry(message);
+			var languageSprite = GetLanguageSprite(languageId);
+
+			ChatUI.Instance.AddChatEntry(message, languageSprite);
 		}
+
 		AudioSourceParameters audioSourceParameters = new AudioSourceParameters();
 		switch (channels)
 		{
@@ -360,6 +378,33 @@ public class ChatRelay : NetworkBehaviour
 				break;
 		}
 
+	}
+
+	private static TMP_SpriteAsset GetLanguageSprite(ushort languageId)
+	{
+		var language = LanguageManager.Instance.GetLanguageById(languageId);
+
+		if (PlayerManager.LocalPlayerScript != null &&
+		    PlayerManager.LocalPlayerScript.TryGetComponent<MobLanguages>(out var playerLanguages) && language != null)
+		{
+			var canUnderstand = playerLanguages.CanUnderstandLanguage(language);
+
+			if ((playerLanguages.OmniTongue || canUnderstand) && language.Flags.HasFlag(LanguageFlags.HideIconIfUnderstood))
+			{
+				return null;
+			}
+			else if (playerLanguages.OmniTongue == false && canUnderstand == false &&
+			         language.Flags.HasFlag(LanguageFlags.HideIconIfNotUnderstood))
+			{
+				return null;
+			}
+			else
+			{
+				return language.ChatSprite;
+			}
+		}
+
+		return null;
 	}
 
 	/// <summary>

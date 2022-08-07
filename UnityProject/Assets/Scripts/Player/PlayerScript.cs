@@ -9,6 +9,7 @@ using Player;
 using Player.Movement;
 using UI.Action;
 using Items;
+using Player.Language;
 using ScriptableObjects;
 using Systems.StatusesAndEffects;
 using Tiles;
@@ -73,6 +74,8 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IActi
 
 	public HasCooldowns Cooldowns { get; set; }
 
+	public MobLanguages MobLanguages { get; private set; }
+
 	public MouseInputController mouseInputController { get; set; }
 
 	public ChatIcon chatIcon { get; private set; }
@@ -120,8 +123,14 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IActi
 	//The object the player will receive chat and send chat from.
 	//E.g. usually same object as this script but for Ai it will be their core object
 	//Serverside only
-	[SerializeField] private GameObject playerChatLocation = null;
+	[SerializeField]
+	private GameObject playerChatLocation = null;
 	public GameObject PlayerChatLocation => playerChatLocation;
+
+	[SerializeField]
+	//TODO move this to somewhere else?
+	private bool canVentCrawl = false;
+	public bool CanVentCrawl => canVentCrawl;
 
 	#region Lifecycle
 
@@ -144,6 +153,7 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IActi
 		playerCrafting = GetComponent<PlayerCrafting>();
 		PlayerSync = GetComponent<MovementSynchronisation>();
 		statusEffectManager = GetComponent<StatusEffectManager>();
+		MobLanguages = GetComponent<MobLanguages>();
 	}
 
 	public override void OnStartClient()

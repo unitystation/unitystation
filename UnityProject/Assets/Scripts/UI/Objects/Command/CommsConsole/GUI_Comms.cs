@@ -6,6 +6,7 @@ using Managers;
 using Objects.Wallmounts;
 using Objects.Command;
 using Strings;
+using Systems.Clearance;
 
 namespace UI.Objects.Command
 {
@@ -280,6 +281,7 @@ namespace UI.Objects.Command
 		{
 			var AI = IsAIInteracting();
 			if (console.IdCard == null && AI == false) return;
+
 			if (AI)
 			{
 				captainOnlySwitcher.SetActivePage(captainAccessPage);
@@ -287,12 +289,13 @@ namespace UI.Objects.Command
 				return;
 			}
 
-			if (!console.IdCard.HasAccess(Access.heads))
+			if (!console.IdCard.HasAccess(Clearance.Heads))
 			{
 				idLabel.SetValueServer(idLabel.Value + " (No access)");
 				return;
 			}
-			bool isCaptain = console.IdCard.HasAccess(Access.captain);
+
+			bool isCaptain = console.IdCard.HasAccess(Clearance.Captain);
 			captainOnlySwitcher.SetActivePage(isCaptain ? captainAccessPage : noCaptainAccessPage);
 
 			OpenMenu();

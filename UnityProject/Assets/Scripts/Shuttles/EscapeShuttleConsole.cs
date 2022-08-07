@@ -5,6 +5,7 @@ using AdminCommands;
 using Managers;
 using UnityEngine;
 using Strings;
+using Systems.Clearance;
 
 namespace Objects
 {
@@ -23,7 +24,8 @@ namespace Objects
 
 		private RegisterTile registerTile;
 
-		[SerializeField] private List<Access> validAccess = new List<Access>();
+		[SerializeField]
+		private List<Clearance> validAccess = new List<Clearance>();
 
 		private HashSet<IDCard> registeredIDs = new HashSet<IDCard>();
 

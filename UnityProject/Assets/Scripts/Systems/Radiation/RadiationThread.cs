@@ -136,7 +136,8 @@ namespace Systems.Radiation
 				{
 					foreach (var Layer in Matrix.MetaTileMap.Layers)
 					{
-						if (Layer.Key == LayerType.Underfloor) continue;
+						if (Layer.Key.IsUnderFloor()) continue;
+
 						var basicTile = Matrix.MetaTileMap.GetTile(Local, Layer.Key) as BasicTile;
 						if (basicTile != null)
 						{
@@ -163,9 +164,5 @@ namespace Systems.Radiation
 				}
 			}
 		}
-
-
-
-
 	}
 }

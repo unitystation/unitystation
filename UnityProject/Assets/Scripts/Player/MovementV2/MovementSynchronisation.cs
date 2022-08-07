@@ -91,6 +91,8 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 
 	public bool IsBumping = false;
 
+	private CooldownInstance moveCooldown = new CooldownInstance (0.1f);
+
 	/// <summary>
 	/// Event which fires when movement type changes (run/walk)
 	/// </summary>
@@ -134,7 +136,7 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 
 			foreach (var escapable in parentContainer.GetComponents<IEscapable>())
 			{
-				escapable.EntityTryEscape(gameObject, null);
+				escapable.EntityTryEscape(gameObject, null, MoveAction.NoMove);
 			}
 		}
 		else if (BuckledToObject != null)
@@ -909,19 +911,23 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 		//Check to see if in container
 		if (ContainedInContainer != null)
 		{
-			CMDTryEscapeContainer();
+			if(Cooldowns.TryStartClient(playerScript, moveCooldown) == false) return;
+
+			CMDTryEscapeContainer(PlayerAction.GetMoveAction(moveActions.Direction()));
 		}
 	}
 
 	[Command]
-	public void CMDTryEscapeContainer()
+	public void CMDTryEscapeContainer(MoveAction moveAction)
 	{
 		if (allowInput == false) return;
 		if (ContainedInContainer == null) return;
 
+		if(Cooldowns.TryStartServer(playerScript, moveCooldown) == false) return;
+
 		foreach (var Escape in ContainedInContainer.IEscapables)
 		{
-			Escape.EntityTryEscape(gameObject, null);
+			Escape.EntityTryEscape(gameObject, null, moveAction);
 		}
 	}
 
@@ -1054,9 +1060,12 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 			bool bumpedSomething = false;
 			if (Cooldowns.TryStart(playerScript, this, NetworkSide.Server))
 			{
-				foreach (var bump in Bumps)
+				var count = Bumps.Count;
+				for (int i = count - 1; i >= 0; i--)
 				{
-					bump.OnBump(this.gameObject, byClient);
+					if(i >= Bumps.Count) continue;
+
+					Bumps[i].OnBump(this.gameObject, byClient);
 					bumpedSomething = true;
 				}
 			}

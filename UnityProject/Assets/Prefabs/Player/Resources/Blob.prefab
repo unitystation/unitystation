@@ -159,7 +159,7 @@ SpriteRenderer:
   m_SortingLayerID: -902452607
   m_SortingLayer: 22
   m_SortingOrder: 20
-  m_Sprite: {fileID: -4549444404219585148, guid: 2adbceb9cc674484cb9a2c58b41d5493,
+  m_Sprite: {fileID: 7660122581263827943, guid: 2adbceb9cc674484cb9a2c58b41d5493,
     type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -218,6 +218,7 @@ GameObject:
   - component: {fileID: 376142281930293820}
   - component: {fileID: 728878296905371439}
   - component: {fileID: 3891003690595634810}
+  - component: {fileID: 1272160964095266330}
   m_Layer: 31
   m_Name: Blob
   m_TagString: Untagged
@@ -581,6 +582,22 @@ MonoBehaviour:
   spriteHandler: {fileID: 276297132420795343}
   IconTimeout: 3
   TypingTimeout: 20
+--- !u!114 &1272160964095266330
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4390267312333422610}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bd4fccae344a4981a0739eaa263d1b9a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 1
+  syncInterval: 0.1
+  defaultLanguages: {fileID: 11400000, guid: 35923031bcd51b94caeed8eb3cd05075, type: 2}
+  omniTongue: 0
 --- !u!1 &5221521674064678679
 GameObject:
   m_ObjectHideFlags: 0

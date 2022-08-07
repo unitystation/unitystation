@@ -147,10 +147,16 @@ namespace UI.Chat_UI
 
 		#endregion
 
-		public void SetText(string message)
+		public void SetText(string message, TMP_SpriteAsset languageSprite)
 		{
+			if (languageSprite != null)
+			{
+				message = $"<sprite=\"{languageSprite.name}\" index=0>{message}";
+			}
+
 			messageText.text = message;
 			ToggleUIElements(true);
+
 			StartCoroutine(UpdateEntryHeight());
 
 			if (message.Contains("</link>"))

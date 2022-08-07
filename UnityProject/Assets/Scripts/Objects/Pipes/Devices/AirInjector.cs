@@ -109,17 +109,24 @@ namespace Objects.Atmospherics
 
 			if (CustomNetworkManager.IsServer)
 			{
-				switch (operatingMode)
+				if (metaNode.Exists == false)
 				{
-					default:
-					case Mode.Injecting:
-						sourceMix = pipeMix;
-						targetMix = metaNode.GasMix;
-						break;
-					case Mode.Extracting:
-						sourceMix = metaNode.GasMix;
-						targetMix = pipeMix;
-						break;
+					isOperating = false;
+				}
+				else
+				{
+					switch (operatingMode)
+					{
+						default:
+						case Mode.Injecting:
+							sourceMix = pipeMix;
+							targetMix = metaNode.GasMix;
+							break;
+						case Mode.Extracting:
+							sourceMix = metaNode.GasMix;
+							targetMix = pipeMix;
+							break;
+					}
 				}
 			}
 

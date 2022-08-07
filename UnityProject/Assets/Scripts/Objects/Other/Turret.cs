@@ -13,6 +13,7 @@ using Mirror;
 using Objects.Security;
 using Objects.Wallmounts.Switches;
 using Shared.Systems.ObjectConnection;
+using Systems.Clearance;
 using UI.Core.Net;
 using UnityEngine;
 using Weapons;
@@ -94,7 +95,7 @@ namespace Objects.Other
 		[Tooltip("Neutralize people who have a weapon out but are not Heads or Security staff")]
 		public bool CheckWeaponAuthorisation;
 		[SerializeField]
-		private List<Access> weaponAuthorisation = new List<Access>();
+		private List<Clearance> weaponAuthorisationClearance = new List<Clearance>();
 
 		//Check Security Records:
 		//Yes/No - searches Security Records for criminals.
@@ -110,8 +111,9 @@ namespace Objects.Other
 		//No/Yes - self explanatory.
 		[Tooltip("Neutralize All Non-Security and Non-Command Personnel")]
 		public bool CheckUnauthorisedPersonnel;
+
 		[SerializeField]
-		private List<Access> authorisedAccess = new List<Access>();
+		private List<Clearance> authorisedClearance = new List<Clearance>();
 
 		//Neutralize All Unidentified Life Signs:
 		//Yes/No - neutralizes aliens.
@@ -345,9 +347,9 @@ namespace Objects.Other
 			if (CheckUnauthorisedPersonnel)
 			{
 				var allowed = false;
-				foreach (var access in authorisedAccess)
+				foreach (var clearance in authorisedClearance)
 				{
-					if (AccessRestrictions.CheckAccess(script.gameObject, access) == false) continue;
+					if (AccessRestrictions.CheckAccess(script.gameObject, clearance) == false) continue;
 
 					//Only need to check for one valid access
 					allowed = true;
@@ -409,9 +411,9 @@ namespace Objects.Other
 					{
 						//Only allow authorised people to have guns
 						var allowed = false;
-						foreach (var access in weaponAuthorisation)
+						foreach (var clearance in weaponAuthorisationClearance)
 						{
-							if (AccessRestrictions.CheckAccess(script.gameObject, access) == false) continue;
+							if (AccessRestrictions.CheckAccess(script.gameObject, clearance) == false) continue;
 
 							//Only need to check for one valid access
 							allowed = true;
