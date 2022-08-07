@@ -128,13 +128,11 @@ namespace Objects.Other
 		{
 			var matrixInfos = MatrixManager.Instance.ActiveMatricesList;
 
-			//TODO update for layer PR
-
 			foreach (var matrixInfo in matrixInfos)
 			{
-				var tilemapRenderer = matrixInfo.Matrix.UnderFloorLayer.GetComponent<TilemapRenderer>();
+				var tilemapRenderer = matrixInfo.Matrix.PipeLayer.GetComponent<TilemapRenderer>();
 				tilemapRenderer.sortingLayerName = newMode ? "Walls" : "UnderFloor";
-				tilemapRenderer.sortingOrder = newMode ? 1 : 0;
+				tilemapRenderer.sortingOrder = newMode ? 100 : 1;
 			}
 		}
 
