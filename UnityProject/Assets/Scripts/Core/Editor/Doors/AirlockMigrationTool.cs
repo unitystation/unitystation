@@ -134,6 +134,15 @@ namespace Core.Editor.Doors
 		{
 			var clearanceCheckable = instance.GetComponentInChildren<ClearanceCheckable>();
 			var accessRestrictions = instance.GetComponentInChildren<AccessRestrictions>();
+
+			if (accessRestrictions && clearanceCheckable == false)
+			{
+				EditorUtility.SetDirty(instance);
+				accessRestrictions.gameObject.AddComponent<ClearanceCheckable>();
+				EditorUtility.SetDirty(instance);
+			}
+
+
 			if (clearanceCheckable && accessRestrictions)
 			{
 				if (accessRestrictions.restriction != 0)
@@ -149,30 +158,28 @@ namespace Core.Editor.Doors
 		private void MigrateDoorsInScene()
 		{
 			ClearLog();
-			var doors = GameObject.FindObjectsOfType<DoorMasterController>();
-			AddToLog($"Migrating airlocks from {EditorSceneManager.GetActiveScene().name}");
-			foreach (var door in doors)
+			var restrictions = GameObject.FindObjectsOfType<AccessRestrictions>();
+			AddToLog($"Migrating AccessRestrictions from {EditorSceneManager.GetActiveScene().name}");
+			foreach (var restriction in restrictions)
 			{
-				AddToLog($"processing {door.name}...");
-				var clearanceCheckable = door.GetComponentInChildren<ClearanceCheckable>();
-				var accessRestrictions = door.GetComponentInChildren<AccessRestrictions>();
-				if (clearanceCheckable && accessRestrictions)
+				AddToLog($"processing {restriction.name}...");
+				var clearanceCheckable = restriction.GetComponentInChildren<ClearanceCheckable>();
+				if (clearanceCheckable)
 				{
-					if (accessRestrictions.restriction != 0)
+					if (restriction.restriction != 0)
 					{
-						var clear = new List<Clearance> { MigrationData.Translation[accessRestrictions.restriction]};
+						var clear = new List<Clearance> { MigrationData.Translation[restriction.restriction]};
 						Undo.RecordObject(clearanceCheckable, "Clearance list update");
 						clearanceCheckable.SetClearance(clear);
 					}
 				}
 				else
 				{
-					AddToLog($"There is no access module in {door.name}. Skipping!");
+					AddToLog($"There is no access module in {restriction.name}. Skipping!");
 				}
 				AddToLog("done!");
 				AddToLog("Remember to save changes with control+s!");
 			}
 		}
-
 	}
 }
