@@ -27,6 +27,7 @@ public class Attributes : NetworkBehaviour, IRightClickable, IExaminable, IServe
 
 	[Tooltip("Description of this item when spawned.")]
 	[SerializeField]
+	[TextArea(3,5)]
 	private string initialDescription = null;
 
 	[Tooltip("Will this item highlight on mouseover?")]
@@ -62,6 +63,7 @@ public class Attributes : NetworkBehaviour, IRightClickable, IExaminable, IServe
 
 	[Tooltip("Additional message to display in the cargo console report.")]
 	[SerializeField, BoxGroup("Cargo"), PrefabModeOnly]
+	[TextArea(3,5)]
 	private string exportMessage = null;
 	public string ExportMessage => exportMessage;
 

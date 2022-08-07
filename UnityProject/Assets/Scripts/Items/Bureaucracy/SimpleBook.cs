@@ -38,7 +38,9 @@ namespace Items.Bureaucracy
 
 		public bool WillInteract(HandActivate interaction, NetworkSide side)
 		{
-			if (!DefaultWillInteract.Default(interaction, side)) return false;
+			if (interaction.IsAltClick) return false;
+
+			if (DefaultWillInteract.Default(interaction, side) == false) return false;
 
 			return true;
 		}

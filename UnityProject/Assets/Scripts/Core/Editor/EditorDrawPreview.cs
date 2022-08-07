@@ -44,6 +44,11 @@ public class EditorDrawPreview
 
 			var variants = SpriteData.Variance;
 
+			if (VariantIndex >= variants.Count)
+			{
+				VariantIndex = 0;
+			}
+
 			FrameIndex++;
 			if (FrameIndex >= variants[VariantIndex].Frames.Count)
 			{
