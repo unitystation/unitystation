@@ -67,7 +67,7 @@ public partial class Chat : MonoBehaviour
 			discordMessageBuilder.Append($"[{channel}] ");
 		}
 
-		discordMessageBuilder.Append($"\n```css\n{chatEvent.speaker}: {chatEvent.message}\n```\n");
+		discordMessageBuilder.Append($"{(chatEvent.language != null ? $"[{chatEvent.language.LanguageName}]" : "")}\n```css\n{chatEvent.speaker}: {chatEvent.message}\n```\n");
 
 		string discordMessage = discordMessageBuilder.ToString();
 		//Sends All Chat messages to a discord webhook
