@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Linq;
 using HealthV2;
+using Managers;
 using Player.Language;
 using UnityEngine;
 
@@ -24,6 +26,9 @@ namespace Items.Bureaucracy
 		private int usedCharges = 0;
 
 		private UniversalObjectPhysics objectPhysics;
+
+		//Used by admins to try to set this books language
+		private string languageToSet;
 
 		private void Awake()
 		{
@@ -138,6 +143,22 @@ namespace Items.Bureaucracy
 
 			//Despawn this book
 			_ = Despawn.ServerSingle(gameObject);
+		}
+
+		//Used by admin VV to set book from language string
+		private void SetFromString()
+		{
+			var languageFound = LanguageManager.Instance.AllLanguages.FirstOrDefault(x =>
+				x.LanguageName == languageToSet || x.name == languageToSet);
+
+			if(languageFound == null) return;
+
+			languageToLearn = languageFound;
+			Chat.AddLocalMsgToChat($"The book transforms into the book for {languageToLearn.LanguageName}", gameObject);
+
+			var itemAtt = GetComponent<ItemAttributesV2>();
+			itemAtt.ServerSetArticleName($"{languageToLearn.LanguageName} Manuel");
+			itemAtt.ServerSetArticleDescription($"A manuel to learn {languageToLearn.LanguageName}");
 		}
 
 		public string Examine(Vector3 worldPos = default(Vector3))
