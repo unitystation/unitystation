@@ -541,6 +541,7 @@ MonoBehaviour:
   RcsMatrixMove: {fileID: 0}
   actionData: {fileID: 11400000, guid: 288088e3bb7768d41a2fe1b2c170fbce, type: 2}
   playerChatLocation: {fileID: 1133514949248654}
+  canVentCrawl: 0
   ClueHandsImprintInverseChance: 55
   ClueUniformImprintInverseChance: 65
   ClueSpeciesImprintInverseChance: 85
@@ -1062,6 +1063,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 3ea6d21ecff38954a9e1b05795f3f45e, type: 2}
   - {fileID: 11400000, guid: b7d0a552223af4d4d9f3eb3217df9183, type: 2}
   - {fileID: 11400000, guid: 246b944c9799b87489519d7f19307a06, type: 2}
+  - {fileID: 11400000, guid: 2314f18e5395f214ca02e5976e2ac99e, type: 2}
   bloodType: {fileID: 11400000, guid: efcde740e9b85074485bcd68a7a21816, type: 2}
   BloodPool:
     temperature: 0
@@ -1403,6 +1405,7 @@ MonoBehaviour:
   InitialLocationSynchronised: 0
   tileMoveSpeed: 1
   isNotPushable: 0
+  HasOwnGravity: 0
   airTime: 0
   slideTime: 0
   SetIgnoreSticky: 0
@@ -8231,7 +8234,7 @@ SpriteRenderer:
   m_SortingLayerID: -902452607
   m_SortingLayer: 22
   m_SortingOrder: 20
-  m_Sprite: {fileID: 7660122581263827943, guid: 2adbceb9cc674484cb9a2c58b41d5493,
+  m_Sprite: {fileID: -4549444404219585148, guid: 2adbceb9cc674484cb9a2c58b41d5493,
     type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
