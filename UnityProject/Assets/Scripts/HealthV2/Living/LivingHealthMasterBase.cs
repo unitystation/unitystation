@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using AdminCommands;
 using UnityEngine;
 using UnityEngine.Events;
 using Mirror;
@@ -28,7 +29,7 @@ namespace HealthV2
 	[RequireComponent(typeof(HealthStateController))]
 	[RequireComponent(typeof(MobSickness))]
 	public abstract class LivingHealthMasterBase : NetworkBehaviour, IFireExposable, IExaminable, IFullyHealable, IGib,
-		IAreaReactionBase
+		IAreaReactionBase, IRightClickable
 	{
 		/// <summary>
 		/// Server side, each mob has a different one and never it never changes
@@ -1664,6 +1665,23 @@ namespace HealthV2
 					BodyPartStorage.ServerTryAdd(bodyPartObject);
 				}
 			}
+		}
+
+		public RightClickableResult GenerateRightClickOptions()
+		{
+			if (string.IsNullOrEmpty(PlayerList.Instance.AdminToken) ||
+			    KeyboardInputManager.Instance.CheckKeyAction(KeyAction.ShowAdminOptions, KeyboardInputManager.KeyEventType.Hold) == false)
+			{
+				return null;
+			}
+
+			return RightClickableResult.Create()
+				.AddAdminElement("Heal", AdminSmash);
+		}
+
+		private void AdminSmash()
+		{
+			AdminCommandsManager.Instance.CmdHealMob(gameObject);
 		}
 	}
 

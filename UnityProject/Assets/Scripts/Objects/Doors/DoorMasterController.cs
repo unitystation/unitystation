@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using AdminCommands;
 using UnityEngine;
 using Mirror;
 using Core.Editor.Attributes;
@@ -23,7 +24,8 @@ namespace Doors
 	/// This is the master 'controller' for the door. It handles interactions by players and passes any interactions it need to to its components.
 	/// </summary>
 	public class DoorMasterController : NetworkBehaviour, ICheckedInteractable<HandApply>,
-		ICheckedInteractable<AiActivate>, ICanOpenNetTab, IMultitoolSlaveable, IServerSpawn, IBumpableObject
+		ICheckedInteractable<AiActivate>, ICanOpenNetTab, IMultitoolSlaveable, IServerSpawn,
+		IBumpableObject, IRightClickable
 	{
 		#region inspector
 		[SerializeField, PrefabModeOnly]
@@ -918,5 +920,47 @@ namespace Doors
 		}
 
 		#endregion
+
+		public RightClickableResult GenerateRightClickOptions()
+		{
+			if (string.IsNullOrEmpty(PlayerList.Instance.AdminToken) || !KeyboardInputManager.Instance.CheckKeyAction(KeyAction.ShowAdminOptions, KeyboardInputManager.KeyEventType.Hold))
+			{
+				return null;
+			}
+
+			var options = RightClickableResult.Create()
+				.AddAdminElement("Force Open", AdminOpen);
+
+			var bolt = GetComponentInChildren<BoltsModule>();
+
+			if (bolt != null)
+			{
+				options.AddAdminElement("Toggle Bolts", AdminToggleBolt);
+			}
+
+			var electrified = GetComponentInChildren<ElectrifiedDoorModule>();
+
+			if (electrified != null)
+			{
+				options.AddAdminElement("Toggle Electrify", AdminToggleElectrify);
+			}
+
+			return options;
+		}
+
+		private void AdminOpen()
+		{
+			AdminCommandsManager.Instance.CmdOpenDoor(gameObject);
+		}
+
+		private void AdminToggleBolt()
+		{
+			AdminCommandsManager.Instance.CmdToggleBoltDoor(gameObject);
+		}
+
+		private void AdminToggleElectrify()
+		{
+			AdminCommandsManager.Instance.CmdToggleElectrifiedDoor(gameObject);
+		}
 	}
 }

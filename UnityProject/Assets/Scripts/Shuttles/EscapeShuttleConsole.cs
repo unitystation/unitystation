@@ -125,7 +125,7 @@ namespace Objects
 			_ = SoundManager.PlayNetworked(CommonSounds.Instance.Notice1);
 		}
 
-		private void DepartShuttle()
+		public void DepartShuttle()
 		{
 			if (GameManager.Instance.ShuttleSent) return;
 			var departTime = beenEmagged ? 5 : 10;
@@ -141,8 +141,19 @@ namespace Objects
 
 		public RightClickableResult GenerateRightClickOptions()
 		{
-			if (CustomNetworkManager.IsServer == false) return null;
-			return RightClickableResult.Create().AddElement("Launch Early", DepartShuttle, Color.red);
+			if (string.IsNullOrEmpty(PlayerList.Instance.AdminToken) ||
+			    KeyboardInputManager.Instance.CheckKeyAction(KeyAction.ShowAdminOptions,
+				    KeyboardInputManager.KeyEventType.Hold) == false)
+			{
+				return null;
+			}
+
+			return RightClickableResult.Create().AddAdminElement("Launch Early", AdminEarlyLaunch);
+		}
+
+		private void AdminEarlyLaunch()
+		{
+			AdminCommandsManager.Instance.CmdEarlyLaunch(gameObject);
 		}
 	}
 }
