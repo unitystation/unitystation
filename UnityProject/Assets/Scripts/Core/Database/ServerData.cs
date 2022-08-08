@@ -5,6 +5,8 @@ using Firebase.Extensions;
 using Initialisation;
 using UnityEngine;
 using Firebase.Auth;
+using Shared.Util;
+using Util;
 
 namespace DatabaseAPI
 {
@@ -19,18 +21,7 @@ namespace DatabaseAPI
 
 		private static ServerData serverData;
 
-		public static ServerData Instance
-		{
-			get
-			{
-				if (serverData == null)
-				{
-					serverData = FindObjectOfType<ServerData>();
-				}
-
-				return serverData;
-			}
-		}
+		public static ServerData Instance => FindUtils.LazyFindObject(ref serverData);
 
 		public static string UserFirestoreURL => "https://firestore.googleapis.com/v1/projects/" +
 				$"unitystation-c6a53/databases/(default)/documents/users/{Auth.CurrentUser.UserId}";

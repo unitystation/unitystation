@@ -19,6 +19,12 @@ namespace Antagonists
 		private SerializableDictionary<GameObject, StealData> ItemPool = null;
 
 		/// <summary>
+		/// Whether multiple people can target the same item
+		/// </summary>
+		[SerializeField]
+		private bool uniqueTargets = true;
+
+		/// <summary>
 		/// The item to steal
 		/// </summary>
 		private string ItemName;
@@ -33,9 +39,14 @@ namespace Antagonists
 		/// </summary>
 		protected override bool IsPossibleInternal(PlayerScript candidate)
 		{
+			if (uniqueTargets == false)
+			{
+				return true;
+			}
+
 			// Get all items from the item pool which haven't been targeted already
-			int itemCount = ItemPool.Where( itemDict =>
-				!AntagManager.Instance.TargetedItems.Contains(itemDict.Key)).Count();
+			int itemCount = ItemPool.Count(
+				itemDict => !AntagManager.Instance.TargetedItems.Contains(itemDict.Key));
 			return (itemCount > 0);
 		}
 
@@ -45,12 +56,19 @@ namespace Antagonists
 		protected override void Setup()
 		{
 			// Get all items from the item pool which haven't been targeted already
-			var possibleItems = ItemPool.Where( itemDict =>
-				!AntagManager.Instance.TargetedItems.Contains(itemDict.Key)).ToList();
+			var possibleItems = uniqueTargets ? ItemPool.Where( itemDict =>
+				!AntagManager.Instance.TargetedItems.Contains(itemDict.Key)).ToList() : ItemPool.ToList();
+
+			var itemsToRemove = new List<KeyValuePair<GameObject, StealData>>();
 
 			foreach (var item in possibleItems)
 			{
 				if(item.Value.BlacklistedOccupations.Contains(Owner.occupation) == false) continue;
+				itemsToRemove.Add(item);
+			}
+
+			foreach (var item in itemsToRemove)
+			{
 				possibleItems.Remove(item);
 			}
 

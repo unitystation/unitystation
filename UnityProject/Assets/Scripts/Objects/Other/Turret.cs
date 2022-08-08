@@ -7,12 +7,13 @@ using Systems;
 using Systems.Construction;
 using Systems.Electricity;
 using Systems.MobAIs;
-using Systems.ObjectConnection;
 using AddressableReferences;
 using Messages.Server;
 using Mirror;
 using Objects.Security;
 using Objects.Wallmounts.Switches;
+using Shared.Systems.ObjectConnection;
+using Systems.Clearance;
 using UI.Core.Net;
 using UnityEngine;
 using Weapons;
@@ -94,7 +95,7 @@ namespace Objects.Other
 		[Tooltip("Neutralize people who have a weapon out but are not Heads or Security staff")]
 		public bool CheckWeaponAuthorisation;
 		[SerializeField]
-		private List<Access> weaponAuthorisation = new List<Access>();
+		private List<Clearance> weaponAuthorisationClearance = new List<Clearance>();
 
 		//Check Security Records:
 		//Yes/No - searches Security Records for criminals.
@@ -110,8 +111,9 @@ namespace Objects.Other
 		//No/Yes - self explanatory.
 		[Tooltip("Neutralize All Non-Security and Non-Command Personnel")]
 		public bool CheckUnauthorisedPersonnel;
+
 		[SerializeField]
-		private List<Access> authorisedAccess = new List<Access>();
+		private List<Clearance> authorisedClearance = new List<Clearance>();
 
 		//Neutralize All Unidentified Life Signs:
 		//Yes/No - neutralizes aliens.
@@ -345,9 +347,9 @@ namespace Objects.Other
 			if (CheckUnauthorisedPersonnel)
 			{
 				var allowed = false;
-				foreach (var access in authorisedAccess)
+				foreach (var clearance in authorisedClearance)
 				{
-					if (AccessRestrictions.CheckAccess(script.gameObject, access) == false) continue;
+					if (AccessRestrictions.CheckAccess(script.gameObject, clearance) == false) continue;
 
 					//Only need to check for one valid access
 					allowed = true;
@@ -409,9 +411,9 @@ namespace Objects.Other
 					{
 						//Only allow authorised people to have guns
 						var allowed = false;
-						foreach (var access in weaponAuthorisation)
+						foreach (var clearance in weaponAuthorisationClearance)
 						{
-							if (AccessRestrictions.CheckAccess(script.gameObject, access) == false) continue;
+							if (AccessRestrictions.CheckAccess(script.gameObject, clearance) == false) continue;
 
 							//Only need to check for one valid access
 							allowed = true;
@@ -737,7 +739,7 @@ namespace Objects.Other
 
 		public bool CanOpenNetTab(GameObject playerObject, NetTabType netTabType)
 		{
-			if (turretType != TurretType.Ai && unlocked == false && playerObject.GetComponent<PlayerScript>().PlayerState != PlayerScript.PlayerStates.Ai)
+			if (turretType != TurretType.Ai && unlocked == false && playerObject.GetComponent<PlayerScript>().PlayerType != PlayerTypes.Ai)
 			{
 				Chat.AddExamineMsgFromServer(playerObject, "Turret is locked");
 				return false;
@@ -752,11 +754,11 @@ namespace Objects.Other
 		MultitoolConnectionType IMultitoolLinkable.ConType => MultitoolConnectionType.Turret;
 		IMultitoolMasterable IMultitoolSlaveable.Master => connectedSwitch;
 		bool IMultitoolSlaveable.RequireLink => false; // TODO: set to false to ignore false positive; currently links are serialized on the switch
-		bool IMultitoolSlaveable.TrySetMaster(PositionalHandApply interaction, IMultitoolMasterable master)
+		bool IMultitoolSlaveable.TrySetMaster(GameObject performer, IMultitoolMasterable master)
 		{
 			if (unlocked == false)
 			{
-				Chat.AddExamineMsgFromServer(interaction.Performer, "You try to link the controller but the turret interface is locked!");
+				Chat.AddExamineMsgFromServer(performer, "You try to link the controller but the turret interface is locked!");
 				return false;
 			}
 

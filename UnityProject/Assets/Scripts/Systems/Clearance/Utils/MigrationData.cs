@@ -6,6 +6,9 @@ namespace Systems.Clearance.Utils
 	{
 		public static readonly Dictionary<Access, Clearance> Translation = new Dictionary<Access, Clearance>
 		{
+			//No restriction
+			{0, 0},
+
 			{Access.ai_upload, Clearance.AIUpload},
 			{Access.armory, Clearance.Armory},
 			{Access.atmospherics, Clearance.Atmospherics},

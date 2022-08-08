@@ -5,13 +5,14 @@ using Items;
 using Managers;
 using UnityEngine;
 using Mirror;
+using Systems.Clearance;
 using UnityEngine.Serialization;
 using WebSocketSharp;
 
 /// <summary>
 ///     ID card properties
 /// </summary>
-public class IDCard : NetworkBehaviour, IServerInventoryMove, IServerSpawn, IInteractable<HandActivate>, IExaminable
+public class IDCard : NetworkBehaviour, IServerInventoryMove, IServerSpawn, IInteractable<HandActivate>, IExaminable, IClearanceProvider
 {
 
 	[Tooltip("Sprite to use when the card is a normal card")]
@@ -26,10 +27,9 @@ public class IDCard : NetworkBehaviour, IServerInventoryMove, IServerSpawn, IInt
 	[SerializeField]
 	private Sprite commandSprite = null;
 
-	[Tooltip("This is used to place ID cards via map editor and then setting their initial access type")]
-	[FormerlySerializedAs("ManuallyAddedAccess")]
+	[Tooltip("This is used to place ID cards via map editor and then setting their initial clearance type")]
 	[SerializeField]
-	private List<Access> manuallyAddedAccess = new List<Access>();
+	private List<Clearance> manuallyAddedClearance = new List<Clearance>();
 
 	[Tooltip("For cards added via map editor and set their initial IDCardType here. This will only work" +
 	         "if there are entries in ManuallyAddedAccess list")]
@@ -62,13 +62,15 @@ public class IDCard : NetworkBehaviour, IServerInventoryMove, IServerSpawn, IInt
 	public int[] currencies = new int[(int)CurrencyType.Total];
 
 	//The actual list of access allowed set via the server and synced to all clients
-	private readonly SyncList<int> accessSyncList = new SyncList<int>();
+	private readonly SyncListClearance clearanceSyncList = new SyncListClearance();
 
 	//To switch the card sprites when the type changes
 	private SpriteRenderer spriteRenderer;
 	private Pickupable pickupable;
 
 	private ItemAttributesV2 itemAttributes;
+
+	public IEnumerable<Clearance> GetClearance => clearanceSyncList;
 
 	private void Awake()
 	{
@@ -80,11 +82,12 @@ public class IDCard : NetworkBehaviour, IServerInventoryMove, IServerSpawn, IInt
 	public void OnSpawnServer(SpawnInfo info)
 	{
 		//This will add the access from ManuallyAddedAccess list
-		if (manuallyAddedAccess.Count > 0)
+		if (manuallyAddedClearance.Count > 0)
 		{
-			ServerAddAccess(manuallyAddedAccess);
+			ServerAddAccess(manuallyAddedClearance);
 			SyncIDCardType(idCardType, manuallyAssignCardType);
 		}
+
 		initialized = false;
 	}
 
@@ -119,25 +122,25 @@ public class IDCard : NetworkBehaviour, IServerInventoryMove, IServerSpawn, IInt
 		var charSettings = ps.characterSettings;
 		jobType = occupation.JobType;
 
-		var accessToGive = GameManager.Instance.CentComm.IsLowPop
-			? occupation.AllowedLowPopAccess
-			: occupation.AllowedAccess;
+		var clearanceToGive = GameManager.Instance.CentComm.IsLowPop
+			? occupation.IssuedLowPopClearance
+			: occupation.IssuedClearance;
 
-		if (accessToGive == occupation.AllowedLowPopAccess && accessToGive.Count == 0)
-			accessToGive = occupation.AllowedAccess; //(Max) : Incase we forgot to set it up in the SO aka you're lazy like me
+		if (clearanceToGive == occupation.IssuedLowPopClearance && clearanceToGive.Count == 0)
+			clearanceToGive = occupation.IssuedClearance; //(Max) : Incase we forgot to set it up in the SO aka you're lazy like me
 
 		if (jobType == JobType.CAPTAIN)
 		{
-			Initialize(IDCardType.captain, jobType, accessToGive, charSettings.Name);
+			Initialize(IDCardType.captain, jobType, clearanceToGive, charSettings.Name);
 		}
 		else if (jobType == JobType.HOP || jobType == JobType.HOS || jobType == JobType.CMO || jobType == JobType.RD ||
 		         jobType == JobType.CHIEF_ENGINEER)
 		{
-			Initialize(IDCardType.command, jobType, accessToGive, charSettings.Name);
+			Initialize(IDCardType.command, jobType, clearanceToGive, charSettings.Name);
 		}
 		else
 		{
-			Initialize(IDCardType.standard, jobType, accessToGive, charSettings.Name);
+			Initialize(IDCardType.standard, jobType, clearanceToGive, charSettings.Name);
 		}
 	}
 
@@ -149,7 +152,7 @@ public class IDCard : NetworkBehaviour, IServerInventoryMove, IServerSpawn, IInt
 	/// <param name="jobType">job on the card</param>
 	/// <param name="allowedAccess">what the card can access</param>
 	/// <param name="name">name listed on card</param>
-	private void Initialize(IDCardType idCardType, JobType newJobType, List<Access> allowedAccess, string name)
+	private void Initialize(IDCardType idCardType, JobType newJobType, List<Clearance> allowedAccess, string name)
 	{
 		//Set all the synced properties for the card
 		SyncName(registeredName, name);
@@ -215,26 +218,28 @@ public class IDCard : NetworkBehaviour, IServerInventoryMove, IServerSpawn, IInt
 		pickupable.RefreshUISlotImage();
 	}
 
+	//TODO Move over to use ClearanceCheckable to do this check
 	/// <summary>
-	/// Checks if this id card has the indicated access.
+	/// Checks if this id card has the indicated clearance.
 	/// </summary>
 	/// <param name="access"></param>
 	/// <returns></returns>
-	public bool HasAccess(Access access)
+	public bool HasAccess(Clearance access)
 	{
-		return accessSyncList.Contains((int) access);
+		return clearanceSyncList.Contains(access);
 	}
 
+	//TODO Move over to use ClearanceCheckable to do this che
 	/// <summary>
-	/// Checks if this id card has the indicated access from a list of accesses.
+	/// Checks if this id card has the indicated access from a list of clearances.
 	/// </summary>
 	/// <param name="access"></param>
 	/// <returns></returns>
-	public bool HasAccess(List<Access> access)
+	public bool HasAccess(List<Clearance> access)
 	{
 		foreach (var accessToCheck in access)
 		{
-			if (accessSyncList.Contains((int)accessToCheck)) return true;
+			if (clearanceSyncList.Contains(accessToCheck)) return true;
 		}
 		return false;
 	}
@@ -251,39 +256,39 @@ public class IDCard : NetworkBehaviour, IServerInventoryMove, IServerSpawn, IInt
 	}
 
 	/// <summary>
-	/// Removes the indicated access from this IDCard
+	/// Removes the indicated clearance from this IDCard
 	/// </summary>
 	[Server]
-	public void ServerRemoveAccess(Access access)
+	public void ServerRemoveAccess(Clearance access)
 	{
 		if (!HasAccess(access)) return;
-		accessSyncList.Remove((int)access);
+		clearanceSyncList.Remove(access);
 		netIdentity.isDirty = true;
 	}
 
 	/// <summary>
-	/// Adds the indicated access to this IDCard
+	/// Adds the indicated clearance to this IDCard
 	/// </summary>
 	[Server]
-	public void ServerAddAccess(Access access)
+	public void ServerAddAccess(Clearance access)
 	{
 		if (HasAccess(access)) return;
-		accessSyncList.Add((int)access);
+		clearanceSyncList.Add(access);
 		netIdentity.isDirty = true;
 	}
 
 	[Server]
 	public void ReplaceAccessWithLowPopVersion()
 	{
-		ServerAddAccess(Occupation.AllowedLowPopAccess);
+		ServerAddAccess(Occupation.IssuedLowPopClearance);
 	}
 
 	/// <summary>
-	/// Adds the indicated access to this id card
+	/// Adds the indicated clearance to this id card
 	/// </summary>
 	/// <param name="accessToBeAdded"></param>
 	[Server]
-	public void ServerAddAccess(IEnumerable<Access> accessToBeAdded)
+	public void ServerAddAccess(IEnumerable<Clearance> accessToBeAdded)
 	{
 		foreach (var access in accessToBeAdded)
 		{
@@ -292,11 +297,11 @@ public class IDCard : NetworkBehaviour, IServerInventoryMove, IServerSpawn, IInt
 	}
 
 	/// <summary>
-	/// Removes the indicated access from this id card
+	/// Removes the indicated clearance from this id card
 	/// </summary>
 	/// <param name="accessToBeAdded"></param>
 	[Server]
-	public void ServerRemoveAccess(IEnumerable<Access> accessToBeRemoved)
+	public void ServerRemoveAccess(IEnumerable<Clearance> accessToBeRemoved)
 	{
 		foreach (var access in accessToBeRemoved)
 		{
@@ -310,7 +315,7 @@ public class IDCard : NetworkBehaviour, IServerInventoryMove, IServerSpawn, IInt
 	/// </summary>
 	/// <param name="occupation"></param>
 	/// <param name="grantDefaultAccess">if true, grants them the
-	/// default access afforded by this occupation, if false, only changes
+	/// default clearance afforded by this occupation, if false, only changes
 	/// the occupation</param>
 	/// <param name="clear">if true, removes the existing access of this card
 	/// before granting them the occupation.</param>
@@ -321,13 +326,13 @@ public class IDCard : NetworkBehaviour, IServerInventoryMove, IServerSpawn, IInt
 
 		if (clear)
 		{
-			accessSyncList.Clear();
+			clearanceSyncList.Clear();
 			netIdentity.isDirty = true;
 		}
 
 		if (grantDefaultAccess)
 		{
-			ServerAddAccess(occupation.AllowedAccess);
+			ServerAddAccess(occupation.IssuedClearance);
 		}
 
 		SyncJobType(jobType, occupation.JobType);

@@ -11,7 +11,7 @@ namespace UI.Objects.Atmospherics.Acu
 	public class GUI_AcuVentEntry : DynamicEntry
 	{
 		[SerializeField]
-		private NetLabel label = default;
+		private NetText_label label = default;
 
 		private GUI_Acu acuUi;
 		private AirVent vent;

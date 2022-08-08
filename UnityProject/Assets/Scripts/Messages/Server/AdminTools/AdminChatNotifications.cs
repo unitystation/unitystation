@@ -31,11 +31,14 @@ namespace Messages.Server.AdminTools
 					msg.Amount, msg.ClearAll);
 				UIManager.Instance.mentorChatButtons.ClientUpdateNotifications(msg.NotificationKey, msg.TargetWindow,
 					msg.Amount, msg.ClearAll);
+				UIManager.Instance.prayerChatButtons.ClientUpdateNotifications(msg.NotificationKey, msg.TargetWindow,
+					msg.Amount, msg.ClearAll);
 			}
 			else
 			{
 				UIManager.Instance.adminChatButtons.ClearAllNotifications();
 				UIManager.Instance.mentorChatButtons.ClearAllNotifications();
+				UIManager.Instance.prayerChatButtons.ClearAllNotifications();
 				var notiUpdate = JsonUtility.FromJson<AdminChatNotificationFullUpdate>(msg.FullUpdateJson);
 
 				foreach (var n in notiUpdate.notificationEntries)
@@ -43,6 +46,8 @@ namespace Messages.Server.AdminTools
 					UIManager.Instance.adminChatButtons.ClientUpdateNotifications(n.Key, n.TargetWindow,
 						n.Amount, false);
 					UIManager.Instance.mentorChatButtons.ClientUpdateNotifications(n.Key, n.TargetWindow,
+						n.Amount, false);
+					UIManager.Instance.prayerChatButtons.ClientUpdateNotifications(n.Key, n.TargetWindow,
 						n.Amount, false);
 				}
 			}

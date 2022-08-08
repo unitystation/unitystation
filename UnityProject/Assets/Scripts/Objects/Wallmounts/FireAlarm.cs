@@ -6,7 +6,7 @@ using Mirror;
 using AddressableReferences;
 using ScriptableObjects;
 using Systems.Interaction;
-using Systems.ObjectConnection;
+using Shared.Systems.ObjectConnection;
 using CustomInspectors;
 using Doors;
 
@@ -21,15 +21,14 @@ namespace Objects.Wallmounts
 		public float coolDownTime = 1.0f;
 		public bool isInCooldown = false;
 
-		[SyncVar(hook = nameof(SyncSprite))] private FireAlarmState stateSync;
-		public SpriteHandler spriteHandler;
-		public Sprite topLightSpriteNormal;
-		public Sprite openEmptySprite;
-		public Sprite openCabledSprite;
-		public SpriteDataSO topLightSpriteAlert;
+		public SpriteHandler baseSpriteHandler;
+		public SpriteHandler topLightSpriteHandler;
+		public SpriteHandler bottomLightSpriteHandler;
 
 		public bool coverOpen;
 		public bool hasCables = true;
+
+		private RegisterTile registerTile;
 
 		[SerializeField]
 		private AddressableAudioSource FireAlarmSFX = null;
@@ -42,22 +41,27 @@ namespace Objects.Wallmounts
 			OpenCabledSprite
 		};
 
+		private void Awake()
+		{
+			registerTile = GetComponent<RegisterTile>();
+		}
+
 
 		public void SendCloseAlerts()
 		{
-			if (!hasCables)
-				return;
-			if (!activated && !isInCooldown)
+			if (hasCables == false) return;
+
+			if(activated || isInCooldown) return;
+			activated = true;
+
+			SyncSprite(FireAlarmState.TopLightSpriteAlert);
+			SoundManager.PlayNetworkedAtPos(FireAlarmSFX, registerTile.ObjectPhysics.Component.OfficialPosition);
+			StartCoroutine(SwitchCoolDown());
+
+			foreach (var firelock in FireLockList)
 			{
-				activated = true;
-				stateSync = FireAlarmState.TopLightSpriteAlert;
-				SoundManager.PlayNetworkedAtPos(FireAlarmSFX, metaNode.Position);
-				StartCoroutine(SwitchCoolDown());
-				foreach (var firelock in FireLockList)
-				{
-					if (firelock == null) continue;
-					firelock.ReceiveAlert();
-				}
+				if (firelock == null) continue;
+				firelock.ReceiveAlert();
 			}
 		}
 
@@ -65,33 +69,37 @@ namespace Objects.Wallmounts
 		{
 			var integrity = GetComponent<Integrity>();
 			integrity.OnExposedEvent.AddListener(SendCloseAlerts);
-			UpdateManager.Add(UpdateMe, 1);
-			RegisterTile registerTile = GetComponent<RegisterTile>();
 			MetaDataLayer metaDataLayer = MatrixManager.AtPoint(registerTile.WorldPositionServer, true).MetaDataLayer;
 			var wallMount = GetComponent<WallmountBehavior>();
 			var direction = wallMount.CalculateFacing().CutToInt();
 			metaNode = metaDataLayer.Get(registerTile.LocalPositionServer + direction, false);
+
 			foreach (var firelock in FireLockList)
 			{
 				firelock.fireAlarm = this;
 			}
-			if (!info.SpawnItems)
+
+			if (info.SpawnItems == false)
 			{
 				hasCables = false;
 				coverOpen = true;
-				stateSync = FireAlarmState.OpenEmptySprite;
+				SyncSprite(FireAlarmState.OpenEmptySprite);
 			}
 
+			UpdateManager.Add(UpdateMe, 1);
 		}
 
 		public void UpdateMe()
 		{
-			if (!activated)
+			if(activated) return;
+
+			if(metaNode.Exists == false) return;
+
+			if(metaNode.MetaDataSystem.SetUpDone == false) return;
+
+			if (metaNode.GasMix.Pressure < AtmosConstants.WARNING_LOW_PRESSURE || metaNode.GasMix.Pressure > AtmosConstants.WARNING_HIGH_PRESSURE)
 			{
-				if (metaNode.GasMix.Pressure < AtmosConstants.WARNING_LOW_PRESSURE || metaNode.GasMix.Pressure > AtmosConstants.WARNING_HIGH_PRESSURE)
-				{
-					SendCloseAlerts();
-				}
+				SendCloseAlerts();
 			}
 		}
 
@@ -121,11 +129,11 @@ namespace Objects.Wallmounts
 					coverOpen = false;
 					if (activated)
 					{
-						stateSync = FireAlarmState.TopLightSpriteAlert;
+						SyncSprite(FireAlarmState.TopLightSpriteAlert);
 					}
 					else
 					{
-						stateSync = FireAlarmState.TopLightSpriteNormal;
+						SyncSprite(FireAlarmState.TopLightSpriteNormal);
 					}
 				}
 				else
@@ -133,11 +141,11 @@ namespace Objects.Wallmounts
 					coverOpen = true;
 					if (hasCables)
 					{
-						stateSync = FireAlarmState.OpenCabledSprite;
+						SyncSprite(FireAlarmState.OpenCabledSprite);
 					}
 					else
 					{
-						stateSync = FireAlarmState.OpenEmptySprite;
+						SyncSprite(FireAlarmState.OpenEmptySprite);
 					}
 				}
 				ToolUtils.ServerPlayToolSound(interaction);
@@ -152,7 +160,7 @@ namespace Objects.Wallmounts
 						$"{interaction.Performer.ExpensiveName()} removes the cables.");
 					ToolUtils.ServerPlayToolSound(interaction);
 					Spawn.ServerPrefab(CommonPrefabs.Instance.SingleCableCoil, SpawnDestination.At(gameObject), 5);
-					stateSync = FireAlarmState.OpenEmptySprite;
+					SyncSprite(FireAlarmState.OpenEmptySprite);
 					hasCables = false;
 					activated = false;
 					return;
@@ -171,7 +179,7 @@ namespace Objects.Wallmounts
 						{
 							Inventory.ServerConsume(interaction.HandSlot, 5);
 							hasCables = true;
-							stateSync = FireAlarmState.OpenCabledSprite;
+							SyncSprite(FireAlarmState.OpenCabledSprite);
 						});
 				}
 			}
@@ -186,7 +194,7 @@ namespace Objects.Wallmounts
 			if (activated && !isInCooldown)
 			{
 				activated = false;
-				stateSync = FireAlarmState.TopLightSpriteNormal;
+				SyncSprite(FireAlarmState.TopLightSpriteNormal);
 				StartCoroutine(SwitchCoolDown());
 				foreach (var firelock in FireLockList)
 				{
@@ -209,25 +217,31 @@ namespace Objects.Wallmounts
 			isInCooldown = false;
 		}
 
-		public void SyncSprite(FireAlarmState stateOld, FireAlarmState stateNew)
+		public void SyncSprite(FireAlarmState stateNew)
 		{
-			stateSync = stateNew;
-			if (stateNew == FireAlarmState.TopLightSpriteAlert)
+			switch (stateNew)
 			{
 
-				spriteHandler.SetSpriteSO(topLightSpriteAlert);
-			}
-			else if (stateNew == FireAlarmState.OpenEmptySprite)
-			{
-				spriteHandler.SetSprite(openEmptySprite);
-			}
-			else if (stateNew == FireAlarmState.TopLightSpriteNormal)
-			{
-				spriteHandler.SetSprite(topLightSpriteNormal);
-			}
-			else if (stateNew == FireAlarmState.OpenCabledSprite)
-			{
-				spriteHandler.SetSprite(openCabledSprite);
+				case FireAlarmState.TopLightSpriteAlert:
+					baseSpriteHandler.ChangeSprite(0);
+					topLightSpriteHandler.ChangeSprite(1);
+					bottomLightSpriteHandler.ChangeSprite(2);
+					break;
+				case FireAlarmState.OpenEmptySprite:
+					baseSpriteHandler.ChangeSprite(2);
+					topLightSpriteHandler.PushClear();
+					bottomLightSpriteHandler.PushClear();
+					break;
+				case FireAlarmState.TopLightSpriteNormal:
+					baseSpriteHandler.ChangeSprite(0);
+					topLightSpriteHandler.ChangeSprite(0);
+					bottomLightSpriteHandler.ChangeSprite(0);
+					break;
+				case FireAlarmState.OpenCabledSprite:
+					baseSpriteHandler.ChangeSprite(1);
+					topLightSpriteHandler.PushClear();
+					bottomLightSpriteHandler.PushClear();
+					break;
 			}
 		}
 

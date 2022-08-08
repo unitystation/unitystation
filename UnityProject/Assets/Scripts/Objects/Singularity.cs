@@ -397,41 +397,46 @@ namespace Objects
 				{
 					if(objectToMove.gameObject == gameObject) continue;
 
+					//Check for player
 					if (objectToMove.ObjectType == ObjectType.Player && objectToMove.TryGetComponent<PlayerHealthV2>(out var health) && health != null)
 					{
-						if (health.RegisterPlayer.PlayerScript != null &&
-							health.RegisterPlayer.PlayerScript.mind != null &&
-							health.RegisterPlayer.PlayerScript.mind.occupation != null &&
-							health.RegisterPlayer.PlayerScript.mind.occupation == OccupationList.Instance.Get(JobType.CLOWN))
+						if (health.RegisterPlayer.PlayerScript.mind?.occupation == OccupationList.Instance.Get(JobType.CLOWN))
 						{
-							health.Gib();
+							health.OnGib();
 							ChangePoints(DMMath.Prob(50) ? -1000 : 1000);
 							return;
 						}
 
-						health.Gib();
+						health.OnGib();
 						ChangePoints(100);
+						return;
 					}
-					else if (objectToMove.TryGetComponent<Integrity>(out var integrity) && integrity != null)
+
+					//Check for objects
+					if (objectToMove.TryGetComponent<Integrity>(out var integrity) && integrity != null)
 					{
+						//Check for field gens and only damage at high level
+						if (objectToMove.TryGetComponent<FieldGenerator>(out var fieldGenerator)
+						    && fieldGenerator != null)
+						{
+							if (CurrentStage != SingularityStages.Stage4 && CurrentStage != SingularityStages.Stage5 &&
+							    fieldGenerator.Energy != 0)
+							{
+								//Stages below 4 can only damage field generators if they have no energy
+								return;
+							}
+						}
+
+						//See if it's a supermatter, uh oh....
 						if (objectToMove.TryGetComponent<SuperMatter>(out var superMatter) && superMatter != null)
 						{
 							//End of the world
 							eatenSuperMatter = true;
 							ChangePoints(3250);
 							_ = Despawn.ServerSingle(objectToMove.gameObject);
-							Chat.AddLocalMsgToChat("<color=red>The singularity expands rapidly, uh oh...</color>", gameObject);
+							Chat.AddLocalMsgToChat("<color=red>The singularity expands rapidly, uh oh...</color>",
+								gameObject);
 							return;
-						}
-
-						if (objectToMove.TryGetComponent<FieldGenerator>(out var fieldGenerator)
-							&& fieldGenerator != null)
-						{
-							if (CurrentStage != SingularityStages.Stage4 && CurrentStage != SingularityStages.Stage5 && fieldGenerator.Energy != 0)
-							{
-								//Stages below 4 can only damage field generators if they have no energy
-								return;
-							}
 						}
 
 						integrity.ApplyDamage(damage, AttackType.Melee, DamageType.Brute, true);

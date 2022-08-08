@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using UnityEngine;
@@ -55,14 +54,14 @@ public class ArtifactsDetector : MonoBehaviour, ICheckedInteractable<HandActivat
 		var strBuilder = new StringBuilder();
 
 		// print user position
-		var detectorPos = gameObject.AssumedWorldPosServer().To2Int();
+		var detectorPos = gameObject.AssumedWorldPosServer().RoundTo2Int();
 		strBuilder.AppendLine($"Your position: {detectorPos}");
 
 		// print found artifacts positions
 		var allArtifacts = FindArtifacts();
 		foreach (var art in allArtifacts)
 		{
-			strBuilder.AppendLine($"Anomaly coordinates: {art.gameObject.AssumedWorldPosServer().To2Int()}");
+			strBuilder.AppendLine($"Anomaly coordinates: {art.gameObject.AssumedWorldPosServer().RoundTo2Int()}");
 		}
 
 		return strBuilder.ToString();

@@ -22,7 +22,11 @@ using Shuttles;
 using UI.Core;
 using UI.Items;
 using Doors;
+using Managers;
+using Objects;
+using Player.Language;
 using Tiles;
+using Util;
 using Random = UnityEngine.Random;
 
 public partial class PlayerNetworkActions : NetworkBehaviour
@@ -107,39 +111,44 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	[Command]
 	public void CmdResist()
 	{
-		if (!Cooldowns.TryStartServer(playerScript, CommonCooldowns.Instance.Interaction)) return;
+		if (Cooldowns.TryStartServer(playerScript, CommonCooldowns.Instance.Interaction) == false) return;
+
+		if(playerScript.PlayerTypeSettings.CanResist == false) return;
 
 		// Handle the movement restricted actions first.
 		if (playerScript.playerMove.BuckledToObject != null)
 		{
-			// Make sure we don't unbuckle if we are currently cuffed.
-			if (!playerScript.playerMove.IsCuffed)
-			{
-				playerScript.playerMove.Unbuckle();
-			}
+			//If we are buckled we need to unbuckle first before removing hand cuffs
+			playerScript.playerMove.BuckledToObject.GetComponent<BuckleInteract>().TryUnbuckle(playerScript);
+			return;
 		}
-		else if (playerScript.playerHealth.FireStacks > 0
-		) // Check if we are on fire. If we are perform a stop-drop-roll animation and reduce the fire stacks.
+		// Check if we are on fire. If we are perform a stop-drop-roll animation and reduce the fire stacks.
+		if (playerScript.playerHealth.FireStacks > 0)
 		{
 			Chat.AddActionMsgToChat(
 				playerScript.gameObject,
 				"You drop to the ground and frantically try to put yourself out!",
 				$"{playerScript.playerName} is trying to extinguish themself!");
 			StartCoroutine(Roll());
+			return;
 		}
-		else if (playerScript.playerMove.IsCuffed) // Check if cuffed.
+
+		// Check if cuffed.
+		if (playerScript.playerMove.IsCuffed)
 		{
 			if (playerScript.playerSprites != null &&
-				playerScript.playerSprites.clothes.TryGetValue(NamedSlot.handcuffs, out var cuffsClothingItem))
+			    playerScript.playerSprites.clothes.TryGetValue(NamedSlot.handcuffs, out var cuffsClothingItem))
 			{
-				if (cuffsClothingItem != null &&
-					cuffsClothingItem.TryGetComponent<RestraintOverlay>(out var restraintOverlay))
+				if (cuffsClothingItem != null && cuffsClothingItem.TryGetComponent<RestraintOverlay>(out var restraintOverlay))
 				{
 					restraintOverlay.ServerBeginUnCuffAttempt();
 				}
 			}
+			return;
 		}
-		else if (playerScript.playerMove.BuckledToObject != null || playerScript.playerMove.ContainedInContainer != null) // Check if trapped.
+
+		// Check if trapped.
+		if (playerScript.playerMove.BuckledToObject != null || playerScript.playerMove.ContainedInContainer != null)
 		{
 			playerScript.PlayerSync.ServerTryEscapeContainer();
 		}
@@ -242,7 +251,9 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		if (equipSlot != NamedSlot.leftHand && equipSlot != NamedSlot.rightHand) return;
 
 		//allowed to drop from hands while cuffed
-		if (!Validations.CanInteract(playerScript, NetworkSide.Server, allowCuffed: true)) return;
+		if (Validations.CanInteract(playerScript, NetworkSide.Server, allowCuffed: true,
+			    apt: Validations.CheckState(x => x.CanDropItems)) == false) return;
+
 		if (!Cooldowns.TryStartServer(playerScript, CommonCooldowns.Instance.Interaction)) return;
 		if (NetworkServer.spawned.TryGetValue(NetID, out var objectToDrop) == false) return;
 
@@ -365,14 +376,16 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	/// Server handling of the request to throw an item from a client
 	/// </summary>
 	[Command]
-	public void CmdThrow( Vector3 TargetLocalPosition, int aim, Vector3 ClientWorldOfDifference)
+	public void CmdThrow(Vector3 targetLocalPosition, int aim, Vector3 clientWorldOfDifference)
 	{
 		//only allowed to throw from hands
-		if (!Validations.CanInteract(playerScript, NetworkSide.Server)) return;
+		if (Validations.CanInteract(playerScript, NetworkSide.Server,
+			    apt: Validations.CheckState(x => x.CanThrowItems)) == false) return;
 
-		if (!Cooldowns.TryStartServer(playerScript, CommonCooldowns.Instance.Interaction)) return;
+		if (Cooldowns.TryStartServer(playerScript, CommonCooldowns.Instance.Interaction) == false) return;
+
 		var slot = itemStorage.GetActiveHandSlot();
-		Vector3 targetVector = TargetLocalPosition.ToWorld(playerMove.registerTile.Matrix) - playerMove.transform.position;
+		Vector3 targetVector = targetLocalPosition.ToWorld(playerMove.registerTile.Matrix) - playerMove.transform.position;
 		if (slot.Item != null)
 		{
 			Inventory.ServerThrow(slot, targetVector, (BodyPartType) aim);
@@ -385,22 +398,25 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 				{
 					return;
 				}
-			};
-			var Distance = targetVector.magnitude;
-
-			if (Distance > 6)
-			{
-				Distance = 6;
 			}
 
-			var Pulling = playerMove.Pulling.Component;
+			var distance = targetVector.magnitude;
+
+			if (distance > 6)
+			{
+				distance = 6;
+			}
+
+			var pulling = playerMove.Pulling.Component;
+
 			playerMove.StopPulling(false);
-			//speedloss  / friction
+
+			//TODO speedloss  / friction
 			var speed = 8;
 
-			Pulling.NewtonianPush( targetVector,speed
-				, (Distance / speed ) - ((Mathf.Pow(speed, 2) / (2*UniversalObjectPhysics.DEFAULT_Friction)) / speed)
-				, Single.NaN, (BodyPartType) aim, this.gameObject, Random.Range(25, 150));
+			pulling.NewtonianPush( targetVector,speed,
+				(distance / speed ) - ((Mathf.Pow(speed, 2) / (2*UniversalObjectPhysics.DEFAULT_Friction)) / speed),
+				Single.NaN, (BodyPartType) aim, this.gameObject, Random.Range(25, 150));
 		}
 
 
@@ -587,23 +603,34 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	}
 
 	[Server]
-	public void ServerToggleChatIcon(bool turnOn, string message, ChatChannel chatChannel, ChatModifier chatModifier)
+	public void ServerToggleChatIcon(string message, ChatModifier chatModifier, LanguageSO language)
 	{
-		if (!playerScript.objectPhysics.IsVisible || (playerScript.mind.occupation.JobType == JobType.NULL
-												|| playerScript.playerHealth.IsDead || playerScript.playerHealth.IsCrit))
-		{
-			//Don't do anything with chat icon if player is invisible or not spawned in
-			//This will also prevent clients from snooping other players local chat messages that aren't visible to them
-			return;
-		}
+		//Don't do anything with chat icon if player is invisible or not spawned in
+		if(playerScript.objectPhysics != null && playerScript.objectPhysics.IsVisible == false) return;
+		if(playerScript.playerHealth != null &&
+		   (playerScript.playerHealth.IsDead || playerScript.playerHealth.IsCrit)) return;
 
 		// Cancel right away if the player cannot speak.
-		if ((chatModifier & ChatModifier.Mute) == ChatModifier.Mute)
-		{
-			return;
-		}
+		if ((chatModifier & ChatModifier.Mute) == ChatModifier.Mute) return;
 
-		ShowChatBubbleMessage.SendToNearby(gameObject, message, true, chatModifier);
+		//See if we can even send any bubbles
+		if(playerScript.PlayerTypeSettings.SendSpeechBubbleTo == PlayerTypes.None) return;
+
+		var visiblePlayers = OtherUtil.GetVisiblePlayers(gameObject.transform.position);
+
+		foreach (var player in visiblePlayers)
+		{
+			//See if they can receive our speech bubbles
+			if(player.Script.PlayerTypeSettings.ReceiveSpeechBubbleFrom.HasFlag(playerScript.PlayerType) == false) continue;
+
+			//See if they we can send our speech bubbles
+			if(playerScript.PlayerTypeSettings.SendSpeechBubbleTo.HasFlag(player.Script.PlayerType) == false) continue;
+
+			//See if we need to scramble the message
+			var copiedString = LanguageManager.Scramble(language, player.Script, string.Copy(message));
+
+			ShowChatBubbleMessage.SendTo(player.Connection, gameObject, copiedString, true);
+		}
 	}
 
 	[Command]
@@ -737,6 +764,8 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	{
 		PlayerScript body = playerScript.mind.body;
 
+		if(body == null) return;
+
 		if (playerScript.mind.IsSpectator) return;
 
 		if (playerScript.mind.ghostLocked) return;
@@ -771,16 +800,18 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	}
 
 	[Command]
-	public void CmdSetActiveHand(uint handID, NamedSlot NamedSlot)
+	public void CmdSetActiveHand(uint handID, NamedSlot namedSlot)
 	{
 		NetworkIdentity hand = null;
 		if (handID != 0 && NetworkServer.spawned.TryGetValue(handID, out hand) == false) return;
-		if (NamedSlot != NamedSlot.leftHand && NamedSlot != NamedSlot.rightHand && NamedSlot != NamedSlot.none) return;
-		if (playerScript.IsGhost) return; // Because Ghosts don't have dynamic item storage
+		if (namedSlot != NamedSlot.leftHand && namedSlot != NamedSlot.rightHand && namedSlot != NamedSlot.none) return;
+
+		// Because Ghosts don't have dynamic item storage
+		if (playerScript.DynamicItemStorage == null) return;
 
 		if (handID != 0 && hand != null)
 		{
-			var slot = playerScript.DynamicItemStorage.GetNamedItemSlot(hand.gameObject, NamedSlot);
+			var slot = playerScript.DynamicItemStorage.GetNamedItemSlot(hand.gameObject, namedSlot);
 			if (slot == null) return;
 			activeHand = hand.gameObject;
 		}
@@ -788,7 +819,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		{
 			activeHand = null;
 		}
-		CurrentActiveHand = NamedSlot;
+		CurrentActiveHand = namedSlot;
 
 	}
 

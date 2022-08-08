@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UI.Core.NetUI;
 using Objects.Security;
+using Systems.Clearance;
 
 namespace UI.Objects.Security
 {
@@ -15,7 +16,7 @@ namespace UI.Objects.Security
 		[SerializeField]
 		private GUI_SecurityRecordsEntryPage entryPage = null;
 		[SerializeField]
-		private NetLabel idText = null;
+		private NetText_label idText = null;
 		private SecurityRecordsConsole console;
 
 		public override void OnEnable()
@@ -68,7 +69,7 @@ namespace UI.Objects.Security
 			}
 		}
 
-		public void UpdateIdText(NetLabel labelToSet)
+		public void UpdateIdText(NetText_label labelToSet)
 		{
 			var IdCard = console.IdCard;
 			if (IdCard)
@@ -87,7 +88,7 @@ namespace UI.Objects.Security
 
 		public void LogIn()
 		{
-			if ((console.IdCard == null || console.IdCard.HasAccess(Access.security) == false) && IsAIInteracting() == false)
+			if ((console.IdCard == null || console.IdCard.HasAccess(Clearance.Security) == false) && IsAIInteracting() == false)
 			{
 				return;
 			}

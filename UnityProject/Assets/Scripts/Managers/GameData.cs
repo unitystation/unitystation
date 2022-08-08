@@ -9,10 +9,12 @@ using Firebase.Auth;
 using Firebase.Extensions;
 using Lobby;
 using Managers;
+using Shared.Util;
 using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.Rendering;
 using UnityEngine.SceneManagement;
+using Util;
 
 public class GameData : MonoBehaviour
 {
@@ -55,18 +57,7 @@ public class GameData : MonoBehaviour
 	public static int BuildNumber { get; private set; }
 	public static string ForkName { get; private set; }
 
-	public static GameData Instance
-	{
-		get
-		{
-			if (!gameData)
-			{
-				gameData = FindObjectOfType<GameData>();
-			}
-
-			return gameData;
-		}
-	}
+	public static GameData Instance => FindUtils.LazyFindObject(ref gameData);
 
 	public bool DevBuild = false;
 

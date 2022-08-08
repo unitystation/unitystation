@@ -6,8 +6,6 @@ using UnityEngine;
 /// </summary>
 public struct PlayerAction
 {
-
-
 	/// int values of the moveactions (will have 2 moveActions if it's a diagonal movement)
 	public int[] moveActions;
 
@@ -77,7 +75,7 @@ public struct PlayerAction
 		}
 	}
 
-	private static Vector2Int GetMoveDirection(MoveAction action)
+	public static Vector2Int GetMoveDirection(MoveAction action)
 	{
 		switch (action)
 		{

@@ -11,7 +11,11 @@ using Systems.MobAIs;
 using Core.Chat;
 using Messages.Server;
 using Items;
+using Managers;
+using Player.Language;
+using Shared.Util;
 using Tiles;
+using Util;
 
 /// <summary>
 /// The Chat API
@@ -22,24 +26,12 @@ public partial class Chat : MonoBehaviour
 {
 	private static Chat chat;
 
-	public static Chat Instance
-	{
-		get
-		{
-			if (chat == null)
-			{
-				chat = FindObjectOfType<Chat>();
-			}
+	public static Chat Instance => FindUtils.LazyFindObject(ref chat);
 
-			return chat;
-		}
-	}
 	//Does the ghost hear everyone or just local
 	public bool GhostHearAll { get; set; } = true;
 
 	public bool OOCMute = false;
-
-	public EmoteActionManager emoteActionManager;
 
 	private static Regex htmlRegex = new Regex(@"^(http|https)://.*$");
 
@@ -47,6 +39,8 @@ public partial class Chat : MonoBehaviour
 	{
 		var channels = chatEvent.channels;
 		StringBuilder discordMessageBuilder = new StringBuilder();
+
+		chatEvent.allChannels = channels;
 
 		// There could be multiple channels we need to send a message for each.
 		// We do this on the server side so that local chans can be validated correctly
@@ -73,7 +67,7 @@ public partial class Chat : MonoBehaviour
 			discordMessageBuilder.Append($"[{channel}] ");
 		}
 
-		discordMessageBuilder.Append($"\n```css\n{chatEvent.speaker}: {chatEvent.message}\n```\n");
+		discordMessageBuilder.Append($"{(chatEvent.language != null ? $"[{chatEvent.language.LanguageName}]" : "")}\n```css\n{chatEvent.speaker}: {chatEvent.message}\n```\n");
 
 		string discordMessage = discordMessageBuilder.ToString();
 		//Sends All Chat messages to a discord webhook
@@ -84,7 +78,8 @@ public partial class Chat : MonoBehaviour
 	/// Send a Chat Msg from a player to the selected Chat Channels
 	/// Server only
 	/// </summary>
-	public static void AddChatMsgToChat(PlayerInfo sentByPlayer, string message, ChatChannel channels, Loudness loudness = Loudness.NORMAL)
+	public static void AddChatMsgToChatServer(PlayerInfo sentByPlayer, string message, ChatChannel channels,
+		Loudness loudness = Loudness.NORMAL, ushort languageId = 0)
 	{
 		message = AutoMod.ProcessChatServer(sentByPlayer, message);
 		if (string.IsNullOrWhiteSpace(message)) return;
@@ -131,7 +126,7 @@ public partial class Chat : MonoBehaviour
 			speaker = (player == null) ? sentByPlayer.Username : player.playerName,
 			position = (player == null) ? TransformState.HiddenPos : player.PlayerChatLocation.AssumedWorldPosServer(),
 			channels = channels,
-			originator = (player == null) ? sentByPlayer.GameObject : player.PlayerChatLocation,
+			originator = sentByPlayer.GameObject,
 			VoiceLevel = loudness
 		};
 
@@ -141,12 +136,36 @@ public partial class Chat : MonoBehaviour
 			CheckVoiceLevel(sentByPlayer.Script, chatEvent.channels);
 		}
 
-		//Handle OOC messages
-		if (isOOC)
+		//If OOC or Ghost then show the Admin and Mentor tags
+		if (isOOC || chatEvent.channels == ChatChannel.Ghost)
 		{
-			AddOOCChatMessage(sentByPlayer, message, chatEvent);
-			return;
+			chatEvent.speaker = StripAll(sentByPlayer.Username);
+
+			//Show admin tag for ghosts
+			var isAdmin = PlayerList.Instance.IsAdmin(sentByPlayer.UserId);
+			if (isAdmin)
+			{
+				chatEvent.speaker = "<color=red>[A]</color> " + chatEvent.speaker;
+				chatEvent.VoiceLevel = Loudness.LOUD;
+			}
+
+			//Handle OOC messages
+			if (isOOC)
+			{
+				//Add mentor tag for non-admin mentors for OOC
+				if (isAdmin == false && PlayerList.Instance.IsMentor(sentByPlayer.UserId))
+				{
+					chatEvent.speaker = "<color=#6400ff>[M]</color> " + chatEvent.speaker;
+				}
+
+				AddOOCChatMessage(sentByPlayer, message, chatEvent);
+				return;
+			}
 		}
+
+		//Try find the language
+		if (TryGetLanguage(languageId, player, out var languageToUse) == false) return;
+		chatEvent.language = languageToUse;
 
 		// TODO the following code uses player.playerHealth, but ConsciousState would be more appropriate.
 		// Check if the player is allowed to talk:
@@ -171,11 +190,6 @@ public partial class Chat : MonoBehaviour
 					//Crit and dead ghost in body then only ghost channel
 					chatEvent.channels = ChatChannel.Ghost;
 				}
-				else if (player.playerHealth.IsDead == false && player.IsGhost == false)
-				{
-					//Control the chat bubble
-					player.playerNetworkActions.ServerToggleChatIcon(true, processedMessage.message, channels, processedMessage.chatModifiers);
-				}
 
 				if (player.IsDeadOrGhost == false)
 				{
@@ -194,6 +208,76 @@ public partial class Chat : MonoBehaviour
 					}
 				}
 			}
+
+			//Do chat bubble for nearby players
+			player.playerNetworkActions.ServerToggleChatIcon(processedMessage.message, processedMessage.chatModifiers, languageToUse);
+		}
+
+		InvokeChatEvent(chatEvent);
+	}
+
+	private static bool TryGetLanguage(ushort languageId, PlayerScript player, out LanguageSO languageToUse)
+	{
+		var playerLanguages = player.MobLanguages.OrNull();
+
+		//If the player sent a custom language in chat use that if allowed, or default to the current set language
+		languageToUse = null;
+		if (playerLanguages != null)
+		{
+			if (languageId != 0)
+			{
+				languageToUse = LanguageManager.Instance.GetLanguageById(languageId);
+			}
+
+			//Check to make sure we can speak that language, if not get the default language
+			if (playerLanguages.CanSpeakLanguage(languageToUse) == false)
+			{
+				languageToUse = playerLanguages.CurrentLanguage;
+
+				if (languageToUse == null)
+				{
+					AddExamineMsgFromServer(player.gameObject, "You have no selected language!");
+					return false;
+				}
+			}
+		}
+
+		return true;
+	}
+
+	/// <summary>
+	/// ServerSide Only, note there is no validation of message contents here for this type, normal player messages do no go this route
+	/// Chat modifiers do not work here
+	/// </summary>
+	public static void AddChatMsgToChatServer(string message, ChatChannel channels, LanguageSO language, Loudness loudness = Loudness.NORMAL)
+	{
+		if (channels == ChatChannel.None) return;
+
+		// The exact words that leave the player's mouth (or that are narrated). Already includes HONKs, stutters, etc.
+		// This step is skipped when speaking in the OOC channel.
+		(string message, ChatModifier chatModifiers) processedMessage = (string.Empty, ChatModifier.None); // Placeholder values
+
+		processedMessage.message = message;
+
+		bool isOOC = channels.HasFlag(ChatChannel.OOC);
+
+		var chatEvent = new ChatEvent
+		{
+			message = isOOC ? message : processedMessage.message,
+			modifiers = ChatModifier.None,
+			speaker = "",
+			position = TransformState.HiddenPos,
+			channels = channels,
+			originator = null,
+			VoiceLevel = loudness,
+			language = language
+		};
+
+		//Handle OOC messages
+		if (isOOC)
+		{
+			ChatRelay.Instance.PropagateChatToClients(chatEvent);
+			return;
 		}
 
 		InvokeChatEvent(chatEvent);
@@ -208,18 +292,7 @@ public partial class Chat : MonoBehaviour
 			return;
 		}
 
-		chatEvent.speaker = StripAll(sentByPlayer.Username);
-
 		var isAdmin = PlayerList.Instance.IsAdmin(sentByPlayer.UserId);
-
-		if (isAdmin)
-		{
-			chatEvent.speaker = "<color=red>[A]</color> " + chatEvent.speaker;
-		}
-		else if (PlayerList.Instance.IsMentor(sentByPlayer.UserId))
-		{
-			chatEvent.speaker = "<color=#6400ff>[M]</color> " + chatEvent.speaker;
-		}
 
 		//If global OOCMute don't allow anyone but admins to talk on OOC
 		if (Instance.OOCMute && isAdmin == false) return;
@@ -698,6 +771,11 @@ public partial class Chat : MonoBehaviour
 	public static void AddAdminPrivMsg(string message)
 	{
 		ChatRelay.Instance.AddAdminPrivMessageToClient(message);
+	}
+
+	public static void AddPrayerPrivMsg(string message)
+	{
+		ChatRelay.Instance.AddPrayerPrivMessageToClient(message);
 	}
 
 	public static void AddMentorPrivMsg(string message)

@@ -146,6 +146,7 @@ namespace UI
 				notEnoughReady.SetActive(true);
 				return;
 			}
+
 			timer.text = TimeSpan.FromSeconds(countdownEndTime - NetworkTime.time).ToString(@"mm\:ss");
 
 			if (GameManager.Instance.QuickLoad && mapLoadingPanel.activeSelf == false)
@@ -159,7 +160,6 @@ namespace UI
 		private IEnumerator WaitForInitialisation()
 		{
 			yield return null;
-			SetReady(true);
 			StartNowButton();
 		}
 

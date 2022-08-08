@@ -7,22 +7,22 @@ namespace UI.Objects.Security
 	public class GUI_Turret : NetTab
 	{
 		[SerializeField]
-		private NetLabel labelPower = null;
+		private NetText_label labelPower = null;
 
 		[SerializeField]
-		private NetLabel labelWeapons = null;
+		private NetText_label labelWeapons = null;
 
 		[SerializeField]
-		private NetLabel labelRecord = null;
+		private NetText_label labelRecord = null;
 
 		[SerializeField]
-		private NetLabel labelArrest = null;
+		private NetText_label labelArrest = null;
 
 		[SerializeField]
-		private NetLabel labelAuthorised = null;
+		private NetText_label labelAuthorised = null;
 
 		[SerializeField]
-		private NetLabel labelLifeSigns = null;
+		private NetText_label labelLifeSigns = null;
 
 		private Turret turret;
 		private Turret Turret => turret ??= Provider.GetComponent<Turret>();

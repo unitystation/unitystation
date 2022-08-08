@@ -9,6 +9,7 @@ using System.Text;
 using AddressableReferences;
 using Core.Chat;
 using DatabaseAPI;
+using Managers;
 using Mirror;
 using NaughtyAttributes;
 using ScriptableObjects;
@@ -49,6 +50,7 @@ public partial class Chat
 	public Color combatColor;
 	public Color warningColor;
 	public Color blobColor;
+	public Color alienColor;
 	public Color defaultColor;
 
 	private static bool playedSound;
@@ -60,7 +62,7 @@ public partial class Chat
 	/// <summary>
 	/// This channels can't be heared as sound by other players (like binary or changeling hivemind)
 	/// </summary>
-	public static readonly ChatChannel NonVerbalChannels = ChatChannel.Binary | ChatChannel.Ghost | ChatChannel.Blob;
+	public static readonly ChatChannel NonVerbalChannels = ChatChannel.Binary | ChatChannel.Ghost | ChatChannel.Blob | ChatChannel.Alien;
 
 	/// <summary>
 	/// This channels are OOC or service messages and shouldn't affect IC communications
@@ -73,6 +75,15 @@ public partial class Chat
 	/// This channels are either non verbal communication (Ghost, Binary) or some serivice channel (OOC, Action)
 	/// </summary>
 	public static readonly ChatChannel NonSpeechChannels = NonVerbalChannels | ServiceChannels;
+
+	/// <summary>
+	/// This channels that are verbal
+	/// </summary>
+	public static readonly ChatChannel SpeechChannels = ChatChannel.Local | ChatChannel.Command | ChatChannel.CentComm
+	                                                    | ChatChannel.Supply | ChatChannel.Engineering | ChatChannel.Medical |
+	                                                    ChatChannel.Science | ChatChannel.Security | ChatChannel.Service
+	                                                    | ChatChannel.Syndicate | ChatChannel.Engineering | ChatChannel.Medical |
+	                                                    ChatChannel.Science;
 
 	/// <summary>
 	/// Processes a message to be used in the chat log and chat bubbles.
@@ -121,9 +132,9 @@ public partial class Chat
 			message = message.Replace("/me", ""); // note that there is no space here as compared to the above if
 			message = message.Substring(1); // so that this substring can properly cut off both * and the space
 
-			if(CheckForEmoteAction(message, Instance.emoteActionManager))
+			if(CheckForEmoteAction(message))
 			{
-				DoEmoteAction(message, sentByPlayer.GameObject, Instance.emoteActionManager);
+				DoEmoteAction(message, sentByPlayer.GameObject);
 
 				//Message is done in DoEmoteAction()
 				message = "";
@@ -160,7 +171,7 @@ public partial class Chat
 		// Question
 		else if (message.EndsWith("?"))
 		{
-			chatModifiers |= sentByPlayer.Script.PlayerState == PlayerScript.PlayerStates.Ai ?
+			chatModifiers |= sentByPlayer.Script.PlayerType == PlayerTypes.Ai ?
 				ChatModifier.Query : ChatModifier.Question;
 		}
 		// Exclaim
@@ -169,7 +180,7 @@ public partial class Chat
 			chatModifiers |= ChatModifier.Exclaim;
 		}
 		//Ai state message
-		else if (sentByPlayer.Script.PlayerState == PlayerScript.PlayerStates.Ai)
+		else if (sentByPlayer.Script.PlayerType == PlayerTypes.Ai)
 		{
 			chatModifiers |= ChatModifier.State;
 		}
@@ -270,6 +281,7 @@ public partial class Chat
 			string[] _ghostVerbs = {"cries", "moans"};
 			return AddMsgColor(channels, $"[dead] <b>{speaker}</b> {_ghostVerbs.PickRandom()}: {message}");
 		}
+
 		string verb = "says,";
 
 		if ((modifiers & ChatModifier.Mute) == ChatModifier.Mute)
@@ -311,6 +323,11 @@ public partial class Chat
 		else if ((modifiers & ChatModifier.Question) == ChatModifier.Question)
 		{
 			verb = "asks,";
+		}
+
+		if (string.IsNullOrEmpty(speaker))
+		{
+			verb = "";
 		}
 
 		var chan = $"[{channels.ToString().ToLower().Substring(0, 3)}] ";
@@ -517,7 +534,8 @@ public partial class Chat
 	/// on the client. Do not use for anything else!
 	/// </summary>
 	public static void ProcessUpdateChatMessage(uint recipientUint, uint originatorUint, string message,
-		string messageOthers, ChatChannel channels, ChatModifier modifiers, string speaker, GameObject recipient, Loudness loudness, bool stripTags = true)
+		string messageOthers, ChatChannel channels, ChatModifier modifiers, string speaker, GameObject recipient,
+		Loudness loudness, bool stripTags = true, ushort languageId = 0)
 	{
 
 		var isOriginator = true;
@@ -534,13 +552,16 @@ public partial class Chat
 
 		if (GhostValidationRejection(originatorUint, channels)) return;
 
-		if (PlayerManager.LocalPlayerScript != null && PlayerManager.LocalPlayerScript.IsDeadOrGhost == false && PlayerManager.LocalPlayerScript.playerHealth.CannotRecognizeNames)
+		if (PlayerManager.LocalPlayerScript != null
+		    && PlayerManager.LocalPlayerScript.IsDeadOrGhost == false
+		    && PlayerManager.LocalPlayerScript.playerHealth != null
+		    && PlayerManager.LocalPlayerScript.playerHealth.CannotRecognizeNames)
 		{
 			speaker = "<color=red>Unknown</color>";
 		}
 
 		var msg = ProcessMessageFurther(message, speaker, channels, modifiers, loudness, originatorUint, stripTags);
-		ChatRelay.Instance.UpdateClientChat(msg, channels, isOriginator, recipient, loudness, modifiers);
+		ChatRelay.Instance.UpdateClientChat(msg, channels, isOriginator, recipient, loudness, modifiers, languageId);
 	}
 
 	private static bool GhostValidationRejection(uint originator, ChatChannel channels)
@@ -611,6 +632,7 @@ public partial class Chat
 		if (channel.HasFlag(ChatChannel.Combat)) return ColorUtility.ToHtmlStringRGBA(Instance.combatColor);
 		if (channel.HasFlag(ChatChannel.Warning)) return ColorUtility.ToHtmlStringRGBA(Instance.warningColor);
 		if (channel.HasFlag(ChatChannel.Blob)) return ColorUtility.ToHtmlStringRGBA(Instance.blobColor);
+		if (channel.HasFlag(ChatChannel.Alien)) return ColorUtility.ToHtmlStringRGBA(Instance.alienColor);
 		return ColorUtility.ToHtmlStringRGBA(Instance.defaultColor);
 	}
 
@@ -631,7 +653,7 @@ public partial class Chat
 	/// All tags for a radio msg that goes after '.' or ':'
 	/// For example ':e' sends message to engineering channel
 	/// </summary>
-	public readonly static Dictionary<char, ChatChannel> ChanelsTags = new Dictionary<char, ChatChannel>()
+	public static readonly Dictionary<char, ChatChannel> ChannelsTags = new Dictionary<char, ChatChannel>
 	{
 		{'b', ChatChannel.Binary},
 		{'u', ChatChannel.Supply},
@@ -643,7 +665,8 @@ public partial class Chat
 		{'s', ChatChannel.Security},
 		{'v', ChatChannel.Service},
 		{'t', ChatChannel.Syndicate},
-		{'g', ChatChannel.Ghost}
+		{'g', ChatChannel.Ghost},
+		{'a', ChatChannel.Alien}
 	};
 
 	/// <summary>
@@ -657,12 +680,23 @@ public partial class Chat
 	{
 		// check if message is valid
 		if (string.IsNullOrEmpty(playerInput))
-			return new ParsedChatInput(playerInput, playerInput, ChatChannel.None);
+			return new ParsedChatInput(playerInput, playerInput, ChatChannel.None, 0);
 
+		var extractedChanel = CheckRadio(playerInput, context, out var specialCharCount);
+
+		var languageId = CheckLanguage(playerInput, ref specialCharCount);
+
+		// delete all special chars
+		var clearMsg = playerInput.Substring(specialCharCount).TrimStart(' ');
+		return new ParsedChatInput(playerInput, clearMsg, extractedChanel, languageId);
+	}
+
+	private static ChatChannel CheckRadio(string playerInput, IChatInputContext context, out int specialCharCount)
+	{
 		// all extracted channels from special chars
 		ChatChannel extractedChanel = ChatChannel.None;
 		// how many special chars we need to delete
-		int specialCharCount = 0;
+		specialCharCount = 0;
 
 		var firstLetter = playerInput.First();
 		if (firstLetter == ';')
@@ -678,9 +712,9 @@ public partial class Chat
 			{
 				var secondLetter = char.ToLower(playerInput[1]);
 				// let's try find desired chanel
-				if (ChanelsTags.ContainsKey(secondLetter))
+				if (ChannelsTags.ContainsKey(secondLetter))
 				{
-					extractedChanel = ChanelsTags[secondLetter];
+					extractedChanel = ChannelsTags[secondLetter];
 					specialCharCount = 2;
 				}
 				else if (secondLetter == 'h')
@@ -701,9 +735,34 @@ public partial class Chat
 			}
 		}
 
-		// delete all special chars
-		var clearMsg = playerInput.Substring(specialCharCount).TrimStart(' ');
-		return new ParsedChatInput(playerInput, clearMsg, extractedChanel);
+		return extractedChanel;
+	}
+
+	private static ushort CheckLanguage(string playerInput, ref int specialCharCount)
+	{
+		if (playerInput.Length - specialCharCount < 2)
+		{
+			//Radio channels go first the language channels so if they exists and the input length is too short
+			//dont check for languages
+			return 0;
+		}
+
+		var firstLetter = playerInput[specialCharCount];
+		if (firstLetter == ',')
+		{
+			var secondLetter = char.ToLower(playerInput[specialCharCount + 1]);
+
+			var language = LanguageManager.Instance.GetLanguageByKey(secondLetter);
+			if (language == null) return 0;
+
+			specialCharCount += 2;
+
+			var canUse = PlayerManager.LocalPlayerScript.MobLanguages.CanSpeakLanguage(language);
+
+			return canUse ? language.LanguageUniqueId : (ushort) 0;
+		}
+
+		return 0;
 	}
 
 	/// <summary>
@@ -731,12 +790,12 @@ public partial class Chat
 		{Speech.Scotsman, ChatModifier.Scotsman}
 	};
 
-	private static bool CheckForEmoteAction(string emote, EmoteActionManager data)
+	private static bool CheckForEmoteAction(string emote)
 	{
-		return EmoteActionManager.HasEmote(emote, data);
+		return EmoteActionManager.HasEmote(emote);
 	}
-	private static void DoEmoteAction(string emoteName, GameObject player, EmoteActionManager data)
+	private static void DoEmoteAction(string emoteName, GameObject player)
 	{
-		EmoteActionManager.DoEmote(emoteName, player, data);
+		EmoteActionManager.DoEmote(emoteName, player);
 	}
 }

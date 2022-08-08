@@ -1,7 +1,9 @@
 ﻿using System.Collections;
+using Shared.Util;
 using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.UI;
+using Util;
 
 namespace Core
 {
@@ -19,15 +21,7 @@ namespace Core
 		public Text versionText;
 		public Text yourVerText;
 
-		public static VersionCheck Instance {
-			get {
-				if (versionCheck == false)
-				{
-					versionCheck = FindObjectOfType<VersionCheck>();
-				}
-				return versionCheck;
-			}
-		}
+		public static VersionCheck Instance => FindUtils.LazyFindObject(ref versionCheck);
 
 		private void Start()
 		{

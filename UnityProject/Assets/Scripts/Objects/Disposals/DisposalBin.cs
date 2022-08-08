@@ -8,6 +8,7 @@ using Systems.Disposals;
 using AddressableReferences;
 using Random = UnityEngine.Random;
 using Messages.Server.SoundMessages;
+using Objects.Atmospherics;
 using Systems.Atmospherics;
 
 namespace Objects.Disposals
@@ -38,7 +39,7 @@ namespace Objects.Disposals
 
 	public class DisposalBin : DisposalMachine, IExaminable, ICheckedInteractable<MouseDrop>, IEscapable, IBumpableObject
 	{
-		private const int CHARGED_PRESSURE = 600; // kPa
+		private const int CHARGED_PRESSURE = 200; // kPa
 		private const int AUTO_FLUSH_DELAY = 2;
 		private const float ANIMATION_TIME = 1.3f; // As per sprite sheet JSON file.
 
@@ -280,7 +281,7 @@ namespace Objects.Disposals
 			return baseString;
 		}
 
-		public void EntityTryEscape(GameObject entity, Action ifCompleted)
+		public void EntityTryEscape(GameObject entity, Action ifCompleted, MoveAction moveAction)
 		{
 			if (BinFlushing)
 			{
@@ -296,7 +297,7 @@ namespace Objects.Disposals
 		#endregion Interactions
 
 		// gives the probability of an object falling into the bin. Yes, it's like basketball
-		public void OnBump(GameObject item, GameObject Client)
+		public void OnBump(GameObject item, GameObject client)
 		{
 			if (isServer == false) return;
 			if (MachineSecured == false) return;

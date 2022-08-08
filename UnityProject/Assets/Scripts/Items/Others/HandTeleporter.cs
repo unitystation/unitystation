@@ -7,7 +7,7 @@ using Random = UnityEngine.Random;
 
 namespace Items.Others
 {
-	public class HandTeleporter : MonoBehaviour, ICheckedInteractable<HandActivate>, ICheckedInteractable<HandApply>
+	public class HandTeleporter : MonoBehaviour, ICheckedInteractable<HandApply>, ICheckedInteractable<HandActivate>
 	{
 		[SerializeField]
 		private TrackingBeacon.TrackingBeaconTypes trackingBeaconType = TrackingBeacon.TrackingBeaconTypes.Station;
@@ -23,6 +23,10 @@ namespace Items.Others
 
 		private UniversalObjectPhysics objectPhysics;
 
+		private Portal entrancePortal;
+
+		private Portal exitPortal;
+
 		private void Awake()
 		{
 			objectPhysics = GetComponent<UniversalObjectPhysics>();
@@ -33,7 +37,7 @@ namespace Items.Others
 			if (DefaultWillInteract.Default(interaction, side) == false) return false;
 
 			//Don't allow alt click so that the nettab can be opened
-			if((side == NetworkSide.Client || CustomNetworkManager.IsServer) && KeyboardInputManager.IsAltPressed()) return false;
+			if(interaction.IsAltClick) return false;
 
 			return true;
 		}
@@ -41,7 +45,7 @@ namespace Items.Others
 		public void ServerPerformInteraction(HandActivate interaction)
 		{
 			//If theres more than 6 portals (3 pairs) don't allow more
-			if (Portal.PortalPairs.Count > maxPortalPairs * 2)
+			if (Portal.PortalPairs.Count >= maxPortalPairs * 2)
 			{
 				Chat.AddExamineMsgFromServer(interaction.Performer, $"{gameObject.ExpensiveName()} is recharging!");
 				return;
@@ -52,19 +56,45 @@ namespace Items.Others
 
 			if (emergency)
 			{
+				//Close old portals!
+				if (entrancePortal != null) entrancePortal.PortalDeath();
+				if (exitPortal != null) exitPortal.PortalDeath();
+
+
 				Chat.AddExamineMsg(interaction.Performer, $"The {gameObject.ExpensiveName()} flashes briefly. No target is locked in, opening unstable portal!");
 			}
 			else
 			{
+				if (entrancePortal != null || exitPortal != null)
+				{
+					Chat.AddExamineMsg(interaction.Performer, $"There is already a portal open, close it first!");
+					return;
+				}
+
 				Chat.AddExamineMsg(interaction.Performer, $"The {gameObject.ExpensiveName()} flashes briefly. Opening portal to {linkedBeacon.gameObject.ExpensiveName()}!");
 			}
 
-			var worldPosEntrance = objectPhysics.OfficialPosition;
+			var worldPosEntrance = objectPhysics.OfficialPosition.RoundToInt();
 
 			//Go to selected tracked beacon or open portal in random 10 x 10 coord
-			var worldPosExit = emergency == false ?
-				linkedBeacon.ObjectBehaviour.OfficialPosition :
-				worldPosEntrance + new Vector3(Random.Range(1, 11), Random.Range(1, 11));
+			Vector3 worldPosExit;
+
+			if (emergency)
+			{
+				//Get random x from -10 to 10
+				var xCoord = Random.Range(0, 11) * (DMMath.Prob(50) ? -1 : 1);
+
+				//Get random y from -10 to 10 but not 0 if x is 0 so to not spawn two portals on player
+				var yCoord = Random.Range((xCoord == 0 ? 1 : 0), 11) * (DMMath.Prob(50) ? -1 : 1);
+
+				worldPosExit = worldPosEntrance + new Vector3(xCoord, yCoord);
+			}
+			else
+			{
+				worldPosExit = linkedBeacon.ObjectBehaviour.OfficialPosition;
+			}
+			
+			worldPosExit = worldPosExit.RoundToInt();
 
 			//TODO maybe coroutine this for better effect??
 
@@ -88,8 +118,8 @@ namespace Items.Others
 			var exit = Spawn.ServerPrefab(portalPrefab, worldPosExit);
 			if(exit.Successful == false) return;
 
-			var entrancePortal = entrance.GameObject.GetComponent<Portal>();
-			var exitPortal = exit.GameObject.GetComponent<Portal>();
+			entrancePortal = entrance.GameObject.GetComponent<Portal>();
+			exitPortal = exit.GameObject.GetComponent<Portal>();
 
 			entrancePortal.SetNewPortal(exitPortal, emergency ? 30 : 300);
 			exitPortal.SetNewPortal(entrancePortal, emergency ? 30 : 300);

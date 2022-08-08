@@ -129,6 +129,7 @@ public class Mind
 				SetProperty(pair.Key, pair.Value);
 			}
 		}
+
 		StopGhosting();
 	}
 

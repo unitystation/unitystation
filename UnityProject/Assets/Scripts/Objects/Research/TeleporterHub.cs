@@ -22,8 +22,7 @@ namespace Objects.Research
 		public override bool WillAffectPlayer(PlayerScript playerScript)
 		{
 			//Allow players or ghosts to enter
-			return playerScript.PlayerState == PlayerScript.PlayerStates.Normal ||
-			       playerScript.PlayerState == PlayerScript.PlayerStates.Ghost;
+			return playerScript.PlayerTypeSettings.CanEnterPortals;
 		}
 
 		public override void OnObjectEnter(GameObject eventData)
@@ -33,6 +32,12 @@ namespace Objects.Research
 
 		public override bool WillAffectObject(GameObject eventData)
 		{
+			//Don't allow intangible stuff, like sparks as that will cause loop crashes
+			if (eventData.TryGetComponent<UniversalObjectPhysics>(out var uop) && uop.Intangible)
+			{
+				return false;
+			}
+
 			return true;
 		}
 
@@ -43,7 +48,7 @@ namespace Objects.Research
 			SparkUtil.TrySpark(gameObject, expose: false);
 
 			TransportUtility.TeleportToObject(eventData, linkedBeacon.gameObject,
-				linkedBeacon.CurrentBeaconPosition(), calibrated);
+				linkedBeacon.CurrentBeaconPosition(), calibrated, false);
 		}
 
 		private bool AllowTeleport()

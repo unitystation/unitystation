@@ -6,6 +6,7 @@ using Managers;
 using Objects.Wallmounts;
 using Objects.Command;
 using Strings;
+using Systems.Clearance;
 
 namespace UI.Objects.Command
 {
@@ -24,23 +25,23 @@ namespace UI.Objects.Command
 		private NetPage captainAccessPage = null;
 
 		[SerializeField]
-		private NetLabel idLabel = null;
+		private NetText_label idLabel = null;
 		[SerializeField]
-		private NetLabel shuttleStatusLabel = null;
+		private NetText_label shuttleStatusLabel = null;
 		[SerializeField]
-		private NetLabel shuttleTimerLabel = null;
+		private NetText_label shuttleTimerLabel = null;
 		[SerializeField]
-		private NetLabel shuttleCallResultLabel = null;
+		private NetText_label shuttleCallResultLabel = null;
 		[SerializeField]
-		private NetLabel shuttleCallButtonLabel = null;
+		private NetText_label shuttleCallButtonLabel = null;
 		[SerializeField]
 		private NetSpriteImage statusImage = null;
 		[SerializeField]
-		private NetLabel CurrentAlertLevelLabel = null;
+		private NetText_label CurrentAlertLevelLabel = null;
 		[SerializeField]
-		private NetLabel NewAlertLevelLabel = null;
+		private NetText_label NewAlertLevelLabel = null;
 		[SerializeField]
-		private NetLabel AlertErrorLabel = null;
+		private NetText_label AlertErrorLabel = null;
 
 		private CommsConsole console;
 		private EscapeShuttle shuttle;
@@ -103,7 +104,8 @@ namespace UI.Objects.Command
 		private void ProcessIdChange(IDCard newId = null)
 		{
 			UpdateIdTexts();
-			if (newId != null || IsAIInteracting() == true)
+
+			if (newId != null || IsAIInteracting())
 			{
 				LogIn();
 			}
@@ -259,25 +261,27 @@ namespace UI.Objects.Command
 
 		public void UpdateIdTexts()
 		{
-			var IdCard = console.IdCard;
-			if (IdCard)
+			var idCard = console.IdCard;
+			if (idCard != null)
 			{
-				idLabel.SetValueServer($"{IdCard.RegisteredName}, {IdCard.GetJobTitle()}");
+				idLabel.SetValueServer($"{idCard.RegisteredName}, {idCard.GetJobTitle()}");
+				return;
 			}
+
 			if (IsAIInteracting())
 			{
 				idLabel.SetValueServer("AI Control");
+				return;
 			}
-			else
-			{
-				idLabel.SetValueServer("<No ID inserted>");
-			}
+
+			idLabel.SetValueServer("<No ID inserted>");
 		}
 
 		public void LogIn()
 		{
 			var AI = IsAIInteracting();
 			if (console.IdCard == null && AI == false) return;
+
 			if (AI)
 			{
 				captainOnlySwitcher.SetActivePage(captainAccessPage);
@@ -285,12 +289,13 @@ namespace UI.Objects.Command
 				return;
 			}
 
-			if (!console.IdCard.HasAccess(Access.heads))
+			if (!console.IdCard.HasAccess(Clearance.Heads))
 			{
 				idLabel.SetValueServer(idLabel.Value + " (No access)");
 				return;
 			}
-			bool isCaptain = console.IdCard.HasAccess(Access.captain);
+
+			bool isCaptain = console.IdCard.HasAccess(Clearance.Captain);
 			captainOnlySwitcher.SetActivePage(isCaptain ? captainAccessPage : noCaptainAccessPage);
 
 			OpenMenu();

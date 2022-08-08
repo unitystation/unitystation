@@ -48,6 +48,7 @@ namespace Objects.Medical
 			scanner = null;
 			cloningPod = null;
 			consoleGUI = null;
+
 			//TODO: Support persistance of this info somewhere, such as to a circuit board.
 			//scan for adjacent dna scanner and cloning pod
 			scanner = MatrixManager.GetAdjacent<DNAScanner>(registerTile.WorldPositionServer, true).FirstOrDefault();
@@ -89,16 +90,18 @@ namespace Objects.Medical
 				UpdateInoperableStatus();
 				return;
 			}
+
 			if (scanner.occupant)
 			{
 				var mob = scanner.occupant;
 				var mobID = scanner.occupant.mobID;
 				var playerScript = mob.GetComponent<PlayerScript>();
-				if (playerScript?.mind?.bodyMobID != mobID)
+				if (playerScript.OrNull()?.mind?.bodyMobID != mobID)
 				{
 					scanner.statusString = "Bad mind/body interface.";
 					return;
 				}
+
 				for (int i = 0; i < cloningRecords.Count; i++)
 				{
 					var record = cloningRecords[i];
@@ -109,6 +112,7 @@ namespace Objects.Medical
 						return;
 					}
 				}
+
 				CreateRecord(mob, playerScript);
 				scanner.statusString = "Subject successfully scanned.";
 			}
@@ -125,10 +129,16 @@ namespace Objects.Medical
 
 		private void UpdateInoperableStatus()
 		{
-			if (!scanner.RelatedAPC)
-				scanner.statusString = "Scanner not connected to APC.";
-			else if (!scanner.Powered)
-				scanner.statusString = "Voltage too low.";
+			if (scanner.RelatedAPC == null)
+			{
+				scanner.statusString = "Scanner not connected to APC!";
+				return;
+			}
+
+			if (scanner.Powered == false)
+			{
+				scanner.statusString = "Voltage too low!";
+			}
 		}
 
 		public void ServerTryClone(CloningRecord record)
@@ -202,7 +212,7 @@ namespace Objects.Medical
 			burnDmg = livingHealth.GetTotalBurnDamage();
 			toxinDmg = livingHealth.GetTotalToxDamage();
 			bruteDmg = livingHealth.GetTotalBruteDamage();
-			uniqueIdentifier = "35562Eb18150514630991";
+			uniqueIdentifier = $"{livingHealth.mobID}{playerScript.playerName}".ToHexString();
 			foreach(BodyPart part in livingHealth.SurfaceBodyParts)
             {
 				BodyPartRecord partRecord = new BodyPartRecord();

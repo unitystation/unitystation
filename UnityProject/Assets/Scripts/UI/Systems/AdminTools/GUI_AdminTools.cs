@@ -142,7 +142,7 @@ namespace AdminTools
 		public void ShowGiveItemPagePage()
 		{
 			DisableAllPages();
-			giveItemPage.SetActive(true);
+			giveItemPage.gameObject.SetActive(true);
 			windowTitle.text = $"Give item to {SelectedPlayer}";
 			UIManager.IsInputFocus = true;
 			UIManager.PreventChatInput = true;

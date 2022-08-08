@@ -244,7 +244,7 @@ namespace Objects
 			objectContainer.RetrieveObjects();
 		}
 
-		public void EntityTryEscape(GameObject performer, Action ifCompleted)
+		public void EntityTryEscape(GameObject performer, Action ifCompleted, MoveAction moveAction)
 		{
 			// First, try to just open the closet. Anything can do this.
 			if (IsLocked == false && IsWelded == false)

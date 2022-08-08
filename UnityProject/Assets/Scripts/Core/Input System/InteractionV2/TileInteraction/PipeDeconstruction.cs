@@ -40,10 +40,10 @@ namespace Tiles.Pipes
 			string othersMessage = Chat.ReplacePerformer(othersStartActionMessage, interaction.Performer);
 			Chat.AddActionMsgToChat(interaction.Performer, performerStartActionMessage, othersMessage);
 
-			if (interaction.BasicTile.LayerType != LayerType.Underfloor) return;
+			if (interaction.BasicTile.LayerType != LayerType.Pipe) return;
 
 			var pipeTile = interaction.BasicTile as PipeTile;
-			var matrix = interaction.TileChangeManager.MetaTileMap.Layers[LayerType.Underfloor].matrix;
+			var matrix = interaction.TileChangeManager.MetaTileMap.Layers[LayerType.Pipe].Matrix;
 			var metaDataNode = matrix.GetMetaDataNode(interaction.TargetCellPos);
 
 			for (var i = 0; i < metaDataNode.PipeData.Count; i++)

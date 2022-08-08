@@ -82,7 +82,7 @@ PrefabInstance:
         type: 3}
       propertyPath: customNetTransform
       value: 
-      objectReference: {fileID: 282682895744077466}
+      objectReference: {fileID: 0}
     - target: {fileID: 3782347747540316177, guid: e46ba34aab52d654787ef10d896b0874,
         type: 3}
       propertyPath: initialName
@@ -149,17 +149,6 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   allowedAccess: 68
+  allowedClearance: 1
   lockedSprite: {fileID: 11400000, guid: d8a8b2de2c933914f966a5ada9edc0b6, type: 2}
   unlockedSprite: {fileID: 11400000, guid: 35cf61bbea96e244a8a90c37dd6573cf, type: 2}
---- !u!114 &282682895744077466 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 3676534646001562275, guid: e46ba34aab52d654787ef10d896b0874,
-    type: 3}
-  m_PrefabInstance: {fileID: 3524601417277996089}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 178426376374657866}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 579884b05ae74e8499329b64997147d3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 

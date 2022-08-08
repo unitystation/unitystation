@@ -20,7 +20,7 @@ namespace Blob
 	/// <summary>
 	/// Class which has the logic and data for the blob player
 	/// </summary>
-	public class BlobPlayer : NetworkBehaviour, IAdminInfo
+	public class BlobPlayer : NetworkBehaviour, IAdminInfo, IGib
 	{
 		[SerializeField] private GameObject blobCorePrefab = null;
 		[SerializeField] private GameObject blobNodePrefab = null;
@@ -1229,6 +1229,11 @@ namespace Blob
 			}
 
 			_ = Despawn.ServerSingle(gameObject);
+		}
+
+		public void OnGib()
+		{
+			Death();
 		}
 
 		#endregion

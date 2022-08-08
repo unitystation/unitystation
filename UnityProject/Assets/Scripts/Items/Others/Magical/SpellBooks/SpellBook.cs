@@ -58,7 +58,7 @@ namespace Items.Magical
 		private void LearnSpell(PlayerInfo player)
 		{
 			// TODO: Play "Blind" SFX once sound freeze is lifted.
-			Chat.AddChatMsgToChat(player, spell.InvocationMessage, ChatChannel.Local, Loudness.SCREAMING);
+			Chat.AddChatMsgToChatServer(player, spell.InvocationMessage, ChatChannel.Local, Loudness.SCREAMING);
 			Chat.AddExamineMsgFromServer(player.GameObject, $"You feel like you've experienced enough to cast <b>{spell.Name}</b>!");
 
 			var learnedSpell = spell.AddToPlayer(player.Script);

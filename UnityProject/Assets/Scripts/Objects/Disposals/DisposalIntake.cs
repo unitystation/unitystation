@@ -85,7 +85,7 @@ namespace Objects.Disposals
 
 		private void UpdateSpriteOrientation()
 		{
-			switch (directionalPassable.Rotatable.CurrentDirection)
+			switch (directionalPassable.RotatableChecked.Component.CurrentDirection)
 			{
 				case OrientationEnum.Up_By0:
 					baseSpriteHandler.ChangeSpriteVariant(1);
@@ -145,7 +145,10 @@ namespace Objects.Disposals
 
 			// Intake orifice closed. Release the charge.
 			SoundManager.PlayNetworkedAtPos(disposalFlushSound, registerObject.WorldPositionServer, sourceObj: gameObject);
+			gasContainer.IsSealed = true;
+			gasContainer.EqualiseWithTile();
 			DisposalsManager.Instance.NewDisposal(gameObject);
+			gasContainer.IsSealed = false;
 
 			// Restore charge, open orifice.
 			yield return WaitFor.Seconds(ANIMATION_TIME - FLUSH_DELAY);

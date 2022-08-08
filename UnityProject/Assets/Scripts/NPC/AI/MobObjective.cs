@@ -59,7 +59,7 @@ namespace Systems.MobAIs
 
 			if (rotatable != null)
 			{
-				rotatable.SetFaceDirectionLocalVictor(dirToMove.To2Int());
+				rotatable.SetFaceDirectionLocalVector(dirToMove.To2Int());
 			}
 		}
 

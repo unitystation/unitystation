@@ -3,6 +3,8 @@ using Systems.CraftingV2;
 using Systems.GhostRoles;
 using AddressableReferences;
 using HealthV2;
+using Managers;
+using Player.Language;
 using ScriptableObjects;
 using UnityEngine;
 
@@ -144,26 +146,26 @@ namespace Objects
 			Chat.AddLocalMsgToChat($"Serrated tendrils eagerly pull {mobHealth.gameObject.ExpensiveName()} to the {gameObject.ExpensiveName()}, tearing the body apart as its blood seeps over the eggs.", gameObject);
 		}
 
-		private void EatBody(LivingHealthMasterBase playerHealth)
+		private void EatBody(LivingHealthMasterBase healthMasterBase)
 		{
 			SoundManager.PlayNetworkedAtPos(consumeSound, registerTile.WorldPositionServer, sourceObj: gameObject);
 
-			if (playerHealth.playerScript.OrNull()?.mind?.occupation.OrNull()?.JobType == JobType.ASHWALKER
-			    && playerHealth.playerScript.OrNull()?.mind?.IsGhosting == false)
+			if (healthMasterBase.playerScript.OrNull()?.mind?.occupation.OrNull()?.JobType == JobType.ASHWALKER
+			    && healthMasterBase.playerScript.OrNull()?.mind?.IsGhosting == false)
 			{
-				Chat.AddActionMsgToChat(playerHealth.gameObject,
+				Chat.AddActionMsgToChat(healthMasterBase.gameObject,
 					$"Your body has been returned to the nest. You are being remade anew, and will awaken shortly. Your memories will remain intact in your new body, as your soul is being salvaged",
-					$"Serrated tendrils carefully pull {playerHealth.gameObject.ExpensiveName()} to the {gameObject.ExpensiveName()}, absorbing the body and creating it anew.");
+					$"Serrated tendrils carefully pull {healthMasterBase.gameObject.ExpensiveName()} to the {gameObject.ExpensiveName()}, absorbing the body and creating it anew.");
 
 				//If dead ashwalker in body respawn without cost
-				SpawnAshwalker(playerHealth.playerScript.PlayerInfo, false);
-				playerHealth.Gib();
+				SpawnAshwalker(healthMasterBase.playerScript.PlayerInfo, false);
+				healthMasterBase.OnGib();
 				return;
 			}
 
-			playerHealth.Gib();
+			healthMasterBase.OnGib();
 
-			Chat.AddLocalMsgToChat($"Serrated tendrils eagerly pull {playerHealth.gameObject.ExpensiveName()} to the {gameObject.ExpensiveName()}, tearing the body apart as its blood seeps over the eggs.", gameObject);
+			Chat.AddLocalMsgToChat($"Serrated tendrils eagerly pull {healthMasterBase.gameObject.ExpensiveName()} to the {gameObject.ExpensiveName()}, tearing the body apart as its blood seeps over the eggs.", gameObject);
 
 			IncreaseMeat();
 		}
@@ -279,6 +281,9 @@ namespace Objects
 			GhostRoleManager.Instance.ServerRemoveWaitingPlayer(createdRoleKey, player);
 
 			Chat.AddExamineMsg(player.GameObject, "You have been pulled back from beyond the grave, with a new body and renewed purpose. Glory to the Necropolis!");
+
+			//Ashwalkers cant speak or understand common
+			player.Script.MobLanguages.RemoveLanguage(LanguageManager.Instance.Common, true);
 		}
 
 		private void OnDestruction(DestructionInfo info)

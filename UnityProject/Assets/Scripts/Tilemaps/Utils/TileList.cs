@@ -56,7 +56,7 @@ public class TileList
 		}
 	}
 
-	private void ReorderObjects(Vector3Int position)
+	public void ReorderObjects(Vector3Int position)
 	{
 		var offset = 0;
 		if (position.x % 2 != 0)

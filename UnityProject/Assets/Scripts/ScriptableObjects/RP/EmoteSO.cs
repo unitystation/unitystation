@@ -5,6 +5,7 @@ using HealthV2;
 using Messages.Server.SoundMessages;
 using NaughtyAttributes;
 using UnityEngine;
+using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
 
 namespace ScriptableObjects.RP
@@ -63,6 +64,11 @@ namespace ScriptableObjects.RP
 		[Tooltip("Sound pitch will be randomly chosen from this range.")]
 		[SerializeField]
 		private Vector2 pitchRange = new Vector2(0.7f, 1f);
+
+		[FormerlySerializedAs("allowedPlayerStates")]
+		[Tooltip("Which player states are allowed to use this emote")]
+		[SerializeField]
+		private PlayerTypes allowedPlayerTypes = PlayerTypes.Normal;
 
 		protected enum FailType
 		{
@@ -194,7 +200,7 @@ namespace ScriptableObjects.RP
 		{
 			//TODO : This sort of thing should be checked on the player script when reworking telecomms and adding a proper silencing system
 			if(player.TryGetComponent<PlayerScript>(out var script) == false) return false;
-			if (script.mind.occupation != null && script.mind.occupation.JobType == JobType.MIME) return true; //FIXME : Find a way to check if vow of silence is broken
+			if (script.mind?.occupation != null && script.mind.occupation.JobType == JobType.MIME) return true; //FIXME : Find a way to check if vow of silence is broken
 			foreach (var slot in script.Equipment.ItemStorage.GetItemSlots())
 			{
 				if(slot.IsEmpty) continue;
@@ -205,6 +211,13 @@ namespace ScriptableObjects.RP
 
 		protected bool CheckAllBaseConditions(GameObject player)
 		{
+			if (player.TryGetComponent<PlayerScript>(out var playerScript)
+			    && allowedPlayerTypes.HasFlag(playerScript.PlayerType) == false)
+			{
+				FailText(player, FailType.Normal);
+				return false;
+			}
+
 			if (allowEmoteWhileInCrit == false && CheckPlayerCritState(player))
 			{
 				FailText(player, FailType.Critical);

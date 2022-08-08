@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Text;
 using UnityEngine;
 using Mirror;
 using DiscordWebhook;
@@ -15,6 +16,7 @@ using Messages.Server.SoundMessages;
 using Audio.Containers;
 using Systems.Cargo;
 using UI.Systems.AdminTools;
+using Util;
 
 namespace AdminCommands
 {
@@ -129,6 +131,29 @@ namespace AdminCommands
 			DiscordWebhookMessage.Instance.AddWebHookMessageToQueue(DiscordWebhookURLs.DiscordWebhookOOCURL, msg, "");
 
 			LogAdminAction($"{player.Username}: {(Chat.Instance.OOCMute ? "Muted" : "Unmuted")} OOC");
+		}
+
+		[Command(requiresAuthority = false)]
+		public void CmdChangeGameMode(string nextGameMode, bool isSecret, NetworkConnectionToClient sender = null)
+		{
+			if (IsAdmin(sender, out var player) == false) return;
+
+			var message = new StringBuilder();
+
+			if (GameManager.Instance.NextGameMode != nextGameMode)
+			{
+				message.AppendLine($"{player.Username}: Updated the next game mode with {nextGameMode}");
+				GameManager.Instance.NextGameMode = nextGameMode;
+			}
+
+			if (GameManager.Instance.SecretGameMode != isSecret)
+			{
+				message.AppendLine($"{player.Username}: Set the IsSecret GameMode flag to {isSecret}");
+				GameManager.Instance.SecretGameMode = isSecret;
+			}
+
+			if(message.Length == 0) return;
+			LogAdminAction(message.ToString());
 		}
 
 		#endregion
@@ -331,16 +356,16 @@ namespace AdminCommands
 				return;
 			}
 
-			//TODO make gib interface and put on Ai, and blob (remove this health check)
-			if (player?.Script == null || player.Script.IsGhost || player.Script.playerHealth == null) return;
+			if (player?.Script == null || player.Script.IsGhost) return;
 
 			string message = $"{admin.Username}: Smited Username: {player.Username} ({player.Name})";
 			Logger.Log(message, Category.Admin);
 
 			LogAdminAction(message);
 
-			//TODO make gib interface and put on Ai, and blob
-			player.Script.playerHealth.Gib();
+			player.Script.GetComponent<IGib>()?.OnGib();
+
+			Chat.AddExamineMsgFromServer(player.Script.gameObject, "You are struck down by a mysterious force!");
 		}
 
 		/// <summary>
@@ -395,6 +420,52 @@ namespace AdminCommands
 			player.IsOOCMuted = !player.IsOOCMuted;
 
 			var message = $"{admin.Username}: OOC {(player.IsOOCMuted ? "Muted" : "Unmuted")} {player.Username}";
+
+			//Log what we did.
+			Logger.Log(message, Category.Admin);
+			LogAdminAction(message);
+		}
+
+		/// <summary>
+		/// Gives item to player
+		/// </summary>
+		[Command(requiresAuthority = false)]
+		public void CmdGivePlayerItem(string userToGiveItem, string itemPrefabName, int count, string customMessage, NetworkConnectionToClient sender = null)
+		{
+			if (IsAdmin(sender, out var admin) == false) return;
+
+			if (PlayerList.Instance.TryGetByUserID(userToGiveItem, out var player) == false)
+			{
+				Logger.LogError($"Could not find player with user ID '{userToGiveItem}'. Unable to give item.", Category.Admin);
+				return;
+			}
+
+			if (player.Script.OrNull()?.DynamicItemStorage == null)
+			{
+				Logger.LogError($"No DynamicItemStorage on '{player.Name}'. Unable to give item.", Category.Admin);
+				return;
+			}
+
+			var item = Spawn.ServerPrefab(itemPrefabName, player.Script.mind.body.gameObject.AssumedWorldPosServer());
+			var slot = player.Script.DynamicItemStorage.GetBestHandOrSlotFor(item.GameObject);
+			if (item.GameObject.TryGetComponent<Stackable>(out var stackable) && stackable.MaxAmount <= count)
+			{
+				stackable.ServerSetAmount(count);
+			}
+
+			if (slot != null)
+			{
+				Inventory.ServerAdd(item.GameObject, slot);
+			}
+
+			if (string.IsNullOrEmpty(customMessage) == false)
+			{
+				Chat.AddExamineMsg(player.GameObject, customMessage);
+			}
+
+			Chat.AddExamineMsg(admin.GameObject, $"You have given {player.Script.playerName} : {item.GameObject.ExpensiveName()}");
+
+			var message = $"{admin.Username}: gave {player.Script.playerName} {count} {item.GameObject.ExpensiveName()}";
 
 			//Log what we did.
 			Logger.Log(message, Category.Admin);

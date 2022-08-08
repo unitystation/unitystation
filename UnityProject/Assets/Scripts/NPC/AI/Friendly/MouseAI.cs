@@ -66,7 +66,7 @@ namespace Systems.MobAIs
 		private void DoRandomWireChew()
 		{
 			var metaTileMap = registerObject.TileChangeManager.MetaTileMap;
-			var matrix = metaTileMap.Layers[LayerType.Underfloor].matrix;
+			var matrix = metaTileMap.Layers[LayerType.Electrical].Matrix;
 
 			// Check if the floor plating is exposed.
 			if (metaTileMap.HasTile(registerObject.LocalPosition, LayerType.Floors)) return;
@@ -87,7 +87,7 @@ namespace Systems.MobAIs
 
 			// Remove the cable and spawn the item.
 			cable.DestroyThisPlease();
-			var electricalTile = registerObject.TileChangeManager.MetaTileMap.GetTile(registerObject.WorldPosition, LayerType.Underfloor) as ElectricalCableTile;
+			var electricalTile = registerObject.TileChangeManager.MetaTileMap.GetTile(registerObject.WorldPosition, LayerType.Electrical) as ElectricalCableTile;
 			// Electrical tile is not null iff this is the first mousechew. Why?
 			if (electricalTile != null)
 			{

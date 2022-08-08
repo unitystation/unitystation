@@ -21,29 +21,29 @@ namespace UI.Objects.Medical
 
 		public CloningRecord specificRecord;
 
-		public NetLabel[] cloningPodStatus;
-		public NetLabel scannerStatus;
-		public NetLabel buttonTextViewRecord;
-		public NetLabel recordName;
-		public NetLabel recordScanID;
-		public NetLabel recordOxy;
-		public NetLabel recordBurn;
-		public NetLabel recordToxin;
-		public NetLabel recordBrute;
-		public NetLabel recordUniqueID;
-		public NetLabel limbName;
-		public NetLabel limbBurn;
-		public NetLabel limbBrute;
-		public NetLabel limbToxin;
-		public NetLabel ailments;
-		public NetLabel tabTitle;
-		public NetLabel tabDamage;
-		public NetLabel tabBurn;
-		public NetLabel tabToxin;
-		public NetLabel tabBrute;
-		public NetLabel tabOxygen;
-		public NetLabel tabBleeding;
-		public NetLabel[] organButtons;
+		public NetText_label[] cloningPodStatus;
+		public NetText_label scannerStatus;
+		public NetText_label buttonTextViewRecord;
+		public NetText_label recordName;
+		public NetText_label recordScanID;
+		public NetText_label recordOxy;
+		public NetText_label recordBurn;
+		public NetText_label recordToxin;
+		public NetText_label recordBrute;
+		public NetText_label recordUniqueID;
+		public NetText_label limbName;
+		public NetText_label limbBurn;
+		public NetText_label limbBrute;
+		public NetText_label limbToxin;
+		public NetText_label ailments;
+		public NetText_label tabTitle;
+		public NetText_label tabDamage;
+		public NetText_label tabBurn;
+		public NetText_label tabToxin;
+		public NetText_label tabBrute;
+		public NetText_label tabOxygen;
+		public NetText_label tabBleeding;
+		public NetText_label[] organButtons;
 		public NetColorChanger organStatusTab;
 		public NetColorChanger xButton;
 
@@ -172,7 +172,7 @@ namespace UI.Objects.Medical
 
 		public void OrganRecord(BodyPartRecord limb)
         {
-			foreach(NetLabel button in organButtons)
+			foreach(NetText_label button in organButtons)
             {
 				button.SetValueServer("");
             }

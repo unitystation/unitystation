@@ -83,6 +83,8 @@ namespace Systems.MobAIs
 
 		IEnumerator PerformVoiceCommand(string msg, PlayerInfo speaker)
 		{
+			msg = msg.RemovePunctuation();
+
 			//We want these ones to happen right away:
 			if (msg.Contains($"{dogName} run") || msg.Contains($"{dogName} get out of here"))
 			{

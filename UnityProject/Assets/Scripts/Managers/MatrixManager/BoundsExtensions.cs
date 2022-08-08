@@ -25,7 +25,7 @@ public static class BoundsExtensions
 	}
 	public static RectInt ToRectInt(this Bounds bounds)
 	{
-		return new RectInt(bounds.min.To2Int(), bounds.size.To2Int());
+		return new RectInt(bounds.min.RoundTo2Int(), bounds.size.RoundTo2Int());
 	}
 
 	private static readonly Vector3Int ZOneVector3Int = new Vector3Int(0,0,1);

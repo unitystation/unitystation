@@ -70,8 +70,7 @@ public enum NetTabType
 	PublicTerminal = 52,
 	TeleporterConsole = 53,
 	HandTeleporter = 54,
-	ArtifactAnalyser = 55,
-	ArtifactConsole = 56,
+	BlastYieldDetector = 55,
 
 	// add new entres to the bottom
 	// the enum name must match that of the prefab except the prefab has the word tab infront of the enum name
@@ -281,7 +280,7 @@ public class NetTab : Tab
 			if (peeper.Script == false || canApply == false)
 			{
 				//Validate for AI
-				if (peeper.Script.PlayerState == PlayerScript.PlayerStates.Ai)
+				if (peeper.Script.PlayerType == PlayerTypes.Ai)
 				{
 					if (Validations.CanApply(new AiActivate(peeper.GameObject, null,
 						Provider, Intent.Help, AiActivate.ClickTypes.NormalClick), NetworkSide.Server))
@@ -300,8 +299,10 @@ public class NetTab : Tab
 		foreach(var peep in Peepers)
 		{
 			if (peep.Job != JobType.AI) continue;
+
 			return true;
 		}
+
 		return false;
 	}
 

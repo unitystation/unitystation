@@ -1,0 +1,129 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &2697563774000791545
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 433040487140416842, guid: 0d452d035c46dad46a96790f0c346d17,
+        type: 3}
+      propertyPath: timeToPlace
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 433040487140416842, guid: 0d452d035c46dad46a96790f0c346d17,
+        type: 3}
+      propertyPath: maxHolosigns
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 433040487140416842, guid: 0d452d035c46dad46a96790f0c346d17,
+        type: 3}
+      propertyPath: holosignPrefabs.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 433040487140416842, guid: 0d452d035c46dad46a96790f0c346d17,
+        type: 3}
+      propertyPath: holosignPrefabs.Array.data[0]
+      value: 
+      objectReference: {fileID: 438935671533005145, guid: 44be6b4167e81ea4fba91aa111db48e7,
+        type: 3}
+    - target: {fileID: 2876156250880381563, guid: 0d452d035c46dad46a96790f0c346d17,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: f72bb1759ab724d49b0fedae9d33a653,
+        type: 2}
+    - target: {fileID: 3032767584051635601, guid: 0d452d035c46dad46a96790f0c346d17,
+        type: 3}
+      propertyPath: foreverID
+      value: 6ba57b26778c591438460ae11049d4ae
+      objectReference: {fileID: 0}
+    - target: {fileID: 8096841510004791968, guid: 0d452d035c46dad46a96790f0c346d17,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: e9281af7748036343933d38737959445,
+        type: 3}
+    - target: {fileID: 8096841510004791968, guid: 0d452d035c46dad46a96790f0c346d17,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8263040888169310716, guid: 0d452d035c46dad46a96790f0c346d17,
+        type: 3}
+      propertyPath: m_Name
+      value: CustodialHolobarrierProjector
+      objectReference: {fileID: 0}
+    - target: {fileID: 8268527314056795272, guid: 0d452d035c46dad46a96790f0c346d17,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8268527314056795272, guid: 0d452d035c46dad46a96790f0c346d17,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8268527314056795272, guid: 0d452d035c46dad46a96790f0c346d17,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8268527314056795272, guid: 0d452d035c46dad46a96790f0c346d17,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8268527314056795272, guid: 0d452d035c46dad46a96790f0c346d17,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8268527314056795272, guid: 0d452d035c46dad46a96790f0c346d17,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8268527314056795272, guid: 0d452d035c46dad46a96790f0c346d17,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8268527314056795272, guid: 0d452d035c46dad46a96790f0c346d17,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8268527314056795272, guid: 0d452d035c46dad46a96790f0c346d17,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8268527314056795272, guid: 0d452d035c46dad46a96790f0c346d17,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8268527314056795272, guid: 0d452d035c46dad46a96790f0c346d17,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8302388595661083720, guid: 0d452d035c46dad46a96790f0c346d17,
+        type: 3}
+      propertyPath: m_AssetId
+      value: 6ba57b26778c591438460ae11049d4ae
+      objectReference: {fileID: 0}
+    - target: {fileID: 8377167394800518814, guid: 0d452d035c46dad46a96790f0c346d17,
+        type: 3}
+      propertyPath: initialName
+      value: custodial holobarrier projector
+      objectReference: {fileID: 0}
+    - target: {fileID: 8377167394800518814, guid: 0d452d035c46dad46a96790f0c346d17,
+        type: 3}
+      propertyPath: initialDescription
+      value: A holographic projector that creates hard light wet floor barriers.
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 0d452d035c46dad46a96790f0c346d17, type: 3}

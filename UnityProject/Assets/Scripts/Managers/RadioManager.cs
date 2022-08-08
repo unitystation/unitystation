@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
+using Shared.Util;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using Util;
 
 /// <summary>
 /// Serverside radio management tool. Clients cannot send radio messages! If you wish to send a radio message, call it on the server!
@@ -10,18 +12,7 @@ public class RadioManager : MonoBehaviour
 	private static RadioManager radioManager;
 
 
-	public static RadioManager Instance
-	{
-		get
-		{
-			if (!radioManager)
-			{
-				radioManager = FindObjectOfType<RadioManager>();
-			}
-
-			return radioManager;
-		}
-	}
+	public static RadioManager Instance => FindUtils.LazyFindObject(ref radioManager);
 
 	private RadioMessager LastRadioMessager = null;
 

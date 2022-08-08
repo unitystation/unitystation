@@ -18,6 +18,12 @@ PrefabInstance:
       propertyPath: m_AssetId
       value: 2687df960de8f3f4aa407993936cf69a
       objectReference: {fileID: 0}
+    - target: {fileID: 3477720021984211411, guid: 044c5be8ebc308b4b9e450ab85fec306,
+        type: 3}
+      propertyPath: onDeconstruct.Array.data[0].prefab
+      value: 
+      objectReference: {fileID: 232070049008415734, guid: 6d8f04f09fd70254ead647566210cd74,
+        type: 3}
     - target: {fileID: 4414586694104515968, guid: 044c5be8ebc308b4b9e450ab85fec306,
         type: 3}
       propertyPath: initialName

@@ -42,7 +42,6 @@ public struct Orientation : IEquatable<Orientation>
 
 	}
 
-
 	public OrientationEnum AsEnum()
 	{
 		if (this == Up)
@@ -92,7 +91,7 @@ public struct Orientation : IEquatable<Orientation>
 	/// <summary>
 	/// Vector2Int pointing in the same direction as the orientation.
 	/// </summary>
-	public Vector2Int LocalVectorInt => (Quaternion.Euler(0,0, Degrees) * Vector3Int.right).To2Int();
+	public Vector2Int LocalVectorInt => (Quaternion.Euler(0,0, Degrees) * Vector3Int.right).RoundTo2Int();
 
 	/// <summary>
 	/// Return the orientation that would be reached by rotating clockwise 90 degrees the given number of turns
@@ -187,6 +186,17 @@ public struct Orientation : IEquatable<Orientation>
 	{
 		float degree = AngleFromUp(direction);
 		return GetOrientation(degree);
+	}
+
+	/// <summary>
+	/// OrientationEnum pointing the same direction as the specified vector.
+	/// For example if vector is right (1,0), this will return OrientationEnum.Right_By270
+	/// </summary>
+	/// <returns>OrientationEnum pointing in same direction as vector</returns>
+	public static OrientationEnum FromAsEnum( Vector2 direction )
+	{
+		float degree = AngleFromUp(direction);
+		return GetOrientation(degree).AsEnum();
 	}
 
 	public static Orientation GetOrientation(float degree)

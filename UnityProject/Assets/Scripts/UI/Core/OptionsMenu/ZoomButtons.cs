@@ -1,9 +1,11 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using Messages.Server;
+using Shared.Util;
 using UnityEngine;
 using UnityEngine.PlayerLoop;
 using UnityEngine.SceneManagement;
+using Util;
 
 namespace Unitystation.Options
 {
@@ -12,19 +14,9 @@ namespace Unitystation.Options
         [SerializeField]
         private GameObject panel = null;
         private CameraZoomHandler camZoomHandler;
-        private CameraZoomHandler CamZoomHandler
-        {
-            get
-            {
-                if (camZoomHandler == null)
-                {
-                    camZoomHandler = FindObjectOfType<CameraZoomHandler>();
-                }
-                return camZoomHandler;
-            }
-        }
+        private CameraZoomHandler CamZoomHandler => FindUtils.LazyFindObject(ref camZoomHandler);
 
-		#region Lifecycle
+        #region Lifecycle
 
 		void Start()
         {

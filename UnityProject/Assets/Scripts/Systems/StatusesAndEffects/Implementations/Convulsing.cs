@@ -98,7 +98,7 @@ namespace Systems.StatusesAndEffects.Implementations
 					$"{target.ExpensiveName()} convulses!");
 			}
 
-			EmoteActionManager.DoEmote("twitch", target, Chat.Instance.emoteActionManager);
+			EmoteActionManager.DoEmote("twitch", target);
 		}
 
 		private void Trigger()

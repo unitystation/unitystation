@@ -153,12 +153,14 @@ namespace Objects
 				return false;
 			}
 
+			if (player == null) return false;
+
 			// check if this player has vending cooldown right now
 			if (VendingCooldown)
 			{
-				if (player != null && player.Script)
+				if (player.Script != null)
 				{
-					var hasCooldown = !Cooldowns.TryStartServer(player.Script, VendingCooldown);
+					var hasCooldown = Cooldowns.TryStartServer(player.Script, VendingCooldown) == false;
 					if (hasCooldown)
 					{
 						return false;
@@ -171,13 +173,13 @@ namespace Objects
 			 *
 			 */
 			// check player access
-			if (player != null && (accessRestrictions || clearanceCheckable) && !isEmagged)
+			if ((accessRestrictions || clearanceCheckable) && isEmagged == false)
 			{
 				var hasAccess = accessRestrictions
 					? accessRestrictions.CheckAccess(player.GameObject)
 					: clearanceCheckable.HasClearance(player.GameObject);
 
-				if (hasAccess == false && player.Script.PlayerState != PlayerScript.PlayerStates.Ai)
+				if (hasAccess == false && player.Script.PlayerType != PlayerTypes.Ai)
 				{
 					Chat.AddWarningMsgFromServer(player.GameObject, noAccessMessage);
 					return false;
@@ -186,6 +188,12 @@ namespace Objects
 
 			if (itemToSpawn.Price > 0)
 			{
+				if (player.Script.PlayerType == PlayerTypes.Ai)
+				{
+					Chat.AddWarningMsgFromServer(player.GameObject, "Unable to pay cost to vend item, meatbag needed.");
+					return false;
+				}
+
 				var playerStorage = player.GameObject.GetComponent<DynamicItemStorage>();
 				var itemSlotList = playerStorage.GetNamedItemSlots(NamedSlot.id);
 				foreach (var itemSlot in itemSlotList)

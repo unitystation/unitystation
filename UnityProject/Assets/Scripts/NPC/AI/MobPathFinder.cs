@@ -349,7 +349,7 @@ namespace Systems.MobAIs
 
 					if (rotatable != null)
 					{
-						rotatable.SetFaceDirectionLocalVictor(dir);
+						rotatable.SetFaceDirectionLocalVector(dir);
 					}
 
 					uop.TryTilePush(dir, null);
@@ -368,7 +368,7 @@ namespace Systems.MobAIs
 					{
 						//Mob has 5 seconds to get to the next tile
 						//or the AI should do something else
-						timeOut += Time.deltaTime;
+						timeOut += MobController.UpdateTimeInterval;
 						if (timeOut > 5f)
 						{
 							ResetMovingValues();
@@ -415,7 +415,7 @@ namespace Systems.MobAIs
 		{
 		}
 
-		protected virtual void OnTileReached(Vector3 tilePos)
+		protected virtual void OnTileReached(Vector3Int oldLocalPos, Vector3Int newLocalPos)
 		{
 			if (!activated) return;
 

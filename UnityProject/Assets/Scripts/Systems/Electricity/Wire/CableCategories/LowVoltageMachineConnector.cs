@@ -60,7 +60,7 @@ namespace Objects.Engineering
 			}
 
 			// wirecutters can be used to cut this cable
-			Vector3Int worldPosInt = interaction.WorldPositionTarget.To2Int().To3Int();
+			Vector3Int worldPosInt = interaction.WorldPositionTarget.RoundTo2Int().To3Int();
 			var matrixInfo = MatrixManager.AtPoint(worldPosInt, true);
 			var localPosInt = MatrixManager.WorldToLocalInt(worldPosInt, matrixInfo);
 			var matrix = matrixInfo?.Matrix;

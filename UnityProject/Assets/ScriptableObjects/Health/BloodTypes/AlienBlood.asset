@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8f64d4f5b1b1d304bb037fa918fad45f, type: 3}
+  m_Name: AlienBlood
+  m_EditorClassIdentifier: 
+  displayName: Acid Blood
+  description: Some sort of highly acidic liquid used for gas transport
+  color: {r: 0, g: 0.9811321, b: 0.025203956, a: 0}
+  state: 1
+  heatDensity: 5
+  indexInSingleton: 537
+  PercentageNeededInBloodFlow: 0.1
+  CirculatedReagent: {fileID: 11400000, guid: 72991f100b5704f5fb63c9629fcdeb6c, type: 2}
+  WasteCarryReagent: {fileID: 11400000, guid: 2a39c514112f198858f2c7407b75d8c4, type: 2}
+  Type: 0
+  BloodCapacityOf: 0.01
+  BloodGasCapability: 0.0005
+  BLOOD_REAGENT_SATURATION_OKAY: 0.8
+  BLOOD_REAGENT_SATURATION_BAD: 0.7
+  BLOOD_REAGENT_SATURATION_CRITICAL: 0.5

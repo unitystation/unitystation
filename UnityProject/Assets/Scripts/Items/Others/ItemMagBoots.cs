@@ -106,6 +106,7 @@ namespace Items.Others
 			itemAttributesV2.AddTrait(CommonTraits.Instance.NoSlip);
 			playerMove.AddModifier(this);
 			playerMove.CanBeWindPushed = false;
+			playerMove.HasOwnGravity = true;
 		}
 
 		private void RemoveEffect()
@@ -113,6 +114,7 @@ namespace Items.Others
 			itemAttributesV2.RemoveTrait(CommonTraits.Instance.NoSlip);
 			playerMove.RemoveModifier(this);
 			playerMove.CanBeWindPushed = true;
+			playerMove.HasOwnGravity = false;
 		}
 	}
 }

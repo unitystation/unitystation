@@ -13,13 +13,13 @@ namespace UI.Objects.Atmospherics.Acu
 	public class GUI_AcuOverviewPage : GUI_AcuPage
 	{
 		[SerializeField]
-		private NetLabel modeLabel = default;
+		private NetText_label modeLabel = default;
 		[SerializeField]
-		private NetLabel pressureLabel = default;
+		private NetText_label pressureLabel = default;
 		[SerializeField]
-		private NetLabel temperatureLabel = default;
+		private NetText_label temperatureLabel = default;
 		[SerializeField]
-		private NetLabel compositionLabel = default;
+		private NetText_label compositionLabel = default;
 
 		[SerializeField]
 		private EmptyItemList metricsContainer = default;

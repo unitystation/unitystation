@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Clothing;
+using Systems.Antagonists;
 using UnityEngine;
 
 
@@ -48,10 +49,13 @@ namespace Systems.MobAIs
 
 			foreach (var coll in hits)
 			{
-				if (coll.layer == playersLayer)
-				{
-					return coll;
-				}
+				if (coll.layer != playersLayer) continue;
+
+				if(coll.gameObject.TryGetComponent<PlayerScript>(out var playerScript) == false) continue;
+
+				if(playerScript.PlayerType == PlayerTypes.Alien) continue;
+
+				return coll;
 			}
 
 			return null;
@@ -72,9 +76,15 @@ namespace Systems.MobAIs
 
 		public bool WillInteract(HandApply interaction, NetworkSide side)
 		{
-			return DefaultWillInteract.Default(interaction, side)
-			       && (interaction.HandObject == null
-			           || (interaction.Intent == Intent.Help || interaction.Intent == Intent.Grab));
+			if (DefaultWillInteract.Default(interaction, side, PlayerTypes.Normal | PlayerTypes.Alien) == false) return false;
+
+			if(interaction.HandObject != null) return false;
+
+			if (interaction.Intent != Intent.Help && interaction.Intent != Intent.Grab) return false;
+
+			if (interaction.PerformerPlayerScript.TryGetComponent<AlienPlayer>(out var alien) && alien.IsLarva) return false;
+
+			return true;
 		}
 
 		public void ServerPerformInteraction(HandApply interaction)

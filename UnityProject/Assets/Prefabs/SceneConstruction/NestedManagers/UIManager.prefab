@@ -1729,6 +1729,7 @@ MonoBehaviour:
     m_RotationOrder: 4
   adminChatButtons: {fileID: 4827786959436423629}
   mentorChatButtons: {fileID: 1430545640760140982}
+  prayerChatButtons: {fileID: 4827786959436423629}
   adminChatWindows: {fileID: 7202757496456318431}
   profileScrollView: {fileID: 2288168229597811352}
   playerAlerts: {fileID: 7969094656009152741}
@@ -1895,6 +1896,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 8477477531144828375}
     m_Modifications:
+    - target: {fileID: 1002345686736158363, guid: 9f0e0bdfe1253d44baf682fff5dd5156,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_IntArgument
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 1094287226894919982, guid: 9f0e0bdfe1253d44baf682fff5dd5156,
         type: 3}
       propertyPath: m_AnchorMax.y
@@ -1919,6 +1925,21 @@ PrefabInstance:
         type: 3}
       propertyPath: m_AnchoredPosition.x
       value: -0.020004272
+      objectReference: {fileID: 0}
+    - target: {fileID: 2706689862474878363, guid: 9f0e0bdfe1253d44baf682fff5dd5156,
+        type: 3}
+      propertyPath: OnSelectPlayer.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 21162189701207067}
+    - target: {fileID: 2706689862474878363, guid: 9f0e0bdfe1253d44baf682fff5dd5156,
+        type: 3}
+      propertyPath: OnSelectPlayer.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OnPlayerSelect
+      objectReference: {fileID: 0}
+    - target: {fileID: 2706689862474878363, guid: 9f0e0bdfe1253d44baf682fff5dd5156,
+        type: 3}
+      propertyPath: OnSelectPlayer.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: AdminTools.AdminPlayerChat, Assets
       objectReference: {fileID: 0}
     - target: {fileID: 2945138124308607424, guid: 9f0e0bdfe1253d44baf682fff5dd5156,
         type: 3}
@@ -2230,6 +2251,11 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: -13.305
       objectReference: {fileID: 0}
+    - target: {fileID: 7075568560081880171, guid: 9f0e0bdfe1253d44baf682fff5dd5156,
+        type: 3}
+      propertyPath: playerPrayerWindow
+      value: 
+      objectReference: {fileID: 21162189701207067}
     - target: {fileID: 7531933477691841985, guid: 9f0e0bdfe1253d44baf682fff5dd5156,
         type: 3}
       propertyPath: m_Name
@@ -2239,6 +2265,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_IsActive
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7894574547929649987, guid: 9f0e0bdfe1253d44baf682fff5dd5156,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_IntArgument
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 7930401595092482507, guid: 9f0e0bdfe1253d44baf682fff5dd5156,
         type: 3}
@@ -2272,6 +2303,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9f0e0bdfe1253d44baf682fff5dd5156, type: 3}
+--- !u!114 &21162189701207067 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 112312088245476783, guid: 9f0e0bdfe1253d44baf682fff5dd5156,
+    type: 3}
+  m_PrefabInstance: {fileID: 127277103599438260}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2022214282baf1b4092d83873913dd28, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &1430545640760140982 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 1305617795285265666, guid: 9f0e0bdfe1253d44baf682fff5dd5156,

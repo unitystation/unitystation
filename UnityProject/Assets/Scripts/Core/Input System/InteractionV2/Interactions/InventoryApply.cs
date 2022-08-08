@@ -72,7 +72,7 @@ public class InventoryApply : TargetedInteraction
 			return Invalid;
 		}
 		return new InventoryApply(PlayerManager.LocalPlayerObject,
-			targetObjectSlot, fromSlot, UIManager.CurrentIntent, KeyboardInputManager.IsAltPressed());
+			targetObjectSlot, fromSlot, UIManager.CurrentIntent, KeyboardInputManager.IsAltActionKeyPressed());
 	}
 
 	/// <summary>

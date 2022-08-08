@@ -22,7 +22,7 @@ namespace Systems.Ai
 	/// This isn't the class which is on the AiCore or InteliCard that is AiVessel
 	/// Sync vars in this class only get sync'd to the object owner
 	/// </summary>
-	public class AiPlayer : NetworkBehaviour, IAdminInfo, IFullyHealable
+	public class AiPlayer : NetworkBehaviour, IAdminInfo, IFullyHealable, IGib
 	{
 		[SerializeField]
 		private GameObject corePrefab = null;
@@ -181,7 +181,7 @@ namespace Systems.Ai
 			base.OnStartClient();
 
 			if(PlayerManager.LocalPlayerScript  == null ||
-			   PlayerManager.LocalPlayerScript.PlayerState != PlayerScript.PlayerStates.Ai) return;
+			   PlayerManager.LocalPlayerScript.PlayerType != PlayerTypes.Ai) return;
 
 			SetSpriteVisibility(true);
 		}
@@ -592,7 +592,7 @@ namespace Systems.Ai
 			if (objectToCheck.TryGetComponent<PlayerScript>(out var checkPlayerScript))
 			{
 				//Dont check ghosts
-				if (checkPlayerScript.PlayerState == PlayerScript.PlayerStates.Ghost) return null;
+				if (checkPlayerScript.PlayerType == PlayerTypes.Ghost) return null;
 
 				//Dont check yourself
 				if(checkPlayerScript.gameObject == gameObject) return null;
@@ -1193,7 +1193,7 @@ namespace Systems.Ai
 		{
 			foreach (var player in PlayerList.Instance.GetAllPlayers())
 			{
-				if(player.Script.PlayerState != PlayerScript.PlayerStates.Ai) continue;
+				if(player.Script.PlayerType != PlayerTypes.Ai) continue;
 
 				player.Script.GetComponent<AiPlayer>().OrNull()?.TargetRpcSetSpriteVisibility(connectionToClient, isVisible);
 			}
@@ -1274,6 +1274,11 @@ namespace Systems.Ai
 		private void PurgeLoop()
 		{
 			ChangeIntegrity(-1);
+		}
+
+		public void OnGib()
+		{
+			Death();
 		}
 
 		#endregion

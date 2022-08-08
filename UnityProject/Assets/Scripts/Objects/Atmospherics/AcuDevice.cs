@@ -1,6 +1,6 @@
 using UnityEngine;
 using Systems.Atmospherics;
-using Systems.ObjectConnection;
+using Shared.Systems.ObjectConnection;
 
 namespace Objects.Atmospherics
 {
@@ -56,7 +56,7 @@ namespace Objects.Atmospherics
 		bool IMultitoolSlaveable.RequireLink => true;
 		IMultitoolMasterable IMultitoolSlaveable.Master => Controller;
 
-		bool IMultitoolSlaveable.TrySetMaster(PositionalHandApply interaction, IMultitoolMasterable master)
+		bool IMultitoolSlaveable.TrySetMaster(GameObject performer, IMultitoolMasterable master)
 		{
 			SetMaster(master);
 

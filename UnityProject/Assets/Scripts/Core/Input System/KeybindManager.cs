@@ -75,7 +75,7 @@ public enum KeyAction
 	PocketOne,
 	PocketTwo,
 	PocketThree,
-	
+
 	//Interactions that only happen when this key is pressed
 	RadialScrollBackward,
 	RadialScrollForward,
@@ -89,7 +89,8 @@ public enum MoveAction
 	MoveUp = KeyAction.MoveUp,
 	MoveLeft = KeyAction.MoveLeft,
 	MoveDown = KeyAction.MoveDown,
-	MoveRight = KeyAction.MoveRight
+	MoveRight = KeyAction.MoveRight,
+	NoMove = KeyAction.None
 }
 
 public class KeybindManager : MonoBehaviour {

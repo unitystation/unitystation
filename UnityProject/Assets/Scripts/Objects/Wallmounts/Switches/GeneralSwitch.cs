@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
-using Systems.ObjectConnection;
 using CustomInspectors;
+using Shared.Systems.ObjectConnection;
 
 namespace Objects.Wallmounts
 {

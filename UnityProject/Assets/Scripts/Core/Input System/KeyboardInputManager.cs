@@ -172,9 +172,9 @@ public class KeyboardInputManager : MonoBehaviour
 	/// <summary>
 	/// Checks if the left or right alt key has been pressed (AltGr sends RightAlt)
 	/// </summary>
-	public static bool IsAltPressed()
+	public static bool IsAltActionKeyPressed()
 	{
-		return CommonInput.GetKey(KeyCode.LeftAlt) || CommonInput.GetKey(KeyCode.RightAlt);
+		return Instance.CheckKeyAction( KeyAction.InteractionModifier, KeyEventType.Down) || Instance.CheckKeyAction( KeyAction.InteractionModifier, KeyEventType.Hold);
 	}
 
 	/// <summary>

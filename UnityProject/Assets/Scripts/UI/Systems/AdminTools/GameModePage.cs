@@ -31,7 +31,7 @@ namespace AdminTools
 
 		void SendEditRequest()
 		{
-			RequestGameModeUpdate.Send(currentData.nextGameMode, currentData.isSecret);
+			AdminCommandsManager.Instance.CmdChangeGameMode(currentData.nextGameMode, currentData.isSecret);
 		}
 
 		public override void OnPageRefresh(AdminPageRefreshData adminPageData)

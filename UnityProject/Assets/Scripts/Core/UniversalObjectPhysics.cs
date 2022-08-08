@@ -63,7 +63,10 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 
 	[PrefabModeOnly] public bool Intangible = false;
 
-	[PlayModeOnly] public bool CanBeWindPushed = true;
+	public bool CanBeWindPushed = true;
+
+
+
 
 	[PrefabModeOnly] public bool IsPlayer = false;
 
@@ -99,6 +102,8 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 			}
 		}
 	}
+
+	private Vector3Int oldLocalTilePosition;
 
 	public CheckedComponent<Pickupable> pickupable = new CheckedComponent<Pickupable>();
 
@@ -140,6 +145,9 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 
 	[SyncVar]
 	protected int SetLastResetID = -1;
+
+	[SyncVar]
+	public bool HasOwnGravity = false;
 
 	private ObjectContainer CachedContainedInContainer;
 
@@ -246,10 +254,14 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 
 
 	[PlayModeOnly]
+	// TODO: Bod this is not what CheckedComponent is for as the reference is not on the same object as this script - Dan
 	public CheckedComponent<UniversalObjectPhysics> Pulling = new CheckedComponent<UniversalObjectPhysics>();
 
 	[PlayModeOnly]
+	// TODO: Bod this is not what CheckedComponent is for as the reference is not on the same object as this script - Dan
 	public CheckedComponent<UniversalObjectPhysics> PulledBy = new CheckedComponent<UniversalObjectPhysics>();
+
+	protected bool doStepInteractions = true;
 
 	#region Events
 
@@ -257,7 +269,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 
 	[PlayModeOnly] public ForceEventWithChange OnImpact = new ForceEventWithChange();
 
-	[PlayModeOnly] public Vector3Event OnLocalTileReached = new Vector3Event();
+	[PlayModeOnly] public DualVector3IntEvent OnLocalTileReached = new DualVector3IntEvent();
 
 	[PlayModeOnly] public ForceEvent OnThrowEnd = new ForceEvent();
 
@@ -320,13 +332,9 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 
 	public void OnRegisterTileInitialised(RegisterTile registerTile)
 	{
-		InternalTriggerOnLocalTileReached(transform.localPosition);
-	}
-
-
-	public override void OnStartClient()
-	{
-		base.OnStartClient();
+		//Set old pos here so it is somewhat more valid than default vector value
+		oldLocalTilePosition = transform.localPosition.RoundToInt();
+		InternalTriggerOnLocalTileReached(oldLocalTilePosition);
 	}
 
 	public Size GetSize()
@@ -339,12 +347,13 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 		return SizeToWeight(GetSize());
 	}
 
-	public virtual void OnEnable()
-	{
-	}
+	public virtual void OnEnable() { }
 
 	public virtual void OnDisable()
 	{
+		UpdateManager.Remove(CallbackType.UPDATE, FlyingUpdateMe);
+		UpdateManager.Remove(CallbackType.UPDATE, AnimationUpdateMe);
+		UpdateManager.Remove(CallbackType.UPDATE, FloatingCourseCorrection);
 	}
 
 	public struct PullData : IEquatable<PullData>
@@ -388,25 +397,25 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 		}
 	}
 
-	public void SyncMovementSpeed(float old, float Newmove)
+	public void SyncMovementSpeed(float old, float newMove)
 	{
-		tileMoveSpeed = Newmove;
+		tileMoveSpeed = newMove;
 	}
 
 
-	public void SyncLocalTarget(Vector3WithData OLDLocalTarget, Vector3WithData NewLocalTarget)
+	public void SyncLocalTarget(Vector3WithData oldLocalTarget, Vector3WithData newLocalTarget)
 	{
-		synchLocalTargetPosition = NewLocalTarget;
+		synchLocalTargetPosition = newLocalTarget;
 		if (isServer) return;
-		if (LocalTargetPosition == NewLocalTarget.Vector3) return;
+		if (LocalTargetPosition == newLocalTarget.Vector3) return;
 		if (isLocalPlayer || PulledBy.HasComponent) return;
 
 		var spawned = CustomNetworkManager.IsServer ? NetworkServer.spawned : NetworkClient.spawned;
-		if (NewLocalTarget.ByClient != NetId.Empty && NewLocalTarget.ByClient != NetId.Invalid
-				&& spawned.TryGetValue(NewLocalTarget.ByClient, out var local)
+		if (newLocalTarget.ByClient != NetId.Empty && newLocalTarget.ByClient != NetId.Invalid
+				&& spawned.TryGetValue(newLocalTarget.ByClient, out var local)
 				&& local.gameObject == PlayerManager.LocalPlayerObject) return;
 
-		SetLocalTarget = NewLocalTarget;
+		SetLocalTarget = newLocalTarget;
 
 		if (IsFlyingSliding)
 		{
@@ -416,14 +425,14 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 			UpdateManager.Remove(CallbackType.UPDATE, FlyingUpdateMe);
 		}
 
-		if (Animating == false && transform.localPosition != NewLocalTarget.Vector3)
+		if (Animating == false && transform.localPosition != newLocalTarget.Vector3)
 			UpdateManager.Add(CallbackType.UPDATE, AnimationUpdateMe);
 	}
 
 
-	public void StoreTo(ObjectContainer NewParent)
+	public void StoreTo(ObjectContainer newParent)
 	{
-		if (NewParent.OrNull()?.gameObject == this.gameObject)
+		if (newParent.OrNull()?.gameObject == this.gameObject)
 		{
 			Chat.AddGameWideSystemMsgToChat(
 				" Something doesn't feel right? **BBBBBBBBBBBBBOOOOOOOOOOOOOOOOOOOMMMMMMMMMMMEMMEEEEE** ");
@@ -434,17 +443,17 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 		PullSet(null,false); //Presume you can't Pulling stuff inside container
 		//TODO Handle non-disappearing containers like Cart riding
 
-		if (NewParent == null)
+		if (newParent == null)
 		{
 			parentContainer = NetId.Empty;
 		}
 		else
 		{
-			parentContainer = NewParent.registerTile.netId;
+			parentContainer = newParent.registerTile.netId;
 		}
 
-		CachedContainedInContainer = NewParent;
-		if (NewParent == null)
+		CachedContainedInContainer = newParent;
+		if (newParent == null)
 		{
 			SynchroniseVisibility(isVisible, true);
 		}
@@ -467,35 +476,35 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 		if (PulledBy.HasComponent && overridePull == false) return;
 
 		Pushing.Clear();
-		SetMatrixCash.ResetNewPosition(transform.position, registerTile);
+		SetMatrixCache.ResetNewPosition(transform.position, registerTile);
 		ForceTilePush(worldDirection, Pushing, causedByClient, speed);
 	}
 
 
 	[ClientRpc]
-	public void UpdateClientMomentum(Vector3 ReSetToLocal, Vector2 NewMomentum, float InairTime, float InslideTime,
-		int MatrixID, float InspinFactor, bool ForceOverride, uint DoNotUpdateThisClient)
+	public void UpdateClientMomentum(Vector3 resetToLocal, Vector2 newMomentum, float inairTime, float inslideTime,
+		int matrixID, float inSpinFactor, bool forceOverride, uint doNotUpdateThisClient)
 	{
 		if (isServer) return;
 
 		var spawned = CustomNetworkManager.IsServer ? NetworkServer.spawned : NetworkClient.spawned;
-		if (DoNotUpdateThisClient != NetId.Empty && DoNotUpdateThisClient != NetId.Invalid
-			&& spawned.TryGetValue(DoNotUpdateThisClient, out var local)
+		if (doNotUpdateThisClient != NetId.Empty && doNotUpdateThisClient != NetId.Invalid
+			&& spawned.TryGetValue(doNotUpdateThisClient, out var local)
 			&& local.gameObject == PlayerManager.LocalPlayerObject) return;
 
 
 		//if (isLocalPlayer) return; //We are updating other Objects than the player on the client //TODO Also block if being pulled by local player //Why we need this?
-		newtonianMovement = NewMomentum;
-		airTime = InairTime;
-		slideTime = InslideTime;
-		spinMagnitude = InspinFactor;
-		SetMatrix(MatrixManager.Get(MatrixID).Matrix);
+		newtonianMovement = newMomentum;
+		airTime = inairTime;
+		slideTime = inslideTime;
+		spinMagnitude = inSpinFactor;
+		SetMatrix(MatrixManager.Get(matrixID).Matrix);
 
-		SetRegisterTileLocation(ReSetToLocal.RoundToInt());
+		SetRegisterTileLocation(resetToLocal.RoundToInt());
 
 		if (IsFlyingSliding) //If we flying try and smooth it
 		{
-			LocalDifferenceNeeded = ReSetToLocal - transform.localPosition;
+			LocalDifferenceNeeded = resetToLocal - transform.localPosition;
 			if (CorrectingCourse == false)
 			{
 				CorrectingCourse = true;
@@ -506,10 +515,10 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 		{
 			SetLocalTarget = new Vector3WithData()
 			{
-				Vector3 = ReSetToLocal,
+				Vector3 = resetToLocal,
 				ByClient = NetId.Empty
 			};
-			SetTransform(ReSetToLocal, false);
+			SetTransform(resetToLocal, false);
 		}
 
 		if (Animating == false && IsFlyingSliding == false)
@@ -519,28 +528,28 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 		}
 	}
 
-	private void SynchronisedoNotApplyMomentumOnTarget(bool Oldvariable, bool Newvariable)
+	private void SynchronisedoNotApplyMomentumOnTarget(bool oldVariable, bool newVariable)
 	{
-		doNotApplyMomentumOnTarget = Newvariable;
+		doNotApplyMomentumOnTarget = newVariable;
 	}
 
-	private void SynchroniseVisibility(bool OldVisibility, bool NewVisibility)
+	private void SynchroniseVisibility(bool oldVisibility, bool newVisibility)
 	{
-		isVisible = NewVisibility;
+		isVisible = newVisibility;
 		if (isVisible)
 		{
-			var Sprites = GetComponentsInChildren<SpriteRenderer>();
-			foreach (var Sprite in Sprites)
+			var sprites = GetComponentsInChildren<SpriteRenderer>();
+			foreach (var sprite in sprites)
 			{
-				Sprite.enabled = true;
+				sprite.enabled = true;
 			}
 		}
 		else
 		{
-			var Sprites = GetComponentsInChildren<SpriteRenderer>();
-			foreach (var Sprite in Sprites)
+			var sprites = GetComponentsInChildren<SpriteRenderer>();
+			foreach (var sprite in sprites)
 			{
-				Sprite.enabled = false;
+				sprite.enabled = false;
 			}
 
 			SetTransform(TransformState.HiddenPos, false);
@@ -549,31 +558,35 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 		}
 	}
 
-	private void SynchroniseParent(uint Old, uint NewPulling)
+	private void SynchroniseParent(uint oldPulling, uint newPulling)
 	{
-		parentContainer = NewPulling;
+		parentContainer = newPulling;
 		//Visibility is handled by Server with Synchronised var
 	}
 
-	public void SynchroniseUpdatePulling(PullData Old, PullData NewPulling)
+	public void SynchroniseUpdatePulling(PullData oldPullData, PullData newPulling)
 	{
-		ThisPullData = NewPulling;
-		if (NewPulling.WasCausedByClient && isLocalPlayer) return;
-		PullSet(NewPulling.NewPulling, false, true);
+		ThisPullData = newPulling;
+		if (newPulling.WasCausedByClient && isLocalPlayer) return;
+		PullSet(newPulling.NewPulling, false, true);
 	}
 
-	public void AppearAtWorldPositionServer(Vector3 WorldPOS, bool Smooth = false)
+	public void AppearAtWorldPositionServer(Vector3 worldPos, bool smooth = false, bool doStepInteractions = true)
 	{
+		this.doStepInteractions = doStepInteractions;
+
 		SynchroniseVisibility(isVisible, true);
-		var Matrix = MatrixManager.AtPoint(WorldPOS, isServer);
-		ForceSetLocalPosition(WorldPOS.ToLocal(Matrix), Vector2.zero, Smooth, Matrix.Id);
+		var matrix = MatrixManager.AtPoint(worldPos, isServer);
+		ForceSetLocalPosition(worldPos.ToLocal(matrix), Vector2.zero, smooth, matrix.Id);
+
+		this.doStepInteractions = true;
 	}
 
-	public void DropAtAndInheritMomentum(UniversalObjectPhysics DroppedFrom)
+	public void DropAtAndInheritMomentum(UniversalObjectPhysics droppedFrom)
 	{
 		SynchroniseVisibility(isVisible, true);
-		ForceSetLocalPosition(DroppedFrom.transform.localPosition, DroppedFrom.newtonianMovement, false,
-			DroppedFrom.registerTile.Matrix.Id);
+		ForceSetLocalPosition(droppedFrom.transform.localPosition, droppedFrom.newtonianMovement, false,
+			droppedFrom.registerTile.Matrix.Id);
 	}
 
 	public void DisappearFromWorld()
@@ -581,49 +594,49 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 		SynchroniseVisibility(isVisible, false);
 	}
 
-	public void ForceSetLocalPosition(Vector3 ReSetToLocal, Vector2 Momentum, bool Smooth, int MatrixID,
-		bool UpdateClient = true, float Rotation = 0, NetworkConnection Client = null, int ReSetID = -1 )
+	public void ForceSetLocalPosition(Vector3 resetToLocal, Vector2 momentum, bool smooth, int matrixID,
+		bool updateClient = true, float rotation = 0, NetworkConnection client = null, int resetID = -1 )
 	{
-		transform.localRotation = Quaternion.Euler(new Vector3(0, 0, Rotation));
-		if (isServer && UpdateClient)
+		transform.localRotation = Quaternion.Euler(new Vector3(0, 0, rotation));
+		if (isServer && updateClient)
 		{
 			isVisible = true;
-			if (Client != null)
+			if (client != null)
 			{
-				if (ReSetID == -1)
+				if (resetID == -1)
 				{
-					ReSetID = Time.frameCount;
-					SetLastResetID = ReSetID;
+					resetID = Time.frameCount;
+					SetLastResetID = resetID;
 				}
 
-				RPCForceSetPosition(Client, ReSetToLocal, Momentum, Smooth, MatrixID, Rotation, ReSetID);
+				RPCForceSetPosition(client, resetToLocal, momentum, smooth, matrixID, rotation, resetID);
 			}
 			else
 			{
-				if (ReSetID == -1)
+				if (resetID == -1)
 				{
-					ReSetID = Time.frameCount;
-					SetLastResetID = ReSetID;
+					resetID = Time.frameCount;
+					SetLastResetID = resetID;
 				}
 
-				RPCForceSetPosition(ReSetToLocal, Momentum, Smooth, MatrixID, Rotation, ReSetID);
+				RPCForceSetPosition(resetToLocal, momentum, smooth, matrixID, rotation, resetID);
 			}
 		}
 		else if (isServer == false)
 		{
-			SetLastResetID = ReSetID;
+			SetLastResetID = resetID;
 		}
 
-		SetMatrix(MatrixManager.Get(MatrixID).Matrix);
+		SetMatrix(MatrixManager.Get(matrixID).Matrix);
 
 
-		if (Smooth)
+		if (smooth)
 		{
 			if (IsFlyingSliding)
 			{
-				newtonianMovement = Momentum;
-				LocalDifferenceNeeded = ReSetToLocal - transform.localPosition;
-				SetRegisterTileLocation(ReSetToLocal.RoundToInt());
+				newtonianMovement = momentum;
+				LocalDifferenceNeeded = resetToLocal - transform.localPosition;
+				SetRegisterTileLocation(resetToLocal.RoundToInt());
 				if (CorrectingCourse == false)
 				{
 					CorrectingCourse = true;
@@ -632,14 +645,14 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 			}
 			else
 			{
-				newtonianMovement = Momentum;
+				newtonianMovement = momentum;
 
 				SetLocalTarget = new Vector3WithData()
 				{
-					Vector3 = ReSetToLocal,
+					Vector3 = resetToLocal,
 					ByClient = NetId.Empty
 				};
-				SetRegisterTileLocation(ReSetToLocal.RoundToInt());
+				SetRegisterTileLocation(resetToLocal.RoundToInt());
 
 				if (Animating == false)
 				{
@@ -652,70 +665,70 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 		{
 			if (IsFlyingSliding)
 			{
-				newtonianMovement = Momentum;
-				SetTransform(ReSetToLocal, false);
-				SetRegisterTileLocation(ReSetToLocal.RoundToInt());
+				newtonianMovement = momentum;
+				SetTransform(resetToLocal, false);
+				SetRegisterTileLocation(resetToLocal.RoundToInt());
 			}
 			else
 			{
-				newtonianMovement = Momentum;
+				newtonianMovement = momentum;
 				SetLocalTarget = new Vector3WithData()
 				{
-					Vector3 = ReSetToLocal,
+					Vector3 = resetToLocal,
 					ByClient = NetId.Empty
 				};
-				SetTransform(ReSetToLocal, false);
-				SetRegisterTileLocation(ReSetToLocal.RoundToInt());
+				SetTransform(resetToLocal, false);
+				SetRegisterTileLocation(resetToLocal.RoundToInt());
 			}
 		}
 	}
 
 	[ClientRpc]
-	public void RPCForceSetPosition(Vector3 ReSetToLocal, Vector2 Momentum, bool Smooth, int MatrixID, float Rotation, int ReSetID)
+	public void RPCForceSetPosition(Vector3 resetToLocal, Vector2 momentum, bool smooth, int matrixID, float rotation, int resetID)
 	{
-		ForceSetLocalPosition(ReSetToLocal, Momentum, Smooth, MatrixID, false, Rotation, ReSetID: ReSetID);
+		ForceSetLocalPosition(resetToLocal, momentum, smooth, matrixID, false, rotation, resetID: resetID);
 	}
 
 	[TargetRpc]
-	public void RPCForceSetPosition(NetworkConnection target, Vector3 ReSetToLocal, Vector2 Momentum, bool Smooth,
-		int MatrixID, float Rotation, int ReSetID)
+	public void RPCForceSetPosition(NetworkConnection target, Vector3 resetToLocal, Vector2 momentum, bool smooth,
+		int matrixID, float rotation, int resetID)
 	{
-		ForceSetLocalPosition(ReSetToLocal, Momentum, Smooth, MatrixID, false, Rotation, ReSetID: ReSetID);
+		ForceSetLocalPosition(resetToLocal, momentum, smooth, matrixID, false, rotation, resetID: resetID);
 	}
 
 
 	//Warning only update clients!!
-	public void ResetLocationOnClients(bool Smooth = false)
+	public void ResetLocationOnClients(bool smooth = false)
 	{
 
 		SetLastResetID = Time.frameCount;
-		RPCForceSetPosition(transform.localPosition, newtonianMovement, Smooth, registerTile.Matrix.Id,
+		RPCForceSetPosition(transform.localPosition, newtonianMovement, smooth, registerTile.Matrix.Id,
 			transform.localRotation.eulerAngles.z, SetLastResetID);
 
 		if (Pulling.HasComponent)
 		{
-			Pulling.Component.ResetLocationOnClients(Smooth);
+			Pulling.Component.ResetLocationOnClients(smooth);
 		}
 
 		if (ObjectIsBucklingChecked.HasComponent && ObjectIsBucklingChecked.Component.Pulling.HasComponent)
 		{
-			ObjectIsBucklingChecked.Component.Pulling.Component.ResetLocationOnClients(Smooth);
+			ObjectIsBucklingChecked.Component.Pulling.Component.ResetLocationOnClients(smooth);
 		}
 		//Update client to server state
 	}
 
 	//Warning only update client!!
 
-	public void ResetLocationOnClient(NetworkConnection Client, bool Smooth = false)
+	public void ResetLocationOnClient(NetworkConnection client, bool smooth = false)
 	{
 		isVisible = true;
 		SetLastResetID = Time.frameCount;
-		RPCForceSetPosition(Client, transform.localPosition, newtonianMovement, Smooth, registerTile.Matrix.Id,
+		RPCForceSetPosition(client, transform.localPosition, newtonianMovement, smooth, registerTile.Matrix.Id,
 			transform.localRotation.eulerAngles.z, SetLastResetID);
 
 		if (Pulling.HasComponent)
 		{
-			Pulling.Component.ResetLocationOnClient(Client, Smooth);
+			Pulling.Component.ResetLocationOnClient(client, smooth);
 		}
 		//Update client to server state
 	}
@@ -735,10 +748,10 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 
 		CorrectingCourse = true;
 		var position = transform.localPosition;
-		var NewPosition = this.MoveTowards(position, (position + LocalDifferenceNeeded.To3()),
+		var newPosition = this.MoveTowards(position, (position + LocalDifferenceNeeded.To3()),
 			(newtonianMovement.magnitude + 4) * Time.deltaTime);
-		LocalDifferenceNeeded -= (NewPosition - position).To2();
-		SetTransform(NewPosition, false);
+		LocalDifferenceNeeded -= (newPosition - position).To2();
+		SetTransform(newPosition, false);
 
 		if (LocalDifferenceNeeded.magnitude < 0.01f)
 		{
@@ -766,9 +779,12 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 		SetIsNotPushable(isAnchored);
 	}
 
-	public void SetIsNotPushable(bool NewState)
+	public void SetIsNotPushable(bool newState)
 	{
-		isNotPushable = NewState;
+		isNotPushable = newState;
+
+		//Force update atmos
+		registerTile.Matrix.TileChangeManager.SubsystemManager.UpdateAt(OfficialPosition.ToLocalInt(registerTile.Matrix));
 	}
 
 	private void SyncIsNotPushable(bool wasNotPushable, bool isNowNotPushable)
@@ -837,18 +853,18 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 		//TODO Secured stuff
 		Pushing.Clear();
 		Bumps.Clear();
-		var From = transform.position;
+		var from = transform.position;
 		if (IsMoving) //We are moving combined targets
 		{
-			From = LocalTargetPosition.ToWorld(registerTile.Matrix);
+			from = LocalTargetPosition.ToWorld(registerTile.Matrix);
 		}
 
 
-		SetMatrixCash.ResetNewPosition(From, registerTile);
+		SetMatrixCache.ResetNewPosition(from, registerTile);
 
 
-		if (MatrixManager.IsPassableAtAllMatricesV2(From,
-			    From + worldDirection.To3Int(), SetMatrixCash, this,
+		if (MatrixManager.IsPassableAtAllMatricesV2(from,
+			    from + worldDirection.To3Int(), SetMatrixCache, this,
 			    Pushing, Bumps)) //Validate
 		{
 			PushedFrame = Time.frameCount;
@@ -906,6 +922,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 			{
 				if (push == this) continue;
 				if (push == pushedBy) continue;
+				if (push.Intangible) continue;
 				if (Pulling.HasComponent && Pulling.Component == push) continue;
 				if (PulledBy.HasComponent && PulledBy.Component == push) continue;
 				if (pushedBy == null)
@@ -913,27 +930,27 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 					pushedBy = this;
 				}
 
-				var PushDirection = -1 * (this.transform.position - push.transform.position).To2Int();
-				if (PushDirection == Vector2Int.zero)
+				var pushDirection = -1 * (this.transform.position - push.transform.position).RoundTo2Int();
+				if (pushDirection == Vector2Int.zero)
 				{
-					PushDirection = worldDirection;
+					pushDirection = worldDirection;
 				}
 
-				push.TryTilePush(PushDirection, byClient, speed, pushedBy);
+				push.TryTilePush(pushDirection, byClient, speed, pushedBy);
 			}
 		}
 
-		var CachedPosition = transform.position;
+		var cachedPosition = transform.position;
 		if (IsMoving) //We are moving combined targets
 		{
-			CachedPosition = LocalTargetPosition.ToWorld(registerTile.Matrix);
+			cachedPosition = LocalTargetPosition.ToWorld(registerTile.Matrix);
 		}
 
-		var NewWorldPosition = CachedPosition + worldDirection.To3Int();
+		var newWorldPosition = cachedPosition + worldDirection.To3Int();
 
-		if ((NewWorldPosition - transform.position).magnitude > 1.45f) return; //Is pushing too far
+		if ((newWorldPosition - transform.position).magnitude > 1.45f) return; //Is pushing too far
 
-		var movetoMatrix = SetMatrixCash.GetforDirection(worldDirection.To3Int()).Matrix;
+		var movetoMatrix = SetMatrixCache.GetforDirection(worldDirection.To3Int()).Matrix;
 
 
 		if (registerTile.Matrix != movetoMatrix)
@@ -943,17 +960,17 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 
 		if (ChangesDirectionPush)
 		{
-			rotatable.OrNull()?.SetFaceDirectionLocalVictor(worldDirection);
+			rotatable.OrNull()?.SetFaceDirectionLocalVector(worldDirection);
 		}
 
 
-		var LocalPosition = (NewWorldPosition).ToLocal(movetoMatrix);
+		var localPosition = (newWorldPosition).ToLocal(movetoMatrix);
 
-		SetRegisterTileLocation(LocalPosition.RoundToInt());
+		SetRegisterTileLocation(localPosition.RoundToInt());
 
 		SetLocalTarget = new Vector3WithData()
 		{
-			Vector3 = LocalPosition.RoundToInt(),
+			Vector3 = localPosition.RoundToInt(),
 			ByClient = byClient.NetId()
 		};
 
@@ -977,29 +994,29 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 
 		if (Pulling.HasComponent)
 		{
-			var InDirection = CachedPosition - Pulling.Component.transform.position;
-			if (InDirection.magnitude > 2f && (isServer || isLocalPlayer))
+			var inDirection = cachedPosition - Pulling.Component.transform.position;
+			if (inDirection.magnitude > 2f && (isServer || isLocalPlayer))
 			{
 				PullSet(null, false); //TODO maybe remove
 				if (isLocalPlayer && isServer == false) CmdStopPulling();
 			}
 			else
 			{
-				Pulling.Component.TryTilePush(InDirection.NormalizeTo2Int(), byClient, speed, pushedBy,  pulledBy : this);
+				Pulling.Component.TryTilePush(inDirection.NormalizeTo2Int(), byClient, speed, pushedBy,  pulledBy : this);
 			}
 		}
 
 		if (ObjectIsBucklingChecked.HasComponent && ObjectIsBucklingChecked.Component.Pulling.HasComponent)
 		{
-			var InDirection = CachedPosition - ObjectIsBucklingChecked.Component.Pulling.Component.transform.position;
-			if (InDirection.magnitude > 2f && (isServer || isLocalPlayer))
+			var inDirection = cachedPosition - ObjectIsBucklingChecked.Component.Pulling.Component.transform.position;
+			if (inDirection.magnitude > 2f && (isServer || isLocalPlayer))
 			{
 				ObjectIsBucklingChecked.Component.PullSet(null, false); //TODO maybe remove
 				if (ObjectIsBucklingChecked.Component.isLocalPlayer && isServer == false) ObjectIsBucklingChecked.Component.CmdStopPulling();
 			}
 			else
 			{
-				ObjectIsBucklingChecked.Component.Pulling.Component.TryTilePush(InDirection.NormalizeTo2Int(), byClient, speed, pushedBy);
+				ObjectIsBucklingChecked.Component.Pulling.Component.TryTilePush(inDirection.NormalizeTo2Int(), byClient, speed, pushedBy);
 			}
 		}
 	}
@@ -1028,9 +1045,9 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 	public void ForceDrop(Vector3 pos)
 	{
 		Vector2 impulse = Random.insideUnitCircle.normalized;
-		var Matrix = MatrixManager.AtPoint(pos, isServer);
-		var LocalPOs = pos.ToLocal(Matrix);
-		ForceSetLocalPosition(LocalPOs, impulse * Random.Range(0.2f, 2f), false, Matrix.Id);
+		var matrix = MatrixManager.AtPoint(pos, isServer);
+		var localPos = pos.ToLocal(matrix);
+		ForceSetLocalPosition(localPos, impulse * Random.Range(0.2f, 2f), false, matrix.Id);
 	}
 
 	public void CheckMatrixSwitch()
@@ -1039,18 +1056,19 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 			MatrixManager.AtPoint(transform.position, true, registerTile.Matrix.MatrixInfo);
 		if (registerTile.Matrix.Id != newMatrix.Id)
 		{
+			var worldPOS = transform.position;
 			SetMatrix(newMatrix.Matrix);
+			SetRegisterTileLocation(worldPOS.ToLocal(newMatrix.Matrix).RoundToInt());
 			ResetLocationOnClients();
 		}
 	}
 
-	public void NewtonianNewtonPush(Vector2 WorldDirection, float Newtonians = Single.NaN, float INairTime = Single.NaN,
-		float INslideTime = Single.NaN, BodyPartType inaim = BodyPartType.Chest,
-		GameObject inthrownBy = null,
+	public void NewtonianNewtonPush(Vector2 worldDirection, float newtonians = Single.NaN, float inAirTime = Single.NaN,
+		float inSlideTime = Single.NaN, BodyPartType inAim = BodyPartType.Chest, GameObject inThrownBy = null,
 		float spinFactor = 0) //Collision is just naturally part of Newtonian push
 	{
-		var speed = Newtonians / SizeToWeight(GetSize());
-		NewtonianPush(WorldDirection, speed, INairTime, INslideTime, inaim, inthrownBy, spinFactor);
+		var speed = newtonians / SizeToWeight(GetSize());
+		NewtonianPush(worldDirection, speed, inAirTime, inSlideTime, inAim, inThrownBy, spinFactor);
 	}
 
 	public void PullSet(UniversalObjectPhysics toPull, bool byClient, bool synced = false)
@@ -1097,10 +1115,10 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 	}
 
 
-	public void NewtonianPush(Vector2 worldDirection, float speed = Single.NaN, float nairTime = Single.NaN,
-		float InSlideTime = Single.NaN, BodyPartType inAim = BodyPartType.Chest, GameObject inThrownBy = null,
-		float spinFactor = 0,
-		GameObject DoNotUpdateThisClient = null, bool IgnoreSticky = false) //Collision is just naturally part of Newtonian push
+	public void NewtonianPush(Vector2 worldDirection, float speed, float nairTime = Single.NaN,
+		float inSlideTime = Single.NaN, BodyPartType inAim = BodyPartType.Chest, GameObject inThrownBy = null,
+		float spinFactor = 0, GameObject doNotUpdateThisClient = null,
+		bool ignoreSticky = false) //Collision is just naturally part of Newtonian push
 	{
 
 		if (isVisible == false) return;
@@ -1118,7 +1136,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 		}
 
 
-		if (float.IsNaN(nairTime) == false || float.IsNaN(InSlideTime) == false)
+		if (float.IsNaN(nairTime) == false || float.IsNaN(inSlideTime) == false)
 		{
 			worldDirection.Normalize();
 
@@ -1129,9 +1147,9 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 				airTime = nairTime;
 			}
 
-			if (float.IsNaN(InSlideTime) == false)
+			if (float.IsNaN(inSlideTime) == false)
 			{
-				this.slideTime = InSlideTime;
+				this.slideTime = inSlideTime;
 			}
 		}
 		else
@@ -1160,26 +1178,26 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 		{
 			LastUpdateClientFlying = NetworkTime.time;
 			UpdateClientMomentum(transform.localPosition, newtonianMovement, airTime, this.slideTime,
-				registerTile.Matrix.Id, spinFactor, true, DoNotUpdateThisClient.NetId());
+				registerTile.Matrix.Id, spinFactor, true, doNotUpdateThisClient.NetId());
 		}
 
 	}
 
-	public void AppliedFriction(float FrictionCoefficient)
+	public void AppliedFriction(float frictionCoefficient)
 	{
-		var SpeedLossDueToFriction = FrictionCoefficient * Time.deltaTime;
+		var speedLossDueToFriction = frictionCoefficient * Time.deltaTime;
 
 		var oldMagnitude = newtonianMovement.magnitude;
 
-		var NewMagnitude = oldMagnitude - SpeedLossDueToFriction;
+		var newMagnitude = oldMagnitude - speedLossDueToFriction;
 
-		if (NewMagnitude <= 0)
+		if (newMagnitude <= 0)
 		{
 			NewtonianMovement *= 0;
 		}
 		else
 		{
-			NewtonianMovement *= (NewMagnitude / oldMagnitude);
+			NewtonianMovement *= (newMagnitude / oldMagnitude);
 		}
 	}
 
@@ -1207,30 +1225,30 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 		}
 
 		Animating = true;
-		var LocalPOS = transform.localPosition;
+		var localPos = transform.localPosition;
 
-		IsMoving = (LocalPOS - LocalTargetPosition).magnitude > 0.001;
+		IsMoving = (localPos - LocalTargetPosition).magnitude > 0.001;
 		if (IsMoving)
 		{
 			if (TileMoveSpeedOverride > 0)
 			{
-				SetTransform(this.MoveTowards(LocalPOS, LocalTargetPosition,
+				SetTransform(this.MoveTowards(localPos, LocalTargetPosition,
 					TileMoveSpeedOverride * Time.deltaTime), false); //* transform.localPosition.SpeedTo(targetPos)
 			}
 			else
 			{
-				SetTransform(this.MoveTowards(LocalPOS, LocalTargetPosition,
+				SetTransform(this.MoveTowards(localPos, LocalTargetPosition,
 					TileMoveSpeed * Time.deltaTime), false);
 			}
 
-			LastDifference = transform.localPosition - LocalPOS;
+			LastDifference = transform.localPosition - localPos;
 		}
 		else
 		{
-			var Cash = TileMoveSpeedOverride;
+			var cache = TileMoveSpeedOverride;
 			if (TileMoveSpeedOverride == 0)
 			{
-				Cash = TileMoveSpeed;
+				cache = TileMoveSpeed;
 			}
 
 			TileMoveSpeedOverride = 0;
@@ -1242,7 +1260,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 			if (IsFloating() && PulledBy.HasComponent == false && doNotApplyMomentumOnTarget == false)
 			{
 
-				NewtonianMovement += (Vector2) LastDifference.normalized * Cash;
+				NewtonianMovement += (Vector2) LastDifference.normalized * cache;
 				LastDifference = Vector3.zero;
 			}
 
@@ -1265,21 +1283,21 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 		}
 	}
 
-	public void SetTransform(Vector3 Position, bool world)
+	public void SetTransform(Vector3 position, bool world)
 	{
 		if (world)
 		{
-			transform.position = Position;
+			transform.position = position;
 		}
 		else
 		{
-			transform.localPosition = Position;
+			transform.localPosition = position;
 
 		}
 
 		if (ObjectIsBucklingChecked.HasComponent)
 		{
-			ObjectIsBucklingChecked.Component.SetTransform(Position, world);
+			ObjectIsBucklingChecked.Component.SetTransform(position, world);
 		}
 	}
 
@@ -1394,16 +1412,16 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 		else if (slideTime > 0)
 		{
 			slideTime -= Time.deltaTime; //Doesn't matter if it goes under zero
-			var Floating = IsFloating();
-			if (Floating == false)
+			var floating = IsFloating();
+			if (floating == false)
 			{
 				AppliedFriction(DEFAULT_SLIDE_FRICTION);
 			}
 		}
 		else if (IsStickyMovement)
 		{
-			var Floating = IsFloating();
-			if (Floating == false)
+			var floating = IsFloating();
+			if (floating == false)
 			{
 				if (newtonianMovement.magnitude > maximumStickSpeed) //Too fast to grab onto anything
 				{
@@ -1418,8 +1436,8 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 		}
 		else
 		{
-			var Floating = IsFloating();
-			if (Floating == false)
+			var floating = IsFloating();
+			if (floating == false)
 			{
 				AppliedFriction(DEFAULT_Friction);
 			}
@@ -1428,33 +1446,33 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 
 		var position = this.transform.position;
 
-		var Newposition = position + (newtonianMovement.To3() * Time.deltaTime);
+		var newPosition = position + (newtonianMovement.To3() * Time.deltaTime);
 
 		// if (Newposition.magnitude > 100000)
 		// {
 			// newtonianMovement *= 0;
 		// }
 
-		var intposition = position.RoundToInt();
-		var intNewposition = Newposition.RoundToInt();
+		var intPosition = position.RoundToInt();
+		var intNewPosition = newPosition.RoundToInt();
 
 		transform.Rotate(new Vector3(0, 0, spinMagnitude * newtonianMovement.magnitude * Time.deltaTime));
 
-		if (intposition != intNewposition)
+		if (intPosition != intNewPosition)
 		{
-			if ((intposition - intNewposition).magnitude > 1.5f)
+			if ((intPosition - intNewPosition).magnitude > 1.5f)
 			{
 				if (Collider != null) Collider.enabled = false;
 
 				var hit = MatrixManager.Linecast(position,
 					LayerTypeSelection.Walls | LayerTypeSelection.Grills | LayerTypeSelection.Windows,
-					defaultInteractionLayerMask, Newposition, true);
+					defaultInteractionLayerMask, newPosition, true);
 				if (hit.ItHit)
 				{
 					OnImpact.Invoke(this, newtonianMovement);
 					NewtonianMovement -= 2 * (newtonianMovement * hit.Normal) * hit.Normal;
-					var Offset = (0.1f * hit.Normal);
-					Newposition = hit.HitWorld + Offset.To3();
+					var offset = (0.1f * hit.Normal);
+					newPosition = hit.HitWorld + offset.To3();
 					NewtonianMovement *= 0.9f;
 					spinMagnitude *= -1;
 				}
@@ -1466,31 +1484,31 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 
 			if (newtonianMovement.magnitude > 0)
 			{
-				var CashednewtonianMovement = newtonianMovement;
-				SetMatrixCash.ResetNewPosition(intposition, registerTile);
+				var cashedNewtonianMovement = newtonianMovement;
+				SetMatrixCache.ResetNewPosition(intPosition, registerTile);
 				Pushing.Clear();
 				Bumps.Clear();
 				Hits.Clear();
-				if (MatrixManager.IsPassableAtAllMatricesV2(intposition,
-					    intNewposition, SetMatrixCash, this,
+				if (MatrixManager.IsPassableAtAllMatricesV2(intPosition,
+					    intNewPosition, SetMatrixCache, this,
 					    Pushing, Bumps, Hits) == false)
 				{
-					foreach (var Bump in Bumps) //Bump Whatever we Bumped into
+					foreach (var bump in Bumps) //Bump Whatever we Bumped into
 					{
 						if (isServer)
 						{
-							Bump.OnBump(this.gameObject, null);
+							bump.OnBump(this.gameObject, null);
 						}
 					}
 
-					var Normal = (intposition - intNewposition).ToNonInt3();
+					var normal = (intPosition - intNewPosition).To3();
 					if (Hits.Count == 0)
 					{
-						Newposition = position;
+						newPosition = position;
 					}
 
 					OnImpact.Invoke(this, newtonianMovement);
-					NewtonianMovement -= 2 * (newtonianMovement * Normal) * Normal;
+					NewtonianMovement -= 2 * (newtonianMovement * normal) * normal;
 					NewtonianMovement *= 0.9f;
 					spinMagnitude *= -1;
 
@@ -1506,15 +1524,15 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 							Single.NaN, Single.NaN, aim, thrownBy, spinMagnitude);
 					}
 
-					var Normal = (intposition - intNewposition).ToNonInt3();
+					var normal = (intPosition - intNewPosition).To3();
 
 					if (Hits.Count == 0)
 					{
-						Newposition = position;
+						newPosition = position;
 					}
 
 					OnImpact.Invoke(this, newtonianMovement);
-					NewtonianMovement -= 2 * (newtonianMovement * Normal) * Normal;
+					NewtonianMovement -= 2 * (newtonianMovement * normal) * normal;
 					spinMagnitude *= -1;
 					NewtonianMovement *= 0.5f;
 				}
@@ -1532,24 +1550,24 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 							//TODO DamageTile( goal,Matrix.Matrix.TilemapsDamage);
 
 							if (hit.gameObject == thrownBy) continue;
-							if (CashednewtonianMovement.magnitude > IAV2.ThrowSpeed * 0.75f)
+							if (cashedNewtonianMovement.magnitude > IAV2.ThrowSpeed * 0.75f)
 							{
 								//Remove cast to int when moving health values to float
 								var damage = (IAV2.ServerThrowDamage);
 
 
-								if (hit.TryGetComponent<Integrity>(out var Integrity))
+								if (hit.TryGetComponent<Integrity>(out var integrity))
 								{
-									Integrity.ApplyDamage(damage, AttackType.Melee, IAV2.ServerDamageType);
+									integrity.ApplyDamage(damage, AttackType.Melee, IAV2.ServerDamageType);
 								}
 
-								if (hit.TryGetComponent<LivingHealthMasterBase>(out var LivingHealthMasterBase))
+								if (hit.TryGetComponent<LivingHealthMasterBase>(out var livingHealthMasterBase))
 								{
 									var hitZone = aim.Randomize();
-									LivingHealthMasterBase.ApplyDamageToBodyPart(thrownBy, damage, AttackType.Melee,
+									livingHealthMasterBase.ApplyDamageToBodyPart(thrownBy, damage, AttackType.Melee,
 										DamageType.Brute,
 										hitZone);
-									Chat.AddThrowHitMsgToChat(gameObject, LivingHealthMasterBase.gameObject, hitZone);
+									Chat.AddThrowHitMsgToChat(gameObject, livingHealthMasterBase.gameObject, hitZone);
 								}
 
 								AudioSourceParameters audioSourceParameters = new AudioSourceParameters(pitch: Random.Range(0.85f, 1f));
@@ -1564,20 +1582,20 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 
 		if (isVisible == false) return;
 
-		var movetoMatrix = MatrixManager.AtPoint(Newposition.RoundToInt(), isServer).Matrix;
+		var movetoMatrix = MatrixManager.AtPoint(newPosition.RoundToInt(), isServer).Matrix;
 
-		var CachedPosition = this.transform.position;
+		var cachedPosition = this.transform.position;
 
-		SetTransform(Newposition, true);
+		SetTransform(newPosition, true);
 
 		if (registerTile.Matrix != movetoMatrix)
 		{
 			SetMatrix(movetoMatrix);
 		}
 
-		var LocalPosition = (Newposition).ToLocal(movetoMatrix);
+		var localPosition = newPosition.ToLocal(movetoMatrix);
 
-		SetRegisterTileLocation(LocalPosition.RoundToInt());
+		SetRegisterTileLocation(localPosition.RoundToInt());
 
 		if (isServer)
 		{
@@ -1592,7 +1610,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 
 		if (newtonianMovement.magnitude < 0.01f) //Has slowed down enough
 		{
-			var localPosition = transform.localPosition;
+			localPosition = transform.localPosition;
 			SetLocalTarget = new Vector3WithData()
 			{
 				Vector3 = localPosition,
@@ -1627,29 +1645,29 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 
 		if (Pulling.HasComponent)
 		{
-			var InDirection = CachedPosition - Pulling.Component.transform.position;
-			if (InDirection.magnitude > 2f && (isServer || isLocalPlayer))
+			var inDirection = cachedPosition - Pulling.Component.transform.position;
+			if (inDirection.magnitude > 2f && (isServer || isLocalPlayer))
 			{
 				PullSet(null, false); //TODO maybe remove
 				if (isLocalPlayer && isServer == false) CmdStopPulling();
 			}
 			else
 			{
-				Pulling.Component.ProcessNewtonianPull(newtonianMovement, Newposition);
+				Pulling.Component.ProcessNewtonianPull(newtonianMovement, newPosition);
 			}
 		}
 
 		if (ObjectIsBucklingChecked.HasComponent && ObjectIsBucklingChecked.Component.Pulling.HasComponent)
 		{
-			var InDirection = CachedPosition - ObjectIsBucklingChecked.Component.Pulling.Component.transform.position;
-			if (InDirection.magnitude > 2f && (isServer || isLocalPlayer))
+			var inDirection = cachedPosition - ObjectIsBucklingChecked.Component.Pulling.Component.transform.position;
+			if (inDirection.magnitude > 2f && (isServer || isLocalPlayer))
 			{
 				ObjectIsBucklingChecked.Component.PullSet(null, false); //TODO maybe remove
 				if (ObjectIsBucklingChecked.Component.isLocalPlayer && isServer == false) ObjectIsBucklingChecked.Component.CmdStopPulling();
 			}
 			else
 			{
-				ObjectIsBucklingChecked.Component.Pulling.Component.ProcessNewtonianPull(newtonianMovement, Newposition);
+				ObjectIsBucklingChecked.Component.Pulling.Component.ProcessNewtonianPull(newtonianMovement, newPosition);
 			}
 		}
 	}
@@ -1667,57 +1685,57 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 		}
 
 		var position = this.transform.position;
-		var Newmove = InNewtonianMovement;
-		Vector3 Newposition = Vector3.zero;
-		Newmove.Normalize();
-		Vector3 TargetFollowLocation = PullerPosition + (Newmove * -1);
-		if (Vector2.Distance(TargetFollowLocation, transform.position) > 0.1f)
+		var newMove = InNewtonianMovement;
+		Vector3 newPosition = Vector3.zero;
+		newMove.Normalize();
+		Vector3 targetFollowLocation = PullerPosition + (newMove * -1);
+		if (Vector2.Distance(targetFollowLocation, transform.position) > 0.1f)
 		{
-			Newposition = this.MoveTowards(position, TargetFollowLocation,
+			newPosition = this.MoveTowards(position, targetFollowLocation,
 				(InNewtonianMovement.magnitude + 4) * Time.deltaTime);
 		}
 		else
 		{
-			Newposition = position + (InNewtonianMovement.To3() * Time.deltaTime);
+			newPosition = position + (InNewtonianMovement.To3() * Time.deltaTime);
 		}
 
 
 		//Check collision?
-		SetTransform(Newposition, true);
-		var movetoMatrix = MatrixManager.AtPoint(Newposition.RoundToInt(), isServer).Matrix;
+		SetTransform(newPosition, true);
+		var movetoMatrix = MatrixManager.AtPoint(newPosition.RoundToInt(), isServer).Matrix;
 		if (registerTile.Matrix != movetoMatrix)
 		{
 			SetMatrix(movetoMatrix);
 		}
 
-		var LocalPosition = (Newposition).ToLocal(movetoMatrix);
-		SetRegisterTileLocation(LocalPosition.RoundToInt());
+		var localPosition = (newPosition).ToLocal(movetoMatrix);
+		SetRegisterTileLocation(localPosition.RoundToInt());
 
 		if (Pulling.HasComponent)
 		{
-			Pulling.Component.ProcessNewtonianPull(InNewtonianMovement, Newposition);
+			Pulling.Component.ProcessNewtonianPull(InNewtonianMovement, newPosition);
 		}
 
 		if (ObjectIsBucklingChecked.HasComponent && ObjectIsBucklingChecked.Component.Pulling.HasComponent)
 		{
-			ObjectIsBucklingChecked.Component.Pulling.Component.ProcessNewtonianPull(InNewtonianMovement, Newposition);
+			ObjectIsBucklingChecked.Component.Pulling.Component.ProcessNewtonianPull(InNewtonianMovement, newPosition);
 		}
 	}
 
 
-	protected MatrixCash SetMatrixCash = new MatrixCash();
+	protected MatrixCash SetMatrixCache = new MatrixCash();
 
 	public bool IsFloating()
 	{
 		if (IsStickyMovement)
 		{
-			SetMatrixCash.ResetNewPosition(registerTile.WorldPosition, registerTile);
+			SetMatrixCache.ResetNewPosition(registerTile.WorldPosition, registerTile);
 			//TODO good way to Implement
 			if (MatrixManager.IsFloatingAtV2Tile(transform.position, CustomNetworkManager.IsServer,
-				    SetMatrixCash))
+				    SetMatrixCache))
 			{
 				if (MatrixManager.IsFloatingAtV2Objects(ContextGameObjects, registerTile.WorldPosition,
-					    CustomNetworkManager.IsServer, SetMatrixCash))
+					    CustomNetworkManager.IsServer, SetMatrixCache))
 				{
 					IsCurrentlyFloating = true;
 					return true;
@@ -1729,7 +1747,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 		}
 		else
 		{
-			if (registerTile.Matrix.HasGravity) //Presuming Register tile has the correct matrix
+			if (registerTile.Matrix.HasGravity || HasOwnGravity) //Presuming Register tile has the correct matrix
 			{
 				if (registerTile.Matrix.MetaTileMap.IsEmptyTileMap(registerTile.LocalPosition) == false)
 				{
@@ -1745,19 +1763,26 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 
 	private void InternalTriggerOnLocalTileReached(Vector3 localPos)
 	{
-		OnLocalTileReached.Invoke(localPos);
+		//Can truncate as the localPos should be near enough to the int value
+		var rounded = localPos.TruncateToInt();
+
+		OnLocalTileReached.Invoke(oldLocalTilePosition, rounded);
+
+		oldLocalTilePosition = rounded;
 
 		if (isServer == false) return;
 
-		LocalTileReached(localPos);
+		LocalTileReached(rounded);
 	}
 
-	public virtual void LocalTileReached(Vector3 localPos)
+	public virtual void LocalTileReached(Vector3Int localPos)
 	{
+		if(doStepInteractions == false) return;
+
 		var matrix = registerTile.Matrix;
 		if(matrix == null) return;
 
-		var tile = matrix.MetaTileMap.GetTile(localPos.CutToInt(), LayerType.Base);
+		var tile = matrix.MetaTileMap.GetTile(localPos, LayerType.Base);
 		if (tile != null && tile is BasicTile c)
 		{
 			foreach (var interaction in c.TileStepInteractions)
@@ -1769,11 +1794,11 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 
 		//Check for tiles before objects because of this list
 		if (matrix.MetaTileMap.ObjectLayer.EnterTileBaseList == null) return;
-		var loopto = matrix.MetaTileMap.ObjectLayer.EnterTileBaseList.Get(localPos.RoundToInt());
-		foreach (var enterTileBase in loopto)
+		var loopTo = matrix.MetaTileMap.ObjectLayer.EnterTileBaseList.Get(localPos);
+		foreach (var enterTileBase in loopTo)
 		{
 			if (enterTileBase.WillAffectObject(gameObject) == false) continue;
-			enterTileBase.WillAffectObject(gameObject);
+			enterTileBase.OnObjectEnter(gameObject);
 		}
 	}
 
@@ -1867,7 +1892,8 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 		}
 
 		PlayerInfo clientWhoAsked = PlayerList.Instance.Get(gameObject);
-		if (Validations.CanApply(clientWhoAsked.Script, gameObject, NetworkSide.Server) == false)
+		if (Validations.CanApply(clientWhoAsked.Script, gameObject, NetworkSide.Server
+			    , apt: Validations.CheckState(x => x.CanPull)) == false)
 		{
 			return;
 		}
@@ -1986,15 +2012,9 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 	/// Server side logic for unbuckling a player
 	/// </summary>
 	[Server]
-	public void UnbuckleObject()
-	{
-		ObjectIsBuckling = null;
-	}
-
-	[Server]
 	public void Unbuckle()
 	{
-		BuckledToObject.UnbuckleObject();
+		ObjectIsBuckling = null;
 	}
 
 	/// <summary>

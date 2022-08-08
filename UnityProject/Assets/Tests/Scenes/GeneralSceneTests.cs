@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using NUnit.Framework;
 using Objects.Atmospherics;
+using Objects.Disposals;
 using Shuttles;
 using TileManagement;
 using Tilemaps.Behaviours.Layers;
@@ -120,13 +122,47 @@ namespace Tests.Scenes
 						layers.Add(layerType);
 					}
 
-					Report.FailIf(layer.matrix != matrix)
-						.AppendLine($"{layer.name} is located in \"{matrix.name}\" but is bound to \"{layer.matrix.name}\".")
+					Report.FailIf(layer.Matrix != matrix)
+						.AppendLine($"{layer.name} is located in \"{matrix.name}\" but is bound to \"{layer.Matrix.name}\".")
 						.FailIf(layer.transform.parent != matrix.transform)
 						.Append($"{layer.name} is not a direct child of the \"{matrix.name}\" matrix. ")
 						.Append($"Currently located at: {layer.transform.HierarchyName()}.")
 						.AppendLine();
 
+				}
+			}
+
+			Report.AssertPassed();
+		}
+
+		[Test]
+		public void MatrixHasAllLayers()
+		{
+			using var pool = HashSetPool<LayerType>.Get(out var layers);
+
+			var layersNeeded = new List<LayerType>
+			{
+				LayerType.Effects , LayerType.Walls, LayerType.Windows, LayerType.Grills, LayerType.Objects,
+				LayerType.Tables, LayerType.Floors, LayerType.Underfloor, LayerType.Electrical, LayerType.Pipe,
+				LayerType.Disposals, LayerType.Base
+			};
+
+			foreach (var matrix in RootObjects.ComponentInChildren<Matrix>().NotNull())
+			{
+				layers.Clear();
+
+				foreach (var layer in matrix.GetComponentsInChildren<Layer>().NotNull())
+				{
+					var layerType = layer.LayerType;
+					layers.Add(layerType);
+				}
+
+				foreach (var layer in layersNeeded)
+				{
+					if(layers.Contains(layer)) continue;
+
+					Report.Fail()
+						.AppendLine($"Matrix: \"{matrix.name}\" in scene: {matrix.gameObject.scene} is missing layer: {layer}.");
 				}
 			}
 
@@ -171,7 +207,46 @@ namespace Tests.Scenes
 				{
 					for (var y = bounds.yMin; y < bounds.yMax; y++)
 					{
-						CheckPipeAndCableTiles(layer.matrix, tilemap, x, y);
+						CheckPipeAndCableTiles(layer.Matrix, tilemap, x, y);
+					}
+				}
+			}
+
+			foreach (var layer in RootObjects.ComponentInChildren<ElectricalLayer>().NotNull())
+			{
+				var tilemap = layer.Tilemap;
+				var bounds = tilemap.cellBounds;
+				for (var x = bounds.xMin; x < bounds.xMax; x++)
+				{
+					for (var y = bounds.yMin; y < bounds.yMax; y++)
+					{
+						CheckPipeAndCableTiles(layer.Matrix, tilemap, x, y);
+					}
+				}
+			}
+
+			foreach (var layer in RootObjects.ComponentInChildren<PipeLayer>().NotNull())
+			{
+				var tilemap = layer.Tilemap;
+				var bounds = tilemap.cellBounds;
+				for (var x = bounds.xMin; x < bounds.xMax; x++)
+				{
+					for (var y = bounds.yMin; y < bounds.yMax; y++)
+					{
+						CheckPipeAndCableTiles(layer.Matrix, tilemap, x, y);
+					}
+				}
+			}
+
+			foreach (var layer in RootObjects.ComponentInChildren<DisposalsLayer>().NotNull())
+			{
+				var tilemap = layer.Tilemap;
+				var bounds = tilemap.cellBounds;
+				for (var x = bounds.xMin; x < bounds.xMax; x++)
+				{
+					for (var y = bounds.yMin; y < bounds.yMax; y++)
+					{
+						CheckPipeAndCableTiles(layer.Matrix, tilemap, x, y);
 					}
 				}
 			}

@@ -1129,7 +1129,7 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 		MatrixCash MatrixCash, out RegisterTile CanPushOff) //Assuming MatrixCash is Initialised
 	{
 		bool SomethingToHold = false;
-		var Direction = moveAction.GlobalMoveDirection.TVectoro().To3Int();
+		var Direction = moveAction.GlobalMoveDirection.ToVector().To3Int();
 		for (int i = 0; i < MatrixCash.DIRs.Length; i++)
 		{
 			var DIR = MatrixCash.DIRs[i];
@@ -1262,6 +1262,13 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 		return Vector3Int.RoundToInt(LocalToWorld(localPos, matrix, state));
 	}
 
+	/// <inheritdoc cref="LocalToWorldInt(Vector3, Matrix)"/>
+	public static Vector3Int LocalToWorldInt(Vector3Int localPos, MatrixInfo matrix,
+		MatrixState state = default(MatrixState))
+	{
+		return Vector3Int.RoundToInt(LocalToWorld(localPos, matrix, state));
+	}
+
 	/// <summary>
 	/// Convert local matrix coordinates to world position. Keeps offsets in mind (+ rotation and pivot if MatrixMove is present)
 	/// </summary>
@@ -1328,7 +1335,7 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 
 
 		var state = matrix.MatrixMove.ClientState;
-		var pivot = matrix.MatrixMove.Pivot.ToNonInt3();
+		var pivot = matrix.MatrixMove.Pivot.To3();
 
 		return (state.FacingOffsetFromInitial(matrix.MatrixMove).QuaternionInverted *
 		        (worldPos - pivot - matrix.GetOffset(state))) + pivot;

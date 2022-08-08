@@ -1,5 +1,7 @@
-﻿using UnityEngine;
+﻿using Shared.Util;
+using UnityEngine;
 using UnityEngine.ResourceManagement.AsyncOperations;
+using Util;
 
 public class AssetManager : MonoBehaviour
 {
@@ -7,18 +9,7 @@ public class AssetManager : MonoBehaviour
 	private static AssetManager _assetManager;
 	private int amountOfAddressablesToLoad = 0;
 
-	public static AssetManager Instance
-	{
-		get
-		{
-			if (_assetManager == null)
-			{
-				_assetManager = FindObjectOfType<AssetManager>();
-			}
-
-			return _assetManager;
-		}
-	}
+	public static AssetManager Instance => FindUtils.LazyFindObject(ref _assetManager);
 
 	public void AddLoadingAssetHandle(AsyncOperationHandle handle, string path)
 	{

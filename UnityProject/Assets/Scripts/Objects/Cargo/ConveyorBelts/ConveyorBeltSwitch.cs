@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
-using Mirror;
 using ScriptableObjects;
+using Shared.Systems.ObjectConnection;
 using Systems.Interaction;
-using Systems.ObjectConnection;
-
 
 namespace Construction.Conveyors
 {

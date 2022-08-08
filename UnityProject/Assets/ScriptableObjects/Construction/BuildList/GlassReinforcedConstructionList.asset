@@ -20,3 +20,28 @@ MonoBehaviour:
     buildTime: 2
     spawnAmount: 1
     onePerTile: 1
+    facePlayerDirectionOnConstruction: 0
+  - name: Directional Reinforced Window
+    prefab: {fileID: 6807768264998672647, guid: c80393b4412660b41937e05425ceb921,
+      type: 3}
+    cost: 1
+    buildTime: 2
+    spawnAmount: 1
+    onePerTile: 0
+    facePlayerDirectionOnConstruction: 1
+  - name: Directional Reinforced Window Tinted
+    prefab: {fileID: 6156371311879217682, guid: f2a16f12167ad5442a606bc9c87fd9fe,
+      type: 3}
+    cost: 1
+    buildTime: 2
+    spawnAmount: 1
+    onePerTile: 0
+    facePlayerDirectionOnConstruction: 1
+  - name: Reinforced Window Tinted
+    prefab: {fileID: 2861107897139715475, guid: 97d300458cd6a164ca2538236e935896,
+      type: 3}
+    cost: 2
+    buildTime: 2
+    spawnAmount: 1
+    onePerTile: 1
+    facePlayerDirectionOnConstruction: 0

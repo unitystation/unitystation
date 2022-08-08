@@ -38,9 +38,18 @@ namespace Player
 		[SerializeField]
 		private GameObject electrocutedPrefab = default;
 
+		[Tooltip("Assign the SpriteHandler responsible for the infected overlay.")]
+		[SerializeField]
+		private SpriteHandler infectedSpriteHandler = default;
+		public SpriteHandler InfectedSpriteHandler => infectedSpriteHandler;
+
 		[Tooltip("Muzzle flash, should be on a child of the player gameobject")]
 		[SerializeField]
 		private LightSprite muzzleFlash = default;
+
+		[Tooltip("Override the race of the character sheet")]
+		[SerializeField]
+		private string raceOverride = "";
 
 		#endregion Inspector fields
 
@@ -126,7 +135,7 @@ namespace Player
 		/// </summary>
 		private void AddOverlayGameObjects()
 		{
-			if (engulfedBurningOverlay == null)
+			if (engulfedBurningOverlay == null && OverlaySprites != null)
 			{
 				engulfedBurningOverlay =
 					Instantiate(engulfedBurningPrefab, OverlaySprites.transform).GetComponent<PlayerDirectionalOverlay>();
@@ -134,7 +143,7 @@ namespace Player
 				engulfedBurningOverlay.StopOverlay();
 			}
 
-			if (partialBurningOverlay == null)
+			if (partialBurningOverlay == null && OverlaySprites != null)
 			{
 				partialBurningOverlay =
 					Instantiate(partialBurningPrefab, OverlaySprites.transform).GetComponent<PlayerDirectionalOverlay>();
@@ -142,7 +151,7 @@ namespace Player
 				partialBurningOverlay.StopOverlay();
 			}
 
-			if (electrocutedOverlay == null)
+			if (electrocutedOverlay == null && OverlaySprites != null)
 			{
 				electrocutedOverlay = Instantiate(electrocutedPrefab, OverlaySprites.transform).GetComponent<PlayerDirectionalOverlay>();
 				electrocutedOverlay.enabled = true;
@@ -178,12 +187,15 @@ namespace Player
 				}
 				else
 				{
-					if (Body_Part.LobbyCustomisation == null)
+					if (Body_Part.LobbyCustomisation != null)
 					{
-						Logger.Log($"[PlayerSprites] - Could not find {Body_Part.name}'s characterCustomization script. Returns -> {Body_Part.LobbyCustomisation.characterCustomization}", Category.Character);
-						return;
+						Body_Part.LobbyCustomisation.OnPlayerBodyDeserialise(Body_Part, data, livingHealthMasterBase);
+
 					}
-					Body_Part.LobbyCustomisation.OnPlayerBodyDeserialise(Body_Part, data, livingHealthMasterBase);
+					else
+					{
+						Logger.Log($"[PlayerSprites] - Could not find {Body_Part.name}'s characterCustomization script. Returns -> {Body_Part.OrNull()?.LobbyCustomisation.OrNull()?.characterCustomization}", Category.Character);
+					}
 				}
 			}
 
@@ -415,9 +427,15 @@ namespace Player
 			if (RootBodyPartsLoaded == false)
 			{
 				RootBodyPartsLoaded = true;
-				if (characterSettings == null)
+				var overrideSheet = string.IsNullOrEmpty(raceOverride) == false;
+				if (characterSettings == null || overrideSheet)
 				{
 					characterSettings = new CharacterSheet();
+				}
+
+				if (overrideSheet)
+				{
+					characterSettings.Species = raceOverride;
 				}
 
 				ThisCharacter = characterSettings;
@@ -430,6 +448,12 @@ namespace Player
 						break;
 					}
 				}
+
+				if (RaceBodyparts == null)
+				{
+					Logger.LogError($"Failed to find race for {gameObject.ExpensiveName()} with race: {characterSettings.Species}");
+				}
+
 				livingHealthMasterBase.SetUpCharacter(RaceBodyparts);
 				SetupSprites();
 				livingHealthMasterBase.InitialiseFromRaceData(RaceBodyparts);

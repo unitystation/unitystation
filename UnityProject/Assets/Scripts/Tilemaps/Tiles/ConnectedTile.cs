@@ -17,12 +17,13 @@ namespace Tiles
 	{
 		ToAll,
 		ToSameCategory,
-		ToSelf
+		ToSelf,
+		ToCategoryAndSelf
 	}
 
 	public class ConnectedTile : BasicTile
 	{
-		private static readonly int[] map =
+		public static readonly int[] map =
 		{
 			0, 2, 4, 8, 1, 255, 3, 6, 12, 9, 10, 5, 7, 14, 13, 11, 15, 19, 38, 76, 137, 23, 39, 46, 78, 77, 141, 139, 27, 31, 47, 79, 143, 63, 111, 207, 159,
 			191, 127, 239, 223, 55, 110, 205, 155, 175, 95
@@ -34,10 +35,11 @@ namespace Tiles
 		public ConnectType connectType = ConnectType.ToAll;
 		public SpriteSheetAndData spriteSheet;
 		public string texturePath;
+
 		/// <summary>
 		/// Cached layer we live in, so we can determine our rotation
 		/// </summary>
-		private Layer layer;
+		protected Layer layer;
 
 		public override Sprite PreviewSprite => sprites != null && sprites.Length > 0 ? sprites[0] : null;
 
@@ -128,7 +130,7 @@ namespace Tiles
 			}
 		}
 
-		private bool HasSameTile(Vector3Int position, Vector3Int direction, Quaternion rotation, ITilemap tilemap)
+		protected bool HasSameTile(Vector3Int position, Vector3Int direction, Quaternion rotation, ITilemap tilemap)
 		{
 			TileBase tile = tilemap.GetTile(position + (rotation * direction).RoundToInt());
 
@@ -146,6 +148,10 @@ namespace Tiles
 					return t != null && t.connectCategory == connectCategory;
 				case ConnectType.ToSelf:
 					return tile == this;
+				case ConnectType.ToCategoryAndSelf:
+					if (tile == this) return true;
+					ConnectedTile x = tile as ConnectedTile;
+					return x != null && x.connectCategory == connectCategory;
 				default:
 					throw new ArgumentOutOfRangeException();
 			}

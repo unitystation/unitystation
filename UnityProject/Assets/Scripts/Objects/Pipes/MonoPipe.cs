@@ -4,6 +4,9 @@ using Core.Editor.Attributes;
 using Systems.Interaction;
 using Systems.Pipes;
 using Items.Atmospherics;
+using Objects.Other;
+using Systems.Atmospherics;
+using Systems.Disposals;
 
 
 namespace Objects.Atmospherics
@@ -177,6 +180,54 @@ namespace Objects.Atmospherics
 		{
 			Colour = newColour;
 		}
+
+		#region Vent Crawl
+
+		protected void DoVentCrawl(HandApply interaction, GasMix pipeMix)
+		{
+			Chat.AddActionMsgToChat(gameObject, $"You start to enter the {gameObject.ExpensiveName()}",
+				$"{interaction.Performer.ExpensiveName()} starts to enter the {gameObject.ExpensiveName()}!");
+
+			var cfg = new StandardProgressActionConfig(StandardProgressActionType.Escape);
+
+			StandardProgressAction.Create(
+				cfg,
+				() => FinishEnteringPipe(interaction, pipeMix)
+			).ServerStartProgress(ActionTarget.Object(registerTile), 5, interaction.Performer);
+		}
+
+		private void FinishEnteringPipe(HandApply interaction, GasMix pipeMix)
+		{
+			var container = Spawn.ServerPrefab(DisposalsManager.Instance.CrawlingVirtualContainerPrefab, registerTile.ObjectPhysics.Component.OfficialPosition);
+			if (container.Successful == false)
+			{
+				Logger.LogError("Failed to spawn crawling container!");
+				return;
+			}
+
+			if (container.GameObject.TryGetComponent<CrawlingVirtualContainer>(out var virtualContainer) == false)
+			{
+				Logger.LogError("Failed to find CrawlingVirtualContainer script!");
+				return;
+			}
+
+			virtualContainer.Setup(pipeData, interaction.PerformerPlayerScript.registerTile);
+
+			// Transfer contents
+			if (container.GameObject.TryGetComponent<ObjectContainer>(out var objectContainer))
+			{
+				objectContainer.StoreObject(interaction.Performer);
+			}
+			if (container.GameObject.TryGetComponent<GasContainer>(out var gasContainer))
+			{
+				GasMix.TransferGas(gasContainer.GasMix, pipeMix, pipeMix.Moles);
+			}
+
+			Chat.AddActionMsgToChat(gameObject, $"You enter the {gameObject.ExpensiveName()}",
+				$"{interaction.Performer.ExpensiveName()} enters the {gameObject.ExpensiveName()}!");
+		}
+
+		#endregion
 
 		#region Editor
 

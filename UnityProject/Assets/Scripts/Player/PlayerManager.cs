@@ -6,6 +6,8 @@ using Objects.Shuttles;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Player;
+using Shared.Util;
+using Util;
 
 public class PlayerManager : MonoBehaviour
 {
@@ -30,18 +32,7 @@ public class PlayerManager : MonoBehaviour
 
 	private int mobIDcount;
 
-	public static PlayerManager Instance
-	{
-		get
-		{
-			if (!playerManager)
-			{
-				playerManager = FindObjectOfType<PlayerManager>();
-			}
-
-			return playerManager;
-		}
-	}
+	public static PlayerManager Instance => FindUtils.LazyFindObject(ref playerManager);
 
 #if UNITY_EDITOR	//Opening the station scene instead of going through the lobby
 	private void Awake()
@@ -100,7 +91,7 @@ public class PlayerManager : MonoBehaviour
 			var move = GetMovementActions();
 			if (move.moveActions.Length > 0)
 			{
-				ShuttleConsole.CmdMove(Orientation.From(GetMovementActions().ToPlayerMoveDirection().TVectoro()));
+				ShuttleConsole.CmdMove(Orientation.From(GetMovementActions().ToPlayerMoveDirection().ToVector()));
 				return;
 			}
 		}

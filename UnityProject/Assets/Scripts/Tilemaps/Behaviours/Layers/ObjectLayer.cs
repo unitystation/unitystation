@@ -118,7 +118,7 @@ public class ObjectLayer : Layer
 			PushObjectSet = true;
 			var Worldorigin = (originalFrom).ToWorld(context.registerTile.Matrix);
 			var WorldTo = (originalTo).ToWorld(context.registerTile.Matrix);
-			CanPushObjects = o.ObjectPhysics.Component.CanPush((WorldTo - Worldorigin).To2Int());
+			CanPushObjects = o.ObjectPhysics.Component.CanPush((WorldTo - Worldorigin).RoundTo2Int());
 		}
 		else
 		{
@@ -141,8 +141,10 @@ public class ObjectLayer : Layer
 		}
 		else
 		{
-			foreach (var objectOnTile in matrix.Get<UniversalObjectPhysics>(originalTo, CustomNetworkManager.IsServer))
+			foreach (var objectOnTile in Matrix.Get<UniversalObjectPhysics>(originalTo, CustomNetworkManager.IsServer))
 			{
+				if(objectOnTile.Intangible) continue;
+
 				var bumpAbles = objectOnTile.GetComponents<IBumpableObject>();
 				foreach (var bump in bumpAbles)
 				{
@@ -252,7 +254,7 @@ public class ObjectLayer : Layer
 			if (o.IsPassableFromOutside(origin, isServer, context.OrNull().gameObject) == false
 			    && (context == null || o.OrNull()?.gameObject != context.OrNull()?.gameObject))
 			{
-				var PushDirection = (o.transform.localPosition - (originalFrom ?? origin)).To2Int();
+				var PushDirection = (o.transform.localPosition - (originalFrom ?? origin)).RoundTo2Int();
 				if (PushDirection == Vector2Int.zero)
 				{
 					PushDirection = ((originalTo ?? to) - (originalFrom ?? origin)).To2Int();

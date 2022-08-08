@@ -9,7 +9,7 @@ namespace SyndicateOps
 		private SyndicateOpConsole console;
 
 		[SerializeField]
-		private NetLabel timerLabel = null;
+		private NetText_label timerLabel = null;
 
 		public override void OnEnable()
 		{

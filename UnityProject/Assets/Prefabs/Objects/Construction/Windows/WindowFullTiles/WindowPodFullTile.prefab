@@ -164,9 +164,9 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   layerTile: {fileID: 11400000, guid: 385da750306d82d4bae8dc29a63b0a53, type: 2}
-  matsOnDeconstruct: {fileID: 232070049008415734, guid: 6d8f04f09fd70254ead647566210cd74,
-    type: 3}
-  countOfMatsOnDissasemle: 2
+  onDeconstruct:
+  - prefab: {fileID: 232070049008415734, guid: 6d8f04f09fd70254ead647566210cd74, type: 3}
+    count: 2
   soundOnDeconstruct:
     SetLoadSetting: 0
     AssetAddress: Assets/Prefabs/Effects/Wrench.prefab
@@ -175,13 +175,11 @@ MonoBehaviour:
       m_SubObjectName: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0
-  shardsOnDestroy: {fileID: 232070049008415734, guid: 6d8f04f09fd70254ead647566210cd74,
-    type: 3}
-  minCountOfShardsOnDestroy: 1
-  maxCountOfShardsOnDestroy: 2
-  rodsOnDestroy: {fileID: 0}
-  minCountOfRodsOnDestroy: 0
-  maxCountOfRodsOnDestroy: 0
+  onDestroy:
+  - prefab: {fileID: 2265521501557685915, guid: 82677ff961fa72944936cc923625a1bc,
+      type: 3}
+    minCountOnDestroy: 1
+    maxCountOnDestroy: 2
   soundOnDestroy:
     SetLoadSetting: 0
     AssetAddress: Assets/Prefabs/Effects/GlassBreak01.prefab
@@ -206,7 +204,6 @@ MonoBehaviour:
   syncInterval: 0.1
   matrixDebugLogging: 0
   objectType: 1
-  customNetTransform: {fileID: 0}
   prefabTracker: {fileID: 0}
   CurrentsortingGroup: {fileID: 8662440765200023306}
   AtmosPassable: 1

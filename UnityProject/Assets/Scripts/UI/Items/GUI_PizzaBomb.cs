@@ -7,7 +7,7 @@ namespace UI.Items
 {
 	public class GUI_PizzaBomb : NetTab
 	{
-		[SerializeField] private NetLabel status;
+		[SerializeField] private NetText_label status;
 		[SerializeField] private NetToggle modeToggleButton;
 		[SerializeField] private NetToggle armToggleButton;
 

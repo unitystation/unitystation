@@ -53,6 +53,7 @@ namespace UI
 		/// </summary>
 		public void OnClickRest()
 		{
+			if(PlayerManager.LocalPlayerScript.PlayerTypeSettings.CanRest == false && clientResting == false) return;
 			Logger.Log("OnClickRest", Category.UserInput);
 			_ = SoundManager.Play(CommonSounds.Instance.Click01);
 			clientResting = !clientResting;
@@ -66,6 +67,8 @@ namespace UI
 		/// </summary>
 		public void OnClickCrafting()
 		{
+			if(PlayerManager.LocalPlayerScript.PlayerTypeSettings.CanCraft == false) return;
+
 			Logger.Log("OnClickCrafting", Category.UserInput);
 			_ = SoundManager.Play(CommonSounds.Instance.Click01);
 

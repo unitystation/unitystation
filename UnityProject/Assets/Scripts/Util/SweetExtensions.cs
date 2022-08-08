@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Security.Cryptography;
 using Mirror;
 using UnityEngine;
 using Random = UnityEngine.Random;
@@ -138,8 +139,8 @@ public static class SweetExtensions
 	/// </summary>
 	public static bool IsAdjacentTo(this Vector3 one, Vector3 two)
 	{
-		var oneInt = one.To2Int();
-		var twoInt = two.To2Int();
+		var oneInt = one.RoundTo2Int();
+		var twoInt = two.RoundTo2Int();
 		return Mathf.Abs(oneInt.x - twoInt.x) == 1 ||
 			Mathf.Abs(oneInt.y - twoInt.y) == 1;
 	}
@@ -149,7 +150,7 @@ public static class SweetExtensions
 	/// </summary>
 	public static bool IsAdjacentToOrSameAs(this Vector3 one, Vector3 two)
 	{
-		return one.To2Int() == two.To2Int() || one.IsAdjacentTo(two);
+		return one.RoundTo2Int() == two.RoundTo2Int() || one.IsAdjacentTo(two);
 	}
 	/// Creates garbage! Use very sparsely!
 	public static RegisterTile RegisterTile(this GameObject go)
@@ -514,12 +515,11 @@ public static class SweetExtensions
 			   Mathf.Approximately(a.r, b.r) &&
 		       Mathf.Approximately(a.g, b.g);
 	}
-
-
 	public static string Truncate(this string value, int maxLength)
 	{
 		if (string.IsNullOrEmpty(value)) return value;
-		return value.Length <= maxLength ? value : value.Substring(0, maxLength);
+
+		return value.Substring(0, Math.Min(value.Length, maxLength));
 	}
 
 	/// <summary>
@@ -611,5 +611,75 @@ public static class SweetExtensions
 		EnableComponentMessage.Send(component, value);
 
 		component.enabled = value;
+	}
+
+	public static string ToHexString(this string str)
+	{
+		var sb = new StringBuilder();
+
+		var bytes = Encoding.Unicode.GetBytes(str);
+		foreach (var t in bytes)
+		{
+			sb.Append(t.ToString("X2"));
+		}
+
+		return sb.ToString();
+	}
+
+	public static Vector3Int ToLocalVector3Int(this OrientationEnum @in)
+	{
+		return @in switch
+		{
+			OrientationEnum.Up_By0 => Vector3Int.up,
+			OrientationEnum.Right_By270 => Vector3Int.right,
+			OrientationEnum.Down_By180 => Vector3Int.down,
+			OrientationEnum.Left_By90 => Vector3Int.left,
+			_ => Vector3Int.zero
+		};
+	}
+
+	public static string RemovePunctuation(this string input)
+	{
+		return new string(input.Where(c => !char.IsPunctuation(c)).ToArray());
+	}
+
+	public static string GetTheyPronoun(this GameObject gameObject)
+	{
+		if (gameObject.TryGetComponent<PlayerScript>(out var playerScript) && playerScript.characterSettings != null)
+		{
+			return playerScript.characterSettings.TheyPronoun(playerScript).Capitalize();
+		}
+
+		return "It";
+	}
+
+	public static string GetTheirPronoun(this GameObject gameObject)
+	{
+		if (gameObject.TryGetComponent<PlayerScript>(out var playerScript) && playerScript.characterSettings != null)
+		{
+			return playerScript.characterSettings.TheirPronoun(playerScript).Capitalize();
+		}
+
+		return "Its";
+	}
+
+	public static string GetThemPronoun(this GameObject gameObject)
+	{
+		if (gameObject.TryGetComponent<PlayerScript>(out var playerScript) && playerScript.characterSettings != null)
+		{
+			return playerScript.characterSettings.ThemPronoun(playerScript).Capitalize();
+		}
+
+		return "It";
+	}
+
+	public static string GetTheyrePronoun(this GameObject gameObject)
+	{
+		if (gameObject.TryGetComponent<PlayerScript>(out var playerScript) && playerScript.characterSettings != null)
+		{
+			return playerScript.characterSettings.TheyrePronoun(playerScript).Capitalize();
+		}
+
+		return "Its";
 	}
 }

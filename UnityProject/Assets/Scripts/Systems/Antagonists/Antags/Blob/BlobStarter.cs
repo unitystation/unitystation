@@ -292,7 +292,8 @@ namespace Blob
 			spawnResult.GameObject.GetComponent<PlayerScript>().mind = playerScript.mind;
 
 			var connection = GetComponent<NetworkIdentity>().connectionToClient;
-			PlayerSpawn.ServerTransferPlayerToNewBody(connection, spawnResult.GameObject, playerScript.mind.GetCurrentMob(), Event.BlobSpawned, playerScript.characterSettings);
+			PlayerSpawn.ServerTransferPlayerToNewBody(connection, playerScript.mind, spawnResult.GameObject,
+				Event.BlobSpawned, null);
 
 			playerScript.mind = null;
 
@@ -302,7 +303,7 @@ namespace Blob
 			Chat.AddActionMsgToChat(spawnResult.GameObject, $"<color=#FF151F>You explode from your {bodyPart}, a new being has been born.</color>",
 				$"<color=#FF151F>{gameObject.ExpensiveName()} explodes into a pile of mush.</color>");
 
-			gameObject.GetComponent<LivingHealthMasterBase>().Gib();
+			gameObject.GetComponent<IGib>()?.OnGib();
 
 			Destroy(this);
 		}

@@ -29,10 +29,12 @@ namespace Messages.Server
 			if (msg.IsPlayerChatBubble)
 			{
 				target = target.GetComponent<PlayerNetworkActions>().chatBubbleTarget;
+
+				if(target == null) return;
 			}
-			
+
 			var message = msg.Message;
-			
+
 			if(msg.AllowTags == false)
 			{
 				message = Chat.StripTags(message);
@@ -54,6 +56,22 @@ namespace Messages.Server
 			};
 
 			SendToVisiblePlayers(followTransform.transform.position, msg);
+			return msg;
+		}
+
+		public static NetMessage SendTo(NetworkConnectionToClient conn, GameObject followTransform, string message, bool isPlayerChatBubble = false,
+			ChatModifier chatModifier = ChatModifier.None, bool allowTags = false)
+		{
+			NetMessage msg = new NetMessage
+			{
+				ChatModifiers = chatModifier,
+				Message = message,
+				FollowTransform = followTransform.GetComponent<NetworkIdentity>().netId,
+				IsPlayerChatBubble = isPlayerChatBubble,
+				AllowTags = allowTags
+			};
+
+			SendTo(conn, msg);
 			return msg;
 		}
 	}

@@ -23,7 +23,7 @@ namespace Messages.Client
 		public override void Process(NetMessage msg)
 		{
 			var playerScript = SentByPlayer.Script;
-			if (msg.Sandboxing && AdminCommands.AdminCommandsManager.IsAdmin(playerScript.connectionToServer, out var _))
+			if (msg.Sandboxing && AdminCommands.AdminCommandsManager.IsAdmin(playerScript.connectionToClient, out var _))
 			{
 				var spawnedObj = Spawn.ServerPrefab(UIManager.BuildMenu.ConveyorBuildMenu.ConveyorBeltPrefab.Prefab, playerScript.registerTile.WorldPosition)?.GameObject;
 				if (spawnedObj)

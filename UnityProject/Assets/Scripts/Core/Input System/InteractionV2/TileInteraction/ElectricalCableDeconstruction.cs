@@ -44,29 +44,29 @@ namespace Tiles.Electrical
 		{
 			string othersMessage = Chat.ReplacePerformer(othersStartActionMessage, interaction.Performer);
 			Chat.AddActionMsgToChat(interaction.Performer, performerStartActionMessage, othersMessage);
-			if (interaction.BasicTile.LayerType != LayerType.Underfloor) return;
+			if (interaction.BasicTile.LayerType != LayerType.Electrical) return;
 
-			var ElectricalCable = interaction.BasicTile as ElectricalCableTile;
-			if (ElectricalCable == null) return;
+			var electricalCable = interaction.BasicTile as ElectricalCableTile;
+			if (electricalCable == null) return;
 
-			var matrix = interaction.TileChangeManager.MetaTileMap.Layers[LayerType.Underfloor].matrix;
+			var matrix = interaction.TileChangeManager.MetaTileMap.Layers[LayerType.Electrical].Matrix;
 			var metaDataNode = matrix.GetMetaDataNode(interaction.TargetCellPos);
 
-			foreach (var ElectricalData in metaDataNode.ElectricalData)
+			foreach (var electricalData in metaDataNode.ElectricalData)
 			{
-				if (ElectricalData.RelatedTile != ElectricalCable) continue;
+				if (electricalData.RelatedTile != electricalCable) continue;
 
 				// Electrocute the performer. If shock is painful enough, cancel the interaction.
-				ElectricityFunctions.WorkOutActualNumbers(ElectricalData.InData);
-				float voltage = ElectricalData.InData.Data.ActualVoltage;
+				ElectricityFunctions.WorkOutActualNumbers(electricalData.InData);
+				float voltage = electricalData.InData.Data.ActualVoltage;
 				var electrocution = new Electrocution(voltage, interaction.WorldPositionTarget, "cable");
-				var performerLHB = interaction.Performer.GetComponent<LivingHealthMasterBase>();
-				var severity = performerLHB.Electrocute(electrocution);
+				var performerLhb = interaction.Performer.GetComponent<LivingHealthMasterBase>();
+				var severity = performerLhb.Electrocute(electrocution);
 				if (severity > LivingShockResponse.Mild) return;
 
-				ElectricalData.InData.DestroyThisPlease();
-				Spawn.ServerPrefab(ElectricalCable.SpawnOnDeconstruct, interaction.WorldPositionTarget,
-					count: ElectricalCable.SpawnAmountOnDeconstruct);
+				electricalData.InData.DestroyThisPlease();
+				Spawn.ServerPrefab(electricalCable.SpawnOnDeconstruct, interaction.WorldPositionTarget,
+					count: electricalCable.SpawnAmountOnDeconstruct);
 
 				return;
 			}

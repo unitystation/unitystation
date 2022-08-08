@@ -32,9 +32,8 @@ public class TilemapDamage : MonoBehaviour, IFireExposable
 	public void SwitchObjectsMatrixAt(Vector3Int cellPos)
 	{
 		if (!metaTileMap.HasTile(cellPos, LayerType.Floors)
-		    && !metaTileMap.HasTile(cellPos, LayerType.Base)
-		    && metaTileMap.HasObject(cellPos, CustomNetworkManager.Instance._isServer)
-		)
+		    && !metaTileMap.HasTile(cellPos, LayerType.Base))
+
 		{
 			foreach (var objectPhysics in matrix.Get<UniversalObjectPhysics>(cellPos, true))
 			{

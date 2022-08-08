@@ -1,0 +1,31 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 175001bada3c3ba47945b92e3bfa2bd2, type: 3}
+  m_Name: BuildNest
+  m_EditorClassIdentifier: 
+  actionType: 0
+  activeSpriteIndex: 1
+  callOnClient: 0
+  callOnServer: 1
+  actionName: Build Nest
+  description: Build a nest where you are standing
+  Sprites:
+  - {fileID: 11400000, guid: 4583a13f1e6b6534aaf8d59facc00ed1, type: 2}
+  Backgrounds:
+  - {fileID: 11400000, guid: 7fc5e10713878344f83fd1309bd0a771, type: 2}
+  PreventBeingControlledBy: 
+  DisableOnEvent: 
+  isAimable: 0
+  useCustomCursor: 0
+  cursorTexture: {fileID: 0}
+  cursorOffsetType: 0
+  cursorOffset: {x: 0, y: 0}

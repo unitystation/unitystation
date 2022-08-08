@@ -187,6 +187,8 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 
 	private bool Initialized;
 
+	public bool Active { get; private set; } = true;
+
 	#region Lifecycle
 
 	protected virtual void Awake()
@@ -309,13 +311,18 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 		OnDespawnedServer.Invoke();
 	}
 
+	public void ChangeActiveState(bool newState)
+	{
+		Active = newState;
+	}
+
 	#endregion
 
 
-	public void ServerSetLocalPosition(Vector3Int value)
+	public void ServerSetLocalPosition(Vector3Int value, bool overRideCheck = false)
 	{
-		if (LocalPositionServer == value)
-			return;
+		if (LocalPositionServer == value && overRideCheck == false) return;
+
 		if (objectLayer)
 		{
 			objectLayer.ServerObjects.Remove(LocalPositionServer, this);
@@ -331,9 +338,9 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 		OnLocalPositionChangedServer.Invoke(LocalPositionServer);
 	}
 
-	public void ClientSetLocalPosition(Vector3Int value)
+	public void ClientSetLocalPosition(Vector3Int value, bool overRideCheck = false)
 	{
-		if (LocalPositionClient == value)
+		if (LocalPositionClient == value && overRideCheck == false)
 			return;
 		bool appeared = LocalPositionClient == TransformState.HiddenPos && value != TransformState.HiddenPos;
 		bool disappeared = LocalPositionClient != TransformState.HiddenPos && value == TransformState.HiddenPos;
@@ -519,7 +526,7 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 	public void UpdatePositionServer()
 	{
 		var prevPosition = LocalPositionServer;
-		ServerSetLocalPosition(transform.localPosition.RoundToInt());
+		ServerSetLocalPosition(transform.localPosition.RoundToInt(), true);
 		if (prevPosition != LocalPositionServer)
 		{
 			OnLocalPositionChangedServer.Invoke(LocalPositionServer);
@@ -530,7 +537,7 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 	public void UpdatePositionClient()
 	{
 
-		ClientSetLocalPosition(transform.localPosition.RoundToInt());
+		ClientSetLocalPosition(transform.localPosition.RoundToInt(), true);
 
 		CheckSameMatrixRelationships();
 	}
@@ -818,5 +825,19 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 		{
 			fireExposable.OnExposed(exposure);
 		}
+	}
+
+	public void SetNewSortingOrder(int newLayerId)
+	{
+		CurrentsortingGroup.sortingLayerID = newLayerId;
+		ReorderSorting();
+	}
+
+	private void ReorderSorting()
+	{
+		objectLayer.ClientObjects.ReorderObjects(LocalPositionClient);
+
+		if(CustomNetworkManager.IsServer == false) return;
+		objectLayer.ServerObjects.ReorderObjects(LocalPositionServer);
 	}
 }

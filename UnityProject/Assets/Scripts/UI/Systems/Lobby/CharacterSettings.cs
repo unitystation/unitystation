@@ -120,10 +120,12 @@ public class CharacterSheet
 	/// </summary>
 	public string TheirPronoun(PlayerScript script)
 	{
-		if (script.Equipment.GetPlayerNameByEquipment() == "Unknown" && script.Equipment.IsIdentityObscured())
+		if (script.Equipment != null &&
+		     script.Equipment.GetPlayerNameByEquipment() == "Unknown" && script.Equipment.IsIdentityObscured())
 		{
 			return "their";
 		}
+
 		switch (PlayerPronoun)
 		{
 			case PlayerPronoun.He_him:

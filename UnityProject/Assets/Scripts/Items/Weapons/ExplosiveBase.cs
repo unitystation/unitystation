@@ -8,6 +8,8 @@ using Managers;
 using Systems.Explosions;
 using Scripts.Core.Transform;
 using UI.Items;
+using UnityEngine.Events;
+using Random = UnityEngine.Random;
 
 namespace Items.Weapons
 {
@@ -78,6 +80,7 @@ namespace Items.Weapons
 			Detonate();
 		}
 
+		public static UnityEvent<Vector3Int, float> ExplosionEvent = new UnityEvent<Vector3Int, float>();
 		protected virtual void Detonate()
 		{
 			if(gameObject == null) return;
@@ -87,6 +90,7 @@ namespace Items.Weapons
 			// Despawn the explosive
 			RemoveSelfFromManager();
 			_ = Despawn.ServerSingle(gameObject);
+			ExplosionEvent.Invoke(worldPos, explosiveStrength);
 			Explosion.StartExplosion(worldPos, explosiveStrength, null, explosiveRadius);
 		}
 

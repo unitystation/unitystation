@@ -50,20 +50,20 @@ namespace UI.Objects.Engineering
 		/// <summary>
 		/// The text which is displaying the current state
 		/// </summary>
-		private NetLabel StatusText => _statusText ??= this["StatusText"] as NetLabel;
-		private NetLabel _statusText;
+		private NetText_label StatusText => _statusText ??= this["StatusText"] as NetText_label;
+		private NetText_label _statusText;
 
 		/// <summary>
 		/// The charge left in the APC
 		/// </summary>
-		private NetLabel ChargePercentage => _chargePercentage ??= this["ChargePercentage"] as NetLabel;
-		private NetLabel _chargePercentage;
+		private NetText_label ChargePercentage => _chargePercentage ??= this["ChargePercentage"] as NetText_label;
+		private NetText_label _chargePercentage;
 
 		/// <summary>
 		/// The voltage, current and resistance measured by the APC
 		/// </summary>
-		private NetLabel ElectricalValues => _electricalValues ??= this["ElectricalValues"] as NetLabel;
-		private NetLabel _electricalValues;
+		private NetText_label ElectricalValues => _electricalValues ??= this["ElectricalValues"] as NetText_label;
+		private NetText_label _electricalValues;
 		
 		/// <summary>
 		/// The color of the voltage, current and resistance labels

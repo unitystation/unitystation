@@ -21,6 +21,9 @@ namespace IngameDebugConsole
 	public class DebugLogUnitystationCommands : MonoBehaviour
 	{
 
+#if UNITY_EDITOR
+		[MenuItem("Tool/ConveyorBeltTool")]
+#endif
 		[ConsoleMethod("CBTool", "Allows users to quickly build conveyor belts.")]
 		public static void EnableCBTool()
 		{
@@ -670,7 +673,7 @@ namespace IngameDebugConsole
 					Chat.AddExamineMsgToClient($"Examination: {DateTime.Now.ToFileTimeUtc()}");
 					break;
 				case 2:
-					Chat.AddChatMsgToChat(fakePlayer, DateTime.Now.ToFileTimeUtc().ToString(), ChatChannel.OOC, Loudness.NORMAL);
+					Chat.AddChatMsgToChatServer(fakePlayer, DateTime.Now.ToFileTimeUtc().ToString(), ChatChannel.OOC, Loudness.NORMAL);
 					break;
 				default:
 					Chat.AddLocalMsgToChat($"Local Message: {DateTime.Now.ToFileTimeUtc()}", new Vector2(Random.value*100,Random.value*100), null);

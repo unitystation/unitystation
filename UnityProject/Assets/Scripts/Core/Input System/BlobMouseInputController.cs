@@ -17,9 +17,8 @@ public class BlobMouseInputController : MouseInputController
 
 	public BlobConstructs blobConstructs;
 
-	public override void Start()
+	private void Awake()
 	{
-		base.Start();
 		blobPlayer = GetComponent<BlobPlayer>();
 	}
 
@@ -65,7 +64,7 @@ public class BlobMouseInputController : MouseInputController
 				return;
 			}
 
-			if (KeyboardInputManager.IsAltPressed())
+			if (KeyboardInputManager.IsAltActionKeyPressed())
 			{
 				//Remove blob
 				blobPlayer.CmdRemoveBlob(MouseUtils.MouseToWorldPos().RoundToInt());

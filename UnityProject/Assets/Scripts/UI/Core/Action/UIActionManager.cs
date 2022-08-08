@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using JetBrains.Annotations;
 using Messages.Server;
+using Shared.Util;
 using UnityEngine;
+using Util;
 
 namespace UI.Action
 {
@@ -18,19 +20,11 @@ namespace UI.Action
 		public ActionTooltip TooltipInstance => tooltipInstance == null
 			? tooltipInstance = Instantiate(TooltipPrefab, transform.parent).GetComponent<ActionTooltip>()
 			: tooltipInstance;
+
 		private ActionTooltip tooltipInstance;
 
 		private static UIActionManager uIActionManager;
-		public static UIActionManager Instance {
-			get {
-				if (!uIActionManager)
-				{
-					uIActionManager = FindObjectOfType<UIActionManager>();
-				}
-
-				return uIActionManager;
-			}
-		}
+		public static UIActionManager Instance => FindUtils.LazyFindObject(ref uIActionManager);
 
 		/// <summary>
 		/// Returns true if an action that is aimable is active.
@@ -40,10 +34,12 @@ namespace UI.Action
 		public UIAction UIAction;
 		public List<UIAction> PooledUIAction = new List<UIAction>();
 
-		public Dictionary<IActionGUI, UIAction> DicIActionGUI = new Dictionary<IActionGUI, UIAction>();
+		public Dictionary<IAction, List<UIAction>> DicIActionGUI = new Dictionary<IAction, List<UIAction>>();
 
 		public UIAction ActiveAction { get; set; }
 		public bool HasActiveAction => ActiveAction != null;
+
+		#region IActionGUI
 
 		/// <summary>
 		/// Set the action button visibility, locally (clientside)
@@ -78,9 +74,9 @@ namespace UI.Action
 		{
 			foreach (var key in Instance.DicIActionGUI.Keys)
 			{
-				if (key.ActionData == actionData)
+				if (key is IActionGUI keyI && keyI.ActionData == actionData)
 				{
-					actionInstance = key;
+					actionInstance = keyI;
 					return true;
 				}
 			}
@@ -93,7 +89,7 @@ namespace UI.Action
 		{
 			if (Instance.DicIActionGUI.ContainsKey(iActionGUI))
 			{
-				var _UIAction = Instance.DicIActionGUI[iActionGUI];
+				var _UIAction = Instance.DicIActionGUI[iActionGUI][0];
 				_UIAction.IconFront.SetSprite(sprite);
 			}
 			else
@@ -111,7 +107,7 @@ namespace UI.Action
 
 			if (Instance.DicIActionGUI.ContainsKey(iActionGUI))
 			{
-				var _UIAction = Instance.DicIActionGUI[iActionGUI];
+				var _UIAction = Instance.DicIActionGUI[iActionGUI][0];
 				_UIAction.IconFront.SetSpriteSO(sprite, networked: networked);
 				_UIAction.IconFront.SetPaletteOfCurrentSprite(palette);
 			}
@@ -125,7 +121,7 @@ namespace UI.Action
 		{
 			if (Instance.DicIActionGUI.ContainsKey(iActionGUI))
 			{
-				var _UIAction = Instance.DicIActionGUI[iActionGUI];
+				var _UIAction = Instance.DicIActionGUI[iActionGUI][0];
 				_UIAction.IconFront.ChangeSprite(Location);
 			}
 			else
@@ -139,7 +135,7 @@ namespace UI.Action
 		{
 			if (Instance.DicIActionGUI.ContainsKey(iActionGUI))
 			{
-				var _UIAction = Instance.DicIActionGUI[iActionGUI];
+				var _UIAction = Instance.DicIActionGUI[iActionGUI][0];
 				_UIAction.IconBackground.ChangeSprite(Location);
 			}
 			else
@@ -153,7 +149,7 @@ namespace UI.Action
 		{
 			if (Instance.DicIActionGUI.ContainsKey(iActionGUI))
 			{
-				var _UIAction = Instance.DicIActionGUI[iActionGUI];
+				var _UIAction = Instance.DicIActionGUI[iActionGUI][0];
 				_UIAction.IconBackground.SetSprite(sprite);
 			}
 			else
@@ -166,7 +162,7 @@ namespace UI.Action
 		{
 			if (Instance.DicIActionGUI.ContainsKey(iActionGUI))
 			{
-				var _UIAction = Instance.DicIActionGUI[iActionGUI];
+				var _UIAction = Instance.DicIActionGUI[iActionGUI][0];
 				_UIAction.CooldownOpacity.LeanScaleY(0f, cooldown).setFrom(1f);
 
 				if (cooldown > 5)
@@ -190,12 +186,13 @@ namespace UI.Action
 			foreach (var actionButton in Instance.DicIActionGUI)
 			{
 				//Remove old button from list. Don't spawn the same button if it already exists!
-				if (actionButton.Value.ActionData == iActionGUI.ActionData)
+				if (actionButton.Key is IActionGUI keyI && actionButton.Value[0].ActionData == iActionGUI.ActionData)
 				{
-					Hide(actionButton.Key);
+					Hide(keyI);
 					break;
 				}
 			}
+
 			UIAction _UIAction;
 			if (Instance.PooledUIAction.Count > 0)
 			{
@@ -207,25 +204,33 @@ namespace UI.Action
 				_UIAction = Instantiate(Instance.UIAction);
 				_UIAction.transform.SetParent(Instance.Panel.transform, false);
 			}
-			Instance.DicIActionGUI[iActionGUI] = _UIAction;
+
+			if (Instance.DicIActionGUI.ContainsKey(iActionGUI) == false)
+			{
+				Instance.DicIActionGUI.Add(iActionGUI, new List<UIAction>());
+			}
+
+			Instance.DicIActionGUI[iActionGUI].Add(_UIAction);
 			_UIAction.SetUp(iActionGUI);
 
 		}
 
-		public static void Hide(IActionGUI iActionGUI)
+		public static void Hide(IActionGUI iAction)
 		{
-			if (Instance.DicIActionGUI.ContainsKey(iActionGUI))
+			if (Instance.DicIActionGUI.ContainsKey(iAction))
 			{
-				var _UIAction = Instance.DicIActionGUI[iActionGUI];
+				var _UIAction = Instance.DicIActionGUI[iAction][0];
 				_UIAction.Pool();
 				Instance.PooledUIAction.Add(_UIAction);
-				Instance.DicIActionGUI.Remove(iActionGUI);
+				Instance.DicIActionGUI.Remove(iAction);
 			}
 			else
 			{
 				Logger.Log("iActionGUI Not present", Category.UI);
 			}
 		}
+
+		#endregion
 
 		#region Events
 
@@ -237,11 +242,15 @@ namespace UI.Action
 
 		public void OnRoundEnd()
 		{
-			foreach (var _Action in DicIActionGUI)
+			foreach (var _Actions in DicIActionGUI)
 			{
-				_Action.Value.Pool();
+				foreach (var _Action in _Actions.Value)
+				{
+					_Action.Pool();
+				}
 			}
-			DicIActionGUI = new Dictionary<IActionGUI, UIAction>();
+
+			DicIActionGUI = new Dictionary<IAction, List<UIAction>>();
 		}
 
 		public void OnPlayerDie()
@@ -274,20 +283,39 @@ namespace UI.Action
 			CheckEvent(Event.PlayerRejoined);
 		}
 
-		private void CheckEvent(Event Event)
+		private void CheckEvent(Event @event)
 		{
-			var TOremove = new List<IActionGUI>();
+			var toRemove = new List<IAction>();
 			foreach (var action in DicIActionGUI)
 			{
-				if (action.Key.ActionData != null && action.Key.ActionData.DisableOnEvent.Contains(Event))
+				if (action.Key is IActionGUI keyI && keyI.ActionData != null && keyI.ActionData.DisableOnEvent.Contains(@event))
 				{
-					action.Value.Pool();
-					TOremove.Add(action.Key);
+					action.Value[0].Pool();
+					toRemove.Add(keyI);
+					continue;
+				}
+
+				var count = 0;
+				if (action.Key is IActionGUIMulti keyIM && keyIM.ActionData != null)
+				{
+					foreach (var actionData in action.Value)
+					{
+						if(actionData.ActionData.DisableOnEvent.Contains(@event) == false) continue;
+						count++;
+						actionData.Pool();
+
+					}
+
+					if (count == action.Value.Count)
+					{
+						toRemove.Add(keyIM);
+					}
 				}
 			}
-			foreach (var Remove in TOremove)
+
+			foreach (var remove in toRemove)
 			{
-				DicIActionGUI.Remove(Remove);
+				DicIActionGUI.Remove(remove);
 			}
 		}
 
@@ -296,7 +324,19 @@ namespace UI.Action
 			if(Instance.DicIActionGUI.Count == 0) return;
 			for (int i = Instance.DicIActionGUI.Count - 1; i > -1; i--)
 			{
-				Hide(Instance.DicIActionGUI.ElementAt(i).Key);
+				if (Instance.DicIActionGUI.ElementAt(i).Key is IActionGUI iActionGui)
+				{
+					Hide(iActionGui);
+					continue;
+				}
+
+				if (Instance.DicIActionGUI.ElementAt(i).Key is IActionGUIMulti iActionGuiMulti)
+				{
+					foreach (var actionData in iActionGuiMulti.ActionData)
+					{
+						Hide(iActionGuiMulti, actionData);
+					}
+				}
 			}
 		}
 
@@ -339,5 +379,233 @@ namespace UI.Action
 
 			action.CooldownNumber.text = default;
 		}
+
+		#region IActionGUIMulti
+
+		/// <summary>
+		/// Set the action button visibility, locally (clientside)
+		/// </summary>
+		public static void ToggleLocal(IActionGUIMulti iActionGUIMulti, ActionData actionData, bool show)
+		{
+			if (show)
+			{
+				if (Instance.DicIActionGUI.ContainsKey(iActionGUIMulti))
+				{
+					Logger.Log("iActionGUIMulti Already added", Category.UI);
+					return;
+				}
+
+				Show(iActionGUIMulti, actionData);
+			}
+			else
+			{
+				Hide(iActionGUIMulti, actionData);
+			}
+		}
+
+		/// <summary>
+		/// Set the action button visibility for the given player, with network sync
+		/// </summary>
+		public static void Toggle(IActionGUIMulti iActionGUIMulti, ActionData actionData, bool show, GameObject recipient)
+		{
+			SetActionUIMessage.SetAction(recipient, iActionGUIMulti, actionData, show);
+		}
+
+		public static void SetSprite(IActionGUIMulti iActionGUIMulti, ActionData actionData, Sprite sprite)
+		{
+			if (Instance.DicIActionGUI.ContainsKey(iActionGUIMulti))
+			{
+				var uiActions = Instance.DicIActionGUI[iActionGUIMulti];
+
+				foreach (var action in uiActions)
+				{
+					if(action.ActionData != actionData) continue;
+
+					action.IconFront.SetSprite(sprite);
+				}
+			}
+			else
+			{
+				Logger.Log("iActionGUIMulti Not present", Category.UI);
+			}
+		}
+
+		/// <summary>
+		/// Sets the sprite of the action button.
+		/// </summary>
+		public static void SetSpriteSO(IActionGUIMulti iActionGUIMulti, ActionData actionData, SpriteDataSO sprite, bool networked = true, List<Color> palette = null)
+		{
+			Debug.Assert(!(sprite.IsPalette && palette == null), "Paletted sprites should never be set without a palette");
+
+			if (Instance.DicIActionGUI.ContainsKey(iActionGUIMulti))
+			{
+				var uiActions = Instance.DicIActionGUI[iActionGUIMulti];
+
+				foreach (var action in uiActions)
+				{
+					if(action.ActionData != actionData) continue;
+
+					action.IconFront.SetSpriteSO(sprite, networked: networked);
+					action.IconFront.SetPaletteOfCurrentSprite(palette);
+				}
+			}
+			else
+			{
+				Logger.Log("iActionGUIMulti Not present", Category.UI);
+			}
+		}
+
+		public static void SetSprite(IActionGUIMulti iActionGUIMulti, ActionData actionData, int Location)
+		{
+			if (Instance.DicIActionGUI.ContainsKey(iActionGUIMulti))
+			{
+				var uiActions = Instance.DicIActionGUI[iActionGUIMulti];
+
+				foreach (var action in uiActions)
+				{
+					if(action.ActionData != actionData) continue;
+
+					action.IconFront.ChangeSprite(Location);
+				}
+			}
+			else
+			{
+
+				Logger.Log("iActionGUIMulti Not present", Category.UI);
+			}
+		}
+
+		public static void SetBackground(IActionGUIMulti iActionGUIMulti, ActionData actionData, int Location)
+		{
+			if (Instance.DicIActionGUI.ContainsKey(iActionGUIMulti))
+			{
+				var uiActions = Instance.DicIActionGUI[iActionGUIMulti];
+
+				foreach (var action in uiActions)
+				{
+					if(action.ActionData != actionData) continue;
+
+					action.IconBackground.ChangeSprite(Location);
+				}
+			}
+			else
+			{
+
+				Logger.Log("iActionGUIMulti Not present", Category.UI);
+			}
+		}
+
+		public static void SetBackground(IActionGUIMulti iActionGUIMulti, ActionData actionData, Sprite sprite)
+		{
+			if (Instance.DicIActionGUI.ContainsKey(iActionGUIMulti))
+			{
+				var uiActions = Instance.DicIActionGUI[iActionGUIMulti];
+
+				foreach (var action in uiActions)
+				{
+					if(action.ActionData != actionData) continue;
+
+					action.IconBackground.SetSprite(sprite);
+				}
+			}
+			else
+			{
+				Logger.Log("iActionGUIMulti not present!", Category.UI);
+			}
+		}
+
+		public static void SetCooldownLocal(IActionGUIMulti iActionGUIMulti, ActionData actionData, float cooldown)
+		{
+			if (Instance.DicIActionGUI.ContainsKey(iActionGUIMulti))
+			{
+				var uiActions = Instance.DicIActionGUI[iActionGUIMulti];
+
+				foreach (var action in uiActions)
+				{
+					if(action.ActionData != actionData) continue;
+
+					action.CooldownOpacity.LeanScaleY(0f, cooldown).setFrom(1f);
+
+					if (cooldown > 5)
+					{
+						Instance.StartCoroutine(Instance.CooldownCountdown(action, cooldown));
+					}
+				}
+			}
+			else
+			{
+				Logger.Log("iActionGUIMulti not present!", Category.UI);
+			}
+		}
+
+		public static void SetCooldown(IActionGUIMulti iActionGUIMulti, ActionData actionData, float cooldown, GameObject recipient)
+		{
+			SetActionUIMessage.SetAction(recipient, iActionGUIMulti, actionData, cooldown);
+		}
+
+		public static void Show(IActionGUIMulti iActionGUIMulti, ActionData actionData)
+		{
+			Hide(iActionGUIMulti, actionData);
+
+			UIAction _UIAction;
+			if (Instance.PooledUIAction.Count > 0)
+			{
+				_UIAction = Instance.PooledUIAction[0];
+				Instance.PooledUIAction.RemoveAt(0);
+			}
+			else
+			{
+				_UIAction = Instantiate(Instance.UIAction);
+				_UIAction.transform.SetParent(Instance.Panel.transform, false);
+			}
+
+			if (Instance.DicIActionGUI.ContainsKey(iActionGUIMulti) == false)
+			{
+				Instance.DicIActionGUI.Add(iActionGUIMulti, new List<UIAction>());
+			}
+
+			Instance.DicIActionGUI[iActionGUIMulti].Add(_UIAction);
+			_UIAction.SetUp(iActionGUIMulti, actionData);
+		}
+
+		public static void Hide(IActionGUIMulti iActionGUIMulti, ActionData actionData)
+		{
+			if (Instance.DicIActionGUI.ContainsKey(iActionGUIMulti))
+			{
+				var toRemove = new List<IAction>();
+				foreach (var actionButton in Instance.DicIActionGUI)
+				{
+					//Remove old button from list. Don't spawn the same button if it already exists!
+					if (actionButton.Key is IActionGUIMulti keyI && keyI == iActionGUIMulti)
+					{
+						var count = 0;
+						foreach (var action in actionButton.Value)
+						{
+							if(actionData != action.ActionData) continue;
+							count++;
+
+							action.Pool();
+							Instance.PooledUIAction.Add(action);
+						}
+
+						if (count == actionButton.Value.Count)
+						{
+							toRemove.Add(iActionGUIMulti);
+						}
+					}
+				}
+
+				foreach (var remove in toRemove)
+				{
+					Instance.DicIActionGUI.Remove(remove);
+				}
+			}
+			else
+			{
+				Logger.Log("iActionGUI Not present", Category.UI);
+			}
+		}
+
+		#endregion
 	}
 }

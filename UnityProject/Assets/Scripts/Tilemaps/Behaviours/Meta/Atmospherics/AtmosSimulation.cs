@@ -26,7 +26,7 @@ namespace Systems.Atmospherics
 		/// <summary>
 		/// Holds the nodes which are being processed during the current Update
 		/// </summary>
-		private List<MetaDataNode> nodes = new List<MetaDataNode>(5);
+		private List<(MetaDataNode node, bool doEqualise)> nodes = new List<(MetaDataNode, bool)>(5);
 
 		/// <summary>
 		/// MetaDataNodes that we are requested to update but haven't yet
@@ -56,6 +56,11 @@ namespace Systems.Atmospherics
 			{
 				if (updateList.TryDequeue(out MetaDataNode node))
 				{
+					if(node.Exists == false) continue;
+					
+					//Wait for initial room set up as it is spread out over multiple frames
+					if(node.MetaDataSystem.SetUpDone == false) continue;
+
 					Update(node);
 				}
 			}
@@ -64,7 +69,10 @@ namespace Systems.Atmospherics
 		private void Update(MetaDataNode node)
 		{
 			nodes.Clear();
-			nodes.Add(node);
+
+			//Gases are frozen within walls and isolated tiles (closed airlocks) so dont do gas equalising
+			var doEqualise = node.IsOccupied == false && node.IsIsolatedNode == false;
+			nodes.Add((node, doEqualise));
 
 			node.AddNeighborsToList(ref nodes);
 
@@ -74,19 +82,19 @@ namespace Systems.Atmospherics
 				ConductFromOpenToSolid(node, meanGasMix);
 			}
 
-			//Gases are frozen within walls and isolated tiles (closed airlocks) so dont do gas equalising
-			if (node.IsOccupied == false && node.IsIsolatedNode == false)
+			if (doEqualise)
 			{
-				bool isPressureChanged = AtmosUtils.IsPressureChanged(node, out var windDirection, out var windForce);
+				bool isPressureChanged = TryPressureChanged(node, out var windDirection, out var windForce);
 
 				if (isPressureChanged)
 				{
 					node.ReactionManager.AddWindEvent(node, windDirection, windForce);
+
 					Equalize();
 
 					for (int i = 1; i < nodes.Count; i++)
 					{
-						updateList.Enqueue(nodes[i]);
+						updateList.Enqueue(nodes[i].node);
 					}
 				}
 			}
@@ -109,33 +117,186 @@ namespace Systems.Atmospherics
 		/// </summary>
 		private void Equalize()
 		{
-			// If there is just one isolated tile, it's not necessary to calculate the mean.  Speeds up things a bit.
+			// If there is just one isolated tile, it's not necessary to calculate the mean. Speeds up things a bit.
 			if (nodes.Count <= 1)  return;
 
 			//Calculate the average gas from adding up all the adjacent tiles and dividing by the number of tiles
 			CalcMeanGasMix();
 
-			MetaDataNode node;
-
 			//Then equalise the open gas mixes
 			for (var i = 0; i < nodes.Count; i++)
 			{
-				node = nodes[i];
+				var (node, doEqualise) = nodes[i];
 
-				//If the node is not occupied then try to share out gas mix
-				if (node.IsOccupied == false && node.IsIsolatedNode == false)
+				//Block change if wall / closed door or windoor / directional passable
+				if(doEqualise == false) continue;
+
+				//If its not space then share otherwise it is space so set to empty
+				if (node.IsSpace == false)
 				{
-					//If its not space then share otherwise it is space so set to empty
-					if (node.IsSpace == false)
+					node.GasMix.Copy(meanGasMix);
+				}
+				else
+				{
+					node.GasMix.SetToEmpty();
+				}
+			}
+		}
+
+		private GasMix meanGasMix = GasMix.NewGasMix(GasMixes.BaseEmptyMix);
+
+		/// <summary>
+		/// Calculate the average Gas tile if you averaged all the adjacent ones and itself
+		/// </summary>
+		/// <returns>The mean gas mix.</returns>
+		private void CalcMeanGasMix()
+		{
+			meanGasMix.Clear();
+
+			var targetCount = 0;
+
+			for (var i = 0; i < nodes.Count; i++)
+			{
+				var (node, doEqualise) = nodes[i];
+				if (node == null) continue;
+
+				//Block transfer if wall / closed door or windoor / directional passable
+				if(doEqualise)
+				{
+					meanGasMix.Volume += node.GasMix.Volume;
+					GasMix.TransferGas(meanGasMix, node.GasMix, node.GasMix.Moles, true);
+					targetCount++;
+				}
+				else if(node.IsOccupied && node.IsIsolatedNode == false)
+				{
+					//Remove all overlays for occupied tiles
+					RemovalAllGasOverlays(node);
+
+					//We trap the gas in the walls to stop instances where you remove a wall and theres a vacuum there
+				}
+			}
+
+			// Sometimes, we calculate the meanGasMix of a tile surrounded by IsOccupied tiles (no atmos, ie: walls)
+			if (targetCount == 0) return;
+
+			meanGasMix.Volume /= targetCount; //Note: this assumes the volume of all tiles are the same
+
+
+			lock (meanGasMix.GasesArray) //no Double lock
+			{
+				for (int i = meanGasMix.GasesArray.Count - 1; i >= 0; i--)
+				{
+					var gasData = meanGasMix.GasesArray[i];
+					meanGasMix.GasData.SetMoles(gasData.GasSO, meanGasMix.GasData.GetGasMoles(gasData.GasSO) / targetCount);
+				}
+			}
+		}
+
+		public bool TryPressureChanged(MetaDataNode node, out Vector2Int windDirection, out float windForce)
+		{
+			windDirection = Vector2Int.zero;
+			Vector3Int clampVector = Vector3Int.zero;
+			windForce = 0L;
+			bool result = false;
+
+			for (var i = 0; i < nodes.Count; i++)
+			{
+				var (neighbor, doEqualise) = nodes[i];
+				if (neighbor == null) continue;
+
+				//Block pressure check if wall / closed door or windoor / directional passable
+				if(doEqualise == false) continue;
+
+				float pressureDifference = node.GasMix.Pressure - neighbor.GasMix.Pressure;
+				float absoluteDifference = Mathf.Abs(pressureDifference);
+
+				//Check to see if theres a large pressure difference
+				if (absoluteDifference > AtmosConstants.MinPressureDifference)
+				{
+					result = true;
+
+					if (absoluteDifference > windForce)
 					{
-						node.GasMix.Copy(meanGasMix);
+						windForce = absoluteDifference;
 					}
-					else
+
+					int neighborOffsetX = (neighbor.Position.x - node.Position.x);
+					int neighborOffsetY = (neighbor.Position.y - node.Position.y);
+
+					if (pressureDifference > 0)
 					{
-						node.GasMix.SetToEmpty();
+						windDirection.x += neighborOffsetX;
+						windDirection.y += neighborOffsetY;
+					}
+					else if (pressureDifference < 0)
+					{
+						windDirection.x -= neighborOffsetX;
+						windDirection.y -= neighborOffsetY;
+					}
+
+					clampVector.x -= neighborOffsetX;
+					clampVector.y -= neighborOffsetY;
+
+					//We continue here so we can calculate the whole wind direction from all possible nodes
+					continue;
+				}
+
+				//Check if the moles are different. (e.g. CO2 is different from breathing)
+				//Check current node then check neighbor so we dont miss a gas if its only on one of the nodes
+
+				//Current node
+				//Only need to check if false
+				if (result == false)
+				{
+					lock (neighbor.GasMix.GasesArray) //no Double lock
+					{
+						for (int j = node.GasMix.GasesArray.Count - 1; j >= 0; j--)
+						{
+							var gas = node.GasMix.GasesArray[j];
+							float moles = node.GasMix.GasData.GetGasMoles(gas.GasSO);
+							float molesNeighbor = neighbor.GasMix.GasData.GetGasMoles(gas.GasSO);
+
+							if (Mathf.Abs(moles - molesNeighbor) > AtmosConstants.MinPressureDifference)
+							{
+								result = true;
+
+								//We break not return here so we can still work out wind direction
+								break;
+							}
+						}
+					}
+				}
+
+				//Neighbor node
+				//Only need to check if false
+				if (result == false)
+				{
+					lock (neighbor.GasMix.GasesArray) //no Double lock
+					{
+						foreach (var gas in neighbor.GasMix.GasesArray) //doesn't appear to modify list while iterating
+						{
+							float moles = node.GasMix.GasData.GetGasMoles(gas.GasSO);
+							float molesNeighbor = neighbor.GasMix.GasData.GetGasMoles(gas.GasSO);
+
+							if (Mathf.Abs(moles - molesNeighbor) > AtmosConstants.MinPressureDifference)
+							{
+								result = true;
+
+								//We break not return here so we can still work out wind direction
+								break;
+							}
+						}
 					}
 				}
 			}
+
+			//not blowing in direction of tiles that aren't atmos passable
+			windDirection.y = Mathf.Clamp(windDirection.y, clampVector.y < 0 ? 0 : -1,
+				clampVector.y > 0 ? 0 : 1);
+			windDirection.x = Mathf.Clamp(windDirection.x, clampVector.x < 0 ? 0 : -1,
+				clampVector.x > 0 ? 0 : 1);
+
+			return result;
 		}
 
 		#region Conductivity
@@ -177,7 +338,7 @@ namespace Systems.Atmospherics
 		{
 			for (var i = 0; i < nodes.Count; i++)
 			{
-				MetaDataNode node = nodes[i];
+				MetaDataNode node = nodes[i].node;
 
 				//Dont spread heat to self
 				if(node == currentNode) continue;
@@ -293,59 +454,6 @@ namespace Systems.Atmospherics
 		#endregion
 
 		#endregion
-
-		private GasMix meanGasMix = GasMix.NewGasMix(GasMixes.BaseEmptyMix);
-
-		/// <summary>
-		/// Calculate the average Gas tile if you averaged all the adjacent ones and itself
-		/// </summary>
-		/// <returns>The mean gas mix.</returns>
-		private void CalcMeanGasMix()
-		{
-			meanGasMix.Clear();
-
-			var targetCount = 0;
-
-			for (var i = 0; i < nodes.Count; i++)
-			{
-				MetaDataNode node = nodes[i];
-
-				if (node == null)
-				{
-					continue;
-				}
-
-				//If node is not occupied then we want to add it to the total
-				if (node.IsOccupied == false && node.IsIsolatedNode == false)
-				{
-					meanGasMix.Volume += node.GasMix.Volume;
-					GasMix.TransferGas(meanGasMix, node.GasMix, node.GasMix.Moles, true);
-					targetCount++;
-				}
-				else if(node.IsIsolatedNode == false)
-				{
-					//Remove all overlays for occupied tiles
-					RemovalAllGasOverlays(node);
-
-					//We trap the gas in the walls to stop instances where you remove a wall and theres a vacuum there
-				}
-			}
-
-			// Sometimes, we calculate the meanGasMix of a tile surrounded by IsOccupied tiles (no atmos, ie: walls)
-			if (targetCount == 0) return;
-
-			meanGasMix.Volume /= targetCount; //Note: this assumes the volume of all tiles are the same
-
-
-			lock (meanGasMix.GasesArray) //no Double lock
-			{
-				for (int i = meanGasMix.GasesArray.Count - 1; i >= 0; i--)
-				{
-					var gasData = meanGasMix.GasesArray[i];
-					meanGasMix.GasData.SetMoles(gasData.GasSO, meanGasMix.GasData.GetGasMoles(gasData.GasSO) / targetCount);
-				}
-			}
-		}
 
 		#region GasVisualEffects
 

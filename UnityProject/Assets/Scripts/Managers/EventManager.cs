@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using Messages.Server;
+using Shared.Util;
 using UnityEngine;
 using UnityEngine.Events;
+using Util;
 
 
 public class UIEvent : UnityEvent<GameObject> { }
@@ -45,17 +47,7 @@ public class EventManager : MonoBehaviour
 
 	private static EventManager eventManager;
 
-	public static EventManager Instance
-	{
-		get
-		{
-			if (!eventManager)
-			{
-				eventManager = FindObjectOfType<EventManager>();
-			}
-			return eventManager;
-		}
-	}
+	public static EventManager Instance => FindUtils.LazyFindObject(ref eventManager);
 
 	public static void UpdateLights() { }
 
