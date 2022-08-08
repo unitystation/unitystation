@@ -29,7 +29,7 @@ namespace Items.Others
 
 		public void ServerRollbackClient(HandActivate interaction)
 		{
-			interaction.PerformerPlayerScript.playerMove.ResetEverything();
+			interaction.PerformerPlayerScript.playerMove.ResetLocationOnClients();
 		}
 	}
 }
