@@ -1,6 +1,5 @@
 ﻿using Doors;
 using Items;
-using Managers;
 using Messages.Client.VariableViewer;
 using Objects.Wallmounts;
 using System;
@@ -8,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
+using Shared.Managers;
 using Tiles;
 using UI;
 using UI.Core.RightClick;

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Initialisation;
-using Managers;
+using Shared.Managers;
 using UnityEngine;
 
 public class StringManager : SingletonManager<StringManager>, IInitialise

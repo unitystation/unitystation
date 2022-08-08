@@ -8,8 +8,8 @@ using NaughtyAttributes;
 using TMPro;
 using AdminTools;
 using Core.Chat;
-using Managers;
 using Items;
+using Shared.Managers;
 using UnityEngine.Serialization;
 
 namespace UI.Chat_UI

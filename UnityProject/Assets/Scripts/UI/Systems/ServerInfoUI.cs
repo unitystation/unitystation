@@ -1,18 +1,17 @@
-﻿using System.Collections.Generic;
-using System.IO;
-using UnityEngine;
-using Mirror;
-using TMPro;
+﻿using System.IO;
 using DatabaseAPI;
 using Initialisation;
 using Messages.Client;
 using Messages.Server;
+using Mirror;
+using Shared.Managers;
+using TMPro;
 using UI;
-
+using UnityEngine;
 
 namespace ServerInfo
 {
-	public class ServerInfoUI : Managers.SingletonManager<ServerInfoUI>, IInitialise
+	public class ServerInfoUI : SingletonManager<ServerInfoUI>, IInitialise
     {
     	public TMP_Text ServerName;
 

@@ -1,7 +1,5 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using Managers;
+﻿using System.Collections.Generic;
+using Shared.Managers;
 using UnityEngine;
 
 public class LandingZoneManager : SingletonManager<LandingZoneManager>
