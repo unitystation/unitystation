@@ -8,6 +8,7 @@ using Map;
 using Messages.Server.SoundMessages;
 using Objects.Command;
 using Objects.Wallmounts;
+using Player.Language;
 using Strings;
 using UnityEngine;
 using Random = UnityEngine.Random;
@@ -241,7 +242,7 @@ namespace Managers
 
 			if (loudAnnouncement)
 			{
-				Chat.AddSystemMsgToChat(string.Format(ChatTemplates.CentcomAnnounce, ChatTemplates.CommandNewReport), MatrixManager.MainStationMatrix);
+				Chat.AddSystemMsgToChat(string.Format(ChatTemplates.CentcomAnnounce, ChatTemplates.CommandNewReport), MatrixManager.MainStationMatrix, LanguageManager.Common);
 
 				AudioSourceParameters audioSourceParameters = new AudioSourceParameters(pitch: 1f);
 				_ = SoundManager.PlayNetworked(updateTypes[UpdateSound.Notice], audioSourceParameters);
@@ -255,7 +256,8 @@ namespace Managers
 		/// <param name="template">String that will be the header of the annoucement. We have a couple ready to use </param>
 		/// <param name="text">String that will be the message body</param>
 		/// <param name="soundType">Value from the UpdateSound enum to play as sound when announcing</param>
-		public static void MakeAnnouncement(string template, string text, UpdateSound soundType)
+		/// <param name="language">Language to announce in (null for common)</param>
+		public static void MakeAnnouncement(string template, string text, UpdateSound soundType, LanguageSO language = null)
 		{
 			if (string.IsNullOrWhiteSpace(text)) return;
 
@@ -264,7 +266,7 @@ namespace Managers
 				_ = SoundManager.PlayNetworked(updateTypes[soundType]);
 			}
 
-			Chat.AddSystemMsgToChat(string.Format(template, text), MatrixManager.MainStationMatrix);
+			Chat.AddSystemMsgToChat(string.Format(template, text), MatrixManager.MainStationMatrix, language.OrNull() ?? LanguageManager.Common);
 		}
 
 		/// <summary>
@@ -282,7 +284,7 @@ namespace Managers
 					? $"{timeSpan.Minutes} minutes and {timeSpan.Seconds} seconds"
 					: $"{timeSpan.Minutes} minutes";
 			var message = string.Format(ChatTemplates.PriorityAnnouncement, string.Format(ChatTemplates.ShuttleCallSub, timeStr, text));
-			Chat.AddSystemMsgToChat(message, MatrixManager.MainStationMatrix);
+			Chat.AddSystemMsgToChat(message, MatrixManager.MainStationMatrix, LanguageManager.Common);
 
 			_ = SoundManager.PlayNetworked(CommonSounds.Instance.ShuttleCalled);
 		}
@@ -293,7 +295,7 @@ namespace Managers
 		public static void MakeShuttleRecallAnnouncement(string text)
 		{
 			var message = string.Format(ChatTemplates.PriorityAnnouncement, string.Format(ChatTemplates.ShuttleRecallSub, text));
-			Chat.AddSystemMsgToChat(message, MatrixManager.MainStationMatrix);
+			Chat.AddSystemMsgToChat(message, MatrixManager.MainStationMatrix, LanguageManager.Common);
 
 			_ = SoundManager.PlayNetworked(CommonSounds.Instance.ShuttleRecalled);
 		}

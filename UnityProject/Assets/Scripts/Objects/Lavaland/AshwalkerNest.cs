@@ -185,7 +185,7 @@ namespace Objects
 			SetSprite();
 			GhostRoleManager.Instance.ServerUpdateRole(createdRoleKey, 1, ashwalkerEggs, -1);
 
-			Chat.AddLocalMsgToChat("One of the eggs swells to an unnatural size and tumbles free. It's ready to hatch!", gameObject);
+			Chat.AddLocalMsgToChat("One of the eggs swells to an unnatural size and tumbles free. It's ready to hatch!", gameObject, null);
 		}
 
 		private void SetSprite()
@@ -283,7 +283,7 @@ namespace Objects
 			Chat.AddExamineMsg(player.GameObject, "You have been pulled back from beyond the grave, with a new body and renewed purpose. Glory to the Necropolis!");
 
 			//Ashwalkers cant speak or understand common
-			player.Script.MobLanguages.RemoveLanguage(LanguageManager.Instance.Common, true);
+			player.Script.MobLanguages.RemoveLanguage(LanguageManager.Common, true);
 		}
 
 		private void OnDestruction(DestructionInfo info)

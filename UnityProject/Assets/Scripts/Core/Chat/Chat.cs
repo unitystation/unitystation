@@ -387,9 +387,10 @@ public partial class Chat : MonoBehaviour
 	/// <param name="chatModifiers">Chat modifiers to use e.g. ChatModifier.ColdlyState.</param>
 	/// <param name="broadcasterName">Optional name for the broadcaster. Pulls name from GameObject if not used.</param>
 	/// <param name="voiceLevel">How loud is this message?</param>
+	/// <param name="language">The language the message is in, null for no language</param>
 	public static void AddCommMsgByMachineToChat(
 			GameObject sentByMachine, string message, ChatChannel channels, Loudness voiceLevel,
-			ChatModifier chatModifiers = ChatModifier.None, string broadcasterName = default)
+			ChatModifier chatModifiers = ChatModifier.None, string broadcasterName = default, LanguageSO language = null)
 	{
 		if (string.IsNullOrWhiteSpace(message)) return;
 
@@ -401,7 +402,8 @@ public partial class Chat : MonoBehaviour
 			position = sentByMachine.AssumedWorldPosServer(),
 			channels = channels,
 			originator = sentByMachine,
-			VoiceLevel = voiceLevel
+			VoiceLevel = voiceLevel,
+			language = language
 		};
 
 		InvokeChatEvent(chatEvent);
@@ -414,7 +416,8 @@ public partial class Chat : MonoBehaviour
 	/// </summary>
 	/// <param name="message"> message to add to each clients chat stream</param>
 	/// <param name="stationMatrix"> the matrix to broadcast the message too</param>
-	public static void AddSystemMsgToChat(string message, MatrixInfo stationMatrix)
+	/// <param name="language">The language the message is in, null for no language</param>
+	public static void AddSystemMsgToChat(string message, MatrixInfo stationMatrix, LanguageSO language = null)
 	{
 		if (!IsServer()) return;
 
@@ -422,7 +425,8 @@ public partial class Chat : MonoBehaviour
 		{
 			message = message,
 			channels = ChatChannel.System,
-			matrix = stationMatrix
+			matrix = stationMatrix,
+			language = language
 		});
 	}
 
@@ -671,7 +675,11 @@ public partial class Chat : MonoBehaviour
 	/// <param name="message">The message to show in the chat stream</param>
 	/// <param name="worldPos">The position of the local message</param>
 	/// <param name="originator">The object (i.e. vending machine) that said message</param>
-	public static void AddLocalMsgToChat(string message, Vector2 worldPos, GameObject originator, string speakerName = null)
+	/// <param name="language">Language of the message (null means everyone can understand)</param>
+	/// <param name="speakerName">The speakers name</param>
+	/// <param name="doSpeechBubble">Do speech bubble at originator?</param>
+	public static void AddLocalMsgToChat(string message, Vector2 worldPos, GameObject originator,
+		LanguageSO language = null, string speakerName = null, bool doSpeechBubble = false)
 	{
 		if (!IsServer()) return;
 		Instance.TryStopCoroutine(ref composeMessageHandle);
@@ -684,6 +692,10 @@ public partial class Chat : MonoBehaviour
 			originator = originator,
 			speaker = speakerName
 		});
+
+		if(doSpeechBubble == false) return;
+
+		ShowChatBubbleMessage.SendToNearby(originator, message, language);
 	}
 
 	/// <summary>
@@ -693,9 +705,14 @@ public partial class Chat : MonoBehaviour
 	/// </summary>
 	/// <param name="message">The message to show in the chat stream</param>
 	/// <param name="originator">The object (i.e. vending machine) that said message</param>
-	public static void AddLocalMsgToChat(string message, GameObject originator, string speakerName = null)
+	/// <param name="language">Language of the message (null means everyone can understand)</param>
+	/// <param name="speakerName">The speakers name</param>
+	/// /// <param name="doSpeechBubble">Do speech bubble at originator?</param>
+	public static void AddLocalMsgToChat(string message, GameObject originator, LanguageSO language = null,
+		string speakerName = null, bool doSpeechBubble = false)
 	{
-		AddLocalMsgToChat(message, originator.AssumedWorldPosServer(), originator, speakerName);
+		AddLocalMsgToChat(message, originator.AssumedWorldPosServer(), originator, language,
+			speakerName, doSpeechBubble);
 	}
 
 	/// <summary>
