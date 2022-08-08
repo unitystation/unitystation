@@ -70,7 +70,7 @@ namespace Systems.Atmospherics
 			//Get top tile at pos to check if it should spawn with no air
 			bool spawnWithNoAir = false;
 
-			var topTile = metaTileMap.GetTile(position, LayerTypeSelection.Effects | LayerTypeSelection.Underfloor);
+			var topTile = metaTileMap.GetTile(position, LayerTypeSelection.Effects | LayerTypeSelection.AllUnderFloor);
 			if (overriderTileSpawnWithNoAir == false && topTile is BasicTile tile)
 			{
 				spawnWithNoAir = tile.SpawnWithNoAir;

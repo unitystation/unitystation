@@ -12,8 +12,7 @@ namespace Tiles
 	public class PlaceableTile : MonoBehaviour, ICheckedInteractable<PositionalHandApply>
 	{
 		[NonSerialized]
-		public LayerTypeSelection layerTypeSelection = LayerTypeSelection.Underfloor | LayerTypeSelection.Electrical
-			| LayerTypeSelection.Pipe | LayerTypeSelection.Disposals | LayerTypeSelection.Effects;
+		public LayerTypeSelection layerTypeSelection = LayerTypeSelection.AllUnderFloor | LayerTypeSelection.Effects;
 
 		[FormerlySerializedAs("entries")]
 		[Tooltip("Defines each possible way this item can be placed as a tile.")]

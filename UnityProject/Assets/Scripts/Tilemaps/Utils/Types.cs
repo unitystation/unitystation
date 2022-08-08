@@ -63,6 +63,7 @@ public enum LayerTypeSelection
 	Electrical = 1 << 9,
 	Pipe = 1 << 10,
 	Disposals = 1 << 11,
+	AllUnderFloor = Underfloor | Electrical | Pipe | Disposals,
 	All = ~None
 }
 
