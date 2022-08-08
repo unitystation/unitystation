@@ -49,7 +49,7 @@ namespace Objects.Atmospherics
 		public override void OnSpawnServer(SpawnInfo info)
 		{
 			metaDataLayer = MatrixManager.AtPoint(registerTile.WorldPositionServer, true).MetaDataLayer;
-			metaNode = metaDataLayer.Get(registerTile.LocalPositionServer, false);
+			metaNode = metaDataLayer.Get(registerTile.LocalPositionServer);
 			pipeMix = pipeData.GetMixAndVolume.GetGasMix();
 
 			UpdateState();
