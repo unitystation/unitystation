@@ -63,7 +63,7 @@ namespace Objects.Atmospherics
 		public override void OnSpawnServer(SpawnInfo info)
 		{
 			metaDataLayer = MatrixManager.AtPoint(registerTile.WorldPositionServer, true).MetaDataLayer;
-			metaNode = metaDataLayer.Get(registerTile.LocalPositionServer, false);
+			metaNode = metaDataLayer.Get(registerTile.LocalPositionServer);
 			pipeMix = selfSufficient ? GasMix.NewGasMix(GasMixes.BaseAirMix) : pipeData.GetMixAndVolume.GetGasMix();
 
 			if (TryGetComponent<AcuDevice>(out var device) && device.Controller != null)
