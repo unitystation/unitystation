@@ -794,7 +794,7 @@ namespace AdminCommands
 			if(doorToToggle.TryGetComponent<DoorMasterController>(out var doorMasterController) == false) return;
 
 			//Toggle bolt state
-			var boltModule = doorMasterController.GetComponent<BoltsModule>();
+			var boltModule = doorMasterController.GetComponentInChildren<BoltsModule>();
 			boltModule.ToggleBolts();
 
 			LogAdminAction($"{admin.Username} toggled the bolts {(boltModule.BoltsDown ? "ON" : "OFF")} for: {doorToToggle.ExpensiveName()}");
@@ -809,7 +809,7 @@ namespace AdminCommands
 			if(doorToToggle.TryGetComponent<DoorMasterController>(out var doorMasterController) == false) return;
 
 			//Toggle electrify state
-			var electrify = doorMasterController.GetComponent<ElectrifiedDoorModule>();
+			var electrify = doorMasterController.GetComponentInChildren<ElectrifiedDoorModule>();
 			electrify.ToggleElectrocution();
 
 			LogAdminAction($"{admin.Username} toggled electrify {(electrify.IsElectrified ? "ON" : "OFF")} for: {doorToToggle.ExpensiveName()}");

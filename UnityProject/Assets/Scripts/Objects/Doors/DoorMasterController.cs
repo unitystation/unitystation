@@ -931,16 +931,12 @@ namespace Doors
 			var options = RightClickableResult.Create()
 				.AddAdminElement("Force Open", AdminOpen);
 
-			var bolt = GetComponentInChildren<BoltsModule>();
-
-			if (bolt != null)
+			if (GetComponentInChildren<BoltsModule>() != null)
 			{
 				options.AddAdminElement("Toggle Bolts", AdminToggleBolt);
 			}
 
-			var electrified = GetComponentInChildren<ElectrifiedDoorModule>();
-
-			if (electrified != null)
+			if (GetComponentInChildren<ElectrifiedDoorModule>() != null)
 			{
 				options.AddAdminElement("Toggle Electrify", AdminToggleElectrify);
 			}
