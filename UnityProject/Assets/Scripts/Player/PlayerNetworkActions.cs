@@ -608,9 +608,9 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		// Cancel right away if the player cannot speak.
 		if ((chatModifier & ChatModifier.Mute) == ChatModifier.Mute) return;
 
-		// If Emoting dont do speech bubble
+		// If emoting don't do speech bubble
 		if ((chatModifier & ChatModifier.Emote) == ChatModifier.Emote) return;
-		
+
 		//Don't do anything with chat icon if player is invisible or not spawned in
 		if(playerScript.objectPhysics != null && playerScript.objectPhysics.IsVisible == false) return;
 		if(playerScript.playerHealth != null &&
