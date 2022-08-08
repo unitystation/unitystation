@@ -3,11 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Initialisation;
-using Managers;
-using Messages.Server;
+using Shared.Managers;
 using Tiles;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public static class TilePaths
 {

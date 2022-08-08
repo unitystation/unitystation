@@ -1,8 +1,6 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using Chemistry;
-using Managers;
+using Shared.Managers;
 using Tiles;
 using UnityEngine;
 

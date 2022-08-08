@@ -1,14 +1,11 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using Managers;
-using ScriptableObjects;
-using UnityEngine;
-using UnityEditor;
-using Random = UnityEngine.Random;
 using Objects.Science;
+using ScriptableObjects;
+using Shared.Managers;
 using TileManagement;
+using UnityEngine;
 
 namespace Systems.Scenes
 {

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using AdminCommands;
+using Shared.Managers;
 using UnityEngine;
 
 namespace Managers.SettingsManager

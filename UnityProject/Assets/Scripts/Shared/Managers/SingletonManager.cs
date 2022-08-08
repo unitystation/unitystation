@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Managers
+namespace Shared.Managers
 {
 	/// <summary>
 	/// Singleton Manager using static instances without use of FindObject

@@ -1,8 +1,6 @@
-﻿using System.Collections.Concurrent;
-using System.Collections.Generic;
-using Managers;
+﻿using System.Collections.Generic;
+using Shared.Managers;
 using UnityEngine;
-using Random = UnityEngine.Random;
 
 namespace Health.Sickness
 {

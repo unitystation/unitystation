@@ -1,12 +1,11 @@
-using InGameEvents;
 using Messages.Client;
-using Messages.Server;
+using Shared.Managers;
 using TMPro;
 using UnityEngine;
 
 namespace UI
 {
-	public class HighlanderTimerUI : Managers.SingletonManager<HighlanderTimerUI>
+	public class HighlanderTimerUI : SingletonManager<HighlanderTimerUI>
 	{
 		[SerializeField] private TMP_Text timerText;
 		[SerializeField] private GameObject content;
