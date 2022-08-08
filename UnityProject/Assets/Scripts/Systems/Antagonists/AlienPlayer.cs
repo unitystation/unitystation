@@ -751,6 +751,7 @@ namespace Systems.Antagonists
 			PlayerSpawn.ServerSpawnGhost(playerScript.mind);
 
 			//Set to null so can't reenter
+			if(playerScript.mind == null) return;
 			playerScript.mind.body = null;
 		}
 
