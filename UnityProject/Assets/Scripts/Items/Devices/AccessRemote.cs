@@ -12,7 +12,7 @@ namespace Items.Devices
 	/// </summary>
 	public class AccessRemote : NetworkBehaviour, ICheckedInteractable<HandActivate>, ICheckedInteractable<HandApply>
 	{
-		[SyncVar] private AccessRemoteState currentState;
+		private AccessRemoteState currentState;
 
 		private SpriteHandler spriteHandler;
 
