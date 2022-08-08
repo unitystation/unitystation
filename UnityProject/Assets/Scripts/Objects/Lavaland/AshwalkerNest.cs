@@ -185,7 +185,7 @@ namespace Objects
 			SetSprite();
 			GhostRoleManager.Instance.ServerUpdateRole(createdRoleKey, 1, ashwalkerEggs, -1);
 
-			Chat.AddLocalMsgToChat("One of the eggs swells to an unnatural size and tumbles free. It's ready to hatch!", gameObject, null);
+			Chat.AddLocalMsgToChat("One of the eggs swells to an unnatural size and tumbles free. It's ready to hatch!", gameObject);
 		}
 
 		private void SetSprite()
