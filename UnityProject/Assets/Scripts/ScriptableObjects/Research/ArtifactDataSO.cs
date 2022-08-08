@@ -28,18 +28,18 @@ namespace ScriptableObjects.Systems.Research
 	[System.Serializable]
 	public class ArtifactAreaEffectList
 	{
-		public List<AreaArtifactEffect> AreaArtifactEffectList;
+		public List<AreaEffectBase> AreaArtifactEffectList;
 	}
 
 	[System.Serializable]
 	public class ArtifactInteractEffectList
 	{
-		public List<InteractArtifactEffect> InteractArtifactEffectList;
+		public List<InteractEffectBase> InteractArtifactEffectList;
 	}
 
 	[System.Serializable]
 	public class ArtifactDamageEffectList
 	{
-		public List<ArtifactEffect> DamageArtifactEffectList;
+		public List<DamageEffectBase> DamageArtifactEffectList;
 	}
 }

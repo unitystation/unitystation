@@ -54,9 +54,9 @@ namespace Objects.Research
 
 		public ArtifactDataSO ArtifactDataSO;
 
-		public AreaArtifactEffect AreaEffect;
-		public InteractArtifactEffect InteractEffect;
-		public ArtifactEffect DamageEffect;
+		public AreaEffectBase AreaEffect;
+		public InteractEffectBase InteractEffect;
+		public DamageEffectBase DamageEffect;
 
 
 		[SyncVar] public string ID = "T376";
@@ -239,7 +239,7 @@ namespace Objects.Research
 			if (isDormant && Validations.HasItemTrait(interaction.UsedObject, DormantTrigger))
 			{
 				ToggleDormancy(false);
-				Chat.AddActionMsgToChat(this.gameObject, "Placeholder", $"{gameObject.ExpensiveName()} begins to humm quietly");
+				Chat.AddLocalMsgToChat($"{gameObject.ExpensiveName()} begins to humm quietly", gameObject);
 			}
 
 			TryActivateByTouch(interaction);
@@ -282,18 +282,18 @@ namespace Objects.Research
 			{
 				if(DMMath.Prob(50))
 				{
-					Chat.AddActionMsgToChat(this.gameObject, "Placeholder", "Wake up damage message");
+					Chat.AddLocalMsgToChat("Wake up message", gameObject);
 					ToggleDormancy(false);
 				}
 				else
 				{
-					Chat.AddActionMsgToChat(this.gameObject, "Placeholder", "The anomaly quivers and seems to crack a little");
+					Chat.AddLocalMsgToChat($"{gameObject.ExpensiveName()} quivers as a crack forms along its edge", gameObject);
 				}
 			}
 			if (isDormant == false)
 			{
 				PlayActivationAnimation();
-				DamageEffect.DoEffect();
+				DamageEffect.DoEffect(damageInfo, objectPhysics);
 			}
 		}
 
@@ -342,7 +342,7 @@ namespace Objects.Research
 			if (moles > 0 && DMMath.Prob(Mathf.Clamp(moles, 0, 100)))
 			{
 				ToggleDormancy(true);
-				Chat.AddActionMsgToChat(this.gameObject, "", "The anomaly falls dormant...");
+				Chat.AddLocalMsgToChat($"{gameObject.ExpensiveName()} falls dormant...", gameObject);
 			}
 		}
 

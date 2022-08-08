@@ -2265,11 +2265,17 @@ MonoBehaviour:
   m_Value: 0
   m_Options:
     m_Options:
-    - m_Text: Paranoia
+    - m_Text: Localised Teleport
       m_Image: {fileID: 0}
-    - m_Text: Local Teleport
+    - m_Text: Localised Stun
       m_Image: {fileID: 0}
-    - m_Text: Space Carp
+    - m_Text: Space Carp Materialisation
+      m_Image: {fileID: 0}
+    - m_Text: Facehugger Materialisation
+      m_Image: {fileID: 0}
+    - m_Text: Milk.
+      m_Image: {fileID: 0}
+    - m_Text: Plasma Materialisation
       m_Image: {fileID: 0}
   m_OnValueChanged:
     m_PersistentCalls:
@@ -3592,7 +3598,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Paranoia
+  m_Text: Localised Teleport
 --- !u!1 &3202561936643592186
 GameObject:
   m_ObjectHideFlags: 0
@@ -4645,7 +4651,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Explosive Disassembly
+  m_Text: Spontaneous Combustion
 --- !u!1 &4227904492531040035
 GameObject:
   m_ObjectHideFlags: 0
@@ -5264,7 +5270,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Explosive Disassembly
+  m_Text: Metal to Gold
 --- !u!1 &5234243784301976853
 GameObject:
   m_ObjectHideFlags: 0
@@ -9031,11 +9037,11 @@ MonoBehaviour:
   m_Value: 0
   m_Options:
     m_Options:
-    - m_Text: Explosive Disassembly
+    - m_Text: Spontaneous Combustion
       m_Image: {fileID: 0}
-    - m_Text: Local Teleport
+    - m_Text: Space Carp Materialisation
       m_Image: {fileID: 0}
-    - m_Text: Space Carp
+    - m_Text: Localised Stun
       m_Image: {fileID: 0}
   m_OnValueChanged:
     m_PersistentCalls:
@@ -9905,11 +9911,9 @@ MonoBehaviour:
   m_Value: 0
   m_Options:
     m_Options:
-    - m_Text: Explosive Disassembly
+    - m_Text: Metal to Gold
       m_Image: {fileID: 0}
-    - m_Text: Local Teleport
-      m_Image: {fileID: 0}
-    - m_Text: Space Carp
+    - m_Text: Metal to Plasma
       m_Image: {fileID: 0}
   m_OnValueChanged:
     m_PersistentCalls:

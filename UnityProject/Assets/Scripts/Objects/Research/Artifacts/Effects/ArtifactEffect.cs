@@ -18,7 +18,5 @@ namespace Systems.Research
 		//More than one effect can have the same index
 		[Tooltip("The index of the console option that relates to this")]
 		public int GuessIndex = 0;
-
-		public virtual void DoEffect() { }
 	}
 }

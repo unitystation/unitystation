@@ -5,7 +5,7 @@ using UnityEngine;
 namespace Systems.Research
 {
 	[CreateAssetMenu(fileName = "ArtifactTeleportEffect", menuName = "ScriptableObjects/Systems/Artifacts/ArtifactTeleportEffect")]
-	public class TeleportArtifactEffect : AreaArtifactEffect
+	public class TeleportArtifactEffect : AreaEffectBase
 	{
 		public int MinDistance;
 		public int MaxDistance;
