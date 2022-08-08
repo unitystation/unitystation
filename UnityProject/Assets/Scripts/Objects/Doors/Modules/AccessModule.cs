@@ -7,7 +7,7 @@ using Random = UnityEngine.Random;
 
 namespace Doors.Modules
 {
-	[RequireComponent(typeof(AccessRestrictions))]
+	[RequireComponent(typeof(ClearanceCheckable))]
 	public class AccessModule : DoorModuleBase
 	{
 		private ClearanceCheckable clearanceCheckable;
