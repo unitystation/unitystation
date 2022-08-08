@@ -605,13 +605,16 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	[Server]
 	public void ServerToggleChatIcon(string message, ChatModifier chatModifier, LanguageSO language)
 	{
+		// Cancel right away if the player cannot speak.
+		if ((chatModifier & ChatModifier.Mute) == ChatModifier.Mute) return;
+
+		// If Emoting dont do speech bubble
+		if ((chatModifier & ChatModifier.Emote) == ChatModifier.Emote) return;
+		
 		//Don't do anything with chat icon if player is invisible or not spawned in
 		if(playerScript.objectPhysics != null && playerScript.objectPhysics.IsVisible == false) return;
 		if(playerScript.playerHealth != null &&
 		   (playerScript.playerHealth.IsDead || playerScript.playerHealth.IsCrit)) return;
-
-		// Cancel right away if the player cannot speak.
-		if ((chatModifier & ChatModifier.Mute) == ChatModifier.Mute) return;
 
 		//See if we can even send any bubbles
 		if(playerScript.PlayerTypeSettings.SendSpeechBubbleTo == PlayerTypes.None) return;
