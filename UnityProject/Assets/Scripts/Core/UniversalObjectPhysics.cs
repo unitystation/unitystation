@@ -1123,6 +1123,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 
 		if (isVisible == false) return;
 		if (CanMove == false) return;
+		if (PulledBy.HasComponent) return;
 
 		aim = inAim;
 		thrownBy = inThrownBy;
