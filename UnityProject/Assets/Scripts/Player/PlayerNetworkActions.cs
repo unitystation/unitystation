@@ -973,44 +973,6 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		}
 	}
 
-	[Command]
-	public void CmdAdminMakeHotspot(GameObject onObject)
-	{
-		if (AdminCommandsManager.IsAdmin(connectionToClient, out _) == false) return;
-
-		if (onObject == null) return;
-		var reactionManager = onObject.GetComponentInParent<ReactionManager>();
-		if (reactionManager == null) return;
-
-		reactionManager.ExposeHotspotWorldPosition(onObject.TileWorldPosition(), 1000, true);
-		reactionManager.ExposeHotspotWorldPosition(onObject.TileWorldPosition() + Vector2Int.down, 1000, true);
-		reactionManager.ExposeHotspotWorldPosition(onObject.TileWorldPosition() + Vector2Int.left, 1000, true);
-		reactionManager.ExposeHotspotWorldPosition(onObject.TileWorldPosition() + Vector2Int.up, 1000, true);
-		reactionManager.ExposeHotspotWorldPosition(onObject.TileWorldPosition() + Vector2Int.right, 1000, true);
-	}
-
-	[Command]
-	public void CmdAdminSmash(GameObject toSmash)
-	{
-		if (AdminCommandsManager.IsAdmin(connectionToClient, out _) == false) return;
-
-		if (toSmash == null) return;
-
-		var integrity = toSmash.GetComponent<Integrity>();
-		if (integrity == null) return;
-
-		integrity.ApplyDamage(float.MaxValue, AttackType.Melee, DamageType.Brute);
-	}
-
-	[Command]
-	public void CmdGetAdminOverlayFullUpdate()
-	{
-		if (AdminCommandsManager.IsAdmin(connectionToClient, out var player))
-		{
-			AdminOverlay.RequestFullUpdate(player);
-		}
-	}
-
 	#endregion
 
 	// If we end up needing more information to send to server,

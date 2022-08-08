@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using AdminCommands;
 using UnityEngine;
 using Mirror;
 using NaughtyAttributes;
@@ -16,7 +17,7 @@ namespace Objects.Wallmounts
 	/// </summary>
 	[ExecuteInEditMode]
 	public class DoorSwitch : ImnterfaceMultitoolGUI, ISubscriptionController, ICheckedInteractable<HandApply>, IMultitoolMasterable,
-		IServerSpawn, ICheckedInteractable<AiActivate>
+		IServerSpawn, ICheckedInteractable<AiActivate>, IRightClickable
 	{
 		private SpriteRenderer spriteRenderer;
 		public Sprite greenSprite;
@@ -81,7 +82,6 @@ namespace Objects.Wallmounts
 			}
 
 			RunDoorController();
-			RpcPlayButtonAnim(true);
 		}
 
 		public void RunDoorController()
@@ -90,6 +90,8 @@ namespace Objects.Wallmounts
 			{
 				return;
 			}
+
+			RpcPlayButtonAnim(true);
 
 			foreach (var door in doorControllers)
 			{
@@ -275,7 +277,6 @@ namespace Objects.Wallmounts
 		public void ServerPerformInteraction(AiActivate interaction)
 		{
 			RunDoorController();
-			RpcPlayButtonAnim(true);
 		}
 
 		#endregion
@@ -289,5 +290,22 @@ namespace Objects.Wallmounts
 		int IMultitoolMasterable.MaxDistance => int.MaxValue;
 
 		#endregion
+
+		public RightClickableResult GenerateRightClickOptions()
+		{
+			if (string.IsNullOrEmpty(PlayerList.Instance.AdminToken) ||
+			    KeyboardInputManager.Instance.CheckKeyAction(KeyAction.ShowAdminOptions, KeyboardInputManager.KeyEventType.Hold) == false)
+			{
+				return null;
+			}
+
+			return RightClickableResult.Create()
+				.AddAdminElement("Activate", AdminPressButton);
+		}
+
+		private void AdminPressButton()
+		{
+			AdminCommandsManager.Instance.CmdActivateButton(gameObject);
+		}
 	}
 }

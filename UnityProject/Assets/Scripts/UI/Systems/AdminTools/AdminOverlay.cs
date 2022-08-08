@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using AdminCommands;
 using DatabaseAPI;
 using Messages.Server.AdminTools;
 using Mirror;
@@ -188,7 +189,7 @@ namespace AdminTools
 				}
 				else
 				{
-					PlayerManager.LocalPlayerScript.playerNetworkActions.CmdGetAdminOverlayFullUpdate();
+					AdminCommandsManager.Instance.CmdGetAdminOverlayFullUpdate();
 					overlayToggleButton.image.color = selectedColor;
 				}
 			}

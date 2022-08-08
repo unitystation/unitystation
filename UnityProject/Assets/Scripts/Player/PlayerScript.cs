@@ -686,6 +686,12 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IActi
 	{
 		UIActionManager.ToggleLocal(this, state);
 	}
+
+	//Used for Admins to VV function to toggle vent crawl as for some reason in build VV variable isnt working
+	public void ToggleVentCrawl()
+	{
+		canVentCrawl = !canVentCrawl;
+	}
 }
 
 [Flags]
