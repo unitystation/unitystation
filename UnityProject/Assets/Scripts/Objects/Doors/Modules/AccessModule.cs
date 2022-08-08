@@ -10,7 +10,6 @@ namespace Doors.Modules
 	[RequireComponent(typeof(AccessRestrictions))]
 	public class AccessModule : DoorModuleBase
 	{
-		private AccessRestrictions accessRestrictions;
 		private ClearanceCheckable clearanceCheckable;
 
 		[SerializeField]
@@ -20,7 +19,6 @@ namespace Doors.Modules
 		protected override void Awake()
 		{
 			base.Awake();
-			accessRestrictions = GetComponent<AccessRestrictions>();
 			clearanceCheckable = GetComponent<ClearanceCheckable>();
 		}
 
@@ -70,7 +68,7 @@ namespace Doors.Modules
 
 		private bool ProcessCheckAccess(GameObject player)
 		{
-			if (accessRestrictions.CheckAccess(player))
+			if (clearanceCheckable.HasClearance(player))
 			{
 				return true;
 			}
