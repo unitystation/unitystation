@@ -11,6 +11,7 @@ namespace Doors.Modules
 	public class AccessModule : DoorModuleBase
 	{
 		private ClearanceCheckable clearanceCheckable;
+		private bool emergancyAccess = false;
 
 		[SerializeField]
 		[Tooltip("When the door is at low voltage, this is the chance that the access check gives a false positive.")]
@@ -62,7 +63,7 @@ namespace Doors.Modules
 
 		private bool CheckAccess(GameObject player)
 		{
-			return ProcessCheckAccess(player);
+			return emergancyAccess || ProcessCheckAccess(player);
 		}
 
 
@@ -87,10 +88,38 @@ namespace Doors.Modules
 			return false;
 		}
 
+		public bool ProcessCheckAccess(Access access)
+		{
+			if (accessRestrictions.restriction >= access)
+			{
+				return true;
+			}
+
+			//If the door is in low voltage, there's a very low chance the access check fails and opens anyway.
+			//Meant to represent the kind of weird flux state bits are when in low voltage systems.
+			if (master.Apc.State == PowerState.LowVoltage)
+			{
+				if (Random.value < lowVoltageOpenChance)
+				{
+					Chat.AddExamineMsg(gameObject, "The airlock's control panel flickers a dim light for a moment...");
+					return true;
+				}
+			}
+
+			DenyAccess();
+			return false;
+		}
+
 		private void DenyAccess()
 		{
 			StartCoroutine(master.DoorAnimator.PlayDeniedAnimation());
 			master.DoorAnimator.ServerPlayDeniedSound();
+		}
+
+		public void ToggleAuthorizationBypassState()
+		{
+			//TODO : Add emergency access lights to airlocks
+			emergancyAccess = !emergancyAccess;
 		}
 	}
 }
