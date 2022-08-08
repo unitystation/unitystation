@@ -1273,6 +1273,7 @@ public class DynamicItemStorage : NetworkBehaviour, IOnPlayerRejoin, IOnPlayerTr
 		return false;
 	}
 
+
 	public void OnPlayerRejoin()
 	{
 		//Trigger IOnPlayerRejoin for all items in top level player inventory
@@ -1315,6 +1316,20 @@ public class DynamicItemStorage : NetworkBehaviour, IOnPlayerRejoin, IOnPlayerTr
 			{
 				playerLeaveBody.OnPlayerLeaveBody();
 			}
+		}
+	}
+	
+	[Server]
+	public void ServerDropItemsInHand()
+	{
+		foreach (var itemSlot in GetNamedItemSlots(NamedSlot.leftHand))
+		{
+			Inventory.ServerDrop(itemSlot);
+		}
+
+		foreach (var itemSlot in GetNamedItemSlots(NamedSlot.rightHand))
+		{
+			Inventory.ServerDrop(itemSlot);
 		}
 	}
 

@@ -302,21 +302,7 @@ public class RegisterPlayer : RegisterTile, IServerSpawn, RegisterPlayer.IContro
 	{
 		ServerCheckStandingChange(true);
 		OnSlipChangeServer.Invoke(IsSlippingServer, true);
-		ServerDropItemsInHand();
-	}
-
-	[Server]
-	public void ServerDropItemsInHand()
-	{
-		foreach (var itemSlot in playerScript.DynamicItemStorage.GetNamedItemSlots(NamedSlot.leftHand))
-		{
-			Inventory.ServerDrop(itemSlot);
-		}
-
-		foreach (var itemSlot in playerScript.DynamicItemStorage.GetNamedItemSlots(NamedSlot.rightHand))
-		{
-			Inventory.ServerDrop(itemSlot);
-		}
+		playerScript.DynamicItemStorage.ServerDropItemsInHand();
 	}
 
 	/// <summary>
@@ -352,7 +338,7 @@ public class RegisterPlayer : RegisterTile, IServerSpawn, RegisterPlayer.IContro
 		OnSlipChangeServer.Invoke(oldVal, IsSlippingServer);
 		if (dropItem)
 		{
-			ServerDropItemsInHand();
+			playerScript.DynamicItemStorage.ServerDropItemsInHand();
 		}
 
 		if (StopMovement)
