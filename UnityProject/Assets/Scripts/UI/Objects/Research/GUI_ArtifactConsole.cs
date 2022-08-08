@@ -39,9 +39,9 @@ namespace UI.Objects.Research
 
 		private ArtifactConsole console;
 
-		public NetLabel NameLabel = null;
-		public NetLabel LogLabel = null;
-		public NetLabel OutputLabel = null;
+		public NetText_label NameLabel = null;
+		public NetText_label LogLabel = null;
+		public NetText_label OutputLabel = null;
 
 		public NetSpriteImage ImageObject = null;
 

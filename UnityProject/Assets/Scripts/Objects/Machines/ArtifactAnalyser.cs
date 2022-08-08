@@ -2,16 +2,15 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
-using Systems.ObjectConnection;
+using Shared.Systems.ObjectConnection;
 using Items.Science;
 
 namespace Systems.Research.Objects
 {
-	public class ArtifactAnalyser : NetworkBehaviour, ICheckedInteractable<HandApply>, IMultitoolSlaveable
+	public class ArtifactAnalyser : ResearchPointMachine, ICheckedInteractable<HandApply>
 	{
 		public int storedRP;
 
-		public ResearchServer researchServer;
 		private RegisterObject registerObject;
 		public ItemStorage itemStorage;
 
@@ -89,50 +88,6 @@ namespace Systems.Research.Objects
 				stateChange();
 			}
 		}
-
-		#region Multitool Interaction
-
-		MultitoolConnectionType IMultitoolLinkable.ConType => MultitoolConnectionType.ResearchServer;
-		IMultitoolMasterable IMultitoolSlaveable.Master => researchServer;
-		bool IMultitoolSlaveable.RequireLink => false;
-
-		bool IMultitoolSlaveable.TrySetMaster(PositionalHandApply interaction, IMultitoolMasterable master)
-		{
-			SetMaster(master);
-			return true;
-		}
-
-		void IMultitoolSlaveable.SetMasterEditor(IMultitoolMasterable master)
-		{
-			SetMaster(master);
-		}
-
-		private void SetMaster(IMultitoolMasterable master)
-		{
-			if (master is ResearchServer server && server != researchServer)
-			{
-				SubscribeToServerEvent(server);
-			}
-			else if (researchServer != null)
-			{
-				UnSubscribeFromServerEvent();
-			}
-			UpdateGUI();
-		}
-
-		public void SubscribeToServerEvent(ResearchServer server)
-		{
-			UnSubscribeFromServerEvent();
-			researchServer = server;
-
-		}
-
-		public void UnSubscribeFromServerEvent()
-		{
-			if (researchServer == null) return;
-			researchServer = null;
-		}
-		#endregion
 	}
 
 	public enum AnalyserState

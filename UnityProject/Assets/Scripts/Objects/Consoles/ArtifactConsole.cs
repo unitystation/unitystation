@@ -4,7 +4,7 @@ using UnityEngine;
 using Items.Science;
 using Objects.Research;
 using Mirror;
-using Systems.ObjectConnection;
+using Shared.Systems.ObjectConnection;
 
 namespace Objects.Research
 {
@@ -75,7 +75,7 @@ namespace Objects.Research
 		IMultitoolMasterable IMultitoolSlaveable.Master => connectedArtifact;
 		bool IMultitoolSlaveable.RequireLink => false;
 
-		bool IMultitoolSlaveable.TrySetMaster(PositionalHandApply interaction, IMultitoolMasterable master)
+		bool IMultitoolSlaveable.TrySetMaster(GameObject performer, IMultitoolMasterable master)
 		{
 			SetMaster(master);
 			return true;

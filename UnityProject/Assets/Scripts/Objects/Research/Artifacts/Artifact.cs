@@ -5,7 +5,7 @@ using Items.Science;
 using Systems.Research;
 using ScriptableObjects.Systems.Research;
 using Systems.Radiation;
-using Systems.ObjectConnection;
+using Shared.Systems.ObjectConnection;
 using Mirror;
 using Systems.Atmospherics;
 using ScriptableObjects.Atmospherics;

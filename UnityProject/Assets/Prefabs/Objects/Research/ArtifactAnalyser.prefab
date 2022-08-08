@@ -105,6 +105,11 @@ PrefabInstance:
       propertyPath: foreverID
       value: J5iV0i90BCv4gFGo8YS@
       objectReference: {fileID: 0}
+    - target: {fileID: 3310610160479360316, guid: 84ac8abc1d963be42906a209a1b97350,
+        type: 3}
+      propertyPath: isSelfPowered
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6842057026420969930, guid: 84ac8abc1d963be42906a209a1b97350,
         type: 3}
       propertyPath: PresentSpriteSet
@@ -151,7 +156,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6d7277dcc993463cb6c7f79b663f36fc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  NetTabType: 55
+  NetTabType: 56
   aiInteractable: 1
 --- !u!114 &4369845083079784791
 MonoBehaviour:
@@ -167,8 +172,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  storedRP: 0
   researchServer: {fileID: 0}
+  PoweredState: 0
+  storedRP: 0
   itemStorage: {fileID: 6968773950907503096}
   artifactSliver: {fileID: 0}
   analyserState: 0

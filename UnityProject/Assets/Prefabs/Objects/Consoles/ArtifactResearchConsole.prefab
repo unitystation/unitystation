@@ -87,7 +87,7 @@ PrefabInstance:
     - target: {fileID: 3509344053301837447, guid: b46887a995abc224aab70e21b9e53697,
         type: 3}
       propertyPath: NetTabType
-      value: 56
+      value: 57
       objectReference: {fileID: 0}
     - target: {fileID: 3806105522999988684, guid: b46887a995abc224aab70e21b9e53697,
         type: 3}
@@ -283,11 +283,6 @@ MonoBehaviour:
   itemStorage: {fileID: 0}
   connectedArtifact: {fileID: 0}
   dataDisk: {fileID: 0}
-  AreaDropDownChoice: 0
-  ContactDropDownChoice: 0
-  SolidDropDownChoice: 0
-  GasDropDownChoice: 0
-  DamageDropDownChoice: 0
 --- !u!114 &4087141291922530776
 MonoBehaviour:
   m_ObjectHideFlags: 0

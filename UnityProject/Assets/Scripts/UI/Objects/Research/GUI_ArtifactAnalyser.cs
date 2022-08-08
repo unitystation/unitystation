@@ -16,24 +16,24 @@ namespace UI.Objects.Research
 		private NetPage noSamplePage = null;
 
 		[SerializeField]
-		private NetLabel rpLabel = null;
+		private NetText_label rpLabel = null;
 		[SerializeField]
 		private NetSpriteImage connection = null;
 
 		[SerializeField]
-		private NetLabel scanStatusLabel = null;
+		private NetText_label scanStatusLabel = null;
 
 		//Results
 		[SerializeField]
-		private NetLabel radLabel = null;
+		private NetText_label radLabel = null;
 		[SerializeField]
-		private NetLabel bluespaceLabel = null;
+		private NetText_label bluespaceLabel = null;
 		[SerializeField]
-		private NetLabel clownLabel = null;
+		private NetText_label clownLabel = null;
 		[SerializeField]
-		private NetLabel massLabel = null;
+		private NetText_label massLabel = null;
 		[SerializeField]
-		private NetLabel completeLabel = null;
+		private NetText_label completeLabel = null;
 
 		public ArtifactAnalyser artifactAnalyser;
 
@@ -199,12 +199,9 @@ namespace UI.Objects.Research
 		{
 			if(artifactAnalyser.researchServer == null) return;
 
-			if(artifactAnalyser.researchServer.AddPointsToTechWeb(artifactAnalyser.storedRP))
-			{
-				artifactAnalyser.storedRP = 0;
-				UpdateRPDisplay();
-			}
-			return;
+			artifactAnalyser.AddResearchPoints(artifactAnalyser.storedRP);
+			artifactAnalyser.storedRP = 0;
+			UpdateRPDisplay();
 		}
 
 		public void EjectSample()
