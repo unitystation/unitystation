@@ -9,8 +9,6 @@ namespace Items.Others
 		private GasContainer container;
 		[SerializeField] private float gasReleaseOnPush = 10f;
 
-		private Vector3 rollbackMemory = Vector3.zero;
-
 		private void Awake()
 		{
 			container = GetComponent<GasContainer>();
@@ -27,12 +25,11 @@ namespace Items.Others
 			if(container.FullPercentage <= 1f) return;
 			Jetpack.PushPlayerInFacedDirection(interaction.PerformerPlayerScript, container, gasReleaseOnPush);
 			Chat.AddExamineMsg(interaction.Performer, "You release some of the gas in this tank.");
-			rollbackMemory = interaction.Performer.RegisterTile().LocalPosition;
 		}
 
 		public void ServerRollbackClient(HandActivate interaction)
 		{
-			interaction.Performer.RegisterTile().ServerSetLocalPosition(rollbackMemory.CutToInt());
+			interaction.PerformerPlayerScript.playerMove.ResetEverything();
 		}
 	}
 }
