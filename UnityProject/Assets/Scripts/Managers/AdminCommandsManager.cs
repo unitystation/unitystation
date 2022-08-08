@@ -830,7 +830,14 @@ namespace AdminCommands
 			var adminScript = admin.Script;
 			if(adminScript == null) return;
 
-			adminScript.objectPhysics.AppearAtWorldPositionServer(uop.OfficialPosition, false, false);
+			if (adminScript.objectPhysics != null)
+			{
+				adminScript.objectPhysics.AppearAtWorldPositionServer(uop.OfficialPosition, false, false);
+			}
+			else if(adminScript.TryGetComponent<GhostMove>(out var ghostMove))
+			{
+				ghostMove.ForcePositionClient(uop.OfficialPosition, false);
+			}
 
 			LogAdminAction($"{admin.Username} teleported themselves to: {teleportTo.ExpensiveName()}");
 		}
