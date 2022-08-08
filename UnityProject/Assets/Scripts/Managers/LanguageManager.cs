@@ -19,7 +19,7 @@ namespace Managers
 
 		[SerializeField]
 		private LanguageSO common = null;
-		public LanguageSO Common => common;
+		public static LanguageSO Common => Instance.common;
 
 		private const int CacheCapacity = 50;
 
