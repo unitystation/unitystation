@@ -10,7 +10,6 @@ namespace Doors.Modules
 	[RequireComponent(typeof(ClearanceCheckable))]
 	public class AccessModule : DoorModuleBase
 	{
-		private AccessRestrictions accessRestrictions;
 		private ClearanceCheckable clearanceCheckable;
 		private bool emergancyAccess = false;
 
