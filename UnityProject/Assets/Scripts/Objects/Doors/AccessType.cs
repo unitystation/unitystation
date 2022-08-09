@@ -1,7 +1,10 @@
 ﻿
+	using System;
+
 	/// <summary>
 	///     Used to set access restrictions on ID cards and doors
 	/// </summary>
+	[Obsolete]
 	public enum Access
 	{
 		ai_upload = 1,

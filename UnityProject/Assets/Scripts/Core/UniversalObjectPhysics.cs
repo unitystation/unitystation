@@ -1124,6 +1124,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 
 		if (isVisible == false) return;
 		if (CanMove == false) return;
+		if (PulledBy.HasComponent) return;
 
 		aim = inAim;
 		thrownBy = inThrownBy;
@@ -1806,10 +1807,17 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 	public virtual RightClickableResult GenerateRightClickOptions()
 	{
 		var options = RightClickableResult.Create();
+		
+		if (string.IsNullOrEmpty(PlayerList.Instance.AdminToken) == false &&
+		    KeyboardInputManager.Instance.CheckKeyAction(KeyAction.ShowAdminOptions, KeyboardInputManager.KeyEventType.Hold))
+		{
+			options.AddAdminElement("Teleport To", AdminTeleport).AddAdminElement("Toggle Pushable", AdminTogglePushable);
+		}
 
 		//check if our local player can reach this
 		var initiator = PlayerManager.LocalPlayerScript.GetComponent<UniversalObjectPhysics>();
-		if (initiator == null) return null;
+		if (initiator == null) return options;
+		
 		//if it's pulled by us
 		if (PulledBy.HasComponent && PulledBy.Component == initiator)
 		{
@@ -1825,12 +1833,6 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 			{
 				options.AddElement("Pull", TryTogglePull);
 			}
-		}
-
-		if (string.IsNullOrEmpty(PlayerList.Instance.AdminToken) == false &&
-		    KeyboardInputManager.Instance.CheckKeyAction(KeyAction.ShowAdminOptions, KeyboardInputManager.KeyEventType.Hold))
-		{
-			options.AddAdminElement("Teleport To", AdminTeleport).AddAdminElement("Toggle Pushable", AdminTogglePushable);
 		}
 
 		return options;

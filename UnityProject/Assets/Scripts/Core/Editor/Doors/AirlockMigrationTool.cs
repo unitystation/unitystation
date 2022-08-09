@@ -141,6 +141,7 @@ namespace Core.Editor.Doors
 					var clear = new List<Clearance> { MigrationData.Translation[accessRestrictions.restriction]};
 					EditorUtility.SetDirty(instance);
 					clearanceCheckable.SetClearance(clear);
+					EditorUtility.SetDirty(instance);
 				}
 			}
 			return instance;
@@ -163,6 +164,7 @@ namespace Core.Editor.Doors
 						var clear = new List<Clearance> { MigrationData.Translation[accessRestrictions.restriction]};
 						Undo.RecordObject(clearanceCheckable, "Clearance list update");
 						clearanceCheckable.SetClearance(clear);
+						EditorUtility.SetDirty(door.gameObject);
 					}
 				}
 				else

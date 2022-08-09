@@ -1,7 +1,9 @@
 using System;
+using System.Collections.Generic;
 using Doors;
 using Doors.Modules;
 using Mirror;
+using Systems.Clearance;
 using UnityEngine;
 
 
@@ -16,8 +18,11 @@ namespace Items.Devices
 
 		private SpriteHandler spriteHandler;
 
-		[SerializeField] private Access access;
-		[SerializeField] private SpriteDataSO departmentSprite;
+		[SerializeField]
+		private List<Clearance> clearances = new List<Clearance>();
+
+		[SerializeField]
+		private SpriteDataSO departmentSprite;
 
 		private void Start()
 		{
@@ -82,9 +87,13 @@ namespace Items.Devices
 		{
 			DoorMasterController doorController = interaction.TargetObject.GetComponent<DoorMasterController>();
 			if(doorController == null) return;
+
 			AccessModule accessModule = interaction.TargetObject.GetComponentInChildren<AccessModule>();
+			if(accessModule == null) return;
+
 			Chat.AddExamineMsg(interaction.Performer, $"You use access remote on: {doorController.gameObject.ExpensiveName()}");
-			if (accessModule != null && accessModule.ProcessCheckAccess(access) == false)
+
+			if (accessModule != null && accessModule.ProcessCheckAccess(clearances) == false)
 			{
 				Chat.AddExamineMsg(interaction.Performer, "This remote does not contain the required access.");
 				return;
