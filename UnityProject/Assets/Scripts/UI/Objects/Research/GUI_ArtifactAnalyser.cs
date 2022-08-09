@@ -62,7 +62,7 @@ namespace UI.Objects.Research
 
 			UpdateGUI();
 
-			ArtifactAnalyser.stateChange += UpdateGUI;
+			artifactAnalyser.StateChange += UpdateGUI;
 
 			OnTabOpened.AddListener(UpdateGUIForPeepers);
 
@@ -229,7 +229,7 @@ namespace UI.Objects.Research
 		}
 		private void OnDestroy()
 		{
-			ArtifactAnalyser.stateChange -= UpdateGUI;
+			artifactAnalyser.StateChange -= UpdateGUI;
 		}
 	}
 }

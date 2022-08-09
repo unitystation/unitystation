@@ -24,7 +24,7 @@ namespace Items.Storage.VirtualStorage
 		}
 	}
 
-	public class ArtifactDataFiles : VirtualData
+	public class ArtifactDataFile : VirtualData
 	{
 		//Data saved onto disk by console
 		public ArtifactData inputData = new ArtifactData();

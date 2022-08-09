@@ -20,23 +20,20 @@ namespace Systems.Research
 		public virtual void DoEffectAura(GameObject centeredAround)
 		{
 			var objCenter = centeredAround.AssumedWorldPosServer().RoundToInt();
-			var shape = EffectShape.CreateEffectShape(effectShapeType, objCenter, AuraRadius);
-
-			foreach (var pos in shape)
+			var players = Physics2D.OverlapCircleAll(objCenter.To2(), AuraRadius, LayerMask.NameToLayer("Player"));
+			
+			foreach (var player in players)
 			{
-				// check if tile has any alive player
-				var players = MatrixManager.GetAt<PlayerScript>(pos, true).Distinct();
-				foreach (var player in players)
+				if (player.TryGetComponent<PlayerScript>(out var playerScript))
 				{
-					if (!player.IsDeadOrGhost)
+					if (!playerScript.IsDeadOrGhost)
 					{
 						//What is this? Particuarly powerful artifacts can rip players apart if they are not careful,
 						//if an artifact tries to teleport the head, but the body is resistant to teleporting,
 						//it might rip the head off the body. Be careful when enabling body splitting.
 						//This can also be used to make artifacts indivdually effect body parts.
-						if (AllowBodySplitting) TryEffectParts(player);
-						else TryEffectPlayer(player);
-
+						if (AllowBodySplitting) TryEffectParts(playerScript);
+						else TryEffectPlayer(playerScript);
 					}
 				}
 			}
@@ -47,15 +44,17 @@ namespace Systems.Research
 			foreach (BodyPart part in toEffect.playerHealth.SurfaceBodyParts)
 			{
 				if (part.BodyPartType == BodyPartType.Chest) continue; //Don't want to dismember torso, only periphirals.
-				float Armour = 0;
-				foreach (var armour in part.ClothingArmors)
+
+				float totalAnomalyArmour = 0;
+
+				foreach (var anomalyArmour in part.ClothingArmors)
 				{
-					Armour += armour.Anomaly;
+					totalAnomalyArmour += anomalyArmour.Anomaly;
 				}
 
-				Armour += Mathf.Clamp(Armour, 0, 100);
+				totalAnomalyArmour = Mathf.Clamp(totalAnomalyArmour, 0, 100);
 
-				if (DMMath.Prob(50 - (Armour/2)))
+				if (DMMath.Prob(50 - (totalAnomalyArmour /2)))
 				{
 					OnEffect(toEffect, part);
 					return;
@@ -65,27 +64,28 @@ namespace Systems.Research
 
 		protected virtual void TryEffectPlayer(PlayerScript toEffect)
 		{
-			float Armour = 0;
+			float totalAnomalyArmour = 0;
 			int partCount = 0;
 
 			List<BodyPart> parts = toEffect.playerHealth.SurfaceBodyParts.Shuffle().ToList(); //Without this it will almost always remove the same body part, i.e head
 
 			foreach (BodyPart part in parts)
 			{
-				float A2 = 0;
-				foreach (var armour in part.ClothingArmors)
+				float bodyPartTotalArmour = 0;
+				foreach (var anomalyArmour in part.ClothingArmors)
 				{
-					A2 += armour.Anomaly;
+					bodyPartTotalArmour += anomalyArmour.Anomaly;
 				}
 
-				Armour += Mathf.Clamp(A2, 0, 100);
+				totalAnomalyArmour += Mathf.Clamp(bodyPartTotalArmour, 0, 100);
 				partCount++;					
 			}
-			if(partCount != 0) Armour /= partCount;
 
-			Armour = Mathf.Clamp(Armour, 0, 100);
+			if(partCount != 0) totalAnomalyArmour /= partCount;
 
-			if (DMMath.Prob(50 - (Armour/2)))
+			totalAnomalyArmour = Mathf.Clamp(totalAnomalyArmour, 0, 100);
+
+			if (DMMath.Prob(50 - (totalAnomalyArmour / 2)))
 			{
 				OnEffect(toEffect);
 			}

@@ -1,8 +1,5 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using Mirror;
-using Shared.Systems.ObjectConnection;
+﻿using UnityEngine;
+using System;
 using Items.Science;
 
 namespace Systems.Research.Objects
@@ -21,8 +18,7 @@ namespace Systems.Research.Objects
 		[HideInInspector]
 		public AnalyserState analyserState;
 
-		public delegate void StateChange();
-		public static event StateChange stateChange;
+		public Action StateChange;
 
 		private void Awake()
 		{
@@ -82,11 +78,7 @@ namespace Systems.Research.Objects
 
 		private void UpdateGUI()
 		{
-			// Delegate calls method in all subscribers when material is changed
-			if (stateChange != null)
-			{
-				stateChange();
-			}
+			StateChange?.Invoke();
 		}
 	}
 

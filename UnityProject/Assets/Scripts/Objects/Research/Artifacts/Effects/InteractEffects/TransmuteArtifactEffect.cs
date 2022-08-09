@@ -26,39 +26,34 @@ namespace Systems.Research
 		protected override void CorrectEffect(HandApply interaction)
 		{
 			//Is correct item
-			if (despawnItemOnFeed)
-			{
-				if (interaction.HandObject.TryGetComponent<ItemAttributesV2>(out var attributes))
-				{
-					foreach (ItemTrait itemTrait in attributes.GetTraits())
-					{
-						for (int i = 0; i < acceptedItems.Length; i++)
-						{
-							if (acceptedItems[i] == itemTrait)
-							{
-								inputtedItem = i;
-								break;
-							}
-						}
-					}
 
-					if (interaction.HandObject.TryGetComponent<Stackable>(out var stackable))
+			if (interaction.HandObject.TryGetComponent<ItemAttributesV2>(out var attributes))
+			{
+				for (int i = 0; i < acceptedItems.Length; i++)
+				{
+					if(Validations.HasItemTrait(interaction.HandObject, acceptedItems[i]))
 					{
-						if (!stackable.ServerConsume(consumedItemAmount))
-						{
-							//Not enough items in stack
-							Chat.AddExamineMsgFromServer(interaction.Performer, "The artifact looks unimpressed");
-							return;
-						}
-					}
-					else
-					{
-						Despawn.ServerSingle(interaction.HandObject);
+						inputtedItem = i;
+						break;
 					}
 				}
-
-				Spawn.ServerPrefab(ItemResults[inputtedItem], SpawnDestination.At(interaction.Performer));
 			}
+
+			if (interaction.HandObject.TryGetComponent<Stackable>(out var stackable) && despawnItemOnFeed)
+			{
+				if (stackable.ServerConsume(consumedItemAmount) == false)
+				{
+					//Not enough items in stack
+					Chat.AddExamineMsgFromServer(interaction.Performer, "The artifact looks unimpressed");
+					return;
+				}
+			}
+			else if(despawnItemOnFeed)
+			{
+				Despawn.ServerSingle(interaction.HandObject);
+			}
+			
+			Spawn.ServerPrefab(ItemResults[inputtedItem], SpawnDestination.At(interaction.Performer));
 		}
 	}
 }

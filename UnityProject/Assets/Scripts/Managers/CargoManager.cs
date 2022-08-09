@@ -340,7 +340,7 @@ namespace Systems.Cargo
 
 			if (obj.TryGetComponent<ArtifactDataDisk>(out var disk))
 			{
-				foreach (ArtifactDataFiles file in disk.DataOnStorage)
+				foreach (ArtifactDataFile file in disk.DataOnStorage)
 				{
 					if (researchedArtifacts.Contains(file.correctData.ID) == false)
 					{

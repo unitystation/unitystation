@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System;
 using UnityEngine;
 using Items.Science;
 using Objects.Research;
@@ -18,8 +19,7 @@ namespace Objects.Research
 
 		[SyncVar] public ArtifactData inputData = new ArtifactData();
 
-		public delegate void StateChange();
-		public static event StateChange stateChange;
+		public Action StateChange;
 
 		private void Awake()
 		{
@@ -62,11 +62,7 @@ namespace Objects.Research
 		}
 		private void UpdateGUI()
 		{
-			// Delegate calls method in all subscribers when material is changed
-			if (stateChange != null)
-			{
-				stateChange();
-			}
+			StateChange?.Invoke();
 		}
 
 		#region Multitool Interaction

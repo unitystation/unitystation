@@ -11,14 +11,14 @@ namespace Items.Science
 
 		public void Awake()
 		{
-			DataOnStorage.Add(new ArtifactDataFiles());
+			DataOnStorage.Add(new ArtifactDataFile());
 		}
 
 		public void CalculateExportCost()
 		{
 			int cost = 0;
 
-			foreach(ArtifactDataFiles file in DataOnStorage)
+			foreach(ArtifactDataFile file in DataOnStorage)
 			{
 				cost += Mathf.Clamp(1000 - (2*Mathf.Abs(file.inputData.radiationlevel - file.correctData.radiationlevel)), 0, 1000);
 				cost += Mathf.Clamp(1000 - (20*Mathf.Abs(file.inputData.bluespacesig - file.correctData.bluespacesig)), 0, 1000);

@@ -68,7 +68,7 @@ namespace UI.Objects.Research
 
 			consoleState = ConsoleState.Idle;
 
-			ArtifactConsole.stateChange += UpdateGUI;
+			console.StateChange += UpdateGUI;
 
 			OnTabOpened.AddListener(UpdateGUIForPeepers);
 
@@ -146,7 +146,7 @@ namespace UI.Objects.Research
 
 			OutputLabel.SetValueServer("Data write successful.");
 
-			foreach (ArtifactDataFiles data in console.dataDisk.DataOnStorage)
+			foreach (ArtifactDataFile data in console.dataDisk.DataOnStorage)
 			{
 				data.inputData = inputData;
 				data.correctData = console.connectedArtifact.artifactData;
@@ -204,7 +204,7 @@ namespace UI.Objects.Research
 
 		private void OnDestroy()
 		{
-			ArtifactConsole.stateChange -= UpdateGUI;
+			console.StateChange -= UpdateGUI;
 		}
 
 		public enum ConsoleState
