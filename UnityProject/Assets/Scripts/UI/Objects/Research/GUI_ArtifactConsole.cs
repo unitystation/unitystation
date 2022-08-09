@@ -45,30 +45,29 @@ namespace UI.Objects.Research
 
 		public NetSpriteImage ImageObject = null;
 
-		protected override void InitServer()
+		public void Awake()
 		{
-			if (CustomNetworkManager.Instance._isServer)
-			{
-				StartCoroutine(WaitForProvider());
-			}
+			StartCoroutine(WaitForProvider());
 		}
 
 		private IEnumerator WaitForProvider()
 		{
-
 			while (Provider == null)
 			{
 				yield return WaitFor.EndOfFrame;
 			}
 
 			console = Provider.GetComponent<ArtifactConsole>();
+
 			inputData = console.inputData;
+
+			console.StateChange += UpdateGUI;
+
+			if (!CustomNetworkManager.Instance._isServer) yield break;
 
 			UpdateGUI();
 
 			consoleState = ConsoleState.Idle;
-
-			console.StateChange += UpdateGUI;
 
 			OnTabOpened.AddListener(UpdateGUIForPeepers);
 
@@ -93,13 +92,9 @@ namespace UI.Objects.Research
 
 		public void UpdateGUI()
 		{
+			inputData = console.inputData;
 
-			bool hidden = console.dataDisk == null;
-
-			if (hidden) ImageObject.SetSprite(1);
-			else ImageObject.SetSprite(0);
-
-			if(console.connectedArtifact != null) NameLabel.SetValueServer(console.connectedArtifact.ID);
+			if (console.connectedArtifact != null) NameLabel.SetValueServer(console.connectedArtifact.ID);
 			else NameLabel.SetValueServer("NULL");
 
 			if(LogLabel.Value == "No disk in console!" && console.dataDisk != null)
@@ -112,13 +107,15 @@ namespace UI.Objects.Research
 			bluespaceInput.text = inputData.bluespacesig.ToString();
 			bananiumInput.text = inputData.bananiumsig.ToString();
 
-			areaEffectDropdown.value = console.inputData.AreaEffectValue;
-			damageEffectDropdown.value = console.inputData.DamageEffectValue;
-			interactEffectDropdown.value = console.inputData.InteractEffectValue;
+			areaEffectDropdown.value = inputData.AreaEffectValue;
+			damageEffectDropdown.value = inputData.DamageEffectValue;
+			interactEffectDropdown.value = inputData.InteractEffectValue;
 
 			appearanceDropdown.value = (int)inputData.Type;
 
-			inputData = console.inputData;
+			if (console.HasDisk) ImageObject.SetSprite(0);
+			else ImageObject.SetSprite(1);
+			
 		}
 
 		public void WriteData()
@@ -180,8 +177,6 @@ namespace UI.Objects.Research
 
 		public void UpdateData()
 		{
-			console = Provider.GetComponent<ArtifactConsole>();
-
 			Int32.TryParse(radInput.text, out int A);
 			inputData.radiationlevel = A;
 
@@ -199,7 +194,14 @@ namespace UI.Objects.Research
 
 			console.inputData = inputData;
 
-			UpdateGUI();
+			if(CustomNetworkManager.Instance._isServer)
+			{
+				console.RpcSetInputDataClients(inputData);
+			}
+			else
+			{
+				console.CmdSetInputDataServer(inputData);
+			}
 		}
 
 		private void OnDestroy()

@@ -15,9 +15,11 @@ namespace Objects.Research
 		public ItemStorage itemStorage;
 
 		public Artifact connectedArtifact;
-		public ArtifactDataDisk dataDisk;
+		public ArtifactDataDisk dataDisk = null;
 
-		[SyncVar] public ArtifactData inputData = new ArtifactData();
+		public ArtifactData inputData = new ArtifactData();
+
+		[SyncVar] public bool HasDisk = false;
 
 		public Action StateChange;
 
@@ -42,6 +44,7 @@ namespace Objects.Research
 			{
 				Inventory.ServerTransfer(interaction.HandSlot, itemStorage.GetIndexedItemSlot(0));
 				dataDisk = itemStorage.GetIndexedItemSlot(0).ItemObject.GetComponent<ArtifactDataDisk>();
+				HasDisk = true;
 
 				Chat.AddActionMsgToChat(interaction.Performer, "You insert the drive into the console.",
 					interaction.Performer.ExpensiveName() + " inserts the dirve into the console.");
@@ -58,11 +61,29 @@ namespace Objects.Research
 		public void DropDisk()
 		{
 			itemStorage.ServerDropAll();
+			HasDisk = false;
 			dataDisk = null;
 		}
+
 		private void UpdateGUI()
 		{
 			StateChange?.Invoke();
+		}
+
+		[Command(requiresAuthority = false)]
+		public void CmdSetInputDataServer(ArtifactData inputDataClient)
+		{
+			inputData = inputDataClient;
+			UpdateGUI();
+
+			RpcSetInputDataClients(inputData);
+		}
+
+		[ClientRpc]
+		public void RpcSetInputDataClients(ArtifactData inputDataServer)
+		{
+			inputData = inputDataServer;
+			UpdateGUI();
 		}
 
 		#region Multitool Interaction

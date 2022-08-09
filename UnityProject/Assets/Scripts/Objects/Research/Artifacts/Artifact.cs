@@ -126,7 +126,7 @@ namespace Objects.Research
 						artifactData.bananiumsig += Random.Range(100, 500);
 						break;
 					default:
-						artifactData.radiationlevel += Random.Range(100, 500);
+						artifactData.radiationlevel += Random.Range(1000, 5000);
 						break;
 				}
 			}
@@ -200,14 +200,18 @@ namespace Objects.Research
 				ServerSpawnedArtifacts.Remove(this);
 		}
 
+
 		#endregion
 
 		private void UpdateMe()
 		{
+
 			if (!CustomNetworkManager.IsServer)
 			{
 				return;
 			}
+
+			spriteHandler?.SetSpriteSO(currentSprite.idleSprite);
 
 			if (isDormant == false)
 			{
