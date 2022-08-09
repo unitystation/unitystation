@@ -229,7 +229,7 @@ namespace Objects
 			foreach (MovementSynchronisation player in playersFound)
 			{
 				var coord = new Vector2(Position.x, Position.y);
-				Chat.AddLocalMsgToChat(Message, coord, gameObject);
+				Chat.AddLocalMsgToChat(Message, coord, gameObject, LanguageManager.Common);
 				SoundManager.PlayNetworkedForPlayer(player.gameObject,CommonSounds.Instance.StealthOff); // very weird, sometimes does the sound other times not.
 				TransportUtility.TransportObjectAndPulled(player, TeleportTargetCoord);
 			}

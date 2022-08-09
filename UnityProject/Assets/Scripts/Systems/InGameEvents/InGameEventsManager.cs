@@ -1,10 +1,9 @@
-﻿using DiscordWebhook;
-using GameConfig;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using AdminCommands;
-using Managers;
+using GameConfig;
+using Shared.Managers;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -153,7 +152,7 @@ namespace InGameEvents
 				//If there's not enough players try to trigger a different one
 				if(eventInList.MinPlayersToTrigger > PlayerList.Instance.InGamePlayers.Count) continue;
 
-				var chanceToHappen = UnityEngine.Random.Range(0f, 100f);
+				var chanceToHappen = Random.Range(0f, 100f);
 
 				if (chanceToHappen < eventInList.ChanceToHappen)
 				{

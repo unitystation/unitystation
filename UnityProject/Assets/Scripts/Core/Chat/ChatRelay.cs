@@ -249,7 +249,8 @@ public class ChatRelay : NetworkBehaviour
 		ushort languageId = 0;
 
 		//Check to see if the target player can understand the language!
-		if (chatEvent.language != null && playerToSend.TryGetComponent<PlayerScript>(out var playerScript))
+		if (chatEvent.modifiers.HasFlag(ChatModifier.Emote) == false &&
+		    chatEvent.language != null && playerToSend.TryGetComponent<PlayerScript>(out var playerScript))
 		{
 			languageId = chatEvent.language.LanguageUniqueId;
 

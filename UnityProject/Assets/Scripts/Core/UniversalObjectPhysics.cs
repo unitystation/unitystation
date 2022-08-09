@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using AdminCommands;
 using Core.Editor.Attributes;
 using HealthV2;
 using Items;
@@ -1804,6 +1805,8 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 
 	public virtual RightClickableResult GenerateRightClickOptions()
 	{
+		var options = RightClickableResult.Create();
+
 		//check if our local player can reach this
 		var initiator = PlayerManager.LocalPlayerScript.GetComponent<UniversalObjectPhysics>();
 		if (initiator == null) return null;
@@ -1811,8 +1814,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 		if (PulledBy.HasComponent && PulledBy.Component == initiator)
 		{
 			//already pulled by us, but we can stop pulling
-			return RightClickableResult.Create()
-				.AddElement("StopPull", TryTogglePull);
+			options.AddElement("StopPull", TryTogglePull);
 		}
 		else
 		{
@@ -1821,12 +1823,27 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 				    context: gameObject) &&
 			    isNotPushable == false && initiator != this)
 			{
-				return RightClickableResult.Create()
-					.AddElement("Pull", TryTogglePull);
+				options.AddElement("Pull", TryTogglePull);
 			}
 		}
 
-		return RightClickableResult.Create();
+		if (string.IsNullOrEmpty(PlayerList.Instance.AdminToken) == false &&
+		    KeyboardInputManager.Instance.CheckKeyAction(KeyAction.ShowAdminOptions, KeyboardInputManager.KeyEventType.Hold))
+		{
+			options.AddAdminElement("Teleport To", AdminTeleport).AddAdminElement("Toggle Pushable", AdminTogglePushable);
+		}
+
+		return options;
+	}
+
+	private void AdminTeleport()
+	{
+		AdminCommandsManager.Instance.CmdTeleportToObject(gameObject);
+	}
+
+	private void AdminTogglePushable()
+	{
+		AdminCommandsManager.Instance.CmdTogglePushable(gameObject);
 	}
 
 	public virtual void OnDestroy()

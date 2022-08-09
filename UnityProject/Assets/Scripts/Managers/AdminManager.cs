@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Shared.Managers;
 using UnityEngine;
 
 namespace Managers

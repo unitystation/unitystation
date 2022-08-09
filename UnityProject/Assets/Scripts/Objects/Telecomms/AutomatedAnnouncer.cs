@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Managers;
 using UnityEngine;
 
 namespace Objects.Telecomms
@@ -102,7 +103,8 @@ namespace Objects.Telecomms
 
 		private void BroadcastCommMsg(ChatChannel chatChannels, string message, Loudness importance)
 		{
-			Chat.AddCommMsgByMachineToChat(gameObject, message, chatChannels, importance, ChatModifier.ColdlyState,  machineName);
+			Chat.AddCommMsgByMachineToChat(gameObject, message, chatChannels, importance,
+				ChatModifier.ColdlyState, machineName, LanguageManager.Common);
 		}
 	}
 }

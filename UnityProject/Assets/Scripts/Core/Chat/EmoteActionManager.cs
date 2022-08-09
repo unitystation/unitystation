@@ -1,11 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
 using ScriptableObjects.RP;
+using Shared.Managers;
 using UnityEngine;
 
 namespace Core.Chat
 {
-	public class EmoteActionManager : Managers.SingletonManager<EmoteActionManager>
+	public class EmoteActionManager : SingletonManager<EmoteActionManager>
 	{
 		[SerializeField] private EmoteListSO emoteList;
 		public EmoteListSO EmoteList => emoteList;

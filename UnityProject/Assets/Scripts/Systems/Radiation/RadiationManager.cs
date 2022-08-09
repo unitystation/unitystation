@@ -1,9 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
+﻿using System.Collections.Generic;
+using Shared.Managers;
 using UnityEngine;
 using UnityEngine.Profiling;
-using Managers;
 
 namespace Systems.Radiation
 {

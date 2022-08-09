@@ -1,10 +1,8 @@
-using System.Collections;
 using System.Collections.Generic;
-using Managers;
-using Messages.Server.SpritesMessages;
 using Tilemaps.Behaviours.Layers;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using Shared.Managers;
 
 public class ComponentManager : SingletonManager<ComponentManager>
 {

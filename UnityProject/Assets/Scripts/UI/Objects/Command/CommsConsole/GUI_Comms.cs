@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Linq;
 using UnityEngine;
 using UI.Core.NetUI;
 using Managers;
@@ -188,15 +189,16 @@ namespace UI.Objects.Command
 		public void MakeAnAnnouncement(string text)
 		{
 			text = Chat.StripTags(text);
+			var language = Peepers.Count == 0 ? null : Peepers.ElementAt(0).Script.MobLanguages.CurrentLanguage;
 
 			Logger.Log(nameof(MakeAnAnnouncement), Category.Shuttles);
 			if (text.Length > 200)
 			{
-				CentComm.MakeAnnouncement(ChatTemplates.CaptainAnnounce, text.Substring(0, 200), CentComm.UpdateSound.Announce);
+				CentComm.MakeAnnouncement(ChatTemplates.CaptainAnnounce, text.Substring(0, 200), CentComm.UpdateSound.Announce, language);
 			}
 			else
 			{
-				CentComm.MakeAnnouncement(ChatTemplates.CaptainAnnounce, text, CentComm.UpdateSound.Announce);
+				CentComm.MakeAnnouncement(ChatTemplates.CaptainAnnounce, text, CentComm.UpdateSound.Announce, language);
 			}
 			OpenMenu();
 		}

@@ -192,64 +192,16 @@ namespace Tests.Scenes
 			&& storage.ItemStoragePopulator != null
 			&& storage.forceSpawnContents == false;
 
-
 		/// <summary>
 		/// Checks for duplicated Pipes or cables
 		/// </summary>
 		[Test]
 		public void PipesAndCablesAreNotOverlappingOrDuplicate()
 		{
-			foreach (var layer in RootObjects.ComponentInChildren<UnderFloorLayer>().NotNull())
-			{
-				var tilemap = layer.Tilemap;
-				var bounds = tilemap.cellBounds;
-				for (var x = bounds.xMin; x < bounds.xMax; x++)
-				{
-					for (var y = bounds.yMin; y < bounds.yMax; y++)
-					{
-						CheckPipeAndCableTiles(layer.Matrix, tilemap, x, y);
-					}
-				}
-			}
-
-			foreach (var layer in RootObjects.ComponentInChildren<ElectricalLayer>().NotNull())
-			{
-				var tilemap = layer.Tilemap;
-				var bounds = tilemap.cellBounds;
-				for (var x = bounds.xMin; x < bounds.xMax; x++)
-				{
-					for (var y = bounds.yMin; y < bounds.yMax; y++)
-					{
-						CheckPipeAndCableTiles(layer.Matrix, tilemap, x, y);
-					}
-				}
-			}
-
-			foreach (var layer in RootObjects.ComponentInChildren<PipeLayer>().NotNull())
-			{
-				var tilemap = layer.Tilemap;
-				var bounds = tilemap.cellBounds;
-				for (var x = bounds.xMin; x < bounds.xMax; x++)
-				{
-					for (var y = bounds.yMin; y < bounds.yMax; y++)
-					{
-						CheckPipeAndCableTiles(layer.Matrix, tilemap, x, y);
-					}
-				}
-			}
-
-			foreach (var layer in RootObjects.ComponentInChildren<DisposalsLayer>().NotNull())
-			{
-				var tilemap = layer.Tilemap;
-				var bounds = tilemap.cellBounds;
-				for (var x = bounds.xMin; x < bounds.xMax; x++)
-				{
-					for (var y = bounds.yMin; y < bounds.yMax; y++)
-					{
-						CheckPipeAndCableTiles(layer.Matrix, tilemap, x, y);
-					}
-				}
-			}
+			CheckPipesAndCablesForLayer<UnderFloorLayer>();
+			CheckPipesAndCablesForLayer<ElectricalLayer>();
+			CheckPipesAndCablesForLayer<PipeLayer>();
+			CheckPipesAndCablesForLayer<DisposalsLayer>();
 
 			if (Scene.isDirty)
 			{
@@ -257,6 +209,22 @@ namespace Tests.Scenes
 			}
 
 			Report.AssertPassed();
+		}
+
+		private void CheckPipesAndCablesForLayer<T>() where T : Layer
+		{
+			foreach (var layer in RootObjects.ComponentInChildren<T>().NotNull())
+			{
+				var tilemap = layer.Tilemap;
+				var bounds = tilemap.cellBounds;
+				for (var x = bounds.xMin; x < bounds.xMax; x++)
+				{
+					for (var y = bounds.yMin; y < bounds.yMax; y++)
+					{
+						CheckPipeAndCableTiles(layer.Matrix, tilemap, x, y);
+					}
+				}
+			}
 		}
 
 		private void CheckPipeAndCableTiles(Matrix matrix, Tilemap tilemap, int x, int y)

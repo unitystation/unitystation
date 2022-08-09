@@ -70,7 +70,9 @@ namespace Systems.Clearance.Utils
 			{Access.virology, Clearance.Virology},
 			{Access.weapons, Clearance.Weapons},
 			{Access.xenobiology, Clearance.Xenobiology},
-			{Access.centcom, Clearance.CentGeneral}
+			{Access.centcom, Clearance.CentGeneral},
+			{Access.cent_specops, Clearance.CentSpecops},
+			{Access.cent_ert, Clearance.CentSpecops}
 		};
 	}
 }

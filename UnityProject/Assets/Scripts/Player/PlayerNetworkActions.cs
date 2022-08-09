@@ -605,13 +605,16 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	[Server]
 	public void ServerToggleChatIcon(string message, ChatModifier chatModifier, LanguageSO language)
 	{
+		// Cancel right away if the player cannot speak.
+		if ((chatModifier & ChatModifier.Mute) == ChatModifier.Mute) return;
+
+		// If emoting don't do speech bubble
+		if ((chatModifier & ChatModifier.Emote) == ChatModifier.Emote) return;
+
 		//Don't do anything with chat icon if player is invisible or not spawned in
 		if(playerScript.objectPhysics != null && playerScript.objectPhysics.IsVisible == false) return;
 		if(playerScript.playerHealth != null &&
 		   (playerScript.playerHealth.IsDead || playerScript.playerHealth.IsCrit)) return;
-
-		// Cancel right away if the player cannot speak.
-		if ((chatModifier & ChatModifier.Mute) == ChatModifier.Mute) return;
 
 		//See if we can even send any bubbles
 		if(playerScript.PlayerTypeSettings.SendSpeechBubbleTo == PlayerTypes.None) return;
@@ -970,44 +973,6 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 
 			//Back to player
 			GhostEnterBody();
-		}
-	}
-
-	[Command]
-	public void CmdAdminMakeHotspot(GameObject onObject)
-	{
-		if (AdminCommandsManager.IsAdmin(connectionToClient, out _) == false) return;
-
-		if (onObject == null) return;
-		var reactionManager = onObject.GetComponentInParent<ReactionManager>();
-		if (reactionManager == null) return;
-
-		reactionManager.ExposeHotspotWorldPosition(onObject.TileWorldPosition(), 1000, true);
-		reactionManager.ExposeHotspotWorldPosition(onObject.TileWorldPosition() + Vector2Int.down, 1000, true);
-		reactionManager.ExposeHotspotWorldPosition(onObject.TileWorldPosition() + Vector2Int.left, 1000, true);
-		reactionManager.ExposeHotspotWorldPosition(onObject.TileWorldPosition() + Vector2Int.up, 1000, true);
-		reactionManager.ExposeHotspotWorldPosition(onObject.TileWorldPosition() + Vector2Int.right, 1000, true);
-	}
-
-	[Command]
-	public void CmdAdminSmash(GameObject toSmash)
-	{
-		if (AdminCommandsManager.IsAdmin(connectionToClient, out _) == false) return;
-
-		if (toSmash == null) return;
-
-		var integrity = toSmash.GetComponent<Integrity>();
-		if (integrity == null) return;
-
-		integrity.ApplyDamage(float.MaxValue, AttackType.Melee, DamageType.Brute);
-	}
-
-	[Command]
-	public void CmdGetAdminOverlayFullUpdate()
-	{
-		if (AdminCommandsManager.IsAdmin(connectionToClient, out var player))
-		{
-			AdminOverlay.RequestFullUpdate(player);
 		}
 	}
 

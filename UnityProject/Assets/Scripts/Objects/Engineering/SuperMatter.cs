@@ -10,6 +10,7 @@ using AddressableReferences;
 using Core.Lighting;
 using HealthV2;
 using Light2D;
+using Managers;
 using Messages.Server;
 using Mirror;
 using ScriptableObjects.Atmospherics;
@@ -1057,11 +1058,13 @@ namespace Objects.Engineering
 
 		private void AddMessageToChat(string message, bool sendToCommon = false)
 		{
-			Chat.AddCommMsgByMachineToChat(gameObject, message, ChatChannel.Engineering, Loudness.SCREAMING,  broadcasterName: "Supermatter Warning System: ");
+			Chat.AddCommMsgByMachineToChat(gameObject, message, ChatChannel.Engineering,
+				Loudness.SCREAMING,  broadcasterName: "Supermatter Warning System: ", language: LanguageManager.Common);
 
 			if (sendToCommon)
 			{
-				Chat.AddCommMsgByMachineToChat(gameObject, message, ChatChannel.Common, Loudness.SCREAMING, broadcasterName: "Supermatter Warning System: ");
+				Chat.AddCommMsgByMachineToChat(gameObject, message, ChatChannel.Common,
+					Loudness.SCREAMING, broadcasterName: "Supermatter Warning System: ", language: LanguageManager.Common);
 			}
 		}
 

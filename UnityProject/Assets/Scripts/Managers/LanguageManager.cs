@@ -3,6 +3,7 @@ using System.Globalization;
 using System.Linq;
 using System.Text;
 using Player.Language;
+using Shared.Managers;
 using UnityEngine;
 
 namespace Managers
@@ -18,7 +19,7 @@ namespace Managers
 
 		[SerializeField]
 		private LanguageSO common = null;
-		public LanguageSO Common => common;
+		public static LanguageSO Common => Instance.common;
 
 		private const int CacheCapacity = 50;
 

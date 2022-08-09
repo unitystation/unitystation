@@ -73,6 +73,8 @@ namespace Player.Language
 			UnderstoodLanguages = newGroup.UnderstoodLanguages.ToHashSet();
 			SpokenLanguages = newGroup.SpokenLanguages.ToHashSet();
 			BlockedLanguages = newGroup.BlockedLanguages.ToHashSet();
+			
+			if(CustomNetworkManager.IsServer == false) return;
 
 			ResetCurrentLanguage();
 		}
