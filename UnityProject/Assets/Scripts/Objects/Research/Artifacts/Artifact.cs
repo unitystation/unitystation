@@ -28,7 +28,7 @@ namespace Objects.Research
 		public readonly static HashSet<Artifact> ServerSpawnedArtifacts = new HashSet<Artifact>();
 
 		private Integrity integrity;
-		private UniversalObjectPhysics objectPhysics; 
+		private UniversalObjectPhysics objectPhysics;
 
 		[SerializeField]
 		private GameObject SliverPrefab = null;
@@ -129,15 +129,24 @@ namespace Objects.Research
 
 			GetComponent<ObjectAttributes>().ServerSetArticleName("Artifact - " + ID);
 
+			ArtifactClass chosenClass = ArtifactClass.Uranium;
+
 			//Randomises the effects of the artifacts, probabilities of certain effects change with composition
-			ArtifactClass chosenClass = PickClass();
-			AreaEffect = ArtifactDataSO.AreaEffects[(int)chosenClass].AreaArtifactEffectList.PickRandom();
-
-			chosenClass = PickClass();
-			InteractEffect = ArtifactDataSO.InteractEffects[(int)chosenClass].InteractArtifactEffectList.PickRandom();
-
-			chosenClass = PickClass();
-			DamageEffect = ArtifactDataSO.DamageEffect[(int)chosenClass].DamageArtifactEffectList.PickRandom();
+			if (AreaEffect == null)
+			{
+				chosenClass = PickClass();
+				AreaEffect = ArtifactDataSO.AreaEffects[(int)chosenClass].AreaArtifactEffectList.PickRandom();
+			}
+			if (InteractEffect == null)
+			{
+				chosenClass = PickClass();
+				InteractEffect = ArtifactDataSO.InteractEffects[(int)chosenClass].InteractArtifactEffectList.PickRandom();
+			}
+			if (DamageEffect == null)
+			{
+				chosenClass = PickClass();
+				DamageEffect = ArtifactDataSO.DamageEffect[(int)chosenClass].DamageArtifactEffectList.PickRandom();
+			}
 
 			artifactData.AreaEffectValue = AreaEffect.GuessIndex;
 			artifactData.InteractEffectValue = InteractEffect.GuessIndex;

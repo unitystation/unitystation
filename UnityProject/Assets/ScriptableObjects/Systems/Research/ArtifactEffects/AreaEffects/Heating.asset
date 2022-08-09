@@ -9,16 +9,19 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bf4984a82b023694b961056a361a8f5b, type: 3}
-  m_Name: SpaceCarp
+  m_Script: {fileID: 11500000, guid: 3f2e0a70b6f29be42993b64e69c94b83, type: 3}
+  m_Name: Heating
   m_EditorClassIdentifier: 
-  GuessIndex: 2
+  GuessIndex: 7
   effectShapeType: 0
-  coolDown: 120
-  AuraRadius: 5
+  coolDown: 10
+  AuraRadius: 0
   AllowBodySplitting: 0
-  amountToSummon: 1
-  objectToSpawn: {fileID: 28648831485940211, guid: 6c9f4a005c9a60d4b8dee2e5fdbe767d,
-    type: 3}
-  avoidSpace: 0
-  avoidImpassable: 1
+  AddGas: 0
+  GasToAdd: {fileID: 0}
+  MolesToAdd: 0
+  RemoveGas: 0
+  GasToRemove: {fileID: 0}
+  MolesToRemove: 0
+  ChangeTemperature: 1
+  TemperatureChange: 150
