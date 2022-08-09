@@ -40,8 +40,11 @@ namespace Objects.Research
 
 		private ArtifactSprite currentSprite;
 
-		public float TouchEffectTimeout = 10f;
-		private float lastActivationTime;
+		public float TouchEffectTimeout = 8;
+		private float lastActivationTimeTouch;
+
+		public float DamageEffectTimeout = 5f;
+		private float lastActivationTimeDamage;
 
 		public bool isDormant = true;
 		public ItemTrait DormantTrigger;
@@ -61,12 +64,21 @@ namespace Objects.Research
 
 		[SyncVar] public string ID = "T376";
 
-		public bool UnderTimeout
+		public bool UnderTimeoutTouch
 		{
 			get
 			{
 				// check that timeout has passed
-				return Time.time - lastActivationTime < TouchEffectTimeout;
+				return Time.time - lastActivationTimeTouch < TouchEffectTimeout;
+			}
+		}
+
+		public bool UnderTimeoutDamage
+		{
+			get
+			{
+				// check that timeout has passed
+				return Time.time - lastActivationTimeDamage < DamageEffectTimeout;
 			}
 		}
 
@@ -291,7 +303,7 @@ namespace Objects.Research
 			{
 				if(DMMath.Prob(50))
 				{
-					Chat.AddLocalMsgToChat("Wake up message", gameObject);
+					Chat.AddLocalMsgToChat("The anomlay begins to gently humm", gameObject);
 					ToggleDormancy(false);
 				}
 				else
@@ -299,10 +311,11 @@ namespace Objects.Research
 					Chat.AddLocalMsgToChat($"{gameObject.ExpensiveName()} quivers as a crack forms along its edge", gameObject);
 				}
 			}
-			if (isDormant == false)
+			if (isDormant == false && !UnderTimeoutDamage)
 			{
 				PlayActivationAnimation();
 				DamageEffect.DoEffect(damageInfo, objectPhysics);
+				lastActivationTimeDamage = Time.time;
 			}
 		}
 
@@ -322,11 +335,11 @@ namespace Objects.Research
 						$"{interaction.Performer.ExpensiveName()} touches the anomaly, it twitches slighty, but remains dormant...");
 				}
 			}
-			else if(!UnderTimeout)
+			else if(!UnderTimeoutTouch)
 			{
 				InteractEffect.DoEffectTouch(interaction);
 				PlayActivationAnimation();
-				lastActivationTime = Time.time;
+				lastActivationTimeTouch = Time.time;
 			}
 		}
 
@@ -408,7 +421,7 @@ namespace Objects.Research
 
 			ArtifactClass artifactClass;
 
-			if (choice < (artifactData.radiationlevel / 2))
+			if (choice < (artifactData.radiationlevel / 20))
 			{
 				artifactClass = ArtifactClass.Uranium;
 			}
