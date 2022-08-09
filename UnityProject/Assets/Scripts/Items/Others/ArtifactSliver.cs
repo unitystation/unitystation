@@ -59,7 +59,7 @@ namespace Items.Science
 		{
 			if (sliverData.bluespacesig >= 100)
 			{
-				meleeEffect.enabled = true;
+				meleeEffect.NetSetActive(true);
 				meleeEffect.maxTeleportDistance = (int)(sliverData.bluespacesig / 100);
 
 				for (int i = 0; i < (int)((sliverData.bluespacesig + 100) / 200); i++) //every 200 bluespace sig starting at 100
@@ -69,7 +69,7 @@ namespace Items.Science
 			}
 			if (sliverData.radiationlevel >= 100)
 			{
-				radProducer.enabled = true;
+				radProducer.NetSetActive(true);
 				radProducer.SetLevel(sliverData.radiationlevel);
 
 				for (int i = 0; i < (int)((sliverData.radiationlevel) / 2500); i++) //every 2500 rads

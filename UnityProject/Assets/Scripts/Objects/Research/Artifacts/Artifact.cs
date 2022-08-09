@@ -175,7 +175,7 @@ namespace Objects.Research
 			//Initalises Radiation for artifacts with uranium composition.
 			if (artifactData.radiationlevel > 0)
 			{
-				radiationProducer.enabled = true;
+				radiationProducer.NetSetActive(true);
 				radiationProducer.SetLevel(artifactData.radiationlevel);
 			}
 
