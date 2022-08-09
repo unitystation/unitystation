@@ -7,16 +7,14 @@ namespace Systems.Research.Objects
 	public class ArtifactAnalyser : ResearchPointMachine, ICheckedInteractable<HandApply>
 	{
 		public int storedRP;
-
-		private RegisterObject registerObject;
-		public ItemStorage itemStorage;
+		public ItemStorage itemStorage { get; set; }
 
 		[HideInInspector]
-		public ArtifactSliver artifactSliver;
+		public ArtifactSliver artifactSliver { get; set; }
 
 
 		[HideInInspector]
-		public AnalyserState analyserState;
+		public AnalyserState analyserState { get; set; }
 
 		public Action StateChange;
 
@@ -24,7 +22,6 @@ namespace Systems.Research.Objects
 		{
 			analyserState = AnalyserState.Idle;
 			itemStorage = GetComponent<ItemStorage>();
-			registerObject = GetComponent<RegisterObject>();
 		}
 
 		public void EjectSample()

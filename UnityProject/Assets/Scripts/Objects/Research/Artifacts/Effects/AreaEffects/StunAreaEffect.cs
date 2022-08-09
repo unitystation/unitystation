@@ -6,10 +6,14 @@ namespace Systems.Research
 	[CreateAssetMenu(fileName = "StunAreaEffect", menuName = "ScriptableObjects/Systems/Artifacts/StunAreaEffect")]
 	public class StunAreaEffect : AreaEffectBase
 	{
-		public int StunDuration = 3;
-		public bool DropItems = false;
-		public bool ArmourBlockable = false;
-		public bool StopMovement = true;
+		[SerializeField]
+		private int StunDuration = 3;
+		[SerializeField]
+		private bool DropItems = false;
+		[SerializeField]
+		private bool ArmourBlockable = false;
+		[SerializeField]
+		private bool StopMovement = true;
 
 		public override void OnEffect(PlayerScript player, BodyPart part = null)
 		{

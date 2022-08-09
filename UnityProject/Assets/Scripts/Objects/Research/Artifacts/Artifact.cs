@@ -141,7 +141,7 @@ namespace Objects.Research
 
 			GetComponent<ObjectAttributes>().ServerSetArticleName("Artifact - " + ID);
 
-			ArtifactClass chosenClass = ArtifactClass.Uranium;
+			ArtifactClass chosenClass;	
 
 			//Randomises the effects of the artifacts, probabilities of certain effects change with composition
 			if (AreaEffect == null)
@@ -210,8 +210,6 @@ namespace Objects.Research
 			{
 				return;
 			}
-
-			spriteHandler?.SetSpriteSO(currentSprite.idleSprite);
 
 			if (isDormant == false)
 			{
@@ -425,10 +423,6 @@ namespace Objects.Research
 
 			ArtifactClass artifactClass;
 
-			if (choice < (artifactData.radiationlevel / 20))
-			{
-				artifactClass = ArtifactClass.Uranium;
-			}
 			if (choice >= (artifactData.radiationlevel / 20) && choice < (artifactData.bluespacesig + artifactData.radiationlevel / 20))
 			{
 				artifactClass = ArtifactClass.Bluespace;

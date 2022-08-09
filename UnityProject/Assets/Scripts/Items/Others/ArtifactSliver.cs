@@ -10,9 +10,9 @@ using Mirror;
 namespace Items.Science
 {
 
-	public class ArtifactSliver : NetworkBehaviour
+	public class ArtifactSliver : MonoBehaviour
 	{
-		[SyncVar] public ArtifactData sliverData;
+		public ArtifactData sliverData;
 
 		public string ID;
 
@@ -43,6 +43,8 @@ namespace Items.Science
 			sliverData.radiationlevel += (int)(sliverData.radiationlevel * Random.Range(-0.20f, 0.20f)); // +- 20% accuracy
 			sliverData.bluespacesig += (int)(sliverData.bluespacesig * Random.Range(-0.20f, 0.20f)); // +- 20% accuracy
 			sliverData.bluespacesig += (int)(sliverData.bluespacesig * Random.Range(-0.20f, 0.20f)); // +- 20% accuracy
+
+			RPReward = Random.Range(5, 10);
 
 			sliverData.mass = sliverData.radiationlevel / 20 + sliverData.bluespacesig + sliverData.bananiumsig / 2;
 

@@ -21,6 +21,8 @@ namespace Objects.Research
 
 		[SyncVar] public bool HasDisk = false;
 
+		[SerializeField] ItemTrait ArtifactDiskTrait = null;
+
 		public Action StateChange;
 
 		private void Awake()
@@ -33,7 +35,7 @@ namespace Objects.Research
 		{
 			if (interaction.HandSlot.IsEmpty) return false;
 			if (!DefaultWillInteract.Default(interaction, side)) return false;
-			if (Validations.HasItemTrait(interaction.UsedObject, CommonTraits.Instance.everyTraitOutThere[403])) return true;
+			if (Validations.HasItemTrait(interaction.UsedObject, ArtifactDiskTrait)) return true;
 
 			return false;
 		}

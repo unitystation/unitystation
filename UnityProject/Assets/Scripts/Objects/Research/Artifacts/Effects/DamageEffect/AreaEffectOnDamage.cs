@@ -6,7 +6,7 @@ namespace Systems.Research
 	public class AreaEffectOnDamage : DamageEffectBase
 	{
 		[SerializeField]
-		public AreaEffectBase AreaEffectToTrigger;
+		private AreaEffectBase AreaEffectToTrigger;
 
 		public override void DoEffect(DamageInfo damageInfo, UniversalObjectPhysics objectPhysics) 
 		{

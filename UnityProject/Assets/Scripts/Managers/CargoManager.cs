@@ -61,7 +61,7 @@ namespace Systems.Cargo
 
 		private static readonly List<int> randomJunkPrices = new List<int> { 5, 10, 15 };
 
-		public static List<string> researchedArtifacts = new List<string>();
+		private static List<string> researchedArtifacts = new List<string>();
 
 		private void Awake()
 		{
@@ -532,6 +532,12 @@ namespace Systems.Cargo
 			}
 			OnCreditsUpdate.Invoke();
 			OnCartUpdate.Invoke();
+		}
+
+		[RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
+		public static void ClearStatics()
+		{
+			researchedArtifacts = new List<string>();
 		}
 
 		public int GetSellPrice(GameObject obj)

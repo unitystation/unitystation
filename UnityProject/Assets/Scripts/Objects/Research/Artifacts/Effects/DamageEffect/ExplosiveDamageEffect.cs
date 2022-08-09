@@ -6,8 +6,8 @@ namespace Systems.Research
 	[CreateAssetMenu(fileName = "ExplosiveDamageEffect", menuName = "ScriptableObjects/Systems/Artifacts/ExplosiveDamageEffect")]
 	public class ExplosiveDamageEffect : DamageEffectBase
 	{
-		[Tooltip("The higher the multiplier, the stronger the explosion")]
-		public int Multiplier = 10;
+		[SerializeField, Tooltip("The higher the multiplier, the stronger the explosion")]
+		private int Multiplier = 10;
 
 		public override void DoEffect(DamageInfo damageInfo, UniversalObjectPhysics objectPhysics)
 		{

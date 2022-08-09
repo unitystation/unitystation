@@ -7,11 +7,15 @@ namespace Systems.Research
 	[CreateAssetMenu(fileName = "ArtifactTeleportEffect", menuName = "ScriptableObjects/Systems/Artifacts/ArtifactTeleportEffect")]
 	public class TeleportArtifactEffect : AreaEffectBase
 	{
-		public int MinDistance;
-		public int MaxDistance;
+		[SerializeField]
+		private int MinDistance;
+		[SerializeField]
+		private int MaxDistance;
 
-		public bool AvoidSpace = false;
-		public bool AvoidImpassable = false;
+		[SerializeField]
+		private bool AvoidSpace = false;
+		[SerializeField]
+		private bool AvoidImpassable = false;
 
 		public override void OnEffect(PlayerScript player, BodyPart part = null)
 		{

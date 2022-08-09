@@ -16,7 +16,8 @@ namespace Clothing
 		private NamedSlot slot = NamedSlot.outerwear;
 
 		[SerializeField] [Tooltip("What body parts does this item protect and how well does it protect.")]
-		public List<ArmoredBodyPart> armoredBodyParts = new List<ArmoredBodyPart>();
+		private List<ArmoredBodyPart> armoredBodyParts = new List<ArmoredBodyPart>();
+		public List<ArmoredBodyPart> ArmoredBodyParts => armoredBodyParts;
 
 		private PlayerHealthV2 playerHealthV2;
 
