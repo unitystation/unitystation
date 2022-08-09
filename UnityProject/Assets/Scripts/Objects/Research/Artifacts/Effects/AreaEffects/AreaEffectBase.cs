@@ -26,7 +26,7 @@ namespace Systems.Research
 			{
 				if (player.TryGetComponent<PlayerScript>(out var playerScript))
 				{
-					if (!playerScript.IsDeadOrGhost)
+					if (playerScript.IsDeadOrGhost == false)
 					{
 						//What is this? Particuarly powerful artifacts can rip players apart if they are not careful,
 						//if an artifact tries to teleport the head, but the body is resistant to teleporting,
