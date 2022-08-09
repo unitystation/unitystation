@@ -86,31 +86,6 @@ namespace Systems.Clearance
 		}
 
 		/// <summary>
-		/// Used to test for a single clearance, will always fail if All is set and multiple clearances required
-		/// </summary>
-		/// <param name="requesterClearance">Clearance to check for</param>
-		/// <returns>True if the access should be granted</returns>
-		public bool HasClearance(Clearance requesterClearance)
-		{
-			// If null or no defined access, access is granted immediately
-			if (requiredClearance == null ||
-			    requiredClearance.Any() == false)
-			{
-				return true;
-			}
-
-			switch (type)
-			{
-				case CheckType.Any:
-					return requiredClearance.Contains(requesterClearance);
-				case CheckType.All:
-					return requiredClearance.Contains(requesterClearance) && requiredClearance.Count == 1;
-				default:
-					return true;
-			}
-		}
-
-		/// <summary>
 		/// Public interface to set access for this object.
 		/// </summary>
 		/// <param name="newClearance">List of all access that this object will check for.</param>

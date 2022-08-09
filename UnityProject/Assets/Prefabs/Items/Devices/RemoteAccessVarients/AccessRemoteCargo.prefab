@@ -23,6 +23,16 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 5886fed5923eef04e841463fce897215,
         type: 2}
+    - target: {fileID: 787311817454969601, guid: 3e4efa340b9f8e24ea5012485df5f5fe,
+        type: 3}
+      propertyPath: clearances.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 787311817454969601, guid: 3e4efa340b9f8e24ea5012485df5f5fe,
+        type: 3}
+      propertyPath: clearances.Array.data[0]
+      value: 38
+      objectReference: {fileID: 0}
     - target: {fileID: 3079811573767577945, guid: 3e4efa340b9f8e24ea5012485df5f5fe,
         type: 3}
       propertyPath: m_AssetId

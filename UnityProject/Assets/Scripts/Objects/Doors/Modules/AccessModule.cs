@@ -88,7 +88,7 @@ namespace Doors.Modules
 			return false;
 		}
 
-		public bool ProcessCheckAccess(Clearance clearance)
+		public bool ProcessCheckAccess(IEnumerable<Clearance> clearance)
 		{
 			if (clearanceCheckable.HasClearance(clearance))
 			{
