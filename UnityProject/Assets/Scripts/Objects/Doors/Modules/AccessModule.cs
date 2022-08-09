@@ -88,9 +88,9 @@ namespace Doors.Modules
 			return false;
 		}
 
-		public bool ProcessCheckAccess(Access access)
+		public bool ProcessCheckAccess(Clearance clearance)
 		{
-			if (accessRestrictions.restriction >= access)
+			if (clearanceCheckable.HasClearance(clearance))
 			{
 				return true;
 			}
