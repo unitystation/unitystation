@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using NaughtyAttributes;
 using ScriptableObjects;
@@ -102,5 +103,6 @@ public class CommonTraits : SingletonScriptableObject<CommonTraits>
 	/// <summary>
 	/// Do not use this list to get references to traits, locally reference them in your scripts instead!
 	/// </summary>
+	[Obsolete]
 	public List<ItemTrait> everyTraitOutThere = new List<ItemTrait>();
 }
