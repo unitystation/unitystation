@@ -38,7 +38,7 @@ namespace Systems.Atmospherics
 
 			//Spawn firelight prefab
 			if (firelight != null) return;
-			var fireLightSpawn = Spawn.ServerPrefab(node.ReactionManager.FireLightPrefab,node.Position);
+			var fireLightSpawn = Spawn.ServerPrefab(node.ReactionManager.FireLightPrefab,node.Position.ToWorld(node.PositionMatrix));
 
 			if(fireLightSpawn.Successful == false) return;
 			firelight = fireLightSpawn.GameObject.GetComponent<NetworkLight>();
@@ -88,8 +88,6 @@ namespace Systems.Atmospherics
 		{
 			if(timer < 7) return;
 			timer = 0;
-
-			if(firelight == null) return;
 
 			var temperature = node.GasMix.Temperature;
 			var temp2Colour = Temp2Colour(temperature);
@@ -224,6 +222,8 @@ namespace Systems.Atmospherics
 				node.PositionMatrix.MetaTileMap.RemoveOverlaysOfType(
 					node.Position, LayerType.Effects, OverlayType.FireRainbow);
 			}
+
+			if(firelight == null) return;
 
 			firelight.SetColour(new Color(
 				DMMath.Lerp(250, heatR, greyscaleFire) / 255,
