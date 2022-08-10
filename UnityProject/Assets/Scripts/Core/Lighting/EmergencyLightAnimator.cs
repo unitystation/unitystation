@@ -31,6 +31,8 @@ namespace Objects.Lighting
 
 		public void StartAnimation()
 		{
+			if(CustomNetworkManager.IsHeadless) return;
+
 			UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
 		}
 
@@ -55,7 +57,7 @@ namespace Objects.Lighting
 				{
 					Logger.LogError($"{gameObject.name} had something null");
 				}
-				
+
 				return;
 			}
 
