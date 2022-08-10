@@ -932,8 +932,10 @@ namespace Blob
 
 		private void PlayAttackEffect(Vector3 worldPos)
 		{
-			PlayEffect(worldPos);
 			RpcPlayEffect(worldPos);
+
+			if (CustomNetworkManager.IsHeadless) return;
+			PlayEffect(worldPos);
 		}
 
 		[ClientRpc]
