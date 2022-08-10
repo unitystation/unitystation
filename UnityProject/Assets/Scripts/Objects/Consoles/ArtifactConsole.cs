@@ -49,7 +49,7 @@ namespace Objects.Research
 				HasDisk = true;
 
 				Chat.AddActionMsgToChat(interaction.Performer, "You insert the drive into the console.",
-					interaction.Performer.ExpensiveName() + " inserts the dirve into the console.");
+					$"{interaction.Performer.ExpensiveName()} inserts a drive into the console.");
 
 				UpdateGUI();
 			}
