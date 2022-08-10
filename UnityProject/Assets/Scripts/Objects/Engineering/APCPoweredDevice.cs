@@ -47,11 +47,13 @@ namespace Systems.Electricity
 		[Tooltip("Watts consumed per update when running at 240v")]
 		private float wattusage = 0.01f;
 
-		public float Wattusage {
+		public float Wattusage
+		{
 			get => wattusage;
-			set {
+			set
+			{
 				wattusage = value;
-				resistance = 240 / (value / 240);
+				Resistance = 240 / (value / 240);
 			}
 		}
 
@@ -60,14 +62,8 @@ namespace Systems.Electricity
 		[FormerlySerializedAs("resistance")]
 		private float InitialResistance = 99999999;
 
-
-		public float resistance = 99999999;
-
-
-		// public float Resistance {
-		// 	get => resistance;
-		// 	set => resistance = value;
-		// }
+		[NonSerialized]
+		public float Resistance = 99999999;
 
 		[HideInInspector] public APC RelatedAPC;
 		private IAPCPowerable Powered;
@@ -119,7 +115,7 @@ namespace Systems.Electricity
 
 			if (Wattusage > 0)
 			{
-				resistance = 240 / (Wattusage / 240);
+				Resistance = 240 / (Wattusage / 240);
 			}
 		}
 
@@ -127,7 +123,7 @@ namespace Systems.Electricity
 		{
 			if (this == null) return;
 			if (Powered != null) return;
-			resistance = InitialResistance;
+			Resistance = InitialResistance;
 			Powered = GetComponent<IAPCPowerable>();
 			registerTile = GetComponent<RegisterTile>();
 			if (isSelfPowered)
