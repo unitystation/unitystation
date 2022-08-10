@@ -390,7 +390,7 @@ namespace Objects.Research
 					break;
 			}
 			spriteHandler?.SetSpriteSO(currentSprite.idleSprite);
-			spriteHandler.PushTexture();
+			spriteHandler?.PushTexture();
 		}
 
 		public void PlayActivationAnimation()
