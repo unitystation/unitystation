@@ -136,8 +136,8 @@ namespace Objects.Research
 			//So players know which artifact is which if they have the same sprites
 			//ID is in form: A000 - Z999
 			int num = Random.Range(0, 26);
-			ID = $"{(char)('a' + num)}{Random.Range(0, 1000).ToString("000")}"; 
-			ID = ID.ToUpper();
+			ID = $"{(char)('a' + num)}{Random.Range(0, 1000).ToString("000")}";
+			ID = ID.ToUpperInvariant();
 
 			GetComponent<ObjectAttributes>().ServerSetArticleName("Artifact - " + ID);
 

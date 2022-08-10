@@ -23,12 +23,10 @@ namespace Systems.Research
 			{
 				player.playerHealth.DismemberBodyPart(part);
 				TeleportUtils.ServerTeleportRandom(part.gameObject, MinDistance, MaxDistance, AvoidSpace, AvoidImpassable);
-				return;
 			}
 			else
 			{
 				TeleportUtils.ServerTeleportRandom(player.gameObject, MinDistance, MaxDistance, AvoidSpace, AvoidImpassable);
-				return;
 			}
 		}
 	}

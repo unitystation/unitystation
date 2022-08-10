@@ -12,6 +12,8 @@ namespace Systems.Research.Objects
 		[HideInInspector]
 		public ArtifactSliver artifactSliver { get; set; }
 
+		[SerializeField]
+		private ItemTrait sampleTrait;
 
 		[HideInInspector]
 		public AnalyserState analyserState { get; set; }
@@ -44,7 +46,7 @@ namespace Systems.Research.Objects
 		{
 			if (interaction.HandSlot.IsEmpty) return false;
 			if (!DefaultWillInteract.Default(interaction, side)) return false;
-			if(Validations.HasItemTrait(interaction.UsedObject, CommonTraits.Instance.everyTraitOutThere[402])) return true;
+			if(Validations.HasItemTrait(interaction.UsedObject, sampleTrait)) return true;
 
 			return false;
 		}
