@@ -28,7 +28,7 @@ namespace Systems.Atmospherics
 		public const float SPACE_THERMAL_CONDUCTIVITY	= 0.4f;
 
 		//Plasma fire properties
-		public const float OXYGEN_BURN_RATE_BASE = 1.4f;
+		public const float OXYGEN_BURN_RATE_BASE = 1.5f;
 		public const float PLASMA_BURN_RATE_DELTA = 13f;
 		public const float PLASMA_MINIMUM_OXYGEN_NEEDED = 2f;
 		public const float PLASMA_MINIMUM_OXYGEN_PLASMA_RATIO = 30f;
