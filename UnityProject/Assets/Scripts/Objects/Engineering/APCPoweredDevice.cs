@@ -61,13 +61,13 @@ namespace Systems.Electricity
 		private float InitialResistance = 99999999;
 
 
-		private float resistance = 99999999;
+		public float resistance = 99999999;
 
 
-		public float Resistance {
-			get => resistance;
-			set => resistance = value;
-		}
+		// public float Resistance {
+		// 	get => resistance;
+		// 	set => resistance = value;
+		// }
 
 		[HideInInspector] public APC RelatedAPC;
 		private IAPCPowerable Powered;
