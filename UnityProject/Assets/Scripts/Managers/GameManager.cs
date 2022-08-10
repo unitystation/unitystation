@@ -19,8 +19,7 @@ using Messages.Server;
 using Tilemaps.Behaviours.Layers;
 using UnityEngine.Profiling;
 using Player;
-using Systems.Research;
-using Systems.Cargo;
+using Objects.Research;
 
 public partial class GameManager : MonoBehaviour, IInitialise
 {
@@ -572,7 +571,7 @@ public partial class GameManager : MonoBehaviour, IInitialise
 			return;
 		}
 
-		CargoManager.ClearStatics();
+		Artifact.ClearStatics();
 		CurrentRoundState = RoundState.Ended;
 		EventManager.Broadcast(Event.RoundEnded, true);
 		counting = false;

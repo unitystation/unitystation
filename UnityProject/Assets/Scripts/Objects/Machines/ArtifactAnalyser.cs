@@ -9,8 +9,7 @@ namespace Systems.Research.Objects
 		public int storedRP;
 		public ItemStorage itemStorage { get; set; }
 
-		[HideInInspector]
-		public ArtifactSliver artifactSliver { get; set; }
+		public ArtifactSliver ArtifactSliver { get; set; }
 
 		[SerializeField]
 		private ItemTrait sampleTrait;
@@ -33,12 +32,12 @@ namespace Systems.Research.Objects
 
 		public void DestroySample()
 		{
-			foreach(GameObject obj in artifactSliver.Composition)
+			foreach(GameObject obj in ArtifactSliver.Composition)
 			{
 				Spawn.ServerPrefab(obj, gameObject.AssumedWorldPosServer());
 			}
 			Inventory.ServerDespawn(itemStorage.GetIndexedItemSlot(0));
-			artifactSliver = null;
+			ArtifactSliver = null;
 			UpdateGUI();
 		}
 
@@ -56,7 +55,7 @@ namespace Systems.Research.Objects
 			if(itemStorage.GetIndexedItemSlot(0).IsEmpty)
 			{
 				Inventory.ServerTransfer(interaction.HandSlot, itemStorage.GetIndexedItemSlot(0));
-				artifactSliver = itemStorage.GetIndexedItemSlot(0).ItemObject.GetComponent<ArtifactSliver>();
+				ArtifactSliver = itemStorage.GetIndexedItemSlot(0).ItemObject.GetComponent<ArtifactSliver>();
 
 				Chat.AddActionMsgToChat(interaction.Performer, "You insert the sample into the analyser.",
 					interaction.Performer.ExpensiveName() + " inserts the sample into the analyser.");
@@ -65,7 +64,7 @@ namespace Systems.Research.Objects
 			}
 			else
 			{
-				Chat.AddActionMsgToChat(interaction.Performer, gameObject.ExpensiveName() + " already contains a sample", gameObject.ExpensiveName() + " already contains a sample");
+				Chat.AddExamineMsg(interaction.Performer, gameObject.ExpensiveName() + " already contains a sample");
 			}	
 
 		}

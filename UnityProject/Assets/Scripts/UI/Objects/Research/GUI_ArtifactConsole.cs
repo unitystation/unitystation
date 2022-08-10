@@ -39,11 +39,15 @@ namespace UI.Objects.Research
 
 		private ArtifactConsole console;
 
-		public NetText_label NameLabel = null;
-		public NetText_label LogLabel = null;
-		public NetText_label OutputLabel = null;
+		[SerializeField]
+		private NetText_label NameLabel = null;
+		[SerializeField]
+		private NetText_label LogLabel = null;
+		[SerializeField]
+		private NetText_label OutputLabel = null;
 
-		public NetSpriteImage ImageObject = null;
+		[SerializeField]
+		private NetSpriteImage ImageObject = null;
 
 		public void Awake()
 		{
@@ -59,7 +63,7 @@ namespace UI.Objects.Research
 
 			console = Provider.GetComponent<ArtifactConsole>();
 
-			inputData = console.inputData;
+			inputData = console.InputData;
 
 			console.StateChange += UpdateGUI;
 
@@ -92,9 +96,9 @@ namespace UI.Objects.Research
 
 		public void UpdateGUI()
 		{
-			inputData = console.inputData;
+			inputData = console.InputData;
 
-			if (console.connectedArtifact != null) NameLabel.SetValueServer(console.connectedArtifact.ID);
+			if (console.ConnectedArtifact != null) NameLabel.SetValueServer(console.ConnectedArtifact.ID);
 			else NameLabel.SetValueServer("NULL");
 
 			if(LogLabel.Value == "No disk in console!" && console.dataDisk != null)
@@ -122,7 +126,7 @@ namespace UI.Objects.Research
 		{
 			consoleState = ConsoleState.Writing;
 
-			inputData = console.inputData;
+			inputData = console.InputData;
 
 			if (console.dataDisk == null)
 			{
@@ -130,7 +134,7 @@ namespace UI.Objects.Research
 				OutputLabel.SetValueServer("Data write unsuccessful.");
 				return;
 			}
-			if (console.connectedArtifact == null)
+			if (console.ConnectedArtifact == null)
 			{
 				LogLabel.SetValueServer("No artifact connected to console!!");
 				OutputLabel.SetValueServer("Data write unsuccessful.");
@@ -138,15 +142,15 @@ namespace UI.Objects.Research
 			}
 			 
 			LogLabel.SetValueServer($"Disk sucessfully found in console" +
-				$"\n\nData for artifact {console.connectedArtifact.ID} already exists on disk... " +
-				$"overriding\n\nWriting data for artifact {console.connectedArtifact.ID}");
+				$"\n\nData for artifact {console.ConnectedArtifact.ID} already exists on disk... " +
+				$"overriding\n\nWriting data for artifact {console.ConnectedArtifact.ID}");
 
 			OutputLabel.SetValueServer("Data write successful.");
 
 			foreach (ArtifactDataFile data in console.dataDisk.DataOnStorage)
 			{
 				data.inputData = inputData;
-				data.correctData = console.connectedArtifact.artifactData;
+				data.correctData = console.ConnectedArtifact.artifactData;
 			}
 
 			console.dataDisk.CalculateExportCost();
@@ -192,7 +196,7 @@ namespace UI.Objects.Research
 			inputData.DamageEffectValue = damageEffectDropdown.value;
 			inputData.InteractEffectValue = interactEffectDropdown.value;
 
-			console.inputData = inputData;
+			console.InputData = inputData;
 
 			if(CustomNetworkManager.Instance._isServer)
 			{

@@ -109,7 +109,7 @@ namespace UI.Objects.Research
 
 			if (artifactAnalyser.itemStorage.GetIndexedItemSlot(0).IsOccupied)
 			{
-				artifactSliver = artifactAnalyser.artifactSliver;
+				artifactSliver = artifactAnalyser.ArtifactSliver;
 			}
 			if (mainSwitcher.CurrentPage == noSamplePage && artifactAnalyser.itemStorage.GetIndexedItemSlot(0).IsOccupied)
 			{
@@ -161,7 +161,7 @@ namespace UI.Objects.Research
 			artifactAnalyser.storedRP += rp;
 			UpdateRPDisplay();
 
-			radLabel.SetValueServer("Radiataion Level:\n" + artifactSliver.sliverData.radiationlevel + "rad");
+			radLabel.SetValueServer("Radiation Level:\n" + artifactSliver.sliverData.radiationlevel + "rad");
 			bluespaceLabel.SetValueServer("Bluespace Signature:\n" + artifactSliver.sliverData.bluespacesig + "Gy");
 			clownLabel.SetValueServer("Bananium Signature:\n" + artifactSliver.sliverData.bananiumsig + "mClw");
 			massLabel.SetValueServer("Sample mass:\n" + artifactSliver.sliverData.mass + "g");
@@ -218,7 +218,7 @@ namespace UI.Objects.Research
 
 		public void SwitchToNullPage()
 		{
-			radLabel.SetValueServer("Radiataion Level:\nnull");
+			radLabel.SetValueServer("Radiation Level:\nnull");
 			bluespaceLabel.SetValueServer("Bluespace Signature:\nnull");
 			clownLabel.SetValueServer("Bananium Signature:\nnull");
 			massLabel.SetValueServer("Sample mass:\nnull");

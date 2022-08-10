@@ -27,6 +27,8 @@ namespace Objects.Research
 		/// </summary>
 		public readonly static HashSet<Artifact> ServerSpawnedArtifacts = new HashSet<Artifact>();
 
+		private static List<string> iDList = new List<string>();
+
 		private Integrity integrity;
 		private UniversalObjectPhysics objectPhysics;
 
@@ -135,9 +137,17 @@ namespace Objects.Research
 			//To prevent duplication exploits, server knows if youve researched an artifact before and won't give you extra RP or credits for repeated research.
 			//So players know which artifact is which if they have the same sprites
 			//ID is in form: A000 - Z999
-			int num = Random.Range(0, 26);
-			ID = $"{(char)('a' + num)}{Random.Range(0, 1000).ToString("000")}";
-			ID = ID.ToUpperInvariant();
+			bool generated = false;
+
+			while (iDList.Contains(ID) == true || generated == false)
+			{
+				int num = Random.Range(0, 26);
+				ID = $"{(char)('a' + num)}{Random.Range(0, 1000).ToString("000")}";
+				ID = ID.ToUpperInvariant();
+				generated = true;
+			}
+
+			iDList.Add(ID);
 
 			GetComponent<ObjectAttributes>().ServerSetArticleName("Artifact - " + ID);
 
@@ -202,6 +212,11 @@ namespace Objects.Research
 
 
 		#endregion
+
+		public static void ClearStatics()
+		{
+			iDList = new List<string>();
+		}
 
 		private void UpdateMe()
 		{

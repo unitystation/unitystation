@@ -11,15 +11,15 @@ namespace Objects.Research
 {
 	public class ArtifactConsole : NetworkBehaviour, ICheckedInteractable<HandApply>, IMultitoolSlaveable
 	{
-		private RegisterObject registerObject;
-		public ItemStorage itemStorage;
+		private ItemStorage itemStorage;
 
-		public Artifact connectedArtifact;
-		public ArtifactDataDisk dataDisk = null;
+		public Artifact ConnectedArtifact { get; set; }
 
-		public ArtifactData inputData = new ArtifactData();
+		public ArtifactDataDisk dataDisk { get; set; }
 
-		[SyncVar] public bool HasDisk = false;
+		[NonSerialized] public ArtifactData InputData = new ArtifactData();
+
+		[SyncVar,NonSerialized] public bool HasDisk = false;
 
 		[SerializeField] ItemTrait ArtifactDiskTrait = null;
 
@@ -28,7 +28,6 @@ namespace Objects.Research
 		private void Awake()
 		{
 			itemStorage = GetComponent<ItemStorage>();
-			registerObject = GetComponent<RegisterObject>();
 		}
 
 		public bool WillInteract(HandApply interaction, NetworkSide side)
@@ -49,13 +48,13 @@ namespace Objects.Research
 				HasDisk = true;
 
 				Chat.AddActionMsgToChat(interaction.Performer, "You insert the drive into the console.",
-					interaction.Performer.ExpensiveName() + " inserts the dirve into the console.");
+					$"{interaction.Performer.ExpensiveName()} inserts the drive into the console.");
 
 				UpdateGUI();
 			}
 			else
 			{
-				Chat.AddActionMsgToChat(interaction.Performer, gameObject.ExpensiveName() + " already contains a drive", gameObject.ExpensiveName() + " already contains a drive");
+				Chat.AddExamineMsg(interaction.Performer, $"{gameObject.ExpensiveName()} already contains a drive");
 			}
 
 		}
@@ -75,23 +74,23 @@ namespace Objects.Research
 		[Command(requiresAuthority = false)]
 		public void CmdSetInputDataServer(ArtifactData inputDataClient)
 		{
-			inputData = inputDataClient;
+			InputData = inputDataClient;
 			UpdateGUI();
 
-			RpcSetInputDataClients(inputData);
+			RpcSetInputDataClients(InputData);
 		}
 
 		[ClientRpc]
 		public void RpcSetInputDataClients(ArtifactData inputDataServer)
 		{
-			inputData = inputDataServer;
+			InputData = inputDataServer;
 			UpdateGUI();
 		}
 
 		#region Multitool Interaction
 
 		MultitoolConnectionType IMultitoolLinkable.ConType => MultitoolConnectionType.Artifact;
-		IMultitoolMasterable IMultitoolSlaveable.Master => connectedArtifact;
+		IMultitoolMasterable IMultitoolSlaveable.Master => ConnectedArtifact;
 		bool IMultitoolSlaveable.RequireLink => false;
 
 		bool IMultitoolSlaveable.TrySetMaster(GameObject performer, IMultitoolMasterable master)
@@ -107,11 +106,11 @@ namespace Objects.Research
 
 		private void SetMaster(IMultitoolMasterable master)
 		{
-			if (master is Artifact arti && arti != connectedArtifact)
+			if (master is Artifact arti && arti != ConnectedArtifact)
 			{
 				SubscribeToServerEvent(arti);
 			}
-			else if (connectedArtifact != null)
+			else if (ConnectedArtifact != null)
 			{
 				UnSubscribeFromServerEvent();
 			}
@@ -121,14 +120,14 @@ namespace Objects.Research
 		public void SubscribeToServerEvent(Artifact arti)
 		{
 			UnSubscribeFromServerEvent();
-			connectedArtifact = arti;
+			ConnectedArtifact = arti;
 
 		}
 
 		public void UnSubscribeFromServerEvent()
 		{
-			if (connectedArtifact == null) return;
-			connectedArtifact = null;
+			if (ConnectedArtifact == null) return;
+			ConnectedArtifact = null;
 		}
 		#endregion
 	}
