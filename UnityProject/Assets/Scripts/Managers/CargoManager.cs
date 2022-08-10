@@ -117,7 +117,7 @@ namespace Systems.Cargo
 			CurrentOrders.Clear();
 			CurrentCart.Clear();
 			SoldHistory.Clear();
-			researchedArtifacts = new List<string>();
+			ClearStatics();
 			ShuttleStatus = ShuttleStatus.DockedStation;
 			Credits = 1000;
 			CurrentFlyTime = 0f;
