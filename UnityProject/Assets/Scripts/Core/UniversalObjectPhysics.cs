@@ -1128,6 +1128,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 
 		aim = inAim;
 		thrownBy = inThrownBy;
+
 		if (Random.Range(0, 2) == 1)
 		{
 			spinMagnitude = spinFactor * 1;
@@ -1136,7 +1137,6 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 		{
 			spinMagnitude = spinFactor * -1;
 		}
-
 
 		if (float.IsNaN(nairTime) == false || float.IsNaN(inSlideTime) == false)
 		{
@@ -1163,7 +1163,6 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 
 			worldDirection.Normalize();
 			NewtonianMovement += worldDirection * speed;
-
 		}
 
 		OnThrowStart.Invoke(this);
@@ -1176,13 +1175,13 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 				UpdateManager.Add(CallbackType.UPDATE, FlyingUpdateMe);
 			}
 		}
+
 		if (isServer)
 		{
 			LastUpdateClientFlying = NetworkTime.time;
 			UpdateClientMomentum(transform.localPosition, newtonianMovement, airTime, this.slideTime,
 				registerTile.Matrix.Id, spinFactor, true, doNotUpdateThisClient.NetId());
 		}
-
 	}
 
 	public void AppliedFriction(float frictionCoefficient)
@@ -1807,7 +1806,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 	public virtual RightClickableResult GenerateRightClickOptions()
 	{
 		var options = RightClickableResult.Create();
-		
+
 		if (string.IsNullOrEmpty(PlayerList.Instance.AdminToken) == false &&
 		    KeyboardInputManager.Instance.CheckKeyAction(KeyAction.ShowAdminOptions, KeyboardInputManager.KeyEventType.Hold))
 		{
@@ -1817,7 +1816,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 		//check if our local player can reach this
 		var initiator = PlayerManager.LocalPlayerScript.GetComponent<UniversalObjectPhysics>();
 		if (initiator == null) return options;
-		
+
 		//if it's pulled by us
 		if (PulledBy.HasComponent && PulledBy.Component == initiator)
 		{

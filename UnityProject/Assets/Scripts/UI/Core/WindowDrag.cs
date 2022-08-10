@@ -38,6 +38,12 @@ public class WindowDrag : MonoBehaviour
 
 	public void UpdateMe()
 	{
+		if (CustomNetworkManager.IsHeadless)
+		{
+			UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
+			return;
+		}
+
 		if (KeyboardInputManager.Instance.CheckKeyAction(KeyAction.ResetWindowPosition))
 		{
 			this.transform.localPosition = Vector3.zero;
