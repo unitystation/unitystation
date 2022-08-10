@@ -422,13 +422,13 @@ namespace Objects.Research
 			int total = artifactData.radiationlevel / 20 + artifactData.bluespacesig + artifactData.bananiumsig / 2;
 			int choice = Random.Range(0, total + 1);
 
-			ArtifactClass artifactClass;
+			ArtifactClass artifactClass = ArtifactClass.Uranium;
 
 			if (choice >= (artifactData.radiationlevel / 20) && choice < (artifactData.bluespacesig + artifactData.radiationlevel / 20))
 			{
 				artifactClass = ArtifactClass.Bluespace;
 			}
-			else
+			else if(choice >= (artifactData.bluespacesig + artifactData.radiationlevel / 20))
 			{
 				artifactClass = ArtifactClass.Bananium;
 			}
