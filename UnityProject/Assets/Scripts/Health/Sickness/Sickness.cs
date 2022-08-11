@@ -74,7 +74,7 @@ namespace Health.Sickness
 		{
 			if (PossibleCures.Count == 0) return;
 			cureIndex = Random.Range(0, PossibleCures.Count - 1);
-			CureForSickness = PossibleCures[cureIndex].results.PickRandom().Key;
+			CureForSickness = PossibleCures[cureIndex].ingredients.PickRandom().Key;
 			FillCureHints();
 		}
 
