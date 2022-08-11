@@ -7,7 +7,7 @@ using NaughtyAttributes;
 
 namespace UI.Action
 {
-	public class ItemActionButton : NetworkBehaviour, IServerActionGUI, IClientInventoryMove
+	public class ItemActionButton : NetworkBehaviour, IServerActionGUI, IServerInventoryMove
 	{
 		[Tooltip("The button action data SO this component should use.")]
 		[SerializeField]
@@ -64,58 +64,32 @@ namespace UI.Action
 			}
 		}
 
-		public void OnInventoryMoveClient(ClientInventoryMove info)
-		{
-			bool shouldShow = ShouldShowButton(info);
-			ClientSetActionButtonVisibility(shouldShow);
+		public Mind PreviouslyOn;
 
-			if (PlayerManager.LocalPlayerScript == null || PlayerManager.LocalPlayerScript.playerHealth == null) return;
-		}
-
-		public void ClientSetActionButtonVisibility(bool isVisible)
+		public void OnInventoryMoveServer(InventoryMove info)
 		{
-			if (isVisible)
+			bool showAlert = false;
+			if (info.ToPlayer != null)
 			{
-				ClientShowActionButton();
+				showAlert = (allowedSlots.HasFlag(ItemSlot.GetFlaggedSlot(pickupable.ItemSlot.NamedSlot.Value)));
+
+				if (showAlert == false && PreviouslyOn != null)
+				{
+					UIActionManager.ToggleServer(PreviouslyOn, this, false);
+					PreviouslyOn = null;
+				}
+
+				if (showAlert == true && PreviouslyOn == null)
+				{
+					UIActionManager.ToggleServer(info.ToPlayer.PlayerScript.mind, this, true);
+					PreviouslyOn = info.ToPlayer.PlayerScript.mind;
+				}
 			}
-			else
+			else if (PreviouslyOn != null)
 			{
-				ClientHideActionButton();
+				UIActionManager.ToggleServer(PreviouslyOn, this, false);
+				PreviouslyOn = null;
 			}
-		}
-
-		public void ClientShowActionButton()
-		{
-			UIActionManager.ToggleLocal(this, true);
-			UpdateButtonSprite(false);
-		}
-
-		public void ClientHideActionButton()
-		{
-			UIActionManager.ToggleLocal(this, false);
-		}
-
-		private bool ShouldShowButton(ClientInventoryMove info)
-		{
-			// Check if we are in an inventory
-			if (info.ClientInventoryMoveType == ClientInventoryMoveType.Removed) return false;
-			// ... we are not on a player
-			if (pickupable.ItemSlot.Player == null) return false;
-			// ... not the client that owns this object
-			if (pickupable.ItemSlot.LocalUISlot == null) return false;
-			// ... item is not in an allowed slot
-			if (pickupable.ItemSlot.NamedSlot != null)
-			{
-				if (!allowedSlots.HasFlag(ItemSlot.GetFlaggedSlot(pickupable.ItemSlot.NamedSlot.Value))) return false;
-			}
-
-
-			return true;
-		}
-
-		private void OnDeath()
-		{
-			ClientHideActionButton();
 		}
 
 		private void UpdateButtonSprite(bool isServer)

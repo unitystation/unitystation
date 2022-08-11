@@ -1143,7 +1143,7 @@ namespace Systems.Antagonists
 			{
 				if(toggle == keep) continue;
 
-				UIActionManager.ToggleLocal(this, toggle, false);
+				UIActionManager.ToggleServer(this, toggle, false);
 			}
 		}
 

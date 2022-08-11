@@ -4,28 +4,53 @@ using UnityEngine;
 
 namespace UI.Action
 {
-	public class ActionControlInventory : MonoBehaviour, IClientInventoryMove
+	public class ActionControlInventory : MonoBehaviour, IServerInventoryMove
 	{
 		public ActionController ActionControllerType = ActionController.Inventory;
 
 		public List<IActionGUI> ControllingActions = new List<IActionGUI>();
 
-		public void OnInventoryMoveClient(ClientInventoryMove info)
+
+		public Mind PreviouslyOn;
+
+		public void OnInventoryMoveServer(InventoryMove info)
 		{
-			if (PlayerManager.LocalPlayerScript == null) return;
-			var pna = PlayerManager.LocalPlayerScript.playerNetworkActions;
 			bool showAlert = false;
-			foreach (var itemSlot in pna.itemStorage.GetHandSlots())
+			if (info.ToPlayer != null)
 			{
-				if (itemSlot.ItemObject == gameObject)
+				foreach (var itemSlot in info.ToPlayer.PlayerScript.DynamicItemStorage.GetHandSlots())
 				{
-					showAlert = true;
+					if (itemSlot.ItemObject == gameObject)
+					{
+						showAlert = true;
+					}
+				}
+
+				if (showAlert == false && PreviouslyOn != null)
+				{
+					foreach (var _IActionGUI in ControllingActions)
+					{
+						UIActionManager.ToggleServer(PreviouslyOn, _IActionGUI, false);
+						PreviouslyOn = null;
+					}
+				}
+
+				if (showAlert == true && PreviouslyOn == null)
+				{
+					foreach (var _IActionGUI in ControllingActions)
+					{
+						UIActionManager.ToggleServer(info.ToPlayer.PlayerScript.mind, _IActionGUI, true);
+						PreviouslyOn = info.ToPlayer.PlayerScript.mind;
+					}
 				}
 			}
-
-			foreach (var _IActionGUI in ControllingActions)
+			else if (PreviouslyOn != null)
 			{
-				UIActionManager.ToggleLocal(_IActionGUI, showAlert);
+				foreach (var _IActionGUI in ControllingActions)
+				{
+					UIActionManager.ToggleServer(PreviouslyOn, _IActionGUI, false);
+					PreviouslyOn = null;
+				}
 			}
 		}
 

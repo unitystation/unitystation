@@ -68,6 +68,7 @@ namespace Player
 		public void ServerSetAntag(bool newState)
 		{
 			isAntag = newState;
+			GetComponent<PlayerScript>().ActivateAntagAction(newState);
 		}
 
 		#endregion
@@ -93,7 +94,6 @@ namespace Player
 		private void SyncAntagState(bool oldState, bool newState)
 		{
 			isAntag = newState;
-			GetComponent<PlayerScript>().ActivateAntagAction(newState);
 		}
 
 		#endregion

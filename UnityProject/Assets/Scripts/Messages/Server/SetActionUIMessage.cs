@@ -68,7 +68,7 @@ namespace Messages.Server
 						UIActionManager.SetBackground(action, msg.SpriteLocation);
 						break;
 					case UpdateType.StateChange:
-						UIActionManager.ToggleLocal(action, msg.showAlert);
+						UIActionManager.ToggleClient(action, msg.showAlert);
 						break;
 					case UpdateType.Cooldown:
 						UIActionManager.SetCooldownLocal(action, msg.cooldown);
@@ -101,7 +101,7 @@ namespace Messages.Server
 					UIActionManager.SetBackground(actionMulti, actionData, msg.SpriteLocation);
 					break;
 				case UpdateType.StateChange:
-					UIActionManager.ToggleLocal(actionMulti, actionData, msg.showAlert);
+					UIActionManager.ToggleServer(actionMulti, actionData, msg.showAlert);
 					break;
 				case UpdateType.Cooldown:
 					UIActionManager.SetCooldownLocal(actionMulti, actionData, msg.cooldown);

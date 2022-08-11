@@ -64,7 +64,7 @@ public class Mind
 			{
 				foreach (Spell x in e.NewItems)
 				{
-					UIActionManager.Toggle(x, true, body.gameObject);
+					UIActionManager.ToggleServer(this,x, true);
 				}
 			}
 
@@ -72,7 +72,7 @@ public class Mind
 			{
 				foreach (Spell y in e.OldItems)
 				{
-					UIActionManager.Toggle(y, false, body.gameObject);
+					UIActionManager.ToggleServer(this, y, false);
 				}
 			}
 		};
@@ -317,7 +317,7 @@ public class Mind
 	{
 		foreach (Spell spell in Spells)
 		{
-			UIActionManager.Toggle(spell, true, body.gameObject);
+			UIActionManager.ToggleServer(this,spell, true);
 		}
 	}
 

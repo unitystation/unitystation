@@ -120,9 +120,9 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 
 	public override void BuckleToChange(UniversalObjectPhysics newBuckledTo)
 	{
-		if (PlayerManager.LocalPlayerObject == gameObject)
+		if (isServer)
 		{
-			UIActionManager.ToggleLocal(this, newBuckledTo != null);
+			UIActionManager.ToggleServer(playerScript.mind, this, newBuckledTo != null);
 		}
 	}
 

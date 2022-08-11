@@ -14,6 +14,9 @@ namespace UI.Action
 	/// </summary>
 	public class UIActionManager : MonoBehaviour
 	{
+		public Dictionary<Mind, List<IActionGUI>> ActivePlayerActions = new Dictionary<Mind, List<IActionGUI>>();
+
+
 		public GameObject Panel;
 		public GameObject TooltipPrefab;
 
@@ -44,9 +47,56 @@ namespace UI.Action
 		/// <summary>
 		/// Set the action button visibility, locally (clientside)
 		/// </summary>
-		public static void ToggleLocal(IActionGUI iActionGUI, bool show)
+		public static void ToggleServer(Mind RelatedMind, IActionGUI iActionGUI, bool show)
 		{
+			Instance.InstantToggleServer(RelatedMind, iActionGUI, show);
+		}
 
+		private void InstantToggleServer(Mind RelatedMind, IActionGUI iActionGUI, bool show)
+		{
+			if (ActivePlayerActions.ContainsKey(RelatedMind) == false)
+			{
+				ActivePlayerActions[RelatedMind] = new List<IActionGUI>();
+			}
+
+
+
+			if (show)
+			{
+				if (ActivePlayerActions[RelatedMind].Contains(iActionGUI))
+				{
+					Logger.LogError("iActionGUI Already present on mind");
+					return;
+				}
+
+				if (Instance.DicIActionGUI.ContainsKey(iActionGUI))
+				{
+					Logger.Log("iActionGUI Already added", Category.UI);
+					return;
+				}
+
+				ActivePlayerActions[RelatedMind].Add(iActionGUI);
+
+				Show(iActionGUI);
+			}
+			else
+			{
+
+				if (ActivePlayerActions[RelatedMind].Contains(iActionGUI) == false)
+				{
+					Logger.LogError("iActionGUI Not present on mind");
+					return;
+				}
+
+				ActivePlayerActions[RelatedMind].Remove(iActionGUI);
+
+				Hide(iActionGUI);
+			}
+		}
+
+
+		public static void ToggleClient(IActionGUI iActionGUI, bool show) //Internal use only!! reeee
+		{
 			if (show)
 			{
 				if (Instance.DicIActionGUI.ContainsKey(iActionGUI))
@@ -54,6 +104,7 @@ namespace UI.Action
 					Logger.Log("iActionGUI Already added", Category.UI);
 					return;
 				}
+
 				Show(iActionGUI);
 			}
 			else
@@ -62,13 +113,6 @@ namespace UI.Action
 			}
 		}
 
-		/// <summary>
-		/// Set the action button visibility for the given player, with network sync
-		/// </summary>
-		public static void Toggle(IActionGUI iActionGUI, bool show, GameObject recipient)
-		{
-			SetActionUIMessage.SetAction(recipient, iActionGUI, show);
-		}
 
 		public static bool HasActionData(ActionData actionData, [CanBeNull] out IActionGUI actionInstance)
 		{
@@ -101,9 +145,11 @@ namespace UI.Action
 		/// <summary>
 		/// Sets the sprite of the action button.
 		/// </summary>
-		public static void SetSpriteSO(IActionGUI iActionGUI, SpriteDataSO sprite, bool networked = true, List<Color> palette = null)
+		public static void SetSpriteSO(IActionGUI iActionGUI, SpriteDataSO sprite, bool networked = true,
+			List<Color> palette = null)
 		{
-			Debug.Assert(!(sprite.IsPalette && palette == null), "Paletted sprites should never be set without a palette");
+			Debug.Assert(!(sprite.IsPalette && palette == null),
+				"Paletted sprites should never be set without a palette");
 
 			if (Instance.DicIActionGUI.ContainsKey(iActionGUI))
 			{
@@ -126,7 +172,6 @@ namespace UI.Action
 			}
 			else
 			{
-
 				Logger.Log("iActionGUI Not present", Category.UI);
 			}
 		}
@@ -140,7 +185,6 @@ namespace UI.Action
 			}
 			else
 			{
-
 				Logger.Log("iActionGUI Not present", Category.UI);
 			}
 		}
@@ -212,7 +256,6 @@ namespace UI.Action
 
 			Instance.DicIActionGUI[iActionGUI].Add(_UIAction);
 			_UIAction.SetUp(iActionGUI);
-
 		}
 
 		public static void Hide(IActionGUI iAction)
@@ -288,7 +331,8 @@ namespace UI.Action
 			var toRemove = new List<IAction>();
 			foreach (var action in DicIActionGUI)
 			{
-				if (action.Key is IActionGUI keyI && keyI.ActionData != null && keyI.ActionData.DisableOnEvent.Contains(@event))
+				if (action.Key is IActionGUI keyI && keyI.ActionData != null &&
+				    keyI.ActionData.DisableOnEvent.Contains(@event))
 				{
 					action.Value[0].Pool();
 					toRemove.Add(keyI);
@@ -300,10 +344,9 @@ namespace UI.Action
 				{
 					foreach (var actionData in action.Value)
 					{
-						if(actionData.ActionData.DisableOnEvent.Contains(@event) == false) continue;
+						if (actionData.ActionData.DisableOnEvent.Contains(@event) == false) continue;
 						count++;
 						actionData.Pool();
-
 					}
 
 					if (count == action.Value.Count)
@@ -321,7 +364,7 @@ namespace UI.Action
 
 		public static void ClearAllActions()
 		{
-			if(Instance.DicIActionGUI.Count == 0) return;
+			if (Instance.DicIActionGUI.Count == 0) return;
 			for (int i = Instance.DicIActionGUI.Count - 1; i > -1; i--)
 			{
 				if (Instance.DicIActionGUI.ElementAt(i).Key is IActionGUI iActionGui)
@@ -350,7 +393,6 @@ namespace UI.Action
 			EventManager.AddHandler(Event.RoundStarted, RoundStarted);
 			EventManager.AddHandler(Event.GhostSpawned, GhostSpawned);
 			EventManager.AddHandler(Event.PlayerRejoined, PlayerRejoined);
-
 		}
 
 		private void OnDisable()
@@ -385,7 +427,7 @@ namespace UI.Action
 		/// <summary>
 		/// Set the action button visibility, locally (clientside)
 		/// </summary>
-		public static void ToggleLocal(IActionGUIMulti iActionGUIMulti, ActionData actionData, bool show)
+		public static void ToggleServer(IActionGUIMulti iActionGUIMulti, ActionData actionData, bool show)
 		{
 			if (show)
 			{
@@ -406,7 +448,8 @@ namespace UI.Action
 		/// <summary>
 		/// Set the action button visibility for the given player, with network sync
 		/// </summary>
-		public static void Toggle(IActionGUIMulti iActionGUIMulti, ActionData actionData, bool show, GameObject recipient)
+		public static void ToggleServer(IActionGUIMulti iActionGUIMulti, ActionData actionData, bool show,
+			GameObject recipient)
 		{
 			SetActionUIMessage.SetAction(recipient, iActionGUIMulti, actionData, show);
 		}
@@ -419,7 +462,7 @@ namespace UI.Action
 
 				foreach (var action in uiActions)
 				{
-					if(action.ActionData != actionData) continue;
+					if (action.ActionData != actionData) continue;
 
 					action.IconFront.SetSprite(sprite);
 				}
@@ -433,9 +476,11 @@ namespace UI.Action
 		/// <summary>
 		/// Sets the sprite of the action button.
 		/// </summary>
-		public static void SetSpriteSO(IActionGUIMulti iActionGUIMulti, ActionData actionData, SpriteDataSO sprite, bool networked = true, List<Color> palette = null)
+		public static void SetSpriteSO(IActionGUIMulti iActionGUIMulti, ActionData actionData, SpriteDataSO sprite,
+			bool networked = true, List<Color> palette = null)
 		{
-			Debug.Assert(!(sprite.IsPalette && palette == null), "Paletted sprites should never be set without a palette");
+			Debug.Assert(!(sprite.IsPalette && palette == null),
+				"Paletted sprites should never be set without a palette");
 
 			if (Instance.DicIActionGUI.ContainsKey(iActionGUIMulti))
 			{
@@ -443,7 +488,7 @@ namespace UI.Action
 
 				foreach (var action in uiActions)
 				{
-					if(action.ActionData != actionData) continue;
+					if (action.ActionData != actionData) continue;
 
 					action.IconFront.SetSpriteSO(sprite, networked: networked);
 					action.IconFront.SetPaletteOfCurrentSprite(palette);
@@ -463,14 +508,13 @@ namespace UI.Action
 
 				foreach (var action in uiActions)
 				{
-					if(action.ActionData != actionData) continue;
+					if (action.ActionData != actionData) continue;
 
 					action.IconFront.ChangeSprite(Location);
 				}
 			}
 			else
 			{
-
 				Logger.Log("iActionGUIMulti Not present", Category.UI);
 			}
 		}
@@ -483,14 +527,13 @@ namespace UI.Action
 
 				foreach (var action in uiActions)
 				{
-					if(action.ActionData != actionData) continue;
+					if (action.ActionData != actionData) continue;
 
 					action.IconBackground.ChangeSprite(Location);
 				}
 			}
 			else
 			{
-
 				Logger.Log("iActionGUIMulti Not present", Category.UI);
 			}
 		}
@@ -503,7 +546,7 @@ namespace UI.Action
 
 				foreach (var action in uiActions)
 				{
-					if(action.ActionData != actionData) continue;
+					if (action.ActionData != actionData) continue;
 
 					action.IconBackground.SetSprite(sprite);
 				}
@@ -522,7 +565,7 @@ namespace UI.Action
 
 				foreach (var action in uiActions)
 				{
-					if(action.ActionData != actionData) continue;
+					if (action.ActionData != actionData) continue;
 
 					action.CooldownOpacity.LeanScaleY(0f, cooldown).setFrom(1f);
 
@@ -538,7 +581,8 @@ namespace UI.Action
 			}
 		}
 
-		public static void SetCooldown(IActionGUIMulti iActionGUIMulti, ActionData actionData, float cooldown, GameObject recipient)
+		public static void SetCooldown(IActionGUIMulti iActionGUIMulti, ActionData actionData, float cooldown,
+			GameObject recipient)
 		{
 			SetActionUIMessage.SetAction(recipient, iActionGUIMulti, actionData, cooldown);
 		}
@@ -581,7 +625,7 @@ namespace UI.Action
 						var count = 0;
 						foreach (var action in actionButton.Value)
 						{
-							if(actionData != action.ActionData) continue;
+							if (actionData != action.ActionData) continue;
 							count++;
 
 							action.Pool();

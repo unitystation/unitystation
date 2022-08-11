@@ -35,7 +35,11 @@ namespace UI.Items
 			{
 				spriteRend.sprite = handCuffOverlays[referenceOffset];
 			}
-			DetermineAlertUI();
+
+			if (CustomNetworkManager.IsServer)
+			{
+				UIActionManager.ToggleServer( thisPlayerScript.mind ,this, GameObjectReference != null);
+			}
 		}
 
 		public override void UpdateSprite()
@@ -46,12 +50,6 @@ namespace UI.Items
 			}
 		}
 
-		private void DetermineAlertUI()
-		{
-			if (thisPlayerScript != PlayerManager.LocalPlayerScript) return;
-
-			UIActionManager.ToggleLocal(this, GameObjectReference != null);
-		}
 
 		public void ServerBeginUnCuffAttempt()
 		{
