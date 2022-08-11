@@ -213,6 +213,7 @@ namespace Objects.Research
 
 		#endregion
 
+		[RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
 		public static void ClearStatics()
 		{
 			iDList = new List<string>();
