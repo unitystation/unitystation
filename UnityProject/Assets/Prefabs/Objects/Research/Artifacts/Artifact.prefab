@@ -184,6 +184,16 @@ PrefabInstance:
       propertyPath: initialDescription
       value: A large alien device.
       objectReference: {fileID: 0}
+    - target: {fileID: 8208024911721290269, guid: b06b702714bab49b9ad949eab1ca4534,
+        type: 3}
+      propertyPath: Armor.Bomb
+      value: 90
+      objectReference: {fileID: 0}
+    - target: {fileID: 8208024911721290269, guid: b06b702714bab49b9ad949eab1ca4534,
+        type: 3}
+      propertyPath: initialIntegrity
+      value: 300
+      objectReference: {fileID: 0}
     - target: {fileID: 9212640593017544930, guid: b06b702714bab49b9ad949eab1ca4534,
         type: 3}
       propertyPath: sceneId
@@ -237,10 +247,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  runningInterfaces: []
   SliverPrefab: {fileID: 3486841869076151784, guid: 4413ca75b39ef9842a1aef995a788b01,
     type: 3}
   spriteHandler: {fileID: 8622725775991219861}
   TouchEffectTimeout: 10
+  DamageEffectTimeout: 5
   isDormant: 1
   DormantTrigger: {fileID: 11400000, guid: 66d1cd8016198e74c92a755f9b2bdeb0, type: 2}
   ArtifactDataSO: {fileID: 11400000, guid: 7f5b0e0976c03ac4eb7ac2fb43a724d7, type: 2}
