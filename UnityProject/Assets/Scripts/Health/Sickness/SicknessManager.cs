@@ -27,17 +27,6 @@ namespace Health.Sickness
 			}
 		}
 
-		public void SetProgression(Sickness sickness, int stage)
-		{
-			sickness.CurrentStage = stage;
-		}
-
-		public void ToggleProgression(Sickness sickness)
-		{
-			sickness.FrozenProgression = !sickness.FrozenProgression;
-		}
-
-
 		// Add this player as a sick player
 		public void RegisterSickPlayer(MobSickness mobSickness)
 		{
