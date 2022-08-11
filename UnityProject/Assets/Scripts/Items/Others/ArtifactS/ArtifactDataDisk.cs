@@ -26,11 +26,11 @@ namespace Items.Science
 			{
 				if (CargoManager.ResearchedArtifacts.Contains(file.correctData.ID) == false)
 				{
-					itemAttributes.ServerSetArticleName("Artifact Data Disk: Already Researched");
 					CargoManager.AddArtifactToList(file.correctData.ID);
 				}
 				else
 				{
+					itemAttributes.ServerSetArticleName("Artifact Data Disk: Already Researched");
 					itemAttributes.SetExportCost(0);
 				}
 			}
