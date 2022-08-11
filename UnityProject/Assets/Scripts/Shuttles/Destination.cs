@@ -17,7 +17,7 @@ public struct Destination
 	public static Destination Invalid = new Destination
 	{
 		Position = TransformState.HiddenPos,
-		Orientation = new Orientation()
+		Orientation = Orientation.Up
 	};
 
 	#region generated shit
