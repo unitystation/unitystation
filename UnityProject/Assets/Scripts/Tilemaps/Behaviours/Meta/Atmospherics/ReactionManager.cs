@@ -35,9 +35,11 @@ namespace Systems.Atmospherics
 		private float timePassed;
 		private int reactionTick;
 
-		private HashSet<MetaDataNode> windParticleSpots = new HashSet<MetaDataNode>(30);
+		private HashSet<MetaDataNode> activeWindEffectSpots = new HashSet<MetaDataNode>(30);
 
-		private HashSet<MetaDataNode> windParticleToRemove = new HashSet<MetaDataNode>(30);
+		private HashSet<MetaDataNode> windEffectsToRemove = new HashSet<MetaDataNode>(30);
+
+		private List<WindEffectData> windEffectNodes = new List<WindEffectData>(30);
 
 		private const float WindParticleBlockTime = 3f;
 
@@ -91,27 +93,47 @@ namespace Systems.Atmospherics
 			UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
 		}
 
+		public struct WindEffectData
+		{
+			public uint MatrixObject;
+			public Vector3	LocalPosition;
+			public Vector2	TargetVector;
+
+			public WindEffectData(uint matrixNetId, Vector3 localPosition, Vector2 targetVector)
+			{
+				MatrixObject = matrixNetId;
+				LocalPosition = localPosition;
+				TargetVector = targetVector;
+			}
+		}
+
 		private void UpdateMe()
 		{
-			Profiler.BeginSample("Wind Particle Time Check");
+			Profiler.BeginSample("Wind Effect Time Check");
 
-			windParticleToRemove.Clear();
-			foreach (var metaDataNode in windParticleSpots)
+			windEffectsToRemove.Clear();
+			foreach (var metaDataNode in activeWindEffectSpots)
 			{
-				metaDataNode.windParticleTime -= Time.deltaTime;
-				if(metaDataNode.windParticleTime > 0) continue;
-				windParticleToRemove.Add(metaDataNode);
+				metaDataNode.windEffectTime -= Time.deltaTime;
+				if(metaDataNode.windEffectTime > 0) continue;
+				windEffectsToRemove.Add(metaDataNode);
 			}
 
-			foreach (var metaDataNode in windParticleToRemove)
+			foreach (var metaDataNode in windEffectsToRemove)
 			{
-				windParticleSpots.Remove(metaDataNode);
+				activeWindEffectSpots.Remove(metaDataNode);
 			}
 
 			Profiler.EndSample();
 
 			Profiler.BeginSample("Wind");
+
+			windEffectNodes.Clear();
+
 			winds.Iterate(windsNodeDelegator);
+
+			PlayWindEffect.SendToAll(windEffectNodes);
+
 			Profiler.EndSample();
 
 			Profiler.BeginSample("HotspotModify");
@@ -206,11 +228,12 @@ namespace Systems.Atmospherics
 				return;
 			}
 
-			if(windParticleSpots.Contains(windyNode)) return;
-			windyNode.windParticleTime = WindParticleBlockTime;
-			windParticleSpots.Add(windyNode);
+			if(activeWindEffectSpots.Contains(windyNode)) return;
+			windyNode.windEffectTime = WindParticleBlockTime;
+			activeWindEffectSpots.Add(windyNode);
 
-			PlayWindEffect.SendToAll(windyNode.PositionMatrix, windyNode.Position, windyNode.WindDirection);
+			windEffectNodes.Add(new WindEffectData(windyNode.PositionMatrix.NetworkedMatrix.MatrixSync.netId,
+				windyNode.Position, windyNode.WindDirection));
 		}
 
 		public void DoTick()
