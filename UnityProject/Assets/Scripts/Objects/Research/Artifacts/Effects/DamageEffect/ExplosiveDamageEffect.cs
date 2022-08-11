@@ -16,8 +16,8 @@ namespace Systems.Research
 
 			if(damageInfo != null)
 			{
-				explosiveStrength = (int)(damageInfo.Damage * Multiplier * 10);
-				explosiveRadius = (int)(damageInfo.Damage * Multiplier / 150);
+				explosiveStrength = (int)(damageInfo.Damage * Multiplier * 5);
+				explosiveRadius = (int)(damageInfo.Damage * Multiplier / 100);
 			}
 
 			var worldPos = objectPhysics.registerTile.WorldPosition;

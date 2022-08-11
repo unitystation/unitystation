@@ -25,6 +25,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4791952605902770127, guid: 7976a84ef9209f14697cdd941b913e2a,
         type: 3}
+      propertyPath: hitDamage
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 4791952605902770127, guid: 7976a84ef9209f14697cdd941b913e2a,
+        type: 3}
       propertyPath: exportName
       value: hand pick
       objectReference: {fileID: 0}
@@ -32,6 +37,11 @@ PrefabInstance:
         type: 3}
       propertyPath: initialName
       value: Hand Pick
+      objectReference: {fileID: 0}
+    - target: {fileID: 4791952605902770127, guid: 7976a84ef9209f14697cdd941b913e2a,
+        type: 3}
+      propertyPath: throwDamage
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 4791952605902770127, guid: 7976a84ef9209f14697cdd941b913e2a,
         type: 3}
