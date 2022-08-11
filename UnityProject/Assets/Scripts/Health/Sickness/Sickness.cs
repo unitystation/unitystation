@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Chemistry;
 using UnityEngine;
+using UnityEngine.ResourceManagement.ResourceProviders.Simulation;
 using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
 
@@ -33,7 +34,20 @@ namespace Health.Sickness
 		private int currentTicksSinceLastProgression = 0;
 
 		private int currentStage = 1;
-		public int CurrentStage => currentStage;
+		public int CurrentStage
+		{
+			get { return currentStage; }
+			set
+			{
+				if (value > NumberOfStages)
+				{
+					Logger.LogWarning("[Sickness] - Attempted setting stage for sickness that was bigger than the identified stages.");
+					return;
+				}
+				currentStage = value;
+			}
+		}
+
 
 		[FormerlySerializedAs("possibleCures")]public List<Reaction> PossibleCures = new List<Reaction>();
 		public List<PlayerHealthData> ImmuneRaces = new List<PlayerHealthData>();
@@ -49,6 +63,8 @@ namespace Health.Sickness
 
 		private int cureIndex = 0;
 		public int CureIndex => cureIndex;
+
+		public bool FrozenProgression = false;
 
 		/// <summary>
 		/// Name of the sickness
@@ -94,14 +110,18 @@ namespace Health.Sickness
 		{
 			if(IsOnCooldown) return;
 			SymptompFeedback(health);
-			currentTicksSinceLastProgression += 1;
-			if(currentTicksSinceLastProgression >= TicksToPogressStages && NumberOfStages > currentStage)
-			{
-				currentTicksSinceLastProgression = 0;
-				currentStage += 1;
-			}
+			StageProgressionBehavior();
 			if(Contagious) TrySpreading();
 			if(cooldownTime > 2f) health.StartCoroutine(Cooldown());
+		}
+
+		protected virtual void StageProgressionBehavior()
+		{
+			if(FrozenProgression) return;
+			currentTicksSinceLastProgression += 1;
+			if (currentTicksSinceLastProgression < TicksToPogressStages || NumberOfStages <= currentStage) return;
+			currentTicksSinceLastProgression = 0;
+			currentStage += 1;
 		}
 
 		/// <summary>
