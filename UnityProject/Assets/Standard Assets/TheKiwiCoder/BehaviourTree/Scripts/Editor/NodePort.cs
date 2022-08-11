@@ -55,7 +55,7 @@ namespace TheKiwiCoder {
             }
         }
 
-        public NodePort(Direction direction, Capacity capacity) : base(Orientation.Vertical, direction, capacity, typeof(bool)) {
+        public NodePort(Direction direction, Capacity capacity) : base(UnityEditor.Experimental.GraphView.Orientation.Vertical, direction, capacity, typeof(bool)) {
             var connectorListener = new DefaultEdgeConnectorListener();
             m_EdgeConnector = new EdgeConnector<Edge>(connectorListener);
             this.AddManipulator(m_EdgeConnector);
