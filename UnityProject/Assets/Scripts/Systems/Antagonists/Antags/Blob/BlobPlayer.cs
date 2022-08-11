@@ -932,7 +932,21 @@ namespace Blob
 
 		private void PlayAttackEffect(Vector3 worldPos)
 		{
-			Spawn.ServerPrefab(attackEffect, worldPos, gameObject.transform.parent);
+			RpcPlayEffect(worldPos);
+
+			if (CustomNetworkManager.IsHeadless) return;
+			PlayEffect(worldPos);
+		}
+
+		[ClientRpc]
+		private void RpcPlayEffect(Vector3 worldPos)
+		{
+			PlayEffect(worldPos);
+		}
+
+		private void PlayEffect(Vector3 worldPos)
+		{
+			Spawn.ClientPrefab(attackEffect, worldPos, gameObject.transform.parent);
 		}
 
 		#endregion

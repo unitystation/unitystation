@@ -577,8 +577,10 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IActi
 	{
 		if (Interaction == null) return;
 		if (IsNormal == false) return;
-		if (!ComponentManager.TryGetUniversalObjectPhysics(interactable.gameObject, out var uop)) return;
-		var details = uop.attributes.Component.OrNull()?.AppliedDetails;
+		if (ComponentManager.TryGetUniversalObjectPhysics(interactable.gameObject, out var uop) == false) return;
+		if(uop.attributes.HasComponent == false) return;
+
+		var details = uop.attributes.Component.AppliedDetails;
 		if (details == null) return;
 
 		if (RNG.Next(0, 100) > ClueHandsImprintInverseChance)
