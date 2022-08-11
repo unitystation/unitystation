@@ -200,15 +200,20 @@ namespace Systems.Electricity
 
 			foreach (var currentIDItem in electricItem.Data.SupplyDependent)
 			{
+				var toAddCurrent = 0f;
+
 				foreach (var currentItem in currentIDItem.Value.CurrentComingFrom)
 				{
-					current += (float) currentItem.Value.Current();
+					toAddCurrent += (float) currentItem.Value.Current();
 				}
 
 				foreach (var currentItem in currentIDItem.Value.CurrentGoingTo)
 				{
-					current += (float) -currentItem.Value.Current();
+					toAddCurrent += (float) -currentItem.Value.Current();
 				}
+
+				if(toAddCurrent <= 0) continue;
+				current += toAddCurrent;
 			}
 
 			//Logger.Log (Voltage.ToString () + " < yeah Those voltage " + Current.ToString() + " < yeah Those Current " + (Voltage/Current).ToString() + " < yeah Those Resistance" + ElectricItem.GameObject().name.ToString() + " < at", Category.Electrical);
