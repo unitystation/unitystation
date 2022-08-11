@@ -68,7 +68,6 @@ namespace Messages.Server
 			};
 
 			SendToAll(msg);
-			return;
 		}
 	}
 }
