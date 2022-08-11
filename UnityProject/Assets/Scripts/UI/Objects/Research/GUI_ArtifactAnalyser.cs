@@ -66,7 +66,6 @@ namespace UI.Objects.Research
 
 			OnTabOpened.AddListener(UpdateGUIForPeepers);
 
-			Logger.Log(nameof(WaitForProvider), Category.Research);
 		}
 
 		public void UpdateGUIForPeepers(PlayerInfo notUsed)

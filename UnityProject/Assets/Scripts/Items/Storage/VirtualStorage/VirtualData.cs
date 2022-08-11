@@ -23,17 +23,4 @@ namespace Items.Storage.VirtualStorage
 			Size = Techweb.researchedTech.Count;
 		}
 	}
-
-	public class ArtifactDataFile : VirtualData
-	{
-		//Data saved onto disk by console
-		public ArtifactData inputData = new ArtifactData();
-		//Correct Data, used to judge value for export
-		public ArtifactData correctData = new ArtifactData();
-
-		public void UpdateArtifactDataSize()
-		{
-			Size = 30;
-		}
-	}
 }

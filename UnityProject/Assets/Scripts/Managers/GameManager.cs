@@ -571,7 +571,6 @@ public partial class GameManager : MonoBehaviour, IInitialise
 			return;
 		}
 
-		Artifact.ClearStatics();
 		CurrentRoundState = RoundState.Ended;
 		EventManager.Broadcast(Event.RoundEnded, true);
 		counting = false;

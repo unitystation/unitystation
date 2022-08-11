@@ -61,7 +61,7 @@ namespace Systems.Cargo
 
 		private static readonly List<int> randomJunkPrices = new List<int> { 5, 10, 15 };
 
-		private static List<string> researchedArtifacts = new List<string>();
+		public static List<string> ResearchedArtifacts { get; private set; }
 
 		private void Awake()
 		{
@@ -315,19 +315,20 @@ namespace Systems.Cargo
 				}
 			}
 
-			// If there is no bounty for the item - we dont destroy it.
-			var credits = Instance.GetSellPrice(obj);
-			if (credits == 0) credits = randomJunkPrices.PickRandom();
-
 			string exportName;
 			if (obj.TryGetComponent<Attributes>(out var attributes))
 			{
+				attributes.OnExport();
 				exportName = string.IsNullOrEmpty(attributes.ExportName) ? attributes.ArticleName : attributes.ExportName;
 			}
 			else
 			{
 				exportName = obj.gameObject.ExpensiveName();
 			}
+
+			// If there is no bounty for the item - we dont destroy it.
+			var credits = Instance.GetSellPrice(obj);
+			if (credits == 0) credits = randomJunkPrices.PickRandom();
 
 			if (exportedItems.TryGetValue(exportName, out ExportedItem export) == false)
 			{
@@ -337,23 +338,6 @@ namespace Systems.Cargo
 					ExportName = attributes ? attributes.ExportName : string.Empty // Need to always use the given export name
 				};
 				exportedItems.Add(exportName, export);
-			}
-
-			if (obj.TryGetComponent<ArtifactDataDisk>(out var disk))
-			{
-				foreach (ArtifactDataFile file in disk.DataOnStorage)
-				{
-					if (researchedArtifacts.Contains(file.correctData.ID) == false)
-					{
-						researchedArtifacts.Add(file.correctData.ID);
-					}
-					else
-					{
-						credits = randomJunkPrices.PickRandom();
-						exportedItems[exportName].ExportMessage = "Artifact already researched! No additional reward!";
-					}
-				}
-
 			}
 
 			Credits += credits;
@@ -366,6 +350,7 @@ namespace Systems.Cargo
 
 			if (obj.TryGetComponent<ItemAttributesV2>(out var itemAttributes))
 			{
+
 				//charge cargo for getting rid of trash through centeral commmunications.
 				if (itemAttributes.HasTrait(CommonTraits.Instance.Trash))
 				{
@@ -538,7 +523,12 @@ namespace Systems.Cargo
 		[RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
 		public static void ClearStatics()
 		{
-			researchedArtifacts = new List<string>();
+			ResearchedArtifacts = new List<string>();
+		}
+
+		public static void AddArtifactToList(string ID)
+		{
+			ResearchedArtifacts.Add(ID);
 		}
 
 		public int GetSellPrice(GameObject obj)
