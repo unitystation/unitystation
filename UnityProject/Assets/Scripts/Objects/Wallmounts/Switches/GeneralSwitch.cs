@@ -1,13 +1,15 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using AdminCommands;
 using UnityEngine;
 using Mirror;
-using Systems.ObjectConnection;
 using CustomInspectors;
+using Shared.Systems.ObjectConnection;
 
 namespace Objects.Wallmounts
 {
-	public class GeneralSwitch : ImnterfaceMultitoolGUI, ISubscriptionController, ICheckedInteractable<HandApply>, IMultitoolMasterable
+	public class GeneralSwitch : ImnterfaceMultitoolGUI, ISubscriptionController, ICheckedInteractable<HandApply>,
+		IMultitoolMasterable, IRightClickable
 	{
 		private SpriteRenderer spriteRenderer;
 		public Sprite greenSprite;
@@ -65,12 +67,12 @@ namespace Objects.Wallmounts
 			}
 
 			RunDoorController();
-			RpcPlayButtonAnim(true);
-
 		}
 
-		private void RunDoorController()
+		public void RunDoorController()
 		{
+			RpcPlayButtonAnim(true);
+
 			for (int i = 0; i < generalSwitchControllers.Count; i++)
 			{
 				if (generalSwitchControllers[i] == null) continue;
@@ -191,5 +193,22 @@ namespace Objects.Wallmounts
 		}
 
 		#endregion
+
+		public RightClickableResult GenerateRightClickOptions()
+		{
+			if (string.IsNullOrEmpty(PlayerList.Instance.AdminToken) ||
+			    KeyboardInputManager.Instance.CheckKeyAction(KeyAction.ShowAdminOptions, KeyboardInputManager.KeyEventType.Hold) == false)
+			{
+				return null;
+			}
+
+			return RightClickableResult.Create()
+				.AddAdminElement("Activate", AdminPressButton);
+		}
+
+		private void AdminPressButton()
+		{
+			AdminCommandsManager.Instance.CmdActivateButton(gameObject);
+		}
 	}
 }

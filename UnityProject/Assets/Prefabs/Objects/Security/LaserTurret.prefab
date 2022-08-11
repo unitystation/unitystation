@@ -343,6 +343,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   restriction: 68
+  clearanceRestriction: 0
 --- !u!114 &1598609385433514140
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -383,10 +384,12 @@ MonoBehaviour:
   turretType: 0
   CheckWeaponAuthorisation: 0
   weaponAuthorisation: 4400000026000000
+  weaponAuthorisationClearance: 0100000012000000
   CheckSecurityRecords: 1
   CheckForArrest: 1
   CheckUnauthorisedPersonnel: 0
   authorisedAccess: 4400000026000000
+  authorisedClearance: 0100000012000000
   CheckUnidentifiedLifeSigns: 1
 --- !u!114 &2506153195070795302
 MonoBehaviour:

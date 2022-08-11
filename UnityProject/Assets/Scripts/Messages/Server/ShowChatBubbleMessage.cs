@@ -1,5 +1,8 @@
-﻿using Mirror;
+﻿using Managers;
+using Mirror;
+using Player.Language;
 using UnityEngine;
+using Util;
 
 namespace Messages.Server
 {
@@ -29,10 +32,12 @@ namespace Messages.Server
 			if (msg.IsPlayerChatBubble)
 			{
 				target = target.GetComponent<PlayerNetworkActions>().chatBubbleTarget;
+
+				if(target == null) return;
 			}
-			
+
 			var message = msg.Message;
-			
+
 			if(msg.AllowTags == false)
 			{
 				message = Chat.StripTags(message);
@@ -41,7 +46,21 @@ namespace Messages.Server
 			ChatBubbleManager.ShowAChatBubble(target, message, msg.ChatModifiers);
 		}
 
-		public static NetMessage SendToNearby(GameObject followTransform, string message, bool isPlayerChatBubble = false,
+		public static void SendToNearby(GameObject followTransform, string message, LanguageSO language)
+		{
+
+			var visiblePlayers = OtherUtil.GetVisiblePlayers(followTransform.transform.position);
+
+			foreach (var player in visiblePlayers)
+			{
+				//See if we need to scramble the message
+				var copiedString = LanguageManager.Scramble(language, player.Script, string.Copy(message));
+
+				SendTo(player.Connection, followTransform, copiedString);
+			}
+		}
+
+		public static NetMessage SendTo(NetworkConnectionToClient conn, GameObject followTransform, string message, bool isPlayerChatBubble = false,
 			ChatModifier chatModifier = ChatModifier.None, bool allowTags = false)
 		{
 			NetMessage msg = new NetMessage
@@ -53,7 +72,7 @@ namespace Messages.Server
 				AllowTags = allowTags
 			};
 
-			SendToVisiblePlayers(followTransform.transform.position, msg);
+			SendTo(conn, msg);
 			return msg;
 		}
 	}

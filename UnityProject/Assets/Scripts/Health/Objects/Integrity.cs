@@ -6,8 +6,10 @@ using UnityEngine.Profiling;
 using Mirror;
 using Core.Editor.Attributes;
 using AddressableReferences;
+using AdminCommands;
 using DatabaseAPI;
 using Effects.Overlays;
+using Messages.Client.DevSpawner;
 using ScriptableObjects;
 using Systems.Atmospherics;
 using Systems.Explosions;
@@ -63,7 +65,7 @@ public class Integrity : NetworkBehaviour, IHealth, IFireExposable, IRightClicka
 	[Tooltip("This object's initial \"HP\"")]
 	public float initialIntegrity = 100f;
 
-	[PrefabModeOnly]
+	//[PrefabModeOnly] Commented out as it doesnt work correctly
 	[Tooltip("Sound to play when damage applied.")]
 	public AddressableAudioSource soundOnHit;
 
@@ -400,24 +402,31 @@ public class Integrity : NetworkBehaviour, IHealth, IFireExposable, IRightClicka
 
 	public RightClickableResult GenerateRightClickOptions()
 	{
-		if (string.IsNullOrEmpty(PlayerList.Instance.AdminToken) || !KeyboardInputManager.Instance.CheckKeyAction(KeyAction.ShowAdminOptions, KeyboardInputManager.KeyEventType.Hold))
+		if (string.IsNullOrEmpty(PlayerList.Instance.AdminToken) ||
+		    KeyboardInputManager.Instance.CheckKeyAction(KeyAction.ShowAdminOptions, KeyboardInputManager.KeyEventType.Hold) == false)
 		{
 			return null;
 		}
 
 		return RightClickableResult.Create()
 			.AddAdminElement("Smash", AdminSmash)
+			.AddAdminElement("Delete", AdminDelete)
 			.AddAdminElement("Hotspot", AdminMakeHotspot);
 	}
 
 	private void AdminSmash()
 	{
-		PlayerManager.LocalPlayerScript.playerNetworkActions.CmdAdminSmash(gameObject);
+		AdminCommandsManager.Instance.CmdAdminSmash(gameObject);
+	}
+
+	private void AdminDelete()
+	{
+		DevDestroyMessage.Send(gameObject);
 	}
 
 	private void AdminMakeHotspot()
 	{
-		PlayerManager.LocalPlayerScript.playerNetworkActions.CmdAdminMakeHotspot(gameObject);
+		AdminCommandsManager.Instance.CmdAdminMakeHotspot(gameObject);
 	}
 
 	public void OnDespawnServer(DespawnInfo info)

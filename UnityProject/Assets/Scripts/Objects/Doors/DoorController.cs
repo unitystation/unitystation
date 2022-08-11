@@ -8,9 +8,9 @@ using Messages.Server;
 using AddressableReferences;
 using ScriptableObjects;
 using Systems.Interaction;
-using Systems.ObjectConnection;
 using HealthV2;
 using Objects.Wallmounts;
+using Shared.Systems.ObjectConnection;
 using UnityEngine.Events;
 
 
@@ -548,7 +548,7 @@ namespace Doors
 		bool IMultitoolSlaveable.RequireLink => false;
 		// TODO: should be requireLink but hardcoded to false for now,
 		// doors don't know about links, only the switches
-		bool IMultitoolSlaveable.TrySetMaster(PositionalHandApply interaction, IMultitoolMasterable master)
+		bool IMultitoolSlaveable.TrySetMaster(GameObject performer, IMultitoolMasterable master)
 		{
 			SetMaster(master);
 			return true;

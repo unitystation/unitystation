@@ -47,7 +47,7 @@ namespace Systems.MobAIs
 				return;
 			}
 
-			timeWaiting += Time.deltaTime;
+			timeWaiting += MobController.UpdateTimeInterval;
 			if (timeWaiting < timeForNextRandomAction) return;
 			timeWaiting = 0f;
 			timeForNextRandomAction = Random.Range(minTimeBetweenRandomActions, maxTimeBetweenRandomActions);

@@ -368,7 +368,7 @@ namespace Systems.MobAIs
 					{
 						//Mob has 5 seconds to get to the next tile
 						//or the AI should do something else
-						timeOut += Time.deltaTime;
+						timeOut += MobController.UpdateTimeInterval;
 						if (timeOut > 5f)
 						{
 							ResetMovingValues();

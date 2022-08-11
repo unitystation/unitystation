@@ -107,7 +107,14 @@ namespace Systems.MobAIs
 					else return (mobTile.Matrix.Get<FloorDecal>(checkPos, true).Any(p => p.Cleanable) || (!mobTile.Matrix.Get<FloorDecal>(checkPos, true).Any() && interactableTiles.MetaTileMap.GetTile(checkPos)?.LayerType == LayerType.Floors));
 
 				case Target.missingFloor:
-					if (IsEmagged == false) return (interactableTiles.MetaTileMap.GetTile(checkPos)?.LayerType == LayerType.Base || interactableTiles.MetaTileMap.GetTile(checkPos)?.LayerType == LayerType.Underfloor); // Checks the topmost tile if its the base or underfloor layer (below the floor)
+					// Checks the topmost tile if its the base or underfloor layer (below the floor)
+					if (IsEmagged == false)
+					{
+						return (interactableTiles.MetaTileMap.GetTile(checkPos)?.LayerType == LayerType.Base
+					                                || interactableTiles.MetaTileMap.GetTile(checkPos)?.LayerType.IsUnderFloor() != null);
+
+					}
+
 					else return interactableTiles.MetaTileMap.GetTile(checkPos)?.LayerType == LayerType.Floors;
 
 				case Target.injuredPeople:
@@ -225,7 +232,7 @@ namespace Systems.MobAIs
 
 		protected void OnPerformAction()
 		{
-			actionPerformTimer += Time.deltaTime;
+			actionPerformTimer += MobController.UpdateTimeInterval;
 
 			if ((actionPerformTime == 0) || (actionPerformTimer >= actionPerformTime))
 			{

@@ -381,7 +381,8 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 6d39396f08bdc9b4b8199916a5ab16a4,
         type: 2}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 3959904421835429671, guid: 6a1a4888888e8994187da2ccb8d6f1c2, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 6a1a4888888e8994187da2ccb8d6f1c2, type: 3}
 --- !u!1 &7468114191605762846 stripped
 GameObject:
@@ -407,7 +408,7 @@ MonoBehaviour:
   - NotPresentOnUI: 0
     SlotArea: 2
     namedSlot: 8
-    hoverName: left-hand
+    hoverName: Right-hand
     DropContents: 1
     placeholderSprite: {fileID: 21300000, guid: e0ee395497afd79428fc1704fe4463b8,
       type: 3}
@@ -464,3 +465,19 @@ MonoBehaviour:
     SlotContents: []
     DeprecatedContents: []
   ashPrefab: {fileID: 0}
+--- !u!114 &3523244764140818517
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7468114191605762846}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a79a26cefea34ae3ad4615dab28acf61, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isEMPVunerable: 0
+  EMPResistance: 2
+  armEfficiency: 1
+  crawlingSpeed: 0.3

@@ -7,10 +7,10 @@ namespace UI.Items
 	public class GUI_InteliCard : NetTab
 	{
 		[SerializeField]
-		private NetLabel labelLaws = null;
+		private NetText_label labelLaws = null;
 
 		[SerializeField]
-		private NetLabel labelPurgeButton = null;
+		private NetText_label labelPurgeButton = null;
 
 		[SerializeField]
 		private NetSlider allowRemoteActionsSlider = null;

@@ -22,7 +22,7 @@ namespace UI.Objects.Atmospherics.Acu
 		[SerializeField, BoxGroup("Status")]
 		private NetColorChanger statusIndicator = default;
 		[SerializeField, BoxGroup("Status")]
-		private NetLabel statusLabel = default;
+		private NetText_label statusLabel = default;
 
 		[SerializeField, BoxGroup("Element References")]
 		private GameObject lockIcon = default;
@@ -32,7 +32,7 @@ namespace UI.Objects.Atmospherics.Acu
 		private GameObject connectionIcon = default;
 
 		[SerializeField]
-		private NetLabel acuLabel = default;
+		private NetText_label acuLabel = default;
 
 		[SerializeField]
 		private GUI_AcuValueModal editValueModal = default;

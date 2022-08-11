@@ -75,7 +75,7 @@ public struct PlayerAction
 		}
 	}
 
-	private static Vector2Int GetMoveDirection(MoveAction action)
+	public static Vector2Int GetMoveDirection(MoveAction action)
 	{
 		switch (action)
 		{

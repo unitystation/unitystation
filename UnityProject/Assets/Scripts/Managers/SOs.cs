@@ -1,15 +1,15 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using UnityEngine;
-using ScriptableObjects.Atmospherics;
-using ScriptableObjects.Systems.Spells;
 using HealthV2;
-using Managers;
-using Systems.CraftingV2;
 using Items.PDA;
 using Machines;
 using Objects.Atmospherics;
+using ScriptableObjects.Atmospherics;
+using ScriptableObjects.Systems.Spells;
+using Shared.Managers;
+using Systems.CraftingV2;
+using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace ScriptableObjects
 {
@@ -47,6 +47,9 @@ namespace ScriptableObjects
 		public UplinkCategoryList UplinkCategoryList;
 		public UplinkPasswordList UplinkPasswordList;
 
+		[FormerlySerializedAs("PlayerStatesSingleton")]
+		public PlayerTypeSingleton playerTypeSingleton;
+
 		private Dictionary<Type, ScriptableObject> typeSOMap;
 
 		public override void Awake()
@@ -79,6 +82,7 @@ namespace ScriptableObjects
 				{ typeof(UIActionSOSingleton), UIActionSOSingleton },
 				{ typeof(UplinkCategoryList), UplinkCategoryList },
 				{ typeof(UplinkPasswordList), UplinkPasswordList },
+				{ typeof(PlayerTypeSingleton), playerTypeSingleton },
 			};
 		}
 

@@ -764,6 +764,10 @@ namespace Messages.Client.Interaction
 				message.TargetObject = reader.ReadUInt();
 				message.ClickTypes = (AiActivate.ClickTypes)reader.ReadByte();
 			}
+			else if (message.InteractionType == typeof(HandActivate))
+			{
+				message.IsAltUsed = reader.ReadBool();
+			}
 
 			return message;
 		}
@@ -846,6 +850,10 @@ namespace Messages.Client.Interaction
 			{
 				writer.WriteUInt(message.TargetObject);
 				writer.WriteByte((byte)message.ClickTypes);
+			}
+			else if (message.InteractionType == typeof(HandActivate))
+			{
+				writer.WriteBool(message.IsAltUsed);
 			}
 		}
 	}

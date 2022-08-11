@@ -67,7 +67,7 @@ public class PlayerAlertView : ChatEntryView
 		else
 		{
 			PlayerManager.LocalPlayerObject.GetComponent<GhostMove>()
-				.ForcePositionClient(target.transform.position);
+				.CMDSetServerPosition(target.transform.position);
 		}
 	}
 
@@ -88,7 +88,7 @@ public class PlayerAlertView : ChatEntryView
 		teleportButton.interactable = true;
 		if (PlayerManager.LocalPlayerScript != null && target != null && PlayerManager.LocalPlayerScript.IsGhost)
 		{
-			PlayerManager.LocalPlayerObject.GetComponent<GhostMove>().ForcePositionClient(target.transform.position);
+			PlayerManager.LocalPlayerObject.GetComponent<GhostMove>().CMDSetServerPosition(target.transform.position);
 		}
 	}
 

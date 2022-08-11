@@ -74,7 +74,7 @@ namespace Items.Others
 				Chat.AddExamineMsg(interaction.Performer, $"The {gameObject.ExpensiveName()} flashes briefly. Opening portal to {linkedBeacon.gameObject.ExpensiveName()}!");
 			}
 
-			var worldPosEntrance = objectPhysics.OfficialPosition;
+			var worldPosEntrance = objectPhysics.OfficialPosition.RoundToInt();
 
 			//Go to selected tracked beacon or open portal in random 10 x 10 coord
 			Vector3 worldPosExit;
@@ -83,7 +83,7 @@ namespace Items.Others
 			{
 				//Get random x from -10 to 10
 				var xCoord = Random.Range(0, 11) * (DMMath.Prob(50) ? -1 : 1);
-				
+
 				//Get random y from -10 to 10 but not 0 if x is 0 so to not spawn two portals on player
 				var yCoord = Random.Range((xCoord == 0 ? 1 : 0), 11) * (DMMath.Prob(50) ? -1 : 1);
 
@@ -93,6 +93,8 @@ namespace Items.Others
 			{
 				worldPosExit = linkedBeacon.ObjectBehaviour.OfficialPosition;
 			}
+			
+			worldPosExit = worldPosExit.RoundToInt();
 
 			//TODO maybe coroutine this for better effect??
 

@@ -74,7 +74,7 @@ namespace Objects.Atmospherics
 		public override void OnSpawnServer(SpawnInfo info)
 		{
 			metaDataLayer = MatrixManager.AtPoint(registerTile.WorldPositionServer, true).MetaDataLayer;
-			metaNode = metaDataLayer.Get(registerTile.LocalPositionServer, false);
+			metaNode = metaDataLayer.Get(registerTile.LocalPositionServer);
 			pipeMix = selfSufficient ? GasMix.NewGasMix(GasMixes.BaseEmptyMix) : pipeData.GetMixAndVolume.GetGasMix();
 
 			if (TryGetComponent<AcuDevice>(out var device) && device.Controller != null)
@@ -201,6 +201,18 @@ namespace Objects.Atmospherics
 
 		#region Interaction
 
+		public override bool WillInteract(HandApply interaction, NetworkSide side)
+		{
+			if (DefaultWillInteract.Default(interaction, side, PlayerTypes.Normal | PlayerTypes.Alien) == false) return false;
+			if (interaction.TargetObject != gameObject) return false;
+
+			if (Validations.HasUsedActiveWelder(interaction)) return true;
+
+			if (interaction.PerformerPlayerScript.CanVentCrawl && interaction.HandObject == null) return true;
+
+			return false;
+		}
+
 		private bool isWelded = false;
 
 		public override void HandApplyInteraction(HandApply interaction)
@@ -218,7 +230,12 @@ namespace Objects.Atmospherics
 						UpdateSprite();
 						SoundManager.PlayNetworkedAtPos(weldFinishSfx, registerTile.WorldPositionServer, sourceObj: gameObject);
 					});
+
+				return;
 			}
+
+			//Do vent crawl
+			DoVentCrawl(interaction, pipeMix);
 		}
 
 		public string Examine(Vector3 worldPos = default)

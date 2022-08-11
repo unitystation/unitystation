@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Shared.Editor;
 using Systems.Atmospherics;
 using UnityEditor;
 using UnityEngine;
@@ -37,13 +38,13 @@ public class MetaDataView : BasicView
 		localChecks.Add(new RadiationLevel());
 		localChecks.Add(new ElectricityVision());
 		localChecks.Add(new AtmosIsOccupied());
+		localChecks.Add(new HasSmoke());
 	}
 
 	public override void DrawContent()
 	{
-		for (var i = 0; i < localChecks.Count; i++)
+		foreach (var check in localChecks)
 		{
-			Check<MetaDataLayer> check = localChecks[i];
 			check.Active = GUILayout.Toggle(check.Active, check.Label);
 		}
 	}
@@ -502,6 +503,22 @@ public class MetaDataView : BasicView
 			{
 				Vector3 p = LocalToWorld(source, position);
 				GizmoUtils.DrawText($"{node.RoomNumber}", p, false);
+			}
+		}
+	}
+
+
+	private class HasSmoke : Check<MetaDataLayer>
+	{
+		public override string Label { get; } = "Smoke";
+
+		public override void DrawLabel(MetaDataLayer source, Vector3Int position)
+		{
+			MetaDataNode node = source.Get(position, false);
+
+			if (node.SmokeNode.IsActive)
+			{
+				GizmoUtils.DrawCube(position, Color.gray);
 			}
 		}
 	}

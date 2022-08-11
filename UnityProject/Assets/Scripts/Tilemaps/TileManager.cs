@@ -3,11 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Initialisation;
-using Managers;
-using Messages.Server;
+using Shared.Managers;
 using Tiles;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public static class TilePaths
 {
@@ -23,7 +21,9 @@ public static class TilePaths
 		{TileType.WindowDamaged, "Tiles/WindowDamage"},
 		{TileType.Effects, "Tiles/Effects"},
 		{TileType.UnderFloor, "Tiles/UnderFloors"},
-		{TileType.ElectricalCable, "Tiles/Electrical"}
+		{TileType.Electrical, "Tiles/Electrical"},
+		{TileType.Pipe, "Tiles/Pipes"},
+		{TileType.Disposals, "Tiles/Disposals"}
 	};
 
 	public static string Get(TileType type)

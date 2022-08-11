@@ -5,7 +5,7 @@ using Mirror;
 using Systems.Electricity;
 using Objects.Machines;
 using ScriptableObjects.Systems.Research;
-using Systems.ObjectConnection;
+using Shared.Systems.ObjectConnection;
 
 namespace Systems.Research.Objects
 {
@@ -326,7 +326,7 @@ namespace Systems.Research.Objects
 		IMultitoolMasterable IMultitoolSlaveable.Master => researchServer;
 		bool IMultitoolSlaveable.RequireLink => false;
 
-		bool IMultitoolSlaveable.TrySetMaster(PositionalHandApply interaction, IMultitoolMasterable master)
+		bool IMultitoolSlaveable.TrySetMaster(GameObject performer, IMultitoolMasterable master)
 		{
 			SetMaster(master);
 			return true;

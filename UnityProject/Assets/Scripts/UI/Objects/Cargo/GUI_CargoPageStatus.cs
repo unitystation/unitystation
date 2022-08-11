@@ -7,9 +7,9 @@ namespace UI.Objects.Cargo
 {
 	public class GUI_CargoPageStatus : GUI_CargoPage
 	{
-		public NetLabel creditsText;
-		public NetLabel shuttleButtonText;
-		public NetLabel messageText;
+		public NetText_label creditsText;
+		public NetText_label shuttleButtonText;
+		public NetText_label messageText;
 		public NetColorChanger statusCargoImage;
 		public NetColorChanger statusTransitImage;
 		public NetColorChanger statusCentcomImage;

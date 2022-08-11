@@ -342,7 +342,7 @@ public class CablePlacementVisualisation : MonoBehaviour
 				var metaTileMap = MatrixManager.AtPoint(mousePosition, false).MetaTileMap;
 				var topTile = metaTileMap.GetTile(metaTileMap.WorldToCell(mousePosition), true, excludeNonIntractable : true );
 
-				if (topTile && (topTile.LayerType == LayerType.Base || topTile.LayerType == LayerType.Underfloor))
+				if (topTile && (topTile.LayerType == LayerType.Base || topTile.LayerType.IsUnderFloor()))
 				{
 					// move cable placement visualisation to rounded mouse position and enable it
 					var RegisterTile = PlayerManager.LocalPlayerObject.RegisterTile();

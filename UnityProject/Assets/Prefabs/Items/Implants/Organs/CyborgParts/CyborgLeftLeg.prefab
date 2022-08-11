@@ -146,6 +146,16 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: ceb75d290a316f440b0302cea6a340b6,
         type: 3}
+    - target: {fileID: 3792901096202368791, guid: 2e6f2ff9beb985749940d242877d84f0,
+        type: 3}
+      propertyPath: runningSpeed
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 3792901096202368791, guid: 2e6f2ff9beb985749940d242877d84f0,
+        type: 3}
+      propertyPath: walkingSpeed
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 5123827499010467942, guid: 2e6f2ff9beb985749940d242877d84f0,
         type: 3}
       propertyPath: BodyTypesSprites.BodyTypes.Array.data[0].Sprites.Array.data[0]

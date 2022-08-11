@@ -13,30 +13,30 @@ namespace UI.Objects.Security
 		private SecurityRecord record;
 		private GUI_SecurityRecords securityRecordsTab;
 		[SerializeField]
-		private NetLabel nameText = null;
+		private NetText_label nameText = null;
 		[SerializeField]
-		private NetLabel idText = null;
+		private NetText_label idText = null;
 		[SerializeField]
-		private NetLabel sexText = null;
+		private NetText_label sexText = null;
 		[SerializeField]
-		private NetLabel ageText = null;
+		private NetText_label ageText = null;
 		[SerializeField]
-		private NetLabel speciesText = null;
+		private NetText_label speciesText = null;
 		[SerializeField]
-		private NetLabel rankText = null;
+		private NetText_label rankText = null;
 		[SerializeField]
-		private NetLabel fingerprintText = null;
+		private NetText_label fingerprintText = null;
 		[SerializeField]
 		private EmptyItemList crimesList = null;
 		[SerializeField]
-		private NetLabel statusButtonText = null;
+		private NetText_label statusButtonText = null;
 		[SerializeField]
-		private NetLabel idNameText = null;
+		private NetText_label idNameText = null;
 		[SerializeField]
 		private GameObject popupWindow = null;
 		[SerializeField]
 		private InputFieldFocus popupWindowEditField = null;
-		private NetLabel currentlyEditingField;
+		private NetText_label currentlyEditingField;
 		private SecurityRecordCrime currentlyEditingCrime;
 
 		public NetSpriteImage head;
@@ -166,7 +166,7 @@ namespace UI.Objects.Security
 		/// 2. Client confirms edit in popup, popup closes locally.
 		/// 3. Server sets fields with values from popup.
 		/// </summary>
-		public void OpenPopup(NetLabel fieldToEdit)
+		public void OpenPopup(NetText_label fieldToEdit)
 		{
 			popupWindow.SetActive(true);
 			if (fieldToEdit != null)
@@ -179,7 +179,7 @@ namespace UI.Objects.Security
 		/// Set field to edit in popup.
 		/// Used for info entry (name, age, etc.)
 		/// </summary>
-		public void SetEditingField(NetLabel fieldToEdit)
+		public void SetEditingField(NetText_label fieldToEdit)
 		{
 			currentlyEditingField = fieldToEdit;
 		}
@@ -187,7 +187,7 @@ namespace UI.Objects.Security
 		/// <summary>
 		/// Set Editing field for crime entry.
 		/// </summary>
-		public void SetEditingField(NetLabel fieldToEdit, SecurityRecordCrime crimeToEdit)
+		public void SetEditingField(NetText_label fieldToEdit, SecurityRecordCrime crimeToEdit)
 		{
 			currentlyEditingField = fieldToEdit;
 			currentlyEditingCrime = crimeToEdit;

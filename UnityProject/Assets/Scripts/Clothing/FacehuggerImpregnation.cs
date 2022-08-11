@@ -6,11 +6,13 @@ using Mirror;
 using UnityEngine;
 using Systems.Clothing;
 using HealthV2;
+using Systems.Antagonists;
+using Systems.MobAIs;
 
 namespace Clothing
 {
 	[RequireComponent(typeof(ClothingV2))]
-	public class FacehuggerImpregnation : NetworkBehaviour, IServerInventoryMove, IClientInventoryMove
+	public class FacehuggerImpregnation : NetworkBehaviour, IServerInventoryMove, IClientInventoryMove, ICheckedInteractable<PositionalHandApply>
 	{
 		[Tooltip("Is this a toy? Won't impregnate the wearer")][SerializeField]
 		private bool isToy = false;
@@ -29,11 +31,16 @@ namespace Clothing
 		private ItemAttributesV2 itemAttributesV2;
 		private SpriteHandler spriteHandler;
 
+		private CooldownInstance alienTryHuggerCooldown = new CooldownInstance(2f);
+
+		private Pickupable pickupable;
+
 		private void Awake()
 		{
 			clothingV2 = GetComponent<ClothingV2>();
 			itemAttributesV2 = GetComponent<ItemAttributesV2>();
 			spriteHandler = GetComponentInChildren<SpriteHandler>();
+			pickupable = GetComponent<Pickupable>();
 		}
 
 		public override void OnStartServer()
@@ -152,6 +159,9 @@ namespace Clothing
 				return;
 			}
 
+			//Aliens don't go into crit
+			if(playerScript.PlayerType == PlayerTypes.Alien) return;
+
 			if (info.ClientInventoryMoveType == ClientInventoryMoveType.Added
 				&& playerScript.DynamicItemStorage.InventoryHasObjectInCategory(gameObject, NamedSlot.mask))
 			{
@@ -161,6 +171,60 @@ namespace Clothing
 				&& playerScript.DynamicItemStorage.InventoryHasObjectInCategory(gameObject, NamedSlot.mask) == false)
 			{
 				UIManager.PlayerHealthUI.heartMonitor.overlayCrits.SetState(OverlayState.normal);
+			}
+		}
+
+		public bool WillInteract(PositionalHandApply interaction, NetworkSide side)
+		{
+			if (interaction.HandObject != gameObject) return false;
+
+			if (interaction.TargetObject == null) return false;
+
+			if (interaction.TargetObject == interaction.Performer) return false;
+
+			if (interaction.TargetObject.TryGetComponent<PlayerScript>(out var playerScript) == false) return false;
+
+			if (playerScript.PlayerType != PlayerTypes.Normal) return false;
+
+			if (DefaultWillInteract.Default(interaction, side, PlayerTypes.Alien) == false) return false;
+
+			if (side == NetworkSide.Client)
+			{
+				if (Cooldowns.TryStartClient(interaction, alienTryHuggerCooldown) == false)
+				{
+					Chat.AddExamineMsgToClient("The facehugger needs time to recuperate from its failure!");
+					return false;
+				}
+			}
+
+			return true;
+		}
+
+		public void ServerPerformInteraction(PositionalHandApply interaction)
+		{
+			if(Cooldowns.TryStartServer(interaction, alienTryHuggerCooldown) == false) return;
+
+			//Alien clicking on layer with face hugger in hand
+			if (interaction.TargetObject.TryGetComponent<PlayerScript>(out var playerScript) == false) return;
+
+			//If not laying down small chance to hug and check for anti hugger items
+			bool success = (playerScript.registerTile.IsLayingDown == false && DMMath.Prob(80)
+			                || FaceHugAction.HasAntihuggerItem(playerScript.Equipment)) == false;
+
+			interaction.PerformerPlayerScript.weaponNetworkActions.RpcMeleeAttackLerp(interaction.TargetVector, gameObject);
+
+			Chat.AddActionMsgToChat(interaction.Performer, success == false ?
+					$"You fail to attach the {gameObject.ExpensiveName()} to {playerScript.visibleName}"
+					: $"You attach the {gameObject.ExpensiveName()} to {playerScript.visibleName}",
+				success == false ? $"{interaction.Performer.ExpensiveName()} attempted to attach a {gameObject.ExpensiveName()} to {playerScript.visibleName} but failed!"
+					: $"{interaction.Performer.ExpensiveName()} attaches a {gameObject.ExpensiveName()} to {playerScript.visibleName}!");
+
+			if(success == false) return;
+
+			foreach (var itemSlot in playerScript.Equipment.ItemStorage.GetNamedItemSlots(NamedSlot.mask))
+			{
+				Inventory.ServerTransfer(pickupable.ItemSlot, itemSlot, ReplacementStrategy.DropOther);
+				break;
 			}
 		}
 	}

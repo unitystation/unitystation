@@ -175,7 +175,7 @@ namespace Systems.MobAIs
 		{
 			if (mobFollow.Priority < 25 && followTimeMax > 0)
 			{
-				followingTime += Time.deltaTime;
+				followingTime += MobController.UpdateTimeInterval;
 				if (followingTime > followTimeMax)
 				{
 					StopFollowing();
@@ -187,7 +187,7 @@ namespace Systems.MobAIs
 		{
 			if (mobExplore.Priority < 25 && exploreTimeMax > 0)
 			{
-				exploringTime += Time.deltaTime;
+				exploringTime += MobController.UpdateTimeInterval;
 				if (exploringTime > exploreTimeMax)
 				{
 					StopExploring();
@@ -199,7 +199,7 @@ namespace Systems.MobAIs
 		{
 			if (mobFlee.activated && fleeTimeMax > 0)
 			{
-				fleeingTime += Time.deltaTime;
+				fleeingTime += MobController.UpdateTimeInterval;
 				if (fleeingTime > fleeTimeMax)
 				{
 					StopFleeing();
@@ -428,7 +428,7 @@ namespace Systems.MobAIs
 		{
 			// face performer
 			var dir = (performer.transform.position - transform.position).normalized;
-			rotatable.SetFaceDirectionLocalVector(dir.To2Int());
+			rotatable.SetFaceDirectionLocalVector(dir.RoundTo2Int());
 			PettedEvent?.Invoke();
 		}
 

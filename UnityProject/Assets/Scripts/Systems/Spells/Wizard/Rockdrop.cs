@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using NaughtyAttributes;
+
 using Systems.Explosions;
 
 namespace Systems.Spells.Wizard

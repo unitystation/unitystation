@@ -260,7 +260,7 @@ namespace Blob
 			var matrixInfo = GetComponent<RegisterTile>().Matrix.MatrixInfo;
 
 			//Teleport user to random location on station if outside radius of 600 or on a space tile
-			if (((gameObject.AssumedWorldPosServer() - MatrixManager.MainStationMatrix.GameObject.AssumedWorldPosServer())
+			if (((gameObject.AssumedWorldPosServer() - MatrixManager.MainStationMatrix.Matrix.NetworkedMatrix.gameObject.AssumedWorldPosServer())
 				.magnitude > 600f) || MatrixManager.IsSpaceAt(gameObject.GetComponent<MovementSynchronisation>().registerTile.WorldPosition, true, matrixInfo) || matrixInfo != MatrixManager.MainStationMatrix)
 			{
 				Vector3 position = new Vector3(Random.Range(bound.xMin, bound.xMax), Random.Range(bound.yMin, bound.yMax), 0);
@@ -292,7 +292,8 @@ namespace Blob
 			spawnResult.GameObject.GetComponent<PlayerScript>().mind = playerScript.mind;
 
 			var connection = GetComponent<NetworkIdentity>().connectionToClient;
-			PlayerSpawn.ServerTransferPlayerToNewBody(connection, spawnResult.GameObject, playerScript.mind.GetCurrentMob(), Event.BlobSpawned, playerScript.characterSettings);
+			PlayerSpawn.ServerTransferPlayerToNewBody(connection, playerScript.mind, spawnResult.GameObject,
+				Event.BlobSpawned, null);
 
 			playerScript.mind = null;
 

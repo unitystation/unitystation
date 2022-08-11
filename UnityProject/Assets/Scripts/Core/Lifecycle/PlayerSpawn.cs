@@ -8,8 +8,33 @@ using Managers;
 using Messages.Server;
 using Messages.Server.LocalGuiMessages;
 using Newtonsoft.Json;
+using Objects.Research;
 using UI.CharacterCreator;
 using Player;
+
+/// <summary>
+/// This interface will be called after the client has rejoined and has all scenes loaded!
+/// </summary>
+public interface IOnPlayerRejoin
+{
+	public void OnPlayerRejoin();
+}
+
+/// <summary>
+/// This interface will be called when a player is transferred into a new body (but not on rejoin, use above instead)
+/// </summary>
+public interface IOnPlayerTransfer
+{
+	public void OnPlayerTransfer();
+}
+
+/// <summary>
+/// This interface will be called when a player is transferred out of their body
+/// </summary>
+public interface IOnPlayerLeaveBody
+{
+	public void OnPlayerLeaveBody();
+}
 
 /// <summary>
 /// Main API for dealing with spawning players and related things.
@@ -224,8 +249,10 @@ public static class PlayerSpawn
 		//get the old body if they have one.
 		var oldBody = existingMind?.GetCurrentMob();
 
+		var toUseCharacterSettings = occupation.UseCharacterSettings ? characterSettings : null;
+
 		//transfer control to the player object
-		ServerTransferPlayer(connection, newPlayer, oldBody, Event.PlayerSpawned, characterSettings, willDestroyOldBody);
+		ServerTransferPlayer(connection, newPlayer, oldBody, Event.PlayerSpawned, toUseCharacterSettings, willDestroyOldBody);
 
 		if (existingMind == null)
 		{
@@ -284,6 +311,13 @@ public static class PlayerSpawn
 		var mind = ps.mind;
 		var occupation = mind.occupation;
 		var settings = ps.characterSettings;
+
+		if (ps.connectionToClient != null)
+		{
+			Logger.LogError($"There was already a connection in {body.ExpensiveName()} for {forMind.ghost.gameObject.ExpensiveName()}!");
+			return;
+		}
+
 		ServerTransferPlayer(forConnection, body, fromObject, Event.PlayerSpawned, settings, oldGhost != null);
 		body.GetComponent<PlayerScript>().playerNetworkActions.ReenterBodyUpdates();
 
@@ -303,10 +337,22 @@ public static class PlayerSpawn
 	{
 		var ps = body.GetComponent<PlayerScript>();
 		var settings = ps.characterSettings;
+
+		if (ps.mind?.occupation != null && ps.mind.occupation.UseCharacterSettings == false)
+		{
+			settings = null;
+		}
+
 		ServerTransferPlayer(viewer.connectionToClient, body, viewer.gameObject, Event.PlayerRejoined, settings);
 		ps = body.GetComponent<PlayerScript>();
 		ps.playerNetworkActions.ReenterBodyUpdates();
 		ps.mind.ResendSpellActions();
+
+		var rejoins = body.GetComponents<IOnPlayerRejoin>();
+		foreach (var rejoin in rejoins)
+		{
+			rejoin.OnPlayerRejoin();
+		}
 	}
 
 	/// <summary>
@@ -373,7 +419,6 @@ public static class PlayerSpawn
 
 		ServerTransferPlayer(connection, ghost, body, Event.GhostSpawned, settings);
 
-
 		//fire all hooks
 		var info = SpawnInfo.Ghost(forMind.occupation, settings, CustomNetworkManager.Instance.ghostPrefab,
 			SpawnDestination.At(spawnPosition, parentTransform));
@@ -420,7 +465,7 @@ public static class PlayerSpawn
 		{
 			spawnTransform = SpawnPoint.GetRandomPointForJob(JobType.ASSISTANT);
 		}
-		
+
 		if (spawnTransform != null)
 		{
 			var dummy = ServerCreatePlayer(spawnTransform.position.RoundToInt());
@@ -466,10 +511,29 @@ public static class PlayerSpawn
 		return player;
 	}
 
-	public static void ServerTransferPlayerToNewBody(NetworkConnectionToClient conn, GameObject newBody, GameObject oldBody,
-		Event eventType, CharacterSheet characterSettings, bool willDestroyOldBody = false)
+	public static void ServerTransferPlayerToNewBody(NetworkConnectionToClient conn, Mind mind, GameObject newBody, Event eventType,
+		CharacterSheet characterSettings, bool willDestroyOldBody = false)
 	{
+		//get the old body if they have one.
+		var oldBody = mind.GetCurrentMob();
+
+		if (mind.occupation != null && mind.occupation.UseCharacterSettings == false)
+		{
+			characterSettings = null;
+		}
+
 		ServerTransferPlayer(conn, newBody, oldBody, eventType, characterSettings, willDestroyOldBody);
+
+		var newPlayerScript = newBody.GetComponent<PlayerScript>();
+
+		//transfer the mind to the new body
+		mind.SetNewBody(newPlayerScript);
+
+		oldBody.GetComponent<PlayerScript>().mind = null;
+
+		if(willDestroyOldBody == false) return;
+
+		_ = Despawn.ServerSingle(oldBody);
 	}
 
 	/// <summary>
@@ -482,6 +546,7 @@ public static class PlayerSpawn
 	/// <param name="characterSettings">settings, ignored if transferring to an existing player body</param>
 	/// <param name="willDestroyOldBody">if true, indicates the old body is going to be destroyed rather than pooled,
 	/// thus we shouldn't send any network message which reference's the old body's ID since it won't exist.</param>
+	/// <param name="useCharacterSettings">whether to use the character settings</param>
 	private static void ServerTransferPlayer(NetworkConnectionToClient conn, GameObject newBody, GameObject oldBody,
 		Event eventType, CharacterSheet characterSettings, bool willDestroyOldBody = false)
 	{
@@ -495,6 +560,12 @@ public static class PlayerSpawn
 
 			//no longer can observe their inventory
 			oldBody.GetComponent<DynamicItemStorage>()?.ServerRemoveObserverPlayer(oldBody);
+
+			var leaveInterfaces = oldBody.GetComponents<IOnPlayerLeaveBody>();
+			foreach (var leaveInterface in leaveInterfaces)
+			{
+				leaveInterface.OnPlayerLeaveBody();
+			}
 		}
 
 		var netIdentity = newBody.GetComponent<NetworkIdentity>();
@@ -513,14 +584,7 @@ public static class PlayerSpawn
 		{
 			PlayerList.Instance.UpdatePlayer(conn, newBody);
 			NetworkServer.ReplacePlayerForConnection(conn, newBody);
-			//NOTE: With mirror upgrade 04 Feb 2020, it appears we no longer need to do what has been
-			//commented out below. Below appears to have been an attempt to give authority back to server
-			//But it's implicitly given such authority by the ReplacePlayerForConnection call - that call
-			//now removes authority for the player's old object
-			// if (oldBody)
-			// {
-			// 	NetworkServer.ReplacePlayerForConnection(new NetworkConnectionToClient(0), oldBody);
-			// }
+
 			TriggerEventMessage.SendTo(newBody, eventType);
 
 			//can observe their new inventory
@@ -541,17 +605,26 @@ public static class PlayerSpawn
 			FollowCameraMessage.Send(newBody, playerObjectBehavior.ContainedInContainer.gameObject);
 		}
 
+		var playerScript = newBody.GetComponent<PlayerScript>();
+
 		if (characterSettings != null)
 		{
-			var playerScript = newBody.GetComponent<PlayerScript>();
 			playerScript.characterSettings = characterSettings;
-			playerScript.playerName = playerScript.PlayerState != PlayerScript.PlayerStates.Ai ? characterSettings.Name : characterSettings.AiName;
+			playerScript.playerName = playerScript.PlayerType != PlayerTypes.Ai ? characterSettings.Name : characterSettings.AiName;
 			newBody.name = playerScript.playerName;
 			var playerSprites = newBody.GetComponent<PlayerSprites>();
 			if (playerSprites)
 			{
+				// This causes body parts to be made for the race, will cause death if body parts are needed and
+				// CharacterSettings is null
 				playerSprites.OnCharacterSettingsChange(characterSettings);
 			}
+		}
+
+		var transfers = newBody.GetComponents<IOnPlayerTransfer>();
+		foreach (var transfer in transfers)
+		{
+			transfer.OnPlayerTransfer();
 		}
 	}
 }

@@ -69,6 +69,8 @@ namespace UI.Systems.MainHUD.UI_Bottom
 
 		private bool focusCheck;
 
+		private CooldownInstance stateCooldown = new CooldownInstance (5f);
+
 		private void OnEnable()
 		{
 			teleportWindow.onTeleportRequested += OnTeleportButtonPress;
@@ -223,8 +225,7 @@ namespace UI.Systems.MainHUD.UI_Bottom
 
 		public void StateLaws()
 		{
-			if(aiPlayer.OnCoolDown(NetworkSide.Client)) return;
-			aiPlayer.StartCoolDown(NetworkSide.Client);
+			if(Cooldowns.TryStartClient(aiPlayer.PlayerScript, stateCooldown) == false) return;
 
 			StartCoroutine(StateLawsRoutine());
 		}

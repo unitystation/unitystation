@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   displayName: medium voltage cable
   description: 
-  LayerType: 8
+  LayerType: 10
   TileType: 11
   RequiredTiles: []
   floorTileSounds: {fileID: 0}
@@ -25,6 +25,7 @@ MonoBehaviour:
   passable: 1
   mineable: 0
   miningTime: 5
+  miningHardness: 1
   constructable: 1
   RadiationPassability: 1
   ThermalConductivity: 0.05
@@ -50,6 +51,7 @@ MonoBehaviour:
     Magic: 0
     Bio: 0
     DismembermentProtectionChance: 0
+    StunImmunity: 0
   tileInteractions:
   - {fileID: 11400000, guid: a357998b2bd41c0489e7b22914e697e5, type: 2}
   tileStepInteractions: []

@@ -63,7 +63,7 @@ namespace UI.Objects.Shuttles
 			matrixMove.RegisterShuttleGuiScript(this);
 			shuttleFuelSystem = matrixMove.ShuttleFuelSystem;
 			radarList = this["EntryList"] as RadarList;
-
+			CoordReadout.SetCoords(shuttleConsole.registerTile.Matrix.MatrixMove.transform.position);
 			//Not doing this for clients
 			if (IsServer)
 			{
@@ -93,7 +93,7 @@ namespace UI.Objects.Shuttles
 		private void UpdateMe()
 		{
 			radarList.RefreshTrackedPos();
-
+			CoordReadout.SetCoords(shuttleConsole.registerTile.Matrix.MatrixMove.transform.position);
 
 			var fuelGauge = (NetUIElement<string>)this["FuelGauge"];
 			if (shuttleFuelSystem == null)
@@ -168,7 +168,7 @@ namespace UI.Objects.Shuttles
 			radarList.AddItems(MapIconType.Asteroids, GetObjectsOf<Asteroid>());
 			var stationBounds = MatrixManager.MainStationMatrix.MetaTileMap.GetLocalBounds();
 			var stationRadius = (int) Mathf.Abs(stationBounds.center.x - stationBounds.xMin);
-			radarList.AddStaticItem(MapIconType.Station, stationBounds.center.To2Int(), stationRadius);
+			radarList.AddStaticItem(MapIconType.Station, stationBounds.center.RoundTo2Int(), stationRadius);
 			radarList.AddItems(MapIconType.Waypoint, new List<GameObject>(new[] {Waypoint}));
 
 			if (emagged)

@@ -12,8 +12,14 @@ using Messages.Server.AdminTools;
 using Strings;
 using HealthV2;
 using AddressableReferences;
+using AdminTools;
 using Messages.Server.SoundMessages;
 using Audio.Containers;
+using Doors;
+using Doors.Modules;
+using Objects;
+using Objects.Wallmounts;
+using Systems.Atmospherics;
 using Systems.Cargo;
 using UI.Systems.AdminTools;
 using Util;
@@ -359,7 +365,6 @@ namespace AdminCommands
 			if (player?.Script == null || player.Script.IsGhost) return;
 
 			string message = $"{admin.Username}: Smited Username: {player.Username} ({player.Name})";
-			Logger.Log(message, Category.Admin);
 
 			LogAdminAction(message);
 
@@ -399,7 +404,6 @@ namespace AdminCommands
 				message = $"{admin.Username}: Attempted healing {player.Username} but they had no body!";
 			}
 			//Log what we did.
-			Logger.Log(message, Category.Admin);
 			LogAdminAction(message);
 		}
 
@@ -422,7 +426,51 @@ namespace AdminCommands
 			var message = $"{admin.Username}: OOC {(player.IsOOCMuted ? "Muted" : "Unmuted")} {player.Username}";
 
 			//Log what we did.
-			Logger.Log(message, Category.Admin);
+			LogAdminAction(message);
+		}
+
+		/// <summary>
+		/// Gives item to player
+		/// </summary>
+		[Command(requiresAuthority = false)]
+		public void CmdGivePlayerItem(string userToGiveItem, string itemPrefabName, int count, string customMessage, NetworkConnectionToClient sender = null)
+		{
+			if (IsAdmin(sender, out var admin) == false) return;
+
+			if (PlayerList.Instance.TryGetByUserID(userToGiveItem, out var player) == false)
+			{
+				Logger.LogError($"Could not find player with user ID '{userToGiveItem}'. Unable to give item.", Category.Admin);
+				return;
+			}
+
+			if (player.Script.OrNull()?.DynamicItemStorage == null)
+			{
+				Logger.LogError($"No DynamicItemStorage on '{player.Name}'. Unable to give item.", Category.Admin);
+				return;
+			}
+
+			var item = Spawn.ServerPrefab(itemPrefabName, player.Script.mind.body.gameObject.AssumedWorldPosServer());
+			var slot = player.Script.DynamicItemStorage.GetBestHandOrSlotFor(item.GameObject);
+			if (item.GameObject.TryGetComponent<Stackable>(out var stackable) && stackable.MaxAmount <= count)
+			{
+				stackable.ServerSetAmount(count);
+			}
+
+			if (slot != null)
+			{
+				Inventory.ServerAdd(item.GameObject, slot);
+			}
+
+			if (string.IsNullOrEmpty(customMessage) == false)
+			{
+				Chat.AddExamineMsg(player.GameObject, customMessage);
+			}
+
+			Chat.AddExamineMsg(admin.GameObject, $"You have given {player.Script.playerName} : {item.GameObject.ExpensiveName()}");
+
+			var message = $"{admin.Username}: gave {player.Script.playerName} {count} {item.GameObject.ExpensiveName()}";
+
+			//Log what we did.
 			LogAdminAction(message);
 		}
 
@@ -570,6 +618,7 @@ namespace AdminCommands
 			UIManager.Instance.adminChatWindows.adminLogWindow.ServerAddChatRecord(msg, null);
 			DiscordWebhookMessage.Instance.AddWebHookMessageToQueue(DiscordWebhookURLs.DiscordWebhookAdminLogURL, msg,
 				userName);
+			Logger.Log(msg, Category.Admin);
 		}
 
 		#endregion
@@ -666,6 +715,210 @@ namespace AdminCommands
 			CargoManager.Instance.OnConnectionChangeToCentComm?.Invoke();
 			LogAdminAction($"{admin.Username} has changed the cargo random bounties status to -> {state}");
 		}
+
+		#endregion
+
+		#region RightClickCommands
+
+		#region Integrity
+
+		[Command(requiresAuthority = false)]
+		public void CmdAdminMakeHotspot(GameObject onObject, NetworkConnectionToClient sender = null)
+		{
+			if (IsAdmin(sender, out var admin) == false) return;
+			if (onObject == null) return;
+
+			var reactionManager = onObject.GetComponentInParent<ReactionManager>();
+			if (reactionManager == null) return;
+
+			reactionManager.ExposeHotspotWorldPosition(onObject.TileWorldPosition(), 1000, true);
+			reactionManager.ExposeHotspotWorldPosition(onObject.TileWorldPosition() + Vector2Int.down, 1000, true);
+			reactionManager.ExposeHotspotWorldPosition(onObject.TileWorldPosition() + Vector2Int.left, 1000, true);
+			reactionManager.ExposeHotspotWorldPosition(onObject.TileWorldPosition() + Vector2Int.up, 1000, true);
+			reactionManager.ExposeHotspotWorldPosition(onObject.TileWorldPosition() + Vector2Int.right, 1000, true);
+
+			LogAdminAction($"{admin.Username} exposed: {onObject.ExpensiveName()}");
+		}
+
+		[Command(requiresAuthority = false)]
+		public void CmdAdminSmash(GameObject toSmash, NetworkConnectionToClient sender = null)
+		{
+			if (IsAdmin(sender, out var admin) == false) return;
+
+			if (toSmash == null) return;
+
+			var integrity = toSmash.GetComponent<Integrity>();
+			if (integrity == null) return;
+
+			LogAdminAction($"{admin.Username} smashed: {toSmash.ExpensiveName()}");
+
+			integrity.ApplyDamage(float.MaxValue, AttackType.Melee, DamageType.Brute);
+		}
+
+		#endregion
+
+		#region AdminOverlay
+
+		[Command(requiresAuthority = false)]
+		public void CmdGetAdminOverlayFullUpdate(NetworkConnectionToClient sender = null)
+		{
+			if (IsAdmin(sender, out var admin) == false) return;
+
+			AdminOverlay.RequestFullUpdate(admin);
+		}
+
+		#endregion
+
+		#region Doors
+
+		[Command(requiresAuthority = false)]
+		public void CmdOpenDoor(GameObject doorToOpen, NetworkConnectionToClient sender = null)
+		{
+			if (IsAdmin(sender, out var admin) == false) return;
+			if(doorToOpen == null) return;
+
+			if(doorToOpen.TryGetComponent<DoorMasterController>(out var doorMasterController) == false) return;
+
+			//Open no matter what, even if welded or bolted closed
+			doorMasterController.Open();
+
+			LogAdminAction($"{admin.Username} forced {doorToOpen.ExpensiveName()} to open");
+		}
+
+		[Command(requiresAuthority = false)]
+		public void CmdToggleBoltDoor(GameObject doorToToggle, NetworkConnectionToClient sender = null)
+		{
+			if (IsAdmin(sender, out var admin) == false) return;
+			if(doorToToggle == null) return;
+
+			if(doorToToggle.TryGetComponent<DoorMasterController>(out var doorMasterController) == false) return;
+
+			//Toggle bolt state
+			var boltModule = doorMasterController.GetComponentInChildren<BoltsModule>();
+			boltModule.ToggleBolts();
+
+			LogAdminAction($"{admin.Username} toggled the bolts {(boltModule.BoltsDown ? "ON" : "OFF")} for: {doorToToggle.ExpensiveName()}");
+		}
+
+		[Command(requiresAuthority = false)]
+		public void CmdToggleElectrifiedDoor(GameObject doorToToggle, NetworkConnectionToClient sender = null)
+		{
+			if (IsAdmin(sender, out var admin) == false) return;
+			if(doorToToggle == null) return;
+
+			if(doorToToggle.TryGetComponent<DoorMasterController>(out var doorMasterController) == false) return;
+
+			//Toggle electrify state
+			var electrify = doorMasterController.GetComponentInChildren<ElectrifiedDoorModule>();
+			electrify.ToggleElectrocution();
+
+			LogAdminAction($"{admin.Username} toggled electrify {(electrify.IsElectrified ? "ON" : "OFF")} for: {doorToToggle.ExpensiveName()}");
+		}
+
+		#endregion
+
+		#region UniversalObjectPhysics
+
+		[Command(requiresAuthority = false)]
+		public void CmdTeleportToObject(GameObject teleportTo, NetworkConnectionToClient sender = null)
+		{
+			if (IsAdmin(sender, out var admin) == false) return;
+			if(teleportTo == null) return;
+
+			if(teleportTo.TryGetComponent<UniversalObjectPhysics>(out var uop) == false) return;
+
+			var adminScript = admin.Script;
+			if(adminScript == null) return;
+
+			if (adminScript.objectPhysics != null)
+			{
+				adminScript.objectPhysics.AppearAtWorldPositionServer(uop.OfficialPosition, false, false);
+			}
+			else if(adminScript.TryGetComponent<GhostMove>(out var ghostMove))
+			{
+				ghostMove.ForcePositionClient(uop.OfficialPosition, false);
+			}
+
+			LogAdminAction($"{admin.Username} teleported themselves to: {teleportTo.ExpensiveName()}");
+		}
+
+		[Command(requiresAuthority = false)]
+		public void CmdTogglePushable(GameObject gameObjectToToggle, NetworkConnectionToClient sender = null)
+		{
+			if (IsAdmin(sender, out var admin) == false) return;
+			if(gameObjectToToggle == null) return;
+
+			if(gameObjectToToggle.TryGetComponent<UniversalObjectPhysics>(out var uop) == false) return;
+
+			uop.SetIsNotPushable(!uop.isNotPushable);
+
+			LogAdminAction($"{admin.Username} made {gameObjectToToggle.ExpensiveName()} {(uop.IsNotPushable ? "not" : "")} pushable");
+		}
+
+		#endregion
+
+		#region Shuttle
+
+		[Command(requiresAuthority = false)]
+		public void CmdEarlyLaunch(GameObject shuttleConsole, NetworkConnectionToClient sender = null)
+		{
+			if (IsAdmin(sender, out var admin) == false) return;
+			if(shuttleConsole == null) return;
+
+			if(shuttleConsole.TryGetComponent<EscapeShuttleConsole>(out var escapeShuttleConsole) == false) return;
+
+			escapeShuttleConsole.DepartShuttle();
+
+			LogAdminAction($"{admin.Username} triggered the early launch on the escape shuttle!");
+		}
+
+		#endregion
+
+		#region Buttons
+
+		[Command(requiresAuthority = false)]
+		public void CmdActivateButton(GameObject button, NetworkConnectionToClient sender = null)
+		{
+			if (IsAdmin(sender, out var admin) == false) return;
+			if(button == null) return;
+
+			if (button.TryGetComponent<GeneralSwitch>(out var generalSwitch))
+			{
+				generalSwitch.RunDoorController();
+				LogAdminAction($"{admin.Username} activated button : {button.ExpensiveName()}");
+				return;
+			}
+
+			if(button.TryGetComponent<DoorSwitch>(out var doorSwitch) == false) return;
+
+			doorSwitch.RunDoorController();
+
+			LogAdminAction($"{admin.Username} activated button : {button.ExpensiveName()}");
+		}
+
+		#endregion
+
+		#region Health
+
+		/// <summary>
+		/// Heals a mob
+		/// </summary>
+		[Command(requiresAuthority = false)]
+		public void CmdHealMob(GameObject mobToHeal, NetworkConnectionToClient sender = null)
+		{
+			if (IsAdmin(sender, out var admin) == false) return;
+			if(mobToHeal == null) return;
+
+			//Does this player have a body that can be healed?
+			if (mobToHeal.TryGetComponent<IFullyHealable>(out var fullyHealable) == false) return;
+
+			fullyHealable.FullyHeal();
+
+			//Log what we did.
+			LogAdminAction($"{admin.Username} healed {mobToHeal.ExpensiveName()} to full health");
+		}
+
+		#endregion
 
 		#endregion
 	}

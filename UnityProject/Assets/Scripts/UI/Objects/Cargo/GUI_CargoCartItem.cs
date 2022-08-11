@@ -10,7 +10,7 @@ namespace UI.Objects.Cargo
 		private CargoOrderSO Order;
 
 		[SerializeField]
-		private NetLabel cartNameLabel;
+		private NetText_label cartNameLabel;
 
 		public void RemoveFromCart()
 		{

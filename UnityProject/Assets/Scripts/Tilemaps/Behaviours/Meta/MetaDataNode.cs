@@ -96,6 +96,12 @@ public class MetaDataNode : IGasMixContainer
 
 	public AppliedDetails AppliedDetails = new AppliedDetails();
 
+
+	public SmokeNode SmokeNode;
+
+	public FoamNode FoamNode;
+
+
 	//Conductivity Stuff//
 
 	//Temperature of the solid node
@@ -196,6 +202,15 @@ public class MetaDataNode : IGasMixContainer
 		}
 		GasMix = GasMix.NewGasMix(GasMixes.BaseSpaceMix);
 		this.reactionManager = reactionManager;
+		SmokeNode = new SmokeNode()
+		{
+			OnMetaDataNode = this
+		};
+
+		FoamNode = new FoamNode()
+		{
+			OnMetaDataNode = this
+		};
 	}
 
 	static MetaDataNode()

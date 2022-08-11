@@ -2,11 +2,13 @@
 using System.Collections.Generic;
 using System.Text;
 using DatabaseAPI;
+using IngameDebugConsole;
+using Managers;
+using Shared.Managers;
 using UnityEngine;
 using WebSocketSharp;
 using WebSocketSharp.Net;
 using WebSocketSharp.Server;
-using Managers;
 
 public class RconManager : SingletonManager<RconManager>
 {
@@ -303,7 +305,7 @@ public class RconManager : SingletonManager<RconManager>
 	protected static void ExecuteCommand(string command)
 	{
 		command = command.Substring(1, command.Length - 1);
-		IngameDebugConsole.DebugLogConsole.ExecuteCommand(command);
+		DebugLogConsole.ExecuteCommand(command);
 	}
 
 	#endregion

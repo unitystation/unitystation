@@ -1,11 +1,13 @@
 using System;
 using System.Collections;
+using System.Linq;
 using UnityEngine;
 using UI.Core.NetUI;
 using Managers;
 using Objects.Wallmounts;
 using Objects.Command;
 using Strings;
+using Systems.Clearance;
 
 namespace UI.Objects.Command
 {
@@ -24,23 +26,23 @@ namespace UI.Objects.Command
 		private NetPage captainAccessPage = null;
 
 		[SerializeField]
-		private NetLabel idLabel = null;
+		private NetText_label idLabel = null;
 		[SerializeField]
-		private NetLabel shuttleStatusLabel = null;
+		private NetText_label shuttleStatusLabel = null;
 		[SerializeField]
-		private NetLabel shuttleTimerLabel = null;
+		private NetText_label shuttleTimerLabel = null;
 		[SerializeField]
-		private NetLabel shuttleCallResultLabel = null;
+		private NetText_label shuttleCallResultLabel = null;
 		[SerializeField]
-		private NetLabel shuttleCallButtonLabel = null;
+		private NetText_label shuttleCallButtonLabel = null;
 		[SerializeField]
 		private NetSpriteImage statusImage = null;
 		[SerializeField]
-		private NetLabel CurrentAlertLevelLabel = null;
+		private NetText_label CurrentAlertLevelLabel = null;
 		[SerializeField]
-		private NetLabel NewAlertLevelLabel = null;
+		private NetText_label NewAlertLevelLabel = null;
 		[SerializeField]
-		private NetLabel AlertErrorLabel = null;
+		private NetText_label AlertErrorLabel = null;
 
 		private CommsConsole console;
 		private EscapeShuttle shuttle;
@@ -187,15 +189,16 @@ namespace UI.Objects.Command
 		public void MakeAnAnnouncement(string text)
 		{
 			text = Chat.StripTags(text);
+			var language = Peepers.Count == 0 ? null : Peepers.ElementAt(0).Script.MobLanguages.CurrentLanguage;
 
 			Logger.Log(nameof(MakeAnAnnouncement), Category.Shuttles);
 			if (text.Length > 200)
 			{
-				CentComm.MakeAnnouncement(ChatTemplates.CaptainAnnounce, text.Substring(0, 200), CentComm.UpdateSound.Announce);
+				CentComm.MakeAnnouncement(ChatTemplates.CaptainAnnounce, text.Substring(0, 200), CentComm.UpdateSound.Announce, language);
 			}
 			else
 			{
-				CentComm.MakeAnnouncement(ChatTemplates.CaptainAnnounce, text, CentComm.UpdateSound.Announce);
+				CentComm.MakeAnnouncement(ChatTemplates.CaptainAnnounce, text, CentComm.UpdateSound.Announce, language);
 			}
 			OpenMenu();
 		}
@@ -280,6 +283,7 @@ namespace UI.Objects.Command
 		{
 			var AI = IsAIInteracting();
 			if (console.IdCard == null && AI == false) return;
+
 			if (AI)
 			{
 				captainOnlySwitcher.SetActivePage(captainAccessPage);
@@ -287,12 +291,13 @@ namespace UI.Objects.Command
 				return;
 			}
 
-			if (!console.IdCard.HasAccess(Access.heads))
+			if (!console.IdCard.HasAccess(Clearance.Heads))
 			{
 				idLabel.SetValueServer(idLabel.Value + " (No access)");
 				return;
 			}
-			bool isCaptain = console.IdCard.HasAccess(Access.captain);
+
+			bool isCaptain = console.IdCard.HasAccess(Clearance.Captain);
 			captainOnlySwitcher.SetActivePage(isCaptain ? captainAccessPage : noCaptainAccessPage);
 
 			OpenMenu();

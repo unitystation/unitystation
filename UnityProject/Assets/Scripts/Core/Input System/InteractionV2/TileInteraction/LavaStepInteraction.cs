@@ -28,6 +28,9 @@ namespace Systems.Interaction
 		//All lava tiles will use this same dictionary as this is a Scriptable object
 		private Dictionary<GameObject, BasicTile> stuffToLightOnFire = new Dictionary<GameObject, BasicTile>();
 
+		[SerializeField]
+		private PlayerTypes playersEffected = PlayerTypes.Normal;
+
 		private void TryLightOnFire()
 		{
 			var keep = new Dictionary<GameObject, BasicTile>();
@@ -122,7 +125,7 @@ namespace Systems.Interaction
 		//Player enter tile interaction//
 		public override bool WillAffectPlayer(PlayerScript playerScript)
 		{
-			return playerScript.PlayerState == PlayerScript.PlayerStates.Normal;
+			return playersEffected.HasFlag(playerScript.PlayerType);
 		}
 
 		public override void OnPlayerStep(PlayerScript playerScript)

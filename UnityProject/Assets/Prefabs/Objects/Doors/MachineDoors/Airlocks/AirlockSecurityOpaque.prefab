@@ -12,6 +12,16 @@ PrefabInstance:
       propertyPath: foreverID
       value: 74c59d7cb720be945a7c5606d962c05a
       objectReference: {fileID: 0}
+    - target: {fileID: 656861262381473032, guid: 29107a3e6fd05d34c864ad077d34bafc,
+        type: 3}
+      propertyPath: requiredClearance.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 656861262381473032, guid: 29107a3e6fd05d34c864ad077d34bafc,
+        type: 3}
+      propertyPath: requiredClearance.Array.data[0]
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 770651918442591218, guid: 29107a3e6fd05d34c864ad077d34bafc,
         type: 3}
       propertyPath: m_Sprite

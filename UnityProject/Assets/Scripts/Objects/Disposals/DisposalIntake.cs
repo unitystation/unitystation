@@ -146,7 +146,10 @@ namespace Objects.Disposals
 
 			// Intake orifice closed. Release the charge.
 			SoundManager.PlayNetworkedAtPos(disposalFlushSound, registerObject.WorldPositionServer, sourceObj: gameObject);
+			gasContainer.IsSealed = true;
+			gasContainer.EqualiseWithTile();
 			DisposalsManager.Instance.NewDisposal(gameObject);
+			gasContainer.IsSealed = false;
 
 			// Restore charge, open orifice.
 			yield return WaitFor.Seconds(ANIMATION_TIME - FLUSH_DELAY);

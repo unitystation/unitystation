@@ -9,17 +9,17 @@ namespace UI.SpellBook
 	public class GUI_SpellBookEntry : DynamicEntry
 	{
 		[SerializeField]
-		private NetLabel spellLabel = default;
+		private NetText_label spellLabel = default;
 		[SerializeField]
-		private NetLabel costLabel = default;
+		private NetText_label costLabel = default;
 		[SerializeField]
-		private NetLabel cooldownLabel = default;
+		private NetText_label cooldownLabel = default;
 		[SerializeField]
-		private NetLabel descriptionLabel = default;
+		private NetText_label descriptionLabel = default;
 		[SerializeField]
-		private NetLabel noteLabel = default;
+		private NetText_label noteLabel = default;
 		[SerializeField]
-		private NetLabel buttonLabel = default;
+		private NetText_label buttonLabel = default;
 		[SerializeField]
 		private NetInteractiveButton button = default;
 

@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using Core;
+using AdminCommands;
 using Core.Editor.Attributes;
 using HealthV2;
 using Items;
@@ -64,7 +64,10 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 
 	[PrefabModeOnly] public bool Intangible = false;
 
-	[PlayModeOnly] public bool CanBeWindPushed = true;
+	public bool CanBeWindPushed = true;
+
+
+
 
 	[PrefabModeOnly] public bool IsPlayer = false;
 
@@ -143,6 +146,9 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 
 	[SyncVar]
 	protected int SetLastResetID = -1;
+
+	[SyncVar]
+	public bool HasOwnGravity = false;
 
 	private ObjectContainer CachedContainedInContainer;
 
@@ -255,6 +261,8 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 	[PlayModeOnly]
 	// TODO: Bod this is not what CheckedComponent is for as the reference is not on the same object as this script - Dan
 	public CheckedComponent<UniversalObjectPhysics> PulledBy = new CheckedComponent<UniversalObjectPhysics>();
+
+	protected bool doStepInteractions = true;
 
 	#region Events
 
@@ -564,11 +572,15 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 		PullSet(newPulling.NewPulling, false, true);
 	}
 
-	public void AppearAtWorldPositionServer(Vector3 worldPos, bool smooth = false)
+	public void AppearAtWorldPositionServer(Vector3 worldPos, bool smooth = false, bool doStepInteractions = true)
 	{
+		this.doStepInteractions = doStepInteractions;
+
 		SynchroniseVisibility(isVisible, true);
 		var matrix = MatrixManager.AtPoint(worldPos, isServer);
 		ForceSetLocalPosition(worldPos.ToLocal(matrix), Vector2.zero, smooth, matrix.Id);
+
+		this.doStepInteractions = true;
 	}
 
 	public void DropAtAndInheritMomentum(UniversalObjectPhysics droppedFrom)
@@ -911,6 +923,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 			{
 				if (push == this) continue;
 				if (push == pushedBy) continue;
+				if (push.Intangible) continue;
 				if (Pulling.HasComponent && Pulling.Component == push) continue;
 				if (PulledBy.HasComponent && PulledBy.Component == push) continue;
 				if (pushedBy == null)
@@ -918,7 +931,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 					pushedBy = this;
 				}
 
-				var pushDirection = -1 * (this.transform.position - push.transform.position).To2Int();
+				var pushDirection = -1 * (this.transform.position - push.transform.position).RoundTo2Int();
 				if (pushDirection == Vector2Int.zero)
 				{
 					pushDirection = worldDirection;
@@ -1103,7 +1116,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 	}
 
 
-	public void NewtonianPush(Vector2 worldDirection, float speed = Single.NaN, float nairTime = Single.NaN,
+	public void NewtonianPush(Vector2 worldDirection, float speed, float nairTime = Single.NaN,
 		float inSlideTime = Single.NaN, BodyPartType inAim = BodyPartType.Chest, GameObject inThrownBy = null,
 		float spinFactor = 0, GameObject doNotUpdateThisClient = null,
 		bool ignoreSticky = false) //Collision is just naturally part of Newtonian push
@@ -1111,9 +1124,11 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 
 		if (isVisible == false) return;
 		if (CanMove == false) return;
+		if (PulledBy.HasComponent) return;
 
 		aim = inAim;
 		thrownBy = inThrownBy;
+
 		if (Random.Range(0, 2) == 1)
 		{
 			spinMagnitude = spinFactor * 1;
@@ -1122,7 +1137,6 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 		{
 			spinMagnitude = spinFactor * -1;
 		}
-
 
 		if (float.IsNaN(nairTime) == false || float.IsNaN(inSlideTime) == false)
 		{
@@ -1149,7 +1163,6 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 
 			worldDirection.Normalize();
 			NewtonianMovement += worldDirection * speed;
-
 		}
 
 		OnThrowStart.Invoke(this);
@@ -1162,13 +1175,13 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 				UpdateManager.Add(CallbackType.UPDATE, FlyingUpdateMe);
 			}
 		}
+
 		if (isServer)
 		{
 			LastUpdateClientFlying = NetworkTime.time;
 			UpdateClientMomentum(transform.localPosition, newtonianMovement, airTime, this.slideTime,
 				registerTile.Matrix.Id, spinFactor, true, doNotUpdateThisClient.NetId());
 		}
-
 	}
 
 	public void AppliedFriction(float frictionCoefficient)
@@ -1489,7 +1502,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 						}
 					}
 
-					var normal = (intPosition - intNewPosition).ToNonInt3();
+					var normal = (intPosition - intNewPosition).To3();
 					if (Hits.Count == 0)
 					{
 						newPosition = position;
@@ -1512,7 +1525,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 							Single.NaN, Single.NaN, aim, thrownBy, spinMagnitude);
 					}
 
-					var normal = (intPosition - intNewPosition).ToNonInt3();
+					var normal = (intPosition - intNewPosition).To3();
 
 					if (Hits.Count == 0)
 					{
@@ -1735,7 +1748,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 		}
 		else
 		{
-			if (registerTile.Matrix.HasGravity) //Presuming Register tile has the correct matrix
+			if (registerTile.Matrix.HasGravity || HasOwnGravity) //Presuming Register tile has the correct matrix
 			{
 				if (registerTile.Matrix.MetaTileMap.IsEmptyTileMap(registerTile.LocalPosition) == false)
 				{
@@ -1765,6 +1778,8 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 
 	public virtual void LocalTileReached(Vector3Int localPos)
 	{
+		if(doStepInteractions == false) return;
+
 		var matrix = registerTile.Matrix;
 		if(matrix == null) return;
 
@@ -1784,21 +1799,29 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 		foreach (var enterTileBase in loopTo)
 		{
 			if (enterTileBase.WillAffectObject(gameObject) == false) continue;
-			enterTileBase.WillAffectObject(gameObject);
+			enterTileBase.OnObjectEnter(gameObject);
 		}
 	}
 
 	public virtual RightClickableResult GenerateRightClickOptions()
 	{
+		var options = RightClickableResult.Create();
+
+		if (string.IsNullOrEmpty(PlayerList.Instance.AdminToken) == false &&
+		    KeyboardInputManager.Instance.CheckKeyAction(KeyAction.ShowAdminOptions, KeyboardInputManager.KeyEventType.Hold))
+		{
+			options.AddAdminElement("Teleport To", AdminTeleport).AddAdminElement("Toggle Pushable", AdminTogglePushable);
+		}
+
 		//check if our local player can reach this
 		var initiator = PlayerManager.LocalPlayerScript.GetComponent<UniversalObjectPhysics>();
-		if (initiator == null) return null;
+		if (initiator == null) return options;
+
 		//if it's pulled by us
 		if (PulledBy.HasComponent && PulledBy.Component == initiator)
 		{
 			//already pulled by us, but we can stop pulling
-			return RightClickableResult.Create()
-				.AddElement("StopPull", TryTogglePull);
+			options.AddElement("StopPull", TryTogglePull);
 		}
 		else
 		{
@@ -1807,12 +1830,21 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 				    context: gameObject) &&
 			    isNotPushable == false && initiator != this)
 			{
-				return RightClickableResult.Create()
-					.AddElement("Pull", TryTogglePull);
+				options.AddElement("Pull", TryTogglePull);
 			}
 		}
 
-		return RightClickableResult.Create();
+		return options;
+	}
+
+	private void AdminTeleport()
+	{
+		AdminCommandsManager.Instance.CmdTeleportToObject(gameObject);
+	}
+
+	private void AdminTogglePushable()
+	{
+		AdminCommandsManager.Instance.CmdTogglePushable(gameObject);
 	}
 
 	public virtual void OnDestroy()
@@ -1878,7 +1910,8 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 		}
 
 		PlayerInfo clientWhoAsked = PlayerList.Instance.Get(gameObject);
-		if (Validations.CanApply(clientWhoAsked.Script, gameObject, NetworkSide.Server) == false)
+		if (Validations.CanApply(clientWhoAsked.Script, gameObject, NetworkSide.Server
+			    , apt: Validations.CheckState(x => x.CanPull)) == false)
 		{
 			return;
 		}
@@ -1997,15 +2030,9 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 	/// Server side logic for unbuckling a player
 	/// </summary>
 	[Server]
-	public void UnbuckleObject()
-	{
-		ObjectIsBuckling = null;
-	}
-
-	[Server]
 	public void Unbuckle()
 	{
-		BuckledToObject.UnbuckleObject();
+		ObjectIsBuckling = null;
 	}
 
 	/// <summary>

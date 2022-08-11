@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Threading;
-using Object = UnityEngine.Object;
-using Managers;
+using Shared.Managers;
 
 namespace Systems.Electricity
 {

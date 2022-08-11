@@ -1,9 +1,10 @@
 using System.Collections.Generic;
+using Shared.Managers;
 using UnityEngine;
 
 namespace Learning
 {
-	public class ProtipManager : Managers.SingletonManager<ProtipManager>
+	public class ProtipManager : SingletonManager<ProtipManager>
 	{
 		public ProtipUI UI;
 		public ProtipListUI ListUI;

@@ -1,5 +1,7 @@
 using System.Collections;
+using Managers;
 using Messages.Server;
+using Player.Language;
 using UnityEngine;
 using WebSocketSharp;
 
@@ -14,6 +16,7 @@ namespace Systems.MobAIs
 	{
 
 		private string lastHeardMsg;
+		private LanguageSO lastHeardlanguage;
 		private ItemStorage itemStorage;
 		private bool canSteal = true;
 		[SerializeField] private float stealChance = 50f;
@@ -57,14 +60,14 @@ namespace Systems.MobAIs
 			{
 				// parrot should ignore its own speech
 				return;
-
 			}
 
 			// parrot should listen only speech and ignore different action/examine/combat messages
 			var channels = chatEvent.channels;
-			if (!Chat.NonSpeechChannels.HasFlag(channels))
+			if (Chat.NonSpeechChannels.HasFlag(channels) == false)
 			{
 				lastHeardMsg = chatEvent.message;
+				lastHeardlanguage = chatEvent.language;
 			}
 		}
 
@@ -106,14 +109,9 @@ namespace Systems.MobAIs
 			yield break;
 		}
 
-		private void Speak(string text)
+		private void Speak(string text, LanguageSO languageSo)
 		{
-			//TODO use the actual chat api when it allows it!
-			Chat.AddLocalMsgToChat(
-				text,
-				gameObject,
-				MobName);
-			ShowChatBubbleMessage.SendToNearby(gameObject, text);
+			Chat.AddLocalMsgToChat(text, gameObject, languageSo, MobName, true);
 		}
 		private void SayRandomThing()
 		{
@@ -126,11 +124,11 @@ namespace Systems.MobAIs
 
 			if (Random.value < 0.3f && (!lastHeardMsg.IsNullOrEmpty()))
 			{
-				Speak(lastHeardMsg);
+				Speak(lastHeardMsg, lastHeardlanguage);
 			}
 			else
 			{
-				Speak(polyPhrases.PickRandom());
+				Speak(polyPhrases.PickRandom(), LanguageManager.Common);
 			}
 		}
 

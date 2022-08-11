@@ -11,7 +11,7 @@ using UnityEngine.EventSystems;
 
 namespace Objects
 {
-	public class FloorHazard : EnterTileBase, IPlayerEntersTile, IObjectEntersTile
+	public class FloorHazard : EnterTileBase, IServerInventoryMove
 	{
 		[SerializeField] private AttackType attackType = AttackType.Melee;
 		[SerializeField] private DamageType damageType = DamageType.Brute;
@@ -33,6 +33,7 @@ namespace Objects
 
 		public override void OnPlayerStep(PlayerScript playerScript)
 		{
+			if(objectPhysics.registerTile.LocalPosition == TransformState.HiddenPos) return;
 			var health = playerScript.playerHealth;
 			HurtFeet(health); //Moving this to it's own function to keep things clean.
 			//Text and Audio feedback.
@@ -91,6 +92,12 @@ namespace Objects
 		protected void ApplyDamageToPartyType(LivingHealthMasterBase health, BodyPartType type)
 		{
 			health.ApplyDamageToBodyPart(gameObject, damageToGive, attackType, damageType, type, armorPentration, traumaChance, traumaType);
+		}
+
+		public void OnInventoryMoveServer(InventoryMove info)
+		{
+			OnLocalPositionChangedServer(info.FromPlayer != null ? info.FromPlayer.LocalPosition : TransformState.HiddenPos,
+				objectPhysics.registerTile.LocalPosition);
 		}
 	}
 }

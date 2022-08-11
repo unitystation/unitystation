@@ -1,6 +1,6 @@
 using System;
 using System.Collections;
-using Core;
+using Managers;
 using UnityEngine;
 using Objects.Wallmounts;
 using Strings;
@@ -126,7 +126,7 @@ public partial class GameManager
 		{
 			beenToStation = true;
 			_ = SoundManager.PlayNetworked(CommonSounds.Instance.ShuttleDocked);
-			Chat.AddSystemMsgToChat(string.Format(ChatTemplates.PriorityAnnouncement, $"<color=white>Escape shuttle has arrived! Crew has {TimeSpan.FromSeconds(ShuttleDepartTime).Minutes} minutes to get on it.</color>"), MatrixManager.MainStationMatrix);
+			Chat.AddSystemMsgToChat(string.Format(ChatTemplates.PriorityAnnouncement, $"<color=white>Escape shuttle has arrived! Crew has {TimeSpan.FromSeconds(ShuttleDepartTime).Minutes} minutes to get on it.</color>"), MatrixManager.MainStationMatrix, LanguageManager.Common);
 			// should be changed to manual send later
 			departCoroutine = StartCoroutine( SendEscapeShuttle( ShuttleDepartTime ) );
 		}
@@ -134,7 +134,7 @@ public partial class GameManager
 		{
 			beenToStation = true;
 			_ = SoundManager.PlayNetworked(CommonSounds.Instance.ShuttleDocked);
-			Chat.AddSystemMsgToChat(string.Format(ChatTemplates.PriorityAnnouncement, $"<color=white>Escape shuttle has arrived! The shuttle <color=#FF151F>cannot</color> leave the station due to the hostile environment!</color>"), MatrixManager.MainStationMatrix);
+			Chat.AddSystemMsgToChat(string.Format(ChatTemplates.PriorityAnnouncement, $"<color=white>Escape shuttle has arrived! The shuttle <color=#FF151F>cannot</color> leave the station due to the hostile environment!</color>"), MatrixManager.MainStationMatrix, LanguageManager.Common);
 		}
 	}
 

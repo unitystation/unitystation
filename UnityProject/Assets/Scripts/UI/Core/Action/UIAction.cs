@@ -15,7 +15,7 @@ namespace UI.Action
 		public Transform CooldownOpacity;
 		public Text CooldownNumber;
 
-		public IActionGUI iActionGUI;
+		public IAction iAction;
 		private ActionData actionData;
 		private static readonly Vector3 tooltipOffset = new Vector3(-40, -60);
 		private ActionTooltip Tooltip => UIActionManager.Instance.TooltipInstance;
@@ -29,12 +29,37 @@ namespace UI.Action
 		public void SetUp(IActionGUI action)
 		{
 			gameObject.SetActive(true);
-			iActionGUI = action;
+			iAction = action;
 
-			actionData = iActionGUI.ActionData;
+			actionData = action.ActionData;
 			if (actionData == null)
 			{
-				Logger.LogWarningFormat("UIAction {0}: action data is null!", Category.UserInput, iActionGUI);
+				Logger.LogWarningFormat("UIAction {0}: action data is null!", Category.UserInput, iAction);
+				return;
+			}
+
+			if (actionData.Sprites.Count > 0)
+			{
+				IconFront.SetCatalogue(actionData.Sprites, 0, networked: false);
+
+				//Turn off raycasting if we have a background so the tooltip will show if mouse over IconFront
+				GetComponent<Image>().raycastTarget = actionData.Backgrounds.Count == 0;
+			}
+			if (actionData.Backgrounds.Count > 0)
+			{
+				IconBackground.SetCatalogue(actionData.Backgrounds, 0, networked: false);
+			}
+		}
+
+		public void SetUp(IActionGUIMulti action, ActionData newActionData)
+		{
+			gameObject.SetActive(true);
+			iAction = action;
+
+			actionData = newActionData;
+			if (actionData == null)
+			{
+				Logger.LogWarningFormat("UIAction {0}: action data is null!", Category.UserInput, iAction);
 				return;
 			}
 
@@ -107,24 +132,43 @@ namespace UI.Action
 			// then the spell will call the server to run on the server itself.
 			// Not sure why we don't call the spell serverside from here, too...
 			// The spell's server request can provide a click position.
-			if (iActionGUI.ActionData.CallOnClient)
+			if (actionData.CallOnClient)
 			{
-				iActionGUI.CallActionClient();
+				if (iAction is IActionGUI iActionGUI)
+				{
+					iActionGUI.CallActionClient();
+				}
+				else if (iAction is IActionGUIMulti iActionGUIMulti)
+				{
+					iActionGUIMulti.CallActionClient(actionData);
+				}
 			}
 
 			// Sending a message to server asking to run serverside code.
 			// TODO: Doesn't support click positions yet.
 			// Once it does, consider moving the spell's server request to rely on this here instead, if possible.
-			if (iActionGUI.ActionData.CallOnServer == false) return;
-			if (iActionGUI is IServerActionGUI)
+			if (actionData.CallOnServer == false) return;
+
+			if (iAction is IServerActionGUI)
 			{
-				if (iActionGUI is UIActionScriptableObject actionSO)
+				if (iAction is UIActionScriptableObject actionSO)
 				{
 					RequestGameActionSO.Send(actionSO);
 				}
 				else
 				{
-					RequestGameAction.Send(iActionGUI as IServerActionGUI);
+					RequestGameAction.Send(iAction as IServerActionGUI);
+				}
+			}
+			else if (iAction is IServerActionGUIMulti)
+			{
+				if (iAction is UIActionScriptableObject actionSO)
+				{
+					RequestGameActionSO.Send(actionSO);
+				}
+				else
+				{
+					RequestGameAction.Send(iAction as IServerActionGUIMulti, actionData);
 				}
 			}
 		}

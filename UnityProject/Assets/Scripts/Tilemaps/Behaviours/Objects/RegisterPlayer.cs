@@ -44,6 +44,11 @@ public class RegisterPlayer : RegisterTile, IServerSpawn, RegisterPlayer.IContro
 	/// </summary>
 	[NonSerialized] public SlipEvent OnSlipChangeServer = new SlipEvent();
 
+	/// <summary>
+	/// Invoked on server when slip state is change. Provides old and new value as 1st and 2nd args
+	/// </summary>
+	[NonSerialized] public LyingDownStateEvent OnLyingDownChangeEvent = new LyingDownStateEvent();
+
 	private PlayerScript playerScript;
 	public PlayerScript PlayerScript => playerScript;
 	private Rotatable playerDirectional;
@@ -184,6 +189,8 @@ public class RegisterPlayer : RegisterTile, IServerSpawn, RegisterPlayer.IContro
 	{
 		this.isLayingDown = isDown;
 
+		OnLyingDownChangeEvent?.Invoke(isDown);
+
 		if (CustomNetworkManager.IsHeadless == false)
 		{
 			HandleGetupAnimation(isDown == false);
@@ -284,11 +291,18 @@ public class RegisterPlayer : RegisterTile, IServerSpawn, RegisterPlayer.IContro
 			return;
 		}
 
-		ServerStun(StopMovement : false);
+		ServerSlip();
 		AudioSourceParameters audioSourceParameters = new AudioSourceParameters(pitch: Random.Range(0.9f, 1.1f));
 		SoundManager.PlayNetworkedAtPos(CommonSounds.Instance.Slip, WorldPositionServer, audioSourceParameters, sourceObj: gameObject);
 		// Let go of pulled items.
 		playerScript.objectPhysics.StopPulling(false);
+	}
+
+	private void ServerSlip()
+	{
+		ServerCheckStandingChange(true);
+		OnSlipChangeServer.Invoke(IsSlippingServer, true);
+		playerScript.DynamicItemStorage.ServerDropItemsInHand();
 	}
 
 	/// <summary>
@@ -324,15 +338,7 @@ public class RegisterPlayer : RegisterTile, IServerSpawn, RegisterPlayer.IContro
 		OnSlipChangeServer.Invoke(oldVal, IsSlippingServer);
 		if (dropItem)
 		{
-			foreach (var itemSlot in playerScript.DynamicItemStorage.GetNamedItemSlots(NamedSlot.leftHand))
-			{
-				Inventory.ServerDrop(itemSlot);
-			}
-
-			foreach (var itemSlot in playerScript.DynamicItemStorage.GetNamedItemSlots(NamedSlot.rightHand))
-			{
-				Inventory.ServerDrop(itemSlot);
-			}
+			playerScript.DynamicItemStorage.ServerDropItemsInHand();
 		}
 
 		if (StopMovement)
@@ -392,6 +398,9 @@ public class RegisterPlayer : RegisterTile, IServerSpawn, RegisterPlayer.IContro
 /// <summary>
 /// Fired when slip state changes. Provides old and new value.
 /// </summary>
-public class SlipEvent : UnityEvent<bool, bool>
-{
-}
+public class SlipEvent : UnityEvent<bool, bool> { }
+
+/// <summary>
+/// Event which fires when lying down state changes
+/// </summary>
+public class LyingDownStateEvent : UnityEvent<bool> { }

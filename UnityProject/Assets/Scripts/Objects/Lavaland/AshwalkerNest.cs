@@ -3,6 +3,8 @@ using Systems.CraftingV2;
 using Systems.GhostRoles;
 using AddressableReferences;
 using HealthV2;
+using Managers;
+using Player.Language;
 using ScriptableObjects;
 using UnityEngine;
 
@@ -279,6 +281,9 @@ namespace Objects
 			GhostRoleManager.Instance.ServerRemoveWaitingPlayer(createdRoleKey, player);
 
 			Chat.AddExamineMsg(player.GameObject, "You have been pulled back from beyond the grave, with a new body and renewed purpose. Glory to the Necropolis!");
+
+			//Ashwalkers cant speak or understand common
+			player.Script.MobLanguages.RemoveLanguage(LanguageManager.Common, true);
 		}
 
 		private void OnDestruction(DestructionInfo info)

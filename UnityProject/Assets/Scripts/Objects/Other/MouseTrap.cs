@@ -103,7 +103,7 @@ namespace Objects.Other
 
 		public override bool WillAffectPlayer(PlayerScript playerScript)
 		{
-			return playerScript.PlayerState == PlayerScript.PlayerStates.Normal;
+			return playerScript.PlayerType == PlayerTypes.Normal;
 		}
 
 		public override void OnPlayerStep(PlayerScript playerScript)

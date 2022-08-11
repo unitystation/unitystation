@@ -44,8 +44,8 @@ namespace Objects.Disposals
 		public void EjectContents()
 		{
 			objectContainer.RetrieveObjects();
-			gasContainer.IsSealed = false;
 			gasContainer.ReleaseContentsInstantly();
+			gasContainer.IsSealed = false;
 		}
 
 		/// <summary>
@@ -70,13 +70,13 @@ namespace Objects.Disposals
 				}
 			}
 
-			gasContainer.IsSealed = false;
 			gasContainer.ReleaseContentsInstantly();
+			gasContainer.IsSealed = false;
 		}
 
 		#endregion EjectContents
 
-		public void EntityTryEscape(GameObject entity, Action ifCompleted)
+		public void EntityTryEscape(GameObject entity, Action ifCompleted, MoveAction moveAction)
 		{
 			SoundManager.PlayNetworkedAtPos(ClangSound, ContainerWorldPosition);
 		}

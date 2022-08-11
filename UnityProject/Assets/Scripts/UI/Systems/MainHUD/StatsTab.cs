@@ -1,8 +1,8 @@
-﻿using System;
+﻿using Shared.Managers;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class StatsTab : Managers.SingletonManager<StatsTab>
+public class StatsTab : SingletonManager<StatsTab>
 {
 	public GameObject window;
 

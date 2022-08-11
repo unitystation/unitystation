@@ -8,8 +8,8 @@ namespace UI.Objects.Cargo
 {
 	public class GUI_CargoBounty : DynamicEntry
 	{
-		[SerializeField] private NetLabel bountyTitle;
-		[SerializeField] private NetLabel InvisblebountyDescription;
+		[SerializeField] private NetText_label bountyTitle;
+		[SerializeField] private NetText_label InvisblebountyDescription;
 
 		public void SetValues(CargoBounty cargoBounty)
 		{

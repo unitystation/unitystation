@@ -42,7 +42,7 @@ namespace Systems.Ai
 			if (interaction.HandObject == null)
 			{
 				//Only allow alive AI's cores, or alive AI's carded which have interactions enabled to have law changes
-				var aiPlayers = PlayerList.Instance.GetAllByPlayersOfState(PlayerScript.PlayerStates.Ai).Where(
+				var aiPlayers = PlayerList.Instance.GetAllByPlayersOfState(PlayerTypes.Ai).Where(
 					a => a.GameObject.TryGetComponent<AiPlayer>(out var aiPlayer) && aiPlayer.HasDied == false &&
 					     (aiPlayer.IsCarded == false || aiPlayer.AllowRemoteAction)).ToList();
 

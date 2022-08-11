@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Shared.Systems.ObjectConnection;
 using UnityEngine;
 using Systems.Electricity.NodeModules;
-using Systems.ObjectConnection;
-
 
 namespace Objects.Engineering
 {
@@ -110,7 +107,7 @@ namespace Objects.Engineering
 		// Slave connection
 		IMultitoolMasterable IMultitoolSlaveable.Master => Boiler;
 		bool IMultitoolSlaveable.RequireLink => true;
-		bool IMultitoolSlaveable.TrySetMaster(PositionalHandApply interaction, IMultitoolMasterable master)
+		bool IMultitoolSlaveable.TrySetMaster(GameObject performer, IMultitoolMasterable master)
 		{
 			SetMaster(master);
 			return true;

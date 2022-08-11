@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Managers;
 using NUnit.Framework;
+using Shared.Managers;
 using UnityEditor;
 using UnityEngine;
 using Object = UnityEngine.Object;
@@ -109,5 +111,36 @@ namespace Tests
 		/// be accessed. If the instance is a true null, then 0 is returned.
 		/// </summary>
 		public static int GetInstanceID(Object instance) => instance is null ? 0 : instance.GetInstanceID();
+
+		private const string MANAGER_PATH = "Assets/Prefabs/SceneConstruction/NestedManagers";
+
+		/// <summary>
+		/// Get singleton manager prefab
+		/// </summary>
+		public static T GetManager<T>(string managerName) where T : SingletonManager<T>
+		{
+			var managerPrefabGUID = AssetDatabase.FindAssets($"{managerName} t:prefab", new [] {MANAGER_PATH});
+			var managerPrefabPaths = managerPrefabGUID.Select(AssetDatabase.GUIDToAssetPath).ToList();
+
+			if (managerPrefabPaths.Count != 1)
+			{
+				Assert.Fail($"Couldn't find {managerName} prefab in specified path, or more than one {managerName} found at: {MANAGER_PATH}");
+				return null;
+			}
+
+			var gameManagerPrefab = AssetDatabase.LoadAssetAtPath<GameObject>(managerPrefabPaths.First());
+			if (gameManagerPrefab == null)
+			{
+				Assert.Fail($"Couldn't find {managerName} prefab in specified path: {MANAGER_PATH}");
+				return null;
+			}
+
+			if (gameManagerPrefab.TryGetComponent<T>(out var singletonManager) == false)
+			{
+				Assert.Fail($"Couldn't get the component from the specified prefab: {MANAGER_PATH}");
+			}
+
+			return singletonManager;
+		}
 	}
 }

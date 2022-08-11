@@ -89,6 +89,12 @@ public class GhostMove : NetworkBehaviour, IPlayerControllable
 	}
 
 	[Command]
+	public void CMDSetServerPosition(Vector3 localPosition)
+	{
+		ForcePositionClient(localPosition, false);
+	}
+
+	[Command]
 	public void CMDSetServerPosition(Vector3 localPosition, int matrixID, OrientationEnum direction)
 	{
 		ForcePositionClient(localPosition, matrixID, direction, false);

@@ -1,10 +1,7 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
-using Managers;
-using UnityEngine.Events;
+using Shared.Managers;
 
 namespace GameConfig
 {
@@ -15,13 +12,7 @@ namespace GameConfig
 	{
 		private GameConfig config;
 
-		public static GameConfig GameConfig
-		{
-			get
-			{
-				return Instance.config;
-			}
-		}
+		public static GameConfig GameConfig => Instance.config;
 
 		public override void Awake()
 		{

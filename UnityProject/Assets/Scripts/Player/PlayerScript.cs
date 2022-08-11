@@ -1,3 +1,4 @@
+using System;
 using System.Text;
 using Core;
 using Detective;
@@ -9,8 +10,11 @@ using Player;
 using Player.Movement;
 using UI.Action;
 using Items;
+using Player.Language;
+using ScriptableObjects;
 using Systems.StatusesAndEffects;
 using Tiles;
+using UnityEngine.Serialization;
 
 public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IActionGUI
 {
@@ -19,6 +23,11 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IActi
 
 	public Mind mind;
 	public PlayerInfo PlayerInfo;
+
+	[FormerlySerializedAs("playerStateSettings")] [SerializeField]
+	private PlayerTypeSettings playerTypeSettings = null;
+	public PlayerTypeSettings PlayerTypeSettings => playerTypeSettings;
+	public PlayerTypes PlayerType => playerTypeSettings.PlayerType;
 
 	/// <summary>
 	/// Current character settings for this player.
@@ -66,6 +75,8 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IActi
 
 	public HasCooldowns Cooldowns { get; set; }
 
+	public MobLanguages MobLanguages { get; private set; }
+
 	public MouseInputController mouseInputController { get; set; }
 
 	public ChatIcon chatIcon { get; private set; }
@@ -107,25 +118,20 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IActi
 	/// </summary>
 	public bool HasSoul => connectionToClient != null;
 
-	[SerializeField] private PlayerStates playerState = PlayerStates.Normal;
-	public PlayerStates PlayerState => playerState;
-
-	public enum PlayerStates
-	{
-		Normal,
-		Ghost,
-		Blob,
-		Ai
-	}
-
 	[SerializeField] private ActionData actionData = null;
 	public ActionData ActionData => actionData;
 
 	//The object the player will receive chat and send chat from.
 	//E.g. usually same object as this script but for Ai it will be their core object
 	//Serverside only
-	[SerializeField] private GameObject playerChatLocation = null;
+	[SerializeField]
+	private GameObject playerChatLocation = null;
 	public GameObject PlayerChatLocation => playerChatLocation;
+
+	[SerializeField]
+	//TODO move this to somewhere else?
+	private bool canVentCrawl = false;
+	public bool CanVentCrawl => canVentCrawl;
 
 	#region Lifecycle
 
@@ -148,6 +154,7 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IActi
 		playerCrafting = GetComponent<PlayerCrafting>();
 		PlayerSync = GetComponent<MovementSynchronisation>();
 		statusEffectManager = GetComponent<StatusEffectManager>();
+		MobLanguages = GetComponent<MobLanguages>();
 	}
 
 	public override void OnStartClient()
@@ -221,7 +228,7 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IActi
 
 			PlayerManager.SetPlayerForControl(gameObject, input);
 
-			if (playerState == PlayerStates.Ghost)
+			if (PlayerType == PlayerTypes.Ghost)
 			{
 				if (PlayerList.Instance.IsClientAdmin)
 				{
@@ -385,12 +392,12 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IActi
 	/// <summary>
 	/// True if this player is a ghost
 	/// </summary>
-	public bool IsGhost => PlayerState == PlayerStates.Ghost;
+	public bool IsGhost => PlayerType == PlayerTypes.Ghost;
 
 	/// <summary>
 	/// True if this player is a normal player prefab (not ghost, Ai, blob, etc)
 	/// </summary>
-	public bool IsNormal => PlayerState == PlayerStates.Normal;
+	public bool IsNormal => PlayerType == PlayerTypes.Normal;
 
 	/// <summary>
 	/// Same as is ghost, but also true when player inside his dead body
@@ -410,7 +417,7 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IActi
 	}
 
 	// If the player acts like a ghost but is still playing ingame, used for blobs and in the future maybe AI.
-	public bool IsPlayerSemiGhost => playerState == PlayerStates.Blob || playerState == PlayerStates.Ai;
+	public bool IsPlayerSemiGhost => PlayerType == PlayerTypes.Blob || PlayerType == PlayerTypes.Ai;
 
 	public void ReturnGhostToBody()
 	{
@@ -472,84 +479,49 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IActi
 
 	public ChatChannel GetAvailableChannelsMask(bool transmitOnly = true)
 	{
-		if (IsDeadOrGhost && !IsPlayerSemiGhost)
+		ChatChannel transmitChannels = playerTypeSettings.TransmitChannels;
+		ChatChannel receiveChannels = playerTypeSettings.ReceiveChannels;
+
+		//Can't move this to PlayerStateSettings as we need this for when in body and dead
+		if (playerHealth != null && playerHealth.IsDead)
 		{
-			ChatChannel ghostTransmitChannels = ChatChannel.Ghost | ChatChannel.OOC;
-			ChatChannel ghostReceiveChannels = ChatChannel.Examine | ChatChannel.System | ChatChannel.Combat |
-			                                   ChatChannel.Binary | ChatChannel.Command | ChatChannel.Common |
-			                                   ChatChannel.Engineering |
-			                                   ChatChannel.Medical | ChatChannel.Science | ChatChannel.Security |
-			                                   ChatChannel.Service
-			                                   | ChatChannel.Supply | ChatChannel.Syndicate;
+			transmitChannels = ChatChannel.Ghost | ChatChannel.OOC;
+			receiveChannels = ChatChannel.Examine | ChatChannel.System | ChatChannel.Combat |
+			                  ChatChannel.Binary | ChatChannel.Command | ChatChannel.Common |
+			                  ChatChannel.Engineering | ChatChannel.Medical | ChatChannel.Science |
+			                  ChatChannel.Security | ChatChannel.Service | ChatChannel.Supply |
+			                  ChatChannel.Syndicate | ChatChannel.Alien | ChatChannel.Blob;
 
-			if (transmitOnly)
-			{
-				return ghostTransmitChannels;
-			}
-
-			return ghostTransmitChannels | ghostReceiveChannels;
 		}
 
-		if (playerState == PlayerStates.Ai)
+		//Ai channels limited when not allowed to use radio
+		if (PlayerType == PlayerTypes.Ai)
 		{
-			ChatChannel aiTransmitChannels = ChatChannel.OOC | ChatChannel.Local | ChatChannel.Binary |
-			                                 ChatChannel.Command
-			                                 | ChatChannel.Common | ChatChannel.Engineering |
-			                                 ChatChannel.Medical | ChatChannel.Science | ChatChannel.Security |
-			                                 ChatChannel.Service
-			                                 | ChatChannel.Supply;
-			ChatChannel aiReceiveChannels = ChatChannel.Examine | ChatChannel.System | ChatChannel.Combat |
-			                                ChatChannel.Binary | ChatChannel.Command | ChatChannel.Common |
-			                                ChatChannel.Engineering |
-			                                ChatChannel.Medical | ChatChannel.Science | ChatChannel.Security |
-			                                ChatChannel.Service
-			                                | ChatChannel.Supply;
-
 			if (GetComponent<AiPlayer>().AllowRadio == false)
 			{
-				aiTransmitChannels = ChatChannel.OOC | ChatChannel.Local;
-				aiReceiveChannels = ChatChannel.Examine | ChatChannel.System | ChatChannel.Combat;
+				transmitChannels = ChatChannel.Binary | ChatChannel.OOC | ChatChannel.Local;
+				receiveChannels = ChatChannel.Binary | ChatChannel.Local | ChatChannel.Examine |
+				                  ChatChannel.System | ChatChannel.Combat;
 			}
-
-			if (transmitOnly)
-			{
-				return aiTransmitChannels;
-			}
-
-			return aiTransmitChannels | aiReceiveChannels;
-		}
-
-		if (playerState == PlayerStates.Blob)
-		{
-			ChatChannel blobTransmitChannels = ChatChannel.Blob | ChatChannel.OOC;
-			ChatChannel blobReceiveChannels = ChatChannel.Examine | ChatChannel.System | ChatChannel.Combat;
-
-			if (transmitOnly)
-			{
-				return blobTransmitChannels;
-			}
-
-			return blobTransmitChannels | blobReceiveChannels;
 		}
 
 		//TODO: Checks if player can speak (is not gagged, unconcious, has no mouth)
-		ChatChannel transmitChannels = ChatChannel.OOC | ChatChannel.Local;
-
-		var playerStorage = gameObject.GetComponent<DynamicItemStorage>();
-		if (playerStorage != null)
+		if (playerTypeSettings.CheckForRadios)
 		{
-			foreach (var earSlot in playerStorage.GetNamedItemSlots(NamedSlot.ear))
+			var playerStorage = gameObject.GetComponent<DynamicItemStorage>();
+			if (playerStorage != null)
 			{
-				if (earSlot.IsEmpty) continue;
-				if (earSlot.Item.TryGetComponent<Headset>(out var headset) == false) continue;
-				if (headset.isEMPed) continue;
+				foreach (var earSlot in playerStorage.GetNamedItemSlots(NamedSlot.ear))
+				{
+					if (earSlot.IsEmpty) continue;
+					if (earSlot.Item.TryGetComponent<Headset>(out var headset) == false) continue;
+					if (headset.isEMPed) continue;
 
-				EncryptionKeyType key = headset.EncryptionKey;
-				transmitChannels = transmitChannels | EncryptionKey.Permissions[key];
+					EncryptionKeyType key = headset.EncryptionKey;
+					transmitChannels |= EncryptionKey.Permissions[key];
+				}
 			}
 		}
-
-		ChatChannel receiveChannels = ChatChannel.Examine | ChatChannel.System | ChatChannel.Combat;
 
 		if (transmitOnly)
 		{
@@ -606,8 +578,10 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IActi
 	{
 		if (Interaction == null) return;
 		if (IsNormal == false) return;
-		if (!ComponentManager.TryGetUniversalObjectPhysics(interactable.gameObject, out var uop)) return;
-		var details = uop.attributes.Component.OrNull()?.AppliedDetails;
+		if (ComponentManager.TryGetUniversalObjectPhysics(interactable.gameObject, out var uop) == false) return;
+		if(uop.attributes.HasComponent == false) return;
+
+		var details = uop.attributes.Component.AppliedDetails;
 		if (details == null) return;
 
 		if (RNG.Next(0, 100) > ClueHandsImprintInverseChance)
@@ -715,4 +689,21 @@ public class PlayerScript : NetworkBehaviour, IMatrixRotation, IAdminInfo, IActi
 	{
 		UIActionManager.ToggleLocal(this, state);
 	}
+
+	//Used for Admins to VV function to toggle vent crawl as for some reason in build VV variable isnt working
+	public void ToggleVentCrawl()
+	{
+		canVentCrawl = !canVentCrawl;
+	}
+}
+
+[Flags]
+public enum PlayerTypes
+{
+	None = 0,
+	Normal = 1 << 0,
+	Ghost = 1 << 1,
+	Blob = 1 << 2,
+	Ai = 1 << 3,
+	Alien = 1 << 4
 }

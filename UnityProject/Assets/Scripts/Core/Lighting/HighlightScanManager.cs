@@ -1,10 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
+using Shared.Managers;
 using UnityEngine;
 
 namespace Core.Lighting
 {
-	public class HighlightScanManager : Managers.SingletonManager<HighlightScanManager>
+	public class HighlightScanManager : SingletonManager<HighlightScanManager>
 	{
 		public HashSet<HighlightScan> HighlightScans = new HashSet<HighlightScan>();
 

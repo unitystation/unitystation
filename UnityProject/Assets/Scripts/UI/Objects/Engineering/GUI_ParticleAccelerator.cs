@@ -7,10 +7,10 @@ namespace UI.Objects.Engineering
 	public class GUI_ParticleAccelerator : NetTab
 	{
 		[SerializeField]
-		private NetLabel powerSetting = null;
+		private NetText_label powerSetting = null;
 
 		[SerializeField]
-		private NetLabel powerUse = null;
+		private NetText_label powerUse = null;
 
 		[SerializeField]
 		private NetSlider OnOffSwitch = null;

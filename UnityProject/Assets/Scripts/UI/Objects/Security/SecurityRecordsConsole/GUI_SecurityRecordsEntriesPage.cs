@@ -13,7 +13,7 @@ namespace UI.Objects.Security
 		private GUI_SecurityRecords securityRecordsTab;
 		private List<SecurityRecord> currentRecords = new List<SecurityRecord>();
 		[SerializeField]
-		private NetLabel idNameText = null;
+		private NetText_label idNameText = null;
 
 		public void OnOpen(GUI_SecurityRecords recordsTab)
 		{

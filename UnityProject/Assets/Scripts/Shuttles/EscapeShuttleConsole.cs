@@ -5,6 +5,7 @@ using AdminCommands;
 using Managers;
 using UnityEngine;
 using Strings;
+using Systems.Clearance;
 
 namespace Objects
 {
@@ -23,7 +24,8 @@ namespace Objects
 
 		private RegisterTile registerTile;
 
-		[SerializeField] private List<Access> validAccess = new List<Access>();
+		[SerializeField]
+		private List<Clearance> validAccess = new List<Clearance>();
 
 		private HashSet<IDCard> registeredIDs = new HashSet<IDCard>();
 
@@ -116,22 +118,21 @@ namespace Objects
 			var remainingSwipes = requiredSwipesEarlyLaunch - registeredIDs.Count;
 			string announcemnt =
 				$"\n\n<color=#FF151F><size={ChatTemplates.LargeText}><b>Escape Shuttle Emergency Launch has been request! need {remainingSwipes} more votes.</b></size></color>\n\n";
-			Chat.AddSystemMsgToChat(announcemnt, MatrixManager.MainStationMatrix);
+			Chat.AddSystemMsgToChat(announcemnt, MatrixManager.MainStationMatrix, LanguageManager.Common);
 
-			Chat.AddSystemMsgToChat(announcemnt,
-				GameManager.Instance.PrimaryEscapeShuttle.MatrixInfo);
+			Chat.AddSystemMsgToChat(announcemnt, GameManager.Instance.PrimaryEscapeShuttle.MatrixInfo, LanguageManager.Common);
 			_ = SoundManager.PlayNetworked(CommonSounds.Instance.Notice1);
 		}
 
-		private void DepartShuttle()
+		public void DepartShuttle()
 		{
 			if (GameManager.Instance.ShuttleSent) return;
 			var departTime = beenEmagged ? 5 : 10;
 			string announcement =
 				$"\n\n<color=#FF151F><size={ChatTemplates.LargeText}><b>Escape Shuttle Emergency Launch Triggered! Launching in {departTime} seconds..</b></size></color>\n\n";
-			Chat.AddSystemMsgToChat(announcement, MatrixManager.MainStationMatrix);
+			Chat.AddSystemMsgToChat(announcement, MatrixManager.MainStationMatrix, LanguageManager.Common);
 
-			Chat.AddSystemMsgToChat(announcement, GameManager.Instance.PrimaryEscapeShuttle.MatrixInfo);
+			Chat.AddSystemMsgToChat(announcement, GameManager.Instance.PrimaryEscapeShuttle.MatrixInfo, LanguageManager.Common);
 
 			_ = SoundManager.PlayNetworked(CommonSounds.Instance.Notice1);
 			GameManager.Instance.ForceSendEscapeShuttleFromStation(departTime);
@@ -139,8 +140,19 @@ namespace Objects
 
 		public RightClickableResult GenerateRightClickOptions()
 		{
-			if (CustomNetworkManager.IsServer == false) return null;
-			return RightClickableResult.Create().AddElement("Launch Early", DepartShuttle, Color.red);
+			if (string.IsNullOrEmpty(PlayerList.Instance.AdminToken) ||
+			    KeyboardInputManager.Instance.CheckKeyAction(KeyAction.ShowAdminOptions,
+				    KeyboardInputManager.KeyEventType.Hold) == false)
+			{
+				return null;
+			}
+
+			return RightClickableResult.Create().AddAdminElement("Launch Early", AdminEarlyLaunch);
+		}
+
+		private void AdminEarlyLaunch()
+		{
+			AdminCommandsManager.Instance.CmdEarlyLaunch(gameObject);
 		}
 	}
 }

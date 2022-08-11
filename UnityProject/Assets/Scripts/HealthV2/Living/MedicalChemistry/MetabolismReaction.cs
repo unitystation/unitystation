@@ -3,12 +3,12 @@ using System.Collections;
 using System.Collections.Generic;
 using Chemistry;
 using HealthV2;
+using HealthV2.Living.CirculatorySystem;
 using UnityEngine;
 using UnityEngine.Serialization;
 
 public class MetabolismReaction : Reaction
 {
-	public float MinimumPercentageThreshold = 0;
 
 	//Should it metabolise faster or slower
 	public float ReagentMetabolismMultiplier = 1;
@@ -21,7 +21,9 @@ public class MetabolismReaction : Reaction
 	[FormerlySerializedAs("Blacklist")] public List<ItemTrait> InternalBlacklist  = new List<ItemTrait>();
 
 
-
+	public List<ItemTrait> ExternalAllRequired = new List<ItemTrait>();
+	//public List<ItemTrait> SingleRequired = new List<ItemTrait>(); TODO add ability to Apply to multiple tags
+	public List<ItemTrait> ExternalBlacklist  = new List<ItemTrait>();
 
 	public override bool Apply(MonoBehaviour sender, ReagentMix reagentMix)
 	{
@@ -35,7 +37,7 @@ public class MetabolismReaction : Reaction
 			return false;
 		}
 
-		var circulatorySystem = sender.GetComponent<CirculatorySystemBase>();
+		var circulatorySystem = sender as IAreaReactionBase;
 		if (circulatorySystem == null)
 		{
 			return false;
@@ -61,12 +63,15 @@ public class MetabolismReaction : Reaction
 		{
 			reactionMultiple *= (ReactionAmount / AmountProcessing);
 		}
-
-		PossibleReaction(sender, reagentMix, reactionMultiple, ReactionAmount, AmountProcessing);
+		//out must be asigned to something, overdose is never used here
+		bool overdose;
+		PossibleReaction(sender, reagentMix, reactionMultiple, ReactionAmount, AmountProcessing, out overdose);
 	}
 
-	public virtual void PossibleReaction(List<BodyPart> senders, ReagentMix reagentMix, float reactionMultiple, float BodyReactionAmount, float TotalChemicalsProcessed)
+	public virtual void PossibleReaction(List<BodyPart> senders, ReagentMix reagentMix, float reactionMultiple, float BodyReactionAmount, float TotalChemicalsProcessed, out bool overdose)
 	{
+		//out must be asigned to something, overdose is never used here.
+		overdose = false;
 		foreach (var ingredient in ingredients.m_dict)
 		{
 			reagentMix.Subtract(ingredient.Key, reactionMultiple * ingredient.Value);

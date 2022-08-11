@@ -14,15 +14,15 @@ namespace UI.Objects.Security
 		private GUI_SecurityRecords securityRecordsTab;
 		private SecurityRecord securityRecord;
 		[SerializeField]
-		private NetLabel recordNameText = null;
+		private NetText_label recordNameText = null;
 		[SerializeField]
-		private NetLabel recordIdText = null;
+		private NetText_label recordIdText = null;
 		[SerializeField]
-		private NetLabel recordRankText = null;
+		private NetText_label recordRankText = null;
 		[SerializeField]
-		private NetLabel recordFingerprintsText = null;
+		private NetText_label recordFingerprintsText = null;
 		[SerializeField]
-		private NetLabel recordStatusText = null;
+		private NetText_label recordStatusText = null;
 		[SerializeField]
 		private NetColorChanger recordBgColor = null;
 

@@ -11,7 +11,7 @@ namespace UI.Objects.Botany
 		private Color regularColor = Color.gray;
 
 		[SerializeField]
-		private NetLabel seedStats = null;
+		private NetText_label seedStats = null;
 
 		[SerializeField]
 		private NetColorChanger itemBackground = null;

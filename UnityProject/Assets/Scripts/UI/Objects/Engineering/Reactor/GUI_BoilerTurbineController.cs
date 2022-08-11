@@ -15,9 +15,9 @@ namespace UI.Objects.Engineering
 		[SerializeField] private NetSliderDial BoilerTemperature = null;
 		[SerializeField] private NetSliderDial BoilerPressure = null;
 		[SerializeField] private NetSliderDial BoilerCapacity = null;
-		[SerializeField] private NetLabel TurbinePowerGenerating = null;
-		[SerializeField] private NetLabel TurbineVoltage = null;
-		[SerializeField] private NetLabel TurbineCurrent = null;
+		[SerializeField] private NetText_label TurbinePowerGenerating = null;
+		[SerializeField] private NetText_label TurbineVoltage = null;
+		[SerializeField] private NetText_label TurbineCurrent = null;
 
 		private void Start()
 		{

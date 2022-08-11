@@ -122,7 +122,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 3820166603969896683}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: UI.Objects.GUI_Disclaimer, Assets
         m_MethodName: OnButtonShowEventList
         m_Mode: 1
@@ -188,7 +188,6 @@ GameObject:
   - component: {fileID: 4135270175928999527}
   - component: {fileID: 6681392472916456664}
   - component: {fileID: 8813387118744636190}
-  - component: {fileID: 3820166603969896683}
   m_Layer: 5
   m_Name: Disclaimer
   m_TagString: Untagged
@@ -343,23 +342,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2c1f0054b7d34b30830da442d71fb60d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &3820166603969896683
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1263714532878096304}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5d495bb7531e9ad49be4a2c4d990aca2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  buttonList: {fileID: 2009850315287819050}
-  MOTDPage: {fileID: 1135904295625004662}
-  eventsPage: {fileID: 2782182153844389193}
-  eventEntry: {fileID: 2386169562120521865, guid: d3f8c6d5332ef65438239e5cbe6c5403,
-    type: 3}
 --- !u!1 &1665057665480843857
 GameObject:
   m_ObjectHideFlags: 0
@@ -482,7 +464,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 3820166603969896683}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: UI.Objects.GUI_Disclaimer, Assets
         m_MethodName: OnButtonShowMOTDPage
         m_Mode: 1

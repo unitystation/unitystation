@@ -7,13 +7,13 @@ namespace UI.Objects
 	public class GUI_Jukebox : NetTab
 	{
 		[SerializeField]
-		private NetLabel labelSong = null;
+		private NetText_label labelSong = null;
 
 		[SerializeField]
-		private NetLabel labelArtist = null;
+		private NetText_label labelArtist = null;
 
 		[SerializeField]
-		private NetLabel labelTrack = null;
+		private NetText_label labelTrack = null;
 
 		[SerializeField]
 		private NetPrefabImage prefabImagePlayStop = null;

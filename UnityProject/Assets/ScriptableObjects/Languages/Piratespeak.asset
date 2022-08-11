@@ -1,0 +1,45 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2dd0f7f114fd41d9802a9e350cd8a2ea, type: 3}
+  m_Name: Piratespeak
+  m_EditorClassIdentifier: 
+  languageName: Piratespeak
+  languageUniqueId: 18
+  desc: The language of space pirates.
+  key: 112
+  sentenceChance: 5
+  spaceChance: 100
+  priority: 90
+  sprite: {fileID: 21300000, guid: 1109ea6b5d81a694b8b999cd3d34943a, type: 3}
+  chatSprite: {fileID: 11400000, guid: 196df2b243bc0484d930dce22719595e, type: 2}
+  flags: 0
+  syllables:
+  - arr
+  - ahoy
+  - rum
+  - aye
+  - blimey
+  - booty
+  - bucko
+  - grog
+  - treasure
+  - me
+  - scallywag
+  - landlubber
+  - poopdeck
+  - ye
+  - avast
+  - shiver
+  - timbers
+  - matey
+  - swashbuckler
+  syllablesString: "\"arr\",\"ahoy\",\"rum\",\"aye\",\"blimey\",\"booty\",\"bucko\",\"grog\",\"treasure\",\r\n\t\"me\",\"scallywag\",\"landlubber\",\"poopdeck\",\"ye\",\"avast\",\r\n\t\"shiver\",\"timbers\",\"matey\",\"swashbuckler\""

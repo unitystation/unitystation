@@ -1,9 +1,7 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 using System.Collections.Generic;
-using System.Linq;
-using Managers;
 using Objects.Machines;
+using Shared.Managers;
 using Systems.Research;
 
 public class CraftingManager : SingletonManager<CraftingManager>

@@ -239,7 +239,7 @@ namespace Objects.Drawers
 			}
 		}
 
-		public void EntityTryEscape(GameObject entity,Action ifCompleted)
+		public void EntityTryEscape(GameObject entity,Action ifCompleted, MoveAction moveAction)
 		{
 			if(entity.Player() == null) return;
 			if (escapeTime <= 0.1f)

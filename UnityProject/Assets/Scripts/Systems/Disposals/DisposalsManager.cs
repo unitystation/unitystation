@@ -1,12 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 using AddressableReferences;
-using Objects.Disposals;
 using Objects;
 using Objects.Atmospherics;
+using Objects.Disposals;
+using Shared.Managers;
 using Systems.Atmospherics;
-using Managers;
+using UnityEngine;
 
 namespace Systems.Disposals
 {
@@ -18,6 +18,12 @@ namespace Systems.Disposals
 		[SerializeField]
 		[Tooltip("Set the virtual container prefab to be used in disposal instances.")]
 		public GameObject VirtualContainerPrefab;
+
+		[SerializeField]
+		[Tooltip("Crawling virtual container prefab")]
+		private GameObject crawlingVirtualContainerPrefab = null;
+		public GameObject CrawlingVirtualContainerPrefab => crawlingVirtualContainerPrefab;
+
 		[SerializeField]
 		[Tooltip("Set how many tiles every disposal instance can traverse in one second.")]
 		private float TileTraversalsPerSecond = 20;

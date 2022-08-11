@@ -6,6 +6,9 @@ namespace Systems.Clearance.Utils
 	{
 		public static readonly Dictionary<Access, Clearance> Translation = new Dictionary<Access, Clearance>
 		{
+			//No restriction
+			{0, 0},
+
 			{Access.ai_upload, Clearance.AIUpload},
 			{Access.armory, Clearance.Armory},
 			{Access.atmospherics, Clearance.Atmospherics},
@@ -67,7 +70,9 @@ namespace Systems.Clearance.Utils
 			{Access.virology, Clearance.Virology},
 			{Access.weapons, Clearance.Weapons},
 			{Access.xenobiology, Clearance.Xenobiology},
-			{Access.centcom, Clearance.CentGeneral}
+			{Access.centcom, Clearance.CentGeneral},
+			{Access.cent_specops, Clearance.CentSpecops},
+			{Access.cent_ert, Clearance.CentSpecops}
 		};
 	}
 }

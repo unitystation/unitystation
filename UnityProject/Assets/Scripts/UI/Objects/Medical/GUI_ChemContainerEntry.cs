@@ -16,9 +16,9 @@ namespace UI.Objects.Chemistry
 		public Reagent Reagent { get; set; } = null;
 
 		[SerializeField]
-		private NetLabel reagentName = default;
+		private NetText_label reagentName = default;
 		[SerializeField]
-		private NetLabel reagentAmountDisplay = default;
+		private NetText_label reagentAmountDisplay = default;
 
 		public void ReInit(Reagent newReagent, float amount, GUI_ChemMaster tab)
 		{
