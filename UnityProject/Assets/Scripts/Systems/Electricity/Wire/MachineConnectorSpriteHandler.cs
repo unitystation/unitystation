@@ -1,10 +1,9 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
-using Mirror;
 using Systems.Electricity;
 using NaughtyAttributes;
 using Core.Editor.Attributes;
+using Core.Transforms;
 
 namespace Objects.Electrical
 {

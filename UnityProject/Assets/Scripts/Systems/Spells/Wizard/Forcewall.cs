@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using Core.Transforms;
 
 namespace Systems.Spells.Wizard
 {
