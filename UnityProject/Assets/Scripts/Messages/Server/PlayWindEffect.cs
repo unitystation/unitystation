@@ -1,5 +1,7 @@
-﻿using Mirror;
+﻿using System.Collections.Generic;
+using Mirror;
 using Shuttles;
+using Systems.Atmospherics;
 using UnityEngine;
 
 namespace Messages.Server
@@ -11,9 +13,7 @@ namespace Messages.Server
 	{
 		public struct NetMessage : NetworkMessage
 		{
-			public uint 	MatrixObject;
-			public Vector3	LocalPosition;
-			public Vector2	TargetVector;
+			public List<ReactionManager.WindEffectData> Data;
 		}
 
 		public override void Process(NetMessage msg)
@@ -24,47 +24,50 @@ namespace Messages.Server
 			var localPlayer = PlayerManager.LocalPlayerScript;
 			if(localPlayer == null) return;
 
-			if(LoadNetworkObject(msg.MatrixObject) == false) return;
-			if(NetworkObject.TryGetComponent<MatrixSync>(out var matrixSync) == false) return;
-
-			var matrix = matrixSync.NetworkedMatrix.matrix;
-
-			var distance =
-				(localPlayer.objectPhysics != null ?
-					localPlayer.objectPhysics.OfficialPosition : localPlayer.transform.position)
-				- msg.LocalPosition.ToWorld(matrix);
-
-			//Be in 20 tile radius?
-			if (distance.sqrMagnitude > 400) return;
-
-			var windEffect = Spawn.ClientPrefab("WindEffect", parent: matrix.MetaTileMap.ObjectLayer.transform);
-
-			if (windEffect.Successful == false)
+			for (int i = 0; i < msg.Data.Count; i++)
 			{
-				Logger.LogWarning("Failed to spawn wind effect!", Category.Particles);
-				return;
+				var toWindAt = msg.Data[i];
+
+				if(LoadNetworkObject(toWindAt.MatrixObject) == false) return;
+				if(NetworkObject.TryGetComponent<MatrixSync>(out var matrixSync) == false) return;
+
+				var matrix = matrixSync.NetworkedMatrix.matrix;
+
+				var distance =
+					(localPlayer.objectPhysics != null ?
+						localPlayer.objectPhysics.OfficialPosition : localPlayer.transform.position)
+					- toWindAt.LocalPosition.ToWorld(matrix);
+
+				//Be in 20 tile radius?
+				if (distance.sqrMagnitude > 400) return;
+
+				var windEffect = Spawn.ClientPrefab("WindEffect", parent: matrix.MetaTileMap.ObjectLayer.transform);
+
+				if (windEffect.Successful == false)
+				{
+					Logger.LogWarning("Failed to spawn wind effect!", Category.Particles);
+					return;
+				}
+
+				windEffect.GameObject.transform.localPosition = toWindAt.LocalPosition;
+
+				Effect.ClientPlayParticle(windEffect.GameObject, null, toWindAt.TargetVector, false);
 			}
-
-			windEffect.GameObject.transform.localPosition = msg.LocalPosition;
-
-			Effect.ClientPlayParticle(windEffect.GameObject, null, msg.TargetVector, false);
 		}
 
 		/// <summary>
 		/// Tell all clients + server to play wind particle effect
 		/// </summary>
-		public static NetMessage SendToAll(Matrix matrix, Vector3 localPosition, Vector2 targetVector)
+		public static void SendToAll(List<ReactionManager.WindEffectData> data)
 		{
+			if (data.Count == 0) return;
 
 			NetMessage msg = new NetMessage
 			{
-				MatrixObject = matrix.NetworkedMatrix.MatrixSync.netId,
-				LocalPosition = localPosition,
-				TargetVector = targetVector
+				Data = data
 			};
 
 			SendToAll(msg);
-			return msg;
 		}
 	}
 }
