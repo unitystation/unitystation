@@ -463,6 +463,7 @@ GameObject:
   - component: {fileID: 7265610720913237329}
   - component: {fileID: 3901833431230868314}
   - component: {fileID: 3844190322150875557}
+  - component: {fileID: 5546533804534486745}
   m_Layer: 8
   m_Name: Player_V4(uNet)
   m_TagString: Untagged
@@ -1477,6 +1478,20 @@ MonoBehaviour:
   syncInterval: 0.1
   defaultLanguages: {fileID: 0}
   omniTongue: 0
+--- !u!114 &5546533804534486745
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1133514949248654}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 083cdbda08b981d4fa7ac7b186427667, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerClothes: {fileID: 975496025995574624}
+  waitTimeCleaningClothes: 0.1
 --- !u!1 &1147423205297840
 GameObject:
   m_ObjectHideFlags: 0
@@ -8234,7 +8249,7 @@ SpriteRenderer:
   m_SortingLayerID: -902452607
   m_SortingLayer: 22
   m_SortingOrder: 20
-  m_Sprite: {fileID: -4549444404219585148, guid: 2adbceb9cc674484cb9a2c58b41d5493,
+  m_Sprite: {fileID: 7660122581263827943, guid: 2adbceb9cc674484cb9a2c58b41d5493,
     type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0

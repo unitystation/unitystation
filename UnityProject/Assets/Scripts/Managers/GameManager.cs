@@ -160,6 +160,10 @@ public partial class GameManager : MonoBehaviour, IInitialise
 
 	[NonSerialized]
 	public bool DisconnectExpected = false;
+
+	///tuto part
+    public bool onTuto;
+    public string language;
 	
 	void IInitialise.Initialise()
 	{

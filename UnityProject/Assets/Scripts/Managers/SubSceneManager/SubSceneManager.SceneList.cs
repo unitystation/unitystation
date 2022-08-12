@@ -90,9 +90,19 @@ public partial class SubSceneManager
 		//Reset map selector
 		AdminForcedMainStation = "Random";
 
-		loadTimer.IncrementLoadBar($"Loading {serverChosenMainStation}");
-		//load main station
-		yield return StartCoroutine(LoadSubScene(serverChosenMainStation, loadTimer));
+		if(!GameManager.Instance.onTuto)
+		{
+			loadTimer.IncrementLoadBar($"Loading {serverChosenMainStation}");
+			///load main station
+			yield return StartCoroutine(LoadSubScene(serverChosenMainStation, loadTimer));
+		}
+		else
+		{
+			loadTimer.IncrementLoadBar($"Loading Tutorial");
+			///load tutorial
+			yield return StartCoroutine(LoadSubScene("Painstation", loadTimer));
+		}
+
 		loadedScenesList.Add(new SceneInfo
 		{
 			SceneName = serverChosenMainStation,

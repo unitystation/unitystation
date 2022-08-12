@@ -27,6 +27,15 @@ public partial class SubSceneManager : NetworkBehaviour
 	public Scene SyndicateScene { get; private set; }
 	public bool WizardLoaded { get; private set; }
 
+
+	///Tutorial Map
+	[SerializeField] private AwayWorldListSO tutorialAwayWorldList;
+
+	[SerializeField] private MainStationListSO tutorialMainStationList = null;
+	[SerializeField] private AsteroidListSO tutorialAsteroidList = null;
+	[SerializeField] private AdditionalSceneListSO tutorialAdditionalSceneList = null;
+
+
 	void Awake()
 	{
 		if (Instance == null)
@@ -36,6 +45,17 @@ public partial class SubSceneManager : NetworkBehaviour
 		else
 		{
 			Destroy(gameObject);
+		}
+
+		//when going to tutorial, replace normal map by tutorial map
+		if(GameManager.Instance.onTuto)
+		{
+			Debug.Log("GO TO TUTO ON");
+			awayWorldList = tutorialAwayWorldList;
+			mainStationList = tutorialMainStationList;
+			asteroidList = tutorialAsteroidList;
+			additionalSceneList = tutorialAdditionalSceneList;
+			AdminForcedMainStation = "";
 		}
 	}
 

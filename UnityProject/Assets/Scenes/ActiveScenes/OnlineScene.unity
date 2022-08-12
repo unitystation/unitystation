@@ -12036,6 +12036,16 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 279700672564388095, guid: 829f4ca992b848d6bb4d007fb9c112e1,
+        type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 279700672564388095, guid: 829f4ca992b848d6bb4d007fb9c112e1,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 290854646927461231, guid: 829f4ca992b848d6bb4d007fb9c112e1,
         type: 3}
       propertyPath: m_AnchorMax.y
@@ -12751,6 +12761,21 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 85.5
       objectReference: {fileID: 0}
+    - target: {fileID: 3390169729617587763, guid: 829f4ca992b848d6bb4d007fb9c112e1,
+        type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3390169730289305317, guid: 829f4ca992b848d6bb4d007fb9c112e1,
+        type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3390169730289305317, guid: 829f4ca992b848d6bb4d007fb9c112e1,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3463004965220691682, guid: 829f4ca992b848d6bb4d007fb9c112e1,
         type: 3}
       propertyPath: m_AnchoredPosition.x
@@ -13089,6 +13114,11 @@ PrefabInstance:
     - target: {fileID: 5013526283225713844, guid: 829f4ca992b848d6bb4d007fb9c112e1,
         type: 3}
       propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5105612633606597724, guid: 829f4ca992b848d6bb4d007fb9c112e1,
+        type: 3}
+      propertyPath: m_SizeDelta.y
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5109360477169889918, guid: 829f4ca992b848d6bb4d007fb9c112e1,
@@ -14652,9 +14682,17 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   awayWorldList: {fileID: 11400000, guid: 9336c6ca9dac2d94eb90f703a23a7484, type: 2}
-  mainStationList: {fileID: 11400000, guid: 9b0018951af67314ca9e85705e0d2ce4, type: 2}
+  mainStationList: {fileID: 11400000, guid: 12b6f6af3d32b3848b75882daea161a8, type: 2}
   asteroidList: {fileID: 11400000, guid: b1d9059b8db83ab479c9dffdc939b281, type: 2}
   additionalSceneList: {fileID: 11400000, guid: 6370dfaa39db5574aa7cc451537de4f1,
+    type: 2}
+  tutorialAwayWorldList: {fileID: 11400000, guid: acdff624f332747498b051257400a5e2,
+    type: 2}
+  tutorialMainStationList: {fileID: 11400000, guid: 12b6f6af3d32b3848b75882daea161a8,
+    type: 2}
+  tutorialAsteroidList: {fileID: 11400000, guid: 83c58caaeb776d64189451f9870f5bd2,
+    type: 2}
+  tutorialAdditionalSceneList: {fileID: 11400000, guid: bced25b77578eda46bd01626868ec7ac,
     type: 2}
 --- !u!1001 &2777430447514336469
 PrefabInstance:

@@ -15,6 +15,7 @@ namespace Systems.MobAIs
 		public RegisterTile FollowTarget;
 
 		public float PriorityBalance = 25;
+		public int startMovingDistance = 2;
 
 		/// <summary>
 		/// Make the mob start following a target
@@ -63,7 +64,7 @@ namespace Systems.MobAIs
 			var localMoveTo = moveTo.ToLocal(mobTile.Matrix).RoundToInt();
 
 			var distance = TargetDistance();
-			if (distance > 2)
+			if (distance > startMovingDistance)
 			{
 				if (mobTile.Matrix.MetaTileMap.IsPassableAtOneTileMap(mobTile.LocalPositionServer, localMoveTo, true))
 				{
@@ -76,7 +77,8 @@ namespace Systems.MobAIs
 			}
 			else
 			{
-				Move(stepDirectionWorld);
+				if(!GameManager.Instance.onTuto)
+					Move(stepDirectionWorld);
 			}
 		}
 	}

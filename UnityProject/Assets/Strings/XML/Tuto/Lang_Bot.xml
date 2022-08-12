@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<languages>
+    <English>
+        <string name = "template">template</string>
+        <string name = "SPAWN_MOVE">Welcome aboard ! &lt;br&gt;I am <b>A&lt;u_R0</b>, your training robot. &lt;br&gt;First of all, move with <b>WASD</b> to the table.</string>
+        <string name = "EQUIP">Equip the clothes on the table by getting it with <b>left click</b>, &lt;br&gt; and equipping it with <b>E</b>."</string>
+        <string name = "PDA_IN_ID">To take less place in your inventory, you can insert your PDA in your Identification Card by selectionning <b>the latter</b> and clicking on <b>the former</b> ! &lt;br&gt;You can also switch hands with the key <b>X</b>.</string>
+        <string name = "LIGHT">It's so dark ! I might lose sight of you, but you can't always interact and especially <b>pull me by right clicking me</b> and chose your action. &lt;br&gt;You can also toggle the light integrated on your PDA, like a messiah apporting a light bulb on a dark world, thrilling isn't it ? &lt;br&gt;No? &lt;br&gt;Well, I can't understand the thrill either, I am a robot after all.</string>
+        <string name = "MASK">My sensor detect an irregular amount of toxic CO2 in the left room. <b>Equip the mask and the oxygen</b> stocked in the bag, and don't forget to <b>turn your oxygen on !</b></string>
+        <string name = "NO_AIR">Be careful, there is a hole in the floor on the next room. You need to be ready : <b>equip the space suit</b> to protect yourself from the harsh environment, and use the item in this room to repare the hole by <b>using the rod on the empty space</b>, then <b>use floor tile on the scaffold</b> to build a base tile and lastly <b>use the last one</b> to finish the floor tile !</string>
+        <string name = "FOOD">Congratulation on completing your first mission ! &lt;br&gt; you can rest, eat and drink here, just click on the machines and see what they give you !"</string>
+        <string name = "FIREARM">This is the Firearm Training Ground, you can train your aim and the guns here.&lt;br&gt;Remember to not waste your ammo in real situation !"</string>
+        <string name = "HEAL">This is a medbay, where you can heal your wounds here. &lt;br&gt;There should be medical care inside the kit !"</string>
+        <string name = "FARM">Look at this room ! Here you can farm food, that are essential to survival !&lt;br&gt;Take a seed from the <b>Mega Seed Servitor</b>, plant it in the <b>Hydroponics Tray</b> and wait for it to grow ! &lt;br&gt;You can water use the <b>bucket</b> to add or remove water, the <b>Spade</b> to dig and move dirt, and the <b>Cultivator</b> to remove weeds.&lt;br&gt;When the plant has grow, you can take them and not only eat them, but you can also put one in the <b>Seed Extractor</b> to extract information from the seed !</string>
+        <string name = "EVAC">It seem like you can leave this place here.&lt;br&gt;<b>Thank you for coming, and good luck for your future missions, {PlayerList.Instance.InGamePlayers[0].Name} !</b>"</string>
+    </English>
+    <French>
+        <string name = "SPAWN_MOVE">template</string>
+        <string name = "EQUIP">template</string>
+        <string name = "PDA_IN_ID">template</string>
+        <string name = "LIGHT">template</string>
+        <string name = "MASK">template</string>
+        <string name = "NO_AIR">template</string>
+        <string name = "FOOD">template</string>
+        <string name = "FIREARM">template</string>
+        <string name = "HEAL">template</string>
+        <string name = "FARM">template</string>
+        <string name = "EVAC">template</string>
+    </French>
+</languages>
