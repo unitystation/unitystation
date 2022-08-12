@@ -12,7 +12,7 @@ namespace Items.Science
 
 	public class ArtifactSliver : MonoBehaviour
 	{
-		public ArtifactData sliverData;
+		internal ArtifactData sliverData;
 
 		public string ID;
 
@@ -35,7 +35,7 @@ namespace Items.Science
 			meleeEffect = GetComponent<MeleeEffect>();
 		}
 
-		public void SetUpValues(ArtifactData parentData, string Id)
+		internal void SetUpValues(ArtifactData parentData, string Id)
 		{
 			ID = Id;
 			sliverData = parentData;

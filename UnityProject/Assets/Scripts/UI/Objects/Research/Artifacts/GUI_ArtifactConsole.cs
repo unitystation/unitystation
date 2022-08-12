@@ -31,7 +31,7 @@ namespace UI.Objects.Research
 		[SerializeField]
 		private Dropdown damageEffectDropdown;
 
-		private ArtifactData inputData = new ArtifactData();
+		internal ArtifactData inputData = new ArtifactData();
 
 		private ConsoleState consoleState;
 
@@ -195,15 +195,13 @@ namespace UI.Objects.Research
 			inputData.DamageEffectValue = damageEffectDropdown.value;
 			inputData.InteractEffectValue = interactEffectDropdown.value;
 
-			console.InputData = inputData;
-
-			if(CustomNetworkManager.Instance._isServer)
+			if(CustomNetworkManager.Instance._isServer == false)
 			{
-				console.RpcSetInputDataClients(inputData);
+				console.CmdSetInputData(this.inputData);
 			}
 			else
 			{
-				console.CmdSetInputDataServer(inputData);
+				console.SetInputDataServer(this.inputData);
 			}
 		}
 

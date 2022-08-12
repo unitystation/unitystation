@@ -62,9 +62,9 @@ namespace Items.Science
 	public class ArtifactDataFile : VirtualData
 	{
 		//Data saved onto disk by console
-		public ArtifactData inputData = new ArtifactData();
+		internal ArtifactData inputData = new ArtifactData();
 		//Correct Data, used to judge value for export
-		public ArtifactData correctData = new ArtifactData();
+		internal ArtifactData correctData = new ArtifactData();
 
 		public void UpdateArtifactDataSize()
 		{
