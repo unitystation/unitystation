@@ -15959,6 +15959,7 @@ GameObject:
   - component: {fileID: 2045227081}
   - component: {fileID: 2045227083}
   - component: {fileID: 2045227084}
+  - component: {fileID: 2045227085}
   m_Layer: 25
   m_Name: RobotSpawn
   m_TagString: Untagged
@@ -15994,7 +15995,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -1, y: 1}
+  m_Offset: {x: -1, y: 1.5}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -16005,7 +16006,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 5, y: 3}
+  m_Size: {x: 5, y: 6}
   m_EdgeRadius: 0
 --- !u!114 &2045227084
 MonoBehaviour:
@@ -16024,6 +16025,27 @@ MonoBehaviour:
   tutoBot: {fileID: 5456015051303039048, guid: ef518a6041b176e4181e91942b9bc24a, type: 3}
   spawnPoint: {fileID: 1810868326}
   tutoParent: {fileID: 1435928277}
+--- !u!50 &2045227085
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2045227080}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 0
+  m_Material: {fileID: 0}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 1
+  m_Constraints: 7
 --- !u!1 &2060956258
 GameObject:
   m_ObjectHideFlags: 0

@@ -200,6 +200,7 @@ namespace UI
 			_ = SoundManager.Play(CommonSounds.Instance.Click01);
 			EventManager.Broadcast(Event.RoundEnded);
 			HideAllMenus();
+			GameManager.Instance.onTuto = false;
 			GameManager.Instance.DisconnectExpected = true;
 			StopNetworking();
 			SceneManager.LoadScene("Lobby");

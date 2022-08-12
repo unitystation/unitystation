@@ -27,6 +27,12 @@ public partial class SubSceneManager : NetworkBehaviour
 	public Scene SyndicateScene { get; private set; }
 	public bool WizardLoaded { get; private set; }
 
+	///Normal Map
+	[SerializeField] private AwayWorldListSO normalAwayWorldList;
+
+	[SerializeField] private MainStationListSO normalMainStationList = null;
+	[SerializeField] private AsteroidListSO normalAsteroidList = null;
+	[SerializeField] private AdditionalSceneListSO normalAdditionalSceneList = null;
 
 	///Tutorial Map
 	[SerializeField] private AwayWorldListSO tutorialAwayWorldList;
@@ -50,12 +56,19 @@ public partial class SubSceneManager : NetworkBehaviour
 		//when going to tutorial, replace normal map by tutorial map
 		if(GameManager.Instance.onTuto)
 		{
-			Debug.Log("GO TO TUTO ON");
 			awayWorldList = tutorialAwayWorldList;
 			mainStationList = tutorialMainStationList;
 			asteroidList = tutorialAsteroidList;
 			additionalSceneList = tutorialAdditionalSceneList;
 			AdminForcedMainStation = "";
+		}
+		else
+		{
+			awayWorldList = normalAwayWorldList;
+			mainStationList = normalMainStationList;
+			asteroidList = normalAsteroidList;
+			additionalSceneList = normalAdditionalSceneList;
+			AdminForcedMainStation = "Random";
 		}
 	}
 
