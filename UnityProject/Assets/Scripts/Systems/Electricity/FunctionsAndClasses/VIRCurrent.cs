@@ -36,10 +36,12 @@ namespace Systems.Electricity
 			Current = _Current.Current;
 			Strength = _Current.Strength;
 		}
+
 		public double GetCurrent()
 		{
 			return Current.current * Strength;
 		}
+
 		public override string ToString()
 		{
 			return string.Format("(" + Current.current + "*" + Strength + ")");
@@ -110,12 +112,14 @@ namespace Systems.Electricity
 
 		public double Current()
 		{
-			double Current = 0;
+			double current = 0;
+
 			foreach (var wrapCurrent in CurrentSources)
 			{
-				Current = Current + wrapCurrent.GetCurrent();
+				current += wrapCurrent.GetCurrent();
 			}
-			return Current;
+
+			return current;
 		}
 
 		public override string ToString()
