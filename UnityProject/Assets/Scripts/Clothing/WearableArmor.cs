@@ -17,6 +17,7 @@ namespace Clothing
 
 		[SerializeField] [Tooltip("What body parts does this item protect and how well does it protect.")]
 		private List<ArmoredBodyPart> armoredBodyParts = new List<ArmoredBodyPart>();
+		public List<ArmoredBodyPart> ArmoredBodyParts => armoredBodyParts;
 
 		private PlayerHealthV2 playerHealthV2;
 

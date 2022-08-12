@@ -17,6 +17,7 @@ namespace Shared.Systems.ObjectConnection
 		Turret,
 		Acu,
 		ResearchServer,
+		Artifact,
 	}
 
 	public interface IMultitoolLinkable

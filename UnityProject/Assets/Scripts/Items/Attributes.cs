@@ -1,5 +1,7 @@
 using System.Linq;
 using UnityEngine;
+using UnityEngine.Events;
+using System;
 using Mirror;
 using Core.Editor.Attributes;
 using Detective;
@@ -38,6 +40,14 @@ public class Attributes : NetworkBehaviour, IRightClickable, IExaminable, IServe
 	[SerializeField, BoxGroup("Cargo"), PrefabModeOnly]
 	private int exportCost = 0;
 
+	public class ExportEvent : UnityEvent<string, string> { }
+
+	/// <summary>
+	/// Server-side event invoked when this object is sold at cargo
+	/// </summary>
+	[NonSerialized]
+	public ExportEvent onExport = new ExportEvent();
+
 	public int ExportCost
 	{
 		get
@@ -71,6 +81,13 @@ public class Attributes : NetworkBehaviour, IRightClickable, IExaminable, IServe
 	public void SetExportCost(int value)
 	{
 		exportCost = value;
+	}
+
+
+	[Server]
+	public void OnExport()
+	{
+		onExport.Invoke(exportName, exportMessage);
 	}
 
 	[SyncVar(hook = nameof(SyncArticleDescription))]

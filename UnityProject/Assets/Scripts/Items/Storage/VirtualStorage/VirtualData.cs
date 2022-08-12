@@ -1,4 +1,5 @@
 ﻿using Systems.Research;
+using Objects.Research;
 
 namespace Items.Storage.VirtualStorage
 {

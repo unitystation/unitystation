@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Text;
 using UnityEngine;
+using Objects.Research;
 
 /// <summary>
 /// Basic scanner that prints position of artifacts nearby

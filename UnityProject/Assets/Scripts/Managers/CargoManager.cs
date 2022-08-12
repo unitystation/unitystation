@@ -13,6 +13,8 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.SceneManagement;
 using NaughtyAttributes;
+using Items.Science;
+using Items.Storage.VirtualStorage;
 
 namespace Systems.Cargo
 {
@@ -58,6 +60,8 @@ namespace Systems.Cargo
 		[SerializeField, BoxGroup("Random Bounties")] private List<CargoBounty> randomBountiesList = new List<CargoBounty>();
 
 		private static readonly List<int> randomJunkPrices = new List<int> { 5, 10, 15 };
+
+		public static List<string> ResearchedArtifacts { get; private set; }
 
 		private void Awake()
 		{
@@ -113,6 +117,7 @@ namespace Systems.Cargo
 			CurrentOrders.Clear();
 			CurrentCart.Clear();
 			SoldHistory.Clear();
+			ClearStatics();
 			ShuttleStatus = ShuttleStatus.DockedStation;
 			Credits = 1000;
 			CurrentFlyTime = 0f;
@@ -310,21 +315,20 @@ namespace Systems.Cargo
 				}
 			}
 
-			// If there is no bounty for the item - we dont destroy it.
-			var credits = Instance.GetSellPrice(obj);
-			if(credits == 0) credits = randomJunkPrices.PickRandom();
-			Credits += credits;
-			OnCreditsUpdate.Invoke();
-
 			string exportName;
 			if (obj.TryGetComponent<Attributes>(out var attributes))
 			{
+				attributes.OnExport();
 				exportName = string.IsNullOrEmpty(attributes.ExportName) ? attributes.ArticleName : attributes.ExportName;
 			}
 			else
 			{
 				exportName = obj.gameObject.ExpensiveName();
 			}
+
+			// If there is no bounty for the item - we dont destroy it.
+			var credits = Instance.GetSellPrice(obj);
+			if (credits == 0) credits = randomJunkPrices.PickRandom();
 
 			if (exportedItems.TryGetValue(exportName, out ExportedItem export) == false)
 			{
@@ -336,6 +340,9 @@ namespace Systems.Cargo
 				exportedItems.Add(exportName, export);
 			}
 
+			Credits += credits;
+			OnCreditsUpdate.Invoke();
+
 			var count = obj.TryGetComponent<Stackable>(out var stackable) ? stackable.Amount : 1;
 
 			export.Count += count;
@@ -343,6 +350,7 @@ namespace Systems.Cargo
 
 			if (obj.TryGetComponent<ItemAttributesV2>(out var itemAttributes))
 			{
+
 				//charge cargo for getting rid of trash through centeral commmunications.
 				if (itemAttributes.HasTrait(CommonTraits.Instance.Trash))
 				{
@@ -510,6 +518,17 @@ namespace Systems.Cargo
 			}
 			OnCreditsUpdate.Invoke();
 			OnCartUpdate.Invoke();
+		}
+
+		[RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
+		public static void ClearStatics()
+		{
+			ResearchedArtifacts = new List<string>();
+		}
+
+		public static void AddArtifactToList(string ID)
+		{
+			ResearchedArtifacts.Add(ID);
 		}
 
 		public int GetSellPrice(GameObject obj)

@@ -12,6 +12,7 @@ namespace Systems.Research
 		public int researchPoints = 10000;
 		public List<Technology> researchedTech = new List<Technology>();
 
+		public List<string> researchedSliverIDs = new List<string>();
 
 		public void Merge(Techweb techwebtToMerge, bool mergeResearchPoints = false)
 		{

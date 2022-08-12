@@ -72,8 +72,6 @@ namespace Systems.Research.Objects
 		//TODO
 		//Once Techweb is fully implemented:
 		//TechWebUpdateEvent should be invoked with (1, UpdateAvailiableDesigns()) whenever a new node is researched
-		//TechWebUpdateEvent should be invoked with (0, null) when a Techweb Drive is removed from its server
-		//TechWebUpdateEvent should be invoked with (1, UpdateAvailiableDesigns()) whenever a new drive is added to a server
 
 		public List<string> UpdateAvailableDesigns()
 		{
@@ -109,6 +107,7 @@ namespace Systems.Research.Objects
 			{
 				Inventory.ServerDrop(disk.gameObject.PickupableOrNull().ItemSlot);
 				techweb = null;
+				TechWebUpdateEvent?.Invoke(0, null);
 			}
 		}
 
@@ -120,6 +119,7 @@ namespace Systems.Research.Objects
 				//the techweb disk will only have one file so its fine if we just get the first ever one.
 				//if for whatever reason it has more; it's going to be a bug thats not possible.
 				if (hardDisk.DataOnStorage[0] is TechwebFiles c) techweb = c.Techweb;
+				TechWebUpdateEvent?.Invoke(1, AvailableDesigns);
 			}
 		}
 
@@ -172,6 +172,17 @@ namespace Systems.Research.Objects
 			techweb.AddResearchPoints(points);
 			PointTotalSourceList[sourcename] += points;
 			return points;
+		}
+
+		public bool AddArtifactIDtoTechWeb(string ID)
+		{
+			if (techweb == null) return false;
+
+			if (techweb.researchedSliverIDs.Contains(ID)) return false;
+
+			techweb.researchedSliverIDs.Add(ID);
+
+			return true;
 		}
 
 		#region MultitoolInteraction

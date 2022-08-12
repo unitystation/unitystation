@@ -18,6 +18,7 @@ namespace CustomInspectors
 			{ MultitoolConnectionType.Acu, Color.cyan },
 			{ MultitoolConnectionType.FireAlarm, new Color(1, 0.5f, 0, 1) },
 			{ MultitoolConnectionType.LightSwitch, Color.yellow },
+			{ MultitoolConnectionType.Artifact, Color.magenta },
 		};
 
 		public override void OnEnableInEditor(object target)

@@ -19,7 +19,7 @@ using Messages.Server;
 using Tilemaps.Behaviours.Layers;
 using UnityEngine.Profiling;
 using Player;
-using Systems.Research;
+using Objects.Research;
 
 public partial class GameManager : MonoBehaviour, IInitialise
 {
