@@ -55,7 +55,7 @@ namespace Objects.Research
 
 		private Coroutine animationCoroutine = null;
 
-		[SyncVar] public ArtifactData artifactData = new ArtifactData();
+		[SyncVar] internal ArtifactData artifactData = new ArtifactData();
 
 		public ArtifactDataSO ArtifactDataSO;
 
@@ -473,7 +473,7 @@ namespace Objects.Research
 		Organic = 2,
 	}
 
-	public struct ArtifactData //Artifact Data contains all properties of the artifact that will be transferred to samples and/or guessed by the research console, placed in a struct to make data transfer easier.
+	internal struct ArtifactData //Artifact Data contains all properties of the artifact that will be transferred to samples and/or guessed by the research console, placed in a struct to make data transfer easier.
 	{
 		public ArtifactData(int radlvl = 0, int bluelvl = 0, int bnalvl = 0, int mss = 0, ArtifactType type = ArtifactType.Geological, int areaEffectValue = 0, int interactEffectValue = 0, int damageEffectValue = 0, string iD = "")
 		{

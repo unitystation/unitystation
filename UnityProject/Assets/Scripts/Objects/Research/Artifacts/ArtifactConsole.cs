@@ -17,7 +17,7 @@ namespace Objects.Research
 
 		public ArtifactDataDisk dataDisk { get; set; }
 
-		[NonSerialized] public ArtifactData InputData = new ArtifactData();
+		[NonSerialized, SyncVar(hook = nameof(SyncConsoleData))] internal ArtifactData InputData = new ArtifactData();
 
 		[SyncVar,NonSerialized] public bool HasDisk = false;
 
@@ -28,6 +28,20 @@ namespace Objects.Research
 		private void Awake()
 		{
 			itemStorage = GetComponent<ItemStorage>();
+		}
+
+		[Command(requiresAuthority = false)]
+		internal void CmdSetInputData(ArtifactData InputDataClient, NetworkConnectionToClient sender = null)
+		{
+			if (sender == null) return;
+			if (Validations.CanApply(PlayerList.Instance.Get(sender).Script, this.gameObject, NetworkSide.Server, false, ReachRange.Standard) == false) return;
+			InputData = InputDataClient;
+		}
+
+		[Server]
+		internal void SetInputDataServer(ArtifactData InputDataServer)
+		{
+			InputData = InputDataServer;
 		}
 
 		public bool WillInteract(HandApply interaction, NetworkSide side)
@@ -71,19 +85,9 @@ namespace Objects.Research
 			StateChange?.Invoke();
 		}
 
-		[Command(requiresAuthority = false)]
-		public void CmdSetInputDataServer(ArtifactData inputDataClient)
+		private void SyncConsoleData(ArtifactData oldData, ArtifactData newData)
 		{
-			InputData = inputDataClient;
-			UpdateGUI();
-
-			RpcSetInputDataClients(InputData);
-		}
-
-		[ClientRpc]
-		public void RpcSetInputDataClients(ArtifactData inputDataServer)
-		{
-			InputData = inputDataServer;
+			InputData = newData;
 			UpdateGUI();
 		}
 
