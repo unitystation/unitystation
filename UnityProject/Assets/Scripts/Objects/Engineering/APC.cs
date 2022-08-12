@@ -208,20 +208,22 @@ namespace Objects.Engineering
 		/// </summary>
 		private void HandleDevices()
 		{
-			float Voltages = Voltage;
-			if (Voltages > 270)
-			{
-				Voltages = 0.001f;
-			}
-			float CalculatingResistance = new float();
+			float voltages = Voltage;
 
-			foreach (APCPoweredDevice Device in connectedDevices)
+			if (voltages > 270)
 			{
-				Device.PowerNetworkUpdate(Voltages);
-				CalculatingResistance += (1 / Device.Resistance);
+				voltages = 0.001f;
 			}
 
-			resistanceSourceModule.Resistance = (1 / CalculatingResistance);
+			float calculatingResistance = 0f;
+
+			foreach (APCPoweredDevice device in connectedDevices)
+			{
+				device.PowerNetworkUpdate(voltages);
+				calculatingResistance += (1 / device.Resistance);
+			}
+
+			resistanceSourceModule.Resistance = (1 / calculatingResistance);
 		}
 
 		// -----------------------------------------------------
