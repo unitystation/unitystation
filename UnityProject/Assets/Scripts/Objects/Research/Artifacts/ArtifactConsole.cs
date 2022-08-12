@@ -88,7 +88,6 @@ namespace Objects.Research
 		private void SyncConsoleData(ArtifactData oldData, ArtifactData newData)
 		{
 			InputData = newData;
-			Debug.Log("Data has been synced");
 			UpdateGUI();
 		}
 
