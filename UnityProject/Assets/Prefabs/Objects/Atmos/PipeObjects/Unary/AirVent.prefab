@@ -213,7 +213,7 @@ PrefabInstance:
         type: 3}
       propertyPath: customNetTransform
       value: 
-      objectReference: {fileID: 937059977152898907}
+      objectReference: {fileID: 0}
     - target: {fileID: 8163608160046166977, guid: 3937c48f98f9cd043babc5471ee77682,
         type: 3}
       propertyPath: initialName
@@ -237,18 +237,6 @@ PrefabInstance:
         type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3937c48f98f9cd043babc5471ee77682, type: 3}
---- !u!114 &937059977152898907 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 4416806320167582707, guid: 3937c48f98f9cd043babc5471ee77682,
-    type: 3}
-  m_PrefabInstance: {fileID: 3479803565540039848}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2712773701786103897}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 579884b05ae74e8499329b64997147d3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &2712773701786103897 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1580494814286032113, guid: 3937c48f98f9cd043babc5471ee77682,
@@ -276,18 +264,22 @@ MonoBehaviour:
     Connections:
       Directions:
       - Bool: 1
+        MappedNeeded: 1
         pipeType: 1
         PortType: 3
         flagLogic: 0
       - Bool: 0
+        MappedNeeded: 0
         pipeType: 1
         PortType: 0
         flagLogic: 0
       - Bool: 0
+        MappedNeeded: 0
         pipeType: 1
         PortType: 0
         flagLogic: 0
       - Bool: 0
+        MappedNeeded: 0
         pipeType: 1
         PortType: 0
         flagLogic: 0
