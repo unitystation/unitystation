@@ -1,9 +1,7 @@
-﻿using System;
-using System.Collections;
-using System.Linq;
+﻿using System.Linq;
+using Core.Transforms;
 using UnityEngine;
 using Mirror;
-using Player.Movement;
 using UnityEngine.Serialization;
 
 namespace Objects

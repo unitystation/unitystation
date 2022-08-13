@@ -1,0 +1,162 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &6405215018495290318
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 1237339817834502954, guid: 7976a84ef9209f14697cdd941b913e2a,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: c385ee2e573c8d94bbe2887e69a9510f,
+        type: 2}
+    - target: {fileID: 2078214216639179968, guid: 7976a84ef9209f14697cdd941b913e2a,
+        type: 3}
+      propertyPath: foreverID
+      value: 8gzr!x7_Yea@71L--kC5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2762265701145370199, guid: 7976a84ef9209f14697cdd941b913e2a,
+        type: 3}
+      propertyPath: SpeedMultiplier
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4791952605902770127, guid: 7976a84ef9209f14697cdd941b913e2a,
+        type: 3}
+      propertyPath: hitDamage
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 4791952605902770127, guid: 7976a84ef9209f14697cdd941b913e2a,
+        type: 3}
+      propertyPath: exportName
+      value: hand pick
+      objectReference: {fileID: 0}
+    - target: {fileID: 4791952605902770127, guid: 7976a84ef9209f14697cdd941b913e2a,
+        type: 3}
+      propertyPath: initialName
+      value: Hand Pick
+      objectReference: {fileID: 0}
+    - target: {fileID: 4791952605902770127, guid: 7976a84ef9209f14697cdd941b913e2a,
+        type: 3}
+      propertyPath: throwDamage
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 4791952605902770127, guid: 7976a84ef9209f14697cdd941b913e2a,
+        type: 3}
+      propertyPath: initialDescription
+      value: A small pickaxe for taking rock samples.
+      objectReference: {fileID: 0}
+    - target: {fileID: 4791952605902770127, guid: 7976a84ef9209f14697cdd941b913e2a,
+        type: 3}
+      propertyPath: initialTraits.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4791952605902770127, guid: 7976a84ef9209f14697cdd941b913e2a,
+        type: 3}
+      propertyPath: attackVerbs.Array.data[2]
+      value: impaled
+      objectReference: {fileID: 0}
+    - target: {fileID: 4791952605902770127, guid: 7976a84ef9209f14697cdd941b913e2a,
+        type: 3}
+      propertyPath: itemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 0b395bda1e929674e9fec2099782a493,
+        type: 2}
+    - target: {fileID: 4791952605902770127, guid: 7976a84ef9209f14697cdd941b913e2a,
+        type: 3}
+      propertyPath: initialTraits.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 5eafba0d7388d428c8e08ed1b5d5d260,
+        type: 2}
+    - target: {fileID: 4791952605902770127, guid: 7976a84ef9209f14697cdd941b913e2a,
+        type: 3}
+      propertyPath: initialTraits.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: fbb1b74396391904597b60321993fa8b,
+        type: 2}
+    - target: {fileID: 4791952605902770127, guid: 7976a84ef9209f14697cdd941b913e2a,
+        type: 3}
+      propertyPath: itemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 4111f042fe2174641bfba131ce87df1a,
+        type: 2}
+    - target: {fileID: 4930866777566109869, guid: 7976a84ef9209f14697cdd941b913e2a,
+        type: 3}
+      propertyPath: m_Name
+      value: HandPick
+      objectReference: {fileID: 0}
+    - target: {fileID: 4935513176033598937, guid: 7976a84ef9209f14697cdd941b913e2a,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4935513176033598937, guid: 7976a84ef9209f14697cdd941b913e2a,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4935513176033598937, guid: 7976a84ef9209f14697cdd941b913e2a,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4935513176033598937, guid: 7976a84ef9209f14697cdd941b913e2a,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4935513176033598937, guid: 7976a84ef9209f14697cdd941b913e2a,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4935513176033598937, guid: 7976a84ef9209f14697cdd941b913e2a,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4935513176033598937, guid: 7976a84ef9209f14697cdd941b913e2a,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4935513176033598937, guid: 7976a84ef9209f14697cdd941b913e2a,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4935513176033598937, guid: 7976a84ef9209f14697cdd941b913e2a,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4935513176033598937, guid: 7976a84ef9209f14697cdd941b913e2a,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4935513176033598937, guid: 7976a84ef9209f14697cdd941b913e2a,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5042243983495201073, guid: 7976a84ef9209f14697cdd941b913e2a,
+        type: 3}
+      propertyPath: customNetTransform
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 5042273109359746329, guid: 7976a84ef9209f14697cdd941b913e2a,
+        type: 3}
+      propertyPath: m_AssetId
+      value: 8035f93722ea6604ba22fb24db384b04
+      objectReference: {fileID: 0}
+    - target: {fileID: 5087942406049846257, guid: 7976a84ef9209f14697cdd941b913e2a,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: f96668f5a8009d04a8c257e0715d16f6,
+        type: 3}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 7976a84ef9209f14697cdd941b913e2a, type: 3}

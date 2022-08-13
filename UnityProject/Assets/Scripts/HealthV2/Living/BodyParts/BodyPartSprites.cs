@@ -1,6 +1,6 @@
-﻿using Systems.Clothing;
+﻿using Core.Transforms;
+using Systems.Clothing;
 using HealthV2;
-using Mirror;
 using Newtonsoft.Json;
 using UnityEngine;
 

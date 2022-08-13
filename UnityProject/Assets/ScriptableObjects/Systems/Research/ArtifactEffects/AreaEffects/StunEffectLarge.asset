@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f79c237d2ddf29f4dbaab876bbc96fb9, type: 3}
+  m_Name: StunEffectLarge
+  m_EditorClassIdentifier: 
+  GuessIndex: 1
+  effectShapeType: 1
+  coolDown: 15
+  AuraRadius: 15
+  AllowBodySplitting: 0
+  StunDuration: 6
+  DropItems: 1
+  ArmourBlockable: 1
+  StopMovement: 1
