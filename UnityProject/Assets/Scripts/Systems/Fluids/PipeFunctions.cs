@@ -273,6 +273,9 @@ namespace Systems.Pipes
 	{
 		public bool Bool;
 
+		[Tooltip("Whether this connection is needed if mapped (used to detected unconnected monopipes in Tests)")]
+		public bool MappedNeeded;
+
 		[EnumFlags] public PipeType pipeType = PipeType.PipeRun;
 
 		//This is ignored if its net compatible, Probably Should but I dont got time
@@ -288,11 +291,12 @@ namespace Systems.Pipes
 
 		public ConnectAndType Copy()
 		{
-			var Newone = new ConnectAndType();
-			Newone.Bool = Bool;
-			Newone.pipeType = pipeType;
-			Newone.PortType = PortType;
-			return (Newone);
+			var newOne = new ConnectAndType();
+			newOne.Bool = Bool;
+			newOne.pipeType = pipeType;
+			newOne.PortType = PortType;
+			newOne.MappedNeeded = MappedNeeded;
+			return newOne;
 		}
 	}
 

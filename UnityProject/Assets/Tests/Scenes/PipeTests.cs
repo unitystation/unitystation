@@ -59,6 +59,8 @@ namespace Tests.Scenes
 				foreach (var connection in device.pipeData.Connections.Directions)
 				{
 					if(connection.Bool == false) continue;
+					if(connection.MappedNeeded == false) continue;
+					
 					connectionsNeeded++;
 				}
 
