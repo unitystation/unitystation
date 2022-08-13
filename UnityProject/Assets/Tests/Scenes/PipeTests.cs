@@ -34,8 +34,6 @@ namespace Tests.Scenes
 			{
 				mono.pipeData.MonoPipe = mono;
 
-				if(mono.SpawnedFromItem == false) continue;
-
 				int offset = PipeFunctions.GetOffsetAngle(mono.transform.localRotation.eulerAngles.z);
 				mono.pipeData.Connections.Rotate(offset);
 			}
@@ -167,7 +165,7 @@ namespace Tests.Scenes
 
 			var pipeLayerParentTransform = pipeLayer.transform.parent;
 
-			var monoStuff = monoPipes.Where(x => x.transform.localPosition == localPos &&
+			var monoStuff = monoPipes.Where(x => x.transform.localPosition.RoundToInt() == localPos &&
 			                                     x.transform.parent.OrNull()?.parent == pipeLayerParentTransform);
 
 			foreach (var mono in monoStuff)

@@ -275,18 +275,18 @@ MonoBehaviour:
     PipeLayer: 1
     Connections:
       Directions:
-      - Bool: 0
-        MappedNeeded: 0
-        pipeType: 1
-        PortType: 0
-        flagLogic: 0
-      - Bool: 0
-        MappedNeeded: 0
-        pipeType: 1
-        PortType: 0
-        flagLogic: 0
       - Bool: 1
         MappedNeeded: 1
+        pipeType: 1
+        PortType: 0
+        flagLogic: 0
+      - Bool: 0
+        MappedNeeded: 0
+        pipeType: 1
+        PortType: 0
+        flagLogic: 0
+      - Bool: 0
+        MappedNeeded: 0
         pipeType: 1
         PortType: 3
         flagLogic: 0
@@ -312,7 +312,7 @@ MonoBehaviour:
         Temperature: 293.15
     MonoPipe: {fileID: 0}
   Colour: {r: 1, g: 1, b: 1, a: 1}
-  spawnedFromItem: 0
+  spawnedFromItem: 1
   directional: {fileID: 0}
   initalMinTemperature: 170
   initalMaxTemperature: 293.15
@@ -333,7 +333,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  MethodRotation: 0
+  MethodRotation: 3
   ChangeSprites: 1
   isChangingSO: 0
   CurrentDirection: 3
