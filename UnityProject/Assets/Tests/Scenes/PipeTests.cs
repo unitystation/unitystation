@@ -14,14 +14,6 @@ namespace Tests.Scenes
 	{
 		public PipeTests(SceneTestData data) : base(data) { }
 
-		private static Vector3Int[] directions = new[]
-		{
-			new Vector3Int(0, 1),
-			new Vector3Int(1, 0),
-			new Vector3Int(0, -1),
-			new Vector3Int(-1, 0)
-		};
-
 		/// <summary>
 		/// Checks to make sure all monopipes (vents, scrubbers, etc...) are connected to pipes
 		/// </summary>
