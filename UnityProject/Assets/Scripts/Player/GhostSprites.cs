@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using Core.Transforms;
 using UnityEngine;
-using Mirror;
 
 /// <summary>
 /// Handles displaying the ghost sprites.
