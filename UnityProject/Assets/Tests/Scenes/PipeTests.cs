@@ -34,6 +34,8 @@ namespace Tests.Scenes
 			{
 				mono.pipeData.MonoPipe = mono;
 
+				if(mono.SpawnedFromItem == false) continue;
+
 				int offset = PipeFunctions.GetOffsetAngle(mono.transform.localRotation.eulerAngles.z);
 				mono.pipeData.Connections.Rotate(offset);
 			}
@@ -60,7 +62,7 @@ namespace Tests.Scenes
 				{
 					if(connection.Bool == false) continue;
 					if(connection.MappedNeeded == false) continue;
-					
+
 					connectionsNeeded++;
 				}
 
