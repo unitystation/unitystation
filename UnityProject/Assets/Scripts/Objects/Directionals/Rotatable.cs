@@ -1,5 +1,4 @@
-﻿using Core.Transforms;
-using Mirror;
+﻿using Mirror;
 using NaughtyAttributes;
 
 #if UNITY_EDITOR

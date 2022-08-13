@@ -3,7 +3,7 @@ using Systems.Explosions;
 using UnityEngine;
 using Mirror;
 using NaughtyAttributes;
-using Core.Transforms;
+using Core.Directionals;
 using Effects.Overlays;
 
 namespace Systems.Mob

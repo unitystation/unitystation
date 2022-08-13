@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using Core.Editor.Attributes;
-using Core.Transforms;
 using Items.Weapons;
 using Mirror;
 using Systems.Electricity;
