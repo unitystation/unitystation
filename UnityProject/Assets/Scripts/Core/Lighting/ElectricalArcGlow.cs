@@ -63,7 +63,7 @@ namespace Core.Lighting
 			LightSprite ambientLightSprite = ambientTransform.GetComponent<LightSprite>();
 			Color ambientColor = ambientLightSprite.Color;
 			ambientColor.a *= intensity;
-			ambientLightSprite.Color = ambientColor;
+			ambientLightSprite.Color = ambientColor;	
 		}
 
 		private void RunUpdate()

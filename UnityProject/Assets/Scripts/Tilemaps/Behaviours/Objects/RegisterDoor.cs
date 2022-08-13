@@ -1,7 +1,6 @@
 ﻿using System;
 using UnityEngine;
 using Core.Editor.Attributes;
-using Core.Transforms;
 using Doors;
 using Systems.Interaction;
 using Util;
