@@ -25,18 +25,28 @@ namespace Core.Sprite_Handler
 		private void SyncAirlockSprites(int oldValue, int newValue)
 		{
 			if(newValue == -1) return;
-			if (newValue >= paintOptions.Count)
+			UpdateCatalogue();
+		}
+
+		public void SetNewIndex(int newIndex)
+		{
+			index = newIndex;
+		}
+
+		private void UpdateCatalogue()
+		{
+			if (index >= paintOptions.Count)
 			{
 				Logger.LogError("[AirlockCatalgueSync] - Index out of bounds!");
 				return;
 			}
 			//g̵e̷t̴ ̵c̶o̷m̵p̷o̷n̵e̶n̵t̴
-			ServerChangeDoorBase(animatorV2, paintOptions[newValue].GetComponent<DoorAnimatorV2>());
-			ServerChangeOverlaySparks(animatorV2, paintOptions[newValue].GetComponent<DoorAnimatorV2>());
-			ServerChangeOverlayLights(animatorV2, paintOptions[newValue].GetComponent<DoorAnimatorV2>());
-			ServerChangeOverlayFill(animatorV2, paintOptions[newValue].GetComponent<DoorAnimatorV2>());
-			ServerChangeOverlayWeld(animatorV2, paintOptions[newValue].GetComponent<DoorAnimatorV2>());
-			ServerChangeOverlayHacking(animatorV2, paintOptions[newValue].GetComponent<DoorAnimatorV2>());
+			ServerChangeDoorBase(animatorV2, paintOptions[index].GetComponent<DoorAnimatorV2>());
+			ServerChangeOverlaySparks(animatorV2, paintOptions[index].GetComponent<DoorAnimatorV2>());
+			ServerChangeOverlayLights(animatorV2, paintOptions[index].GetComponent<DoorAnimatorV2>());
+			ServerChangeOverlayFill(animatorV2, paintOptions[index].GetComponent<DoorAnimatorV2>());
+			ServerChangeOverlayWeld(animatorV2, paintOptions[index].GetComponent<DoorAnimatorV2>());
+			ServerChangeOverlayHacking(animatorV2, paintOptions[index].GetComponent<DoorAnimatorV2>());
 		}
 
 		private void ServerChangeDoorBase(DoorAnimatorV2 paintableAirlock, DoorAnimatorV2 paintJob)

@@ -111,7 +111,7 @@ namespace Doors
 			}
 
 			AirlockCatalogueSync airlockAnim = paintableAirlock.GetComponent<AirlockCatalogueSync>();
-			airlockAnim.index = currentPaintJobIndex;
+			airlockAnim.SetNewIndex(currentPaintJobIndex);
 
 			TonerCartridge.SpendInk();
 		}
