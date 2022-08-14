@@ -8,7 +8,7 @@ namespace Core.Sprite_Handler
 {
 	public class AirlockCatalogueSync : NetworkBehaviour
 	{
-		public List<GameObject> paintableDoors = new List<GameObject>();
+		public List<GameObject> paintOptions = new List<GameObject>();
 
 		private DoorAnimatorV2 animatorV2;
 
@@ -25,13 +25,13 @@ namespace Core.Sprite_Handler
 		private void SyncAirlockSprites(int oldValue, int newValue)
 		{
 			if(newValue == -1) return;
-			//
-			ServerChangeDoorBase(animatorV2, paintableDoors[newValue].GetComponent<DoorAnimatorV2>());
-			ServerChangeOverlaySparks(animatorV2, paintableDoors[newValue].GetComponent<DoorAnimatorV2>());
-			ServerChangeOverlayLights(animatorV2, paintableDoors[newValue].GetComponent<DoorAnimatorV2>());
-			ServerChangeOverlayFill(animatorV2, paintableDoors[newValue].GetComponent<DoorAnimatorV2>());
-			ServerChangeOverlayWeld(animatorV2, paintableDoors[newValue].GetComponent<DoorAnimatorV2>());
-			ServerChangeOverlayHacking(animatorV2, paintableDoors[newValue].GetComponent<DoorAnimatorV2>());
+			//g̵e̷t̴ ̵c̶o̷m̵p̷o̷n̵e̶n̵t̴
+			ServerChangeDoorBase(animatorV2, paintOptions[newValue].GetComponent<DoorAnimatorV2>());
+			ServerChangeOverlaySparks(animatorV2, paintOptions[newValue].GetComponent<DoorAnimatorV2>());
+			ServerChangeOverlayLights(animatorV2, paintOptions[newValue].GetComponent<DoorAnimatorV2>());
+			ServerChangeOverlayFill(animatorV2, paintOptions[newValue].GetComponent<DoorAnimatorV2>());
+			ServerChangeOverlayWeld(animatorV2, paintOptions[newValue].GetComponent<DoorAnimatorV2>());
+			ServerChangeOverlayHacking(animatorV2, paintOptions[newValue].GetComponent<DoorAnimatorV2>());
 		}
 
 		private void ServerChangeDoorBase(DoorAnimatorV2 paintableAirlock, DoorAnimatorV2 paintJob)
