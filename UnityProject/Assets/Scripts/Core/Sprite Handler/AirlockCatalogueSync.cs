@@ -25,6 +25,11 @@ namespace Core.Sprite_Handler
 		private void SyncAirlockSprites(int oldValue, int newValue)
 		{
 			if(newValue == -1) return;
+			if (newValue >= paintOptions.Count)
+			{
+				Logger.LogError("[AirlockCatalgueSync] - Index out of bounds!");
+				return;
+			}
 			//g̵e̷t̴ ̵c̶o̷m̵p̷o̷n̵e̶n̵t̴
 			ServerChangeDoorBase(animatorV2, paintOptions[newValue].GetComponent<DoorAnimatorV2>());
 			ServerChangeOverlaySparks(animatorV2, paintOptions[newValue].GetComponent<DoorAnimatorV2>());

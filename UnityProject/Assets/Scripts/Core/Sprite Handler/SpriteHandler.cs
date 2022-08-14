@@ -362,15 +362,6 @@ public class SpriteHandler : MonoBehaviour
 		}
 	}
 
-	public void ClientSetCatalogue(List<int> ids)
-	{
-		SubCatalogue.Clear();
-		foreach (var id in ids)
-		{
-			SubCatalogue.Add(SpriteCatalogue.Instance.Catalogue[id]);
-		}
-	}
-
 	public void SetPaletteOfCurrentSprite(List<Color> newPalette, bool networked = true)
 	{
 		bool paletted = IsPaletted();

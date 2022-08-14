@@ -227,16 +227,6 @@ public class SpriteHandlerManager : NetworkBehaviour
 		}
 	}
 
-	[ClientRpc]
-	public void RpcClientUpdateCatalouges(int handlerID, List<int> ids, NetworkIdentity identity)
-	{
-		foreach (var thing in PresentSprites[identity].Values)
-		{
-			if(handlerID != thing.GetInstanceID()) continue;
-			thing.ClientSetCatalogue(ids);
-		}
-	}
-
 	public class SpriteChange
 	{
 		//SubCatalogue
