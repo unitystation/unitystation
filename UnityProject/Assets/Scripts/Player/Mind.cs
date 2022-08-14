@@ -31,6 +31,10 @@ public class Mind
 	public FloorSounds SecondaryStepSound;
 	public ChatModifier inventorySpeechModifiers = ChatModifier.None;
 	// Current way to check if it's not actually a ghost but a spectator, should set this not have it be the below.
+
+
+	public PlayerScript CurrentPlayScript => IsGhosting ? ghost : body;
+
 	public bool IsSpectator => occupation == null || body == null;
 
 	public bool ghostLocked;

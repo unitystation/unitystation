@@ -228,7 +228,7 @@ namespace Systems.Antagonists
 		{
 			if(isLocalPlayer == false) return;
 
-			AddNewActions();
+
 
 			UIManager.Instance.panelHudBottomController.AlienUI.SetActive(true);
 			UIManager.Instance.panelHudBottomController.AlienUI.SetUp(this);
@@ -239,9 +239,6 @@ namespace Systems.Antagonists
 		public override void OnStopLocalPlayer()
 		{
 			alienLight.SetActive(false);
-
-			RemoveOldActions();
-
 			UIManager.Instance.panelHudBottomController.AlienUI.TurnOff();
 		}
 
@@ -728,10 +725,9 @@ namespace Systems.Antagonists
 
 			RemoveGhostRole();
 
-			if (connectionToClient != null)
-			{
-				RpcRemoveActions();
-			}
+
+			RemoveActions();
+
 
 			ChangeAlienMode(AlienMode.Dead);
 
@@ -1098,24 +1094,6 @@ namespace Systems.Antagonists
 			return ActionData.Contains(data);
 		}
 
-		private void ResetActions()
-		{
-			RemoveOldActions();
-			AddNewActions();
-		}
-
-		private void RemoveOldActions()
-		{
-			toggles = new List<ActionData>();
-
-			if(isLocalPlayer == false) return;
-
-			foreach (var action in ActionData)
-			{
-				UIActionManager.Hide(this, action);
-			}
-		}
-
 		private void AddNewActions()
 		{
 			if(alienType == null) return;
@@ -1127,11 +1105,9 @@ namespace Systems.Antagonists
 				toggles.Add(action);
 			}
 
-			if(isLocalPlayer == false) return;
-
 			foreach (var action in alienType.ActionData)
 			{
-				UIActionManager.Show(this, action);
+				UIActionManager.ToggleMultiServer(playerScript.mind, this, action, true);
 			}
 		}
 
@@ -1143,19 +1119,22 @@ namespace Systems.Antagonists
 			{
 				if(toggle == keep) continue;
 
-				UIActionManager.ToggleServer(this, toggle, false);
+				UIActionManager.MultiToggleClient( this, toggle, false, "");
 			}
 		}
 
-		[TargetRpc]
-		private void RpcRemoveActions()
+		private void RemoveActions()
 		{
-			RemoveOldActions();
+			foreach (var action in ActionData)
+			{
+				UIActionManager.ToggleMultiServer(playerScript.mind,this, action, false);
+			}
 		}
 
+		[Client]
 		private void UpdateButtonSprite(ActionData actionDataForSprite, int location)
 		{
-			UIActionManager.SetSprite(this, actionDataForSprite, location);
+			UIActionManager.SetClientMultiSprite(this, actionDataForSprite, location);
 		}
 
 		#endregion
@@ -1635,7 +1614,7 @@ namespace Systems.Antagonists
 		{
 			//This will call after an admin respawn to set up a new player
 			SetNewPlayer();
-
+			AddNewActions();
 			playerScript.playerName = $"{alienType.Name} {nameNumber}";
 
 			//Block role remove if this transfered player was the one how got the ghost role
@@ -1654,8 +1633,7 @@ namespace Systems.Antagonists
 
 		public void OnPlayerLeaveBody()
 		{
-			if(connectionToClient == null) return;
-			RpcRemoveActions();
+			RemoveActions();
 		}
 
 		//Called after larva spawned, in case it was a disconnected player

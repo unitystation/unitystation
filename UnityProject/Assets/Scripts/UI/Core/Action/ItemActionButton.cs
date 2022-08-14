@@ -37,13 +37,16 @@ namespace UI.Action
 
 			if(useSpriteHandler)
 			{
-				spriteHandler.OnSpriteDataSOChanged += SpriteHandlerSOChanged;
+				if (isServer)
+				{
+					spriteHandler.OnSpriteDataSOChanged += so => SpriteHandlerSOChanged(so);
+				}
 			}
 		}
 
 		private void SpriteHandlerSOChanged(SpriteDataSO obj)
 		{
-			UIActionManager.SetSpriteSO(this, spriteHandler.GetCurrentSpriteSO(), false, spriteHandler.Palette);
+			UIActionManager.SetServerSpriteSO(this, obj, spriteHandler.Palette);
 		}
 
 		public void CallActionClient()
@@ -51,7 +54,6 @@ namespace UI.Action
 			if (Validations.CanInteract(PlayerManager.LocalPlayerScript, NetworkSide.Client, allowSoftCrit: true))
 			{
 				ClientActionClicked?.Invoke();
-				UpdateButtonSprite(false);
 			}
 		}
 
@@ -71,7 +73,17 @@ namespace UI.Action
 			bool showAlert = false;
 			if (info.ToPlayer != null)
 			{
-				showAlert = (allowedSlots.HasFlag(ItemSlot.GetFlaggedSlot(pickupable.ItemSlot.NamedSlot.Value)));
+
+				if (pickupable.ItemSlot.NamedSlot == null)
+				{
+					showAlert = false;
+				}
+				else
+				{
+					showAlert = (allowedSlots.HasFlag(ItemSlot.GetFlaggedSlot(pickupable.ItemSlot.NamedSlot.Value)));
+				}
+
+
 
 				if (showAlert == false && PreviouslyOn != null)
 				{
@@ -82,6 +94,7 @@ namespace UI.Action
 				if (showAlert == true && PreviouslyOn == null)
 				{
 					UIActionManager.ToggleServer(info.ToPlayer.PlayerScript.mind, this, true);
+					UIActionManager.SetServerSpriteSO(this, spriteHandler.GetCurrentSpriteSO(), spriteHandler.Palette);
 					PreviouslyOn = info.ToPlayer.PlayerScript.mind;
 				}
 			}
@@ -96,7 +109,7 @@ namespace UI.Action
 		{
 			if (useSpriteHandler)
 			{
-				UIActionManager.SetSpriteSO(this, spriteHandler.GetCurrentSpriteSO(), networked: isServer, palette: spriteHandler.Palette );
+				UIActionManager.SetServerSpriteSO(this, spriteHandler.GetCurrentSpriteSO(), palette: spriteHandler.Palette );
 			}
 		}
 	}
