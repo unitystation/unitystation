@@ -5,7 +5,7 @@ using Mirror;
 using ScriptableObjects;
 using UnityEngine;
 
-namespace Core.Sprite_Handler
+namespace Objects.Doors
 {
 	public class AirlockCatalogueSync : NetworkBehaviour
 	{
@@ -35,6 +35,7 @@ namespace Core.Sprite_Handler
 
 		private void UpdateCatalogue(int newVal)
 		{
+			Logger.Log($"DoorSO is null -> {paintOptions == null}");
 			if (index >= paintOptions.Doors.Count)
 			{
 				Logger.LogError($"[AirlockCatalgueSync] - Index out of bounds! New Index is {newVal} and number of options are {paintOptions.Doors.Count}");

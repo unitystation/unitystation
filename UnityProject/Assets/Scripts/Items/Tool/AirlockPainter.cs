@@ -3,7 +3,7 @@ using Items.Bureaucracy;
 using Mirror;
 using Objects.Construction;
 using System.Collections.Generic;
-using Core.Sprite_Handler;
+using Objects.Doors;
 using ScriptableObjects;
 using UI.Core.RightClick;
 using UnityEngine;
