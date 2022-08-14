@@ -123,6 +123,16 @@ PrefabInstance:
       propertyPath: pipeData.Connections.Directions.Array.data[3].flagLogic
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 7643419451972840866, guid: f04f1148822d6c949aaafb1e43e5d59b,
+        type: 3}
+      propertyPath: pipeData.Connections.Directions.Array.data[1].MappedNeeded
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7643419451972840866, guid: f04f1148822d6c949aaafb1e43e5d59b,
+        type: 3}
+      propertyPath: pipeData.Connections.Directions.Array.data[3].MappedNeeded
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8259218920580726056, guid: f04f1148822d6c949aaafb1e43e5d59b,
         type: 3}
       propertyPath: m_Sprite

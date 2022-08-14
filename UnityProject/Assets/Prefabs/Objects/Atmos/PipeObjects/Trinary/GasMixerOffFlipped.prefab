@@ -63,6 +63,16 @@ PrefabInstance:
       propertyPath: pipeData.Connections.Directions.Array.data[3].flagLogic
       value: 4
       objectReference: {fileID: 0}
+    - target: {fileID: -5343040851212706068, guid: 7a167eaa044fd7142ad12de730b62846,
+        type: 3}
+      propertyPath: pipeData.Connections.Directions.Array.data[1].MappedNeeded
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -5343040851212706068, guid: 7a167eaa044fd7142ad12de730b62846,
+        type: 3}
+      propertyPath: pipeData.Connections.Directions.Array.data[3].MappedNeeded
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 476723474708332292, guid: 7a167eaa044fd7142ad12de730b62846,
         type: 3}
       propertyPath: initialVariantIndex
