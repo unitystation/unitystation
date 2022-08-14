@@ -10,7 +10,7 @@ using Util;
 namespace Doors
 {
 	[RequireComponent(typeof(ItemStorage))]
-	public class AirlockPainter : NetworkBehaviour, IClientInteractable<HandActivate>, ICheckedInteractable<ContextMenuApply>, ICheckedInteractable<HandApply>,
+	public class AirlockPainter : MonoBehaviour, IClientInteractable<HandActivate>, ICheckedInteractable<ContextMenuApply>, ICheckedInteractable<HandApply>,
 		ICheckedInteractable<InventoryApply>, IExaminable, IServerSpawn, IRightClickable
 	{
 		private static readonly RadialScreenPosition RadialScreenPosition = new RadialScreenPosition(true);
