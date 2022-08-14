@@ -3,6 +3,7 @@ using Items.Bureaucracy;
 using Mirror;
 using Objects.Construction;
 using System.Collections.Generic;
+using Core.Sprite_Handler;
 using UI.Core.RightClick;
 using UnityEngine;
 using Util;
@@ -109,14 +110,8 @@ namespace Doors
 				}
 			}
 
-			DoorAnimatorV2 airlockAnim = paintableAirlock.GetComponent<DoorAnimatorV2>();
-
-			ServerChangeDoorBase(airlockAnim, paintJob);
-			ServerChangeOverlaySparks(airlockAnim, paintJob);
-			ServerChangeOverlayLights(airlockAnim, paintJob);
-			ServerChangeOverlayFill(airlockAnim, paintJob);
-			ServerChangeOverlayWeld(airlockAnim, paintJob);
-			ServerChangeOverlayHacking(airlockAnim, paintJob);
+			AirlockCatalogueSync airlockAnim = paintableAirlock.GetComponent<AirlockCatalogueSync>();
+			airlockAnim.index = currentPaintJobIndex;
 
 			TonerCartridge.SpendInk();
 		}
@@ -240,54 +235,6 @@ namespace Doors
 		#endregion
 
 		#region Airlock sprites changes
-		private void ServerChangeDoorBase(DoorAnimatorV2 paintableAirlock, DoorAnimatorV2 paintJob)
-		{
-			SpriteHandler airlockSprite = paintableAirlock.DoorBase.GetComponent<SpriteHandler>();
-			SpriteHandler paintSprite = paintJob.DoorBase.GetComponent<SpriteHandler>();
-			List<SpriteDataSO> spriteCatalog = paintSprite.GetSubCatalogue();
-			ServerSetCatalogue(airlockSprite, spriteCatalog);
-		}
-		private void ServerChangeOverlaySparks(DoorAnimatorV2 paintableAirlock, DoorAnimatorV2 paintJob)
-		{
-			SpriteHandler airlockSprite = paintableAirlock.OverlaySparks.GetComponent<SpriteHandler>();
-			SpriteHandler paintSprite = paintJob.OverlaySparks.GetComponent<SpriteHandler>();
-			List<SpriteDataSO> spriteCatalog = paintSprite.GetSubCatalogue();
-			ServerSetCatalogue(airlockSprite, spriteCatalog);
-		}
-		private void ServerChangeOverlayLights(DoorAnimatorV2 paintableAirlock, DoorAnimatorV2 paintJob)
-		{
-			SpriteHandler airlockSprite = paintableAirlock.OverlayLights.GetComponent<SpriteHandler>();
-			SpriteHandler paintSprite = paintJob.OverlayLights.GetComponent<SpriteHandler>();
-			List<SpriteDataSO> spriteCatalog = paintSprite.GetSubCatalogue();
-			ServerSetCatalogue(airlockSprite, spriteCatalog);
-		}
-		private void ServerChangeOverlayFill(DoorAnimatorV2 paintableAirlock, DoorAnimatorV2 paintJob)
-		{
-			SpriteHandler airlockSprite = paintableAirlock.OverlayFill.GetComponent<SpriteHandler>();
-			SpriteHandler paintSprite = paintJob.OverlayFill.GetComponent<SpriteHandler>();
-			List<SpriteDataSO> spriteCatalog = paintSprite.GetSubCatalogue();
-			ServerSetCatalogue(airlockSprite, spriteCatalog);
-		}
-		private void ServerChangeOverlayWeld(DoorAnimatorV2 paintableAirlock, DoorAnimatorV2 paintJob)
-		{
-			SpriteHandler airlockSprite = paintableAirlock.OverlayWeld.GetComponent<SpriteHandler>();
-			SpriteHandler paintSprite = paintJob.OverlayWeld.GetComponent<SpriteHandler>();
-			List<SpriteDataSO> spriteCatalog = paintSprite.GetSubCatalogue();
-			ServerSetCatalogue(airlockSprite, spriteCatalog);
-		}
-		private void ServerChangeOverlayHacking(DoorAnimatorV2 paintableAirlock, DoorAnimatorV2 paintJob)
-		{
-			SpriteHandler airlockSprite = paintableAirlock.OverlayHacking.GetComponent<SpriteHandler>();
-			SpriteHandler paintSprite = paintJob.OverlayHacking.GetComponent<SpriteHandler>();
-			List<SpriteDataSO> spriteCatalog = paintSprite.GetSubCatalogue();
-			ServerSetCatalogue(airlockSprite, spriteCatalog);
-		}
-		private void ServerSetCatalogue(SpriteHandler airlockSprite, List<SpriteDataSO> spriteCatalog)
-		{
-			airlockSprite.SetCatalogue(spriteCatalog, 0);
-			airlockSprite.SetSpriteSO(spriteCatalog[0]);    //For update the sprite when re-painting
-			SetCatalogue(spriteCatalog, airlockSprite.GetInstanceID(), airlockSprite.GetMasterNetID());
-		}
 
 		public void SetCatalogue(List<SpriteDataSO> newCatalogue, int instanceId, NetworkIdentity identity)
 		{
