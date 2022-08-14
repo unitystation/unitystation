@@ -10,7 +10,7 @@ using Util;
 namespace Doors
 {
 	[RequireComponent(typeof(ItemStorage))]
-	public class AirlockPainter : MonoBehaviour, IClientInteractable<HandActivate>, ICheckedInteractable<ContextMenuApply>, ICheckedInteractable<HandApply>,
+	public class AirlockPainter : NetworkBehaviour, IClientInteractable<HandActivate>, ICheckedInteractable<ContextMenuApply>, ICheckedInteractable<HandApply>,
 		ICheckedInteractable<InventoryApply>, IExaminable, IServerSpawn, IRightClickable
 	{
 		private static readonly RadialScreenPosition RadialScreenPosition = new RadialScreenPosition(true);
@@ -286,7 +286,22 @@ namespace Doors
 		{
 			airlockSprite.SetCatalogue(spriteCatalog, 0);
 			airlockSprite.SetSpriteSO(spriteCatalog[0]);    //For update the sprite when re-painting
+			SetCatalogue(spriteCatalog, airlockSprite.GetInstanceID(), airlockSprite.GetMasterNetID());
 		}
+
+		public void SetCatalogue(List<SpriteDataSO> newCatalogue, int instanceId, NetworkIdentity identity)
+		{
+			List<int> ids = new List<int>();
+			var id = -1;
+			foreach (var data in SpriteCatalogue.Instance.Catalogue)
+			{
+				id++;
+				if(newCatalogue.Contains(data) == false) continue;
+				ids.Add(id);
+			}
+			SpriteHandlerManager.Instance.RpcClientUpdateCatalouges(instanceId, ids, identity);
+		}
+
 		#endregion
 
 		public string Examine(Vector3 worldPos)
@@ -295,7 +310,7 @@ namespace Doors
 
 			if (currentPaintJobIndex == -1)
 			{
-				msg += "Paint job is not selected.\n"; 
+				msg += "Paint job is not selected.\n";
 			}
 			else
 			{
