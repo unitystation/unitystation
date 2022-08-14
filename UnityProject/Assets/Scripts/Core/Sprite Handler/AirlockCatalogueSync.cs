@@ -37,7 +37,7 @@ namespace Core.Sprite_Handler
 		{
 			if (index >= paintOptions.Count)
 			{
-				Logger.LogError("[AirlockCatalgueSync] - Index out of bounds!");
+				Logger.LogError($"[AirlockCatalgueSync] - Index out of bounds! Index is {index} and number of options are {paintOptions.Count}");
 				return;
 			}
 			//g̵e̷t̴ ̵c̶o̷m̵p̷o̷n̵e̶n̵t̴

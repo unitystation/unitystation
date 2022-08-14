@@ -235,20 +235,6 @@ namespace Doors
 		#endregion
 
 		#region Airlock sprites changes
-
-		public void SetCatalogue(List<SpriteDataSO> newCatalogue, int instanceId, NetworkIdentity identity)
-		{
-			List<int> ids = new List<int>();
-			var id = -1;
-			foreach (var data in SpriteCatalogue.Instance.Catalogue)
-			{
-				id++;
-				if(newCatalogue.Contains(data) == false) continue;
-				ids.Add(id);
-			}
-			SpriteHandlerManager.Instance.RpcClientUpdateCatalouges(instanceId, ids, identity);
-		}
-
 		#endregion
 
 		public string Examine(Vector3 worldPos)
