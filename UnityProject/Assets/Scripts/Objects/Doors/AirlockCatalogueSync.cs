@@ -2,13 +2,14 @@ using System;
 using System.Collections.Generic;
 using Doors;
 using Mirror;
+using ScriptableObjects;
 using UnityEngine;
 
 namespace Core.Sprite_Handler
 {
 	public class AirlockCatalogueSync : NetworkBehaviour
 	{
-		[SerializeField] private List<GameObject> paintOptions;
+		[SerializeField] private DoorsSO paintOptions;
 		[SerializeField] private DoorAnimatorV2 animatorV2;
 
 		[SyncVar(hook = nameof(SyncAirlockSprites))] public int index = -1;
@@ -34,18 +35,18 @@ namespace Core.Sprite_Handler
 
 		private void UpdateCatalogue(int newVal)
 		{
-			if (index >= paintOptions.Count)
+			if (index >= paintOptions.Doors.Count)
 			{
-				Logger.LogError($"[AirlockCatalgueSync] - Index out of bounds! New Index is {newVal} and number of options are {paintOptions.Count}");
+				Logger.LogError($"[AirlockCatalgueSync] - Index out of bounds! New Index is {newVal} and number of options are {paintOptions.Doors.Count}");
 				return;
 			}
 			//g̵e̷t̴ ̵c̶o̷m̵p̷o̷n̵e̶n̵t̴
-			ServerChangeDoorBase(animatorV2, paintOptions[newVal].GetComponent<DoorAnimatorV2>());
-			ServerChangeOverlaySparks(animatorV2, paintOptions[newVal].GetComponent<DoorAnimatorV2>());
-			ServerChangeOverlayLights(animatorV2, paintOptions[newVal].GetComponent<DoorAnimatorV2>());
-			ServerChangeOverlayFill(animatorV2, paintOptions[newVal].GetComponent<DoorAnimatorV2>());
-			ServerChangeOverlayWeld(animatorV2, paintOptions[newVal].GetComponent<DoorAnimatorV2>());
-			ServerChangeOverlayHacking(animatorV2, paintOptions[newVal].GetComponent<DoorAnimatorV2>());
+			ServerChangeDoorBase(animatorV2, paintOptions.Doors[newVal].GetComponent<DoorAnimatorV2>());
+			ServerChangeOverlaySparks(animatorV2, paintOptions.Doors[newVal].GetComponent<DoorAnimatorV2>());
+			ServerChangeOverlayLights(animatorV2, paintOptions.Doors[newVal].GetComponent<DoorAnimatorV2>());
+			ServerChangeOverlayFill(animatorV2, paintOptions.Doors[newVal].GetComponent<DoorAnimatorV2>());
+			ServerChangeOverlayWeld(animatorV2, paintOptions.Doors[newVal].GetComponent<DoorAnimatorV2>());
+			ServerChangeOverlayHacking(animatorV2, paintOptions.Doors[newVal].GetComponent<DoorAnimatorV2>());
 		}
 
 		private void ServerChangeDoorBase(DoorAnimatorV2 paintableAirlock, DoorAnimatorV2 paintJob)

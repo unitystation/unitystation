@@ -4,6 +4,7 @@ using Mirror;
 using Objects.Construction;
 using System.Collections.Generic;
 using Core.Sprite_Handler;
+using ScriptableObjects;
 using UI.Core.RightClick;
 using UnityEngine;
 using Util;
@@ -23,11 +24,11 @@ namespace Doors
 			this.VerifyNonChildReference(radialOptions, "right click branchless options SO");
 
 		[Tooltip("Airlock painting jobs.")]
-		public List<GameObject> AvailablePaintJobs;
+		public DoorsSO AvailablePaintJobs;
 
 		private List<RightClickMenuItem> painterMenuItems;
 
-		private List<RightClickMenuItem> PainterMenuItems => painterMenuItems ??= GeneratePaintMenu(AvailablePaintJobs);
+		private List<RightClickMenuItem> PainterMenuItems => painterMenuItems ??= GeneratePaintMenu(AvailablePaintJobs.Doors);
 
 		private int currentPaintJobIndex = -1;
 		public int CurrentPaintJobIndex
@@ -96,7 +97,7 @@ namespace Doors
 			if (CheckToner(performer) == false) return;
 
 			DoorMasterController airlockToPaint = paintableAirlock.GetComponent<DoorMasterController>();
-			GameObject airlockAssemblyPrefab = AvailablePaintJobs[currentPaintJobIndex].GetComponent<ConstructibleDoor>().AirlockAssemblyPrefab;
+			GameObject airlockAssemblyPrefab = AvailablePaintJobs.Doors[currentPaintJobIndex].GetComponent<ConstructibleDoor>().AirlockAssemblyPrefab;
 			AirlockAssembly assemblyPaintJob = airlockAssemblyPrefab.GetComponent<AirlockAssembly>();
 			DoorAnimatorV2 paintJob = assemblyPaintJob.AirlockToSpawn.GetComponent<DoorAnimatorV2>();
 
@@ -247,7 +248,7 @@ namespace Doors
 			}
 			else
 			{
-				msg += $"Current paint job is the {AvailablePaintJobs[currentPaintJobIndex].ExpensiveName()}.\n";
+				msg += $"Current paint job is the {AvailablePaintJobs.Doors[currentPaintJobIndex].ExpensiveName()}.\n";
 			}
 
 			if (TonerCartridge == null)

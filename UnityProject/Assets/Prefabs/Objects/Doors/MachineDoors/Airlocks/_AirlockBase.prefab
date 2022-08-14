@@ -1245,7 +1245,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  paintOptions: []
+  paintOptions: {fileID: 0}
+  animatorV2: {fileID: 0}
   index: -1
 --- !u!114 &2243806384905767094
 MonoBehaviour:
@@ -1360,16 +1361,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  paintOptions:
-  - {fileID: 4868402226933362728, guid: faeb065acf677894a9699942fdc1b49c, type: 3}
-  - {fileID: 2491579639006112463, guid: 9de45e9fab1eaf746b1c5791997a5135, type: 3}
-  - {fileID: 5602034946934495649, guid: 2bb2787c427eb384ba89c9fd13ec823b, type: 3}
-  - {fileID: 263231906647728719, guid: ed01dbb56f7eaec43a7c493afa00559a, type: 3}
-  - {fileID: 296115620468684665, guid: 7dea0790d26246447a9b881689c7dbdf, type: 3}
-  - {fileID: 8241062540143209899, guid: 3a051ede9e105054e9e1b098aa972e6f, type: 3}
-  - {fileID: 8672421692912153910, guid: 9f6a082ba93c5684b808b09619c08044, type: 3}
-  - {fileID: 3219073340430485023, guid: 54a552cbe4002ac44ae29b958a90e545, type: 3}
-  - {fileID: 1289009413962026671, guid: 08e6671a2473b2047a07dde96ef8c538, type: 3}
-  - {fileID: 7580511327174855396, guid: c5b14909d311eea4ea1e1488557ba906, type: 3}
-  - {fileID: 3860531583485830378, guid: 29107a3e6fd05d34c864ad077d34bafc, type: 3}
+  paintOptions: {fileID: 11400000, guid: 66526f6aeacae7142ad335ada420e378, type: 2}
+  animatorV2: {fileID: 2243806384905767094}
   index: -1
