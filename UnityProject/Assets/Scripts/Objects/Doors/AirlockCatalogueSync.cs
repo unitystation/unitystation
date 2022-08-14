@@ -16,10 +16,8 @@ namespace Objects.Doors
 
 		private void Awake()
 		{
-			if (animatorV2 == null)
-			{
-				Logger.LogError("[Door] - AirlockCatalogueSync is not setup properly, issues may happen.");
-			}
+			if (animatorV2 == null) Logger.LogError("[Door] - AirlockCatalogueSync is not setup properly, issues may happen.");
+			if (paintOptions == null) Logger.LogError("[Door] - AirlockCatalogueSync has its DoorsSO null. issues may happen.");
 		}
 
 		private void SyncAirlockSprites(int oldValue, int newValue)
@@ -35,19 +33,19 @@ namespace Objects.Doors
 
 		private void UpdateCatalogue(int newVal)
 		{
-			Logger.Log($"DoorSO is null -> {paintOptions == null}");
 			if (index >= paintOptions.Doors.Count)
 			{
 				Logger.LogError($"[AirlockCatalgueSync] - Index out of bounds! New Index is {newVal} and number of options are {paintOptions.Doors.Count}");
 				return;
 			}
-			//g̵e̷t̴ ̵c̶o̷m̵p̷o̷n̵e̶n̵t̴
-			ServerChangeDoorBase(animatorV2, paintOptions.Doors[newVal].GetComponent<DoorAnimatorV2>());
-			ServerChangeOverlaySparks(animatorV2, paintOptions.Doors[newVal].GetComponent<DoorAnimatorV2>());
-			ServerChangeOverlayLights(animatorV2, paintOptions.Doors[newVal].GetComponent<DoorAnimatorV2>());
-			ServerChangeOverlayFill(animatorV2, paintOptions.Doors[newVal].GetComponent<DoorAnimatorV2>());
-			ServerChangeOverlayWeld(animatorV2, paintOptions.Doors[newVal].GetComponent<DoorAnimatorV2>());
-			ServerChangeOverlayHacking(animatorV2, paintOptions.Doors[newVal].GetComponent<DoorAnimatorV2>());
+
+			var option = paintOptions.Doors[newVal].GetComponent<DoorAnimatorV2>();
+			ServerChangeDoorBase(animatorV2, option);
+			ServerChangeOverlaySparks(animatorV2, option);
+			ServerChangeOverlayLights(animatorV2, option);
+			ServerChangeOverlayFill(animatorV2, option);
+			ServerChangeOverlayWeld(animatorV2, option);
+			ServerChangeOverlayHacking(animatorV2, option);
 		}
 
 		private void ServerChangeDoorBase(DoorAnimatorV2 paintableAirlock, DoorAnimatorV2 paintJob)
