@@ -8,9 +8,8 @@ namespace Core.Sprite_Handler
 {
 	public class AirlockCatalogueSync : NetworkBehaviour
 	{
-		public List<GameObject> paintOptions = new List<GameObject>();
-
-		private DoorAnimatorV2 animatorV2;
+		[SerializeField] private List<GameObject> paintOptions;
+		[SerializeField] private DoorAnimatorV2 animatorV2;
 
 		[SyncVar(hook = nameof(SyncAirlockSprites))] public int index = -1;
 
