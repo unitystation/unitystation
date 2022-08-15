@@ -23,8 +23,8 @@ namespace Doors
 		private RightClickRadialOptions RadialOptions =>
 			this.VerifyNonChildReference(radialOptions, "right click branchless options SO");
 
-		[Tooltip("Airlock painting jobs.")]
-		public DoorsSO AvailablePaintJobs;
+		[Tooltip("Airlock painting jobs.")] [SerializeField]
+		private DoorsSO AvailablePaintJobs;
 
 		private List<RightClickMenuItem> painterMenuItems;
 

@@ -12,7 +12,7 @@ namespace Objects.Doors
 		[SerializeField] private DoorsSO paintOptions;
 		[SerializeField] private DoorAnimatorV2 animatorV2;
 
-		[SyncVar(hook = nameof(SyncAirlockSprites))] public int index = -1;
+		[SyncVar(hook = nameof(SyncAirlockSprites))] private int index = -1;
 
 		private void Awake()
 		{
