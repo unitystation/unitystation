@@ -38,10 +38,13 @@ namespace Tests.Chemistry
 		{
 			var a = ScriptableObject.CreateInstance<Reagent>();
 			a.Name = "a";
+			a.IndexInSingleton = 0;
 			var b = ScriptableObject.CreateInstance<Reagent>();
 			b.Name = "b";
+			b.IndexInSingleton = 1;
 			var c = ScriptableObject.CreateInstance<Reagent>();
 			c.Name = "c";
+			c.IndexInSingleton = 2;
 
 			//Test adding without overflow
 			yield return new object[]
@@ -127,10 +130,13 @@ namespace Tests.Chemistry
 		{
 			var a = ScriptableObject.CreateInstance<Reagent>();
 			a.Name = "a";
+			a.IndexInSingleton = 0;
 			var b = ScriptableObject.CreateInstance<Reagent>();
 			b.Name = "b";
+			b.IndexInSingleton = 1;
 			var c = ScriptableObject.CreateInstance<Reagent>();
 			c.Name = "c";
+			c.IndexInSingleton = 2;
 
 			yield return new object[]
 			{
