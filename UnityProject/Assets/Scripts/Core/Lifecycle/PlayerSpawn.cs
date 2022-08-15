@@ -359,7 +359,6 @@ public static class PlayerSpawn
 		ServerTransferPlayer(viewer.connectionToClient, body, viewer.gameObject, Event.PlayerRejoined, settings, ps.mind);
 		ps = body.GetComponent<PlayerScript>();
 		ps.playerNetworkActions.ReenterBodyUpdates();
-		ps.mind.ResendSpellActions();
 
 		var rejoins = body.GetComponents<IOnPlayerRejoin>();
 		foreach (var rejoin in rejoins)

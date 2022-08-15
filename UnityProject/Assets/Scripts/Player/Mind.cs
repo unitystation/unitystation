@@ -319,14 +319,6 @@ public class Mind
 		return GetSpellInstance(spellData) != null;
 	}
 
-	public void ResendSpellActions()
-	{
-		foreach (Spell spell in Spells)
-		{
-			UIActionManager.ToggleServer(this,spell, true);
-		}
-	}
-
 	public void SetProperty(string key, object value)
 	{
 		if (properties.ContainsKey(key))
