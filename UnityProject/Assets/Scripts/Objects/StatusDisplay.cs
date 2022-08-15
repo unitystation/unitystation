@@ -47,6 +47,9 @@ namespace Objects.Wallmounts
 		public int currentTimerSeconds;
 		public bool countingDown;
 
+		[SerializeField] private Color normalTextColor;
+		[SerializeField] private Color redAlertTextColor = Color.red;
+
 		public enum MountedMonitorState
 		{
 			StatusText,
@@ -99,6 +102,7 @@ namespace Objects.Wallmounts
 			SyncSprite(stateSync, stateSync);
 			centComm = GameManager.Instance.CentComm;
 			centComm.OnStatusDisplayUpdate.AddListener(OnTextBroadcastReceived);
+			centComm.OnAlertLevelChange += UpdateTextColor;
 		}
 
 		private void Start()
@@ -275,6 +279,8 @@ namespace Objects.Wallmounts
 		{
 			textField.text = statusText.Substring(0, Mathf.Min(statusText.Length, MAX_CHARS_PER_PAGE));
 
+			UpdateTextColor();
+
 			yield return WaitFor.Seconds(3);
 
 			int shownChars = textField.cachedTextGenerator.characterCount;
@@ -290,8 +296,14 @@ namespace Objects.Wallmounts
 			this.StartCoroutine(BlinkText(), ref blinkHandle);
 		}
 
+		private void UpdateTextColor()
+		{
+			textField.color = centComm.CurrentAlertLevel == CentComm.AlertLevel.Red ? redAlertTextColor : normalTextColor;
+		}
+
 		private void OnTextBroadcastReceived(StatusDisplayChannel broadcastedChannel)
 		{
+			UpdateTextColor();
 			if (broadcastedChannel == StatusDisplayChannel.DoorTimer)
 			{
 				statusText = FormatTime(currentTimerSeconds, "CELL\n");

@@ -407,7 +407,7 @@ PrefabInstance:
         type: 3}
       propertyPath: customNetTransform
       value: 
-      objectReference: {fileID: 3599474010627355920}
+      objectReference: {fileID: 0}
     - target: {fileID: 7946340047006197236, guid: b69bfc56f39849d4ba9139d2d51bedb6,
         type: 3}
       propertyPath: CurrentsortingGroup
@@ -486,7 +486,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  runningInterfaces: []
+  runningInterfaces:
+  - {fileID: 0}
   textField: {fileID: 8315174962581895961}
   stateSync: 0
   hasCables: 1
@@ -501,6 +502,8 @@ MonoBehaviour:
   centComm: {fileID: 0}
   currentTimerSeconds: 0
   countingDown: 0
+  normalTextColor: {r: 0.21176471, g: 0.6, b: 1, a: 1}
+  redAlertTextColor: {r: 1, g: 0, b: 0, a: 1}
   channel: 1
   conType: 7
 --- !u!114 &8636930310869545870
@@ -516,18 +519,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   directional: {fileID: 0}
---- !u!114 &3599474010627355920 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 4485046902360527550, guid: b69bfc56f39849d4ba9139d2d51bedb6,
-    type: 3}
-  m_PrefabInstance: {fileID: 1138831192995129262}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1826008233054429714}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 579884b05ae74e8499329b64997147d3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!210 &4006928101237905058 stripped
 SortingGroup:
   m_CorrespondingSourceObject: {fileID: 4059580613945667852, guid: b69bfc56f39849d4ba9139d2d51bedb6,

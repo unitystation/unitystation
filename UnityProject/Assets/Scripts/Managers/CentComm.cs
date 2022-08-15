@@ -24,6 +24,7 @@ namespace Managers
 		private GameObject paperPrefab = default;
 
 		public StatusDisplayUpdateEvent OnStatusDisplayUpdate = new StatusDisplayUpdateEvent();
+		public event Action OnAlertLevelChange;
 		[NonSerialized] public string CommandStatusString = string.Empty;
 		[NonSerialized] public string EscapeShuttleTimeString = string.Empty;
 
@@ -214,6 +215,7 @@ namespace Managers
 
 			lastAlertChange = gameManager.stationTime;
 			CurrentAlertLevel = toLevel;
+			OnAlertLevelChange?.Invoke();
 		}
 
 		/// <summary>
