@@ -31,6 +31,10 @@ public class Mind
 	public FloorSounds SecondaryStepSound;
 	public ChatModifier inventorySpeechModifiers = ChatModifier.None;
 	// Current way to check if it's not actually a ghost but a spectator, should set this not have it be the below.
+
+
+	public PlayerScript CurrentPlayScript => IsGhosting ? ghost : body;
+
 	public bool IsSpectator => occupation == null || body == null;
 
 	public bool ghostLocked;
@@ -64,7 +68,7 @@ public class Mind
 			{
 				foreach (Spell x in e.NewItems)
 				{
-					UIActionManager.Toggle(x, true, body.gameObject);
+					UIActionManager.ToggleServer(this,x, true);
 				}
 			}
 
@@ -72,7 +76,7 @@ public class Mind
 			{
 				foreach (Spell y in e.OldItems)
 				{
-					UIActionManager.Toggle(y, false, body.gameObject);
+					UIActionManager.ToggleServer(this, y, false);
 				}
 			}
 		};
@@ -83,24 +87,26 @@ public class Mind
 	/// </summary>
 	/// <param name="player"></param>
 	/// <param name="occupation"></param>
-	public static void Create(GameObject player, Occupation occupation)
+	public static Mind Create(GameObject player, Occupation occupation)
 	{
 		var mind = new Mind {occupation = occupation};
 		var playerScript = player.GetComponent<PlayerScript>();
 		mind.SetNewBody(playerScript);
+		return mind;
 	}
 
 	/// <summary>
 	/// Create as a Ghost
 	/// </summary>
 	/// <param name="player"></param>
-	public static void Create(GameObject player)
+	public static Mind Create(GameObject player)
 	{
 		var playerScript = player.GetComponent<PlayerScript>();
 		var mind = new Mind { };
 		playerScript.mind = mind;
 		// Forces you into ghosting, the IsGhosting field should make it so it never points to Body
 		mind.Ghosting(player);
+		return mind;
 	}
 
 	public void SetNewBody(PlayerScript playerScript)
@@ -311,14 +317,6 @@ public class Mind
 	public bool HasSpell(SpellData spellData)
 	{
 		return GetSpellInstance(spellData) != null;
-	}
-
-	public void ResendSpellActions()
-	{
-		foreach (Spell spell in Spells)
-		{
-			UIActionManager.Toggle(spell, true, body.gameObject);
-		}
 	}
 
 	public void SetProperty(string key, object value)

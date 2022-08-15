@@ -2033,6 +2033,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 	public void Unbuckle()
 	{
 		ObjectIsBuckling = null;
+		BuckleToChange(ObjectIsBuckling);
 	}
 
 	/// <summary>
@@ -2042,6 +2043,7 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 	public void BuckleObjectToThis(UniversalObjectPhysics newBuckledTo)
 	{
 		ObjectIsBuckling = newBuckledTo;
+		BuckleToChange(ObjectIsBuckling);
 	}
 
 	#endregion

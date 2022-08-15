@@ -1274,7 +1274,7 @@ public class DynamicItemStorage : NetworkBehaviour, IOnPlayerRejoin, IOnPlayerTr
 	}
 
 
-	public void OnPlayerRejoin()
+	public void OnPlayerRejoin(Mind mind)
 	{
 		//Trigger IOnPlayerRejoin for all items in top level player inventory
 		foreach (var itemSlot in GetItemSlots())
@@ -1284,12 +1284,12 @@ public class DynamicItemStorage : NetworkBehaviour, IOnPlayerRejoin, IOnPlayerTr
 			var playerRejoins = itemSlot.ItemObject.GetComponents<IOnPlayerRejoin>();
 			foreach (var playerRejoin in playerRejoins)
 			{
-				playerRejoin.OnPlayerRejoin();
+				playerRejoin.OnPlayerRejoin(mind);
 			}
 		}
 	}
 
-	public void OnPlayerTransfer()
+	public void OnPlayerTransfer(Mind mind)
 	{
 		//Trigger IOnPlayerTransfer for all items in top level player inventory
 		foreach (var itemSlot in GetItemSlots())
@@ -1299,12 +1299,12 @@ public class DynamicItemStorage : NetworkBehaviour, IOnPlayerRejoin, IOnPlayerTr
 			var playerTransfers = itemSlot.ItemObject.GetComponents<IOnPlayerTransfer>();
 			foreach (var playerTransfer in playerTransfers)
 			{
-				playerTransfer.OnPlayerTransfer();
+				playerTransfer.OnPlayerTransfer(mind);
 			}
 		}
 	}
 
-	public void OnPlayerLeaveBody()
+	public void OnPlayerLeaveBody(Mind mind)
 	{
 		//Trigger IOnPlayerLeaveBody for all items in top level player inventory
 		foreach (var itemSlot in GetItemSlots())
@@ -1314,11 +1314,11 @@ public class DynamicItemStorage : NetworkBehaviour, IOnPlayerRejoin, IOnPlayerTr
 			var playerLeaveBodies = itemSlot.ItemObject.GetComponents<IOnPlayerLeaveBody>();
 			foreach (var playerLeaveBody in playerLeaveBodies)
 			{
-				playerLeaveBody.OnPlayerLeaveBody();
+				playerLeaveBody.OnPlayerLeaveBody(mind);
 			}
 		}
 	}
-	
+
 	[Server]
 	public void ServerDropItemsInHand()
 	{

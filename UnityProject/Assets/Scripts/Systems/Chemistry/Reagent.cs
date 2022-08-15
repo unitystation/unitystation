@@ -76,5 +76,9 @@ namespace Chemistry
 			return !(obj1 == obj2);
 		}
 
+		public override int GetHashCode()
+		{
+			return indexInSingleton;
+		}
 	}
 }
