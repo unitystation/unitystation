@@ -117,7 +117,7 @@ public class MetaDataNode : IGasMixContainer
 
 	//How long since the last wind spot particle was spawned
 	//This is here as dictionaries are a pain and for performance but costs more memory
-	public float windParticleTime = 0;
+	public float windEffectTime = 0;
 
 	public void AddGasOverlay(GasSO gas)
 	{

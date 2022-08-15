@@ -185,76 +185,54 @@ namespace Systems.Electricity
 			return 1 / ResistanceXAll;
 		}
 
-
-		public static Dictionary<IntrinsicElectronicData, float> AnInterestingDictionary =
-			new Dictionary<IntrinsicElectronicData, float>();
-
-		public static void WorkOutActualNumbers(IntrinsicElectronicData ElectricItem)
+		public static void WorkOutActualNumbers(IntrinsicElectronicData electricItem)
 		{
 			//Sometimes gives wrong readings at junctions, Needs to be looked into
-			float Current = 0; //Calculates the actual voltage and current flowing through the Node
-			float Voltage = 0;
-			foreach (var Supply in ElectricItem.Data.SupplyDependent)
+			//Calculates the actual voltage and current flowing through the Node
+			float current = 0;
+			float voltage = 0;
+
+			foreach (var supply in electricItem.Data.SupplyDependent)
 			{
-				Voltage += Supply.Value.SourceVoltage;
+				//Voltages easy to work out just add up all the voltages from different sources
+				voltage += supply.Value.SourceVoltage;
 			}
 
-			lock (AnInterestingDictionary)
+			foreach (var currentIDItem in electricItem.Data.SupplyDependent)
 			{
-				AnInterestingDictionary.Clear(); //Voltages easy to work out just add up all the voltages from different sources
-				foreach (var CurrentIDItem in ElectricItem.Data.SupplyDependent)
-				{
-					foreach (var CurrentItem in CurrentIDItem.Value.CurrentComingFrom)
-					{
-						if (AnInterestingDictionary.ContainsKey(CurrentItem.Key))
-						{
-							AnInterestingDictionary[CurrentItem.Key] += (float) CurrentItem.Value.Current();
-						}
-						else
-						{
-							AnInterestingDictionary[CurrentItem.Key] = (float) CurrentItem.Value.Current();
-						}
-					}
+				var toAddCurrent = 0f;
 
-					foreach (var CurrentItem in CurrentIDItem.Value.CurrentGoingTo)
-					{
-						if (AnInterestingDictionary.ContainsKey(CurrentItem.Key))
-						{
-							AnInterestingDictionary[CurrentItem.Key] += (float) -CurrentItem.Value.Current();
-						}
-						else
-						{
-							AnInterestingDictionary[CurrentItem.Key] = (float) -CurrentItem.Value.Current();
-						}
-					}
+				foreach (var currentItem in currentIDItem.Value.CurrentComingFrom)
+				{
+					toAddCurrent += (float) currentItem.Value.Current();
 				}
 
-				foreach (var CurrentItem in AnInterestingDictionary)
+				foreach (var currentItem in currentIDItem.Value.CurrentGoingTo)
 				{
-					if (CurrentItem.Value > 0)
-					{
-						Current += CurrentItem.Value;
-					}
-
+					toAddCurrent += (float) -currentItem.Value.Current();
 				}
+
+				if(toAddCurrent <= 0) continue;
+				current += toAddCurrent;
 			}
 
 			//Logger.Log (Voltage.ToString () + " < yeah Those voltage " + Current.ToString() + " < yeah Those Current " + (Voltage/Current).ToString() + " < yeah Those Resistance" + ElectricItem.GameObject().name.ToString() + " < at", Category.Electrical);
 
-			ElectricItem.Data.CurrentInWire = Current;
-			ElectricItem.Data.ActualVoltage = Voltage;
-			ElectricItem.Data.EstimatedResistance = (Voltage / Current);
+			electricItem.Data.CurrentInWire = current;
+			electricItem.Data.ActualVoltage = voltage;
+			electricItem.Data.EstimatedResistance = (voltage / current);
 		}
 
 		public static float WorkOutVoltage(ElectricalOIinheritance ElectricItem)
 		{
-			float Voltage = 0;
-			foreach (var Supply in ElectricItem.InData.Data.SupplyDependent)
+			float voltage = 0;
+
+			foreach (var supply in ElectricItem.InData.Data.SupplyDependent)
 			{
-				Voltage += Supply.Value.SourceVoltage;
+				voltage += supply.Value.SourceVoltage;
 			}
 
-			return Voltage;
+			return voltage;
 		}
 
 		public static float WorkOutVoltageFromConnector(ElectricalOIinheritance ElectricItem,

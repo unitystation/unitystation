@@ -170,18 +170,22 @@ MonoBehaviour:
     Connections:
       Directions:
       - Bool: 1
+        MappedNeeded: 1
         pipeType: 1
         PortType: 3
         flagLogic: 0
       - Bool: 0
+        MappedNeeded: 0
         pipeType: 1
         PortType: 0
         flagLogic: 0
       - Bool: 0
+        MappedNeeded: 0
         pipeType: 1
         PortType: 0
         flagLogic: 0
       - Bool: 0
+        MappedNeeded: 0
         pipeType: 1
         PortType: 0
         flagLogic: 0

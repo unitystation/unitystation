@@ -188,5 +188,23 @@
         ],
         "name": "Supply Console Board",
         "Item_ID": "697f700281ba39b499cc574561c68d45"
+    },
+    {
+        "Internal_ID": "board_artifact_research_console",
+        "Description": "Circuit board used in the construction of consoles",
+        "Category": [
+            "Computer Boards"
+        ],
+        "Materials": {
+            "Glass": 1000
+        },
+        "Machinery_type": [
+            "CircuitImprinter"
+        ],
+        "Compatible_machinery": [
+            "Science"
+        ],
+        "name": "Artifact Research Console Board",
+        "Item_ID": "br7j2ouDZR@E15jDYUKk"
     }
 ]

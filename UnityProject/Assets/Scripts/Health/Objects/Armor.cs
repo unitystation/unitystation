@@ -24,6 +24,7 @@ public class Armor
 	[Range(-100,100)] public float Acid;
 	[Range(-100,100)] public float Magic;
 	[Range(-100,100)] public float Bio;
+	[Range(0, 100)] public float Anomaly;
 
 	[Range(0,100)] public int DismembermentProtectionChance;
 

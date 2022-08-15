@@ -383,6 +383,11 @@ namespace Objects
 
 			if (IsWelded)
 			{
+				if (IsLocked == false)
+				{
+					Chat.AddExamineMsgFromServer(interaction.Performer, $"The {closetName}'s hinges have been welded and cannot be closed anymore!");
+					return;
+				}
 				Chat.AddExamineMsgFromServer(interaction.Performer, $"The {closetName} is welded shut!");
 				return;
 			}

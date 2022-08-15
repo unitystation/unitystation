@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3f2e0a70b6f29be42993b64e69c94b83, type: 3}
+  m_Name: Cooling
+  m_EditorClassIdentifier: 
+  GuessIndex: 8
+  effectShapeType: 0
+  coolDown: 10
+  AuraRadius: 0
+  AllowBodySplitting: 0
+  AddGas: 0
+  GasToAdd: {fileID: 0}
+  MolesToAdd: 0
+  RemoveGas: 0
+  GasToRemove: {fileID: 0}
+  MolesToRemove: 0
+  ChangeTemperature: 1
+  TemperatureChange: -150
