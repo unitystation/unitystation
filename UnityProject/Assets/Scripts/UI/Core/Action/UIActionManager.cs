@@ -813,7 +813,7 @@ namespace UI.Action
 								}
 								else
 								{
-									Logger.LogError("Failed to find ID", Category.UI);
+									Logger.LogWarning("Failed to find ID", Category.UI);
 								}
 
 								Instance.ClientMultiIActionGUIToID[iActionGUIMulti].Remove(actionData);
