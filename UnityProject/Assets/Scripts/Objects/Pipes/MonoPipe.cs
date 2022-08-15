@@ -27,6 +27,7 @@ namespace Objects.Atmospherics
 
 		[SerializeField]
 		private bool spawnedFromItem = true;
+		public bool SpawnedFromItem => spawnedFromItem;
 
 		public Rotatable directional;
 

@@ -14,7 +14,8 @@ public class Rotatable : NetworkBehaviour, IMatrixRotation
 	{
 		None,
 		Parent,
-		Sprites
+		Sprites,
+		ParentLockSprite
 	}
 
 	public RotationMethod MethodRotation = RotationMethod.None;
@@ -207,6 +208,7 @@ public class Rotatable : NetworkBehaviour, IMatrixRotation
 	public Quaternion ByDegreesToQuaternion(OrientationEnum dir)
 	{
 		var outQuaternion = new Quaternion();
+
 		switch (dir)
 		{
 			case OrientationEnum.Up_By0:
@@ -228,13 +230,24 @@ public class Rotatable : NetworkBehaviour, IMatrixRotation
 
 	public void RotateObject(OrientationEnum dir)
 	{
-		if (MethodRotation == RotationMethod.Parent)
+		if (MethodRotation is RotationMethod.Parent or RotationMethod.ParentLockSprite)
 		{
 			transform.localRotation = ByDegreesToQuaternion(dir);
 		}
 		else if (MethodRotation == RotationMethod.Sprites)
 		{
 			var toQuaternion = ByDegreesToQuaternion(dir);
+
+			foreach (var spriteRenderer in spriteRenderers)
+			{
+				spriteRenderer.transform.localRotation = toQuaternion;
+			}
+		}
+
+		if (MethodRotation == RotationMethod.ParentLockSprite)
+		{
+			var toQuaternion = ByDegreesToQuaternion(dir);
+			toQuaternion = Quaternion.Inverse(toQuaternion);
 
 			foreach (var spriteRenderer in spriteRenderers)
 			{
@@ -292,25 +305,25 @@ public class Rotatable : NetworkBehaviour, IMatrixRotation
 	{
 		if (doNotResetOtherSpriteOptions) return;
 
-		var DIR = OrientationEnum.Up_By0;
+		var dir = OrientationEnum.Up_By0;
 		if (IsAtmosphericDevice)
 		{
-			DIR = OrientationEnum.Down_By180;
+			dir = OrientationEnum.Down_By180;
 		}
 
 
-		if (MethodRotation != RotationMethod.Parent)
+		if (MethodRotation is not RotationMethod.Parent or RotationMethod.ParentLockSprite)
 		{
-			transform.localRotation = ByDegreesToQuaternion(DIR);
+			transform.localRotation = ByDegreesToQuaternion(dir);
 		}
 
-		if (MethodRotation != RotationMethod.Sprites)
+		if (MethodRotation is not RotationMethod.Sprites or RotationMethod.ParentLockSprite)
 		{
-			var Quaternion = ByDegreesToQuaternion(DIR);
+			var quaternion = ByDegreesToQuaternion(dir);
 
 			foreach (var spriteRenderer in spriteRenderers)
 			{
-				spriteRenderer.transform.localRotation = Quaternion;
+				spriteRenderer.transform.localRotation = quaternion;
 			}
 		}
 
