@@ -33,6 +33,9 @@ namespace Objects.Wallmounts
 
 		[SyncVar(hook = nameof(SyncStatusText))]
 		private string statusText = string.Empty;
+		
+		[SyncVar(hook = nameof(UpdateTextColor))]
+		private Color currentTextColor;
 
 		public bool hasCables = true;
 		public SpriteHandler MonitorSpriteHandler;
@@ -279,7 +282,7 @@ namespace Objects.Wallmounts
 		{
 			textField.text = statusText.Substring(0, Mathf.Min(statusText.Length, MAX_CHARS_PER_PAGE));
 
-			UpdateTextColor();
+			currentTextColor = centComm.CurrentAlertLevel == CentComm.AlertLevel.Red ? redAlertTextColor : normalTextColor;
 
 			yield return WaitFor.Seconds(3);
 
@@ -303,7 +306,7 @@ namespace Objects.Wallmounts
 
 		private void OnTextBroadcastReceived(StatusDisplayChannel broadcastedChannel)
 		{
-			UpdateTextColor();
+			currentTextColor = centComm.CurrentAlertLevel == CentComm.AlertLevel.Red ? redAlertTextColor : normalTextColor;
 			if (broadcastedChannel == StatusDisplayChannel.DoorTimer)
 			{
 				statusText = FormatTime(currentTimerSeconds, "CELL\n");
