@@ -299,7 +299,7 @@ namespace Objects.Wallmounts
 			this.StartCoroutine(BlinkText(), ref blinkHandle);
 		}
 
-		private void UpdateTextColor()
+		private void UpdateTextColor(Color oldValue, Color newValue)
 		{
 			textField.color = centComm.CurrentAlertLevel == CentComm.AlertLevel.Red ? redAlertTextColor : normalTextColor;
 		}
