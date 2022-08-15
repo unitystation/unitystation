@@ -545,12 +545,6 @@ namespace UI.Action
 					return;
 				}
 
-				if (Instance.DicIActionGUI.ContainsKey(iActionGUIMulti))
-				{
-					Logger.Log("iActionGUIMulti Already added", Category.UI);
-					return;
-				}
-
 				var idString = $"{relatedMind.GetHashCode()}{iActionGUIMulti.GetHashCode()}{actionData.GetHashCode()}";
 
 				SpriteHandlerManager.RegisterSpecialHandler(idString+"F"); //Front icon
@@ -811,12 +805,18 @@ namespace UI.Action
 								if (actionData != action.ActionData) continue;
 								count++;
 
+								if (Instance.ClientMultiIActionGUIToID[iActionGUIMulti]
+								    .TryGetValue(actionData, out var id))
+								{
+									SpriteHandlerManager.UnRegisterSpecialHandler(id+"F"); //Front icon
+									SpriteHandlerManager.UnRegisterSpecialHandler(id+"B"); //back icon
+								}
+								else
+								{
+									Logger.LogError("Failed to find ID", Category.UI);
+								}
 
-								var ID = Instance.ClientMultiIActionGUIToID[iActionGUIMulti][actionData];
-								SpriteHandlerManager.UnRegisterSpecialHandler(ID+"F"); //Front icon
-								SpriteHandlerManager.UnRegisterSpecialHandler(ID+"B"); //back icon
 								Instance.ClientMultiIActionGUIToID[iActionGUIMulti].Remove(actionData);
-
 
 								action.Pool();
 								Instance.PooledUIAction.Add(action);
