@@ -512,30 +512,32 @@ namespace UI.Action
 		#region IActionGUIMulti
 
 		/// <summary>
-		/// Set the action button visibility, locally (clientside)
+		/// Set the action button visibility and syncs to client
 		/// </summary>
-		public static void ToggleMultiServer(Mind RelatedMind, IActionGUIMulti iActionGUIMulti, ActionData actionData,
+		public static void ToggleMultiServer(Mind relatedMind, IActionGUIMulti iActionGUIMulti, ActionData actionData,
 			bool show)
 		{
-			Instance.InstantMultiToggleServer(RelatedMind, iActionGUIMulti, actionData, show);
+			if(relatedMind == null) return;
+
+			Instance.InstantMultiToggleServer(relatedMind, iActionGUIMulti, actionData, show);
 		}
 
-		private void InstantMultiToggleServer(Mind RelatedMind, IActionGUIMulti iActionGUIMulti, ActionData actionData,
+		private void InstantMultiToggleServer(Mind relatedMind, IActionGUIMulti iActionGUIMulti, ActionData actionData,
 			bool show)
 		{
 			if (CustomNetworkManager.IsServer == false) return;
 
-			if (MultiActivePlayerActions.ContainsKey(RelatedMind) == false)
+			if (MultiActivePlayerActions.ContainsKey(relatedMind) == false)
 			{
-				MultiActivePlayerActions[RelatedMind] = new Dictionary<IActionGUIMulti, List<ActionData>>();
+				MultiActivePlayerActions[relatedMind] = new Dictionary<IActionGUIMulti, List<ActionData>>();
 			}
 
 			if (show)
 			{
-				MultiActivePlayerActions[RelatedMind][iActionGUIMulti] = new List<ActionData>();
+				MultiActivePlayerActions[relatedMind][iActionGUIMulti] = new List<ActionData>();
 
 
-				if (MultiActivePlayerActions[RelatedMind][iActionGUIMulti].Contains(actionData))
+				if (MultiActivePlayerActions[relatedMind][iActionGUIMulti].Contains(actionData))
 				{
 					Logger.LogError("ActionData Already present on mind");
 					return;
@@ -548,7 +550,7 @@ namespace UI.Action
 					return;
 				}
 
-				var IDString = (RelatedMind.GetHashCode().ToString() + iActionGUIMulti.GetHashCode().ToString() + actionData.GetHashCode().ToString());
+				var IDString = (relatedMind.GetHashCode().ToString() + iActionGUIMulti.GetHashCode().ToString() + actionData.GetHashCode().ToString());
 
 				SpriteHandlerManager.RegisterSpecialHandler(IDString+"F"); //Front icon
 				SpriteHandlerManager.RegisterSpecialHandler(IDString+"B"); //back icon
@@ -560,32 +562,32 @@ namespace UI.Action
 				}
 				MultiIActionGUIToID[iActionGUIMulti][actionData] = IDString;
 
-				MultiIActionGUIToMind[iActionGUIMulti] = RelatedMind;
-				MultiActivePlayerActions[RelatedMind][iActionGUIMulti].Add(actionData);
-				ShowMulti(IDString, RelatedMind, iActionGUIMulti, actionData);
+				MultiIActionGUIToMind[iActionGUIMulti] = relatedMind;
+				MultiActivePlayerActions[relatedMind][iActionGUIMulti].Add(actionData);
+				ShowMulti(IDString, relatedMind, iActionGUIMulti, actionData);
 			}
 			else
 			{
-				if (MultiActivePlayerActions[RelatedMind].ContainsKey(iActionGUIMulti) == false)
+				if (MultiActivePlayerActions[relatedMind].ContainsKey(iActionGUIMulti) == false)
 				{
 					Logger.LogError("iActionGUIMulti Not present on mind");
 					return;
 				}
 
-				if (MultiActivePlayerActions[RelatedMind][iActionGUIMulti].Contains(actionData) == false)
+				if (MultiActivePlayerActions[relatedMind][iActionGUIMulti].Contains(actionData) == false)
 				{
 					Logger.LogError("actionData Not present on mind");
 					return;
 				}
 
-				var IDString = MultiIActionGUIToID[iActionGUIMulti][actionData];
-				SpriteHandlerManager.UnRegisterSpecialHandler(IDString+"F"); //Front icon
-				SpriteHandlerManager.UnRegisterSpecialHandler(IDString+"B"); //back icon
+				var idString = MultiIActionGUIToID[iActionGUIMulti][actionData];
+				SpriteHandlerManager.UnRegisterSpecialHandler(idString+"F"); //Front icon
+				SpriteHandlerManager.UnRegisterSpecialHandler(idString+"B"); //back icon
 				MultiIActionGUIToID[iActionGUIMulti].Remove(actionData);
 
-				MultiActivePlayerActions[RelatedMind][iActionGUIMulti].Remove(actionData);
+				MultiActivePlayerActions[relatedMind][iActionGUIMulti].Remove(actionData);
 				MultiIActionGUIToMind.Remove(iActionGUIMulti);
-				HideMulti(RelatedMind, iActionGUIMulti, actionData);
+				HideMulti(relatedMind, iActionGUIMulti, actionData);
 			}
 		}
 

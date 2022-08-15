@@ -87,24 +87,26 @@ public class Mind
 	/// </summary>
 	/// <param name="player"></param>
 	/// <param name="occupation"></param>
-	public static void Create(GameObject player, Occupation occupation)
+	public static Mind Create(GameObject player, Occupation occupation)
 	{
 		var mind = new Mind {occupation = occupation};
 		var playerScript = player.GetComponent<PlayerScript>();
 		mind.SetNewBody(playerScript);
+		return mind;
 	}
 
 	/// <summary>
 	/// Create as a Ghost
 	/// </summary>
 	/// <param name="player"></param>
-	public static void Create(GameObject player)
+	public static Mind Create(GameObject player)
 	{
 		var playerScript = player.GetComponent<PlayerScript>();
 		var mind = new Mind { };
 		playerScript.mind = mind;
 		// Forces you into ghosting, the IsGhosting field should make it so it never points to Body
 		mind.Ghosting(player);
+		return mind;
 	}
 
 	public void SetNewBody(PlayerScript playerScript)

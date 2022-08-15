@@ -7,7 +7,7 @@ using NaughtyAttributes;
 
 namespace UI.Action
 {
-	public class ItemActionButton : NetworkBehaviour, IServerActionGUI, IServerInventoryMove
+	public class ItemActionButton : NetworkBehaviour, IServerActionGUI, IServerInventoryMove, IOnPlayerLeaveBody, IOnPlayerTransfer
 	{
 		[Tooltip("The button action data SO this component should use.")]
 		[SerializeField]
@@ -70,20 +70,9 @@ namespace UI.Action
 
 		public void OnInventoryMoveServer(InventoryMove info)
 		{
-			bool showAlert = false;
 			if (info.ToPlayer != null)
 			{
-
-				if (pickupable.ItemSlot.NamedSlot == null)
-				{
-					showAlert = false;
-				}
-				else
-				{
-					showAlert = (allowedSlots.HasFlag(ItemSlot.GetFlaggedSlot(pickupable.ItemSlot.NamedSlot.Value)));
-				}
-
-
+				var showAlert = ShowAlert();
 
 				if (showAlert == false && PreviouslyOn != null)
 				{
@@ -91,7 +80,7 @@ namespace UI.Action
 					PreviouslyOn = null;
 				}
 
-				if (showAlert == true && PreviouslyOn == null)
+				if (showAlert && PreviouslyOn == null)
 				{
 					UIActionManager.ToggleServer(info.ToPlayer.PlayerScript.mind, this, true);
 					UIActionManager.SetServerSpriteSO(this, spriteHandler.GetCurrentSpriteSO(), spriteHandler.Palette);
@@ -105,12 +94,43 @@ namespace UI.Action
 			}
 		}
 
+		private bool ShowAlert()
+		{
+			bool showAlert;
+			if (pickupable.ItemSlot.NamedSlot == null)
+			{
+				showAlert = false;
+			}
+			else
+			{
+				showAlert = (allowedSlots.HasFlag(ItemSlot.GetFlaggedSlot(pickupable.ItemSlot.NamedSlot.Value)));
+			}
+
+			return showAlert;
+		}
+
 		private void UpdateButtonSprite(bool isServer)
 		{
 			if (useSpriteHandler)
 			{
 				UIActionManager.SetServerSpriteSO(this, spriteHandler.GetCurrentSpriteSO(), palette: spriteHandler.Palette );
 			}
+		}
+
+		public void OnPlayerLeaveBody(Mind mind)
+		{
+			UIActionManager.ToggleServer(mind, this, false);
+			PreviouslyOn = null;
+		}
+
+		public void OnPlayerTransfer(Mind mind)
+		{
+			if (ShowAlert())
+			{
+				UIActionManager.ToggleServer(mind, this, true);
+			}
+
+			PreviouslyOn = mind;
 		}
 	}
 }

@@ -18,6 +18,7 @@ namespace Messages.Server
 			public string SpriteName;
 			public ushort actionListID;
 			public short spellListIndex;
+			public bool isMulti;
 			public int ComponentLocation;
 			public uint NetObject;
 			public bool showAlert;
@@ -27,6 +28,41 @@ namespace Messages.Server
 		}
 
 		public override void Process(NetMessage msg)
+		{
+			if (msg.isMulti == false)
+			{
+				//Do action GUI's
+				ProcessActionGUI(msg);
+				return;
+			}
+
+			//Do multi action GUI's
+			IActionGUIMulti actionMulti = null;
+
+			// Action pre-placed on a networked object
+			LoadNetworkObject(msg.NetObject);
+			var actionsOther = NetworkObject.GetComponentsInChildren(DeserializeType(msg.ComponentID));
+			if ((actionsOther.Length > msg.ComponentLocation))
+			{
+				actionMulti = (actionsOther[msg.ComponentLocation] as IActionGUIMulti);
+			}
+
+			if(actionMulti == null) return;
+
+			var actionData = actionMulti.ActionData[msg.spellListIndex];
+
+			switch (msg.ProposedAction)
+			{
+				case UpdateType.StateChange:
+					UIActionManager.MultiToggleClient(actionMulti, actionData, msg.showAlert, msg.SpriteName);
+					break;
+				case UpdateType.Cooldown:
+					UIActionManager.SetCooldownMultiLocal(actionMulti, actionData, msg.cooldown);
+					break;
+			}
+		}
+
+		private void ProcessActionGUI(NetMessage msg)
 		{
 			IActionGUI action = null;
 			if (msg.actionListID != 0)
@@ -69,32 +105,6 @@ namespace Messages.Server
 						UIActionManager.SetCooldownLocal(action, msg.cooldown);
 						break;
 				}
-
-				return;
-			}
-
-			IActionGUIMulti actionMulti = null;
-
-			// Action pre-placed on a networked object
-			LoadNetworkObject(msg.NetObject);
-			var actionsOther = NetworkObject.GetComponentsInChildren(DeserializeType(msg.ComponentID));
-			if ((actionsOther.Length > msg.ComponentLocation))
-			{
-				actionMulti = (actionsOther[msg.ComponentLocation] as IActionGUIMulti);
-			}
-
-			if(actionMulti == null) return;
-
-			var actionData = actionMulti.ActionData[msg.spellListIndex];
-
-			switch (msg.ProposedAction)
-			{
-				case UpdateType.StateChange:
-					UIActionManager.MultiToggleClient(actionMulti, actionData, msg.showAlert, msg.SpriteName);
-					break;
-				case UpdateType.Cooldown:
-					UIActionManager.SetCooldownMultiLocal(actionMulti, actionData, msg.cooldown);
-					break;
 			}
 		}
 
@@ -358,6 +368,7 @@ namespace Messages.Server
 					ProposedAction = ProposedAction,
 					ComponentID = SerializeType(actionFromSO.GetType()),
 					spellListIndex = RequestGameAction.FindIndex(action, actionChosen),
+					isMulti = true
 				};
 				SendTo(recipient, msg);
 				return msg;
@@ -372,7 +383,8 @@ namespace Messages.Server
 					cooldown = cooldown,
 					ProposedAction = ProposedAction,
 					ComponentID = SerializeType(spellAction.GetType()),
-					SpriteName = ID
+					SpriteName = ID,
+					isMulti = true
 				};
 				SendTo(recipient, msg);
 				return msg;
@@ -387,7 +399,7 @@ namespace Messages.Server
 				bool isFound = false;
 				foreach (var foundAction in foundActions)
 				{
-					if ((foundAction as IActionGUI) == action)
+					if ((foundAction as IActionGUIMulti) == action)
 					{
 						isFound = true;
 						break;
@@ -407,7 +419,8 @@ namespace Messages.Server
 						showAlert = show,
 						ProposedAction = ProposedAction,
 						spellListIndex = RequestGameAction.FindIndex(action, actionChosen),
-						SpriteName = ID
+						SpriteName = ID,
+						isMulti = true
 					};
 					SendTo(recipient, msg);
 					return msg;
