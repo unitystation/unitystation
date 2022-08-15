@@ -532,17 +532,18 @@ namespace UI.Action
 				MultiActivePlayerActions[relatedMind] = new Dictionary<IActionGUIMulti, List<ActionData>>();
 			}
 
-			if (show)
+			if (MultiActivePlayerActions[relatedMind].ContainsKey(iActionGUIMulti) == false)
 			{
 				MultiActivePlayerActions[relatedMind][iActionGUIMulti] = new List<ActionData>();
+			}
 
-
+			if (show)
+			{
 				if (MultiActivePlayerActions[relatedMind][iActionGUIMulti].Contains(actionData))
 				{
 					Logger.LogError("ActionData Already present on mind");
 					return;
 				}
-
 
 				if (Instance.DicIActionGUI.ContainsKey(iActionGUIMulti))
 				{
@@ -550,21 +551,21 @@ namespace UI.Action
 					return;
 				}
 
-				var IDString = (relatedMind.GetHashCode().ToString() + iActionGUIMulti.GetHashCode().ToString() + actionData.GetHashCode().ToString());
+				var idString = $"{relatedMind.GetHashCode()}{iActionGUIMulti.GetHashCode()}{actionData.GetHashCode()}";
 
-				SpriteHandlerManager.RegisterSpecialHandler(IDString+"F"); //Front icon
-				SpriteHandlerManager.RegisterSpecialHandler(IDString+"B"); //back icon
+				SpriteHandlerManager.RegisterSpecialHandler(idString+"F"); //Front icon
+				SpriteHandlerManager.RegisterSpecialHandler(idString+"B"); //back icon
 
 				if (MultiIActionGUIToID.ContainsKey(iActionGUIMulti) == false)
 				{
-					MultiIActionGUIToID[iActionGUIMulti] =
-						new SerializableDictionaryBase.Dictionary<ActionData, string>();
+					MultiIActionGUIToID[iActionGUIMulti] = new Dictionary<ActionData, string>();
 				}
-				MultiIActionGUIToID[iActionGUIMulti][actionData] = IDString;
+
+				MultiIActionGUIToID[iActionGUIMulti][actionData] = idString;
 
 				MultiIActionGUIToMind[iActionGUIMulti] = relatedMind;
 				MultiActivePlayerActions[relatedMind][iActionGUIMulti].Add(actionData);
-				ShowMulti(IDString, relatedMind, iActionGUIMulti, actionData);
+				ShowMulti(idString, relatedMind, iActionGUIMulti, actionData);
 			}
 			else
 			{
@@ -596,12 +597,6 @@ namespace UI.Action
 		{
 			if (show)
 			{
-				if (Instance.DicIActionGUI.ContainsKey(iActionGUIMulti))
-				{
-					Logger.Log("iActionGUIMulti Already added", Category.UI);
-					return;
-				}
-
 				ShowMulti(ID, null, iActionGUIMulti, actionData);
 			}
 			else
