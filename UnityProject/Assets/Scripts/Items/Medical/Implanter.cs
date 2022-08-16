@@ -38,7 +38,7 @@ public class Implanter : MonoBehaviour, ICheckedInteractable<HandApply>, IChecke
 		//can only be applied to LHB
 		if (!Validations.HasComponent<LivingHealthMasterBase>(interaction.TargetObject)) return false;
 
-		if (interaction.Intent != Intent.Help) return false;
+		if (interaction.Intent != Intent.Help || primed == false) return false;
 
 		if(itemStorage.GetIndexedItemSlot(0).IsEmpty)
 		{
@@ -73,8 +73,9 @@ public class Implanter : MonoBehaviour, ICheckedInteractable<HandApply>, IChecke
 					$"{interaction.Performer.ExpensiveName()} injects {interaction.TargetObject.ExpensiveName()}'s {bodyPart.gameObject.ExpensiveName()} with the implanter.",
 					() =>
 					{
-						Inventory.ServerTransfer(fromSlot, toSlot);
-						TogglePrimed();
+						Inventory.ServerTransfer(fromSlot, toSlot,ReplacementStrategy.DropOther);
+						
+						TogglePrimed();	
 					});
 					
 				}

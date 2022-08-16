@@ -16,9 +16,6 @@ namespace Items.Weapons
 		{
 			if (bodyPart.ContainedIn != null)
 			{
-				//This prevents those with bomb proof armour from just tanking an explosion thats supposed to me inside them
-				bodyPart.HealthMaster.ApplyDamageToBodyPart(gameObject, 200, AttackType.Bomb, DamageType.Burn, bodyPart.ContainedIn.BodyPartType);
-
 				if (explosiveStrength >= 750)
 				{
 					//Drop all the players stuff so that the explosion can destroy and trigger destruction events
@@ -32,6 +29,10 @@ namespace Items.Weapons
 					//Removes limb it is implanted in
 					bodyPart.HealthMaster.DismemberBodyPart(bodyPart.ContainedIn);
 				}
+
+				//This prevents those with bomb proof armour from just tanking an explosion thats supposed to me inside them
+				bodyPart.HealthMaster.ApplyDamageToBodyPart(gameObject, 200, AttackType.Bomb, DamageType.Burn, bodyPart.ContainedIn.BodyPartType);
+
 			}
 
 			base.Detonate();

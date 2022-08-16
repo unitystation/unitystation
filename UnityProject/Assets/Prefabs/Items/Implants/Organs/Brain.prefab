@@ -178,13 +178,19 @@ PrefabInstance:
     - target: {fileID: 5146776682568007683, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
         type: 3}
       propertyPath: initialTraits.Array.size
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 5146776682568007683, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
         type: 3}
       propertyPath: initialTraits.Array.data[1]
       value: 
       objectReference: {fileID: 11400000, guid: d959db3d812fcd74792e16aedab33f9e,
+        type: 2}
+    - target: {fileID: 5146776682568007683, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      propertyPath: initialTraits.Array.data[2]
+      value: 
+      objectReference: {fileID: 11400000, guid: 5e9ac88966a35d34a9fd90c34e1ddaa0,
         type: 2}
     - target: {fileID: 8195321311611557117, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
         type: 3}
@@ -243,6 +249,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 840609453e4bf334cbd14cd7999c6fb6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isEMPVunerable: 0
+  EMPResistance: 2
 --- !u!114 &8557864071590038898
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -255,6 +263,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d2cd4df264ca2434792937c1337b5b65, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isEMPVunerable: 0
+  EMPResistance: 2
   severityAndSymptoms:
   - HealthPercentageAndBelow: 0.5
     Affects:
