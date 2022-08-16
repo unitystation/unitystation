@@ -27,9 +27,9 @@ namespace Items.Weapons
 					//Macrobombs and microbombs will gib their victim
 					bodyPart.HealthMaster.OnGib();
 				}
-				else if (bodyPart.ContainedIn.BodyPartType == BodyPartType.Head)
+				else if (bodyPart.ContainedIn.BodyPartType != BodyPartType.Chest)
 				{
-					//Decapitates if explosive in head
+					//Removes limb it is implanted in
 					bodyPart.HealthMaster.DismemberBodyPart(bodyPart.ContainedIn);
 				}
 			}
