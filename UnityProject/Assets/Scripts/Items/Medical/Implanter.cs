@@ -2,7 +2,7 @@ using UnityEngine;
 using HealthV2;
 using Items;
 
-public class Implanter : MonoBehaviour, ICheckedInteractable<HandApply>, ICheckedInteractable<InventoryApply>, ICheckedInteractable<HandActivate>,IServerSpawn
+public class Implanter : MonoBehaviour, ICheckedInteractable<HandApply>, ICheckedInteractable<InventoryApply>, ICheckedInteractable<HandActivate>
 {
 	[SerializeField]
 	private GameObject implantObject = null;
