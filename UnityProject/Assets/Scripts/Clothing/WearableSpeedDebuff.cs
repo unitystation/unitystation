@@ -36,7 +36,8 @@ namespace Clothing
 			{
 				ApplyDebuff();
 			}
-			else if (IsTakingOff(info))
+
+			if (IsTakingOff(info))
 			{
 				RemoveDebuff();
 			}
