@@ -216,7 +216,8 @@ namespace AdminTools
 	public enum PlayerAlertTypes
 	{
 		RDM,
-		PlasmaOpen
+		PlasmaOpen,
+		Emag
 	}
 
 	public enum PlayerAlertActions
