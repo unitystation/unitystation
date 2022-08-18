@@ -126,6 +126,7 @@ namespace Objects.Wallmounts
 			centComm.OnStatusDisplayUpdate.RemoveListener(OnTextBroadcastReceived);
 			channel = StatusDisplayChannel.Command;
 			textField.text = string.Empty;
+			centComm.OnAlertLevelChange -= ServerUpdateCurrentColor;
 			this.TryStopCoroutine(ref blinkHandle);
 		}
 
