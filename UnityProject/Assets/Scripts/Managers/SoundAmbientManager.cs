@@ -57,7 +57,11 @@ namespace Audio.Managers
 
 		public static void PlayAudio(string assetAddress)
 		{
-			if(string.IsNullOrEmpty(assetAddress)) return;
+			if(string.IsNullOrEmpty(assetAddress)) 
+			{
+				Logger.LogError("Cannot play ambient noise because asset address is empty or null");
+				return;
+			}
 			var audioSource = new AddressableAudioSource(assetAddress);
 
 			if (Instance.playingSource.ContainsKey(audioSource))
