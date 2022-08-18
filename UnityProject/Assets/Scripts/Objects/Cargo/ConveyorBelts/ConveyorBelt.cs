@@ -100,15 +100,7 @@ namespace Construction.Conveyors
 			if (item.NewtonianMovement.magnitude > ConveyorBeltSpeed) return;
 			item.Pushing.Clear();
 
-			if (item.stickyMovement)
-			{
-				item.TryTilePush(PushDirectionPosition.RoundTo2Int(), null , ConveyorBeltSpeed);
-			}
-			else
-			{
-				item.NewtonianPush(PushDirectionPosition.RoundTo2Int(), ConveyorBeltSpeed - item.NewtonianMovement.magnitude, 0.5f);
-			}
-
+			item.TryTilePush(PushDirectionPosition.RoundTo2Int(), null , ConveyorBeltSpeed);
 		}
 
 		#endregion Belt Operation
