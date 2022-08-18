@@ -33,7 +33,7 @@ namespace Objects.Wallmounts
 
 		[SyncVar(hook = nameof(SyncStatusText))]
 		private string statusText = string.Empty;
-		
+
 		[SyncVar(hook = nameof(UpdateTextColor))]
 		private Color currentTextColor;
 
@@ -105,7 +105,7 @@ namespace Objects.Wallmounts
 			SyncSprite(stateSync, stateSync);
 			centComm = GameManager.Instance.CentComm;
 			centComm.OnStatusDisplayUpdate.AddListener(OnTextBroadcastReceived);
-			centComm.OnAlertLevelChange += UpdateTextColor;
+			centComm.OnAlertLevelChange += ServerUpdateCurrentColor;
 		}
 
 		private void Start()
@@ -281,8 +281,7 @@ namespace Objects.Wallmounts
 		private IEnumerator BlinkText()
 		{
 			textField.text = statusText.Substring(0, Mathf.Min(statusText.Length, MAX_CHARS_PER_PAGE));
-
-			currentTextColor = centComm.CurrentAlertLevel == CentComm.AlertLevel.Red ? redAlertTextColor : normalTextColor;
+			textField.color = currentTextColor;
 
 			yield return WaitFor.Seconds(3);
 
@@ -299,14 +298,19 @@ namespace Objects.Wallmounts
 			this.StartCoroutine(BlinkText(), ref blinkHandle);
 		}
 
+		private void ServerUpdateCurrentColor()
+		{
+			currentTextColor = centComm.CurrentAlertLevel == CentComm.AlertLevel.Red ? redAlertTextColor : normalTextColor;
+		}
+
 		private void UpdateTextColor(Color oldValue, Color newValue)
 		{
-			textField.color = centComm.CurrentAlertLevel == CentComm.AlertLevel.Red ? redAlertTextColor : normalTextColor;
+			textField.color = newValue;
 		}
 
 		private void OnTextBroadcastReceived(StatusDisplayChannel broadcastedChannel)
 		{
-			currentTextColor = centComm.CurrentAlertLevel == CentComm.AlertLevel.Red ? redAlertTextColor : normalTextColor;
+			textField.color = currentTextColor;
 			if (broadcastedChannel == StatusDisplayChannel.DoorTimer)
 			{
 				statusText = FormatTime(currentTimerSeconds, "CELL\n");
