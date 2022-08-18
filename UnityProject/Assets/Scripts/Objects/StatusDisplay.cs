@@ -301,7 +301,9 @@ namespace Objects.Wallmounts
 
 		private void ServerUpdateCurrentColor()
 		{
-			currentTextColor = centComm.CurrentAlertLevel == CentComm.AlertLevel.Red ? redAlertTextColor : normalTextColor;
+			currentTextColor = centComm.CurrentAlertLevel == CentComm.AlertLevel.Red || centComm.CurrentAlertLevel == CentComm.AlertLevel.Delta
+				? redAlertTextColor
+				: normalTextColor;
 		}
 
 		private void UpdateTextColor(Color oldValue, Color newValue)
