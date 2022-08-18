@@ -91,7 +91,7 @@ namespace DatabaseAPI
 			PlayerManager.CurrentCharacterSheet = characterSettings;
 
 			successAction?.Invoke("Login success");
-			PlayerPrefs.SetString("lastLogin", user.Email);
+			PlayerPrefs.SetString(PlayerPrefKeys.AccountEmail, user.Email);
 			PlayerPrefs.Save();
 			return true;
 		}

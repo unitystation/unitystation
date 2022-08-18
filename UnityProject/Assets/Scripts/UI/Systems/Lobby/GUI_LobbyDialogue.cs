@@ -16,10 +16,7 @@ namespace Lobby
 {
 	public class GUI_LobbyDialogue :  MonoBehaviour
 	{
-		public static GUI_LobbyDialogue Instance;
-		private const string DefaultServerAddress = "127.0.0.1";
-		private const ushort DefaultServerPort = 7777;
-		private const string UserNamePlayerPref = "PlayerName";
+		#region Inspector fields
 
 		public GameObject mainPanel;
 		public GameObject joinPanel;
@@ -40,6 +37,8 @@ namespace Lobby
 		public GameObject nextCreationButton;
 
 		//Account login:
+		[SerializeField]
+		private AccountLogin loginUIScript;
 		public GameObject loginNextButton;
 		public GameObject loginGoBackButton;
 		public Button resendEmailButton;
@@ -53,18 +52,29 @@ namespace Lobby
 		public Text loggingInText;
 		public Toggle autoLoginToggle;
 
-		public bool wasDisconnected = false;
-
-		private List<ConnectionHistory> history = new();
-		private string isWindows = "/";
-		private string historyFilePath;
 		[SerializeField] private GameObject historyLogEntryGameObject;
 		[SerializeField] private GameObject historyEntries;
 		[SerializeField] private GameObject historyPanel;
 		[SerializeField] private GameObject logShowButton;
 		[SerializeField] private int entrySizeLimit = 5;
 
+		#endregion
+
+		private const string DefaultServerAddress = "127.0.0.1";
+		private const ushort DefaultServerPort = 7777;
+
+		public static GUI_LobbyDialogue Instance;
+
+		[NonSerialized]
+		public bool wasDisconnected = false;
+
+		public AccountLogin LoginUIScript => loginUIScript;
+
 		private GameObject[] allPanels;
+
+		private List<ConnectionHistory> history = new();
+		private string isWindows = "/";
+		private string historyFilePath;
 
 		#region Lifecycle
 
@@ -90,7 +100,6 @@ namespace Lobby
 		{
 			// Init Lobby UI
 			HideAllPanels();
-			InitPlayerName();
 
 			if (ServerData.Auth?.CurrentUser == null)
 			{
@@ -268,9 +277,9 @@ namespace Lobby
 			chosenPasswordInput.text = "";
 			chosenUsernameInput.text = "";
 			goBackCreationButton.SetActive(true);
-			PlayerPrefs.SetString("lastLogin", emailAddressInput.text);
+			PlayerPrefs.SetString(PlayerPrefKeys.AccountEmail, emailAddressInput.text);
 			PlayerPrefs.Save();
-			LobbyManager.Instance.accountLogin.userNameInput.text = emailAddressInput.text;
+			loginUIScript.SetEmailField(emailAddressInput.text);
 			emailAddressInput.text = "";
 		}
 
@@ -280,29 +289,12 @@ namespace Lobby
 			goBackCreationButton.SetActive(true);
 		}
 
-		public void OnLogin()
-		{
-			_ = SoundManager.Play(CommonSounds.Instance.Click01);
-			PerformLogin();
-		}
-
-		public void PerformLogin()
-		{
-			if (!LobbyManager.Instance.accountLogin.ValidLogin())
-			{
-				return;
-			}
-
-			ShowLoggingInStatus("Logging in..");
-			LobbyManager.Instance.accountLogin.TryLogin(LoginSuccess, LoginError);
-		}
-
-		public void ShowLoggingInStatus(string status)
+		public void ShowLoadingWindow(string loadingMessage)
 		{
 			HideAllPanels();
 
 			loggingInPanel.SetActive(true);
-			loggingInText.text = status;
+			loggingInText.text = loadingMessage;
 			loginNextButton.SetActive(false);
 			loginGoBackButton.SetActive(false);
 		}
@@ -313,7 +305,7 @@ namespace Lobby
 			Application.Quit();
 		}
 
-		public void LoginSuccess(string msg)
+		public void LoginSuccess()
 		{
 			loggingInText.text = "Login Success";
 			ShowMainPanel();
@@ -358,11 +350,7 @@ namespace Lobby
 		{
 			_ = SoundManager.Play(CommonSounds.Instance.Click01);
 
-			dialogueTitle.text = "Hosting Game...";
-
-			// Set and cache player name
-			PlayerPrefs.SetString(UserNamePlayerPref, PlayerManager.CurrentCharacterSheet.Name);
-
+			ShowLoadingWindow("Hosting a game....");
 			LoadingScreenManager.LoadFromLobby(CustomNetworkManager.Instance.StartHost);
 		}
 
@@ -370,24 +358,23 @@ namespace Lobby
 		{
 			_ = SoundManager.Play(CommonSounds.Instance.Click01);
 
-			// Return if no network address is specified
-			if (string.IsNullOrEmpty(serverAddressInput.text)) return;
-
-			dialogueTitle.text = "Joining Game...";
-
-			ConnectToServer();
-		}
-
-		public void OnStartGameFromHub()
-		{
-			if (PlayerManager.CurrentCharacterSheet != null)
+			if (string.IsNullOrEmpty(serverAddressInput.text))
 			{
-				PlayerPrefs.SetString(UserNamePlayerPref, PlayerManager.CurrentCharacterSheet.Name);
+				serverAddressInput.text = DefaultServerAddress;
 			}
-			
-			ConnectToServer();
-			dialogueTitle.text = "Joining Game...";
-			ShowLoggingInStatus("Joining the game...");
+
+			if (string.IsNullOrEmpty(serverPortInput.text))
+			{
+				serverPortInput.text = DefaultServerPort.ToString();
+			}
+
+			if (ushort.TryParse(serverPortInput.text, out var serverPort) == false)
+			{
+				Logger.LogError("Cannot join server: invalid port.");
+				return;
+			}
+
+			LobbyManager.Instance.JoinServer(serverAddressInput.text, serverPort);
 		}
 
 		public void OnShowInformationPanel()
@@ -427,8 +414,8 @@ namespace Lobby
 			HideAllPanels();
 			ServerData.Auth.SignOut();
 			NetworkClient.Disconnect();
-			PlayerPrefs.SetString("username", "");
-			PlayerPrefs.SetString("cookie", "");
+			PlayerPrefs.DeleteKey(PlayerPrefKeys.AccountUsername);
+			PlayerPrefs.DeleteKey(PlayerPrefKeys.AccountToken);
 			PlayerPrefs.SetInt("autoLogin", 0);
 			PlayerPrefs.Save();
 			ShowLoginScreen();
@@ -436,56 +423,7 @@ namespace Lobby
 
 		#endregion
 
-		// Game handlers
-		public void ConnectToServer()
-		{
-			LoadingScreenManager.LoadFromLobby(DoServerConnect);
-		}
-
-		private void DoServerConnect()
-		{
-			// Set network address
-			string serverAddress = serverAddressInput.text;
-			if (string.IsNullOrEmpty(serverAddress))
-			{
-				serverAddress = DefaultServerAddress;
-			}
-
-			// Set network port
-			ushort serverPort = DefaultServerPort;
-			if (serverPortInput.text.Length >= 4)
-			{
-				ushort.TryParse(serverPortInput.text, out serverPort);
-			}
-
-			// Init network client
-			Logger.LogFormat("Client trying to connect to {0}:{1}", Category.Connections, serverAddress, serverPort);
-
-			CustomNetworkManager.Instance.networkAddress = serverAddress;
-
-			var telepathy = CustomNetworkManager.Instance.GetComponent<TelepathyTransport>();
-			if (telepathy != null)
-			{
-				telepathy.port = serverPort;
-			}
-
-			var ignorance = CustomNetworkManager.Instance.GetComponent<Ignorance>();
-			if (ignorance != null)
-			{
-				ignorance.port = serverPort;
-			}
-
-			// var booster = CustomNetworkManager.Instance.GetComponent<BoosterTransport>();
-			// if (booster != null)
-			// {
-			// 	booster.port = serverPort;
-			// }
-			LogConnectionToHistory(serverAddress, serverPort);
-
-			CustomNetworkManager.Instance.StartClient();
-		}
-
-		private void LogConnectionToHistory(string serverAddress, int serverPort)
+		public void LogConnectionToHistory(string serverAddress, int serverPort)
 		{
 			ConnectionHistory newHistoryEntry = new ConnectionHistory();
 			newHistoryEntry.IP = serverAddress;
@@ -503,27 +441,6 @@ namespace Lobby
 				var fs = new FileStream(historyFilePath, FileMode.Create); //To avoid share rule violations
 				fs.Dispose();
 				File.WriteAllText(historyFilePath, json);
-			}
-		}
-
-		private void InitPlayerName()
-		{
-			string steamName = "";
-			string prefsName;
-
-			if (!string.IsNullOrEmpty(steamName))
-			{
-				prefsName = steamName;
-			}
-			else
-			{
-				prefsName = PlayerPrefs.GetString(UserNamePlayerPref);
-			}
-
-			if (!string.IsNullOrEmpty(prefsName))
-			{
-				//FIXME
-				//	playerNameInput.text = prefsName;
 			}
 		}
 
@@ -560,7 +477,7 @@ namespace Lobby
 		{
 			serverAddressInput.text = history[historyIndex].IP;
 			serverPortInput.text = history[historyIndex].Port.ToString();
-			DoServerConnect();
+			LobbyManager.Instance.JoinServer(history[historyIndex].IP, (ushort) history[historyIndex].Port);
 		}
 
 		public void ConnectToLastServer()

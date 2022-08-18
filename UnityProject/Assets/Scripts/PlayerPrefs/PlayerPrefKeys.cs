@@ -1,5 +1,18 @@
 ﻿public static class PlayerPrefKeys
 {
+	#region Account
+
+	/// <summary>The PlayerPref key for the current user's Unitystation account email address.</summary>
+	public static string AccountEmail = "lastLogin";
+
+	/// <summary>The PlayerPref key for the current user's Unitystation account username.</summary>
+	public static string AccountUsername = "username";
+
+	/// <summary>The PlayerPref key for the current user's Unitystation account login token, if allowed to remember.</summary>
+	public static string AccountToken = "cookie";
+
+	#endregion
+
 	/// <summary>
 	/// The PlayerPref key for ChatBubble preference.
 	/// Use PlayerPrefs.GetInt(chatBubblePref) to determine the players
@@ -82,6 +95,8 @@
 	/// </summary>
 	public static string TargetFrameRate = "TargetFrameRate";
 
+	#region Chat Bubble
+
 	/// <summary>
 	/// Sets the normal chat bubble size preference
 	/// </summary>
@@ -102,6 +117,8 @@
 	/// Whether the clown text is coloured
 	/// </summary>
 	public static string ChatBubbleClownColour = "ChatBubbleClownColour";
+
+	#endregion
 
 	/// <summary>
 	/// VSync preference.

@@ -142,8 +142,9 @@ namespace DatabaseAPI
 		{
 			auth.SignOut();
 			idToken = "";
-			PlayerPrefs.SetString("username", "");
-			PlayerPrefs.SetString("cookie", "");
+			PlayerPrefs.DeleteKey(PlayerPrefKeys.AccountUsername);
+			PlayerPrefs.DeleteKey(PlayerPrefKeys.AccountEmail);
+			PlayerPrefs.DeleteKey(PlayerPrefKeys.AccountToken);
 			PlayerPrefs.SetInt("autoLogin", 0);
 			PlayerPrefs.Save();
 		}

@@ -1,31 +1,32 @@
 using UnityEngine;
-using UnityEngine.UI;
 using UI.CharacterCreator;
+using Shared.Managers;
+using System.Threading.Tasks;
+using Managers;
+using IgnoranceTransport;
+using Mirror;
+using DatabaseAPI;
+using Firebase.Auth;
+using Firebase.Extensions;
+using System;
 
 namespace Lobby
 {
-	public class LobbyManager : MonoBehaviour
+	/// <summary>
+	/// Backend scripting for lobby things.
+	/// </summary>
+	public class LobbyManager : SingletonManager<LobbyManager>
 	{
-		public static LobbyManager Instance;
-		public AccountLogin accountLogin;
 		public CharacterCustomization characterCustomization;
 
 		public GUI_LobbyDialogue lobbyDialogue;
 
-		private void Awake()
-		{
-			if (Instance == null)
-			{
-				Instance = this;
-			}
-			else
-			{
-				Destroy(this);
-			}
-		}
+		#region Lifecycle
 
-		private void Start()
+		public override void Start()
 		{
+			base.Start();
+
 			DetermineUIScale();
 			UIManager.Display.SetScreenForLobby();
 			EventManager.AddHandler(Event.LoggedOut, SetOnLogOut);
@@ -35,6 +36,167 @@ namespace Lobby
 		{
 			EventManager.RemoveHandler(Event.LoggedOut, SetOnLogOut);
 		}
+
+		#endregion
+
+		public void JoinServer(string address, ushort port)
+		{
+			lobbyDialogue.ShowLoadingWindow("Joining game...");
+
+			GameScreenManager.Instance.serverIP = address;
+
+			LoadingScreenManager.LoadFromLobby(() =>
+			{
+				// Init network client
+				Logger.LogFormat("Client trying to connect to {0}:{1}", Category.Connections, address, port);
+				lobbyDialogue.LogConnectionToHistory(address, port);
+
+				CustomNetworkManager.Instance.networkAddress = address;
+
+				if (CustomNetworkManager.Instance.TryGetComponent<TelepathyTransport> (out var telepathy))
+				{
+					telepathy.port = port;
+				}
+
+				if (CustomNetworkManager.Instance.TryGetComponent<Ignorance>(out var ignorance))
+				{
+					ignorance.port = port;
+				}
+
+				CustomNetworkManager.Instance.StartClient();
+			});
+		}
+
+		#region Login
+
+		public async void TryLogin(string email, string password)
+		{
+			lobbyDialogue.ShowLoadingWindow("Logging in...");
+
+			await FirebaseAuth.DefaultInstance.SignInWithEmailAndPasswordAsync(email, password)
+				.ContinueWithOnMainThread(async task =>
+				{
+					if (task.IsCanceled)
+					{
+						Logger.LogError($"Sign in error: {task.Exception.Message}", Category.DatabaseAPI);
+						lobbyDialogue.LoginError("Sign in canceled.");
+						return;
+					}
+
+					if (task.IsFaulted)
+					{
+						Logger.LogError($"Sign in error: {task.Exception.Message}", Category.DatabaseAPI);
+						lobbyDialogue.LoginError($"Sign in error. Check the console (F5)");
+						return;
+					}
+
+					await ServerData.ValidateUser(task.Result, (successStr) =>
+					{
+						lobbyDialogue.LoginSuccess();
+					}, (errorStr) =>
+					{
+						Logger.LogError($"Account validation error: {errorStr}", Category.DatabaseAPI);
+						lobbyDialogue.LoginError($"Account validation error. {errorStr}");
+					});
+				});
+		}
+
+		public async Task<bool> TryTokenLogin(string uid, string token)
+		{
+			lobbyDialogue.ShowLoadingWindow("Logging you in...");
+
+			var refreshToken = new RefreshToken();
+			refreshToken.refreshToken = token;
+			refreshToken.userID = uid;
+
+			var response = await ServerData.ValidateToken(refreshToken);
+
+			if (response == null)
+			{
+				lobbyDialogue.LoginError(
+					$"Unknown server error. Please check your logs for more information by press F5");
+				return false;
+			}
+
+			if (string.IsNullOrEmpty(response.errorMsg) == false)
+			{
+				Logger.LogError($"Something went wrong with hub token validation {response.errorMsg}", Category.DatabaseAPI);
+				lobbyDialogue.LoginError($"Could not verify your details {response.errorMsg}");
+				return false;
+			}
+
+			bool isLoginSuccess = false;
+			await FirebaseAuth.DefaultInstance.SignInWithCustomTokenAsync(response.message).ContinueWithOnMainThread(
+				async task =>
+				{
+					if (task.IsCanceled)
+					{
+						Logger.LogError("Custom token sign in was canceled.", Category.DatabaseAPI);
+						lobbyDialogue.LoginError($"Sign in was cancelled");
+						return;
+					}
+
+					if (task.IsFaulted)
+					{
+						Logger.LogError("Task Faulted: " + task.Exception, Category.DatabaseAPI);
+						lobbyDialogue.LoginError($"Task Faulted: " + task.Exception);
+						return;
+					}
+
+					var success = await ServerData.ValidateUser(task.Result, null, null);
+
+					if (success)
+					{
+						Logger.Log("Signed in successfully with valid token", Category.DatabaseAPI);
+						isLoginSuccess = true;
+					}
+				});
+
+			return isLoginSuccess;
+		}
+
+		public async Task<bool> TryAutoLogin()
+		{
+			await Task.Delay(TimeSpan.FromSeconds(0.1));
+
+			bool isLoginSuccess = false;
+			if (FirebaseAuth.DefaultInstance.CurrentUser != null)
+			{
+				lobbyDialogue.ShowLoadingWindow($"Loading user profile for {FirebaseAuth.DefaultInstance.CurrentUser.DisplayName}");
+
+				await FirebaseAuth.DefaultInstance.CurrentUser.TokenAsync(true).ContinueWithOnMainThread(task => {
+					if (task.IsCanceled || task.IsFaulted)
+					{
+						lobbyDialogue.LoginError(task.Exception?.Message);
+						return;
+					}
+				});
+
+				await ServerData.ValidateUser(FirebaseAuth.DefaultInstance.CurrentUser, (str) => {
+					isLoginSuccess = true;
+				}, lobbyDialogue.LoginError);
+			}
+
+			return isLoginSuccess;
+		}
+
+		private void SaveAccountPrefs(string email, string token)
+		{
+			PlayerPrefs.SetString(PlayerPrefKeys.AccountEmail, email);
+
+			if (lobbyDialogue.LoginUIScript.IsAutoLoginEnabled)
+			{
+				PlayerPrefs.SetString(PlayerPrefKeys.AccountToken, token);
+			}
+			else
+			{
+				PlayerPrefs.DeleteKey(PlayerPrefKeys.AccountToken);
+			}
+
+			PlayerPrefs.Save();
+		}
+
+		#endregion
 
 		private void DetermineUIScale()
 		{
@@ -64,7 +226,7 @@ namespace Lobby
 		private void SetOnLogOut()
 		{
 			characterCustomization.gameObject.SetActive(false);
-			accountLogin.gameObject.SetActive(true);
+			lobbyDialogue.gameObject.SetActive(true);
 			lobbyDialogue.ShowLoginScreen();
 		}
 	}
