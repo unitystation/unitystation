@@ -413,5 +413,10 @@ namespace HealthV2
 		{
 			return Damages[(int) damageType];
 		}
+
+		public void SetMaxHealth(float newMaxHealth)
+		{
+			maxHealth = newMaxHealth;
+		}
 	}
 }
