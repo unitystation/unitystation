@@ -1,8 +1,12 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Globalization;
 using AddressableReferences;
+using AdminTools;
+using Managers;
 using Messages.Server;
+using Messages.Server.AdminTools;
 using Mirror;
 using UI.Objects.Shuttles;
 using UnityEngine;
@@ -81,6 +85,7 @@ namespace Objects.Shuttles
 			if (shuttleConsoleState == ShuttleConsoleState.Normal)
 			{
 				shuttleConsoleState = ShuttleConsoleState.Emagged;
+				ServerLogEmagEvent(interaction);
 			}
 			else if (shuttleConsoleState == ShuttleConsoleState.Emagged)
 			{
@@ -97,7 +102,12 @@ namespace Objects.Shuttles
 			}
 		}
 
-
+		private void ServerLogEmagEvent(HandApply prep)
+		{
+			var time = DateTime.Now.ToString(CultureInfo.InvariantCulture);
+			UIManager.Instance.playerAlerts.ServerAddNewEntry(time, PlayerAlertTypes.Emag, prep.PerformerPlayerScript.PlayerInfo,
+				$"{time} : {prep.PerformerPlayerScript.playerName} emmaged {gameObject}.");
+		}
 
 		public void ClientTryMove(Orientation GlobalMoveDirection)
 		{
