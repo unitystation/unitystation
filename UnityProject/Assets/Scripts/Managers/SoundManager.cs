@@ -370,6 +370,7 @@ public class SoundManager : MonoBehaviour
 			return;
 
 		addressableAudioSource = await AudioManager.GetAddressableAudioSourceFromCache(addressableAudioSource);
+		if(addressableAudioSource == null) return;
 		SoundSpawn soundSpawn =
 			Instance.GetSoundSpawn(addressableAudioSource, addressableAudioSource.AudioSource, soundSpawnToken);
 		ApplyAudioSourceParameters(audioSourceParameters, soundSpawn);

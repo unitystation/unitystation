@@ -57,6 +57,7 @@ namespace Audio.Managers
 
 		public static void PlayAudio(string assetAddress)
 		{
+			if(string.IsNullOrEmpty(assetAddress)) return;
 			var audioSource = new AddressableAudioSource(assetAddress);
 
 			if (Instance.playingSource.ContainsKey(audioSource))
