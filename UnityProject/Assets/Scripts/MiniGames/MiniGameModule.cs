@@ -9,7 +9,7 @@ namespace MiniGames
 	/// </summary>
 	public class MiniGameModule : MonoBehaviour
 	{
-		private MiniGameResultTracker Tracker;
+		protected MiniGameResultTracker Tracker;
 
 		/// <summary>
 		/// Use the Setup() function only when you're assigned events programatically and not from the inspector.
