@@ -15,6 +15,12 @@ namespace MiniGames.MiniGameModules
 			randomNumber = int.Parse(firstThreeDigits);
 		}
 
+		public override void StartMiniGame()
+		{
+			base.StartMiniGame();
+			//TODO : ADD MINIGAME UI AND HOOK UP STUFF 
+		}
+
 		public void CheckResult(int result)
 		{
 			var won = randomNumber == result;
