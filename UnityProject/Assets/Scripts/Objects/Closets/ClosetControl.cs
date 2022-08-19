@@ -5,14 +5,18 @@ using UnityEngine;
 using Mirror;
 using AddressableReferences;
 using Items;
+using MiniGames;
+using NaughtyAttributes;
 using Objects.Atmospherics;
+using UnityEngine.Events;
+using Random = UnityEngine.Random;
 
 namespace Objects
 {
 	/// <summary>
 	/// Allows closet to be opened / closed / locked
 	/// </summary>
-	public class ClosetControl : NetworkBehaviour, IServerSpawn, ICheckedInteractable<PositionalHandApply>, IRightClickable, IExaminable, IEscapable
+	public class ClosetControl : NetworkBehaviour, IServerSpawn, ICheckedInteractable<PositionalHandApply>, IRightClickable, IExaminable, IEscapable, IMiniGame
 	{
 		// These sprite enums coincide with the sprite SOs set in SpriteHandler.
 		public enum Door
@@ -125,6 +129,11 @@ namespace Objects
 		public bool IsLocked => lockState == Lock.Locked;
 		public bool IsWelded => weldState == Weld.Welded;
 
+
+		[SerializeField] private MiniGameResultTracker miniGameTracker;
+		[SerializeField] private List<MiniGameModule> miniGameModules;
+		[SyncVar] private int currentMiniGameIndex = -1;
+
 		#region Lifecycle
 
 		private void Awake()
@@ -157,6 +166,19 @@ namespace Objects
 			{
 				CollectObjects();
 			}
+			SetupMiniGames();
+		}
+
+		private void SetupMiniGames()
+		{
+			if(miniGameTracker == null) return;
+			if (miniGameModules.Count == 0)
+			{
+				Logger.LogError("[ClosetControl/MiniGames] - Found MiniGame tracker but no minigames found!");
+				return;
+			}
+			currentMiniGameIndex = Random.Range(0, miniGameModules.Count - 1);
+			miniGameModules[currentMiniGameIndex].Setup(miniGameTracker);
 		}
 
 		private void OnWillDestroyServer(DestructionInfo arg0)
@@ -543,5 +565,15 @@ namespace Objects
 		}
 
 		#endregion
+
+		public void StartGame()
+		{
+			throw new NotImplementedException();
+		}
+
+		public UnityAction<bool> HasWon()
+		{
+			throw new NotImplementedException();
+		}
 	}
 }
