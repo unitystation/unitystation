@@ -21,6 +21,10 @@ namespace HealthV2
 		private float overallHealthSync = 100;
 		public float OverallHealth => overallHealthSync;
 
+		[SyncVar(hook = nameof(SyncMaxHealth))]
+		private float maxHealthSync = 100;
+		public float MaxHealth => maxHealthSync;
+
 		[SyncVar(hook = nameof(SyncDNABloodTypeJSON))]
 		private string DNABloodTypeJSONSync;
 
@@ -122,6 +126,12 @@ namespace HealthV2
 		}
 
 		[Server]
+		public void SetMaxHealth(float newMaxHealth)
+		{
+			maxHealthSync = newMaxHealth;
+		}
+
+		[Server]
 		public void SetDNA(DNAandBloodType newDNA)
 		{
 			DNABloodTypeJSONSync = JsonUtility.ToJson(newDNA);
@@ -198,6 +208,12 @@ namespace HealthV2
 		private void SyncOverallHealth(float oldOverallHealth, float newOverallHealth)
 		{
 			overallHealthSync = newOverallHealth;
+		}
+
+		[Client]
+		private void SyncMaxHealth(float oldMaxHealth, float newMaxHealth)
+		{
+			maxHealthSync = newMaxHealth;
 		}
 
 		[Client]

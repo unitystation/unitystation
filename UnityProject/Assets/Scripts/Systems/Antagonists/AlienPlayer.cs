@@ -699,11 +699,14 @@ namespace Systems.Antagonists
 
 		private void SetUpNewHealthValues()
 		{
+			livingHealthMasterBase.SetMaxHealth(alienType.MaxBodyPartHealth);
+
 			var bodyParts = livingHealthMasterBase.SurfaceBodyParts;
 
 			foreach (var bodyPart in bodyParts)
 			{
 				bodyPart.SelfArmor = alienType.BodyPartArmor;
+				bodyPart.SetMaxHealth(alienType.MaxBodyPartHealth);
 
 				//TODO when limb is separated out into Arm and Leg redo this
 				if(bodyPart.TryGetComponent<Limb>(out var limb) == false) continue;
