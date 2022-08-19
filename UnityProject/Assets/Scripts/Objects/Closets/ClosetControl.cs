@@ -179,6 +179,7 @@ namespace Objects
 			}
 			currentMiniGameIndex = Random.Range(0, miniGameModules.Count - 1);
 			miniGameModules[currentMiniGameIndex].Setup(miniGameTracker);
+			SetLock(Lock.Locked);
 		}
 
 		private void OnWillDestroyServer(DestructionInfo arg0)
@@ -353,6 +354,18 @@ namespace Objects
 
 		public void ServerPerformInteraction(PositionalHandApply interaction)
 		{
+			if (miniGameTracker != null)
+			{
+				if(doorState == Door.Opened || lockState == Lock.Unlocked) return;
+				if (currentMiniGameIndex == -1)
+				{
+					Logger.LogError("[ClosetControl/MiniGames] - Found MiniGameTracker but no minigame is assigned!");
+					return;
+				}
+
+				RpcStartMiniGameForTargetClient(interaction.PerformerPlayerScript.connectionToServer);
+				return;
+			}
 			if (interaction.IsAltClick)
 			{
 				TryToggleLock(interaction);
@@ -566,14 +579,38 @@ namespace Objects
 
 		#endregion
 
-		public void StartGame()
+		#region MiniGameStuff
+
+		[TargetRpc]
+		private void RpcStartMiniGameForTargetClient(NetworkConnection target)
 		{
-			throw new NotImplementedException();
+			StartGame();
 		}
 
-		public UnityAction<bool> HasWon()
+		[Command(requiresAuthority = false)]
+		public void CmdGameEnd(bool result)
 		{
-			throw new NotImplementedException();
+			GameEnd(result);
 		}
+
+		public void StartGame()
+		{
+			miniGameModules[currentMiniGameIndex].StartMiniGame();
+		}
+
+		public void GameEnd(bool hasWon)
+		{
+			if (hasWon == false)
+			{
+				_ = SoundManager.PlayNetworkedAtPosAsync(CommonSounds.Instance.AccessDenied,
+					gameObject.AssumedWorldPosServer());
+				return;
+			}
+			lockState = Lock.Unlocked;
+			SetDoor(Door.Opened);
+		}
+
+		#endregion
+
 	}
 }

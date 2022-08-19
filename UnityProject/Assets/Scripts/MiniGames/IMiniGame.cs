@@ -6,6 +6,6 @@ namespace MiniGames
 	public interface IMiniGame
 	{
 		public void StartGame();
-		public UnityAction<bool> HasWon();
+		public void GameEnd(bool hasWon);
 	}
 }

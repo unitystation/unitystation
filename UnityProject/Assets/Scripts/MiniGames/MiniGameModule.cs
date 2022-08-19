@@ -21,7 +21,7 @@ namespace MiniGames
 			Tracker.OnGameDone.AddListener(OnGameDone);
 		}
 
-		protected virtual void StartMiniGame()
+		public virtual void StartMiniGame()
 		{
 			//Add your game setup/reset/ui show/etc here
 		}
