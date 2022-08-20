@@ -13,11 +13,11 @@ public class GhostMove : NetworkBehaviour, IPlayerControllable
 
 	public bool Moving = false;
 
-	private RegisterTile registerTile;
+	public RegisterTile registerTile;
 
-	private PlayerScript playerScript;
+	public PlayerScript playerScript;
 
-	private Rotatable rotatable;
+	public Rotatable rotatable;
 
 	public Vector3 LocalTargetPosition;
 
@@ -112,7 +112,7 @@ public class GhostMove : NetworkBehaviour, IPlayerControllable
 		bool triggerStepInterface = true)
 	{
 		localPosition.z = 0;
-		if (matrixID != registerTile.Matrix.Id)
+		if (matrixID != registerTile.Matrix.OrNull()?.Id)
 		{
 			var position = transform.position;
 			registerTile.FinishNetworkedMatrixRegistration(MatrixManager.Get(matrixID).Matrix.NetworkedMatrix);

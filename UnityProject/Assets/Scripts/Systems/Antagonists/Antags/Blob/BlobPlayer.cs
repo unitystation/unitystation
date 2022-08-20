@@ -1235,7 +1235,7 @@ namespace Blob
 			}
 
 			//Make blob into ghost
-			PlayerSpawn.ServerSpawnGhost(playerScript.mind);
+			PlayerSpawn.ServerGhost(playerScript.mind);
 
 			if (endRoundWhenKilled)
 			{
