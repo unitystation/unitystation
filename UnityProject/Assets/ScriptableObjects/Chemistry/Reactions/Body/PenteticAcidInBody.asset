@@ -10,11 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0e66dcbbf6b63f74da3f53fcc85ae1cc, type: 3}
-  m_Name: PotassiumIodideInBody
+  m_Name: PenteticAcidInBody
   m_EditorClassIdentifier: 
   ingredients:
     m_keys:
-    - {fileID: 11400000, guid: c5ecd98bc2e89ecb79437541929c25de, type: 2}
+    - {fileID: 11400000, guid: e07d4f00423b1affb90b9b0ad5f2ca9b, type: 2}
     m_values: 01000000
   useExactAmounts: 0
   catalysts:
@@ -32,16 +32,21 @@ MonoBehaviour:
     m_values: 
   effects: []
   ReagentMetabolismMultiplier: 1
-  InternalAllRequired:
-  - {fileID: 11400000, guid: d859938ed34564a4a932f3beb902e34c, type: 2}
+  InternalAllRequired: []
   InternalBlacklist: []
   ExternalAllRequired: []
   ExternalBlacklist: []
-  DamageEffect: 6
-  AttackType: 9
-  AttackBodyPartPerOneU: -10
+  DamageEffect: 0
+  AttackType: 0
+  AttackBodyPartPerOneU: 1
   CanOverdose: 0
   ConcentrationBloodOverdose: 20
-  OverdoseDamageMultiplier: 2
-  MultiEffect: 0
-  Effects: []
+  OverdoseDamageMultiplier: 1
+  MultiEffect: 1
+  Effects:
+  - DamageEffect: 2
+    AttackType: 9
+    EffectPerOne: -5
+  - DamageEffect: 6
+    AttackType: 9
+    EffectPerOne: -50
