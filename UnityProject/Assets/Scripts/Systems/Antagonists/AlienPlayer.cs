@@ -539,6 +539,8 @@ namespace Systems.Antagonists
 
 		#region Plasma
 
+		private const int MinimumPlasmaRegen = 1;
+
 		private void PlasmaCheck()
 		{
 			//Don't need to check if full
@@ -547,7 +549,7 @@ namespace Systems.Antagonists
 			//Need to be on weeds for full plasma gain
 			if (onWeeds == false)
 			{
-				TryAddPlasma(1);
+				TryAddPlasma(MinimumPlasmaRegen);
 				return;
 			}
 
