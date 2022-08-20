@@ -544,8 +544,12 @@ namespace Systems.Antagonists
 			//Don't need to check if full
 			if(currentPlasma == alienType.MaxPlasma) return;
 
-			//Need to be on weeds
-			if(onWeeds == false) return;
+			//Need to be on weeds for full plasma gain
+			if (onWeeds == false)
+			{
+				TryAddPlasma(1);
+				return;
+			}
 
 			TryAddPlasma(currentPlasma + alienType.PlasmaGainRate);
 		}
