@@ -92,6 +92,8 @@ namespace Objects
 		private UniversalObjectPhysics ObjectPhysics;
 		private int objectId;
 
+		private BoxCollider2D boxCollider2D;
+
 		private Material WarpEffectFrontMat;
 		private Material WarpEffectBackMat;
 
@@ -128,12 +130,13 @@ namespace Objects
 			registerTile = GetComponent<RegisterTile>();
 			ObjectPhysics = GetComponent<UniversalObjectPhysics>();
 			spriteHandler = GetComponentInChildren<SpriteHandler>();
+			boxCollider2D = GetComponent<BoxCollider2D>();
+
 			lightTransform = light.transform;
 			objectId = GetInstanceID();
 
 			WarpEffectFrontMat = WarpEffectFront.GetComponent<MeshRenderer>().materials[0];
 			WarpEffectBackMat = WarpEffectBack.GetComponent<MeshRenderer>().materials[0];
-
 		}
 
 		private void Start()
@@ -231,6 +234,8 @@ namespace Objects
 
 			// will sync to clients
 			dynamicScale = GetDynamicScale();
+
+			ColliderScale();
 
 			//Radiation Pulse
 			var radStrength = Mathf.Max(((float) CurrentStage + 1) / 6 * maxRadiation, 0);
@@ -721,17 +726,35 @@ namespace Objects
 		{
 			if(data.DamageData.AttackType != AttackType.Rad) return;
 
-			if (data.DamageData.Damage >= 20f)
+			if (data.DamageData.Damage >= 19f)
 			{
 				// PA at any setting will prevent point loss
 				pointLock = true;
 				lockTimer = 20;
 			}
-			if (data.DamageData.Damage > 20f)
+
+			if (data.DamageData.Damage > 21f)
 			{
 				// PA at setting greater than 0 will do 20 damage
 				ChangePoints((int)data.DamageData.Damage);
 			}
+		}
+
+		#endregion
+
+		#region Collider
+
+		private void ColliderScale()
+		{
+			var size = 1;
+
+			if (currentStage != SingularityStages.Stage0)
+			{
+				size = 3;
+			}
+
+			var scale = dynamicScale.x * size;
+			boxCollider2D.size = new Vector2(scale, scale);
 		}
 
 		#endregion
