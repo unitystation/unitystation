@@ -539,13 +539,19 @@ namespace Systems.Antagonists
 
 		#region Plasma
 
+		private const int MinimumPlasmaRegen = 1;
+
 		private void PlasmaCheck()
 		{
 			//Don't need to check if full
 			if(currentPlasma == alienType.MaxPlasma) return;
 
-			//Need to be on weeds
-			if(onWeeds == false) return;
+			//Need to be on weeds for full plasma gain
+			if (onWeeds == false)
+			{
+				TryAddPlasma(MinimumPlasmaRegen);
+				return;
+			}
 
 			TryAddPlasma(currentPlasma + alienType.PlasmaGainRate);
 		}
