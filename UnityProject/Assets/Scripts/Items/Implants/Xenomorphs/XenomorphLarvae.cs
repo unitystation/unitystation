@@ -99,7 +99,7 @@ namespace HealthV2
 
 			alienPlayer.SetNewPlayer();
 			alienPlayer.DoConnectCheck();
-			
+
 			//kill after transfer
 			RelatedPart.HealthMaster.Death();
 
