@@ -181,11 +181,6 @@ public static class PlayerSpawn
 		var oldGhost = forMind.ghost;
 
 		ServerSpawnInternal(connection, occupation, settings, forMind, spawnPos, willDestroyOldBody: oldGhost != null);
-
-		if (oldGhost)
-		{
-			_ = Despawn.ServerSingle(oldGhost.gameObject);
-		}
 	}
 
 	/// <summary>
@@ -570,7 +565,7 @@ public static class PlayerSpawn
 		CharacterSheet characterSettings, bool willDestroyOldBody = false)
 	{
 		//get the old body if they have one.
-		var oldBody = mind.GetCurrentMob();
+		var oldBody = mind.body.OrNull()?.gameObject;
 
 		if (mind.occupation != null && mind.occupation.UseCharacterSettings == false)
 		{
