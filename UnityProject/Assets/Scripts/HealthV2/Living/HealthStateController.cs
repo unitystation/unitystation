@@ -17,11 +17,11 @@ namespace HealthV2
 
 		#region SyncVars
 
-		[SyncVar(hook = nameof(SyncOverallHealth))]
+		[SyncVar]
 		private float overallHealthSync = 100;
 		public float OverallHealth => overallHealthSync;
 
-		[SyncVar(hook = nameof(SyncMaxHealth))]
+		[SyncVar]
 		private float maxHealthSync = 100;
 		public float MaxHealth => maxHealthSync;
 
@@ -31,37 +31,37 @@ namespace HealthV2
 		public string DnaBloodTypeJsonSync => DNABloodTypeJSONSync;
 		public DNAandBloodType DNABloodType { get; private set; }
 
-		[SyncVar(hook = nameof(SyncConsciousState))]
+		[SyncVar]
 		private ConsciousState consciousState = ConsciousState.CONSCIOUS;
 
 		public ConsciousState ConsciousState => consciousState;
 
-		[SyncVar(hook = nameof(SyncBloodHealth))]
+		[SyncVar]
 		private HealthBloodMessage bloodHealth;
-
 		private HealthBloodMessage BloodHealth => bloodHealth;
 
-		[SyncVar(hook = nameof(SyncBleedStacks))]
+		[SyncVar]
 		private float bleedStacks;
-
 		public float BleedStacks => bleedStacks;
 
 		[SyncVar(hook = nameof(SyncFireStacks))]
 		private float fireStacks;
-
 		public float FireStacks => fireStacks;
 
-		[SyncVar(hook = nameof(SyncSuffocating))]
+		[SyncVar]
 		private bool isSuffocating;
-
 		public bool IsSuffocating => isSuffocating;
 
-		[SyncVar(hook = nameof(SyncTemperature))]
-		private float temperature = 295.15f;
+		[SyncVar]
+		private bool hasToxins;
+		public bool HasToxins => hasToxins;
 
+		[SyncVar]
+		private float temperature = 295.15f;
 		public float Temperature => temperature;
 
-		[SyncVar(hook = nameof(SyncPressure))] private float pressure = 101;
+		[SyncVar]
+		private float pressure = 101;
 		public float Pressure => pressure;
 
 		private HealthDollStorage CurrentHealthDollStorage = new HealthDollStorage();
@@ -69,12 +69,11 @@ namespace HealthV2
 		[SyncVar(hook = nameof(SyncHealthDoll))]
 		private string healthDollData;
 
-		[SyncVar(hook = nameof(SyncHungerState))]
+		[SyncVar]
 		private HungerState hungerState;
-
 		public HungerState HungerState => hungerState;
 
-		[SyncVar(hook = nameof(SyncBleedingState))]
+		[SyncVar]
 		private BleedingState bleedingState;
 		public BleedingState BleedingState => bleedingState;
 
@@ -169,6 +168,12 @@ namespace HealthV2
 		}
 
 		[Server]
+		public void SetToxins(bool newState)
+		{
+			hasToxins = newState;
+		}
+
+		[Server]
 		public void SetTemperature(float newTemperature)
 		{
 			temperature = newTemperature;
@@ -205,18 +210,6 @@ namespace HealthV2
 		//Called when client receives new data from sync vars
 
 		[Client]
-		private void SyncOverallHealth(float oldOverallHealth, float newOverallHealth)
-		{
-			overallHealthSync = newOverallHealth;
-		}
-
-		[Client]
-		private void SyncMaxHealth(float oldMaxHealth, float newMaxHealth)
-		{
-			maxHealthSync = newMaxHealth;
-		}
-
-		[Client]
 		private void SyncDNABloodTypeJSON(string oldDNABloodTypeJSON, string newDNABloodTypeJSON)
 		{
 			DNABloodTypeJSONSync = newDNABloodTypeJSON;
@@ -224,58 +217,10 @@ namespace HealthV2
 		}
 
 		[Client]
-		private void SyncConsciousState(ConsciousState oldConsciousState, ConsciousState newConsciousState)
-		{
-			consciousState = newConsciousState;
-		}
-
-		[Client]
-		private void SyncBloodHealth(HealthBloodMessage OldBloodHealth, HealthBloodMessage newBloodHealth)
-		{
-			bloodHealth = newBloodHealth;
-		}
-
-		[Client]
 		private void SyncFireStacks(float oldStacks, float newStacks)
 		{
 			fireStacks = newStacks;
 			livingHealthMasterBase.OnClientFireStacksChange.Invoke(newStacks);
-		}
-
-		[Client]
-		private void SyncBleedStacks(float oldStacks, float newStacks)
-		{
-			bleedStacks = newStacks;
-		}
-
-		[Client]
-		private void SyncSuffocating(bool oldSuffocating, bool newSuffocating)
-		{
-			isSuffocating = newSuffocating;
-		}
-
-		[Client]
-		private void SyncTemperature(float oldTemperature, float newTemperature)
-		{
-			temperature = newTemperature;
-		}
-
-		[Client]
-		private void SyncPressure(float oldPressure, float newPressure)
-		{
-			pressure = newPressure;
-		}
-
-		[Client]
-		private void SyncHungerState(HungerState oldHungerState, HungerState newHungerState)
-		{
-			hungerState = newHungerState;
-		}
-
-		[Client]
-		private void SyncBleedingState(BleedingState oldBleedingState, BleedingState newBleedingState)
-		{
-			bleedingState = newBleedingState;
 		}
 
 		[Client]
