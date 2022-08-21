@@ -48,7 +48,12 @@ namespace Tilemaps.Utils
 
         public bool HasObjects(Vector3Int localPosition)
         {
-	        return objects.ContainsKey(localPosition) && objects[localPosition].Count > 0;
+	        return objects.TryGetValue(localPosition, out var objectsOut) && objectsOut.Count > 0;
+        }
+
+        public bool HasObjects()
+        {
+	        return objects.Count > 0;
         }
 
         public List<T> Get(Vector3Int position)

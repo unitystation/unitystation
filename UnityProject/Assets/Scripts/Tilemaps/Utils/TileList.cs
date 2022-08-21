@@ -53,6 +53,11 @@ namespace Tilemaps.Utils
 			if (objects.TryGetValue(chunkPos, out var objectsOut))
 			{
 				objectsOut.Remove(position, obj);
+
+				if (objectsOut.HasObjects() == false)
+				{
+					objects[chunkPos] = null;
+				}
 			}
 		}
 
@@ -84,9 +89,7 @@ namespace Tilemaps.Utils
 		{
 			var chunkPos = GetChunkPos(localPosition);
 
-			return objects.ContainsKey(chunkPos) &&
-			       objects[chunkPos].HasObjects(localPosition) &&
-			       objects[chunkPos].Get(localPosition).Count > 0;
+			return objects.TryGetValue(chunkPos, out var chunk) && chunk.HasObjects(localPosition);
 		}
 
 		public List<RegisterTile> Get(Vector3Int position)
@@ -165,6 +168,11 @@ namespace Tilemaps.Utils
 			if (objects.TryGetValue(chunkPos, out var objectsOut))
 			{
 				objectsOut.Remove(position, obj);
+
+				if (objectsOut.HasObjects() == false)
+				{
+					objects[chunkPos] = null;
+				}
 			}
 		}
 
