@@ -1,18 +1,14 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.UI;
-using UnityEngine.EventSystems;
-
-public class UI_TemperatureAlert : TooltipMonoBehaviour
+﻿public class UI_TemperatureAlert : TooltipMonoBehaviour
 {
 	public override string Tooltip => (activeImageIndex < 3) ? "Too Cold" : "Too Hot";
 
-	public Sprite[] statusImages;
 	private int activeImageIndex = -1;
+	private SpriteHandler spriteHandler;
 
-	public Image image;
-
+	private void Awake()
+	{
+		spriteHandler = GetComponent<SpriteHandler>();
+	}
 
 	public void SetTemperatureSprite(float temperature)
 	{
@@ -53,7 +49,8 @@ public class UI_TemperatureAlert : TooltipMonoBehaviour
 		if(index == activeImageIndex){
 			return;
 		}
+
 		activeImageIndex = index;
-		image.sprite = statusImages[index];
+		spriteHandler.ChangeSprite(index, false);
 	}
 }
