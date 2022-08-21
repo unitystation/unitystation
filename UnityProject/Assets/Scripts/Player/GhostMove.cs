@@ -24,12 +24,6 @@ public class GhostMove : NetworkBehaviour, IPlayerControllable
 	private bool isFaster = false;
 
 	//TODO Change to vector move towards
-	public void Awake()
-	{
-		registerTile = GetComponent<RegisterTile>();
-		playerScript = GetComponent<PlayerScript>();
-		rotatable = GetComponent<Rotatable>();
-	}
 
 	public void OnEnable()
 	{
@@ -68,7 +62,7 @@ public class GhostMove : NetworkBehaviour, IPlayerControllable
 	}
 
 	[ClientRpc]
-	public void RPCUpdatePosition(Vector3 newPosition, int matrixID, OrientationEnum direction, bool @override)
+	public void RPCUpdatePosition(Vector3 newPosition, int matrixID, OrientationEnum direction, bool @override, bool Smooth)
 	{
 		if (isLocalPlayer && @override == false || isServer)  return;
 		if (matrixID != registerTile.Matrix.Id)
@@ -81,6 +75,11 @@ public class GhostMove : NetworkBehaviour, IPlayerControllable
 		registerTile.ServerSetLocalPosition(newPosition.RoundToInt());
 		registerTile.ClientSetLocalPosition(newPosition.RoundToInt());
 		LocalTargetPosition = newPosition;
+		if (Smooth == false)
+		{
+			transform.localPosition = LocalTargetPosition;
+		}
+
 		if (direction != OrientationEnum.Default)
 		{
 			rotatable.FaceDirection(direction);
@@ -100,16 +99,16 @@ public class GhostMove : NetworkBehaviour, IPlayerControllable
 	}
 
 	[Server]
-	public void ForcePositionClient(Vector3 worldPosition, bool triggerStepInterface = true)
+	public void ForcePositionClient(Vector3 worldPosition, bool triggerStepInterface = true, bool Smooth = true)
 	{
 		var matrix = MatrixManager.AtPoint(worldPosition, isServer);
 		ForcePositionClient(worldPosition.ToLocal(matrix), matrix.Id, OrientationEnum.Down_By180,
-			triggerStepInterface: triggerStepInterface);
+			triggerStepInterface: triggerStepInterface, Smooth : Smooth);
 	}
 
 	[Server]
 	public void ForcePositionClient(Vector3 localPosition, int matrixID, OrientationEnum direction, bool doOverride = true,
-		bool triggerStepInterface = true)
+		bool triggerStepInterface = true, bool Smooth = true)
 	{
 		localPosition.z = 0;
 		if (matrixID != registerTile.Matrix.OrNull()?.Id)
@@ -123,12 +122,16 @@ public class GhostMove : NetworkBehaviour, IPlayerControllable
 		registerTile.ServerSetLocalPosition(rounded);
 		registerTile.ClientSetLocalPosition(rounded);
 		LocalTargetPosition = localPosition;
+		if (Smooth == false)
+		{
+			transform.localPosition = LocalTargetPosition;
+		}
 		if (direction != OrientationEnum.Default)
 		{
 			rotatable.FaceDirection(direction);
 		}
 
-		RPCUpdatePosition(localPosition, matrixID, direction, doOverride);
+		RPCUpdatePosition(localPosition, matrixID, direction, doOverride, Smooth);
 
 		if(triggerStepInterface == false) return;
 

@@ -379,7 +379,7 @@ public static class PlayerSpawn
 
 	public static void ServerGhost(Mind forMind)
 	{
-		forMind.ghost.gameObject.GetComponent<GhostMove>().ForcePositionClient(forMind.body.AssumedWorldPos, false);
+		forMind.ghost.gameObject.GetComponent<GhostMove>().ForcePositionClient(forMind.body.AssumedWorldPos, false, false);
 		forMind.Ghosting(forMind.ghost.gameObject);
 		var settings = forMind.body.GetComponent<PlayerScript>().characterSettings;
 		var connection = forMind.body.GetComponent<NetworkIdentity>().connectionToClient;
