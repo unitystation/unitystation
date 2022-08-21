@@ -34,6 +34,9 @@ namespace Objects.Wallmounts
 		[SyncVar(hook = nameof(SyncStatusText))]
 		private string statusText = string.Empty;
 
+		[SyncVar(hook = nameof(UpdateTextColor))]
+		private Color currentTextColor;
+
 		public bool hasCables = true;
 		public SpriteHandler MonitorSpriteHandler;
 		public SpriteHandler DisplaySpriteHandler;
@@ -46,6 +49,9 @@ namespace Objects.Wallmounts
 		public CentComm centComm;
 		public int currentTimerSeconds;
 		public bool countingDown;
+
+		[SerializeField] private Color normalTextColor;
+		[SerializeField] private Color redAlertTextColor = Color.red;
 
 		public enum MountedMonitorState
 		{
@@ -99,6 +105,7 @@ namespace Objects.Wallmounts
 			SyncSprite(stateSync, stateSync);
 			centComm = GameManager.Instance.CentComm;
 			centComm.OnStatusDisplayUpdate.AddListener(OnTextBroadcastReceived);
+			centComm.OnAlertLevelChange += ServerUpdateCurrentColor;
 		}
 
 		private void Start()
@@ -119,6 +126,7 @@ namespace Objects.Wallmounts
 			centComm.OnStatusDisplayUpdate.RemoveListener(OnTextBroadcastReceived);
 			channel = StatusDisplayChannel.Command;
 			textField.text = string.Empty;
+			centComm.OnAlertLevelChange -= ServerUpdateCurrentColor;
 			this.TryStopCoroutine(ref blinkHandle);
 		}
 
@@ -274,6 +282,7 @@ namespace Objects.Wallmounts
 		private IEnumerator BlinkText()
 		{
 			textField.text = statusText.Substring(0, Mathf.Min(statusText.Length, MAX_CHARS_PER_PAGE));
+			textField.color = currentTextColor;
 
 			yield return WaitFor.Seconds(3);
 
@@ -290,8 +299,21 @@ namespace Objects.Wallmounts
 			this.StartCoroutine(BlinkText(), ref blinkHandle);
 		}
 
+		private void ServerUpdateCurrentColor()
+		{
+			currentTextColor = centComm.CurrentAlertLevel == CentComm.AlertLevel.Red || centComm.CurrentAlertLevel == CentComm.AlertLevel.Delta
+				? redAlertTextColor
+				: normalTextColor;
+		}
+
+		private void UpdateTextColor(Color oldValue, Color newValue)
+		{
+			textField.color = newValue;
+		}
+
 		private void OnTextBroadcastReceived(StatusDisplayChannel broadcastedChannel)
 		{
+			textField.color = currentTextColor;
 			if (broadcastedChannel == StatusDisplayChannel.DoorTimer)
 			{
 				statusText = FormatTime(currentTimerSeconds, "CELL\n");
