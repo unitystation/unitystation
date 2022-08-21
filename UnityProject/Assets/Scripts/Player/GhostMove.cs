@@ -13,10 +13,8 @@ public class GhostMove : NetworkBehaviour, IPlayerControllable
 
 	public bool Moving = false;
 
-	[SerializeField] private RegisterTile registerTile {
-		get;
-		private set;
-	}
+	[SerializeField] private RegisterTile registerTile;
+
 
 	[SerializeField] private PlayerScript playerScript;
 
