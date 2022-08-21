@@ -247,7 +247,7 @@ namespace Objects
 
 			//TODO this replaces their old race, character settings needs a refactor to have them per body
 			characterSettings.Species = ashwalkerRaceData.name;
-			characterSettings.SerialisedExternalCustom.Clear();
+			characterSettings.SerialisedExternalCustom?.Clear();
 
 			//Give random lizard name
 			characterSettings.Name = StringManager.GetRandomLizardName(characterSettings.GetGender());
