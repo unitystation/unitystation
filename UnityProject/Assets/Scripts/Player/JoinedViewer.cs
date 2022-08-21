@@ -299,7 +299,7 @@ namespace Player
 		public void CmdSpectate(string jsonCharSettings)
 		{
 			var characterSettings = JsonConvert.DeserializeObject<CharacterSheet>(jsonCharSettings);
-			PlayerSpawn.ServerSpawnGhost(this, characterSettings);
+			PlayerSpawn.ServerNewPlayerSpectate(this, characterSettings);
 		}
 
 		/// <summary>

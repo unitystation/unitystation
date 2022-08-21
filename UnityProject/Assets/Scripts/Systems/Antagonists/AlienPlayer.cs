@@ -751,7 +751,7 @@ namespace Systems.Antagonists
 			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, OnUpdate);
 
 			//Force player into ghost
-			PlayerSpawn.ServerSpawnGhost(playerScript.mind);
+			PlayerSpawn.ServerGhost(playerScript.mind);
 
 			//Set to null so can't reenter
 			if(playerScript.mind == null) return;
@@ -1565,7 +1565,7 @@ namespace Systems.Antagonists
 				if (playerScript.mind.GetCurrentMob().OrNull()?.GetComponent<PlayerScript>().IsGhost == false)
 				{
 					//Force player current into ghost
-					PlayerSpawn.ServerSpawnGhost(playerScript.mind);
+					PlayerSpawn.ServerGhost(playerScript.mind);
 				}
 			}
 

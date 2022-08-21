@@ -188,6 +188,12 @@ public class Mind
 		}
 	}
 
+	public void SetGhost(GameObject newGhost)
+	{
+		var PS = newGhost.GetComponent<PlayerScript>();
+		ghost = PS;
+	}
+
 	public void Ghosting(GameObject newGhost)
 	{
 		IsGhosting = true;
