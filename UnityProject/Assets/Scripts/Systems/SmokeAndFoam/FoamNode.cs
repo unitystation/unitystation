@@ -36,13 +36,14 @@ public class FoamNode : SpreadNode
 						SmokeAndFoamManager.Instance.WallFoam);
 				}
 
-				var Tile = OnMetaDataNode.PositionMatrix.MetaTileMap.GetTile(OnMetaDataNode.Position, LayerType.Base);
-				if (Tile == null || ((BasicTile) Tile).IsSpace())
+				var tile = OnMetaDataNode.PositionMatrix.MetaTileMap.GetTile(OnMetaDataNode.Position, LayerType.Base);
+				if (tile == null || ((BasicTile) tile).IsSpace())
 				{
 					OnMetaDataNode.PositionMatrix.MetaTileMap.SetTile(OnMetaDataNode.Position,
 						SmokeAndFoamManager.Instance.BaseFoam);
 				}
 			}
+
 			OnMetaDataNode.PositionMatrix.MetaTileMap.RemoveOverlaysOfType(OnMetaDataNode.Position, LayerType.Floors,OverlayType.Foam);
 			SourceReservoir.RemoveTile(this);
 		}
@@ -51,52 +52,55 @@ public class FoamNode : SpreadNode
 
 	public override bool CheckIsEdge()
 	{
-		bool HasEmptyNeighbour = false;
-		var Worldpos = OnMetaDataNode.Position.ToWorld(OnMetaDataNode.PositionMatrix);
+		bool hasEmptyNeighbour = false;
+		var worldPos = OnMetaDataNode.Position.ToWorld(OnMetaDataNode.PositionMatrix);
 
 		foreach (var dir in dirs) //Might be lag
 		{
-			var newWorldpos = Worldpos + dir;
-			var Matrix = MatrixManager.AtPoint(Worldpos + dir, CustomNetworkManager.IsServer);
+			var newWorldPos = worldPos + dir;
+			var matrix = MatrixManager.AtPoint(worldPos + dir, CustomNetworkManager.IsServer);
+
 			MetaDataNode node = null;
-			if (MatrixManager.Instance.spaceMatrix.MatrixInfo != Matrix)
+			if (MatrixManager.Instance.spaceMatrix.MatrixInfo != matrix)
 			{
-				var newLocal = newWorldpos.ToLocal(Matrix);
-				node =  Matrix.MetaDataLayer.Get(newLocal.RoundToInt());
+				var newLocal = newWorldPos.ToLocal(matrix);
+				node =  matrix.MetaDataLayer.Get(newLocal.RoundToInt());
 			}
 			else
 			{
-				var newLocal = newWorldpos.ToLocal(OnMetaDataNode.PositionMatrix);
+				var newLocal = newWorldPos.ToLocal(OnMetaDataNode.PositionMatrix);
 				node = OnMetaDataNode.PositionMatrix.MetaDataLayer.Get(newLocal.RoundToInt());
 			}
 
 			if (node.FoamNode.IsActive == false || node.FoamNode.SourceReservoir != SourceReservoir)
 			{
-				HasEmptyNeighbour = true;
+				hasEmptyNeighbour = true;
 			}
 		}
 
-		return HasEmptyNeighbour;
+		return hasEmptyNeighbour;
 	}
 
 	public override void TrySpread()
 	{
-		var Worldpos = OnMetaDataNode.Position.ToWorld(OnMetaDataNode.PositionMatrix);
+		var worldPos = OnMetaDataNode.Position.ToWorld(OnMetaDataNode.PositionMatrix);
 
 		foreach (var dir in dirs) //Might be lag
 		{
 			if (SourceReservoir.StacksLeft == 0) break;
-			var newWorldpos = Worldpos + dir;
-			var Matrix = MatrixManager.AtPoint(Worldpos + dir, CustomNetworkManager.IsServer);
+
+			var newWorldPos = worldPos + dir;
+			var matrix = MatrixManager.AtPoint(worldPos + dir, CustomNetworkManager.IsServer);
+
 			MetaDataNode node = null;
-			if (MatrixManager.Instance.spaceMatrix.MatrixInfo != Matrix)
+			if (MatrixManager.Instance.spaceMatrix.MatrixInfo != matrix)
 			{
-				var newLocal = newWorldpos.ToLocal(Matrix);
-				node =  Matrix.MetaDataLayer.Get(newLocal.RoundToInt());
+				var newLocal = newWorldPos.ToLocal(matrix);
+				node =  matrix.MetaDataLayer.Get(newLocal.RoundToInt());
 			}
 			else
 			{
-				var newLocal = newWorldpos.ToLocal(OnMetaDataNode.PositionMatrix);
+				var newLocal = newWorldPos.ToLocal(OnMetaDataNode.PositionMatrix);
 				node = OnMetaDataNode.PositionMatrix.MetaDataLayer.Get(newLocal.RoundToInt());
 			}
 
@@ -118,21 +122,21 @@ public class FoamNode : SpreadNode
 	public override void DistributeToTile(SourceReservoir sourceReservoir)
 	{
 		base.DistributeToTile(sourceReservoir);
+
 		OnMetaDataNode.IsSlippery = true;
 		OnMetaDataNode.ForceUpdateClient();
-		var Colour = Present.MixColor;
+
+		var colour = Present.MixColor;
 		if (Present.MixColor == Color.clear)
 		{
-			Colour = Color.white;
+			colour = Color.white;
 		}
 
-		OnMetaDataNode.PositionMatrix.MetaTileMap.AddOverlay(OnMetaDataNode.Position, SmokeAndFoamManager.Instance.OverlayTileFoam, Matrix4x4.identity, Colour);
-
+		OnMetaDataNode.PositionMatrix.MetaTileMap.AddOverlay(OnMetaDataNode.Position, SmokeAndFoamManager.Instance.OverlayTileFoam, Matrix4x4.identity, colour);
 	}
 }
 public class FoamSourceReservoir : SourceReservoir
 {
-
 	public bool SmartFoam = false;
 	public bool WallFoam = false;
 
@@ -140,5 +144,4 @@ public class FoamSourceReservoir : SourceReservoir
 	{
 
 	}
-
 }

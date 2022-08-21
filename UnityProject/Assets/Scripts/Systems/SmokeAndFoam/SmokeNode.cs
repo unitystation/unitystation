@@ -9,52 +9,56 @@ public class SmokeNode : SpreadNode
 
 	public override bool CheckIsEdge()
 	{
-		bool HasEmptyNeighbour = false;
-		var Worldpos = OnMetaDataNode.Position.ToWorld(OnMetaDataNode.PositionMatrix);
+		bool hasEmptyNeighbour = false;
+		var worldPos = OnMetaDataNode.Position.ToWorld(OnMetaDataNode.PositionMatrix);
 
 		foreach (var dir in dirs) //Might be lag
 		{
-			var newWorldpos = Worldpos + dir;
-			var Matrix = MatrixManager.AtPoint(Worldpos + dir, CustomNetworkManager.IsServer);
+			var newWorldPos = worldPos + dir;
+			var matrix = MatrixManager.AtPoint(worldPos + dir, CustomNetworkManager.IsServer);
+
 			MetaDataNode node = null;
-			if (MatrixManager.Instance.spaceMatrix.MatrixInfo != Matrix)
+			if (MatrixManager.Instance.spaceMatrix.MatrixInfo != matrix)
 			{
-				var newLocal = newWorldpos.ToLocal(Matrix);
-				node =  Matrix.MetaDataLayer.Get(newLocal.RoundToInt());
+				var newLocal = newWorldPos.ToLocal(matrix);
+				node =  matrix.MetaDataLayer.Get(newLocal.RoundToInt());
 			}
 			else
 			{
-				var newLocal = newWorldpos.ToLocal(OnMetaDataNode.PositionMatrix);
+				var newLocal = newWorldPos.ToLocal(OnMetaDataNode.PositionMatrix);
 				node = OnMetaDataNode.PositionMatrix.MetaDataLayer.Get(newLocal.RoundToInt());
 			}
+
 			if (node.SmokeNode.IsActive == false || node.SmokeNode.SourceReservoir != SourceReservoir)
 			{
-				HasEmptyNeighbour = true;
+				hasEmptyNeighbour = true;
 			}
 		}
 
-		return HasEmptyNeighbour;
+		return hasEmptyNeighbour;
 	}
 
 	public override void TrySpread()
 	{
-		var Worldpos = OnMetaDataNode.Position.ToWorld(OnMetaDataNode.PositionMatrix);
+		var worldPos = OnMetaDataNode.Position.ToWorld(OnMetaDataNode.PositionMatrix);
 
 		foreach (var dir in dirs) //Might be lag
 		{
-			var newWorldpos = Worldpos + dir;
-			var Matrix = MatrixManager.AtPoint(Worldpos + dir, CustomNetworkManager.IsServer);
+			var newWorldPos = worldPos + dir;
+			var matrix = MatrixManager.AtPoint(worldPos + dir, CustomNetworkManager.IsServer);
+
 			MetaDataNode node = null;
-			if (MatrixManager.Instance.spaceMatrix.MatrixInfo != Matrix)
+			if (MatrixManager.Instance.spaceMatrix.MatrixInfo != matrix)
 			{
-				var newLocal = newWorldpos.ToLocal(Matrix);
-				node =  Matrix.MetaDataLayer.Get(newLocal.RoundToInt());
+				var newLocal = newWorldPos.ToLocal(matrix);
+				node =  matrix.MetaDataLayer.Get(newLocal.RoundToInt());
 			}
 			else
 			{
-				var newLocal = newWorldpos.ToLocal(OnMetaDataNode.PositionMatrix);
+				var newLocal = newWorldPos.ToLocal(OnMetaDataNode.PositionMatrix);
 				node = OnMetaDataNode.PositionMatrix.MetaDataLayer.Get(newLocal.RoundToInt());
 			}
+
 			if (node.SmokeNode.IsActive == false && node.IsOccupied == false)
 			{
 				SourceReservoir.SpreadToNode(this ,node.SmokeNode);
@@ -94,12 +98,9 @@ public class SmokeNode : SpreadNode
 
 public class SmokeSourceReservoir : SourceReservoir
 {
-
-
 	public override void RemoveTileInherit()
 	{
 		SmokeAndFoamManager.Instance.ActiveNodes.Remove(this);
 	}
-
 }
 
