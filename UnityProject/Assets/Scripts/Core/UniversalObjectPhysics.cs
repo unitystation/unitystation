@@ -1540,10 +1540,15 @@ public class UniversalObjectPhysics : NetworkBehaviour, IRightClickable, IRegist
 
 				if (attributes.HasComponent)
 				{
-					OnImpact.Invoke(this, newtonianMovement);
+
 					var IAV2 = (attributes.Component as ItemAttributesV2);
 					if (IAV2 != null)
 					{
+						if (Hits.Count > 0)
+						{
+							OnImpact.Invoke(this, newtonianMovement);
+						}
+
 						foreach (var hit in Hits)
 						{
 							//Integrity
