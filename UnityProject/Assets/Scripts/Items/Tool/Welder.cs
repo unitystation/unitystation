@@ -8,7 +8,7 @@ using Chemistry.Components;
 using Items;
 
 [RequireComponent(typeof(Pickupable))]
-public class Welder : NetworkBehaviour, IInteractable<HandActivate>, IServerSpawn
+public class Welder : NetworkBehaviour, ICheckedInteractable<HandActivate>, IServerSpawn
 {
 	//TODO: Update the sprites from the array below based on how much fuel is left
 	//TODO: gas readout in stats
@@ -100,6 +100,11 @@ public class Welder : NetworkBehaviour, IInteractable<HandActivate>, IServerSpaw
 	public void OnSpawnServer(SpawnInfo info)
 	{
 		SyncIsOn(isOn, false);
+	}
+
+	public bool WillInteract(HandActivate interaction, NetworkSide side)
+	{
+		return DefaultWillInteract.Default(interaction, side);
 	}
 
 	public void ServerPerformInteraction(HandActivate interaction)
