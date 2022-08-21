@@ -80,7 +80,7 @@ namespace Chemistry
 		{
 			if (indexInSingleton == -1)
 			{
-				base.GetHashCode();
+				return base.GetHashCode();
 			}
 
 			return indexInSingleton;
