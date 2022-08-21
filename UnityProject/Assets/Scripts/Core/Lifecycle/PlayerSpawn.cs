@@ -225,7 +225,6 @@ public static class PlayerSpawn
 	/// <param name="spawnItems">If spawning a player, should the player spawn without the defined initial equipment for their occupation?</param>
 	/// <param name="willDestroyOldBody">if true, indicates the old body is going to be destroyed rather than pooled,
 	/// thus we shouldn't send any network message which reference's the old body's ID since it won't exist.</param>
-	///
 	/// <returns>the spawned object</returns>
 	private static GameObject ServerSpawnInternal(NetworkConnectionToClient connection, Occupation occupation,
 		CharacterSheet characterSettings,
@@ -317,9 +316,12 @@ public static class PlayerSpawn
 		}
 
 
-		//Spawn ghost
-		ServerSpawnGhost(ps.mind, false);
 
+		if (newMind.ghost == null)
+		{
+			//Spawn ghost
+			ServerSpawnGhost(ps.mind, false);
+		}
 
 		return newPlayer;
 	}

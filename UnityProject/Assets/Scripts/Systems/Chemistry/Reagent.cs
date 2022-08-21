@@ -78,6 +78,11 @@ namespace Chemistry
 
 		public override int GetHashCode()
 		{
+			if (indexInSingleton == -1)
+			{
+				base.GetHashCode();
+			}
+
 			return indexInSingleton;
 		}
 	}
