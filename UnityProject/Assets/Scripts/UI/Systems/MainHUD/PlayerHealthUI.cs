@@ -113,7 +113,7 @@ public class PlayerHealthUI : MonoBehaviour
 			SetSpecificVisibility(false, coldAlert);
 		}
 
-		if (temperature > 510)
+		if (PlayerManager.LocalPlayerScript.playerHealth.FireStacks > 0 || temperature > 510)
 		{
 			SetSpecificVisibility(true, heatAlert);
 		}

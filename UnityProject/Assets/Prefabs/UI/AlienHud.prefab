@@ -2008,22 +2008,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6f3587e1d00d45609cdc4184f56411c2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  healthSprites:
-  - {fileID: 11400000, guid: 32447d0aa0b3775488a578315532f0a9, type: 2}
-  - {fileID: 11400000, guid: 6d98baff14ac4404891ff8ee7637e416, type: 2}
-  - {fileID: 11400000, guid: f5c3afeccb78cac4ba10cfd30c6b8524, type: 2}
-  - {fileID: 11400000, guid: c351b5d874f2ef04096b6a983464921f, type: 2}
-  - {fileID: 11400000, guid: 55f4f3bd0924d094fb817621171b1153, type: 2}
-  - {fileID: 11400000, guid: 49711e0501e533b419cc6297159125dc, type: 2}
-  - {fileID: 11400000, guid: 0e0acd43ba330914d87c2c41615d3a1c, type: 2}
-  - {fileID: 11400000, guid: 37c90e81bda241442b79578baea30e2d, type: 2}
-  healthSpriteRender: {fileID: 8731795782802231367}
-  queenFinder: {fileID: 8879373447072100319}
-  queenFinderSprites:
-  - {fileID: 11400000, guid: 332857c101f9c40409a5fca6795b353d, type: 2}
-  - {fileID: 11400000, guid: fd703b4bc7fce1047b9a55e61fd706dd, type: 2}
-  - {fileID: 11400000, guid: a78074c8fdec0a545bdf0c54a16ae6c8, type: 2}
-  - {fileID: 11400000, guid: a9c49bc7b07c1ce4a9a6a1b7ba5defcb, type: 2}
+  healthSpriteRender: {fileID: 6875696286242642486}
+  queenFinder: {fileID: 3089146137235172603}
   plasmaText: {fileID: 7070938846388989243}
   evolveMenu: {fileID: 3398976150329668575}
   hiveMenu: {fileID: 1587118058250110619}
@@ -2040,7 +2026,7 @@ GameObject:
   - component: {fileID: 1536361345898243307}
   - component: {fileID: 8441571681343098678}
   - component: {fileID: 1230661375534711966}
-  - component: {fileID: 8879373447072100319}
+  - component: {fileID: 3089146137235172603}
   m_Layer: 0
   m_Name: Arrow
   m_TagString: Untagged
@@ -2106,7 +2092,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &8879373447072100319
+--- !u!114 &3089146137235172603
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2115,10 +2101,21 @@ MonoBehaviour:
   m_GameObject: {fileID: 4520124025344193442}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 960d53d227b0406c8914ac7f10340192, type: 3}
+  m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sprites: {fileID: 11400000, guid: 332857c101f9c40409a5fca6795b353d, type: 2}
+  NetworkThis: 0
+  SubCatalogue:
+  - {fileID: 11400000, guid: 332857c101f9c40409a5fca6795b353d, type: 2}
+  - {fileID: 11400000, guid: fd703b4bc7fce1047b9a55e61fd706dd, type: 2}
+  - {fileID: 11400000, guid: a78074c8fdec0a545bdf0c54a16ae6c8, type: 2}
+  - {fileID: 11400000, guid: a9c49bc7b07c1ce4a9a6a1b7ba5defcb, type: 2}
+  PresentSpriteSet: {fileID: 11400000, guid: 332857c101f9c40409a5fca6795b353d, type: 2}
+  randomInitialSprite: 0
+  doReverseAnimation: 0
+  pushTextureOnStartUp: 1
+  initialVariantIndex: 0
+  palette: []
 --- !u!1 &4524090533497894931
 GameObject:
   m_ObjectHideFlags: 0
@@ -3692,8 +3689,8 @@ GameObject:
   - component: {fileID: 3013915280424661790}
   - component: {fileID: 71705637423405209}
   - component: {fileID: 1210378344956159710}
-  - component: {fileID: 8731795782802231367}
   - component: {fileID: 4476819418897516909}
+  - component: {fileID: 6875696286242642486}
   m_Layer: 0
   m_Name: Health
   m_TagString: Untagged
@@ -3759,19 +3756,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &8731795782802231367
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6997300313079164767}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 960d53d227b0406c8914ac7f10340192, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  sprites: {fileID: 11400000, guid: 49711e0501e533b419cc6297159125dc, type: 2}
 --- !u!114 &4476819418897516909
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3786,6 +3770,34 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   useObjectName: 1
   hoverName: 
+--- !u!114 &6875696286242642486
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6997300313079164767}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  NetworkThis: 0
+  SubCatalogue:
+  - {fileID: 11400000, guid: 32447d0aa0b3775488a578315532f0a9, type: 2}
+  - {fileID: 11400000, guid: 6d98baff14ac4404891ff8ee7637e416, type: 2}
+  - {fileID: 11400000, guid: f5c3afeccb78cac4ba10cfd30c6b8524, type: 2}
+  - {fileID: 11400000, guid: c351b5d874f2ef04096b6a983464921f, type: 2}
+  - {fileID: 11400000, guid: 55f4f3bd0924d094fb817621171b1153, type: 2}
+  - {fileID: 11400000, guid: 49711e0501e533b419cc6297159125dc, type: 2}
+  - {fileID: 11400000, guid: 0e0acd43ba330914d87c2c41615d3a1c, type: 2}
+  - {fileID: 11400000, guid: 37c90e81bda241442b79578baea30e2d, type: 2}
+  PresentSpriteSet: {fileID: 11400000, guid: 49711e0501e533b419cc6297159125dc, type: 2}
+  randomInitialSprite: 0
+  doReverseAnimation: 0
+  pushTextureOnStartUp: 1
+  initialVariantIndex: 0
+  palette: []
 --- !u!1 &7165020721991313784
 GameObject:
   m_ObjectHideFlags: 0
