@@ -56,7 +56,7 @@ namespace Tilemaps.Utils
 
 				if (objectsOut.HasObjects() == false)
 				{
-					objects[chunkPos] = null;
+					objects.Remove(chunkPos);
 				}
 			}
 		}
@@ -171,7 +171,7 @@ namespace Tilemaps.Utils
 
 				if (objectsOut.HasObjects() == false)
 				{
-					objects[chunkPos] = null;
+					objects.Remove(chunkPos);
 				}
 			}
 		}
