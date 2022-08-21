@@ -102,7 +102,6 @@ public class PlayerHealthUI : MonoBehaviour
 		}
 
 		float temperature = PlayerManager.LocalPlayerScript.playerHealth.RespiratorySystem.Temperature;
-		float pressure = PlayerManager.LocalPlayerScript.playerHealth.RespiratorySystem.Pressure;
 
 		if (temperature < 110)
 		{
@@ -133,6 +132,8 @@ public class PlayerHealthUI : MonoBehaviour
 			temperatureAlert.SetTemperatureSprite(temperature);
 		}
 
+		float pressure = PlayerManager.LocalPlayerScript.playerHealth.RespiratorySystem.Pressure;
+
 		if (pressure > 50 && pressure < 325)
 		{
 			SetSpecificVisibility(false, pressureAlert.gameObject);
@@ -145,7 +146,7 @@ public class PlayerHealthUI : MonoBehaviour
 
 		SetSpecificVisibility(PlayerManager.LocalPlayerScript.playerHealth.RespiratorySystem.IsSuffocating, oxygenAlert);
 
-		SetSpecificVisibility(false, toxinAlert);
+		SetSpecificVisibility(PlayerManager.LocalPlayerScript.playerHealth.HealthStateController.HasToxins, toxinAlert);
 
 		switch (PlayerManager.LocalPlayerScript.playerHealth.HealthStateController.HungerState)
 		{
