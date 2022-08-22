@@ -16,7 +16,7 @@ namespace Objects
 	/// <summary>
 	/// Allows closet to be opened / closed / locked
 	/// </summary>
-	public class ClosetControl : NetworkBehaviour, IServerSpawn, ICheckedInteractable<PositionalHandApply>, IRightClickable, IExaminable, IEscapable, IMiniGame
+	public class ClosetControl : NetworkBehaviour, IServerSpawn, ICheckedInteractable<PositionalHandApply>, IRightClickable, IExaminable, IEscapable
 	{
 		// These sprite enums coincide with the sprite SOs set in SpriteHandler.
 		public enum Door
@@ -120,19 +120,14 @@ namespace Objects
 		private string closetName;
 
 		[SyncVar(hook = nameof(SyncDoorState))]
-		private Door doorState = Door.Closed;
-		private Lock lockState;
-		private Weld weldState = Weld.NotWelded;
+		protected Door doorState = Door.Closed;
+		protected Lock lockState;
+		protected Weld weldState = Weld.NotWelded;
 
 		private Matrix Matrix => registerObject.Matrix;
 		public bool IsOpen => doorState == Door.Opened;
 		public bool IsLocked => lockState == Lock.Locked;
 		public bool IsWelded => weldState == Weld.Welded;
-
-
-		[SerializeField] private MiniGameResultTracker miniGameTracker;
-		[SerializeField] private List<MiniGameModule> miniGameModules;
-		[SyncVar] private int currentMiniGameIndex = -1;
 
 		#region Lifecycle
 
@@ -166,20 +161,6 @@ namespace Objects
 			{
 				CollectObjects();
 			}
-			SetupMiniGames();
-		}
-
-		private void SetupMiniGames()
-		{
-			if(miniGameTracker == null) return;
-			if (miniGameModules.Count == 0)
-			{
-				Logger.LogError("[ClosetControl/MiniGames] - Found MiniGame tracker but no minigames found!");
-				return;
-			}
-			currentMiniGameIndex = Random.Range(0, miniGameModules.Count - 1);
-			miniGameModules[currentMiniGameIndex].Setup(miniGameTracker);
-			SetLock(Lock.Locked);
 		}
 
 		private void OnWillDestroyServer(DestructionInfo arg0)
@@ -354,18 +335,11 @@ namespace Objects
 
 		public void ServerPerformInteraction(PositionalHandApply interaction)
 		{
-			if (miniGameTracker != null)
-			{
-				if(doorState == Door.Opened || lockState == Lock.Unlocked) return;
-				if (currentMiniGameIndex == -1)
-				{
-					Logger.LogError("[ClosetControl/MiniGames] - Found MiniGameTracker but no minigame is assigned!");
-					return;
-				}
+			InteractionChecks(interaction);
+		}
 
-				RpcStartMiniGameForTargetClient(interaction.PerformerPlayerScript.connectionToServer);
-				return;
-			}
+		protected virtual void InteractionChecks(PositionalHandApply interaction)
+		{
 			if (interaction.IsAltClick)
 			{
 				TryToggleLock(interaction);
@@ -575,39 +549,6 @@ namespace Objects
 			}
 
 			return string.Empty;
-		}
-
-		#endregion
-
-		#region MiniGameStuff
-
-		[TargetRpc]
-		private void RpcStartMiniGameForTargetClient(NetworkConnection target)
-		{
-			StartGame();
-		}
-
-		[Command(requiresAuthority = false)]
-		public void CmdGameEnd(bool result)
-		{
-			GameEnd(result);
-		}
-
-		public void StartGame()
-		{
-			miniGameModules[currentMiniGameIndex].StartMiniGame();
-		}
-
-		public void GameEnd(bool hasWon)
-		{
-			if (hasWon == false)
-			{
-				_ = SoundManager.PlayNetworkedAtPosAsync(CommonSounds.Instance.AccessDenied,
-					gameObject.AssumedWorldPosServer());
-				return;
-			}
-			lockState = Lock.Unlocked;
-			SetDoor(Door.Opened);
 		}
 
 		#endregion

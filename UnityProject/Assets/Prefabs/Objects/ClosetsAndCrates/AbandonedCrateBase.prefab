@@ -1,5 +1,81 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &1609876272815636621
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4677148101978167154}
+  m_Layer: 11
+  m_Name: MinigameModules
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4677148101978167154
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1609876272815636621}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 7240411653071270259}
+  m_Father: {fileID: 5503893774013820961}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &2402885797572029096
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7240411653071270259}
+  - component: {fileID: 7442714585108675280}
+  m_Layer: 11
+  m_Name: GuessTheNumber
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7240411653071270259
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2402885797572029096}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 4677148101978167154}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7442714585108675280
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2402885797572029096}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9005a17eaf534670b4d1d02f33ce0137, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &4316742356599829419
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -77,8 +153,39 @@ PrefabInstance:
       propertyPath: isLockable
       value: 1
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 8912345532600371149, guid: 1d35052f4fc2cad4d8226d1a63e4a1b3, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 1d35052f4fc2cad4d8226d1a63e4a1b3, type: 3}
+--- !u!114 &1019088053982567457 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3876650825505468298, guid: 1d35052f4fc2cad4d8226d1a63e4a1b3,
+    type: 3}
+  m_PrefabInstance: {fileID: 4316742356599829419}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &4803023893374086586 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8741454466706136593, guid: 1d35052f4fc2cad4d8226d1a63e4a1b3,
+    type: 3}
+  m_PrefabInstance: {fileID: 4316742356599829419}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &5503893774013820961 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 8613666963711853450, guid: 1d35052f4fc2cad4d8226d1a63e4a1b3,
+    type: 3}
+  m_PrefabInstance: {fileID: 4316742356599829419}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &5509160117997287163 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8618853659674527056, guid: 1d35052f4fc2cad4d8226d1a63e4a1b3,
@@ -97,6 +204,105 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 450a9711770b4bf3a2a7fd2592b164df, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  OnStartGame:
+    m_PersistentCalls:
+      m_Calls: []
+  OnGameDone:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 8314792134487214367}
+        m_TargetAssemblyTypeName: Objects.Closets.AbandonedCrates, Assets
+        m_MethodName: CmdGameEnd
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   OnGameWon:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &8314792134487214367
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5509160117997287163}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 26312ad49a2f46988a77c9630730a98a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  passableWhenOpen: 1
+  isLockable: 1
+  isWeldable: 0
+  breakoutTime: 120
+  hideLockWhenOpened: 1
+  isOnlySealedWhenWelded: 1
+  matsOnDestroy: {fileID: 5770283965274354279, guid: b83b68cfa4a201748aeeece963a989c3,
+    type: 3}
+  matsDroppedOnDestroy: 2
+  doorSpriteHandler: {fileID: 1019088053982567457}
+  lockSpritehandler: {fileID: 6309344413320815912}
+  weldSpriteHandler: {fileID: 4803023893374086586}
+  soundOnOpen:
+    SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/Machines/Crate/crate_open.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
+  soundOnClose:
+    SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/Machines/Crate/crate_close.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
+  soundOnEmag:
+    SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/Effects/SnapCracklePop2.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
+  soundOnEscapeAttempt:
+    SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/Effects/Clang.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
+  soundOnEscape:
+    SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/Effects/Rustle01.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
+  miniGameTracker: {fileID: 5833866074209494055}
+  miniGameModules:
+  - {fileID: 7442714585108675280}
+--- !u!114 &6309344413320815912 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7811332052864128643, guid: 1d35052f4fc2cad4d8226d1a63e4a1b3,
+    type: 3}
+  m_PrefabInstance: {fileID: 4316742356599829419}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
