@@ -56,11 +56,9 @@ namespace MiniGames.MiniGameModules
 			Chat.AddLocalMsgToChat($"{gameObject.ExpensiveName()} loudly states 'IDENTIFY YOURSELF'", gameObject);
 			stage = sequenceStage.IDENTIFY;
 			yield return WaitFor.Seconds(20f);
-			if (stage == sequenceStage.IDENTIFY)
-			{
-				Chat.AddLocalMsgToChat("The lock-pad lights powers down.", gameObject);
-				Tracker.OnGameDone.Invoke(false);
-			}
+			if (stage != sequenceStage.IDENTIFY) yield break;
+			Chat.AddLocalMsgToChat("The lock-pad lights powers down.", gameObject);
+			Tracker.OnGameDone.Invoke(false);
 		}
 
 		private IEnumerator PasscodeSequence()
