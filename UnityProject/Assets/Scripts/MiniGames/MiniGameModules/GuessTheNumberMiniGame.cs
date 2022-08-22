@@ -47,6 +47,7 @@ namespace MiniGames.MiniGameModules
 		{
 			Chat.AddLocalMsgToChat("The lock-pad lights powers down.", MiniGameParent);
 			miniGameActive = false;
+			Tracker.OnGameEnd(t);
 		}
 
 		private IEnumerator IdentifySequence()
@@ -58,7 +59,7 @@ namespace MiniGames.MiniGameModules
 			stage = sequenceStage.IDENTIFY;
 			yield return WaitFor.Seconds(20f);
 			if (stage != sequenceStage.IDENTIFY) yield break;
-			Tracker.OnGameEnd(false);
+			OnGameDone(false);
 		}
 
 		private IEnumerator PasscodeSequence()
@@ -69,7 +70,7 @@ namespace MiniGames.MiniGameModules
 			stage = sequenceStage.PASSCODE;
 			yield return WaitFor.Seconds(20f);
 			if (stage != sequenceStage.PASSCODE) yield break;
-			Tracker.OnGameEnd(false);
+			OnGameDone(false);
 		}
 
 		private void IdentityChecks(ChatEvent chatEvent)
@@ -78,13 +79,13 @@ namespace MiniGames.MiniGameModules
 			{
 				Chat.AddLocalMsgToChat("The lock-pad makes a static voice before opening up.", MiniGameParent);
 				Chat.AddExamineMsg(chatEvent.originator, ".. Take what you need, brother ..");
-				Tracker.OnGameEnd(true);
+				OnGameDone(true);
 				return;
 			}
 			if (chatEvent.message.Length > SHORT_NAME_LENGTH)
 			{
 				Chat.AddLocalMsgToChat($"{Tracker.gameObject.ExpensiveName()} loudly states 'I DO NOT WANT TO HEAR YOUR FULL LEGAL NAME.' before shutting off.", MiniGameParent);
-				Tracker.OnGameEnd(false);
+				OnGameDone(false);
 				return;
 			}
 			nameGiven = chatEvent.message;
@@ -104,7 +105,7 @@ namespace MiniGames.MiniGameModules
 			{
 				if (result == randomNumber)
 				{
-					Tracker.OnGameEnd(true);
+					OnGameDone(true);
 					return;
 				}
 			}
