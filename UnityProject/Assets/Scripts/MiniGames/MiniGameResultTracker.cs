@@ -17,7 +17,7 @@ namespace MiniGames
 
 
 		public UnityEvent OnStartGame;
-		public UnityEvent<bool> OnGameDone;
+		public UnityEvent OnGameLoss;
 		public UnityEvent OnGameWon;
 
 		public void StartGame()
@@ -27,8 +27,12 @@ namespace MiniGames
 
 		public void OnGameEnd(bool hasWon)
 		{
-			OnGameDone?.Invoke(hasWon);
-			if(hasWon) OnGameWon?.Invoke();
+			if (hasWon)
+			{
+				OnGameWon?.Invoke();
+				return;
+			}
+			OnGameLoss?.Invoke();
 		}
 	}
 }

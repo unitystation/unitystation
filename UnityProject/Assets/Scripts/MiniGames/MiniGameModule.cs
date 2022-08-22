@@ -20,7 +20,6 @@ namespace MiniGames
 			Tracker = tracker;
 			MiniGameParent = parent;
 			Tracker.OnStartGame.AddListener(StartMiniGame);
-			Tracker.OnGameDone.AddListener(OnGameDone);
 		}
 
 		public virtual void StartMiniGame()

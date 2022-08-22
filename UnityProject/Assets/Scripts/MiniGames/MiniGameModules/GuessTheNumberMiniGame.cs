@@ -32,6 +32,7 @@ namespace MiniGames.MiniGameModules
 		{
 			base.Setup(tracker, parent);
 			randomNumber = Random.Range(1000, 9999); //Number will only exist on the server because only the server calls Setup()
+			Debug.Log(randomNumber);
 		}
 
 		public override void StartMiniGame()
@@ -57,16 +58,18 @@ namespace MiniGames.MiniGameModules
 			stage = sequenceStage.IDENTIFY;
 			yield return WaitFor.Seconds(20f);
 			if (stage != sequenceStage.IDENTIFY) yield break;
-			Tracker.OnGameDone.Invoke(false);
+			Tracker.OnGameEnd(false);
 		}
 
 		private IEnumerator PasscodeSequence()
 		{
 			stage = sequenceStage.SPEAKING;
+			yield return WaitFor.Seconds(0.12f);
 			Chat.AddLocalMsgToChat($"{MiniGameParent.ExpensiveName()} loudly states '{nameGiven} DOES NOT HAVE A REGISTERED FINGER-PRINT ID NOR VOICE. STATE THE FOUR DIGIT PASSCODE.'", MiniGameParent);
+			stage = sequenceStage.PASSCODE;
 			yield return WaitFor.Seconds(20f);
-			if (stage != sequenceStage.IDENTIFY) yield break;
-			Tracker.OnGameDone.Invoke(false);
+			if (stage != sequenceStage.PASSCODE) yield break;
+			Tracker.OnGameEnd(false);
 		}
 
 		private void IdentityChecks(ChatEvent chatEvent)
@@ -75,13 +78,13 @@ namespace MiniGames.MiniGameModules
 			{
 				Chat.AddLocalMsgToChat("The lock-pad makes a static voice before opening up.", MiniGameParent);
 				Chat.AddExamineMsg(chatEvent.originator, ".. Take what you need, brother ..");
-				Tracker.OnGameDone.Invoke(true);
+				Tracker.OnGameEnd(true);
 				return;
 			}
 			if (chatEvent.message.Length > SHORT_NAME_LENGTH)
 			{
 				Chat.AddLocalMsgToChat($"{Tracker.gameObject.ExpensiveName()} loudly states 'I DO NOT WANT TO HEAR YOUR FULL LEGAL NAME.' before shutting off.", MiniGameParent);
-				Tracker.OnGameDone.Invoke(false);
+				Tracker.OnGameEnd(false);
 				return;
 			}
 			nameGiven = chatEvent.message;
@@ -101,7 +104,7 @@ namespace MiniGames.MiniGameModules
 			{
 				if (result == randomNumber)
 				{
-					Tracker.OnGameDone.Invoke(true);
+					Tracker.OnGameEnd(true);
 					return;
 				}
 			}
@@ -128,7 +131,6 @@ namespace MiniGames.MiniGameModules
 
 		public bool WillInfluenceChat()
 		{
-			Debug.Log(miniGameActive);
 			return miniGameActive;
 		}
 

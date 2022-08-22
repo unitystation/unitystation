@@ -52,16 +52,16 @@ namespace Objects.Closets
 			miniGameModules[currentMiniGameIndex].StartMiniGame();
 		}
 
-		public void GameEnd(bool hasWon)
+		public void GameWin()
 		{
-			if (hasWon == false)
-			{
-				_ = SoundManager.PlayNetworkedAtPosAsync(CommonSounds.Instance.AccessDenied,
-					gameObject.AssumedWorldPosServer());
-				return;
-			}
 			SetLock(Lock.Unlocked);
 			SetDoor(Door.Opened);
+		}
+
+		public void GameLoss()
+		{
+			_ = SoundManager.PlayNetworkedAtPosAsync(CommonSounds.Instance.AccessDenied,
+				gameObject.AssumedWorldPosServer());
 		}
 	}
 }
