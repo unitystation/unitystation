@@ -230,13 +230,20 @@ namespace UI.Systems.AdminTools.DevTools
 		{
 			var optionsData = new List<TMP_Dropdown.OptionData>();
 
+			var stationId = MatrixManager.MainStationMatrix.Id;
+			TMP_Dropdown.OptionData stationOption = null;
+
 			foreach (var matrix in MatrixIds)
 			{
-				optionsData.Add(new TMP_Dropdown.OptionData(matrix.Value));
+				var option = new TMP_Dropdown.OptionData(matrix.Value);
+				optionsData.Add(option);
+
+				if(matrix.Key != stationId) continue;
+				stationOption = option;
 			}
 
 			matrixDropdown.options = optionsData;
-			matrixDropdown.value = matrixIndex;
+			matrixDropdown.value = stationOption!= null ? optionsData.IndexOf(stationOption) : matrixIndex;
 		}
 
 		public void OnMatrixChange()
