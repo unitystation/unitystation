@@ -128,13 +128,13 @@ namespace MiniGames.MiniGameModules
 
 		public bool WillInfluenceChat()
 		{
+			Debug.Log(miniGameActive);
 			return miniGameActive;
 		}
 
 		public ChatEvent InfluenceChat(ChatEvent chatToManipulate)
 		{
 			AnalyzeSpeech(chatToManipulate);
-			Debug.Log("analyzing");
 			return chatToManipulate;
 		}
 	}
