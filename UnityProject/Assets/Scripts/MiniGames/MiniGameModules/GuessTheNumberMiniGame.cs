@@ -32,7 +32,6 @@ namespace MiniGames.MiniGameModules
 		{
 			base.Setup(tracker, parent);
 			randomNumber = Random.Range(1000, 9999); //Number will only exist on the server because only the server calls Setup()
-			Debug.Log(randomNumber);
 		}
 
 		public override void StartMiniGame()
