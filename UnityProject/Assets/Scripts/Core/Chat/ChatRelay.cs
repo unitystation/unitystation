@@ -27,8 +27,6 @@ public class ChatRelay : NetworkBehaviour
 	private ChatChannel namelessChannels;
 	private LayerMask layerMask;
 	private LayerMask npcMask;
-	private LayerMask itemsMask;
-	private LayerMask objectsMask;
 
 	private bool radioCheckIsOnCooldown = false;
 	[SerializeField] private float radioCheckRadius = 4f;
@@ -60,9 +58,7 @@ public class ChatRelay : NetworkBehaviour
 		                   ChatChannel.Combat;
 		layerMask = LayerMask.GetMask("Door Closed");
 		npcMask = LayerMask.GetMask("NPC");
-		itemsMask = LayerMask.GetMask("Items");
-		objectsMask = LayerMask.GetMask("Objects");
-
+		
 		rconManager = RconManager.Instance;
 	}
 
@@ -275,27 +271,13 @@ public class ChatRelay : NetworkBehaviour
 
 		//Check for chat three tiles around the player
 		foreach (Collider2D coll in Physics2D.OverlapCircleAll(chatEvent.position,
-			radioCheckRadius, itemsMask))
+			radioCheckRadius))
 		{
 			if (chatEvent.originator == coll.gameObject) continue;
 			if (coll.gameObject.TryGetComponent<IChatInfluencer>(out var listener) == false || listener.WillInfluenceChat() == false) continue;
 			var radioPos = coll.gameObject.AssumedWorldPosServer();
 			if (MatrixManager.Linecast(chatEvent.position, LayerTypeSelection.Walls,
 				layerMask, radioPos).ItHit == false)
-			{
-				return listener.InfluenceChat(chatEvent);
-			}
-		}
-
-		foreach (Collider2D coll in Physics2D.OverlapCircleAll(chatEvent.position,
-			         radioCheckRadius, objectsMask))
-		{
-			if (chatEvent.originator == coll.gameObject) continue;
-			if (coll.gameObject.TryGetComponent<IChatInfluencer>(out var listener) == false ||
-			    listener.WillInfluenceChat() == false) continue;
-			var radioPos = coll.gameObject.AssumedWorldPosServer();
-			if (MatrixManager.Linecast(chatEvent.position, LayerTypeSelection.Walls,
-				    layerMask, radioPos).ItHit == false)
 			{
 				return listener.InfluenceChat(chatEvent);
 			}
