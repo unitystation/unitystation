@@ -1,6 +1,3 @@
-using System.Collections;
-using UnityEngine.Events;
-
 namespace MiniGames
 {
 	public interface IMiniGame

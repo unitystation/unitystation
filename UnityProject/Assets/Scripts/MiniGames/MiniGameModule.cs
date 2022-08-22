@@ -30,5 +30,10 @@ namespace MiniGames
 		{
 			//Add your logic here when a player has won or lost a game or has left the game
 		}
+
+		public struct MiniGameResultData
+		{
+			//When you want to send data to the server or to an object use this struct to move it around
+		}
 	}
 }

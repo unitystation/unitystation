@@ -6,25 +6,19 @@ namespace MiniGames.MiniGameModules
 	public class GuessTheNumberMiniGame : MiniGameModule
 	{
 		private int randomNumber;
+		[SerializeField] private IMiniGame parent;
 
 		public override void Setup(MiniGameResultTracker tracker)
 		{
 			base.Setup(tracker);
-			var netID = tracker.GetComponent<NetworkIdentity>().netId.ToString();
-			var firstThreeDigits = netID.Substring(0,3);
-			randomNumber = int.Parse(firstThreeDigits);
+			parent = transform.parent.parent.GetComponent<IMiniGame>();
+			randomNumber = Random.Range(100, 999); //Number will only exist on the server because only the server calls Setup()
 		}
 
 		public override void StartMiniGame()
 		{
 			base.StartMiniGame();
-			//TODO : ADD MINIGAME UI AND HOOK UP STUFF 
-		}
-
-		public void CheckResult(int result)
-		{
-			var won = randomNumber == result;
-			Tracker.OnGameDone?.Invoke(won);
+			//TODO : ADD MINIGAME UI AND HOOK UP STUFF
 		}
 	}
 }

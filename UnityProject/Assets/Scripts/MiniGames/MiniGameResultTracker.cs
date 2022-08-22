@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Mirror;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -8,7 +9,7 @@ namespace MiniGames
 	/// <summary>
 	/// General component to tell the to call IMiniGame functions to call a function when a MiniGame has returned a won state.
 	/// </summary>
-	public class MiniGameResultTracker : MonoBehaviour
+	public class MiniGameResultTracker : NetworkBehaviour
 	{
 		// We use UnitEvents to assign these in the inspector //
 		// This also lets us house more than one MGRT on one gameObject when there are multiple MiniGames //

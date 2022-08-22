@@ -77,5 +77,11 @@ namespace Objects.Closets
 			SetDoor(Door.Opened);
 		}
 
+		[Command(requiresAuthority = false)]
+		public void ServerCheckResult()
+		{
+
+		}
+
 	}
 }
